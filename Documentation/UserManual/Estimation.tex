@@ -198,7 +198,7 @@ There are currently two options for the starting point of the MCMC:
 
 \begin{itemize}
 \item Start from the point estimate; or
-%\item Start from a random point near the point estimate (the point is generated from a multivariate normal distribution, centred on the point estimate, with covariance equal to the inverse Hessian times a user-specified constant). This may be useful if the chain gets `stuck' at the point estimate, or if you wish to generate multiple chains from  for later MCMC diagnostic tests.
+%\item Start from a random point near the point estimate (the point is generated from a multivariate normal distribution, centred on the point estimate, with covariance equal to the inverse Hessian multiplied by a user-specified constant). This may be useful if the chain gets `stuck' at the point estimate, or if you wish to generate multiple chains from  for later MCMC diagnostic tests.
 \item Restart a chain given a covariance matrix and a previous starting point.
 \end{itemize}
 
@@ -214,7 +214,7 @@ The following steps define how the initial covariance matrix of the proposal dis
 \item The covariance matrix is then modified either by
 
 \begin{itemize}
-\item  \commandsubarg{mcmc}{adjustment\_method}{covariance}: that if the variance of the $i$th parameter is non-zero and less than \commandsub{mcmc}{min\_difference} times the difference between the parameters' lower and upper bound, then the variance is changed, without changing the associated correlations, to $k=$min\_diff$(upper\_bound_i-lower\_bound_i)$. This is done by setting \[
+\item  \commandsubarg{mcmc}{adjustment\_method}{covariance}: that if the variance of the $i$th parameter is non-zero and less than \commandsub{mcmc}{min\_difference} multiplied by the difference between the parameters' lower and upper bound, then the variance is changed, without changing the associated correlations, to $k=$min\_diff$(upper\_bound_i-lower\_bound_i)$. This is done by setting \[
 {\mathop{\rm Cov}\nolimits} \left( {i,j} \right)^\prime   = {{{\mathop{\rm sqrt}\nolimits} \left( k \right){\mathop{\rm Cov}\nolimits} \left( {i,j} \right)} \mathord{\left/
 {\vphantom {{{\mathop{\rm sqrt}\nolimits} \left( k \right){\mathop{\rm Cov}\nolimits} \left( {i,j} \right)} {{\mathop{\rm sd}\nolimits} \left( i \right)}}} \right.
 \kern-\nulldelimiterspace} {{\mathop{\rm sd}\nolimits} \left( i \right)}}
@@ -338,7 +338,7 @@ Vectors of parameters can be independently (but not necessarily identically) dis
 		@estimate year_class_strengths_1990_1995
 		type lognormal
 		parameter process[Recruitment].ycs_values{1990:1995}
-		#ycs_year   1990	1991	1992	1993	1994	1995
+		# ycs_year  1990	1991	1992	1993	1994	1995
 		mu   		1   	1   	1   	1   	1   	1
 		cv 			0.9 	0.9 	0.9 	0.9 	0.9 	0.9
 		lower_bound 0.01	0.01	0.01	0.01	0.01	0.01
@@ -346,21 +346,27 @@ Vectors of parameters can be independently (but not necessarily identically) dis
 
 \end{verbatim}}}
 
-TODO got here 2019-12-18
-
 \subsection{Penalties\label{sec:penalties}}
 
-Penalties are associated with processes and can be used to discourage parameter values or model outputs that are nonsensical, by adding a penalty to the objective function. For example, parameter estimates that do not allow a known mortality event to remove enough individuals from the population can be discouraged within an event mortality process. \CNAME\ requires penalty functions for processes that remove or shift a \emph{number} of individuals between categories or from the partition. For CASAL users many of the penalties that were available in CASAL have been moved to be additional priors, see Section~\ref{sec:additional_priors}.
+Penalties are associated with processes and can be used to enforce parameter value or derived quantity restrictions or model outputs that are invalid by adding a penalty to the objective function. For example, estimated parameter values can be restricted so that a known mortality event removes enough individuals from the population within an event mortality process. \CNAME\ requires penalty functions for processes that remove or shift a \emph{number} of individuals between categories or from the partition. Many of the penalties that were available in CASAL have been moved to be additional priors in \CNAME ()see Section~\ref{sec:additional_priors}).
 
-For most penalties, you need to specify a multiplier, and the objective function is increased by this multiplier times the penalty value as described below. In some cases you will need to make the multiplier quite large to prohibit some model behaviour.
+For most penalties, a multiplier is required to be specified, and the objective function is increased by this multiplier multiplied by the penalty value. In some cases the multiplier may need to be quite large to prohibit some model behaviour.
 
-Currently, the penalties for the processes \commandlabsubarg{process}{type}{event\_mortality},
-\commandlabsubarg{process}{type}{mortality\_instantaneous},
-\commandlabsubarg{process}{type}{tag\_by\_length}, \commandlabsubarg{process}{type}{tag\_by\_length} and \commandlabsubarg{process}{type}{category\_transition} are the only penalties implemented.
+Penalties are implemented for the processes
 
-For these processes, two types of penalty can be defined, natural scale (the default) and log scale. Both of these types add a penalty value of the squared difference between the observed value (i.e., the actual number of individuals to be removed in an event mortality process or the actual number of individuals to shift in a category transition process), and the number that were moved (if less than or equal), times the penalty multiplier.
+\begin{itemize}
+	\item \commandlabsubarg{process}{type}{event\_mortality},
+	\item \commandlabsubarg{process}{type}{mortality\_instantaneous},
+	\item \commandlabsubarg{process}{type}{tag\_by\_length},
+	\item \commandlabsubarg{process}{type}{tag\_by\_length}, and
+	\item \commandlabsubarg{process}{type}{category\_transition}
+\end{itemize}
 
-The natural scale penalty just uses at the squared difference on a natural scale, while the log scale penalty uses the squared difference of the logged values. An example of applying a penalty,
+For these processes, two types of penalties can be defined: on the natural scale (the default) and on the log scale. Both of these types add a penalty value of the squared difference between the observed value (e.g., the actual number of individuals to be removed in an event mortality process or the actual number of individuals to shift in a category transition process), and the number that were moved (if less than or equal), multiplied by the penalty multiplier.
+
+The natural scale penalty calculates the squared difference on a natural scale, and the log scale penalty calculates the squared difference of the logged values.
+
+For example:
 
 {\small{\begin{verbatim}
 @process Mortality
@@ -379,35 +385,42 @@ Penalties are added to the objective function in the following ways;
 \begin{equation}
 	Penalty = (X_1 - X_2)^2
 \end{equation}
+
 or if \subcommand{log\_scale true}
+
 \begin{equation}
 Penalty = (log(X_1) - log(X_2))^2
 \end{equation}
 
-Where $X_1$ could be a known catch and $X_2$ is the model catch under a given set of parameter values. These are usually applied in situations where you have known numbers or weight. Another obvious example is tagging, we know for a fact that we tagged $N$ fish this year so don't allow your model to apply less than that because that is nonsensical.
+where, for example, $X_1$ is observed catch biomass and $X_2$ is the estimated catch biomass. Penalties are usually applied in situations when numbers or weight are known. Another example is for tagging, where the number of individuals that were tagged in a given year is known, so a penalty can be used to restrict the model to estimate reasonable values for the numbers of tagged individuals in that year.
 
 \subsection{Additional Priors\label{sec:additional_priors}}
 
-Additional priors can be thought of as the inverse of penalties and for CASAL users most of the legacy \command{penalty} blocks have now been migrated as \command{additional\_prior} blocks. They constrain or encourage parameters in user defined spaces. The types of additional priors available in \CNAME\ are \texttt{vector\_smoothing}, \texttt{vector\_averaging}, \texttt{uniform\_log}, \texttt{lognormal}, \texttt{element\_difference} and \texttt{Beta}, which are
+Additional priors can be thought of as the inverse of penalties (TODO please rephrase). For CASAL models, most of the legacy \command{penalty} blocks have now been implemented as \command{additional\_prior} blocks. They restrict parameters in user-defined spaces (TODO please rephrase).
 
-\begin{enumerate}
+The types of additional priors available in \CNAME\ are \texttt{vector\_smoothing}, \texttt{vector\_averaging}, \texttt{uniform\_log}, \texttt{lognormal}, \texttt{element\_difference}, and \texttt{Beta}:
+
+\begin{itemize}
 	\item \texttt{vector\_averaging}
 	
-	Applied to a vector parameter. Sum of squares of rth differences, optionally on a log scale. This encourages the vector to be like a polynomial of degree (r-1). Note, a range of the vector to be “smoothed” can be specified (and if not, the smoother is applied to the entire vector), but this must be specified by an index of the vector and must be between 1 and the length of the vector, inclusive.
+	This prior can be applied to a vector parameter. Sum of squares of $r^{th}$ differences, optionally on a log scale. This encourages the vector to be like a polynomial of degree $(r-1)$. A range of the vector to be "smoothed" can be specified (and if not, the smoother is applied to the entire vector). However, this restriction must be specified by an index of the vector and must be between 1 and the length of the vector, inclusive.
+	
 	\item \texttt{vector\_smoothing}
 	
-	Applied to a vector parameter. Square of (mean(vector)-k), or of (mean(log(vector))-l), or of (log(mean(vector)/m)). Encourages the vector to average arithmetically to k or m, or geometrically to exp(l). Typically used for YCS with k=1 or m=1 or l=0, to encourage the YCS to centre on 1. Optionally, you can choose to exclude indices outside a given set of bounds.
+	This prior can be applied to a vector parameter. Square of (mean(vector)-k), or of (mean(log(vector))-l), or of (log(mean(vector)/m)). Restricts the vector to average arithmetically to k or m, or geometrically to exp(l). Typically used for YCS with k=1 or m=1 or l=0, to restrict the YCS to centre on 1. Optionally, indices can be chosen or excluded outside a given set of bounds.
+	
 	\item\texttt{lognormal} with mean $\mu$ and c.v. $c$
 	
 	\begin{equation}
 	- \log \left(\pi \left(p \right) \right) = \log \left( p \right) + 0.5 \left( \frac{\log \left( p / \mu \right)}{s} + \frac{s}{2} \right)^2
 	\end{equation}
-	\\\\
+
 	\item\texttt{uniform\_log}
 
 	\begin{equation}
 	- \log \left(\pi \left(p \right) \right) = \log \left( p \right)
 	\end{equation}
+	
 	\item\texttt{element\_difference}
 
 	\begin{equation}
@@ -422,40 +435,50 @@ Additional priors can be thought of as the inverse of penalties and for CASAL us
 	- \log \left(\pi \left( p \right) \right) = \left( 1 - m \right) \log \left( p - A \right) + \left( 1 - n \right)\log \left( B - p \right)
 	\end{equation}
 	
-	where $\nu  = \frac{\mu  - A}{B - A}$, and $\tau = \frac{\left(\mu -A \right)\left(B - \mu \right)}{\sigma ^2} - 1$ and then $m=\tau \nu$ and $n=\tau(1-\nu)$. Note that the beta prior is undefined when $\tau \leq 0$.
-\end{enumerate}
+	where $\nu  = \frac{\mu  - A}{B - A}$, and $\tau = \frac{\left(\mu -A \right)\left(B - \mu \right)}{\sigma ^2} - 1$ and then $m=\tau \nu$ and $n=\tau(1-\nu)$. The beta prior is undefined when $\tau \leq 0$.
+\end{itemize}
 
-Methods available for the type \texttt{vector\_average} are \subcommand{l}, \subcommand{k}, \subcommand{m}. For a target vector parameter $\textbf{X}$ and desired average $k$, the contribution to the objective score is
+Methods available for the type \texttt{vector\_average} are \subcommand{l}, \subcommand{k}, \subcommand{m}. For a target vector parameter $\textbf{X}$ and target mean $k$, the contribution to the objective score is
 
 \begin{itemize}
-	\item \subcommand{method k}\\\\
+	\item \subcommand{method k}
+	
 	$- \log \left(\pi \left(p \right) \right) = \left(\bar{X} - k\right)^2$
 
-	\item \subcommand{method l}\\\\
+	\item \subcommand{method l}
+	
 	$- \log \left(\pi \left(p \right) \right) = \left(\overline{ln\left(X\right)} - k\right)^2$
 
-	\item \subcommand{method m}\\\\
-$- \log \left(\pi \left(p \right) \right) = \left(ln\left(\bar{X}\right) - k\right)^2$
+	\item \subcommand{method m}
+	
+	$- \log \left(\pi \left(p \right) \right) = \left(ln\left(\bar{X}\right) - k\right)^2$
 \end{itemize}
 
 where $\overline{ln\left(X\right)}$ is the mean of the logged values.
 
-
-There are a range of parameters and derived values that users can apply additional priors to. Here are a list of non-estimated (all parameters that can be estimated can have an additional prior attached to them) parameters that you can apply additional priors on. This should be a useful guide for users who are trying to apply the equivalent old CASAL penalties to their updated \CNAME\ models.
+There are a range of parameters and derived values that additional priors can be applied to. Here are a list of non-estimated (all parameters that can be estimated can have an additional prior attached to them) parameters that additional priors can be applied to. 
 
 \begin{itemize}
-	\item \subcommand{selectivity[Selectivity\_label].values\{3:8\}}. This applies a selectivity to the actual selectivity value by age (in this case for ages 3-8). This is only available for certain types of selectivities (\subcommand{all\_values}, \subcommand{all\_values\_bounded}, \subcommand{double\_exponential}). See the Hoki stock assessment for an example of applying additional priors on selectivities.
+	\item \subcommand{selectivity[Selectivity\_label].values\{i:j\}}.
+	
+	This subcommand applies a selectivity (???) to the actual selectivity value by age (for ages $i$ through $j$). This option is available only for certain types of selectivities (\subcommand{all\_values}, \subcommand{all\_values\_bounded}, \subcommand{double\_exponential}). See the Hoki stock assessment for an example of applying additional priors on selectivities.
+	
 	\item \subcommand{catchability[Catchability\_label].q}
-	this is only for catchabilities that are of type \subcommand{nuisance}. Because \subcommand{nuisance} q's are not free parameters to replicate legacy CASAL models with \command{estimate} blocks in nuisance q's we now apply additional priors. Note, if legacy models applied uniform priors this has a null effect and you can ignore functionality when converting to \CNAME\ models.
+	
+	This subcommand is for catchabilities that are of type \subcommand{nuisance} only. Since \subcommand{nuisance} $q$s are not free parameters, additional priors can be applied to replicate CASAL models with \command{estimate} blocks in nuisance $q$s. If a CASAL model applied a uniform prior, then this has a null effect and this functionality can be ignored when converting to a \CNAME\ model.
 \end{itemize}
 
-\subsection{\I{Estimate Transformations}\label{sec:transformations}}
+This list may be useful for users who are trying to apply the equivalent CASAL penalties in a \CNAME\ model.
 
-\CNAME\ has multiple methods to transform a parameter, with some methods developed for legacy purposes and others are more recent ideas. All transformations are implemented for the same reason --- to try and achieve 'better' model optimisation. It is no surprise that complex population models can have highly correlated parameters so transforming them to be orthogonal or to be in a different space is a way of trying to remove correlations, and to allow the minimiser to find a 'global' minimum quicker. To read more about transformations and get a better understanding of why they are used we refer you to \cite{gilks1995markov}, specifically chapter 6.
+\subsection{\I{Parameter Transformations}\label{sec:transformations}}
 
-There are two main methods available in \CNAME, \subcommand{transform\_with\_jacobian} and \subcommand{prior\_applies\_to\_transform}. When using Transform-with-Jacobian the user defines priors on parameters in natural/model space (business as usual priors) but when we pass the parameter to the minimiser it gets transformed and a Jacobian is added to the objective function to account for the transformation. The second method is when users can specify bounds and prior parameters on the parameters in transformed space. Note that you cannot specify both \subcommand{prior\_applies\_to\_transform} and \subcommand{transform\_with\_jacobian} true, \CNAME\ should gracefully tell you this.
+\CNAME\ has multiple methods to transform a parameter, with some methods developed for legacy purposes. Transformations are implemented to try and achieve 'better' model optimisation. Complex population models can have highly correlated parameters so transforming them to be orthogonal or to be in a different space is a way of addressing correlations, and to allow the minimiser to find a 'global' minimum quicker. To read more about transformations and get a better understanding of why they are used, see \cite{gilks1995markov}, specifically chapter 6.
 
-There are two ways users can apply estimate transformations. The first is within the \command{estimate} block, this is for univariate (simple) transformations only. For complicated transformations you will have to specify a \command{estimate\_transformation} block to describe the transformation. Examples of these two implementations,
+There are two main transformation methods available in \CNAME, \subcommand{transform\_with\_jacobian} and \subcommand{prior\_applies\_to\_transform}. When using \subcommand{transform\_with\_jacobian}, priors are defined on parameters in natural/model space (the usual priors) but when the parameter is passed to the minimiser it gets transformed and a Jacobian is added to the objective function to account for this transformation. The second method is when bounds and prior parameters on the parameters can be specified in transformed space. Note that both \subcommand{prior\_applies\_to\_transform} and \subcommand{transform\_with\_jacobian} cannot be set to \texttt{true}.
+
+There are two ways that transformations can be applied. The first is within the \command{estimate} block, which is for univariate (simple) transformations only. For more complex transformations a \command{estimate\_transformation} block must be specified to describe the transformation.
+
+For example:
 
 {\small{\begin{verbatim}
 		## simple transformation
@@ -469,7 +492,8 @@ There are two ways users can apply estimate transformations. The first is within
 		lower_bound 3000
 		upper_bound 24154953
 
-		## Complicated
+
+		## more complex transformation
 		@estimate R0
 		type lognormal
 		parameter process[Recruitment].r0
@@ -478,7 +502,7 @@ There are two ways users can apply estimate transformations. The first is within
 		lower_bound 3000
 		upper_bound 24154953
 
-		@estiamte_transformation Log_R0
+		@estimate_transformation Log_R0
 		type log
 		estimate_label log_R0
 		transform_with_jacobian true
@@ -492,15 +516,19 @@ The support of a random variable $X$ with density $p_X(x)$ is that subset of val
   supp(X) = \{x|p_X(x) > 0\}
 \end{equation}
 
-If $f$ is a transformation function defined on the support of $X$, then $Y = f(X)$ is a new random variable (transformed variable). This section shows the available transformations in \CNAME\ and the probability density function of $Y$. %%This theory follows the STAN manual \cite{STAN}.
+If $f$ is a transformation function defined on the support of $X$, then $Y = f(X)$ is a new random variable (transformed variable).
 
-Suppose $X$ is one dimensional and $f$: $supp(X) \to \mathbf{R}$ is a one-to-one, monotonic function with a differentiable inverse $f^{-1}$. Then the density of $Y$ is given by
+This section shows the available transformations in \CNAME\ and the probability density function of $Y$. %%This theory follows the STAN manual \cite{STAN}.
+
+Suppose $X$ is one dimensional and $f$: $supp(X) \to \mathbf{R}$ is a one-to-one, monotonic function with a differentiable inverse $f^{-1}$. Then the density of $Y$ is
 
 \begin{equation}\label{eq:jacobian}
 	p_Y(y) = p_X(f^{-1}(y)) \begin{vmatrix} \frac{\partial}{\partial y} f^{-1}(y) \end{vmatrix}
 \end{equation}
 
-where $\begin{vmatrix} \frac{\partial}{\partial y} f^{-1}(y) \end{vmatrix}$ is the Jacobian term. The Jacobian measures how the scale of the transformed variable changes with respect to the underlying variable. This can be expanded to the multivariate case where the Jacobian becomes a matrix of partial derivatives, see later for some example of multivariate cases. In equation~\ref{eq:jacobian} the term $p_X(f^{-1}(y)) = p_X(X)$ and in a Bayesian context is the prior of the untransformed variable/parameter. \textbf{Note:} if this functionality is in use be careful interpreting the covariance matrix as this will be related to the transformed variable not the variable space that you may be thinking it is in e.g. if you are estimating natural mortality ($M$) as $Y = M/2$ the covariance matrix will be described for $Y$.
+where $\begin{vmatrix} \frac{\partial}{\partial y} f^{-1}(y) \end{vmatrix}$ is the Jacobian term. The Jacobian measures how the scale of the transformed variable changes with respect to the underlying variable. This can be expanded to the multivariate case where the Jacobian becomes a matrix of partial derivatives.
+
+In equation~\ref{eq:jacobian} the term $p_X(f^{-1}(y)) = p_X(X)$ and in a Bayesian context is the prior of the untransformed variable/parameter. \textbf{Note:} if this functionality is in use be careful interpreting the covariance matrix as this will be related to the transformed variable not the variable space, e.g., if natural mortality ($M$) is estimated as $Y = M/2$, then the covariance matrix will be described for $Y$.
 
 {\small{\begin{verbatim}
 		@estimate log_R0
@@ -516,7 +544,11 @@ where $\begin{vmatrix} \frac{\partial}{\partial y} f^{-1}(y) \end{vmatrix}$ is t
 
 \subsubsection*{Transform without Jacobian but prior defined in transformed space}
 
-This is where users define the priors in transformed space (this class of transformations will contain functionality that was implemented in the original CASAL). If $f()$ is a transformation function defined on the support of $X$, then $Y = f(X)$ is a new random variable (transformed variable). In this class users specify \textit{a priori} information with regard to $p_Y(y)$ and $X$ can be thought of as a derived quantity. An example of this syntax
+This transformation is where the priors are defined in transformed space. This class of transformations contains functionality that was implemented in the CASAL.
+
+If $f()$ is a transformation function defined on the support of $X$, then $Y = f(X)$ is a new random variable (transformed variable). In this class \textit{a priori} information is specified with regard to $p_Y(y)$ and $X$ can be thought of as a derived quantity.
+
+For example:
 
 {\small{\begin{verbatim}
 		@estimate log_R0
@@ -532,9 +564,8 @@ This is where users define the priors in transformed space (this class of transf
 
 \subsubsection*{Transformation types}
 
-
 \begin{itemize}
-\item \subcommand{log} natural logarithm transformation\\
+\item \subcommand{log} : natural logarithm transformation\\
 \subcommand{is\_simple = true}\\
 \subcommand{jacobian defined = true}\\
 $Y = ln(X)$\\
@@ -546,13 +577,13 @@ $\begin{vmatrix} \frac{\partial}{\partial y} f^{-1}(y) \end{vmatrix} = X^{-1}$\\
 $Y = X^{-1}$\\
 $\begin{vmatrix} \frac{\partial}{\partial y} f^{-1}(y) \end{vmatrix} = -X^{-2}$\\\\
 
-\item \subcommand{sqrt} Square Root transformation\\
+\item \subcommand{sqrt} : square root transformation\\
 \subcommand{is\_simple = true}\\
 \subcommand{jacobian defined = true}\\
 $Y = \sqrt{X}$\\
 $\begin{vmatrix} \frac{\partial}{\partial y} f^{-1}(y) \end{vmatrix} = -X^{-1.5}$\\\\
 
-\item \subcommand{average\_difference} Take two parameters $\theta_1$ and $\theta_2$ and transform to $Y_1$ and $Y_2$, where $Y_1$ is the average of the original parameters and $Y_2$ is the difference between the mean and each parameter.\\
+\item \subcommand{average\_difference} : two parameters $\theta_1$ and $\theta_2$ are transformed to $Y_1$ and $Y_2$, where $Y_1$ is the average of the original parameters and $Y_2$ is the difference between the mean and each parameter.\\
 \subcommand{is\_simple = false}\\
 \subcommand{jacobian defined = false}\\
 $Y_1 = \frac{\theta_1 + \theta_2}{2}$\\
@@ -560,9 +591,9 @@ $Y_2 =  (Y_1 - \theta_2)2 $\\
 Restore transformations\\
 $\theta_1 = Y_1 + 0.5Y_2$\\
 $\theta_2 = \theta_1 - 0.5Y_2$\\
-$\begin{vmatrix} \frac{\partial}{\partial y} f^{-1}(y) \end{vmatrix}$ Hasn't been assessed (i.e it could exist)\\\\
+$\begin{vmatrix} \frac{\partial}{\partial y} f^{-1}(y) \end{vmatrix}$ Hasn't been assessed (i.e it could exist) (TODO ?????)\\
 
-\item \subcommand{log\_sum} Take two parameters $\theta_1$ and $\theta_2$ and transform to $Y_1$ and $Y_2$, where $Y_1$ is the natural logorithm of the sum of $\theta_1$ and $\theta_2$. $Y_2$ describes the proportion of the sum with respect to $\theta_1$\\
+\item \subcommand{log\_sum} : two parameters $\theta_1$ and $\theta_2$ are transformed to $Y_1$ and $Y_2$, where $Y_1$ is the natural logarithm of the sum of $\theta_1$ and $\theta_2$. $Y_2$ describes the proportion of the sum with respect to $\theta_1$\\
 \subcommand{is\_simple = false}\\
 \subcommand{jacobian defined = false}\\
 $Y_1 = ln(\theta_1 + \theta_2)$\\
@@ -570,9 +601,9 @@ $Y_2 = \theta_1 / (\theta_1 + \theta_2)$\\
 Restore transformations\\
 $\theta_1 = exp(Y_1)Y_2$\\
 $\theta_2 =exp(Y_1)(1 - Y_2)$\\
-$\begin{vmatrix} \frac{\partial}{\partial y} f^{-1}(y) \end{vmatrix}$ Hasn't been assessed (i.e it could exist)\\\\
+$\begin{vmatrix} \frac{\partial}{\partial y} f^{-1}(y) \end{vmatrix}$ Hasn't been assessed (i.e it could exist) (TODO ?????)\\
 
-\item \subcommand{orthogonal} Take two parameters $\theta_1$ and $\theta_2$ and transform to $Y_1$ and $Y_2$, where $Y_1$ is the multiplication of $\theta_1$ and $\theta_2$. $Y_2$ is the division of $\theta_1$ and $\theta_2$\\
+\item \subcommand{orthogonal} : two parameters $\theta_1$ and $\theta_2$ are transformed to $Y_1$ and $Y_2$, where $Y_1$ is the multiplication of $\theta_1$ and $\theta_2$. $Y_2$ is the division of $\theta_1$ and $\theta_2$\\
 \subcommand{is\_simple = false}\\
 \subcommand{jacobian defined = true}\\
 $Y_1 = \theta_1 \theta_2$\\
@@ -582,7 +613,7 @@ $\theta_1 = \sqrt{Y_1 Y_2}$\\
 $\theta_2 = \sqrt{Y_1 / Y_2}$\\
 $\begin{vmatrix} \frac{\partial}{\partial y} f^{-1}(y) \end{vmatrix} = 2Y_2$\\\\
 
-\item \subcommand{SumToOne} Take two parameters $\theta_1$ and $\theta_2$ that have the constraint $\sum_{i = 1}^2\theta_i$ and estimate onlyt $\theta_1$ given $\theta_2 = 1 - \theta_1$\\
+\item \subcommand{SumToOne} : given two parameters $\theta_1$ and $\theta_2$ that have the constraint $\sum_{i = 1}^2\theta_i$, estimate $\theta_1$ only given $\theta_2 = 1 - \theta_1$\\
 \subcommand{is\_simple = false}\\
 \subcommand{jacobian defined = false}\\
 \end{itemize}
