@@ -41,12 +41,14 @@ USER casal2
 RUN cd BuildSystem && ./doBuild.sh check \
  && ./doBuild.sh thirdparty adolc && ./doBuild.sh thirdparty betadiff && ./doBuild.sh thirdparty boost \
  && ./doBuild.sh thirdparty dlib && ./doBuild.sh thirdparty googletest_googlemock && ./doBuild.sh thirdparty parser \
- && ./doBuild.sh release adolc && ./doBuild.sh release betadiff \
+ && ./doBuild.sh release && ./doBuild.sh test && ./doBuild.sh release adolc && ./doBuild.sh release betadiff \
+# && ./doBuild.sh thirdparty cppad && ./doBuild.sh release cppad \
+# && ./doBuild.sh documentation \
  && ./doBuild.sh rlibrary \
- && ./doBuild.sh documentation \
- && ./doBuild.sh test && ./doBuild.sh modelrunner \
-# && ./doBuild.sh thirdparty cppad && ./doBuild.sh release cppad
- && ./doBuild.sh library release && ./doBuild.sh library adolc && ./doBuild.sh library betadiff && ./doBuild.sh library cppad \
+ && ./doBuild.sh modelrunner
+
+RUN ./doBuild.sh library release && ./doBuild.sh library test \
+ && ./doBuild.sh library adolc && ./doBuild.sh library betadiff && ./doBuild.sh library cppad \
  && ./doBuild.sh frontend && ./doBuild.sh deb
 
 CMD ["/bin/bash"]
