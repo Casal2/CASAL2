@@ -64,7 +64,7 @@ public:
   bool                        active() const { return active_; }
   ublas::matrix<double>&      covariance_matrix() {return covariance_matrix_;}
   void                        set_starting_iteration(unsigned value) { starting_iteration_ = value; }
-  void                        set_succeful_jumps(unsigned value) { successful_jumps_ = value; }
+  void                        set_successful_jumps(unsigned value) { successful_jumps_ = value; }
   void                        set_step_size(double value) { step_size_ = value; }
   void                        set_acceptance_rate_from_last_adapt(double value) { acceptance_rate_since_last_adapt_ = value; }
   bool                        recalculate_covariance() const { return recalculate_covariance_; }

@@ -153,7 +153,7 @@ bool MCMCObjective::LoadFile(const string& file_name) {
   LOG_FINE() << "step size = " << step_size;
 
   model_->managers().mcmc()->active_mcmc()->set_starting_iteration(iteration_number);
-  model_->managers().mcmc()->active_mcmc()->set_succeful_jumps(success_jump);
+  model_->managers().mcmc()->active_mcmc()->set_successful_jumps(success_jump);
   model_->managers().mcmc()->active_mcmc()->set_step_size(step_size);
   model_->managers().mcmc()->active_mcmc()->set_acceptance_rate_from_last_adapt(AR_since_last_adapt);
 

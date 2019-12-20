@@ -123,11 +123,11 @@ void IndependenceMetropolis::BuildCovarianceMatrix() {
         double multiply_covariance = (sqrt(correlation_diff_) * difference_bounds[i]) / sqrt(covariance_matrix_(i,i));
         LOG_MEDIUM() << "multiplier = " << multiply_covariance << " for parameter = " << i + 1;
         for (unsigned j = 0; j < covariance_matrix_.size2(); ++j) {
-          covariance_matrix_(i,j) =* multiply_covariance;
+          covariance_matrix_(i,j) *= multiply_covariance;
 
           // apply adjustment to on-diagonal element once only
           if (i != j) {
-            covariance_matrix_(j,i) =* multiply_covariance;
+            covariance_matrix_(j,i) *= multiply_covariance;
           }
         }
       } else if(correlation_method_ == PARAM_CORRELATION) {
