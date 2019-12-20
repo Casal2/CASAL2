@@ -50,7 +50,7 @@ RUN cd BuildSystem && ./doBuild.sh check \
 RUN cd BuildSystem && ./doBuild.sh library release && ./doBuild.sh library test \
  && ./doBuild.sh library adolc && ./doBuild.sh library betadiff \
 # && ./doBuild.sh library cppad \
- && ./doBuild.sh frontend && ./doBuild.sh deb
+ && ./doBuild.sh frontend
 
 CMD ["/bin/bash"]
 
