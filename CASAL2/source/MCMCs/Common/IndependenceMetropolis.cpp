@@ -124,11 +124,7 @@ void IndependenceMetropolis::BuildCovarianceMatrix() {
         LOG_MEDIUM() << "multiplier = " << multiply_covariance << " for parameter = " << i + 1;
         for (unsigned j = 0; j < covariance_matrix_.size2(); ++j) {
           covariance_matrix_(i,j) *= multiply_covariance;
-
-          // apply adjustment to on-diagonal element once only
-          if (i != j) {
-            covariance_matrix_(j,i) *= multiply_covariance;
-          }
+          covariance_matrix_(j,i) *= multiply_covariance;
         }
       } else if(correlation_method_ == PARAM_CORRELATION) {
         covariance_matrix_(i,i) = correlation_diff_ * difference_bounds[i];
@@ -376,7 +372,6 @@ void IndependenceMetropolis::UpdateCovarianceMatrix() {
       }
       double var = sxx / (n_iter - 1);
       temp_covariance(i,i) = var;
-      // Q:  is this loop supposed to recalculate the full matrix (excluding the diagonal) or not?
       for (int j = 0; j < i; j++) {
         double sxy = 0;
         for (int k = 0; k < n_iter; k++){
