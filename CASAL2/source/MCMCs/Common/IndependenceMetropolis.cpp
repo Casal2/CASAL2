@@ -74,32 +74,34 @@ void IndependenceMetropolis::BuildCovarianceMatrix() {
   /**
    * Adjust the covariance matrix for the proposal distribution
    */
-  LOG_MEDIUM() << "printing upper left hand triangle before applying correlation adjustment.";
-  for (unsigned i = 0; i < (covariance_matrix_.size1() - 1); ++i) {
-    for (unsigned j = i + 1; j < covariance_matrix_.size2(); ++j) {
+  LOG_MEDIUM() << "printing covariance matrix before applying correlation adjustment";
+  for (unsigned i = 0; i < covariance_matrix_.size1(); ++i) {
+    for (unsigned j = 0; j < covariance_matrix_.size2(); ++j) {
     	LOG_MEDIUM() << "row = " << i + 1 << " col = " << j + 1 << " value = " << covariance_matrix_(i,j);
     }
   }
   LOG_MEDIUM() << "and we are out of that print out";
   ublas::matrix<double> original_covariance(covariance_matrix_);
 
-  LOG_MEDIUM() << "Beginning covar adjustment. rows = " << original_covariance.size1() << " cols = " << original_covariance.size2();
+  LOG_MEDIUM() << "Beginning correlation adjustment. rows = " << original_covariance.size1() << " cols = " << original_covariance.size2();
+  // Q: is this section supposed to adjust the full matrix (except for the diagonal) or not? see pg. 67 (79) of User Manual (item #3)
   for (unsigned i = 0; i < (covariance_matrix_.size1() - 1); ++i) {
-    // Q: is this loop supposed to adjust the full matrix (except for the diagonal) or not? see pg. 67 (79) of User Manual (item #3)
     for (unsigned j = i + 1; j < covariance_matrix_.size2(); ++j) {
-      // This is the lower triangle of the covariance matrix
+      // This assumes that the lower and upper triangles match
     	double value = original_covariance(i,j) / sqrt(original_covariance(i,i) * original_covariance(j,j));
     	LOG_MEDIUM() << "row = " << i + 1 << " col = " << j + 1 << " correlation = " << value;
       if (original_covariance(i,j) / sqrt(original_covariance(i,i) * original_covariance(j,j)) > max_correlation_) {
         covariance_matrix_(i,j) = max_correlation_ * sqrt(original_covariance(i,i) * original_covariance(j,j));
+        covariance_matrix_(j,i) = covariance_matrix_(i,j);
       }
       if (original_covariance(i,j) / sqrt(original_covariance(i,i) * original_covariance(j,j)) < -max_correlation_){
         covariance_matrix_(i,j) = -max_correlation_ * sqrt(original_covariance(i,i) * original_covariance(j,j));
+        covariance_matrix_(j,i) = covariance_matrix_(i,j);
       }
     }
   }
 
-  LOG_MEDIUM() << "printing upper left hand triangle";
+  LOG_MEDIUM() << "printing upper triangle of covariance matrix";
   for (unsigned i = 0; i < (covariance_matrix_.size1() - 1); ++i) {
     for (unsigned j = i + 1; j < covariance_matrix_.size2(); ++j) {
     	LOG_MEDIUM() << "row = " << i + 1 << " col = " << j + 1 << " value = " << covariance_matrix_(i,j);
@@ -132,9 +134,9 @@ void IndependenceMetropolis::BuildCovarianceMatrix() {
     }
   }
 
-  LOG_MEDIUM() << "printing upper left hand triangle";
-  for (unsigned i = 0; i < (covariance_matrix_.size1() - 1); ++i) {
-    for (unsigned j = i + 1; j < covariance_matrix_.size2(); ++j) {
+  LOG_MEDIUM() << "printing adjusted covariance matrix";
+  for (unsigned i = 0; i < covariance_matrix_.size1(); ++i) {
+    for (unsigned j = 0; j < covariance_matrix_.size2(); ++j) {
     	LOG_MEDIUM() << "row = " << i + 1 << " col = " << j + 1 << " value = " << covariance_matrix_(i,j);
     }
   }
@@ -347,15 +349,20 @@ void IndependenceMetropolis::UpdateCovarianceMatrix() {
     recalculate_covariance_ = true;
     LOG_MEDIUM() << "Re calculating covariance matrix, after " << chain_.size() << " iterations";
     // modify the covaraince matrix this algorithm is stolen from CASAL, maybe not the best place to take it from
+
     //number of parameters
     int n_params = chain_[0].values_.size();
+
     // number of iterations
     int n_iter = chain_.size() - 1;
     LOG_MEDIUM() << "Number of parameters = " << n_params << ", number of iterations used to recalculate covariance = " << n_iter;
+
     // temp covariance matrix
     ublas::matrix<double> temp_covariance = covariance_matrix_;
+
     // Mean parameter vector
     vector<double> mean_var(n_params, 1.0);
+
     for (int i = 0; i < n_params; ++i) {
       double sx = 0.0;
       for (int k = 0; k < n_iter; ++k) {
