@@ -74,30 +74,34 @@ void IndependenceMetropolis::BuildCovarianceMatrix() {
   /**
    * Adjust the covariance matrix for the proposal distribution
    */
-  LOG_MEDIUM() << "printing upper left hand triangle before applying correlation adjustment.";
-  for (unsigned i = 0; i < (covariance_matrix_.size1() - 1); ++i) {
-    for (unsigned j = i + 1; j < covariance_matrix_.size2(); ++j) {
+  LOG_MEDIUM() << "printing covariance matrix before applying correlation adjustment";
+  for (unsigned i = 0; i < covariance_matrix_.size1(); ++i) {
+    for (unsigned j = 0; j < covariance_matrix_.size2(); ++j) {
     	LOG_MEDIUM() << "row = " << i + 1 << " col = " << j + 1 << " value = " << covariance_matrix_(i,j);
     }
   }
   LOG_MEDIUM() << "and we are out of that print out";
   ublas::matrix<double> original_covariance(covariance_matrix_);
 
-  LOG_MEDIUM() << "Beginning covar adjustment. rows = " << original_covariance.size1() << " cols = " << original_covariance.size2();
+  LOG_MEDIUM() << "Beginning correlation adjustment. rows = " << original_covariance.size1() << " cols = " << original_covariance.size2();
+  // Q: is this section supposed to adjust the full matrix (except for the diagonal) or not? see pg. 67 (79) of User Manual (item #3)
   for (unsigned i = 0; i < (covariance_matrix_.size1() - 1); ++i) {
     for (unsigned j = i + 1; j < covariance_matrix_.size2(); ++j) {
-      // This is the lower triangle of the covariance matrix
+      // This assumes that the lower and upper triangles match
     	double value = original_covariance(i,j) / sqrt(original_covariance(i,i) * original_covariance(j,j));
     	LOG_MEDIUM() << "row = " << i + 1 << " col = " << j + 1 << " correlation = " << value;
       if (original_covariance(i,j) / sqrt(original_covariance(i,i) * original_covariance(j,j)) > max_correlation_) {
         covariance_matrix_(i,j) = max_correlation_ * sqrt(original_covariance(i,i) * original_covariance(j,j));
+        covariance_matrix_(j,i) = covariance_matrix_(i,j);
       }
       if (original_covariance(i,j) / sqrt(original_covariance(i,i) * original_covariance(j,j)) < -max_correlation_){
         covariance_matrix_(i,j) = -max_correlation_ * sqrt(original_covariance(i,i) * original_covariance(j,j));
+        covariance_matrix_(j,i) = covariance_matrix_(i,j);
       }
     }
   }
-  LOG_MEDIUM() << "printing upper left hand triangle";
+
+  LOG_MEDIUM() << "printing upper triangle of covariance matrix";
   for (unsigned i = 0; i < (covariance_matrix_.size1() - 1); ++i) {
     for (unsigned j = i + 1; j < covariance_matrix_.size2(); ++j) {
     	LOG_MEDIUM() << "row = " << i + 1 << " col = " << j + 1 << " value = " << covariance_matrix_(i,j);
@@ -120,27 +124,27 @@ void IndependenceMetropolis::BuildCovarianceMatrix() {
       if (correlation_method_ == PARAM_COVARIANCE) {
         double multiply_covariance = (sqrt(correlation_diff_) * difference_bounds[i]) / sqrt(covariance_matrix_(i,i));
         LOG_MEDIUM() << "multiplier = " << multiply_covariance << " for parameter = " << i + 1;
-        for (unsigned j = 0; j < covariance_matrix_.size1(); ++j) {
-          covariance_matrix_(i,j) = covariance_matrix_(i,j) * multiply_covariance;
-          covariance_matrix_(j,i) = covariance_matrix_(j,i) * multiply_covariance;
+        for (unsigned j = 0; j < covariance_matrix_.size2(); ++j) {
+          covariance_matrix_(i,j) *= multiply_covariance;
+          covariance_matrix_(j,i) *= multiply_covariance;
         }
       } else if(correlation_method_ == PARAM_CORRELATION) {
         covariance_matrix_(i,i) = correlation_diff_ * difference_bounds[i];
       }
     }
   }
-  LOG_MEDIUM() << "printing upper left hand triangle";
-  for (unsigned i = 0; i < (covariance_matrix_.size1() - 1); ++i) {
-    for (unsigned j = i + 1; j < covariance_matrix_.size2(); ++j) {
+
+  LOG_MEDIUM() << "printing adjusted covariance matrix";
+  for (unsigned i = 0; i < covariance_matrix_.size1(); ++i) {
+    for (unsigned j = 0; j < covariance_matrix_.size2(); ++j) {
     	LOG_MEDIUM() << "row = " << i + 1 << " col = " << j + 1 << " value = " << covariance_matrix_(i,j);
     }
   }
 
-
 }
 
 /**
- * Perform cholesky decomposition on our covariance
+ * Perform Cholesky decomposition on our covariance
  * matrix before it's used in the MCMC.
  *
  * @return true on success, false on failure
@@ -148,7 +152,7 @@ void IndependenceMetropolis::BuildCovarianceMatrix() {
 bool IndependenceMetropolis::DoCholeskyDecmposition() {
   LOG_TRACE();
   if (covariance_matrix_.size1() != covariance_matrix_.size2())
-      LOG_FATAL() << "Invalid covariance matrix (rows != columns) must be a symetric square matrix";
+      LOG_FATAL() << "Invalid covariance matrix (rows != columns) must be a symmetric square matrix";
     unsigned matrix_size1 = covariance_matrix_.size1();
     covariance_matrix_lt = covariance_matrix_;
 
@@ -165,6 +169,7 @@ bool IndependenceMetropolis::DoCholeskyDecmposition() {
     if (covariance_matrix_(0,0) < 0) {
       return false;
     }
+
     double sum = 0.0;
 
     covariance_matrix_lt(0,0) = sqrt(covariance_matrix_(0,0));
@@ -344,15 +349,20 @@ void IndependenceMetropolis::UpdateCovarianceMatrix() {
     recalculate_covariance_ = true;
     LOG_MEDIUM() << "Re calculating covariance matrix, after " << chain_.size() << " iterations";
     // modify the covaraince matrix this algorithm is stolen from CASAL, maybe not the best place to take it from
+
     //number of parameters
     int n_params = chain_[0].values_.size();
+
     // number of iterations
     int n_iter = chain_.size() - 1;
     LOG_MEDIUM() << "Number of parameters = " << n_params << ", number of iterations used to recalculate covariance = " << n_iter;
+
     // temp covariance matrix
     ublas::matrix<double> temp_covariance = covariance_matrix_;
+
     // Mean parameter vector
     vector<double> mean_var(n_params, 1.0);
+
     for (int i = 0; i < n_params; ++i) {
       double sx = 0.0;
       for (int k = 0; k < n_iter; ++k) {
@@ -369,7 +379,7 @@ void IndependenceMetropolis::UpdateCovarianceMatrix() {
       }
       double var = sxx / (n_iter - 1);
       temp_covariance(i,i) = var;
-      for (int j = 0; j < i; j++){
+      for (int j = 0; j < i; j++) {
         double sxy = 0;
         for (int k = 0; k < n_iter; k++){
           sxy += (AS_VALUE(chain_[k].values_[i]) - mean_var[i]) * (AS_VALUE(chain_[k].values_[j]) - mean_var[j]);
@@ -379,11 +389,11 @@ void IndependenceMetropolis::UpdateCovarianceMatrix() {
         temp_covariance(j,i) = cov;
       }
     }
+
     for (int i = 0; i < n_params; ++i){
       for (int k = 0; k < n_params; ++k){
         LOG_MEDIUM() << "row =  " << i << " " << " col = " << k << " " << temp_covariance(i,k);
       }
-
     }
     covariance_matrix_lt = temp_covariance;
 
@@ -646,12 +656,12 @@ void IndependenceMetropolis::DoExecute() {
       obj_function.CalculateScore();
 
       // Store objective information if we accept these will become our current step
-      score = AS_DOUBLE(obj_function.score());
-      penalty = AS_DOUBLE(obj_function.penalties());
-      prior = AS_DOUBLE(obj_function.priors());
-      likelihood = AS_DOUBLE(obj_function.likelihoods());
+      score            = AS_DOUBLE(obj_function.score());
+      penalty          = AS_DOUBLE(obj_function.penalties());
+      prior            = AS_DOUBLE(obj_function.priors());
+      likelihood       = AS_DOUBLE(obj_function.likelihoods());
       additional_prior = AS_DOUBLE(obj_function.additional_priors());
-      jacobian = AS_DOUBLE(obj_function.jacobians());
+      jacobian         = AS_DOUBLE(obj_function.jacobians());
 
       Double ratio = 1.0;
 
@@ -665,14 +675,15 @@ void IndependenceMetropolis::DoExecute() {
         // Accept this jump
         successful_jumps_++;
         successful_jumps_since_adapt_++;
+
         // So these become our last step values so save them.
-        previous_candidates = candidates_;
-        previous_score = score;
-        previous_prior = prior;
-        previous_likelihood = likelihood;
-        previous_penalty = penalty;
+        previous_candidates       = candidates_;
+        previous_score            = score;
+        previous_prior            = prior;
+        previous_likelihood       = likelihood;
+        previous_penalty          = penalty;
         previous_additional_prior = additional_prior;
-        previous_jacobian = jacobian;
+        previous_jacobian         = jacobian;
         // For reporting purposes
         for (unsigned i = 0; i < estimate_count_; ++i) {
           previous_untransformed_candidates[i] = estimates_[i]->value();

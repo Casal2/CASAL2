@@ -122,8 +122,8 @@ void Minimiser::BuildCovarianceMatrix() {
   for (unsigned i = 0; i < hessian_size_; ++i) {
     diag = correlation_matrix_(i,i);
     for (unsigned j = 0; j < hessian_size_; ++j) {
-      correlation_matrix_(i,j) = correlation_matrix_(i,j) / sqrt(diag);
-      correlation_matrix_(j,i) = correlation_matrix_(j,i) / sqrt(diag);
+      correlation_matrix_(i,j) /= sqrt(diag);
+      correlation_matrix_(j,i) /= sqrt(diag);
     }
   }
 }
