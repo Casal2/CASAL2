@@ -1,13 +1,12 @@
 @echo off
-rem this assumes that 'release betadiff' and 'release cppad' have already been built successfully
-:: Assumes casal.exe is in your system path
-:: in directory TestCases\primary\HOK
+rem this assumes that 'release adolc', 'release betadiff', and 'release cppad' have already been built successfully
+rem this script runs in directory TestCases\primary\HOK
 
 cd CASAL
-casal -e -o params_est.out > run_estimation.txt 2>&1
+..\..\casal -e -o params_est.out > run_estimation.txt 2>&1
 
 cd ..\CASAL_sens1
-casal -e -o params_est.out > run_estimation.txt 2>&1
+..\..\casal -e -o params_est.out > run_estimation.txt 2>&1
 
 
 cd ..\Casal2\adolc_casal_flags_off
