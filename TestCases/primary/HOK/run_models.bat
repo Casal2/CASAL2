@@ -3,10 +3,10 @@ rem this assumes that 'release adolc', 'release betadiff', and 'release cppad' h
 rem this script runs in directory TestCases\primary\HOK
 
 cd CASAL
-..\..\casal -e -o params_est.out > run_estimation.txt 2>&1
+..\..\..\casal.exe -e -o params_est.out > run_estimation.txt 2>&1
 
 cd ..\CASAL_sens1
-..\..\casal -e -o params_est.out > run_estimation.txt 2>&1
+..\..\..\casal.exe -e -o params_est.out > run_estimation.txt 2>&1
 
 
 cd ..\Casal2\adolc_casal_flags_off

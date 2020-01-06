@@ -2,10 +2,10 @@
 # start in directory TestCases/primary/LIN56
 
 cd CASAL
-../../casal -e -o params_est.out > run_estimation.txt 2>&1
+../../../casal -e -o params_est.out > run_estimation.txt 2>&1
 
 cd ../CASAL_sens1
-../../casal -e -o params_est.out > run_estimation.txt 2>&1
+../../../casal -e -o params_est.out > run_estimation.txt 2>&1
 
 
 
