@@ -11,6 +11,7 @@ resids 1
 pearson_resids 1
 normalised_resids 1
 estimation_section 1
+covariance True
 
 # population section stuff
 requests 1
