@@ -11,6 +11,7 @@ type betadiff
 tolerance 1e-9
 iterations 10000
 evaluations 10000
+covariance True
 
 ################################### Estimates ###############################
 ## Format for parameter in @estimate block = type[label].parameter

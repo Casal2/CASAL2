@@ -14,6 +14,7 @@ type cppad
 #tolerance 1e-6
 #iterations 1000
 #evaluations 1000
+covariance True
 
 ################################### Estimates ###############################
 ## Format for parameter in @estimate block = type[label].parameter
