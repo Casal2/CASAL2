@@ -60,8 +60,11 @@ void Abundance::DoValidate() {
         << category_labels_.size() << ") * years (" << years_.size() << ")";
 
   // Error Value
-  if (error_values_.size() == 1 && obs.size() > 1)
-    error_values_.assign(obs.size(), error_values_[0]);
+  if (error_values_.size() == 1 && obs.size() > 1) {
+    auto val_e = error_values_[0];
+    error_values_.assign(obs.size(), val_e);
+  }
+
   if (error_values_.size() != obs.size())
     LOG_ERROR_P(PARAM_ERROR_VALUE) << ": error_value length (" << error_values_.size()
         << ") must be same length as obs (" << obs.size() << ")";
@@ -112,9 +115,10 @@ void Abundance::DoBuild() {
     selectivities_.push_back(selectivity);
   }
 
-    if (selectivities_.size() == 1 && category_labels_.size() != 1)
-      selectivities_.assign(category_labels_.size(), selectivities_[0]);
-
+    if (selectivities_.size() == 1 && category_labels_.size() != 1) {
+      auto val_sel = selectivities_[0];
+      selectivities_.assign(category_labels_.size(), val_sel);
+    }
 
   if (partition_->category_count() != selectivities_.size())
     LOG_ERROR_P(PARAM_SELECTIVITIES) << ": number of selectivities provided (" << selectivities_.size() << ") does not match the number "

@@ -192,9 +192,12 @@ void ProportionsByCategory::DoValidate() {
 
         error_values_by_year[year].push_back(value);
       }
+
       if (error_values_by_year[year].size() == 1) {
-        error_values_by_year[year].assign(obs_expected - 1, error_values_by_year[year][0]);
+        auto val_e = error_values_by_year[year][0];
+        error_values_by_year[year].assign(obs_expected - 1, val_e);
       }
+
       if (error_values_by_year[year].size() != obs_expected - 1) {
         LOG_CODE_ERROR() << "error_values_by_year_[year].size() (" << error_values_by_year[year].size() << ") != obs_expected - 1 (" << obs_expected -1 << ")";
       }
@@ -254,8 +257,10 @@ void ProportionsByCategory::DoBuild() {
     selectivities_.push_back(selectivity);
   }
 
-  if (selectivities_.size() == 1 && category_labels_.size() != 1)
-    selectivities_.assign(category_labels_.size(), selectivities_[0]);
+  if (selectivities_.size() == 1 && category_labels_.size() != 1) {
+    auto val_sel = selectivities_[0];
+    selectivities_.assign(category_labels_.size(), val_sel);
+  }
 
   for(string label : target_selectivity_labels_) {
     auto selectivity = model_->managers().selectivity()->GetSelectivity(label);
@@ -265,8 +270,10 @@ void ProportionsByCategory::DoBuild() {
       target_selectivities_.push_back(selectivity);
   }
 
-  if (target_selectivities_.size() == 1 && category_labels_.size() != 1)
-    target_selectivities_.assign(category_labels_.size(), target_selectivities_[0]);
+  if (target_selectivities_.size() == 1 && category_labels_.size() != 1) {
+    auto val_t = target_selectivities_[0];
+    target_selectivities_.assign(category_labels_.size(), val_t);
+  }
 }
 
 /**

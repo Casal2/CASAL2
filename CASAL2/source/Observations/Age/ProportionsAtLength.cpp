@@ -161,9 +161,12 @@ void ProportionsAtLength::DoValidate() {
 
       error_values_by_year[year].push_back(value);
     }
+
     if (error_values_by_year[year].size() == 1) {
-      error_values_by_year[year].assign(obs_expected - 1, error_values_by_year[year][0]);
+      auto val_e = error_values_by_year[year][0];
+      error_values_by_year[year].assign(obs_expected - 1, val_e);
     }
+
     if (error_values_by_year[year].size() != obs_expected - 1)
       LOG_FATAL_P(PARAM_ERROR_VALUES) << "We counted " << error_values_by_year[year].size() << " error values by year but expected " << obs_expected -1 << " based on the obs table";
   }
@@ -210,8 +213,10 @@ void ProportionsAtLength::DoBuild() {
     selectivities_.push_back(selectivity);
   }
 
-  if (selectivities_.size() == 1 && category_labels_.size() != 1)
-    selectivities_.assign(category_labels_.size(), selectivities_[0]);
+  if (selectivities_.size() == 1 && category_labels_.size() != 1) {
+    auto val_sel = selectivities_[0];
+    selectivities_.assign(category_labels_.size(), val_sel);
+  }
 
   unsigned number_bins = model_->length_plus() ? model_->length_bins().size() : model_->length_bins().size() - 1;
   length_results_.resize(number_bins * category_labels_.size(), 0.0);

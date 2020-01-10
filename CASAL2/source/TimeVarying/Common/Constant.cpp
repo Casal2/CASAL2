@@ -28,8 +28,11 @@ void Constant::DoValidate() {
     return;
   }
 
-  if (values_.size() == 1)
-    values_.assign(years_.size(), values_[0]);
+  if (values_.size() == 1) {
+    auto val_v = values_[0];
+    values_.assign(years_.size(), val_v);
+  }
+
   for (unsigned i = 0; i < years_.size(); ++i) {
     parameter_by_year_[years_[i]] = values_[i];
   }
