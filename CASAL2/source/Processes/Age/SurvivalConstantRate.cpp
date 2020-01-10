@@ -53,11 +53,17 @@ SurvivalConstantRate::SurvivalConstantRate(Model* model)
  */
 void SurvivalConstantRate::DoValidate() {
   // If one S supplied expand for each category
-  if (s_input_.size() == 1)
-    s_input_.assign(category_labels_.size(), s_input_[0]);
+  if (s_input_.size() == 1) {
+    auto val_s = s_input_[0];
+    s_input_.assign(category_labels_.size(), val_s);
+  }
+
   // Do the same for selectivity labels
-  if (selectivity_names_.size() == 1)
-    selectivity_names_.assign(category_labels_.size(), selectivity_names_[0]);
+  if (selectivity_names_.size() == 1) {
+    auto val_sel = selectivity_names_[0];
+    selectivity_names_.assign(category_labels_.size(), val_sel);
+  }
+
   //Check we have equal category labels as survival rates
   if (s_input_.size() != category_labels_.size()) {
     LOG_ERROR_P(PARAM_S)

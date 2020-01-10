@@ -170,9 +170,12 @@ void ProportionsMigrating::DoValidate() {
 
       error_values_by_year[year].push_back(value);
     }
+
     if (error_values_by_year[year].size() == 1) {
-      error_values_by_year[year].assign(obs_expected - 1, error_values_by_year[year][0]);
+      auto val_e = error_values_by_year[year][0];
+      error_values_by_year[year].assign(obs_expected - 1, val_e);
     }
+
     if (error_values_by_year[year].size() != obs_expected - 1)
       LOG_CODE_ERROR() << "error_values_by_year_[year].size() (" << error_values_by_year[year].size() << ") != obs_expected - 1 (" << obs_expected -1 << ")";
   }

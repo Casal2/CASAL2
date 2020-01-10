@@ -53,10 +53,15 @@ MortalityConstantRate::MortalityConstantRate(Model* model)
  * - Check the categories are real
  */
 void MortalityConstantRate::DoValidate() {
-  if (m_input_.size() == 1)
-    m_input_.assign(category_labels_.size(), m_input_[0]);
-//  if (selectivity_names_.size() == 1)
-//    selectivity_names_.assign(category_labels_.size(), selectivity_names_[0]);
+  if (m_input_.size() == 1) {
+    auto val_m = m_input_[0];
+    m_input_.assign(category_labels_.size(), val_m);
+  }
+
+//  if (selectivity_names_.size() == 1) {
+//    auto val_s = selectivity_names_[0];
+//    selectivity_names_.assign(category_labels_.size(), val_s);
+//  }
 
   if (m_input_.size() != category_labels_.size()) {
     LOG_ERROR_P(PARAM_M)

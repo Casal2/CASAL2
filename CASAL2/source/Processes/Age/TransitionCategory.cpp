@@ -56,8 +56,10 @@ TransitionCategory::TransitionCategory(Model* model)
 void TransitionCategory::DoValidate() {
   LOG_TRACE();
 
-  if (selectivity_names_.size() == 1)
-    selectivity_names_.assign(from_category_names_.size(), selectivity_names_[0]);
+  if (selectivity_names_.size() == 1) {
+    auto val_s = selectivity_names_[0];
+    selectivity_names_.assign(from_category_names_.size(), val_s);
+  }
 
 //  // Validate Categories
   auto categories = model_->categories();

@@ -178,9 +178,12 @@ void ProportionsAtAge::DoValidate() {
 
       error_values_by_year[year].push_back(value);
     }
+
     if (error_values_by_year[year].size() == 1) {
-      error_values_by_year[year].assign(obs_expected - 1, error_values_by_year[year][0]);
+      auto val_e = error_values_by_year[year][0];
+      error_values_by_year[year].assign(obs_expected - 1, val_e);
     }
+
     if (error_values_by_year[year].size() != obs_expected - 1)
       LOG_FATAL_P(PARAM_ERROR_VALUES) << "We counted " << error_values_by_year[year].size() << " error values by year but expected " << obs_expected -1 << " based on the obs table";
   }
@@ -230,8 +233,11 @@ void ProportionsAtAge::DoBuild() {
       LOG_ERROR_P(PARAM_SELECTIVITIES) << ": Selectivity " << label << " does not exist. Have you defined it?";
     selectivities_.push_back(selectivity);
   }
-  if (selectivities_.size() == 1 && category_labels_.size() != 1)
-    selectivities_.assign(category_labels_.size(), selectivities_[0]);
+
+  if (selectivities_.size() == 1 && category_labels_.size() != 1) {
+    auto val_sel = selectivities_[0];
+    selectivities_.assign(category_labels_.size(), val_sel);
+  }
 
   // Create a pointer to Ageing error misclassification matrix
   if( ageing_error_label_ != "") {
