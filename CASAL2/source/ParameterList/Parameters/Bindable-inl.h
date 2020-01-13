@@ -46,13 +46,13 @@ Bindable<T>::Bindable(const string& label, T* target, const string& description)
 template<typename T>
 void Bindable<T>::Bind() {
   if (values_.size() > 1)
-    LOG_ERROR() << location() << ": " << label_ << " only supports having a single value defined. There are  " << values_.size() << " values defined.\n"
+    LOG_ERROR() << location() << ": " << label_ << " supports having a single value defined only. There are  " << values_.size() << " values defined.\n"
         << "The values defined are: " << boost::algorithm::join(values_, " | ");
 
   if (values_.size() > 0) {
     if (!niwa::utilities::To<T>(values_[0], *target_)) {
       LOG_ERROR() << location() << ": " << label_ << " value " << values_[0] << " could not be converted to type "
-        << utilities::demangle(typeid(*target_).name()) << ". Please check you have defined it properly.";
+        << utilities::demangle(typeid(*target_).name()) << ".";
     }
   } else if (is_optional_) {
     *target_ = default_value_;
@@ -73,7 +73,8 @@ void Bindable<T>::Bind() {
   }
   if (allowed_values_.size() != 0) {
     if (std::find(allowed_values_.begin(), allowed_values_.end(), *target_) == allowed_values_.end())
-      LOG_ERROR() << location() << " value " << *target_ << " is not in the list of allowed values: " << utilities::String::join(allowed_values_, ", ");
+      LOG_ERROR() << location() << " value " << *target_ << " is not in the list of allowed values: "
+        << utilities::String::join(allowed_values_, ", ");
   }
 }
 

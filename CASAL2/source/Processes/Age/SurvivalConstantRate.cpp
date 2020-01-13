@@ -34,8 +34,8 @@ SurvivalConstantRate::SurvivalConstantRate(Model* model)
   partition_structure_ = PartitionType::kAge;
 
   parameters_.Bind<string>(PARAM_CATEGORIES, &category_labels_, "List of categories", "");
-  parameters_.Bind<Double>(PARAM_S, &s_input_, "Survival rates", "");
-  parameters_.Bind<double>(PARAM_TIME_STEP_RATIO, &ratios_, "Time step ratios for S", "", true);
+  parameters_.Bind<Double>(PARAM_S, &s_input_, "Survival rates", "")->set_range(0.0, 1.0);
+  parameters_.Bind<double>(PARAM_TIME_STEP_RATIO, &ratios_, "Time step ratios for S", "", true)->set_range(0.0, 1.0, false, true);
   parameters_.Bind<string>(PARAM_SELECTIVITIES, &selectivity_names_, "Selectivity label", "");
 
   RegisterAsAddressable(PARAM_S, &s_);
@@ -67,14 +67,14 @@ void SurvivalConstantRate::DoValidate() {
   //Check we have equal category labels as survival rates
   if (s_input_.size() != category_labels_.size()) {
     LOG_ERROR_P(PARAM_S)
-        << ": Number of Ms provided is not the same as the number of categories provided. Expected: "
-        << category_labels_.size()<< " but got " << s_input_.size();
+        << ": Number of Ms provided is not the same as the number of categories provided. Categories: "
+        << category_labels_.size()<< ", input size " << s_input_.size();
   }
   //Check we have equal category labels to selectivity labels
   if (selectivity_names_.size() != category_labels_.size()) {
     LOG_ERROR_P(PARAM_SELECTIVITIES)
-        << ": Number of selectivities provided is not the same as the number of categories provided. Expected: "
-        << category_labels_.size()<< " but got " << selectivity_names_.size();
+        << ": Number of selectivities provided is not the same as the number of categories provided. Categories: "
+        << category_labels_.size()<< ", selectivities size " << selectivity_names_.size();
   }
 
   // Validate our S's are between 1.0 and 0.0
@@ -99,7 +99,7 @@ void SurvivalConstantRate::DoBuild() {
   for (string label : selectivity_names_) {
     Selectivity* selectivity = model_->managers().selectivity()->GetSelectivity(label);
     if (!selectivity)
-      LOG_ERROR_P(PARAM_SELECTIVITIES) << ": selectivity " << label << " does not exist. Have you defined it?";
+      LOG_ERROR_P(PARAM_SELECTIVITIES) << ": Selectivity " << label << " does not exist.";
 
     selectivities_.push_back(selectivity);
   }
@@ -125,7 +125,7 @@ void SurvivalConstantRate::DoBuild() {
       LOG_ERROR_P(PARAM_TIME_STEP_RATIO) << " length (" << ratios_.size()
           << ") does not match the number of time steps this process has been assigned to (" << active_time_steps.size() << ")";
 
-    for (Double value : ratios_) {
+    for (auto value : ratios_) {
       if (value <= 0.0 || value > 1.0)
         LOG_ERROR_P(PARAM_TIME_STEP_RATIO) << " value (" << value << ") must be between 0.0 (exclusive) and 1.0 (inclusive)";
     }

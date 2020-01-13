@@ -40,13 +40,13 @@ void SumToOne::DoValidate() {
   LOG_TRACE();
   if (parameters_.Get(PARAM_UPPER_BOUND)->has_been_defined() & parameters_.Get(PARAM_LOWER_BOUND)->has_been_defined()) {
     if (estimate_labels_.size() > 2)
-      LOG_WARNING() << "This estimate transformation was specked for two parameters if you have more than this, be cautious using this transformation";
+      LOG_WARNING() << "This transformation was defined with two parameters. Be cautious using this transformation with more than two parameters.";
 
     if (upper_bounds_.size() != lower_bounds_.size())
-      LOG_ERROR_P(PARAM_LOWER_BOUND) << "You must supple the same number of upper and lower bounds. We found '" << estimate_labels_.size() << "' estimate labels and '" << lower_bounds_.size() << "' bounds, please sort this out or look in the manual";
+      LOG_ERROR_P(PARAM_LOWER_BOUND) << "Supply the same number of upper and lower bounds. '" << estimate_labels_.size() << "' estimate labels and '" << lower_bounds_.size() << "' bound values were parsed.";
 
     if ((estimate_labels_.size() - 1) != lower_bounds_.size())
-      LOG_ERROR_P(PARAM_ESTIMATE_LABELS) << "You must supple one less bound than estimate labels. We found '" << upper_bounds_.size() << "' upper bound values and '" << lower_bounds_.size() << "' lower bound values, please sort this out chairs";
+      LOG_ERROR_P(PARAM_ESTIMATE_LABELS) << "Supply one less bound than estimate labels. '" << upper_bounds_.size() << "' upper bound values and '" << lower_bounds_.size() << "' lower bound values were parsed.";
   }
 }
 
@@ -58,16 +58,19 @@ void SumToOne::DoBuild() {
   for (auto& estimate_label : estimate_labels_) {
     Estimate* estimate = model_->managers().estimate()->GetEstimateByLabel(estimate_label);
     if (estimate == nullptr) {
-      LOG_ERROR_P(PARAM_ESTIMATE_LABELS) << "Estimate " << estimate_label << " could not be found. Have you defined it?";
+      LOG_ERROR_P(PARAM_ESTIMATE_LABELS) << "Estimate " << estimate_label << " was not found.";
       return;
     } else {
-      LOG_FINE() << "transform with objective = " << transform_with_jacobian_ << " estimate transform " << estimate->transform_for_objective() << " together = " << !transform_with_jacobian_ && !estimate->transform_for_objective();
+      LOG_FINE() << "transform with objective = " << transform_with_jacobian_ << " estimate transform " << estimate->transform_for_objective()
+        << " together = " << !transform_with_jacobian_ && !estimate->transform_for_objective();
       if (!transform_with_jacobian_ && !estimate->transform_for_objective()) {
-        LOG_ERROR_P(PARAM_LABEL) << "You have specified a transformation that does not contribute a jacobian, and the prior parameters do not refer to the transformed estimate, in the @estimate" << estimate_label_ << ". This is not advised, and may cause bias estimation. Please address the user manual if you need help";
+        LOG_ERROR_P(PARAM_LABEL) << "The specified transformation does not contribute to the Jacobian matrix and the prior parameters do not refer to the transformed estimate for the @estimate "
+          << estimate_label_ << ". This is not advised as it may cause bias errors. Please consult the User Manual.";
       }
       if (estimate->transform_with_jacobian_is_defined()) {
         if (transform_with_jacobian_ != estimate->transform_with_jacobian()) {
-          LOG_ERROR_P(PARAM_LABEL) << "This parameter is not consistent with the equivalent parameter in the @estimate block " << estimate_label_ << ". please make sure these are both true or both false.";
+          LOG_ERROR_P(PARAM_LABEL) << "This parameter is not consistent with the equivalent parameter in the @estimate block "
+            << estimate_label_ << ". Both parameters should be either true or false.";
         }
       }
       estimates_.push_back(estimate);
@@ -83,21 +86,21 @@ void SumToOne::DoBuild() {
     total += estimate->value();
   }
   if (total != 1.0)
-    LOG_ERROR_P(PARAM_ESTIMATE_LABELS) << "The estiamtes you supplied to not sum to 1.0, they sum to " << total << ", please check initial values of these parameters";
+    LOG_ERROR_P(PARAM_ESTIMATE_LABELS) << "The parameter values do not sum to 1.0. They sum to " << total << ". Please check the initial values of these parameters.";
 
   // Check that the bounds are sensible
   if (parameters_.Get(PARAM_UPPER_BOUND)->has_been_defined() & parameters_.Get(PARAM_LOWER_BOUND)->has_been_defined()) {
     for (unsigned i = 0; i < estimates_.size(); ++i) {
       if (estimates_[i]->lower_bound() < 0.0 || estimates_[i]->lower_bound() > 1.0)
-        LOG_ERROR_P(PARAM_LOWER_BOUND) << "You cannot specify a lower bound less than 0 and greater than 1.0";
+        LOG_ERROR_P(PARAM_LOWER_BOUND) << "The lower bound must be between 0.0 and 1.0 inclusive.";
       if (estimates_[i]->upper_bound() < 0.0 || estimates_[i]->upper_bound() > 1.0)
-        LOG_ERROR_P(PARAM_UPPER_BOUND) << "You cannot specify a upper bound less than 0 and greater than 1.0";
+        LOG_ERROR_P(PARAM_UPPER_BOUND) << "The upper bound must be between 0.0 and 1.0 inclusive.";
     }
   }
   LOG_MEDIUM() << "total = " << total;
 
   // Turn off the last estimate
-  LOG_FINE() << "Turning off parameter, this won't be estimated, and will be an outcome of other parameters " << estimates_[estimates_.size() - 1]->parameter() << " in the estimation";
+  LOG_FINE() << "Turning off parameter. This parameter will not be estimated and is a function of other parameters " << estimates_[estimates_.size() - 1]->parameter() << " in the estimation";
   estimates_[estimates_.size() - 1]->set_estimated(false);
   LOG_MEDIUM() << "flagged estimated = " << estimates_[estimates_.size() - 1]->estimated();
 }

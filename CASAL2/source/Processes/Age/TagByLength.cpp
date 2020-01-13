@@ -43,9 +43,10 @@ TagByLength::TagByLength(Model* model)
   parameters_.Bind<string>(PARAM_FROM, &from_category_labels_, "Categories to transition from", "");
   parameters_.Bind<string>(PARAM_TO, &to_category_labels_, "ategories to transition to", "");
   parameters_.Bind<string>(PARAM_PENALTY, &penalty_label_, "Penalty label", "", "");
-  parameters_.Bind<Double>(PARAM_U_MAX, &u_max_, "U Max", "", 0.99);
+  parameters_.Bind<Double>(PARAM_U_MAX, &u_max_, "U Max", "", 0.99)->set_range(0.0, 1.0, false, true);
+  // TODO:  is tolerance missing? the number '0.001' is hard-coded
   parameters_.Bind<unsigned>(PARAM_YEARS, &years_, "Years to execute the transition in", "");
-  parameters_.Bind<Double>(PARAM_INITIAL_MORTALITY, &initial_mortality_, "", "", Double(0));
+  parameters_.Bind<double>(PARAM_INITIAL_MORTALITY, &initial_mortality_, "", "", 0.0)->set_lower_bound(0.0);
   parameters_.Bind<string>(PARAM_INITIAL_MORTALITY_SELECTIVITY, &initial_mortality_selectivity_label_, "", "", "");
   parameters_.Bind<string>(PARAM_SELECTIVITIES, &selectivity_labels_, "", "");
   parameters_.Bind<Double>(PARAM_N, &n_, "", "", true);
@@ -71,10 +72,11 @@ void TagByLength::DoValidate() {
   for(auto& category : to_category_labels_) {
     bool check_combined = model_->categories()->IsCombinedLabels(category);
     if(check_combined)
-      LOG_FATAL_P(PARAM_TO) << "You supplied the combined category " << category << " this sub command can only take separate categories.";
+      LOG_FATAL_P(PARAM_TO) << "The combined category " << category << " was supplied. This subcommand can take separate categories only.";
   }
   if (from_category_labels_.size() != 1) {
-    LOG_FATAL_P(PARAM_FROM) << "This process cannot specify a many to many tagging event. If you have proportions tagged by category then I suggest you create @tag process, you supplied " << from_category_labels_.size() << " from categories";
+    LOG_FATAL_P(PARAM_FROM) << "This process cannot specify a many-to-many tagging event. If proportions are tagged by category then create a @tag process"
+      << " 'From' category labels size " << from_category_labels_.size();
   }
 
   vector<string> split_category_labels;
@@ -83,7 +85,8 @@ void TagByLength::DoValidate() {
     if (model_->categories()->IsCombinedLabels(category)) {
       no_combined= model_->categories()->GetNumberOfCategoriesDefined(category);
       if (no_combined != to_category_labels_.size()) {
-        LOG_ERROR_P(PARAM_TO) << "you specified '" << no_combined << "' combined from_categories where as you suppled '" << to_category_labels_.size() << "' to categories. you must have an equal number of categories from to";
+        LOG_ERROR_P(PARAM_TO) << "'" << no_combined << "' combined 'From'_categories was specified, but '" << to_category_labels_.size() << "' 'To' categories were supplied."
+          << " The number of 'From' and 'To' categories must be the same.";
       }
       boost::split(split_category_labels, category, boost::is_any_of("+"));
       for (const string& split_category_label : split_category_labels) {
@@ -113,7 +116,8 @@ void TagByLength::DoValidate() {
   }
 
   if (to_category_labels_.size() != selectivity_labels_.size())
-    LOG_ERROR_P(PARAM_SELECTIVITIES) << "there must be the same number of selectivities as 'to_categories'. You supplied " << to_category_labels_.size() << " 'to_categories' but " << selectivity_labels_.size() << " selectivity labels";
+    LOG_ERROR_P(PARAM_SELECTIVITIES) << "The number of selectivities must match the number of 'to_categories'. "
+      << to_category_labels_.size() << " 'to_categories' were supplied, but " << selectivity_labels_.size() << " selectivity labels were supplied";
   if (u_max_ <= 0.0 || u_max_ > 1.0)
     LOG_ERROR_P(PARAM_U_MAX) << " (" << u_max_ << ") must be greater than 0.0 and less than 1.0";
 
@@ -129,7 +133,7 @@ void TagByLength::DoValidate() {
   if (numbers_table_->row_count() == 0 && proportions_table_->row_count() == 0)
     LOG_ERROR() << location() << " must have either a " << PARAM_NUMBERS << " or " << PARAM_PROPORTIONS << " table defined with appropriate data";
   if (numbers_table_->row_count() != 0 && proportions_table_->row_count() != 0)
-    LOG_ERROR() << location() << " cannot have both a " << PARAM_NUMBERS << " and " << PARAM_PROPORTIONS << " table defined. Please only use 1.";
+    LOG_ERROR() << location() << " cannot have both a " << PARAM_NUMBERS << " and " << PARAM_PROPORTIONS << " table defined. Please use one only.";
   if (proportions_table_->row_count() != 0 && !parameters_.Get(PARAM_N)->has_been_defined())
     LOG_ERROR() << location() << " cannot have a " << PARAM_PROPORTIONS << " table without defining " << PARAM_N;
 
@@ -144,10 +148,12 @@ void TagByLength::DoValidate() {
     unsigned number_bins = columns.size();
     if (model_->length_plus()) {
       if ((number_bins - 1) != model_->length_bins().size())
-        LOG_ERROR_P(PARAM_NUMBERS) << "Length bins for this observation are defined in the @model block, there must be a column for each length bin '" << model_->length_bins().size() << "' you supplied '"<< number_bins - 1 << "'. please address this";
+        LOG_ERROR_P(PARAM_NUMBERS) << "Length bins for this observation are defined in the @model block. A column is required for each length bin '"
+          << model_->length_bins().size() << "' supplied '"<< number_bins - 1 << "'.";
     } else {
       if ((number_bins - 1) != (model_->length_bins().size() - 1))
-        LOG_ERROR_P(PARAM_NUMBERS) << "Length bins for this observation are defined in the @model block, there must be a column for each length bin '" << model_->length_bins().size() - 1 << "' you supplied '"<< number_bins - 1  << "'. please address this";
+        LOG_ERROR_P(PARAM_NUMBERS) << "Length bins for this observation are defined in the @model block. A column is required for each length bin '"
+          << model_->length_bins().size() - 1 << "' supplied '"<< number_bins - 1  << "'.";
     }
     n_by_year_ = utilities::Map<Double>::create(years_, 0.0);
     // load our table data in to our map
@@ -156,11 +162,11 @@ void TagByLength::DoValidate() {
     Double n_value = 0.0;
     for (auto iter : data) {
       if (!utilities::To<unsigned>(iter[0], year))
-        LOG_ERROR_P(PARAM_NUMBERS) << " value (" << iter[0] << ") is not a valid unsigned value that could be converted to a model year";
+        LOG_ERROR_P(PARAM_NUMBERS) << " value (" << iter[0] << ") could not be converted to an unsigned integer";
 
       for (unsigned i = 1; i < iter.size(); ++i) {
         if (!utilities::To<Double>(iter[i], n_value))
-          LOG_ERROR_P(PARAM_NUMBERS) << " value (" << iter[i] << ") could not be converted to a double. Please ensure it's a numeric value";
+          LOG_ERROR_P(PARAM_NUMBERS) << " value (" << iter[i] << ") could not be converted to a double";
         if (numbers_[year].size() == 0)
           numbers_[year].resize(number_bins, 0.0);
         n_by_year_[year] += n_value;
@@ -170,7 +176,7 @@ void TagByLength::DoValidate() {
     // Check years allign
     for (auto iter : numbers_) {
       if (std::find(years_.begin(), years_.end(), iter.first) == years_.end())
-        LOG_ERROR_P(PARAM_NUMBERS) << " table contains year " << iter.first << " that is not a valid year defined in this process";
+        LOG_ERROR_P(PARAM_NUMBERS) << " table contains year " << iter.first << " which is not a valid year defined in this process";
     }
 
   } else if (proportions_table_->row_count() != 0) {
@@ -183,10 +189,12 @@ void TagByLength::DoValidate() {
     unsigned number_bins = columns.size();
     if (model_->length_plus()) {
       if ((number_bins - 1) != model_->length_bins().size())
-        LOG_ERROR_P(PARAM_PROPORTIONS) << "Length bins for this observation are defined in the @model block, there must be a column for each length bin '" << model_->length_bins().size() << "' you supplied '"<< number_bins - 1  << "'. please address this";
+        LOG_ERROR_P(PARAM_PROPORTIONS) << "Length bins for this observation are defined in the @model block. A column is required for each length bin '"
+          << model_->length_bins().size() << "' supplied '"<< number_bins - 1  << "'.";
     } else {
       if ((number_bins - 1) != (model_->length_bins().size() - 1))
-        LOG_ERROR_P(PARAM_PROPORTIONS) << "Length bins for this observation are defined in the @model block, there must be a column for each length bin '" << model_->length_bins().size() - 1 << "' you supplied '"<< number_bins - 1  << "'. please address this";
+        LOG_ERROR_P(PARAM_PROPORTIONS) << "Length bins for this observation are defined in the @model block. A column is required for each length bin '"
+          << model_->length_bins().size() - 1 << "' supplied '"<< number_bins - 1  << "'.";
     }
 
     // build a map of n data by year
@@ -195,7 +203,7 @@ void TagByLength::DoValidate() {
       n_.assign(years_.size(), val_n);
     }
     else if (n_.size() != years_.size())
-      LOG_ERROR_P(PARAM_N) << " values provied (" << n_.size() << ") does not match the number of years (" << years_.size() << ")";
+      LOG_ERROR_P(PARAM_N) << " values provided (" << n_.size() << ") does not match the number of years (" << years_.size() << ")";
     n_by_year_ = utilities::Map<Double>::create(years_, n_);
 
     // load our table data in to our map
@@ -204,11 +212,11 @@ void TagByLength::DoValidate() {
     Double proportion = 0.0;
     for (auto iter : data) {
       if (!utilities::To<unsigned>(iter[0], year))
-        LOG_ERROR_P(PARAM_PROPORTIONS) << " value (" << iter[0] << ") is not a valid unsigned value that could be converted to a model year";
+        LOG_ERROR_P(PARAM_PROPORTIONS) << " value (" << iter[0] << ") could not be converted to an unsigned integer";
       Double total_proportion = 0.0;
       for (unsigned i = 1; i < iter.size(); ++i) {
         if (!utilities::To<Double>(iter[i], proportion))
-          LOG_ERROR_P(PARAM_PROPORTIONS) << " value (" << iter[i] << ") could not be converted to a double. Please ensure it's a numeric value";
+          LOG_ERROR_P(PARAM_PROPORTIONS) << " value (" << iter[i] << ") could not be converted to a double.";
         if (numbers_[year].size() == 0)
           numbers_[year].resize(number_bins, 0.0);
         numbers_[year][i - 1] = n_by_year_[year] * proportion;
@@ -220,13 +228,13 @@ void TagByLength::DoValidate() {
     // Check years allign
     for (auto iter : numbers_) {
       if (std::find(years_.begin(), years_.end(), iter.first) == years_.end())
-        LOG_ERROR_P(PARAM_PROPORTIONS) << " table contains year " << iter.first << " that is not a valid year defined in this process";
+        LOG_ERROR_P(PARAM_PROPORTIONS) << " table contains year " << iter.first << " which is not a valid year defined in this process";
     }
   }
 
   // Check value for initial mortality
-  if ((initial_mortality_ < 0) | (initial_mortality_ > 1.0))
-    LOG_ERROR_P(PARAM_INITIAL_MORTALITY) << ": must be between 0.0 (inclusive) amd less than 1.0 (inclusive)";
+  if (initial_mortality_ < 0)
+    LOG_ERROR_P(PARAM_INITIAL_MORTALITY) << ": must be 0.0 or larger";
 
   if (model_->length_bins().size() == 0)
     LOG_ERROR_P(PARAM_TYPE) << ": No length bins have been specified in @model for this process, these are required";
@@ -359,12 +367,14 @@ void TagByLength::DoExecute() {
 
         exploitation_by_length = u_max_;
         Double current = (*from_iter)->length_data_[i] *  u_max_;
-        LOG_FINE() << "tried to tag " << tagged_fish_for_this_category << " tagging amount overridden with " << current << " = " << (*from_iter)->length_data_[i] << " * " << u_max_;
+        LOG_FINE() << "tried to tag " << tagged_fish_for_this_category << " tagging amount overridden with "
+          << current << " = " << (*from_iter)->length_data_[i] << " * " << u_max_;
 
         if (penalty_)
           penalty_->Trigger(label_, tagged_fish_for_this_category, current);
       }
-      LOG_FINE() << "proportion for length " << length_bins[i] << " = " << proportion_in_this_category_by_length << " tagged fish = " << tagged_fish_for_this_category << " exploitation = " << exploitation_by_length;
+      LOG_FINE() << "proportion for length " << length_bins[i] << " = " << proportion_in_this_category_by_length << " tagged fish = "
+        << tagged_fish_for_this_category << " exploitation = " << exploitation_by_length;
 
       LOG_FINE() << "numbers: " << numbers_[current_year][i] << " total = " << total_stock_with_selectivities;
       LOG_FINE() << (*from_iter)->name_ << " population at length " << length_bins[i] << ": " << (*from_iter)->length_data_[i];
@@ -377,7 +387,8 @@ void TagByLength::DoExecute() {
   } // for (unsigned i = 0; i < length_bins_.size(); ++i)
 
   from_iter = from_partition_.begin();
-  LOG_FINE() << "initial mortality = " << initial_mortality_ << " label = " << label_ << " from = " << from_category_labels_.size() << " to = " << to_category_labels_.size();
+  LOG_FINE() << "initial mortality = " << initial_mortality_ << " label = " << label_ << " from = " << from_category_labels_.size()
+    << " to = " << to_category_labels_.size();
   unsigned category_ndx = 0;
 
   for (; from_iter != from_partition_.end(); from_iter++, to_iter++, category_ndx++) {
@@ -394,7 +405,8 @@ void TagByLength::DoExecute() {
       else if((initial_mortality_selectivity_label_ == "") & (initial_mortality_ > 0.0))
         (*to_iter)->data_[j] -= numbers_at_age_by_category[(*from_iter)->name_][j] * initial_mortality_;
 
-      LOG_FINEST() << "age = " << j + model_->min_age() << " = " << numbers_at_age_by_category[(*from_iter)->name_][j] << " after init mort = " << (*to_iter)->data_[j];
+      LOG_FINEST() << "age = " << j + model_->min_age() << " = " << numbers_at_age_by_category[(*from_iter)->name_][j]
+        << " after init mort = " << (*to_iter)->data_[j];
 
     }
   }
@@ -406,7 +418,7 @@ void TagByLength::DoExecute() {
  * @param cache a cache object to print to
 */
 void TagByLength::FillReportCache(ostringstream& cache) {
-  LOG_FINE() << "report age distribution of tagged fish by source and destination";
+  LOG_FINE() << "report age distribution of tagged individuals by source and destination";
   for(unsigned category_ndx = 0; category_ndx < from_category_labels_.size(); ++category_ndx) {
     cache << "from-" << from_category_labels_[category_ndx] << " " << REPORT_R_DATAFRAME_ROW_LABELS << "\n";
     cache << "year ";

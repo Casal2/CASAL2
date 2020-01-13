@@ -31,8 +31,7 @@ RecruitmentConstant::RecruitmentConstant(Model* model) : Process(model) {
   parameters_.Bind<string>(PARAM_CATEGORIES, &category_labels_, "Categories", "");
   parameters_.Bind<Double>(PARAM_PROPORTIONS, &proportions_, "Proportions", "", true);
   parameters_.Bind<unsigned>(PARAM_AGE, &age_, "Age", "");
-  parameters_.Bind<Double>(PARAM_R0, &r0_, "R0", "")
-      ->set_lower_bound(0.0, false);
+  parameters_.Bind<Double>(PARAM_R0, &r0_, "R0", "")->set_lower_bound(0.0, false);
 
   RegisterAsAddressable(PARAM_R0, &r0_);
   RegisterAsAddressable(PARAM_PROPORTIONS, &proportions_categories_);
@@ -65,8 +64,8 @@ void RecruitmentConstant::DoValidate() {
   if (proportions_.size() > 0) {
     if (proportions_.size() != category_labels_.size()) {
       LOG_ERROR_P(PARAM_PROPORTIONS)
-          << ": Number of proportions provided is not the same as the number of categories provided. Expected: "
-          << category_labels_.size()<< " but got " << proportions_.size();
+          << ": Number of proportions provided is not the same as the number of categories provided. Categories: "
+          << category_labels_.size()<< ", proportions size " << proportions_.size();
     }
 
     Double proportion_total = 0.0;
