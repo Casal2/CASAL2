@@ -24,7 +24,7 @@ namespace age {
 ProcessBiomass::ProcessBiomass(Model* model)
    : observations::age::Biomass(model) {
   parameters_.Bind<string>(PARAM_PROCESS, &process_label_, "The label of the process for the observation", "");
-  parameters_.Bind<double>(PARAM_PROCESS_PROPORTION, &process_proportion_, "Proportion through the process when the observation is evaluated", "", double(0.5));
+  parameters_.Bind<double>(PARAM_PROCESS_PROPORTION, &process_proportion_, "Proportion through the process when the observation is evaluated", "", double(0.5))->set_range(0.0, 1.0);
 
   mean_proportion_method_ = false;
 }
@@ -41,7 +41,7 @@ void ProcessBiomass::DoBuild() {
 
   TimeStep* time_step = model_->managers().time_step()->GetTimeStep(time_step_label_);
   if (!time_step) {
-    LOG_FATAL_P(PARAM_TIME_STEP) << time_step_label_ << " could not be found. Have you defined it?";
+    LOG_FATAL_P(PARAM_TIME_STEP) << time_step_label_ << " was not found. Have it been defined?";
   } else {
     for (unsigned year : years_)
       time_step->SubscribeToProcess(this, year, process_label_);

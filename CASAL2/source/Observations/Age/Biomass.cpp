@@ -36,7 +36,7 @@ Biomass::Biomass(Model* model) : Observation(model) {
   parameters_.Bind<unsigned>(PARAM_YEARS, &years_, "The years of the observed values", "");
   parameters_.Bind<double>(PARAM_ERROR_VALUE, &error_values_, "The error values of the observed values (note the units depend on the likelihood)", "");
   parameters_.Bind<string>(PARAM_SELECTIVITIES, &selectivity_labels_, "Labels of the selectivities", "", true);
-  parameters_.Bind<Double>(PARAM_PROCESS_ERROR, &process_error_value_, "Value for process error", "", Double(0.0));
+  parameters_.Bind<Double>(PARAM_PROCESS_ERROR, &process_error_value_, "Value for process error", "", Double(0.0))->set_lower_bound(0.0);
   parameters_.Bind<string>(PARAM_AGE_WEIGHT_LABELS, &age_weight_labels_, R"(The labels for the \command{$age\_weight$} block which corresponds to each category, if you want to use that weight calculation method for biomass calculations)", "", "");
 
   RegisterAsAddressable(PARAM_PROCESS_ERROR, &process_error_value_);
@@ -57,13 +57,13 @@ void Biomass::DoValidate() {
 
   if (category_labels_.size() != selectivity_labels_.size() && expected_selectivity_count_ != selectivity_labels_.size())
     LOG_ERROR_P(PARAM_SELECTIVITIES) << ": Number of selectivities provided (" << selectivity_labels_.size()
-        << ") is not valid. You can specify either the number of category collections (" << category_labels_.size() << ") or "
+        << ") is not valid. Specify either the number of category collections (" << category_labels_.size() << ") or "
         << "the number of total categories (" << expected_selectivity_count_ << ")";
 
   if (parameters_.Get(PARAM_AGE_WEIGHT_LABELS)->has_been_defined()) {
     if (category_labels_.size() != age_weight_labels_.size() && expected_selectivity_count_ != age_weight_labels_.size())
       LOG_ERROR_P(PARAM_AGE_WEIGHT_LABELS) << ": Number of age weights provided (" << age_weight_labels_.size()
-          << ") is not valid. You can specify either the number of category collections (" << category_labels_.size() << ") or "
+          << ") is not valid. Specify either the number of category collections (" << category_labels_.size() << ") or "
           << "the number of total categories (" << expected_selectivity_count_ << ")";
   }
 
@@ -106,7 +106,7 @@ void Biomass::DoValidate() {
     }
     // Check error values
     if (error_values_[i] <= 0.0)
-      LOG_ERROR_P(PARAM_ERROR_VALUE) << "for year '" << years_[i] << "' we found an error term that is less than or equal to 0.0, this is not allowed please check it";
+      LOG_ERROR_P(PARAM_ERROR_VALUE) << "for year '" << years_[i] << "' an error term is less than or equal to 0.0";
   }
 }
 
@@ -118,7 +118,7 @@ void Biomass::DoBuild() {
 
   catchability_ = model_->managers().catchability()->GetCatchability(catchability_label_);
   if (!catchability_)
-    LOG_FATAL_P(PARAM_CATCHABILITY) << ": catchability " << catchability_label_ << " could not be found. Have you defined it?";
+    LOG_FATAL_P(PARAM_CATCHABILITY) << ": catchability " << catchability_label_ << " was not found.";
 
   if (catchability_->type() == PARAM_NUISANCE){
     nuisance_q_ = true;
@@ -137,7 +137,7 @@ void Biomass::DoBuild() {
   for(string label : selectivity_labels_) {
     Selectivity* selectivity = model_->managers().selectivity()->GetSelectivity(label);
     if (!selectivity)
-      LOG_ERROR_P(PARAM_SELECTIVITIES) << ": Selectivity " << label << " does not exist. Have you defined it?";
+      LOG_ERROR_P(PARAM_SELECTIVITIES) << ": Selectivity " << label << " does not exist.";
     selectivities_.push_back(selectivity);
   }
 
@@ -150,7 +150,7 @@ void Biomass::DoBuild() {
     for (string label : age_weight_labels_) {
       AgeWeight* age_weight = model_->managers().age_weight()->FindAgeWeight(label);
       if (!age_weight)
-        LOG_ERROR_P(PARAM_AGE_WEIGHT_LABELS) << " (" << label << ") could not be found. Have you defined it?";
+        LOG_ERROR_P(PARAM_AGE_WEIGHT_LABELS) << " (" << label << ") was not found.";
       age_weights_.push_back(age_weight);
     }
   }

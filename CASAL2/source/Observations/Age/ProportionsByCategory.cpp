@@ -76,7 +76,7 @@ void ProportionsByCategory::DoValidate() {
 
   if (target_category_labels_.size() != target_selectivity_labels_.size() && expected_selectivity_count != target_selectivity_labels_.size())
     LOG_ERROR_P(PARAM_TARGET_SELECTIVITIES) << ": Number of selectivities provided (" << target_selectivity_labels_.size()
-        << ") is not valid. You can specify either the number of category collections (" << target_category_labels_.size() << ") or "
+        << ") is not valid. Specify either the number of category collections (" << target_category_labels_.size() << ") or "
         << "the number of total categories (" << expected_selectivity_count << ")";
 
   age_spread_ = (max_age_ - min_age_) + 1;
@@ -92,8 +92,8 @@ void ProportionsByCategory::DoValidate() {
   if (max_age_ > model_->max_age())
     LOG_ERROR_P(PARAM_MAX_AGE) << ": max_age (" << max_age_ << ") is greater than the model's max_age (" << model_->max_age() << ")";
   if (process_error_values_.size() != 0 && process_error_values_.size() != years_.size()) {
-    LOG_ERROR_P(PARAM_PROCESS_ERRORS) << " number of values provided (" << process_error_values_.size() << ") does not match the number of years provided ("
-        << years_.size() << ")";
+    LOG_ERROR_P(PARAM_PROCESS_ERRORS) << " number of values provided (" << process_error_values_.size()
+      << ") does not match the number of years provided (" << years_.size() << ")";
   }
   for (Double process_error : process_error_values_) {
     if (process_error < 0.0)
@@ -101,7 +101,8 @@ void ProportionsByCategory::DoValidate() {
   }
   if (process_error_values_.size() != 0) {
     if (process_error_values_.size() != years_.size()) {
-      LOG_FATAL_P(PARAM_PROCESS_ERRORS) << "need to supply a process error for each year, you supplied '" << process_error_values_.size() << "', but you need to supply '" << years_.size() << "'";
+      LOG_FATAL_P(PARAM_PROCESS_ERRORS) << "Supply a process error for each year. Values for " << process_error_values_.size()
+        << " years were provided, but " << years_.size() << " years are required";
     }
     process_errors_by_year_ = utilities::Map<Double>::create(years_, process_error_values_);
   } else {
@@ -114,7 +115,7 @@ void ProportionsByCategory::DoValidate() {
 
   if (category_labels_.size() != selectivity_labels_.size() && expected_selectivity_count_ != selectivity_labels_.size())
     LOG_ERROR_P(PARAM_SELECTIVITIES) << ": Number of selectivities provided (" << selectivity_labels_.size()
-        << ") is not valid. You can specify either the number of category collections (" << category_labels_.size() << ") or "
+        << ") is not valid. Specify either the number of category collections (" << category_labels_.size() << ") or "
         << "the number of total categories (" << expected_selectivity_count_ << ")";
   /**
    * Validate the number of obs provided matches age spread * category_labels * years
@@ -124,21 +125,21 @@ void ProportionsByCategory::DoValidate() {
   unsigned obs_expected = age_spread_ * category_labels_.size() + 1;
   vector<vector<string>>& obs_data = obs_table_->data();
   if (obs_data.size() != years_.size()) {
-    LOG_ERROR_P(PARAM_OBS) << " has " << obs_data.size() << " rows defined, but we expected " << years_.size()
-        << " to match the number of years provided";
+    LOG_ERROR_P(PARAM_OBS) << " has " << obs_data.size() << " rows defined, but " << years_.size()
+        << " should match the number of years provided";
   }
 
   for (vector<string>& obs_data_line : obs_data) {
     unsigned year = 0;
 
     if (obs_data_line.size() != obs_expected) {
-      LOG_ERROR_P(PARAM_OBS) << " has " << obs_data_line.size() << " values defined, but we expected " << obs_expected
-          << " to match the age_spread * categories + 1 (for year)";
+      LOG_ERROR_P(PARAM_OBS) << " has " << obs_data_line.size() << " values defined, but " << obs_expected
+          << " should match the age spread * categories + 1 (for year)";
       return;
     }
 
     if (!utilities::To<unsigned>(obs_data_line[0], year)) {
-      LOG_ERROR_P(PARAM_OBS) << " value " << obs_data_line[0] << " could not be converted in to an unsigned integer. It should be the year for this line";
+      LOG_ERROR_P(PARAM_OBS) << " value " << obs_data_line[0] << " could not be converted to an unsigned integer. It should be the year for this line";
       return;
     }
 
@@ -165,18 +166,18 @@ void ProportionsByCategory::DoValidate() {
    */
   vector<vector<string>>& error_values_data = error_values_table_->data();
   if (error_values_data.size() != years_.size()) {
-    LOG_ERROR_P(PARAM_ERROR_VALUES) << " has " << error_values_data.size() << " rows defined, but we expected " << years_.size()
-        << " to match the number of years provided";
+    LOG_ERROR_P(PARAM_ERROR_VALUES) << " has " << error_values_data.size() << " rows defined, but " << years_.size()
+        << " should match the number of years provided";
   }
 
   for (vector<string>& error_values_data_line : error_values_data) {
     unsigned year = 0;
 
     if (error_values_data_line.size() != 2 && error_values_data_line.size() != obs_expected) {
-      LOG_ERROR_P(PARAM_ERROR_VALUES) << " has " << error_values_data_line.size() << " values defined, but we expected " << obs_expected
-          << " to match the age speard * categories + 1 (for year)";
+      LOG_ERROR_P(PARAM_ERROR_VALUES) << " has " << error_values_data_line.size() << " values defined, but " << obs_expected
+          << " should match the age spread * categories + 1 (for year)";
     } else if (!utilities::To<unsigned>(error_values_data_line[0], year)) {
-      LOG_ERROR_P(PARAM_ERROR_VALUES) << " value " << error_values_data_line[0] << " could not be converted in to an unsigned integer. It should be the year for this line";
+      LOG_ERROR_P(PARAM_ERROR_VALUES) << " value " << error_values_data_line[0] << " could not be converted to an unsigned integer. It should be the year for this line";
     } else if (std::find(years_.begin(), years_.end(), year) == years_.end()) {
       LOG_ERROR_P(PARAM_ERROR_VALUES) << " value " << year << " is not a valid year for this observation";
     } else {
@@ -199,7 +200,8 @@ void ProportionsByCategory::DoValidate() {
       }
 
       if (error_values_by_year[year].size() != obs_expected - 1) {
-        LOG_CODE_ERROR() << "error_values_by_year_[year].size() (" << error_values_by_year[year].size() << ") != obs_expected - 1 (" << obs_expected -1 << ")";
+        LOG_CODE_ERROR() << "error_values_by_year_[year].size() (" << error_values_by_year[year].size()
+          << ") != obs_expected - 1 (" << obs_expected -1 << ")";
       }
     }
   }
@@ -219,7 +221,7 @@ void ProportionsByCategory::DoValidate() {
 
         if (!utilities::To<double>(iter->second[obs_index], value))
           LOG_ERROR_P(PARAM_OBS) << ": obs_ value (" << iter->second[obs_index] << ") at index " << obs_index + 1
-              << " in the definition could not be converted to a numeric double";
+              << " in the definition could not be converted to a double";
 
         double error_value = error_values_by_year[iter->first][obs_index];
         error_values_[iter->first][category_labels_[i]].push_back(error_value);
@@ -246,14 +248,14 @@ void ProportionsByCategory::DoBuild() {
 
 
   if (ageing_error_label_ != "")
-    LOG_CODE_ERROR() << "ageing error has not been implemented for the proportions at age observation";
+    LOG_CODE_ERROR() << "ageing error has not been implemented for proportions at age observations";
 
   age_results_.resize(age_spread_ * category_labels_.size(), 0.0);
 
   for(string label : selectivity_labels_) {
     Selectivity* selectivity = model_->managers().selectivity()->GetSelectivity(label);
     if (!selectivity)
-      LOG_ERROR_P(PARAM_SELECTIVITIES) << ": Selectivity " << label << " does not exist. Have you defined it?";
+      LOG_ERROR_P(PARAM_SELECTIVITIES) << ": Selectivity " << label << " does not exist.";
     selectivities_.push_back(selectivity);
   }
 
@@ -265,7 +267,7 @@ void ProportionsByCategory::DoBuild() {
   for(string label : target_selectivity_labels_) {
     auto selectivity = model_->managers().selectivity()->GetSelectivity(label);
     if (!selectivity) {
-      LOG_ERROR_P(PARAM_TARGET_SELECTIVITIES) << ": " << label << " does not exist. Have you defined it?";
+      LOG_ERROR_P(PARAM_TARGET_SELECTIVITIES) << ": Selectivity " << label << " does not exist.";
     } else
       target_selectivities_.push_back(selectivity);
   }

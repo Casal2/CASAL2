@@ -38,8 +38,8 @@ Observation::Observation(Model* model) : model_(model) {
   parameters_.Bind<string>(PARAM_CATEGORIES, &category_labels_, "Category labels to use", "", true);
   parameters_.Bind<double>(PARAM_DELTA, &delta_, "Robustification value (delta) for the likelihood", "", DELTA)->set_lower_bound(0.0);
   parameters_.Bind<string>(PARAM_SIMULATION_LIKELIHOOD, &simulation_likelihood_label_, "Simulation likelihood to use", "", "");
-  parameters_.Bind<double>(PARAM_LIKELIHOOD_MULTIPLIER, &likelihood_multiplier_, "Likelihood score multiplier", "", double(1.0));
-  parameters_.Bind<double>(PARAM_ERROR_VALUE_MULTIPLIER, &error_value_multiplier_, "Error value multiplier for likelihood", "", double(1.0));
+  parameters_.Bind<double>(PARAM_LIKELIHOOD_MULTIPLIER, &likelihood_multiplier_, "Likelihood score multiplier", "", double(1.0))->set_lower_bound(0.0);
+  parameters_.Bind<double>(PARAM_ERROR_VALUE_MULTIPLIER, &error_value_multiplier_, "Error value multiplier for likelihood", "", double(1.0))->set_lower_bound(0.0);
   mean_proportion_method_ = true;
 }
 
