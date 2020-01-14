@@ -61,7 +61,7 @@ void Cinitial::DoValidate() {
 	max_age_ = model_->max_age();
 
   if (max_age_ < min_age_)
-    LOG_ERROR_P(PARAM_MIN_AGE) << "(" << min_age_ << ") cannot be less than the max age(" << max_age_ << ")";
+    LOG_ERROR_P(PARAM_MIN_AGE) << " The minimum age (" << min_age_ << ") cannot be greater than the maximum age (" << max_age_ << ")";
 
   column_count_ = (max_age_ - min_age_) + 2;
 
@@ -76,7 +76,7 @@ void Cinitial::DoValidate() {
     bool check_combined = model_->categories()->IsCombinedLabels(row_label);
     LOG_FINEST() << "Checking row with label = " << row_label;
     if (find(category_labels_.begin(),category_labels_.end(), row_label )== category_labels_.end())
-      LOG_FATAL_P(PARAM_N) << " Could not find '" << row_label << "' in the categories supplied, please make sure that categories supplied is the same as the row labels.";
+      LOG_FATAL_P(PARAM_N) << " Could not find '" << row_label << "' in the categories supplied. The categories should be the same as the row labels.";
 
     if (check_combined) {
       vector<string> split_category_labels;
@@ -95,15 +95,15 @@ void Cinitial::DoValidate() {
     // convert to lower case
     row_label = utilities::ToLowercase(row_label);
     if (row.size() != column_count_)
-      LOG_ERROR_P(PARAM_N) << "the " << row_number << "the row has " << row.size() << " values but " << column_count_ << " values are expected";
+      LOG_ERROR_P(PARAM_N) << " row " << row_number << " has " << row.size() << " values but " << column_count_ << " column values are expected";
     if (n_.find(row_label) != n_.end())
-      LOG_ERROR_P(PARAM_N) << "the category " << row_label << " is defined more than once. You can only define a category once";
+      LOG_ERROR_P(PARAM_N) << "the category " << row_label << " is defined more than once.";
 
 
     for (unsigned i = 1; i < row.size(); ++i) {
       Double temp = Double();
       if (!utilities::To<Double>(row[i], temp))
-        LOG_ERROR_P(PARAM_N) << "value (" << row[i] << ") in row " << row_number << " is not a valid numeric";
+        LOG_ERROR_P(PARAM_N) << "value (" << row[i] << ") in row " << row_number << " could not be converted to a Double";
       n_[row_label].push_back(temp);
     }
     row_number++;
@@ -127,7 +127,7 @@ void Cinitial::DoBuild() {
     if (derived_quantities != "") {
       derived_ptr_.push_back(model_->managers().derived_quantity()->GetDerivedQuantity(derived_quantities));
       if (!derived_ptr_[i]) {
-        LOG_ERROR() << "Cannot find " << derived_quantities;
+        LOG_ERROR() << "Cannot find derived quantity " << derived_quantities;
       }
     }
     ++i;

@@ -40,7 +40,7 @@ Iterative::Iterative(Model* model)
     cached_partition_(model),
     partition_(model) {
   parameters_.Bind<unsigned>(PARAM_YEARS, &years_, "The number of iterations (years) over which to execute this initialisation phase", "");
-  parameters_.Bind<string>(PARAM_INSERT_PROCESSES, &insert_processes_, " (years) over which to execute this initialisation phase", "", true);
+  parameters_.Bind<string>(PARAM_INSERT_PROCESSES, &insert_processes_, "Processes in the annual cycle to be include in this initialisation phase", "", true);
   parameters_.Bind<string>(PARAM_EXCLUDE_PROCESSES, &exclude_processes_, "Processes in the annual cycle to be excluded from this initialisation phase", "", true);
   parameters_.Bind<unsigned>(PARAM_CONVERGENCE_YEARS, &convergence_years_, "The iteration (year) when the test for converegence (lambda) is evaluated", "", true);
   parameters_.Bind<Double>(PARAM_LAMBDA, &lambda_, "The maximum value of the absolute sum of differences (lambda) between the partition at year-1 and year that indicates successfull convergence", "", Double(0.0));
@@ -102,7 +102,7 @@ void Iterative::DoBuild() {
     }
 
     if (count == 0)
-      LOG_ERROR_P(PARAM_EXCLUDE_PROCESSES) << " process " << exclude << " does not exist in any time steps to be excluded. Please check your spelling";
+      LOG_ERROR_P(PARAM_EXCLUDE_PROCESSES) << " process " << exclude << " does not exist in any time steps to be excluded.";
   }
 
   if (convergence_years_.size() != 0) {
@@ -121,13 +121,13 @@ void Iterative::DoBuild() {
   for (auto time_step : model_->managers().time_step()->ordered_time_steps()) {
     for (auto process : time_step->processes()) {
       if (process->process_type() == ProcessType::kRecruitment && process->type() == PARAM_RECRUITMENT_BEVERTON_HOLT) {
-        LOG_FINEST() << "Found a BH process!!!!";
+        LOG_FINEST() << "Found a BevertonHolt process";
         recruitment_process_.push_back(dynamic_cast<RecruitmentBevertonHolt*>(process));
         if (!recruitment_process_[i])
           LOG_CODE_ERROR() << "BevertonHolt Recruitment exists but dynamic cast pointer cannot be made, if (!recruitment) ";
         i++;
       } else if (process->process_type() == ProcessType::kRecruitment && process->type() == PARAM_RECRUITMENT_BEVERTON_HOLT_WITH_DEVIATIONS) {
-        LOG_FINEST() << "Found a BH process!!!!";
+        LOG_FINEST() << "Found a BevertonHolt process";
         recruitment_process_with_devs_.push_back(dynamic_cast<RecruitmentBevertonHoltWithDeviations*>(process));
         if (!recruitment_process_with_devs_[i])
           LOG_CODE_ERROR() << "BevertonHolt Recruitment with deviations exists but dynamic cast pointer cannot be made, if (!recruitment) ";

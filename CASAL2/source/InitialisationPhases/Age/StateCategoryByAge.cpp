@@ -35,7 +35,7 @@ StateCategoryByAge::StateCategoryByAge(Model* model)
 
   parameters_.Bind<string>(PARAM_CATEGORIES, &category_labels_, "The list of categories for the category state initialisation", "");
   parameters_.Bind<unsigned>(PARAM_MIN_AGE, &min_age_, "The minimum age of values supplied in the definition of the category state", "");
-  parameters_.Bind<unsigned>(PARAM_MAX_AGE, &max_age_, "The minimum age of values supplied in the definition of the category state", "");
+  parameters_.Bind<unsigned>(PARAM_MAX_AGE, &max_age_, "The maximum age of values supplied in the definition of the category state", "");
   parameters_.BindTable(PARAM_N, n_table_, "Table of data from minimum age to maximum age for each category", "", false, false);
 
   RegisterAsAddressable(&n_);
@@ -53,7 +53,7 @@ StateCategoryByAge::~StateCategoryByAge() {
  */
 void StateCategoryByAge::DoValidate() {
   if (max_age_ < min_age_)
-    LOG_ERROR_P(PARAM_MIN_AGE) << "(" << min_age_ << ") cannot be less than the max age(" << max_age_ << ")";
+    LOG_ERROR_P(PARAM_MIN_AGE) << "The minimum age (" << min_age_ << ") cannot be greater than the maximum age (" << max_age_ << ")";
 
   column_count_ = (max_age_ - min_age_) + 2;
 
@@ -72,16 +72,16 @@ void StateCategoryByAge::DoValidate() {
   unsigned row_number = 1;
   for (auto row : data) {
     if (row.size() != column_count_)
-      LOG_ERROR_P(PARAM_N) << "the " << row_number << "the row has " << row.size() << " values but " << column_count_ << " values are expected";
+      LOG_ERROR_P(PARAM_N) << "row " << row_number << " has " << row.size() << " values but " << column_count_ << " column values are expected";
     if (n_.find(row[0]) != n_.end())
-      LOG_ERROR_P(PARAM_N) << "the category " << row[0] << " is defined more than once. You can only define a category once";
+      LOG_ERROR_P(PARAM_N) << "the category " << row[0] << " is defined more than once.";
     if (std::find(category_labels_.begin(), category_labels_.end(), row[0]) == category_labels_.end())
       LOG_ERROR_P(PARAM_N) << "the category " << row[0] << " is not a valid category specified in the model";
 
     for (unsigned i = 1; i < row.size(); ++i) {
       Double temp = Double();
       if (!utilities::To<Double>(row[i], temp))
-        LOG_ERROR_P(PARAM_N) << "value (" << row[i] << ") in row " << row_number << " is not a valid numeric";
+        LOG_ERROR_P(PARAM_N) << "value (" << row[i] << ") in row " << row_number << " could not be converted to a Double";
       n_[row[0]].push_back(temp);
     }
     row_number++;

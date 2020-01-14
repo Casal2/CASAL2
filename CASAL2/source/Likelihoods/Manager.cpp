@@ -44,7 +44,7 @@ Likelihood* Manager::GetOrCreateLikelihood(Model* model, const string& observati
 
   factory = likelihoods::Factory::Create(model, PARAM_LIKELIHOOD, label);
   if (labelled != nullptr && factory != nullptr) {
-    LOG_ERROR() << labelled->location() << " likelihood " << label << " has the label that matches a type of likelihood. This is not allowed";
+    LOG_ERROR() << labelled->location() << " likelihood " << label << " has the label that matches a type of likelihood.";
   }
 
   if (labelled == nullptr && factory == nullptr)

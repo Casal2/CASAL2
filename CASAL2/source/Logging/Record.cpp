@@ -111,8 +111,7 @@ void Record::BuildMessage() {
     o << "\n";
     o << "Message:\n";
     o << stream_.str() << "\n";
-    o << "NOTE: This error is a bug in the software and can be corrected by a developer\n";
-    o << "Please contact the application developers at casal2@niwa.co.nz to have this issue fixed\n\n";
+    o << "NOTE: This error is a bug in the software. Please contact the application developers at casal2@niwa.co.nz\n\n";
 #endif
     break;
   }
