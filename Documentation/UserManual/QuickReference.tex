@@ -1,7 +1,7 @@
 \section{Quick reference\label{sec:quick-reference}}
 \defComLab{additional\_prior}{Define an object of type \emph{additional\_prior}}\par
 \defSub{parameter} {Name of the parameter to generate additional prior on}
-\defSub{label} {Label for teh additional prior}
+\defSub{label} {Label for the additional prior}
 \defSub{type} {Type of additional prior}
 \defComLab{ageing\_error}{Define an object of type \emph{ageing\_error}}\par\par
 \defSub{label} {Label of the ageing error}
@@ -12,13 +12,13 @@
 \defSub{cv} {CV of the misclassification matrix}
 \defSub{k} {k defines the minimum age of individuals which can be misclassified, e.g., individuals of age less than k have no ageing error}
 \par\textbf{\commandlabsubarg{ageing\_\_error}{type}{off\_by\_one}}\par
-\defSub{p1} {proportion misclassified as one year younger, e.g., the proportion of age 3 individuals that were misclassified as age 2}
-\defSub{p2} {proportion misclassified as one year older, e.g., the proportion of age 3 individuals that were misclassified as age 4}
+\defSub{p1} {The proportion misclassified as one year younger, e.g., the proportion of age 3 individuals that were misclassified as age 2}
+\defSub{p2} {The proportion misclassified as one year older, e.g., the proportion of age 3 individuals that were misclassified as age 4}
 \defSub{k} {The minimum age of fish which can be misclassified, i.e., fish of age less than k are assumed to be correctly classified}
 \defComLab{age\_length}{Define an object of type \emph{age\_length}}\par\par
 \defSub{label} {Label of the age length relationship}
-\defSub{type} {Type of age length relationship}
-\defSub{time\_step\_proportions} {the fraction of the year applied in each time step that is added to the age for the purposes of evaluating the length, i.e., a value of 0.5 for a time step will evaluate the length of individuals at age+0.5 in that time step}
+\defSub{type} {The type of age length relationship}
+\defSub{time\_step\_proportions} {The fraction of the year applied in each time step that is added to the age for the purposes of evaluating the length, i.e., a value of 0.5 for a time step will evaluate the length of individuals at age+0.5 in that time step}
 \defSub{distribution} {The assumed distribution for the growth curve}
 \defSub{cv\_first} {CV for the first age class}
 \defSub{cv\_last} {CV for last age class}
@@ -28,16 +28,16 @@
 \defSub{external\_gaps} {}
 \defSub{internal\_gaps} {}
 \defSub{length\_weight} {The label from an associated length-weight block}
-\defSub{time\_step\_measurements\_were\_made} {Time step label for which size-at-age data are provided}
+\defSub{time\_step\_measurements\_were\_made} {The time step label for which size-at-age data are provided}
 \par\textbf{\commandlabsubarg{age\_\_length}{type}{none}}\par
 \par\textbf{\commandlabsubarg{age\_\_length}{type}{schnute}}\par
-\defSub{y1} {Define the y1 parameter of the Schnute relationship}
-\defSub{y2} {Define the y2 parameter of the Schnute relationship}
-\defSub{tau1} {Define the $\tau_1$ parameter of the Schnute relationship}
-\defSub{tau2} {Define the $\tau_2$ parameter of the Schnute relationship}
-\defSub{a} {Define the $a$ parameter of the Schnute relationship}
-\defSub{b} {Define the $b$ parameter of the Schnute relationship}
-\defSub{length\_weight} {Define the label of the associated length-weight relationship}
+\defSub{y1} {The y1 parameter of the Schnute relationship}
+\defSub{y2} {The y2 parameter of the Schnute relationship}
+\defSub{tau1} {The $\tau_1$ parameter of the Schnute relationship}
+\defSub{tau2} {The $\tau_2$ parameter of the Schnute relationship}
+\defSub{a} {The $a$ parameter of the Schnute relationship}
+\defSub{b} {The $b$ parameter of the Schnute relationship}
+\defSub{length\_weight} {The label of the associated length-weight relationship}
 \par\textbf{\commandlabsubarg{age\_\_length}{type}{von\_bertalanffy}}\par
 \defSub{linf} {Define the $L_{infinity}$ parameter of the von Bertalanffy relationship}
 \defSub{k} {Define the $k$ parameter of the von Bertalanffy relationship}
@@ -45,9 +45,9 @@
 \defSub{length\_weight} {Define the label of the associated length-weight relationship}
 \defComLab{catchability}{Define an object of type \emph{catchability}}\par\par
 \defSub{label} {Label of the catchability}
-\defSub{type} {Type of catchability}
+\defSub{type} {The type of catchability}
 \defComLab{categories}{Define an object of type \emph{categories}}\par\par
-\defSub{format} {The format that the category names adhere too}
+\defSub{format} {The format that the category names use}
 \defSub{names} {The names of the categories to be used in the model}
 \defSub{years} {The years that individual categories will be active for. This overrides the model values}
 \defSub{age\_lengths} {R,The labels of age\_length objects that are assigned to categories,}
@@ -78,27 +78,27 @@
 \defSub{prior\_applies\_to\_transform} {Does the prior apply to the transformed parameter? a legacy switch, see Manual for more information}
 \defComLab{estimate\_transformation}{Define an object of type \emph{estimate\_transformation}}\par\par
 \defSub{label} {Label for the transformation block}
-\defSub{type} {Type of transformation}
-\defSub{transform\_with\_jacobian} {Apply jacobian during transformation}
+\defSub{type} {The type of transformation}
+\defSub{transform\_with\_jacobian} {Apply Jacobian during transformation}
 \defComLab{initialisation\_phase}{Define an object of type \emph{initialisation\_phase}}\par\par
 \defSub{label} {The label of the initialisation phase}
 \defSub{type} {The type of initialisation}
 \par\textbf{\commandlabsubarg{initialisation\_\_phase}{type}{cinitial}}\par
 \defSub{categories} {The list of categories for the Cinitial initialisation}
 \par\textbf{\commandlabsubarg{initialisation\_\_phase}{type}{derived}}\par
-\defSub{insert\_processes} {Additional processes not defined in the annual cycle, that are to beinserted into this initialisation phase}
+\defSub{insert\_processes} {Additional processes not defined in the annual cycle that are to be inserted into this initialisation phase}
 \defSub{exclude\_processes} {Processes in the annual cycle to be excluded from this initialisation phase}
-\defSub{casal\_initialisation\_switch} {Run an extra annual cycle to evalaute equilibrium SSB's. Warning - if true, this may not correctly evaluate the equilibrium state. Use true if attempting to replicate a legacy CASAL model}
+\defSub{casal\_initialisation\_switch} {Run an extra annual cycle to evalaute equilibrium SSBs. Warning - if true, this may not correctly evaluate the equilibrium state. Set to true if replicating a CASAL model}
 \par\textbf{\commandlabsubarg{initialisation\_\_phase}{type}{iterative}}\par
 \defSub{years} {The number of iterations ,years, over which to execute this initialisation phase}
-\defSub{insert\_processes} {,years, over which to execute this initialisation phase}
+\defSub{insert\_processes} {Processes in the annual cycle to be included in this initialisation phase}
 \defSub{exclude\_processes} {Processes in the annual cycle to be excluded from this initialisation phase}
 \defSub{convergence\_years} {The iteration ,year, when the test for converegence ,lambda, is evaluated}
 \defSub{lambda} {The maximum value of the absolute sum of differences ,lambda, between the partition at year-1 and year that indicates successfull convergence}
 \par\textbf{\commandlabsubarg{initialisation\_\_phase}{type}{state\_category\_by\_age}}\par
 \defSub{categories} {The list of categories for the category state initialisation}
 \defSub{min\_age} {The minimum age of values supplied in the definition of the category state}
-\defSub{max\_age} {The minimum age of values supplied in the definition of the category state}
+\defSub{max\_age} {The maximum age of values supplied in the definition of the category state}
 \defComLab{length\_weight}{Define an object of type \emph{length\_weight}}\par\par
 \defSub{label} {The label of the length-weight relationship}
 \defSub{type} {The type of the length-weight relationship}
@@ -116,18 +116,18 @@
 \defSub{active} {Indicates if this minimiser is active}
 \defSub{covariance} {Indicates if a covariance matrix should be generated}
 \defComLab{model}{Define an object of type \emph{model}}\par\par
-\defSub{start\_year} {Define the first year of the model, immediately following initialisation}
-\defSub{final\_year} {Define the final year of the model, excluding years in the projection period}
-\defSub{min\_age} {Minimum age of individuals in the population}
-\defSub{max\_age} {Maximum age of individuals in the population}
-\defSub{age\_plus} {Define the oldest age or extra length midpoint ,plus group size, as a plus group}
-\defSub{initialisation\_phases} {Define the labels of the phases of the initialisation}
-\defSub{time\_steps} {Define the labels of the time steps, in the order that they are applied, to form the annual cycle}
-\defSub{projection\_final\_year} {Define the final year of the model in projection mode}
+\defSub{start\_year} {The first year of the model, immediately following initialisation}
+\defSub{final\_year} {The final year of the model, excluding years in the projection period}
+\defSub{min\_age} {The minimum age of individuals in the population}
+\defSub{max\_age} {The maximum age of individuals in the population}
+\defSub{age\_plus} {The oldest age or extra length midpoint ,plus group size, as a plus group}
+\defSub{initialisation\_phases} {The labels of the phases of the initialisation}
+\defSub{time\_steps} {The labels of the time steps, in the order that they are applied, to form the annual cycle}
+\defSub{projection\_final\_year} {The final year of the model in projection mode}
 \defSub{length\_bins} {The minimum length in each length bin}
 \defSub{length\_plus} {Specify whether there is a length plus group or not}
 \defSub{length\_plus\_group} {Mean length of length plus group}
-\defSub{base\_weight\_units} {Define the units for the base weight. This will be the default unit of any weight input parameters}
+\defSub{base\_weight\_units} {The units for the base weight. This will be the default unit of any weight input parameters}
 \defComLab{observation}{Define an object of type \emph{observation}}\par\par
 \defSub{label} {Label}
 \defSub{type} {Type of observation}
@@ -214,7 +214,7 @@
 \defSub{max\_age} {Maximum age}
 \defSub{plus\_group} {Use age plus group}
 \defSub{time\_step} {The label of time-step that the observation occurs in}
-\defSub{tolerance} {Tolerance on the constraint, that for each year the sum of proportions in each age must equal one e.g. tolerance = 0.1 then 1 - Sum,Proportions, can be as great as 0.1}
+\defSub{tolerance} {Tolerance on the constraint that for each year the sum of proportions in each age must equal 1, e.g., if tolerance = 0.1 then 1 - Sum,Proportions, can be as great as 0.1}
 \defSub{years} {The years of the observed values}
 \defSub{selectivities} {Labels of the selectivities}
 \defSub{process\_errors} {Process error}
@@ -288,7 +288,7 @@
 \defSub{sigma\_min} {Lower bound on sigma for the growth model}
 \par\textbf{\commandlabsubarg{process}{type}{maturation}}\par
 \defSub{from} {List of categories to mature from}
-\defSub{to} {List of categories to mature too}
+\defSub{to} {List of categories to mature to}
 \defSub{selectivities} {List of selectivities to use for maturation}
 \defSub{years} {The years to be associated with rates}
 \defSub{rates} {The rates to mature for each year}
@@ -316,7 +316,7 @@
 \defSub{is\_abundance} {Is vulnerable amount of prey and predator an abundance [true] or biomass [false]}
 \defSub{a} {parameter a}
 \defSub{b} {parameter b}
-\defSub{x} {This parameter controls the type of functional form, Holling function type 2 ,x=2, or 3 ,x=3, or generalised ,Michaelis Menten, x,=1,}
+\defSub{x} {This parameter controls the functional form, Holling function type 2 ,x=2, or 3 ,x=3, or generalised ,Michaelis Menten, x,=1,}
 \defSub{u\_max} {Maximum exploitation rate ,$Umax$,}
 \defSub{prey\_selectivities} {Selectivities for prey categories}
 \defSub{predator\_selectivities} {Selectivities for predator categories}
@@ -331,7 +331,7 @@
 \par\textbf{\commandlabsubarg{process}{type}{mortality\_initialisation\_event\_biomass}}\par
 \defSub{categories} {Categories}
 \defSub{catch} {The number of removals ,catches, to apply for each year}
-\defSub{u\_max} {Maximum exploitation rate ,$Umax$,}
+\defSub{u\_max} {The maximum exploitation rate ,$Umax$,}
 \defSub{selectivities} {List of selectivities}
 \defSub{penalty} {The label of the penalty to apply if the total number of removals cannot be taken}
 \par\textbf{\commandlabsubarg{process}{type}{mortality\_instantaneous}}\par
@@ -362,8 +362,8 @@
 \defSub{age} {Age to recruit at}
 \defSub{ssb\_offset} {Spawning biomass year offset}
 \defSub{steepness} {Steepness}
-\defSub{ssb} {SSB Label ,derived quantity,}
-\defSub{b0\_initialisation\_phase} {Initialisation phase Label that b0 is from}
+\defSub{ssb} {SSB label ,derived quantity,}
+\defSub{b0\_initialisation\_phase} {Initialisation phase label that b0 is from}
 \defSub{ycs\_values} {YCS Values}
 \defSub{ycs\_years} {Recruitment years. A vector of years that relates to the year of the spawning event that created this cohort}
 \defSub{standardise\_ycs\_years} {Years that are included for year class standardisation}
@@ -376,13 +376,13 @@
 \defSub{ssb\_offset} {Spawning biomass year offset}
 \defSub{steepness} {Steepness}
 \defSub{ssb} {SSB Label ,derived quantity,}
-\defSub{sigma\_r} {Sigma r}
-\defSub{b\_max} {Max bias adjustment}
+\defSub{sigma\_r} {Sigma R}
+\defSub{b\_max} {Maximum bias adjustment}
 \defSub{last\_year\_with\_no\_bias} {Last year with no bias adjustment}
 \defSub{first\_year\_with\_bias} {First year with full bias adjustment}
 \defSub{last\_year\_with\_bias} {Last year with full bias adjustment}
 \defSub{first\_recent\_year\_with\_no\_bias} {First recent year with no bias adjustment}
-\defSub{b0\_initialisation\_phase} {Initialisation phase Label that b0 is from}
+\defSub{b0\_initialisation\_phase} {Initialisation phase label that b0 is from}
 \defSub{deviation\_values} {Recruitment deviation values}
 \defSub{deviation\_years} {Recruitment years. A vector of years that relates to the year of the spawning event that created this cohort}
 \par\textbf{\commandlabsubarg{process}{type}{recruitment\_constant}}\par
@@ -414,7 +414,6 @@
 \defSub{to} {ategories to transition to}
 \defSub{penalty} {Penalty label}
 \defSub{u\_max} {U Max}
-\defSub{years} {Years to execute the transition in}
 \defSub{initial\_mortality} {}
 \defSub{initial\_mortality\_selectivity} {}
 \defSub{selectivities} {}
