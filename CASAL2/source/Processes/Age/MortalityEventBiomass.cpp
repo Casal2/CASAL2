@@ -35,7 +35,7 @@ MortalityEventBiomass::MortalityEventBiomass(Model* model)
   parameters_.Bind<string>(PARAM_SELECTIVITIES, &selectivity_labels_, "The labels of the selectivities for each of the categories", "");
   parameters_.Bind<unsigned>(PARAM_YEARS, &years_, "Years in which to apply the mortality process", "");
   parameters_.Bind<Double>(PARAM_CATCHES, &catches_, "The biomass of removals (catches) to apply for each year", "");
-  parameters_.Bind<Double>(PARAM_U_MAX, &u_max_, "Maximum exploitation rate ($Umax$)", "", 0.99);
+  parameters_.Bind<Double>(PARAM_U_MAX, &u_max_, "Maximum exploitation rate ($Umax$)", "", 0.99)->set_range(0.0, 1.0, false, false);
   parameters_.Bind<string>(PARAM_PENALTY, &penalty_label_, "The label of the penalty to apply if the total biomass of removals cannot be taken", "", "");
 
 
@@ -54,17 +54,17 @@ void MortalityEventBiomass::DoValidate() {
     LOG_ERROR_P(PARAM_U_MAX) << " (" << u_max_ << ") must be between 0.0 and 1.0 exclusive";
 
   if (category_labels_.size() != selectivity_labels_.size())
-    LOG_ERROR_P(PARAM_SELECTIVITIES) << " number provided (" << selectivity_labels_.size() << ") must match the number of "
+    LOG_ERROR_P(PARAM_SELECTIVITIES) << " The number of selectivities provided (" << selectivity_labels_.size() << ") must match the number of "
         "categories provided (" << category_labels_.size() << ")";
   if (years_.size() != catches_.size())
-    LOG_ERROR_P(PARAM_CATCHES) << " number provided (" << catches_.size() << ") must match the number of "
+    LOG_ERROR_P(PARAM_CATCHES) << " The number of catches provided (" << catches_.size() << ") must match the number of "
         "years provided (" << years_.size() << ")";
 
 
   // Validate: catches_ and years_
   for(unsigned i = 0; i < years_.size(); ++i) {
     if (catch_years_.find(years_[i]) != catch_years_.end()) {
-      LOG_ERROR_P(PARAM_YEARS) << " year " << years_[i] << " has already been specified, please remove the duplicate";
+      LOG_ERROR_P(PARAM_YEARS) << " year '" << years_[i] << "' has already been specified.";
     }
     catch_years_[years_[i]] = catches_[i];
   }
@@ -86,7 +86,7 @@ void MortalityEventBiomass::DoBuild() {
   for (string label : selectivity_labels_) {
     Selectivity* selectivity = model_->managers().selectivity()->GetSelectivity(label);
     if (!selectivity)
-      LOG_ERROR_P(PARAM_SELECTIVITIES) << ": selectivity " << label << " does not exist. Have you defined it?";
+      LOG_ERROR_P(PARAM_SELECTIVITIES) << ": Selectivity " << label << " does not exist.";
 
     selectivities_.push_back(selectivity);
   }
@@ -94,7 +94,7 @@ void MortalityEventBiomass::DoBuild() {
   if (penalty_label_ != "") {
     penalty_ = model_->managers().penalty()->GetProcessPenalty(penalty_label_);
     if (!penalty_) {
-      LOG_ERROR_P(PARAM_PENALTY) << ": penalty " << penalty_label_ << " does not exist. Have you defined it?";
+      LOG_ERROR_P(PARAM_PENALTY) << ": Penalty " << penalty_label_ << " does not exist.";
     }
   }
   exploitation_by_year_.reserve(years_.size());
@@ -218,8 +218,6 @@ void MortalityEventBiomass::FillTabularReportCache(ostringstream& cache, bool fi
   cache << "\n";
 
 }
-
-
 
 } /* namespace age */
 } /* namespace processes */

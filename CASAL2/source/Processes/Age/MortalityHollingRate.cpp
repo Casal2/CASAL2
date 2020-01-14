@@ -51,17 +51,17 @@ MortalityHollingRate::MortalityHollingRate(Model* model)
   partition_structure_ = PartitionType::kAge;
 
 
-  predator_selectivitie_table_ = new parameters::Table(PARAM_PREDATOR_SELECTIVITIES);
-  prey_selectivitie_table_ = new parameters::Table(PARAM_PREY_SELECTIVITIES);
+  predator_selectivities_table_ = new parameters::Table(PARAM_PREDATOR_SELECTIVITIES);
+  prey_selectivities_table_ = new parameters::Table(PARAM_PREY_SELECTIVITIES);
 
-  parameters_.BindTable(PARAM_PREDATOR_SELECTIVITIES_BY_YEAR, predator_selectivitie_table_, "Table of predator selectivities by year and age", "", true, true);
-  parameters_.BindTable(PARAM_PREY_SELECTIVITIES_BY_YEAR, prey_selectivitie_table_, "Table of prey selectivities by year and age", "", true, true);
+  parameters_.BindTable(PARAM_PREDATOR_SELECTIVITIES_BY_YEAR, predator_selectivities_table_, "Table of predator selectivities by year and age", "", true, true);
+  parameters_.BindTable(PARAM_PREY_SELECTIVITIES_BY_YEAR, prey_selectivities_table_, "Table of prey selectivities by year and age", "", true, true);
   parameters_.Bind<string>(PARAM_PREY_CATEGORIES, &prey_category_labels_, "Prey Categories labels", "");
   parameters_.Bind<string>(PARAM_PREDATOR_CATEGORIES, &predator_category_labels_, "Predator Categories labels", "");
   parameters_.Bind<bool>(PARAM_IS_ABUNDANCE, &is_abundance_, "Is vulnerable amount of prey and predator an abundance [true] or biomass [false]", "", true);
   parameters_.Bind<Double>(PARAM_A, &a_, "parameter a", "")->set_lower_bound(0.0);
   parameters_.Bind<Double>(PARAM_B, &b_, "parameter b", "")->set_lower_bound(0.0);
-  parameters_.Bind<Double>(PARAM_X, &x_, "This parameter controls the type of functional form, Holling function type 2 (x=2) or 3 (x=3), or generalised (Michaelis Menten, x>=1)", "")->set_lower_bound(1.0);
+  parameters_.Bind<Double>(PARAM_X, &x_, "This parameter controls the functional form, Holling function type 2 (x=2) or 3 (x=3), or generalised (Michaelis Menten, x>=1)", "")->set_lower_bound(1.0);
   parameters_.Bind<Double>(PARAM_U_MAX, &u_max_, "Maximum exploitation rate ($Umax$)", "")->set_range(0.0, 1.0);
   parameters_.Bind<string>(PARAM_PREY_SELECTIVITIES, &prey_selectivity_labels_, "Selectivities for prey categories", "", true);
   parameters_.Bind<string>(PARAM_PREDATOR_SELECTIVITIES, &predator_selectivity_labels_, "Selectivities for predator categories", "", true);
@@ -88,12 +88,12 @@ void MortalityHollingRate::DoValidate() {
    */
   for (const string& label : prey_category_labels_) {
     if (!model_->categories()->IsValid(label))
-      LOG_ERROR_P(PARAM_CATEGORIES) << ": category " << label << " does not exist. Have you defined it?";
+      LOG_ERROR_P(PARAM_CATEGORIES) << ": Prey category " << label << " does not exist.";
   }
 
   for (const string& label : predator_category_labels_) {
     if (!model_->categories()->IsValid(label))
-      LOG_ERROR_P(PARAM_CATEGORIES) << ": category " << label << " does not exist. Have you defined it?";
+      LOG_ERROR_P(PARAM_CATEGORIES) << ": Predator category " << label << " does not exist.";
   }
   LOG_TRACE();
   LOG_FINEST() << "prey = " << parameters_.Get(PARAM_PREY_SELECTIVITIES)->has_been_defined();
@@ -101,72 +101,74 @@ void MortalityHollingRate::DoValidate() {
   LOG_TRACE();
   // Check how the user has selected selectivities, this is an unusal process where we allow an alternative way to parameterise the selectivity
   if (!parameters_.Get(PARAM_PREY_SELECTIVITIES)->has_been_defined() && !parameters_.GetTable(PARAM_PREY_SELECTIVITIES_BY_YEAR)->HasBeenDefined()) {
-    LOG_FATAL_P(PARAM_LABEL) << "you need to supply either '" << PARAM_PREY_SELECTIVITIES << "' or '" << PARAM_PREY_SELECTIVITIES_BY_YEAR << "', for this process to work";
+    LOG_FATAL_P(PARAM_LABEL) << "Supply either '" << PARAM_PREY_SELECTIVITIES << "' or '" << PARAM_PREY_SELECTIVITIES_BY_YEAR << "' for this process";
     LOG_TRACE();
   }
   if (parameters_.Get(PARAM_PREY_SELECTIVITIES)->has_been_defined() & parameters_.GetTable(PARAM_PREY_SELECTIVITIES_BY_YEAR)->HasBeenDefined())
-    LOG_FATAL_P(PARAM_LABEL) << "you cannot supply both '" << PARAM_PREY_SELECTIVITIES << "' or '" << PARAM_PREY_SELECTIVITIES_BY_YEAR << "', for this process to work. Please choose one selectivity method";
+    LOG_FATAL_P(PARAM_LABEL) << "Supply either '" << PARAM_PREY_SELECTIVITIES << "' or '" << PARAM_PREY_SELECTIVITIES_BY_YEAR << "' for this process.";
   LOG_TRACE();
   if (!parameters_.Get(PARAM_PREDATOR_SELECTIVITIES)->has_been_defined() & !parameters_.GetTable(PARAM_PREDATOR_SELECTIVITIES_BY_YEAR)->HasBeenDefined())
-    LOG_FATAL_P(PARAM_LABEL) << "you need to supply either '" << PARAM_PREDATOR_SELECTIVITIES << "' or '" << PARAM_PREDATOR_SELECTIVITIES_BY_YEAR << "', for this process to work";
+    LOG_FATAL_P(PARAM_LABEL) << "Supply either '" << PARAM_PREDATOR_SELECTIVITIES << "' or '" << PARAM_PREDATOR_SELECTIVITIES_BY_YEAR << "' for this process";
   LOG_TRACE();
   if (parameters_.Get(PARAM_PREDATOR_SELECTIVITIES)->has_been_defined() & parameters_.GetTable(PARAM_PREDATOR_SELECTIVITIES_BY_YEAR)->HasBeenDefined())
-    LOG_FATAL_P(PARAM_LABEL) << "you cannot supply both '" << PARAM_PREDATOR_SELECTIVITIES << "' or '" << PARAM_PREDATOR_SELECTIVITIES_BY_YEAR << "', for this process to work. Please choose one selectivity method";
+    LOG_FATAL_P(PARAM_LABEL) << "Supply either '" << PARAM_PREDATOR_SELECTIVITIES << "' or '" << PARAM_PREDATOR_SELECTIVITIES_BY_YEAR << "' for this process.";
 
   LOG_TRACE();
   if (parameters_.Get(PARAM_PREY_SELECTIVITIES)->has_been_defined()) {
     if (prey_category_labels_.size() != prey_selectivity_labels_.size())
-      LOG_ERROR_P(PARAM_PREY_CATEGORIES) << ": You provided (" << prey_selectivity_labels_.size() << ") prey selectivities but we have "
-          << prey_category_labels_.size() << " prey catregories";
+      LOG_ERROR_P(PARAM_PREY_CATEGORIES) << ": There are " << prey_selectivity_labels_.size() << " prey selectivities but there are "
+          << prey_category_labels_.size() << " prey categories";
   }
   LOG_TRACE();
   if (parameters_.Get(PARAM_PREDATOR_SELECTIVITIES)->has_been_defined()) {
     if (predator_category_labels_.size() != predator_selectivity_labels_.size())
-      LOG_ERROR_P(PARAM_PREDATOR_CATEGORIES) << ": You provided (" << predator_selectivity_labels_.size() << ") prey selectivities but we have "
-          << predator_category_labels_.size() << " prey catregories";
+      LOG_ERROR_P(PARAM_PREDATOR_CATEGORIES) << ": There are " << predator_selectivity_labels_.size() << " predator selectivities but there are "
+          << predator_category_labels_.size() << " predator categories";
   }
   LOG_TRACE();
   // Populate maps from tables if user has defined them
   if (parameters_.GetTable(PARAM_PREY_SELECTIVITIES_BY_YEAR)->HasBeenDefined()) {
     prey_selectivity_by_year_supplied_ = true;
-    auto columns = prey_selectivitie_table_->columns();
+    auto columns = prey_selectivities_table_->columns();
     if (columns.size() != (model_->age_spread() + 1) )
-      LOG_FATAL_P(PARAM_PREY_SELECTIVITIES_BY_YEAR) << "you need to specify a column for each model age plus a year column, which should = " << (model_->age_spread() + 1) << " you supplied " << columns.size() << " please address this";
+      LOG_FATAL_P(PARAM_PREY_SELECTIVITIES_BY_YEAR) << "Specify a column for each model age plus a year column, which should = "
+        << (model_->age_spread() + 1) << " but the number of columns = " << columns.size() << "";
     if (std::find(columns.begin(), columns.end(), PARAM_YEAR) == columns.end())
-      LOG_ERROR_P(PARAM_PREY_SELECTIVITIES_BY_YEAR) << "Cannot find the column " << PARAM_YEAR << ", this column is needed, for casal2 to run this process. Please add it =)";
+      LOG_ERROR_P(PARAM_PREY_SELECTIVITIES_BY_YEAR) << "The required column '" << PARAM_YEAR << "'' was not found.";
 
     unsigned year_index = std::find(columns.begin(), columns.end(), PARAM_YEAR) - columns.begin();
     LOG_FINEST() << "year column index for prey selectivity table is: " << year_index;
 
     if (year_index != 0) {
-      LOG_FATAL_P(PARAM_PREY_SELECTIVITIES_BY_YEAR) << "expected the 'year' column to be the first column, please make sure the first column are years";
+      LOG_FATAL_P(PARAM_PREY_SELECTIVITIES_BY_YEAR) << "The 'year' column should be the first column.";
     }
     vector<unsigned> ages;
     for (unsigned age = 1; age < columns.size(); ++age) {
       unsigned temp_age;
       if(!utilities::To<string, unsigned>(columns[age], temp_age))
-        LOG_FATAL_P(PARAM_PREY_SELECTIVITIES_BY_YEAR) << "age " << columns[age] << " could not be converted to an unsigned, please check this value";
+        LOG_FATAL_P(PARAM_PREY_SELECTIVITIES_BY_YEAR) << "age " << columns[age] << " could not be converted to an unsigned integer";
       ages.push_back(temp_age);
     }
     // Check the ages are ascending order
     for (unsigned age = 0; age < (ages.size() - 1); ++age) {
       if (ages[age] + 1 != ages[age + 1])
-        LOG_FATAL_P(PARAM_PREY_SELECTIVITIES_BY_YEAR) << "expected consecutive ascending ages in the columns. The following consecutive numbers are not incremental increase which is what we expect '" << ages[age] << "', " << ages[age + 1];
+        LOG_FATAL_P(PARAM_PREY_SELECTIVITIES_BY_YEAR) << "The ages in the columns should be strictly increasing: "
+          << ages[age] << " + 1 != " << ages[age + 1];
     }
 
 
     auto model_years = model_->years();
-    auto rows = prey_selectivitie_table_->data();
+    auto rows = prey_selectivities_table_->data();
     for (auto row : rows) {
       unsigned year = 0;
       if (!utilities::To<string, unsigned>(row[year_index], year))
-        LOG_ERROR_P(PARAM_PREY_SELECTIVITIES_BY_YEAR) << "year value " << row[year_index] << " is not numeric.";
+        LOG_ERROR_P(PARAM_PREY_SELECTIVITIES_BY_YEAR) << "year value " << row[year_index] << " could not be converted to an unsigned integer.";
       if (std::find(model_years.begin(), model_years.end(), year) == model_years.end())
         LOG_ERROR_P(PARAM_PREY_SELECTIVITIES_BY_YEAR) << "year " << year << " is not a valid year in this model";
       for (unsigned i = 1; i < row.size(); ++i) {
         Double value = 0.0;
         if (!utilities::To<string, Double>(row[i], value))
-          LOG_ERROR_P(PARAM_PREY_SELECTIVITIES_BY_YEAR) << "value " << row[i] << " for age " << ages[i + 1] << " is not numeric";
+          LOG_ERROR_P(PARAM_PREY_SELECTIVITIES_BY_YEAR) << "value " << row[i] << " for age " << ages[i + 1] << " could not be converted to a Double";
         prey_selectivity_by_year_[year].push_back(value);
       }
     }
@@ -175,44 +177,46 @@ void MortalityHollingRate::DoValidate() {
   // Predator table
   if (parameters_.GetTable(PARAM_PREDATOR_SELECTIVITIES_BY_YEAR)->HasBeenDefined()) {
     predator_selectivity_by_year_supplied_ = true;
-    auto columns = predator_selectivitie_table_->columns();
+    auto columns = predator_selectivities_table_->columns();
     if (columns.size() != (model_->age_spread() + 1) )
-      LOG_FATAL_P(PARAM_PREDATOR_SELECTIVITIES_BY_YEAR) << "you need to specify a column for each model age plus a year column, which should = " << (model_->age_spread() + 1) << " you supplied " << columns.size() << " please address this";
+      LOG_FATAL_P(PARAM_PREDATOR_SELECTIVITIES_BY_YEAR) << "Specify a column for each model age plus a year column, which should = "
+        << (model_->age_spread() + 1) << ", the number of columns = " << columns.size() << "";
     if (std::find(columns.begin(), columns.end(), PARAM_YEAR) == columns.end())
-      LOG_ERROR_P(PARAM_PREDATOR_SELECTIVITIES_BY_YEAR) << "Cannot find the column " << PARAM_YEAR << ", this column is needed, for casal2 to run this process. Please add it =)";
+      LOG_ERROR_P(PARAM_PREDATOR_SELECTIVITIES_BY_YEAR) << "The required column " << PARAM_YEAR << " was not found.";
 
     unsigned year_index = std::find(columns.begin(), columns.end(), PARAM_YEAR) - columns.begin();
     LOG_FINEST() << "year column index for predator selectivity table is: " << year_index;
 
     if (year_index != 0) {
-      LOG_FATAL_P(PARAM_PREDATOR_SELECTIVITIES_BY_YEAR) << "expected the 'year' column to be the first column, please make sure the first column are years";
+      LOG_FATAL_P(PARAM_PREDATOR_SELECTIVITIES_BY_YEAR) << "The 'year' column should be the first column.";
     }
     vector<unsigned> ages;
     for (unsigned age = 1; age < columns.size(); ++age) {
       unsigned temp_age;
       if(!utilities::To<string, unsigned>(columns[age], temp_age))
-        LOG_FATAL_P(PARAM_PREDATOR_SELECTIVITIES_BY_YEAR) << "age " << columns[age] << " could not be converted to an unsigned, please check this value";
+        LOG_FATAL_P(PARAM_PREDATOR_SELECTIVITIES_BY_YEAR) << "age " << columns[age] << " could not be converted to an unsigned integer.";
       ages.push_back(temp_age);
     }
     // Check the ages are ascending order
     for (unsigned age = 0; age < (ages.size() - 1); ++age) {
       if (ages[age] + 1 != ages[age + 1])
-        LOG_FATAL_P(PARAM_PREDATOR_SELECTIVITIES_BY_YEAR) << "expected consecutive ascending ages in the columns. The following consecutive numbers are not incremental increase which is what we expect '" << ages[age] << "', " << ages[age + 1];
+        LOG_FATAL_P(PARAM_PREDATOR_SELECTIVITIES_BY_YEAR) << "The ages in the columns should be strictly increasing: "
+          << ages[age] << " + 1 != " << ages[age + 1];
     }
 
 
     auto model_years = model_->years();
-    auto rows = predator_selectivitie_table_->data();
+    auto rows = predator_selectivities_table_->data();
     for (auto row : rows) {
       unsigned year = 0;
       if (!utilities::To<string, unsigned>(row[year_index], year))
-        LOG_ERROR_P(PARAM_PREDATOR_SELECTIVITIES_BY_YEAR) << "year value " << row[year_index] << " is not numeric.";
+        LOG_ERROR_P(PARAM_PREDATOR_SELECTIVITIES_BY_YEAR) << "year value " << row[year_index] << " could not be converted to an unsigned integer.";
       if (std::find(model_years.begin(), model_years.end(), year) == model_years.end())
         LOG_ERROR_P(PARAM_PREDATOR_SELECTIVITIES_BY_YEAR) << "year " << year << " is not a valid year in this model";
       for (unsigned i = 1; i < row.size(); ++i) {
         Double value = 0.0;
         if (!utilities::To<string, Double>(row[i], value))
-          LOG_ERROR_P(PARAM_PREDATOR_SELECTIVITIES_BY_YEAR) << "value " << row[i] << " for age " << ages[i + 1] << " is not numeric";
+          LOG_ERROR_P(PARAM_PREDATOR_SELECTIVITIES_BY_YEAR) << "value " << row[i] << " for age " << ages[i + 1] << " could not be converted to a Double.";
         predator_selectivity_by_year_[year].push_back(value);
       }
     }
@@ -239,7 +243,7 @@ void MortalityHollingRate::DoBuild() {
     for (string selectivity : prey_selectivity_labels_) {
       prey_selectivities_.push_back(model_->managers().selectivity()->GetSelectivity(selectivity));
       if (!prey_selectivities_[category_offset])
-        LOG_ERROR_P(PARAM_PREY_SELECTIVITIES) << "selectivity " << selectivity << " does not exist. Have you defined it?";
+        LOG_ERROR_P(PARAM_PREY_SELECTIVITIES) << "Prey selectivity " << selectivity << " does not exist.";
       ++category_offset;
     }
   }
@@ -249,7 +253,7 @@ void MortalityHollingRate::DoBuild() {
     for (string selectivity : predator_selectivity_labels_) {
       predator_selectivities_.push_back(model_->managers().selectivity()->GetSelectivity(selectivity));
       if (!predator_selectivities_[category_offset])
-        LOG_ERROR_P(PARAM_PREDATOR_SELECTIVITIES) << "selectivity " << selectivity << " does not exist. Have you defined it?";
+        LOG_ERROR_P(PARAM_PREDATOR_SELECTIVITIES) << "Predator selectivity " << selectivity << " does not exist.";
       ++category_offset;
     }
   }
@@ -257,7 +261,7 @@ void MortalityHollingRate::DoBuild() {
   if (penalty_label_ != "none") {
     penalty_ = model_->managers().penalty()->GetProcessPenalty(penalty_label_);
     if (!penalty_)
-      LOG_ERROR_P(PARAM_PENALTY) << ": penalty " << penalty_label_ << " does not exist. Have you defined it?";
+      LOG_ERROR_P(PARAM_PENALTY) << ": Penalty " << penalty_label_ << " does not exist.";
   }
   // Pre allocate memory
   prey_vulnerability_by_year_.reserve(years_.size());
@@ -340,7 +344,7 @@ void MortalityHollingRate::DoExecute() {
     Double Exploitation = Mortality / dc::ZeroFun(Vulnerable, ZERO);
 
     if (Exploitation > u_max_) {
-      LOG_FINE() << "Exloitation rate larger than u_max = " << Exploitation << " this is rescaled to u_max = " << u_max_;
+      LOG_FINE() << "Exloitation rate larger than u_max = " << Exploitation << ", rescaled to u_max = " << u_max_;
       Exploitation = u_max_;
 
       if (penalty_) // Throw Penalty

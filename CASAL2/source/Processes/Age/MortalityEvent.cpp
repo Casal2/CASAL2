@@ -32,7 +32,7 @@ MortalityEvent::MortalityEvent(Model* model)
   parameters_.Bind<string>(PARAM_CATEGORIES, &category_labels_, "Categories", "");
   parameters_.Bind<unsigned>(PARAM_YEARS, &years_, "Years in which to apply the mortality process", "");
   parameters_.Bind<Double>(PARAM_CATCHES, &catches_, "The number of removals (catches) to apply for each year", "");
-  parameters_.Bind<Double>(PARAM_U_MAX, &u_max_, "Maximum exploitation rate ($Umax$)", "", 0.99);
+  parameters_.Bind<Double>(PARAM_U_MAX, &u_max_, "Maximum exploitation rate ($Umax$)", "", 0.99)->set_range(0.0, 1.0);
   parameters_.Bind<string>(PARAM_SELECTIVITIES, &selectivity_names_, "List of selectivities", "");
   parameters_.Bind<string>(PARAM_PENALTY, &penalty_name_, "The label of the penalty to apply if the total number of removals cannot be taken", "", "");
 
@@ -53,21 +53,21 @@ void MortalityEvent::DoValidate() {
   // Validate that our number of years_ and catches_ vectors are the same size
   if (years_.size() != catches_.size()) {
     LOG_ERROR_P(PARAM_CATCHES)
-        << ": Number of catches_ provided does not match the number of years_ provided."
-        << " Expected " << years_.size() << " but got " << catches_.size();
+        << ": The number of catches provided (" << catches_.size()
+        << ") does not match the number of years provided (" << years_.size() << " ).";
   }
 
   // Validate that the number of selectivities is the same as the number of categories
   if (category_labels_.size() != selectivity_names_.size()) {
     LOG_ERROR_P(PARAM_SELECTIVITIES)
-        << " Number of selectivities provided does not match the number of categories provided."
-        << " Expected " << category_labels_.size() << " but got " << selectivity_names_.size();
+        << " The number of selectivities provided (" << selectivity_names_.size()
+        << ") does not match the number of categories provided (" << category_labels_.size() << ").";
   }
 
   // Validate: catches_ and years_
   for(unsigned i = 0; i < years_.size(); ++i) {
     if (catch_years_.find(years_[i]) != catch_years_.end()) {
-      LOG_ERROR_P(PARAM_YEARS) << " year " << years_[i] << " has already been specified, please remove the duplicate";
+      LOG_ERROR_P(PARAM_YEARS) << " year '" << years_[i] << "' has already been specified";
     }
 
     catch_years_[years_[i]] = catches_[i];
@@ -75,7 +75,7 @@ void MortalityEvent::DoValidate() {
 
   // Validate u_max
   if (u_max_ < 0.0 || u_max_ > 1.0)
-    LOG_ERROR_P(PARAM_U_MAX) << ": u_max must be between 0.0 and 1.0 (inclusive). Value defined was " << AS_DOUBLE(u_max_);
+    LOG_ERROR_P(PARAM_U_MAX) << ": u_max (" << AS_DOUBLE(u_max_) << ") must be between 0.0 and 1.0 (inclusive).";
 }
 
 /**
@@ -88,7 +88,7 @@ void MortalityEvent::DoBuild() {
   for (string label : selectivity_names_) {
     Selectivity* selectivity = model_->managers().selectivity()->GetSelectivity(label);
     if (!selectivity)
-      LOG_ERROR_P(PARAM_SELECTIVITIES) << ": selectivity " << label << " does not exist. Have you defined it?";
+      LOG_ERROR_P(PARAM_SELECTIVITIES) << ": Selectivity " << label << " does not exist.";
 
     selectivities_.push_back(selectivity);
   }
@@ -96,7 +96,7 @@ void MortalityEvent::DoBuild() {
   if (penalty_name_ != "") {
     penalty_ = model_->managers().penalty()->GetProcessPenalty(penalty_name_);
     if (!penalty_) {
-      LOG_ERROR_P(PARAM_PENALTY) << ": penalty " << penalty_name_ << " does not exist. Have you defined it?";
+      LOG_ERROR_P(PARAM_PENALTY) << ": Penalty " << penalty_name_ << " does not exist.";
     }
   }
 
@@ -112,6 +112,7 @@ void MortalityEvent::DoReset() {
   exploitation_.clear();
   actual_catches_.clear();
 }
+
 /**
  * Execute our mortality event object.
  *

@@ -85,7 +85,7 @@ void MortalityInstantaneous::DoValidate() {
   // Check Natural Mortality parameter first
   for (auto M_proportion : time_step_ratios_temp_) {
     if ((M_proportion < 0.0) | (M_proportion > 1.0))
-      LOG_ERROR_P(PARAM_TIME_STEP_RATIO) << "Natural Mortality time step ratio cannot be greater than 1 or less than 0 for a given time step";
+      LOG_ERROR_P(PARAM_TIME_STEP_RATIO) << "Natural Mortality time step ratio cannot be greater than 1.0 or less than 0.0 for a given time step";
   }
 
   /**
@@ -96,7 +96,7 @@ void MortalityInstantaneous::DoValidate() {
   auto columns = catches_table_->columns();
   // TODO Need to catch if key column headers are missing for example year
   if (std::find(columns.begin(), columns.end(), PARAM_YEAR) == columns.end())
-    LOG_ERROR_P(PARAM_CATCHES) << "Cannot find the column " << PARAM_YEAR << ", this column is needed, for casal2 to run this process. Please add it =)";
+    LOG_ERROR_P(PARAM_CATCHES) << "The required column " << PARAM_YEAR << " was not found.";
   unsigned year_index = std::find(columns.begin(), columns.end(), PARAM_YEAR) - columns.begin();
   LOG_FINEST() << "year_index for fisheries table is: " << year_index;
 
@@ -105,7 +105,7 @@ void MortalityInstantaneous::DoValidate() {
   for (auto row : rows) {
     unsigned year = 0;
     if (!utilities::To<string, unsigned>(row[year_index], year))
-      LOG_ERROR_P(PARAM_CATCHES) << "year value " << row[year_index] << " is not numeric.";
+      LOG_ERROR_P(PARAM_CATCHES) << "year value " << row[year_index] << " could not be converted to an unsigned integer.";
     process_years_.push_back(year);
     if (std::find(model_years.begin(), model_years.end(), year) == model_years.end())
       LOG_ERROR_P(PARAM_CATCHES) << "year " << year << " is not a valid year in this model";
@@ -116,7 +116,7 @@ void MortalityInstantaneous::DoValidate() {
 
       Double value = 0.0;
       if (!utilities::To<string, Double>(row[i], value))
-        LOG_ERROR_P(PARAM_CATCHES) << "value " << row[i] << " for fishery " << columns[i] << " is not numeric";
+        LOG_ERROR_P(PARAM_CATCHES) << "value " << row[i] << " for fishery " << columns[i] << " could not be converted to a Double";
       fishery_year_catch[columns[i]][year] = value;
     }
   }
@@ -132,8 +132,8 @@ void MortalityInstantaneous::DoValidate() {
 
   if (selectivity_labels_.size() != category_labels_.size()) {
     LOG_FATAL_P(PARAM_SELECTIVITIES)
-        << ": Number of selectivities provided is not the same as the number of categories provided. Expected: "
-        << category_labels_.size()<< " but got " << selectivity_labels_.size();
+        << ": The number of selectivities provided is not the same as the number of categories provided. Categories: "
+        << category_labels_.size()<< ", Selectivities: " << selectivity_labels_.size();
   }
 
   if (m_input_.size() == 1) {
@@ -143,8 +143,8 @@ void MortalityInstantaneous::DoValidate() {
 
   if (m_input_.size() != category_labels_.size())
     LOG_FATAL_P(PARAM_M)
-        << ": Number of Ms provided is not the same as the number of categories provided. Expected: "
-        << category_labels_.size()<< " but got " << m_input_.size();
+        << ": The number of Ms provided is not the same as the number of categories provided. Categories: "
+        << category_labels_.size()<< ", Ms: " << m_input_.size();
   for (unsigned i = 0; i < m_input_.size(); ++i)
     m_[category_labels_[i]] = m_input_[i];
 
@@ -179,17 +179,17 @@ void MortalityInstantaneous::DoValidate() {
 
   // Check the column headers are all specified corectly
   if (std::find(columns.begin(), columns.end(), PARAM_METHOD) == columns.end())
-    LOG_FATAL_P(PARAM_METHOD) << "Cannot find the column " << PARAM_METHOD << ", this column is needed, for casal2 to run this process. Please add it =)";
+    LOG_FATAL_P(PARAM_METHOD) << "The required column " << PARAM_METHOD << " was not found.";
   if (std::find(columns.begin(), columns.end(), PARAM_CATEGORY) == columns.end())
-    LOG_FATAL_P(PARAM_METHOD) << "Cannot find the column " << PARAM_CATEGORY << ", this column is needed, for casal2 to run this process. Please add it =)";
+    LOG_FATAL_P(PARAM_METHOD) << "The required column " << PARAM_CATEGORY << " was not found.";
   if (std::find(columns.begin(), columns.end(), PARAM_SELECTIVITY) == columns.end())
-    LOG_FATAL_P(PARAM_METHOD) << "Cannot find the column " << PARAM_SELECTIVITY << ", this column is needed, for casal2 to run this process. Please add it =)";
+    LOG_FATAL_P(PARAM_METHOD) << "The required column " << PARAM_SELECTIVITY << " was not found.";
   if (std::find(columns.begin(), columns.end(), PARAM_TIME_STEP) == columns.end())
-    LOG_FATAL_P(PARAM_METHOD) << "Cannot find the column " << PARAM_TIME_STEP << ", this column is needed, for casal2 to run this process. Please add it =)";
+    LOG_FATAL_P(PARAM_METHOD) << "The required column " << PARAM_TIME_STEP << " was not found.";
   if (std::find(columns.begin(), columns.end(), PARAM_U_MAX) == columns.end())
-    LOG_FATAL_P(PARAM_METHOD) << "Cannot find the column " << PARAM_U_MAX << ", this column is needed, for casal2 to run this process. Please add it =)";
+    LOG_FATAL_P(PARAM_METHOD) << "The required column " << PARAM_U_MAX << " was not found.";
   if (std::find(columns.begin(), columns.end(), PARAM_PENALTY) == columns.end())
-    LOG_FATAL_P(PARAM_METHOD) << "Cannot find the column " << PARAM_PENALTY << ", this column is needed, for casal2 to run this process. Please add it =)";
+    LOG_FATAL_P(PARAM_METHOD) << "The required column " << PARAM_PENALTY << " was not found.";
   if (std::find(columns.begin(), columns.end(), PARAM_AGE_WEIGHT_LABEL) == columns.end()) {
     // Users can choose not to add this column if they wish
     use_age_weight_ = false;
@@ -208,7 +208,7 @@ void MortalityInstantaneous::DoValidate() {
 
   LOG_FINEST() << "indexes: fishery=" << fishery_index << "; category=" << category_index << "; selectivity="
       << selectivity_index << "; time_step=" << time_step_index << "; u_max=" << u_max_index
-      << "; penalty" << penalty_index << " age weight index " << age_weight_index;
+      << "; penalty" << penalty_index << "; age weight index " << age_weight_index;
   // This is object is going to check the business rule that a fishery can only exist in one time-step in each year
   map<string,vector<string>> fishery_time_step;
   for (auto row : rows) {
@@ -218,7 +218,7 @@ void MortalityInstantaneous::DoValidate() {
     new_fishery.penalty_label_      = row[penalty_index];
     fishery_time_step[new_fishery.label_].push_back(new_fishery.time_step_label_);
     if (!utilities::To<string, Double>(row[u_max_index], new_fishery.u_max_))
-      LOG_ERROR_P(PARAM_METHOD) << "u_max value " << row[u_max_index] << " is not numeric";
+      LOG_ERROR_P(PARAM_METHOD) << "u_max value " << row[u_max_index] << " could not be converted to a Double";
     if (fishery_year_catch.find(new_fishery.label_) == fishery_year_catch.end())
       LOG_ERROR_P(PARAM_METHOD) << "fishery " << new_fishery.label_ << " does not have catch information in the catches table";
     new_fishery.catches_ = fishery_year_catch[new_fishery.label_];
@@ -241,7 +241,7 @@ void MortalityInstantaneous::DoValidate() {
 
     if (categories.size() != selectivities.size())
       LOG_FATAL_P(PARAM_METHOD) << "The number of categories (" << categories.size()
-      << ") and selectivities (" << selectivities.size() << ") provided must be identical";
+      << ") and selectivities (" << selectivities.size() << ") provided must be the same";
 
     for (unsigned i = 0; i < categories.size(); ++i) {
       FisheryCategoryData new_category_data(fisheries_[new_fishery.label_], *category_data_[categories[i]]);
@@ -249,7 +249,9 @@ void MortalityInstantaneous::DoValidate() {
       new_category_data.category_label_    = categories[i];
       // check categories are in category_labels_ as well
 		  if (std::find(category_labels_.begin(), category_labels_.end(), categories[i]) == category_labels_.end())
-		  	LOG_ERROR_P(PARAM_METHOD) << "Found the category " << categories[i] << " in table but not in the '" << PARAM_CATEGORIES << "' subcommand, this means you are applying exploitation processes and not natural mortality, which is not currently allowed. Make sure all categories in the methods table are in the categories subcommand.";
+		  	LOG_ERROR_P(PARAM_METHOD) << "The category " << categories[i] << " was found in table but not in the '" << PARAM_CATEGORIES << "' subcommand."
+              << " This configuration will apply exploitation processes and not natural mortality, which is not valid."
+              << " Make sure all categories in the methods table are in the categories subcommand.";
       new_category_data.selectivity_label_ = selectivities[i];
       if (use_age_weight_)
         new_category_data.category_.age_weight_label_ = age_weights[i];
@@ -263,7 +265,8 @@ void MortalityInstantaneous::DoValidate() {
   // Check the business rule that a fishery can only exist one time-step
   for(auto fishery : fishery_time_step) {
     if (!std::equal(fishery.second.begin() + 1, fishery.second.end(), fishery.second.begin()))
-      LOG_ERROR_P(PARAM_METHOD) << "Found method '" << fishery.first << "' in more than one time step. You can only have a method occur in each time step. If a fishery occcurs in multiple time steps then define each time step as a separate fishery.";
+      LOG_ERROR_P(PARAM_METHOD) << "The method '" << fishery.first << "' was found in more than one time step."
+        << " A method can occur once only in each time step. If a fishery occcurs in multiple time steps then define each time step as a separate fishery.";
   }
   // Check to see if there are any time_steps that we don't have enter the fisheries section. i.e no fishing in certain time-steps
 }
@@ -315,7 +318,7 @@ void MortalityInstantaneous::DoBuild() {
 
     for (double value : time_step_ratios_temp_) {
       if (value < 0.0 || value > 1.0)
-        LOG_ERROR_P(PARAM_TIME_STEP_RATIO) << " value (" << value << ") must be between 0.0 (exclusive) and 1.0 (inclusive)";
+        LOG_ERROR_P(PARAM_TIME_STEP_RATIO) << "Time step ratio value (" << value << ") must be between 0.0 and 1.0 (inclusive)";
     }
 
     for (unsigned i = 0; i < time_step_ratios_temp_.size(); ++i)
@@ -331,10 +334,10 @@ void MortalityInstantaneous::DoBuild() {
      * Check the fishery categories are valid
      */
     if (!model_->categories()->IsValid(fishery_category.category_label_))
-        LOG_ERROR_P(PARAM_METHOD) << ": category " << fishery_category.category_label_ << " does not exist. Have you defined it?";
+        LOG_ERROR_P(PARAM_METHOD) << ": Category " << fishery_category.category_label_ << " does not exist.";
 
     if (!fishery_category.selectivity_)
-      LOG_ERROR_P(PARAM_METHOD) << "selectivity " << fishery_category.selectivity_label_ << " does not exist. Have you defined it?";
+      LOG_ERROR_P(PARAM_METHOD) << "Fishery selectivity " << fishery_category.selectivity_label_ << " does not exist.";
   }
 
   for (auto& fishery_iter : fisheries_) {
@@ -342,11 +345,11 @@ void MortalityInstantaneous::DoBuild() {
     if (fishery.penalty_label_ != "none") {
       fishery.penalty_ = model_->managers().penalty()->GetProcessPenalty(fishery.penalty_label_);
       if (!fishery.penalty_)
-        LOG_ERROR_P(PARAM_METHOD) << ": penalty " << fishery.penalty_label_ << " does not exist. Have you defined it?";
+        LOG_ERROR_P(PARAM_METHOD) << ": Penalty " << fishery.penalty_label_ << " does not exist.";
     }
     bool check_time_step = model_->managers().time_step()->CheckTimeStep(fishery.time_step_label_);
     if (!check_time_step)
-      LOG_FATAL_P(PARAM_METHOD) << "The time step " << fishery.time_step_label_ << " could not be found have you defined it in the annual cycle";
+      LOG_FATAL_P(PARAM_METHOD) << "The time step " << fishery.time_step_label_ << " does not exist.";
     fishery.time_step_index_ = model_->managers().time_step()->GetTimeStepIndex(fishery.time_step_label_);
   }
 
@@ -355,7 +358,7 @@ void MortalityInstantaneous::DoBuild() {
    */
   for (const string& label : category_labels_) {
     if (!model_->categories()->IsValid(label))
-      LOG_ERROR_P(PARAM_CATEGORIES) << ": category " << label << " does not exist. Have you defined it?";
+      LOG_ERROR_P(PARAM_CATEGORIES) << ": Category " << label << " does not exist.";
   }
 
   /**
@@ -365,7 +368,7 @@ void MortalityInstantaneous::DoBuild() {
     // Selectivity
     Selectivity* selectivity = model_->managers().selectivity()->GetSelectivity(category.selectivity_label_);
     if (!selectivity)
-      LOG_ERROR_P(PARAM_SELECTIVITIES) << "selectivity " << category.selectivity_label_ << " does not exist. Have you defined it?";
+      LOG_ERROR_P(PARAM_SELECTIVITIES) << "Selectivity " << category.selectivity_label_ << " does not exist.";
     category.selectivity_ = selectivity;
     selectivities_.push_back(selectivity);
 
@@ -379,7 +382,7 @@ void MortalityInstantaneous::DoBuild() {
       LOG_FINE() << "age weight found";
       AgeWeight* age_weight = model_->managers().age_weight()->FindAgeWeight(category.age_weight_label_);
       if (!age_weight)
-        LOG_ERROR_P(PARAM_METHOD) << "age weight " << category.age_weight_label_ << " does not exist. Have you defined it?";
+        LOG_ERROR_P(PARAM_METHOD) << "age weight " << category.age_weight_label_ << " does not exist.";
       category.age_weight_ = age_weight;
       use_age_weight_ = true;
     }
@@ -412,7 +415,7 @@ void MortalityInstantaneous::DoBuild() {
     }
     if (!fishery_in_timestep) {
       time_steps_to_skip_applying_F_mortaltiy_.push_back(time_step);
-      LOG_FINEST() << "time step " << time_step << " doesn't have a method associated so we will skip the exploitation calculation during DoExecute";
+      LOG_FINEST() << "The time step " << time_step << " does not have a method associated so the exploitation calculation will be skipped during DoExecute";
     }
   }
 
@@ -434,7 +437,8 @@ void MortalityInstantaneous::DoBuild() {
           if (fishery_category.category_label_ == category
               && fisheries_[fishery_category.fishery_label_].time_step_index_ == current_time_step) {
             removals_by_year_fishery_category_[year][fishery_category.fishery_label_][category].assign(model_->age_spread(), 0.0);
-            LOG_FINE() << "year " << year << " fishery = " << fishery_category.fishery_label_ << " category = " << fishery_category.category_label_ <<"  size of vector = " << removals_by_year_fishery_category_[year][fishery_category.fishery_label_][category].size();
+            LOG_FINE() << "year " << year << " fishery = " << fishery_category.fishery_label_ << " category = " << fishery_category.category_label_
+              <<"  size of vector = " << removals_by_year_fishery_category_[year][fishery_category.fishery_label_][category].size();
           }
         }
       }
@@ -523,7 +527,8 @@ void MortalityInstantaneous::DoExecute() {
   if ((model_->state() != State::kInitialise ||
       (find(time_steps_to_skip_applying_F_mortaltiy_.begin(),time_steps_to_skip_applying_F_mortaltiy_.end(), time_step_index) != time_steps_to_skip_applying_F_mortaltiy_.end())) &&
       ((find(process_years_.begin(), process_years_.end(), year) != process_years_.end()) | (year > model_->final_year()))) {
-    LOG_FINEST() << "time step = " << time_step_index << " not in initialisation and there is an F method in this timestep. year = " << model_->current_year();
+    LOG_FINEST() << "time step = " << time_step_index << " not in initialisation and there is an F method in this timestep. year = "
+      << model_->current_year();
       for (auto& fishery_category : fishery_categories_) {
         LOG_FINEST() << "checking fishery = " << fishery_category.fishery_label_;
         if (fishery_category.fishery_.time_step_index_ != time_step_index)
@@ -550,7 +555,8 @@ void MortalityInstantaneous::DoExecute() {
           }
         }
         LOG_FINEST() << "Category is fished in this time_step " << time_step_index << " numbers at age = " << category->data_.size();
-        LOG_FINEST() << "Vulnerable biomass from category " << category->name_ << " contributing to fishery " << fishery_category.fishery_label_ << " = " << fishery_category.fishery_.vulnerability_;
+        LOG_FINEST() << "Vulnerable biomass from category " << category->name_ << " contributing to fishery "
+          << fishery_category.fishery_label_ << " = " << fishery_category.fishery_.vulnerability_;
       }
 
     /**
@@ -565,7 +571,8 @@ void MortalityInstantaneous::DoExecute() {
         Double exploitation = fishery.catches_[year] / utilities::doublecompare::ZeroFun(fishery.vulnerability_);
         fishery.exploitation_ = exploitation;
         fishery.uobs_fishery_ = exploitation;
-        LOG_FINEST() << " Vulnerable biomass for fishery : " << fishery.label_ << " = " << fishery.vulnerability_ << " with Catch = " << fishery.catches_[model_->current_year()] << " = exploitation = " << exploitation;
+        LOG_FINEST() << " Vulnerable biomass for fishery : " << fishery.label_ << " = " << fishery.vulnerability_
+          << " with catch = " << fishery.catches_[model_->current_year()] << " = exploitation = " << exploitation;
       }
 
       // U_obs is used to account for selectivity, almost like a temporary container that we use to rescale exploitation_ at the end
@@ -655,7 +662,7 @@ void MortalityInstantaneous::DoExecute() {
      * Calculate the expectation for a proportions_at_age observation
      *
      */
-    LOG_FINEST() << "Calc prop at age";
+    LOG_FINEST() << "Calculate proportions at age";
     if (find(process_years_.begin(), process_years_.end(),year) != process_years_.end()) {
       // only calculate observed fits for years the process exists for
       unsigned age_spread = model_->age_spread();

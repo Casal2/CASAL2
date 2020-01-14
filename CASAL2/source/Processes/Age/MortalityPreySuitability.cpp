@@ -71,16 +71,16 @@ MortalityPreySuitability::MortalityPreySuitability(Model* model)
 void MortalityPreySuitability::DoValidate() {
   // Check length of categories are the same as selectivities
   if (prey_category_labels_.size() != prey_selectivity_labels_.size())
-    LOG_ERROR_P(PARAM_PREY_CATEGORIES) << ": You provided (" << prey_selectivity_labels_.size() << ") prey selectivities but we have "
+    LOG_ERROR_P(PARAM_PREY_CATEGORIES) << ": There are " << prey_selectivity_labels_.size() << " prey selectivities but there are "
         << prey_category_labels_.size() << " prey catregories";
 
   if (predator_category_labels_.size() != predator_selectivity_labels_.size())
-    LOG_ERROR_P(PARAM_PREY_CATEGORIES) << ": You provided (" << predator_selectivity_labels_.size() << ") predator selectivities but we have "
+    LOG_ERROR_P(PARAM_PREY_CATEGORIES) << ": There are " << predator_selectivity_labels_.size() << " predator selectivities but there are "
         << predator_category_labels_.size() << " predator categories";
 
   if (prey_category_labels_.size() != electivities_.size())
-    LOG_ERROR_P(PARAM_ELECTIVITIES) << ": You provided (" << prey_category_labels_.size() << ") prey categories but we have "
-            << electivities_.size() << " prey electivities, these must be equal";
+    LOG_ERROR_P(PARAM_ELECTIVITIES) << ": There are " << prey_category_labels_.size() << " prey categories but there are "
+            << electivities_.size() << " prey electivities. These must be of equal length.";
 }
 
 /**
@@ -99,7 +99,7 @@ void MortalityPreySuitability::DoBuild() {
   for (string selectivity : prey_selectivity_labels_) {
     prey_selectivities_.push_back(model_->managers().selectivity()->GetSelectivity(selectivity));
     if (!prey_selectivities_[category_offset])
-      LOG_ERROR_P(PARAM_PREY_SELECTIVITIES) << "selectivity " << selectivity << " does not exist. Have you defined it?";
+      LOG_ERROR_P(PARAM_PREY_SELECTIVITIES) << "Prey selectivity " << selectivity << " does not exist.";
     ++category_offset;
   }
 
@@ -107,14 +107,14 @@ void MortalityPreySuitability::DoBuild() {
   for (string selectivity : predator_selectivity_labels_) {
     predator_selectivities_.push_back(model_->managers().selectivity()->GetSelectivity(selectivity));
     if (!predator_selectivities_[category_offset])
-      LOG_ERROR_P(PARAM_PREDATOR_SELECTIVITIES) << "selectivity " << selectivity << " does not exist. Have you defined it?";
+      LOG_ERROR_P(PARAM_PREDATOR_SELECTIVITIES) << "Predator selectivity " << selectivity << " does not exist.";
     ++category_offset;
   }
 
   if (penalty_label_ != "none") {
     penalty_ = model_->managers().penalty()->GetProcessPenalty(penalty_label_);
     if (!penalty_)
-      LOG_ERROR_P(PARAM_PENALTY) << ": penalty " << penalty_label_ << " does not exist. Have you defined it?";
+      LOG_ERROR_P(PARAM_PENALTY) << ": Penalty " << penalty_label_ << " does not exist.";
   }
 
 /*  *
@@ -163,7 +163,8 @@ void MortalityPreySuitability::DoExecute() {
            TotalPreyAvailability += vulnerable;
          }
        }
-       LOG_FINEST() << ": Vulnerable abundance for prey category " << prey_category_labels_[category_offset] << " = " << Vulnerable_by_Prey[prey_category_labels_[category_offset]];
+       LOG_FINEST() << ": Vulnerable abundance for prey category " << prey_category_labels_[category_offset] << " = "
+         << Vulnerable_by_Prey[prey_category_labels_[category_offset]];
     }
 
     TotalPreyAvailability = dc::ZeroFun(TotalPreyAvailability, ZERO);
@@ -209,7 +210,8 @@ void MortalityPreySuitability::DoExecute() {
         Exploitation = 0.0;
 
       Exploitation_by_Prey[prey_category_labels_[category_offset]] = Exploitation;
-      LOG_FINEST() << ": Exploitation rate for prey category " << prey_category_labels_[category_offset] << " = " << Exploitation_by_Prey[prey_category_labels_[category_offset]];
+      LOG_FINEST() << ": Exploitation rate for prey category " << prey_category_labels_[category_offset] << " = "
+        << Exploitation_by_Prey[prey_category_labels_[category_offset]];
 
     }
 
