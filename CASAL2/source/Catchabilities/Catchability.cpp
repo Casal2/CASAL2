@@ -29,7 +29,7 @@ namespace niwa {
  */
 Catchability::Catchability(Model* model) : model_(model) {
   parameters_.Bind<string>(PARAM_LABEL, &label_, "Label of the catchability", "");
-  parameters_.Bind<string>(PARAM_TYPE, &type_, "Type of catchability", "");
+  parameters_.Bind<string>(PARAM_TYPE, &type_, "The type of catchability", "");
 
 }
 

@@ -45,7 +45,7 @@ bool MPD::LoadFile(const string& file_name) {
   ifstream file;
   file.open(file_name.c_str());
   if (file.fail() || !file.is_open())
-    LOG_FATAL() << "Unable to open the estimate_value file: " << file_name << ". Does this file exist?";
+    LOG_FATAL() << "Unable to open the estimate_value file " << file_name;
 
   // first line should be: * MPD
   string line = "";
@@ -55,7 +55,7 @@ bool MPD::LoadFile(const string& file_name) {
   boost::replace_all(line, "\t", " ");
   boost::trim_all(line);
   if (line != "* MPD")
-    LOG_FATAL() << "MPD first line should be '* MPD'. But it was " << line << " in file: " << file_name;
+    LOG_FATAL() << "MPD first line should be '* MPD'. But it was on line " << line << " in file " << file_name;
 
   // estimate_values line
   if (!getline(file, line) || line == "")
@@ -64,7 +64,7 @@ bool MPD::LoadFile(const string& file_name) {
   boost::replace_all(line, "\t", " ");
   boost::trim_all(line);
   if (line != "estimate_values:")
-    LOG_FATAL() << "MPD third line should be 'estimate_values:'. But it was " << line << " in file: " << file_name;
+    LOG_FATAL() << "MPD third line should be 'estimate_values:'. But it was on line " << line << " in file " << file_name;
 
   /**
    * Get the first line which should contain a list of parameters
@@ -87,7 +87,7 @@ bool MPD::LoadFile(const string& file_name) {
   vector<string> values;
   boost::split(values, line, boost::is_any_of(" "));
   if (values.size() != parameters.size())
-    LOG_FATAL() << "In estimate_value file, estimate values has " << values.size() << " values when we expected " << parameters.size();
+    LOG_FATAL() << "In estimate_value file, estimate values has " << values.size() << " values when " << parameters.size() << " were expected";
 
   for (unsigned i = 0; i < values.size(); ++i) {
     boost::trim_all(parameters[i]);
@@ -111,7 +111,7 @@ bool MPD::LoadFile(const string& file_name) {
   boost::replace_all(line, "\t", " ");
   boost::trim_all(line);
   if (line != "covariance_matrix:") {
-    LOG_ERROR() << "Could not file 'covariance_matrix:' string in MPD file: " << file_name;
+    LOG_ERROR() << "Could not file 'covariance_matrix:' string in MPD file " << file_name;
     return false;
   }
 
@@ -120,7 +120,7 @@ bool MPD::LoadFile(const string& file_name) {
   covariance_matrix.resize(estimate_count, estimate_count);
   for (unsigned i = 0; i < estimate_count; ++i) {
     if (!getline(file, line)) {
-      LOG_ERROR() << "Failed to load line " << i+1 << " of the covariance matrix from the file: " << file_name;
+      LOG_ERROR() << "Failed to load line " << i+1 << " of the covariance matrix from file " << file_name;
     }
 
     // split the line
@@ -129,7 +129,7 @@ bool MPD::LoadFile(const string& file_name) {
     boost::split(estimable_values, line, boost::is_any_of(" "), boost::token_compress_on);
     if (estimate_count != estimable_values.size()) {
       LOG_ERROR() << "Line " << i+1 << " of the covariance matrix had " << estimable_values.size()
-               << " values when we expected " << estimate_count << " to match number of estimates";
+               << " values when the number " << estimate_count << " was expected, to match number of estimates";
       return false;
     }
 

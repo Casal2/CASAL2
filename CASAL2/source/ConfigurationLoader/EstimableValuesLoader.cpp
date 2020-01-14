@@ -45,7 +45,7 @@ void EstimableValuesLoader::LoadValues(const string& file_name) {
   ifstream file_;
   file_.open(file_name.c_str());
   if (file_.fail() || !file_.is_open())
-    LOG_FATAL() << "Unable to open the estimate_value file: " << file_name << ". Does this file exist?";
+    LOG_FATAL() << "Unable to open the estimate_value file " << file_name;
 
   /**
    * Get the first line which should contain a list of parameters
@@ -85,7 +85,8 @@ void EstimableValuesLoader::LoadValues(const string& file_name) {
 
     boost::split(values, current_line, boost::is_any_of(" "));
     if (values.size() != parameters.size())
-      LOG_FATAL() << "In estimate_value file, line " << line_number << " has " << values.size() << " values when we expected " << parameters.size();
+      LOG_FATAL() << "In estimate_value file, line " << line_number << " has " << values.size()
+        << " values when the number of parameters is " << parameters.size();
 
     double numeric = 0.0;
     for (unsigned i = 0; i < values.size(); ++i) {

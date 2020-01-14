@@ -82,7 +82,7 @@ void Nuisance::DoBuild() {
          double mu = 0.0;
          for (string parameter_value : iter->second->values()) {
            if (!utils::To<double>(parameter_value, mu))
-             LOG_ERROR() << "parameter mu = " << parameter_value << " cannot be converted to a double";
+             LOG_ERROR() << "parameter mu = " << parameter_value << " could not be converted to a double";
          }
          mu_ = mu;
        }
@@ -90,14 +90,14 @@ void Nuisance::DoBuild() {
          double cv = 0.0;
          for (string parameter_value : iter->second->values()) {
            if (!utils::To<double>(parameter_value, cv))
-             LOG_ERROR() << "parameter cv = " << parameter_value << " cannot be converted to a double";
+             LOG_ERROR() << "parameter cv = " << parameter_value << " could not be converted to a double";
          }
          cv_ = cv;
        }
      }
     }
   } else {
-    LOG_FINEST() << "solving for q in a maximum likelihood context. i.e. no prior";
+    LOG_FINEST() << "solving for q in a maximum likelihood context, i.e., with no prior";
     q_ = 1.0;
   }
 
@@ -116,8 +116,8 @@ void Nuisance::CalculateQ(map<unsigned, vector<observations::Comparison> >& comp
   LOG_TRACE();
   LOG_FINEST() << "Converting nuisance q with prior = " << prior_type_ << " and likelihood = " << likelihood;
   if (likelihood != PARAM_NORMAL && likelihood != PARAM_LOGNORMAL) {
-    LOG_FATAL() << "Nuisance q method can only be applied to observations that have the following likelihoods, normal and "
-        "lognormal. This needs to be corrected in the @observation block, or alternatively try using a q type = free";
+    LOG_FATAL() << "The nuisance q method can be applied only to observations with normal or lognormal likelihoods. "
+        << "Check the @observation block or use q type = free";
   }
 
   // The first set of conditions
@@ -149,7 +149,7 @@ void Nuisance::CalculateQ(map<unsigned, vector<observations::Comparison> >& comp
     // Iterate over each category
     for (observations::Comparison& comparison : year_iterator->second) {
       if (comparison.expected_ <= ZERO)
-        LOG_WARNING() << "Expected less than " << ZERO << " you may want to check this.";
+        LOG_WARNING() << "The comparison expected less than " << ZERO;
       comparison.expected_ = dc::ZeroFun(comparison.expected_,ZERO);
         n++;
         Double cv = comparison.error_value_;
@@ -230,7 +230,8 @@ void Nuisance::CalculateQ(map<unsigned, vector<observations::Comparison> >& comp
       LOG_FINE() << "mu = " << mu_ << " cv = " << cv_ << " s3 = " << s3 << " s4 = " << s4 << " n = " << n;
       q_ = exp((0.5 * n - 1.5 + log(mu_) / var_q + s3) / (s4 + 1 / var_q));
     } else {
-      LOG_ERROR() << "Unrecognised combination in CalculateQ : likelihood_type = " <<  likelihood << " prior_type = " << prior_type_ << " these combinations ";
+      LOG_ERROR() << "Unrecognised combination in CalculateQ : likelihood_type = " <<  likelihood
+        << " prior_type = " << prior_type_;
     }
 
   LOG_FINE() << "Analytical q = " << q_;
@@ -248,8 +249,6 @@ void Nuisance::CalculateQ(map<unsigned, vector<observations::Comparison> >& comp
   LOG_FINEST() << "Setting q = " << q_;
 
 }
-
-
 
 } /* namespace catchabilities */
 } /* namespace niwa */

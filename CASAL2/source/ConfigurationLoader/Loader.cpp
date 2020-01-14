@@ -62,13 +62,13 @@ bool Loader::LoadConfigFile(const string& override_file_name) {
 
     File file(*this);
     if (!file.OpenFile(config_file))
-      LOG_FATAL() << "Failed to open the first configuration file: " << config_file << ". Does this file exist? Is it in the right path?";
+      LOG_FATAL() << "Failed to open the first configuration file: " << config_file;
 
     file.Parse();
 
     LOG_FINE() << "file_lines_.size() == " << file_lines_.size();
     if (file_lines_.size() == 0)
-      LOG_FATAL() << "The configuration file " << config_file << " is empty. Please specify a valid configuration file";
+      LOG_FATAL() << "The configuration file " << config_file << " is empty.";
   }
 
   return true;
@@ -113,7 +113,7 @@ void Loader::ParseFileLines() {
       if (block.size() > 0) {
         if (first_block) {
           if (utilities::ToLowercase(block[0].line_) != "@model")
-            LOG_FATAL() << "The first block to be processed must be @model. Actual was " << block[0].line_;
+            LOG_FATAL() << "The first block to be processed must be @model. The first block parsed was " << block[0].line_;
         }
 
         ParseBlock(block);
@@ -292,7 +292,7 @@ void Loader::ParseBlock(vector<FileLine> &block) {
     boost::split(line_parts, current_line, boost::is_any_of(" "));
     if (line_parts.size() == 0)
       LOG_FATAL() << "At line " << file_line.line_number_ << " in " << file_line.file_name_
-          << ": Could not successfully split the line into an array. Line is incorrectly formatted";
+          << ": Could not successfully split the line into an array. This line is incorrectly formatted";
 
     // Load the parameters
     string parameter_type = util::ToLowercase(line_parts[0]);
@@ -340,7 +340,8 @@ void Loader::ParseBlock(vector<FileLine> &block) {
       // We're loading a standard row of data for the table
       if (current_table_->requires_comlums() && values.size() != current_table_->column_count()) {
         LOG_FATAL() << "At line " << file_line.line_number_ << " in " << file_line.file_name_
-            << ": Table data does not contain the correct number of columns. Expected (" << current_table_->column_count() << ") : Actual (" << values.size() << ")\n"
+            << ": Table data does not contain the correct number of columns. Expected ("
+            << current_table_->column_count() << ") : Actual (" << values.size() << ")\n"
             << boost::join(values, ", ");
       }
 
@@ -423,7 +424,7 @@ void Loader::HandleInlineDefinitions(FileLine& file_line, const string& parent_l
         LOG_CODE_ERROR() << "first_inline_bracket (" << first_inline_bracket << ") <= second_inline_bracket (" << second_inline_bracket << ")";
       if (first_inline_bracket <= 1)
         LOG_FATAL() << "At line " << file_line.line_number_ << " in " << file_line.file_name_
-            << ": You cannot start the line with an inline definition [ operator";
+            << ": Do not start the line with an inline definition [ operator";
 
       /**
        * Work out the block type for use when defining it
@@ -431,7 +432,7 @@ void Loader::HandleInlineDefinitions(FileLine& file_line, const string& parent_l
       size_t space_loc = file_line.line_.find(' ');
       if (space_loc == string::npos)
         LOG_FATAL() << "At line " << file_line.line_number_ << " in " << file_line.file_name_
-            << ": This line contains no space characters so we cannot determine the label for the inline definition";
+            << ": This line contains no space characters so the label for the inline definition cannot be determined";
 
       string block_type = file_line.line_.substr(0, space_loc);
       // do some quick changes to handle weird parameter names
