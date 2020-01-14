@@ -62,14 +62,14 @@ bool Objects::VerfiyAddressableForUse(const string& parameter_absolute_name, add
 
   ExplodeString(parameter_absolute_name, type, label, parameter, index);
   if (type == "" || label == "" || parameter == "") {
-    str << "Syntax for " << parameter_absolute_name << " is invalid. Correct syntax is block[label].variable{index}";
+    str << "The syntax for " << parameter_absolute_name << " is invalid. The correct syntax is 'block[label].variable{index}'";
     error = str.str();
     return false;
   }
 
   base::Object* object = this->FindObjectOrNull(parameter_absolute_name);
   if (!object) {
-    str << "Parent object for " << parameter_absolute_name << " is not valid. Please double check spelling";
+    str << "Parent object for " << parameter_absolute_name << " is not valid.";
     error = str.str();
     return false;
   }
@@ -236,9 +236,8 @@ base::Object* Objects::FindObjectOrNull(const string& parameter_absolute_name) {
   } else if (type == PARAM_OBSERVATION) {
     result = model_->managers().observation()->GetObservation(label);
   } else {
-    LOG_FATAL() << "Currently the type " << type << " is not registered for addressable finding, first please check you have spelt it correctly, if you are "
-        << "confident you have it may not be coded to find addressable, please add it the class to FindObject() "
-        << "in Model/Objects.cpp by contacting the development team";
+    LOG_FATAL() << "Currently the type " << type << " is not registered for addressable finding. "
+        << "Please add the class to FindObject() in Model/Objects.cpp, or contact the development team";
   }
 
   return result;
@@ -254,8 +253,8 @@ base::Object* Objects::FindObject(const string& parameter_absolute_name) {
   base::Object* result = FindObjectOrNull(parameter_absolute_name);
 
   if (!result) {
-    LOG_CODE_ERROR() << parameter_absolute_name << " could not be located. "
-      << "Please ensure VerfiyAddressableForUse() was called prior to any model_.objects() methods";
+    LOG_CODE_ERROR() << "Parameter absolute " << parameter_absolute_name << " was not found. "
+      << "Please check that VerfiyAddressableForUse() was called prior to any model_.objects() methods";
   }
 
   return result;

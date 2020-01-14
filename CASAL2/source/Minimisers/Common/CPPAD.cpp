@@ -71,10 +71,10 @@ CPPAD::CPPAD(Model* model) : Minimiser(model) {
   parameters_.Bind<string>(PARAM_RETAPE, &retape_, "Retape? yes or no", "", "true")->set_allowed_values({"true", "false"});
   parameters_.Bind<unsigned>(PARAM_PRINT_LEVEL, &print_level_, "Level of debug to stdout", "", 5u)->set_range(0u, 12u);
   parameters_.Bind<string>(PARAM_SB, &sb_, "String buffer output?", "", "yes")->set_allowed_values({"yes", "no"});
-  parameters_.Bind<unsigned>(PARAM_MAX_ITER, &max_iter_, "Maximum number of iterations", "", 4000)->set_lower_bound(0u, false);
-  parameters_.Bind<double>(PARAM_TOL, &tol_, "Tolerance for convergence", "", 1e-9);
-  parameters_.Bind<double>(PARAM_ACCEPTABLE_TOL, &acceptable_tol_, "Acceptable tolerance", "", 1e-6)->set_lower_bound(0.0, true);
-  parameters_.Bind<double>(PARAM_ACCEPTABLE_OBJ_CHANGE_TOL, &acceptable_obj_change_tol_, "", "", 1e+20)->set_lower_bound(0u, false);
+  parameters_.Bind<unsigned>(PARAM_MAX_ITER, &max_iter_, "Maximum number of iterations", "", 4000)->set_lower_bound(1u);
+  parameters_.Bind<double>(PARAM_TOL, &tol_, "Tolerance for convergence", "", 1e-9)->set_lower_bound(0.0, false);
+  parameters_.Bind<double>(PARAM_ACCEPTABLE_TOL, &acceptable_tol_, "Acceptable tolerance", "", 1e-6)->set_lower_bound(0.0, false);
+  parameters_.Bind<double>(PARAM_ACCEPTABLE_OBJ_CHANGE_TOL, &acceptable_obj_change_tol_, "", "", 1e+20)->set_lower_bound(0.0, false);
   parameters_.Bind<string>(PARAM_DERIVATIVE_TEST, &derivative_test_, "How to test for derivaties", "", "none")
       ->set_allowed_values({"none", "first-order", "second-order", "only-second-order"});
   parameters_.Bind<Double>(PARAM_POINT_PERTUBATION_RADIUS, &point_perturbation_radius_, "", "", 0.0)->set_lower_bound(0.0, true);

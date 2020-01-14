@@ -61,19 +61,19 @@ using std::endl;
  */
 Model::Model() {
   LOG_TRACE();
-  parameters_.Bind<unsigned>(PARAM_START_YEAR, &start_year_, "Define the first year of the model, immediately following initialisation", R"(Defines the first year of the model, $\ge 1$, e.g. 1990)");
-  parameters_.Bind<unsigned>(PARAM_FINAL_YEAR, &final_year_, "Define the final year of the model, excluding years in the projection period", "Defines the last year of the model, i.e., the model is run from start_year to final_year");
-  parameters_.Bind<unsigned>(PARAM_MIN_AGE, &min_age_, "Minimum age of individuals in the population", R"($0 \le$ age\textlow{min} $\le$ age\textlow{max})", 0);
-  parameters_.Bind<unsigned>(PARAM_MAX_AGE, &max_age_, "Maximum age of individuals in the population", R"($0 \le$ age\textlow{min} $\le$ age\textlow{max})", 0);
-  parameters_.Bind<bool>(PARAM_AGE_PLUS, &age_plus_, "Define the oldest age or extra length midpoint (plus group size) as a plus group", "true, false", false);
-  parameters_.Bind<string>(PARAM_INITIALISATION_PHASES, &initialisation_phases_, "Define the labels of the phases of the initialisation", R"(A list of valid labels defined by \texttt{@initialisation_phase})", true);
-  parameters_.Bind<string>(PARAM_TIME_STEPS, &time_steps_, "Define the labels of the time steps, in the order that they are applied, to form the annual cycle", R"(A list of valid labels defined by \texttt{@time_step})");
-  parameters_.Bind<unsigned>(PARAM_PROJECTION_FINAL_YEAR, &projection_final_year_, "Define the final year of the model in projection mode", R"(Defines the last year of the projection period, i.e., the projection period runs from \texttt{final_year}$+1$ to \texttt{projection_final_year}. For the default, $0$, no projections are run.)", 0);
-  parameters_.Bind<string>(PARAM_TYPE, &type_, "TBA: Type of model (the partition structure). Either age, length or hybrid", "", PARAM_AGE)->set_allowed_values({PARAM_AGE, PARAM_LENGTH, PARAM_HYBRID});
+  parameters_.Bind<unsigned>(PARAM_START_YEAR, &start_year_, "The first year of the model, immediately following initialisation", R"(Defines the first year of the model, $\ge 1$, e.g. 1990)");
+  parameters_.Bind<unsigned>(PARAM_FINAL_YEAR, &final_year_, "The final year of the model, excluding years in the projection period", "Defines the last year of the model, i.e., the model is run from start_year to final_year");
+  parameters_.Bind<unsigned>(PARAM_MIN_AGE, &min_age_, "The minimum age of individuals in the population", R"($0 \le$ age\textlow{min} $\le$ age\textlow{max})", 0);
+  parameters_.Bind<unsigned>(PARAM_MAX_AGE, &max_age_, "The maximum age of individuals in the population", R"($0 \le$ age\textlow{min} $\le$ age\textlow{max})", 0);
+  parameters_.Bind<bool>(PARAM_AGE_PLUS, &age_plus_, "The oldest age or extra length midpoint (plus group size) as a plus group", "true, false", false);
+  parameters_.Bind<string>(PARAM_INITIALISATION_PHASES, &initialisation_phases_, "The labels of the phases of the initialisation", R"(A list of valid labels defined by \texttt{@initialisation_phase})", true);
+  parameters_.Bind<string>(PARAM_TIME_STEPS, &time_steps_, "The labels of the time steps, in the order that they are applied, to form the annual cycle", R"(A list of valid labels defined by \texttt{@time_step})");
+  parameters_.Bind<unsigned>(PARAM_PROJECTION_FINAL_YEAR, &projection_final_year_, "The final year of the model in projection mode", R"(Defines the last year of the projection period, i.e., the projection period runs from \texttt{final_year}$+1$ to \texttt{projection_final_year}. For the default, $0$, no projections are run.)", 0);
+  parameters_.Bind<string>(PARAM_TYPE, &type_, "TBA: Type of model (the partition structure). Either age, length, or hybrid", "", PARAM_AGE)->set_allowed_values({PARAM_AGE, PARAM_LENGTH, PARAM_HYBRID});
   parameters_.Bind<unsigned>(PARAM_LENGTH_BINS, &length_bins_, "The minimum length in each length bin", R"($0 \le$ length\textlow{min} $\le$ length\textlow{max})", true);
   parameters_.Bind<bool>(PARAM_LENGTH_PLUS, &length_plus_, "Specify whether there is a length plus group or not", "true, false", true);
   parameters_.Bind<unsigned>(PARAM_LENGTH_PLUS_GROUP, &length_plus_group_, "Mean length of length plus group", R"(length\textlow{max} $<$ length_plus_group)", 0);
-  parameters_.Bind<string>(PARAM_BASE_UNITS, &base_weight_units_, "Define the units for the base weight. This will be the default unit of any weight input parameters ", "grams, kgs or tonnes", PARAM_TONNES)->set_allowed_values({PARAM_GRAMS, PARAM_TONNES,PARAM_KGS});
+  parameters_.Bind<string>(PARAM_BASE_UNITS, &base_weight_units_, "The units for the base weight. This will be the default unit of any weight input parameters ", "grams, kgs or tonnes", PARAM_TONNES)->set_allowed_values({PARAM_GRAMS, PARAM_TONNES,PARAM_KGS});
 
   global_configuration_ = new GlobalConfiguration();
   managers_ = new Managers(this);
@@ -181,7 +181,7 @@ bool Model::Start(RunMode::Type run_mode) {
   run_mode_ = run_mode;
 
   if (state_ != State::kStartUp)
-    LOG_CODE_ERROR() << "Model state should always be startup when entering the start method";
+    LOG_CODE_ERROR() << "Model state should always be StartUp when entering the Start method";
   if (global_configuration_->estimable_value_file() != "") {
     configuration::EstimableValuesLoader loader(this);
     loader.LoadValues(global_configuration_->estimable_value_file());
@@ -251,7 +251,7 @@ bool Model::Start(RunMode::Type run_mode) {
     break;
 
   default:
-    LOG_ERROR() << "Invalid run mode has been specified. This run mode is not supported: " << run_mode_;
+    LOG_ERROR() << "Invalid run mode has been specified. Run mode " << run_mode_ << " is not supported.";
     break;
   }
 
@@ -273,7 +273,7 @@ void Model::PopulateParameters() {
 
   // Check that we've actually defined a @model block
   if (block_type_ == "")
-    LOG_ERROR() << "The @model block is missing from configuration file. This block is required.";
+    LOG_ERROR() << "The required @model block is missing from configuration file.";
 
   /**
    * Validate the parameters
@@ -292,7 +292,7 @@ void Model::PopulateParameters() {
     if (start_year_ > final_year_)
       LOG_ERROR_P(PARAM_FINAL_YEAR) << " (" << final_year_ << ") cannot be less than start_year (" << start_year_ << ")";
     if (min_age_ > max_age_)
-      LOG_ERROR_P(PARAM_MIN_AGE) << " (" << min_age_ << ") has been defined as greater than max_age (" << max_age_ << ")";
+      LOG_ERROR_P(PARAM_MIN_AGE) << " (" << min_age_ << ") cannot be greater than max_age (" << max_age_ << ")";
 
     if (run_mode_ == RunMode::kProjection) {
       if (projection_final_year_ <= start_year_ || projection_final_year_ <= final_year_) {
@@ -304,7 +304,7 @@ void Model::PopulateParameters() {
 
   } else if (partition_type_ == PartitionType::kLength) {
     if (!parameters_.Get(PARAM_LENGTH_BINS)->has_been_defined())
-      LOG_ERROR() << location() << "@model is missing required parameter " << PARAM_LENGTH_BINS;
+      LOG_ERROR() << location() << "@model is missing a required parameter " << PARAM_LENGTH_BINS;
     if (parameters_.Get(PARAM_MIN_AGE)->has_been_defined())
       LOG_ERROR_P(PARAM_MIN_AGE) << "cannot be defined in a length model";
     if (parameters_.Get(PARAM_MAX_AGE)->has_been_defined())
@@ -331,7 +331,7 @@ void Model::PopulateParameters() {
 void Model::Validate() {
   // Check that we've actually defined a @model block
   if (block_type_ == "")
-    LOG_ERROR() << "The @model block is missing from configuration file. This block is required.";
+    LOG_ERROR() << "The required @model block is missing from configuration file.";
 
   if (!parameters_.has_been_populated())
     parameters_.Populate(this);
@@ -348,18 +348,19 @@ void Model::Validate() {
   initialisationphases::Manager& init_phase_mngr = *managers_->initialisation_phase();
   for (const string& phase : initialisation_phases_) {
     if (!init_phase_mngr.IsPhaseDefined(phase))
-      LOG_ERROR_P(PARAM_INITIALISATION_PHASES) << "(" << phase << ") has not been defined. Please ensure you have defined it";
+      LOG_ERROR_P(PARAM_INITIALISATION_PHASES) << " (" << phase << ") has not been defined.";
   }
 
   timesteps::Manager& time_step_mngr = *managers_->time_step();
   for (const string time_step : time_steps_) {
     if (!time_step_mngr.GetTimeStep(time_step))
-      LOG_ERROR_P(PARAM_TIME_STEPS) << "(" << time_step << ") has not been defined. Please ensure you have defined it";
+      LOG_ERROR_P(PARAM_TIME_STEPS) << " (" << time_step << ") has not been defined.";
   }
 
 
   if (parameters_.Get(PARAM_LENGTH_PLUS_GROUP)->has_been_defined() & (partition_type_ == PartitionType::kAge))
-    LOG_ERROR_P(PARAM_LENGTH_PLUS_GROUP) << "This parameter should only be used for models that have length structured partitions. For age models with length based processes, all length bins should be defined by the length_bins subcommand";
+    LOG_ERROR_P(PARAM_LENGTH_PLUS_GROUP) << "This parameter should be used only for models that have length structured partitions."
+      << " For age models with length-based processes, all length bins should be defined with the length_bins subcommand";
   /**
    * Do some simple checks
    * e.g Validate that the length_bins are strictly increasing
@@ -464,7 +465,7 @@ void Model::RunBasic() {
       boost::split(single_step_addressables, line, boost::is_any_of(" "));
       for (string addressable : single_step_addressables) {
         if (!objects().VerfiyAddressableForUse(addressable, addressable::kSingleStep, error)) {
-          LOG_FATAL() << "The addressable " << addressable << " could not be verified for use in a single-step basic run. Error was " << error;
+          LOG_FATAL() << "The addressable " << addressable << " could not be verified for use in a single-step basic run. Error: " << error;
         }
         Double* target = objects().GetAddressable(addressable);
         estimable_targets.push_back(target);
@@ -608,10 +609,11 @@ bool Model::RunMCMC() {
      * This is because the front end handles the minimisation to generate the MPD file
      * and Covariance matrix for use by the MCMC
      */
-    LOG_FINE() << "Calling minimiser to find our minimum and covariance matrix";
+    LOG_FINE() << "Calling minimiser to find the minimum and covariance matrix";
     auto minimiser = managers_->minimiser()->active_minimiser();
     if((minimiser->type() == PARAM_DE_SOLVER) | (minimiser->type() == PARAM_DLIB))
-      LOG_ERROR() << "The minimiser type " << PARAM_DE_SOLVER << ", " << PARAM_DE_SOLVER << " does not produce a covariance matrix and so will not be viable for an MCMC run, try one of the other minimisers.";
+      LOG_ERROR() << "The minimiser type " << PARAM_DE_SOLVER << ", " << PARAM_DE_SOLVER
+        << " does not produce a covariance matrix, so an MCMC cannot be run. Use one of the other minimisers.";
 
     minimiser->Execute();
     LOG_FINE() << "Build covariance matrix";
@@ -643,7 +645,7 @@ void Model::RunProfiling() {
     estimates::Manager& estimate_manager = *managers_->estimate();
     auto minimiser = managers_->minimiser()->active_minimiser();
     if (!minimiser)
-      LOG_FATAL() << "couldn't get an active minimiser to estimate for the profile";
+      LOG_FATAL() << "Could not get an active minimiser to estimate for the profile";
     vector<Profile*> profiles = managers_->profile()->objects();
     LOG_FINE() << "Working with " << profiles.size() << " profiles";
     for (auto profile : profiles) {
@@ -692,7 +694,7 @@ void Model::RunSimulation() {
 
   int simulation_candidates = global_configuration_->simulation_candidates();
   if (simulation_candidates < 1) {
-    LOG_FATAL() << "The number of simulations specified at the command line parser must be at least one";
+    LOG_FATAL() << "The number of simulations specified at the command line parser must be at least 1";
   }
   unsigned suffix_width          = (unsigned)floor(log10((double) simulation_candidates + 1)) + 1;
   for (int i = 0; i < simulation_candidates; ++i) {
@@ -749,7 +751,7 @@ void Model::RunProjection() {
   LOG_TRACE();
   int projection_candidates = global_configuration_->projection_candidates();
   if (projection_candidates < 1) {
-    LOG_FATAL() << "The number of projections specified at the command line parser must be at least one";
+    LOG_FATAL() << "The number of projections specified at the command line parser must be at least 1";
   }
   Estimables& estimables = *managers_->estimables();
   vector<Double*> estimable_targets;

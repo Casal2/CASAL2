@@ -126,7 +126,7 @@ base::Object* Factory::CreateObject(const string& object_type, const string& sub
   else if (lwr_object_type == PARAM_TIME_VARYING)
     return timevarying::Factory::Create(model_, lwr_object_type, lwr_sub_type);
 
-  LOG_FINE() << "Couldn't find appropriate factory";
+  LOG_FINE() << "Could not find the appropriate factory";
   return nullptr;
 }
 
