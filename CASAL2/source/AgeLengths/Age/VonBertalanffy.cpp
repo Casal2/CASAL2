@@ -56,7 +56,7 @@ VonBertalanffy::VonBertalanffy(Model* model) : AgeLength(model) {
 void VonBertalanffy::DoBuild() {
   length_weight_ = model_->managers().length_weight()->GetLengthWeight(length_weight_label_);
   if (!length_weight_)
-    LOG_ERROR_P(PARAM_LENGTH_WEIGHT) << "(" << length_weight_label_ << ") could not be found. Have you defined it?";
+    LOG_ERROR_P(PARAM_LENGTH_WEIGHT) << "Length-weight label " << length_weight_label_ << " was not found.";
 
   // Build up our mean_length_ container.
   DoRebuildCache();
@@ -72,7 +72,7 @@ void VonBertalanffy::DoBuild() {
 Double VonBertalanffy::mean_length(unsigned time_step, unsigned age) {
   double proportion = time_step_proportions_[time_step];
   if ((-k_ * ((age + proportion) - t0_)) > 10)
-    LOG_ERROR_P(PARAM_K) << "exp(-k*(age-t0)) is enormous. The k or t0 parameters are probably wrong.";
+    LOG_ERROR_P(PARAM_K) << "-k*(age-t0) is larger than 10. Check the k and t0 parameters.";
 
   Double size = linf_ * (1 - exp(-k_ * ((age + proportion) - t0_)));
   if (size < 0.0)

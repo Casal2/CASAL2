@@ -53,9 +53,6 @@ private:
   string                        external_gaps_;
   string                        internal_gaps_;
   map<unsigned, vector<Double>> data_by_year_;
-  map<unsigned,map<unsigned,Double>> data_by_age_time_step_; // used in the initialisation
-  map<unsigned,map<unsigned,Double>> mean_data_by_year_and_step_;
-  map<unsigned, map<unsigned, map<unsigned, Double>>> mean_length_by_year_;
   string                        step_data_supplied_;
   unsigned                      step_index_data_supplied_;
   unsigned                      ageing_index_ = 0;
@@ -65,6 +62,10 @@ private:
   vector<unsigned>              steps_to_figure_;
   unsigned                      number_time_steps_;
   unsigned                      final_year_;
+
+  map<unsigned,map<unsigned,Double>> data_by_age_time_step_; // used in the initialisation
+  map<unsigned,map<unsigned,Double>> mean_data_by_year_and_step_;
+  map<unsigned, map<unsigned, map<unsigned, Double>>> mean_length_by_year_;
 };
 
 } /* namespace agelengths */

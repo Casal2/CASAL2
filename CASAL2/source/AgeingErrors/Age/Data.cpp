@@ -30,6 +30,7 @@ namespace ageingerrors {
  */
 Data::Data(Model* model) : AgeingError(model) {
   data_table_ = new parameters::Table(PARAM_TABLE);
+
   parameters_.BindTable(PARAM_TABLE, data_table_, "Table of data specifying the ageing misclassification matrix", "", false);
 }
 
@@ -46,11 +47,11 @@ Data::~Data() {
 void Data::DoBuild() {
   auto data = data_table_->data();
   if (data.size() != age_spread_) {
-    LOG_ERROR_P(PARAM_TABLE) << "number of rows provided " << data.size() << " does not match the age spread for the model " << age_spread_;
+    LOG_ERROR_P(PARAM_TABLE) << "The number of rows provided " << data.size() << " does not match the age spread " << age_spread_;
     return;
   }
   if (data[0].size() != age_spread_) {
-    LOG_ERROR_P(PARAM_TABLE) << "number of columns provided " << data.size() << " does not match the age spread for the model " << age_spread_;
+    LOG_ERROR_P(PARAM_TABLE) << "The number of columns provided " << data.size() << " does not match the age spread " << age_spread_;
     return;
   }
 
@@ -58,7 +59,7 @@ void Data::DoBuild() {
   for (unsigned i = 0; i < data.size(); ++i) {
     for (unsigned j = 0; j < data[i].size(); ++j) {
       if (!utilities::To<string, Double>(data[i][j], value))
-        LOG_ERROR_P(PARAM_TABLE) << "Could not convert the value " << data[i][j] << " to a double for storage in the misclassification matrix";
+        LOG_ERROR_P(PARAM_TABLE) << "Could not convert the value " << data[i][j] << " to a Double";
 
       mis_matrix_[i][j] = value;
     }

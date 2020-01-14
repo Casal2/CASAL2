@@ -29,7 +29,7 @@ namespace niwa {
  */
 AdditionalPrior::AdditionalPrior(Model* model) : model_(model) {
   parameters_.Bind<string>(PARAM_PARAMETER, &parameter_, "Name of the parameter to generate additional prior on", "");
-  parameters_.Bind<string>(PARAM_LABEL, &label_, "Label for teh additional prior", "");
+  parameters_.Bind<string>(PARAM_LABEL, &label_, "Label for the additional prior", "");
   parameters_.Bind<string>(PARAM_TYPE, &type_, "Type of additional prior", "");
 }
 

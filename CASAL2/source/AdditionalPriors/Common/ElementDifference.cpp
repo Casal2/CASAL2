@@ -42,11 +42,11 @@ void ElementDifference::DoBuild() {
   LOG_TRACE();
   string error = "";
   if (!model_->objects().VerfiyAddressableForUse(second_parameter_, addressable::kLookup, error)) {
-    LOG_FATAL_P(PARAM_SECOND_PARAMETER) << "could not be verified for use in additional_prior.element_difference. Error was " << error;
+    LOG_FATAL_P(PARAM_SECOND_PARAMETER) << "could not be verified for use in additional_prior.element_difference. Error: " << error;
   }
   error = "";
   if (!model_->objects().VerfiyAddressableForUse(parameter_, addressable::kLookup, error)) {
-    LOG_FATAL_P(PARAM_PARAMETER) << "could not be verified for use in additional_prior.element_difference. Error was " << error;
+    LOG_FATAL_P(PARAM_PARAMETER) << "could not be verified for use in additional_prior.element_difference. Error: " << error;
   }
   // first parameter
   addressable::Type addressable_type = model_->objects().GetAddressableType(parameter_);
@@ -68,8 +68,8 @@ void ElementDifference::DoBuild() {
       addressable_ = model_->objects().GetAddressable(parameter_);
       break;
     default:
-      LOG_ERROR() << "The addressable you have provided for use in a additional priors: " << parameter_
-        << " is not a type that is supported for vector smoothing additional priors";
+      LOG_ERROR() << "The addressable provided for use in additional priors '" << parameter_
+        << "' has a type that is not supported for vector smoothing additional priors";
       break;
   }
   // Get second parameter estimates
@@ -92,8 +92,8 @@ void ElementDifference::DoBuild() {
       second_addressable_ = model_->objects().GetAddressable(second_parameter_);
       break;
     default:
-      LOG_ERROR() << "The addressable you have provided for use in a additional priors: " << second_parameter_
-        << " is not a type that is supported for difference element additional priors";
+      LOG_ERROR() << "The addressable provided for use in additional priors '" << second_parameter_
+        << "' has a type that is not supported for ElementDifference additional priors";
       break;
   }
 
@@ -128,7 +128,8 @@ void ElementDifference::DoBuild() {
     LOG_CODE_ERROR() << "(second_addressable_map_ != 0) && (second_addressable_vector_ != 0) && (second_addressable_ != 0)";
 
   if(second_values.size() != values.size())
-    LOG_ERROR_P(PARAM_SECOND_PARAMETER) << "The parameters are not the same size, which they need to be, the second parameter has " << second_values.size() << " elements where as, the first parameter has " << values.size() << " elements";
+    LOG_ERROR_P(PARAM_SECOND_PARAMETER) << "The parameters are not the same length. The second parameter has "
+      << second_values.size() << " elements and the first parameter has " << values.size() << " elements";
 
 }
 
@@ -169,7 +170,7 @@ Double ElementDifference::GetScore() {
     LOG_CODE_ERROR() << "(second_addressable_map_ != 0) && (second_addressable_vector_ != 0)";
 
   Double score = 0.0;
-  LOG_FINEST() << "size of first vector = " << values.size() << " size of second vector";
+  LOG_FINEST() << "size of first vector = " << values.size() << " size of second vector = " << second_values.size();
   for(unsigned i = 0; i < values.size(); ++i)
     score += pow(values[i] - second_values[i], 2);
   return score * multiplier_;
