@@ -29,8 +29,9 @@ namespace utils = niwa::utilities;
  */
 Simplex::Simplex(Model* model) : EstimateTransformation(model) {
   //parameters_.Bind<string>(PARAM_ESTIMATE, &estimate_label_, "The label for the estimate label to use in the simplex transformation", "");
-  parameters_.Bind<double>(PARAM_UPPER_BOUND, &upper_bound_, "The empirical upper bound for the simplex transformed, in theory it should be Inf but some of our minimisers won't allow that", "", true);
-  parameters_.Bind<double>(PARAM_LOWER_BOUND, &lower_bound_, "The empirical lower bound for the simplex transformed, in theory it should be -Inf but some of our minimisers won't allow that", "", true);
+  parameters_.Bind<double>(PARAM_LOWER_BOUND, &lower_bound_, "The empirical lower bound for the simplex transformed. This should be -Inf but some of the minimisers do not allow that", "", true);
+  parameters_.Bind<double>(PARAM_UPPER_BOUND, &upper_bound_, "The empirical upper bound for the simplex transformed. This should be Inf but some of the minimisers do not allow that", "", true);
+
   is_simple_ = false;
 }
 
@@ -47,7 +48,7 @@ void Simplex::DoBuild() {
   LOG_TRACE();
   estimate_ = model_->managers().estimate()->GetEstimateByLabel(estimate_label_);
   if (estimate_ == nullptr) {
-    LOG_ERROR_P(PARAM_ESTIMATE) << "Estimate " << estimate_label_ << " could not be found. Have you defined it?";
+    LOG_ERROR_P(PARAM_ESTIMATE) << "Estimate " << estimate_label_ << " was not found.";
     return;
   }
   // Initialise for -r runs
@@ -55,17 +56,20 @@ void Simplex::DoBuild() {
 
   LOG_FINE() << "transform with objective = " << transform_with_jacobian_ << " estimeate transform " << estimate_->transform_for_objective() << " together = " << !transform_with_jacobian_ && !estimate_->transform_for_objective();
   if (!transform_with_jacobian_ && !estimate_->transform_for_objective()) {
-    LOG_ERROR_P(PARAM_TRANSFORM_WITH_JACOBIAN) << "You have specified a transformation that does not contribute a jacobian, and the prior parameters do not refer to the transformed estimate, in the @estimate" << estimate_label_ << ". This is not advised, and may cause bias estimation. Please address the user manual if you need help";
+    LOG_ERROR_P(PARAM_TRANSFORM_WITH_JACOBIAN) << "A transformation that does not contribute to the Jacobian was specified,"
+      << " and the prior parameters do not refer to the transformed estimate, in the @estimate" << estimate_label_
+      << ". This is not advised, and may cause bias errors. Please check the User Manual for more info";
   }
   if (estimate_->transform_with_jacobian_is_defined()) {
     if (transform_with_jacobian_ != estimate_->transform_with_jacobian()) {
-      LOG_ERROR_P(PARAM_TRANSFORM_WITH_JACOBIAN) << "This parameter is not consistent with the equivalent parameter in the @estimate block " << estimate_label_ << ". please make sure these are both true or both false.";
+      LOG_ERROR_P(PARAM_TRANSFORM_WITH_JACOBIAN) << "This parameter is not consistent with the equivalent parameter in the @estimate block "
+        << estimate_label_ << ". Both of these parameters should be true or false.";
     }
   }
-  LOG_WARNING() << "Simplex transforamtion works but is version 1.0 may need more work for calculating bounds";
+  LOG_WARNING() << "Simplex transformation works but has not been robustly evaluated, and may need more work for addressing bounds";
   estimates_ = model_->managers().estimate()->GetEstimatesByLabel(estimate_label_);
   if (estimates_.size() < 1) {
-    LOG_ERROR_P(PARAM_ESTIMATE) << "Estimate " << estimate_label_ << " could not be found. Have you defined it?";
+    LOG_ERROR_P(PARAM_ESTIMATE) << "Estimate " << estimate_label_ << " was not found.";
     return;
   }
 
@@ -86,7 +90,7 @@ void Simplex::DoBuild() {
 
   // Do a validation if vector doesn't sum to 1 of length (number of elements) error can't use this method
   if (fabs(1.0 - total_) > 0.0001 && (total_ - (length_)) > 0.0001)
-   LOG_ERROR_P(PARAM_ESTIMATE) << "This transformation can only be used on parameters that have a mean = 1.0 or sum = 1.0";
+   LOG_ERROR_P(PARAM_ESTIMATE) << "This transformation can be used only with parameters that have a mean = 1.0 or sum = 1.0";
 
   for (unsigned i = 0; i < unit_vector_.size(); ++i) {
     unit_vector_[i] = estimates_[i]->value() / total_ ;

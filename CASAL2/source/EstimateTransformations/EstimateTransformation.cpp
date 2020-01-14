@@ -24,8 +24,8 @@ namespace niwa {
  */
 EstimateTransformation::EstimateTransformation(Model* model) : model_(model) {
   parameters_.Bind<string>(PARAM_LABEL, &label_, "Label for the transformation block", "");
-  parameters_.Bind<string>(PARAM_TYPE, &type_, "Type of transformation", "");
-  parameters_.Bind<bool>(PARAM_TRANSFORM_WITH_JACOBIAN, &transform_with_jacobian_, "Apply jacobian during transformation", "", true);
+  parameters_.Bind<string>(PARAM_TYPE, &type_, "The type of transformation", "");
+  parameters_.Bind<bool>(PARAM_TRANSFORM_WITH_JACOBIAN, &transform_with_jacobian_, "Apply Jacobian during transformation", "", true);
 }
 
 /**

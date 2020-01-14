@@ -71,7 +71,7 @@ void Estimables::LoadValues(unsigned index) {
     string error = "";
     for (auto iter : estimable_values_) {
       if (!model_->objects().VerfiyAddressableForUse(iter.first, addressable::kInputRun, error)) {
-        LOG_FATAL() << "The addressable " << iter.first << " could not be verified for use in -i run. Error was " << error;
+        LOG_FATAL() << "The addressable " << iter.first << " could not be verified for use in -i run. Error: " << error;
       }
       Double* ptr = model_->objects().GetAddressable(iter.first);
       estimables_[iter.first] = ptr;
@@ -88,7 +88,7 @@ void Estimables::LoadValues(unsigned index) {
       }
 
       if (estimates.size() != estimable_values_.size())
-        LOG_FATAL() << "The estimate value file does not have the correct number of estimables defined. Expected " << estimates.size() << " but got " << estimable_values_.size();
+        LOG_FATAL() << "The estimate value file does not have the correct number of estimables defined. Expected " << estimates.size() << ", parsed " << estimable_values_.size();
     }
   }
 

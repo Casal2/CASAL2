@@ -90,7 +90,8 @@ void Manager::Validate(Model* model) {
        objects_.end()
   );
   if (count != objects_.size())
-    LOG_WARNING() << "Estimates were removed because of matching lower and upper bounds. Originally had " << count << " estimates, now have " << objects_.size();
+    LOG_WARNING() << "Estimates were removed because of matching lower and upper bounds. Originally had "
+      << count << " estimates, now have " << objects_.size();
 
   /**
    * Load any estimate values that have been supplied
@@ -350,7 +351,8 @@ unsigned Manager::GetNumberOfPhases() {
   LOG_FINE() << "found max = " << max << " iterations";
   for(unsigned i = 1; i <= max; ++i) {
   	if (std::find(store_unique_phases.begin(),store_unique_phases.end(),i) == store_unique_phases.end()) {
-  		LOG_WARNING() << "Could not find estimation phase " << i << ", but have found an estimation phase " << max << ". this is inefficient specification we suggest you should specify consecutive phases e.g. 1,2,3 and 4 not 1 and 4. Please check the specification of the estimation phase's on your @estimates";
+  		LOG_WARNING() << "Could not find estimation phase " << i << ", but found estimation phase " << max
+          << ". Specify consecutive phases, e.g., 1, 2, 3 and 4, not 1 and 4. Please check the specification of the estimation phases for the @estimates";
   	}
   }
   return max;

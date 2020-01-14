@@ -31,6 +31,7 @@ SumToOne::SumToOne(Model* model) : EstimateTransformation(model) {
   parameters_.Bind<string>(PARAM_ESTIMATE_LABELS, &estimate_labels_, "The label for the estimates for the sum to one transformation", "");
   parameters_.Bind<double>(PARAM_UPPER_BOUND, &upper_bounds_, "The empirical upper bounds for the transformed parameters. There should be one less bound than parameters", "", true);
   parameters_.Bind<double>(PARAM_LOWER_BOUND, &lower_bounds_, "The empirical lower bound for the transformed parameters. There should be one less bound than parameters", "", true);
+
   is_simple_ = false;
 }
 
@@ -64,7 +65,8 @@ void SumToOne::DoBuild() {
       LOG_FINE() << "transform with objective = " << transform_with_jacobian_ << " estimate transform " << estimate->transform_for_objective()
         << " together = " << !transform_with_jacobian_ && !estimate->transform_for_objective();
       if (!transform_with_jacobian_ && !estimate->transform_for_objective()) {
-        LOG_ERROR_P(PARAM_LABEL) << "The specified transformation does not contribute to the Jacobian matrix and the prior parameters do not refer to the transformed estimate for the @estimate "
+        LOG_ERROR_P(PARAM_LABEL) << "The specified transformation does not contribute to the Jacobian matrix and the prior parameters"
+          << " do not refer to the transformed estimate for the @estimate "
           << estimate_label_ << ". This is not advised as it may cause bias errors. Please consult the User Manual.";
       }
       if (estimate->transform_with_jacobian_is_defined()) {
@@ -86,7 +88,8 @@ void SumToOne::DoBuild() {
     total += estimate->value();
   }
   if (total != 1.0)
-    LOG_ERROR_P(PARAM_ESTIMATE_LABELS) << "The parameter values do not sum to 1.0. They sum to " << total << ". Please check the initial values of these parameters.";
+    LOG_ERROR_P(PARAM_ESTIMATE_LABELS) << "The parameter values do not sum to 1.0. They sum to " << total
+      << ". Please check the initial values of these parameters.";
 
   // Check that the bounds are sensible
   if (parameters_.Get(PARAM_UPPER_BOUND)->has_been_defined() & parameters_.Get(PARAM_LOWER_BOUND)->has_been_defined()) {
@@ -100,7 +103,8 @@ void SumToOne::DoBuild() {
   LOG_MEDIUM() << "total = " << total;
 
   // Turn off the last estimate
-  LOG_FINE() << "Turning off parameter. This parameter will not be estimated and is a function of other parameters " << estimates_[estimates_.size() - 1]->parameter() << " in the estimation";
+  LOG_FINE() << "Turning off parameter. This parameter will not be estimated and is a function of other parameters "
+    << estimates_[estimates_.size() - 1]->parameter() << " in the estimation";
   estimates_[estimates_.size() - 1]->set_estimated(false);
   LOG_MEDIUM() << "flagged estimated = " << estimates_[estimates_.size() - 1]->estimated();
 }

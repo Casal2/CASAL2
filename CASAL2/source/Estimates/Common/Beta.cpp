@@ -35,9 +35,9 @@ Beta::Beta(Model* model) : Estimate(model) {
  */
 void Beta::DoValidate() {
   if (a_ >= b_)
-    LOG_ERROR_P(PARAM_B) << "(" << AS_DOUBLE(b_) << ") cannot be less than or equal to a (" << AS_DOUBLE(a_) << ")";
+    LOG_ERROR_P(PARAM_B) << "b (" << AS_DOUBLE(b_) << ") cannot be less than or equal to a (" << AS_DOUBLE(a_) << ")";
   if ( ((((mu_ - a_) * (b_ - mu_)) / (sigma_ * sigma_)) - 1) <= 0.0)
-    LOG_ERROR_P(PARAM_SIGMA) << "(" << AS_DOUBLE(sigma_) << ") is too large";
+    LOG_ERROR_P(PARAM_SIGMA) << " (" << AS_DOUBLE(sigma_) << ") is too large";
 }
 
 /**
