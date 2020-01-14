@@ -35,7 +35,9 @@ void Biomass::PreExecute() {
 
     for (unsigned j = 0; j < (*iterator)->data_.size(); ++j) {
       cache_value_ += (*iterator)->data_[j] * selectivities_[i]->GetLengthResult(j) * (*iterator)->mean_weight_by_time_step_length_[time_step_index][j];
-      LOG_FINEST() << "Biomass (Pre-execute) for category = " << (*iterator)->name_ << " length bin = " << length_bins[j] << " mean weight = " << (*iterator)->mean_weight_by_time_step_length_[time_step_index][j] << " selectivity = " << selectivities_[i]->GetLengthResult(j) << " numbers = " << (*iterator)->data_[j];
+      LOG_FINEST() << "Biomass (Pre-execute) for category = " << (*iterator)->name_
+        << " length bin = " << length_bins[j] << " mean weight = " << (*iterator)->mean_weight_by_time_step_length_[time_step_index][j]
+        << " selectivity = " << selectivities_[i]->GetLengthResult(j) << " numbers = " << (*iterator)->data_[j];
     }
   }
 }
@@ -62,7 +64,9 @@ void Biomass::Execute() {
     for (unsigned i = 0; i < partition_.size() && iterator != partition_.end(); ++i, ++iterator) {
       //(*iterator)->UpdateMeanWeightData();
       for (unsigned j = 0; j < (*iterator)->data_.size(); ++j) {
-        LOG_FINE() << "Biomass for category = " << (*iterator)->name_ << " length = " << length_bins[j] << " mean weight = " << (*iterator)->mean_weight_by_time_step_length_[time_step_index][j] << " selectivity = " << selectivities_[i]->GetLengthResult(j) << " numbers = " << (*iterator)->data_[j];
+        LOG_FINE() << "Biomass for category = " << (*iterator)->name_ << " length = " << length_bins[j]
+          << " mean weight = " << (*iterator)->mean_weight_by_time_step_length_[time_step_index][j]
+          << " selectivity = " << selectivities_[i]->GetLengthResult(j) << " numbers = " << (*iterator)->data_[j];
         value += (*iterator)->data_[j] * selectivities_[i]->GetLengthResult(j) * (*iterator)->mean_weight_by_time_step_length_[time_step_index][j];
       }
     }
@@ -117,7 +121,8 @@ void Biomass::Execute() {
     else
       values_[model_->current_year()] = pow(cache_value_, 1 - time_step_proportion_) * pow(value ,time_step_proportion_);
   }
-  LOG_FINEST() << " Pre Exploitation value " <<  cache_value_ << " Post exploitation " << value << " Final value " << values_[model_->current_year()];
+  LOG_FINEST() << " Pre Exploitation value " <<  cache_value_ << " Post exploitation " << value
+    << " Final value " << values_[model_->current_year()];
 }
 
 } /* namesapce length */

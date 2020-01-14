@@ -123,7 +123,7 @@ Double& EquationParser::LookupValue(const std::string& name) {
 
   string error = "";
   if (!model_->objects().VerfiyAddressableForUse(name, addressable::kLookup, error)) {
-    LOG_FATAL() << "addressable "<< name << " could not be verified for use in equation_parser. Error was " << error;
+    LOG_FATAL() << "addressable "<< name << " could not be verified for use in equation_parser. Error: " << error;
   }
 
   Double* value = model_->objects().GetAddressable(name);
