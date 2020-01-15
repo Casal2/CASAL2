@@ -46,18 +46,19 @@ Bindable<T>::Bindable(const string& label, T* target, const string& description)
 template<typename T>
 void Bindable<T>::Bind() {
   if (values_.size() > 1)
-    LOG_ERROR() << location() << ": " << label_ << " supports having a single value defined only. There are  " << values_.size() << " values defined.\n"
-        << "The values defined are: " << boost::algorithm::join(values_, " | ");
+    LOG_ERROR() << location() << ": " << label_ << " supports having a single value defined only. There are "
+      << values_.size() << " values defined.\n"
+      << "The values defined are: " << boost::algorithm::join(values_, " | ");
 
   if (values_.size() > 0) {
     if (!niwa::utilities::To<T>(values_[0], *target_)) {
       LOG_ERROR() << location() << ": " << label_ << " value " << values_[0] << " could not be converted to type "
-        << utilities::demangle(typeid(*target_).name()) << ".";
+        << utilities::demangle(typeid(*target_).name());
     }
   } else if (is_optional_) {
     *target_ = default_value_;
   } else
-    LOG_CODE_ERROR() << location() << " The parameter " << label_ << " has not been defined or is missing";
+    LOG_CODE_ERROR() << location() << " The parameter " << label_ << " has not been defined";
 
   /**
    * Check if the value provided is within the ranges provided (if defined)
@@ -73,7 +74,7 @@ void Bindable<T>::Bind() {
   }
   if (allowed_values_.size() != 0) {
     if (std::find(allowed_values_.begin(), allowed_values_.end(), *target_) == allowed_values_.end())
-      LOG_ERROR() << location() << " value " << *target_ << " is not in the list of allowed values: "
+      LOG_ERROR() << location() << " value " << *target_ << " is not in the allowed values list: "
         << utilities::String::join(allowed_values_, ", ");
   }
 }

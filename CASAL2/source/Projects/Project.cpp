@@ -44,7 +44,7 @@ void Project::Validate() {
 void Project::Build() {
   string error = "";
   if (!model_->objects().VerfiyAddressableForUse(parameter_, addressable::kProject, error)) {
-    LOG_FATAL_P(PARAM_PARAMETER) << "could not be verified for use in a @project block. Error was " << error;
+    LOG_FATAL_P(PARAM_PARAMETER) << "could not be verified for use in a @project block. Error: " << error;
   }
 
   addressable::Type addressable_type = model_->objects().GetAddressableType(parameter_);
@@ -53,7 +53,7 @@ void Project::Build() {
       LOG_CODE_ERROR() << "Invalid addressable type: " << parameter_;
       break;
     case addressable::kSingle:
-      LOG_FINEST() << "applying projection for parameter " << parameter_ << " is an single type";
+      LOG_FINEST() << "applying projection for parameter " << parameter_ << " is a single value";
       DoUpdateFunc_ = &Project::SetSingleValue;
       addressable_    = model_->objects().GetAddressable(parameter_);
       original_value_ = *addressable_;
@@ -69,7 +69,8 @@ void Project::Build() {
       addressable_map_ = model_->objects().GetAddressableUMap(parameter_);
       break;
     default:
-      LOG_ERROR() << "The addressable you have provided for use in a projection: " << parameter_ << " is not a type that is supported for projection modification";
+      LOG_ERROR() << "The addressable provided for use in a projection: " << parameter_
+        << " is not a type that is supported for projection modification";
       break;
   }
   DoBuild();
@@ -95,7 +96,7 @@ void Project::Update(unsigned current_year) {
   if (DoUpdateFunc_ == nullptr)
     LOG_CODE_ERROR() << "DoUpdateFunc_ == nullptr";
   if (std::find(years_.begin(), years_.end(), current_year) == years_.end()) {
-    LOG_FINEST() << "Resetting parameter to original value as the year " << current_year << " not in years";
+    LOG_FINEST() << "Resetting parameter to original value as the year " << current_year << " is not in years";
     RestoreOriginalValue(current_year);
   } else {
     LOG_FINEST() << "updating parameter";

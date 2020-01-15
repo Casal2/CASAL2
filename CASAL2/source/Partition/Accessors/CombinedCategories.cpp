@@ -34,7 +34,7 @@ CombinedCategories::CombinedCategories(Model* model, const vector<string>& categ
   unsigned start_year = model_->start_year();
   unsigned final_year = model_->final_year();
   LOG_FINEST() << "Model details: start_year: " << start_year << "; final_year: " << final_year;
-  LOG_FINEST() << "Categories: " << category_labels.size();
+  LOG_FINEST() << "Number of categories: " << category_labels.size();
 
 
   Partition& partition = model_->partition();

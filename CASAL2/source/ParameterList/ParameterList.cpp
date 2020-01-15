@@ -301,7 +301,8 @@ void ParameterList::CopyFrom(const ParameterList& source, string parameter_label
 
   vector<string> values;
   if (iter->second->values().size() <= value_index)
-    LOG_CODE_ERROR() << "iter->second->values().size(" << iter->second->values().size() << ") <= value_index(" << value_index << "): " << parameter_label;
+    LOG_CODE_ERROR() << "iter->second->values().size(" << iter->second->values().size() << ") <= value_index(" << value_index
+      << "): " << parameter_label;
 
   values.push_back(iter->second->values()[value_index]);
   Add(parameter_label, values, iter->second->file_name(), iter->second->line_number());
@@ -349,7 +350,8 @@ string ParameterList::location(const string& label) {
  * @param description used for documentation, ignored
  * @param values used for documentation, ignored
  */
-void ParameterList::BindTable(const string& label, parameters::Table* table, const string& description, const string& values, bool requires_columns, bool optional) {
+void ParameterList::BindTable(const string& label, parameters::Table* table, const string& description,
+                              const string& values, bool requires_columns, bool optional) {
   table->set_requires_columns(requires_columns);
   table->set_is_optional(optional);
   tables_[label] = table;

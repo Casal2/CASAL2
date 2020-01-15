@@ -27,7 +27,8 @@ Constant::Constant(Model* model) : Project(model) {
  */
 void Constant::DoValidate() {
   if (values_.size() != 1 && values_.size() != years_.size()) {
-    LOG_ERROR_P(PARAM_VALUES) << "length (" << values_.size() << ") must match the number of years provided (" << years_.size() << "), or supply a single value for all years";
+    LOG_ERROR_P(PARAM_VALUES) << "length (" << values_.size() << ") must match the number of years provided (" << years_.size()
+      << "), or supply a single value for all years";
     return;
   }
 

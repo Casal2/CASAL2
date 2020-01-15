@@ -96,7 +96,7 @@ void Category::UpdateMeanWeightData() {
           //if (!niwa::utilities::To<Double>(length_bins[length_bin_index], size))
           //  LOG_FATAL() << " value (" << length_bins[length_bin_index] << ") could not be converted to a double";
 
-          mean_weight_by_time_step_length_[step_iter][length_bin_index] = length_weight->mean_weight(length_bins[length_bin_index], Distribution::kNone,0.0);
+          mean_weight_by_time_step_length_[step_iter][length_bin_index] = length_weight->mean_weight(length_bins[length_bin_index], Distribution::kNone, 0.0);
         }
       }
     }
@@ -109,7 +109,7 @@ void Category::UpdateMeanWeightData() {
  * to transfer any changes in the length partition back to the age partition.
  */
 void Category::CollapseAgeLengthData() {
-  LOG_CODE_ERROR() << "This is hideously slow, do not allocate memory with the .push_back";
+  LOG_CODE_ERROR() << "Do not allocate memory with '.push_back'";
   data_.clear();
 
   for (auto age_row : age_length_matrix_) {
@@ -129,7 +129,7 @@ void Category::CollapseAgeLengthData() {
  * @parameter selectivity The selectivity to apply to the age data
  */
 void Category::PopulateAgeLengthMatrix(Selectivity* selectivity) {
-  LOG_FINEST() << "About to populate the length data for category " << name_ << " in year " << model_->current_year();
+  LOG_FINEST() << "Populating the length data for category " << name_ << " in year " << model_->current_year();
 
   if (selectivity == nullptr)
     LOG_CODE_ERROR() << "selectivity == nullptr";
@@ -193,7 +193,9 @@ void Category::PopulateAgeLengthMatrix(Selectivity* selectivity) {
  * @parameter length_plus whether the last bin is a plus group
 
  */
-void Category::CalculateNumbersAtLength(Selectivity* selectivity, const vector<double>& length_bins, vector<vector<Double>>& age_length_matrix, vector<Double>& numbers_by_length, const bool& length_plus) {
+void Category::CalculateNumbersAtLength(Selectivity* selectivity, const vector<double>& length_bins,
+                                        vector<vector<Double>>& age_length_matrix, vector<Double>& numbers_by_length,
+                                        const bool& length_plus) {
   // Probably should do some checks and balances, but I want to remove this later on
   unsigned size = length_plus == true ? length_bins.size() : length_bins.size() - 1;
   Double std_dev = 0;
@@ -233,7 +235,8 @@ void Category::CalculateNumbersAtLength(Selectivity* selectivity, const vector<d
     // populate age_length matrix with proportions
     age_length_matrix[i] = utilities::math::distribution(length_bins, length_plus, age_length_->distribution(), mean_length_by_time_step_age_[year_ndx][time_step_index][i], std_dev);
     if (age_length_matrix[i].size() != numbers_by_length.size())
-      LOG_CODE_ERROR() << "if (age_length_matrix[i].size() != numbers_by_length.size()). Age length dims were " << age_length_matrix[i].size() << " we wanted " << numbers_by_length.size();
+      LOG_CODE_ERROR() << "if (age_length_matrix[i].size() != numbers_by_length.size()). Age length dims were "
+        << age_length_matrix[i].size() << " we wanted " << numbers_by_length.size();
     // Multiply by data_
     std::transform(age_length_matrix[i].begin(), age_length_matrix[i].end(), age_length_matrix[i].begin(), std::bind(std::multiplies<Double>(), std::placeholders::_1, data_[i]));
   }

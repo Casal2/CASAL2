@@ -63,7 +63,7 @@ private:
   T*                          target_ = nullptr;
   T                           default_value_;
   vector<T>                   allowed_values_;
-  Range						            range_;
+  Range                       range_;
 };
 
 } /* namespace parameters */

@@ -38,7 +38,7 @@ void Categories::Init(const vector<string>& category_labels) {
   if (model_->run_mode() == RunMode::kProjection)
     final_year = model_->projection_final_year();
   LOG_FINEST() << "Model details: start_year: " << start_year << "; final_year: " << final_year;
-  LOG_FINEST() << "Categories: " << category_labels.size();
+  LOG_FINEST() << "Number of categories: " << category_labels.size();
 
   Partition& partition = model_->partition();
 
