@@ -30,8 +30,8 @@ Logistic::Logistic(Model* model)
 : Selectivity(model) {
 
   parameters_.Bind<Double>(PARAM_A50, &a50_, "A50", "");
-  parameters_.Bind<Double>(PARAM_ATO95, &ato95_, "Ato95", "");
-  parameters_.Bind<Double>(PARAM_ALPHA, &alpha_, "Alpha", "", 1.0);
+  parameters_.Bind<Double>(PARAM_ATO95, &ato95_, "Ato95", "")->set_lower_bound(0.0, false);
+  parameters_.Bind<Double>(PARAM_ALPHA, &alpha_, "Alpha", "", 1.0)->set_lower_bound(0.0, false);
 
   RegisterAsAddressable(PARAM_A50, &a50_);
   RegisterAsAddressable(PARAM_ATO95, &ato95_);

@@ -31,7 +31,7 @@ Increasing::Increasing(Model* model)
   parameters_.Bind<unsigned>(PARAM_L, &low_, "Low", "");
   parameters_.Bind<unsigned>(PARAM_H, &high_, "High", "");
   parameters_.Bind<Double>(PARAM_V, &v_, "V", "");
-  parameters_.Bind<Double>(PARAM_ALPHA, &alpha_, "Alpha", "", 1.0);
+  parameters_.Bind<Double>(PARAM_ALPHA, &alpha_, "Alpha", "", 1.0)->set_lower_bound(0.0, false);
 
   RegisterAsAddressable(PARAM_V, &v_);
 }
@@ -51,39 +51,38 @@ void Increasing::DoValidate() {
     LOG_ERROR_P(PARAM_ALPHA) << ": alpha (" << AS_DOUBLE(alpha_) << ") cannot be less than or equal to 0.0";
 
   if (high_ <= low_)
-    LOG_ERROR_P(PARAM_H) << ": 'h' (" << high_ << ") cannot be less than or the same as 'l' (" << low_ << ")";
+    LOG_ERROR_P(PARAM_H) << ": 'h' (" << high_ << ") cannot be less than or equal to 'l' (" << low_ << ")";
 
   for (unsigned i = 0; i < v_.size(); ++i) {
     if (v_[i] < 0.0 || v_[i] > 1.0) {
-      LOG_ERROR_P(PARAM_V) << " 'v' element " << i + 1 << " (" << AS_DOUBLE(v_[i]) << ") is not between 0.0 and 1.0";
+      LOG_ERROR_P(PARAM_V) << " 'v' element " << i + 1 << " (" << AS_DOUBLE(v_[i]) << ") must be between 0.0 and 1.0 inclusive";
     }
   }
 
   if (model_->partition_type() == PartitionType::kAge) {
     if (low_ < model_->min_age() || low_ > model_->max_age())
-      LOG_ERROR_P(PARAM_L) << ": 'l' (" << low_ << ") must be between the model min_age (" << model_->min_age() << ") and max_age (" << model_->max_age() << ")";
+      LOG_ERROR_P(PARAM_L) << ": 'l' (" << low_ << ") must be between the model min_age (" << model_->min_age()
+        << ") and max_age (" << model_->max_age() << ")";
 
     if (v_.size() != (high_ - low_ + 1)) {
-      LOG_ERROR_P(PARAM_V) << " 'v' has incorrect amount of elements\n"
-          << "Expected: " << (high_ - low_ + 1) << " but got " << v_.size();
+      LOG_ERROR_P(PARAM_V) << " 'v' has an incorrect number of elements\n"
+          << "Expected: " << (high_ - low_ + 1) << ", parsed " << v_.size();
     }
   }   else if (model_->partition_type() == PartitionType::kLength) {
     vector<unsigned> length_bins = model_->length_bins();
     if (low_ < length_bins[0] || low_ > length_bins[length_bins.size()-1])
-      LOG_ERROR_P(PARAM_L) << ": 'l' (" << low_ << ") must be between the model min length (" << length_bins[0] << ") and max length (" << length_bins[length_bins.size()-1] << ")";
+      LOG_ERROR_P(PARAM_L) << ": 'l' (" << low_ << ") must be between the model min length (" << length_bins[0]
+        << ") and max length (" << length_bins[length_bins.size()-1] << ")";
     unsigned bins = 0;
     for (unsigned i = 0; i < length_bins.size(); ++i) {
       if (length_bins[i] >= low_ && length_bins[i] <= high_)
         ++bins;
     }
     if (bins != v_.size()) {
-      LOG_ERROR_P(PARAM_V) << ": Parameter 'v' does not have the right amount of elements n = low <= length_bins <= high, "
-          << "Expected " << bins << " but got " << v_.size();
+      LOG_ERROR_P(PARAM_V) << ": Parameter 'v' has an incorrect number of elements n = low <= length_bins <= high, "
+          << "Expected: " << bins << ", parsed: " << v_.size();
     }
   }
-
-
-
 
 }
 
@@ -156,7 +155,7 @@ void Increasing::RebuildCache() {
  */
 
 Double Increasing::GetLengthBasedResult(unsigned age, AgeLength* age_length, unsigned year, int time_step_index) {
-  LOG_ERROR_P(PARAM_LENGTH_BASED) << ": This selectivity type has not been implemented for length based selectivities ";
+  LOG_ERROR_P(PARAM_LENGTH_BASED) << ": This selectivity type has not been implemented for length-based selectivities ";
   return 0.0;
 }
 

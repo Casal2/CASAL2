@@ -30,9 +30,9 @@ DoubleNormal::DoubleNormal(Model* model)
 : Selectivity(model) {
 
   parameters_.Bind<Double>(PARAM_MU, &mu_, "Mu", "");
-  parameters_.Bind<Double>(PARAM_SIGMA_L, &sigma_l_, "Sigma L", "");
-  parameters_.Bind<Double>(PARAM_SIGMA_R, &sigma_r_, "Sigma R", "");
-  parameters_.Bind<Double>(PARAM_ALPHA, &alpha_, "Alpha", "", 1.0);
+  parameters_.Bind<Double>(PARAM_SIGMA_L, &sigma_l_, "Sigma L", "")->set_lower_bound(0.0, false);
+  parameters_.Bind<Double>(PARAM_SIGMA_R, &sigma_r_, "Sigma R", "")->set_lower_bound(0.0, false);
+  parameters_.Bind<Double>(PARAM_ALPHA, &alpha_, "Alpha", "", 1.0)->set_lower_bound(0.0, false);
 
   RegisterAsAddressable(PARAM_MU, &mu_);
   RegisterAsAddressable(PARAM_SIGMA_L, &sigma_l_);
@@ -107,7 +107,7 @@ Double DoubleNormal::GetLengthBasedResult(unsigned age, AgeLength* age_length, u
     if (mean < mu_)
       return pow(2.0, -((mean - mu_) / sigma_l_ * (mean - mu_) / sigma_l_)) * alpha_;
     else
-      return  pow(2.0, -((mean - mu_)/sigma_r_ * (mean - mu_) / sigma_r_)) * alpha_;
+      return pow(2.0, -((mean - mu_) / sigma_r_ * (mean - mu_) / sigma_r_)) * alpha_;
 
   } else if (dist == PARAM_NORMAL) {
 
@@ -119,9 +119,9 @@ Double DoubleNormal::GetLengthBasedResult(unsigned age, AgeLength* age_length, u
       size = mean + sigma * quantiles_at_[j];
 
       if (size < mu_)
-        total +=  pow(2.0, -((size - mu_) / sigma_l_ * (size - mu_) / sigma_l_)) * alpha_;
+        total += pow(2.0, -((size - mu_) / sigma_l_ * (size - mu_) / sigma_l_)) * alpha_;
       else
-        total +=   pow(2.0, -((size - mu_)/sigma_r_ * (size - mu_) / sigma_r_)) * alpha_;
+        total += pow(2.0, -((size - mu_) / sigma_r_ * (size - mu_) / sigma_r_)) * alpha_;
     }
     return total / n_quant_;
 
@@ -137,9 +137,9 @@ Double DoubleNormal::GetLengthBasedResult(unsigned age, AgeLength* age_length, u
       size = mu + sigma * quantile(dist, AS_VALUE(quantiles_[j]));
 
       if (size < mu_)
-        total +=  pow(2.0, -((size - mu_) / sigma_l_ * (size - mu_) / sigma_l_)) * alpha_;
+        total += pow(2.0, -((size - mu_) / sigma_l_ * (size - mu_) / sigma_l_)) * alpha_;
       else
-        total +=   pow(2.0, -((size - mu_)/sigma_r_ * (size - mu_) / sigma_r_)) * alpha_;
+        total += pow(2.0, -((size - mu_) / sigma_r_ * (size - mu_) / sigma_r_)) * alpha_;
     }
     return total / n_quant_;
   }

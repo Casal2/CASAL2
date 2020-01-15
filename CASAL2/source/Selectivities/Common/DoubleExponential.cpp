@@ -32,10 +32,10 @@ DoubleExponential::DoubleExponential(Model* model)
   parameters_.Bind<Double>(PARAM_X0, &x0_, "X0", "");
   parameters_.Bind<Double>(PARAM_X1, &x1_, "X1", "");
   parameters_.Bind<Double>(PARAM_X2, &x2_, "X2", "");
-  parameters_.Bind<Double>(PARAM_Y0, &y0_, "Y0", "");
-  parameters_.Bind<Double>(PARAM_Y1, &y1_, "Y1", "");
-  parameters_.Bind<Double>(PARAM_Y2, &y2_, "Y2", "");
-  parameters_.Bind<Double>(PARAM_ALPHA, &alpha_, "Alpha", "", 1.0);
+  parameters_.Bind<Double>(PARAM_Y0, &y0_, "Y0", "")->set_lower_bound(0.0);
+  parameters_.Bind<Double>(PARAM_Y1, &y1_, "Y1", "")->set_lower_bound(0.0);
+  parameters_.Bind<Double>(PARAM_Y2, &y2_, "Y2", "")->set_lower_bound(0.0);
+  parameters_.Bind<Double>(PARAM_ALPHA, &alpha_, "Alpha", "", 1.0)->set_lower_bound(0.0, false);
 
   RegisterAsAddressable(PARAM_X0, &x0_);
   RegisterAsAddressable(PARAM_Y0, &y0_);
@@ -60,15 +60,15 @@ void DoubleExponential::DoValidate() {
 
   // Param: y0, y1, y2
   if (y0_ < 0.0)
-    LOG_ERROR_P(PARAM_Y0) << ": y0 (" << AS_DOUBLE(y0_) << ") is less than 0.0";
+    LOG_ERROR_P(PARAM_Y0) << ": y0 (" << AS_DOUBLE(y0_) << ") cannot be less than 0.0";
   if (y1_ < 0.0)
-    LOG_ERROR_P(PARAM_Y1) << ": y1 (" << AS_DOUBLE(y1_) << ") is less than 0.0";
+    LOG_ERROR_P(PARAM_Y1) << ": y1 (" << AS_DOUBLE(y1_) << ") cannot be less than 0.0";
   if (y2_ < 0.0)
-    LOG_ERROR_P(PARAM_Y2) << ": y2 (" << AS_DOUBLE(y2_) << ") is less than 0.0";
+    LOG_ERROR_P(PARAM_Y2) << ": y2 (" << AS_DOUBLE(y2_) << ") cannot be less than 0.0";
 
   // Param: alpha
   if (alpha_ <= 0.0)
-    LOG_ERROR_P(PARAM_ALPHA) << ": alpha (" << AS_DOUBLE(alpha_) << ") is less than or equal to 0.0";
+    LOG_ERROR_P(PARAM_ALPHA) << ": alpha (" << AS_DOUBLE(alpha_) << ") cannot be less than or equal to 0.0";
 }
 
 /**
