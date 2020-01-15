@@ -45,7 +45,8 @@ void Linear::DoValidate() {
  */
 void Linear::DoBuild() {
   if(model_->objects().GetAddressableType(parameter_) != addressable::kSingle)
-    LOG_ERROR_P(PARAM_TYPE) << "@time_varying blocks of type " << PARAM_LINEAR << " can only be implemented in parameters that are scalars or single values";
+    LOG_ERROR_P(PARAM_TYPE) << "@time_varying blocks of type " << PARAM_LINEAR
+      << " can be used only with parameters that are scalars or single values";
   DoReset();
 }
 

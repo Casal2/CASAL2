@@ -41,20 +41,21 @@ RandomWalk::RandomWalk(Model* model) : TimeVarying(model) {
  */
 void RandomWalk::DoValidate() {
   if (distribution_ != PARAM_NORMAL)
-    LOG_ERROR() << "Random Walk can only can draw from a normal distribution currently";
+    LOG_ERROR() << "Random Walk can draw only from a normal distribution";
 }
 
 /**
  *
  */
 void RandomWalk::DoBuild() {
-	// Warn users that they have a time-varying parameter in estimation mode.
-	if (model_->run_mode() == RunMode::kEstimation) {
-		LOG_WARNING() << "You have a varying of type " << type_
-				<< " during estimation, Not the correct implementation of a random effect, its purpose is more for simulating/projecting adding variaion.";
-	}
+  // Warn users that they have a time-varying parameter in estimation mode.
+  if (model_->run_mode() == RunMode::kEstimation) {
+    LOG_WARNING() << "Time varying of type " << type_
+      << " during estimation, Not the correct implementation of a random effect, its purpose is for simulating/projecting adding variaion.";
+  }
   if(model_->objects().GetAddressableType(parameter_) != addressable::kSingle)
-    LOG_ERROR_P(PARAM_TYPE) << "@time_varying blocks of type " << PARAM_RANDOMWALK << " can only be implemented in parameters that are scalars or single values";
+    LOG_ERROR_P(PARAM_TYPE) << "@time_varying blocks of type " << PARAM_RANDOMWALK
+      << " can be used only with parameters that are scalars or single values";
 }
 
 /**
@@ -68,14 +69,14 @@ void RandomWalk::DoUpdate() {
   value += value * rho_ + deviate;
 
 
-	if (value < lower_bound_) {
-		LOG_FINEST() << "hit @estimate lower bound setting value from " << value << " to " << lower_bound_;
-		value = lower_bound_;
-	}
-	if (value > upper_bound_) {
-		LOG_FINEST() << "hit @estimate upper bound setting value from " << value << " to " << upper_bound_;
-		value = upper_bound_;
-	}
+  if (value < lower_bound_) {
+    LOG_FINEST() << "@estimate at lower bound, changing value from " << value << " to " << lower_bound_;
+    value = lower_bound_;
+  }
+  if (value > upper_bound_) {
+    LOG_FINEST() << "@estimate at upper bound, changing value from " << value << " to " << upper_bound_;
+    value = upper_bound_;
+  }
 
   LOG_FINEST() << "value after deviate of " << deviate << " = " << value << " for year " << model_->current_year();
 

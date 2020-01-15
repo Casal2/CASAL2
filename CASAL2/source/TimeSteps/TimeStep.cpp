@@ -49,7 +49,7 @@ void TimeStep::Build() {
   for (string process_name : process_names_) {
     Process* process = process_manager.GetProcess(process_name);
     if (!process) {
-      LOG_ERROR_P(PARAM_PROCESSES) << ": process " << process_name << " does not exist. Have you defined it?";
+      LOG_ERROR_P(PARAM_PROCESSES) << ": process " << process_name << " was not found.";
     } else
       processes_.push_back(process);
   }
@@ -68,7 +68,7 @@ void TimeStep::Build() {
       mortality_block_.first = mortality_block_.first == processes_.size() ? i : mortality_block_.first;
       mortality_block_.second = i;
     } else if (processes_[i]->process_type() == ProcessType::kMortality && finished_mortality_block) {
-      LOG_FATAL() << "Mortality processes within a time step need to be consecutive (i.e. a single mortality block)";
+      LOG_FATAL() << "Mortality processes within a time step need to be consecutive (i.e., a single mortality block)";
     } else if (mortality_block_.first != processes_.size())
       finished_mortality_block = true;
   }
@@ -222,7 +222,7 @@ void TimeStep::BuildInitialisationProcesses() {
         initialisation_mortality_blocks_[iter.first].first = initialisation_mortality_blocks_[iter.first].first == processes_.size() ? i : initialisation_mortality_blocks_[iter.first].first;
         initialisation_mortality_blocks_[iter.first].second = i;
       } else if (initialisation_processes_[iter.first][i]->process_type() == ProcessType::kMortality && finished_mortality_block) {
-        LOG_FATAL() << "Mortality processes within a time step need to be consecutive (i.e. a single mortality block)";
+        LOG_FATAL() << "Mortality processes within a time step need to be consecutive (i.e., a single mortality block)";
       } else if (initialisation_mortality_blocks_[iter.first].first != processes_.size())
         finished_mortality_block = true;
     }
