@@ -45,7 +45,7 @@ void CovarianceMatrix::DoExecute() {
     auto mcmc_ = model_->managers().mcmc()->active_mcmc();
     if (mcmc_->recalculate_covariance()) {
       cache_ << REPORT_END << "\n\n";
-      LOG_FINE() << "During the mcmc run you recalculated the the covariance matrix, so we will print the modified matrix at the end of the chain";
+      LOG_FINE() << "During the MCMC run the covariance matrix was recalculated, so the modified matrix will be printed at the end of the chain";
       cache_ << "Modified_covariance_matrix  " << REPORT_R_MATRIX  << "\n";
       auto covariance = mcmc_->covariance_matrix();
       for (unsigned i = 0; i < covariance.size1(); ++i) {

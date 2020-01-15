@@ -35,7 +35,6 @@ void PartitionBiomass::DoValidate() {
     if (std::find(model_years.begin(), model_years.end(), year) == model_years.end())
       LOG_ERROR_P(PARAM_YEARS) << " value " << year << " is not a valid year in the model";
   }
-
 }
 
 /**

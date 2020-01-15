@@ -30,7 +30,7 @@ AgeingErrorMatrix::AgeingErrorMatrix(Model* model) : Report(model) {
 void AgeingErrorMatrix::DoBuild() {
   ageingerror_ = model_->managers().ageing_error()->GetAgeingError(ageingerror_label_);
   if (!ageingerror_)
-    LOG_ERROR_P(PARAM_AGEING_ERROR) << "(" << ageingerror_label_ << ") could not be found. Have you defined it?";
+    LOG_ERROR_P(PARAM_AGEING_ERROR) << "Ageing error label (" << ageingerror_label_ << ") was not found.";
   }
 
 void AgeingErrorMatrix::DoExecute() {

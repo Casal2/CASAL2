@@ -40,7 +40,7 @@ Project::Project(Model* model) : Report(model) {
 void Project::DoBuild() {
   project_ = model_->managers().project()->GetProject(project_label_);
   if (!project_) {
-    LOG_ERROR_P(PARAM_PROJECT) << "project " << project_label_ << " could not be found. Have you defined it?";
+    LOG_ERROR_P(PARAM_PROJECT) << "project " << project_label_ << " was not found.";
   }
 
 }

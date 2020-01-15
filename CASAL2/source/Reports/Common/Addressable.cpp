@@ -61,7 +61,7 @@ void Addressable::DoBuild() {
 
   string error = "";
   if (!model_->objects().VerfiyAddressableForUse(parameter_, addressable::kLookup, error)) {
-    LOG_FATAL_P(PARAM_PARAMETER) << "could not be verified for use in assert.addressable. Error was " << error;
+    LOG_FATAL_P(PARAM_PARAMETER) << "could not be verified for use in assert.addressable. Error: " << error;
   }
   target_ = model_->objects().GetAddressable(parameter_);
 }

@@ -51,7 +51,7 @@ void InitialisationPartition::DoExecute() {
     if (longest_length < (*iterator)->name_.length())
       longest_length = (*iterator)->name_.length();
   }
-  LOG_FINEST() << "min age = " << lowest << " max-age = " << highest << " what ever lonest_length is " << longest_length;
+  LOG_FINEST() << "min age = " << lowest << ", max age = " << highest << ", longest_length = " << longest_length;
 
   // Print the header
   cache_ << "*"<< type_ << "[" << label_ << "]" << "\n";

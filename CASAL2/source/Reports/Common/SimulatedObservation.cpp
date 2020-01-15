@@ -35,7 +35,7 @@ SimulatedObservation::SimulatedObservation(Model* model) : Report(model) {
 void SimulatedObservation::DoBuild() {
   observation_ = model_->managers().observation()->GetObservation(observation_label_);
   if (!observation_)
-    LOG_ERROR_P(PARAM_OBSERVATION) << "(" << observation_label_ << ") could not be found. Have you defined it?";
+    LOG_ERROR_P(PARAM_OBSERVATION) << "Observation label (" << observation_label_ << ") was not found.";
 }
 
 /**
@@ -97,7 +97,6 @@ void SimulatedObservation::DoExecute() {
     }
     cache_ << PARAM_END_TABLE << "\n";
   }
-
 
 
   // Print Error values

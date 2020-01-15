@@ -47,17 +47,19 @@ void Observation::DoBuild() {
     auto observations = model_->managers().observation()->objects();
     for (auto observation : observations)
       cout << observation->label() << endl;
-    LOG_ERROR_P(PARAM_OBSERVATION) << " (" << observation_label_ << ") could not be found. Have you defined it?";
+    LOG_ERROR_P(PARAM_OBSERVATION) << "Observation label (" << observation_label_ << ") was not found.";
   }
 
   if (pearson_resids_) {
     if(std::find(pearson_likelihoods.begin(), pearson_likelihoods.end(), observation_->likelihood()) == pearson_likelihoods.end()) {
-       LOG_ERROR_P(PARAM_PEARSONS_RESIDUALS) << "The likelihood associated with this observation is " << observation_->likelihood() << ", Pearsons residuals can only be calculated for the following likelihoods; binomial,multinomial, lognormal, normal, binomal_approx";
+       LOG_ERROR_P(PARAM_PEARSONS_RESIDUALS) << "The likelihood associated with this observation is " << observation_->likelihood()
+         << ", Pearsons residuals can be calculated only for the following likelihoods: binomial, multinomial, lognormal, normal, binomal_approx";
     }
   }
   if (normalised_resids_) {
     if(std::find(normalised_likelihoods.begin(), normalised_likelihoods.end(), observation_->likelihood()) == normalised_likelihoods.end()) {
-       LOG_ERROR_P(PARAM_NORMALISED_RESIDUALS) << "The likelihood associated with this observation is " << observation_->likelihood() << ", Pearsons residuals can only be calculated for the following likelihoods; lognormal, lognormal_with_Q, normal";
+       LOG_ERROR_P(PARAM_NORMALISED_RESIDUALS) << "The likelihood associated with this observation is " << observation_->likelihood()
+         << ", Pearsons residuals can be calculated only for the following likelihoods: lognormal, lognormal_with_Q, normal";
     }
   }
 
@@ -90,7 +92,8 @@ void Observation::DoExecute() {
         } else if (observation_->likelihood() == PARAM_NORMAL) {
           resid = (comparison.observed_ - comparison.expected_) / (comparison.expected_ * comparison.adjusted_error_);
         } else {
-          LOG_CODE_ERROR() << "Unknown coded likelihood type should be dealt with in DoBuild(), if the pearsons residual is unknown for this likelihood set, pearsons_residual false";
+          LOG_CODE_ERROR() << "Unknown coded likelihood type should be dealt with in DoBuild(). If the Pearsons residual is unknown"
+            << " for this likelihood, set pearsons_residual false";
         }
         cache_ << iter->first << " " << comparison.category_ << " " << comparison.age_ << " " << comparison.length_ << " " << comparison.observed_ << " " << AS_VALUE(comparison.expected_)
              << " " << comparison.observed_ - AS_VALUE(comparison.expected_) << " " << comparison.error_value_ << " " <<AS_VALUE(comparison.process_error_) << " "
@@ -109,7 +112,8 @@ void Observation::DoExecute() {
         } else if (observation_->likelihood() == PARAM_NORMAL) {
           resid =  (comparison.observed_ - comparison.expected_) / (comparison.expected_ * comparison.adjusted_error_);
         } else {
-          LOG_CODE_ERROR() << "Unknown coded likelihood type should be dealt with in DoBuild(), if the pearsons residual is unknown for this likelihood set, pearsons_residual false";
+          LOG_CODE_ERROR() << "Unknown coded likelihood type should be dealt with in DoBuild(). If the Pearsons residual is unknown"
+            << " for this likelihood, set pearsons_residual false";
         }
         cache_ << iter->first << " " << comparison.category_ << " " << comparison.age_ << " " << comparison.length_ << " " << comparison.observed_ << " " << AS_VALUE(comparison.expected_)
              << " " << comparison.observed_ - AS_VALUE(comparison.expected_) << " " << comparison.error_value_ << " " <<AS_VALUE(comparison.process_error_) << " "
@@ -130,7 +134,8 @@ void Observation::DoExecute() {
           normalised_resid = (comparison.observed_ - comparison.expected_) / (comparison.expected_ * comparison.adjusted_error_);
           pearson_resid = (comparison.observed_ - comparison.expected_) / (comparison.expected_ * comparison.adjusted_error_);
         } else {
-          LOG_CODE_ERROR() << "Unknown coded likelihood type should be dealt with in DoBuild(), if the pearsons residual is unknown for this likelihood set, pearsons_residual false";
+          LOG_CODE_ERROR() << "Unknown coded likelihood type should be dealt with in DoBuild(). If the Pearsons residual is unknown"
+            << " for this likelihood, set pearsons_residual false";
         }
         cache_ << iter->first << " " << comparison.category_ << " " << comparison.age_ << " " << comparison.length_ << " " << comparison.observed_ << " " << AS_VALUE(comparison.expected_)
              << " " << comparison.observed_ - AS_VALUE(comparison.expected_) << " " << comparison.error_value_ << " " <<AS_VALUE(comparison.process_error_)  << " "
@@ -183,7 +188,8 @@ void Observation::DoExecuteTabular() {
           if (!utilities::To<Double, string>(comparison.length_, bin))
             LOG_CODE_ERROR() << "Could not convert the value " << comparison.length_ << " to a string for storage in the tabular report";
       	} else {
-      		LOG_ERROR() << "Haven't coded a tabular report for an observation that has a structured comparison as in observation " << observation_label_;
+          LOG_ERROR() << "There is no tabular report for an observation that has a structured comparison as in observation "
+            << observation_label_;
       	}
       	label = observation_label_ + ".fits" + "[" + year + "][" + bin + "]";
       	cache_ << label << " ";
@@ -205,7 +211,8 @@ void Observation::DoExecuteTabular() {
           if (!utilities::To<Double, string>(comparison.length_, bin))
             LOG_CODE_ERROR() << "Could not convert the value " << comparison.length_ << " to a string for storage in the tabular report";
       	} else {
-      		LOG_ERROR() << "Haven't coded a tabular report for an observation that has a structured comparison as in observation " << observation_label_;
+          LOG_ERROR() << "There is no tabular report for an observation that has a structured comparison as in observation "
+            << observation_label_;
       	}
       	label = observation_label_ + ".observed" + "[" + year + "][" + bin + "]";
       	cache_ << label << " ";
@@ -227,7 +234,8 @@ void Observation::DoExecuteTabular() {
           if (!utilities::To<Double, string>(comparison.length_, bin))
             LOG_CODE_ERROR() << "Could not convert the value " << comparison.length_ << " to a string for storage in the tabular report";
       	} else {
-      		LOG_ERROR() << "Haven't coded a tabular report for an observation that has a structured comparison as in observation " << observation_label_;
+          LOG_ERROR() << "There is no tabular report for an observation that has a structured comparison as in observation "
+            << observation_label_;
       	}
       	label = observation_label_ + ".residuals" + "[" + year + "][" + bin + "]";
       	cache_ << label << " ";
@@ -250,7 +258,8 @@ void Observation::DoExecuteTabular() {
             if (!utilities::To<Double, string>(comparison.length_, bin))
               LOG_CODE_ERROR() << "Could not convert the value " << comparison.length_ << " to a string for storage in the tabular report";
         	} else {
-        		LOG_ERROR() << "Haven't coded a tabular report for an observation that has a structured comparison as in observation " << observation_label_;
+              LOG_ERROR() << "There is no tabular report for an observation that has a structured comparison as in observation "
+                << observation_label_;
         	}
         	label = observation_label_ + ".pearson_residuals" + "[" + year + "][" + bin + "]";
         	cache_ << label << " ";
@@ -274,7 +283,8 @@ void Observation::DoExecuteTabular() {
             if (!utilities::To<Double, string>(comparison.length_, bin))
               LOG_CODE_ERROR() << "Could not convert the value " << comparison.length_ << " to a string for storage in the tabular report";
         	} else {
-        		LOG_ERROR() << "Haven't coded a tabular report for an observation that has a structured comparison as in observation " << observation_label_;
+              LOG_ERROR() << "There is no tabular report for an observation that has a structured comparison as in observation "
+                << observation_label_;
         	}
         	label = observation_label_ + ".normalised_residuals" + "[" + year + "][" + bin + "]";
         	cache_ << label << " ";
@@ -322,7 +332,8 @@ void Observation::DoExecuteTabular() {
         } else if (observation_->likelihood() == PARAM_NORMAL) {
           resid = (comparison.observed_ - comparison.expected_) / (comparison.expected_ * comparison.adjusted_error_);
         } else {
-          LOG_CODE_ERROR() << "Unknown coded likelihood type should be dealt with in DoBuild(), if the pearsons residual is unknown for this likelihood set, pearsons_residual false";
+          LOG_CODE_ERROR() << "Unknown coded likelihood type should be dealt with in DoBuild(). If the Pearsons residual is unknown"
+            << " for this likelihood, set pearsons_residual false";
         }
       	cache_ << resid << " ";
       }
@@ -339,14 +350,15 @@ void Observation::DoExecuteTabular() {
         } else if (observation_->likelihood() == PARAM_NORMAL) {
           resid =  (comparison.observed_ - comparison.expected_) / (comparison.expected_ * comparison.adjusted_error_);
         } else {
-          LOG_CODE_ERROR() << "Unknown coded likelihood type should be dealt with in DoBuild(), if the normalised residual is unknown for this likelihood set, normalised_residual false";
+          LOG_CODE_ERROR() << "Unknown coded likelihood type should be dealt with in DoBuild(). If the normalised residual is unknown"
+            << " for this likelihood, set normalised_residual false";
         }
-      	cache_ << resid << " ";
+        cache_ << resid << " ";
       }
     }
   }
-  cache_ << "\n";
 
+  cache_ << "\n";
 }
 
 /**

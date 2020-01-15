@@ -56,8 +56,8 @@ void OutputParameters::DoExecute() {
        for (auto profile : profiles)
          cache_ << profile->parameter() << " ";
      }
-     cache_ << "\n";
 
+     cache_ << "\n";
    }
 
 

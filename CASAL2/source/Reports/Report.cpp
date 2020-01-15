@@ -50,7 +50,7 @@ inline bool DoesFileExist(const string& file_name) {
 Report::Report(Model* model) : model_(model) {
   parameters_.Bind<string>(PARAM_LABEL, &label_, "The label for the report", "");
   parameters_.Bind<string>(PARAM_TYPE, &type_, "The type of report", "");
-  parameters_.Bind<string>(PARAM_FILE_NAME, &file_name_, "The File Name if you want this report to be in a separate file", "", "");
+  parameters_.Bind<string>(PARAM_FILE_NAME, &file_name_, "The File Name for this report to be in a separate file", "", "");
   parameters_.Bind<string>(PARAM_WRITE_MODE, &write_mode_, "The write mode", "", PARAM_OVERWRITE)
       ->set_allowed_values({ PARAM_OVERWRITE, PARAM_APPEND, PARAM_INCREMENTAL_SUFFIX });
 }
@@ -70,7 +70,7 @@ void Report::Validate() {
  */
 void Report::Build() {
   if (time_step_ != "" && !model_->managers().time_step()->GetTimeStep(time_step_))
-    LOG_ERROR_P(PARAM_TIME_STEP) << ": " << time_step_ << " could not be found. Have you defined it?";
+    LOG_ERROR_P(PARAM_TIME_STEP) << ": " << time_step_ << " was not found.";
 
   DoBuild();
 }
@@ -133,8 +133,6 @@ void Report::PrepareTabular() {
     cache_ << model_->managers().report()->std_header() << "\n";
   DoPrepareTabular();
   Report::lock_.unlock();
-
-
 }
 
 /**

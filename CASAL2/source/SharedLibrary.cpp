@@ -54,7 +54,7 @@ int RunUnitTests(int argc, char * argv[]) {
  *
  */
 int RunUnitTests(int argc, char * argv[]) {
-  cout << "DLL was built without TESTMODE enabled but it's trying to run unit tests..." << endl;
+  cout << "DLL was built without TESTMODE enabled but it is trying to run unit tests..." << endl;
   return -1;
 }
 
@@ -66,15 +66,15 @@ int LoadOptions(int argc, char * argv[], niwa::utilities::RunParameters& options
     niwa::utilities::CommandLineParser parser;
     parser.Parse(argc, argv, options);
   } catch (const string &exception) {
-    cout << "## ERROR - CASAL2 experienced a problem and has stopped execution" << endl;
+    cout << "## ERROR - Casal2 experienced a problem and has stopped execution" << endl;
     cout << "Error: " << exception << endl;
     return -1;
   } catch (std::exception& e) {
-    cout << "## ERROR - CASAL2 experienced a problem and has stopped execution" << endl;
+    cout << "## ERROR - Casal2 experienced a problem and has stopped execution" << endl;
     cout << e.what() << endl;
     return -1;
   } catch(...) {
-    cout << "## ERROR - CASAL2 experienced a problem and has stopped execution" << endl;
+    cout << "## ERROR - Casal2 experienced a problem and has stopped execution" << endl;
     cout << "The exception was caught with the catch-all. The type was unknown" << endl;
     cout << "Please contact the application developer" << endl;
     return -1;
@@ -213,17 +213,17 @@ int Run(int argc, char * argv[], niwa::utilities::RunParameters& options) {
 
 
   } catch (const string &exception) {
-    cout << "## ERROR - CASAL2 experienced a problem and has stopped execution" << endl;
+    cout << "## ERROR - Casal2 experienced a problem and has stopped execution" << endl;
     cout << "Error: " << exception << endl;
     return_code = -1;
 
   } catch (std::exception& e) {
-    cout << "## ERROR - CASAL2 experienced a problem and has stopped execution" << endl;
+    cout << "## ERROR - Casal2 experienced a problem and has stopped execution" << endl;
     cout << e.what() << endl;
     return_code = -1;
 
   } catch(...) {
-    cout << "## ERROR - CASAL2 experienced a problem and has stopped execution" << endl;
+    cout << "## ERROR - Casal2 experienced a problem and has stopped execution" << endl;
     cout << "The exception was caught with the catch-all. The type was unknown" << endl;
     cout << "Please contact the application developer" << endl;
     return_code = -1;
