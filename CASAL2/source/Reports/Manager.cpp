@@ -38,7 +38,7 @@ Manager::~Manager() noexcept(true) {
  */
 void Manager::Build() {
   if (objects_.size() == 0)
-    LOG_WARNING() << "No reports have been specified for this model run";
+    LOG_WARNING() << "No reports have been specified";
 
   LOG_FINEST() << "objects_.size(): " << objects_.size();
   for (auto report : objects_) {
@@ -97,7 +97,7 @@ void Manager::Execute(unsigned year, const string& time_step_label) {
   for(auto report : time_step_reports_[time_step_label]) {
     LOG_FINE() << "executing report " << report->label();
     if ( (RunMode::Type)(report->run_mode() & run_mode) != run_mode) {
-      LOG_FINEST() << "Skipping report: " << report->label() << " because run mode is not right";
+      LOG_FINEST() << "Skipping report: " << report->label() << " because run mode is incorrect";
       continue;
     }
     if (!report->HasYear(year)) {
@@ -122,7 +122,7 @@ void Manager::Prepare() {
   bool tabular = model_->global_configuration().print_tabular();
   for (auto report : objects_) {
     if ( (RunMode::Type)(report->run_mode() & run_mode) != run_mode) {
-      LOG_FINEST() << "Skipping report: " << report->label() << " because run mode is not right";
+      LOG_FINEST() << "Skipping report: " << report->label() << " because run mode is incorrect";
       continue;
     }
 
@@ -142,7 +142,7 @@ void Manager::Finalise() {
   bool tabular = model_->global_configuration().print_tabular();
   for (auto report : objects_) {
     if ( (RunMode::Type)(report->run_mode() & run_mode) != run_mode) {
-      LOG_FINEST() << "Skipping report: " << report->label() << " because run mode is not right";
+      LOG_FINEST() << "Skipping report: " << report->label() << " because run mode is incorrect";
       continue;
     }
 

@@ -52,7 +52,7 @@ bool MCMCSample::LoadFile(const string& file_name) {
   // open file
   ifstream  file(file_name.c_str());
   if (file.fail() || !file.is_open()) {
-    LOG_ERROR() << file_name  << " does not exist or could not be opened";
+    LOG_ERROR() << "File " << file_name  << " does not exist or could not be opened";
     return false;
   }
 
@@ -71,7 +71,7 @@ bool MCMCSample::LoadFile(const string& file_name) {
 
 
   if (line != "*mcmc_sample[mcmc]") {
-    LOG_ERROR() << "Could not read '*mcmc (mcmc_sample)' string in MCMC Sample file: " << file_name;
+    LOG_ERROR() << "Could not read '*mcmc (mcmc_sample)' string in MCMC Sample file " << file_name;
     return false;
   }
   LOG_FINEST() << "line = " << line;
@@ -85,7 +85,7 @@ bool MCMCSample::LoadFile(const string& file_name) {
   }
 
   if (line != "values {d}") {
-     LOG_ERROR() << "Could not read 'values {d}' string in MCMC Sample file: " << file_name;
+     LOG_ERROR() << "Could not read 'values {d}' string in MCMC Sample file " << file_name;
      return false;
    }
 
@@ -94,7 +94,7 @@ bool MCMCSample::LoadFile(const string& file_name) {
    * read the columns from our header
    */
   if (!getline(file, line)) {
-    LOG_ERROR() << "Could not read header line from MCMC sample file: " << file_name;
+    LOG_ERROR() << "Could not read header line from MCMC sample file " << file_name;
     return false;
   }
 
@@ -110,7 +110,7 @@ bool MCMCSample::LoadFile(const string& file_name) {
   }
 
   if (last_line == "*end") {
-    LOG_ERROR() << "MCMC sample file " << file_name << " found a *end. Don't no what to do so returning a false";
+    LOG_ERROR() << "MCMC sample file " << file_name << " found '*end'. Returning 'false'";
     return false;
   }
 
@@ -131,7 +131,7 @@ bool MCMCSample::LoadFile(const string& file_name) {
   auto estimates     = model_->managers().estimate()->GetIsEstimated();
   if (estimates.size() != columns.size()) {
     LOG_ERROR() << "Model has " << estimates.size() << " estimates and the MCMC sample file has "
-        << columns.size();
+        << columns.size() << " columns.";
     return false;
   }
 

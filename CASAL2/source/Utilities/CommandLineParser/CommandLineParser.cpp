@@ -48,12 +48,12 @@ void CommandLineParser::Parse(int argc, char* argv[], RunParameters& options) {
   options_description oDesc("Usage");
   oDesc.add_options()
     ("help,h", "Print help")
-    ("license,l", "Display CASAL2 license")
+    ("license,l", "Display Casal2 license")
     ("version,v", "Display version information")
     ("config,c", value<string>(), "Configuration file")
     ("run,r", "Basic model run mode")
     ("estimate,e", "Point estimation run mode")
-    ("mcmc,m", "Markov Chain Monte Carlo run mode (arg = continue, default: false)")
+    ("mcmc,m", "Markov chain Monte Carlo run mode (arg = continue, default: false)")
     ("skip-estimation", "Skip estimation before running the MCMC, load existing MPD")
     ("resume", "Resume the MCMC chain")
     ("objective-file", value<string>(), "Objective file for resuming an MCMC")
@@ -71,7 +71,7 @@ void CommandLineParser::Parse(int argc, char* argv[], RunParameters& options) {
     ("output,o", value<string>(), "Create estimate value report directed to <file>")
     ("single-step", "Single step the model each year with new estimable values")
     ("tabular", "Print reports in Tabular mode")
-    ("unittest", "Run the unit tests for CASAL2")
+    ("unittest", "Run the unit tests for Casal2")
     ("no-mpd", "Do not create an MPD file");
 
 
@@ -169,9 +169,9 @@ void CommandLineParser::Parse(int argc, char* argv[], RunParameters& options) {
   run_mode_count += parameters.count("unittest");
 
   if (run_mode_count == 0)
-    LOG_ERROR() << "No valid run mode has been specified on the command line. Please specify a valid run mode (e.g -r)";
+    LOG_ERROR() << "No valid run mode has been specified. Please specify a valid run mode (e.g -r)";
   if (run_mode_count > 1)
-    LOG_ERROR() << "Multiple run modes have been specified on the command line. Only 1 run mode is valid";
+    LOG_ERROR() << "Multiple run modes have been specified. Only one run mode is valid";
 
   if (parameters.count("run"))
     options.run_mode_ = RunMode::kBasic;
@@ -198,7 +198,7 @@ void CommandLineParser::Parse(int argc, char* argv[], RunParameters& options) {
     options.run_mode_ = RunMode::kProjection;
     options.projection_candidates_ = parameters["projection"].as<unsigned>();
   } else {
-    LOG_ERROR() << "An invalid or unknown run mode has been specified on the command line.";
+    LOG_ERROR() << "An invalid or unknown run mode has been specified.";
   }
 
   /**

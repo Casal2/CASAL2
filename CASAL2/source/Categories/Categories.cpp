@@ -47,7 +47,7 @@ namespace niwa {
  * Note: The constructor is parsed to generate Latex for the documentation.
  */
 Categories::Categories(Model* model) : model_(model) {
-  parameters_.Bind<string>(PARAM_FORMAT, &format_, "The format that the category names adhere too", "");
+  parameters_.Bind<string>(PARAM_FORMAT, &format_, "The format that the category names use", "");
   parameters_.Bind<string>(PARAM_NAMES, &names_, "The names of the categories to be used in the model", "");
   parameters_.Bind<string>(PARAM_YEARS, &years_, "The years that individual categories will be active for. This overrides the model values", "", true);
   parameters_.Bind<string>(PARAM_AGE_LENGTHS, &age_length_labels_, R"(The labels of age\_length objects that are assigned to categories)", "", true)->set_partition_type(PartitionType::kAge);
@@ -86,7 +86,7 @@ void Categories::Validate() {
   if (model_->partition_type() == PartitionType::kAge) {
     // Check the user hasn't specified both age_length and age_weight subcommands
     if (parameters_.Get(PARAM_AGE_WEIGHT)->has_been_defined() & parameters_.Get(PARAM_AGE_LENGTHS)->has_been_defined())
-      LOG_FATAL_P(PARAM_AGE_WEIGHT) << "you cannot specify both age_lengths and age_weights in the @categorie block. You must specify either one or the other.";
+      LOG_FATAL_P(PARAM_AGE_WEIGHT) << "Both age_lengths and age_weights cannot be specified in the @categories block. Specify either one or the other.";
     if (parameters_.Get(PARAM_AGE_WEIGHT)->has_been_defined()) {
       if(age_weight_labels_.size() != names_.size())
         LOG_ERROR_P(PARAM_AGE_WEIGHT) << " number age-weight defined (" << age_weight_labels_.size() << ") must be the same as the number " <<
@@ -157,7 +157,7 @@ void Categories::Validate() {
       category_names_.push_back(names_[i]);
     }
   } else {
-    LOG_FATAL() << "There is no functionality, currently to deal with a partition structures that are not age or length";
+    LOG_FATAL() << "There is no functionality for partition structures that are not age or length";
   }
 
   for (string label : category_names_) {
@@ -184,7 +184,7 @@ void Categories::Validate() {
       for (auto year : years_split) {
         unsigned actual_value = 0;
         if (!utilities::To<string, unsigned>(year, actual_value)) {
-          LOG_FATAL_P(PARAM_YEARS) << "year " << year << " is not a valid numeric";
+          LOG_FATAL_P(PARAM_YEARS) << "year " << year << " could not be converted to an unsigned integer";
         }
 
         if (std::find(categories_[iter.first].years_.begin(),
@@ -219,7 +219,7 @@ void Categories::Build() {
       for (; iter != category_age_length_labels_.end(); ++iter) {
         AgeLength* age_size = age_sizes_manager->FindAgeLength(iter->second);
         if (!age_size)
-          LOG_ERROR_P(PARAM_AGE_LENGTHS) << "(" << iter->second << ") could not be found. Have you defined it?";
+          LOG_ERROR_P(PARAM_AGE_LENGTHS) << "Age-length label (" << iter->second << ") was not found.";
 
         categories_[iter->first].age_length_ = age_size;
       }
@@ -229,7 +229,7 @@ void Categories::Build() {
       for (; iter != category_age_weight_labels_.end(); ++iter) {
         AgeWeight* age_weight = age_weight_manager->FindAgeWeight(iter->second);
         if (!age_weight)
-          LOG_ERROR_P(PARAM_AGE_WEIGHT) << "(" << iter->second << ") could not be found. Have you defined it?";
+          LOG_ERROR_P(PARAM_AGE_WEIGHT) << "Age-weight label (" << iter->second << ") was not found.";
 
         categories_[iter->first].age_weight_ = age_weight;
       }
@@ -240,7 +240,7 @@ void Categories::Build() {
     for (; iter != category_length_weight_labels_.end(); ++iter) {
       LengthWeight* length_weight = length_weight_manager->GetLengthWeight(iter->second);
       if (!length_weight)
-        LOG_ERROR_P(PARAM_LENGTH_WEIGHT) << "(" << iter->second << ") could not be found. Have you defined it?";
+        LOG_ERROR_P(PARAM_LENGTH_WEIGHT) << "Length-weight label (" << iter->second << ") was not found.";
 
       categories_[iter->first].length_weight_ = length_weight;
     }
@@ -372,7 +372,7 @@ string Categories::GetCategoryLabels(const string& lookup_string, const string& 
 
     if (pieces.size() != format_pieces) {
       LOG_ERROR() << parameter_location << " short-hand category string ( " << lookup_string
-          << ") does not have the correct number of sections. Expected " << format_pieces << " but got " << pieces.size() <<
+          << ") does not have the correct number of sections. Expected " << format_pieces << " but parsed " << pieces.size() <<
           ". Pieces are chunks of the string separated with a '.' character";
     }
 
@@ -420,7 +420,7 @@ string Categories::GetCategoryLabels(const string& lookup_string, const string& 
     }
     if (format_offset == pieces.size()) {
       LOG_ERROR() << parameter_location << " short-hand category syntax (" << lookup_string
-          << ") is using an invalid format chunk (" << format << ") for it's lookup. "
+          << ") is using an invalid format chunk (" << format << ") for its lookup. "
           << "Valid format chunks must be taken from the format (" << format_ << ")";
     }
 
@@ -433,7 +433,7 @@ string Categories::GetCategoryLabels(const string& lookup_string, const string& 
             boost::split(chunks, category, boost::is_any_of("."));
             if (chunks.size() <= format_offset) {
               LOG_ERROR() << parameter_location << " short-hand category syntax (" << lookup_string
-                  << ") could not be compared to category (" << category << ") because category was malformed";
+                  << ") could not be compared to category (" << category << ") because the category was malformed";
             }
 
             vector<string> comma_separated_pieces;
@@ -451,7 +451,7 @@ string Categories::GetCategoryLabels(const string& lookup_string, const string& 
 
   if (matched_categories.size() == 0) {
     LOG_ERROR() << parameter_location << " short-hand format string (" << lookup_string <<
-        ") did not match any of the categories. Please check your string to ensure it's accurate";
+        ") did not match any of the categories.";
   }
 
   result = matched_categories[0];
@@ -553,7 +553,7 @@ unsigned Categories::GetNumberOfCategoriesDefined(const string& label) const {
  */
 unsigned Categories::min_age(const string& category_name) {
   if (categories_.find(category_name) == categories_.end())
-    LOG_CODE_ERROR() << "Could not find category_name: " << category_name << " in the list of loaded categories";
+    LOG_CODE_ERROR() << "Could not find category_name " << category_name << " in the list of loaded categories";
 
   return categories_[category_name].min_age_;
 }
@@ -566,7 +566,7 @@ unsigned Categories::min_age(const string& category_name) {
  */
 unsigned Categories::max_age(const string& category_name) {
   if (categories_.find(category_name) == categories_.end())
-    LOG_CODE_ERROR() << "Could not find category_name: " << category_name << " in the list of loaded categories";
+    LOG_CODE_ERROR() << "Could not find category_name " << category_name << " in the list of loaded categories";
 
   return categories_[category_name].max_age_;
 }
@@ -576,7 +576,7 @@ unsigned Categories::max_age(const string& category_name) {
  */
 vector<unsigned> Categories::years(const string& category_name) {
   if (categories_.find(category_name) == categories_.end())
-    LOG_CODE_ERROR() << "Could not find category_name: " << category_name << " in the list of loaded categories";
+    LOG_CODE_ERROR() << "Could not find category_name " << category_name << " in the list of loaded categories";
 
   return categories_[category_name].years_;
 }
@@ -586,7 +586,7 @@ vector<unsigned> Categories::years(const string& category_name) {
  */
 AgeLength* Categories::age_length(const string& category_name) {
   if (categories_.find(category_name) == categories_.end())
-    LOG_CODE_ERROR() << "Could not find category_name: " << category_name << " in the list of loaded categories";
+    LOG_CODE_ERROR() << "Could not find category_name " << category_name << " in the list of loaded categories";
 
   return categories_[category_name].age_length_;
 }
@@ -596,7 +596,7 @@ AgeLength* Categories::age_length(const string& category_name) {
  */
 AgeWeight* Categories::age_weight(const string& category_name) {
   if (categories_.find(category_name) == categories_.end())
-    LOG_CODE_ERROR() << "Could not find category_name: " << category_name << " in the list of loaded categories";
+    LOG_CODE_ERROR() << "Could not find category_name " << category_name << " in the list of loaded categories";
   if (!categories_[category_name].age_weight_) {
     categories_[category_name].age_weight_ = ageweights::Factory::Create(model_, PARAM_AGE_WEIGHT, PARAM_NONE);
   }
@@ -609,7 +609,7 @@ AgeWeight* Categories::age_weight(const string& category_name) {
  */
 LengthWeight* Categories::length_weight(const string& category_name) {
   if (categories_.find(category_name) == categories_.end())
-    LOG_CODE_ERROR() << "Could not find category_name: " << category_name << " in the list of loaded categories";
+    LOG_CODE_ERROR() << "Could not find category_name " << category_name << " in the list of loaded categories";
   if (!categories_[category_name].length_weight_) {
     categories_[category_name].length_weight_ = lengthweights::Factory::Create(model_, PARAM_LENGTH_WEIGHT, PARAM_NONE);
   }

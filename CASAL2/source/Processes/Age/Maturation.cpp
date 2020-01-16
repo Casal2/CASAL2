@@ -29,7 +29,7 @@ Maturation::Maturation(Model* model)
     to_partition_(model) {
 
   parameters_.Bind<string>(PARAM_FROM, &from_category_names_, "List of categories to mature from", "");
-  parameters_.Bind<string>(PARAM_TO, &to_category_names_, "List of categories to mature too", "");
+  parameters_.Bind<string>(PARAM_TO, &to_category_names_, "List of categories to mature to", "");
   parameters_.Bind<string>(PARAM_SELECTIVITIES, &selectivity_names_, "List of selectivities to use for maturation", "");
   parameters_.Bind<unsigned>(PARAM_YEARS, &years_, "The years to be associated with rates", "");
   parameters_.Bind<Double>(PARAM_RATES, &rates_, "The rates to mature for each year", "");
@@ -55,26 +55,26 @@ void Maturation::DoValidate() {
   // Validate the from and to vectors are the same size
   if (from_category_names_.size() != to_category_names_.size()) {
     LOG_ERROR_P(PARAM_TO)
-        << ": Number of 'to' categories provided does not match the number of 'from' categories provided."
-        << " Expected " << from_category_names_.size() << " but got " << to_category_names_.size();
+        << ": Number of 'to' categories provided (" << to_category_names_.size()
+        << ") does not match the number of 'from' categories provided (" << from_category_names_.size() << ").";
   }
 
   // Validate that each from and to category have the same age range.
   for (unsigned i = 0; i < from_category_names_.size(); ++i) {
     if (categories->min_age(from_category_names_[i]) != categories->min_age(to_category_names_[i])) {
-      LOG_ERROR_P(PARAM_FROM) << ": Category " << from_category_names_[i] << " does not"
+      LOG_ERROR_P(PARAM_FROM) << ": 'from' category " << from_category_names_[i] << " does not"
           << " have the same age range as the 'to' category " << to_category_names_[i];
     }
 
     if (categories->max_age(from_category_names_[i]) != categories->max_age(to_category_names_[i])) {
-      LOG_ERROR_P(PARAM_FROM) << ": Category " << from_category_names_[i] << " does not"
+      LOG_ERROR_P(PARAM_FROM) << ": 'from' category " << from_category_names_[i] << " does not"
           << " have the same age range as the 'to' category " << to_category_names_[i];
     }
   }
 
   // Validate rates and years are the same length
   if (rates_.size() != years_.size())
-    LOG_ERROR_P(PARAM_RATES) << " number (" << rates_.size() << ") does not match the number of years (" << years_.size() << ") provided";
+    LOG_ERROR_P(PARAM_RATES) << ": The number of rates (" << rates_.size() << ") does not match the number of years (" << years_.size() << ").";
   for (unsigned i = 0; i < years_.size(); ++i)
     rates_by_years_[years_[i]] = rates_[i];
 
@@ -95,7 +95,7 @@ void Maturation::DoBuild() {
   for(string label : selectivity_names_) {
     Selectivity* selectivity = model_->managers().selectivity()->GetSelectivity(label);
     if (!selectivity)
-      LOG_ERROR_P(PARAM_SELECTIVITIES) << ": Selectivity " << label << " does not exist. Have you defined it?";
+      LOG_ERROR_P(PARAM_SELECTIVITIES) << ": Selectivity " << label << " does not exist.";
     selectivities_.push_back(selectivity);
   }
 }

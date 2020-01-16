@@ -38,7 +38,7 @@ Data::Data(Model* model) : AgeLength(model) {
   parameters_.Bind<string>(PARAM_EXTERNAL_GAPS, &external_gaps_, "", "", PARAM_MEAN)->set_allowed_values({PARAM_MEAN, PARAM_NEAREST_NEIGHBOUR});
   parameters_.Bind<string>(PARAM_INTERNAL_GAPS, &internal_gaps_, "", "", PARAM_MEAN)->set_allowed_values({PARAM_MEAN, PARAM_NEAREST_NEIGHBOUR, PARAM_INTERPOLATE});
   parameters_.Bind<string>(PARAM_LENGTH_WEIGHT, &length_weight_label_, "The label from an associated length-weight block", "");
-  parameters_.Bind<string>(PARAM_TIME_STEP_MEASUREMENTS_WERE_MADE, &step_data_supplied_, "Time step label for which size-at-age data are provided", "");
+  parameters_.Bind<string>(PARAM_TIME_STEP_MEASUREMENTS_WERE_MADE, &step_data_supplied_, "The time step label for which size-at-age data are provided", "");
 
   varies_by_year_ = true;
 }
@@ -58,7 +58,7 @@ void Data::DoBuild() {
   LOG_FINE() << "Building age length block " << label_;
   length_weight_ = model_->managers().length_weight()->GetLengthWeight(length_weight_label_);
   if (!length_weight_)
-    LOG_ERROR_P(PARAM_LENGTH_WEIGHT) << "(" << length_weight_label_ << ") could not be found. Have you defined it?";
+    LOG_ERROR_P(PARAM_LENGTH_WEIGHT) << "Length-weight label " << length_weight_label_ << " was not found.";
   if (!data_table_)
     LOG_CODE_ERROR() << "!data_table_";
   if (model_->run_mode() == RunMode::kProjection)
@@ -71,7 +71,7 @@ void Data::DoBuild() {
    */
   TimeStep* time_step = model_->managers().time_step()->GetTimeStep(step_data_supplied_);
   if (!time_step)
-    LOG_ERROR_P(PARAM_TIME_STEP_MEASUREMENTS_WERE_MADE) << "could not found time_step " << step_data_supplied_<< " please check this parameter?";
+    LOG_ERROR_P(PARAM_TIME_STEP_MEASUREMENTS_WERE_MADE) << "could not find time_step " << step_data_supplied_;
   // Get time step index
   step_index_data_supplied_ = model_->managers().time_step()->GetTimeStepIndex(step_data_supplied_);
   // Need to get ageing index
@@ -99,9 +99,10 @@ void Data::DoBuild() {
   // basic validation
   const vector<string>& columns = data_table_->columns();
   if (columns.size() != model_->age_spread() + 1)
-    LOG_ERROR_P(PARAM_DATA) << "column count (" << columns.size() << ") must be <year> <ages> for a total of " << model_->age_spread() + 1 << " columns";
+    LOG_ERROR_P(PARAM_DATA) << "The column count (" << columns.size() << ") must be <year> <ages> for a total of "
+      << model_->age_spread() + 1 << " columns";
   if (columns[0] != PARAM_YEAR)
-    LOG_ERROR_P(PARAM_DATA) << "first column label must be 'year'. First column label was '" << columns[0] << "'";
+    LOG_ERROR_P(PARAM_DATA) << "The first column label must be 'year'. First column label was '" << columns[0] << "'";
 
   /**
    * Build our data_by_year map so we can fill the gaps
@@ -116,11 +117,12 @@ void Data::DoBuild() {
       LOG_CODE_ERROR() << "row.size() != columns.size()";
     number_of_years += 1;
     if ((columns.size() - 1) != model_->age_spread())
-      LOG_ERROR_P(PARAM_DATA) << "Need to specify an age for every age in the model, you specified " << columns.size() - 1 << " ages, where as there are " << model_->age_spread() << " ages in the model";
+      LOG_ERROR_P(PARAM_DATA) << "An age needs to be specified for every age in the model. "
+        << columns.size() - 1 << " ages were specified, and there are " << model_->age_spread() << " ages in the model";
     unsigned year = utilities::ToInline<string, unsigned>(row[0]);
     // Check year is valid
     if (find(model_->years().begin(), model_->years().end(), year) == model_->years().end())
-      LOG_WARNING() << "Supplied year: " << year << " which is not included in the model run years, this age length wont be used in this run mode.";
+      LOG_WARNING() << "year " << year << " is not in the model run years, so this age length will not be used";
 
 
     for (unsigned i = 1; i < row.size(); ++i) {

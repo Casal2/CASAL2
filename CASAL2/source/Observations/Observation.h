@@ -59,11 +59,15 @@ public:
 
 protected:
   // methods
-  void                        SaveComparison(string category, unsigned age, double length, Double expected, double observed,
-      Double process_error, double error_value, Double adjusted_error, double delta, Double score);
+  void                        SaveComparison(string category, unsigned age, double length,
+                                             Double expected, double observed,
+                                             Double process_error, double error_value,
+                                             Double adjusted_error, double delta, Double score);
 
-  void                        SaveComparison(string category, Double expected, double observed,
-      Double process_error, double error_value, Double adjusted_error, double delta, Double score);
+  void                        SaveComparison(string category,
+                                             Double expected, double observed,
+                                             Double process_error, double error_value,
+                                             Double adjusted_error, double delta, Double score);
 
   // members
   Model*                      model_ = nullptr;
@@ -80,6 +84,7 @@ protected:
   double                      likelihood_multiplier_ = 1.0;
   vector<string>              category_labels_;
   unsigned                    expected_selectivity_count_;
+
   map<unsigned, vector<obs::Comparison> > comparisons_;
 
 };

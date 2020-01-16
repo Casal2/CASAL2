@@ -27,7 +27,7 @@ namespace catchabilities {
  * Note: The constructor is parsed to generate Latex for the documentation.
  */
 Free::Free(Model* model) : Catchability(model) {
-  parameters_.Bind<Double>(PARAM_Q, &q_, "value of the catchability", "");
+  parameters_.Bind<Double>(PARAM_Q, &q_, "The value of the catchability", "")->set_lower_bound(0.0);
 
   RegisterAsAddressable(PARAM_Q, &q_);
 }

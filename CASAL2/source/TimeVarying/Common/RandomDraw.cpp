@@ -51,13 +51,14 @@ void RandomDraw::DoBuild() {
     upper_bound_ = estimate->upper_bound();
     lower_bound_ = estimate->lower_bound();
     if (model_->run_mode() == RunMode::kEstimation) {
-      LOG_ERROR_P(PARAM_PARAMETER) << "You cannot have an @estimate block for a parameter that is time varying of type " << type_
-          << ", casal2 will overwrite the estimate and a false minimum will be found";
+      LOG_ERROR_P(PARAM_PARAMETER) << "This @estimate block cannot have a parameter that is time varying of type " << type_
+          << ", as Casal2 will overwrite the estimate and a false minimum will be found";
     }
   }
 
   if(model_->objects().GetAddressableType(parameter_) != addressable::kSingle)
-    LOG_ERROR_P(PARAM_TYPE) << "@time_varying blocks of type " << PARAM_RANDOMWALK << " can only be implemented in parameters that are scalars or single values";
+    LOG_ERROR_P(PARAM_TYPE) << "@time_varying blocks of type " << PARAM_RANDOMWALK
+      << " can be used only with parameters that are scalars or single values";
   DoReset();
 }
 
@@ -75,16 +76,17 @@ void RandomDraw::DoReset() {
     // Set value
     if (has_at_estimate_) {
       if (new_value < lower_bound_) {
-        LOG_FINEST() << "hit @estimate lower bound setting value from " << new_value << " to " << lower_bound_;
+        LOG_FINEST() << "@estimate at lower bound, changing value from " << new_value << " to " << lower_bound_;
         new_value = lower_bound_;
       }
       if (new_value > upper_bound_) {
-        LOG_FINEST() << "hit @estimate upper bound setting value from " << new_value << " to " << upper_bound_;
+        LOG_FINEST() << "@estimate at upper bound, changing value from " << new_value << " to " << upper_bound_;
         new_value = upper_bound_;
       }
     }
     if (new_value <= 0.0) {
-      LOG_WARNING() << "parameter: " << parameter_ << " random draw of value = " << new_value << " a natural lower bound of 0.0 has been forced so resetting the value = 0.01";
+      LOG_WARNING() << "parameter: " << parameter_ << " random draw of value = " << new_value
+        << " a natural lower bound of 0.0 has been forced so setting the value to 0.01";
       new_value  = 0.01;
     }
     parameter_by_year_[year] = new_value;
@@ -97,16 +99,17 @@ void RandomDraw::DoReset() {
       // Set value
       if (has_at_estimate_) {
         if (new_value < lower_bound_) {
-          LOG_FINEST() << "hit @estimate lower bound setting value from " << new_value << " to " << lower_bound_;
+          LOG_FINEST() << "@estimate at lower bound, changing value from " << new_value << " to " << lower_bound_;
           new_value = lower_bound_;
         }
         if (new_value > upper_bound_) {
-          LOG_FINEST() << "hit @estimate upper bound setting value from " << new_value << " to " << upper_bound_;
+          LOG_FINEST() << "@estimate at upper bound, changing value from " << new_value << " to " << upper_bound_;
           new_value = upper_bound_;
         }
       }
       if (new_value <= 0.0) {
-        LOG_WARNING() << "parameter: " << parameter_ << " random draw of value = " << new_value << " a natural lower bound of 0.0 has been forced so resetting the value = 0.01";
+        LOG_WARNING() << "parameter: " << parameter_ << " random draw of value = " << new_value
+          << " a natural lower bound of 0.0 has been forced so setting the value to 0.01";
         new_value  = 0.01;
       }
       parameter_by_year_[year] = new_value;

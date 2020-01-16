@@ -40,10 +40,10 @@ Creator::Creator(Model* model) : model_(model) {
   parameters_.Bind<double>(PARAM_UPPER_BOUND, &upper_bounds_, "The upper bound for the parameter", "");
 //  parameters_.Bind<string>(PARAM_PRIOR, &prior_label_, "TBA", "", "");
   parameters_.Bind<string>(PARAM_SAME, &same_labels_, "List of parameters that are constrained to have the same value as this parameter", "", "");
-  parameters_.Bind<string>(PARAM_ESTIMATION_PHASE, &estimation_phase_, "TBA", "", "");
+  parameters_.Bind<string>(PARAM_ESTIMATION_PHASE, &estimation_phase_, "Estimation phase", "", "");
   parameters_.Bind<string>(PARAM_MCMC, &mcmc_, "Indicates if this parameter is fixed at the point estimate during an MCMC run", "", "");
   parameters_.Bind<string>(PARAM_TRANSFORMATION, &transformation_details_, "TBA", "", true);
-  parameters_.Bind<bool>(PARAM_TRANSFORM_WITH_JACOBIAN, &transform_with_jacobian_, "Transform our addressables with jacobian score", "", true);
+  parameters_.Bind<bool>(PARAM_TRANSFORM_WITH_JACOBIAN, &transform_with_jacobian_, "Transform the addressables with Jacobian score", "", true);
   parameters_.Bind<bool>(PARAM_PRIOR_APPLIES_TO_TRANSFORM, &transform_for_objective_function_, "Transform before calculating prior score for objective function", "", false);
 }
 
@@ -59,7 +59,7 @@ void Creator::CreateEstimates() {
    */
   string error = "";
   if (!model_->objects().VerfiyAddressableForUse(parameter_, addressable::kEstimate, error)) {
-    LOG_FATAL_P(PARAM_PARAMETER) << "could not be verified for use in an @estimate block. Error was " << error;
+    LOG_FATAL_P(PARAM_PARAMETER) << " could not be verified for use in an @estimate block. Error: " << error;
   }
 
   string new_parameter = parameter_;
@@ -70,13 +70,13 @@ void Creator::CreateEstimates() {
   if (index != "") {
     indexes = utilities::String::explode(index);
     if (index != "" && indexes.size() == 0) {
-      LOG_FATAL_P(PARAM_PARAMETER) << " could be split up to search for indexes because the format was invalid. "
-          << "Please ensure you are using correct indexes and only the operators , and : (range) are supported";
+      LOG_FATAL_P(PARAM_PARAMETER) << " could not be split up to search for indexes because the format was invalid. "
+          << "Check the indices. Only the operators ',' and ':' (range) are supported";
     }
 
     new_parameter = new_parameter.substr(0, new_parameter.find('{'));
   }
-  LOG_FINEST() << "see if this is where we are crashing";
+
   auto target = model_->objects().FindObject(parameter_);
   // set estimated flag
   target->set_estimated(true);
@@ -97,9 +97,11 @@ void Creator::CreateEstimates() {
      * and create new estimates for each of these.
      */
     if (lower_bounds_.size() != indexes.size())
-      LOG_FATAL_P(PARAM_LOWER_BOUND) << "values specified (" << lower_bounds_.size() << " must match number of target addressables (" << indexes.size() << ")";
+      LOG_FATAL_P(PARAM_LOWER_BOUND) << "values specified (" << lower_bounds_.size()
+        << " must match number of target addressables (" << indexes.size() << ")";
     if (upper_bounds_.size() != indexes.size())
-      LOG_FATAL_P(PARAM_UPPER_BOUND) << "values specified (" << upper_bounds_.size() << " must match number of target addressables (" << indexes.size() << ")";
+      LOG_FATAL_P(PARAM_UPPER_BOUND) << "values specified (" << upper_bounds_.size()
+        << " must match number of target addressables (" << indexes.size() << ")";
 
     switch(target->GetAddressableType(parameter)) {
     case addressable::kVector:
@@ -110,7 +112,7 @@ void Creator::CreateEstimates() {
       for (string string_index : indexes) {
         unsigned u_index = 0;
         if (!utils::To<string, unsigned>(string_index, u_index))
-          LOG_FATAL_P(PARAM_PARAMETER) << "index " << string_index << " could not be converted to a numeric type";
+          LOG_FATAL_P(PARAM_PARAMETER) << "index " << string_index << " could not be converted to an unsigned integer";
         if (u_index <= 0 || u_index > targets->size())
           LOG_FATAL_P(PARAM_PARAMETER) << "index " << string_index << " is out of range 1-" << targets->size();
 
@@ -127,9 +129,9 @@ void Creator::CreateEstimates() {
       for (string string_index : indexes) {
         unsigned u_index = 0;
         if (!utils::To<string, unsigned>(string_index, u_index))
-          LOG_FATAL_P(PARAM_PARAMETER) << "index " << string_index << " could not be converted to a numeric type";
+          LOG_FATAL_P(PARAM_PARAMETER) << "index " << string_index << " could not be converted to an unsigned integer";
         if (targets->find(u_index) == targets->end() && !create_missing)
-          LOG_FATAL_P(PARAM_PARAMETER) << "value " << string_index << " could not be found in the objects registered";
+          LOG_FATAL_P(PARAM_PARAMETER) << "value " << string_index << " was not found in the objects registered";
         if (targets->find(u_index) == targets->end() && create_missing)
           (*targets)[u_index] = lower_bounds_[offset];
 
@@ -144,7 +146,7 @@ void Creator::CreateEstimates() {
       unsigned offset = 0;
       for (string index : indexes) {
         if (targets->find(index) == targets->end())
-          LOG_FATAL_P(PARAM_PARAMETER) << "value " << index << " could not be found in the objects registered";
+          LOG_FATAL_P(PARAM_PARAMETER) << "value " << index << " was not found in the objects registered";
 
         CreateEstimate(new_parameter + "{" + index + "}", offset, &(*targets)[index]);
         offset++;
@@ -233,7 +235,7 @@ void Creator::HandleSameParameter() {
      */
     string error = "";
     if (!model_->objects().VerfiyAddressableForUse(same, addressable::kEstimate, error)) {
-      LOG_FATAL_P(PARAM_SAME) << "could not be verified for use in an @estimate.same block. Error was " << error;
+      LOG_FATAL_P(PARAM_SAME) << "could not be verified for use in an @estimate.same block. Error: " << error;
     }
 
     string new_parameter = same;
@@ -246,8 +248,8 @@ void Creator::HandleSameParameter() {
     if (index != "") {
       indexes = utilities::String::explode(index);
       if (index != "" && indexes.size() == 0) {
-        LOG_FATAL_P(PARAM_SAME) << " could be split up to search for indexes because the format was invalid. "
-            << "Please ensure you are using correct indexes and only the operators , and : (range) are supported";
+        LOG_FATAL_P(PARAM_SAME) << " could not be split up to search for indexes because the format was invalid. "
+            << "Check the indices. Only the operators ',' and ':' (range) are supported";
       }
 
       new_parameter = new_parameter.substr(0, new_parameter.find('{'));
@@ -274,7 +276,7 @@ void Creator::HandleSameParameter() {
         for (string string_index : indexes) {
           unsigned u_index = 0;
           if (!utils::To<string, unsigned>(string_index, u_index))
-            LOG_FATAL_P(PARAM_SAME) << "index " << string_index << " could not be converted to a numeric type";
+            LOG_FATAL_P(PARAM_SAME) << "index " << string_index << " could not be converted to an unsigned integer";
           if (u_index <= 0 || u_index > temp->size())
             LOG_FATAL_P(PARAM_SAME) << "index " << string_index << " is out of range 1-" << temp->size();
 
@@ -292,9 +294,9 @@ void Creator::HandleSameParameter() {
         for (string string_index : indexes) {
           unsigned u_index = 0;
           if (!utils::To<string, unsigned>(string_index, u_index))
-            LOG_FATAL_P(PARAM_PARAMETER) << "index " << string_index << " could not be converted to a numeric type";
+            LOG_FATAL_P(PARAM_PARAMETER) << "index " << string_index << " could not be converted to an unsigned integer";
           if (temps->find(u_index) == temps->end() && !create_missing)
-            LOG_FATAL_P(PARAM_PARAMETER) << "value " << string_index << " could not be found in the objects registered";
+            LOG_FATAL_P(PARAM_PARAMETER) << "value " << string_index << " was not found in the objects registered";
           if (temps->find(u_index) == temps->end() && create_missing)
             (*temps)[u_index] = lower_bounds_[offset];
 
@@ -310,7 +312,7 @@ void Creator::HandleSameParameter() {
         unsigned offset = 0;
         for (string index : indexes) {
           if (temp->find(index) == temp->end())
-            LOG_FATAL_P(PARAM_PARAMETER) << "value " << index << " could not be found in the objects registered";
+            LOG_FATAL_P(PARAM_PARAMETER) << "value " << index << " was not found in the objects registered";
 
           labels.push_back(new_parameter + "{" + index + "}");
           targets.push_back(&(*temp)[index]);
@@ -372,7 +374,7 @@ void Creator::HandleSameParameter() {
    * Do checks against the number of estimates to ensure it's compat.
    */
   if (estimates_.size() == 1 && labels.size() == 0) {
-    LOG_ERROR_P(PARAM_SAME) << " Did not create any objects within the system when we had " << estimates_.size() << " estimates";
+    LOG_ERROR_P(PARAM_SAME) << " Did not create any objects within the system when there are " << estimates_.size() << " estimates";
   } else if (estimates_.size() != 1 && (estimates_.size() != labels.size())) {
     LOG_ERROR_P(PARAM_SAME) << " created " << labels.size() << " same parameters against " << estimates_.size() << " estimates. These must match";
   }
@@ -383,7 +385,7 @@ void Creator::HandleSameParameter() {
   for(string same : labels) {
     same_count[same]++;
     if (same_count[same] > 1) {
-      LOG_ERROR_P(PARAM_SAME) << ": same parameter '" << same << "' is a duplicate. Please remove this from your configuration file";
+      LOG_ERROR_P(PARAM_SAME) << ": same parameter '" << same << "' is a duplicate.";
     }
   }
 

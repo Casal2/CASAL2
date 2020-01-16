@@ -23,8 +23,8 @@ namespace additionalpriors {
  * Default constructor
  */
 VectorAverage::VectorAverage(Model* model) : AdditionalPrior(model) {
-  parameters_.Bind<string>(PARAM_METHOD, &method_, "What calculation method to use, either k, l, or m", "", PARAM_K);
-  parameters_.Bind<Double>(PARAM_K, &k_, "K Value to use in the calculation", "");
+  parameters_.Bind<string>(PARAM_METHOD, &method_, "Which calculation method to use, k, l, or m", "", PARAM_K);
+  parameters_.Bind<Double>(PARAM_K, &k_, "K value to use in the calculation", "");
   parameters_.Bind<double>(PARAM_MULTIPLIER, &multiplier_, "Multiplier for the penalty amount", "", 1);
 }
 
@@ -39,7 +39,7 @@ void VectorAverage::DoValidate() { }
 void VectorAverage::DoBuild() {
   string error = "";
   if (!model_->objects().VerfiyAddressableForUse(parameter_, addressable::kLookup, error)) {
-    LOG_FATAL_P(PARAM_PARAMETER) << "could not be verified for use in additional_prior.vector_average. Error was " << error;
+    LOG_FATAL_P(PARAM_PARAMETER) << "could not be verified for use in additional_prior.vector_average. Error: " << error;
   }
 
   addressable::Type addressable_type = model_->objects().GetAddressableType(parameter_);
@@ -58,7 +58,8 @@ void VectorAverage::DoBuild() {
       addressable_map_ = model_->objects().GetAddressableUMap(parameter_);
       break;
     default:
-      LOG_ERROR() << "The addressable you have provided for use in a additional priors: " << parameter_ << " is not a type that is supported for vector average additional priors";
+      LOG_ERROR() << "The addressable provided for use in additional priors '" << parameter_
+        << "' has a type that is not supported for vector average additional priors";
       break;
   }
 }

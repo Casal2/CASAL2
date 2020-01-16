@@ -60,7 +60,7 @@ void DerivedQuantity::Validate() {
     mean_proportion_method_ = false;
 
   if (category_labels_.size() != selectivity_labels_.size())
-    LOG_ERROR_P(PARAM_SELECTIVITIES) << " count (" << selectivity_labels_.size() << ") "
+    LOG_ERROR_P(PARAM_SELECTIVITIES) << "selectivities count (" << selectivity_labels_.size() << ") "
         << " is not the same as the categories count (" << category_labels_.size() << ")";
   DoValidate();
 }
@@ -78,7 +78,7 @@ void DerivedQuantity::Build() {
   for (string label : selectivity_labels_) {
     Selectivity* selectivity = selectivity_manager.GetSelectivity(label);
     if (!selectivity)
-      LOG_ERROR_P(PARAM_SELECTIVITIES) << " (" << label << ") could not be found. Have you defined it?";
+      LOG_ERROR_P(PARAM_SELECTIVITIES) << "Selectivity label (" << label << ") was not found.";
 
     selectivities_.push_back(selectivity);
   }
@@ -88,7 +88,7 @@ void DerivedQuantity::Build() {
    */
   TimeStep* time_step = model_->managers().time_step()->GetTimeStep(time_step_label_);
   if (!time_step)
-    LOG_FATAL_P(PARAM_TIME_STEP) << " (" << time_step_label_ << ") could not be found. Have you defined it?";
+    LOG_FATAL_P(PARAM_TIME_STEP) << "Time step label (" << time_step_label_ << ") was not found.";
   time_step->SubscribeToBlock(this);
   time_step->SubscribeToInitialisationBlock(this);
   DoBuild();
@@ -132,7 +132,7 @@ Double DerivedQuantity::GetValue(unsigned year) {
 
   Double result = 0.0;
   if (years_to_go_back == 0) {
-    LOG_WARNING() << "Years to go back is 0 in derived quantity " << label_ << " when it shouldn't be";
+    LOG_WARNING() << "Years to go back is 0 in derived quantity " << label_ << " which is invalid.";
     result = (*initialisation_values_.rbegin()->rbegin());
   } else if (initialisation_values_.rbegin()->size() > years_to_go_back) {
     result = initialisation_values_.rbegin()->at(initialisation_values_.rbegin()->size() - years_to_go_back);

@@ -42,7 +42,7 @@ void Manager::Validate() {
     phase->Validate();
     has_derived_or_iterative = phase->type() == PARAM_ITERATIVE || phase->type() == PARAM_DERIVED || has_derived_or_iterative;
     if (phase->type() == PARAM_CINITIAL && !has_derived_or_iterative) {
-      LOG_ERROR() << phase->location() << " cannot be defined unless you have defined an iterative or derived initialisation phase prior in the annual cycle";
+      LOG_ERROR() << phase->location() << " cannot be defined unless an iterative or derived initialisation phase prior has been defined in the annual cycle";
     }
   }
 }

@@ -32,7 +32,7 @@ Selectivity::Selectivity(Model* model)
   parameters_.Bind<string>(PARAM_TYPE, &type_, "The type of selectivity", "");
   parameters_.Bind<bool>(PARAM_LENGTH_BASED, &length_based_, "Is the selectivity length based", "", false);
   parameters_.Bind<unsigned>(PARAM_INTERVALS, &n_quant_, "Number of quantiles to evaluate a length based selectivity over the age length distribution", "", 5);
-  parameters_.Bind<string>(PARAM_PARTITION_TYPE, &partition_type_label_, "The type of partition this selectivity will support, Defaults to same as the model", "", PARAM_MODEL)
+  parameters_.Bind<string>(PARAM_PARTITION_TYPE, &partition_type_label_, "The type of partition this selectivity will support. Defaults to same as the model", "", PARAM_MODEL)
       ->set_allowed_values({PARAM_MODEL, PARAM_AGE, PARAM_LENGTH, PARAM_HYBRID});
 
   RegisterAsAddressable(PARAM_VALUES, &values_, addressable::kLookup);
@@ -52,7 +52,7 @@ void Selectivity::Validate() {
   else if (partition_type_label_ == PARAM_LENGTH)
     partition_type_ = PartitionType::kLength;
   else {
-    LOG_CODE_ERROR() << "Selectivity does not recognise the current partition_type. It's not length or age";
+    LOG_CODE_ERROR() << "The current partition_type is not recognized for this selectivity. It is not length or age";
   }
   age_index_ = model_->min_age();
 

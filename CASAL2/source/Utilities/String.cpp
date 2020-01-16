@@ -37,9 +37,9 @@ std::string String::find_invalid_characters(const std::string& test_string) {
  std::string invalid = "";
  std::for_each(test_string.begin(), test_string.end(),
 #ifdef _MSC_VER
-	 [&special_chars, &invalid](char c) { if (!isalpha(c) && !isdigit(c) && special_chars.find(c) == string::npos) invalid += c; }
+  [&special_chars, &invalid](char c) { if (!isalpha(c) && !isdigit(c) && special_chars.find(c) == string::npos) invalid += c; }
 #else
-	 [&special_chars, &invalid](char c) { if (!std::isalpha(c) && !std::isdigit(c) && special_chars.find(c) == string::npos) invalid += c; }
+  [&special_chars, &invalid](char c) { if (!std::isalpha(c) && !std::isdigit(c) && special_chars.find(c) == string::npos) invalid += c; }
 #endif
  );
 
@@ -188,7 +188,7 @@ bool String::HandleOperators(vector<string>& line_values, string &error) {
 
             unsigned multiplier = 0;
             if (!util::To<unsigned>(temp[1], multiplier)) {
-              error = "Could not convert " + temp[1] + " to an unsigned int";
+              error = "Could not convert " + temp[1] + " to an unsigned integer";
               return false;
             }
 
@@ -246,7 +246,7 @@ string String::RangeSplit(const string& range_value) {
   vector<string> numerics;
   boost::split(numerics, range_value, boost::is_any_of(":"));
   if (numerics.size() != 2) {
-    LOG_FATAL() << "line " << range_value << " could not be split into 2 pieces for a range";
+    LOG_FATAL() << "line " << range_value << " could not be split into two pieces for a range";
   }
 
   int start_value;
@@ -265,7 +265,7 @@ string String::RangeSplit(const string& range_value) {
     result = boost::algorithm::join(range, ",");
 
   }  else {
-    LOG_FINE() << "Could not convert either " << numerics[0] << " or " << numerics[1] << " to an int";
+    LOG_FINE() << "Could not convert either " << numerics[0] << " or " << numerics[1] << " to an integer";
     result = range_value;
   }
 

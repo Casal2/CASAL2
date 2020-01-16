@@ -25,7 +25,7 @@ namespace age {
  */
 TimeStepProportionsByCategory::TimeStepProportionsByCategory(Model* model)
    : observations::age::ProportionsByCategory(model) {
-  parameters_.Bind<double>(PARAM_TIME_STEP_PROPORTION, &time_step_proportion_, "Proportion through the time step to analyse the partition from", "", double(0.5));
+  parameters_.Bind<double>(PARAM_TIME_STEP_PROPORTION, &time_step_proportion_, "Proportion through the time step to analyse the partition from", "", double(0.5))->set_range(0.0, 1.0);
 
   mean_proportion_method_ = true;
 }
@@ -42,7 +42,7 @@ void TimeStepProportionsByCategory::DoBuild() {
 
   auto time_step = model_->managers().time_step()->GetTimeStep(time_step_label_);
   if (!time_step) {
-    LOG_ERROR_P(PARAM_TIME_STEP) << " " << time_step_label_ << " could not be found. Have you defined it?";
+    LOG_ERROR_P(PARAM_TIME_STEP) << " " << time_step_label_ << " was not found. Has it been defined?";
   } else {
       for (unsigned year : years_)
         time_step->SubscribeToBlock(this, year);

@@ -67,6 +67,7 @@ ProportionsMigrating::~ProportionsMigrating() {
  */
 void ProportionsMigrating::DoValidate() {
   age_spread_ = (max_age_ - min_age_) + 1;
+
   map<unsigned, vector<double>> error_values_by_year;
   map<unsigned, vector<double>> obs_by_year;
 
@@ -78,12 +79,13 @@ void ProportionsMigrating::DoValidate() {
   if (max_age_ > model_->max_age())
     LOG_ERROR_P(PARAM_MAX_AGE) << ": max_age (" << max_age_ << ") is greater than the model's max_age (" << model_->max_age() << ")";
   if (process_error_values_.size() != 0 && process_error_values_.size() != years_.size()) {
-    LOG_ERROR_P(PARAM_PROCESS_ERRORS) << " number of values provied (" << process_error_values_.size() << ") does not match the number of years provided ("
-        << years_.size() << ")";
+    LOG_ERROR_P(PARAM_PROCESS_ERRORS) << " number of values provided (" << process_error_values_.size()
+      << ") does not match the number of years provided (" << years_.size() << ")";
   }
   for (auto year : years_) {
   	if((year < model_->start_year()) || (year > model_->final_year()))
-  		LOG_ERROR_P(PARAM_YEARS) << "Years can't be less than start_year (" << model_->start_year() << "), or greater than final_year (" << model_->final_year() << "). Please fix this.";
+  		LOG_ERROR_P(PARAM_YEARS) << "Years cannot be less than start_year (" << model_->start_year()
+          << "), or greater than final_year (" << model_->final_year() << ").";
   }
 
   for (Double process_error : process_error_values_) {
@@ -92,7 +94,8 @@ void ProportionsMigrating::DoValidate() {
   }
   if (process_error_values_.size() != 0) {
     if (process_error_values_.size() != years_.size()) {
-      LOG_FATAL_P(PARAM_PROCESS_ERRORS) << "need to supply a process error for each year, you supplied '" << process_error_values_.size() << "', but you need to supply '" << years_.size() << "'";
+      LOG_FATAL_P(PARAM_PROCESS_ERRORS) << "Supply a process error for each year. Values for " << process_error_values_.size()
+        << " years were supplied, but " << years_.size() << " years are required";
     }
     process_errors_by_year_ = utilities::Map<Double>::create(years_, process_error_values_);
   } else {
@@ -111,19 +114,19 @@ void ProportionsMigrating::DoValidate() {
   unsigned obs_expected = age_spread_ * category_labels_.size() + 1;
   vector<vector<string>>& obs_data = obs_table_->data();
   if (obs_data.size() != years_.size()) {
-    LOG_ERROR_P(PARAM_OBS) << " has " << obs_data.size() << " rows defined, but we expected " << years_.size()
-        << " to match the number of years provided";
+    LOG_ERROR_P(PARAM_OBS) << " has " << obs_data.size() << " rows defined, but " << years_.size()
+        << " should match the number of years provided";
   }
 
   for (vector<string>& obs_data_line : obs_data) {
     if (obs_data_line.size() != obs_expected) {
-      LOG_ERROR_P(PARAM_OBS) << " has " << obs_data_line.size() << " values defined, but we expected " << obs_expected
-          << " to match the age speard * categories + 1 (for year)";
+      LOG_ERROR_P(PARAM_OBS) << " has " << obs_data_line.size() << " values defined, but " << obs_expected
+          << " should match the age spread * categories + 1 (for year)";
     }
 
     unsigned year = 0;
     if (!utilities::To<unsigned>(obs_data_line[0], year))
-      LOG_ERROR_P(PARAM_OBS) << " value " << obs_data_line[0] << " could not be converted in to an unsigned integer. It should be the year for this line";
+      LOG_ERROR_P(PARAM_OBS) << " value " << obs_data_line[0] << " could not be converted to an unsigned integer. It should be the year for this line";
     if (std::find(years_.begin(), years_.end(), year) == years_.end())
       LOG_ERROR_P(PARAM_OBS) << " value " << year << " is not a valid year for this observation";
 
@@ -143,25 +146,25 @@ void ProportionsMigrating::DoValidate() {
    */
   vector<vector<string>>& error_values_data = error_values_table_->data();
   if (error_values_data.size() != years_.size()) {
-    LOG_ERROR_P(PARAM_ERROR_VALUES) << " has " << error_values_data.size() << " rows defined, but we expected " << years_.size()
-        << " to match the number of years provided";
+    LOG_ERROR_P(PARAM_ERROR_VALUES) << " has " << error_values_data.size() << " rows defined, but " << years_.size()
+        << " should match the number of years provided";
   }
 
   for (vector<string>& error_values_data_line : error_values_data) {
     if (error_values_data_line.size() != 2 && error_values_data_line.size() != obs_expected) {
-      LOG_ERROR_P(PARAM_ERROR_VALUES) << " has " << error_values_data_line.size() << " values defined, but we expected " << obs_expected
-          << " to match the age speard * categories + 1 (for year)";
+      LOG_ERROR_P(PARAM_ERROR_VALUES) << " has " << error_values_data_line.size() << " values defined, but " << obs_expected
+          << " should match the age spread * categories + 1 (for year)";
     }
 
     unsigned year = 0;
     if (!utilities::To<unsigned>(error_values_data_line[0], year))
-      LOG_ERROR_P(PARAM_ERROR_VALUES) << " value " << error_values_data_line[0] << " could not be converted in to an unsigned integer. It should be the year for this line";
+      LOG_ERROR_P(PARAM_ERROR_VALUES) << " value " << error_values_data_line[0] << " could not be converted to an unsigned integer. It should be the year for this line";
     if (std::find(years_.begin(), years_.end(), year) == years_.end())
       LOG_ERROR_P(PARAM_ERROR_VALUES) << " value " << year << " is not a valid year for this observation";
     for (unsigned i = 1; i < error_values_data_line.size(); ++i) {
       double value = 0.0;
       if (!utilities::To<double>(error_values_data_line[i], value))
-        LOG_ERROR_P(PARAM_ERROR_VALUES) << " value (" << error_values_data_line[i] << ") could not be converted to a Double";
+        LOG_ERROR_P(PARAM_ERROR_VALUES) << " value (" << error_values_data_line[i] << ") could not be converted to a double";
       if (likelihood_type_ == PARAM_LOGNORMAL && value <= 0.0) {
         LOG_ERROR_P(PARAM_ERROR_VALUES) << ": error_value (" << value << ") cannot be equal to or less than 0.0";
       } else if ((likelihood_type_ == PARAM_MULTINOMIAL && value < 0.0) || (likelihood_type_ == PARAM_DIRICHLET && value < 0.0)) {
@@ -211,14 +214,14 @@ void ProportionsMigrating::DoBuild() {
   if( ageing_error_label_ != "") {
   ageing_error_ = model_->managers().ageing_error()->GetAgeingError(ageing_error_label_);
   if (!ageing_error_)
-    LOG_ERROR_P(PARAM_AGEING_ERROR) << "(" << ageing_error_label_ << ") could not be found. Have you defined it?";
+    LOG_ERROR_P(PARAM_AGEING_ERROR) << "Ageing error label (" << ageing_error_label_ << ") was not found.";
   }
 
   age_results_.resize(age_spread_ * category_labels_.size(), 0.0);
 
   TimeStep* time_step = model_->managers().time_step()->GetTimeStep(time_step_label_);
   if (!time_step) {
-    LOG_FATAL_P(PARAM_TIME_STEP) << time_step_label_ << " could not be found. Have you defined it?";
+    LOG_FATAL_P(PARAM_TIME_STEP) << "Time step label " << time_step_label_ << " was not found.";
   } else
     time_step->SubscribeToProcess(this, years_, process_label_);
 }

@@ -62,7 +62,7 @@ unsigned Manager::GetTimeStepIndex(const string& time_step_label) const {
       return index;
   }
 
-  LOG_ERROR() << "The time step " << time_step_label << " could not be found";
+  LOG_ERROR() << "The time step " << time_step_label << " was not found";
   return 0;
 }
 
@@ -91,7 +91,7 @@ unsigned Manager::GetTimeStepIndexForProcess(const string& process_label) const 
       return index;
   }
 
-  LOG_ERROR() << "The process " << process_label << " could not be found in any of the time steps";
+  LOG_ERROR() << "The process " << process_label << " was not found in any of the time steps";
   return 0;
 }
 
@@ -138,7 +138,7 @@ unsigned Manager::GetProcessIndex(const string& process_label) const {
         return index;
     }
   }
-  LOG_ERROR() << "No process with the label " << process_label << " is found in the annaul cycle";
+  LOG_ERROR() << "Process with the label " << process_label << " was not found in the annual cycle";
   return 0;
 }
 
@@ -218,7 +218,7 @@ void Manager::ExecuteInitialisation(const string& phase_label, unsigned years) {
 
 unsigned Manager::current_time_step() const {
   if (model_->state() != State::kInitialise && model_->state() != State::kExecute)
-    LOG_CODE_ERROR() << "Model State is not Init or Execute. It's " << (unsigned)model_->state();
+    LOG_CODE_ERROR() << "Model State is not Init or Execute. It is: " << (unsigned)model_->state();
 
   return current_time_step_;
 }

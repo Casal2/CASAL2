@@ -44,7 +44,7 @@ void Abundance::DoValidate() {
 
   if (category_labels_.size() != selectivity_labels_.size() && expected_selectivity_count_ != selectivity_labels_.size())
     LOG_ERROR_P(PARAM_SELECTIVITIES) << ": Number of selectivities provided (" << selectivity_labels_.size()
-        << ") is not valid. You can specify either the number of category collections (" << category_labels_.size() << ") or "
+        << ") is not valid. Specify either the number of category collections (" << category_labels_.size() << ") or "
         << "the number of total categories (" << expected_selectivity_count_ << ")";
 
   // Delta
@@ -93,7 +93,7 @@ void Abundance::DoValidate() {
 void Abundance::DoBuild() {
   catchability_ = model_->managers().catchability()->GetCatchability(catchability_label_);
   if (!catchability_)
-    LOG_ERROR_P(PARAM_CATCHABILITY) << ": catchability " << catchability_label_ << " could not be found. Have you defined it?";
+    LOG_ERROR_P(PARAM_CATCHABILITY) << ": catchability " << catchability_label_ << " was not found.";
 
   if (catchability_->type() == PARAM_NUISANCE){
     nuisance_q_ = true;
@@ -111,7 +111,7 @@ void Abundance::DoBuild() {
   for(string label : selectivity_labels_) {
     Selectivity* selectivity = model_->managers().selectivity()->GetSelectivity(label);
     if (!selectivity)
-      LOG_ERROR_P(PARAM_SELECTIVITIES) << ": Selectivity " << label << " does not exist. Have you defined it?";
+      LOG_ERROR_P(PARAM_SELECTIVITIES) << ": Selectivity " << label << " does not exist.";
     selectivities_.push_back(selectivity);
   }
 

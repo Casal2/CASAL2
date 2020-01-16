@@ -58,12 +58,12 @@ void Manager::Validate(Model* model) {
 
     RunMode::Type must_have_minimiser[] = { RunMode::kProfiling, RunMode::kEstimation, RunMode::kMCMC };
     if (std::find(std::begin(must_have_minimiser), std::end(must_have_minimiser), model->run_mode()) != std::end(must_have_minimiser) && active_count != 1) {
-      LOG_FATAL() << "You must have only one active minimiser per run, you have specified " << active_count << " of " << size() << " please fix this.";
+      LOG_FATAL() << "One active minimiser only per run is required. There are " << active_count << " of " << size() << " specified.";
     }
 
     RunMode::Type one_active_only[] = { RunMode::kTesting };
     if (std::find(std::begin(one_active_only), std::end(one_active_only), model->run_mode()) != std::end(one_active_only) && active_count > 1) {
-      LOG_FATAL() << "You must have only one active minimiser per run, you have specified " << active_count << " of " << size() << " please fix this.";
+      LOG_FATAL() << "One active minimiser only per run is required. There are " << active_count << " of " << size() << " specified.";
     }
   }
 }

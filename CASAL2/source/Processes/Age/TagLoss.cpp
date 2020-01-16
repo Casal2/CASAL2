@@ -36,8 +36,8 @@ TagLoss::TagLoss(Model* model)
   partition_structure_ = PartitionType::kAge;
 
   parameters_.Bind<string>(PARAM_CATEGORIES, &category_labels_, "List of categories", "");
-  parameters_.Bind<double>(PARAM_TAG_LOSS_RATE, &tag_loss_input_, "Tag Loss rates", "");
-  parameters_.Bind<double>(PARAM_TIME_STEP_RATIO, &ratios_, "Time step ratios for Tag Loss", "", true);
+  parameters_.Bind<double>(PARAM_TAG_LOSS_RATE, &tag_loss_input_, "Tag Loss rates", "")->set_range(0.0, 1.0);
+  parameters_.Bind<double>(PARAM_TIME_STEP_RATIO, &ratios_, "Time step ratios for Tag Loss", "", true)->set_range(0.0, 1.0);
   parameters_.Bind<string>(PARAM_TAG_LOSS_TYPE, &tag_loss_type_, "Type of tag loss", "");
   parameters_.Bind<string>(PARAM_SELECTIVITIES, &selectivity_names_, "Selectivities", "");
   parameters_.Bind<unsigned>(PARAM_YEAR, &year_, "The year the first tagging release process was executed", "");
@@ -56,7 +56,7 @@ TagLoss::TagLoss(Model* model)
  * - Check the categories are real
  */
 void TagLoss::DoValidate() {
-  LOG_FINEST() << "Number of categories = " << category_labels_.size() << " number of proportions given = " << tag_loss_input_.size();
+  LOG_FINEST() << "Number of categories = " << category_labels_.size() << " number of proportions = " << tag_loss_input_.size();
 
   if (tag_loss_input_.size() == 1) {
     auto val_t = tag_loss_input_[0];
@@ -70,26 +70,28 @@ void TagLoss::DoValidate() {
 
   if (tag_loss_input_.size() != category_labels_.size()) {
     LOG_ERROR_P(PARAM_TAG_LOSS_RATE)
-        << ": Number of tag loss values provided is not the same as the number of categories provided. Expected: "
-        << category_labels_.size()<< " but got " << tag_loss_input_.size();
+        << ": Number of tag loss values provided is not the same as the number of categories provided. Categories: "
+        << category_labels_.size() << ", tag loss size " << tag_loss_input_.size();
   }
 
   if (selectivity_names_.size() != category_labels_.size()) {
     LOG_ERROR_P(PARAM_SELECTIVITIES)
-        << ": Number of selectivities provided is not the same as the number of categories provided. Expected: "
-        << category_labels_.size()<< " but got " << selectivity_names_.size();
+        << ": Number of selectivities provided is not the same as the number of categories provided. Categories: "
+        << category_labels_.size() << ", selectivities size " << selectivity_names_.size();
   }
 
   // Validate type of tag loss
   if (tag_loss_type_ != "single")
-    LOG_ERROR_P(PARAM_TAG_LOSS_TYPE) << tag_loss_type_ << " Is not an expected type. Values allowed are " << PARAM_SINGLE << " and " << PARAM_DOUBLE << " is coming soon";
+    LOG_ERROR_P(PARAM_TAG_LOSS_TYPE) << tag_loss_type_ << " Is not an expected type. Values allowed are "
+      << PARAM_SINGLE << " and " << PARAM_DOUBLE << " is coming soon";
 
   if (tag_loss_type_ == PARAM_DOUBLE)
     LOG_ERROR() << PARAM_TAG_LOSS_TYPE << " " << PARAM_DOUBLE << " is not implemented yet";
+
   // Validate our Ms are between 1.0 and 0.0
   for (double tag_loss : tag_loss_input_) {
     if (tag_loss < 0.0 || tag_loss > 1.0)
-      LOG_ERROR_P(PARAM_TAG_LOSS_RATE) << ": m value " << tag_loss << " must be between 0.0 and 1.0 (inclusive)";
+      LOG_ERROR_P(PARAM_TAG_LOSS_RATE) << ": Tag loss rate " << tag_loss << " must be between 0.0 and 1.0 (inclusive)";
   }
 
   for (unsigned i = 0; i < tag_loss_input_.size(); ++i)
@@ -108,7 +110,7 @@ void TagLoss::DoBuild() {
   for (string label : selectivity_names_) {
     Selectivity* selectivity = model_->managers().selectivity()->GetSelectivity(label);
     if (!selectivity)
-      LOG_ERROR_P(PARAM_SELECTIVITIES) << ": selectivity " << label << " does not exist. Have you defined it?";
+      LOG_ERROR_P(PARAM_SELECTIVITIES) << ": Selectivity " << label << " does not exist.";
 
     selectivities_.push_back(selectivity);
   }
@@ -136,7 +138,7 @@ void TagLoss::DoBuild() {
 
     for (double value : ratios_) {
       if (value < 0.0 || value > 1.0)
-        LOG_ERROR_P(PARAM_TIME_STEP_RATIO) << " value (" << value << ") must be between 0.0 (inclusive) and 1.0 (inclusive)";
+        LOG_ERROR_P(PARAM_TIME_STEP_RATIO) << " Time step ratio (" << value << ") must be between 0.0 (inclusive) and 1.0 (inclusive)";
     }
 
     for (unsigned i = 0; i < ratios_.size(); ++i)

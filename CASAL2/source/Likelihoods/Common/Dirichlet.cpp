@@ -105,7 +105,8 @@ Double Dirichlet::GetInitialScore(map<unsigned, vector<observations::Comparison>
   for (observations::Comparison& comparison : comparisons[year]) {
     // Calculate score
     Double temp_score = AdjustErrorValue(comparison.process_error_, comparison.error_value_) * error_value_multiplier_;
-    LOG_FINEST() << "Adding: " << temp_score << " = AdjustErrorValue(" << comparison.process_error_ << ", " << comparison.error_value_ << ")  * " << error_value_multiplier_ << ")";
+    LOG_FINEST() << "Adding: " << temp_score << " = AdjustErrorValue(" << comparison.process_error_
+      << ", " << comparison.error_value_ << ")  * " << error_value_multiplier_ << ")";
     a1 += dc::ZeroFun(comparison.expected_, comparison.delta_) * temp_score;
   }
 

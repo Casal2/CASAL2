@@ -49,14 +49,14 @@ void ProcessAbundance::DoBuild() {
 
   auto time_step = model_->managers().time_step()->GetTimeStep(time_step_label_);
   if (!time_step) {
-    LOG_FATAL_P(PARAM_TIME_STEP) << time_step_label_ << " could not be found. Have you defined it?";
+    LOG_FATAL_P(PARAM_TIME_STEP) << time_step_label_ << " was not found. Has it been defined?";
   } else {
     for (unsigned year : years_)
       time_step->SubscribeToProcess(this, year, process_label_);
   }
   for (auto year : years_) {
   	if((year < model_->start_year()) || (year > model_->final_year()))
-  		LOG_ERROR_P(PARAM_YEARS) << "Years can't be less than start_year (" << model_->start_year() << "), or greater than final_year (" << model_->final_year() << "). Please fix this.";
+  		LOG_ERROR_P(PARAM_YEARS) << "Years cannot be less than start_year (" << model_->start_year() << "), or greater than final_year (" << model_->final_year() << ").";
   }
 
 }

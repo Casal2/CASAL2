@@ -34,8 +34,8 @@ public:
 
 protected:
   // members
-  Double* 										addressable_ = nullptr;
-  Double											score_ = 0.0;
+  Double*                     addressable_ = nullptr;
+  Double                      score_ = 0.0;
 };
 
 } /* namespace additionalpriors */

@@ -44,7 +44,7 @@ TransitionCategoryByAge::TransitionCategoryByAge(Model* model)
   parameters_.Bind<unsigned>(PARAM_MIN_AGE, &min_age_, "Minimum age to transition", "");
   parameters_.Bind<unsigned>(PARAM_MAX_AGE, &max_age_, "Maximum age to transition", "");
   parameters_.Bind<string>(PARAM_PENALTY, &penalty_label_, "Penalty label", "", "");
-  parameters_.Bind<Double>(PARAM_U_MAX, &u_max_, "U Max", "", 0.99);
+  parameters_.Bind<Double>(PARAM_U_MAX, &u_max_, "U Max", "", 0.99)->set_range(0.0, 1.0, false, true);
   parameters_.Bind<unsigned>(PARAM_YEARS, &years_, "Years to execute the transition in", "");
   parameters_.BindTable(PARAM_N, n_table_, "Table of N data", "");
 }
@@ -97,10 +97,10 @@ void TransitionCategoryByAge::DoValidate() {
   Double n_value = 0.0;
   for (auto iter : data) {
     if (!utilities::To<unsigned>(iter[0], year))
-      LOG_ERROR_P(PARAM_N) << " value (" << iter[0] << ") is not a valid unsigned value that could be converted to a model year";
+      LOG_ERROR_P(PARAM_N) << " value (" << iter[0] << ") could not be converted to a model year (unsigned integer)";
     for (unsigned i = 1; i < iter.size(); ++i) {
       if (!utilities::To<Double>(iter[i], n_value))
-        LOG_ERROR_P(PARAM_N) << " value (" << iter[i] << ") could not be converted to a double. Please ensure it's a numeric value";
+        LOG_ERROR_P(PARAM_N) << " value (" << iter[i] << ") could not be converted to a double.";
       if (n_[year].size() == 0)
         n_[year].resize(age_spread, 0.0);
       n_[year][i - 1] = n_value;

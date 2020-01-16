@@ -24,7 +24,7 @@ namespace projects {
 LogNormalEmpirical::LogNormalEmpirical(Model* model) : Project(model) {
   parameters_.Bind<Double>(PARAM_MEAN, &mean_, "Mean of gaussian process", "",0.0);
   parameters_.Bind<unsigned>(PARAM_START_YEAR, &start_year_, "Start year of sampling", "", false);
-  parameters_.Bind<unsigned>(PARAM_FINAL_YEAR, &final_year_, "Last year of sampling", "", false);
+  parameters_.Bind<unsigned>(PARAM_FINAL_YEAR, &final_year_, "Final year of sampling", "", false);
 }
 
 /**
@@ -37,7 +37,7 @@ void LogNormalEmpirical::DoValidate() {
   if (!parameters_.Get(PARAM_FINAL_YEAR)->has_been_defined())
     final_year_ = model_->final_year();
   if (final_year_ <= start_year_)
-    LOG_ERROR_P(PARAM_FINAL_YEAR) << PARAM_FINAL_YEAR << " must be larger than " << PARAM_START_YEAR;
+    LOG_ERROR_P(PARAM_FINAL_YEAR) << " " << final_year_ << " must be greater than start year " << start_year_;
 }
 
 /**
@@ -52,7 +52,7 @@ void LogNormalEmpirical::DoReset() {
     Random_draw = ceil(rng.uniform((unsigned)start_year_, (unsigned)final_year_));
     year = 0;
     if (!utilities::To<Double>(Random_draw, year))
-      LOG_ERROR() << " Random Draw " << Random_draw << " Could not be converted from double to type unsigned";
+      LOG_ERROR() << " Random Draw " << Random_draw << " could not be converted to Double";
     resampled_years_[project_year] = year;
     LOG_FINEST() << "Value from year: " << year << " used in projection year: " << project_year;
   }
@@ -66,7 +66,8 @@ void LogNormalEmpirical::DoReset() {
 
     Total += log(stored_values_[resampled_years.second]);
     Total_sq += log(stored_values_[resampled_years.second]) * log(stored_values_[resampled_years.second]);
-    LOG_FINEST() << "using value " << stored_values_[resampled_years.second] << " sampled from year " << resampled_years.second << " to be applied in year " << resampled_years.first;
+    LOG_FINEST() << "using value " << stored_values_[resampled_years.second] << " sampled from year "
+      << resampled_years.second << " to be applied in year " << resampled_years.first;
   }
   LOG_FINEST() << "Total = " << Total;
 

@@ -92,7 +92,7 @@ void Minimiser::BuildCovarianceMatrix() {
   if (!build_covariance_)
     return;
   if (hessian_ == 0)
-    LOG_CODE_ERROR() << "Cannot build the covariance matrix as the hessian has not been allocated, try a different minimiser.";
+    LOG_CODE_ERROR() << "Cannot build the covariance matrix as the Hessian has not been allocated. Use a different minimiser.";
 
   LOG_FINE() << "Building covariance matrix";
 

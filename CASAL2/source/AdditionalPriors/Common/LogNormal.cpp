@@ -47,7 +47,7 @@ void LogNormal::DoValidate() {
 void LogNormal::DoBuild() {
 	string error = "";
 	if (!model_->objects().VerfiyAddressableForUse(parameter_, addressable::kLookup, error)) {
-		LOG_FATAL_P(PARAM_PARAMETER) << "could not be verified for use in additional_prior.log_normal. Error was " << error;
+		LOG_FATAL_P(PARAM_PARAMETER) << "could not be verified for use in additional_prior.log_normal. Error: " << error;
 	}
 
   addressable::Type addressable_type = model_->objects().GetAddressableType(parameter_);
@@ -69,7 +69,8 @@ void LogNormal::DoBuild() {
       addressable_ = model_->objects().GetAddressable(parameter_);
       break;
     default:
-      LOG_ERROR() << "The addressable you have provided for use in a additional priors: " << parameter_ << " is not a type that is supported for LogNormal additional priors";
+      LOG_ERROR() << "The addressable provided for use in additional priors '" << parameter_
+        << "' has a type that is not supported for LogNormal additional priors";
       break;
   }
 }

@@ -51,20 +51,20 @@ void AllValuesBounded::DoValidate() {
 
     // Param: L
     if (low_ < min_age) {
-      LOG_ERROR_P(PARAM_L) << ": Parameter 'l' is less than the 'min_age' for the model\n"
+      LOG_ERROR_P(PARAM_L) << ": Parameter 'l' is less than the 'min_age'\n"
           << "Model 'min_age' is " << min_age << " and 'l' is " << low_;
     }
 
     // Param: H
     if (high_ > max_age) {
-      LOG_ERROR_P(PARAM_H) << ": Parameter 'h' is greater than the 'max_age' for the model\n"
+      LOG_ERROR_P(PARAM_H) << ": Parameter 'h' is greater than the 'max_age'\n"
           << "Model 'max_age' is " << max_age << " and 'h' is " << high_;
     }
 
     // Param: V
     if (v_.size() != (high_ - low_) + 1) {
-      LOG_ERROR_P(PARAM_V) << ": Parameter 'v' does not have the right amount of elements n = h - l\n"
-          << "Expected " << (high_ - low_) + 1 << " but got " << v_.size();
+      LOG_ERROR_P(PARAM_V) << ": Parameter 'v' has an incorrect number of elements n = h - l\n"
+          << "Expected: " << (high_ - low_) + 1 << ", parsed: " << v_.size();
     }
 
   } else if (model_->partition_type() == PartitionType::kLength) {
@@ -75,8 +75,8 @@ void AllValuesBounded::DoValidate() {
         ++bins;
     }
     if (bins != v_.size()) {
-      LOG_ERROR_P(PARAM_V) << ": Parameter 'v' does not have the right amount of elements n = low <= length_bins <= high, "
-          << "Expected " << bins << " but got " << v_.size();
+      LOG_ERROR_P(PARAM_V) << ": Parameter 'v' has an incorrect number of elements n = low <= length_bins <= high, "
+          << "Expected: " << bins << ", parsed: " << v_.size();
     }
 
 
@@ -111,7 +111,7 @@ void AllValuesBounded::RebuildCache() {
       values_[age - age_index_] = 0.0;
     for (unsigned i = 0; i < v_.size(); ++i, ++age) {
       if (v_[i] < 0.0)
-        LOG_FATAL_P(PARAM_V) << "cannot have value < 0.0 in this class. Found value = " << v_[i] << " for age = " << age;
+        LOG_FATAL_P(PARAM_V) << "v cannot have values less than 0.0. value = " << v_[i] << " for age = " << age;
       values_[age - age_index_] = v_[i];
     }
     for (; age <= max_age; ++age)

@@ -32,7 +32,7 @@ TransitionCategory::TransitionCategory(Model* model)
 
   parameters_.Bind<string>(PARAM_FROM, &from_category_names_, "From", "");
   parameters_.Bind<string>(PARAM_TO, &to_category_names_, "To", "");
-  parameters_.Bind<Double>(PARAM_PROPORTIONS, &proportions_, "Proportions", "");
+  parameters_.Bind<Double>(PARAM_PROPORTIONS, &proportions_, "Proportions", "")->set_range(0.0, 1.0);
   parameters_.Bind<string>(PARAM_SELECTIVITIES, &selectivity_names_, "Selectivity names", "");
 
   RegisterAsAddressable(PARAM_PROPORTIONS, &proportions_by_category_);
@@ -67,8 +67,8 @@ void TransitionCategory::DoValidate() {
   // Validate the from and to vectors are the same size
   if (from_category_names_.size() != to_category_names_.size()) {
     LOG_ERROR_P(PARAM_TO)
-        << ": Number of 'to' categories provided does not match the number of 'from' categories provided."
-        << " Expected " << from_category_names_.size() << " but got " << to_category_names_.size();
+        << ": Number of 'to' categories provided does not match the number of 'from' categories provided. "
+        << from_category_names_.size() << " categories were supplied, but " << to_category_names_.size() << " categories are required";
   }
 
   // Allow a one to many relationship between proportions and number of categories.
@@ -78,15 +78,15 @@ void TransitionCategory::DoValidate() {
   // Validate the to category and proportions vectors are the same size
   if (to_category_names_.size() != proportions_.size()) {
     LOG_ERROR_P(PARAM_PROPORTIONS)
-        << ": Number of proportions provided does not match the number of 'to' categories provided."
-        << " Expected " << to_category_names_.size() << " but got " << proportions_.size();
+        << ": Number of proportions provided does not match the number of 'to' categories provided. "
+        << to_category_names_.size() << " categories were supplied, but proportions size is " << proportions_.size();
   }
 
   // Validate the number of selectivities matches the number of proportions
   if (proportions_.size() != selectivity_names_.size() && proportions_.size() != 1) {
     LOG_ERROR_P(PARAM_SELECTIVITIES)
-        << ": Number of selectivities provided does not match the number of proportions provided."
-        << " Expected " << proportions_.size() << " but got " << selectivity_names_.size();
+        << ": Number of selectivities provided does not match the number of proportions provided. "
+        << " proportions size is " << proportions_.size() << " but number of selectivities is " << selectivity_names_.size();
   }
 
   // Validate that each from and to category have the same age range.
@@ -127,7 +127,7 @@ void TransitionCategory::DoBuild() {
   for(string label : selectivity_names_) {
     Selectivity* selectivity = model_->managers().selectivity()->GetSelectivity(label);
     if (!selectivity)
-      LOG_ERROR_P(PARAM_SELECTIVITIES) << ": Selectivity " << label << " does not exist. Have you defined it?";
+      LOG_ERROR_P(PARAM_SELECTIVITIES) << ": Selectivity " << label << " does not exist.";
     selectivities_.push_back(selectivity);
   }
 }
@@ -146,7 +146,7 @@ void TransitionCategory::DoExecute() {
       << "; to_partition_.size(): " << to_partition_.size();
   if (from_partition_.size() != to_partition_.size()) {
     LOG_FATAL() << "The list of categories for the Transition Category process are not of equal size in year " << model_->current_year()
-    << ". We have " << from_partition_.size() << " and " << to_partition_.size() << " categories to transition between";
+      << ". Number of 'From' " << from_partition_.size() << " and 'To' " << to_partition_.size() << " categories to transition between";
   }
 
   if (transition_rates_.size() != from_partition_.size()) {
@@ -158,7 +158,8 @@ void TransitionCategory::DoExecute() {
 
       for (unsigned j = 0; j < (*from_iter)->data_.size(); ++j) {
         transition_rates_[i].push_back(proportion * selectivities_[i]->GetAgeResult(min_age + j, (*from_iter)->age_length_));
-        LOG_FINEST() << "transition rate = " << transition_rates_[i][j] << " age = " << min_age + j << " selectivity = " << selectivities_[i]->GetAgeResult(min_age + j, (*from_iter)->age_length_);
+        LOG_FINEST() << "transition rate = " << transition_rates_[i][j] << " age = " << min_age + j << " selectivity = "
+          << selectivities_[i]->GetAgeResult(min_age + j, (*from_iter)->age_length_);
         if (selectivities_[i]->GetAgeResult(min_age + j, (*from_iter)->age_length_) > 1.0)
           LOG_ERROR() << " Selectivity result is greater than 1.0, check selectivity";
       }

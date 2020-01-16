@@ -34,7 +34,7 @@ ProportionsAtLength::ProportionsAtLength(Model* model) : Observation(model) {
   error_values_table_ = new parameters::Table(PARAM_ERROR_VALUES);
 
   parameters_.Bind<string>(PARAM_TIME_STEP, &time_step_label_, "The label of time-step that the observation occurs in", "");
-  parameters_.Bind<double>(PARAM_TOLERANCE, &tolerance_, "Tolerance for rescaling proportions", "", double(0.001));
+  parameters_.Bind<double>(PARAM_TOLERANCE, &tolerance_, "Tolerance for rescaling proportions", "", double(0.001))->set_lower_bound(0.0, false);
   parameters_.Bind<unsigned>(PARAM_YEARS, &years_, "Years for which there are observations", "");
   parameters_.Bind<string>(PARAM_SELECTIVITIES, &selectivity_labels_, "The labels of the selectivities", "", true);
   parameters_.Bind<Double>(PARAM_PROCESS_ERRORS, &process_error_values_, "Process error", "", true);
@@ -60,15 +60,16 @@ void ProportionsAtLength::DoValidate() {
   // How many elements are expected in our observed table;
   for (auto year : years_) {
   	if((year < model_->start_year()) || (year > model_->final_year()))
-  		LOG_ERROR_P(PARAM_YEARS) << "Years can't be less than start_year (" << model_->start_year() << "), or greater than final_year (" << model_->final_year() << "). Please fix this.";
+  		LOG_ERROR_P(PARAM_YEARS) << "Years cannot be less than start_year (" << model_->start_year()
+          << "), or greater than final_year (" << model_->final_year() << ").";
   }
 
   map<unsigned, vector<double>> error_values_by_year;
   map<unsigned, vector<double>> obs_by_year;
 
   if (process_error_values_.size() != 0 && process_error_values_.size() != years_.size()) {
-    LOG_ERROR_P(PARAM_PROCESS_ERRORS) << " number of values provied (" << process_error_values_.size() << ") does not match the number of years provided ("
-        << years_.size() << ")";
+    LOG_ERROR_P(PARAM_PROCESS_ERRORS) << " number of values provided (" << process_error_values_.size()
+      << ") does not match the number of years provided (" << years_.size() << ")";
   }
   for (Double process_error : process_error_values_) {
     if (process_error < 0.0)
@@ -76,7 +77,8 @@ void ProportionsAtLength::DoValidate() {
   }
   if (process_error_values_.size() != 0) {
     if (process_error_values_.size() != years_.size()) {
-      LOG_FATAL_P(PARAM_PROCESS_ERRORS) << "need to supply a process error for each year, you supplied '" << process_error_values_.size() << "', but you need to supply '" << years_.size() << "'";
+      LOG_FATAL_P(PARAM_PROCESS_ERRORS) << "Supply a process error for each year. Values for " << process_error_values_.size()
+        << " years were provided, but " << years_.size() << " years are required";
     }
     process_errors_by_year_ = utilities::Map<Double>::create(years_, process_error_values_);
   } else {
@@ -89,7 +91,7 @@ void ProportionsAtLength::DoValidate() {
 
   if (category_labels_.size() != selectivity_labels_.size() && expected_selectivity_count_ != selectivity_labels_.size())
     LOG_ERROR_P(PARAM_SELECTIVITIES) << ": Number of selectivities provided (" << selectivity_labels_.size()
-        << ") is not valid. You can specify either the number of category collections (" << category_labels_.size() << ") or "
+        << ") is not valid. Specify either the number of category collections (" << category_labels_.size() << ") or "
         << "the number of total categories (" << expected_selectivity_count_ << ")";
   /**
    * Validate the number of obs provided matches age spread * category_labels * years
@@ -100,20 +102,20 @@ void ProportionsAtLength::DoValidate() {
   unsigned obs_expected = (category_labels_.size() * number_bins) + 1;
   vector<vector<string>>& obs_data = obs_table_->data();
   if (obs_data.size() != years_.size()) {
-    LOG_ERROR_P(PARAM_OBS) << " has " << obs_data.size() << " rows defined, but we expected " << years_.size()
-        << " to match the number of years provided";
+    LOG_ERROR_P(PARAM_OBS) << " has " << obs_data.size() << " rows defined, but " << years_.size()
+        << " should match the number of years provided";
   }
 
   for (vector<string>& obs_data_line : obs_data) {
     for (auto x : obs_data_line)
     if (obs_data_line.size() != obs_expected) {
-      LOG_FATAL_P(PARAM_OBS) << " has " << obs_data_line.size() << " values defined, but we expected " << obs_expected
-          << " to match the number bins (" << number_bins << ") * categories (" << category_labels_.size() << ") + 1 (for year)";
+      LOG_FATAL_P(PARAM_OBS) << " has " << obs_data_line.size() << " values defined, but " << obs_expected
+          << " should match the number of bins (" << number_bins << ") * categories (" << category_labels_.size() << ") + 1 (for year)";
     }
 
     unsigned year = 0;
     if (!utilities::To<unsigned>(obs_data_line[0], year))
-      LOG_ERROR_P(PARAM_OBS) << " value " << obs_data_line[0] << " could not be converted in to an unsigned integer. It should be the year for this line";
+      LOG_ERROR_P(PARAM_OBS) << " value " << obs_data_line[0] << " could not be converted to an unsigned integer. It should be the year for this line";
     if (std::find(years_.begin(), years_.end(), year) == years_.end())
       LOG_ERROR_P(PARAM_OBS) << " value " << year << " is not a valid year for this observation";
 
@@ -125,7 +127,7 @@ void ProportionsAtLength::DoValidate() {
       obs_by_year[year].push_back(value);
     }
     if (obs_by_year[year].size() != obs_expected - 1)
-      LOG_FATAL_P(PARAM_OBS) << "you supplied " << obs_by_year[year].size() << " lengths, but we expected " << obs_expected -1 << " can you please sort this out. Chairs";
+      LOG_FATAL_P(PARAM_OBS) << " " << obs_by_year[year].size() << " lengths were supplied, but " << obs_expected -1 << " lengths are required";
   }
 
 
@@ -134,19 +136,19 @@ void ProportionsAtLength::DoValidate() {
    */
   vector<vector<string>>& error_values_data = error_values_table_->data();
   if (error_values_data.size() != years_.size()) {
-    LOG_ERROR_P(PARAM_ERROR_VALUES) << " has " << error_values_data.size() << " rows defined, but we expected " << years_.size()
-        << " to match the number of years provided";
+    LOG_ERROR_P(PARAM_ERROR_VALUES) << " has " << error_values_data.size() << " rows defined, but " << years_.size()
+        << " should match the number of years provided";
   }
 
   for (vector<string>& error_values_data_line : error_values_data) {
     if (error_values_data_line.size() != 2 && error_values_data_line.size() != obs_expected) {
-      LOG_ERROR_P(PARAM_ERROR_VALUES) << " has " << error_values_data_line.size() << " values defined, but we expected " << obs_expected
-          << " to match the number bins * categories + 1 (for year)";
+      LOG_ERROR_P(PARAM_ERROR_VALUES) << " has " << error_values_data_line.size() << " values defined, but " << obs_expected
+          << " should match the number of bins * categories + 1 (for year)";
     }
 
     unsigned year = 0;
     if (!utilities::To<unsigned>(error_values_data_line[0], year))
-      LOG_ERROR_P(PARAM_ERROR_VALUES) << " value " << error_values_data_line[0] << " could not be converted in to an unsigned integer. It should be the year for this line";
+      LOG_ERROR_P(PARAM_ERROR_VALUES) << " value " << error_values_data_line[0] << " could not be converted to an unsigned integer. It should be the year for this line";
     if (std::find(years_.begin(), years_.end(), year) == years_.end())
       LOG_ERROR_P(PARAM_ERROR_VALUES) << " value " << year << " is not a valid year for this observation";
     for (unsigned i = 1; i < error_values_data_line.size(); ++i) {
@@ -168,7 +170,8 @@ void ProportionsAtLength::DoValidate() {
     }
 
     if (error_values_by_year[year].size() != obs_expected - 1)
-      LOG_FATAL_P(PARAM_ERROR_VALUES) << "We counted " << error_values_by_year[year].size() << " error values by year but expected " << obs_expected -1 << " based on the obs table";
+      LOG_FATAL_P(PARAM_ERROR_VALUES) << " " << error_values_by_year[year].size() << " error values by year but " << obs_expected -1
+        << " values are required based on the obs table";
   }
 
   /**
@@ -209,7 +212,7 @@ void ProportionsAtLength::DoBuild() {
   for(string label : selectivity_labels_) {
     Selectivity* selectivity = model_->managers().selectivity()->GetSelectivity(label);
     if (!selectivity)
-      LOG_ERROR_P(PARAM_SELECTIVITIES) << ": Selectivity " << label << " does not exist. Have you defined it?";
+      LOG_ERROR_P(PARAM_SELECTIVITIES) << ": Selectivity " << label << " does not exist.";
     selectivities_.push_back(selectivity);
   }
 

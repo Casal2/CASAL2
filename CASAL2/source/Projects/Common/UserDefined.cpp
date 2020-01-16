@@ -44,7 +44,7 @@ void UserDefined::DoUpdate() {
   try {
     value_ = model_->equation_parser().Parse(equation_);
   } catch (std::runtime_error& ex) {
-    LOG_FATAL() << "In the projection " << label_ << " we could not parse the following equation " << equation_ << " for the following reason: " << ex.what();
+    LOG_FATAL() << "In the projection " << label_ << ", the equation " << equation_ << " could not be parsed because: " << ex.what();
   } catch (...) {
     LOG_FATAL() << "result: equation failed\n";
   }

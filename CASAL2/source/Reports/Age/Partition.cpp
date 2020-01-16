@@ -82,6 +82,7 @@ void Partition::DoExecute() {
     }
     cache_ << "\n";
   }
+
   ready_for_writing_ = true;
 }
 

@@ -44,7 +44,7 @@ ProcessRemovalsByLengthRetained::ProcessRemovalsByLengthRetained(Model* model) :
   parameters_.Bind<double>(PARAM_LENGTH_BINS, &length_bins_, "Length bins", "");
   parameters_.Bind<string>(PARAM_TIME_STEP, &time_step_label_, "Time step to execute in", "");
   parameters_.Bind<bool>(PARAM_LENGTH_PLUS, &length_plus_, "Is the last bin a plus group", "", true);
-  parameters_.Bind<double>(PARAM_TOLERANCE, &tolerance_, "Tolerance for rescaling proportions", "", double(0.001));
+  parameters_.Bind<double>(PARAM_TOLERANCE, &tolerance_, "Tolerance for rescaling proportions", "", double(0.001))->set_range(0.0, 1.0, false, false);
   parameters_.Bind<unsigned>(PARAM_YEARS, &years_, "Years for which there are observations", "");
   parameters_.Bind<Double>(PARAM_PROCESS_ERRORS, &process_error_values_, "the value of process error", "", true);
   parameters_.Bind<string>(PARAM_METHOD_OF_REMOVAL, &method_, "Label of observed method of removals", "", "");
@@ -80,7 +80,8 @@ void ProcessRemovalsByLengthRetained::DoValidate() {
   }
   for (auto year : years_) {
     if ((year < model_->start_year()) || (year > model_->final_year()))
-      LOG_ERROR_P(PARAM_YEARS) << "Years can't be less than start_year (" << model_->start_year() << "), or greater than final_year (" << model_->final_year() << "). Please fix this.";
+      LOG_ERROR_P(PARAM_YEARS) << "Years cannot be less than start_year (" << model_->start_year()
+        << "), or greater than final_year (" << model_->final_year() << "). Please fix this.";
   }
 
   map<unsigned, vector<double>> error_values_by_year;
@@ -95,20 +96,23 @@ void ProcessRemovalsByLengthRetained::DoValidate() {
       LOG_ERROR_P(PARAM_LENGTH_BINS) << ": Length bins must be positive: " << length_bins_[length] << " is less than 0.0";
 
     if (length > 0 && length_bins_[length - 1] >= length_bins_[length])
-      LOG_ERROR_P(PARAM_LENGTH_BINS) << ": Length bins must be strictly increasing: " << length_bins_[length - 1] << " is greater than or equal to " << length_bins_[length];
+      LOG_ERROR_P(PARAM_LENGTH_BINS) << ": Length bins must be strictly increasing: " << length_bins_[length - 1]
+        << " is greater than or equal to " << length_bins_[length];
   }
 
   // Check that length bins lie within range of model_->length_bins
   vector<unsigned> model_length_bins = model_->length_bins(); // pull out model length bins
   if (length_bins_[0] < model_length_bins[0])
     LOG_ERROR_P(PARAM_LENGTH_BINS) << ": first length bin in observations is " << length_bins_[0] << " and in the overall model it is " << model_length_bins[0]
-      << ", please make sure that length bins in the model cover the full range of the observations.";
+      << ". Make sure that length bins in the model cover the full range of the observations.";
   if (length_bins_[length_bins_.size() - 1] > model_length_bins[model_length_bins.size() - 1])
-    LOG_ERROR_P(PARAM_LENGTH_BINS) << ": last length bin in observations is " << length_bins_[length_bins_.size() - 1] << " and in the overall model it is " << model_length_bins[model_length_bins.size() - 1]
-      << ", please make sure that length bins in the model cover the full range of the observations.";
+    LOG_ERROR_P(PARAM_LENGTH_BINS) << ": last length bin in observations is " << length_bins_[length_bins_.size() - 1]
+      << " and in the overall model it is " << model_length_bins[model_length_bins.size() - 1]
+      << ". Make sure that length bins in the model cover the full range of the observations.";
 
   if (process_error_values_.size() != 0 && process_error_values_.size() != years_.size()) {
-    LOG_ERROR_P(PARAM_PROCESS_ERRORS) << " number of values provided (" << process_error_values_.size() << ") does not match the number of years provided (" << years_.size() << ")";
+    LOG_ERROR_P(PARAM_PROCESS_ERRORS) << " number of values provided (" << process_error_values_.size()
+      << ") does not match the number of years provided (" << years_.size() << ")";
   }
   for (Double process_error : process_error_values_) {
     if (process_error < 0.0)
@@ -127,17 +131,19 @@ void ProcessRemovalsByLengthRetained::DoValidate() {
   unsigned obs_expected = number_bins_ * category_labels_.size() + 1;
   vector<vector<string>>& obs_data = obs_table_->data();
   if (obs_data.size() != years_.size()) {
-    LOG_ERROR_P(PARAM_OBS) << " has " << obs_data.size() << " rows defined, but we expected " << years_.size() << " to match the number of years provided";
+    LOG_ERROR_P(PARAM_OBS) << " has " << obs_data.size() << " rows defined, but " << years_.size()
+      << " should match the number of years provided";
   }
 
   for (vector<string>& obs_data_line : obs_data) {
     if (obs_data_line.size() != obs_expected) {
-      LOG_ERROR_P(PARAM_OBS) << " has " << obs_data_line.size() << " values defined, but we expected " << obs_expected << " to match the number bins * categories + 1 (for year)";
+      LOG_ERROR_P(PARAM_OBS) << " has " << obs_data_line.size() << " values defined, but " << obs_expected
+        << " should match the number bins * categories + 1 (for year)";
     }
 
     unsigned year = 0;
     if (!utilities::To<unsigned>(obs_data_line[0], year))
-      LOG_ERROR_P(PARAM_OBS) << " value " << obs_data_line[0] << " could not be converted in to an unsigned integer. It should be the year for this line";
+      LOG_ERROR_P(PARAM_OBS) << " value " << obs_data_line[0] << " could not be converted to an unsigned integer. It should be the year for this line";
     if (std::find(years_.begin(), years_.end(), year) == years_.end())
       LOG_ERROR_P(PARAM_OBS) << " value " << year << " is not a valid year for this observation";
 
@@ -148,7 +154,7 @@ void ProcessRemovalsByLengthRetained::DoValidate() {
       obs_by_year[year].push_back(value);
     }
     if (obs_by_year[year].size() != obs_expected - 1)
-      LOG_FATAL_P(PARAM_OBS)<< "you supplied " << obs_by_year[year].size() << " lengths, but we expected " << obs_expected -1 << " can you please sort this out. Chairs";
+      LOG_FATAL_P(PARAM_OBS)<< " " << obs_by_year[year].size() << " lengths were provided, but " << obs_expected -1 << " lengths are required";
     }
 
     /**
@@ -156,18 +162,19 @@ void ProcessRemovalsByLengthRetained::DoValidate() {
      */
   vector<vector<string>>& error_values_data = error_values_table_->data();
   if (error_values_data.size() != years_.size()) {
-    LOG_FATAL_P(PARAM_ERROR_VALUES)<< " has " << error_values_data.size() << " rows defined, but we expected " << years_.size()
-    << " to match the number of years provided";
+    LOG_FATAL_P(PARAM_ERROR_VALUES)<< " has " << error_values_data.size() << " rows defined, but " << years_.size()
+      << " should match the number of years provided";
   }
 
   for (vector<string>& error_values_data_line : error_values_data) {
     if (error_values_data_line.size() != 2 && error_values_data_line.size() != obs_expected) {
-      LOG_ERROR_P(PARAM_ERROR_VALUES) << " has " << error_values_data_line.size() << " values defined, but we expected " << obs_expected << " to match the number bins * categories + 1 (for year)";
+      LOG_ERROR_P(PARAM_ERROR_VALUES) << " has " << error_values_data_line.size() << " values defined, but " << obs_expected
+        << " should match the number bins * categories + 1 (for year)";
     }
 
     unsigned year = 0;
     if (!utilities::To<unsigned>(error_values_data_line[0], year))
-      LOG_FATAL_P(PARAM_ERROR_VALUES)<< " value " << error_values_data_line[0] << " could not be converted in to an unsigned integer. It should be the year for this line";
+      LOG_FATAL_P(PARAM_ERROR_VALUES)<< " value " << error_values_data_line[0] << " could not be converted to an unsigned integer. It should be the year for this line";
     if (std::find(years_.begin(), years_.end(), year) == years_.end())
       LOG_FATAL_P(PARAM_ERROR_VALUES)<< " value " << year << " is not a valid year for this observation";
     for (unsigned i = 1; i < error_values_data_line.size(); ++i) {
@@ -189,7 +196,8 @@ void ProcessRemovalsByLengthRetained::DoValidate() {
     }
 
     if (error_values_by_year[year].size() != obs_expected - 1)
-      LOG_FATAL_P(PARAM_ERROR_VALUES)<< "We counted " << error_values_by_year[year].size() << " error values by year but expected " << obs_expected -1 << " based on the obs table";
+      LOG_FATAL_P(PARAM_ERROR_VALUES)<< " " << error_values_by_year[year].size() << " error values by year were provided, but "
+        << obs_expected -1 << " values are required based on the obs table";
     }
 
     /**
@@ -234,14 +242,14 @@ void ProcessRemovalsByLengthRetained::DoBuild() {
 
   auto time_step = model_->managers().time_step()->GetTimeStep(time_step_label_);
   if (!time_step) {
-    LOG_FATAL_P(PARAM_TIME_STEP)<< time_step_label_ << " could not be found. Have you defined it?";
+    LOG_FATAL_P(PARAM_TIME_STEP)<< time_step_label_ << " was not found.";
   } else {
     auto process = time_step->SubscribeToProcess(this, years_, process_label_);
     mortality_instantaneous_retained_ = dynamic_cast<MortalityInstantaneousRetained*>(process);
   }
 
   if (!mortality_instantaneous_retained_)
-    LOG_ERROR_P(PARAM_PROCESS) << "This observation can only be used for Process of type = " << PARAM_MORTALITY_INSTANTANEOUS_RETAINED;
+    LOG_ERROR_P(PARAM_PROCESS) << "This observation can be used only for Process of type = " << PARAM_MORTALITY_INSTANTANEOUS_RETAINED;
 
   // Need to split the categories if any are combined for checking
   vector<string> temp_split_category_labels, split_category_labels;
@@ -259,13 +267,13 @@ void ProcessRemovalsByLengthRetained::DoBuild() {
   // Do some checks so that the observation and process are compatible
   if (!mortality_instantaneous_retained_->check_methods_for_removal_obs(methods))
     LOG_ERROR_P(PARAM_METHOD_OF_REMOVAL) << "could not find all these methods in the instantaneous_mortality process labeled " << process_label_
-        << " please check that the methods are compatible with this process";
+        << ". Check that the methods are compatible with this process";
   if (!mortality_instantaneous_retained_->check_categories_in_methods_for_removal_obs(methods, split_category_labels))
     LOG_ERROR_P(PARAM_CATEGORIES) << "could not find all these categories in the instantaneous_mortality process labeled " << process_label_
-        << " please check that the categories are compatible with this process";
+        << ". Check that the categories are compatible with this process";
   if (!mortality_instantaneous_retained_->check_years_in_methods_for_removal_obs(years_, methods))
     LOG_ERROR_P(PARAM_YEARS) << "could not find catches in all years in the instantaneous_mortality process labeled " << process_label_
-        << " please check that the years are compatible with this process";
+        << ". Check that the years are compatible with this process";
 
 }
 
@@ -354,7 +362,7 @@ void ProcessRemovalsByLengthRetained::Execute() {
         // length frequencies to age length numbers
         for (unsigned j = 0; j < number_bins_; ++j) {
           age_length_matrix[data_offset][j] = number_at_age * age_length_proportions[data_offset][j]; // added length bin offset to get correct length bin
-          LOG_FINEST() << "The proportion of fish in length bin: " << length_bins_[j] << " = " << age_length_matrix[data_offset][j];
+          LOG_FINEST() << "The proportion in length bin: " << length_bins_[j] << " = " << age_length_matrix[data_offset][j];
         }
       }
 

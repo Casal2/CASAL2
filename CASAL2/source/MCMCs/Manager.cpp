@@ -43,12 +43,12 @@ void Manager::Validate(Model* model) {
 
     RunMode::Type must_have_mcmc[] = { RunMode::kMCMC };
     if (std::find(std::begin(must_have_mcmc), std::end(must_have_mcmc), model->run_mode()) != std::end(must_have_mcmc) && active_count != 1) {
-      LOG_FATAL() << "You must have one active @mcmc, you have specified " << active_mcmcs.size() << " please fix this.";
+      LOG_FATAL() << "One active @mcmc is required, but " << active_mcmcs.size() << " are specified.";
     }
 
     RunMode::Type one_active_only[] = { RunMode::kTesting };
     if (std::find(std::begin(one_active_only), std::end(one_active_only), model->run_mode()) != std::end(one_active_only) && active_count > 1) {
-      LOG_FATAL() << "You can only have one active @mcmc, you have specified " << active_mcmcs.size() << " please fix this.";
+      LOG_FATAL() << "One active @mcmc is required, but " << active_mcmcs.size() << " are specified.";
     }
   }
 }

@@ -48,19 +48,19 @@ void AllValues::DoValidate() {
   case PartitionType::kAge:
     if (v_.size() != model_->age_spread()) {
       LOG_ERROR_P(PARAM_V) << ": Number of 'v' values supplied is not the same as the model age spread.\n"
-          << "Expected: " << model_->age_spread() << " but got " << v_.size();
+          << "Expected: " << model_->age_spread() << ", parsed: " << v_.size();
     }
     break;
 
   case PartitionType::kLength:
     if (v_.size() != model_->length_bins().size()) {
       LOG_ERROR_P(PARAM_V) << ": Number of 'v' values supplied is not the same as the model length bin count.\n"
-          << "Expected: " << model_->length_bins().size() << " but got " << v_.size();
+          << "Expected: " << model_->length_bins().size() << ", parsed: " << v_.size();
     }
     break;
 
   default:
-    LOG_CODE_ERROR() << "Unknown partition_type on the model at this point";
+    LOG_CODE_ERROR() << "Unknown partition_type";
     break;
   }
 }
@@ -77,7 +77,7 @@ void AllValues::RebuildCache() {
     unsigned min_age = model_->min_age();
     for (unsigned i = 0; i < v_.size(); ++i) {
       if (v_[i] < 0.0)
-        LOG_FATAL_P(PARAM_V) << "cannot have value < 0.0 in this class. Found value = " << v_[i] << " for age = " << min_age + i;
+        LOG_FATAL_P(PARAM_V) << "v cannot have values less than 0.0. value = " << v_[i] << " for age = " << min_age + i;
       values_[i] = v_[i];
     }
   } else if (model_->partition_type() == PartitionType::kLength) {

@@ -147,7 +147,9 @@ inline Double plognorm(const Double& x, const Double& mu, const Double& sigma) {
 //
 // We use an approximation: P(X is more than 5 std.devs away from its mean) = 0.
 //  Almost true for the normal distribution, but may be problematic if you use something more skewed.
-inline vector<Double> distribution(const vector<double>& class_mins, bool plus_group = 0, const Distribution& dist = Distribution::kNormal, const Double& mean = 0.0, const Double& stdev = 1.0) {
+inline vector<Double> distribution(const vector<double>& class_mins, bool plus_group = 0,
+                                   const Distribution& dist = Distribution::kNormal,
+                                   const Double& mean = 0.0, const Double& stdev = 1.0) {
   int n_bins = class_mins.size() - (plus_group ? 0 : 1);
   vector<Double> result(n_bins, 0.0);
   Double so_far = 0;
@@ -165,7 +167,7 @@ inline vector<Double> distribution(const vector<double>& class_mins, bool plus_g
     } else if (dist == Distribution::kLogNormal){
       so_far = plognorm(class_mins[0],mu,sigma);
     } else
-      LOG_CODE_ERROR() << "unknown distribution supplies, this should be caught earlier '";
+      LOG_CODE_ERROR() << "unknown distribution";
   }
 
   int c;
@@ -185,7 +187,7 @@ inline vector<Double> distribution(const vector<double>& class_mins, bool plus_g
       so_far += result[c];
     }
     if (result[c] < 0 || result[c]!=result[c]) {
-      LOG_CODE_ERROR() << "bad result in distribution, got " << result[c];
+      LOG_CODE_ERROR() << "bad result in distribution, parsed " << result[c];
     }
   }
   LOG_TRACE();
@@ -204,7 +206,7 @@ inline vector<Double> distribution(const vector<double>& class_mins, bool plus_g
       }
     }
     if (result[c] < 0 || result[c] != result[c]){
-      LOG_CODE_ERROR() << "bad result in distribution, got " << result[c];
+      LOG_CODE_ERROR() << "bad result in distribution, parsed " << result[c];
     }
   }
   return result;

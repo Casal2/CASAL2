@@ -46,7 +46,7 @@ Beta::Beta(Model* model) : AdditionalPrior(model) {
  */
 void Beta::DoValidate() {
   if (a_ >= b_)
-    LOG_ERROR_P(PARAM_B) << "value (" << AS_DOUBLE(b_) << ") cannot be less than or equal to a (" << AS_DOUBLE(a_) << ")";
+    LOG_ERROR_P(PARAM_B) << "value b (" << AS_DOUBLE(b_) << ") cannot be less than or equal to a (" << AS_DOUBLE(a_) << ")";
   Double max_sigma = ((((mu_ - a_) * (b_ - mu_)) / (sigma_ * sigma_)) - 1);
   if (max_sigma <= 0.0)
     LOG_ERROR_P(PARAM_SIGMA) << "value (" << AS_DOUBLE(sigma_) << ") is invalid. (" << mu_ << " - " << a_ << ") * ("
@@ -56,7 +56,7 @@ void Beta::DoValidate() {
 void Beta::DoBuild() {
 	string error = "";
 	if (!model_->objects().VerfiyAddressableForUse(parameter_, addressable::kLookup, error)) {
-		LOG_FATAL_P(PARAM_PARAMETER) << "could not be verified for use in additional_prior.vector_average. Error was " << error;
+		LOG_FATAL_P(PARAM_PARAMETER) << "could not be verified for use in additional_prior.vector_average. Error: " << error;
 	}
   addressable::Type addressable_type = model_->objects().GetAddressableType(parameter_);
   LOG_FINEST() << "type = " << addressable_type;
@@ -68,7 +68,8 @@ void Beta::DoBuild() {
     	addressable_ = model_->objects().GetAddressable(parameter_);
       break;
     default:
-      LOG_ERROR() << "The addressable you have provided for use in a additional priors: " << parameter_ << " is not a type that is supported for Beta additional priors";
+      LOG_ERROR() << "The addressable provided for use in additional priors: "
+        << parameter_ << " has a type that is not supported for Beta additional priors";
       break;
   }
 
@@ -80,7 +81,8 @@ void Beta::DoBuild() {
 Double Beta::GetScore() {
   Double value = (*addressable_);
 	if (b_ < value || a_ > value) {
-		LOG_FATAL_P(PARAM_B) << "parameter b can't be less than the target parameter = " << value << " or the parameter a can't be greater than the target paraemter";
+		LOG_FATAL_P(PARAM_B) << "parameter b cannot be less than the target parameter ("
+          << value << "), and parameter a cannot be greater than the target parameter";
 	}
   Double score_ = 0.0;
   v_ = (mu_ - a_) / (b_ - a_);

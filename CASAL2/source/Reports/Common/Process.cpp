@@ -41,7 +41,7 @@ Process::Process(Model* model) : Report(model) {
 void Process::DoBuild() {
   process_ = model_->managers().process()->GetProcess(process_label_);
   if (!process_) {
-    LOG_ERROR_P(PARAM_PROCESS) << "process " << process_label_ << " could not be found. Have you defined it?";
+    LOG_ERROR_P(PARAM_PROCESS) << "process " << process_label_ << " was not found.";
   }
 }
 
@@ -90,5 +90,6 @@ void Process::DoExecuteTabular() {
 void Process::DoFinaliseTabular() {
   ready_for_writing_ = true;
 }
+
 } /* namespace reports */
 } /* namespace niwa */

@@ -36,13 +36,13 @@ using std::pow;
  * Note: The constructor is parsed to generate Latex for the documentation.
  */
 Schnute::Schnute(Model* model) : AgeLength(model) {
-  parameters_.Bind<Double>(PARAM_Y1, &y1_, "Define the y1 parameter of the Schnute relationship", "");
-  parameters_.Bind<Double>(PARAM_Y2, &y2_, "Define the y2 parameter of the Schnute relationship", "");
-  parameters_.Bind<Double>(PARAM_TAU1, &tau1_, "Define the $\tau_1$ parameter of the Schnute relationship", "");
-  parameters_.Bind<Double>(PARAM_TAU2, &tau2_, "Define the $\tau_2$ parameter of the Schnute relationship", "");
-  parameters_.Bind<Double>(PARAM_A, &a_, "Define the $a$ parameter of the Schnute relationship", "")->set_lower_bound(0.0);
-  parameters_.Bind<Double>(PARAM_B, &b_, "Define the $b$ parameter of the Schnute relationship", "")->set_lower_bound(0.0, false);
-  parameters_.Bind<string>(PARAM_LENGTH_WEIGHT, &length_weight_label_, "Define the label of the associated length-weight relationship", "");
+  parameters_.Bind<Double>(PARAM_Y1, &y1_, "The y1 parameter of the Schnute relationship", "");
+  parameters_.Bind<Double>(PARAM_Y2, &y2_, "The y2 parameter of the Schnute relationship", "");
+  parameters_.Bind<Double>(PARAM_TAU1, &tau1_, "The $\tau_1$ parameter of the Schnute relationship", "");
+  parameters_.Bind<Double>(PARAM_TAU2, &tau2_, "The $\tau_2$ parameter of the Schnute relationship", "");
+  parameters_.Bind<Double>(PARAM_A, &a_, "The $a$ parameter of the Schnute relationship", "")->set_lower_bound(0.0);
+  parameters_.Bind<Double>(PARAM_B, &b_, "The $b$ parameter of the Schnute relationship", "")->set_lower_bound(0.0, false);
+  parameters_.Bind<string>(PARAM_LENGTH_WEIGHT, &length_weight_label_, "The label of the associated length-weight relationship", "");
 
   RegisterAsAddressable(PARAM_Y1, &y1_);
   RegisterAsAddressable(PARAM_Y2, &y2_);
@@ -59,7 +59,7 @@ Schnute::Schnute(Model* model) : AgeLength(model) {
 void Schnute::DoBuild() {
   length_weight_ = model_->managers().length_weight()->GetLengthWeight(length_weight_label_);
   if (!length_weight_)
-    LOG_ERROR_P(PARAM_LENGTH_WEIGHT) << "(" << length_weight_label_ << ") could not be found. Have you defined it?";
+    LOG_ERROR_P(PARAM_LENGTH_WEIGHT) << "Length-weight label " << length_weight_label_ << " was not found.";
 
   // Build up our mean_length_ container.
   unsigned min_age = model_->min_age();

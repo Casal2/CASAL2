@@ -102,12 +102,12 @@ void Data::DoBuild() {
       LOG_CODE_ERROR() << "row.size() != columns.size()";
     number_of_years += 1;
     if ((columns.size() - 1) != model_->age_spread())
-      LOG_FATAL_P(PARAM_DATA) << "Need to specify an age for every age in the model, you specified " << columns.size() - 1 << " ages, where as there are " << model_->age_spread() << " ages in the model";
+      LOG_FATAL_P(PARAM_DATA) << "An age must be specified for every age in the model. " << columns.size() - 1 << " ages were specified, and there are " << model_->age_spread() << " ages";
 
     unsigned year = utilities::ToInline<string, unsigned>(row[0]);
     // Check year is valid
     if (find(model_->years().begin(), model_->years().end(), year) == model_->years().end())
-      LOG_WARNING() << "Supplied year: " << year << " which is not included in the model run years, this age weight wont be used in this run mode.";
+      LOG_WARNING() << "year " << year << " is not included in the model run years, so this age weight will not be used.";
     LOG_FINE() << "Loading years = " << year;
     years_.push_back(year);
     for (unsigned i = 1; i < row.size(); ++i) {
@@ -120,7 +120,8 @@ void Data::DoBuild() {
 
   // Check there are equal years as in the model
   if (model_->years().size() != years_.size())
-    LOG_ERROR_P(PARAM_DATA) << "You need to specify the same number of years as the model has. You supplied " << years_.size() << " years, but there are " << model_->years().size() << " years in the model";
+    LOG_ERROR_P(PARAM_DATA) << "Specify the same number of years as the model has. " << years_.size()
+      << " years were supplied, but there are " << model_->years().size() << " years";
 
   LOG_FINEST() << "ages";
   for (auto age : age_)

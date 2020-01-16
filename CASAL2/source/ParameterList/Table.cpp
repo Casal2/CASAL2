@@ -145,7 +145,7 @@ void Table::Populate(Model* model) {
 
       for (auto label : category_labels) {
         if (!model->categories()->IsValid(label)) {
-          LOG_ERROR() << location() << "contains an invalid category " << label << ". Perhaps you mis-typed the short-hand?";
+          LOG_ERROR() << location() << "contains an invalid category: " << label;
         }
 
         row[category_index] = label;

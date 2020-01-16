@@ -53,7 +53,7 @@ bool MCMCObjective::LoadFile(const string& file_name) {
   // open file
   ifstream  file(file_name.c_str());
   if (file.fail() || !file.is_open()) {
-    LOG_ERROR() << file_name  << " does not exist or could not be opened";
+    LOG_ERROR() << "File " << file_name  << " does not exist or could not be opened";
     return false;
   }
 
@@ -70,7 +70,7 @@ bool MCMCObjective::LoadFile(const string& file_name) {
   }
 
   if (line != "starting_covariance_matrix {m}") {
-    LOG_ERROR() << "Could not find 'starting_covariance_matrix {m}' string in MCMC objective file: " << file_name;
+    LOG_ERROR() << "Could not find 'starting_covariance_matrix {m}' string in MCMC objective file " << file_name;
     return false;
   }
 
@@ -79,7 +79,7 @@ bool MCMCObjective::LoadFile(const string& file_name) {
   covariance_matrix.resize(estimate_count, estimate_count);
   for (unsigned i = 0; i < estimate_count; ++i) {
     if (!getline(file, line)) {
-      LOG_ERROR() << "Failed to load line " << i+1 << " of the covariance matrix from the file: " << file_name;
+      LOG_ERROR() << "Failed to load line " << i+1 << " of the covariance matrix from the file " << file_name;
     }
 
     // split the line
@@ -87,7 +87,7 @@ bool MCMCObjective::LoadFile(const string& file_name) {
     boost::split(addressable_values, line, boost::is_any_of(" "), boost::token_compress_on);
     if (estimate_count != addressable_values.size()) {
       LOG_ERROR() << "Line " << i+1 << " of the covariance matrix had " << addressable_values.size()
-          << " values when we expected " << estimate_count << " to match number of estimates";
+          << " values when the number of estimated parameters is " << estimate_count;
       return false;
     }
 
@@ -117,7 +117,7 @@ bool MCMCObjective::LoadFile(const string& file_name) {
 
   unsigned iteration_number = 0;
   if (!utilities::To<string, unsigned>(Chain_info[0], iteration_number)) {
-    LOG_ERROR() << "Could not convert " << Chain_info[0] << " to an unsigned";
+    LOG_ERROR() << "Could not convert " << Chain_info[0] << " to an unsigned integer";
     return false;
   }
 
@@ -134,7 +134,7 @@ bool MCMCObjective::LoadFile(const string& file_name) {
 
   unsigned success_jump;
   if (!utilities::To<double, unsigned>(succesful_jumps, success_jump)) {
-    LOG_ERROR() << "Could not convert " << succesful_jumps << " to an unsigned";
+    LOG_ERROR() << "Could not convert " << succesful_jumps << " to an unsigned integer";
     return false;
   }
   // Acceptance rate since last adapt
@@ -147,7 +147,7 @@ bool MCMCObjective::LoadFile(const string& file_name) {
   // step size
   double step_size = 0;
   if (!utilities::To<string, double>(Chain_info[7], step_size)) {
-    LOG_ERROR() << "Could not convert " << Chain_info[7] << " to an double";
+    LOG_ERROR() << "Could not convert " << Chain_info[7] << " to a double";
     return false;
   }
   LOG_FINE() << "step size = " << step_size;

@@ -66,8 +66,8 @@ private:
   vector<Double>              prey_mortality_by_year_;
   vector<Double>              predator_vulnerability_by_year_;
 
-  parameters::Table*          predator_selectivitie_table_ = nullptr;
-  parameters::Table*          prey_selectivitie_table_ = nullptr;
+  parameters::Table*          predator_selectivities_table_ = nullptr;
+  parameters::Table*          prey_selectivities_table_ = nullptr;
   map<unsigned,vector<Double>> prey_selectivity_by_year_;
   map<unsigned,vector<Double>> predator_selectivity_by_year_;
   bool                        prey_selectivity_by_year_supplied_ = false;

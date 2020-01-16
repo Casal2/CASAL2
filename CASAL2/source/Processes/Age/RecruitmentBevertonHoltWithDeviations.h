@@ -46,7 +46,7 @@ public:
   //accessor
   unsigned                    ssb_offset() {return ssb_offset_;};
   string                      ssb_label() {return ssb_;};
-  bool                        bo_initialised() {return bo_initialised_;};
+  bool                        b0_initialised() {return b0_initialised_;};
 
 private:
   // members
@@ -62,7 +62,7 @@ private:
   unsigned                    year2_;
   unsigned                    year3_;
   unsigned                    year4_;
-  bool                        bo_initialised_ = false;
+  bool                        b0_initialised_ = false;
   vector<Double>              proportions_;
   unsigned                    age_ = 0;
   Double                      steepness_ = 0.0;

@@ -73,7 +73,8 @@ Double Multinomial::GetInitialScore(map<unsigned, vector<observations::Compariso
     //if (stopper == 1)
     //  break;
     Double temp_score = -math::LnFactorial(AdjustErrorValue(comparison.process_error_, comparison.error_value_)  * error_value_multiplier_);
-    LOG_FINEST() << "Adding: " << temp_score << " = LnFactorial(AdjustErrorValue(" << comparison.process_error_ << ", " << comparison.error_value_ << ")  * " << error_value_multiplier_ << ")";
+    LOG_FINEST() << "Adding: " << temp_score << " = LnFactorial(AdjustErrorValue(" << comparison.process_error_
+      << ", " << comparison.error_value_ << ")  * " << error_value_multiplier_ << ")";
     score += temp_score;
     //stopper += 1;
   //}
@@ -101,7 +102,7 @@ void Multinomial::SimulateObserved(map<unsigned, vector<observations::Comparison
       if (comparison.expected_ <= 0.0 || error_value <= 0.0)
         comparison.observed_ = 0.0;
       else {
-        LOG_FINEST() << "expected = " << comparison.expected_;
+        LOG_FINEST() << "Expected = " << comparison.expected_;
         comparison.observed_ = rng.binomial(AS_VALUE(comparison.expected_), AS_VALUE(error_value));
         LOG_FINEST() << "Simulated = " << comparison.observed_;
 

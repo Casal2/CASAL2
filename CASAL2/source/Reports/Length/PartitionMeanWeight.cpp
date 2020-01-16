@@ -73,7 +73,6 @@ void PartitionMeanWeight::DoExecute() {
     cache_ << REPORT_R_LIST_END <<"\n";
   }
 
-
   ready_for_writing_ = true;
 }
 

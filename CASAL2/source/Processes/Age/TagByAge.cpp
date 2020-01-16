@@ -40,9 +40,9 @@ TagByAge::TagByAge(Model* model)
   parameters_.Bind<unsigned>(PARAM_MIN_AGE, &min_age_, "Minimum age to transition", "");
   parameters_.Bind<unsigned>(PARAM_MAX_AGE, &max_age_, "Maximum age to transition", "");
   parameters_.Bind<string>(PARAM_PENALTY, &penalty_label_, "Penalty label", "", "");
-  parameters_.Bind<Double>(PARAM_U_MAX, &u_max_, "U Max", "", 0.99);
+  parameters_.Bind<Double>(PARAM_U_MAX, &u_max_, "U Max", "", 0.99)->set_range(0.0, 1.0, false, true);
   parameters_.Bind<unsigned>(PARAM_YEARS, &years_, "Years to execute the transition in", "");
-  parameters_.Bind<Double>(PARAM_INITIAL_MORTALITY, &initial_mortality_, "", "", Double(0));
+  parameters_.Bind<double>(PARAM_INITIAL_MORTALITY, &initial_mortality_, "", "", 0.0)->set_lower_bound(0.0);
   parameters_.Bind<string>(PARAM_INITIAL_MORTALITY_SELECTIVITY, &initial_mortality_selectivity_label_, "", "", "");
   parameters_.Bind<Double>(PARAM_LOSS_RATE, &loss_rate_, "", "");
   parameters_.Bind<string>(PARAM_LOSS_RATE_SELECTIVITIES, &loss_rate_selectivity_labels_, "", "", true);
@@ -105,7 +105,7 @@ void TagByAge::DoValidate() {
   if (numbers_table_->row_count() == 0 && proportions_table_->row_count() == 0)
     LOG_ERROR() << location() << " must have either a " << PARAM_NUMBERS << " or " << PARAM_PROPORTIONS << " table defined with appropriate data";
   if (numbers_table_->row_count() != 0 && proportions_table_->row_count() != 0)
-    LOG_ERROR() << location() << " cannot have both a " << PARAM_NUMBERS << " and " << PARAM_PROPORTIONS << " table defined. Please only use 1.";
+    LOG_ERROR() << location() << " cannot have both a " << PARAM_NUMBERS << " and " << PARAM_PROPORTIONS << " table defined. Please use one only.";
   if (proportions_table_->row_count() != 0 && !parameters_.Get(PARAM_N)->has_been_defined())
     LOG_ERROR() << location() << " cannot have a " << PARAM_PROPORTIONS << " table without defining " << PARAM_N;
 
@@ -134,10 +134,10 @@ void TagByAge::DoValidate() {
     Double n_value = 0.0;
     for (auto iter : data) {
       if (!utilities::To<unsigned>(iter[0], year))
-        LOG_ERROR_P(PARAM_NUMBERS) << " value (" << iter[0] << ") is not a valid unsigned value that could be converted to a model year";
+        LOG_ERROR_P(PARAM_NUMBERS) << " value (" << iter[0] << ") could not be converted to an unsigned integer";
       for (unsigned i = 1; i < iter.size(); ++i) {
         if (!utilities::To<Double>(iter[i], n_value))
-          LOG_ERROR_P(PARAM_NUMBERS) << " value (" << iter[i] << ") could not be converted to a double. Please ensure it's a numeric value";
+          LOG_ERROR_P(PARAM_NUMBERS) << " value (" << iter[i] << ") could not be converted to a double";
         if (numbers_[year].size() == 0)
           numbers_[year].resize(age_spread, 0.0);
         numbers_[year][i - 1] = n_value;
@@ -146,7 +146,7 @@ void TagByAge::DoValidate() {
 
     for (auto iter : numbers_) {
       if (std::find(years_.begin(), years_.end(), iter.first) == years_.end())
-        LOG_ERROR_P(PARAM_NUMBERS) << " table contains year " << iter.first << " that is not a valid year defined in this process";
+        LOG_ERROR_P(PARAM_NUMBERS) << " table contains year " << iter.first << " which is not a valid year defined in this process";
     }
 
   } else if (proportions_table_->row_count() != 0) {
@@ -174,7 +174,7 @@ void TagByAge::DoValidate() {
       n_.assign(years_.size(), val_n);
     }
     else if (n_.size() != years_.size())
-      LOG_ERROR_P(PARAM_N) << " values provied (" << n_.size() << ") does not match the number of years (" << years_.size() << ")";
+      LOG_ERROR_P(PARAM_N) << " values provided (" << n_.size() << ") does not match the number of years (" << years_.size() << ")";
     map<unsigned, Double> n_by_year = utilities::Map<Double>::create(years_, n_);
 
     // load our table data in to our map
@@ -183,11 +183,11 @@ void TagByAge::DoValidate() {
     Double proportion = 0.0;
     for (auto iter : data) {
       if (!utilities::To<unsigned>(iter[0], year))
-        LOG_ERROR_P(PARAM_PROPORTIONS) << " value (" << iter[0] << ") is not a valid unsigned value that could be converted to a model year";
+        LOG_ERROR_P(PARAM_PROPORTIONS) << " value (" << iter[0] << ") could not be converted to an unsigned integer";
       Double total_proportion = 0.0;
       for (unsigned i = 1; i < iter.size(); ++i) {
         if (!utilities::To<Double>(iter[i], proportion))
-          LOG_ERROR_P(PARAM_PROPORTIONS) << " value (" << iter[i] << ") could not be converted to a double. Please ensure it's a numeric value";
+          LOG_ERROR_P(PARAM_PROPORTIONS) << " value (" << iter[i] << ") could not be converted to a double";
         if (numbers_[year].size() == 0)
           numbers_[year].resize(age_spread, 0.0);
         numbers_[year][i - 1] = n_by_year[year] * proportion;
@@ -199,7 +199,7 @@ void TagByAge::DoValidate() {
 
     for (auto iter : numbers_) {
       if (std::find(years_.begin(), years_.end(), iter.first) == years_.end())
-        LOG_ERROR_P(PARAM_PROPORTIONS) << " table contains year " << iter.first << " that is not a valid year defined in this process";
+        LOG_ERROR_P(PARAM_PROPORTIONS) << " table contains year " << iter.first << " which is not a valid year defined in this process";
     }
   }
 }
@@ -296,7 +296,8 @@ void TagByAge::DoExecute() {
       LOG_FINEST() << "amount added to total_stock_with_selecitivites: " << stock_amount;
       LOG_FINEST() << "**";
     }
-    LOG_FINEST() << "total_stock_with_selectivities: " << total_stock_with_selectivities << " at age " << min_age_ + i << " (" << min_age_ << " + " << i << ")";
+    LOG_FINEST() << "total_stock_with_selectivities: " << total_stock_with_selectivities << " at age " << min_age_ + i
+      << " (" << min_age_ << " + " << i << ")";
 
     /**
      * Migrate the exploited amount
@@ -350,7 +351,8 @@ void TagByAge::DoExecute() {
       LOG_FINEST() << "tagging_amount_with_mortality: " << current_with_mortality << "; initial mortality: " << initial_mortality_;
       if (initial_mortality_selectivity_) {
         current_with_mortality *= initial_mortality_selectivity_->GetAgeResult(min_age_ + i, (*from_iter)->age_length_);
-        LOG_FINEST() << "tagging_amount_with_mortality: " << current_with_mortality << "; initial_mortality_selectivity : " << initial_mortality_selectivity_->GetAgeResult(min_age_ + i, (*from_iter)->age_length_);
+        LOG_FINEST() << "tagging_amount_with_mortality: " << current_with_mortality << "; initial_mortality_selectivity : "
+          << initial_mortality_selectivity_->GetAgeResult(min_age_ + i, (*from_iter)->age_length_);
       }
       LOG_FINEST() << "Removing " << current << " from " << (*from_iter)->name_;
       LOG_FINEST() << "Adding " << current_with_mortality << " to " << (*to_iter)->name_;

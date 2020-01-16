@@ -31,8 +31,8 @@ LogisticProducing::LogisticProducing(Model* model)
   parameters_.Bind<unsigned>(PARAM_L, &low_, "Low", "");
   parameters_.Bind<unsigned>(PARAM_H, &high_, "High", "");
   parameters_.Bind<Double>(PARAM_A50, &a50_, "A50", "");
-  parameters_.Bind<Double>(PARAM_ATO95, &ato95_, "Ato95", "");
-  parameters_.Bind<Double>(PARAM_ALPHA, &alpha_, "Alpha", "", 1.0);
+  parameters_.Bind<Double>(PARAM_ATO95, &ato95_, "Ato95", "")->set_lower_bound(0.0, false);
+  parameters_.Bind<Double>(PARAM_ALPHA, &alpha_, "Alpha", "", 1.0)->set_lower_bound(0.0, false);
 
   RegisterAsAddressable(PARAM_A50, &a50_);
   RegisterAsAddressable(PARAM_ATO95, &ato95_);
@@ -50,7 +50,7 @@ LogisticProducing::LogisticProducing(Model* model)
  */
 void LogisticProducing::DoValidate() {
   if (low_ > a50_ || high_ < a50_ || low_ >= high_) {
-    LOG_ERROR_P(PARAM_A50) << "low (l) can't be greater than a50, or high (h) cant be less than a50 and low can't be greater than high";
+    LOG_ERROR_P(PARAM_A50) << "low (l) cannot be greater than a50 | high (h) cannot be less than a50 | low cannot be greater than high";
   }
 
   if (alpha_ <= 0.0)
@@ -100,12 +100,13 @@ void LogisticProducing::RebuildCache() {
         length_values_[length_bin_index] = 1.0 / (1.0 + pow(19.0, (a50_ - (Double)temp) / ato95_)) * alpha_;
       else {
         Double lambda2 = 1.0 / (1.0 + pow(19.0, (a50_- ((Double)temp - 1)) / ato95_));
-        if (lambda2 > 0.9999) {
+        if (lambda2 > 0.99999) {
           length_values_[length_bin_index] = alpha_;
         } else {
           Double lambda1 = 1.0 / (1.0 + pow(19.0, (a50_ - (Double)temp) / ato95_));
           length_values_[length_bin_index] = (lambda1 - lambda2) / (1.0 - lambda2) * alpha_;
-          LOG_FINEST() << "length = " << temp << " lambda1 = " << lambda1 << " lambda2 = " << lambda2 << " value = " <<  length_values_[length_bin_index];
+          LOG_FINEST() << "length = " << temp << " lambda1 = " << lambda1 << " lambda2 = " << lambda2
+            << " value = " <<  length_values_[length_bin_index];
         }
       }
     }
@@ -121,7 +122,7 @@ void LogisticProducing::RebuildCache() {
  */
 
 Double LogisticProducing::GetLengthBasedResult(unsigned age, AgeLength* age_length, unsigned year, int time_step_index) {
-  LOG_ERROR_P(PARAM_LENGTH_BASED) << ": This selectivity type has not been implemented for length based selectivities ";
+  LOG_ERROR_P(PARAM_LENGTH_BASED) << ": This selectivity type has not been implemented for length-based selectivities ";
   return 0.0;
 }
 

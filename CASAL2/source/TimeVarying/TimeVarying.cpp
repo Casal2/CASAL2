@@ -53,7 +53,7 @@ void TimeVarying::Build() {
   // Verify our addressable is allowed to be used for TimeVarying
   string error = "";
   if (!model_->objects().VerfiyAddressableForUse(parameter_, addressable::kTimeVarying, error)) {
-    LOG_FATAL_P(PARAM_PARAMETER) << "could not be verified for use in a time_varying block. Error was " << error << ", please double checked you have specified the parameter correctly.";
+    LOG_FATAL_P(PARAM_PARAMETER) << "could not be verified for use in a time_varying block. Error: " << error;
   }
 
   // bind our function pointer for the update function, original value and addressible pointer
@@ -76,7 +76,7 @@ void TimeVarying::Build() {
       addressable_map_ = model_->objects().GetAddressableUMap(parameter_);
       break;
     default:
-      LOG_ERROR() << "The addressable you have provided for use in a time varying: " << parameter_ << " is not a type that is supported";
+      LOG_ERROR() << "The addressable provided for use in a time varying: " << parameter_ << " is not a type that is supported";
       break;
   }
 

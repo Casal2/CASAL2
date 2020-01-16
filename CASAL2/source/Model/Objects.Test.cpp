@@ -138,8 +138,8 @@ TEST(Objects, VerifyAddressableForUse) {
   string parameter = "";
 
   EXPECT_EQ(false, objects.VerfiyAddressableForUse("bad parameter", addressable::kSimulate, error));
-  ASSERT_EQ(true, (error.length() > 6));
-  EXPECT_EQ("Syntax", error.substr(0, 6));
+  ASSERT_EQ(true, (error.length() > 10));
+  EXPECT_EQ("The syntax", error.substr(0, 10));
 
   EXPECT_EQ(false, objects.VerfiyAddressableForUse("process[recruitment].b0", addressable::kSimulate, error));
   ASSERT_EQ(true, (error.length() > 13));

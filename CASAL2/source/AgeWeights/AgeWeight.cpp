@@ -37,7 +37,7 @@ namespace niwa {
  */
 AgeWeight::AgeWeight(Model* model) : model_(model) {
   parameters_.Bind<string>(PARAM_LABEL, &label_, "Label of the age weight relationship", "");
-  parameters_.Bind<string>(PARAM_TYPE, &type_, "Type of age weight class", "");
+  parameters_.Bind<string>(PARAM_TYPE, &type_, "The type of age weight class", "");
 
 }
 
