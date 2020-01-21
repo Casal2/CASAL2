@@ -4,30 +4,42 @@
 
 require(here)
 
-require(casal)
-require(casal2)
-
 require(ggplot2)
+
+require(rlist)
+
+
+# start in the 'R-libraries' subdirectory of the git repository
+curr_dir <- here()
+
+
+require(devtools)
+if (!require(casal))
+{
+    install('casal')
+    # install('casal_utils')
+}
+
+if (!require(casal2))
+{
+    install('casal2')
+}
+
 
 
 sessionInfo()
 
 
-# start in subdirectory 'R-libraries' of git repository
 base_dir <- '../TestCases/primary/HOK'
 
-C2_subdir <- c('betadiff_casal_flags_on',
+C2_subdir <- c('adolc_casal_flags_on',
+               'adolc_casal_flags_off',
+               'adolc_casal_flags_on_low_tol',
+               'betadiff_casal_flags_on',
                'betadiff_casal_flags_off',
                'betadiff_casal_flags_on_low_tol',
                'cppad_casal_flags_on',
                'cppad_casal_flags_off')
-# C2_altN_dir <- 'adolc_casal_flags_on'
-# C2_altN_dir <- 'adolc_casal_flags_off'
-# C2_altN_dir <- 'adolc_casal_flags_on_low_tol'
-num_C2_models <- length(C2_subdir)
-
-C2_color <- c('blue', 'green3', 'red', 'gold', 'magenta', 'cyan', 'brown', 'orange')
-
 
 # MPD files are params_est.out, run_estimation.txt, and mpd.out for both CASAL and Casal2
 params_est <- 'params_est.out'
@@ -35,7 +47,19 @@ mpd_run    <- 'run_estimation.txt'
 mpd_out    <- 'mpd.out'
 
 
+# find the non-zero-sized parameter estimate files for the C2 models
+C2_subdir <- unlist(sapply(C2_subdir, function(c_dir) if ( file.access(file.path(base_dir, 'Casal2', c_dir, params_est), 4) == 0 &
+                                                           file.size(file.path(base_dir, 'Casal2', c_dir, params_est)) > 0 )
+                                                         { return (c_dir) }, USE.NAMES=FALSE ))
+
+
+num_C2_models <- length(C2_subdir)
+
+C2_color <- c('blue', 'green3', 'red', 'gold', 'magenta', 'cyan', 'brown', 'orange')
+
+
 # read in CASAL MPD results
+# Q:  what to do if one of these, particularly cas_mpd, does not exist?
 cas_mpd  <- casal::extract.mpd(mpd_run, file.path(base_dir, 'CASAL'))
 c1_quant <- cas_mpd$quantities
 
@@ -103,7 +127,7 @@ for (c in 1:num_C2_models)
 }
 
 legend(c1_quant$SSBs$year[1], 0.50*max_val,
-       c('CASAL', 'CASAL sens1', 'BetaDiff Casal2 w/CASAL flags on', 'BetaDiff Casal2 w/CASAL flags off', 'BetaDiff Casal2 w/CASAL flags on and low tolerance', 'CppAD Casal2 w/CASAL flags on', 'CppAD Casal2 w/CASAL flags off'),
+       c('CASAL', 'CASAL sens1', C2_subdir),
        lwd=3,
        col=c('black', 'grey', C2_color))
 
