@@ -27,7 +27,7 @@ RUN apt-get update && apt-get upgrade -y \
  && rm -rf /var/lib/apt/lists/* && rm -rf /tmp/* \
  && pip install datetime && pip3 install datetime \
  && pip install pytz && pip3 install pytz \
- && R -e "install.packages(c('devtools', 'roxygen2', 'dplyr', 'ggplot2', 'here', 'Hmisc'))" \
+ && R -e "install.packages(c('devtools', 'roxygen2', 'dplyr', 'ggplot2', 'here', 'Hmisc', 'rlist', 'rmarkdown'))" \
 # legacy (in r-parallel image)
  && R -e "install.packages(c('snow', 'doSNOW'))" \
 # RNG (in r-parallel image)
