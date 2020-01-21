@@ -2,6 +2,9 @@
 # R 3.6.0 on Linux
 #
 
+# install.packages(c('here', 'ggplot2', 'rlist', 'devtools'))
+
+
 require(here)
 
 require(ggplot2)
