@@ -74,7 +74,7 @@ c1_sens1_quant <- cas_mpd_sens1$quantities
 # [1] "header"               "objective.function"   "parameters.at.bounds"
 # [4] "fits"                 "free"                 "bounds"
 # [7] "quantities"
-# > names(cas_mpd$quantities)
+# > names(c1_quant)
 #  [1] "Scalar parameter values" "Vector parameter values" "Ogive parameter values"
 #  [4] "B0"                      "R0"                      "SSBs"
 #  [7] "true_YCS"                "actual_catches"          "fishing_pressures"
@@ -135,6 +135,7 @@ get_list_max_val <- function(list_obj, field_val)
 
 
 # save_par <- par()
+save_opt <- options()
 
 # A4 paper landscape is 297 x 210 (11.7 x 8.3)
 # pdf(onefile=TRUE, width=11.0, height=7.6, paper='a4r')
@@ -467,7 +468,7 @@ dev.off()
 
 
 
-# do the catches differ?
+# do the catch time series differ?
 
 time_series_match <- function(t1_vec, t2_vec)
 {
@@ -481,16 +482,77 @@ time_series_match <- function(t1_vec, t2_vec)
 
 
 
-print(paste('Actual catches for trawl match:',
-            time_series_match(c1_quant$actual_catches$trawl, cas2_mpd[[1]]$Mortality$`actual_catch[FishingTrwl]`)))
+for (c in 1:num_C2_models)
+{
+    print(paste('Catch time series base model comparison for run', C2_subdir[c]))
 
-print(paste('Actual catches for line_home match:',
-            time_series_match(c1_quant$actual_catches$line_home, cas2_mpd[[1]]$Mortality$`actual_catch[FishingLineHome]`)))
+    print(paste('Actual catches for trawl match:',
+                time_series_match(c1_quant$actual_catches$trawl, cas2_mpd[[c]]$Mortality$`actual_catch[FishingTrwl]`)))
 
-print(paste('Actual catches for line_spawn match:',
-            time_series_match(c1_quant$actual_catches$line_spawn, cas2_mpd[[1]]$Mortality$`actual_catch[FishingLineSpawn]`)))
+    print(paste('Actual catches for line_home match:',
+                time_series_match(c1_quant$actual_catches$line_home, cas2_mpd[[c]]$Mortality$`actual_catch[FishingLineHome]`)))
+
+    print(paste('Actual catches for line_spawn match:',
+                time_series_match(c1_quant$actual_catches$line_spawn, cas2_mpd[[c]]$Mortality$`actual_catch[FishingLineSpawn]`)))
+
+    print('')
+}
 
 
 
 
+# tables for estimated parameters and objective function values
+
+
+rotate_and_label_cols <- function(df_1, labels)
+{
+    loc_df <- t(df_1)
+    colnames(loc_df) <- labels
+
+    return (loc_df)
+}
+
+
+require(plyr)
+require(dplyr)
+
+C2_est_params <- cas2_mpd[[1]]$estimated_values$values
+C2_obj_fun    <- cas2_mpd[[1]]$obj_fun$values
+
+C2_pd_est_params <- C2_est_params - C2_est_params
+
+if (num_C2_models > 1)
+{
+    for (c in 2:num_C2_models)
+    {
+        c2_est_params_c <- cas2_mpd[[c]]$estimated_values$values
+        C2_est_params <- bind_rows(C2_est_params, c2_est_params_c)
+
+        C2_pd_est_params <- bind_rows(C2_pd_est_params, 100.0 * (1.0 - (c2_est_params_c / C2_est_params[[1]])))
+
+        C2_obj_fun    <- bind_rows(C2_obj_fun, cas2_mpd[[c]]$obj_fun$values)
+    }
+}
+
+
+options(scipen=999)
+
+C2_est_params <- rotate_and_label_cols(C2_est_params, C2_subdir)
+print('Casal2 parameter estimates')
+print(C2_est_params, digits=3)
+print('')
+
+
+C2_pd_est_params <- rotate_and_label_cols(C2_pd_est_params, C2_subdir)
+print('Casal2 parameter estimate percent differences')
+print(C2_pd_est_params, digits=3)
+print('')
+
+
+C2_obj_fun <- rotate_and_label_cols(C2_obj_fun, C2_subdir)
+print('Casal2 objective function values')
+print(C2_obj_fun, digits=1)
+print('')
+
+options(scipen=0)
 

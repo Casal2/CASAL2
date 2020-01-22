@@ -74,11 +74,14 @@ c1_sens1_quant <- cas_mpd_sens1$quantities
 # [1] "header"               "objective.function"   "parameters.at.bounds"
 # [4] "fits"                 "free"                 "bounds"
 # [7] "quantities"
-# > names(cas_mpd$quantities)
-#  [1] "Scalar parameter values" "Vector parameter values" "Ogive parameter values"
-#  [4] "B0"                      "R0"                      "SSBs"
-#  [7] "true_YCS"                "actual_catches"          "fishing_pressures"
-# [10] "Tangaroa_bio_autumn_est" "Tangaroa_bio_summer_est"
+# > names(c1_quant)
+#  [1] "Ogive parameter values" "B0"                     "R0"
+#  [4] "SSBs"                   "recruitments"           "YCS"
+#  [7] "true_YCS"               "actual_catches"         "fishing_pressures"
+# [10] "CRsumbio"               "ESSB"                   "SAbio"
+# [13] "WCacous"                "CRsl04"                 "Enspsl04"
+# [16] "Espsl04"                "SAsl04"                 "Wnspsl04"
+# [19] "Wspsl04"
 
 
 # read in Casal2 MPD results
@@ -105,6 +108,7 @@ for (c in 1:num_C2_models)
 
 
 # save_par <- par()
+save_opt <- options()
 
 # A4 paper landscape is 297 x 210 (11.7 x 8.3)
 # pdf(onefile=TRUE, width=11.0, height=7.6, paper='a4r')
@@ -296,37 +300,6 @@ for (c in 1:num_C2_models)
 }
 
 
-
-
-# > names(cas_mpd$free)
-#  [1] "q[CSacous].q"
-#  [2] "q[WCacous].q"
-#  [3] "q[CRsum].q"
-#  [4] "q[SAsum].q"
-#  [5] "q[SAaut].q"
-
-# > names(c1_quant)
-#  [1] "Ogive parameter values" "B0"                     "R0"
-#  [4] "SSBs"                   "recruitments"           "YCS"
-#  [7] "true_YCS"               "actual_catches"         "fishing_pressures"
-# [10] "CRsumbio"               "ESSB"                   "SAbio"
-# [13] "WCacous"                "CRsl04"                 "Enspsl04"
-# [16] "Espsl04"                "SAsl04"                 "Wnspsl04"
-# [19] "Wspsl04"
-
-# > names(cas2_mpd[[1]])
-#  [1] "Init"               "summary"            "objective"
-#  [4] "SSB"                "Recruit_E"          "Recruit_W"
-#  [7] "Mortality"          "M_male"             "M_female"
-# [10] "CSacous"            "WCacous"            "Espage"
-# [13] "Wspage"             "Enspage"            "EnspOLF"
-# [16] "WnspOLF"            "Wnspage"            "CRsumage"
-# [19] "SAsumage"           "SAautage"           "CRsumbio"
-# [22] "SAsumbio"           "pspawn_1993"        "pspawn"
-# [25] "Enspsl"             "Wnspsl"             "Espsl"
-# [28] "Wspsl"              "CRsl"               "SAsl"
-# [31] "time_var"           "Qs"                 "Covar"
-# [34] "Hess"               "Corr"               "warnings_encounted"
 
 
 # plot surveys
@@ -595,23 +568,87 @@ time_series_match <- function(t1_vec, t2_vec)
 }
 
 
+for (c in 1:num_C2_models)
+{
+    print(paste('Catch time series base model comparison for run', C2_subdir[c]))
 
-print(paste('Actual catches for Ensp1 match:',
-            time_series_match(c1_quant$actual_catches$Ensp1, cas2_mpd[[1]]$Mortality$`actual_catch[Ensp1]`)))
+    print(paste('Actual catches for Ensp1 match:',
+                time_series_match(c1_quant$actual_catches$Ensp1, cas2_mpd[[c]]$Mortality$`actual_catch[Ensp1]`)))
 
-print(paste('Actual catches for Wnsp1 match:',
-            time_series_match(c1_quant$actual_catches$Wnsp1, cas2_mpd[[1]]$Mortality$`actual_catch[Wnsp1]`)))
+    print(paste('Actual catches for Wnsp1 match:',
+                time_series_match(c1_quant$actual_catches$Wnsp1, cas2_mpd[[c]]$Mortality$`actual_catch[Wnsp1]`)))
 
-print(paste('Actual catches for Ensp2 match:',
-            time_series_match(c1_quant$actual_catches$Ensp2, cas2_mpd[[1]]$Mortality$`actual_catch[Ensp2]`)))
+    print(paste('Actual catches for Ensp2 match:',
+                time_series_match(c1_quant$actual_catches$Ensp2, cas2_mpd[[c]]$Mortality$`actual_catch[Ensp2]`)))
 
-print(paste('Actual catches for Wnsp2 match:',
-            time_series_match(c1_quant$actual_catches$Wnsp2, cas2_mpd[[1]]$Mortality$`actual_catch[Wnsp2]`)))
+    print(paste('Actual catches for Wnsp2 match:',
+                time_series_match(c1_quant$actual_catches$Wnsp2, cas2_mpd[[c]]$Mortality$`actual_catch[Wnsp2]`)))
 
-print(paste('Actual catches for Esp match:',
-            time_series_match(c1_quant$actual_catches$Esp, cas2_mpd[[1]]$Mortality$`actual_catch[Esp]`)))
+    print(paste('Actual catches for Esp match:',
+                time_series_match(c1_quant$actual_catches$Esp, cas2_mpd[[c]]$Mortality$`actual_catch[Esp]`)))
 
-print(paste('Actual catches for Wsp match:',
-            time_series_match(c1_quant$actual_catches$Wsp, cas2_mpd[[1]]$Mortality$`actual_catch[Wsp]`)))
+    print(paste('Actual catches for Wsp match:',
+                time_series_match(c1_quant$actual_catches$Wsp, cas2_mpd[[c]]$Mortality$`actual_catch[Wsp]`)))
 
+    print('')
+
+}
+
+
+
+
+# tables for estimated parameters and objective function values
+
+
+rotate_and_label_cols <- function(df_1, labels)
+{
+    loc_df <- t(df_1)
+    colnames(loc_df) <- labels
+
+    return (loc_df)
+}
+
+
+require(plyr)
+require(dplyr)
+
+C2_est_params <- cas2_mpd[[1]]$summary$values
+C2_obj_fun    <- cas2_mpd[[1]]$objective$values
+
+C2_pd_est_params <- C2_est_params - C2_est_params
+
+if (num_C2_models > 1)
+{
+    for (c in 2:num_C2_models)
+    {
+        c2_est_params_c <- cas2_mpd[[c]]$summary$values
+        C2_est_params <- bind_rows(C2_est_params, c2_est_params_c)
+
+        C2_pd_est_params <- bind_rows(C2_pd_est_params, 100.0 * (1.0 - (c2_est_params_c / C2_est_params[[1]])))
+
+        C2_obj_fun    <- bind_rows(C2_obj_fun, cas2_mpd[[c]]$objective$values)
+    }
+}
+
+
+options(scipen=999)
+
+C2_est_params <- rotate_and_label_cols(C2_est_params, C2_subdir)
+print('Casal2 parameter estimates')
+print(C2_est_params, digits=3)
+print('')
+
+
+C2_pd_est_params <- rotate_and_label_cols(C2_pd_est_params, C2_subdir)
+print('Casal2 parameter estimate percent differences')
+print(C2_pd_est_params, digits=3)
+print('')
+
+
+C2_obj_fun <- rotate_and_label_cols(C2_obj_fun, C2_subdir)
+print('Casal2 objective function values')
+print(C2_obj_fun, digits=1)
+print('')
+
+options(scipen=0)
 
