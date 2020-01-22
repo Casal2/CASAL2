@@ -19,13 +19,13 @@ curr_dir <- here()
 require(devtools)
 if (!require(casal))
 {
-    install('casal')
+    install.packages('casal_2.30.tar.gz', repos=NULL, type='source')
     # install('casal_utils')
 }
 
 if (!require(casal2))
 {
-    install('casal2')
+    install.packages('casal2_1.0.tar.gz', repos=NULL, type='source')
 }
 
 
