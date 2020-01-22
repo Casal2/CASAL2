@@ -637,6 +637,13 @@ options(scipen=999)
 
 print('')
 
+C1_est_params <- cbind(unlist(cas_mpd$free), unlist(cas_mpd_sens1$free), 100.0 * (1.0 - (unlist(cas_mpd_sens1$free) / unlist(cas_mpd$free))))
+colnames(C1_est_params) <- c('Base_Model', 'Sensitivity_1', 'Percent_Difference')
+print('CASAL parameter estimates')
+print(C1_est_params, digits=5)
+print('')
+
+
 C2_est_params <- rotate_and_label_cols(C2_est_params, C2_subdir)
 print('Casal2 parameter estimates')
 print(C2_est_params, digits=5)
@@ -646,6 +653,16 @@ print('')
 C2_pd_est_params <- rotate_and_label_cols(C2_pd_est_params, C2_subdir)
 print('Casal2 parameter estimate percent differences')
 print(C2_pd_est_params, digits=3)
+print('')
+
+
+C1_obj_fun <- data.frame(Component=cas_mpd$objective.function$components$label,
+                         Base_Model=cas_mpd$objective.function$components$value,
+                         Sensitivity_1=cas_mpd_sens1$objective.function$components$value)
+C1_obj_fun <- bind_rows(C1_obj_fun,
+                        data.frame(Component='Total', Base_Model=cas_mpd$objective.function$value, Sensitivity_1=cas_mpd_sens1$objective.function$value))
+print('CASAL objective function values')
+print(C1_obj_fun, digits=5)
 print('')
 
 
