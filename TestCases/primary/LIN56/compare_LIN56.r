@@ -482,6 +482,7 @@ time_series_match <- function(t1_vec, t2_vec)
 
 
 
+print('')
 for (c in 1:num_C2_models)
 {
     print(paste('Catch time series base model comparison for run', C2_subdir[c]))
@@ -497,6 +498,7 @@ for (c in 1:num_C2_models)
 
     print('')
 }
+print('')
 
 
 
@@ -517,6 +519,7 @@ require(plyr)
 require(dplyr)
 
 C2_est_params <- cas2_mpd[[1]]$estimated_values$values
+c2_est_params_1 <- C2_est_params
 C2_obj_fun    <- cas2_mpd[[1]]$obj_fun$values
 
 C2_pd_est_params <- C2_est_params - C2_est_params
@@ -528,7 +531,7 @@ if (num_C2_models > 1)
         c2_est_params_c <- cas2_mpd[[c]]$estimated_values$values
         C2_est_params <- bind_rows(C2_est_params, c2_est_params_c)
 
-        C2_pd_est_params <- bind_rows(C2_pd_est_params, 100.0 * (1.0 - (c2_est_params_c / C2_est_params[[1]])))
+        C2_pd_est_params <- bind_rows(C2_pd_est_params, 100.0 * (1.0 - (c2_est_params_c / c2_est_params_1)))
 
         C2_obj_fun    <- bind_rows(C2_obj_fun, cas2_mpd[[c]]$obj_fun$values)
     }
@@ -537,9 +540,11 @@ if (num_C2_models > 1)
 
 options(scipen=999)
 
+print('')
+
 C2_est_params <- rotate_and_label_cols(C2_est_params, C2_subdir)
 print('Casal2 parameter estimates')
-print(C2_est_params, digits=3)
+print(C2_est_params, digits=5)
 print('')
 
 
@@ -551,7 +556,9 @@ print('')
 
 C2_obj_fun <- rotate_and_label_cols(C2_obj_fun, C2_subdir)
 print('Casal2 objective function values')
-print(C2_obj_fun, digits=1)
+print(C2_obj_fun, digits=5)
+print('')
+
 print('')
 
 options(scipen=0)
