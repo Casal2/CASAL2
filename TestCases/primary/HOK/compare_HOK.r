@@ -601,6 +601,11 @@ print('')
 # tables for estimated parameters and objective function values
 
 
+require(plyr)
+require(dplyr)
+require(huxtable)
+
+
 rotate_and_label_cols <- function(df_1, labels)
 {
     loc_df <- t(df_1)
@@ -610,8 +615,32 @@ rotate_and_label_cols <- function(df_1, labels)
 }
 
 
-require(plyr)
-require(dplyr)
+reformat_to_huxtable <- function(df_1, caption_str=NA, format_num=3, reformat_col=FALSE, col_num=-1, add_rownames=TRUE)
+{
+    hux_table <- as_hux(df_1, add_colnames=TRUE, add_rownames=add_rownames)
+
+    bottom_border(hux_table)[1,] <- 1
+    left_border(hux_table)[,2] <- 1
+    caption(hux_table) <- caption_str
+
+    # reformat numbers in table except for the top row and left column
+    if (format_num >= 0)
+    {
+        hux_table <- set_number_format(hux_table, -1, -1, format_num)
+    }
+
+    # to reformat and highlight specific columns
+    if (reformat_col & col_num != 0)
+    {
+        hux_table <- set_number_format(hux_table, -1, col_num, 3)
+        align(hux_table)[-1,col_num] <- '.'
+        hux_table <- map_background_color(hux_table, -1, col_num,
+                                          by_ranges(c(-20, -10, 0, 10, 20), c('orange', 'pink', 'white', 'white', 'cyan', 'yellow')))
+    }
+
+    return (hux_table)
+}
+
 
 C2_est_params <- cas2_mpd[[1]]$summary$values
 c2_est_params_1 <- C2_est_params
@@ -638,21 +667,24 @@ options(scipen=999)
 print('')
 
 C1_est_params <- cbind(unlist(cas_mpd$free), unlist(cas_mpd_sens1$free), 100.0 * (1.0 - (unlist(cas_mpd_sens1$free) / unlist(cas_mpd$free))))
-colnames(C1_est_params) <- c('Base_Model', 'Sensitivity_1', 'Percent_Difference')
+colnames(C1_est_params) <- c('Base_Model', 'Sensitivity_1', 'Percent_Diff')
 print('CASAL parameter estimates')
 print(C1_est_params, digits=5)
+hux_C1_est_params <- reformat_to_huxtable(C1_est_params, 'CASAL parameter estimates', 5, TRUE, 4)
 print('')
 
 
 C2_est_params <- rotate_and_label_cols(C2_est_params, C2_subdir)
 print('Casal2 parameter estimates')
 print(C2_est_params, digits=5)
+hux_C2_est_params <- reformat_to_huxtable(C2_est_params, 'Casal2 parameter estimates')
 print('')
 
 
 C2_pd_est_params <- rotate_and_label_cols(C2_pd_est_params, C2_subdir)
 print('Casal2 parameter estimate percent differences')
 print(C2_pd_est_params, digits=3)
+hux_C2_pd_est_params <- reformat_to_huxtable(C2_pd_est_params, 'Casal2 parameter estimates: Percent Difference', 3, TRUE, -1)
 print('')
 
 
@@ -663,12 +695,14 @@ C1_obj_fun <- bind_rows(C1_obj_fun,
                         data.frame(Component='Total', Base_Model=cas_mpd$objective.function$value, Sensitivity_1=cas_mpd_sens1$objective.function$value))
 print('CASAL objective function values')
 print(C1_obj_fun, digits=5)
+hux_C1_obj_fun <- reformat_to_huxtable(C1_obj_fun, 'CASAL objective function values', add_rownames=FALSE)
 print('')
 
 
 C2_obj_fun <- rotate_and_label_cols(C2_obj_fun, C2_subdir)
 print('Casal2 objective function values')
 print(C2_obj_fun, digits=5)
+hux_C2_obj_fun <- reformat_to_huxtable(C2_obj_fun, 'Casal2 objective function values')
 print('')
 
 print('')
