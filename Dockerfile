@@ -27,7 +27,7 @@ RUN apt-get update && apt-get upgrade -y \
  && rm -rf /var/lib/apt/lists/* && rm -rf /tmp/* \
  && pip install datetime && pip3 install datetime \
  && pip install pytz && pip3 install pytz \
- && R -e "install.packages(c('devtools', 'roxygen2', 'dplyr', 'ggplot2', 'here', 'Hmisc', 'rlist', 'rmarkdown'))" \
+ && R -e "install.packages(c('devtools', 'roxygen2', 'dplyr', 'ggplot2', 'here', 'Hmisc', 'rlist', 'rmarkdown', 'huxtable', 'rmvnorm'))" \
 # legacy (in r-parallel image)
  && R -e "install.packages(c('snow', 'doSNOW'))" \
 # RNG (in r-parallel image)
@@ -46,6 +46,10 @@ COPY alias.txt /r-script/.alias
 
 # RUN git clone https://git.niwa.co.nz/fisheries/modelling/casal2-development.git casal2
 COPY . .
+
+RUN cd R-libraries \
+ && R -e "install.packages('casal_2.30.tar.gz', repos=NULL, type='source')" \
+ && R -e "install.packages('casal2_1.0.tar.gz', repos=NULL, type='source')"
 
 ENV DOCKER='T'
 
