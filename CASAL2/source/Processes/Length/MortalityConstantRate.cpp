@@ -66,7 +66,7 @@ void MortalityConstantRate::DoValidate() {
   if (m_input_.size() != category_labels_.size()) {
     LOG_ERROR_P(PARAM_M)
         << ": Number of Ms provided is not the same as the number of categories provided. Expected: "
-        << category_labels_.size()<< " but got " << m_input_.size();
+        << category_labels_.size()<< ", parsed " << m_input_.size();
   }
 /*
 
@@ -100,7 +100,7 @@ void MortalityConstantRate::DoBuild() {
   for (string label : selectivity_names_) {
     Selectivity* selectivity = model_->managers().selectivity()->GetSelectivity(label);
     if (!selectivity)
-      LOG_ERROR_P(PARAM_SELECTIVITIES) << ": selectivity " << label << " does not exist. Have you defined it?";
+      LOG_ERROR_P(PARAM_SELECTIVITIES) << ": selectivity " << label << " was not found.";
 
     selectivities_.push_back(selectivity);
   }

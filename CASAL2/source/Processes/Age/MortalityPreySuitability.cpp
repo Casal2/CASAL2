@@ -80,7 +80,7 @@ void MortalityPreySuitability::DoValidate() {
 
   if (prey_category_labels_.size() != electivities_.size())
     LOG_ERROR_P(PARAM_ELECTIVITIES) << ": There are " << prey_category_labels_.size() << " prey categories but there are "
-            << electivities_.size() << " prey electivities. These must be of equal length.";
+            << electivities_.size() << " prey electivities. These must be the same length.";
 }
 
 /**
@@ -99,7 +99,7 @@ void MortalityPreySuitability::DoBuild() {
   for (string selectivity : prey_selectivity_labels_) {
     prey_selectivities_.push_back(model_->managers().selectivity()->GetSelectivity(selectivity));
     if (!prey_selectivities_[category_offset])
-      LOG_ERROR_P(PARAM_PREY_SELECTIVITIES) << "Prey selectivity " << selectivity << " does not exist.";
+      LOG_ERROR_P(PARAM_PREY_SELECTIVITIES) << "Prey selectivity " << selectivity << " was not found.";
     ++category_offset;
   }
 
@@ -107,14 +107,14 @@ void MortalityPreySuitability::DoBuild() {
   for (string selectivity : predator_selectivity_labels_) {
     predator_selectivities_.push_back(model_->managers().selectivity()->GetSelectivity(selectivity));
     if (!predator_selectivities_[category_offset])
-      LOG_ERROR_P(PARAM_PREDATOR_SELECTIVITIES) << "Predator selectivity " << selectivity << " does not exist.";
+      LOG_ERROR_P(PARAM_PREDATOR_SELECTIVITIES) << "Predator selectivity " << selectivity << " was not found.";
     ++category_offset;
   }
 
   if (penalty_label_ != "none") {
     penalty_ = model_->managers().penalty()->GetProcessPenalty(penalty_label_);
     if (!penalty_)
-      LOG_ERROR_P(PARAM_PENALTY) << ": Penalty " << penalty_label_ << " does not exist.";
+      LOG_ERROR_P(PARAM_PENALTY) << ": Penalty " << penalty_label_ << " was not found.";
   }
 
 /*  *
@@ -122,11 +122,11 @@ void MortalityPreySuitability::DoBuild() {
 
   for (const string& label : prey_category_labels_) {
     if (!model_->categories()->IsValid(label))
-      LOG_ERROR_P(PARAM_PREY_CATEGORIES) << ": category " << label << " does not exist. Have you defined it?";
+      LOG_ERROR_P(PARAM_PREY_CATEGORIES) << ": category " << label << " was not found.";
   }
   for (const string& label : predator_category_labels_) {
     if (!model_->categories()->IsValid(label))
-      LOG_ERROR_P(PARAM_PREDATOR_CATEGORIES) << ": category " << label << " does not exist. Have you defined it?";
+      LOG_ERROR_P(PARAM_PREDATOR_CATEGORIES) << ": category " << label << " was not found.";
   }*/
 }
 

@@ -41,12 +41,12 @@ void ProcessProportionsAtAge::DoBuild() {
   ProportionsAtAge::DoBuild();
 
   if (process_proportion_ < 0.0 || process_proportion_ > 1.0)
-    LOG_ERROR_P(PARAM_PROCESS_PROPORTION) << ": process_proportion (" << process_proportion_ << ") must be between 0.0 and 1.0";
+    LOG_ERROR_P(PARAM_PROCESS_PROPORTION) << ": process_proportion (" << process_proportion_ << ") must be between 0.0 and 1.0 inclusive";
   proportion_of_time_ = process_proportion_;
 
   auto time_step = model_->managers().time_step()->GetTimeStep(time_step_label_);
   if (!time_step) {
-    LOG_FATAL_P(PARAM_TIME_STEP) << time_step_label_ << " was not found. Has it been defined?";
+    LOG_FATAL_P(PARAM_TIME_STEP) << "Time step label " << time_step_label_ << " was not found.";
   } else {
     auto process = time_step->SubscribeToProcess(this, years_, process_label_);
     mortality_instantaneous_ = dynamic_cast<processes::age::MortalityInstantaneous*>(process);

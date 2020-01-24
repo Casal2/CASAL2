@@ -36,7 +36,7 @@ GrowthBasic::GrowthBasic(Model* model)
   parameters_.Bind<unsigned>(PARAM_NUMBER_OF_GROWTH_EPISODES, &n_growth_episodes_, "Number of growth episodes per year", "");
   parameters_.Bind<string>(PARAM_GROWTH_TIME_STEPS, &growth_time_steps_, "Time step in which each growth episode occurs", "");
   parameters_.Bind<Double>(PARAM_CV, &cv_ , "c.v. for the growth model", "",Double(0.0))->set_lower_bound(0.0);
-  parameters_.Bind<Double>(PARAM_SIGMA_MIN, &min_sigma_ , "Lower bound on sigma for the growth model", "",Double(0.0));
+  parameters_.Bind<Double>(PARAM_SIGMA_MIN, &min_sigma_ , "Lower bound on sigma for the growth model", "",Double(0.0))->set_lower_bound(0.0);
 
 }
 
@@ -49,7 +49,8 @@ GrowthBasic::GrowthBasic(Model* model)
  */
 void GrowthBasic::DoValidate() {
   if (growth_time_steps_.size() != n_growth_episodes_)
-      LOG_ERROR_P(PARAM_GROWTH_TIME_STEPS) << "You supplied " << growth_time_steps_.size() << " time step labels but only have " << n_growth_episodes_ << " in the model. These need to be the same";
+      LOG_ERROR_P(PARAM_GROWTH_TIME_STEPS) << " There are " << growth_time_steps_.size() << " growth time step labels but there are "
+        << n_growth_episodes_ << " growth episodes. These must be the same length.";
 }
 
 /**

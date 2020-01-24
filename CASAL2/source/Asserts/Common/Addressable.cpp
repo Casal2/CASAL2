@@ -47,12 +47,12 @@ void Addressable::DoValidate() {
     parameter_ = label_;
 
   if (years_.size() != values_.size())
-    LOG_ERROR_P(PARAM_YEARS) << "count (" << years_.size() << ") must match the number of values provided (" << values_.size() << ")";
+    LOG_ERROR_P(PARAM_YEARS) << " year count (" << years_.size() << ") must match the number of values provided (" << values_.size() << ")";
 
   vector<unsigned> model_years = model_->years();
   for (unsigned year : years_) {
     if (std::find(model_years.begin(), model_years.end(), year) == model_years.end())
-      LOG_ERROR_P(PARAM_YEARS) << "(" << year << ") is not a valid year in the model.";
+      LOG_ERROR_P(PARAM_YEARS) << " (" << year << ") is not a valid year in the model.";
   }
 
   for (unsigned i = 0; i < years_.size(); ++i)
@@ -69,13 +69,13 @@ void Addressable::DoBuild() {
    */
   TimeStep* time_step = model_->managers().time_step()->GetTimeStep(time_step_label_);
   if (!time_step)
-    LOG_ERROR_P(PARAM_TIME_STEP) << "(" << time_step_label_ << ") does not exist. Have you defined it?";
+    LOG_ERROR_P(PARAM_TIME_STEP) << "Time step label (" << time_step_label_ << ") was not found.";
   for (unsigned year : years_)
     time_step->Subscribe(this, year);
 
   string error = "";
   if (!model_->objects().VerfiyAddressableForUse(parameter_, addressable::kLookup, error)) {
-    LOG_FATAL_P(PARAM_PARAMETER) << "could not be verified for use in assert.addressable. Error was " << error;
+    LOG_FATAL_P(PARAM_PARAMETER) << " could not be verified for use in assert.addressable. Error: " << error;
   }
 
   addressable_ = model_->objects().GetAddressable(parameter_);
@@ -87,7 +87,7 @@ void Addressable::DoBuild() {
 void Addressable::Execute() {
   Double expected = year_values_[model_->current_year()];
   if (*addressable_ != expected)
-    LOG_ERROR() << "Assert Failure: Addressable: " << parameter_ << " had actual value " << *addressable_ << " when we expected " << expected;
+    LOG_ERROR() << "Assert Failure: Addressable: " << parameter_ << " has value " << *addressable_ << ", expected " << expected;
 }
 
 } /* namespace asserts */
