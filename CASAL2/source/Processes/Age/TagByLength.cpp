@@ -85,8 +85,8 @@ void TagByLength::DoValidate() {
     if (model_->categories()->IsCombinedLabels(category)) {
       no_combined= model_->categories()->GetNumberOfCategoriesDefined(category);
       if (no_combined != to_category_labels_.size()) {
-        LOG_ERROR_P(PARAM_TO) << "'" << no_combined << "' combined 'From'_categories was specified, but '" << to_category_labels_.size() << "' 'To' categories were supplied."
-          << " The number of 'From' and 'To' categories must be the same.";
+        LOG_ERROR_P(PARAM_TO) << "'" << no_combined << "' combined 'From'_categories was specified, but '" << to_category_labels_.size()
+          << "' 'To' categories were supplied. The number of 'From' and 'To' categories must be the same.";
       }
       boost::split(split_category_labels, category, boost::is_any_of("+"));
       for (const string& split_category_label : split_category_labels) {
@@ -185,7 +185,7 @@ void TagByLength::DoValidate() {
      */
     vector<string> columns = proportions_table_->columns();
     if (columns[0] != PARAM_YEAR)
-      LOG_ERROR_P(PARAM_PROPORTIONS) << " first column label (" << columns[0] << ") provided must be 'year'";
+      LOG_ERROR_P(PARAM_PROPORTIONS) << "The first column label (" << columns[0] << ") provided must be 'year'";
     unsigned number_bins = columns.size();
     if (model_->length_plus()) {
       if ((number_bins - 1) != model_->length_bins().size())
@@ -203,7 +203,7 @@ void TagByLength::DoValidate() {
       n_.assign(years_.size(), val_n);
     }
     else if (n_.size() != years_.size())
-      LOG_ERROR_P(PARAM_N) << " values provided (" << n_.size() << ") does not match the number of years (" << years_.size() << ")";
+      LOG_ERROR_P(PARAM_N) << "The values provided (" << n_.size() << ") does not match the number of years (" << years_.size() << ")";
     n_by_year_ = utilities::Map<Double>::create(years_, n_);
 
     // load our table data in to our map
@@ -212,11 +212,11 @@ void TagByLength::DoValidate() {
     Double proportion = 0.0;
     for (auto iter : data) {
       if (!utilities::To<unsigned>(iter[0], year))
-        LOG_ERROR_P(PARAM_PROPORTIONS) << " value (" << iter[0] << ") could not be converted to an unsigned integer";
+        LOG_ERROR_P(PARAM_PROPORTIONS) << "value (" << iter[0] << ") could not be converted to an unsigned integer";
       Double total_proportion = 0.0;
       for (unsigned i = 1; i < iter.size(); ++i) {
         if (!utilities::To<Double>(iter[i], proportion))
-          LOG_ERROR_P(PARAM_PROPORTIONS) << " value (" << iter[i] << ") could not be converted to a double.";
+          LOG_ERROR_P(PARAM_PROPORTIONS) << "value (" << iter[i] << ") could not be converted to a double.";
         if (numbers_[year].size() == 0)
           numbers_[year].resize(number_bins, 0.0);
         numbers_[year][i - 1] = n_by_year_[year] * proportion;
@@ -237,7 +237,7 @@ void TagByLength::DoValidate() {
     LOG_ERROR_P(PARAM_INITIAL_MORTALITY) << ": must be 0.0 or larger";
 
   if (model_->length_bins().size() == 0)
-    LOG_ERROR_P(PARAM_TYPE) << ": No length bins have been specified in @model for this process, these are required";
+    LOG_ERROR_P(PARAM_TYPE) << ": No length bins have been specified in @model for this process";
 
   actual_tagged_fish_from_.resize(years_.size());
   actual_tagged_fish_to_.resize(years_.size());
@@ -264,13 +264,13 @@ void TagByLength::DoBuild() {
   if (penalty_label_ != "")
     penalty_ = model_->managers().penalty()->GetPenalty(penalty_label_);
   else
-    LOG_WARNING() << location() << " no penalty has been specified. Exploitation above u_max will not affect the objective function";
+    LOG_WARNING() << location() << "No penalty has been specified. Exploitation above u_max will not affect the objective function";
 
   selectivities::Manager& selectivity_manager = *model_->managers().selectivity();
   for (unsigned i = 0; i < selectivity_labels_.size(); ++i) {
     Selectivity* selectivity = selectivity_manager.GetSelectivity(selectivity_labels_[i]);
     if (!selectivity)
-      LOG_FATAL_P(PARAM_SELECTIVITIES) << "Selectivity: " << selectivity_labels_[i] << " not found";
+      LOG_FATAL_P(PARAM_SELECTIVITIES) << "Selectivity label " << selectivity_labels_[i] << " was not found";
     selectivities_[split_from_category_labels_[i]] = selectivity;
   }
   if (initial_mortality_selectivity_label_ != "")

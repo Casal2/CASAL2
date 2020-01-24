@@ -72,7 +72,7 @@ void TagRecaptureByLength::DoValidate() {
     length_bins_.resize(length_bins_input_.size(), 0.0);
     for (unsigned length = 0; length < length_bins_input_.size(); ++length) {
       if (length_bins_input_[length] < 0.0)
-        LOG_ERROR_P(PARAM_LENGTH_BINS) << ": Length bins must be positive " << length_bins_input_[length] << " is less than 0";
+        LOG_ERROR_P(PARAM_LENGTH_BINS) << ": Length bin values must be positive. '" << length_bins_input_[length] << "' is less than 0";
 
       if (length > 0 && length_bins_input_[length - 1] >= length_bins_input_[length])
         LOG_ERROR_P(PARAM_LENGTH_BINS) << ": Length bins must be strictly increasing. " << length_bins_input_[length - 1]
@@ -174,7 +174,7 @@ void TagRecaptureByLength::DoValidate() {
   map<unsigned, vector<double>> scanned_by_year;
 
   if (detection_ < 0.0 || detection_ > 1.0) {
-    LOG_ERROR_P(PARAM_DETECTION_PARAMETER) << ": detection probability must be between 0.0 and 1.0";
+    LOG_ERROR_P(PARAM_DETECTION_PARAMETER) << ": detection probability must be between 0.0 and 1.0 inclusive";
   }
   if (delta_ < 0.0) {
     LOG_ERROR_P(PARAM_DELTA) << ": delta (" << delta_ << ") cannot be less than 0.0";
@@ -386,7 +386,7 @@ void TagRecaptureByLength::DoBuild() {
   }
 
   if (time_step_proportion_ < 0.0 || time_step_proportion_ > 1.0)
-    LOG_ERROR_P(PARAM_TIME_STEP_PROPORTION) << ": time_step_proportion (" << time_step_proportion_ << ") must be between 0.0 and 1.0";
+    LOG_ERROR_P(PARAM_TIME_STEP_PROPORTION) << ": time_step_proportion (" << time_step_proportion_ << ") must be between 0.0 and 1.0 inclusive";
   proportion_of_time_ = time_step_proportion_;
 
   auto time_step = model_->managers().time_step()->GetTimeStep(time_step_label_);

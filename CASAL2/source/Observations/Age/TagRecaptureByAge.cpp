@@ -94,7 +94,7 @@ void TagRecaptureByAge::DoValidate() {
   if (max_age_ > model_->max_age())
     LOG_ERROR_P(PARAM_MAX_AGE) << ": max_age (" << max_age_ << ") is greater than the model's max_age (" << model_->max_age() << ")";
   if (detection_ < 0.0 || detection_ > 1.0)
-    LOG_ERROR_P(PARAM_DETECTION_PARAMETER) << ": detection probability must be between 0 and 1";
+    LOG_ERROR_P(PARAM_DETECTION_PARAMETER) << ": detection probability must be between 0.0 and 1.0";
   if (delta_ < 0.0)
     LOG_ERROR_P(PARAM_DELTA) << ": delta (" << delta_ << ") cannot be less than 0.0";
 
@@ -229,7 +229,7 @@ void TagRecaptureByAge::DoBuild() {
   for(string label : selectivity_labels_) {
     Selectivity* selectivity = model_->managers().selectivity()->GetSelectivity(label);
     if (!selectivity)
-      LOG_ERROR_P(PARAM_SELECTIVITIES) << ": Selectivity " << label << " does not exist.";
+      LOG_ERROR_P(PARAM_SELECTIVITIES) << ": Selectivity label " << label << " does not exist.";
     selectivities_.push_back(selectivity);
   }
 
@@ -241,7 +241,7 @@ void TagRecaptureByAge::DoBuild() {
   for(string label : target_selectivity_labels_) {
     auto selectivity = model_->managers().selectivity()->GetSelectivity(label);
     if (!selectivity) {
-      LOG_ERROR_P(PARAM_TARGET_SELECTIVITIES) << ": Selectivity " << label << " does not exist.";
+      LOG_ERROR_P(PARAM_TARGET_SELECTIVITIES) << ": Selectivity label " << label << " does not exist.";
     } else
         target_selectivities_.push_back(selectivity);
   }
@@ -252,7 +252,7 @@ void TagRecaptureByAge::DoBuild() {
   }
 
   if (time_step_proportion_ < 0.0 || time_step_proportion_ > 1.0)
-    LOG_ERROR_P(PARAM_TIME_STEP_PROPORTION) << ": time_step_proportion (" << time_step_proportion_ << ") must be between 0.0 and 1.0";
+    LOG_ERROR_P(PARAM_TIME_STEP_PROPORTION) << ": time_step_proportion (" << time_step_proportion_ << ") must be between 0.0 and 1.0 inclusive";
   proportion_of_time_ = time_step_proportion_;
 
   auto time_step = model_->managers().time_step()->GetTimeStep(time_step_label_);

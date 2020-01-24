@@ -77,7 +77,7 @@ void Abundance::DoValidate() {
       unsigned index = (i * category_labels_.size()) + j;
 
       if (!utils::To<double>(obs[index], value))
-        LOG_ERROR_P(PARAM_OBS) << ": obs value " << obs[index] << " cannot be converted to a double";
+        LOG_ERROR_P(PARAM_OBS) << ": obs value " << obs[index] << " could not be converted to a double";
       if (value <= 0.0)
         LOG_ERROR_P(PARAM_OBS) << ": obs value " << value << " cannot be less than or equal to 0.0";
 
@@ -93,14 +93,14 @@ void Abundance::DoValidate() {
 void Abundance::DoBuild() {
   catchability_ = model_->managers().catchability()->GetCatchability(catchability_label_);
   if (!catchability_)
-    LOG_ERROR_P(PARAM_CATCHABILITY) << ": catchability " << catchability_label_ << " was not found.";
+    LOG_ERROR_P(PARAM_CATCHABILITY) << ": catchability label " << catchability_label_ << " was not found.";
 
   if (catchability_->type() == PARAM_NUISANCE){
     nuisance_q_ = true;
     // create a dynamic cast pointer to the nuisance catchability
     nuisance_catchability_ = dynamic_cast<Nuisance*>(catchability_);
     if (!nuisance_catchability_)
-      LOG_ERROR_P(PARAM_CATCHABILITY) << ": catchability " << catchability_label_ << " could not create dynamic cast for nuisance catchability";
+      LOG_ERROR_P(PARAM_CATCHABILITY) << ": catchability label " << catchability_label_ << " could not create dynamic cast for nuisance catchability";
 
   }
 
@@ -111,7 +111,7 @@ void Abundance::DoBuild() {
   for(string label : selectivity_labels_) {
     Selectivity* selectivity = model_->managers().selectivity()->GetSelectivity(label);
     if (!selectivity)
-      LOG_ERROR_P(PARAM_SELECTIVITIES) << ": Selectivity " << label << " does not exist.";
+      LOG_ERROR_P(PARAM_SELECTIVITIES) << ": Selectivity label " << label << " was not found.";
     selectivities_.push_back(selectivity);
   }
 

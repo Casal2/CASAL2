@@ -97,7 +97,7 @@ void RecruitmentBevertonHolt::DoValidate() {
   for (Double value : proportions_) // Again, ADOLC prevents std::accum
     running_total += value;
   if (fabs(running_total - 1.0) > 0.0001)
-    LOG_ERROR_P(PARAM_PROPORTIONS) << "The sum total is " << running_total << " when it should be 1.0";
+    LOG_ERROR_P(PARAM_PROPORTIONS) << "The sum total is " << running_total << " which should be 1.0";
 
   if (ycs_years_.size() != ((model_->final_year() - model_->start_year()) + 1))
     LOG_ERROR_P(PARAM_YCS_YEARS) << "There must be a year class year for each year of the model";
@@ -450,7 +450,7 @@ void RecruitmentBevertonHolt::ScalePartition() {
   LOG_FINEST() << "Last SSB value = " << SSB << " init ssb = " << alternative_ssb;
   Double scalar = b0_ / SSB;
   LOG_FINEST() << "Scalar = " << scalar << " B0 = " << b0_;
-  LOG_FINEST() << "r0 = " << scalar;
+  LOG_FINEST() << "R0 = " << scalar;
   r0_ = scalar;
   for (auto category : partition_) {
     for (unsigned j = 0; j < category->data_.size(); ++j) {

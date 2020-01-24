@@ -86,7 +86,7 @@ void MortalityEventBiomass::DoBuild() {
   for (string label : selectivity_labels_) {
     Selectivity* selectivity = model_->managers().selectivity()->GetSelectivity(label);
     if (!selectivity)
-      LOG_ERROR_P(PARAM_SELECTIVITIES) << ": Selectivity " << label << " does not exist.";
+      LOG_ERROR_P(PARAM_SELECTIVITIES) << ": Selectivity label " << label << " was not found.";
 
     selectivities_.push_back(selectivity);
   }
@@ -94,7 +94,7 @@ void MortalityEventBiomass::DoBuild() {
   if (penalty_label_ != "") {
     penalty_ = model_->managers().penalty()->GetProcessPenalty(penalty_label_);
     if (!penalty_) {
-      LOG_ERROR_P(PARAM_PENALTY) << ": Penalty " << penalty_label_ << " does not exist.";
+      LOG_ERROR_P(PARAM_PENALTY) << ": Penalty label " << penalty_label_ << " was not found.";
     }
   }
   exploitation_by_year_.reserve(years_.size());

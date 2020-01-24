@@ -208,7 +208,7 @@ void MortalityInstantaneous::DoValidate() {
 
   LOG_FINEST() << "indexes: fishery=" << fishery_index << "; category=" << category_index << "; selectivity="
       << selectivity_index << "; time_step=" << time_step_index << "; u_max=" << u_max_index
-      << "; penalty" << penalty_index << "; age weight index " << age_weight_index;
+      << "; penalty " << penalty_index << "; age weight index " << age_weight_index;
   // This is object is going to check the business rule that a fishery can only exist in one time-step in each year
   map<string,vector<string>> fishery_time_step;
   for (auto row : rows) {
@@ -334,10 +334,10 @@ void MortalityInstantaneous::DoBuild() {
      * Check the fishery categories are valid
      */
     if (!model_->categories()->IsValid(fishery_category.category_label_))
-        LOG_ERROR_P(PARAM_METHOD) << ": Category " << fishery_category.category_label_ << " does not exist.";
+        LOG_ERROR_P(PARAM_METHOD) << ": Category " << fishery_category.category_label_ << " was not found.";
 
     if (!fishery_category.selectivity_)
-      LOG_ERROR_P(PARAM_METHOD) << "Fishery selectivity " << fishery_category.selectivity_label_ << " does not exist.";
+      LOG_ERROR_P(PARAM_METHOD) << "Fishery selectivity " << fishery_category.selectivity_label_ << " was not found.";
   }
 
   for (auto& fishery_iter : fisheries_) {
@@ -345,11 +345,11 @@ void MortalityInstantaneous::DoBuild() {
     if (fishery.penalty_label_ != "none") {
       fishery.penalty_ = model_->managers().penalty()->GetProcessPenalty(fishery.penalty_label_);
       if (!fishery.penalty_)
-        LOG_ERROR_P(PARAM_METHOD) << ": Penalty " << fishery.penalty_label_ << " does not exist.";
+        LOG_ERROR_P(PARAM_METHOD) << ": Penalty label " << fishery.penalty_label_ << " was not found.";
     }
     bool check_time_step = model_->managers().time_step()->CheckTimeStep(fishery.time_step_label_);
     if (!check_time_step)
-      LOG_FATAL_P(PARAM_METHOD) << "The time step " << fishery.time_step_label_ << " does not exist.";
+      LOG_FATAL_P(PARAM_METHOD) << "Time step label " << fishery.time_step_label_ << " was not found.";
     fishery.time_step_index_ = model_->managers().time_step()->GetTimeStepIndex(fishery.time_step_label_);
   }
 
@@ -358,7 +358,7 @@ void MortalityInstantaneous::DoBuild() {
    */
   for (const string& label : category_labels_) {
     if (!model_->categories()->IsValid(label))
-      LOG_ERROR_P(PARAM_CATEGORIES) << ": Category " << label << " does not exist.";
+      LOG_ERROR_P(PARAM_CATEGORIES) << ": Category " << label << " was not found.";
   }
 
   /**
@@ -368,7 +368,7 @@ void MortalityInstantaneous::DoBuild() {
     // Selectivity
     Selectivity* selectivity = model_->managers().selectivity()->GetSelectivity(category.selectivity_label_);
     if (!selectivity)
-      LOG_ERROR_P(PARAM_SELECTIVITIES) << "Selectivity " << category.selectivity_label_ << " does not exist.";
+      LOG_ERROR_P(PARAM_SELECTIVITIES) << "Selectivity label " << category.selectivity_label_ << " was not found.";
     category.selectivity_ = selectivity;
     selectivities_.push_back(selectivity);
 
@@ -382,7 +382,7 @@ void MortalityInstantaneous::DoBuild() {
       LOG_FINE() << "age weight found";
       AgeWeight* age_weight = model_->managers().age_weight()->FindAgeWeight(category.age_weight_label_);
       if (!age_weight)
-        LOG_ERROR_P(PARAM_METHOD) << "age weight " << category.age_weight_label_ << " does not exist.";
+        LOG_ERROR_P(PARAM_METHOD) << "age weight label " << category.age_weight_label_ << " was not found.";
       category.age_weight_ = age_weight;
       use_age_weight_ = true;
     }

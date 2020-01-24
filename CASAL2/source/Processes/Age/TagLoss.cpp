@@ -82,11 +82,10 @@ void TagLoss::DoValidate() {
 
   // Validate type of tag loss
   if (tag_loss_type_ != "single")
-    LOG_ERROR_P(PARAM_TAG_LOSS_TYPE) << tag_loss_type_ << " Is not an expected type. Values allowed are "
-      << PARAM_SINGLE << " and " << PARAM_DOUBLE << " is coming soon";
+    LOG_ERROR_P(PARAM_TAG_LOSS_TYPE) << tag_loss_type_ << " s not an expected type. Values allowed are: " << PARAM_SINGLE;
 
   if (tag_loss_type_ == PARAM_DOUBLE)
-    LOG_ERROR() << PARAM_TAG_LOSS_TYPE << " " << PARAM_DOUBLE << " is not implemented yet";
+    LOG_ERROR() << PARAM_TAG_LOSS_TYPE << " " << PARAM_DOUBLE << " is not implemented";
 
   // Validate our Ms are between 1.0 and 0.0
   for (double tag_loss : tag_loss_input_) {
@@ -110,7 +109,7 @@ void TagLoss::DoBuild() {
   for (string label : selectivity_names_) {
     Selectivity* selectivity = model_->managers().selectivity()->GetSelectivity(label);
     if (!selectivity)
-      LOG_ERROR_P(PARAM_SELECTIVITIES) << ": Selectivity " << label << " does not exist.";
+      LOG_ERROR_P(PARAM_SELECTIVITIES) << ": Selectivity label " << label << " was not found.";
 
     selectivities_.push_back(selectivity);
   }
@@ -138,7 +137,7 @@ void TagLoss::DoBuild() {
 
     for (double value : ratios_) {
       if (value < 0.0 || value > 1.0)
-        LOG_ERROR_P(PARAM_TIME_STEP_RATIO) << " Time step ratio (" << value << ") must be between 0.0 (inclusive) and 1.0 (inclusive)";
+        LOG_ERROR_P(PARAM_TIME_STEP_RATIO) << " Time step ratio (" << value << ") must be between 0.0 and 1.0 inclusive";
     }
 
     for (unsigned i = 0; i < ratios_.size(); ++i)

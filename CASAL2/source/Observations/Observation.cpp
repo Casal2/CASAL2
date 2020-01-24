@@ -86,7 +86,7 @@ void Observation::Build() {
 
   likelihood_ = model_->managers().likelihood()->GetOrCreateLikelihood(model_, label_, likelihood_type_);
   if (!likelihood_) {
-    LOG_FATAL_P(PARAM_LIKELIHOOD) << "(" << likelihood_type_ << ") could not be found or constructed.";
+    LOG_FATAL_P(PARAM_LIKELIHOOD) << "(" << likelihood_type_ << ") was not found or could not be constructed.";
     return;
   }
   likelihood_->set_multiplier(likelihood_multiplier_);

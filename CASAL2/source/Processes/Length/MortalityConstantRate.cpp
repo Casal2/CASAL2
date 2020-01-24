@@ -129,7 +129,7 @@ void MortalityConstantRate::DoBuild() {
 
     for (double value : ratios_) {
       if (value < 0.0 || value > 1.0)
-        LOG_ERROR_P(PARAM_TIME_STEP_RATIO) << " value (" << value << ") must be between 0.0 (exclusive) and 1.0 (inclusive)";
+        LOG_ERROR_P(PARAM_TIME_STEP_RATIO) << " value (" << value << ") must be between 0.0 and 1.0 inclusive";
     }
 
     for (unsigned i = 0; i < ratios_.size(); ++i)

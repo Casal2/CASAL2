@@ -88,7 +88,7 @@ void MortalityEvent::DoBuild() {
   for (string label : selectivity_names_) {
     Selectivity* selectivity = model_->managers().selectivity()->GetSelectivity(label);
     if (!selectivity)
-      LOG_ERROR_P(PARAM_SELECTIVITIES) << ": Selectivity " << label << " does not exist.";
+      LOG_ERROR_P(PARAM_SELECTIVITIES) << ": Selectivity label " << label << " was not found.";
 
     selectivities_.push_back(selectivity);
   }
@@ -96,7 +96,7 @@ void MortalityEvent::DoBuild() {
   if (penalty_name_ != "") {
     penalty_ = model_->managers().penalty()->GetProcessPenalty(penalty_name_);
     if (!penalty_) {
-      LOG_ERROR_P(PARAM_PENALTY) << ": Penalty " << penalty_name_ << " does not exist.";
+      LOG_ERROR_P(PARAM_PENALTY) << ": Penalty label " << penalty_name_ << " was not found.";
     }
   }
 

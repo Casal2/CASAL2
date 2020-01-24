@@ -102,7 +102,7 @@ void RecruitmentBevertonHoltWithDeviations::DoValidate() {
   for (Double value : proportions_) // Again, ADOLC prevents std::accum
     running_total += value;
   if (!dc::IsOne(running_total))
-    LOG_ERROR_P(PARAM_PROPORTIONS) << "The sum total is " << running_total << " when it should be 1.0";
+    LOG_ERROR_P(PARAM_PROPORTIONS) << "The sum total is " << running_total << " which should be 1.0";
 
   if (recruit_dev_values_.size() != ((model_->final_year() - model_->start_year()) + 1))
     LOG_ERROR_P(PARAM_DEVIATION_YEARS) << "There must be a year class year for each year of the model";
@@ -445,7 +445,7 @@ void RecruitmentBevertonHoltWithDeviations::ScalePartition() {
   LOG_FINEST() << "Last SSB value = " << SSB;
   Double scalar = b0_ / SSB;
   LOG_FINEST() << "Scalar = " << scalar << " B0 = " << b0_;
-  LOG_FINEST() << "r0 = " << scalar;
+  LOG_FINEST() << "R0 = " << scalar;
   r0_ = scalar;
   for (auto category : partition_) {
     for (unsigned j = 0; j < category->data_.size(); ++j) {

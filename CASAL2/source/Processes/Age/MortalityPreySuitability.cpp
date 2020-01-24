@@ -114,7 +114,7 @@ void MortalityPreySuitability::DoBuild() {
   if (penalty_label_ != "none") {
     penalty_ = model_->managers().penalty()->GetProcessPenalty(penalty_label_);
     if (!penalty_)
-      LOG_ERROR_P(PARAM_PENALTY) << ": Penalty " << penalty_label_ << " was not found.";
+      LOG_ERROR_P(PARAM_PENALTY) << ": Penalty label " << penalty_label_ << " was not found.";
   }
 
 /*  *

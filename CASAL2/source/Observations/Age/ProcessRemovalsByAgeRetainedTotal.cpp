@@ -208,7 +208,7 @@ void ProcessRemovalsByAgeRetainedTotal::DoValidate() {
   }
   if (time_step_label_.size() != method_.size()) {
   	LOG_ERROR_P(PARAM_TIME_STEP) << "Specify the same number of time step labels as methods. " << time_step_label_.size()
-      << " time-step labels have been specified, but there are " << method_.size() << " methods specified";
+      << " time step labels have been specified, but there are " << method_.size() << " methods specified";
   }
 }
 

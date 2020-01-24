@@ -69,7 +69,7 @@ void TagByAge::DoValidate() {
         << ") does not match the number of from categories provided (" << from_category_labels_.size() << ")";
   }
   if (u_max_ <= 0.0 || u_max_ > 1.0)
-    LOG_ERROR_P(PARAM_U_MAX) << " (" << u_max_ << ") must be greater than 0.0 and less than 1.0";
+    LOG_ERROR_P(PARAM_U_MAX) << " (" << u_max_ << ") must be greater than 0.0 and less than or equal to 1.0";
   if (min_age_ < model_->min_age())
     LOG_ERROR_P(PARAM_MIN_AGE) << " (" << min_age_ << ") is less than the model's minimum age (" << model_->min_age() << ")";
   if (max_age_ > model_->max_age())
@@ -115,10 +115,10 @@ void TagByAge::DoValidate() {
   if (numbers_table_->row_count() != 0) {
     vector<string> columns = numbers_table_->columns();
     if (columns.size() != age_spread + 1)
-      LOG_ERROR_P(PARAM_NUMBERS) << " number of columns provided (" << columns.size() << ") does not match the model's age spread + 1 ("
+      LOG_ERROR_P(PARAM_NUMBERS) << "The number of columns provided (" << columns.size() << ") does not match the model's age spread + 1 ("
           << (age_spread + 1) << ")";
     if (columns[0] != PARAM_YEAR)
-      LOG_ERROR_P(PARAM_NUMBERS) << " first column label (" << columns[0] << ") provided must be 'year'";
+      LOG_ERROR_P(PARAM_NUMBERS) << "The first column label (" << columns[0] << ") provided must be 'year'";
 
     map<unsigned, unsigned> age_index;
     for (unsigned i = 1; i < columns.size(); ++i) {
@@ -155,10 +155,10 @@ void TagByAge::DoValidate() {
      */
     vector<string> columns = proportions_table_->columns();
     if (columns.size() != age_spread + 1)
-      LOG_ERROR_P(PARAM_PROPORTIONS) << " number of columns provided (" << columns.size() << ") does not match the model's age spread + 1 ("
+      LOG_ERROR_P(PARAM_PROPORTIONS) << "The number of columns provided (" << columns.size() << ") does not match the model's age spread + 1 ("
           << (age_spread + 1) << ")";
     if (columns[0] != PARAM_YEAR)
-      LOG_ERROR_P(PARAM_PROPORTIONS) << " first column label (" << columns[0] << ") provided must be 'year'";
+      LOG_ERROR_P(PARAM_PROPORTIONS) << "The first column label (" << columns[0] << ") provided must be 'year'";
 
     map<unsigned, unsigned> age_index;
     for (unsigned i = 1; i < columns.size(); ++i) {
@@ -174,7 +174,7 @@ void TagByAge::DoValidate() {
       n_.assign(years_.size(), val_n);
     }
     else if (n_.size() != years_.size())
-      LOG_ERROR_P(PARAM_N) << " values provided (" << n_.size() << ") does not match the number of years (" << years_.size() << ")";
+      LOG_ERROR_P(PARAM_N) << "The values provided (" << n_.size() << ") does not match the number of years (" << years_.size() << ")";
     map<unsigned, Double> n_by_year = utilities::Map<Double>::create(years_, n_);
 
     // load our table data in to our map
@@ -214,13 +214,13 @@ void TagByAge::DoBuild() {
   if (penalty_label_ != "")
     penalty_ = model_->managers().penalty()->GetPenalty(penalty_label_);
   else
-    LOG_WARNING() << location() << " no penalty has been specified. Exploitation above u_max will not affect the objective function";
+    LOG_WARNING() << location() << "No penalty has been specified. Exploitation above u_max will not affect the objective function";
 
   selectivities::Manager& selectivity_manager = *model_->managers().selectivity();
   for (unsigned i = 0; i < selectivity_labels_.size(); ++i) {
     Selectivity* selectivity = selectivity_manager.GetSelectivity(selectivity_labels_[i]);
     if (!selectivity)
-      LOG_ERROR() << "Selectivity: " << selectivity_labels_[i] << " not found";
+      LOG_ERROR() << "Selectivity label " << selectivity_labels_[i] << " was not found";
     selectivities_[from_category_labels_[i]] = selectivity;
   }
   for (unsigned i = 0 ; i < loss_rate_selectivity_labels_.size(); ++i)

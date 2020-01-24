@@ -93,10 +93,10 @@ void ProcessRemovalsByLength::DoValidate() {
    */
   for (unsigned length = 0; length < length_bins_.size(); ++length) {
     if (length_bins_[length] < 0.0)
-      LOG_ERROR_P(PARAM_LENGTH_BINS) << ": Length bins must be positive: " << length_bins_[length] << " is less than 0.0";
+      LOG_ERROR_P(PARAM_LENGTH_BINS) << ": Length bin values must be positive: " << length_bins_[length] << " is less than 0.0";
 
     if (length > 0 && length_bins_[length - 1] >= length_bins_[length])
-      LOG_ERROR_P(PARAM_LENGTH_BINS) << ": Length bins must be strictly increasing: " << length_bins_[length - 1]
+      LOG_ERROR_P(PARAM_LENGTH_BINS) << ": Length bin values must be strictly increasing: " << length_bins_[length - 1]
         << " is greater than or equal to " << length_bins_[length];
   }
 
@@ -242,7 +242,7 @@ void ProcessRemovalsByLength::DoBuild() {
 
   auto time_step = model_->managers().time_step()->GetTimeStep(time_step_label_);
   if (!time_step) {
-    LOG_FATAL_P(PARAM_TIME_STEP)<< time_step_label_ << " was not found.";
+    LOG_FATAL_P(PARAM_TIME_STEP) << "Time step label " << time_step_label_ << " was not found.";
   } else {
     auto process = time_step->SubscribeToProcess(this, years_, process_label_);
     mortality_instantaneous_ = dynamic_cast<MortalityInstantaneous*>(process);

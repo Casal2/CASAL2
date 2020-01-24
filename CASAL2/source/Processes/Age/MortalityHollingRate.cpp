@@ -59,8 +59,8 @@ MortalityHollingRate::MortalityHollingRate(Model* model)
   parameters_.Bind<string>(PARAM_PREY_CATEGORIES, &prey_category_labels_, "Prey Categories labels", "");
   parameters_.Bind<string>(PARAM_PREDATOR_CATEGORIES, &predator_category_labels_, "Predator Categories labels", "");
   parameters_.Bind<bool>(PARAM_IS_ABUNDANCE, &is_abundance_, "Is vulnerable amount of prey and predator an abundance [true] or biomass [false]", "", true);
-  parameters_.Bind<Double>(PARAM_A, &a_, "parameter a", "")->set_lower_bound(0.0);
-  parameters_.Bind<Double>(PARAM_B, &b_, "parameter b", "")->set_lower_bound(0.0);
+  parameters_.Bind<Double>(PARAM_A, &a_, "Parameter a", "")->set_lower_bound(0.0);
+  parameters_.Bind<Double>(PARAM_B, &b_, "Parameter b", "")->set_lower_bound(0.0);
   parameters_.Bind<Double>(PARAM_X, &x_, "This parameter controls the functional form, Holling function type 2 (x=2) or 3 (x=3), or generalised (Michaelis Menten, x>=1)", "")->set_lower_bound(1.0);
   parameters_.Bind<Double>(PARAM_U_MAX, &u_max_, "Maximum exploitation rate ($Umax$)", "")->set_range(0.0, 1.0);
   parameters_.Bind<string>(PARAM_PREY_SELECTIVITIES, &prey_selectivity_labels_, "Selectivities for prey categories", "", true);
@@ -88,12 +88,12 @@ void MortalityHollingRate::DoValidate() {
    */
   for (const string& label : prey_category_labels_) {
     if (!model_->categories()->IsValid(label))
-      LOG_ERROR_P(PARAM_CATEGORIES) << ": Prey category " << label << " does not exist.";
+      LOG_ERROR_P(PARAM_CATEGORIES) << ": Prey category " << label << " was not found.";
   }
 
   for (const string& label : predator_category_labels_) {
     if (!model_->categories()->IsValid(label))
-      LOG_ERROR_P(PARAM_CATEGORIES) << ": Predator category " << label << " does not exist.";
+      LOG_ERROR_P(PARAM_CATEGORIES) << ": Predator category " << label << " was not found.";
   }
   LOG_TRACE();
   LOG_FINEST() << "prey = " << parameters_.Get(PARAM_PREY_SELECTIVITIES)->has_been_defined();
@@ -243,7 +243,7 @@ void MortalityHollingRate::DoBuild() {
     for (string selectivity : prey_selectivity_labels_) {
       prey_selectivities_.push_back(model_->managers().selectivity()->GetSelectivity(selectivity));
       if (!prey_selectivities_[category_offset])
-        LOG_ERROR_P(PARAM_PREY_SELECTIVITIES) << "Prey selectivity " << selectivity << " does not exist.";
+        LOG_ERROR_P(PARAM_PREY_SELECTIVITIES) << "Prey selectivity " << selectivity << " was not found.";
       ++category_offset;
     }
   }
@@ -253,7 +253,7 @@ void MortalityHollingRate::DoBuild() {
     for (string selectivity : predator_selectivity_labels_) {
       predator_selectivities_.push_back(model_->managers().selectivity()->GetSelectivity(selectivity));
       if (!predator_selectivities_[category_offset])
-        LOG_ERROR_P(PARAM_PREDATOR_SELECTIVITIES) << "Predator selectivity " << selectivity << " does not exist.";
+        LOG_ERROR_P(PARAM_PREDATOR_SELECTIVITIES) << "Predator selectivity " << selectivity << " was not found.";
       ++category_offset;
     }
   }
@@ -261,7 +261,7 @@ void MortalityHollingRate::DoBuild() {
   if (penalty_label_ != "none") {
     penalty_ = model_->managers().penalty()->GetProcessPenalty(penalty_label_);
     if (!penalty_)
-      LOG_ERROR_P(PARAM_PENALTY) << ": Penalty " << penalty_label_ << " does not exist.";
+      LOG_ERROR_P(PARAM_PENALTY) << ": Penalty label " << penalty_label_ << " was not found.";
   }
   // Pre allocate memory
   prey_vulnerability_by_year_.reserve(years_.size());
