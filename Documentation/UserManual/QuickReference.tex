@@ -14,7 +14,7 @@
 \par\textbf{\commandlabsubarg{ageing\_\_error}{type}{off\_by\_one}}\par
 \defSub{p1} {The proportion misclassified as one year younger, e.g., the proportion of age 3 individuals that were misclassified as age 2}
 \defSub{p2} {The proportion misclassified as one year older, e.g., the proportion of age 3 individuals that were misclassified as age 4}
-\defSub{k} {The minimum age of fish which can be misclassified, i.e., fish of age less than k are assumed to be correctly classified}
+\defSub{k} {The minimum age of animals which can be misclassified, i.e., animals of age less than k are assumed to be correctly classified}
 \defComLab{age\_length}{Define an object of type \emph{age\_length}}\par\par
 \defSub{label} {Label of the age length relationship}
 \defSub{type} {The type of age length relationship}
@@ -148,7 +148,7 @@
 \defSub{error\_value} {The error values of the observed values ,note the units depend on the likelihood,}
 \defSub{selectivities} {Labels of the selectivities}
 \defSub{process\_error} {Value for process error}
-\defSub{age\_weight\_labels} {R,The labels for the \command{$age\_weight$} block which corresponds to each category, if you want to use that weight calculation method for biomass calculations,}
+\defSub{age\_weight\_labels} {R,The labels for the \command{$age\_weight$} block which corresponds to each category, to use the weight calculation method for biomass calculations,}
 \par\textbf{\commandlabsubarg{observation}{type}{process\_removals\_by\_age}}\par
 \defSub{min\_age} {Minimum age}
 \defSub{max\_age} {Maximum age}
@@ -314,8 +314,8 @@
 \defSub{prey\_categories} {Prey Categories labels}
 \defSub{predator\_categories} {Predator Categories labels}
 \defSub{is\_abundance} {Is vulnerable amount of prey and predator an abundance [true] or biomass [false]}
-\defSub{a} {parameter a}
-\defSub{b} {parameter b}
+\defSub{a} {Parameter a}
+\defSub{b} {Parameter b}
 \defSub{x} {This parameter controls the functional form, Holling function type 2 ,x=2, or 3 ,x=3, or generalised ,Michaelis Menten, x,=1,}
 \defSub{u\_max} {Maximum exploitation rate ,$Umax$,}
 \defSub{prey\_selectivities} {Selectivities for prey categories}
@@ -388,7 +388,7 @@
 \par\textbf{\commandlabsubarg{process}{type}{recruitment\_constant}}\par
 \defSub{categories} {Categories}
 \defSub{proportions} {Proportions}
-\defSub{length\_bins} {The length bins recruits are uniformly distributed over, when recruitment occurs}
+\defSub{length\_bins} {The length bins that recruits are uniformly distributed over at the time of recruitment}
 \defSub{r0} {R0}
 \par\textbf{\commandlabsubarg{process}{type}{survival\_constant\_rate}}\par
 \defSub{categories} {List of categories}
@@ -440,11 +440,11 @@
 \defSub{years} {Years to execute the transition in}
 \defComLab{profile}{Define an object of type \emph{profile}}\par\par
 \defSub{label} {Label}
-\defSub{steps} {The number of steps to take between the lower and upper bound}
+\defSub{steps} {The number of steps between the lower and upper bound}
 \defSub{lower\_bound} {The lower bounds}
 \defSub{upper\_bound} {The upper bounds}
 \defSub{parameter} {The system parameter to profile}
-\defSub{same} {A Parameter that are constrained to have the same value as the parameter being profiled}
+\defSub{same} {A parameter that is constrained to have the same value as the parameter being profiled}
 \defComLab{project}{Define an object of type \emph{project}}\par\par
 \defSub{label} {Label}
 \defSub{type} {Type}
@@ -454,7 +454,7 @@
 \defComLab{report}{Define an object of type \emph{report}}\par\par
 \defSub{label} {The label for the report}
 \defSub{type} {The type of report}
-\defSub{file\_name} {The File Name if you want this report to be in a separate file}
+\defSub{file\_name} {The File Name for this report to be in a separate file}
 \defSub{write\_mode} {The write mode}
 \par\textbf{\commandlabsubarg{report}{type}{age\_length}}\par
 \defSub{time\_step} {Time Step label}
@@ -479,14 +479,14 @@
 \defSub{type} {The type of selectivity}
 \defSub{length\_based} {Is the selectivity length based}
 \defSub{intervals} {Number of quantiles to evaluate a length based selectivity over the age length distribution}
-\defSub{partition\_type} {The type of partition this selectivity will support, Defaults to same as the model}
+\defSub{partition\_type} {The type of partition this selectivity will support. Defaults to same as the model}
 \defSub{values} {}
 \defSub{length\_values} {}
 \defComLab{simulate}{Define an object of type \emph{simulate}}\par\par
 \defSub{label} {Label}
 \defSub{type} {Type}
 \defSub{years} {Years to recalculate the values}
-\defSub{parameter} {Parameter to Simulate}
+\defSub{parameter} {Parameter to simulate}
 \defComLab{time\_step}{Define an object of type \emph{time\_step}}\par\par
 \defSub{label} {The label of the timestep}
 \defSub{processes} {The labels of the processes for this time step in the order that they occur}
