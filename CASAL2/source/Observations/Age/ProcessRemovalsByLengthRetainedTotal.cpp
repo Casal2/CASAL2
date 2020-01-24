@@ -361,7 +361,7 @@ void ProcessRemovalsByLengthRetainedTotal::Execute() {
         // length frequencies to age length numbers
         for (unsigned j = 0; j < number_bins_; ++j) {
           age_length_matrix[data_offset][j] = number_at_age * age_length_proportions[data_offset][j]; // added length bin offset to get correct length bin
-          LOG_FINEST() << "The proportion of fish in length bin: " << length_bins_[j] << " = " << age_length_matrix[data_offset][j];
+          LOG_FINEST() << "The proportion of animals in length bin: " << length_bins_[j] << " = " << age_length_matrix[data_offset][j];
         }
       }
 

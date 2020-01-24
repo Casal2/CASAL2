@@ -236,7 +236,7 @@ void Category::CalculateNumbersAtLength(Selectivity* selectivity, const vector<d
     age_length_matrix[i] = utilities::math::distribution(length_bins, length_plus, age_length_->distribution(), mean_length_by_time_step_age_[year_ndx][time_step_index][i], std_dev);
     if (age_length_matrix[i].size() != numbers_by_length.size())
       LOG_CODE_ERROR() << "if (age_length_matrix[i].size() != numbers_by_length.size()). Age length dims were "
-        << age_length_matrix[i].size() << " we wanted " << numbers_by_length.size();
+        << age_length_matrix[i].size() << ", expected " << numbers_by_length.size();
     // Multiply by data_
     std::transform(age_length_matrix[i].begin(), age_length_matrix[i].end(), age_length_matrix[i].begin(), std::bind(std::multiplies<Double>(), std::placeholders::_1, data_[i]));
   }

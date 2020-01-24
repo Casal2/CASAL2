@@ -324,7 +324,7 @@ void ProcessRemovalsByAgeRetained::Execute() {
 				  // This should get caught in the DoBuild now.
 					if (Retained_at_age[year][fishery][(*category_iter)->name_].size() == 0) {
 						LOG_FATAL() << "There is no retained catch at age data in year " << year << " for method " << fishery << " applied to category = " << (*category_iter)->name_
-                          << ". Check that your mortality_instantaneous process '" << process_label_<< "' is comparable with the observation " << label_;
+                          << ". Check that the mortality_instantaneous process '" << process_label_<< "' is comparable with the observation " << label_;
 					}
 					/*
 					 *  Apply Ageing error on Retained at age vector

@@ -60,7 +60,7 @@ void Linear::DoReset() {
 
   Double years_since_first_year = (Double)(model_->current_year() - years_[0]);
   LOG_FINE() << "diff from start of year = " << years_since_first_year;
-  LOG_FINE() << " did we make it past this if statement " << current_year;
+  LOG_FINE() << " made it past this if statement " << current_year;
   if (current_year) {
     // First year don't make a change
     LOG_FINE() << "Setting Value to: " << intercept_;

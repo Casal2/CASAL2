@@ -51,8 +51,8 @@ void ObjectiveFunction::Execute() {
     std::streamsize prec = std::cout.precision();
     std::cout.precision(9);
 
-    LOG_ERROR() << "Assert Failure: Objective Function had actual value " << obj.score() << " when we expected " << value_
-        << " with difference: " << abs(AS_DOUBLE(value_) - AS_DOUBLE(obj.score()));
+    LOG_ERROR() << "Assert Failure: Objective Function had actual value " << obj.score() << " when " << value_
+        << " values were expected with difference: " << abs(AS_DOUBLE(value_) - AS_DOUBLE(obj.score()));
 
     std::cout.precision(prec);
   }

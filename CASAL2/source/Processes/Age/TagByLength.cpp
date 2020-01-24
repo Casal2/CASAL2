@@ -373,7 +373,7 @@ void TagByLength::DoExecute() {
         if (penalty_)
           penalty_->Trigger(label_, tagged_fish_for_this_category, current);
       }
-      LOG_FINE() << "proportion for length " << length_bins[i] << " = " << proportion_in_this_category_by_length << " tagged fish = "
+      LOG_FINE() << "proportion for length " << length_bins[i] << " = " << proportion_in_this_category_by_length << " tagged animals = "
         << tagged_fish_for_this_category << " exploitation = " << exploitation_by_length;
 
       LOG_FINE() << "numbers: " << numbers_[current_year][i] << " total = " << total_stock_with_selectivities;

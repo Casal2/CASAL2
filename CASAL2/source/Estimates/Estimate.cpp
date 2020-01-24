@@ -48,7 +48,7 @@ Estimate::Estimate(Model* model) : model_(model) {
  */
 void Estimate::Validate() {
   if (transform_with_jacobian_ & transform_for_objective_function_)
-    LOG_ERROR_P(PARAM_TRANSFORM_WITH_JACOBIAN) << "You cannot specify both an estimate that has a jacobian contributing to the objective function and"
+    LOG_ERROR_P(PARAM_TRANSFORM_WITH_JACOBIAN) << "Do not specify both an estimate that has a Jacobian contributing to the objective function and"
       << " define the prior for the transformed variable together. See the User Manual for more info";
   DoValidate();
 }
@@ -56,7 +56,7 @@ void Estimate::Validate() {
 void Estimate::Build() {
   if (transform_with_jacobian_ & transform_for_objective_function_)
     LOG_ERROR_P(PARAM_TRANSFORM_WITH_JACOBIAN) << "Both " << PARAM_TRANSFORM_WITH_JACOBIAN << " and " << PARAM_PRIOR_APPLIES_TO_TRANSFORM
-      << " cannot be set to 'true'. Please check the User Manual for more info";
+      << " cannot be set to 'true'. Please see the User Manual for more info";
 
   if (!transform_for_objective_function_) {
     // only check bounds if prior on untransformed variable.

@@ -487,7 +487,7 @@ void Model::RunBasic() {
         boost::split(temp_values, line, boost::is_any_of(" "));
         if (temp_values.size() != estimable_targets.size()) {
           LOG_FATAL() << "Number of values provided was " << temp_values.size()
-              << " when we expected " << estimable_targets.size();
+              << " when " << estimable_targets.size() << " values were expected.";
         }
 
         for (unsigned i = 0; i < temp_values.size(); ++i) {
@@ -764,7 +764,7 @@ void Model::RunProjection() {
       LOG_FINE() << "Beginning initial model run for projections";
       projection_final_phase_ = false;
       if (addressable_values_file_) {
-        LOG_FINE() << "loading input parameters";
+        LOG_FINE() << "Loading input parameters";
         estimables.LoadValues(i);
         Reset();
       }

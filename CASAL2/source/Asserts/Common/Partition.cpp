@@ -74,8 +74,8 @@ void Partition::Execute() {
       std::streamsize prec = std::cout.precision();
       std::cout.precision(9);
 
-      LOG_ERROR() << "Assert Failure: Partition.Category: " << category_label_ << " had value " << data[i] << " when we expected " << values_[i] <<
-          " for age " << (category.min_age_ + i);
+      LOG_ERROR() << "Assert Failure: Partition.Category: " << category_label_ << " had value " << data[i] << " when " << values_[i] <<
+          " values are expected for age " << (category.min_age_ + i);
 
       std::cout.precision(prec);
     }

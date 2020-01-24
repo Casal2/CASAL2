@@ -40,8 +40,8 @@ Dummy::Dummy(Model* model) : Minimiser(model) {
  *
  */
 void Dummy::Execute() {
-  LOG_CODE_ERROR() << "Hmmm... For some reason you've executed the Dummy minimiser. This is bad.\n"
-      << "This has likely happened because you've tried to run an autodiff minimiser off the release shared library";
+  LOG_CODE_ERROR() << "The Dummy minimiser has been executed. This is bad.\n"
+      << "This may have happened because of using an autodiff minimiser from the release shared library";
 };
 
 } /* namespace minimisers */
