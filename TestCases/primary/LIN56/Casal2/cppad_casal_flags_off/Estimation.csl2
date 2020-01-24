@@ -1,5 +1,5 @@
 ## Estimation script for LIN3&4 base model (2014 assessment)
-@minimiser gammdiff
+@minimiser CppAD
 type cppad
 active true
 # iterations 500

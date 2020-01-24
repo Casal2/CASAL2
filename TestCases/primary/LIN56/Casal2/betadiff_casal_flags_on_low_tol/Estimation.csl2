@@ -1,9 +1,9 @@
 ## Estimation script for LIN3&4 base model (2014 assessment)
-@minimiser gammdiff
+@minimiser betadiff
 type betadiff
 active true
-iterations 500
-evaluations 1000
+iterations 5000
+evaluations 5000
 tolerance 0.00001
 covariance true
 

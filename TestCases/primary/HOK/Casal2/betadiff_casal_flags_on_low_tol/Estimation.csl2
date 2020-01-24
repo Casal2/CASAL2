@@ -6,7 +6,7 @@
 
 ################################### Minimiser ###############################
 
-@minimiser beta_diff
+@minimiser betadiff
 type betadiff
 tolerance 1e-9
 iterations 10000

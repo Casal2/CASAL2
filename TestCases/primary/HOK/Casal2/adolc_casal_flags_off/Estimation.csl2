@@ -6,7 +6,7 @@
 
 ################################### Minimiser ###############################
 
-@minimiser adolc
+@minimiser ADOLC
 type adolc
 tolerance 1e-6
 iterations 1000
