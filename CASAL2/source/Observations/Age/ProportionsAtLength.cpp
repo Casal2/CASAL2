@@ -59,9 +59,9 @@ ProportionsAtLength::~ProportionsAtLength() {
 void ProportionsAtLength::DoValidate() {
   // How many elements are expected in our observed table;
   for (auto year : years_) {
-  	if((year < model_->start_year()) || (year > model_->final_year()))
-  		LOG_ERROR_P(PARAM_YEARS) << "Years cannot be less than start_year (" << model_->start_year()
-          << "), or greater than final_year (" << model_->final_year() << ").";
+    if((year < model_->start_year()) || (year > model_->final_year()))
+      LOG_ERROR_P(PARAM_YEARS) << "Years cannot be less than start_year (" << model_->start_year()
+        << "), or greater than final_year (" << model_->final_year() << ").";
   }
 
   map<unsigned, vector<double>> error_values_by_year;
@@ -187,10 +187,13 @@ void ProportionsAtLength::DoValidate() {
         unsigned obs_index = i * number_bins + j;
         value = iter->second[obs_index];
 
-        double error_value = error_values_by_year[iter->first][obs_index];
-        error_values_[iter->first][category_labels_[i]].push_back(error_value);
-        proportions_[iter->first][category_labels_[i]].push_back(value);
-        total += value;
+        auto e_f = error_values_by_year.find(iter->first);
+        if (e_f != error_values_by_year.end())
+        {
+          error_values_[iter->first][category_labels_[i]].push_back(e_f->second[obs_index]);
+          proportions_[iter->first][category_labels_[i]].push_back(value);
+          total += value;
+        }
       }
     }
 
@@ -324,7 +327,8 @@ void ProportionsAtLength::CalculateScore() {
    * Simulate or generate results
    * During simulation mode we'll simulate results for this observation
    */
-	LOG_FINEST() << "Calculating score for observation = " << label_;
+  LOG_FINEST() << "Calculating score for observation = " << label_;
+
   if (model_->run_mode() == RunMode::kSimulation) {
     likelihood_->SimulateObserved(comparisons_);
     for (auto& iter :  comparisons_) {

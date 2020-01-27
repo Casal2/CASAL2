@@ -81,9 +81,9 @@ void TagRecaptureByAge::DoValidate() {
   map<unsigned, vector<double>> scanned_by_year;
 
   for (auto year : years_) {
-  	if((year < model_->start_year()) || (year > model_->final_year()))
-  		LOG_ERROR_P(PARAM_YEARS) << "Years cannot be less than start_year (" << model_->start_year()
-          << "), or greater than final_year (" << model_->final_year() << ").";
+    if((year < model_->start_year()) || (year > model_->final_year()))
+      LOG_ERROR_P(PARAM_YEARS) << "Years cannot be less than start_year (" << model_->start_year()
+        << "), or greater than final_year (" << model_->final_year() << ").";
   }
 
   /**
@@ -137,7 +137,6 @@ void TagRecaptureByAge::DoValidate() {
     }
     if (recaptures_by_year[year].size() != obs_expected - 1)
       LOG_CODE_ERROR() << "obs_by_year_[year].size() (" << recaptures_by_year[year].size() << ") != obs_expected - 1 (" << obs_expected -1 << ")";
-
   }
 
   /**
@@ -196,10 +195,14 @@ void TagRecaptureByAge::DoValidate() {
               << " in the definition could not be converted to a double";
         }
 
-        double error_value = scanned_by_year[iter->first][obs_index];
-        scanned_[iter->first][category_labels_[i]].push_back(error_value);
-        recaptures_[iter->first][category_labels_[i]].push_back(value);
-        total += error_value;
+        auto s_f = scanned_by_year.find(iter->first);
+        if (s_f != scanned_by_year.end())
+        {
+          auto error_value = s_f->second[obs_index];
+          scanned_[iter->first][category_labels_[i]].push_back(error_value);
+          recaptures_[iter->first][category_labels_[i]].push_back(value);
+          total += error_value;
+        }
       }
     }
 
@@ -276,10 +279,10 @@ void TagRecaptureByAge::PreExecute() {
   target_cached_partition_->BuildCache();
 
   if (cached_partition_->Size() != scanned_[model_->current_year()].size()) {
-    LOG_CODE_ERROR() << "cached_partition_->Size() != proportions_[model->current_year()].size()";
+    LOG_CODE_ERROR() << "cached_partition_->Size() != scanned_[model->current_year()].size()";
   }
   if (partition_->Size() != scanned_[model_->current_year()].size()) {
-    LOG_CODE_ERROR() << "partition_->Size() != proportions_[model->current_year()].size()";
+    LOG_CODE_ERROR() << "partition_->Size() != scanned_[model->current_year()].size()";
   }
 }
 
@@ -407,7 +410,7 @@ void TagRecaptureByAge::Execute() {
     }
 
     if (age_results.size() != scanned_[model_->current_year()][category_labels_[category_offset]].size())
-      LOG_CODE_ERROR() << "expected_values.size(" << age_results.size() << ") != proportions_[category_offset].size("
+      LOG_CODE_ERROR() << "expected_values.size(" << age_results.size() << ") != scanned_[category_offset].size("
         << scanned_[model_->current_year()][category_labels_[category_offset]].size() << ")";
 
 
@@ -443,7 +446,7 @@ void TagRecaptureByAge::CalculateScore() {
    * Simulate or generate results
    * During simulation mode we'll simulate results for this observation
    */
-	LOG_FINEST() << "Calculating score for observation = " << label_;
+  LOG_FINEST() << "Calculating score for observation = " << label_;
 
   if (model_->run_mode() == RunMode::kSimulation) {
     likelihood_->SimulateObserved(comparisons_);

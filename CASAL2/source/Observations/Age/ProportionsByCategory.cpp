@@ -76,8 +76,8 @@ void ProportionsByCategory::DoValidate() {
 
   if (target_category_labels_.size() != target_selectivity_labels_.size() && expected_selectivity_count != target_selectivity_labels_.size())
     LOG_ERROR_P(PARAM_TARGET_SELECTIVITIES) << ": Number of selectivities provided (" << target_selectivity_labels_.size()
-        << ") is not valid. Specify either the number of category collections (" << target_category_labels_.size() << ") or "
-        << "the number of total categories (" << expected_selectivity_count << ")";
+      << ") is not valid. Specify either the number of category collections (" << target_category_labels_.size() << ") or "
+      << "the number of total categories (" << expected_selectivity_count << ")";
 
   age_spread_ = (max_age_ - min_age_) + 1;
 
@@ -223,10 +223,13 @@ void ProportionsByCategory::DoValidate() {
           LOG_ERROR_P(PARAM_OBS) << ": obs_ value (" << iter->second[obs_index] << ") at index " << obs_index + 1
               << " in the definition could not be converted to a double";
 
-        double error_value = error_values_by_year[iter->first][obs_index];
-        error_values_[iter->first][category_labels_[i]].push_back(error_value);
-        proportions_[iter->first][category_labels_[i]].push_back(value);
-        total += value;
+        auto e_f = error_values_by_year.find(iter->first);
+        if (e_f != error_values_by_year.end())
+        {
+          error_values_[iter->first][category_labels_[i]].push_back(e_f->second[obs_index]);
+          proportions_[iter->first][category_labels_[i]].push_back(value);
+          total += value;
+        }
       }
     }
 
@@ -444,7 +447,7 @@ void ProportionsByCategory::CalculateScore() {
    * Simulate or generate results
    * During simulation mode we'll simulate results for this observation
    */
-	LOG_FINEST() << "Calculating score for observation = " << label_;
+  LOG_FINEST() << "Calculating score for observation = " << label_;
 
   if (model_->run_mode() == RunMode::kSimulation) {
     likelihood_->SimulateObserved(comparisons_);

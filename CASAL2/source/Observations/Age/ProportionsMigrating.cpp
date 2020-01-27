@@ -194,9 +194,12 @@ void ProportionsMigrating::DoValidate() {
       for (unsigned j = 0; j < age_spread_; ++j) {
         unsigned obs_index = i * age_spread_ + j;
 
-        double error_value = error_values_by_year[iter->first][obs_index];
-        error_values_[iter->first][category_labels_[i]].push_back(error_value);
-        proportions_[iter->first][category_labels_[i]].push_back(iter->second[obs_index]);
+        auto e_f = error_values_by_year.find(iter->first);
+        if (e_f != error_values_by_year.end())
+        {
+          error_values_[iter->first][category_labels_[i]].push_back(e_f->second[obs_index]);
+          proportions_[iter->first][category_labels_[i]].push_back(iter->second[obs_index]);
+        }
       }
     }
   }
@@ -239,7 +242,7 @@ void ProportionsMigrating::PreExecute() {
 
 
   if (cached_partition_->Size() != proportions_[model_->current_year()].size()) {
-    LOG_MEDIUM() << "Cached size " << cached_partition_->Size() << " partition size = " << proportions_[model_->current_year()].size();
+    LOG_MEDIUM() << "Cached size " << cached_partition_->Size() << " proportions size = " << proportions_[model_->current_year()].size();
     LOG_CODE_ERROR() << "cached_partition_->Size() != proportions_[model->current_year()].size()";
 
   }
@@ -364,7 +367,7 @@ void ProportionsMigrating::Execute() {
 
     for (unsigned i = 0; i < expected_values_.size(); ++i) {
       LOG_FINEST() << " Numbers at age " << min_age_ + i << " = " << expected_values_[i];
-      SaveComparison(category_labels_[category_offset], min_age_ + i ,0.0 ,expected_values_[i], proportions_[model_->current_year()][category_labels_[category_offset]][i],
+      SaveComparison(category_labels_[category_offset], min_age_ + i, 0.0, expected_values_[i], proportions_[model_->current_year()][category_labels_[category_offset]][i],
           process_errors_by_year_[model_->current_year()], error_values_[model_->current_year()][category_labels_[category_offset]][i], 0.0, delta_, 0.0);
     }
   }
@@ -379,7 +382,7 @@ void ProportionsMigrating::CalculateScore() {
    * Simulate or generate results
    * During simulation mode we'll simulate results for this observation
    */
-	LOG_FINEST() << "Calculating score for observation = " << label_;
+  LOG_FINEST() << "Calculating score for observation = " << label_;
 
   if (model_->run_mode() == RunMode::kSimulation) {
     likelihood_->SimulateObserved(comparisons_);
