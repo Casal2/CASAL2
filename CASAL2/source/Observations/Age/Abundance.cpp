@@ -44,8 +44,8 @@ void Abundance::DoValidate() {
 
   if (category_labels_.size() != selectivity_labels_.size() && expected_selectivity_count_ != selectivity_labels_.size())
     LOG_ERROR_P(PARAM_SELECTIVITIES) << ": Number of selectivities provided (" << selectivity_labels_.size()
-        << ") is not valid. Specify either the number of category collections (" << category_labels_.size() << ") or "
-        << "the number of total categories (" << expected_selectivity_count_ << ")";
+      << ") is not valid. Specify either the number of category collections (" << category_labels_.size() << ") or "
+      << "the number of total categories (" << expected_selectivity_count_ << ")";
 
   // Delta
   if (delta_ < 0.0)
@@ -57,7 +57,7 @@ void Abundance::DoValidate() {
   vector<string> obs  = obs_;
   if (obs.size() != category_labels_.size() * years_.size())
     LOG_ERROR_P(PARAM_OBS) << ": obs values length (" << obs.size() << ") must match the number of category collections provided ("
-        << category_labels_.size() << ") * years (" << years_.size() << ")";
+      << category_labels_.size() << ") * years (" << years_.size() << ")";
 
   // Error Value
   if (error_values_.size() == 1 && obs.size() > 1) {
@@ -67,7 +67,7 @@ void Abundance::DoValidate() {
 
   if (error_values_.size() != obs.size())
     LOG_ERROR_P(PARAM_ERROR_VALUE) << ": error_value length (" << error_values_.size()
-        << ") must be same length as obs (" << obs.size() << ")";
+      << ") must be same length as obs (" << obs.size() << ")";
 
   error_values_by_year_ = utils::Map<double>::create(years_, error_values_);
 
@@ -122,7 +122,7 @@ void Abundance::DoBuild() {
 
   if (partition_->category_count() != selectivities_.size())
     LOG_ERROR_P(PARAM_SELECTIVITIES) << ": number of selectivities provided (" << selectivities_.size() << ") does not match the number "
-        "of categories provided (" << partition_->category_count() << ")";
+      << "of categories provided (" << partition_->category_count() << ")";
 
 }
 
@@ -167,10 +167,12 @@ void Abundance::Execute() {
   auto cached_partition_iter = cached_partition_->Begin();
   auto partition_iter = partition_->Begin(); // auto = map<map<string, vector<partition::category&> > >
 
+  if (proportions_by_year_.find(current_year) == proportions_by_year_.end())
+    LOG_CODE_ERROR() << "proportions_by_year_[current_year] for year " << current_year << " was not found";
   if (cached_partition_->Size() != proportions_by_year_[current_year].size())
-    LOG_CODE_ERROR() << "cached_partition_->Size() != proportions_.size()";
+    LOG_CODE_ERROR() << "cached_partition_->Size() != proportions_by_year_[current_year].size()";
   if (partition_->Size() != proportions_by_year_[current_year].size())
-    LOG_CODE_ERROR() << "partition_->Size() != proportions_.size()";
+    LOG_CODE_ERROR() << "partition_->Size() != proportions_by_year_[current_year].size()";
 
   for (unsigned proportions_index = 0; proportions_index < proportions_by_year_[current_year].size(); ++proportions_index, ++partition_iter, ++cached_partition_iter) {
     expected_total = 0.0;
@@ -229,7 +231,7 @@ void Abundance::CalculateScore() {
    * Simulate or generate results
    * During simulation mode we'll simulate results for this observation
    */
-	LOG_FINEST() << "Calculating score for observation = " << label_;
+  LOG_FINEST() << "Calculating score for observation = " << label_;
 
   if (model_->run_mode() == RunMode::kSimulation) {
     // Check if we have a nusiance q or a free q
@@ -242,12 +244,9 @@ void Abundance::CalculateScore() {
       for (auto year_iterator = comparisons_.begin();
           year_iterator != comparisons_.end(); ++year_iterator) {
         for (obs::Comparison& comparison : year_iterator->second) {
-          LOG_FINEST() << "---- Expected before nuisance Q applied = "
-              << comparison.expected_;
+          LOG_FINEST() << "---- Expected before nuisance Q applied = " << comparison.expected_;
           comparison.expected_ *= nuisance_catchability_->q();
-          LOG_FINEST() << "---- Expected After nuisance Q applied = "
-              << comparison.expected_;
-
+          LOG_FINEST() << "---- Expected After nuisance Q applied = "  << comparison.expected_;
         }
       }
     }
@@ -275,9 +274,7 @@ void Abundance::CalculateScore() {
         for (obs::Comparison& comparison : year_iterator->second) {
           LOG_FINEST() << "---- Expected before nuisance Q applied = " << comparison.expected_;
           comparison.expected_ *= nuisance_catchability_->q();
-          LOG_FINEST() << "---- Expected After nuisance Q applied = "
-              << comparison.expected_;
-
+          LOG_FINEST() << "---- Expected After nuisance Q applied = "  << comparison.expected_;
         }
       }
     }

@@ -192,11 +192,10 @@ void ProportionsMigrating::DoValidate() {
 
     for (unsigned i = 0; i < category_labels_.size(); ++i) {
       for (unsigned j = 0; j < age_spread_; ++j) {
-        unsigned obs_index = i * age_spread_ + j;
-
         auto e_f = error_values_by_year.find(iter->first);
         if (e_f != error_values_by_year.end())
         {
+          unsigned obs_index = i * age_spread_ + j;
           error_values_[iter->first][category_labels_[i]].push_back(e_f->second[obs_index]);
           proportions_[iter->first][category_labels_[i]].push_back(iter->second[obs_index]);
         }
