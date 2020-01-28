@@ -54,8 +54,8 @@ void MortalityInitialisationEventBiomass::DoValidate() {
   // Validate that the number of selectivities is the same as the number of categories
   if (category_labels_.size() != selectivity_names_.size()) {
     LOG_ERROR_P(PARAM_SELECTIVITIES)
-        << " The number of selectivities provided does not match the number of categories provided."
-        << " Categories: " << category_labels_.size() << ", Selectivities: " << selectivity_names_.size();
+      << " The number of selectivities provided does not match the number of categories provided."
+      << " Categories: " << category_labels_.size() << ", Selectivities: " << selectivity_names_.size();
   }
 
   // Validate u_max
@@ -137,7 +137,7 @@ void MortalityInitialisationEventBiomass::DoExecute() {
     StoreForReport("Exploitation: ", AS_DOUBLE(exploitation));
     StoreForReport("Catch: ", AS_DOUBLE(catch_));
 */
-    Double removals =0;
+    Double removals = 0;
     for (auto categories : partition_) {
       unsigned offset = 0;
       for (Double& data : categories->data_) {

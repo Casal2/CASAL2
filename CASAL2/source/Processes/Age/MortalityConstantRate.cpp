@@ -68,14 +68,14 @@ void MortalityConstantRate::DoValidate() {
 
   if (m_input_.size() != category_labels_.size()) {
     LOG_ERROR_P(PARAM_M)
-        << ": The number of Ms provided (" << m_input_.size() << ") does not match the number of categories provided ("
-        << category_labels_.size() << ").";
+      << ": The number of Ms provided (" << m_input_.size() << ") does not match the number of categories provided ("
+      << category_labels_.size() << ").";
   }
 
   if (selectivity_names_.size() != category_labels_.size()) {
     LOG_ERROR_P(PARAM_SELECTIVITIES)
-        << ": The number of selectivities provided (" << selectivity_names_.size() << ") does not match the number of categories provided ("
-        << category_labels_.size() << ").";
+      << ": The number of selectivities provided (" << selectivity_names_.size() << ") does not match the number of categories provided ("
+      << category_labels_.size() << ").";
   }
 
   // Validate our Ms are greater than or equal to 0.0
@@ -124,7 +124,7 @@ void MortalityConstantRate::DoBuild() {
   } else {
     if (ratios_.size() != active_time_steps.size())
       LOG_ERROR_P(PARAM_TIME_STEP_RATIO) << " The number of time step ratios (" << ratios_.size()
-          << ") does not match the number of time steps this process has been assigned to (" << active_time_steps.size() << ")";
+        << ") does not match the number of time steps this process has been assigned to (" << active_time_steps.size() << ")";
 
     for (double value : ratios_) {
       if (value < 0.0 || value > 1.0)
@@ -140,8 +140,6 @@ void MortalityConstantRate::DoBuild() {
   // dealing with memory allocation during the execute
   unsigned n_years = model_->years().size();
   total_removals_by_year_.reserve(n_years);
-
-
 
 }
 
@@ -167,7 +165,7 @@ void MortalityConstantRate::DoExecute() {
 
     LOG_FINEST() << "category " << category->name_ << "; min_age: " << category->min_age_ << "; ratio: " << ratio;
     for (Double& data : category->data_) {
-    	amount = data * (1-exp(-selectivities_[i]->GetAgeResult(category->min_age_ + j, category->age_length_) * (m * ratio)));
+      amount = data * (1-exp(-selectivities_[i]->GetAgeResult(category->min_age_ + j, category->age_length_) * (m * ratio)));
       data -= amount;
       total_amount += amount;
       ++j;

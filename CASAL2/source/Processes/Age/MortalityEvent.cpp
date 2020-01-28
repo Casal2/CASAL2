@@ -53,15 +53,15 @@ void MortalityEvent::DoValidate() {
   // Validate that our number of years_ and catches_ vectors are the same size
   if (years_.size() != catches_.size()) {
     LOG_ERROR_P(PARAM_CATCHES)
-        << ": The number of catches provided (" << catches_.size()
-        << ") does not match the number of years provided (" << years_.size() << " ).";
+      << ": The number of catches provided (" << catches_.size()
+      << ") does not match the number of years provided (" << years_.size() << " ).";
   }
 
   // Validate that the number of selectivities is the same as the number of categories
   if (category_labels_.size() != selectivity_names_.size()) {
     LOG_ERROR_P(PARAM_SELECTIVITIES)
-        << " The number of selectivities provided (" << selectivity_names_.size()
-        << ") does not match the number of categories provided (" << category_labels_.size() << ").";
+      << " The number of selectivities provided (" << selectivity_names_.size()
+      << ") does not match the number of categories provided (" << category_labels_.size() << ").";
   }
 
   // Validate: catches_ and years_
@@ -119,7 +119,8 @@ void MortalityEvent::DoReset() {
  */
 void MortalityEvent::DoExecute() {
   LOG_TRACE();
-  if (catch_years_.find(model_->current_year()) == catch_years_.end())
+  auto current_year = model_->current_year();
+  if (catch_years_.find(current_year) == catch_years_.end())
     return;
 
   if (model_->state() != State::kInitialise) {
@@ -143,25 +144,25 @@ void MortalityEvent::DoExecute() {
      * Work out the exploitation rate to remove (catch/vulnerable)
      */
     Double exploitation = 0;
-    LOG_FINEST() << "vulnerable biomass = " << vulnerable << " catch = " << catch_years_[model_->current_year()];
-    exploitation = catch_years_[model_->current_year()] / utilities::doublecompare::ZeroFun(vulnerable);
+    LOG_FINEST() << "vulnerable biomass = " << vulnerable << " catch = " << catch_years_[current_year];
+    exploitation = catch_years_[current_year] / utilities::doublecompare::ZeroFun(vulnerable);
 
     if (exploitation > u_max_) {
       exploitation = u_max_;
       actual_catches_.push_back(vulnerable * u_max_);
       exploitation_.push_back(exploitation);
       if (penalty_)
-        penalty_->Trigger(label_, catch_years_[model_->current_year()], vulnerable * u_max_);
+        penalty_->Trigger(label_, catch_years_[current_year], vulnerable * u_max_);
 
     } else {
-      actual_catches_.push_back(catch_years_[model_->current_year()]);
+      actual_catches_.push_back(catch_years_[current_year]);
       exploitation_.push_back(exploitation);
     }
     if (exploitation < 0.0) {
       LOG_CODE_ERROR() << "exploitation < 0.0 for process " << label_;
       exploitation = 0.0;
     }
-    LOG_FINEST() << "year: " << model_->current_year() << "; exploitation: " << AS_DOUBLE(exploitation);
+    LOG_FINEST() << "year: " << current_year << "; exploitation: " << AS_DOUBLE(exploitation);
 
     /**
      * Remove the stock now. The amount to remove is

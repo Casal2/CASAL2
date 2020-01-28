@@ -65,6 +65,7 @@ void Ageing::DoExecute() {
   Double amount_to_move = 0.0;
   Double moved_fish = 0.0;
 
+  // TODO:  check this. what is this supposed to be doing?
   for (auto category : partition_) {
     moved_fish = 0.0;
     for (Double& data : category->data_) {

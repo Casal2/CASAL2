@@ -55,20 +55,20 @@ void Maturation::DoValidate() {
   // Validate the from and to vectors are the same size
   if (from_category_names_.size() != to_category_names_.size()) {
     LOG_ERROR_P(PARAM_TO)
-        << ": Number of 'to' categories provided (" << to_category_names_.size()
-        << ") does not match the number of 'from' categories provided (" << from_category_names_.size() << ").";
+      << ": Number of 'to' categories provided (" << to_category_names_.size()
+      << ") does not match the number of 'from' categories provided (" << from_category_names_.size() << ").";
   }
 
   // Validate that each from and to category have the same age range.
   for (unsigned i = 0; i < from_category_names_.size(); ++i) {
     if (categories->min_age(from_category_names_[i]) != categories->min_age(to_category_names_[i])) {
       LOG_ERROR_P(PARAM_FROM) << ": 'from' category " << from_category_names_[i] << " does not"
-          << " have the same age range as the 'to' category " << to_category_names_[i];
+        << " have the same age range as the 'to' category " << to_category_names_[i];
     }
 
     if (categories->max_age(from_category_names_[i]) != categories->max_age(to_category_names_[i])) {
       LOG_ERROR_P(PARAM_FROM) << ": 'from' category " << from_category_names_[i] << " does not"
-          << " have the same age range as the 'to' category " << to_category_names_[i];
+        << " have the same age range as the 'to' category " << to_category_names_[i];
     }
   }
 
@@ -115,7 +115,7 @@ void Maturation::DoExecute() {
     rate = rates_by_years_.rbegin()->second;
 
   for (unsigned i = 0; from_iter != from_partition_.end() && to_iter != to_partition_.end(); ++from_iter, ++to_iter, ++i) {
-    unsigned min_age   = (*from_iter)->min_age_;
+    unsigned min_age = (*from_iter)->min_age_;
 
     for (unsigned offset = 0; offset < (*from_iter)->data_.size(); ++offset) {
       amount = rate * selectivities_[i]->GetAgeResult(min_age + offset, (*from_iter)->age_length_);
