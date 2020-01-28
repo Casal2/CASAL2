@@ -44,6 +44,7 @@ class MortalityInstantaneous : public Process {
     Double          u_max_;
     string          penalty_label_;
     Penalty*        penalty_ = nullptr;
+
     map<unsigned, Double>  catches_;
     map<unsigned, Double>  actual_catches_;
     map<unsigned, Double>  exploitation_by_year_; // I added this so it can be reported
@@ -128,8 +129,10 @@ private:
   map<unsigned, double>       time_step_ratios_;
   vector<string>              selectivity_labels_;
   vector<Selectivity*>        selectivities_;
+
   // members for observations
   map<unsigned,  map<string, map<string, vector<Double>>>> removals_by_year_fishery_category_; // Year,  fishery, category
+
   // Members for reporting
   vector<unsigned>            time_steps_to_skip_applying_F_mortaltiy_;
   bool                        use_age_weight_ = true;

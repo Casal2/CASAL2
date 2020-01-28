@@ -43,9 +43,9 @@ RecruitmentBevertonHolt::RecruitmentBevertonHolt(Model* model)
   parameters_.Bind<Double>(PARAM_R0, &r0_, "R0", "",false)->set_lower_bound(0.0);
   parameters_.Bind<Double>(PARAM_B0, &b0_, "B0", "",false)->set_lower_bound(0.0);
   parameters_.Bind<Double>(PARAM_PROPORTIONS, &proportions_, "Proportions", "");
-  parameters_.Bind<unsigned>(PARAM_AGE, &age_, "Age to recruit at", "", true);
+  parameters_.Bind<unsigned>(PARAM_AGE, &age_, "Age at recruitment", "", true);
   parameters_.Bind<unsigned>(PARAM_SSB_OFFSET, &ssb_offset_, "Spawning biomass year offset","", true);
-  parameters_.Bind<Double>(PARAM_STEEPNESS, &steepness_, "Steepness", "", 1.0)->set_lower_bound(0.2);
+  parameters_.Bind<Double>(PARAM_STEEPNESS, &steepness_, "Steepness", "", 1.0)->set_range(0.2, 1.0);
   parameters_.Bind<string>(PARAM_SSB, &ssb_, "SSB label (derived quantity)", "");
   parameters_.Bind<string>(PARAM_B0_PHASE, &phase_b0_label_, "Initialisation phase label that b0 is from", "", "");
   parameters_.Bind<Double>(PARAM_YCS_VALUES, &ycs_values_, "YCS Values", "");
@@ -59,8 +59,7 @@ RecruitmentBevertonHolt::RecruitmentBevertonHolt(Model* model)
   RegisterAsAddressable(PARAM_YCS_VALUES, &ycs_value_by_year_);
 
   // Allow these to be used in additional priors.
-  RegisterAsAddressable(PARAM_STANDARDISE_YCS, &stand_ycs_value_by_year_,addressable::kLookup);
-
+  RegisterAsAddressable(PARAM_STANDARDISE_YCS, &stand_ycs_value_by_year_, addressable::kLookup);
 
   phase_b0_         = 0;
   process_type_     = ProcessType::kRecruitment;
@@ -91,7 +90,7 @@ void RecruitmentBevertonHolt::DoValidate() {
 
   if (category_labels_.size() != proportions_.size())
     LOG_ERROR_P(PARAM_CATEGORIES) << "One proportion is required to be defined per category. There are " << category_labels_.size()
-        << " categories and " << proportions_.size() << " proportions defined.";
+      << " categories and " << proportions_.size() << " proportions defined.";
 
   Double running_total = 0.0;
   for (Double value : proportions_) // Again, ADOLC prevents std::accum
@@ -109,10 +108,10 @@ void RecruitmentBevertonHolt::DoValidate() {
   // initialise ycs_values and check values arn't < 0.0
   unsigned ycs_iter = 0;
   for (unsigned ycs_year : ycs_years_) {
-    ycs_value_by_year_[ycs_year] = ycs_values_[ycs_iter];
+    ycs_value_by_year_[ycs_year]       = ycs_values_[ycs_iter];
     stand_ycs_value_by_year_[ycs_year] = ycs_values_[ycs_iter];
     if (ycs_values_[ycs_iter] < 0.0)
-        LOG_ERROR_P(PARAM_YCS_VALUES) << " value " << ycs_values_[ycs_iter] << " cannot be less than 0.0";
+      LOG_ERROR_P(PARAM_YCS_VALUES) << " value " << ycs_values_[ycs_iter] << " cannot be less than 0.0";
     ycs_iter++;
   }
 
@@ -124,14 +123,14 @@ void RecruitmentBevertonHolt::DoValidate() {
     for (unsigned i = 1; i < standardise_ycs_.size(); ++i) {
       if (standardise_ycs_[i - 1] >= standardise_ycs_[i])
         LOG_ERROR_P(PARAM_STANDARDISE_YCS_YEARS) << " values must be in strictly increasing order. Value "
-            << standardise_ycs_[i - 1] << " is not less than " << standardise_ycs_[i];
+          << standardise_ycs_[i - 1] << " is not less than " << standardise_ycs_[i];
     }
   }
 
   for (unsigned i = 1; i < ycs_years_.size(); ++i) {
     if (ycs_years_[i - 1] >= ycs_years_[i])
       LOG_ERROR_P(PARAM_YCS_VALUES) << " values must be in strictly increasing order. Value "
-          << ycs_years_[i - 1] << " is not less than " << ycs_years_[i];
+        << ycs_years_[i - 1] << " is not less than " << ycs_years_[i];
   }
 
   // Populate the proportions category, assumes there is a one to one relationship between categories, and proportions.
@@ -207,10 +206,11 @@ void RecruitmentBevertonHolt::DoBuild() {
     }
     time_step_index++;
   }
+
   recruitment_index = model_->managers().time_step()->GetProcessIndex(label_);
   if (ageing_processes > 1)
     LOG_ERROR_P(PARAM_LABEL) << "The Beverton-Holt recruitment 'ssb_offset' has been calculated on the basis of a single ageing process. "
-        << ageing_processes << " ageing processes were specified. Manually set the ssb_offset or contact the development team";
+      << ageing_processes << " ageing processes were specified. Manually set the ssb_offset or contact the development team";
   if (ageing_index == std::numeric_limits<unsigned>::max())
     LOG_ERROR() << location() << " could not calculate the ssb_offset because there is no ageing process";
 
@@ -222,7 +222,7 @@ void RecruitmentBevertonHolt::DoBuild() {
     temp_ssb_offset = age_;
 
   LOG_FINEST() << "SSB offset calculated to be = " << temp_ssb_offset << "; recruitment index = " << recruitment_index << "; ageing index = "
-      << ageing_index << "; derived_quantity index = " << derived_quantity_index;
+    << ageing_index << "; derived_quantity index = " << derived_quantity_index;
   if (parameters_.Get(PARAM_SSB_OFFSET)->has_been_defined()) {
     // Check if the user has supplied the expected value for the model.
     if (temp_ssb_offset != ssb_offset_) {
@@ -248,7 +248,7 @@ void RecruitmentBevertonHolt::DoBuild() {
       LOG_ERROR_P(PARAM_STANDARDISE_YCS_YEARS) << "The first value is less than the model's start_year - ssb offset = " << model_->start_year() - ssb_offset_;
     if ((*standardise_ycs_.rbegin()) > model_->final_year() - ssb_offset_)
       LOG_ERROR_P(PARAM_STANDARDISE_YCS_YEARS) << "The final value (" << (*standardise_ycs_.rbegin())
-          << ") is greater than the model's final year - ssb_offset (" << model_->final_year() - ssb_offset_ << ")";
+        << ") is greater than the model's final year - ssb_offset (" << model_->final_year() - ssb_offset_ << ")";
   }
 
   // Check users haven't specified a @estimate block for both R0 and B0
@@ -285,7 +285,7 @@ void RecruitmentBevertonHolt::DoReset() {
   // if a -i call is made then we need to repopulate the ycs_values vector for reporting. This has to be done because the input parameter ycs_values and registered estimate parameter ycs_values_by_year
   // Are different
   for (unsigned i = 0; i < ycs_years_.size(); ++i) {
-    ycs_values_[i] = ycs_value_by_year_[ycs_years_[i]];
+    ycs_values_[i]                          = ycs_value_by_year_[ycs_years_[i]];
     stand_ycs_value_by_year_[ycs_years_[i]] = ycs_value_by_year_[ycs_years_[i]];
   }
   unsigned iter = 0;
@@ -311,9 +311,9 @@ void RecruitmentBevertonHolt::DoReset() {
 
     mean_ycs /= standardise_ycs_.size();
     for (unsigned ycs_year : ycs_years_) {
-        for (unsigned j = 0; j < standardise_ycs_.size(); ++j) {
-        if (ycs_year == standardise_ycs_[j])
-          stand_ycs_value_by_year_[ycs_year] = ycs_value_by_year_[ycs_year] / mean_ycs;
+      for (unsigned j = 0; j < standardise_ycs_.size(); ++j) {
+      if (ycs_year == standardise_ycs_[j])
+        stand_ycs_value_by_year_[ycs_year] = ycs_value_by_year_[ycs_year] / mean_ycs;
       }
     }
     year_counter_ = 0;
@@ -361,7 +361,7 @@ void RecruitmentBevertonHolt::DoExecute() {
      * The model is not in an initialisation phase
      */
     LOG_FINEST() << "standardise_ycs_.size(): " << standardise_ycs_.size() << "; model_->current_year(): " << current_year
-        << "; model_->start_year(): " << model_->start_year();
+      << "; model_->start_year(): " << model_->start_year();
     Double ycs;
     // If projection mode ycs values get replaced with projected value from @project block
     // note that the container ycs_value_by_year_ is changed by time_varying and projection classes
@@ -403,7 +403,7 @@ void RecruitmentBevertonHolt::DoExecute() {
       // Model is in normal years but requires an SSB from the initialisation phase
       initialisationphases::Manager& init_phase_manager = *model_->managers().initialisation_phase();
       LOG_FINE() << "Initialisation phase index SSB is being extracted from init phase " << init_phase_manager.last_executed_phase()
-          << " SSB year = " << ssb_year;
+        << " SSB year = " << ssb_year;
       SSB = derived_quantity_->GetLastValueFromInitialisation(init_phase_manager.last_executed_phase());
     } else {
       // else get value from offset
@@ -420,9 +420,9 @@ void RecruitmentBevertonHolt::DoExecute() {
 
 
     LOG_FINEST() << "year = " << model_->current_year() << " SSB= " << SSB << " SR = " << SR << "; ycs = "
-        << ycs_value_by_year_[ssb_year] << " Standardised year class = "
-        << stand_ycs_value_by_year_[ssb_year] << "; b0_ = " << b0_ << "; ssb_ratio = " << ssb_ratio << "; true_ycs = "
-        << true_ycs << "; amount_per = " << amount_per;
+      << ycs_value_by_year_[ssb_year] << " Standardised year class = "
+      << stand_ycs_value_by_year_[ssb_year] << "; b0_ = " << b0_ << "; ssb_ratio = " << ssb_ratio << "; true_ycs = "
+      << true_ycs << "; amount_per = " << amount_per;
     ++year_counter_;
   }
 
@@ -443,6 +443,7 @@ void RecruitmentBevertonHolt::ScalePartition() {
 
   have_scaled_partition = true;
   Double alternative_ssb = derived_quantity_->GetValue(model_->start_year() - ssb_offset_);
+
   // Look at initialisation phase
   Double SSB = derived_quantity_->GetLastValueFromInitialisation(phase_b0_);
   if (SSB <= 0.0)
@@ -469,7 +470,7 @@ void RecruitmentBevertonHolt::FillReportCache(ostringstream& cache) {
   cache << "ycs_years: ";
   for (auto iter : stand_ycs_value_by_year_)
     cache << iter.first << " ";
-  cache << "\nstandardiesed_ycs: ";
+  cache << "\nstandardised_ycs: ";
   for (auto iter : stand_ycs_value_by_year_)
     cache << iter.second << " ";
   cache << "\nycs_values: ";

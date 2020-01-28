@@ -57,14 +57,14 @@ void Biomass::DoValidate() {
 
   if (category_labels_.size() != selectivity_labels_.size() && expected_selectivity_count_ != selectivity_labels_.size())
     LOG_ERROR_P(PARAM_SELECTIVITIES) << ": Number of selectivities provided (" << selectivity_labels_.size()
-        << ") is not valid. Specify either the number of category collections (" << category_labels_.size() << ") or "
-        << "the number of total categories (" << expected_selectivity_count_ << ")";
+      << ") is not valid. Specify either the number of category collections (" << category_labels_.size() << ") or "
+      << "the number of total categories (" << expected_selectivity_count_ << ")";
 
   if (parameters_.Get(PARAM_AGE_WEIGHT_LABELS)->has_been_defined()) {
     if (category_labels_.size() != age_weight_labels_.size() && expected_selectivity_count_ != age_weight_labels_.size())
       LOG_ERROR_P(PARAM_AGE_WEIGHT_LABELS) << ": Number of age weights provided (" << age_weight_labels_.size()
-          << ") is not valid. Specify either the number of category collections (" << category_labels_.size() << ") or "
-          << "the number of total categories (" << expected_selectivity_count_ << ")";
+        << ") is not valid. Specify either the number of category collections (" << category_labels_.size() << ") or "
+        << "the number of total categories (" << expected_selectivity_count_ << ")";
   }
 
   // Delta
@@ -77,7 +77,7 @@ void Biomass::DoValidate() {
   vector<string> obs  = obs_;
   if (obs.size() != category_labels_.size() * years_.size())
     LOG_ERROR_P(PARAM_OBS) << ": obs values length (" << obs.size() << ") must match the number of category collections provided ("
-        << category_labels_.size() << ") * years (" << years_.size() << ")";
+      << category_labels_.size() << ") * years (" << years_.size() << ")";
 
 
   // Error Value
@@ -88,7 +88,7 @@ void Biomass::DoValidate() {
 
   if (error_values_.size() != obs.size())
     LOG_ERROR_P(PARAM_ERROR_VALUE) << ": error_value length (" << error_values_.size()
-        << ") must be same length as obs (" << obs.size() << ")";
+      << ") must be same length as obs (" << obs.size() << ")";
 
   error_values_by_year_ = utils::Map<double>::create(years_, error_values_);
 
@@ -150,17 +150,15 @@ void Biomass::DoBuild() {
     for (string label : age_weight_labels_) {
       AgeWeight* age_weight = model_->managers().age_weight()->FindAgeWeight(label);
       if (!age_weight)
-        LOG_ERROR_P(PARAM_AGE_WEIGHT_LABELS) << " (" << label << ") was not found.";
+        LOG_ERROR_P(PARAM_AGE_WEIGHT_LABELS) << ": age-weight label (" << label << ") was not found.";
       age_weights_.push_back(age_weight);
     }
   }
 
 
-
   if (partition_->category_count() != selectivities_.size())
     LOG_ERROR_P(PARAM_SELECTIVITIES) << ": number of selectivities provided (" << selectivities_.size() << ") does not match the number "
         "of categories provided (" << partition_->category_count() << ")";
-
 
 }
 
@@ -192,10 +190,12 @@ void Biomass::Execute() {
   auto cached_partition_iter = cached_partition_->Begin();
   auto partition_iter = partition_->Begin(); // auto = map<map<string, vector<partition::category&> > >
 
+  if (proportions_by_year_.find(current_year) == proportions_by_year_.end())
+    LOG_CODE_ERROR() << "proportions_by_year_[current_year] for year " << current_year << " was not found";
   if (cached_partition_->Size() != proportions_by_year_[current_year].size())
-    LOG_CODE_ERROR() << "cached_partition_->Size() != proportions_.size()";
+    LOG_CODE_ERROR() << "cached_partition_->Size() != proportions_by_year_[current_year].size()";
   if (partition_->Size() != proportions_by_year_[current_year].size())
-    LOG_CODE_ERROR() << "partition_->Size() != proportions_.size()";
+    LOG_CODE_ERROR() << "partition_->Size() != proportions_by_year_[current_year].size()";
 
   for (unsigned proportions_index = 0; proportions_index < proportions_by_year_[current_year].size(); ++proportions_index, ++partition_iter, ++cached_partition_iter) {
     expected_total = 0.0;
@@ -259,7 +259,8 @@ void Biomass::Execute() {
     error_value = error_values_by_year_[current_year];
 
     // Store the values
-    SaveComparison(category_labels_[proportions_index], expected_total, proportions_by_year_[current_year][proportions_index], process_error_value_, error_value, 0.0, delta_, 0.0);
+    SaveComparison(category_labels_[proportions_index], expected_total, proportions_by_year_[current_year][proportions_index],
+                   process_error_value_, error_value, 0.0, delta_, 0.0);
 
   }
 }
@@ -272,7 +273,7 @@ void Biomass::CalculateScore() {
    * Simulate or generate results
    * During simulation mode we'll simulate results for this observation
    */
-	LOG_FINEST() << "Calculating score for observation = " << label_;
+  LOG_FINEST() << "Calculating score for observation = " << label_;
 
   // Check if we have a nusiance q or a free q
   if (model_->run_mode() == RunMode::kSimulation) {
@@ -287,7 +288,6 @@ void Biomass::CalculateScore() {
         LOG_FINEST() << "---- Expected before nuisance Q applied = " << comparison.expected_;
         comparison.expected_ *= nuisance_catchability_->q();
         LOG_FINEST() << "---- Expected After nuisance Q applied = " << comparison.expected_;
-
       }
     }
   }
@@ -310,7 +310,6 @@ void Biomass::CalculateScore() {
           LOG_FINEST() << "---- Expected before nuisance Q applied = " << comparison.expected_;
           comparison.expected_ *= nuisance_catchability_->q();
           LOG_FINEST() << "---- Expected after nuisance Q applied = " << comparison.expected_;
-
         }
       }
     }

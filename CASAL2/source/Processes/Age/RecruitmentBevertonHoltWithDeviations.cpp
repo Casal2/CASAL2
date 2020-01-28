@@ -96,7 +96,7 @@ void RecruitmentBevertonHoltWithDeviations::DoValidate() {
 
   if (category_labels_.size() != proportions_.size())
     LOG_ERROR_P(PARAM_CATEGORIES) << "One proportion is required to be defined per category. There are " << category_labels_.size()
-        << " categories and " << proportions_.size() << " proportions defined.";
+      << " categories and " << proportions_.size() << " proportions defined.";
 
   Double running_total = 0.0;
   for (Double value : proportions_) // Again, ADOLC prevents std::accum
@@ -200,7 +200,7 @@ void RecruitmentBevertonHoltWithDeviations::DoBuild() {
   recruitment_index = model_->managers().time_step()->GetProcessIndex(label_);
   if (ageing_processes > 1)
     LOG_ERROR_P(PARAM_SSB_OFFSET) << "The Beverton-Holt recruitment year offset has been calculated on the basis of a single ageing process. "
-        << ageing_processes << " ageing processes were specified. Manually set the ssb_offset or contact the development team";
+      << ageing_processes << " ageing processes were specified. Manually set the ssb_offset or contact the development team";
   if (ageing_index == std::numeric_limits<unsigned>::max())
     LOG_ERROR() << location() << " could not calculate the ssb_offset because there is no ageing process defined";
 
@@ -212,7 +212,7 @@ void RecruitmentBevertonHoltWithDeviations::DoBuild() {
     temp_ssb_offset = age_;
 
   LOG_FINEST() << "SSB offset calculated to be = " << temp_ssb_offset << "; recruitment index = " << recruitment_index << "; ageing index = "
-      << ageing_index << "; derived_quantity index = " << derived_quantity_index;
+    << ageing_index << "; derived_quantity index = " << derived_quantity_index;
   if (parameters_.Get(PARAM_SSB_OFFSET)->has_been_defined()) {
     // Check if the user has supplied the expected value for the model.
     if (temp_ssb_offset != ssb_offset_) {
@@ -263,7 +263,7 @@ void RecruitmentBevertonHoltWithDeviations::DoBuild() {
       // Check sigma is the same as sigma_r
       map<string, Parameter*> parameters = recruit_dev_estimate->parameters().parameters();
       for (auto param = parameters.begin(); param != parameters.end(); ++param) {
-        if(param->first == PARAM_SIGMA) {
+        if (param->first == PARAM_SIGMA) {
           Double estimate_sigma = 0.0;
           if (!utilities::To<string, Double>(param->second->values()[0], estimate_sigma))
             LOG_CODE_ERROR() << "Could not convert the value " << param->second->values()[0] << " to a Double";
@@ -313,7 +313,8 @@ void RecruitmentBevertonHoltWithDeviations::DoReset() {
   if (parameters_.Get(PARAM_B0)->has_been_defined()) {
     have_scaled_partition = false;
   }
-  // if a -i call is made then we need to re-populate the recruit_dev_values_ vector for reporting. This has to be done because the input parameter recruit_dev_values_ and registered estimate parameter recruit_dev_value_by_year_
+  // if a -i call is made then we need to re-populate the recruit_dev_values_ vector for reporting.
+  // This has to be done because the input parameter recruit_dev_values_ and registered estimate parameter recruit_dev_value_by_year_
   // Are different
   for (unsigned i = 0; i < recruit_dev_years_.size(); ++i) {
     recruit_dev_values_[i] = recruit_dev_value_by_year_[recruit_dev_years_[i]];
@@ -390,8 +391,10 @@ void RecruitmentBevertonHoltWithDeviations::DoExecute() {
      * The model is not in an initialisation phase
      */
     LOG_FINEST() << "; model_->start_year(): " << model_->start_year();
-    Double ycs;
-    ycs = exp(recruit_dev_value_by_year_[ssb_year] - (bias_by_year_[ssb_year] * 0.5 * sigma_r_ * sigma_r_));
+    Double ycs = 0.0;
+    if (recruit_dev_value_by_year_.find(ssb_year) != recruit_dev_value_by_year_.end() &&
+        bias_by_year_.find(ssb_year) != bias_by_year_.end())
+      ycs = exp(recruit_dev_value_by_year_[ssb_year] - (bias_by_year_[ssb_year] * 0.5 * sigma_r_ * sigma_r_));
     LOG_FINEST() << "Projected ycs = " << ycs;
 
     if (ycs < 0.0)
@@ -404,7 +407,7 @@ void RecruitmentBevertonHoltWithDeviations::DoExecute() {
       // Model is in normal years but requires an SSB from the initialisation phase
       initialisationphases::Manager& init_phase_manager = *model_->managers().initialisation_phase();
       LOG_FINE() << "Initialisation phase index SSB is being extracted from init phase " << init_phase_manager.last_executed_phase()
-          << " SSB year = " << ssb_year;
+        << " SSB year = " << ssb_year;
       SSB = derived_quantity_->GetLastValueFromInitialisation(init_phase_manager.last_executed_phase());
     } else {
       // else get value from offset
@@ -420,8 +423,8 @@ void RecruitmentBevertonHoltWithDeviations::DoExecute() {
     ssb_values_.push_back(SSB);
     ycs_values_.push_back(ycs);
     LOG_FINEST() << "year = " << model_->current_year() << " SSB = " << SSB << " SR = " << SR << "; recruit_dev = "
-        << recruit_dev_value_by_year_[ssb_year] << "; b0_ = " << b0_ << "; ssb_ratio = " << ssb_ratio << "; true_ycs = "
-        << true_ycs << "; amount_per = " << amount_per;
+      << recruit_dev_value_by_year_[ssb_year] << "; b0_ = " << b0_ << "; ssb_ratio = " << ssb_ratio << "; true_ycs = "
+      << true_ycs << "; amount_per = " << amount_per;
   }
 
   unsigned i = 0;

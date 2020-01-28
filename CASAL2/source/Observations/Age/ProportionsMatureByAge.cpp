@@ -231,9 +231,12 @@ void ProportionsMatureByAge::DoValidate() {
           LOG_ERROR_P(PARAM_OBS) << ": obs_ value (" << iter->second[obs_index] << ") at index " << obs_index + 1
               << " in the definition could not be converted to a double";
 
-        double error_value = error_values_by_year[iter->first][obs_index];
-        error_values_[iter->first][category_labels_[i]].push_back(error_value);
-        proportions_[iter->first][category_labels_[i]].push_back(value);
+        auto e_f = error_values_by_year.find(iter->first);
+        if (e_f != error_values_by_year.end())
+        {
+          error_values_[iter->first][category_labels_[i]].push_back(e_f->second[obs_index]);
+          proportions_[iter->first][category_labels_[i]].push_back(value);
+        }
       }
     }
   }
@@ -444,7 +447,7 @@ void ProportionsMatureByAge::CalculateScore() {
    * Simulate or generate results
    * During simulation mode we'll simulate results for this observation
    */
-	LOG_FINEST() << "Calculating score for observation = " << label_;
+  LOG_FINEST() << "Calculating score for observation = " << label_;
 
   if (model_->run_mode() == RunMode::kSimulation) {
     likelihood_->SimulateObserved(comparisons_);

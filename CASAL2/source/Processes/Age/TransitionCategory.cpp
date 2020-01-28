@@ -145,7 +145,7 @@ void TransitionCategory::DoExecute() {
   LOG_FINEST() << "transition_rates_.size(): " << transition_rates_.size() << "; from_partition_.size(): " << from_partition_.size()
       << "; to_partition_.size(): " << to_partition_.size();
   if (from_partition_.size() != to_partition_.size()) {
-    LOG_FATAL() << "The list of categories for the Transition Category process are not of equal size in year " << model_->current_year()
+    LOG_FATAL() << "The list of categories for the transition category process are not of equal size in year " << model_->current_year()
       << ". Number of 'From' " << from_partition_.size() << " and 'To' " << to_partition_.size() << " categories to transition between";
   }
 
@@ -161,7 +161,7 @@ void TransitionCategory::DoExecute() {
         LOG_FINEST() << "transition rate = " << transition_rates_[i][j] << " age = " << min_age + j << " selectivity = "
           << selectivities_[i]->GetAgeResult(min_age + j, (*from_iter)->age_length_);
         if (selectivities_[i]->GetAgeResult(min_age + j, (*from_iter)->age_length_) > 1.0)
-          LOG_ERROR() << " Selectivity result is greater than 1.0, check selectivity";
+          LOG_ERROR() << " Selectivity value is greater than 1.0";
       }
     }
   }

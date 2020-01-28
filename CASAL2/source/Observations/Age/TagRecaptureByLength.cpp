@@ -132,9 +132,9 @@ void TagRecaptureByLength::DoValidate() {
   // Expand out short hand syntax
   tagged_category_labels_ = model_->categories()->ExpandLabels(tagged_category_labels_, parameters_.Get(PARAM_TAGGED_CATEGORIES)->location());
   for (auto year : years_) {
-  	if((year < model_->start_year()) || (year > model_->final_year()))
-  		LOG_ERROR_P(PARAM_YEARS) << "Years cannot be less than start_year (" << model_->start_year()
-          << "), or greater than final_year (" << model_->final_year() << ").";
+    if((year < model_->start_year()) || (year > model_->final_year()))
+      LOG_ERROR_P(PARAM_YEARS) << "Years cannot be less than start_year (" << model_->start_year()
+        << "), or greater than final_year (" << model_->final_year() << ").";
   }
 
   if (tagged_category_labels_.size() != category_labels_.size())
@@ -282,10 +282,14 @@ void TagRecaptureByLength::DoValidate() {
               << " in the definition could not be converted to a double";
         }
 
-        double error_value = scanned_by_year[iter->first][obs_index];
-        scanned_[iter->first][category_labels_[i]].push_back(error_value);
-        recaptures_[iter->first][category_labels_[i]].push_back(value);
-        total += error_value;
+        auto s_f = scanned_by_year.find(iter->first);
+        if (s_f != scanned_by_year.end())
+        {
+          auto error_value = s_f->second[obs_index];
+          scanned_[iter->first][category_labels_[i]].push_back(error_value);
+          recaptures_[iter->first][category_labels_[i]].push_back(value);
+          total += error_value;
+        }
       }
     }
   }
@@ -603,7 +607,7 @@ void TagRecaptureByLength::CalculateScore() {
    * Simulate or generate results
    * During simulation mode we'll simulate results for this observation
    */
-	LOG_FINEST() << "Calculating score for observation = " << label_;
+  LOG_FINEST() << "Calculating score for observation = " << label_;
 
   if (model_->run_mode() == RunMode::kSimulation) {
     likelihood_->SimulateObserved(comparisons_);

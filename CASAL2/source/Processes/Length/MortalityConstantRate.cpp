@@ -162,7 +162,7 @@ void MortalityConstantRate::DoExecute() {
     LOG_FINEST() << "category " << category->name_ << "; min_age: " << category->min_age_ << "; ratio: " << ratio;
     //StoreForReport(category->name_ + " ratio", ratio);
     for (Double& data : category->data_) {
-    	amount = data * (1-exp(-m * ratio));
+      amount = data * (1.0 - exp(-m * ratio));
       data -= amount;
       total_amount += amount;
       ++j;

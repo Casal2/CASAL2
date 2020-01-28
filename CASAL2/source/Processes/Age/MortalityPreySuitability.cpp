@@ -72,15 +72,15 @@ void MortalityPreySuitability::DoValidate() {
   // Check length of categories are the same as selectivities
   if (prey_category_labels_.size() != prey_selectivity_labels_.size())
     LOG_ERROR_P(PARAM_PREY_CATEGORIES) << ": There are " << prey_selectivity_labels_.size() << " prey selectivities but there are "
-        << prey_category_labels_.size() << " prey catregories";
+      << prey_category_labels_.size() << " prey catregories";
 
   if (predator_category_labels_.size() != predator_selectivity_labels_.size())
     LOG_ERROR_P(PARAM_PREY_CATEGORIES) << ": There are " << predator_selectivity_labels_.size() << " predator selectivities but there are "
-        << predator_category_labels_.size() << " predator categories";
+      << predator_category_labels_.size() << " predator categories";
 
   if (prey_category_labels_.size() != electivities_.size())
     LOG_ERROR_P(PARAM_ELECTIVITIES) << ": There are " << prey_category_labels_.size() << " prey categories but there are "
-            << electivities_.size() << " prey electivities. These must be the same length.";
+      << electivities_.size() << " prey electivities. These must be the same length.";
 }
 
 /**
@@ -168,7 +168,7 @@ void MortalityPreySuitability::DoExecute() {
     }
 
     TotalPreyAvailability = dc::ZeroFun(TotalPreyAvailability, ZERO);
-    TotalPreyVulnerable = dc::ZeroFun(TotalPreyVulnerable / TotalPreyAvailability, ZERO);
+    TotalPreyVulnerable   = dc::ZeroFun(TotalPreyVulnerable / TotalPreyAvailability, ZERO);
 
     /*
      * Loop through the predators calculating vulnerable predator abyundance
@@ -227,7 +227,7 @@ void MortalityPreySuitability::DoExecute() {
            Double Current = (*category_iter)->data_.size() * prey_selectivities_[category_offset]->GetAgeResult((*category_iter)->min_age_ + data_offset, (*category_iter)->age_length_)
                * Exploitation_by_Prey[prey_category_labels_[category_offset]];
            if (Current <= 0.0) {
-             LOG_WARNING() << ": Negative partition create";
+             LOG_WARNING() << ": Negative partition created";
              continue;
            }
 

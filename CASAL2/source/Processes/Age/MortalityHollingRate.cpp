@@ -99,6 +99,7 @@ void MortalityHollingRate::DoValidate() {
   LOG_FINEST() << "prey = " << parameters_.Get(PARAM_PREY_SELECTIVITIES)->has_been_defined();
   LOG_FINEST() << "prey by year = " << parameters_.GetTable(PARAM_PREY_SELECTIVITIES_BY_YEAR)->HasBeenDefined();
   LOG_TRACE();
+
   // Check how the user has selected selectivities, this is an unusal process where we allow an alternative way to parameterise the selectivity
   if (!parameters_.Get(PARAM_PREY_SELECTIVITIES)->has_been_defined() && !parameters_.GetTable(PARAM_PREY_SELECTIVITIES_BY_YEAR)->HasBeenDefined()) {
     LOG_FATAL_P(PARAM_LABEL) << "Supply either '" << PARAM_PREY_SELECTIVITIES << "' or '" << PARAM_PREY_SELECTIVITIES_BY_YEAR << "' for this process";
@@ -117,13 +118,13 @@ void MortalityHollingRate::DoValidate() {
   if (parameters_.Get(PARAM_PREY_SELECTIVITIES)->has_been_defined()) {
     if (prey_category_labels_.size() != prey_selectivity_labels_.size())
       LOG_ERROR_P(PARAM_PREY_CATEGORIES) << ": There are " << prey_selectivity_labels_.size() << " prey selectivities but there are "
-          << prey_category_labels_.size() << " prey categories";
+        << prey_category_labels_.size() << " prey categories";
   }
   LOG_TRACE();
   if (parameters_.Get(PARAM_PREDATOR_SELECTIVITIES)->has_been_defined()) {
     if (predator_category_labels_.size() != predator_selectivity_labels_.size())
       LOG_ERROR_P(PARAM_PREDATOR_CATEGORIES) << ": There are " << predator_selectivity_labels_.size() << " predator selectivities but there are "
-          << predator_category_labels_.size() << " predator categories";
+        << predator_category_labels_.size() << " predator categories";
   }
   LOG_TRACE();
   // Populate maps from tables if user has defined them

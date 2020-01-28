@@ -132,8 +132,8 @@ void MortalityInstantaneous::DoValidate() {
 
   if (selectivity_labels_.size() != category_labels_.size()) {
     LOG_FATAL_P(PARAM_SELECTIVITIES)
-        << ": The number of selectivities provided is not the same as the number of categories provided. Categories: "
-        << category_labels_.size()<< ", Selectivities: " << selectivity_labels_.size();
+      << ": The number of selectivities provided is not the same as the number of categories provided. Categories: "
+      << category_labels_.size()<< ", Selectivities: " << selectivity_labels_.size();
   }
 
   if (m_input_.size() == 1) {
@@ -143,8 +143,8 @@ void MortalityInstantaneous::DoValidate() {
 
   if (m_input_.size() != category_labels_.size())
     LOG_FATAL_P(PARAM_M)
-        << ": The number of Ms provided is not the same as the number of categories provided. Categories: "
-        << category_labels_.size()<< ", Ms: " << m_input_.size();
+      << ": The number of Ms provided is not the same as the number of categories provided. Categories: "
+      << category_labels_.size()<< ", Ms: " << m_input_.size();
   for (unsigned i = 0; i < m_input_.size(); ++i)
     m_[category_labels_[i]] = m_input_[i];
 
@@ -207,8 +207,9 @@ void MortalityInstantaneous::DoValidate() {
     age_weight_index   = std::find(columns.begin(), columns.end(), PARAM_AGE_WEIGHT_LABEL) - columns.begin();
 
   LOG_FINEST() << "indexes: fishery=" << fishery_index << "; category=" << category_index << "; selectivity="
-      << selectivity_index << "; time_step=" << time_step_index << "; u_max=" << u_max_index
-      << "; penalty " << penalty_index << "; age weight index " << age_weight_index;
+    << selectivity_index << "; time_step=" << time_step_index << "; u_max=" << u_max_index
+    << "; penalty " << penalty_index << "; age weight index " << age_weight_index;
+
   // This is object is going to check the business rule that a fishery can only exist in one time-step in each year
   map<string,vector<string>> fishery_time_step;
   for (auto row : rows) {
@@ -241,17 +242,17 @@ void MortalityInstantaneous::DoValidate() {
 
     if (categories.size() != selectivities.size())
       LOG_FATAL_P(PARAM_METHOD) << "The number of categories (" << categories.size()
-      << ") and selectivities (" << selectivities.size() << ") provided must be the same";
+        << ") and selectivities (" << selectivities.size() << ") provided must be the same";
 
     for (unsigned i = 0; i < categories.size(); ++i) {
       FisheryCategoryData new_category_data(fisheries_[new_fishery.label_], *category_data_[categories[i]]);
       new_category_data.fishery_label_     = row[fishery_index];
       new_category_data.category_label_    = categories[i];
       // check categories are in category_labels_ as well
-		  if (std::find(category_labels_.begin(), category_labels_.end(), categories[i]) == category_labels_.end())
-		  	LOG_ERROR_P(PARAM_METHOD) << "The category " << categories[i] << " was found in table but not in the '" << PARAM_CATEGORIES << "' subcommand."
-              << " This configuration will apply exploitation processes and not natural mortality, which is not valid."
-              << " Make sure all categories in the methods table are in the categories subcommand.";
+      if (std::find(category_labels_.begin(), category_labels_.end(), categories[i]) == category_labels_.end())
+        LOG_ERROR_P(PARAM_METHOD) << "The category " << categories[i] << " was found in table but not in the '" << PARAM_CATEGORIES << "' subcommand."
+          << " This configuration will apply exploitation processes and not natural mortality, which is not valid."
+          << " Make sure all categories in the methods table are in the categories subcommand.";
       new_category_data.selectivity_label_ = selectivities[i];
       if (use_age_weight_)
         new_category_data.category_.age_weight_label_ = age_weights[i];
@@ -314,7 +315,7 @@ void MortalityInstantaneous::DoBuild() {
   } else {
     if (time_step_ratios_temp_.size() != active_time_steps.size())
       LOG_ERROR_P(PARAM_TIME_STEP_RATIO) << " length (" << time_step_ratios_temp_.size()
-          << ") does not match the number of time steps this process has been assigned to (" << active_time_steps.size() << ")";
+        << ") does not match the number of time steps this process has been assigned to (" << active_time_steps.size() << ")";
 
     for (double value : time_step_ratios_temp_) {
       if (value < 0.0 || value > 1.0)
@@ -334,7 +335,7 @@ void MortalityInstantaneous::DoBuild() {
      * Check the fishery categories are valid
      */
     if (!model_->categories()->IsValid(fishery_category.category_label_))
-        LOG_ERROR_P(PARAM_METHOD) << ": Category " << fishery_category.category_label_ << " was not found.";
+      LOG_ERROR_P(PARAM_METHOD) << ": Category " << fishery_category.category_label_ << " was not found.";
 
     if (!fishery_category.selectivity_)
       LOG_ERROR_P(PARAM_METHOD) << "Fishery selectivity " << fishery_category.selectivity_label_ << " was not found.";
@@ -450,10 +451,10 @@ void MortalityInstantaneous::DoBuild() {
  * Reset the M parameter
  */
 void MortalityInstantaneous::DoReset() {
-	LOG_TRACE();
+  LOG_TRACE();
   unsigned m_iter = 0;
   for (auto m : m_) {
-  	LOG_FINEST() << "resetting M for category " << m.first << " = " << m.second;
+    LOG_FINEST() << "resetting M for category " << m.first << " = " << m.second;
     m_input_[m_iter] = m.second;
     ++m_iter;
   }
@@ -465,10 +466,10 @@ void MortalityInstantaneous::DoReset() {
  * this avoids a full reset and clearing of printed values which is what was happening before
  */
 void MortalityInstantaneous::RebuildCache() {
-	LOG_TRACE();
+  LOG_TRACE();
   unsigned m_iter = 0;
   for (auto m : m_) {
-  	LOG_FINEST() << "resetting M for category " << m.first << " = " << m.second;
+    LOG_FINEST() << "resetting M for category " << m.first << " = " << m.second;
     m_input_[m_iter] = m.second;
     ++m_iter;
   }
@@ -695,10 +696,10 @@ void MortalityInstantaneous::DoExecute() {
     for (unsigned i = 0; i < category.category_->data_.size(); ++i) {
       //removals_by_category_age_[category_ndx][i] = category.category_->data_[i]; // initial numbers before process
       LOG_FINEST() << "numbers at age = " << category.category_->data_[i] << " age " << i + model_->min_age() << " exploitation = " << category.exploitation_[i] << " M = " << *category.m_;
-      category.category_->data_[i] *= exp(-(*category.m_) * ratio * category.selectivity_values_[i]) * (1 - category.exploitation_[i]);
+      category.category_->data_[i] *= exp(-(*category.m_) * ratio * category.selectivity_values_[i]) * (1.0 - category.exploitation_[i]);
       if (category.category_->data_[i] < 0.0) {
         LOG_CODE_ERROR() << " Fishing caused a negative partition : if (categories->data_[i] < 0.0), category.category_->data_[i] = " << category.category_->data_[i] << " i = " << i + 1
-            << "; numbers at age = " << category.category_->data_[i] << " age " << i + model_->min_age() << " exploitation = " << category.exploitation_[i] << " M = " << *category.m_;
+          << "; numbers at age = " << category.category_->data_[i] << " age " << i + model_->min_age() << " exploitation = " << category.exploitation_[i] << " M = " << *category.m_;
       }
       //removals_by_category_age_[category_ndx][i] -= category.category_->data_[i]; // minus what was left thus keeping the difference
 

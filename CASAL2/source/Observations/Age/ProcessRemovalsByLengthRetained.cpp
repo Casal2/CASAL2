@@ -211,13 +211,15 @@ void ProcessRemovalsByLengthRetained::DoValidate() {
 
     for (unsigned i = 0; i < category_labels_.size(); ++i) {
       for (unsigned j = 0; j < number_bins_; ++j) {
-        unsigned obs_index = i * number_bins_ + j;
-        value = iter->second[obs_index];
-
-        double error_value = error_values_by_year[iter->first][obs_index];
-        error_values_[iter->first][category_labels_[i]].push_back(error_value);
-        proportions_[iter->first][category_labels_[i]].push_back(value);
-        total += value;
+        auto e_f = error_values_by_year.find(iter->first);
+        if (e_f != error_values_by_year.end())
+        {
+          unsigned obs_index = i * number_bins_ + j;
+          value = iter->second[obs_index];
+          error_values_[iter->first][category_labels_[i]].push_back(e_f->second[obs_index]);
+          proportions_[iter->first][category_labels_[i]].push_back(value);
+          total += value;
+        }
       }
     }
 
@@ -267,13 +269,13 @@ void ProcessRemovalsByLengthRetained::DoBuild() {
   // Do some checks so that the observation and process are compatible
   if (!mortality_instantaneous_retained_->check_methods_for_removal_obs(methods))
     LOG_ERROR_P(PARAM_METHOD_OF_REMOVAL) << "could not find all these methods in the instantaneous_mortality process labeled " << process_label_
-        << ". Check that the methods are compatible with this process";
+      << ". Check that the methods are compatible with this process";
   if (!mortality_instantaneous_retained_->check_categories_in_methods_for_removal_obs(methods, split_category_labels))
     LOG_ERROR_P(PARAM_CATEGORIES) << "could not find all these categories in the instantaneous_mortality process labeled " << process_label_
-        << ". Check that the categories are compatible with this process";
+      << ". Check that the categories are compatible with this process";
   if (!mortality_instantaneous_retained_->check_years_in_methods_for_removal_obs(years_, methods))
     LOG_ERROR_P(PARAM_YEARS) << "could not find catches in all years in the instantaneous_mortality process labeled " << process_label_
-        << ". Check that the years are compatible with this process";
+      << ". Check that the years are compatible with this process";
 
 }
 

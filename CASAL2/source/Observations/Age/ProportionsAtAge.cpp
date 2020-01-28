@@ -91,9 +91,9 @@ void ProportionsAtAge::DoValidate() {
       << ") does not match the number of years provided (" << years_.size() << ")";
   }
   for (auto year : years_) {
-  	if((year < model_->start_year()) || (year > model_->final_year()))
-  		LOG_ERROR_P(PARAM_YEARS) << "Years cannot be less than start_year (" << model_->start_year()
-          << "), or greater than final_year (" << model_->final_year() << ").";
+    if((year < model_->start_year()) || (year > model_->final_year()))
+      LOG_ERROR_P(PARAM_YEARS) << "Years cannot be less than start_year (" << model_->start_year()
+        << "), or greater than final_year (" << model_->final_year() << ").";
   }
 
   for (Double process_error : process_error_values_) {
@@ -154,13 +154,13 @@ void ProportionsAtAge::DoValidate() {
   vector<vector<string>>& error_values_data = error_values_table_->data();
   if (error_values_data.size() != years_.size()) {
     LOG_ERROR_P(PARAM_ERROR_VALUES) << " has " << error_values_data.size() << " rows defined, but " << years_.size()
-        << " should match the number of years provided";
+      << " should match the number of years provided";
   }
 
   for (vector<string>& error_values_data_line : error_values_data) {
     if (error_values_data_line.size() != 2 && error_values_data_line.size() != obs_expected) {
       LOG_ERROR_P(PARAM_ERROR_VALUES) << " has " << error_values_data_line.size() << " values defined, but " << obs_expected
-          << " should match the age spread * categories + 1 (for year)";
+        << " should match the age spread * categories + 1 (for year)";
     }
 
     unsigned year = 0;
@@ -202,13 +202,15 @@ void ProportionsAtAge::DoValidate() {
 
     for (unsigned i = 0; i < category_labels_.size(); ++i) {
       for (unsigned j = 0; j < age_spread_; ++j) {
-        unsigned obs_index = i * age_spread_ + j;
-        value = iter->second[obs_index];
-
-        double error_value = error_values_by_year[iter->first][obs_index];
-        error_values_[iter->first][category_labels_[i]].push_back(error_value);
-        proportions_[iter->first][category_labels_[i]].push_back(value);
-        total += value;
+        auto e_f = error_values_by_year.find(iter->first);
+        if (e_f != error_values_by_year.end())
+        {
+          unsigned obs_index = i * age_spread_ + j;
+          value = iter->second[obs_index];
+          error_values_[iter->first][category_labels_[i]].push_back(e_f->second[obs_index]);
+          proportions_[iter->first][category_labels_[i]].push_back(value);
+          total += value;
+        }
       }
     }
 
@@ -224,13 +226,13 @@ void ProportionsAtAge::DoValidate() {
  * the labels for other objects are valid.
  */
 void ProportionsAtAge::DoBuild() {
-	LOG_TRACE();
+  LOG_TRACE();
   partition_ = CombinedCategoriesPtr(new niwa::partition::accessors::CombinedCategories(model_, category_labels_));
   cached_partition_ = CachedCombinedCategoriesPtr(new niwa::partition::accessors::cached::CombinedCategories(model_, category_labels_));
 
   // Build Selectivity pointers
   for(string label : selectivity_labels_) {
-  	LOG_FINEST() << "label = " << label;
+    LOG_FINEST() << "label = " << label;
     Selectivity* selectivity = model_->managers().selectivity()->GetSelectivity(label);
     if (!selectivity)
       LOG_ERROR_P(PARAM_SELECTIVITIES) << ": Selectivity label " << label << " was not found.";
@@ -256,7 +258,7 @@ void ProportionsAtAge::DoBuild() {
   // or a selectivity for each combined category in each category_label (total categories) These are defined by business rules in the DoValidate.
 
   if (selectivity_labels_.size() > category_labels_.size()) {
-  	selectivity_for_combined_categories_ = true;
+    selectivity_for_combined_categories_ = true;
   }
 
   expected_values_.resize(age_spread_, 0.0);
@@ -272,7 +274,7 @@ void ProportionsAtAge::DoBuild() {
  * structure to use with any interpolation
  */
 void ProportionsAtAge::PreExecute() {
-	LOG_TRACE();
+  LOG_TRACE();
   cached_partition_->BuildCache();
 
   if (cached_partition_->Size() != proportions_[model_->current_year()].size())
@@ -316,8 +318,8 @@ void ProportionsAtAge::Execute() {
     auto category_iter = partition_iter->begin();
     auto cached_category_iter = cached_partition_iter->begin();
     for (; category_iter != partition_iter->end(); ++cached_category_iter, ++category_iter) {
-    	if(selectivity_iter >= selectivities_.size())
-    		LOG_CODE_ERROR() << "selectivity_iter > selectivities_.size()";
+      if(selectivity_iter >= selectivities_.size())
+        LOG_CODE_ERROR() << "selectivity_iter > selectivities_.size()";
 
       LOG_FINEST() << "using selectivity = " << selectivities_[selectivity_iter]->label();
       for (unsigned data_offset = 0; data_offset < (*category_iter)->data_.size(); ++data_offset) {
@@ -343,9 +345,9 @@ void ProportionsAtAge::Execute() {
         LOG_FINE() << "start_value: " << start_value << "; end_value: " << end_value << "; final_value: " << final_value;
         LOG_FINE() << "Numbers at age before ageing error is applied: " << numbers_age_[data_offset];
       }
-    	if(selectivity_for_combined_categories_) {
-    		++selectivity_iter;
-    	}
+      if(selectivity_for_combined_categories_) {
+        ++selectivity_iter;
+      }
     }
 
     /*
@@ -402,7 +404,7 @@ void ProportionsAtAge::CalculateScore() {
    * Simulate or generate results
    * During simulation mode we'll simulate results for this observation
    */
-	LOG_FINEST() << "Calculating score for observation = " << label_;
+  LOG_FINEST() << "Calculating score for observation = " << label_;
 
   if (model_->run_mode() == RunMode::kSimulation) {
     for (auto& iter :  comparisons_) {
@@ -446,8 +448,8 @@ void ProportionsAtAge::CalculateScore() {
         scores_[year] += comparison.score_;
       }
     }
-  	LOG_FINEST() << "Finished calculating score for = " << label_;
 
+    LOG_FINEST() << "Finished calculating score for = " << label_;
   }
 }
 
