@@ -44,7 +44,7 @@ TransitionCategoryByAge::TransitionCategoryByAge(Model* model)
   parameters_.Bind<unsigned>(PARAM_MIN_AGE, &min_age_, "Minimum age to transition", "");
   parameters_.Bind<unsigned>(PARAM_MAX_AGE, &max_age_, "Maximum age to transition", "");
   parameters_.Bind<string>(PARAM_PENALTY, &penalty_label_, "Penalty label", "", "");
-  parameters_.Bind<Double>(PARAM_U_MAX, &u_max_, "U Max", "", 0.99)->set_range(0.0, 1.0, false, true);
+  parameters_.Bind<Double>(PARAM_U_MAX, &u_max_, "U max", "", 0.99)->set_range(0.0, 1.0, false, true);
   parameters_.Bind<unsigned>(PARAM_YEARS, &years_, "Years to execute the transition in", "");
   parameters_.BindTable(PARAM_N, n_table_, "Table of N data", "");
 }
@@ -62,7 +62,7 @@ TransitionCategoryByAge::~TransitionCategoryByAge() {
 void TransitionCategoryByAge::DoValidate() {
   if (from_category_labels_.size() != to_category_labels_.size()) {
     LOG_ERROR_P(PARAM_TO) << " number of values supplied (" << to_category_labels_.size()
-        << ") does not match the number of from categories provided (" << from_category_labels_.size() << ")";
+      << ") does not match the number of from categories provided (" << from_category_labels_.size() << ")";
   }
   if (u_max_ <= 0.0 || u_max_ > 1.0)
     LOG_ERROR_P(PARAM_U_MAX) << " (" << u_max_ << ") must be greater than 0.0 and less than or equal to 1.0";

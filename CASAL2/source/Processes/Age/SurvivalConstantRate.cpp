@@ -67,14 +67,14 @@ void SurvivalConstantRate::DoValidate() {
   //Check we have equal category labels as survival rates
   if (s_input_.size() != category_labels_.size()) {
     LOG_ERROR_P(PARAM_S)
-        << ": Number of Ms provided is not the same as the number of categories provided. Categories: "
-        << category_labels_.size()<< ", input size " << s_input_.size();
+      << ": Number of Ms provided is not the same as the number of categories provided. Categories: "
+      << category_labels_.size()<< ", input size " << s_input_.size();
   }
   //Check we have equal category labels to selectivity labels
   if (selectivity_names_.size() != category_labels_.size()) {
     LOG_ERROR_P(PARAM_SELECTIVITIES)
-        << ": Number of selectivities provided is not the same as the number of categories provided. Categories: "
-        << category_labels_.size()<< ", selectivities size " << selectivity_names_.size();
+      << ": Number of selectivities provided is not the same as the number of categories provided. Categories: "
+      << category_labels_.size()<< ", selectivities size " << selectivity_names_.size();
   }
 
   // Validate our S's are between 1.0 and 0.0
@@ -123,7 +123,7 @@ void SurvivalConstantRate::DoBuild() {
   } else {
     if (ratios_.size() != active_time_steps.size())
       LOG_ERROR_P(PARAM_TIME_STEP_RATIO) << " length (" << ratios_.size()
-          << ") does not match the number of time steps this process has been assigned to (" << active_time_steps.size() << ")";
+        << ") does not match the number of time steps this process has been assigned to (" << active_time_steps.size() << ")";
 
     for (auto value : ratios_) {
       if (value <= 0.0 || value > 1.0)
@@ -157,7 +157,7 @@ void SurvivalConstantRate::DoExecute() {
     LOG_FINEST() << "category " << category->name_ << "; min_age: " << category->min_age_ << "; ratio: " << ratio;
     //StoreForReport(category->name_ + " ratio", ratio);
     for (Double& data : category->data_) {
-      data -= data * (1 - exp(-selectivities_[i]->GetAgeResult(category->min_age_ + j, category->age_length_) * ((1.0 - s) * ratio)));
+      data -= data * (1.0 - exp(-selectivities_[i]->GetAgeResult(category->min_age_ + j, category->age_length_) * ((1.0 - s) * ratio)));
       ++j;
     }
 

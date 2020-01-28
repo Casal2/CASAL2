@@ -44,6 +44,7 @@ class MortalityInstantaneousRetained : public Process {
     Double          u_max_;
     string          penalty_label_;
     Penalty*        penalty_ = nullptr;
+
     map<unsigned, Double>  catches_;
     map<unsigned, Double>  actual_catches_; // want these two to be TOTAL catches
     map<unsigned, Double>  retained_catches_;

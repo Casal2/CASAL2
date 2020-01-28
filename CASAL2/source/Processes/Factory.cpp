@@ -65,7 +65,7 @@ Process* Factory::Create(Model* model, const string& object_type, const string& 
    * method so we only need 1 set of conditional statements.
    */
   if (object != PARAM_PROCESS && object != PARAM_PROCESSES) {
-    LOG_FINE() << "Changing object_type (" << object << ") and sub_type (" << ") to the standard declaration format";
+    LOG_FINE() << "Changing object_type (" << object << ") and sub_type (" << sub << ") to the standard declaration format";
     if (sub != "")
       sub = object_type + "_" + sub_type;
     else

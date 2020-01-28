@@ -64,8 +64,8 @@ void RecruitmentConstant::DoValidate() {
   if (proportions_.size() > 0) {
     if (proportions_.size() != category_labels_.size()) {
       LOG_ERROR_P(PARAM_PROPORTIONS)
-          << ": Number of proportions provided is not the same as the number of categories provided. Categories: "
-          << category_labels_.size()<< ", proportions size " << proportions_.size();
+        << ": The number of proportions provided is not the same as the number of categories provided. Categories: "
+        << category_labels_.size() << ", proportions size " << proportions_.size();
     }
 
     Double proportion_total = 0.0;
@@ -75,10 +75,10 @@ void RecruitmentConstant::DoValidate() {
 
     if (!utilities::doublecompare::IsOne(proportion_total)) {
       LOG_WARNING() << parameters_.location(PARAM_PROPORTIONS)
-          <<": proportion does not sum to 1.0. Proportion sums to " << AS_DOUBLE(proportion_total) << ". Auto-scaling proportions to sum to 1.0";
+        <<": proportion does not sum to 1.0. Proportion sums to " << AS_DOUBLE(proportion_total) << ". Auto-scaling proportions to sum to 1.0";
 
       for (Double& proportion : proportions_)
-        proportion = proportion / proportion_total;
+        proportion /= proportion_total;
     }
 
     for (unsigned i = 0; i < category_labels_.size(); ++i) {
