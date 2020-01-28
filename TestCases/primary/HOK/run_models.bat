@@ -41,7 +41,8 @@ cd ..\adolc_casal_flags_on
 del params_est.out
 ..\..\..\..\..\BuildSystem\bin\windows\release_adolc\casal2 -e -o params_est.out > run_estimation.txt 2>&1
 
-cd ..\adolc_casal_flags_on_low_tol
-del params_est.out
-..\..\..\..\..\BuildSystem\bin\windows\release_adolc\casal2 -e -o params_est.out > run_estimation.txt 2>&1
+rem changed on 2020-01-29 since this run takes a long time
+rem cd ..\adolc_casal_flags_on_low_tol
+rem del params_est.out
+rem ..\..\..\..\..\BuildSystem\bin\windows\release_adolc\casal2 -e -o params_est.out > run_estimation.txt 2>&1
 

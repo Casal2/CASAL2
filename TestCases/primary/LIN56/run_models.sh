@@ -40,7 +40,8 @@ cd ../adolc_casal_flags_on
 rm -f params_est.out
 ../../../../../BuildSystem/bin/linux/release_adolc/casal2 -e -o params_est.out > run_estimation.txt 2>&1
 
-cd ../adolc_casal_flags_on_low_tol
-rm -f params_est.out
-../../../../../BuildSystem/bin/linux/release_adolc/casal2 -e -o params_est.out > run_estimation.txt 2>&1
+# changed on 2020-01-29 since this run takes a long time
+# cd ../adolc_casal_flags_on_low_tol
+# rm -f params_est.out
+# ../../../../../BuildSystem/bin/linux/release_adolc/casal2 -e -o params_est.out > run_estimation.txt 2>&1
 
