@@ -83,10 +83,10 @@ void RecruitmentBevertonHoltWithDeviations::DoValidate() {
     LOG_WARNING() << "The age supplied = " << age_ << ", but the model min_age = " << model_->min_age() << ".";
   }
 
-  if (parameters_.Get(PARAM_R0)->has_been_defined() & parameters_.Get(PARAM_B0)->has_been_defined())
+  if (parameters_.Get(PARAM_R0)->has_been_defined() && parameters_.Get(PARAM_B0)->has_been_defined())
     LOG_FATAL_P(PARAM_R0) << "Cannot specify both R0 and B0 in the model";
 
-  if (!parameters_.Get(PARAM_R0)->has_been_defined() & !parameters_.Get(PARAM_B0)->has_been_defined())
+  if (!parameters_.Get(PARAM_R0)->has_been_defined() && !parameters_.Get(PARAM_B0)->has_been_defined())
     LOG_FATAL() << "Specify either R0 or B0 to initialise the model with Beverton-Holt recruitment";
 
   if (age_ < model_->min_age())
@@ -241,7 +241,7 @@ void RecruitmentBevertonHoltWithDeviations::DoBuild() {
   bool R0_estimate = model_->managers().estimate()->HasEstimate(r0_param);
 
   LOG_FINEST() << "is B0 estimated = " << B0_estimate << " is R0 estimated " << R0_estimate;
-  if(B0_estimate & R0_estimate) {
+  if(B0_estimate && R0_estimate) {
     LOG_ERROR() << "Both R0 and B0 have an @estimate specified for recruitment process " << label_
       << ". Only one of these parameters can be estimated.";
   }
@@ -281,11 +281,11 @@ void RecruitmentBevertonHoltWithDeviations::DoBuild() {
   for(auto year : recruit_dev_years_) {
     if (year <= year1_) {
       bias_by_year_[year] = 0.0;
-    } else if ((year > year1_) & (year < year2_)) {
+    } else if ((year > year1_) && (year < year2_)) {
       bias_by_year_[year] = b_max_ * (Double)(1 - ((year - year1_) / (year2_ - year1_)));
-    } else if ((year >= year2_) & (year <= year3_)) {
+    } else if ((year >= year2_) && (year <= year3_)) {
       bias_by_year_[year] = b_max_;
-    } else if ((year > year3_) & (year < year4_)) {
+    } else if ((year > year3_) && (year < year4_)) {
       bias_by_year_[year] = b_max_ * (Double)(1 - ((year3_ - year) / (year4_ - year3_)));
     } else if (year >= year4_) {
       bias_by_year_[year] = 0.0;
@@ -337,11 +337,11 @@ void RecruitmentBevertonHoltWithDeviations::DoReset() {
     for(auto year : recruit_dev_years_) {
       if (year <= year1_) {
         bias_by_year_[year] = 0.0;
-      } else if ((year > year1_) & (year < year2_)) {
+      } else if ((year > year1_) && (year < year2_)) {
         bias_by_year_[year] = b_max_ * (Double)(1 - ((year - year1_) / (year2_ - year1_)));
-      } else if ((year >= year2_) & (year <= year3_)) {
+      } else if ((year >= year2_) && (year <= year3_)) {
         bias_by_year_[year] = b_max_;
-      } else if ((year > year3_) & (year < year4_)) {
+      } else if ((year > year3_) && (year < year4_)) {
         bias_by_year_[year] = b_max_ * (Double)(1 - ((year3_ - year) / (year4_ - year3_)));
       } else if (year >= year4_) {
         bias_by_year_[year] = 0.0;
@@ -366,9 +366,9 @@ void RecruitmentBevertonHoltWithDeviations::DoExecute() {
   Double amount_per = 0.0;
   if (model_->state() == State::kInitialise) {
     initialisationphases::Manager& init_phase_manager = *model_->managers().initialisation_phase();
-    if ((init_phase_manager.last_executed_phase() <= phase_b0_) & (parameters_.Get(PARAM_R0)->has_been_defined())) {
+    if ((init_phase_manager.last_executed_phase() <= phase_b0_) && (parameters_.Get(PARAM_R0)->has_been_defined())) {
       amount_per = r0_;
-    } else if ((init_phase_manager.last_executed_phase() <= phase_b0_) & (parameters_.Get(PARAM_B0)->has_been_defined())) {
+    } else if ((init_phase_manager.last_executed_phase() <= phase_b0_) && (parameters_.Get(PARAM_B0)->has_been_defined())) {
       if (have_scaled_partition)
         amount_per = r0_;
       else

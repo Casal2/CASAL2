@@ -63,12 +63,12 @@ void Nuisance::DoBuild() {
 
   if (has_prior) {
     // Obtain a pointer to the estimate
-  	AdditionalPrior* additional_prior = model_->managers().additional_prior()->GetAdditionalPrior(parameter);
+    AdditionalPrior* additional_prior = model_->managers().additional_prior()->GetAdditionalPrior(parameter);
     if (!additional_prior)
       LOG_ERROR() << "Can not get additional_prior with the parameter label " << parameter;
     // Find out the prior type
     prior_type_ = additional_prior->type();
-    LOG_FINEST() << "Type of prior on Nuisance Q = "  << prior_type_;
+    LOG_FINEST() << "Type of prior on Nuisance q = "  << prior_type_;
 
     // Perhaps set value to the mean of the bounds for now if the estimate system cannot handle an uninitialised estimate
     q_ = (upper_bound_ + lower_bound_) / 2.0;
@@ -101,7 +101,6 @@ void Nuisance::DoBuild() {
     q_ = 1.0;
   }
 
-
 }
 
 /**
@@ -117,7 +116,7 @@ void Nuisance::CalculateQ(map<unsigned, vector<observations::Comparison> >& comp
   LOG_FINEST() << "Converting nuisance q with prior = " << prior_type_ << " and likelihood = " << likelihood;
   if (likelihood != PARAM_NORMAL && likelihood != PARAM_LOGNORMAL) {
     LOG_FATAL() << "The nuisance q method can be applied only to observations with normal or lognormal likelihoods. "
-        << "Check the @observation block or use q type = free";
+      << "Check the @observation block or use q type = free";
   }
 
   // The first set of conditions

@@ -85,18 +85,18 @@ void Categories::Validate() {
 
   if (model_->partition_type() == PartitionType::kAge) {
     // Check the user hasn't specified both age_length and age_weight subcommands
-    if (parameters_.Get(PARAM_AGE_WEIGHT)->has_been_defined() & parameters_.Get(PARAM_AGE_LENGTHS)->has_been_defined())
+    if (parameters_.Get(PARAM_AGE_WEIGHT)->has_been_defined() && parameters_.Get(PARAM_AGE_LENGTHS)->has_been_defined())
       LOG_FATAL_P(PARAM_AGE_WEIGHT) << "Both age_lengths and age_weights cannot be specified in the @categories block. Specify either one or the other.";
     if (parameters_.Get(PARAM_AGE_WEIGHT)->has_been_defined()) {
       if(age_weight_labels_.size() != names_.size())
-        LOG_ERROR_P(PARAM_AGE_WEIGHT) << " number age-weight defined (" << age_weight_labels_.size() << ") must be the same as the number " <<
-        " of categories defined (" << names_.size() << ")";
+        LOG_ERROR_P(PARAM_AGE_WEIGHT) << " number age-weight defined (" << age_weight_labels_.size() << ") must be the same as the number "
+          << " of categories defined (" << names_.size() << ")";
     }
     // get the age sizes
     if (parameters_.Get(PARAM_AGE_LENGTHS)->has_been_defined()) {
       if (age_length_labels_.size() != names_.size())
-        LOG_ERROR_P(PARAM_AGE_LENGTHS) << " number of age-lengths defined (" << age_length_labels_.size() << ") must be the same as the number " <<
-            " of categories defined (" << names_.size() << ")";
+        LOG_ERROR_P(PARAM_AGE_LENGTHS) << " number of age-lengths defined (" << age_length_labels_.size() << ") must be the same as the number "
+          << " of categories defined (" << names_.size() << ")";
     }
     vector<string> format_chunks;
     boost::split(format_chunks, format_, boost::is_any_of("."), boost::token_compress_on);
@@ -115,7 +115,7 @@ void Categories::Validate() {
       vector<string> category_chunks;
       boost::split(category_chunks, names_[i], boost::is_any_of("."), boost::token_compress_on);
       if (category_chunks.size() != category_chunks.size())
-        LOG_ERROR_P(PARAM_NAMES) << "Category " << names_[i] << " does not match the format: " << format_;
+        LOG_ERROR_P(PARAM_NAMES) << "Category " << names_[i] << " does not match the format " << format_;
 
       // Create a new CategoryInfo object
       CategoryInfo new_category_info;
@@ -130,8 +130,8 @@ void Categories::Validate() {
   } else if (model_->partition_type() == PartitionType::kLength) {
     // get the age sizes
     if (length_weight_labels_.size() > 0 && length_weight_labels_.size() != names_.size())
-      LOG_ERROR_P(PARAM_LENGTH_WEIGHT) << " number defined (" << length_weight_labels_.size() << ") must be the same as the number " <<
-          " of categories defined (" << names_.size() << ")";
+      LOG_ERROR_P(PARAM_LENGTH_WEIGHT) << " number defined (" << length_weight_labels_.size() << ") must be the same as the number "
+        << " of categories defined (" << names_.size() << ")";
 
     vector<string> format_chunks;
     boost::split(format_chunks, format_, boost::is_any_of("."), boost::token_compress_on);
@@ -144,7 +144,7 @@ void Categories::Validate() {
       vector<string> category_chunks;
       boost::split(category_chunks, names_[i], boost::is_any_of("."), boost::token_compress_on);
       if (category_chunks.size() != category_chunks.size())
-        LOG_ERROR_P(PARAM_NAMES) << "Category " << names_[i] << " does not match the format: " << format_;
+        LOG_ERROR_P(PARAM_NAMES) << "Category " << names_[i] << " does not match the format " << format_;
 
       // Create a new CategoryInfo object
       CategoryInfo new_category_info;
@@ -163,7 +163,7 @@ void Categories::Validate() {
   for (string label : category_names_) {
     string invalid_characters = utilities::String::find_invalid_characters(label);
     if (invalid_characters != "")
-      LOG_ERROR_P(PARAM_NAMES) << " category label " << label << " contains the invalid characters: " << invalid_characters;
+      LOG_ERROR_P(PARAM_NAMES) << " category label " << label << " contains the invalid character(s) " << invalid_characters;
   }
 
   /**
@@ -190,8 +190,7 @@ void Categories::Validate() {
         if (std::find(categories_[iter.first].years_.begin(),
             categories_[iter.first].years_.end(),
             actual_value) != categories_[iter.first].years_.end()) {
-          LOG_ERROR_P(PARAM_YEARS) << "value " << actual_value << " has already been defined for "
-              << "the category " << iter.first;
+          LOG_ERROR_P(PARAM_YEARS) << "value " << actual_value << " has already been defined for " << "the category " << iter.first;
         }
 
         if (std::find(model_years.begin(), model_years.end(), actual_value) == model_years.end()) {
@@ -334,7 +333,7 @@ string Categories::GetCategoryLabels(const string& lookup_string, const string& 
 
   if (pieces.size() != 2) {
     LOG_ERROR() << parameter_location << " short-hand category string (" << lookup_string
-        << ") is not in the proper format. e.g <format_chunk>=<lookup_chunk>";
+      << ") is not in the correct format, e.g., <format_chunk>=<lookup_chunk>";
   }
 
   boost::replace_all(pieces[0], " ", "");
@@ -372,8 +371,8 @@ string Categories::GetCategoryLabels(const string& lookup_string, const string& 
 
     if (pieces.size() != format_pieces) {
       LOG_ERROR() << parameter_location << " short-hand category string ( " << lookup_string
-          << ") does not have the correct number of sections. Expected " << format_pieces << " but parsed " << pieces.size() <<
-          ". Pieces are chunks of the string separated with a '.' character";
+        << ") does not have the correct number of sections. Expected " << format_pieces << " but parsed " << pieces.size()
+        << ". Pieces are chunks of the string separated with a '.' character";
     }
 
     for (unsigned i = 0; i < pieces.size(); ++i) {
@@ -405,8 +404,8 @@ string Categories::GetCategoryLabels(const string& lookup_string, const string& 
      */
     if (lookup.find(".") != string::npos) {
       LOG_ERROR() << parameter_location << " short-hand category string (" << lookup_string
-          << ") is not in the correct format. The lookup component (" << lookup
-          << ") cannot contain any '.' characters";
+        << ") is not in the correct format. The lookup component (" << lookup
+        << ") cannot contain any '.' characters";
     }
 
     // Verify we've actually got a good part of the format here.
@@ -420,8 +419,8 @@ string Categories::GetCategoryLabels(const string& lookup_string, const string& 
     }
     if (format_offset == pieces.size()) {
       LOG_ERROR() << parameter_location << " short-hand category syntax (" << lookup_string
-          << ") is using an invalid format chunk (" << format << ") for its lookup. "
-          << "Valid format chunks must be taken from the format (" << format_ << ")";
+        << ") is using an invalid format chunk (" << format << ") for its lookup. "
+        << "Valid format chunks must be taken from the format (" << format_ << ")";
     }
 
     if (lookup != "*") {
@@ -433,7 +432,7 @@ string Categories::GetCategoryLabels(const string& lookup_string, const string& 
             boost::split(chunks, category, boost::is_any_of("."));
             if (chunks.size() <= format_offset) {
               LOG_ERROR() << parameter_location << " short-hand category syntax (" << lookup_string
-                  << ") could not be compared to category (" << category << ") because the category was malformed";
+                << ") could not be compared to category (" << category << ") because the category was malformed";
             }
 
             vector<string> comma_separated_pieces;
@@ -450,8 +449,7 @@ string Categories::GetCategoryLabels(const string& lookup_string, const string& 
   }
 
   if (matched_categories.size() == 0) {
-    LOG_ERROR() << parameter_location << " short-hand format string (" << lookup_string <<
-        ") did not match any of the categories.";
+    LOG_ERROR() << parameter_location << " short-hand format string (" << lookup_string << ") did not match any of the categories.";
   }
 
   result = matched_categories[0];
@@ -487,7 +485,7 @@ map<string, string> Categories::GetCategoryLabelsAndValues(const string& lookup,
   boost::split(pieces, lookup, boost::is_any_of("="), boost::token_compress_on);
   if (pieces.size() != 2 && pieces.size() != 3) {
     LOG_FATAL() << parameter_location << " short-hand category string (" << lookup
-        << ") is not in the proper format. e.g <format_chunk>=<lookup_chunk>=values";
+      << ") is not in the correct format, e.g., <format_chunk>=<lookup_chunk>=values";
   }
 
   string temp_lookup = pieces[0];
@@ -496,10 +494,8 @@ map<string, string> Categories::GetCategoryLabelsAndValues(const string& lookup,
   vector<string> categories = GetCategoryLabelsV(temp_lookup, parameter_location);
   for (auto category : categories) {
     if (results.find(category) != results.end()) {
-      LOG_ERROR() << parameter_location << " category " << category
-          << " is being assigned a value more than once";
+      LOG_ERROR() << parameter_location << " category " << category << " is being assigned a value more than once";
     }
-
 
     results[category] = pieces.size() == 2 ? pieces[1] : pieces[2];
   }

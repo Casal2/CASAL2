@@ -71,11 +71,11 @@ void LogSum::DoBuild() {
     return;
   }
 
-  if ((second_estimate_->transform_for_objective() & !estimate_->transform_for_objective()) || (!second_estimate_->transform_for_objective() & estimate_->transform_for_objective()))
+  if ( (second_estimate_->transform_for_objective() && !estimate_->transform_for_objective()) ||
+       (!second_estimate_->transform_for_objective() && estimate_->transform_for_objective()) )
     LOG_ERROR_P(PARAM_THETA_TWO) << "This transformation requires that both parameters set 'transform_for_objective' to true or false";
   // check transformation is within bounds;
   if (second_estimate_->transform_for_objective()) {
-
     Transform();
     LOG_MEDIUM() << "Check second param bounds";
     if(second_estimate_->value() < second_estimate_->lower_bound() || second_estimate_->value() > second_estimate_->upper_bound())
@@ -111,9 +111,9 @@ void LogSum::DoTransform() {
  */
 void LogSum::DoRestore() {
   LOG_MEDIUM() << "Restoring value";
-	xt_ = exp(estimate_->value());
-	estimate_->set_value(xt_ * second_estimate_->value());
-	second_estimate_->set_value(xt_ * (1 - second_estimate_->value()));
+  xt_ = exp(estimate_->value());
+  estimate_->set_value(xt_ * second_estimate_->value());
+  second_estimate_->set_value(xt_ * (1 - second_estimate_->value()));
 
   // Set the first estimate as the mean and the second as the difference
   LOG_MEDIUM() << "Restoring @estimate " << estimate_->label() << "to: " << estimate_->value();

@@ -77,10 +77,10 @@ void RecruitmentBevertonHolt::DoValidate() {
     LOG_WARNING() << "age = " << age_ << ", but the model min_age = " << model_->min_age() << ".";
   }
 
-  if (parameters_.Get(PARAM_R0)->has_been_defined() & parameters_.Get(PARAM_B0)->has_been_defined())
+  if (parameters_.Get(PARAM_R0)->has_been_defined() && parameters_.Get(PARAM_B0)->has_been_defined())
     LOG_FATAL_P(PARAM_R0) << "Cannot specify both R0 and B0 in the model";
 
-  if (!parameters_.Get(PARAM_R0)->has_been_defined() & !parameters_.Get(PARAM_B0)->has_been_defined())
+  if (!parameters_.Get(PARAM_R0)->has_been_defined() && !parameters_.Get(PARAM_B0)->has_been_defined())
     LOG_FATAL() << "Specify either R0 or B0 to initialise the model with Beverton-Holt recruitment";
 
   if (age_ < model_->min_age())
@@ -259,7 +259,7 @@ void RecruitmentBevertonHolt::DoBuild() {
   bool R0_estimate = model_->managers().estimate()->HasEstimate(r0_param);
 
   LOG_FINEST() << "is b0 estimated = " << B0_estimate << " is R0 estimated " << R0_estimate;
-  if(B0_estimate & R0_estimate) {
+  if(B0_estimate && R0_estimate) {
     LOG_ERROR() << "Both R0 and B0 have an @estimate specified for recruitment process " << label_
       << ". Only one of these parameters can be estimated.";
   }
@@ -282,7 +282,8 @@ void RecruitmentBevertonHolt::DoReset() {
     have_scaled_partition = false;
   }
 
-  // if a -i call is made then we need to repopulate the ycs_values vector for reporting. This has to be done because the input parameter ycs_values and registered estimate parameter ycs_values_by_year
+  // if a -i call is made then we need to repopulate the ycs_values vector for reporting.
+  // This has to be done because the input parameter ycs_values and registered estimate parameter ycs_values_by_year
   // Are different
   for (unsigned i = 0; i < ycs_years_.size(); ++i) {
     ycs_values_[i]                          = ycs_value_by_year_[ycs_years_[i]];
@@ -335,9 +336,9 @@ void RecruitmentBevertonHolt::DoExecute() {
   Double amount_per = 0.0;
   if (model_->state() == State::kInitialise) {
     initialisationphases::Manager& init_phase_manager = *model_->managers().initialisation_phase();
-    if ((init_phase_manager.last_executed_phase() <= phase_b0_) & (parameters_.Get(PARAM_R0)->has_been_defined())) {
+    if ((init_phase_manager.last_executed_phase() <= phase_b0_) && (parameters_.Get(PARAM_R0)->has_been_defined())) {
       amount_per = r0_;
-    } else if ((init_phase_manager.last_executed_phase() <= phase_b0_) & (parameters_.Get(PARAM_B0)->has_been_defined())) {
+    } else if ((init_phase_manager.last_executed_phase() <= phase_b0_) && (parameters_.Get(PARAM_B0)->has_been_defined())) {
       if (have_scaled_partition)
         amount_per = r0_;
       else
@@ -349,7 +350,7 @@ void RecruitmentBevertonHolt::DoExecute() {
 
       Double SSB = derived_quantity_->GetLastValueFromInitialisation(init_phase_manager.last_executed_phase());
       Double ssb_ratio = SSB / b0_;
-      Double true_ycs = 1.0 * ssb_ratio / (1 - ((5 * steepness_ - 1) / (4 * steepness_)) * (1 - ssb_ratio));
+      Double true_ycs = 1.0 * ssb_ratio / (1.0 - ((5.0 * steepness_ - 1.0) / (4.0 * steepness_)) * (1.0 - ssb_ratio));
       amount_per = r0_ * true_ycs;
 
       LOG_FINEST() << "b0_: " << b0_ << "; ssb_ratio: " << ssb_ratio << "; true_ycs: " << true_ycs

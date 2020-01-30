@@ -39,7 +39,7 @@ SumToOne::SumToOne(Model* model) : EstimateTransformation(model) {
  */
 void SumToOne::DoValidate() {
   LOG_TRACE();
-  if (parameters_.Get(PARAM_UPPER_BOUND)->has_been_defined() & parameters_.Get(PARAM_LOWER_BOUND)->has_been_defined()) {
+  if (parameters_.Get(PARAM_UPPER_BOUND)->has_been_defined() && parameters_.Get(PARAM_LOWER_BOUND)->has_been_defined()) {
     if (estimate_labels_.size() > 2)
       LOG_WARNING() << "This transformation was defined with two parameters. Be cautious using this transformation with more than two parameters.";
 
@@ -92,7 +92,7 @@ void SumToOne::DoBuild() {
       << ". Please check the initial values of these parameters.";
 
   // Check that the bounds are sensible
-  if (parameters_.Get(PARAM_UPPER_BOUND)->has_been_defined() & parameters_.Get(PARAM_LOWER_BOUND)->has_been_defined()) {
+  if (parameters_.Get(PARAM_UPPER_BOUND)->has_been_defined() && parameters_.Get(PARAM_LOWER_BOUND)->has_been_defined()) {
     for (unsigned i = 0; i < estimates_.size(); ++i) {
       if (estimates_[i]->lower_bound() < 0.0 || estimates_[i]->lower_bound() > 1.0)
         LOG_ERROR_P(PARAM_LOWER_BOUND) << "The lower bound must be between 0.0 and 1.0 inclusive.";
@@ -112,7 +112,7 @@ void SumToOne::DoBuild() {
 void SumToOne::DoTransform() {
   LOG_TRACE();
   // reset the bounds for the others
-  if (parameters_.Get(PARAM_UPPER_BOUND)->has_been_defined() & parameters_.Get(PARAM_LOWER_BOUND)->has_been_defined()) {
+  if (parameters_.Get(PARAM_UPPER_BOUND)->has_been_defined() && parameters_.Get(PARAM_LOWER_BOUND)->has_been_defined()) {
     for (unsigned i = 0; i < (estimates_.size() - 1); ++i) {
       estimates_[i]->set_lower_bound(lower_bounds_[i]);
       estimates_[i]->set_upper_bound(upper_bounds_[i]);
