@@ -47,14 +47,14 @@ Estimate::Estimate(Model* model) : model_(model) {
  * estimate was created so we can skip that.
  */
 void Estimate::Validate() {
-  if (transform_with_jacobian_ & transform_for_objective_function_)
+  if (transform_with_jacobian_ && transform_for_objective_function_)
     LOG_ERROR_P(PARAM_TRANSFORM_WITH_JACOBIAN) << "Do not specify both an estimate that has a Jacobian contributing to the objective function and"
       << " define the prior for the transformed variable together. See the User Manual for more info";
   DoValidate();
 }
 
 void Estimate::Build() {
-  if (transform_with_jacobian_ & transform_for_objective_function_)
+  if (transform_with_jacobian_ && transform_for_objective_function_)
     LOG_ERROR_P(PARAM_TRANSFORM_WITH_JACOBIAN) << "Both " << PARAM_TRANSFORM_WITH_JACOBIAN << " and " << PARAM_PRIOR_APPLIES_TO_TRANSFORM
       << " cannot be set to 'true'. Please see the User Manual for more info";
 
@@ -62,10 +62,10 @@ void Estimate::Build() {
     // only check bounds if prior on untransformed variable.
     if (*target_ < lower_bound_)
       LOG_ERROR() << location() <<  "the initial value (" << AS_DOUBLE((*target_)) << ") for the parameter " << parameter_
-          << " is less than the lower_bound(" << lower_bound_ << ")";
+        << " is less than the lower_bound(" << lower_bound_ << ")";
     if (*target_ > upper_bound_)
       LOG_ERROR() << location() << "the initial value (" << AS_DOUBLE((*target_)) << ") for the parameter " << parameter_
-          << " is greater than the upper_bound (" << upper_bound_ << ")";
+        << " is greater than the upper_bound (" << upper_bound_ << ")";
   }
 
   transform_with_jacobian_is_defined_ = parameters_.Get(PARAM_PRIOR_APPLIES_TO_TRANSFORM)->has_been_defined();
@@ -103,10 +103,10 @@ void Estimate::Build() {
       transformation->Transform();
       if (*target_ < lower_bound_)
         LOG_ERROR() << location() <<  "the initial value (" << AS_DOUBLE((*target_)) << ") for the parameter " << parameter_
-            << " is less than the lower_bound (" << lower_bound_ << ")";
+          << " is less than the lower_bound (" << lower_bound_ << ")";
       if (*target_ > upper_bound_)
         LOG_ERROR() << location() << "the initial value (" << AS_DOUBLE((*target_)) << ") for the parameter " << parameter_
-            << " is greater than the upper_bound (" << upper_bound_ << ")";
+          << " is greater than the upper_bound (" << upper_bound_ << ")";
       transformation->Restore();
     }
   }

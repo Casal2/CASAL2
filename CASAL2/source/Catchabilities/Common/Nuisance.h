@@ -46,9 +46,6 @@ private:
   Double                      mu_ = 0.0;
   Double                      cv_ = 1.0;
 
-
-
-
 };
 
 } /* namespace catchabilities */

@@ -65,7 +65,7 @@ MortalityHollingRate::MortalityHollingRate(Model* model)
   parameters_.Bind<Double>(PARAM_U_MAX, &u_max_, "Maximum exploitation rate ($Umax$)", "")->set_range(0.0, 1.0);
   parameters_.Bind<string>(PARAM_PREY_SELECTIVITIES, &prey_selectivity_labels_, "Selectivities for prey categories", "", true);
   parameters_.Bind<string>(PARAM_PREDATOR_SELECTIVITIES, &predator_selectivity_labels_, "Selectivities for predator categories", "", true);
-  parameters_.Bind<string>(PARAM_PENALTY, &  penalty_label_, "Label of penalty to be applied", "","");
+  parameters_.Bind<string>(PARAM_PENALTY, &penalty_label_, "Label of penalty to be applied", "","");
   parameters_.Bind<unsigned>(PARAM_YEARS, &years_, "Years in which to apply the mortality process", "");
 
   RegisterAsAddressable(PARAM_A, &a_);
@@ -105,13 +105,13 @@ void MortalityHollingRate::DoValidate() {
     LOG_FATAL_P(PARAM_LABEL) << "Supply either '" << PARAM_PREY_SELECTIVITIES << "' or '" << PARAM_PREY_SELECTIVITIES_BY_YEAR << "' for this process";
     LOG_TRACE();
   }
-  if (parameters_.Get(PARAM_PREY_SELECTIVITIES)->has_been_defined() & parameters_.GetTable(PARAM_PREY_SELECTIVITIES_BY_YEAR)->HasBeenDefined())
+  if (parameters_.Get(PARAM_PREY_SELECTIVITIES)->has_been_defined() && parameters_.GetTable(PARAM_PREY_SELECTIVITIES_BY_YEAR)->HasBeenDefined())
     LOG_FATAL_P(PARAM_LABEL) << "Supply either '" << PARAM_PREY_SELECTIVITIES << "' or '" << PARAM_PREY_SELECTIVITIES_BY_YEAR << "' for this process.";
   LOG_TRACE();
-  if (!parameters_.Get(PARAM_PREDATOR_SELECTIVITIES)->has_been_defined() & !parameters_.GetTable(PARAM_PREDATOR_SELECTIVITIES_BY_YEAR)->HasBeenDefined())
+  if (!parameters_.Get(PARAM_PREDATOR_SELECTIVITIES)->has_been_defined() && !parameters_.GetTable(PARAM_PREDATOR_SELECTIVITIES_BY_YEAR)->HasBeenDefined())
     LOG_FATAL_P(PARAM_LABEL) << "Supply either '" << PARAM_PREDATOR_SELECTIVITIES << "' or '" << PARAM_PREDATOR_SELECTIVITIES_BY_YEAR << "' for this process";
   LOG_TRACE();
-  if (parameters_.Get(PARAM_PREDATOR_SELECTIVITIES)->has_been_defined() & parameters_.GetTable(PARAM_PREDATOR_SELECTIVITIES_BY_YEAR)->HasBeenDefined())
+  if (parameters_.Get(PARAM_PREDATOR_SELECTIVITIES)->has_been_defined() && parameters_.GetTable(PARAM_PREDATOR_SELECTIVITIES_BY_YEAR)->HasBeenDefined())
     LOG_FATAL_P(PARAM_LABEL) << "Supply either '" << PARAM_PREDATOR_SELECTIVITIES << "' or '" << PARAM_PREDATOR_SELECTIVITIES_BY_YEAR << "' for this process.";
 
   LOG_TRACE();
@@ -355,7 +355,7 @@ void MortalityHollingRate::DoExecute() {
         Exploitation = 0.0;
 
     prey_offset = 0;
-    // Loop Through Prey Categories & remove number based on calcuated exploitation rate
+    // Loop Through Prey Categories and remove number based on calcuated exploitation rate
     for (auto prey_categories : prey_partition_) {
       for (unsigned i = 0; i < prey_categories->data_.size(); ++i) {
         Double Current = 0.0;

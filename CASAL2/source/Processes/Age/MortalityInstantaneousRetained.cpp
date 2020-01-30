@@ -83,7 +83,7 @@ void MortalityInstantaneousRetained::DoValidate() {
 
   // Check Natural Mortality parameter first
   for (auto M_proportion : time_step_ratios_temp_) {
-    if ((M_proportion < 0.0) | (M_proportion > 1.0))
+    if ((M_proportion < 0.0) || (M_proportion > 1.0))
       LOG_ERROR_P(PARAM_TIME_STEP_RATIO) << "Natural Mortality time step ratio cannot be greater than 1.0 or less than 0.0 for a given time step";
   }
 
@@ -374,7 +374,6 @@ void MortalityInstantaneousRetained::DoBuild() {
     if (!fishery_category.discard_mortality_selectivity_)
       LOG_ERROR_P(PARAM_METHOD) << "Discard mortality selectivity " << fishery_category.discard_mortality_selectivity_label_ << " was not found.";
 
-
   }
 
   for (auto& fishery_iter : fisheries_) {
@@ -408,7 +407,6 @@ void MortalityInstantaneousRetained::DoBuild() {
       LOG_ERROR_P(PARAM_SELECTIVITIES) << "Selectivity label " << category.selectivity_label_ << " was not found.";
     category.selectivity_ = selectivity;
     selectivities_.push_back(selectivity);
-
 
 
     // Age Weight if it is defined
@@ -502,7 +500,6 @@ void MortalityInstantaneousRetained::RebuildCache() {
 /**
  * Execute this process
  */
-
 void MortalityInstantaneousRetained::DoExecute() {
   LOG_TRACE();
 
@@ -834,7 +831,7 @@ void MortalityInstantaneousRetained::FillReportCache(ostringstream& cache) {
 //    for (auto& year_values : total_discards_by_year_fishery_category_) {
 //      for (auto& fishery_values : year_values.second) {
 //        for (auto& category_values : fishery_values.second) {
-//          if ((category_values.first == fishery_category.category_label_) & (fishery_values.first == fishery_category.fishery_label_)) {
+//          if ((category_values.first == fishery_category.category_label_) && (fishery_values.first == fishery_category.fishery_label_)) {
 //            cache << year_values.first << " ";
 //            for (auto age_vals : category_values.second) {
 //              cache << age_vals << " ";
@@ -855,7 +852,7 @@ void MortalityInstantaneousRetained::FillReportCache(ostringstream& cache) {
 //    for (auto& year_values : surviving_discards_by_year_fishery_category_) {
 //      for (auto& fishery_values : year_values.second) {
 //        for (auto& category_values : fishery_values.second) {
-//          if ((category_values.first == fishery_category.category_label_) & (fishery_values.first == fishery_category.fishery_label_)) {
+//          if ((category_values.first == fishery_category.category_label_) && (fishery_values.first == fishery_category.fishery_label_)) {
 //            cache << year_values.first << " ";
 //            for (auto age_vals : category_values.second) {
 //              cache << age_vals << " ";
@@ -877,7 +874,7 @@ void MortalityInstantaneousRetained::FillReportCache(ostringstream& cache) {
 //    for (auto& year_values : removals_by_year_fishery_category_) {
 //      for (auto& fishery_values : year_values.second) {
 //        for (auto& category_values : fishery_values.second) {
-//          if ((category_values.first == fishery_category.category_label_) & (fishery_values.first == fishery_category.fishery_label_)) {
+//          if ((category_values.first == fishery_category.category_label_) && (fishery_values.first == fishery_category.fishery_label_)) {
 //            cache << year_values.first << " ";
 //            for (auto age_vals : category_values.second) {
 //              cache << age_vals << " ";
@@ -970,7 +967,7 @@ bool MortalityInstantaneousRetained::check_categories_in_methods_for_removal_obs
       // Check all categories are in this method
       for (unsigned category_index = 0; category_index < category_labels.size(); ++category_index) {
         for (auto& fishery_category : fishery_categories_) {
-          if ((fishery_category.fishery_.label_ == fishery.label_) & (fishery_category.category_label_ == category_labels[category_index]))
+          if ((fishery_category.fishery_.label_ == fishery.label_) && (fishery_category.category_label_ == category_labels[category_index]))
             ++categories_counter;
         }
       }

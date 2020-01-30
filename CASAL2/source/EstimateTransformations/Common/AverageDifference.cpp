@@ -73,7 +73,8 @@ void AverageDifference::DoBuild() {
     return;
   }
 
-  if ((difference_estimate_->transform_for_objective() & !estimate_->transform_for_objective()) || (!difference_estimate_->transform_for_objective() & estimate_->transform_for_objective()))
+  if ( (difference_estimate_->transform_for_objective() && !estimate_->transform_for_objective()) ||
+       (!difference_estimate_->transform_for_objective() && estimate_->transform_for_objective()) )
     LOG_ERROR_P(PARAM_THETA_TWO) << "This transformation requires that both parameters have transform_for_objective either true or false";
   // check transformation is within bounds;
   if (difference_estimate_->transform_for_objective()) {
@@ -133,9 +134,9 @@ void AverageDifference::DoRestore() {
   y1_ = estimate_->value();
   y2_ = difference_estimate_->value();
 
-	x1_ = estimate_->value() + (difference_estimate_->value() / 2.0);
-	difference_estimate_->set_value(estimate_->value() - (difference_estimate_->value() / 2.0));
-	estimate_->set_value(x1_);
+  x1_ = estimate_->value() + (difference_estimate_->value() / 2.0);
+  difference_estimate_->set_value(estimate_->value() - (difference_estimate_->value() / 2.0));
+  estimate_->set_value(x1_);
 
   // Set the first estimate as the mean and the second as the difference
   LOG_MEDIUM() << "Restoring @estimate " << estimate_->label() << "to: " << estimate_->value();

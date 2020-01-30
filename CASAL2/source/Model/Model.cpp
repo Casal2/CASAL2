@@ -262,6 +262,7 @@ bool Model::Start(RunMode::Type run_mode) {
     executor->Execute();
   managers_->report()->Execute(state_);
   managers_->report()->Finalise();
+
   return true;
 }
 
@@ -297,8 +298,8 @@ void Model::PopulateParameters() {
     if (run_mode_ == RunMode::kProjection) {
       if (projection_final_year_ <= start_year_ || projection_final_year_ <= final_year_) {
         LOG_ERROR_P(PARAM_PROJECTION_FINAL_YEAR) << "("
-            << projection_final_year_ << ") cannot be less than or equal to start_year (" << start_year_
-            << ") or final_year (" << final_year_ << ")";
+          << projection_final_year_ << ") cannot be less than or equal to start_year (" << start_year_
+          << ") or final_year (" << final_year_ << ")";
       }
     }
 
@@ -358,7 +359,7 @@ void Model::Validate() {
   }
 
 
-  if (parameters_.Get(PARAM_LENGTH_PLUS_GROUP)->has_been_defined() & (partition_type_ == PartitionType::kAge))
+  if (parameters_.Get(PARAM_LENGTH_PLUS_GROUP)->has_been_defined() && (partition_type_ == PartitionType::kAge))
     LOG_ERROR_P(PARAM_LENGTH_PLUS_GROUP) << "This parameter should be used only for models that have length structured partitions."
       << " For age models with length-based processes, all length bins should be defined with the length_bins subcommand";
   /**
@@ -478,7 +479,7 @@ void Model::RunBasic() {
       LOG_FINE() << "Iteration year: " << current_year_;
       if (single_step) {
         managers_->report()->Pause();
-        cout << "Please enter space separated values for estimables for year: " << current_year_ << endl;
+        cout << "Please enter space-separated values for estimables for year: " << current_year_ << endl;
         string line = "";
         std::getline(std::cin, line);
         managers_->report()->Resume();
@@ -558,7 +559,7 @@ void Model::RunEstimation() {
 
     LOG_FINE() << "found iterations = " << max_iters;
     for (unsigned j = 1; j <= max_iters; ++j) {
-    	LOG_MEDIUM() << "model.estimation_phase: " << j;
+      LOG_MEDIUM() << "model.estimation_phase: " << j;
       managers_->estimate()->SetActivePhase(j);
       minimiser->Execute();
     }
@@ -611,7 +612,7 @@ bool Model::RunMCMC() {
      */
     LOG_FINE() << "Calling minimiser to find the minimum and covariance matrix";
     auto minimiser = managers_->minimiser()->active_minimiser();
-    if((minimiser->type() == PARAM_DE_SOLVER) | (minimiser->type() == PARAM_DLIB))
+    if((minimiser->type() == PARAM_DE_SOLVER) || (minimiser->type() == PARAM_DLIB))
       LOG_ERROR() << "The minimiser type " << PARAM_DE_SOLVER << ", " << PARAM_DE_SOLVER
         << " does not produce a covariance matrix, so an MCMC cannot be run. Use one of the other minimisers.";
 
@@ -622,6 +623,7 @@ bool Model::RunMCMC() {
   }
   LOG_FINE() << "Begin MCMC chain";
   mcmc->Execute();
+
   return true;
 }
 

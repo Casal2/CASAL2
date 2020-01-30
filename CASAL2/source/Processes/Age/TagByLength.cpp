@@ -95,7 +95,7 @@ void TagByLength::DoValidate() {
             LOG_ERROR_P(PARAM_FROM) << ": The category " << split_category_label << " is not a valid category.";
           } else {
             LOG_ERROR_P(PARAM_FROM) << ": The category " << split_category_label << " is not a valid category."
-                << " It was defined in the category collection " << category;
+              << " It was defined in the category collection " << category;
           }
         }
       }
@@ -112,7 +112,7 @@ void TagByLength::DoValidate() {
 
   if (split_from_category_labels_.size() != to_category_labels_.size()) {
     LOG_ERROR_P(PARAM_TO) << " number of values supplied (" << to_category_labels_.size()
-        << ") does not match the number of from categories provided (" << split_from_category_labels_.size() << ")";
+      << ") does not match the number of from categories provided (" << split_from_category_labels_.size() << ")";
   }
 
   if (to_category_labels_.size() != selectivity_labels_.size())
@@ -245,7 +245,7 @@ void TagByLength::DoValidate() {
     actual_tagged_fish_from_[year_ndx].resize(split_from_category_labels_.size());
     actual_tagged_fish_to_[year_ndx].resize(to_category_labels_.size());
     for(unsigned from_category_ndx = 0; from_category_ndx < split_from_category_labels_.size(); ++from_category_ndx)
-        actual_tagged_fish_from_[year_ndx][from_category_ndx].resize(model_->age_spread(),0.0);
+      actual_tagged_fish_from_[year_ndx][from_category_ndx].resize(model_->age_spread(),0.0);
     for(unsigned to_category_ndx = 0; to_category_ndx < to_category_labels_.size(); ++to_category_ndx)
       actual_tagged_fish_to_[year_ndx][to_category_ndx].resize(model_->age_spread(),0.0);
   }
@@ -400,9 +400,9 @@ void TagByLength::DoExecute() {
       actual_tagged_fish_from_[year_ndx][category_ndx][j] -= numbers_at_age_by_category[(*from_iter)->name_][j];
       actual_tagged_fish_to_[year_ndx][category_ndx][j] += numbers_at_age_by_category[(*from_iter)->name_][j];
 
-      if((initial_mortality_selectivity_label_ != "") & (initial_mortality_ > 0.0))
+      if ((initial_mortality_selectivity_label_ != "") && (initial_mortality_ > 0.0))
         (*to_iter)->data_[j] -=  numbers_at_age_by_category[(*from_iter)->name_][j] * initial_mortality_ * initial_mortality_selectivity_->GetAgeResult((*to_iter)->min_age_ + j, (*to_iter)->age_length_);
-      else if((initial_mortality_selectivity_label_ == "") & (initial_mortality_ > 0.0))
+      else if ((initial_mortality_selectivity_label_ == "") && (initial_mortality_ > 0.0))
         (*to_iter)->data_[j] -= numbers_at_age_by_category[(*from_iter)->name_][j] * initial_mortality_;
 
       LOG_FINEST() << "age = " << j + model_->min_age() << " = " << numbers_at_age_by_category[(*from_iter)->name_][j]

@@ -84,7 +84,7 @@ void MortalityInstantaneous::DoValidate() {
 
   // Check Natural Mortality parameter first
   for (auto M_proportion : time_step_ratios_temp_) {
-    if ((M_proportion < 0.0) | (M_proportion > 1.0))
+    if ((M_proportion < 0.0) || (M_proportion > 1.0))
       LOG_ERROR_P(PARAM_TIME_STEP_RATIO) << "Natural Mortality time step ratio cannot be greater than 1.0 or less than 0.0 for a given time step";
   }
 
@@ -527,7 +527,7 @@ void MortalityInstantaneous::DoExecute() {
    */
   if ((model_->state() != State::kInitialise ||
       (find(time_steps_to_skip_applying_F_mortaltiy_.begin(),time_steps_to_skip_applying_F_mortaltiy_.end(), time_step_index) != time_steps_to_skip_applying_F_mortaltiy_.end())) &&
-      ((find(process_years_.begin(), process_years_.end(), year) != process_years_.end()) | (year > model_->final_year()))) {
+      ((find(process_years_.begin(), process_years_.end(), year) != process_years_.end()) || (year > model_->final_year()))) {
     LOG_FINEST() << "time step = " << time_step_index << " not in initialisation and there is an F method in this timestep. year = "
       << model_->current_year();
       for (auto& fishery_category : fishery_categories_) {
@@ -818,7 +818,7 @@ bool MortalityInstantaneous::check_categories_in_methods_for_removal_obs(vector<
       // Check all categories are in this method
       for (unsigned category_index = 0; category_index < category_labels.size(); ++category_index) {
         for (auto& fishery_category : fishery_categories_) {
-          if ((fishery_category.fishery_.label_ == fishery.label_) & (fishery_category.category_label_ == category_labels[category_index]))
+          if ((fishery_category.fishery_.label_ == fishery.label_) && (fishery_category.category_label_ == category_labels[category_index]))
             ++categories_counter;
         }
       }
