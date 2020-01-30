@@ -16,8 +16,20 @@ This is an R Markdown document comparing the results of at least 2 CASAL (base a
 ```{r C1_C2_setup}
 require(ggplot2)
 require(rlist)
-require(casal)
-require(casal2)
+
+
+require(devtools)
+
+if (!require(casal))
+{
+    install.packages('../../../R-libraries/casal_2.30.tar.gz', repos=NULL, type='source')
+    # install('casal_utils')
+}
+
+if (!require(casal2))
+{
+    install.packages('../../../R-libraries/casal2_1.0.tar.gz', repos=NULL, type='source')
+}
 
 sessionInfo()
 
@@ -125,7 +137,6 @@ legend(c1_quant$SSBs$year[1], 0.50*max_val,
 ```
 
 ```{r PLOTS_set_1, echo=FALSE}
-# plot initial numbers
 
 # Q:  how to get CASAL initial age structure?
 
@@ -160,6 +171,8 @@ for (c in 1:num_C2_models)
     c2_mat[c,,] <- as.matrix(cas2_mpd[[c]]$Init$values[,-1])
 }
 
+# plot initial numbers
+
 max_val <- max(c1_mat,
                c1_sens1_mat,
                max(c2_mat))
@@ -173,9 +186,10 @@ for (c in 1:num_C2_models)
     lines(ages, c2_mat[c,1,], col=C2_color[c], lwd=1)
     lines(ages, c2_mat[c,2,], col=C2_color[c], lwd=1, lty=3)
 }
+```
 
 
-
+```{r PLOTS_set_2, echo=FALSE}
 # plot YCS
 
 max_val <- max(c1_quant$`Vector parameter values`$recruitment.YCS,
@@ -203,9 +217,10 @@ for (c in 1:num_C2_models)
 {
     lines(cas2_mpd[[c]]$Rec$ycs_years, cas2_mpd[[c]]$Rec$true_ycs, col=C2_color[c], lwd=1)
 }
+```
 
 
-
+```{r PLOTS_set_3, echo=FALSE}
 # plot true natural mortality-at-age
 
 max_val <- max(c1_quant$`Ogive parameter values`$natural_mortality.ogive_all,
@@ -218,9 +233,10 @@ for (c in 1:num_C2_models)
 {
     lines(cas2_mpd[[c]]$NaturalMortalityOgive_all$Values, col=C2_color[c], lwd=1)
 }
+```
 
 
-
+```{r PLOTS_set_4, echo=FALSE}
 # plot summer survey
 c1_surv      <- cas_mpd$free$`q[tan_sum].q` * unlist(c1_quant$Tangaroa_bio_summer_est)
 c1_s1_surv   <- cas_mpd_sens1$free$`q[tan_sum].q` * unlist(c1_sens1_quant$Tangaroa_bio_summer_est)
@@ -270,10 +286,10 @@ for (c in 1:num_C2_models)
 {
     points(c2_surv[[c]]$year, c2_surv[[c]]$expected, col=C2_color[c], pch=(15+c-1))
 }
-
 ```
 
-```{r PLOTS_set_2, echo=FALSE}
+
+```{r PLOTS_set_5, echo=FALSE}
 # > names(cas2_mpd_base$Mortality)
 #  [1] "categories"                         "label"
 #  [3] "m"                                  "selectivities"
@@ -328,7 +344,8 @@ for (c in 1:num_C2_models)
 }
 ```
 
-```{r PLOTS_set_3, echo=FALSE}
+
+```{r PLOTS_set_6, echo=FALSE}
 ages <- seq(3, 25, 1)
 
 max_val <- max(1,
@@ -415,6 +432,7 @@ for (c in 1:num_C2_models)
 }
 ```
 
+
 ## Matching of outputs
 
 Time series comparisons with CASAL base model results
@@ -452,7 +470,7 @@ for (c in 1:num_C2_models)
 
 Derived quantities
 
-SB0, SBcurrent, others...
+SB0, SBcurrent, MSY, F_MSY, others...
 
 
 ## Tables
