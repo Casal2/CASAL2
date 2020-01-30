@@ -1,11 +1,11 @@
 Casal2
 Call: ../../BuildSystem/bin/linux/release_betadiff/casal2 -e -o params_est.out 
-Date: Thu Jan 30 12:42:42 2020
+Date: Thu Jan 30 13:08:42 2020
 Version: 2020-01-28 21:03:02 UTC (rev. bba18d6)
 Copyright (c) 2020 - 2020, NIWA (www.niwa.co.nz)
 -- Username: niwa
 -- Machine: niwa-computer.niwa.local (Linux 3.10.0-1062.9.1.el7.x86_64 x86_64)
--- Process Id: 2070
+-- Process Id: 6677
 
 [WARNING] /home/amart/work/projects/CASAL2/dev/casal2-development/CASAL2/source/Estimates/Manager.cpp(line: 93): Estimates were removed because of matching lower and upper bounds. Originally had 152 estimates, now have 151
 resizing from 40000 to 44000
@@ -4356,6 +4356,6 @@ warning_14 {s}
 estimated parameter 'selectivity[SAsl].sigma_r' was within 0.001 of its bound
 *end
 
-Total CPU time: 0.005 hours.
-Total elapsed time: 9 seconds
+Total CPU time: 0.006 hours.
+Total elapsed time: 10 seconds
 Completed
