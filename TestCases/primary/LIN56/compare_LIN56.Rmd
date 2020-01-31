@@ -13,11 +13,11 @@ knitr::opts_chunk$set(echo = TRUE)
 
 # LIN5/6 comparison of CASAL and Casal2 model configurations
 
-This is an R Markdown document comparing the results of at least 2 CASAL (base and sensitivity) and up to 8 Casal2 (3 BetaDiff, 2 CppAD, and 3 ADOL-C) model configurations.
+This document compares the results of at least 2 CASAL model configurations (base and at least one sensitivity) and up to 8 Casal2 model configurations (3 BetaDiff, 2 CppAD, and 3 ADOL-C).
 
 ## CASAL and Casal2 model output
 
-```{r C1_C2_setup}
+```{r C1_C2_setup, echo=FALSE}
 require(ggplot2)
 require(rlist)
 
@@ -47,8 +47,6 @@ mpd_out    <- 'mpd.out'
 ```
 
 ```{r CASAL}
-# getwd()
-
 # read in CASAL MPD results
 # Q:  what to do if one of these, particularly cas_mpd, does not exist?
 cas_mpd  <- casal::extract.mpd(mpd_run, file.path(base_dir, 'CASAL'))
