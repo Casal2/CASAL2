@@ -1,17 +1,21 @@
 ---
 title: "Casal2 Test Case comparisons for LIN5/6"
 output:
-  html_document: default
-  pdf_document: default
+    html_document:
+        toc: true
+        toc_depth: 2
+        number_sections: true
 ---
 
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = TRUE)
 ```
 
-## LIN5/6 comparison of CASAL and Casal2 model configurations
+# LIN5/6 comparison of CASAL and Casal2 model configurations
 
 This is an R Markdown document comparing the results of at least 2 CASAL (base and sensitivity) and up to 8 Casal2 (3 BetaDiff, 2 CppAD, and 3 ADOL-C) model configurations.
+
+## CASAL and Casal2 model output
 
 ```{r C1_C2_setup}
 require(ggplot2)
@@ -31,6 +35,7 @@ if (!require(casal2))
     install.packages('../../../R-libraries/casal2_1.0.tar.gz', repos=NULL, type='source')
 }
 
+date()
 sessionInfo()
 
 base_dir <- '.'
@@ -87,7 +92,7 @@ for (c in 1:num_C2_models)
 
 Comparison plots
 
-```{r PLOTS_base, echo=FALSE}
+```{r plots_base, echo=FALSE}
 get_list_max_val <- function(list_obj, field_val)
 {
     num_obj <- length(list_obj)
@@ -136,7 +141,8 @@ legend(c1_quant$SSBs$year[1], 0.50*max_val,
        col=c('black', 'grey', C2_color))
 ```
 
-```{r PLOTS_set_1, echo=FALSE}
+
+```{r plots_set_1, echo=FALSE}
 
 # Q:  how to get CASAL initial age structure?
 
@@ -189,7 +195,7 @@ for (c in 1:num_C2_models)
 ```
 
 
-```{r PLOTS_set_2, echo=FALSE}
+```{r plots_set_2, echo=FALSE}
 # plot YCS
 
 max_val <- max(c1_quant$`Vector parameter values`$recruitment.YCS,
@@ -220,7 +226,7 @@ for (c in 1:num_C2_models)
 ```
 
 
-```{r PLOTS_set_3, echo=FALSE}
+```{r plots_set_3, echo=FALSE}
 # plot true natural mortality-at-age
 
 max_val <- max(c1_quant$`Ogive parameter values`$natural_mortality.ogive_all,
@@ -236,7 +242,7 @@ for (c in 1:num_C2_models)
 ```
 
 
-```{r PLOTS_set_4, echo=FALSE}
+```{r plots_set_4, echo=FALSE}
 # plot summer survey
 c1_surv      <- cas_mpd$free$`q[tan_sum].q` * unlist(c1_quant$Tangaroa_bio_summer_est)
 c1_s1_surv   <- cas_mpd_sens1$free$`q[tan_sum].q` * unlist(c1_sens1_quant$Tangaroa_bio_summer_est)
@@ -289,7 +295,7 @@ for (c in 1:num_C2_models)
 ```
 
 
-```{r PLOTS_set_5, echo=FALSE}
+```{r plots_set_5, echo=FALSE}
 # > names(cas2_mpd_base$Mortality)
 #  [1] "categories"                         "label"
 #  [3] "m"                                  "selectivities"
@@ -345,7 +351,7 @@ for (c in 1:num_C2_models)
 ```
 
 
-```{r PLOTS_set_6, echo=FALSE}
+```{r plots_set_6, echo=FALSE}
 ages <- seq(3, 25, 1)
 
 max_val <- max(1,
@@ -480,7 +486,8 @@ require(plyr)
 require(dplyr)
 require(huxtable)
 
-# options('huxtable.knitr_output_format'='html')
+
+# options(huxtable.knitr_output_format = "html")
 
 
 rotate_and_label_cols <- function(df_1, labels)
@@ -496,8 +503,13 @@ reformat_to_huxtable <- function(df_1, caption_str=NA, format_num=3, reformat_co
 {
     hux_table <- as_hux(df_1, add_colnames=TRUE, add_rownames=add_rownames)
 
-    bottom_border(hux_table)[1,] <- 1
-    left_border(hux_table)[,2] <- 1
+    hux_nr <- nrow(hux_table)
+    hux_nc <- ncol(hux_table)
+
+    top_border(hux_table)[1,] <- 1
+    bottom_border(hux_table)[c(1,hux_nr),] <- 1
+    left_border(hux_table)[,1:2] <- 1
+    right_border(hux_table)[,hux_nc] <- 1
     caption(hux_table) <- caption_str
 
     # reformat numbers in table except for the top row and left column
@@ -507,10 +519,10 @@ reformat_to_huxtable <- function(df_1, caption_str=NA, format_num=3, reformat_co
     }
 
     # to reformat and highlight specific columns
+    align(hux_table)[-1,col_num] <- '.'
     if (reformat_col & col_num != 0)
     {
         hux_table <- set_number_format(hux_table, -1, col_num, 3)
-        align(hux_table)[-1,col_num] <- '.'
         hux_table <- map_background_color(hux_table, -1, col_num,
                                           by_ranges(c(-20, -10, 0, 10, 20), c('orange', 'pink', 'white', 'white', 'cyan', 'yellow')))
     }
@@ -541,27 +553,28 @@ if (num_C2_models > 1)
 options(scipen=999)
 ```
 
+
 ```{r huxtables_parameters, echo=FALSE}
 C1_est_params <- cbind(unlist(cas_mpd$free), unlist(cas_mpd_sens1$free), 100.0 * (1.0 - (unlist(cas_mpd_sens1$free) / unlist(cas_mpd$free))))
 colnames(C1_est_params) <- c('Base_Model', 'Sensitivity_1', 'Percent_Diff')
 # print('CASAL parameter estimates')
 # print(C1_est_params, digits=5)
-hux_C1_est_params <- reformat_to_huxtable(C1_est_params, 'CASAL parameter estimates', 5, TRUE, 4)
-print(hux_C1_est_params)
+hux_C1_est_params <- reformat_to_huxtable(C1_est_params, 'CASAL parameter estimates and Percent Difference', 5, TRUE, 4)
+hux_C1_est_params
 
 
 C2_est_params <- rotate_and_label_cols(C2_est_params, C2_subdir)
 # print('Casal2 parameter estimates')
 # print(C2_est_params, digits=5)
 hux_C2_est_params <- reformat_to_huxtable(C2_est_params, 'Casal2 parameter estimates')
-print(hux_C2_est_params)
+hux_C2_est_params
 
 
 C2_pd_est_params <- rotate_and_label_cols(C2_pd_est_params, C2_subdir)
 # print('Casal2 parameter estimate percent differences')
 # print(C2_pd_est_params, digits=3)
-hux_C2_pd_est_params <- reformat_to_huxtable(C2_pd_est_params, 'Casal2 parameter estimates: Percent Difference', 3, TRUE, -1)
-print(hux_C2_pd_est_params)
+hux_C2_pd_est_params <- reformat_to_huxtable(C2_pd_est_params, paste('Casal2 parameter estimates: Percent Difference from ', C2_subdir[1], sep=''), 3, TRUE, -1)
+hux_C2_pd_est_params
 ```
 
 ```{r huxtables_obj_fun, echo=FALSE}
@@ -573,14 +586,14 @@ C1_obj_fun <- bind_rows(C1_obj_fun,
 # print('CASAL objective function values')
 # print(C1_obj_fun, digits=5)
 hux_C1_obj_fun <- reformat_to_huxtable(C1_obj_fun, 'CASAL objective function values', add_rownames=FALSE)
-print(hux_C1_obj_fun)
+hux_C1_obj_fun
 
 
 C2_obj_fun <- rotate_and_label_cols(C2_obj_fun, C2_subdir)
 # print('Casal2 objective function values')
 # print(C2_obj_fun, digits=5)
 hux_C2_obj_fun <- reformat_to_huxtable(C2_obj_fun, 'Casal2 objective function values')
-print(hux_C2_obj_fun)
+hux_C2_obj_fun
 ```
 
 ```{r huxtables_close, echo=FALSE}
