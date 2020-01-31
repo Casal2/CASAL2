@@ -18,6 +18,9 @@ This document compares the results of at least 2 CASAL model configurations (bas
 ## CASAL and Casal2 model output
 
 ```{r C1_C2_setup, echo=FALSE}
+# print(paste('pandoc installed?', rmarkdown::pandoc_available()))
+# print(paste('pandoc version:', rmarkdown::pandoc_version()))
+
 require(ggplot2)
 require(rlist)
 
@@ -46,9 +49,9 @@ mpd_run    <- 'run_estimation.txt'
 mpd_out    <- 'mpd.out'
 ```
 
+
 ```{r CASAL}
 # read in CASAL MPD results
-# Q:  what to do if one of these, particularly cas_mpd, does not exist?
 cas_mpd  <- casal::extract.mpd(mpd_run, file.path(base_dir, 'CASAL'))
 c1_quant <- cas_mpd$quantities
 
@@ -57,14 +60,14 @@ c1_sens1_quant <- cas_mpd_sens1$quantities
 ```
 
 ```{r Casal2}
-C2_subdir <- c('adolc_casal_flags_on',
-               'adolc_casal_flags_off',
-               'adolc_casal_flags_on_low_tol',
-               'betadiff_casal_flags_on',
+C2_subdir <- c('betadiff_casal_flags_on',
                'betadiff_casal_flags_off',
                'betadiff_casal_flags_on_low_tol',
                'cppad_casal_flags_on',
-               'cppad_casal_flags_off')
+               'cppad_casal_flags_off',
+               'adolc_casal_flags_on',
+               'adolc_casal_flags_off',
+               'adolc_casal_flags_on_low_tol')
 
 
 # find the non-zero-sized parameter estimate files for the C2 models
