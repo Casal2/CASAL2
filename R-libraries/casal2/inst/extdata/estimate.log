@@ -1,9 +1,9 @@
 Casal2
 Call: casal2 -e 
-Date: Sun Feb 02 15:34:06 2020
+Date: Sun Feb 02 21:33:44 2020
 Version: 2020-01-31 03:23:58 UTC (rev. fedcab0)
 Copyright (c) 2020 - 2020, NIWA (www.niwa.co.nz)
-Environment: machine:LAPTOP-3JA8IB67, user:craig, os:Windows_NT, pid:17208
+Environment: machine:LAPTOP-3JA8IB67, user:craig, os:Windows_NT, pid:11860
 
 *initialisation_partition[Init]
 values {d}
@@ -1089,6 +1089,135 @@ catch[FishingWest]: 80 152 74 28 103 481 914 393 154 224 232 282 387 385 386 309
 actual_catch[FishingWest]: 80 152 74 28 103 481 914 393 154 224 232 282 387 385 386 309 409 718 656 368 597 1353 1475 1424 1169 1155 1208 454 497 687 2585 184 270 259 1069 231 822 800 
 *end
 
+*selectivity[eastFSel]
+alpha: 1 
+intervals: 5 
+label: eastFSel 
+length_based: 0 
+mu: 10.9038 
+partition_type: model 
+sigma_l: 3.51659 
+sigma_r: 7.05311 
+type: double_normal 
+Values {v}
+1 0.00409571
+2 0.0117532
+3 0.0301509
+4 0.0691444
+5 0.141752
+6 0.259786
+7 0.425616
+8 0.623355
+9 0.816144
+10 0.955242
+11 0.999871
+12 0.983397
+13 0.940614
+14 0.874966
+15 0.791532
+16 0.696375
+17 0.59582
+18 0.495775
+19 0.401191
+20 0.31573
+21 0.241645
+22 0.179861
+23 0.130195
+24 0.091653
+25 0.0627477
+26 0.0417779
+27 0.0270516
+28 0.0170348
+29 0.0104322
+30 0.0062132
+*end
+
+*selectivity[chatTANSel]
+alpha: 1 
+intervals: 5 
+label: chatTANSel 
+length_based: 0 
+mu: 9.60572 
+partition_type: model 
+sigma_l: 5.44333 
+sigma_r: 11.6139 
+type: double_normal 
+Values {v}
+1 0.176844
+2 0.2584
+3 0.36031
+4 0.479448
+5 0.608816
+6 0.737755
+7 0.853136
+8 0.941467
+9 0.991454
+10 0.999201
+11 0.99006
+12 0.97097
+13 0.942512
+14 0.905533
+15 0.861109
+16 0.810492
+17 0.755049
+18 0.696207
+19 0.635386
+20 0.573949
+21 0.513152
+22 0.454103
+23 0.39774
+24 0.344811
+25 0.295868
+26 0.251277
+27 0.211224
+28 0.17574
+29 0.144722
+30 0.11796
+*end
+
+*selectivity[westFSel]
+alpha: 1 
+intervals: 5 
+label: westFSel 
+length_based: 0 
+mu: 6.57345 
+partition_type: model 
+sigma_l: 3.05878 
+sigma_r: 8.04328 
+type: double_normal 
+Values {v}
+1 0.100127
+2 0.212336
+3 0.388281
+4 0.612237
+5 0.832423
+6 0.975932
+7 0.998052
+8 0.978432
+9 0.938862
+10 0.881793
+11 0.810635
+12 0.72942
+13 0.642427
+14 0.553813
+15 0.467301
+16 0.385944
+17 0.311994
+18 0.246866
+19 0.191192
+20 0.144935
+21 0.10754
+22 0.0781013
+23 0.055519
+24 0.0386295
+25 0.0263082
+26 0.017537
+27 0.0114423
+28 0.00730748
+29 0.00456787
+30 0.00279482
+*end
+
 *derived_quantity[SSB]
 SSB {L} 
 type: biomass 
@@ -1990,6 +2119,15 @@ year category age length observed expected residual error_value process_error ad
 2011 HAK4 19 0 0.0078 0.00591969 0.00188031 9 0 9 0.323489 0.0735345
 *end
 
+*estimation_result[minimiser_result]
+minimiser: betadiff
+type: betadiff
+Result {s}
+Success
+Message {s}
+Convergence
+*end
+
 *warnings[warnings_encounted]
 warnings_found: 2
 warning_0 {s}
@@ -1998,5 +2136,5 @@ warning_1 {s}
 estimated parameter 'process[Recruitment].ycs_values{2011}' was within 0.001 of its bound
 *end
 
-Total elapsed time: 14 seconds
+Total elapsed time: 15 seconds
 Completed
