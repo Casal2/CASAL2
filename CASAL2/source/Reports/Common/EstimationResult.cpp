@@ -24,7 +24,7 @@ namespace reports {
  */
 EstimationResult::EstimationResult(Model* model) : Report(model) {
   run_mode_    = RunMode::kEstimation;
-  model_state_ = State::kFinalise;
+  model_state_  = State::kIterationComplete;
 }
 
 /**
@@ -37,7 +37,6 @@ EstimationResult::~EstimationResult() noexcept(true) {
  * This method will execute our estimate summary report
  */
 void EstimationResult::DoExecute() {
-
   auto minimiser = model_->managers().minimiser()->active_minimiser();
   if (minimiser == nullptr) {
     LOG_CODE_ERROR() << "minimiser == nullptr";

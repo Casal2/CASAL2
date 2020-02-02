@@ -22,10 +22,12 @@
 #include <boost/numeric/ublas/io.hpp>
 #include <boost/numeric/ublas/lu.hpp>
 
+#include "Reports/Manager.h"
 #include "Estimates/Manager.h"
 #include "Logging/Logging.h"
 #include "Model/Model.h"
 #include "Utilities/DoubleCompare.h"
+#include "Reports/Common/EstimationResult.h"
 
 // Namespaces
 namespace niwa {
@@ -80,6 +82,18 @@ void Minimiser::Build() {
     hessian_[i] = new double[hessian_size_];
     for (unsigned j = 0; j < hessian_size_; ++j)
       hessian_[i][j] = 0.0;
+  }
+  // Check there is a report
+  if (!model_->managers().report()->HasType(PARAM_ESTIMATION_RESULT)) {
+    LOG_MEDIUM() << "create default estimation summary report";
+    reports::EstimationResult* objective_report = new reports::EstimationResult(model_);
+    objective_report->set_block_type(PARAM_REPORT);
+    objective_report->set_defined_file_name(__FILE__);
+    objective_report->set_defined_line_number(__LINE__);
+    objective_report->parameters().Add(PARAM_LABEL, "minimiser_result", __FILE__, __LINE__);
+    objective_report->parameters().Add(PARAM_TYPE, PARAM_ESTIMATION_RESULT, __FILE__, __LINE__);
+    objective_report->Validate();
+    model_->managers().report()->AddObject(objective_report);
   }
 
   DoBuild();
