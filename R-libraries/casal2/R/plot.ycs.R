@@ -33,21 +33,26 @@ function(model, report_label="", xlim, ylim, xlab, ylab, main, col,plot.it = T, 
     stop(Paste("In model the report label '", report_label, "' could not be found. The report labels available are ", paste(names(model),collapse = ", ")))
   ## get the report out
   this_report = get(report_label, model)
-  ## check that the report label is of type "process"
-  if (this_report$'1'$type != "process") {
-    stop(Paste("The report label ", report_label, " in model is not a process plz Check you have specified the correct report_label."))     
-  }
-#  if (this_report$'1'$type != "recruitment_beverton_holt" || is.null(this_report$'1'$type)) {
-#    stop(Paste("The process type in report ", report_label, " is not a recruitment_beverton_holt plz Check you have specified the correct report_label."))     
-#  }  
-  if (length(this_report) > 1) {
-      print("multi iteration report found")
-      muliple_iterations_in_a_report = TRUE;
-      N_runs = length(this_report);
-  }
+
+  if (any(names(this_report) == "type")) {
+    print("single iteration report found")
+    if (this_report$type != "process") 
+      stop(Paste("The report label ", report_label, " in model is not a process plz Check you have specified the correct report_label."))    
+    if (substring(this_report$sub_type, first = 1, last = 11) != "recruitment") 
+      stop(Paste("The report label ", report_label, " in model is a process, that needs to be of type recruitment"))    
+  } else {
+    print("multi iteration report found")
+    muliple_iterations_in_a_report = TRUE;
+    N_runs = length(this_report);
+    if (this_report$'1'$type != "process") 
+      stop(Paste("The report label ", report_label, " in model is not a process plz Check you have specified the correct report_label."))     
+    if (substring(this_report$'1'$sub_type, first = 1, last = 11) != "recruitment") 
+      stop(Paste("The report label ", report_label, " in model is a process, that needs to be of type recruitment"))    
+  }   
+  
   if (!muliple_iterations_in_a_report) {
-    values = this_report$'1'$true_ycs
-    ycs_years = this_report$'1'$ycs_years
+    values = this_report$true_ycs
+    ycs_years = this_report$ycs_years
     ## does the user want it plotted as percent B0
     if(missing(ylim)) {
       ymax = max(values) + quantile(values, 0.05) 

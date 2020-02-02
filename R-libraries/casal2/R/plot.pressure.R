@@ -34,34 +34,39 @@ function(model, report_label="", xlim, ylim, xlab, ylab, main, col,plot.it = T, 
   ## get the report out
   this_report = get(report_label, model)
   ## check that the report label is of type "process"
-  if (this_report$'1'$type != "process") {
-    stop(Paste("The report label ", report_label, " in model is not a process plz Check you have specified the correct report_label."))     
-  }
-  if (this_report$'1'$process_type != "mortality_instantaneous") {
-    stop(Paste("The process type in report ", report_label, " is not a mortality_instantaneous plz Check you have specified the correct report_label."))     
+  if (any(names(this_report) == "type")) {
+    if (this_report$type != "process") 
+      stop(Paste("The report label ", report_label, " in model is not a process plz Check you have specified the correct report_label."))    
+    if (this_report$sub_type != "mortality_instantaneous") 
+      stop(Paste("The report label ", report_label, " in model is a process, that needs to be of type mortality_instantaneous."))    
+
+  } else {
+    print("multi iteration report found")
+    muliple_iterations_in_a_report = TRUE;
+    N_runs = length(this_report);
+    if (this_report$'1'$type != "process") 
+      stop(Paste("The report label ", report_label, " in model is not a process plz Check you have specified the correct report_label."))     
+    if (this_report$'1'$sub_type != "mortality_instantaneous") 
+      stop(Paste("The report label ", report_label, " in model is a process, that needs to be of type mortality_instantaneous."))    
   }  
-  if (length(this_report) > 1) {
-      print("multi iteration report found")
-      muliple_iterations_in_a_report = TRUE;
-      N_runs = length(this_report);
-  }
+  
   if (!muliple_iterations_in_a_report) {
     ## only a single trajectory
-    f_ndx = grepl(pattern = "fishing_pressure", names(this_report$'1'))
-    start_index = as.numeric(regexpr(pattern = "\\[",text = names(this_report$'1')[f_ndx])) + 1
-    stop_index = as.numeric(regexpr(pattern = "\\]",text = names(this_report$'1')[f_ndx])) - 1
-    fisheries = substring(names(this_report$'1')[f_ndx], start_index,last = stop_index)
-    years =  this_report$'1'$year
+    f_ndx = grepl(pattern = "fishing_pressure", names(this_report))
+    start_index = as.numeric(regexpr(pattern = "\\[",text = names(this_report)[f_ndx])) + 1
+    stop_index = as.numeric(regexpr(pattern = "\\]",text = names(this_report)[f_ndx])) - 1
+    fisheries = substring(names(this_report)[f_ndx], start_index,last = stop_index)
+    years =  this_report$year
     first_fishery = TRUE;
     if(missing(col)) {
-      palette(gray(seq(0.,.90,len = length(fisheries))))
+      palette(gray(seq(0.4,.90,len = length(fisheries))))
       Cols = palette()
     } else {
       Cols = col;
     }
     ## create a plot
     for ( i in 1:length(fisheries)) {
-      values = this_report$'1'[[which(f_ndx)[i]]]
+      values = this_report[[which(f_ndx)[i]]]
       ## does the user want it plotted as percent B0
       
       if(missing(ylim)) {

@@ -51,31 +51,34 @@ function(model, report_label="", plot.it = T, xlim, ylim, xlab, ylab, main, col,
     stop(Paste("In model the report label '", report_label, "' could not be found. The report labels available are ", paste(names(model),collapse = ", ")))
   ## get the report out
   this_report = get(report_label, model)
-  ## check that the report label is of type derived_quantity
-  if (this_report$'1'$type != "observation") {
-    stop(Paste("The report label ", report_label, " in model is not a observation plz Check you have specified the correct report_label."))     
-  }
-  if (length(this_report) > 1) {
-      print("multi iteration report found")
-      muliple_iterations_in_a_report = TRUE;
-      N_runs = length(this_report);
-  }
   likelihoods_allowed = c("lognormal", "multinomial", "normal")
   observations_allowed = c("biomass", "abundance", "proportions_at_age", "process_proportions_at_age", "proportions_at_length", "process_proportions_at_length", "process_removals_by_age", "process_removals_by_length")
-  if (!this_report$'1'$likelihood %in% likelihoods_allowed) {
-    stop(Paste("We have only coded this function to deal with the following likelihoods " , paste(likelihoods_allowed, collapse = ", "), " please add the functionalty to the R-library for future users"))
-  }
-  if (!this_report$'1'$observation_type %in% observations_allowed) {
-    stop(Paste("We have only coded this function to deal with the following observation types " , paste(observations_allowed, collapse = ", "), " please add the functionalty to the R-library for future users"))
+  
+  if (any(names(this_report) == "type")) {
+    if (this_report$type != "observation") 
+      stop(Paste("The report label ", report_label, " in model is not a observation plz Check you have specified the correct report_label."))    
+    if (!this_report$observation_type %in% observations_allowed) {
+      stop(Paste("We have only coded this function to deal with the following observation types " , paste(observations_allowed, collapse = ", "), " please add the functionalty to the R-library for future users"))
+    }
+  } else {
+    print("multi iteration report found")
+    muliple_iterations_in_a_report = TRUE;
+    N_runs = length(this_report);
+    if (this_report$'1'$type != "observation") 
+      stop(Paste("The report label ", report_label, " in model is not a observation plz Check you have specified the correct report_label."))     
+    if (!this_report$'1'$observation_type %in% observations_allowed) {
+      stop(Paste("We have only coded this function to deal with the following observation types " , paste(observations_allowed, collapse = ", "), " please add the functionalty to the R-library for future users"))
+    }      
   }  
+
   if (!muliple_iterations_in_a_report) { 
     ## pull out the comparisons oject
-    Comparisons = this_report$'1'$Values
+    Comparisons = this_report$Values
     ## transform comparisons to something easier to call
     t_comp = transform.comparisons(Comparisons)
     if (plot.it) {
       if (type == "fit") {
-        if (this_report$'1'$likelihood == "lognormal") {      
+        if (this_report$likelihood == "lognormal") {      
           ## Now standardise by Mean and add confidence intervals.
           total_sigma = sqrt(log(1 + t_comp$actual_error^2))
           Mean = log(t_comp$obs) - 0.5*(total_sigma^2)
@@ -89,11 +92,11 @@ function(model, report_label="", plot.it = T, xlim, ylim, xlab, ylab, main, col,
           if (missing(xlab))
             xlab = "Year"
           if (missing(ylab)) 
-            ylab = this_report$'1'$type          
+            ylab = this_report$type          
           plot(t_comp$year, t_comp$obs, main = report_label, pch = 1, xlab = xlab, ylab = ylab, ylim = ylim, xlim = xlim,...)
           segments(x0 = t_comp$year, x1 = t_comp$year, y0 = L_CI, y1 = U_CI, col = "black")   
           points(t_comp$year, t_comp$fits, col = "red" , pch = 20, cex = 1.3)        
-        } else if (this_report$'1'$likelihood == "normal") {
+        } else if (this_report$likelihood == "normal") {
           warning("I haven't actually tested this code, probably wouldn't hurt to have a look over the code. \nI have assumed the sigma = Standard error and so 95%CI = Obs +- 1.96 * sigma\n");
           total_sigma = t_comp$obs * t_comp$actual_error
           U_CI = t_comp$obs + 1.96 * total_sigma
@@ -106,13 +109,13 @@ function(model, report_label="", plot.it = T, xlim, ylim, xlab, ylab, main, col,
           if (missing(xlab))
             xlab = "Year"
           if (missing(ylab)) 
-            ylab = this_report$'1'$type
+            ylab = this_report$type
             
           plot(t_comp$year, t_comp$obs, main = report_label, pch = 1, xlab = xlab, ylab = ylab, ylim = ylim, xlim = xlim,...)
           segments(x0 = t_comp$year, x1 = t_comp$year, y0 = L_CI, y1 = U_CI, col = "black")   
           points(t_comp$year, t_comp$fits, col = "red" , pch = 20, cex = 1.3)        
 
-        } else if (this_report$'1'$likelihood == "multinomial") {
+        } else if (this_report$likelihood == "multinomial") {
           cat("Plotting mean age.\n")
           Nassumed <- Ry <- Sy <- c();
           Obs <- as.matrix(t_comp$obs)
@@ -148,7 +151,7 @@ function(model, report_label="", plot.it = T, xlim, ylim, xlab, ylab, main, col,
       return(t_comp);
     }
   } else {
-    stop("haven't written these yet...\n")
+    stop("haven't written For multiple runs\n")
   }
 }
 
