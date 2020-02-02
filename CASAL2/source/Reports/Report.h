@@ -70,6 +70,7 @@ public:
   const string&               time_step() const { return time_step_; }
   bool                        ready_for_writing() const { return ready_for_writing_; }
   void                        set_skip_tags(bool value) { skip_tags_ = value; }
+  void                        set_write_mode(string value) { write_mode_ = value; }
 
 protected:
   // methods

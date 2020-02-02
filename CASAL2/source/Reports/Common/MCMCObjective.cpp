@@ -62,8 +62,10 @@ void MCMCObjective::DoExecute() {
     auto covariance = mcmc_->covariance_matrix();
     if (estimates.size() != covariance.size1())
       LOG_CODE_ERROR() << "different number of estimates to what are in the covariance matrix. estimates.size() != covariance.size1()";
-    for (unsigned i = 0; i < estimates.size(); ++i) {
-      cache_ << estimates[i]->parameter() << " ";
+    // change so there is no trailing space
+    cache_ << estimates[0]->parameter();
+    for (unsigned i = 1; i < estimates.size(); ++i) {
+      cache_ << " " << estimates[i]->parameter();
     }
     cache_ << "\n";
     for (unsigned i = 0; i < covariance.size1(); ++i) {

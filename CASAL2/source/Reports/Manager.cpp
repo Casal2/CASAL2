@@ -208,6 +208,18 @@ void Manager::FlushReports() {
 }
 
 /**
+ * GetReport
+ */
+Report* Manager::GetReport(const string& type) {
+  for (auto report : objects_) {
+    if (report->type() == type)
+      return report;
+  }
+
+  return nullptr;
+}
+
+/**
  *
  */
 void Manager::Pause() {
