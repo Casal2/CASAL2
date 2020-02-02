@@ -74,7 +74,7 @@ function(model, report_labels =c(""), xlim, ylim, xlab, ylab, main, col, ...){
     if (i == 1) {
       plot(names(this_report$Values), this_report$Values, xlim = xlim, ylim = ylim, xlab = xlab, ylab = ylab, main = main, type = "l", col = Cols[i], ...)
     } else {
-      lines(names(this_report$Values), this_report$Values, col = Cols[i])
+      lines(names(this_report$Values), this_report$Values, col = Cols[i], ...)
     }
   }
   legend('topright', legend = report_labels, col = Cols, lty = 1, lwd = 2)

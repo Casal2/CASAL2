@@ -29,15 +29,15 @@
       stop(Paste("In model the report label '", observation_labels[i], "' could not be found. The report labels available are ", paste(names(model),collapse = ", ")))
     ## get the report out
     this_report = get(observation_labels[i], model)
+    if (all(names(this_report) != "type"))
+      stop("can't deal with multiple outputs in the same output file")
     ## check that the Observation_label is of type observation
-    if (this_report$'1'$type != "observation") {
-      stop(Paste("The report label ", observation_labels[i], " in model is not a observation report, it is a ",this_report$'1'$type," report, plz Check you have specified the correct Observation_label"))     
+    if (this_report$type != "observation") {
+      stop(Paste("The report label ", observation_labels[i], " in model is not a observation report, it is a ",this_report$type," report, plz Check you have specified the correct Observation_label"))     
     }
-    if (length(this_report) > 1) {
-        stop(Paste("Found: ",length(this_report) ," reports in under the observation_label, ", observation_labels[i],", ususally this is caused by a multiline parameter run in casal2 -i or a profile run casal2 -p. This function will not work for those run types"))
-    }
+
     ## Reformat the obs
-    Data = this_report$'1'$Values
+    Data = this_report$Values
     years = unique(Data[,"year"])
     n_categories = length(unique(Data[,"category"]))
 
@@ -123,7 +123,7 @@
       points(years, My[, "Obs"], pch = "x", col = 3)
       segments(years, Obs.bnds[, 1], years, Obs.bnds[, 2], 
           col = 3)
-      lines(years, My[, "Exp"], col = 2)
+      lines(years, My[, "Exp"], col = "red")
   }
   wj
 }
