@@ -29,13 +29,21 @@ require(devtools)
 
 if (!require(casal))
 {
-    install.packages('../../../R-libraries/casal_2.30.tar.gz', repos=NULL, type='source')
+    # install the CASAL library in the TestCases subdirectory
+    .libPaths(c(.libPaths(), '../..'))
+
+    install.packages('../../../R-libraries/casal_2.30.tar.gz', repos=NULL)
+    library(casal)
     # install('casal_utils')
 }
 
 if (!require(casal2))
 {
-    install.packages('../../../R-libraries/casal2_1.0.tar.gz', repos=NULL, type='source')
+    # install the Casal2 library in the TestCases subdirectory
+    .libPaths(c(.libPaths(), '../..'))
+
+    install.packages('../../../R-libraries/casal2_1.0.tar.gz', repos=NULL)
+    library(casal2)
 }
 
 date()
@@ -480,7 +488,10 @@ Derived quantities
 SB0, SBcurrent, MSY, F_MSY, others...
 
 
+
 ## Tables
+
+Tables of parameter estimates and objective function components for the CASAL and Casal2 model MPD results
 
 ```{r table_setup, echo=FALSE}
 require(plyr)
@@ -586,16 +597,17 @@ C1_obj_fun <- bind_rows(C1_obj_fun,
                         data.frame(Component='Total', Base_Model=cas_mpd$objective.function$value, Sensitivity_1=cas_mpd_sens1$objective.function$value))
 # print('CASAL objective function values')
 # print(C1_obj_fun, digits=5)
-hux_C1_obj_fun <- reformat_to_huxtable(C1_obj_fun, 'CASAL objective function values', add_rownames=FALSE)
+hux_C1_obj_fun <- reformat_to_huxtable(C1_obj_fun, 'CASAL objective function component values', add_rownames=FALSE)
 hux_C1_obj_fun
 
 
 C2_obj_fun <- rotate_and_label_cols(C2_obj_fun, C2_subdir)
 # print('Casal2 objective function values')
 # print(C2_obj_fun, digits=5)
-hux_C2_obj_fun <- reformat_to_huxtable(C2_obj_fun, 'Casal2 objective function values')
+hux_C2_obj_fun <- reformat_to_huxtable(C2_obj_fun, 'Casal2 objective function component values')
 hux_C2_obj_fun
 ```
+
 
 ```{r huxtables_close, echo=FALSE}
 options(scipen=0)
