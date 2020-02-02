@@ -86,7 +86,7 @@ function(model, report_label="", xlim, ylim, xlab, ylab, main, col,plot.it = T, 
         plot(years, values, xlim = xlim, ylim = ylim, xlab = xlab, ylab = ylab, main = main, type = "o", col = Cols[i], ...)
         first_fishery = FALSE;        
       } else if (plot.it == TRUE && !first_fishery) {
-        lines(years, values, col = Cols[i], type = "o")
+        lines(years, values, col = Cols[i], type = "o", ...)
       } else {
         temp_DF = cbind(values,temp_DF);
       }

@@ -6,47 +6,14 @@
 \alias{plot.derived_quantities.casal2TAB}
 \title{plot.derived_quantities default}
 \usage{
-plot.derived_quantities(
-  model,
-  report_label = "",
-  type = "number",
-  xlim,
-  ylim,
-  xlab,
-  ylab,
-  main,
-  col,
-  plot.it = T,
-  ...
-)
+plot.derived_quantities(model, report_label = "", type = "number",
+  xlim, ylim, xlab, ylab, main, col, plot.it = T, ...)
 
-\method{plot.derived_quantities}{casal2MPD}(
-  model,
-  report_label = "",
-  type = "number",
-  xlim,
-  ylim,
-  xlab,
-  ylab,
-  main,
-  col,
-  plot.it = T,
-  ...
-)
+\method{plot.derived_quantities}{casal2MPD}(model, report_label = "",
+  type = "number", xlim, ylim, xlab, ylab, main, col, plot.it = T, ...)
 
-\method{plot.derived_quantities}{casal2TAB}(
-  model,
-  report_label = "",
-  type = "number",
-  xlim,
-  ylim,
-  xlab,
-  ylab,
-  main,
-  col,
-  plot.it = T,
-  ...
-)
+\method{plot.derived_quantities}{casal2TAB}(model, report_label = "",
+  type = "number", xlim, ylim, xlab, ylab, main, col, plot.it = T, ...)
 }
 \arguments{
 \item{model}{<casal2MPD, casal2TAB> object that are generated from one of the extract() functions.}

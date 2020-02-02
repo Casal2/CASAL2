@@ -9,7 +9,7 @@
 summarise_process = function(report_object) {
   cat(Paste("Process type: ",report_object$process_type, "\n\n"))
   cat(Paste("Process label: ",report_object$process, "\n"))
-  if (report_object$process_type == "mortality_instantaneous") {
+  if (report_object$sub_type == "mortality_instantaneous") {
     ## Summarise Instantaneous Mortality
     cat("Natural mortality by category (doesn't take into account selectivity)\n")
     cat(Paste("Category: ",paste(report_object$categories, collapse = " "), "\n"))  
@@ -45,7 +45,7 @@ summarise_process = function(report_object) {
     rownames(data) = report_object$year
     print(data)
     cat("\n\n")  
-  } else if (report_object$process_type == "recruitment_beverton_holt") {
+  } else if (report_object$sub_type == "recruitment_beverton_holt") {
     cat(Paste("B0: ", report_object$b0), "\n")
     cat(Paste("R0: ", report_object$r0), "\n")    
     cat(Paste("SSB_label: ", report_object$ssb), "\n")       

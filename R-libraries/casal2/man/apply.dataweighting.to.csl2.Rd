@@ -4,14 +4,9 @@
 \alias{apply.dataweighting.to.csl2}
 \title{apply.dataweighting.to.csl2 reads in your observation.csl2 file and applys a reweighting factor and saves as a new .csl2 file.}
 \usage{
-apply.dataweighting.to.csl2(
-  Path = "",
-  weighting_factor,
-  Observation_csl2_file = "Observations.csl2",
-  Observation_label = "",
-  Observation_out_filename = "Observation.csl2.0",
-  fileEncoding = ""
-)
+apply.dataweighting.to.csl2(Path = "", weighting_factor,
+  Observation_csl2_file = "Observations.csl2", Observation_label = "",
+  Observation_out_filename = "Observation.csl2.0", fileEncoding = "")
 }
 \arguments{
 \item{Path}{path to the directory containing the Observation.csl2 file.}

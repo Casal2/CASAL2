@@ -6,41 +6,15 @@
 \alias{plot.recruitment.casal2TAB}
 \title{plot.recruitment plot the stock recruitment relationship from a Casal2 model output.}
 \usage{
-plot.recruitment(
-  model,
-  report_label = "",
-  xlim,
-  ylim,
-  xlab,
-  ylab,
-  main,
-  col,
-  ...
-)
+plot.recruitment(model, report_label = "", xlim, ylim, xlab, ylab, main,
+  col, ...)
 
-\method{plot.recruitment}{casal2MPD}(
-  model,
-  report_label = "",
-  xlim = NULL,
-  ylim = NULL,
-  xlab = NULL,
-  ylab = NULL,
-  main = NULL,
-  col = NULL,
-  ...
-)
+\method{plot.recruitment}{casal2MPD}(model, report_label = "",
+  add_BH_curve = TRUE, xlim = NULL, ylim = NULL, xlab = NULL,
+  ylab = NULL, main = NULL, col = NULL, ...)
 
-\method{plot.recruitment}{casal2TAB}(
-  model,
-  report_label = "",
-  xlim,
-  ylim,
-  xlab,
-  ylab,
-  main,
-  col,
-  ...
-)
+\method{plot.recruitment}{casal2TAB}(model, report_label = "", xlim,
+  ylim, xlab, ylab, main, col, ...)
 }
 \arguments{
 \item{model}{<casal2MPD, casal2TAB> object that are generated from one of the extract.mpd() and extract.tabular() functions.}

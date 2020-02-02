@@ -54,7 +54,7 @@ When Casal2 is either run deterministically (\texttt{casal2 -r}) or as an estima
 
 ```{r read_mpd_single, linewidth=60}
 # this will create a list like object called single_run
-single_run = extract.mpd(file = "Estimate.log", path = fpath)
+single_run = extract.mpd(file = "Estimate.out", path = fpath)
 # look at what objects are in the list
 names(single_run)
 ```
@@ -122,7 +122,8 @@ plot.ycs(model = single_run, report_label = "Rec")
 ```
 Fishing pressure/exploitation rates for each fishery
 ```{r plot_Exploitation, fig.width=8, fig.height=4.3, linewidth=60, fig.cap="Estimated exploitation", fig.pos="H"}
-plot.pressure(model = single_run, report_label = "Mortality", plot.it = T, col = c("blue", "red"), lwd = 3)
+plot.pressure(model = single_run, report_label = "Mortality", plot.it = T, 
+              col = c("blue", "red"), lwd = 3)
 ```
 
 plot selectivities
@@ -131,6 +132,15 @@ plot.selectivities(model = single_run, report_labels = c("eastFSel", "chatTANSel
 ```
 
 Next, we will show how to check that the minimum reported is reached with multiple parameter values.
+## Plotting priors
+It is usefult to visulise priors, that are assumed in a Casal2 assessment model. We have added the \texttt{plot.prio()} function from the casal R package so this can be easily done.
+
+
+
+```{r plot_priors, linewidth=60, include=TRUE, eval=T}
+plot.prior(type = "lognormal", mu = 1, cv = 0.9, xlim = c(0,3), xlab = "YCS", ylim = c(0,1), bounds = c(0,3))
+```
+
 
 ## Dataweighting 
 Casal2 has inbuild data weighting functions, such as \texttt{ CV.for.CPUE} which is a method that associates cv's for a relative biomass trend, based on loess smoothness. There is also the Francis Method TA1.8 \texttt{Method.TA1.8()} demonstrated below.
@@ -170,6 +180,16 @@ convergence
 objective[convergence == "Success"]
 ```
 
+Another helpful function that is available to identify parameters that are unidentfiable is \texttt{check_mpd_identifiability()}. You will need to report the covariance matrix and the estimate values in order for this function to work.
+
+
+
+
+```{r check_param_identifiability, linewidth=60, include=TRUE, eval=TRUE}
+# Give this is an example file, the covariance is not invertable
+# check_mpd_identifiability(single_run)
+```
+
 ## Multi Run\label{sec:multirun}
 Most of the functions that work for the Single MPD aren't written for multi run reports =(. The next step will be if there are multiple model configurations, say model_BH and model_constant, you would create sensitivities for these. This will be the most common multi model run the users will want to summarise
 
@@ -189,7 +209,8 @@ There is two formats for MCMC outputs, the objectives and samples, and the deriv
 
 ```{r read_mcmc, linewidth=60, eval=FALSE}
 # this will create a list like object called single_run
-mcmc_out = extract.mcmc(samples.file = "mcmc_samples.out",objectives.file = "mcmc_objectives.out",return_covariance = T, path = fpath)
+mcmc_out = extract.mcmc(samples.file = "mcmc_samples.out",objectives.file = "mcmc_objectives.out",
+                        return_covariance = T, path = fpath)
 # look at the covariance, aka proposal covariance for the MH MCMC
 mcmc_out$Covariance
 ```
@@ -201,14 +222,15 @@ library(coda) # TODO make this a dependency
 mcmc_out = extract.mcmc(samples.file = "mcmc_samples.out",objectives.file = "mcmc_objectives.out",return_covariance = T, path = fpath)
 # convert to coda mcmc object
 # drop out sample jacobians, step_size, acceptance_rate, acceptance_rate_since_adapt
-mcmc_chain = as.mcmc(mcmc_out$Data[, !colnames(mcmc_out$Data) %in% c("sample", "jacobians", "step_size", "acceptance_rate", "penalties", "acceptance_rate_since_adapt")])
+mcmc_chain = as.mcmc(mcmc_out$Data[, !colnames(mcmc_out$Data) %in% c("sample", "jacobians", 
+                                                                     "step_size", "acceptance_rate", "penalties", "acceptance_rate_since_adapt")])
 # if return_covariance = F, replace the above with below
 #mcmc_chain = as.mcmc(mcmc_out)
 ```
 Now use all the diagnostics for proper Bayesian evailuation
 
 ```{r mcmc_diadnostics, linewidth=60}
-# once this occurs you can use all the Code MCMC code
+# once this occurs you can use all the Coda MCMC code
 #geweke.diag(mcmc_chain)
 par(mfrow = c(2,2))
 traceplot(mcmc_chain[,"objective_score"], main = "objective score")

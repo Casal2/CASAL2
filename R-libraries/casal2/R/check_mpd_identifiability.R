@@ -17,29 +17,32 @@ check_mpd_identifiability = function(cas2_mod, delta = .Machine$double.eps) {
   covar_ndx = 0
   est_ndx = 0
   for(i in 1:length(cas2_mod)) {
-    if (cas2_mod[[i]]$`1`$type == "covariance_matrix")
+    if (cas2_mod[[i]]$type == "covariance_matrix")
       covar_ndx = i
-    if (cas2_mod[[i]]$`1`$type == "estimate_value")
+    if (cas2_mod[[i]]$type == "estimate_value")
       est_ndx = i
   }
   if (covar_ndx == 0) {
     stop("couldn't find a report of type 'covariance_matrix', please re-run the estimation with this report so we can check parameter identifiability")
   }
+  if (est_ndx == 0) {
+    stop("couldn't find a report of type 'estimate_value', please re-run the estimation with this report so we can check parameter identifiability")
+  }
   ## check covariance is invertable
-  if (!isSymmetric(cas2_mod[[covar_ndx]]$`1`$covariance_matrix))
+  if (!isSymmetric(cas2_mod[[covar_ndx]]$covariance_matrix))
     stop("covariance matrix is not symetric something is wrong here.")
   ## check positive semi defintie matrix
-  if(class(try(solve(cas2_mod[[covar_ndx]]$`1`$covariance_matrix),silent=T)) != "matrix")
+  if(class(try(solve(cas2_mod[[covar_ndx]]$covariance_matrix),silent=T)) != "matrix")
     stop("covariance not invertible")
   ## calculate hessian
-  hess = solve(cas2_mod[[covar_ndx]]$`1`$covariance_matrix)
+  hess = solve(cas2_mod[[covar_ndx]]$covariance_matrix)
   ## eigen decomposition
   Eig = eigen(hess)
   WhichBad = which(Eig$values < sqrt(delta))
   df = NULL;
   if (length(WhichBad) == 0) {
     if (est_ndx != 0) {
-      params = cas2_mod[[est_ndx]]$`1`$values
+      params = cas2_mod[[est_ndx]]$values
       df = data.frame(Param = names(params), 
                       MPD = as.numeric(params), 
                       Param_check =  "OK")

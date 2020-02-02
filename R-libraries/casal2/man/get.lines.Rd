@@ -4,18 +4,9 @@
 \alias{get.lines}
 \title{Utility extract function}
 \usage{
-get.lines(
-  lines,
-  from = -1,
-  to = -1,
-  contains = "",
-  starts.with = "",
-  clip.to = "",
-  clip.from = "",
-  clip.to.match = "",
-  clip.from.match = "",
-  ...
-)
+get.lines(lines, from = -1, to = -1, contains = "",
+  starts.with = "", clip.to = "", clip.from = "",
+  clip.to.match = "", clip.from.match = "", ...)
 }
 \description{
 Utility extract function
