@@ -51,25 +51,39 @@ void EstimationResult::DoExecute() {
     cache_ << "Invalid/No/Result/Code Error\n";
     break;
   case MinimiserResult::kSuccess:
-    cache_ << "Estimation success (Convergence)\n";
+    cache_ << "Success\n";
+    cache_ << "Message " << REPORT_R_STRING_VECTOR << "\n";
+    cache_ << "Convergence\n";
     break;
   case MinimiserResult::kStepSizeTooSmallSuccess:
-    cache_ << "Estimation success (Step size too small convergence)\n";
+    cache_ << "Success\n";
+    cache_ << "Message " << REPORT_R_STRING_VECTOR << "\n";
+    cache_ << "Step size too small convergence\n";
     break;
   case MinimiserResult::kError:
-    cache_ << "Estimation failed (Error)\n";
+    cache_ << "Failed\n";
+    cache_ << "Message " << REPORT_R_STRING_VECTOR << "\n";
+    cache_ << "Error\n";
     break;
   case MinimiserResult::kTooManyIterations:
-    cache_ << "Estimation failed (Too many iterations)\n";
+    cache_ << "Failed\n";
+    cache_ << "Message " << REPORT_R_STRING_VECTOR << "\n";
+    cache_ << "Too many iterations\n";
     break;
   case MinimiserResult::kTooManyEvaluations:
-    cache_ << "Estimation failed (Too many objective evaluations)\n";
+    cache_ << "Failed\n";
+    cache_ << "Message " << REPORT_R_STRING_VECTOR << "\n";
+    cache_ << "Too many objective evaluations\n";
     break;
   case MinimiserResult::kStepSizeTooSmall:
-    cache_ << "Estimation failed (Step size too small, cannot find convergence)\n";
+    cache_ << "Failed\n";
+    cache_ << "Message " << REPORT_R_STRING_VECTOR << "\n";
+    cache_ << "Step size too small, cannot find convergence\n";
     break;
   default:
-    cache_ << "Estimation failed (Unknown Error)\n";
+    cache_ << "Failed\n";
+    cache_ << "Message " << REPORT_R_STRING_VECTOR << "\n";
+    cache_ << "Unknown Error\n";
     break;
   }
 
