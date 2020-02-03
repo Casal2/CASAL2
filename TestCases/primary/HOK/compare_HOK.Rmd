@@ -17,7 +17,7 @@ This document compares the results of at least 2 CASAL model configurations (bas
 
 ## CASAL and Casal2 model output
 
-```{r C1_C2_setup, echo=FALSE}
+```{r C1_C2_setup, echo=FALSE, warning=FALSE, message=FALSE}
 # print(paste('pandoc installed?', rmarkdown::pandoc_available()))
 # print(paste('pandoc version:', rmarkdown::pandoc_version()))
 
@@ -530,7 +530,7 @@ for (c in 1:num_C2_models)
 
 Time series comparisons with CASAL base model results
 
-```{r Time_Series_Match, echo=FALSE}
+```{r Time_Series_Match, echo=FALSE, warning=FALSE, message=FALSE}
 time_series_match <- function(t1_vec, t2_vec)
 {
     if (length(t1_vec) == length(t2_vec))
@@ -578,7 +578,7 @@ SB0, SBcurrent, MSY, F_MSY, others...
 
 Tables of parameter estimates and objective function components for the CASAL and Casal2 model MPD results
 
-```{r table_setup, echo=FALSE}
+```{r table_setup, echo=FALSE, warning=FALSE, message=FALSE}
 require(plyr)
 require(dplyr)
 require(huxtable)
@@ -649,7 +649,7 @@ options(scipen=999)
 ```
 
 
-```{r huxtables_parameters, echo=FALSE}
+```{r huxtables_parameters, echo=FALSE, warning=FALSE, message=FALSE}
 C1_est_params <- cbind(unlist(cas_mpd$free), unlist(cas_mpd_sens1$free), 100.0 * (1.0 - (unlist(cas_mpd_sens1$free) / unlist(cas_mpd$free))))
 colnames(C1_est_params) <- c('Base_Model', 'Sensitivity_1', 'Percent_Diff')
 hux_C1_est_params <- reformat_to_huxtable(C1_est_params, 'CASAL parameter estimates', 5, TRUE, 4)
@@ -667,7 +667,7 @@ hux_C2_pd_est_params
 ```
 
 
-```{r huxtables_obj_fun, echo=FALSE}
+```{r huxtables_obj_fun, echo=FALSE, warning=FALSE, message=FALSE}
 C1_obj_fun <- data.frame(Component=cas_mpd$objective.function$components$label,
                          Base_Model=cas_mpd$objective.function$components$value,
                          Sensitivity_1=cas_mpd_sens1$objective.function$components$value)
@@ -683,7 +683,7 @@ hux_C2_obj_fun
 ```
 
 
-```{r warnings_and_bounds, echo=FALSE}
+```{r warnings_and_bounds, echo=FALSE, warning=FALSE, message=FALSE}
 print('CASAL model warnings')
 print(cas_mpd$parameters.at.bounds)
 print('')
