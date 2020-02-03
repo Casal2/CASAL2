@@ -1,9 +1,9 @@
 #' @title check_mpd_identifiability
 #'
 #' @description
-#' Do an eigen decomposition of the hessian matrix to identify correlated estimated parameters 
-#' and parameters with high uncertainty. Small or zero eigenvalues (high condition number) 
-#' indicates ill-posedness, i.e. the parameter estimation problem does not have a unique solution. 
+#' Do an eigen decomposition of the hessian matrix to identify correlated estimated parameters
+#' and parameters with high uncertainty. Small or zero eigenvalues (high condition number)
+#' indicates ill-posedness, i.e. the parameter estimation problem does not have a unique solution.
 #' This eigenvalue decomposition has been widely used in the estimation literature
 #'
 #' @author C.Marsh
@@ -23,17 +23,17 @@ check_mpd_identifiability = function(cas2_mod, delta = .Machine$double.eps) {
       est_ndx = i
   }
   if (covar_ndx == 0) {
-    stop("couldn't find a report of type 'covariance_matrix', please re-run the estimation with this report so we can check parameter identifiability")
+    stop("A report of type 'covariance_matrix' was not found. Please re-run the estimation with a @report with 'type covariance_matrix'")
   }
   if (est_ndx == 0) {
-    stop("couldn't find a report of type 'estimate_value', please re-run the estimation with this report so we can check parameter identifiability")
+    stop("A report of type 'estimate_value' was not found. Please re-run the estimation with a @report with 'type estimate_value")
   }
   ## check covariance is invertable
   if (!isSymmetric(cas2_mod[[covar_ndx]]$covariance_matrix))
-    stop("covariance matrix is not symetric something is wrong here.")
+    stop("Error: the covariance matrix is not symmetric.")
   ## check positive semi defintie matrix
   if(class(try(solve(cas2_mod[[covar_ndx]]$covariance_matrix),silent=T)) != "matrix")
-    stop("covariance not invertible")
+    stop("Error: the covariance matrix is not invertible")
   ## calculate hessian
   hess = solve(cas2_mod[[covar_ndx]]$covariance_matrix)
   ## eigen decomposition
@@ -43,30 +43,30 @@ check_mpd_identifiability = function(cas2_mod, delta = .Machine$double.eps) {
   if (length(WhichBad) == 0) {
     if (est_ndx != 0) {
       params = cas2_mod[[est_ndx]]$values
-      df = data.frame(Param = names(params), 
-                      MPD = as.numeric(params), 
+      df = data.frame(Param = names(params),
+                      MPD = as.numeric(params),
                       Param_check =  "OK")
     } else {
-      df = data.frame(Paramupdate. = 1:ncol(hess), 
-                      MPD = NA, 
+      df = data.frame(Paramupdate. = 1:ncol(hess),
+                      MPD = NA,
                       Param_check = "OK")
-    }  
+    }
   } else {
     # for values with zero eigenvalues find the absolute largest eigenvector value
-    RowMax = apply(Eig$vectors[, WhichBad, drop=FALSE], MARGIN = 1, 
+    RowMax = apply(Eig$vectors[, WhichBad, drop=FALSE], MARGIN = 1,
                    FUN = function(vec) {max(abs(vec))})
     if (est_ndx != 0) {
       params = cas2_mod[[est_ndx]]$`1`$values
-      df = data.frame(Param = names(params), 
-                      MPD = as.numeric(params), 
+      df = data.frame(Param = names(params),
+                      MPD = as.numeric(params),
                       Param_check = ifelse(RowMax > 0.1, "Bad", "OK"))
     } else {
-      df = data.frame(Paramupdate. = 1:ncol(hess), 
-                      MPD = NA, 
+      df = data.frame(Paramupdate. = 1:ncol(hess),
+                      MPD = NA,
                       Param_check = ifelse(RowMax > 0.1, "Bad", "OK"))
     }
-    
-    
+
+
   }
   return(df)
 }

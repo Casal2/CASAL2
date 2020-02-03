@@ -33,22 +33,22 @@ function(model, report_label="", type = "number", xlim, ylim, xlab, ylab, main, 
 
   ## check report label exists
   if (!report_label %in% names(model))
-    stop(Paste("In model the report label '", report_label, "' could not be found. The report labels available are ", paste(names(model),collapse = ", ")))
+    stop(Paste("The report label '", report_label, "' was not found. The report labels available are: ", paste(names(model),collapse = ", ")))
   ## get the report out
   this_report = get(report_label, model)
   ## check that the report label is of type derived_quantity
-  
+
   if (any(names(this_report) == "type")) {
-    if (this_report$type != "derived_quantity") 
-      stop(Paste("The report label ", report_label, " in model is not a derived_quantity plz Check you have specified the correct report_label."))    
+    if (this_report$type != "derived_quantity")
+      stop(Paste("The report label '", report_label, "' is not a derived_quantity. Please check that the correct report_label was specified."))
 
   } else {
     print("multi iteration report found")
     muliple_iterations_in_a_report = TRUE;
     N_runs = length(this_report);
-    if (this_report$'1'$type != "derived_quantity") 
-      stop(Paste("The report label ", report_label, " in model is not a derived_quantity plz Check you have specified the correct report_label."))     
-  }  
+    if (this_report$'1'$type != "derived_quantity")
+      stop(Paste("The report label '", report_label, "' is not a derived_quantity. Please check that the correct report_label was specified."))
+  }
   if (!muliple_iterations_in_a_report) {
     ## only a single trajectory
     derived_quantities = names(this_report)[names(this_report) != "type"]
@@ -61,44 +61,44 @@ function(model, report_label="", type = "number", xlim, ylim, xlab, ylab, main, 
       zero_ndx = values == 0;
       if (any(zero_ndx)) {
         ## I am going to assume that these are in the projection phase and am going to remove them
-        values = values[!zero_ndx]      
+        values = values[!zero_ndx]
       }
       years = as.numeric(names(values))
       ## does the user want it plotted as percent B0
       if (type == "percent") {
         B0 = "hello"
         values = values / this_derived_q$`initialisation_phase[1]` * 100
-      }  
+      }
       if(missing(ylim)) {
-        ymax = max(values) + quantile(values, 0.05) 
+        ymax = max(values) + quantile(values, 0.05)
         ylim = c(0, ymax)
-      }    
-      if(missing(xlim)) 
-        xlim = c(min(years) - 1, max(years) + 1)    
+      }
+      if(missing(xlim))
+        xlim = c(min(years) - 1, max(years) + 1)
       if(missing(ylab)) {
         if (type == "percent")
           ylab = "%B0"
         else
           ylab = "Biomass (t)"
       }
-      if(missing(xlab)) 
+      if(missing(xlab))
         xlab = "Years"
-      if(missing(col)) 
-        col = "black"      
-      if(missing(main)) 
-        main = derived_quantities[i]  
+      if(missing(col))
+        col = "black"
+      if(missing(main))
+        main = derived_quantities[i]
       if (plot.it == TRUE) {
         plot(years, values, xlim = xlim, ylim = ylim, xlab = xlab, ylab = ylab, main = main, type = "o", ...)
       } else {
         temp_DF = cbind(temp_DF,values);
       }
-    }  
+    }
     if (plot.it == FALSE)
       colnames(temp_DF) = derived_quantities
   } else {
     ## Multiple trajectory's
     derived_quantities = names(this_report$'1')[names(this_report$'1') != "type"]
-    
+
     #print(Paste("found - ",length(this_report), " iterations"))
     if(missing(col)) {
       palette(gray(seq(0.,.90,len = N_runs)))
@@ -120,47 +120,47 @@ function(model, report_label="", type = "number", xlim, ylim, xlab, ylab, main, 
         zero_ndx = values == 0;
         if (any(zero_ndx)) {
           ## I am going to assume that these are in the projection phase and am going to remove them
-          values = values[!zero_ndx]      
+          values = values[!zero_ndx]
         }
         years = as.numeric(names(values))
         ## does the user want it plotted as percent B0
         if (type == "percent")
           values = values / this_derived_quantity$B0 * 100
 
-        Legend_txt = c(Legend_txt,this_derived_quantity$B0)  
+        Legend_txt = c(Legend_txt,this_derived_quantity$B0)
 
-        if (first_run) {      
+        if (first_run) {
           if(plot.it == FALSE) {
             temp_df = values
-          }      
+          }
           if(missing(ylim)) {
-            ymax = max(values) + quantile(values, 0.15) 
+            ymax = max(values) + quantile(values, 0.15)
             ylim = c(0, ymax)
-          }    
-          if(missing(xlim)) 
-            xlim = c(min(years) - 1, max(years) + 1)    
+          }
+          if(missing(xlim))
+            xlim = c(min(years) - 1, max(years) + 1)
           if(missing(ylab)) {
             if (type == "percent")
               ylab = "%B0"
             else
               ylab = "Biomass (t)"
           }
-          if(missing(xlab)) 
-            xlab = "Years"    
-          if(missing(main)) 
-            main = derived_quantities[k]      
-          if (plot.it == TRUE) {  
-            plot(years, values , xlim = xlim, ylim = ylim, xlab = xlab, ylab = ylab, main = main, type = "o", lwd = 3, col = Cols[i] ,...)        
+          if(missing(xlab))
+            xlab = "Years"
+          if(missing(main))
+            main = derived_quantities[k]
+          if (plot.it == TRUE) {
+            plot(years, values , xlim = xlim, ylim = ylim, xlab = xlab, ylab = ylab, main = main, type = "o", lwd = 3, col = Cols[i] ,...)
           }
         } else {
           if (plot.it == TRUE) {
-            lines(years, values, type = "o", lwd = 3, col = Cols[i])          
+            lines(years, values, type = "o", lwd = 3, col = Cols[i])
           } else {
             temp_df = rbind(temp_df,values)
           }
         }
         first_run = FALSE;
-      }  
+      }
       if (plot.it == TRUE) {
         legend('bottomleft',legend = Legend_txt, col = Cols, lty = 2, lwd = 3)
       } else {
@@ -171,8 +171,8 @@ function(model, report_label="", type = "number", xlim, ylim, xlab, ylab, main, 
   }
   if (plot.it == FALSE)
     return(temp_DF)
-    
-  invisible();  
+
+  invisible();
 }
 
 ## method for class casal2TAB
@@ -183,17 +183,17 @@ function(model, report_label="", type = "number", xlim, ylim, xlab, ylab, main, 
 #' @export
 "plot.derived_quantities.casal2TAB" = function(model, report_label="", type = "number", xlim, ylim, xlab, ylab, main, col,plot.it = T, ...) {
   if (!type %in% c("number", "percent")) {
-    stop ("the parameter type must be: 'number' or 'percent'")
+    stop ("The parameter type must be: 'number' or 'percent'")
   }
 
   ## check report label exists
   if (!report_label %in% names(model))
-    stop(Paste("In model the report label '", report_label, "' could not be found. The report labels available are ", paste(names(model),collapse = ", ")))
+    stop(Paste("The report label '", report_label, "' was not found. The report labels available are: ", paste(names(model),collapse = ", ")))
   ## get the report out
   this_report = get(report_label, model)
   ## check that the report label is of type derived_quantity
   if (this_report$type != "derived_quantity") {
-    stop(Paste("The report label ", report_label, " in model is not a derived quantity plz Check you have specified the correct report_label."))     
+    stop(Paste("The report label '", report_label, "' is not a derived quantity. Please check that the correct report_label was specified."))
   }
   if (plot.it) {
     ## Can be multiple SSB's
@@ -232,5 +232,5 @@ function(model, report_label="", type = "number", xlim, ylim, xlab, ylab, main, 
   } else {
     return(this_report$values)
   }
-  invisible();  
+  invisible();
 }

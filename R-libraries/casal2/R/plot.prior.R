@@ -14,25 +14,25 @@ function(type="lognormal",mu,sd,cv,A=0,B=1,bounds,xlim,label=F,xlab="x",ylab="De
   # priors (not all parameters are valid for all priors). bounds are the bounds
   # on the prior. xlim is the xlim to plot. label is a T/F to display the name of
   # the prior. logx=T/F to plot the xaxis in log-space.
-  if(missing(n)) 
+  if(missing(n))
     n<-201
-  if(missing(xlim) & !missing(bounds)) 
+  if(missing(xlim) & !missing(bounds))
     xlim <- bounds
-  else if(missing(bounds) &!missing(xlim)) 
+  else if(missing(bounds) &!missing(xlim))
     bounds <- xlim
-  else if(missing(bounds) &missing(xlim)) 
-    stop("You must supply either the bounds or xlim or both")
-  if(logx & (min(xlim)<=0 | min(bounds)<=0)) 
+  else if(missing(bounds) &missing(xlim))
+    stop("Specify the bounds and/or xlim")
+  if(logx & (min(xlim)<=0 | min(bounds)<=0))
     stop("With 'logx' option, the lower bound/xlim must be a postive number")
   Allowed<-c("lognormal","normal-by-stdev","uniform","uniform-log","normal-log","beta")
   type<-Allowed[as.numeric(pmatch(casefold(type),casefold(Allowed),nomatch=NA))]
-  if(type=="") 
-    stop(paste("Prior not found. Available priors are\n",paste(Allowed,collapse=", ")))
-  else 
+  if(type=="")
+    stop(paste("The prior was not found. Available priors are:\n",paste(Allowed,collapse=", ")))
+  else
     cat(paste("Plotting ",type," prior\n",sep=""))
-  if(logx) 
+  if(logx)
     p<-exp(seq(log(bounds[1]),log(bounds[2]),length=n))
-  else 
+  else
     p<-seq(bounds[1],bounds[2],length=n)
   if(type=="lognormal") {
     sigma<-sqrt(log(1+(cv^2)))
@@ -40,23 +40,23 @@ function(type="lognormal",mu,sd,cv,A=0,B=1,bounds,xlim,label=F,xlab="x",ylab="De
   } else if(type=="normal-by-stdev") {
     res<-exp(-(0.5*(((p-mu)/sd)^2)))
   } else if(type=="uniform") {
-    if(logx) 
+    if(logx)
       res<-p
-    else 
+    else
       res<-rep(1,length(p))
   } else  if(type=="uniform-log") {
-    if(logx) 
+    if(logx)
       res<- rep(1,length(p))
-    else 
+    else
       res<-exp(-log(p))
   } else if (type=="normal-log") {
     res<-exp(-(log(p)+0.5*(((log(p)-mu)/sd)^2)))
   } else if (type=="beta") {
     new.mu<-(mu-A)/(B-A)
     new.t<-(((mu-A)*(B-mu))/(sd^2)) - 1
-    if(new.t <= 0) 
+    if(new.t <= 0)
       stop("Standard deviation too large");
-    if (min(bounds,na.rm=T) < A || max(bounds,na.rm=T) > B) 
+    if (min(bounds,na.rm=T) < A || max(bounds,na.rm=T) > B)
       stop("Bad bounds on Beta prior")
     Bm<-new.t*new.mu
     Bn<-new.t*(1-new.mu)
@@ -73,7 +73,7 @@ function(type="lognormal",mu,sd,cv,A=0,B=1,bounds,xlim,label=F,xlab="x",ylab="De
       plot(log(p),res,type="n",xlab=xlab,ylab="",xlim=log(xlim),axes=F,ylim=ylim)
        axis(side=1)
        mtext(side=2,line=0.5,text=ylab)
-       if(label) 
+       if(label)
          mtext(side=3,type,adj=0,line=0.3)
        box()
      }
@@ -83,7 +83,7 @@ function(type="lognormal",mu,sd,cv,A=0,B=1,bounds,xlim,label=F,xlab="x",ylab="De
       plot(p,res,type="n",xlab=xlab,ylab="",xlim=xlim,axes=F,ylim=ylim)
       axis(side=1)
       mtext(side=2,line=0.5,text=ylab)
-      if(label) 
+      if(label)
         mtext(side=3,type,adj=0,line=0.3)
       box()
     }

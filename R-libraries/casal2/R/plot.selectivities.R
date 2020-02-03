@@ -28,22 +28,22 @@ function(model, report_labels =c(""), xlim, ylim, xlab, ylab, main, col, ...){
   temp_DF = NULL;
   n_reports = length(report_labels)
   if(n_reports <= 0) {
-    stop("need to supply at least one report_label")
+    stop("At least one report_label is required")
   }
   ## check report label exists
   if (!all(report_labels %in% names(model)))
-    stop(Paste("In model the report labels '", paste(report_labels[!report_labels %in% names(model)],collapse = ", "), "' could not be found. The report labels available are ", paste(names(model),collapse = ", ")))
-  
+    stop(Paste("The report labels '", paste(report_labels[!report_labels %in% names(model)],collapse = ", "), "' were not found. The report labels available are: ", paste(names(model),collapse = ", ")))
+
   ## Check we aren't dealing with an output that is multiple reports
   all_ages = c();
   for( i in 1:n_reports) {
     this_report = get(report_labels[i], model)
     if (any(names(this_report) == "type")) {
-      if (this_report$type != "selectivity") 
-        stop(Paste("The report label ", report_labels[i], " in model is not a selectivity plz Check you have specified the correct report_label."))    
+      if (this_report$type != "selectivity")
+        stop(Paste("The report label '", report_labels[i], "' is not a selectivity. Please check that the correct report_label was specified."))
       all_ages = c(all_ages, names(this_report$Values))
     } else
-      stop("haven't written this function to take multiple outputs yet.")
+      stop("This function does not take multiple inputs.")
   }
   all_ages = as.numeric(all_ages)
   ## prep for plotting
@@ -52,23 +52,23 @@ function(model, report_labels =c(""), xlim, ylim, xlab, ylab, main, col, ...){
     Cols = palette()
   } else {
     if (length(col) != length(report_labels))
-      stop(Paste("If you supply col parameter, it needs to be of the same length '", length(report_labels),"' as the report labels supplied '", length(report_labels),"'"))
+      stop(Paste("If the col parameter is specified, it needs to be the same length (", length(report_labels),") as the number of report labels supplied (", length(report_labels), ")"))
     Cols = col;
   }
   if(missing(ylim)) {
     ymax = 1.2
     ylim = c(0, ymax)
-  }  
-  if(missing(xlim)) 
-    xlim = c(min(all_ages) - 1, max(all_ages) + 1)    
-  if(missing(ylab)) 
+  }
+  if(missing(xlim))
+    xlim = c(min(all_ages) - 1, max(all_ages) + 1)
+  if(missing(ylab))
     ylab = "Selectivity"
-  
-  if(missing(xlab)) 
-    xlab = "Ages/Lengths"     
-  if(missing(main)) 
+
+  if(missing(xlab))
+    xlab = "Ages/Lengths"
+  if(missing(main))
     main = ""
-  labs = 
+  labs =
   for( i in 1:n_reports) {
     this_report = get(report_labels[i], model)
     if (i == 1) {
@@ -78,6 +78,6 @@ function(model, report_labels =c(""), xlim, ylim, xlab, ylab, main, col, ...){
     }
   }
   legend('topright', legend = report_labels, col = Cols, lty = 1, lwd = 2)
-  
+
   invisible();
 }
