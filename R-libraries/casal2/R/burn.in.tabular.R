@@ -24,7 +24,7 @@ function (tab_object, Row) {
   for (i in 1:length(names(tab_object))) {
     this_list = get(names(tab_object)[i], tab_object)
     if (Row >= nrow(this_list$values)) {
-      stop(Paste("Row = ", Row, ", which is larger than the number of rows in the casl2TAB object '", nrow(this_list$values), " . The Row value is the ith sample after Casal2 has thinned the sample"))
+      stop(Paste("Row = ", Row, ", which is larger than the number of rows in the casl2TAB object('", nrow(this_list$values), "). The Row value is the ith sample after Casal2 has thinned the sample"))
     }
     this_list$values = this_list$values[Row:nrow(this_list$values),]
     print(Paste("rows remaining after burn-in = " ,nrow(this_list$values)))

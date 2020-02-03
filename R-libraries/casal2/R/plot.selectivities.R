@@ -52,7 +52,7 @@ function(model, report_labels =c(""), xlim, ylim, xlab, ylab, main, col, ...){
     Cols = palette()
   } else {
     if (length(col) != length(report_labels))
-      stop(Paste("If the col parameter is specified, it needs to be the same length (", length(report_labels),") as the number of report labels supplied (", length(report_labels), ")"))
+      stop(Paste("If the col parameter is specified, it needs to be the same length (", length(report_labels),") as the number of report labels (", length(report_labels), ")"))
     Cols = col;
   }
   if(missing(ylim)) {
