@@ -31,7 +31,6 @@ public:
   void                        DoExecuteTabular() override final;
   void                        DoFinaliseTabular() override final;
 
-
 private:
   bool                        first_run_ = true;
 };

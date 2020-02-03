@@ -42,8 +42,11 @@ void EstimateValue::DoExecute() {
   LOG_TRACE();
   // Check if estiamtes are close to bounds. flag a warning.
   for (Estimate* estimate : estimates) {
-    if ((estimate->value() - estimate->lower_bound()) < 0.001 || (estimate->upper_bound() - estimate->value()) < 0.001)
-      LOG_WARNING() << "estimated parameter '" <<  estimate->parameter() << "' was within 0.001 of its bound";
+    if ((estimate->value() - estimate->lower_bound()) < 0.001) {
+      LOG_WARNING() << "estimated parameter '" << estimate->parameter() << "' was within 0.001 of lower bound " << estimate->lower_bound();
+    } else if ((estimate->upper_bound() - estimate->value()) < 0.001) {
+      LOG_WARNING() << "estimated parameter '" << estimate->parameter() << "' was within 0.001 of upper bound " << estimate->upper_bound();
+    }
   }
 
   if (estimates.size() > 0) {
@@ -55,6 +58,7 @@ void EstimateValue::DoExecute() {
     for (Estimate* estimate : estimates)
       cache_ << AS_DOUBLE(estimate->value()) << " ";
     cache_ << "\n";
+
     ready_for_writing_ = true;
   }
 }

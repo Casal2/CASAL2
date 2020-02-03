@@ -62,7 +62,7 @@ void MCMCSample::DoExecute() {
 
   auto chain = mcmc_->chain();
   unsigned element = chain.size() - 1;
-    cache_ << utilities::String::join<Double>(chain[element].values_, " ") << "\n";
+  cache_ << utilities::String::join<Double>(chain[element].values_, " ") << "\n";
 
   ready_for_writing_ = true;
 }

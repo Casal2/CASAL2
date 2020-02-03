@@ -67,7 +67,7 @@ void PartitionBiomass::DoExecute() {
 
     cache_ << (*iterator)->name_;
     for (unsigned i = 0; i < (*iterator)->data_.size(); ++i) {
-        cache_ << " " << std::fixed << std::setprecision(5) << AS_DOUBLE(((*iterator)->data_[i] * (*iterator)->mean_weight_by_time_step_length_[time_step_index][i]));
+      cache_ << " " << std::fixed << std::setprecision(5) << AS_DOUBLE(((*iterator)->data_[i] * (*iterator)->mean_weight_by_time_step_length_[time_step_index][i]));
     }
     cache_ << "\n";
   }

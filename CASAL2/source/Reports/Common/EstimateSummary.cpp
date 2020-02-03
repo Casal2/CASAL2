@@ -38,14 +38,13 @@ EstimateSummary::~EstimateSummary() noexcept(true) {
  */
 void EstimateSummary::DoExecute() {
 
-
   // Print the estimates
   niwa::estimates::Manager& estimate_manager = *model_->managers().estimate();
   vector<Estimate*> estimates = estimate_manager.objects();
 
   cache_ << "*"<< type_ << "[" << label_ << "]" << "\n";
   for (Estimate* estimate : estimates) {
-	cache_ << estimate->parameter() << " " << REPORT_R_LIST << "\n";
+    cache_ << estimate->parameter() << " " << REPORT_R_LIST << "\n";
  //   cache_ << "label: " << estimate->label() << "\n";
     cache_ << "lower_bound: " << estimate->lower_bound() << "\n";
     cache_ << "upper_bound: " << estimate->upper_bound() << "\n";
@@ -59,7 +58,6 @@ void EstimateSummary::DoExecute() {
     }
     cache_ << REPORT_R_LIST_END << "\n\n";
   }
-
 
   ready_for_writing_ = true;
 }

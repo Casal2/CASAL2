@@ -60,12 +60,13 @@ void Partition::DoExecute() {
   for (auto iterator = all_view.Begin(); iterator != all_view.End(); ++iterator) {
     cache_ << (*iterator)->name_;
     for (auto values = (*iterator)->data_.begin(); values != (*iterator)->data_.end(); ++values) {
-        Double value = *values;
-        cache_ << " " << std::fixed << AS_DOUBLE(value);
+      Double value = *values;
+      cache_ << " " << std::fixed << AS_DOUBLE(value);
 
     }
     cache_ << "\n";
   }
+
   ready_for_writing_ = true;
 }
 

@@ -216,8 +216,8 @@ void RecruitmentBevertonHoltWithDeviations::DoBuild() {
   if (parameters_.Get(PARAM_SSB_OFFSET)->has_been_defined()) {
     // Check if the user has supplied the expected value for the model.
     if (temp_ssb_offset != ssb_offset_) {
-      LOG_WARNING() << "The " << PARAM_SSB_OFFSET << " specified is different from what Casal2 calculated (" << temp_ssb_offset << ")."
-        << " This value should be manually set only under certain conditions. See the User Manual on this process for more information.";
+      LOG_WARNING() << "The " << PARAM_SSB_OFFSET << " specified (" << ssb_offset_ << ") is different from what Casal2 calculated ("
+        << temp_ssb_offset << "). This value should be manually set only under certain conditions. See the User Manual on this process for more information.";
     }
   }else {
     ssb_offset_ = temp_ssb_offset;

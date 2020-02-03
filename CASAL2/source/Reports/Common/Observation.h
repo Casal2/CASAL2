@@ -35,6 +35,7 @@ public:
   void                        DoExecute() override final;
   void                        DoExecuteTabular() override final;
   void                        DoFinaliseTabular() override final;
+
 private:
   // members
   string              observation_label_;
