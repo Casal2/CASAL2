@@ -10,3 +10,4 @@ URL: http://www.niwa.co.nz
 Copyright: National Institute of Water & Atmospheric Research (NIWA), New Zealand Ministry for Primary Industries.
 LazyData: true
 BugReports: https://github.com/NIWAFisheriesModelling/CASAL2/issues
+RoxygenNote: 7.0.2

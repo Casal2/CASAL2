@@ -14,9 +14,9 @@ covariance_matrix to be present.}
 a data frame or message about the model
 }
 \description{
-Do an eigen decomposition of the hessian matrix to identify correlated estimated parameters 
-and parameters with high uncertainty. Small or zero eigenvalues (high condition number) 
-indicates ill-posedness, i.e. the parameter estimation problem does not have a unique solution. 
+Do an eigen decomposition of the hessian matrix to identify correlated estimated parameters
+and parameters with high uncertainty. Small or zero eigenvalues (high condition number)
+indicates ill-posedness, i.e. the parameter estimation problem does not have a unique solution.
 This eigenvalue decomposition has been widely used in the estimation literature
 }
 \author{
