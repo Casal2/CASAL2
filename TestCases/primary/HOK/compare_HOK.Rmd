@@ -27,11 +27,11 @@ require(rlist)
 
 require(devtools)
 
+# the CASAL and Casal2 R libraries are installed in the TestCases subdirectory
+.libPaths(c(.libPaths(), '../..'))
+
 if (!require(casal))
 {
-    # install the CASAL library in the TestCases subdirectory
-    .libPaths(c(.libPaths(), '../..'))
-
     install.packages('../../../R-libraries/casal_2.30.tar.gz', repos=NULL)
     library(casal)
     # install('casal_utils')
@@ -39,9 +39,6 @@ if (!require(casal))
 
 if (!require(casal2))
 {
-    # install the Casal2 library in the TestCases subdirectory
-    .libPaths(c(.libPaths(), '../..'))
-
     install.packages('../../../R-libraries/casal2_1.0.tar.gz', repos=NULL)
     library(casal2)
 }
