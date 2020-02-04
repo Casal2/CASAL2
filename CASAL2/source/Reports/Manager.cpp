@@ -193,7 +193,7 @@ void Manager::FlushReports() {
 
     do_break = !run_.test_and_set();
     for (auto report : objects_) {
-      if (report->is_ready_for_writing())
+      if (report->ready_for_writing())
         report->FlushCache();
     }
 

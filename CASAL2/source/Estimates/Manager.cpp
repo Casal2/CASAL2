@@ -342,7 +342,7 @@ unsigned Manager::GetNumberOfPhases() {
     unsigned current_phase = estimate->phase();
     // store unique phase numbers
     if (std::find(store_unique_phases.begin(),store_unique_phases.end(),current_phase) == store_unique_phases.end()) {
-    	store_unique_phases.push_back(current_phase);
+      store_unique_phases.push_back(current_phase);
       LOG_FINE() << "storing phase = " << current_phase;
     }
   }
@@ -350,14 +350,13 @@ unsigned Manager::GetNumberOfPhases() {
   unsigned max = *max_element(store_unique_phases.begin(), store_unique_phases.end());
   LOG_FINE() << "found max = " << max << " iterations";
   for(unsigned i = 1; i <= max; ++i) {
-  	if (std::find(store_unique_phases.begin(),store_unique_phases.end(),i) == store_unique_phases.end()) {
-  		LOG_WARNING() << "Could not find estimation phase " << i << ", but found estimation phase " << max
-          << ". Specify consecutive phases, e.g., 1, 2, 3 and 4, not 1 and 4. Please check the specification of the estimation phases for the @estimates";
-  	}
+    if (std::find(store_unique_phases.begin(),store_unique_phases.end(),i) == store_unique_phases.end()) {
+      LOG_WARNING() << "Could not find estimation phase " << i << ", but found estimation phase " << max
+        << ". Specify consecutive phases, e.g., 1, 2, 3 and 4, not 1 and 4. Please check the specification of the estimation phases for the @estimates";
+    }
   }
   return max;
 }
-
 
 
 } /* namespace estimates */
