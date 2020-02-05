@@ -94,7 +94,7 @@ void Minimiser::Build() {
       objective_report->set_defined_line_number(__LINE__);
       objective_report->parameters().Add(PARAM_LABEL, "minimiser_result", __FILE__, __LINE__);
       objective_report->parameters().Add(PARAM_TYPE, PARAM_ESTIMATION_RESULT, __FILE__, __LINE__);
-      objective_report->parameters().Add(PARAM_FILE_NAME, "params_est.out", __FILE__, __LINE__);
+      objective_report->parameters().Add(PARAM_FILE_NAME, "minimiser_result.out", __FILE__, __LINE__);
       objective_report->parameters().Add(PARAM_WRITE_MODE, PARAM_OVERWRITE, __FILE__, __LINE__);
       objective_report->Validate();
       model_->managers().report()->AddObject(objective_report);
@@ -105,6 +105,7 @@ void Minimiser::Build() {
       report_ptr->set_write_mode(PARAM_OVERWRITE);
     }
   }
+
   DoBuild();
 }
 

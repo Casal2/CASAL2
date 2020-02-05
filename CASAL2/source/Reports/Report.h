@@ -95,7 +95,7 @@ protected:
   bool                        first_write_ = true;
   bool                        overwrite_   = true;
   string                      last_suffix_ = "";
-  string                      write_mode_ = "";
+  string                      write_mode_ = PARAM_OVERWRITE;
   vector<unsigned>            years_;
   ostringstream               cache_;
   bool                        ready_for_writing_ = false;

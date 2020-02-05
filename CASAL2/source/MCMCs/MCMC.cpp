@@ -63,11 +63,11 @@ void MCMC::Build() {
   // If this is a new mcmc chain (not resuming)
   if (model_->run_mode() ==  RunMode::kMCMC) {
     if (!model_->global_configuration().resume()) {
-      LOG_MEDIUM() << "config resume default reports";
+      LOG_MEDIUM() << "Configure resume default MCMC reports";
       model_->managers().report()->Pause();
 
       if (!model_->managers().report()->HasType(PARAM_MCMC_OBJECTIVE)) {
-        LOG_MEDIUM() << "create default objective report";
+        LOG_MEDIUM() << "Create default MCMC objective function report";
         reports::MCMCObjective* objective_report = new reports::MCMCObjective(model_);
         objective_report->set_block_type(PARAM_REPORT);
         objective_report->set_defined_file_name(__FILE__);
@@ -81,7 +81,7 @@ void MCMC::Build() {
       }
 
       if (!model_->managers().report()->HasType(PARAM_MCMC_SAMPLE)) {
-        LOG_MEDIUM() << "create default sample report";
+        LOG_MEDIUM() << "Create default MCMC sample report";
 
         reports::MCMCSample* sample_report = new reports::MCMCSample(model_);
         sample_report->set_block_type(PARAM_REPORT);
@@ -98,7 +98,7 @@ void MCMC::Build() {
       model_->managers().report()->Resume();
     } else if (model_->global_configuration().resume()) {
       // This is resuming a MCMC
-      LOG_MEDIUM() << "Resuming mcmc";
+      LOG_MEDIUM() << "Resuming MCMC";
       model_->managers().report()->Pause();
 
       string objective_name = model_->global_configuration().mcmc_objective_file();
@@ -150,7 +150,7 @@ void MCMC::Build() {
  *
  */
 void MCMC::Execute() {
-	LOG_FINE() << "executing MCMC";
+  LOG_FINE() << "Executing MCMC";
   if (model_->global_configuration().create_mpd_file()) {
     configuration::MPD mpd_loader(model_);
     if (!mpd_loader.LoadFile("mpd.out"))
