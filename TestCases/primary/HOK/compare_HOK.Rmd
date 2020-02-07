@@ -283,11 +283,34 @@ SB0, SBcurrent, MSY, F_MSY, others...
 Comparison plots
 
 ```{r plots_base, echo=FALSE}
+
 # c(bottom, left, top, right)
 par(mar=c(4,4,2,1) + 0.1)
 
 # par(mfrow=c(2,1))
+```
 
+
+```{r plots_correlation, echo=FALSE}
+
+plot_image_and_range <- function(corr_obj, label)
+{
+    image(corr_obj, col=hcl.colors(31, 'purple-yellow'), xlab='Parameter', ylab='Parameter', main=label)
+    print(paste(label, 'range (excluding 1.0):', paste0(range(corr_obj[corr_obj < 1], na.rm=TRUE), collapse=' ')))
+}
+
+plot_image_and_range(cas_corr, 'CASAL base parameter correlation')
+
+plot_image_and_range(cas_corr_sens1, 'CASAL sensitivity 1 parameter correlation')
+
+# for (c in 1:num_C2_models)
+# {
+#     plot_image_and_range(cas2_corr[[c]], paste('Casal2', C2_subdir[c], 'parameter correlation'))
+# }
+```
+
+
+```{r plots_set_0, echo=FALSE}
 
 # plot E SSB
 
@@ -381,7 +404,7 @@ for (i in 1:nrow(c2_mat[1,,]))
                    c1_sens1_mat[i,],
                    max(c2_mat[,i,]))
 
-    plot(seq(1, 17), c1_mat[i,], type='l', col='black', lwd=5, ylim=c(0, max_val), xlab='Year', ylab='', main=paste('Initial numbers-at-age comparison:', cas2_mpd[[1]]$Init$values[i,1]))
+    plot(seq(1, 17), c1_mat[i,], type='l', col='black', lwd=5, ylim=c(0, max_val), xlab='Age', ylab='', main=paste('Initial numbers-at-age comparison:', cas2_mpd[[1]]$Init$values[i,1]))
     lines(seq(1, 17), c1_sens1_mat[i,], col='grey', lwd=2.5)
     for (c in 1:num_C2_models)
     {

@@ -62,9 +62,11 @@ mpd_out    <- 'mpd.out'
 ```{r CASAL}
 # read in CASAL MPD results
 cas_mpd  <- casal::extract.mpd(mpd_run, file.path(base_dir, 'CASAL'))
+cas_corr <- casal::extract.correlation.matrix(mpd_run, file.path(base_dir, 'CASAL'))
 c1_quant <- cas_mpd$quantities
 
 cas_mpd_sens1  <- casal::extract.mpd(mpd_run, file.path(base_dir, 'CASAL_sens1'))
+cas_corr_sens1 <- casal::extract.correlation.matrix(mpd_run, file.path(base_dir, 'CASAL_sens1'))
 c1_sens1_quant <- cas_mpd_sens1$quantities
 ```
 
@@ -90,10 +92,14 @@ num_C2_models <- length(C2_subdir)
 C2_color <- c('blue', 'green3', 'red', 'gold', 'magenta', 'cyan', 'brown', 'orange')
 
 # read in Casal2 MPD results
-cas2_mpd <- list()
+cas2_mpd  <- list()
+cas2_corr <- list()
 for (c in 1:num_C2_models)
 {
     cas2_mpd[[c]] <- casal2::extract.mpd(mpd_run, file.path(base_dir, 'Casal2', C2_subdir[c]))
+
+    # TODO:  add casal2::extract.covariance.matrix() and casal2::extract.correlation.matrix()
+    # cas2_corr[[c]] <- casal2::extract.correlation.matrix()
 }
 ```
 
@@ -288,35 +294,34 @@ SB0, SBcurrent, MSY, F_MSY, others...
 Comparison plots
 
 ```{r plots_base, echo=FALSE}
-get_list_max_val <- function(list_obj, field_val)
-{
-    num_obj <- length(list_obj)
 
-    if (num_obj > 0)
-    {
-        max_val <- list_obj[[1]]$field_val
-
-        if (num_obj > 1)
-        {
-            for (i in 2:num_obj)
-            {
-                if (list_obj[[i]]$field_val > max_val)
-                {
-                    max_val <- list_obj[[i]]$field_val
-                }
-            }
-        }
-
-        return (max_val)
-    }
-
-    return (NULL)
-}
-
-
+# c(bottom, left, top, right)
 par(mar=c(4,4,2,1) + 0.1)
 
 # par(mfrow=c(2,1))
+```
+
+
+```{r plots_correlation, echo=FALSE}
+
+plot_image_and_range <- function(corr_obj, label)
+{
+    image(corr_obj, col=hcl.colors(31, 'purple-yellow'), xlab='Parameter', ylab='Parameter', main=label)
+    print(paste(label, 'range (excluding 1.0):', paste0(range(corr_obj[corr_obj < 1], na.rm=TRUE), collapse=' ')))
+}
+
+plot_image_and_range(cas_corr, 'CASAL base parameter correlation')
+
+plot_image_and_range(cas_corr_sens1, 'CASAL sensitivity 1 parameter correlation')
+
+# for (c in 1:num_C2_models)
+# {
+#     plot_image_and_range(cas2_corr[[c]], paste('Casal2', C2_subdir[c], 'parameter correlation'))
+# }
+```
+
+
+```{r plots_set_0, echo=FALSE}
 
 max_val <- max(c1_quant$SSBs$SSB,
                c1_sens1_quant$SSBs$SSB,
@@ -378,7 +383,7 @@ max_val <- max(c1_mat,
                c1_sens1_mat,
                max(c2_mat))
 
-plot(ages, c1_mat[1,], type='l', col='black', lwd=5, ylim=c(0, max_val), xlab='Year', ylab='', main='Initial numbers-at-age comparison')
+plot(ages, c1_mat[1,], type='l', col='black', lwd=5, ylim=c(0, max_val), xlab='Age', ylab='', main='Initial numbers-at-age comparison')
 lines(ages, c1_mat[2,], col='black', lwd=5, lty=3)
 lines(ages, c1_sens1_mat[1,], col='grey', lwd=2.5)
 lines(ages, c1_sens1_mat[2,], col='grey', lwd=2.5, lty=3)
