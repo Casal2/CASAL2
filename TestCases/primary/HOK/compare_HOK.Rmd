@@ -96,6 +96,7 @@ cas_sens1_conv <- get_convergence_information(cas_mpd_sens1_filename)
 c1_sens1_quant <- cas_mpd_sens1$quantities
 ```
 
+
 ```{r Casal2}
 C2_subdir <- c('betadiff_casal_flags_on',
                'betadiff_casal_flags_off',
@@ -260,6 +261,7 @@ for (c in 1:num_C2_models)
 }
 ```
 
+
 ```{r warnings_and_bounds, echo=FALSE, warning=FALSE, message=FALSE}
 print('CASAL model warnings')
 print(cas_mpd$parameters.at.bounds)
@@ -353,7 +355,7 @@ plot_image_and_range <- function(corr_obj, label)
 
 plot_image_and_range(cas_corr, 'CASAL base parameter correlation')
 
-plot_image_and_range(cas_corr_sens1, 'CASAL sensitivity 1 parameter correlation')
+plot_image_and_range(cas_sens1_corr, 'CASAL sensitivity 1 parameter correlation')
 
 # for (c in 1:num_C2_models)
 # {
