@@ -19,7 +19,8 @@ The CASAL model sensitivity 1 has a smaller tolerance value than the CASAL base 
 
 The Casal2 ADOL-C and BetaDiff low tolerance models have a smaller tolerance value than the CASAL base model (1e-6 vs. 2e-3). The Casal2 CppAD models have a tolerance value of 1e-9.
 
-## CASAL and Casal2 model output
+
+## R environment
 
 ```{r C1_C2_setup, echo=FALSE, warning=FALSE, message=FALSE}
 # print(paste('pandoc installed?', rmarkdown::pandoc_available()))
@@ -80,6 +81,7 @@ get_convergence_information <- function(filename)
 
 ```
 
+## CASAL and Casal2 model output
 
 ```{r CASAL}
 # read in CASAL MPD results
