@@ -21,6 +21,7 @@ The Casal2 ADOL-C and BetaDiff low tolerance models have a smaller tolerance val
 
 ## R environment
 
+
 ```{r C1_C2_setup, echo=FALSE, warning=FALSE, message=FALSE}
 # print(paste('pandoc installed?', rmarkdown::pandoc_available()))
 # print(paste('pandoc version:', rmarkdown::pandoc_version()))
@@ -32,7 +33,7 @@ require(rlist)
 require(devtools)
 
 # the CASAL and Casal2 R libraries are installed in the TestCases subdirectory
-.libPaths(c(.libPaths(), '../..'))
+.libPaths(c('../..', .libPaths()))
 
 if (!require(casal))
 {
