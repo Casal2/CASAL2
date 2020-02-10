@@ -166,3 +166,6 @@ value 682.97840
 
 @report obj
 type objective_function
+
+@report estimate_value
+type estimate_value
