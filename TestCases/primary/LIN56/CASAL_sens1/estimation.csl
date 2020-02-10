@@ -2,7 +2,7 @@
 @estimator Bayes
 @max_iters 50000
 @max_evals 100000
-@grad_tol 0.00001 #The default is 0.002
+@grad_tol 0.000001 #The default is 0.002
 
 @MCMC
 start 0

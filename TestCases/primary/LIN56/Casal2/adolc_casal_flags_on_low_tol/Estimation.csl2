@@ -4,7 +4,7 @@ type adolc
 active true
 iterations 5000
 evaluations 5000
-tolerance 0.00001
+tolerance 0.000001
 covariance true
 
 

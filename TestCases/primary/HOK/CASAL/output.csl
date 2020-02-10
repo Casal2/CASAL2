@@ -4,10 +4,10 @@ unused_parameters T
 
 # estimation section stuff
 fits 1
-resids True
-pearson_resids True
+resids 1
+pearson_resids 1
 normalised_resids 1
-covariance True
+covariance 1
 
 # population section stuff
 requests 1
