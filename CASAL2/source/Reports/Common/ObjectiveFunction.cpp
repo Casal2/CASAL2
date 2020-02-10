@@ -12,7 +12,6 @@
 
 // Headers
 #include "ObjectiveFunction.h"
-
 #include "ObjectiveFunction/ObjectiveFunction.h"
 
 // Namespaces
@@ -40,8 +39,8 @@ void ObjectiveFunction::DoExecute() {
   for (objective::Score score : score_list) {
     cache_ << score.label_ << " " << AS_VALUE(score.score_) << "\n";
   }
-
   cache_ << PARAM_TOTAL_SCORE << " " << AS_VALUE(obj_function.score()) << "\n";
+
   ready_for_writing_ = true;
 }
 

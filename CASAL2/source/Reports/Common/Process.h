@@ -34,7 +34,6 @@ public:
   void                        DoExecuteTabular() override final;
   void                        DoFinaliseTabular() override final;
 
-
 private:
   string                      process_label_ = "";
   niwa::Process*              process_ = nullptr;

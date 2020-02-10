@@ -26,7 +26,7 @@ namespace additionalpriors {
 class UniformLog : public AdditionalPrior {
 public:
   // methods
-	UniformLog(Model* model);
+  UniformLog(Model* model);
   virtual                     ~UniformLog() = default;
   void                        DoValidate() override final;
   void                        DoBuild() override final;

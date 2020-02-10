@@ -44,10 +44,10 @@ void UniformLog::DoValidate() {
 }
 
 void UniformLog::DoBuild() {
-	string error = "";
-	if (!model_->objects().VerfiyAddressableForUse(parameter_, addressable::kLookup, error)) {
-		LOG_FATAL_P(PARAM_PARAMETER) << "could not be verified for use in additional_prior.uniform_log. Error: " << error;
-	}
+  string error = "";
+  if (!model_->objects().VerfiyAddressableForUse(parameter_, addressable::kLookup, error)) {
+    LOG_FATAL_P(PARAM_PARAMETER) << "could not be verified for use in additional_prior.uniform_log. Error: " << error;
+  }
 
   addressable::Type addressable_type = model_->objects().GetAddressableType(parameter_);
   LOG_FINEST() << "type = " << addressable_type;

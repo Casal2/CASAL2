@@ -23,8 +23,8 @@ namespace additionalpriors {
  * Default constructor
  */
 VectorAverage::VectorAverage(Model* model) : AdditionalPrior(model) {
-  parameters_.Bind<string>(PARAM_METHOD, &method_, "Which calculation method to use, k, l, or m", "", PARAM_K);
-  parameters_.Bind<Double>(PARAM_K, &k_, "K value to use in the calculation", "");
+  parameters_.Bind<string>(PARAM_METHOD, &method_, "Which calculation method to use: k, l, or m", "", PARAM_K);
+  parameters_.Bind<Double>(PARAM_K, &k_, "k value to use in the calculation", "");
   parameters_.Bind<double>(PARAM_MULTIPLIER, &multiplier_, "Multiplier for the penalty amount", "", 1);
 }
 

@@ -50,7 +50,7 @@ void OutputParameters::DoExecute() {
        cache_ << "values "<< REPORT_R_MATRIX << "\n";
      }
      for (Estimate* estimate : estimates)
-         cache_ << estimate->parameter() << " ";
+       cache_ << estimate->parameter() << " ";
 
      if (model_->run_mode() == RunMode::kProfiling) {
        for (auto profile : profiles)

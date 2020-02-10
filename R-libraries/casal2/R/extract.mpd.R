@@ -1,4 +1,4 @@
-#' @title extract MPD function for readin in Casal2 output that has been generated from a -r, -e, -f, -p run mode.  
+#' @title extract MPD function for readin in Casal2 output that has been generated from a -r, -e, -f, -p run mode.
 #'
 #' @description
 #' An extract function that reads Casal2 output that are produced from a '-r' or '-e' or '-f' or '-p' model run. This funciton
@@ -25,18 +25,18 @@ function (file, path = "",fileEncoding = "") {
 
   filename = make.filename(path = path, file = file)
   file = convert.to.lines(filename, fileEncoding = fileEncoding)
-  
+
   ## Check this isn't a tabular report by looking at the Call:
   if (grepl(pattern = "--tabular", x = file[2]))
-   stop("This model was run with the command '--tabular', please use the extract.tabular() function to import model runs with --tabular")  
-  
+   stop("This model was run with the command '--tabular'. Please use the extract.tabular() function to import this model run.")
+
   temp = get.lines(file, starts.with = "\\*",fixed=F)
   if (length(temp) != 0) {
     if(!is.even(length(temp))) {
         ## find the report which doesn't have a *end
         nd_element = seq(2, length(temp), by = 2)
         ndx = which(temp[nd_element] != "*end")[1]
-        stop (Paste("Each report section must begin with '*' and end with '* end'. The report beginning with ", temp[ndx], " did not have a trailing *end"))
+        stop (Paste("Each report section must begin with '*' and end with '*end'. The report beginning with '", temp[ndx], "' did not have a trailing '*end'."))
     }
     temp = temp[is.odd(1:length(temp))]
     counter = length(temp)
@@ -49,7 +49,7 @@ function (file, path = "",fileEncoding = "") {
         cat("loading a run from -i format\n")
       }
     }
-    
+
     multi_year_reports = c("partition", "PartitionBiomass", "PartitionMeanWeight")
     result = list()
     for (i in 1:counter) {
@@ -69,12 +69,12 @@ function (file, path = "",fileEncoding = "") {
               result[[label]][["1"]][[as.character(report$year)]] = report
               result[[label]][["1"]][[as.character(report$year)]][["type"]] = NULL
               result[[label]][["1"]][[as.character(report$year)]][["year"]] = NULL
-              
+
               result[[label]][["1"]][["type"]] = type
             } else {
               result[[label]][["1"]] = report
             }
-          } else if (is.in(label, names(result)) & type %in% multi_year_reports) {  
+          } else if (is.in(label, names(result)) & type %in% multi_year_reports) {
             ## if we have seen this report find out if we are adding to -i or year
             if (report$year %in% names(result[[label]][[as.character(length(result[[label]]))]])) {
               result[[label]][[as.character(length(result[[label]])+1)]][[as.character(report$year)]] = report
@@ -93,7 +93,7 @@ function (file, path = "",fileEncoding = "") {
           file = get.lines(file, clip.to = "*end")
         } else {
           ## deal with the single input run.
-          if (type %in% multi_year_reports) { 
+          if (type %in% multi_year_reports) {
             result[[label]][[as.character(report$year)]] = report
             result[[label]][[as.character(report$year)]][["type"]] = NULL;
             result[[label]][[as.character(report$year)]][["year"]] = NULL;
@@ -105,7 +105,7 @@ function (file, path = "",fileEncoding = "") {
         }
 
 
-    } 
+    }
     result<-set.class(result,"casal2MPD")
     result
   } else {
@@ -114,4 +114,4 @@ function (file, path = "",fileEncoding = "") {
 }
 
 
-  
+

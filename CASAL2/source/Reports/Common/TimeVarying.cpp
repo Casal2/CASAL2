@@ -43,8 +43,9 @@ void TimeVarying::DoExecute() {
     for (auto param : parameter_by_year) {
       cache_ << param.first << "  " << AS_DOUBLE(param.second) << "\n";
     }
-    ready_for_writing_ = true;
   }
+
+  ready_for_writing_ = true;
 }
 
 

@@ -21,6 +21,7 @@ plot.recruitment(
 \method{plot.recruitment}{casal2MPD}(
   model,
   report_label = "",
+  add_BH_curve = TRUE,
   xlim = NULL,
   ylim = NULL,
   xlab = NULL,

@@ -24,7 +24,7 @@ namespace reports {
  */
 EstimationResult::EstimationResult(Model* model) : Report(model) {
   run_mode_    = RunMode::kEstimation;
-  model_state_ = State::kFinalise;
+  model_state_ = State::kIterationComplete;
 }
 
 /**
@@ -37,7 +37,6 @@ EstimationResult::~EstimationResult() noexcept(true) {
  * This method will execute our estimate summary report
  */
 void EstimationResult::DoExecute() {
-
   auto minimiser = model_->managers().minimiser()->active_minimiser();
   if (minimiser == nullptr) {
     LOG_CODE_ERROR() << "minimiser == nullptr";
@@ -46,32 +45,48 @@ void EstimationResult::DoExecute() {
   cache_ << "*"<< type_ << "[" << label_ << "]" << "\n";
   cache_ << PARAM_MINIMIZER << ": " << minimiser->label() << "\n";
   cache_ << PARAM_TYPE << ": " << minimiser->type() << "\n";
-
+  cache_ << "Result " << REPORT_R_STRING_VECTOR << "\n";
   switch (minimiser->result()) {
-  case MinimiserResult::kInvalid:
-    cache_ << "Result: Invalid/No/Result/Code Error\n";
-    break;
-  case MinimiserResult::kSuccess:
-    cache_ << "Result: Estimation success (Convergence)\n";
-    break;
-  case MinimiserResult::kStepSizeTooSmallSuccess:
-    cache_ << "Result: Estimation success (Step size too small convergence)\n";
-    break;
-  case MinimiserResult::kError:
-    cache_ << "Result: Estimation failed (Error)\n";
-    break;
-  case MinimiserResult::kTooManyIterations:
-    cache_ << "Result: Estimation failed (Too many iterations)\n";
-    break;
-  case MinimiserResult::kTooManyEvaluations:
-    cache_ << "Result: Estimation failed (Too many objective evaluations)\n";
-    break;
-  case MinimiserResult::kStepSizeTooSmall:
-    cache_ << "Result: Estimation failed (Step size too small, cannot find convergence)\n";
-    break;
-  default:
-    cache_ << "Result: Estimation failed (Unknown Error)\n";
-    break;
+    case MinimiserResult::kInvalid:
+      cache_ << "Failed\n";
+      cache_ << "Message " << REPORT_R_STRING_VECTOR << "\n";
+      cache_ << "Invalid/No/Result/Code Error\n";
+      break;
+    case MinimiserResult::kSuccess:
+      cache_ << "Success\n";
+      cache_ << "Message " << REPORT_R_STRING_VECTOR << "\n";
+      cache_ << "Convergence\n";
+      break;
+    case MinimiserResult::kStepSizeTooSmallSuccess:
+      cache_ << "Success\n";
+      cache_ << "Message " << REPORT_R_STRING_VECTOR << "\n";
+      cache_ << "Convergence, Step size too small\n";
+      break;
+    case MinimiserResult::kError:
+      cache_ << "Failed\n";
+      cache_ << "Message " << REPORT_R_STRING_VECTOR << "\n";
+      cache_ << "Error\n";
+      break;
+    case MinimiserResult::kTooManyIterations:
+      cache_ << "Failed\n";
+      cache_ << "Message " << REPORT_R_STRING_VECTOR << "\n";
+      cache_ << "Too many iterations\n";
+      break;
+    case MinimiserResult::kTooManyEvaluations:
+      cache_ << "Failed\n";
+      cache_ << "Message " << REPORT_R_STRING_VECTOR << "\n";
+      cache_ << "Too many objective function evaluations\n";
+      break;
+    case MinimiserResult::kStepSizeTooSmall:
+      cache_ << "Failed\n";
+      cache_ << "Message " << REPORT_R_STRING_VECTOR << "\n";
+      cache_ << "Step size too small, no convergence\n";
+      break;
+    default:
+      cache_ << "Failed\n";
+      cache_ << "Message " << REPORT_R_STRING_VECTOR << "\n";
+      cache_ << "Unknown Error\n";
+      break;
   }
 
   ready_for_writing_ = true;

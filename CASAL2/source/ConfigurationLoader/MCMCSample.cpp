@@ -63,19 +63,18 @@ bool MCMCSample::LoadFile(const string& file_name) {
   string line = "";
   while (line != "*mcmc_sample[mcmc]") {
     if (!getline(file, line)) {
-      LOG_ERROR() << "Failed to read a line from the MCMC Sample file when looking for '*mcmc (mcmc_sample)'";
+      LOG_ERROR() << "Failed to read a line from the MCMC Sample file when looking for '*mcmc_sample[mcmc]'";
       return false;
     }
   }
-  LOG_FINEST() << "line = " << line;
-
 
   if (line != "*mcmc_sample[mcmc]") {
-    LOG_ERROR() << "Could not read '*mcmc (mcmc_sample)' string in MCMC Sample file " << file_name;
+    LOG_ERROR() << "Could not read '*mcmc_sample[mcmc]' string in MCMC Sample file " << file_name;
     return false;
   }
-  LOG_FINEST() << "line = " << line;
+  LOG_MEDIUM() << "line = " << line;
 
+  /*
   // Skip the next line which is needed for reading into R
   while (line != "values {d}") {
     if (!getline(file, line)) {
@@ -89,6 +88,7 @@ bool MCMCSample::LoadFile(const string& file_name) {
      return false;
    }
 
+  */
 
   /**
    * read the columns from our header
@@ -97,6 +97,24 @@ bool MCMCSample::LoadFile(const string& file_name) {
     LOG_ERROR() << "Could not read header line from MCMC sample file " << file_name;
     return false;
   }
+
+  // Check the order of parameters
+  auto estimate_count      = model_->managers().estimate()->GetIsEstimatedCount();
+  auto estimates      = model_->managers().estimate()->GetIsEstimated();
+  LOG_MEDIUM() << "Check the order of parameters";
+  vector<string> param_labels;
+  boost::split(param_labels, line, boost::is_any_of(" "), boost::token_compress_on);
+  if (estimate_count != param_labels.size()) {
+    LOG_ERROR() << "The covariance parameter header labels had " << param_labels.size()
+        << " values when the number of estimated parameters is " << estimate_count;
+    return false;
+  }
+
+  for (unsigned i = 0; i < param_labels.size(); ++i) {
+    if (param_labels[i] != estimates[i]->parameter())
+      LOG_ERROR() << "parameter " << param_labels[i] << " is not matched with internal estimate parameters which expected " << estimates[i]->label();
+  }
+
 
   vector<string> columns;
   boost::split(columns, line, boost::is_any_of(" "), boost::token_compress_on);
@@ -128,7 +146,7 @@ bool MCMCSample::LoadFile(const string& file_name) {
   /**
    * Apply the values to our estimates
    */
-  auto estimates     = model_->managers().estimate()->GetIsEstimated();
+  //auto estimates     = model_->managers().estimate()->GetIsEstimated();
   if (estimates.size() != columns.size()) {
     LOG_ERROR() << "Model has " << estimates.size() << " estimates and the MCMC sample file has "
         << columns.size() << " columns.";

@@ -488,7 +488,7 @@ void IndependenceMetropolis::DoValidate() {
  *
  */
 void IndependenceMetropolis::DoBuild() {
-  LOG_TRACE();
+  LOG_MEDIUM() <<"DoBuild MCMC children";
 
   unsigned active_estimates = 0;
   estimates_ = model_->managers().estimate()->GetIsEstimated();
@@ -552,9 +552,10 @@ void IndependenceMetropolis::DoExecute() {
     jumps_since_adapt_ = jumps_ - jumps_since_last_adapt;
 
     double temp_success_jumps = (double)jumps_since_adapt_ * acceptance_rate_since_last_adapt_;
+    successful_jumps_since_adapt_ = (unsigned)temp_success_jumps;
 
-    if (!utilities::To<double, unsigned>(temp_success_jumps, successful_jumps_since_adapt_))
-      LOG_ERROR() << "Could not convert " << temp_success_jumps << " to an unsigned integer";
+    //if (!utilities::To<double, unsigned>(temp_success_jumps, successful_jumps_since_adapt_))
+    // LOG_ERROR() << "Could not convert " << temp_success_jumps << " to an unsigned integer";
 
     LOG_FINE() << "jumps = " << jumps_ << "jumps since last adapt " << jumps_since_adapt_
       << " successful jumps since last adapt " << successful_jumps_since_adapt_ << " step size " << step_size_

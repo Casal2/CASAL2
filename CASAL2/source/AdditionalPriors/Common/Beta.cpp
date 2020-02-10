@@ -32,8 +32,7 @@ namespace additionalpriors {
  */
 Beta::Beta(Model* model) : AdditionalPrior(model) {
   parameters_.Bind<Double>(PARAM_MU, &mu_, "Beta distribution mean (mu) parameter", "");
-  parameters_.Bind<Double>(PARAM_SIGMA, &sigma_, "Beta distribution variance (sigma) parameter", "")
-      ->set_lower_bound(0.0);
+  parameters_.Bind<Double>(PARAM_SIGMA, &sigma_, "Beta distribution variance (sigma) parameter", "")->set_lower_bound(0.0);
   parameters_.Bind<Double>(PARAM_A, &a_, "Beta distribution lower bound of the range (A) parameter", "");
   parameters_.Bind<Double>(PARAM_B, &b_, "Beta distribution upper bound of the range (B) parameter", "");
 }
@@ -54,10 +53,10 @@ void Beta::DoValidate() {
 }
 
 void Beta::DoBuild() {
-	string error = "";
-	if (!model_->objects().VerfiyAddressableForUse(parameter_, addressable::kLookup, error)) {
-		LOG_FATAL_P(PARAM_PARAMETER) << "could not be verified for use in additional_prior.vector_average. Error: " << error;
-	}
+  string error = "";
+  if (!model_->objects().VerfiyAddressableForUse(parameter_, addressable::kLookup, error)) {
+    LOG_FATAL_P(PARAM_PARAMETER) << "could not be verified for use in additional_prior.vector_average. Error: " << error;
+  }
   addressable::Type addressable_type = model_->objects().GetAddressableType(parameter_);
   LOG_FINEST() << "type = " << addressable_type;
   switch(addressable_type) {
@@ -65,11 +64,11 @@ void Beta::DoBuild() {
       LOG_CODE_ERROR() << "Invalid addressable type: " << parameter_;
       break;
     case addressable::kSingle:
-    	addressable_ = model_->objects().GetAddressable(parameter_);
+      addressable_ = model_->objects().GetAddressable(parameter_);
       break;
     default:
-      LOG_ERROR() << "The addressable provided for use in additional priors: "
-        << parameter_ << " has a type that is not supported for Beta additional priors";
+      LOG_ERROR() << "The addressable provided for use in additional priors '"
+        << parameter_ << "' has a type that is not supported for Beta additional priors";
       break;
   }
 
@@ -80,10 +79,10 @@ void Beta::DoBuild() {
  */
 Double Beta::GetScore() {
   Double value = (*addressable_);
-	if (b_ < value || a_ > value) {
-		LOG_FATAL_P(PARAM_B) << "parameter b cannot be less than the target parameter ("
-          << value << "), and parameter a cannot be greater than the target parameter";
-	}
+  if (b_ < value || a_ > value) {
+    LOG_FATAL_P(PARAM_B) << "parameter b cannot be less than the target parameter ("
+      << value << "), and parameter a cannot be greater than the target parameter";
+  }
   Double score_ = 0.0;
   v_ = (mu_ - a_) / (b_ - a_);
   t_ = (((mu_ - a_) * (b_ - mu_)) / (sigma_ * sigma_)) - 1.0;

@@ -41,6 +41,7 @@ void CorrelationMatrix::DoExecute() {
       cache_ << correlation_matrix_(i, j) << " ";
     cache_ << "\n";
   }
+
   ready_for_writing_ = true;
 }
 

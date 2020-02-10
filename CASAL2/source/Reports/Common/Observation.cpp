@@ -53,13 +53,13 @@ void Observation::DoBuild() {
   if (pearson_resids_) {
     if(std::find(pearson_likelihoods.begin(), pearson_likelihoods.end(), observation_->likelihood()) == pearson_likelihoods.end()) {
        LOG_ERROR_P(PARAM_PEARSONS_RESIDUALS) << "The likelihood associated with this observation is " << observation_->likelihood()
-         << ", Pearsons residuals can be calculated only for the following likelihoods: binomial, multinomial, lognormal, normal, binomal_approx";
+         << ". Pearsons residuals can be calculated only for the likelihoods binomial, multinomial, lognormal, normal, binomal_approx";
     }
   }
   if (normalised_resids_) {
     if(std::find(normalised_likelihoods.begin(), normalised_likelihoods.end(), observation_->likelihood()) == normalised_likelihoods.end()) {
        LOG_ERROR_P(PARAM_NORMALISED_RESIDUALS) << "The likelihood associated with this observation is " << observation_->likelihood()
-         << ", Pearsons residuals can be calculated only for the following likelihoods: lognormal, lognormal_with_Q, normal";
+         << ". Pearsons residuals can be calculated only for the likelihoods lognormal, lognormal_with_Q, normal";
     }
   }
 
@@ -93,11 +93,11 @@ void Observation::DoExecute() {
           resid = (comparison.observed_ - comparison.expected_) / (comparison.expected_ * comparison.adjusted_error_);
         } else {
           LOG_CODE_ERROR() << "Unknown coded likelihood type should be dealt with in DoBuild(). If the Pearsons residual is unknown"
-            << " for this likelihood, set pearsons_residual false";
+            << " for this likelihood, set pearsons_residual to 'false'";
         }
         cache_ << iter->first << " " << comparison.category_ << " " << comparison.age_ << " " << comparison.length_ << " " << comparison.observed_ << " " << AS_VALUE(comparison.expected_)
-             << " " << comparison.observed_ - AS_VALUE(comparison.expected_) << " " << comparison.error_value_ << " " <<AS_VALUE(comparison.process_error_) << " "
-             << AS_VALUE(comparison.adjusted_error_) << " " << AS_VALUE(comparison.score_) << " " << AS_VALUE(resid) << "\n";
+           << " " << comparison.observed_ - AS_VALUE(comparison.expected_) << " " << comparison.error_value_ << " " <<AS_VALUE(comparison.process_error_) << " "
+           << AS_VALUE(comparison.adjusted_error_) << " " << AS_VALUE(comparison.score_) << " " << AS_VALUE(resid) << "\n";
       }
     }
   } else if (normalised_resids_ && !pearson_resids_) {
@@ -113,11 +113,11 @@ void Observation::DoExecute() {
           resid =  (comparison.observed_ - comparison.expected_) / (comparison.expected_ * comparison.adjusted_error_);
         } else {
           LOG_CODE_ERROR() << "Unknown coded likelihood type should be dealt with in DoBuild(). If the Pearsons residual is unknown"
-            << " for this likelihood, set pearsons_residual false";
+            << " for this likelihood, set pearsons_residual to 'false'";
         }
         cache_ << iter->first << " " << comparison.category_ << " " << comparison.age_ << " " << comparison.length_ << " " << comparison.observed_ << " " << AS_VALUE(comparison.expected_)
-             << " " << comparison.observed_ - AS_VALUE(comparison.expected_) << " " << comparison.error_value_ << " " <<AS_VALUE(comparison.process_error_) << " "
-             << AS_VALUE(comparison.adjusted_error_) << " " << AS_VALUE(comparison.score_) << " " << AS_VALUE(resid) << "\n";
+           << " " << comparison.observed_ - AS_VALUE(comparison.expected_) << " " << comparison.error_value_ << " " <<AS_VALUE(comparison.process_error_) << " "
+           << AS_VALUE(comparison.adjusted_error_) << " " << AS_VALUE(comparison.score_) << " " << AS_VALUE(resid) << "\n";
       }
     }
   } else if (normalised_resids_ && pearson_resids_){
@@ -135,7 +135,7 @@ void Observation::DoExecute() {
           pearson_resid = (comparison.observed_ - comparison.expected_) / (comparison.expected_ * comparison.adjusted_error_);
         } else {
           LOG_CODE_ERROR() << "Unknown coded likelihood type should be dealt with in DoBuild(). If the Pearsons residual is unknown"
-            << " for this likelihood, set pearsons_residual false";
+            << " for this likelihood, set pearsons_residual to 'false'";
         }
         cache_ << iter->first << " " << comparison.category_ << " " << comparison.age_ << " " << comparison.length_ << " " << comparison.observed_ << " " << AS_VALUE(comparison.expected_)
           << " " << comparison.observed_ - AS_VALUE(comparison.expected_) << " " << comparison.error_value_ << " " <<AS_VALUE(comparison.process_error_)  << " "
@@ -333,7 +333,7 @@ void Observation::DoExecuteTabular() {
           resid = (comparison.observed_ - comparison.expected_) / (comparison.expected_ * comparison.adjusted_error_);
         } else {
           LOG_CODE_ERROR() << "Unknown coded likelihood type should be dealt with in DoBuild(). If the Pearsons residual is unknown"
-            << " for this likelihood, set pearsons_residual false";
+            << " for this likelihood, set pearsons_residual to 'false'";
         }
         cache_ << resid << " ";
       }
@@ -351,7 +351,7 @@ void Observation::DoExecuteTabular() {
           resid =  (comparison.observed_ - comparison.expected_) / (comparison.expected_ * comparison.adjusted_error_);
         } else {
           LOG_CODE_ERROR() << "Unknown coded likelihood type should be dealt with in DoBuild(). If the normalised residual is unknown"
-            << " for this likelihood, set normalised_residual false";
+            << " for this likelihood, set normalised_residual to 'false'";
         }
         cache_ << resid << " ";
       }

@@ -45,10 +45,10 @@ void LogNormal::DoValidate() {
 }
 
 void LogNormal::DoBuild() {
-	string error = "";
-	if (!model_->objects().VerfiyAddressableForUse(parameter_, addressable::kLookup, error)) {
-		LOG_FATAL_P(PARAM_PARAMETER) << "could not be verified for use in additional_prior.log_normal. Error: " << error;
-	}
+  string error = "";
+  if (!model_->objects().VerfiyAddressableForUse(parameter_, addressable::kLookup, error)) {
+    LOG_FATAL_P(PARAM_PARAMETER) << "could not be verified for use in additional_prior.log_normal. Error: " << error;
+  }
 
   addressable::Type addressable_type = model_->objects().GetAddressableType(parameter_);
   LOG_FINEST() << "type = " << addressable_type;
@@ -93,8 +93,9 @@ Double LogNormal::GetScore() {
       values.push_back(iter.second);
   } else if (addressable_ != nullptr) {
     values.push_back((*addressable_));
-  } else
+  } else {
     LOG_CODE_ERROR() << "(addressable_map_ != 0) && (addressable_vector_ != 0)";
+  }
 
   sigma_ = sqrt(log( 1 + cv_ * cv_));
   for(auto value : values)

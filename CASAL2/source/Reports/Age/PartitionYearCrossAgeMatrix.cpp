@@ -32,8 +32,7 @@ Partition_YearCrossAgeMatrix::Partition_YearCrossAgeMatrix(Model* model) :
   run_mode_ = (RunMode::Type) (RunMode::kBasic | RunMode::kProjection);
   model_state_ = State::kExecute;
 
-  parameters_.Bind<string>(PARAM_TIME_STEP, &time_step_, "Time Step label", "",
-      "");
+  parameters_.Bind<string>(PARAM_TIME_STEP, &time_step_, "Time Step label", "", "");
   parameters_.Bind<unsigned>(PARAM_YEARS, &years_, "Years", "", true);
 }
 

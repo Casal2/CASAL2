@@ -43,8 +43,8 @@ public:
 TEST(AdditionalPriors, LogNormal) {
   // layout is mu, sigma, a, b, expected_score
   vector<vector<double>> values = {
-      { 4.3, 0.05, 5.46, 13.239745898323584},
-      { 2.3, 0.4, 6.24, 5.7044023501649734}
+    { 4.3, 0.05, 5.46, 13.239745898323584},
+    { 2.3, 0.4, 6.24, 5.7044023501649734}
   };
 
   Model model;

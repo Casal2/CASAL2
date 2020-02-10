@@ -35,6 +35,7 @@ void Catchability::DoExecute() {
     string label =  Q->label();
     cache_ << label << ": " <<  AS_DOUBLE(Q->q()) << " \n";
   }
+
   ready_for_writing_ = true;
 }
 

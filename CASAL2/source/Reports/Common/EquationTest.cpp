@@ -49,6 +49,7 @@ void EquationTest::DoExecute() {
   } catch (...) {
     cache_ << "result: equation failed\n";
   }
+
   ready_for_writing_ = true;
 }
 
