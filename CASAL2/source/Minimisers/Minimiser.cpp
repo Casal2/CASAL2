@@ -85,6 +85,7 @@ void Minimiser::Build() {
   }
 
   // Check that there is a report for estimation result
+  // TODO:  this section causes a segfault if a report of type 'estimate_value' is not specified. why???
   if (model_->run_mode() == RunMode::kEstimation || model_->run_mode() == RunMode::kMCMC || model_->run_mode() == RunMode::kProfiling) {
     if (!model_->managers().report()->HasType(PARAM_ESTIMATION_RESULT)) {
       LOG_MEDIUM() << "Create default estimation summary report";
