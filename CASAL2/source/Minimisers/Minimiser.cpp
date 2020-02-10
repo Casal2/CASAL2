@@ -84,10 +84,11 @@ void Minimiser::Build() {
       hessian_[i][j] = 0.0;
   }
 
-  // Check there is a report
-  if (model_->run_mode() ==  RunMode::kEstimation) {
+  // Check that there is a report for estimation result
+  if (model_->run_mode() == RunMode::kEstimation || model_->run_mode() == RunMode::kMCMC || model_->run_mode() == RunMode::kProfiling) {
     if (!model_->managers().report()->HasType(PARAM_ESTIMATION_RESULT)) {
       LOG_MEDIUM() << "Create default estimation summary report";
+
       reports::EstimationResult* objective_report = new reports::EstimationResult(model_);
       objective_report->set_block_type(PARAM_REPORT);
       objective_report->set_defined_file_name(__FILE__);

@@ -45,8 +45,8 @@ public:
 TEST(AdditionalPriors, Beta) {
   // layout is mu, sigma, a, b, expected_score
   vector<vector<double>> values = {
-      { 4, 2, 2, 7, 5, 1.3640928573264497},
-      { 4, 2, 2, 7, 6, 1.1090354888959124}
+    { 4, 2, 2, 7, 5, 1.3640928573264497},
+    { 4, 2, 2, 7, 6, 1.1090354888959124}
   };
 
   Model model;

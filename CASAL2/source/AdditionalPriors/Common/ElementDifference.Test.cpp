@@ -43,8 +43,8 @@ public:
 TEST(AdditionalPriors, ElementDifference) {
   // layout is mu, sigma, a, b, expected_score
   vector<vector<double>> values = {
-      {1000,0.32,0.56, 57.600000000000023},
-      {100, 3.4,7.44, 1632.1600000000008}
+    {1000,0.32,0.56, 57.600000000000023},
+    {100, 3.4,7.44, 1632.1600000000008}
   };
 
   Model model;

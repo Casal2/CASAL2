@@ -102,7 +102,7 @@ void Estimate::Build() {
       // if prior on transformed varible check to see if the bounds make sense once the transformation has occured.
       transformation->Transform();
       if (*target_ < lower_bound_)
-        LOG_ERROR() << location() <<  "the initial value (" << AS_DOUBLE((*target_)) << ") for the parameter " << parameter_
+        LOG_ERROR() << location() << "the initial value (" << AS_DOUBLE((*target_)) << ") for the parameter " << parameter_
           << " is less than the lower_bound (" << lower_bound_ << ")";
       if (*target_ > upper_bound_)
         LOG_ERROR() << location() << "the initial value (" << AS_DOUBLE((*target_)) << ") for the parameter " << parameter_

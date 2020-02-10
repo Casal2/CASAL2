@@ -26,7 +26,7 @@ namespace additionalpriors {
 class LogNormal : public AdditionalPrior {
 public:
   // methods
-	LogNormal(Model* model);
+  LogNormal(Model* model);
   virtual                     ~LogNormal() = default;
   void                        DoValidate() override final;
   void                        DoBuild() override final;

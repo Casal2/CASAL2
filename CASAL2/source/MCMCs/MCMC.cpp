@@ -68,6 +68,7 @@ void MCMC::Build() {
 
       if (!model_->managers().report()->HasType(PARAM_MCMC_OBJECTIVE)) {
         LOG_MEDIUM() << "Create default MCMC objective function report";
+
         reports::MCMCObjective* objective_report = new reports::MCMCObjective(model_);
         objective_report->set_block_type(PARAM_REPORT);
         objective_report->set_defined_file_name(__FILE__);
@@ -103,11 +104,12 @@ void MCMC::Build() {
 
       string objective_name = model_->global_configuration().mcmc_objective_file();
       string sample_name    = model_->global_configuration().mcmc_sample_file();
-      LOG_MEDIUM() << "Objective file name: " << objective_name;
-      LOG_MEDIUM() << "Sample file name: " << sample_name;
+      LOG_MEDIUM() << "MCMC objective function file name: " << objective_name;
+      LOG_MEDIUM() << "MCMC sample file name: " << sample_name;
 
       if (!model_->managers().report()->HasType(PARAM_MCMC_OBJECTIVE)) {
-        // create the default report
+        LOG_MEDIUM() << "Create default MCMC objective function report";
+
         reports::MCMCObjective* objective_report = new reports::MCMCObjective(model_);
         objective_report->set_block_type(PARAM_REPORT);
         objective_report->set_defined_file_name(__FILE__);
@@ -125,6 +127,8 @@ void MCMC::Build() {
       }
 
       if (!model_->managers().report()->HasType(PARAM_MCMC_SAMPLE)) {
+        LOG_MEDIUM() << "Create default MCMC sample report";
+
         reports::MCMCSample* sample_report = new reports::MCMCSample(model_);
         sample_report->set_block_type(PARAM_REPORT);
         sample_report->set_defined_file_name(__FILE__);
