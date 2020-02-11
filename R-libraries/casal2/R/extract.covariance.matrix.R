@@ -9,13 +9,13 @@
 #' @export
 #'
 "extract.covariance.matrix" <- function (file, path = "", fileEncoding = "") {
-  filename <- make.filename(path = path, file = file)
+  filename <- file.path(path, file)
   lines    <- convert.to.lines(filename, fileEncoding = fileEncoding)
 
   start_str <- "covariance_matrix"
   end_str   <- "*end"
 
-  if (any(grepl(pattern = start_str, x = lines)))
+  if (length(grep(pattern = start_str, x = lines)) == 0)
     stop("This model was not run with a minimiser that produced a covariance matrix. Please rerun this model with 'covariance true' in the @minimiser block.")
 
   lines   <- get.lines(lines, clip.to.match=start_str, clip.from.match=end_str)
