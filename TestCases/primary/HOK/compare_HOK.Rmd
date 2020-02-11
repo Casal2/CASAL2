@@ -130,8 +130,7 @@ for (c in 1:num_C2_models)
     cas2_mpd_filename <- file.path(base_dir, 'Casal2', C2_subdir[c], mpd_run)
     cas2_mpd[[c]] <- casal2::extract.mpd(cas2_mpd_filename)
 
-    # TODO:  add casal2::extract.covariance.matrix() and casal2::extract.correlation.matrix()
-    # cas2_corr[[c]] <- casal2::extract.correlation.matrix(cas2_mpd_filename)
+    cas2_corr[[c]] <- casal2::extract.correlation.matrix(mpd_out, file.path(base_dir, 'Casal2', C2_subdir[c]))
 
     cas2_conv[[c]] <- get_convergence_information(cas2_mpd_filename)
 }
@@ -352,7 +351,7 @@ par(mar=c(4,4,2,1) + 0.1)
 
 plot_image_and_range <- function(corr_obj, label)
 {
-    image(corr_obj, col=hcl.colors(31, 'purple-yellow'), xlab='Parameter', ylab='Parameter', main=label)
+    image(corr_obj, zlim=c(-1,1), col=hcl.colors(51, 'RdYlBu'), xlab='Parameter', ylab='Parameter', main=label)
     print(paste(label, 'range (excluding 1.0):', paste0(range(corr_obj[corr_obj < 1], na.rm=TRUE), collapse=' ')))
 }
 
@@ -360,10 +359,10 @@ plot_image_and_range(cas_corr, 'CASAL base parameter correlation')
 
 plot_image_and_range(cas_sens1_corr, 'CASAL sensitivity 1 parameter correlation')
 
-# for (c in 1:num_C2_models)
-# {
-#     plot_image_and_range(cas2_corr[[c]], paste('Casal2', C2_subdir[c], 'parameter correlation'))
-# }
+for (c in 1:num_C2_models)
+{
+    plot_image_and_range(cas2_corr[[c]], paste('Casal2', C2_subdir[c], 'parameter correlation'))
+}
 ```
 
 
