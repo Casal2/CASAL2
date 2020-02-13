@@ -147,56 +147,79 @@ void CPPAD::Execute() {
   LOG_MEDIUM() << "obj";
   LOG_MEDIUM() << solution.obj_value;
   LOG_MEDIUM() << "status";
-  /*
+
   switch(solution.status)
   { // convert status from Ipopt enum to solve_result<Dvector> enum
-    case status_type::success:
-    cerr << "success\n";
-    break;
-    case maxiter_exceeded:
-    cerr << "max iter exceeded\n";
-    break;
+    case solution.status_type::success:
+      result_ = MinimiserResult::kSuccess;
+      LOG_MEDIUM() << "success";
+      break;
 
-    case CppAD::ipopt::solve_result::status_type::stop_at_tiny_step:
-    cerr << "stop at tiny step\n";
-    break;
+    case solution.status_type::maxiter_exceeded:
+      result_ = MinimiserResult::kTooManyIterations;
+      LOG_MEDIUM() << "max iter exceeded";
+      break;
 
-    case CppAD::ipopt::solve_result::status_type::stop_at_acceptable_point:
-    cerr << "stop at acceptable point\n";
-    break;
+    case solution.status_type::stop_at_tiny_step:
+      result_ = MinimiserResult::kStepSizeTooSmallSuccess;
+      LOG_MEDIUM() << "stop at tiny step";
+      break;
 
-    case CppAD::ipopt::solve_result::status_type::local_infeasibility:
-    cerr << "local infeasibility\n";
-    break;
+    case solution.status_type::stop_at_acceptable_point:
+      result_ = MinimiserResult::kSuccess;
+      LOG_MEDIUM() << "stop at acceptable point";
+      break;
 
-    case CppAD::ipopt::solve_result::status_type::user_requested_stop:
-    cerr << "user requested stop\n";
-    break;
+    case solution.status_type::local_infeasibility:
+      result_ = MinimiserResult::kError;
+      LOG_MEDIUM() << "local infeasibility";
+      break;
 
-    case CppAD::ipopt::solve_result::status_type::diverging_iterates:
-    cerr << "diverging iterates\n";
-    break;
+    case solution.status_type::user_requested_stop:
+      result_ = MinimiserResult::kError;
+      LOG_MEDIUM() << "user requested stop";
+      break;
 
-    case CppAD::ipopt::solve_result::status_type::restoration_failure:
-    cerr << "restoration failure\n";
-    break;
+    case solution.status_type::feasible_point_found:
+      result_ = MinimiserResult::kSuccess;
+      LOG_MEDIUM() << "feasible point found";
+      break;
 
-    case CppAD::ipopt::solve_result::status_type::error_in_step_computation:
-    cerr << "error in step computation\n";
-    break;
+    case solution.status_type::diverging_iterates:
+      result_ = MinimiserResult::kError;
+      LOG_MEDIUM() << "diverging iterates";
+      break;
 
-    case CppAD::ipopt::solve_result::status_type::invalid_number_detected:
-    cerr << "invalid number detected\n";
-    break;
+    case solution.status_type::restoration_failure:
+      result_ = MinimiserResult::kError;
+      LOG_MEDIUM() << "restoration failure";
+      break;
 
-    case CppAD::ipopt::solve_result::status_type::internal_error:
-    cerr << "internal error\n";
-    break;
+    case solution.status_type::error_in_step_computation:
+      result_ = MinimiserResult::kError;
+      LOG_MEDIUM() << "error in step computation";
+      break;
+
+    case solution.status_type::invalid_number_detected:
+      result_ = MinimiserResult::kError;
+      LOG_MEDIUM() << "invalid number detected";
+      break;
+
+    case solution.status_type::too_few_degrees_of_freedom:
+      result_ = MinimiserResult::kError;
+      LOG_MEDIUM() << "too few degrees of freedom";
+      break;
+
+    case solution.status_type::internal_error:
+      result_ = MinimiserResult::kError;
+      LOG_MEDIUM() << "internal error";
+      break;
 
     default:
-    cerr << "unknown error\n";
+      result_ = MinimiserResult::kError;
+      LOG_MEDIUM() << "unknown error, status type: " << solution.status;
   }
-*/
+
   model_->managers().estimate_transformation()->RestoreEstimates();
 }
 

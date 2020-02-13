@@ -69,11 +69,11 @@ void ADOLC::Execute() {
   adolc.optimise(call_back,
       start_values, lower_bounds, upper_bounds,
       status, max_iterations_, max_evaluations_, gradient_tolerance_,
-      hessian_,1,step_size_);
+      hessian_, 1, step_size_);
 
   model_->managers().estimate_transformation()->RestoreEstimates();
 
-  switch(status) {
+  switch (adolc.get_convergence_status()) {
     case -1:
       result_ = MinimiserResult::kError;
       break;
