@@ -44,6 +44,7 @@ private:
   string                      retape_ = "";
   unsigned                    print_level_ = 0;
   string                      sb_ = "";
+  string                      pidi_ = "";
   unsigned                    max_iter_ = 0;
   double                      tol_ = 0.0;
   double                      acceptable_tol_ = 0.0;
