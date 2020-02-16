@@ -1,7 +1,7 @@
 Casal2
 ======
 
-The purpose of this repository is to mirror the Casal2 code base in the NIWA internal developement repository.
+The purpose of this repository is to mirror the Casal2 code base in the NIWA internal development repository.
 
 Casal2 is an open source age structured population dynamics model. 
 It can implement a range of a statistical catch-at-age 
