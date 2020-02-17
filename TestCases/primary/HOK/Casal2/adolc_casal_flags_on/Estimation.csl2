@@ -9,8 +9,8 @@
 @minimiser ADOLC
 type adolc
 tolerance 1e-6
-iterations 1000
-evaluations 1000
+iterations 5000
+evaluations 5000
 covariance True
 
 ################################### Estimates ###############################
