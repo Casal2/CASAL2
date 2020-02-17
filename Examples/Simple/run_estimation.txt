@@ -1,11 +1,11 @@
 Casal2
 Call: ../../BuildSystem/bin/linux/release_betadiff/casal2 -e -o params_est.out 
-Date: Thu Jan 30 13:08:28 2020
-Version: 2020-01-28 21:03:02 UTC (rev. bba18d6)
+Date: Mon Feb 17 16:51:17 2020
+Version: 2020-02-16 01:25:29 UTC (rev. 72db8dd)
 Copyright (c) 2020 - 2020, NIWA (www.niwa.co.nz)
--- Username: niwa
--- Machine: niwa-computer.niwa.local (Linux 3.10.0-1062.9.1.el7.x86_64 x86_64)
--- Process Id: 6668
+-- Username: niwauser
+-- Machine: niwa-computer.niwa.local (Linux 3.10.0-1062.12.1.el7.x86_64 x86_64)
+-- Process Id: 13159
 
 resizing from 40000 to 44000
 resizing from 44000 to 48400
@@ -2464,8 +2464,8 @@ category 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 21 22 23 24 25 26 27
 HAK4 0.000000 12497241.382590 10162691.195882 1177925.511611 836903.351979 750737.499928 708851.561663 345983.903006 638218.702307 607686.864817 833353.802926 228673.876922 116742.726512 134815.358553 68928.042040 72628.695858 59046.222164 68947.955594 64732.320414 55639.426871 50686.460386 52652.098172 28213.711015 15011.303045 14503.776722 8686.949446 9846.912467 7663.398446 5878.077115 84147.961715
 *end
 
-[WARNING] /home/amart/work/projects/CASAL2/dev/casal2-development/CASAL2/source/Reports/Common/EstimateValue.cpp(line: 46): estimated parameter 'process[Recruitment].ycs_values{2010}' was within 0.001 of its bound
-[WARNING] /home/amart/work/projects/CASAL2/dev/casal2-development/CASAL2/source/Reports/Common/EstimateValue.cpp(line: 46): estimated parameter 'process[Recruitment].ycs_values{2011}' was within 0.001 of its bound
+[WARNING] /home/niwauser/work/projects/CASAL2/dev/casal2-development/CASAL2/source/Reports/Common/EstimateValue.cpp(line: 48): estimated parameter 'process[Recruitment].ycs_values{2010}' was within 0.001 of upper bound 3
+[WARNING] /home/niwauser/work/projects/CASAL2/dev/casal2-development/CASAL2/source/Reports/Common/EstimateValue.cpp(line: 48): estimated parameter 'process[Recruitment].ycs_values{2011}' was within 0.001 of upper bound 3
 *estimate_value[summary]
 values {d}
 process[Recruitment].b0 selectivity[chatTANSel].mu selectivity[chatTANSel].sigma_l selectivity[chatTANSel].sigma_r selectivity[eastFSel].mu selectivity[eastFSel].sigma_l selectivity[eastFSel].sigma_r selectivity[westFSel].mu selectivity[westFSel].sigma_l selectivity[westFSel].sigma_r process[Recruitment].ycs_values{1975} process[Recruitment].ycs_values{1976} process[Recruitment].ycs_values{1977} process[Recruitment].ycs_values{1978} process[Recruitment].ycs_values{1979} process[Recruitment].ycs_values{1980} process[Recruitment].ycs_values{1981} process[Recruitment].ycs_values{1982} process[Recruitment].ycs_values{1983} process[Recruitment].ycs_values{1984} process[Recruitment].ycs_values{1985} process[Recruitment].ycs_values{1986} process[Recruitment].ycs_values{1987} process[Recruitment].ycs_values{1988} process[Recruitment].ycs_values{1989} process[Recruitment].ycs_values{1990} process[Recruitment].ycs_values{1991} process[Recruitment].ycs_values{1992} process[Recruitment].ycs_values{1993} process[Recruitment].ycs_values{1994} process[Recruitment].ycs_values{1995} process[Recruitment].ycs_values{1996} process[Recruitment].ycs_values{1997} process[Recruitment].ycs_values{1998} process[Recruitment].ycs_values{1999} process[Recruitment].ycs_values{2000} process[Recruitment].ycs_values{2001} process[Recruitment].ycs_values{2002} process[Recruitment].ycs_values{2003} process[Recruitment].ycs_values{2004} process[Recruitment].ycs_values{2005} process[Recruitment].ycs_values{2006} process[Recruitment].ycs_values{2007} process[Recruitment].ycs_values{2008} process[Recruitment].ycs_values{2009} process[Recruitment].ycs_values{2010} process[Recruitment].ycs_values{2011} 
@@ -3536,11 +3536,11 @@ year category age length observed expected residual error_value process_error ad
 *warnings[warnings_encounted]
 warnings_found: 2
 warning_0 {s}
-estimated parameter 'process[Recruitment].ycs_values{2010}' was within 0.001 of its bound
+estimated parameter 'process[Recruitment].ycs_values{2010}' was within 0.001 of upper bound 3
 warning_1 {s}
-estimated parameter 'process[Recruitment].ycs_values{2011}' was within 0.001 of its bound
+estimated parameter 'process[Recruitment].ycs_values{2011}' was within 0.001 of upper bound 3
 *end
 
-Total CPU time: 0.008 hours.
-Total elapsed time: 14 seconds
+Total CPU time: 0.006 hours.
+Total elapsed time: 12 seconds
 Completed
