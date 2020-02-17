@@ -29,19 +29,10 @@ RUN apt-get update && apt-get upgrade -y \
 # [un]comment these out later to clear caches. package caches are useful during active dev.
  && rm -rf /var/lib/apt/lists/* && rm -rf /tmp/* \
  && pip install datetime && pip3 install datetime \
- && pip install pytz && pip3 install pytz \
-# && install.r devtools roxygen2 dplyr ggplot2 here Hmisc rlist rmarkdown huxtable rmvnorm
- && R -e "install.packages(c('devtools', 'roxygen2', 'dplyr', 'ggplot2', 'here', 'Hmisc', 'rlist', 'rmarkdown', 'huxtable', 'rmvnorm'))" \
-# legacy (in r-parallel image)
-# && R -e "install.packages(c('snow', 'doSNOW'))" \
-# RNG (in r-parallel image)
-# && R -e "install.packages(c('rlecuyer'))" \
-# the foreach libraries (in r-parallel image)
-# && R -e "install.packages(c('foreach', 'iterators', 'doParallel', 'doMC', 'doRNG'))" \
-# the future libraries (in r-parallel image)
-# && R -e "install.packages(c('future', 'future.apply', 'doFuture', 'future.callr', 'furrr'))" \
-# the batch job libraries (in r-parallel image)
-# && R -e "install.packages(c('BatchJobs', 'future.BatchJobs', 'batchtools', 'future.batchtools', 'clustermq'))" \
+ && pip install pytz && pip3 install pytz
+
+# RUN install.r devtools roxygen2 dplyr ggplot2 here Hmisc rlist rmarkdown huxtable mvtnorm
+RUN R -e "install.packages(c('devtools', 'roxygen2', 'dplyr', 'ggplot2', 'here', 'Hmisc', 'rlist', 'rmarkdown', 'huxtable', 'mvtnorm'))" \
  && useradd --home-dir /r-script -U casal2
 
 WORKDIR /r-script/casal2
