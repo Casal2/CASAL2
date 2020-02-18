@@ -1,20 +1,15 @@
 # see https://www.rocker-project.org/images/
 
-# FROM rocker/r-ver:3.6.1
+FROM rocker/r-ver:3.6.1
 # FROM rocker/tidyverse:3.6.1
 # FROM rocker/verse:3.6.1
 
 # see https://github.com/rocker-org/r-parallel
-# which is built on rocker/r-base, https://github.com/rocker-org/rocker/tree/master/r-base
-# which uses Debian testing and the most recent R version
-FROM rocker/r-parallel AS developer
+# FROM rocker/r-parallel (which uses Debian testing and the most recent R version)
 
-ARG R_VERSION=3.6.2
+ARG R_VERSION=3.6.1
 
-
-# is this necessary? where is it from?
-# ENV DEBIAN_FRONTEND=noninteractive
-
+ENV DEBIAN_FRONTEND=noninteractive
 
 RUN apt-get update && apt-get upgrade -y \
  && apt-get -y --no-install-recommends install git git-svn openssh-client nano vim ca-certificates curl procps file time locate \
@@ -26,13 +21,24 @@ RUN apt-get update && apt-get upgrade -y \
 # for devtools dependencies
                                                libxml2-dev libudunits2-dev libgit2-dev \
                                                libssl-dev zlib1g-dev libgit2-dev libcurl4-gnutls-dev libssh2-1-dev \
+# for similarity to the rocker/r-parallel docker image
+                                               libopenmpi-dev libzmq3-dev \
 # [un]comment these out later to clear caches. package caches are useful during active dev.
  && rm -rf /var/lib/apt/lists/* && rm -rf /tmp/* \
  && pip install datetime && pip3 install datetime \
- && pip install pytz && pip3 install pytz
+ && pip install pytz && pip3 install pytz \
+# legacy (in r-parallel image)
+ && R -e "install.packages(c('snow', 'doSNOW'))" \
+# RNG (in r-parallel image)
+ && R -e "install.packages(c('rlecuyer'))" \
+# the foreach libraries (in r-parallel image)
+ && R -e "install.packages(c('foreach', 'iterators', 'doParallel', 'doMC', 'doRNG'))"
+# the future libraries (in r-parallel image)
+#&& R -e "install.packages(c('future', 'future.apply', 'doFuture', 'future.callr', 'furrr'))"
+# the batch job libraries (in r-parallel image)
+#&& R -e "install.packages(c('BatchJobs', 'future.BatchJobs', 'batchtools', 'future.batchtools', 'clustermq'))"
 
-# RUN install.r devtools roxygen2 dplyr ggplot2 here Hmisc rlist rmarkdown huxtable mvtnorm
-RUN R -e "install.packages(c('devtools', 'roxygen2', 'dplyr', 'ggplot2', 'here', 'Hmisc', 'rlist', 'rmarkdown', 'huxtable', 'mvtnorm'))" \
+RUN R -e "install.packages(c('devtools', 'roxygen2', 'data.table', 'dplyr', 'ggplot2', 'here', 'Hmisc', 'rlist', 'rmarkdown', 'huxtable', 'rmvnorm'))" \
  && useradd --home-dir /r-script -U casal2
 
 WORKDIR /r-script/casal2

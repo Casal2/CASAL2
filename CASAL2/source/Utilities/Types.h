@@ -64,6 +64,11 @@ namespace utilities {
 typedef adouble Double;
 #define AS_DOUBLE(x) x.value()
 #define AS_VALUE(x) AS_DOUBLE(x)
+
+// need to redefine due to definition in ThirdParty/adolc/ADOL-C-2.5.2/ADOL-C/src/adouble.cpp
+std::ostream& operator << ( std::ostream& out, const Double& y ) {
+  return out << AS_VALUE(y) ;
+}
 #endif
 
 #ifdef USE_BETADIFF
