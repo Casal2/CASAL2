@@ -69,7 +69,7 @@ private:
  */
 CPPAD::CPPAD(Model* model) : Minimiser(model) {
   parameters_.Bind<string>(PARAM_RETAPE, &retape_, "Retape? yes or no", "", "true")->set_allowed_values({"true", "false"});
-  parameters_.Bind<unsigned>(PARAM_PRINT_LEVEL, &print_level_, "Level of debug to stdout", "", 6u)->set_range(0u, 12u);
+  parameters_.Bind<unsigned>(PARAM_PRINT_LEVEL, &print_level_, "Level of debug to stdout", "", 5u)->set_range(0u, 12u);
   parameters_.Bind<string>(PARAM_SB, &sb_, "String buffer output?", "", "yes")->set_allowed_values({"yes", "no"});
   parameters_.Bind<string>(PARAM_PIDI, &pidi_, "Print iteration diagnostic information?", "", "yes")->set_allowed_values({"yes", "no"});
   parameters_.Bind<unsigned>(PARAM_MAX_ITER, &max_iter_, "Maximum number of iterations", "", 4000)->set_lower_bound(1u);
@@ -146,7 +146,7 @@ void CPPAD::Execute() {
   LOG_MEDIUM() << "zu";
   for(unsigned i = 0; i < solution.zu.size(); ++i)
     LOG_MEDIUM() << solution.zu[i];
-  LOG_MEDIUM() << "obj";
+  LOG_MEDIUM() << "objective function value";
   LOG_MEDIUM() << solution.obj_value;
   LOG_MEDIUM() << "status";
 
