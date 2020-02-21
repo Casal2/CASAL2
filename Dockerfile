@@ -68,13 +68,14 @@ RUN cd BuildSystem && ./doBuild.sh check \
 # && ./doBuild.sh documentation \
 # the Casal2 R library should already exist
 # && ./doBuild.sh rlibrary \
+# the user can run modelrunner
 # && ./doBuild.sh modelrunner
 
-RUN cd BuildSystem && ./doBuild.sh library release && ./doBuild.sh library test \
- && ./doBuild.sh library adolc && ./doBuild.sh library betadiff \
+# RUN cd BuildSystem && ./doBuild.sh library release && ./doBuild.sh library test \
+# && ./doBuild.sh library adolc && ./doBuild.sh library betadiff \
 # CppAD doesn't build in docker for some reason
 # && ./doBuild.sh library cppad \
- && ./doBuild.sh frontend
+# && ./doBuild.sh frontend
 
 CMD ["/bin/bash"]
 
