@@ -1,13 +1,13 @@
-CASAL2
+Casal2
 Call: ../../../../../BuildSystem/bin/linux/release_cppad/casal2 -e -o params_est.out 
-Date: Thu Nov 21 15:03:26 2019
-Version: 2019-11-21 01:14:25 UTC (rev. de8e724)
-Copyright (c) 2018 - 2019, NIWA (www.niwa.co.nz)
--- Username: amart
--- Machine: niwa-1019055.niwa.local (Linux 3.10.0-1062.4.1.el7.x86_64 x86_64)
--- Process Id: 17600
+Date: Fri Feb 21 15:57:02 2020
+Version: 2020-02-21 01:56:07 UTC (rev. 9ad7c37)
+Copyright (c) 2020 - 2020, NIWA (www.niwa.co.nz)
+-- Username: niwauser
+-- Machine: niwa-computer.niwa.local (Linux 3.10.0-1062.12.1.el7.x86_64 x86_64)
+-- Process Id: 4704
 
-[WARNING] /home/amart/work/projects/CASAL2/dev/casal2-development/CASAL2/source/Estimates/Manager.cpp(line: 93): Estimates were removed because of matching lower and upper bounds. Originally had 134 estimates, now have 133
+[WARNING] /home/niwauser/work/projects/CASAL2/dev/casal2-development/CASAL2/source/Estimates/Manager.cpp(line: 93): Estimates were removed because of matching lower and upper bounds. Originally had 134 estimates, now have 133
 This is Ipopt version 3.12.4, running with linear solver mumps.
 NOTE: Other linear solvers might be more efficient (see Ipopt documentation).
 
@@ -26,68 +26,68 @@ Total number of inequality constraints...............:        1
         inequality constraints with only upper bounds:        0
 
 iter    objective    inf_pr   inf_du lg(mu)  ||d||  lg(rg) alpha_du alpha_pr  ls
-   0  3.0851820e+03 0.00e+00 1.00e+02  -1.0 0.00e+00    -  0.00e+00 0.00e+00   0
-   1  2.9661755e+03 0.00e+00 1.81e+01  -1.0 4.95e-02   2.0 9.92e-01 9.90e-01f  1
-   2  2.8613749e+03 0.00e+00 9.89e+00  -1.0 7.40e-02   1.5 1.00e+00 9.90e-01f  1
-   3  2.6868864e+03 0.00e+00 2.41e+00  -1.0 2.17e-01   1.0 1.00e+00 1.00e+00f  1
-   4  2.3957973e+03 0.00e+00 1.03e+05  -1.7 6.85e-01   0.6 8.49e-01 9.03e-01f  1
-   5  2.2206808e+03 0.00e+00 5.89e+04  -1.7 6.69e-01   0.1 1.00e+00 6.81e-01f  1
-   6  2.1338435e+03 0.00e+00 4.09e+00  -1.7 1.38e+00  -0.4 1.00e+00 1.00e+00f  1
-   7  2.1009102e+03 0.00e+00 6.59e+05  -3.8 7.88e+00  -0.9 5.06e-01 1.74e-01f  3
-   8  2.0778678e+03 0.00e+00 7.37e+05  -3.8 5.55e+00  -1.3 3.95e-01 1.89e-01f  3
-   9  2.0477808e+03 0.00e+00 3.08e+05  -3.8 2.14e+01  -1.8 4.67e-01 5.31e-01f  1
+   0  3.0851820e+03 0.00e+00 1.00e+02  -1.0 0.00e+00    -  0.00e+00 0.00e+00   0 y
+   1  2.9661755e+03 0.00e+00 1.81e+01  -1.0 4.95e-02   2.0 9.92e-01 9.90e-01f  1 Nhj 
+   2  2.8613749e+03 0.00e+00 9.89e+00  -1.0 7.40e-02   1.5 1.00e+00 9.90e-01f  1 
+   3  2.6868864e+03 0.00e+00 2.41e+00  -1.0 2.17e-01   1.0 1.00e+00 1.00e+00f  1 
+   4  2.3957973e+03 0.00e+00 1.03e+05  -1.7 6.85e-01   0.6 8.49e-01 9.03e-01f  1 
+   5  2.2206808e+03 0.00e+00 5.89e+04  -1.7 6.69e-01   0.1 1.00e+00 6.81e-01f  1 
+   6  2.1338435e+03 0.00e+00 4.09e+00  -1.7 1.38e+00  -0.4 1.00e+00 1.00e+00f  1 
+   7  2.1009102e+03 0.00e+00 6.59e+05  -3.8 7.88e+00  -0.9 5.06e-01 1.74e-01f  3 
+   8  2.0778678e+03 0.00e+00 7.37e+05  -3.8 5.55e+00  -1.3 3.95e-01 1.89e-01f  3 
+   9  2.0477808e+03 0.00e+00 3.08e+05  -3.8 2.14e+01  -1.8 4.67e-01 5.31e-01f  1 
 iter    objective    inf_pr   inf_du lg(mu)  ||d||  lg(rg) alpha_du alpha_pr  ls
-  10  2.0472173e+03 0.00e+00 3.08e+05  -3.8 1.29e+03  -2.3 5.44e-04 1.19e-04f  1
-  11  2.0089064e+03 0.00e+00 1.29e+05  -3.8 1.81e+00  -1.9 3.61e-01 4.70e-01f  1
-  12  1.9928433e+03 0.00e+00 1.32e+04  -3.8 6.25e+00  -2.3 1.16e-01 5.00e-01f  2
-  13  1.9842893e+03 0.00e+00 2.73e+03  -3.8 3.62e+00  -2.8 6.59e-01 6.15e-01f  1
-  14  1.9808078e+03 0.00e+00 4.69e+04  -3.8 2.63e+00  -2.4 2.30e-01 1.00e+00f  1
-  15  1.9793560e+03 0.00e+00 4.27e+04  -3.8 1.63e+01  -2.9 8.95e-02 2.74e-01f  1
-  16  1.9778325e+03 0.00e+00 7.04e+02  -3.8 5.26e-01  -0.6 9.84e-01 1.00e+00f  1
-  17  1.9775450e+03 0.00e+00 3.89e-01  -3.8 9.66e-02  -1.1 1.00e+00 1.00e+00f  1
-  18  1.9774136e+03 0.00e+00 1.13e-02  -3.8 1.65e-01  -1.6 1.00e+00 1.00e+00f  1
-  19  1.9771786e+03 0.00e+00 6.85e-02  -3.8 5.12e-01  -2.1 1.00e+00 1.00e+00f  1
+  10  2.0472173e+03 0.00e+00 3.08e+05  -3.8 1.29e+03  -2.3 5.44e-04 1.19e-04f  1 
+  11  2.0089064e+03 0.00e+00 1.29e+05  -3.8 1.81e+00  -1.9 3.61e-01 4.70e-01f  1 
+  12  1.9928433e+03 0.00e+00 1.32e+04  -3.8 6.25e+00  -2.3 1.16e-01 5.00e-01f  2 
+  13  1.9842893e+03 0.00e+00 2.73e+03  -3.8 3.62e+00  -2.8 6.59e-01 6.15e-01f  1 
+  14  1.9808078e+03 0.00e+00 4.69e+04  -3.8 2.63e+00  -2.4 2.30e-01 1.00e+00f  1 
+  15  1.9793560e+03 0.00e+00 4.27e+04  -3.8 1.63e+01  -2.9 8.95e-02 2.74e-01f  1 
+  16  1.9778325e+03 0.00e+00 7.04e+02  -3.8 5.26e-01  -0.6 9.84e-01 1.00e+00f  1 
+  17  1.9775450e+03 0.00e+00 3.89e-01  -3.8 9.66e-02  -1.1 1.00e+00 1.00e+00f  1 
+  18  1.9774136e+03 0.00e+00 1.13e-02  -3.8 1.65e-01  -1.6 1.00e+00 1.00e+00f  1 
+  19  1.9771786e+03 0.00e+00 6.85e-02  -3.8 5.12e-01  -2.1 1.00e+00 1.00e+00f  1 
 iter    objective    inf_pr   inf_du lg(mu)  ||d||  lg(rg) alpha_du alpha_pr  ls
-  20  1.9766368e+03 0.00e+00 2.14e-01  -3.8 1.97e+00  -2.5 1.00e+00 1.00e+00f  1
-  21  1.9751896e+03 0.00e+00 1.42e+00  -3.8 3.16e+01  -3.0 9.18e-01 1.59e-01f  3
-  22  1.9748425e+03 0.00e+00 7.30e-02  -3.8 5.99e-01  -1.7 1.00e+00 1.00e+00f  1
-  23  1.9736442e+03 0.00e+00 1.11e+00  -3.8 2.42e+00  -2.2 1.00e+00 1.00e+00f  1
-  24  1.9731374e+03 0.00e+00 1.16e-01  -3.8 8.44e-01  -1.7 1.00e+00 1.00e+00f  1
-  25  1.9716222e+03 0.00e+00 9.89e-01  -3.8 2.90e+00  -2.2 1.00e+00 1.00e+00f  1
-  26  1.9702188e+03 0.00e+00 5.15e-01  -3.8 2.15e+00  -2.7 1.00e+00 1.00e+00f  1
-  27  1.9681392e+03 0.00e+00 1.26e+00  -3.8 2.65e+01  -3.2 6.43e-01 1.85e-01f  2
-  28  1.9672306e+03 0.00e+00 5.97e-02  -3.8 6.18e-01  -1.9 1.00e+00 1.00e+00f  1
-  29  1.9668174e+03 0.00e+00 7.72e-01  -3.8 1.99e+00  -2.3 1.00e+00 1.00e+00f  1
+  20  1.9766368e+03 0.00e+00 2.14e-01  -3.8 1.97e+00  -2.5 1.00e+00 1.00e+00f  1 
+  21  1.9751896e+03 0.00e+00 1.42e+00  -3.8 3.16e+01  -3.0 9.18e-01 1.59e-01f  3 
+  22  1.9748425e+03 0.00e+00 7.30e-02  -3.8 5.99e-01  -1.7 1.00e+00 1.00e+00f  1 
+  23  1.9736442e+03 0.00e+00 1.11e+00  -3.8 2.42e+00  -2.2 1.00e+00 1.00e+00f  1 
+  24  1.9731374e+03 0.00e+00 1.16e-01  -3.8 8.44e-01  -1.7 1.00e+00 1.00e+00f  1 
+  25  1.9716222e+03 0.00e+00 9.89e-01  -3.8 2.90e+00  -2.2 1.00e+00 1.00e+00f  1 
+  26  1.9702188e+03 0.00e+00 5.15e-01  -3.8 2.15e+00  -2.7 1.00e+00 1.00e+00f  1 
+  27  1.9681392e+03 0.00e+00 1.26e+00  -3.8 2.65e+01  -3.2 6.43e-01 1.85e-01f  2 
+  28  1.9672306e+03 0.00e+00 5.97e-02  -3.8 6.18e-01  -1.9 1.00e+00 1.00e+00f  1 
+  29  1.9668174e+03 0.00e+00 7.72e-01  -3.8 1.99e+00  -2.3 1.00e+00 1.00e+00f  1 
 iter    objective    inf_pr   inf_du lg(mu)  ||d||  lg(rg) alpha_du alpha_pr  ls
-  30  1.9658789e+03 0.00e+00 2.43e-01  -3.8 3.49e+00  -2.8 1.00e+00 1.00e+00f  1
-  31  1.9634183e+03 0.00e+00 2.18e+01  -3.8 4.73e+02  -3.3 4.05e-02 3.70e-02f  1
-  32  1.9561825e+03 0.00e+00 6.44e+00  -3.8 6.82e+00  -3.8 7.04e-01 1.00e+00f  1
-  33  1.9553432e+03 0.00e+00 5.77e+00  -3.8 3.95e+01  -3.3 7.57e-01 1.45e-01f  2
-  34  1.9520095e+03 0.00e+00 8.00e+00  -3.8 1.32e+01  -3.8 1.00e+00 8.62e-01f  1
-  35  1.9514236e+03 0.00e+00 1.01e+01  -3.8 3.08e+01    -  2.09e-01 1.96e-01f  3
-  36  1.9504501e+03 0.00e+00 3.53e+00  -3.8 2.16e+00  -4.3 1.00e+00 1.00e+00f  1
-  37  1.9501829e+03 0.00e+00 2.27e+00  -3.8 4.32e+00  -4.8 1.00e+00 9.39e-01f  1
-  38  1.9497006e+03 0.00e+00 4.25e-01  -3.8 2.55e+01  -5.2 6.75e-01 1.00e+00f  1
-  39  1.9495043e+03 0.00e+00 2.37e-01  -3.8 5.77e-01  -2.1 1.00e+00 1.00e+00f  1
+  30  1.9658789e+03 0.00e+00 2.43e-01  -3.8 3.49e+00  -2.8 1.00e+00 1.00e+00f  1 
+  31  1.9634183e+03 0.00e+00 2.18e+01  -3.8 4.73e+02  -3.3 4.05e-02 3.70e-02f  1 
+  32  1.9561825e+03 0.00e+00 6.44e+00  -3.8 6.82e+00  -3.8 7.04e-01 1.00e+00f  1 
+  33  1.9553432e+03 0.00e+00 5.77e+00  -3.8 3.95e+01  -3.3 7.57e-01 1.45e-01f  2 
+  34  1.9520095e+03 0.00e+00 8.00e+00  -3.8 1.32e+01  -3.8 1.00e+00 8.62e-01f  1 
+  35  1.9514236e+03 0.00e+00 1.01e+01  -3.8 3.08e+01    -  2.09e-01 1.96e-01f  3 
+  36  1.9504501e+03 0.00e+00 3.53e+00  -3.8 2.16e+00  -4.3 1.00e+00 1.00e+00f  1 
+  37  1.9501829e+03 0.00e+00 2.27e+00  -3.8 4.32e+00  -4.8 1.00e+00 9.39e-01f  1 
+  38  1.9497006e+03 0.00e+00 4.25e-01  -3.8 2.55e+01  -5.2 6.75e-01 1.00e+00f  1 
+  39  1.9495043e+03 0.00e+00 2.37e-01  -3.8 5.77e-01  -2.1 1.00e+00 1.00e+00f  1 
 iter    objective    inf_pr   inf_du lg(mu)  ||d||  lg(rg) alpha_du alpha_pr  ls
-  40  1.9482040e+03 0.00e+00 8.49e-01  -3.8 1.33e+01  -2.6 1.00e+00 2.52e-01f  2
-  41  1.9475039e+03 0.00e+00 1.07e+00  -3.8 2.10e+01  -3.1 1.00e+00 8.00e-02f  2
-  42  1.9469370e+03 0.00e+00 1.35e-01  -3.8 1.02e+00  -3.5 1.00e+00 1.00e+00f  1
-  43  1.9468098e+03 0.00e+00 1.11e-01  -3.8 8.75e-01  -4.0 1.00e+00 1.00e+00f  1
-  44  1.9467959e+03 0.00e+00 3.20e-03  -3.8 2.46e+00  -4.5 1.00e+00 1.00e+00f  1
-  45  1.9467390e+03 0.00e+00 1.62e-01  -3.8 1.28e+01  -5.0 1.00e+00 1.00e+00f  1
-  46  1.9466921e+03 0.00e+00 1.92e-01  -3.8 6.99e+00  -4.5 1.00e+00 1.00e+00f  1
-  47  1.9466194e+03 0.00e+00 2.04e-01  -3.8 2.71e+01  -5.0 5.20e-01 5.00e-01f  2
-  48  1.9465880e+03 0.00e+00 4.54e-01  -3.8 1.19e+01    -  1.00e+00 5.00e-01f  2
-  49  1.9465541e+03 0.00e+00 1.21e-01  -3.8 4.40e+00    -  1.00e+00 1.00e+00f  1
+  40  1.9482040e+03 0.00e+00 8.49e-01  -3.8 1.33e+01  -2.6 1.00e+00 2.52e-01f  2 
+  41  1.9475039e+03 0.00e+00 1.07e+00  -3.8 2.10e+01  -3.1 1.00e+00 8.00e-02f  2 
+  42  1.9469370e+03 0.00e+00 1.35e-01  -3.8 1.02e+00  -3.5 1.00e+00 1.00e+00f  1 
+  43  1.9468098e+03 0.00e+00 1.11e-01  -3.8 8.75e-01  -4.0 1.00e+00 1.00e+00f  1 
+  44  1.9467959e+03 0.00e+00 3.20e-03  -3.8 2.46e+00  -4.5 1.00e+00 1.00e+00f  1 
+  45  1.9467390e+03 0.00e+00 1.62e-01  -3.8 1.28e+01  -5.0 1.00e+00 1.00e+00f  1 
+  46  1.9466921e+03 0.00e+00 1.92e-01  -3.8 6.99e+00  -4.5 1.00e+00 1.00e+00f  1 
+  47  1.9466194e+03 0.00e+00 2.04e-01  -3.8 2.71e+01  -5.0 5.20e-01 5.00e-01f  2 
+  48  1.9465880e+03 0.00e+00 4.54e-01  -3.8 1.19e+01    -  1.00e+00 5.00e-01f  2 
+  49  1.9465541e+03 0.00e+00 1.21e-01  -3.8 4.40e+00    -  1.00e+00 1.00e+00f  1 
 iter    objective    inf_pr   inf_du lg(mu)  ||d||  lg(rg) alpha_du alpha_pr  ls
-  50  1.9465540e+03 0.00e+00 1.21e-03  -3.8 3.44e-01    -  1.00e+00 1.00e+00f  1
-  51  1.9465375e+03 0.00e+00 8.56e+02  -5.7 5.15e-02    -  9.42e-01 1.00e+00f  1
-  52  1.9465374e+03 0.00e+00 2.87e-04  -5.7 2.91e-02    -  1.00e+00 1.00e+00f  1
-  53  1.9465374e+03 0.00e+00 1.52e-06  -5.7 3.47e-03    -  1.00e+00 1.00e+00f  1
-  54  1.9465372e+03 0.00e+00 2.03e-01  -8.6 1.94e-03    -  9.99e-01 1.00e+00f  1
-  55  1.9465372e+03 0.00e+00 1.37e-10  -8.6 2.59e-05    -  1.00e+00 1.00e+00f  1
-  56  1.9465372e+03 0.00e+00 1.91e-11 -10.0 2.53e-06    -  1.00e+00 1.00e+00f  1
+  50  1.9465540e+03 0.00e+00 1.21e-03  -3.8 3.44e-01    -  1.00e+00 1.00e+00f  1 
+  51  1.9465375e+03 0.00e+00 8.56e+02  -5.7 5.15e-02    -  9.42e-01 1.00e+00f  1 
+  52  1.9465374e+03 0.00e+00 2.87e-04  -5.7 2.91e-02    -  1.00e+00 1.00e+00f  1 
+  53  1.9465374e+03 0.00e+00 1.52e-06  -5.7 3.47e-03    -  1.00e+00 1.00e+00f  1 
+  54  1.9465372e+03 0.00e+00 2.03e-01  -8.6 1.94e-03    -  9.99e-01 1.00e+00f  1 
+  55  1.9465372e+03 0.00e+00 1.37e-10  -8.6 2.59e-05    -  1.00e+00 1.00e+00f  1 A
+  56  1.9465372e+03 0.00e+00 1.91e-11 -10.0 2.53e-06    -  1.00e+00 1.00e+00f  1 
 
 Number of Iterations....: 56
 
@@ -106,8 +106,8 @@ Number of inequality constraint evaluations          = 95
 Number of equality constraint Jacobian evaluations   = 0
 Number of inequality constraint Jacobian evaluations = 57
 Number of Lagrangian Hessian evaluations             = 56
-Total CPU secs in IPOPT (w/o function evaluations)   =      0.416
-Total CPU secs in NLP function evaluations           =    403.799
+Total CPU secs in IPOPT (w/o function evaluations)   =      0.449
+Total CPU secs in NLP function evaluations           =    453.853
 
 EXIT: Optimal Solution Found.
 *initialisation_partition[Init]
@@ -120,11 +120,11 @@ west.wc 0.000000 23437647.203976 77081451.931891 76303581.341894 99788465.321316
 east.cs 0.000000 2040569.264570 42972606.801493 64663196.101374 63991683.340527 42544984.837650 38203696.248649 36578019.797960 27604603.828774 20532263.519022 15271867.251908 11359192.285051 8448950.428942 6284316.838678 4674265.574290 3476711.824032 10093513.635407
 *end
 
-[WARNING] /home/amart/work/projects/CASAL2/dev/casal2-development/CASAL2/source/Reports/Common/EstimateValue.cpp(line: 46): estimated parameter 'process[recruit_E].b0' was within 0.001 of its bound
-[WARNING] /home/amart/work/projects/CASAL2/dev/casal2-development/CASAL2/source/Reports/Common/EstimateValue.cpp(line: 46): estimated parameter 'process[recruit_W].b0' was within 0.001 of its bound
-[WARNING] /home/amart/work/projects/CASAL2/dev/casal2-development/CASAL2/source/Reports/Common/EstimateValue.cpp(line: 46): estimated parameter 'process[recruit_E].ycs_values{1999}' was within 0.001 of its bound
-[WARNING] /home/amart/work/projects/CASAL2/dev/casal2-development/CASAL2/source/Reports/Common/EstimateValue.cpp(line: 46): estimated parameter 'process[recruit_W].ycs_values{1999}' was within 0.001 of its bound
-[WARNING] /home/amart/work/projects/CASAL2/dev/casal2-development/CASAL2/source/Reports/Common/EstimateValue.cpp(line: 46): estimated parameter 'selectivity[CRsl].mu' was within 0.001 of its bound
+[WARNING] /home/niwauser/work/projects/CASAL2/dev/casal2-development/CASAL2/source/Reports/Common/EstimateValue.cpp(line: 48): estimated parameter 'process[recruit_E].b0' was within 0.001 of upper bound 16.2
+[WARNING] /home/niwauser/work/projects/CASAL2/dev/casal2-development/CASAL2/source/Reports/Common/EstimateValue.cpp(line: 48): estimated parameter 'process[recruit_W].b0' was within 0.001 of upper bound 0.59
+[WARNING] /home/niwauser/work/projects/CASAL2/dev/casal2-development/CASAL2/source/Reports/Common/EstimateValue.cpp(line: 46): estimated parameter 'process[recruit_E].ycs_values{1999}' was within 0.001 of lower bound 0.06
+[WARNING] /home/niwauser/work/projects/CASAL2/dev/casal2-development/CASAL2/source/Reports/Common/EstimateValue.cpp(line: 46): estimated parameter 'process[recruit_W].ycs_values{1999}' was within 0.001 of lower bound 0.06
+[WARNING] /home/niwauser/work/projects/CASAL2/dev/casal2-development/CASAL2/source/Reports/Common/EstimateValue.cpp(line: 46): estimated parameter 'selectivity[CRsl].mu' was within 0.001 of lower bound 1
 *estimate_value[summary]
 values {d}
 catchability[CSacous].q catchability[WCacous].q catchability[CRsum].q catchability[SAsum].q catchability[SAaut].q observation[CRsumbio].process_error observation[SAsumbio].process_error process[recruit_E].b0 process[recruit_W].b0 process[Instant_mortality].m{west.sa} time_varying[shifted_mu].a process[recruit_E].ycs_values{1975} process[recruit_E].ycs_values{1976} process[recruit_E].ycs_values{1977} process[recruit_E].ycs_values{1978} process[recruit_E].ycs_values{1979} process[recruit_E].ycs_values{1980} process[recruit_E].ycs_values{1981} process[recruit_E].ycs_values{1982} process[recruit_E].ycs_values{1983} process[recruit_E].ycs_values{1984} process[recruit_E].ycs_values{1985} process[recruit_E].ycs_values{1986} process[recruit_E].ycs_values{1987} process[recruit_E].ycs_values{1988} process[recruit_E].ycs_values{1989} process[recruit_E].ycs_values{1990} process[recruit_E].ycs_values{1991} process[recruit_E].ycs_values{1992} process[recruit_E].ycs_values{1993} process[recruit_E].ycs_values{1994} process[recruit_E].ycs_values{1995} process[recruit_E].ycs_values{1996} process[recruit_E].ycs_values{1997} process[recruit_E].ycs_values{1998} process[recruit_E].ycs_values{1999} process[recruit_E].ycs_values{2000} process[recruit_E].ycs_values{2001} process[recruit_E].ycs_values{2002} process[recruit_E].ycs_values{2003} process[recruit_E].ycs_values{2004} process[recruit_E].ycs_values{2005} process[recruit_E].ycs_values{2006} process[recruit_E].ycs_values{2007} process[recruit_E].ycs_values{2008} process[recruit_E].ycs_values{2009} process[recruit_E].ycs_values{2010} process[recruit_E].ycs_values{2011} process[recruit_E].ycs_values{2012} process[recruit_E].ycs_values{2013} process[recruit_E].ycs_values{2014} process[recruit_E].ycs_values{2015} process[recruit_E].ycs_values{2016} process[recruit_W].ycs_values{1975} process[recruit_W].ycs_values{1976} process[recruit_W].ycs_values{1977} process[recruit_W].ycs_values{1978} process[recruit_W].ycs_values{1979} process[recruit_W].ycs_values{1980} process[recruit_W].ycs_values{1981} process[recruit_W].ycs_values{1982} process[recruit_W].ycs_values{1983} process[recruit_W].ycs_values{1984} process[recruit_W].ycs_values{1985} process[recruit_W].ycs_values{1986} process[recruit_W].ycs_values{1987} process[recruit_W].ycs_values{1988} process[recruit_W].ycs_values{1989} process[recruit_W].ycs_values{1990} process[recruit_W].ycs_values{1991} process[recruit_W].ycs_values{1992} process[recruit_W].ycs_values{1993} process[recruit_W].ycs_values{1994} process[recruit_W].ycs_values{1995} process[recruit_W].ycs_values{1996} process[recruit_W].ycs_values{1997} process[recruit_W].ycs_values{1998} process[recruit_W].ycs_values{1999} process[recruit_W].ycs_values{2000} process[recruit_W].ycs_values{2001} process[recruit_W].ycs_values{2002} process[recruit_W].ycs_values{2003} process[recruit_W].ycs_values{2004} process[recruit_W].ycs_values{2005} process[recruit_W].ycs_values{2006} process[recruit_W].ycs_values{2007} process[recruit_W].ycs_values{2008} process[recruit_W].ycs_values{2009} process[recruit_W].ycs_values{2010} process[recruit_W].ycs_values{2011} process[recruit_W].ycs_values{2012} process[recruit_W].ycs_values{2013} process[recruit_W].ycs_values{2014} process[recruit_W].ycs_values{2015} process[recruit_W].ycs_values{2016} selectivity[sel_Whome].v{1} selectivity[sel_Whome].v{2} selectivity[sel_Whome].v{3} selectivity[sel_Whome].v{4} selectivity[sel_Whome].v{5} selectivity[sel_Whome].v{6} selectivity[sel_Whome].v{7} selectivity[sel_Espmg].v{1} selectivity[sel_Espmg].v{2} selectivity[sel_Espmg].v{3} selectivity[sel_Espmg].v{4} selectivity[sel_Espmg].v{5} selectivity[sel_Espmg].v{6} selectivity[sel_Espmg].v{7} selectivity[sel_Espmg].v{8} selectivity[sel_Wspmg].v{1} selectivity[sel_Wspmg].v{2} selectivity[sel_Wspmg].v{3} selectivity[sel_Wspmg].v{4} selectivity[sel_Wspmg].v{5} selectivity[sel_Wspmg].v{6} selectivity[sel_Wspmg].v{7} selectivity[sel_Wspmg].v{8} selectivity[Enspsl].mu selectivity[Enspsl].sigma_l selectivity[Enspsl].sigma_r selectivity[Wnspsl].mu selectivity[Wnspsl].sigma_l selectivity[Wnspsl].sigma_r selectivity[Espsl].mu selectivity[Espsl].sigma_l selectivity[Espsl].sigma_r selectivity[CRsl].mu selectivity[CRsl].sigma_l selectivity[CRsl].sigma_r selectivity[SAsl].mu selectivity[SAsl].sigma_l selectivity[SAsl].sigma_r 
@@ -616,7 +616,7 @@ standardise_ycs_years: 1975 1976 1977 1978 1979 1980 1981 1982 1983 1984 1985 19
 steepness: 0.75
 type: recruitment_beverton_holt
 ycs_years: 1970 1971 1972 1973 1974 1975 1976 1977 1978 1979 1980 1981 1982 1983 1984 1985 1986 1987 1988 1989 1990 1991 1992 1993 1994 1995 1996 1997 1998 1999 2000 2001 2002 2003 2004 2005 2006 2007 2008 2009 2010 2011 2012 2013 2014 2015 2016 
-standardiesed_ycs: 1 1 1 1 1 0.966247 1.5682 1.69278 2.93446 2.13126 0.710564 0.96498 0.572998 0.936825 1.05304 0.853784 0.470175 2.23623 2.06903 0.925628 0.297986 0.809129 0.84503 0.826614 1.21445 0.569595 0.6138 0.971026 0.546053 0.129461 0.997274 0.348787 0.575859 1.07966 1.12205 1.09788 1.2958 1.12663 0.804825 1.13668 0.342289 1.42533 0.336589 0.400979 0.730624 0.739002 1.19515 
+standardised_ycs: 1 1 1 1 1 0.966247 1.5682 1.69278 2.93446 2.13126 0.710564 0.96498 0.572998 0.936825 1.05304 0.853784 0.470175 2.23623 2.06903 0.925628 0.297986 0.809129 0.84503 0.826614 1.21445 0.569595 0.6138 0.971026 0.546053 0.129461 0.997274 0.348787 0.575859 1.07966 1.12205 1.09788 1.2958 1.12663 0.804825 1.13668 0.342289 1.42533 0.336589 0.400979 0.730624 0.739002 1.19515 
 ycs_values: 1 1 1 1 1 0.447817 0.726798 0.784538 1.36001 0.987756 0.329318 0.44723 0.265562 0.434181 0.488041 0.395695 0.217908 1.0364 0.958914 0.428992 0.138105 0.374999 0.391638 0.383103 0.562851 0.263985 0.284472 0.450032 0.253074 0.06 0.462197 0.161649 0.266888 0.500381 0.520026 0.508825 0.600554 0.522148 0.373004 0.526808 0.158637 0.660583 0.155995 0.185838 0.730624 0.739002 1.19515 
 true_ycs: 1 1 0.999791 0.999597 0.999319 0.96378 1.56131 1.68241 2.91782 2.12494 0.712316 0.97694 0.584982 0.959823 1.07773 0.871808 0.479573 2.27396 2.09561 0.932312 0.299422 0.81529 0.853301 0.829383 1.20751 0.563395 0.601939 0.940697 0.521034 0.121473 0.920899 0.318577 0.517375 0.942664 0.959093 0.933278 1.09973 0.979244 0.717993 1.03294 0.316375 1.33278 0.316796 0.377182 0.690123 0.695566 1.11744 
 Recruits: 4.61043e+08 4.61043e+08 4.60947e+08 4.60857e+08 4.60729e+08 4.44344e+08 7.19833e+08 7.75663e+08 1.34524e+09 9.7969e+08 3.28408e+08 4.50411e+08 2.69702e+08 4.4252e+08 4.96877e+08 4.01941e+08 2.21104e+08 1.04839e+09 9.66164e+08 4.29836e+08 1.38046e+08 3.75884e+08 3.93408e+08 3.82381e+08 5.56713e+08 2.59749e+08 2.77519e+08 4.33702e+08 2.40219e+08 5.60041e+07 4.24574e+08 1.46877e+08 2.38532e+08 4.34609e+08 4.42183e+08 4.30281e+08 5.07021e+08 4.51474e+08 3.31026e+08 4.76228e+08 1.45863e+08 6.14468e+08 1.46056e+08 1.73897e+08 3.18176e+08 3.20686e+08 5.15186e+08 
@@ -637,7 +637,7 @@ standardise_ycs_years: 1975 1976 1977 1978 1979 1980 1981 1982 1983 1984 1985 19
 steepness: 0.75
 type: recruitment_beverton_holt
 ycs_years: 1970 1971 1972 1973 1974 1975 1976 1977 1978 1979 1980 1981 1982 1983 1984 1985 1986 1987 1988 1989 1990 1991 1992 1993 1994 1995 1996 1997 1998 1999 2000 2001 2002 2003 2004 2005 2006 2007 2008 2009 2010 2011 2012 2013 2014 2015 2016 
-standardiesed_ycs: 1 1 1 1 1 0.868245 1.56197 1.27288 1.24228 0.885111 0.978622 1.09853 0.899133 1.65648 1.58911 0.608397 0.313407 2.80326 1.46809 0.154539 0.15498 1.69615 2.40853 0.716636 1.82266 0.4201 0.374603 0.452058 0.3855 0.113988 0.708711 0.181402 1.51145 0.883728 0.981486 0.97129 1.43519 1.21381 1.17192 1.09886 0.276366 1.85188 0.304276 0.464384 2.19657 2.15204 1.19539 
+standardised_ycs: 1 1 1 1 1 0.868245 1.56197 1.27288 1.24228 0.885111 0.978622 1.09853 0.899133 1.65648 1.58911 0.608397 0.313407 2.80326 1.46809 0.154539 0.15498 1.69615 2.40853 0.716636 1.82266 0.4201 0.374603 0.452058 0.3855 0.113988 0.708711 0.181402 1.51145 0.883728 0.981486 0.97129 1.43519 1.21381 1.17192 1.09886 0.276366 1.85188 0.304276 0.464384 2.19657 2.15204 1.19539 
 ycs_values: 1 1 1 1 1 0.457018 0.822176 0.670004 0.653899 0.465896 0.515118 0.578235 0.473277 0.871922 0.836461 0.320242 0.164968 1.47555 0.77276 0.081345 0.0815769 0.892802 1.26778 0.377216 0.959393 0.221128 0.19718 0.23795 0.202916 0.06 0.373044 0.0954844 0.795582 0.465168 0.516625 0.511259 0.75544 0.638911 0.616864 0.578407 0.145471 0.974778 0.160162 0.244438 2.19657 2.15204 1.19539 
 true_ycs: 1 1 0.999818 0.99963 0.999457 0.867455 1.55875 1.26717 1.23658 0.882314 0.976698 1.09937 0.900924 1.66089 1.59363 0.609389 0.313647 2.7936 1.45239 0.152007 0.152256 1.6648 2.36804 0.701256 1.77774 0.412151 0.367937 0.445715 0.378881 0.112123 0.690483 0.173124 1.41154 0.800639 0.867144 0.862106 1.27499 1.10072 1.08325 1.03205 0.26362 1.78108 0.294205 0.449741 2.13543 2.07773 1.15543 
 Recruits: 8.61108e+08 8.61108e+08 8.60951e+08 8.60789e+08 8.6064e+08 7.46972e+08 1.34225e+09 1.09117e+09 1.06483e+09 7.59767e+08 8.41042e+08 9.4668e+08 7.75793e+08 1.4302e+09 1.37229e+09 5.24749e+08 2.70084e+08 2.40559e+09 1.25067e+09 1.30894e+08 1.31109e+08 1.43357e+09 2.03914e+09 6.03857e+08 1.53083e+09 3.54906e+08 3.16833e+08 3.83809e+08 3.26257e+08 9.65501e+07 5.9458e+08 1.49078e+08 1.21549e+09 6.89436e+08 7.46705e+08 7.42366e+08 1.0979e+09 9.47836e+08 9.32798e+08 8.88705e+08 2.27005e+08 1.5337e+09 2.53343e+08 3.87275e+08 1.83884e+09 1.78915e+09 9.94951e+08 
@@ -3463,17 +3463,17 @@ warnings_found: 6
 warning_0 {s}
 Estimates were removed because of matching lower and upper bounds. Originally had 134 estimates, now have 133
 warning_1 {s}
-estimated parameter 'process[recruit_E].b0' was within 0.001 of its bound
+estimated parameter 'process[recruit_E].b0' was within 0.001 of upper bound 16.2
 warning_2 {s}
-estimated parameter 'process[recruit_W].b0' was within 0.001 of its bound
+estimated parameter 'process[recruit_W].b0' was within 0.001 of upper bound 0.59
 warning_3 {s}
-estimated parameter 'process[recruit_E].ycs_values{1999}' was within 0.001 of its bound
+estimated parameter 'process[recruit_E].ycs_values{1999}' was within 0.001 of lower bound 0.06
 warning_4 {s}
-estimated parameter 'process[recruit_W].ycs_values{1999}' was within 0.001 of its bound
+estimated parameter 'process[recruit_W].ycs_values{1999}' was within 0.001 of lower bound 0.06
 warning_5 {s}
-estimated parameter 'selectivity[CRsl].mu' was within 0.001 of its bound
+estimated parameter 'selectivity[CRsl].mu' was within 0.001 of lower bound 1
 *end
 
-Total CPU time: 0.112 hours.
-Total elapsed time: 3.383 minutes
+Total CPU time: 0.126 hours.
+Total elapsed time: 3.783 minutes
 Completed
