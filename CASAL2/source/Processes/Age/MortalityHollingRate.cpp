@@ -385,19 +385,18 @@ void MortalityHollingRate::DoExecute() {
 */
 void MortalityHollingRate::FillReportCache(ostringstream& cache) {
   // This one is niggly because we need to iterate over each year and time step to print the right information so we don't
-  cache << "prey_vulnerable: ";
+  cache << "prey_vulnerability: ";
   for (auto prey_vulnerable : prey_vulnerability_by_year_)
-    cache << prey_vulnerable << " ";
+    cache << AS_VALUE(prey_vulnerable) << " ";
   cache << "\n";
-  cache << "predator_vulnerable: ";
+  cache << "predator_vulnerability: ";
   for (auto pred_vulnerable : predator_vulnerability_by_year_)
-    cache << pred_vulnerable << " ";
+    cache << AS_VALUE(pred_vulnerable) << " ";
   cache << "\n";
-  cache << "Prey_Mortality: ";
+  cache << "prey_mortality: ";
   for (auto prey_mort : prey_mortality_by_year_)
-    cache << prey_mort << " ";
+    cache << AS_VALUE(prey_mort) << " ";
   cache << "\n";
-
 }
 
 /*

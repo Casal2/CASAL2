@@ -586,12 +586,12 @@ void IndependenceMetropolis::DoExecute() {
   ObjectiveFunction& obj_function = model_->objective_function();
   obj_function.CalculateScore();
 
-  Double score = AS_DOUBLE(obj_function.score());
-  Double penalty = AS_DOUBLE(obj_function.penalties());
-  Double prior = AS_DOUBLE(obj_function.priors());
-  Double likelihood = AS_DOUBLE(obj_function.likelihoods());
-  Double additional_prior = AS_DOUBLE(obj_function.additional_priors());
-  Double jacobian = AS_DOUBLE(obj_function.jacobians());
+  Double score            = AS_VALUE(obj_function.score());
+  Double penalty          = AS_VALUE(obj_function.penalties());
+  Double prior            = AS_VALUE(obj_function.priors());
+  Double likelihood       = AS_VALUE(obj_function.likelihoods());
+  Double additional_prior = AS_VALUE(obj_function.additional_priors());
+  Double jacobian         = AS_VALUE(obj_function.jacobians());
 
   /**
    * Store first location
@@ -601,12 +601,12 @@ void IndependenceMetropolis::DoExecute() {
     jumps_since_adapt_++;
     mcmc::ChainLink new_link;
     new_link.iteration_                     = jumps_;
-    new_link.penalty_                       = AS_DOUBLE(obj_function.penalties());
-    new_link.score_                         = AS_DOUBLE(obj_function.score());
-    new_link.prior_                         = AS_DOUBLE(obj_function.priors());
-    new_link.likelihood_                    = AS_DOUBLE(obj_function.likelihoods());
-    new_link.additional_priors_             = AS_DOUBLE(obj_function.additional_priors());
-    new_link.jacobians_                     = AS_DOUBLE(obj_function.jacobians());
+    new_link.penalty_                       = AS_VALUE(obj_function.penalties());
+    new_link.score_                         = AS_VALUE(obj_function.score());
+    new_link.prior_                         = AS_VALUE(obj_function.priors());
+    new_link.likelihood_                    = AS_VALUE(obj_function.likelihoods());
+    new_link.additional_priors_             = AS_VALUE(obj_function.additional_priors());
+    new_link.jacobians_                     = AS_VALUE(obj_function.jacobians());
     new_link.acceptance_rate_               = 0;
     new_link.acceptance_rate_since_adapt_   = 0;
     new_link.step_size_                     = step_size_;
@@ -632,6 +632,7 @@ void IndependenceMetropolis::DoExecute() {
   Double previous_penalty = penalty;
   Double previous_additional_prior = additional_prior;
   Double previous_jacobian = jacobian;
+
   do {
     // Check If we need to update the step size
     UpdateStepSize();
@@ -663,12 +664,12 @@ void IndependenceMetropolis::DoExecute() {
       obj_function.CalculateScore();
 
       // Store objective information if we accept these will become our current step
-      score            = AS_DOUBLE(obj_function.score());
-      penalty          = AS_DOUBLE(obj_function.penalties());
-      prior            = AS_DOUBLE(obj_function.priors());
-      likelihood       = AS_DOUBLE(obj_function.likelihoods());
-      additional_prior = AS_DOUBLE(obj_function.additional_priors());
-      jacobian         = AS_DOUBLE(obj_function.jacobians());
+      score            = AS_VALUE(obj_function.score());
+      penalty          = AS_VALUE(obj_function.penalties());
+      prior            = AS_VALUE(obj_function.priors());
+      likelihood       = AS_VALUE(obj_function.likelihoods());
+      additional_prior = AS_VALUE(obj_function.additional_priors());
+      jacobian         = AS_VALUE(obj_function.jacobians());
 
       Double ratio = 1.0;
 
@@ -707,25 +708,26 @@ void IndependenceMetropolis::DoExecute() {
       candidates_ = previous_candidates;
     }
 
-		if (jumps_ % keep_ == 0) {
-			// Record the score, and its compontent parts if the successful jump divided by keep has no remainder
-			// i.e this proposed candidate is a 'keep' iteration
-			mcmc::ChainLink new_link;
-			new_link.iteration_ = jumps_;
-			new_link.penalty_ = previous_penalty;
-			new_link.score_ = previous_score;
-			new_link.prior_ = previous_prior;
-			new_link.likelihood_ = previous_likelihood;
-			new_link.additional_priors_ = previous_additional_prior;
-			new_link.jacobians_ = previous_jacobian;
-			new_link.acceptance_rate_ = double(successful_jumps_) / double(jumps_);
-			new_link.acceptance_rate_since_adapt_ = double(successful_jumps_since_adapt_) / double(jumps_since_adapt_);
-			new_link.step_size_ = step_size_;
-			new_link.values_ = previous_untransformed_candidates;
-			chain_.push_back(new_link);
-			//LOG_MEDIUM() << "Storing: Successful Jumps " << successful_jumps_ << " Jumps : " << jumps_;
-			model_->managers().report()->Execute(State::kIterationComplete);
-		}
+    if (jumps_ % keep_ == 0) {
+      // Record the score, and its compontent parts if the successful jump divided by keep has no remainder
+      // i.e this proposed candidate is a 'keep' iteration
+      mcmc::ChainLink new_link;
+      new_link.iteration_         = jumps_;
+      new_link.penalty_           = previous_penalty;
+      new_link.score_             = previous_score;
+      new_link.prior_             = previous_prior;
+      new_link.likelihood_        = previous_likelihood;
+      new_link.additional_priors_ = previous_additional_prior;
+      new_link.jacobians_         = previous_jacobian;
+      new_link.acceptance_rate_   = double(successful_jumps_) / double(jumps_);
+      new_link.acceptance_rate_since_adapt_ = double(successful_jumps_since_adapt_) / double(jumps_since_adapt_);
+      new_link.step_size_         = step_size_;
+      new_link.values_            = previous_untransformed_candidates;
+      chain_.push_back(new_link);
+
+      //LOG_MEDIUM() << "Storing: Successful Jumps " << successful_jumps_ << " Jumps : " << jumps_;
+      model_->managers().report()->Execute(State::kIterationComplete);
+    }
   } while (jumps_ < length_);
 }
 

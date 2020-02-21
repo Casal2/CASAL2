@@ -96,8 +96,8 @@ void Observation::DoExecute() {
             << " for this likelihood, set pearsons_residual to 'false'";
         }
         cache_ << iter->first << " " << comparison.category_ << " " << comparison.age_ << " " << comparison.length_ << " " << comparison.observed_ << " " << AS_VALUE(comparison.expected_)
-           << " " << comparison.observed_ - AS_VALUE(comparison.expected_) << " " << comparison.error_value_ << " " <<AS_VALUE(comparison.process_error_) << " "
-           << AS_VALUE(comparison.adjusted_error_) << " " << AS_VALUE(comparison.score_) << " " << AS_VALUE(resid) << "\n";
+          << " " << comparison.observed_ - AS_VALUE(comparison.expected_) << " " << comparison.error_value_ << " " <<AS_VALUE(comparison.process_error_) << " "
+          << AS_VALUE(comparison.adjusted_error_) << " " << AS_VALUE(comparison.score_) << " " << AS_VALUE(resid) << "\n";
       }
     }
   } else if (normalised_resids_ && !pearson_resids_) {
@@ -116,8 +116,8 @@ void Observation::DoExecute() {
             << " for this likelihood, set pearsons_residual to 'false'";
         }
         cache_ << iter->first << " " << comparison.category_ << " " << comparison.age_ << " " << comparison.length_ << " " << comparison.observed_ << " " << AS_VALUE(comparison.expected_)
-           << " " << comparison.observed_ - AS_VALUE(comparison.expected_) << " " << comparison.error_value_ << " " <<AS_VALUE(comparison.process_error_) << " "
-           << AS_VALUE(comparison.adjusted_error_) << " " << AS_VALUE(comparison.score_) << " " << AS_VALUE(resid) << "\n";
+          << " " << comparison.observed_ - AS_VALUE(comparison.expected_) << " " << comparison.error_value_ << " " <<AS_VALUE(comparison.process_error_) << " "
+          << AS_VALUE(comparison.adjusted_error_) << " " << AS_VALUE(comparison.score_) << " " << AS_VALUE(resid) << "\n";
       }
     }
   } else if (normalised_resids_ && pearson_resids_){
@@ -168,6 +168,7 @@ void Observation::DoExecuteTabular() {
     cache_ << "likelihood: " << observation_->likelihood() << "\n";
     cache_ << "values " << REPORT_R_DATAFRAME << "\n";
     string bin,year,label;
+
     /**
      *  Generate header
      */
@@ -299,7 +300,7 @@ void Observation::DoExecuteTabular() {
   // Print fits
   for (auto iter = comparisons.begin(); iter != comparisons.end(); ++iter) {
     for (obs::Comparison comparison : iter->second) {
-      cache_ << comparison.expected_ << " ";
+      cache_ << AS_VALUE(comparison.expected_) << " ";
     }
   }
   // Print obs
@@ -335,7 +336,7 @@ void Observation::DoExecuteTabular() {
           LOG_CODE_ERROR() << "Unknown coded likelihood type should be dealt with in DoBuild(). If the Pearsons residual is unknown"
             << " for this likelihood, set pearsons_residual to 'false'";
         }
-        cache_ << resid << " ";
+        cache_ << AS_VALUE(resid) << " ";
       }
     }
   }
@@ -353,7 +354,7 @@ void Observation::DoExecuteTabular() {
           LOG_CODE_ERROR() << "Unknown coded likelihood type should be dealt with in DoBuild(). If the normalised residual is unknown"
             << " for this likelihood, set normalised_residual to 'false'";
         }
-        cache_ << resid << " ";
+        cache_ << AS_VALUE(resid) << " ";
       }
     }
   }

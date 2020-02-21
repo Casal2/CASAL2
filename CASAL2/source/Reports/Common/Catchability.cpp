@@ -33,7 +33,7 @@ void Catchability::DoExecute() {
   auto catchabilities = manager.objects();
   for (auto Q : catchabilities) {
     string label =  Q->label();
-    cache_ << label << ": " <<  AS_DOUBLE(Q->q()) << " \n";
+    cache_ << label << ": " <<  AS_VALUE(Q->q()) << " \n";
   }
 
   ready_for_writing_ = true;
@@ -60,7 +60,7 @@ void Catchability::DoExecuteTabular() {
     cache_ << "\n";
   }
   for (auto& Q : catchabilities) {
-    cache_ << AS_DOUBLE(Q->q()) << " ";
+    cache_ << AS_VALUE(Q->q()) << " ";
   }
   cache_ << "\n";
 }

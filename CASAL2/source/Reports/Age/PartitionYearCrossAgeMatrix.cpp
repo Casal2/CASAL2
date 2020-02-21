@@ -89,15 +89,13 @@ void Partition_YearCrossAgeMatrix::DoExecute() {
 
   niwa::partition::accessors::All all_view(model_);
 
-  for (auto iterator = all_view.Begin(); iterator != all_view.End();
-      ++iterator) {
+  for (auto iterator = all_view.Begin(); iterator != all_view.End(); ++iterator) {
     if (lowest > (*iterator)->min_age_)
       lowest = (*iterator)->min_age_;
     if (highest < (*iterator)->max_age_)
       highest = (*iterator)->max_age_;
     if (longest_length < (*iterator)->name_.length())
       longest_length = (*iterator)->name_.length();
-
   }
 
   const char separator = ' ';
@@ -117,8 +115,8 @@ void Partition_YearCrossAgeMatrix::DoExecute() {
         values != (*iterator)->data_.end(); ++values, age++) {
       if (age >= lowest && age <= highest) {
         Double value = *values;
-        //cache_ << "\t" << std::fixed << AS_DOUBLE(value);
-        cache_ << std::left << std::setw(numWidth) << std::setfill(separator) << std::setprecision(0) << std::fixed << AS_DOUBLE(value);
+        //cache_ << "\t" << std::fixed << AS_VALUE(value);
+        cache_ << std::left << std::setw(numWidth) << std::setfill(separator) << std::setprecision(0) << std::fixed << AS_VALUE(value);
       } else
         cache_ << " " << "null";
     }

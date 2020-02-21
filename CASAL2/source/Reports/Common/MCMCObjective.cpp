@@ -80,12 +80,12 @@ void MCMCObjective::DoExecute() {
   auto chain = mcmc_->chain();
   unsigned element = chain.size() - 1;
     cache_ << chain[element].iteration_ << " "
-      << AS_DOUBLE(chain[element].score_) << " "
-      << AS_DOUBLE(chain[element].prior_) << " "
-      << AS_DOUBLE(chain[element].likelihood_) << " "
-      << AS_DOUBLE(chain[element].penalty_) << " "
-      << AS_DOUBLE(chain[element].additional_priors_) << " "
-      << AS_DOUBLE(chain[element].jacobians_) << " "
+      << AS_VALUE(chain[element].score_) << " "
+      << AS_VALUE(chain[element].prior_) << " "
+      << AS_VALUE(chain[element].likelihood_) << " "
+      << AS_VALUE(chain[element].penalty_) << " "
+      << AS_VALUE(chain[element].additional_priors_) << " "
+      << AS_VALUE(chain[element].jacobians_) << " "
       << chain[element].step_size_ << " "
       << chain[element].acceptance_rate_ << " "
       << chain[element].acceptance_rate_since_adapt_ << "\n";

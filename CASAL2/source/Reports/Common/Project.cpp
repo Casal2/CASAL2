@@ -50,12 +50,12 @@ void Project::DoBuild() {
  */
 void Project::DoExecute() {
   LOG_FINE() <<" printing report " << label_ << " of type " << project_->type();
-  map<unsigned,Double>& values = project_->projected_parameters();
+  map<unsigned, Double>& values = project_->projected_parameters();
   cache_ << "*"<< type_ << "[" << label_ << "]" << "\n";
   cache_ << "project: " << project_label_ << "\n";
   cache_ << "values " << REPORT_R_VECTOR <<"\n";
   for(auto value : values) {
-    cache_ << value.first << " " << value.second << "\n";
+    cache_ << value.first << " " << AS_VALUE(value.second) << "\n";
   }
 
   ready_for_writing_ = true;

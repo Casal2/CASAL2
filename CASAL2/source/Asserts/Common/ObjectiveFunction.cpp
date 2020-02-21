@@ -47,12 +47,12 @@ void ObjectiveFunction::DoBuild() {
  */
 void ObjectiveFunction::Execute() {
   niwa::ObjectiveFunction& obj = model_->objective_function();
-  if (fabs(AS_DOUBLE(value_) - AS_DOUBLE(obj.score())) > (tol_ * fabs(AS_DOUBLE(obj.score())) + tol_)) {
+  if (fabs(AS_VALUE(value_) - AS_VALUE(obj.score())) > (tol_ * fabs(AS_VALUE(obj.score())) + tol_)) {
     std::streamsize prec = std::cout.precision();
     std::cout.precision(9);
 
     LOG_ERROR() << "Assert Failure: Objective Function had actual value " << obj.score() << " when " << value_
-        << " values were expected with difference: " << abs(AS_DOUBLE(value_) - AS_DOUBLE(obj.score()));
+        << " values were expected with difference: " << abs(AS_VALUE(value_) - AS_VALUE(obj.score()));
 
     std::cout.precision(prec);
   }

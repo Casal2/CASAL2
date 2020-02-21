@@ -69,7 +69,7 @@ void ObjectiveFunction::CalculateScore() {
 
       score_list_.push_back(new_score);
       score_ += new_score.score_;
-      likelihoods_ += AS_DOUBLE(new_score.score_);
+      likelihoods_ += AS_VALUE(new_score.score_);
     }
   }
 
@@ -87,7 +87,7 @@ void ObjectiveFunction::CalculateScore() {
 
       score_list_.push_back(new_score);
       score_ += new_score.score_;
-      penalties_ += AS_DOUBLE(new_score.score_);
+      penalties_ += AS_VALUE(new_score.score_);
     }
   }
 
@@ -103,7 +103,7 @@ void ObjectiveFunction::CalculateScore() {
 
     score_list_.push_back(new_score);
     score_ += new_score.score_;
-    penalties_ += AS_DOUBLE(new_score.score_);
+    penalties_ += AS_VALUE(new_score.score_);
   }
 
   /**
@@ -124,7 +124,7 @@ void ObjectiveFunction::CalculateScore() {
 
     score_list_.push_back(new_score);
     score_ += new_score.score_;
-    priors_ += AS_DOUBLE(new_score.score_);
+    priors_ += AS_VALUE(new_score.score_);
   }
   model_->managers().estimate_transformation()->RestoreEstimatesFromObjectiveFunction();
 
@@ -140,7 +140,7 @@ void ObjectiveFunction::CalculateScore() {
 
     score_list_.push_back(new_score);
     score_ += new_score.score_;
-    additional_priors_ += AS_DOUBLE(new_score.score_);
+    additional_priors_ += AS_VALUE(new_score.score_);
   }
 
   /**
@@ -155,7 +155,7 @@ void ObjectiveFunction::CalculateScore() {
 
     score_list_.push_back(new_score);
     score_ += new_score.score_;
-    jacobians_ += AS_DOUBLE(new_score.score_);
+    jacobians_ += AS_VALUE(new_score.score_);
   }
 
   LOG_MEDIUM() << "objective.score: " << score_;

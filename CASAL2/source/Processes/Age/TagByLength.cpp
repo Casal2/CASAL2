@@ -428,7 +428,7 @@ void TagByLength::FillReportCache(ostringstream& cache) {
     for(unsigned year_ndx = 0; year_ndx < years_.size(); ++year_ndx) {
       cache << years_[year_ndx] << " ";
       for(unsigned age_ndx = 0; age_ndx < model_->age_spread(); ++age_ndx)
-        cache << actual_tagged_fish_from_[year_ndx][category_ndx][age_ndx] << " ";
+        cache << AS_VALUE(actual_tagged_fish_from_[year_ndx][category_ndx][age_ndx]) << " ";
       cache << "\n";
     }
   }
@@ -442,7 +442,7 @@ void TagByLength::FillReportCache(ostringstream& cache) {
     for(unsigned year_ndx = 0; year_ndx < years_.size(); ++year_ndx) {
       cache << years_[year_ndx] << " ";
       for(unsigned age_ndx = 0; age_ndx < model_->age_spread(); ++age_ndx)
-        cache << actual_tagged_fish_to_[year_ndx][category_ndx][age_ndx] << " ";
+        cache << AS_VALUE(actual_tagged_fish_to_[year_ndx][category_ndx][age_ndx]) << " ";
       cache << "\n";
     }
   }

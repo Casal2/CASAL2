@@ -240,7 +240,7 @@ void RecruitmentBevertonHoltWithDeviations::DoBuild() {
   bool B0_estimate = model_->managers().estimate()->HasEstimate(b0_param);
   bool R0_estimate = model_->managers().estimate()->HasEstimate(r0_param);
 
-  LOG_FINEST() << "is B0 estimated = " << B0_estimate << " is R0 estimated " << R0_estimate;
+  LOG_FINEST() << "is B0 estimated = " << B0_estimate << "; is R0 estimated " << R0_estimate;
   if(B0_estimate && R0_estimate) {
     LOG_ERROR() << "Both R0 and B0 have an @estimate specified for recruitment process " << label_
       << ". Only one of these parameters can be estimated.";
@@ -468,18 +468,17 @@ void RecruitmentBevertonHoltWithDeviations::ScalePartition() {
 void RecruitmentBevertonHoltWithDeviations::FillReportCache(ostringstream& cache) {
   cache << "ycs_values: ";
   for (auto iter : ycs_values_)
-    cache << iter<< " ";
+    cache << AS_VALUE(iter) << " ";
   cache << "\ntrue_ycs: ";
   for (auto iter : true_ycs_values_)
-    cache << iter << " ";
+    cache << AS_VALUE(iter) << " ";
   cache << "\nRecruits: ";
   for (auto iter : recruitment_values_)
-    cache << iter << " ";
+    cache << AS_VALUE(iter) << " ";
   cache << "\nSSB: ";
   for (auto iter : ssb_values_)
-    cache << iter << " ";
+    cache << AS_VALUE(iter) << " ";
   cache << "\n";
-
 }
 
 /*
@@ -494,7 +493,7 @@ void RecruitmentBevertonHoltWithDeviations::FillTabularReportCache(ostringstream
     vector<unsigned> years = model_->years();
     for (auto year : years) {
       unsigned ssb_year = year - ssb_offset_;
-      cache << "ycs["<< ssb_year << "] ";
+      cache << "ycs_values["<< ssb_year << "] ";
     }
     for (auto year : years) {
       unsigned ssb_year = year - ssb_offset_;
@@ -502,19 +501,25 @@ void RecruitmentBevertonHoltWithDeviations::FillTabularReportCache(ostringstream
     }
     for (auto year : years) {
       unsigned ssb_year = year - ssb_offset_;
-      cache << "recruits["<< ssb_year << "] ";
+      cache << "Recruits[" << ssb_year << "] ";
+    }
+    for (auto year : years) {
+      unsigned ssb_year = year - ssb_offset_;
+      cache << "SSB[" << ssb_year << "] ";
     }
     cache << "R0 B0 steepness ";
     cache << "\n";
   }
 
   for (auto value : ycs_values_)
-    cache << value << " ";
+    cache << AS_VALUE(value) << " ";
   for (auto value : true_ycs_values_)
-    cache << value << " ";
+    cache << AS_VALUE(value) << " ";
   for (auto value : recruitment_values_)
-    cache << value << " ";
-  cache << r0_ << " " << b0_ << " " << steepness_ << " ";
+    cache << AS_VALUE(value) << " ";
+  for (auto value : ssb_values_)
+    cache << AS_VALUE(value) << " ";
+  cache << AS_VALUE(r0_) << " " << AS_VALUE(b0_) << " " << AS_VALUE(steepness_) << " ";
   cache << "\n";
 
 }

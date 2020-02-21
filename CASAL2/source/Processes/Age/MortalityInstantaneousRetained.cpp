@@ -803,22 +803,22 @@ void MortalityInstantaneousRetained::FillReportCache(ostringstream& cache) {
     auto& fishery = fishery_iter.second;
     cache << "\nfishing_pressure[" << fishery.label_ << "]: ";
     for (auto pressure : fishery.exploitation_by_year_)
-      cache << pressure.second << " ";
+      cache << AS_VALUE(pressure.second) << " ";
     cache << "\nactual_catch[" << fishery.label_ << "]: ";
     for (auto catches : fishery.actual_catches_)
-      cache << catches.second << " ";
+      cache << AS_VALUE(catches.second) << " ";
     cache << "\nretained_catch[" << fishery.label_ << "]: ";
     for (auto retained : fishery.retained_catches_)
-      cache << retained.second << " ";
+      cache << AS_VALUE(retained.second) << " ";
     cache << "\nactual_retained_catch[" << fishery.label_ << "]: ";
     for (auto retained : fishery.actual_retained_catches_)
-      cache << retained.second << " ";
+      cache << AS_VALUE(retained.second) << " ";
     cache << "\ndiscards[" << fishery.label_ << "]: ";
     for (auto discards : fishery.discards_)
-      cache << discards.second << " ";
+      cache << AS_VALUE(discards.second) << " ";
     cache << "\ndiscards_dead[" << fishery.label_ << "]: ";
     for (auto disc_dead : fishery.discards_dead_)
-      cache << disc_dead.second << " ";
+      cache << AS_VALUE(disc_dead.second) << " ";
   }
   cache << "\n";
 
@@ -928,18 +928,37 @@ void MortalityInstantaneousRetained::FillTabularReportCache(ostringstream& cache
         cache << "catch[" << fishery.label_ << "][" << catches.first << "] ";
       for (auto actual_catches : fishery.actual_catches_)
         cache << "actual_catches[" << fishery.label_ << "][" << actual_catches.first << "] ";
+      // TODO:  check this block
+      for (auto retained : fishery.retained_catches_)
+        cache << "\nretained_catch[" << fishery.label_ << "][" << retained.first << "] ";
+      for (auto retained : fishery.actual_retained_catches_)
+        cache << "\nactual_retained_catch[" << fishery.label_ << "][" << retained.first << "] ";
+      for (auto discards : fishery.discards_)
+        cache << "\ndiscards[" << fishery.label_ << "][" << discards.first << "] ";
+      for (auto disc_dead : fishery.discards_dead_)
+        cache << "\ndiscards_dead[" << fishery.label_ << "][" << disc_dead.first << "] ";
     }
     cache << "\n";
   }
 
+
   for (auto& fishery_iter : fisheries_) {
     auto& fishery = fishery_iter.second;
     for (auto pressure : fishery.exploitation_by_year_)
-      cache << pressure.second << " ";
+      cache << AS_VALUE(pressure.second) << " ";
     for (auto catches : fishery.catches_)
-      cache << catches.second << " ";
+      cache << AS_VALUE(catches.second) << " ";
     for (auto actual_catches : fishery.actual_catches_)
-      cache <<  actual_catches.second << " ";
+      cache << AS_VALUE(actual_catches.second) << " ";
+    // TODO:  check this block
+    for (auto retained : fishery.retained_catches_)
+      cache << AS_VALUE(retained.second) << " ";
+    for (auto retained : fishery.actual_retained_catches_)
+      cache << AS_VALUE(retained.second) << " ";
+    for (auto discards : fishery.discards_)
+      cache << AS_VALUE(discards.second) << " ";
+    for (auto disc_dead : fishery.discards_dead_)
+      cache << AS_VALUE(disc_dead.second) << " ";
   }
   cache << "\n";
 

@@ -66,8 +66,8 @@ void PartitionMeanWeight::DoExecute() {
       cache_ << "values: ";
 
       for (unsigned age = (*iterator)->min_age_; age <= (*iterator)->max_age_; ++age) {
-        Double temp = (*iterator)->mean_weight_by_time_step_age_[time_step_index][age]; // Sometimes the AS_DOUBLE Macro can be a pain in the ass.
-        cache_ << AS_DOUBLE(temp) << " ";
+        Double temp = (*iterator)->mean_weight_by_time_step_age_[time_step_index][age];
+        cache_ << AS_VALUE(temp) << " ";
       }
       cache_<<"\n";
       LOG_FINEST() << "cached mean weight";
@@ -80,7 +80,7 @@ void PartitionMeanWeight::DoExecute() {
 
       for (unsigned age = (*iterator)->min_age_; age <= (*iterator)->max_age_; ++age) {
         Double temp1 = (*iterator)->mean_length_by_time_step_age_[time_step_index][age];
-        cache_ << AS_DOUBLE(temp1) << " ";
+        cache_ << AS_VALUE(temp1) << " ";
       }
       LOG_FINEST() << "cached mean length";
 

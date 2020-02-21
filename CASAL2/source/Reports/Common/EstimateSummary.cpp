@@ -48,7 +48,8 @@ void EstimateSummary::DoExecute() {
  //   cache_ << "label: " << estimate->label() << "\n";
     cache_ << "lower_bound: " << estimate->lower_bound() << "\n";
     cache_ << "upper_bound: " << estimate->upper_bound() << "\n";
-    cache_ << "value: " << AS_DOUBLE(estimate->value()) << "\n";
+    cache_ << "value: " << AS_VALUE(estimate->value()) << "\n";
+
     map<string, Parameter*> parameters = estimate->parameters().parameters();
     for (auto iter = parameters.begin(); iter != parameters.end(); ++iter) {
       cache_ << iter->first << ": ";

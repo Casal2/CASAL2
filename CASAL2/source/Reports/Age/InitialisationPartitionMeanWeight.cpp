@@ -53,7 +53,7 @@ void InitialisationPartitionMeanWeight::DoExecute() {
     cache_ << "values: ";
 
     for (unsigned age = (*iterator)->min_age_; age <= (*iterator)->max_age_; ++age)
-      cache_ << AS_DOUBLE((*iterator)->mean_weight_by_time_step_age_[time_step_index][age]) << " ";
+      cache_ << AS_VALUE((*iterator)->mean_weight_by_time_step_age_[time_step_index][age]) << " ";
     cache_<<"\n";
 
     cache_ << REPORT_R_LIST_END <<"\n";
@@ -63,7 +63,7 @@ void InitialisationPartitionMeanWeight::DoExecute() {
     cache_ << "values: ";
 
     for (unsigned age = (*iterator)->min_age_; age <= (*iterator)->max_age_; ++age)
-      cache_ << AS_DOUBLE((*iterator)->mean_length_by_time_step_age_[0][time_step_index][age]) << " ";
+      cache_ << AS_VALUE((*iterator)->mean_length_by_time_step_age_[0][time_step_index][age]) << " ";
     cache_<<"\n";
 
     cache_ << REPORT_R_LIST_END <<"\n";

@@ -59,7 +59,7 @@ void AgeLength::DoExecute() {
   for (unsigned time_step = 0; time_step < time_steps; ++time_step) {
     cache_ << year << " " << time_step << " ";
     for (unsigned age = min_age; age <= max_age; ++age)
-      cache_ << age_length->cv(year, time_step, age) << " ";
+      cache_ << AS_VALUE(age_length->cv(year, time_step, age)) << " ";
     cache_ << "\n";
   }
 
@@ -79,7 +79,7 @@ void AgeLength::DoExecute() {
         for (unsigned k = 0; k < age_lengths[i][j].size(); ++k) {
           cache_ << (start_year + i) << " " << j << " " << (min_age + k) << " ";
           for (unsigned l = 0; l < age_lengths[i][j][k].size(); ++l) {
-            cache_ << age_lengths[i][j][k][l] << " ";
+            cache_ << AS_VALUE(age_lengths[i][j][k][l]) << " ";
           }
           cache_ << "\n";
         }

@@ -61,7 +61,7 @@ void Partition::DoExecute() {
     cache_ << (*iterator)->name_;
     for (auto values = (*iterator)->data_.begin(); values != (*iterator)->data_.end(); ++values) {
       Double value = *values;
-      cache_ << " " << std::fixed << AS_DOUBLE(value);
+      cache_ << " " << std::fixed << AS_VALUE(value);
 
     }
     cache_ << "\n";

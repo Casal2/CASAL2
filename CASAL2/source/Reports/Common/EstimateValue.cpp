@@ -56,7 +56,7 @@ void EstimateValue::DoExecute() {
       cache_ << estimate->parameter() << " ";
     cache_ << "\n";
     for (Estimate* estimate : estimates)
-      cache_ << AS_DOUBLE(estimate->value()) << " ";
+      cache_ << AS_VALUE(estimate->value()) << " ";
     cache_ << "\n";
 
     ready_for_writing_ = true;
@@ -81,7 +81,7 @@ void EstimateValue::DoExecuteTabular() {
   }
 
   for (Estimate* estimate : estimates)
-    cache_ << AS_DOUBLE(estimate->value()) << " ";
+    cache_ << AS_VALUE(estimate->value()) << " ";
   cache_ <<"\n" ;
 }
 

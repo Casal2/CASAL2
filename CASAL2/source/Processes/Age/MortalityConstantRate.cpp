@@ -196,9 +196,8 @@ void MortalityConstantRate::FillReportCache(ostringstream& cache) {
     cache << year << " ";
   cache << "\ntotal_removals: ";
   for (auto removal : total_removals_by_year_)
-    cache << removal << " ";
+    cache << AS_VALUE(removal) << " ";
   cache << "\n";
-
 }
 
 /*
@@ -216,10 +215,10 @@ void MortalityConstantRate::FillTabularReportCache(ostringstream& cache, bool fi
     }
     cache << "\n";
   }
-  for (auto removal : total_removals_by_year_)
-    cache << removal << " ";
-  cache << "\n";
 
+  for (auto removal : total_removals_by_year_)
+    cache << AS_VALUE(removal) << " ";
+  cache << "\n";
 }
 
 } /* namespace age */

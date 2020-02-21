@@ -193,12 +193,11 @@ void MortalityEvent::FillReportCache(ostringstream& cache) {
     cache << year << " ";
   cache << "\nactual_catches: ";
   for (auto removal : actual_catches_)
-    cache << removal << " ";
+    cache << AS_VALUE(removal) << " ";
   cache << "\nexploitation_rate: ";
   for (auto exploit : exploitation_)
-    cache << exploit << " ";
+    cache << AS_VALUE(exploit) << " ";
   cache << "\n";
-
 }
 
 /*
@@ -218,12 +217,12 @@ void MortalityEvent::FillTabularReportCache(ostringstream& cache, bool first_run
     }
     cache << "\n";
   }
-  for (auto removal : actual_catches_)
-    cache << removal << " ";
-  for (auto exploit : exploitation_)
-    cache << exploit << " ";
-  cache << "\n";
 
+  for (auto removal : actual_catches_)
+    cache << AS_VALUE(removal) << " ";
+  for (auto exploit : exploitation_)
+    cache << AS_VALUE(exploit) << " ";
+  cache << "\n";
 }
 
 } /* namespace age */

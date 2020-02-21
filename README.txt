@@ -26,7 +26,7 @@ See the Casal2 User Manual for a copy of the software license.
 Installation
 ============
 
-Your can either
+You can either
 
 Use the Microsoft Windows installer for Casal2. This copies 
 the progam files to the install directory, creates icons in 
@@ -34,7 +34,7 @@ your start menu, and modifies the system registry to,
 (i)   Add to the the Casal2 install directory to the systems 
       PATH
 (ii)  Associate .csl2 files with the Casal2 icon and to open 
-      with Notepad.exe
+      with a text editor like Notepad++
 (iii) Register the uninstall information required for 
       Microsoft Windows to uninstall Casal2.
 

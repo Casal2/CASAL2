@@ -41,7 +41,7 @@ void TimeVarying::DoExecute() {
     map<unsigned, Double>& parameter_by_year = time_var->get_parameter_by_year();
     cache_ << "year" << " Value \n";
     for (auto param : parameter_by_year) {
-      cache_ << param.first << "  " << AS_DOUBLE(param.second) << "\n";
+      cache_ << param.first << "  " << AS_VALUE(param.second) << "\n";
     }
   }
 

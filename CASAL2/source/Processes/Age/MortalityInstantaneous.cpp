@@ -153,7 +153,7 @@ void MortalityInstantaneous::DoValidate() {
    */
   categories_.resize(category_labels_.size());
   for (unsigned i = 0; i < category_labels_.size(); ++i) {
-  string label = category_labels_[i];
+    string label = category_labels_[i];
     CategoryData category;
     category.category_label_ = label;
     category.m_ = &m_[label];
@@ -435,8 +435,8 @@ void MortalityInstantaneous::DoBuild() {
       for (auto& category : category_labels_) {
         for (auto& fishery_category : fishery_categories_) {
           LOG_FINE() << "Checking category " << category << " time step = " << fisheries_[fishery_category.fishery_label_].time_step_index_;
-          if (fishery_category.category_label_ == category
-              && fisheries_[fishery_category.fishery_label_].time_step_index_ == current_time_step) {
+          if (fishery_category.category_label_ == category &&
+              fisheries_[fishery_category.fishery_label_].time_step_index_ == current_time_step) {
             removals_by_year_fishery_category_[year][fishery_category.fishery_label_][category].assign(model_->age_spread(), 0.0);
             LOG_FINE() << "year " << year << " fishery = " << fishery_category.fishery_label_ << " category = " << fishery_category.category_label_
               <<"  size of vector = " << removals_by_year_fishery_category_[year][fishery_category.fishery_label_][category].size();
@@ -492,7 +492,8 @@ void MortalityInstantaneous::DoExecute() {
     // Is this category used?
     bool used = false;
     for (auto& fishery_category : fishery_categories_) {
-      if (fishery_category.category_label_ == category.category_label_ && fishery_category.fishery_.time_step_index_ == time_step_index)
+      if (fishery_category.category_label_ == category.category_label_ &&
+          fishery_category.fishery_.time_step_index_ == time_step_index)
         used = true;
 
       category.used_in_current_timestep_ = used;
@@ -727,13 +728,13 @@ void MortalityInstantaneous::FillReportCache(ostringstream& cache) {
     auto& fishery = fishery_iter.second;
     cache << "\nfishing_pressure[" << fishery.label_ << "]: ";
     for (auto pressure : fishery.exploitation_by_year_)
-      cache << pressure.second << " ";
+      cache << AS_VALUE(pressure.second) << " ";
     cache << "\ncatch[" << fishery.label_ << "]: ";
     for (auto catches : fishery.catches_)
-      cache << catches.second << " ";
+      cache << AS_VALUE(catches.second) << " ";
     cache << "\nactual_catch[" << fishery.label_ << "]: ";
     for (auto actual_catches : fishery.actual_catches_)
-      cache << actual_catches.second << " ";
+      cache << AS_VALUE(actual_catches.second) << " ";
   }
 
   cache << "\n";
@@ -786,11 +787,11 @@ void MortalityInstantaneous::FillTabularReportCache(ostringstream& cache, bool f
   for (auto& fishery_iter : fisheries_) {
     auto& fishery = fishery_iter.second;
     for (auto pressure : fishery.exploitation_by_year_)
-      cache << pressure.second << " ";
+      cache << AS_VALUE(pressure.second) << " ";
     for (auto catches : fishery.catches_)
-      cache << catches.second << " ";
+      cache << AS_VALUE(catches.second) << " ";
     for (auto actual_catches : fishery.actual_catches_)
-      cache <<  actual_catches.second << " ";
+      cache << AS_VALUE(actual_catches.second) << " ";
   }
   cache << "\n";
 

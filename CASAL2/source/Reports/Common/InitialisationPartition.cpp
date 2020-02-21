@@ -67,7 +67,7 @@ void InitialisationPartition::DoExecute() {
     for (auto values = (*iterator)->data_.begin(); values != (*iterator)->data_.end(); ++values, age++) {
       if (age >= lowest && age <= highest) {
         Double value = *values;
-        cache_ << " " << std::fixed << AS_DOUBLE(value);
+        cache_ << " " << std::fixed << AS_VALUE(value);
       } else
         cache_ << " " << "null";
     }
