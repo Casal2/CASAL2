@@ -56,17 +56,19 @@ IndependenceMetropolis::IndependenceMetropolis(Model* model) : MCMC(model) {
 void IndependenceMetropolis::BuildCovarianceMatrix() {
   LOG_MEDIUM() << "Building covariance matrix";
   // Are we starting at MPD or recalculating the matrix based on an empirical sample
-	ublas::matrix<double> original_correlation;
+  ublas::matrix<double> original_correlation;
   if (recalculate_covariance_) {
     LOG_MEDIUM() << "Recalculating covariance matrix";
     covariance_matrix_ = covariance_matrix_lt;
   }
-  	// Remove for the shared library only used for debugging purposes
-  	// Minimiser* minimiser = model_->managers().minimiser()->active_minimiser();
-    // covariance_matrix_ = minimiser->covariance_matrix();
-    // original_correlation = minimiser->correlation_matrix();
 
-    // This is already built by MPD.cpp at line 137. in the frontend the minimiser is dropped out before the MCMC state kicks in, so this will return a rubbish covariance matrix
+  // Remove for the shared library only used for debugging purposes
+  // Minimiser* minimiser = model_->managers().minimiser()->active_minimiser();
+  // covariance_matrix_ = minimiser->covariance_matrix();
+  // original_correlation = minimiser->correlation_matrix();
+
+  // This is already built by MPD.cpp at line 137. in the frontend the minimiser is dropped out before
+  // the MCMC state kicks in, so this will return a rubbish covariance matrix
 
   if (correlation_method_ == PARAM_NONE)
     return;
@@ -77,7 +79,7 @@ void IndependenceMetropolis::BuildCovarianceMatrix() {
   LOG_MEDIUM() << "Printing covariance matrix before applying the correlation adjustment";
   for (unsigned i = 0; i < covariance_matrix_.size1(); ++i) {
     for (unsigned j = 0; j < covariance_matrix_.size2(); ++j) {
-    	LOG_MEDIUM() << "row = " << i + 1 << " col = " << j + 1 << " value = " << covariance_matrix_(i,j);
+      LOG_MEDIUM() << "row = " << i + 1 << " col = " << j + 1 << " value = " << covariance_matrix_(i,j);
     }
   }
   ublas::matrix<double> original_covariance(covariance_matrix_);
@@ -87,8 +89,8 @@ void IndependenceMetropolis::BuildCovarianceMatrix() {
   for (unsigned i = 0; i < (covariance_matrix_.size1() - 1); ++i) {
     for (unsigned j = i + 1; j < covariance_matrix_.size2(); ++j) {
       // This assumes that the lower and upper triangles match
-    	double value = original_covariance(i,j) / sqrt(original_covariance(i,i) * original_covariance(j,j));
-    	LOG_MEDIUM() << "row = " << i + 1 << " col = " << j + 1 << " correlation = " << value;
+      double value = original_covariance(i,j) / sqrt(original_covariance(i,i) * original_covariance(j,j));
+      LOG_MEDIUM() << "row = " << i + 1 << " col = " << j + 1 << " correlation = " << value;
       if (original_covariance(i,j) / sqrt(original_covariance(i,i) * original_covariance(j,j)) > max_correlation_) {
         covariance_matrix_(i,j) = max_correlation_ * sqrt(original_covariance(i,i) * original_covariance(j,j));
         covariance_matrix_(j,i) = covariance_matrix_(i,j);
@@ -103,7 +105,7 @@ void IndependenceMetropolis::BuildCovarianceMatrix() {
   LOG_MEDIUM() << "Printing upper triangle of covariance matrix";
   for (unsigned i = 0; i < (covariance_matrix_.size1() - 1); ++i) {
     for (unsigned j = i + 1; j < covariance_matrix_.size2(); ++j) {
-    	LOG_MEDIUM() << "row = " << i + 1 << " col = " << j + 1 << " value = " << covariance_matrix_(i,j);
+      LOG_MEDIUM() << "row = " << i + 1 << " col = " << j + 1 << " value = " << covariance_matrix_(i,j);
     }
   }
 
@@ -136,7 +138,7 @@ void IndependenceMetropolis::BuildCovarianceMatrix() {
   LOG_MEDIUM() << "Printing adjusted covariance matrix";
   for (unsigned i = 0; i < covariance_matrix_.size1(); ++i) {
     for (unsigned j = 0; j < covariance_matrix_.size2(); ++j) {
-    	LOG_MEDIUM() << "row = " << i + 1 << " col = " << j + 1 << " value = " << covariance_matrix_(i,j);
+      LOG_MEDIUM() << "row = " << i + 1 << " col = " << j + 1 << " value = " << covariance_matrix_(i,j);
     }
   }
 
@@ -231,7 +233,7 @@ void IndependenceMetropolis::GenerateRandomStart() {
     FillMultivariateNormal(start_);
     for (unsigned i = 0; i < estimates.size(); ++i) {
       if (estimates[i]->lower_bound() > candidates_[i] || estimates[i]->upper_bound() < candidates_[i]) {
-    	  candidates_pass = false;
+        candidates_pass = false;
         break;
       }
     }
@@ -254,8 +256,8 @@ void IndependenceMetropolis::FillMultivariateNormal(double step_size) {
 // Method from CASAL's algorithm
   for (unsigned i = 0; i < estimate_count_; ++i) {
     for (unsigned j = 0; j < estimate_count_; ++j) {
-    	dv[i] += covariance_matrix_lt(i, j) * normals[j];
-    	//LOG_MEDIUM() << "ndx =  " << j * estimate_count_ + i;
+      dv[i] += covariance_matrix_lt(i, j) * normals[j];
+      //LOG_MEDIUM() << "ndx =  " << j * estimate_count_ + i;
     }
     if (is_enabled_estimate_[i])
       candidates_[i] += dv[i] * step_size;
@@ -327,7 +329,6 @@ void IndependenceMetropolis::UpdateStepSize() {
       else if (acceptance_rate < 0.2)
         step_size_ /= 2;
       LOG_MEDIUM() << "new step_size = " << step_size_;
-
     }
 
     jumps_since_adapt_ = 0;
@@ -467,11 +468,11 @@ void IndependenceMetropolis::DoValidate() {
 
   if (correlation_method_ != PARAM_CORRELATION && correlation_method_ != PARAM_COVARIANCE && correlation_method_ != PARAM_NONE)
     LOG_ERROR_P(PARAM_COVARIANCE_ADJUSTMENT_METHOD) << "(" << correlation_method_ << ")"
-        << " is not supported. Supported values are " << PARAM_CORRELATION << ", " << PARAM_COVARIANCE << " and " << PARAM_NONE;
+      << " is not supported. Supported values are " << PARAM_CORRELATION << ", " << PARAM_COVARIANCE << " and " << PARAM_NONE;
 
   if (proposal_distribution_ != PARAM_T && proposal_distribution_ != PARAM_NORMAL)
     LOG_ERROR_P(PARAM_PROPOSAL_DISTRIBUTION) << "(" << proposal_distribution_ << ")"
-        << " is not supported. Supported values are " << PARAM_T << " and " << PARAM_NORMAL;
+      << " is not supported. Supported values are " << PARAM_T << " and " << PARAM_NORMAL;
 
   if (max_correlation_ <= 0.0 || max_correlation_ > 1.0)
     LOG_ERROR_P(PARAM_MAX_CORRELATION) << "(" << max_correlation_ << ") must be between 0.0 (exclusive) and 1.0 (inclusive)";
@@ -613,7 +614,7 @@ void IndependenceMetropolis::DoExecute() {
     new_link.values_                        = previous_untransformed_candidates;
     chain_.push_back(new_link);
     // Print first value
-		model_->managers().report()->Execute(State::kIterationComplete);
+    model_->managers().report()->Execute(State::kIterationComplete);
 
   }
 
