@@ -30,7 +30,7 @@ RecruitmentConstant::RecruitmentConstant(Model* model)
   parameters_.Bind<string>(PARAM_CATEGORIES, &category_labels_, "Categories", "");
   parameters_.Bind<Double>(PARAM_PROPORTIONS, &proportions_, "Proportions", "", true);
   parameters_.Bind<unsigned>(PARAM_LENGTH_BINS, &length_bins_, "The length bins that recruits are uniformly distributed over at the time of recruitment", "");
-  parameters_.Bind<Double>(PARAM_R0, &r0_, "R0", "")->set_lower_bound(0.0, false);
+  parameters_.Bind<Double>(PARAM_R0, &r0_, "R0", "")->set_lower_bound(0.0);
 
   RegisterAsAddressable(PARAM_R0, &r0_);
   RegisterAsAddressable(PARAM_PROPORTIONS, &proportions_categories_);
@@ -64,21 +64,20 @@ void RecruitmentConstant::DoValidate() {
   if (proportions_.size() > 0) {
     if (proportions_.size() != category_labels_.size()) {
       LOG_ERROR_P(PARAM_PROPORTIONS)
-          << ": Number of proportions provided is not the same as the number of categories provided. Expected: "
+          << ": the number of proportions provided is not the same as the number of categories provided. Expected: "
           << category_labels_.size()<< ", parsed " << proportions_.size();
     }
 
     Double proportion_total = 0.0;
-
     for (Double proportion : proportions_)
       proportion_total += proportion;
 
     if (!utilities::doublecompare::IsOne(proportion_total)) {
       LOG_WARNING() << parameters_.location(PARAM_PROPORTIONS)
-          <<": proportion does not sum to 1.0. Proportion sums to " << AS_DOUBLE(proportion_total) << ". Auto-scaling proportions to sum to 1.0";
+          <<": the proportions do not sum to 1.0. The proportions sum to " << AS_DOUBLE(proportion_total) << ". Auto-scaling the proportions to sum to 1.0";
 
       for (Double& proportion : proportions_)
-        proportion = proportion / proportion_total;
+        proportion /= proportion_total;
     }
 
     for (unsigned i = 0; i < category_labels_.size(); ++i) {

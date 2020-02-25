@@ -58,7 +58,7 @@ MortalityInstantaneous::MortalityInstantaneous(Model* model)
 
   parameters_.Bind<string>(PARAM_CATEGORIES, &category_labels_, "Categories for instantaneous mortality", "");
   parameters_.BindTable(PARAM_CATCHES, catches_table_, "Table of removals (catch) data", "", true, false);
-  parameters_.BindTable(PARAM_METHOD, method_table_, "Table of Method of removal data", "", true, false);
+  parameters_.BindTable(PARAM_METHOD, method_table_, "Table of method of removal data", "", true, false);
   parameters_.Bind<Double>(PARAM_M, &m_input_, "Natural mortality rates for each category", "")->set_lower_bound(0.0);
   parameters_.Bind<double>(PARAM_TIME_STEP_RATIO, &time_step_ratios_temp_, "Time step ratios for natural mortality", "", true)->set_range(0.0, 1.0);
   parameters_.Bind<string>(PARAM_SELECTIVITIES, &selectivity_labels_, "The selectivities to apply on the categories for natural mortality", "");

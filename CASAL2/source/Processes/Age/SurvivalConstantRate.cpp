@@ -67,13 +67,13 @@ void SurvivalConstantRate::DoValidate() {
   //Check we have equal category labels as survival rates
   if (s_input_.size() != category_labels_.size()) {
     LOG_ERROR_P(PARAM_S)
-      << ": Number of Ms provided is not the same as the number of categories provided. Categories: "
+      << ": the number of Ms provided is not the same as the number of categories provided. Categories: "
       << category_labels_.size()<< ", input size " << s_input_.size();
   }
   //Check we have equal category labels to selectivity labels
   if (selectivity_names_.size() != category_labels_.size()) {
     LOG_ERROR_P(PARAM_SELECTIVITIES)
-      << ": Number of selectivities provided is not the same as the number of categories provided. Categories: "
+      << ": the number of selectivities provided is not the same as the number of categories provided. Categories: "
       << category_labels_.size()<< ", selectivities size " << selectivity_names_.size();
   }
 

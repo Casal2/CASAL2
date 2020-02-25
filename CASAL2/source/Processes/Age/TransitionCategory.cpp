@@ -30,8 +30,8 @@ TransitionCategory::TransitionCategory(Model* model)
     to_partition_(model) {
   LOG_TRACE();
 
-  parameters_.Bind<string>(PARAM_FROM, &from_category_names_, "From", "");
-  parameters_.Bind<string>(PARAM_TO, &to_category_names_, "To", "");
+  parameters_.Bind<string>(PARAM_FROM, &from_category_names_, "From category", "");
+  parameters_.Bind<string>(PARAM_TO, &to_category_names_, "To category", "");
   parameters_.Bind<Double>(PARAM_PROPORTIONS, &proportions_, "Proportions", "")->set_range(0.0, 1.0);
   parameters_.Bind<string>(PARAM_SELECTIVITIES, &selectivity_names_, "Selectivity names", "");
 
@@ -67,8 +67,8 @@ void TransitionCategory::DoValidate() {
   // Validate the from and to vectors are the same size
   if (from_category_names_.size() != to_category_names_.size()) {
     LOG_ERROR_P(PARAM_TO)
-        << ": Number of 'to' categories provided does not match the number of 'from' categories provided. "
-        << from_category_names_.size() << " categories were supplied, but " << to_category_names_.size() << " categories are required";
+      << ": the number of 'to' categories provided does not match the number of 'from' categories provided. "
+      << from_category_names_.size() << " categories were supplied, but " << to_category_names_.size() << " categories are required";
   }
 
   // Allow a one to many relationship between proportions and number of categories.
@@ -78,27 +78,27 @@ void TransitionCategory::DoValidate() {
   // Validate the to category and proportions vectors are the same size
   if (to_category_names_.size() != proportions_.size()) {
     LOG_ERROR_P(PARAM_PROPORTIONS)
-        << ": Number of proportions provided does not match the number of 'to' categories provided. "
-        << to_category_names_.size() << " categories were supplied, but proportions size is " << proportions_.size();
+      << ": the number of proportions provided does not match the number of 'to' categories provided. "
+      << to_category_names_.size() << " categories were supplied, but proportions size is " << proportions_.size();
   }
 
   // Validate the number of selectivities matches the number of proportions
   if (proportions_.size() != selectivity_names_.size() && proportions_.size() != 1) {
     LOG_ERROR_P(PARAM_SELECTIVITIES)
-        << ": Number of selectivities provided does not match the number of proportions provided. "
-        << " proportions size is " << proportions_.size() << " but number of selectivities is " << selectivity_names_.size();
+      << ": the number of selectivities provided does not match the number of proportions provided. "
+      << " proportions size is " << proportions_.size() << " but number of selectivities is " << selectivity_names_.size();
   }
 
   // Validate that each from and to category have the same age range.
   for (unsigned i = 0; i < from_category_names_.size(); ++i) {
     if (categories->min_age(from_category_names_[i]) != categories->min_age(to_category_names_[i])) {
-      LOG_ERROR_P(PARAM_FROM) << ": Category " << from_category_names_[i] << " does not"
-          << " have the same age range as the 'to' category " << to_category_names_[i];
+      LOG_ERROR_P(PARAM_FROM) << ": 'from' category " << from_category_names_[i] << " does not"
+        << " have the same age range as the 'to' category " << to_category_names_[i];
     }
 
     if (categories->max_age(from_category_names_[i]) != categories->max_age(to_category_names_[i])) {
-      LOG_ERROR_P(PARAM_FROM) << ": Category " << from_category_names_[i] << " does not"
-          << " have the same age range as the 'to' category " << to_category_names_[i];
+      LOG_ERROR_P(PARAM_FROM) << ": 'from' category " << from_category_names_[i] << " does not"
+        << " have the same age range as the 'to' category " << to_category_names_[i];
     }
   }
 
@@ -143,7 +143,7 @@ void TransitionCategory::DoExecute() {
   Double amount      = 0.0;
 
   LOG_FINEST() << "transition_rates_.size(): " << transition_rates_.size() << "; from_partition_.size(): " << from_partition_.size()
-      << "; to_partition_.size(): " << to_partition_.size();
+    << "; to_partition_.size(): " << to_partition_.size();
   if (from_partition_.size() != to_partition_.size()) {
     LOG_FATAL() << "The list of categories for the transition category process are not of equal size in year " << model_->current_year()
       << ". Number of 'From' " << from_partition_.size() << " and 'To' " << to_partition_.size() << " categories to transition between";

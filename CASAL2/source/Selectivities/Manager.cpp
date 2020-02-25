@@ -33,6 +33,8 @@ Selectivity* Manager::GetSelectivity(const string& label) {
     }
   }
 
+  LOG_MEDIUM() << "Selectivity label '" << label << "' was not found.";
+
   return nullptr;
 }
 

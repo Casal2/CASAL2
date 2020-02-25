@@ -56,7 +56,7 @@ TagLoss::TagLoss(Model* model)
  * - Check the categories are real
  */
 void TagLoss::DoValidate() {
-  LOG_FINEST() << "Number of categories = " << category_labels_.size() << " number of proportions = " << tag_loss_input_.size();
+  LOG_FINEST() << "the number of categories = " << category_labels_.size() << ", the number of proportions = " << tag_loss_input_.size();
 
   if (tag_loss_input_.size() == 1) {
     auto val_t = tag_loss_input_[0];
@@ -70,19 +70,19 @@ void TagLoss::DoValidate() {
 
   if (tag_loss_input_.size() != category_labels_.size()) {
     LOG_ERROR_P(PARAM_TAG_LOSS_RATE)
-        << ": Number of tag loss values provided is not the same as the number of categories provided. Categories: "
+        << ": the number of tag loss values provided is not the same as the number of categories provided. Categories: "
         << category_labels_.size() << ", tag loss size " << tag_loss_input_.size();
   }
 
   if (selectivity_names_.size() != category_labels_.size()) {
     LOG_ERROR_P(PARAM_SELECTIVITIES)
-        << ": Number of selectivities provided is not the same as the number of categories provided. Categories: "
+        << ": the number of selectivities provided is not the same as the number of categories provided. Categories: "
         << category_labels_.size() << ", selectivities size " << selectivity_names_.size();
   }
 
   // Validate type of tag loss
   if (tag_loss_type_ != "single")
-    LOG_ERROR_P(PARAM_TAG_LOSS_TYPE) << tag_loss_type_ << " s not an expected type. Values allowed are: " << PARAM_SINGLE;
+    LOG_ERROR_P(PARAM_TAG_LOSS_TYPE) << tag_loss_type_ << " is not an expected type. Values allowed are: " << PARAM_SINGLE;
 
   if (tag_loss_type_ == PARAM_DOUBLE)
     LOG_ERROR() << PARAM_TAG_LOSS_TYPE << " " << PARAM_DOUBLE << " is not implemented";

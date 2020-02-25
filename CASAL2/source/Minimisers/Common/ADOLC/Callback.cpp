@@ -43,7 +43,7 @@ adouble CallBack::operator()(const vector<adouble>& Parameters) {
   }
 
   for (unsigned i = 0; i < Parameters.size(); ++i)
-    estimates[i]->set_value(Parameters[i]);
+    estimates[i]->set_value(AS_VALUE(Parameters[i]));
 
   model_->managers().estimate_transformation()->RestoreEstimates();
   model_->FullIteration();

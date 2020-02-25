@@ -71,7 +71,7 @@ void Creator::CreateEstimates() {
     indexes = utilities::String::explode(index);
     if (index != "" && indexes.size() == 0) {
       LOG_FATAL_P(PARAM_PARAMETER) << " could not be split up to search for indexes because the format was invalid. "
-          << "Check the indices. Only the operators ',' and ':' (range) are supported";
+        << "Check the indices. Only the operators ',' and ':' (range) are supported";
     }
 
     new_parameter = new_parameter.substr(0, new_parameter.find('{'));
@@ -249,7 +249,7 @@ void Creator::HandleSameParameter() {
       indexes = utilities::String::explode(index);
       if (index != "" && indexes.size() == 0) {
         LOG_FATAL_P(PARAM_SAME) << " could not be split up to search for indexes because the format was invalid. "
-            << "Check the indices. Only the operators ',' and ':' (range) are supported";
+          << "Check the indices. Only the operators ',' and ':' (range) are supported";
       }
 
       new_parameter = new_parameter.substr(0, new_parameter.find('{'));

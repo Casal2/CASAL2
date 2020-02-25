@@ -31,7 +31,7 @@ void Selectivity::DoBuild() {
   if (!selectivity_)
     LOG_FATAL_P(PARAM_SELECTIVITY) << " " << selectivity_label_ << " was not found.";
   if (selectivity_->IsSelectivityLengthBased()) {
-    LOG_WARNING() << "Cannot report length-based selectivity values. This report (" << label_ << ") is being ignored.\n"
+    LOG_WARNING() << "Cannot report the length-based selectivity values. This report (" << label_ << ") is being ignored.\n"
       << "This can be done using the Casal2 R package. See the User Manual for more info. ";
   }
 }

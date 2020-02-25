@@ -57,7 +57,7 @@ MortalityInstantaneousRetained::MortalityInstantaneousRetained(Model* model)
   parameters_.Bind<string>(PARAM_CATEGORIES, &category_labels_, "Categories for instantaneous mortality", "");
   parameters_.BindTable(PARAM_CATCHES, catches_table_, "Table of removals (catch) data", "", true, false);
 
-  parameters_.BindTable(PARAM_METHOD, method_table_, "Table of Method of removal data", "", true, false);
+  parameters_.BindTable(PARAM_METHOD, method_table_, "Table of method of removal data", "", true, false);
   parameters_.Bind<Double>(PARAM_M, &m_input_, "Natural mortality rates for each category", "")->set_lower_bound(0.0);
   parameters_.Bind<double>(PARAM_TIME_STEP_RATIO, &time_step_ratios_temp_, "Time step ratios for natural mortality", "", true)->set_range(0.0, 1.0);
   parameters_.Bind<string>(PARAM_SELECTIVITIES, &selectivity_labels_, "The selectivities to apply on the categories for natural mortality", "");
@@ -84,7 +84,7 @@ void MortalityInstantaneousRetained::DoValidate() {
   // Check Natural Mortality parameter first
   for (auto M_proportion : time_step_ratios_temp_) {
     if ((M_proportion < 0.0) || (M_proportion > 1.0))
-      LOG_ERROR_P(PARAM_TIME_STEP_RATIO) << "Natural Mortality time step ratio cannot be greater than 1.0 or less than 0.0 for a given time step";
+      LOG_ERROR_P(PARAM_TIME_STEP_RATIO) << "Natural mortality time step ratio cannot be greater than 1.0 or less than 0.0 for a given time step";
   }
 
   /**
@@ -273,7 +273,7 @@ void MortalityInstantaneousRetained::DoValidate() {
       if (std::find(category_labels_.begin(), category_labels_.end(), categories[i]) == category_labels_.end())
         LOG_ERROR_P(PARAM_METHOD) << "The category " << categories[i] << " was found in table but not in the '" << PARAM_CATEGORIES << "' subcommand."
           << " This configuration will apply the exploitation processes and not natural mortality, which is not valid."
-          << " Make sure all categories in the methods table are in the categories subcommand.";
+          << " Please make sure that all categories in the methods table are in the categories subcommand.";
       new_category_data.selectivity_label_ = selectivities[i];
       if (use_age_weight_)
         new_category_data.category_.age_weight_label_ = age_weights[i];
@@ -481,7 +481,6 @@ void MortalityInstantaneousRetained::DoReset() {
     ++m_iter;
   }
 }
-
 
 /**
  * Called from the time varying class (see TimeVarying.cpp line 96) used to reset parameters.

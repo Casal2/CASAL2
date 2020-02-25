@@ -216,7 +216,7 @@ Report* Manager::GetReport(const string& type) {
       return report;
   }
 
-  LOG_MEDIUM() << "Did not find report type " << type;
+  LOG_MEDIUM() << "Report type '" << type << "' was not found.";
 
   return nullptr;
 }

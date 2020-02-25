@@ -65,15 +65,15 @@ void MortalityConstantRate::DoValidate() {
 
   if (m_input_.size() != category_labels_.size()) {
     LOG_ERROR_P(PARAM_M)
-        << ": Number of Ms provided is not the same as the number of categories provided. Expected: "
-        << category_labels_.size()<< ", parsed " << m_input_.size();
+      << ": the number of Ms provided is not the same as the number of categories provided. Expected: "
+      << category_labels_.size()<< ", parsed " << m_input_.size();
   }
 /*
 
   if (selectivity_names_.size() != category_labels_.size()) {
     LOG_ERROR_P(PARAM_SELECTIVITIES)
-        << ": Number of selectivities provided is not the same as the number of categories provided. Expected: "
-        << category_labels_.size()<< " but got " << selectivity_names_.size();
+      << ": Number of selectivities provided is not the same as the number of categories provided. Expected: "
+      << category_labels_.size()<< " but got " << selectivity_names_.size();
   }
 */
 
@@ -125,7 +125,7 @@ void MortalityConstantRate::DoBuild() {
   } else {
     if (ratios_.size() != active_time_steps.size())
       LOG_ERROR_P(PARAM_TIME_STEP_RATIO) << " length (" << ratios_.size()
-          << ") does not match the number of time steps this process has been assigned to (" << active_time_steps.size() << ")";
+        << ") does not match the number of time steps this process has been assigned to (" << active_time_steps.size() << ")";
 
     for (double value : ratios_) {
       if (value < 0.0 || value > 1.0)

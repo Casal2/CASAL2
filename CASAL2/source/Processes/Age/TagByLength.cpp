@@ -41,7 +41,7 @@ TagByLength::TagByLength(Model* model)
   proportions_table_ = new parameters::Table(PARAM_PROPORTIONS);
 
   parameters_.Bind<string>(PARAM_FROM, &from_category_labels_, "Categories to transition from", "");
-  parameters_.Bind<string>(PARAM_TO, &to_category_labels_, "ategories to transition to", "");
+  parameters_.Bind<string>(PARAM_TO, &to_category_labels_, "Categories to transition to", "");
   parameters_.Bind<string>(PARAM_PENALTY, &penalty_label_, "Penalty label", "", "");
   parameters_.Bind<Double>(PARAM_U_MAX, &u_max_, "U Max", "", 0.99)->set_range(0.0, 1.0, false, true);
   // TODO:  is tolerance missing? the number '0.001' is hard-coded
@@ -75,7 +75,7 @@ void TagByLength::DoValidate() {
       LOG_FATAL_P(PARAM_TO) << "The combined category " << category << " was supplied. This subcommand can take separate categories only.";
   }
   if (from_category_labels_.size() != 1) {
-    LOG_FATAL_P(PARAM_FROM) << "This process cannot specify a many-to-many tagging event. If proportions are tagged by category then create a @tag process"
+    LOG_FATAL_P(PARAM_FROM) << "This process cannot specify a many-to-many tagging event. If proportions are tagged by category then create a @tag process."
       << " 'From' category labels size " << from_category_labels_.size();
   }
 
@@ -85,7 +85,7 @@ void TagByLength::DoValidate() {
     if (model_->categories()->IsCombinedLabels(category)) {
       no_combined= model_->categories()->GetNumberOfCategoriesDefined(category);
       if (no_combined != to_category_labels_.size()) {
-        LOG_ERROR_P(PARAM_TO) << "'" << no_combined << "' combined 'From'_categories was specified, but '" << to_category_labels_.size()
+        LOG_ERROR_P(PARAM_TO) << "'" << no_combined << "' combined 'From' categories was specified, but '" << to_category_labels_.size()
           << "' 'To' categories were supplied. The number of 'From' and 'To' categories must be the same.";
       }
       boost::split(split_category_labels, category, boost::is_any_of("+"));
@@ -111,15 +111,15 @@ void TagByLength::DoValidate() {
   }
 
   if (split_from_category_labels_.size() != to_category_labels_.size()) {
-    LOG_ERROR_P(PARAM_TO) << " number of values supplied (" << to_category_labels_.size()
+    LOG_ERROR_P(PARAM_TO) << " the number of values supplied (" << to_category_labels_.size()
       << ") does not match the number of from categories provided (" << split_from_category_labels_.size() << ")";
   }
 
   if (to_category_labels_.size() != selectivity_labels_.size())
-    LOG_ERROR_P(PARAM_SELECTIVITIES) << "The number of selectivities must match the number of 'to_categories'. "
+    LOG_ERROR_P(PARAM_SELECTIVITIES) << "the number of selectivities must match the number of 'to_categories'. "
       << to_category_labels_.size() << " 'to_categories' were supplied, but " << selectivity_labels_.size() << " selectivity labels were supplied";
   if (u_max_ <= 0.0 || u_max_ > 1.0)
-    LOG_ERROR_P(PARAM_U_MAX) << " (" << u_max_ << ") must be greater than 0.0 and less than 1.0";
+    LOG_ERROR_P(PARAM_U_MAX) << " (" << u_max_ << ") must be greater than 0.0 and less than or equal to 1.0";
 
   /**
    * Get our first year
@@ -143,16 +143,16 @@ void TagByLength::DoValidate() {
   if (numbers_table_->row_count() != 0) {
     vector<string> columns = numbers_table_->columns();
     if (columns[0] != PARAM_YEAR)
-      LOG_ERROR_P(PARAM_NUMBERS) << " first column label (" << columns[0] << ") provided must be 'year'";
+      LOG_ERROR_P(PARAM_NUMBERS) << "The first column label (" << columns[0] << ") provided must be 'year'";
 
     unsigned number_bins = columns.size();
     if (model_->length_plus()) {
       if ((number_bins - 1) != model_->length_bins().size())
-        LOG_ERROR_P(PARAM_NUMBERS) << "Length bins for this observation are defined in the @model block. A column is required for each length bin '"
+        LOG_ERROR_P(PARAM_NUMBERS) << "The length bins for this observation are defined in the @model block. A column is required for each length bin '"
           << model_->length_bins().size() << "' supplied '"<< number_bins - 1 << "'.";
     } else {
       if ((number_bins - 1) != (model_->length_bins().size() - 1))
-        LOG_ERROR_P(PARAM_NUMBERS) << "Length bins for this observation are defined in the @model block. A column is required for each length bin '"
+        LOG_ERROR_P(PARAM_NUMBERS) << "The length bins for this observation are defined in the @model block. A column is required for each length bin '"
           << model_->length_bins().size() - 1 << "' supplied '"<< number_bins - 1  << "'.";
     }
     n_by_year_ = utilities::Map<Double>::create(years_, 0.0);
@@ -189,11 +189,11 @@ void TagByLength::DoValidate() {
     unsigned number_bins = columns.size();
     if (model_->length_plus()) {
       if ((number_bins - 1) != model_->length_bins().size())
-        LOG_ERROR_P(PARAM_PROPORTIONS) << "Length bins for this observation are defined in the @model block. A column is required for each length bin '"
+        LOG_ERROR_P(PARAM_PROPORTIONS) << "The length bins for this observation are defined in the @model block. A column is required for each length bin '"
           << model_->length_bins().size() << "' supplied '"<< number_bins - 1  << "'.";
     } else {
       if ((number_bins - 1) != (model_->length_bins().size() - 1))
-        LOG_ERROR_P(PARAM_PROPORTIONS) << "Length bins for this observation are defined in the @model block. A column is required for each length bin '"
+        LOG_ERROR_P(PARAM_PROPORTIONS) << "The length bins for this observation are defined in the @model block. A column is required for each length bin '"
           << model_->length_bins().size() - 1 << "' supplied '"<< number_bins - 1  << "'.";
     }
 
@@ -256,9 +256,9 @@ void TagByLength::DoValidate() {
  */
 void TagByLength::DoBuild() {
   LOG_TRACE();
-  LOG_FINEST() << "Initialising from categories";
+  LOG_FINEST() << "Initialising 'from' categories";
   from_partition_.Init(split_from_category_labels_);
-  LOG_FINEST() << "Initialising to categories";
+  LOG_FINEST() << "Initialising 'to' categories";
   to_partition_.Init(to_category_labels_);
 
   if (penalty_label_ != "")
@@ -353,7 +353,6 @@ void TagByLength::DoExecute() {
       LOG_FINE() << "--";
       LOG_FINE() << "Working with categories: from " << (*from_iter)->name_;
       string category_label = (*from_iter)->name_;
-
 
 
       Double proportion_in_this_category_by_length = (*from_iter)->length_data_[i] / total_stock_with_selectivities;

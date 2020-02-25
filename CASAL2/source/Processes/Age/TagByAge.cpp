@@ -95,7 +95,7 @@ void TagByAge::DoValidate() {
     loss_rate_by_category_ = utilities::Map<Double>::create(from_category_labels_, loss_rate_);
 
   } else {
-    LOG_ERROR_P(PARAM_LOSS_RATE) << " number provided (" << loss_rate_.size() << " does not match the number of " << PARAM_FROM << " categories ("
+    LOG_ERROR_P(PARAM_LOSS_RATE) << " the number provided (" << loss_rate_.size() << " does not match the number of " << PARAM_FROM << " categories ("
       << from_category_labels_.size() << ")";
   }
 

@@ -61,8 +61,8 @@ TransitionCategoryByAge::~TransitionCategoryByAge() {
  */
 void TransitionCategoryByAge::DoValidate() {
   if (from_category_labels_.size() != to_category_labels_.size()) {
-    LOG_ERROR_P(PARAM_TO) << " number of values supplied (" << to_category_labels_.size()
-      << ") does not match the number of from categories provided (" << from_category_labels_.size() << ")";
+    LOG_ERROR_P(PARAM_TO) << " the number of 'to' categories (" << to_category_labels_.size()
+      << ") does not match the number of 'from' categories (" << from_category_labels_.size() << ")";
   }
   if (u_max_ <= 0.0 || u_max_ > 1.0)
     LOG_ERROR_P(PARAM_U_MAX) << " (" << u_max_ << ") must be greater than 0.0 and less than or equal to 1.0";
@@ -79,7 +79,7 @@ void TransitionCategoryByAge::DoValidate() {
   vector<string> columns = n_table_->columns();
   if (columns.size() != age_spread + 1)
     LOG_ERROR_P(PARAM_N) << "the number of columns provided (" << columns.size() << ") does not match the model's age spread + 1 ("
-        << (age_spread + 1) << ")";
+      << (age_spread + 1) << ")";
   if (columns[0] != PARAM_YEAR)
     LOG_ERROR_P(PARAM_N) << "the first column label (" << columns[0] << ") provided must be 'year'";
 

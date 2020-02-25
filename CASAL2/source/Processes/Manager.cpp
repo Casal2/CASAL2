@@ -66,6 +66,8 @@ Process* Manager::GetProcess(const string& label) {
       return process;
   }
 
+  LOG_MEDIUM() << "Process label '" << label << "' was not found.";
+
   return nullptr;
 }
 

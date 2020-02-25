@@ -66,7 +66,7 @@ void Increasing::DoValidate() {
 
     if (v_.size() != (high_ - low_ + 1)) {
       LOG_ERROR_P(PARAM_V) << " 'v' has an incorrect number of elements\n"
-          << "Expected: " << (high_ - low_ + 1) << ", parsed " << v_.size();
+        << "Expected: " << (high_ - low_ + 1) << ", parsed " << v_.size();
     }
   }   else if (model_->partition_type() == PartitionType::kLength) {
     vector<unsigned> length_bins = model_->length_bins();
@@ -80,7 +80,7 @@ void Increasing::DoValidate() {
     }
     if (bins != v_.size()) {
       LOG_ERROR_P(PARAM_V) << ": Parameter 'v' has an incorrect number of elements n = low <= length_bins <= high, "
-          << "Expected: " << bins << ", parsed: " << v_.size();
+        << "Expected: " << bins << ", parsed: " << v_.size();
     }
   }
 

@@ -33,10 +33,10 @@ GrowthBasic::GrowthBasic(Model* model)
   partition_structure_ = PartitionType::kLength;
 
   parameters_.Bind<string>(PARAM_CATEGORIES, &category_labels_, "The labels of the categories", "");
-  parameters_.Bind<unsigned>(PARAM_NUMBER_OF_GROWTH_EPISODES, &n_growth_episodes_, "Number of growth episodes per year", "");
-  parameters_.Bind<string>(PARAM_GROWTH_TIME_STEPS, &growth_time_steps_, "Time step in which each growth episode occurs", "");
+  parameters_.Bind<unsigned>(PARAM_NUMBER_OF_GROWTH_EPISODES, &n_growth_episodes_, "The number of growth episodes per year", "");
+  parameters_.Bind<string>(PARAM_GROWTH_TIME_STEPS, &growth_time_steps_, "The time step in which each growth episode occurs", "");
   parameters_.Bind<Double>(PARAM_CV, &cv_ , "C.V. for the growth model", "", Double(0.0))->set_lower_bound(0.0);
-  parameters_.Bind<Double>(PARAM_SIGMA_MIN, &min_sigma_ , "Lower bound on sigma for the growth model", "", Double(0.0))->set_lower_bound(0.0);
+  parameters_.Bind<Double>(PARAM_SIGMA_MIN, &min_sigma_ , "The lower bound on sigma for the growth model", "", Double(0.0))->set_lower_bound(0.0);
 
 }
 
@@ -128,8 +128,7 @@ void GrowthBasic::DoExecute() {
       }
     }
 
-    }
-
+  }
 
 }
 

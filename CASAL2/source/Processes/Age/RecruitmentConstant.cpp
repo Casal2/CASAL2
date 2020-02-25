@@ -31,7 +31,7 @@ RecruitmentConstant::RecruitmentConstant(Model* model) : Process(model) {
   parameters_.Bind<string>(PARAM_CATEGORIES, &category_labels_, "Categories", "");
   parameters_.Bind<Double>(PARAM_PROPORTIONS, &proportions_, "Proportions", "", true);
   parameters_.Bind<unsigned>(PARAM_AGE, &age_, "Age", "");
-  parameters_.Bind<Double>(PARAM_R0, &r0_, "R0", "")->set_lower_bound(0.0, false);
+  parameters_.Bind<Double>(PARAM_R0, &r0_, "R0", "")->set_lower_bound(0.0);
 
   RegisterAsAddressable(PARAM_R0, &r0_);
   RegisterAsAddressable(PARAM_PROPORTIONS, &proportions_categories_);

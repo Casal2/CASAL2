@@ -51,7 +51,7 @@ MortalityPreySuitability::MortalityPreySuitability(Model* model)
   parameters_.Bind<string>(PARAM_PREDATOR_CATEGORIES, &predator_category_labels_, "Predator Categories labels", "");
   parameters_.Bind<Double>(PARAM_CONSUMPTION_RATE, &consumption_rate_, "Predator consumption rate", "")->set_range(0.0, 1.0);
   parameters_.Bind<Double>(PARAM_ELECTIVITIES, &electivities_, "Prey Electivities", "")->set_range(0.0, 1.0);
-  parameters_.Bind<Double>(PARAM_U_MAX, &u_max_, "Umax", "")->set_range(0.0, 1.0);
+  parameters_.Bind<Double>(PARAM_U_MAX, &u_max_, "U max", "")->set_range(0.0, 1.0);
   parameters_.Bind<string>(PARAM_PREY_SELECTIVITIES, &prey_selectivity_labels_, "Selectivities for prey categories", "");
   parameters_.Bind<string>(PARAM_PREDATOR_SELECTIVITIES, &predator_selectivity_labels_, "Selectivities for predator categories", "");
   parameters_.Bind<string>(PARAM_PENALTY, &  penalty_label_, "Label of penalty to be applied", "","");
@@ -72,7 +72,7 @@ void MortalityPreySuitability::DoValidate() {
   // Check length of categories are the same as selectivities
   if (prey_category_labels_.size() != prey_selectivity_labels_.size())
     LOG_ERROR_P(PARAM_PREY_CATEGORIES) << ": There are " << prey_selectivity_labels_.size() << " prey selectivities but there are "
-      << prey_category_labels_.size() << " prey catregories";
+      << prey_category_labels_.size() << " prey categories";
 
   if (predator_category_labels_.size() != predator_selectivity_labels_.size())
     LOG_ERROR_P(PARAM_PREY_CATEGORIES) << ": There are " << predator_selectivity_labels_.size() << " predator selectivities but there are "
@@ -89,7 +89,7 @@ void MortalityPreySuitability::DoValidate() {
  * in the system
  */
 void MortalityPreySuitability::DoBuild() {
-  prey_partition_ = CombinedCategoriesPtr(new niwa::partition::accessors::CombinedCategories(model_, prey_category_labels_));
+  prey_partition_     = CombinedCategoriesPtr(new niwa::partition::accessors::CombinedCategories(model_, prey_category_labels_));
   predator_partition_ = CombinedCategoriesPtr(new niwa::partition::accessors::CombinedCategories(model_, predator_category_labels_));
 
   /**

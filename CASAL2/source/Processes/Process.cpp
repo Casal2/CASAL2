@@ -49,6 +49,7 @@ void Process::Validate() {
     LOG_CODE_ERROR() << "process_type_ == ProcessType::kUnknown for label: " << label();
 
   LOG_FINEST() << "Exit parent validation and into child validation";
+
   DoValidate();
 }
 

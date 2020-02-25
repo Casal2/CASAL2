@@ -167,7 +167,7 @@ void Report::SetUpInternalStates() {
       for (unsigned i = 0; i < 1000; ++i) {
         string trial_name = file_name_ + "." + util::ToInline<unsigned, string>(i);
         if (!DoesFileExist(trial_name)) {
-          LOG_FINE() << "File name has been changed too " << trial_name << " to match incremental_suffix";
+          LOG_FINE() << "File name has been changed to " << trial_name << " to match incremental_suffix";
           file_name_ = trial_name;
           break;
         }
