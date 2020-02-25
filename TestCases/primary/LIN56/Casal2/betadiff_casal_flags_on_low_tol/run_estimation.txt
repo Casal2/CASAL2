@@ -1,11 +1,11 @@
 Casal2
 Call: ../../../../../BuildSystem/bin/linux/release_betadiff/casal2 -e -o params_est.out 
-Date: Tue Feb 18 12:42:10 2020
-Version: 2020-02-17 04:00:06 UTC (rev. 7338e85)
+Date: Tue Feb 25 13:08:21 2020
+Version: 2020-02-24 20:27:19 UTC (rev. 92ce8d6)
 Copyright (c) 2020 - 2020, NIWA (www.niwa.co.nz)
 -- Username: niwauser
 -- Machine: niwa-computer.niwa.local (Linux 3.10.0-1062.12.1.el7.x86_64 x86_64)
--- Process Id: 10300
+-- Process Id: 19824
 
 resizing from 40000 to 44000
 resizing from 44000 to 48400
@@ -2780,7 +2780,6 @@ male 0.000000 25053047.601607 17482413.191527 12386304.023590 7857775.226872 762
 female 0.000000 25054452.287382 17485011.404987 12392512.592213 7869838.547507 7650488.805162 6414014.314391 4675085.443198 4616144.320487 3132996.963628 3262913.448254 2221252.612113 1679336.869010 1229375.433701 1132501.154759 933185.983336 614897.159504 494716.772352 439804.182884 423405.224377 361478.775053 245861.092394 382541.988608
 *end
 
-[WARNING] /home/niwauser/work/projects/CASAL2/dev/casal2-development/CASAL2/source/Reports/Common/EstimateValue.cpp(line: 48): estimated parameter 'selectivity[trwlFSel_m].sigma_r' was within 0.001 of upper bound 200
 *objective_function[obj_fun]
 values {v}
 observation->summerTANbiomass-1992 -1.67919
@@ -3004,6 +3003,7 @@ values {v}
 end {L}
 *end
 
+[WARNING] /home/niwauser/work/projects/CASAL2/dev/casal2-development/CASAL2/source/Reports/Common/EstimateValue.cpp(line: 48): estimated parameter 'selectivity[trwlFSel_m].sigma_r' was within 0.001 of upper bound 200
 *estimate_value[estimated_values]
 values {d}
 process[Recruitment].b0 catchability[summerTANq].q catchability[autumnTANq].q selectivity[M_all].x0 selectivity[M_all].y0 selectivity[M_all].y1 selectivity[M_all].y2 selectivity[summerTANSel_m].a50 selectivity[summerTANSel_m].ato95 selectivity[summerTANSel_m].alpha selectivity[summerTANSel_f].a50 selectivity[summerTANSel_f].ato95 selectivity[autumnTANSel_m].a50 selectivity[autumnTANSel_m].ato95 selectivity[autumnTANSel_m].alpha selectivity[autumnTANSel_f].a50 selectivity[autumnTANSel_f].ato95 selectivity[trwlFSel_m].mu selectivity[trwlFSel_m].sigma_l selectivity[trwlFSel_m].sigma_r selectivity[trwlFSel_m].alpha selectivity[trwlFSel_f].mu selectivity[trwlFSel_f].sigma_l selectivity[trwlFSel_f].sigma_r selectivity[lineHomeFSel_m].a50 selectivity[lineHomeFSel_m].ato95 selectivity[lineHomeFSel_m].alpha selectivity[lineHomeFSel_f].a50 selectivity[lineHomeFSel_f].ato95 selectivity[lineSpawnFSel_m].a50 selectivity[lineSpawnFSel_m].ato95 selectivity[lineSpawnFSel_m].alpha selectivity[lineSpawnFSel_f].a50 selectivity[lineSpawnFSel_f].ato95 process[Recruitment].ycs_values{1972} process[Recruitment].ycs_values{1973} process[Recruitment].ycs_values{1974} process[Recruitment].ycs_values{1975} process[Recruitment].ycs_values{1976} process[Recruitment].ycs_values{1977} process[Recruitment].ycs_values{1978} process[Recruitment].ycs_values{1979} process[Recruitment].ycs_values{1980} process[Recruitment].ycs_values{1981} process[Recruitment].ycs_values{1982} process[Recruitment].ycs_values{1983} process[Recruitment].ycs_values{1984} process[Recruitment].ycs_values{1985} process[Recruitment].ycs_values{1986} process[Recruitment].ycs_values{1987} process[Recruitment].ycs_values{1988} process[Recruitment].ycs_values{1989} process[Recruitment].ycs_values{1990} process[Recruitment].ycs_values{1991} process[Recruitment].ycs_values{1992} process[Recruitment].ycs_values{1993} process[Recruitment].ycs_values{1994} process[Recruitment].ycs_values{1995} process[Recruitment].ycs_values{1996} process[Recruitment].ycs_values{1997} process[Recruitment].ycs_values{1998} process[Recruitment].ycs_values{1999} process[Recruitment].ycs_values{2000} process[Recruitment].ycs_values{2001} process[Recruitment].ycs_values{2002} process[Recruitment].ycs_values{2003} process[Recruitment].ycs_values{2004} process[Recruitment].ycs_values{2005} process[Recruitment].ycs_values{2006} process[Recruitment].ycs_values{2007} process[Recruitment].ycs_values{2008} process[Recruitment].ycs_values{2009} process[Recruitment].ycs_values{2010} process[Recruitment].ycs_values{2011} process[Recruitment].ycs_values{2012} process[Recruitment].ycs_values{2013} process[Recruitment].ycs_values{2014} 
@@ -5009,6 +5009,6 @@ warning_0 {s}
 estimated parameter 'selectivity[trwlFSel_m].sigma_r' was within 0.001 of upper bound 200
 *end
 
-Total CPU time: 0.013 hours.
-Total elapsed time: 24 seconds
+Total CPU time: 0.012 hours.
+Total elapsed time: 22 seconds
 Completed
