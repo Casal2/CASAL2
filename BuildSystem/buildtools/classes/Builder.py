@@ -38,12 +38,12 @@ class MainCode:
 
     # Build the Version.h file
     if Globals.git_path_ != '' and Globals.in_docker_ == '':
-      print('-- Build CASAL2/source/Version.h with Git log information')
+      print('-- Build CASAL2/source/Version.h with git log information')
       p = subprocess.Popen(['git', '--no-pager', 'log', '-n', '1', '--pretty=format:%H%n%h%n%ci' ], stdout=subprocess.PIPE, stderr=subprocess.PIPE)
       out, err = p.communicate()
       lines = out.decode('utf-8').split('\n')
       if len(lines) != 3:
-        return Globals.PrintError('Format printed by GIT did not meet expectations. Expected 3 lines but got ' + str(len(lines)))
+        return Globals.PrintError('Format printed by git did not meet expectations. Expected 3 lines but got ' + str(len(lines)))
 
       time_pieces = lines[2].split(' ')
       temp = ' '.join(time_pieces)

@@ -112,6 +112,7 @@ class Archiver:
     os.system('rm -rf casal2.zip')
     os.system('mkdir Casal2')
     os.makedirs('Casal2/R-Libraries')
+    os.makedirs('Casal2/TestCases')
     os.system('cp ' + binary_path + '/frontend/' + binary_name + ' Casal2/' + binary_name)
     os.system('cp ' + binary_path + '/library_release/' + library_name + ' Casal2/casal2_release' + extension)
     os.system('cp ' + binary_path + '/library_adolc/' + library_name + ' Casal2/casal2_adolc' + extension)
@@ -122,19 +123,23 @@ class Archiver:
     print("-- Manual copied")
     os.system('cp ../Documentation/GettingStartedGuide/GettingStartedGuide.pdf Casal2/GettingStartedGuide.pdf')
     print("-- Starters' guide copied")
-    os.system('cp ../Documentation/ContributorsManual/ContributorsGuide.pdf Casal2/ContributorsGuide.pdf')    
+    os.system('cp ../Documentation/ContributorsManual/ContributorsGuide.pdf Casal2/ContributorsGuide.pdf')
     print("-- Contributors' guide copied")
-    os.system('cp ../Documentation/UserManual/CASAL2.syn Casal2/CASAL2.syn')    
-    os.system('cp ../Documentation/UserManual/TextPad_syntax_highlighter.readme Casal2/TextPad_syntax_highlighter.readme')        
+    os.system('cp ../Documentation/UserManual/CASAL2.syn Casal2/CASAL2.syn')
+    os.system('cp ../Documentation/UserManual/TextPad_syntax_highlighter.readme Casal2/TextPad_syntax_highlighter.readme')
     os.system('cp -r ../Examples Casal2/Examples')
-    print("-- Example code copied"    )
+    print("-- Example models copied"    )
+    os.system('cp -r ../TestCases/[cp]* Casal2/TestCases')
+    print("-- TestCase models copied"    )
     os.system('cp -r ../README.txt Casal2/README.txt')
     ## deal with R libraries
     if Globals.operating_system_ == "windows":
+      os.system('cp ../R-libraries/casal_2.30.zip Casal2/R-Libraries/casal.zip')
       os.system('cp ../R-libraries/casal2_1.0.zip Casal2/R-Libraries/casal2.zip')
-    else: 
+    else:
+      os.system('cp ../R-libraries/casal_2.30.tar.gz Casal2/R-Libraries/casal.tar.gz')
       os.system('cp ../R-libraries/casal2_1.0.tar.gz Casal2/R-Libraries/casal2.tar.gz')
-      
+
     if Globals.operating_system_ == "windows":
       os.system("zip -r Casal2.zip CASAL2/*")
     else:

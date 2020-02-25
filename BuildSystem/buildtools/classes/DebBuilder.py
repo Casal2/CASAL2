@@ -23,17 +23,18 @@ class DebBuilder:
         self.do_build_ += '.bat'
       else:
         self.do_build_ = './' + self.do_build_ + '.sh'
+
       print('--> Building CASAL2 Archive')
       print('-- Re-Entering the build sytem to build a release binary')
       if os.system(self.do_build_ + ' archive') != EX_OK:
         return Globals.PrintError('Failed to build CASAL2 archive')
 
-    print('-- Loading version information from GIT')
+    print('-- Loading version information from git')
     p = subprocess.Popen(['git', '--no-pager', 'log', '-n', '1', '--pretty=format:%H%n%h%n%ci' ], stdout=subprocess.PIPE, stderr=subprocess.PIPE)
     out, err = p.communicate()
     lines = out.decode('utf-8').split('\n')
     if len(lines) != 3:
-      return Globals.PrintError('Format printed by GIT did not meet expectations. Expected 3 lines but got ' + str(len(lines)))
+      return Globals.PrintError('Format printed by git did not meet expectations. Expected 3 lines but got ' + str(len(lines)))
 
     time_pieces = lines[2].split(' ')
     temp = ' '.join(time_pieces)
@@ -45,7 +46,7 @@ class DebBuilder:
     print('-- CASAL2 Revision: ' + lines[1])
     if not os.path.exists('bin/linux/deb'):
       os.mkdir('bin/linux/deb')
-    folder = 'bin/linux/deb/Casal2'   
+    folder = 'bin/linux/deb/Casal2'
     os.system('rm -rf ' + folder)
     os.makedirs(folder + '/usr/local/bin')
     os.makedirs(folder + '/usr/local/lib')
@@ -59,13 +60,16 @@ class DebBuilder:
     os.makedirs(folder + '/usr/local/share/doc/ContributorsGuide')
     os.makedirs(folder + '/usr/local/share/doc/GettingStartedGuide')
     os.makedirs(folder + '/usr/local/share/doc/README')
-    os.makedirs(folder + '/usr/local/share/doc/R-library/')
+    os.makedirs(folder + '/usr/local/share/doc/R-library')
     os.makedirs(folder + '/usr/local/share/doc/Examples')
+    os.makedirs(folder + '/usr/local/share/doc/TestCases')
     os.system('cp ../Documentation/UserManual/CASAL2.pdf ' + folder + '/usr/local/share/doc/casal2/')
     os.system('cp ../Documentation/ContributorsManual/ContributorsGuide.pdf ' + folder + '/usr/local/share/doc/ContributorsGuide/')
-    os.system('cp ../Documentation/GettingStartedGuide/GettingStartedGuide.pdf ' + folder + '/usr/local/share/doc/GettingStartedGuide/') 
-    os.system('cp ../README.txt ' + folder + '/usr/local/share/doc/README/')     
-    os.system('cp -a ../Examples/. ' + folder + '/usr/local/share/doc/Examples/')       
+    os.system('cp ../Documentation/GettingStartedGuide/GettingStartedGuide.pdf ' + folder + '/usr/local/share/doc/GettingStartedGuide/')
+    os.system('cp ../README.txt ' + folder + '/usr/local/share/doc/README/')
+    os.system('cp -a ../Examples/. ' + folder + '/usr/local/share/doc/Examples/')
+    os.system('cp -a ../TestCases/. ' + folder + '/usr/local/share/doc/TestCases/')
+    os.system('cp ../"R-libraries"/casal_2.30.tar.gz ' + folder + '/usr/local/share/doc/R-library/casal_2.30.tar.gz')
     os.system('cp ../"R-libraries"/casal2_1.0.tar.gz ' + folder + '/usr/local/share/doc/R-library/casal2_1.0.tar.gz')
     os.makedirs(folder + '/DEBIAN')
     control_file = open(folder + '/DEBIAN/control', 'w')
