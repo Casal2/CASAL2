@@ -176,7 +176,7 @@ vector<string> BindableVector<T>::current_values() {
     // ADOL-C adds "(a)" when converting directly from Double to string (see adouble.cpp)
     double interm;
     for (T value : (*target_)) {
-      interm = value;
+      interm = AS_VALUE(value);
       result.push_back(utilities::ToInline<double, string>(interm));
     }
   } else {
