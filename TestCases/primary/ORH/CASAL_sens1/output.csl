@@ -1,0 +1,20 @@
+## outputs for the NECR 2004
+
+@print
+fits True
+normalised_resids True
+pearson_resids True
+population_section F
+unused_parameters True
+every_mean_size True
+
+@quantities
+all_free_parameters True
+fishing_pressures True
+nuisance_qs true
+true_YCS true
+B0 true
+R0 true
+SSBs true
+actual_catches T
+
