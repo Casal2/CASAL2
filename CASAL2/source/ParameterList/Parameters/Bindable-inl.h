@@ -154,7 +154,21 @@ void Bindable<T>::set_upper_bound(T upper_bound, bool inclusive) {
 template<typename T>
 vector<string> Bindable<T>::current_values() {
   vector<string> result;
+
+#ifdef USE_AUTODIFF
+  if (std::is_same<T, Double>::value)
+  {
+    // convert from Double to double before converting to string because
+    // ADOL-C adds "(a)" when converting directly from Double to string (see adouble.cpp)
+    double interm = *target_;
+    result.push_back(utilities::ToInline<double, string>(interm));
+  } else {
+    result.push_back(utilities::ToInline<T, string>(*target_));
+  }
+#else
   result.push_back(utilities::ToInline<T, string>(*target_));
+#endif
+
   return result;
 }
 
