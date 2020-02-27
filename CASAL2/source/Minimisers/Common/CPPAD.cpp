@@ -131,9 +131,13 @@ void CPPAD::Execute() {
       options, start_values, lower_bounds, upper_bounds, gl, gu, obj, solution
     );
 
+  Dvector x(solution.x.size());
+
   LOG_MEDIUM() << "x";
-  for(unsigned i = 0; i < solution.x.size(); ++i)
+  for(unsigned i = 0; i < solution.x.size(); ++i) {
+    x[i] = solution.x[i];
     LOG_MEDIUM() << solution.x[i];
+  }
   LOG_MEDIUM() << "g";
   for(unsigned i = 0; i < solution.g.size(); ++i)
     LOG_MEDIUM() << solution.g[i];

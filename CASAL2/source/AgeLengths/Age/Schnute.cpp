@@ -30,10 +30,10 @@ using std::pow;
  *
  * Bind any parameters that are allowed to be loaded from the configuration files.
  * Set bounds on registered parameters
- * Register any parameters that can be an estimated or utilised in other run modes (e.g profiling, yields, projections etc)
+ * Register any parameters that can be an estimated or utilised in other run modes (e.g., profiling, yields, projections, etc.)
  * Set some initial values
  *
- * Note: The constructor is parsed to generate Latex for the documentation.
+ * Note: The constructor is parsed to generate LaTeX for the documentation.
  */
 Schnute::Schnute(Model* model) : AgeLength(model) {
   parameters_.Bind<Double>(PARAM_Y1, &y1_, "The y1 parameter of the Schnute relationship", "");
@@ -73,11 +73,11 @@ void Schnute::DoBuild() {
 }
 
 /**
- * Get the mean length of a single population
+ * Return the mean length for a single population
  *
- * @param year The year we want mean length for
- * @param age The age of the population we want mean length for
- * @return The mean length for 1 member
+ * @param time_step The time step
+ * @param age The age of the population
+ * @return The mean length for one member
  */
 Double Schnute::mean_length(unsigned time_step,  unsigned age) {
   Double temp = 0.0;
@@ -102,11 +102,11 @@ Double Schnute::mean_length(unsigned time_step,  unsigned age) {
 }
 
 /**
- * Get the mean weight of a single population
+ * Return the mean weight for a single population
  *
- * @param year The year we want mean weight for
- * @param age The age of the population we want mean weight for
- * @return mean weight for 1 member
+ * @param time_step The time step
+ * @param age The age of the population
+ * @return mean weight for one member
  */
 Double Schnute::mean_weight(unsigned time_step, unsigned age) {
   unsigned year = model_->current_year();
@@ -117,12 +117,12 @@ Double Schnute::mean_weight(unsigned time_step, unsigned age) {
 }
 
 /**
- * Return the mean length for an time_step and age
+ * Return the mean length for a time_step and age
  *
  * @param year Ignored for this child (was implemented for the Data AgeLength child)
- * @param time_step time_step
- * @param age The age of the population we want mean weight for
- * @return mean weight for 1 member
+ * @param time_step The time step
+ * @param age The age of the population
+ * @return mean weight for one member
  */
 Double Schnute::GetMeanLength(unsigned year, unsigned time_step, unsigned age) {
   return mean_length_[time_step][age];

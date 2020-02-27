@@ -22,19 +22,19 @@ namespace niwa {
  *
  * Bind any parameters that are allowed to be loaded from the configuration files.
  * Set bounds on registered parameters
- * Register any parameters that can be an estimated or utilised in other run modes (e.g profiling, yields, projections etc)
+ * Register any parameters that can be an estimated or utilised in other run modes (e.g., profiling, yields, projections, etc.)
  * Set some initial values
  *
- * Note: The constructor is parsed to generate Latex for the documentation.
+ * Note: The constructor is parsed to generate LaTeX for the documentation.
  */
 AgeingError::AgeingError(Model* model) : model_(model) {
-  parameters_.Bind<string>(PARAM_LABEL, &label_, "Label of the ageing error", "");
-  parameters_.Bind<string>(PARAM_TYPE, &type_, "Type of ageing error", "");
+  parameters_.Bind<string>(PARAM_LABEL, &label_, "The label of the ageing error", "");
+  parameters_.Bind<string>(PARAM_TYPE, &type_, "The type of ageing error", "");
 }
 
 /**
  * Populate any parameters,
- * Validate values are within expected ranges when we cannot use bind<>() overloads
+ * Validate that values are within expected ranges when bind<>() overloads cannot be used
  *
  * Note: all parameters are populated from configuration files
  */

@@ -29,8 +29,8 @@ using std::vector;
  * default constructor
  *
  * @param label The label of the parameter
- * @param target The target variable in the model to bind to this parameter
- * @param description A text description of the parameter for the help system
+ * @param target The target variable to bind to this parameter
+ * @param description A description of the parameter for the help system
  */
 template<typename T>
 Bindable<T>::Bindable(const string& label, T* target, const string& description)
@@ -40,8 +40,8 @@ Bindable<T>::Bindable(const string& label, T* target, const string& description)
 }
 
 /**
- * This method will bind our string values to the target value doing the proper
- * type checking etc.
+ * This method will bind the string values to the target value doing the proper
+ * type checking, etc.
  */
 template<typename T>
 void Bindable<T>::Bind() {
@@ -80,10 +80,10 @@ void Bindable<T>::Bind() {
 }
 
 /**
- * This method sets a list of allowed values that can be defined for this
+ * This method sets a list of allowed values that can be used for this
  * parameter.
  *
- * @param list A list of values that are allowed for this parameter
+ * @param list A list of values that are valid for this parameter
  */
 template<typename T>
 void Bindable<T>::set_allowed_values(std::initializer_list<T> list) {
@@ -96,11 +96,11 @@ void Bindable<T>::set_allowed_values(std::initializer_list<T> list) {
  * acceptable.
  *
  * inclusive means the value being specified as the lower bound is also a valid value.
- * e.g. lower_bound 0 and inclusive means value >= 0 is ok, but value < 0 is not
+ * e.g., lower_bound 0 and inclusive means value >= 0 is ok, but value < 0 is not;
  * a lower bound 0 not inclusive means value > 0 is ok, but value <= 0 is not.
  *
- * @param lower_bound The lowest the value can be (default inclusive)
- * @param upper_bound The highest the value can be (default inclusive)
+ * @param lower_bound The lowest value the object can be (default inclusive)
+ * @param upper_bound The highest value the object can be (default inclusive)
  * @param lower_inclusive Is the lower bound value inclusive (default true)
  * @param upper_inclusie Is the upper bound value inclusive (default true)
  */
@@ -115,14 +115,14 @@ void Bindable<T>::set_range(T lower_bound, T upper_bound, bool lower_inclusive, 
 }
 
 /**
- * This method will set an enforced lower bound only.
+ * This method will set an enforced lower bound and inclusive flag only
  *
  * inclusive means the value being specified as the lower bound is also a valid value.
- * e.g. lower_bound 0 and inclusive means value >= 0 is ok, but value < 0 is not
+ * e.g. lower_bound 0 and inclusive means value >= 0 is ok, but value < 0 is not;
  * a lower bound 0 not inclusive means value > 0 is ok, but value <= 0 is not.
  *
- * @param lower_bound The lower bound to set
- * @param inclusive inclusive or exclusive (default true)
+ * @param lower_bound The lower bound to set for the parameter
+ * @param inclusive Is the bound inclusive or exclusive (default true)
  */
 template<typename T>
 void Bindable<T>::set_lower_bound(T lower_bound, bool inclusive) {
@@ -132,14 +132,14 @@ void Bindable<T>::set_lower_bound(T lower_bound, bool inclusive) {
 }
 
 /**
- * This method sets an enforced upper bound and inclusive flag
+ * This method sets an enforced upper bound and inclusive flag only
  *
  * inclusive means the value being specified as the lower bound is also a valid value.
- * e.g. lower_bound 0 and inclusive means value >= 0 is ok, but value < 0 is not
+ * e.g., lower_bound 0 and inclusive means value >= 0 is ok, but value < 0 is not;
  * a lower bound 0 not inclusive means value > 0 is ok, but value <= 0 is not.
  *
- * @param upper_bound the Upper bound to set for the parameter
- * @param inclusive inclusive or exclusive (default true)
+ * @param upper_bound The upper bound to set for the parameter
+ * @param inclusive Is the bound inclusive or exclusive (default true)
  */
 template<typename T>
 void Bindable<T>::set_upper_bound(T upper_bound, bool inclusive) {

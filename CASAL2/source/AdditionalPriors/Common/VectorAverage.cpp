@@ -29,12 +29,12 @@ VectorAverage::VectorAverage(Model* model) : AdditionalPrior(model) {
 }
 
 /**
- * Validate our parameters
+ * Validate the parameters
  */
 void VectorAverage::DoValidate() { }
 
 /**
- * Build relationships between this object and other objects
+ * Build the relationships between this object and other objects
  */
 void VectorAverage::DoBuild() {
   string error = "";

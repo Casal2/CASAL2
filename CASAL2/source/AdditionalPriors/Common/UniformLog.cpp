@@ -24,10 +24,10 @@ namespace additionalpriors {
  *
  * Bind any parameters that are allowed to be loaded from the configuration files.
  * Set bounds on registered parameters
- * Register any parameters that can be an estimated or utilised in other run modes (e.g profiling, yields, projections etc)
+ * Register any parameters that can be an estimated or utilised in other run modes (e.g., profiling, yields, projections, etc.)
  * Set some initial values
  *
- * Note: The constructor is parsed to generate Latex for the documentation.
+ * Note: The constructor is parsed to generate LaTeX for the documentation.
  */
 UniformLog::UniformLog(Model* model) : AdditionalPrior(model) {
 
@@ -35,7 +35,7 @@ UniformLog::UniformLog(Model* model) : AdditionalPrior(model) {
 
 /**
  * Populate any parameters,
- * Validate values are within expected ranges when we cannot use bind<>() overloads
+ * Validate that values are within expected ranges when bind<>() overloads cannot be used
  *
  * Note: all parameters are populated from configuration files
  */
@@ -43,6 +43,9 @@ void UniformLog::DoValidate() {
 
 }
 
+/**
+ * Build the object
+ */
 void UniformLog::DoBuild() {
   string error = "";
   if (!model_->objects().VerfiyAddressableForUse(parameter_, addressable::kLookup, error)) {
@@ -63,11 +66,12 @@ void UniformLog::DoBuild() {
         << "' has a type that is not supported for uniform_log additional priors";
       break;
   }
-
 }
 
 /**
- * Return the score for
+ * Get the score
+ *
+ * @return score
  */
 Double UniformLog::GetScore() {
   Double value = (*addressable_);

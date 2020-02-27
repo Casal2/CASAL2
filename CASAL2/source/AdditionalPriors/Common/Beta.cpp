@@ -25,10 +25,10 @@ namespace additionalpriors {
  *
  * Bind any parameters that are allowed to be loaded from the configuration files.
  * Set bounds on registered parameters
- * Register any parameters that can be an estimated or utilised in other run modes (e.g profiling, yields, projections etc)
+ * Register any parameters that can be an estimated or utilised in other run modes (e.g., profiling, yields, projections, etc.)
  * Set some initial values
  *
- * Note: The constructor is parsed to generate Latex for the documentation.
+ * Note: The constructor is parsed to generate LaTeX for the documentation.
  */
 Beta::Beta(Model* model) : AdditionalPrior(model) {
   parameters_.Bind<Double>(PARAM_MU, &mu_, "Beta distribution mean (mu) parameter", "");
@@ -39,7 +39,7 @@ Beta::Beta(Model* model) : AdditionalPrior(model) {
 
 /**
  * Populate any parameters,
- * Validate values are within expected ranges when we cannot use bind<>() overloads
+ * Validate that values are within expected ranges when bind<>() overloads cannot be used
  *
  * Note: all parameters are populated from configuration files
  */
@@ -52,11 +52,15 @@ void Beta::DoValidate() {
       << b_ << " - " << mu_ << ") / (" << sigma_ << " * " << sigma_ << ") - 1.0 == " << max_sigma << " <= 0.0";
 }
 
+/**
+ * Build the parameters
+ */
 void Beta::DoBuild() {
   string error = "";
   if (!model_->objects().VerfiyAddressableForUse(parameter_, addressable::kLookup, error)) {
     LOG_FATAL_P(PARAM_PARAMETER) << "could not be verified for use in additional_prior.vector_average. Error: " << error;
   }
+
   addressable::Type addressable_type = model_->objects().GetAddressableType(parameter_);
   LOG_FINEST() << "type = " << addressable_type;
   switch(addressable_type) {
@@ -71,11 +75,12 @@ void Beta::DoBuild() {
         << parameter_ << "' has a type that is not supported for Beta additional priors";
       break;
   }
-
 }
 
 /**
- * Return the score for
+ * Get the score
+ *
+ * @return the score
  */
 Double Beta::GetScore() {
   Double value = (*addressable_);
@@ -83,6 +88,7 @@ Double Beta::GetScore() {
     LOG_FATAL_P(PARAM_B) << "parameter b cannot be less than the target parameter ("
       << value << "), and parameter a cannot be greater than the target parameter";
   }
+
   Double score_ = 0.0;
   v_ = (mu_ - a_) / (b_ - a_);
   t_ = (((mu_ - a_) * (b_ - mu_)) / (sigma_ * sigma_)) - 1.0;
@@ -90,6 +96,7 @@ Double Beta::GetScore() {
   n_ = t_ * (1.0 - v_);
   score_ = ((1.0 - m_) * log(value - a_)) + ((1.0 - n_) * log(b_ - value));
   LOG_FINEST() << "score = " << score_ << " value = " << value << " t = " << t_ << " m_ = " << m_;
+
   return score_;
 }
 

@@ -41,6 +41,7 @@ public:
 
 protected:
   //methods
+
 private:
   // methods
   void                        FillExternalGaps();

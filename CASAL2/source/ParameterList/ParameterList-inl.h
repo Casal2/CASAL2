@@ -30,7 +30,13 @@ using niwa::parameters::BindableVector;
 namespace niwa {
 
 /**
+ * Bind the parameter label and the parameter
  *
+ * @param label The label for the parameter
+ * @param target The parameter
+ * @param description The description of the parameter
+ * @param values The string of parameter value(s)
+ * @return the parameter
  */
 template<typename T>
 Bindable<T>* ParameterList::Bind(const string& label, T* target, const string& description, const string& values) {
@@ -43,7 +49,14 @@ Bindable<T>* ParameterList::Bind(const string& label, T* target, const string& d
 }
 
 /**
+ * Bind the parameter label and the parameter
  *
+ * @param label The label for the parameter
+ * @param target The parameter
+ * @param description The description of the parameter
+ * @param values The string of parameter value(s)
+ * @param default_value The default value of the parameter
+ * @return the parameter
  */
 template<typename T>
 Bindable<T>* ParameterList::Bind(const string& label, T* target, const string& description, const string& values, T default_value) {
@@ -58,7 +71,14 @@ Bindable<T>* ParameterList::Bind(const string& label, T* target, const string& d
 }
 
 /**
+ * Bind the parameter label and the parameter
  *
+ * @param label The label for the parameter
+ * @param target The vector of parameters
+ * @param description The description of the parameter
+ * @param values The string of parameter value(s)
+ * @param optional Flag to indicate that the parameter is optional
+ * @return the parameter
  */
 template<typename T>
 BindableVector<T>* ParameterList::Bind(const string& label, vector<T>* target, const string& description, const string& values, bool optional) {

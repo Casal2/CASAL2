@@ -36,7 +36,7 @@ Process::Process(Model* model) : Report(model) {
 }
 
 /**
- * Build our relationships between this object and other objects
+ * Build the relationships between this object and other objects
  */
 void Process::DoBuild() {
   process_ = model_->managers().process()->GetProcess(process_label_);
@@ -85,7 +85,7 @@ void Process::DoExecuteTabular() {
 }
 
 /**
- *  End report signature
+ *  End tabular report signature
  */
 void Process::DoFinaliseTabular() {
   ready_for_writing_ = true;

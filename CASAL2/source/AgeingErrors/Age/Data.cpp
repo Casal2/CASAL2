@@ -26,7 +26,7 @@ namespace ageingerrors {
  * Register any parameters that can be an estimated or utilised in other run modes (e.g profiling, yields, projections etc)
  * Set some initial values
  *
- * Note: The constructor is parsed to generate Latex for the documentation.
+ * Note: The constructor is parsed to generate LaTeX for the documentation.
  */
 Data::Data(Model* model) : AgeingError(model) {
   data_table_ = new parameters::Table(PARAM_TABLE);
@@ -42,7 +42,7 @@ Data::~Data() {
 }
 
 /**
- *
+ * Build the misspecification matrix
  */
 void Data::DoBuild() {
   auto data = data_table_->data();
@@ -50,6 +50,7 @@ void Data::DoBuild() {
     LOG_ERROR_P(PARAM_TABLE) << "The number of rows provided " << data.size() << " does not match the age spread " << age_spread_;
     return;
   }
+
   if (data[0].size() != age_spread_) {
     LOG_ERROR_P(PARAM_TABLE) << "The number of columns provided " << data.size() << " does not match the age spread " << age_spread_;
     return;
