@@ -24,10 +24,10 @@ namespace ageweights {
  *
  * Bind any parameters that are allowed to be loaded from the configuration files.
  * Set bounds on registered parameters
- * Register any parameters that can be an estimated or utilised in other run modes (e.g profiling, yields, projections etc)
+ * Register any parameters that can be an estimated or utilised in other run modes (e.g., profiling, yields, projections, etc.)
  * Set some initial values
  *
- * Note: The constructor is parsed to generate Latex for the documentation.
+ * Note: The constructor is parsed to generate LaTeX for the documentation.
  */
 Data::Data(Model* model) : AgeWeight(model) {
   data_table_ = new parameters::Table(PARAM_DATA);
@@ -72,7 +72,7 @@ void Data::DoBuild() {
 
 
   if (!data_table_)
-    LOG_FATAL_P(PARAM_DATA) << "could not find table";
+    LOG_FATAL_P(PARAM_DATA) << "could not find data table";
   if (model_->run_mode() == RunMode::kProjection)
     final_year_ = model_->projection_final_year();
   else
@@ -102,7 +102,8 @@ void Data::DoBuild() {
       LOG_CODE_ERROR() << "row.size() != columns.size()";
     number_of_years += 1;
     if ((columns.size() - 1) != model_->age_spread())
-      LOG_FATAL_P(PARAM_DATA) << "An age must be specified for every age in the model. " << columns.size() - 1 << " ages were specified, and there are " << model_->age_spread() << " ages";
+      LOG_FATAL_P(PARAM_DATA) << "An age must be specified for every age in the model. " << columns.size() - 1
+        << " ages were specified, and there are " << model_->age_spread() << " ages";
 
     unsigned year = utilities::ToInline<string, unsigned>(row[0]);
     // Check year is valid
@@ -154,11 +155,11 @@ void Data::DoBuild() {
 }
 
 /**
- * Get the mean weight of a single population
+ * Get the mean weight of a single population by year and age (group)
  *
- * @param year The year we want mean weight for
- * @param age The age of the population we want mean weight for
- * @return mean weight for 1 member cvs_[i]
+ * @param year The year
+ * @param age The age (group)
+ * @return mean weight
  */
 Double Data::mean_weight_at_age_by_year(unsigned year, unsigned age) {
   if (model_->state() == State::kInitialise)

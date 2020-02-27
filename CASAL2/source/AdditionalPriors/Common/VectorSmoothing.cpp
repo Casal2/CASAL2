@@ -32,13 +32,13 @@ VectorSmoothing::VectorSmoothing(Model* model) : AdditionalPrior(model) {
 }
 
 /**
- * Validate our parameters
+ * Validate the parameters
  */
 void VectorSmoothing::DoValidate() {
 }
 
 /**
- * Build our parameters
+ * Build the parameters
  */
 void VectorSmoothing::DoBuild() {
   string error = "";
@@ -100,6 +100,7 @@ Double VectorSmoothing::GetScore() {
     for (Double& value : values)
       value = log(value);
   }
+
   for (unsigned i = 1; i <= r_; ++i) {
     for(unsigned j = (lower_ - 1); j <= ((upper_ - 1) - i); ++j) {
       values[j] = values[j + 1] - values[j];
@@ -109,6 +110,7 @@ Double VectorSmoothing::GetScore() {
 
   for (unsigned k = (lower_ - 1); k <= (upper_ - 1); ++k)
     score += values[k] * values[k];
+
   return score * multiplier_;
 }
 

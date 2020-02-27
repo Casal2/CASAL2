@@ -24,10 +24,10 @@ namespace asserts {
  *
  * Bind any parameters that are allowed to be loaded from the configuration files.
  * Set bounds on registered parameters
- * Register any parameters that can be an estimated or utilised in other run modes (e.g profiling, yields, projections etc)
+ * Register any parameters that can be an estimated or utilised in other run modes (e.g., profiling, yields, projections, etc.)
  * Set some initial values
  *
- * Note: The constructor is parsed to generate Latex for the documentation.
+ * Note: The constructor is parsed to generate LaTeX for the documentation.
  */
 Addressable::Addressable(Model* model) : Assert(model) {
   parameters_.Bind<string>(PARAM_PARAMETER, &parameter_, "Addressable to check", "", "");
@@ -38,7 +38,7 @@ Addressable::Addressable(Model* model) : Assert(model) {
 
 /**
  * Populate any parameters,
- * Validate values are within expected ranges when we cannot use bind<>() overloads
+ * Validate values are within expected ranges when bind<>() overloads cannot be used
  *
  * Note: all parameters are populated from configuration files
  */
@@ -52,7 +52,7 @@ void Addressable::DoValidate() {
   vector<unsigned> model_years = model_->years();
   for (unsigned year : years_) {
     if (std::find(model_years.begin(), model_years.end(), year) == model_years.end())
-      LOG_ERROR_P(PARAM_YEARS) << " (" << year << ") is not a valid year in the model.";
+      LOG_ERROR_P(PARAM_YEARS) << "year (" << year << ") is not a valid year in the model.";
   }
 
   for (unsigned i = 0; i < years_.size(); ++i)

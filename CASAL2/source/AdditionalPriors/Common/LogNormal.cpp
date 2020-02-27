@@ -24,10 +24,10 @@ namespace additionalpriors {
  *
  * Bind any parameters that are allowed to be loaded from the configuration files.
  * Set bounds on registered parameters
- * Register any parameters that can be an estimated or utilised in other run modes (e.g profiling, yields, projections etc)
+ * Register any parameters that can be an estimated or utilised in other run modes (e.g., profiling, yields, projections, etc.)
  * Set some initial values
  *
- * Note: The constructor is parsed to generate Latex for the documentation.
+ * Note: The constructor is parsed to generate LaTeX for the documentation.
  */
 LogNormal::LogNormal(Model* model) : AdditionalPrior(model) {
   parameters_.Bind<Double>(PARAM_MU, &mu_, "The lognormal prior mean (mu) parameter", "")->set_lower_bound(0.0, false);
@@ -36,7 +36,7 @@ LogNormal::LogNormal(Model* model) : AdditionalPrior(model) {
 
 /**
  * Populate any parameters,
- * Validate values are within expected ranges when we cannot use bind<>() overloads
+ * Validate that values are within expected ranges when bind<>() overloads cannot be used
  *
  * Note: all parameters are populated from configuration files
  */
@@ -44,6 +44,9 @@ void LogNormal::DoValidate() {
 
 }
 
+/**
+ * Build the object
+ */
 void LogNormal::DoBuild() {
   string error = "";
   if (!model_->objects().VerfiyAddressableForUse(parameter_, addressable::kLookup, error)) {
@@ -76,7 +79,9 @@ void LogNormal::DoBuild() {
 }
 
 /**
- * Return the score for
+ * Get the score
+ *
+ * @return the score
  */
 Double LogNormal::GetScore() {
   score_ = 0.0;

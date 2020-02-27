@@ -26,10 +26,10 @@ namespace agelengths {
  *
  * Bind any parameters that are allowed to be loaded from the configuration files.
  * Set bounds on registered parameters
- * Register any parameters that can be an estimated or utilised in other run modes (e.g profiling, yields, projections etc)
+ * Register any parameters that can be an estimated or utilised in other run modes (e.g., profiling, yields, projections, etc.)
  * Set some initial values
  *
- * Note: The constructor is parsed to generate Latex for the documentation.
+ * Note: The constructor is parsed to generate LaTeX for the documentation.
  */
 Data::Data(Model* model) : AgeLength(model) {
   data_table_ = new parameters::Table(PARAM_DATA);
@@ -49,6 +49,7 @@ Data::Data(Model* model) : AgeLength(model) {
 Data::~Data() {
   delete data_table_;
 }
+
 /**
  * Build any objects that will need to be utilised by this object.
  * Obtain smart_pointers to any objects that will be used by this object.
@@ -84,6 +85,7 @@ void Data::DoBuild() {
          ageing_index_ = time_step_index;
        }
     }
+
     // Find unique time-steps where the sizes need to be updated
     if (time_step_index == 0)
       steps_to_figure_.push_back(time_step_index);
@@ -139,7 +141,6 @@ void Data::DoBuild() {
     }
     // Make adjustment for data_by_age_time_step_ for different time steps.
 
-
   /**
    * Check if we're using a mean method and build a vector of means now
    * before we modify the data_by_year object by filling the external
@@ -153,19 +154,21 @@ void Data::DoBuild() {
       means_.push_back(total / data_by_year_.size());
     }
   }
+
   // Do our timestep interpolation
   InterpolateTimeStepsForInitialConditions();
+
   // Fill our gaps
   FillExternalGaps();
   FillInternalGaps();
+
   // Do our timestep interpolation
   InterpolateTimeStepsForAllYears();
-
 
 }
 
 /**
- * Interpolate across time steps, for the object that is used in initialisation.
+ * Interpolate across time steps for the object that is used in initialisation.
  */
 void Data::InterpolateTimeStepsForInitialConditions() {
   LOG_TRACE();
@@ -214,7 +217,7 @@ void Data::InterpolateTimeStepsForInitialConditions() {
 }
 
 /**
- * Interpolate across time steps, for the remaining years
+ * Interpolate across time steps for the remaining years
  */
 void Data::InterpolateTimeStepsForAllYears() {
   LOG_TRACE();
@@ -283,7 +286,7 @@ void Data::InterpolateTimeStepsForAllYears() {
 }
 
 /**
- * Fill our external gaps in the data
+ * Fill the external gaps in the data
  */
 void Data::FillExternalGaps() {
   vector<unsigned> model_years = model_->years();
@@ -306,7 +309,6 @@ void Data::FillExternalGaps() {
       else
         break;
     }
-
 
     // loop over the ages
     for (unsigned year : missing_years)
@@ -344,7 +346,7 @@ void Data::FillExternalGaps() {
 
 /**
  * Fill the internal missing years with one of the three
- * methods (mean, nearest_neighbour or interpolate)
+ * methods (mean, nearest_neighbour, or interpolate)
  */
 void Data::FillInternalGaps() {
   vector<unsigned> model_years = model_->years();
@@ -413,11 +415,11 @@ void Data::FillInternalGaps() {
 
 
 /**
- * Get the mean length of a single population
+ * Return the mean length of a single population
  *
- * @param time_step we want mean weight for
- * @param age The age of the population we want mean weight for
- * @return mean length for 1 member cvs_
+ * @param time_step The time step
+ * @param age The age of the population
+ * @return mean length for one member
  */
 Double Data::mean_length(unsigned time_step, unsigned age) {
   if (model_->state() == State::kInitialise)
@@ -427,11 +429,11 @@ Double Data::mean_length(unsigned time_step, unsigned age) {
 }
 
 /**
- * Get the mean weight of a single population
+ * Return the mean weight of a single population
  *
- * @param year The year we want mean weight for
- * @param age The age of the population we want mean weight for
- * @return mean weight for 1 member cvs_[i]
+ * @param time_step The time step
+ * @param age The age of the population
+ * @return mean weight for one member
  */
 Double Data::mean_weight(unsigned time_step, unsigned age) {
   unsigned year = model_->current_year();
@@ -440,19 +442,18 @@ Double Data::mean_weight(unsigned time_step, unsigned age) {
 }
 
 /**
- * Return the mean length for an time_step and age
+ * Return the mean length for a time_step and age
  *
  * @param year Ignored for this child (was implemented for the Data AgeLength child)
- * @param time_step time_step
- * @param age The age of the population we want mean weight for
- * @return mean weight for 1 member
+ * @param time_step The time step
+ * @param age The age of the population
+ * @return mean weight for one member
  */
 Double Data::GetMeanLength(unsigned year, unsigned time_step, unsigned age) {
   if (model_->state() == State::kInitialise)
     return data_by_age_time_step_[time_step][age];
 
   return mean_length_by_year_[year][age][time_step];
-
 }
 
 } /* namespace agelengths */

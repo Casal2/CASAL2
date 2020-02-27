@@ -9,7 +9,8 @@
  *
  * @section DESCRIPTION
  *
- * This class along with the the uniformLog class were specifically implemented so that Casal2 could emulate the nuisance Q functionality that CASAL does.
+ * This class along with the the uniformLog class were specifically implemented so that
+ * Casal2 could emulate the nuisance Q functionality that CASAL does.
  */
 #ifndef ADDITIONALPRIORS_LOGNORMAL_H_
 #define ADDITIONALPRIORS_LOGNORMAL_H_

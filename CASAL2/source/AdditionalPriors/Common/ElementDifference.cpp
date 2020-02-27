@@ -29,14 +29,14 @@ ElementDifference::ElementDifference(Model* model) : AdditionalPrior(model) {
 }
 
 /**
- * Validate our parameters
+ * Validate the parameters
  */
 void ElementDifference::DoValidate() {
 
 }
 
 /**
- * Build our parameters
+ * Build the parameters
  */
 void ElementDifference::DoBuild() {
   LOG_TRACE();
@@ -73,6 +73,7 @@ void ElementDifference::DoBuild() {
         << "' has a type that is not supported for vector smoothing additional priors";
       break;
   }
+
   // Get second parameter estimates
   addressable_type = model_->objects().GetAddressableType(second_parameter_);
   LOG_FINEST() << "addressable type = " << addressable_type;
@@ -182,6 +183,7 @@ Double ElementDifference::GetScore() {
   LOG_FINEST() << "size of first vector = " << values.size() << " size of second vector = " << second_values.size();
   for(unsigned i = 0; i < values.size(); ++i)
     score += pow(values[i] - second_values[i], 2);
+
   return score * multiplier_;
 }
 

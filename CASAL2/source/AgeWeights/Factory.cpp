@@ -24,12 +24,12 @@ namespace niwa {
 namespace ageweights {
 
 /**
- * Create the instance of our object as defined by the two parameters
+ * Create the instance of the object as defined by the two parameters
  * object_type and sub_type.
  *
- * @param object_type The type of object to create (e.g age_size, process)
- * @param sub_type The child type of the object to create (e.g ageing, schnute)
- * @return shared_ptr to the object we've created
+ * @param object_type The type of object to create (e.g., age_size, process)
+ * @param sub_type The child type of the object to create (e.g., ageing, schnute)
+ * @return shared_ptr to the object created
  */
 AgeWeight* Factory::Create(Model* model, const string& object_type, const string& sub_type) {
   AgeWeight* result = nullptr;
@@ -40,11 +40,11 @@ AgeWeight* Factory::Create(Model* model, const string& object_type, const string
     else if (sub_type == PARAM_DATA)
       result = new None(model);
 
-
     if (result)
       model->managers().age_weight()->AddObject(result);
 
   }
+
   return result;
 }
 

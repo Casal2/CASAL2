@@ -16,7 +16,9 @@
 namespace niwa {
 namespace ageingerrors {
 
-// Constructor
+/**
+ * Default constructor
+ */
 OffByOne::OffByOne(Model* model) : AgeingError(model) {
   parameters_.Bind<Double>(PARAM_P1, &p1_, "The proportion misclassified as one year younger, e.g., the proportion of age 3 individuals that were misclassified as age 2", "")->set_range(0.0, 1.0);
   parameters_.Bind<Double>(PARAM_P2, &p2_, "The proportion misclassified as one year older, e.g., the proportion of age 3 individuals that were misclassified as age 4", "")->set_range(0.0, 1.0);
@@ -28,7 +30,7 @@ OffByOne::OffByOne(Model* model) : AgeingError(model) {
 
 /**
  * Populate any parameters,
- * Validate values are within expected ranges when we cannot use bind<>() overloards
+ * Validate that values are within expected ranges when bind<>() overloads cannot be used
  *
  * Note: all parameters are populated from configuration files
  */
@@ -37,12 +39,15 @@ void OffByOne::DoValidate() {
     LOG_ERROR_P(PARAM_K)<< "value (" << k_ << ") cannot be greater than the model's max age (" << max_age_ << ")";
 }
 
+/**
+ * Reset this object for use
+ */
 void OffByOne::DoBuild() {
   DoReset();
 }
 
 /**
- * Reset our mis_matrix to ensure it has the latest
+ * Reset the mis_matrix to ensure that it has the latest
  * changes from any addressable modifications
  */
 void OffByOne::DoReset() {
@@ -70,9 +75,7 @@ void OffByOne::DoReset() {
       mis_matrix_[j][j] = 1.0;
     }
   }
-
 }
-
 
 } /* namespace ageingerrors */
 } /* namespace niwa */

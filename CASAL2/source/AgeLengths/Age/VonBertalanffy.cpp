@@ -32,10 +32,10 @@ namespace agelengths {
  *
  * Bind any parameters that are allowed to be loaded from the configuration files.
  * Set bounds on registered parameters
- * Register any parameters that can be an estimated or utilised in other run modes (e.g profiling, yields, projections etc)
+ * Register any parameters that can be an estimated or utilised in other run modes (e.g., profiling, yields, projections, etc.)
  * Set some initial values
  *
- * Note: The constructor is parsed to generate Latex for the documentation.
+ * Note: The constructor is parsed to generate LaTeX for the documentation.
  */
 VonBertalanffy::VonBertalanffy(Model* model) : AgeLength(model) {
   parameters_.Bind<Double>(PARAM_LINF, &linf_, "Define the $L_{infinity}$ parameter of the von Bertalanffy relationship", "")->set_lower_bound(0.0);
@@ -56,18 +56,18 @@ VonBertalanffy::VonBertalanffy(Model* model) : AgeLength(model) {
 void VonBertalanffy::DoBuild() {
   length_weight_ = model_->managers().length_weight()->GetLengthWeight(length_weight_label_);
   if (!length_weight_)
-    LOG_ERROR_P(PARAM_LENGTH_WEIGHT) << "Length-weight label " << length_weight_label_ << " was not found.";
+    LOG_ERROR_P(PARAM_LENGTH_WEIGHT) << "Length-weight label '" << length_weight_label_ << "' was not found.";
 
   // Build up our mean_length_ container.
   DoRebuildCache();
 }
 
 /**
- * Get the mean length of a single population
+ * Return the mean length of a single population
  *
- * @param year The year we want mean length for
- * @param age The age of the population we want mean length for
- * @return The mean length for 1 member
+ * @param time_step The time step
+ * @param age The age of the population
+ * @return The mean length for one member
  */
 Double VonBertalanffy::mean_length(unsigned time_step, unsigned age) {
   double proportion = time_step_proportions_[time_step];
@@ -82,11 +82,11 @@ Double VonBertalanffy::mean_length(unsigned time_step, unsigned age) {
 }
 
 /**
- * Get the mean weight of a single population
+ * Return the mean weight of a single population
  *
- * @param year The year we want mean weight for
- * @param age The age of the population we want mean weight for
- * @return mean weight for 1 member
+ * @param time_step The time step
+ * @param age The age of the population
+ * @return mean weight for one member
  */
 Double VonBertalanffy::mean_weight(unsigned time_step, unsigned age) {
   unsigned year = model_->current_year();
@@ -97,7 +97,7 @@ Double VonBertalanffy::mean_weight(unsigned time_step, unsigned age) {
 }
 
 /**
- * If time Varied we need to rebuild the cache
+ * If time-varying rebuild the cache
  */
 void VonBertalanffy::DoReset() {
 
@@ -107,9 +107,9 @@ void VonBertalanffy::DoReset() {
  * Return the mean length for an time_step and age
  *
  * @param year Ignored for this child (was implemented for the Data AgeLength child)
- * @param time_step time_step
- * @param age The age of the population we want mean weight for
- * @return mean weight for 1 member
+ * @param time_step The time step
+ * @param age The age of the population
+ * @return mean weight for one member
  */
 Double VonBertalanffy::GetMeanLength(unsigned year, unsigned time_step, unsigned age) {
   return mean_length_[time_step][age];
