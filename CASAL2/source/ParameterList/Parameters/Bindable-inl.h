@@ -160,7 +160,7 @@ vector<string> Bindable<T>::current_values() {
   {
     // convert from Double to double before converting to string because
     // ADOL-C adds "(a)" when converting directly from Double to string (see adouble.cpp)
-    double interm = AS_VALUE(*target_);
+    double interm = utilities::ToInline<T, double>(*target_);
     result.push_back(utilities::ToInline<double, string>(interm));
   } else {
     result.push_back(utilities::ToInline<T, string>(*target_));
