@@ -39,7 +39,7 @@ BindableVector<T>::BindableVector(const string& label, vector<T>* target, const 
 
 /**
  * This method will bind our string values to the target value doing the proper
- * type checking etc.
+ * type checking etc.30pm
  */
 template<typename T>
 void BindableVector<T>::Bind() {
@@ -170,7 +170,7 @@ vector<string> BindableVector<T>::current_values() {
   vector<string> result;
 
 #ifdef USE_AUTODIFF
-  if (std::is_same<T, Double>::value)
+  if (std::is_same<T, niwa::utilities::Double>::value)
   {
     // convert from Double to double before converting to string because
     // ADOL-C adds "(a)" when converting directly from Double to string (see adouble.cpp)
