@@ -155,19 +155,7 @@ template<typename T>
 vector<string> Bindable<T>::current_values() {
   vector<string> result;
 
-#ifdef USE_AUTODIFF
-  if (std::is_same<T, niwa::utilities::Double>::value)
-  {
-    // convert from Double to double before converting to string because
-    // ADOL-C adds "(a)" when converting directly from Double to string (see adouble.cpp)
-    double interm = utilities::ToInline<T, double>(*target_);
-    result.push_back(utilities::ToInline<double, string>(interm));
-  } else {
-    result.push_back(utilities::ToInline<T, string>(*target_));
-  }
-#else
   result.push_back(utilities::ToInline<T, string>(*target_));
-#endif
 
   return result;
 }
