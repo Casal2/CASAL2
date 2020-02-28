@@ -4,13 +4,13 @@
 \defSub{label} {Label for the additional prior}
 \defSub{type} {Type of additional prior}
 \defComLab{ageing\_error}{Define an object of type \emph{ageing\_error}}\par\par
-\defSub{label} {Label of the ageing error}
-\defSub{type} {Type of ageing error}
+\defSub{label} {The label of the ageing error}
+\defSub{type} {The type of ageing error}
 \par\textbf{\commandlabsubarg{ageing\_\_error}{type}{data}}\par
 \par\textbf{\commandlabsubarg{ageing\_\_error}{type}{none}}\par
 \par\textbf{\commandlabsubarg{ageing\_\_error}{type}{normal}}\par
 \defSub{cv} {CV of the misclassification matrix}
-\defSub{k} {k defines the minimum age of individuals which can be misclassified, e.g., individuals of age less than k have no ageing error}
+\defSub{k} {k defines the minimum age of individuals which can be misclassified, i.e., individuals of age less than k have no ageing error}
 \par\textbf{\commandlabsubarg{ageing\_\_error}{type}{off\_by\_one}}\par
 \defSub{p1} {The proportion misclassified as one year younger, e.g., the proportion of age 3 individuals that were misclassified as age 2}
 \defSub{p2} {The proportion misclassified as one year older, e.g., the proportion of age 3 individuals that were misclassified as age 4}
@@ -281,10 +281,10 @@
 \defSub{categories} {The labels of the categories}
 \par\textbf{\commandlabsubarg{process}{type}{growth\_basic}}\par
 \defSub{categories} {The labels of the categories}
-\defSub{number\_of\_growth\_episodes} {Number of growth episodes per year}
-\defSub{growth\_time\_steps} {Time step in which each growth episode occurs}
+\defSub{number\_of\_growth\_episodes} {The number of growth episodes per year}
+\defSub{growth\_time\_steps} {The time step in which each growth episode occurs}
 \defSub{cv} {C.V. for the growth model}
-\defSub{sigma\_min} {Lower bound on sigma for the growth model}
+\defSub{sigma\_min} {The lower bound on sigma for the growth model}
 \par\textbf{\commandlabsubarg{process}{type}{maturation}}\par
 \defSub{from} {List of categories to mature from}
 \defSub{to} {List of categories to mature to}
@@ -299,15 +299,15 @@
 \defSub{categories} {Categories}
 \defSub{years} {Years in which to apply the mortality process}
 \defSub{catches} {The number of removals ,catches, to apply for each year}
-\defSub{u\_max} {Maximum exploitation rate ,$Umax$,}
-\defSub{selectivities} {List of selectivities}
+\defSub{u\_max} {The maximum exploitation rate ,$Umax$,}
+\defSub{selectivities} {The list of selectivities}
 \defSub{penalty} {The label of the penalty to apply if the total number of removals cannot be taken}
 \par\textbf{\commandlabsubarg{process}{type}{mortality\_event\_biomass}}\par
 \defSub{categories} {Category labels}
 \defSub{selectivities} {The labels of the selectivities for each of the categories}
-\defSub{years} {Years in which to apply the mortality process}
+\defSub{years} {The years in which to apply the mortality process}
 \defSub{catches} {The biomass of removals ,catches, to apply for each year}
-\defSub{u\_max} {Maximum exploitation rate ,$Umax$,}
+\defSub{u\_max} {The maximum exploitation rate ,$Umax$,}
 \defSub{penalty} {The label of the penalty to apply if the total biomass of removals cannot be taken}
 \par\textbf{\commandlabsubarg{process}{type}{mortality\_holling\_rate}}\par
 \defSub{prey\_categories} {Prey Categories labels}
@@ -316,7 +316,7 @@
 \defSub{a} {Parameter a}
 \defSub{b} {Parameter b}
 \defSub{x} {This parameter controls the functional form, Holling function type 2 ,x=2, or 3 ,x=3, or generalised ,Michaelis Menten, x,=1,}
-\defSub{u\_max} {Maximum exploitation rate ,$Umax$,}
+\defSub{u\_max} {The maximum exploitation rate ,$Umax$,}
 \defSub{prey\_selectivities} {Selectivities for prey categories}
 \defSub{predator\_selectivities} {Selectivities for predator categories}
 \defSub{penalty} {Label of penalty to be applied}
@@ -324,14 +324,14 @@
 \par\textbf{\commandlabsubarg{process}{type}{mortality\_initialisation\_event}}\par
 \defSub{categories} {Categories}
 \defSub{catch} {The number of removals ,catches, to apply for each year}
-\defSub{u\_max} {Maximum exploitation rate ,$Umax$,}
-\defSub{selectivities} {List of selectivities}
+\defSub{u\_max} {The maximum exploitation rate ,$Umax$,}
+\defSub{selectivities} {The list of selectivities}
 \defSub{penalty} {The label of the penalty to apply if the total number of removals cannot be taken}
 \par\textbf{\commandlabsubarg{process}{type}{mortality\_initialisation\_event\_biomass}}\par
 \defSub{categories} {Categories}
 \defSub{catch} {The number of removals ,catches, to apply for each year}
 \defSub{u\_max} {The maximum exploitation rate ,$Umax$,}
-\defSub{selectivities} {List of selectivities}
+\defSub{selectivities} {The list of selectivities}
 \defSub{penalty} {The label of the penalty to apply if the total number of removals cannot be taken}
 \par\textbf{\commandlabsubarg{process}{type}{mortality\_instantaneous}}\par
 \defSub{categories} {Categories for instantaneous mortality}
@@ -348,7 +348,7 @@
 \defSub{predator\_categories} {Predator Categories labels}
 \defSub{consumption\_rate} {Predator consumption rate}
 \defSub{electivities} {Prey Electivities}
-\defSub{u\_max} {Umax}
+\defSub{u\_max} {U max}
 \defSub{prey\_selectivities} {Selectivities for prey categories}
 \defSub{predator\_selectivities} {Selectivities for predator categories}
 \defSub{penalty} {Label of penalty to be applied}
@@ -410,7 +410,7 @@
 \defSub{n} {}
 \par\textbf{\commandlabsubarg{process}{type}{tag\_by\_length}}\par
 \defSub{from} {Categories to transition from}
-\defSub{to} {ategories to transition to}
+\defSub{to} {Categories to transition to}
 \defSub{penalty} {Penalty label}
 \defSub{u\_max} {U Max}
 \defSub{initial\_mortality} {}
@@ -425,8 +425,8 @@
 \defSub{selectivities} {Selectivities}
 \defSub{year} {The year the first tagging release process was executed}
 \par\textbf{\commandlabsubarg{process}{type}{transition\_category}}\par
-\defSub{from} {From}
-\defSub{to} {To}
+\defSub{from} {From category}
+\defSub{to} {To category}
 \defSub{proportions} {Proportions}
 \defSub{selectivities} {Selectivity names}
 \par\textbf{\commandlabsubarg{process}{type}{transition\_category\_by\_age}}\par
