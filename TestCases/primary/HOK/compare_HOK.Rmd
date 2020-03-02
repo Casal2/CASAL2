@@ -343,7 +343,7 @@ Comparison plots
 # c(bottom, left, top, right)
 par(mar=c(4,4,2,1) + 0.1)
 
-# par(mfrow=c(2,1))
+par(mfrow=c(1,2))
 ```
 
 
@@ -367,6 +367,13 @@ for (c in 1:num_C2_models)
 
 
 ```{r plots_set_0, echo=FALSE}
+plot_legend <- function()
+{
+    # placeholder plot for legend
+    plot(0, 0, type='n', xlim=c(0,1), ylim=c(0,1), axes=FALSE, xlab='', ylab='', main='')
+    legend(0.1, 0.99, c('CASAL', 'CASAL sens1', C2_subdir), lwd=5, col=c('black', 'grey', C2_color), pt.cex=1.6)
+}
+
 
 # plot E SSB
 
@@ -381,11 +388,7 @@ for (c in 1:num_C2_models)
     lines(names(cas2_mpd[[c]]$SSB$SSB_E$values), cas2_mpd[[c]]$SSB$SSB_E$values, col=C2_color[c], lwd=1)
 }
 
-legend(c1_quant$SSBs$year[1], 0.50*max_val,
-       c('CASAL', 'CASAL sens1', C2_subdir),
-       lwd=3,
-       col=c('black', 'grey', C2_color))
-
+plot_legend()
 
 
 # plot W SSB
@@ -400,6 +403,8 @@ for (c in 1:num_C2_models)
 {
     lines(names(cas2_mpd[[c]]$SSB$SSB_E$values), cas2_mpd[[c]]$SSB$SSB_W$values, col=C2_color[c], lwd=1)
 }
+
+plot_legend()
 ```
 
 
@@ -466,6 +471,8 @@ for (i in 1:nrow(c2_mat[1,,]))
     {
         lines(seq(1, dim(c2_mat[c,,])[2]), c2_mat[c,i,], col=C2_color[c], lwd=1)
     }
+
+    plot_legend()
 }
 ```
 
@@ -484,6 +491,8 @@ for (c in 1:num_C2_models)
     lines(cas2_mpd[[c]]$Recruit_E$ycs_values, col=C2_color[c], lwd=1)
 }
 
+plot_legend()
+
 
 max_val <- max(c1_quant$YCS$W,
                c1_sens1_quant$YCS$W,
@@ -495,6 +504,8 @@ for (c in 1:num_C2_models)
 {
     lines(cas2_mpd[[c]]$Recruit_W$ycs_values, col=C2_color[c], lwd=1)
 }
+
+plot_legend()
 
 
 
@@ -511,6 +522,8 @@ for (c in 1:num_C2_models)
     lines(cas2_mpd[[c]]$Recruit_E$ycs_years, cas2_mpd[[c]]$Recruit_E$true_ycs, col=C2_color[c], lwd=1)
 }
 
+plot_legend()
+
 
 max_val <- max(c1_quant$true_YCS$W,
                c1_sens1_quant$true_YCS$W,
@@ -522,6 +535,8 @@ for (c in 1:num_C2_models)
 {
     lines(cas2_mpd[[c]]$Recruit_E$ycs_years, cas2_mpd[[c]]$Recruit_W$true_ycs, col=C2_color[c], lwd=1)
 }
+
+plot_legend()
 ```
 
 
@@ -539,6 +554,8 @@ for (c in 1:num_C2_models)
     lines(cas2_mpd[[c]]$Recruit_E$ycs_years, cas2_mpd[[c]]$Recruit_E$Recruits, col=C2_color[c], lwd=1)
 }
 
+plot_legend()
+
 
 max_val <- max(c1_quant$recruitments$W,
                c1_sens1_quant$recruitments$W,
@@ -550,6 +567,8 @@ for (c in 1:num_C2_models)
 {
     lines(cas2_mpd[[c]]$Recruit_E$ycs_years, cas2_mpd[[c]]$Recruit_W$Recruits, col=C2_color[c], lwd=1)
 }
+
+plot_legend()
 ```
 
 
@@ -579,6 +598,8 @@ for (c in 1:num_C2_models)
     points(c2_surv[[c]]$year, c2_surv[[c]]$expected, col=C2_color[c], pch=(15+c-1))
 }
 
+plot_legend()
+
 
 
 c1_surv      <- cas_mpd$free$`q[CRsum].q` * unlist(c1_quant$CRsumbio)
@@ -604,6 +625,8 @@ for (c in 1:num_C2_models)
     points(c2_surv[[c]]$year, c2_surv[[c]]$expected, col=C2_color[c], pch=(15+c-1))
 }
 
+plot_legend()
+
 
 
 c1_surv      <- cas_mpd$free$`q[SAsum].q` * unlist(c1_quant$SAbio)
@@ -628,6 +651,8 @@ for (c in 1:num_C2_models)
 {
     points(c2_surv[[c]]$year, c2_surv[[c]]$expected, col=C2_color[c], pch=(15+c-1))
 }
+
+plot_legend()
 ```
 
 
@@ -645,6 +670,8 @@ for (c in 1:num_C2_models)
     lines(cas2_mpd[[c]]$Mortality$year, cas2_mpd[[c]]$Mortality$`fishing_pressure[Ensp1]`, col=C2_color[c], lwd=1)
 }
 
+plot_legend()
+
 
 
 max_val <- max(c1_quant$fishing_pressures$Wnsp1,
@@ -657,6 +684,8 @@ for (c in 1:num_C2_models)
 {
     lines(cas2_mpd[[c]]$Mortality$year, cas2_mpd[[c]]$Mortality$`fishing_pressure[Wnsp1]`, col=C2_color[c], lwd=1)
 }
+
+plot_legend()
 
 
 
@@ -671,6 +700,8 @@ for (c in 1:num_C2_models)
     lines(cas2_mpd[[c]]$Mortality$year, cas2_mpd[[c]]$Mortality$`fishing_pressure[Ensp2]`, col=C2_color[c], lwd=1)
 }
 
+plot_legend()
+
 
 
 max_val <- max(c1_quant$fishing_pressures$Wnsp2,
@@ -683,6 +714,8 @@ for (c in 1:num_C2_models)
 {
     lines(cas2_mpd[[c]]$Mortality$year, cas2_mpd[[c]]$Mortality$`fishing_pressure[Wnsp2]`, col=C2_color[c], lwd=1)
 }
+
+plot_legend()
 
 
 
@@ -697,6 +730,8 @@ for (c in 1:num_C2_models)
     lines(cas2_mpd[[c]]$Mortality$year, cas2_mpd[[c]]$Mortality$`fishing_pressure[Esp]`, col=C2_color[c], lwd=1)
 }
 
+plot_legend()
+
 
 
 max_val <- max(c1_quant$fishing_pressures$Wsp,
@@ -709,6 +744,8 @@ for (c in 1:num_C2_models)
 {
     lines(cas2_mpd[[c]]$Mortality$year, cas2_mpd[[c]]$Mortality$`fishing_pressure[Wsp]`, col=C2_color[c], lwd=1)
 }
+
+plot_legend()
 ```
 
 
@@ -728,6 +765,8 @@ for (c in 1:num_C2_models)
     lines(ages, cas2_mpd[[c]]$Enspsl$Values, col=C2_color[c], lwd=1)
 }
 
+plot_legend()
+
 
 
 max_val <- max(1,
@@ -740,6 +779,8 @@ for (c in 1:num_C2_models)
     lines(ages, cas2_mpd[[c]]$Wnspsl$Values, col=C2_color[c], lwd=1)
 }
 
+plot_legend()
+
 
 max_val <- max(1,
                c1_quant$`Ogive parameter values`$`selectivity[Espsl].all`,
@@ -750,6 +791,8 @@ for (c in 1:num_C2_models)
 {
     lines(ages, cas2_mpd[[c]]$Espsl$Values, col=C2_color[c], lwd=1)
 }
+
+plot_legend()
 
 
 max_val <- max(1,
@@ -762,6 +805,8 @@ for (c in 1:num_C2_models)
     lines(ages, cas2_mpd[[c]]$Wspsl$Values, col=C2_color[c], lwd=1)
 }
 
+plot_legend()
+
 
 max_val <- max(1,
                c1_quant$`Ogive parameter values`$`selectivity[CRsl].all`,
@@ -773,6 +818,8 @@ for (c in 1:num_C2_models)
     lines(ages, cas2_mpd[[c]]$CRsl$Values, col=C2_color[c], lwd=1)
 }
 
+plot_legend()
+
 
 max_val <- max(1,
                c1_quant$`Ogive parameter values`$`selectivity[SAsl].all`,
@@ -783,5 +830,7 @@ for (c in 1:num_C2_models)
 {
     lines(ages, cas2_mpd[[c]]$SAsl$Values, col=C2_color[c], lwd=1)
 }
+
+plot_legend()
 ```
 

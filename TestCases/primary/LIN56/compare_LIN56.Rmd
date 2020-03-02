@@ -347,7 +347,7 @@ Comparison plots
 # c(bottom, left, top, right)
 par(mar=c(4,4,2,1) + 0.1)
 
-# par(mfrow=c(2,1))
+par(mfrow=c(1,2))
 ```
 
 
@@ -371,6 +371,13 @@ for (c in 1:num_C2_models)
 
 
 ```{r plots_set_0, echo=FALSE}
+plot_legend <- function()
+{
+    # placeholder plot for legend
+    plot(0, 0, type='n', xlim=c(0,1), ylim=c(0,1), axes=FALSE, xlab='', ylab='', main='')
+    legend(0.1, 0.99, c('CASAL', 'CASAL sens1', C2_subdir), lwd=5, col=c('black', 'grey', C2_color), pt.cex=1.6)
+}
+
 
 max_val <- max(c1_quant$SSBs$SSB,
                c1_sens1_quant$SSBs$SSB,
@@ -384,10 +391,7 @@ for (c in 1:num_C2_models)
     lines(names(cas2_mpd[[c]]$SSB$SSB$values), cas2_mpd[[c]]$SSB$SSB$values, col=C2_color[c], lwd=1)
 }
 
-legend(c1_quant$SSBs$year[1], 0.50*max_val,
-       c('CASAL', 'CASAL sens1', C2_subdir),
-       lwd=3,
-       col=c('black', 'grey', C2_color))
+plot_legend()
 ```
 
 
@@ -441,6 +445,8 @@ for (c in 1:num_C2_models)
     lines(ages, c2_mat[c,1,], col=C2_color[c], lwd=1)
     lines(ages, c2_mat[c,2,], col=C2_color[c], lwd=1, lty=3)
 }
+
+plot_legend()
 ```
 
 
@@ -458,6 +464,8 @@ for (c in 1:num_C2_models)
     lines(cas2_mpd[[c]]$Rec$ycs_values, col=C2_color[c], lwd=1)
 }
 
+plot_legend()
+
 
 
 # plot true YCS
@@ -472,6 +480,8 @@ for (c in 1:num_C2_models)
 {
     lines(cas2_mpd[[c]]$Rec$ycs_years, cas2_mpd[[c]]$Rec$true_ycs, col=C2_color[c], lwd=1)
 }
+
+plot_legend()
 ```
 
 
@@ -488,6 +498,8 @@ for (c in 1:num_C2_models)
 {
     lines(cas2_mpd[[c]]$NaturalMortalityOgive_all$Values, col=C2_color[c], lwd=1)
 }
+
+plot_legend()
 ```
 
 
@@ -516,6 +528,8 @@ for (c in 1:num_C2_models)
     points(c2_surv[[c]]$year, c2_surv[[c]]$expected, col=C2_color[c], pch=(15+c-1))
 }
 
+plot_legend()
+
 
 
 # plot autumn survey
@@ -541,6 +555,8 @@ for (c in 1:num_C2_models)
 {
     points(c2_surv[[c]]$year, c2_surv[[c]]$expected, col=C2_color[c], pch=(15+c-1))
 }
+
+plot_legend()
 ```
 
 
@@ -568,6 +584,8 @@ for (c in 1:num_C2_models)
     lines(cas2_mpd[[c]]$Mortality$year, cas2_mpd[[c]]$Mortality$`fishing_pressure[FishingTrwl]`, col=C2_color[c], lwd=1)
 }
 
+plot_legend()
+
 
 
 # plot fishing pressures - line_home
@@ -583,6 +601,8 @@ for (c in 1:num_C2_models)
     lines(cas2_mpd[[c]]$Mortality$year, cas2_mpd[[c]]$Mortality$`fishing_pressure[FishingLineHome]`, col=C2_color[c], lwd=1)
 }
 
+plot_legend()
+
 
 
 # plot fishing pressures - line_spawn
@@ -597,6 +617,8 @@ for (c in 1:num_C2_models)
 {
     lines(cas2_mpd[[c]]$Mortality$year, cas2_mpd[[c]]$Mortality$`fishing_pressure[FishingLineSpawn]`, col=C2_color[c], lwd=1)
 }
+
+plot_legend()
 ```
 
 
@@ -618,6 +640,8 @@ for (c in 1:num_C2_models)
     lines(ages, cas2_mpd[[c]]$summerTANSel_female$Values, col=C2_color[c], lwd=1, lty=3)
 }
 
+plot_legend()
+
 
 
 max_val <- max(1,
@@ -634,6 +658,8 @@ for (c in 1:num_C2_models)
     lines(ages, cas2_mpd[[c]]$autumnTANSel_male$Values, col=C2_color[c], lwd=1)
     lines(ages, cas2_mpd[[c]]$autumnTANSel_female$Values, col=C2_color[c], lwd=1, lty=3)
 }
+
+plot_legend()
 
 
 
@@ -652,6 +678,8 @@ for (c in 1:num_C2_models)
     lines(ages, cas2_mpd[[c]]$trwlFSel_female$Values, col=C2_color[c], lwd=1, lty=3)
 }
 
+plot_legend()
+
 
 
 max_val <- max(1,
@@ -669,6 +697,8 @@ for (c in 1:num_C2_models)
     lines(ages, cas2_mpd[[c]]$lineHomeFSel_female$Values, col=C2_color[c], lwd=1, lty=3)
 }
 
+plot_legend()
+
 
 
 max_val <- max(1,
@@ -685,5 +715,7 @@ for (c in 1:num_C2_models)
     lines(ages, cas2_mpd[[c]]$lineSpawnFSel_male$Values, col=C2_color[c], lwd=1)
     lines(ages, cas2_mpd[[c]]$lineSpawnFSel_female$Values, col=C2_color[c], lwd=1, lty=3)
 }
+
+plot_legend()
 ```
 
