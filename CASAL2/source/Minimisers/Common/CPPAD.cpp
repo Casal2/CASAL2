@@ -33,7 +33,7 @@ namespace minimisers {
 using CppAD::AD;
 
 /**
- * Objective Function
+ * Objective Function class
  */
 class MyObjective {
 public:
@@ -82,7 +82,7 @@ CPPAD::CPPAD(Model* model) : Minimiser(model) {
 }
 
 /**
- *
+ * Execute
  */
 void CPPAD::Execute() {
   typedef CPPAD_TESTVECTOR( double ) Dvector;

@@ -28,8 +28,8 @@ using std::endl;
  * This method will check to see if the addressable has been registered
  * or not
  *
- * @param label of the estimate we are looking for
- * @return True if found, false if not
+ * @param label The label of the estimate to look for
+ * @return true if found, false if not
  */
 bool Object::HasAddressable(const string& label) const {
   bool result = !(addressable_types_.find(label) == addressable_types_.end());
@@ -46,11 +46,11 @@ bool Object::HasAddressable(const string& label) const {
 }
 
 /**
- * Does the target addressable have the usage flag we want?
+ * Does the target addressable have the specified usage flag?
  *
- * @param label of the estimate we are looking for
- * @param flag of addressable usage type
- * @return True if found, false if not
+ * @param label The label of the estimate to look for
+ * @param flag The flag of addressable usage type
+ * @return true if found, false if not
  */
 bool Object::HasAddressableUsage(const string& label, const addressable::Usage& flag) const {
   if (addressable_types_.find(label) == addressable_types_.end()) {
@@ -58,10 +58,12 @@ bool Object::HasAddressableUsage(const string& label, const addressable::Usage& 
       if (container->find(label) != container->end())
         return true; // by default, we allow all usage. Overrises will show up in the types_
     }
+
     LOG_CODE_ERROR() << "The addressable " << label << " has not been registered for the object " << block_type_ << ".type=" << type_;
   }
 
   addressable::Usage flags = addressable_usage_.find(label)->second;
+
   return (flags & flag) == flag;
 }
 
@@ -70,7 +72,7 @@ bool Object::HasAddressableUsage(const string& label, const addressable::Usage& 
  * in is registered as part of a vector or not.
  *
  * @param label The label of the addressable to check
- * @return True if addressable is a vector, false if not
+ * @return true if addressable is a vector, false if not
  */
 bool Object::IsAddressableAVector(const string& label) const {
   bool result = !(addressable_vectors_.find(label) == addressable_vectors_.end());
@@ -127,6 +129,14 @@ Double* Object::GetAddressable(const string& label) {
   return addressables_[label];
 }
 
+/**
+ * This method will find the addressable with the matching
+ * label and index and return it.
+ *
+ * @param label The label of the addressable to find
+ * @param index The index within the addressable
+ * @return A pointer to the addressable vector element to be used by the Estimate object
+ */
 Double* Object::GetAddressable(const string& label, const string& index) {
   if (addressable_types_.find(label) == addressable_types_.end())
     LOG_CODE_ERROR() << "addressable_types_.find(" << label << ") == addressable_types_.end()";
@@ -171,10 +181,10 @@ Double* Object::GetAddressable(const string& label, const string& index) {
 
 /**
  * This method will return a vector of addressables for use. This is required
- * when we're asking for a subset of a vector or map.
+ * when requesting a subset of a vector or map.
  *
- * @param The absolute label for this (e.g ycs_years{1973:2014}
- * @param A vector of the indexes to find (already exploded with utilities::string::explode()
+ * @param The absolute label for this (e.g., ycs_years{1973:2014})
+ * @param A vector of the index values to find (already exploded with utilities::string::explode()
  * @return a Pointer to a vector of Double pointers
  */
 vector<Double*>* Object::GetAddressables(const string& absolute_label, const vector<string> indexes) {
@@ -187,6 +197,7 @@ vector<Double*>* Object::GetAddressables(const string& absolute_label, const vec
   }
 
   LOG_FINE() << "Creating custom addressable vector " << absolute_label << " with " << indexes.size() << " values";
+
   return &addressable_custom_vectors_[absolute_label];
 }
 
@@ -203,6 +214,13 @@ map<unsigned, Double>* Object::GetAddressableUMap(const string& label) {
   return GetAddressableUMap(label, dummy);
 }
 
+/**
+ * Get the addressable as that is an unsigned/double map
+ *
+ * @param label The label of the addressable
+ * @param create_missing The flag to indicate whether this addressable was created
+ * @return A map of addressables
+ */
 map<unsigned, Double>* Object::GetAddressableUMap(const string& label, bool& create_missing) {
   if (addressable_types_.find(label) == addressable_types_.end())
     LOG_CODE_ERROR() << "addressable_types_.find(" << label << ") == addressable_types_.end()";
@@ -210,13 +228,14 @@ map<unsigned, Double>* Object::GetAddressableUMap(const string& label, bool& cre
     LOG_CODE_ERROR() << "addressable_types_[" << label << "] != Addressable::kUnsignedMap";
 
   create_missing = create_missing_addressables_.find(label) != create_missing_addressables_.end();
+
   return addressable_u_maps_[label];
 }
 
 /**
  * Get the addressable as that is a string/double map
  *
- * @param label of the addressable
+ * @param label The label of the addressable
  * @return An ordered map of addressables
  */
 OrderedMap<string, Double>* Object::GetAddressableSMap(const string& label) {
@@ -231,7 +250,7 @@ OrderedMap<string, Double>* Object::GetAddressableSMap(const string& label) {
 /**
  * This method will return a pointer to a vector of addressables
  *
- * @param label The label of the addressable we want
+ * @param label The label of the addressable
  * @return vector pointer of addressables
  */
 vector<Double>* Object::GetAddressableVector(const string& label) {
@@ -245,8 +264,10 @@ vector<Double>* Object::GetAddressableVector(const string& label) {
         return &(*container)[label];
       }
     }
+
     LOG_CODE_ERROR() << "addressable_types_.find(" << label << ") == addressable_types_.end()";
   }
+
   if (addressable_types_[label] != addressable::kVector)
     LOG_CODE_ERROR() << "addressable_types_[" << label << "] != Addressable::kVector";
 
@@ -254,15 +275,18 @@ vector<Double>* Object::GetAddressableVector(const string& label) {
 }
 
 /**
+ * Get the addressable type
  *
+ * @param label The label of the addressable
+ * @return the addressable type
  */
-
 addressable::Type Object::GetAddressableType(const string& label) const {
   if (addressable_types_.find(label) == addressable_types_.end()) {
     for (auto container : unnamed_addressable_s_map_vector_) {
       if (container->find(label) != container->end())
         return addressable::kVectorStringMap;
     }
+
     LOG_CODE_ERROR() << "Unable to find the addressable type with the label: " << label;
   }
 
@@ -276,6 +300,7 @@ addressable::Type Object::GetAddressableType(const string& label) const {
  *
  * @param label The label to register the addressable under
  * @param variable The variable to register as an addressable
+ * @param usage The Usage enum for this addressable
  */
 void Object::RegisterAsAddressable(const string& label, Double* variable, addressable::Usage usage) {
   addressables_[label]      = variable;
@@ -290,35 +315,50 @@ void Object::RegisterAsAddressable(const string& label, Double* variable, addres
  *
  * @param label The label to register the addressable under
  * @param variables Vector containing all the elements to register
+ * @param usage The Usage enum for this addressable
  */
 void Object::RegisterAsAddressable(const string& label, vector<Double>* variables, addressable::Usage usage) {
   addressable_vectors_[label] = variables;
   addressable_types_[label]   = addressable::kVector;
-  addressable_usage_[label] = usage;
+  addressable_usage_[label]   = usage;
 }
 
 /**
  * This method will register a map of variables as addressables.
- * When register each variable it'll be done like:
+ * To register each variable:
  *
  * process_label.variable(map.string)
  *
  * @param label The label for the process
- * @param variables Map containing index and double values to store
+ * @param variables The OrderedMap containing the string and double values to store
+ * @param usage The Usage enum for this addressable
  */
 void Object::RegisterAsAddressable(const string& label, OrderedMap<string, Double>* variables, addressable::Usage usage) {
-  addressable_s_maps_[label]  = variables;
-  addressable_types_[label]   = addressable::kStringMap;
-  addressable_usage_[label] = usage;
-}
-void Object::RegisterAsAddressable(const string& label, map<unsigned, Double>* variables, addressable::Usage usage) {
-  addressable_u_maps_[label]  = variables;
-  addressable_types_[label]   = addressable::kUnsignedMap;
-  addressable_usage_[label] = usage;
+  addressable_s_maps_[label] = variables;
+  addressable_types_[label]  = addressable::kStringMap;
+  addressable_usage_[label]  = usage;
 }
 
 /**
+ * This method will register a map of variables as addressables.
+ * To register each variable:
  *
+ * process_label.variable(map.string)
+ *
+ * @param label The label for the process
+ * @param variables The map containing the unsigned integer and double values to store
+ * @param usage The Usage enum for this addressable
+ */
+void Object::RegisterAsAddressable(const string& label, map<unsigned, Double>* variables, addressable::Usage usage) {
+  addressable_u_maps_[label] = variables;
+  addressable_types_[label]  = addressable::kUnsignedMap;
+  addressable_usage_[label]  = usage;
+}
+
+/**
+ * Register a map as an addressable
+ *
+ * @param variables The map containing the string and vector of double values to store
  */
 void Object::RegisterAsAddressable(map<string, vector<Double>>* variables) {
   unnamed_addressable_s_map_vector_.push_back(variables);
@@ -357,13 +397,13 @@ void Object::PrintParameterQueryInfo() {
 /**
  * The default Rebuild cache will call
  * the subscribers rebuild cache so a cascading cache rebuild will
- * take effect when something like a time varying parameter is hit.
+ * take effect when something like a time varying parameter is rebuilt.
  */
 void Object::RebuildCache() {
 }
 
 /**
- * This method allows one object to subscribe to the RebuildCache of another. We use this with things like
+ * This method allows one object to subscribe to the RebuildCache of another. This is used with things like
  * time varying parameters where a process can subscribe to a selectivity. The selectivity will notify the
  * process it has changed and the process can handle any updates it wants.
  *

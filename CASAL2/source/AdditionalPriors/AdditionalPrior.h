@@ -39,7 +39,6 @@ public:
   void                        Reset() { };
   string                      parameter() const { return parameter_; }
 
-
 protected:
   // pure virtual methods
   virtual void                DoValidate() = 0;

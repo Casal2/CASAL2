@@ -41,10 +41,8 @@ Estimate::Estimate(Model* model) : model_(model) {
 }
 
 /**
- * Validate our estimate. Some of the
- * validation was done by the
- * estimates::Info object before the
- * estimate was created so we can skip that.
+ * Validate the estimate. Some of the validation was done by the
+ * estimates::Info object before the estimate was created so that can be skipped.
  */
 void Estimate::Validate() {
   if (transform_with_jacobian_ && transform_for_objective_function_)
@@ -53,6 +51,9 @@ void Estimate::Validate() {
   DoValidate();
 }
 
+/**
+ * Build the estimate
+ */
 void Estimate::Build() {
   if (transform_with_jacobian_ && transform_for_objective_function_)
     LOG_ERROR_P(PARAM_TRANSFORM_WITH_JACOBIAN) << "Both " << PARAM_TRANSFORM_WITH_JACOBIAN << " and " << PARAM_PRIOR_APPLIES_TO_TRANSFORM
@@ -114,13 +115,12 @@ void Estimate::Build() {
   Reset();
 }
 
-
 /**
- *
+ * Reset the estimate
  */
 void Estimate::Reset() {
   /**
-   * Reset the value if the bounds are the same so we can ensure all of the
+   * Reset the value if the bounds are the same to ensure that all of the
    * "same" parameters are aligned
    */
   if (utilities::doublecompare::IsEqual(lower_bound_, upper_bound_))
@@ -129,11 +129,11 @@ void Estimate::Reset() {
 
 /**
  * This method will add all of the "sames" to this object.
- * We add the labels as well for reporting and debugging
+ * The labels are added as well for reporting and debugging
  * purposes.
  *
  * @param label The label of the same to add
- * @param target The target value to modify when we set a new value
+ * @param target The target value to modify when setting a new value
  */
 void Estimate::AddSame(const string& label, Double* target) {
   same_labels_.push_back(label);
@@ -142,7 +142,7 @@ void Estimate::AddSame(const string& label, Double* target) {
 
 /**
  * Assign a new value to the object pointed to by
- * this estimate. We will also iterate over any
+ * this estimate. Also iterate over any
  * "sames" and assign the value to them as well.
  *
  * @param new_value The new value to assign.
