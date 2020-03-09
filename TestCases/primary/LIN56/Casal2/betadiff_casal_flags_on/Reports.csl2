@@ -6,6 +6,10 @@ type initialisation_partition
 @report obj_fun
 type objective_function
 
+@report mcmc_covariance
+type mcmc_covariance
+
+
 @report DQs
 type derived_quantity
 
