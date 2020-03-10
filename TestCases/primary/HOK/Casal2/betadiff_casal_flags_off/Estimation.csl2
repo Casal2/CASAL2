@@ -17,7 +17,7 @@ covariance True
 start 1
 length 4000000
 keep 1000
-stepsize 0.02
+step_size 0.02
 adapt_stepsize_at 20000 40000 60000 80000 100000
 proposal_distribution t
 adapt_stepsize_method double_half

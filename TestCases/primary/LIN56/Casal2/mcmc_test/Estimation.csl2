@@ -1,23 +1,23 @@
 ## Estimation script for LIN3&4 base model (2014 assessment)
-@minimiser CppAD
-type cppad
+@minimiser gammdiff
+type betadiff
 active true
-# iterations 500
-# evaluations 1000
-# tolerance 0.002
+iterations 500
+evaluations 1000
+tolerance 0.00001
 covariance true
 
 
 @mcmc mcmc
 start 0
-length 42000000 # originally 30M
-keep 3500 # originally 2500 -> save every 12000th
+length 1000000
+keep 1000
 step_size 0.02
 adapt_stepsize_at 10000 50000 150000 250000 450000
+# burn-in? burn_in 200
 proposal_distribution t
 adapt_stepsize_method double_half
-adapt_covariance_matrix_at 12000000
-
+# print_default_reports true
 
 @estimate B0
 type uniform_log
