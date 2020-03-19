@@ -1,3 +1,5 @@
+[![FOSSA Status](https://app.fossa.io/api/projects/git%2Bgithub.com%2FNIWAFisheriesModelling%2FCASAL2.svg?type=shield)](https://app.fossa.io/projects/git%2Bgithub.com%2FNIWAFisheriesModelling%2FCASAL2?ref=badge_shield)
+
 Casal2
 ======
 
@@ -21,3 +23,7 @@ Casal2 is in an alpha testing phase, with some modules functioning as intended a
 
 For more information about Casal2 contact the Casal2 
 Development Team at casal2@niwa.co.nz
+
+
+## License
+[![FOSSA Status](https://app.fossa.io/api/projects/git%2Bgithub.com%2FNIWAFisheriesModelling%2FCASAL2.svg?type=large)](https://app.fossa.io/projects/git%2Bgithub.com%2FNIWAFisheriesModelling%2FCASAL2?ref=badge_large)
