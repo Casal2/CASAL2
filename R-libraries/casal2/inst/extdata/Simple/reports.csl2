@@ -1,0 +1,79 @@
+## Report section for now
+## Print estimate values
+@report summary
+type estimate_value
+
+@report objective
+type objective_function
+
+## Print process information
+@report Rec
+type process
+process Recruitment
+
+@report Mortality
+type process
+process Instantaneous_Mortality
+
+## print the partition
+@report Init
+type initialisation_partition
+
+## look at numbers at age for each category during model run
+@report Sep_Feb
+type partition
+time_step Sep_Feb
+years 1975:2012
+
+@report Mar_May
+type partition
+time_step Mar_May
+years 1975:2012
+
+@report Jun_Aug
+type partition
+time_step Jun_Aug
+years 1975:2012
+
+## Derived Quantities
+@report SSB
+type derived_quantity
+
+## Fits Observations
+@report obs_tan
+type observation
+observation chatTANbiomass
+normalised_residuals true
+
+@report tan_at_age
+type observation
+observation chatTANage
+pearsons_residuals true
+
+@report eastF_at_age
+type observation
+observation chatOBSest
+pearsons_residuals true
+
+@report westF_at_age
+type observation
+observation chatOBSwst
+pearsons_residuals true
+
+## Ageing error matrix
+@report age_error
+type ageing_error
+ageing_error Normal_ageing
+
+## Print Selectivities
+@report eastFSel
+type selectivity
+selectivity eastFSel
+
+@report chatTANSel
+type selectivity
+selectivity chatTANSel
+
+@report westFSel
+type selectivity
+selectivity westFSel

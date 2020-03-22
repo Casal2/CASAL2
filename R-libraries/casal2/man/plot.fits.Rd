@@ -6,46 +6,14 @@
 \alias{plot.fits.casal2TAB}
 \title{plot.fits default}
 \usage{
-plot.fits(
-  model,
-  report_label = "",
-  plot.it = T,
-  xlim,
-  ylim,
-  xlab,
-  ylab,
-  main,
-  col,
-  ...
-)
+plot.fits(model, report_label = "", plot.it = T, xlim, ylim, xlab,
+  ylab, main, col, ...)
 
-\method{plot.fits}{casal2MPD}(
-  model,
-  report_label = "",
-  type = "fit",
-  plot.it = T,
-  xlim,
-  ylim,
-  xlab,
-  ylab,
-  main,
-  col,
-  ...
-)
+\method{plot.fits}{casal2MPD}(model, report_label = "", type = "fit",
+  plot.it = T, xlim, ylim, xlab, ylab, main, col, ...)
 
-\method{plot.fits}{casal2TAB}(
-  model,
-  report_label = "",
-  type = "resid",
-  plot.it = T,
-  xlim,
-  ylim,
-  xlab,
-  ylab,
-  main,
-  col,
-  ...
-)
+\method{plot.fits}{casal2TAB}(model, report_label = "", type = "resid",
+  plot.it = T, xlim, ylim, xlab, ylab, main, col, ...)
 }
 \arguments{
 \item{model}{<casal2MPD, casal2TAB> object that are generated from one of the extract() functions.}
@@ -71,19 +39,13 @@ A plotting function to fits to Casal2 observations from a model run.
 \examples{
 library(casal2)
 # plotting Standard Output
-data <- extract.mpd(file = system.file("extdata", "estimate.log", package="casal2"))
+data <- extract.mpd(file = system.file("extdata", "estimate.out", package="casal2"))
 names(data)
 par(mfrow = c(1,2))
-plot.fits(model = data, report_label = "Tangaroa_propn_at_age_Aug")
-plot.fits(model = data, report_label = "wcsiTRLcpue")
+plot.fits(model = data, report_label = "westF_at_age")
+plot.fits(model = data, report_label = "eastF_at_age")
 # if you are unhappy with the default plotting you can use plot.it = FALSE and create a plot of your own.
-Tangaroa_fits = plot.fits(model = data, report_label = "Tangaroa_propn_at_age_Aug", plot.it = FALSE)
-# plotting Tabular Output
-tab <- extract.tabular(file = system.file("extdata", "tabular_report.out", package="casal2"))
-names(tab)
-plot.fits(model = tab, report_label = "Tangaroa_propn_at_age_Aug")
-par(mfrow = c(1,1))
-plot.fits(model = tab, report_label = "wcsiTRLcpue")
+Tangaroa_fits = plot.fits(model = data, report_label = "eastF_at_age", plot.it = FALSE)
 }
 \author{
 Craig Marsh

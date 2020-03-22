@@ -5,29 +5,12 @@
 \alias{plot.selectivities.casal2MPD}
 \title{plot.selectivities plot selectivities from a Casal2 model.}
 \usage{
-plot.selectivities(
-  model,
-  report_labels = c(""),
-  xlim,
-  ylim,
-  xlab,
-  ylab,
-  main,
-  col,
-  ...
-)
+plot.selectivities(model, report_labels = c(""), xlim, ylim, xlab, ylab,
+  main, col, ...)
 
-\method{plot.selectivities}{casal2MPD}(
-  model,
-  report_labels = c(""),
-  xlim = NULL,
-  ylim = NULL,
-  xlab = NULL,
-  ylab = NULL,
-  main = NULL,
-  col = NULL,
-  ...
-)
+\method{plot.selectivities}{casal2MPD}(model, report_labels = c(""),
+  xlim = NULL, ylim = NULL, xlab = NULL, ylab = NULL,
+  main = NULL, col = NULL, ...)
 }
 \arguments{
 \item{model}{<casal2MPD, casal2TAB> object that are generated from one of the extract.mpd() and extract.tabular() functions.}
