@@ -14,12 +14,21 @@ reformat.compositional.data = function(model, report_label) {
   if (!report_label %in% names(model))
     stop(Paste("In model the report label '", report_label, "' could not be found. The report labels available are ", paste(names(model),collapse = ", ")))
   ## get the report out
-  this_ob = get(report_label, model)
-  n_copies = length(names(this_ob))
-  if(n_copies > 1) {
-    stop("This function can only deal with one copy of the observation. This is a result of doing a multi-input run such -i. make sure the output is the result of only a single run")
+  this_report = get(report_label, model)
+  
+  if (any(names(this_report) == "type")) {
+    if (this_report$type != "observation")
+      stop(Paste("The report label '", report_label, "' is not a observation. Please check that the correct report_label was specified."))
+  } else {
+    stop("multi iteration report found, R code not written for this type of output.")
+    muliple_iterations_in_a_report = TRUE;
+    N_runs = length(this_report);
+    if (this_report$'1'$type != "observation")
+      stop(Paste("The report label '", report_label, "' is not an observation. Please check that the correct report_label was specified."))
+  
   }
-  this_ob = this_ob$'1'$Values
+  
+  this_ob = this_report$Values
   n_years = length(unique(this_ob[,"year"])) 
   n_category = length(unique(this_ob[,"category"]))
   n_bins = length(unique(Paste(this_ob[,"age"],this_ob[,"length"])))
