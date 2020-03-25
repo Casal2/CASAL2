@@ -4,8 +4,7 @@
 \alias{Method.TA1.8}
 \title{Method.TA1.8}
 \usage{
-Method.TA1.8(model, observation_labels, plot.it = F, xlim = NULL,
-  ylim = NULL)
+Method.TA1.8(model, observation_labels, plot.it = F, xlim = NULL, ylim = NULL)
 }
 \arguments{
 \item{model}{Casal2 output that is the result of a -r, -e run.}
