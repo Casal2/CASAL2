@@ -1,11 +1,14 @@
-# 
+#
 # import Casal2 functions
-funs = list.files(file.path("..","casal2","R"))
-for(i in 1:length(funs))
+
+funs <- list.files(file.path("..","casal2","R"))
+
+for(i in 1:length(funs)) {
   source(file.path("..","casal2","R",funs[i]))
+}
 
 ## load Chis Francis's Dataweighting package.
-packages_required = c("DataWeighting")
+packages_required <- c("DataWeighting")
 for(i in 1:length(packages_required)) {
   print(i)
   if(packages_required[i] %in% rownames(installed.packages()) == FALSE) {
@@ -15,6 +18,4 @@ for(i in 1:length(packages_required)) {
     library(packages_required[i],character.only=TRUE)
   }
 }
-
-
 
