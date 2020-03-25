@@ -1,0 +1,132 @@
+\documentclass[12pt,preprint,authoryear]{article}
+
+
+\oddsidemargin  -10mm
+\evensidemargin -10mm
+\headheight 0mm
+\headsep -3mm
+\textheight 250mm
+\textwidth 180mm
+\topmargin -4mm
+\topskip -10mm
+
+% Packages example
+\usepackage{amssymb} % math symbols
+\usepackage{graphicx} % include figures
+\usepackage{lineno} % for numbering lines
+\usepackage{lscape} % use landscape pages in document
+\usepackage{natbib} % bibliography library
+\usepackage{subfig} % allows for use of subfigures
+\usepackage[colorlinks=true]{hyperref}
+\usepackage{changes} % allows for test highlighting
+\usepackage{amsmath}
+\usepackage{bm}
+
+\hypersetup{colorlinks,linkcolor={blue},citecolor={blue},urlcolor={red}}  
+\usepackage{listings}
+\lstset{ %
+	basicstyle=\ttfamily\footnotesize,
+	breaklines=true,
+	columns=fullflexible,
+	showspaces=false,               % show spaces adding particular underscores
+	showstringspaces=false,         % underline spaces within strings
+	showtabs=false,                 % show tabs within strings adding particular underscores
+	tabsize=2,			            % sets default tabsize to 2 spaces
+	breakatwhitespace=false,	    % sets if automatic breaks should only happen at whitespace
+	escapeinside={\%*}{*)}          % if you want to add a comment within your code
+}
+%-------------------------------------------------------------
+% Used the changes package
+%\definechangesauthor[Craig Marsh]{CM}{red!80!white} %red
+%\definechangesauthor[Chris Francis]{RICC}{blue!80!white} %blue
+
+% define authors using changes packages
+%\newcommand{\cm}[1]{\emph{\added[CM]{#1}}}
+%\newcommand{\cf}[1]{\emph{\added[RICC]{#1}}}
+
+%\newcommand{\cmd}[1]{\emph{\deleted[CM]{#1}}}
+%\newcommand{\cfd}[1]{\emph{\deleted[RICC]{#1}}}
+
+%\cm{Craig to add comment} % when you comment out the above you should be able to run the following command
+%------------------------------------------------------------
+
+% New Commands
+\newcommand{\R}{${\rho}$} % define rho by the command \R
+
+
+%this line will remove all numbering from sections, subsections and subsubsections
+\setcounter{secnumdepth}{-1}
+
+%%% Elsevier way of starting the article
+\begin{document}
+\section{Introduction}
+A more detailed description of some the R-library functions.
+
+
+\section{Simulating starting values}
+To address MPD convergence when undertaking model exploration, there is a function termed \texttt{generate.starting.pars()}. This function reads a casal2 input configuration file to identify \texttt{@estimate} blocks and then simulate starting values from the prior distribution (of just the uniform if \texttt{all\_uniform = T}) that are within the specified \texttt{lower\_bound} and \texttt{upper\_bound}. One note of caution, often bounds are very unrestricted and may not be appropriate for starting values. I suggest you have run the file on a modified file that has bounds that represent areas of higher density. Although looking for multi modes could also be of interest.
+
+
+To see an example of the function being used, I recommend you look at the RMarkdown file that is embedded in the R package.
+
+\section{Posterior Predictive P-values}
+This functionality hasn't been implemented yet, but this is me spit balling on what needs to happen to get it up and running. This would need C++ code change as well as an R-function to interpret output.
+
+The C++ function change would be the creation of new report termed \texttt{posterior\_predictions} would take syntax like this, make it observation specific
+
+{\small{\begin{verbatim}
+		@report Label
+		type posterior_predictions
+		observation observation_label
+		\end{verbatim}
+	}
+}
+
+This would assume a multirun input, for example an mcmc sample file. for each line of the \texttt{-i} file. It would produce \(y^{rep}\) a simulated dataset. All of this functionality will be in casal2, because we have simulated observations. However, looking at the casal2 source code there are no public functions that allow an observation to simulate data, so this will have to be implemented (shouldn't be difficult) could almost keep it at the parent level.
+
+
+Once this has happened the R-library function read that in and users can generate different discrepancy function \(D()\) i.e. the likelihood or pearsons residuals \textbf{discussion}: should casal2 do the discrepency calculation or the R-library?
+
+\[
+D\left(y^{rep}; \theta\right) = \frac{y^{rep} - \mathbb{E}[y]}{Var(y)}
+\]
+then a P-value can be generate as.
+\[
+ppp\left(y\right) = P_A\left[D\left(y^{rep}; \theta\right) \geq D\left(y;\theta\right) | M, y\right]
+\]
+
+where, \(ppp\left(y\right)\) is the posterior predictive p-value \cite{hjort2006post}, and \(D\left(\right)\) is a discrepancy measure, \(M\) is the model under assessment, \(P_A\) denotes the distribution of the discrepancy posterior. An alternative which I prefer
+\[
+ppp\left(y\right) = \frac{1}{A} \sum\limits_{j = 1}^A I \left\{D\left(y_{rep}; \theta\right) \geq D\left(y;\theta\right) \right\}
+\]
+where, \(I\) is an indicator function.
+
+\section{Data Weighting}
+There are two data-weighting functions in the R library \texttt{MethodTA1.8()} and \texttt{cv.for.cpue()}.
+
+
+\paragraph*{MethodTA1.8()}
+Is a method or iterative reweighing described in \cite{francis2011data}. For completeness I will redefine the method, and how the function works. The R function, takes two main inputs, a \texttt{casal2MPD} which is produced by using \texttt{extract.mpd()} from casal2 text output files, and a report label. This function is defined for compositional data (either age or length) and assumes the likelihood is multinomial. This function calculates a weight that is then used to \textit{update} the effective sample size of the multinomial to then be re-estimated and re-weighted (put through this function again) until convergence (\(w = 1\)). If you are applying this to one observation, you can get it to produce a plot showing fit through the observations with \texttt{plot.it = T}.
+
+
+Some general theory of reweighing a model that has an observation denoted as $O_{t,b}$ (note these are proportions \(\sum_{b = 1}O_{t,b} = 1 \)) at time $t$ for composition bin $b$ (either age or length bin), and a model fitted value $E_{t,b}$. Data weighting aims to standardize the errors $(O_{t,b} - E_{t,b})$ so that the standardised error have constant variance for all time steps and bins i.e. $S_{t,b} = (O_{t,b} - E_{t,b}) /X_{t,b}$, where $X_{t,b}$ is a function of the weighting parameter and $Var(S_{t,b}) = k$. Once error distribution assumptions are made for a dataset e.g. multinomial error, the distribution of $S_{t,b}$ is defined and the aim is to find values of $X_{t,b}$ that result in  $S_{t,b}$ having mean 0 and constant variance.  Using the example from \cite{mcallister1997bayesian} assuming the multinomial error distribution and $N_t = w\tilde{N}_t$. With the multinomial distributional the standardised error (Pearson residuals) are sought, this involves defining the variance of the error, $Var(O_{t,b} - E_{t,b}) = E_{t,b}(1 - E_{t,b})/(w \tilde{N}_t)$. Standardised errors are then calculated as $X_{t,b} =  \left[E_{t,b}(1 - E_{t,b}) / \tilde{N}_t\right]^{0.5}$ this makes, $k = 1/w$ where 
+%%
+\[
+w = 1/ Var_{t,b}\bigg(O_{t,b} - E_{t,b} / \left[E_{t,b}(1 - E_{t,b}) / \tilde{N}_t\right]^{0.5}\bigg)
+\]
+
+where, $Var_{t,b}$ is the finite-sample variance function for a sample. This involves an iterative process with the first stage setting initial values for the weighting variable $\tilde{N}_t$. The second stage involves calculating the standardised residuals and calculating the weighting factor $w$ that adjusts $S_{t,b}$ towards the desired constant variance. This is achieved by updating $\tilde{N}_t = w\tilde{N}_t$ and re-running the model, and to iteratively applying this stage until a constant variance is found. A weakness of this specific example of the method is there are no explicit accounting of correlation between ages, which is often observed in age compositional data due to intra-haul correlation \citep{pennington1994assessing}. There are alternative formulation for multinomial that focus on the error between mean age $(\bar{O}_{t} - \bar{E}_{t})$, which can allow for correlations (method TA1.8 \cite{francis2011data}), this is the method commonly applied for New Zealand stock assessments \citep{plenary_14}.
+
+%%
+\begin{equation}\label{eq:meth_18}
+w = 1/ Var_{t}\bigg(\bar{O}_{t} - \bar{E}_{t} / \left(v_t /\tilde{N}_t  \right)^{0.5}\bigg)
+\end{equation}
+
+where, \(v_t = \sum_{b = 1} E_{t,b}x_b^2 - \bar{E_t^2}\), where, \(x_b\) is the attribute for bin \(b\) and, i.e if \(b = 3\) which corresponded to the length bin of 31cm, then \(x_b = 31\) and \(\bar{E_t} = \sum_{b = 1}  E_{t,b}x_b \)
+%-------------------------------------------------------
+%% Don't write anything after this section
+%-------------------------------------------------------
+\bibliographystyle{agsm}
+\bibliography{../../UserManual/CASAL2}
+
+\end{document}
