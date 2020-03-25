@@ -32,7 +32,6 @@ cd ../adolc_casal_flags_off
 cd ../adolc_casal_flags_on
 ../../../../../BuildSystem/bin/linux/release_adolc/casal2 -m --skip-estimation > run_mcmc.txt 2>&1 &
 
-# changed on 2020-01-29 since this run takes a long time
-# cd ../adolc_casal_flags_on_low_tol
-# ../../../../../BuildSystem/bin/linux/release_adolc/casal2 -m --skip-estimation > run_mcmc.txt 2>&1 &
+cd ../adolc_casal_flags_on_low_tol
+../../../../../BuildSystem/bin/linux/release_adolc/casal2 -m --skip-estimation > run_mcmc.txt 2>&1 &
 
