@@ -36,6 +36,8 @@
       stop(Paste("The report label '", observation_labels[i], "' is not an observation report, it is a '", this_report$type, "' report. Please check that the correct observation_label was specified"))
     }
 
+    if (this_report$likelihood != "multinomial")
+      stop(Paste0("This function only works for observations that have assumed mulinomial error. The observation '", observation_labels[i], "' does not. Please look at the documentation"))
     ## Reformat the obs
     Data = this_report$Values
     years = unique(Data[,"year"])
