@@ -6,8 +6,8 @@
 #' @param model Casal2 output that is the result of a -r, -e run.
 #' @param observation_labels vector<string> Labels of the observations you want to apply the iterative weighting too, can be multiple datasets as in in Chris's original package multiple = T.
 #' @param plot.it If TRUE, plot the index and the smoothed fit. Otherwise, return a dataframe of the year, index, smoothed fitted value, and cv)
-#' @param ylim y-axis limits for the illustrative plot
-#' @param xlim x-axis limits for the illustrative plot
+#' @param ylim The y-axis limits for the illustrative plot
+#' @param xlim The x-axis limits for the illustrative plot
 #'
 #' @return Outputs a mutiplier, w, so that N2y = w x N1y, where N1y and N2y are the stage-1 and stage-2 multinomial sample sizes for the data set in year y.
 #'
@@ -39,7 +39,7 @@
 
     ## check that the Observation_label is of type observation
     if (this_report$type != "observation") {
-      stop(Paste("The report label '", observation_labels[i], "' is not an observation report, it is a '", this_report$type, "' report. Please check that the correct observation_label was specified"))
+      stop(Paste("The report label '", observation_labels[i], "' is not an observation report, it is a '", this_report$type, "' report. Please check that the correct observation label was specified"))
     }
 
     if (this_report$likelihood != "multinomial") {

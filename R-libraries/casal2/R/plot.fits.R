@@ -7,9 +7,14 @@
 #' @param model <casal2MPD, casal2TAB> object that are generated from one of the extract() functions.
 #' @param report_label <string>
 #' @param plot.it Whether to generate a default plot or return the values as a matrix.
-#' @param type Whether to plot an observed vs expected (fit) or plot the residuals (resid)
+#' @param xlim The x-axis limits for the plot
+#' @param ylim The y-axis limits for the plot
+#' @param xlab The x-axis label for the plot
+#' @param ylab The y-axis label for the plot
+#' @param main The title of the plot
+#' @param col  The color used for plot
 #' @param ... remaining plotting options
-#' @return A plot of derived quantities over time if plot.it = T, if plot.it = F it will return a matrix of derived quantities.
+#' @return A plot of derived quantities over time if plot.it = TRUE, if plot.it = FALSE it will return a matrix of derived quantities.
 #' @rdname plot.fits
 #' @export plot.fits
 #' @examples
@@ -20,8 +25,8 @@
 #' par(mfrow = c(1,2))
 #' plot.fits(model = data, report_label = "westF_at_age")
 #' plot.fits(model = data, report_label = "eastF_at_age")
-#' # if you are unhappy with the default plotting you can use plot.it = FALSE and create a plot of your own.
-#' Tangaroa_fits = plot.fits(model = data, report_label = "eastF_at_age", plot.it = FALSE)
+#' # to create a user-specified plot, use plot.it = FALSE.
+#' Tangaroa_fits <- plot.fits(model = data, report_label = "eastF_at_age", plot.it = FALSE)
 
 "plot.fits" <- function(model, report_label="", plot.it = T, xlim, ylim, xlab, ylab, main, col, ...) {
   UseMethod("plot.fits",model)
@@ -54,7 +59,7 @@
 
   if (any(names(this_report) == "type")) {
     if (this_report$type != "observation") {
-      stop(Paste("The report label '", report_label, "' is not a observation. Please check that the correct report label was specified."))
+      stop(Paste("The report label '", report_label, "' is not an observation. Please check that the correct report label was specified."))
     }
     if (!this_report$observation_type %in% observations_allowed) {
       stop(Paste("This function can be used with observation types " , paste(observations_allowed, collapse = ", "), " only."))
@@ -101,12 +106,15 @@
           if (missing(ylab)) {
             ylab <- this_report$type
           }
+          if (missing(col)) {
+            col <- "blue"
+          }
 
-          plot(t_comp$year, t_comp$obs, main = report_label, pch = 1, xlab = xlab, ylab = ylab, ylim = ylim, xlim = xlim,...)
+          plot(t_comp$year, t_comp$obs, main = report_label, pch = 1, xlab = xlab, ylab = ylab, ylim = ylim, xlim = xlim, col = col, ...)
           segments(x0 = t_comp$year, x1 = t_comp$year, y0 = L_CI, y1 = U_CI, col = "black")
           points(t_comp$year, t_comp$fits, col = "red" , pch = 20, cex = 1.3)
         } else if (this_report$likelihood == "normal") {
-          warning("Untested code\nAssumption: sigma = Standard error and so 95%CI = Obs +- 1.96 * sigma\n")
+          warning("Untested code\nAssumption: sigma = Standard error and so 95%CI = Obs +/- 1.96 * sigma\n")
           total_sigma <- t_comp$obs * t_comp$actual_error
           U_CI <- t_comp$obs + 1.96 * total_sigma
           L_CI <- t_comp$obs - 1.96 * total_sigma
@@ -124,8 +132,11 @@
           if (missing(ylab)) {
             ylab = this_report$type
           }
+          if (missing(col)) {
+            col <- "blue"
+          }
 
-          plot(t_comp$year, t_comp$obs, main = report_label, pch = 1, xlab = xlab, ylab = ylab, ylim = ylim, xlim = xlim,...)
+          plot(t_comp$year, t_comp$obs, main = report_label, pch = 1, xlab = xlab, ylab = ylab, ylim = ylim, xlim = xlim, col = col, ...)
           segments(x0 = t_comp$year, x1 = t_comp$year, y0 = L_CI, y1 = U_CI, col = "black")
           points(t_comp$year, t_comp$fits, col = "red" , pch = 20, cex = 1.3)
         } else if (this_report$likelihood == "multinomial") {
@@ -149,13 +160,16 @@
           Obs.bnds <- My[, "Obs"] + cbind(-2 * ses, 2 * ses)
 
           if (missing(ylim)) {
-              ylim <- range(Obs.bnds)
+            ylim <- range(Obs.bnds)
           }
           if (missing(xlim)) {
-              xlim <- range(years)
+            xlim <- range(years)
+          }
+          if (missing(col)) {
+            col <- "blue"
           }
 
-          plot(years, My[, "Obs"], type = "n", ylab = "Mean Age/Length", xlab = "Years", xlim = xlim, ylim = ylim, las = 1,...)
+          plot(years, My[, "Obs"], type = "n", ylab = "Mean Age/Length", xlab = "Years", xlim = xlim, ylim = ylim, col = col, las = 1,...)
           points(years, My[, "Obs"], pch = 1, col = "black")
           segments(years, Obs.bnds[, 1], years, Obs.bnds[, 2], col = "black")
           points(years, My[, "Exp"], col = "red" , pch = 20, cex = 1.3)
@@ -179,7 +193,7 @@
 #' @rdname plot.fits
 #' @method plot.fits casal2TAB
 #' @export
-"plot.fits.casal2TAB" <- function(model, report_label="", type = "resid" ,plot.it = T, xlim, ylim, xlab, ylab, main, col, ...) {
+"plot.fits.casal2TAB" <- function(model, report_label="", type = "resid", plot.it = T, xlim, ylim, xlab, ylab, main, col, ...) {
   if (type != "resid") {
     stop("This function cannot be used with fit for class 'casal2TAB'. Use type = 'resid'")
   }
@@ -223,7 +237,7 @@
       obs    <- unique(substring(colnames(this_normal),first = 0, last = end_nd))
 
       ## generate a boxplot of pearsons residuals by year
-      boxplot(this_normal,ylim = c(-3,3),xlab = "Year", ylab = "Normalised residuals", main = obs,names = years)
+      boxplot(this_normal, ylim = c(-3,3), xlab = "Year", ylab = "Normalised residuals", main = obs, names = years)
       abline(h = c(2,-2), col = "red")
       abline(h = 0, lty = 0)
     } else if (this_report$likelihood == "normal"){
@@ -243,7 +257,7 @@
         obs    <- unique(substring(colnames(this_normal),first = 0, last = end_nd))
 
         ## generate a boxplot of pearsons residuals by year
-        boxplot(this_normal,ylim = c(-3,3),xlab = "Year", ylab = "Normalised residuals", main = "",names = years)
+        boxplot(this_normal, ylim = c(-3,3), xlab = "Year", ylab = "Normalised residuals", main = "",names = years)
         abline(h = c(2,-2), col = "red")
         abline(h = 0, lty = 0)
       } else if (any(pears_ndx)) {
@@ -255,12 +269,12 @@
         obs    <- unique(substring(colnames(this_normal),first = 0, last = end_nd))
 
         ## generate a boxplot of pearsons residuals by year
-        boxplot(this_normal,ylim = c(-3,3),xlab = "Year", ylab = "Pearsons residuals", main = obs,names = years)
+        boxplot(this_normal, ylim = c(-3,3), xlab = "Year", ylab = "Pearsons residuals", main = obs,names = years)
         abline(h = c(2,-2), col = "red")
         abline(h = 0, lty = 0)
       }
     } else if (this_report$likelihood == "multinomial"){
-      pear_ndx = grepl(pattern = "pearson_residuals", x = names(this_report$values))
+      pear_ndx <- grepl(pattern = "pearson_residuals", x = names(this_report$values))
 
       if(!any(pear_ndx)) {
         stop("pearson_residuals were not found in the tabular report. Set @report for this observation: 'pearsons_residuals true'")
@@ -290,7 +304,8 @@
 
       for (y in 1:n_years) {
         this_year <- this_pearson[,grepl(pattern = Paste("pearson_residuals\\[",years[y]), x = names(this_pearson))]
-        boxplot(this_year,ylim = c(-3,3),xlab = "bins", ylab = "Pearsons residuals", main = years[y] ,names = bins)
+
+        boxplot(this_year, ylim = c(-3,3), xlab = "bins", ylab = "Pearsons residuals", main = years[y], names = bins)
         abline(h = c(2,-2), col = "red")
         abline(h = 0, lty = 0)
       }

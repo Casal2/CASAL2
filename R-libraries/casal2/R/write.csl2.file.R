@@ -1,6 +1,8 @@
 #' Model configuration write function
 #'
-#' This function will write a Casal2 configuration file based on a list object in R. Ususally this function will be used once a model has been read into R using extract.csl2.file and modified. This function will then print our the configuration to a new file where it can be re run into Casal2
+#' This function will write a Casal2 configuration file based on a list object in R. Ususally this function
+#' is used once a model has been read into R using extract.csl2.file and modified. This function will then
+#' output the configuration to a new file where it can be rerun in Casal2
 #'
 #' @author Craig Marsh
 #' @param object An R list object that follows the same structure that extract.csl2.file would produce
@@ -10,7 +12,7 @@
 #'
 "write.csl2.file" <- function(object, file, path = "") {
     if (missing(path)) {
-        path <- ""
+path <- ""
     }
 
     filename <- make.filename(path = path, file = file)
@@ -38,7 +40,7 @@
         ## the block has a label and we need to deal with it
         index1  <- regexpr("\\[", Command)
         index2  <- regexpr("\\]", Command)
-        Comment <- paste("@",substr(Command,1,index1 - 1)," ",substr(Command,index1 + 1,index2 - 1) ,sep ="")
+        Comment <- paste("@", substr(Command, 1, index1 - 1), " " ,substr(Command,index1 + 1, index2 - 1), sep ="")
 
         cat(Comment, file = filename, sep = "", fill = F, labels = NULL, append = T)
         cat("\n", file = filename, sep = "", fill = F, labels = NULL, append = T)
@@ -114,9 +116,9 @@
 
           cat("\n", file = filename, sep = "", fill = F, labels = NULL, append = T)
         } else {
-          ## if its a scalar or a vector we can jsut paste them back to together
+          ## if its a scalar or a vector we can just paste them back to together
           if (!is.null(names(object[[i]][[j]]))) {
-            ## We are dealing with a vector
+            ## this is a vector
             values  <- eval(parse(text= paste("object[[i]][[j]]$",names(object[[i]][[j]]),sep="")))
             Comment <- paste(subcommands[j] , paste(values,collapse = " "), sep = " ")
 
