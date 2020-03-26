@@ -16,7 +16,7 @@ reformat.compositional.data = function(model, report_label) {
   }
 
   ## get the report out
-  this_report = get(report_label, model)
+  this_report <- get(report_label, model)
 
   if (any(names(this_report) == "type")) {
     if (this_report$type != "observation") {
@@ -24,56 +24,59 @@ reformat.compositional.data = function(model, report_label) {
     }
   } else {
     stop("multi iteration report found. The Casal2 R package does not parse this type of output.")
-    muliple_iterations_in_a_report = TRUE
-    N_runs = length(this_report)
+
+    muliple_iterations_in_a_report <- TRUE
+    N_runs <- length(this_report)
+
     if (this_report$'1'$type != "observation") {
       stop(Paste("The report label '", report_label, "' is not an observation. Please check that the correct report_label was specified."))
     }
   }
 
-  this_ob = this_report$Values
-  n_years = length(unique(this_ob[,"year"]))
-  n_category = length(unique(this_ob[,"category"]))
-  n_bins = length(unique(Paste(this_ob[,"age"],this_ob[,"length"])))
-  years = unique(this_ob[,"year"])
-  ages = unique(this_ob[,"age"])
-  lengths = unique(this_ob[,"length"])
-  categories = unique(this_ob[,"category"])
-  print(Paste("n_bins = " ,n_bins, " n_category = ", n_category,  " n years " ,n_years))
+  this_ob    <- this_report$Values
+  n_years    <- length(unique(this_ob[,"year"]))
+  n_category <- length(unique(this_ob[,"category"]))
+  n_bins     <- length(unique(Paste(this_ob[,"age"],this_ob[,"length"])))
+  years      <- unique(this_ob[,"year"])
+  ages       <- unique(this_ob[,"age"])
+  lengths    <- unique(this_ob[,"length"])
+  categories <- unique(this_ob[,"category"])
+
+  print(Paste("n_bins = " , n_bins, " n_category = ", n_category, " n years " ,n_years))
   #print(head(this_ob))
 
-  like = matrix(this_ob[,"score"], byrow = T, ncol = n_bins * n_category, nrow = n_years)
+  like <- matrix(this_ob[,"score"], byrow = T, ncol = n_bins * n_category, nrow = n_years)
 
-  obs = matrix(this_ob[,"observed"], byrow = T, ncol = n_bins * n_category, nrow = n_years)
-  fit = matrix(this_ob[,"expected"], byrow = T, ncol = n_bins * n_category, nrow = n_years)
-  err = matrix(this_ob[,"error_value"], byrow = T, ncol = n_bins * n_category, nrow = n_years)
+  obs <- matrix(this_ob[,"observed"], byrow = T, ncol = n_bins * n_category, nrow = n_years)
+  fit <- matrix(this_ob[,"expected"], byrow = T, ncol = n_bins * n_category, nrow = n_years)
+  err <- matrix(this_ob[,"error_value"], byrow = T, ncol = n_bins * n_category, nrow = n_years)
 
-  rownames(fit) = rownames(err) = rownames(obs) = years
+  rownames(fit) <- rownames(err) <- rownames(obs) <- years
 
   if(length(ages) > 1 & n_category == 1) {
-    colnames(obs) = Paste("X",ages)
-    colnames(fit) = Paste("X",ages)
-    colnames(err) = Paste("X",ages)
+    colnames(obs) <- Paste("X",ages)
+    colnames(fit) <- Paste("X",ages)
+    colnames(err) <- Paste("X",ages)
   } else if(length(ages) > 1 & n_category == 2) {
-    colnames(obs) = c(Paste(substr(categories[1],1,1),ages),Paste(substr(categories[2],1,1),ages))
-    colnames(fit) = c(Paste(substr(categories[1],1,1),ages),Paste(substr(categories[2],1,1),ages))
-    colnames(err) = c(Paste(substr(categories[1],1,1),ages),Paste(substr(categories[2],1,1),ages))
+    colnames(obs) <- c(Paste(substr(categories[1],1,1),ages),Paste(substr(categories[2],1,1),ages))
+    colnames(fit) <- c(Paste(substr(categories[1],1,1),ages),Paste(substr(categories[2],1,1),ages))
+    colnames(err) <- c(Paste(substr(categories[1],1,1),ages),Paste(substr(categories[2],1,1),ages))
   } else if (length(lengths) > 1 & n_category == 1) {
-    colnames(obs) = Paste("X",lengths)
-    colnames(fit) = Paste("X",lengths)
-    colnames(err) = Paste("X",lengths)
+    colnames(obs) <- Paste("X",lengths)
+    colnames(fit) <- Paste("X",lengths)
+    colnames(err) <- Paste("X",lengths)
   } else if(length(lengths) > 1 & n_category == 2) {
-    colnames(obs) = c(Paste(substr(categories[1],1,1),lengths),Paste(substr(categories[2],1,1),lengths))
-    colnames(fit) = c(Paste(substr(categories[1],1,1),lengths),Paste(substr(categories[2],1,1),lengths))
-    colnames(err) = c(Paste(substr(categories[1],1,1),lengths),Paste(substr(categories[2],1,1),lengths))
+    colnames(obs) <- c(Paste(substr(categories[1],1,1),lengths),Paste(substr(categories[2],1,1),lengths))
+    colnames(fit) <- c(Paste(substr(categories[1],1,1),lengths),Paste(substr(categories[2],1,1),lengths))
+    colnames(err) <- c(Paste(substr(categories[1],1,1),lengths),Paste(substr(categories[2],1,1),lengths))
   }
 
-  final_list = list()
+  final_list <- list()
 
-  final_list$year = years
-  final_list$obs = obs
-  final_list$fits = fit
-  final_list$error.value = err
+  final_list$year <- years
+  final_list$obs  <- obs
+  final_list$fits <- fit
+  final_list$error.value <- err
 
   return(final_list)
 }
