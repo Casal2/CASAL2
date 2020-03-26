@@ -12,7 +12,7 @@
 #'
 "write.csl2.file" <- function(object, file, path = "") {
     if (missing(path)) {
-path <- ""
+      path <- ""
     }
 
     filename <- make.filename(path = path, file = file)
