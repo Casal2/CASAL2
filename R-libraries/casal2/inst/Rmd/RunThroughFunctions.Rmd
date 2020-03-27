@@ -27,7 +27,7 @@ knit_hooks$set(output = function(x, options) {
     # any lines wider than n should be wrapped
     if (any(nchar(x) > n)) x = strwrap(x, width = n)
 
-    x <-paste(x, collapse = '\n')
+    x <- paste(x, collapse = '\n')
   }
 
   hook_output(x, options)
@@ -36,7 +36,7 @@ knit_hooks$set(output = function(x, options) {
 
 ## Introduction
 
-The aim of this document is to describe and demonstrate the functionality in the Casal2 R package. This includes both deterministic and esitmation runs, and MCMC output. This could also serve as a best practices guide. The R library functions can interpret existing output only, and Casal2's reporting is user-defined, i.e., to plot derived quantities in R the \texttt{@report} for derived quantities must be defined in the model configuration files.
+The aim of this document is to describe and demonstrate the functionality in the Casal2 R package. This includes parsing output from deterministic and estimation \textit{Maximum Posterior Density} (MPD) runs, and MCMC runs. This could also serve as a best practices guide. The R library functions can interpret existing output only, and Casal2's reports are user-specified, i.e., to plot derived quantities in R the \texttt{@report} for derived quantities must be defined in the model configuration files.
 
 There are three types of output from a Casal2 model run:
 
@@ -46,8 +46,7 @@ There are three types of output from a Casal2 model run:
   \item a MCMC run \texttt{-m}
 \end{itemize}
 
-This document will demonstrate the use of the Casal2 R package for all three of these outputs. All files that are used in this demonstration are available in the \texttt{extdata} file in the \texttt{casal2} R package.
-
+This document will demonstrate the use of the Casal2 R package for all three of these outputs. All files that are used in this demonstration are in the \texttt{extdata} file in the \texttt{casal2} R package.
 
 ```{r set_path, linewidth=60, echo=TRUE}
 library(casal2)
@@ -55,10 +54,9 @@ fpath <- system.file("extdata", package="casal2")
 ```
 
 
-
 ## Single Run
 
-When Casal2 is either run deterministically (\texttt{casal2 -r}) or as an estimation run (\texttt{casal2 -e}), there are a range of options available for plotting derived quantities and parameter estimates of a model.
+When Casal2 is run deterministically (\texttt{casal2 -r}) or as an estimation run (\texttt{casal2 -e}), there are several options available for plotting derived quantities and parameter estimates.
 
 ```{r read_mpd_single, linewidth=60}
 # this will create a list-like object called single_run
@@ -68,7 +66,7 @@ single_run <- extract.mpd(file = "estimate.out", path = fpath)
 names(single_run)
 ```
 
-If this is an MPD run, view the warnings and the minimiser's convergence status. This information will always be output for an estimation run.
+If this is an MPD run, the warnings and the minimiser's convergence status can be viewed. This information will always be output for an estimation run.
 
 ```{r check_convergence, linewidth=60}
 # number of warnings encountered
@@ -87,6 +85,7 @@ single_run$minimiser_result$Message
 See also the section below on checking convergence for estimation for diagnosing MPD convergence. Once a model run has converged, look at the goodness of fit to the data. This can be done by looking at residuals.
 
 Plot observed vs expected values for fits
+
 ```{r plot_bio_fits, linewidth=60, fig.width=8, fig.height=4.5, fig.cap="Observed (black) with plus or minus two standard errors, with the models fitted value (red)", fig.pos="H"}
 plot.fits(model = single_run, report_label = "obs_tan", plot.it = T)
 ```
@@ -99,7 +98,7 @@ plot.fits(model = single_run, report_label = "westF_at_age", plot.it = T)
 plot.fits(model = single_run, report_label = "eastF_at_age", plot.it = T)
 ```
 
-If the Casal2 model configuration reports either normalised or Pearson's residuals for any of the obsevations, plot the residuals against the theoretical standard normal quantiles.
+If the Casal2 model configuration reports specify either normalised or Pearson's residuals for any of the obsevations, the residuals can be plotted against the theoretical standard normal quantiles.
 
 ```{r plot_resids, linewidth=60, fig.width=4, fig.height=4, fig.cap="Sample residuals vs theoretical residuals for the biomass observation", fig.pos="H"}
 qqnorm(single_run$obs_tan$Values$normalised_residuals, pch = 1, frame = FALSE)
@@ -114,20 +113,20 @@ Once the model fits reasonably to the data, look at the derived quantities and p
 plot.derived_quantities(model = single_run, report_label = "SSB", plot.it = T)
 ```
 
-The function can return the SSBs only by setting the input \texttt{plot.it = F}, and then create another plot.
+The function can return the SSBs only by setting the input \texttt{plot.it = F}, and then creating another plot.
 
 ```{r get_ssbs}
 SSBs <- plot.derived_quantities(model = single_run, report_label = "SSB", plot.it = F)
 head(SSBs)
 ```
 
-Other derived quantities include selectivities
+Other derived quantities include recruitment
 
 ```{r plot_recruitment, fig.width=8, fig.height=4.3, linewidth=60, fig.cap="Estimated Recruitment (black dots), with Beverton Holt recruit curve (red). Horizontal dashed line is the R0", fig.pos="H"}
 plot.recruitment(model = single_run, report_label = "Rec",add_BH_curve = TRUE)
 ```
 
-YCS parameters
+YCS values
 
 ```{r plot_ycs, fig.width=8, fig.height=4.3, linewidth=60, fig.cap="YCS", fig.pos="H"}
 plot.ycs(model = single_run, report_label = "Rec")
@@ -140,18 +139,18 @@ plot.pressure(model = single_run, report_label = "Mortality", plot.it = T,
               col = c("blue", "red"), lwd = 3)
 ```
 
-Plot selectivities using
+selectivities
 
 ```{r plot_selectivity, fig.width=8, fig.height=4.3, linewidth=60, fig.cap="Estimated Selectivities", fig.pos="H"}
 plot.selectivities(model = single_run, report_labels = c("eastFSel", "chatTANSel", "westFSel"), col = c("blue", "red", "black"), lwd = 3)
 ```
 
-Next, check that the minimum reported is reached with multiple parameter values.
+Next, check that the minimum objective function value is reached from multiple starting parameter values.
 
 
 ## Plotting priors
 
-It can be useful to visualise priors that are used in a Casal2 model. The \texttt{plot.prior()} function from the casal R package was added to the Casal2 R package.
+It can be useful to visualise priors that are used in a Casal2 model. The \texttt{plot.prior()} function from the CASAL R package was added to the Casal2 R package.
 
 ```{r plot_priors, linewidth=60, include=TRUE, eval=T}
 plot.prior(type = "lognormal", mu = 1, cv = 0.9, xlim = c(0,3), xlab = "YCS", ylim = c(0,1), bounds = c(0,3))
@@ -167,7 +166,7 @@ Casal2 has inbuild data weighting functions for relative indices of abundance or
 Method.TA1.8(model = single_run, observation_labels = c("tan_at_age"), plot.it = T)
 ```
 
-There are also wrapper functions that can help automating the dataweighting procedure.
+There are also wrapper functions that can automate the dataweighting procedure.
 
 ```{r dataweighting_auto, linewidth=60, include=TRUE, eval=T}
 ModelFactor <- Method.TA1.8(single_run, observation_labels = c("eastF_at_age"))
@@ -188,7 +187,7 @@ while(abs(ModelFactor - 1.0) > 0.01) {
     shell("casal2 -e > estimate.log 2> log.out")
   } else {
     # assumes linux
-    system("casal2 -e > estimate.log 2> log.out")
+    system("../../../../../BuildSystem/bin/linux/release_betadiff/casal2 -e > estimate.log 2> log.out")
   }
 
   new_mpd <- extract.mpd(file = "estimate.log")
@@ -207,7 +206,7 @@ setwd(this_path)
 
 ## Assessing MPD convergence
 
-If setting up a model for estimating the \textit{Maximum Posterior Density} (MPD), an important consideration is whether the model has been estimated at a local or global minimum. One method available to check for a global minimum is to run multiple estimations from different starting values. One function available for generating multiple starting values is the \texttt{generate.starting.pars()} function. This function takes a text configuration file, and parses the \texttt{@estimate} blocks to find the prior and lower and upper bounds for estimated parameters.
+If setting up a model for estimating the MPD, an important consideration is whether the final objective function value (the negative log likelihood) is a local or global minimum. One method available to check for a global minimum is to run multiple estimations with different starting parameter values. The function for generating multiple starting parameter values is \texttt{generate.starting.pars()}. This function takes a text configuration file as input and parses the \texttt{@estimate} blocks to find the prior and lower and upper bounds for the estimated parameters.
 
 ```{r simulate_starting_vals, linewidth=60, include=TRUE, eval=FALSE}
 generate.starting.pars(path = fpath, Estimation_csl2_file = "Estimation.csl2", N = 10,
@@ -257,7 +256,7 @@ Most of the functions that work for the single MPD run cannot be used with multi
 
 ## MCMC
 
-There are two formats for MCMC outputs, the objective function values and parameter samples, and the derived quantitites. The first type of output is created with the \texttt{casal2 -m} command, and the latter is created with \texttt{casal2 -r --tabular -i mcmc\_samples.out}.
+There are two sets of MCMC outputs, the objective function values and parameter samples, and the derived quantitites. The first type of output is created with the \texttt{casal2 -m} command, and the latter is created with \texttt{casal2 -r --tabular -i mcmc\_samples.out}.
 
 ```{r read_mcmc, linewidth=60, eval=F, cache=F}
 # this will create a list like object called single_run

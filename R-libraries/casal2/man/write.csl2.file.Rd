@@ -9,7 +9,7 @@ write.csl2.file(object, file, path = "")
 \arguments{
 \item{object}{An R list object that follows the same structure that extract.csl2.file would produce}
 
-\item{file}{The file name (optional)}
+\item{file}{The file name}
 
 \item{path}{The path to output the file (optional)}
 }

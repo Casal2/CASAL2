@@ -6,7 +6,7 @@
 #'
 #' @author Craig Marsh
 #' @param object An R list object that follows the same structure that extract.csl2.file would produce
-#' @param file The file name (optional)
+#' @param file The file name
 #' @param path The path to output the file (optional)
 #' @export
 #'
