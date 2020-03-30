@@ -107,7 +107,7 @@ qqline(single_run$obs_tan$Values$normalised_residuals, col = "steelblue", lwd = 
 
 This can also be done for multinomial Pearson's residuals, with them and both normalised residuals \(\mathcal{N}(0,1)\)
 
-Once the model fits reasonably to the data, look at the derived quantities and parameter estimates. The Casal2 R package can plot these using the $`plot.derived_quantities()`$ function.
+Once the model fits reasonably to the data, look at the derived quantities and parameter estimates. The Casal2 R package can plot these using the function \texttt{plot.derived_quantities()}.
 
 ```{r plot_ssbs, fig.width=8, fig.height=4.3, linewidth=60, fig.cap="Estimate SSB", fig.pos="H"}
 plot.derived_quantities(model = single_run, report_label = "SSB", plot.it = T)
@@ -122,7 +122,7 @@ head(SSBs)
 
 Other derived quantities include recruitment
 
-```{r plot_recruitment, fig.width=8, fig.height=4.3, linewidth=60, fig.cap="Estimated Recruitment (black dots), with Beverton Holt recruit curve (red). Horizontal dashed line is the R0", fig.pos="H"}
+```{r plot_recruitment, fig.width=8, fig.height=4.3, linewidth=60, fig.cap="Estimated Recruitment (black dots), with Beverton Holt recruit curve (red) and horizontal dashed line is R0", fig.pos="H"}
 plot.recruitment(model = single_run, report_label = "Rec",add_BH_curve = TRUE)
 ```
 
@@ -159,7 +159,7 @@ plot.prior(type = "lognormal", mu = 1, cv = 0.9, xlim = c(0,3), xlab = "YCS", yl
 
 ## Dataweighting
 
-Casal2 has inbuild data weighting functions for relative indices of abundance or biomass with the \texttt{CV.for.CPUE} function. This function generates CVs for a relative biomass index based on loess smoother. There is also the Francis method TA1.8 [@francis2011data] \texttt{Method.TA1.8()} demonstrated below.
+Casal2 has inbuild data weighting functions for relative indices of abundance or biomass with the function \texttt{CV.for.CPUE()}. This function generates CVs for a relative biomass index based on loess smoothing. There is also the Francis method TA1.8 [@francis2011data] \texttt{Method.TA1.8()} demonstrated below.
 
 
 ```{r dataweighting, linewidth=60, include=TRUE, eval=T}
@@ -187,7 +187,7 @@ while(abs(ModelFactor - 1.0) > 0.01) {
     shell("casal2 -e > estimate.log 2> log.out")
   } else {
     # assumes linux
-    system("../../../../../BuildSystem/bin/linux/release_betadiff/casal2 -e > estimate.log 2> log.out")
+    system("casal2 -e > estimate.log 2> log.out")
   }
 
   new_mpd <- extract.mpd(file = "estimate.log")
@@ -206,14 +206,14 @@ setwd(this_path)
 
 ## Assessing MPD convergence
 
-If setting up a model for estimating the MPD, an important consideration is whether the final objective function value (the negative log likelihood) is a local or global minimum. One method available to check for a global minimum is to run multiple estimations with different starting parameter values. The function for generating multiple starting parameter values is \texttt{generate.starting.pars()}. This function takes a text configuration file as input and parses the \texttt{@estimate} blocks to find the prior and lower and upper bounds for the estimated parameters.
+If setting up a model for estimating the MPD, an important consideration is whether the final objective function value (the negative log likelihood) is a local or global minimum. One method available to check for a global minimum is to run multiple estimations with different starting parameter values. The function for generating multiple starting parameter values is \texttt{generate.starting.pars()}. This function takes a text configuration file as input and parses the \texttt{@estimate} blocks to get the prior and lower and upper bounds for the estimated parameters.
 
 ```{r simulate_starting_vals, linewidth=60, include=TRUE, eval=FALSE}
 generate.starting.pars(path = fpath, Estimation_csl2_file = "Estimation.csl2", N = 10,
                        par_file_name = "random_start.out")
 ```
 
-This function will create the file $`random\_start.out`$ and format the values so they are compatible with $`casal2 -e -i random_start.out > multi_start_mpd.out`$ format. A note when using this function: this function may generate implausable values if the bounds are wide, so more consideration is needed than when setting bounds for a model. This will create a multi run output, with an example below.
+This function will create the file \texttt{random\_start.out} and format the values so they are compatible with \texttt{casal2 -e -i random\_start.out > multi\_start\_mpd.out} format. A note when using this function: this function may generate implausable values if the bounds are wide, so more consideration is needed than when setting bounds for a model. This will create a multi run output, with an example below.
 
 ```{r read_summarise_multi_pars, linewidth=60}
 # this will create a list like object called single_run
@@ -235,7 +235,7 @@ convergence
 objective[convergence == "Success"]
 ```
 
-A function to identify parameters that are unidentfiable is $`check_mpd_identifiability()`$. Set up the model configuration files to report the covariance matrix and the estimated parameters in order for this function to work.
+A function to identify parameters that are unidentfiable is \texttt{check\_mpd\_identifiability()}. Set up the model configuration files to report the covariance matrix and the estimated parameters in order for this function to work.
 
 ```{r check_param_identifiability, linewidth=60, include=TRUE, eval=TRUE}
 # Give this is an example file, the covariance is not invertible
