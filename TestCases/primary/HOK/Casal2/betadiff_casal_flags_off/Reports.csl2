@@ -4,6 +4,10 @@ type estimate_value
 @report objective
 type objective_function
 
+@report mcmc_covariance
+type mcmc_covariance
+
+
 @report SSB
 type derived_quantity
 

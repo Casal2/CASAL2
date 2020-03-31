@@ -1,5 +1,5 @@
 # this assumes that 'release adolc', 'release betadiff', and 'release cppad' have already been built successfully
-# start in directory TestCases/primary/LIN56
+# start in directory TestCases/primary/ORH
 
 cd CASAL
 rm -f params_est.out
