@@ -13,9 +13,9 @@ Method.TA1.8(model, observation_labels, plot.it = F, xlim = NULL, ylim = NULL)
 
 \item{plot.it}{If TRUE, plot the index and the smoothed fit. Otherwise, return a dataframe of the year, index, smoothed fitted value, and cv)}
 
-\item{xlim}{x-axis limits for the illustrative plot}
+\item{xlim}{The x-axis limits for the illustrative plot}
 
-\item{ylim}{y-axis limits for the illustrative plot}
+\item{ylim}{The y-axis limits for the illustrative plot}
 }
 \value{
 Outputs a mutiplier, w, so that N2y = w x N1y, where N1y and N2y are the stage-1 and stage-2 multinomial sample sizes for the data set in year y.

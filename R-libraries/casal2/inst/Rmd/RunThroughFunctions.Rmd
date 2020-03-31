@@ -1,8 +1,11 @@
 ---
-title: "Casal2 R Library Functionality"
+title: "Casal2 R Package Functionality"
 author: "C.Marsh"
 date: "02/02/2020"
 output: pdf_document
+bibliography: bibliography.bib
+citation_package: natbib
+
 header-includes:
   \usepackage{float}
   \floatplacement{figure}{H}
@@ -19,28 +22,31 @@ hook_output = knit_hooks$get('output')
 knit_hooks$set(output = function(x, options) {
   # this hook is used only when the linewidth option is not NULL
   if (!is.null(n <- options$linewidth)) {
-    x = knitr:::split_lines(x)
+    x <- knitr:::split_lines(x)
+
     # any lines wider than n should be wrapped
     if (any(nchar(x) > n)) x = strwrap(x, width = n)
-    x = paste(x, collapse = '\n')
+
+    x <- paste(x, collapse = '\n')
   }
+
   hook_output(x, options)
 })
 ```
+
 ## Introduction
-The aim of this document is to describe and demonstrate functionality in the R library that is currently available. This includes both deterministic and esitmation runs, and MCMC output. This could also serve as a best practice guide. Remember that the R-library function can only intepret output that is available, and Casal2's reporting is completely user defined i.e. if you want to plot derived quantities in R there must be \texttt{@report} for derived quantities.
 
+The aim of this document is to describe and demonstrate the functionality in the Casal2 R package. This includes parsing output from deterministic and estimation \textit{Maximum Posterior Density} (MPD) runs, and MCMC runs. This could also serve as a best practices guide. The R library functions can interpret existing output only, and Casal2's reports are user-specified, i.e., to plot derived quantities in R the \texttt{@report} for derived quantities must be defined in the model configuration files.
 
-There are three types of outputs from a Casal2 model run.
+There are three types of output from a Casal2 model run:
 
 \begin{itemize}
   \item a single MPD run (\texttt{-r} or \texttt{-e})
   \item a multirun MPD run \texttt{-r -i multi\_par\_file.out}, \texttt{-e -i multi\_par\_file.out}, \texttt{-p} or \texttt{-s 10}
-  \item MCMC run \texttt{-m}
+  \item a MCMC run \texttt{-m}
 \end{itemize}
 
-We will demonstrate the use of R libraries for all three of these outputs. All files that are used in this demonstration are available in the \texttt{extdata} file in the \texttt{casal2} R package, from the path below.
-
+This document will demonstrate the use of the Casal2 R package for all three of these outputs. All files that are used in this demonstration are in the \texttt{extdata} file in the \texttt{casal2} R package.
 
 ```{r set_path, linewidth=60, echo=TRUE}
 library(casal2)
@@ -48,33 +54,38 @@ fpath <- system.file("extdata", package="casal2")
 ```
 
 
-
 ## Single Run
-When Casal2 is either run deterministically (\texttt{casal2 -r}) or as an estimation run (\texttt{casal2 -e}), there are a range of options available for plotting important derived quantities and parameter estimates of a model.
+
+When Casal2 is run deterministically (\texttt{casal2 -r}) or as an estimation run (\texttt{casal2 -e}), there are several options available for plotting derived quantities and parameter estimates.
 
 ```{r read_mpd_single, linewidth=60}
-# this will create a list like object called single_run
-single_run = extract.mpd(file = "Estimate.out", path = fpath)
-# look at what objects are in the list
+# this will create a list-like object called single_run
+single_run <- extract.mpd(file = "estimate.out", path = fpath)
+
+# output the objects in the list
 names(single_run)
 ```
 
-If this is an MPD run the, first two things you want to view are warnings and the minimisers convergence. These will always be reported for an estimation.
+If this is an MPD run, the warnings and the minimiser's convergence status can be viewed. This information will always be output for an estimation run.
 
 ```{r check_convergence, linewidth=60}
 # number of warnings encountered
 single_run$warnings_encounted$warnings_found
+
 # An example of a warning
 single_run$warnings_encounted$warning_0
-# Did the model converge
+
+# Model convergence status
 single_run$minimiser_result$Result
+
 # What was the reason for this result?
 single_run$minimiser_result$Message
 ```
 
-See also the section on checking convergence for estimation below for helping with diagnosing MPD convergence. Once you are satisfied with a model run convergence, you will want to look at the goodness of fit to data. This is best done by looking at residuals.
+See also the section below on checking convergence for estimation for diagnosing MPD convergence. Once a model run has converged, look at the goodness of fit to the data. This can be done by looking at residuals.
 
 Plot observed vs expected values for fits
+
 ```{r plot_bio_fits, linewidth=60, fig.width=8, fig.height=4.5, fig.cap="Observed (black) with plus or minus two standard errors, with the models fitted value (red)", fig.pos="H"}
 plot.fits(model = single_run, report_label = "obs_tan", plot.it = T)
 ```
@@ -87,152 +98,201 @@ plot.fits(model = single_run, report_label = "westF_at_age", plot.it = T)
 plot.fits(model = single_run, report_label = "eastF_at_age", plot.it = T)
 ```
 
-If you have requested Casal2 to report either normalised or pearsons residuals for any of the obsevation's you should also plot them against the theoretical standard normal quantiles.
+If the Casal2 model configuration reports specify either normalised or Pearson's residuals for any of the obsevations, the residuals can be plotted against the theoretical standard normal quantiles.
 
 ```{r plot_resids, linewidth=60, fig.width=4, fig.height=4, fig.cap="Sample residuals vs theoretical residuals for the biomass observation", fig.pos="H"}
 qqnorm(single_run$obs_tan$Values$normalised_residuals, pch = 1, frame = FALSE)
 qqline(single_run$obs_tan$Values$normalised_residuals, col = "steelblue", lwd = 2)
 ```
 
-This can also be done for multinomial pearsons residuals, with them and both normalised residuals \(\mathcal{N}(0,1)\)
+This can also be done for multinomial Pearson's residuals, with them and both normalised residuals \(\mathcal{N}(0,1)\)
 
-
-Once you are satisfied with the goodness of fit of the model, then you will want to look at derived quantities and parameters. The R library can do a very basic plot using the \texttt{plot.derived_quantities()} function.
+Once the model fits reasonably to the data, look at the derived quantities and parameter estimates. The Casal2 R package can plot these using the function \texttt{plot.derived_quantities()}.
 
 ```{r plot_ssbs, fig.width=8, fig.height=4.3, linewidth=60, fig.cap="Estimate SSB", fig.pos="H"}
 plot.derived_quantities(model = single_run, report_label = "SSB", plot.it = T)
 ```
 
-You can also, get the function to just return the SSBs, by setting the input \texttt{plot.it = F}, and then create you own plot.
+The function can return the SSBs only by setting the input \texttt{plot.it = F}, and then creating another plot.
 
 ```{r get_ssbs}
-SSBs = plot.derived_quantities(model = single_run, report_label = "SSB", plot.it = F)
+SSBs <- plot.derived_quantities(model = single_run, report_label = "SSB", plot.it = F)
 head(SSBs)
 ```
 
-The other derived quantities are selectivities,
+Other derived quantities include recruitment
 
-
-```{r plot_recruitment, fig.width=8, fig.height=4.3, linewidth=60, fig.cap="Estimated Recruitment (black dots), with Beverton Holt recruit curve (red). Horizontal dashed line is the R0", fig.pos="H"}
+```{r plot_recruitment, fig.width=8, fig.height=4.3, linewidth=60, fig.cap="Estimated Recruitment (black dots), with Beverton Holt recruit curve (red) and horizontal dashed line is R0", fig.pos="H"}
 plot.recruitment(model = single_run, report_label = "Rec",add_BH_curve = TRUE)
 ```
-Also YCS parameters
+
+YCS values
+
 ```{r plot_ycs, fig.width=8, fig.height=4.3, linewidth=60, fig.cap="YCS", fig.pos="H"}
 plot.ycs(model = single_run, report_label = "Rec")
 ```
-Fishing pressure/exploitation rates for each fishery
+
+fishing pressure/exploitation rates for each fishery
+
 ```{r plot_Exploitation, fig.width=8, fig.height=4.3, linewidth=60, fig.cap="Estimated exploitation", fig.pos="H"}
-plot.pressure(model = single_run, report_label = "Mortality", plot.it = T, 
+plot.pressure(model = single_run, report_label = "Mortality", plot.it = T,
               col = c("blue", "red"), lwd = 3)
 ```
 
-plot selectivities
+selectivities
+
 ```{r plot_selectivity, fig.width=8, fig.height=4.3, linewidth=60, fig.cap="Estimated Selectivities", fig.pos="H"}
 plot.selectivities(model = single_run, report_labels = c("eastFSel", "chatTANSel", "westFSel"), col = c("blue", "red", "black"), lwd = 3)
 ```
 
-Next, we will show how to check that the minimum reported is reached with multiple parameter values.
+Next, check that the minimum objective function value is reached from multiple starting parameter values.
+
+
 ## Plotting priors
-It is usefult to visulise priors, that are assumed in a Casal2 assessment model. We have added the \texttt{plot.prio()} function from the casal R package so this can be easily done.
 
-
+It can be useful to visualise priors that are used in a Casal2 model. The \texttt{plot.prior()} function from the CASAL R package was added to the Casal2 R package.
 
 ```{r plot_priors, linewidth=60, include=TRUE, eval=T}
 plot.prior(type = "lognormal", mu = 1, cv = 0.9, xlim = c(0,3), xlab = "YCS", ylim = c(0,1), bounds = c(0,3))
 ```
 
 
-## Dataweighting 
-Casal2 has inbuild data weighting functions, such as \texttt{ CV.for.CPUE} which is a method that associates cv's for a relative biomass trend, based on loess smoothness. There is also the Francis Method TA1.8 \texttt{Method.TA1.8()} demonstrated below.
+## Dataweighting
+
+Casal2 has inbuild data weighting functions for relative indices of abundance or biomass with the function \texttt{CV.for.CPUE()}. This function generates CVs for a relative biomass index based on loess smoothing. There is also the Francis method TA1.8 [@francis2011data] \texttt{Method.TA1.8()} demonstrated below.
 
 
 ```{r dataweighting, linewidth=60, include=TRUE, eval=T}
 Method.TA1.8(model = single_run, observation_labels = c("tan_at_age"), plot.it = T)
 ```
-Assess MPD comvergence
+
+There are also wrapper functions that can automate the dataweighting procedure.
+
+```{r dataweighting_auto, linewidth=60, include=TRUE, eval=T}
+ModelFactor <- Method.TA1.8(single_run, observation_labels = c("eastF_at_age"))
+
+## make a back-up copy of the original Observation.csl2 before running this section
+## This function will also strip out all comments
+this_path <- getwd()
+temp_dir  <- tempdir()
+
+## create a temp directory to undertake data-weighting
+dir.create(file.path(temp_dir, "Simple"))
+file.copy(from = file.path(fpath, "Simple", list.files(file.path(fpath, "Simple"))),
+          to = file.path(temp_dir, "Simple"), recursive = T)
+setwd(file.path(temp_dir,"Simple"))
+
+while(abs(ModelFactor - 1.0) > 0.01) {
+  if(.Platform$OS.type == "windows") {
+    shell("casal2 -e > estimate.log 2> log.out")
+  } else {
+    # assumes linux
+    system("casal2 -e > estimate.log 2> log.out")
+  }
+
+  new_mpd <- extract.mpd(file = "estimate.log")
+  ModelFactor <- Method.TA1.8(new_mpd, observation_labels = c("eastF_at_age"))
+  apply.dataweighting.to.csl2(weighting_factor = ModelFactor,
+                              Observation_csl2_file = "observation.csl2",
+                              Observation_out_filename = "observation.csl2",
+                              Observation_label = c("chatOBSest"))
+  print(ModelFactor)
+}
+
+## overwrite the re-weighed observation csl and change working directory back
+setwd(this_path)
+```
 
 
 ## Assessing MPD convergence
-If setting up a model for estimating the \textit{Maximum Posterior Density} (MPD), an important consideration is whether the model has been estimated at a local or global minmum. One method available is doing multiple estimations from different starting values. One function available for generating multiple starting values is the \texttt{generate.starting.pars()} function. This function takes a text configuration file, and searches for \texttt{@estimate} blocks to find prior and lower and upper bounds to simulate values for.
+
+If setting up a model for estimating the MPD, an important consideration is whether the final objective function value (the negative log likelihood) is a local or global minimum. One method available to check for a global minimum is to run multiple estimations with different starting parameter values. The function for generating multiple starting parameter values is \texttt{generate.starting.pars()}. This function takes a text configuration file as input and parses the \texttt{@estimate} blocks to get the prior and lower and upper bounds for the estimated parameters.
 
 ```{r simulate_starting_vals, linewidth=60, include=TRUE, eval=FALSE}
-generate.starting.pars(path = fpath, Estimation_csl2_file = "Estimation.csl2",N = 10, 
+generate.starting.pars(path = fpath, Estimation_csl2_file = "Estimation.csl2", N = 10,
                        par_file_name = "random_start.out")
 ```
 
-This function will create the file \texttt{random\_start.out} and format the values so they are compatible with \texttt{casal2 -e -i random\_start.out > multi_start_mpd.out} format. This will create a multi run output which is given below for an example of using
-
+This function will create the file \texttt{random\_start.out} and format the values so they are compatible with \texttt{casal2 -e -i random\_start.out > multi\_start\_mpd.out} format. A note when using this function: this function may generate implausable values if the bounds are wide, so more consideration is needed than when setting bounds for a model. This will create a multi run output, with an example below.
 
 ```{r read_summarise_multi_pars, linewidth=60}
 # this will create a list like object called single_run
-multi_run = extract.mpd(file = "multi_start_mpd.out", path = fpath)
-# look at what objects are in the list
+multi_run <- extract.mpd(file = "multi_start_mpd.out", path = fpath)
+
+# look at the objects are in the list
 names(multi_run)
-n_runs = length(multi_run$Init)
-objective = vector()
-convergence = vector()
+
+n_runs      <- length(multi_run$Init)
+objective   <- vector()
+convergence <- vector()
 
 for (i in 1:n_runs) {
-  objective[i] = multi_run$objective[[i]]$values["total_score"]
-  convergence[i] = multi_run$minimiser_result[[i]]$Result
+  objective[i]   <- multi_run$objective[[i]]$values["total_score"]
+  convergence[i] <- multi_run$minimiser_result[[i]]$Result
 }
+
 convergence
 objective[convergence == "Success"]
 ```
 
-Another helpful function that is available to identify parameters that are unidentfiable is \texttt{check_mpd_identifiability()}. You will need to report the covariance matrix and the estimate values in order for this function to work.
-
-
-
+A function to identify parameters that are unidentfiable is \texttt{check\_mpd\_identifiability()}. Set up the model configuration files to report the covariance matrix and the estimated parameters in order for this function to work.
 
 ```{r check_param_identifiability, linewidth=60, include=TRUE, eval=TRUE}
-# Give this is an example file, the covariance is not invertable
+# Give this is an example file, the covariance is not invertible
 # check_mpd_identifiability(single_run)
 ```
 
+
 ## Multi Run\label{sec:multirun}
-Most of the functions that work for the Single MPD aren't written for multi run reports =(. The next step will be if there are multiple model configurations, say model_BH and model_constant, you would create sensitivities for these. This will be the most common multi model run the users will want to summarise
+
+Most of the functions that work for the single MPD run cannot be used with multi run reports. If there are multiple model configurations, e.g., model_BH and model_constant, create separate models for these sensitivities. This will be the most common multi model run to summarise.
 
 ```{r example_of_what_we_want, linewidth=60}
-#model_bH = extract.mpd(file = "BevertonHoltRecruitment.out", path = fpath)
-#model_const = extract.mpd(file = "ConstantRecruitment", path = fpath)
-#multi_mpds = list(model_bH, model_const)
-
+# model_BH    <- extract.mpd(file = "BevertonHoltRecruitment.out", path = fpath)
+# model_const <- extract.mpd(file = "ConstantRecruitment", path = fpath)
+# multi_mpds  <- list(model_BH, model_const)
 ```
 
 
-## MCMC 
-There is two formats for MCMC outputs, the objectives and samples, and the derived quantitites. The first are created with a \texttt{casal2 -m} command, and the latter is created via \texttt{casal2 -r --tabular -i mcmc\_samples.out}
+## MCMC
 
+There are two sets of MCMC outputs, the objective function values and parameter samples, and the derived quantitites. The first type of output is created with the \texttt{casal2 -m} command, and the latter is created with \texttt{casal2 -r --tabular -i mcmc\_samples.out}.
 
-
-
-```{r read_mcmc, linewidth=60, eval=FALSE}
+```{r read_mcmc, linewidth=60, eval=F, cache=F}
 # this will create a list like object called single_run
-mcmc_out = extract.mcmc(samples.file = "mcmc_samples.out",objectives.file = "mcmc_objectives.out",
-                        return_covariance = T, path = fpath)
-# look at the covariance, aka proposal covariance for the MH MCMC
+mcmc_out <- extract.mcmc(samples.file = "mcmc_samples.out",
+                         objectives.file = "mcmc_objectives.out",
+                         return_covariance = T, path = fpath)
+
+# output the covariance matrix, aka proposal covariance for the Metropolis-Hastings MCMC
 mcmc_out$Covariance
 ```
 
-Because we don't want to re-invent the well, the next thing we want to do is bring in a thirdparty library i.e. \texttt{coda}.
+Use the \texttt{coda} package for MCMC diagnostics:
 
 ```{r convert_coda, linewidth=60, eval=T}
 library(coda) # TODO make this a dependency
-mcmc_out = extract.mcmc(samples.file = "mcmc_samples.out",objectives.file = "mcmc_objectives.out",return_covariance = T, path = fpath)
+mcmc_out <- extract.mcmc(samples.file = "mcmc_samples.out",
+                         objectives.file = "mcmc_objectives.out",
+                         return_covariance = T, path = fpath)
+
 # convert to coda mcmc object
 # drop out sample jacobians, step_size, acceptance_rate, acceptance_rate_since_adapt
-mcmc_chain = as.mcmc(mcmc_out$Data[, !colnames(mcmc_out$Data) %in% c("sample", "jacobians", 
-                                                                     "step_size", "acceptance_rate", "penalties", "acceptance_rate_since_adapt")])
-# if return_covariance = F, replace the above with below
-#mcmc_chain = as.mcmc(mcmc_out)
+mcmc_chain <- as.mcmc(mcmc_out$Data[, !colnames(mcmc_out$Data) %in%
+                      c("sample", "jacobians", "step_size", "acceptance_rate",
+                        "penalties", "acceptance_rate_since_adapt")])
+
+# if return_covariance = F, replace the above with this
+# mcmc_chain = as.mcmc(mcmc_out)
 ```
-Now use all the diagnostics for proper Bayesian evailuation
+
+Now use the diagnostics for proper Bayesian evaluation
 
 ```{r mcmc_diadnostics, linewidth=60}
-# once this occurs you can use all the Coda MCMC code
-#geweke.diag(mcmc_chain)
+# geweke.diag(mcmc_chain)
+
 par(mfrow = c(2,2))
+
 traceplot(mcmc_chain[,"objective_score"], main = "objective score")
 traceplot(mcmc_chain[,"process[Recruitment].b0"], main = "B0")
 traceplot(mcmc_chain[,"selectivity[chatTANSel].mu"], main = "TanSel mu")
@@ -241,5 +301,32 @@ traceplot(mcmc_chain[,"selectivity[eastFSel].mu"], main = "EastSel mu")
 
 ## Using R to read and write Casal2 configuration files for simulation/model exploration
 
-Functions that exist \texttt{write.csl2.file()} and \texttt{read.csl2.file()}
+Functions include \texttt{write.csl2.file()} and \texttt{read.csl2.file()}.
 
+
+## Troubleshooting the Casal2 R package
+
+TODO
+
+
+### fileEncoding
+
+For runs using Windows 10, the shell outputs in UTF-16 compared to the cmd prompt which writes text files in UTF-8. The Casal2 R package is built with UTF-8 as the default. Parameters can be set to read files with format UTF-16. If the following error occurs when using one of the \texttt{extract()} functions
+
+```{r utf_error, linewidth=60}
+#  Read 1 item
+#  Warning messages:
+#  1: In scan(filename, what = "", sep = "\n", fileEncoding = fileEncoding) :
+#  embedded nul(s) found in input
+#  2: In extract.mpd(file = "results.txt", fileEncoding = "") :
+#  File is empty, no reports found
+```
+
+This issue may be resolved by using an alternative UTF format by specifying this format with the \texttt{fileEncoding} parameter:
+
+```{r utf_solution, linewidth=60}
+# MyOutput <- extract.mpd(... , fileEncoding = "UTF-16")
+```
+
+
+## References

@@ -54,12 +54,22 @@ plot.fits(
 
 \item{plot.it}{Whether to generate a default plot or return the values as a matrix.}
 
-\item{...}{remaining plotting options}
+\item{xlim}{The x-axis limits for the plot}
 
-\item{type}{Whether to plot an observed vs expected (fit) or plot the residuals (resid)}
+\item{ylim}{The y-axis limits for the plot}
+
+\item{xlab}{The x-axis label for the plot}
+
+\item{ylab}{The y-axis label for the plot}
+
+\item{main}{The title of the plot}
+
+\item{col}{The color used for plot}
+
+\item{...}{remaining plotting options}
 }
 \value{
-A plot of derived quantities over time if plot.it = T, if plot.it = F it will return a matrix of derived quantities.
+A plot of derived quantities over time if plot.it = TRUE, if plot.it = FALSE it will return a matrix of derived quantities.
 
 \code{NULL}
 
@@ -71,19 +81,13 @@ A plotting function to fits to Casal2 observations from a model run.
 \examples{
 library(casal2)
 # plotting Standard Output
-data <- extract.mpd(file = system.file("extdata", "estimate.log", package="casal2"))
+data <- extract.mpd(file = system.file("extdata", "estimate.out", package="casal2"))
 names(data)
 par(mfrow = c(1,2))
-plot.fits(model = data, report_label = "Tangaroa_propn_at_age_Aug")
-plot.fits(model = data, report_label = "wcsiTRLcpue")
-# if you are unhappy with the default plotting you can use plot.it = FALSE and create a plot of your own.
-Tangaroa_fits = plot.fits(model = data, report_label = "Tangaroa_propn_at_age_Aug", plot.it = FALSE)
-# plotting Tabular Output
-tab <- extract.tabular(file = system.file("extdata", "tabular_report.out", package="casal2"))
-names(tab)
-plot.fits(model = tab, report_label = "Tangaroa_propn_at_age_Aug")
-par(mfrow = c(1,1))
-plot.fits(model = tab, report_label = "wcsiTRLcpue")
+plot.fits(model = data, report_label = "westF_at_age")
+plot.fits(model = data, report_label = "eastF_at_age")
+# to create a user-specified plot, use plot.it = FALSE.
+Tangaroa_fits <- plot.fits(model = data, report_label = "eastF_at_age", plot.it = FALSE)
 }
 \author{
 Craig Marsh
