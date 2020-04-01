@@ -70,6 +70,8 @@ void Basic::DoBuild() {
  * if so, then make a vector of the unique change years for all parameters
  */
 void Basic::DoInitialise() {
+  time_varying_years_.clear();
+
   auto mtv = model_->managers().time_varying();
 
   auto a_tv_ = mtv->GetTimeVarying(PARAM_A);

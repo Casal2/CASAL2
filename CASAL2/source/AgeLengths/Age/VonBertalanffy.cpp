@@ -70,6 +70,8 @@ void VonBertalanffy::DoBuild() {
  * if so, then make a vector of the unique change years for all parameters
  */
 void VonBertalanffy::DoInitialise() {
+  time_varying_years_.clear();
+
   auto mtv = model_->managers().time_varying();
 
   auto linf_tv_ = mtv->GetTimeVarying(PARAM_LINF);
