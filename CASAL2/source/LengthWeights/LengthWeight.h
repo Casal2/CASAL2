@@ -42,7 +42,7 @@ public:
 
   // accessors
   virtual Double                    mean_weight(Double size, Distribution distribution, Double cv) const = 0;
-  virtual const vector<unsigned>&   GetTimeVaryingYears() = 0;
+  virtual vector<unsigned>&         GetTimeVaryingYears() = 0;
 
   // members
   Model*                            model_ = nullptr;

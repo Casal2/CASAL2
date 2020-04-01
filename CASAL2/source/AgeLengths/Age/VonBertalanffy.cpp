@@ -22,6 +22,7 @@
 #include "LengthWeights/Manager.h"
 #include "TimeSteps/Manager.h"
 #include "Estimates/Manager.h"
+#include "TimeVarying/Manager.h"
 
 // namespaces
 namespace niwa {
@@ -64,9 +65,36 @@ void VonBertalanffy::DoBuild() {
 
 /**
  * Initialise dependent objects after all objects have been built and validated
+ *
+ * Check if any of the von Bertalanffy age-length parameters are time varying;
+ * if so, then make a vector of the unique change years for all parameters
  */
 void VonBertalanffy::DoInitialise() {
-    // TODO: set time_varying_years by checking all von Bertalanffy parameters
+  auto mtv = model_->managers().time_varying();
+
+  auto linf_tv_ = mtv->GetTimeVarying(PARAM_LINF);
+  auto k_tv_    = mtv->GetTimeVarying(PARAM_K);
+  auto t0_tv_   = mtv->GetTimeVarying(PARAM_T0);
+
+  if (linf_tv_->get_years().size() > 0) {
+    for (auto val : linf_tv_->get_years())
+      time_varying_years_.push_back(val);
+  }
+  if (k_tv_->get_years().size() > 0) {
+    for (auto val : k_tv_->get_years())
+      time_varying_years_.push_back(val);
+  }
+  if (t0_tv_->get_years().size() > 0) {
+    for (auto val : t0_tv_->get_years())
+      time_varying_years_.push_back(val);
+  }
+
+  if (time_varying_years_.size() > 0) {
+    std::sort(time_varying_years_.begin(), time_varying_years_.end());
+    auto omit = std::unique(time_varying_years_.begin(), time_varying_years_.end());
+    // remove consecutive adjacent duplicates
+    time_varying_years_.erase(omit, time_varying_years_.end());
+  }
 }
 
 /**

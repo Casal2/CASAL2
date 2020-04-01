@@ -35,7 +35,7 @@ public:
 
   // accessors
   Double                      mean_weight(Double size, Distribution distribution, Double cv) const override final;
-  const vector<unsigned>&     GetTimeVaryingYears() override final { return time_varying_years_; }
+  vector<unsigned>&           GetTimeVaryingYears() override final { return time_varying_years_; }
 
 private:
   // members

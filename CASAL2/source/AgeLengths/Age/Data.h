@@ -38,7 +38,7 @@ public:
   Double                      mean_length(unsigned time_step, unsigned age) override final;
   Double                      mean_weight(unsigned time_step, unsigned age) override final;
   Double                      GetMeanLength(unsigned year, unsigned time_step, unsigned age) override final;
-  const vector<unsigned>&     GetTimeVaryingYears() override final { return time_varying_years_; }
+  vector<unsigned>&           GetTimeVaryingYears() override final { return time_varying_years_; }
 
 protected:
   //methods

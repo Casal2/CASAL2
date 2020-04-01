@@ -44,7 +44,7 @@ public:
   virtual Double                    mean_length(unsigned time_step, unsigned age) = 0;
   virtual Double                    mean_weight(unsigned time_step, unsigned age) = 0;
   virtual Double                    GetMeanLength(unsigned year, unsigned time_step, unsigned age) = 0;
-  virtual const vector<unsigned>&   GetTimeVaryingYears() = 0;
+  virtual vector<unsigned>&         GetTimeVaryingYears() = 0;
 
   // accessors
   virtual Double                    cv(unsigned year, unsigned time_step, unsigned age) { return cvs_[year][time_step][age]; };

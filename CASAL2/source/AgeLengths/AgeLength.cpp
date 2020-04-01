@@ -21,6 +21,7 @@
 #include "TimeSteps/Manager.h"
 #include "Utilities/Map.h"
 #include "Estimates/Manager.h"
+#include "TimeVarying/Manager.h"
 
 
 // namespaces

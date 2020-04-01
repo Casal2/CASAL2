@@ -18,6 +18,7 @@
 #include "Model/Managers.h"
 #include "TimeSteps/Manager.h"
 #include "Estimates/Manager.h"
+#include "TimeVarying/Manager.h"
 
 // namespaces
 namespace niwa {
@@ -74,9 +75,51 @@ void Schnute::DoBuild() {
 
 /**
  * Initialise dependent objects after all objects have been built and validated
+ *
+ * Check if any of the Schnute age-length parameters are time varying;
+ * if so, then make a vector of the unique change years for all parameters
  */
 void Schnute::DoInitialise() {
-    // TODO: set time_varying_years by checking all Schnute parameters
+  auto mtv = model_->managers().time_varying();
+
+  auto y1_tv_   = mtv->GetTimeVarying(PARAM_Y1);
+  auto y2_tv_   = mtv->GetTimeVarying(PARAM_Y2);
+  auto tau1_tv_ = mtv->GetTimeVarying(PARAM_TAU1);
+  auto tau2_tv_ = mtv->GetTimeVarying(PARAM_TAU2);
+  auto a_tv_    = mtv->GetTimeVarying(PARAM_A);
+  auto b_tv_    = mtv->GetTimeVarying(PARAM_B);
+
+  if (y1_tv_->get_years().size() > 0) {
+    for (auto val : y1_tv_->get_years())
+      time_varying_years_.push_back(val);
+  }
+  if (y2_tv_->get_years().size() > 0) {
+    for (auto val : y2_tv_->get_years())
+      time_varying_years_.push_back(val);
+  }
+  if (tau1_tv_->get_years().size() > 0) {
+    for (auto val : tau1_tv_->get_years())
+      time_varying_years_.push_back(val);
+  }
+  if (tau2_tv_->get_years().size() > 0) {
+    for (auto val : tau2_tv_->get_years())
+      time_varying_years_.push_back(val);
+  }
+  if (a_tv_->get_years().size() > 0) {
+    for (auto val : a_tv_->get_years())
+      time_varying_years_.push_back(val);
+  }
+  if (b_tv_->get_years().size() > 0) {
+    for (auto val : b_tv_->get_years())
+      time_varying_years_.push_back(val);
+  }
+
+  if (time_varying_years_.size() > 0) {
+    std::sort(time_varying_years_.begin(), time_varying_years_.end());
+    auto omit = std::unique(time_varying_years_.begin(), time_varying_years_.end());
+    // remove consecutive adjacent duplicates
+    time_varying_years_.erase(omit, time_varying_years_.end());
+  }
 }
 
 /**
