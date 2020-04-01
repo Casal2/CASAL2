@@ -41,10 +41,10 @@ AgeLength::AgeLength(Model* model) : model_(model) {
   parameters_.Bind<string>(PARAM_TYPE, &type_, "The type of age length relationship", "");
   parameters_.Bind<double>(PARAM_TIME_STEP_PROPORTIONS, &time_step_proportions_, "The fraction of the year applied in each time step that is added to the age for the purposes of evaluating the length, i.e., a value of 0.5 for a time step will evaluate the length of individuals at age+0.5 in that time step", "", true)->set_range(0.0, 1.0);
   parameters_.Bind<string>(PARAM_DISTRIBUTION, &distribution_label_, "The assumed distribution for the growth curve", "", PARAM_NORMAL);
-  parameters_.Bind<Double>(PARAM_CV_FIRST, &cv_first_ , "CV for the first age class", "",Double(0.0))->set_lower_bound(0.0);
-  parameters_.Bind<Double>(PARAM_CV_LAST, &cv_last_ , "CV for last age class", "",Double(0.0))->set_lower_bound(0.0);
+  parameters_.Bind<Double>(PARAM_CV_FIRST, &cv_first_ , "The CV for the first age class", "", Double(0.0))->set_lower_bound(0.0);
+  parameters_.Bind<Double>(PARAM_CV_LAST, &cv_last_ , "The CV for last age class", "", Double(0.0))->set_lower_bound(0.0);
   parameters_.Bind<bool>(PARAM_CASAL_SWITCH, &casal_normal_cdf_ , "If true, use the (less accurate) equation for the cumulative normal function as was used in the legacy version of CASAL.", "",false);
-  parameters_.Bind<bool>(PARAM_BY_LENGTH, &by_length_, "Specifies if the linear interpolation of CV's is a linear function of mean length at age. Default is just by age", "", true);
+  parameters_.Bind<bool>(PARAM_BY_LENGTH, &by_length_, "Specifies if the linear interpolation of CVs is a linear function of mean length at age. Default is by age only", "", true);
 
   RegisterAsAddressable(PARAM_CV_FIRST, &cv_first_);
   RegisterAsAddressable(PARAM_CV_LAST, &cv_last_);
@@ -93,6 +93,14 @@ void AgeLength::Build() {
   DoBuild();
   BuildCV();
 }
+
+/**
+ * Initialise any objects after all objects have been built and validated
+ */
+void AgeLength::Initialise() {
+  DoInitialise();
+}
+
 
 /**
  * Calculate the CVs

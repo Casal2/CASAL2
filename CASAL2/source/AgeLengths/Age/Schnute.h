@@ -30,12 +30,16 @@ public:
   virtual                     ~Schnute() = default;
   void                        DoValidate() override final { };
   void                        DoBuild() override final;
+  void                        DoInitialise() override final;
   void                        DoReset() override final { };
   void                        DoRebuildCache() override final;
+
   // accessors
   Double                      mean_length(unsigned time_step, unsigned age) override final;
   Double                      mean_weight(unsigned time_step, unsigned age) override final;
   Double                      GetMeanLength(unsigned year, unsigned time_step, unsigned age) override final;
+  const vector<unsigned>&     GetTimeVaryingYears() override final { return time_varying_years_; }
+
 protected:
   // methods
 
@@ -48,6 +52,7 @@ protected:
   Double                      b_;
   string                      length_weight_label_;
   LengthWeight*               length_weight_ = nullptr;
+  vector<unsigned>            time_varying_years_;
 
   map<unsigned, map<unsigned, Double>> mean_length_;
 

@@ -54,7 +54,6 @@ public:
   void                        PopulateAgeLengthMatrix(Selectivity* selectivity);
   void                        CalculateNumbersAtLength(Selectivity* selectivity, const vector<double>& length_bins, vector<vector<Double>>& age_length_matrix, vector<Double>& numbers_by_length, const bool& length_plus);
 
-
   // accessors
   unsigned                    age_spread() const { return (max_age_ - min_age_) + 1; }
 

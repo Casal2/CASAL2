@@ -73,6 +73,13 @@ void Schnute::DoBuild() {
 }
 
 /**
+ * Initialise dependent objects after all objects have been built and validated
+ */
+void Schnute::DoInitialise() {
+    // TODO: set time_varying_years by checking all Schnute parameters
+}
+
+/**
  * Return the mean length for a single population
  *
  * @param time_step The time step

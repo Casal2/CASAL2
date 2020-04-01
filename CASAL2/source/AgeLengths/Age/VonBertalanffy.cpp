@@ -63,6 +63,13 @@ void VonBertalanffy::DoBuild() {
 }
 
 /**
+ * Initialise dependent objects after all objects have been built and validated
+ */
+void VonBertalanffy::DoInitialise() {
+    // TODO: set time_varying_years by checking all von Bertalanffy parameters
+}
+
+/**
  * Return the mean length of a single population
  *
  * @param time_step The time step

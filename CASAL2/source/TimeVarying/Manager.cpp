@@ -26,7 +26,9 @@ Manager::Manager() {
 }
 
 /**
+ * Update all time-varying objects for a specific year
  *
+ * @param current_year The year in which to update all time-varying objects
  */
 void Manager::Update(unsigned current_year) {
   LOG_TRACE();
@@ -36,9 +38,27 @@ void Manager::Update(unsigned current_year) {
   }
 }
 
+/**
+ * Does this label reference a time-varying label
+ *
+ * @param label The label of the time-varying object
+ * @return If true, then this is a time-varying object
+ */
+bool Manager::IsTimeVarying(const string& label) {
+  for(auto time_varying : objects_) {
+    if (time_varying->label() == label) {
+      return true;
+    }
+  }
+
+  return false;
+}
 
 /**
+ * Get the pointer for the time-varying label
  *
+ * @param label The label of the time-varying object
+ * @return time-varying smart_ptr
  */
 TimeVarying* Manager::GetTimeVarying(const string& label) {
   for(auto time_varying : objects_) {

@@ -63,6 +63,13 @@ void Basic::DoBuild() {
 }
 
 /**
+ * Initialise dependent objects after all objects have been built and validated
+ */
+void Basic::DoInitialise() {
+    // TODO: set time_varying_years by checking all Basic parameters
+}
+
+/**
  * Calculate and return the mean weight for the size of fish passed in.
  *
  * @param size The size of the population to calculate mean weight for
