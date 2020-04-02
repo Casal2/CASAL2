@@ -39,7 +39,8 @@ void Category::UpdateMeanLengthData() {
   if (mean_length_by_time_step_age_.size() > 0) {
     Categories* categories = model_->categories();
     vector<string> time_steps = model_->time_steps();
-    unsigned year = model_->current_year();
+    unsigned year     = model_->current_year();
+    unsigned year_ndx = year > model_->start_year() ? year - model_->start_year() : 0;
 
     if (model_->partition_type() == PartitionType::kAge) {
       AgeLength* age_length = categories->age_length(name_);
@@ -51,30 +52,34 @@ void Category::UpdateMeanLengthData() {
       if (model_->state() == State::kInitialise ||
           (years_tv_.size() > 0 && std::find(years_tv_.begin(), years_tv_.end(), year) != years_tv_.end()) ||
           age_length->type() == PARAM_DATA) {
-        LOG_FINEST() << "Updating mean length-at-age, then mean weight-at-age";
 
         // if there are time-varying years, find the next time-varying year after "year"
         unsigned next_year_tv_ = 0;
         if (model_->state() != State::kInitialise && age_length->type() != PARAM_DATA &&
             years_tv_.size() > 0 &&
             year != model_->final_year()) {
+          LOG_FINEST() << "years_tv_.size() " << years_tv_.size();
           auto it = std::find(years_tv_.begin(), years_tv_.end(), year);
           it = std::next(it);
+
           if (it != years_tv_.end() && *it != (year + 1)) {
             next_year_tv_ = *it;
             LOG_MEDIUM() << "Copying mean length-at-age values for year " << year << " to all years before year " << next_year_tv_;
+            next_year_tv_ -= model_->start_year();
           }
         }
 
-
+        LOG_FINE() << "Updating mean length-at-age, then mean weight-at-age for year " << year << " year_ndx " << year_ndx
+          << " time steps " << time_steps.size();
         for (unsigned step_iter = 0; step_iter < time_steps.size(); ++step_iter) {
+          LOG_FINEST() << "Updating mean length-at-age for year " << year << " time step " << step_iter;
           for (unsigned age = min_age_; age <= max_age_; ++age) {
-            mean_length_by_time_step_age_[year][step_iter][age] = age_length->GetMeanLength(year, step_iter, age);
+            mean_length_by_time_step_age_[year_ndx][step_iter][age] = age_length->GetMeanLength(year, step_iter, age);
 
             // copy these values to the subsequent years until the next time-varying year
             if (next_year_tv_ > 0) {
-              for (unsigned hold_year = (year + 1); hold_year < next_year_tv_; ++hold_year)
-                mean_length_by_time_step_age_[hold_year][step_iter][age] = mean_length_by_time_step_age_[year][step_iter][age];
+              for (unsigned hold_year = (year_ndx + 1); hold_year < next_year_tv_; ++hold_year)
+                mean_length_by_time_step_age_[hold_year][step_iter][age] = mean_length_by_time_step_age_[year_ndx][step_iter][age];
             }
           }
         }

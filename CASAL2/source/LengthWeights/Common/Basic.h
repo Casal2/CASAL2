@@ -44,7 +44,6 @@ private:
   Double                      cv_ = 0;
   Double                      unit_multipier_ = 1.0;
   string                      units_;
-  vector<unsigned>            time_varying_years_;
 
 };
 

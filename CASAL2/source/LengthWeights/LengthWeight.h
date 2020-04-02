@@ -46,6 +46,9 @@ public:
 
   // members
   Model*                            model_ = nullptr;
+
+protected:
+  vector<unsigned>                  time_varying_years_;
 };
 } /* namespace niwa */
 #endif /* LENGTHWEIGHT_H_ */

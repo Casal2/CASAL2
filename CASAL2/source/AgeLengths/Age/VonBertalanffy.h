@@ -50,7 +50,6 @@ protected:
   Double                      t0_;
   string                      length_weight_label_;
   LengthWeight*               length_weight_ = nullptr;
-  vector<unsigned>            time_varying_years_;
 
   map<unsigned, map<unsigned, Double>> mean_length_;
 
