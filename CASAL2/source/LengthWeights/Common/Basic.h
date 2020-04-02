@@ -30,12 +30,10 @@ public:
   virtual                     ~Basic() = default;
   void                        DoValidate() override final;
   void                        DoBuild() override final;
-  void                        DoInitialise() override final;
   void                        DoReset() override final { };
 
   // accessors
   Double                      mean_weight(Double size, Distribution distribution, Double cv) const override final;
-  vector<unsigned>&           GetTimeVaryingYears() override final { return time_varying_years_; }
 
 private:
   // members

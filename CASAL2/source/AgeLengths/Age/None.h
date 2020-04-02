@@ -30,7 +30,6 @@ public:
   virtual                     ~None() = default;
   void                        DoValidate() override final { };
   void                        DoBuild() override final { };
-  void                        DoInitialise() override final { };
   void                        DoReset() override final { };
   void                        DoRebuildCache() override final { };
 
@@ -38,7 +37,6 @@ public:
   Double                      mean_length(unsigned year, unsigned age) override final { return 1.0; }
   Double                      mean_weight(unsigned year, unsigned age) override final { return 1.0; }
   Double                      GetMeanLength(unsigned year, unsigned time_step, unsigned age) override final { return 1.0; }
-  vector<unsigned>&           GetTimeVaryingYears() override final { return time_varying_years_; }
 };
 
 

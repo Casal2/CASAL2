@@ -133,6 +133,7 @@ void Partition::BuildMeanLengthData() {
         }
       }
     }
+
     category.UpdateMeanWeightData();
   } // for (auto iter : partition_)
 }

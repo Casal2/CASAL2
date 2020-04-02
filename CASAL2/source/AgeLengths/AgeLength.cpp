@@ -96,14 +96,6 @@ void AgeLength::Build() {
 }
 
 /**
- * Initialise any objects after all objects have been built and validated
- */
-void AgeLength::Initialise() {
-  DoInitialise();
-}
-
-
-/**
  * Calculate the CVs
  * populates a 3-D map of CVs by year, age, and time_step
  */

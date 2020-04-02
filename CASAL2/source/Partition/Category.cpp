@@ -37,61 +37,31 @@ namespace partition {
  */
 void Category::UpdateMeanLengthData() {
   if (mean_length_by_time_step_age_.size() > 0) {
-    Categories* categories    = model_->categories();
-    vector<string> time_steps = model_->time_steps();
+    // Categories* categories    = model_->categories();
+    // vector<string> time_steps = model_->time_steps();
 
-    unsigned year     = model_->current_year();
-    unsigned year_ndx = year > model_->start_year() ? year - model_->start_year() : 0;
+    // unsigned year     = model_->current_year();
 
-    if (model_->partition_type() == PartitionType::kAge) {
-      AgeLength* age_length = categories->age_length(name_);
-      auto years_tv_ = age_length->GetTimeVaryingYears();
+    // if (model_->partition_type() == PartitionType::kAge) {
+    //   AgeLength* age_length = categories->age_length(name_);
 
-      // Only do this under three conditions. We are initialising, it has a time varying component, or is of type data.
-      // if (age_length->is_time_varying() || model_->state() == State::kInitialise || age_length->type() == PARAM_DATA) {
-      // the above line was commented out as the associated function "set_time_varying()" is not used anywhere
-      if (model_->state() == State::kInitialise ||
-          (years_tv_.size() > 0 && std::find(years_tv_.begin(), years_tv_.end(), year) != years_tv_.end()) ||
-          age_length->type() == PARAM_DATA) {
+    //   // Only do this under three conditions. We are initialising, it has a time varying component, or is of type data.
+    //   if (age_length->is_time_varying() || model_->state() == State::kInitialise || age_length->type() == PARAM_DATA) {
+    //     LOG_FINE() << "Updating mean length-at-age, then mean weight-at-age for year " << year << " time steps " << time_steps.size();
+    //     for (unsigned step_iter = 0; step_iter < time_steps.size(); ++step_iter) {
+    //       LOG_FINEST() << "Updating mean length-at-age for year " << year << " time step " << step_iter;
+    //       for (unsigned age = min_age_; age <= max_age_; ++age) {
+    //         mean_length_by_time_step_age_[year_ndx][step_iter][age] = age_length->GetMeanLength(year, step_iter, age);
+    //       }
+    //     }
 
-        // if there are time-varying years, find the next time-varying year after "year"
-        unsigned next_year_tv_ = 0;
-        if (model_->state() != State::kInitialise && age_length->type() != PARAM_DATA &&
-            years_tv_.size() > 0 &&
-            year != model_->final_year()) {
-          LOG_FINEST() << "years_tv_.size() " << years_tv_.size();
-          auto it = std::find(years_tv_.begin(), years_tv_.end(), year);
-          it = std::next(it);
-
-          if (it != years_tv_.end() && *it != (year + 1)) {
-            next_year_tv_ = *it;
-            LOG_MEDIUM() << "Copying mean length-at-age values for year " << year << " to all years before year " << next_year_tv_;
-            next_year_tv_ -= model_->start_year();
-          }
-        }
-
-        LOG_FINE() << "Updating mean length-at-age, then mean weight-at-age for year " << year << " year_ndx " << year_ndx
-          << " time steps " << time_steps.size();
-        for (unsigned step_iter = 0; step_iter < time_steps.size(); ++step_iter) {
-          LOG_FINEST() << "Updating mean length-at-age for year " << year << " time step " << step_iter;
-          for (unsigned age = min_age_; age <= max_age_; ++age) {
-            mean_length_by_time_step_age_[year_ndx][step_iter][age] = age_length->GetMeanLength(year, step_iter, age);
-
-            // copy these values to the subsequent years until the next time-varying year
-            if (next_year_tv_ > 0) {
-              for (unsigned hold_year = (year_ndx + 1); hold_year < next_year_tv_; ++hold_year)
-                mean_length_by_time_step_age_[hold_year][step_iter][age] = mean_length_by_time_step_age_[year_ndx][step_iter][age];
-            }
-          }
-        }
-
-        // If this has been updated we need to update Mean weight
-        UpdateMeanWeightData();
-      }
-    } else if (model_->partition_type() == PartitionType::kLength) {
-      // Don't need to update length cause we are a length structured model, so just update weight
-      UpdateMeanWeightData();
-    }
+    //     // If this has been updated we need to update Mean weight
+    //     UpdateMeanWeightData();
+    //   }
+    // } else if (model_->partition_type() == PartitionType::kLength) {
+    //   // Don't need to update length cause we are a length structured model, so just update weight
+    //   UpdateMeanWeightData();
+    // }
   }
 }
 
@@ -259,7 +229,7 @@ void Category::CalculateNumbersAtLength(Selectivity* selectivity, const vector<d
   LOG_FINEST() << "Calculating age length data";
   for (unsigned age = min_age_; age <= max_age_; ++age) {
     unsigned i = age - min_age_;
-    std_dev = age_length_->cv(model_->current_year(), time_step_index,age) * mean_length_by_time_step_age_[year_ndx][time_step_index][i];
+    std_dev = age_length_->cv(model_->current_year(), time_step_index, age) * mean_length_by_time_step_age_[year_ndx][time_step_index][i];
     if (i >= proportions_for_now.size())
       LOG_CODE_ERROR() << "i >= proportions_for_now.size()";
     if (i >= data_.size())

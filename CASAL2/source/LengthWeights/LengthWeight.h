@@ -32,23 +32,18 @@ public:
   virtual                           ~LengthWeight() { };
   void                              Validate();
   void                              Build() { DoBuild(); };
-  void                              Initialise() { DoInitialise(); }
   void                              Reset() { DoReset(); };
 
   virtual void                      DoValidate() = 0;
   virtual void                      DoBuild() = 0;
-  virtual void                      DoInitialise() = 0;
   virtual void                      DoReset() = 0;
 
   // accessors
   virtual Double                    mean_weight(Double size, Distribution distribution, Double cv) const = 0;
-  virtual vector<unsigned>&         GetTimeVaryingYears() = 0;
 
   // members
   Model*                            model_ = nullptr;
 
-protected:
-  vector<unsigned>                  time_varying_years_;
 };
 } /* namespace niwa */
 #endif /* LENGTHWEIGHT_H_ */

@@ -36,7 +36,6 @@ public:
   virtual                           ~AgeLength() { };
   void                              Validate();
   void                              Build();
-  void                              Initialise();
   void                              Reset();
   virtual void                      RebuildCache();
 
@@ -44,7 +43,6 @@ public:
   virtual Double                    mean_length(unsigned time_step, unsigned age) = 0;
   virtual Double                    mean_weight(unsigned time_step, unsigned age) = 0;
   virtual Double                    GetMeanLength(unsigned year, unsigned time_step, unsigned age) = 0;
-  virtual vector<unsigned>&         GetTimeVaryingYears() = 0;
 
   // accessors
   virtual Double                    cv(unsigned year, unsigned time_step, unsigned age) { return cvs_[year][time_step][age]; };
@@ -58,7 +56,6 @@ protected:
 
   virtual void                      DoValidate() = 0;
   virtual void                      DoBuild() = 0;
-  virtual void                      DoInitialise() = 0;
   virtual void                      DoReset() = 0;
   virtual void                      DoRebuildCache() = 0;
 
@@ -74,7 +71,6 @@ protected:
   Distribution                      distribution_;
   bool                              casal_normal_cdf_ = false;
   bool                              varies_by_year_ = false;
-  vector<unsigned>                  time_varying_years_;
 
   map<unsigned, map<unsigned, map<unsigned, Double>>>       cvs_;  // cvs[year][time_step][age]
 };
