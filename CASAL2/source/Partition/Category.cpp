@@ -52,17 +52,29 @@ void Category::UpdateMeanLengthData() {
           (years_tv_.size() > 0 && std::find(years_tv_.begin(), years_tv_.end(), year) != years_tv_.end()) ||
           age_length->type() == PARAM_DATA) {
         LOG_FINEST() << "Updating mean length-at-age, then mean weight-at-age";
+
+        // if there are time-varying years, find the next time-varying year after "year"
+        unsigned next_year_tv_ = 0;
+        if (model_->state() != State::kInitialise && age_length->type() != PARAM_DATA &&
+            years_tv_.size() > 0 &&
+            year != model_->final_year()) {
+          auto it = std::find(years_tv_.begin(), years_tv_.end(), year);
+          it = std::next(it);
+          if (it != years_tv_.end() && *it != (year + 1)) {
+            next_year_tv_ = *it;
+            LOG_MEDIUM() << "Copying mean length-at-age values for year " << year << " to all years before year " << next_year_tv_;
+          }
+        }
+
+
         for (unsigned step_iter = 0; step_iter < time_steps.size(); ++step_iter) {
           for (unsigned age = min_age_; age <= max_age_; ++age) {
             mean_length_by_time_step_age_[year][step_iter][age] = age_length->GetMeanLength(year, step_iter, age);
 
-            if (years_tv_.size() > 0 && model_->state() != State::kInitialise && age_length->type() != PARAM_DATA)
-            {
-              // TODO: copy these values to the subsequent years until the next time-varying year
-              // unless std::find(years_tv_.begin(), years_tv_.end(), (year + 1)) != years_tv_.end()), or
-              // year == model_->final_year()
-              // for (hold_year = (year + 1); hold_year < ???next time-varying year???; ++hold_year)
-              //   mean_length_by_time_step_age_[hold_year][step_iter][age] = mean_length_by_time_step_age_[year][step_iter][age];
+            // copy these values to the subsequent years until the next time-varying year
+            if (next_year_tv_ > 0) {
+              for (unsigned hold_year = (year + 1); hold_year < next_year_tv_; ++hold_year)
+                mean_length_by_time_step_age_[hold_year][step_iter][age] = mean_length_by_time_step_age_[year][step_iter][age];
             }
           }
         }
