@@ -37,8 +37,9 @@ namespace partition {
  */
 void Category::UpdateMeanLengthData() {
   if (mean_length_by_time_step_age_.size() > 0) {
-    Categories* categories = model_->categories();
+    Categories* categories    = model_->categories();
     vector<string> time_steps = model_->time_steps();
+
     unsigned year     = model_->current_year();
     unsigned year_ndx = year > model_->start_year() ? year - model_->start_year() : 0;
 
@@ -100,7 +101,7 @@ void Category::UpdateMeanLengthData() {
  */
 
 void Category::UpdateMeanWeightData() {
-  Categories* categories = model_->categories();
+  Categories* categories    = model_->categories();
   vector<string> time_steps = model_->time_steps();
 
   if (model_->partition_type() == PartitionType::kAge) {

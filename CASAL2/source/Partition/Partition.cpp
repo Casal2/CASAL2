@@ -28,7 +28,7 @@
 namespace niwa {
 
 /**
- *
+ * Destructor
  */
 Partition::~Partition() {
   for (auto partition : partition_) {
@@ -38,7 +38,7 @@ Partition::~Partition() {
 }
 
 /**
- *
+ * Partition validate
  */
 void Partition::Validate() {
 }
@@ -83,14 +83,15 @@ void Partition::Build() {
       unsigned length_bins = model_->length_bins().size();
       new_category->data_.resize(length_bins, 0.0);
     }
+
     partition_[category] = new_category;
   }
 }
 
 /**
- * This method will build the mean_length_by_time_step_age_ object on each of the categories.
+ * This method builds the mean_length_by_time_step_age_ object on each of the categories.
  *
- * This method is called at the start of the model during the build phase. It's will allocate
+ * This method is called at the start of the model during the build phase. It allocates
  * memory and set the values to be used by the model. This is called now because the values
  * are needed by the Partition::BuildAgeLengthProportions() method to build all of the
  * proportions.
@@ -112,6 +113,7 @@ void Partition::BuildMeanLengthData() {
     if (category.mean_length_by_time_step_age_.size() == 0) {
       age_spread = category.age_spread();
       category.mean_length_by_time_step_age_.resize(years.size());
+
       for (unsigned i = 0; i < years.size(); ++i) {
         category.mean_length_by_time_step_age_[i].resize(time_step_count);
         for (unsigned j = 0; j < time_step_count; ++j) {
@@ -123,6 +125,7 @@ void Partition::BuildMeanLengthData() {
     // Populate the mean length object now
     for (auto year : years) {
       year_index = year - model_->start_year();
+
       for (unsigned step_iter = 0; step_iter < time_step_count; ++step_iter) {
         for (unsigned age = category.min_age_; age <= category.max_age_; ++age) {
           age_index = age - category.min_age_;
@@ -135,7 +138,7 @@ void Partition::BuildMeanLengthData() {
 }
 
 /**
- * This method will build the age length proportions for each category to be used during
+ * This method builds the age length proportions for each category to be used during
  * processes/observations that need to convert the age partition into length for use
  * in an age based model
  */
@@ -169,6 +172,7 @@ void Partition::BuildAgeLengthProportions() {
   LOG_FINEST() << "years: " << year_count << "; time_steps: " << time_step_count << "; length_bins: " << length_bin_count;
   unsigned matrix_length_bin_count = model_->length_plus() ? length_bin_count : length_bin_count - 1;
   LOG_FINEST() << "matrix_length_bin_count: " << matrix_length_bin_count;
+
   for (auto iter : partition_) {
     LOG_FINEST() << "Working on " << iter.first;
     if (iter.second->age_length_->distribution() == Distribution::kLogNormal) {
@@ -185,6 +189,7 @@ void Partition::BuildAgeLengthProportions() {
 
     auto age_length_proportion = new utilities::Vector4();
     age_length_proportion->resize(year_count);
+
     for (unsigned year = 0; year < year_count; ++year) {
       (*age_length_proportion)[year].resize(time_step_count);
       for (unsigned time_step = 0; time_step < time_step_count; ++time_step) {
@@ -199,6 +204,7 @@ void Partition::BuildAgeLengthProportions() {
     bool casal_normal_cdf = iter.second->age_length_->casal_normal_cdf();
     for (unsigned year_iter = 0; year_iter < year_count; ++year_iter) {
       year = year_iter + model_->start_year();
+
       for (unsigned time_step = 0; time_step < time_step_count; ++time_step) {
         iter.second->age_length_matrix_.resize(iter.second->age_spread());
 
@@ -250,6 +256,7 @@ void Partition::BuildAgeLengthProportions() {
             }
             tmp = 1.0 - tmp;
             cum[j] = tmp;
+
             if (length_bins[j] < mu) {
               cum[j] = 1.0 - cum[j];
               LOG_FINEST() << "cum[" << j << "]: " << cum[j];
@@ -259,6 +266,7 @@ void Partition::BuildAgeLengthProportions() {
               sum += prop_in_length[j - 1];
             }
           } // for (unsigned j = 0; j < length_bin_count; ++j)
+
           if (model_->length_plus())
             prop_in_length[length_bin_count - 1] = 1.0 - sum - cum[0];
 
@@ -268,10 +276,12 @@ void Partition::BuildAgeLengthProportions() {
       // If the age length object is not data, then it doesn't vary by year
       if (!iter.second->age_length_->varies_by_years()) {
         auto& source = (*age_length_proportion)[0];
+
         for (unsigned year_iter = 1; year_iter < year_count; ++year_iter) {
           auto& props = (*age_length_proportion)[year_iter];
           props = source;
         }
+
         break;
       }
     } // for (unsigned year_iter = 0; year_iter < year_count; ++year_iter)

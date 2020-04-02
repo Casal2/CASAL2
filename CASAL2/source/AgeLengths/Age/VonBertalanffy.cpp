@@ -162,7 +162,7 @@ void VonBertalanffy::DoRebuildCache() {
   vector<string> time_steps = model_->time_steps();
   for (unsigned step_iter = 0; step_iter < time_steps.size(); ++step_iter) {
     for (unsigned age_iter = min_age; age_iter <= max_age; ++age_iter) {
-      mean_length_[step_iter][age_iter] = mean_length(step_iter,age_iter);
+      mean_length_[step_iter][age_iter] = mean_length(step_iter, age_iter);
     }
   }
 }

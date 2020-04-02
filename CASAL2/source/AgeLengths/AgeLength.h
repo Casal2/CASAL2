@@ -76,7 +76,7 @@ protected:
   bool                              varies_by_year_ = false;
   vector<unsigned>                  time_varying_years_;
 
-  map<unsigned, map<unsigned, map<unsigned, Double>>>       cvs_;  //cvs[year][time_step][age]
+  map<unsigned, map<unsigned, map<unsigned, Double>>>       cvs_;  // cvs[year][time_step][age]
 };
 
 } /* namespace niwa */
