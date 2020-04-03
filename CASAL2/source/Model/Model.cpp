@@ -340,7 +340,6 @@ void Model::Validate() {
   // Call validation for the other objects required by the model
   categories_->Validate();
   partition_->Validate();
-
   managers_->Validate();
 
   /**
@@ -357,7 +356,6 @@ void Model::Validate() {
     if (!time_step_mngr.GetTimeStep(time_step))
       LOG_ERROR_P(PARAM_TIME_STEPS) << " (" << time_step << ") has not been defined.";
   }
-
 
   if (parameters_.Get(PARAM_LENGTH_PLUS_GROUP)->has_been_defined() && (partition_type_ == PartitionType::kAge))
     LOG_ERROR_P(PARAM_LENGTH_PLUS_GROUP) << "This parameter should be used only for models that have length structured partitions."
@@ -411,7 +409,6 @@ void Model::Verify() {
  */
 void Model::Reset() {
   LOG_TRACE();
-
   partition_->Reset();
   categories_->Reset();
   managers_->Reset();

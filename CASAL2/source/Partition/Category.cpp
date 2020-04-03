@@ -37,22 +37,24 @@ namespace partition {
  */
 void Category::UpdateMeanLengthData() {
   if (mean_length_by_time_step_age_.size() > 0) {
+    UpdateMeanWeightData();
     // Categories* categories    = model_->categories();
     // vector<string> time_steps = model_->time_steps();
 
     // unsigned year     = model_->current_year();
+    // unsigned year_ndx = year > model_->start_year() ? year - model_->start_year() : 0;
 
     // if (model_->partition_type() == PartitionType::kAge) {
     //   AgeLength* age_length = categories->age_length(name_);
 
-    //   // Only do this under three conditions. We are initialising, it has a time varying component, or is of type data.
-    //   if (age_length->is_time_varying() || model_->state() == State::kInitialise || age_length->type() == PARAM_DATA) {
+    //   // Only do this under three conditions. We are initialising, it has a time varying component (TODO), or is of type data.
+    //   if (model_->state() == State::kInitialise || age_length->type() == PARAM_DATA)
     //     LOG_FINE() << "Updating mean length-at-age, then mean weight-at-age for year " << year << " time steps " << time_steps.size();
     //     for (unsigned step_iter = 0; step_iter < time_steps.size(); ++step_iter) {
     //       LOG_FINEST() << "Updating mean length-at-age for year " << year << " time step " << step_iter;
     //       for (unsigned age = min_age_; age <= max_age_; ++age) {
     //         mean_length_by_time_step_age_[year_ndx][step_iter][age] = age_length->GetMeanLength(year, step_iter, age);
-    //       }
+    //      }
     //     }
 
     //     // If this has been updated we need to update Mean weight
@@ -66,10 +68,8 @@ void Category::UpdateMeanLengthData() {
 }
 
 /**
- * This method updates the mean weight values with the number of animals and
- *  weight per animal for use.
+ * This method updates the mean weight values with the number of animals and weight per animal for use.
  */
-
 void Category::UpdateMeanWeightData() {
   Categories* categories    = model_->categories();
   vector<string> time_steps = model_->time_steps();
@@ -195,7 +195,6 @@ void Category::PopulateAgeLengthMatrix(Selectivity* selectivity) {
  * @parameter age_length_matrix an empty but has memory allocated matrix for using in the temporary transition
  * @parameter numbers_by_length_ vector that has allocated memory which stores the results
  * @parameter length_plus whether the last bin is a plus group
-
  */
 void Category::CalculateNumbersAtLength(Selectivity* selectivity, const vector<double>& length_bins,
                                         vector<vector<Double>>& age_length_matrix, vector<Double>& numbers_by_length,
@@ -280,7 +279,6 @@ void Category::CollapseAgeLengthDataToLength() {
   for (unsigned i = 0; i < length_data_.size(); ++i)
     LOG_FINEST() << "length_data_[" << i << "]: " << length_data_[i];
 }
-
 
 } /* namespace partitions */
 } /* namespace niwa */

@@ -121,7 +121,6 @@ Double Schnute::GetMeanLength(unsigned year, unsigned time_step, unsigned age) {
   return mean_length_[time_step][age];
 }
 
-
 /**
  * ReBuildCache: initialised by the timevarying class.
  */

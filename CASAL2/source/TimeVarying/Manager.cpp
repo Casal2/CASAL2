@@ -19,7 +19,7 @@ namespace niwa {
 namespace timevarying {
 
 /**
- *
+ * Default constructor
  */
 Manager::Manager() {
 
