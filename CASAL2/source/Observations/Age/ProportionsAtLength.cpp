@@ -266,8 +266,9 @@ void ProportionsAtLength::Execute() {
    */
   auto cached_partition_iter  = cached_partition_->Begin();
   auto partition_iter         = partition_->Begin(); // vector<vector<partition::Category> >
+
   unsigned number_bins = model_->length_plus() ? model_->length_bins().size() : model_->length_bins().size() - 1;
-  auto length_bins = model_->length_bins();
+  auto length_bins     = model_->length_bins();
 
   /**
    * Loop through the provided categories. Each provided category (combination) will have a list of observations
@@ -288,12 +289,14 @@ void ProportionsAtLength::Execute() {
     auto category_iter = partition_iter->begin();
     auto cached_category_iter = cached_partition_iter->begin();
     for (; category_iter != partition_iter->end(); ++cached_category_iter, ++category_iter) {
-      LOG_FINEST() << "Selectivity for " << category_labels_[category_offset] << " " << selectivities_[category_offset]->label();
+      LOG_FINEST() << "Selectivity for " << category_labels_[category_offset] << " selectivity " << selectivities_[category_offset]->label();
 
-      cached_category_iter->PopulateAgeLengthMatrix(selectivities_[category_offset]);
-      (*category_iter)->PopulateAgeLengthMatrix(selectivities_[category_offset]);
-      (*cached_category_iter).CollapseAgeLengthDataToLength();
-      (*category_iter)->CollapseAgeLengthDataToLength();
+      if (model_->current_year() == model_->start_year() /* TODO || HasTimeVaryingAgeLengthParameters() */) {
+        cached_category_iter->PopulateAgeLengthMatrix(selectivities_[category_offset]);
+        (*category_iter)->PopulateAgeLengthMatrix(selectivities_[category_offset]);
+        (*cached_category_iter).CollapseAgeLengthDataToLength();
+        (*category_iter)->CollapseAgeLengthDataToLength();
+      }
 
       for (unsigned length_offset = 0; length_offset < number_bins; ++length_offset) {
         // now for each column (length bin) in age_length_matrix sum up all the rows (ages) for both cached and current matricies

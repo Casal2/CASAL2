@@ -49,7 +49,7 @@ protected:
   string                      length_weight_label_;
   LengthWeight*               length_weight_ = nullptr;
 
-  map<unsigned, map<unsigned, Double>> mean_length_; // mean_length_[year][time_step][age]
+  map<unsigned, map<unsigned, Double>> mean_length_; // mean_length_[time_step][age]
 
 };
 

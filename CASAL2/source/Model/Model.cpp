@@ -57,7 +57,7 @@ using std::cout;
 using std::endl;
 
 /**
- * Default Constructor
+ * Default constructor
  */
 Model::Model() {
   LOG_TRACE();
@@ -99,37 +99,51 @@ Model::~Model() {
 }
 
 /**
+ * Method to output the vector of years in the model
  *
+ * @return vector of model years
  */
 vector<unsigned> Model::years() const {
   vector<unsigned> years;
   unsigned year;
+
   for (year = start_year_; year <= final_year_; ++year)
     years.push_back(year);
+
   if (run_mode_ == RunMode::kProjection) {
     for (; year <= projection_final_year_; ++year)
       years.push_back(year);
   }
+
   return years;
 }
 
+/**
+ * Method to output the vector of years in the model, including projection years
+ *
+ * @return vector of model years
+ */
 vector<unsigned> Model::years_all() const {
   vector<unsigned> years;
   unsigned year;
+
   for (year = start_year_; year <= final_year_; ++year)
     years.push_back(year);
+
   for (; year <= projection_final_year_; ++year)
     years.push_back(year);
 
   return years;
 }
 
-
 /**
+ * Method to output the number of years in the model
  *
+ * @return number of years in the model
  */
 unsigned Model::year_spread() const {
   unsigned spread = (final_year_ - start_year_) + 1;
+
   if (run_mode_ == RunMode::kProjection)
     spread = (projection_final_year_ - start_year_) + 1;
 
@@ -137,34 +151,61 @@ unsigned Model::year_spread() const {
 }
 
 /**
+ * Method to return the model's managers object
  *
+ * @return managers
  */
 Managers& Model::managers() {
   return *managers_;
 }
 
+/**
+ * Method to return the model's objects object
+ *
+ * @return objects
+ */
 Objects& Model::objects() {
   return *objects_;
 }
 
+/**
+ * Method to return the model's factory object
+ *
+ * @return factory
+ */
 Factory& Model::factory() {
   return *factory_;
 }
 
+/**
+ * Method to return the model's partition object
+ *
+ * @return partition
+ */
 Partition& Model::partition() {
   return *partition_;
 }
 
+/**
+ * Method to return the model's objective function
+ *
+ * @return objective_function
+ */
 ObjectiveFunction& Model::objective_function() {
   return *objective_function_;
 }
 
+/**
+ * Method to return the model's equation parser
+ *
+ * @return equation_parser
+ */
 EquationParser& Model::equation_parser() {
   return *equation_parser_;
 }
 
 /**
- * Start our model. This is the entry point method for the model
+ * Method to Start the model. This is the entry point method for the model
  * after being called from the main() method.
  *
  * This method will start stepping through the states and verifying
@@ -327,6 +368,8 @@ void Model::PopulateParameters() {
 }
 
 /**
+ * Validate the model
+ *
  * First we will do the local validations. Then we will call validation on the other objects
  */
 void Model::Validate() {
@@ -372,7 +415,9 @@ void Model::Validate() {
 }
 
 /**
+ * Build the model
  *
+ * Call build on the category, partition, and manager objects
  */
 void Model::Build() {
   LOG_TRACE();
@@ -396,7 +441,7 @@ void Model::Build() {
 }
 
 /**
- *
+ * Verify the model
  */
 void Model::Verify() {
   LOG_TRACE();
@@ -405,7 +450,9 @@ void Model::Verify() {
 }
 
 /**
+ * Reset the model
  *
+ * Call reset on the category, partition, and manager objects
  */
 void Model::Reset() {
   LOG_TRACE();
@@ -415,7 +462,7 @@ void Model::Reset() {
 }
 
 /**
- *
+ * Run the model in basic mode
  */
 void Model::RunBasic() {
   LOG_TRACE();
@@ -573,9 +620,8 @@ void Model::RunEstimation() {
 }
 
 /**
- *
+ * Run the model in MCMC mode
  */
-
 bool Model::RunMCMC() {
   LOG_FINE() << "Entering the MCMC Sub-System";
   auto mcmc = managers_->mcmc()->active_mcmc();
@@ -625,7 +671,7 @@ bool Model::RunMCMC() {
 }
 
 /**
- *
+ * Run the model in profiling mode
  */
 void Model::RunProfiling() {
   Estimables& estimables = *managers_->estimables();
@@ -674,7 +720,7 @@ void Model::RunProfiling() {
 }
 
 /**
- *
+ * Run the model in simulation mode
  */
 void Model::RunSimulation() {
   LOG_FINE() << "Entering the Simulation Sub-System";
@@ -695,6 +741,7 @@ void Model::RunSimulation() {
   if (simulation_candidates < 1) {
     LOG_FATAL() << "The number of simulations specified at the command line parser must be at least 1";
   }
+
   unsigned suffix_width          = (unsigned)floor(log10((double) simulation_candidates + 1)) + 1;
   for (int i = 0; i < simulation_candidates; ++i) {
     string report_suffix = ".";
@@ -743,9 +790,8 @@ void Model::RunSimulation() {
 }
 
 /**
- *
+ * Run the model in projection mode
  */
-
 void Model::RunProjection() {
   LOG_TRACE();
   int projection_candidates = global_configuration_->projection_candidates();
@@ -775,6 +821,7 @@ void Model::RunProjection() {
       for (auto iterator = all_view.Begin(); iterator != all_view.End(); ++iterator) {
         (*iterator)->UpdateMeanLengthData();
       }
+
       initialisationphases::Manager& init_phase_manager = *managers_->initialisation_phase();
       init_phase_manager.Execute();
 
@@ -836,6 +883,8 @@ void Model::RunProjection() {
 }
 
 /**
+ * Iterate the model
+ *
  * This method will do a single iteration of the model. During
  * a basic run it'll only run once, but during the other run modes i.e. estiamtion and MCMC
  * it'll run multiple times.
@@ -877,7 +926,7 @@ void Model::Iterate() {
 }
 
 /**
- *
+ * Reset the model and then iterate it
  */
 void Model::FullIteration() {
   Reset();
