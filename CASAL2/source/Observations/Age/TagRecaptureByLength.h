@@ -63,6 +63,7 @@ protected:
   double                        time_step_proportion_;
   unsigned                      number_bins_;
   bool                          use_model_length_bins_ = true;
+
   // Category members
   vector<string>                tagged_category_labels_;
   vector<vector<string>>        tagged_category_split_labels_;

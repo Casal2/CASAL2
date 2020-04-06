@@ -67,9 +67,9 @@ public:
   vector<unsigned>                  years_;
   vector<Double>                    data_;
   vector<Double>                    length_data_;
-  vector<vector<vector<Double>>>    age_length_matrix_; // age_length_matrix_[time_step][age][length]
 
-  vector<vector<vector<Double>>>    mean_length_by_time_step_age_; // value[year][time_step][age] = length;
+  vector<vector<vector<vector<Double>>>>    age_length_matrix_; // age_length_matrix_[year][time_step][age][length]
+  vector<vector<vector<Double>>>            mean_length_by_time_step_age_; // value[year][time_step][age] = length;
 
 
 //  map<unsigned, map<unsigned, Double>> mean_length_by_time_step_age_; // map<time_step, age, length>

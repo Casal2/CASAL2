@@ -452,15 +452,15 @@ void TagRecaptureByLength::Execute() {
      * Loop through the tagged combined categories building up the
      * tagged age results
      */
-    auto tagged_category_iter = tagged_partition_iter->begin();
+    auto tagged_category_iter        = tagged_partition_iter->begin();
     auto tagged_cached_category_iter = tagged_cached_partition_iter->begin();
+
     for (; tagged_category_iter != tagged_partition_iter->end(); ++tagged_cached_category_iter, ++tagged_category_iter) {
       //if (find((*tagged_category_iter)->name_, )
       LOG_FINEST() << "Selectivity for " << tagged_category_labels_[category_offset] << " " << tagged_selectivities_[category_offset]->label();
       if (use_model_length_bins_) {
         tagged_cached_category_iter->PopulateAgeLengthMatrix(selectivities_[category_offset]);
         (*tagged_category_iter)->PopulateAgeLengthMatrix(selectivities_[category_offset]);
-
         (*tagged_cached_category_iter).CollapseAgeLengthDataToLength();
         (*tagged_category_iter)->CollapseAgeLengthDataToLength();
 
@@ -470,8 +470,8 @@ void TagRecaptureByLength::Execute() {
         for (unsigned length_offset = 0; length_offset < tagged_length_results_.size(); ++length_offset) {
          // now for each column (length bin) in age_length_matrix sum up all the rows (ages) for both cached and current matricies
           start_value = (*tagged_cached_category_iter).length_data_[length_offset];
-          end_value = (*tagged_category_iter)->length_data_[length_offset];
-          final_value   = 0.0;
+          end_value   = (*tagged_category_iter)->length_data_[length_offset];
+          final_value = 0.0;
 
           if (mean_proportion_method_)
             final_value = start_value + ((end_value - start_value) * proportion_of_time_);
@@ -492,6 +492,7 @@ void TagRecaptureByLength::Execute() {
 
         tagged_cached_category_iter->CalculateNumbersAtLength(selectivities_[category_offset], length_bins_, age_length_matrix_, numbers_at_length_, length_plus_);
         (*tagged_category_iter)->CalculateNumbersAtLength(selectivities_[category_offset], length_bins_, cached_age_length_matrix_, cached_numbers_at_length_, length_plus_);
+
         for (unsigned length_offset = 0; length_offset < numbers_at_length_.size(); ++length_offset) {
          // now for each column (length bin) in age_length_matrix sum up all the rows (ages) for both cached and current matricies
           start_value = cached_numbers_at_length_[length_offset];
@@ -527,16 +528,18 @@ void TagRecaptureByLength::Execute() {
         LOG_FINE() << "This calculation was done in the loop above so skip this, category = " << (*category_iter)->name_;
         continue;
       }
+
       if (use_model_length_bins_) {
         cached_category_iter->PopulateAgeLengthMatrix(selectivities_[category_offset]);
         (*category_iter)->PopulateAgeLengthMatrix(selectivities_[category_offset]);
         (*cached_category_iter).CollapseAgeLengthDataToLength();
         (*category_iter)->CollapseAgeLengthDataToLength();
+
          for (unsigned length_offset = 0; length_offset < length_results_.size(); ++length_offset) {
           // now for each column (length bin) in age_length_matrix sum up all the rows (ages) for both cached and current matricies
            start_value = (*cached_category_iter).length_data_[length_offset];
-           end_value = (*category_iter)->length_data_[length_offset];
-           final_value   = 0.0;
+           end_value   = (*category_iter)->length_data_[length_offset];
+           final_value = 0.0;
 
            if (mean_proportion_method_)
              final_value = start_value + ((end_value - start_value) * proportion_of_time_);
@@ -554,11 +557,12 @@ void TagRecaptureByLength::Execute() {
       } else {
         cached_category_iter->CalculateNumbersAtLength(selectivities_[category_offset], length_bins_, age_length_matrix_, numbers_at_length_, length_plus_);
         (*category_iter)->CalculateNumbersAtLength(selectivities_[category_offset], length_bins_, cached_age_length_matrix_, cached_numbers_at_length_, length_plus_);
+
         for (unsigned length_offset = 0; length_offset < numbers_at_length_.size(); ++length_offset) {
          // now for each column (length bin) in age_length_matrix sum up all the rows (ages) for both cached and current matricies
           start_value = cached_numbers_at_length_[length_offset];
-          end_value = numbers_at_length_[length_offset];
-          final_value   = 0.0;
+          end_value   = numbers_at_length_[length_offset];
+          final_value = 0.0;
 
           if (mean_proportion_method_)
             final_value = start_value + ((end_value - start_value) * proportion_of_time_);
@@ -586,7 +590,7 @@ void TagRecaptureByLength::Execute() {
       Double expected = 0.0;
       double observed = 0.0;
       if (length_results_[i] != 0.0) {
-        expected = detection_ * tagged_length_results_[i]  / (length_results_[i]+  tagged_length_results_[i]);
+        expected = detection_ * tagged_length_results_[i] / (length_results_[i]+  tagged_length_results_[i]);
         LOG_FINEST() << " total numbers at length " << length_bins_[i] << " = " << tagged_length_results_[i]
           << ", denominator = " << length_results_[i] << " + " << tagged_length_results_[i] ;
       }
@@ -594,7 +598,8 @@ void TagRecaptureByLength::Execute() {
       if (scanned_[model_->current_year()][category_labels_[category_offset]][i] == 0.0)
         observed = 0.0;
       else
-        observed = (recaptures_[model_->current_year()][category_labels_[category_offset]][i]) / scanned_[model_->current_year()][category_labels_[category_offset]][i];                                                                                                                                                                    ;
+        observed = (recaptures_[model_->current_year()][category_labels_[category_offset]][i]) / scanned_[model_->current_year()][category_labels_[category_offset]][i];
+
       SaveComparison(tagged_category_labels_[category_offset], 0, length_bins_[i], expected, observed,
                      process_errors_by_year_[model_->current_year()], scanned_[model_->current_year()][category_labels_[category_offset]][i],
                      0.0, delta_, 0.0);

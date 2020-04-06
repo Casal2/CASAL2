@@ -53,7 +53,6 @@ void Partition::Validate() {
  */
 void Partition::Build() {
   Categories* categories        = model_->categories();
-  auto time_step_count          = model_->time_steps().size();
   vector<string> category_names = categories->category_names();
 
   for(string category : category_names) {
@@ -66,6 +65,7 @@ void Partition::Build() {
     new_category->years_      = categories->years(category);
     new_category->age_length_ = categories->age_length(category);
 
+
     if (model_->partition_type() == PartitionType::kAge) {
       unsigned age_spread = (categories->max_age(category) - categories->min_age(category)) + 1;
       LOG_FINEST() << "resizing data_ to " << age_spread;
@@ -73,13 +73,20 @@ void Partition::Build() {
 
       // Allocate memory for our age_length matrix
       if (model_->length_bins().size() > 0) {
-        new_category->age_length_matrix_.resize(time_step_count);
         unsigned length_bin_count = model_->length_plus() == true ? model_->length_bins().size() : model_->length_bins().size() - 1;
 
-        for (unsigned step_iter = 0; step_iter < time_step_count; ++step_iter) {
-          new_category->age_length_matrix_[step_iter].resize(new_category->age_spread());
-          for (unsigned age = 0; age < new_category->age_spread(); ++age) {
-            new_category->age_length_matrix_[step_iter][age].resize(length_bin_count);
+        auto year_count      = model_->year_spread();
+        auto time_step_count = model_->time_steps().size();
+
+        new_category->age_length_matrix_.resize(year_count);
+
+        for (unsigned year = 0; year < year_count; ++year) {
+          new_category->age_length_matrix_[year].resize(time_step_count);
+          for (unsigned step_iter = 0; step_iter < time_step_count; ++step_iter) {
+            new_category->age_length_matrix_[year][step_iter].resize(new_category->age_spread());
+            for (unsigned age = 0; age < new_category->age_spread(); ++age) {
+              new_category->age_length_matrix_[year][step_iter][age].resize(length_bin_count);
+            }
           }
         }
       }
@@ -207,11 +214,14 @@ void Partition::BuildAgeLengthProportions() {
       }
     }
 
-    iter.second->age_length_matrix_.resize(time_step_count);
-    for (unsigned time_step = 0; time_step < time_step_count; ++time_step) {
-      iter.second->age_length_matrix_[time_step].resize(iter.second->age_spread());
-      for (unsigned age_index = 0; age_index < iter.second->age_spread(); ++age_index) {
-        iter.second->age_length_matrix_[time_step][age_index].resize(matrix_length_bin_count);
+    iter.second->age_length_matrix_.resize(year_count);
+    for (unsigned year = 0; year < year_count; ++year) {
+      iter.second->age_length_matrix_[year].resize(time_step_count);
+      for (unsigned time_step = 0; time_step < time_step_count; ++time_step) {
+        iter.second->age_length_matrix_[year][time_step].resize(iter.second->age_spread());
+        for (unsigned age_index = 0; age_index < iter.second->age_spread(); ++age_index) {
+          iter.second->age_length_matrix_[year][time_step][age_index].resize(matrix_length_bin_count);
+        }
       }
     }
 

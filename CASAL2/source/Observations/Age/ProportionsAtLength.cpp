@@ -292,9 +292,8 @@ void ProportionsAtLength::Execute() {
       LOG_FINEST() << "Selectivity for " << category_labels_[category_offset] << " selectivity " << selectivities_[category_offset]->label();
 
       cached_category_iter->PopulateAgeLengthMatrix(selectivities_[category_offset]);
-      (*cached_category_iter).CollapseAgeLengthDataToLength();
-
       (*category_iter)->PopulateAgeLengthMatrix(selectivities_[category_offset]);
+      (*cached_category_iter).CollapseAgeLengthDataToLength();
       (*category_iter)->CollapseAgeLengthDataToLength();
 
       for (unsigned length_offset = 0; length_offset < number_bins; ++length_offset) {
