@@ -116,7 +116,9 @@ void Category::CollapseAgeLengthData() {
   LOG_CODE_ERROR() << "Do not allocate memory with '.push_back'";
   data_.clear();
 
-  for (auto age_row : age_length_matrix_) {
+  unsigned time_step_index = model_->managers().time_step()->current_time_step();
+
+  for (auto age_row : age_length_matrix_[time_step_index]) {
     Double total = 0;
     for (Double length_data : age_row)
       total += length_data;
@@ -133,7 +135,8 @@ void Category::CollapseAgeLengthData() {
  * @parameter selectivity The selectivity to apply to the age data
  */
 void Category::PopulateAgeLengthMatrix(Selectivity* selectivity) {
-  LOG_FINEST() << "Populating the length data for category " << name_ << " in year " << model_->current_year();
+  LOG_FINE() << "Populating the age-length matrix for category " << name_ << " in year " << model_->current_year();
+  // TODO:
 
   if (selectivity == nullptr)
     LOG_CODE_ERROR() << "selectivity == nullptr";
@@ -155,6 +158,9 @@ void Category::PopulateAgeLengthMatrix(Selectivity* selectivity) {
     LOG_CODE_ERROR() << "year > age_length_proportions.size()";
   if (time_step_index > age_length_proportions[year].size())
     LOG_CODE_ERROR() << "time_step_index > age_length_proportions[year].size()";
+  if (age_length_matrix_[time_step_index].size() == 0)
+    LOG_CODE_ERROR() << "No memory has been allocated for the age_length_matrix for time step " << time_step_index
+      << " in category " << name_;
 
   vector<vector<Double>>& proportions_for_now = age_length_proportions[year][time_step_index];
   unsigned size = model_->length_plus() == true ? model_->length_bins().size() : model_->length_bins().size() - 1;
@@ -166,26 +172,27 @@ void Category::PopulateAgeLengthMatrix(Selectivity* selectivity) {
       LOG_CODE_ERROR() << "i >= proportions_for_now.size()";
     if (i >= data_.size())
       LOG_CODE_ERROR() << "i >= data_.size()";
-    if (i >= age_length_matrix_.size())
-      LOG_CODE_ERROR() << "(i >= age_length_matrix_.size())";
+    if (i >= age_length_matrix_[time_step_index].size())
+      LOG_CODE_ERROR() << "(i >= age_length_matrix_[time_step_index].size())";
 
     vector<Double>& ages_at_length = proportions_for_now[i];
 
     for (unsigned bin = 0; bin < size; ++bin) {
-      if (bin >= age_length_matrix_[i].size())
-        LOG_CODE_ERROR() << "bin (" << bin << ") >= age_length_matrix_[i].size(" << age_length_matrix_[i].size() << ")";
+      if (bin >= age_length_matrix_[time_step_index][i].size())
+        LOG_CODE_ERROR() << "bin (" << bin << ") >= age_length_matrix_[time_step_index][i].size(" << age_length_matrix_[time_step_index][i].size() << ")";
       if (bin >= ages_at_length.size())
         LOG_CODE_ERROR() << "bin >= ages_at_length.size()";
 
-      age_length_matrix_[i][bin] = selectivity->GetAgeResult(age, age_length_) * data_[i] * ages_at_length[bin];
+      age_length_matrix_[time_step_index][i][bin] = selectivity->GetAgeResult(age, age_length_) * data_[i] * ages_at_length[bin];
     }
   }
 
-  LOG_FINEST() << "Finished populating the length data for category " << name_ << " in year " << model_->current_year();
+  LOG_FINE() << "Finished populating the age-length matrix for category " << name_ << " in year " << model_->current_year()
+    << " and time step " << time_step_index;;
 }
 
 /**
- * This method will take the current age population for this category stored
+ * This method will take the current age population for this category and time step stored
  * in this->data_ and populate @param numbers_by_length_ by using the age length
  * matrix supplied age_length_matrix. This function assumes the all checks are done in the
  * class that passes objects to this method
@@ -263,16 +270,20 @@ void Category::CollapseAgeLengthDataToLength() {
   if (age_length_matrix_.size() == 0)
     LOG_CODE_ERROR() << "if (age_length_matrix_.size() == 0)";
 
-  LOG_FINE() << "age_length_matrix_.size(): " << age_length_matrix_.size();
-  LOG_FINE() << "age_length_matrix_[0].size(): " << age_length_matrix_[0].size();
+  LOG_FINE() << "age_length_matrix_.size(): " << age_length_matrix_.size();             // time steps
+  LOG_FINE() << "age_length_matrix_[0].size(): " << age_length_matrix_[0].size();       // ages
+  LOG_FINE() << "age_length_matrix_[0][0].size(): " << age_length_matrix_[0][0].size(); // length bins
+
   length_data_.assign(model_->length_bins().size(), 0.0);
 
-  for (unsigned i = 0; i < age_length_matrix_.size(); ++i) {
-    for (unsigned j = 0; j < age_length_matrix_[i].size(); ++j) {
+  unsigned time_step_index = model_->managers().time_step()->current_time_step();
+
+  for (unsigned i = 0; i < age_length_matrix_[time_step_index].size(); ++i) {
+    for (unsigned j = 0; j < age_length_matrix_[time_step_index][i].size(); ++j) {
       if (j >= length_data_.size())
         LOG_CODE_ERROR() << "j >= length_data_.size()";
 
-      length_data_[j] += age_length_matrix_[i][j];
+      length_data_[j] += age_length_matrix_[time_step_index][i][j];
     }
   }
 

@@ -52,7 +52,9 @@ public:
   void                              CollapseAgeLengthDataToLength();
 
   void                              PopulateAgeLengthMatrix(Selectivity* selectivity);
-  void                              CalculateNumbersAtLength(Selectivity* selectivity, const vector<double>& length_bins, vector<vector<Double>>& age_length_matrix, vector<Double>& numbers_by_length, const bool& length_plus);
+  void                              CalculateNumbersAtLength(Selectivity* selectivity, const vector<double>& length_bins,
+                                                             vector<vector<Double>>& age_length_matrix, vector<Double>& numbers_by_length,
+                                                             const bool& length_plus);
 
   // accessors
   unsigned                          age_spread() const { return (max_age_ - min_age_) + 1; }
@@ -65,7 +67,7 @@ public:
   vector<unsigned>                  years_;
   vector<Double>                    data_;
   vector<Double>                    length_data_;
-  vector<vector<Double>>            age_length_matrix_; // age_length_matrix_[age][length]
+  vector<vector<vector<Double>>>    age_length_matrix_; // age_length_matrix_[time_step][age][length]
 
   vector<vector<vector<Double>>>    mean_length_by_time_step_age_; // value[year][time_step][age] = length;
 

@@ -15,6 +15,7 @@
 #include "Categories/Categories.h"
 #include "Selectivities/Manager.h"
 #include "Penalties/Manager.h"
+#include "TimeSteps/Manager.h"
 #include "Utilities/DoubleCompare.h"
 
 #include <boost/algorithm/string/replace.hpp>
@@ -28,7 +29,7 @@ namespace processes {
 namespace age {
 
 /**
- *
+ * Default constructor
  */
 TagByLength::TagByLength(Model* model)
   : Process(model),
@@ -322,6 +323,7 @@ void TagByLength::DoExecute() {
   }
 
 
+  unsigned time_step_index = model_->managers().time_step()->current_time_step();
 
   // Calculate the exploitation rate by length bin
   for (unsigned i = 0; i < number_bins; ++i) {
@@ -380,7 +382,7 @@ void TagByLength::DoExecute() {
 
       //vector<Double> numbers_at_age((*from_iter)->data_.size(), 0.0);
       for (unsigned j = 0; j < (*from_iter)->data_.size(); ++j) {
-        numbers_at_age_by_category[(*from_iter)->name_][j] += (*from_iter)->age_length_matrix_[j][i] * exploitation_by_length;
+        numbers_at_age_by_category[(*from_iter)->name_][j] += (*from_iter)->age_length_matrix_[time_step_index][j][i] * exploitation_by_length;
       }
     }
   } // for (unsigned i = 0; i < length_bins_.size(); ++i)

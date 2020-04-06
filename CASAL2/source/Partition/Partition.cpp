@@ -52,8 +52,9 @@ void Partition::Validate() {
  * accessor objects.
  */
 void Partition::Build() {
-  Categories* categories                    = model_->categories();
-  vector<string> category_names             = categories->category_names();
+  Categories* categories        = model_->categories();
+  auto time_step_count          = model_->time_steps().size();
+  vector<string> category_names = categories->category_names();
 
   for(string category : category_names) {
     LOG_FINEST() << "Adding category " << category << " to the partition";
@@ -72,10 +73,14 @@ void Partition::Build() {
 
       // Allocate memory for our age_length matrix
       if (model_->length_bins().size() > 0) {
+        new_category->age_length_matrix_.resize(time_step_count);
         unsigned length_bin_count = model_->length_plus() == true ? model_->length_bins().size() : model_->length_bins().size() - 1;
-        new_category->age_length_matrix_.resize(new_category->age_spread());
-        for (unsigned age = 0; age < new_category->age_spread(); ++age) {
-          new_category->age_length_matrix_[age].resize(length_bin_count);
+
+        for (unsigned step_iter = 0; step_iter < time_step_count; ++step_iter) {
+          new_category->age_length_matrix_[step_iter].resize(new_category->age_spread());
+          for (unsigned age = 0; age < new_category->age_spread(); ++age) {
+            new_category->age_length_matrix_[step_iter][age].resize(length_bin_count);
+          }
         }
       }
 
@@ -152,6 +157,7 @@ void Partition::BuildAgeLengthProportions() {
   auto year_count         = model_->years().size();
   auto time_step_count    = model_->time_steps().size();
   auto length_bin_count   = model_->length_bins().size();
+
   unsigned year           = 0;
   Double mu               = 0.0;
   Double cv               = 0.0;
@@ -200,6 +206,15 @@ void Partition::BuildAgeLengthProportions() {
         }
       }
     }
+
+    iter.second->age_length_matrix_.resize(time_step_count);
+    for (unsigned time_step = 0; time_step < time_step_count; ++time_step) {
+      iter.second->age_length_matrix_[time_step].resize(iter.second->age_spread());
+      for (unsigned age_index = 0; age_index < iter.second->age_spread(); ++age_index) {
+        iter.second->age_length_matrix_[time_step][age_index].resize(matrix_length_bin_count);
+      }
+    }
+
     LOG_FINEST() << "Memory allocation done";
 
     bool casal_normal_cdf = iter.second->age_length_->casal_normal_cdf();
@@ -207,11 +222,7 @@ void Partition::BuildAgeLengthProportions() {
       year = year_iter + model_->start_year();
 
       for (unsigned time_step = 0; time_step < time_step_count; ++time_step) {
-        iter.second->age_length_matrix_.resize(iter.second->age_spread());
-
         for (unsigned age_index = 0; age_index < iter.second->age_spread(); ++age_index) {
-          // allocate memory for the age length matrix
-          iter.second->age_length_matrix_[age_index].resize(matrix_length_bin_count);
 
           age = age_index + iter.second->min_age_;
           mu = iter.second->mean_length_by_time_step_age_[year_iter][time_step][age_index];
