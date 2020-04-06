@@ -35,15 +35,16 @@ InitialisationPartitionMeanWeight::InitialisationPartitionMeanWeight(Model* mode
 
 
 /**
- *
+ * Execute the InitialisationPartitionMeanWeight report
  */
 void InitialisationPartitionMeanWeight::DoExecute() {
   LOG_TRACE();
   //  auto categories = Categories::Instance();
   niwa::partition::accessors::All all_view(model_);
   unsigned time_step_index = model_->managers().time_step()->current_time_step();
-  vector<unsigned> length_bins = model_->length_bins();
+  vector<double> length_bins = model_->length_bins();
   cache_ << "*" << type_ << "[" << label_ << "]\n";
+
   for (auto iterator = all_view.Begin(); iterator != all_view.End(); ++iterator) {
 
     string category = (*iterator)->name_;

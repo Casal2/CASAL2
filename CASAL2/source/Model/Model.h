@@ -98,9 +98,9 @@ public:
   virtual const vector<string>& initialisation_phases() const { return initialisation_phases_; }
   void                        set_partition_type(PartitionType partition_type) { partition_type_ = partition_type; }
   virtual PartitionType       partition_type() const { return partition_type_; }
-  virtual const vector<unsigned>&     length_bins() const { return length_bins_; }
+  virtual const vector<double>&     length_bins() const { return length_bins_; }
   virtual bool                length_plus() const { return length_plus_; }
-  virtual unsigned            length_plus_group() const { return length_plus_group_; }
+  virtual double              length_plus_group() const { return length_plus_group_; }
 
   // manager accessors
   virtual Managers&           managers();
@@ -142,11 +142,12 @@ protected:
   bool                        age_plus_ = true;
   vector<string>              initialisation_phases_;
   vector<string>              time_steps_;
-  vector<unsigned>            length_bins_;
+  vector<double>              length_bins_;
   bool                        length_plus_ = true;
-  unsigned                    length_plus_group_ = 0;
+  double                      length_plus_group_ = 0;
   bool                        addressable_values_file_ = false;
   unsigned                    adressable_values_count_ = 1;
+
   PartitionType               partition_type_ = PartitionType::kInvalid;
   Managers*                   managers_ = nullptr;
   Objects*                    objects_ = nullptr;
@@ -157,6 +158,7 @@ protected:
   ObjectiveFunction*          objective_function_ = nullptr;
   EquationParser*             equation_parser_ = nullptr;
   bool                        projection_final_phase_ = false; // this parameter is for the projection classes. most of the methods are in the reset but they don't need to be applied
+
   // if the model is in the first iteration and storeing values.
   map<State::Type, vector<Executor*>> executors_;
 };

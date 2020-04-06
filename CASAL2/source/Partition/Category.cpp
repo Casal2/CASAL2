@@ -94,7 +94,7 @@ void Category::UpdateMeanWeightData() {
 
     // Only do this under two conditions. We are initialising, it has a time varying component
     if (model_->state() == State::kInitialise) {
-      vector<unsigned> length_bins = model_->length_bins();
+      vector<double> length_bins = model_->length_bins();
       for (unsigned step_iter = 0; step_iter < time_steps.size(); ++step_iter) {
         for (unsigned length_bin_index = 0; length_bin_index < length_bins.size(); ++length_bin_index) {
           //Double size = 0;
@@ -148,7 +148,7 @@ void Category::PopulateAgeLengthMatrix(Selectivity* selectivity) {
 
   auto& age_length_proportions = model_->partition().age_length_proportions(name_);
   unsigned year_index          = model_->current_year() - model_->start_year();
-  vector<unsigned> length_bins = model_->length_bins();
+  vector<double> length_bins = model_->length_bins();
   unsigned time_step_index     = model_->managers().time_step()->current_time_step();
 
   LOG_FINEST() << "Year: " << model_->current_year() << "; year index: " << year_index << "; time_step: " << time_step_index

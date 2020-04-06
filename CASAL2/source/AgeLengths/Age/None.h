@@ -40,7 +40,6 @@ public:
 
 };
 
-
 } /* namespace agelengths */
 } /* namespace niwa */
 #endif /* AGELENGTHS_NONE_H_ */

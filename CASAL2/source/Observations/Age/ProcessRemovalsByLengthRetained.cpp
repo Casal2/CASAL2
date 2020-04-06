@@ -101,7 +101,7 @@ void ProcessRemovalsByLengthRetained::DoValidate() {
   }
 
   // Check that length bins lie within range of model_->length_bins
-  vector<unsigned> model_length_bins = model_->length_bins(); // pull out model length bins
+  vector<double> model_length_bins = model_->length_bins(); // pull out model length bins
   if (length_bins_[0] < model_length_bins[0])
     LOG_ERROR_P(PARAM_LENGTH_BINS) << ": first length bin in observations is " << length_bins_[0] << " and in the overall model it is " << model_length_bins[0]
       << ". Make sure that length bins in the model cover the full range of the observations.";

@@ -41,7 +41,7 @@ TagRecaptureByLength::TagRecaptureByLength(Model* model) : Observation(model) {
   scanned_table_ = new parameters::Table(PARAM_SCANNED);
 
   parameters_.Bind<unsigned>(PARAM_YEARS, &years_, "Years for which there are observations", "");
-  parameters_.Bind<unsigned>(PARAM_LENGTH_BINS, &length_bins_input_, "Length bins", "", true); // optional
+  parameters_.Bind<double>(PARAM_LENGTH_BINS, &length_bins_input_, "Length bins", "", true); // optional
   parameters_.Bind<string>(PARAM_TIME_STEP, &time_step_label_, "Time step to execute in", "");
   parameters_.Bind<bool>(PARAM_LENGTH_PLUS, &length_plus_, "Is the last bin a plus group", "", model->length_plus()); // default to the model value
   parameters_.Bind<string>(PARAM_TAGGED_CATEGORIES, &tagged_category_labels_, "The categories of tagged individuals for the observation", "");
@@ -78,13 +78,12 @@ void TagRecaptureByLength::DoValidate() {
         LOG_ERROR_P(PARAM_LENGTH_BINS) << ": Length bins must be strictly increasing. " << length_bins_input_[length - 1]
           << " is greater than " << length_bins_input_[length];
 
-      // Cast to a double
-      length_bins_[length] = double(length_bins_input_[length]);
+      length_bins_[length] = length_bins_input_[length];
     }
 
     // Finally Check the bins are not the same as in the @model, if user accidently set them to the be the same as the  @model
     // we can ignore there input for performance benefits.
-    vector<unsigned> model_length_bins = model_->length_bins();
+    vector<double> model_length_bins = model_->length_bins();
     if (length_bins_input_.size() == model_length_bins.size()) {
       for(unsigned i = 0; i < model_length_bins.size(); ++i) {
         if (model_length_bins[i] != length_bins_input_[i])
@@ -97,7 +96,7 @@ void TagRecaptureByLength::DoValidate() {
     length_bins_input_ = model_->length_bins();
     length_bins_.resize(length_bins_input_.size(), 0.0);
     for (unsigned length = 0; length < length_bins_input_.size(); ++length) {
-      length_bins_[length] = double(length_bins_input_[length]);
+      length_bins_[length] = length_bins_input_[length];
       LOG_FINE() << "length bin " << length + 1 << " " << length_bins_input_[length] << " after static " << length_bins_[length];
     }
   }
