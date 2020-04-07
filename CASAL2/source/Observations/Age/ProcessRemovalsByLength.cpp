@@ -289,13 +289,13 @@ void ProcessRemovalsByLength::DoBuild() {
   // Do some checks so that the observation and process are compatible
   if (!mortality_instantaneous_->check_methods_for_removal_obs(methods))
     LOG_ERROR_P(PARAM_METHOD_OF_REMOVAL) << "could not find all these methods in the instantaneous_mortality process labeled " << process_label_
-        << ". Check that the methods are compatible with this process";
+      << ". Check that the methods are compatible with this process";
   if (!mortality_instantaneous_->check_categories_in_methods_for_removal_obs(methods, split_category_labels))
     LOG_ERROR_P(PARAM_CATEGORIES) << "could not find all these categories in the instantaneous_mortality process labeled " << process_label_
-        << ". Check that the categories are compatible with this process";
+      << ". Check that the categories are compatible with this process";
   if (!mortality_instantaneous_->check_years_in_methods_for_removal_obs(years_, methods))
     LOG_ERROR_P(PARAM_YEARS) << "could not find catches in all years in the instantaneous_mortality process labeled " << process_label_
-        << ". Check that the years are compatible with this process";
+      << ". Check that the years are compatible with this process";
 
   auto data_size = model_->age_spread();
   age_length_matrix.resize(data_size);
@@ -323,7 +323,7 @@ void ProcessRemovalsByLength::PreExecute() {
   }
 
   /**
-   *
+   * Execute the ProcessRemovalsByLength expected values calculations
    */
 void ProcessRemovalsByLength::Execute() {
   LOG_TRACE();
@@ -338,6 +338,9 @@ void ProcessRemovalsByLength::Execute() {
   auto partition_iter = partition_->Begin(); // vector<vector<partition::Category> >
   map<unsigned, map<string, map<string, vector<Double>>>> &Removals_at_age = mortality_instantaneous_->catch_at();
 
+  vector<Double> expected_values(number_bins_, 0.0);
+  vector<Double> numbers_at_length;
+
   /**
    * Loop through the provided categories. Each provided category (combination) will have a list of observations
    * with it. We need to build a vector of proportions for each length using that combination and then
@@ -350,8 +353,9 @@ void ProcessRemovalsByLength::Execute() {
     Double number_at_age = 0.0;
 
 //    LOG_WARNING() << "This is bad code because it allocates memory in the middle of an execute";
-    vector<Double> expected_values(number_bins_, 0.0);
-    vector<Double> numbers_at_length;
+//    vector<Double> expected_values(number_bins_, 0.0);
+//    vector<Double> numbers_at_length;
+    std::fill(expected_values.begin(), expected_values.end(), 0.0);
 
     /**
      * Loop through the 2 combined categories building up the
@@ -364,8 +368,7 @@ void ProcessRemovalsByLength::Execute() {
 
 //      LOG_WARNING() << "This is bad code because it allocates memory in the middle of an execute";
 //      age_length_matrix.resize((*category_iter)->data_.size());
-
-      vector<Double> age_frequencies(length_bins_.size(), 0.0);
+//      vector<Double> age_frequencies(length_bins_.size(), 0.0);
       const auto& age_length_proportions = model_->partition().age_length_proportions((*category_iter)->name_)[year_index][time_step];
 
       for (unsigned data_offset = 0; data_offset < (*category_iter)->data_.size(); ++data_offset) {
@@ -389,7 +392,7 @@ void ProcessRemovalsByLength::Execute() {
         for (unsigned j = 0; j < number_bins_; ++j) {
           // use the subset of age_length_proportions for the length bins associated with the model length bins
           age_length_matrix[data_offset][j] = number_at_age * age_length_proportions[data_offset][mlb_index_first_ + j];
-          LOG_FINEST() << "The proportion in length bin : " << length_bins_[j] << " = " << age_frequencies[j];
+          LOG_FINEST() << "The proportion in length bin : " << length_bins_[j] << " = " << age_length_matrix[data_offset][j];
         }
       }
 

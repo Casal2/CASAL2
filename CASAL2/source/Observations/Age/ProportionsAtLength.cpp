@@ -274,7 +274,7 @@ void ProportionsAtLength::DoBuild() {
 }
 
 /**
- * This method is called at the start of the targetted
+ * This method is called at the start of the targeted
  * time step for this observation.
  *
  * At this point we need to build our cache for the partition
@@ -290,7 +290,7 @@ void ProportionsAtLength::PreExecute() {
 }
 
 /**
- *
+ * Execute the ProportionsAtLength expected values calculations
  */
 void ProportionsAtLength::Execute() {
   LOG_TRACE();
@@ -302,6 +302,8 @@ void ProportionsAtLength::Execute() {
   auto cached_partition_iter = cached_partition_->Begin();
   auto partition_iter        = partition_->Begin(); // vector<vector<partition::Category> >
 
+  vector<Double> expected_values(number_bins_, 0.0);
+
   /**
    * Loop through the provided categories. Each provided category (combination) will have a list of observations
    * with it. We need to build a vector of proportions for each length using that combination and then
@@ -312,7 +314,8 @@ void ProportionsAtLength::Execute() {
     Double      start_value        = 0.0;
     Double      end_value          = 0.0;
     Double      final_value        = 0.0;
-    vector<Double> expected_values(number_bins_, 0.0);
+
+    std::fill(expected_values.begin(), expected_values.end(), 0.0);
 
     /**
      * Loop through the 2 combined categories building up the
@@ -400,6 +403,7 @@ void ProportionsAtLength::CalculateScore() {
           comparison.expected_  = 0.0;
       }
     }
+
     likelihood_->GetScores(comparisons_);
     for (unsigned year : years_) {
       scores_[year] = likelihood_->GetInitialScore(comparisons_, year);

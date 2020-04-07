@@ -312,7 +312,7 @@ void ProcessRemovalsByLengthRetained::PreExecute() {
   }
 
   /**
-   *
+   * Execute the ProcessRemovalsByLengthRetained expected values calculations
    */
 void ProcessRemovalsByLengthRetained::Execute() {
   LOG_TRACE();
@@ -327,6 +327,9 @@ void ProcessRemovalsByLengthRetained::Execute() {
   auto partition_iter = partition_->Begin(); // vector<vector<partition::Category> >
   map<unsigned, map<string, map<string, vector<Double>>>> &Removals_at_age = mortality_instantaneous_retained_->retained_data();
 
+  vector<Double> expected_values(number_bins_, 0.0);
+  vector<Double> numbers_at_length;
+
   /**
    * Loop through the provided categories. Each provided category (combination) will have a list of observations
    * with it. We need to build a vector of proportions for each length using that combination and then
@@ -339,8 +342,9 @@ void ProcessRemovalsByLengthRetained::Execute() {
     Double number_at_age = 0.0;
 
 //    LOG_WARNING() << "This is bad code because it allocates memory in the middle of an execute";
-    vector<Double> expected_values(number_bins_, 0.0);
-    vector<Double> numbers_at_length;
+//    vector<Double> expected_values(number_bins_, 0.0);
+//    vector<Double> numbers_at_length;
+    std::fill(expected_values.begin(), expected_values.end(), 0.0);
 
     /**
      * Loop through the 2 combined categories building up the
@@ -353,8 +357,7 @@ void ProcessRemovalsByLengthRetained::Execute() {
 
 //      LOG_WARNING() << "This is bad code because it allocates memory in the middle of an execute";
 //      age_length_matrix.resize((*category_iter)->data_.size());
-
-      vector<Double> age_frequencies(length_bins_.size(), 0.0);
+//      vector<Double> age_frequencies(length_bins_.size(), 0.0);
       const auto& age_length_proportions = model_->partition().age_length_proportions((*category_iter)->name_)[year_index][time_step];
 
       for (unsigned data_offset = 0; data_offset < (*category_iter)->data_.size(); ++data_offset) {
