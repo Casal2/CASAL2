@@ -443,6 +443,7 @@ void TagRecaptureByLength::Execute() {
     Double      start_value        = 0.0;
     Double      end_value          = 0.0;
     Double      final_value        = 0.0;
+
     // Reset some comtainers
     std::fill(length_results_.begin(), length_results_.end(), 0.0);
     std::fill(tagged_length_results_.begin(), tagged_length_results_.end(), 0.0);

@@ -62,6 +62,10 @@ protected:
   vector<Selectivity*>          selectivities_;
   string                        time_step_label_ = "";
 
+  vector<double>                length_bins_;
+  bool                          length_plus_;
+  unsigned                      number_bins_ = 0;
+
   map<unsigned, map<string, vector<double>>> proportions_;
   map<unsigned, map<string, vector<double>>> error_values_;
 };

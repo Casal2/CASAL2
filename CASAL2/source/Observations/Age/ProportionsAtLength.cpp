@@ -38,6 +38,8 @@ ProportionsAtLength::ProportionsAtLength(Model* model) : Observation(model) {
   parameters_.Bind<unsigned>(PARAM_YEARS, &years_, "Years for which there are observations", "");
   parameters_.Bind<string>(PARAM_SELECTIVITIES, &selectivity_labels_, "The labels of the selectivities", "", true);
   parameters_.Bind<Double>(PARAM_PROCESS_ERRORS, &process_error_values_, "Process error", "", true);
+  parameters_.Bind<double>(PARAM_LENGTH_BINS, &length_bins_, "Length bins", "", true); // optional
+  parameters_.Bind<bool>(PARAM_LENGTH_PLUS, &length_plus_, "Is the last bin a plus group", "", model->length_plus()); // default to the model value
   parameters_.BindTable(PARAM_OBS, obs_table_, "Table of observed values", "", false);
   parameters_.BindTable(PARAM_ERROR_VALUES, error_values_table_, "Table of error values of the observed values (note the units depend on the likelihood)", "", false);
 
@@ -101,8 +103,30 @@ void ProportionsAtLength::DoValidate() {
    * This is because we'll have 1 set of obs per category collection provided.
    * categories male+female male = 2 collections
    */
-  unsigned number_bins = model_->length_plus() ? model_->length_bins().size() : model_->length_bins().size() - 1;
-  unsigned obs_expected = (category_labels_.size() * number_bins) + 1;
+
+  if (length_bins_.size() == 0) {
+    length_bins_ = model_->length_bins();
+    length_plus_ = model_->length_plus();
+  } else {
+    // allow for the use of observation-defined length bins, as long as all values are in the set of model length bin values
+    auto model_length_bins = model_->length_bins();
+    for (unsigned length = 0; length < length_bins_.size(); ++length) {
+      if (length_bins_[length] < 0.0)
+        LOG_ERROR_P(PARAM_LENGTH_BINS) << ": Observation length bin values must be positive. '" << length_bins_[length] << "' is less than 0";
+
+      if (length > 0 && length_bins_[length - 1] >= length_bins_[length])
+        LOG_ERROR_P(PARAM_LENGTH_BINS) << ": Observation length bins must be strictly increasing. " << length_bins_[length - 1]
+          << " is greater than " << length_bins_[length];
+
+      if (std::find(model_length_bins.begin(), model_length_bins.end(), length_bins_[length]) == model_length_bins.end())
+        LOG_ERROR_P(PARAM_LENGTH_BINS) << ": Observation length bin values must be in the set of model length bins. Length '"
+          << length_bins_[length] << "' is not in the set of model length bins.";
+    }
+  }
+
+
+  number_bins_ = length_plus_ ? length_bins_.size() : length_bins_.size() - 1;
+  unsigned obs_expected = (category_labels_.size() * number_bins_) + 1;
   vector<vector<string>>& obs_data = obs_table_->data();
   if (obs_data.size() != years_.size()) {
     LOG_ERROR_P(PARAM_OBS) << " has " << obs_data.size() << " rows defined, but " << years_.size()
@@ -113,7 +137,7 @@ void ProportionsAtLength::DoValidate() {
     for (auto x : obs_data_line)
     if (obs_data_line.size() != obs_expected) {
       LOG_FATAL_P(PARAM_OBS) << " has " << obs_data_line.size() << " values defined, but " << obs_expected
-        << " should match the number of bins (" << number_bins << ") * categories (" << category_labels_.size() << ") + 1 (for year)";
+        << " should match the number of bins (" << number_bins_ << ") * categories (" << category_labels_.size() << ") + 1 (for year)";
     }
 
     unsigned year = 0;
@@ -193,10 +217,10 @@ void ProportionsAtLength::DoValidate() {
   for (auto iter = obs_by_year.begin(); iter != obs_by_year.end(); ++iter) {
     double total = 0.0;
     for (unsigned i = 0; i < category_labels_.size(); ++i) {
-      for (unsigned j = 0; j < number_bins; ++j) {
+      for (unsigned j = 0; j < number_bins_; ++j) {
         auto e_f = error_values_by_year.find(iter->first);
         if (e_f != error_values_by_year.end()) {
-          unsigned obs_index = i * number_bins + j;
+          unsigned obs_index = i * number_bins_ + j;
           value = iter->second[obs_index];
           error_values_[iter->first][category_labels_[i]].push_back(e_f->second[obs_index]);
           proportions_[iter->first][category_labels_[i]].push_back(value);
@@ -234,8 +258,7 @@ void ProportionsAtLength::DoBuild() {
     selectivities_.assign(category_labels_.size(), val_sel);
   }
 
-  unsigned number_bins = model_->length_plus() ? model_->length_bins().size() : model_->length_bins().size() - 1;
-  length_results_.resize(number_bins * category_labels_.size(), 0.0);
+  length_results_.resize(number_bins_ * category_labels_.size(), 0.0);
 }
 
 /**
@@ -267,9 +290,6 @@ void ProportionsAtLength::Execute() {
   auto cached_partition_iter  = cached_partition_->Begin();
   auto partition_iter         = partition_->Begin(); // vector<vector<partition::Category> >
 
-  unsigned number_bins = model_->length_plus() ? model_->length_bins().size() : model_->length_bins().size() - 1;
-  auto length_bins     = model_->length_bins();
-
   /**
    * Loop through the provided categories. Each provided category (combination) will have a list of observations
    * with it. We need to build a vector of proportions for each length using that combination and then
@@ -280,7 +300,7 @@ void ProportionsAtLength::Execute() {
     Double      start_value        = 0.0;
     Double      end_value          = 0.0;
     Double      final_value        = 0.0;
-    vector<Double> expected_values(number_bins, 0.0);
+    vector<Double> expected_values(number_bins_, 0.0);
 
     /**
      * Loop through the 2 combined categories building up the
@@ -296,7 +316,7 @@ void ProportionsAtLength::Execute() {
       (*cached_category_iter).CollapseAgeLengthDataToLength();
       (*category_iter)->CollapseAgeLengthDataToLength();
 
-      for (unsigned length_offset = 0; length_offset < number_bins; ++length_offset) {
+      for (unsigned length_offset = 0; length_offset < number_bins_; ++length_offset) {
         // now for each column (length bin) in age_length_matrix sum up all the rows (ages) for both cached and current matricies
         start_value = (*cached_category_iter).length_data_[length_offset];
         end_value = (*category_iter)->length_data_[length_offset];
@@ -310,7 +330,7 @@ void ProportionsAtLength::Execute() {
         expected_values[length_offset] += final_value;
 
         LOG_FINE() << "----------";
-        LOG_FINE() << "Category: " << (*category_iter)->name_ << " at length " << length_bins[length_offset];
+        LOG_FINE() << "Category: " << (*category_iter)->name_ << " at length " << length_bins_[length_offset];
         LOG_FINE() << "Selectivity: " << selectivities_[category_offset]->label();
         LOG_FINE() << "start_value: " << start_value << "; end_value: " << end_value << "; final_value: " << final_value;
         LOG_FINE() << "expected_value becomes: " << expected_values[length_offset];
@@ -325,7 +345,7 @@ void ProportionsAtLength::Execute() {
      * save our comparisons so we can use them to generate the score from the likelihoods later
      */
     for (unsigned i = 0; i < expected_values.size(); ++i) {
-      SaveComparison(category_labels_[category_offset], 0, length_bins[i], expected_values[i], proportions_[model_->current_year()][category_labels_[category_offset]][i],
+      SaveComparison(category_labels_[category_offset], 0, length_bins_[i], expected_values[i], proportions_[model_->current_year()][category_labels_[category_offset]][i],
                      process_errors_by_year_[model_->current_year()], error_values_[model_->current_year()][category_labels_[category_offset]][i],
                      0.0, delta_, 0.0);
     }
