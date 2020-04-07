@@ -105,7 +105,18 @@ void ProcessRemovalsByLengthRetainedTotal::DoValidate() {
       LOG_ERROR_P(PARAM_LENGTH_BINS) << ": Observation length bin values must be in the set of model length bins. Length '"
         << length_bins_[length] << "' is not in the set of model length bins.";
   }
-  // TODO:  check that the observation length bins exactly match a sequential subset of the model length bins
+
+  // check that the observation length bins exactly match a sequential subset of the model length bins
+  auto it_first = std::find(model_length_bins.begin(), model_length_bins.end(), length_bins_[0]);
+  auto it_last  = std::find(model_length_bins.begin(), model_length_bins.end(), length_bins_[(length_bins_.size() - 1)]);
+  if (((unsigned)(abs(std::distance(it_first, it_last))) + 1) != length_bins_.size()) {
+    LOG_ERROR_P(PARAM_LENGTH_BINS) << ": Observation length bin values must be a sequential subset of model length bins."
+      << " Length of subset of model length bin sequence: " << std::distance(it_first, it_last)
+      << ", observation length bins: " << length_bins_.size();
+  }
+  mlb_index_first_ = labs(std::distance(model_length_bins.begin(), it_first));
+  LOG_FINE() << "Index of observation length bin in model length bins: " << mlb_index_first_
+    << ", length_bins_[0] " << length_bins_[0] << ", model length bin " << model_length_bins[mlb_index_first_];
 
   if (process_error_values_.size() != 0 && process_error_values_.size() != years_.size()) {
     LOG_ERROR_P(PARAM_PROCESS_ERRORS) << " number of values provided (" << process_error_values_.size()
@@ -239,12 +250,6 @@ void ProcessRemovalsByLengthRetainedTotal::DoBuild() {
 
   length_results_.resize(number_bins_ * category_labels_.size(), 0.0);
 
-  auto category_iter = partition_->Begin()->begin();
-  age_length_matrix.resize((*category_iter)->data_.size());
-  for (unsigned data_offset = 0; data_offset < (*category_iter)->data_.size(); ++data_offset) {
-    age_length_matrix[data_offset].resize(number_bins_);
-  }
-
   auto time_step = model_->managers().time_step()->GetTimeStep(time_step_label_);
   if (!time_step) {
     LOG_FATAL_P(PARAM_TIME_STEP) << "Time step label " << time_step_label_ << " was not found.";
@@ -269,6 +274,7 @@ void ProcessRemovalsByLengthRetainedTotal::DoBuild() {
   // Need to make this a vector so its compatible with the function couldn't be bothered templating sorry
   vector<string> methods;
   methods.push_back(method_);
+
   // Do some checks so that the observation and process are compatible
   if (!mortality_instantaneous_retained_->check_methods_for_removal_obs(methods))
     LOG_ERROR_P(PARAM_METHOD_OF_REMOVAL) << "could not find all these methods in the instantaneous_mortality process labeled " << process_label_
@@ -279,6 +285,12 @@ void ProcessRemovalsByLengthRetainedTotal::DoBuild() {
   if (!mortality_instantaneous_retained_->check_years_in_methods_for_removal_obs(years_, methods))
     LOG_ERROR_P(PARAM_YEARS) << "could not find catches in all years in the instantaneous_mortality process labeled " << process_label_
         << ". Check that the years are compatible with this process";
+
+  auto data_size = model_->age_spread();
+  age_length_matrix.resize(data_size);
+  for (unsigned i = 0; i < data_size; ++i) {
+    age_length_matrix[i].resize(number_bins_);
+  }
 }
 
 /**
@@ -365,7 +377,7 @@ void ProcessRemovalsByLengthRetainedTotal::Execute() {
         // length frequencies to age length numbers
         for (unsigned j = 0; j < number_bins_; ++j) {
           // TODO: use the subset of age_length_proportions for the length bins associated with the model length bins
-          age_length_matrix[data_offset][j] = number_at_age * age_length_proportions[data_offset][j]; // added length bin offset to get correct length bin
+          age_length_matrix[data_offset][j] = number_at_age * age_length_proportions[data_offset][mlb_index_first_ + j]; // added length bin offset to get correct length bin
           LOG_FINEST() << "The proportion of animals in length bin: " << length_bins_[j] << " = " << age_length_matrix[data_offset][j];
         }
       }

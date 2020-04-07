@@ -65,6 +65,7 @@ protected:
   vector<double>                length_bins_;
   bool                          length_plus_;
   unsigned                      number_bins_ = 0;
+  unsigned                      mlb_index_first_ = 0; // index of model length bin for length_bins_[0]
 
   map<unsigned, map<string, vector<double>>> proportions_;
   map<unsigned, map<string, vector<double>>> error_values_;

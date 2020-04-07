@@ -105,8 +105,9 @@ void ProportionsAtLength::DoValidate() {
    */
 
   if (length_bins_.size() == 0) {
-    length_bins_ = model_->length_bins();
-    length_plus_ = model_->length_plus();
+    length_bins_     = model_->length_bins();
+    length_plus_     = model_->length_plus();
+    mlb_index_first_ = 0;
   } else {
     // allow for the use of observation-defined length bins, as long as all values are in the set of model length bin values
     auto model_length_bins = model_->length_bins();
@@ -122,8 +123,20 @@ void ProportionsAtLength::DoValidate() {
         LOG_ERROR_P(PARAM_LENGTH_BINS) << ": Observation length bin values must be in the set of model length bins. Length '"
           << length_bins_[length] << "' is not in the set of model length bins.";
     }
-  }
 
+    // check that the observation length bins exactly match a sequential subset of the model length bins
+    auto it_first = std::find(model_length_bins.begin(), model_length_bins.end(), length_bins_[0]);
+    auto it_last  = std::find(model_length_bins.begin(), model_length_bins.end(), length_bins_[(length_bins_.size() - 1)]);
+    if (((unsigned)(abs(std::distance(it_first, it_last))) + 1) != length_bins_.size()) {
+      LOG_ERROR_P(PARAM_LENGTH_BINS) << ": Observation length bin values must be a sequential subset of model length bins."
+        << " Length of subset of model length bin sequence: " << (std::distance(it_first, it_last) + 1)
+        << ", observation length bins: " << length_bins_.size();
+    }
+
+    mlb_index_first_ = labs(std::distance(model_length_bins.begin(), it_first));
+    LOG_FINE() << "Index of observation length bin in model length bins: " << mlb_index_first_
+      << ", length_bins_[0] " << length_bins_[0] << ", model length bin " << model_length_bins[mlb_index_first_];
+  }
 
   number_bins_ = length_plus_ ? length_bins_.size() : length_bins_.size() - 1;
   unsigned obs_expected = (category_labels_.size() * number_bins_) + 1;
@@ -161,7 +174,6 @@ void ProportionsAtLength::DoValidate() {
 
     // TODO:  need proportion checks here
   }
-
 
   /**
    * Build our error value map
@@ -287,8 +299,8 @@ void ProportionsAtLength::Execute() {
   /**
    * Verify our cached partition and partition sizes are correct
    */
-  auto cached_partition_iter  = cached_partition_->Begin();
-  auto partition_iter         = partition_->Begin(); // vector<vector<partition::Category> >
+  auto cached_partition_iter = cached_partition_->Begin();
+  auto partition_iter        = partition_->Begin(); // vector<vector<partition::Category> >
 
   /**
    * Loop through the provided categories. Each provided category (combination) will have a list of observations
@@ -306,7 +318,7 @@ void ProportionsAtLength::Execute() {
      * Loop through the 2 combined categories building up the
      * expected proportions values.
      */
-    auto category_iter = partition_iter->begin();
+    auto category_iter        = partition_iter->begin();
     auto cached_category_iter = cached_partition_iter->begin();
     for (; category_iter != partition_iter->end(); ++cached_category_iter, ++category_iter) {
       LOG_FINEST() << "Selectivity for " << category_labels_[category_offset] << " selectivity " << selectivities_[category_offset]->label();
@@ -318,14 +330,14 @@ void ProportionsAtLength::Execute() {
 
       for (unsigned length_offset = 0; length_offset < number_bins_; ++length_offset) {
         // now for each column (length bin) in age_length_matrix sum up all the rows (ages) for both cached and current matricies
-        start_value = (*cached_category_iter).length_data_[length_offset];
-        end_value = (*category_iter)->length_data_[length_offset];
-        final_value   = 0.0;
+        start_value = (*cached_category_iter).length_data_[mlb_index_first_ + length_offset];
+        end_value   = (*category_iter)->length_data_[mlb_index_first_ + length_offset];
+        final_value = 0.0;
 
         if (mean_proportion_method_)
           final_value = start_value + ((end_value - start_value) * proportion_of_time_);
         else
-          final_value = (1-proportion_of_time_) * start_value + proportion_of_time_ * end_value;
+          final_value = (1 - proportion_of_time_) * start_value + proportion_of_time_ * end_value;
 
         expected_values[length_offset] += final_value;
 
