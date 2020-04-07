@@ -95,16 +95,17 @@ void ProcessRemovalsByLengthRetainedTotal::DoValidate() {
   vector<double> model_length_bins = model_->length_bins();
   for (unsigned length = 0; length < length_bins_.size(); ++length) {
     if (length_bins_[length] < 0.0)
-      LOG_ERROR_P(PARAM_LENGTH_BINS) << ": Length bins must be positive: " << length_bins_[length] << " is less than 0.0";
+      LOG_ERROR_P(PARAM_LENGTH_BINS) << ": Length bin values must be positive: " << length_bins_[length] << " is less than 0.0";
 
     if (length > 0 && length_bins_[length - 1] >= length_bins_[length])
-      LOG_ERROR_P(PARAM_LENGTH_BINS) << ": Length bins must be strictly increasing: " << length_bins_[length - 1]
+      LOG_ERROR_P(PARAM_LENGTH_BINS) << ": Length bin values must be strictly increasing: " << length_bins_[length - 1]
         << " is greater than or equal to " << length_bins_[length];
 
     if (std::find(model_length_bins.begin(), model_length_bins.end(), length_bins_[length]) == model_length_bins.end())
       LOG_ERROR_P(PARAM_LENGTH_BINS) << ": Observation length bin values must be in the set of model length bins. Length '"
         << length_bins_[length] << "' is not in the set of model length bins.";
   }
+  // TODO:  check that the observation length bins exactly match a sequential subset of the model length bins
 
   if (process_error_values_.size() != 0 && process_error_values_.size() != years_.size()) {
     LOG_ERROR_P(PARAM_PROCESS_ERRORS) << " number of values provided (" << process_error_values_.size()
@@ -238,6 +239,12 @@ void ProcessRemovalsByLengthRetainedTotal::DoBuild() {
 
   length_results_.resize(number_bins_ * category_labels_.size(), 0.0);
 
+  auto category_iter = partition_->Begin()->begin();
+  age_length_matrix.resize((*category_iter)->data_.size());
+  for (unsigned data_offset = 0; data_offset < (*category_iter)->data_.size(); ++data_offset) {
+    age_length_matrix[data_offset].resize(number_bins_);
+  }
+
   auto time_step = model_->managers().time_step()->GetTimeStep(time_step_label_);
   if (!time_step) {
     LOG_FATAL_P(PARAM_TIME_STEP) << "Time step label " << time_step_label_ << " was not found.";
@@ -322,7 +329,6 @@ void ProcessRemovalsByLengthRetainedTotal::Execute() {
 //    LOG_WARNING() << "This is bad code because it allocates memory in the middle of an execute";
     vector<Double> expected_values(number_bins_, 0.0);
     vector<Double> numbers_at_length;
-    vector<vector<Double>> age_length_matrix;
 
     /**
      * Loop through the 2 combined categories building up the
@@ -334,7 +340,7 @@ void ProcessRemovalsByLengthRetainedTotal::Execute() {
 //      AgeLength* age_length = categories->age_length((*category_iter)->name_);
 
 //      LOG_WARNING() << "This is bad code because it allocates memory in the middle of an execute";
-      age_length_matrix.resize((*category_iter)->data_.size());
+//      age_length_matrix.resize((*category_iter)->data_.size());
 
       vector<Double> age_frequencies(length_bins_.size(), 0.0);
       const auto& age_length_proportions = model_->partition().age_length_proportions((*category_iter)->name_)[year_index][time_step];
@@ -353,11 +359,12 @@ void ProcessRemovalsByLengthRetainedTotal::Execute() {
 //        age_length->CummulativeNormal(mu, age_length->cv(year, time_step, age), age_frequencies, length_bins_, length_plus_);
 
 //        LOG_WARNING() << "This is bad code because it allocates memory in the middle of an execute";
-        age_length_matrix[data_offset].resize(number_bins_);
+//        age_length_matrix[data_offset].resize(number_bins_);
 
         // Loop through the length bins and multiple the partition of the current age to go from
         // length frequencies to age length numbers
         for (unsigned j = 0; j < number_bins_; ++j) {
+          // TODO: use the subset of age_length_proportions for the length bins associated with the model length bins
           age_length_matrix[data_offset][j] = number_at_age * age_length_proportions[data_offset][j]; // added length bin offset to get correct length bin
           LOG_FINEST() << "The proportion of animals in length bin: " << length_bins_[j] << " = " << age_length_matrix[data_offset][j];
         }

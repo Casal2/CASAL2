@@ -105,6 +105,7 @@ void ProcessRemovalsByLength::DoValidate() {
       LOG_ERROR_P(PARAM_LENGTH_BINS) << ": Observation length bin values must be in the set of model length bins. Length '"
         << length_bins_[length] << "' is not in the set of model length bins.";
   }
+  // TODO:  check that the observation length bins exactly match a sequential subset of the model length bins
 
   if (process_error_values_.size() != 0 && process_error_values_.size() != years_.size()) {
     LOG_ERROR_P(PARAM_PROCESS_ERRORS) << " number of values provided (" << process_error_values_.size()
@@ -248,6 +249,12 @@ void ProcessRemovalsByLength::DoBuild() {
 
   length_results_.resize(number_bins_ * category_labels_.size(), 0.0);
 
+  auto category_iter = partition_->Begin()->begin();
+  age_length_matrix.resize((*category_iter)->data_.size());
+  for (unsigned data_offset = 0; data_offset < (*category_iter)->data_.size(); ++data_offset) {
+    age_length_matrix[data_offset].resize(number_bins_);
+  }
+
   auto time_step = model_->managers().time_step()->GetTimeStep(time_step_label_);
   if (!time_step) {
     LOG_FATAL_P(PARAM_TIME_STEP) << "Time step label " << time_step_label_ << " was not found.";
@@ -286,7 +293,7 @@ void ProcessRemovalsByLength::DoBuild() {
 }
 
 /**
- * This method is called at the start of the targetted
+ * This method is called at the start of the targeted
  * time step for this observation.
  *
  * At this point we need to build our cache for the partition
@@ -333,7 +340,6 @@ void ProcessRemovalsByLength::Execute() {
 //    LOG_WARNING() << "This is bad code because it allocates memory in the middle of an execute";
     vector<Double> expected_values(number_bins_, 0.0);
     vector<Double> numbers_at_length;
-    vector<vector<Double>> age_length_matrix;
 
     /**
      * Loop through the 2 combined categories building up the
@@ -345,7 +351,7 @@ void ProcessRemovalsByLength::Execute() {
 //      AgeLength* age_length = categories->age_length((*category_iter)->name_);
 
 //      LOG_WARNING() << "This is bad code because it allocates memory in the middle of an execute";
-      age_length_matrix.resize((*category_iter)->data_.size());
+//      age_length_matrix.resize((*category_iter)->data_.size());
 
       vector<Double> age_frequencies(length_bins_.size(), 0.0);
       const auto& age_length_proportions = model_->partition().age_length_proportions((*category_iter)->name_)[year_index][time_step];
@@ -364,11 +370,12 @@ void ProcessRemovalsByLength::Execute() {
 //        age_length->CummulativeNormal(mu, age_length->cv(year, time_step, age), age_frequencies, length_bins_, length_plus_);
 
 //        LOG_WARNING() << "This is bad code because it allocates memory in the middle of an execute";
-        age_length_matrix[data_offset].resize(number_bins_);
+//        age_length_matrix[data_offset].resize(number_bins_);
 
         // Loop through the length bins and multiple the partition of the current age to go from
         // length frequencies to age length numbers
         for (unsigned j = 0; j < number_bins_; ++j) {
+          // TODO: use the subset of age_length_proportions for the length bins associated with the model length bins
           age_length_matrix[data_offset][j] = number_at_age * age_length_proportions[data_offset][j];
           LOG_FINEST() << "The proportion in length bin : " << length_bins_[j] << " = " << age_frequencies[j];
         }
@@ -404,7 +411,8 @@ void ProcessRemovalsByLength::Execute() {
        */
     for (unsigned i = 0; i < expected_values.size(); ++i) {
       SaveComparison(category_labels_[category_offset], 0, length_bins_[i], expected_values[i], proportions_[model_->current_year()][category_labels_[category_offset]][i],
-          process_errors_by_year_[model_->current_year()], error_values_[model_->current_year()][category_labels_[category_offset]][i], 0.0, delta_, 0.0);
+                     process_errors_by_year_[model_->current_year()], error_values_[model_->current_year()][category_labels_[category_offset]][i],
+                     0.0, delta_, 0.0);
     }
   }
 }
