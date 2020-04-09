@@ -113,3 +113,14 @@ observation autumnTANbiomass
 @report Ageing_error
 type ageing_error
 ageing_error Normal_ageing
+
+## estimation stuff
+@report Covar
+type covariance_matrix
+
+@report Hess
+type hessian_matrix
+
+@report Corr
+type correlation_matrix
+
