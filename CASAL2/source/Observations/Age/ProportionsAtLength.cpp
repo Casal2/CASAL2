@@ -38,6 +38,8 @@ ProportionsAtLength::ProportionsAtLength(Model* model) : Observation(model) {
   parameters_.Bind<unsigned>(PARAM_YEARS, &years_, "Years for which there are observations", "");
   parameters_.Bind<string>(PARAM_SELECTIVITIES, &selectivity_labels_, "The labels of the selectivities", "", true);
   parameters_.Bind<Double>(PARAM_PROCESS_ERRORS, &process_error_values_, "Process error", "", true);
+  parameters_.Bind<double>(PARAM_LENGTH_BINS, &length_bins_, "Length bins", "", true); // optional
+  parameters_.Bind<bool>(PARAM_LENGTH_PLUS, &length_plus_, "Is the last bin a plus group", "", model->length_plus()); // default to the model value
   parameters_.BindTable(PARAM_OBS, obs_table_, "Table of observed values", "", false);
   parameters_.BindTable(PARAM_ERROR_VALUES, error_values_table_, "Table of error values of the observed values (note the units depend on the likelihood)", "", false);
 
@@ -71,10 +73,12 @@ void ProportionsAtLength::DoValidate() {
     LOG_ERROR_P(PARAM_PROCESS_ERRORS) << " number of values provided (" << process_error_values_.size()
       << ") does not match the number of years provided (" << years_.size() << ")";
   }
+
   for (Double process_error : process_error_values_) {
     if (process_error < 0.0)
       LOG_ERROR_P(PARAM_PROCESS_ERRORS) << ": process_error (" << AS_DOUBLE(process_error) << ") cannot be less than 0.0";
   }
+
   if (process_error_values_.size() != 0) {
     if (process_error_values_.size() != years_.size()) {
       LOG_FATAL_P(PARAM_PROCESS_ERRORS) << "Supply a process error for each year. Values for " << process_error_values_.size()
@@ -91,26 +95,62 @@ void ProportionsAtLength::DoValidate() {
 
   if (category_labels_.size() != selectivity_labels_.size() && expected_selectivity_count_ != selectivity_labels_.size())
     LOG_ERROR_P(PARAM_SELECTIVITIES) << ": Number of selectivities provided (" << selectivity_labels_.size()
-        << ") is not valid. Specify either the number of category collections (" << category_labels_.size() << ") or "
-        << "the number of total categories (" << expected_selectivity_count_ << ")";
+      << ") is not valid. Specify either the number of category collections (" << category_labels_.size() << ") or "
+      << "the number of total categories (" << expected_selectivity_count_ << ")";
+
   /**
    * Validate the number of obs provided matches age spread * category_labels * years
    * This is because we'll have 1 set of obs per category collection provided.
    * categories male+female male = 2 collections
    */
-  unsigned number_bins = model_->length_plus() ? model_->length_bins().size() : model_->length_bins().size() - 1;
-  unsigned obs_expected = (category_labels_.size() * number_bins) + 1;
+
+  if (length_bins_.size() == 0) {
+    length_bins_     = model_->length_bins();
+    length_plus_     = model_->length_plus();
+    mlb_index_first_ = 0;
+  } else {
+    // allow for the use of observation-defined length bins, as long as all values are in the set of model length bin values
+    auto model_length_bins = model_->length_bins();
+    for (unsigned length = 0; length < length_bins_.size(); ++length) {
+      if (length_bins_[length] < 0.0)
+        LOG_ERROR_P(PARAM_LENGTH_BINS) << ": Observation length bin values must be positive. '" << length_bins_[length] << "' is less than 0";
+
+      if (length > 0 && length_bins_[length - 1] >= length_bins_[length])
+        LOG_ERROR_P(PARAM_LENGTH_BINS) << ": Observation length bins must be strictly increasing. " << length_bins_[length - 1]
+          << " is greater than " << length_bins_[length];
+
+      if (std::find(model_length_bins.begin(), model_length_bins.end(), length_bins_[length]) == model_length_bins.end())
+        LOG_ERROR_P(PARAM_LENGTH_BINS) << ": Observation length bin values must be in the set of model length bins. Length '"
+          << length_bins_[length] << "' is not in the set of model length bins.";
+    }
+
+    // check that the observation length bins exactly match a sequential subset of the model length bins
+    auto it_first = std::find(model_length_bins.begin(), model_length_bins.end(), length_bins_[0]);
+    auto it_last  = std::find(model_length_bins.begin(), model_length_bins.end(), length_bins_[(length_bins_.size() - 1)]);
+    if (((unsigned)(abs(std::distance(it_first, it_last))) + 1) != length_bins_.size()) {
+      LOG_ERROR_P(PARAM_LENGTH_BINS) << ": Observation length bin values must be a sequential subset of model length bins."
+        << " Length of subset of model length bin sequence: " << (std::distance(it_first, it_last) + 1)
+        << ", observation length bins: " << length_bins_.size();
+    }
+
+    mlb_index_first_ = labs(std::distance(model_length_bins.begin(), it_first));
+    LOG_FINE() << "Index of observation length bin in model length bins: " << mlb_index_first_
+      << ", length_bins_[0] " << length_bins_[0] << ", model length bin " << model_length_bins[mlb_index_first_];
+  }
+
+  number_bins_ = length_plus_ ? length_bins_.size() : length_bins_.size() - 1;
+  unsigned obs_expected = (category_labels_.size() * number_bins_) + 1;
   vector<vector<string>>& obs_data = obs_table_->data();
   if (obs_data.size() != years_.size()) {
     LOG_ERROR_P(PARAM_OBS) << " has " << obs_data.size() << " rows defined, but " << years_.size()
-        << " should match the number of years provided";
+      << " should match the number of years provided";
   }
 
   for (vector<string>& obs_data_line : obs_data) {
     for (auto x : obs_data_line)
     if (obs_data_line.size() != obs_expected) {
       LOG_FATAL_P(PARAM_OBS) << " has " << obs_data_line.size() << " values defined, but " << obs_expected
-          << " should match the number of bins (" << number_bins << ") * categories (" << category_labels_.size() << ") + 1 (for year)";
+        << " should match the number of bins (" << number_bins_ << ") * categories (" << category_labels_.size() << ") + 1 (for year)";
     }
 
     unsigned year = 0;
@@ -123,13 +163,17 @@ void ProportionsAtLength::DoValidate() {
       double value = 0.0;
       if (!utilities::To<double>(obs_data_line[i], value))
         LOG_ERROR_P(PARAM_OBS) << " value (" << obs_data_line[i] << ") could not be converted to a double";
-      // TODO:  need proportion checks here
+      if (value < 0.0)
+        LOG_ERROR_P(PARAM_OBS) << " proportion value (" << value << ") cannot be less than 0.0";
+
       obs_by_year[year].push_back(value);
     }
+
     if (obs_by_year[year].size() != obs_expected - 1)
       LOG_FATAL_P(PARAM_OBS) << " " << obs_by_year[year].size() << " lengths were supplied, but " << obs_expected -1 << " lengths are required";
-  }
 
+    // TODO:  need proportion checks here
+  }
 
   /**
    * Build our error value map
@@ -137,13 +181,13 @@ void ProportionsAtLength::DoValidate() {
   vector<vector<string>>& error_values_data = error_values_table_->data();
   if (error_values_data.size() != years_.size()) {
     LOG_ERROR_P(PARAM_ERROR_VALUES) << " has " << error_values_data.size() << " rows defined, but " << years_.size()
-        << " should match the number of years provided";
+      << " should match the number of years provided";
   }
 
   for (vector<string>& error_values_data_line : error_values_data) {
     if (error_values_data_line.size() != 2 && error_values_data_line.size() != obs_expected) {
       LOG_ERROR_P(PARAM_ERROR_VALUES) << " has " << error_values_data_line.size() << " values defined, but " << obs_expected
-          << " should match the number of bins * categories + 1 (for year)";
+        << " should match the number of bins * categories + 1 (for year)";
     }
 
     unsigned year = 0;
@@ -151,10 +195,12 @@ void ProportionsAtLength::DoValidate() {
       LOG_ERROR_P(PARAM_ERROR_VALUES) << " value " << error_values_data_line[0] << " could not be converted to an unsigned integer. It should be the year for this line";
     if (std::find(years_.begin(), years_.end(), year) == years_.end())
       LOG_ERROR_P(PARAM_ERROR_VALUES) << " value " << year << " is not a valid year for this observation";
+
     for (unsigned i = 1; i < error_values_data_line.size(); ++i) {
       double value = 0.0;
       if (!utilities::To<double>(error_values_data_line[i], value))
         LOG_ERROR_P(PARAM_ERROR_VALUES) << " value (" << error_values_data_line[i] << ") could not be converted to a double";
+
       if (likelihood_type_ == PARAM_LOGNORMAL && value <= 0.0) {
         LOG_ERROR_P(PARAM_ERROR_VALUES) << ": error_value (" << value << ") cannot be equal to or less than 0.0";
       } else if (likelihood_type_ == PARAM_MULTINOMIAL && value < 0.0) {
@@ -170,7 +216,7 @@ void ProportionsAtLength::DoValidate() {
     }
 
     if (error_values_by_year[year].size() != obs_expected - 1)
-      LOG_FATAL_P(PARAM_ERROR_VALUES) << " " << error_values_by_year[year].size() << " error values by year but " << obs_expected -1
+      LOG_FATAL_P(PARAM_ERROR_VALUES) << " " << error_values_by_year[year].size() << " error values by year but " << obs_expected - 1
         << " values are required based on the obs table";
   }
 
@@ -183,11 +229,10 @@ void ProportionsAtLength::DoValidate() {
   for (auto iter = obs_by_year.begin(); iter != obs_by_year.end(); ++iter) {
     double total = 0.0;
     for (unsigned i = 0; i < category_labels_.size(); ++i) {
-      for (unsigned j = 0; j < number_bins; ++j) {
+      for (unsigned j = 0; j < number_bins_; ++j) {
         auto e_f = error_values_by_year.find(iter->first);
-        if (e_f != error_values_by_year.end())
-        {
-          unsigned obs_index = i * number_bins + j;
+        if (e_f != error_values_by_year.end()) {
+          unsigned obs_index = i * number_bins_ + j;
           value = iter->second[obs_index];
           error_values_[iter->first][category_labels_[i]].push_back(e_f->second[obs_index]);
           proportions_[iter->first][category_labels_[i]].push_back(value);
@@ -199,6 +244,8 @@ void ProportionsAtLength::DoValidate() {
     if (fabs(1.0 - total) > tolerance_) {
       LOG_ERROR_P(PARAM_OBS) << ": obs sum total (" << total << ") for year (" << iter->first << ") exceeds tolerance (" << tolerance_ << ") from 1.0";
     }
+
+    // TODO: rescale proportions if necessary
   }
 }
 
@@ -223,12 +270,11 @@ void ProportionsAtLength::DoBuild() {
     selectivities_.assign(category_labels_.size(), val_sel);
   }
 
-  unsigned number_bins = model_->length_plus() ? model_->length_bins().size() : model_->length_bins().size() - 1;
-  length_results_.resize(number_bins * category_labels_.size(), 0.0);
+  length_results_.resize(number_bins_ * category_labels_.size(), 0.0);
 }
 
 /**
- * This method is called at the start of the targetted
+ * This method is called at the start of the targeted
  * time step for this observation.
  *
  * At this point we need to build our cache for the partition
@@ -244,7 +290,7 @@ void ProportionsAtLength::PreExecute() {
 }
 
 /**
- *
+ * Execute the ProportionsAtLength expected values calculations
  */
 void ProportionsAtLength::Execute() {
   LOG_TRACE();
@@ -253,10 +299,10 @@ void ProportionsAtLength::Execute() {
   /**
    * Verify our cached partition and partition sizes are correct
    */
-  auto cached_partition_iter  = cached_partition_->Begin();
-  auto partition_iter         = partition_->Begin(); // vector<vector<partition::Category> >
-  unsigned number_bins = model_->length_plus() ? model_->length_bins().size() : model_->length_bins().size() - 1;
-  auto length_bins = model_->length_bins();
+  auto cached_partition_iter = cached_partition_->Begin();
+  auto partition_iter        = partition_->Begin(); // vector<vector<partition::Category> >
+
+  vector<Double> expected_values(number_bins_, 0.0);
 
   /**
    * Loop through the provided categories. Each provided category (combination) will have a list of observations
@@ -268,41 +314,44 @@ void ProportionsAtLength::Execute() {
     Double      start_value        = 0.0;
     Double      end_value          = 0.0;
     Double      final_value        = 0.0;
-    vector<Double> expected_values(number_bins, 0.0);
+
+    std::fill(expected_values.begin(), expected_values.end(), 0.0);
 
     /**
      * Loop through the 2 combined categories building up the
      * expected proportions values.
      */
-    auto category_iter = partition_iter->begin();
+    auto category_iter        = partition_iter->begin();
     auto cached_category_iter = cached_partition_iter->begin();
     for (; category_iter != partition_iter->end(); ++cached_category_iter, ++category_iter) {
-      LOG_FINEST() << "Selectivity for " << category_labels_[category_offset] << " " << selectivities_[category_offset]->label();
+      LOG_FINEST() << "Selectivity for " << category_labels_[category_offset] << " selectivity " << selectivities_[category_offset]->label();
 
       cached_category_iter->PopulateAgeLengthMatrix(selectivities_[category_offset]);
       (*category_iter)->PopulateAgeLengthMatrix(selectivities_[category_offset]);
       (*cached_category_iter).CollapseAgeLengthDataToLength();
       (*category_iter)->CollapseAgeLengthDataToLength();
-      for (unsigned length_offset = 0; length_offset < number_bins; ++length_offset) {
+
+      for (unsigned length_offset = 0; length_offset < number_bins_; ++length_offset) {
         // now for each column (length bin) in age_length_matrix sum up all the rows (ages) for both cached and current matricies
-        start_value = (*cached_category_iter).length_data_[length_offset];
-        end_value = (*category_iter)->length_data_[length_offset];
-        final_value   = 0.0;
+        start_value = (*cached_category_iter).length_data_[mlb_index_first_ + length_offset];
+        end_value   = (*category_iter)->length_data_[mlb_index_first_ + length_offset];
+        final_value = 0.0;
 
         if (mean_proportion_method_)
           final_value = start_value + ((end_value - start_value) * proportion_of_time_);
         else
-          final_value = (1-proportion_of_time_) * start_value + proportion_of_time_ * end_value;
+          final_value = (1 - proportion_of_time_) * start_value + proportion_of_time_ * end_value;
 
         expected_values[length_offset] += final_value;
 
         LOG_FINE() << "----------";
-        LOG_FINE() << "Category: " << (*category_iter)->name_ << " at length " << length_bins[length_offset];
+        LOG_FINE() << "Category: " << (*category_iter)->name_ << " at length " << length_bins_[length_offset];
         LOG_FINE() << "Selectivity: " << selectivities_[category_offset]->label();
         LOG_FINE() << "start_value: " << start_value << "; end_value: " << end_value << "; final_value: " << final_value;
         LOG_FINE() << "expected_value becomes: " << expected_values[length_offset];
       }
     }
+
     if (expected_values.size() != proportions_[model_->current_year()][category_labels_[category_offset]].size())
       LOG_CODE_ERROR() << "expected_values.size(" << expected_values.size() << ") != proportions_[category_offset].size("
         << proportions_[model_->current_year()][category_labels_[category_offset]].size() << ")";
@@ -311,8 +360,9 @@ void ProportionsAtLength::Execute() {
      * save our comparisons so we can use them to generate the score from the likelihoods later
      */
     for (unsigned i = 0; i < expected_values.size(); ++i) {
-      SaveComparison(category_labels_[category_offset], 0, length_bins[i], expected_values[i], proportions_[model_->current_year()][category_labels_[category_offset]][i],
-          process_errors_by_year_[model_->current_year()], error_values_[model_->current_year()][category_labels_[category_offset]][i],0.0, delta_, 0.0);
+      SaveComparison(category_labels_[category_offset], 0, length_bins_[i], expected_values[i], proportions_[model_->current_year()][category_labels_[category_offset]][i],
+                     process_errors_by_year_[model_->current_year()], error_values_[model_->current_year()][category_labels_[category_offset]][i],
+                     0.0, delta_, 0.0);
     }
   }
 }
@@ -353,13 +403,14 @@ void ProportionsAtLength::CalculateScore() {
           comparison.expected_  = 0.0;
       }
     }
+
     likelihood_->GetScores(comparisons_);
     for (unsigned year : years_) {
       scores_[year] = likelihood_->GetInitialScore(comparisons_, year);
       LOG_FINEST() << "-- Observation score calculation";
       LOG_FINEST() << "[" << year << "] Initial Score:"<< scores_[year];
       for (obs::Comparison comparison : comparisons_[year]) {
-        LOG_FINEST() << "[" << year << "]+ likelihood score: " << comparison.score_;
+        LOG_FINEST() << "[" << year << "] + likelihood score: " << comparison.score_;
         scores_[year] += comparison.score_;
       }
     }

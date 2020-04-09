@@ -90,12 +90,12 @@ void DoubleExponential::RebuildCache() {
       }
     }
   } else if (model_->partition_type() == PartitionType::kLength) {
-    vector<unsigned> length_bins = model_->length_bins();
+    vector<double> length_bins = model_->length_bins();
     for (unsigned length_bin_index = 0; length_bin_index < length_bins.size(); ++length_bin_index) {
-      if ((Double)length_bins[length_bin_index] <= x0_) {
-        length_values_[length_bin_index] = alpha_ * y0_ * pow((y1_ / y0_), ((Double)length_bins[length_bin_index] - x0_)/(x1_ - x0_));
-      } else if ((Double)length_bins[length_bin_index] > x0_ && (Double)length_bins[length_bin_index] <= x2_) {
-        length_values_[length_bin_index] = alpha_ * y0_ * pow((y2_ / y0_), ((Double)length_bins[length_bin_index] - x0_)/(x2_ - x0_));
+      if (length_bins[length_bin_index] <= x0_) {
+        length_values_[length_bin_index] = alpha_ * y0_ * pow((y1_ / y0_), (length_bins[length_bin_index] - x0_)/(x1_ - x0_));
+      } else if (length_bins[length_bin_index] > x0_ && length_bins[length_bin_index] <= x2_) {
+        length_values_[length_bin_index] = alpha_ * y0_ * pow((y2_ / y0_), (length_bins[length_bin_index] - x0_)/(x2_ - x0_));
       } else {
         length_values_[length_bin_index] = y2_;
       }

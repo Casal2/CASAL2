@@ -32,10 +32,12 @@ public:
   void                        DoBuild() override final;
   void                        DoReset() override final { };
   void                        DoRebuildCache() override final;
+
   // accessors
   Double                      mean_length(unsigned time_step, unsigned age) override final;
   Double                      mean_weight(unsigned time_step, unsigned age) override final;
   Double                      GetMeanLength(unsigned year, unsigned time_step, unsigned age) override final;
+
 protected:
   // methods
 

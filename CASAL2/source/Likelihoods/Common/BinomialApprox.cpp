@@ -38,7 +38,7 @@ Double BinomialApprox::AdjustErrorValue(const Double process_error, const double
 }
 
 /**
- * Get the result from our likelihood
+ * Calculate the scores
  *
  * @param comparisons A collection of comparisons passed by the observation
  */

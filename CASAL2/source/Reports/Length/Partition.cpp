@@ -40,19 +40,22 @@ void Partition::DoValidate() {
    years_ = model_->years();
  }
 }
+
 /**
- *
+ * Execute the partition report
  */
 void Partition::DoExecute() {
 
   niwa::partition::accessors::All all_view(model_);
-  vector<unsigned> length_bins = model_->length_bins();
+  vector<double> length_bins = model_->length_bins();
+
   // Print the header
   cache_ << "*"<< type_ << "[" << label_ << "]" << "\n";
   cache_ << "year: " << model_->current_year() << "\n";
   cache_ << "time_step: " << time_step_ << "\n";
   cache_ << "values "<< REPORT_R_DATAFRAME<<"\n";
   cache_ << "category";
+
   for (unsigned length_bin : length_bins)
     cache_ << " " << length_bin;
   cache_ << "\n";
@@ -62,7 +65,6 @@ void Partition::DoExecute() {
     for (auto values = (*iterator)->data_.begin(); values != (*iterator)->data_.end(); ++values) {
       Double value = *values;
       cache_ << " " << std::fixed << AS_VALUE(value);
-
     }
     cache_ << "\n";
   }

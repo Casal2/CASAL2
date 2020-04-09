@@ -18,6 +18,7 @@
 #include "Model/Managers.h"
 #include "TimeSteps/Manager.h"
 #include "Estimates/Manager.h"
+#include "TimeVarying/Manager.h"
 
 // namespaces
 namespace niwa {
@@ -61,15 +62,7 @@ void Schnute::DoBuild() {
   if (!length_weight_)
     LOG_ERROR_P(PARAM_LENGTH_WEIGHT) << "Length-weight label " << length_weight_label_ << " was not found.";
 
-  // Build up our mean_length_ container.
-  unsigned min_age = model_->min_age();
-  unsigned max_age = model_->max_age();
-  vector<string> time_steps = model_->time_steps();
-  for (unsigned step_iter = 0; step_iter < time_steps.size(); ++step_iter) {
-    for (unsigned age_iter = min_age; age_iter <= max_age; ++age_iter) {
-      mean_length_[step_iter][age_iter] = mean_length(step_iter,age_iter);
-    }
-  }
+  DoRebuildCache();
 }
 
 /**
@@ -113,6 +106,7 @@ Double Schnute::mean_weight(unsigned time_step, unsigned age) {
   Double size = mean_length_[time_step][age];
   //LOG_FINE() << "year = " << year << " age " << age << " time step " << time_step << " cv = " <<  cvs_[year][age][time_step];
   Double mean_weight = length_weight_->mean_weight(size, distribution_, cvs_[year][time_step][age]);
+
   return mean_weight;
 }
 
@@ -128,7 +122,6 @@ Double Schnute::GetMeanLength(unsigned year, unsigned time_step, unsigned age) {
   return mean_length_[time_step][age];
 }
 
-
 /**
  * ReBuildCache: initialised by the timevarying class.
  */
@@ -139,7 +132,7 @@ void Schnute::DoRebuildCache() {
   vector<string> time_steps = model_->time_steps();
   for (unsigned step_iter = 0; step_iter < time_steps.size(); ++step_iter) {
     for (unsigned age_iter = min_age; age_iter <= max_age; ++age_iter) {
-      mean_length_[step_iter][age_iter] = mean_length(step_iter,age_iter);
+      mean_length_[step_iter][age_iter] = mean_length(step_iter, age_iter);
     }
   }
 }

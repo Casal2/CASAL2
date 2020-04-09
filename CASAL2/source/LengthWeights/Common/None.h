@@ -34,6 +34,7 @@ public:
 
   // accessors
   Double                      mean_weight(Double size, Distribution distribution, Double cv) const override final { return 1.0; }
+
 };
 
 } /* namespace lengthweights */

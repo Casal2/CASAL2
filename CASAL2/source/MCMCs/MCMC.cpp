@@ -24,7 +24,7 @@
 namespace niwa {
 
 /**
- * Constructor
+ * Default constructor
  */
 MCMC::MCMC(Model* model) : model_(model) {
   parameters_.Bind<string>(PARAM_LABEL, &label_, "The label of the MCMC", "");
@@ -49,7 +49,6 @@ void MCMC::Validate() {
  * Build any relationships we need and objects that will hold data
  * so they can be used during the execution
  */
-
 void MCMC::Build() {
   LOG_TRACE();
   /**
@@ -148,7 +147,7 @@ void MCMC::Build() {
 }
 
 /**
- *
+ * Execute the MCMC
  */
 void MCMC::Execute() {
   LOG_FINE() << "Executing MCMC";

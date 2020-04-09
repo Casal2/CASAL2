@@ -42,7 +42,9 @@ Double Multinomial::AdjustErrorValue(const Double process_error, const double er
 }
 
 /**
+ * Calculate the scores
  *
+ * @param comparisons A collection of comparisons passed by the observation
  */
 void Multinomial::GetScores(map<unsigned, vector<observations::Comparison> >& comparisons) {
   for (auto year_iterator = comparisons.begin(); year_iterator != comparisons.end(); ++year_iterator) {
@@ -59,14 +61,12 @@ void Multinomial::GetScores(map<unsigned, vector<observations::Comparison> >& co
 }
 
 /**
- * Grab the initial score for this likelihood
+ * Calculate the initial score
  *
  * @param comparisons A collection of comparisons passed by the observation
  */
-
 Double Multinomial::GetInitialScore(map<unsigned, vector<observations::Comparison> >& comparisons, unsigned year) {
   Double score = 0.0;
-
 
  // int stopper = 0;
   observations::Comparison& comparison = comparisons[year][0];
@@ -105,7 +105,6 @@ void Multinomial::SimulateObserved(map<unsigned, vector<observations::Comparison
         LOG_FINEST() << "Expected = " << comparison.expected_;
         comparison.observed_ = rng.binomial(AS_VALUE(comparison.expected_), AS_VALUE(error_value));
         LOG_FINEST() << "Simulated = " << comparison.observed_;
-
       }
 //      totals[comparison.category_] += comparison.observed_;
     }

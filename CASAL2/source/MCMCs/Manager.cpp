@@ -17,7 +17,7 @@ namespace niwa {
 namespace mcmcs {
 
 /**
- *
+ * Default Validate - has no model associated with it
  */
 void Manager::Validate() {
   LOG_TRACE();
@@ -25,7 +25,7 @@ void Manager::Validate() {
 }
 
 /**
- *
+ * Validate the MCMC objects
  */
 void Manager::Validate(Model* model) {
   for (auto mcmc : objects_)

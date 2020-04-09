@@ -37,9 +37,8 @@ Double LogNormalWithQ::AdjustErrorValue(const Double process_error, const double
   return error_value;
 }
 
-
 /**
- * Get the result from our likelihood
+ * Calculate the scores
  *
  * @param comparisons A collection of comparisons passed by the observation
  */

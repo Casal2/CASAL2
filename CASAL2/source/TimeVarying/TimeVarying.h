@@ -37,6 +37,7 @@ public:
   void                        Update(unsigned current_year);
 
   //accessors
+  vector<unsigned>&           get_years() { return years_; }
   map<unsigned, Double>&      get_parameter_by_year() { return parameter_by_year_; }
 
 protected:

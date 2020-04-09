@@ -57,7 +57,7 @@ using std::cout;
 using std::endl;
 
 /**
- * Default Constructor
+ * Default constructor
  */
 Model::Model() {
   LOG_TRACE();
@@ -70,9 +70,9 @@ Model::Model() {
   parameters_.Bind<string>(PARAM_TIME_STEPS, &time_steps_, "The labels of the time steps, in the order that they are applied, to form the annual cycle", R"(A list of valid labels defined by \texttt{@time_step})");
   parameters_.Bind<unsigned>(PARAM_PROJECTION_FINAL_YEAR, &projection_final_year_, "The final year of the model in projection mode", R"(Defines the last year of the projection period, i.e., the projection period runs from \texttt{final_year}$+1$ to \texttt{projection_final_year}. For the default, $0$, no projections are run.)", 0);
   parameters_.Bind<string>(PARAM_TYPE, &type_, "TBA: Type of model (the partition structure). Either age, length, or hybrid", "", PARAM_AGE)->set_allowed_values({PARAM_AGE, PARAM_LENGTH, PARAM_HYBRID});
-  parameters_.Bind<unsigned>(PARAM_LENGTH_BINS, &length_bins_, "The minimum length in each length bin", R"($0 \le$ length\textlow{min} $\le$ length\textlow{max})", true);
+  parameters_.Bind<double>(PARAM_LENGTH_BINS, &length_bins_, "The minimum length in each length bin", R"($0 \le$ length\textlow{min} $\le$ length\textlow{max})", true);
   parameters_.Bind<bool>(PARAM_LENGTH_PLUS, &length_plus_, "Specify whether there is a length plus group or not", "true, false", true);
-  parameters_.Bind<unsigned>(PARAM_LENGTH_PLUS_GROUP, &length_plus_group_, "Mean length of length plus group", R"(length\textlow{max} $<$ length_plus_group)", 0);
+  parameters_.Bind<double>(PARAM_LENGTH_PLUS_GROUP, &length_plus_group_, "Mean length of length plus group", R"(length\textlow{max} $<$ length_plus_group)", 0);
   parameters_.Bind<string>(PARAM_BASE_UNITS, &base_weight_units_, "The units for the base weight. This will be the default unit of any weight input parameters ", "grams, kgs or tonnes", PARAM_TONNES)->set_allowed_values({PARAM_GRAMS, PARAM_TONNES,PARAM_KGS});
 
   global_configuration_ = new GlobalConfiguration();
@@ -99,37 +99,51 @@ Model::~Model() {
 }
 
 /**
+ * Method to output the vector of years in the model
  *
+ * @return vector of model years
  */
 vector<unsigned> Model::years() const {
   vector<unsigned> years;
   unsigned year;
+
   for (year = start_year_; year <= final_year_; ++year)
     years.push_back(year);
+
   if (run_mode_ == RunMode::kProjection) {
     for (; year <= projection_final_year_; ++year)
       years.push_back(year);
   }
+
   return years;
 }
 
+/**
+ * Method to output the vector of years in the model, including projection years
+ *
+ * @return vector of model years
+ */
 vector<unsigned> Model::years_all() const {
   vector<unsigned> years;
   unsigned year;
+
   for (year = start_year_; year <= final_year_; ++year)
     years.push_back(year);
+
   for (; year <= projection_final_year_; ++year)
     years.push_back(year);
 
   return years;
 }
 
-
 /**
+ * Method to output the number of years in the model
  *
+ * @return number of years in the model
  */
 unsigned Model::year_spread() const {
   unsigned spread = (final_year_ - start_year_) + 1;
+
   if (run_mode_ == RunMode::kProjection)
     spread = (projection_final_year_ - start_year_) + 1;
 
@@ -137,34 +151,61 @@ unsigned Model::year_spread() const {
 }
 
 /**
+ * Method to return the model's managers object
  *
+ * @return managers
  */
 Managers& Model::managers() {
   return *managers_;
 }
 
+/**
+ * Method to return the model's objects object
+ *
+ * @return objects
+ */
 Objects& Model::objects() {
   return *objects_;
 }
 
+/**
+ * Method to return the model's factory object
+ *
+ * @return factory
+ */
 Factory& Model::factory() {
   return *factory_;
 }
 
+/**
+ * Method to return the model's partition object
+ *
+ * @return partition
+ */
 Partition& Model::partition() {
   return *partition_;
 }
 
+/**
+ * Method to return the model's objective function
+ *
+ * @return objective_function
+ */
 ObjectiveFunction& Model::objective_function() {
   return *objective_function_;
 }
 
+/**
+ * Method to return the model's equation parser
+ *
+ * @return equation_parser
+ */
 EquationParser& Model::equation_parser() {
   return *equation_parser_;
 }
 
 /**
- * Start our model. This is the entry point method for the model
+ * Method to Start the model. This is the entry point method for the model
  * after being called from the main() method.
  *
  * This method will start stepping through the states and verifying
@@ -327,6 +368,8 @@ void Model::PopulateParameters() {
 }
 
 /**
+ * Validate the model
+ *
  * First we will do the local validations. Then we will call validation on the other objects
  */
 void Model::Validate() {
@@ -340,7 +383,6 @@ void Model::Validate() {
   // Call validation for the other objects required by the model
   categories_->Validate();
   partition_->Validate();
-
   managers_->Validate();
 
   /**
@@ -358,7 +400,6 @@ void Model::Validate() {
       LOG_ERROR_P(PARAM_TIME_STEPS) << " (" << time_step << ") has not been defined.";
   }
 
-
   if (parameters_.Get(PARAM_LENGTH_PLUS_GROUP)->has_been_defined() && (partition_type_ == PartitionType::kAge))
     LOG_ERROR_P(PARAM_LENGTH_PLUS_GROUP) << "This parameter should be used only for models that have length structured partitions."
       << " For age models with length-based processes, all length bins should be defined with the length_bins subcommand";
@@ -374,7 +415,9 @@ void Model::Validate() {
 }
 
 /**
+ * Build the model
  *
+ * Call build on the category, partition, and manager objects
  */
 void Model::Build() {
   LOG_TRACE();
@@ -398,7 +441,7 @@ void Model::Build() {
 }
 
 /**
- *
+ * Verify the model
  */
 void Model::Verify() {
   LOG_TRACE();
@@ -407,18 +450,19 @@ void Model::Verify() {
 }
 
 /**
+ * Reset the model
  *
+ * Call reset on the category, partition, and manager objects
  */
 void Model::Reset() {
   LOG_TRACE();
-
   partition_->Reset();
   categories_->Reset();
   managers_->Reset();
 }
 
 /**
- *
+ * Run the model in basic mode
  */
 void Model::RunBasic() {
   LOG_TRACE();
@@ -576,9 +620,8 @@ void Model::RunEstimation() {
 }
 
 /**
- *
+ * Run the model in MCMC mode
  */
-
 bool Model::RunMCMC() {
   LOG_FINE() << "Entering the MCMC Sub-System";
   auto mcmc = managers_->mcmc()->active_mcmc();
@@ -628,7 +671,7 @@ bool Model::RunMCMC() {
 }
 
 /**
- *
+ * Run the model in profiling mode
  */
 void Model::RunProfiling() {
   Estimables& estimables = *managers_->estimables();
@@ -677,7 +720,7 @@ void Model::RunProfiling() {
 }
 
 /**
- *
+ * Run the model in simulation mode
  */
 void Model::RunSimulation() {
   LOG_FINE() << "Entering the Simulation Sub-System";
@@ -698,6 +741,7 @@ void Model::RunSimulation() {
   if (simulation_candidates < 1) {
     LOG_FATAL() << "The number of simulations specified at the command line parser must be at least 1";
   }
+
   unsigned suffix_width          = (unsigned)floor(log10((double) simulation_candidates + 1)) + 1;
   for (int i = 0; i < simulation_candidates; ++i) {
     string report_suffix = ".";
@@ -746,9 +790,8 @@ void Model::RunSimulation() {
 }
 
 /**
- *
+ * Run the model in projection mode
  */
-
 void Model::RunProjection() {
   LOG_TRACE();
   int projection_candidates = global_configuration_->projection_candidates();
@@ -778,6 +821,7 @@ void Model::RunProjection() {
       for (auto iterator = all_view.Begin(); iterator != all_view.End(); ++iterator) {
         (*iterator)->UpdateMeanLengthData();
       }
+
       initialisationphases::Manager& init_phase_manager = *managers_->initialisation_phase();
       init_phase_manager.Execute();
 
@@ -839,6 +883,8 @@ void Model::RunProjection() {
 }
 
 /**
+ * Iterate the model
+ *
  * This method will do a single iteration of the model. During
  * a basic run it'll only run once, but during the other run modes i.e. estiamtion and MCMC
  * it'll run multiple times.
@@ -880,7 +926,7 @@ void Model::Iterate() {
 }
 
 /**
- *
+ * Reset the model and then iterate it
  */
 void Model::FullIteration() {
   Reset();

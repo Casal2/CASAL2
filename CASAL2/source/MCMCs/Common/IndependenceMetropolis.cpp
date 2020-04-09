@@ -48,11 +48,11 @@ IndependenceMetropolis::IndependenceMetropolis(Model* model) : MCMC(model) {
   successful_jumps_since_adapt_   = 0;
   last_item_                      = false;
 }
+
 /**
  * Get the covariance matrix from the minimiser and then
  * adjust it for our proposal distribution
  */
-
 void IndependenceMetropolis::BuildCovarianceMatrix() {
   LOG_MEDIUM() << "Building covariance matrix";
   // Are we starting at MPD or recalculating the matrix based on an empirical sample
@@ -94,10 +94,12 @@ void IndependenceMetropolis::BuildCovarianceMatrix() {
       if (original_covariance(i,j) / sqrt(original_covariance(i,i) * original_covariance(j,j)) > max_correlation_) {
         covariance_matrix_(i,j) = max_correlation_ * sqrt(original_covariance(i,i) * original_covariance(j,j));
         covariance_matrix_(j,i) = covariance_matrix_(i,j);
+        LOG_FINE() << "adjusted lower: row = " << i + 1 << " col = " << j + 1;
       }
       if (original_covariance(i,j) / sqrt(original_covariance(i,i) * original_covariance(j,j)) < -max_correlation_){
         covariance_matrix_(i,j) = -max_correlation_ * sqrt(original_covariance(i,i) * original_covariance(j,j));
         covariance_matrix_(j,i) = covariance_matrix_(i,j);
+        LOG_FINE() << "adjusted higher: row = " << i + 1 << " col = " << j + 1;
       }
     }
   }
@@ -337,7 +339,6 @@ void IndependenceMetropolis::UpdateStepSize() {
   }
 }
 
-
 /**
  * Update our MCMC Covariance matrix if it's required
  * This is done by
@@ -412,7 +413,7 @@ void IndependenceMetropolis::UpdateCovarianceMatrix() {
 }
 
 /**
- * Generate some new estimate candiddates
+ * Generate some new estimate candidates
  */
 void IndependenceMetropolis::GenerateNewCandidates() {
   //LOG_MEDIUM() << step_size_;
@@ -430,7 +431,7 @@ void IndependenceMetropolis::GenerateNewCandidates() {
 }
 
 /*
- * check candidates are within bounds
+ * check that candidates are within bounds
 */
 bool IndependenceMetropolis::WithinBounds() {
   for (unsigned i = 0; i < estimates_.size(); ++i) {
@@ -486,7 +487,7 @@ void IndependenceMetropolis::DoValidate() {
 }
 
 /**
- *
+ * Build class
  */
 void IndependenceMetropolis::DoBuild() {
   LOG_MEDIUM() <<"DoBuild MCMC children";
@@ -496,7 +497,7 @@ void IndependenceMetropolis::DoBuild() {
 
   for(auto estimate : estimates_) {
     if (!estimate)
-      LOG_FATAL() << "Could not find any @estimates. At least one non-fixed estimate is required to run in MCMC mode";
+      LOG_FATAL() << "Did not find any @estimate blocks. At least one non-fixed estimated parameter is required to run in MCMC mode";
   }
   estimate_count_ = estimates_.size();
   for (Estimate* estimate : estimates_) {
@@ -508,20 +509,19 @@ void IndependenceMetropolis::DoBuild() {
   }
 
   if (active_estimates == 0)
-    LOG_ERROR() << "The number of active estimates in the MCMC system is 0. At least one non-fixed estimate is required to run in MCMC mode.";
+    LOG_ERROR() << "The number of active estimates in the MCMC system is 0. At least one non-fixed estimated parameter is required to run in MCMC mode.";
 
   if (step_size_ == 0.0)
     step_size_ = 2.4 * pow((double)active_estimates, -0.5);
 }
 
 /**
- * Execute the MCMC system and build our MCMC chain
+ * Execute the MCMC system and build the MCMC chain
  */
 void IndependenceMetropolis::DoExecute() {
   candidates_.resize(estimate_count_);
   is_enabled_estimate_.resize(estimate_count_);
   vector<Double> previous_untransformed_candidates = candidates_;
-
 
   // Transform any parameters so that candidates are in the same space as the covariance matrix.
   model_->managers().estimate_transformation()->TransformEstimatesForObjectiveFunction();
@@ -580,6 +580,7 @@ void IndependenceMetropolis::DoExecute() {
   // Do a quick restore so that estimates are in a space the model wants
   model_->managers().estimate_transformation()->RestoreEstimatesFromObjectiveFunction();
   model_->FullIteration();
+
   // For reporting purposes
   for (unsigned i = 0; i < estimate_count_; ++i) {
     previous_untransformed_candidates[i] = estimates_[i]->value();
@@ -613,9 +614,9 @@ void IndependenceMetropolis::DoExecute() {
     new_link.step_size_                     = step_size_;
     new_link.values_                        = previous_untransformed_candidates;
     chain_.push_back(new_link);
+
     // Print first value
     model_->managers().report()->Execute(State::kIterationComplete);
-
   }
 
   /**

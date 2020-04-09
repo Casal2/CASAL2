@@ -23,7 +23,7 @@ namespace niwa {
 namespace reports {
 
 /**
- *
+ * Default constructor
  */
 MCMCSample::MCMCSample(Model* model) : Report(model) {
   run_mode_ = RunMode::kMCMC;
@@ -32,7 +32,7 @@ MCMCSample::MCMCSample(Model* model) : Report(model) {
 }
 
 /**
- *
+ * Build the MCMCSample object
  */
 void MCMCSample::DoBuild() {
   mcmc_ = model_->managers().mcmc()->active_mcmc();
@@ -41,7 +41,7 @@ void MCMCSample::DoBuild() {
 }
 
 /**
- *
+ * Prepare the MCMCSample object
  */
 void MCMCSample::DoPrepare() {
   if (!model_->global_configuration().resume()) {
@@ -54,7 +54,7 @@ void MCMCSample::DoPrepare() {
 }
 
 /**
- *    Print out Chain after each iteration
+ * Print out the MCMC sample values after each iteration
  */
 void MCMCSample::DoExecute() {
   if (!mcmc_)
@@ -68,7 +68,7 @@ void MCMCSample::DoExecute() {
 }
 
 /**
- *
+ * Finalise the MCMCSample report
  */
 void MCMCSample::DoFinalise() {
   //cache_ << CONFIG_END_REPORT << "\n";

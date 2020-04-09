@@ -36,7 +36,7 @@ Double Normal::AdjustErrorValue(const Double process_error, const double error_v
 }
 
 /**
- * Get the result from our likelihood
+ * Calculate the scores
  *
  * @param comparisons A collection of comparisons passed by the observation
  */

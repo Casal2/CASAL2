@@ -54,7 +54,7 @@ protected:
   double                        tolerance_ = 0.0;
   vector<Double>                process_error_values_;
   map<unsigned, Double>         process_errors_by_year_;
-  vector<unsigned>              length_bins_input_;
+  vector<double>                length_bins_input_;
   vector<double>                length_bins_;
   bool                          length_plus_;
   string                        ageing_error_label_;
@@ -63,6 +63,7 @@ protected:
   double                        time_step_proportion_;
   unsigned                      number_bins_;
   bool                          use_model_length_bins_ = true;
+
   // Category members
   vector<string>                tagged_category_labels_;
   vector<vector<string>>        tagged_category_split_labels_;

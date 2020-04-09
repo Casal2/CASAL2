@@ -66,7 +66,7 @@ void Report::Validate() {
 }
 
 /**
- *
+ * Build the Report
  */
 void Report::Build() {
   if (time_step_ != "" && !model_->managers().time_step()->GetTimeStep(time_step_))
@@ -101,7 +101,7 @@ void Report::Prepare() {
 };
 
 /**
- *
+ * Execute the report
  */
 void Report::Execute() {
   Report::lock_.lock();
@@ -110,7 +110,7 @@ void Report::Execute() {
 }
 
 /**
- *
+ * Finalise the report
  */
 void Report::Finalise() {
   Report::lock_.lock();
@@ -136,7 +136,7 @@ void Report::PrepareTabular() {
 }
 
 /**
- *
+ * Execute the tabular report
  */
 void Report::ExecuteTabular() {
   Report::lock_.lock();
@@ -145,7 +145,7 @@ void Report::ExecuteTabular() {
 }
 
 /**
- *
+ * Finalise the tabular report
  */
 void Report::FinaliseTabular() {
   Report::lock_.lock();
@@ -154,7 +154,7 @@ void Report::FinaliseTabular() {
 }
 
 /**
- *
+ * Set up the internal states for the report
  */
 void Report::SetUpInternalStates() {
   /**

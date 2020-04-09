@@ -15,6 +15,7 @@
 #include "Categories/Categories.h"
 #include "Selectivities/Manager.h"
 #include "Penalties/Manager.h"
+#include "TimeSteps/Manager.h"
 #include "Utilities/DoubleCompare.h"
 
 #include <boost/algorithm/string/replace.hpp>
@@ -28,7 +29,7 @@ namespace processes {
 namespace age {
 
 /**
- *
+ * Default constructor
  */
 TagByLength::TagByLength(Model* model)
   : Process(model),
@@ -289,10 +290,9 @@ void TagByLength::DoExecute() {
   if ((std::find(years_.begin(), years_.end(), current_year) == years_.end()))
     return;
 
-  auto iter = years_.begin();
-  iter = find(years_.begin(), years_.end(), model_->current_year());
+  auto iter = find(years_.begin(), years_.end(), current_year);
   unsigned year_ndx = distance(years_.begin(), iter);
-  LOG_FINE() << "year_ndx = " << year_ndx << " year = " << model_->current_year();
+  LOG_FINE() << "year_ndx = " << year_ndx << " year = " << current_year;
 
   auto from_iter = from_partition_.begin();
   auto to_iter   = to_partition_.begin();
@@ -321,7 +321,8 @@ void TagByLength::DoExecute() {
     numbers_at_age_by_category[(*from_iter)->name_].resize((*from_iter)->data_.size(),0.0);
   }
 
-
+  unsigned year_index      = model_->current_year() - model_->start_year();
+  unsigned time_step_index = model_->managers().time_step()->current_time_step();
 
   // Calculate the exploitation rate by length bin
   for (unsigned i = 0; i < number_bins; ++i) {
@@ -380,7 +381,7 @@ void TagByLength::DoExecute() {
 
       //vector<Double> numbers_at_age((*from_iter)->data_.size(), 0.0);
       for (unsigned j = 0; j < (*from_iter)->data_.size(); ++j) {
-        numbers_at_age_by_category[(*from_iter)->name_][j] += (*from_iter)->age_length_matrix_[j][i] * exploitation_by_length;
+        numbers_at_age_by_category[(*from_iter)->name_][j] += (*from_iter)->age_length_matrix_[year_index][time_step_index][j][i] * exploitation_by_length;
       }
     }
   } // for (unsigned i = 0; i < length_bins_.size(); ++i)

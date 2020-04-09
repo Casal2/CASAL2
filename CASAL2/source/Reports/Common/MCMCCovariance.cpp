@@ -18,6 +18,7 @@
 namespace niwa {
 namespace reports {
 namespace ublas = boost::numeric::ublas;
+
 /**
  * Default Constructor
  */
@@ -25,9 +26,9 @@ MCMCCovariance::MCMCCovariance(Model* model) : Report(model) {
   run_mode_ = RunMode::kMCMC;
   model_state_ = State::kFinalise;
 }
+
 /**
- *
- *
+ * Execute the MCMCCovariance object
  */
 void MCMCCovariance::DoExecute() {
   MCMC* mcmc = model_->managers().mcmc()->active_mcmc();

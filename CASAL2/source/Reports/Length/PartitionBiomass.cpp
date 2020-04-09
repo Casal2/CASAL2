@@ -46,7 +46,7 @@ void PartitionBiomass::DoValidate() {
 void PartitionBiomass::DoExecute() {
   // First, figure out the lowest and highest ages/length
   unsigned time_step_index = model_->managers().time_step()->current_time_step();
-  vector<unsigned> length_bins = model_->length_bins();
+  vector<double> length_bins = model_->length_bins();
 
   niwa::partition::accessors::All all_view(model_);
 
