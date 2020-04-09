@@ -223,7 +223,9 @@ end_table
 
 Functionality for defining combinations of categories and aggregated categories directly translates from proportions-at-age to proportions-at-length. The difference is the observation is over length bins instead of age classes. \CNAME\ calculates the expected numbers-at-length by converting the numbers-at-age to numbers-at-length by using the age-length relationship and distribution specified for the category specified in the \command{age\_length} block.
 
-Instead of supplying a minimum and maximum age users must supply a vector of length bins. If there is no plus group, i.e., \texttt{length\_plus=false}, then \CNAME\ requires a vector of proportions for each year of length $n - 1$, where $n$ is the number of lengths supplied. If \texttt{length\_plus=true} then \CNAME\ expects a vector of proportions for each year of length $n$. The last proportion represents the numbers from the last length bin to the maximum length the age-length relationship allows.
+Instead of supplying a minimum and maximum age, the user must supply a vector of length bins. If no length bins are specified, then the observation-specific length bins use the model length bins as the default. If observation-specific length bins are specified, they must be a sequential subset of the model length bins, with no missing or added values. For example, if the model length bins are \texttt{0 5 10 15 20 25 ... 100}, then the observation-specific length bins can be \texttt{20 25 30 35 40 45 50} but not \texttt{20 30 40 50}.
+
+If there is no plus group, i.e., \texttt{length\_plus=false}, then \CNAME\ requires a vector of proportions for each year of length $n - 1$, where $n$ is the number of lengths supplied. If \texttt{length\_plus=true} then \CNAME\ expects a vector of proportions for each year of length $n$. The last proportion represents the numbers from the last length bin to the maximum length the age-length relationship allows.
 
 {\small{\begin{verbatim}
 @observation Observed_Length_frequency_Chat_east
@@ -490,6 +492,8 @@ where $N_{a,c}$ are the numbers at age in category $c$ before the process is exe
 
 The observation class accesses the variable $E[N_{a,c,m}]$ from the process and applies the age-length relationship specified in the model. This converts numbers-at-age to numbers-at-age and -length, which are then converted to numbers-at-length. The observations are aggregated by method and category depending on how the user specifies the observation, before converting numbers-at-age to proportions and calculating the likelihood.
 
+Similar to the proportions-at-length observation type, the user must supply a vector of length bins. The observation-specific length bins must be a sequential subset of the model length bins, with no missing or added values. For example, if the model length bins are \texttt{0 5 10 15 20 25 ... 100}, then the observation-specific length bins can be \texttt{20 25 30 35 40 45 50} but not \texttt{20 30 40 50}.
+
 {\small{\begin{verbatim}
 @observation observation_fishery_LF
 type process_removals_by_length
@@ -515,9 +519,11 @@ end_table
 
 Likelihoods that are available for this observation are the mulitnomial, Dirichlet and the lognormal. See Section~\ref{sec:likelihood-observations} for information on the  likelihoods.
 
-\paragraph*{\I{Process removals by age retained}\label{sec:removals-by-length-retained}}
+\paragraph*{\I{Process removals by length retained}\label{sec:removals-by-length-retained}}
 
 Observations of retained and total catches by length can be included, using the labels \texttt{process\_removals\_by\_length\_retained} and \texttt{process\_removals\_by\_length\_retained\_total} respectively. Examples of two such observations are given below, with the associated process \texttt{Instantaneous\_Mortality\_Retained} having the form of the example in Section \ref{sec:inst-mort-retained}.
+
+Similar to the proportions-at-length observation type, the user must supply a vector of length bins. The observation-specific length bins must be a sequential subset of the model length bins, with no missing or added values. For example, if the model length bins are \texttt{0 5 10 15 20 25 ... 100}, then the observation-specific length bins can be \texttt{20 25 30 35 40 45 50} but not \texttt{20 30 40 50}.
 
 For retained catch:
 
