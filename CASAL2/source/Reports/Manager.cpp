@@ -31,8 +31,8 @@ Manager::~Manager() noexcept(true) {
 }
 
 /**
- * Build our reports then
- * organise the reports stored in our
+ * Build the reports then
+ * organise the reports stored in the
  * object list into different containers
  * based on their type.
  */
@@ -114,7 +114,7 @@ void Manager::Execute(unsigned year, const string& time_step_label) {
 }
 
 /**
- *
+ * Prepare the report objects
  */
 void Manager::Prepare() {
   LOG_TRACE();
@@ -134,7 +134,7 @@ void Manager::Prepare() {
 }
 
 /**
- *
+ * Finalise the report objects
  */
 void Manager::Finalise() {
   LOG_TRACE();
@@ -156,8 +156,8 @@ void Manager::Finalise() {
 }
 
 /**
- * This method can be called from the main thread to ensure
- * we wait for all reports to finish
+ * This method can be called from the main thread to
+ * wait for all reports to finish
  */
 void Manager::WaitForReportsToFinish() {
 #ifndef TESTMODE
@@ -169,11 +169,11 @@ void Manager::WaitForReportsToFinish() {
 }
 
 /**
- * This method will flush all of the reports to stdout or a file depending on each
- * report when it has finished caching it's output internally.
+ * This method flushes all of the reports to stdout or a file depending on each
+ * report when it has finished caching its output internally.
  *
- * NOTE: This method is called in it's own thread so we can continue to run the model
- * without having to wait for the reports to be ready.
+ * NOTE: This method is called in its own thread so that the model can continue
+ * to run without having to wait for the reports to be ready.
  */
 void Manager::FlushReports() {
   // WARNING: DO NOT CALL THIS ANYWHERE. IT'S THREADED
@@ -208,7 +208,10 @@ void Manager::FlushReports() {
 }
 
 /**
- * GetReport
+ * Return the report object for a specific type
+ *
+ * @param type The type of report
+ * @return a pointer to the Report
  */
 Report* Manager::GetReport(const string& type) {
   for (auto report : objects_) {
@@ -222,7 +225,7 @@ Report* Manager::GetReport(const string& type) {
 }
 
 /**
- *
+ * Pause the report manager
  */
 void Manager::Pause() {
 #ifndef TESTMODE

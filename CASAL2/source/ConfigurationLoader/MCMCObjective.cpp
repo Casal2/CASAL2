@@ -40,14 +40,18 @@ using std::ifstream;
 using std::cout;
 using std::endl;
 using std::ios_base;
+
 /**
- *
+ * Default constructor
  */
 MCMCObjective::MCMCObjective(Model* model) : model_(model) {
 }
 
 /**
+ * This method loads the 'mcmc_objective' file
  *
+ * @param file_name The name of the file
+ * @return true if the file was parsed, false if not
  */
 bool MCMCObjective::LoadFile(const string& file_name) {
   LOG_MEDIUM() << "LoadFile()";
@@ -75,7 +79,7 @@ bool MCMCObjective::LoadFile(const string& file_name) {
     return false;
   }
 
-  auto estimate_count      = model_->managers().estimate()->GetIsEstimatedCount();
+  auto estimate_count = model_->managers().estimate()->GetIsEstimatedCount();
   auto estimates      = model_->managers().estimate()->GetIsEstimated();
 
   auto& covariance_matrix  = model_->managers().mcmc()->active_mcmc()->covariance_matrix();
@@ -88,7 +92,7 @@ bool MCMCObjective::LoadFile(const string& file_name) {
   boost::split(param_labels, line, boost::is_any_of(" "), boost::token_compress_on);
   if (estimate_count != param_labels.size()) {
     LOG_ERROR() << "The covariance parameter header labels had " << param_labels.size()
-        << " values when the number of estimated parameters is " << estimate_count;
+      << " values when the number of estimated parameters is " << estimate_count;
     return false;
   }
 
@@ -112,7 +116,7 @@ bool MCMCObjective::LoadFile(const string& file_name) {
 
     if (estimate_count != addressable_values.size()) {
       LOG_ERROR() << "Line " << i+1 << " of the covariance matrix had " << addressable_values.size()
-          << " values when the number of estimated parameters is " << estimate_count;
+        << " values when the number of estimated parameters is " << estimate_count;
       return false;
     }
 
@@ -121,7 +125,7 @@ bool MCMCObjective::LoadFile(const string& file_name) {
       LOG_FINEST() << "i: " << i << ", j: " << j << ", value: " << addressable_values[j];
       if (!utilities::To<string, double>(addressable_values[j], value)) {
         LOG_ERROR() << "MCMC Objective file " << file_name << " is not in the correct format."
-            << " Value " << addressable_values[j] << " could not be converted to a double";
+          << " Value " << addressable_values[j] << " could not be converted to a double";
         return false;
       }
 
@@ -185,7 +189,6 @@ bool MCMCObjective::LoadFile(const string& file_name) {
   model_->managers().mcmc()->active_mcmc()->set_successful_jumps(success_jump);
   model_->managers().mcmc()->active_mcmc()->set_step_size(step_size);
   model_->managers().mcmc()->active_mcmc()->set_acceptance_rate_from_last_adapt(AR_since_last_adapt);
-
 
   file.close();
   LOG_MEDIUM() << "File close";

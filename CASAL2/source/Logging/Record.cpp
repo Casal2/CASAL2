@@ -23,9 +23,8 @@ using std::ostringstream;
 using std::cout;
 using std::endl;
 
-
 /**
- * This method will return false on the first call,
+ * This method returns false on the first call,
  * then true to ensure the log record is flushed after it
  * has finished being used.
  */
@@ -39,7 +38,7 @@ bool Record::Flush() {
 }
 
 /**
- *
+ * This method builds the logging message
  */
 void Record::BuildMessage() {
 
@@ -90,7 +89,6 @@ void Record::BuildMessage() {
     o << "\n";
     o << "********************************************************************************\n";
     o << "********                  USER CONFIGURATION ERROR                      ********\n";
-    o << "********              THE ERROR SHOULD BE DESCRIBED BELOW               ********\n";
     o << "********************************************************************************\n";
     o << "Source File: " << file_name_ << "(line: " << line_number_ << ")\n";
     o << "Source Method: " << function_ << "\n";

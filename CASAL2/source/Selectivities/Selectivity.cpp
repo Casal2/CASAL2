@@ -40,7 +40,7 @@ Selectivity::Selectivity(Model* model)
 }
 
 /**
- *
+ * Validate the objects
  */
 void Selectivity::Validate() {
   parameters_.Populate(model_);
@@ -78,7 +78,7 @@ void Selectivity::Validate() {
 
 
 /**
- *
+ * Reset the objects
  */
 void Selectivity::Reset() {
   if (is_estimated_) {
@@ -88,13 +88,12 @@ void Selectivity::Reset() {
 
 /**
  * Return the cached value for the specified age or length from
- * our internal map
+ * the internal map
  *
  * @param age_or_length The age or length to get selectivity value for
- * @param time_step_index The time step we want to use for length based results
+ * @param time_step_index The time step to use for length based results
  * @return The value stored in the map or 0.0 as default
  */
-
 Double Selectivity::GetAgeResult(unsigned age, AgeLength* age_length) {
   if (!length_based_) {
     if (age - age_index_ >= values_.size())
@@ -108,7 +107,10 @@ Double Selectivity::GetAgeResult(unsigned age, AgeLength* age_length) {
 }
 
 /**
+ * Return the length values for a length bin
  *
+ * @param length_bin_index The index of the length bin
+ * @return the length value
  */
 Double Selectivity::GetLengthResult(unsigned length_bin_index) {
   return length_values_[length_bin_index];
@@ -116,7 +118,7 @@ Double Selectivity::GetLengthResult(unsigned length_bin_index) {
 
 
 /**
- * This method will return a pointer to a 4D vector object
+ * This method returns a pointer to a 4D vector object
  * containing age length cached values for the target age_length object.
  *
  * If the target object does not exist, then it will build it.

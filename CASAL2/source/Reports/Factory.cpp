@@ -151,7 +151,6 @@ Report* Factory::Create(Model* model, const string& object_type, const string& s
         result = new age::Partition(model);
     }
 
-
     if (result)
       model->managers().report()->AddObject(result);
   }

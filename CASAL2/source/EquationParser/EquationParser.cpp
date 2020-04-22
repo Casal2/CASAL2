@@ -104,7 +104,7 @@ EquationParser::EquationParser(Model* model) : model_(model) {
 }
 
 /**
- *
+ * Destructor
  */
 EquationParser::~EquationParser() {
   if (parser_ != nullptr)
@@ -131,13 +131,14 @@ Double& EquationParser::LookupValue(const std::string& name) {
   return *value;
 }
 
-
 /**
+ * This method parses the equation string and evaluates it
  *
+ * @param equation The equation string to parse
+ * @return the value of the equation
  */
 Double EquationParser::Parse(string equation) {
   return parser_->Evaluate(equation);
 }
-
 
 } /* namespace niwa */

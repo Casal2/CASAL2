@@ -44,9 +44,9 @@ namespace minimisers {
  * Create the instance of our object as defined by the two parameters
  * object_type and sub_type.
  *
- * @param object_type The type of object to create (e.g age_size, process)
- * @param sub_type The child type of the object to create (e.g ageing, schnute)
- * @return shared_ptr to the object we've created
+ * @param object_type The type of object to create (e.g., age_size, process)
+ * @param sub_type The child type of the object to create (e.g., ageing, schnute)
+ * @return shared_ptr to the object
  */
 Minimiser* Factory::Create(Model* model, const string& object_type, const string& sub_type) {
   Minimiser* result = nullptr;

@@ -22,10 +22,6 @@ namespace niwa {
 class Estimate;
 namespace estimatetransformations {
 
-/**
- *
- */
-
 class SumToOne : public EstimateTransformation {
 public:
   SumToOne() = delete;

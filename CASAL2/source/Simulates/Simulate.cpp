@@ -30,7 +30,7 @@ Simulate::Simulate(Model* model) : model_(model) {
 }
 
 /**
- *
+ * Validate the objects
  */
 void Simulate::Validate() {
   parameters_.Populate(model_);
@@ -38,7 +38,7 @@ void Simulate::Validate() {
 }
 
 /**
- *
+ * Build the objects
  */
 void Simulate::Build() {
   if (parameter_ == "") {
@@ -80,7 +80,7 @@ void Simulate::Build() {
 }
 
 /**
- *
+ * Update the objects
  */
 void Simulate::Update(unsigned current_year) {
   LOG_TRACE();
@@ -94,7 +94,7 @@ void Simulate::Update(unsigned current_year) {
 }
 
 /**
- *
+ * Restore the original value of the object
  */
 void Simulate::RestoreOriginalValue() {
   LOG_TRACE();
@@ -103,21 +103,27 @@ void Simulate::RestoreOriginalValue() {
 }
 
 /**
+ * Set the value for an addressable
  *
+ * @param value The value
  */
 void Simulate::set_single_value(Double value) {
   *addressable_ = value;
 }
 
 /**
+ * Set the value for an addressable vector
  *
+ * @param value The value
  */
 void Simulate::set_vector_value(Double value) {
   addressable_vector_->push_back(value);
 }
 
 /**
+ * Set the value for an addressable map
  *
+ * @param value The value
  */
 void Simulate::set_map_value(Double value) {
   (*addressable_map_)[model_->current_year()] = value;

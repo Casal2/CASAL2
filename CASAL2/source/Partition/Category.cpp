@@ -32,8 +32,8 @@ namespace partition {
  * data from the age data. For time_steps in a year.
  *
  * There are a few reasons this will be updated between years:
- * firstly if age_length type == data then there will be a different length at age for each year.
- * secondly if any of the Age length parameters time vary.
+ * first, if age_length type == data then there will be a different length at age for each year.
+ * second, if any of the Age length parameters time vary.
  */
 void Category::UpdateMeanLengthData() {
   if (mean_length_by_time_step_age_.size() > 0) {
@@ -197,10 +197,10 @@ void Category::PopulateAgeLengthMatrix(Selectivity* selectivity) {
 }
 
 /**
- * This method will take the current age population for this category and time step stored
- * in this->data_ and populate @param numbers_by_length_ by using the age length
+ * This method takes the current age population for this category and time step stored
+ * in this->data_ and populates @param numbers_by_length_ by using the age length
  * matrix supplied age_length_matrix. This function assumes the all checks are done in the
- * class that passes objects to this method
+ * class that passes the objects to this method
  *
  * @parameter selectivity The selectivity to apply to the age data
  * @parameter length_bins vector defining length bins

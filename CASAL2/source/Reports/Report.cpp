@@ -34,6 +34,12 @@ using std::ios_base;
 
 std::mutex Report::lock_;
 
+/**
+ * Check if file exists
+ *
+ * @param file_name The name of the file
+ * @return true if yes, false if now
+ */
 inline bool DoesFileExist(const string& file_name) {
   LOG_FINEST() << "Checking if file exists: " << file_name;
   ifstream  file(file_name.c_str());
@@ -50,14 +56,14 @@ inline bool DoesFileExist(const string& file_name) {
 Report::Report(Model* model) : model_(model) {
   parameters_.Bind<string>(PARAM_LABEL, &label_, "The label for the report", "");
   parameters_.Bind<string>(PARAM_TYPE, &type_, "The type of report", "");
-  parameters_.Bind<string>(PARAM_FILE_NAME, &file_name_, "The File Name for this report to be in a separate file", "", "");
+  parameters_.Bind<string>(PARAM_FILE_NAME, &file_name_, "The filename for this report to be in a separate file", "", "");
   parameters_.Bind<string>(PARAM_WRITE_MODE, &write_mode_, "The write mode", "", PARAM_OVERWRITE)
       ->set_allowed_values({ PARAM_OVERWRITE, PARAM_APPEND, PARAM_INCREMENTAL_SUFFIX });
 }
 
 /**
- * Validate the generic parameters ensuring
- * we cannot specify things like time step and year
+ * Validate the generic parameters ensuring that
+ * things like time step and year are not specified
  * when the report is not running in the execute phase.
  */
 void Report::Validate() {
@@ -78,7 +84,7 @@ void Report::Build() {
 /**
  * Check to see if the report has
  * the current year defined as a year
- * when it's suppose to run
+ * when it is suppose to run
  *
  * @param year The year to check
  * @return True if present, false otherwise
@@ -88,9 +94,9 @@ bool Report::HasYear(unsigned year) {
 }
 
 /**
- * The prepare method is called once before the model is run. It's done
- * post-build in the model and will allow the report to check if
- * the file it wants to write to exists etc.
+ * The prepare method is called once before the model is run. It is done
+ * post-build in the model and allows the report to check if
+ * the file it wants to write to exists, etc.
  */
 void Report::Prepare() {
   LOG_FINEST() << "preparing report: " << label_;

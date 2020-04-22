@@ -35,7 +35,7 @@ DerivedQuantity* Factory::Create(Model* model, const string& object_type, const 
   DerivedQuantity* result = nullptr;
 
   if (partition_type == PartitionType::kAge || model->partition_type() == PartitionType::kAge) {
-	  if (object_type == PARAM_DERIVED_QUANTITY || object_type == PARAM_DERIVED_QUANTITIES) {
+    if (object_type == PARAM_DERIVED_QUANTITY || object_type == PARAM_DERIVED_QUANTITIES) {
       if (sub_type == PARAM_ABUNDANCE)
         result = new age::Abundance(model);
       else if (sub_type == PARAM_BIOMASS)
@@ -55,7 +55,6 @@ DerivedQuantity* Factory::Create(Model* model, const string& object_type, const 
 
   return result;
 }
-
 
 } /* namespace derivedquantities */
 } /* namespace niwa */

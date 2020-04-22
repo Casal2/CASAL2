@@ -45,9 +45,7 @@ void TimeVarying::Validate() {
 }
 
 /**
- * Build our object now.
- *
- * This starts off by
+ * Build the TimeVarying object
  */
 void TimeVarying::Build() {
   // Verify our addressable is allowed to be used for TimeVarying
@@ -87,20 +85,20 @@ void TimeVarying::Build() {
 }
 
 /**
- * Update target object.
+ * Update the TimeVarying object
  *
- * Firstly, check if the year passed in is a year we want to change
- * the value for. If it is, then we change value. If not then
- * we restore the original value
+ * First, check if the year passed in is a year to change
+ * the value for. If it is, then change the value. If not, then
+ * restore the original value
  *
- * @param current_year The year we're currently in
+ * @param model_year The model year
  */
-void TimeVarying::Update(unsigned current_year) {
+void TimeVarying::Update(unsigned model_year) {
   LOG_TRACE();
   if (update_function_ == 0)
     LOG_CODE_ERROR() << "DoUpdateFunc_ == 0";
 
-  if (years_.size() > 0 && std::find(years_.begin(), years_.end(), current_year) == years_.end())
+  if (years_.size() > 0 && std::find(years_.begin(), years_.end(), model_year) == years_.end())
     RestoreOriginalValue();
   else
     DoUpdate();
@@ -110,7 +108,7 @@ void TimeVarying::Update(unsigned current_year) {
 }
 
 /**
- * Restore the original value we have to our addressable.
+ * Restore the original value of the addressable.
  */
 void TimeVarying::RestoreOriginalValue() {
   LOG_TRACE();
@@ -119,25 +117,25 @@ void TimeVarying::RestoreOriginalValue() {
 }
 
 /**
- * Change the value of our addressable
+ * Change the value of the addressable
  *
- * @param value The value to assign to our addressable
+ * @param value The value to assign to the addressable
  */
 void TimeVarying::set_single_value(Double value) {
   *addressable_ = value;
 }
 
 /**
- * Add a new value to the end of our addressable vector.
+ * Append a new value to the end of the addressable vector
  *
- * @param value The value to add to our vector
+ * @param value The value to add to the addressable vector
  */
 void TimeVarying::set_vector_value(Double value) {
   addressable_vector_->push_back(value);
 }
 
 /**
- * Set the value for the current year to the value provided.
+ * Set the value for the current year to the value provided
  *
  * @param value The value to put into the addressable map
  */
@@ -146,9 +144,9 @@ void TimeVarying::set_map_value(Double value) {
 }
 
 /**
- * Reset our TimeVarying object.
+ * Reset the TimeVarying object
  *
- * During the reset we want to get the original value again
+ * During the reset retrieve the original value again
  * because it may change between iterations. This will occur
  * if the object is an addressable that is being estimated
  * or modified as part of a MCMC etc.

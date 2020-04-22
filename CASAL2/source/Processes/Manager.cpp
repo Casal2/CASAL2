@@ -13,20 +13,29 @@
 namespace niwa {
 namespace processes {
 
+/**
+ * Default constructor
+ */
 Manager::Manager() {
 }
 
+/**
+ * Destructor
+ */
 Manager::~Manager() noexcept(true) {
 }
 
 /**
- * Validate any loaded processes we have.
+ * Validate the objects - no model
  */
 void Manager::Validate() {
   LOG_TRACE();
   LOG_CODE_ERROR() << "This method is not supported";
 }
 
+/**
+ * Validate the objects
+ */
 void Manager::Validate(Model* model) {
   LOG_TRACE();
   base::Manager<niwa::processes::Manager, niwa::Process>::Validate();

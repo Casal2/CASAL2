@@ -25,11 +25,10 @@ namespace niwa {
 Penalty::Penalty(Model* model) : model_(model) {
   parameters_.Bind<string>(PARAM_LABEL, &label_, "The label of the penalty", "");
   parameters_.Bind<string>(PARAM_TYPE, &type_, "The type of penalty", "");
-
 }
 
 /**
- * Validate our penalty parameters
+ * Validate the objects
  */
 void Penalty::Validate() {
   parameters_.Populate(model_);

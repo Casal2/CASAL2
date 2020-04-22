@@ -271,7 +271,7 @@ parameters::Table* ParameterList::GetTable(const string& label) {
 }
 
 /**
- * This method will copy all of the parameters from
+ * This method copies all of the parameters from
  * the source parameter list into this parameter list.
  *
  * NOTE: The TablesPtr are not recreated.
@@ -294,7 +294,7 @@ void ParameterList::CopyFrom(const ParameterList& source, string parameter_label
 }
 
 /**
- * This method will copy all of the parameters from
+ * This method copies all of the parameters from
  * the source parameter list into this parameter list.
  *
  * NOTE: The TablesPtr are not recreated.
@@ -332,7 +332,6 @@ void ParameterList::Clear() {
   tables_.clear();
 }
 
-
 /**
  * Find the location string for one of the parameters.
  *
@@ -368,6 +367,5 @@ void ParameterList::BindTable(const string& label, parameters::Table* table, con
   table->set_is_optional(optional);
   tables_[label] = table;
 }
-
 
 } /* namespace niwa */

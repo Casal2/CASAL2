@@ -101,12 +101,12 @@ TEST(RandomNumberGenerator, Reset) {
   EXPECT_DOUBLE_EQ(0.82682014600696618,  rng.normal(2.0));
 
   rng.Reset(2468);
-  EXPECT_DOUBLE_EQ(1.3400279209221049,   rng.chi_square(2.0));
-  EXPECT_DOUBLE_EQ(3.6238065431107578,   rng.chi_square(2.0));
-  EXPECT_DOUBLE_EQ(2.0156746110334809,   rng.chi_square(2.0));
-  EXPECT_DOUBLE_EQ(0.75105696447492076,  rng.chi_square(2.0));
-  EXPECT_DOUBLE_EQ(2.4617954154920803,   rng.chi_square(2.0));
-  EXPECT_DOUBLE_EQ(0.70000371866995148,  rng.chi_square(2.0));
+  EXPECT_DOUBLE_EQ(1.3400279209221049,   rng.chi_squared(2.0));
+  EXPECT_DOUBLE_EQ(3.6238065431107578,   rng.chi_squared(2.0));
+  EXPECT_DOUBLE_EQ(2.0156746110334809,   rng.chi_squared(2.0));
+  EXPECT_DOUBLE_EQ(0.75105696447492076,  rng.chi_squared(2.0));
+  EXPECT_DOUBLE_EQ(2.4617954154920803,   rng.chi_squared(2.0));
+  EXPECT_DOUBLE_EQ(0.70000371866995148,  rng.chi_squared(2.0));
 }
 
 /*
@@ -235,7 +235,7 @@ TEST(RandomNumberGenerator, chi_squared_properties) {
   Double total = 0.0;
   Double Var = 0.0;
   for(unsigned i = 0; i < N_sim; ++i) {
-    rchi[i] = rng.chi_square(5);
+    rchi[i] = rng.chi_squared(5);
     total += rchi[i];
   }
   Double mean = total/(Double)N_sim;

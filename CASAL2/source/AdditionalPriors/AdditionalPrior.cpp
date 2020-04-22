@@ -28,9 +28,9 @@ namespace niwa {
  * Note: The constructor is parsed to generate LaTeX for the documentation.
  */
 AdditionalPrior::AdditionalPrior(Model* model) : model_(model) {
-  parameters_.Bind<string>(PARAM_PARAMETER, &parameter_, "Name of the parameter to generate additional prior on", "");
-  parameters_.Bind<string>(PARAM_LABEL, &label_, "Label for the additional prior", "");
-  parameters_.Bind<string>(PARAM_TYPE, &type_, "Type of additional prior", "");
+  parameters_.Bind<string>(PARAM_PARAMETER, &parameter_, "The name of the parameter to generate additional prior on", "");
+  parameters_.Bind<string>(PARAM_LABEL, &label_, "The label for the additional prior", "");
+  parameters_.Bind<string>(PARAM_TYPE, &type_, "The type of additional prior", "");
 }
 
 /**
@@ -45,7 +45,7 @@ void AdditionalPrior::Validate() {
 }
 
 /*
- * Build
+ * Build the additional prior
  */
 void AdditionalPrior::Build() {
   DoBuild();

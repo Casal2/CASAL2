@@ -31,7 +31,7 @@ Project::Project(Model* model) : model_(model) {
 }
 
 /**
- *
+ * Validate the objects
  */
 void Project::Validate() {
   parameters_.Populate(model_);
@@ -39,7 +39,7 @@ void Project::Validate() {
 }
 
 /**
- *
+ * Build the objects
  */
 void Project::Build() {
   string error = "";
@@ -89,7 +89,7 @@ void Project::Reset() {
 }
 
 /**
- *
+ * Update the objects
  */
 void Project::Update(unsigned current_year) {
   LOG_TRACE();
@@ -105,7 +105,9 @@ void Project::Update(unsigned current_year) {
 }
 
 /**
+ * Restore the objects to their original value in a specified year
  *
+ * @param year The year
  */
 void Project::RestoreOriginalValue(unsigned year) {
   LOG_TRACE();
@@ -116,7 +118,9 @@ void Project::RestoreOriginalValue(unsigned year) {
 }
 
 /**
+ * Set an addressable to a specified value
  *
+ * @param value The value
  */
 void Project::SetSingleValue(Double value) {
   LOG_TRACE();
@@ -125,7 +129,9 @@ void Project::SetSingleValue(Double value) {
 }
 
 /**
+ * Set an addressable vector to a specified value
  *
+ * @param value The value
  */
 void Project::SetVectorValue(Double value) {
   LOG_FINEST() << "size before adding another value = " << addressable_vector_->size();
@@ -136,7 +142,9 @@ void Project::SetVectorValue(Double value) {
 }
 
 /**
+ * Set an addressable map to a specified value
  *
+ * @param value The value
  */
 void Project::SetMapValue(Double value) {
   LOG_TRACE();
@@ -145,22 +153,24 @@ void Project::SetMapValue(Double value) {
 }
 
 /**
- * Store the value from our addressable for this year
+ * Store the value from the addressable for a specified year
+ *
+ * @param year The year
  */
-void Project::StoreValue(unsigned current_year) {
+void Project::StoreValue(unsigned year) {
   if (addressable_ != nullptr)
-    stored_values_[current_year] = *addressable_;
+    stored_values_[year] = *addressable_;
   else if (addressable_map_ != nullptr)
-    stored_values_[current_year] = (*addressable_map_)[current_year];
+    stored_values_[year] = (*addressable_map_)[year];
   else if (addressable_vector_ != nullptr) {
-    unsigned index = current_year - model_->start_year();
+    unsigned index = year - model_->start_year();
     if (index >= addressable_vector_->size()) {
       LOG_CODE_ERROR() << "Could not store value for @project parameter " << parameter_ << " in year "
-      << current_year << " because index exceeded size of vector " << index << " : " << addressable_vector_->size();
+      << year << " because index exceeded size of vector " << index << " : " << addressable_vector_->size();
     }
-    stored_values_[current_year] = addressable_vector_->at(index);
+    stored_values_[year] = addressable_vector_->at(index);
   }
-  LOG_FINEST() << "Storing value = " << stored_values_[current_year];
+  LOG_FINEST() << "Storing value = " << stored_values_[year];
 }
 
 } /* namespace niwa */

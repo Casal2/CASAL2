@@ -28,6 +28,12 @@ namespace utilities {
 
 namespace util = niwa::utilities;
 
+/**
+ * This method checks a string for invalid characters
+ *
+ * @param  test_string The string to search for invalid characters
+ * @return string of invalid characters
+ */
 std::string String::find_invalid_characters(const std::string& test_string) {
  if (test_string.length() == 0)
    return "";
@@ -43,13 +49,15 @@ std::string String::find_invalid_characters(const std::string& test_string) {
 #endif
  );
 
-
-
-
-
  return invalid;
 }
 
+/**
+ * This method splits a string on ',' or ':'
+ *
+ * @param source The string to split
+ * @return a vector of the tokens in the string
+ */
 vector<std::string> String::explode(const std::string& source) {
   vector<std::string> result;
 
@@ -90,7 +98,10 @@ vector<std::string> String::explode(const std::string& source) {
 }
 
 /**
+ *This method removes spaces around operators
  *
+ * @param line_values The vector of strings to edit
+ * @return true
  */
 bool String::TrimOperators(vector<string>& line_values) {
   string line = boost::algorithm::join(line_values, " ");
@@ -226,9 +237,9 @@ bool String::HandleOperators(vector<string>& line_values, string &error) {
 /**
  * This method will handle splitting pieces
  * of a line in to a range. When inputting a value
- * with a : that indicates a range it'll return
- * a comma separated list of values
- * e.g input = 2000:2003
+ * with a ':' that indicates a range it will return
+ * a comma-separated list of values
+ * e.g., input = 2000:2003
  * output = 2000,2001,2002,2003
  *
  * @param range_value The value to parse and range

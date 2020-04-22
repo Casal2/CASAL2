@@ -50,16 +50,19 @@ int RunUnitTests(int argc, char * argv[]) {
   return result;
 }
 #else
+
 /**
- *
+ * This method runs the unit tests
  */
 int RunUnitTests(int argc, char * argv[]) {
-  cout << "DLL was built without TESTMODE enabled but it is trying to run unit tests..." << endl;
+  cout << "The shared library was built without TESTMODE enabled but it is trying to run unit tests..." << endl;
   return -1;
 }
 
 /**
+ * This method loads the command-line arguments
  *
+ * @return 0 if successful, -1 if not
  */
 int LoadOptions(int argc, char * argv[], niwa::utilities::RunParameters& options) {
   try {
@@ -84,7 +87,7 @@ int LoadOptions(int argc, char * argv[], niwa::utilities::RunParameters& options
 }
 
 /**
- *
+ * This method is deprecated
  */
 int PreParseConfigFiles(niwa::utilities::RunParameters& options) {
   LOG_CODE_ERROR() << "Code Deprecated";
@@ -92,7 +95,7 @@ int PreParseConfigFiles(niwa::utilities::RunParameters& options) {
 }
 
 /**
- * This is the main run method for our DLL. It's a modified version of main();
+ * This is the main run method for the shared libraries. It is a modified version of main();
  */
 int Run(int argc, char * argv[], niwa::utilities::RunParameters& options) {
   int return_code = 0;
@@ -100,10 +103,10 @@ int Run(int argc, char * argv[], niwa::utilities::RunParameters& options) {
 
   try {
     Model model;
+    reports::StandardHeader standard_report(&model);
+
     model.global_configuration().set_run_parameters(options);
     RunMode::Type run_mode = options.run_mode_;
-
-    reports::StandardHeader standard_report(&model);
 
     vector<string> cmd_parameters;
     for (int i = 0; i < argc; ++i) cmd_parameters.push_back(argv[i]);
@@ -159,8 +162,10 @@ int Run(int argc, char * argv[], niwa::utilities::RunParameters& options) {
     case RunMode::kProfiling:
     case RunMode::kProjection:
     {
-      if (!model.global_configuration().debug_mode() && !model.global_configuration().disable_standard_report())
+      if (!model.global_configuration().debug_mode() && !model.global_configuration().disable_standard_report()) {
         standard_report.Prepare();
+        model.managers().report()->set_std_header(standard_report.header());
+      }
 
       // load our configuration file
       configuration::Loader config_loader(model);
@@ -210,7 +215,6 @@ int Run(int argc, char * argv[], niwa::utilities::RunParameters& options) {
       if (minimiser)
         options.minimiser_ = minimiser->type();
     }
-
 
   } catch (const string &exception) {
     cout << "## ERROR - Casal2 experienced a problem and has stopped execution" << endl;

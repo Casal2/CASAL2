@@ -39,27 +39,27 @@ using std::vector;
 using niwa::utilities::Double;
 
 /**
- * Load our MPD file
+ * Load the MPD file
  */
 bool MPD::LoadFile(const string& file_name) {
   ifstream file;
   file.open(file_name.c_str());
   if (file.fail() || !file.is_open())
-    LOG_FATAL() << "Unable to open the estimate_value file " << file_name;
+    LOG_FATAL() << "Unable to open the estimate_value file: " << file_name;
 
   // first line should be: * MPD
   string line = "";
   if (!getline(file, line) || line == "")
-    LOG_FATAL() << "MPD file appears to be empty, or the first line is blank. File: " << file_name;
+    LOG_FATAL() << "MPD file is empty, or the first line is blank. File: " << file_name;
 
   boost::replace_all(line, "\t", " ");
   boost::trim_all(line);
   if (line != "* MPD")
-    LOG_FATAL() << "MPD first line should be '* MPD'. But it was on line " << line << " in file " << file_name;
+    LOG_FATAL() << "MPD file first line should be '* MPD'. But it was on line " << line << " in file " << file_name;
 
   // estimate_values line
   if (!getline(file, line) || line == "")
-    LOG_FATAL() << "MPD file appears to be empty, or the first line is blank. File: " << file_name;
+    LOG_FATAL() << "MPD file is empty, or the first line is blank. File: " << file_name;
 
   boost::replace_all(line, "\t", " ");
   boost::trim_all(line);
@@ -71,7 +71,7 @@ bool MPD::LoadFile(const string& file_name) {
    */
   vector<string> parameters;
   if (!getline(file, line) || line == "")
-    LOG_FATAL() << "MPD file appears to be empty, or the parameter line is blank. File: " << file_name;
+    LOG_FATAL() << "MPD file is empty, or the parameter line is blank. File: " << file_name;
 
   boost::replace_all(line, "\t", " ");
   boost::trim_all(line);
@@ -79,7 +79,7 @@ bool MPD::LoadFile(const string& file_name) {
 
   // load the values
   if (!getline(file, line) || line == "")
-    LOG_FATAL() << "MPD file appears to be empty, or the parameter line is blank. File: " << file_name;
+    LOG_FATAL() << "MPD file is empty, or the parameter line is blank. File: " << file_name;
 
   boost::replace_all(line, "\t", " ");
   boost::trim_all(line);
@@ -95,23 +95,23 @@ bool MPD::LoadFile(const string& file_name) {
 
     double numeric = 0.0;
     if (!utilities::To<double>(values[i], numeric))
-      LOG_FATAL() << "In estimate_value file could not convert the value " << values[i] << " to a double";
+      LOG_FATAL() << "In estimate_value file, could not convert the value " << values[i] << " to a double";
 
     auto estimate = model_->managers().estimate()->GetEstimate(parameters[i]);
     if (!estimate)
-      LOG_FATAL() << "Estimate " << parameters[i] << " was defined in MPD file but could not be found";
+      LOG_FATAL() << "Estimate " << parameters[i] << " was defined in MPD file but was not found";
 
     estimate->set_value(numeric);
   }
 
   // Load the Covariance
   if (!getline(file, line) || line == "")
-    LOG_FATAL() << "MPD file appears to be empty, or the covariance_matrix line is invalid. File: " << file_name;
+    LOG_FATAL() << "MPD file is empty, or the covariance_matrix line is invalid. File: " << file_name;
 
   boost::replace_all(line, "\t", " ");
   boost::trim_all(line);
   if (line != "covariance_matrix:") {
-    LOG_ERROR() << "Could not file 'covariance_matrix:' string in MPD file " << file_name;
+    LOG_ERROR() << "Could not find 'covariance_matrix:' string in MPD file " << file_name;
     return false;
   }
 
@@ -120,7 +120,7 @@ bool MPD::LoadFile(const string& file_name) {
   covariance_matrix.resize(estimate_count, estimate_count);
   for (unsigned i = 0; i < estimate_count; ++i) {
     if (!getline(file, line)) {
-      LOG_ERROR() << "Failed to load line " << i+1 << " of the covariance matrix from file " << file_name;
+      LOG_ERROR() << "Failed to load line " << i+1 << " of the covariance matrix from file: " << file_name;
     }
 
     // split the line
@@ -129,7 +129,7 @@ bool MPD::LoadFile(const string& file_name) {
     boost::split(estimable_values, line, boost::is_any_of(" "), boost::token_compress_on);
     if (estimate_count != estimable_values.size()) {
       LOG_ERROR() << "Line " << i+1 << " of the covariance matrix had " << estimable_values.size()
-               << " values when the number " << estimate_count << " was expected, to match number of estimates";
+        << " values when the number " << estimate_count << " was expected, to match number of estimates";
       return false;
     }
 

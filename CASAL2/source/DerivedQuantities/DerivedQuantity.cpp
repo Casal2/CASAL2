@@ -28,18 +28,18 @@ namespace niwa {
  * Register any parameters that can be an estimated or utilised in other run modes (e.g profiling, yields, projections etc)
  * Set some initial values
  *
- * Note: The constructor is parsed to generate Latex for the documentation.
+ * Note: The constructor is parsed to generate LaTeX for the documentation.
  */
 DerivedQuantity::DerivedQuantity(Model* model)
   : model_(model),
     partition_(model) {
-  parameters_.Bind<string>(PARAM_LABEL, &label_, "Label of the derived quantity", "");
-  parameters_.Bind<string>(PARAM_TYPE, &type_, "Type of derived quantity", "");
+  parameters_.Bind<string>(PARAM_LABEL, &label_, "The label of the derived quantity", "");
+  parameters_.Bind<string>(PARAM_TYPE, &type_, "The type of derived quantity", "");
   parameters_.Bind<string>(PARAM_TIME_STEP, &time_step_label_, "The time step in which to calculate the derived quantity after", "");
   parameters_.Bind<string>(PARAM_CATEGORIES, &category_labels_, "The list of categories to use when calculating the derived quantity", "");
   parameters_.Bind<string>(PARAM_SELECTIVITIES, &selectivity_labels_, "A list of one selectivity", "");
-  parameters_.Bind<double>(PARAM_TIME_STEP_PROPORTION, &time_step_proportion_, "Proportion through the mortality block of the time step when calculated", "", 0.5)->set_range(0.0, 1.0);
-  parameters_.Bind<string>(PARAM_TIME_STEP_PROPORTION_METHOD, &proportion_method_, "Method for interpolating for the proportion through the mortality block", "", PARAM_WEIGHTED_SUM)
+  parameters_.Bind<double>(PARAM_TIME_STEP_PROPORTION, &time_step_proportion_, "The proportion through the mortality block of the time step when calculated", "", 0.5)->set_range(0.0, 1.0);
+  parameters_.Bind<string>(PARAM_TIME_STEP_PROPORTION_METHOD, &proportion_method_, "The method for interpolating for the proportion through the mortality block", "", PARAM_WEIGHTED_SUM)
       ->set_allowed_values({ PARAM_WEIGHTED_SUM, PARAM_WEIGHTED_PRODUCT });
 
   RegisterAsAddressable(PARAM_VALUES, &values_, addressable::kLookup);
@@ -61,7 +61,7 @@ void DerivedQuantity::Validate() {
 
   if (category_labels_.size() != selectivity_labels_.size())
     LOG_ERROR_P(PARAM_SELECTIVITIES) << "selectivities count (" << selectivity_labels_.size() << ") "
-        << " is not the same as the categories count (" << category_labels_.size() << ")";
+      << " is not the same as the categories count (" << category_labels_.size() << ")";
   DoValidate();
 }
 
@@ -89,13 +89,14 @@ void DerivedQuantity::Build() {
   TimeStep* time_step = model_->managers().time_step()->GetTimeStep(time_step_label_);
   if (!time_step)
     LOG_FATAL_P(PARAM_TIME_STEP) << "Time step label (" << time_step_label_ << ") was not found.";
+
   time_step->SubscribeToBlock(this);
   time_step->SubscribeToInitialisationBlock(this);
   DoBuild();
 }
 
 /**
- * Reset our derived quantity values
+ * Reset the derived quantity values
  */
 void DerivedQuantity::Reset() {
   initialisation_values_.clear();
@@ -148,10 +149,10 @@ Double DerivedQuantity::GetValue(unsigned year) {
   }
 
   LOG_FINEST() << "years_to_go_back: " << years_to_go_back
-      << "; year: " << year
-      << "; result: " << result
-      << "; .begin(): " << (*initialisation_values_.rbegin()->rbegin())
-      << ": .size(): " << initialisation_values_.rbegin()->size();
+    << "; year: " << year
+    << "; result: " << result
+    << "; .begin(): " << (*initialisation_values_.rbegin()->rbegin())
+    << ": .size(): " << initialisation_values_.rbegin()->size();
 
   return result;
 }

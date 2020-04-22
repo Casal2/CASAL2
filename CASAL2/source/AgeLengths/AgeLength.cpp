@@ -38,7 +38,7 @@ namespace niwa {
  * Note: The constructor is parsed to generate LaTeX for the documentation.
  */
 AgeLength::AgeLength(Model* model) : model_(model) {
-  parameters_.Bind<string>(PARAM_LABEL, &label_, "Label of the age length relationship", "");
+  parameters_.Bind<string>(PARAM_LABEL, &label_, "The label of the age length relationship", "");
   parameters_.Bind<string>(PARAM_TYPE, &type_, "The type of age length relationship", "");
   parameters_.Bind<double>(PARAM_TIME_STEP_PROPORTIONS, &time_step_proportions_, "The fraction of the year applied in each time step that is added to the age for the purposes of evaluating the length, i.e., a value of 0.5 for a time step will evaluate the length of individuals at age+0.5 in that time step", "", true)->set_range(0.0, 1.0);
   parameters_.Bind<string>(PARAM_DISTRIBUTION, &distribution_label_, "The assumed distribution for the growth curve", "", PARAM_NORMAL);
@@ -134,7 +134,7 @@ void AgeLength::BuildCV() {
 }
 
 /**
- * Reset the age length class.
+ * Reset the age length class
  */
 void AgeLength::Reset() {
   if (is_estimated_) {
@@ -146,7 +146,7 @@ void AgeLength::Reset() {
 }
 
 /**
- * ReBuild Cache: called by the time_varying class.
+ * ReBuild Cache: called by the time_varying class
  */
 void AgeLength::RebuildCache() {
   BuildCV();

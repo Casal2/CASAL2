@@ -49,7 +49,6 @@ int main(int argc, char * argv[]) {
     Model model;
     reports::StandardHeader standard_report(&model);
 
-
     utilities::RunParameters parameters;
 
     utilities::CommandLineParser parser;
@@ -125,12 +124,12 @@ int main(int argc, char * argv[]) {
       }
 
       Logging& logging = Logging::Instance();
-       config_loader.ParseFileLines();
-       if (logging.errors().size() > 0) {
-         logging.FlushErrors();
-         return_code = -1;
-         break;
-       }
+      config_loader.ParseFileLines();
+      if (logging.errors().size() > 0) {
+        logging.FlushErrors();
+        return_code = -1;
+        break;
+      }
 
       // override any config file values from our command line
       model.global_configuration().ParseOptions(&model);

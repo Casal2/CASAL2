@@ -25,8 +25,7 @@ using std::cout;
 using std::endl;
 
 /**
- * This method will check to see if the addressable has been registered
- * or not
+ * This method checks if the addressable has been registered or not
  *
  * @param label The label of the estimate to look for
  * @return true if found, false if not
@@ -68,7 +67,7 @@ bool Object::HasAddressableUsage(const string& label, const addressable::Usage& 
 }
 
 /**
- * This method will check to see if the addressable label passed
+ * This method checks if the addressable label passed
  * in is registered as part of a vector or not.
  *
  * @param label The label of the addressable to check
@@ -89,7 +88,7 @@ bool Object::IsAddressableAVector(const string& label) const {
 }
 
 /**
- * This method will return the number of values that have been registered as an
+ * This method returns the number of values that have been registered as an
  * addressable.
  *
  * @param label The label of the registered parameter
@@ -114,7 +113,7 @@ unsigned Object::GetAddressableSize(const string& label) const {
 }
 
 /**
- * This method will find the addressable with the matching
+ * This method finds the addressable with the matching
  * label and return it.
  *
  * @param label The label of the addressable to find
@@ -130,7 +129,7 @@ Double* Object::GetAddressable(const string& label) {
 }
 
 /**
- * This method will find the addressable with the matching
+ * This method finds the addressable with the matching
  * label and index and return it.
  *
  * @param label The label of the addressable to find
@@ -180,7 +179,7 @@ Double* Object::GetAddressable(const string& label, const string& index) {
 }
 
 /**
- * This method will return a vector of addressables for use. This is required
+ * This method returns a vector of addressables for use. This is required
  * when requesting a subset of a vector or map.
  *
  * @param The absolute label for this (e.g., ycs_years{1973:2014})
@@ -202,7 +201,7 @@ vector<Double*>* Object::GetAddressables(const string& absolute_label, const vec
 }
 
 /**
- * This method will return a pointer to a map of addressables that have
+ * This method returns a pointer to a map of addressables that have
  * been indexed by unsigned. The majority of these addressables will
  * be indexed by year.
  *
@@ -215,7 +214,7 @@ map<unsigned, Double>* Object::GetAddressableUMap(const string& label) {
 }
 
 /**
- * Get the addressable as that is an unsigned/double map
+ * Get the addressable as that is an unsigned/Double map
  *
  * @param label The label of the addressable
  * @param create_missing The flag to indicate whether this addressable was created
@@ -233,7 +232,7 @@ map<unsigned, Double>* Object::GetAddressableUMap(const string& label, bool& cre
 }
 
 /**
- * Get the addressable as that is a string/double map
+ * Get the addressable as that is a string/Double map
  *
  * @param label The label of the addressable
  * @return An ordered map of addressables
@@ -248,7 +247,7 @@ OrderedMap<string, Double>* Object::GetAddressableSMap(const string& label) {
 }
 
 /**
- * This method will return a pointer to a vector of addressables
+ * This method returns a pointer to a vector of addressables
  *
  * @param label The label of the addressable
  * @return vector pointer of addressables
@@ -294,7 +293,7 @@ addressable::Type Object::GetAddressableType(const string& label) const {
 }
 
 /**
- * This method will register a variable as an object
+ * This method registers a variable as an object
  * that can be targeted by an estimate to be used as part of an
  * estimation process or MCMC.
  *
@@ -309,7 +308,7 @@ void Object::RegisterAsAddressable(const string& label, Double* variable, addres
 }
 
 /**
- * This method will register a vector of variables as an object
+ * This method registers a vector of variables as an object
  * that can be targeted by an estimate to be used as part of an
  * estimation process or MCMC.
  *
@@ -324,7 +323,7 @@ void Object::RegisterAsAddressable(const string& label, vector<Double>* variable
 }
 
 /**
- * This method will register a map of variables as addressables.
+ * This method registers a map of variables as addressables.
  * To register each variable:
  *
  * process_label.variable(map.string)
@@ -340,7 +339,7 @@ void Object::RegisterAsAddressable(const string& label, OrderedMap<string, Doubl
 }
 
 /**
- * This method will register a map of variables as addressables.
+ * This method registers a map of variables as addressables.
  * To register each variable:
  *
  * process_label.variable(map.string)
@@ -365,7 +364,7 @@ void Object::RegisterAsAddressable(map<string, vector<Double>>* variables) {
 }
 
 /**
- * This method will print the same value as the locations() method on the ParameterList for a given
+ * This method prints the same value as the locations() method on the ParameterList for a given
  * parameter except it'll doing it for the whole base object
  *
  * @return a string containing the configuration file location data for debugging/logging
@@ -382,7 +381,7 @@ string Object::location() {
 }
 
 /**
- * This method will print the object and block types and all parameters with documentation
+ * This method prints the object and block types and all parameters with documentation
  * to the screen
  */
 void Object::PrintParameterQueryInfo() {
@@ -395,9 +394,9 @@ void Object::PrintParameterQueryInfo() {
 }
 
 /**
- * The default Rebuild cache will call
- * the subscribers rebuild cache so a cascading cache rebuild will
- * take effect when something like a time varying parameter is rebuilt.
+ * The default Rebuild cache calls the rebuild cache
+ * for all subscribers so that a cascading cache rebuild will
+ * take effect when something like a time-varying parameter is rebuilt.
  */
 void Object::RebuildCache() {
 }
@@ -405,16 +404,16 @@ void Object::RebuildCache() {
 /**
  * This method allows one object to subscribe to the RebuildCache of another. This is used with things like
  * time varying parameters where a process can subscribe to a selectivity. The selectivity will notify the
- * process it has changed and the process can handle any updates it wants.
+ * process it has changed and the process can handle the updates.
  *
- * @param subscriber The object that wants to subscribe to this object
+ * @param subscriber The object that will subscribe to this object
  */
 void Object::SubscribeToRebuildCache(Object* subscriber) {
   rebuild_cache_subscribers_.push_back(subscriber);
 }
 
 /**
- * This method will notify subscribers of a cache rebuild event
+ * This method notifies subscribers of a cache rebuild event
  */
 void Object::NotifySubscribers() {
   for (auto subscriber : rebuild_cache_subscribers_)

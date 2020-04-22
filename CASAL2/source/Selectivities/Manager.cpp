@@ -20,11 +20,13 @@ namespace selectivities {
  * Default constructor
  */
 Manager::Manager() {
-
 }
 
 /**
+ * Return a pointer to the selectivity object
  *
+ * @param label The label of the selectivity
+ * @return a pointer to the Selectivity
  */
 Selectivity* Manager::GetSelectivity(const string& label) {
   for(auto selectivity : objects_) {
@@ -34,7 +36,6 @@ Selectivity* Manager::GetSelectivity(const string& label) {
   }
 
   LOG_MEDIUM() << "Selectivity label '" << label << "' was not found.";
-
   return nullptr;
 }
 

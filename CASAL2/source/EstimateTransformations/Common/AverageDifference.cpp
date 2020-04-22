@@ -33,16 +33,16 @@ AverageDifference::AverageDifference(Model* model) : EstimateTransformation(mode
 }
 
 /**
+ * Validate objects
  */
 void AverageDifference::DoValidate() {
   if (transform_with_jacobian_) {
     LOG_ERROR_P(PARAM_TRANSFORM_WITH_JACOBIAN) << "The Jacobian transformation has not been worked out (if it exists) for the average difference transformation.";
   }
-
 }
 
 /**
- *
+ * Build objects
  */
 void AverageDifference::DoBuild() {
   LOG_TRACE();
@@ -51,22 +51,27 @@ void AverageDifference::DoBuild() {
     LOG_ERROR_P(PARAM_THETA_ONE) << "Estimate " << estimate_label_ << " was not found.";
     return;
   }
+
   // Initialise for -r runs
   current_untransformed_value_ = estimate_->value();
 
   LOG_FINE() << "transform with objective = " << transform_with_jacobian_ << " estimate transform " << estimate_->transform_for_objective()
     << " together = " << !transform_with_jacobian_ && !estimate_->transform_for_objective();
+
   if (!transform_with_jacobian_ && !estimate_->transform_for_objective()) {
     LOG_ERROR_P(PARAM_TRANSFORM_WITH_JACOBIAN) << "A transformation that does not contribute to the Jacobian was specified,"
       << " and the prior parameters do not refer to the transformed estimate, in the @estimate" << estimate_label_
       << ". This is not advised, and may cause bias errors. Please check the User Manual for more info";
   }
+
   if (estimate_->transform_with_jacobian_is_defined()) {
     if (transform_with_jacobian_ != estimate_->transform_with_jacobian()) {
       LOG_ERROR_P(PARAM_TRANSFORM_WITH_JACOBIAN) << "This parameter is not consistent with the equivalent parameter in the @estimate block "
         << estimate_label_ << ". Both parameters should be true or false.";
     }
-  }  difference_estimate_ = model_->managers().estimate()->GetEstimateByLabel(difference_estimate_label_);
+  }
+
+  difference_estimate_ = model_->managers().estimate()->GetEstimateByLabel(difference_estimate_label_);
 
   if (difference_estimate_ == nullptr) {
     LOG_ERROR_P(PARAM_THETA_TWO) << "Estimate " << difference_estimate_label_ << " was not found.";
@@ -76,6 +81,7 @@ void AverageDifference::DoBuild() {
   if ( (difference_estimate_->transform_for_objective() && !estimate_->transform_for_objective()) ||
        (!difference_estimate_->transform_for_objective() && estimate_->transform_for_objective()) )
     LOG_ERROR_P(PARAM_THETA_TWO) << "This transformation requires that both parameters have transform_for_objective either true or false";
+
   // check transformation is within bounds;
   if (difference_estimate_->transform_for_objective()) {
     LOG_MEDIUM() << "Check diff bounds";
@@ -102,7 +108,7 @@ void AverageDifference::DoBuild() {
 }
 
 /**
- *
+ * Transform objects
  */
 void AverageDifference::DoTransform() {
   if (first_time_transform_) {
@@ -123,11 +129,10 @@ void AverageDifference::DoTransform() {
     estimate_->set_value(y1_);
     difference_estimate_->set_value(y2_);
   }
-
 }
 
 /**
- *
+ * Restore objects
  */
 void AverageDifference::DoRestore() {
   LOG_MEDIUM() << "Restoring value";

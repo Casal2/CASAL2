@@ -42,10 +42,10 @@ Objects::Objects(Model* model) : model_(model) {
 }
 
 /**
- * This method will verify the existence of the addressable and it's usage flag. This check should
- * be done prior to any other call to this object to ensure the addressable can be found and used.
+ * This method verifies the existence of the addressable and its usage flag. This check is done
+ * prior to any other call to this object to ensure the addressable can be found and used.
  *
- * @param parameter_absolute_name The absolute name for the addressable (e.g block[label].variable{index}
+ * @param parameter_absolute_name The absolute name for the addressable (e.g., 'block[label].variable{index}')
  * @param usage The intended usage for this addressable
  * @param error A string to hold any returning errors in
  * @return True if the verification was successful, false otherwise
@@ -87,13 +87,12 @@ bool Objects::VerfiyAddressableForUse(const string& parameter_absolute_name, add
   return true;
 }
 
-
 /**
- * This method will find the type of addressable in the system defined by the absolute
+ * This method finds the type of addressable in the system defined by the absolute
  * parameter name.
  *
- * @param parameter_absolute_name The absolute parameter name e.g. process[recruitment].r0
- * @return The addressable type, set to invalid if it's not found
+ * @param parameter_absolute_name The absolute parameter name, e.g., 'process[recruitment].r0'
+ * @return The addressable type, set to invalid if it is not found
  */
 addressable::Type Objects::GetAddressableType(const string& parameter_absolute_name) {
   std::pair<string, string> parameter_index = ExplodeParameterAndIndex(parameter_absolute_name);
@@ -112,10 +111,10 @@ addressable::Type Objects::GetAddressableType(const string& parameter_absolute_n
 }
 
 /**
- * This method will search the model for the specific addressable and
- * return a pointer to it if it exists.
+ * This method searches the model for the specific addressable and
+ * returns a pointer to it if it exists.
  *
- * @param addressable_absolute_name The absolute parameter name e.g. process[recruitment].r0
+ * @param addressable_absolute_name The absolute parameter name, e.g., 'process[recruitment].r0'
  * @return Pointer to the addressable
  */
 Double* Objects::GetAddressable(const string& addressable_absolute_name) {
@@ -128,9 +127,9 @@ Double* Objects::GetAddressable(const string& addressable_absolute_name) {
 }
 
 /**
- * This method will return a vector of double pointers to a specific sub-set of an addressable
+ * This method returns a vector of double pointers to a specific subset of an addressable
  *
- * @param addressable_absolute_name The absolute parameter name e.g. process[recruitment].r0
+ * @param addressable_absolute_name The absolute parameter name, e.g., 'process[recruitment].r0'
  * @return Pointer to a vector or addressable pointers
  */
 vector<Double*>* Objects::GetAddressables(const string& addressable_absolute_name) {
@@ -147,10 +146,10 @@ vector<Double*>* Objects::GetAddressables(const string& addressable_absolute_nam
 }
 
 /**
- * This method will search the model for the specific addressable and
- * return a pointer to it if it exists.
+ * This method searchs the model for the specific addressable and
+ * returns a pointer to it if it exists.
  *
- * @param parameter_absolute_name The absolute parameter name e.g. process[recruitment].r0
+ * @param parameter_absolute_name The absolute parameter name, e.g., 'process[recruitment].r0'
  * @param error The variable to populate with the error message if one occurs
  * @return Pointer to the addressable or nullptr if none exists
  */
@@ -161,10 +160,10 @@ map<unsigned, Double>* Objects::GetAddressableUMap(const string& parameter_absol
 }
 
 /**
- * This method will search the model for the specific addressable and
- * return a pointer to it if it exists.
+ * This method searches the model for the specific addressable and
+ * returns a pointer to it if it exists.
  *
- * @param parameter_absolute_name The absolute parameter name e.g. process[recruitment].r0
+ * @param parameter_absolute_name The absolute parameter name, e.g., 'process[recruitment].r0'
  * @return Pointer to the addressable
  */
 OrderedMap<string, Double>* Objects::GetAddressableSMap(const string& parameter_absolute_name) {
@@ -174,10 +173,10 @@ OrderedMap<string, Double>* Objects::GetAddressableSMap(const string& parameter_
 }
 
 /**
- * This method will search the model for the specific addressable and
- * return a pointer to it if it exists.
+ * This method searches the model for the specific addressable and
+ * returns a pointer to it if it exists.
  *
- * @param parameter_absolute_name The absolute parameter name e.g. process[recruitment].r0
+ * @param parameter_absolute_name The absolute parameter name, e.g., 'process[recruitment].r0'
  * @return Pointer to the addressable
  */
 vector<Double>* Objects::GetAddressableVector(const string& parameter_absolute_name) {
@@ -187,10 +186,10 @@ vector<Double>* Objects::GetAddressableVector(const string& parameter_absolute_n
 }
 
 /**
- * This method will find the object in Casal2 and return an Object pointer to it.
+ * This method finds the object and returns an Object pointer to it
  *
- * @param object_absolute_name The absolute name for the parameter. This includes the object details (e.g process[mortality].m
- * @return Pointer to object or empty pointer if it's not found
+ * @param object_absolute_name The absolute name for the parameter. This includes the object details (e.g., 'process[mortality].m')
+ * @return Pointer to object or empty pointer
  */
 base::Object* Objects::FindObjectOrNull(const string& parameter_absolute_name) {
   LOG_FINE() << "Looking for object: " << parameter_absolute_name;
@@ -237,17 +236,17 @@ base::Object* Objects::FindObjectOrNull(const string& parameter_absolute_name) {
     result = model_->managers().observation()->GetObservation(label);
   } else {
     LOG_FATAL() << "Currently the type " << type << " is not registered for addressable finding. "
-        << "Please add the class to FindObject() in Model/Objects.cpp, or contact the development team";
+      << "Please add the class to FindObject() in Model/Objects.cpp, or contact the Casal2 development team";
   }
 
   return result;
 }
 
 /**
- * This method will find the object in Casal2 and return an Object pointer to it.
+ * This method finds the object and returns an Object pointer to it.
  *
- * @param object_absolute_name The absolute name for the parameter. This includes the object details (e.g process[mortality].m)
- * @return Pointer to object or throw error if it doesn't exist.
+ * @param object_absolute_name The absolute name for the parameter. This includes the object details (e.g., 'process[mortality].m')
+ * @return Pointer to object or throw error if it does not exist.
  */
 base::Object* Objects::FindObject(const string& parameter_absolute_name) {
   base::Object* result = FindObjectOrNull(parameter_absolute_name);
@@ -261,13 +260,13 @@ base::Object* Objects::FindObject(const string& parameter_absolute_name) {
 }
 
 /**
- * This method will take an addressable full name and return the addressable label
+ * This method takes an addressable full name and returns the addressable label
  * and index components.
  *
  * Submitting process[myprocess].addressable{1,2} would return pair<"addressable", "1,2">.
  * This is then used on a base::Object to locate the specific addressable.
  *
- * @parameter The absolute name of the addressable/parameter (e.g. process[x].a{1})
+ * @parameter The absolute name of the addressable/parameter (e.g., 'process[x].a{1}')
  * @return std::pair<"addressable", "index">
  *
  */
@@ -280,14 +279,14 @@ std::pair<string, string> Objects::ExplodeParameterAndIndex(const string& parame
 }
 
 /**
- * This method will take an absolute parameter name and break it into the different parts so it
+ * This method takes an absolute parameter name and breaks it into the different parts so it
  * can be used to find the binary object in memory
  *
  * @parameter parameter_absolute_name The name of the object in either type[label].addressable{index} or label.addressable{index}
- * @parameter type Return parameter to hold the object type (e.g. process, derived quantity)
+ * @parameter type Return parameter to hold the object type (e.g., process, derived quantity)
  * @parameter label the label of the object
- * @parameter addressable The addressable parameter we're looking for
- * @parameter index The indexes into the object. This could be multiple. But we keep it as a single string *
+ * @parameter addressable The addressable parameter
+ * @parameter index The index into the object. This could be multiple values in one string.
  */
 void Objects::ExplodeString(const string& parameter_absolute_name, string &type, string& label, string& addressable, string& index) {
   LOG_TRACE();
@@ -333,16 +332,16 @@ void Objects::ExplodeString(const string& parameter_absolute_name, string &type,
 }
 
 /**
- * This method will take the different parts of a full addressable path and joined them back
+ * This method takes the different parts of a full addressable path and joins them back
  * into a single string.
  * e.g. type=process, label=myproc, addressable=a, index=1 would return
  * process[myproc].a{1}
  *
- * @parameter type The type of object the addressable belongs to (e.g. process)
- * @parameter label The label of the object the addressable is on (e.g. my_process)
- * @parameter parameter The parameter that is being addressed (e.g. b0)
- * @parameter index The index into the addressable for vector, map types etc
- * @parameter target_parameter This is the return value, the full string (e.g. process[myproc].a{1})
+ * @parameter type The type of object the addressable belongs to (e.g., process)
+ * @parameter label The label of the object the addressable is on (e.g., my_process)
+ * @parameter parameter The parameter that is being addressed (e.g., b0)
+ * @parameter index The index into the addressable for vector, map types, etc.
+ * @parameter target_parameter This is the return value, the full string (e.g., 'process[myproc].a{1}')
  */
 void Objects::ImplodeString(const string& type, const string& label, const string& parameter, const string& index, string& target_parameter) {
   target_parameter = util::ToLowercase(type) + "[" + label + "]." + util::ToLowercase(parameter);

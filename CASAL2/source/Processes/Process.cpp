@@ -54,7 +54,7 @@ void Process::Validate() {
 }
 
 /**
- * Store the label and type in our print values and
+ * Store the label and type in the print values and
  * then call the child build method.
  */
 void Process::Build() {
@@ -62,7 +62,8 @@ void Process::Build() {
 }
 
 /**
- * Flush the print_values_ that are created in the StoreForReport() method. To ensure when CASAL2 is in an iterative state the reports dosen't keep appending information
+ * Flush the print_values_ that are created in the StoreForReport() method.
+ * To ensure when Casal2 is in an iterative state the reports do not keep appending information
  */
 void Process::Reset(){
   LOG_TRACE();
@@ -70,7 +71,10 @@ void Process::Reset(){
 }
 
 /**
- * Execute our process and any executors
+ * Execute the process and any executors for a specified year and time step
+ *
+ * @param year The year
+ * @param time_step_label The label of the time step
  */
 void Process::Execute(unsigned year, const string& time_step_label) {
   LOG_FINEST() << label_;
@@ -86,12 +90,14 @@ void Process::Execute(unsigned year, const string& time_step_label) {
 }
 
 /**
+ * Subscribe an executor to a year and time step
  *
+ * @param year The year
+ * @param time_step_label The label of the time step
+ * @param executor The pointer to the Executor
  */
 void Process::Subscribe(unsigned year, const string& time_step_label, Executor* executor) {
   executors_[year][time_step_label].push_back(executor);
 }
-
-
 
 } /* namespace Casal2 */

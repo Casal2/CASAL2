@@ -37,14 +37,16 @@ Manager::~Manager() {
   for (auto creator : creators_)
     delete creator;
 }
+
 /**
- *
+ * Validate the objects - no model
  */
 void Manager::Validate() {
   LOG_CODE_ERROR() << "This method is not supported";
 }
+
 /**
- *
+ * Validate the objects
  */
 void Manager::Validate(Model* model) {
   LOG_TRACE();
@@ -116,14 +118,14 @@ void Manager::Validate(Model* model) {
 }
 
 /**
- *
+ * Build the objects - no model
  */
 void Manager::Build() {
   LOG_CODE_ERROR() << "This method is not supported";
 }
 
 /**
- * Build our estimates
+ * Build the objects
  */
 void Manager::Build(Model* model) {
   for (auto estimate : objects_) {
@@ -148,7 +150,7 @@ void Manager::Build(Model* model) {
 }
 
 /**
- * Count how many of our estimates are enabled
+ * Count how many of the estimates are enabled
  * and return the count
  *
  * @return The number of enabled estimates
@@ -165,7 +167,9 @@ unsigned Manager::GetIsEstimatedCount() {
 }
 
 /**
+ * Get a vector of pointers to the estimates
  *
+ * @return The vector of enabled estimates
  */
 vector<Estimate*> Manager::GetIsEstimated() {
   vector<Estimate*> result;
@@ -179,7 +183,9 @@ vector<Estimate*> Manager::GetIsEstimated() {
 }
 
 /**
+ * Get a vector of pointers to the estimates in the objective function
  *
+ * @return The vector of enables estimates
  */
 vector<Estimate*> Manager::GetInObjectiveFunction() {
   vector<Estimate*> result;
@@ -193,7 +199,7 @@ vector<Estimate*> Manager::GetInObjectiveFunction() {
 }
 
 /**
- *
+ * Clear all objects
  */
 void Manager::Clear() {
   objects_.clear();
@@ -201,17 +207,17 @@ void Manager::Clear() {
 }
 
 /**
- * This method will look for estimates that match our parameter.
+ * This method looks for estimates that match the parameter
  *
  * First it will check all of the parameters parent info object
- * (the object that created them) for matches. If it doesn't
- * find a match then it'll re-loop through the estimates
+ * (the object that created them) for matches. If it does not
+ * find a match then it will re-loop through the estimates
  * looking for a specific parameter there.
  *
- * This is because we want to prioritise matches to what was
+ * This is to prioritise matches to what was
  * defined explicitly in the configuration file. As each @estimate
- * block in the file can create multiple Estimate objects we
- * will prioritise this way first before looking at what
+ * block in the file can create multiple Estimate objects,
+ * this way will be prioritised first before looking at what
  * actual estimates were created.
  *
  * @param parameter The parameter the estimate is targeting
@@ -232,8 +238,8 @@ bool Manager::HasEstimate(const string& parameter) {
 }
 
 /**
- * This method will enable all estimates that match either the parameter
- * or the parent info matches the parameter.
+ * This method enables all estimates that match either the parameter
+ * or the parent info matches the parameter
  *
  * @param parameter The parameter to match against the estimate and parent info
  */
@@ -247,7 +253,7 @@ void Manager::FlagIsEstimated(const string& parameter) {
 }
 
 /**
- * This method will disable all estimates that match either the parameter
+ * This method disables all estimates that match either the parameter
  * or the parent info matches the parameter.
  *
  * @param parameter The parameter to match against the estimate and parent info
@@ -262,18 +268,24 @@ void Manager::UnFlagIsEstimated(const string& parameter) {
 }
 
 /**
+ * This method returns a pointer to the estimate
  *
+ * @param parameter The name of the estimate
+ * @return The pointer to the Estimate
  */
 Estimate* Manager::GetEstimate(const string& parameter) {
   for (Estimate* estimate : objects_) {
     if (estimate->parameter() == parameter)
       return estimate;
   }
-  return nullptr;;
+  return nullptr;
 }
 
 /**
+ * This method returns a pointer to the estimate for the label
  *
+ * @param label The label of the estimate
+ * @returns The pointer to the Estimate
  */
 Estimate* Manager::GetEstimateByLabel(const string& label) {
   LOG_FINEST() << "Checking for estimate by label " << label;
@@ -293,7 +305,10 @@ Estimate* Manager::GetEstimateByLabel(const string& label) {
 }
 
 /**
+ * This method returns a vector of pointers to the estimates for the label
  *
+ * @param label The label of the estimates
+ * @returns The pointer to the vector of Estimates
  */
 vector<Estimate*> Manager::GetEstimatesByLabel(const string& label) {
   LOG_FINEST() << "Checking for estimate by label " << label;
@@ -314,7 +329,7 @@ vector<Estimate*> Manager::GetEstimatesByLabel(const string& label) {
 }
 
 /**
- * This method will enable all estimates who are part of the current phase or a prior phase
+ * This method enables all estimates who are part of the current phase or a prior phase
  *
  * @param phase The current estimate phase
  */
@@ -331,8 +346,8 @@ void Manager::SetActivePhase(unsigned phase) {
 }
 
 /**
- * This method will search over all estimates and calculate how many phases exist across all estimates.
- * It will also apply a business rule, such as there must be consecutive phases. 1,2,3 not 1,3
+ * This method searches over all estimates and calculate how many phases exist across all estimates.
+ * It will also apply a business rule, such as there must be consecutive phases, e.g., 1,2,3 not 1,3
  *
  * @param phase The current estimate phase
  */
@@ -346,6 +361,7 @@ unsigned Manager::GetNumberOfPhases() {
       LOG_FINE() << "storing phase = " << current_phase;
     }
   }
+
   // Now check that there is a consecutive sequence.
   unsigned max = *max_element(store_unique_phases.begin(), store_unique_phases.end());
   LOG_FINE() << "found max = " << max << " iterations";
@@ -357,7 +373,6 @@ unsigned Manager::GetNumberOfPhases() {
   }
   return max;
 }
-
 
 } /* namespace estimates */
 } /* namespace niwa */

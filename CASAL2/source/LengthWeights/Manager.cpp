@@ -16,13 +16,16 @@ namespace niwa {
 namespace lengthweights {
 
 /**
- * class definition
+ * Default constructor
  */
 Manager::Manager() {
 }
 
 /**
+ * Return the LengthWeight pointer
  *
+ * @param label The label of the object
+ * @return pointer to LengthWeight
  */
 LengthWeight* Manager::GetLengthWeight(const string& label) const {
   for (auto length_weight : objects_) {

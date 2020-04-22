@@ -39,14 +39,18 @@ using std::ifstream;
 using std::cout;
 using std::endl;
 using std::ios_base;
+
 /**
- *
+ * Default constructor
  */
 MCMCSample::MCMCSample(Model* model) : model_(model) {
 }
 
 /**
+ * This method loads the 'mcmc_sample' file
  *
+ * @param file_name The name of the file
+ * @return true if the file was parsed, false if not
  */
 bool MCMCSample::LoadFile(const string& file_name) {
   // open file
@@ -106,7 +110,7 @@ bool MCMCSample::LoadFile(const string& file_name) {
   boost::split(param_labels, line, boost::is_any_of(" "), boost::token_compress_on);
   if (estimate_count != param_labels.size()) {
     LOG_ERROR() << "The covariance parameter header labels had " << param_labels.size()
-        << " values when the number of estimated parameters is " << estimate_count;
+      << " values when the number of estimated parameters is " << estimate_count;
     return false;
   }
 
@@ -139,7 +143,7 @@ bool MCMCSample::LoadFile(const string& file_name) {
   boost::split(addressable_values, last_line, boost::is_any_of(" "), boost::token_compress_on);
   if (addressable_values.size() != columns.size()) {
     LOG_ERROR() << "Number of values provided in the sample file (" << addressable_values.size()
-        << ") does not match the columns provided in the header line (" << columns.size() << ")";
+      << ") does not match the columns provided in the header line (" << columns.size() << ")";
     return false;
   }
 
@@ -149,7 +153,7 @@ bool MCMCSample::LoadFile(const string& file_name) {
   //auto estimates     = model_->managers().estimate()->GetIsEstimated();
   if (estimates.size() != columns.size()) {
     LOG_ERROR() << "Model has " << estimates.size() << " estimates and the MCMC sample file has "
-        << columns.size() << " columns.";
+      << columns.size() << " columns.";
     return false;
   }
 

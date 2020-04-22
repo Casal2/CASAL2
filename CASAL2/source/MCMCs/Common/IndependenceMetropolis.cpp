@@ -288,7 +288,7 @@ void IndependenceMetropolis::FillMultivariateT(double step_size) {
   vector<double>  chisquares(estimate_count_, 0.0);
   for (unsigned i = 0; i < estimate_count_; ++i) {
     normals[i] = rng.normal();
-    chisquares[i] = 1 / (rng.chi_square(df_) / df_);
+    chisquares[i] = 1 / (rng.chi_squared(df_) / df_);
   }
 
   for (unsigned i = 0; i < estimate_count_; ++i) {

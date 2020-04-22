@@ -36,7 +36,7 @@ using std::vector;
 using niwa::utilities::Double;
 
 /**
- * Load the values of our estimates from the file provided
+ * Load the values of the estimate parameters from the file provided
  *
  * @param file_name The name of the file containing the values
  */
@@ -72,7 +72,6 @@ void EstimableValuesLoader::LoadValues(const string& file_name) {
   /**
    * Iterate through file
    */
-
   vector<string> values;
   Estimables& estimables = *model_->managers().estimables();
   ++line_number;

@@ -26,7 +26,12 @@ Manager::Manager() {
 }
 
 /**
+ * This method returns the existing likelihood or creates and returns the likelihood
  *
+ * @param model
+ * @param observation_label
+ * @param label
+ * @return pointer to Likelihood
  */
 Likelihood* Manager::GetOrCreateLikelihood(Model* model, const string& observation_label, const string& label) {
   LOG_FINEST() << observation_label << " + " << label;

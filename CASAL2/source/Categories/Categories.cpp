@@ -206,7 +206,6 @@ void Categories::Validate() {
  * Build any objects that will need to be utilised by this object.
  * Obtain smart_pointers to any objects that will be used by this object.
  */
-
 void Categories::Build() {
   if (model_->partition_type() == PartitionType::kAge) {
     /**
@@ -250,7 +249,7 @@ void Categories::Build() {
  * This method will expand short-hand syntax in to a vector with all of the elements
  * separated.
  *
- * e.g male.immature sex=female == male.immature female.immature female.mature == 3 elements
+ * e.g., male.immature sex=female == male.immature female.immature female.mature == 3 elements
  *
  * @param category_labels A vector of category definitions to iterate over and expand
  * @param parameter_location The location string for the parameter to print incase of error
@@ -269,9 +268,11 @@ vector<string> Categories::ExpandLabels(const vector<string> &category_labels, c
 }
 
 /**
+ * This method will take a lookup string and search for the category labels.
+ * The parameter_location parameter is passed in to print proper error messages.
  *
  * @param category_labels A vector of category definitions to iterate over and expand
- * @param parameter_location The location string for the parameter to print incase of error
+ * @param parameter_location The location string for the parameter to print in case of error
  * @return a vector of category label
  */
 vector<string> Categories::GetCategoryLabelsV(const string& lookup_string, const string& parameter_location) {
@@ -283,14 +284,12 @@ vector<string> Categories::GetCategoryLabelsV(const string& lookup_string, const
 }
 
 /**
- * This method will take a lookup string and parse it looking for our short-hand
- * syntax. The source_parameter parameter is passed in to allow us to print
- * proper error messages without having to pass back any enum types or something
- * silly like that.
+ * This method will take a lookup string and parse it looking for the short-hand
+ * syntax. The parameter_location parameter is passed in to print proper error messages.
  *
  * @param lookup_string The category definition to parse, short-hand or not
  * @param parameter_location Location of the parameter in the configuration file
- * @return String containing the new lookup string once it's been parsed
+ * @return String containing the new lookup string once it has been parsed
  */
 string Categories::GetCategoryLabels(const string& lookup_string, const string& parameter_location) {
   /**
@@ -464,8 +463,8 @@ string Categories::GetCategoryLabels(const string& lookup_string, const string& 
 }
 
 /**
- * This method will parse the lookup string and
- * try to match it to categories that have been defined so we can set values on them.
+ * This method will parse the lookup string and match it to categories
+ * that have been defined so that the values can be set.
  *
  * This supports
  * <category_name>=<value>
@@ -515,8 +514,8 @@ bool Categories::IsValid(const string& label) const {
 }
 
 /**
- * Check to see if the category label we're working with is a combination
- * of multiple categories. Combination categories contain the + symbol and
+ * Check to see if the category label is a combination
+ * of multiple categories. Combination categories contain the '+' symbol and
  * are used to aggregate partition elements together
  *
  * @param label Category label (e.g. male, or male+female)
@@ -528,11 +527,10 @@ bool Categories::IsCombinedLabels(const string& label) const {
 
 /**
  * Get the number of categories that have been defined in the combined label
- * e.g this will return 2 for male+female
- * 3 for male+female+unsexed etc
+ * e.g.,this will return 2 for male+female, 3 for male+female+unsexed, etc.
  *
  * @param The category label containing combined categories to check
- * @return The number of categories defined int he combined label
+ * @return The number of categories defined in the combined label
  */
 unsigned Categories::GetNumberOfCategoriesDefined(const string& label) const {
   vector<string> category_labels;
@@ -544,7 +542,7 @@ unsigned Categories::GetNumberOfCategoriesDefined(const string& label) const {
 /**
  * Get the minimum age for the target category
  *
- * @param category_name The name of the category to get min_age for
+ * @param category_name The name of the category
  * @return The minimum age allowed for the category
  */
 unsigned Categories::min_age(const string& category_name) {
@@ -557,7 +555,7 @@ unsigned Categories::min_age(const string& category_name) {
 /**
  * Get the maximum age for the target category
  *
- * @param category_name The name of the category to get max_age for
+ * @param category_name The name of the category
  * @return The maximum age allowed for the category
  */
 unsigned Categories::max_age(const string& category_name) {
@@ -568,7 +566,10 @@ unsigned Categories::max_age(const string& category_name) {
 }
 
 /**
+ * Get the vector of years for the target category
  *
+ * @param category_name The name of the category
+ * @return The vector of years for the category
  */
 vector<unsigned> Categories::years(const string& category_name) {
   if (categories_.find(category_name) == categories_.end())
@@ -579,6 +580,9 @@ vector<unsigned> Categories::years(const string& category_name) {
 
 /**
  *  Return the corresponding age length pointer for this category
+ *
+ * @param category_name The name of the category
+ * @return The AgeLength instance for the category
  */
 AgeLength* Categories::age_length(const string& category_name) {
   if (categories_.find(category_name) == categories_.end())
@@ -589,6 +593,9 @@ AgeLength* Categories::age_length(const string& category_name) {
 
 /**
  *  Return the corresponding age weight pointer for this category
+ *
+ * @param category_name The name of the category
+ * @return The AgeWeight instance for the category
  */
 AgeWeight* Categories::age_weight(const string& category_name) {
   if (categories_.find(category_name) == categories_.end())
@@ -601,7 +608,10 @@ AgeWeight* Categories::age_weight(const string& category_name) {
 }
 
 /**
- *  Return the corresponding lenght weight pointer for this category
+ *  Return the corresponding length weight pointer for this category
+ *
+ * @param category_name The name of the category
+ * @return The LengthWeight instance for the category
  */
 LengthWeight* Categories::length_weight(const string& category_name) {
   if (categories_.find(category_name) == categories_.end())
@@ -614,7 +624,7 @@ LengthWeight* Categories::length_weight(const string& category_name) {
 }
 
 /**
- * This method will remove all of the information from our categories
+ * This method will remove all of the information from the loaded categories
  */
 void Categories::Clear() {
   parameters_.Clear();

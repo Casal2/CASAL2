@@ -33,7 +33,7 @@ Table::Table(const string &label)
 }
 
 /**
- * Add some columns to our table
+ * Add columns to the table
  *
  * @param columns A list of columns for this table
  */
@@ -42,7 +42,7 @@ void Table::AddColumns(const vector<string> &columns) {
 }
 
 /**
- * Add a row of data to our table
+ * Add a row of data to the table
  *
  * @param row The row of data to add
  */
@@ -78,7 +78,7 @@ void Table::set_required_columns(const vector<string>& columns, bool allow_other
 }
 
 /**
- * Return a string that shows the location this parameter was defined.
+ * Return a string that shows the location this parameter was defined
  *
  * @return string containing the file and line details for this parameter
  */

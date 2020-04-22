@@ -31,8 +31,7 @@ ObjectiveFunction::ObjectiveFunction(Model* model) : model_(model) {
 }
 
 /**
- * Clear our objective function so it's values are not carried
- * over accidentally
+ * Clear the objective function so its values are not carried over
  */
 void ObjectiveFunction::Clear() {
   score_        = 0.0;
@@ -46,7 +45,7 @@ void ObjectiveFunction::Clear() {
 }
 
 /**
- * Calculate our score for the current run
+ * Calculate the score for all objects in the objective function
  */
 void ObjectiveFunction::CalculateScore() {
   LOG_TRACE();

@@ -1,8 +1,8 @@
 \section{Quick reference\label{sec:quick-reference}}
 \defComLab{additional\_prior}{Define an object of type \emph{additional\_prior}}\par
-\defSub{parameter} {Name of the parameter to generate additional prior on}
-\defSub{label} {Label for the additional prior}
-\defSub{type} {Type of additional prior}
+\defSub{parameter} {The name of the parameter to generate additional prior on}
+\defSub{label} {The label for the additional prior}
+\defSub{type} {The type of additional prior}
 \defComLab{ageing\_error}{Define an object of type \emph{ageing\_error}}\par\par
 \defSub{label} {The label of the ageing error}
 \defSub{type} {The type of ageing error}
@@ -16,7 +16,7 @@
 \defSub{p2} {The proportion misclassified as one year older, e.g., the proportion of age 3 individuals that were misclassified as age 4}
 \defSub{k} {The minimum age of animals which can be misclassified, i.e., animals of age less than k are assumed to be correctly classified}
 \defComLab{age\_length}{Define an object of type \emph{age\_length}}\par\par
-\defSub{label} {Label of the age length relationship}
+\defSub{label} {The label of the age length relationship}
 \defSub{type} {The type of age length relationship}
 \defSub{time\_step\_proportions} {The fraction of the year applied in each time step that is added to the age for the purposes of evaluating the length, i.e., a value of 0.5 for a time step will evaluate the length of individuals at age+0.5 in that time step}
 \defSub{distribution} {The assumed distribution for the growth curve}
@@ -54,13 +54,13 @@
 \defSub{length\_weight} {R,The labels of the length\_weight objects that are assigned to categories,}
 \defSub{age\_weight} {R,The labels of the age\_weight objects that are assigned to categories,}
 \defComLab{derived\_quantity}{Define an object of type \emph{derived\_quantity}}\par\par
-\defSub{label} {Label of the derived quantity}
-\defSub{type} {Type of derived quantity}
+\defSub{label} {The label of the derived quantity}
+\defSub{type} {The type of derived quantity}
 \defSub{time\_step} {The time step in which to calculate the derived quantity after}
 \defSub{categories} {The list of categories to use when calculating the derived quantity}
 \defSub{selectivities} {A list of one selectivity}
-\defSub{time\_step\_proportion} {Proportion through the mortality block of the time step when calculated}
-\defSub{time\_step\_proportion\_method} {Method for interpolating for the proportion through the mortality block}
+\defSub{time\_step\_proportion} {The proportion through the mortality block of the time step when calculated}
+\defSub{time\_step\_proportion\_method} {The method for interpolating for the proportion through the mortality block}
 \defSub{values} {}
 \par\textbf{\commandlabsubarg{derived\_\_quantity}{type}{abundance}}\par
 \par\textbf{\commandlabsubarg{derived\_\_quantity}{type}{biomass}}\par
@@ -128,14 +128,14 @@
 \defSub{length\_plus\_group} {Mean length of length plus group}
 \defSub{base\_weight\_units} {The units for the base weight. This will be the default unit of any weight input parameters}
 \defComLab{observation}{Define an object of type \emph{observation}}\par\par
-\defSub{label} {Label}
-\defSub{type} {Type of observation}
-\defSub{likelihood} {Type of likelihood to use}
-\defSub{categories} {Category labels to use}
-\defSub{delta} {Robustification value ,delta, for the likelihood}
-\defSub{simulation\_likelihood} {Simulation likelihood to use}
-\defSub{likelihood\_multiplier} {Likelihood score multiplier}
-\defSub{error\_value\_multiplier} {Error value multiplier for likelihood}
+\defSub{label} {The label of the observation}
+\defSub{type} {The type of observation}
+\defSub{likelihood} {The type of likelihood to use}
+\defSub{categories} {The category labels to use}
+\defSub{delta} {The robustification value ,delta, for the likelihood}
+\defSub{simulation\_likelihood} {The simulation likelihood to use}
+\defSub{likelihood\_multiplier} {The likelihood score multiplier}
+\defSub{error\_value\_multiplier} {The error value multiplier for likelihood}
 \par\textbf{\commandlabsubarg{observation}{type}{abundance}}\par
 \defSub{selectivities} {Labels of the selectivities}
 \defSub{time\_step} {The label of time-step that the observation occurs in}
@@ -439,7 +439,7 @@
 \defSub{u\_max} {U max}
 \defSub{years} {Years to execute the transition in}
 \defComLab{profile}{Define an object of type \emph{profile}}\par\par
-\defSub{label} {Label}
+\defSub{label} {The label of the profile}
 \defSub{steps} {The number of steps between the lower and upper bound}
 \defSub{lower\_bound} {The lower bounds}
 \defSub{upper\_bound} {The upper bounds}
@@ -454,7 +454,7 @@
 \defComLab{report}{Define an object of type \emph{report}}\par\par
 \defSub{label} {The label for the report}
 \defSub{type} {The type of report}
-\defSub{file\_name} {The File Name for this report to be in a separate file}
+\defSub{file\_name} {The filename for this report to be in a separate file}
 \defSub{write\_mode} {The write mode}
 \par\textbf{\commandlabsubarg{report}{type}{age\_length}}\par
 \defSub{time\_step} {Time Step label}

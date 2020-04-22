@@ -33,14 +33,14 @@ LogSum::LogSum(Model* model) : EstimateTransformation(model) {
 
 
 /**
- * Validate
+ * Validate objects
  */
 void LogSum::DoValidate() {
 
 }
 
 /**
- *
+ * Build objects
  */
 void LogSum::DoBuild() {
   LOG_TRACE();
@@ -50,22 +50,26 @@ void LogSum::DoBuild() {
     LOG_ERROR_P(PARAM_THETA_ONE) << "Estimate " << estimate_label_ << " was not found.";
     return;
   }
+
   // Initialise for -r runs
   current_untransformed_value_ = estimate_->value();
 
   LOG_FINE() << "transform with objective = " << transform_with_jacobian_ << " estimate transform "
     << estimate_->transform_for_objective() << " together = " << !transform_with_jacobian_ && !estimate_->transform_for_objective();
+
   if (!transform_with_jacobian_ && !estimate_->transform_for_objective()) {
     LOG_ERROR_P(PARAM_TRANSFORM_WITH_JACOBIAN) << "A transformation that does not contribute to the Jacobian was specified,"
       << " and the prior parameters do not refer to the transformed estimate, in the @estimate" << estimate_label_
       << ". This is not advised, and may cause bias errors. Please check the User Manual for more info";
   }
+
   if (estimate_->transform_with_jacobian_is_defined()) {
     if (transform_with_jacobian_ != estimate_->transform_with_jacobian()) {
       LOG_ERROR_P(PARAM_TRANSFORM_WITH_JACOBIAN) << "This parameter is not consistent with the equivalent parameter in the @estimate block "
         << estimate_label_ << ". Both of these parameters should be true or false.";
     }
   }
+
   if (!second_estimate_) {
     LOG_ERROR_P(PARAM_THETA_TWO) << "Estimate " << second_estimate_label_ << " was not found.";
     return;
@@ -74,6 +78,7 @@ void LogSum::DoBuild() {
   if ( (second_estimate_->transform_for_objective() && !estimate_->transform_for_objective()) ||
        (!second_estimate_->transform_for_objective() && estimate_->transform_for_objective()) )
     LOG_ERROR_P(PARAM_THETA_TWO) << "This transformation requires that both parameters set 'transform_for_objective' to true or false";
+
   // check transformation is within bounds;
   if (second_estimate_->transform_for_objective()) {
     Transform();
@@ -90,7 +95,7 @@ void LogSum::DoBuild() {
 }
 
 /**
- *
+ * Transform objects
  */
 void LogSum::DoTransform() {
   LOG_MEDIUM() << "Applying Transformation";
@@ -107,7 +112,7 @@ void LogSum::DoTransform() {
 }
 
 /**
- *
+ * Restore objects
  */
 void LogSum::DoRestore() {
   LOG_MEDIUM() << "Restoring value";
@@ -127,7 +132,6 @@ void LogSum::DoRestore() {
  *
  * @return Set of addressable labels
  */
-
 std::set<string> LogSum::GetTargetEstimates() {
   set<string> result;
   result.insert(estimate_label_);

@@ -31,7 +31,7 @@ Manager::~Manager() noexcept(true) {
 }
 
 /**
- * Validate any loaded minimisers we have.
+ * Validate the loaded minimisers
  */
 void Manager::Validate() {
   LOG_TRACE();

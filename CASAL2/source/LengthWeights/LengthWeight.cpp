@@ -19,7 +19,7 @@
 namespace niwa {
 
 /**
- * default constructor
+ * Default constructor
  */
 LengthWeight::LengthWeight(Model* model)
 : model_(model) {

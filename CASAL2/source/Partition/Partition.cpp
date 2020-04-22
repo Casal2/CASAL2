@@ -38,18 +38,17 @@ Partition::~Partition() {
 }
 
 /**
- * Partition validate
+ * Validate the objects
  */
 void Partition::Validate() {
 }
 
 /**
- * Build our partition structure now. This involves getting
+ * Build the partition structure. This involves getting
  * the category information and building the raw structure.
  *
- * We're not interested in the range of years that each
- * category has because this will be addressed with the
- * accessor objects.
+ * The range of years that each category has will be addressed
+ * with the accessor objects.
  */
 void Partition::Build() {
   Categories* categories        = model_->categories();
@@ -64,7 +63,6 @@ void Partition::Build() {
     new_category->max_age_    = categories->max_age(category);
     new_category->years_      = categories->years(category);
     new_category->age_length_ = categories->age_length(category);
-
 
     if (model_->partition_type() == PartitionType::kAge) {
       unsigned age_spread = (categories->max_age(category) - categories->min_age(category)) + 1;
@@ -314,7 +312,7 @@ void Partition::BuildAgeLengthProportions() {
 }
 
 /**
- * Reset our partition so all data values are 0.0
+ * Reset the partition by setting all data values to 0.0
  */
 void Partition::Reset() {
   for (auto iter = partition_.begin(); iter != partition_.end(); ++iter) {
@@ -323,7 +321,7 @@ void Partition::Reset() {
 }
 
 /**
- *  This method will return a reference to one of our partition categories.
+ *  Return a reference to one of the partition categories
  *
  *  @param category_label The name of the category
  *  @return reference to the category
@@ -337,7 +335,10 @@ partition::Category& Partition::category(const string& category_label) {
 }
 
 /**
+ * Return a reference to one of the age length proportion objects
  *
+ * @param category_label The name of the category
+ * @return reference to the age length proportion object
  */
 utilities::Vector4& Partition::age_length_proportions(const string& category_label) {
   auto find_iter = age_length_proportions_.find(category_label);
