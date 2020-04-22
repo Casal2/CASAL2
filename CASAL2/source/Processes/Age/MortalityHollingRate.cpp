@@ -41,7 +41,7 @@ namespace dc = niwa::utilities::doublecompare;
  * Register any parameters that can be an estimated or utilised in other run modes (e.g profiling, yields, projections etc)
  * Set some initial values
  *
- * Note: The constructor is parsed to generate Latex for the documentation.
+ * Note: The constructor is parsed to generate LaTeX for the documentation.
  */
 MortalityHollingRate::MortalityHollingRate(Model* model)
   : Process(model),

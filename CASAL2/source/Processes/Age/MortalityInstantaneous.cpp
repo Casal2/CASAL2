@@ -43,7 +43,7 @@ namespace math = niwa::utilities::math;
  * Register any parameters that can be an estimated or utilised in other run modes (e.g profiling, yields, projections etc)
  * Set some initial values
  *
- * Note: The constructor is parsed to generate Latex for the documentation.
+ * Note: The constructor is parsed to generate LaTeX for the documentation.
  */
 MortalityInstantaneous::MortalityInstantaneous(Model* model)
   : Process(model),
@@ -460,10 +460,9 @@ void MortalityInstantaneous::DoReset() {
   }
 }
 
-
 /**
  * Called from the time varying class (see TimeVarying.cpp line 96) used to reset parameters.
- * this avoids a full reset and clearing of printed values which is what was happening before
+ * This avoids a full reset and clearing of printed values which is what was happening before,
  */
 void MortalityInstantaneous::RebuildCache() {
   LOG_TRACE();
@@ -478,7 +477,6 @@ void MortalityInstantaneous::RebuildCache() {
 /**
  * Execute this process
  */
-
 void MortalityInstantaneous::DoExecute() {
   LOG_TRACE();
 
@@ -710,8 +708,9 @@ void MortalityInstantaneous::DoExecute() {
   //removals_by_year_category_age_[model_->current_year()] = removals_by_category_age_;
 }
 
-/*
- * @fun FillReportCache
+/**
+ * Fill the report cache
+ *
  * @description A method for reporting process information
  * @param cache a cache object to print to
 */
@@ -762,8 +761,9 @@ void MortalityInstantaneous::FillReportCache(ostringstream& cache) {
 */
 }
 
-/*
- * @fun FillTabularReportCache
+/**
+ * Fill the tabular report cache
+ *
  * @description A method for reporting tabular process information
  * @param cache a cache object to print to
  * @param first_run whether to print the header

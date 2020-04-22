@@ -44,7 +44,7 @@ namespace niwa {
  * Register any parameters that can be an estimated or utilised in other run modes (e.g profiling, yields, projections etc)
  * Set some initial values
  *
- * Note: The constructor is parsed to generate Latex for the documentation.
+ * Note: The constructor is parsed to generate LaTeX for the documentation.
  */
 Categories::Categories(Model* model) : model_(model) {
   parameters_.Bind<string>(PARAM_FORMAT, &format_, "The format that the category names use", "");
@@ -58,7 +58,7 @@ Categories::Categories(Model* model) : model_(model) {
 
 /**
  * Populate any parameters,
- * Validate values are within expected ranges when we cannot use bind<>() overloads
+ * Validate values are within expected ranges when bind<>() overloads cannot be used
  *
  * Note: all parameters are populated from configuration files
  */
@@ -246,7 +246,7 @@ void Categories::Build() {
 }
 
 /**
- * This method will expand short-hand syntax in to a vector with all of the elements
+ * This method expands short-hand syntax into a vector with all of the elements
  * separated.
  *
  * e.g., male.immature sex=female == male.immature female.immature female.mature == 3 elements
@@ -268,7 +268,7 @@ vector<string> Categories::ExpandLabels(const vector<string> &category_labels, c
 }
 
 /**
- * This method will take a lookup string and search for the category labels.
+ * This method takes a lookup string and searches for the category labels.
  * The parameter_location parameter is passed in to print proper error messages.
  *
  * @param category_labels A vector of category definitions to iterate over and expand
@@ -284,7 +284,7 @@ vector<string> Categories::GetCategoryLabelsV(const string& lookup_string, const
 }
 
 /**
- * This method will take a lookup string and parse it looking for the short-hand
+ * This method takes a lookup string and parses it looking for the short-hand
  * syntax. The parameter_location parameter is passed in to print proper error messages.
  *
  * @param lookup_string The category definition to parse, short-hand or not
@@ -463,7 +463,7 @@ string Categories::GetCategoryLabels(const string& lookup_string, const string& 
 }
 
 /**
- * This method will parse the lookup string and match it to categories
+ * This method parses the lookup string and matches it to categories
  * that have been defined so that the values can be set.
  *
  * This supports
@@ -473,7 +473,7 @@ string Categories::GetCategoryLabels(const string& lookup_string, const string& 
  *
  * This is used when setting individual lengths/ages/years on specific categories
  *
- * @param lookup The string we're looking for
+ * @param lookup The string
  * @param parameter_location String with file name and line of the parameter
  * @return a map of <category:value>
  */
@@ -518,7 +518,7 @@ bool Categories::IsValid(const string& label) const {
  * of multiple categories. Combination categories contain the '+' symbol and
  * are used to aggregate partition elements together
  *
- * @param label Category label (e.g. male, or male+female)
+ * @param label Category label (e.g., male, or male+female)
  * @return True if the category is combination, false if not
  */
 bool Categories::IsCombinedLabels(const string& label) const {
@@ -527,7 +527,7 @@ bool Categories::IsCombinedLabels(const string& label) const {
 
 /**
  * Get the number of categories that have been defined in the combined label
- * e.g.,this will return 2 for male+female, 3 for male+female+unsexed, etc.
+ * e.g., this will return 2 for male+female, 3 for male+female+unsexed, etc.
  *
  * @param The category label containing combined categories to check
  * @return The number of categories defined in the combined label
@@ -624,7 +624,7 @@ LengthWeight* Categories::length_weight(const string& category_name) {
 }
 
 /**
- * This method will remove all of the information from the loaded categories
+ * This method removes all of the information from the loaded categories
  */
 void Categories::Clear() {
   parameters_.Clear();
@@ -639,6 +639,5 @@ void Categories::Clear() {
   length_weight_labels_.clear();
   category_length_weight_labels_.clear();
 }
-
 
 } /* namespace niwa */

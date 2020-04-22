@@ -31,25 +31,24 @@ namespace utils = niwa::utilities;
  * Register any parameters that can be an estimated or utilised in other run modes (e.g profiling, yields, projections etc)
  * Set some initial values
  *
- * Note: The constructor is parsed to generate Latex for the documentation.
+ * Note: The constructor is parsed to generate LaTeX for the documentation.
  */
 Nuisance::Nuisance(Model* model) : Catchability(model) {
-  parameters_.Bind<double>(PARAM_LOWER_BOUND, &lower_bound_, "Upper bound for nuisance catchability", "");
-  parameters_.Bind<double>(PARAM_UPPER_BOUND, &upper_bound_, "Lower bound for nuisance catchability", "");
+  parameters_.Bind<double>(PARAM_LOWER_BOUND, &lower_bound_, "The upper bound for nuisance catchability", "");
+  parameters_.Bind<double>(PARAM_UPPER_BOUND, &upper_bound_, "The lower bound for nuisance catchability", "");
 
   RegisterAsAddressable(PARAM_Q, &q_, addressable::kLookup);
 }
 
-/*
- *
+/**
+ * Validate the objects
  */
 void Nuisance::DoValidate() {
 }
 
-/*
- *  Build
+/**
+ *  Build the objects
  */
-
 void Nuisance::DoBuild() {
   LOG_TRACE();
 
@@ -106,9 +105,8 @@ void Nuisance::DoBuild() {
 /**
  * Function CalculateQ() Analytically solve for Q, this gets called in Observation/Common/Biomass.cpp and Abundance.cpp
  *
- * @param Comparison this is the comparsion object that observed, expected and errors are stored in the Observation class.
+ * @param Comparison this is the comparison object that observed, expected and errors are stored in the Observation class.
  * @param likelihood is a string indicating the type of likelihood
- *
  * @return this function will solve for q given the comparison structure.
  */
 void Nuisance::CalculateQ(map<unsigned, vector<observations::Comparison> >& comparisons,const string& likelihood) {

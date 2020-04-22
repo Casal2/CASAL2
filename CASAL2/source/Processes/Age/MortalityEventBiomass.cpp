@@ -25,7 +25,7 @@ namespace age {
 namespace math = niwa::utilities::math;
 
 /**
- * default constructor
+ * Default constructor
  */
 MortalityEventBiomass::MortalityEventBiomass(Model* model)
   : Process(model),
@@ -47,7 +47,7 @@ MortalityEventBiomass::MortalityEventBiomass(Model* model)
 }
 
 /**
- *
+ * Validate the objects
  */
 void MortalityEventBiomass::DoValidate() {
   if (u_max_ <= 0.0 || u_max_ >= 1.0)
@@ -55,10 +55,10 @@ void MortalityEventBiomass::DoValidate() {
 
   if (category_labels_.size() != selectivity_labels_.size())
     LOG_ERROR_P(PARAM_SELECTIVITIES) << " The number of selectivities provided (" << selectivity_labels_.size() << ") must match the number of "
-        "categories provided (" << category_labels_.size() << ")";
+      << "categories provided (" << category_labels_.size() << ")";
   if (years_.size() != catches_.size())
     LOG_ERROR_P(PARAM_CATCHES) << " The number of catches provided (" << catches_.size() << ") must match the number of "
-        "years provided (" << years_.size() << ")";
+      << "years provided (" << years_.size() << ")";
 
 
   // Validate: catches_ and years_
@@ -78,7 +78,7 @@ void MortalityEventBiomass::DoValidate() {
 }
 
 /**
- *
+ * Build the objects
  */
 void MortalityEventBiomass::DoBuild() {
   partition_.Init(category_labels_);
@@ -103,7 +103,7 @@ void MortalityEventBiomass::DoBuild() {
 }
 
 /**
- *
+ * Reset the objects
  */
 void MortalityEventBiomass::DoReset() {
   exploitation_by_year_.clear();
@@ -111,13 +111,15 @@ void MortalityEventBiomass::DoReset() {
 }
 
 /**
- *
+ * Execute the process
  */
 void MortalityEventBiomass::DoExecute() {
   if (catch_years_[model_->current_year()] == 0)
     return;
+
   unsigned time_step_index = model_->managers().time_step()->current_time_step();
   LOG_TRACE();
+
   /**
    * Work our how much of the stock is vulnerable
    */
@@ -161,7 +163,6 @@ void MortalityEventBiomass::DoExecute() {
    * Remove the stock now. The amount to remove is
    * vulnerable * exploitation and store for report
    */
-
   i = 0;
   Double removals = 0;
   for (auto categories : partition_) {
@@ -177,7 +178,8 @@ void MortalityEventBiomass::DoExecute() {
 }
 
 /*
- * @fun FillReportCache
+ * Fill the report cache
+ *
  * @description A method for reporting process information
  * @param cache a cache object to print to
 */
@@ -195,8 +197,8 @@ void MortalityEventBiomass::FillReportCache(ostringstream& cache) {
 }
 
 /*
- * @fun FillTabularReportCache
- * @description A method for reporting tabular process information
+ * Fill the tabular report cache
+ *
  * @param cache a cache object to print to
  * @param first_run whether to print the header
  *
