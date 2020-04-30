@@ -17,7 +17,7 @@ type cppad
 covariance True
 
 @mcmc mcmc
-start 0.4
+start 0.3
 length 5000000 # orignally 4M
 keep 1250 # originally 1000 -> save every 4000th
 step_size 0.02

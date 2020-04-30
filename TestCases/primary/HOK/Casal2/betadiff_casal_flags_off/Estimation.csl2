@@ -14,7 +14,7 @@ evaluations 5000
 covariance True
 
 @mcmc mcmc
-start 0.4
+start 0.3
 length 4000000
 keep 1000
 step_size 0.02

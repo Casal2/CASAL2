@@ -9,7 +9,7 @@ covariance true
 
 
 @mcmc mcmc
-start 0
+start 0.3
 length 30000000
 keep 2500
 step_size 0.02
