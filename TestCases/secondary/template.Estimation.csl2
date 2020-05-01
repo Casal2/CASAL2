@@ -1,0 +1,142 @@
+## Estimation file template for NOAA SAMCP
+
+@minimiser betadiff
+type betadiff
+active true
+iterations 10000
+evaluations 10000
+tolerance 0.00001
+covariance true
+
+
+@mcmc mcmc
+start 1
+length 30000000
+keep 2500
+step_size 0.02
+adapt_stepsize_at 10000 50000 150000 250000 450000
+# burn-in? burn_in 200
+proposal_distribution t
+adapt_stepsize_method double_half
+max_correlation 0.9
+
+
+@estimate R0
+parameter process[Recruitment].r0
+type uniform_log
+lower_bound 1e5
+upper_bound 1e7
+
+
+## Natural Mortality
+#@estimate M_all_???
+#parameter selectivity[M_all].???
+#type uniform
+#lower_bound 0.01
+#upper_bound 0.50
+
+
+# growth (age-length relationship)
+@estimate
+parameter age_length[age_len_label].Linf
+type uniform
+lower_bound 70
+upper_bound 90
+
+@estimate
+parameter age_length[age_len_label].k
+type uniform_log
+lower_bound 0.10
+upper_bound 0.30
+
+@estimate
+parameter age_length[age_len_label].t0
+type uniform
+lower_bound -3
+upper_bound  1
+
+
+@estimate
+parameter length_weight[len_wt_label].a
+type uniform_log
+lower_bound 1e-9
+upper_bound 1e-6
+
+@estimate
+parameter length_weight[len_wt_label].b
+type uniform
+lower_bound 2.8
+upper_bound 3.2
+
+
+@estimate
+parameter catchability[survey_q].q
+type uniform_log
+lower_bound 1e-9
+upper_bound 1e-5
+
+
+## maturity ogive (logistic)
+@estimate
+parameter selectivity[maturity_sel].a50
+type uniform
+lower_bound 1
+upper_bound 5
+
+@estimate
+parameter selectivity[maturity_sel].ato95
+type uniform
+lower_bound 0
+upper_bound 5
+
+
+## survey selectivity (logistic)
+@estimate
+parameter selectivity[survey_sel].a50
+type uniform
+lower_bound 1
+upper_bound 5
+
+@estimate
+parameter selectivity[survey_sel].ato95
+type uniform
+lower_bound 0
+upper_bound 5
+
+
+## fishing selectivity (logistic)
+@estimate
+parameter selectivity[fishery_sel].a50
+type uniform
+lower_bound 1
+upper_bound 5
+
+@estimate
+parameter selectivity[fishery_sel].ato95
+type uniform
+lower_bound 0
+upper_bound 5
+
+
+@estimate
+parameter process[Recruitment].ycs_values{2000:2029}
+#Year         /* 1996 1997 1998 1999 */  2000 2001 2002 2003 2004 2005 2006 2007 2008 2009 2010 2011 2012 2013 2014 2015 2016 2017 2018 2019 2020 2021 2022 2023 2024 2025 2026 2027 2028 2029
+lower_bound   /*   1    1    1    1  */  0.01 0.01 0.01 0.01 0.01 0.01 0.01 0.01 0.01 0.01 0.01 0.01 0.01 0.01 0.01 0.01 0.01 0.01 0.01 0.01 0.01 0.01 0.01 0.01 0.01 0.01 0.01 0.01 0.01 0.01
+upper_bound   /*   1    1    1    1  */   100  100  100  100  100  100  100  100  100  100  100  100  100  100  100  100  100  100  100  100  100  100  100  100  100  100  100  100  100  100
+mu            /*   1    1    1    1  */     1    1    1    1    1    1    1    1    1    1    1    1    1    1    1    1    1    1    1    1    1    1    1    1    1    1    1    1    1    1
+cv            /* 0.2  0.2  0.2  0.2  */   0.2  0.2  0.2  0.2  0.2  0.2  0.2  0.2  0.2  0.2  0.2  0.2  0.2  0.2  0.2  0.2  0.2  0.2  0.2  0.2  0.2  0.2  0.2  0.2  0.2  0.2  0.2  0.2  0.2  0.2
+type lognormal
+
+
+## Penalties
+@additional_prior YCS_average_1
+type vector_average
+parameter process[Recruitment].ycs_values
+k 1
+multiplier 6
+
+@penalty fisheryCatchMustBeTaken1
+type process
+log_scale True
+multiplier 1000
+

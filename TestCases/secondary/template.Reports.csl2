@@ -1,0 +1,78 @@
+## Report file template for NOAA SAMCP
+
+@report Init
+type initialisation_partition
+
+@report obj_fun
+type objective_function
+
+@report mcmc_covariance
+type mcmc_covariance
+
+
+@report DQs
+type derived_quantity
+
+@report estimated_values
+type estimate_value
+
+@report estimated_summary
+type estimate_summary
+
+
+@report state1
+type partition
+time_step Jul_Jun
+years 2001:2035
+
+@report SSB
+type derived_quantity
+
+@report Mortality
+type process
+process Instantaneous_Mortality
+
+@report Rec
+type process
+process Recruitment
+
+
+@report natural_mortality_all
+type selectivity
+selectivity M_all
+
+
+@report maturity_ogive
+type selectivity
+selectivity maturity_sel
+
+
+@report survey_selectivity
+type selectivity
+selectivity survey_sel
+
+
+@report fishery_selectivity
+type selectivity
+selectivity fishery_sel
+
+
+@report survey_abundance
+type observation
+observation survey_abundance
+
+
+@report Ageing_error
+type ageing_error
+ageing_error Normal_ageing
+
+
+@report Hess
+type hessian_matrix
+
+@report Covar
+type covariance_matrix
+
+@report Corr
+type correlation_matrix
+
