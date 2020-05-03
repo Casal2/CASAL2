@@ -32,14 +32,15 @@ type derived_quantity
 type process
 process Instantaneous_Mortality
 
-@report Rec
+@report Recruitment
 type process
 process Recruitment
 
+# @report survey_vuln_biomass
+# type derived_quantity
 
-@report natural_mortality_all
-type selectivity
-selectivity M_all
+# @report fishery_vuln_biomass
+# type derived_quantity
 
 
 @report maturity_ogive

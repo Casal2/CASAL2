@@ -8,7 +8,6 @@ current_dir <- here()
 
 
 # load Casal2 input file templates
-
 pop_csl2_template_df <- extract.csl2.file(file.path(current_dir, 'template.Population.csl2'))
 est_csl2_template_df <- extract.csl2.file(file.path(current_dir, 'template.Estimation.csl2'))
 obs_csl2_template_df <- extract.csl2.file(file.path(current_dir, 'template.Observation.csl2'))
@@ -16,6 +15,7 @@ rep_csl2_template_df <- extract.csl2.file(file.path(current_dir, 'template.Repor
 
 
 
+# use BetaDiff version as the default; matches Estimation.csl2
 casal2_path <- '../../BuildSystem/bin/linux/release_betadiff/casal2'
 
 
@@ -144,7 +144,7 @@ pop_csl2_df$model$max_age$value <- as.character(max_age)
 pop_csl2_df$`process[Instantaneous_Mortality]`$Table$catches$year    <- as.character(year_vec)
 pop_csl2_df$`process[Instantaneous_Mortality]`$Table$catches$Fishery <- as.character(dat.input$L.obs)
 
-pop_csl2_df$`catchability[survey_q]`$q$vaue <- as.character(dat.input$q)
+pop_csl2_df$`catchability[survey_q]`$q$value <- as.character(dat.input$q)
 
 
 # write anything to Estimation.csl2?
@@ -202,9 +202,41 @@ writeLines(cmd_output,  output_filename)
 
 ds_mpd <- extract.mpd(output_filename)
 
+# > names(ds_mpd)
+#  [1] "Init"                "state1"              "obj_fun"             "DQs"
+#  [5] "estimated_values"    "SSB"                 "Mortality"           "Rec"
+#  [9] "maturity_ogive"      "survey_selectivity"  "fishery_selectivity" "survey_abundance"
+# [13] "Hess"                "Covar"               "Corr"                "estimated_summary"
+# [17] "warnings_encounted"
+
+
+ds_mpd$warnings_encounted
+
+
+
 plot.derived_quantities(ds_mpd, 'SSB')
 lines(year_vec, sim1$SSB, type='b', col='blue')
 
-plot.fits(ds_mpd, 'survey_abundance_output')
+
+plot.fits(ds_mpd, 'survey_abundance')
+
+
+plot.pressure(ds_mpd, 'Mortality', col='black')
+
+
+# plots S-R, not recruitment time series
+plot.recruitment(ds_mpd, 'Recruitment')
+true_rec <- sim1$N.age[,1] / 1000.0
+points(sim1$SSB, true_rec, col='blue')
+
+
+plot.selectivities(ds_mpd, c('fishery_selectivity', 'survey_selectivity'), col=c('black', 'green'))
+
+
+# plots exp(rec_dev)
+plot.ycs(ds_mpd, 'Recruitment')
+unadj_rec_dev <- log(true_rec / median(true_rec))
+rec_dev <- unadj_rec_dev - mean(unadj_rec_dev)
+lines(year_vec - 1, exp(rec_dev), col='blue')
 
 

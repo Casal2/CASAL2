@@ -36,9 +36,9 @@ type recruitment_beverton_holt
 categories stock
 proportions 1.0
 r0 1000000          ## set a reasonable starting value
-standardise_ycs_years 2000 2001 2002 2003 2004 2005 2006 2007 2008 2009 2010 2011 2012 2013 2014 2015 2016 2017 2018 2019 2020 2021 2022 2023 2024 2025 2026 2027 2028 2029
-ycs_values            1.00 1.00 1.00 1.00 1.00 1.00 1.00 1.00 1.00 1.00 1.00 1.00 1.00 1.00 1.00 1.00 1.00 1.00 1.00 1.00 1.00 1.00 1.00 1.00 1.00 1.00 1.00 1.00 1.00 1.00
-ycs_years 2000:2029 # for age 1
+ycs_years    2000 2001 2002 2003 2004 2005 2006 2007 2008 2009 2010 2011 2012 2013 2014 2015 2016 2017 2018 2019 2020 2021 2022 2023 2024 2025 2026 2027 2028 2029
+ycs_values   1.00 1.00 1.00 1.00 1.00 1.00 1.00 1.00 1.00 1.00 1.00 1.00 1.00 1.00 1.00 1.00 1.00 1.00 1.00 1.00 1.00 1.00 1.00 1.00 1.00 1.00 1.00 1.00 1.00 1.00
+standardise_ycs_years 2001:2028 # for age 1
 steepness 0.75
 ssb SSB
 age 1           ## Same as min_age
@@ -55,7 +55,7 @@ categories stock
 type mortality_instantaneous
 m 0.2
 time_step_ratio 0.5
-selectivities M_all
+selectivities One
 categories stock
 table catches
 year Fishery
@@ -64,7 +64,7 @@ year Fishery
 end_table
 table method
 method   category  selectivity  u_max  time_step  penalty
-Fishery  stock     fishery_sel  0.95   Jul_Jun    none
+Fishery  stock     fishery_sel  0.99   Jul_Jun    none
 end_table
 
 
@@ -79,12 +79,30 @@ time_step_proportion_method weighted_sum
 selectivities maturity_sel
 
 
+# @derived_quantity survey_vuln_biomass
+# type biomass
+# time_step Jul_Jun
+# categories stock
+# time_step_proportion 0.0
+# time_step_proportion_method weighted_sum
+# selectivities survey_sel
+
+
+# @derived_quantity fishery_vuln_biomass
+# type biomass
+# time_step Jul_Jun
+# categories stock
+# time_step_proportion 0.5
+# time_step_proportion_method weighted_sum
+# selectivities fishery_sel
+
+
 ## SELECTIVITIES
 @selectivity maturity_sel
 type logistic
 a50 2
-ato95 3
-alpha 1
+ato95 2
+alpha 0.5 # for female spawning biomass
 
 
 @selectivity survey_sel
@@ -97,14 +115,14 @@ alpha 1
 @selectivity fishery_sel
 type logistic
 a50 2
-ato95 1
+ato95 2
 alpha 1
 
 
 ## Natural Mortality by age
-@selectivity M_all
+@selectivity One
 type constant
-c 0.2
+c 1.0
 
 
 # SIZE AT AGE
@@ -133,6 +151,6 @@ b 3.0
 ## Catchability
 @catchability survey_q
 type free
-q 0.000001
+q 1.0e-7
 
 
