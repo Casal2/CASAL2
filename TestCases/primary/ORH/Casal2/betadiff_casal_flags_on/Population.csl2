@@ -1,0 +1,136 @@
+@model
+min_age 1
+max_age 80
+age_plus true
+base_weight_units tonnes
+initialisation_phases Equilibrium_phase
+time_steps Jul_Jun
+
+start_year 1979
+final_year 2005
+projection_final_year 2010
+
+
+@categories
+format stock
+names stock
+age_lengths age_len_label
+
+
+@initialisation_phase Equilibrium_phase
+type Derived
+casal_initialisation_switch false
+
+
+@time_step Jul_Jun
+processes Recruitment Fishing_Mortality Ageing
+
+
+@process Recruitment
+type recruitment_beverton_holt
+categories stock
+proportions 1.0
+b0 29400
+ycs_years 1978:2004
+ycs_values 1.0*27
+standardise_ycs_years 1979:2003
+steepness 1.0
+ssb SSB
+age 1
+
+
+@process Ageing
+type ageing
+categories stock
+
+
+@process Fishing_Mortality
+type mortality_instantaneous
+m 0.2
+time_step_ratio 0.5
+selectivities One
+categories stock
+table catches
+year Andes
+1979    2
+1980    4
+1981    0
+1982    0
+1983    0
+1984    0.1
+1985    0
+1986    81
+1987    0
+1988    12
+1989    33
+1990    143
+1991    125
+1992    8715
+1993    3358
+1994    3543
+1995    1407
+1996    1192
+1997    667
+1998    1425
+1999    1132
+2000    1999
+2001    1244
+2002    2415
+2003    3038
+2004    1713
+2005    1713
+end_table
+table method
+method category selectivity u_max time_step penalty
+Andes stock SELandes 0.67 Jul_Jun CatchMustBeTaken
+end_table
+
+
+@derived_quantity SSB
+type biomass
+time_step Jul_Jun
+categories stock
+time_step_proportion 0.5
+time_step_proportion_method weighted_sum
+selectivities maturity_sel
+
+
+@selectivity maturity_sel
+type logistic_producing
+l 15
+h 49
+a50 29.5
+ato95 3.9
+
+
+@selectivity SELandes
+type logistic
+a50 29.5
+ato95 5
+alpha 1
+
+
+@selectivity One
+type constant
+c 1.0
+
+
+@age_length age_len_label
+type data
+X
+cv_first 0.09
+cv_last 0.04
+distribution normal
+length_weight len_wt_label
+
+
+@length_weight len_wt_label
+type basic
+units tonnes
+a 9.21e-8
+b 2.71
+
+@q Qandes
+type nuisance
+q 0.1
+
