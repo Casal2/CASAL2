@@ -17,6 +17,9 @@ namespace niwa {
 namespace reports {
 namespace age {
 
+/**
+ * Default constructor
+ */
 AgeLength::AgeLength(Model* model) : Report(model) {
   run_mode_    = (RunMode::Type)(RunMode::kBasic | RunMode::kProjection);
   model_state_ = State::kExecute;
@@ -27,6 +30,9 @@ AgeLength::AgeLength(Model* model) : Report(model) {
   parameters_.Bind<string>(PARAM_CATEGORY, &category_, "", "");
 }
 
+/**
+ * Validate method
+ */
 void AgeLength::DoValidate() {
  if (!parameters_.Get(PARAM_YEARS)->has_been_defined()) {
    years_ = model_->years();
@@ -34,7 +40,7 @@ void AgeLength::DoValidate() {
 }
 
 /**
- *
+ * Execute method
  */
 void AgeLength::DoExecute() {
   auto age_length = model_->managers().age_length()->FindAgeLength(age_length_label_);

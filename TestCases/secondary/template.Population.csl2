@@ -89,7 +89,7 @@ selectivities maturity_sel
 @selectivity maturity_sel
 type logistic
 a50 2
-ato95 2
+ato95 0.5
 alpha 0.5 # for female spawning biomass
 
 
@@ -117,7 +117,7 @@ c 1.0
 type von_bertalanffy
 casal_switch false
 by_length true
-time_step_proportions 0.5
+time_step_proportions 0.0
 k 0.2
 t0 -1.0
 Linf 80.0
@@ -131,7 +131,7 @@ length_weight len_wt_label
 @length_weight len_wt_label
 type basic
 units tonnes
-a 2.0e-8
+a 2.0e-7
 b 3.0
 
 

@@ -5,7 +5,7 @@ type betadiff
 active true
 iterations 10000
 evaluations 10000
-tolerance 0.00001
+tolerance 0.000001
 covariance true
 
 
@@ -37,49 +37,51 @@ upper_bound 90
 
 @estimate age_len_k
 parameter age_length[age_len_label].k
-type uniform_log
+type uniform
 lower_bound 0.10
 upper_bound 0.30
 
 @estimate age_len_t0
 parameter age_length[age_len_label].t0
 type uniform
-lower_bound -3
-upper_bound  1
+lower_bound -2
+upper_bound  0
 
 
 @estimate len_wt_a
 parameter length_weight[len_wt_label].a
 type uniform_log
-lower_bound 1e-9
+lower_bound 1e-8
 upper_bound 1e-6
+estimation_phase 2
 
 @estimate len_wt_b
 parameter length_weight[len_wt_label].b
 type uniform
-lower_bound 2.8
-upper_bound 3.2
-
+lower_bound 2.9
+upper_bound 3.1
+estimation_phase 2
 
 @estimate survey_q
 parameter catchability[survey_q].q
 type uniform_log
-lower_bound 1e-9
-upper_bound 1e-5
+lower_bound 1e-8
+upper_bound 1e-6
+estimation_phase 5
 
 
 ## maturity ogive (logistic)
 @estimate maturity_a50
 parameter selectivity[maturity_sel].a50
 type uniform
-lower_bound 2
-upper_bound 5
+lower_bound 2.0
+upper_bound 2.5
 
 @estimate maturity_ato95
 parameter selectivity[maturity_sel].ato95
 type uniform
-lower_bound 1
-upper_bound 5
+lower_bound 0.1
+upper_bound 1.0
 
 
 ## survey selectivity (logistic)
@@ -87,27 +89,30 @@ upper_bound 5
 parameter selectivity[survey_sel].a50
 type uniform
 lower_bound 1
-upper_bound 5
+upper_bound 3
+estimation_phase 4
 
 @estimate survey_sel_ato95
 parameter selectivity[survey_sel].ato95
 type uniform
 lower_bound 1
 upper_bound 5
-
+estimation_phase 4
 
 ## fishing selectivity (logistic)
 @estimate fishery_sel_a50
 parameter selectivity[fishery_sel].a50
 type uniform
-lower_bound 1.6
-upper_bound 5
+lower_bound 1.5
+upper_bound 3
+estimation_phase 3
 
 @estimate fishery_sel_ato95
 parameter selectivity[fishery_sel].ato95
 type uniform
 lower_bound 1
 upper_bound 5
+estimation_phase 3
 
 
 @estimate rec_ycs

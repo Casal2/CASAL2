@@ -57,6 +57,7 @@ public:
     fg[0] = objective.score();
 
     model_->managers().estimate_transformation()->TransformEstimates();
+
     return;
   }
 
@@ -76,7 +77,7 @@ CPPAD::CPPAD(Model* model) : Minimiser(model) {
   parameters_.Bind<double>(PARAM_TOL, &tol_, "Tolerance for convergence", "", 1e-9)->set_lower_bound(0.0, false);
   parameters_.Bind<double>(PARAM_ACCEPTABLE_TOL, &acceptable_tol_, "Acceptable tolerance", "", 1e-6)->set_lower_bound(0.0, false);
   parameters_.Bind<double>(PARAM_ACCEPTABLE_OBJ_CHANGE_TOL, &acceptable_obj_change_tol_, "", "", 1e+20)->set_lower_bound(0.0, false);
-  parameters_.Bind<string>(PARAM_DERIVATIVE_TEST, &derivative_test_, "How to test for derivatives", "", "none")
+  parameters_.Bind<string>(PARAM_DERIVATIVE_TEST, &derivative_test_, "How to test for derivatives", "", "first-order")
       ->set_allowed_values({"none", "first-order", "second-order", "only-second-order"});
   parameters_.Bind<Double>(PARAM_POINT_PERTUBATION_RADIUS, &point_perturbation_radius_, "", "", 0.0)->set_lower_bound(0.0, true);
 }
@@ -85,17 +86,19 @@ CPPAD::CPPAD(Model* model) : Minimiser(model) {
  * Execute
  */
 void CPPAD::Execute() {
+
   typedef CPPAD_TESTVECTOR( double ) Dvector;
 
   auto estimate_manager = model_->managers().estimate();
-  auto estimates = estimate_manager->GetIsEstimated();
+  auto estimates        = estimate_manager->GetIsEstimated();
+  auto num_estimates    = estimates.size();
 
-  Dvector lower_bounds(estimates.size());
-  Dvector upper_bounds(estimates.size());
-  Dvector start_values(estimates.size());
+  Dvector lower_bounds(num_estimates);
+  Dvector upper_bounds(num_estimates);
+  Dvector start_values(num_estimates);
 
   model_->managers().estimate_transformation()->TransformEstimates();
-  for (unsigned i = 0; i < estimates.size(); ++i) {
+  for (unsigned i = 0; i < num_estimates; ++i) {
     lower_bounds[i] = estimates[i]->lower_bound();
     upper_bounds[i] = estimates[i]->upper_bound();
     start_values[i] = AS_VALUE(estimates[i]->value());
@@ -104,6 +107,7 @@ void CPPAD::Execute() {
   MyObjective obj(model_);
 
   // options
+  // see https://coin-or.github.io/Ipopt/OPTIONS.html and https://coin-or.github.io/Ipopt/OUTPUT.html
   std::string options = "";
   options += "Retape " + retape_ + "\n"; // retape operation sequence for each new x
   options += "Integer print_level " + utilities::ToInline<unsigned, string>(print_level_) + "\n";
@@ -133,27 +137,29 @@ void CPPAD::Execute() {
 
   Dvector x(solution.x.size());
 
-  LOG_MEDIUM() << "x";
+  LOG_MEDIUM() << "x: the approximation solution";
   for(unsigned i = 0; i < solution.x.size(); ++i) {
     x[i] = solution.x[i];
     LOG_MEDIUM() << solution.x[i];
   }
-  LOG_MEDIUM() << "g";
-  for(unsigned i = 0; i < solution.g.size(); ++i)
-    LOG_MEDIUM() << solution.g[i];
-  LOG_MEDIUM() << "lambda";
-  for(unsigned i = 0; i < solution.lambda.size(); ++i)
-    LOG_MEDIUM() << solution.lambda[i];
-  LOG_MEDIUM() << "zl";
+  LOG_MEDIUM() << "zl: Lagrange multipliers corresponding to lower bounds on x";
   for(unsigned i = 0; i < solution.zl.size(); ++i)
     LOG_MEDIUM() << solution.zl[i];
-  LOG_MEDIUM() << "zu";
+  LOG_MEDIUM() << "zu: Lagrange multipliers corresponding to upper bounds on x";
   for(unsigned i = 0; i < solution.zu.size(); ++i)
     LOG_MEDIUM() << solution.zu[i];
-  LOG_MEDIUM() << "objective function value";
-  LOG_MEDIUM() << solution.obj_value;
-  LOG_MEDIUM() << "status";
 
+  LOG_MEDIUM() << "g: value of g(x)";
+  for(unsigned i = 0; i < solution.g.size(); ++i)
+    LOG_MEDIUM() << solution.g[i];
+  LOG_MEDIUM() << "lambda: Lagrange multipliers corresponding to constraints on g(x)";
+  for(unsigned i = 0; i < solution.lambda.size(); ++i)
+    LOG_MEDIUM() << solution.lambda[i];
+
+  LOG_MEDIUM() << "objective function value: value of f(x)";
+  LOG_MEDIUM() << solution.obj_value;
+
+  LOG_MEDIUM() << "status";
   switch(solution.status)
   { // convert status from Ipopt enum to solve_result<Dvector> enum
     case solution.status_type::success:
@@ -225,6 +231,17 @@ void CPPAD::Execute() {
       result_ = MinimiserResult::kError;
       LOG_MEDIUM() << "unknown error, status type: " << solution.status;
   }
+
+  // see https://coin-or.github.io/CppAD/doc/hessian.htm
+  // and https://sourceforge.net/p/casadi/discussion/1271244/thread/c6df4d27/
+  // unsigned num_params = x.size();
+  // vector<double> w(num_params, 1.0);
+  // auto hessian = obj.Hessian(x, w); // vector of length n x n
+  // if (hessian.size() > 0) {
+  //   for (unsigned i = 0; i < num_params; ++i)
+  //     for (unsigned j = 0; j < num_params; ++j)
+  //       hessian_[i][j] = hessian[num_params * j + i];
+  // }
 
   model_->managers().estimate_transformation()->RestoreEstimates();
 }

@@ -42,6 +42,18 @@ type selectivity
 selectivity maturity_sel
 
 
+@report growth_length_at_age
+type partition_mean_length
+time_step Jul_Jun
+years 2030
+
+
+@report growth_weight_at_age
+type partition_mean_weight
+time_step Jul_Jun
+years 2030
+
+
 @report survey_selectivity
 type selectivity
 selectivity survey_sel
@@ -55,6 +67,18 @@ selectivity fishery_sel
 @report survey_abundance
 type observation
 observation survey_abundance
+
+
+@report survey_paa
+type observation
+observation survey_prop_at_age
+pearsons_residuals True
+
+
+@report fishery_paa
+type observation
+observation fishery_prop_at_age
+pearsons_residuals True
 
 
 @report Ageing_error

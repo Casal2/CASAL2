@@ -459,6 +459,7 @@
 #define PARAM_REPORT_PARTITION_YEARCROSSAGEMATRIX "year_age_matrix"
 #define PARAM_PARTITION                           "partition"
 #define PARAM_PARTITION_BIOMASS                   "partition_biomass"
+#define PARAM_PARTITION_MEAN_LENGTH               "partition_mean_length"
 #define PARAM_PARTITION_MEAN_WEIGHT               "partition_mean_weight"
 #define PARAM_PARTITION_TYPE                      "partition_type"
 #define PARAM_PENALTY                             "penalty"

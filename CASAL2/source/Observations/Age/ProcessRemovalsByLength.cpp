@@ -331,14 +331,15 @@ void ProcessRemovalsByLength::Execute() {
    * Verify our cached partition and partition sizes are correct
    */
 //  auto categories = model_->categories();
-  unsigned year = model_->current_year();
+  unsigned year       = model_->current_year();
   unsigned year_index = year - model_->start_year();
-  unsigned time_step = model_->managers().time_step()->current_time_step();
+  unsigned time_step  = model_->managers().time_step()->current_time_step();
+
   auto cached_partition_iter = cached_partition_->Begin();
-  auto partition_iter = partition_->Begin(); // vector<vector<partition::Category> >
+  auto partition_iter        = partition_->Begin(); // vector<vector<partition::Category> >
   map<unsigned, map<string, map<string, vector<Double>>>> &Removals_at_age = mortality_instantaneous_->catch_at();
 
-  vector<Double> expected_values(number_bins_, 0.0);
+  vector<Double> expected_values(number_bins_);
   vector<Double> numbers_at_length;
 
   /**
@@ -348,8 +349,8 @@ void ProcessRemovalsByLength::Execute() {
    */
   for (unsigned category_offset = 0; category_offset < category_labels_.size(); ++category_offset, ++partition_iter, ++cached_partition_iter) {
     LOG_FINEST() << "category: " << category_labels_[category_offset];
-    Double start_value = 0.0;
-    Double end_value = 0.0;
+    Double start_value   = 0.0;
+    Double end_value     = 0.0;
     Double number_at_age = 0.0;
 
 //    LOG_WARNING() << "This is bad code because it allocates memory in the middle of an execute";
@@ -361,7 +362,7 @@ void ProcessRemovalsByLength::Execute() {
      * Loop through the 2 combined categories building up the
      * expected proportions values.
      */
-    auto category_iter = partition_iter->begin();
+    auto category_iter        = partition_iter->begin();
     auto cached_category_iter = cached_partition_iter->begin();
     for (; category_iter != partition_iter->end(); ++cached_category_iter, ++category_iter) {
 //      AgeLength* age_length = categories->age_length((*category_iter)->name_);

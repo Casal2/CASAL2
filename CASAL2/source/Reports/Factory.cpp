@@ -20,6 +20,7 @@
 #include "Reports/Age/AgeingErrorMatrix.h"
 #include "Reports/Age/AgeLength.h"
 #include "Reports/Age/InitialisationPartitionMeanWeight.h"
+#include "Reports/Age/PartitionMeanLength.h"
 #include "Reports/Age/PartitionMeanWeight.h"
 #include "Reports/Age/PartitionBiomass.h"
 #include "Reports/Age/Partition.h"
@@ -131,6 +132,8 @@ Report* Factory::Create(Model* model, const string& object_type, const string& s
           result = new age::AgeLength(model);
         else if (sub_type == PARAM_PARTITION_BIOMASS)
           result = new age::PartitionBiomass(model);
+        else if (sub_type == PARAM_PARTITION_MEAN_LENGTH)
+          result = new age::PartitionMeanLength(model);
         else if (sub_type == PARAM_PARTITION_MEAN_WEIGHT)
           result = new age::PartitionMeanWeight(model);
         else if (sub_type == PARAM_INITIALISATION_PARTITION_MEAN_WEIGHT)

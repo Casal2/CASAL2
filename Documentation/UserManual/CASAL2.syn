@@ -250,6 +250,7 @@ normal
 off_by_one
 partition
 partition_biomass
+partition_mean_length
 partition_mean_weight
 partition_year_cross_age_matrix
 process_removals_by_age

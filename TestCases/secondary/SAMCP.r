@@ -136,10 +136,12 @@ pop_csl2_df$model$projection_final_year$value <- as.character(5 + max_year)
 
 min_age <- min(par.sim1$ages)
 max_age <- max(par.sim1$ages)
+age_vec <- seq(min_age, max_age, 1)
 pop_csl2_df$model$min_age$value <- as.character(min_age)
 pop_csl2_df$model$max_age$value <- as.character(max_age)
 
-# TODO - recruitment years
+# TODO - stock-recruitment and YCS years
+# par.sim1$h, par.sim1$M
 
 pop_csl2_df$`process[Fishing_Mortality]`$Table$catches$year    <- as.character(year_vec)
 pop_csl2_df$`process[Fishing_Mortality]`$Table$catches$Fishery <- as.character(dat.input$L.obs)
@@ -221,22 +223,39 @@ lines(year_vec, sim1$SSB, type='b', col='blue')
 plot.fits(ds_mpd, 'survey_abundance')
 
 
-plot.pressure(ds_mpd, 'Mortality', col='black')
+plot.pressure(ds_mpd, 'Mortality', col='black', ylim=c(0, max(ds_mpd$Mortality$`fishing_pressure[Fishery]`, sim1$F)))
+lines(year_vec, sim1$F, col='blue')
 
 
 # plots S-R, not recruitment time series
 plot.recruitment(ds_mpd, 'Recruitment')
-true_rec <- sim1$N.age[,1] / 1000.0
-points(sim1$SSB, true_rec, col='blue')
+points(sim1$SSB, sim1$N.age[,1] / 1000.0, col='blue')
 
 
 plot.selectivities(ds_mpd, c('fishery_selectivity', 'survey_selectivity', 'maturity_ogive'), col=c('black', 'green', 'red'))
+lines(par.sim1$selex, col='black', lwd=2, lty=2)
+lines(par.sim1$selex.survey, col='green', lwd=2, lty=2)
+lines(par.sim1$mat.age / 2, col='red', lwd=2, lty=2)
 
 
 # plots exp(rec_dev)
 plot.ycs(ds_mpd, 'Recruitment')
-unadj_rec_dev <- log(true_rec / median(true_rec))
-rec_dev <- unadj_rec_dev - mean(unadj_rec_dev)
-lines(year_vec - 1, exp(rec_dev), col='blue')
+lines(year_vec - 1, exp(par.sim1$logR.resid), col='blue')
 
 
+# TODO: plot growth comparisons, age-length, age-weight, and length-weight
+plot(age_vec, ds_mpd$growth_length_at_age$stock$mean_lengths$values, type='b', col='black', xlab='Age', ylab='Length (cm)',
+     ylim=c(0, max(ds_mpd$growth_length_at_age$stock$mean_lengths$values, ds_mpd$estimated_values$values$`age_length[age_len_label].Linf`,
+                   par.sim1$len / 10.0, par.sim1$Linf / 10.0)))
+lines(age_vec, par.sim1$len / 10.0, type='b', col='blue')
+abline(h=ds_mpd$estimated_values$values$`age_length[age_len_label].Linf`, col='black')
+abline(h=par.sim1$Linf / 10.0, col='blue')
+
+
+plot(age_vec, ds_mpd$growth_weight_at_age$stock$mean_weights$values, type='b', col='black',
+     xlab='Age', ylab='Weight (mt)', ylim=c(0, max(ds_mpd$growth_weight_at_age$stock$mean_weights$values, par.sim1$W.mt)))
+lines(age_vec, par.sim1$W.mt, type='b', col='blue')
+
+
+
+ds_mpd$estimated_values
