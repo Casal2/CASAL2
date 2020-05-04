@@ -30,17 +30,11 @@ type derived_quantity
 
 @report Mortality
 type process
-process Instantaneous_Mortality
+process Fishing_Mortality
 
 @report Recruitment
 type process
 process Recruitment
-
-# @report survey_vuln_biomass
-# type derived_quantity
-
-# @report fishery_vuln_biomass
-# type derived_quantity
 
 
 @report maturity_ogive

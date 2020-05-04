@@ -141,8 +141,8 @@ pop_csl2_df$model$max_age$value <- as.character(max_age)
 
 # TODO - recruitment years
 
-pop_csl2_df$`process[Instantaneous_Mortality]`$Table$catches$year    <- as.character(year_vec)
-pop_csl2_df$`process[Instantaneous_Mortality]`$Table$catches$Fishery <- as.character(dat.input$L.obs)
+pop_csl2_df$`process[Fishing_Mortality]`$Table$catches$year    <- as.character(year_vec)
+pop_csl2_df$`process[Fishing_Mortality]`$Table$catches$Fishery <- as.character(dat.input$L.obs)
 
 pop_csl2_df$`catchability[survey_q]`$q$value <- as.character(dat.input$q)
 
@@ -230,7 +230,7 @@ true_rec <- sim1$N.age[,1] / 1000.0
 points(sim1$SSB, true_rec, col='blue')
 
 
-plot.selectivities(ds_mpd, c('fishery_selectivity', 'survey_selectivity'), col=c('black', 'green'))
+plot.selectivities(ds_mpd, c('fishery_selectivity', 'survey_selectivity', 'maturity_ogive'), col=c('black', 'green', 'red'))
 
 
 # plots exp(rec_dev)

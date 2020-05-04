@@ -27,7 +27,7 @@ casal_initialisation_switch false
 ## Define the Annual Cycle
 ## This is a list of labels that correspond to a process
 @time_step Jul_Jun
-processes Recruitment Instantaneous_Mortality Ageing
+processes Recruitment halfM Fishing_Mortality halfM Ageing
 
 
 ## Define the above Processes
@@ -51,10 +51,9 @@ categories stock
 
 
 ## Fishing Mortality
-@process Instantaneous_Mortality
+@process Fishing_Mortality
 type mortality_instantaneous
-m 0.2
-time_step_ratio 0.5
+m 0.0
 selectivities One
 categories stock
 table catches
@@ -68,6 +67,13 @@ Fishery  stock     fishery_sel  0.99   Jul_Jun    none
 end_table
 
 
+@mortality halfM
+type constant_rate
+categories stock
+M 0.1
+selectivities One
+
+
 ## Derived Quantities
 ## SSB which gets fed into Recruitment
 @derived_quantity SSB
@@ -77,24 +83,6 @@ categories stock
 time_step_proportion 0.0
 time_step_proportion_method weighted_sum
 selectivities maturity_sel
-
-
-# @derived_quantity survey_vuln_biomass
-# type biomass
-# time_step Jul_Jun
-# categories stock
-# time_step_proportion 0.0
-# time_step_proportion_method weighted_sum
-# selectivities survey_sel
-
-
-# @derived_quantity fishery_vuln_biomass
-# type biomass
-# time_step Jul_Jun
-# categories stock
-# time_step_proportion 0.5
-# time_step_proportion_method weighted_sum
-# selectivities fishery_sel
 
 
 ## SELECTIVITIES
@@ -119,7 +107,6 @@ ato95 2
 alpha 1
 
 
-## Natural Mortality by age
 @selectivity One
 type constant
 c 1.0

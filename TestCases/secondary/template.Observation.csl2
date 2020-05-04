@@ -43,7 +43,7 @@ end_table
 type process_removals_by_age
 likelihood multinomial
 time_step Jul_Jun
-mortality_instantaneous_process Instantaneous_Mortality
+mortality_instantaneous_process Fishing_Mortality
 categories stock
 method_of_removal Fishery
 min_age 1
