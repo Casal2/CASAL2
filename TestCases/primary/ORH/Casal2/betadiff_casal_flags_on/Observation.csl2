@@ -19,11 +19,12 @@ likelihood multinomial
 time_step Jul_Jun
 mortality_instantaneous_process Fishing_Mortality
 categories stock
-method_of_removal Fishery
+method_of_removal AndesFishery
 min_age 19
-max_age 46
-ageing_error Normal_ageing
+max_age 45 # not 46, the max value in age vector in CASAL estimation.csl file
 plus_group false
+ageing_error Normal_ageing
+delta 1e-11
 years 1993 1994 1997 2001 2003
 table obs
 1993        0.00048 0.00100 0.00291 0.00150 0.00463 0.00686 0.00891 0.00895 0.01072 0.01373 0.01751 0.02609 0.04041 0.06405 0.09926 0.12552 0.14803 0.14041 0.12092 0.08129 0.04315 0.02042 0.00852 0.00423 0.00046 0.00006 0.00000
