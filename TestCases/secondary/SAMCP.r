@@ -220,14 +220,14 @@ ds_mpd$warnings_encounted
 
 
 plot.derived_quantities(ds_mpd, 'SSB')
-lines(year_vec, sim1$SSB, type='b', col='blue')
+lines(year_vec, sim1$SSB, type='b', col='blue', pch=16)
 
 
 plot.fits(ds_mpd, 'survey_abundance')
 
 
 plot.pressure(ds_mpd, 'Mortality', col='black', ylim=c(0, max(ds_mpd$Mortality$`fishing_pressure[Fishery]`, sim1$F)))
-lines(year_vec, sim1$F, col='blue')
+lines(year_vec, sim1$F, type='b', col='blue', pch=16)
 
 
 # plots S-R, not recruitment time series
@@ -240,7 +240,7 @@ points(sim1$SSB, true_rec_vec / 1000.0, col='blue')
 plot(full_year_vec, ds_mpd$Recruitment$Recruits, type='b', col='black', lwd=2, pch=20, xlab='Year', ylab='Recruits',
      ylim=range(c(ds_mpd$Recruitment$Recruits, true_rec_vec)))
 abline(h=ds_mpd$Recruitment$r0, col='black')
-lines(year_vec, true_rec_vec, type='b', lwd=2, pch=16, col='blue')
+lines(year_vec, true_rec_vec, type='b', lwd=2, col='blue')
 abline(h=par.sim1$R0, col='blue')
 
 
