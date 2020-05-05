@@ -28,8 +28,8 @@ time_step Jul_Jun
 years 1979:2005
 
 
-#@report nuisance_Q
-#type nuisance_Q
+@report nuisance_Q
+type catchability
 
 @report SSB
 type derived_quantity

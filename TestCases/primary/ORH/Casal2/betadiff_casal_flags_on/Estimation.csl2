@@ -1,8 +1,8 @@
 @minimiser betadiff
 type betadiff
 active true
-iterations 500
-evaluations 1000
+iterations 50000
+evaluations 100000
 tolerance 0.002
 covariance true
 
@@ -23,6 +23,7 @@ parameter process[Recruitment].b0
 type uniform_log
 lower_bound 1e4
 upper_bound 1e5
+estimation_phase 1
 
 
 @estimate age_len_cv_first
@@ -81,13 +82,6 @@ upper_bound 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1
 mu          1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1
 cv          1.1 1.1 1.1 1.1 1.1 1.1 1.1 1.1 1.1 1.1 1.1 1.1 1.1 1.1 1.1 1.1 1.1 1.1 1.1 1.1 1.1 1.1 1.1 1.1 1.1 1.1 1.1
 type lognormal
-
-
-@additional_prior YCS_average_1
-type vector_average
-parameter process[Recruitment].ycs_values
-k 1
-multiplier 6
 
 
 @penalty fisheryCatchMustBeTaken

@@ -181,11 +181,18 @@ void Data::InterpolateTimeStepsForInitialConditions() {
       LOG_FINEST() << "adapting for time step = " << i + 1 << " initialiations";
       for (unsigned a = 0; a < model_->age_spread(); ++a) {
         age = a + model_->min_age();
-        if ((step_index_data_supplied_ < i && i < ageing_index_) || (i < ageing_index_ && ageing_index_ < step_index_data_supplied_) || (ageing_index_ < step_index_data_supplied_ && step_index_data_supplied_ < i) || (ageing_index_ == step_index_data_supplied_) || (i == step_index_data_supplied_))
+
+        if ((step_index_data_supplied_ < i && i < ageing_index_) ||
+            (i < ageing_index_ && ageing_index_ < step_index_data_supplied_) ||
+            (ageing_index_ < step_index_data_supplied_ && step_index_data_supplied_ < i) ||
+            (ageing_index_ == step_index_data_supplied_) ||
+            (i == step_index_data_supplied_))
           a1 = a;
         else
           a1 = a - 1;
+
         a2 = a1 + 1;
+
         if (a1==a)
           w1 = 1 + time_step_proportions_[step_index_data_supplied_] - time_step_proportions_[i];
         else
@@ -198,12 +205,14 @@ void Data::InterpolateTimeStepsForInitialConditions() {
           w1 -= 1;
           w2 += 1;
         }
+
         if ((a1 + model_->min_age()) < model_->min_age()){
           a1 += 1;
           a2 += 1;
           w1 += 1;
           w2 -= 1;
         }
+
         data_by_age_time_step_[i][age] = w1 * means_[a1] + w2 * means_[a2];
         LOG_FINEST() << "for age = " << a + model_->min_age() << " a1 = " << a1 + model_->min_age();
         LOG_FINEST() << means_[a1];
@@ -235,15 +244,22 @@ void Data::InterpolateTimeStepsForAllYears() {
           //// Check this code out
           y1 = (i >= step_index_data_supplied_ ? year : year - 1);
           y2 = y1 + 1;
-          if ((step_index_data_supplied_ < i && i < ageing_index_) || (i < ageing_index_ && ageing_index_ < step_index_data_supplied_) || (ageing_index_ < step_index_data_supplied_ && step_index_data_supplied_ < i) || (ageing_index_ == step_index_data_supplied_) || (i == step_index_data_supplied_))
+          if ((step_index_data_supplied_ < i && i < ageing_index_) ||
+              (i < ageing_index_ && ageing_index_ < step_index_data_supplied_) ||
+              (ageing_index_ < step_index_data_supplied_ && step_index_data_supplied_ < i) ||
+              (ageing_index_ == step_index_data_supplied_) ||
+              (i == step_index_data_supplied_))
             a1 = a;
           else
             a1 = a - 1;
+
           a2 = a1 + 1;
+
           if (a1==a)
             w1 = 1 + time_step_proportions_[step_index_data_supplied_] - time_step_proportions_[i];
           else
             w1 = time_step_proportions_[step_index_data_supplied_] - time_step_proportions_[i];
+
           w2 = 1.0 - w1;
           LOG_FINEST() << "w2 = "  << w2;
           if ((a2 + model_->min_age()) > model_->max_age() || y2 > model_->final_year()){
@@ -255,6 +271,7 @@ void Data::InterpolateTimeStepsForAllYears() {
             w1 -= 1;
             w2 += 1;
           }
+
           if ((a1 + model_->min_age()) < model_->min_age() || y1 < model_->start_year()){
             LOG_FINEST() << "w2 = "  << w2;
             a1 += 1;
@@ -264,7 +281,11 @@ void Data::InterpolateTimeStepsForAllYears() {
             w1 += 1;
             w2 -= 1;
           }
-          if ((a2 + model_->min_age()) > model_->max_age() || y2 > model_->final_year() || (a1 + model_->min_age()) < model_->min_age() || y1 < model_->start_year()){
+
+          if ((a2 + model_->min_age()) > model_->max_age() ||
+              y2 > model_->final_year() ||
+              (a1 + model_->min_age()) < model_->min_age() ||
+              y1 < model_->start_year()) {
             // unusual case - very little info on this cohort - just use averages
             mean_length_by_year_[year][age][i] = data_by_age_time_step_[i][age];
             LOG_FINEST() << "for age = " << a + model_->min_age();

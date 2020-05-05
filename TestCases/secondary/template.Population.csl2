@@ -63,7 +63,7 @@ year Fishery
 end_table
 table method
 method   category  selectivity  u_max  time_step  penalty
-Fishery  stock     fishery_sel  0.99   Jul_Jun    none
+Fishery  stock     fishery_sel  0.99   Jul_Jun    fisheryCatchMustBeTaken
 end_table
 
 

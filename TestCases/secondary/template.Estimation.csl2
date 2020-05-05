@@ -3,9 +3,9 @@
 @minimiser betadiff
 type betadiff
 active true
-iterations 10000
-evaluations 10000
-tolerance 0.000001
+iterations 1000000
+evaluations 1000000
+tolerance 0.00001
 covariance true
 
 
@@ -26,6 +26,7 @@ parameter process[Recruitment].r0
 type uniform_log
 lower_bound 1e5
 upper_bound 1e7
+estimation_phase 1
 
 
 # growth (age-length relationship)
@@ -34,18 +35,21 @@ parameter age_length[age_len_label].Linf
 type uniform
 lower_bound 70
 upper_bound 90
+estimation_phase 1
 
 @estimate age_len_k
 parameter age_length[age_len_label].k
 type uniform
 lower_bound 0.10
 upper_bound 0.30
+estimation_phase 1
 
 @estimate age_len_t0
 parameter age_length[age_len_label].t0
 type uniform
 lower_bound -2
 upper_bound  0
+estimation_phase 1
 
 
 @estimate len_wt_a
@@ -126,14 +130,9 @@ type lognormal
 
 
 ## Penalties
-@additional_prior YCS_average_1
-type vector_average
-parameter process[Recruitment].ycs_values
-k 1
-multiplier 6
 
-@penalty fisheryCatchMustBeTaken1
+@penalty fisheryCatchMustBeTaken
 type process
 log_scale True
-multiplier 1000
+multiplier 100
 

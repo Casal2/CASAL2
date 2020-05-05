@@ -1326,6 +1326,24 @@ The von Bertalanffy relationship has parameters $L_\infty$, $k$, and $t_0$. The 
 
 There is an option to input empirical length at age by year, which is an alternative to using an age-length growth model such as the von Bertalanffy and Schnute model. \CNAME\ will interpolate values for missing years across time steps. The calculations of length-at-age throughout the model years occur in the same time step.
 
+{\small{\begin{verbatim}
+	@age_length male_AL
+	type data
+	time_step_proportions 0.0 0.0
+	length_weight wgt_male
+	distribution normal
+	cv_first 0.1
+	cv_last 0.1
+	time_step_measurements_were_made step2
+	internal_gaps mean
+	external_gaps mean
+	table data
+	year   2     3    4     5     6    7     8      9    10    11    12    13    14    15
+	1980 30.13 34.9 38.43 40.61 42.45 43.02 43.94 43.63 43.36 43.7 43.84 43.51 43.45 43.45
+	1981 30.33 34.78 38.03 40.15 42.22 42.89 44.21 44.07 43.99 44.32 44.64 44.28 44.04 43.93
+	end_table
+\end{verbatim}}}
+
 \subsection{\I{Length-weight relationship}\label{sec:mean-weight}}
 
 There are two length-weight relationships options. The first is the naive "no relationship" relationship, where the weight of an individual is always 1, regardless of length. The second relationship is the "basic" relationship, which is the standard length-weight relationship, $W = aL^b$.
@@ -1354,7 +1372,6 @@ where the $cv$ is the coefficient of variation (CV) of the length-at-age relatio
 
 For comparing CASAL with \CNAME\ results, there is a small difference between the two programs. CASAL adjusted the CVs \subcommand{by\_length} only when CVs are used in distribution calculations (length-based selectivities, length-based processes, and [length-based?] observations), and is not done in the above correction.
 
-
 \textbf{Note:}  the scale of $a$ can be specified incorrectly. If the catch is in tonnes and the growth curve is in centimetres, then $a$ should convert a length in centimetres to a weight in tonnes. There are reports available that can be used to help check that the units specified are plausible (see Section \ref{sec:report-section}).
 
 {\small{\begin{verbatim}
@@ -1367,13 +1384,14 @@ For comparing CASAL with \CNAME\ results, there is a small difference between th
 
 \subsection{\I{Age-weight relationship}\label{sec:weight-at-age}}
 
-Empirical weight-at-age data can be input. This option is different from the method above as it uses empirical data for weight-at-age, rather than calculating it with the growth functions (age->length->weight).
+Empirical weight-at-age data can be input. This option is different from the method above as it uses empirical data for weight-at-age, rather than calculating it with the growth functions (age -> length -> weight).
 
 This option specifies the weight-at-age values for categories at a point in time. These values can be used in weight-based derived quantities, processes, and observations.
 
 An example
 
 {\small{\begin{verbatim}
+		TODO: how does this block start?  @age_weight age_weight?
 		type Data
 		units tonnes
 		table data
