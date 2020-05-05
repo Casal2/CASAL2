@@ -36,9 +36,9 @@ type recruitment_beverton_holt
 categories stock
 proportions 1.0
 r0 1000000          ## set a reasonable starting value
-ycs_years    2000 2001 2002 2003 2004 2005 2006 2007 2008 2009 2010 2011 2012 2013 2014 2015 2016 2017 2018 2019 2020 2021 2022 2023 2024 2025 2026 2027 2028 2029
-ycs_values   1.00 1.00 1.00 1.00 1.00 1.00 1.00 1.00 1.00 1.00 1.00 1.00 1.00 1.00 1.00 1.00 1.00 1.00 1.00 1.00 1.00 1.00 1.00 1.00 1.00 1.00 1.00 1.00 1.00 1.00
-standardise_ycs_years 2001:2028 # for age 1
+ycs_years   1988 1989 1990 1991 1992 1993 1994 1995 1996 1997 1998 1999 2000 2001 2002 2003 2004 2005 2006 2007 2008 2009 2010 2011 2012 2013 2014 2015 2016 2017 2018 2019 2020 2021 2022 2023 2024 2025 2026 2027 2028 2029
+ycs_values  1.00 1.00 1.00 1.00 1.00 1.00 1.00 1.00 1.00 1.00 1.00 1.00 1.00 1.00 1.00 1.00 1.00 1.00 1.00 1.00 1.00 1.00 1.00 1.00 1.00 1.00 1.00 1.00 1.00 1.00 1.00 1.00 1.00 1.00 1.00 1.00 1.00 1.00 1.00 1.00 1.00 1.00
+standardise_ycs_years 2000:2029 # for age 1
 steepness 0.75
 ssb SSB
 age 1           ## Same as min_age
@@ -56,6 +56,7 @@ type mortality_instantaneous
 m 0.0
 selectivities One
 categories stock
+time_step_ratio 0.5
 table catches
 year Fishery
 2001    1
@@ -88,14 +89,14 @@ selectivities maturity_sel
 ## SELECTIVITIES
 @selectivity maturity_sel
 type logistic
-a50 2
-ato95 0.5
+a50 2.25
+ato95 1
 alpha 0.5 # for female spawning biomass
 
 
 @selectivity survey_sel
 type logistic
-a50 1
+a50 1.5
 ato95 2
 alpha 1
 
@@ -118,8 +119,8 @@ type von_bertalanffy
 casal_switch false
 by_length true
 time_step_proportions 0.0
-k 0.2
-t0 -1.0
+k 0.18
+t0 -1.36
 Linf 80.0
 cv_first 0.10
 cv_last 0.10
@@ -131,7 +132,7 @@ length_weight len_wt_label
 @length_weight len_wt_label
 type basic
 units tonnes
-a 2.0e-7
+a 2.5e-8
 b 3.0
 
 

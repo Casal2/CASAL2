@@ -5,7 +5,7 @@
 @observation survey_abundance
 type abundance
 time_step Jul_Jun
-time_step_proportion 0.49
+time_step_proportion 0.0
 categories stock
 catchability survey_q
 selectivities survey_sel
@@ -24,7 +24,7 @@ min_age 1
 max_age 12
 ageing_error Normal_ageing
 plus_group true # age_plus true
-time_step_proportion 0.49
+time_step_proportion 0.0
 delta 1e-11
 selectivities survey_sel
 years 2001:2030

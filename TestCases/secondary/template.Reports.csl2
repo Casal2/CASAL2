@@ -54,6 +54,10 @@ time_step Jul_Jun
 years 2030
 
 
+@report Qs
+type catchability
+
+
 @report survey_selectivity
 type selectivity
 selectivity survey_sel

@@ -7,17 +7,8 @@ require(here)
 current_dir <- here()
 
 
-# load Casal2 input file templates
-pop_csl2_template_df <- extract.csl2.file(file.path(current_dir, 'template.Population.csl2'))
-est_csl2_template_df <- extract.csl2.file(file.path(current_dir, 'template.Estimation.csl2'))
-obs_csl2_template_df <- extract.csl2.file(file.path(current_dir, 'template.Observation.csl2'))
-rep_csl2_template_df <- extract.csl2.file(file.path(current_dir, 'template.Reports.csl2'))
-
-
-
 # use BetaDiff version as the default; matches Estimation.csl2
 casal2_path <- '../../BuildSystem/bin/linux/release_betadiff/casal2'
-
 
 
 samcp_dir <- '../../../../noaa/NOAA-SAMCP/OM/'
@@ -109,12 +100,19 @@ par(mar=c(4,4,2,1) + 0.1)
 # run_dir could be run-specific
 run_dir <- current_dir
 
+
+# load Casal2 input file templates
+pop_csl2_template_df <- extract.csl2.file(file.path(current_dir, 'template.Population.csl2'))
+est_csl2_template_df <- extract.csl2.file(file.path(current_dir, 'template.Estimation.csl2'))
+obs_csl2_template_df <- extract.csl2.file(file.path(current_dir, 'template.Observation.csl2'))
+rep_csl2_template_df <- extract.csl2.file(file.path(current_dir, 'template.Reports.csl2'))
+
+
+
 # loop over operating model data sets
 ds_idx <- 1
+
 load_samcp_data(ds_idx)
-
-par.sim1$yr <- 2000 + sim1$yr
-
 
 
 pop_csl2_df <- pop_csl2_template_df
@@ -123,28 +121,33 @@ obs_csl2_df <- obs_csl2_template_df
 rep_csl2_df <- rep_csl2_template_df
 
 
-
 # write age range and year range to Population.csl2
+par.sim1$yr <- 2000 + sim1$yr
+
 min_year  <-  min(par.sim1$yr)
 max_year  <-  max(par.sim1$yr)
 num_years <- length(par.sim1$yr)
 year_vec  <- seq(min_year, max_year, 1)
-pop_csl2_df$model$start_year$value <- as.character(min_year)
+
+min_age  <- min(par.sim1$ages)
+max_age  <- max(par.sim1$ages)
+age_vec  <- seq(min_age, max_age, 1)
+num_ages <- length(age_vec)
+
+pop_csl2_df$model$start_year$value <- as.character(min_year - num_ages)
 pop_csl2_df$model$final_year$value <- as.character(max_year)
 
 pop_csl2_df$model$projection_final_year$value <- as.character(5 + max_year)
 
-min_age <- min(par.sim1$ages)
-max_age <- max(par.sim1$ages)
-age_vec <- seq(min_age, max_age, 1)
 pop_csl2_df$model$min_age$value <- as.character(min_age)
 pop_csl2_df$model$max_age$value <- as.character(max_age)
 
 # TODO - stock-recruitment and YCS years
 # par.sim1$h, par.sim1$M
 
-pop_csl2_df$`process[Fishing_Mortality]`$Table$catches$year    <- as.character(year_vec)
-pop_csl2_df$`process[Fishing_Mortality]`$Table$catches$Fishery <- as.character(dat.input$L.obs)
+full_year_vec <- c(seq(min_year - num_ages, min_year - 1, 1), year_vec)
+pop_csl2_df$`process[Fishing_Mortality]`$Table$catches$year    <- as.character(full_year_vec)
+pop_csl2_df$`process[Fishing_Mortality]`$Table$catches$Fishery <- as.character(c(rep(0, num_ages), dat.input$L.obs))
 
 pop_csl2_df$`catchability[survey_q]`$q$value <- as.character(dat.input$q)
 
@@ -169,7 +172,7 @@ for (y in 1:num_years) {
     obs_csl2_df$`observation[survey_prop_at_age]`$Table$obs[[y]] <- as.character(dat.input$survey.age.obs[y,])
 }
 names(obs_csl2_df$`observation[survey_prop_at_age]`$Table$obs) <- as.character(year_vec)
-obs_csl2_df$`observation[survey_prop_at_age]`$Table$error_values <- as.character(rep(100, num_years))
+obs_csl2_df$`observation[survey_prop_at_age]`$Table$error_values <- as.character(rep(200, num_years))
 names(obs_csl2_df$`observation[survey_prop_at_age]`$Table$error_values) <- year_vec
 
 obs_csl2_df$`observation[fishery_prop_at_age]`$min_age$value      <- as.character(min_age)
@@ -180,7 +183,7 @@ for (y in 1:num_years) {
     obs_csl2_df$`observation[fishery_prop_at_age]`$Table$obs[[y]] <- as.character(dat.input$L.age.obs[y,])
 }
 names(obs_csl2_df$`observation[fishery_prop_at_age]`$Table$obs) <- as.character(year_vec)
-obs_csl2_df$`observation[fishery_prop_at_age]`$Table$error_values <- as.character(rep(100, num_years))
+obs_csl2_df$`observation[fishery_prop_at_age]`$Table$error_values <- as.character(rep(200, num_years))
 names(obs_csl2_df$`observation[fishery_prop_at_age]`$Table$error_values) <- year_vec
 
 
@@ -229,7 +232,16 @@ lines(year_vec, sim1$F, col='blue')
 
 # plots S-R, not recruitment time series
 plot.recruitment(ds_mpd, 'Recruitment')
-points(sim1$SSB, sim1$N.age[,1] / 1000.0, col='blue')
+true_rec_vec <- sim1$N.age[,1]
+points(sim1$SSB, true_rec_vec / 1000.0, col='blue')
+
+
+# recruitment time series
+plot(full_year_vec, ds_mpd$Recruitment$Recruits, type='b', col='black', lwd=2, pch=20, xlab='Year', ylab='Recruits',
+     ylim=range(c(ds_mpd$Recruitment$Recruits, true_rec_vec)))
+abline(h=ds_mpd$Recruitment$r0, col='black')
+lines(year_vec, true_rec_vec, type='b', lwd=2, pch=16, col='blue')
+abline(h=par.sim1$R0, col='blue')
 
 
 plot.selectivities(ds_mpd, c('fishery_selectivity', 'survey_selectivity', 'maturity_ogive'), col=c('black', 'green', 'red'))
@@ -243,7 +255,7 @@ plot.ycs(ds_mpd, 'Recruitment')
 lines(year_vec - 1, exp(par.sim1$logR.resid), col='blue')
 
 
-# TODO: plot growth comparisons, age-length, age-weight, and length-weight
+# plot growth comparisons, age-length, age-weight, and length-weight
 plot(age_vec, ds_mpd$growth_length_at_age$stock$mean_lengths$values, type='b', col='black', xlab='Age', ylab='Length (cm)',
      ylim=c(0, max(ds_mpd$growth_length_at_age$stock$mean_lengths$values, ds_mpd$estimated_values$values$`age_length[age_len_label].Linf`,
                    par.sim1$len / 10.0, par.sim1$Linf / 10.0)))
@@ -259,3 +271,4 @@ lines(age_vec, par.sim1$W.mt, type='b', col='blue')
 
 
 ds_mpd$estimated_values
+
