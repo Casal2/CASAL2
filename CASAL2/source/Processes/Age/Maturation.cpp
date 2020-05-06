@@ -21,17 +21,17 @@ namespace processes {
 namespace age {
 
 /**
- * default constructor
+ * Default constructor
  */
 Maturation::Maturation(Model* model)
   : Process(model),
     from_partition_(model),
     to_partition_(model) {
 
-  parameters_.Bind<string>(PARAM_FROM, &from_category_names_, "List of categories to mature from", "");
-  parameters_.Bind<string>(PARAM_TO, &to_category_names_, "List of categories to mature to", "");
-  parameters_.Bind<string>(PARAM_SELECTIVITIES, &selectivity_names_, "List of selectivities to use for maturation", "");
-  parameters_.Bind<unsigned>(PARAM_YEARS, &years_, "The years to be associated with rates", "");
+  parameters_.Bind<string>(PARAM_FROM, &from_category_names_, "The list of categories to mature from", "");
+  parameters_.Bind<string>(PARAM_TO, &to_category_names_, "The list of categories to mature to", "");
+  parameters_.Bind<string>(PARAM_SELECTIVITIES, &selectivity_names_, "The list of selectivities to use for maturation", "");
+  parameters_.Bind<unsigned>(PARAM_YEARS, &years_, "The years to be associated with the maturity rates", "");
   parameters_.Bind<Double>(PARAM_RATES, &rates_, "The rates to mature for each year", "");
 
   RegisterAsAddressable(PARAM_RATES, &rates_by_years_);
@@ -41,7 +41,7 @@ Maturation::Maturation(Model* model)
 }
 
 /**
- * validate the values from the configuration file
+ * Validate the values from the configuration file
  */
 void Maturation::DoValidate() {
   if (selectivity_names_.size() == 1) {
@@ -101,7 +101,7 @@ void Maturation::DoBuild() {
 }
 
 /**
- * Execute our maturation rate process.
+ * Execute the maturation rate process
  */
 void Maturation::DoExecute() {
   auto from_iter     = from_partition_.begin();
@@ -118,15 +118,15 @@ void Maturation::DoExecute() {
     unsigned min_age = (*from_iter)->min_age_;
 
     for (unsigned offset = 0; offset < (*from_iter)->data_.size(); ++offset) {
-      amount = rate * selectivities_[i]->GetAgeResult(min_age + offset, (*from_iter)->age_length_);
+      amount = rate * selectivities_[i]->GetAgeResult(min_age + offset, (*from_iter)->age_length_) * (*from_iter)->data_[offset];
       (*from_iter)->data_[offset] -= amount;
-      (*to_iter)->data_[offset] += amount;
+      (*to_iter)->data_[offset]   += amount;
     }
   }
 }
 
 /*
- * @fun FillReportCache
+ * Fill the report cache
  * @description A method for reporting process information
  * @param cache a cache object to print to
 */
@@ -135,7 +135,7 @@ void Maturation::FillReportCache(ostringstream& cache) {
 }
 
 /*
- * @fun FillTabularReportCache
+ * @Fill the tabular report cache
  * @description A method for reporting tabular process information
  * @param cache a cache object to print to
  * @param first_run whether to print the header

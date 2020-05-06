@@ -442,7 +442,7 @@ void Data::FillInternalGaps() {
  * @return mean length for one member
  */
 Double Data::mean_length(unsigned time_step, unsigned age) {
-  if (model_->state() == State::kInitialise)
+  if (model_->state() == State::kInitialise || model_->state() == State::kBuild)
     return data_by_age_time_step_[time_step][age];
 
   unsigned year = model_->current_year();

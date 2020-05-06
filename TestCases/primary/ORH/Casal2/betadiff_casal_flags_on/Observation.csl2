@@ -2,9 +2,9 @@
 type biomass
 time_step Jul_Jun
 time_step_proportion 0.5
-categories stock
+categories immature+mature
 catchability Qandes
-selectivities SELandes
+selectivities SELandes SELandes
 likelihood lognormal
 process_error 0.2
 years       1991    1992    1993    1994    1995    1996    1997    1998    1999    2000    2001    2002    2003    2004
@@ -18,7 +18,7 @@ type process_removals_by_age
 likelihood multinomial
 time_step Jul_Jun
 mortality_instantaneous_process Fishing_Mortality
-categories stock
+categories immature+mature
 method_of_removal AndesFishery
 min_age 19
 max_age 45 # not 46, the max value in age vector in CASAL estimation.csl file

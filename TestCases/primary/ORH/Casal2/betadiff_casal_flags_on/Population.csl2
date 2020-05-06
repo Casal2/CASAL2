@@ -12,9 +12,9 @@ projection_final_year 2010
 
 
 @categories
-format stock
-names stock
-age_lengths age_len_label
+format maturity
+names immature mature
+age_lengths age_len_label*2
 
 
 @initialisation_phase Equilibrium_phase
@@ -25,13 +25,22 @@ casal_initialisation_switch true
 # CASAL order of processes in each time step:
 # ageing, recruitment, maturation, [migration], [growth], natural and fishing mortality, [disease mortality], [tagging release and shedding]
 @time_step Jul_Jun
-processes Ageing Recruitment Fishing_Mortality
+processes Ageing Recruitment Maturation Fishing_Mortality
+
+
+@process Maturation
+years 1979:2010
+type maturation
+from immature
+to mature
+rates 1*32
+selectivities maturity_sel
 
 
 @process Recruitment
 type recruitment_beverton_holt
-categories stock
-proportions 1.0
+categories immature mature
+proportions 1.0 0.0
 b0 29400
 ycs_years 1978:2004
 ycs_values 1.0*27
@@ -43,15 +52,15 @@ age 1
 
 @process Ageing
 type ageing
-categories stock
+categories *
 
 
 @process Fishing_Mortality
 type mortality_instantaneous
 m 0.045
-time_step_ratio 0.5
+time_step_ratio 1
 selectivities One
-categories stock
+categories immature mature # for M
 table catches
 year AndesFishery
 1979    2
@@ -83,8 +92,9 @@ year AndesFishery
 2005    1713
 end_table
 table method
-method       category  selectivity  u_max  time_step  penalty
-AndesFishery stock     SELandes     0.67   Jul_Jun   fisheryCatchMustBeTaken
+method        category  selectivity  u_max  time_step  penalty
+AndesFishery  immature  SELandes     0.67   Jul_Jun    fisheryCatchMustBeTaken
+AndesFishery  mature    SELandes     0.67   Jul_Jun    fisheryCatchMustBeTaken
 end_table
 # where do these go?
 # future_years 2006 2007 2008 2009 2010
@@ -95,10 +105,10 @@ end_table
 @derived_quantity SSB
 type biomass
 time_step Jul_Jun
-categories stock
+categories mature
 time_step_proportion 0.5
 time_step_proportion_method weighted_sum
-selectivities maturity_sel
+selectivities One
 
 
 @selectivity maturity_sel
