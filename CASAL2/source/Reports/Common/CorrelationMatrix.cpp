@@ -12,8 +12,9 @@
 namespace niwa {
 namespace reports {
 namespace ublas = boost::numeric::ublas;
+
 /**
- *
+ * Default constructor
  */
 CorrelationMatrix::CorrelationMatrix(Model* model) : Report(model) {
   run_mode_    = (RunMode::Type)(RunMode::kEstimation | RunMode::kMCMC);
@@ -21,7 +22,7 @@ CorrelationMatrix::CorrelationMatrix(Model* model) : Report(model) {
 }
 
 /**
- *
+ * Execute
  */
 void CorrelationMatrix::DoExecute() {
   LOG_TRACE();

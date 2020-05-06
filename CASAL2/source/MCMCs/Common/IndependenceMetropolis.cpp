@@ -30,17 +30,17 @@ namespace dc = niwa::utilities::doublecompare;
  * Default constructor
  */
 IndependenceMetropolis::IndependenceMetropolis(Model* model) : MCMC(model) {
-  parameters_.Bind<double>(PARAM_START, &start_, "Covariance multiplier for the starting point of the MCMC", "", 0.0)->set_lower_bound(0.0);
-  parameters_.Bind<unsigned>(PARAM_KEEP, &keep_, "Spacing between recorded values in the MCMC", "", 1u)->set_lower_bound(1u);
-  parameters_.Bind<double>(PARAM_MAX_CORRELATION, &max_correlation_, "Maximum absolute correlation in the covariance matrix of the proposal distribution", "", 0.8)->set_range(0.0, 1.0, false, true);
-  parameters_.Bind<string>(PARAM_COVARIANCE_ADJUSTMENT_METHOD, &correlation_method_, "Method for adjusting small variances in the covariance proposal matrix"
-      , "", PARAM_CORRELATION)->set_allowed_values({PARAM_COVARIANCE, PARAM_CORRELATION,PARAM_NONE});
-  parameters_.Bind<double>(PARAM_CORRELATION_ADJUSTMENT_DIFF, &correlation_diff_, "Minimum non-zero variance times the range of the bounds in the covariance matrix of the proposal distribution", "", 0.0001)->set_lower_bound(0.0, false);
+  parameters_.Bind<double>(PARAM_START, &start_, "The covariance multiplier for the starting point of the MCMC", "", 0.0)->set_lower_bound(0.0);
+  parameters_.Bind<unsigned>(PARAM_KEEP, &keep_, "The spacing between recorded values in the MCMC", "", 1u)->set_lower_bound(1u);
+  parameters_.Bind<double>(PARAM_MAX_CORRELATION, &max_correlation_, "The maximum absolute correlation in the covariance matrix of the proposal distribution", "", 0.8)->set_range(0.0, 1.0, false, true);
+  parameters_.Bind<string>(PARAM_COVARIANCE_ADJUSTMENT_METHOD, &correlation_method_, "The method for adjusting small variances in the covariance proposal matrix"
+      , "", PARAM_CORRELATION)->set_allowed_values({PARAM_COVARIANCE, PARAM_CORRELATION, PARAM_NONE});
+  parameters_.Bind<double>(PARAM_CORRELATION_ADJUSTMENT_DIFF, &correlation_diff_, "The minimum non-zero variance times the range of the bounds in the covariance matrix of the proposal distribution", "", 0.0001)->set_lower_bound(0.0, false);
   parameters_.Bind<string>(PARAM_PROPOSAL_DISTRIBUTION, &proposal_distribution_, "The shape of the proposal distribution (either the t or the normal distribution)", "", PARAM_T);
-  parameters_.Bind<unsigned>(PARAM_DF, &df_, "Degrees of freedom of the multivariate t proposal distribution", "", 4)->set_lower_bound(0, false);
-  parameters_.Bind<unsigned>(PARAM_ADAPT_STEPSIZE_AT, &adapt_step_size_, "Iterations in the chain to check and resize the MCMC stepsize", "", true)->set_lower_bound(0);
-  parameters_.Bind<unsigned>(PARAM_ADAPT_COVARIANCE_AT, &adapt_covariance_matrix_, "Iterations in the chain to check and resize the MCMC stepsize", "", true)->set_lower_bound(0);
-  parameters_.Bind<string>(PARAM_ADAPT_STEPSIZE_METHOD, &adapt_stepsize_method_, "Method to adapt step size.", "", PARAM_RATIO)->set_allowed_values({PARAM_RATIO, PARAM_DOUBLE_HALF});
+  parameters_.Bind<unsigned>(PARAM_DF, &df_, "The degrees of freedom of the multivariate t proposal distribution", "", 4)->set_lower_bound(0, false);
+  parameters_.Bind<unsigned>(PARAM_ADAPT_STEPSIZE_AT, &adapt_step_size_, "The iteration numbers in which to check and resize the MCMC stepsize", "", true)->set_lower_bound(0);
+  parameters_.Bind<unsigned>(PARAM_ADAPT_COVARIANCE_AT, &adapt_covariance_matrix_, "The iteration numbers in which to check and resize the MCMC stepsize", "", true)->set_lower_bound(0);
+  parameters_.Bind<string>(PARAM_ADAPT_STEPSIZE_METHOD, &adapt_stepsize_method_, "The method to use to adapt the step size", "", PARAM_RATIO)->set_allowed_values({PARAM_RATIO, PARAM_DOUBLE_HALF});
 
   jumps_                          = 0;
   successful_jumps_               = 0;
@@ -51,7 +51,7 @@ IndependenceMetropolis::IndependenceMetropolis(Model* model) : MCMC(model) {
 
 /**
  * Get the covariance matrix from the minimiser and then
- * adjust it for our proposal distribution
+ * adjust it for the proposal distribution
  */
 void IndependenceMetropolis::BuildCovarianceMatrix() {
   LOG_MEDIUM() << "Building covariance matrix";
@@ -147,8 +147,8 @@ void IndependenceMetropolis::BuildCovarianceMatrix() {
 }
 
 /**
- * Perform Cholesky decomposition on our covariance
- * matrix before it's used in the MCMC.
+ * Perform Cholesky decomposition on the covariance
+ * matrix before it is used in the MCMC.
  *
  * @return true on success, false on failure
  */
@@ -213,7 +213,7 @@ bool IndependenceMetropolis::DoCholeskyDecmposition() {
 }
 
 /**
- * Generate a set of random starting values for our estimates
+ * Generate a set of random starting values for the estimated parameters
  */
 void IndependenceMetropolis::GenerateRandomStart() {
   vector<Double> original_candidates = candidates_;
@@ -244,7 +244,7 @@ void IndependenceMetropolis::GenerateRandomStart() {
 }
 
 /**
- * Fill the candidates with an attempt using a multivariate normal
+ * Fill the candidates with an attempt using a multivariate normal distribution
  */
 void IndependenceMetropolis::FillMultivariateNormal(double step_size) {
   utilities::RandomNumberGenerator& rng = utilities::RandomNumberGenerator::Instance();
@@ -279,7 +279,7 @@ void IndependenceMetropolis::FillMultivariateNormal(double step_size) {
 }
 
 /**
- * Fill candidates with an attempt using a multivariate
+ * Fill the candidates with an attempt using a multivariate t-distribution
  */
 void IndependenceMetropolis::FillMultivariateT(double step_size) {
   utilities::RandomNumberGenerator& rng = utilities::RandomNumberGenerator::Instance();
@@ -303,7 +303,7 @@ void IndependenceMetropolis::FillMultivariateT(double step_size) {
 }
 
 /**
- * Update our MCMC step size if it's required
+ * Update the MCMC step size if it is required
  * This is done by
  * 1. Checking if the current iteration is in the adapt_step_size vector
  * 2. Modify the step size
@@ -312,6 +312,7 @@ void IndependenceMetropolis::UpdateStepSize() {
   if (jumps_since_adapt_ > 0 && successful_jumps_since_adapt_ > 0) {
     if (std::find(adapt_step_size_.begin(), adapt_step_size_.end(), jumps_) == adapt_step_size_.end())
       return;
+
     if (adapt_stepsize_method_ == PARAM_RATIO) {
       // modify the stepsize so that AcceptanceRate = 0.24
       step_size_ *= ((double)successful_jumps_since_adapt_ / (double)jumps_since_adapt_) * 4.166667;
@@ -340,7 +341,7 @@ void IndependenceMetropolis::UpdateStepSize() {
 }
 
 /**
- * Update our MCMC Covariance matrix if it's required
+ * Update the MCMC covariance matrix if it is required
  * This is done by
  * 1. Checking if the current iteration is in the adapt_covariance_matrix vector
  * 2. Modify the covariance matrix
@@ -349,6 +350,7 @@ void IndependenceMetropolis::UpdateCovarianceMatrix() {
   if (jumps_since_adapt_ > 1000) {
     if (std::find(adapt_covariance_matrix_.begin(), adapt_covariance_matrix_.end(), jumps_) == adapt_covariance_matrix_.end())
       return;
+
     recalculate_covariance_ = true;
     LOG_MEDIUM() << "Recalculating the covariance matrix after " << chain_.size() << " iterations";
     // modify the covaraince matrix this algorithm is stolen from CASAL, maybe not the best place to take it from
@@ -398,6 +400,7 @@ void IndependenceMetropolis::UpdateCovarianceMatrix() {
         LOG_MEDIUM() << "row =  " << i << " " << " col = " << k << " " << temp_covariance(i,k);
       }
     }
+
     covariance_matrix_lt = temp_covariance;
 
     // Adjust covariance based on maximum correlations and apply Cholesky decompositon
@@ -413,7 +416,7 @@ void IndependenceMetropolis::UpdateCovarianceMatrix() {
 }
 
 /**
- * Generate some new estimate candidates
+ * Generate new estimate candidates
  */
 void IndependenceMetropolis::GenerateNewCandidates() {
   //LOG_MEDIUM() << step_size_;
@@ -431,7 +434,7 @@ void IndependenceMetropolis::GenerateNewCandidates() {
 }
 
 /*
- * check that candidates are within bounds
+ * Check that the candidates are within bounds
 */
 bool IndependenceMetropolis::WithinBounds() {
   for (unsigned i = 0; i < estimates_.size(); ++i) {
@@ -441,11 +444,12 @@ bool IndependenceMetropolis::WithinBounds() {
       return false;
     }
   }
+
   return true;
 }
 
 /*
- * Validate class
+ * Validate
 */
 void IndependenceMetropolis::DoValidate() {
   if (adapt_step_size_.size() == 0)
@@ -469,7 +473,7 @@ void IndependenceMetropolis::DoValidate() {
 
   if (correlation_method_ != PARAM_CORRELATION && correlation_method_ != PARAM_COVARIANCE && correlation_method_ != PARAM_NONE)
     LOG_ERROR_P(PARAM_COVARIANCE_ADJUSTMENT_METHOD) << "(" << correlation_method_ << ")"
-      << " is not supported. Supported values are " << PARAM_CORRELATION << ", " << PARAM_COVARIANCE << " and " << PARAM_NONE;
+      << " is not supported. Supported values are " << PARAM_CORRELATION << ", " << PARAM_COVARIANCE << ", and " << PARAM_NONE;
 
   if (proposal_distribution_ != PARAM_T && proposal_distribution_ != PARAM_NORMAL)
     LOG_ERROR_P(PARAM_PROPOSAL_DISTRIBUTION) << "(" << proposal_distribution_ << ")"
@@ -483,11 +487,10 @@ void IndependenceMetropolis::DoValidate() {
     LOG_ERROR_P(PARAM_START) << "(" << start_ << ") cannot be less than 0";
   if (step_size_ < 0.0)
     LOG_ERROR_P(PARAM_STEP_SIZE) << "(" << step_size_ << ") cannot be less than 0.0";
-
 }
 
 /**
- * Build class
+ * Build
  */
 void IndependenceMetropolis::DoBuild() {
   LOG_MEDIUM() <<"DoBuild MCMC children";
@@ -499,6 +502,7 @@ void IndependenceMetropolis::DoBuild() {
     if (!estimate)
       LOG_FATAL() << "Did not find any @estimate blocks. At least one non-fixed estimated parameter is required to run in MCMC mode";
   }
+
   estimate_count_ = estimates_.size();
   for (Estimate* estimate : estimates_) {
     estimate_labels_.push_back(estimate->label());
@@ -540,6 +544,7 @@ void IndependenceMetropolis::DoExecute() {
     LOG_MEDIUM() << "Building Covariance matrix";
     successful_jumps_ = starting_iteration_;
   }
+
   // Set jumps = starting iteration if it is resuming
   unsigned jumps_since_last_adapt = 1;
   if (model_->global_configuration().resume()) {
@@ -571,6 +576,7 @@ void IndependenceMetropolis::DoExecute() {
     // Take into account any transformations so that when we compare with bounds we are in correct space, when: prior_applies_to_transform true
     GenerateRandomStart();
   }
+
   for(unsigned i = 0; i < estimate_count_; ++i)
     estimates_[i]->set_value(candidates_[i]);
 
@@ -585,6 +591,7 @@ void IndependenceMetropolis::DoExecute() {
   for (unsigned i = 0; i < estimate_count_; ++i) {
     previous_untransformed_candidates[i] = estimates_[i]->value();
   }
+
   ObjectiveFunction& obj_function = model_->objective_function();
   obj_function.CalculateScore();
 

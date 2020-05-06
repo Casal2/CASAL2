@@ -40,20 +40,20 @@ TagRecaptureByLength::TagRecaptureByLength(Model* model) : Observation(model) {
   recaptures_table_ = new parameters::Table(PARAM_RECAPTURED);
   scanned_table_ = new parameters::Table(PARAM_SCANNED);
 
-  parameters_.Bind<unsigned>(PARAM_YEARS, &years_, "Years for which there are observations", "");
-  parameters_.Bind<double>(PARAM_LENGTH_BINS, &length_bins_input_, "Length bins", "", true); // optional
-  parameters_.Bind<string>(PARAM_TIME_STEP, &time_step_label_, "Time step to execute in", "");
-  parameters_.Bind<bool>(PARAM_LENGTH_PLUS, &length_plus_, "Is the last bin a plus group", "", model->length_plus()); // default to the model value
+  parameters_.Bind<unsigned>(PARAM_YEARS, &years_, "The years for which there are observations", "");
+  parameters_.Bind<double>(PARAM_LENGTH_BINS, &length_bins_input_, "The length bins", "", true); // optional
+  parameters_.Bind<string>(PARAM_TIME_STEP, &time_step_label_, "The time step to execute in", "");
+  parameters_.Bind<bool>(PARAM_LENGTH_PLUS, &length_plus_, "Is the last length bin a plus group?", "", model->length_plus()); // default to the model value
   parameters_.Bind<string>(PARAM_TAGGED_CATEGORIES, &tagged_category_labels_, "The categories of tagged individuals for the observation", "");
   parameters_.Bind<string>(PARAM_SELECTIVITIES, &selectivity_labels_, "The labels of the selectivities used for untagged categories", "", true);
   parameters_.Bind<string>(PARAM_TAGGED_SELECTIVITIES, &tagged_selectivity_labels_, "The labels of the tag category selectivities", "");
   // TODO:  is tolerance missing?
-  parameters_.Bind<Double>(PARAM_PROCESS_ERRORS, &process_error_values_, "Process error", "", true);
-  parameters_.Bind<double>(PARAM_DETECTION_PARAMETER,  &detection_, "Probability of detecting a recaptured individual", "")->set_range(0.0, 1.0);
-  parameters_.Bind<double>(PARAM_DISPERSION,  &despersion_, "Over-dispersion parameter (phi)  ", "", double(1.0))->set_lower_bound(0.0);
-  parameters_.BindTable(PARAM_RECAPTURED, recaptures_table_, "Table of observed recaptured individuals in each length bin", "", false);
-  parameters_.BindTable(PARAM_SCANNED, scanned_table_, "Table of observed scanned individuals in each length bin", "", false);
-  parameters_.Bind<double>(PARAM_TIME_STEP_PROPORTION, &time_step_proportion_, "Proportion through the mortality block of the time step when the observation is evaluated", "", double(0.5))->set_range(0.0, 1.0);
+  parameters_.Bind<Double>(PARAM_PROCESS_ERRORS, &process_error_values_, "The process error", "", true);
+  parameters_.Bind<double>(PARAM_DETECTION_PARAMETER,  &detection_, "The probability of detecting a recaptured individual", "")->set_range(0.0, 1.0);
+  parameters_.Bind<double>(PARAM_DISPERSION,  &despersion_, "The over-dispersion parameter (phi)  ", "", double(1.0))->set_lower_bound(0.0);
+  parameters_.BindTable(PARAM_RECAPTURED, recaptures_table_, "The table of observed recaptured individuals in each length bin", "", false);
+  parameters_.BindTable(PARAM_SCANNED, scanned_table_, "The table of observed scanned individuals in each length bin", "", false);
+  parameters_.Bind<double>(PARAM_TIME_STEP_PROPORTION, &time_step_proportion_, "The proportion through the mortality block of the time step when the observation is evaluated", "", double(0.5))->set_range(0.0, 1.0);
 
   mean_proportion_method_ = true;
 
@@ -100,7 +100,6 @@ void TagRecaptureByLength::DoValidate() {
       LOG_FINE() << "length bin " << length + 1 << " " << length_bins_input_[length] << " after static " << length_bins_[length];
     }
   }
-
 
   number_bins_ = length_plus_ ? length_bins_.size() : length_bins_.size() - 1;
 
@@ -219,9 +218,7 @@ void TagRecaptureByLength::DoValidate() {
     if (recaptures_by_year[year].size() != obs_expected - 1)
       LOG_FATAL_P(PARAM_RECAPTURED) << " " << recaptures_by_year[year].size() << " columns but " << obs_expected - 1
         << " required. Check that the table is specified correctly";
-
   }
-
 
   /**
    * Build our scanned map
@@ -350,8 +347,7 @@ void TagRecaptureByLength::DoValidate() {
 }
 
 /**
- * Build any runtime relationships we may have and ensure
- * the labels for other objects are valid.
+ * Build any runtime relationships and ensure that the labels for other objects are valid.
  */
 void TagRecaptureByLength::DoBuild() {
   partition_ = CombinedCategoriesPtr(new niwa::partition::accessors::CombinedCategories(model_, category_labels_));
@@ -402,7 +398,7 @@ void TagRecaptureByLength::DoBuild() {
  * This method is called at the start of the tagged
  * time step for this observation.
  *
- * At this point we need to build our cache for the partition
+ * Build the cache for the partition
  * structure to use with any interpolation
  */
 void TagRecaptureByLength::PreExecute() {

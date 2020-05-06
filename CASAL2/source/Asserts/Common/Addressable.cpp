@@ -30,10 +30,10 @@ namespace asserts {
  * Note: The constructor is parsed to generate LaTeX for the documentation.
  */
 Addressable::Addressable(Model* model) : Assert(model) {
-  parameters_.Bind<string>(PARAM_PARAMETER, &parameter_, "Addressable to check", "", "");
-  parameters_.Bind<unsigned>(PARAM_YEARS, &years_, "Years to check addressable", "");
-  parameters_.Bind<string>(PARAM_TIME_STEP, &time_step_label_, "Time step to execute after", "");
-  parameters_.Bind<unsigned>(PARAM_VALUES, &values_, "Values to check against the addressable", "");
+  parameters_.Bind<string>(PARAM_PARAMETER, &parameter_, "The addressable to check", "", "");
+  parameters_.Bind<unsigned>(PARAM_YEARS, &years_, "The years to check addressable", "");
+  parameters_.Bind<string>(PARAM_TIME_STEP, &time_step_label_, "The time step to execute after", "");
+  parameters_.Bind<unsigned>(PARAM_VALUES, &values_, "The values to check against the addressable", "");
 }
 
 /**

@@ -36,7 +36,6 @@ Double NormalCDF(Double x, Double mu, Double sigma) {
   return cdf(s, AS_VALUE(x));
 }
 
-
 /**
  * Default constructor
  *
@@ -48,7 +47,7 @@ Double NormalCDF(Double x, Double mu, Double sigma) {
  * Note: The constructor is parsed to generate LaTeX for the documentation.
  */
 Normal::Normal(Model* model) : AgeingError(model) {
-  parameters_.Bind<Double>(PARAM_CV, &cv_, "CV of the misclassification matrix", "")->set_lower_bound(0.0);
+  parameters_.Bind<Double>(PARAM_CV, &cv_, "CV of the misclassification matrix", "")->set_lower_bound(0.0, false);
   parameters_.Bind<unsigned>(PARAM_K, &k_, "k defines the minimum age of individuals which can be misclassified, i.e., individuals of age less than k have no ageing error", "", 0u)->set_lower_bound(0u);
 
   RegisterAsAddressable(PARAM_CV, &cv_);
@@ -69,7 +68,7 @@ void Normal::DoValidate() {
 }
 
 /**
- * Reset this object for use
+ * Reset this object
  */
 void Normal::DoBuild() {
   DoReset();

@@ -31,7 +31,6 @@ LogSum::LogSum(Model* model) : EstimateTransformation(model) {
   is_simple_ = false;
 }
 
-
 /**
  * Validate objects
  */
@@ -126,7 +125,7 @@ void LogSum::DoRestore() {
 }
 
 /**
- * Get the target addressable so we can ensure each
+ * Get the target addressable to ensure that each
  * object is not referencing multiple ones as this would
  * cause chain issues
  *
@@ -142,7 +141,7 @@ std::set<string> LogSum::GetTargetEstimates() {
 
 /**
  * This method will check if the estimate needs to be transformed for the objective function. If it does then
- * it'll do the transformation.
+ * it will do the transformation.
  */
 void LogSum::TransformForObjectiveFunction() {
   if (estimate_->transform_for_objective())
@@ -151,7 +150,7 @@ void LogSum::TransformForObjectiveFunction() {
 
 /**
  * This method will check if the estimate needs to be Restored from the objective function. If it does then
- * it'll do the undo the transformation.
+ * it will undo the transformation.
  */
 void LogSum::RestoreFromObjectiveFunction() {
   if (estimate_->transform_for_objective())

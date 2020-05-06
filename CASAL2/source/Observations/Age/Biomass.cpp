@@ -30,13 +30,13 @@ namespace utils = niwa::utilities;
  * Default constructor
  */
 Biomass::Biomass(Model* model) : Observation(model) {
-  parameters_.Bind<string>(PARAM_CATCHABILITY, &catchability_label_, "The time-step of the observation", "");
-  parameters_.Bind<string>(PARAM_TIME_STEP, &time_step_label_, "The label of time-step that the observation occurs in", "");
+  parameters_.Bind<string>(PARAM_CATCHABILITY, &catchability_label_, "The time step of the observation", "");
+  parameters_.Bind<string>(PARAM_TIME_STEP, &time_step_label_, "The label of the time step that the observation occurs in", "");
   parameters_.Bind<string>(PARAM_OBS, &obs_, "The observed values", "");
   parameters_.Bind<unsigned>(PARAM_YEARS, &years_, "The years of the observed values", "");
-  parameters_.Bind<double>(PARAM_ERROR_VALUE, &error_values_, "The error values of the observed values (note the units depend on the likelihood)", "");
-  parameters_.Bind<string>(PARAM_SELECTIVITIES, &selectivity_labels_, "Labels of the selectivities", "", true);
-  parameters_.Bind<Double>(PARAM_PROCESS_ERROR, &process_error_value_, "Value for process error", "", Double(0.0))->set_lower_bound(0.0);
+  parameters_.Bind<double>(PARAM_ERROR_VALUE, &error_values_, "The error values of the observed values (note that the units depend on the likelihood)", "");
+  parameters_.Bind<string>(PARAM_SELECTIVITIES, &selectivity_labels_, "The labels of the selectivities", "", true);
+  parameters_.Bind<Double>(PARAM_PROCESS_ERROR, &process_error_value_, "The process error", "", Double(0.0))->set_lower_bound(0.0);
   parameters_.Bind<string>(PARAM_AGE_WEIGHT_LABELS, &age_weight_labels_, R"(The labels for the \command{$age\_weight$} block which corresponds to each category, to use the weight calculation method for biomass calculations)", "", "");
 
   RegisterAsAddressable(PARAM_PROCESS_ERROR, &process_error_value_);
@@ -47,13 +47,13 @@ Biomass::Biomass(Model* model) : Observation(model) {
 }
 
 /**
- *
+ * Validate
  */
 void Biomass::DoValidate() {
   LOG_TRACE();
 
   for(auto category_label : category_labels_)
-  	LOG_FINEST() << category_label;
+    LOG_FINEST() << category_label;
 
   if (category_labels_.size() != selectivity_labels_.size() && expected_selectivity_count_ != selectivity_labels_.size())
     LOG_ERROR_P(PARAM_SELECTIVITIES) << ": Number of selectivities provided (" << selectivity_labels_.size()
@@ -78,7 +78,6 @@ void Biomass::DoValidate() {
   if (obs.size() != category_labels_.size() * years_.size())
     LOG_ERROR_P(PARAM_OBS) << ": obs values length (" << obs.size() << ") must match the number of category collections provided ("
       << category_labels_.size() << ") * years (" << years_.size() << ")";
-
 
   // Error Value
   if (error_values_.size() == 1 && obs.size() > 1) {
@@ -111,7 +110,7 @@ void Biomass::DoValidate() {
 }
 
 /**
- *
+ * Build
  */
 void Biomass::DoBuild() {
   LOG_TRACE();
@@ -120,15 +119,13 @@ void Biomass::DoBuild() {
   if (!catchability_)
     LOG_FATAL_P(PARAM_CATCHABILITY) << ": catchability label " << catchability_label_ << " was not found.";
 
-  if (catchability_->type() == PARAM_NUISANCE){
+  if (catchability_->type() == PARAM_NUISANCE) {
     nuisance_q_ = true;
     // create a dynamic cast pointer to the nuisance catchability
     nuisance_catchability_ = dynamic_cast<Nuisance*>(catchability_);
     if (!nuisance_catchability_)
       LOG_ERROR_P(PARAM_CATCHABILITY) << ": catchability label " << catchability_label_ << " could not create dynamic cast for nuisance catchability";
-
   }
-
 
   partition_ = CombinedCategoriesPtr(new niwa::partition::accessors::CombinedCategories(model_, category_labels_));
   cached_partition_ = CachedCombinedCategoriesPtr(new niwa::partition::accessors::cached::CombinedCategories(model_, category_labels_));
@@ -155,22 +152,20 @@ void Biomass::DoBuild() {
     }
   }
 
-
   if (partition_->category_count() != selectivities_.size())
     LOG_ERROR_P(PARAM_SELECTIVITIES) << ": number of selectivities provided (" << selectivities_.size() << ") does not match the number "
         "of categories provided (" << partition_->category_count() << ")";
-
 }
 
 /**
- *
+ * Pre-execute
  */
 void Biomass::PreExecute() {
   cached_partition_->BuildCache();
 }
 
 /**
- *
+ * Execute
  */
 void Biomass::Execute() {
   LOG_FINEST() << "Entering observation " << label_;
@@ -266,7 +261,7 @@ void Biomass::Execute() {
 }
 
 /**
- *
+ * Calculate the score
  */
 void Biomass::CalculateScore() {
   /**
@@ -291,6 +286,7 @@ void Biomass::CalculateScore() {
       }
     }
   }
+
  // Send to be simulated
     likelihood_->SimulateObserved(comparisons_);
 
@@ -313,6 +309,7 @@ void Biomass::CalculateScore() {
         }
       }
     }
+
     likelihood_->GetScores(comparisons_);
 
     for (unsigned year : years_) {

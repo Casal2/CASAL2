@@ -26,18 +26,19 @@ namespace estimatetransformations {
  * Default constructor
  */
 Inverse::Inverse(Model* model) : EstimateTransformation(model) {
-  parameters_.Bind<string>(PARAM_ESTIMATE_LABEL, &estimate_label_, "Label of estimate block to apply transformation. Defined as $\theta_1$ in the documentation", "");
+  parameters_.Bind<string>(PARAM_ESTIMATE_LABEL, &estimate_label_, "The label of estimate block to apply transformation. Defined as $\theta_1$ in the documentation", "");
 
 }
 
 /**
+ * Validate
  */
 void Inverse::DoValidate() {
 
 }
 
 /**
- *
+ * Build
  */
 void Inverse::DoBuild() {
   LOG_TRACE();
@@ -46,6 +47,7 @@ void Inverse::DoBuild() {
     LOG_ERROR_P(PARAM_ESTIMATE) << "Estimate " << estimate_label_ << " was not found.";
     return;
   }
+
   // Initialise for -r runs
   current_untransformed_value_ = estimate_->value();
 
@@ -56,12 +58,14 @@ void Inverse::DoBuild() {
       << " and the prior parameters do not refer to the transformed estimate, in the @estimate" << estimate_label_
       << ". This is not advised, and may cause bias errors. Please check the User Manual for more info";
   }
+
   if (estimate_->transform_with_jacobian_is_defined()) {
     if (transform_with_jacobian_ != estimate_->transform_with_jacobian()) {
       LOG_ERROR_P(PARAM_TRANSFORM_WITH_JACOBIAN) << "This parameter is not consistent with the equivalent parameter in the @estimate block "
         << estimate_label_ << ". Both parameters should be true or false.";
     }
   }
+
   original_lower_bound_ = estimate_->lower_bound();
   original_upper_bound_ = estimate_->upper_bound();
   // tranformed bounds
@@ -70,7 +74,7 @@ void Inverse::DoBuild() {
 }
 
 /**
- *
+ * Transform
  */
 void Inverse::DoTransform() {
   estimate_->set_lower_bound(upper_bound_);
@@ -82,7 +86,7 @@ void Inverse::DoTransform() {
 }
 
 /**
- *
+ * Restore
  */
 void Inverse::DoRestore() {
   estimate_->set_lower_bound(original_lower_bound_);
@@ -94,7 +98,7 @@ void Inverse::DoRestore() {
 
 /**
  * This method will check if the estimate needs to be transformed for the objective function. If it does then
- * it'll do the transformation.
+ * it will do the transformation.
  */
 void Inverse::TransformForObjectiveFunction() {
   if (estimate_->transform_for_objective())
@@ -103,7 +107,7 @@ void Inverse::TransformForObjectiveFunction() {
 
 /**
  * This method will check if the estimate needs to be Restored from the objective function. If it does then
- * it'll do the undo the transformation.
+ * it will do the undo the transformation.
  */
 void Inverse::RestoreFromObjectiveFunction() {
   if (estimate_->transform_for_objective())
@@ -111,10 +115,10 @@ void Inverse::RestoreFromObjectiveFunction() {
 }
 
 /**
- *  @Return the jacobian
+ * GetScore
+ * @return Jacobian if transformed with Jacobian, otherwise 0.0
  */
 Double Inverse::GetScore() {
-//
   if(transform_with_jacobian_) {
     jacobian_ = -1.0 * pow(current_untransformed_value_,-2);
     LOG_MEDIUM() << "Jacobian: " << jacobian_ << " current value " << current_untransformed_value_;
@@ -123,9 +127,8 @@ Double Inverse::GetScore() {
     return 0.0;
 }
 
-
 /**
- * Get the target addressables so we can ensure each
+ * Get the target addressables to ensure that each
  * object is not referencing multiple ones as this would
  * cause chain issues
  *

@@ -38,7 +38,7 @@ Partition::Partition(Model* model) : Assert(model) {
 }
 
 /**
- * Populate any parameters,
+ * Populate any parameters
  * Validate values are within expected ranges when bind<>() overloads cannot be used
  *
  * Note: all parameters are populated from configuration files

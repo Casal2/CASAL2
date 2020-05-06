@@ -40,7 +40,7 @@ namespace math = niwa::utilities::math;
  *
  * Bind any parameters that are allowed to be loaded from the configuration files.
  * Set bounds on registered parameters
- * Register any parameters that can be an estimated or utilised in other run modes (e.g profiling, yields, projections etc)
+ * Register any parameters that can be an estimated or utilised in other run modes (e.g., profiling, yields, projections, etc.)
  * Set some initial values
  *
  * Note: The constructor is parsed to generate LaTeX for the documentation.
@@ -54,12 +54,12 @@ MortalityInstantaneousRetained::MortalityInstantaneousRetained(Model* model)
   catches_table_ = new parameters::Table(PARAM_CATCHES);
   method_table_ = new parameters::Table(PARAM_METHOD);
 
-  parameters_.Bind<string>(PARAM_CATEGORIES, &category_labels_, "Categories for instantaneous mortality", "");
-  parameters_.BindTable(PARAM_CATCHES, catches_table_, "Table of removals (catch) data", "", true, false);
+  parameters_.Bind<string>(PARAM_CATEGORIES, &category_labels_, "The categories for instantaneous mortality", "");
+  parameters_.BindTable(PARAM_CATCHES, catches_table_, "The table of removals (catch) data", "", true, false);
 
-  parameters_.BindTable(PARAM_METHOD, method_table_, "Table of method of removal data", "", true, false);
-  parameters_.Bind<Double>(PARAM_M, &m_input_, "Natural mortality rates for each category", "")->set_lower_bound(0.0);
-  parameters_.Bind<double>(PARAM_TIME_STEP_RATIO, &time_step_ratios_temp_, "Time step ratios for natural mortality", "", true)->set_range(0.0, 1.0);
+  parameters_.BindTable(PARAM_METHOD, method_table_, "The table of method of removal data", "", true, false);
+  parameters_.Bind<Double>(PARAM_M, &m_input_, "The natural mortality rates for each category", "")->set_lower_bound(0.0);
+  parameters_.Bind<double>(PARAM_TIME_STEP_RATIO, &time_step_ratios_temp_, "The time step ratios for natural mortality", "", true)->set_range(0.0, 1.0);
   parameters_.Bind<string>(PARAM_SELECTIVITIES, &selectivity_labels_, "The selectivities to apply on the categories for natural mortality", "");
 
   RegisterAsAddressable(PARAM_M, &m_);
@@ -75,7 +75,7 @@ MortalityInstantaneousRetained::~MortalityInstantaneousRetained() {
 
 /**
  * Populate any parameters,
- * Validate values are within expected ranges when we cannot use bind<>() overloads
+ * Validate values are within expected ranges when bind<>() overloads cannot be used
  *
  * Note: all parameters are populated from configuration files
  */
@@ -701,7 +701,6 @@ void MortalityInstantaneousRetained::DoExecute() {
      * Calculate the expectation for a proportions_at_age observation
      *
      */
-
     unsigned age_spread = model_->age_spread();
     unsigned category_offset = 0;
     for (auto& categories : partition_) {
@@ -787,7 +786,7 @@ void MortalityInstantaneousRetained::DoExecute() {
 }
 
 /*
- * @fun FillReportCache
+ * Fill the report cache
  * @description A method for reporting process information
  * @param cache a cache object to print to
 */
@@ -910,11 +909,10 @@ void MortalityInstantaneousRetained::FillReportCache(ostringstream& cache) {
 }
 
 /*
- * @fun FillTabularReportCache
+ * Fill the tabular report cache
  * @description A method for reporting tabular process information
  * @param cache a cache object to print to
  * @param first_run whether to print the header
- *
 */
 void MortalityInstantaneousRetained::FillTabularReportCache(ostringstream& cache, bool first_run) {
   if (first_run) {
@@ -940,7 +938,6 @@ void MortalityInstantaneousRetained::FillTabularReportCache(ostringstream& cache
     cache << "\n";
   }
 
-
   for (auto& fishery_iter : fisheries_) {
     auto& fishery = fishery_iter.second;
     for (auto pressure : fishery.exploitation_by_year_)
@@ -964,11 +961,10 @@ void MortalityInstantaneousRetained::FillTabularReportCache(ostringstream& cache
 }
 
 /*
- * @fun check_categories_in_methods_for_removal_obs
+ * Check the categories in methods for removal obs
  * @description method checks if there is a category in each method, to make sure the observation class is compatable with the process
  * @param methods a vector of methods
  * @param category_labels a vector of categories to check.
- *
 */
 bool MortalityInstantaneousRetained::check_categories_in_methods_for_removal_obs(vector<string> methods, vector<string> category_labels) {
   LOG_TRACE();
@@ -1000,11 +996,10 @@ bool MortalityInstantaneousRetained::check_categories_in_methods_for_removal_obs
 }
 
 /*
- * @fun check_years_in_methods_for_removal_obs
+ * Check the years in methods for removal obs
  * @description method checks if there is a category in each method for each year, to make sure the observation class is compatable with the process
  * @param years a vector of years
  * @param methods a vector of methods
- *
 */
 bool MortalityInstantaneousRetained::check_years_in_methods_for_removal_obs(vector<unsigned> years, vector<string> methods) {
   LOG_TRACE();
@@ -1031,10 +1026,9 @@ bool MortalityInstantaneousRetained::check_years_in_methods_for_removal_obs(vect
 }
 
 /*
- * @fun check_categories_in_methods_for_removal_obs
+ * Check the categories in methods for removal obs
  * @description method checks if each method exists, to make sure the observation class is compatable with the process
  * @param methods a vector of methods
- *
 */
 bool MortalityInstantaneousRetained::check_methods_for_removal_obs(vector<string> methods) {
   LOG_TRACE();

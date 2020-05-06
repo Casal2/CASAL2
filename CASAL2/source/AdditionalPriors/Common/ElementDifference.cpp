@@ -24,7 +24,7 @@ namespace additionalpriors {
  * Default constructor
  */
 ElementDifference::ElementDifference(Model* model) : AdditionalPrior(model) {
-  parameters_.Bind<string>(PARAM_SECOND_PARAMETER, &second_parameter_, "Name of the second parameter for comparing", "");
+  parameters_.Bind<string>(PARAM_SECOND_PARAMETER, &second_parameter_, "The name of the second parameter for comparing", "");
   parameters_.Bind<double>(PARAM_MULTIPLIER, &multiplier_, "Multiply the penalty by this factor", "", 1);
 }
 
@@ -141,8 +141,7 @@ void ElementDifference::DoBuild() {
 
 /**
  * Get the score for this penalty
- *
- * @return Penalty score
+ * @return The penalty score
  */
 Double ElementDifference::GetScore() {
   LOG_TRACE();

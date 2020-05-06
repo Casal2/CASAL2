@@ -39,10 +39,10 @@ namespace agelengths {
  * Note: The constructor is parsed to generate LaTeX for the documentation.
  */
 VonBertalanffy::VonBertalanffy(Model* model) : AgeLength(model) {
-  parameters_.Bind<Double>(PARAM_LINF, &linf_, "Define the $L_{infinity}$ parameter of the von Bertalanffy relationship", "")->set_lower_bound(0.0);
-  parameters_.Bind<Double>(PARAM_K, &k_, "Define the $k$ parameter of the von Bertalanffy relationship", "")->set_lower_bound(0.0);
-  parameters_.Bind<Double>(PARAM_T0, &t0_, "Define the $t_0$ parameter of the von Bertalanffy relationship", "");
-  parameters_.Bind<string>(PARAM_LENGTH_WEIGHT, &length_weight_label_, "Define the label of the associated length-weight relationship", "");
+  parameters_.Bind<Double>(PARAM_LINF, &linf_, "The $L_{infinity}$ parameter of the von Bertalanffy relationship", "")->set_lower_bound(0.0);
+  parameters_.Bind<Double>(PARAM_K, &k_, "The $k$ parameter of the von Bertalanffy relationship", "")->set_lower_bound(0.0);
+  parameters_.Bind<Double>(PARAM_T0, &t0_, "The $t_0$ parameter of the von Bertalanffy relationship", "");
+  parameters_.Bind<string>(PARAM_LENGTH_WEIGHT, &length_weight_label_, "The label of the associated length-weight relationship", "");
 //  parameters_.Bind<bool>(PARAM_BY_LENGTH, &by_length_, "Specifies if the linear interpolation of CV's is a linear function of mean length at age. Default is just by age", "", true);
 
   RegisterAsAddressable(PARAM_LINF, &linf_);

@@ -34,7 +34,7 @@ EstimateSummary::~EstimateSummary() noexcept(true) {
 }
 
 /**
- * This method will execute our estimate summary report
+ * This method will execute the estimate summary report
  */
 void EstimateSummary::DoExecute() {
 

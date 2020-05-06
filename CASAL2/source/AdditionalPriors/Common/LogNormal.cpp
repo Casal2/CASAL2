@@ -31,7 +31,7 @@ namespace additionalpriors {
  */
 LogNormal::LogNormal(Model* model) : AdditionalPrior(model) {
   parameters_.Bind<Double>(PARAM_MU, &mu_, "The lognormal prior mean (mu) parameter", "")->set_lower_bound(0.0, false);
-  parameters_.Bind<Double>(PARAM_CV, &cv_, "The Lognormal variance (CV) parameter", "")->set_lower_bound(0.0, false);
+  parameters_.Bind<Double>(PARAM_CV, &cv_, "The lognormal variance (cv) parameter", "")->set_lower_bound(0.0, false);
 }
 
 /**
@@ -80,8 +80,7 @@ void LogNormal::DoBuild() {
 
 /**
  * Get the score
- *
- * @return the score
+ * @return The score
  */
 Double LogNormal::GetScore() {
   score_ = 0.0;

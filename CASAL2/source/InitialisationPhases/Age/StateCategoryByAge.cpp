@@ -111,6 +111,7 @@ void StateCategoryByAge::Execute() {
       LOG_MEDIUM() << " to = " << iter->data_[index];
     }
   }
+
   // Build cache
   cached_partition_.BuildCache();
 

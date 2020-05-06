@@ -42,8 +42,7 @@ void Beta::DoValidate() {
 
 /**
  * Get the score
- *
- * @return The score for this prior
+ * @return The score
  */
 Double Beta::GetScore() {
   Double score_ = 0.0;

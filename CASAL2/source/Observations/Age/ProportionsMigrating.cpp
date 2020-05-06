@@ -36,16 +36,16 @@ ProportionsMigrating::ProportionsMigrating(Model* model) : Observation(model) {
   obs_table_ = new parameters::Table(PARAM_OBS);
   error_values_table_ = new parameters::Table(PARAM_ERROR_VALUES);
 
-  parameters_.Bind<unsigned>(PARAM_MIN_AGE, &min_age_, "Minimum age", "");
-  parameters_.Bind<unsigned>(PARAM_MAX_AGE, &max_age_, "Maximum age", "");
-  parameters_.Bind<string>(PARAM_TIME_STEP, &time_step_label_, "The label of time-step that the observation occurs in", "");
-  parameters_.Bind<bool>(PARAM_PLUS_GROUP, &plus_group_, "Use age plus group", "", true);
-  parameters_.Bind<unsigned>(PARAM_YEARS, &years_, "Years for which there are observations", "");
-  parameters_.Bind<Double>(PARAM_PROCESS_ERRORS, &process_error_values_, "Process error", "", true);
-  parameters_.Bind<string>(PARAM_AGEING_ERROR, &ageing_error_label_, "Label of ageing error to use", "", "");
-  parameters_.BindTable(PARAM_OBS, obs_table_, "Table of observed values", "", false);
-  parameters_.BindTable(PARAM_ERROR_VALUES, error_values_table_, "Table of error values of the observed values (note the units depend on the likelihood)", "", false);
-  parameters_.Bind<string>(PARAM_PROCESS, &process_label_, "Process label", "");
+  parameters_.Bind<unsigned>(PARAM_MIN_AGE, &min_age_, "The minimum age", "");
+  parameters_.Bind<unsigned>(PARAM_MAX_AGE, &max_age_, "The maximum age", "");
+  parameters_.Bind<string>(PARAM_TIME_STEP, &time_step_label_, "The label of the time step that the observation occurs in", "");
+  parameters_.Bind<bool>(PARAM_PLUS_GROUP, &plus_group_, "Use the age plus group?", "", true);
+  parameters_.Bind<unsigned>(PARAM_YEARS, &years_, "The years for which there are observations", "");
+  parameters_.Bind<Double>(PARAM_PROCESS_ERRORS, &process_error_values_, "The process error", "", true);
+  parameters_.Bind<string>(PARAM_AGEING_ERROR, &ageing_error_label_, "The label of the ageing error to use", "", "");
+  parameters_.BindTable(PARAM_OBS, obs_table_, "The table of observed values", "", false);
+  parameters_.BindTable(PARAM_ERROR_VALUES, error_values_table_, "The table of error values of the observed values (note that the units depend on the likelihood)", "", false);
+  parameters_.Bind<string>(PARAM_PROCESS, &process_label_, "The process label", "");
 
   mean_proportion_method_ = false;
 
@@ -83,9 +83,9 @@ void ProportionsMigrating::DoValidate() {
       << ") does not match the number of years provided (" << years_.size() << ")";
   }
   for (auto year : years_) {
-  	if((year < model_->start_year()) || (year > model_->final_year()))
-  		LOG_ERROR_P(PARAM_YEARS) << "Years cannot be less than start_year (" << model_->start_year()
-          << "), or greater than final_year (" << model_->final_year() << ").";
+    if((year < model_->start_year()) || (year > model_->final_year()))
+      LOG_ERROR_P(PARAM_YEARS) << "Years cannot be less than start_year (" << model_->start_year()
+        << "), or greater than final_year (" << model_->final_year() << ").";
   }
 
   for (Double process_error : process_error_values_) {
@@ -115,13 +115,13 @@ void ProportionsMigrating::DoValidate() {
   vector<vector<string>>& obs_data = obs_table_->data();
   if (obs_data.size() != years_.size()) {
     LOG_ERROR_P(PARAM_OBS) << " has " << obs_data.size() << " rows defined, but " << years_.size()
-        << " should match the number of years provided";
+      << " should match the number of years provided";
   }
 
   for (vector<string>& obs_data_line : obs_data) {
     if (obs_data_line.size() != obs_expected) {
       LOG_ERROR_P(PARAM_OBS) << " has " << obs_data_line.size() << " values defined, but " << obs_expected
-          << " should match the age spread * categories + 1 (for year)";
+        << " should match the age spread * categories + 1 (for year)";
     }
 
     unsigned year = 0;
@@ -147,13 +147,13 @@ void ProportionsMigrating::DoValidate() {
   vector<vector<string>>& error_values_data = error_values_table_->data();
   if (error_values_data.size() != years_.size()) {
     LOG_ERROR_P(PARAM_ERROR_VALUES) << " has " << error_values_data.size() << " rows defined, but " << years_.size()
-        << " should match the number of years provided";
+      << " should match the number of years provided";
   }
 
   for (vector<string>& error_values_data_line : error_values_data) {
     if (error_values_data_line.size() != 2 && error_values_data_line.size() != obs_expected) {
       LOG_ERROR_P(PARAM_ERROR_VALUES) << " has " << error_values_data_line.size() << " values defined, but " << obs_expected
-          << " should match the age spread * categories + 1 (for year)";
+        << " should match the age spread * categories + 1 (for year)";
     }
 
     unsigned year = 0;
@@ -205,8 +205,7 @@ void ProportionsMigrating::DoValidate() {
 }
 
 /**
- * Build any runtime relationships we may have and ensure
- * the labels for other objects are valid.
+ * Build any runtime relationships and ensure that the labels for other objects are valid.
  */
 void ProportionsMigrating::DoBuild() {
   partition_ = CombinedCategoriesPtr(new niwa::partition::accessors::CombinedCategories(model_, category_labels_));
@@ -229,10 +228,10 @@ void ProportionsMigrating::DoBuild() {
 }
 
 /**
- * This method is called at the start of the targetted
+ * This method is called at the start of the targeted
  * time step for this observation.
  *
- * At this point we need to build our cache for the partition
+ * Build the cache for the partition
  * structure to use with any interpolation
  */
 void ProportionsMigrating::PreExecute() {
@@ -256,7 +255,7 @@ void ProportionsMigrating::PreExecute() {
 }
 
 /**
- *
+ * Execute
  */
 void ProportionsMigrating::Execute() {
   LOG_TRACE();
@@ -280,7 +279,6 @@ void ProportionsMigrating::Execute() {
     fill(numbers_age_before_.begin(), numbers_age_before_.end(),0.0);
     fill(numbers_age_after_.begin(), numbers_age_after_.end(),0.0);
     fill(expected_values_.begin(), expected_values_.end(),0.0);
-
 
     /**
      * Loop through the 2 combined categories building up the
@@ -324,7 +322,6 @@ void ProportionsMigrating::Execute() {
       numbers_age_after_ = numbers_age_after_with_ageing_error_;
     }
 
-
     /*
      *  Now collapse the number_age into out expected values
      */
@@ -355,7 +352,6 @@ void ProportionsMigrating::Execute() {
     if (plus_group_)
       expected_values_[age_spread_ - 1] = (plus_before - plus_after) / plus_before;
 
-
     if (expected_values_.size() != proportions_[model_->current_year()][category_labels_[category_offset]].size())
       LOG_CODE_ERROR() << "expected_values.size(" << expected_values_.size() << ") != proportions_[category_offset].size("
         << proportions_[model_->current_year()][category_labels_[category_offset]].size() << ")";
@@ -363,7 +359,6 @@ void ProportionsMigrating::Execute() {
     /**
      * save our comparisons so we can use them to generate the score from the likelihoods later
      */
-
     for (unsigned i = 0; i < expected_values_.size(); ++i) {
       LOG_FINEST() << " Numbers at age " << min_age_ + i << " = " << expected_values_[i];
       SaveComparison(category_labels_[category_offset], min_age_ + i, 0.0, expected_values_[i], proportions_[model_->current_year()][category_labels_[category_offset]][i],

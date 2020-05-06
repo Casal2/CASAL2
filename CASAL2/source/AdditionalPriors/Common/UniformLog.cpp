@@ -70,8 +70,7 @@ void UniformLog::DoBuild() {
 
 /**
  * Get the score
- *
- * @return score
+  * @return The score
  */
 Double UniformLog::GetScore() {
   Double value = (*addressable_);

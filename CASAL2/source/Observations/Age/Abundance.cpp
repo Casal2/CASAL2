@@ -29,13 +29,14 @@ namespace utils = niwa::utilities;
  * Default constructor
  */
 Abundance::Abundance(Model* model) : Observation(model) {
-  parameters_.Bind<string>(PARAM_SELECTIVITIES, &selectivity_labels_, "Labels of the selectivities", "", true);
-  parameters_.Bind<string>(PARAM_TIME_STEP, &time_step_label_, "The label of time-step that the observation occurs in", "");
+  parameters_.Bind<string>(PARAM_SELECTIVITIES, &selectivity_labels_, "The labels of the selectivities", "", true);
+  parameters_.Bind<string>(PARAM_TIME_STEP, &time_step_label_, "The label of the time step that the observation occurs in", "");
 
   allowed_likelihood_types_.push_back(PARAM_NORMAL);
   allowed_likelihood_types_.push_back(PARAM_LOGNORMAL);
   allowed_likelihood_types_.push_back(PARAM_PSEUDO);
 }
+
 /**
  * Validate configuration file parameters
  */
@@ -87,21 +88,19 @@ void Abundance::DoValidate() {
 }
 
 /**
- * Build any runtime relationships we may have and ensure
- * the labels for other objects are valid.
+ * Build any runtime relationships and ensure that the labels for other objects are valid.
  */
 void Abundance::DoBuild() {
   catchability_ = model_->managers().catchability()->GetCatchability(catchability_label_);
   if (!catchability_)
     LOG_ERROR_P(PARAM_CATCHABILITY) << ": catchability label " << catchability_label_ << " was not found.";
 
-  if (catchability_->type() == PARAM_NUISANCE){
+  if (catchability_->type() == PARAM_NUISANCE) {
     nuisance_q_ = true;
     // create a dynamic cast pointer to the nuisance catchability
     nuisance_catchability_ = dynamic_cast<Nuisance*>(catchability_);
     if (!nuisance_catchability_)
       LOG_ERROR_P(PARAM_CATCHABILITY) << ": catchability label " << catchability_label_ << " could not create dynamic cast for nuisance catchability";
-
   }
 
   partition_ = CombinedCategoriesPtr(new niwa::partition::accessors::CombinedCategories(model_, category_labels_));
@@ -123,17 +122,15 @@ void Abundance::DoBuild() {
   if (partition_->category_count() != selectivities_.size())
     LOG_ERROR_P(PARAM_SELECTIVITIES) << ": number of selectivities provided (" << selectivities_.size() << ") does not match the number "
       << "of categories provided (" << partition_->category_count() << ")";
-
 }
 
 /**
  * This method is called before any of the processes
- * in the timestep will be executed. This allows us to
- * take data from the partition that would otherwise be lost
- * once it's modified.
+ * in the timestep will be executed. This takes data from
+ * the partition that would otherwise be lost once it is modified.
  *
- * In this instance we'll build the cache of our cached partition
- * accessor. This accessor will hold the partition state for us to use
+ * Build the cache of the cached partition
+ * accessor. This accessor will hold the partition state to use
  * during interpolation
  */
 void Abundance::PreExecute() {
@@ -141,7 +138,7 @@ void Abundance::PreExecute() {
 }
 
 /**
- * Run our observation to generate the score
+ * Generate the score
  */
 void Abundance::Execute() {
   LOG_FINEST() << "Entering observation " << label_;
@@ -209,6 +206,7 @@ void Abundance::Execute() {
       // around issues with bounds in the estimation system
       expected_total *= catchability_->q();
     }
+
     error_value = error_values_by_year_[current_year];
 
     // Store the values
@@ -224,7 +222,7 @@ void Abundance::Execute() {
 }
 
 /**
- *
+ * Calculate the score
  */
 void Abundance::CalculateScore() {
   /**
@@ -250,7 +248,9 @@ void Abundance::CalculateScore() {
         }
       }
     }
+
     likelihood_->SimulateObserved(comparisons_);
+
     for (auto& iter : comparisons_) {
       double total = 0.0;
       for (auto& comparison : iter.second)
@@ -278,6 +278,7 @@ void Abundance::CalculateScore() {
         }
       }
     }
+
     likelihood_->GetScores(comparisons_);
 
     for (unsigned year : years_) {

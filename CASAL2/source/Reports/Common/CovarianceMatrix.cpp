@@ -13,8 +13,9 @@
 namespace niwa {
 namespace reports {
 namespace ublas = boost::numeric::ublas;
+
 /**
- *
+ * Default constructor
  */
 CovarianceMatrix::CovarianceMatrix(Model* model) : Report(model) {
   run_mode_    = (RunMode::Type)(RunMode::kEstimation | RunMode::kProfiling | RunMode::kMCMC);
@@ -22,7 +23,7 @@ CovarianceMatrix::CovarianceMatrix(Model* model) : Report(model) {
 }
 
 /**
- *
+ * Execute
  */
 void CovarianceMatrix::DoExecute() {
   /*

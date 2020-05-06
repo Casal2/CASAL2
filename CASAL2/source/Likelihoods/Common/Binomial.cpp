@@ -41,7 +41,6 @@ Double Binomial::AdjustErrorValue(const Double process_error, const double error
  * Calculate the scores
  *
  * @param comparisons A collection of comparisons passed by the observation
- *
  */
 void Binomial::GetScores(map<unsigned, vector<observations::Comparison> >& comparisons) {
   for (auto year_iterator = comparisons.begin(); year_iterator != comparisons.end(); ++year_iterator) {

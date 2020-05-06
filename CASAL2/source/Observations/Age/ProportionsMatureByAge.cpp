@@ -41,17 +41,17 @@ ProportionsMatureByAge::ProportionsMatureByAge(Model* model) : Observation(model
   obs_table_ = new parameters::Table(PARAM_OBS);
   error_values_table_ = new parameters::Table(PARAM_ERROR_VALUES);
 
-  parameters_.Bind<unsigned>(PARAM_MIN_AGE, &min_age_, "Minimum age", "");
-  parameters_.Bind<unsigned>(PARAM_MAX_AGE, &max_age_, "Maximum age", "");
+  parameters_.Bind<unsigned>(PARAM_MIN_AGE, &min_age_, "The minimum age", "");
+  parameters_.Bind<unsigned>(PARAM_MAX_AGE, &max_age_, "The maximum age", "");
   parameters_.Bind<string>(PARAM_TIME_STEP, &time_step_label_, "The label of time-step that the observation occurs in", "");
-  parameters_.Bind<bool>(PARAM_PLUS_GROUP, &plus_group_, "Use age plus group", "", true);
-  parameters_.Bind<unsigned>(PARAM_YEARS, &years_, "Years for which there are observations", "");
-  parameters_.Bind<string>(PARAM_AGEING_ERROR, &ageing_error_label_, "Label of ageing error to use", "", "");
-  parameters_.BindTable(PARAM_OBS, obs_table_, "Table of proportions at age mature ", "", false);
+  parameters_.Bind<bool>(PARAM_PLUS_GROUP, &plus_group_, "Use the age plus group?", "", true);
+  parameters_.Bind<unsigned>(PARAM_YEARS, &years_, "The years for which there are observations", "");
+  parameters_.Bind<string>(PARAM_AGEING_ERROR, &ageing_error_label_, "The label of ageing error to use", "", "");
+  parameters_.BindTable(PARAM_OBS, obs_table_, "The table of proportions at age mature ", "", false);
   // TODO:  is tolerance missing?
-  parameters_.BindTable(PARAM_ERROR_VALUES, error_values_table_, "Table of error values of the observed values (note the units depend on the likelihood)", "", false);
+  parameters_.BindTable(PARAM_ERROR_VALUES, error_values_table_, "The table of error values of the observed values (note the units depend on the likelihood)", "", false);
   parameters_.Bind<string>(PARAM_TOTAL_CATEGORIES, &total_category_labels_, "All category labels that were vulnerable to sampling at the time of this observation (not including the categories already given)", "", true);
-  parameters_.Bind<double>(PARAM_TIME_STEP_PROPORTION, &time_step_proportion_, "Proportion through the mortality block of the time step when the observation is evaluated", "", double(0.5))->set_range(0.0, 1.0);
+  parameters_.Bind<double>(PARAM_TIME_STEP_PROPORTION, &time_step_proportion_, "The proportion through the mortality block of the time step when the observation is evaluated", "", double(0.5))->set_range(0.0, 1.0);
 
   mean_proportion_method_ = false;
 
@@ -247,7 +247,7 @@ void ProportionsMatureByAge::DoValidate() {
 }
 
 /**
- * Build any runtime relationships we may have and ensure
+ * Build any runtime relationships and ensure that
  * the labels for other objects are valid.
  */
 void ProportionsMatureByAge::DoBuild() {
@@ -281,8 +281,7 @@ void ProportionsMatureByAge::DoBuild() {
 /**
  * This method is called at the start of the time step for this observation.
  *
- * At this point we need to build our cache for the partition
- * structure to use with any interpolation
+ * Build the cache for the partition structure to use with any interpolation
  */
 void ProportionsMatureByAge::PreExecute() {
   LOG_TRACE();
@@ -304,7 +303,7 @@ void ProportionsMatureByAge::PreExecute() {
 }
 
 /**
- *
+ * Execute
  */
 void ProportionsMatureByAge::Execute() {
   LOG_TRACE();

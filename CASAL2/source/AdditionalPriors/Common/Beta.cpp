@@ -79,8 +79,7 @@ void Beta::DoBuild() {
 
 /**
  * Get the score
- *
- * @return the score
+ * @return The score
  */
 Double Beta::GetScore() {
   Double value = (*addressable_);

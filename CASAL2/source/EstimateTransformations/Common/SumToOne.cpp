@@ -117,6 +117,10 @@ void SumToOne::DoBuild() {
   LOG_MEDIUM() << "flagged estimated = " << estimates_[estimates_.size() - 1]->estimated();
 }
 
+/**
+ * Transform
+ * This method will reset the lower and upper bounds
+ */
 void SumToOne::DoTransform() {
   LOG_TRACE();
   // reset the bounds for the others
@@ -129,7 +133,8 @@ void SumToOne::DoTransform() {
 }
 
 /**
- *    This will restore values provided by the minimiser that need to be restored for use in the annual cycle
+ * Restore
+ * This method will restore values provided by the minimiser that need to be restored for use in the annual cycle
  */
 void SumToOne::DoRestore() {
   LOG_TRACE();
@@ -145,7 +150,8 @@ void SumToOne::DoRestore() {
 }
 
 /**
- *  Calculate the Jacobian, to offset the bias of the transformation that enters the objective function
+ * GetScore
+ * Calculate the Jacobian, to offset the bias of the transformation that enters the objective function
  */
 Double SumToOne::GetScore() {
   LOG_TRACE();
@@ -155,7 +161,7 @@ Double SumToOne::GetScore() {
 }
 
 /**
- * Get the target addressables so we can ensure each
+ * Get the target addressables to ensure that each
  * object is not referencing multiple ones as this would
  * cause chain issues
  *

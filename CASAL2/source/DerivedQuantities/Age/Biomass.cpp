@@ -19,6 +19,9 @@ namespace niwa {
 namespace derivedquantities {
 namespace age {
 
+/**
+ * Default constructor
+ */
 Biomass::Biomass(Model* model) : DerivedQuantity(model) {
   parameters_.Bind<string>(PARAM_AGE_WEIGHT_LABELS, &age_weight_labels_, "The labels for the @age_weight block which corresponds to each category, to use that weight calculation method for biomass calculations", "", "");
 
@@ -35,7 +38,6 @@ void Biomass::DoValidate() {
         << age_weight_labels_.size() << " age weight labels, but there are " << category_labels_.size() << " category labels";
   }
 }
-
 
 /**
  * Build pointers class
@@ -86,7 +88,6 @@ void Biomass::PreExecute() {
         LOG_FINE() << "Biomass (Pre-execute) for category = " << (*iterator)->name_ << " age = " << age
           << " mean weight = " << age_weights_[i]->mean_weight_at_age_by_year(year, age)
           << " selectivity = " << selectivities_[i]->GetAgeResult(age, (*iterator)->age_length_) << " numbers = " << (*iterator)->data_[j];
-
       }
     }
   }
@@ -101,8 +102,7 @@ void Biomass::PreExecute() {
  * This class will calculate a value that is the sum total
  * of the population in the model filtered by category and
  * multiplied by the selectivities.
- *
- */
+  */
 void Biomass::Execute() {
   LOG_TRACE();
   unsigned year = model_->current_year();
@@ -187,7 +187,6 @@ void Biomass::Execute() {
         }
       }
     }
-
 
     if (time_step_proportion_ == 0.0)
       values_[model_->current_year()] = cache_value_;

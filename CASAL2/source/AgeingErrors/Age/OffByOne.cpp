@@ -40,7 +40,7 @@ void OffByOne::DoValidate() {
 }
 
 /**
- * Reset this object for use
+ * Reset this object
  */
 void OffByOne::DoBuild() {
   DoReset();

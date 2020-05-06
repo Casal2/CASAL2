@@ -30,7 +30,7 @@ namespace estimates {
 namespace utils = niwa::utilities;
 
 /**
- *
+ * Default constructor
  */
 Creator::Creator(Model* model) : model_(model) {
   parameters_.Bind<string>(PARAM_LABEL, &label_, "TThe label of the estimate", "", "");
@@ -39,8 +39,8 @@ Creator::Creator(Model* model) : model_(model) {
   parameters_.Bind<double>(PARAM_LOWER_BOUND, &lower_bounds_, "The lower bound for the parameter", "");
   parameters_.Bind<double>(PARAM_UPPER_BOUND, &upper_bounds_, "The upper bound for the parameter", "");
 //  parameters_.Bind<string>(PARAM_PRIOR, &prior_label_, "TBA", "", "");
-  parameters_.Bind<string>(PARAM_SAME, &same_labels_, "List of parameters that are constrained to have the same value as this parameter", "", "");
-  parameters_.Bind<string>(PARAM_ESTIMATION_PHASE, &estimation_phase_, "Estimation phase", "", "");
+  parameters_.Bind<string>(PARAM_SAME, &same_labels_, "The list of parameters that are constrained to have the same value as this parameter", "", "");
+  parameters_.Bind<string>(PARAM_ESTIMATION_PHASE, &estimation_phase_, "The estimation phase", "", "");
   parameters_.Bind<string>(PARAM_MCMC, &mcmc_, "Indicates if this parameter is fixed at the point estimate during an MCMC run", "", "");
   parameters_.Bind<string>(PARAM_TRANSFORMATION, &transformation_details_, "TBA", "", true);
   parameters_.Bind<bool>(PARAM_TRANSFORM_WITH_JACOBIAN, &transform_with_jacobian_, "Transform the addressables with Jacobian score", "", true);
@@ -121,6 +121,7 @@ void Creator::CreateEstimates() {
       }
     }
     break;
+
     case addressable::kUnsignedMap:
     {
       bool create_missing = false;
@@ -140,6 +141,7 @@ void Creator::CreateEstimates() {
       }
     }
     break;
+
     case addressable::kStringMap:
     {
       utils::OrderedMap<string, Double>* targets = target->GetAddressableSMap(parameter);
@@ -153,6 +155,7 @@ void Creator::CreateEstimates() {
       }
     }
     break;
+
     default:
       LOG_CODE_ERROR() << "This type of addressable is not supported: " << (unsigned)target->GetAddressableType(parameter);
       break;
@@ -181,6 +184,7 @@ void Creator::CreateEstimates() {
 
       break;
     }
+
     case addressable::kUnsignedMap:
     {
       map<unsigned, Double>* targets = target->GetAddressableUMap(parameter);
@@ -191,6 +195,7 @@ void Creator::CreateEstimates() {
       }
       break;
     }
+
     case addressable::kStringMap:
     {
       utils::OrderedMap<string, Double>* targets = target->GetAddressableSMap(parameter);
@@ -201,6 +206,7 @@ void Creator::CreateEstimates() {
       }
       break;
     }
+
     default:
       LOG_CODE_ERROR() << "This type of addressable is not supported: " << (unsigned)target->GetAddressableType(parameter);
       break;
@@ -216,9 +222,9 @@ void Creator::CreateEstimates() {
  *
  * Sames are objects added to the estimate that will be modified when the estimate
  * is modified. The code below is quite complex as it needs to do all of the
- * label expanding the code above does (and I don't have time to isolate it)
+ * label expanding the code above does
  *
- * We also do checks for duplicate sames etc.
+ * Also checks for duplicate sames etc.
  */
 void Creator::HandleSameParameter() {
   if (!parameters_.Get(PARAM_SAME)->has_been_defined())
@@ -286,6 +292,7 @@ void Creator::HandleSameParameter() {
         }
       }
       break;
+
       case addressable::kUnsignedMap:
       {
         bool create_missing = false;
@@ -306,6 +313,7 @@ void Creator::HandleSameParameter() {
         }
       }
       break;
+
       case addressable::kStringMap:
       {
         utils::OrderedMap<string, Double>* temp = target->GetAddressableSMap(parameter);
@@ -320,6 +328,7 @@ void Creator::HandleSameParameter() {
         }
       }
       break;
+
       default:
         LOG_CODE_ERROR() << "This type of addressable is not supported: " << (unsigned)target->GetAddressableType(parameter);
         break;
@@ -341,6 +350,7 @@ void Creator::HandleSameParameter() {
 
         break;
       }
+
       case addressable::kUnsignedMap:
       {
         map<unsigned, Double>* temps = target->GetAddressableUMap(parameter);
@@ -352,6 +362,7 @@ void Creator::HandleSameParameter() {
         }
         break;
       }
+
       case addressable::kStringMap:
       {
         utils::OrderedMap<string, Double>* temps = target->GetAddressableSMap(parameter);
@@ -363,6 +374,7 @@ void Creator::HandleSameParameter() {
         }
         break;
       }
+
       default:
         LOG_CODE_ERROR() << "This type of addressable is not supported: " << (unsigned)target->GetAddressableType(parameter);
         break;
@@ -424,7 +436,9 @@ niwa::Estimate* Creator::CreateEstimate(string parameter, unsigned index, Double
 }
 
 /**
- *
+ * Copy parameters
+ * @param estimate
+ * @param index
  */
 void Creator::CopyParameters(niwa::Estimate* estimate, unsigned index) {
   estimate->parameters().CopyFrom(parameters_, PARAM_LABEL);
@@ -442,6 +456,6 @@ void Creator::CopyParameters(niwa::Estimate* estimate, unsigned index) {
 
   DoCopyParameters(estimate, index);
 }
+
 } /* namespace estimates */
 } /* namespace niwa */
-

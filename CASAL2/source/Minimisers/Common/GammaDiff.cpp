@@ -25,14 +25,14 @@ namespace minimisers {
  * Default constructor
  */
 GammaDiff::GammaDiff(Model* model) : Minimiser(model) {
-  parameters_.Bind<int>(PARAM_MAX_ITERATIONS, &max_iterations_, "Maximum number of iterations", "", 1000)->set_lower_bound(1);
-  parameters_.Bind<int>(PARAM_MAX_EVALUATIONS, &max_evaluations_, "Maximum number of evaluations", "", 4000)->set_lower_bound(1);
-  parameters_.Bind<double>(PARAM_TOLERANCE, &gradient_tolerance_, "Tolerance of the gradient for convergence", "", 0.02)->set_lower_bound(0.0, false);
-  parameters_.Bind<double>(PARAM_STEP_SIZE, &step_size_, "Minimum Step-size before minimisation fails", "", 1e-7)->set_lower_bound(0.0, false);
+  parameters_.Bind<int>(PARAM_MAX_ITERATIONS, &max_iterations_, "The maximum number of iterations", "", 1000)->set_lower_bound(1);
+  parameters_.Bind<int>(PARAM_MAX_EVALUATIONS, &max_evaluations_, "The maximum number of evaluations", "", 4000)->set_lower_bound(1);
+  parameters_.Bind<double>(PARAM_TOLERANCE, &gradient_tolerance_, "The tolerance of the gradient for convergence", "", 0.02)->set_lower_bound(0.0, false);
+  parameters_.Bind<double>(PARAM_STEP_SIZE, &step_size_, "The minimum step size before minimisation fails", "", 1e-7)->set_lower_bound(0.0, false);
 }
 
 /**
- * Execute the minimiser to solve the model
+ * Execute the minimiser
  */
 void GammaDiff::Execute() {
   LOG_TRACE();

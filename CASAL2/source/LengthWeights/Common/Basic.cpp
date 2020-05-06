@@ -22,7 +22,7 @@ namespace lengthweights {
 Basic::Basic(Model* model) : LengthWeight(model) {
   parameters_.Bind<Double>(PARAM_A, &a_, "The $a$ parameter in the Basic length-weight relationship", "")->set_lower_bound(0.0, false);
   parameters_.Bind<Double>(PARAM_B, &b_, "The $b$ parameter in the Basic length-weight relationship", "")->set_lower_bound(0.0, false);
-  parameters_.Bind<string>(PARAM_UNITS, &units_, "Units of measure (tonnes, kgs, grams)", "")->set_allowed_values({PARAM_TONNES,PARAM_KGS,PARAM_GRAMS});
+  parameters_.Bind<string>(PARAM_UNITS, &units_, "Units of measure (tonnes, kgs, grams)", "")->set_allowed_values({PARAM_TONNES, PARAM_KGS, PARAM_GRAMS});
 
   RegisterAsAddressable(PARAM_A, &a_);
   RegisterAsAddressable(PARAM_B, &b_);
@@ -64,10 +64,10 @@ void Basic::DoBuild() {
 }
 
 /**
- * Calculate and return the mean weight for the size of fish passed in.
+ * Calculate and return the mean weight for the size passed in
  *
- * @param size The size of the population to calculate mean weight for
- * @return The mean weight of the population at the parameter size
+ * @param size The size to calculate mean weight for
+ * @return The mean weight at the parameter size
  */
 Double Basic::mean_weight(Double size, Distribution distribution, Double cv) const {
   Double weight = a_ * pow(size, b_);

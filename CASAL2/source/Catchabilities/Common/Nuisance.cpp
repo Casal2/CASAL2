@@ -28,7 +28,7 @@ namespace utils = niwa::utilities;
  *
  * Bind any parameters that are allowed to be loaded from the configuration files.
  * Set bounds on registered parameters
- * Register any parameters that can be an estimated or utilised in other run modes (e.g profiling, yields, projections etc)
+ * Register any parameters that can be an estimated or utilised in other run modes (e.g., profiling, yields, projections, etc.)
  * Set some initial values
  *
  * Note: The constructor is parsed to generate LaTeX for the documentation.
@@ -99,7 +99,6 @@ void Nuisance::DoBuild() {
     LOG_FINEST() << "solving for q in a maximum likelihood context, i.e., with no prior";
     q_ = 1.0;
   }
-
 }
 
 /**
@@ -233,7 +232,6 @@ void Nuisance::CalculateQ(map<unsigned, vector<observations::Comparison> >& comp
 
   LOG_FINE() << "Analytical q = " << q_;
 
-
   if (q_ > upper_bound_) {
     q_ = upper_bound_;
     LOG_FINE() << "Nuisance q hit upper bound q set to upper bound = " << upper_bound_;
@@ -243,8 +241,8 @@ void Nuisance::CalculateQ(map<unsigned, vector<observations::Comparison> >& comp
     q_ = lower_bound_;
     LOG_FINE() << "Nuisance q hit upper bound q set to lower bound = " << lower_bound_;
   }
-  LOG_FINEST() << "Setting q = " << q_;
 
+  LOG_FINEST() << "Setting q = " << q_;
 }
 
 } /* namespace catchabilities */

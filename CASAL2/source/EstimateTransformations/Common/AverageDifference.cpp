@@ -27,7 +27,7 @@ namespace estimatetransformations {
  */
 AverageDifference::AverageDifference(Model* model) : EstimateTransformation(model) {
   parameters_.Bind<string>(PARAM_THETA_TWO, &difference_estimate_label_, "The label of the @estimate block relating to the $\theta_2$ parameter in the transformation. See the User Manual for more information", "");
-  parameters_.Bind<string>(PARAM_THETA_ONE, &estimate_label_, "Label of @estimate block relating to the $\theta_1$ parameter in the transformation. See the User Manual for more information", "");
+  parameters_.Bind<string>(PARAM_THETA_ONE, &estimate_label_, "The label of @estimate block relating to the $\theta_1$ parameter in the transformation. See the User Manual for more information", "");
 
   is_simple_ = false;
 }
@@ -149,13 +149,12 @@ void AverageDifference::DoRestore() {
 }
 
 /**
- * Get the target addressable so we can ensure each
+ * Get the target addressable to ensure that each
  * object is not referencing multiple ones as this would
  * cause chain issues
  *
  * @return Set of addressable labels
  */
-
 std::set<string> AverageDifference::GetTargetEstimates() {
   set<string> result;
   result.insert(estimate_label_);
@@ -166,7 +165,7 @@ std::set<string> AverageDifference::GetTargetEstimates() {
 
 /**
  * This method will check if the estimate needs to be transformed for the objective function. If it does then
- * it'll do the transformation.
+ * it will do the transformation.
  */
 void AverageDifference::TransformForObjectiveFunction() {
   if (estimate_->transform_for_objective())
@@ -175,7 +174,7 @@ void AverageDifference::TransformForObjectiveFunction() {
 
 /**
  * This method will check if the estimate needs to be Restored from the objective function. If it does then
- * it'll do the undo the transformation.
+ * it will do the undo the transformation.
  */
 void AverageDifference::RestoreFromObjectiveFunction() {
   if (estimate_->transform_for_objective())

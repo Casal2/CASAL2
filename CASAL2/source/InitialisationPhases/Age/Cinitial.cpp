@@ -40,7 +40,7 @@ Cinitial::Cinitial(Model* model)
   n_table_ = new parameters::Table(PARAM_N);
 
   parameters_.Bind<string>(PARAM_CATEGORIES, &category_labels_, "The list of categories for the Cinitial initialisation", "");
-  parameters_.BindTable(PARAM_N, n_table_, "Table of values for the Cinitial initialisation", "", false, false);
+  parameters_.BindTable(PARAM_N, n_table_, "The table of values for the Cinitial initialisation", "", false, false);
 
   RegisterAsAddressable(&n_);
 }
@@ -57,8 +57,8 @@ Cinitial::~Cinitial() {
  */
 void Cinitial::DoValidate() {
   LOG_TRACE();
-	min_age_ = model_->min_age();
-	max_age_ = model_->max_age();
+  min_age_ = model_->min_age();
+  max_age_ = model_->max_age();
 
   if (max_age_ < min_age_)
     LOG_ERROR_P(PARAM_MIN_AGE) << " The minimum age (" << min_age_ << ") cannot be greater than the maximum age (" << max_age_ << ")";
@@ -135,7 +135,7 @@ void Cinitial::DoBuild() {
 }
 
 /**
- * Execute Cinitial this code follows from the original CASAL algorithm
+ * Execute Cinitial - this code follows from the original CASAL algorithm
  */
 void Cinitial::Execute() {
   LOG_TRACE();
@@ -143,6 +143,7 @@ void Cinitial::Execute() {
   auto partition_iter = partition_->Begin();
   for (unsigned category_offset = 0; category_offset < category_labels_.size(); ++category_offset, ++partition_iter) {
     category_by_age_total[category_labels_[category_offset]].assign((max_age_ - min_age_ + 1), 0.0);
+
     /**
      * Loop through the  combined categories building up the total abundance for each category label
      */
@@ -157,6 +158,7 @@ void Cinitial::Execute() {
       }
     }
   }
+
   LOG_TRACE();
   // loop through the category_labels and calculate the cinitial factor, which is the n_ / col_sums
   map<string, vector<Double>> category_by_age_factor;
@@ -173,6 +175,7 @@ void Cinitial::Execute() {
       }
     }
   }
+
   LOG_TRACE();
   // Now loop through the combined categories multiplying each category by the factory
   // from the combined group it belongs to
@@ -192,6 +195,7 @@ void Cinitial::Execute() {
       }
     }
   }
+
   // Build cache
   LOG_FINEST() << "finished calculating Cinitial";
   cached_partition_->BuildCache();
@@ -212,7 +216,6 @@ void Cinitial::Execute() {
     for(unsigned i = 0; i < ssb_offset_; ++i)
       initialisation_values[cinit_phase_index].push_back(*initialisation_values[cinit_phase_index].rbegin());
   }
-
 
   // set the partition back to Cinitial state
   auto cached_partition_iter  = cached_partition_->Begin();

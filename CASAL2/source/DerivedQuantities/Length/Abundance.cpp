@@ -31,6 +31,7 @@ void Abundance::PreExecute() {
     }
   }
 }
+
 /**
  * Calculate the derived quantity value for the
  * state of the model.
@@ -38,8 +39,7 @@ void Abundance::PreExecute() {
  * This class will calculate a value that is the sum total
  * of the population in the model filtered by category and
  * multiplied by the selectivities.
- *
- */
+  */
 void Abundance::Execute() {
   Double value = 0.0;
 

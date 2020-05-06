@@ -26,11 +26,11 @@ namespace estimatetransformations {
  * Default constructor
  */
 SquareRoot::SquareRoot(Model* model) : EstimateTransformation(model) {
-  parameters_.Bind<string>(PARAM_ESTIMATE_LABEL, &estimate_label_, "Label of estimate block to apply transformation. Defined as $\theta_1$ in the documentation", "");
+  parameters_.Bind<string>(PARAM_ESTIMATE_LABEL, &estimate_label_, "The label of the estimate block to apply transformation. Defined as $\theta_1$ in the documentation", "");
 }
 
 /**
- *
+ * Build
  */
 void SquareRoot::DoBuild() {
   LOG_TRACE();
@@ -39,6 +39,7 @@ void SquareRoot::DoBuild() {
     LOG_ERROR_P(PARAM_ESTIMATE) << "Estimate " << estimate_label_ << " was not found.";
     return;
   }
+
   // Initialise for -r runs
   current_untransformed_value_ = estimate_->value();
 
@@ -64,7 +65,8 @@ void SquareRoot::DoBuild() {
 }
 
 /**
- *
+ * Transform
+ * This method will reset the lower and upper bounds
  */
 void SquareRoot::DoTransform() {
   LOG_TRACE();
@@ -76,7 +78,8 @@ void SquareRoot::DoTransform() {
 }
 
 /**
- *
+ * Restore
+ * This method will restore the original lower and upper bounds
  */
 void SquareRoot::DoRestore() {
   LOG_TRACE();
@@ -90,7 +93,7 @@ void SquareRoot::DoRestore() {
 
 /**
  * This method will check if the estimate needs to be transformed for the objective function. If it does then
- * it'll do the transformation.
+ * it will do the transformation.
  */
 void SquareRoot::TransformForObjectiveFunction() {
   if (estimate_->transform_for_objective())
@@ -99,13 +102,17 @@ void SquareRoot::TransformForObjectiveFunction() {
 
 /**
  * This method will check if the estimate needs to be Restored from the objective function. If it does then
- * it'll do the undo the transformation.
+ * it will undo the transformation.
  */
 void SquareRoot::RestoreFromObjectiveFunction() {
   if (estimate_->transform_for_objective())
     Restore();
 }
 
+/**
+ * GetScore
+ * @return the Jacobian if transformed, otherwise 0.0
+ */
 Double SquareRoot::GetScore() {
   if(transform_with_jacobian_) {
     jacobian_ = -0.5 * pow(current_untransformed_value_,-1.5);
@@ -116,7 +123,7 @@ Double SquareRoot::GetScore() {
 }
 
 /**
- * Get the target addressables so we can ensure each
+ * Get the target addressables to ensure that each
  * object is not referencing multiple ones as this would
  * cause chain issues
  *

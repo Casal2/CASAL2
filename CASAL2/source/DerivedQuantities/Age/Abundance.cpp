@@ -31,6 +31,7 @@ void Abundance::PreExecute() {
     }
   }
 }
+
 /**
  * Calculate the derived quantity value for the
  * state of the model.

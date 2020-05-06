@@ -30,13 +30,14 @@ Log::Log(Model* model) : EstimateTransformation(model) {
 }
 
 /**
+ * Validate
  */
 void Log::DoValidate() {
 
 }
 
 /**
- *
+ * Build
  */
 void Log::DoBuild() {
   LOG_FINEST() << "transformation on @estimate " << estimate_label_;
@@ -45,6 +46,7 @@ void Log::DoBuild() {
     LOG_ERROR_P(PARAM_ESTIMATE) << "Estimate " << estimate_label_ << " was not found.";
     return;
   }
+
   // Initialise for -r runs
   current_untransformed_value_ = estimate_->value();
 
@@ -55,6 +57,7 @@ void Log::DoBuild() {
       << " and the prior parameters do not refer to the transformed estimate, in the @estimate" << estimate_label_
       << ". This is not advised, and may cause bias errors. Please check the User Manual for more info";
   }
+
   if (estimate_->transform_with_jacobian_is_defined()) {
     if (transform_with_jacobian_ != estimate_->transform_with_jacobian()) {
       LOG_ERROR_P(PARAM_TRANSFORM_WITH_JACOBIAN) << "This parameter is not consistent with the equivalent parameter in the @estimate block "
@@ -72,7 +75,7 @@ void Log::DoBuild() {
 }
 
 /**
- *
+ * Transform
  */
 void Log::DoTransform() {
   LOG_MEDIUM() << "parameter before transform = " << estimate_->value() << " lower bound " << lower_bound_ << " upper bound " << upper_bound_;
@@ -83,7 +86,7 @@ void Log::DoTransform() {
 }
 
 /**
- *
+ * Restore
  */
 void Log::DoRestore() {
     estimate_->set_value(exp(estimate_->value()));
@@ -91,7 +94,7 @@ void Log::DoRestore() {
 
 /**
  * This method will check if the estimate needs to be transformed for the objective function. If it does then
- * it'll do the transformation.
+ * it will do the transformation.
  */
 void Log::TransformForObjectiveFunction() {
   if (estimate_->transform_for_objective())
@@ -100,16 +103,16 @@ void Log::TransformForObjectiveFunction() {
 
 /**
  * This method will check if the estimate needs to be Restored from the objective function. If it does then
- * it'll do the undo the transformation.
+ * it will undo the transformation.
  */
 void Log::RestoreFromObjectiveFunction() {
   if (estimate_->transform_for_objective())
     Restore();
 }
 
-
 /**
- *
+ * Get Score
+ * @return Jacobian if transforming with Jacobian, otherwise 0.0
  */
 Double Log::GetScore() {
   if(transform_with_jacobian_) {
@@ -121,7 +124,7 @@ Double Log::GetScore() {
 }
 
 /**
- * Get the target addressables so we can ensure each
+ * Get the target addressables to ensure that each
  * object is not referencing multiple ones as this would
  * cause chain issues
  *
@@ -132,5 +135,6 @@ std::set<string> Log::GetTargetEstimates() {
   result.insert(estimate_label_);
   return result;
 }
+
 } /* namespace estimatetransformations */
 } /* namespace niwa */

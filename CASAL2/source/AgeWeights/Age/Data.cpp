@@ -49,7 +49,6 @@ Data::~Data() {
  * Build any objects that will need to be utilised by this object.
  * Obtain smart_pointers to any objects that will be used by this object.
  */
-
 void Data::DoBuild() {
   LOG_FINE() << "Building age weight block " << label_;
 
@@ -109,8 +108,10 @@ void Data::DoBuild() {
     // Check year is valid
     if (find(model_->years().begin(), model_->years().end(), year) == model_->years().end())
       LOG_WARNING() << "year " << year << " is not included in the model run years, so this age weight will not be used.";
+
     LOG_FINE() << "Loading years = " << year;
     years_.push_back(year);
+
     for (unsigned i = 1; i < row.size(); ++i) {
       mean_data_by_year_and_age_[year][age_[i - 1]] = utilities::ToInline<string, Double>(row[i]) * unit_multipier_;
       data_by_year_[year].push_back(utilities::ToInline<string, Double>(row[i]) * unit_multipier_);
@@ -151,7 +152,6 @@ void Data::DoBuild() {
   LOG_FINEST() << "initial weight at age";
   for (auto init : initial_)
     LOG_FINEST() << init.second;
-
 }
 
 /**
@@ -166,7 +166,6 @@ Double Data::mean_weight_at_age_by_year(unsigned year, unsigned age) {
     return initial_[age];
 
   return mean_data_by_year_and_age_[year][age];
-
 }
 
 } /* namespace ageweights */

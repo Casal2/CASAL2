@@ -36,13 +36,14 @@ Simplex::Simplex(Model* model) : EstimateTransformation(model) {
 }
 
 /**
+ * Validate
  */
 void Simplex::DoValidate() {
 
 }
 
 /**
- *
+ * Build
  */
 void Simplex::DoBuild() {
   LOG_TRACE();
@@ -51,6 +52,7 @@ void Simplex::DoBuild() {
     LOG_ERROR_P(PARAM_ESTIMATE) << "Estimate " << estimate_label_ << " was not found.";
     return;
   }
+
   // Initialise for -r runs
   current_untransformed_value_ = estimate_->value();
 
@@ -60,12 +62,14 @@ void Simplex::DoBuild() {
       << " and the prior parameters do not refer to the transformed estimate, in the @estimate" << estimate_label_
       << ". This is not advised, and may cause bias errors. Please check the User Manual for more info";
   }
+
   if (estimate_->transform_with_jacobian_is_defined()) {
     if (transform_with_jacobian_ != estimate_->transform_with_jacobian()) {
       LOG_ERROR_P(PARAM_TRANSFORM_WITH_JACOBIAN) << "This parameter is not consistent with the equivalent parameter in the @estimate block "
         << estimate_label_ << ". Both of these parameters should be true or false.";
     }
   }
+
   LOG_WARNING() << "Simplex transformation works but has not been robustly evaluated, and may need more work for addressing bounds";
   estimates_ = model_->managers().estimate()->GetEstimatesByLabel(estimate_label_);
   if (estimates_.size() < 1) {
@@ -103,6 +107,9 @@ void Simplex::DoBuild() {
 
 }
 
+/**
+ * Transform
+ */
 void Simplex::DoTransform() {
   LOG_TRACE();
   for (unsigned i = 0; i < unit_vector_.size(); ++i) {
@@ -113,16 +120,19 @@ void Simplex::DoTransform() {
     if (i < (unit_vector_.size() - 1))
       sub_total_ += unit_vector_[i];
   }
+
   // generate zk
   for (unsigned i = 0; i < (unit_vector_.size() - 1); ++i) {
     zk_[i] = unit_vector_[i] / (1 - sub_total_);
   }
+
   // generate yk
   Double count = 1.0;
   for (unsigned i = 0; i < zk_.size(); ++i) {
     yk_[i] =log(zk_[i] / (1.0 - zk_[i])) - log(1.0 / ((Double)length_ - count));
     count += 1.0;
   }
+
   // Set estimates, turn off the last one.
   for (unsigned i = 0; i < estimates_.size(); ++i) {
     if (i < (unit_vector_.size() - 1)) {
@@ -133,10 +143,11 @@ void Simplex::DoTransform() {
       estimates_[i]->set_value(yk_[i]);
     }
   }
-
 }
+
 /**
- *    This will restore values provided by the minimiser that need to be restored for use in the annual cycle
+ * Restore
+ * This method will restore values provided by the minimiser that need to be restored for use in the annual cycle
  */
 void Simplex::DoRestore() {
   LOG_TRACE();
@@ -171,7 +182,7 @@ Double Simplex::GetScore() {
 }
 
 /**
- * Get the target addressables so we can ensure each
+ * Get the target addressables to ensure that each
  * object is not referencing multiple ones as this would
  * cause chain issues
  *
@@ -182,5 +193,6 @@ std::set<string> Simplex::GetTargetEstimates() {
   result.insert(estimate_label_);
   return result;
 }
+
 } /* namespace estimatetransformations */
 } /* namespace niwa */

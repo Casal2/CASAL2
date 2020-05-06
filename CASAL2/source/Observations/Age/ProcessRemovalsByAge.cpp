@@ -146,7 +146,6 @@ void ProcessRemovalsByAge::DoValidate() {
       LOG_FATAL_P(PARAM_OBS) << " " << obs_by_year[year].size() << " ages were supplied, but " << obs_expected -1 << " ages are required";
   }
 
-
   /**
    * Build our error value map
    */
@@ -224,8 +223,7 @@ void ProcessRemovalsByAge::DoValidate() {
 }
 
 /**
- * Build any runtime relationships we may have and ensure
- * the labels for other objects are valid.
+ * Build any runtime relationships and ensure that the labels for other objects are valid.
  */
 void ProcessRemovalsByAge::DoBuild() {
   partition_ = CombinedCategoriesPtr(new niwa::partition::accessors::CombinedCategories(model_, category_labels_));
@@ -300,17 +298,17 @@ void ProcessRemovalsByAge::DoBuild() {
 }
 
 /**
- * This method is called at the start of the targetted
+ * This method is called at the start of the targeted
  * time step for this observation.
  *
- * At this point we need to build our cache for the partition
+ * Build the cache for the partition
  * structure to use with any interpolation
  */
 void ProcessRemovalsByAge::PreExecute() {
 }
 
 /**
- *
+ * Execute
  */
 void ProcessRemovalsByAge::Execute() {
   LOG_MEDIUM() << "Entering observation " << label_;
@@ -339,6 +337,7 @@ void ProcessRemovalsByAge::Execute() {
             LOG_FATAL() << "There is no catch at age data in year " << year << " for method " << fishery << " applied to category = "
               << (*category_iter)->name_ << ". Check that the mortality_instantaneous process '" << process_label_<< "' is comparable with the observation " << label_;
           }
+
           /*
            *  Apply Ageing error on Removals at age vector
            */
@@ -356,6 +355,7 @@ void ProcessRemovalsByAge::Execute() {
             Removals_at_age[year][fishery][(*category_iter)->name_] = temp;
           }
           LOG_TRACE();
+
           /*
            *  Now collapse the number_age into the expected_values for the observation
            */
