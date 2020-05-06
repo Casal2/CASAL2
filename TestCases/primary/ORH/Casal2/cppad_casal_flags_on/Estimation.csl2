@@ -1,0 +1,92 @@
+@minimiser CppAD
+type cppad
+active true
+# iterations 50000
+# evaluations 100000
+# tolerance 0.002
+covariance true
+
+
+@mcmc mcmc
+start 0.2
+length 11000000
+keep 1000
+step_size 0.02
+adapt_stepsize_at 10000 20000 30000 40000 50000 100000 200000 4000000
+proposal_distribution t
+adapt_stepsize_method double_half
+max_correlation 0.8
+
+
+@estimate B0
+parameter process[Recruitment].b0
+type uniform_log
+lower_bound 1e4
+upper_bound 1e5
+estimation_phase 1
+
+
+@estimate age_len_cv_first
+parameter age_length[age_len_label].cv_first
+type normal_by_stdev
+lower_bound 0.01
+upper_bound 1.0
+mu 0.15
+sigma 0.025
+estimation_phase 3
+
+@estimate age_len_cv_last
+parameter age_length[age_len_label].cv_last
+type normal
+lower_bound 0.01
+upper_bound 1.0
+mu 0.1
+cv 0.5
+estimation_phase 3
+
+
+#@estimate CPUE_q
+#parameter catchability[Qandes].q
+#type uniform_log
+#lower_bound 1e-10
+#upper_bound 1e7
+
+
+@estimate fishery_sel_a50
+parameter selectivity[SELandes].a50
+type normal
+lower_bound  5
+upper_bound 80
+mu 35
+cv 0.3
+estimation_phase 2
+
+
+@estimate fishery_sel_ato95
+parameter selectivity[SELandes].ato95
+type normal
+lower_bound  1
+upper_bound 20
+mu 5
+cv 0.5
+estimation_phase 2
+
+
+@estimate rec_ycs
+parameter process[Recruitment].ycs_values{1978:2004}
+#lower_bound 0.01 0.01 0.01 0.01 0.01 0.01 0.01 0.01 0.01 0.01 0.01 0.01 0.01 0.01 0.01 0.01 0.01 0.01 0.01 0.01 0.01 0.01 0.01 0.01 0.01 0.01 0.01
+#upper_bound 100 100 100 100 100 100 100 100 100 100 100 100 100 100 100 100 100 100 100 100 100 100 100 100 100 100 100
+# turn off estimation
+lower_bound 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1
+upper_bound 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1
+mu          1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1
+cv          1.1 1.1 1.1 1.1 1.1 1.1 1.1 1.1 1.1 1.1 1.1 1.1 1.1 1.1 1.1 1.1 1.1 1.1 1.1 1.1 1.1 1.1 1.1 1.1 1.1 1.1 1.1
+type lognormal
+
+
+@penalty fisheryCatchMustBeTaken
+type process
+log_scale True
+multiplier 10
+
+
