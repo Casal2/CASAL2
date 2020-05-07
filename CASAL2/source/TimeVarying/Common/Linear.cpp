@@ -34,14 +34,14 @@ Linear::Linear(Model* model) : TimeVarying(model) {
 }
 
 /**
- *
+ * Validate
  */
 void Linear::DoValidate() {
 
 }
 
 /**
- *
+ * Build
  */
 void Linear::DoBuild() {
   if(model_->objects().GetAddressableType(parameter_) != addressable::kSingle)
@@ -51,7 +51,7 @@ void Linear::DoBuild() {
 }
 
 /**
- *
+ * Reset
  */
 void Linear::DoReset() {
   bool current_year =  model_->current_year() == years_[0];
@@ -76,7 +76,7 @@ void Linear::DoReset() {
 }
 
 /**
- *
+ * Update
  */
 void Linear::DoUpdate() {
     (this->*update_function_)(parameter_by_year_[model_->current_year()]);

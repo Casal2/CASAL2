@@ -24,18 +24,18 @@ namespace niwa {
 namespace selectivities {
 
 /**
- * Explicit Constructor
+ * Default Constructor
  */
 DoubleExponential::DoubleExponential(Model* model)
 : Selectivity(model) {
 
-  parameters_.Bind<Double>(PARAM_X0, &x0_, "X0", "");
-  parameters_.Bind<Double>(PARAM_X1, &x1_, "X1", "");
-  parameters_.Bind<Double>(PARAM_X2, &x2_, "X2", "");
-  parameters_.Bind<Double>(PARAM_Y0, &y0_, "Y0", "")->set_lower_bound(0.0);
-  parameters_.Bind<Double>(PARAM_Y1, &y1_, "Y1", "")->set_lower_bound(0.0);
-  parameters_.Bind<Double>(PARAM_Y2, &y2_, "Y2", "")->set_lower_bound(0.0);
-  parameters_.Bind<Double>(PARAM_ALPHA, &alpha_, "Alpha", "", 1.0)->set_lower_bound(0.0, false);
+  parameters_.Bind<Double>(PARAM_X0, &x0_, "The X0 parameter", "");
+  parameters_.Bind<Double>(PARAM_X1, &x1_, "The X1 parameter", "");
+  parameters_.Bind<Double>(PARAM_X2, &x2_, "The X2 parameter", "");
+  parameters_.Bind<Double>(PARAM_Y0, &y0_, "The Y0 parameter", "")->set_lower_bound(0.0);
+  parameters_.Bind<Double>(PARAM_Y1, &y1_, "The Y1 parameter", "")->set_lower_bound(0.0);
+  parameters_.Bind<Double>(PARAM_Y2, &y2_, "The Y2 parameter", "")->set_lower_bound(0.0);
+  parameters_.Bind<Double>(PARAM_ALPHA, &alpha_, "alpha", "", 1.0)->set_lower_bound(0.0, false);
 
   RegisterAsAddressable(PARAM_X0, &x0_);
   RegisterAsAddressable(PARAM_Y0, &y0_);
@@ -49,7 +49,7 @@ DoubleExponential::DoubleExponential(Model* model)
  * values that were passed in from the configuration
  * file and assign them to the local variables.
  *
- * We'll then do some basic checks on the local
+ * Then do some basic checks on the local
  * variables to ensure they are within the business
  * rules for the model.
  */
@@ -72,7 +72,7 @@ void DoubleExponential::DoValidate() {
 }
 
 /**
- * Reset this selectivity so it's ready for the next execution
+ * Reset this selectivity so it is ready for the next execution
  * phase in the model.
  *
  * This method will rebuild the cache of selectivity values
@@ -164,5 +164,6 @@ Double DoubleExponential::GetLengthBasedResult(unsigned age, AgeLength* age_leng
   LOG_CODE_ERROR() << "dist is invalid " << dist;
   return 0;
 }
+
 } /* namespace selectivities */
 } /* namespace niwa */

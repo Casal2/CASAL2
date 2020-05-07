@@ -35,23 +35,23 @@ TagLoss::TagLoss(Model* model)
   process_type_ = ProcessType::kTransition;
   partition_structure_ = PartitionType::kAge;
 
-  parameters_.Bind<string>(PARAM_CATEGORIES, &category_labels_, "List of categories", "");
-  parameters_.Bind<double>(PARAM_TAG_LOSS_RATE, &tag_loss_input_, "Tag Loss rates", "")->set_range(0.0, 1.0);
-  parameters_.Bind<double>(PARAM_TIME_STEP_RATIO, &ratios_, "Time step ratios for Tag Loss", "", true)->set_range(0.0, 1.0);
-  parameters_.Bind<string>(PARAM_TAG_LOSS_TYPE, &tag_loss_type_, "Type of tag loss", "");
-  parameters_.Bind<string>(PARAM_SELECTIVITIES, &selectivity_names_, "Selectivities", "");
+  parameters_.Bind<string>(PARAM_CATEGORIES, &category_labels_, "The list of categories", "");
+  parameters_.Bind<double>(PARAM_TAG_LOSS_RATE, &tag_loss_input_, "The tag loss rates", "")->set_range(0.0, 1.0);
+  parameters_.Bind<double>(PARAM_TIME_STEP_RATIO, &ratios_, "The time step ratios for tag loss", "", true)->set_range(0.0, 1.0);
+  parameters_.Bind<string>(PARAM_TAG_LOSS_TYPE, &tag_loss_type_, "The type of tag loss", "");
+  parameters_.Bind<string>(PARAM_SELECTIVITIES, &selectivity_names_, "The selectivities", "");
   parameters_.Bind<unsigned>(PARAM_YEAR, &year_, "The year the first tagging release process was executed", "");
 
   RegisterAsAddressable(PARAM_TAG_LOSS, &tag_loss_);
 }
 
 /**
- * Validate our Mortality Constant Rate process
+ * Validate the Mortality Constant Rate process
  *
  * - Validate the required parameters
  * - Assign the label from the parameters
  * - Assign and validate remaining parameters
- * - Duplicate 'm' and 'selectivities' if only 1 vale specified
+ * - Duplicate 'm' and 'selectivities' if only one value specified
  * - Check m is between 0.0 and 1.0
  * - Check the categories are real
  */
@@ -100,8 +100,8 @@ void TagLoss::DoValidate() {
 /**
  * Build any runtime relationships
  * - Build the partition accessor
- * - Build our list of selectivities
- * - Build our ratios for the number of time steps
+ * - Build the list of selectivities
+ * - Build the ratios for the number of time steps
  */
 void TagLoss::DoBuild() {
   partition_.Init(category_labels_);
@@ -182,7 +182,7 @@ void TagLoss::DoExecute() {
 }
 
 /**
- * Reset the Tag loss Process
+ * Reset the tag loss process
  */
 void TagLoss::DoReset() {
 }

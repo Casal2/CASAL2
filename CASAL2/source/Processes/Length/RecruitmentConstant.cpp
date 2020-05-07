@@ -22,13 +22,13 @@ namespace processes {
 namespace length {
 
 /**
- * Default Constructor
+ * Default constructor
  */
 RecruitmentConstant::RecruitmentConstant(Model* model)
   : Process(model),
     partition_(model) {
-  parameters_.Bind<string>(PARAM_CATEGORIES, &category_labels_, "Categories", "");
-  parameters_.Bind<Double>(PARAM_PROPORTIONS, &proportions_, "Proportions", "", true);
+  parameters_.Bind<string>(PARAM_CATEGORIES, &category_labels_, "The categories", "");
+  parameters_.Bind<Double>(PARAM_PROPORTIONS, &proportions_, "The proportions", "", true);
   parameters_.Bind<double>(PARAM_LENGTH_BINS, &length_bins_, "The length bins that recruits are uniformly distributed over at the time of recruitment", "");
   parameters_.Bind<Double>(PARAM_R0, &r0_, "R0", "")->set_lower_bound(0.0);
 
@@ -93,8 +93,7 @@ void RecruitmentConstant::DoValidate() {
 }
 
 /**
- * Build any runtime relationships we might
- * have to other objects in the system.
+ * Build any runtime relationships to other objects in the system.
  */
 void RecruitmentConstant::DoBuild() {
   LOG_TRACE();
@@ -102,7 +101,7 @@ void RecruitmentConstant::DoBuild() {
 }
 
 /**
- * Execute our constant recruitment process
+ * Execute the constant recruitment process
  */
 void RecruitmentConstant::DoExecute() {
   LOG_TRACE();

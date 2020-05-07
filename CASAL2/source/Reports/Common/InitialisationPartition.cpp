@@ -23,7 +23,7 @@ namespace niwa {
 namespace reports {
 
 /**
- * Default constructor.
+ * Default constructor
  *
  * Set the run mode and model state for this report
  */
@@ -33,7 +33,7 @@ InitialisationPartition::InitialisationPartition(Model* model) : Report(model) {
 }
 
 /**
- *
+ * Execute the report
  */
 void InitialisationPartition::DoExecute() {
   LOG_TRACE();

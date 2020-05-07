@@ -16,16 +16,25 @@
 namespace niwa {
 namespace reports {
 
+/**
+ * Default constructor
+ */
 Selectivity::Selectivity(Model* model) : Report(model) {
   run_mode_    = (RunMode::Type)(RunMode::kBasic | RunMode::kProjection | RunMode::kSimulation| RunMode::kEstimation | RunMode::kProfiling);
   model_state_ = (State::Type)(State::kIterationComplete);
 
-  parameters_.Bind<string>(PARAM_SELECTIVITY, &selectivity_label_, "Selectivity name", "");
+  parameters_.Bind<string>(PARAM_SELECTIVITY, &selectivity_label_, "The selectivity name", "");
 }
 
+/**
+ * Validate
+ */
 void Selectivity::DoValidate() {
 }
 
+/**
+ * Build
+ */
 void Selectivity::DoBuild() {
   selectivity_ = model_->managers().selectivity()->GetSelectivity(selectivity_label_);
   if (!selectivity_)
@@ -36,7 +45,9 @@ void Selectivity::DoBuild() {
   }
 }
 
-
+/**
+ * Execute the report
+ */
 void Selectivity::DoExecute() {
   LOG_TRACE();
   if (!selectivity_->IsSelectivityLengthBased()) {
@@ -61,6 +72,9 @@ void Selectivity::DoExecute() {
   }
 }
 
+/**
+ * Execute the tabular report
+ */
 void Selectivity::DoExecuteTabular() {
   if (!selectivity_->IsSelectivityLengthBased()) {
     if (first_run_) {
@@ -81,14 +95,15 @@ void Selectivity::DoExecuteTabular() {
       cache_ << AS_VALUE(selectivity_->GetAgeResult(i, nullptr)) << " ";
     }
     cache_ << "\n";
+  }
 }
 
-}
-
+/**
+ * Finalise the tabular report
+ */
 void Selectivity::DoFinaliseTabular() {
   ready_for_writing_ = true;
 }
-
 
 } /* namespace reports */
 } /* namespace niwa */

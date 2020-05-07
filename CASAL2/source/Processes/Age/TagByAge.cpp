@@ -35,21 +35,21 @@ TagByAge::TagByAge(Model* model)
   numbers_table_ = new parameters::Table(PARAM_NUMBERS);
   proportions_table_ = new parameters::Table(PARAM_PROPORTIONS);
 
-  parameters_.Bind<string>(PARAM_FROM, &from_category_labels_, "Categories to transition from", "");
-  parameters_.Bind<string>(PARAM_TO, &to_category_labels_, "Categories to transition to", "");
-  parameters_.Bind<unsigned>(PARAM_MIN_AGE, &min_age_, "Minimum age to transition", "");
-  parameters_.Bind<unsigned>(PARAM_MAX_AGE, &max_age_, "Maximum age to transition", "");
-  parameters_.Bind<string>(PARAM_PENALTY, &penalty_label_, "Penalty label", "", "");
+  parameters_.Bind<string>(PARAM_FROM, &from_category_labels_, "The categories to transition from", "");
+  parameters_.Bind<string>(PARAM_TO, &to_category_labels_, "The categories to transition to", "");
+  parameters_.Bind<unsigned>(PARAM_MIN_AGE, &min_age_, "The minimum age to transition", "");
+  parameters_.Bind<unsigned>(PARAM_MAX_AGE, &max_age_, "The maximum age to transition", "");
+  parameters_.Bind<string>(PARAM_PENALTY, &penalty_label_, "The penalty label", "", "");
   parameters_.Bind<Double>(PARAM_U_MAX, &u_max_, "U Max", "", 0.99)->set_range(0.0, 1.0, false, true);
-  parameters_.Bind<unsigned>(PARAM_YEARS, &years_, "Years to execute the transition in", "");
-  parameters_.Bind<double>(PARAM_INITIAL_MORTALITY, &initial_mortality_, "", "", 0.0)->set_lower_bound(0.0);
-  parameters_.Bind<string>(PARAM_INITIAL_MORTALITY_SELECTIVITY, &initial_mortality_selectivity_label_, "", "", "");
-  parameters_.Bind<Double>(PARAM_LOSS_RATE, &loss_rate_, "", "");
-  parameters_.Bind<string>(PARAM_LOSS_RATE_SELECTIVITIES, &loss_rate_selectivity_labels_, "", "", true);
-  parameters_.Bind<string>(PARAM_SELECTIVITIES, &selectivity_labels_, "", "");
-  parameters_.Bind<Double>(PARAM_N, &n_, "", "", true);
-  parameters_.BindTable(PARAM_NUMBERS, numbers_table_, "Table of N data", "", true, true);
-  parameters_.BindTable(PARAM_PROPORTIONS, proportions_table_, "Table of proportions to move", "" , true, true);
+  parameters_.Bind<unsigned>(PARAM_YEARS, &years_, "The years to execute the transition in", "");
+  parameters_.Bind<double>(PARAM_INITIAL_MORTALITY, &initial_mortality_, "The initial mortality value", "", 0.0)->set_lower_bound(0.0);
+  parameters_.Bind<string>(PARAM_INITIAL_MORTALITY_SELECTIVITY, &initial_mortality_selectivity_label_, "The initial mortality selectivity label", "", "");
+  parameters_.Bind<Double>(PARAM_LOSS_RATE, &loss_rate_, "The loss rate", "");
+  parameters_.Bind<string>(PARAM_LOSS_RATE_SELECTIVITIES, &loss_rate_selectivity_labels_, "The loss rate selectivity label", "", true);
+  parameters_.Bind<string>(PARAM_SELECTIVITIES, &selectivity_labels_, "The selectivity labels", "");
+  parameters_.Bind<Double>(PARAM_N, &n_, "N", "", true);
+  parameters_.BindTable(PARAM_NUMBERS, numbers_table_, "The table of N data", "", true, true);
+  parameters_.BindTable(PARAM_PROPORTIONS, proportions_table_, "The table of proportions to move", "" , true, true);
 }
 
 /**
@@ -367,6 +367,7 @@ void TagByAge::DoExecute() {
       LOG_ERROR_P(PARAM_YEARS) << " value (" << year << ") does not have a corresponding entry in the numbers or proportions table";
   }
 }
+
 } /* namespace age */
 } /* namespace processes */
 } /* namespace niwa */

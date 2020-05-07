@@ -21,8 +21,8 @@ namespace projects {
  * Default constructor
  */
 EmpiricalSampling::EmpiricalSampling(Model* model) : Project(model) {
-  parameters_.Bind<unsigned>(PARAM_START_YEAR, &start_year_, "Start year of sampling", "", false);
-  parameters_.Bind<unsigned>(PARAM_FINAL_YEAR, &final_year_, "Final year of sampling", "", false);
+  parameters_.Bind<unsigned>(PARAM_START_YEAR, &start_year_, "The start year of sampling", "", false);
+  parameters_.Bind<unsigned>(PARAM_FINAL_YEAR, &final_year_, "The final year of sampling", "", false);
 }
 
 /**
@@ -60,14 +60,14 @@ void EmpiricalSampling::DoReset() {
     year = 0;
     // if (!utilities::To<Double, unsigned>(Random_draw, year))
     if (!utilities::To<Double>(Random_draw, year))
-      LOG_ERROR() << " Random Draw " << Random_draw << " could not be converted to Double";
+      LOG_ERROR() << " Random draw " << Random_draw << " could not be converted to Double";
     resampled_years_[project_year] = year;
     LOG_FINEST() << "Value from year: " << year << " used in projection year: " << project_year;
   }
 }
 
 /**
- *  Update our parameter with a random resample of the parameter between start_year_ and final_year_
+ *  Update the parameter with a random resample of the parameter between start_year_ and final_year_
  */
 void EmpiricalSampling::DoUpdate() {
   value_ = stored_values_[resampled_years_[model_->current_year()]] * multiplier_;

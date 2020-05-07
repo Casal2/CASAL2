@@ -83,8 +83,8 @@ void MortalityInstantaneousRetained::DoValidate() {
 
   // Check Natural Mortality parameter first
   for (auto M_proportion : time_step_ratios_temp_) {
-    if ((M_proportion < 0.0) || (M_proportion > 1.0))
-      LOG_ERROR_P(PARAM_TIME_STEP_RATIO) << "Natural mortality time step ratio cannot be greater than 1.0 or less than 0.0 for a given time step";
+    if (M_proportion < 0.0)
+      LOG_ERROR_P(PARAM_TIME_STEP_RATIO) << "Natural mortality time step ratio cannot be less than 0.0 for a given time step";
   }
 
   /**
@@ -287,6 +287,7 @@ void MortalityInstantaneousRetained::DoValidate() {
       fishery_categories_.push_back(new_category_data);
     }
   }
+
   // Check the business rule that a fishery can only exist one time-step
   for(auto fishery : fishery_time_step) {
     if (!std::equal(fishery.second.begin() + 1, fishery.second.end(), fishery.second.begin()))
@@ -302,7 +303,6 @@ void MortalityInstantaneousRetained::DoValidate() {
  * Obtain smart_pointers to any objects that will be used by this object.
  *
  * Validate any parameters that require information from other objects
- * in the system
  */
 void MortalityInstantaneousRetained::DoBuild() {
   LOG_TRACE();
@@ -789,7 +789,7 @@ void MortalityInstantaneousRetained::DoExecute() {
  * Fill the report cache
  * @description A method for reporting process information
  * @param cache a cache object to print to
-*/
+ */
 void MortalityInstantaneousRetained::FillReportCache(ostringstream& cache) {
   LOG_FINE();
   // This one is niggly because we need to iterate over each year and time step to print the right information so we don't
@@ -908,12 +908,12 @@ void MortalityInstantaneousRetained::FillReportCache(ostringstream& cache) {
 */
 }
 
-/*
+/**
  * Fill the tabular report cache
  * @description A method for reporting tabular process information
  * @param cache a cache object to print to
  * @param first_run whether to print the header
-*/
+ */
 void MortalityInstantaneousRetained::FillTabularReportCache(ostringstream& cache, bool first_run) {
   if (first_run) {
     // print header
@@ -960,12 +960,12 @@ void MortalityInstantaneousRetained::FillTabularReportCache(ostringstream& cache
 
 }
 
-/*
+/**
  * Check the categories in methods for removal obs
  * @description method checks if there is a category in each method, to make sure the observation class is compatable with the process
  * @param methods a vector of methods
  * @param category_labels a vector of categories to check.
-*/
+ */
 bool MortalityInstantaneousRetained::check_categories_in_methods_for_removal_obs(vector<string> methods, vector<string> category_labels) {
   LOG_TRACE();
 
@@ -995,12 +995,12 @@ bool MortalityInstantaneousRetained::check_categories_in_methods_for_removal_obs
   return true;
 }
 
-/*
+/**
  * Check the years in methods for removal obs
  * @description method checks if there is a category in each method for each year, to make sure the observation class is compatable with the process
  * @param years a vector of years
  * @param methods a vector of methods
-*/
+ */
 bool MortalityInstantaneousRetained::check_years_in_methods_for_removal_obs(vector<unsigned> years, vector<string> methods) {
   LOG_TRACE();
   for (unsigned fishery_index = 0; fishery_index < methods.size(); ++fishery_index) {
@@ -1025,11 +1025,11 @@ bool MortalityInstantaneousRetained::check_years_in_methods_for_removal_obs(vect
   return true;
 }
 
-/*
+/**
  * Check the categories in methods for removal obs
  * @description method checks if each method exists, to make sure the observation class is compatable with the process
  * @param methods a vector of methods
-*/
+ */
 bool MortalityInstantaneousRetained::check_methods_for_removal_obs(vector<string> methods) {
   LOG_TRACE();
   unsigned method_counter = 0;

@@ -33,21 +33,21 @@ SurvivalConstantRate::SurvivalConstantRate(Model* model)
   process_type_ = ProcessType::kMortality;
   partition_structure_ = PartitionType::kAge;
 
-  parameters_.Bind<string>(PARAM_CATEGORIES, &category_labels_, "List of categories", "");
-  parameters_.Bind<Double>(PARAM_S, &s_input_, "Survival rates", "")->set_range(0.0, 1.0);
-  parameters_.Bind<double>(PARAM_TIME_STEP_RATIO, &ratios_, "Time step ratios for S", "", true)->set_range(0.0, 1.0, false, true);
-  parameters_.Bind<string>(PARAM_SELECTIVITIES, &selectivity_names_, "Selectivity label", "");
+  parameters_.Bind<string>(PARAM_CATEGORIES, &category_labels_, "The list of categories", "");
+  parameters_.Bind<Double>(PARAM_S, &s_input_, "The survival rates", "")->set_range(0.0, 1.0);
+  parameters_.Bind<double>(PARAM_TIME_STEP_RATIO, &ratios_, "The time step ratios for S", "", true)->set_range(0.0, 1.0, false, true);
+  parameters_.Bind<string>(PARAM_SELECTIVITIES, &selectivity_names_, "The selectivity label", "");
 
   RegisterAsAddressable(PARAM_S, &s_);
 }
 
 /**
- * Validate our Survival Constant Rate process
+ * Validate the Survival Constant Rate process
  *
  * - Validate the required parameters
  * - Assign the label from the parameters
  * - Assign and validate remaining parameters
- * - Duplicate 's' and 'selectivities' if only 1 vale specified
+ * - Duplicate 's' and 'selectivities' if only one value specified
  * - Check s is between 0.0 and 1.0
  * - Check the categories are real
  */
@@ -90,8 +90,8 @@ void SurvivalConstantRate::DoValidate() {
 /**
  * Build any runtime relationships
  * - Build the partition accessor
- * - Build our list of selectivities
- * - Build our ratios for the number of time steps
+ * - Build the list of selectivities
+ * - Build the ratios for the number of time steps
  */
 void SurvivalConstantRate::DoBuild() {
   partition_.Init(category_labels_);

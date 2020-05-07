@@ -84,8 +84,8 @@ void MortalityInstantaneous::DoValidate() {
 
   // Check Natural Mortality parameter first
   for (auto M_proportion : time_step_ratios_temp_) {
-    if ((M_proportion < 0.0) || (M_proportion > 1.0))
-      LOG_ERROR_P(PARAM_TIME_STEP_RATIO) << "Natural Mortality time step ratio cannot be greater than 1.0 or less than 0.0 for a given time step";
+    if (M_proportion < 0.0)
+      LOG_ERROR_P(PARAM_TIME_STEP_RATIO) << "Natural Mortality time step ratio cannot be less than 0.0 for a given time step";
   }
 
   /**
@@ -712,7 +712,7 @@ void MortalityInstantaneous::DoExecute() {
  * Fill the report cache
  * @description A method for reporting process information
  * @param cache a cache object to print to
-*/
+ */
 void MortalityInstantaneous::FillReportCache(ostringstream& cache) {
   LOG_FINE();
   // This one is niggly because we need to iterate over each year and time step to print the right information so we don't
@@ -765,7 +765,7 @@ void MortalityInstantaneous::FillReportCache(ostringstream& cache) {
   * @description A method for reporting tabular process information
  * @param cache a cache object to print to
  * @param first_run whether to print the header
-*/
+ */
 void MortalityInstantaneous::FillTabularReportCache(ostringstream& cache, bool first_run) {
   if (first_run) {
     // print header
@@ -794,12 +794,12 @@ void MortalityInstantaneous::FillTabularReportCache(ostringstream& cache, bool f
 
 }
 
-/*
+/**
  * Check the categories in methods for removal obs
  * @description method checks if there is a category in each method, to make sure the observation class is compatable with the process
  * @param methods a vector of methods
  * @param category_labels a vector of categories to check.
-*/
+ */
 bool MortalityInstantaneous::check_categories_in_methods_for_removal_obs(vector<string> methods, vector<string> category_labels) {
   LOG_TRACE();
 
@@ -829,12 +829,12 @@ bool MortalityInstantaneous::check_categories_in_methods_for_removal_obs(vector<
   return true;
 }
 
-/*
+/**
  * Check the years in methods for removal obs
  * @description method checks if there is a category in each method for each year, to make sure the observation class is compatable with the process
  * @param years a vector of years
  * @param methods a vector of methods
-*/
+ */
 bool MortalityInstantaneous::check_years_in_methods_for_removal_obs(vector<unsigned> years, vector<string> methods) {
   LOG_TRACE();
   for (unsigned fishery_index = 0; fishery_index < methods.size(); ++fishery_index) {
@@ -859,11 +859,11 @@ bool MortalityInstantaneous::check_years_in_methods_for_removal_obs(vector<unsig
   return true;
 }
 
-/*
+/**
  * Check the categories in methods for removal obs
  * @description method checks if each method exists, to make sure the observation class is compatable with the process
  * @param methods a vector of methods
-*/
+ */
 bool MortalityInstantaneous::check_methods_for_removal_obs(vector<string> methods) {
   LOG_TRACE();
   unsigned method_counter = 0;

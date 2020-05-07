@@ -267,7 +267,7 @@ void Category::CalculateNumbersAtLength(Selectivity* selectivity, const vector<d
 }
 
 /**
- * This method collapses the Numbers at length by age matrix to numbers at age for a category
+ * This method collapses the numbers at length by age matrix to numbers at age for a category
  */
 void Category::CollapseAgeLengthDataToLength() {
   LOG_TRACE();

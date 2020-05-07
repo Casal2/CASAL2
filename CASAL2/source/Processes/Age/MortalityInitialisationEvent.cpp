@@ -24,12 +24,12 @@ namespace processes {
 namespace age {
 
 /**
- * Default Constructor
+ * Default constructor
  */
 MortalityInitialisationEvent::MortalityInitialisationEvent(Model* model)
   : Process(model),
     partition_(model) {
-  parameters_.Bind<string>(PARAM_CATEGORIES, &category_labels_, "Categories", "");
+  parameters_.Bind<string>(PARAM_CATEGORIES, &category_labels_, "The categories", "");
   parameters_.Bind<Double>(PARAM_CATCH, &catch_, "The number of removals (catches) to apply for each year", "");
   parameters_.Bind<Double>(PARAM_U_MAX, &u_max_, "The maximum exploitation rate ($Umax$)", "", 0.99)->set_range(0.0, 1.0);
   parameters_.Bind<string>(PARAM_SELECTIVITIES, &selectivity_names_, "The list of selectivities", "");
@@ -43,7 +43,7 @@ MortalityInitialisationEvent::MortalityInitialisationEvent(Model* model)
 }
 
 /**
- * Validate our Mortality Event Process
+ * Validate the Mortality Event Process
  *
  * 1. Check for the required parameters
  * 2. Assign any remaining variables
@@ -85,8 +85,7 @@ void MortalityInitialisationEvent::DoBuild() {
 }
 
 /**
- * Execute our mortality event object.
- *
+ * Execute the mortality event object
  */
 void MortalityInitialisationEvent::DoExecute() {
   LOG_TRACE();
@@ -109,6 +108,7 @@ void MortalityInitialisationEvent::DoExecute() {
 
       ++i;
     }
+
     /**
      * Work out the exploitation rate to remove (catch/vulnerable)
      */
@@ -144,6 +144,7 @@ void MortalityInitialisationEvent::DoExecute() {
       }
     }
   }
+
   ++init_iteration_;
 }
 

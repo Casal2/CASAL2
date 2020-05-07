@@ -34,7 +34,7 @@ OutputParameters::~OutputParameters() noexcept(true) {
 }
 
 /**
- * Execute this report.
+ * Execute this report
  */
 void OutputParameters::DoExecute() {
   vector<Estimate*> estimates = model_->managers().estimate()->objects();

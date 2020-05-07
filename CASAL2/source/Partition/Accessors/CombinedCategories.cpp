@@ -67,16 +67,16 @@ CombinedCategories::CombinedCategories(Model* model, const vector<string>& categ
 }
 
 /**
- * Get the first element from our collection
- * for the current model year
+ * Get the first element for the current model year
+ *
+ * @return iterator to beginning
  */
 CombinedCategories::DataType::iterator CombinedCategories::Begin() {
   return data_[model_->current_year()].begin();
 }
 
 /**
- * Get the end value for our collection
- * for the current model year
+ * Get the last element for the current model year
  *
  * @return iterator to end
  */
@@ -85,8 +85,7 @@ CombinedCategories::DataType::iterator CombinedCategories::End() {
 }
 
 /**
- * Get the number of category collections
- * for the current year
+ * Get the number of category collections for the current year
  *
  * @return number of category collections for current year
  */

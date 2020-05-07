@@ -44,6 +44,5 @@ void ObjectiveFunction::DoExecute() {
   ready_for_writing_ = true;
 }
 
-
 } /* namespace reports */
 } /* namespace niwa */

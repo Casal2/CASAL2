@@ -19,7 +19,7 @@ namespace projects {
  * Default constructor
  */
 Constant::Constant(Model* model) : Project(model) {
-  parameters_.Bind<Double>(PARAM_VALUES, &values_, "Values to assign to addressable", "");
+  parameters_.Bind<Double>(PARAM_VALUES, &values_, "The values to assign to the addressable", "");
 }
 
 /**
@@ -28,7 +28,7 @@ Constant::Constant(Model* model) : Project(model) {
 void Constant::DoValidate() {
   if (values_.size() != 1 && values_.size() != years_.size()) {
     LOG_ERROR_P(PARAM_VALUES) << "length (" << values_.size() << ") must match the number of years provided (" << years_.size()
-      << "), or supply a single value for all years";
+      << "), or use a single value for all years";
     return;
   }
 
@@ -37,6 +37,7 @@ void Constant::DoValidate() {
     values_.assign(years_.size(), val_v);
     LOG_FINEST() << "number of values converted from 1 to " << values_.size();
   }
+
   for (unsigned i = 0; i < years_.size(); ++i) {
     LOG_FINEST() << "value in year " << years_[i] << " = " << values_[i];
     year_values_[years_[i]] = values_[i];
@@ -54,7 +55,7 @@ void Constant::DoBuild() { }
 void Constant::DoReset() { }
 
 /**
- *
+ * Update
  */
 void Constant::DoUpdate() {
   value_= year_values_[model_->current_year()] * multiplier_;

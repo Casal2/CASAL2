@@ -26,12 +26,11 @@ namespace reports {
 /**
  * Default constructor
  */
-
 EquationTest::EquationTest(Model* model) : Report(model) {
   run_mode_    = RunMode::kBasic;
   model_state_ = State::kFinalise;
 
-  parameters_.Bind<string>(PARAM_EQUATION, &equation_input_, "Equation to do a test run of", "");
+  parameters_.Bind<string>(PARAM_EQUATION, &equation_input_, "The equation to do a test run of", "");
 }
 
 /**

@@ -25,14 +25,12 @@ namespace reports {
 
 /**
  * Default constructor
- *
- * @param model Pointer to the current model context
  */
 Process::Process(Model* model) : Report(model) {
   model_state_ = State::kIterationComplete;
   run_mode_    = (RunMode::Type)(RunMode::kBasic | RunMode::kSimulation | RunMode::kEstimation | RunMode::kProjection | RunMode::kProfiling);
 
-  parameters_.Bind<string>(PARAM_PROCESS, &process_label_, "Process label that is reported", "", "");
+  parameters_.Bind<string>(PARAM_PROCESS, &process_label_, "The process label that is reported", "", "");
 }
 
 /**
@@ -85,7 +83,7 @@ void Process::DoExecuteTabular() {
 }
 
 /**
- *  End tabular report signature
+ *  Finalise the tabular report
  */
 void Process::DoFinaliseTabular() {
   ready_for_writing_ = true;

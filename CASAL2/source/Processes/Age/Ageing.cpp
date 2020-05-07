@@ -36,10 +36,10 @@ Ageing::Ageing(Model* model)
 }
 
 /**
- * Validate our ageing process.
+ * Validate the ageing process.
  *
  * 1. Check for any required parameters
- * 2. Assign the label from our parameters
+ * 2. Assign the label from the parameters
  * 3. Assign any remaining parameters
  */
 void Ageing::DoValidate() {
@@ -58,7 +58,7 @@ void Ageing::DoBuild() {
 }
 
 /**
- * Execute our ageing class.
+ * Execute the ageing class.
  */
 void Ageing::DoExecute() {
   LOG_TRACE();

@@ -20,7 +20,7 @@ namespace niwa {
 namespace reports {
 
 /**
- * Default Constructor
+ * Default constructor
  */
 EstimationResult::EstimationResult(Model* model) : Report(model) {
   run_mode_    = RunMode::kEstimation;
@@ -34,7 +34,7 @@ EstimationResult::~EstimationResult() noexcept(true) {
 }
 
 /**
- * This method will execute our estimate summary report
+ * Execute the estimate summary report
  */
 void EstimationResult::DoExecute() {
   auto minimiser = model_->managers().minimiser()->active_minimiser();

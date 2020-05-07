@@ -32,14 +32,29 @@ All::All(Model* model) : model_(model) {
   }
 }
 
+/**
+ * Return an iterator to the first object for the current year in the model
+ *
+ * @return Iterator to first stored element for current year
+ */
 All::DataType::iterator All::Begin() {
   return data_.begin();
 }
 
+/**
+ * Return an iterator to the last object for the current year in the model
+ *
+ * @return End iterator for the stored elements for current year
+ */
 All::DataType::iterator All::End() {
   return data_.end();
 }
 
+/**
+ * Get the size for the current year
+ *
+ * @return The size for current year
+ */
 unsigned All::Size() {
   return data_.size();
 }

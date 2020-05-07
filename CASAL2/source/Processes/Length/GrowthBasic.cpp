@@ -35,16 +35,16 @@ GrowthBasic::GrowthBasic(Model* model)
   parameters_.Bind<string>(PARAM_CATEGORIES, &category_labels_, "The labels of the categories", "");
   parameters_.Bind<unsigned>(PARAM_NUMBER_OF_GROWTH_EPISODES, &n_growth_episodes_, "The number of growth episodes per year", "");
   parameters_.Bind<string>(PARAM_GROWTH_TIME_STEPS, &growth_time_steps_, "The time step in which each growth episode occurs", "");
-  parameters_.Bind<Double>(PARAM_CV, &cv_ , "C.V. for the growth model", "", Double(0.0))->set_lower_bound(0.0);
+  parameters_.Bind<Double>(PARAM_CV, &cv_ , "The CV for the growth model", "", Double(0.0))->set_lower_bound(0.0);
   parameters_.Bind<Double>(PARAM_SIGMA_MIN, &min_sigma_ , "The lower bound on sigma for the growth model", "", Double(0.0))->set_lower_bound(0.0);
 
 }
 
 /**
- * Validate our Growth Process process.
+ * Validate the Growth Process process.
  *
  * 1. Check for any required parameters
- * 2. Assign the label from our parameters
+ * 2. Assign the label from the parameters
  * 3. Check categories
  */
 void GrowthBasic::DoValidate() {
@@ -57,7 +57,7 @@ void GrowthBasic::DoValidate() {
  * Build objects that are needed by this object during the execution phase. This
  * includes things like the partition accessor it will need.
  *
- * Then build values that we want to print when print is called.
+ * Then build values to be printed when print is called.
  *
  */
 void GrowthBasic::DoBuild() {

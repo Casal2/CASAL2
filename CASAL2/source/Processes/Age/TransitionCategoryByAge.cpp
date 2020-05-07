@@ -39,14 +39,14 @@ TransitionCategoryByAge::TransitionCategoryByAge(Model* model)
 
   n_table_ = new parameters::Table(PARAM_N);
 
-  parameters_.Bind<string>(PARAM_FROM, &from_category_labels_, "Categories to transition from", "");
-  parameters_.Bind<string>(PARAM_TO, &to_category_labels_, "Categories to transition to", "");
-  parameters_.Bind<unsigned>(PARAM_MIN_AGE, &min_age_, "Minimum age to transition", "");
-  parameters_.Bind<unsigned>(PARAM_MAX_AGE, &max_age_, "Maximum age to transition", "");
-  parameters_.Bind<string>(PARAM_PENALTY, &penalty_label_, "Penalty label", "", "");
+  parameters_.Bind<string>(PARAM_FROM, &from_category_labels_, "The categories to transition from", "");
+  parameters_.Bind<string>(PARAM_TO, &to_category_labels_, "The categories to transition to", "");
+  parameters_.Bind<unsigned>(PARAM_MIN_AGE, &min_age_, "The minimum age to transition", "");
+  parameters_.Bind<unsigned>(PARAM_MAX_AGE, &max_age_, "The maximum age to transition", "");
+  parameters_.Bind<string>(PARAM_PENALTY, &penalty_label_, "The penalty label", "", "");
   parameters_.Bind<Double>(PARAM_U_MAX, &u_max_, "U max", "", 0.99)->set_range(0.0, 1.0, false, true);
-  parameters_.Bind<unsigned>(PARAM_YEARS, &years_, "Years to execute the transition in", "");
-  parameters_.BindTable(PARAM_N, n_table_, "Table of N data", "");
+  parameters_.Bind<unsigned>(PARAM_YEARS, &years_, "The years to execute the transition in", "");
+  parameters_.BindTable(PARAM_N, n_table_, "The table of N data", "");
 }
 
 /**
@@ -57,7 +57,7 @@ TransitionCategoryByAge::~TransitionCategoryByAge() {
 }
 
 /**
- * Validate our parameters
+ * Validate the parameters
  */
 void TransitionCategoryByAge::DoValidate() {
   if (from_category_labels_.size() != to_category_labels_.size()) {
@@ -109,7 +109,7 @@ void TransitionCategoryByAge::DoValidate() {
 }
 
 /**
- * Build our partition objects
+ * Build the partition objects
  */
 void TransitionCategoryByAge::DoBuild() {
   from_partition_.Init(from_category_labels_);

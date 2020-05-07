@@ -107,9 +107,9 @@ void MortalityConstantRate::DoBuild() {
   }
 
   /**
-   * Organise our time step ratios. Each time step can
-   * apply a different ratio of M so here we want to verify
-   * we have enough and re-scale them to 1.0
+   * Organise the time step ratios. Each time step can
+   * apply a different ratio of M so here verify that
+   * there are enough and re-scale them to 1.0
    */
   vector<TimeStep*> time_steps = model_->managers().time_step()->ordered_time_steps();
   LOG_FINEST() << "time_steps.size(): " << time_steps.size();
@@ -188,7 +188,7 @@ void MortalityConstantRate::DoReset() {
  * Fill the report cache
  * @description A method for reporting process information
  * @param cache a cache object to print to
-*/
+ */
 void MortalityConstantRate::FillReportCache(ostringstream& cache) {
   cache << "years: ";
   for (auto year : model_->years())
@@ -205,8 +205,7 @@ void MortalityConstantRate::FillReportCache(ostringstream& cache) {
  * @description A method for reporting tabular process information
  * @param cache a cache object to print to
  * @param first_run whether to print the header
- *
-*/
+ */
 void MortalityConstantRate::FillTabularReportCache(ostringstream& cache, bool first_run) {
   if (first_run) {
     vector<unsigned> years = model_->years();

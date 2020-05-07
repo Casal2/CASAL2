@@ -33,12 +33,13 @@ namespace niwa {
 namespace processes {
 namespace age {
 namespace dc = niwa::utilities::doublecompare;
+
 /**
  * Default constructor
  *
  * Bind any parameters that are allowed to be loaded from the configuration files.
  * Set bounds on registered parameters
- * Register any parameters that can be an estimated or utilised in other run modes (e.g profiling, yields, projections etc)
+ * Register any parameters that can be an estimated or utilised in other run modes (e.g., profiling, yields, projections, etc.)
  * Set some initial values
  *
  * Note: The constructor is parsed to generate LaTeX for the documentation.
@@ -50,23 +51,22 @@ MortalityHollingRate::MortalityHollingRate(Model* model)
   process_type_ = ProcessType::kMortality;
   partition_structure_ = PartitionType::kAge;
 
-
   predator_selectivities_table_ = new parameters::Table(PARAM_PREDATOR_SELECTIVITIES);
   prey_selectivities_table_ = new parameters::Table(PARAM_PREY_SELECTIVITIES);
 
-  parameters_.BindTable(PARAM_PREDATOR_SELECTIVITIES_BY_YEAR, predator_selectivities_table_, "Table of predator selectivities by year and age", "", true, true);
-  parameters_.BindTable(PARAM_PREY_SELECTIVITIES_BY_YEAR, prey_selectivities_table_, "Table of prey selectivities by year and age", "", true, true);
-  parameters_.Bind<string>(PARAM_PREY_CATEGORIES, &prey_category_labels_, "Prey Categories labels", "");
-  parameters_.Bind<string>(PARAM_PREDATOR_CATEGORIES, &predator_category_labels_, "Predator Categories labels", "");
+  parameters_.BindTable(PARAM_PREDATOR_SELECTIVITIES_BY_YEAR, predator_selectivities_table_, "The table of predator selectivities by year and age", "", true, true);
+  parameters_.BindTable(PARAM_PREY_SELECTIVITIES_BY_YEAR, prey_selectivities_table_, "The table of prey selectivities by year and age", "", true, true);
+  parameters_.Bind<string>(PARAM_PREY_CATEGORIES, &prey_category_labels_, "The prey categories labels", "");
+  parameters_.Bind<string>(PARAM_PREDATOR_CATEGORIES, &predator_category_labels_, "The predator categories labels", "");
   parameters_.Bind<bool>(PARAM_IS_ABUNDANCE, &is_abundance_, "Is vulnerable amount of prey and predator an abundance [true] or biomass [false]", "", true);
   parameters_.Bind<Double>(PARAM_A, &a_, "Parameter a", "")->set_lower_bound(0.0);
   parameters_.Bind<Double>(PARAM_B, &b_, "Parameter b", "")->set_lower_bound(0.0);
-  parameters_.Bind<Double>(PARAM_X, &x_, "This parameter controls the functional form, Holling function type 2 (x=2) or 3 (x=3), or generalised (Michaelis Menten, x>=1)", "")->set_lower_bound(1.0);
+  parameters_.Bind<Double>(PARAM_X, &x_, "This parameter controls the functional form: Holling function type 2 (x=2) or 3 (x=3), or generalised (Michaelis Menten, x>=1)", "")->set_lower_bound(1.0);
   parameters_.Bind<Double>(PARAM_U_MAX, &u_max_, "The maximum exploitation rate ($Umax$)", "")->set_range(0.0, 1.0);
-  parameters_.Bind<string>(PARAM_PREY_SELECTIVITIES, &prey_selectivity_labels_, "Selectivities for prey categories", "", true);
-  parameters_.Bind<string>(PARAM_PREDATOR_SELECTIVITIES, &predator_selectivity_labels_, "Selectivities for predator categories", "", true);
-  parameters_.Bind<string>(PARAM_PENALTY, &penalty_label_, "Label of penalty to be applied", "","");
-  parameters_.Bind<unsigned>(PARAM_YEARS, &years_, "Years in which to apply the mortality process", "");
+  parameters_.Bind<string>(PARAM_PREY_SELECTIVITIES, &prey_selectivity_labels_, "The selectivities for prey categories", "", true);
+  parameters_.Bind<string>(PARAM_PREDATOR_SELECTIVITIES, &predator_selectivity_labels_, "The selectivities for predator categories", "", true);
+  parameters_.Bind<string>(PARAM_PENALTY, &penalty_label_, "The label of penalty", "","");
+  parameters_.Bind<unsigned>(PARAM_YEARS, &years_, "The years in which to apply the mortality process", "");
 
   RegisterAsAddressable(PARAM_A, &a_);
   RegisterAsAddressable(PARAM_B, &b_);
@@ -75,7 +75,7 @@ MortalityHollingRate::MortalityHollingRate(Model* model)
 
 /**
  * Populate any parameters,
- * Validate values are within expected ranges when we cannot use bind<>() overloads
+ * Validate values are within expected ranges when bind<>() overloads cannot be used
  *
  * Note: all parameters are populated from configuration files
  */
@@ -230,12 +230,12 @@ void MortalityHollingRate::DoValidate() {
  * Obtain smart_pointers to any objects that will be used by this object.
  *
  * Validate any parameters that require information from other objects
- * in the system
  */
 void MortalityHollingRate::DoBuild() {
   LOG_TRACE();
   prey_partition_.Init(prey_category_labels_);
   predator_partition_.Init(predator_category_labels_);
+
   /**
    * Assign the selectivity, penalty and time step index to each fisher data object
    */
@@ -379,11 +379,11 @@ void MortalityHollingRate::DoExecute() {
   } //if (std::find(years_.begin(), years_.end(), model_->current_year()) != years_.end()) {
 }
 
-/*
- * @fun FillReportCache
+/**
+ * Fill the report cache
  * @description A method for reporting process information
  * @param cache a cache object to print to
-*/
+ */
 void MortalityHollingRate::FillReportCache(ostringstream& cache) {
   // This one is niggly because we need to iterate over each year and time step to print the right information so we don't
   cache << "prey_vulnerability: ";
@@ -400,13 +400,13 @@ void MortalityHollingRate::FillReportCache(ostringstream& cache) {
   cache << "\n";
 }
 
-/*
- * @fun FillTabularReportCache
+/**
+ * Fill the tabular report cache
  * @description A method for reporting tabular process information
  * @param cache a cache object to print to
  * @param first_run whether to print the header
  *
-*/
+ */
 void MortalityHollingRate::FillTabularReportCache(ostringstream& cache, bool first_run) {
 /*  if (first_run) {
     // print header
@@ -431,6 +431,7 @@ void MortalityHollingRate::FillTabularReportCache(ostringstream& cache, bool fir
       cache <<  actual_catches.second << " ";
   }*/
 }
+
 } /* namespace age */
 } /* namespace processes */
 } /* namespace niwa */

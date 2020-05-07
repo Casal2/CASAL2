@@ -31,7 +31,7 @@ MortalityEventBiomass::MortalityEventBiomass(Model* model)
   : Process(model),
     partition_(model) {
 
-  parameters_.Bind<string>(PARAM_CATEGORIES, &category_labels_, "Category labels", "");
+  parameters_.Bind<string>(PARAM_CATEGORIES, &category_labels_, "The category labels", "");
   parameters_.Bind<string>(PARAM_SELECTIVITIES, &selectivity_labels_, "The labels of the selectivities for each of the categories", "");
   parameters_.Bind<unsigned>(PARAM_YEARS, &years_, "The years in which to apply the mortality process", "");
   parameters_.Bind<Double>(PARAM_CATCHES, &catches_, "The biomass of removals (catches) to apply for each year", "");
@@ -177,12 +177,12 @@ void MortalityEventBiomass::DoExecute() {
   }
 }
 
-/*
+/**
  * Fill the report cache
  *
  * @description A method for reporting process information
  * @param cache a cache object to print to
-*/
+ */
 void MortalityEventBiomass::FillReportCache(ostringstream& cache) {
   cache << "years: ";
   for (auto year : years_)
@@ -196,13 +196,13 @@ void MortalityEventBiomass::FillReportCache(ostringstream& cache) {
   cache << "\n";
 }
 
-/*
+/**
  * Fill the tabular report cache
  *
  * @param cache a cache object to print to
  * @param first_run whether to print the header
  *
-*/
+ */
 void MortalityEventBiomass::FillTabularReportCache(ostringstream& cache, bool first_run) {
   if (first_run) {
     for (auto year : years_) {

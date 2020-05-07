@@ -23,19 +23,20 @@ namespace obs = niwa::observations;
 namespace dc = niwa::utilities::doublecompare;
 
 /**
- *
+ * Default constructor
  */
 Observation::Observation(Model* model) : Report(model) {
   LOG_TRACE();
   run_mode_    = (RunMode::Type)(RunMode::kBasic | RunMode::kProjection | RunMode::kSimulation | RunMode::kEstimation | RunMode::kProfiling);
   model_state_ = (State::Type)(State::kIterationComplete);
-  parameters_.Bind<string>(PARAM_OBSERVATION, &observation_label_, "Observation label", "");
-  parameters_.Bind<bool>(PARAM_PEARSONS_RESIDUALS, &pearson_resids_, "Print Pearsons Residuals", "", false);
-  parameters_.Bind<bool>(PARAM_NORMALISED_RESIDUALS, &normalised_resids_, "Print Normalised Residuals", "", false);
+
+  parameters_.Bind<string>(PARAM_OBSERVATION, &observation_label_, "The observation label", "");
+  parameters_.Bind<bool>(PARAM_NORMALISED_RESIDUALS, &normalised_resids_, "Print Normalised Residuals?", "", false);
+  parameters_.Bind<bool>(PARAM_PEARSONS_RESIDUALS, &pearson_resids_, "Print Pearsons Residuals?", "", false);
 }
 
 /**
- *
+ * Build
  */
 void Observation::DoBuild() {
   LOG_TRACE();
@@ -47,7 +48,7 @@ void Observation::DoBuild() {
     auto observations = model_->managers().observation()->objects();
     for (auto observation : observations)
       cout << observation->label() << endl;
-    LOG_ERROR_P(PARAM_OBSERVATION) << "Observation label (" << observation_label_ << ") was not found.";
+    LOG_ERROR_P(PARAM_OBSERVATION) << "The observation label (" << observation_label_ << ") was not found.";
   }
 
   if (pearson_resids_) {
@@ -59,7 +60,7 @@ void Observation::DoBuild() {
   if (normalised_resids_) {
     if(std::find(normalised_likelihoods.begin(), normalised_likelihoods.end(), observation_->likelihood()) == normalised_likelihoods.end()) {
        LOG_ERROR_P(PARAM_NORMALISED_RESIDUALS) << "The likelihood associated with this observation is " << observation_->likelihood()
-         << ". Pearsons residuals can be calculated only for the likelihoods lognormal, lognormal_with_Q, normal";
+         << ". Normalised residuals can be calculated only for the likelihoods lognormal, lognormal_with_Q, normal";
     }
   }
 
@@ -75,7 +76,7 @@ void Observation::DoExecute() {
   cache_ << "Values " <<REPORT_R_DATAFRAME <<"\n";
   map<unsigned, vector<obs::Comparison>>& comparisons = observation_->comparisons();
   if(pearson_resids_ && !normalised_resids_) {
-    LOG_FINEST() << "calculating pearsons residuals for observation " << label_ << " with likelihood type " << observation_->likelihood();
+    LOG_FINEST() << "calculating Pearsons residuals for observation " << label_ << " with likelihood type " << observation_->likelihood();
     // reporting pearsons residuals
     cache_ << "year category age length observed expected residual error_value process_error adjusted_error score pearsons_residuals\n";
     Double resid;
@@ -101,6 +102,7 @@ void Observation::DoExecute() {
       }
     }
   } else if (normalised_resids_ && !pearson_resids_) {
+    LOG_FINEST() << "calculating normalised residuals for observation " << label_ << " with likelihood type " << observation_->likelihood();
     // reporting normalised residuals
     cache_ << "year category age length observed expected residual error_value process_error adjusted_error score normalised_residuals\n";
     Double resid;
@@ -112,8 +114,8 @@ void Observation::DoExecute() {
         } else if (observation_->likelihood() == PARAM_NORMAL) {
           resid =  (comparison.observed_ - comparison.expected_) / (comparison.expected_ * comparison.adjusted_error_);
         } else {
-          LOG_CODE_ERROR() << "Unknown coded likelihood type should be dealt with in DoBuild(). If the Pearsons residual is unknown"
-            << " for this likelihood, set pearsons_residual to 'false'";
+          LOG_CODE_ERROR() << "Unknown coded likelihood type should be dealt with in DoBuild(). If the normalised residual is unknown"
+            << " for this likelihood, set normalised_residual to 'false'";
         }
         cache_ << iter->first << " " << comparison.category_ << " " << comparison.age_ << " " << comparison.length_ << " " << comparison.observed_ << " " << AS_VALUE(comparison.expected_)
           << " " << comparison.observed_ - AS_VALUE(comparison.expected_) << " " << comparison.error_value_ << " " <<AS_VALUE(comparison.process_error_) << " "
@@ -121,6 +123,7 @@ void Observation::DoExecute() {
       }
     }
   } else if (normalised_resids_ && pearson_resids_){
+    LOG_FINEST() << "calculating normalised and Pearsons residuals for observation " << label_ << " with likelihood type " << observation_->likelihood();
     // report both normalised residuals and pearsons residuals
     Double pearson_resid, normalised_resid;
     cache_ << "year category age length observed expected residual error_value process_error adjusted_error score pearsons_residuals normalised_residuals\n";
@@ -134,8 +137,8 @@ void Observation::DoExecute() {
           normalised_resid = (comparison.observed_ - comparison.expected_) / (comparison.expected_ * comparison.adjusted_error_);
           pearson_resid = (comparison.observed_ - comparison.expected_) / (comparison.expected_ * comparison.adjusted_error_);
         } else {
-          LOG_CODE_ERROR() << "Unknown coded likelihood type should be dealt with in DoBuild(). If the Pearsons residual is unknown"
-            << " for this likelihood, set pearsons_residual to 'false'";
+          LOG_CODE_ERROR() << "Unknown coded likelihood type should be dealt with in DoBuild(). If the normalised or Pearsons residual is unknown"
+            << " for this likelihood, set normalised_residual to 'false' and pearsons_residual to 'false'";
         }
         cache_ << iter->first << " " << comparison.category_ << " " << comparison.age_ << " " << comparison.length_ << " " << comparison.observed_ << " " << AS_VALUE(comparison.expected_)
           << " " << comparison.observed_ - AS_VALUE(comparison.expected_) << " " << comparison.error_value_ << " " <<AS_VALUE(comparison.process_error_)  << " "
@@ -153,11 +156,12 @@ void Observation::DoExecute() {
       }
     }
   }
+
   ready_for_writing_ = true;
 }
 
 /**
- *  Execute tabular report
+ *  Execute the tabular report
  */
 void Observation::DoExecuteTabular() {
   map<unsigned, vector<obs::Comparison>>& comparisons = observation_->comparisons();
@@ -196,6 +200,7 @@ void Observation::DoExecuteTabular() {
         cache_ << label << " ";
       }
     }
+
     // Generate labels for the obs
     for (auto iter = comparisons.begin(); iter != comparisons.end(); ++iter) {
       if (!utilities::To<unsigned, string>(iter->first, year))
@@ -219,6 +224,7 @@ void Observation::DoExecuteTabular() {
         cache_ << label << " ";
       }
     }
+
     // Generate labels for the resids
     for (auto iter = comparisons.begin(); iter != comparisons.end(); ++iter) {
       if (!utilities::To<unsigned, string>(iter->first, year))
@@ -242,6 +248,7 @@ void Observation::DoExecuteTabular() {
         cache_ << label << " ";
       }
     }
+
     if (pearson_resids_) {
       // Generate labels for the pearsons resids
       for (auto iter = comparisons.begin(); iter != comparisons.end(); ++iter) {
@@ -267,6 +274,7 @@ void Observation::DoExecuteTabular() {
         }
       }
     }
+
     if (normalised_resids_) {
       // Generate labels for the normalised resids
       for (auto iter = comparisons.begin(); iter != comparisons.end(); ++iter) {
@@ -294,6 +302,7 @@ void Observation::DoExecuteTabular() {
     }
     cache_ << "\n";
   }
+
   /**
    *  Print Values
    */
@@ -303,12 +312,14 @@ void Observation::DoExecuteTabular() {
       cache_ << AS_VALUE(comparison.expected_) << " ";
     }
   }
+
   // Print obs
   for (auto iter = comparisons.begin(); iter != comparisons.end(); ++iter) {
     for (obs::Comparison comparison : iter->second) {
       cache_ << comparison.observed_ << " ";
     }
   }
+
   // Print resids
   Double resid = 0.0;
   for (auto iter = comparisons.begin(); iter != comparisons.end(); ++iter) {
@@ -317,6 +328,7 @@ void Observation::DoExecuteTabular() {
       cache_ << AS_VALUE(resid) << " ";
     }
   }
+
   if (pearson_resids_) {
     // Generate labels for the pearsons resids
     Double resid;
@@ -340,6 +352,7 @@ void Observation::DoExecuteTabular() {
       }
     }
   }
+
   if (normalised_resids_) {
     // Generate labels for the normalised resids
     Double resid;
@@ -363,7 +376,7 @@ void Observation::DoExecuteTabular() {
 }
 
 /**
- *  Finalise tabular report
+ *  Finalise the tabular report
  */
 void Observation::DoFinaliseTabular() {
   ready_for_writing_ = true;

@@ -12,18 +12,16 @@
 namespace niwa {
 namespace reports {
 
-
 /**
- *
+ * Default constructor
  */
 DerivedQuantity::DerivedQuantity(Model* model) : Report(model) {
   run_mode_    = (RunMode::Type)(RunMode::kBasic | RunMode::kProjection | RunMode::kSimulation | RunMode::kEstimation | RunMode::kProfiling);
   model_state_ = (State::Type)(State::kIterationComplete);
 }
 
-
 /**
- *
+ * Execute the report
  */
 void DerivedQuantity::DoExecute() {
   LOG_TRACE();
@@ -58,9 +56,8 @@ void DerivedQuantity::DoExecute() {
 
 
 /**
- * Execute Tabular report
+ * Execute the tabular report
  */
-
 void DerivedQuantity::DoExecuteTabular() {
   derivedquantities::Manager& manager = *model_->managers().derived_quantity();
   auto derived_quantities = manager.objects();
@@ -98,7 +95,7 @@ void DerivedQuantity::DoExecuteTabular() {
 }
 
 /**
- *
+ * Finalise the tabular report
  */
 void DerivedQuantity::DoFinaliseTabular() {
   ready_for_writing_ = true;

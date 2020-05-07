@@ -23,15 +23,15 @@ namespace niwa {
 namespace selectivities {
 
 /**
- * Explicit constructor
+ * Default constructor
  */
 Increasing::Increasing(Model* model)
 : Selectivity(model) {
 
-  parameters_.Bind<unsigned>(PARAM_L, &low_, "Low", "");
-  parameters_.Bind<unsigned>(PARAM_H, &high_, "High", "");
-  parameters_.Bind<Double>(PARAM_V, &v_, "V", "");
-  parameters_.Bind<Double>(PARAM_ALPHA, &alpha_, "Alpha", "", 1.0)->set_lower_bound(0.0, false);
+  parameters_.Bind<unsigned>(PARAM_L, &low_, "The low value", "");
+  parameters_.Bind<unsigned>(PARAM_H, &high_, "The high value", "");
+  parameters_.Bind<Double>(PARAM_V, &v_, "The v parameter", "");
+  parameters_.Bind<Double>(PARAM_ALPHA, &alpha_, "alpha", "", 1.0)->set_lower_bound(0.0, false);
 
   RegisterAsAddressable(PARAM_V, &v_);
 }
@@ -41,7 +41,7 @@ Increasing::Increasing(Model* model)
  * values that were passed in from the configuration
  * file and assign them to the local variables.
  *
- * We'll then do some basic checks on the local
+ * Then do some basic checks on the local
  * variables to ensure they are within the business
  * rules for the model.
  */
@@ -88,7 +88,7 @@ void Increasing::DoValidate() {
 }
 
 /**
- * Reset this selectivity so it's ready for the next execution
+ * Reset this selectivity so it is ready for the next execution
  * phase in the model.
  *
  * This method will rebuild the cache of selectivity values
@@ -156,7 +156,6 @@ void Increasing::RebuildCache() {
  * @param age_length AgeLength pointer
  * @return Double selectivity for an age based on age length distribution
  */
-
 Double Increasing::GetLengthBasedResult(unsigned age, AgeLength* age_length, unsigned year, int time_step_index) {
   LOG_ERROR_P(PARAM_LENGTH_BASED) << ": This selectivity type has not been implemented for length-based selectivities ";
   return 0.0;

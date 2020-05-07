@@ -32,25 +32,25 @@ namespace dc = niwa::utilities::doublecompare;
 namespace math = niwa::utilities::math;
 
 /**
- * default constructor
+ * Default constructor
  */
 RecruitmentBevertonHolt::RecruitmentBevertonHolt(Model* model)
   : Process(model),
     partition_(model) {
   LOG_TRACE();
 
-  parameters_.Bind<string>(PARAM_CATEGORIES, &category_labels_, "Category labels", "");
+  parameters_.Bind<string>(PARAM_CATEGORIES, &category_labels_, "The category labels", "");
   parameters_.Bind<Double>(PARAM_R0, &r0_, "R0", "",false)->set_lower_bound(0.0);
   parameters_.Bind<Double>(PARAM_B0, &b0_, "B0", "",false)->set_lower_bound(0.0);
-  parameters_.Bind<Double>(PARAM_PROPORTIONS, &proportions_, "Proportions", "");
-  parameters_.Bind<unsigned>(PARAM_AGE, &age_, "Age at recruitment", "", true);
-  parameters_.Bind<unsigned>(PARAM_SSB_OFFSET, &ssb_offset_, "Spawning biomass year offset","", true);
-  parameters_.Bind<Double>(PARAM_STEEPNESS, &steepness_, "Steepness", "", 1.0)->set_range(0.2, 1.0);
-  parameters_.Bind<string>(PARAM_SSB, &ssb_, "SSB label (derived quantity)", "");
-  parameters_.Bind<string>(PARAM_B0_PHASE, &phase_b0_label_, "Initialisation phase label that B0 is from", "", "");
-  parameters_.Bind<Double>(PARAM_YCS_VALUES, &ycs_values_, "YCS Values", "");
-  parameters_.Bind<unsigned>(PARAM_YCS_YEARS, &ycs_years_, "Recruitment years. A vector of years that relates to the year of the spawning event that created this cohort", "", false);
-  parameters_.Bind<unsigned>(PARAM_STANDARDISE_YCS_YEARS, &standardise_ycs_, "Years that are included for year class standardisation", "", true);
+  parameters_.Bind<Double>(PARAM_PROPORTIONS, &proportions_, "The proportion for each category", "");
+  parameters_.Bind<unsigned>(PARAM_AGE, &age_, "The age at recruitment", "", true);
+  parameters_.Bind<unsigned>(PARAM_SSB_OFFSET, &ssb_offset_, "The spawning biomass year offset","", true);
+  parameters_.Bind<Double>(PARAM_STEEPNESS, &steepness_, "Steepness (h)", "", 1.0)->set_range(0.2, 1.0);
+  parameters_.Bind<string>(PARAM_SSB, &ssb_, "The SSB label (derived quantity)", "");
+  parameters_.Bind<string>(PARAM_B0_PHASE, &phase_b0_label_, "The initialisation phase label that B0 is from", "", "");
+  parameters_.Bind<Double>(PARAM_YCS_VALUES, &ycs_values_, "The YCS values", "");
+  parameters_.Bind<unsigned>(PARAM_YCS_YEARS, &ycs_years_, "The recruitment years. A vector of years that relates to the year of the spawning event that created this cohort", "", false);
+  parameters_.Bind<unsigned>(PARAM_STANDARDISE_YCS_YEARS, &standardise_ycs_, "The years that are included for year class standardisation", "", true);
 
   RegisterAsAddressable(PARAM_R0, &r0_);
   RegisterAsAddressable(PARAM_B0, &b0_);
@@ -67,7 +67,7 @@ RecruitmentBevertonHolt::RecruitmentBevertonHolt(Model* model)
 }
 
 /**
- *
+ * Validate the process
  */
 void RecruitmentBevertonHolt::DoValidate() {
   LOG_TRACE();
@@ -115,7 +115,6 @@ void RecruitmentBevertonHolt::DoValidate() {
     ycs_iter++;
   }
 
-
   // Check ascending order
   if (standardise_ycs_.size() == 0) {
     ycs_standardised_ = false;
@@ -144,7 +143,7 @@ void RecruitmentBevertonHolt::DoValidate() {
 }
 
 /**
- * Build the runtime relationships between this object and it's
+ * Build the runtime relationships between this object and other objects
  */
 void RecruitmentBevertonHolt::DoBuild() {
   partition_.Init(category_labels_);
@@ -273,7 +272,7 @@ void RecruitmentBevertonHolt::DoBuild() {
 }
 
 /**
- * Reset all of the values so they're ready for an execution run
+ * Reset all of the values so they are ready for an execution run
  */
 void RecruitmentBevertonHolt::DoReset() {
   LOG_TRACE();
@@ -326,9 +325,8 @@ void RecruitmentBevertonHolt::DoReset() {
 }
 
 /**
- * Execute this process.
+ * Execute this process
  */
-
 void RecruitmentBevertonHolt::DoExecute() {
   unsigned current_year = model_->current_year();
   unsigned ssb_year = current_year - ssb_offset_;
@@ -437,7 +435,7 @@ void RecruitmentBevertonHolt::DoExecute() {
 }
 
 /**
- *  Called in the intialisation phase, this method while scale the partition effected by this recruitment event if recruitment is B0 initialised
+ *  Called in the intialisation phase, this method scales the partition affected by this recruitment event if recruitment is B0 initialised
  */
 void RecruitmentBevertonHolt::ScalePartition() {
   if (!parameters_.Get(PARAM_B0)->has_been_defined())
@@ -466,7 +464,7 @@ void RecruitmentBevertonHolt::ScalePartition() {
 }
 
 /**
- *
+ * Fill the report cache
  */
 void RecruitmentBevertonHolt::FillReportCache(ostringstream& cache) {
   cache << "ycs_years: ";
@@ -492,7 +490,7 @@ void RecruitmentBevertonHolt::FillReportCache(ostringstream& cache) {
 }
 
 /**
- *
+ * Fill the tabular report cache
  */
 void RecruitmentBevertonHolt::FillTabularReportCache(ostringstream& cache, bool first_run) {
   if (first_run) {

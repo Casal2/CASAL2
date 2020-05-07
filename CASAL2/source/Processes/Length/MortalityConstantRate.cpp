@@ -25,7 +25,7 @@ namespace processes {
 namespace length {
 
 /**
- * Default Constructor
+ * Default constructor
  */
 MortalityConstantRate::MortalityConstantRate(Model* model)
   : Process(model),
@@ -34,21 +34,21 @@ MortalityConstantRate::MortalityConstantRate(Model* model)
   process_type_ = ProcessType::kMortality;
   partition_structure_ = PartitionType::kLength;
 
-  parameters_.Bind<string>(PARAM_CATEGORIES, &category_labels_, "List of categories labels", "");
-  parameters_.Bind<Double>(PARAM_M, &m_input_, "Mortality rates", "")->set_lower_bound(0.0);
-  parameters_.Bind<double>(PARAM_TIME_STEP_RATIO, &ratios_, "Time step ratios for the mortality rates", "", true)->set_range(0.0, 1.0);
+  parameters_.Bind<string>(PARAM_CATEGORIES, &category_labels_, "The list of categories labels", "");
+  parameters_.Bind<Double>(PARAM_M, &m_input_, "The mortality rates", "")->set_lower_bound(0.0);
+  parameters_.Bind<double>(PARAM_TIME_STEP_RATIO, &ratios_, "The time step ratios for the mortality rates", "", true)->set_range(0.0, 1.0);
 //  parameters_.Bind<string>(PARAM_SELECTIVITIES, &selectivity_names_, "List of selectivities for the categories", "");
 
   RegisterAsAddressable(PARAM_M, &m_);
 }
 
 /**
- * Validate our Mortality Constant Rate process
+ * Validate the Mortality Constant Rate process
  *
  * - Validate the required parameters
  * - Assign the label from the parameters
  * - Assign and validate remaining parameters
- * - Duplicate 'm' and 'selectivities' if only 1 vale specified
+ * - Duplicate 'm' and 'selectivities' if only one value specified
  * - Check m is between 0.0 and 1.0
  * - Check the categories are real
  */
@@ -89,9 +89,10 @@ void MortalityConstantRate::DoValidate() {
 
 /**
  * Build any runtime relationships
+ *
  * - Build the partition accessor
- * - Build our list of selectivities
- * - Build our ratios for the number of time steps
+ * - Build the list of selectivities
+ * - Build the ratios for the number of time steps
  */
 void MortalityConstantRate::DoBuild() {
   partition_.Init(category_labels_);

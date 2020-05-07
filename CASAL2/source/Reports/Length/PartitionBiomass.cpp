@@ -19,18 +19,18 @@ namespace reports {
 namespace length {
 
 /**
- *
+ * Default constructor
  */
 PartitionBiomass::PartitionBiomass(Model* model) : Report(model) {
   run_mode_    = (RunMode::Type)(RunMode::kBasic | RunMode::kProjection);
   model_state_ = State::kExecute;
 
-  parameters_.Bind<string>(PARAM_TIME_STEP, &time_step_, "Time Step label", "", "");
-  parameters_.Bind<unsigned>(PARAM_YEARS, &years_, "Years", "", true);
+  parameters_.Bind<string>(PARAM_TIME_STEP, &time_step_, "The time step label", "", "");
+  parameters_.Bind<unsigned>(PARAM_YEARS, &years_, "The years for the report", "", true);
 }
 
 /**
- *
+ * Validate
  */
 void PartitionBiomass::DoValidate() {
   vector<unsigned> model_years = model_->years();
@@ -41,7 +41,7 @@ void PartitionBiomass::DoValidate() {
 }
 
 /**
- *
+ * Execute the report
  */
 void PartitionBiomass::DoExecute() {
   // First, figure out the lowest and highest ages/length

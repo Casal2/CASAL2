@@ -23,23 +23,22 @@ namespace niwa {
 namespace selectivities {
 
 /**
- * Explicit Constructor
+ * Default Constructor
  */
 AllValues::AllValues(Model* model)
 : Selectivity(model) {
 
-  parameters_.Bind<Double>(PARAM_V, &v_, "V", "")->set_partition_type(PartitionType::kAge | PartitionType::kLength);
+  parameters_.Bind<Double>(PARAM_V, &v_, "The v parameter", "")->set_partition_type(PartitionType::kAge | PartitionType::kLength);
 
   RegisterAsAddressable(PARAM_V, &v_);
 }
-
 
 /**
  * Validate this selectivity. This will load the
  * values that were passed in from the configuration
  * file and assign them to the local variables.
  *
- * We'll then do some basic checks on the local
+ * Then do some basic checks on the local
  * variables to ensure they are within the business
  * rules for the model.
  */
@@ -66,7 +65,7 @@ void AllValues::DoValidate() {
 }
 
 /**
- * Reset this selectivity so it's ready for the next execution
+ * Reset this selectivity so it is ready for the next execution
  * phase in the model.
  *
  * This method will rebuild the cache of selectivity values
@@ -87,13 +86,14 @@ void AllValues::RebuildCache() {
   }
 }
 
-
 /**
  * GetLengthBasedResult function
  *
  * @param age
  * @param age_length AgeLength pointer
- * @return Double selectivity for an age based on age length distribution
+ * @param year
+ * @param time_step_index
+ * @return 0.0 - error
  */
 Double AllValues::GetLengthBasedResult(unsigned age, AgeLength* age_length, unsigned year, int time_step_index) {
   LOG_ERROR_P(PARAM_LENGTH_BASED) << ": This selectivity type has not been implemented for age length based selectivities ";

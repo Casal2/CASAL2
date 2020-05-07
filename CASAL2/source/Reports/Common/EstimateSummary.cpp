@@ -20,7 +20,7 @@ namespace niwa {
 namespace reports {
 
 /**
- * Default Constructor
+ * Default constructor
  */
 EstimateSummary::EstimateSummary(Model* model) : Report(model) {
   run_mode_    = (RunMode::Type)(RunMode::kBasic | RunMode::kEstimation);
@@ -34,7 +34,7 @@ EstimateSummary::~EstimateSummary() noexcept(true) {
 }
 
 /**
- * This method will execute the estimate summary report
+ * Execute the estimate summary report
  */
 void EstimateSummary::DoExecute() {
 

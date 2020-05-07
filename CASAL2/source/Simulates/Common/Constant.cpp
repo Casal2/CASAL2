@@ -19,7 +19,7 @@ namespace simulates {
  * Default constructor
  */
 Constant::Constant(Model* model) : Simulate(model) {
-  parameters_.Bind<Double>(PARAM_VALUE, &value_, "Value to assign to addressable", "");
+  parameters_.Bind<Double>(PARAM_VALUE, &value_, "The value to assign to the addressable", "");
 }
 
 /**
@@ -38,7 +38,7 @@ void Constant::DoBuild() { }
 void Constant::DoReset() { }
 
 /**
- *
+ * Update
  */
 void Constant::DoUpdate() {
   LOG_FINE() << "Setting Value to: " << value_ << " (Currently Disabled)";

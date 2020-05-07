@@ -23,11 +23,11 @@ CovarianceMatrix::CovarianceMatrix(Model* model) : Report(model) {
 }
 
 /**
- * Execute
+ * Execute the report
  */
 void CovarianceMatrix::DoExecute() {
   /*
-   * This reports the Covariance, Correlation and Hessian matrix
+   * This reports the covariance, correlation and Hessian matrix
    */
   LOG_TRACE();
   auto minimiser_ = model_->managers().minimiser()->active_minimiser();

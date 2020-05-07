@@ -15,9 +15,8 @@
 namespace niwa {
 namespace reports {
 
-
 /**
- *
+ * Default constructor
  */
 TimeVarying::TimeVarying(Model* model) : Report(model) {
   run_mode_    = (RunMode::Type)(RunMode::kBasic | RunMode::kProjection | RunMode::kEstimation | RunMode::kSimulation);
@@ -25,7 +24,7 @@ TimeVarying::TimeVarying(Model* model) : Report(model) {
 }
 
 /**
- *
+ * Execute the report
  */
 void TimeVarying::DoExecute() {
   LOG_TRACE();
@@ -46,18 +45,6 @@ void TimeVarying::DoExecute() {
   }
 
   ready_for_writing_ = true;
-}
-
-
-/**
- * Execute Tabular report
- */
-void TimeVarying::DoExecuteTabular() { }
-
-/**
- *
- */
-void TimeVarying::DoFinaliseTabular() {
 }
 
 } /* namespace reports */

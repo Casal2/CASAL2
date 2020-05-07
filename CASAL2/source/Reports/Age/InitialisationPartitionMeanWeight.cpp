@@ -33,9 +33,8 @@ InitialisationPartitionMeanWeight::InitialisationPartitionMeanWeight(Model* mode
   model_state_ = State::kInitialise;
 }
 
-
 /**
- *
+ * Execute the report
  */
 void InitialisationPartitionMeanWeight::DoExecute() {
   LOG_TRACE();

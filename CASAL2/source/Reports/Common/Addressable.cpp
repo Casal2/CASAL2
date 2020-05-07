@@ -29,20 +29,20 @@ Addressable::Addressable(Model* model) : Report(model) {
   run_mode_    = (RunMode::Type)(RunMode::kBasic | RunMode::kEstimation | RunMode::kProjection | RunMode::kProfiling);
   model_state_ = State::kExecute;
 
-  parameters_.Bind<string>(PARAM_PARAMETER, &parameter_, "Parameter to print", "");
-  parameters_.Bind<unsigned>(PARAM_YEARS, &years_, "Years to print the addressable for", "");
-  parameters_.Bind<string>(PARAM_TIME_STEP, &time_step_, "Time Step label", "", "");
+  parameters_.Bind<string>(PARAM_PARAMETER, &parameter_, "The parameter to print", "");
+  parameters_.Bind<unsigned>(PARAM_YEARS, &years_, "The years to print the addressable for", "");
+  parameters_.Bind<string>(PARAM_TIME_STEP, &time_step_, "The time Step label", "", "");
 }
 
 /**
- *
+ * Validate
  */
 void Addressable::DoValidate() {
 
 }
 
 /**
- *
+ * Build
  */
 void Addressable::DoBuild() {
   string type       = "";
@@ -67,7 +67,7 @@ void Addressable::DoBuild() {
 }
 
 /**
- *
+ * Prepare the report
  */
 void Addressable::DoPrepare() {
   cache_ << "*"<< type_ << "[" << label_ << "]" << "\n";
@@ -79,7 +79,7 @@ void Addressable::DoPrepare() {
 }
 
 /**
- *
+ * Execute the report
  */
 void Addressable::DoExecute() {
   LOG_TRACE();
@@ -87,7 +87,7 @@ void Addressable::DoExecute() {
 }
 
 /**
- *
+ * Finalise the report
  */
 void Addressable::DoFinalise() {
   cache_ << "\n";

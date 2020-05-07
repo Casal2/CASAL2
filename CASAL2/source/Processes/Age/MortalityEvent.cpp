@@ -24,13 +24,13 @@ namespace processes {
 namespace age {
 
 /**
- * Default Constructor
+ * Default constructor
  */
 MortalityEvent::MortalityEvent(Model* model)
   : Process(model),
     partition_(model) {
-  parameters_.Bind<string>(PARAM_CATEGORIES, &category_labels_, "Categories", "");
-  parameters_.Bind<unsigned>(PARAM_YEARS, &years_, "Years in which to apply the mortality process", "");
+  parameters_.Bind<string>(PARAM_CATEGORIES, &category_labels_, "The categories", "");
+  parameters_.Bind<unsigned>(PARAM_YEARS, &years_, "The years in which to apply the mortality process", "");
   parameters_.Bind<Double>(PARAM_CATCHES, &catches_, "The number of removals (catches) to apply for each year", "");
   parameters_.Bind<Double>(PARAM_U_MAX, &u_max_, "The maximum exploitation rate ($Umax$)", "", 0.99)->set_range(0.0, 1.0);
   parameters_.Bind<string>(PARAM_SELECTIVITIES, &selectivity_names_, "The list of selectivities", "");
@@ -44,7 +44,7 @@ MortalityEvent::MortalityEvent(Model* model)
 }
 
 /**
- * Validate our Mortality Event Process
+ * Validate the Mortality Event Process
  *
  * 1. Check for the required parameters
  * 2. Assign any remaining variables
@@ -106,7 +106,7 @@ void MortalityEvent::DoBuild() {
 }
 
 /**
- * Reset the runtime relationships required
+ * Reset the runtime relationships
  */
 void MortalityEvent::DoReset() {
   exploitation_.clear();
@@ -114,8 +114,7 @@ void MortalityEvent::DoReset() {
 }
 
 /**
- * Execute our mortality event object.
- *
+ * Execute the mortality event object
  */
 void MortalityEvent::DoExecute() {
   LOG_TRACE();
@@ -140,6 +139,7 @@ void MortalityEvent::DoExecute() {
 
       ++i;
     }
+
     /**
      * Work out the exploitation rate to remove (catch/vulnerable)
      */
@@ -181,12 +181,11 @@ void MortalityEvent::DoExecute() {
   }
 }
 
-
-/*
- * @fun FillReportCache
+/**
+ * Fill the report cache
  * @description A method for reporting process information
  * @param cache a cache object to print to
-*/
+ */
 void MortalityEvent::FillReportCache(ostringstream& cache) {
   cache << "years: ";
   for (auto year : years_)
@@ -200,13 +199,13 @@ void MortalityEvent::FillReportCache(ostringstream& cache) {
   cache << "\n";
 }
 
-/*
- * @fun FillTabularReportCache
+/**
+ * Fill the tabular report cache
  * @description A method for reporting tabular process information
  * @param cache a cache object to print to
  * @param first_run whether to print the header
  *
-*/
+ */
 void MortalityEvent::FillTabularReportCache(ostringstream& cache, bool first_run) {
   if (first_run) {
     for (auto year : years_) {

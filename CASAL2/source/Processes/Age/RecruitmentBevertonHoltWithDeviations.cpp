@@ -32,31 +32,31 @@ namespace dc = niwa::utilities::doublecompare;
 namespace math = niwa::utilities::math;
 
 /**
- * default constructor
+ * Default constructor
  */
 RecruitmentBevertonHoltWithDeviations::RecruitmentBevertonHoltWithDeviations(Model* model)
   : Process(model),
     partition_(model) {
   LOG_TRACE();
 
-  parameters_.Bind<string>(PARAM_CATEGORIES, &category_labels_, "Category labels", "");
+  parameters_.Bind<string>(PARAM_CATEGORIES, &category_labels_, "The category labels", "");
   parameters_.Bind<Double>(PARAM_R0, &r0_, "R0", "", false)->set_lower_bound(0.0);
   parameters_.Bind<Double>(PARAM_B0, &b0_, "B0", "", false)->set_lower_bound(0.0);
-  parameters_.Bind<Double>(PARAM_PROPORTIONS, &proportions_, "Proportions", "");
-  parameters_.Bind<unsigned>(PARAM_AGE, &age_, "Age to recruit at", "", true);
-  parameters_.Bind<unsigned>(PARAM_SSB_OFFSET, &ssb_offset_, "Spawning biomass year offset","", true);
-  parameters_.Bind<Double>(PARAM_STEEPNESS, &steepness_, "Steepness", "", 1.0)->set_lower_bound(0.2);
-  parameters_.Bind<string>(PARAM_SSB, &ssb_, "SSB Label (derived quantity)", "");
-  parameters_.Bind<Double>(PARAM_SIGMA_R, &sigma_r_, "Sigma R", "")->set_lower_bound(0.0);
-  parameters_.Bind<Double>(PARAM_B_MAX, &b_max_, "Maximum bias adjustment", "", 0.85)->set_range(0.0, 1.0);
-  parameters_.Bind<unsigned>(PARAM_LAST_YEAR_WITH_NO_BIAS, &year1_, "Last year with no bias adjustment", "", false);
-  parameters_.Bind<unsigned>(PARAM_FIRST_YEAR_WITH_BIAS, &year2_, "First year with full bias adjustment", "", false);
-  parameters_.Bind<unsigned>(PARAM_LAST_YEAR_WITH_BIAS, &year3_, "Last year with full bias adjustment", "", false);
-  parameters_.Bind<unsigned>(PARAM_FIRST_RECENT_YEAR_WITH_NO_BIAS, &year4_, "First recent year with no bias adjustment", "", false);
+  parameters_.Bind<Double>(PARAM_PROPORTIONS, &proportions_, "The proportion for each category", "");
+  parameters_.Bind<unsigned>(PARAM_AGE, &age_, "The age at recruitment", "", true);
+  parameters_.Bind<unsigned>(PARAM_SSB_OFFSET, &ssb_offset_, "The spawning biomass year offset","", true);
+  parameters_.Bind<Double>(PARAM_STEEPNESS, &steepness_, "Steepness (h)", "", 1.0)->set_lower_bound(0.2);
+  parameters_.Bind<string>(PARAM_SSB, &ssb_, "The SSB Label (derived quantity)", "");
+  parameters_.Bind<Double>(PARAM_SIGMA_R, &sigma_r_, "sigma R", "")->set_lower_bound(0.0);
+  parameters_.Bind<Double>(PARAM_B_MAX, &b_max_, "The maximum bias adjustment", "", 0.85)->set_range(0.0, 1.0);
+  parameters_.Bind<unsigned>(PARAM_LAST_YEAR_WITH_NO_BIAS, &year1_, "The last year with no bias adjustment", "", false);
+  parameters_.Bind<unsigned>(PARAM_FIRST_YEAR_WITH_BIAS, &year2_, "The first year with full bias adjustment", "", false);
+  parameters_.Bind<unsigned>(PARAM_LAST_YEAR_WITH_BIAS, &year3_, "The last year with full bias adjustment", "", false);
+  parameters_.Bind<unsigned>(PARAM_FIRST_RECENT_YEAR_WITH_NO_BIAS, &year4_, "The first recent year with no bias adjustment", "", false);
 
-  parameters_.Bind<string>(PARAM_B0_PHASE, &phase_b0_label_, "Initialisation phase label that b0 is from", "", "");
-  parameters_.Bind<Double>(PARAM_DEVIATION_VALUES, &recruit_dev_values_, "Recruitment deviation values", "");
-  parameters_.Bind<unsigned>(PARAM_DEVIATION_YEARS, &recruit_dev_years_, "Recruitment years. A vector of years that relates to the year of the spawning event that created this cohort", "", false);
+  parameters_.Bind<string>(PARAM_B0_PHASE, &phase_b0_label_, "The initialisation phase label that B0 is from", "", "");
+  parameters_.Bind<Double>(PARAM_DEVIATION_VALUES, &recruit_dev_values_, "The recruitment deviation values", "");
+  parameters_.Bind<unsigned>(PARAM_DEVIATION_YEARS, &recruit_dev_years_, "The recruitment years. A vector of years that relates to the year of the spawning event that created this cohort", "", false);
 
   RegisterAsAddressable(PARAM_R0, &r0_);
   RegisterAsAddressable(PARAM_B0, &b0_);
@@ -73,7 +73,7 @@ RecruitmentBevertonHoltWithDeviations::RecruitmentBevertonHoltWithDeviations(Mod
 }
 
 /**
- *
+ * Validate
  */
 void RecruitmentBevertonHoltWithDeviations::DoValidate() {
   LOG_TRACE();
@@ -111,6 +111,7 @@ void RecruitmentBevertonHoltWithDeviations::DoValidate() {
     LOG_FATAL_P(PARAM_DEVIATION_VALUES) << "There are " << recruit_dev_years_.size() << " " << PARAM_DEVIATION_YEARS
       << " and " << recruit_dev_values_.size() << " " << PARAM_YCS_VALUES << " defined. These vectors must be of equal length.";
   }
+
   // initialise recruit devs
   unsigned ycs_iter = 0;
   for (unsigned ycs_year : recruit_dev_years_) {
@@ -134,7 +135,7 @@ void RecruitmentBevertonHoltWithDeviations::DoValidate() {
 }
 
 /**
- * Build the runtime relationships between this object and it's
+ * Build the runtime relationships between this object and other objects
  */
 void RecruitmentBevertonHoltWithDeviations::DoBuild() {
   partition_.Init(category_labels_);
@@ -197,6 +198,7 @@ void RecruitmentBevertonHoltWithDeviations::DoBuild() {
     }
     time_step_index++;
   }
+
   recruitment_index = model_->managers().time_step()->GetProcessIndex(label_);
   if (ageing_processes > 1)
     LOG_ERROR_P(PARAM_SSB_OFFSET) << "The Beverton-Holt recruitment year offset has been calculated on the basis of a single ageing process. "
@@ -301,13 +303,13 @@ void RecruitmentBevertonHoltWithDeviations::DoBuild() {
 }
 
 /**
- * Reset all of the values so they're ready for an execution run
- * - check if we need to rescale partition
+ * Reset all of the values so they are ready for an execution run
+ *
+ * - check if is necessary to rescale the partition
  * - update input parameters to updated parameters
  * - clear reporting containers
- * - check where b0 is coming from.
+ * - check where B0 is coming from
  */
-
 void RecruitmentBevertonHoltWithDeviations::DoReset() {
   LOG_TRACE();
   if (parameters_.Get(PARAM_B0)->has_been_defined()) {
@@ -359,7 +361,6 @@ void RecruitmentBevertonHoltWithDeviations::DoReset() {
  * Execute this process.
  *
  */
-
 void RecruitmentBevertonHoltWithDeviations::DoExecute() {
   unsigned ssb_year = model_->current_year() - ssb_offset_;
 
@@ -437,7 +438,7 @@ void RecruitmentBevertonHoltWithDeviations::DoExecute() {
 }
 
 /**
- *  Called in the intialisation phase, this method while scale the partition effected by this recruitment event if recruitment is B0 initialised
+ *  Called in the intialisation phase, this method scales the partition affected by this recruitment event if recruitment is B0 initialised
  */
 void RecruitmentBevertonHoltWithDeviations::ScalePartition() {
   if (!parameters_.Get(PARAM_B0)->has_been_defined())
@@ -460,11 +461,11 @@ void RecruitmentBevertonHoltWithDeviations::ScalePartition() {
   LOG_FINEST() << "R0 = " << r0_;
 }
 
-/*
- * @fun FillReportCache
+/**
+ * Fill the report cache
  * @description A method for reporting process information
  * @param cache a cache object to print to
-*/
+ */
 void RecruitmentBevertonHoltWithDeviations::FillReportCache(ostringstream& cache) {
   cache << "ycs_values: ";
   for (auto iter : ycs_values_)
@@ -481,13 +482,13 @@ void RecruitmentBevertonHoltWithDeviations::FillReportCache(ostringstream& cache
   cache << "\n";
 }
 
-/*
- * @fun FillTabularReportCache
+/**
+ * Fill the tabular report cache
  * @description A method for reporting tabular process information
  * @param cache a cache object to print to
  * @param first_run whether to print the header
  *
-*/
+ */
 void RecruitmentBevertonHoltWithDeviations::FillTabularReportCache(ostringstream& cache, bool first_run) {
   if (first_run) {
     vector<unsigned> years = model_->years();

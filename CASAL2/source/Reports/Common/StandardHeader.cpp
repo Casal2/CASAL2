@@ -53,7 +53,7 @@ StandardHeader::~StandardHeader() {
 
 /**
  * Prepare the header. This involves building
- * all of the information we need so it can be printed.
+ * all of the information so it can be printed.
  */
 void StandardHeader::DoPrepare() {
 
@@ -107,14 +107,14 @@ void StandardHeader::DoPrepare() {
 }
 
 /**
- * This report does it's printing during the start and finalise methods
- * so we do not need to have any logic within the run method.
+ * This report does its printing during the start and finalise methods
  */
-void StandardHeader::DoExecute() { }
+void StandardHeader::DoExecute() {
+}
 
 /**
- * Finalise our report. This will calculate how much time it took
- * to do the execution of our application and print this to the
+ * Finalise the report. This will calculate how much time it took
+ * to do the execution of the application and print this to the
  * console.
  */
 void StandardHeader::DoFinalise() {

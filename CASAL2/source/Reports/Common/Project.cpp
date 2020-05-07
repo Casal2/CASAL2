@@ -24,25 +24,22 @@ namespace reports {
 
 /**
  * Default constructor
- *
- * @param model Pointer to the current model context
  */
 Project::Project(Model* model) : Report(model) {
   model_state_ = State::kIterationComplete;
   run_mode_    = (RunMode::Type)(RunMode::kBasic | RunMode::kSimulation | RunMode::kProjection);
 
-  parameters_.Bind<string>(PARAM_PROJECT, &project_label_, "Project label that is reported", "", "");
+  parameters_.Bind<string>(PARAM_PROJECT, &project_label_, "The project label that is reported", "", "");
 }
 
 /**
- * Build our relationships between this object and other objects
+ * Build the relationships between this object and other objects
  */
 void Project::DoBuild() {
   project_ = model_->managers().project()->GetProject(project_label_);
   if (!project_) {
     LOG_ERROR_P(PARAM_PROJECT) << "project " << project_label_ << " was not found.";
   }
-
 }
 
 /**

@@ -22,7 +22,7 @@ namespace processes {
 namespace age {
 
 /**
- * Default Constructor
+ * Default constructor
  */
 TransitionCategory::TransitionCategory(Model* model)
   : Process(model),
@@ -30,10 +30,10 @@ TransitionCategory::TransitionCategory(Model* model)
     to_partition_(model) {
   LOG_TRACE();
 
-  parameters_.Bind<string>(PARAM_FROM, &from_category_names_, "From category", "");
-  parameters_.Bind<string>(PARAM_TO, &to_category_names_, "To category", "");
-  parameters_.Bind<Double>(PARAM_PROPORTIONS, &proportions_, "Proportions", "")->set_range(0.0, 1.0);
-  parameters_.Bind<string>(PARAM_SELECTIVITIES, &selectivity_names_, "Selectivity names", "");
+  parameters_.Bind<string>(PARAM_FROM, &from_category_names_, "The from category", "");
+  parameters_.Bind<string>(PARAM_TO, &to_category_names_, "The to category", "");
+  parameters_.Bind<Double>(PARAM_PROPORTIONS, &proportions_, "The proportions", "")->set_range(0.0, 1.0);
+  parameters_.Bind<string>(PARAM_SELECTIVITIES, &selectivity_names_, "The selectivity names", "");
 
   RegisterAsAddressable(PARAM_PROPORTIONS, &proportions_by_category_);
 
@@ -42,13 +42,13 @@ TransitionCategory::TransitionCategory(Model* model)
 }
 
 /**
- * Validate our Transition process
+ * Validate the Transition process
  *
  * - Check for the required parameters
- * - Assign variables from our parameters
+ * - Assign variables from the parameters
  * - Verify the categories are real
- * - If proportions or selectivities only has 1 element specified
- *   add more elements until they match number of categories
+ * - If proportions or selectivities only has one element specified
+ *   then add more elements until they match number of categories
  * - Verify vector lengths are all the same
  * - Verify categories From->To have matching age ranges
  * - Check all proportions are between 0.0 and 1.0
@@ -114,6 +114,7 @@ void TransitionCategory::DoValidate() {
 
 /**
  * Build any runtime relationships this class needs.
+ *
  * - Build the partition accessors
  * - Verify the selectivities are valid
  * - Get pointers to the selectivities
@@ -133,7 +134,7 @@ void TransitionCategory::DoBuild() {
 }
 
 /**
- * Execute our maturation rate process.
+ * Execute the maturation rate process.
  */
 void TransitionCategory::DoExecute() {
   LOG_TRACE();
@@ -181,7 +182,7 @@ void TransitionCategory::DoExecute() {
 }
 
 /**
- * Reset our maturation rates for a new run
+ * Reset the maturation rates
  */
 void TransitionCategory::DoReset() {
   transition_rates_.clear();

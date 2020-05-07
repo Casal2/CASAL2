@@ -21,7 +21,7 @@ namespace niwa {
 namespace penalties {
 
 /**
- * Default Constructor
+ * Default constructor
  */
 Process::Process(Model* model) : Penalty(model) {
   parameters_.Bind<double>(PARAM_MULTIPLIER, &multiplier_, "The penalty multiplier", "", 1.0)->set_lower_bound(0.0, false);
@@ -31,13 +31,13 @@ Process::Process(Model* model) : Penalty(model) {
 }
 
 /**
- * Trigger our penalty.
+ * Trigger the penalty.
  * Basic value for the trigger will be: (value_1 - value_2)^2 * multiplier
  * logscale is: (log(value_1) - log(value_2))^2 * multiplier
  *
  * @param source_label The label for the source of the trigger
  * @param value_1 The first value to use in equation
- * @param value_2 The second valud to use in equatin
+ * @param value_2 The second valud to use in equation
  */
 void Process::Trigger(const string& source_label, Double value_1, Double value_2) {
 

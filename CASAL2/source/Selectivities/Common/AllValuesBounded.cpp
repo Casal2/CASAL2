@@ -23,14 +23,14 @@ namespace niwa {
 namespace selectivities {
 
 /**
- * Explicit Constructor
+ * Default constructor
  */
 AllValuesBounded::AllValuesBounded(Model* model)
 : Selectivity(model) {
 
-  parameters_.Bind<unsigned>(PARAM_L, &low_, "L", "");
-  parameters_.Bind<unsigned>(PARAM_H, &high_, "H", "");
-  parameters_.Bind<Double>(PARAM_V, &v_, "V", "");
+  parameters_.Bind<unsigned>(PARAM_L, &low_, "The low value", "");
+  parameters_.Bind<unsigned>(PARAM_H, &high_, "The high value", "");
+  parameters_.Bind<Double>(PARAM_V, &v_, "The v parameter", "");
 
   RegisterAsAddressable(PARAM_V, &v_);
 }
@@ -40,7 +40,7 @@ AllValuesBounded::AllValuesBounded(Model* model)
  * values that were passed in from the configuration
  * file and assign them to the local variables.
  *
- * We'll then do some basic checks on the local
+ * Then do some basic checks on the local
  * variables to ensure they are within the business
  * rules for the model.
  */
@@ -88,7 +88,7 @@ void AllValuesBounded::DoValidate() {
 }
 
 /**
- * Reset this selectivity so it's ready for the next execution
+ * Reset this selectivity so it is ready for the next execution
  * phase in the model.
  *
  * This method will rebuild the cache of selectivity values
@@ -139,9 +139,10 @@ void AllValuesBounded::RebuildCache() {
  *
  * @param age
  * @param age_length AgeLength pointer
- * @return Double selectivity for an age based on age length distribution
+ * @param year
+ * @param time_step_index
+ * @return 0.0 - error
  */
-
 Double AllValuesBounded::GetLengthBasedResult(unsigned age, AgeLength* age_length, unsigned year, int time_step_index) {
   LOG_ERROR_P(PARAM_LENGTH_BASED) << ": This selectivity type has not been implemented for age length based selectivities ";
   return 0.0;

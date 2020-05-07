@@ -22,9 +22,7 @@ namespace niwa {
 namespace reports {
 
 /**
- * Constructor
- *
- * @param model A pointer to the model this report is linked to
+ * Default constructor
  */
 MPD::MPD(Model* model) : Report(model) {
   run_mode_ = RunMode::kEstimation;

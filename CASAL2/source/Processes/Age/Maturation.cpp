@@ -81,7 +81,7 @@ void Maturation::DoValidate() {
 }
 
 /**
- * Build any runtime relationships this class needs.
+ * Build any runtime relationships
  * - Build the partition accessors
  * - Verify the selectivities are valid
  * - Get pointers to the selectivities
@@ -125,22 +125,21 @@ void Maturation::DoExecute() {
   }
 }
 
-/*
+/**
  * Fill the report cache
  * @description A method for reporting process information
  * @param cache a cache object to print to
-*/
+ */
 void Maturation::FillReportCache(ostringstream& cache) {
 
 }
 
-/*
+/**
  * @Fill the tabular report cache
  * @description A method for reporting tabular process information
  * @param cache a cache object to print to
  * @param first_run whether to print the header
- *
-*/
+ */
 void Maturation::FillTabularReportCache(ostringstream& cache, bool first_run) {
 
 }

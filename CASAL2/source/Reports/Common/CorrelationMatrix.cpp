@@ -22,12 +22,12 @@ CorrelationMatrix::CorrelationMatrix(Model* model) : Report(model) {
 }
 
 /**
- * Execute
+ * Execute the report
  */
 void CorrelationMatrix::DoExecute() {
   LOG_TRACE();
   /*
-   * This reports the Covariance, Correlation and Hessian matrix
+   * This reports the covariance, correlation and Hessian matrix
    */
   auto minimiser_ = model_->managers().minimiser()->active_minimiser();
   if (!minimiser_)

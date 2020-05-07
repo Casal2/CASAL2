@@ -24,20 +24,20 @@ namespace niwa {
 namespace selectivities {
 
 /**
- * Explicit Constructor
+ * Default Constructor
  */
 KnifeEdge::KnifeEdge(Model* model)
 : Selectivity(model) {
 
-  parameters_.Bind<Double>(PARAM_E, &edge_, "Edge", "");
-  parameters_.Bind<Double>(PARAM_ALPHA, &alpha_, "Alpha", "", 1.0);
+  parameters_.Bind<Double>(PARAM_E, &edge_, "The edge value", "");
+  parameters_.Bind<Double>(PARAM_ALPHA, &alpha_, "alpha", "", 1.0);
 
   RegisterAsAddressable(PARAM_ALPHA, &alpha_);
   RegisterAsAddressable(PARAM_E, &edge_);
 }
 
 /**
- * Reset this selectivity so it's ready for the next execution
+ * Reset this selectivity so it is ready for the next execution
  * phase in the model.
  *
  * This method will rebuild the cache of selectivity values
@@ -72,7 +72,6 @@ void KnifeEdge::RebuildCache() {
  * @param age_length AgeLength pointer
  * @return Double selectivity for an age based on age length distribution_label
  */
-
 Double KnifeEdge::GetLengthBasedResult(unsigned age, AgeLength* age_length, unsigned year, int time_step_index) {
   unsigned yearx = year == 0 ? model_->current_year() : year;
   unsigned time_step = model_->managers().time_step()->current_time_step();
@@ -124,7 +123,6 @@ Double KnifeEdge::GetLengthBasedResult(unsigned age, AgeLength* age_length, unsi
   LOG_CODE_ERROR() << "dist is invalid " << dist;
   return 0;
 }
-
 
 } /* namespace selectivities */
 } /* namespace niwa */

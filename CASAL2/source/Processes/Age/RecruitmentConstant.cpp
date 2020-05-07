@@ -28,9 +28,9 @@ using niwa::partition::accessors::CategoriesWithAge;
  * Default Constructor
  */
 RecruitmentConstant::RecruitmentConstant(Model* model) : Process(model) {
-  parameters_.Bind<string>(PARAM_CATEGORIES, &category_labels_, "Categories", "");
-  parameters_.Bind<Double>(PARAM_PROPORTIONS, &proportions_, "Proportions", "", true);
-  parameters_.Bind<unsigned>(PARAM_AGE, &age_, "Age", "");
+  parameters_.Bind<string>(PARAM_CATEGORIES, &category_labels_, "The categories", "");
+  parameters_.Bind<Double>(PARAM_PROPORTIONS, &proportions_, "The proportion for each category", "", true);
+  parameters_.Bind<unsigned>(PARAM_AGE, &age_, "The age", "");
   parameters_.Bind<Double>(PARAM_R0, &r0_, "R0", "")->set_lower_bound(0.0);
 
   RegisterAsAddressable(PARAM_R0, &r0_);
@@ -44,7 +44,7 @@ RecruitmentConstant::RecruitmentConstant(Model* model) : Process(model) {
  * Validate the parameters for this process
  *
  * 1. Check for the required parameters
- * 2. Assign our label from the parameters
+ * 2. Assign the label from the parameters
  * 3. Assign remaining local parameters
  */
 void RecruitmentConstant::DoValidate() {
@@ -94,15 +94,14 @@ void RecruitmentConstant::DoValidate() {
 }
 
 /**
- * Build any runtime relationships we might
- * have to other objects in the system.
+ * Build any runtime relationships to other objects in the system.
  */
 void RecruitmentConstant::DoBuild() {
   partition_ = CategoriesWithAgePtr(new CategoriesWithAge(model_, category_labels_, age_));
 }
 
 /**
- * Execute our constant recruitment process
+ * Execute the constant recruitment process
  */
 void RecruitmentConstant::DoExecute() {
   /**
@@ -121,16 +120,17 @@ void RecruitmentConstant::DoExecute() {
  }
 }
 
-/*
- * @fun FillReportCache
+/**
+ * Fill the report cache
  * @description A method for reporting process information
  * @param cache a cache object to print to
 */
 void RecruitmentConstant::FillReportCache(ostringstream& cache) {
 
 }
-/*
- * @fun FillTabularReportCache
+
+/**
+ * Fill the tabular report cache
  * @description A method for reporting tabular process information
  * @param cache a cache object to print to
  * @param first_run whether to print the header

@@ -24,7 +24,7 @@ namespace reports {
 namespace length {
 
 /**
- * Default constructor.
+ * Default constructor
  *
  * Set the run mode and model state for this report
  */
@@ -32,7 +32,6 @@ InitialisationPartitionMeanWeight::InitialisationPartitionMeanWeight(Model* mode
   run_mode_    = (RunMode::Type)(RunMode::kBasic | RunMode::kProjection);
   model_state_ = State::kInitialise;
 }
-
 
 /**
  * Execute the InitialisationPartitionMeanWeight report

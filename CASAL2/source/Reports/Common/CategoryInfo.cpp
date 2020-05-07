@@ -28,7 +28,7 @@ CategoryInfo::CategoryInfo(Model* model) : Report(model) {
 }
 
 /**
- *
+ * Execute the report
  */
 void CategoryInfo::DoExecute() {
 

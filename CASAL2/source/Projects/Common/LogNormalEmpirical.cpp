@@ -22,9 +22,9 @@ namespace projects {
  */
 
 LogNormalEmpirical::LogNormalEmpirical(Model* model) : Project(model) {
-  parameters_.Bind<Double>(PARAM_MEAN, &mean_, "Mean of gaussian process", "",0.0);
-  parameters_.Bind<unsigned>(PARAM_START_YEAR, &start_year_, "Start year of sampling", "", false);
-  parameters_.Bind<unsigned>(PARAM_FINAL_YEAR, &final_year_, "Final year of sampling", "", false);
+  parameters_.Bind<Double>(PARAM_MEAN, &mean_, "The mean of gaussian process", "",0.0);
+  parameters_.Bind<unsigned>(PARAM_START_YEAR, &start_year_, "The start year of sampling", "", false);
+  parameters_.Bind<unsigned>(PARAM_FINAL_YEAR, &final_year_, "The final year of sampling", "", false);
 }
 
 /**
@@ -52,7 +52,7 @@ void LogNormalEmpirical::DoReset() {
     Random_draw = ceil(rng.uniform((unsigned)start_year_, (unsigned)final_year_));
     year = 0;
     if (!utilities::To<Double>(Random_draw, year))
-      LOG_ERROR() << " Random Draw " << Random_draw << " could not be converted to Double";
+      LOG_ERROR() << " Random draw " << Random_draw << " could not be converted to Double";
     resampled_years_[project_year] = year;
     LOG_FINEST() << "Value from year: " << year << " used in projection year: " << project_year;
   }
@@ -88,7 +88,7 @@ void LogNormalEmpirical::DoReset() {
 }
 
 /**
- *  Update our parameter with a random draw from a lognormal distribution with specified inputs
+ *  Update the parameter with a random draw from a lognormal distribution with specified inputs
  */
 void LogNormalEmpirical::DoUpdate() {
   /*

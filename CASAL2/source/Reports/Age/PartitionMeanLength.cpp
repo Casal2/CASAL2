@@ -28,7 +28,7 @@ namespace age {
  */
 PartitionMeanLength::PartitionMeanLength(Model* model) : Report(model) {
   run_mode_    = (RunMode::Type)(RunMode::kBasic | RunMode::kProjection | RunMode::kSimulation | RunMode::kEstimation | RunMode::kProfiling);
-  model_state_ = State::kExecute;
+  model_state_ = (State::Type)(State::kIterationComplete);
 
   parameters_.Bind<string>(PARAM_TIME_STEP, &time_step_, "Time Step label", "", "");
   parameters_.Bind<unsigned>(PARAM_YEARS, &years_, "Years", "", true);
@@ -44,7 +44,7 @@ void PartitionMeanLength::DoBuild() {
 }
 
 /**
- * Execute method
+ * Execute the report
  */
 void PartitionMeanLength::DoExecute() {
   LOG_TRACE();
@@ -54,7 +54,7 @@ void PartitionMeanLength::DoExecute() {
   niwa::partition::accessors::All all_view(model_);
   unsigned year       = model_->current_year();
   unsigned year_index = year > model_->start_year() ? year - model_->start_year() : 0;
-  if (find(years_.begin(),years_.end(), year) != years_.end()) {
+  if (find(years_.begin(), years_.end(), year) != years_.end()) {
     cache_ << "*"<< type_ << "[" << label_ << "]" << "\n";
     cache_ << "year: " << year << "\n";
     for (auto iterator = all_view.Begin(); iterator != all_view.End(); ++iterator) {

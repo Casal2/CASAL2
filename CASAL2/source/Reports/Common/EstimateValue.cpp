@@ -34,7 +34,7 @@ EstimateValue::~EstimateValue() noexcept(true) {
 }
 
 /**
- * Execute this report.
+ * Execute this report
  */
 void EstimateValue::DoExecute() {
   vector<Estimate*> estimates = model_->managers().estimate()->objects();
@@ -86,7 +86,7 @@ void EstimateValue::DoExecuteTabular() {
 }
 
 /**
- *  End report signature
+ *  Finalise the tabular report
  */
 void EstimateValue::DoFinaliseTabular() {
   ready_for_writing_ = true;

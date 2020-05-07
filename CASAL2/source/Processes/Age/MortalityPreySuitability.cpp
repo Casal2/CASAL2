@@ -32,12 +32,13 @@ namespace niwa {
 namespace processes {
 namespace age {
 namespace dc = niwa::utilities::doublecompare;
+
 /**
  * Default constructor
  *
  * Bind any parameters that are allowed to be loaded from the configuration files.
  * Set bounds on registered parameters
- * Register any parameters that can be an estimated or utilised in other run modes (e.g profiling, yields, projections etc)
+ * Register any parameters that can be an estimated or utilised in other run modes (e.g., profiling, yields, projections, etc.)
  * Set some initial values
  *
  * Note: The constructor is parsed to generate LaTeX for the documentation.
@@ -47,15 +48,15 @@ MortalityPreySuitability::MortalityPreySuitability(Model* model)
   process_type_ = ProcessType::kMortality;
   partition_structure_ = PartitionType::kAge;
 
-  parameters_.Bind<string>(PARAM_PREY_CATEGORIES, &prey_category_labels_, "Prey Categories labels", "");
-  parameters_.Bind<string>(PARAM_PREDATOR_CATEGORIES, &predator_category_labels_, "Predator Categories labels", "");
-  parameters_.Bind<Double>(PARAM_CONSUMPTION_RATE, &consumption_rate_, "Predator consumption rate", "")->set_range(0.0, 1.0);
-  parameters_.Bind<Double>(PARAM_ELECTIVITIES, &electivities_, "Prey Electivities", "")->set_range(0.0, 1.0);
+  parameters_.Bind<string>(PARAM_PREY_CATEGORIES, &prey_category_labels_, "The prey categories labels", "");
+  parameters_.Bind<string>(PARAM_PREDATOR_CATEGORIES, &predator_category_labels_, "The predator categories labels", "");
+  parameters_.Bind<Double>(PARAM_CONSUMPTION_RATE, &consumption_rate_, "The predator consumption rate", "")->set_range(0.0, 1.0);
+  parameters_.Bind<Double>(PARAM_ELECTIVITIES, &electivities_, "The prey electivities", "")->set_range(0.0, 1.0);
   parameters_.Bind<Double>(PARAM_U_MAX, &u_max_, "U max", "")->set_range(0.0, 1.0);
-  parameters_.Bind<string>(PARAM_PREY_SELECTIVITIES, &prey_selectivity_labels_, "Selectivities for prey categories", "");
-  parameters_.Bind<string>(PARAM_PREDATOR_SELECTIVITIES, &predator_selectivity_labels_, "Selectivities for predator categories", "");
-  parameters_.Bind<string>(PARAM_PENALTY, &  penalty_label_, "Label of penalty to be applied", "","");
-  parameters_.Bind<unsigned>(PARAM_YEARS, &years_, "Year that process occurs", "");
+  parameters_.Bind<string>(PARAM_PREY_SELECTIVITIES, &prey_selectivity_labels_, "The selectivities for prey categories", "");
+  parameters_.Bind<string>(PARAM_PREDATOR_SELECTIVITIES, &predator_selectivity_labels_, "The selectivities for predator categories", "");
+  parameters_.Bind<string>(PARAM_PENALTY, &  penalty_label_, "The label of the penalty", "","");
+  parameters_.Bind<unsigned>(PARAM_YEARS, &years_, "The year that process occurs", "");
 
   RegisterAsAddressable(PARAM_CONSUMPTION_RATE, &consumption_rate_);
   RegisterAsAddressable(PARAM_ELECTIVITIES, &electivities_);
@@ -64,7 +65,7 @@ MortalityPreySuitability::MortalityPreySuitability(Model* model)
 
 /**
  * Populate any parameters,
- * Validate values are within expected ranges when we cannot use bind<>() overloads
+ * Validate values are within expected ranges when bind<>() overloads cannot be used
  *
  * Note: all parameters are populated from configuration files
  */
@@ -240,22 +241,22 @@ void MortalityPreySuitability::DoExecute() {
   } // if (std::find(years_.begin(), years_.end(), model_->current_year()) != years_.end()) {
 }
 
-/*
- * @fun FillReportCache
+/**
+ * Fill the report cache
  * @description A method for reporting process information
  * @param cache a cache object to print to
-*/
+ */
 void MortalityPreySuitability::FillReportCache(ostringstream& cache) {
 
 }
 
-/*
- * @fun FillTabularReportCache
+/**
+ * Fill the tabular report cache
  * @description A method for reporting tabular process information
  * @param cache a cache object to print to
  * @param first_run whether to print the header
  *
-*/
+ */
 void MortalityPreySuitability::FillTabularReportCache(ostringstream& cache, bool first_run) {
 
 }
