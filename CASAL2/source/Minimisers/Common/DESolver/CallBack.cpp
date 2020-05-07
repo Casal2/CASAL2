@@ -40,7 +40,7 @@ CallBack::~CallBack() {
 
 /**
  * The energy function used to test the solution against
- * our model.
+ * the model.
  *
  * @param test_solution The test solution to use
  * @return The score from the energy function

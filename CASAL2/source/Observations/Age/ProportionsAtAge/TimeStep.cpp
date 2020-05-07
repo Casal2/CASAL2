@@ -21,17 +21,17 @@ namespace observations {
 namespace age {
 
 /**
- *
+ * Default constructor
  */
 TimeStepProportionsAtAge::TimeStepProportionsAtAge(Model* model)
    : observations::age::ProportionsAtAge(model) {
-  parameters_.Bind<double>(PARAM_TIME_STEP_PROPORTION, &time_step_proportion_, "Proportion through the mortality block of the time step when the observation is evaluated", "", double(0.5))->set_range(0.0, 1.0);
+  parameters_.Bind<double>(PARAM_TIME_STEP_PROPORTION, &time_step_proportion_, "The proportion through the mortality block of the time step when the observation is evaluated", "", double(0.5))->set_range(0.0, 1.0);
 
   mean_proportion_method_ = true;
 }
 
 /**
- *
+ * Build
  */
 void TimeStepProportionsAtAge::DoBuild() {
   ProportionsAtAge::DoBuild();

@@ -28,7 +28,7 @@ namespace cached {
 Categories::Categories(Model* model) : model_(model) { }
 
 /**
- * Init
+ * Initialise
  */
 void Categories::Init(const vector<string>& category_labels) {
   LOG_FINEST() << "Categories: " << category_labels.size();
@@ -36,7 +36,7 @@ void Categories::Init(const vector<string>& category_labels) {
 }
 
 /**
- * Build a cache of the partition for the current year. Everytime this method
+ * Build a cache of the partition for the current year. Every time this method
  * is called it will overwrite the previous cache.
  */
 void Categories::BuildCache() {
@@ -56,17 +56,15 @@ void Categories::BuildCache() {
 }
 
 /**
- * Return an iterator to the first object in our container
- *
- * @return Iterator to first stored element
+ * Return an iterator to the first object in the container
+ * @return Iterator to the first stored element
  */
 Categories::DataType::iterator Categories::begin() {
   return data_.begin();
 }
 
 /**
- * Return an iterator to the end object in our container
- *
+ * Return an iterator to the end object in the container
  * @return End iterator for the stored elements
  */
 Categories::DataType::iterator Categories::end() {
@@ -74,9 +72,8 @@ Categories::DataType::iterator Categories::end() {
 }
 
 /**
- * Return the size of our container for the current year. This
- * will return the number of active categories
- *
+ * Return the size of the container for the current year. This
+ * returns the number of active categories
  * @return The number of active categories
  */
 unsigned Categories::size() {

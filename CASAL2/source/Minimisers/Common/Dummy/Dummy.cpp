@@ -37,7 +37,7 @@ Dummy::Dummy(Model* model) : Minimiser(model) {
 }
 
 /**
- *
+ * Execute
  */
 void Dummy::Execute() {
   LOG_CODE_ERROR() << "The Dummy minimiser has been executed. This is bad.\n"

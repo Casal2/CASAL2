@@ -21,17 +21,17 @@ namespace observations {
 namespace age {
 
 /**
- *
+ * Default constructor
  */
 TimeStepProportionsByCategory::TimeStepProportionsByCategory(Model* model)
    : observations::age::ProportionsByCategory(model) {
-  parameters_.Bind<double>(PARAM_TIME_STEP_PROPORTION, &time_step_proportion_, "Proportion through the time step to analyse the partition from", "", double(0.5))->set_range(0.0, 1.0);
+  parameters_.Bind<double>(PARAM_TIME_STEP_PROPORTION, &time_step_proportion_, "The proportion through the time step to analyse the partition from", "", double(0.5))->set_range(0.0, 1.0);
 
   mean_proportion_method_ = true;
 }
 
 /**
- *
+ * Build
  */
 void TimeStepProportionsByCategory::DoBuild() {
   ProportionsByCategory::DoBuild();

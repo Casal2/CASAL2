@@ -23,19 +23,19 @@ namespace observations {
 namespace age {
 
 /**
- *
+ * Default constructor
  */
 ProcessProportionsAtAge::ProcessProportionsAtAge(Model* model)
    : observations::age::ProportionsAtAge(model) {
 
   parameters_.Bind<string>(PARAM_PROCESS, &process_label_, "The label of the process for the observation", "");
-  parameters_.Bind<double>(PARAM_PROCESS_PROPORTION, &process_proportion_, "Proportion through the process when the observation is evaluated", "", double(0.5))->set_range(0.0, 1.0);
+  parameters_.Bind<double>(PARAM_PROCESS_PROPORTION, &process_proportion_, "The proportion through the process when the observation is evaluated", "", double(0.5))->set_range(0.0, 1.0);
 
   mean_proportion_method_ = false;
 }
 
 /**
- *
+ * Build
  */
 void ProcessProportionsAtAge::DoBuild() {
   ProportionsAtAge::DoBuild();

@@ -21,24 +21,24 @@ namespace observations {
 namespace age {
 
 /**
- *
+ * Default constructor
  */
 ProcessAbundance::ProcessAbundance(Model* model)
    : observations::age::Abundance(model) {
 
-  parameters_.Bind<string>(PARAM_CATCHABILITY, &catchability_label_, "The label of the catchability (q) block assumed for this observation", "");
+  parameters_.Bind<string>(PARAM_CATCHABILITY, &catchability_label_, "The label of the catchability (q) block for this observation", "");
   parameters_.Bind<string>(PARAM_OBS, &obs_, "The observed values", "");
   parameters_.Bind<unsigned>(PARAM_YEARS, &years_, "The years of the observed values", "");
-  parameters_.Bind<double>(PARAM_ERROR_VALUE, &error_values_, "The error values of the observed values (note the units depend on the likelihood)", "");
-  parameters_.Bind<Double>(PARAM_PROCESS_ERROR, &process_error_value_, "The label of the process error", "", Double(0.0));
+  parameters_.Bind<double>(PARAM_ERROR_VALUE, &error_values_, "The error values of the observed values (note that the units depend on the likelihood)", "");
+  parameters_.Bind<Double>(PARAM_PROCESS_ERROR, &process_error_value_, "The process error", "", Double(0.0))->set_lower_bound(0.0);
   parameters_.Bind<string>(PARAM_PROCESS, &process_label_, "The label of the process for the observation", "");
-  parameters_.Bind<double>(PARAM_PROCESS_PROPORTION, &process_proportion_, "Proportion through the process when the observation is evaluated", "", double(0.5));
+  parameters_.Bind<double>(PARAM_PROCESS_PROPORTION, &process_proportion_, "The proportion through the process when the observation is evaluated", "", double(0.5));
 
   mean_proportion_method_ = false;
 }
 
 /**
- *
+ * Build
  */
 void ProcessAbundance::DoBuild() {
   Abundance::DoBuild();
@@ -59,7 +59,6 @@ void ProcessAbundance::DoBuild() {
       LOG_ERROR_P(PARAM_YEARS) << "Years cannot be less than start_year (" << model_->start_year() << "), or greater than final_year ("
         << model_->final_year() << ").";
   }
-
 }
 
 } /* namespace age */

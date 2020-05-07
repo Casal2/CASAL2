@@ -19,18 +19,18 @@ namespace observations {
 namespace age {
 
 /**
- *
+ * Default constructor
  */
 ProcessBiomass::ProcessBiomass(Model* model)
    : observations::age::Biomass(model) {
   parameters_.Bind<string>(PARAM_PROCESS, &process_label_, "The label of the process for the observation", "");
-  parameters_.Bind<double>(PARAM_PROCESS_PROPORTION, &process_proportion_, "Proportion through the process when the observation is evaluated", "", double(0.5))->set_range(0.0, 1.0);
+  parameters_.Bind<double>(PARAM_PROCESS_PROPORTION, &process_proportion_, "The proportion through the process when the observation is evaluated", "", double(0.5))->set_range(0.0, 1.0);
 
   mean_proportion_method_ = false;
 }
 
 /**
- *
+ * Build
  */
 void ProcessBiomass::DoBuild() {
   Biomass::DoBuild();
@@ -51,8 +51,8 @@ void ProcessBiomass::DoBuild() {
       LOG_ERROR_P(PARAM_YEARS) << "Years cannot be less than start_year (" << model_->start_year() << "), or greater than final_year ("
         << model_->final_year() << ").";
   }
-
 }
+
 } /* namespace age */
 } /* namespace observations */
 } /* namespace niwa */
