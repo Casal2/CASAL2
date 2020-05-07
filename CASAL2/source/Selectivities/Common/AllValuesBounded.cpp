@@ -28,8 +28,8 @@ namespace selectivities {
 AllValuesBounded::AllValuesBounded(Model* model)
 : Selectivity(model) {
 
-  parameters_.Bind<unsigned>(PARAM_L, &low_, "The low value", "");
-  parameters_.Bind<unsigned>(PARAM_H, &high_, "The high value", "");
+  parameters_.Bind<unsigned>(PARAM_L, &low_, "The low value (L)", "");
+  parameters_.Bind<unsigned>(PARAM_H, &high_, "The high value (H)", "");
   parameters_.Bind<Double>(PARAM_V, &v_, "The v parameter", "");
 
   RegisterAsAddressable(PARAM_V, &v_);
