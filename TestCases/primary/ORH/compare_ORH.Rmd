@@ -62,7 +62,7 @@ get_convergence_information <- function(filename)
 {
     # for BetaDiff
     # case-insensitive check for all strings with 'converge' and without 'check' (for "Convergence check")
-    str_vec <- grep('check', grep('converge', readLines(filename), ignore.case=TRUE, value=TRUE), value=TRUE, invert=TRUE)
+    str_vec <- grep('check', grep('converge|fmm|optimise', readLines(filename), ignore.case=TRUE, value=TRUE), value=TRUE, invert=TRUE)
 
     # for ADOL-C
     if (length(str_vec) == 0)
