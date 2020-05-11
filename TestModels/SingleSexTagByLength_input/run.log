@@ -1,22 +1,16 @@
-CASAL2
-Call: casal2 -r -i pars.out 
-Date: Wed Nov 13 16:18:20 2019
-Version: 2019-11-12 21:36:55 UTC (rev. 8359cd6)
-Copyright (c) 2018 - 2019, NIWA (www.niwa.co.nz)
-Environment: machine:LAPTOP-3JA8IB67, user:craig, os:Windows_NT, pid:25076
+Casal2
+Call: casal2 -r -i pars.out
+Date: Mon May 11 13:20:14 2020
+Version: 2020-05-08 05:01:48 UTC (rev. 96f97b0)
+Copyright (c) 2020 - 2020, NIWA (www.niwa.co.nz)
+-- Username: niwauser
+-- Machine: niwa-computer (Linux 5.6.0-1-amd64 x86_64)
+-- Process Id: 74609
 
 resizing from 40000 to 44000
 resizing from 44000 to 48400
 resizing from 48400 to 53240
-[WARNING] C:\Software\casal2-development\CASAL2\source\Estimates\Manager.cpp(line: 93): Estimates were removed because of matching lower and upper bounds. Originally had 33 estimates, now have 16
-*warnings[warnings_encounted]
-warnings_found: 1
-warning_0 {s}
-Estimates were removed because of matching lower and upper bounds. Originally had 33 estimates, now have 16
-*end
-
-Total elapsed time: 1 second
-Completed
+[WARNING] /home/niwauser/casal2-development/CASAL2/source/Estimates/Manager.cpp(line: 95): Estimates were removed because of matching lower and upper bounds. Originally had 33 estimates, now have 16
 resizing from 53240 to 58564
 resizing from 58564 to 64420
 resizing from 64420 to 70862
@@ -60,3 +54,34 @@ resizing from 2190410 to 2409451
 resizing from 2409451 to 2650396
 resizing from 2650396 to 2915435
 resizing from 2915435 to 3206978
+resizing from 3206978 to 3527675
+resizing from 3527675 to 3880442
+resizing from 3880442 to 4268486
+resizing from 4268486 to 4695334
+resizing from 4695334 to 5164867
+resizing from 5164867 to 5681353
+resizing from 5681353 to 6249488
+resizing from 6249488 to 6874436
+resizing from 6874436 to 7561879
+resizing from 7561879 to 8318066
+resizing from 8318066 to 9149872
+resizing from 9149872 to 10064859
+resizing from 10064859 to 11071344
+resizing from 11071344 to 12178478
+resizing from 12178478 to 13396325
+resizing from 13396325 to 14735957
+resizing from 14735957 to 16209552
+resizing from 16209552 to 17830507
+resizing from 17830507 to 19613557
+resizing from 19613557 to 21574912
+resizing from 21574912 to 23732403
+resizing from 23732403 to 26105643
+*warnings[warnings_encounted]
+warnings_found: 1
+warning_0 {s}
+Estimates were removed because of matching lower and upper bounds. Originally had 33 estimates, now have 16
+*end
+
+Total CPU time: 0.0009 hours.
+Total elapsed time: 2 seconds
+Completed
