@@ -24,10 +24,10 @@ class DebBuilder:
       else:
         self.do_build_ = './' + self.do_build_ + '.sh'
 
-      print('--> Building CASAL2 Archive')
+      print('--> Building Casal2 Archive')
       print('-- Re-Entering the build sytem to build a release binary')
       if os.system(self.do_build_ + ' archive') != EX_OK:
-        return Globals.PrintError('Failed to build CASAL2 archive')
+        return Globals.PrintError('Failed to build Casal2 archive')
 
     print('-- Loading version information from git')
     p = subprocess.Popen(['git', '--no-pager', 'log', '-n', '1', '--pretty=format:%H%n%h%n%ci' ], stdout=subprocess.PIPE, stderr=subprocess.PIPE)
@@ -43,7 +43,7 @@ class DebBuilder:
 
     version = utc_time.strftime('%Y%m%d') + '.' + lines[1]
 
-    print('-- CASAL2 Revision: ' + lines[1])
+    print('-- Casal2 Revision: ' + lines[1])
     if not os.path.exists('bin/linux/deb'):
       os.mkdir('bin/linux/deb')
     folder = 'bin/linux/deb/Casal2'
@@ -83,5 +83,5 @@ class DebBuilder:
     control_file.close()
 
     if os.system('dpkg-deb --build ' + folder) != EX_OK:
-      return Globals.PrintError('Failed to build DEB Package')
+      return Globals.PrintError('Failed to build deb package')
     return True

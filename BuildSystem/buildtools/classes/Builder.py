@@ -34,7 +34,7 @@ class MainCode:
     # Check to see if the third party libraries have been built
     third_party_dir = "bin/" + Globals.operating_system_ + "/thirdparty"
     if not os.path.exists(third_party_dir):
-      return Globals.PrintError("Third party libraries have not been built. Please build these first with thirdparty argument")
+      return Globals.PrintError("Third-party libraries have not been built. Please build these first with thirdparty argument")
 
     # Build the Version.h file
     if Globals.git_path_ != '' and Globals.in_docker_ == '':
@@ -88,10 +88,10 @@ class MainCode:
 
     print("--> Build main code base")
     if Globals.operating_system_ == "windows":
-      if os.system("mingw32-make -j 5") != EX_OK:
+      if os.system("mingw32-make -j 4") != EX_OK:
         return Globals.PrintError("Failed to build code base. Please see above for build error")
     else:
-      if os.system("make") != EX_OK:
+      if os.system("make -j 4") != EX_OK:
         return Globals.PrintError("Failed to build code base. Please see above for build error")
 
     elapsed = time.time() - start
