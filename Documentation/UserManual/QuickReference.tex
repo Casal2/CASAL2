@@ -285,20 +285,20 @@
 \defSub{process\_error} {The process error}
 \defSub{age\_weight\_labels} {R,The labels for the \command{$age\_weight$} block which corresponds to each category, to use the weight calculation method for biomass calculations,}
 \par\textbf{\commandlabsubarg{observation}{type}{process\_removals\_by\_age}}\par
-\defSub{min\_age} {Minimum age}
-\defSub{max\_age} {Maximum age}
-\defSub{plus\_group} {Use age plus group}
+\defSub{min\_age} {The minimum age}
+\defSub{max\_age} {The maximum age}
+\defSub{plus\_group} {Is the maximum age the age plus group}
 \defSub{time\_step} {The label of time-step that the observation occurs in}
-\defSub{tolerance} {Tolerance}
-\defSub{years} {Years for which there are observations}
-\defSub{process\_errors} {Label of process error to use}
-\defSub{ageing\_error} {Label of ageing error to use}
-\defSub{method\_of\_removal} {Label of observed method of removals}
+\defSub{tolerance} {The tolerance}
+\defSub{years} {The years for which there are observations}
+\defSub{process\_errors} {The label of process error to use}
+\defSub{ageing\_error} {The label of the ageing error to use}
+\defSub{method\_of\_removal} {The label of the observed method of removals}
 \defSub{mortality\_instantaneous\_process} {The label of the mortality instantaneous process for the observation}
 \par\textbf{\commandlabsubarg{observation}{type}{process\_removals\_by\_age\_retained}}\par
 \defSub{min\_age} {The minimum age}
 \defSub{max\_age} {The maximum age}
-\defSub{plus\_group} {Use the age plus group?}
+\defSub{plus\_group} {Is the maximum age the age plus group?}
 \defSub{time\_step} {The label of the time step that the observation occurs in}
 \defSub{tolerance} {The tolerance}
 \defSub{years} {The years for which there are observations}
@@ -309,7 +309,7 @@
 \par\textbf{\commandlabsubarg{observation}{type}{process\_removals\_by\_age\_retained\_total}}\par
 \defSub{min\_age} {The minimum age}
 \defSub{max\_age} {The maximum age}
-\defSub{plus\_group} {Use the age plus group?}
+\defSub{plus\_group} {Is the maximum age the age plus group?}
 \defSub{time\_step} {The label of the time step that the observation occurs in}
 \defSub{tolerance} {The tolerance}
 \defSub{years} {The years for which there are observations}
@@ -347,7 +347,7 @@
 \par\textbf{\commandlabsubarg{observation}{type}{proportions\_at\_age}}\par
 \defSub{min\_age} {The minimum age}
 \defSub{max\_age} {The maximum age}
-\defSub{plus\_group} {Use the age plus group?}
+\defSub{plus\_group} {Is the maximum age the age plus group?}
 \defSub{time\_step} {The label of the time step that the observation occurs in}
 \defSub{tolerance} {The tolerance on the constraint that for each year the sum of proportions in each age must equal 1, e.g., if tolerance = 0.1 then 1 - Sum,Proportions, can be as great as 0.1}
 \defSub{years} {The years of the observed values}
@@ -383,7 +383,7 @@
 \defSub{min\_age} {The minimum age}
 \defSub{max\_age} {The maximum age}
 \defSub{time\_step} {The label of the time step that the observation occurs in}
-\defSub{plus\_group} {Use the age plus group?}
+\defSub{plus\_group} {Is the maximum age the age plus group?}
 \defSub{years} {The years for which there are observations}
 \defSub{process\_errors} {The process error}
 \defSub{ageing\_error} {The label of the ageing error to use}
@@ -391,7 +391,7 @@
 \par\textbf{\commandlabsubarg{observation}{type}{tag\_recapture\_by\_age}}\par
 \defSub{min\_age} {The minimum age}
 \defSub{max\_age} {The maximum age}
-\defSub{plus\_group} {Use the age plus group?}
+\defSub{plus\_group} {Is the maximum age the age plus group?}
 \defSub{years} {The years for which there are observations}
 \defSub{categories2} {The available categories in the partition}
 \defSub{selectivities} {The labels of the selectivities}
@@ -406,7 +406,7 @@
 \defSub{selectivities} {The labels of the selectivities used for untagged categories}
 \defSub{tagged\_selectivities} {The labels of the tag category selectivities}
 \defSub{detection} {The probability of detecting a recaptured individual}
-\defSub{dispersion} {The over-dispersion parameter ,phi,}
+\defSub{dispersion} {The overdispersion parameter ,phi,}
 \defSub{time\_step\_proportion} {The proportion through the mortality block of the time step when the observation is evaluated}
 \defComLab{penalty}{Define an object of type \emph{penalty}}\par\par
 \defSub{label} {The label of the penalty}

@@ -39,7 +39,7 @@ TagRecaptureByAge::TagRecaptureByAge(Model* model) : Observation(model) {
 
   parameters_.Bind<unsigned>(PARAM_MIN_AGE, &min_age_, "The minimum age", "");
   parameters_.Bind<unsigned>(PARAM_MAX_AGE, &max_age_, "The maximum age", "");
-  parameters_.Bind<bool>(PARAM_PLUS_GROUP, &plus_group_, "Use the age plus group?", "", true);
+  parameters_.Bind<bool>(PARAM_PLUS_GROUP, &plus_group_, "Is the maximum age the age plus group?", "", true);
   parameters_.Bind<unsigned>(PARAM_YEARS, &years_, "The years for which there are observations", "");
   parameters_.Bind<string>(PARAM_TARGET_CATEGORIES, &target_category_labels_, "The available categories in the partition", "");
   parameters_.Bind<string>(PARAM_SELECTIVITIES, &selectivity_labels_, "The labels of the selectivities", "", true);
@@ -77,8 +77,8 @@ void TagRecaptureByAge::DoValidate() {
 
   age_spread_ = (max_age_ - min_age_) + 1;
 
-  map<unsigned, vector<double>> recaptures_by_year;
-  map<unsigned, vector<double>> scanned_by_year;
+  map<unsigned, vector<Double>> recaptures_by_year;
+  map<unsigned, vector<Double>> scanned_by_year;
 
   for (auto year : years_) {
     if((year < model_->start_year()) || (year > model_->final_year()))
@@ -130,9 +130,9 @@ void TagRecaptureByAge::DoValidate() {
     }
 
     for (unsigned i = 1; i < recaptures_data_line.size(); ++i) {
-      double value = 0.0;
-      if (!utilities::To<double>(recaptures_data_line[i], value))
-        LOG_ERROR_P(PARAM_RECAPTURED) << " value (" << recaptures_data_line[i] << ") could not be converted to a double";
+      Double value = 0.0;
+      if (!utilities::To<Double>(recaptures_data_line[i], value))
+        LOG_ERROR_P(PARAM_RECAPTURED) << " value (" << recaptures_data_line[i] << ") could not be converted to a Double";
       recaptures_by_year[year].push_back(value);
     }
     if (recaptures_by_year[year].size() != obs_expected - 1)
@@ -160,9 +160,9 @@ void TagRecaptureByAge::DoValidate() {
       LOG_ERROR_P(PARAM_SCANNED) << " value " << year << " is not a valid year for this observation";
     } else {
         for (unsigned i = 1; i < scanned_values_data_line.size(); ++i) {
-          double value = 0.0;
-          if (!utilities::To<double>(scanned_values_data_line[i], value)) {
-            LOG_ERROR_P(PARAM_SCANNED) << " value (" << scanned_values_data_line[i] << ") could not be converted to a double";
+          Double value = 0.0;
+          if (!utilities::To<Double>(scanned_values_data_line[i], value)) {
+            LOG_ERROR_P(PARAM_SCANNED) << " value (" << scanned_values_data_line[i] << ") could not be converted to a Double";
           } else if (likelihood_type_ == PARAM_MULTINOMIAL && value < 0.0) {
               LOG_ERROR_P(PARAM_ERROR_VALUES) << ": error_value (" << value << ") cannot be less than 0.0";
           }
@@ -183,16 +183,16 @@ void TagRecaptureByAge::DoValidate() {
   /**
    * Build our Recaptured and scanned maps for use in the DoExecute() section
    */
-  double value = 0.0;
+  Double value = 0.0;
   for (auto iter = recaptures_by_year.begin(); iter != recaptures_by_year.end(); ++iter) {
-    double total = 0.0;
+    Double total = 0.0;
 
     for (unsigned i = 0; i < category_labels_.size(); ++i) {
       for (unsigned j = 0; j < age_spread_; ++j) {
         unsigned obs_index = i * age_spread_ + j;
-        if (!utilities::To<double>(iter->second[obs_index], value)) {
+        if (!utilities::To<Double>(iter->second[obs_index], value)) {
           LOG_ERROR_P(PARAM_OBS) << ": obs_ value (" << iter->second[obs_index] << ") at index " << obs_index + 1
-              << " in the definition could not be converted to a double";
+              << " in the definition could not be converted to a Double";
         }
 
         auto s_f = scanned_by_year.find(iter->first);
@@ -300,6 +300,9 @@ void TagRecaptureByAge::Execute() {
   auto target_cached_partition_iter  = target_cached_partition_->Begin();
   auto target_partition_iter         = target_partition_->Begin(); // vector<vector<partition::Category> >
 
+  vector<Double> age_results(age_spread_);
+  vector<Double> target_age_results(age_spread_);
+
   /**
    * Loop through the provided categories. Each provided category (combination) will have a list of observations
    * with it. We need to build a vector of proportions for each age using that combination and then
@@ -311,8 +314,8 @@ void TagRecaptureByAge::Execute() {
     Double      end_value          = 0.0;
     Double      final_value        = 0.0;
 
-    vector<Double> age_results(age_spread_, 0.0);
-    vector<Double> target_age_results(age_spread_, 0.0);
+    std::fill(age_results.begin(), age_results.end(), 0.0);
+    std::fill(target_age_results.begin(), target_age_results.end(), 0.0);
 
     /**
      * Loop through the 2 combined categories if they are supplied, building up the
@@ -415,7 +418,7 @@ void TagRecaptureByAge::Execute() {
      //save our comparisons so we can use them to generate the score from the likelihoods later
     for (unsigned i = 0; i < age_results.size(); ++i) {
       Double expected = 0.0;
-      double observed = 0.0;
+      Double observed = 0.0;
       if (age_results[i] != 0.0)
         expected = target_age_results[i] / age_results[i];
       if (scanned_[model_->current_year()][category_labels_[category_offset]][i] == 0.0)
@@ -428,7 +431,8 @@ void TagRecaptureByAge::Execute() {
         << " recaptures = " << recaptures_[model_->current_year()][category_labels_[category_offset]][i];
 
       SaveComparison(target_category_labels_[category_offset], min_age_ + i, 0, expected, observed,
-          process_errors_by_year_[model_->current_year()], scanned_[model_->current_year()][category_labels_[category_offset]][i], 0.0, delta_, 0.0);
+                     process_errors_by_year_[model_->current_year()], scanned_[model_->current_year()][category_labels_[category_offset]][i],
+                     0.0, delta_, 0.0);
     }
   }
 }

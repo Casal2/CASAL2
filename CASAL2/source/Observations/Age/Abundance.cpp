@@ -70,15 +70,15 @@ void Abundance::DoValidate() {
     LOG_ERROR_P(PARAM_ERROR_VALUE) << ": error_value length (" << error_values_.size()
       << ") must be same length as obs (" << obs.size() << ")";
 
-  error_values_by_year_ = utils::Map<double>::create(years_, error_values_);
+  error_values_by_year_ = utils::Map<Double>::create(years_, error_values_);
 
-  double value = 0.0;
+  Double value = 0.0;
   for (unsigned i = 0; i < years_.size(); ++i) {
     for (unsigned j = 0; j < category_labels_.size(); ++j) {
       unsigned index = (i * category_labels_.size()) + j;
 
-      if (!utils::To<double>(obs[index], value))
-        LOG_ERROR_P(PARAM_OBS) << ": obs value " << obs[index] << " could not be converted to a double";
+      if (!utils::To<Double>(obs[index], value))
+        LOG_ERROR_P(PARAM_OBS) << ": obs value " << obs[index] << " could not be converted to a Double";
       if (value <= 0.0)
         LOG_ERROR_P(PARAM_OBS) << ": obs value " << value << " cannot be less than or equal to 0.0";
 
@@ -146,8 +146,8 @@ void Abundance::Execute() {
   Double expected_total = 0.0; // value in the model
   vector<string> keys;
   vector<Double> expecteds;
-  vector<double> observeds;
-  vector<double> error_values;
+  vector<Double> observeds;
+  vector<Double> error_values;
   vector<Double> process_errors;
   vector<Double> scores;
 
@@ -156,7 +156,7 @@ void Abundance::Execute() {
   Double end_value = 0.0;
   Double final_value = 0.0;
   unsigned age = 0;
-  double error_value = 0.0;
+  Double error_value = 0.0;
 
   unsigned current_year = model_->current_year();
 
@@ -252,7 +252,7 @@ void Abundance::CalculateScore() {
     likelihood_->SimulateObserved(comparisons_);
 
     for (auto& iter : comparisons_) {
-      double total = 0.0;
+      Double total = 0.0;
       for (auto& comparison : iter.second)
         total += comparison.observed_;
       for (auto& comparison : iter.second)

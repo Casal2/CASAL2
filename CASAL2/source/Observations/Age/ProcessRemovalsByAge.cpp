@@ -39,17 +39,17 @@ ProcessRemovalsByAge::ProcessRemovalsByAge(Model* model) : Observation(model) {
   obs_table_ = new parameters::Table(PARAM_OBS);
   error_values_table_ = new parameters::Table(PARAM_ERROR_VALUES);
 
-  parameters_.Bind<unsigned>(PARAM_MIN_AGE, &min_age_, "Minimum age", "");
-  parameters_.Bind<unsigned>(PARAM_MAX_AGE, &max_age_, "Maximum age", "");
-  parameters_.Bind<bool>(PARAM_PLUS_GROUP, &plus_group_, "Use age plus group", "", true);
+  parameters_.Bind<unsigned>(PARAM_MIN_AGE, &min_age_, "The minimum age", "");
+  parameters_.Bind<unsigned>(PARAM_MAX_AGE, &max_age_, "The maximum age", "");
+  parameters_.Bind<bool>(PARAM_PLUS_GROUP, &plus_group_, "Is the maximum age the age plus group", "", true);
   parameters_.Bind<string>(PARAM_TIME_STEP, &time_step_label_, "The label of time-step that the observation occurs in", "");
-  parameters_.Bind<double>(PARAM_TOLERANCE, &tolerance_, "Tolerance", "", double(0.001))->set_range(0.0, 1.0, false, false);
-  parameters_.Bind<unsigned>(PARAM_YEARS, &years_, "Years for which there are observations", "");
-  parameters_.Bind<Double>(PARAM_PROCESS_ERRORS, &process_error_values_, "Label of process error to use", "", true);
-  parameters_.Bind<string>(PARAM_AGEING_ERROR, &ageing_error_label_, "Label of ageing error to use", "", "");
-  parameters_.Bind<string>(PARAM_METHOD_OF_REMOVAL, &method_, "Label of observed method of removals", "", "");
-  parameters_.BindTable(PARAM_OBS, obs_table_, "Table of observed values", "", false);
-  parameters_.BindTable(PARAM_ERROR_VALUES, error_values_table_, "Table of error values of the observed values (note the units depend on the likelihood)", "", false);
+  parameters_.Bind<double>(PARAM_TOLERANCE, &tolerance_, "The tolerance", "", double(0.001))->set_range(0.0, 1.0, false, false);
+  parameters_.Bind<unsigned>(PARAM_YEARS, &years_, "The years for which there are observations", "");
+  parameters_.Bind<Double>(PARAM_PROCESS_ERRORS, &process_error_values_, "The label of process error to use", "", true);
+  parameters_.Bind<string>(PARAM_AGEING_ERROR, &ageing_error_label_, "The label of the ageing error to use", "", "");
+  parameters_.Bind<string>(PARAM_METHOD_OF_REMOVAL, &method_, "The label of the observed method of removals", "", "");
+  parameters_.BindTable(PARAM_OBS, obs_table_, "The table of observed values", "", false);
+  parameters_.BindTable(PARAM_ERROR_VALUES, error_values_table_, "The table of error values of the observed values (note that the units depend on the likelihood)", "", false);
   parameters_.Bind<string>(PARAM_MORTALITY_INSTANTANEOUS_PROCESS, &process_label_, "The label of the mortality instantaneous process for the observation", "");
 
   mean_proportion_method_ = false;
@@ -74,8 +74,8 @@ ProcessRemovalsByAge::~ProcessRemovalsByAge() {
 void ProcessRemovalsByAge::DoValidate() {
   age_spread_ = (max_age_ - min_age_) + 1;
 
-  map<unsigned, vector<double>> error_values_by_year;
-  map<unsigned, vector<double>> obs_by_year;
+  map<unsigned, vector<Double>> error_values_by_year;
+  map<unsigned, vector<Double>> obs_by_year;
 
   /**
    * Do some simple checks
@@ -137,9 +137,9 @@ void ProcessRemovalsByAge::DoValidate() {
       LOG_ERROR_P(PARAM_OBS) << " value " << year << " is not a valid year for this observation";
 
     for (unsigned i = 1; i < obs_data_line.size(); ++i) {
-      double value = 0.0;
-      if (!utilities::To<double>(obs_data_line[i], value))
-        LOG_ERROR_P(PARAM_OBS) << " value (" << obs_data_line[i] << ") could not be converted to a double";
+      Double value = 0.0;
+      if (!utilities::To<Double>(obs_data_line[i], value))
+        LOG_ERROR_P(PARAM_OBS) << " value (" << obs_data_line[i] << ") could not be converted to a Double";
       obs_by_year[year].push_back(value);
     }
     if (obs_by_year[year].size() != obs_expected - 1)
@@ -167,9 +167,9 @@ void ProcessRemovalsByAge::DoValidate() {
     if (std::find(years_.begin(), years_.end(), year) == years_.end())
       LOG_ERROR_P(PARAM_ERROR_VALUES) << " value " << year << " is not a valid year for this observation";
     for (unsigned i = 1; i < error_values_data_line.size(); ++i) {
-      double value = 0;
-      if (!utilities::To<double>(error_values_data_line[i], value))
-        LOG_FATAL_P(PARAM_ERROR_VALUES) << " value (" << error_values_data_line[i] << ") could not be converted to a double";
+      Double value = 0;
+      if (!utilities::To<Double>(error_values_data_line[i], value))
+        LOG_FATAL_P(PARAM_ERROR_VALUES) << " value (" << error_values_data_line[i] << ") could not be converted to a Double";
       if (likelihood_type_ == PARAM_LOGNORMAL && value <= 0.0) {
         LOG_ERROR_P(PARAM_ERROR_VALUES) << ": error_value (" << value << ") cannot be equal to or less than 0.0";
       } else if (likelihood_type_ == PARAM_MULTINOMIAL && value < 0.0) {
@@ -194,9 +194,9 @@ void ProcessRemovalsByAge::DoValidate() {
    * If the proportions for a given observation do not sum to 1.0
    * and is off by more than the tolerance rescale them.
    */
-  double value = 0.0;
+  Double value = 0.0;
   for (auto iter = obs_by_year.begin(); iter != obs_by_year.end(); ++iter) {
-    double total = 0.0;
+    Double total = 0.0;
 
     for (unsigned i = 0; i < category_labels_.size(); ++i) {
       for (unsigned j = 0; j < age_spread_; ++j) {
@@ -421,7 +421,7 @@ void ProcessRemovalsByAge::CalculateScore() {
     }
     likelihood_->SimulateObserved(comparisons_);
     for (auto& iter : comparisons_) {
-      double total = 0.0;
+      Double total = 0.0;
       for (auto& comparison : iter.second)
         total += comparison.observed_;
       for (auto& comparison : iter.second)

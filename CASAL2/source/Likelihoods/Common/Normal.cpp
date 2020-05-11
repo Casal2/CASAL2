@@ -28,7 +28,7 @@ namespace dc = niwa::utilities::doublecompare;
  * @param error_value The observations error_value
  * @return An adjusted error value
  */
-Double Normal::AdjustErrorValue(const Double process_error, const double error_value) {
+Double Normal::AdjustErrorValue(const Double process_error, const Double error_value) {
   if (process_error > 0.0)
     return sqrt(error_value * error_value + process_error * process_error);
 

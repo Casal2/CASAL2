@@ -34,7 +34,7 @@ Biomass::Biomass(Model* model) : Observation(model) {
   parameters_.Bind<string>(PARAM_TIME_STEP, &time_step_label_, "The label of the time step that the observation occurs in", "");
   parameters_.Bind<string>(PARAM_OBS, &obs_, "The observed values", "");
   parameters_.Bind<unsigned>(PARAM_YEARS, &years_, "The years of the observed values", "");
-  parameters_.Bind<double>(PARAM_ERROR_VALUE, &error_values_, "The error values of the observed values (note that the units depend on the likelihood)", "");
+  parameters_.Bind<Double>(PARAM_ERROR_VALUE, &error_values_, "The error values of the observed values (note that the units depend on the likelihood)", "");
   parameters_.Bind<string>(PARAM_SELECTIVITIES, &selectivity_labels_, "The labels of the selectivities", "", true);
   parameters_.Bind<Double>(PARAM_PROCESS_ERROR, &process_error_value_, "The process error", "", Double(0.0))->set_lower_bound(0.0);
   parameters_.Bind<string>(PARAM_AGE_WEIGHT_LABELS, &age_weight_labels_, R"(The labels for the \command{$age\_weight$} block which corresponds to each category, to use the weight calculation method for biomass calculations)", "", "");
@@ -89,15 +89,15 @@ void Biomass::DoValidate() {
     LOG_ERROR_P(PARAM_ERROR_VALUE) << ": error_value length (" << error_values_.size()
       << ") must be same length as obs (" << obs.size() << ")";
 
-  error_values_by_year_ = utils::Map<double>::create(years_, error_values_);
+  error_values_by_year_ = utils::Map<Double>::create(years_, error_values_);
 
-  double value = 0.0;
+  Double value = 0.0;
   for (unsigned i = 0; i < years_.size(); ++i) {
     for (unsigned j = 0; j < category_labels_.size(); ++j) {
       unsigned index = (i * category_labels_.size()) + j;
 
-      if (!utils::To<double>(obs[index], value))
-        LOG_ERROR_P(PARAM_OBS) << ": obs value " << obs[index] << " could not be converted to a double";
+      if (!utils::To<Double>(obs[index], value))
+        LOG_ERROR_P(PARAM_OBS) << ": obs value " << obs[index] << " could not be converted to a Double";
       if (value <= 0.0)
         LOG_ERROR_P(PARAM_OBS) << ": obs value " << value << " cannot be less than or equal to 0.0";
 
@@ -177,7 +177,7 @@ void Biomass::Execute() {
   Double end_value = 0.0;
   Double final_value = 0.0;
   unsigned age = 0;
-  double error_value = 0.0;
+  Double error_value = 0.0;
 
   unsigned current_year = model_->current_year();
 

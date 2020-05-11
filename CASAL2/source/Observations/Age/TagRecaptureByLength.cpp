@@ -50,7 +50,7 @@ TagRecaptureByLength::TagRecaptureByLength(Model* model) : Observation(model) {
   // TODO:  is tolerance missing?
   parameters_.Bind<Double>(PARAM_PROCESS_ERRORS, &process_error_values_, "The process error", "", true);
   parameters_.Bind<double>(PARAM_DETECTION_PARAMETER,  &detection_, "The probability of detecting a recaptured individual", "")->set_range(0.0, 1.0);
-  parameters_.Bind<double>(PARAM_DISPERSION,  &despersion_, "The over-dispersion parameter (phi)  ", "", double(1.0))->set_lower_bound(0.0);
+  parameters_.Bind<double>(PARAM_DISPERSION,  &despersion_, "The overdispersion parameter (phi)  ", "", double(1.0))->set_lower_bound(0.0);
   parameters_.BindTable(PARAM_RECAPTURED, recaptures_table_, "The table of observed recaptured individuals in each length bin", "", false);
   parameters_.BindTable(PARAM_SCANNED, scanned_table_, "The table of observed scanned individuals in each length bin", "", false);
   parameters_.Bind<double>(PARAM_TIME_STEP_PROPORTION, &time_step_proportion_, "The proportion through the mortality block of the time step when the observation is evaluated", "", double(0.5))->set_range(0.0, 1.0);
@@ -167,8 +167,8 @@ void TagRecaptureByLength::DoValidate() {
       << ") is not valid. Specify either the number of category collections (" << tagged_category_labels_.size() << ") or "
       << "the number of total categories (" << expected_selectivity_count << ")";
 
-  map<unsigned, vector<double>> recaptures_by_year;
-  map<unsigned, vector<double>> scanned_by_year;
+  map<unsigned, vector<Double>> recaptures_by_year;
+  map<unsigned, vector<Double>> scanned_by_year;
 
   if (detection_ < 0.0 || detection_ > 1.0) {
     LOG_ERROR_P(PARAM_DETECTION_PARAMETER) << ": detection probability must be between 0.0 and 1.0 inclusive";
@@ -210,9 +210,9 @@ void TagRecaptureByLength::DoValidate() {
     }
 
     for (unsigned i = 1; i < recaptures_data_line.size(); ++i) {
-      double value = 0.0;
-      if (!utilities::To<double>(recaptures_data_line[i], value))
-        LOG_ERROR_P(PARAM_RECAPTURED) << " value (" << recaptures_data_line[i] << ") could not be converted to a double";
+      Double value = 0.0;
+      if (!utilities::To<Double>(recaptures_data_line[i], value))
+        LOG_ERROR_P(PARAM_RECAPTURED) << " value (" << recaptures_data_line[i] << ") could not be converted to a Double";
       recaptures_by_year[year].push_back(value);
     }
     if (recaptures_by_year[year].size() != obs_expected - 1)
@@ -241,9 +241,9 @@ void TagRecaptureByLength::DoValidate() {
       LOG_ERROR_P(PARAM_SCANNED) << " value " << year << " is not a valid year for this observation";
     } else {
         for (unsigned i = 1; i < scanned_values_data_line.size(); ++i) {
-          double value = 0.0;
-        if (!utilities::To<double>(scanned_values_data_line[i], value)) {
-          LOG_ERROR_P(PARAM_SCANNED) << " value (" << scanned_values_data_line[i] << ") could not be converted to a double";
+          Double value = 0.0;
+        if (!utilities::To<Double>(scanned_values_data_line[i], value)) {
+          LOG_ERROR_P(PARAM_SCANNED) << " value (" << scanned_values_data_line[i] << ") could not be converted to a Double";
         } else if (likelihood_type_ == PARAM_MULTINOMIAL && value < 0.0) {
             LOG_ERROR_P(PARAM_ERROR_VALUES) << ": error_value (" << value << ") cannot be less than 0.0";
         }
@@ -264,16 +264,16 @@ void TagRecaptureByLength::DoValidate() {
   /**
    * Build our Recaptured and scanned maps for use in the DoExecute() section
    */
-  double value = 0.0;
+  Double value = 0.0;
   for (auto iter = recaptures_by_year.begin(); iter != recaptures_by_year.end(); ++iter) {
-    double total = 0.0;
+    Double total = 0.0;
 
     for (unsigned i = 0; i < category_labels_.size(); ++i) {
       for (unsigned j = 0; j < number_bins_; ++j) {
         unsigned obs_index = i * number_bins_ + j;
-        if (!utilities::To<double>(iter->second[obs_index], value)) {
+        if (!utilities::To<Double>(iter->second[obs_index], value)) {
           LOG_ERROR_P(PARAM_OBS) << ": obs_ value (" << iter->second[obs_index] << ") at index " << obs_index + 1
-            << " in the definition could not be converted to a double";
+            << " in the definition could not be converted to a Double";
         }
 
         auto s_f = scanned_by_year.find(iter->first);
@@ -584,7 +584,7 @@ void TagRecaptureByLength::Execute() {
     //save our comparisons so we can use them to generate the score from the likelihoods later
     for (unsigned i = 0; i < length_results_.size(); ++i) {
       Double expected = 0.0;
-      double observed = 0.0;
+      Double observed = 0.0;
       if (length_results_[i] != 0.0) {
         expected = detection_ * tagged_length_results_[i] / (length_results_[i]+  tagged_length_results_[i]);
         LOG_FINEST() << " total numbers at length " << length_bins_[i] << " = " << tagged_length_results_[i]

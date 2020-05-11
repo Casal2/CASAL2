@@ -37,22 +37,23 @@ public:
   void                        Validate();
   void                        Build() { };
   void                        Reset() override final { };
-  virtual Double              AdjustErrorValue(const Double process_error, const double error_value) = 0;
+  virtual Double              AdjustErrorValue(const Double process_error, const Double error_value) = 0;
   virtual void                SimulateObserved(map<unsigned, vector<observations::Comparison> >& comparisons) { };
   virtual Double              GetInitialScore(map<unsigned, vector<observations::Comparison> >& comparisons, unsigned year) { return 0.0; };
   virtual void                GetScores(map<unsigned, vector<observations::Comparison> >& comparisons) { };
   virtual void                DoValidate() { };
 
   // accessors
-  void                        set_multiplier(double new_value) { multiplier_ = new_value; }
-  void                        set_error_value_multiplier(double new_value) { error_value_multiplier_ = new_value; }
+  void                        set_multiplier(Double new_value) { multiplier_ = new_value; }
+  void                        set_error_value_multiplier(Double new_value) { error_value_multiplier_ = new_value; }
   void                        set_type(const string& type) { type_ = type; }
 
 protected:
   // members
   Model*                      model_ = nullptr;
-  double                      multiplier_ = 1.0;
-  double                      error_value_multiplier_ = 1.0;
+  Double                      multiplier_ = 1.0;
+  Double                      error_value_multiplier_ = 1.0;
 };
+
 } /* namespace niwa */
 #endif /* LIKELIHOOD_H_ */

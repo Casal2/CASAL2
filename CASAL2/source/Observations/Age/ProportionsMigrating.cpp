@@ -39,7 +39,7 @@ ProportionsMigrating::ProportionsMigrating(Model* model) : Observation(model) {
   parameters_.Bind<unsigned>(PARAM_MIN_AGE, &min_age_, "The minimum age", "");
   parameters_.Bind<unsigned>(PARAM_MAX_AGE, &max_age_, "The maximum age", "");
   parameters_.Bind<string>(PARAM_TIME_STEP, &time_step_label_, "The label of the time step that the observation occurs in", "");
-  parameters_.Bind<bool>(PARAM_PLUS_GROUP, &plus_group_, "Use the age plus group?", "", true);
+  parameters_.Bind<bool>(PARAM_PLUS_GROUP, &plus_group_, "Is the maximum age the age plus group?", "", true);
   parameters_.Bind<unsigned>(PARAM_YEARS, &years_, "The years for which there are observations", "");
   parameters_.Bind<Double>(PARAM_PROCESS_ERRORS, &process_error_values_, "The process error", "", true);
   parameters_.Bind<string>(PARAM_AGEING_ERROR, &ageing_error_label_, "The label of the ageing error to use", "", "");
@@ -68,8 +68,8 @@ ProportionsMigrating::~ProportionsMigrating() {
 void ProportionsMigrating::DoValidate() {
   age_spread_ = (max_age_ - min_age_) + 1;
 
-  map<unsigned, vector<double>> error_values_by_year;
-  map<unsigned, vector<double>> obs_by_year;
+  map<unsigned, vector<Double>> error_values_by_year;
+  map<unsigned, vector<Double>> obs_by_year;
 
   /**
    * Do some simple checks
@@ -131,9 +131,9 @@ void ProportionsMigrating::DoValidate() {
       LOG_ERROR_P(PARAM_OBS) << " value " << year << " is not a valid year for this observation";
 
     for (unsigned i = 1; i < obs_data_line.size(); ++i) {
-      double value = 0.0;
-      if (!utilities::To<double>(obs_data_line[i], value))
-        LOG_ERROR_P(PARAM_OBS) << " value (" << obs_data_line[i] << ") could not be converted to a double";
+      Double value = 0.0;
+      if (!utilities::To<Double>(obs_data_line[i], value))
+        LOG_ERROR_P(PARAM_OBS) << " value (" << obs_data_line[i] << ") could not be converted to a Double";
       // TODO:  need additional proportion checks
       obs_by_year[year].push_back(value);
     }
@@ -162,9 +162,9 @@ void ProportionsMigrating::DoValidate() {
     if (std::find(years_.begin(), years_.end(), year) == years_.end())
       LOG_ERROR_P(PARAM_ERROR_VALUES) << " value " << year << " is not a valid year for this observation";
     for (unsigned i = 1; i < error_values_data_line.size(); ++i) {
-      double value = 0.0;
-      if (!utilities::To<double>(error_values_data_line[i], value))
-        LOG_ERROR_P(PARAM_ERROR_VALUES) << " value (" << error_values_data_line[i] << ") could not be converted to a double";
+      Double value = 0.0;
+      if (!utilities::To<Double>(error_values_data_line[i], value))
+        LOG_ERROR_P(PARAM_ERROR_VALUES) << " value (" << error_values_data_line[i] << ") could not be converted to a Double";
       if (likelihood_type_ == PARAM_LOGNORMAL && value <= 0.0) {
         LOG_ERROR_P(PARAM_ERROR_VALUES) << ": error_value (" << value << ") cannot be equal to or less than 0.0";
       } else if ((likelihood_type_ == PARAM_MULTINOMIAL && value < 0.0) || (likelihood_type_ == PARAM_DIRICHLET && value < 0.0)) {
@@ -276,9 +276,9 @@ void ProportionsMigrating::Execute() {
     Double      start_value        = 0.0;
     Double      end_value          = 0.0;
 
-    fill(numbers_age_before_.begin(), numbers_age_before_.end(),0.0);
-    fill(numbers_age_after_.begin(), numbers_age_after_.end(),0.0);
-    fill(expected_values_.begin(), expected_values_.end(),0.0);
+    fill(numbers_age_before_.begin(), numbers_age_before_.end(), 0.0);
+    fill(numbers_age_after_.begin(), numbers_age_after_.end(), 0.0);
+    fill(expected_values_.begin(), expected_values_.end(), 0.0);
 
     /**
      * Loop through the 2 combined categories building up the
@@ -318,6 +318,7 @@ void ProportionsMigrating::Execute() {
           numbers_age_after_with_ageing_error_[j] += numbers_age_after_[i] * mis_matrix[i][j];
         }
       }
+
       numbers_age_before_ = numbers_age_before_with_ageing_error_;
       numbers_age_after_ = numbers_age_after_with_ageing_error_;
     }
@@ -348,6 +349,7 @@ void ProportionsMigrating::Execute() {
           }
       }
     }
+
     LOG_FINEST() << "Plus group before migration = " << plus_before << " Plus group after migration = " << plus_after;
     if (plus_group_)
       expected_values_[age_spread_ - 1] = (plus_before - plus_after) / plus_before;

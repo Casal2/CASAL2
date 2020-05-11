@@ -34,7 +34,7 @@ namespace math = niwa::utilities::math;
  * @param error_value The observations error_value
  * @return An adjusted error value
  */
-Double Multinomial::AdjustErrorValue(const Double process_error, const double error_value) {
+Double Multinomial::AdjustErrorValue(const Double process_error, const Double error_value) {
   if (process_error > 0.0 && error_value > 0.0)
     return (1.0/(1.0/error_value + 1.0/process_error));
 
@@ -47,15 +47,12 @@ Double Multinomial::AdjustErrorValue(const Double process_error, const double er
  * @param comparisons A collection of comparisons passed by the observation
  */
 void Multinomial::GetScores(map<unsigned, vector<observations::Comparison> >& comparisons) {
-  // double eps = 1.0e-7;  // added so that observed proportions of 0 still contribute to the likelihood
   for (auto year_iterator = comparisons.begin(); year_iterator != comparisons.end(); ++year_iterator) {
     for (observations::Comparison& comparison : year_iterator->second) {
       Double error_value = AdjustErrorValue(comparison.process_error_, comparison.error_value_) * error_value_multiplier_;
 
       Double score = math::LnFactorial(error_value * comparison.observed_)
                       - error_value * comparison.observed_ * log(dc::ZeroFun(comparison.expected_, comparison.delta_));
-      // Double score = math::LnFactorial(error_value * (comparison.observed_ + eps))
-      //                 - error_value * (comparison.observed_ + eps) * log(dc::ZeroFun((comparison.expected_ + eps), comparison.delta_));
 
       comparison.adjusted_error_ = error_value;
       comparison.score_ = score * multiplier_;

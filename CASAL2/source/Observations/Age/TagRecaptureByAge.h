@@ -72,8 +72,8 @@ protected:
   string                        time_step_label_ = "";
   double                        time_step_proportion_;
 
-  map<unsigned, map<string, vector<double>>> recaptures_;
-  map<unsigned, map<string, vector<double>>> scanned_;
+  map<unsigned, map<string, vector<Double>>> recaptures_;
+  map<unsigned, map<string, vector<Double>>> scanned_;
 };
 
 } /* namespace age */

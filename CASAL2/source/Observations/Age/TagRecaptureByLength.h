@@ -90,8 +90,8 @@ protected:
   vector<vector<Double>>        age_length_matrix_;
   vector<vector<Double>>        cached_age_length_matrix_;
 
-  map<unsigned, map<string, vector<double>>> recaptures_;
-  map<unsigned, map<string, vector<double>>> scanned_;
+  map<unsigned, map<string, vector<Double>>> recaptures_;
+  map<unsigned, map<string, vector<Double>>> scanned_;
 };
 
 } /* namespace age */

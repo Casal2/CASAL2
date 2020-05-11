@@ -34,7 +34,7 @@ namespace math = niwa::utilities::math;
  * @param error_value The observations error_value
  * @return An adjusted error value
  */
-Double Dirichlet::AdjustErrorValue(const Double process_error, const double error_value) {
+Double Dirichlet::AdjustErrorValue(const Double process_error, const Double error_value) {
   if ((error_value > 0.0) && (process_error > 0.0))
     return (error_value * process_error);
 
@@ -50,8 +50,8 @@ void Dirichlet::GetScores(map<unsigned, vector<observations::Comparison> >& comp
   for (auto year_iterator = comparisons.begin(); year_iterator != comparisons.end(); ++year_iterator) {
     for (observations::Comparison& comparison : year_iterator->second) {
       Double error_value = AdjustErrorValue(comparison.process_error_, comparison.error_value_) * error_value_multiplier_;
-      Double alpha = dc::ZeroFun(comparison.expected_,comparison.delta_) * error_value;
-      Double a2_a3 = math::LnGamma(alpha) - ((alpha - 1.0) * log(dc::ZeroFun(comparison.observed_,comparison.delta_)));
+      Double alpha = dc::ZeroFun(comparison.expected_, comparison.delta_) * error_value;
+      Double a2_a3 = math::LnGamma(alpha) - ((alpha - 1.0) * log(dc::ZeroFun(comparison.observed_, comparison.delta_)));
 
       comparison.adjusted_error_ = error_value;
       comparison.score_ = a2_a3 * multiplier_;
@@ -67,7 +67,7 @@ void Dirichlet::GetScores(map<unsigned, vector<observations::Comparison> >& comp
 void Dirichlet::SimulateObserved(map<unsigned, vector<observations::Comparison> >& comparisons) {
   // instance the random number generator
   utilities::RandomNumberGenerator& rng = utilities::RandomNumberGenerator::Instance();
-  map<string, double> totals;
+  map<string, Double> totals;
 
   auto iterator = comparisons.begin();
   for (; iterator != comparisons.end(); ++iterator) {
