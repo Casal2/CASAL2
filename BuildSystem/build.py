@@ -80,7 +80,7 @@ def start_build_system():
     Globals.gfortran_path_ = system_info.find_exe_path('gfortran.exe')
     Globals.latex_path_    = system_info.find_exe_path('bibtex.exe')
     Globals.git_path_      = system_info.find_exe_path('git.exe')
-    Globals.python_path_   = system_info.find_exe_path('python3.exe')
+    Globals.python_path_   = system_info.find_exe_path('python.exe')
   else:
     Globals.compiler_path_ = system_info.find_exe_path('g++')
     Globals.gfortran_path_ = system_info.find_exe_path('gfortran')
