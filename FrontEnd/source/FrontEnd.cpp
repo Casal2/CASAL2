@@ -99,7 +99,7 @@ int main(int argc, char * argv[]) {
    */
   auto release_library = LoadSharedLibrary(release_lib.c_str());
   if (release_library == nullptr) {
-    cout << "Error: Failed to load CASAL2 Release Library: " << release_lib << endl;
+    cout << "Error: Failed to load Casal2 Release Library: " << release_lib << endl;
     return -1;
   }
 
@@ -138,7 +138,6 @@ int main(int argc, char * argv[]) {
     break;
   }
 
-
   /**
    * Pre-Validate our configuration file and determine what minimiser
    * to use for the estimation
@@ -173,7 +172,7 @@ int main(int argc, char * argv[]) {
   }
 
   CloseLibrary(release_library);
-	return return_code_;
+    return return_code_;
 }
 
 /**
@@ -188,7 +187,7 @@ void RunConfigurationFileValidation(int argc, char * argv[], niwa::utilities::Ru
    */
   auto release_library = LoadSharedLibrary(release_lib.c_str());
   if (release_library == nullptr) {
-    cout << "Error: Failed to load CASAL2 Release Library: " << release_lib << endl;
+    cout << "Error: Failed to load Casal2 Release Library: " << release_lib << endl;
     return_code_ = -1;
     return;
   }
@@ -205,15 +204,16 @@ void RunConfigurationFileValidation(int argc, char * argv[], niwa::utilities::Ru
   }
 
   RunMode::Type temp = options.run_mode_;
-  options.run_mode_ = RunMode::kTesting;
+  options.run_mode_  = RunMode::kTesting;
   options.no_std_report_ = true;
-  string log_level = options.log_level_;
+  string log_level   = options.log_level_;
   options.log_level_ = "error";
 
   return_code_ = (main_method)(argc, argv, options);
-  options.run_mode_  = temp;
+
+  options.run_mode_      = temp;
   options.no_std_report_ = false;
-  options.log_level_ = log_level;
+  options.log_level_     = log_level;
 
   return;
 }
@@ -229,7 +229,7 @@ void RunBasic(int argc, char * argv[], niwa::utilities::RunParameters &options) 
    */
   auto release_library = LoadSharedLibrary(release_lib.c_str());
   if (release_library == nullptr) {
-    cout << "Error: Failed to load CASAL2 Release Library: " << release_lib << endl;
+    cout << "Error: Failed to load Casal2 Release Library: " << release_lib << endl;
     return_code_ = -1;
     return;
   }
@@ -260,16 +260,16 @@ void RunEstimation(int argc, char * argv[], niwa::utilities::RunParameters &opti
   else if (options.minimiser_ == "betadiff")
     library_name = betadiff_lib;
 
-  auto library = LoadSharedLibrary(library_name);
-  if (library == nullptr) {
-    cout << "Error: Failed to load CASAL2 Library: " << library_name << endl;
+  auto minimiser_library = LoadSharedLibrary(library_name);
+  if (minimiser_library == nullptr) {
+    cout << "Error: Failed to load Casal2 Library: " << library_name << endl;
     return_code_ = -1;
     return;
   }
 
-  auto proc = (RUNPROC)LoadLibraryFunction(library, "Run");
+  auto proc = (RUNPROC)LoadLibraryFunction(minimiser_library, "Run");
   return_code_ =  (proc)(argc, argv, options);
-  CloseLibrary(library);
+  CloseLibrary(minimiser_library);
 }
 
 /**
@@ -302,7 +302,7 @@ void RunMCMC(int argc, char * argv[], niwa::utilities::RunParameters &options) {
 void RunUnitTests(int argc, char * argv[], niwa::utilities::RunParameters &options) {
   auto unit_test_library = LoadSharedLibrary(test_lib.c_str());
   if (unit_test_library == nullptr) {
-    cout << "Error: Failed to load CASAL2 Unit Test Library: " << test_lib << endl;
+    cout << "Error: Failed to load Casal2 Unit Test Library: " << test_lib << endl;
     return_code_ = -1;
     return;
   }

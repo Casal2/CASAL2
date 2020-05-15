@@ -31,8 +31,6 @@
 #include "Utilities/RunParameters.h"
 #include "Logging/Logging.h"
 
-#include "Utilities/CommandLineParser/CommandLineParser.h"
-
 // Namespaces
 using namespace niwa;
 using std::cout;
@@ -102,6 +100,7 @@ int Run(int argc, char * argv[], niwa::utilities::RunParameters& options) {
   bool model_start_return_success = true;
 
   try {
+
     Model model;
     reports::StandardHeader standard_report(&model);
 
@@ -162,6 +161,8 @@ int Run(int argc, char * argv[], niwa::utilities::RunParameters& options) {
     case RunMode::kProfiling:
     case RunMode::kProjection:
     {
+      // Logging::Instance().SetLogLevel(options.log_level_);
+
       if (!model.global_configuration().debug_mode() && !model.global_configuration().disable_standard_report()) {
         standard_report.Prepare();
         model.managers().report()->set_std_header(standard_report.header());

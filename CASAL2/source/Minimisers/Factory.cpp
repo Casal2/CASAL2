@@ -80,7 +80,8 @@ Minimiser* Factory::Create(Model* model, const string& object_type, const string
 //    else if (sub_type == PARAM_STAN_BFGS)
 //      result = new STANBFGS(model);
     else if (sub_type == PARAM_BETADIFF || sub_type == PARAM_ADOLC || sub_type == PARAM_CPPAD)
-      result = new Dummy(model);
+      result = new GammaDiff(model);    // REVISE - how to get frontend to work with Dummy(model)?
+//      result = new Dummy(model);
 #endif
 
     if (result)
