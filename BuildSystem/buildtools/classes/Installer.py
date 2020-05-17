@@ -23,7 +23,7 @@ class Installer:
       self.do_build_ = './' + self.do_build_ + '.sh'
 
     if not skip_building:
-      print('--> Building CASAL2 Archive')
+      print('--> Building Casal2 Archive')
       print('-- Re-Entering build system to build the archive')
       print('-- Expected build time 10-60 minutes')
       if os.system(self.do_build_ + ' archive') != EX_OK:
@@ -84,7 +84,6 @@ class Installer:
     file.write('Source: "Casal2\\Casal2 User Manual.pdf"; DestDir: "{app}"; Flags: ignoreversion\n')
     file.write('Source: "Casal2\\R-Libraries\\*"; DestDir: "{app}\\R-Libraries"; Flags: replacesameversion recursesubdirs\n')
     file.write('Source: "Casal2\\Examples\\*"; DestDir: "{app}\\Examples"; Flags: replacesameversion recursesubdirs\n')
-    file.write('Source: "Casal2\\TestCases\\*"; DestDir: "{app}\\TestCases"; Flags: replacesameversion recursesubdirs\n')
     file.write('Source: "Casal2\\README.txt"; DestDir: "{app}"; Flags: ignoreversion\n')
     file.write('Source: "Casal2\\GettingStartedGuide.pdf"; DestDir: "{app}"; Flags: ignoreversion\n')
     file.write('Source: "Casal2\\ContributorsGuide.pdf"; DestDir: "{app}"; Flags: ignoreversion\n')
