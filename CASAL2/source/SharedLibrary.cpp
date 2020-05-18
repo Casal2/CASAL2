@@ -67,17 +67,17 @@ int LoadOptions(int argc, char * argv[], niwa::utilities::RunParameters& options
     niwa::utilities::CommandLineParser parser;
     parser.Parse(argc, argv, options);
   } catch (const string &exception) {
-    cout << "## ERROR - Casal2 experienced a problem and has stopped execution" << endl;
+    cout << "## ERROR - Casal2 experienced a problem and has stopped execution." << endl;
     cout << "Error: " << exception << endl;
     return -1;
   } catch (std::exception& e) {
-    cout << "## ERROR - Casal2 experienced a problem and has stopped execution" << endl;
+    cout << "## ERROR - Casal2 experienced a problem and has stopped execution." << endl;
     cout << e.what() << endl;
     return -1;
   } catch(...) {
-    cout << "## ERROR - Casal2 experienced a problem and has stopped execution" << endl;
-    cout << "The exception was caught with the catch-all. The type was unknown" << endl;
-    cout << "Please contact the application developer" << endl;
+    cout << "## ERROR - Casal2 experienced a problem and has stopped execution." << endl;
+    cout << "The exception was caught with the catch-all. The error type was unknown." << endl;
+    cout << "Please contact the Casal2 application developer." << endl;
     return -1;
   }
 
@@ -161,7 +161,12 @@ int Run(int argc, char * argv[], niwa::utilities::RunParameters& options) {
     case RunMode::kProfiling:
     case RunMode::kProjection:
     {
-      // Logging::Instance().SetLogLevel(options.log_level_);
+
+      if (run_mode != RunMode::kTesting) {
+        // reset logging
+        utilities::CommandLineParser parser;
+        parser.Parse(argc, argv, options);
+      }
 
       if (!model.global_configuration().debug_mode() && !model.global_configuration().disable_standard_report()) {
         standard_report.Prepare();
