@@ -1,13 +1,13 @@
 # see https://www.rocker-project.org/images/
 
-FROM rocker/r-ver:3.6.1
-# FROM rocker/tidyverse:3.6.1
-# FROM rocker/verse:3.6.1
+FROM rocker/r-ver:3.6.3
+# FROM rocker/tidyverse:3.6.3
+# FROM rocker/verse:3.6.3
 
 # see https://github.com/rocker-org/r-parallel
 # FROM rocker/r-parallel (which uses Debian testing and the most recent R version)
 
-ARG R_VERSION=3.6.1
+ARG R_VERSION=3.6.3
 
 ENV DEBIAN_FRONTEND=noninteractive
 
