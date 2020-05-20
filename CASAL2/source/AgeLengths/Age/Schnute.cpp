@@ -37,8 +37,8 @@ using std::pow;
  * Note: The constructor is parsed to generate LaTeX for the documentation.
  */
 Schnute::Schnute(Model* model) : AgeLength(model) {
-  parameters_.Bind<Double>(PARAM_Y1, &y1_, "The y1 parameter", "");
-  parameters_.Bind<Double>(PARAM_Y2, &y2_, "The y2 parameter", "");
+  parameters_.Bind<Double>(PARAM_Y1, &y1_, "The $y_1$ parameter", "");
+  parameters_.Bind<Double>(PARAM_Y2, &y2_, "The $y_2$ parameter", "");
   parameters_.Bind<Double>(PARAM_TAU1, &tau1_, "The $\tau_1$ parameter", "");
   parameters_.Bind<Double>(PARAM_TAU2, &tau2_, "The $\tau_2$ parameter", "");
   parameters_.Bind<Double>(PARAM_A, &a_, "The $a$ parameter", "")->set_lower_bound(0.0);
@@ -61,6 +61,20 @@ void Schnute::DoBuild() {
   length_weight_ = model_->managers().length_weight()->GetLengthWeight(length_weight_label_);
   if (!length_weight_)
     LOG_ERROR_P(PARAM_LENGTH_WEIGHT) << "Length-weight label " << length_weight_label_ << " was not found.";
+
+  // check if there are any time-varying age-length parameters
+  // fully-qualified parameter names are "age_size[{label_}].{PARAM_~~~}"
+  vector<string> base_values = { PARAM_AGE_LENGTH, "[", label_, "]." };
+  string full_param_base     = boost::algorithm::join(base_values, "");
+  has_timevarying_params_ = model_->managers().time_varying()->GetTimeVaryingCount() > 0 &&
+                            (model_->managers().time_varying()->IsTimeVaryingTarget(full_param_base + PARAM_Y1)   ||
+                             model_->managers().time_varying()->IsTimeVaryingTarget(full_param_base + PARAM_Y2)   ||
+                             model_->managers().time_varying()->IsTimeVaryingTarget(full_param_base + PARAM_TAU1) ||
+                             model_->managers().time_varying()->IsTimeVaryingTarget(full_param_base + PARAM_TAU1) ||
+                             model_->managers().time_varying()->IsTimeVaryingTarget(full_param_base + PARAM_A)    ||
+                             model_->managers().time_varying()->IsTimeVaryingTarget(full_param_base + PARAM_B));
+
+  LOG_MEDIUM() << "Block label " << label_ << " has time-varying parameters: " << has_timevarying_params_;
 
   DoRebuildCache();
 }

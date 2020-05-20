@@ -33,7 +33,9 @@ public:
   virtual                     ~Manager() = default;
   void                        Update(unsigned current_year);
   bool                        IsTimeVarying(const string& label);
+  bool                        IsTimeVaryingTarget(const string& label);
   TimeVarying*                GetTimeVarying(const string& label);
+  unsigned                    GetTimeVaryingCount();
 
 protected:
   // methods

@@ -59,6 +59,17 @@ void VonBertalanffy::DoBuild() {
   if (!length_weight_)
     LOG_ERROR_P(PARAM_LENGTH_WEIGHT) << "Length-weight label '" << length_weight_label_ << "' was not found.";
 
+  // check if there are any time-varying age-length parameters
+  // fully-qualified parameter names are "age_size[{label_}].{PARAM_~~~}"
+  vector<string> base_values = { PARAM_AGE_LENGTH, "[", label_, "]." };
+  string full_param_base     = boost::algorithm::join(base_values, "");
+  has_timevarying_params_ = model_->managers().time_varying()->GetTimeVaryingCount() > 0 &&
+                            (model_->managers().time_varying()->IsTimeVaryingTarget(full_param_base + PARAM_LINF) ||
+                             model_->managers().time_varying()->IsTimeVaryingTarget(full_param_base + PARAM_K)    ||
+                             model_->managers().time_varying()->IsTimeVaryingTarget(full_param_base + PARAM_T0));
+
+  LOG_MEDIUM() << "Block label " << label_ << " has time-varying parameters: " << has_timevarying_params_;
+
   // Build up our mean_length_ container.
   DoRebuildCache();
 }

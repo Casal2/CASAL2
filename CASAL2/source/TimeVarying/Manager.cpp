@@ -45,8 +45,24 @@ void Manager::Update(unsigned current_year) {
  * @return If true, then this is a time-varying object
  */
 bool Manager::IsTimeVarying(const string& label) {
-  for(auto time_varying : objects_) {
+  for (auto time_varying : objects_) {
     if (time_varying->label() == label) {
+      return true;
+    }
+  }
+
+  return false;
+}
+
+/**
+ * Does this label reference a time-varying target
+ *
+ * @param label The label of the time-varying target object
+ * @return If true, then this is a time-varying target object
+ */
+bool Manager::IsTimeVaryingTarget(const string& label) {
+  for (auto time_varying : objects_) {
+    if (utilities::ToLowercase(time_varying->get_target_parameter_label()) == utilities::ToLowercase(label)) {
       return true;
     }
   }
@@ -61,13 +77,30 @@ bool Manager::IsTimeVarying(const string& label) {
  * @return time-varying smart_ptr
  */
 TimeVarying* Manager::GetTimeVarying(const string& label) {
-  for(auto time_varying : objects_) {
+  for (auto time_varying : objects_) {
     if (time_varying->label() == label) {
       return time_varying;
     }
   }
 
   return nullptr;
+}
+
+/**
+ * Count how many time-varying parameters there are
+ * and return the count
+ *
+ * @return The number of time-varying parameters
+ */
+unsigned Manager::GetTimeVaryingCount() {
+  unsigned count = 0;
+
+  for (auto time_varying : objects_) {
+    if (time_varying->label() != "")
+      count++;
+  }
+
+  return count;
 }
 
 } /* namespace processes */

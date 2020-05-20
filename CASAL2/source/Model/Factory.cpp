@@ -53,19 +53,19 @@ namespace niwa {
 Factory::Factory(Model* model) : model_(model) { }
 
 /**
- * Create an ObjectPtr for a specific class type in our system. This method
+ * Create an ObjectPtr for a specific class type in the system. This method
  * will check the object_type and find the appropriate child factory to call
  * so the object can be created properly.
  *
- * This design was picked to simplify how the factories work because while having
- * a single super-factory would be the simplest solution we need objects to be created
- * in their child form (e.g AgeSizePtr) to be used properly in the code without
+ * This design was picked to simplify how the factories work because, while having
+ * a single super-factory would be the simplest solution, the objects need to be created
+ * in their child form (e.g., AgeSizePtr) to be used properly in the code without
  * having to do dynamic casting (slow).
  *
- * @param object_type The type of object to create (e.g process, selectivity)
+ * @param object_type The type of object to create (e.g., process, selectivity)
  * @param sub_type The specialisation/sub_type of the object to create
  * @param partition_type The specifically defined partition type for this object
- * @return A shared_ptr to the object we've created
+ * @return A shared_ptr to the object
  */
 base::Object* Factory::CreateObject(const string& object_type, const string& sub_type, PartitionType partition_type) {
   string lwr_object_type    = utilities::ToLowercase(object_type);

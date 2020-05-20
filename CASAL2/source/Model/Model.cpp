@@ -69,10 +69,10 @@ Model::Model() {
   parameters_.Bind<string>(PARAM_INITIALISATION_PHASES, &initialisation_phases_, "The labels of the phases of the initialisation", R"(A list of valid labels defined by \texttt{@initialisation_phase})", true);
   parameters_.Bind<string>(PARAM_TIME_STEPS, &time_steps_, "The labels of the time steps, in the order that they are applied, to form the annual cycle", R"(A list of valid labels defined by \texttt{@time_step})");
   parameters_.Bind<unsigned>(PARAM_PROJECTION_FINAL_YEAR, &projection_final_year_, "The final year of the model in projection mode", R"(Defines the last year of the projection period, i.e., the projection period runs from \texttt{final_year}$+1$ to \texttt{projection_final_year}. For the default, $0$, no projections are run.)", 0);
-  parameters_.Bind<string>(PARAM_TYPE, &type_, "TBA: Type of model (the partition structure). Either age, length, or hybrid", "", PARAM_AGE)->set_allowed_values({PARAM_AGE, PARAM_LENGTH, PARAM_HYBRID});
+  parameters_.Bind<string>(PARAM_TYPE, &type_, "The type of model (the partition structure): age, length, or hybrid", "", PARAM_AGE)->set_allowed_values({PARAM_AGE, PARAM_LENGTH, PARAM_HYBRID});
   parameters_.Bind<double>(PARAM_LENGTH_BINS, &length_bins_, "The minimum length in each length bin", R"($0 \le$ length\textlow{min} $\le$ length\textlow{max})", true);
-  parameters_.Bind<bool>(PARAM_LENGTH_PLUS, &length_plus_, "Specify whether there is a length plus group or not", "true, false", true);
-  parameters_.Bind<double>(PARAM_LENGTH_PLUS_GROUP, &length_plus_group_, "Mean length of length plus group", R"(length\textlow{max} $<$ length_plus_group)", 0);
+  parameters_.Bind<bool>(PARAM_LENGTH_PLUS, &length_plus_, "Is there a length plus group or not", "true, false", true);
+  parameters_.Bind<double>(PARAM_LENGTH_PLUS_GROUP, &length_plus_group_, "The mean length of length plus group", R"(length\textlow{max} $<$ length_plus_group)", 0);
   parameters_.Bind<string>(PARAM_BASE_UNITS, &base_weight_units_, "The units for the base weight. This will be the default unit of any weight input parameters ", "grams, kgs or tonnes", PARAM_TONNES)->set_allowed_values({PARAM_GRAMS, PARAM_TONNES,PARAM_KGS});
 
   global_configuration_ = new GlobalConfiguration();

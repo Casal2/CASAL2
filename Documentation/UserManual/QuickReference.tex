@@ -53,8 +53,8 @@
 \defSub{time\_step\_measurements\_were\_made} {The time step label for which size-at-age data are provided}
 \par\textbf{\commandlabsubarg{age\_\_length}{type}{none}}\par
 \par\textbf{\commandlabsubarg{age\_\_length}{type}{schnute}}\par
-\defSub{y1} {The y1 parameter}
-\defSub{y2} {The y2 parameter}
+\defSub{y1} {The $y_1$ parameter}
+\defSub{y2} {The $y_2$ parameter}
 \defSub{tau1} {The $\tau_1$ parameter}
 \defSub{tau2} {The $\tau_2$ parameter}
 \defSub{a} {The $a$ parameter}
@@ -173,8 +173,8 @@
 \defSub{label} {The label of the length-weight relationship}
 \defSub{type} {The type of the length-weight relationship}
 \par\textbf{\commandlabsubarg{length\_\_weight}{type}{basic}}\par
-\defSub{a} {The $a$ parameter}
-\defSub{b} {The $b$ parameter}
+\defSub{a} {The $a$ parameter ,$W = a L^b$,}
+\defSub{b} {The $b$ parameter ,$W = a L^b$,}
 \defSub{units} {The units of measure ,tonnes, kgs, grams,}
 \par\textbf{\commandlabsubarg{length\_\_weight}{type}{none}}\par
 \defComLab{likelihood}{Define an object of type \emph{likelihood}}\par\par
@@ -259,9 +259,10 @@
 \defSub{initialisation\_phases} {The labels of the phases of the initialisation}
 \defSub{time\_steps} {The labels of the time steps, in the order that they are applied, to form the annual cycle}
 \defSub{projection\_final\_year} {The final year of the model in projection mode}
+\defSub{type} {The type of model ,the partition structure,: age, length, or hybrid}
 \defSub{length\_bins} {The minimum length in each length bin}
-\defSub{length\_plus} {Specify whether there is a length plus group or not}
-\defSub{length\_plus\_group} {Mean length of length plus group}
+\defSub{length\_plus} {Is there a length plus group or not}
+\defSub{length\_plus\_group} {The mean length of length plus group}
 \defSub{base\_weight\_units} {The units for the base weight. This will be the default unit of any weight input parameters}
 \defComLab{observation}{Define an object of type \emph{observation}}\par\par
 \defSub{label} {The label of the observation}
