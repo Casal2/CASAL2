@@ -62,6 +62,7 @@ private:
   vector<unsigned>              steps_to_figure_;
   unsigned                      number_time_steps_;
   unsigned                      final_year_;
+  bool                          has_timevarying_params_ = true;
 
   map<unsigned,map<unsigned,Double>> data_by_age_time_step_; // used in the initialisation
   map<unsigned,map<unsigned,Double>> mean_data_by_year_and_step_;
