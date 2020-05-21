@@ -30,8 +30,8 @@ PartitionMeanLength::PartitionMeanLength(Model* model) : Report(model) {
   run_mode_    = (RunMode::Type)(RunMode::kBasic | RunMode::kProjection | RunMode::kSimulation | RunMode::kEstimation | RunMode::kProfiling);
   model_state_ = (State::Type)(State::kIterationComplete);
 
-  parameters_.Bind<string>(PARAM_TIME_STEP, &time_step_, "Time Step label", "", "");
-  parameters_.Bind<unsigned>(PARAM_YEARS, &years_, "Years", "", true);
+  parameters_.Bind<string>(PARAM_TIME_STEP, &time_step_, "The time step label", "", "");
+  parameters_.Bind<unsigned>(PARAM_YEARS, &years_, "The years for the report", "", true);
 }
 
 /**
@@ -48,19 +48,22 @@ void PartitionMeanLength::DoBuild() {
  */
 void PartitionMeanLength::DoExecute() {
   LOG_TRACE();
-  unsigned time_step_index = model_->managers().time_step()->current_time_step();
 
-//  auto categories = Categories::Instance();
+  unsigned year_index      = 0;
+  unsigned time_step_index = model_->managers().time_step()->GetTimeStepIndex(time_step_);
   niwa::partition::accessors::All all_view(model_);
-  unsigned year       = model_->current_year();
-  unsigned year_index = year > model_->start_year() ? year - model_->start_year() : 0;
-  if (find(years_.begin(), years_.end(), year) != years_.end()) {
-    cache_ << "*"<< type_ << "[" << label_ << "]" << "\n";
-    cache_ << "year: " << year << "\n";
-    for (auto iterator = all_view.Begin(); iterator != all_view.End(); ++iterator) {
-      string category = (*iterator)->name_;
-      LOG_FINEST() << "printing mean length for category " << category;
-      cache_ << category << " " << REPORT_R_LIST << "\n";
+
+  cache_ << "*"<< type_ << "[" << label_ << "]" << "\n";
+  cache_ << "time_step: " << time_step_ << "\n";
+
+  for (auto iterator = all_view.Begin(); iterator != all_view.End(); ++iterator) {
+    string category = (*iterator)->name_;
+    LOG_FINEST() << "printing mean length-at-age for category " << category;
+    cache_ << category << " " << REPORT_R_LIST << "\n";
+
+    for (auto year : years_) {
+      year_index = year > model_->start_year() ? year - model_->start_year() : 0;
+      cache_ << "year: " << year << "\n";
 
       cache_ << "mean_lengths " << REPORT_R_LIST << "\n";
       cache_ << "values: ";
@@ -73,9 +76,9 @@ void PartitionMeanLength::DoExecute() {
       cache_<<"\n";
       LOG_FINEST() << "cached mean length";
       cache_ << REPORT_R_LIST_END <<"\n";
-
-      cache_ << REPORT_R_LIST_END <<"\n";
     }
+
+    cache_ << REPORT_R_LIST_END <<"\n";
 
     ready_for_writing_ = true;
   }

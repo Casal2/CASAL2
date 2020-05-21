@@ -49,18 +49,20 @@ void PartitionMeanWeight::DoBuild() {
  */
 void PartitionMeanWeight::DoExecute() {
   LOG_TRACE();
-  unsigned time_step_index = model_->managers().time_step()->current_time_step();
 
-//  auto categories = Categories::Instance();
+  unsigned time_step_index = model_->managers().time_step()->GetTimeStepIndex(time_step_);
   niwa::partition::accessors::All all_view(model_);
-  unsigned year = model_->current_year();
-  if (find(years_.begin(), years_.end(), year) != years_.end()) {
-    cache_ << "*"<< type_ << "[" << label_ << "]" << "\n";
-    cache_ << "year: " << year << "\n";
-    for (auto iterator = all_view.Begin(); iterator != all_view.End(); ++iterator) {
-      string category = (*iterator)->name_;
-      LOG_FINEST() << "printing mean weight for category " << category;
-      cache_ << category << " " << REPORT_R_LIST << "\n";
+
+  cache_ << "*"<< type_ << "[" << label_ << "]" << "\n";
+  cache_ << "time_step: " << time_step_ << "\n";
+
+  for (auto iterator = all_view.Begin(); iterator != all_view.End(); ++iterator) {
+    string category = (*iterator)->name_;
+    LOG_FINEST() << "printing mean weight-at-age for category " << category;
+    cache_ << category << " " << REPORT_R_LIST << "\n";
+
+    for (auto year : years_) {
+      cache_ << "year: " << year << "\n";
 
       cache_ << "mean_weights " << REPORT_R_LIST << "\n";
       cache_ << "values: ";
@@ -88,8 +90,9 @@ void PartitionMeanWeight::DoExecute() {
 
       cache_ << REPORT_R_LIST_END <<"\n";
 */
-      cache_ << REPORT_R_LIST_END <<"\n";
     }
+
+    cache_ << REPORT_R_LIST_END <<"\n";
 
     ready_for_writing_ = true;
   }
