@@ -52,6 +52,12 @@ RUN cd R-libraries \
  && R -e "install.packages('casal_2.30.tar.gz', repos=NULL, type='source')" \
  && R -e "install.packages('casal2_1.0.tar.gz', repos=NULL, type='source')"
 
+# for the frontend executable
+RUN ln -s /usr/local/lib/casal2_release.so  /r-script/casal2/BuildSystem/bin/linux/library_release/libcasal2.so \
+ && ln -s /usr/local/lib/casal2_adolc.so    /r-script/casal2/BuildSystem/bin/linux/library_adolc/libcasal2.so \
+ && ln -s /usr/local/lib/casal2_betadiff.so /r-script/casal2/BuildSystem/bin/linux/library_betadiff/libcasal2.so \
+ && ln -s /usr/local/lib/casal2_test.so     /r-script/casal2/BuildSystem/bin/linux/library_test/libcasal2.so
+
 ENV DOCKER='T'
 
 RUN chown -R casal2:casal2 /r-script/*
@@ -60,18 +66,20 @@ USER casal2
 
 RUN cd BuildSystem && ./doBuild.sh check \
  && ./doBuild.sh thirdparty adolc && ./doBuild.sh thirdparty betadiff && ./doBuild.sh thirdparty boost \
- && ./doBuild.sh thirdparty dlib && ./doBuild.sh thirdparty googletest_googlemock && ./doBuild.sh thirdparty parser \
- && ./doBuild.sh release && ./doBuild.sh test && ./doBuild.sh release adolc && ./doBuild.sh release betadiff
+ && ./doBuild.sh thirdparty dlib && ./doBuild.sh thirdparty googletest_googlemock && ./doBuild.sh thirdparty parser
+ # CppAD doesn't build in docker for some reason
+ # && ./doBuild.sh thirdparty cppad
+
+RUN cd BuildSystem && ./doBuild.sh release && ./doBuild.sh test && ./doBuild.sh release adolc && ./doBuild.sh release betadiff \
 # CppAD doesn't build in docker for some reason
-# && ./doBuild.sh thirdparty cppad && ./doBuild.sh release cppad \
+# && ./doBuild.sh release cppad \
 # the documentation should already exist
 # && ./doBuild.sh documentation \
 # the Casal2 R library should already exist
 # && ./doBuild.sh rlibrary \
 # the user can run modelrunner
 # && ./doBuild.sh modelrunner
-
-RUN cd BuildSystem && ./doBuild.sh library release && ./doBuild.sh library test \
+&& ./doBuild.sh library release && ./doBuild.sh library test \
 && ./doBuild.sh library adolc && ./doBuild.sh library betadiff \
 # CppAD doesn't build in docker for some reason
 # && ./doBuild.sh library cppad \
