@@ -53,10 +53,10 @@ RUN cd R-libraries \
  && R -e "install.packages('casal2_1.0.tar.gz', repos=NULL, type='source')"
 
 # for the frontend executable
-RUN ln -s /usr/local/lib/casal2_release.so  /r-script/casal2/BuildSystem/bin/linux/library_release/libcasal2.so \
- && ln -s /usr/local/lib/casal2_adolc.so    /r-script/casal2/BuildSystem/bin/linux/library_adolc/libcasal2.so \
- && ln -s /usr/local/lib/casal2_betadiff.so /r-script/casal2/BuildSystem/bin/linux/library_betadiff/libcasal2.so \
- && ln -s /usr/local/lib/casal2_test.so     /r-script/casal2/BuildSystem/bin/linux/library_test/libcasal2.so
+RUN ln -s /r-script/casal2/BuildSystem/bin/linux/library_release/libcasal2.so  /usr/local/lib/casal2_release.so \
+ && ln -s /r-script/casal2/BuildSystem/bin/linux/library_adolc/libcasal2.so    /usr/local/lib/casal2_adolc.so \
+ && ln -s /r-script/casal2/BuildSystem/bin/linux/library_betadiff/libcasal2.so /usr/local/lib/casal2_betadiff.so \
+ && ln -s /r-script/casal2/BuildSystem/bin/linux/library_test/libcasal2.so     /usr/local/lib/casal2_test.so
 
 ENV DOCKER='T'
 
