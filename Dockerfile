@@ -13,8 +13,8 @@ ENV DEBIAN_FRONTEND=noninteractive
 
 RUN apt-get update && apt-get upgrade -y \
  && apt-get -y --no-install-recommends install git git-svn openssh-client nano vim ca-certificates curl procps file time locate \
-                                               bash-completion pkg-config python-pip python-dateutil cmake build-essential gawk \
-                                               less graphviz subversion cpp g++ gcc gfortran clang clang-tidy \
+                                               bash-completion pkg-config python3.6 python-pip python-dateutil cmake build-essential \
+                                               gawk less graphviz subversion cpp g++ gcc gfortran clang clang-tidy \
                                                libc6-dev liblapack-dev libblas-dev libquadmath0 pandoc \
                                                unzip p7zip bibtool doxygen-latex python3-pip python3-hypothesis \
                                                fontforge-extras texlive-full texlive-font-utils texlive-latex-extra \
