@@ -148,18 +148,19 @@ void Category::PopulateAgeLengthMatrix(Selectivity* selectivity) {
 
   auto& age_length_proportions = model_->partition().age_length_proportions(name_);
   unsigned year_index          = model_->current_year() - model_->start_year();
-  vector<double> length_bins = model_->length_bins();
+  unsigned al_year_index       = age_length_->has_timevarying_params() == true ? year_index : 0;
+  vector<double> length_bins   = model_->length_bins();
   unsigned time_step_index     = model_->managers().time_step()->current_time_step();
 
-  LOG_FINEST() << "Year: " << model_->current_year() << "; year index: " << year_index << "; time_step: " << time_step_index
+  LOG_FINE() << "Year: " << model_->current_year() << "; year index: " << year_index << "; time_step: " << time_step_index
     << "; length_bins: " << length_bins.size();
   LOG_FINEST() << "Years in proportions: " << age_length_proportions.size();
-  LOG_FINEST() << "Timesteps in current year: " << age_length_proportions[year_index].size();
+  LOG_FINEST() << "Timesteps in current year: " << age_length_proportions[al_year_index].size();
 
-  if (year_index > age_length_proportions.size())
-    LOG_CODE_ERROR() << "year_index > age_length_proportions.size()";
-  if (time_step_index > age_length_proportions[year_index].size())
-    LOG_CODE_ERROR() << "time_step_index > age_length_proportions[year_index].size()";
+  if (al_year_index > age_length_proportions.size())
+    LOG_CODE_ERROR() << "al_year_index > age_length_proportions.size()";
+  if (time_step_index > age_length_proportions[al_year_index].size())
+    LOG_CODE_ERROR() << "time_step_index > age_length_proportions[al_year_index].size()";
   if (age_length_matrix_[year_index].size() == 0)
     LOG_CODE_ERROR() << "No memory has been allocated for the age_length_matrix for year index " << year_index
       << " in category " << name_;
@@ -167,10 +168,10 @@ void Category::PopulateAgeLengthMatrix(Selectivity* selectivity) {
     LOG_CODE_ERROR() << "No memory has been allocated for the age_length_matrix for year index " << year_index
       << " and time step " << time_step_index << " in category " << name_;
 
-  vector<vector<Double>>& proportions_for_now = age_length_proportions[year_index][time_step_index];
+  vector<vector<Double>>& proportions_for_now = age_length_proportions[al_year_index][time_step_index];
   unsigned size = model_->length_plus() == true ? model_->length_bins().size() : model_->length_bins().size() - 1;
 
-  LOG_FINEST() << "Calculating age length data";
+  LOG_FINE() << "Calculating age length data";
   for (unsigned age = min_age_; age <= max_age_; ++age) {
     unsigned i = age - min_age_;
     if (i >= proportions_for_now.size())
@@ -193,7 +194,7 @@ void Category::PopulateAgeLengthMatrix(Selectivity* selectivity) {
   }
 
   LOG_FINE() << "Finished populating the age-length matrix for category " << name_ << " in year " << model_->current_year()
-    << " and time step " << time_step_index;;
+    << " and time step " << time_step_index;
 }
 
 /**
@@ -229,13 +230,14 @@ void Category::CalculateNumbersAtLength(Selectivity* selectivity, const vector<d
 
   auto& age_length_proportions = model_->partition().age_length_proportions(name_);
   unsigned year_index          = model_->current_year() - model_->start_year();
+  unsigned al_year_index       = age_length_->has_timevarying_params() == true ? year_index : 0;
   unsigned time_step_index     = model_->managers().time_step()->current_time_step();
 
-  if (year_index > age_length_proportions.size())
-    LOG_CODE_ERROR() << "year_index > age_length_proportions.size()";
-  if (time_step_index > age_length_proportions[year_index].size())
-    LOG_CODE_ERROR() << "time_step_index > age_length_proportions[year_index].size()";
-  vector<vector<Double>>& proportions_for_now = age_length_proportions[year_index][time_step_index];
+  if (al_year_index > age_length_proportions.size())
+    LOG_CODE_ERROR() << "al_year_index > age_length_proportions.size()";
+  if (time_step_index > age_length_proportions[al_year_index].size())
+    LOG_CODE_ERROR() << "time_step_index > age_length_proportions[al_year_index].size()";
+  vector<vector<Double>>& proportions_for_now = age_length_proportions[al_year_index][time_step_index];
 
   LOG_FINEST() << "Calculating age length data";
   for (unsigned age = min_age_; age <= max_age_; ++age) {

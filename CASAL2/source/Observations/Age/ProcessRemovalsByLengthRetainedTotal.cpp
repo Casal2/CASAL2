@@ -319,14 +319,14 @@ void ProcessRemovalsByLengthRetainedTotal::Execute() {
    * Verify our cached partition and partition sizes are correct
    */
 //  auto categories = model_->categories();
-  unsigned year = model_->current_year();
-  unsigned year_index = year - model_->start_year();
+  unsigned year      = model_->current_year();
   unsigned time_step = model_->managers().time_step()->current_time_step();
+
   auto cached_partition_iter = cached_partition_->Begin();
-  auto partition_iter = partition_->Begin(); // vector<vector<partition::Category> >
+  auto partition_iter        = partition_->Begin(); // vector<vector<partition::Category> >
   map<unsigned, map<string, map<string, vector<Double>>>> &Removals_at_age = mortality_instantaneous_retained_->catch_at();
 
-  vector<Double> expected_values(number_bins_, 0.0);
+  vector<Double> expected_values(number_bins_);
   vector<Double> numbers_at_length;
 
   /**
@@ -336,8 +336,8 @@ void ProcessRemovalsByLengthRetainedTotal::Execute() {
    */
   for (unsigned category_offset = 0; category_offset < category_labels_.size(); ++category_offset, ++partition_iter, ++cached_partition_iter) {
     LOG_FINEST() << "category: " << category_labels_[category_offset];
-    Double start_value = 0.0;
-    Double end_value = 0.0;
+    Double start_value   = 0.0;
+    Double end_value     = 0.0;
     Double number_at_age = 0.0;
 
 //    LOG_WARNING() << "This is bad code because it allocates memory in the middle of an execute";
@@ -349,7 +349,7 @@ void ProcessRemovalsByLengthRetainedTotal::Execute() {
      * Loop through the 2 combined categories building up the
      * expected proportions values.
      */
-    auto category_iter = partition_iter->begin();
+    auto category_iter        = partition_iter->begin();
     auto cached_category_iter = cached_partition_iter->begin();
     for (; category_iter != partition_iter->end(); ++cached_category_iter, ++category_iter) {
 //      AgeLength* age_length = categories->age_length((*category_iter)->name_);
@@ -357,7 +357,8 @@ void ProcessRemovalsByLengthRetainedTotal::Execute() {
 //      LOG_WARNING() << "This is bad code because it allocates memory in the middle of an execute";
 //      age_length_matrix.resize((*category_iter)->data_.size());
 //      vector<Double> age_frequencies(length_bins_.size(), 0.0);
-      const auto& age_length_proportions = model_->partition().age_length_proportions((*category_iter)->name_)[year_index][time_step];
+      unsigned al_year_index = (*category_iter)->age_length_->has_timevarying_params() == true ? year - model_->start_year() : 0;
+      const auto& age_length_proportions = model_->partition().age_length_proportions((*category_iter)->name_)[al_year_index][time_step];
 
       for (unsigned data_offset = 0; data_offset < (*category_iter)->data_.size(); ++data_offset) {
         unsigned age = ((*category_iter)->min_age_ + data_offset);
@@ -378,9 +379,9 @@ void ProcessRemovalsByLengthRetainedTotal::Execute() {
         // Loop through the length bins and multiple the partition of the current age to go from
         // length frequencies to age length numbers
         for (unsigned j = 0; j < number_bins_; ++j) {
-          // TODO: use the subset of age_length_proportions for the length bins associated with the model length bins
+          // use the subset of age_length_proportions for the length bins associated with the model length bins
           age_length_matrix[data_offset][j] = number_at_age * age_length_proportions[data_offset][mlb_index_first_ + j]; // added length bin offset to get correct length bin
-          LOG_FINEST() << "The proportion of animals in length bin: " << length_bins_[j] << " = " << age_length_matrix[data_offset][j];
+          LOG_FINEST() << "The proportion in length bin: " << length_bins_[j] << " = " << age_length_matrix[data_offset][j];
         }
       }
 

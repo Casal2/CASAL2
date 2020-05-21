@@ -73,8 +73,8 @@ void Partition::Build() {
       if (model_->length_bins().size() > 0) {
         unsigned length_bin_count = model_->length_plus() == true ? model_->length_bins().size() : model_->length_bins().size() - 1;
 
-        auto year_count      = model_->year_spread();
-        auto time_step_count = model_->time_steps().size();
+        unsigned year_count      = model_->year_spread();
+        unsigned time_step_count = model_->time_steps().size();
 
         new_category->age_length_matrix_.resize(year_count);
 
@@ -164,6 +164,7 @@ void Partition::BuildAgeLengthProportions() {
   auto length_bin_count   = model_->length_bins().size();
 
   unsigned year           = 0;
+  unsigned al_year_iter   = 0;
   Double mu               = 0.0;
   Double cv               = 0.0;
   unsigned age            = 0;
@@ -200,9 +201,10 @@ void Partition::BuildAgeLengthProportions() {
     }
 
     auto age_length_proportion = new utilities::Vector4();
-    age_length_proportion->resize(year_count);
+    auto al_year_count = iter.second->age_length_->has_timevarying_params() == true ? model_->year_spread() : 1;
+    age_length_proportion->resize(al_year_count);
 
-    for (unsigned year = 0; year < year_count; ++year) {
+    for (unsigned year = 0; year < al_year_count; ++year) {
       (*age_length_proportion)[year].resize(time_step_count);
       for (unsigned time_step = 0; time_step < time_step_count; ++time_step) {
         (*age_length_proportion)[year][time_step].resize(iter.second->age_spread());
@@ -227,7 +229,8 @@ void Partition::BuildAgeLengthProportions() {
 
     bool casal_normal_cdf = iter.second->age_length_->casal_normal_cdf();
     for (unsigned year_iter = 0; year_iter < year_count; ++year_iter) {
-      year = year_iter + model_->start_year();
+      year         = year_iter + model_->start_year();
+      al_year_iter = iter.second->age_length_->has_timevarying_params() == true ? year_iter : 0;
 
       for (unsigned time_step = 0; time_step < time_step_count; ++time_step) {
         for (unsigned age_index = 0; age_index < iter.second->age_spread(); ++age_index) {
@@ -253,7 +256,7 @@ void Partition::BuildAgeLengthProportions() {
           LOG_FINEST() << "sigma: " << sigma;
 
           sum = 0;
-          vector<Double>& prop_in_length = (*age_length_proportion)[year_iter][time_step][age_index];
+          vector<Double>& prop_in_length = (*age_length_proportion)[al_year_iter][time_step][age_index];
           for (unsigned j = 0; j < length_bin_count; ++j) {
             z = fabs((length_bins[j] - mu)) / sigma;
 
@@ -295,13 +298,14 @@ void Partition::BuildAgeLengthProportions() {
       } // for (unsigned time_step = 0; time_step < time_step_count; ++time_step)
 
       // If the age length object is not data, then it doesn't vary by year
-      if (!iter.second->age_length_->varies_by_years()) {
+      if (!(iter.second->age_length_->varies_by_years())) {
         auto& source = (*age_length_proportion)[0];
 
-        for (unsigned year_iter = 1; year_iter < year_count; ++year_iter) {
-          auto& props = (*age_length_proportion)[year_iter];
-          props = source;
-        }
+        if (al_year_count > 1)
+          for (unsigned year_iter = 1; year_iter < al_year_count; ++year_iter) {
+            auto& props = (*age_length_proportion)[year_iter];
+            props = source;
+          }
 
         break;
       }

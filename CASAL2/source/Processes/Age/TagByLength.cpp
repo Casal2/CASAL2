@@ -13,6 +13,7 @@
 #include "TagByLength.h"
 
 #include "Categories/Categories.h"
+#include "AgeLengths/Manager.h"
 #include "Selectivities/Manager.h"
 #include "Penalties/Manager.h"
 #include "TimeSteps/Manager.h"

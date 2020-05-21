@@ -240,12 +240,12 @@ TEST(Partition, BuildAgeLengthProportions) {
 
   auto& male_age_props = partition.age_length_proportions("male.immature");
   // vector<year, time_step, age, length, proportion>>;
-  ASSERT_EQ(3u, male_age_props.size());
+  ASSERT_EQ(1u, male_age_props.size());
   ASSERT_EQ(2u, male_age_props[0].size());
   ASSERT_EQ(10u, male_age_props[0][0].size());
   ASSERT_EQ(5u, male_age_props[0][0][0].size());
 
-  for (unsigned year = 0; year < 3; ++year) {
+  for (unsigned year = 0; year < 1; ++year) {
   EXPECT_DOUBLE_EQ(0u, male_age_props[year][0][0][0]);
   EXPECT_DOUBLE_EQ(0u, male_age_props[year][0][0][1]);
   EXPECT_DOUBLE_EQ(0u, male_age_props[year][0][0][2]);
@@ -326,7 +326,7 @@ TEST(Partition, BuildAgeLengthProportions_2) {
 
   auto& male_age_props = partition.age_length_proportions("male.mature");
   // vector<year, time_step, age, length, proportion>>;
-  ASSERT_EQ(3u, male_age_props.size());
+  ASSERT_EQ(1u, male_age_props.size());
   ASSERT_EQ(2u, male_age_props[0].size());
   ASSERT_EQ(10u, male_age_props[0][0].size());
   ASSERT_EQ(34u, male_age_props[0][0][0].size());
@@ -340,8 +340,6 @@ TEST(Partition, BuildAgeLengthProportions_2) {
   ASSERT_EQ(expected.size(), male_age_props[0][0][0].size());
   for (unsigned i = 0; i < expected.size(); ++i) {
     EXPECT_DOUBLE_EQ(expected[i], male_age_props[0][0][0][i]) << " with i = " << i;
-    EXPECT_DOUBLE_EQ(expected[i], male_age_props[1][0][0][i]) << " with i = " << i;
-    EXPECT_DOUBLE_EQ(expected[i], male_age_props[2][0][0][i]) << " with i = " << i;
   }
 }
 
@@ -391,7 +389,7 @@ TEST(Partition, BuildAgeLengthProportions_3) {
 
   auto& male_age_props = partition.age_length_proportions("male.mature");
   // vector<year, time_step, age, length, proportion>>;
-  ASSERT_EQ(3u, male_age_props.size());
+  ASSERT_EQ(1u, male_age_props.size());
   ASSERT_EQ(2u, male_age_props[0].size());
   ASSERT_EQ(10u, male_age_props[0][0].size());
   ASSERT_EQ(33u, male_age_props[0][0][0].size());
@@ -405,8 +403,6 @@ TEST(Partition, BuildAgeLengthProportions_3) {
   ASSERT_EQ(expected.size(), male_age_props[0][0][0].size());
   for (unsigned i = 0; i < expected.size(); ++i) {
     EXPECT_DOUBLE_EQ(expected[i], male_age_props[0][0][0][i]) << " with i = " << i;
-    EXPECT_DOUBLE_EQ(expected[i], male_age_props[1][0][0][i]) << " with i = " << i;
-    EXPECT_DOUBLE_EQ(expected[i], male_age_props[2][0][0][i]) << " with i = " << i;
   }
 }
 
@@ -456,7 +452,7 @@ TEST(Partition, BuildAgeLengthProportions_4) {
 
   auto& male_age_props = partition.age_length_proportions("male.mature");
   // vector<year, time_step, age, length, proportion>>;
-  ASSERT_EQ(3u, male_age_props.size());
+  ASSERT_EQ(1u, male_age_props.size());
   ASSERT_EQ(2u, male_age_props[0].size());
   ASSERT_EQ(10u, male_age_props[0][0].size());
   ASSERT_EQ(5u, male_age_props[0][0][0].size());
