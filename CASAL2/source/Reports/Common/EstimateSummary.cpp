@@ -40,16 +40,15 @@ EstimateSummary::~EstimateSummary() noexcept(true) {
 void EstimateSummary::DoExecute() {
 
   // Print the estimates
-  niwa::estimates::Manager& estimate_manager = *model_->managers().estimate();
-  vector<Estimate*> estimates = estimate_manager.objects();
-
-  LOG_MEDIUM() << "number of estimated parameters: " << estimates.size();
+  vector<Estimate*> estimates = model_->managers().estimate()->objects();
 
   auto minimiser_ = model_->managers().minimiser()->active_minimiser();
   vector<double> est_std_dev(estimates.size(), 0.0);
   if (minimiser_) {
     covariance_matrix_ = minimiser_->covariance_matrix();
-    LOG_MEDIUM() << "number of standard deviation values: " << covariance_matrix_.size1();
+    if (estimates.size() != covariance_matrix_.size1())
+      LOG_WARNING() << "The number of estimated parameters " << estimates.size() << " does not match the dimension of the covariance matrix "
+        << covariance_matrix_.size1();
     for (unsigned i = 0; i < covariance_matrix_.size1(); ++i) {
       est_std_dev[i] = sqrt(covariance_matrix_(i, i));
     }
@@ -64,7 +63,8 @@ void EstimateSummary::DoExecute() {
 //    cache_ << "upper_bound: " << estimate->upper_bound() << "\n";
     cache_ << "value: " << AS_VALUE(estimate->value()) << "\n";
     // NOTE: this assumes that the estimated parameters and the covariance matrix are in the same order
-    cache_ << "std_dev: " << est_std_dev[est_idx] << "\n";
+    if (minimiser_)
+      cache_ << "std_dev: " << est_std_dev[est_idx] << "\n";
     est_idx++;
 
     // also output label, lower_bound, upper_bound, etc.

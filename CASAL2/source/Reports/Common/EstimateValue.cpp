@@ -14,6 +14,7 @@
 #include "Estimates/Manager.h"
 #include "Model/Model.h"
 #include "Profiles/Manager.h"
+#include "Minimisers/Manager.h"
 
 // namespaces
 namespace niwa {
@@ -38,8 +39,9 @@ EstimateValue::~EstimateValue() noexcept(true) {
  */
 void EstimateValue::DoExecute() {
   vector<Estimate*> estimates = model_->managers().estimate()->objects();
-  vector<Profile*> profiles = model_->managers().profile()->objects();
+
   LOG_TRACE();
+
   // Check if estiamtes are close to bounds. flag a warning.
   for (Estimate* estimate : estimates) {
     if ((estimate->value() - estimate->lower_bound()) < 0.001) {
@@ -59,6 +61,22 @@ void EstimateValue::DoExecute() {
       cache_ << AS_VALUE(estimate->value()) << " ";
     cache_ << "\n";
 
+    auto minimiser_ = model_->managers().minimiser()->active_minimiser();
+    if (minimiser_) {
+      covariance_matrix_ = minimiser_->covariance_matrix();
+      if (estimates.size() != covariance_matrix_.size1())
+        LOG_WARNING() << "number of estimated parameters " << estimates.size() << " does not match the dimension of the covariance matrix "
+          << covariance_matrix_.size1();
+      vector<double> est_std_dev(covariance_matrix_.size1(), 0.0);
+      for (unsigned i = 0; i < covariance_matrix_.size1(); ++i) {
+        est_std_dev[i] = sqrt(covariance_matrix_(i, i));
+      }
+
+      for (auto sd: est_std_dev)
+        cache_ << sd << " ";
+      cache_ << "\n";
+    }
+
     ready_for_writing_ = true;
   }
 }
@@ -68,6 +86,7 @@ void EstimateValue::DoExecute() {
  */
 void EstimateValue::DoExecuteTabular() {
   vector<Estimate*> estimates = model_->managers().estimate()->objects();
+
   /**
    * if this is the first run we print the report header etc
    */
@@ -83,6 +102,24 @@ void EstimateValue::DoExecuteTabular() {
   for (Estimate* estimate : estimates)
     cache_ << AS_VALUE(estimate->value()) << " ";
   cache_ <<"\n" ;
+
+  if (estimates.size() > 0) {
+    auto minimiser_ = model_->managers().minimiser()->active_minimiser();
+    if (minimiser_) {
+      covariance_matrix_ = minimiser_->covariance_matrix();
+      if (estimates.size() != covariance_matrix_.size1())
+        LOG_WARNING() << "The number of estimated parameters " << estimates.size() << " does not match the dimension of the covariance matrix "
+          << covariance_matrix_.size1();
+      vector<double> est_std_dev(covariance_matrix_.size1(), 0.0);
+      for (unsigned i = 0; i < covariance_matrix_.size1(); ++i) {
+        est_std_dev[i] = sqrt(covariance_matrix_(i, i));
+      }
+
+      for (auto sd: est_std_dev)
+        cache_ << sd << " ";
+      cache_ << "\n";
+    }
+  }
 }
 
 /**
