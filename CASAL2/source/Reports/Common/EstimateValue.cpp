@@ -72,6 +72,10 @@ void EstimateValue::DoExecute() {
         est_std_dev[i] = sqrt(covariance_matrix_(i, i));
       }
 
+      cache_ << "std_dev " << REPORT_R_DATAFRAME << "\n";
+      for (Estimate* estimate : estimates)
+        cache_ << estimate->parameter() << " ";
+      cache_ << "\n";
       for (auto sd: est_std_dev)
         cache_ << sd << " ";
       cache_ << "\n";
