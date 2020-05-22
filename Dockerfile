@@ -70,9 +70,10 @@ RUN cd BuildSystem && ./doBuild.sh check \
  # CppAD doesn't build in docker for some reason
  # && ./doBuild.sh thirdparty cppad
 
-RUN cd BuildSystem && ./doBuild.sh release && ./doBuild.sh test && ./doBuild.sh release adolc && ./doBuild.sh release betadiff \
+RUN cd BuildSystem && ./doBuild.sh release && ./doBuild.sh test && ./doBuild.sh debug \
+ && ./doBuild.sh release adolc && ./doBuild.sh release betadiff && ./doBuild.sh debug adolc && ./doBuild.sh debug betadiff \
 # CppAD doesn't build in docker for some reason
-# && ./doBuild.sh release cppad \
+# && ./doBuild.sh release cppad && ./doBuild.sh debug cppad \
 # the documentation should already exist
 # && ./doBuild.sh documentation \
 # the Casal2 R library should already exist
