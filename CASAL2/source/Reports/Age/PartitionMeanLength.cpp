@@ -61,28 +61,30 @@ void PartitionMeanLength::DoExecute() {
     LOG_FINEST() << "printing mean length-at-age for category " << category;
     cache_ << category << " " << REPORT_R_LIST << "\n";
 
+    cache_ << "mean_lengths " << REPORT_R_DATAFRAME << "\n";
+    cache_ << "year ";
+    for (unsigned i = model_->min_age(); i <= model_->max_age(); ++i)
+      cache_ << i << " ";
+    cache_ << "\n";
+
     for (auto year : years_) {
       year_index = year > model_->start_year() ? year - model_->start_year() : 0;
-      cache_ << "year: " << year << "\n";
-
-      cache_ << "mean_lengths " << REPORT_R_LIST << "\n";
-      cache_ << "values: ";
+      cache_ << year << " ";
 
       unsigned age_bins = (*iterator)->age_spread();
       for (unsigned age_index = 0; age_index < age_bins; ++age_index) {
         Double temp = (*iterator)->mean_length_by_time_step_age_[year_index][time_step_index][age_index];
         cache_ << AS_VALUE(temp) << " ";
       }
-      cache_<<"\n";
+
+      cache_ << "\n";
       LOG_FINEST() << "cached mean length";
-      cache_ << REPORT_R_LIST_END <<"\n";
     }
 
-    cache_ << REPORT_R_LIST_END <<"\n";
-
-    ready_for_writing_ = true;
+    cache_ << REPORT_R_LIST_END << "\n";
   }
 
+  ready_for_writing_ = true;
 }
 
 } /* namespace age */

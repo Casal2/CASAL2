@@ -50,6 +50,7 @@ void PartitionMeanWeight::DoBuild() {
 void PartitionMeanWeight::DoExecute() {
   LOG_TRACE();
 
+//  unsigned year_index      = 0;
   unsigned time_step_index = model_->managers().time_step()->GetTimeStepIndex(time_step_);
   niwa::partition::accessors::All all_view(model_);
 
@@ -61,42 +62,30 @@ void PartitionMeanWeight::DoExecute() {
     LOG_FINEST() << "printing mean weight-at-age for category " << category;
     cache_ << category << " " << REPORT_R_LIST << "\n";
 
+    cache_ << "mean_weights " << REPORT_R_DATAFRAME << "\n";
+    cache_ << "year ";
+    for (unsigned i = model_->min_age(); i <= model_->max_age(); ++i)
+      cache_ << i << " ";
+    cache_ << "\n";
+
     for (auto year : years_) {
-      cache_ << "year: " << year << "\n";
+//      year_index = year > model_->start_year() ? year - model_->start_year() : 0;
+      cache_ << year << " ";
 
-      cache_ << "mean_weights " << REPORT_R_LIST << "\n";
-      cache_ << "values: ";
-
-      for (unsigned age = (*iterator)->min_age_; age <= (*iterator)->max_age_; ++age) {
-        Double temp = (*iterator)->mean_weight_by_time_step_age_[time_step_index][age];
+      unsigned age_bins = (*iterator)->age_spread();
+      for (unsigned age_index = 0; age_index < age_bins; ++age_index) {
+        Double temp = (*iterator)->mean_weight_by_time_step_age_[time_step_index][age_index];
         cache_ << AS_VALUE(temp) << " ";
       }
-      cache_<<"\n";
+
+      cache_ << "\n";
       LOG_FINEST() << "cached mean weight";
-      cache_ << REPORT_R_LIST_END <<"\n";
-
-/*
-      // This currently doesn't work
-      cache_ << "age_lengths " << REPORT_R_LIST << "\n";
-      cache_ << "values: ";
-
-      for (unsigned age = (*iterator)->min_age_; age <= (*iterator)->max_age_; ++age) {
-        Double temp1 = (*iterator)->mean_length_by_time_step_age_[time_step_index][age];
-        cache_ << AS_VALUE(temp1) << " ";
-      }
-      LOG_FINEST() << "cached mean length";
-
-      cache_<<"\n";
-
-      cache_ << REPORT_R_LIST_END <<"\n";
-*/
     }
 
-    cache_ << REPORT_R_LIST_END <<"\n";
-
-    ready_for_writing_ = true;
+    cache_ << REPORT_R_LIST_END << "\n";
   }
 
+  ready_for_writing_ = true;
 }
 
 } /* namespace age */
