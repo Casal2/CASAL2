@@ -151,7 +151,7 @@ void Partition::BuildMeanLengthData() {
 /**
  * This method builds the age length proportions for each category to be used during
  * processes/observations that need to convert the age partition into length for use
- * in an age based model
+ * in an age-based model
  */
 void Partition::BuildAgeLengthProportions() {
   LOG_TRACE();
@@ -181,6 +181,8 @@ void Partition::BuildAgeLengthProportions() {
   vector<Double> cum(length_bin_count, 0.0);
   auto model_length_bins = model_->length_bins();
   vector<double> length_bins(model_length_bins.size(), 0.0);
+
+  LOG_MEDIUM() << "Calculating age-length proportions: year_count " << year_count;
 
   LOG_FINEST() << "years: " << year_count << "; time_steps: " << time_step_count << "; length_bins: " << length_bin_count;
   unsigned matrix_length_bin_count = model_->length_plus() ? length_bin_count : length_bin_count - 1;
@@ -297,15 +299,14 @@ void Partition::BuildAgeLengthProportions() {
         } // for (unsigned age_index = 0; age_index < iter.second->age_spread(); ++age_index)
       } // for (unsigned time_step = 0; time_step < time_step_count; ++time_step)
 
-      // If the age length object is not data, then it doesn't vary by year
-      if (!(iter.second->age_length_->varies_by_years())) {
-        auto& source = (*age_length_proportion)[0];
+      // If the age length object is not data AND it has no time-varying parameters, then it doesn't vary by year
+      if (!(iter.second->age_length_->varies_by_years() || iter.second->age_length_->has_timevarying_params())) {
+        // auto& source = (*age_length_proportion)[0];
 
-        if (al_year_count > 1)
-          for (unsigned year_iter = 1; year_iter < al_year_count; ++year_iter) {
-            auto& props = (*age_length_proportion)[year_iter];
-            props = source;
-          }
+        // for (unsigned year_iter = 1; year_iter < al_year_count; ++year_iter) {
+        //   auto& props = (*age_length_proportion)[year_iter];
+        //   props = source;
+        // }
 
         break;
       }
