@@ -63,14 +63,13 @@ void EstimateValue::DoExecute() {
 
     auto minimiser_ = model_->managers().minimiser()->active_minimiser();
     if (minimiser_) {
+      vector<double> est_std_dev(estimates.size(), 0.0);
       covariance_matrix_ = minimiser_->covariance_matrix();
       if (estimates.size() != covariance_matrix_.size1())
         LOG_WARNING() << "number of estimated parameters " << estimates.size() << " does not match the dimension of the covariance matrix "
           << covariance_matrix_.size1();
-      vector<double> est_std_dev(covariance_matrix_.size1(), 0.0);
-      for (unsigned i = 0; i < covariance_matrix_.size1(); ++i) {
+      for (unsigned i = 0; i < covariance_matrix_.size1(); ++i)
         est_std_dev[i] = sqrt(covariance_matrix_(i, i));
-      }
 
       cache_ << "std_dev " << REPORT_R_DATAFRAME << "\n";
       for (Estimate* estimate : estimates)

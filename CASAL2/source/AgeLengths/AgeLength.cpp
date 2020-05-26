@@ -149,6 +149,9 @@ void AgeLength::Reset() {
  * ReBuild Cache: called by the time_varying class
  */
 void AgeLength::RebuildCache() {
+  LOG_FINE() << "Rebuilding age-length cache for year " << model_->current_year() << " run mode " << model_->run_mode()
+    << " state " << model_->state();
+
   BuildCV();
   DoRebuildCache();
 }
