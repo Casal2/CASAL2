@@ -2,7 +2,7 @@
 % Please edit documentation in R/summarise_estimate_summary.R
 \name{summarise_estimate_summary}
 \alias{summarise_estimate_summary}
-\title{Utility summarise_estimate_values function}
+\title{Utility summarise_estimate_summary function}
 \usage{
 summarise_estimate_summary(report_object)
 }

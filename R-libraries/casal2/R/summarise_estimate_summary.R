@@ -1,4 +1,4 @@
-#' Utility summarise_estimate_values function
+#' Utility summarise_estimate_summary function
 #'
 #' @description
 #' used in the summarise function for casal2MPD
@@ -21,7 +21,7 @@ summarise_estimate_summary <- function(report_object) {
     }
 
     names(data) <- c("Parameter", "Label", "Distribution", "Lower Bound", "Upper Bound", "Value")
-    if (dim(data)[2] == 7) {
+    if (dim(data)[2] >= 7) {
         names(data)[7] <- "Std. Dev."
     }
 

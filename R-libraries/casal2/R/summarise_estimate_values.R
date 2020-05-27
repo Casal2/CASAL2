@@ -11,7 +11,7 @@ summarise_estimate_values <- function(report_object) {
 
     # check for standard deviations
     if (length(report_object$std_dev) > 0) {
-        df <- data.frame(df, sd=cbind(t(ev$std_dev)))
+        df <- data.frame(df, sd=cbind(t(report_object$std_dev)))
         names(df)[2] <- "Std. Dev."
     }
 
