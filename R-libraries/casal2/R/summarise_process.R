@@ -54,10 +54,11 @@ summarise_process = function(report_object) {
     ## Standarsised YCS range
     cat(Paste("standardised ycs in years: ", paste(report_object$standardise_ycs_years, collapse = " "), "\n"))
     ## print ycs, true_ycs, and standardised_ycs
-    data = cbind(report_object$ycs_values,report_object$true_ycs,report_object$standardiesed_ycs)
+    data = cbind(report_object$ycs_values,report_object$true_ycs,report_object$standardised_ycs)
     data = round(data,2)
     dimnames(data) = list(report_object$ycs_years,c("Estimated YCS","True YCS","Standardised YCS"))
     print(data)
+    cat("\n\n")
   }
 }
 

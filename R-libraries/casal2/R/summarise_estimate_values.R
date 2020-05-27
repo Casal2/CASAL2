@@ -1,11 +1,23 @@
 #' Utility summarise_estimate_values function
 #'
-#' @author Craig Marsh
-#' @description 
+#' @description
 #' used in the summarise function for casal2MPD
 #' @keywords internal
 #'
 
-summarise_process = function(report_object) {
-  cat("Haven't writen summary report for esimate values yet.")
+summarise_estimate_values <- function(report_object) {
+  if (length(report_object$values) > 0) {
+    df <- data.frame(Value=cbind(t(report_object$values)))
+
+    # check for standard deviations
+    if (length(report_object$std_dev) > 0) {
+        df <- data.frame(df, sd=cbind(t(ev$std_dev)))
+        names(df)[2] <- "Std. Dev."
+    }
+
+    cat("Table of estimated values\n")
+    print(df)
+  }
+
+  cat("\n\n")
 }

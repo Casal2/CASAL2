@@ -23,21 +23,23 @@ function(model){
   ## What do we want to summarise for each report.
   ## current report types that we will summarise = {estimate_value, process[recruitment_bevertont_holt], processp[mortality_instantaneous], warnings}
   ## iterate through each report and ndx which reports we can summarise
-  allowed_report_types = c("estimate_value","process","warnings_encounted")
+  allowed_report_types = c("estimate_value", "estimate_summary", "process","warnings_encounted")
   ## maybe think about prioritising some of this summary later, like put the warning at the end as that is likely where users will see it.
   for(i in names(model)) {
       this_report = get(i, model)
-      report_type = this_report$'1'$type
+      report_type = this_report$type
       if (report_type %in% allowed_report_types) {
         if (report_type == "estimate_value") {
-          summarise_estimate_values(this_report$'1')
+          summarise_estimate_values(this_report)
+        } else if (report_type == "estimate_summary") {
+            summarise_estimate_summary(this_report)
         } else if (report_type == "process") {
-          if(this_report$'1'$process_type %in% c("recruitment_beverton_holt","mortality_instantaneous")) {
+          if(this_report$sub_type %in% c("recruitment_beverton_holt","mortality_instantaneous")) {
             cat(Paste("Summarising process ", i,"\n"))
-            summarise_process(this_report$'1')
+            summarise_process(this_report)
           }
         } else if (report_type == "warnings_encounted") {
-          summarise_warnings_encounted(this_report$'1')
+          summarise_warnings_encounted(this_report)
         }
       }
   }
@@ -53,13 +55,13 @@ function(model){
   ## What do we want to summarise for each MCMC
   ## Trace plot of Objective function
   ## marginal posterior's of b0,M,q
-  
+
   ##############
   ## Trace Plot
   #############
   plot(model$"sample"/1000, model$"objective_score", xlab = "Iteration (000's)", ylab = "Objective Score", main = "Trace Plot", type = "l")
 
-  
+
 }
 
 
