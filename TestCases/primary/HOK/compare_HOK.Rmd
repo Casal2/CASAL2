@@ -1,10 +1,10 @@
 ---
 title: "Casal2 Test Case comparisons for HOK"
 output:
-    html_document:
-        toc: true
-        toc_depth: 2
-        number_sections: true
+  html_document:
+    number_sections: yes
+    toc: yes
+    toc_depth: 2
 ---
 
 ```{r setup, include=FALSE}
@@ -19,8 +19,43 @@ The CASAL model sensitivity 1 has a smaller tolerance value than the CASAL base 
 
 The Casal2 ADOL-C and BetaDiff low tolerance models have a smaller tolerance value than the CASAL base model (1e-9 vs. 1e-6). The Casal2 CppAD models have a tolerance value of 1e-9.
 
-## R environment
 
+## HOK model characteristics
+
+The main characteristics of the Test Case HOK (hoki) CASAL model are:
+
+* one stock, ages 1 - 17
+* one area, although many characteristics are separated into "east" and "west"
+* years 1972 - 2018, projection years 2019 - 2023
+* five time steps: Oct_Nov, Dec_Mar, Apr_Jun, End_Jun, and Jul_Sep
+* five stock categories: west.sa, east.cr, west.cr, west.wc, and east.cs (labeled "stock.area")
+* five migration processes, which have age-specific proportions specified
+* sex-specific natural mortality-at-age is double exponential
+* area-specific age-length von Bertalanffy relationship
+* area-specific length-weight relationship
+* area-specific Beverton-Holt stock-recruitment relationships, with steepness (h) set to 0.75
+* ageing error is specified
+* surveys with double normal selectivity
+* six area-specific fisheries with double normal selectivity
+
+Observation data include:
+
+* survey indices
+* survey proportions-at-age
+* fishery proportions-at-age
+
+Parameters estimated include:
+
+* area-specific B0
+* parameters for the natural mortality-at-age ogive
+* free catchability (q) for the surveys
+* parameters for the selectivity curves for the surveys
+* parameters for the selectivity curves for the fisheries
+* migration proportions by age
+* area-specific year-class strengths (recruitment deviations)
+
+
+## R environment
 
 ```{r C1_C2_setup, echo=FALSE, warning=FALSE, message=FALSE}
 # print(paste('pandoc installed?', rmarkdown::pandoc_available()))
