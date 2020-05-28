@@ -20,6 +20,40 @@ The CASAL model sensitivity 1 has a smaller tolerance value than the CASAL base 
 The Casal2 ADOL-C and BetaDiff low tolerance models have a smaller tolerance value than the CASAL base model (1e-6 vs. 2e-3). The Casal2 CppAD models have a tolerance value of 1e-9.
 
 
+## LIN5/6 model characteristics
+
+The main characteristics of the Test Case LIN5/6 (ling) CASAL model are:
+
+* one stock, ages 3 - 25
+* one area
+* years 1972 - 2018, projection years 2019 - 2023
+* two time steps: Dec_Aug and Sep_Nov
+* two stock categories: male and female
+* natural mortality-at-age is double exponential
+* sex-specific maturity ogives specified by age
+* sex-specific age-length von Bertalanffy relationship
+* sex-specific length-weight relationship
+* Beverton-Holt stock-recruitment relationship, with steepness (h) set to 0.84
+* ageing error
+* two surveys with sex-specific logistic selectivity
+* three fisheries, one with double normal selectivity and two with logistic selectivity
+
+Observation data include:
+
+* survey indices
+* survey proportions-at-age
+* fishery proportions-at-age
+
+Parameters estimated include:
+
+* B0
+* parameters for the natural mortality-at-age ogive
+* free catchability (q) for the two surveys
+* parameters for the sex-specific selectivity curves for the two surveys
+* parameters for the sex-specific selectivity curves for the three fisheries
+* year-class strengths (recruitment deviations)
+
+
 ## R environment
 
 ```{r C1_C2_setup, echo=FALSE, warning=FALSE, message=FALSE}

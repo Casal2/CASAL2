@@ -20,6 +20,33 @@ The CASAL model sensitivity 1 has a smaller tolerance value than the CASAL base 
 The Casal2 ADOL-C and BetaDiff low tolerance models have a smaller tolerance value than the CASAL base model (1e-6 vs. 2e-3). The Casal2 CppAD models have a tolerance value of 1e-9.
 
 
+## ORH model characteristics
+
+The main characteristics of the Test Case ORH (orange roughy) CASAL model are:
+
+* one stock, ages 1 - 80
+* one area
+* years 1979 - 2005, projection years 2006 - 2010
+* one time step
+* two stock categories: immature and mature, with logistic-producing maturity ogive
+* Beverton-Holt stock-recruitment relationship, with steepness (h) set to 1.0
+* no ageing error
+* one fishery with logistic selectivity
+
+Observation data include:
+
+* empirical length-at-age data for one year
+* one CPUE index
+* fishery proportions-at-age
+
+Parameters estimated include:
+
+* B0
+* the first and last CV for the age-length relationship
+* nuisance catchability (q) for the fishery CPUE index
+* fishery selectivity parameters a50 and ato95
+
+
 ## R environment
 
 ```{r C1_C2_setup, echo=FALSE, warning=FALSE, message=FALSE}
