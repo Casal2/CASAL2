@@ -30,13 +30,13 @@ namespace utils = niwa::utilities;
  * Default constructor
  */
 Biomass::Biomass(Model* model) : Observation(model) {
-  parameters_.Bind<string>(PARAM_CATCHABILITY, &catchability_label_, "The time step of the observation", "");
   parameters_.Bind<string>(PARAM_TIME_STEP, &time_step_label_, "The label of the time step that the observation occurs in", "");
-  parameters_.Bind<string>(PARAM_OBS, &obs_, "The observed values", "");
-  parameters_.Bind<unsigned>(PARAM_YEARS, &years_, "The years of the observed values", "");
-  parameters_.Bind<Double>(PARAM_ERROR_VALUE, &error_values_, "The error values of the observed values (note that the units depend on the likelihood)", "");
+  parameters_.Bind<string>(PARAM_CATCHABILITY, &catchability_label_, "The label of the catchability coefficient (q)", "");
   parameters_.Bind<string>(PARAM_SELECTIVITIES, &selectivity_labels_, "The labels of the selectivities", "", true);
   parameters_.Bind<Double>(PARAM_PROCESS_ERROR, &process_error_value_, "The process error", "", Double(0.0))->set_lower_bound(0.0);
+  parameters_.Bind<unsigned>(PARAM_YEARS, &years_, "The years of the observed values", "");
+  parameters_.Bind<string>(PARAM_OBS, &obs_, "The observed values", "");
+  parameters_.Bind<Double>(PARAM_ERROR_VALUE, &error_values_, "The error values of the observed values (note that the units depend on the likelihood)", "");
   parameters_.Bind<string>(PARAM_AGE_WEIGHT_LABELS, &age_weight_labels_, R"(The labels for the \command{$age\_weight$} block which corresponds to each category, to use the weight calculation method for biomass calculations)", "", "");
 
   RegisterAsAddressable(PARAM_PROCESS_ERROR, &process_error_value_);
