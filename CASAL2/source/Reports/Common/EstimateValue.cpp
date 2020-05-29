@@ -65,19 +65,21 @@ void EstimateValue::DoExecute() {
     if (minimiser_) {
       vector<double> est_std_dev(estimates.size(), 0.0);
       covariance_matrix_ = minimiser_->covariance_matrix();
-      if (estimates.size() != covariance_matrix_.size1())
+      if (model_->run_mode() == RunMode::kEstimation && estimates.size() != covariance_matrix_.size1())
         LOG_WARNING() << "number of estimated parameters " << estimates.size() << " does not match the dimension of the covariance matrix "
           << covariance_matrix_.size1();
-      for (unsigned i = 0; i < covariance_matrix_.size1(); ++i)
-        est_std_dev[i] = sqrt(covariance_matrix_(i, i));
+      if (covariance_matrix_.size1() > 0) {
+        for (unsigned i = 0; i < covariance_matrix_.size1(); ++i)
+          est_std_dev[i] = sqrt(covariance_matrix_(i, i));
 
-      cache_ << "std_dev " << REPORT_R_DATAFRAME << "\n";
-      for (Estimate* estimate : estimates)
-        cache_ << estimate->parameter() << " ";
-      cache_ << "\n";
-      for (auto sd: est_std_dev)
-        cache_ << sd << " ";
-      cache_ << "\n";
+        cache_ << "std_dev " << REPORT_R_DATAFRAME << "\n";
+        for (Estimate* estimate : estimates)
+          cache_ << estimate->parameter() << " ";
+        cache_ << "\n";
+        for (auto sd: est_std_dev)
+          cache_ << sd << " ";
+        cache_ << "\n";
+      }
     }
 
     ready_for_writing_ = true;

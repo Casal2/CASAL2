@@ -27,6 +27,10 @@ function(model){
   ## maybe think about prioritising some of this summary later, like put the warning at the end as that is likely where users will see it.
   for(i in names(model)) {
       this_report = get(i, model)
+      # to account for the differences between run output and estimation output
+      if (names(this_report)[1] == "1") {
+        this_report = this_report[[1]]
+      }
       report_type = this_report$type
       if (report_type %in% allowed_report_types) {
         if (report_type == "estimate_value") {

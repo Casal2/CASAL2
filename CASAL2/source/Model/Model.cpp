@@ -427,8 +427,8 @@ void Model::Build() {
 
   Estimables& estimables = *managers_->estimables();
   if (estimables.GetValueCount() > 0) {
-    addressable_values_file_ = true;
-    adressable_values_count_ = estimables.GetValueCount();
+    addressable_values_file_  = true;
+    addressable_values_count_ = estimables.GetValueCount();
   }
 
   if (categories()->HasAgeLengths()) {
@@ -474,7 +474,7 @@ void Model::RunBasic() {
   niwa::partition::accessors::All all_view(this);
 
   // Model is about to run
-  for (unsigned i = 0; i < adressable_values_count_; ++i) {
+  for (unsigned i = 0; i < addressable_values_count_; ++i) {
     if (addressable_values_file_) {
       estimables.LoadValues(i);
       Reset();
@@ -542,18 +542,19 @@ void Model::RunBasic() {
                 << single_step_addressables[i] << " is invalid";
           }
 
-          LOG_FINEST() << "Setting annual value for " << single_step_addressables[i] << " to " << value;
+          LOG_FINE() << "Setting annual value for " << single_step_addressables[i] << " to " << value;
           *estimable_targets[i] = value;
         }
       }
       LOG_TRACE();
       time_varying_manager.Update(current_year_);
-      LOG_FINEST() << "finishing update time varying now Update Category mean length and weight before beginning annual cycle";
+      LOG_FINEST() << "Updated time-varying";
 
       // Iterate over all partition members and UpDate Mean Weight for this year.
       for (auto iterator = all_view.Begin(); iterator != all_view.End(); ++iterator) {
         (*iterator)->UpdateMeanLengthData();
       }
+      LOG_FINEST() << "Updated category mean length and weight before beginning annual cycle";
 
       time_step_manager.Execute(current_year_);
     }
@@ -590,8 +591,8 @@ void Model::RunEstimation() {
 
   Estimables* estimables = managers_->estimables();
   map<string, Double> estimable_values;
-  LOG_FINE() << "estimable values count: " << adressable_values_count_;
-  for (unsigned i = 0; i < adressable_values_count_; ++i) {
+  LOG_FINE() << "estimable values count: " << addressable_values_count_;
+  for (unsigned i = 0; i < addressable_values_count_; ++i) {
     if (addressable_values_file_) {
       estimables->LoadValues(i);
       Reset();
@@ -677,7 +678,7 @@ void Model::RunProfiling() {
   Estimables& estimables = *managers_->estimables();
 
   map<string, Double> estimable_values;
-  for (unsigned i = 0; i < adressable_values_count_; ++i) {
+  for (unsigned i = 0; i < addressable_values_count_; ++i) {
     if (addressable_values_file_) {
       estimables.LoadValues(i);
       Reset();
@@ -726,9 +727,9 @@ void Model::RunSimulation() {
   LOG_FINE() << "Entering the Simulation Sub-System";
 
   Estimables* estimables = managers_->estimables();
-  LOG_FINE() << "estimable values count: " << adressable_values_count_;
-  if (adressable_values_count_ > 1)
-    LOG_FATAL() << "Simulation mode only allows a -i file with one set of parameters.";
+  LOG_FINE() << "estimable values count: " << addressable_values_count_;
+  if (addressable_values_count_ > 1)
+    LOG_FATAL() << "Simulation mode allows a -i file with only one set of parameters.";
 
   if (addressable_values_file_) {
     estimables->LoadValues(0);
@@ -804,7 +805,7 @@ void Model::RunProjection() {
   niwa::partition::accessors::All all_view(this);
 
   // Model is about to run
-  for (unsigned i = 0; i < adressable_values_count_; ++i) {
+  for (unsigned i = 0; i < addressable_values_count_; ++i) {
     for (int j = 0; j < projection_candidates; ++j) {
       LOG_FINE() << "Beginning initial model run for projections";
       projection_final_phase_ = false;

@@ -46,24 +46,21 @@ void EstimateSummary::DoExecute() {
   vector<double> est_std_dev(estimates.size(), 0.0);
   if (minimiser_) {
     covariance_matrix_ = minimiser_->covariance_matrix();
-    if (estimates.size() != covariance_matrix_.size1())
+    if (model_->run_mode() == RunMode::kEstimation && estimates.size() != covariance_matrix_.size1())
       LOG_WARNING() << "The number of estimated parameters " << estimates.size() << " does not match the dimension of the covariance matrix "
         << covariance_matrix_.size1();
-    for (unsigned i = 0; i < covariance_matrix_.size1(); ++i) {
-      est_std_dev[i] = sqrt(covariance_matrix_(i, i));
-    }
+    if (covariance_matrix_.size1() > 0)
+      for (unsigned i = 0; i < covariance_matrix_.size1(); ++i)
+        est_std_dev[i] = sqrt(covariance_matrix_(i, i));
   }
 
   cache_ << "*"<< type_ << "[" << label_ << "]" << "\n";
   unsigned est_idx = 0;
   for (Estimate* estimate : estimates) {
     cache_ << estimate->parameter() << " " << REPORT_R_LIST << "\n";
-//    cache_ << "label: " << estimate->label() << "\n";
-//    cache_ << "lower_bound: " << estimate->lower_bound() << "\n";
-//    cache_ << "upper_bound: " << estimate->upper_bound() << "\n";
     cache_ << "value: " << AS_VALUE(estimate->value()) << "\n";
     // NOTE: this assumes that the estimated parameters and the covariance matrix are in the same order
-    if (minimiser_)
+    if (model_->run_mode() == RunMode::kEstimation && minimiser_)
       cache_ << "std_dev: " << est_std_dev[est_idx] << "\n";
     est_idx++;
 

@@ -146,7 +146,7 @@ protected:
   bool                        length_plus_ = true;
   double                      length_plus_group_ = 0;
   bool                        addressable_values_file_ = false;
-  unsigned                    adressable_values_count_ = 1;
+  unsigned                    addressable_values_count_ = 1;
 
   PartitionType               partition_type_ = PartitionType::kInvalid;
   Managers*                   managers_ = nullptr;
