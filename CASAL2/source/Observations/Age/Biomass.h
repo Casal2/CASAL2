@@ -51,9 +51,9 @@ public:
 protected:
   // members
   vector<unsigned>                years_;
-  string                          catchability_label_;
+  string                          catchability_label_ = "";
   Catchability*                   catchability_ = nullptr;
-  Double                          process_error_value_;
+  Double                          process_error_value_ = 0;
   CachedCombinedCategoriesPtr     cached_partition_;
   CombinedCategoriesPtr           partition_;
   vector<string>                  obs_;

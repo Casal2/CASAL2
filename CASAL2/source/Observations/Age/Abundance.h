@@ -38,7 +38,6 @@ using catchabilities::Nuisance;
 class Abundance : public niwa::Observation {
 public:
   // Methods
-  //Abundance() = delete;
   Abundance(Model* model);
   virtual                     ~Abundance() = default;
   void                        DoValidate() override final;
