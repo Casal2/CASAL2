@@ -23,7 +23,7 @@ function(model){
   ## What do we want to summarise for each report.
   ## current report types that we will summarise = {estimate_value, process[recruitment_bevertont_holt], processp[mortality_instantaneous], warnings}
   ## iterate through each report and ndx which reports we can summarise
-  allowed_report_types = c("estimate_value", "estimate_summary", "process","warnings_encounted")
+  allowed_report_types = c("estimate_value", "estimate_summary", "process", "warnings_encounted")
   ## maybe think about prioritising some of this summary later, like put the warning at the end as that is likely where users will see it.
   for(i in names(model)) {
       this_report = get(i, model)
@@ -38,9 +38,12 @@ function(model){
         } else if (report_type == "estimate_summary") {
             summarise_estimate_summary(this_report)
         } else if (report_type == "process") {
-          if(this_report$sub_type %in% c("recruitment_beverton_holt","mortality_instantaneous")) {
+          if(this_report$sub_type %in% c("recruitment_beverton_holt", "mortality_instantaneous")) {
             cat(Paste("Summarising process ", i,"\n"))
             summarise_process(this_report)
+          } else if (this_report$sub_type %in% c("mortality_instantaneous_retained")) {
+            cat(Paste("Summarising retained process ", i,"\n"))
+            summarise_process_retained(this_report)
           }
         } else if (report_type == "warnings_encounted") {
           summarise_warnings_encounted(this_report)

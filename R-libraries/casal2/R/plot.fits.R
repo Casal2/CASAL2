@@ -55,7 +55,9 @@
   this_report <- get(report_label, model)
 
   likelihoods_allowed  <- c("lognormal", "multinomial", "normal")
-  observations_allowed <- c("biomass", "abundance", "proportions_at_age", "process_proportions_at_age", "proportions_at_length", "process_proportions_at_length", "process_removals_by_age", "process_removals_by_length")
+  observations_allowed <- c("biomass", "abundance", "proportions_at_age", "proportions_at_length",
+                            "process_proportions_at_age", "process_proportions_at_length", "process_removals_by_age", "process_removals_by_length",
+                            "process_removals_by_age_retained", "process_removals_by_length_retained", "process_removals_by_age_retained_total", "process_removals_by_length_retained_total")
 
   if (any(names(this_report) == "type")) {
     if (this_report$type != "observation") {
@@ -226,7 +228,7 @@
       norm_ndx <- grepl(pattern = "normalised_residuals", x = names(this_report$values))
 
       if(!any(norm_ndx)) {
-        stop("normalised_residuals were not found in the tabular report. Set @report for this observation: 'pearsons_residuals true'")
+        stop("normalised_residuals were not found in the tabular report. Set @report for this observation: 'normalised_residuals true'")
       }
 
       this_normal <- this_report$values[,norm_ndx]
