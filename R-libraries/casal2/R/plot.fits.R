@@ -214,7 +214,9 @@
   }
 
   likelihoods_allowed  <- c("lognormal", "multinomial", "normal")
-  observations_allowed <- c("biomass", "abundance", "proportions_at_age", "process_proportions_at_age", "proportions_at_length", "process_proportions_at_length", "process_removals_by_age", "process_removals_by_length")
+  observations_allowed <- c("biomass", "abundance", "proportions_at_age", "proportions_at_length",
+                            "process_proportions_at_age", "process_proportions_at_length", "process_removals_by_age", "process_removals_by_length",
+                            "process_removals_by_age_retained", "process_removals_by_length_retained", "process_removals_by_age_retained_total", "process_removals_by_length_retained_total")
 
   if (!this_report$likelihood %in% likelihoods_allowed) {
     stop(Paste("This function can be used with likelihoods " , paste(likelihoods_allowed, collapse = ", "), " only."))
