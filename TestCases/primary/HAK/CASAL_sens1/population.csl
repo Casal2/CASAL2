@@ -1,0 +1,100 @@
+#INITIALSATION
+@initialization
+B0 60000
+
+# PARTITION
+@size_based False
+@min_age 1
+@max_age 30
+@plus_group True
+@sex_partition True
+@mature_partition False
+@n_areas 1
+
+# TIME SEQUENCE
+@initial 1975
+@current 2018
+@final   2022
+@annual_cycle
+time_steps 2
+recruitment_time 1
+spawning_time 1
+spawning_part_mort 0.5
+spawning_ps 1
+maturation_times 1
+aging_time 1
+growth_props 0.00 0.33
+M_props      0.58 0.42
+baranov False
+midmortality_partition weighted_sum		# hmm, is this is casal2...?
+fishery_names subaF
+fishery_times 1
+n_migrations 0
+
+# RECRUITMENT
+@y_enter 1
+@standardise_YCS True
+@recruitment
+YCS_years 1974 1975 1976 1977 1978 1979 1980 1981 1982 1983 1984 1985 1986 1987 1988 1989 1990 1991 1992 1993 1994 1995 1996 1997 1998 1999 2000 2001 2002 2003 2004 2005 2006 2007 2008 2009 2010 2011 2012 2013 2014 2015 2016 2017
+YCS       1.00 1.00 1.00 1.00 1.92 1.11 0.78 0.71 1.00 0.38 0.89 0.66 1.08 0.84 1.06 1.06 1.19 1.31 1.71 0.93 1.92 1.00 1.00 1.00 1.00 1.00 1.00 1.00 1.00 1.00 1.00 1.00 1.00 1.00 1.00 1.00 1.00 1.00 1.00 1.00 1.00 1.00 1.00 1.00
+p_male 0.5
+SR BH
+steepness 0.8
+first_free 1974
+last_free 2013
+
+# RECRUITMENT VARIABILITY
+@randomisation_method lognormal-empirical
+@first_random_year 2011
+
+#MATURATION
+@maturity_props
+male   allvalues_bounded 2 15  0.01	0.03	0.09	0.22	0.46	0.71	0.88	0.96	0.98	0.99	1.00	1.00	1.00	1.00
+female allvalues_bounded 2 15  0.01	0.02	0.05	0.11	0.23	0.43	0.64	0.81	0.91	0.96	0.98	0.99	1.00	1.00
+
+# NATURAL MORTALITY
+@natural_mortality
+all 0.19
+
+# FISHING
+@fishery subaF
+years    1975 1976 1977 1978 1979 1980 1981 1982 1983 1984 1985 1986 1987 1988 1989 1990 1991 1992 1993 1994 1995 1996 1997 1998 1999 2000 2001 2002 2003 2004 2005 2006 2007 2008 2009 2010 2011 2012 2013 2014 2015 2016 2017 2018
+catches   120  281  372  762  364  350  272  179  448  722  525  818  713 1095 1237 1897 2381 2810 3941 1596 1995 2779 1915 2958 2853 3109 2820 2445 2776 3221 2580 2566 1709 2329 2446 1926 1319 1900 1859 1839 1600 1464 1033 1033
+selectivity subaFsel
+U_max 0.7
+future_constant_catches 1600 
+
+# SELECTIVITIES
+@selectivity_names subaTANselA subaFsel
+@selectivity subaTANselA 
+all   logistic 10 5 
+@selectivity subaFsel 
+all   logistic 4 3 
+
+# SIZE AT AGE
+@size_at_age_type Schnute
+@size_at_age_dist normal
+@size_at_age
+y1_male 22.3
+y2_male 89.8
+tau1_male 1 
+tau2_male 20 
+a_male 0.249
+b_male 1.243
+cv_male 0.1
+y1_female 22.9
+y2_female 109.9
+tau1_female 1 
+tau2_female 20 
+a_female 0.147
+b_female 1.457
+cv_female 0.1
+
+# SIZE-WEIGHT
+@size_weight
+a_male 2.13e-9
+b_male 3.281
+a_female 1.83e-9
+b_female 3.314
+
+

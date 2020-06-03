@@ -1,0 +1,44 @@
+@print
+
+# estimation section stuff
+parameters False
+fits_every_eval False
+objective_every_eval False   # set to True for profile (-p) runs
+parameters_every_eval False
+parameter_vector_every_eval False
+fits True
+resids True
+pearson_resids True
+normalised_resids True
+estimation_section True
+
+# population section stuff
+requests True
+initial_state False
+state_annually False
+state_every_step False
+final_state True
+results True
+
+#output section stuff
+yields True
+unused_parameters True
+covariance False
+
+@quantities
+all_free_parameters True
+fishing_pressures True
+nuisance_qs False
+true_YCS True
+B0 True
+R0 False
+SSBs True
+YCS True
+actual_catches True
+ogive_parameters selectivity[subaFsel].all selectivity[subaTANselA].all 
+ogive_arguments selectivity[subaFsel].all selectivity[subaTANselA].all  
+fits True 
+normalised_resids True 
+pearson_resids True 
+
+
