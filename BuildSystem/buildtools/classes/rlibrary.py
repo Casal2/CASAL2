@@ -25,17 +25,27 @@ class Rlibrary:
     if not os.path.exists('bin/' + Globals.operating_system_ + '/release_betadiff/' + binary_name):
       print('Looking for bin/' + Globals.operating_system_ + '/release_betadiff/' + binary_name)
       print('The Casal2 binary was not found.')
-      print('Please build the release betadiff binary build before building the R package')
+      print('Please build the release betadiff executable before building the R package')
       return False
+
     ## CHG Dir to R library
     os.chdir("../R-libraries/")
+
     ## Run the oxygen
+    print("--> Running roxygen")
     os.system("R --vanilla < run-roxygen.R")
+
     ## Build Namespace
+    print("--> Running make_version")
     os.system("R --vanilla < CASAL2_make_version.R")
+
     ## build package
+    print("--> Building the Casal2 R package")
     os.system("R CMD build --force casal2")
+    print("--> Installing of the Casal2 R package")
     os.system("R CMD INSTALL --build casal2")
+    print("--> Checking the Casal2 R package")
     os.system("R CMD check casal2")
     os.system("rm casal2.html")
+
     return True

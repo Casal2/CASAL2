@@ -1,23 +1,23 @@
-#' @title summary default
+#' Utility summary function
 #'
-#' @description
-#' A summary function for 'casal2MCMC' 'casal2TAB' and 'casal2MPD' objects.
+#' This function summarises information in 'casal2MCMC', 'casal2TAB', and 'casal2MPD' objects.
 #'
 #' @author C. Marsh
-#' @param model <casal2MPD, casal2TAB, casal2MCMC> object that are generated from one of the extract() functions.
+#' @param model The <casal2MPD, casal2TAB, casal2MCMC> object that are generated from one of the extract() functions.
+#' @return \code{NULL}
 #' @rdname summary
 #' @export summary
-#'
-
-"summary.default"<-
+ "summary.default"<-
 function(model){
   UseMethod("summary",model)
 }
 
-#' @return \code{NULL}
+#' summary casal2MPD
 #'
+#' @param model The casal2MPD object
+#' @return \code{NULL}
+#' @usage \method{summary}{casal2MPD}(model)
 #' @rdname summary
-#' @method summary casal2MPD
 #' @export
 "summary.casal2MPD" = function(model) {
   ## What do we want to summarise for each report.
@@ -49,11 +49,12 @@ function(model){
   }
 }
 
-## method for class casal2MCMC
-#' @return \code{NULL}
+#' summary casal2MCMC
 #'
+#' @param model The casal2MCMC object
+#' @return \code{NULL}
+#' @usage \method{summary}{casal2MCMC}(model)
 #' @rdname summary
-#' @method summary casal2MCMC
 #' @export
 "summary.casal2MCMC" = function(model) {
   ## What do we want to summarise for each MCMC
@@ -65,10 +66,17 @@ function(model){
   #############
   plot(model$"sample"/1000, model$"objective_score", xlab = "Iteration (000's)", ylab = "Objective Score", main = "Trace Plot", type = "l")
 
-
 }
 
 
-## method for class casal2TAB
+#' summary casal2TAB
+#'
+#' @param model The casal2TAB object
+#' @return \code{NULL}
+#' @usage \method{summary}{casal2TAB}(model)
+#' @rdname summary
+#' @export
+"summary.casal2TAB" = function(model) {
 
+}
 
