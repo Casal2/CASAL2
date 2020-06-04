@@ -36,7 +36,9 @@ knit_hooks$set(output = function(x, options) {
 
 ## Introduction
 
-The aim of this document is to describe and demonstrate the functionality in the Casal2 R package. This includes parsing output from deterministic and estimation \textit{Maximum Posterior Density} (MPD) runs, and MCMC runs. This could also serve as a best practices guide. The R package functions can interpret existing output only:  Casal2's reports are user-specified, i.e., to plot derived quantities in R, the \texttt{@report} for derived quantities must be defined in the model configuration files.
+This document describes and demonstrates the functionality in the Casal2 R package. This includes parsing output from deterministic and estimation \textit{Maximum Posterior Density} (MPD) runs, and MCMC runs. This could also serve as a best practices guide.
+
+The R package functions can interpret existing output only:  Casal2's reports are user-specified, e.g., to plot derived quantities in R, the \texttt{@report} for derived quantities must be defined in the model configuration files.
 
 There are three types of output from a Casal2 model run:
 
@@ -105,9 +107,9 @@ qqnorm(single_run$obs_tan$Values$normalised_residuals, pch = 1, frame = FALSE)
 qqline(single_run$obs_tan$Values$normalised_residuals, col = "steelblue", lwd = 2)
 ```
 
-This can also be done for multinomial Pearson's residuals, with them and both normalised residuals \(\mathcal{N}(0,1)\)
+This can also be done for multinomial Pearson's residuals, as both normalised and Pearson's residuals have distribution \(\mathcal{N}(0,1)\)
 
-Once the model fits reasonably to the data, look at the derived quantities and parameter estimates. The Casal2 R package can plot these using the function \texttt{plot.derived_quantities()}.
+Once the model fits reasonably to the data, look at the derived quantities and parameter estimates. The Casal2 R package can plot these using the function \texttt{plot.derived\_quantities()}.
 
 ```{r plot_ssbs, fig.width=8, fig.height=4.3, linewidth=60, fig.cap="Estimate SSB", fig.pos="H"}
 plot.derived_quantities(model = single_run, report_label = "SSB", plot.it = T)
@@ -122,8 +124,8 @@ head(SSBs)
 
 Other derived quantities include recruitment
 
-```{r plot_recruitment, fig.width=8, fig.height=4.3, linewidth=60, fig.cap="Estimated Recruitment (black dots), with Beverton Holt recruit curve (red) and horizontal dashed line is R0", fig.pos="H"}
-plot.recruitment(model = single_run, report_label = "Rec",add_BH_curve = TRUE)
+```{r plot_recruitment, fig.width=8, fig.height=4.3, linewidth=60, fig.cap="Estimated Recruitment (black dots), with the Beverton-Holt stock-recruitment curve (red) and $R_0$ (black horizontal dashed line)", fig.pos="H"}
+plot.recruitment(model = single_run, report_label = "Rec", add_BH_curve = TRUE)
 ```
 
 YCS values
@@ -135,11 +137,10 @@ plot.ycs(model = single_run, report_label = "Rec")
 fishing pressure/exploitation rates for each fishery
 
 ```{r plot_Exploitation, fig.width=8, fig.height=4.3, linewidth=60, fig.cap="Estimated exploitation", fig.pos="H"}
-plot.pressure(model = single_run, report_label = "Mortality", plot.it = T,
-              col = c("blue", "red"), lwd = 3)
+plot.pressure(model = single_run, report_label = "Mortality", plot.it = T, col = c("blue", "red"), lwd = 3)
 ```
 
-selectivities
+Selectivity curves
 
 ```{r plot_selectivity, fig.width=8, fig.height=4.3, linewidth=60, fig.cap="Estimated Selectivities", fig.pos="H"}
 plot.selectivities(model = single_run, report_labels = c("eastFSel", "chatTANSel", "westFSel"), col = c("blue", "red", "black"), lwd = 3)
@@ -159,7 +160,7 @@ plot.prior(type = "lognormal", mu = 1, cv = 0.9, xlim = c(0,3), xlab = "YCS", yl
 
 ## Dataweighting
 
-Casal2 has inbuild data weighting functions for relative indices of abundance or biomass with the function \texttt{CV.for.CPUE()}. This function generates CVs for a relative biomass index based on loess smoothing. There is also the Francis method TA1.8 [@francis2011data] \texttt{Method.TA1.8()} demonstrated below.
+Casal2 has inbuilt data weighting functions for relative indices of abundance or biomass with the function \texttt{CV.for.CPUE()}. This function generates CVs for a relative biomass index based on loess smoothing. There is also the Francis method TA1.8 [@francis2011data] \texttt{Method.TA1.8()} demonstrated below.
 
 
 ```{r dataweighting, linewidth=60, include=TRUE, eval=T}
@@ -182,6 +183,7 @@ file.copy(from = file.path(fpath, "Simple", list.files(file.path(fpath, "Simple"
           to = file.path(temp_dir, "Simple"), recursive = T)
 setwd(file.path(temp_dir,"Simple"))
 
+## assumes that the Casal2 executable is in the path
 while(abs(ModelFactor - 1.0) > 0.01) {
   if(.Platform$OS.type == "windows") {
     shell("casal2 -e > estimate.log 2> log.out")
