@@ -36,7 +36,7 @@ knit_hooks$set(output = function(x, options) {
 
 ## Introduction
 
-The aim of this document is to describe and demonstrate the functionality in the Casal2 R package. This includes parsing output from deterministic and estimation \textit{Maximum Posterior Density} (MPD) runs, and MCMC runs. This could also serve as a best practices guide. The R library functions can interpret existing output only, and Casal2's reports are user-specified, i.e., to plot derived quantities in R the \texttt{@report} for derived quantities must be defined in the model configuration files.
+The aim of this document is to describe and demonstrate the functionality in the Casal2 R package. This includes parsing output from deterministic and estimation \textit{Maximum Posterior Density} (MPD) runs, and MCMC runs. This could also serve as a best practices guide. The R package functions can interpret existing output only:  Casal2's reports are user-specified, i.e., to plot derived quantities in R, the \texttt{@report} for derived quantities must be defined in the model configuration files.
 
 There are three types of output from a Casal2 model run:
 
