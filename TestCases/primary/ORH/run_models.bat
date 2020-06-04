@@ -2,16 +2,16 @@
 rem this assumes that 'release adolc', 'release betadiff', and 'release cppad' have already been built successfully
 rem this script runs in directory TestCases\primary\ORH
 
-cd CASAL
-del params_est.out
-..\..\..\casal.exe -e -o params_est.out > run_estimation.txt 2>&1
+rem cd CASAL
+rem del params_est.out
+rem ..\..\..\casal.exe -e -o params_est.out > run_estimation.txt 2>&1
 
-cd ..\CASAL_sens1
-del params_est.out
-..\..\..\casal.exe -e -o params_est.out > run_estimation.txt 2>&1
+rem cd ..\CASAL_sens1
+rem del params_est.out
+rem ..\..\..\casal.exe -e -o params_est.out > run_estimation.txt 2>&1
 
 
-cd ..\Casal2\betadiff_casal_flags_off
+cd Casal2\betadiff_casal_flags_off
 del params_est.out
 ..\..\..\..\..\BuildSystem\bin\windows\release_betadiff\casal2 -e -o params_est.out > run_estimation.txt 2>&1
 
