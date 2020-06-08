@@ -76,7 +76,8 @@ void Schnute::DoBuild() {
                              model_->managers().time_varying()->IsTimeVaryingTarget(full_param_base + PARAM_CV_FIRST) ||
                              model_->managers().time_varying()->IsTimeVaryingTarget(full_param_base + PARAM_CV_LAST));
 
-  LOG_MEDIUM() << "Block label " << label_ << " has time-varying parameters: " << has_timevarying_params_;
+  if (has_timevarying_params_)
+    LOG_MEDIUM() << "Block label " << label_ << " has time-varying parameters";
 
   DoRebuildCache();
 }

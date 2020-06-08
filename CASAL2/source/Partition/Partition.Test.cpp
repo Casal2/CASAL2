@@ -240,7 +240,7 @@ TEST(Partition, BuildAgeLengthProportions) {
 
   auto& male_age_props = partition.age_length_proportions("male.immature");
   // vector<year, time_step, age, length, proportion>>;
-  ASSERT_EQ(1u, male_age_props.size());
+  ASSERT_EQ(3u, male_age_props.size());
   ASSERT_EQ(2u, male_age_props[0].size());
   ASSERT_EQ(10u, male_age_props[0][0].size());
   ASSERT_EQ(5u, male_age_props[0][0][0].size());
@@ -326,7 +326,7 @@ TEST(Partition, BuildAgeLengthProportions_2) {
 
   auto& male_age_props = partition.age_length_proportions("male.mature");
   // vector<year, time_step, age, length, proportion>>;
-  ASSERT_EQ(1u, male_age_props.size());
+  ASSERT_EQ(3u, male_age_props.size());
   ASSERT_EQ(2u, male_age_props[0].size());
   ASSERT_EQ(10u, male_age_props[0][0].size());
   ASSERT_EQ(34u, male_age_props[0][0][0].size());
@@ -389,7 +389,7 @@ TEST(Partition, BuildAgeLengthProportions_3) {
 
   auto& male_age_props = partition.age_length_proportions("male.mature");
   // vector<year, time_step, age, length, proportion>>;
-  ASSERT_EQ(1u, male_age_props.size());
+  ASSERT_EQ(3u, male_age_props.size());
   ASSERT_EQ(2u, male_age_props[0].size());
   ASSERT_EQ(10u, male_age_props[0][0].size());
   ASSERT_EQ(33u, male_age_props[0][0][0].size());
@@ -452,7 +452,7 @@ TEST(Partition, BuildAgeLengthProportions_4) {
 
   auto& male_age_props = partition.age_length_proportions("male.mature");
   // vector<year, time_step, age, length, proportion>>;
-  ASSERT_EQ(1u, male_age_props.size());
+  ASSERT_EQ(3u, male_age_props.size());
   ASSERT_EQ(2u, male_age_props[0].size());
   ASSERT_EQ(10u, male_age_props[0][0].size());
   ASSERT_EQ(5u, male_age_props[0][0][0].size());

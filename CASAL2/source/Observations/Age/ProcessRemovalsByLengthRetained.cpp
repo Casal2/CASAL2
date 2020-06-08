@@ -319,8 +319,9 @@ void ProcessRemovalsByLengthRetained::Execute() {
    * Verify our cached partition and partition sizes are correct
    */
 //  auto categories = model_->categories();
-  unsigned year      = model_->current_year();
-  unsigned time_step = model_->managers().time_step()->current_time_step();
+  unsigned year       = model_->current_year();
+  unsigned year_index = year - model_->start_year();
+  unsigned time_step  = model_->managers().time_step()->current_time_step();
 
   auto cached_partition_iter = cached_partition_->Begin();
   auto partition_iter        = partition_->Begin(); // vector<vector<partition::Category> >
@@ -357,8 +358,7 @@ void ProcessRemovalsByLengthRetained::Execute() {
 //      LOG_WARNING() << "This is bad code because it allocates memory in the middle of an execute";
 //      age_length_matrix.resize((*category_iter)->data_.size());
 //      vector<Double> age_frequencies(length_bins_.size(), 0.0);
-      unsigned al_year_index = (*category_iter)->age_length_->has_timevarying_params() == true ? year - model_->start_year() : 0;
-      const auto& age_length_proportions = model_->partition().age_length_proportions((*category_iter)->name_)[al_year_index][time_step];
+      const auto& age_length_proportions = model_->partition().age_length_proportions((*category_iter)->name_)[year_index][time_step];
 
       for (unsigned data_offset = 0; data_offset < (*category_iter)->data_.size(); ++data_offset) {
         unsigned age = ((*category_iter)->min_age_ + data_offset);

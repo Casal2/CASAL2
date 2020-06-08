@@ -68,7 +68,7 @@ void PartitionMeanLength::DoExecute() {
     cache_ << "\n";
 
     for (auto year : years_) {
-      year_index = year > model_->start_year() ? year - model_->start_year() : 0;
+      year_index = year - model_->start_year();
       cache_ << year << " ";
 
       unsigned age_bins = (*iterator)->age_spread();
