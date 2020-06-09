@@ -97,13 +97,6 @@ Double VonBertalanffy::mean_weight(unsigned time_step, unsigned age) {
 }
 
 /**
- * If time-varying rebuild the cache
- */
-void VonBertalanffy::DoReset() {
-
-}
-
-/**
  * Return the mean length for an time_step and age
  *
  * @param year Ignored for this child (was implemented for the Data AgeLength child)
@@ -113,6 +106,13 @@ void VonBertalanffy::DoReset() {
  */
 Double VonBertalanffy::GetMeanLength(unsigned year, unsigned time_step, unsigned age) {
   return mean_length_[time_step][age];
+}
+
+/**
+ * Reset any objects
+ */
+void VonBertalanffy::DoReset() {
+  DoRebuildCache();
 }
 
 /**

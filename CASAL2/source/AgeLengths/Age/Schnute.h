@@ -30,7 +30,7 @@ public:
   virtual                     ~Schnute() = default;
   void                        DoValidate() override final { };
   void                        DoBuild() override final;
-  void                        DoReset() override final { };
+  void                        DoReset() override final;
   void                        DoRebuildCache() override final;
 
   // accessors

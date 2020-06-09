@@ -122,6 +122,13 @@ Double Schnute::GetMeanLength(unsigned year, unsigned time_step, unsigned age) {
 }
 
 /**
+ * Reset any objects
+ */
+void Schnute::DoReset() {
+  DoRebuildCache();
+}
+
+/**
  * ReBuildCache: initialised by the timevarying class.
  */
 void Schnute::DoRebuildCache() {
