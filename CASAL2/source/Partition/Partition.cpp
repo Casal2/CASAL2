@@ -108,11 +108,11 @@ void Partition::Build() {
  */
 void Partition::BuildMeanLengthData() {
   LOG_TRACE();
-  auto years            = model_->years();
-  auto time_step_count  = model_->time_steps().size();
-  unsigned age_spread   = 0;
-  unsigned year_index   = 0;
-  unsigned age_index    = 0;
+  auto years               = model_->years();
+  unsigned time_step_count = model_->time_steps().size();
+  unsigned age_spread      = 0;
+  unsigned year_index      = 0;
+  unsigned age_index       = 0;
 
   for (auto iter : partition_) {
     auto& category = *iter.second; // mean_length_by_time_step_age_
@@ -159,9 +159,9 @@ void Partition::BuildAgeLengthProportions() {
   if (!model_->categories()->HasAgeLengths())
     return;
 
-  auto year_count         = model_->years().size();
-  auto time_step_count    = model_->time_steps().size();
-  auto length_bin_count   = model_->length_bins().size();
+  unsigned year_count         = model_->years().size();
+  unsigned time_step_count    = model_->time_steps().size();
+  unsigned length_bin_count   = model_->length_bins().size();
 
   unsigned year           = 0;
   Double mu               = 0.0;
@@ -229,7 +229,7 @@ void Partition::BuildAgeLengthProportions() {
 
     bool casal_normal_cdf = iter.second->age_length_->casal_normal_cdf();
     for (unsigned year_iter = 0; year_iter < year_count; ++year_iter) {
-      year         = year_iter + model_->start_year();
+      year = year_iter + model_->start_year();
 
       for (unsigned time_step = 0; time_step < time_step_count; ++time_step) {
         for (unsigned age_index = 0; age_index < iter.second->age_spread(); ++age_index) {
@@ -300,10 +300,11 @@ void Partition::BuildAgeLengthProportions() {
       if (!(iter.second->age_length_->varies_by_years())) {
         auto& source = (*age_length_proportion)[0];
 
-        for (unsigned year_iter = 1; year_iter < year_count; ++year_iter) {
-          auto& props = (*age_length_proportion)[year_iter];
-          props = source;
-        }
+        if (year_count > 1)
+          for (unsigned year_iter = 1; year_iter < year_count; ++year_iter) {
+            auto& props = (*age_length_proportion)[year_iter];
+            props = source;
+          }
 
         break;
       }

@@ -50,7 +50,6 @@ public:
   Distribution                      distribution() const { return distribution_; }
   bool                              casal_normal_cdf() const { return casal_normal_cdf_; }
   bool                              varies_by_years() const { return varies_by_year_; }
-  bool                              has_timevarying_params() const { return has_timevarying_params_; };
 
 protected:
   // methods
@@ -72,7 +71,6 @@ protected:
   Distribution                      distribution_;
   bool                              casal_normal_cdf_ = false;
   bool                              varies_by_year_ = false;
-  bool                              has_timevarying_params_ = false;
 
   map<unsigned, map<unsigned, map<unsigned, Double>>>       cvs_;  // cvs[year][time_step][age]
 };

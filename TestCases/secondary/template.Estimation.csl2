@@ -26,30 +26,26 @@ parameter process[Recruitment].r0
 type uniform_log
 lower_bound 2e4
 upper_bound 2e7
-estimation_phase 1
 
 
 # growth (age-length relationship)
 @estimate age_len_Linf
 parameter age_length[age_len_label].Linf
 type uniform
-lower_bound 70
-upper_bound 90
-estimation_phase 2
+lower_bound  40
+upper_bound 120
 
 @estimate age_len_k
 parameter age_length[age_len_label].k
 type uniform
-lower_bound 0.10
-upper_bound 0.30
-estimation_phase 2
+lower_bound 0.01
+upper_bound 1.00
 
 @estimate age_len_t0
 parameter age_length[age_len_label].t0
 type uniform
-lower_bound -2
+lower_bound -3
 upper_bound  0
-estimation_phase 2
 
 
 @estimate len_wt_a
@@ -57,14 +53,12 @@ parameter length_weight[len_wt_label].a
 type uniform_log
 lower_bound 2.5e-8
 upper_bound 2.5e-8
-estimation_phase 2
 
 @estimate len_wt_b
 parameter length_weight[len_wt_label].b
 type uniform
 lower_bound 3.0
 upper_bound 3.0
-estimation_phase 2
 
 
 @estimate survey_q
@@ -72,7 +66,6 @@ parameter catchability[survey_q].q
 type uniform_log
 lower_bound 1e-8
 upper_bound 1e-6
-estimation_phase 5
 
 
 ## maturity ogive (logistic)
@@ -81,14 +74,12 @@ parameter selectivity[maturity_sel].a50
 type uniform
 lower_bound 2.25
 upper_bound 2.25
-estimation_phase 1
 
 @estimate maturity_ato95
 parameter selectivity[maturity_sel].ato95
 type uniform
 lower_bound 1
 upper_bound 1
-estimation_phase 1
 
 
 ## survey selectivity (logistic)
@@ -97,14 +88,12 @@ parameter selectivity[survey_sel].a50
 type uniform
 lower_bound 1
 upper_bound 2
-estimation_phase 4
 
 @estimate survey_sel_ato95
 parameter selectivity[survey_sel].ato95
 type uniform
 lower_bound 1
 upper_bound 5
-estimation_phase 4
 
 
 ## fishing selectivity (logistic)
@@ -113,14 +102,12 @@ parameter selectivity[fishery_sel].a50
 type uniform
 lower_bound 1.5
 upper_bound 2.5
-estimation_phase 3
 
 @estimate fishery_sel_ato95
 parameter selectivity[fishery_sel].ato95
 type uniform
 lower_bound 1
 upper_bound 5
-estimation_phase 3
 
 
 @estimate rec_ycs

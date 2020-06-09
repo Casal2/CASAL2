@@ -22,7 +22,6 @@
 #include "LengthWeights/Manager.h"
 #include "TimeSteps/Manager.h"
 #include "Estimates/Manager.h"
-#include "TimeVarying/Manager.h"
 
 // namespaces
 namespace niwa {
@@ -58,20 +57,6 @@ void VonBertalanffy::DoBuild() {
   length_weight_ = model_->managers().length_weight()->GetLengthWeight(length_weight_label_);
   if (!length_weight_)
     LOG_ERROR_P(PARAM_LENGTH_WEIGHT) << "Length-weight label '" << length_weight_label_ << "' was not found.";
-
-  // check if there are any time-varying age-length parameters
-  // fully-qualified parameter names are "age_size[{label_}].{PARAM_~~~}"
-  vector<string> base_values = { PARAM_AGE_LENGTH, "[", label_, "]." };
-  string full_param_base     = boost::algorithm::join(base_values, "");
-  has_timevarying_params_ = model_->managers().time_varying()->GetTimeVaryingCount() > 0 &&
-                            (model_->managers().time_varying()->IsTimeVaryingTarget(full_param_base + PARAM_LINF)     ||
-                             model_->managers().time_varying()->IsTimeVaryingTarget(full_param_base + PARAM_K)        ||
-                             model_->managers().time_varying()->IsTimeVaryingTarget(full_param_base + PARAM_T0)       ||
-                             model_->managers().time_varying()->IsTimeVaryingTarget(full_param_base + PARAM_CV_FIRST) ||
-                             model_->managers().time_varying()->IsTimeVaryingTarget(full_param_base + PARAM_CV_LAST));
-
-  if (has_timevarying_params_)
-    LOG_MEDIUM() << "Block label " << label_ << " has time-varying parameters";
 
   // Build up our mean_length_ container.
   DoRebuildCache();
@@ -137,8 +122,8 @@ void VonBertalanffy::DoRebuildCache() {
   // Re Build up our mean_length_ container.
   unsigned min_age = model_->min_age();
   unsigned max_age = model_->max_age();
-  vector<string> time_steps = model_->time_steps();
-  for (unsigned step_iter = 0; step_iter < time_steps.size(); ++step_iter) {
+  unsigned time_step_count = model_->time_steps().size();
+  for (unsigned step_iter = 0; step_iter < time_step_count; ++step_iter) {
     for (unsigned age_iter = min_age; age_iter <= max_age; ++age_iter) {
       mean_length_[step_iter][age_iter] = mean_length(step_iter, age_iter);
     }
