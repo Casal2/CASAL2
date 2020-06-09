@@ -56,7 +56,7 @@ void Partition::DoExecute() {
   cache_ << "values "<< REPORT_R_DATAFRAME<<"\n";
   cache_ << "category";
 
-  for (unsigned length_bin : length_bins)
+  for (auto length_bin : length_bins)
     cache_ << " " << length_bin;
   cache_ << "\n";
 

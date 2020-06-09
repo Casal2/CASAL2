@@ -203,7 +203,6 @@ void Partition::BuildAgeLengthProportions() {
 
     auto age_length_proportion = new utilities::Vector4();
     age_length_proportion->resize(year_count);
-
     for (unsigned year = 0; year < year_count; ++year) {
       (*age_length_proportion)[year].resize(time_step_count);
       for (unsigned time_step = 0; time_step < time_step_count; ++time_step) {
@@ -301,8 +300,8 @@ void Partition::BuildAgeLengthProportions() {
         auto& source = (*age_length_proportion)[0];
 
         if (year_count > 1)
-          for (unsigned year_iter = 1; year_iter < year_count; ++year_iter) {
-            auto& props = (*age_length_proportion)[year_iter];
+          for (unsigned year_idx = 1; year_idx < year_count; ++year_idx) {
+            auto& props = (*age_length_proportion)[year_idx];
             props = source;
           }
 

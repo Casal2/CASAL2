@@ -117,7 +117,6 @@ c 1.0
 @age_length age_len_label
 type von_bertalanffy
 casal_switch false
-by_length true
 time_step_proportions 0.0
 k 0.18
 t0 -1.36
