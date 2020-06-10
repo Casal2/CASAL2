@@ -31,8 +31,8 @@ The main characteristics of the Test Case LIN5/6 (ling) CASAL model are:
 * two stock categories: male and female
 * natural mortality-at-age is double exponential
 * sex-specific maturity ogives specified by age
-* sex-specific age-length von Bertalanffy relationship
-* sex-specific length-weight relationship
+* sex-specific von Bertalanffy age-length relationship
+* sex-specific length-weight relationship ($W = aL^b$)
 * Beverton-Holt stock-recruitment relationship, with steepness (h) set to 0.84
 * ageing error
 * two surveys with sex-specific logistic selectivity

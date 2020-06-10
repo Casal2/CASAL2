@@ -1,7 +1,7 @@
 @print
 
 # estimation section stuff
-parameters False
+parameters True
 fits_every_eval False
 objective_every_eval False   # set to True for profile (-p) runs
 parameters_every_eval False
@@ -23,7 +23,7 @@ results True
 #output section stuff
 yields True
 unused_parameters True
-covariance False
+covariance True
 
 @quantities
 all_free_parameters True
@@ -31,14 +31,14 @@ fishing_pressures True
 nuisance_qs False
 true_YCS True
 B0 True
-R0 False
+R0 True
 SSBs True
 YCS True
 actual_catches True
-ogive_parameters selectivity[subaFsel].all selectivity[subaTANselA].all 
-ogive_arguments selectivity[subaFsel].all selectivity[subaTANselA].all  
-fits True 
-normalised_resids True 
-pearson_resids True 
+ogive_parameters selectivity[subaFsel].all selectivity[subaTANselA].all
+ogive_arguments selectivity[subaFsel].all selectivity[subaTANselA].all
+fits True
+normalised_resids True
+pearson_resids True
 
 

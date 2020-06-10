@@ -1,0 +1,578 @@
+---
+title: "Casal2 Test Case comparisons for HAK"
+output:
+    html_document:
+        toc: true
+        toc_depth: 2
+        number_sections: true
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+# HAK comparison of CASAL and Casal2 model configurations
+
+This document compares the results of at least 2 CASAL model configurations (base and at least one sensitivity) and up to 8 Casal2 model configurations (3 BetaDiff, 2 CppAD, and 3 ADOL-C).
+
+The CASAL model sensitivity 1 has a smaller tolerance value than the CASAL base model (1e-6 vs. 2e-3).
+
+The Casal2 ADOL-C and BetaDiff low tolerance models have a smaller tolerance value than the CASAL base model (1e-6 vs. 2e-3). The Casal2 CppAD models have a tolerance value of 1e-9.
+
+
+## HAK model characteristics
+
+The main characteristics of the Test Case HAK (hake) CASAL model are:
+
+* one stock, ages 1 - 30
+* one area
+* years 1975 - 2018, projection years 2019 - 2022
+* two time steps, duration 7 months and 5 months
+* recruitment, spawning, aging, maturation, fishing in time step 1
+* two stock categories: males and females, with user-provided maturity-at-age ogive
+* natural mortality (M) of 0.19
+* Beverton-Holt stock-recruitment relationship, with steepness (h) set to 0.8
+* sex-specific Schnute age-length relationship
+* sex-specific length-weight relationship ($W = aL^b$)
+* ageing error type normal (c = 0.08)
+* one fishery with logistic selectivity-at-age
+* one survey with logistic selectivity-at-age
+
+Observation data include:
+
+* fishery CPUE index
+* fishery proportions-at-age
+* survey biomass index
+* survey proportions-at-age
+
+Parameters estimated include:
+
+* B0
+* YCS
+* catchability (q) for the fishery CPUE index and for the survey index
+* fishery and survey selectivity parameters a50 and ato95
+
+
+## R environment
+
+```{r C1_C2_setup, echo=FALSE, warning=FALSE, message=FALSE}
+# print(paste('pandoc installed?', rmarkdown::pandoc_available()))
+# print(paste('pandoc version:', rmarkdown::pandoc_version()))
+
+require(ggplot2)
+require(rlist)
+
+
+require(devtools)
+
+# the CASAL and Casal2 R libraries are installed in the TestCases subdirectory
+.libPaths(c('../..', .libPaths()))
+
+if (!require(casal))
+{
+    install.packages('../../../R-libraries/casal_2.30.tar.gz', repos=NULL)
+    library(casal)
+    # install('casal_utils')
+}
+
+if (!require(casal2))
+{
+    install.packages('../../../R-libraries/casal2_1.0.tar.gz', repos=NULL)
+    library(casal2)
+}
+
+date()
+sessionInfo()
+
+base_dir <- '.'
+
+# MPD files are params_est.out, run_estimation.txt, and mpd.out for both CASAL and Casal2
+params_est <- 'params_est.out'
+mpd_run    <- 'run_estimation.txt'
+mpd_out    <- 'mpd.out'
+
+get_convergence_information <- function(filename)
+{
+    # for BetaDiff
+    # case-insensitive check for all strings with 'converge' and without 'check' (for "Convergence check")
+    str_vec <- grep('check', grep('converge|fmm|optimise', readLines(filename), ignore.case=TRUE, value=TRUE), value=TRUE, invert=TRUE)
+
+    # for ADOL-C
+    if (length(str_vec) == 0)
+    {
+        # str_vec <- ?????
+    }
+
+    # for CppAD
+    if (length(str_vec) == 0)
+    {
+        str_vec <- grep('Number of|EXIT', readLines(filename), value=TRUE)
+    }
+
+    return (str_vec)
+}
+
+```
+
+
+## CASAL and Casal2 model output
+
+```{r CASAL}
+# read in CASAL MPD results
+cas_mpd_filename <- file.path(base_dir, 'CASAL', mpd_run)
+cas_mpd  <- casal::extract.mpd(cas_mpd_filename)
+cas_corr <- casal::extract.correlation.matrix(cas_mpd_filename)
+cas_conv <- get_convergence_information(cas_mpd_filename)
+c1_quant <- cas_mpd$quantities
+
+cas_mpd_sens1_filename <- file.path(base_dir, 'CASAL_sens1', mpd_run)
+cas_mpd_sens1  <- casal::extract.mpd(cas_mpd_sens1_filename)
+cas_sens1_corr <- casal::extract.correlation.matrix(cas_mpd_sens1_filename)
+cas_sens1_conv <- get_convergence_information(cas_mpd_sens1_filename)
+c1_sens1_quant <- cas_mpd_sens1$quantities
+```
+
+
+```{r Casal2}
+C2_subdir <- c('betadiff_casal_flags_on',
+               'betadiff_casal_flags_off',
+               'betadiff_casal_flags_on_low_tol',
+               'cppad_casal_flags_on',
+               'cppad_casal_flags_off',
+               'adolc_casal_flags_on',
+               'adolc_casal_flags_off',
+               'adolc_casal_flags_on_low_tol')
+
+
+# find the non-zero-sized parameter estimate files for the C2 models
+C2_subdir <- unlist(sapply(C2_subdir, function(c_dir) if ( file.access(file.path(base_dir, 'Casal2', c_dir, params_est), 4) == 0 &
+                                                           file.size(file.path(base_dir, 'Casal2', c_dir, params_est)) > 0 )
+                                                         { return (c_dir) }, USE.NAMES=FALSE ))
+
+
+num_C2_models <- length(C2_subdir)
+
+C2_color <- c('blue', 'green3', 'red', 'gold', 'magenta', 'cyan', 'brown', 'orange')
+
+# read in Casal2 MPD results
+cas2_mpd  <- list()
+cas2_corr <- list()
+cas2_conv <- list()
+for (c in 1:num_C2_models)
+{
+    cas2_mpd_filename <- file.path(base_dir, 'Casal2', C2_subdir[c], mpd_run)
+    cas2_mpd[[c]] <- casal2::extract.mpd(cas2_mpd_filename)
+
+    cas2_corr[[c]] <- casal2::extract.correlation.matrix(mpd_out, file.path(base_dir, 'Casal2', C2_subdir[c]))
+
+    cas2_conv[[c]] <- get_convergence_information(cas2_mpd_filename)
+}
+```
+
+
+
+## Tables
+
+Tables of parameter estimates and objective function components for the CASAL and Casal2 model MPD results
+
+```{r table_setup, echo=FALSE, warning=FALSE, message=FALSE}
+require(plyr)
+require(dplyr)
+require(huxtable)
+
+
+# options(huxtable.knitr_output_format = "html")
+
+
+rotate_and_label_cols <- function(df_1, labels)
+{
+    loc_df <- t(df_1)
+    colnames(loc_df) <- labels
+
+    return (loc_df)
+}
+
+
+reformat_to_huxtable <- function(df_1, caption_str=NA, format_num=3, reformat_col=FALSE, col_num=-1, add_rownames=TRUE)
+{
+    hux_table <- as_hux(df_1, add_colnames=TRUE, add_rownames=add_rownames)
+
+    hux_nr <- nrow(hux_table)
+    hux_nc <- ncol(hux_table)
+
+    top_border(hux_table)[1,] <- 1
+    bottom_border(hux_table)[c(1,hux_nr),] <- 1
+    left_border(hux_table)[,1:2] <- 1
+    right_border(hux_table)[,hux_nc] <- 1
+    caption(hux_table) <- caption_str
+
+    # reformat numbers in table except for the top row and left column
+    if (format_num >= 0)
+    {
+        hux_table <- set_number_format(hux_table, -1, -1, format_num)
+    }
+
+    # to reformat and highlight specific columns
+    align(hux_table)[-1,col_num] <- '.'
+    if (reformat_col & col_num != 0)
+    {
+        hux_table <- set_number_format(hux_table, -1, col_num, 3)
+        hux_table <- map_background_color(hux_table, -1, col_num,
+                                          by_ranges(c(-20, -10, 0, 10, 20), c('orange', 'pink', 'white', 'white', 'cyan', 'yellow')))
+    }
+
+    return (hux_table)
+}
+
+
+C2_est_params <- cas2_mpd[[1]]$estimated_values$values
+c2_est_params_1 <- C2_est_params
+C2_obj_fun    <- cas2_mpd[[1]]$obj_fun$values
+
+C2_pd_est_params <- C2_est_params - C2_est_params
+
+if (num_C2_models > 1)
+{
+    for (c in 2:num_C2_models)
+    {
+        c2_est_params_c <- cas2_mpd[[c]]$estimated_values$values
+        C2_est_params <- bind_rows(C2_est_params, c2_est_params_c)
+
+        C2_pd_est_params <- bind_rows(C2_pd_est_params, 100.0 * (1.0 - (c2_est_params_c / c2_est_params_1)))
+
+        C2_obj_fun    <- bind_rows(C2_obj_fun, cas2_mpd[[c]]$obj_fun$values)
+    }
+}
+
+options(scipen=999)
+```
+
+
+```{r huxtables_parameters, echo=FALSE, warning=FALSE, message=FALSE}
+C1_est_params <- cbind(unlist(cas_mpd$free), unlist(cas_mpd_sens1$free), 100.0 * (1.0 - (unlist(cas_mpd_sens1$free) / unlist(cas_mpd$free))))
+colnames(C1_est_params) <- c('Base_Model', 'Sensitivity_1', 'Percent_Diff')
+# print('CASAL parameter estimates')
+# print(C1_est_params, digits=5)
+hux_C1_est_params <- reformat_to_huxtable(C1_est_params, 'CASAL parameter estimates and Percent Difference', 5, TRUE, 4)
+hux_C1_est_params
+
+
+C2_est_params <- rotate_and_label_cols(C2_est_params, C2_subdir)
+# print('Casal2 parameter estimates')
+# print(C2_est_params, digits=5)
+hux_C2_est_params <- reformat_to_huxtable(C2_est_params, 'Casal2 parameter estimates')
+hux_C2_est_params
+
+
+C2_pd_est_params <- rotate_and_label_cols(C2_pd_est_params, C2_subdir)
+# print('Casal2 parameter estimate percent differences')
+# print(C2_pd_est_params, digits=3)
+hux_C2_pd_est_params <- reformat_to_huxtable(C2_pd_est_params, paste('Casal2 parameter estimates: Percent Difference from ', C2_subdir[1], sep=''), 3, TRUE, -1)
+hux_C2_pd_est_params
+```
+
+```{r huxtables_obj_fun, echo=FALSE, warning=FALSE, message=FALSE}
+C1_obj_fun <- data.frame(Component=cas_mpd$objective.function$components$label,
+                         Base_Model=cas_mpd$objective.function$components$value,
+                         Sensitivity_1=cas_mpd_sens1$objective.function$components$value)
+C1_obj_fun <- bind_rows(C1_obj_fun,
+                        data.frame(Component='Total', Base_Model=cas_mpd$objective.function$value, Sensitivity_1=cas_mpd_sens1$objective.function$value))
+# print('CASAL objective function values')
+# print(C1_obj_fun, digits=5)
+hux_C1_obj_fun <- reformat_to_huxtable(C1_obj_fun, 'CASAL objective function component values', add_rownames=FALSE)
+hux_C1_obj_fun
+
+
+C2_obj_fun <- rotate_and_label_cols(C2_obj_fun, C2_subdir)
+# print('Casal2 objective function values')
+# print(C2_obj_fun, digits=5)
+hux_C2_obj_fun <- reformat_to_huxtable(C2_obj_fun, 'Casal2 objective function component values')
+hux_C2_obj_fun
+```
+
+
+```{r convergence_info, echo=FALSE}
+print('CASAL base model convergence information')
+print(cas_conv)
+print('')
+
+print('CASAL sensitivity 1 model convergence information')
+print(cas_sens1_conv)
+
+for (c in 1:num_C2_models)
+{
+    print('')
+    print(paste('Casal2', C2_subdir[c], 'model convergence information'))
+    print(cas2_conv[[c]])
+}
+```
+
+
+```{r warnings_and_bounds, echo=FALSE, warning=FALSE, message=FALSE}
+print('CASAL base model warnings')
+print(cas_mpd$parameters.at.bounds)
+print('')
+
+print('CASAL sensitivity 1 model warnings')
+print(cas_mpd_sens1$parameters.at.bounds)
+
+for (c in 1:num_C2_models)
+{
+    print('')
+    print(paste('Casal2', C2_subdir[c], 'model warnings'))
+    print(cas2_mpd[[c]]$warnings_encounted)
+}
+```
+
+
+```{r huxtables_close, echo=FALSE}
+options(scipen=0)
+```
+
+
+
+## Matching of outputs
+
+Time series comparisons with CASAL base model results
+
+```{r Time_Series_Match, echo=FALSE, warning=FALSE, message=FALSE}
+# do the catch time series differ?
+
+time_series_match <- function(t1_vec, t2_vec)
+{
+    if (length(t1_vec) == length(t2_vec))
+    {
+        return (ifelse(max(abs(range(t1_vec - t2_vec))) == 0, 'yes', 'no'))
+    }
+
+    return ('no')
+}
+
+
+for (c in 1:num_C2_models)
+{
+    print(paste('Catch time series base model comparison for run', C2_subdir[c]))
+
+    print(paste('Actual catches for Andes match:',
+                time_series_match(c1_quant$actual_catches$catch, cas2_mpd[[c]]$Mortality$`actual_catch[AndesFishery]`)))
+
+    print('')
+}
+```
+
+Derived quantities
+
+SB0, SBcurrent, MSY, F_MSY, others...
+
+
+
+## Plots
+
+Comparison plots
+
+```{r plots_base, echo=FALSE}
+
+# c(bottom, left, top, right)
+par(mar=c(4,4,2,1) + 0.1)
+
+par(mfrow=c(1,2))
+```
+
+
+```{r plots_correlation, echo=FALSE}
+
+plot_image_and_range <- function(corr_obj, label)
+{
+    image(corr_obj, zlim=c(-1,1), col=hcl.colors(51, 'RdYlBu'), xlab='Parameter', ylab='Parameter', main=label)
+    print(paste(label, 'range (excluding 1.0):', paste0(range(corr_obj[corr_obj < 1], na.rm=TRUE), collapse=' ')))
+}
+
+plot_image_and_range(cas_corr, 'CASAL base parameter correlation')
+
+plot_image_and_range(cas_sens1_corr, 'CASAL sensitivity 1 parameter correlation')
+
+for (c in 1:num_C2_models)
+{
+    plot_image_and_range(cas2_corr[[c]], paste('Casal2', C2_subdir[c], 'parameter correlation'))
+}
+```
+
+
+```{r plots_set_0, echo=FALSE}
+plot_legend <- function()
+{
+    # placeholder plot for legend
+    plot(0, 0, type='n', xlim=c(0,1), ylim=c(0,1), axes=FALSE, xlab='', ylab='', main='')
+    legend(0.1, 0.99, c('CASAL', 'CASAL sens1', C2_subdir), lwd=5, col=c('black', 'grey', C2_color), pt.cex=1.6)
+}
+
+
+max_val <- max(c1_quant$SSBs$SSB,
+               c1_sens1_quant$SSBs$SSB,
+               max(unlist(list.map(cas2_mpd, max(SSB$SSB$values)))))
+
+plot(c1_quant$SSBs$year, c1_quant$SSBs$SSB, type='l', col='black', lwd=5, ylim=c(0, max_val), xlab='Year', ylab='Biomass (t)', main='SSB comparison')
+lines(c1_sens1_quant$SSBs$year, c1_sens1_quant$SSBs$SSB, type='l', col='grey', lwd=2.5)
+
+for (c in 1:num_C2_models)
+{
+    lines(names(cas2_mpd[[c]]$SSB$SSB$values), cas2_mpd[[c]]$SSB$SSB$values, col=C2_color[c], lwd=1)
+}
+
+plot_legend()
+```
+
+
+```{r plots_set_1, echo=FALSE}
+
+# Q:  how to get CASAL initial age structure?
+
+# Initial state:
+# Partition:
+#   maturity   1         2         3         4         5         6         7         8         9         10        11        12        13        14        15        16        17        18        19        20        21        22        23        24        25        26        27        28        29        30        31        32        33        34        35        36        37        38        39        40        41        42        43        44        45        46        47        48        49        50        51        52        53        54        55        56        57        58        59        60        61        62        63        64        65        66        67        68        69        70        71        72        73        74        75        76        77        78        79        80
+#   immature   3.011e+06 2.879e+06 2.752e+06 2.631e+06 2.515e+06 2.404e+06 2.299e+06 2.197e+06 2.101e+06 2.008e+06 1.92e+06  1.835e+06 1.755e+06 1.677e+06 1.604e+06 1.533e+06 1.466e+06 1.401e+06 1.339e+06 1.28e+06  1.222e+06 1.166e+06 1.111e+06 1.053e+06 9.894e+05 9.126e+05 8.116e+05 6.757e+05 5.067e+05 3.321e+05 1.902e+05 9.816e+04 4.741e+04 2.208e+04 1.009e+04 4574      2063      928.7     417.7     187.7     84.38     37.92     0         0         0         0         0         0         0         0         0         0         0         0         0         0         0         0         0         0         0         0         0         0         0         0         0         0         0         0         0         0         0         0         0         0         0         0         0         0
+#   mature     0         0         0         0         0         0         0         0         0         0         0         0         0         0         28.23     57.42     116.8     237.5     483       982.1     1996      4052      8209      1.656e+04 3.311e+04 6.496e+04 1.229e+05 2.177e+05 3.474e+05 4.844e+05 5.904e+05 6.481e+05 6.66e+05  6.599e+05 6.419e+05 6.187e+05 5.938e+05 5.687e+05 5.442e+05 5.204e+05 4.976e+05 4.758e+05 4.549e+05 4.349e+05 4.157e+05 3.974e+05 3.8e+05   3.632e+05 3.472e+05 3.32e+05  3.174e+05 3.034e+05 2.9e+05   2.773e+05 2.651e+05 2.534e+05 2.423e+05 2.316e+05 2.214e+05 2.117e+05 2.024e+05 1.935e+05 1.849e+05 1.768e+05 1.69e+05  1.616e+05 1.545e+05 1.477e+05 1.412e+05 1.35e+05  1.29e+05  1.234e+05 1.179e+05 1.127e+05 1.078e+05 1.03e+05  9.85e+04  9.416e+04 9.002e+04 1.956e+06
+
+c1_mat <- matrix(c(3.011e+06, 2.879e+06, 2.752e+06, 2.631e+06, 2.515e+06, 2.404e+06, 2.299e+06, 2.197e+06, 2.101e+06, 2.008e+06, 1.92e+06, 1.835e+06, 1.755e+06, 1.677e+06, 1.604e+06, 1.533e+06, 1.466e+06, 1.401e+06, 1.339e+06, 1.28e+06, 1.222e+06, 1.166e+06, 1.111e+06, 1.053e+06, 9.894e+05, 9.126e+05, 8.116e+05, 6.757e+05, 5.067e+05, 3.321e+05, 1.902e+05, 9.816e+04, 4.741e+04, 2.208e+04, 1.009e+04, 4574, 2063, 928.7, 417.7, 187.7, 84.38, 37.92, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+                   0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 28.23, 57.42, 116.8, 237.5, 483, 982.1, 1996, 4052, 8209, 1.656e+04, 3.311e+04, 6.496e+04, 1.229e+05, 2.177e+05, 3.474e+05, 4.844e+05, 5.904e+05, 6.481e+05, 6.66e+05, 6.599e+05, 6.419e+05, 6.187e+05, 5.938e+05, 5.687e+05, 5.442e+05, 5.204e+05, 4.976e+05, 4.758e+05, 4.549e+05, 4.349e+05, 4.157e+05, 3.974e+05, 3.8e+05, 3.632e+05, 3.472e+05, 3.32e+05, 3.174e+05, 3.034e+05, 2.9e+05, 2.773e+05, 2.651e+05, 2.534e+05, 2.423e+05, 2.316e+05, 2.214e+05, 2.117e+05, 2.024e+05, 1.935e+05, 1.849e+05, 1.768e+05, 1.69e+05, 1.616e+05, 1.545e+05, 1.477e+05, 1.412e+05, 1.35e+05, 1.29e+05, 1.234e+05, 1.179e+05, 1.127e+05, 1.078e+05, 1.03e+05, 9.85e+04, 9.416e+04, 9.002e+04, 1.956e+06),
+                   nrow=2, ncol=(80 - 1 + 1), byrow=TRUE)
+
+
+# Initial state:
+# Partition:
+#   maturity   1         2         3         4         5         6         7         8         9         10        11        12        13        14        15        16        17        18        19        20        21        22        23        24        25        26        27        28        29        30        31        32        33        34        35        36        37        38        39        40        41        42        43        44        45        46        47        48        49        50        51        52        53        54        55        56        57        58        59        60        61        62        63        64        65        66        67        68        69        70        71        72        73        74        75        76        77        78        79        80
+#   immature   3.011e+06 2.879e+06 2.752e+06 2.631e+06 2.515e+06 2.404e+06 2.299e+06 2.197e+06 2.101e+06 2.008e+06 1.92e+06  1.835e+06 1.755e+06 1.677e+06 1.604e+06 1.533e+06 1.466e+06 1.401e+06 1.339e+06 1.28e+06  1.222e+06 1.166e+06 1.111e+06 1.053e+06 9.894e+05 9.126e+05 8.116e+05 6.757e+05 5.067e+05 3.321e+05 1.902e+05 9.816e+04 4.741e+04 2.208e+04 1.009e+04 4574      2063      928.7     417.7     187.7     84.38     37.92     0         0         0         0         0         0         0         0         0         0         0         0         0         0         0         0         0         0         0         0         0         0         0         0         0         0         0         0         0         0         0         0         0         0         0         0         0         0
+#   mature     0         0         0         0         0         0         0         0         0         0         0         0         0         0         28.23     57.42     116.8     237.5     483       982.1     1996      4052      8209      1.656e+04 3.311e+04 6.496e+04 1.229e+05 2.177e+05 3.474e+05 4.844e+05 5.904e+05 6.481e+05 6.66e+05  6.599e+05 6.419e+05 6.187e+05 5.938e+05 5.687e+05 5.442e+05 5.204e+05 4.976e+05 4.758e+05 4.549e+05 4.349e+05 4.157e+05 3.974e+05 3.8e+05   3.632e+05 3.472e+05 3.32e+05  3.174e+05 3.034e+05 2.9e+05   2.773e+05 2.651e+05 2.534e+05 2.423e+05 2.316e+05 2.214e+05 2.117e+05 2.024e+05 1.935e+05 1.849e+05 1.768e+05 1.69e+05  1.616e+05 1.545e+05 1.477e+05 1.412e+05 1.35e+05  1.29e+05  1.234e+05 1.179e+05 1.127e+05 1.078e+05 1.03e+05  9.85e+04  9.416e+04 9.002e+04 1.956e+06
+
+c1_sens1_mat <- matrix(c(3.011e+06, 2.879e+06, 2.752e+06, 2.631e+06, 2.515e+06, 2.404e+06, 2.299e+06, 2.197e+06, 2.101e+06, 2.008e+06, 1.92e+06, 1.835e+06, 1.755e+06, 1.677e+06, 1.604e+06, 1.533e+06, 1.466e+06, 1.401e+06, 1.339e+06, 1.28e+06, 1.222e+06, 1.166e+06, 1.111e+06, 1.053e+06, 9.894e+05, 9.126e+05, 8.116e+05, 6.757e+05, 5.067e+05, 3.321e+05, 1.902e+05, 9.816e+04, 4.741e+04, 2.208e+04, 1.009e+04, 4574, 2063, 928.7, 417.7, 187.7, 84.38, 37.92, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+                         0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 28.23, 57.42, 116.8, 237.5, 483, 982.1, 1996, 4052, 8209, 1.656e+04, 3.311e+04, 6.496e+04, 1.229e+05, 2.177e+05, 3.474e+05, 4.844e+05, 5.904e+05, 6.481e+05, 6.66e+05, 6.599e+05, 6.419e+05, 6.187e+05, 5.938e+05, 5.687e+05, 5.442e+05, 5.204e+05, 4.976e+05, 4.758e+05, 4.549e+05, 4.349e+05, 4.157e+05, 3.974e+05, 3.8e+05, 3.632e+05, 3.472e+05, 3.32e+05, 3.174e+05, 3.034e+05, 2.9e+05, 2.773e+05, 2.651e+05, 2.534e+05, 2.423e+05, 2.316e+05, 2.214e+05, 2.117e+05, 2.024e+05, 1.935e+05, 1.849e+05, 1.768e+05, 1.69e+05, 1.616e+05, 1.545e+05, 1.477e+05, 1.412e+05, 1.35e+05, 1.29e+05, 1.234e+05, 1.179e+05, 1.127e+05, 1.078e+05, 1.03e+05, 9.85e+04, 9.416e+04, 9.002e+04, 1.956e+06),
+                         nrow=2, ncol=(80 - 1 + 1), byrow=TRUE)
+
+
+ages <- seq(1, 80)
+
+# omit the 'category' column
+c2_mat <- array(0, dim=c(num_C2_models, dim(as.matrix(cas2_mpd[[1]]$Init$values[,-1]))))
+for (c in 1:num_C2_models)
+{
+    c2_mat[c,,] <- as.matrix(cas2_mpd[[c]]$Init$values[,-1])
+}
+
+# plot initial numbers
+
+max_val <- max(c1_mat,
+               c1_sens1_mat,
+               max(c2_mat))
+
+plot(ages, c1_mat[1,], type='l', col='black', lwd=5, ylim=c(0, max_val), xlab='Age', ylab='', main='Initial numbers-at-age comparison')
+lines(ages, c1_mat[2,], col='black', lwd=5, lty=3)
+lines(ages, c1_sens1_mat[1,], col='grey', lwd=2.5)
+lines(ages, c1_sens1_mat[2,], col='grey', lwd=2.5, lty=3)
+for (c in 1:num_C2_models)
+{
+    lines(ages, c2_mat[c,1,], col=C2_color[c], lwd=1)
+    lines(ages, c2_mat[c,2,], col=C2_color[c], lwd=1, lty=3)
+}
+
+plot_legend()
+```
+
+
+```{r plots_set_2, echo=FALSE}
+
+# Final state:
+# Partition:
+#   maturity   1         2         3         4         5         6         7         8         9         10        11        12        13        14        15        16        17        18        19        20        21        22        23        24        25        26        27        28        29        30        31        32        33        34        35        36        37        38        39        40        41        42        43        44        45        46        47        48        49        50        51        52        53        54        55        56        57        58        59        60        61        62        63        64        65        66        67        68        69        70        71        72        73        74        75        76        77        78        79        80
+#   immature   3.011e+06 2.879e+06 2.752e+06 2.631e+06 2.515e+06 2.404e+06 2.298e+06 2.197e+06 2.1e+06   2.008e+06 1.919e+06 1.834e+06 1.753e+06 1.675e+06 1.601e+06 1.529e+06 1.46e+06  1.394e+06 1.329e+06 1.267e+06 1.205e+06 1.142e+06 1.078e+06 1.009e+06 9.316e+05 8.378e+05 7.191e+05 5.698e+05 3.991e+05 2.383e+05 1.205e+05 5.286e+04 2.077e+04 7507      2546      823.3     258.2     79.91     24.81     7.836     2.539     0.847     0         0         0         0         0         0         0         0         0         0         0         0         0         0         0         0         0         0         0         0         0         0         0         0         0         0         0         0         0         0         0         0         0         0         0         0         0         0
+#   mature     0         0         0         0         0         0         0         0         0         0         0         0         0         0         28.19     57.28     116.4     236.4     479.6     972.1     1967      3969      7969      1.587e+04 3.117e+04 5.964e+04 1.089e+05 1.836e+05 2.736e+05 3.476e+05 3.741e+05 3.49e+05  2.917e+05 2.244e+05 1.619e+05 1.114e+05 7.432e+04 4.893e+04 3.233e+04 2.172e+04 1.497e+04 1.063e+04 7768      5832      4486      3529      2836      2329      1955      1678      1471      1313      1192      1096      1018      953.2     897.7     849.1     805.6     766       729.5     695.5     663.7     633.7     605.2     578.2     552.5     528       504.7     482.4     461.1     440.8     421.4     402.8     385.1     368.1     351.9     336.4     321.6     6988
+
+c1_mat <- matrix(c(3011000,2879000,2752000,2631000,2515000,2404000,2298000,2197000,2100000,2008000,1919000,1834000,1753000,1675000,1601000,1529000,1460000,1394000,1329000,1267000,1205000,1142000,1078000,1009000,931600,837800,719100,569800,399100,238300,120500,52860,20770,7507,2546,823.3,258.2,79.91,24.81,7.836,2.539,0.847,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+                   0,0,0,0,0,0,0,0,0,0,0,0,0,0,28.19,57.28,116.4,236.4,479.6,972.1,1967,3969,7969,15870,31170,59640,108900,183600,273600,347600,374100,349000,291700,224400,161900,111400,74320,48930,32330,21720,14970,10630,7768,5832,4486,3529,2836,2329,1955,1678,1471,1313,1192,1096,1018,953.2,897.7,849.1,805.6,766,729.5,695.5,663.7,633.7,605.2,578.2,552.5,528,504.7,482.4,461.1,440.8,421.4,402.8,385.1,368.1,351.9,336.4,321.6,6988),
+                   nrow=2, ncol=(80 - 1 + 1), byrow=TRUE)
+
+
+# Final state:
+# Partition:
+#   maturity   1         2         3         4         5         6         7         8         9         10        11        12        13        14        15        16        17        18        19        20        21        22        23        24        25        26        27        28        29        30        31        32        33        34        35        36        37        38        39        40        41        42        43        44        45        46        47        48        49        50        51        52        53        54        55        56        57        58        59        60        61        62        63        64        65        66        67        68        69        70        71        72        73        74        75        76        77        78        79        80
+#   immature   3.011e+06 2.879e+06 2.752e+06 2.631e+06 2.515e+06 2.404e+06 2.298e+06 2.197e+06 2.1e+06   2.008e+06 1.919e+06 1.834e+06 1.753e+06 1.675e+06 1.601e+06 1.529e+06 1.46e+06  1.394e+06 1.329e+06 1.267e+06 1.205e+06 1.142e+06 1.078e+06 1.009e+06 9.316e+05 8.378e+05 7.191e+05 5.698e+05 3.991e+05 2.383e+05 1.205e+05 5.286e+04 2.077e+04 7507      2546      823.3     258.2     79.91     24.81     7.836     2.539     0.847     0         0         0         0         0         0         0         0         0         0         0         0         0         0         0         0         0         0         0         0         0         0         0         0         0         0         0         0         0         0         0         0         0         0         0         0         0         0
+#   mature     0         0         0         0         0         0         0         0         0         0         0         0         0         0         28.19     57.28     116.4     236.4     479.6     972.1     1967      3969      7969      1.587e+04 3.117e+04 5.964e+04 1.089e+05 1.836e+05 2.736e+05 3.476e+05 3.741e+05 3.49e+05  2.917e+05 2.244e+05 1.619e+05 1.114e+05 7.432e+04 4.893e+04 3.233e+04 2.172e+04 1.497e+04 1.063e+04 7768      5832      4486      3529      2836      2329      1955      1678      1471      1313      1192      1096      1018      953.2     897.7     849.1     805.6     766       729.5     695.5     663.7     633.7     605.2     578.2     552.5     528       504.7     482.4     461.1     440.8     421.4     402.8     385.1     368.1     351.9     336.4     321.6     6988
+
+c1_sens1_mat <- matrix(c(3011000,2879000,2752000,2631000,2515000,2404000,2298000,2197000,2100000,2008000,1919000,1834000,1753000,1675000,1601000,1529000,1460000,1394000,1329000,1267000,1205000,1142000,1078000,1009000,931600,837800,719100,569800,399100,238300,120500,52860,20770,7507,2546,823.3,258.2,79.91,24.81,7.836,2.539,0.847,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+                         0,0,0,0,0,0,0,0,0,0,0,0,0,0,28.19,57.28,116.4,236.4,479.6,972.1,1967,3969,7969,15870,31170,59640,108900,183600,273600,347600,374100,349000,291700,224400,161900,111400,74320,48930,32330,21720,14970,10630,7768,5832,4486,3529,2836,2329,1955,1678,1471,1313,1192,1096,1018,953.2,897.7,849.1,805.6,766,729.5,695.5,663.7,633.7,605.2,578.2,552.5,528,504.7,482.4,461.1,440.8,421.4,402.8,385.1,368.1,351.9,336.4,321.6,6988),
+                         nrow=2, ncol=(80 - 1 + 1), byrow=TRUE)
+
+
+ages <- seq(1, 80)
+
+# omit the 'category' column
+c2_mat <- array(0, dim=c(num_C2_models, dim(as.matrix(cas2_mpd[[1]]$Init$values[,-1]))))
+for (c in 1:num_C2_models)
+{
+    c2_mat[c,,] <- as.matrix(cas2_mpd[[c]]$Init$values[,-1])
+}
+
+# plot initial numbers
+
+max_val <- max(c1_mat,
+               c1_sens1_mat,
+               max(c2_mat))
+
+plot(ages, c1_mat[1,], type='l', col='black', lwd=5, ylim=c(0, max_val), xlab='Age', ylab='', main='Final numbers-at-age comparison')
+lines(ages, c1_mat[2,], col='black', lwd=5, lty=3)
+lines(ages, c1_sens1_mat[1,], col='grey', lwd=2.5)
+lines(ages, c1_sens1_mat[2,], col='grey', lwd=2.5, lty=3)
+for (c in 1:num_C2_models)
+{
+    lines(ages, c2_mat[c,1,], col=C2_color[c], lwd=1)
+    lines(ages, c2_mat[c,2,], col=C2_color[c], lwd=1, lty=3)
+}
+
+plot_legend()
+```
+
+
+```{r plots_set_5, echo=FALSE}
+# > names(cas2_mpd[[1]])
+#  [1] "Init"                 "state1"               "obj_fun"
+#  [4] "DQs"                  "estimated_values"     "estimated_summary"
+#  [7] "nuisance_Q"           "SSB"                  "Mortality"
+# [10] "Recruitment"          "maturity_ogive"       "growth_length_at_age"
+# [13] "growth_weight_at_age" "fishery_selectivity"  "CPUE_index"
+# [16] "fishery_AF"           "Hess"                 "Covar"
+# [19] "Corr"                 "warnings_encounted"
+
+# plot fishing pressures
+
+max_val <- max(c1_quant$fishing_pressures$pressure,
+               c1_sens1_quant$fishing_pressures$pressure,
+               max(unlist(list.map(cas2_mpd, max(Mortality$`fishing_pressure[AndesFishery]`)))))
+
+plot(c1_quant$fishing_pressures$year, c1_quant$fishing_pressures$pressure, type='l', col='black', lwd=5, ylim=c(0, max_val), xlab='Year', ylab='U', main='Fishing pressure comparison: Andes')
+lines(c1_sens1_quant$fishing_pressures$year, c1_sens1_quant$fishing_pressures$pressure, type='l', col='grey', lwd=2.5)
+for (c in 1:num_C2_models)
+{
+    lines(cas2_mpd[[c]]$Mortality$year, cas2_mpd[[c]]$Mortality$`fishing_pressure[AndesFishery]`, col=C2_color[c], lwd=1)
+}
+
+plot_legend()
+```
+
+
+```{r plots_set_6, echo=FALSE}
+ages <- seq(1, 80)
+
+max_val <- max(1,
+               c1_quant$`Ogive parameter values`$`selectivity[SELandes].all`,
+               c1_sens1_quant$`Ogive parameter values`$`selectivity[SELandes].all`)
+plot(ages, c1_quant$`Ogive parameter values`$`selectivity[SELandes].all`, type='l', col='black', lwd=5, ylim=c(0,max_val), xlab='Age', ylab='', main='Andes fishery selectivity-at-age comparison')
+
+lines(ages, c1_sens1_quant$`Ogive parameter values`$`selectivity[SELandes].all`, col='grey', lwd=2.5)
+
+for (c in 1:num_C2_models)
+{
+    lines(ages, cas2_mpd[[c]]$fishery_selectivity$Values, col=C2_color[c], lwd=1)
+}
+
+plot_legend()
+```
+
