@@ -1,0 +1,26 @@
+@print
+# estimation section stuff
+estimation_section T
+fits 1
+pearson_resids 1
+normalised_resids 1
+population_section T
+# population section stuff
+requests True
+initial_state T
+state_annually T
+state_every_step T
+final_state True
+every_mean_size T 
+
+@quantities
+all_free_parameters 1
+actual_catches T
+fishing_pressures T
+B0 1
+R0 1
+SSBs 1
+YCS 1
+true_YCS T
+recruitments T
+
