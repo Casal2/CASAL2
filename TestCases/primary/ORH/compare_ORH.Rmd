@@ -113,7 +113,7 @@ get_convergence_information <- function(filename)
 
 ## CASAL and Casal2 model output
 
-```{r CASAL}
+```{r CASAL, warning=FALSE}
 # read in CASAL MPD results
 cas_mpd_filename <- file.path(base_dir, 'CASAL', mpd_run)
 cas_mpd  <- casal::extract.mpd(cas_mpd_filename)
