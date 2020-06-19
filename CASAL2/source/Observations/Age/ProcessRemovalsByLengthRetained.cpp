@@ -257,8 +257,10 @@ void ProcessRemovalsByLengthRetained::DoBuild() {
     mortality_instantaneous_retained_ = dynamic_cast<MortalityInstantaneousRetained*>(process);
   }
 
-  if (!mortality_instantaneous_retained_)
-    LOG_ERROR_P(PARAM_PROCESS) << "This observation can be used only for Process of type = " << PARAM_MORTALITY_INSTANTANEOUS_RETAINED;
+  if (mortality_instantaneous_retained_ == nullptr)
+    LOG_FATAL() << "Observation " << label_ << " can be used with Process type " << PARAM_MORTALITY_INSTANTANEOUS_RETAINED
+      << " only. Process " << process_label_ << " was not found or does not have retained catch characteristics specified.";
+
 
   // Need to split the categories if any are combined for checking
   vector<string> temp_split_category_labels, split_category_labels;

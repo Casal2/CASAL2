@@ -207,6 +207,7 @@ void ProcessRemovalsByAgeRetainedTotal::DoValidate() {
       LOG_ERROR_P(PARAM_OBS) << ": obs sum total (" << total << ") for year (" << iter->first << ") exceeds tolerance (" << tolerance_ << ") from 1.0";
     }
   }
+
   if (time_step_label_.size() != method_.size()) {
     LOG_ERROR_P(PARAM_TIME_STEP) << "Specify the same number of time step labels as methods. " << time_step_label_.size()
       << " time step labels have been specified, but there are " << method_.size() << " methods specified";
@@ -242,6 +243,11 @@ void ProcessRemovalsByAgeRetainedTotal::DoBuild() {
     }
   }
 
+  if (mortality_instantaneous_retained_ == nullptr)
+    LOG_FATAL() << "Observation " << label_ << " can be used with Process type " << PARAM_MORTALITY_INSTANTANEOUS_RETAINED
+      << " only. Process " << process_label_ << " was not found or does not have retained catch characteristics specified.";
+
+
   // Need to split the categories if any are combined for checking
   vector<string> temp_split_category_labels, split_category_labels;
 
@@ -253,9 +259,7 @@ void ProcessRemovalsByAgeRetainedTotal::DoBuild() {
   }
   for (auto category : split_category_labels)
     LOG_FINEST() << category;
-  if (!mortality_instantaneous_retained_)
-    LOG_ERROR_P(PARAM_PROCESS) << "This observation can be used only for Process of type " << PARAM_MORTALITY_INSTANTANEOUS_RETAINED
-      << ". Process " << process_label_ << " was not found.";
+
   // Do some checks so that the observation and process are compatible
   if (!mortality_instantaneous_retained_->check_methods_for_removal_obs(method_))
     LOG_ERROR_P(PARAM_METHOD_OF_REMOVAL) << "could not find all these methods in the instantaneous_mortality process labeled " << process_label_
