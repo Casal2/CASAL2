@@ -30,21 +30,23 @@ void TimeVarying::DoExecute() {
   LOG_TRACE();
   timevarying::Manager& manager = *model_->managers().time_varying();
   auto time_varying = manager.objects();
-  cache_ << "*"<< type_ << "[" << label_ << "]" << "\n";
+  if (manager.GetTimeVaryingCount() > 0 && time_varying.size() > 0) {
+    cache_ << "*"<< type_ << "[" << label_ << "]" << "\n";
 
-  for (auto time_var : time_varying) {
-    string label =  time_var->label();
-    LOG_FINEST() << "Reporting for @time_varying block " << label;
-    cache_ << label << " " << REPORT_R_DATAFRAME << "\n";
+    for (auto time_var : time_varying) {
+      string label =  time_var->label();
+      LOG_FINEST() << "Reporting for @time_varying block " << label;
+      cache_ << label << " " << REPORT_R_DATAFRAME << "\n";
 
-    map<unsigned, Double>& parameter_by_year = time_var->get_parameter_by_year();
-    cache_ << "year" << " Value \n";
-    for (auto param : parameter_by_year) {
-      cache_ << param.first << "  " << AS_VALUE(param.second) << "\n";
+      map<unsigned, Double>& parameter_by_year = time_var->get_parameter_by_year();
+      cache_ << "year" << " Value \n";
+      for (auto param : parameter_by_year) {
+        cache_ << param.first << "  " << AS_VALUE(param.second) << "\n";
+      }
     }
-  }
 
-  ready_for_writing_ = true;
+    ready_for_writing_ = true;
+  }
 }
 
 } /* namespace reports */

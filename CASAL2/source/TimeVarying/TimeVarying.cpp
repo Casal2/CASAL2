@@ -24,7 +24,7 @@ namespace niwa {
 TimeVarying::TimeVarying(Model* model) : model_(model) {
   parameters_.Bind<string>(PARAM_LABEL, &label_, "The time-varying label", "");
   parameters_.Bind<string>(PARAM_TYPE, &type_, "The time-varying type", "", "");
-  parameters_.Bind<unsigned>(PARAM_YEARS, &years_, "Years in which to vary the values", "");
+  parameters_.Bind<unsigned>(PARAM_YEARS, &years_, "The years in which to vary the values", "");
   parameters_.Bind<string>(PARAM_PARAMETER, &parameter_, "The name of the parameter to time vary", "");
 }
 
