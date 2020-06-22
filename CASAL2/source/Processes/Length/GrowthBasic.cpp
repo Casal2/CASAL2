@@ -90,6 +90,7 @@ void GrowthBasic::DoReset() {
     }
 
     // Calculate incremental change based on mid point
+    // TODO: review for use of switch for pnorm() vs. pnorm2()
     mu = g_[0] + (g_[1] - g_[0])*(length_bin_mid_points_[length_bin] - l_[0]) / (l_[1] - l_[0]);
     sigma = cv_ * mu > min_sigma_ ? cv_ * mu : min_sigma_;
     transition_matrix_[length_bin][length_bin] = math::pnorm(length_bins_[length_bin + 1] - length_bin_mid_points_[length_bin],mu,sigma); // Calculate normal PDF I am using Boost not sure if this will play ball.
