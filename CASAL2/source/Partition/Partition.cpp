@@ -260,10 +260,12 @@ void Partition::BuildAgeLengthProportions() {
 
             // If we are using CASAL's Normal CDF function use this switch
             if (casal_normal_cdf) {
+              // see utilities::math::pnorm()
               tmp = 0.5 * pow((1 + 0.196854 * z + 0.115194 * z * z + 0.000344 * z * z * z + 0.019527 * z * z * z * z), -4);
             } else {
+              // see utilities::math::pnorm2()
               tt = 1.0 / (1.0 + 0.2316419 * z);
-              norm = 1.0 / sqrt(2.0 * M_PI) * exp(-0.5 * z * z);
+              norm = (1.0 / sqrt(2.0 * M_PI)) * exp(-0.5 * z * z);
               ttt = tt;
               tmp = 0.319381530 * ttt;
               ttt = ttt * tt;
