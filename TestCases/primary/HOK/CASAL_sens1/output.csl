@@ -10,14 +10,14 @@ normalised_resids 1
 covariance 1
 
 # population section stuff
-requests 1
-population_section 1
+requests 0
+population_section 0
 initial_state 1
 state_annually 0
 state_every_step 0
 final_state 1
-results 1
-every_mean_size 1
+results 0
+every_mean_size 0
 
 
 #@print_sizebased_ogives_at 28  32  36  40  44  48  52  56  60  64  68  72  76  80  84  88  92  96 100 104 108

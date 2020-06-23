@@ -4,9 +4,11 @@ estimation_section T
 fits 1
 pearson_resids 1
 normalised_resids 1
-population_section T
+population_section 0
+
 # population section stuff
-requests True
+requests 0
+results 0
 initial_state T
 state_annually 0
 state_every_step 0
