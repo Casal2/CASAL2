@@ -15,7 +15,7 @@ covariance 1
 
 # population section stuff
 requests 0
-population_section 0
+population_section 1
 initial_state 1
 state_annually 0
 state_every_step 0
