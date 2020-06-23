@@ -13,6 +13,7 @@ normalised_resids True
 estimation_section True
 
 # population section stuff
+population_section True
 requests True
 initial_state True
 state_annually False
