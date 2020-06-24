@@ -142,6 +142,7 @@ void AgeLength::Reset() {
     BuildCV();
   }
 
+  LOG_FINE() << "Resetting age-length";
   DoReset();
 }
 
