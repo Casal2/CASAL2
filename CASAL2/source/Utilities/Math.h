@@ -5,7 +5,7 @@
  * @date 25/03/2013
  * @section LICENSE
  *
- * Copyright NIWA Science ©2013 - www.niwa.co.nz
+ * Copyright NIWA Science 2013 - www.niwa.co.nz
  *
  * @section DESCRIPTION
  *
@@ -24,7 +24,7 @@
 #include "Utilities/Types.h"
 #include "Utilities/Distribution.h"
 
-#define PI 3.14159265358979
+#define PI 3.14159265358979323846264338327950288
 
 // Namespaces
 namespace niwa {
@@ -64,7 +64,7 @@ inline Double LnFactorial(Double t) {
  * dnorm: return the pdf for the normal
  */
 inline Double dnorm(const Double& x, const Double& mu, const Double& sigma) {
-  Double z = 1 / (sigma * sqrt(2 * M_PI)) * exp(-((x - mu) * (x - mu))/(2 * sigma * sigma));
+  Double z = 1.0 / (sigma * sqrt(2.0 * PI)) * exp( -((x - mu) * (x - mu)) / (2.0 * sigma * sigma) );
   return(z);
 }
 
@@ -106,7 +106,7 @@ inline Double pnorm2(const Double& x, const Double& mu = 0.0, const Double& sigm
   Double norm, ttt, p;
   Double z = fabs((x - mu)/sigma);
   Double tt = 1.0 / (1.0 + 0.2316419 * z);
-  norm = 1.0 / sqrt(2.0 * M_PI) * exp(-0.5 * z * z);
+  norm = (1.0 / sqrt(2.0 * PI)) * exp(-0.5 * z * z);
   ttt = tt;
   p = 0.319381530 * ttt;
   ttt = ttt * tt;
