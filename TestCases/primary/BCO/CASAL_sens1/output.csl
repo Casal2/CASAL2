@@ -33,6 +33,8 @@ removals 1
 discards 1
 B0 true
 SSBs true
+YCS true
+true_YCS true
 fits 1
 resids 1
 pearson_resids 1
