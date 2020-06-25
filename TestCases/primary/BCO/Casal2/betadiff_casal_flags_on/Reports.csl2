@@ -19,10 +19,29 @@ type process
 process Fishing
 
 
+## Derived Quantities
+@report DerivedQuantities
+type derived_quantity
+
+@report Init
+type initialisation_partition
+
+
 @report state1
 type partition
 time_step 1
 years 2001 2010 2019
+
+
+@report growth_length_at_age
+type partition_mean_length
+time_step 1
+years 2019
+
+@report growth_weight_at_age
+type partition_mean_weight
+time_step 1
+years 2019
 
 
 @report potFSelm_selectivity
@@ -49,10 +68,6 @@ selectivity recFSelm
 type selectivity
 selectivity recFSelf
 
-
-## Derived Quantities
-@report DerivedQuantities
-type derived_quantity
 
 ## Fits Observations
 
@@ -106,18 +121,13 @@ pearsons_residuals True
 #selectivity potFretained
 
 
-@report growth_length_at_age
-type partition_mean_length
-time_step 1
-years 2019
-
 
 # @report TV
 # type time_varying
 
 
-# @report Hess
-# type hessian_matrix
+@report Hess
+type hessian_matrix
 
 
 @report Covar

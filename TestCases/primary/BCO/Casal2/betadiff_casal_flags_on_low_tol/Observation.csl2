@@ -1,0 +1,71 @@
+
+
+################
+## Observations  Strip unused obs
+##############
+
+##Pot Survey
+@observation potSurvey
+type abundance
+time_step 1
+categories *+
+catchability potSurveyq
+selectivities potSurveySel_male potSurveySel_female # potSurveySel potSurveySel potSurveySel potSurveySel potSurveySel
+likelihood lognormal
+years 		2010 	2014 	2018
+obs         11.066 	17.568	12.532
+error_value 0.125 0.135 0.215   #tab not white space, remove
+time_step_proportion 0.42  #Feb
+process_error 0.20
+
+##CPUE
+@observation potCPUE
+type biomass
+time_step 1
+categories *+
+catchability potCPUEq
+selectivities potFSelm potFSelf #potFretained potFretained
+likelihood lognormal
+#!include "Input_files/CPUE.025.txt"   #from Kath
+     # catchability potCPUEq
+process_error        0.10
+years	1990	1991	1992	1993	1994	1995	1996	1997	1998	1999	2000	2001	2002	2003	2004	2005	2006	2007	2008	2009	2010	2011	2012	2013	2014	2015	2016	2017	2018
+obs	1.011787694	0.812523054	0.789768249	0.800867309	0.814346092	0.844336251	0.968862712	1.078020136	1.063204395	0.955823879	1.121672693	1.232781465	1.305425376	1.266975386	1.228753428	1.31587012	1.263582738	1.086557372	1.018994404	1.031439951	0.895963402	0.984094908	0.975650896	0.960913654	1.00117788	0.928886394	0.917794071	0.922602554	0.758654997
+error_value	0.05	0.05	0.05	0.05	0.05	0.05	0.05	0.05	0.05	0.05	0.05	0.05	0.05	0.05	0.05	0.05	0.05	0.05	0.05	0.05	0.05	0.05	0.05	0.05	0.05	0.05	0.05	0.05	0.05
+
+#
+# logbook LF in 2010 Pot fishery
+#
+#!include "../input_fragments/A025.logbook2010.txt"
+
+#
+#lgobook pot fishery in 2010 Area 025
+#
+@observation lgobookLF
+type process_removals_by_length#_retained_total
+mortality_instantaneous_process Fishing
+categories *+
+method_of_removal FishingPot
+time_step 1
+#time_step_proportion 0.5
+
+years 2010
+length_plus false
+#ageing_error Ageing_error
+length_bins 26 27 28 29 30 31 32 33 34 35 36 37 38 39 40 41 42 43 44 45 46 47 48 49 50 51 52 53 54 55 56 57 58 59
+likelihood multinomial
+table obs
+2010 0.000289100896212778 0.00289100896212778 0.00462561433940445 0.0118531367447239 0.0153223474992772 0.0228389708008095 0.0297773923099162 0.0760335357039607 0.0829719572130674 0.100607111882047 0.113327551315409 0.0913558832032379 0.102919919051749 0.0777681410812373 0.0526163631107256 0.0436542353281295 0.0416305290546401 0.0222607690083839 0.0268863833477884 0.0141659439144261 0.0121422376409367 0.0153223474992772 0.01040763226366 0.00636021971668112 0.00751662330153223 0.00375831165076612 0.00520381613183001 0.002601908065915 0.00115640358485111 0.000289100896212778 0.000867302688638335 0.000289100896212778 0.000289100896212778
+end_table
+
+table error_values
+2010 100
+end_table
+
+
+@ageing_error Ageing_error
+type off_by_one
+p1 0.086  #prob of -1 year
+p2 0.086  #prob of +1 error
+k  1   #min age for correct ageing
+

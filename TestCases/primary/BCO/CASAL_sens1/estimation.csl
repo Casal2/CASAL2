@@ -3,7 +3,7 @@
 @max_iters 50000
 @max_evals 100000
 #@grad_tol 0.00001 default should be OK
-@grad_tol 0.000001
+@grad_tol 0.0000001
 
 
 @estimate
