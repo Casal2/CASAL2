@@ -50,7 +50,7 @@ TEST_F(InternalEmptyModel, Model_TwoSex_Estimation) {
   model_->Start(RunMode::kEstimation);
 
   ObjectiveFunction& obj_function = model_->objective_function();
-  EXPECT_DOUBLE_EQ(1993.8041773625964, obj_function.score());
+  EXPECT_DOUBLE_EQ(1993.8041770617783, obj_function.score());
 }
 
 /**
@@ -66,9 +66,9 @@ TEST_F(InternalEmptyModel, Model_TwoSex_Foward_Projection) {
   EXPECT_DOUBLE_EQ(0.0, obj_function.score());
 
   DerivedQuantity* dq = model_->managers().derived_quantity()->GetDerivedQuantity("abundance");
-  EXPECT_DOUBLE_EQ(1773708.1521442106, dq->GetValue(2010));
-  EXPECT_DOUBLE_EQ(1794657.5435387883, dq->GetValue(2011));
-  EXPECT_DOUBLE_EQ(1813872.7774264852, dq->GetValue(2012));
+  EXPECT_DOUBLE_EQ(1725780.7680744524, dq->GetValue(2010));
+  EXPECT_DOUBLE_EQ(1746451.4919400334, dq->GetValue(2011));
+  EXPECT_DOUBLE_EQ(1765234.8648326413, dq->GetValue(2012));
 }
 
 } /* namespace testcases */

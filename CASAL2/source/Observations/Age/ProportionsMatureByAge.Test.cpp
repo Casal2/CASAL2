@@ -214,7 +214,7 @@ TEST_F(InternalEmptyModel, Observation_Proportions_Mature_By_Age) {
   model_->Start(RunMode::kBasic);
 
   ObjectiveFunction& obj_function = model_->objective_function();
-  EXPECT_DOUBLE_EQ(133.52090147835676, obj_function.score());
+  EXPECT_DOUBLE_EQ(130.88118489754032, obj_function.score());
 
   Observation* observation = model_->managers().observation()->GetObservation("Mature_1994");
 
@@ -226,27 +226,27 @@ TEST_F(InternalEmptyModel, Observation_Proportions_Mature_By_Age) {
   ASSERT_EQ(80u, comparisons[year].size());
   EXPECT_EQ("spawn",                      comparisons[year][0].category_);
   EXPECT_DOUBLE_EQ(0,                     comparisons[year][0].error_value_);
-  EXPECT_DOUBLE_EQ(2.5188981851903107e-008,comparisons[year][0].expected_);
+  EXPECT_DOUBLE_EQ(2.5188981847961234e-08,comparisons[year][0].expected_);
   EXPECT_DOUBLE_EQ(0,                     comparisons[year][0].observed_);
   EXPECT_DOUBLE_EQ(0,                     comparisons[year][0].score_);
 
   EXPECT_EQ("spawn",                      comparisons[year][10].category_);
   EXPECT_DOUBLE_EQ(5,                     comparisons[year][10].error_value_);
-  EXPECT_DOUBLE_EQ(1.360804113049925e-005,comparisons[year][10].expected_);
+  EXPECT_DOUBLE_EQ(1.3608041126984184e-05,comparisons[year][10].expected_);
   EXPECT_DOUBLE_EQ(0,                     comparisons[year][10].observed_);
-  EXPECT_DOUBLE_EQ(6.8040668603589396e-005,comparisons[year][10].score_);
+  EXPECT_DOUBLE_EQ(6.8040668585825584e-05,comparisons[year][10].score_);
 
   EXPECT_EQ("spawn",                      comparisons[year][20].category_);
   EXPECT_DOUBLE_EQ(9,                     comparisons[year][20].error_value_);
-  EXPECT_DOUBLE_EQ(0.0085862448973253094, comparisons[year][20].expected_);
+  EXPECT_DOUBLE_EQ(0.0085862448951208748, comparisons[year][20].expected_);
   EXPECT_DOUBLE_EQ(0.1111111,             comparisons[year][20].observed_);
-  EXPECT_DOUBLE_EQ(2.6293554588266024,     comparisons[year][20].score_);
+  EXPECT_DOUBLE_EQ(2.6293554590655543,    comparisons[year][20].score_);
 
   EXPECT_EQ("spawn",                      comparisons[year][30].category_);
   EXPECT_DOUBLE_EQ(5,                     comparisons[year][30].error_value_);
-  EXPECT_DOUBLE_EQ(0.80328300099950134,    comparisons[year][30].expected_);
+  EXPECT_DOUBLE_EQ(0.80328300093838867,   comparisons[year][30].expected_);
   EXPECT_DOUBLE_EQ(0.80000000000000004,   comparisons[year][30].observed_);
-  EXPECT_DOUBLE_EQ(0.89274401388247926,    comparisons[year][30].score_);
+  EXPECT_DOUBLE_EQ(0.89274401387613067,   comparisons[year][30].score_);
 
   EXPECT_EQ("spawn",                      comparisons[year][70].category_);
   EXPECT_DOUBLE_EQ(0,                     comparisons[year][70].error_value_);

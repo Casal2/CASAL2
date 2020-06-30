@@ -75,7 +75,7 @@ void Partition::Execute() {
       std::cout.precision(9);
 
       LOG_ERROR() << "Assert Failure: Partition.Category: " << category_label_ << " had value " << data[i] << " when " << values_[i]
-        << " values are expected for age " << (category.min_age_ + i);
+        << " values are expected for age " << (category.min_age_ + i) << ". The difference is " << (values_[i] - AS_VALUE(data[i])) << ".";
 
       std::cout.precision(prec);
     }

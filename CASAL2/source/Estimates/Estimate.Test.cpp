@@ -54,12 +54,12 @@ TEST_F(InternalEmptyModel, Estimates_Single_Target) {
   model_->Start(RunMode::kEstimation);
 
   ObjectiveFunction& obj_function = model_->objective_function();
-  EXPECT_DOUBLE_EQ(1726.6295023192436, obj_function.score());
+  EXPECT_DOUBLE_EQ(1726.6295023194364, obj_function.score());
 
   Estimate* estimate = model_->managers().estimate()->GetEstimate("selectivity[FishingSel].a50");
   if (!estimate)
     LOG_FATAL() << "!estimate";
-  EXPECT_DOUBLE_EQ(estimate->value(), 7.2724038656733399);
+  EXPECT_DOUBLE_EQ(estimate->value(), 7.2724038680087295);
 
   // Check results
   estimate->set_value(1.0);
@@ -99,12 +99,12 @@ TEST_F(InternalEmptyModel, Estimates_Single_Target_WithSame) {
   model_->Start(RunMode::kEstimation);
 
   ObjectiveFunction& obj_function = model_->objective_function();
-  EXPECT_DOUBLE_EQ(1726.629502319726, obj_function.score());
+  EXPECT_DOUBLE_EQ(1726.6295023191037, obj_function.score());
 
   Estimate* estimate = model_->managers().estimate()->GetEstimate("selectivity[FishingSel].a50");
   if (!estimate)
     LOG_FATAL() << "!estimate";
-  EXPECT_DOUBLE_EQ(estimate->value(),7.2724038715085921);
+  EXPECT_DOUBLE_EQ(estimate->value(), 7.2724038640113102);
 
   // Validate the sames
   auto same_labels = estimate->same_labels();
@@ -113,7 +113,7 @@ TEST_F(InternalEmptyModel, Estimates_Single_Target_WithSame) {
 
   auto sames = estimate->sames();
   ASSERT_EQ(1u, sames.size());
-  EXPECT_DOUBLE_EQ(*sames[0],7.2724038715085921);
+  EXPECT_DOUBLE_EQ(*sames[0], 7.2724038640113102);
 
   // Check results
   estimate->set_value(1.0);
@@ -150,19 +150,19 @@ TEST_F(InternalEmptyModel, Estimates_Multiple_Defined_Targets_Vector) {
   model_->Start(RunMode::kEstimation);
 
   ObjectiveFunction& obj_function = model_->objective_function();
-  EXPECT_DOUBLE_EQ(35171.649398522008, obj_function.score());
+  EXPECT_DOUBLE_EQ(35172.181394884443, obj_function.score());
 
   Estimate* estimate = model_->managers().estimate()->GetEstimate("selectivity[av].v{21}");
   if (!estimate)
     LOG_FATAL() << "!estimate";
-  EXPECT_DOUBLE_EQ(estimate->value(), 1.0018903419355529);
-  EXPECT_DOUBLE_EQ(estimate->GetScore(), 0.01994669208952907);
+  EXPECT_DOUBLE_EQ(estimate->value(), 1.0049112161500742);
+  EXPECT_DOUBLE_EQ(estimate->GetScore(), 0.023298844664202883);
 
   estimate = model_->managers().estimate()->GetEstimate("selectivity[av].v{25}");
   if (!estimate)
     LOG_FATAL() << "!estimate";
-  EXPECT_DOUBLE_EQ(estimate->value(),1.0000318985045502);
-  EXPECT_DOUBLE_EQ(estimate->GetScore(),0.017881015473169552);
+  EXPECT_DOUBLE_EQ(estimate->value(), 1.0000003856277209);
+  EXPECT_DOUBLE_EQ(estimate->GetScore(), 0.017845966038251008);
 }
 
 /**
@@ -398,7 +398,7 @@ TEST_F(InternalEmptyModel, Estimates_All_Targets_Vector) {
  */
 const string estimate_all_targets_unsigned_map =
 R"(
-@estimate 
+@estimate
 parameter process[Fishing].catches
 type lognormal
 lower_bound 1800 14000 28000 24000 47000 58000 82000 115000 113000 119000
