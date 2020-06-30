@@ -68,42 +68,44 @@ void LogisticProducing::DoValidate() {
  */
 void LogisticProducing::RebuildCache() {
   if (model_->partition_type() == PartitionType::kAge) {
+    Double temp = 0.0;
     for (unsigned age = model_->min_age(); age <= model_->max_age(); ++age) {
-
+      temp = age;
       if (age < low_)
         values_[age - age_index_] = 0.0;
       else if (age >= high_)
         values_[age - age_index_] = alpha_;
       else if (age == low_)
-        values_[age - age_index_] = 1.0 / (1.0 + pow(19.0, (a50_ - (Double)age) / ato95_)) * alpha_;
+        values_[age - age_index_] = alpha_ / (1.0 + pow(19.0, (a50_ - temp) / ato95_));
       else {
-        Double lambda2 = 1.0 / (1.0 + pow(19.0, (a50_- ((Double)age - 1)) / ato95_));
-        if (lambda2 > 0.9999) {
+        Double lambda2 = 1.0 / (1.0 + pow(19.0, (a50_- (temp - 1)) / ato95_));
+        if (lambda2 > 0.99999) {
           values_[age - age_index_] = alpha_;
         } else {
-          Double lambda1 = 1.0 / (1.0 + pow(19.0, (a50_ - (Double)age) / ato95_));
+          Double lambda1 = 1.0 / (1.0 + pow(19.0, (a50_ - temp) / ato95_));
           values_[age - age_index_] = (lambda1 - lambda2) / (1.0 - lambda2) * alpha_;
-          LOG_FINEST() << "age = " << age << " lambda1 = " << lambda1 << " lambda2 = " << lambda2 << " value = " <<  values_[age];
+          LOG_FINEST() << "age = " << age << " lambda1 = " << lambda1 << " lambda2 = " << lambda2 << " value = " <<  values_[age - age_index_];
         }
       }
     }
   } else if (model_->partition_type() == PartitionType::kLength) {
     vector<double> length_bins = model_->length_bins();
+    Double temp = 0.0;
 
     for (unsigned length_bin_index = 0; length_bin_index < length_bins.size(); ++length_bin_index) {
-      Double temp = (Double)length_bins[length_bin_index];
+      temp = length_bins[length_bin_index];
       if (temp < low_)
         length_values_[length_bin_index] = 0.0;
       else if (temp >= high_)
         length_values_[length_bin_index] = alpha_;
       else if (temp == low_)
-        length_values_[length_bin_index] = 1.0 / (1.0 + pow(19.0, (a50_ - (Double)temp) / ato95_)) * alpha_;
+        length_values_[length_bin_index] = alpha_ / (1.0 + pow(19.0, (a50_ - temp) / ato95_));
       else {
-        Double lambda2 = 1.0 / (1.0 + pow(19.0, (a50_- ((Double)temp - 1)) / ato95_));
+        Double lambda2 = 1.0 / (1.0 + pow(19.0, (a50_- (temp - 1)) / ato95_));
         if (lambda2 > 0.99999) {
           length_values_[length_bin_index] = alpha_;
         } else {
-          Double lambda1 = 1.0 / (1.0 + pow(19.0, (a50_ - (Double)temp) / ato95_));
+          Double lambda1 = 1.0 / (1.0 + pow(19.0, (a50_ - temp) / ato95_));
           length_values_[length_bin_index] = (lambda1 - lambda2) / (1.0 - lambda2) * alpha_;
           LOG_FINEST() << "length = " << temp << " lambda1 = " << lambda1 << " lambda2 = " << lambda2
             << " value = " <<  length_values_[length_bin_index];
