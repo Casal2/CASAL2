@@ -104,13 +104,13 @@ void ProportionsAtLength::DoValidate() {
    * categories male+female male = 2 collections
    */
 
+  auto model_length_bins = model_->length_bins();
   if (length_bins_.size() == 0) {
-    length_bins_     = model_->length_bins();
+    length_bins_     = model_length_bins;
     // length_plus_     = model_->length_plus();
     mlb_index_first_ = 0;
   } else {
     // allow for the use of observation-defined length bins, as long as all values are in the set of model length bin values
-    auto model_length_bins = model_->length_bins();
     for (unsigned length = 0; length < length_bins_.size(); ++length) {
       if (length_bins_[length] < 0.0)
         LOG_ERROR_P(PARAM_LENGTH_BINS) << ": Observation length bin values must be positive. '" << length_bins_[length] << "' is less than 0";
@@ -137,6 +137,10 @@ void ProportionsAtLength::DoValidate() {
     LOG_FINE() << "Index of observation length bin in model length bins: " << mlb_index_first_
       << ", length_bins_[0] " << length_bins_[0] << ", model length bin " << model_length_bins[mlb_index_first_];
   }
+
+  // model vs. observation consistency length_plus check
+  if (!(model_->length_plus()) && length_plus_ && length_bins_.back() == model_length_bins.back())
+    LOG_ERROR() << "Mismatch between @model length_plus and observation " << label_ << " length_plus for the last length bin";
 
   number_bins_ = length_plus_ ? length_bins_.size() : length_bins_.size() - 1;
   unsigned obs_expected = (category_labels_.size() * number_bins_) + 1;
@@ -349,6 +353,8 @@ void ProportionsAtLength::Execute() {
         LOG_FINE() << "start_value: " << start_value << "; end_value: " << end_value << "; final_value: " << final_value;
         LOG_FINE() << "expected_value becomes: " << expected_values[length_offset];
       }
+
+      // TODO: length_plus functionality to add the values for the larger lengths to expected_values[(number_bins_ - 1)]
     }
 
     if (expected_values.size() != proportions_[model_->current_year()][category_labels_[category_offset]].size())

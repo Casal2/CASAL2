@@ -114,6 +114,10 @@ void ProcessRemovalsByLengthRetained::DoValidate() {
   LOG_FINE() << "Index of observation length bin in model length bins: " << mlb_index_first_
     << ", length_bins_[0] " << length_bins_[0] << ", model length bin " << model_length_bins[mlb_index_first_];
 
+  // model vs. observation consistency length_plus check
+  if (!(model_->length_plus()) && length_plus_ && length_bins_.back() == model_length_bins.back())
+    LOG_ERROR() << "Mismatch between @model length_plus and observation " << label_ << " length_plus for the last length bin";
+
   if (process_error_values_.size() != 0 && process_error_values_.size() != years_.size()) {
     LOG_ERROR_P(PARAM_PROCESS_ERRORS) << " number of values provided (" << process_error_values_.size()
       << ") does not match the number of years provided (" << years_.size() << ")";

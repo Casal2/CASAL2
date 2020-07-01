@@ -41,8 +41,8 @@ TagRecaptureByLength::TagRecaptureByLength(Model* model) : Observation(model) {
   scanned_table_ = new parameters::Table(PARAM_SCANNED);
 
   parameters_.Bind<unsigned>(PARAM_YEARS, &years_, "The years for which there are observations", "");
-  parameters_.Bind<double>(PARAM_LENGTH_BINS, &length_bins_input_, "The length bins", "", true); // optional
   parameters_.Bind<string>(PARAM_TIME_STEP, &time_step_label_, "The time step to execute in", "");
+  parameters_.Bind<double>(PARAM_LENGTH_BINS, &length_bins_input_, "The length bins", "", true); // optional
   parameters_.Bind<bool>(PARAM_LENGTH_PLUS, &length_plus_, "Is the last length bin a plus group? (defaults to @model value)", "", model->length_plus()); // default to the model value
   parameters_.Bind<string>(PARAM_TAGGED_CATEGORIES, &tagged_category_labels_, "The categories of tagged individuals for the observation", "");
   parameters_.Bind<string>(PARAM_SELECTIVITIES, &selectivity_labels_, "The labels of the selectivities used for untagged categories", "", true);
@@ -68,6 +68,8 @@ void TagRecaptureByLength::DoValidate() {
    * Do some simple checks
    * e.g Validate that the length_bins are strictly increasing
    */
+  vector<double> model_length_bins = model_->length_bins();
+
   if (parameters_.Get(PARAM_LENGTH_BINS)->has_been_defined()) {
     length_bins_.resize(length_bins_input_.size(), 0.0);
     for (unsigned length = 0; length < length_bins_input_.size(); ++length) {
@@ -83,7 +85,6 @@ void TagRecaptureByLength::DoValidate() {
 
     // Finally Check the bins are not the same as in the @model, if user set them to be the same as the @model
     // we can ignore the input for performance benefits.
-    vector<double> model_length_bins = model_->length_bins();
     if (length_bins_input_.size() == model_length_bins.size()) {
       for(unsigned i = 0; i < model_length_bins.size(); ++i) {
         if (model_length_bins[i] != length_bins_input_[i])
@@ -95,13 +96,17 @@ void TagRecaptureByLength::DoValidate() {
 
   } else {
     // set to model if not defined.
-    length_bins_input_ = model_->length_bins();
+    length_bins_input_ = model_length_bins;
     length_bins_.resize(length_bins_input_.size(), 0.0);
     for (unsigned length = 0; length < length_bins_input_.size(); ++length) {
       length_bins_[length] = length_bins_input_[length];
       LOG_FINE() << "length bin " << length + 1 << " " << length_bins_input_[length] << " after static " << length_bins_[length];
     }
   }
+
+  // model vs. observation consistency length_plus check
+  if (!(model_->length_plus()) && length_plus_ && length_bins_.back() == model_length_bins.back())
+    LOG_ERROR() << "Mismatch between @model length_plus and observation " << label_ << " length_plus for the last length bin";
 
   number_bins_ = length_plus_ ? length_bins_.size() : length_bins_.size() - 1;
 
