@@ -23,16 +23,16 @@
 namespace niwa {
 
 /**
- * Explicit Constructor
+ * Default Constructor
  */
 Selectivity::Selectivity(Model* model)
 : model_(model) {
 
   parameters_.Bind<string>(PARAM_LABEL, &label_, "The label for this selectivity", "");
   parameters_.Bind<string>(PARAM_TYPE, &type_, "The type of selectivity", "");
-  parameters_.Bind<bool>(PARAM_LENGTH_BASED, &length_based_, "Is the selectivity length based", "", false);
-  parameters_.Bind<unsigned>(PARAM_INTERVALS, &n_quant_, "Number of quantiles to evaluate a length based selectivity over the age length distribution", "", 5);
-  parameters_.Bind<string>(PARAM_PARTITION_TYPE, &partition_type_label_, "The type of partition this selectivity will support. Defaults to same as the model", "", PARAM_MODEL)
+  parameters_.Bind<bool>(PARAM_LENGTH_BASED, &length_based_, "Is the selectivity length based?", "", false);
+  parameters_.Bind<unsigned>(PARAM_INTERVALS, &n_quant_, "The number of quantiles to evaluate a length-based selectivity over the age-length distribution", "", 5);
+  parameters_.Bind<string>(PARAM_PARTITION_TYPE, &partition_type_label_, "The type of partition that this selectivity will support. Defaults to the same as the model", "", PARAM_MODEL)
       ->set_allowed_values({PARAM_MODEL, PARAM_AGE, PARAM_LENGTH, PARAM_HYBRID});
 
   RegisterAsAddressable(PARAM_VALUES, &values_, addressable::kLookup);
@@ -115,7 +115,6 @@ Double Selectivity::GetAgeResult(unsigned age, AgeLength* age_length) {
 Double Selectivity::GetLengthResult(unsigned length_bin_index) {
   return length_values_[length_bin_index];
 }
-
 
 /**
  * This method returns a pointer to a 4D vector object

@@ -59,7 +59,7 @@ void Logistic::DoValidate() {
  * phase in the model.
  *
  * This method will rebuild the cache of selectivity values
- * for each age in the model.
+ * for each age or length in the model.
  */
 void Logistic::RebuildCache() {
   if (model_->partition_type() == PartitionType::kAge) {

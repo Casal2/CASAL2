@@ -41,7 +41,8 @@ void Constant::RebuildCache() {
  * Return the constant result regardless of the
  * age or length specified
  *
- * @param age_or_length unsused in this selectivity
+ * @param age (unused in this selectivity)
+ * @param age_or_length AgeLength pointer (unused in this selectivity)
  * @return the constant value
  */
 Double Constant::GetAgeResult(unsigned age, AgeLength* age_length) {

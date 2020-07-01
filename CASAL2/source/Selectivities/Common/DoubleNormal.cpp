@@ -63,12 +63,13 @@ void DoubleNormal::DoValidate() {
  * phase in the model.
  *
  * This method will rebuild the cache of selectivity values
- * for each age in the model.
+ * for each age or length in the model.
  */
 void DoubleNormal::RebuildCache() {
   if (model_->partition_type() == PartitionType::kAge) {
+    Double temp = 0.0;
     for (unsigned age = model_->min_age(); age <= model_->max_age(); ++age) {
-      Double temp = (Double)age;
+      temp = age;
       if (temp < mu_)
         values_[age - age_index_] = pow(2.0, -((temp - mu_) / sigma_l_ * (temp - mu_) / sigma_l_)) * alpha_;
       else
@@ -76,8 +77,9 @@ void DoubleNormal::RebuildCache() {
     }
   } else if (model_->partition_type() == PartitionType::kLength) {
     vector<double> length_bins = model_->length_bins();
+    Double temp = 0.0;
     for (unsigned length_bin_index = 0; length_bin_index < length_bins.size(); ++length_bin_index) {
-      Double temp = (Double)length_bins[length_bin_index];
+      temp = length_bins[length_bin_index];
 
       if (temp < mu_)
         length_values_[length_bin_index] = pow(2.0, -((temp - mu_) / sigma_l_ * (temp - mu_) / sigma_l_)) * alpha_;
@@ -92,6 +94,8 @@ void DoubleNormal::RebuildCache() {
  *
  * @param age
  * @param age_length AgeLength pointer
+ * @param year
+ * @param time_step_index
  * @return Double selectivity for an age based on age length distribution_label
  */
 Double DoubleNormal::GetLengthBasedResult(unsigned age, AgeLength* age_length, unsigned year, int time_step_index) {

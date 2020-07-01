@@ -92,7 +92,7 @@ void Increasing::DoValidate() {
  * phase in the model.
  *
  * This method will rebuild the cache of selectivity values
- * for each age in the model.
+ * for each age or length in the model.
  */
 void Increasing::RebuildCache() {
   if (model_->partition_type() == PartitionType::kAge) {
@@ -154,6 +154,8 @@ void Increasing::RebuildCache() {
  *
  * @param age
  * @param age_length AgeLength pointer
+ * @param year
+ * @param time_step_index
  * @return Double selectivity for an age based on age length distribution
  */
 Double Increasing::GetLengthBasedResult(unsigned age, AgeLength* age_length, unsigned year, int time_step_index) {

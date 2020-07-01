@@ -64,7 +64,7 @@ void LogisticProducing::DoValidate() {
  * phase in the model.
  *
  * This method will rebuild the cache of selectivity values
- * for each age in the model.
+ * for each age or length in the model.
  */
 void LogisticProducing::RebuildCache() {
   if (model_->partition_type() == PartitionType::kAge) {
@@ -120,6 +120,8 @@ void LogisticProducing::RebuildCache() {
  *
  * @param age
  * @param age_length AgeLength pointer
+ * @param year
+ * @param time_step_index
  * @return Double selectivity for an age based on age length distribution
  */
 Double LogisticProducing::GetLengthBasedResult(unsigned age, AgeLength* age_length, unsigned year, int time_step_index) {

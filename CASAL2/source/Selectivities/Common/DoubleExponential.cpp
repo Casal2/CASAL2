@@ -76,26 +76,30 @@ void DoubleExponential::DoValidate() {
  * phase in the model.
  *
  * This method will rebuild the cache of selectivity values
- * for each age in the model.
+ * for each age or length in the model.
  */
 void DoubleExponential::RebuildCache() {
   if (model_->partition_type() == PartitionType::kAge) {
+    Double temp = 0.0;
     for (unsigned age = model_->min_age(); age <= model_->max_age(); ++age) {
-      if ((Double)age <= x0_) {
-        values_[age - age_index_] = alpha_ * y0_ * pow((y1_ / y0_), ((Double)age - x0_)/(x1_ - x0_));
-      } else if ((Double)age > x0_ && (Double)age <= x2_) {
-        values_[age - age_index_] = alpha_ * y0_ * pow((y2_ / y0_), ((Double)age - x0_)/(x2_ - x0_));
+      temp = age;
+      if (temp <= x0_) {
+        values_[age - age_index_] = alpha_ * y0_ * pow((y1_ / y0_), (temp - x0_)/(x1_ - x0_));
+      } else if (temp > x0_ && temp <= x2_) {
+        values_[age - age_index_] = alpha_ * y0_ * pow((y2_ / y0_), (temp - x0_)/(x2_ - x0_));
       } else {
         values_[age - age_index_] = y2_;
       }
     }
   } else if (model_->partition_type() == PartitionType::kLength) {
     vector<double> length_bins = model_->length_bins();
+    Double temp = 0.0;
     for (unsigned length_bin_index = 0; length_bin_index < length_bins.size(); ++length_bin_index) {
-      if (length_bins[length_bin_index] <= x0_) {
-        length_values_[length_bin_index] = alpha_ * y0_ * pow((y1_ / y0_), (length_bins[length_bin_index] - x0_)/(x1_ - x0_));
-      } else if (length_bins[length_bin_index] > x0_ && length_bins[length_bin_index] <= x2_) {
-        length_values_[length_bin_index] = alpha_ * y0_ * pow((y2_ / y0_), (length_bins[length_bin_index] - x0_)/(x2_ - x0_));
+      temp = length_bins[length_bin_index];
+      if (temp <= x0_) {
+        length_values_[length_bin_index] = alpha_ * y0_ * pow((y1_ / y0_), (temp - x0_)/(x1_ - x0_));
+      } else if (temp > x0_ && temp <= x2_) {
+        length_values_[length_bin_index] = alpha_ * y0_ * pow((y2_ / y0_), (temp - x0_)/(x2_ - x0_));
       } else {
         length_values_[length_bin_index] = y2_;
       }
@@ -108,6 +112,8 @@ void DoubleExponential::RebuildCache() {
  *
  * @param age
  * @param age_length AgeLength pointer
+ * @param year
+ * @param time_step_index
  * @return Double selectivity for an age based on age length distribution_label
  */
 Double DoubleExponential::GetLengthBasedResult(unsigned age, AgeLength* age_length, unsigned year, int time_step_index) {
@@ -121,10 +127,10 @@ Double DoubleExponential::GetLengthBasedResult(unsigned age, AgeLength* age_leng
   if (dist == PARAM_NONE || n_quant_ <= 1) {
     // no distribution_label just use the mu from age_length
     Double val;
-    if ((Double)mean <= x0_)
-      val = alpha_ * y0_ * pow((y1_ / y0_), ((Double)mean - x0_)/(x1_ - x0_));
+    if (mean <= x0_)
+      val = alpha_ * y0_ * pow((y1_ / y0_), (mean - x0_)/(x1_ - x0_));
     else
-      val = alpha_ * y0_ * pow((y2_ / y0_), ((Double)mean - x0_)/(x2_ - x0_));
+      val = alpha_ * y0_ * pow((y2_ / y0_), (mean - x0_)/(x2_ - x0_));
     return val;
 
   } else if (dist == PARAM_NORMAL) {
@@ -136,10 +142,10 @@ Double DoubleExponential::GetLengthBasedResult(unsigned age, AgeLength* age_leng
     for (unsigned j = 0; j < n_quant_; ++j) {
       size = mean + sigma * quantiles_at_[j];
 
-      if ((Double)size <= x0_)
-        total += alpha_ * y0_ * pow((y1_ / y0_), ((Double)size - x0_)/(x1_ - x0_));
+      if (size <= x0_)
+        total += alpha_ * y0_ * pow((y1_ / y0_), (size - x0_)/(x1_ - x0_));
       else
-        total += alpha_ * y0_ * pow((y2_ / y0_), ((Double)size - x0_)/(x2_ - x0_));
+        total += alpha_ * y0_ * pow((y2_ / y0_), (size - x0_)/(x2_ - x0_));
     }
     return total / n_quant_;
 
@@ -154,10 +160,10 @@ Double DoubleExponential::GetLengthBasedResult(unsigned age, AgeLength* age_leng
     for (unsigned j = 0; j < n_quant_; ++j) {
       size = mu + sigma * quantile(dist, AS_VALUE(quantiles_[j]));
 
-      if ((Double)size <= x0_)
-        total += alpha_ * y0_ * pow((y1_ / y0_), ((Double)size - x0_)/(x1_ - x0_));
+      if (size <= x0_)
+        total += alpha_ * y0_ * pow((y1_ / y0_), (size - x0_)/(x1_ - x0_));
       else
-        total += alpha_ * y0_ * pow((y2_ / y0_), ((Double)size - x0_)/(x2_ - x0_));
+        total += alpha_ * y0_ * pow((y2_ / y0_), (size - x0_)/(x2_ - x0_));
     }
     return total / n_quant_;
   }
