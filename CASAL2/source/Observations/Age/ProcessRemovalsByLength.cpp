@@ -391,7 +391,16 @@ void ProcessRemovalsByLength::Execute() {
         for (unsigned j = 0; j < number_bins_; ++j) {
           // use the subset of age_length_proportions for the length bins associated with the model length bins
           age_length_matrix[data_offset][j] = number_at_age * age_length_proportions[data_offset][mlb_index_first_ + j]; // added length bin offset to get correct length bin
-          LOG_FINEST() << "The proportion in length bin: " << length_bins_[j] << " = " << age_length_matrix[data_offset][j];
+          LOG_FINEST() << "The proportion in length bin " << length_bins_[j] << " = " << age_length_matrix[data_offset][j];
+        }
+
+        // include the larger lengths if specified and they exist
+        unsigned last_obs_bin = mlb_index_first_ + number_bins_ - 1;
+        if (length_plus_ && age_length_proportions[0].size() > last_obs_bin) {
+          for (unsigned j = (last_obs_bin + 1); j < age_length_proportions[0].size(); ++j) {
+            age_length_matrix[data_offset][(number_bins_ - 1)] += number_at_age * age_length_proportions[data_offset][j];
+            LOG_FINEST() << "The proportion of " << number_at_age << " added to length bin " << length_bins_[(number_bins_ - 1)] << " = " << age_length_proportions[data_offset][j];
+          }
         }
       }
 
