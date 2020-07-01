@@ -39,7 +39,7 @@ ProportionsAtLength::ProportionsAtLength(Model* model) : Observation(model) {
   parameters_.Bind<string>(PARAM_SELECTIVITIES, &selectivity_labels_, "The labels of the selectivities", "", true);
   parameters_.Bind<Double>(PARAM_PROCESS_ERRORS, &process_error_values_, "The process error", "", true);
   parameters_.Bind<double>(PARAM_LENGTH_BINS, &length_bins_, "The length bins", "", true); // optional
-  parameters_.Bind<bool>(PARAM_LENGTH_PLUS, &length_plus_, "Is the last length bin a plus group?", "", model->length_plus()); // default to the model value
+  parameters_.Bind<bool>(PARAM_LENGTH_PLUS, &length_plus_, "Is the last length bin a plus group? (defaults to @model value)", "", model->length_plus()); // default to the model value
   parameters_.BindTable(PARAM_OBS, obs_table_, "The table of observed values", "", false);
   parameters_.BindTable(PARAM_ERROR_VALUES, error_values_table_, "The table of error values of the observed values (note that the units depend on the likelihood)", "", false);
 
@@ -106,7 +106,7 @@ void ProportionsAtLength::DoValidate() {
 
   if (length_bins_.size() == 0) {
     length_bins_     = model_->length_bins();
-    length_plus_     = model_->length_plus();
+    // length_plus_     = model_->length_plus();
     mlb_index_first_ = 0;
   } else {
     // allow for the use of observation-defined length bins, as long as all values are in the set of model length bin values
@@ -117,7 +117,7 @@ void ProportionsAtLength::DoValidate() {
 
       if (length > 0 && length_bins_[length - 1] >= length_bins_[length])
         LOG_ERROR_P(PARAM_LENGTH_BINS) << ": Observation length bins must be strictly increasing. " << length_bins_[length - 1]
-          << " is greater than " << length_bins_[length];
+          << " is greater than or equal to " << length_bins_[length];
 
       if (std::find(model_length_bins.begin(), model_length_bins.end(), length_bins_[length]) == model_length_bins.end())
         LOG_ERROR_P(PARAM_LENGTH_BINS) << ": Observation length bin values must be in the set of model length bins. Length '"

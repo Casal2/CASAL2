@@ -48,7 +48,7 @@ ProcessRemovalsByLength::ProcessRemovalsByLength(Model* model) :
   parameters_.Bind<Double>(PARAM_PROCESS_ERRORS, &process_error_values_, "The process error", "", true);
   parameters_.Bind<string>(PARAM_METHOD_OF_REMOVAL, &method_, "The label of observed method of removals", "", "");
   parameters_.Bind<double>(PARAM_LENGTH_BINS, &length_bins_, "The length bins", "");
-  parameters_.Bind<bool>(PARAM_LENGTH_PLUS, &length_plus_, "Is the last length bin a plus group?", "", model->length_plus()); // default to the model value
+  parameters_.Bind<bool>(PARAM_LENGTH_PLUS, &length_plus_, "Is the last length bin a plus group? (defaults to @model value)", "", model->length_plus()); // default to the model value
   parameters_.BindTable(PARAM_OBS, obs_table_, "Table of observed values", "", false);
   parameters_.BindTable(PARAM_ERROR_VALUES, error_values_table_, "The table of error values of the observed values (note that the units depend on the likelihood)", "", false);
   parameters_.Bind<string>(PARAM_MORTALITY_INSTANTANEOUS_PROCESS, &process_label_, "The label of the mortality instantaneous process for the observation", "");
@@ -74,11 +74,7 @@ ProcessRemovalsByLength::~ProcessRemovalsByLength() {
  */
 void ProcessRemovalsByLength::DoValidate() {
   // How many elements are expected in our observed table;
-  if (length_plus_) {
-    number_bins_ = length_bins_.size();
-  } else {
-    number_bins_ = length_bins_.size() - 1;
-  }
+  number_bins_ = length_plus_ ? length_bins_.size() : length_bins_.size() - 1;
 
   for (auto year : years_) {
     if ((year < model_->start_year()) || (year > model_->final_year()))

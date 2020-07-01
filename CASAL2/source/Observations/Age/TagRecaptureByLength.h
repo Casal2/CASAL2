@@ -56,7 +56,7 @@ protected:
   map<unsigned, Double>         process_errors_by_year_;
   vector<double>                length_bins_input_;
   vector<double>                length_bins_;
-  bool                          length_plus_;
+  bool                          length_plus_ = false;
   string                        ageing_error_label_;
   parameters::Table*            recaptures_table_ = nullptr;
   parameters::Table*            scanned_table_ = nullptr;

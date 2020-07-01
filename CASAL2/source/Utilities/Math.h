@@ -163,7 +163,7 @@ inline Double plognorm2(const Double& x, const Double& mu, const Double& sigma) 
 /**
  * distribution: uses the normal CDF functions from CASAL
  */
-inline vector<Double> distribution(const vector<double>& class_mins, bool plus_group = 0,
+inline vector<Double> distribution(const vector<double>& class_mins, bool plus_group = false,
                                    const Distribution& dist = Distribution::kNormal,
                                    const Double& mean = 0.0, const Double& stdev = 1.0) {
   int n_bins = class_mins.size() - (plus_group ? 0 : 1);
@@ -231,7 +231,7 @@ inline vector<Double> distribution(const vector<double>& class_mins, bool plus_g
 /**
  * distribution2: uses the updated/more accurate normal CDF functions
  */
-inline vector<Double> distribution2(const vector<double>& class_mins, bool plus_group = 0,
+inline vector<Double> distribution2(const vector<double>& class_mins, bool plus_group = false,
                                    const Distribution& dist = Distribution::kNormal,
                                    const Double& mean = 0.0, const Double& stdev = 1.0) {
   int n_bins = class_mins.size() - (plus_group ? 0 : 1);
