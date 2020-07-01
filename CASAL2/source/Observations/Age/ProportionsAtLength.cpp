@@ -338,7 +338,6 @@ void ProportionsAtLength::Execute() {
         // now for each column (length bin) in age_length_matrix sum up all the rows (ages) for both cached and current matricies
         start_value = (*cached_category_iter).length_data_[mlb_index_first_ + length_offset];
         end_value   = (*category_iter)->length_data_[mlb_index_first_ + length_offset];
-        final_value = 0.0;
 
         if (mean_proportion_method_)
           final_value = start_value + ((end_value - start_value) * proportion_of_time_);
@@ -354,7 +353,29 @@ void ProportionsAtLength::Execute() {
         LOG_FINE() << "expected_value becomes: " << expected_values[length_offset];
       }
 
-      // TODO: length_plus functionality to add the values for the larger lengths to expected_values[(number_bins_ - 1)]
+      // add the values for the larger lengths to expected_values[(number_bins_ - 1)]
+      unsigned last_obs_bin = mlb_index_first_ + number_bins_ - 1;
+      if (length_plus_ &&
+          (*cached_category_iter).length_data_.size() > last_obs_bin &&
+          (*category_iter)->length_data_.size() > last_obs_bin) {
+        for (unsigned length_idx = (last_obs_bin + 1); length_idx < (*cached_category_iter).length_data_.size(); ++length_idx) {
+          start_value = (*cached_category_iter).length_data_[length_idx];
+          end_value   = (*category_iter)->length_data_[length_idx];
+
+          if (mean_proportion_method_)
+            final_value = start_value + ((end_value - start_value) * proportion_of_time_);
+          else
+            final_value = (1 - proportion_of_time_) * start_value + proportion_of_time_ * end_value;
+
+          expected_values[(number_bins_ - 1)] += final_value;
+
+          LOG_FINE() << "----------";
+          LOG_FINE() << "Category: " << (*category_iter)->name_ << " at length (length_plus) " << length_bins_[(number_bins_ - 1)];
+          LOG_FINE() << "Selectivity: " << selectivities_[category_offset]->label();
+          LOG_FINE() << "start_value: " << start_value << "; end_value: " << end_value << "; final_value: " << final_value;
+          LOG_FINE() << "expected_value (length_plus) becomes: " << expected_values[(number_bins_ - 1)];
+        }
+      }
     }
 
     if (expected_values.size() != proportions_[model_->current_year()][category_labels_[category_offset]].size())
