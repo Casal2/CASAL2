@@ -1,209 +1,1003 @@
 Casal2
-Call: ../../../../../BuildSystem/bin/linux/release_betadiff/casal2 -e -o params_est.out
-Date: Mon May 11 13:53:07 2020
-Version: 2020-05-08 05:01:48 UTC (rev. 96f97b0)
+Call: ../../../../../BuildSystem/bin/linux/release_betadiff/casal2 -e -o params_est.out 
+Date: Thu Jul  2 17:09:32 2020
+Version: 2020-07-01 22:32:59 UTC (rev. 86a59e6)
 Copyright (c) 2020 - 2020, NIWA (www.niwa.co.nz)
 -- Username: niwauser
--- Machine: niwa-computer (Linux 5.6.0-1-amd64 x86_64)
--- Process Id: 82847
+-- Machine: niwa-computer (Linux 5.7.0-1-amd64 x86_64)
+-- Process Id: 92033
 
-[WARNING] /home/niwauser/casal2-development/CASAL2/source/Estimates/Manager.cpp(line: 95): Estimates were removed because of matching lower and upper bounds. Originally had 32 estimates, now have 5
 resizing from 40000 to 44000
 resizing from 44000 to 48400
-about to evaluate function with x = 29400
-finished objective call: f = 213.771
-about to evaluate gradient with x = 29400
-transformed = -0.385253
-finished gradient call: status = 0 g = 141.292
-about to do fmin call with x = 29400  f = 213.771 g = 141.292
-Convergence check: current value is 0.66095 and threshold is 1e-06
+resizing from 48400 to 53240
+resizing from 53240 to 58564
+resizing from 58564 to 64420
+resizing from 64420 to 70862
+resizing from 70862 to 77948
+resizing from 77948 to 85742
+resizing from 85742 to 94316
+resizing from 94316 to 103747
+resizing from 103747 to 114121
+resizing from 114121 to 125533
+resizing from 125533 to 138086
+resizing from 138086 to 151894
+resizing from 151894 to 167083
+resizing from 167083 to 183791
+resizing from 183791 to 202170
+resizing from 202170 to 222387
+resizing from 222387 to 244625
+resizing from 244625 to 269087
+resizing from 269087 to 295995
+resizing from 295995 to 325594
+resizing from 325594 to 358153
+resizing from 358153 to 393968
+resizing from 393968 to 433364
+resizing from 433364 to 476700
+resizing from 476700 to 524370
+resizing from 524370 to 576807
+resizing from 576807 to 634487
+resizing from 634487 to 697935
+resizing from 697935 to 767728
+resizing from 767728 to 844500
+about to evaluate function with x = 50000 
+finished objective call: f = 158.413
+about to evaluate gradient with x = 50000 
+transformed = -0.0708819 
+finished gradient call: status = 0 g = 60.3526 
+about to do fmin call with x = 50000  f = 158.413 g = 60.3526 
+Convergence check: current value is 0.380983 and threshold is 1e-06
 done fmin call
 ireturn = 0
-about to evaluate function with x = 10118.5
-finished objective call: f = 909.12
-about to do fmin call with x = 10118.5  f = 909.12 g = 141.292
-done fmin call
-ireturn = 0
-about to evaluate function with x = 25702.4
-finished objective call: f = 207.57
-about to do fmin call with x = 25702.4  f = 207.57 g = 141.292
+about to evaluate function with x = 25674.7 
+finished objective call: f = 115.788
+about to do fmin call with x = 25674.7  f = 115.788 g = 60.3526 
 done fmin call
 ireturn = 1
-about to evaluate gradient with x = 25702.4
-transformed = -0.451348
-finished gradient call: status = 0 g = -14.9665
-about to do fmin call with x = 25702.4  f = 207.57 g = -14.9665
-Convergence check: current value is 0.0721033 and threshold is 1e-06
+about to evaluate gradient with x = 25674.7 
+transformed = -0.451865 
+finished gradient call: status = 0 g = 77.2985 
+about to do fmin call with x = 25674.7  f = 115.788 g = 77.2985 
+Convergence check: current value is 0.667584 and threshold is 1e-06
 done fmin call
 ireturn = 0
-about to evaluate function with x = 26043.5
-finished objective call: f = 207.597
-about to do fmin call with x = 26043.5  f = 207.597 g = -14.9665
+about to evaluate function with x = 10200.9 
+finished objective call: f = 3.19015e+08
+about to do fmin call with x = 10200.9  f = 3.19015e+08 g = 77.2985 
 done fmin call
 ireturn = 0
-about to evaluate function with x = 25835.6
-finished objective call: f = 207.553
-about to do fmin call with x = 25835.6  f = 207.553 g = -14.9665
+about to evaluate function with x = 23147.2 
+finished objective call: f = 1.53198e+07
+about to do fmin call with x = 23147.2  f = 1.53198e+07 g = 77.2985 
+done fmin call
+ireturn = 0
+about to evaluate function with x = 25414 
+finished objective call: f = 2116.9
+about to do fmin call with x = 25414  f = 2116.9 g = 77.2985 
+done fmin call
+ireturn = 0
+about to evaluate function with x = 25521.4 
+finished objective call: f = 115.585
+about to do fmin call with x = 25521.4  f = 115.585 g = 77.2985 
 done fmin call
 ireturn = 1
-about to evaluate gradient with x = 25835.6
-transformed = -0.44887
-finished gradient call: status = 0 g = 0.488893
-about to do fmin call with x = 25835.6  f = 207.553 g = 0.488893
-Convergence check: current value is 0.00235551 and threshold is 1e-06
+about to evaluate gradient with x = 25521.4 
+transformed = -0.45473 
+finished gradient call: status = 0 g = 64.2912 
+about to do fmin call with x = 25521.4  f = 115.585 g = 64.2912 
+Convergence check: current value is 0.556224 and threshold is 1e-06
 done fmin call
 ireturn = 0
-about to evaluate function with x = 25831.4
-finished objective call: f = 207.553
-about to do fmin call with x = 25831.4  f = 207.553 g = 0.488893
-done fmin call
-ireturn = 1
-about to evaluate gradient with x = 25831.4
-transformed = -0.448948
-finished gradient call: status = 0 g = 0.0222076
-about to do fmin call with x = 25831.4  f = 207.553 g = 0.0222076
-Convergence check: current value is 0.000106998 and threshold is 1e-06
+about to evaluate function with x = 24772.3 
+finished objective call: f = 1.42915e+06
+about to do fmin call with x = 24772.3  f = 1.42915e+06 g = 64.2912 
 done fmin call
 ireturn = 0
-about to evaluate function with x = 25831.2
-finished objective call: f = 207.553
-about to do fmin call with x = 25831.2  f = 207.553 g = 0.0222076
+about to evaluate function with x = 25445.8 
+finished objective call: f = 115.499
+about to do fmin call with x = 25445.8  f = 115.499 g = 64.2912 
 done fmin call
 ireturn = 1
-about to evaluate gradient with x = 25831.2
-transformed = -0.448952
-finished gradient call: status = 0 g = -3.49914e-05
-about to do fmin call with x = 25831.2  f = 207.553 g = -3.49914e-05
-Convergence check: current value is 1.68591e-07 and threshold is 1e-06
-fmm: have converged: t = 1.68591e-07 f = 207.553
-x = -0.448952
-g = -3.49914e-05
+about to evaluate gradient with x = 25445.8 
+transformed = -0.456146 
+finished gradient call: status = 0 g = 57.2309 
+about to do fmin call with x = 25445.8  f = 115.499 g = 57.2309 
+Convergence check: current value is 0.49551 and threshold is 1e-06
+done fmin call
+ireturn = 0
+about to evaluate function with x = 24838.7 
+finished objective call: f = 1.16494e+06
+about to do fmin call with x = 24838.7  f = 1.16494e+06 g = 57.2309 
+done fmin call
+ireturn = 0
+about to evaluate function with x = 25384.7 
+finished objective call: f = 9813.58
+about to do fmin call with x = 25384.7  f = 9813.58 g = 57.2309 
+done fmin call
+ireturn = 0
+about to evaluate function with x = 25439.7 
+finished objective call: f = 115.492
+about to do fmin call with x = 25439.7  f = 115.492 g = 57.2309 
+done fmin call
+ireturn = 1
+about to evaluate gradient with x = 25439.7 
+transformed = -0.456261 
+finished gradient call: status = 0 g = 56.6391 
+about to do fmin call with x = 25439.7  f = 115.492 g = 56.6391 
+Convergence check: current value is 0.490414 and threshold is 1e-06
+done fmin call
+ireturn = 0
+about to evaluate function with x = 24858.5 
+finished objective call: f = 1.09089e+06
+about to do fmin call with x = 24858.5  f = 1.09089e+06 g = 56.6391 
+done fmin call
+ireturn = 0
+about to evaluate function with x = 25381.2 
+finished objective call: f = 11112.5
+about to do fmin call with x = 25381.2  f = 11112.5 g = 56.6391 
+done fmin call
+ireturn = 0
+about to evaluate function with x = 25433.9 
+finished objective call: f = 183.394
+about to do fmin call with x = 25433.9  f = 183.394 g = 56.6391 
+done fmin call
+ireturn = 0
+about to evaluate function with x = 25439.1 
+finished objective call: f = 115.492
+about to do fmin call with x = 25439.1  f = 115.492 g = 56.6391 
+done fmin call
+ireturn = 1
+about to evaluate gradient with x = 25439.1 
+transformed = -0.456272 
+finished gradient call: status = 0 g = 56.5823 
+about to do fmin call with x = 25439.1  f = 115.492 g = 56.5823 
+Convergence check: current value is 0.489925 and threshold is 1e-06
+done fmin call
+ireturn = 0
+about to evaluate function with x = 24860.1 
+finished objective call: f = 1.08505e+06
+about to do fmin call with x = 24860.1  f = 1.08505e+06 g = 56.5823 
+done fmin call
+ireturn = 0
+about to evaluate function with x = 25380.8 
+finished objective call: f = 11253.1
+about to do fmin call with x = 25380.8  f = 11253.1 g = 56.5823 
+done fmin call
+ireturn = 0
+about to evaluate function with x = 25433.3 
+finished objective call: f = 201.534
+about to do fmin call with x = 25433.3  f = 201.534 g = 56.5823 
+done fmin call
+ireturn = 0
+about to evaluate function with x = 25438.5 
+finished objective call: f = 115.491
+about to do fmin call with x = 25438.5  f = 115.491 g = 56.5823 
+done fmin call
+ireturn = 1
+about to evaluate gradient with x = 25438.5 
+transformed = -0.456283 
+finished gradient call: status = 0 g = 56.5257 
+about to do fmin call with x = 25438.5  f = 115.491 g = 56.5257 
+Convergence check: current value is 0.489437 and threshold is 1e-06
+done fmin call
+ireturn = 0
+about to evaluate function with x = 24860.4 
+finished objective call: f = 1.08404e+06
+about to do fmin call with x = 24860.4  f = 1.08404e+06 g = 56.5257 
+done fmin call
+ireturn = 0
+about to evaluate function with x = 25380.3 
+finished objective call: f = 11445.8
+about to do fmin call with x = 25380.3  f = 11445.8 g = 56.5257 
+done fmin call
+ireturn = 0
+about to evaluate function with x = 25432.7 
+finished objective call: f = 222.242
+about to do fmin call with x = 25432.7  f = 222.242 g = 56.5257 
+done fmin call
+ireturn = 0
+about to evaluate function with x = 25438 
+finished objective call: f = 115.976
+about to do fmin call with x = 25438  f = 115.976 g = 56.5257 
+done fmin call
+ireturn = 0
+about to evaluate function with x = 25438.5 
+finished objective call: f = 115.491
+about to do fmin call with x = 25438.5  f = 115.491 g = 56.5257 
+done fmin call
+ireturn = 1
+about to evaluate gradient with x = 25438.5 
+transformed = -0.456284 
+finished gradient call: status = 0 g = 56.52 
+about to do fmin call with x = 25438.5  f = 115.491 g = 56.52 
+Convergence check: current value is 0.489389 and threshold is 1e-06
+done fmin call
+ireturn = 0
+about to evaluate function with x = 24860.6 
+finished objective call: f = 1.08348e+06
+about to do fmin call with x = 24860.6  f = 1.08348e+06 g = 56.52 
+done fmin call
+ireturn = 0
+about to evaluate function with x = 25380.3 
+finished objective call: f = 11460.2
+about to do fmin call with x = 25380.3  f = 11460.2 g = 56.52 
+done fmin call
+ireturn = 0
+about to evaluate function with x = 25432.7 
+finished objective call: f = 224.384
+about to do fmin call with x = 25432.7  f = 224.384 g = 56.52 
+done fmin call
+ireturn = 0
+about to evaluate function with x = 25437.9 
+finished objective call: f = 116.136
+about to do fmin call with x = 25437.9  f = 116.136 g = 56.52 
+done fmin call
+ireturn = 0
+about to evaluate function with x = 25438.4 
+finished objective call: f = 115.491
+about to do fmin call with x = 25438.4  f = 115.491 g = 56.52 
+done fmin call
+ireturn = 1
+about to evaluate gradient with x = 25438.4 
+transformed = -0.456285 
+finished gradient call: status = 0 g = 56.5144 
+about to do fmin call with x = 25438.4  f = 115.491 g = 56.5144 
+Convergence check: current value is 0.48934 and threshold is 1e-06
+done fmin call
+ireturn = 0
+about to evaluate function with x = 24860.6 
+finished objective call: f = 1.08338e+06
+about to do fmin call with x = 24860.6  f = 1.08338e+06 g = 56.5144 
+done fmin call
+ireturn = 0
+about to evaluate function with x = 25380.2 
+finished objective call: f = 11479.6
+about to do fmin call with x = 25380.2  f = 11479.6 g = 56.5144 
+done fmin call
+ireturn = 0
+about to evaluate function with x = 25432.6 
+finished objective call: f = 226.595
+about to do fmin call with x = 25432.6  f = 226.595 g = 56.5144 
+done fmin call
+ireturn = 0
+about to evaluate function with x = 25437.8 
+finished objective call: f = 116.319
+about to do fmin call with x = 25437.8  f = 116.319 g = 56.5144 
+done fmin call
+ireturn = 0
+about to evaluate function with x = 25438.4 
+finished objective call: f = 115.491
+about to do fmin call with x = 25438.4  f = 115.491 g = 56.5144 
+done fmin call
+ireturn = 1
+about to evaluate gradient with x = 25438.4 
+transformed = -0.456286 
+finished gradient call: status = 0 g = 56.5087 
+about to do fmin call with x = 25438.4  f = 115.491 g = 56.5087 
+Convergence check: current value is 0.489291 and threshold is 1e-06
+done fmin call
+ireturn = 0
+about to evaluate function with x = 24860.6 
+finished objective call: f = 1.08328e+06
+about to do fmin call with x = 24860.6  f = 1.08328e+06 g = 56.5087 
+done fmin call
+ireturn = 0
+about to evaluate function with x = 25380.2 
+finished objective call: f = 11498.9
+about to do fmin call with x = 25380.2  f = 11498.9 g = 56.5087 
+done fmin call
+ireturn = 0
+about to evaluate function with x = 25432.6 
+finished objective call: f = 228.828
+about to do fmin call with x = 25432.6  f = 228.828 g = 56.5087 
+done fmin call
+ireturn = 0
+about to evaluate function with x = 25437.8 
+finished objective call: f = 116.525
+about to do fmin call with x = 25437.8  f = 116.525 g = 56.5087 
+done fmin call
+ireturn = 0
+about to evaluate function with x = 25438.3 
+finished objective call: f = 115.494
+about to do fmin call with x = 25438.3  f = 115.494 g = 56.5087 
+done fmin call
+ireturn = 0
+about to evaluate function with x = 25438.4 
+finished objective call: f = 115.491
+about to do fmin call with x = 25438.4  f = 115.491 g = 56.5087 
+done fmin call
+ireturn = 1
+about to evaluate gradient with x = 25438.4 
+transformed = -0.456287 
+finished gradient call: status = 0 g = 56.5082 
+about to do fmin call with x = 25438.4  f = 115.491 g = 56.5082 
+Convergence check: current value is 0.489286 and threshold is 1e-06
+done fmin call
+ireturn = 0
+about to evaluate function with x = 24860.6 
+finished objective call: f = 1.08322e+06
+about to do fmin call with x = 24860.6  f = 1.08322e+06 g = 56.5082 
+done fmin call
+ireturn = 0
+about to evaluate function with x = 25380.2 
+finished objective call: f = 11500.4
+about to do fmin call with x = 25380.2  f = 11500.4 g = 56.5082 
+done fmin call
+ireturn = 0
+about to evaluate function with x = 25432.5 
+finished objective call: f = 229.048
+about to do fmin call with x = 25432.5  f = 229.048 g = 56.5082 
+done fmin call
+ireturn = 0
+about to evaluate function with x = 25437.8 
+finished objective call: f = 116.547
+about to do fmin call with x = 25437.8  f = 116.547 g = 56.5082 
+done fmin call
+ireturn = 0
+about to evaluate function with x = 25438.3 
+finished objective call: f = 115.495
+about to do fmin call with x = 25438.3  f = 115.495 g = 56.5082 
+done fmin call
+ireturn = 0
+about to evaluate function with x = 25438.4 
+finished objective call: f = 115.491
+about to do fmin call with x = 25438.4  f = 115.491 g = 56.5082 
+done fmin call
+ireturn = 1
+about to evaluate gradient with x = 25438.4 
+transformed = -0.456287 
+finished gradient call: status = 0 g = 56.5076 
+about to do fmin call with x = 25438.4  f = 115.491 g = 56.5076 
+Convergence check: current value is 0.489282 and threshold is 1e-06
+done fmin call
+ireturn = 0
+about to evaluate function with x = 24860.6 
+finished objective call: f = 1.08321e+06
+about to do fmin call with x = 24860.6  f = 1.08321e+06 g = 56.5076 
+done fmin call
+ireturn = 0
+about to evaluate function with x = 25380.2 
+finished objective call: f = 11502.3
+about to do fmin call with x = 25380.2  f = 11502.3 g = 56.5076 
+done fmin call
+ireturn = 0
+about to evaluate function with x = 25432.5 
+finished objective call: f = 229.272
+about to do fmin call with x = 25432.5  f = 229.272 g = 56.5076 
+done fmin call
+ireturn = 0
+about to evaluate function with x = 25437.8 
+finished objective call: f = 116.569
+about to do fmin call with x = 25437.8  f = 116.569 g = 56.5076 
+done fmin call
+ireturn = 0
+about to evaluate function with x = 25438.3 
+finished objective call: f = 115.497
+about to do fmin call with x = 25438.3  f = 115.497 g = 56.5076 
+done fmin call
+ireturn = 0
+about to evaluate function with x = 25438.4 
+finished objective call: f = 115.491
+about to do fmin call with x = 25438.4  f = 115.491 g = 56.5076 
+done fmin call
+ireturn = 1
+about to evaluate gradient with x = 25438.4 
+transformed = -0.456287 
+finished gradient call: status = 0 g = 56.507 
+about to do fmin call with x = 25438.4  f = 115.491 g = 56.507 
+Convergence check: current value is 0.489277 and threshold is 1e-06
+done fmin call
+ireturn = 0
+about to evaluate function with x = 24860.6 
+finished objective call: f = 1.0832e+06
+about to do fmin call with x = 24860.6  f = 1.0832e+06 g = 56.507 
+done fmin call
+ireturn = 0
+about to evaluate function with x = 25380.2 
+finished objective call: f = 11504.2
+about to do fmin call with x = 25380.2  f = 11504.2 g = 56.507 
+done fmin call
+ireturn = 0
+about to evaluate function with x = 25432.5 
+finished objective call: f = 229.497
+about to do fmin call with x = 25432.5  f = 229.497 g = 56.507 
+done fmin call
+ireturn = 0
+about to evaluate function with x = 25437.8 
+finished objective call: f = 116.591
+about to do fmin call with x = 25437.8  f = 116.591 g = 56.507 
+done fmin call
+ireturn = 0
+about to evaluate function with x = 25438.3 
+finished objective call: f = 115.498
+about to do fmin call with x = 25438.3  f = 115.498 g = 56.507 
+done fmin call
+ireturn = 0
+about to evaluate function with x = 25438.3 
+finished objective call: f = 115.491
+about to do fmin call with x = 25438.3  f = 115.491 g = 56.507 
+done fmin call
+ireturn = 1
+about to evaluate gradient with x = 25438.3 
+transformed = -0.456287 
+finished gradient call: status = 0 g = 56.5065 
+about to do fmin call with x = 25438.3  f = 115.491 g = 56.5065 
+Convergence check: current value is 0.489272 and threshold is 1e-06
+done fmin call
+ireturn = 0
+about to evaluate function with x = 24860.6 
+finished objective call: f = 1.08319e+06
+about to do fmin call with x = 24860.6  f = 1.08319e+06 g = 56.5065 
+done fmin call
+ireturn = 0
+about to evaluate function with x = 25380.2 
+finished objective call: f = 11506.2
+about to do fmin call with x = 25380.2  f = 11506.2 g = 56.5065 
+done fmin call
+ireturn = 0
+about to evaluate function with x = 25432.5 
+finished objective call: f = 229.722
+about to do fmin call with x = 25432.5  f = 229.722 g = 56.5065 
+done fmin call
+ireturn = 0
+about to evaluate function with x = 25437.8 
+finished objective call: f = 116.614
+about to do fmin call with x = 25437.8  f = 116.614 g = 56.5065 
+done fmin call
+ireturn = 0
+about to evaluate function with x = 25438.3 
+finished objective call: f = 115.5
+about to do fmin call with x = 25438.3  f = 115.5 g = 56.5065 
+done fmin call
+ireturn = 0
+about to evaluate function with x = 25438.3 
+finished objective call: f = 115.491
+about to do fmin call with x = 25438.3  f = 115.491 g = 56.5065 
+done fmin call
+ireturn = 1
+about to evaluate gradient with x = 25438.3 
+transformed = -0.456287 
+finished gradient call: status = 0 g = -51.0221 
+about to do fmin call with x = 25438.3  f = 115.491 g = -51.0221 
+Convergence check: current value is 0.441785 and threshold is 1e-06
+done fmin call
+ireturn = 0
+about to evaluate function with x = 25438.3 
+finished objective call: f = 115.491
+about to do fmin call with x = 25438.3  f = 115.491 g = -51.0221 
+done fmin call
+ireturn = 0
+about to evaluate function with x = 25438.3 
+finished objective call: f = 115.491
+about to do fmin call with x = 25438.3  f = 115.491 g = -51.0221 
+done fmin call
+ireturn = 0
+about to evaluate function with x = 25438.3 
+finished objective call: f = 115.491
+about to do fmin call with x = 25438.3  f = 115.491 g = -51.0221 
+done fmin call
+ireturn = 1
+about to evaluate gradient with x = 25438.3 
+transformed = -0.456287 
+finished gradient call: status = 0 g = 15.1333 
+about to do fmin call with x = 25438.3  f = 115.491 g = 15.1333 
+Convergence check: current value is 0.131034 and threshold is 1e-06
+done fmin call
+ireturn = 0
+about to evaluate function with x = 25438.3 
+finished objective call: f = 115.491
+about to do fmin call with x = 25438.3  f = 115.491 g = 15.1333 
+done fmin call
+ireturn = 1
+about to evaluate gradient with x = 25438.3 
+transformed = -0.456287 
+finished gradient call: status = 0 g = 1.11541e-06 
+about to do fmin call with x = 25438.3  f = 115.491 g = 1.11541e-06 
+Convergence check: current value is 9.65802e-09 and threshold is 1e-06
+fmm: have converged: t = 9.65802e-09 f = 115.491
+x = -0.456287 
+g = 1.11541e-06 
 done fmin call
 ireturn = -1
 finished main minimiser loop
 Successful convergence in optimise
-about to evaluate function with x = 25831.2 29.5 5
-finished objective call: f = 207.553
-about to evaluate gradient with x = 25831.2 29.5 5
-transformed = -0.448952 -0.225373 -0.393073
-finished gradient call: status = 0 g = -3.49914e-05 -1184.38 108.872
-about to do fmin call with x = 25831.2 29.5 5  f = 207.553 g = -3.49914e-05 -1184.38 108.872
-Convergence check: current value is 5.70642 and threshold is 1e-06
+about to evaluate function with x = 25438.3 29.5 5 
+finished objective call: f = 115.491
+about to evaluate gradient with x = 25438.3 29.5 5 
+transformed = -0.456287 -0.225373 -0.393073 
+finished gradient call: status = 0 g = 1.11541e-06 -66.6183 -5.20433 
+about to do fmin call with x = 25438.3 29.5 5  f = 115.491 g = 1.11541e-06 -66.6183 -5.20433 
+Convergence check: current value is 0.576827 and threshold is 1e-06
 done fmin call
 ireturn = 0
-about to evaluate function with x = 25831.2 69.7939 1.07942
-finished objective call: f = 2.01477e+06
-about to do fmin call with x = 25831.2 69.7939 1.07942  f = 2.01477e+06 g = -3.49914e-05 -1184.38 108.872
+about to evaluate function with x = 25438.3 62.1667 5.56161 
+finished objective call: f = 5.03833e+08
+about to do fmin call with x = 25438.3 62.1667 5.56161  f = 5.03833e+08 g = 1.11541e-06 -66.6183 -5.20433 
 done fmin call
 ireturn = 0
-about to evaluate function with x = 25831.2 61.8556 4.38114
-finished objective call: f = 6413.41
-about to do fmin call with x = 25831.2 61.8556 4.38114  f = 6413.41 g = -3.49914e-05 -1184.38 108.872
+about to evaluate function with x = 25438.3 32.7361 5.05497 
+finished objective call: f = 2.08884e+07
+about to do fmin call with x = 25438.3 32.7361 5.05497  f = 2.08884e+07 g = 1.11541e-06 -66.6183 -5.20433 
 done fmin call
 ireturn = 0
-about to evaluate function with x = 25831.2 32.7009 4.93636
-finished objective call: f = 172.325
-about to do fmin call with x = 25831.2 32.7009 4.93636  f = 172.325 g = -3.49914e-05 -1184.38 108.872
+about to evaluate function with x = 25438.3 29.8192 5.00548 
+finished objective call: f = 237402
+about to do fmin call with x = 25438.3 29.8192 5.00548  f = 237402 g = 1.11541e-06 -66.6183 -5.20433 
+done fmin call
+ireturn = 0
+about to evaluate function with x = 25438.3 29.5319 5.00055 
+finished objective call: f = 2537.74
+about to do fmin call with x = 25438.3 29.5319 5.00055  f = 2537.74 g = 1.11541e-06 -66.6183 -5.20433 
+done fmin call
+ireturn = 0
+about to evaluate function with x = 25438.3 29.5032 5.00005 
+finished objective call: f = 139.757
+about to do fmin call with x = 25438.3 29.5032 5.00005  f = 139.757 g = 1.11541e-06 -66.6183 -5.20433 
+done fmin call
+ireturn = 0
+about to evaluate function with x = 25438.3 29.5003 5.00001 
+finished objective call: f = 115.733
+about to do fmin call with x = 25438.3 29.5003 5.00001  f = 115.733 g = 1.11541e-06 -66.6183 -5.20433 
+done fmin call
+ireturn = 0
+about to evaluate function with x = 25438.3 29.5 5 
+finished objective call: f = 115.493
+about to do fmin call with x = 25438.3 29.5 5  f = 115.493 g = 1.11541e-06 -66.6183 -5.20433 
+done fmin call
+ireturn = 0
+about to evaluate function with x = 25438.3 29.5 5 
+finished objective call: f = 115.491
+about to do fmin call with x = 25438.3 29.5 5  f = 115.491 g = 1.11541e-06 -66.6183 -5.20433 
+done fmin call
+ireturn = 0
+about to evaluate function with x = 25438.3 29.5 5 
+finished objective call: f = 115.491
+about to do fmin call with x = 25438.3 29.5 5  f = 115.491 g = 1.11541e-06 -66.6183 -5.20433 
 done fmin call
 ireturn = 1
-about to evaluate gradient with x = 25831.2 32.7009 4.93636
-transformed = -0.448952 -0.168309 -0.398318
-finished gradient call: status = 0 g = 82.4429 219.516 20.6816
-about to do fmin call with x = 25831.2 32.7009 4.93636  f = 172.325 g = 82.4429 219.516 20.6816
-Convergence check: current value is 1.27385 and threshold is 1e-06
+about to evaluate gradient with x = 25438.3 29.5 5 
+transformed = -0.456287 -0.225373 -0.393073 
+finished gradient call: status = 0 g = -96.5431 18.2088 -13.6336 
+about to do fmin call with x = 25438.3 29.5 5  f = 115.491 g = -96.5431 18.2088 -13.6336 
+Convergence check: current value is 0.835937 and threshold is 1e-06
 done fmin call
 ireturn = 0
-about to evaluate function with x = 12543.2 32.7249 3.13389
-finished objective call: f = 399.33
-about to do fmin call with x = 12543.2 32.7249 3.13389  f = 399.33 g = 82.4429 219.516 20.6816
+about to evaluate function with x = 69535.1 70.9601 7.15876 
+finished objective call: f = 1.72429e+08
+about to do fmin call with x = 69535.1 70.9601 7.15876  f = 1.72429e+08 g = -96.5431 18.2088 -13.6336 
 done fmin call
 ireturn = 0
-about to evaluate function with x = 24064.2 32.7033 4.73682
-finished objective call: f = 174.33
-about to do fmin call with x = 24064.2 32.7033 4.73682  f = 174.33 g = 82.4429 219.516 20.6816
+about to evaluate function with x = 29141 33.8616 5.20169 
+finished objective call: f = 131881
+about to do fmin call with x = 29141 33.8616 5.20169  f = 131881 g = -96.5431 18.2088 -13.6336 
 done fmin call
 ireturn = 0
-about to evaluate function with x = 25301.7 32.7016 4.87715
-finished objective call: f = 172.216
-about to do fmin call with x = 25301.7 32.7016 4.87715  f = 172.216 g = 82.4429 219.516 20.6816
+about to evaluate function with x = 26047 30.2308 5.03408 
+finished objective call: f = 307.371
+about to do fmin call with x = 26047 30.2308 5.03408  f = 307.371 g = -96.5431 18.2088 -13.6336 
+done fmin call
+ireturn = 0
+about to evaluate function with x = 25738.4 29.8609 5.01685 
+finished objective call: f = 127.318
+about to do fmin call with x = 25738.4 29.8609 5.01685  f = 127.318 g = -96.5431 18.2088 -13.6336 
+done fmin call
+ireturn = 0
+about to evaluate function with x = 25569.3 29.6577 5.00737 
+finished objective call: f = 115.768
+about to do fmin call with x = 25569.3 29.6577 5.00737  f = 115.768 g = -96.5431 18.2088 -13.6336 
+done fmin call
+ireturn = 0
+about to evaluate function with x = 25508.3 29.5842 5.00394 
+finished objective call: f = 115.428
+about to do fmin call with x = 25508.3 29.5842 5.00394  f = 115.428 g = -96.5431 18.2088 -13.6336 
 done fmin call
 ireturn = 1
-about to evaluate gradient with x = 25301.7 32.7016 4.87715
-transformed = -0.458855 -0.168296 -0.403228
-finished gradient call: status = 0 g = -86.9721 258.425 6.36661
-about to do fmin call with x = 25301.7 32.7016 4.87715  f = 172.216 g = -86.9721 258.425 6.36661
-Convergence check: current value is 1.50059 and threshold is 1e-06
+about to evaluate gradient with x = 25508.3 29.5842 5.00394 
+transformed = -0.454976 -0.223849 -0.392749 
+finished gradient call: status = 0 g = -38224.7 33625.8 -3359.63 
+about to do fmin call with x = 25508.3 29.5842 5.00394  f = 115.428 g = -38224.7 33625.8 -3359.63 
+Convergence check: current value is 331.155 and threshold is 1e-06
 done fmin call
 ireturn = 0
-about to evaluate function with x = 26067.9 31.3588 3.00598
-finished objective call: f = 177.963
-about to do fmin call with x = 26067.9 31.3588 3.00598  f = 177.963 g = -86.9721 258.425 6.36661
-fmm: too many function evaluations
+about to evaluate function with x = 25923.4 30.8883 6.92584 
+finished objective call: f = 113.703
+about to do fmin call with x = 25923.4 30.8883 6.92584  f = 113.703 g = -38224.7 33625.8 -3359.63 
+done fmin call
+ireturn = 1
+about to evaluate gradient with x = 25923.4 30.8883 6.92584 
+transformed = -0.447242 -0.200421 -0.245558 
+finished gradient call: status = 0 g = 72.4326 -129.734 11.3288 
+about to do fmin call with x = 25923.4 30.8883 6.92584  f = 113.703 g = 72.4326 -129.734 11.3288 
+Convergence check: current value is 1.14099 and threshold is 1e-06
+done fmin call
+ireturn = 0
+about to evaluate function with x = 26288.1 31.8378 8.24248 
+finished objective call: f = 113.506
+about to do fmin call with x = 26288.1 31.8378 8.24248  f = 113.506 g = 72.4326 -129.734 11.3288 
+done fmin call
+ireturn = 1
+about to evaluate gradient with x = 26288.1 31.8378 8.24248 
+transformed = -0.44051 -0.183539 -0.152744 
+finished gradient call: status = 0 g = 84.8572 -143.807 23.0195 
+about to do fmin call with x = 26288.1 31.8378 8.24248  f = 113.506 g = 84.8572 -143.807 23.0195 
+Convergence check: current value is 1.26695 and threshold is 1e-06
+done fmin call
+ireturn = 0
+about to evaluate function with x = 26252.1 31.6413 7.84696 
+finished objective call: f = 113.366
+about to do fmin call with x = 26252.1 31.6413 7.84696  f = 113.366 g = 84.8572 -143.807 23.0195 
+done fmin call
+ireturn = 1
+about to evaluate gradient with x = 26252.1 31.6413 7.84696 
+transformed = -0.441174 -0.187022 -0.180183 
+finished gradient call: status = 0 g = 83.1805 -137.56 18.8449 
+about to do fmin call with x = 26252.1 31.6413 7.84696  f = 113.366 g = 83.1805 -137.56 18.8449 
+Convergence check: current value is 1.21341 and threshold is 1e-06
+done fmin call
+ireturn = 0
+about to evaluate function with x = 26367.1 31.6476 7.51907 
+finished objective call: f = 113.147
+about to do fmin call with x = 26367.1 31.6476 7.51907  f = 113.147 g = 83.1805 -137.56 18.8449 
+done fmin call
+ireturn = 1
+about to evaluate gradient with x = 26367.1 31.6476 7.51907 
+transformed = -0.439062 -0.186909 -0.203192 
+finished gradient call: status = 0 g = 85.1963 -128.302 14.3506 
+about to do fmin call with x = 26367.1 31.6476 7.51907  f = 113.147 g = 85.1963 -128.302 14.3506 
+Convergence check: current value is 1.13394 and threshold is 1e-06
+done fmin call
+ireturn = 0
+about to evaluate function with x = 26824 32.0882 7.28131 
+finished objective call: f = 112.774
+about to do fmin call with x = 26824 32.0882 7.28131  f = 112.774 g = 85.1963 -128.302 14.3506 
+done fmin call
+ireturn = 1
+about to evaluate gradient with x = 26824 32.0882 7.28131 
+transformed = -0.430727 -0.179109 -0.220048 
+finished gradient call: status = 0 g = 95.0123 -110.936 8.47839 
+about to do fmin call with x = 26824 32.0882 7.28131  f = 112.774 g = 95.0123 -110.936 8.47839 
+Convergence check: current value is 0.983702 and threshold is 1e-06
+done fmin call
+ireturn = 0
+about to evaluate function with x = 27338.4 32.7657 7.47861 
+finished objective call: f = 112.56
+about to do fmin call with x = 27338.4 32.7657 7.47861  f = 112.56 g = 95.0123 -110.936 8.47839 
+done fmin call
+ireturn = 1
+about to evaluate gradient with x = 27338.4 32.7657 7.47861 
+transformed = -0.421448 -0.167168 -0.20605 
+finished gradient call: status = 0 g = 106.982 -99.6075 6.71177 
+about to do fmin call with x = 27338.4 32.7657 7.47861  f = 112.56 g = 106.982 -99.6075 6.71177 
+Convergence check: current value is 0.950446 and threshold is 1e-06
+done fmin call
+ireturn = 0
+about to evaluate function with x = 27605.3 33.2153 7.83121 
+finished objective call: f = 112.492
+about to do fmin call with x = 27605.3 33.2153 7.83121  f = 112.492 g = 106.982 -99.6075 6.71177 
+done fmin call
+ireturn = 1
+about to evaluate gradient with x = 27605.3 33.2153 7.83121 
+transformed = -0.416674 -0.159279 -0.181283 
+finished gradient call: status = 0 g = 114.061 -98.5316 8.32628 
+about to do fmin call with x = 27605.3 33.2153 7.83121  f = 112.492 g = 114.061 -98.5316 8.32628 
+Convergence check: current value is 1.01395 and threshold is 1e-06
+done fmin call
+ireturn = 0
+about to evaluate function with x = 27644.3 33.3294 8.00562 
+finished objective call: f = 112.483
+about to do fmin call with x = 27644.3 33.3294 8.00562  f = 112.483 g = 114.061 -98.5316 8.32628 
+done fmin call
+ireturn = 1
+about to evaluate gradient with x = 27644.3 33.3294 8.00562 
+transformed = -0.415978 -0.15728 -0.169138 
+finished gradient call: status = 0 g = 115.55 -100.83 9.87411 
+about to do fmin call with x = 27644.3 33.3294 8.00562  f = 112.483 g = 115.55 -100.83 9.87411 
+Convergence check: current value is 1.02726 and threshold is 1e-06
+done fmin call
+ireturn = 0
+about to evaluate function with x = 27633.3 33.3209 8.01639 
+finished objective call: f = 112.483
+about to do fmin call with x = 27633.3 33.3209 8.01639  f = 112.483 g = 115.55 -100.83 9.87411 
+done fmin call
+ireturn = 1
+about to evaluate gradient with x = 27633.3 33.3209 8.01639 
+transformed = -0.416175 -0.15743 -0.16839 
+finished gradient call: status = 0 g = 115.36 -101.374 10.076 
+about to do fmin call with x = 27633.3 33.3209 8.01639  f = 112.483 g = 115.36 -101.374 10.076 
+Convergence check: current value is 1.02557 and threshold is 1e-06
+done fmin call
+ireturn = 0
+about to evaluate function with x = 27631 33.318 8.0157 
+finished objective call: f = 112.483
+about to do fmin call with x = 27631 33.318 8.0157  f = 112.483 g = 115.36 -101.374 10.076 
+done fmin call
+ireturn = 1
+about to evaluate gradient with x = 27631 33.318 8.0157 
+transformed = -0.416216 -0.15748 -0.168438 
+finished gradient call: status = 0 g = 115.31 -101.428 10.0863 
+about to do fmin call with x = 27631 33.318 8.0157  f = 112.483 g = 115.31 -101.428 10.0863 
+Convergence check: current value is 1.02513 and threshold is 1e-06
+done fmin call
+ireturn = 0
+about to evaluate function with x = 27630.7 33.3176 8.01554 
+finished objective call: f = 112.483
+about to do fmin call with x = 27630.7 33.3176 8.01554  f = 112.483 g = 115.31 -101.428 10.0863 
+done fmin call
+ireturn = 1
+about to evaluate gradient with x = 27630.7 33.3176 8.01554 
+transformed = -0.416221 -0.157487 -0.168449 
+finished gradient call: status = 0 g = 115.303 -101.434 10.087 
+about to do fmin call with x = 27630.7 33.3176 8.01554  f = 112.483 g = 115.303 -101.434 10.087 
+Convergence check: current value is 1.02507 and threshold is 1e-06
+done fmin call
+ireturn = 0
+about to evaluate function with x = 27628.6 33.3147 8.01441 
+finished objective call: f = 112.483
+about to do fmin call with x = 27628.6 33.3147 8.01441  f = 112.483 g = 115.303 -101.434 10.087 
+done fmin call
+ireturn = 1
+about to evaluate gradient with x = 27628.6 33.3147 8.01441 
+transformed = -0.416259 -0.157538 -0.168527 
+finished gradient call: status = 0 g = 115.255 -101.474 10.0915 
+about to do fmin call with x = 27628.6 33.3147 8.01441  f = 112.483 g = 115.255 -101.474 10.0915 
+Convergence check: current value is 1.02464 and threshold is 1e-06
+done fmin call
+ireturn = 0
+about to evaluate function with x = 27626.2 33.3113 8.01313 
+finished objective call: f = 112.483
+about to do fmin call with x = 27626.2 33.3113 8.01313  f = 112.483 g = 115.255 -101.474 10.0915 
+done fmin call
+ireturn = 1
+about to evaluate gradient with x = 27626.2 33.3113 8.01313 
+transformed = -0.416302 -0.157596 -0.168616 
+finished gradient call: status = 0 g = 115.199 -101.521 10.0966 
+about to do fmin call with x = 27626.2 33.3113 8.01313  f = 112.483 g = 115.199 -101.521 10.0966 
+Convergence check: current value is 1.02414 and threshold is 1e-06
+done fmin call
+ireturn = 0
+about to evaluate function with x = 27621.6 33.3051 8.01072 
+finished objective call: f = 112.483
+about to do fmin call with x = 27621.6 33.3051 8.01072  f = 112.483 g = 115.199 -101.521 10.0966 
+done fmin call
+ireturn = 1
+about to evaluate gradient with x = 27621.6 33.3051 8.01072 
+transformed = -0.416384 -0.157705 -0.168783 
+finished gradient call: status = 0 g = 115.094 -101.608 10.1061 
+about to do fmin call with x = 27621.6 33.3051 8.01072  f = 112.483 g = 115.094 -101.608 10.1061 
+Convergence check: current value is 1.02321 and threshold is 1e-06
+done fmin call
+ireturn = 0
+about to evaluate function with x = 27614.6 33.2957 8.00705 
+finished objective call: f = 112.483
+about to do fmin call with x = 27614.6 33.2957 8.00705  f = 112.483 g = 115.094 -101.608 10.1061 
+done fmin call
+ireturn = 1
+about to evaluate gradient with x = 27614.6 33.2957 8.00705 
+transformed = -0.416509 -0.157871 -0.169038 
+finished gradient call: status = 0 g = 114.932 -101.739 10.1206 
+about to do fmin call with x = 27614.6 33.2957 8.00705  f = 112.483 g = 114.932 -101.739 10.1206 
+fmm: too many quasi-Newton iterations
 done fmin call
 ireturn = -2
 finished main minimiser loop
 Ran out of iterations or evaluations in optimise
-about to evaluate function with x = 25301.7 0.09 0.04 32.7016 4.87715
-finished objective call: f = 172.216
-about to evaluate gradient with x = 25301.7 0.09 0.04 32.7016 4.87715
-transformed = -0.458855 -0.632998 -0.777222 -0.168296 -0.403228
-finished gradient call: status = 0 g = -86.9721 -41.1408 -6.38087 258.425 6.36661
-about to do fmin call with x = 25301.7 0.09 0.04 32.7016 4.87715  f = 172.216 g = -86.9721 -41.1408 -6.38087 258.425 6.36661
-Convergence check: current value is 1.50059 and threshold is 1e-06
+about to evaluate function with x = 27614.6 0.09 0.04 33.2957 8.00705 
+finished objective call: f = 112.483
+about to evaluate gradient with x = 27614.6 0.09 0.04 33.2957 8.00705 
+transformed = -0.416509 -0.632998 -0.777222 -0.157871 -0.169038 
+finished gradient call: status = 0 g = 114.932 -27.4453 21.4072 -101.739 10.1206 
+about to do fmin call with x = 27614.6 0.09 0.04 33.2957 8.00705  f = 112.483 g = 114.932 -27.4453 21.4072 -101.739 10.1206 
+Convergence check: current value is 1.02177 and threshold is 1e-06
 done fmin call
 ireturn = 0
-about to evaluate function with x = 58260.2 0.217765 0.0506587 23.8631 4.44221
-finished objective call: f = 45090
-about to do fmin call with x = 58260.2 0.217765 0.0506587 23.8631 4.44221  f = 45090 g = -86.9721 -41.1408 -6.38087 258.425 6.36661
+about to evaluate function with x = 20249.6 0.221007 0.0106434 77.0687 6.74062 
+finished objective call: f = 9.23083e+08
+about to do fmin call with x = 20249.6 0.221007 0.0106434 77.0687 6.74062  f = 9.23083e+08 g = 114.932 -27.4453 21.4072 -101.739 10.1206 
 done fmin call
 ireturn = 0
-about to evaluate function with x = 28074.3 0.100415 0.0409956 24.5192 4.83277
-finished objective call: f = 330.555
-about to do fmin call with x = 28074.3 0.100415 0.0409956 24.5192 4.83277  f = 330.555 g = -86.9721 -41.1408 -6.38087 258.425 6.36661
+about to evaluate function with x = 22260.1 0.100643 0.0351352 38.5359 7.87775 
+finished objective call: f = 1.21826e+08
+about to do fmin call with x = 22260.1 0.100643 0.0351352 38.5359 7.87775  f = 1.21826e+08 g = 114.932 -27.4453 21.4072 -101.739 10.1206 
 done fmin call
 ireturn = 0
-about to evaluate function with x = 25632.8 0.091249 0.0401215 31.657 4.87168
-finished objective call: f = 173.86
-about to do fmin call with x = 25632.8 0.091249 0.0401215 31.657 4.87168  f = 173.86 g = -86.9721 -41.1408 -6.38087 258.425 6.36661
+about to evaluate function with x = 27045 0.0910372 0.0394948 33.8131 7.9941 
+finished objective call: f = 1.30495e+06
+about to do fmin call with x = 27045 0.0910372 0.0394948 33.8131 7.9941  f = 1.30495e+06 g = 114.932 -27.4453 21.4072 -101.739 10.1206 
 done fmin call
 ireturn = 0
-about to evaluate function with x = 25424.1 0.0904621 0.040045 32.3133 4.87512
-finished objective call: f = 171.256
-about to do fmin call with x = 25424.1 0.0904621 0.040045 32.3133 4.87512  f = 171.256 g = -86.9721 -41.1408 -6.38087 258.425 6.36661
+about to evaluate function with x = 27557.3 0.0901034 0.0399493 33.3473 8.00576 
+finished objective call: f = 112.266
+about to do fmin call with x = 27557.3 0.0901034 0.0399493 33.3473 8.00576  f = 112.266 g = 114.932 -27.4453 21.4072 -101.739 10.1206 
 done fmin call
 ireturn = 1
-about to evaluate gradient with x = 25424.1 0.0904621 0.040045 32.3133 4.87512
-transformed = -0.456553 -0.631909 -0.777054 -0.175136 -0.403396
-finished gradient call: status = 0 g = -27.3629 -40.8235 -6.38513 -22.9716 36.4946
-about to do fmin call with x = 25424.1 0.0904621 0.040045 32.3133 4.87512  f = 171.256 g = -27.3629 -40.8235 -6.38513 -22.9716 36.4946
-Convergence check: current value is 0.238377 and threshold is 1e-06
+about to evaluate gradient with x = 27557.3 0.0901034 0.0399493 33.3473 8.00576 
+transformed = -0.41753 -0.632754 -0.777413 -0.156966 -0.169128 
+finished gradient call: status = 0 g = 110.406 -28.0033 20.8911 -97.5127 9.40417 
+about to do fmin call with x = 27557.3 0.0901034 0.0399493 33.3473 8.00576  f = 112.266 g = 110.406 -28.0033 20.8911 -97.5127 9.40417 
+Convergence check: current value is 0.98343 and threshold is 1e-06
 done fmin call
 ireturn = 0
-about to evaluate function with x = 36912.9 0.225511 0.0513368 33.3862 2.69606
-finished objective call: f = 304.214
-about to do fmin call with x = 36912.9 0.225511 0.0513368 33.3862 2.69606  f = 304.214 g = -27.3629 -40.8235 -6.38513 -22.9716 36.4946
+about to evaluate function with x = 23360.5 0.327323 0.0206091 34.4249 8.97963 
+finished objective call: f = 3.79035e+07
+about to do fmin call with x = 23360.5 0.327323 0.0206091 34.4249 8.97963  f = 3.79035e+07 g = 110.406 -28.0033 20.8911 -97.5127 9.40417 
 done fmin call
 ireturn = 0
-about to evaluate function with x = 26467 0.1014 0.0410961 32.4202 4.62534
-finished objective call: f = 171.611
-about to do fmin call with x = 26467 0.1014 0.0410961 32.4202 4.62534  f = 171.611 g = -27.3629 -40.8235 -6.38513 -22.9716 36.4946
+about to evaluate function with x = 27117.6 0.107829 0.0375847 33.4547 8.10208 
+finished objective call: f = 230255
+about to do fmin call with x = 27117.6 0.107829 0.0375847 33.4547 8.10208  f = 230255 g = 110.406 -28.0033 20.8911 -97.5127 9.40417 
 done fmin call
 ireturn = 0
-about to evaluate function with x = 25867.1 0.0950653 0.0404926 32.359 4.76747
-finished objective call: f = 170.777
-about to do fmin call with x = 25867.1 0.0950653 0.0404926 32.359 4.76747  f = 170.777 g = -27.3629 -40.8235 -6.38513 -22.9716 36.4946
+about to evaluate function with x = 27513.2 0.0918038 0.0397086 33.3581 8.01538 
+finished objective call: f = 112.05
+about to do fmin call with x = 27513.2 0.0918038 0.0397086 33.3581 8.01538  f = 112.05 g = 110.406 -28.0033 20.8911 -97.5127 9.40417 
 done fmin call
 ireturn = 1
-about to evaluate gradient with x = 25867.1 0.0950653 0.0404926 32.359 4.76747
-transformed = -0.448285 -0.621214 -0.775382 -0.174329 -0.412395
-finished gradient call: status = 0 g = 82.8677 -38.5609 -6.39341 36.3148 29.1067
-about to do fmin call with x = 25867.1 0.0950653 0.0404926 32.359 4.76747  f = 170.777 g = 82.8677 -38.5609 -6.39341 36.3148 29.1067
-Convergence check: current value is 0.48524 and threshold is 1e-06
+about to evaluate gradient with x = 27513.2 0.0918038 0.0397086 33.3581 8.01538 
+transformed = -0.418319 -0.628764 -0.778318 -0.156778 -0.16846 
+finished gradient call: status = 0 g = 108.424 -21.3537 22.9408 -98.4312 10.4346 
+about to do fmin call with x = 27513.2 0.0918038 0.0397086 33.3581 8.01538  f = 112.05 g = 108.424 -21.3537 22.9408 -98.4312 10.4346 
+Convergence check: current value is 0.967645 and threshold is 1e-06
 done fmin call
 ireturn = 0
-about to evaluate function with x = 24726.5 0.655293 0.0847829 28.1189 1.09575
-finished objective call: f = 1271.16
-about to do fmin call with x = 24726.5 0.655293 0.0847829 28.1189 1.09575  f = 1271.16 g = 82.8677 -38.5609 -6.39341 36.3148 29.1067
+about to evaluate function with x = 29042.7 0.161602 0.014042 38.9967 8.45571 
+finished objective call: f = 2.54453e+07
+about to do fmin call with x = 29042.7 0.161602 0.014042 38.9967 8.45571  f = 2.54453e+07 g = 108.424 -21.3537 22.9408 -98.4312 10.4346 
+done fmin call
+ireturn = 0
+about to evaluate function with x = 27664 0.097928 0.0321973 33.9145 8.05917 
+finished objective call: f = 129528
+about to do fmin call with x = 27664 0.097928 0.0321973 33.9145 8.05917  f = 129528 g = 108.424 -21.3537 22.9408 -98.4312 10.4346 
+done fmin call
+ireturn = 0
+about to evaluate function with x = 27528.2 0.0924071 0.0389097 33.4136 8.01975 
+finished objective call: f = 111.892
+about to do fmin call with x = 27528.2 0.0924071 0.0389097 33.4136 8.01975  f = 111.892 g = 108.424 -21.3537 22.9408 -98.4312 10.4346 
+done fmin call
+ireturn = 1
+about to evaluate gradient with x = 27528.2 0.0924071 0.0389097 33.4136 8.01975 
+transformed = -0.41805 -0.627357 -0.781349 -0.155806 -0.168156 
+finished gradient call: status = 0 g = 107.789 -21.6924 19.8844 -95.7973 9.97372 
+about to do fmin call with x = 27528.2 0.0924071 0.0389097 33.4136 8.01975  f = 111.892 g = 107.789 -21.6924 19.8844 -95.7973 9.97372 
+Convergence check: current value is 0.963332 and threshold is 1e-06
+done fmin call
+ireturn = 0
+about to evaluate function with x = 23548.3 0.105286 0.0308578 34.0499 8.53449 
+finished objective call: f = 3.86709e+07
+about to do fmin call with x = 23548.3 0.105286 0.0308578 34.0499 8.53449  f = 3.86709e+07 g = 107.789 -21.6924 19.8844 -95.7973 9.97372 
+done fmin call
+ireturn = 0
+about to evaluate function with x = 27112.3 0.0936569 0.0380472 33.4771 8.07091 
+finished objective call: f = 286936
+about to do fmin call with x = 27112.3 0.0936569 0.0380472 33.4771 8.07091  f = 286936 g = 107.789 -21.6924 19.8844 -95.7973 9.97372 
+done fmin call
+ireturn = 0
+about to evaluate function with x = 27486.5 0.0925317 0.0388229 33.42 8.02487 
+finished objective call: f = 172.439
+about to do fmin call with x = 27486.5 0.0925317 0.0388229 33.42 8.02487  f = 172.439 g = 107.789 -21.6924 19.8844 -95.7973 9.97372 
+done fmin call
+ireturn = 0
+about to evaluate function with x = 27505.8 0.0924741 0.038863 33.417 8.0225 
+finished objective call: f = 111.839
+about to do fmin call with x = 27505.8 0.0924741 0.038863 33.417 8.0225  f = 111.839 g = 107.789 -21.6924 19.8844 -95.7973 9.97372 
+done fmin call
+ireturn = 1
+about to evaluate gradient with x = 27505.8 0.0924741 0.038863 33.417 8.0225 
+transformed = -0.418451 -0.627201 -0.781527 -0.155746 -0.167966 
+finished gradient call: status = 0 g = 106.445 -21.5921 19.7769 -95.0351 9.89816 
+about to do fmin call with x = 27505.8 0.0924741 0.038863 33.417 8.0225  f = 111.839 g = 106.445 -21.5921 19.7769 -95.0351 9.89816 
+Convergence check: current value is 0.951777 and threshold is 1e-06
+done fmin call
+ireturn = 0
+about to evaluate function with x = 30266.9 0.126655 0.0485748 42.2395 8.23909 
+finished objective call: f = 5.38491e+07
+about to do fmin call with x = 30266.9 0.126655 0.0485748 42.2395 8.23909  f = 5.38491e+07 g = 106.445 -21.5921 19.7769 -95.0351 9.89816 
+done fmin call
+ireturn = 0
+about to evaluate function with x = 27775.1 0.095653 0.039773 34.2843 8.0441 
+finished objective call: f = 408678
+about to do fmin call with x = 27775.1 0.095653 0.039773 34.2843 8.0441  f = 408678 g = 106.445 -21.5921 19.7769 -95.0351 9.89816 
+done fmin call
+ireturn = 0
+about to evaluate function with x = 27532.6 0.0927895 0.0389534 33.5035 8.02466 
+finished objective call: f = 2648.21
+about to do fmin call with x = 27532.6 0.0927895 0.0389534 33.5035 8.02466  f = 2648.21 g = 106.445 -21.5921 19.7769 -95.0351 9.89816 
+done fmin call
+ireturn = 0
+about to evaluate function with x = 27508.5 0.0925056 0.0388721 33.4257 8.02272 
+finished objective call: f = 111.829
+about to do fmin call with x = 27508.5 0.0925056 0.0388721 33.4257 8.02272  f = 111.829 g = 106.445 -21.5921 19.7769 -95.0351 9.89816 
+done fmin call
+ireturn = 1
+about to evaluate gradient with x = 27508.5 0.0925056 0.0388721 33.4257 8.02272 
+transformed = -0.418403 -0.627128 -0.781493 -0.155595 -0.167951 
+finished gradient call: status = 0 g = 106.343 -21.5218 19.8147 -94.7377 9.85078 
+about to do fmin call with x = 27508.5 0.0925056 0.0388721 33.4257 8.02272  f = 111.829 g = 106.343 -21.5218 19.8147 -94.7377 9.85078 
+Convergence check: current value is 0.950943 and threshold is 1e-06
+done fmin call
+ireturn = 0
+about to evaluate function with x = 24885.4 0.11445 0.0239217 34.6886 8.75527 
+finished objective call: f = 2.62407e+07
+about to do fmin call with x = 24885.4 0.11445 0.0239217 34.6886 8.75527  f = 2.62407e+07 g = 106.343 -21.5218 19.8147 -94.7377 9.85078 
+done fmin call
+ireturn = 0
+about to evaluate function with x = 27238.8 0.094595 0.0371406 33.5515 8.09535 
+finished objective call: f = 214749
+about to do fmin call with x = 27238.8 0.094595 0.0371406 33.5515 8.09535  f = 214749 g = 106.343 -21.5218 19.8147 -94.7377 9.85078 
+done fmin call
+ireturn = 0
+about to evaluate function with x = 27481.4 0.0927135 0.0386966 33.4383 8.02997 
+finished objective call: f = 1316.94
+about to do fmin call with x = 27481.4 0.0927135 0.0386966 33.4383 8.02997  f = 1316.94 g = 106.343 -21.5218 19.8147 -94.7377 9.85078 
+done fmin call
+ireturn = 0
+about to evaluate function with x = 27505.8 0.0925264 0.0388545 33.4269 8.02344 
+finished objective call: f = 111.82
+about to do fmin call with x = 27505.8 0.0925264 0.0388545 33.4269 8.02344  f = 111.82 g = 106.343 -21.5218 19.8147 -94.7377 9.85078 
+done fmin call
+ireturn = 1
+about to evaluate gradient with x = 27505.8 0.0925264 0.0388545 33.4269 8.02344 
+transformed = -0.418451 -0.62708 -0.78156 -0.155573 -0.1679 
+finished gradient call: status = 0 g = 106.163 -21.4925 19.7658 -94.6165 9.84094 
+about to do fmin call with x = 27505.8 0.0925264 0.0388545 33.4269 8.02344  f = 111.82 g = 106.163 -21.4925 19.7658 -94.6165 9.84094 
+Convergence check: current value is 0.94941 and threshold is 1e-06
+done fmin call
+ireturn = 0
+about to evaluate function with x = 26413.6 0.106325 0.0321403 35.1303 8.47855 
+finished objective call: f = 1.34808e+07
+about to do fmin call with x = 26413.6 0.106325 0.0321403 35.1303 8.47855  f = 1.34808e+07 g = 106.163 -21.4925 19.7658 -94.6165 9.84094 
+done fmin call
+ireturn = 0
+about to evaluate function with x = 27395.3 0.0938629 0.0381443 33.5964 8.0687 
+finished objective call: f = 108038
+about to do fmin call with x = 27395.3 0.0938629 0.0381443 33.5964 8.0687  f = 108038 g = 106.163 -21.4925 19.7658 -94.6165 9.84094 
+done fmin call
+ireturn = 0
+about to evaluate function with x = 27494.7 0.0926596 0.0387831 33.4439 8.02796 
+finished objective call: f = 717.433
+about to do fmin call with x = 27494.7 0.0926596 0.0387831 33.4439 8.02796  f = 717.433 g = 106.163 -21.4925 19.7658 -94.6165 9.84094 
+done fmin call
+ireturn = 0
+about to evaluate function with x = 27504.6 0.0925397 0.0388474 33.4286 8.02389 
+finished objective call: f = 111.814
+about to do fmin call with x = 27504.6 0.0925397 0.0388474 33.4286 8.02389  f = 111.814 g = 106.163 -21.4925 19.7658 -94.6165 9.84094 
+done fmin call
+ireturn = 1
+about to evaluate gradient with x = 27504.6 0.0925397 0.0388474 33.4286 8.02389 
+transformed = -0.418471 -0.627049 -0.781587 -0.155543 -0.167869 
+finished gradient call: status = 0 g = 106.056 -21.4706 19.7473 -94.5183 9.83026 
+about to do fmin call with x = 27504.6 0.0925397 0.0388474 33.4286 8.02389  f = 111.814 g = 106.056 -21.4706 19.7473 -94.5183 9.83026 
+Convergence check: current value is 0.948502 and threshold is 1e-06
+done fmin call
+ireturn = 0
+about to evaluate function with x = 26367.2 0.106183 0.0317111 35.0267 8.50222 
+finished objective call: f = 1.28123e+07
+about to do fmin call with x = 26367.2 0.106183 0.0317111 35.0267 8.50222  f = 1.28123e+07 g = 106.056 -21.4706 19.7473 -94.5183 9.83026 
+done fmin call
+ireturn = 0
+about to evaluate function with x = 27389.6 0.0938616 0.0380895 33.5877 8.07145 
+finished objective call: f = 104696
+about to do fmin call with x = 27389.6 0.0938616 0.0380895 33.5877 8.07145  f = 104696 g = 106.056 -21.4706 19.7473 -94.5183 9.83026 
+done fmin call
+ireturn = 0
+about to evaluate function with x = 27493.1 0.0926714 0.0387711 33.4445 8.02865 
+finished objective call: f = 850.152
+about to do fmin call with x = 27493.1 0.0926714 0.0387711 33.4445 8.02865  f = 850.152 g = 106.056 -21.4706 19.7473 -94.5183 9.83026 
+done fmin call
+ireturn = 0
+about to evaluate function with x = 27503.5 0.0925529 0.0388397 33.4302 8.02437 
+finished objective call: f = 111.808
+about to do fmin call with x = 27503.5 0.0925529 0.0388397 33.4302 8.02437  f = 111.808 g = 106.056 -21.4706 19.7473 -94.5183 9.83026 
+done fmin call
+ireturn = 1
+about to evaluate gradient with x = 27503.5 0.0925529 0.0388397 33.4302 8.02437 
+transformed = -0.418492 -0.627018 -0.781617 -0.155516 -0.167836 
+finished gradient call: status = 0 g = 105.949 -21.4491 19.7274 -94.424 9.8204 
+about to do fmin call with x = 27503.5 0.0925529 0.0388397 33.4302 8.02437  f = 111.808 g = 105.949 -21.4491 19.7274 -94.424 9.8204 
+Convergence check: current value is 0.9476 and threshold is 1e-06
+done fmin call
+ireturn = 0
+about to evaluate function with x = 26377.8 0.106115 0.0317875 35.0447 8.51048 
+finished objective call: f = 1.28249e+07
+about to do fmin call with x = 26377.8 0.106115 0.0317875 35.0447 8.51048  f = 1.28249e+07 g = 105.949 -21.4491 19.7274 -94.424 9.8204 
 fmm: too many function evaluations
 done fmin call
 ireturn = -2
@@ -212,8 +1006,8 @@ Ran out of iterations or evaluations in optimise
 *initialisation_partition[Init]
 values {d}
 category 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 21 22 23 24 25 26 27 28 29 30 31 32 33 34 35 36 37 38 39 40 41 42 43 44 45 46 47 48 49 50 51 52 53 54 55 56 57 58 59 60 61 62 63 64 65 66 67 68 69 70 71 72 73 74 75 76 77 78 79 80
-immature 2782834.405210 2660382.683739 2543319.146367 2431406.699424 2324418.681962 2222138.406681 2124358.721072 2030881.587855 1941517.683891 1856086.016734 1774413.558063 1696334.893239 1621691.886282 1550333.359595 1482088.694182 1416844.932644 1354442.982442 1294727.742581 1237519.901438 1182585.043275 1129571.503310 1077886.059341 1026449.201222 973230.770357 914441.659845 843413.957115 750093.697545 624469.408176 468303.406631 306931.382800 175813.858255 90716.317272 43816.596104 20407.124496 9329.741267 4226.872886 1906.700759 858.324225 386.009490 173.518486 77.983006 35.043720 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000
-mature 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 26.093593 53.072256 107.942257 219.530446 446.430683 907.652826 1844.533930 3744.823166 7587.198728 15305.424119 30596.452775 60040.098786 113606.104848 201225.427972 321058.777489 447696.877473 545608.858286 598961.983079 615514.122306 609911.381999 593253.163695 571840.866853 548812.607797 525627.947952 502933.540930 480998.704273 459921.450280 439723.256146 420407.827287 401908.824229 384223.823890 367317.008099 351154.134777 335702.468582 320930.714610 306808.955010 293308.588393 280402.271904 268063.865840 256268.380714 244991.926636 234211.664933 223905.761892 214053.344537 204634.458355 195630.026884 187021.813072 178792.382345 170925.067292 163403.933914 156213.749343 149339.951000 142768.617093 136486.438426 130480.691439 124739.212444 119250.372982 114003.056278 108986.634723 104190.948349 99606.284252 95223.356919 91033.289426 87027.595455 83198.162105 1807560.948297
+immature 2949794.840938 2819996.439861 2695909.495286 2577282.688743 2463875.760410 2355459.022502 2251812.894073 2152727.456293 2058002.027289 1967444.755696 1880872.232091 1798109.117529 1718987.788419 1643347.997030 1571008.887818 1501850.726331 1435704.875027 1372406.927389 1311766.813715 1253536.054137 1197341.885201 1142555.493425 1088032.601790 1031621.249208 969304.995475 894015.876337 795096.724080 661935.412007 496399.990703 325346.203788 186362.081436 96158.982430 46445.440265 21631.481357 9889.493462 4480.470634 2021.096208 909.820708 409.168724 183.928995 82.661716 37.146222 16.691840 7.500393 3.370228 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000
+mature 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 27.659118 56.256408 114.418419 232.701513 473.214979 962.108855 1955.199584 3969.499599 8042.404400 16223.696609 32432.134078 63642.296974 120422.078063 213298.257412 340321.193277 474557.141094 578343.501981 634897.629660 652442.839971 646503.954631 628846.300866 606149.340300 581739.465378 557163.806161 533107.813240 509856.962278 487515.145973 466105.130076 445614.150477 426014.462689 407272.553684 389354.757671 372222.167873 355843.455169 340185.447069 325216.430754 310906.088851 297225.438029 284146.770292 271643.596870 259690.594564 248263.554459 237339.332894 226895.804586 216911.817823 207367.151619 198242.474762 189519.306665 181179.979931 173207.604572 165586.033805 158299.831345 151334.240140 144675.152489 138309.081463 132223.133594 126404.982756 120842.845206 115525.455714 110442.044750 105582.316670 100936.428862 96494.971818 92248.950067 88189.763966 1916008.351049
 *end
 
 *partition[state1]
@@ -221,233 +1015,8 @@ year: 1979
 time_step: Jul_Jun
 values {d_r}
 category 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 21 22 23 24 25 26 27 28 29 30 31 32 33 34 35 36 37 38 39 40 41 42 43 44 45 46 47 48 49 50 51 52 53 54 55 56 57 58 59 60 61 62 63 64 65 66 67 68 69 70 71 72 73 74 75 76 77 78 79 80
-immature 2782834.405210 2660382.683739 2543319.146367 2431406.699424 2324418.681962 2222138.406681 2124358.721072 2030881.587855 1941517.683801 1856086.016574 1774413.557780 1696334.892737 1621691.885392 1550333.358017 1482088.691384 1416844.927684 1354442.973649 1294727.726995 1237519.873814 1182584.994332 1129571.416650 1077885.906102 1026448.930987 973230.296440 914440.838057 843412.564001 750091.437187 624466.020405 468298.937435 306926.423585 175809.322475 90712.866585 43814.356443 20405.844040 9329.073991 4226.545915 1906.546480 858.253007 385.977016 173.503778 77.976369 35.040731 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000
-mature 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 26.093593 53.072256 107.942256 219.530443 446.430673 907.652789 1844.533789 3744.822634 7587.196731 15305.416666 30596.425279 60039.999614 113605.762504 201224.336316 321055.713504 447689.643853 545594.782252 598939.199633 615482.660651 609873.112800 593210.733448 571796.631892 548768.200935 525584.335042 502891.230608 480957.933469 459882.306533 439685.748705 420371.924601 401874.479243 384190.978761 367285.602354 351124.107930 335673.761428 320903.269836 306782.717459 293283.505147 280378.292273 268040.941316 256246.464897 244970.975155 234191.635363 223886.613665 214035.038880 204616.958193 195613.296773 187005.819128 178777.092174 170910.449928 163389.959750 156200.390078 149327.179576 142756.407644 136474.766223 130469.532843 124728.544854 119240.174793 113993.306835 108977.314280 104182.038029 99597.766008 95215.213500 91025.504338 87020.152930 83191.047070 1807406.367244
-*end
-
-*partition[state1]
-year: 1980
-time_step: Jul_Jun
-values {d_r}
-category 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 21 22 23 24 25 26 27 28 29 30 31 32 33 34 35 36 37 38 39 40 41 42 43 44 45 46 47 48 49 50 51 52 53 54 55 56 57 58 59 60 61 62 63 64 65 66 67 68 69 70 71 72 73 74 75 76 77 78 79 80
-immature 2782834.405210 2660382.683739 2543319.146367 2431406.699424 2324418.681962 2222138.406681 2124358.721072 2030881.587855 1941517.683710 1856086.016328 1774413.557344 1696334.891964 1621691.884022 1550333.355587 1482088.687077 1416844.920049 1354442.960114 1294727.703002 1237519.831288 1182584.918984 1129571.283228 1077885.670145 1026448.514785 973229.566224 914439.570850 843410.412712 750087.937508 624460.750323 468291.927018 306918.534520 175801.945430 90707.075162 43810.449894 20403.520415 9327.821295 4225.916627 1906.244706 858.112339 385.912515 173.474473 77.963121 35.034759 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000
-mature 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 26.093593 53.072255 107.942255 219.530439 446.430657 907.652731 1844.533571 3744.821814 7587.193654 15305.405182 30596.382879 60039.846470 113605.232457 201222.638115 321050.907312 447678.136689 545571.888827 598900.961286 615427.783361 609803.666196 593131.077855 571711.497463 548681.340330 525498.191415 502807.190738 480876.698078 459804.179004 439610.817040 420300.162495 401805.811823 384125.300340 367222.797160 351064.057664 335616.349060 320848.381455 306730.243118 293233.339197 280330.333436 267995.092627 256202.633582 244929.072485 234151.576493 223848.317470 213998.427805 204581.958098 195579.836770 186973.831450 178746.512035 170881.215392 163362.011607 156173.671723 149301.636896 142731.988906 136451.421971 130447.215797 124707.209814 119219.778549 113973.808077 108958.673517 104164.217506 99580.729633 95198.926768 91009.934264 87005.267978 83176.817093 1807097.207169
-*end
-
-*partition[state1]
-year: 1981
-time_step: Jul_Jun
-values {d_r}
-category 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 21 22 23 24 25 26 27 28 29 30 31 32 33 34 35 36 37 38 39 40 41 42 43 44 45 46 47 48 49 50 51 52 53 54 55 56 57 58 59 60 61 62 63 64 65 66 67 68 69 70 71 72 73 74 75 76 77 78 79 80
-immature 2782834.405210 2660382.683739 2543319.146367 2431406.699424 2324418.681962 2222138.406681 2124358.721072 2030881.587855 1941517.683891 1856086.016562 1774413.557675 1696334.892551 1621691.885063 1550333.357434 1482088.690351 1416844.925852 1354442.970402 1294727.721237 1237519.863607 1182584.976240 1129571.384591 1077885.849329 1026448.830599 973230.119510 914440.528449 843412.030380 750090.545315 624464.612819 468296.913916 306923.858931 175806.498612 90710.170500 43812.132102 20404.261962 9328.093551 4226.003036 1906.269400 858.118927 385.914200 173.474894 77.963225 35.034784 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000
-mature 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 26.093593 53.072256 107.942256 219.530442 446.430669 907.652775 1844.533736 3744.822437 7587.195989 15305.413883 30596.414920 60039.961627 113605.627425 201223.882744 321054.326222 447685.902992 545586.018864 598921.398510 615451.414194 609825.828958 593148.389882 571723.187459 548688.448163 525502.225896 502809.386735 480877.864691 459804.790369 439611.135028 420300.327219 401805.896959 384125.344289 367222.819833 351064.069357 335616.355089 320848.384563 306730.244721 293233.340023 280330.333862 267995.092846 256202.633695 244929.072543 234151.576523 223848.317495 213998.427814 204581.958098 195579.836770 186973.831450 178746.512035 170881.215392 163362.011607 156173.671723 149301.636896 142731.988906 136451.421971 130447.215797 124707.209814 119219.778549 113973.808077 108958.673517 104164.217506 99580.729633 95198.926768 91009.934264 87005.267978 83176.817093 1807097.207169
-*end
-
-*partition[state1]
-year: 1982
-time_step: Jul_Jun
-values {d_r}
-category 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 21 22 23 24 25 26 27 28 29 30 31 32 33 34 35 36 37 38 39 40 41 42 43 44 45 46 47 48 49 50 51 52 53 54 55 56 57 58 59 60 61 62 63 64 65 66 67 68 69 70 71 72 73 74 75 76 77 78 79 80
-immature 2782834.405210 2660382.683739 2543319.146367 2431406.699424 2324418.681962 2222138.406681 2124358.721072 2030881.587855 1941517.683891 1856086.016734 1774413.557899 1696334.892868 1621691.885625 1550333.358430 1482088.692116 1416844.928982 1354442.975949 1294727.731072 1237519.881037 1182585.007123 1129571.439280 1077885.946054 1026449.001232 973230.418950 914441.048312 843412.913598 750091.983995 624466.783876 468299.810487 306927.127400 175809.548496 90712.519848 43813.627171 20405.045433 9328.432572 4226.126383 1906.308378 858.130043 385.917163 173.475651 77.963414 35.034831 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000
-mature 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 26.093593 53.072256 107.942256 219.530444 446.430675 907.652798 1844.533826 3744.822773 7587.197250 15305.418592 30596.432314 60040.024501 113605.845321 201224.582332 321056.312050 447690.670454 545595.483669 598936.910273 615472.416195 609849.244690 593169.947323 571739.874643 548699.667399 525509.033458 502813.247025 480879.964913 459805.905861 439611.719543 420300.631238 401806.054435 384125.425679 367222.861849 351064.091032 335616.366267 320848.390327 306730.247693 293233.341555 280330.334652 267995.093254 256202.633905 244929.072651 234151.576579 223848.317523 213998.427837 204581.958106 195579.836770 186973.831450 178746.512035 170881.215392 163362.011607 156173.671723 149301.636896 142731.988906 136451.421971 130447.215797 124707.209814 119219.778549 113973.808077 108958.673517 104164.217506 99580.729633 95198.926768 91009.934264 87005.267978 83176.817093 1807097.207169
-*end
-
-*partition[state1]
-year: 1983
-time_step: Jul_Jun
-values {d_r}
-category 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 21 22 23 24 25 26 27 28 29 30 31 32 33 34 35 36 37 38 39 40 41 42 43 44 45 46 47 48 49 50 51 52 53 54 55 56 57 58 59 60 61 62 63 64 65 66 67 68 69 70 71 72 73 74 75 76 77 78 79 80
-immature 2782834.405210 2660382.683739 2543319.146367 2431406.699424 2324418.681962 2222138.406681 2124358.721072 2030881.587855 1941517.683891 1856086.016734 1774413.558063 1696334.893082 1621691.885928 1550333.358966 1482088.693068 1416844.930669 1354442.978941 1294727.736375 1237519.890437 1182585.023780 1129571.468779 1077885.998241 1026449.093341 973230.580736 914441.329665 843413.393083 750092.769489 624467.981608 468301.438610 306929.025846 175811.420713 90714.093525 43814.761922 20405.741746 9328.790760 4226.279977 1906.364019 858.147590 385.922162 173.476983 77.963755 35.034916 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000
-mature 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 26.093593 53.072256 107.942256 219.530444 446.430679 907.652811 1844.533874 3744.822954 7587.197931 15305.421137 30596.441728 60040.058634 113605.964289 201224.968283 321057.428256 447693.439569 545601.293782 598947.300607 615488.356620 609870.055520 593192.723513 571760.654011 548715.682583 525519.778735 502819.760665 480883.656841 459807.914052 439612.786047 420301.190078 401806.345077 384125.576225 367222.939657 351064.131199 335616.386989 320848.401013 306730.253203 293233.344396 280330.336116 267995.094009 256202.634294 244929.072852 234151.576682 223848.317577 213998.427865 204581.958129 195579.836778 186973.831450 178746.512035 170881.215392 163362.011607 156173.671723 149301.636896 142731.988906 136451.421971 130447.215797 124707.209814 119219.778549 113973.808077 108958.673517 104164.217506 99580.729633 95198.926768 91009.934264 87005.267978 83176.817093 1807097.207169
-*end
-
-*partition[state1]
-year: 1984
-time_step: Jul_Jun
-values {d_r}
-category 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 21 22 23 24 25 26 27 28 29 30 31 32 33 34 35 36 37 38 39 40 41 42 43 44 45 46 47 48 49 50 51 52 53 54 55 56 57 58 59 60 61 62 63 64 65 66 67 68 69 70 71 72 73 74 75 76 77 78 79 80
-immature 2782834.405210 2660382.683739 2543319.146367 2431406.699424 2324418.681962 2222138.406681 2124358.721072 2030881.587855 1941517.683886 1856086.016726 1774413.558049 1696334.893214 1621691.886087 1550333.359177 1482088.693441 1416844.931331 1354442.980114 1294727.738455 1237519.894124 1182585.030314 1129571.480355 1077886.018727 1026449.129523 973230.644368 914441.440580 843413.582911 750093.082878 624468.466124 468302.113308 306929.844923 175812.281328 90714.886981 43815.410014 20406.206211 9329.075732 4226.425905 1906.425589 858.169076 385.928430 173.478495 77.964021 35.034920 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000
-mature 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 26.093593 53.072256 107.942257 219.530445 446.430680 907.652816 1844.533893 3744.823025 7587.198198 15305.422137 30596.445439 60040.072147 113606.011753 201225.124410 321057.890815 447694.634292 545603.964558 598952.539466 615497.460704 609883.937053 593210.844119 571780.396138 548733.404646 525532.936624 502827.926468 480887.847876 459809.487058 439612.830730 420300.414663 401805.162141 384124.211885 367221.513353 351062.704301 335614.990088 320847.048640 306728.951594 293232.095552 280329.139899 267993.949229 256201.539269 244928.025692 234150.575436 223847.360303 213997.512670 204581.083182 195579.000328 186973.031792 178745.747557 170880.484553 163361.312927 156173.003787 149300.998351 142731.378458 136450.838385 130446.657890 124706.676456 119219.268660 113973.320625 108958.207514 104163.772008 99580.303738 95198.519614 91009.545025 87004.895867 83176.461356 1807089.478428
-*end
-
-*partition[state1]
-year: 1985
-time_step: Jul_Jun
-values {d_r}
-category 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 21 22 23 24 25 26 27 28 29 30 31 32 33 34 35 36 37 38 39 40 41 42 43 44 45 46 47 48 49 50 51 52 53 54 55 56 57 58 59 60 61 62 63 64 65 66 67 68 69 70 71 72 73 74 75 76 77 78 79 80
-immature 2782834.405210 2660382.683739 2543319.146367 2431406.699424 2324418.681962 2222138.406681 2124358.721072 2030881.587855 1941517.683891 1856086.016730 1774413.558056 1696334.893225 1621691.886258 1550333.359408 1482088.693782 1416844.931936 1354442.981187 1294727.740356 1237519.897494 1182585.036286 1129571.490931 1077886.037436 1026449.162546 973230.702375 914441.541467 843413.754881 750093.364744 624468.896452 468302.700165 306930.535141 175812.977342 90715.503610 43815.905264 20406.572087 9329.321445 4226.571363 1906.499131 858.200354 385.939716 173.482048 77.965033 35.035189 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000
-mature 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 26.093593 53.072256 107.942257 219.530445 446.430681 907.652821 1844.533910 3744.823090 7587.198442 15305.423050 30596.448814 60040.084389 113606.054444 201225.263077 321058.293151 447695.641060 545606.124518 598956.610811 615504.417722 609894.872060 593226.468340 571800.074718 548754.572262 525552.090748 502842.631793 480897.696058 459815.451586 439616.209969 420302.252454 401806.138031 384124.723194 367221.779273 351062.842041 335615.061277 320847.085389 306728.970553 293232.105329 280329.144940 267993.951828 256201.540609 244928.026383 234150.575792 223847.360487 213997.512765 204581.083231 195579.000353 186973.031813 178745.747564 170880.484553 163361.312927 156173.003787 149300.998351 142731.378458 136450.838385 130446.657890 124706.676456 119219.268660 113973.320625 108958.207514 104163.772008 99580.303738 95198.519614 91009.545025 87004.895867 83176.461356 1807089.478428
-*end
-
-*partition[state1]
-year: 1986
-time_step: Jul_Jun
-values {d_r}
-category 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 21 22 23 24 25 26 27 28 29 30 31 32 33 34 35 36 37 38 39 40 41 42 43 44 45 46 47 48 49 50 51 52 53 54 55 56 57 58 59 60 61 62 63 64 65 66 67 68 69 70 71 72 73 74 75 76 77 78 79 80
-immature 2782834.405210 2660382.683739 2543319.146367 2431406.699424 2324418.681962 2222138.406681 2124358.721072 2030881.587855 1941517.680241 1856086.010263 1774413.546587 1696334.872893 1621691.850211 1550333.295645 1482088.580671 1416844.731344 1354442.625588 1294727.110016 1237518.780319 1182583.056907 1129567.986196 1077879.840091 1026438.233614 973211.536073 914408.306712 843357.415179 750001.954376 624331.898201 468121.983321 306730.030520 175629.636291 90576.081834 43725.478985 20354.934439 9302.459230 4213.438215 1900.315580 855.348853 384.638511 172.891436 77.697828 34.914586 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000
-mature 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 26.093591 53.072248 107.942228 219.530338 446.430278 907.651302 1844.528187 3744.801559 7587.117659 15305.121633 30595.336807 60036.073735 113592.209806 201181.117549 320934.397557 447403.180601 545037.156280 598036.067009 614234.153562 608351.568427 591518.372301 570023.330783 546974.738405 523805.864334 501147.285315 479260.500933 458239.552959 438102.898534 418851.479080 400416.985940 382795.494419 365950.401613 349847.073854 334452.616086 319735.700659 305666.443007 292216.307645 279358.032517 267065.564404 255314.001274 244079.539315 233339.423415 223071.900215 213256.174549 203872.365687 194901.468126 186325.312689 178126.529710 170288.513831 162795.390402 155631.983278 148783.784106 142236.922943 135978.140157 129994.759575 124274.662805 118806.264697 113578.489877 108580.750312 103802.923874 99235.333831 94868.729251 90694.266269 86703.490170 82888.318268 1800829.289753
-*end
-
-*partition[state1]
-year: 1987
-time_step: Jul_Jun
-values {d_r}
-category 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 21 22 23 24 25 26 27 28 29 30 31 32 33 34 35 36 37 38 39 40 41 42 43 44 45 46 47 48 49 50 51 52 53 54 55 56 57 58 59 60 61 62 63 64 65 66 67 68 69 70 71 72 73 74 75 76 77 78 79 80
-immature 2782834.405210 2660382.683739 2543319.146367 2431406.699424 2324418.681962 2222138.406681 2124358.721072 2030881.587855 1941517.683891 1856086.013245 1774413.551877 1696334.882268 1621691.866831 1550333.325111 1482088.633047 1416844.824130 1354442.790008 1294727.401460 1237519.296823 1182583.971924 1129569.605988 1077882.703159 1026443.278755 973220.371388 914423.587430 843383.194630 750043.411739 624393.029981 468200.284863 306812.475898 175698.521332 90621.262545 43748.861437 20364.687644 9305.880986 4214.512661 1900.640511 855.449860 384.671393 172.902205 77.701196 34.915568 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000
-mature 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 26.093592 53.072252 107.942241 219.530388 446.430464 907.652004 1844.530832 3744.811506 7587.154951 15305.260580 30595.848087 60037.908897 113598.488767 201200.816302 320988.079415 447523.437246 545250.929466 598334.376393 614562.618816 608643.064219 591735.952566 570168.689315 547068.264627 523867.719591 501190.127230 479290.354031 458259.414616 438115.222065 418858.646039 400420.959262 382797.630242 365951.528722 349847.662418 334452.921632 319735.858771 305666.524682 292216.349796 279358.054259 267065.575616 255314.007055 244079.542295 233339.424952 223071.901198 213256.174873 203872.365854 194901.468212 186325.312734 178126.529733 170288.513850 162795.390408 155631.983278 148783.784106 142236.922943 135978.140157 129994.759575 124274.662805 118806.264697 113578.489877 108580.750312 103802.923874 99235.333831 94868.729251 90694.266269 86703.490170 82888.318268 1800829.289753
-*end
-
-*partition[state1]
-year: 1988
-time_step: Jul_Jun
-values {d_r}
-category 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 21 22 23 24 25 26 27 28 29 30 31 32 33 34 35 36 37 38 39 40 41 42 43 44 45 46 47 48 49 50 51 52 53 54 55 56 57 58 59 60 61 62 63 64 65 66 67 68 69 70 71 72 73 74 75 76 77 78 79 80
-immature 2782834.405210 2660382.683739 2543319.146367 2431406.699424 2324418.681962 2222138.406681 2124358.721072 2030881.587855 1941517.683348 1856086.015772 1774413.553023 1696334.884302 1621691.870435 1550333.331500 1482088.644373 1416844.844342 1354442.825776 1294727.464804 1237519.409095 1182584.170865 1129569.958300 1077883.326348 1026444.378404 973222.302009 914426.941968 843388.902128 750052.732055 624407.151294 468219.227883 306833.947961 175718.452403 90636.046462 43757.215507 20367.881414 9306.331350 4214.099582 1900.199143 855.168767 384.521981 172.828752 77.666222 34.899152 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000
-mature 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 26.093592 53.072253 107.942244 219.530398 446.430505 907.652157 1844.531407 3744.813671 7587.163079 15305.290942 30595.960327 60038.315196 113599.900384 201205.366673 321001.066344 447554.756870 545312.782206 598431.988421 614679.972706 608738.517012 591764.590002 570112.805155 546941.224071 523695.581656 500995.458705 479086.739988 458053.153022 437909.234442 418655.086190 400221.817585 382604.434623 365765.211272 349668.651730 334281.311578 319571.549625 305509.315110 292065.990208 279214.275898 266928.105805 255182.576944 243953.890634 233219.299802 222957.060551 213146.387040 203767.408374 194801.128989 186229.388619 178034.826485 170200.845757 162711.579929 155551.860660 148707.187079 142163.696378 135908.135746 129927.835534 124210.683590 118745.100729 113520.017277 108524.850654 103749.483942 99184.245390 94819.888830 90647.574949 86658.853386 82845.645616 1799902.184891
-*end
-
-*partition[state1]
-year: 1989
-time_step: Jul_Jun
-values {d_r}
-category 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 21 22 23 24 25 26 27 28 29 30 31 32 33 34 35 36 37 38 39 40 41 42 43 44 45 46 47 48 49 50 51 52 53 54 55 56 57 58 59 60 61 62 63 64 65 66 67 68 69 70 71 72 73 74 75 76 77 78 79 80
-immature 2782834.405210 2660382.683739 2543319.146367 2431406.699424 2324418.681962 2222138.406681 2124358.721072 2030881.587855 1941517.682398 1856086.013570 1774413.552454 1696334.880105 1621691.862997 1550333.318309 1482088.620989 1416844.802886 1354442.752411 1294727.334698 1237519.178451 1182583.762232 1129569.234819 1077882.047210 1026442.123242 973218.348963 914420.093331 843377.311092 750033.981578 624379.200892 468182.710779 306794.095113 175682.952156 90609.973182 43740.766027 20358.291410 9300.770435 4210.865476 1898.391507 854.222013 384.054573 172.607180 77.563542 34.852062 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000
-mature 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 26.093592 53.072251 107.942238 219.530376 446.430422 907.651843 1844.530226 3744.809227 7587.146410 15305.228775 30595.731178 60037.490066 113597.060514 201196.360096 320976.030999 447496.626628 545202.613136 598259.837438 614448.898452 608451.898822 591410.986428 569675.272692 546420.925591 523115.800135 500386.470749 478472.536091 457447.575738 437318.361804 418081.348849 399666.784016 382069.377000 365250.950132 349175.439979 333808.935666 319119.496780 305076.910607 291652.485945 278818.901207 266550.094646 254821.181697 243608.388643 232888.996103 222641.288592 212844.508597 203478.812901 194525.231883 185965.631550 177782.675323 169959.789848 162481.131069 155331.552127 148496.572666 141962.349524 135715.648660 129743.818364 124034.763640 118576.921699 113359.238548 108371.146595 103602.543248 99043.770456 94685.595148 90519.190527 86536.118201 82728.311088 1797352.978221
-*end
-
-*partition[state1]
-year: 1990
-time_step: Jul_Jun
-values {d_r}
-category 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 21 22 23 24 25 26 27 28 29 30 31 32 33 34 35 36 37 38 39 40 41 42 43 44 45 46 47 48 49 50 51 52 53 54 55 56 57 58 59 60 61 62 63 64 65 66 67 68 69 70 71 72 73 74 75 76 77 78 79 80
-immature 2782834.405210 2660382.683739 2543319.146367 2431406.699424 2324418.681962 2222138.406681 2124358.721072 2030881.587855 1941517.677417 1856086.003830 1774413.534690 1696334.851800 1621691.809768 1550333.223944 1482088.453691 1416844.506296 1354442.226630 1294726.402810 1237517.526769 1182580.835756 1129564.053072 1077872.884248 1026425.963859 973190.007874 914370.942805 843293.970661 749898.703113 624176.296122 467914.685933 306496.041933 175409.461217 90401.019823 43604.496755 20279.963941 9259.585686 4190.327103 1888.436725 849.488912 381.842480 171.588280 77.099063 34.641603 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000
-mature 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 26.093589 53.072240 107.942197 219.530218 446.429826 907.649597 1844.521764 3744.777393 7587.026965 15304.783071 30594.086642 60031.557311 113576.571794 201130.977231 320792.278911 447061.879694 544353.879818 596880.205611 612534.654347 606110.911746 588792.158921 566896.698227 543555.604430 520217.303646 497504.324257 475648.111907 454708.210503 434677.553979 415543.015926 397230.632312 379733.630712 363013.463928 347033.648242 331759.810464 317159.675130 303202.866060 289860.662576 277105.796835 264912.306008 253255.426187 242111.512921 231457.977707 221273.233720 211536.649265 202228.501496 193329.936912 184822.932036 176690.257343 168915.440946 161482.736116 154377.089049 147584.108365 141090.035940 134881.719065 128946.583771 123272.609376 117848.304143 112662.681999 107705.240287 102965.938495 98435.177916 94103.782211 89962.978825 86004.381215 82219.971868 1786308.814511
-*end
-
-*partition[state1]
-year: 1991
-time_step: Jul_Jun
-values {d_r}
-category 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 21 22 23 24 25 26 27 28 29 30 31 32 33 34 35 36 37 38 39 40 41 42 43 44 45 46 47 48 49 50 51 52 53 54 55 56 57 58 59 60 61 62 63 64 65 66 67 68 69 70 71 72 73 74 75 76 77 78 79 80
-immature 2782834.405210 2660382.683739 2543319.146367 2431406.699424 2324418.681962 2222138.406681 2124358.721072 2030881.587855 1941517.678200 1856086.000456 1774413.527841 1696334.839184 1621691.790448 1550333.186779 1482088.387806 1416844.389490 1354442.019557 1294726.035733 1237516.876250 1182579.682964 1129562.011316 1077869.272073 1026419.588018 973178.807533 914351.460674 843260.755593 749844.251340 624093.167236 467801.469561 306363.664627 175278.432691 90290.225039 43523.348016 20227.863920 9229.725812 4174.593596 1880.555815 845.647680 380.006214 170.726466 76.701016 34.459853 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000
-mature 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 26.093588 53.072236 107.942180 219.530156 446.429591 907.648712 1844.518430 3744.764844 7586.979836 15304.606930 30593.434786 60029.192831 113568.324753 201104.190257 320714.660193 446868.791237 543947.254738 596148.673893 611394.716525 604553.789105 586893.449846 564768.159548 541287.213469 517864.977005 495111.843979 473259.135473 452360.641527 432396.979901 413342.298397 395114.071010 377701.249509 361064.100390 345165.787977 329971.527525 315448.586946 301566.252424 288295.628255 275609.399141 263481.634434 251887.646011 240803.886588 230207.873740 220078.129013 210394.127523 201136.251380 192285.747431 183824.689126 175735.939129 168003.115020 160610.554767 153543.285845 146786.994585 140327.997172 134153.211912 128250.132762 122606.803966 117211.795847 112054.181671 107123.515506 102409.811069 97903.521497 93595.520014 89477.081444 85539.864542 81775.895099 1776660.815009
-*end
-
-*partition[state1]
-year: 1992
-time_step: Jul_Jun
-values {d_r}
-category 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 21 22 23 24 25 26 27 28 29 30 31 32 33 34 35 36 37 38 39 40 41 42 43 44 45 46 47 48 49 50 51 52 53 54 55 56 57 58 59 60 61 62 63 64 65 66 67 68 69 70 71 72 73 74 75 76 77 78 79 80
-immature 2782834.405210 2660382.683739 2543319.146367 2431406.699424 2324418.681962 2222138.406681 2124358.721072 2030881.587855 1941517.285271 1856085.304586 1774412.289588 1696332.643074 1621687.896549 1550326.286282 1482076.151549 1416822.696814 1354403.563832 1294657.868580 1237396.061157 1182365.626315 1129182.997742 1077199.071315 1025237.700750 971106.114057 910757.392765 837168.151566 739959.309635 609279.027082 448261.184397 284686.067446 155459.222909 75220.499043 33748.941337 14643.650190 6321.653109 2750.527348 1209.017947 535.803765 238.764145 106.763181 47.837737 21.460832 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000
-mature 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 26.093372 53.071423 107.939115 219.518598 446.386008 907.484420 1843.899520 3742.436413 7578.243687 15272.010907 30473.180281 59595.478704 112071.192158 196330.566996 307318.259531 415249.370374 482441.657120 496649.562396 474088.629717 437657.393966 401976.925158 372110.537854 347996.028840 328120.103573 311086.903045 295950.898360 282133.283071 269287.246529 257214.163349 245763.600957 234875.907391 224499.249846 214597.213959 205141.303307 196107.438802 187474.411265 179223.061855 171335.750934 163796.004270 156588.287123 149697.863297 143110.705585 136813.415128 130793.269301 125038.030375 119536.039364 114276.151198 109247.712060 104440.537165 99844.890379 95451.463698 91251.358892 87236.069294 83397.462560 79727.764189 76219.541794 72865.690022 69659.416173 66594.226447 63663.912788 60862.540309 58184.435274 55624.173603 53176.569894 50836.666911 1104476.006746
-*end
-
-*partition[state1]
-year: 1993
-time_step: Jul_Jun
-values {d_r}
-category 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 21 22 23 24 25 26 27 28 29 30 31 32 33 34 35 36 37 38 39 40 41 42 43 44 45 46 47 48 49 50 51 52 53 54 55 56 57 58 59 60 61 62 63 64 65 66 67 68 69 70 71 72 73 74 75 76 77 78 79 80
-immature 2782834.405210 2660382.683739 2543319.146367 2431406.699424 2324418.681962 2222138.406681 2124358.721072 2030881.587855 1941517.448071 1856085.217573 1774412.136041 1696332.366499 1621687.405419 1550325.415130 1482074.609906 1416819.961043 1354398.713819 1294649.270804 1237380.821129 1182338.618288 1129135.156549 1077114.408367 1025088.182013 970843.196380 910299.235223 836384.450791 738666.902763 607285.534843 445499.430186 281371.572645 152060.693978 72228.091664 31471.582617 13136.983975 5441.610556 2284.202250 977.983303 426.064202 187.908707 83.518707 37.293721 16.698042 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000
-mature 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 26.093345 53.071321 107.938729 219.517140 446.380510 907.463691 1843.821398 3742.142274 7577.138490 15267.876156 30457.850713 59539.689407 111875.449531 195688.195530 305424.860042 410414.775230 471894.891874 476891.945335 442097.407705 392627.391137 346017.385255 309022.823675 281496.487653 260916.849211 244827.119518 231516.485394 219947.694402 209524.483528 199913.810445 190900.360554 182383.672528 174294.389868 166589.328863 159239.035929 152221.112075 145517.043759 139110.760156 132987.873253 127135.205519 121540.487065 116192.167234 111079.299303 106191.460980 101518.725484 97051.637728 92781.117033 88698.512162 84795.553214 81064.334809 77497.299603 74087.223156 70827.198715 67710.623587 64731.185627 61882.850448 59159.849190 56556.666849 54068.031089 51688.901569 49414.459738 47240.099076 45161.415758 43174.199741 41274.426232 39458.247542 857268.785047
-*end
-
-*partition[state1]
-year: 1994
-time_step: Jul_Jun
-values {d_r}
-category 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 21 22 23 24 25 26 27 28 29 30 31 32 33 34 35 36 37 38 39 40 41 42 43 44 45 46 47 48 49 50 51 52 53 54 55 56 57 58 59 60 61 62 63 64 65 66 67 68 69 70 71 72 73 74 75 76 77 78 79 80
-immature 2782834.405210 2660382.683739 2543319.146367 2431406.699424 2324418.681962 2222138.406681 2124358.721072 2030881.587855 1941517.376631 1856085.246555 1774411.828312 1696331.821616 1621686.435244 1550323.694369 1482071.558857 1416814.554742 1354389.127227 1294632.277427 1237350.702975 1182285.255212 1129040.668766 1076947.321664 1024793.506865 970326.352795 909402.806504 834864.149001 736198.175470 603579.705995 440595.815338 275897.479381 146993.497634 68282.782904 28805.727851 11521.306800 4541.148092 1815.010057 746.071896 315.683639 136.641697 60.052894 26.641225 11.884182 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000
-mature 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 26.093291 53.071118 107.937965 219.514259 446.369645 907.422734 1843.667104 3741.561777 7574.960342 15259.748063 30427.856959 59431.463703 111501.546254 194494.050571 302063.046811 402430.142186 456169.696834 450842.718137 404648.783163 344339.358276 288759.398104 245547.229004 214744.584682 193321.053261 178031.096044 166468.511263 157122.318325 149120.900214 141983.132510 135423.865096 129299.573834 123521.572981 118038.097600 112817.436987 107838.375304 103085.089827 98544.706126 94206.167324 90059.640318 86096.155122 82307.378768 78685.476877 75223.022380 71912.972948 68748.591384 65723.474694 62831.473432 60066.728970 57423.640923 54896.855758 52481.255634 50171.948153 47964.256054 45853.707985 43836.029356 41907.133673 40063.114258 38300.236343 36614.929498 35003.780397 33463.525914 31991.046507 30583.359902 29237.615053 27951.086365 607264.522412
-*end
-
-*partition[state1]
-year: 1995
-time_step: Jul_Jun
-values {d_r}
-category 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 21 22 23 24 25 26 27 28 29 30 31 32 33 34 35 36 37 38 39 40 41 42 43 44 45 46 47 48 49 50 51 52 53 54 55 56 57 58 59 60 61 62 63 64 65 66 67 68 69 70 71 72 73 74 75 76 77 78 79 80
-immature 2782834.405210 2660382.683739 2543319.146367 2431406.699424 2324418.681962 2222138.406681 2124358.721072 2030881.587855 1941517.523544 1856085.438718 1774412.317784 1696332.346085 1621687.365719 1550325.340004 1482074.475562 1416819.725085 1354398.295332 1294648.525925 1237379.498875 1182336.268726 1129130.973953 1077106.939030 1025074.769990 970818.895936 910254.598164 836300.963164 738508.136026 606983.892121 444950.434534 280468.259679 150781.555053 70711.405794 29980.984716 11917.916316 4596.897334 1774.160844 700.839453 286.261583 120.715903 52.157716 22.901289 10.154645 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000
-mature 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 26.093343 53.071312 107.938695 219.517014 446.380033 907.461888 1843.814568 3742.116324 7577.039353 15267.493998 30456.357195 59533.746174 111851.403375 195590.995916 305048.480391 409097.183035 467925.298491 466877.901513 421158.217078 356192.897841 292304.342462 240020.862301 201725.166478 175303.322337 157281.305882 144582.830770 135065.250257 127418.935786 120903.091513 115093.526075 109769.650577 104801.999292 100116.903981 95671.492866 91439.593671 87403.768720 83551.068935 79870.995291 76354.553039 72993.755343 69781.323195 66710.498156 63774.925274 60968.590668 58285.781036 55721.035854 53269.165464 50925.185715 48684.348162 46542.113668 44494.143173 42536.288642 40664.584767 38875.240605 37164.632107 35529.294699 33965.916260 32471.330409 31042.510101 29676.561487 28370.718051 27122.335014 25928.883975 24787.947787 23697.215664 514845.046262
-*end
-
-*partition[state1]
-year: 1996
-time_step: Jul_Jun
-values {d_r}
-category 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 21 22 23 24 25 26 27 28 29 30 31 32 33 34 35 36 37 38 39 40 41 42 43 44 45 46 47 48 49 50 51 52 53 54 55 56 57 58 59 60 61 62 63 64 65 66 67 68 69 70 71 72 73 74 75 76 77 78 79 80
-immature 2782834.405210 2660382.683739 2543319.146367 2431406.699424 2324418.681962 2222138.406681 2124358.721072 2030881.587855 1941517.533657 1856085.597095 1774412.533276 1696332.870370 1621687.967014 1550326.406653 1482076.362756 1416823.070045 1354404.224730 1294659.038873 1237398.128965 1182369.276797 1129189.418130 1077210.282326 1025257.006949 971138.464071 910808.653113 837239.923957 740030.671130 609262.771323 447947.506444 283769.101959 153744.726588 72865.800772 31243.258115 12502.493280 4798.878144 1814.022671 692.334042 271.844267 110.680601 46.594889 20.114361 8.827643 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000
-mature 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 26.093376 53.071437 107.939168 219.518796 446.386754 907.487222 1843.910004 3742.475362 7578.386393 15272.519657 30474.895410 59600.587965 112082.000276 196325.328834 307103.208650 413911.864312 477121.004985 481102.472429 438890.016721 373664.254197 305147.759156 245413.648458 199277.023106 166474.323255 144206.263703 129162.497341 118628.742194 110767.918859 104475.380005 99114.303169 94346.272667 89979.298843 85905.821091 82064.721663 78420.483970 74951.462314 71643.264199 68485.224451 65468.710921 62586.337235 59831.549753 57198.378415 54681.279370 52275.048188 49974.751070 47775.704938 45673.433906 43663.684114 41742.370152 39905.599814 38149.652458 36470.971443 34866.156706 33331.957961 31865.267849 30463.115808 29122.661995 27841.191528 26616.108989 25444.933168 24325.292034 23254.917930 22231.642981 21253.394707 20318.191820 441432.468519
-*end
-
-*partition[state1]
-year: 1997
-time_step: Jul_Jun
-values {d_r}
-category 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 21 22 23 24 25 26 27 28 29 30 31 32 33 34 35 36 37 38 39 40 41 42 43 44 45 46 47 48 49 50 51 52 53 54 55 56 57 58 59 60 61 62 63 64 65 66 67 68 69 70 71 72 73 74 75 76 77 78 79 80
-immature 2782834.405210 2660382.683739 2543319.146367 2431406.699424 2324418.681962 2222138.406681 2124358.721072 2030881.587855 1941517.592870 1856085.711742 1774412.870801 1696333.406343 1621689.053214 1550328.018596 1482079.221071 1416828.133684 1354413.200634 1294674.949304 1237426.329849 1182419.239873 1129277.883129 1077366.710415 1025532.857050 971622.200091 911647.369619 838661.427190 742336.133751 612715.359277 452494.843072 288797.934436 158310.037111 76280.833525 33377.399384 13628.900917 5302.925523 2004.254181 751.402192 285.539565 111.865346 45.492848 19.140352 8.260066 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000
-mature 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 26.093426 53.071627 107.939883 219.521494 446.396927 907.525569 1844.054463 3743.018829 7580.425392 15280.127087 30502.958162 59701.780497 112431.176158 197437.870905 310220.765170 421247.030161 491288.681453 503650.508458 468869.389990 407329.400829 337198.776818 271149.494874 216278.823241 174861.166965 145749.874504 126107.607112 112884.316885 103646.053867 96766.167651 91256.221375 86570.633792 82404.574236 78589.590895 75031.353153 71676.283686 68493.261408 65463.329134 62573.889770 59815.614583 57180.957133 54663.462465 52257.404700 49957.567413 47759.110941 45657.487436 43648.387676 41727.721419 39891.579387 38136.246220 36458.153686 34853.902297 33320.242414 31854.067632 30452.408308 29112.425614 27831.405554 26606.753614 25435.989449 24316.741858 23246.743980 22223.828705 21245.924278 20311.050109 19417.312758 18562.902100 403297.093047
-*end
-
-*partition[state1]
-year: 1998
-time_step: Jul_Jun
-values {d_r}
-category 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 21 22 23 24 25 26 27 28 29 30 31 32 33 34 35 36 37 38 39 40 41 42 43 44 45 46 47 48 49 50 51 52 53 54 55 56 57 58 59 60 61 62 63 64 65 66 67 68 69 70 71 72 73 74 75 76 77 78 79 80
-immature 2782834.405210 2660382.683739 2543319.146367 2431406.699424 2324418.681962 2222138.406681 2124358.721072 2030881.587855 1941517.485864 1856085.578640 1774412.644068 1696333.132733 1621688.508464 1550327.182822 1482077.439444 1416824.975788 1354407.599113 1294665.019723 1237408.732223 1182388.067301 1129222.699871 1077269.176146 1025361.004004 971321.295766 911127.127329 837784.294769 740927.222642 610642.469783 449851.323683 286038.899027 156047.075700 74855.872403 32705.136051 13401.477048 5251.447079 1994.057279 743.320880 276.569980 104.671226 40.917835 16.621095 6.988781 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000
-mature 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 26.093395 53.071508 107.939437 219.519810 446.390579 907.501644 1843.964352 3742.679973 7579.155107 15275.394942 30485.551291 59639.340083 112217.788279 196769.914925 308408.424941 417222.640324 484265.959787 494242.084867 459425.763332 400532.342953 333925.400980 269769.986872 213952.749765 169368.295659 136376.621550 113425.525381 98026.463154 87694.155304 80494.418200 75134.133647 70850.240314 67209.492241 63973.657533 61011.178210 58248.427951 55643.612403 53172.468717 50820.227224 48577.081392 46435.775172 44390.442931 42436.069870 40568.206680 38782.808516 37076.113798 35444.591966 33884.897703 32393.855694 30968.431108 29605.739656 28303.011265 27057.606862 25867.003702 24728.790239 23640.661093 22600.412440 21605.937363 20655.221702 19746.339930 18877.451246 18046.795852 17252.691389 16493.529523 15767.772690 15073.950986 327496.238498
-*end
-
-*partition[state1]
-year: 1999
-time_step: Jul_Jun
-values {d_r}
-category 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 21 22 23 24 25 26 27 28 29 30 31 32 33 34 35 36 37 38 39 40 41 42 43 44 45 46 47 48 49 50 51 52 53 54 55 56 57 58 59 60 61 62 63 64 65 66 67 68 69 70 71 72 73 74 75 76 77 78 79 80
-immature 2782834.405210 2660382.683739 2543319.146367 2431406.699424 2324418.681962 2222138.406681 2124358.721072 2030881.587855 1941517.509130 1856085.517590 1774412.589951 1696333.045625 1621688.476744 1550327.069540 1482077.362886 1416824.553326 1354406.850729 1294663.689776 1237406.374405 1182383.889128 1129215.302955 1077256.090822 1025337.916860 971280.770756 911056.740669 837664.624516 740732.073296 610347.593560 449457.890357 285597.926140 155647.767386 74576.691912 32571.395735 13378.343153 5276.968173 2022.222756 758.332777 280.764594 104.085126 39.316214 15.353723 6.233426 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000
-mature 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 26.093393 53.071493 107.939377 219.519585 446.389728 907.498437 1843.952273 3742.634512 7578.984454 15274.757630 30483.196212 59630.821118 112188.231762 196674.895708 308138.695485 416579.427556 483026.773322 492398.772600 457547.044744 399840.936102 335548.218737 273580.409164 218273.678829 171937.029053 135612.990039 108985.781968 90551.866417 78216.078866 69954.580076 64197.944238 59918.737922 56500.270286 53595.840566 51014.889156 48652.217582 46448.967935 44371.737871 42401.141480 40525.381497 38736.627883 37029.089301 35398.085678 33839.615055 32350.132840 30926.410361 29565.448038 28264.430508 27020.690133 25831.694834 24695.024557 23608.379297 22569.550126 21576.432580 20627.014956 19719.374226 18851.672021 18022.150953 17229.130914 16471.005760 15746.240026 15053.365812 14390.979808 13757.740457 13152.365232 12573.628042 273174.291984
-*end
-
-*partition[state1]
-year: 2000
-time_step: Jul_Jun
-values {d_r}
-category 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 21 22 23 24 25 26 27 28 29 30 31 32 33 34 35 36 37 38 39 40 41 42 43 44 45 46 47 48 49 50 51 52 53 54 55 56 57 58 59 60 61 62 63 64 65 66 67 68 69 70 71 72 73 74 75 76 77 78 79 80
-immature 2782834.405210 2660382.683739 2543319.146367 2431406.699424 2324418.681962 2222138.406681 2124358.721072 2030881.587855 1941517.352279 1856085.261753 1774412.038585 1696332.119852 1621686.843904 1550324.292028 1482072.384279 1416815.845985 1354391.140771 1294635.842914 1237357.018242 1182296.444005 1129060.481187 1076982.360758 1024855.312995 970434.798480 909591.027580 835183.755127 736718.256891 604363.006898 441636.807577 277062.552439 148060.732172 69067.905955 29244.764090 11666.678443 4506.350628 1710.111415 640.554578 237.127184 87.172171 32.192223 12.134838 4.733625 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000
-mature 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 26.093306 53.071166 107.938125 219.514863 446.371923 907.431322 1843.699457 3741.683511 7575.417194 15261.453524 30434.154678 59454.215500 111580.315646 194746.456946 302776.728777 404129.543418 459481.680449 456026.557981 410816.149621 348684.106591 286546.720873 231355.808478 184373.151819 145213.977783 113577.023054 89237.855578 71567.804598 59396.798951 51276.687999 45843.442601 42064.230797 39257.001736 37015.604168 35111.916433 33420.622384 31872.568663 30429.077704 29068.206722 27777.224835 26548.387645 25376.557452 24257.936100 23189.452855 22168.491400 21192.724577 20260.037268 19368.464432 18516.161713 17701.381528 16922.465100 16177.827042 15465.960608 14785.418719 14134.822731 13512.854769 12918.255047 12349.819240 11806.396076 11286.884909 10790.233546 10315.436096 9861.530931 9427.598736 9012.760651 8616.176486 187194.809914
-*end
-
-*partition[state1]
-year: 2001
-time_step: Jul_Jun
-values {d_r}
-category 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 21 22 23 24 25 26 27 28 29 30 31 32 33 34 35 36 37 38 39 40 41 42 43 44 45 46 47 48 49 50 51 52 53 54 55 56 57 58 59 60 61 62 63 64 65 66 67 68 69 70 71 72 73 74 75 76 77 78 79 80
-immature 2782834.405210 2660382.683739 2543319.146367 2431406.699424 2324418.681962 2222138.406681 2124358.721072 2030881.587855 1941517.430778 1856085.250974 1774412.040739 1696332.030178 1621686.734380 1550324.105927 1482072.166490 1416815.407726 1354390.477326 1294634.404588 1237354.468588 1182291.920418 1129052.460740 1076968.144241 1024830.133796 970390.280923 909512.686145 835047.376111 736486.404254 603986.994371 441074.746003 276315.880479 147202.895086 68232.939784 28570.123681 11219.681704 4262.146317 1597.968423 596.071125 221.142847 81.439682 29.854989 11.008820 4.146465 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000
-mature 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 26.093302 53.071150 107.938072 219.514619 446.371003 907.427850 1843.686360 3741.634119 7575.231077 15260.753423 30431.533439 59444.507089 111545.200200 194625.292833 302391.391410 403040.431247 456819.526749 450513.624817 401339.130955 335324.635030 271018.425309 216184.321806 171569.317923 135425.352847 106108.136015 82758.969465 64926.868436 52029.204964 43164.301239 37252.783491 33301.846574 30554.721017 28514.687995 26886.164797 25503.190375 24274.614175 23150.143874 22101.654494 21113.191902 20175.500869 19282.952088 18431.811671 17619.318385 16843.244674 16101.687567 15392.956772 14715.516012 14067.938016 13448.883167 12857.082140 12291.330113 11750.475566 11233.424103 10739.124664 10266.575894 9814.820580 9382.943697 8970.070507 8575.364804 8198.027152 7837.293309 7492.432666 7162.746761 6847.567866 6546.257636 142223.810732
-*end
-
-*partition[state1]
-year: 2002
-time_step: Jul_Jun
-values {d_r}
-category 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 21 22 23 24 25 26 27 28 29 30 31 32 33 34 35 36 37 38 39 40 41 42 43 44 45 46 47 48 49 50 51 52 53 54 55 56 57 58 59 60 61 62 63 64 65 66 67 68 69 70 71 72 73 74 75 76 77 78 79 80
-immature 2782834.405210 2660382.683739 2543319.146367 2431406.699424 2324418.681962 2222138.406681 2124358.721072 2030881.587855 1941517.139239 1856084.809152 1774411.114088 1696330.407660 1621683.768468 1550318.895014 1482062.936122 1416799.151228 1354361.609006 1294583.341559 1237263.719978 1182131.143703 1128767.811275 1076464.897578 1023942.969873 968835.433568 906819.717180 830492.138955 729124.996976 593034.170139 426813.937991 260850.980598 133593.954420 58489.398060 22774.058658 8259.402850 2911.811435 1028.060038 368.263183 133.747261 48.878306 17.851356 6.514594 2.396340 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000
-mature 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 26.093139 53.070541 107.935772 219.505961 446.338266 907.304451 1843.221541 3739.885725 7568.673432 15236.301259 30341.428951 59120.233478 110430.271745 191095.917792 292614.487118 380482.987547 414586.459043 386181.085223 319918.842918 246850.251146 185154.260605 139083.137592 105998.529986 81905.294658 63683.769143 49484.521168 38421.208461 30068.907914 24064.883248 19949.318384 17210.790122 15382.373933 14111.930232 13168.957573 12416.465149 11777.585498 11210.116275 10690.778565 10206.557121 9750.070531 9317.037674 8904.855316 8511.795046 8136.586334 7778.196150 7435.745705 7108.454423 6795.612853 6496.561882 6210.682876 5937.389662 5676.125854 5426.359682 5187.585753 4959.318690 4741.096068 4532.475846 4333.035467 4142.370976 3960.096216 3785.842007 3619.255424 3459.999071 3307.750398 3162.201051 68701.891793
-*end
-
-*partition[state1]
-year: 2003
-time_step: Jul_Jun
-values {d_r}
-category 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 21 22 23 24 25 26 27 28 29 30 31 32 33 34 35 36 37 38 39 40 41 42 43 44 45 46 47 48 49 50 51 52 53 54 55 56 57 58 59 60 61 62 63 64 65 66 67 68 69 70 71 72 73 74 75 76 77 78 79 80
-immature 2782834.405210 2660382.683739 2543319.146367 2431406.699424 2324418.681962 2222138.406681 2124358.721072 2030881.587855 1941516.977981 1856084.244549 1774410.184853 1696328.623190 1621680.624249 1550313.235258 1482052.947516 1416781.450711 1354330.333204 1294527.855104 1237165.486704 1181956.869428 1128459.276744 1075919.448236 1022981.496240 967150.636704 903902.605703 825560.646544 721164.158949 581212.965503 411478.066470 244327.917917 119217.932855 48389.339351 16937.577042 5392.700632 1660.195753 519.713442 169.766723 58.013709 20.505313 7.380857 2.673260 0.971152 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000
-mature 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 26.092964 53.069878 107.933279 219.496553 446.302829 907.170693 1842.717720 3737.990709 7561.566513 15209.805457 30243.824842 58769.175390 109224.555976 187286.720846 282100.542327 356382.084273 369972.884264 319494.612761 237930.802348 161172.608905 105567.384433 70310.461911 48864.572686 35526.932245 26716.467098 20459.966673 15766.121386 12185.869654 9513.779487 7603.588955 6298.790290 5432.063400 4853.983831 4452.596516 4154.821892 3917.283602 3715.658328 3536.596888 3372.737850 3219.966410 3075.949429 2939.334024 2809.296355 2685.294028 2566.923495 2453.858858 2345.822876 2242.569294 2143.874296 2049.529944 1959.341073 1873.122757 1790.699468 1711.903443 1636.575243 1564.561739 1495.717048 1429.901713 1366.982428 1306.831753 1249.327863 1194.354291 1141.799694 1091.557632 1043.526347 22671.624292
-*end
-
-*partition[state1]
-year: 2004
-time_step: Jul_Jun
-values {d_r}
-category 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 21 22 23 24 25 26 27 28 29 30 31 32 33 34 35 36 37 38 39 40 41 42 43 44 45 46 47 48 49 50 51 52 53 54 55 56 57 58 59 60 61 62 63 64 65 66 67 68 69 70 71 72 73 74 75 76 77 78 79 80
-immature 2782834.405210 2660382.683739 2543319.146367 2431406.699424 2324418.681962 2222138.406681 2124358.721072 2030881.587855 1941516.977981 1856084.090387 1774409.645094 1696327.734846 1621678.918308 1550310.229416 1482047.536979 1416771.902080 1354313.413130 1294497.961023 1237112.461205 1181863.027274 1128292.914981 1075625.359143 1022463.147166 966242.490582 902330.726493 822904.934067 716881.860044 574867.082017 403275.897570 235548.960098 111666.320924 43182.171190 14012.764543 4010.672133 1083.969247 296.319342 85.821883 26.743909 8.894308 3.096400 1.105291 0.398512 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000
-mature 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 26.092868 53.069520 107.931931 219.491484 446.283700 907.098667 1842.446059 3736.968976 7557.735035 15195.523580 30191.231079 58580.123219 108575.976605 185241.859875 276477.311143 343576.902974 346537.721618 285113.854570 196844.466155 119867.675825 68926.690110 40088.148866 24702.424292 16377.664513 11588.434184 8583.317756 6518.691310 5000.464792 3855.599847 3005.992918 2400.754320 1988.021930 1714.114351 1531.529078 1404.799535 1310.809113 1235.846468 1172.225636 1115.729234 1064.031922 1015.834071 970.398868 927.298655 886.274480 847.154328 809.810891 774.141353 740.058252 707.483897 676.347681 646.584004 618.131293 590.931211 564.928380 540.069876 516.305398 493.586637 471.867571 451.104204 431.254481 412.278196 394.136916 376.793899 360.214019 344.363695 7481.636016
+immature 2949794.839276 2819996.437568 2695909.492121 2577282.684377 2463875.754386 2355459.014190 2251812.882604 2152727.440469 2058002.005456 1967444.725572 1880872.190529 1798109.060189 1718987.709315 1643347.887910 1571008.737310 1501850.518771 1435704.588859 1372406.532991 1311766.270464 1253535.306519 1197340.857804 1142554.084884 1088030.678514 1031618.641878 969301.506730 894011.319748 795091.030252 661928.822531 496393.218678 325340.232961 186357.585929 96156.016798 46443.665335 21630.490555 9888.968226 4480.203105 2020.964159 909.757114 409.138670 183.914992 82.655260 37.143267 16.690495 7.499784 3.369952 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000
+mature 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 27.659116 56.256400 114.418396 232.701446 473.214783 962.108281 1955.197906 3969.494706 8042.390184 16223.655605 32432.017348 63641.972605 120421.215700 213296.134057 340316.550522 474548.431915 578329.550927 634878.048828 652417.906617 646474.342371 628812.902534 606113.147087 581701.457390 557124.861915 533068.655988 509818.145504 487477.066861 466068.056621 445578.251403 425979.834282 407239.241370 389322.772125 372191.497158 355814.072384 340157.316213 325189.510511 310880.335110 297200.805542 284123.213759 271621.071623 259669.056998 248242.962290 237319.645302 226876.982285 216893.823079 207349.948244 198226.028084 189503.583487 181164.948483 173193.234461 165572.295958 158286.697960 151321.684632 144663.149439 138297.606567 132212.163614 126394.495478 120832.819391 115515.871059 110432.881839 105573.556950 100928.054592 96486.966037 92241.296561 88182.447233 1915849.387912
 *end
 
 *partition[state1]
@@ -455,116 +1024,68 @@ year: 2005
 time_step: Jul_Jun
 values {d_r}
 category 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 21 22 23 24 25 26 27 28 29 30 31 32 33 34 35 36 37 38 39 40 41 42 43 44 45 46 47 48 49 50 51 52 53 54 55 56 57 58 59 60 61 62 63 64 65 66 67 68 69 70 71 72 73 74 75 76 77 78 79 80
-immature 2782834.405210 2660382.683739 2543319.146367 2431406.699424 2324418.681962 2222138.406681 2124358.721072 2030881.587855 1941516.977981 1856084.090387 1774409.497716 1696327.218839 1621678.069057 1550308.598554 1482044.663495 1416766.729865 1354304.285512 1294481.788453 1237083.892997 1181812.372064 1128203.333507 1075466.786357 1022183.669682 965752.891403 901483.445709 821473.909143 714575.751937 571453.500456 398872.792321 230853.661582 107654.033137 40446.886394 12504.853454 3318.101764 806.172185 193.471796 48.932126 13.519803 4.100213 1.343083 0.463689 0.164769 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000
-mature 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 26.092818 53.069327 107.931203 219.488742 446.273394 907.059789 1842.299777 3736.418058 7555.669223 15187.823944 30162.881773 58478.252866 108226.702960 184141.887000 273458.636565 336728.237108 334086.258572 267053.910615 175662.068325 99168.701254 51262.321817 26174.214970 14084.311715 8279.372877 5342.186203 3723.067594 2734.706256 2067.501929 1582.143239 1218.223089 949.111075 757.725216 627.330108 540.837395 483.199259 443.201678 413.541366 389.888085 369.814953 351.990452 335.680483 320.474785 306.140629 292.543409 279.601136 267.259544 255.478467 244.225471 233.472962 223.196432 213.373604 203.983784 195.007547 186.426487 178.223136 170.380796 162.883598 155.716302 148.864389 142.313980 136.051805 130.065183 124.341987 118.870626 113.640019 2468.939885
-*end
-
-*objective_function[obj_fun]
-values {v}
-observation->CPUEandes-1991 -1.0576
-observation->CPUEandes-1992 0.89184
-observation->CPUEandes-1993 2.75503
-observation->CPUEandes-1994 1.06222
-observation->CPUEandes-1995 -1.4652
-observation->CPUEandes-1996 2.81881
-observation->CPUEandes-1997 -0.00988335
-observation->CPUEandes-1998 2.28584
-observation->CPUEandes-1999 -0.731714
-observation->CPUEandes-2000 -1.48078
-observation->CPUEandes-2001 -1.27563
-observation->CPUEandes-2002 -1.43497
-observation->CPUEandes-2003 -0.997514
-observation->CPUEandes-2004 -0.604458
-observation->Obs_Andes_AF-1993 42.8865
-observation->Obs_Andes_AF-1994 36.7756
-observation->Obs_Andes_AF-1997 22.4033
-observation->Obs_Andes_AF-2001 20.2025
-observation->Obs_Andes_AF-2003 31.1228
-penalty->fisheryCatchMustBeTaken[Fishing_Mortality] 1.09628
-penalty->fisheryCatchMustBeTaken[Fishing_Mortality] 0.340407
-penalty->fisheryCatchMustBeTaken[Fishing_Mortality] 1.87431
-prior->B0->process[Recruitment].b0 10.1607
-prior->age_len_cv_first->age_length[age_len_label].cv_first 2.41426
-prior->age_len_cv_last->age_length[age_len_label].cv_last 0.708225
-prior->fishery_sel_a50->selectivity[SELandes].a50 0.0316316
-prior->fishery_sel_ato95->selectivity[SELandes].ato95 0.00432555
-total_score 170.777
-*end
-
-*derived_quantity[DQs]
-SSB {L}
-type: biomass
-initialisation_phase[1]: 25867.1
-values {v}
-1979 25866.2
-1980 25863.3
-1981 25861.5
-1982 25861.6
-1983 25861.8
-1984 25862
-1985 25862.1
-1986 25823.4
-1987 25785.2
-1988 25782.1
-1989 25763.2
-1990 25682
-1991 25558.3
-1992 21326.9
-1993 15615.7
-1994 12625.5
-1995 10665.5
-1996 9915.85
-1997 9553.39
-1998 9117.23
-1999 8477.61
-2000 7606.44
-2001 6699.04
-2002 5657.22
-2003 4222.48
-2004 3296.64
-2005 2897.8
-end {L}
+immature 2949781.426016 2819967.540663 2695858.035313 2577204.772134 2463765.100364 2355302.192270 2251594.392007 2152423.647170 2057581.829919 1966863.376142 1880068.435920 1796996.974404 1717451.157901 1641224.345039 1568080.018837 1497812.176139 1430138.038367 1364737.083835 1301207.005538 1239013.175404 1177402.872544 1115256.311638 1050829.218368 981324.821030 902269.900219 806948.545704 687145.887474 538350.785260 371257.432961 217168.148339 106973.583831 45435.052026 17220.024587 5999.809895 1967.862139 620.520078 191.982318 59.390680 18.655732 6.011372 1.996292 0.683321 0.240483 0.086737 0.031983 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000
+mature 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 27.607553 56.105131 113.974770 231.401035 469.405568 950.962315 1922.640171 3874.655986 7767.408362 15432.714462 30189.195883 57444.236001 104072.288561 173475.058577 254526.138124 316766.245963 331974.598135 299988.686505 241898.487380 179317.392110 125131.062744 83948.287277 55258.968184 36370.173823 24306.638705 16663.712226 11773.557048 8574.209939 6420.049162 4926.548882 3864.935981 3096.636875 2534.370039 2120.190217 1813.456135 1584.607721 1411.838845 1279.125344 1174.849002 1090.720246 1020.909799 961.364152 909.285768 862.751833 820.441867 781.446669 745.136096 711.068536 678.929518 648.490371 619.580509 592.068884 565.851571 540.843437 516.972566 494.176498 472.399703 451.591869 431.706740 412.701029 394.534947 377.170241 360.571168 344.703434 329.534479 7159.408310
 *end
 
 *estimate_value[estimated_values]
 values {d}
-process[Recruitment].b0 age_length[age_len_label].cv_first age_length[age_len_label].cv_last selectivity[SELandes].a50 selectivity[SELandes].ato95
-25867.1 0.0950653 0.0404926 32.359 4.76747
+process[Recruitment].b0 age_length[age_len_label].cv_first age_length[age_len_label].cv_last selectivity[SELandes].a50 selectivity[SELandes].ato95 
+27503.5 0.0925529 0.0388397 33.4302 8.02437 
+std_dev {d}
+process[Recruitment].b0 age_length[age_len_label].cv_first age_length[age_len_label].cv_last selectivity[SELandes].a50 selectivity[SELandes].ato95 
+1269.57 0.0129625 0.00921014 1.75991 1.33308 
 *end
 
-*derived_quantity[SSB]
-SSB {L}
-type: biomass
-initialisation_phase[1]: 25867.1
+*objective_function[obj_fun]
 values {v}
-1979 25866.2
-1980 25863.3
-1981 25861.5
-1982 25861.6
-1983 25861.8
-1984 25862
-1985 25862.1
-1986 25823.4
-1987 25785.2
-1988 25782.1
-1989 25763.2
-1990 25682
-1991 25558.3
-1992 21326.9
-1993 15615.7
-1994 12625.5
-1995 10665.5
-1996 9915.85
-1997 9553.39
-1998 9117.23
-1999 8477.61
-2000 7606.44
-2001 6699.04
-2002 5657.22
-2003 4222.48
-2004 3296.64
-2005 2897.8
-end {L}
+observation->CPUEandes-1991 -0.950804
+observation->CPUEandes-1992 3.0301
+observation->CPUEandes-1993 4.81372
+observation->CPUEandes-1994 2.27478
+observation->CPUEandes-1995 -1.56006
+observation->CPUEandes-1996 2.14203
+observation->CPUEandes-1997 -0.340884
+observation->CPUEandes-1998 1.85022
+observation->CPUEandes-1999 -0.830753
+observation->CPUEandes-2000 -1.45328
+observation->CPUEandes-2001 -1.04263
+observation->CPUEandes-2002 -1.55786
+observation->CPUEandes-2003 -1.56672
+observation->CPUEandes-2004 -1.53394
+observation->Obs_Andes_LF-1993 26.6788
+observation->Obs_Andes_LF-1994 20.1759
+observation->Obs_Andes_LF-1997 16.6119
+observation->Obs_Andes_LF-2001 15.9509
+observation->Obs_Andes_LF-2003 23.8525
+prior->B0->process[Recruitment].b0 10.2221
+prior->age_len_cv_first->age_length[age_len_label].cv_first 2.64014
+prior->age_len_cv_last->age_length[age_len_label].cv_last 0.748116
+prior->fishery_sel_a50->selectivity[SELandes].a50 0.0111756
+prior->fishery_sel_ato95->selectivity[SELandes].ato95 0.731745
+additional_prior->chatTANq_prior -9.08919
+total_score 111.808
+*end
+
+*process[Recruitment]
+age: 1
+b0: 27503.5
+b0_initialisation_phase: 
+categories: immature mature
+label: Recruitment
+proportions: 1 0
+r0: 3.08557e+06
+ssb: SSB
+ssb_offset: 1
+standardise_ycs_years: 1979 1980 1981 1982 1983 1984 1985 1986 1987 1988 1989 1990 1991 1992 1993 1994 1995 1996 1997 1998 1999 2000 2001 2002 2003
+steepness: 1
+type: recruitment_beverton_holt
+ycs_years: 1978 1979 1980 1981 1982 1983 1984 1985 1986 1987 1988 1989 1990 1991 1992 1993 1994 1995 1996 1997 1998 1999 2000 2001 2002 2003 2004 
+standardised_ycs: 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 
+ycs_values: 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 
+true_ycs: 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 
+Recruits: 3.08557e+06 3.08557e+06 3.08557e+06 3.08557e+06 3.08557e+06 3.08557e+06 3.08557e+06 3.08557e+06 3.08557e+06 3.08557e+06 3.08557e+06 3.08557e+06 3.08557e+06 3.08557e+06 3.08557e+06 3.08557e+06 3.08557e+06 3.08557e+06 3.08557e+06 3.08557e+06 3.08557e+06 3.08557e+06 3.08557e+06 3.08557e+06 3.08557e+06 3.08557e+06 3.08557e+06 
+SSB: 27503.5 27502.5 27499.7 27497.9 27498.1 27498.2 27498.4 27498.5 27460.3 27422.6 27419.3 27400.6 27320.3 27198 23019.5 17381.8 14436.5 12501.1 11751.2 11379.2 10937.1 10299.7 9440.86 8550.51 7532.87 5774.56 4389.81 
 *end
 
 *process[Mortality]
@@ -574,44 +1095,97 @@ m: 0.045 0.045
 selectivities: One One
 time_step_ratio: 1
 type: mortality_instantaneous
-year: 1979 1980 1981 1982 1983 1984 1985 1986 1987 1988 1989 1990 1991 1992 1993 1994 1995 1996 1997 1998 1999 2000 2001 2002 2003 2004 2005
-fishing_pressure[AndesFishery]: 8.55191e-05 0.000171052 0 0 0 4.27688e-06 0 0.00346424 0 0.000514821 0.0014163 0.00614468 0.00540108 0.378342 0.223823 0.291629 0.15219 0.142592 0.0863901 0.187953 0.16587 0.314742 0.240236 0.516945 0.67 0.67 0.67
-catch[AndesFishery]: 2 4 0 0 0 0.1 0 81 0 12 33 143 125 8715 3358 3543 1407 1192 667 1425 1132 1999 1244 2415 3038 1713 1713
-actual_catch[AndesFishery]: 2 4 0 0 0 0.1 0 81 0 12 33 143 125 8715 3358 3543 1407 1192 667 1425 1132 1999 1244 2415 2181.69 1424.39 1111.06
+year: 1979 1980 1981 1982 1983 1984 1985 1986 1987 1988 1989 1990 1991 1992 1993 1994 1995 1996 1997 1998 1999 2000 2001 2002 2003 2004 2005 
+fishing_pressure[AndesFishery]: 8.29658e-05 0.000165944 0 0 0 4.14913e-06 0 0.00336077 0 0.000499337 0.00137368 0.00595931 0.00523613 0.366671 0.208845 0.265163 0.132722 0.122364 0.0732366 0.15946 0.138199 0.259085 0.188383 0.394953 0.632767 0.542483 0.669636 
+catch[AndesFishery]: 2 4 0 0 0 0.1 0 81 0 12 33 143 125 8715 3358 3543 1407 1192 667 1425 1132 1999 1244 2415 3038 1713 1713 
+actual_catch[AndesFishery]: 2 4 0 0 0 0.1 0 81 0 12 33 143 125 8715 3358 3543 1407 1192 667 1425 1132 1999 1244 2415 3038 1713 1713 
 *end
 
-*process[Recruitment]
-age: 1
-b0: 25867.1
-b0_initialisation_phase:
-categories: immature mature
-label: Recruitment
-proportions: 1 0
-r0: 2.91092e+06
-ssb: SSB
-ssb_offset: 1
-standardise_ycs_years: 1979 1980 1981 1982 1983 1984 1985 1986 1987 1988 1989 1990 1991 1992 1993 1994 1995 1996 1997 1998 1999 2000 2001 2002 2003
-steepness: 1
-type: recruitment_beverton_holt
-ycs_years: 1978 1979 1980 1981 1982 1983 1984 1985 1986 1987 1988 1989 1990 1991 1992 1993 1994 1995 1996 1997 1998 1999 2000 2001 2002 2003 2004
-standardised_ycs: 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1
-ycs_values: 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1
-true_ycs: 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1
-Recruits: 2.91092e+06 2.91092e+06 2.91092e+06 2.91092e+06 2.91092e+06 2.91092e+06 2.91092e+06 2.91092e+06 2.91092e+06 2.91092e+06 2.91092e+06 2.91092e+06 2.91092e+06 2.91092e+06 2.91092e+06 2.91092e+06 2.91092e+06 2.91092e+06 2.91092e+06 2.91092e+06 2.91092e+06 2.91092e+06 2.91092e+06 2.91092e+06 2.91092e+06 2.91092e+06 2.91092e+06
-SSB: 25867.1 25866.2 25863.3 25861.5 25861.6 25861.8 25862 25862.1 25823.4 25785.2 25782.1 25763.2 25682 25558.3 21326.9 15615.7 12625.5 10665.5 9915.85 9553.39 9117.23 8477.61 7606.44 6699.04 5657.22 4222.48 3296.64
+*derived_quantity[DerivedQuantities]
+SSB {L} 
+type: biomass 
+initialisation_phase[1]: 27503.5 
+values {v}
+1979 27502.5
+1980 27499.7
+1981 27497.9
+1982 27498.1
+1983 27498.2
+1984 27498.4
+1985 27498.5
+1986 27460.3
+1987 27422.6
+1988 27419.3
+1989 27400.6
+1990 27320.3
+1991 27198
+1992 23019.5
+1993 17381.8
+1994 14436.5
+1995 12501.1
+1996 11751.2
+1997 11379.2
+1998 10937.1
+1999 10299.7
+2000 9440.86
+2001 8550.51
+2002 7532.87
+2003 5774.56
+2004 4389.81
+2005 3674.63
+end {L}
+*end
+
+*catchability[nuisance_Q]
+Qandes: 0.000112879 
+*end
+
+*derived_quantity[SSB]
+SSB {L} 
+type: biomass 
+initialisation_phase[1]: 27503.5 
+values {v}
+1979 27502.5
+1980 27499.7
+1981 27497.9
+1982 27498.1
+1983 27498.2
+1984 27498.4
+1985 27498.5
+1986 27460.3
+1987 27422.6
+1988 27419.3
+1989 27400.6
+1990 27320.3
+1991 27198
+1992 23019.5
+1993 17381.8
+1994 14436.5
+1995 12501.1
+1996 11751.2
+1997 11379.2
+1998 10937.1
+1999 10299.7
+2000 9440.86
+2001 8550.51
+2002 7532.87
+2003 5774.56
+2004 4389.81
+2005 3674.63
+end {L}
 *end
 
 *selectivity[maturity_ogive]
-a50: 29.5
-alpha: 1
-ato95: 3.9
-h: 49
-intervals: 5
-l: 15
-label: maturity_sel
-length_based: 0
-partition_type: model
-type: logistic_producing
+a50: 29.5 
+alpha: 1 
+ato95: 3.9 
+h: 49 
+intervals: 5 
+l: 15 
+label: maturity_sel 
+length_based: 0 
+partition_type: model 
+type: logistic_producing 
 Values {v}
 1 0
 2 0
@@ -655,9 +1229,9 @@ Values {v}
 40 0.529791
 41 0.529892
 42 0.52994
-43 1
-44 1
-45 1
+43 0.529962
+44 0.529973
+45 0.529978
 46 1
 47 1
 48 1
@@ -696,115 +1270,115 @@ Values {v}
 *end
 
 *partition_mean_length[growth_length_at_age]
-year: 2005
+time_step: Jul_Jun
 immature {L}
-mean_lengths {L}
-values: 10 10 10 10 10 10 10 10 10 10 20 20.5 24.3 24.9 23.7 26 28.5 28.5 28.5 28.9 29.8 29.9 30.6 31.4 31 31.9 32.2 32.3 32.1 33.2 32.6 32.6 33.3 33 33.8 33 34.4 34.3 34.8 34.4 34.8 34.7 34.6 35.2 35.8 36.1 35.7 35.6 36.2 37.1 35.8 35.4 36.1 36.9 36.7 36.4 36.3 35.9 36.4 36.7 38.8 38 36.5 36.4 36.7 38.2 36.8 37.5 38.5 37.4 36.9 35.7 35.7 35.4 34.7 39 38.7 37.4 35.9 38.9
-end {L}
+mean_lengths {d}
+year 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 21 22 23 24 25 26 27 28 29 30 31 32 33 34 35 36 37 38 39 40 41 42 43 44 45 46 47 48 49 50 51 52 53 54 55 56 57 58 59 60 61 62 63 64 65 66 67 68 69 70 71 72 73 74 75 76 77 78 79 80 
+2005 10 10 10 10 10 10 10 10 10 10 20 20.5 24.3 24.9 23.7 26 28.5 28.5 28.5 28.9 29.8 29.9 30.6 31.4 31 31.9 32.2 32.3 32.1 33.2 32.6 32.6 33.3 33 33.8 33 34.4 34.3 34.8 34.4 34.8 34.7 34.6 35.2 35.8 36.1 35.7 35.6 36.2 37.1 35.8 35.4 36.1 36.9 36.7 36.4 36.3 35.9 36.4 36.7 38.8 38 36.5 36.4 36.7 38.2 36.8 37.5 38.5 37.4 36.9 35.7 35.7 35.4 34.7 39 38.7 37.4 35.9 38.9 
 end {L}
 mature {L}
-mean_lengths {L}
-values: 10 10 10 10 10 10 10 10 10 10 20 20.5 24.3 24.9 23.7 26 28.5 28.5 28.5 28.9 29.8 29.9 30.6 31.4 31 31.9 32.2 32.3 32.1 33.2 32.6 32.6 33.3 33 33.8 33 34.4 34.3 34.8 34.4 34.8 34.7 34.6 35.2 35.8 36.1 35.7 35.6 36.2 37.1 35.8 35.4 36.1 36.9 36.7 36.4 36.3 35.9 36.4 36.7 38.8 38 36.5 36.4 36.7 38.2 36.8 37.5 38.5 37.4 36.9 35.7 35.7 35.4 34.7 39 38.7 37.4 35.9 38.9
-end {L}
+mean_lengths {d}
+year 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 21 22 23 24 25 26 27 28 29 30 31 32 33 34 35 36 37 38 39 40 41 42 43 44 45 46 47 48 49 50 51 52 53 54 55 56 57 58 59 60 61 62 63 64 65 66 67 68 69 70 71 72 73 74 75 76 77 78 79 80 
+2005 10 10 10 10 10 10 10 10 10 10 20 20.5 24.3 24.9 23.7 26 28.5 28.5 28.5 28.9 29.8 29.9 30.6 31.4 31 31.9 32.2 32.3 32.1 33.2 32.6 32.6 33.3 33 33.8 33 34.4 34.3 34.8 34.4 34.8 34.7 34.6 35.2 35.8 36.1 35.7 35.6 36.2 37.1 35.8 35.4 36.1 36.9 36.7 36.4 36.3 35.9 36.4 36.7 38.8 38 36.5 36.4 36.7 38.2 36.8 37.5 38.5 37.4 36.9 35.7 35.7 35.4 34.7 39 38.7 37.4 35.9 38.9 
 end {L}
 *end
 
 *partition_mean_weight[growth_weight_at_age]
-year: 2005
+time_step: Jul_Jun
 immature {L}
-mean_weights {L}
-values: 4.82295e-05 4.82295e-05 4.82295e-05 4.82295e-05 4.82295e-05 4.82295e-05 4.82295e-05 4.82295e-05 4.82295e-05 4.82295e-05 0.000313238 0.000334806 0.000529546 0.000565532 0.000495033 0.00063542 0.000813806 0.000813806 0.000813806 0.000844956 0.000917757 0.00092608 0.000985676 0.00105667 0.00102079 0.00110263 0.0011308 0.00114029 0.00112136 0.00122796 0.00116906 0.00116906 0.00123795 0.00120812 0.00128869 0.00120812 0.00135128 0.00134072 0.00139405 0.00135128 0.00139405 0.00138328 0.00137256 0.00143766 0.00150467 0.0015389 0.00149337 0.00148212 0.00155042 0.00165653 0.00150467 0.00145978 0.0015389 0.00163257 0.00160882 0.00157362 0.00156199 0.00151603 0.00157362 0.00160882 0.00186921 0.00176711 0.0015853 0.00157362 0.00160882 0.00179229 0.00162067 0.00170512 0.0018305 0.00169289 0.00163257 0.00149337 0.00149337 0.00145978 0.00138328 0.0018953 0.00185625 0.00169289 0.00151603 0.00188223
-end {L}
+mean_weights {d}
+year 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 21 22 23 24 25 26 27 28 29 30 31 32 33 34 35 36 37 38 39 40 41 42 43 44 45 46 47 48 49 50 51 52 53 54 55 56 57 58 59 60 61 62 63 64 65 66 67 68 69 70 71 72 73 74 75 76 77 78 79 80 
+2005 0 4.81773e-05 4.81635e-05 4.81497e-05 4.8136e-05 4.81225e-05 4.8109e-05 4.80956e-05 4.80824e-05 4.80692e-05 4.80562e-05 0.000314357 0.000336023 0.000532592 0.000568836 0.000497441 0.000639204 0.000819558 0.000819349 0.000819142 0.00085046 0.00092393 0.000932127 0.000992214 0.00106384 0.00102726 0.00110984 0.00113809 0.00114742 0.00112801 0.00123557 0.00117572 0.00117546 0.00124484 0.00121442 0.00129558 0.00121389 0.00135827 0.00134731 0.0014009 0.00135741 0.00140032 0.00138916 0.00137806 0.0014435 0.00151086 0.00154511 0.00149886 0.00148723 0.00155584 0.0016626 0.00150913 0.0014636 0.00154309 0.00163723 0.00161301 0.00157725 0.00156527 0.00151871 0.00157645 0.00161164 0.00187364 0.0017705 0.00158718 0.00157517 0.00161036 0.00179474 0.00162178 0.00170649 0.00183238 0.0016937 0.0016328 0.00149266 0.00149246 0.00145851 0.00138149 0.00189575 0.00185625 0.00169187 0.00151404 
 end {L}
 mature {L}
-mean_weights {L}
-values: 4.82295e-05 4.82295e-05 4.82295e-05 4.82295e-05 4.82295e-05 4.82295e-05 4.82295e-05 4.82295e-05 4.82295e-05 4.82295e-05 0.000313238 0.000334806 0.000529546 0.000565532 0.000495033 0.00063542 0.000813806 0.000813806 0.000813806 0.000844956 0.000917757 0.00092608 0.000985676 0.00105667 0.00102079 0.00110263 0.0011308 0.00114029 0.00112136 0.00122796 0.00116906 0.00116906 0.00123795 0.00120812 0.00128869 0.00120812 0.00135128 0.00134072 0.00139405 0.00135128 0.00139405 0.00138328 0.00137256 0.00143766 0.00150467 0.0015389 0.00149337 0.00148212 0.00155042 0.00165653 0.00150467 0.00145978 0.0015389 0.00163257 0.00160882 0.00157362 0.00156199 0.00151603 0.00157362 0.00160882 0.00186921 0.00176711 0.0015853 0.00157362 0.00160882 0.00179229 0.00162067 0.00170512 0.0018305 0.00169289 0.00163257 0.00149337 0.00149337 0.00145978 0.00138328 0.0018953 0.00185625 0.00169289 0.00151603 0.00188223
-end {L}
+mean_weights {d}
+year 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 21 22 23 24 25 26 27 28 29 30 31 32 33 34 35 36 37 38 39 40 41 42 43 44 45 46 47 48 49 50 51 52 53 54 55 56 57 58 59 60 61 62 63 64 65 66 67 68 69 70 71 72 73 74 75 76 77 78 79 80 
+2005 0 4.81773e-05 4.81635e-05 4.81497e-05 4.8136e-05 4.81225e-05 4.8109e-05 4.80956e-05 4.80824e-05 4.80692e-05 4.80562e-05 0.000314357 0.000336023 0.000532592 0.000568836 0.000497441 0.000639204 0.000819558 0.000819349 0.000819142 0.00085046 0.00092393 0.000932127 0.000992214 0.00106384 0.00102726 0.00110984 0.00113809 0.00114742 0.00112801 0.00123557 0.00117572 0.00117546 0.00124484 0.00121442 0.00129558 0.00121389 0.00135827 0.00134731 0.0014009 0.00135741 0.00140032 0.00138916 0.00137806 0.0014435 0.00151086 0.00154511 0.00149886 0.00148723 0.00155584 0.0016626 0.00150913 0.0014636 0.00154309 0.00163723 0.00161301 0.00157725 0.00156527 0.00151871 0.00157645 0.00161164 0.00187364 0.0017705 0.00158718 0.00157517 0.00161036 0.00179474 0.00162178 0.00170649 0.00183238 0.0016937 0.0016328 0.00149266 0.00149246 0.00145851 0.00138149 0.00189575 0.00185625 0.00169187 0.00151404 
 end {L}
 *end
 
 *selectivity[fishery_selectivity]
-a50: 32.359
-alpha: 1
-ato95: 4.76747
-intervals: 5
-label: SELandes
-length_based: 0
-partition_type: model
-type: logistic
+a50: 33.4302 
+alpha: 1 
+ato95: 8.02437 
+intervals: 5 
+label: SELandes 
+length_based: 0 
+partition_type: model 
+type: logistic 
 Values {v}
-1 0
-2 0
-3 0
-4 0
-5 0
-6 0
-7 0
-8 0
-9 5.42667e-07
-10 1.00637e-06
-11 1.8663e-06
-12 3.46104e-06
-13 6.41844e-06
-14 1.19029e-05
-15 2.20735e-05
-16 4.09344e-05
-17 7.59098e-05
-18 0.000140765
-19 0.000261016
-20 0.000483944
-21 0.000897098
-22 0.00166239
-23 0.00307851
-24 0.00569408
-25 0.0105085
-26 0.0193145
-27 0.035237
-28 0.0634365
-29 0.111593
-30 0.188933
-31 0.301672
-32 0.444792
-33 0.597696
-34 0.733701
-35 0.836319
-36 0.904539
-37 0.946156
-38 0.970227
-39 0.983722
-40 0.991156
-41 0.995212
-42 0.997412
-43 0.998603
-44 0.999246
-45 0.999593
-46 0.999781
-47 0.999882
-48 0.999936
-49 0.999966
-50 0.999981
-51 0.99999
-52 0.999995
-53 0.999997
-54 0.999998
-55 0.999999
-56 1
-57 1
-58 1
-59 1
-60 1
-61 1
-62 1
-63 1
-64 1
-65 1
-66 1
-67 1
-68 1
-69 1
-70 1
-71 1
-72 1
+1 6.79138e-06
+2 9.80201e-06
+3 1.41473e-05
+4 2.04187e-05
+5 2.94702e-05
+6 4.2534e-05
+7 6.13885e-05
+8 8.86e-05
+9 0.000127872
+10 0.000184548
+11 0.000266338
+12 0.000384362
+13 0.000554658
+14 0.000800345
+15 0.00115473
+16 0.00166578
+17 0.00240246
+18 0.0034638
+19 0.00499166
+20 0.0071886
+21 0.0103424
+22 0.0148591
+23 0.0213059
+24 0.0304633
+25 0.043382
+26 0.0614321
+27 0.0863148
+28 0.119988
+29 0.164433
+30 0.221202
+31 0.290752
+32 0.371731
+33 0.460616
+34 0.552079
+35 0.640149
+36 0.719695
+37 0.787494
+38 0.842483
+39 0.885316
+40 0.917639
+41 0.941455
+42 0.958694
+43 0.971013
+44 0.979736
+45 0.985872
+46 0.990169
+47 0.993168
+48 0.995256
+49 0.996709
+50 0.997717
+51 0.998417
+52 0.998903
+53 0.99924
+54 0.999473
+55 0.999635
+56 0.999747
+57 0.999825
+58 0.999879
+59 0.999916
+60 0.999942
+61 0.99996
+62 0.999972
+63 0.999981
+64 0.999987
+65 0.999991
+66 0.999994
+67 0.999996
+68 0.999997
+69 0.999998
+70 0.999999
+71 0.999999
+72 0.999999
 73 1
 74 1
 75 1
@@ -820,298 +1394,283 @@ observation_type: biomass
 likelihood: lognormal
 Values {d}
 year category age length observed expected residual error_value process_error adjusted_error score
-1991 immature+mature 0 0 2.977 3.23293 -0.25593 0.296 0.2 0.357234 -1.0576
-1992 immature+mature 0 0 4.133 2.66434 1.46866 0.063 0.2 0.209688 0.89184
-1993 immature+mature 0 0 3.429 1.88899 1.54001 0.073 0.2 0.212906 2.75503
-1994 immature+mature 0 0 2.335 1.48116 0.853836 0.064 0.2 0.20999 1.06222
-1995 immature+mature 0 0 1.076 1.20945 -0.133453 0.065 0.2 0.210297 -1.4652
-1996 immature+mature 0 0 0.579 1.09965 -0.520654 0.069 0.2 0.211568 2.81881
-1997 immature+mature 0 0 0.702 1.04209 -0.340087 0.078 0.2 0.214672 -0.00988335
-1998 immature+mature 0 0 0.538 0.978881 -0.440881 0.064 0.2 0.20999 2.28584
-1999 immature+mature 0 0 0.665 0.891039 -0.226039 0.072 0.2 0.212565 -0.731714
-2000 immature+mature 0 0 0.697 0.776871 -0.0798712 0.067 0.2 0.210924 -1.48078
-2001 immature+mature 0 0 0.549 0.657536 -0.108536 0.073 0.2 0.212906 -1.27563
-2002 immature+mature 0 0 0.572 0.526223 0.0457769 0.071 0.2 0.212229 -1.43497
-2003 immature+mature 0 0 0.428 0.350075 0.0779248 0.065 0.2 0.210297 -0.997514
-2004 immature+mature 0 0 0.312 0.238646 0.0733536 0.069 0.2 0.211568 -0.604458
+1991 immature+mature 0 0 2.977 2.68919 0.287808 0.296 0.2 0.357234 -0.950804
+1992 immature+mature 0 0 4.133 2.25044 1.88256 0.063 0.2 0.209688 3.0301
+1993 immature+mature 0 0 3.429 1.65336 1.77564 0.073 0.2 0.212906 4.81372
+1994 immature+mature 0 0 2.335 1.34103 0.993968 0.064 0.2 0.20999 2.27478
+1995 immature+mature 0 0 1.076 1.13241 -0.0564095 0.065 0.2 0.210297 -1.56006
+1996 immature+mature 0 0 0.579 1.04619 -0.467194 0.069 0.2 0.211568 2.14203
+1997 immature+mature 0 0 0.702 0.998775 -0.296775 0.078 0.2 0.214672 -0.340884
+1998 immature+mature 0 0 0.538 0.946579 -0.408579 0.064 0.2 0.20999 1.85022
+1999 immature+mature 0 0 0.665 0.876287 -0.211287 0.072 0.2 0.212565 -0.830753
+2000 immature+mature 0 0 0.697 0.786918 -0.0899182 0.067 0.2 0.210924 -1.45328
+2001 immature+mature 0 0 0.549 0.695083 -0.146083 0.073 0.2 0.212906 -1.04263
+2002 immature+mature 0 0 0.572 0.594775 -0.0227746 0.071 0.2 0.212229 -1.55786
+2003 immature+mature 0 0 0.428 0.429955 -0.00195501 0.065 0.2 0.210297 -1.56672
+2004 immature+mature 0 0 0.312 0.302906 0.00909401 0.069 0.2 0.211568 -1.53394
 *end
 
-*observation[fishery_AF]
-observation_type: process_removals_by_age
+*observation[fishery_LF]
+observation_type: process_removals_by_length
 likelihood: multinomial
 Values {d}
 year category age length observed expected residual error_value process_error adjusted_error score pearsons_residuals
-1993 immature+mature 19 0 0.00048 6.77337e-05 0.000412266 56 0 56 0.243117 0.374873
-1993 immature+mature 20 0 0.001 0.000120052 0.000879948 56 0 56 0.475732 0.601025
-1993 immature+mature 21 0 0.00291 0.000212733 0.00269727 56 0 56 1.30412 1.38404
-1993 immature+mature 22 0 0.0015 0.000376803 0.0011232 56 0 56 0.619331 0.433087
-1993 immature+mature 23 0 0.00463 0.000666886 0.00396311 56 0 56 1.79576 1.14881
-1993 immature+mature 24 0 0.00686 0.00117857 0.00568143 56 0 56 2.47205 1.23917
-1993 immature+mature 25 0 0.00891 0.00207727 0.00683273 56 0 56 2.96111 1.12303
-1993 immature+mature 26 0 0.00895 0.00364324 0.00530676 56 0 56 2.69344 0.659131
-1993 immature+mature 27 0 0.01072 0.00633265 0.00438735 56 0 56 2.92629 0.413888
-1993 immature+mature 28 0 0.01373 0.0108319 0.00289812 56 0 56 3.39979 0.209519
-1993 immature+mature 29 0 0.01751 0.0180166 -0.000506594 56 0 56 3.93029 -0.0285014
-1993 immature+mature 30 0 0.02609 0.0286087 -0.00251868 56 0 56 5.45026 -0.113063
-1993 immature+mature 31 0 0.04041 0.0423158 -0.00190583 56 0 56 8.10584 -0.0708461
-1993 immature+mature 32 0 0.06405 0.0568616 0.00718836 56 0 56 12.8591 0.232288
-1993 immature+mature 33 0 0.09926 0.0684994 0.0307606 56 0 56 20.6699 0.911283
-1993 immature+mature 34 0 0.12552 0.0746713 0.0508487 56 0 56 26.8221 1.4476
-1993 immature+mature 35 0 0.14803 0.075807 0.072223 56 0 56 32.6133 2.0419
-1993 immature+mature 36 0 0.14041 0.0740141 0.0663959 56 0 56 30.7836 1.89791
-1993 immature+mature 37 0 0.12092 0.0710792 0.0498408 56 0 56 25.9718 1.45151
-1993 immature+mature 38 0 0.08129 0.067899 0.013391 56 0 56 16.2866 0.398332
-1993 immature+mature 39 0 0.04315 0.0647923 -0.0216423 56 0 56 7.72256 -0.657932
-1993 immature+mature 40 0 0.02042 0.0618395 -0.0414195 56 0 56 3.24979 -1.28685
-1993 immature+mature 41 0 0.00852 0.0590474 -0.0505274 56 0 56 1.2286 -1.60412
-1993 immature+mature 42 0 0.00423 0.0564043 -0.0521743 56 0 56 0.585896 -1.69239
-1993 immature+mature 43 0 0.00046 0.0538955 -0.0534355 56 0 56 0.0609074 -1.77084
-1993 immature+mature 44 0 6e-05 0.0515082 -0.0514482 56 0 56 0.00803563 -1.74184
-1993 immature+mature 45 0 0 0.0492323 -0.0492323 56 0 56 0 -1.70287
-1994 immature+mature 19 0 0 7.86724e-05 -7.86724e-05 57 0 57 0 -0.0669678
-1994 immature+mature 20 0 0 0.000139439 -0.000139439 57 0 57 0 -0.0891579
-1994 immature+mature 21 0 0 0.000247084 -0.000247084 57 0 57 0 -0.11869
-1994 immature+mature 22 0 0 0.000437639 -0.000437639 57 0 57 0 -0.157976
-1994 immature+mature 23 0 0 0.000774529 -0.000774529 57 0 57 0 -0.210196
-1994 immature+mature 24 0 0.00012 0.00136872 -0.00124872 57 0 57 0.0411924 -0.255001
-1994 immature+mature 25 0 0.00142 0.0024121 -0.000992105 57 0 57 0.446313 -0.152694
-1994 immature+mature 26 0 0.00122 0.00422951 -0.00300951 57 0 57 0.343792 -0.350113
-1994 immature+mature 27 0 0.00211 0.00734851 -0.00523851 57 0 57 0.532747 -0.463071
-1994 immature+mature 28 0 0.01052 0.0125593 -0.0020393 57 0 57 2.51216 -0.138255
-1994 immature+mature 29 0 0.01703 0.0208579 -0.00382787 57 0 57 3.74457 -0.202226
-1994 immature+mature 30 0 0.02583 0.0330244 -0.00719436 57 0 57 5.28673 -0.303952
-1994 immature+mature 31 0 0.04749 0.0485778 -0.00108776 57 0 57 9.62352 -0.0382001
-1994 immature+mature 32 0 0.07759 0.0646012 0.0129888 57 0 57 15.9497 0.398923
-1994 immature+mature 33 0 0.10289 0.0763972 0.0264928 57 0 57 21.4103 0.752981
-1994 immature+mature 34 0 0.14212 0.0808784 0.0612416 57 0 57 31.1931 1.69583
-1994 immature+mature 35 0 0.14695 0.0789907 0.0679593 57 0 57 32.6802 1.90224
-1994 immature+mature 36 0 0.13756 0.074 0.06356 57 0 57 30.6809 1.83316
-1994 immature+mature 37 0 0.12181 0.0685617 0.0532483 57 0 57 27.0187 1.59084
-1994 immature+mature 38 0 0.0813 0.0637944 0.0175056 57 0 57 16.9291 0.540802
-1994 immature+mature 39 0 0.04229 0.059843 -0.017553 57 0 57 7.89174 -0.558703
-1994 immature+mature 40 0 0.02465 0.0565281 -0.0318781 57 0 57 4.2569 -1.04216
-1994 immature+mature 41 0 0.01136 0.0536518 -0.0422918 57 0 57 1.78851 -1.41702
-1994 immature+mature 42 0 0.00474 0.0510737 -0.0463337 57 0 57 0.701026 -1.58898
-1994 immature+mature 43 0 0.00065 0.0487071 -0.0480571 57 0 57 0.0916858 -1.68555
-1994 immature+mature 44 0 0.00031 0.0464992 -0.0461892 57 0 57 0.0442724 -1.65613
-1994 immature+mature 45 0 3e-05 0.0444181 -0.0443881 57 0 57 0.00434049 -1.62663
-1997 immature+mature 19 0 0 9.86438e-05 -9.86438e-05 33 0 33 0 -0.0570576
-1997 immature+mature 20 0 0 0.000174837 -0.000174837 33 0 33 0 -0.0759648
-1997 immature+mature 21 0 0 0.000309813 -0.000309813 33 0 33 0 -0.101129
-1997 immature+mature 22 0 0 0.000548758 -0.000548758 33 0 33 0 -0.134607
-1997 immature+mature 23 0 0 0.000971226 -0.000971226 33 0 33 0 -0.179113
-1997 immature+mature 24 0 0.00077 0.00171644 -0.00094644 33 0 33 0.147656 -0.131344
-1997 immature+mature 25 0 0.00164 0.00302533 -0.00138533 33 0 33 0.285045 -0.144904
-1997 immature+mature 26 0 0.00331 0.00530612 -0.00199612 33 0 33 0.518522 -0.157838
-1997 immature+mature 27 0 0.00631 0.00922332 -0.00291332 33 0 33 0.88806 -0.175071
-1997 immature+mature 28 0 0.01339 0.0157765 -0.00238649 33 0 33 1.71213 -0.110018
-1997 immature+mature 29 0 0.02576 0.0262377 -0.000477689 33 0 33 3.03887 -0.0171677
-1997 immature+mature 30 0 0.04363 0.041635 0.00199503 33 0 33 4.82007 0.0573737
-1997 immature+mature 31 0 0.06441 0.061428 0.00298202 33 0 33 6.74204 0.0713429
-1997 immature+mature 32 0 0.10607 0.0818969 0.0241731 33 0 33 11.213 0.506418
-1997 immature+mature 33 0 0.11177 0.096636 0.015134 33 0 33 11.3389 0.294246
-1997 immature+mature 34 0 0.13424 0.100673 0.0335667 33 0 33 14.0159 0.640841
-1997 immature+mature 35 0 0.1394 0.0942586 0.0451414 33 0 33 14.9846 0.887503
-1997 immature+mature 36 0 0.12679 0.0818253 0.0449647 33 0 33 13.9324 0.94237
-1997 immature+mature 37 0 0.1098 0.0682706 0.0415294 33 0 33 12.3532 0.945913
-1997 immature+mature 38 0 0.05542 0.0566253 -0.0012053 33 0 33 5.79234 -0.0299575
-1997 immature+mature 39 0 0.0331 0.0478743 -0.0147743 33 0 33 3.36141 -0.397525
-1997 immature+mature 40 0 0.01127 0.0417478 -0.0304778 33 0 33 1.06375 -0.875354
-1997 immature+mature 41 0 0.01048 0.0375303 -0.0270503 33 0 33 1.0205 -0.817607
-1997 immature+mature 42 0 0.00185 0.0345392 -0.0326892 33 0 33 0.173212 -1.02834
-1997 immature+mature 43 0 0.0004 0.0322861 -0.0318861 33 0 33 0.0378403 -1.03628
-1997 immature+mature 44 0 0.00019 0.0304691 -0.0302791 33 0 33 0.0183019 -1.01202
-1997 immature+mature 45 0 0 0.0289157 -0.0289157 33 0 33 0 -0.991277
-2001 immature+mature 19 0 0 0.000112426 -0.000112426 32 0 32 0 -0.0599836
-2001 immature+mature 20 0 0 0.000199262 -0.000199262 32 0 32 0 -0.0798603
-2001 immature+mature 21 0 0 0.000353084 -0.000353084 32 0 32 0 -0.106314
-2001 immature+mature 22 0 1e-05 0.000625369 -0.000615369 32 0 32 0.00217607 -0.139245
-2001 immature+mature 23 0 4e-05 0.00110671 -0.00106671 32 0 32 0.00797466 -0.181487
-2001 immature+mature 24 0 0.0003 0.00195553 -0.00165553 32 0 32 0.0544103 -0.211985
-2001 immature+mature 25 0 0.00116 0.00344558 -0.00228558 32 0 32 0.190182 -0.220643
-2001 immature+mature 26 0 0.00386 0.0060395 -0.0021795 32 0 32 0.571671 -0.159128
-2001 immature+mature 27 0 0.0063 0.0104864 -0.00418635 32 0 32 0.832993 -0.232481
-2001 immature+mature 28 0 0.01515 0.0179006 -0.00275058 32 0 32 1.82908 -0.117351
-2001 immature+mature 29 0 0.03448 0.0296636 0.0048164 32 0 32 3.92851 0.160592
-2001 immature+mature 30 0 0.05534 0.0467844 0.00855556 32 0 32 5.91521 0.22918
-2001 immature+mature 31 0 0.0744 0.0683572 0.00604284 32 0 32 7.45956 0.135456
-2001 immature+mature 32 0 0.10371 0.0898902 0.0138198 32 0 32 10.2015 0.273322
-2001 immature+mature 33 0 0.13668 0.104399 0.032281 32 0 32 13.6387 0.597195
-2001 immature+mature 34 0 0.16272 0.107402 0.0553183 32 0 32 16.7624 1.01067
-2001 immature+mature 35 0 0.13279 0.100248 0.0325418 32 0 32 13.334 0.612939
-2001 immature+mature 36 0 0.11503 0.0875746 0.0274554 32 0 32 11.6732 0.549433
-2001 immature+mature 37 0 0.08134 0.0733534 0.00798659 32 0 32 8.11613 0.173288
-2001 immature+mature 38 0 0.04476 0.0597112 -0.0149512 32 0 32 4.27484 -0.356938
-2001 immature+mature 39 0 0.01857 0.0475958 -0.0290258 32 0 32 1.69616 -0.771194
-2001 immature+mature 40 0 0.0088 0.0374753 -0.0286753 32 0 32 0.819927 -0.854091
-2001 immature+mature 41 0 0.00301 0.0295529 -0.0265429 32 0 32 0.290895 -0.88662
-2001 immature+mature 42 0 0.00105 0.023749 -0.022699 32 0 32 0.10719 -0.843292
-2001 immature+mature 43 0 0.0005 0.0197319 -0.0192319 32 0 32 0.0537818 -0.782241
-2001 immature+mature 44 0 0 0.017044 -0.017044 32 0 32 0 -0.744892
-2001 immature+mature 45 0 0 0.0152433 -0.0152433 32 0 32 0 -0.703802
-2003 immature+mature 19 0 0 0.000151636 -0.000151636 83 0 83 0 -0.112195
-2003 immature+mature 20 0 0.00023 0.000268749 -3.87488e-05 83 0 83 0.146231 -0.0215369
-2003 immature+mature 21 0 0 0.00047618 -0.00047618 83 0 83 0 -0.198851
-2003 immature+mature 22 0 0.00042 0.000843292 -0.000423292 83 0 83 0.227607 -0.132854
-2003 immature+mature 23 0 0.00044 0.00149203 -0.00105203 83 0 83 0.217656 -0.248316
-2003 immature+mature 24 0 0.00123 0.0026353 -0.0014053 83 0 83 0.555533 -0.249728
-2003 immature+mature 25 0 0.00277 0.00463981 -0.00186981 83 0 83 1.14187 -0.250666
-2003 immature+mature 26 0 0.00596 0.00812138 -0.00216138 83 0 83 2.26006 -0.219395
-2003 immature+mature 27 0 0.01498 0.0140648 0.00091525 83 0 83 5.42278 0.070809
-2003 immature+mature 28 0 0.02466 0.0238958 0.000764192 83 0 83 8.37953 0.0455861
-2003 immature+mature 29 0 0.0325 0.0392609 -0.00676086 83 0 83 10.1584 -0.317145
-2003 immature+mature 30 0 0.0555 0.0609858 -0.00548581 83 0 83 17.0154 -0.208847
-2003 immature+mature 31 0 0.0822 0.0868066 -0.00460659 83 0 83 24.8446 -0.14906
-2003 immature+mature 32 0 0.11527 0.109399 0.00587103 83 0 83 35.2664 0.171358
-2003 immature+mature 33 0 0.13796 0.119248 0.0187119 83 0 83 42.9623 0.526023
-2003 immature+mature 34 0 0.15496 0.112813 0.0421475 83 0 83 50.2574 1.21374
-2003 immature+mature 35 0 0.13347 0.0957265 0.0377435 83 0 83 43.685 1.16873
-2003 immature+mature 36 0 0.10163 0.0763256 0.0253044 83 0 83 33.2492 0.86824
-2003 immature+mature 37 0 0.06708 0.0594797 0.00760035 83 0 83 21.4968 0.292755
-2003 immature+mature 38 0 0.04202 0.0463033 -0.00428333 83 0 83 13.1526 -0.185699
-2003 immature+mature 39 0 0.01506 0.0362098 -0.0211498 83 0 83 4.27283 -1.03143
-2003 immature+mature 40 0 0.00784 0.0283424 -0.0205024 83 0 83 2.21366 -1.12556
-2003 immature+mature 41 0 0.00292 0.0221042 -0.0191842 83 0 83 0.827375 -1.18877
-2003 immature+mature 42 0 0.00083 0.017197 -0.016367 83 0 83 0.243915 -1.14696
-2003 immature+mature 43 0 5e-05 0.0134734 -0.0134234 83 0 83 0.0154929 -1.06074
-2003 immature+mature 44 0 1e-05 0.0107892 -0.0107792 83 0 83 0.00328072 -0.950575
-2003 immature+mature 45 0 0 0.00894714 -0.00894714 83 0 83 0 -0.865631
-*end
-
-*estimate_summary[estimated_summary]
-process[Recruitment].b0 {L}
-lower_bound: 10000
-upper_bound: 100000
-value: 25867.1
-estimation_phase: 1
-label: B0
-lower_bound: 1e4
-mcmc:
-parameter: process[Recruitment].b0
-prior_applies_to_transform:
-same:
-transform_with_jacobian:
-transformation:
-type: uniform_log
-upper_bound: 1e5
-end {L}
-
-age_length[age_len_label].cv_first {L}
-lower_bound: 0.01
-upper_bound: 1
-value: 0.0950653
-estimation_phase: 3
-label: age_len_cv_first
-lognormal_transfomration:
-lower_bound: 0.01
-mcmc:
-mu: 0.15
-parameter: age_length[age_len_label].cv_first
-prior_applies_to_transform:
-same:
-sigma: 0.025
-transform_with_jacobian:
-transformation:
-type: normal_by_stdev
-upper_bound: 1.0
-end {L}
-
-age_length[age_len_label].cv_last {L}
-lower_bound: 0.01
-upper_bound: 1
-value: 0.0404926
-cv: 0.5
-estimation_phase: 3
-label: age_len_cv_last
-lower_bound: 0.01
-mcmc:
-mu: 0.1
-parameter: age_length[age_len_label].cv_last
-prior_applies_to_transform:
-same:
-transform_with_jacobian:
-transformation:
-type: normal
-upper_bound: 1.0
-end {L}
-
-selectivity[SELandes].a50 {L}
-lower_bound: 5
-upper_bound: 80
-value: 32.359
-cv: 0.3
-estimation_phase: 2
-label: fishery_sel_a50
-lower_bound: 5
-mcmc:
-mu: 35
-parameter: selectivity[SELandes].a50
-prior_applies_to_transform:
-same:
-transform_with_jacobian:
-transformation:
-type: normal
-upper_bound: 80
-end {L}
-
-selectivity[SELandes].ato95 {L}
-lower_bound: 1
-upper_bound: 20
-value: 4.76747
-cv: 0.5
-estimation_phase: 2
-label: fishery_sel_ato95
-lower_bound: 1
-mcmc:
-mu: 5
-parameter: selectivity[SELandes].ato95
-prior_applies_to_transform:
-same:
-transform_with_jacobian:
-transformation:
-type: normal
-upper_bound: 20
-end {L}
-
-*end
-
-*catchability[nuisance_Q]
-Qandes: 0.000140003
+1993 immature+mature 0 19 0.00048 2.99128e-05 0.000450087 56 0 56 0.265086 0.615842
+1993 immature+mature 0 20 0.001 4.47335e-05 0.000955266 56 0 56 0.531015 1.06884
+1993 immature+mature 0 21 0.00291 6.56259e-05 0.00284437 56 0 56 1.49577 2.62759
+1993 immature+mature 0 22 0.0015 0.00010447 0.00139553 56 0 56 0.727088 1.02179
+1993 immature+mature 0 23 0.00463 0.000184699 0.0044453 56 0 56 2.12864 2.44795
+1993 immature+mature 0 24 0.00686 0.000365137 0.00649486 56 0 56 2.92221 2.54399
+1993 immature+mature 0 25 0.00891 0.000800642 0.00810936 56 0 56 3.43681 2.14553
+1993 immature+mature 0 26 0.00895 0.00185903 0.00709097 56 0 56 3.03066 1.23186
+1993 immature+mature 0 27 0.01072 0.00429821 0.00642179 56 0 56 3.15893 0.734585
+1993 immature+mature 0 28 0.01373 0.00935466 0.00437534 56 0 56 3.51252 0.34012
+1993 immature+mature 0 29 0.01751 0.0185025 -0.00099253 56 0 56 3.90419 -0.055116
+1993 immature+mature 0 30 0.02609 0.0328596 -0.00676957 56 0 56 5.24786 -0.284171
+1993 immature+mature 0 31 0.04041 0.0526402 -0.0122302 56 0 56 7.61179 -0.409838
+1993 immature+mature 0 32 0.06405 0.0764143 -0.0123643 56 0 56 11.799 -0.348286
+1993 immature+mature 0 33 0.09926 0.101171 -0.0019108 56 0 56 18.5022 -0.0474179
+1993 immature+mature 0 34 0.12552 0.121237 0.00428342 56 0 56 23.4154 0.0982047
+1993 immature+mature 0 35 0.14803 0.130966 0.0170642 56 0 56 28.081 0.378514
+1993 immature+mature 0 36 0.14041 0.127469 0.0129413 56 0 56 26.5091 0.290388
+1993 immature+mature 0 37 0.12092 0.113531 0.00738857 56 0 56 22.8008 0.174287
+1993 immature+mature 0 38 0.08129 0.0918699 -0.0105799 56 0 56 14.9102 -0.274104
+1993 immature+mature 0 39 0.04315 0.0632971 -0.0201471 56 0 56 7.77898 -0.619175
+1993 immature+mature 0 40 0.02042 0.0340704 -0.0136504 56 0 56 3.93146 -0.563091
+1993 immature+mature 0 41 0.00852 0.013685 -0.00516503 56 0 56 1.92617 -0.332687
+1993 immature+mature 0 42 0.00423 0.00400109 0.000228906 56 0 56 1.21267 0.0271352
+1993 immature+mature 0 43 0.00046 0.000933826 -0.000473826 56 0 56 0.165377 -0.116087
+1993 immature+mature 0 44 6e-05 0.000201374 -0.000141374 56 0 56 0.0266646 -0.0745599
+1993 immature+mature 0 45 0 4.42175e-05 -4.42175e-05 56 0 56 0 -0.0497623
+1994 immature+mature 0 19 0 3.56219e-05 -3.56219e-05 57 0 57 0 -0.0450613
+1994 immature+mature 0 20 0 5.32478e-05 -5.32478e-05 57 0 57 0 -0.0550934
+1994 immature+mature 0 21 0 7.80397e-05 -7.80397e-05 57 0 57 0 -0.0666979
+1994 immature+mature 0 22 0 0.000123992 -0.000123992 57 0 57 0 -0.084074
+1994 immature+mature 0 23 0 0.000218472 -0.000218472 57 0 57 0 -0.111605
+1994 immature+mature 0 24 0.00012 0.000429625 -0.000309625 57 0 57 0.049118 -0.112803
+1994 immature+mature 0 25 0.00142 0.000935386 0.000484614 57 0 57 0.522987 0.119685
+1994 immature+mature 0 26 0.00122 0.00215323 -0.00093323 57 0 57 0.390739 -0.152002
+1994 immature+mature 0 27 0.00211 0.00492831 -0.00281831 57 0 57 0.580796 -0.303843
+1994 immature+mature 0 28 0.01052 0.0105988 -7.88404e-05 57 0 57 2.61393 -0.00581261
+1994 immature+mature 0 29 0.01703 0.0206677 -0.00363768 57 0 57 3.75346 -0.193042
+1994 immature+mature 0 30 0.02583 0.036091 -0.010261 57 0 57 5.15599 -0.415345
+1994 immature+mature 0 31 0.04749 0.0566984 -0.0092084 57 0 57 9.20508 -0.300615
+1994 immature+mature 0 32 0.07759 0.0804989 -0.00290886 57 0 57 14.9766 -0.0807215
+1994 immature+mature 0 33 0.10289 0.104105 -0.00121547 57 0 57 19.5954 -0.030048
+1994 immature+mature 0 34 0.14212 0.122021 0.0200987 57 0 57 27.8617 0.463601
+1994 immature+mature 0 35 0.14695 0.129359 0.0175914 57 0 57 28.5486 0.395749
+1994 immature+mature 0 36 0.13756 0.124017 0.0135434 57 0 57 26.6322 0.310226
+1994 immature+mature 0 37 0.12181 0.109175 0.0126352 57 0 57 23.7886 0.305889
+1994 immature+mature 0 38 0.0813 0.0876234 -0.00632337 57 0 57 15.4583 -0.168845
+1994 immature+mature 0 39 0.04229 0.06008 -0.01779 57 0 57 7.88221 -0.5652
+1994 immature+mature 0 40 0.02465 0.0322612 -0.00761123 57 0 57 5.04495 -0.325216
+1994 immature+mature 0 41 0.01136 0.0129458 -0.00158576 57 0 57 2.70912 -0.105911
+1994 immature+mature 0 42 0.00474 0.00378509 0.000954907 57 0 57 1.40409 0.117404
+1994 immature+mature 0 43 0.00065 0.000884154 -0.000234154 57 0 57 0.240217 -0.0594795
+1994 immature+mature 0 44 0.00031 0.000190954 0.000119046 57 0 57 0.141372 0.0650476
+1994 immature+mature 0 45 3e-05 4.20196e-05 -1.20196e-05 57 0 57 0.0162477 -0.0139995
+1997 immature+mature 0 19 0 5.05725e-05 -5.05725e-05 33 0 33 0 -0.0408531
+1997 immature+mature 0 20 0 7.55656e-05 -7.55656e-05 33 0 33 0 -0.0499385
+1997 immature+mature 0 21 0 0.00011065 -0.00011065 33 0 33 0 -0.0604305
+1997 immature+mature 0 22 0 0.0001755 -0.0001755 33 0 33 0 -0.0761086
+1997 immature+mature 0 23 0 0.000308277 -0.000308277 33 0 33 0 -0.100878
+1997 immature+mature 0 24 0.00077 0.00060326 0.00016674 33 0 33 0.174226 0.03901
+1997 immature+mature 0 25 0.00164 0.00130441 0.000335589 33 0 33 0.330574 0.0534123
+1997 immature+mature 0 26 0.00331 0.00297565 0.000334346 33 0 33 0.5817 0.0352622
+1997 immature+mature 0 27 0.00631 0.00673042 -0.000420425 33 0 33 0.953673 -0.0295386
+1997 immature+mature 0 28 0.01339 0.0142449 -0.000854865 33 0 33 1.75725 -0.041442
+1997 immature+mature 0 29 0.02576 0.0271731 -0.00141313 33 0 33 3.00909 -0.0499287
+1997 immature+mature 0 30 0.04363 0.0460495 -0.00241948 33 0 33 4.67497 -0.0663137
+1997 immature+mature 0 31 0.06441 0.0695384 -0.00512839 33 0 33 6.47845 -0.115818
+1997 immature+mature 0 32 0.10607 0.0938292 0.0122408 33 0 33 10.7369 0.241153
+1997 immature+mature 0 33 0.11177 0.11417 -0.00240013 33 0 33 10.7239 -0.0433551
+1997 immature+mature 0 34 0.13424 0.125395 0.00884484 33 0 33 13.0432 0.153427
+1997 immature+mature 0 35 0.1394 0.124948 0.0144522 33 0 33 13.688 0.251079
+1997 immature+mature 0 36 0.12679 0.113329 0.0134615 33 0 33 12.5696 0.243949
+1997 immature+mature 0 37 0.1098 0.0951836 0.0146164 33 0 33 11.149 0.286112
+1997 immature+mature 0 38 0.05542 0.0737092 -0.0182892 33 0 33 5.31012 -0.402085
+1997 immature+mature 0 39 0.0331 0.0494177 -0.0163177 33 0 33 3.32675 -0.432495
+1997 immature+mature 0 40 0.01127 0.02623 -0.01496 33 0 33 1.23659 -0.537727
+1997 immature+mature 0 41 0.01048 0.0104753 4.66583e-06 33 0 33 1.46183 0.000263262
+1997 immature+mature 0 42 0.00185 0.00306342 -0.00121342 33 0 33 0.32111 -0.126134
+1997 immature+mature 0 43 0.0004 0.000718591 -0.000318591 33 0 33 0.0880676 -0.0682976
+1997 immature+mature 0 44 0.00019 0.000156366 3.36342e-05 33 0 33 0.0513591 0.0154526
+1997 immature+mature 0 45 0 3.47658e-05 -3.47658e-05 33 0 33 0 -0.033872
+2001 immature+mature 0 19 0 6.69472e-05 -6.69472e-05 32 0 32 0 -0.0462866
+2001 immature+mature 0 20 0 0.000100008 -0.000100008 32 0 32 0 -0.0565736
+2001 immature+mature 0 21 0 0.00014636 -0.00014636 32 0 32 0 -0.0684412
+2001 immature+mature 0 22 1e-05 0.00023189 -0.00022189 32 0 32 0.00249353 -0.0824371
+2001 immature+mature 0 23 4e-05 0.000406559 -0.000366559 32 0 32 0.00925647 -0.10286
+2001 immature+mature 0 24 0.0003 0.000793222 -0.000493222 32 0 32 0.0630725 -0.0991043
+2001 immature+mature 0 25 0.00116 0.00170824 -0.000548236 32 0 32 0.216227 -0.0751
+2001 immature+mature 0 26 0.00386 0.00387722 -1.7223e-05 32 0 32 0.626415 -0.00156771
+2001 immature+mature 0 27 0.0063 0.00871492 -0.00241492 32 0 32 0.870297 -0.146976
+2001 immature+mature 0 28 0.01515 0.0182952 -0.00314524 32 0 32 1.81851 -0.132761
+2001 immature+mature 0 29 0.03448 0.0345049 -2.48564e-05 32 0 32 3.7617 -0.000770367
+2001 immature+mature 0 30 0.05534 0.0575063 -0.00216629 32 0 32 5.5498 -0.0526373
+2001 immature+mature 0 31 0.0744 0.0847023 -0.0103023 32 0 32 6.94913 -0.209306
+2001 immature+mature 0 32 0.10371 0.11012 -0.00641002 32 0 32 9.52782 -0.115834
+2001 immature+mature 0 33 0.13668 0.127194 0.00948617 32 0 32 12.7749 0.161055
+2001 immature+mature 0 34 0.16272 0.130773 0.0319466 32 0 32 15.7372 0.53601
+2001 immature+mature 0 35 0.13279 0.120857 0.0119329 32 0 32 12.5396 0.207088
+2001 immature+mature 0 36 0.11503 0.101094 0.0139362 32 0 32 11.1448 0.261517
+2001 immature+mature 0 37 0.08134 0.0782343 0.00310567 32 0 32 7.94846 0.0654216
+2001 immature+mature 0 38 0.04476 0.0563102 -0.0115502 32 0 32 4.35884 -0.283436
+2001 immature+mature 0 39 0.01857 0.0358337 -0.0172637 32 0 32 1.86484 -0.525397
+2001 immature+mature 0 40 0.0088 0.0184702 -0.0096702 32 0 32 1.01917 -0.406278
+2001 immature+mature 0 41 0.00301 0.00728375 -0.00427375 32 0 32 0.425794 -0.284311
+2001 immature+mature 0 42 0.00105 0.00213178 -0.00108178 32 0 32 0.188186 -0.13268
+2001 immature+mature 0 43 0.0005 0.000505894 -5.89417e-06 32 0 32 0.1124 -0.00148278
+2001 immature+mature 0 44 0 0.000112293 -0.000112293 32 0 32 0 -0.0599481
+2001 immature+mature 0 45 0 2.56227e-05 -2.56227e-05 32 0 32 0 -0.0286347
+2003 immature+mature 0 19 0 8.89546e-05 -8.89546e-05 83 0 83 0 -0.0859295
+2003 immature+mature 0 20 0.00023 0.000132791 9.72087e-05 83 0 83 0.159689 0.0768579
+2003 immature+mature 0 21 0 0.000194035 -0.000194035 83 0 83 0 -0.126917
+2003 immature+mature 0 22 0.00042 0.000306482 0.000113518 83 0 83 0.262891 0.0590835
+2003 immature+mature 0 23 0.00044 0.00053439 -9.439e-05 83 0 83 0.255154 -0.0372094
+2003 immature+mature 0 24 0.00123 0.00103362 0.000196381 83 0 83 0.651082 0.055678
+2003 immature+mature 0 25 0.00277 0.0022 0.00057 83 0 83 1.31343 0.110836
+2003 immature+mature 0 26 0.00596 0.00492334 0.00103666 83 0 83 2.50765 0.134932
+2003 immature+mature 0 27 0.01498 0.0108905 0.00408947 83 0 83 5.7408 0.358971
+2003 immature+mature 0 28 0.02466 0.0224592 0.00220078 83 0 83 8.50643 0.135317
+2003 immature+mature 0 29 0.0325 0.0415297 -0.00902973 83 0 83 10.0068 -0.41233
+2003 immature+mature 0 30 0.0555 0.067685 -0.012185 83 0 83 16.5353 -0.441914
+2003 immature+mature 0 31 0.0822 0.0971254 -0.0149254 83 0 83 24.0783 -0.459181
+2003 immature+mature 0 32 0.11527 0.122233 -0.00696332 83 0 83 34.2051 -0.193674
+2003 immature+mature 0 33 0.13796 0.135481 0.00247921 83 0 83 41.5009 0.0659973
+2003 immature+mature 0 34 0.15496 0.132443 0.0225172 83 0 83 48.1941 0.605188
+2003 immature+mature 0 35 0.13347 0.115432 0.0180378 83 0 83 41.6113 0.514272
+2003 immature+mature 0 36 0.10163 0.0903666 0.0112634 83 0 83 31.8248 0.357906
+2003 immature+mature 0 37 0.06708 0.06502 0.00206004 83 0 83 21.0009 0.0761184
+2003 immature+mature 0 38 0.04202 0.0435729 -0.00155295 83 0 83 13.3646 -0.0693045
+2003 immature+mature 0 39 0.01506 0.0262333 -0.0111733 83 0 83 4.67569 -0.636894
+2003 immature+mature 0 40 0.00784 0.0130823 -0.00524232 83 0 83 2.71673 -0.42032
+2003 immature+mature 0 41 0.00292 0.00508404 -0.00216404 83 0 83 1.18356 -0.277208
+2003 immature+mature 0 42 0.00083 0.00148944 -0.000659444 83 0 83 0.412443 -0.155786
+2003 immature+mature 0 43 5e-05 0.000358271 -0.000308271 83 0 83 0.0305457 -0.148403
+2003 immature+mature 0 44 1e-05 8.13345e-05 -7.13345e-05 83 0 83 0.00733754 -0.0720641
+2003 immature+mature 0 45 0 1.90904e-05 -1.90904e-05 83 0 83 0 -0.0398062
 *end
 
 *hessian_matrix[Hess]
 hessian_matrix {m}
-4.6253e-06 0.00816956 -0.000661448 -0.000623621 0.000219182
-0.00816956 544.549 -98.572 2.79538 9.98647
--0.000661448 -98.572 2360.61 -0.151276 3.08358
--0.000623621 2.79538 -0.151276 13.01 -6.67894
-0.000219182 9.98647 3.08358 -6.67894 4.30454
+1.0168e-06 0.00430577 0.00540246 -0.000574704 0.000358299 
+0.00430577 9652.98 6933.06 -26.7665 48.8736 
+0.00540246 6933.06 17085 -33.1784 45.3634 
+-0.000574704 -26.7665 -33.1784 0.90271 -0.729688 
+0.000358299 48.8736 45.3634 -0.729688 1.24342 
 *end
 
 *covariance_matrix[Covar]
 covariance_matrix {m}
-230125 -5.71056 -0.303132 64.6419 102.046
--5.71056 0.00272622 0.000158991 -0.0197284 -0.0367585
--0.303132 0.000158991 0.000434756 -0.00189211 -0.00360067
-64.6419 -0.0197284 -0.00189211 0.524358 0.857428
-102.046 -0.0367585 -0.00360067 0.857428 1.64536
+1.6118e+06 1.08381 0.969317 1246.97 189.355 
+1.08381 0.000168026 -5.5805e-05 -0.000616711 -0.00524269 
+0.969317 -5.5805e-05 8.48267e-05 0.00214191 7.63841e-05 
+1246.97 -0.000616711 0.00214191 3.0973 1.40439 
+189.355 -0.00524269 7.63841e-05 1.40439 1.7771 
 *end
 
 *correlation_matrix[Corr]
 correlation_matrix {m}
-1 -0.22799 -0.0303059 0.186088 0.165839
--0.22799 1 0.146039 -0.521791 -0.548841
--0.0303059 0.146039 1 -0.125317 -0.134626
-0.186088 -0.521791 -0.125317 1 0.923109
-0.165839 -0.548841 -0.134626 0.923109 1
+1 0.0658583 0.0828978 0.558094 0.111883 
+0.0658583 1 -0.467432 -0.0270335 -0.303396 
+0.0828978 -0.467432 1 0.132143 0.00622129 
+0.558094 -0.0270335 0.132143 1 0.598605 
+0.111883 -0.303396 0.00622129 0.598605 1 
 *end
 
-*warnings[warnings_encounted]
-warnings_found: 1
-warning_0 {s}
-Estimates were removed because of matching lower and upper bounds. Originally had 32 estimates, now have 5
+*estimate_summary[estimated_summary]
+process[Recruitment].b0 {L}
+value: 27503.5
+std_dev: 1269.57
+estimation_phase: 1 
+label: B0 
+lower_bound: 1e4 
+mcmc: 
+parameter: process[Recruitment].b0 
+prior_applies_to_transform: 
+same: 
+transform_with_jacobian: 
+transformation: 
+type: uniform_log 
+upper_bound: 1e5 
+end {L}
+
+age_length[age_len_label].cv_first {L}
+value: 0.0925529
+std_dev: 0.0129625
+estimation_phase: 3 
+label: age_len_cv_first 
+lognormal_transfomration: 
+lower_bound: 0.01 
+mcmc: 
+mu: 0.15 
+parameter: age_length[age_len_label].cv_first 
+prior_applies_to_transform: 
+same: 
+sigma: 0.025 
+transform_with_jacobian: 
+transformation: 
+type: normal_by_stdev 
+upper_bound: 1.0 
+end {L}
+
+age_length[age_len_label].cv_last {L}
+value: 0.0388397
+std_dev: 0.00921014
+cv: 0.5 
+estimation_phase: 3 
+label: age_len_cv_last 
+lower_bound: 0.01 
+mcmc: 
+mu: 0.1 
+parameter: age_length[age_len_label].cv_last 
+prior_applies_to_transform: 
+same: 
+transform_with_jacobian: 
+transformation: 
+type: normal 
+upper_bound: 1.0 
+end {L}
+
+selectivity[SELandes].a50 {L}
+value: 33.4302
+std_dev: 1.75991
+cv: 0.3 
+estimation_phase: 2 
+label: fishery_sel_a50 
+lower_bound: 5 
+mcmc: 
+mu: 35 
+parameter: selectivity[SELandes].a50 
+prior_applies_to_transform: 
+same: 
+transform_with_jacobian: 
+transformation: 
+type: normal 
+upper_bound: 80 
+end {L}
+
+selectivity[SELandes].ato95 {L}
+value: 8.02437
+std_dev: 1.33308
+cv: 0.5 
+estimation_phase: 2 
+label: fishery_sel_ato95 
+lower_bound: 1 
+mcmc: 
+mu: 5 
+parameter: selectivity[SELandes].ato95 
+prior_applies_to_transform: 
+same: 
+transform_with_jacobian: 
+transformation: 
+type: normal 
+upper_bound: 20 
+end {L}
+
 *end
 
-Total CPU time: 0.004 hours.
-Total elapsed time: 7 seconds
+Total CPU time: 0.015 hours.
+Total elapsed time: 27 seconds
 Completed

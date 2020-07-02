@@ -1,31 +1,40 @@
-@report Init
-type initialisation_partition
+@report estimated_values
+type estimate_value
 
+@report estimated_summary
+type estimate_summary
 
 @report obj_fun
 type objective_function
+
+
+## Print process information
+@report Recruitment
+type process
+process Recruitment
+
+@report Mortality
+type process
+process Fishing_Mortality
+
+
+## Derived Quantities
+@report DerivedQuantities
+type derived_quantity
+
+@report Init
+type initialisation_partition
 
 
 @report mcmc_covariance
 type mcmc_covariance
 
 
-@report DQs
-type derived_quantity
-
-
-@report estimated_values
-type estimate_value
-
-
-@report estimated_summary
-type estimate_summary
-
 
 @report state1
 type partition
 time_step Jul_Jun
-years 1979:2005
+years 1979 2005
 
 
 @report nuisance_Q
@@ -33,16 +42,6 @@ type catchability
 
 @report SSB
 type derived_quantity
-
-
-@report Mortality
-type process
-process Fishing_Mortality
-
-
-@report Recruitment
-type process
-process Recruitment
 
 
 @report maturity_ogive
@@ -72,9 +71,9 @@ type observation
 observation CPUEandes
 
 
-@report fishery_AF
+@report fishery_LF
 type observation
-observation Obs_Andes_AF
+observation Obs_Andes_LF
 pearsons_residuals True
 
 

@@ -7,7 +7,7 @@ tolerance 0.000001
 covariance true
 
 
-@mcmc mcmc
+@mcmc mcmc  #not the same as CASAL?
 start 0.2
 length 11000000
 keep 1000
@@ -24,7 +24,6 @@ type uniform_log
 lower_bound 1e4
 upper_bound 1e5
 estimation_phase 1
-
 
 @estimate age_len_cv_first
 parameter age_length[age_len_label].cv_first
@@ -71,22 +70,19 @@ mu 5
 cv 0.5
 estimation_phase 2
 
+@catchability Qandes
+type nuisance
+lower_bound 1e-10
+upper_bound 10000000
 
-@estimate rec_ycs
-parameter process[Recruitment].ycs_values{1978:2004}
-#lower_bound 0.01 0.01 0.01 0.01 0.01 0.01 0.01 0.01 0.01 0.01 0.01 0.01 0.01 0.01 0.01 0.01 0.01 0.01 0.01 0.01 0.01 0.01 0.01 0.01 0.01 0.01 0.01
-#upper_bound 100 100 100 100 100 100 100 100 100 100 100 100 100 100 100 100 100 100 100 100 100 100 100 100 100 100 100
-# turn off estimation
-lower_bound 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1
-upper_bound 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1
-mu          1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1
-cv          1.1 1.1 1.1 1.1 1.1 1.1 1.1 1.1 1.1 1.1 1.1 1.1 1.1 1.1 1.1 1.1 1.1 1.1 1.1 1.1 1.1 1.1 1.1 1.1 1.1 1.1 1.1
-type lognormal
+@additional_prior chatTANq_prior
+type uniform_log
+parameter catchability[Qandes].q
 
 
 @penalty fisheryCatchMustBeTaken
 type process
-log_scale True
+log_scale false
 multiplier 10
 
 

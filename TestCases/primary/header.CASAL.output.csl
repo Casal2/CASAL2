@@ -32,6 +32,7 @@ actual_catches 1
 removals 1
 discards 1
 B0 true
+R0 true
 SSBs true
 YCS true
 true_YCS true
