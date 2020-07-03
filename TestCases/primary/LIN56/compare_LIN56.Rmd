@@ -263,7 +263,7 @@ hux_C1_est_params
 C2_est_params <- rotate_and_label_cols(C2_est_params, C2_subdir)
 # print('Casal2 parameter estimates')
 # print(C2_est_params, digits=5)
-hux_C2_est_params <- reformat_to_huxtable(C2_est_params, 'Casal2 parameter estimates')
+hux_C2_est_params <- reformat_to_huxtable(C2_est_params, 'Casal2 parameter estimates', 5)
 hux_C2_est_params
 
 
@@ -435,27 +435,7 @@ plot_legend()
 ```{r plots_set_1, echo=FALSE}
 
 # Q:  how to get CASAL initial age structure?
-
-# Initial state:
-# Partition:
-#   sex        3         4         5         6         7         8         9         10        11        12        13        14        15        16        17        18        19        20        21        22        23        24        25
-#   male       0         2.134e+07 1.53e+07  1.136e+07 8.705e+06 6.86e+06  5.543e+06 4.581e+06 3.863e+06 3.316e+06 2.884e+06 2.505e+06 2.152e+06 1.825e+06 1.528e+06 1.261e+06 1.024e+06 8.184e+05 6.421e+05 4.941e+05 3.722e+05 2.74e+05  6.655e+05
-#   female     0         2.134e+07 1.53e+07  1.136e+07 8.705e+06 6.86e+06  5.543e+06 4.581e+06 3.863e+06 3.316e+06 2.884e+06 2.505e+06 2.152e+06 1.825e+06 1.528e+06 1.261e+06 1.024e+06 8.184e+05 6.421e+05 4.941e+05 3.722e+05 2.74e+05  6.655e+05
-
-c1_mat <- matrix(c(0,2.134e+07,1.53e+07,1.136e+07,8.705e+06,6.86e+06,5.543e+06,4.581e+06,3.863e+06,3.316e+06,2.884e+06,2.505e+06,2.152e+06,1.825e+06,1.528e+06,1.261e+06,1.024e+06,8.184e+05,6.421e+05,4.941e+05,3.722e+05,2.74e+05,6.655e+05,
-                   0,2.134e+07,1.53e+07,1.136e+07,8.705e+06,6.86e+06,5.543e+06,4.581e+06,3.863e+06,3.316e+06,2.884e+06,2.505e+06,2.152e+06,1.825e+06,1.528e+06,1.261e+06,1.024e+06,8.184e+05,6.421e+05,4.941e+05,3.722e+05,2.74e+05,6.655e+05),
-                 nrow=2, ncol=(25 - 3 + 1), byrow=TRUE)
-
-
-# Initial state:
-# Partition:
-#   sex        3         4         5         6         7         8         9         10        11        12        13        14        15        16        17        18        19        20        21        22        23        24        25
-#   male       0         2.539e+07 1.728e+07 1.231e+07 9.133e+06 7.017e+06 5.561e+06 4.531e+06 3.782e+06 3.225e+06 2.802e+06 2.459e+06 2.132e+06 1.826e+06 1.543e+06 1.284e+06 1.051e+06 8.457e+05 6.674e+05 5.157e+05 3.896e+05 2.87e+05  6.904e+05
-#   female     0         2.539e+07 1.728e+07 1.231e+07 9.133e+06 7.017e+06 5.561e+06 4.531e+06 3.782e+06 3.225e+06 2.802e+06 2.459e+06 2.132e+06 1.826e+06 1.543e+06 1.284e+06 1.051e+06 8.457e+05 6.674e+05 5.157e+05 3.896e+05 2.87e+05  6.904e+05
-
-c1_sens1_mat <- matrix(c(0,2.54E+07,1.73E+07,1.23E+07,9.13E+06,7.02E+06,5.56E+06,4.53E+06,3.78E+06,3.23E+06,2.80E+06,2.46E+06,2.13E+06,1.83E+06,1.54E+06,1.28E+06,1.05E+06,8.46E+05,6.67E+05,5.16E+05,3.90E+05,2.87E+05,6.90E+05,
-                         0,2.54E+07,1.73E+07,1.23E+07,9.13E+06,7.02E+06,5.56E+06,4.53E+06,3.78E+06,3.23E+06,2.80E+06,2.46E+06,2.13E+06,1.83E+06,1.54E+06,1.28E+06,1.05E+06,8.46E+05,6.67E+05,5.16E+05,3.90E+05,2.87E+05,6.90E+05),
-                       nrow=2, ncol=(25 - 3 + 1), byrow=TRUE)
+# A:  use 'casal::extract.partition()''
 
 
 ages <- seq(3, 25)
@@ -469,14 +449,40 @@ for (c in 1:num_C2_models)
 
 # plot initial numbers
 
-max_val <- max(c1_mat,
-               c1_sens1_mat,
+max_val <- max(cas_part$initial,
+               cas_sens1_part$initial,
                max(c2_mat))
 
-plot(ages, c1_mat[1,], type='l', col='black', lwd=5, ylim=c(0, max_val), xlab='Age', ylab='', main='Initial numbers-at-age comparison')
-lines(ages, c1_mat[2,], col='black', lwd=5, lty=3)
-lines(ages, c1_sens1_mat[1,], col='grey', lwd=2.5)
-lines(ages, c1_sens1_mat[2,], col='grey', lwd=2.5, lty=3)
+plot(ages, cas_part$initial[1,], type='l', col='black', lwd=5, ylim=c(0, max_val), xlab='Age', ylab='', main='Initial numbers-at-age comparison')
+lines(ages, cas_part$initial[2,], col='black', lwd=5, lty=3)
+lines(ages, cas_sens1_part$initial[1,], col='grey', lwd=2.5)
+lines(ages, cas_sens1_part$initial[2,], col='grey', lwd=2.5, lty=3)
+for (c in 1:num_C2_models)
+{
+    lines(ages, c2_mat[c,1,], col=C2_color[c], lwd=1)
+    lines(ages, c2_mat[c,2,], col=C2_color[c], lwd=1, lty=3)
+}
+
+plot_legend()
+
+
+
+c2_mat <- array(0, dim=c(num_C2_models, dim(as.matrix(cas2_mpd[[1]]$state1$`2018`$values))))
+for (c in 1:num_C2_models)
+{
+    c2_mat[c,,] <- as.matrix(cas2_mpd[[c]]$state1$`2018`$values)
+}
+
+# plot final year numbers
+
+max_val <- max(cas_part$final,
+               cas_sens1_part$final,
+               max(c2_mat))
+
+plot(ages, cas_part$final[1,], type='l', col='black', lwd=5, ylim=c(0, max_val), xlab='Age', ylab='', main='Final numbers-at-age comparison')
+lines(ages, cas_part$final[2,], col='black', lwd=5, lty=3)
+lines(ages, cas_sens1_part$final[1,], col='grey', lwd=2.5)
+lines(ages, cas_sens1_part$final[2,], col='grey', lwd=2.5, lty=3)
 for (c in 1:num_C2_models)
 {
     lines(ages, c2_mat[c,1,], col=C2_color[c], lwd=1)

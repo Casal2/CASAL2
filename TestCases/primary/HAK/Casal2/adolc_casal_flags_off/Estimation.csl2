@@ -1,5 +1,5 @@
-@minimiser betadiff
-type betadiff
+@minimiser adolc
+type adolc
 active true
 iterations 5000
 evaluations 10000

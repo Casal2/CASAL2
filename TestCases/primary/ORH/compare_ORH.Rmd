@@ -258,7 +258,7 @@ hux_C1_est_params
 C2_est_params <- rotate_and_label_cols(C2_est_params, C2_subdir)
 # print('Casal2 parameter estimates')
 # print(C2_est_params, digits=5)
-hux_C2_est_params <- reformat_to_huxtable(C2_est_params, 'Casal2 parameter estimates')
+hux_C2_est_params <- reformat_to_huxtable(C2_est_params, 'Casal2 parameter estimates', 5)
 hux_C2_est_params
 
 

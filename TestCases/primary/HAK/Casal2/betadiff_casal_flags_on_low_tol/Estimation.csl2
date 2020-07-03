@@ -3,7 +3,7 @@ type betadiff
 active true
 iterations 5000
 evaluations 10000
-tolerance 0.002
+tolerance 0.000001
 covariance true
 
 
