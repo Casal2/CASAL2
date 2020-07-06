@@ -43,7 +43,7 @@ selectivities maturity_sel
 type recruitment_beverton_holt
 categories immature mature
 proportions 1.0 0.0
-b0 50000 #29400
+b0 29400
 ycs_years 1978:2004
 ycs_values 1.0*27
 standardise_ycs_years 1979:2003

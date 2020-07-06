@@ -58,119 +58,19 @@ Parameters estimated include:
 ## R environment
 
 ```{r C1_C2_setup, echo=FALSE, warning=FALSE, message=FALSE}
-# print(paste('pandoc installed?', rmarkdown::pandoc_available()))
-# print(paste('pandoc version:', rmarkdown::pandoc_version()))
-
-require(ggplot2)
-require(rlist)
-
-
-require(devtools)
-
-# the CASAL and Casal2 R libraries are installed in the TestCases subdirectory
-.libPaths(c('../..', .libPaths()))
-
-if (!require(casal))
-{
-    install.packages('../../../R-libraries/casal_2.30.tar.gz', repos=NULL)
-    library(casal)
-    # install('casal_utils')
-}
-
-if (!require(casal2))
-{
-    install.packages('../../../R-libraries/casal2_1.0.tar.gz', repos=NULL)
-    library(casal2)
-}
-
-date()
-sessionInfo()
-
-base_dir <- '.'
-
-# MPD files are params_est.out, run_estimation.txt, and mpd.out for both CASAL and Casal2
-params_est <- 'params_est.out'
-mpd_run    <- 'run_estimation.txt'
-mpd_out    <- 'mpd.out'
-
-get_convergence_information <- function(filename)
-{
-    # for BetaDiff
-    # case-insensitive check for all strings with 'converge' and without 'check' (for "Convergence check")
-    str_vec <- grep('check', grep('converge|fmm|optimise', readLines(filename), ignore.case=TRUE, value=TRUE), value=TRUE, invert=TRUE)
-
-    # for ADOL-C
-    if (length(str_vec) == 0)
-    {
-        # str_vec <- ?????
-    }
-
-    # for CppAD
-    if (length(str_vec) == 0)
-    {
-        str_vec <- grep('Number of|EXIT', readLines(filename), value=TRUE)
-    }
-
-    return (str_vec)
-}
-
+source('../../R-functions/report_set_up_R_env.R')
 ```
 
 
 ## CASAL and Casal2 model output
 
 ```{r CASAL, warning=FALSE}
-# read in CASAL MPD results
-cas_mpd_filename <- file.path(base_dir, 'CASAL', mpd_run)
-cas_mpd  <- casal::extract.mpd(cas_mpd_filename)
-cas_part <- casal::extract.partition(cas_mpd_filename)
-cas_corr <- casal::extract.correlation.matrix(cas_mpd_filename)
-cas_conv <- get_convergence_information(cas_mpd_filename)
-c1_quant <- cas_mpd$quantities
-
-cas_mpd_sens1_filename <- file.path(base_dir, 'CASAL_sens1', mpd_run)
-cas_mpd_sens1  <- casal::extract.mpd(cas_mpd_sens1_filename)
-cas_sens1_part <- casal::extract.partition(cas_mpd_sens1_filename)
-cas_sens1_corr <- casal::extract.correlation.matrix(cas_mpd_sens1_filename)
-cas_sens1_conv <- get_convergence_information(cas_mpd_sens1_filename)
-c1_sens1_quant <- cas_mpd_sens1$quantities
+source('../../R-functions/report_read_in_CASAL_MPD_files.R')
 ```
 
 
 ```{r Casal2}
-C2_subdir <- c('betadiff_casal_flags_on',
-               'betadiff_casal_flags_off',
-               'betadiff_casal_flags_on_low_tol',
-               'cppad_casal_flags_on',
-               'cppad_casal_flags_off',
-               'adolc_casal_flags_on',
-               'adolc_casal_flags_off',
-               'adolc_casal_flags_on_low_tol')
-
-
-# find the non-zero-sized parameter estimate files for the C2 models
-C2_subdir <- unlist(sapply(C2_subdir, function(c_dir) if ( file.access(file.path(base_dir, 'Casal2', c_dir, params_est), 4) == 0 &
-                                                           file.size(file.path(base_dir, 'Casal2', c_dir, params_est)) > 0 )
-                                                         { return (c_dir) }, USE.NAMES=FALSE ))
-
-
-num_C2_models <- length(C2_subdir)
-
-C2_color <- c('blue', 'green3', 'red', 'gold', 'magenta', 'cyan', 'brown', 'orange')
-
-# read in Casal2 MPD results
-cas2_mpd  <- list()
-cas2_corr <- list()
-cas2_conv <- list()
-for (c in 1:num_C2_models)
-{
-    cas2_mpd_filename <- file.path(base_dir, 'Casal2', C2_subdir[c], mpd_run)
-    cas2_mpd[[c]] <- casal2::extract.mpd(cas2_mpd_filename)
-
-    cas2_corr[[c]] <- casal2::extract.correlation.matrix(mpd_out, file.path(base_dir, 'Casal2', C2_subdir[c]))
-
-    cas2_conv[[c]] <- get_convergence_information(cas2_mpd_filename)
-}
+source('../../R-functions/report_read_in_Casal2_MPD_files.R')
 ```
 
 
@@ -180,141 +80,29 @@ for (c in 1:num_C2_models)
 Tables of parameter estimates and objective function components for the CASAL and Casal2 model MPD results
 
 ```{r table_setup, echo=FALSE, warning=FALSE, message=FALSE}
-require(plyr)
-require(dplyr)
-require(huxtable)
-
-
-rotate_and_label_cols <- function(df_1, labels)
-{
-    loc_df <- t(df_1)
-    colnames(loc_df) <- labels
-
-    return (loc_df)
-}
-
-
-reformat_to_huxtable <- function(df_1, caption_str=NA, format_num=3, reformat_col=FALSE, col_num=-1, add_rownames=TRUE)
-{
-    hux_table <- as_hux(df_1, add_colnames=TRUE, add_rownames=add_rownames)
-
-    hux_nr <- nrow(hux_table)
-    hux_nc <- ncol(hux_table)
-
-    top_border(hux_table)[1,] <- 1
-    bottom_border(hux_table)[c(1,hux_nr),] <- 1
-    left_border(hux_table)[,1:2] <- 1
-    right_border(hux_table)[,hux_nc] <- 1
-    caption(hux_table) <- caption_str
-
-    # reformat numbers in table except for the top row and left column
-    if (format_num >= 0)
-    {
-        hux_table <- set_number_format(hux_table, -1, -1, format_num)
-    }
-
-    # to reformat and highlight specific columns
-    align(hux_table)[-1,col_num] <- '.'
-    if (reformat_col & col_num != 0)
-    {
-        hux_table <- set_number_format(hux_table, -1, col_num, 3)
-        hux_table <- map_background_color(hux_table, -1, col_num,
-                                          by_ranges(c(-20, -10, 0, 10, 20), c('orange', 'pink', 'white', 'white', 'cyan', 'yellow')))
-    }
-
-    return (hux_table)
-}
-
-
-C2_est_params <- cas2_mpd[[1]]$summary$values
-c2_est_params_1 <- C2_est_params
-C2_obj_fun    <- cas2_mpd[[1]]$objective$values
-
-C2_pd_est_params <- C2_est_params - C2_est_params
-
-if (num_C2_models > 1)
-{
-    for (c in 2:num_C2_models)
-    {
-        c2_est_params_c <- cas2_mpd[[c]]$summary$values
-        C2_est_params <- bind_rows(C2_est_params, c2_est_params_c)
-
-        C2_pd_est_params <- bind_rows(C2_pd_est_params, 100.0 * (1.0 - (c2_est_params_c / c2_est_params_1)))
-
-        C2_obj_fun    <- bind_rows(C2_obj_fun, cas2_mpd[[c]]$objective$values)
-    }
-}
-
+source('../../R-functions/report_set_up_tables.R')
 
 options(scipen=999)
 ```
 
 
 ```{r huxtables_parameters, echo=FALSE, warning=FALSE, message=FALSE}
-C1_est_params <- cbind(unlist(cas_mpd$free), unlist(cas_mpd_sens1$free), 100.0 * (1.0 - (unlist(cas_mpd_sens1$free) / unlist(cas_mpd$free))))
-colnames(C1_est_params) <- c('Base_Model', 'Sensitivity_1', 'Percent_Diff')
-hux_C1_est_params <- reformat_to_huxtable(C1_est_params, 'CASAL parameter estimates', 5, TRUE, 4)
-hux_C1_est_params
-
-
-C2_est_params <- rotate_and_label_cols(C2_est_params, C2_subdir)
-hux_C2_est_params <- reformat_to_huxtable(C2_est_params, 'Casal2 parameter estimates', 5)
-hux_C2_est_params
-
-
-C2_pd_est_params <- rotate_and_label_cols(C2_pd_est_params, C2_subdir)
-hux_C2_pd_est_params <- reformat_to_huxtable(C2_pd_est_params, paste('Casal2 parameter estimates: Percent Difference from ', C2_subdir[1], sep=''), 3, TRUE, -1)
-hux_C2_pd_est_params
+source('../../R-functions/report_print_parameter_tables.R')
 ```
 
 
 ```{r huxtables_obj_fun, echo=FALSE, warning=FALSE, message=FALSE}
-C1_obj_fun <- data.frame(Component=cas_mpd$objective.function$components$label,
-                         Base_Model=cas_mpd$objective.function$components$value,
-                         Sensitivity_1=cas_mpd_sens1$objective.function$components$value)
-C1_obj_fun <- bind_rows(C1_obj_fun,
-                        data.frame(Component='Total', Base_Model=cas_mpd$objective.function$value, Sensitivity_1=cas_mpd_sens1$objective.function$value))
-hux_C1_obj_fun <- reformat_to_huxtable(C1_obj_fun, 'CASAL objective function component values', add_rownames=FALSE)
-hux_C1_obj_fun
-
-
-C2_obj_fun <- rotate_and_label_cols(C2_obj_fun, C2_subdir)
-hux_C2_obj_fun <- reformat_to_huxtable(C2_obj_fun, 'Casal2 objective function component values')
-hux_C2_obj_fun
+source('../../R-functions/report_print_obj_fun_tables.R')
 ```
 
 
 ```{r convergence_info, echo=FALSE}
-print('CASAL base model convergence information')
-print(cas_conv)
-print('')
-
-print('CASAL sensitivity 1 model convergence information')
-print(cas_sens1_conv)
-
-for (c in 1:num_C2_models)
-{
-    print('')
-    print(paste('Casal2', C2_subdir[c], 'model convergence information'))
-    print(cas2_conv[[c]])
-}
+source('../../R-functions/report_print_convergence_info.R')
 ```
 
 
 ```{r warnings_and_bounds, echo=FALSE, warning=FALSE, message=FALSE}
-print('CASAL model warnings')
-print(cas_mpd$parameters.at.bounds)
-print('')
-
-print('CASAL sensitivity 1 model warnings')
-print(cas_mpd_sens1$parameters.at.bounds)
-
-for (c in 1:num_C2_models)
-{
-    print('')
-    print(paste('Casal2', C2_subdir[c], 'model warnings'))
-    print(cas2_mpd[[c]]$warnings_encounted)
-}
+source('../../R-functions/report_print_warnings.R')
 ```
 
 
@@ -328,15 +116,7 @@ options(scipen=0)
 Time series comparisons with CASAL base model results
 
 ```{r Time_Series_Match, echo=FALSE, warning=FALSE, message=FALSE}
-time_series_match <- function(t1_vec, t2_vec)
-{
-    if (length(t1_vec) == length(t2_vec))
-    {
-        return (ifelse(max(abs(range(t1_vec - t2_vec))) == 0, 'yes', 'no'))
-    }
-
-    return ('no')
-}
+source('../../R-functions/report_time_series_match_function.R')
 
 
 for (c in 1:num_C2_models)
@@ -385,32 +165,12 @@ par(mfrow=c(1,2))
 
 
 ```{r plots_correlation, echo=FALSE}
-
-plot_image_and_range <- function(corr_obj, label)
-{
-    image(corr_obj, zlim=c(-1,1), col=hcl.colors(51, 'RdYlBu'), xlab='Parameter', ylab='Parameter', main=label)
-    print(paste(label, 'range (excluding 1.0):', paste0(range(corr_obj[corr_obj < 1], na.rm=TRUE), collapse=' ')))
-}
-
-plot_image_and_range(cas_corr, 'CASAL base parameter correlation')
-
-plot_image_and_range(cas_sens1_corr, 'CASAL sensitivity 1 parameter correlation')
-
-for (c in 1:num_C2_models)
-{
-    plot_image_and_range(cas2_corr[[c]], paste('Casal2', C2_subdir[c], 'parameter correlation'))
-}
+source('../../R-functions/report_plot_correlation_matrices.R')
 ```
 
 
 ```{r plots_set_0, echo=FALSE}
-plot_legend <- function()
-{
-    # placeholder plot for legend
-    plot(0, 0, type='n', xlim=c(0,1), ylim=c(0,1), axes=FALSE, xlab='', ylab='', main='')
-    legend(0.1, 0.99, c('CASAL', 'CASAL sens1', C2_subdir), lwd=5, col=c('black', 'grey', C2_color), pt.cex=1.6)
-}
-
+source('../../R-functions/report_set_up_legend.R')
 
 # plot E SSB
 
@@ -449,41 +209,8 @@ plot_legend()
 # plot initial numbers
 
 # Q:  how to get CASAL initial age structure?
+# A:  use 'casal::extract.partition()''
 
-# Initial state:
-# Partition:
-#   stock      area       1         2         3         4         5         6         7         8         9         10        11        12        13        14        15        16        17
-#   W          SA         0         3.896e+07 4.997e+07 9.41e+07  9.069e+07 7.028e+07 4.367e+07 3.325e+07 2.526e+07 1.918e+07 1.457e+07 1.107e+07 8.407e+06 6.386e+06 4.85e+06  3.684e+06 1.164e+07
-#   E          CR         0         1.298e+08 8.763e+07 5.824e+07 3.792e+07 2.4e+07   1.458e+07 1.108e+07 8.415e+06 6.391e+06 4.855e+06 3.688e+06 2.801e+06 2.128e+06 1.616e+06 1.227e+06 3.878e+06
-#   W          CR         0         3.896e+08 2.663e+08 1.153e+08 3.853e+07 3.512e+06 2.668e+05 1.013e+04 0         0         0         0         0         0         0         0         0
-#   W          WC         0         4.328e+06 1.249e+07 4.033e+07 6.046e+07 7.028e+07 6.55e+07  4.987e+07 3.788e+07 2.878e+07 2.186e+07 1.66e+07  1.261e+07 9.579e+06 7.276e+06 5.526e+06 1.746e+07
-#   E          CS         0         1.442e+07 2.191e+07 2.496e+07 2.528e+07 2.4e+07   2.188e+07 1.662e+07 1.262e+07 9.587e+06 7.282e+06 5.531e+06 4.201e+06 3.191e+06 2.424e+06 1.841e+06 5.817e+06
-
-c1_mat <- matrix(c(
-    0.0, 38960000.0, 49970000.0, 94100000.0, 90690000.0, 70280000.0, 43670000.0, 33250000.0, 25260000.0, 19180000.0, 14570000.0, 11070000.0, 8407000.0, 6386000.0, 4850000.0, 3684000.0, 11640000.0,
-    0.0, 129800000.0, 87630000.0, 58240000.0, 37920000.0, 24000000.0, 14580000.0, 11080000.0, 8415000.0, 6391000.0, 4855000.0, 3688000.0, 2801000.0, 2128000.0, 1616000.0, 1227000.0, 3878000.0,
-    0.0, 389600000.0, 266300000.0, 115300000.0, 38530000.0, 3512000.0, 266800.0, 10130.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0,
-    0.0, 4328000.0, 12490000.0, 40330000.0, 60460000.0, 70280000.0, 65500000.0, 49870000.0, 37880000.0, 28780000.0, 21860000.0, 16600000.0, 12610000.0, 9579000.0, 7276000.0, 5526000.0, 17460000.0,
-    0.0, 14420000.0, 21910000.0, 24960000.0, 25280000.0, 24000000.0, 21880000.0, 16620000.0, 12620000.0, 9587000.0, 7282000.0, 5531000.0, 4201000.0, 3191000.0, 2424000.0, 1841000.0, 5817000.0),
-                 nrow=5, ncol=(17 - 1 + 1), byrow=TRUE)
-
-
-# Initial state:
-# Partition:
-#   stock      area       1         2         3         4         5         6         7         8         9         10        11        12        13        14        15        16        17
-#   W          SA         0         3.896e+07 4.997e+07 9.41e+07  9.069e+07 7.028e+07 4.367e+07 3.325e+07 2.526e+07 1.918e+07 1.457e+07 1.107e+07 8.407e+06 6.386e+06 4.85e+06  3.684e+06 1.164e+07
-#   E          CR         0         1.298e+08 8.763e+07 5.824e+07 3.792e+07 2.4e+07   1.458e+07 1.108e+07 8.415e+06 6.391e+06 4.855e+06 3.688e+06 2.801e+06 2.128e+06 1.616e+06 1.227e+06 3.878e+06
-#   W          CR         0         3.896e+08 2.663e+08 1.153e+08 3.853e+07 3.512e+06 2.668e+05 1.013e+04 0         0         0         0         0         0         0         0         0
-#   W          WC         0         4.328e+06 1.249e+07 4.033e+07 6.046e+07 7.028e+07 6.55e+07  4.987e+07 3.788e+07 2.878e+07 2.186e+07 1.66e+07  1.261e+07 9.579e+06 7.276e+06 5.526e+06 1.746e+07
-#   E          CS         0         1.442e+07 2.191e+07 2.496e+07 2.528e+07 2.4e+07   2.188e+07 1.662e+07 1.262e+07 9.587e+06 7.282e+06 5.531e+06 4.201e+06 3.191e+06 2.424e+06 1.841e+06 5.817e+06
-
-c1_sens1_mat <- matrix(c(
-    0.0, 38960000.0, 49970000.0, 94100000.0, 90690000.0, 70280000.0, 43670000.0, 33250000.0, 25260000.0, 19180000.0, 14570000.0, 11070000.0, 8407000.0, 6386000.0, 4850000.0, 3684000.0, 11640000.0,
-    0.0, 129800000.0, 87630000.0, 58240000.0, 37920000.0, 24000000.0, 14580000.0, 11080000.0, 8415000.0, 6391000.0, 4855000.0, 3688000.0, 2801000.0, 2128000.0, 1616000.0, 1227000.0, 3878000.0,
-    0.0, 389600000.0, 266300000.0, 115300000.0, 38530000.0, 3512000.0, 266800.0, 10130.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0,
-    0.0, 4328000.0, 12490000.0, 40330000.0, 60460000.0, 70280000.0, 65500000.0, 49870000.0, 37880000.0, 28780000.0, 21860000.0, 16600000.0, 12610000.0, 9579000.0, 7276000.0, 5526000.0, 17460000.0,
-    0.0, 14420000.0, 21910000.0, 24960000.0, 25280000.0, 24000000.0, 21880000.0, 16620000.0, 12620000.0, 9587000.0, 7282000.0, 5531000.0, 4201000.0, 3191000.0, 2424000.0, 1841000.0, 5817000.0),
-                       nrow=5, ncol=(17 - 1 + 1), byrow=TRUE)
 
 
 # omit the 'category' column
@@ -495,15 +222,40 @@ for (c in 1:num_C2_models)
     c2_mat[c,,] <- as.matrix(cas2_mpd[[c]]$Init$values[,-1])
 }
 
+for (i in 1:nrow(c2_mat[1,,]))
+{
+    max_val <- max(cas_part$initial[i,],
+                   cas_sens1_part$initial[i,],
+                   max(c2_mat[,i,]))
+
+    plot(seq(1, 17), cas_part$initial[i,], type='l', col='black', lwd=5, ylim=c(0, max_val), xlab='Age', ylab='', main=paste('Initial numbers-at-age comparison:', cas2_mpd[[1]]$Init$values[i,1]))
+    lines(seq(1, 17), cas_sens1_part$initial[i,], col='grey', lwd=2.5)
+    for (c in 1:num_C2_models)
+    {
+        lines(seq(1, dim(c2_mat[c,,])[2]), c2_mat[c,i,], col=C2_color[c], lwd=1)
+    }
+
+    plot_legend()
+}
+
+
+
+c2_mat <- array(0, dim=c(num_C2_models, dim(as.matrix(cas2_mpd[[1]]$state5$`2018`$values))))
+for (c in 1:num_C2_models)
+{
+    c2_mat[c,,] <- as.matrix(cas2_mpd[[c]]$state5$`2018`$values)
+}
+
+# plot final year numbers (time step 5)
 
 for (i in 1:nrow(c2_mat[1,,]))
 {
-    max_val <- max(c1_mat[i,],
-                   c1_sens1_mat[i,],
+    max_val <- max(cas_part$final[i,],
+                   cas_sens1_part$final[i,],
                    max(c2_mat[,i,]))
 
-    plot(seq(1, 17), c1_mat[i,], type='l', col='black', lwd=5, ylim=c(0, max_val), xlab='Age', ylab='', main=paste('Initial numbers-at-age comparison:', cas2_mpd[[1]]$Init$values[i,1]))
-    lines(seq(1, 17), c1_sens1_mat[i,], col='grey', lwd=2.5)
+    plot(seq(1, 17), cas_part$final[i,], type='l', col='black', lwd=5, ylim=c(0, max_val), xlab='Age', ylab='', main=paste('Final numbers-at-age comparison:', cas2_mpd[[1]]$Init$values[i,1]))
+    lines(seq(1, 17), cas_sens1_part$final[i,], col='grey', lwd=2.5)
     for (c in 1:num_C2_models)
     {
         lines(seq(1, dim(c2_mat[c,,])[2]), c2_mat[c,i,], col=C2_color[c], lwd=1)

@@ -13,7 +13,9 @@ error_value 0.296   0.063   0.073   0.064   0.065   0.069   0.078   0.064   0.07
 
 
 @observation Obs_Andes_LF
-type process_removals_by_length #proportions at in CASAL
+type process_removals_by_length
+##selectivities SELandes*2 ##
+##time_step_proportion 0.5 ##
 # likelihood coleraine
 likelihood multinomial
 time_step Jul_Jun

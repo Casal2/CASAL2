@@ -34,6 +34,10 @@ AgeLength::AgeLength(Model* model) : Report(model) {
  * Validate method
  */
 void AgeLength::DoValidate() {
+  if (model_->length_bins().size() == 0) {
+    LOG_ERROR() << "There are no model length bins defined, so 'age_length' report " << label_ << " cannot be used.";
+  }
+
  if (!parameters_.Get(PARAM_YEARS)->has_been_defined()) {
    years_ = model_->years();
  }

@@ -1,8 +1,8 @@
 @minimiser betadiff
 type betadiff
 active true
-iterations 50000000
-evaluations 10000000
+iterations 500000000
+evaluations 1000000000
 tolerance 0.000001
 covariance true
 
@@ -32,7 +32,7 @@ lower_bound 0.01
 upper_bound 1.0
 mu 0.15
 sigma 0.025
-estimation_phase 3
+estimation_phase 1
 
 @estimate age_len_cv_last
 parameter age_length[age_len_label].cv_last
@@ -41,7 +41,7 @@ lower_bound 0.01
 upper_bound 1.0
 mu 0.1
 cv 0.5
-estimation_phase 3
+estimation_phase 1
 
 
 #@estimate CPUE_q
@@ -58,7 +58,7 @@ lower_bound  5
 upper_bound 80
 mu 35
 cv 0.3
-estimation_phase 2
+estimation_phase 1
 
 
 @estimate fishery_sel_ato95
@@ -68,7 +68,7 @@ lower_bound  1
 upper_bound 20
 mu 5
 cv 0.5
-estimation_phase 2
+estimation_phase 1
 
 @catchability Qandes
 type nuisance

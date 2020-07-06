@@ -1,15 +1,41 @@
-@report summary
+@report estimated_values
 type estimate_value
 
-@report objective
+@report estimated_summary
+type estimate_summary
+
+@report obj_fun
 type objective_function
+
+
+## Print process information
+@report Mortality
+type process
+process Instant_mortality
+
+
+## Derived Quantities
+@report DerivedQuantities
+type derived_quantity
+
+@report Init
+type initialisation_partition
+
+
+@report state1
+type partition
+time_step Oct_Nov
+years 1972 2018
+
+@report state5
+type partition
+time_step Jul_Sep
+years 1972 2018
+
 
 @report mcmc_covariance
 type mcmc_covariance
 
-
-@report SSB
-type derived_quantity
 
 @report Recruit_E
 type process
@@ -19,9 +45,6 @@ process recruit_E
 type process
 process recruit_W
 
-@report Mortality
-type process
-process Instant_mortality
 
 @report M_male
 type selectivity
@@ -94,28 +117,32 @@ observation pspawn_1993
 type observation
 observation pspawn
 
-@report Init
-type initialisation_partition
 
 ## selectivities
 @report Enspsl
 type selectivity
 selectivity Enspsl
+
 @report Wnspsl
 type selectivity
 selectivity Wnspsl
+
 @report Espsl
 type selectivity
 selectivity Espsl
+
 @report Wspsl
 type selectivity
 selectivity Wspsl
+
 @report CRsl
 type selectivity
 selectivity CRsl
+
 @report SAsl
 type selectivity
 selectivity SAsl
+
 
 @report time_var
 type time_varying

@@ -1,11 +1,11 @@
 Casal2
-Call: ../../../../../BuildSystem/bin/linux/release_betadiff/casal2 -e -o params_est.out 
-Date: Thu Jul  2 17:09:32 2020
-Version: 2020-07-01 22:32:59 UTC (rev. 86a59e6)
+Call: ../../../../../BuildSystem/bin/linux/release_betadiff/casal2 -e -o params_est.out
+Date: Mon Jul  6 12:03:28 2020
+Version: 2020-07-03 05:22:50 UTC (rev. 37de0ad)
 Copyright (c) 2020 - 2020, NIWA (www.niwa.co.nz)
 -- Username: niwauser
--- Machine: niwa-computer (Linux 5.7.0-1-amd64 x86_64)
--- Process Id: 92033
+-- Machine: niwa-computer (Linux 3.10.0-1127.10.1.el7.x86_64 x86_64)
+-- Process Id: 26434
 
 resizing from 40000 to 44000
 resizing from 44000 to 48400
@@ -39,965 +39,965 @@ resizing from 576807 to 634487
 resizing from 634487 to 697935
 resizing from 697935 to 767728
 resizing from 767728 to 844500
-about to evaluate function with x = 50000 
+about to evaluate function with x = 50000
 finished objective call: f = 158.413
-about to evaluate gradient with x = 50000 
-transformed = -0.0708819 
-finished gradient call: status = 0 g = 60.3526 
-about to do fmin call with x = 50000  f = 158.413 g = 60.3526 
+about to evaluate gradient with x = 50000
+transformed = -0.0708819
+finished gradient call: status = 0 g = 60.3526
+about to do fmin call with x = 50000  f = 158.413 g = 60.3526
 Convergence check: current value is 0.380983 and threshold is 1e-06
 done fmin call
 ireturn = 0
-about to evaluate function with x = 25674.7 
+about to evaluate function with x = 25674.7
 finished objective call: f = 115.788
-about to do fmin call with x = 25674.7  f = 115.788 g = 60.3526 
+about to do fmin call with x = 25674.7  f = 115.788 g = 60.3526
 done fmin call
 ireturn = 1
-about to evaluate gradient with x = 25674.7 
-transformed = -0.451865 
-finished gradient call: status = 0 g = 77.2985 
-about to do fmin call with x = 25674.7  f = 115.788 g = 77.2985 
+about to evaluate gradient with x = 25674.7
+transformed = -0.451865
+finished gradient call: status = 0 g = 77.2985
+about to do fmin call with x = 25674.7  f = 115.788 g = 77.2985
 Convergence check: current value is 0.667584 and threshold is 1e-06
 done fmin call
 ireturn = 0
-about to evaluate function with x = 10200.9 
+about to evaluate function with x = 10200.9
 finished objective call: f = 3.19015e+08
-about to do fmin call with x = 10200.9  f = 3.19015e+08 g = 77.2985 
+about to do fmin call with x = 10200.9  f = 3.19015e+08 g = 77.2985
 done fmin call
 ireturn = 0
-about to evaluate function with x = 23147.2 
+about to evaluate function with x = 23147.2
 finished objective call: f = 1.53198e+07
-about to do fmin call with x = 23147.2  f = 1.53198e+07 g = 77.2985 
+about to do fmin call with x = 23147.2  f = 1.53198e+07 g = 77.2985
 done fmin call
 ireturn = 0
-about to evaluate function with x = 25414 
+about to evaluate function with x = 25414
 finished objective call: f = 2116.9
-about to do fmin call with x = 25414  f = 2116.9 g = 77.2985 
+about to do fmin call with x = 25414  f = 2116.9 g = 77.2985
 done fmin call
 ireturn = 0
-about to evaluate function with x = 25521.4 
+about to evaluate function with x = 25521.4
 finished objective call: f = 115.585
-about to do fmin call with x = 25521.4  f = 115.585 g = 77.2985 
+about to do fmin call with x = 25521.4  f = 115.585 g = 77.2985
 done fmin call
 ireturn = 1
-about to evaluate gradient with x = 25521.4 
-transformed = -0.45473 
-finished gradient call: status = 0 g = 64.2912 
-about to do fmin call with x = 25521.4  f = 115.585 g = 64.2912 
+about to evaluate gradient with x = 25521.4
+transformed = -0.45473
+finished gradient call: status = 0 g = 64.2912
+about to do fmin call with x = 25521.4  f = 115.585 g = 64.2912
 Convergence check: current value is 0.556224 and threshold is 1e-06
 done fmin call
 ireturn = 0
-about to evaluate function with x = 24772.3 
+about to evaluate function with x = 24772.3
 finished objective call: f = 1.42915e+06
-about to do fmin call with x = 24772.3  f = 1.42915e+06 g = 64.2912 
+about to do fmin call with x = 24772.3  f = 1.42915e+06 g = 64.2912
 done fmin call
 ireturn = 0
-about to evaluate function with x = 25445.8 
+about to evaluate function with x = 25445.8
 finished objective call: f = 115.499
-about to do fmin call with x = 25445.8  f = 115.499 g = 64.2912 
+about to do fmin call with x = 25445.8  f = 115.499 g = 64.2912
 done fmin call
 ireturn = 1
-about to evaluate gradient with x = 25445.8 
-transformed = -0.456146 
-finished gradient call: status = 0 g = 57.2309 
-about to do fmin call with x = 25445.8  f = 115.499 g = 57.2309 
+about to evaluate gradient with x = 25445.8
+transformed = -0.456146
+finished gradient call: status = 0 g = 57.2309
+about to do fmin call with x = 25445.8  f = 115.499 g = 57.2309
 Convergence check: current value is 0.49551 and threshold is 1e-06
 done fmin call
 ireturn = 0
-about to evaluate function with x = 24838.7 
+about to evaluate function with x = 24838.7
 finished objective call: f = 1.16494e+06
-about to do fmin call with x = 24838.7  f = 1.16494e+06 g = 57.2309 
+about to do fmin call with x = 24838.7  f = 1.16494e+06 g = 57.2309
 done fmin call
 ireturn = 0
-about to evaluate function with x = 25384.7 
+about to evaluate function with x = 25384.7
 finished objective call: f = 9813.58
-about to do fmin call with x = 25384.7  f = 9813.58 g = 57.2309 
+about to do fmin call with x = 25384.7  f = 9813.58 g = 57.2309
 done fmin call
 ireturn = 0
-about to evaluate function with x = 25439.7 
+about to evaluate function with x = 25439.7
 finished objective call: f = 115.492
-about to do fmin call with x = 25439.7  f = 115.492 g = 57.2309 
+about to do fmin call with x = 25439.7  f = 115.492 g = 57.2309
 done fmin call
 ireturn = 1
-about to evaluate gradient with x = 25439.7 
-transformed = -0.456261 
-finished gradient call: status = 0 g = 56.6391 
-about to do fmin call with x = 25439.7  f = 115.492 g = 56.6391 
+about to evaluate gradient with x = 25439.7
+transformed = -0.456261
+finished gradient call: status = 0 g = 56.6391
+about to do fmin call with x = 25439.7  f = 115.492 g = 56.6391
 Convergence check: current value is 0.490414 and threshold is 1e-06
 done fmin call
 ireturn = 0
-about to evaluate function with x = 24858.5 
+about to evaluate function with x = 24858.5
 finished objective call: f = 1.09089e+06
-about to do fmin call with x = 24858.5  f = 1.09089e+06 g = 56.6391 
+about to do fmin call with x = 24858.5  f = 1.09089e+06 g = 56.6391
 done fmin call
 ireturn = 0
-about to evaluate function with x = 25381.2 
+about to evaluate function with x = 25381.2
 finished objective call: f = 11112.5
-about to do fmin call with x = 25381.2  f = 11112.5 g = 56.6391 
+about to do fmin call with x = 25381.2  f = 11112.5 g = 56.6391
 done fmin call
 ireturn = 0
-about to evaluate function with x = 25433.9 
+about to evaluate function with x = 25433.9
 finished objective call: f = 183.394
-about to do fmin call with x = 25433.9  f = 183.394 g = 56.6391 
+about to do fmin call with x = 25433.9  f = 183.394 g = 56.6391
 done fmin call
 ireturn = 0
-about to evaluate function with x = 25439.1 
+about to evaluate function with x = 25439.1
 finished objective call: f = 115.492
-about to do fmin call with x = 25439.1  f = 115.492 g = 56.6391 
+about to do fmin call with x = 25439.1  f = 115.492 g = 56.6391
 done fmin call
 ireturn = 1
-about to evaluate gradient with x = 25439.1 
-transformed = -0.456272 
-finished gradient call: status = 0 g = 56.5823 
-about to do fmin call with x = 25439.1  f = 115.492 g = 56.5823 
+about to evaluate gradient with x = 25439.1
+transformed = -0.456272
+finished gradient call: status = 0 g = 56.5823
+about to do fmin call with x = 25439.1  f = 115.492 g = 56.5823
 Convergence check: current value is 0.489925 and threshold is 1e-06
 done fmin call
 ireturn = 0
-about to evaluate function with x = 24860.1 
+about to evaluate function with x = 24860.1
 finished objective call: f = 1.08505e+06
-about to do fmin call with x = 24860.1  f = 1.08505e+06 g = 56.5823 
+about to do fmin call with x = 24860.1  f = 1.08505e+06 g = 56.5823
 done fmin call
 ireturn = 0
-about to evaluate function with x = 25380.8 
+about to evaluate function with x = 25380.8
 finished objective call: f = 11253.1
-about to do fmin call with x = 25380.8  f = 11253.1 g = 56.5823 
+about to do fmin call with x = 25380.8  f = 11253.1 g = 56.5823
 done fmin call
 ireturn = 0
-about to evaluate function with x = 25433.3 
+about to evaluate function with x = 25433.3
 finished objective call: f = 201.534
-about to do fmin call with x = 25433.3  f = 201.534 g = 56.5823 
+about to do fmin call with x = 25433.3  f = 201.534 g = 56.5823
 done fmin call
 ireturn = 0
-about to evaluate function with x = 25438.5 
+about to evaluate function with x = 25438.5
 finished objective call: f = 115.491
-about to do fmin call with x = 25438.5  f = 115.491 g = 56.5823 
+about to do fmin call with x = 25438.5  f = 115.491 g = 56.5823
 done fmin call
 ireturn = 1
-about to evaluate gradient with x = 25438.5 
-transformed = -0.456283 
-finished gradient call: status = 0 g = 56.5257 
-about to do fmin call with x = 25438.5  f = 115.491 g = 56.5257 
+about to evaluate gradient with x = 25438.5
+transformed = -0.456283
+finished gradient call: status = 0 g = 56.5257
+about to do fmin call with x = 25438.5  f = 115.491 g = 56.5257
 Convergence check: current value is 0.489437 and threshold is 1e-06
 done fmin call
 ireturn = 0
-about to evaluate function with x = 24860.4 
+about to evaluate function with x = 24860.4
 finished objective call: f = 1.08404e+06
-about to do fmin call with x = 24860.4  f = 1.08404e+06 g = 56.5257 
+about to do fmin call with x = 24860.4  f = 1.08404e+06 g = 56.5257
 done fmin call
 ireturn = 0
-about to evaluate function with x = 25380.3 
+about to evaluate function with x = 25380.3
 finished objective call: f = 11445.8
-about to do fmin call with x = 25380.3  f = 11445.8 g = 56.5257 
+about to do fmin call with x = 25380.3  f = 11445.8 g = 56.5257
 done fmin call
 ireturn = 0
-about to evaluate function with x = 25432.7 
+about to evaluate function with x = 25432.7
 finished objective call: f = 222.242
-about to do fmin call with x = 25432.7  f = 222.242 g = 56.5257 
+about to do fmin call with x = 25432.7  f = 222.242 g = 56.5257
 done fmin call
 ireturn = 0
-about to evaluate function with x = 25438 
+about to evaluate function with x = 25438
 finished objective call: f = 115.976
-about to do fmin call with x = 25438  f = 115.976 g = 56.5257 
+about to do fmin call with x = 25438  f = 115.976 g = 56.5257
 done fmin call
 ireturn = 0
-about to evaluate function with x = 25438.5 
+about to evaluate function with x = 25438.5
 finished objective call: f = 115.491
-about to do fmin call with x = 25438.5  f = 115.491 g = 56.5257 
+about to do fmin call with x = 25438.5  f = 115.491 g = 56.5257
 done fmin call
 ireturn = 1
-about to evaluate gradient with x = 25438.5 
-transformed = -0.456284 
-finished gradient call: status = 0 g = 56.52 
-about to do fmin call with x = 25438.5  f = 115.491 g = 56.52 
+about to evaluate gradient with x = 25438.5
+transformed = -0.456284
+finished gradient call: status = 0 g = 56.52
+about to do fmin call with x = 25438.5  f = 115.491 g = 56.52
 Convergence check: current value is 0.489389 and threshold is 1e-06
 done fmin call
 ireturn = 0
-about to evaluate function with x = 24860.6 
+about to evaluate function with x = 24860.6
 finished objective call: f = 1.08348e+06
-about to do fmin call with x = 24860.6  f = 1.08348e+06 g = 56.52 
+about to do fmin call with x = 24860.6  f = 1.08348e+06 g = 56.52
 done fmin call
 ireturn = 0
-about to evaluate function with x = 25380.3 
+about to evaluate function with x = 25380.3
 finished objective call: f = 11460.2
-about to do fmin call with x = 25380.3  f = 11460.2 g = 56.52 
+about to do fmin call with x = 25380.3  f = 11460.2 g = 56.52
 done fmin call
 ireturn = 0
-about to evaluate function with x = 25432.7 
+about to evaluate function with x = 25432.7
 finished objective call: f = 224.384
-about to do fmin call with x = 25432.7  f = 224.384 g = 56.52 
+about to do fmin call with x = 25432.7  f = 224.384 g = 56.52
 done fmin call
 ireturn = 0
-about to evaluate function with x = 25437.9 
+about to evaluate function with x = 25437.9
 finished objective call: f = 116.136
-about to do fmin call with x = 25437.9  f = 116.136 g = 56.52 
+about to do fmin call with x = 25437.9  f = 116.136 g = 56.52
 done fmin call
 ireturn = 0
-about to evaluate function with x = 25438.4 
+about to evaluate function with x = 25438.4
 finished objective call: f = 115.491
-about to do fmin call with x = 25438.4  f = 115.491 g = 56.52 
+about to do fmin call with x = 25438.4  f = 115.491 g = 56.52
 done fmin call
 ireturn = 1
-about to evaluate gradient with x = 25438.4 
-transformed = -0.456285 
-finished gradient call: status = 0 g = 56.5144 
-about to do fmin call with x = 25438.4  f = 115.491 g = 56.5144 
+about to evaluate gradient with x = 25438.4
+transformed = -0.456285
+finished gradient call: status = 0 g = 56.5144
+about to do fmin call with x = 25438.4  f = 115.491 g = 56.5144
 Convergence check: current value is 0.48934 and threshold is 1e-06
 done fmin call
 ireturn = 0
-about to evaluate function with x = 24860.6 
+about to evaluate function with x = 24860.6
 finished objective call: f = 1.08338e+06
-about to do fmin call with x = 24860.6  f = 1.08338e+06 g = 56.5144 
+about to do fmin call with x = 24860.6  f = 1.08338e+06 g = 56.5144
 done fmin call
 ireturn = 0
-about to evaluate function with x = 25380.2 
+about to evaluate function with x = 25380.2
 finished objective call: f = 11479.6
-about to do fmin call with x = 25380.2  f = 11479.6 g = 56.5144 
+about to do fmin call with x = 25380.2  f = 11479.6 g = 56.5144
 done fmin call
 ireturn = 0
-about to evaluate function with x = 25432.6 
+about to evaluate function with x = 25432.6
 finished objective call: f = 226.595
-about to do fmin call with x = 25432.6  f = 226.595 g = 56.5144 
+about to do fmin call with x = 25432.6  f = 226.595 g = 56.5144
 done fmin call
 ireturn = 0
-about to evaluate function with x = 25437.8 
+about to evaluate function with x = 25437.8
 finished objective call: f = 116.319
-about to do fmin call with x = 25437.8  f = 116.319 g = 56.5144 
+about to do fmin call with x = 25437.8  f = 116.319 g = 56.5144
 done fmin call
 ireturn = 0
-about to evaluate function with x = 25438.4 
+about to evaluate function with x = 25438.4
 finished objective call: f = 115.491
-about to do fmin call with x = 25438.4  f = 115.491 g = 56.5144 
+about to do fmin call with x = 25438.4  f = 115.491 g = 56.5144
 done fmin call
 ireturn = 1
-about to evaluate gradient with x = 25438.4 
-transformed = -0.456286 
-finished gradient call: status = 0 g = 56.5087 
-about to do fmin call with x = 25438.4  f = 115.491 g = 56.5087 
+about to evaluate gradient with x = 25438.4
+transformed = -0.456286
+finished gradient call: status = 0 g = 56.5087
+about to do fmin call with x = 25438.4  f = 115.491 g = 56.5087
 Convergence check: current value is 0.489291 and threshold is 1e-06
 done fmin call
 ireturn = 0
-about to evaluate function with x = 24860.6 
+about to evaluate function with x = 24860.6
 finished objective call: f = 1.08328e+06
-about to do fmin call with x = 24860.6  f = 1.08328e+06 g = 56.5087 
+about to do fmin call with x = 24860.6  f = 1.08328e+06 g = 56.5087
 done fmin call
 ireturn = 0
-about to evaluate function with x = 25380.2 
+about to evaluate function with x = 25380.2
 finished objective call: f = 11498.9
-about to do fmin call with x = 25380.2  f = 11498.9 g = 56.5087 
+about to do fmin call with x = 25380.2  f = 11498.9 g = 56.5087
 done fmin call
 ireturn = 0
-about to evaluate function with x = 25432.6 
+about to evaluate function with x = 25432.6
 finished objective call: f = 228.828
-about to do fmin call with x = 25432.6  f = 228.828 g = 56.5087 
+about to do fmin call with x = 25432.6  f = 228.828 g = 56.5087
 done fmin call
 ireturn = 0
-about to evaluate function with x = 25437.8 
+about to evaluate function with x = 25437.8
 finished objective call: f = 116.525
-about to do fmin call with x = 25437.8  f = 116.525 g = 56.5087 
+about to do fmin call with x = 25437.8  f = 116.525 g = 56.5087
 done fmin call
 ireturn = 0
-about to evaluate function with x = 25438.3 
+about to evaluate function with x = 25438.3
 finished objective call: f = 115.494
-about to do fmin call with x = 25438.3  f = 115.494 g = 56.5087 
+about to do fmin call with x = 25438.3  f = 115.494 g = 56.5087
 done fmin call
 ireturn = 0
-about to evaluate function with x = 25438.4 
+about to evaluate function with x = 25438.4
 finished objective call: f = 115.491
-about to do fmin call with x = 25438.4  f = 115.491 g = 56.5087 
+about to do fmin call with x = 25438.4  f = 115.491 g = 56.5087
 done fmin call
 ireturn = 1
-about to evaluate gradient with x = 25438.4 
-transformed = -0.456287 
-finished gradient call: status = 0 g = 56.5082 
-about to do fmin call with x = 25438.4  f = 115.491 g = 56.5082 
+about to evaluate gradient with x = 25438.4
+transformed = -0.456287
+finished gradient call: status = 0 g = 56.5082
+about to do fmin call with x = 25438.4  f = 115.491 g = 56.5082
 Convergence check: current value is 0.489286 and threshold is 1e-06
 done fmin call
 ireturn = 0
-about to evaluate function with x = 24860.6 
+about to evaluate function with x = 24860.6
 finished objective call: f = 1.08322e+06
-about to do fmin call with x = 24860.6  f = 1.08322e+06 g = 56.5082 
+about to do fmin call with x = 24860.6  f = 1.08322e+06 g = 56.5082
 done fmin call
 ireturn = 0
-about to evaluate function with x = 25380.2 
+about to evaluate function with x = 25380.2
 finished objective call: f = 11500.4
-about to do fmin call with x = 25380.2  f = 11500.4 g = 56.5082 
+about to do fmin call with x = 25380.2  f = 11500.4 g = 56.5082
 done fmin call
 ireturn = 0
-about to evaluate function with x = 25432.5 
+about to evaluate function with x = 25432.5
 finished objective call: f = 229.048
-about to do fmin call with x = 25432.5  f = 229.048 g = 56.5082 
+about to do fmin call with x = 25432.5  f = 229.048 g = 56.5082
 done fmin call
 ireturn = 0
-about to evaluate function with x = 25437.8 
+about to evaluate function with x = 25437.8
 finished objective call: f = 116.547
-about to do fmin call with x = 25437.8  f = 116.547 g = 56.5082 
+about to do fmin call with x = 25437.8  f = 116.547 g = 56.5082
 done fmin call
 ireturn = 0
-about to evaluate function with x = 25438.3 
+about to evaluate function with x = 25438.3
 finished objective call: f = 115.495
-about to do fmin call with x = 25438.3  f = 115.495 g = 56.5082 
+about to do fmin call with x = 25438.3  f = 115.495 g = 56.5082
 done fmin call
 ireturn = 0
-about to evaluate function with x = 25438.4 
+about to evaluate function with x = 25438.4
 finished objective call: f = 115.491
-about to do fmin call with x = 25438.4  f = 115.491 g = 56.5082 
+about to do fmin call with x = 25438.4  f = 115.491 g = 56.5082
 done fmin call
 ireturn = 1
-about to evaluate gradient with x = 25438.4 
-transformed = -0.456287 
-finished gradient call: status = 0 g = 56.5076 
-about to do fmin call with x = 25438.4  f = 115.491 g = 56.5076 
+about to evaluate gradient with x = 25438.4
+transformed = -0.456287
+finished gradient call: status = 0 g = 56.5076
+about to do fmin call with x = 25438.4  f = 115.491 g = 56.5076
 Convergence check: current value is 0.489282 and threshold is 1e-06
 done fmin call
 ireturn = 0
-about to evaluate function with x = 24860.6 
+about to evaluate function with x = 24860.6
 finished objective call: f = 1.08321e+06
-about to do fmin call with x = 24860.6  f = 1.08321e+06 g = 56.5076 
+about to do fmin call with x = 24860.6  f = 1.08321e+06 g = 56.5076
 done fmin call
 ireturn = 0
-about to evaluate function with x = 25380.2 
+about to evaluate function with x = 25380.2
 finished objective call: f = 11502.3
-about to do fmin call with x = 25380.2  f = 11502.3 g = 56.5076 
+about to do fmin call with x = 25380.2  f = 11502.3 g = 56.5076
 done fmin call
 ireturn = 0
-about to evaluate function with x = 25432.5 
+about to evaluate function with x = 25432.5
 finished objective call: f = 229.272
-about to do fmin call with x = 25432.5  f = 229.272 g = 56.5076 
+about to do fmin call with x = 25432.5  f = 229.272 g = 56.5076
 done fmin call
 ireturn = 0
-about to evaluate function with x = 25437.8 
+about to evaluate function with x = 25437.8
 finished objective call: f = 116.569
-about to do fmin call with x = 25437.8  f = 116.569 g = 56.5076 
+about to do fmin call with x = 25437.8  f = 116.569 g = 56.5076
 done fmin call
 ireturn = 0
-about to evaluate function with x = 25438.3 
+about to evaluate function with x = 25438.3
 finished objective call: f = 115.497
-about to do fmin call with x = 25438.3  f = 115.497 g = 56.5076 
+about to do fmin call with x = 25438.3  f = 115.497 g = 56.5076
 done fmin call
 ireturn = 0
-about to evaluate function with x = 25438.4 
+about to evaluate function with x = 25438.4
 finished objective call: f = 115.491
-about to do fmin call with x = 25438.4  f = 115.491 g = 56.5076 
+about to do fmin call with x = 25438.4  f = 115.491 g = 56.5076
 done fmin call
 ireturn = 1
-about to evaluate gradient with x = 25438.4 
-transformed = -0.456287 
-finished gradient call: status = 0 g = 56.507 
-about to do fmin call with x = 25438.4  f = 115.491 g = 56.507 
+about to evaluate gradient with x = 25438.4
+transformed = -0.456287
+finished gradient call: status = 0 g = 56.507
+about to do fmin call with x = 25438.4  f = 115.491 g = 56.507
 Convergence check: current value is 0.489277 and threshold is 1e-06
 done fmin call
 ireturn = 0
-about to evaluate function with x = 24860.6 
+about to evaluate function with x = 24860.6
 finished objective call: f = 1.0832e+06
-about to do fmin call with x = 24860.6  f = 1.0832e+06 g = 56.507 
+about to do fmin call with x = 24860.6  f = 1.0832e+06 g = 56.507
 done fmin call
 ireturn = 0
-about to evaluate function with x = 25380.2 
+about to evaluate function with x = 25380.2
 finished objective call: f = 11504.2
-about to do fmin call with x = 25380.2  f = 11504.2 g = 56.507 
+about to do fmin call with x = 25380.2  f = 11504.2 g = 56.507
 done fmin call
 ireturn = 0
-about to evaluate function with x = 25432.5 
+about to evaluate function with x = 25432.5
 finished objective call: f = 229.497
-about to do fmin call with x = 25432.5  f = 229.497 g = 56.507 
+about to do fmin call with x = 25432.5  f = 229.497 g = 56.507
 done fmin call
 ireturn = 0
-about to evaluate function with x = 25437.8 
+about to evaluate function with x = 25437.8
 finished objective call: f = 116.591
-about to do fmin call with x = 25437.8  f = 116.591 g = 56.507 
+about to do fmin call with x = 25437.8  f = 116.591 g = 56.507
 done fmin call
 ireturn = 0
-about to evaluate function with x = 25438.3 
+about to evaluate function with x = 25438.3
 finished objective call: f = 115.498
-about to do fmin call with x = 25438.3  f = 115.498 g = 56.507 
+about to do fmin call with x = 25438.3  f = 115.498 g = 56.507
 done fmin call
 ireturn = 0
-about to evaluate function with x = 25438.3 
+about to evaluate function with x = 25438.3
 finished objective call: f = 115.491
-about to do fmin call with x = 25438.3  f = 115.491 g = 56.507 
+about to do fmin call with x = 25438.3  f = 115.491 g = 56.507
 done fmin call
 ireturn = 1
-about to evaluate gradient with x = 25438.3 
-transformed = -0.456287 
-finished gradient call: status = 0 g = 56.5065 
-about to do fmin call with x = 25438.3  f = 115.491 g = 56.5065 
+about to evaluate gradient with x = 25438.3
+transformed = -0.456287
+finished gradient call: status = 0 g = 56.5065
+about to do fmin call with x = 25438.3  f = 115.491 g = 56.5065
 Convergence check: current value is 0.489272 and threshold is 1e-06
 done fmin call
 ireturn = 0
-about to evaluate function with x = 24860.6 
+about to evaluate function with x = 24860.6
 finished objective call: f = 1.08319e+06
-about to do fmin call with x = 24860.6  f = 1.08319e+06 g = 56.5065 
+about to do fmin call with x = 24860.6  f = 1.08319e+06 g = 56.5065
 done fmin call
 ireturn = 0
-about to evaluate function with x = 25380.2 
+about to evaluate function with x = 25380.2
 finished objective call: f = 11506.2
-about to do fmin call with x = 25380.2  f = 11506.2 g = 56.5065 
+about to do fmin call with x = 25380.2  f = 11506.2 g = 56.5065
 done fmin call
 ireturn = 0
-about to evaluate function with x = 25432.5 
+about to evaluate function with x = 25432.5
 finished objective call: f = 229.722
-about to do fmin call with x = 25432.5  f = 229.722 g = 56.5065 
+about to do fmin call with x = 25432.5  f = 229.722 g = 56.5065
 done fmin call
 ireturn = 0
-about to evaluate function with x = 25437.8 
+about to evaluate function with x = 25437.8
 finished objective call: f = 116.614
-about to do fmin call with x = 25437.8  f = 116.614 g = 56.5065 
+about to do fmin call with x = 25437.8  f = 116.614 g = 56.5065
 done fmin call
 ireturn = 0
-about to evaluate function with x = 25438.3 
+about to evaluate function with x = 25438.3
 finished objective call: f = 115.5
-about to do fmin call with x = 25438.3  f = 115.5 g = 56.5065 
+about to do fmin call with x = 25438.3  f = 115.5 g = 56.5065
 done fmin call
 ireturn = 0
-about to evaluate function with x = 25438.3 
+about to evaluate function with x = 25438.3
 finished objective call: f = 115.491
-about to do fmin call with x = 25438.3  f = 115.491 g = 56.5065 
+about to do fmin call with x = 25438.3  f = 115.491 g = 56.5065
 done fmin call
 ireturn = 1
-about to evaluate gradient with x = 25438.3 
-transformed = -0.456287 
-finished gradient call: status = 0 g = -51.0221 
-about to do fmin call with x = 25438.3  f = 115.491 g = -51.0221 
+about to evaluate gradient with x = 25438.3
+transformed = -0.456287
+finished gradient call: status = 0 g = -51.0221
+about to do fmin call with x = 25438.3  f = 115.491 g = -51.0221
 Convergence check: current value is 0.441785 and threshold is 1e-06
 done fmin call
 ireturn = 0
-about to evaluate function with x = 25438.3 
+about to evaluate function with x = 25438.3
 finished objective call: f = 115.491
-about to do fmin call with x = 25438.3  f = 115.491 g = -51.0221 
+about to do fmin call with x = 25438.3  f = 115.491 g = -51.0221
 done fmin call
 ireturn = 0
-about to evaluate function with x = 25438.3 
+about to evaluate function with x = 25438.3
 finished objective call: f = 115.491
-about to do fmin call with x = 25438.3  f = 115.491 g = -51.0221 
+about to do fmin call with x = 25438.3  f = 115.491 g = -51.0221
 done fmin call
 ireturn = 0
-about to evaluate function with x = 25438.3 
+about to evaluate function with x = 25438.3
 finished objective call: f = 115.491
-about to do fmin call with x = 25438.3  f = 115.491 g = -51.0221 
+about to do fmin call with x = 25438.3  f = 115.491 g = -51.0221
 done fmin call
 ireturn = 1
-about to evaluate gradient with x = 25438.3 
-transformed = -0.456287 
-finished gradient call: status = 0 g = 15.1333 
-about to do fmin call with x = 25438.3  f = 115.491 g = 15.1333 
+about to evaluate gradient with x = 25438.3
+transformed = -0.456287
+finished gradient call: status = 0 g = 15.1333
+about to do fmin call with x = 25438.3  f = 115.491 g = 15.1333
 Convergence check: current value is 0.131034 and threshold is 1e-06
 done fmin call
 ireturn = 0
-about to evaluate function with x = 25438.3 
+about to evaluate function with x = 25438.3
 finished objective call: f = 115.491
-about to do fmin call with x = 25438.3  f = 115.491 g = 15.1333 
+about to do fmin call with x = 25438.3  f = 115.491 g = 15.1333
 done fmin call
 ireturn = 1
-about to evaluate gradient with x = 25438.3 
-transformed = -0.456287 
-finished gradient call: status = 0 g = 1.11541e-06 
-about to do fmin call with x = 25438.3  f = 115.491 g = 1.11541e-06 
+about to evaluate gradient with x = 25438.3
+transformed = -0.456287
+finished gradient call: status = 0 g = 1.11541e-06
+about to do fmin call with x = 25438.3  f = 115.491 g = 1.11541e-06
 Convergence check: current value is 9.65802e-09 and threshold is 1e-06
 fmm: have converged: t = 9.65802e-09 f = 115.491
-x = -0.456287 
-g = 1.11541e-06 
+x = -0.456287
+g = 1.11541e-06
 done fmin call
 ireturn = -1
 finished main minimiser loop
 Successful convergence in optimise
-about to evaluate function with x = 25438.3 29.5 5 
+about to evaluate function with x = 25438.3 29.5 5
 finished objective call: f = 115.491
-about to evaluate gradient with x = 25438.3 29.5 5 
-transformed = -0.456287 -0.225373 -0.393073 
-finished gradient call: status = 0 g = 1.11541e-06 -66.6183 -5.20433 
-about to do fmin call with x = 25438.3 29.5 5  f = 115.491 g = 1.11541e-06 -66.6183 -5.20433 
+about to evaluate gradient with x = 25438.3 29.5 5
+transformed = -0.456287 -0.225373 -0.393073
+finished gradient call: status = 0 g = 1.11541e-06 -66.6183 -5.20433
+about to do fmin call with x = 25438.3 29.5 5  f = 115.491 g = 1.11541e-06 -66.6183 -5.20433
 Convergence check: current value is 0.576827 and threshold is 1e-06
 done fmin call
 ireturn = 0
-about to evaluate function with x = 25438.3 62.1667 5.56161 
+about to evaluate function with x = 25438.3 62.1667 5.56161
 finished objective call: f = 5.03833e+08
-about to do fmin call with x = 25438.3 62.1667 5.56161  f = 5.03833e+08 g = 1.11541e-06 -66.6183 -5.20433 
+about to do fmin call with x = 25438.3 62.1667 5.56161  f = 5.03833e+08 g = 1.11541e-06 -66.6183 -5.20433
 done fmin call
 ireturn = 0
-about to evaluate function with x = 25438.3 32.7361 5.05497 
+about to evaluate function with x = 25438.3 32.7361 5.05497
 finished objective call: f = 2.08884e+07
-about to do fmin call with x = 25438.3 32.7361 5.05497  f = 2.08884e+07 g = 1.11541e-06 -66.6183 -5.20433 
+about to do fmin call with x = 25438.3 32.7361 5.05497  f = 2.08884e+07 g = 1.11541e-06 -66.6183 -5.20433
 done fmin call
 ireturn = 0
-about to evaluate function with x = 25438.3 29.8192 5.00548 
+about to evaluate function with x = 25438.3 29.8192 5.00548
 finished objective call: f = 237402
-about to do fmin call with x = 25438.3 29.8192 5.00548  f = 237402 g = 1.11541e-06 -66.6183 -5.20433 
+about to do fmin call with x = 25438.3 29.8192 5.00548  f = 237402 g = 1.11541e-06 -66.6183 -5.20433
 done fmin call
 ireturn = 0
-about to evaluate function with x = 25438.3 29.5319 5.00055 
+about to evaluate function with x = 25438.3 29.5319 5.00055
 finished objective call: f = 2537.74
-about to do fmin call with x = 25438.3 29.5319 5.00055  f = 2537.74 g = 1.11541e-06 -66.6183 -5.20433 
+about to do fmin call with x = 25438.3 29.5319 5.00055  f = 2537.74 g = 1.11541e-06 -66.6183 -5.20433
 done fmin call
 ireturn = 0
-about to evaluate function with x = 25438.3 29.5032 5.00005 
+about to evaluate function with x = 25438.3 29.5032 5.00005
 finished objective call: f = 139.757
-about to do fmin call with x = 25438.3 29.5032 5.00005  f = 139.757 g = 1.11541e-06 -66.6183 -5.20433 
+about to do fmin call with x = 25438.3 29.5032 5.00005  f = 139.757 g = 1.11541e-06 -66.6183 -5.20433
 done fmin call
 ireturn = 0
-about to evaluate function with x = 25438.3 29.5003 5.00001 
+about to evaluate function with x = 25438.3 29.5003 5.00001
 finished objective call: f = 115.733
-about to do fmin call with x = 25438.3 29.5003 5.00001  f = 115.733 g = 1.11541e-06 -66.6183 -5.20433 
+about to do fmin call with x = 25438.3 29.5003 5.00001  f = 115.733 g = 1.11541e-06 -66.6183 -5.20433
 done fmin call
 ireturn = 0
-about to evaluate function with x = 25438.3 29.5 5 
+about to evaluate function with x = 25438.3 29.5 5
 finished objective call: f = 115.493
-about to do fmin call with x = 25438.3 29.5 5  f = 115.493 g = 1.11541e-06 -66.6183 -5.20433 
+about to do fmin call with x = 25438.3 29.5 5  f = 115.493 g = 1.11541e-06 -66.6183 -5.20433
 done fmin call
 ireturn = 0
-about to evaluate function with x = 25438.3 29.5 5 
+about to evaluate function with x = 25438.3 29.5 5
 finished objective call: f = 115.491
-about to do fmin call with x = 25438.3 29.5 5  f = 115.491 g = 1.11541e-06 -66.6183 -5.20433 
+about to do fmin call with x = 25438.3 29.5 5  f = 115.491 g = 1.11541e-06 -66.6183 -5.20433
 done fmin call
 ireturn = 0
-about to evaluate function with x = 25438.3 29.5 5 
+about to evaluate function with x = 25438.3 29.5 5
 finished objective call: f = 115.491
-about to do fmin call with x = 25438.3 29.5 5  f = 115.491 g = 1.11541e-06 -66.6183 -5.20433 
+about to do fmin call with x = 25438.3 29.5 5  f = 115.491 g = 1.11541e-06 -66.6183 -5.20433
 done fmin call
 ireturn = 1
-about to evaluate gradient with x = 25438.3 29.5 5 
-transformed = -0.456287 -0.225373 -0.393073 
-finished gradient call: status = 0 g = -96.5431 18.2088 -13.6336 
-about to do fmin call with x = 25438.3 29.5 5  f = 115.491 g = -96.5431 18.2088 -13.6336 
+about to evaluate gradient with x = 25438.3 29.5 5
+transformed = -0.456287 -0.225373 -0.393073
+finished gradient call: status = 0 g = -96.5431 18.2088 -13.6336
+about to do fmin call with x = 25438.3 29.5 5  f = 115.491 g = -96.5431 18.2088 -13.6336
 Convergence check: current value is 0.835937 and threshold is 1e-06
 done fmin call
 ireturn = 0
-about to evaluate function with x = 69535.1 70.9601 7.15876 
+about to evaluate function with x = 69535.1 70.9601 7.15876
 finished objective call: f = 1.72429e+08
-about to do fmin call with x = 69535.1 70.9601 7.15876  f = 1.72429e+08 g = -96.5431 18.2088 -13.6336 
+about to do fmin call with x = 69535.1 70.9601 7.15876  f = 1.72429e+08 g = -96.5431 18.2088 -13.6336
 done fmin call
 ireturn = 0
-about to evaluate function with x = 29141 33.8616 5.20169 
+about to evaluate function with x = 29141 33.8616 5.20169
 finished objective call: f = 131881
-about to do fmin call with x = 29141 33.8616 5.20169  f = 131881 g = -96.5431 18.2088 -13.6336 
+about to do fmin call with x = 29141 33.8616 5.20169  f = 131881 g = -96.5431 18.2088 -13.6336
 done fmin call
 ireturn = 0
-about to evaluate function with x = 26047 30.2308 5.03408 
+about to evaluate function with x = 26047 30.2308 5.03408
 finished objective call: f = 307.371
-about to do fmin call with x = 26047 30.2308 5.03408  f = 307.371 g = -96.5431 18.2088 -13.6336 
+about to do fmin call with x = 26047 30.2308 5.03408  f = 307.371 g = -96.5431 18.2088 -13.6336
 done fmin call
 ireturn = 0
-about to evaluate function with x = 25738.4 29.8609 5.01685 
+about to evaluate function with x = 25738.4 29.8609 5.01685
 finished objective call: f = 127.318
-about to do fmin call with x = 25738.4 29.8609 5.01685  f = 127.318 g = -96.5431 18.2088 -13.6336 
+about to do fmin call with x = 25738.4 29.8609 5.01685  f = 127.318 g = -96.5431 18.2088 -13.6336
 done fmin call
 ireturn = 0
-about to evaluate function with x = 25569.3 29.6577 5.00737 
+about to evaluate function with x = 25569.3 29.6577 5.00737
 finished objective call: f = 115.768
-about to do fmin call with x = 25569.3 29.6577 5.00737  f = 115.768 g = -96.5431 18.2088 -13.6336 
+about to do fmin call with x = 25569.3 29.6577 5.00737  f = 115.768 g = -96.5431 18.2088 -13.6336
 done fmin call
 ireturn = 0
-about to evaluate function with x = 25508.3 29.5842 5.00394 
+about to evaluate function with x = 25508.3 29.5842 5.00394
 finished objective call: f = 115.428
-about to do fmin call with x = 25508.3 29.5842 5.00394  f = 115.428 g = -96.5431 18.2088 -13.6336 
+about to do fmin call with x = 25508.3 29.5842 5.00394  f = 115.428 g = -96.5431 18.2088 -13.6336
 done fmin call
 ireturn = 1
-about to evaluate gradient with x = 25508.3 29.5842 5.00394 
-transformed = -0.454976 -0.223849 -0.392749 
-finished gradient call: status = 0 g = -38224.7 33625.8 -3359.63 
-about to do fmin call with x = 25508.3 29.5842 5.00394  f = 115.428 g = -38224.7 33625.8 -3359.63 
+about to evaluate gradient with x = 25508.3 29.5842 5.00394
+transformed = -0.454976 -0.223849 -0.392749
+finished gradient call: status = 0 g = -38224.7 33625.8 -3359.63
+about to do fmin call with x = 25508.3 29.5842 5.00394  f = 115.428 g = -38224.7 33625.8 -3359.63
 Convergence check: current value is 331.155 and threshold is 1e-06
 done fmin call
 ireturn = 0
-about to evaluate function with x = 25923.4 30.8883 6.92584 
+about to evaluate function with x = 25923.4 30.8883 6.92584
 finished objective call: f = 113.703
-about to do fmin call with x = 25923.4 30.8883 6.92584  f = 113.703 g = -38224.7 33625.8 -3359.63 
+about to do fmin call with x = 25923.4 30.8883 6.92584  f = 113.703 g = -38224.7 33625.8 -3359.63
 done fmin call
 ireturn = 1
-about to evaluate gradient with x = 25923.4 30.8883 6.92584 
-transformed = -0.447242 -0.200421 -0.245558 
-finished gradient call: status = 0 g = 72.4326 -129.734 11.3288 
-about to do fmin call with x = 25923.4 30.8883 6.92584  f = 113.703 g = 72.4326 -129.734 11.3288 
+about to evaluate gradient with x = 25923.4 30.8883 6.92584
+transformed = -0.447242 -0.200421 -0.245558
+finished gradient call: status = 0 g = 72.4326 -129.734 11.3288
+about to do fmin call with x = 25923.4 30.8883 6.92584  f = 113.703 g = 72.4326 -129.734 11.3288
 Convergence check: current value is 1.14099 and threshold is 1e-06
 done fmin call
 ireturn = 0
-about to evaluate function with x = 26288.1 31.8378 8.24248 
+about to evaluate function with x = 26288.1 31.8378 8.24248
 finished objective call: f = 113.506
-about to do fmin call with x = 26288.1 31.8378 8.24248  f = 113.506 g = 72.4326 -129.734 11.3288 
+about to do fmin call with x = 26288.1 31.8378 8.24248  f = 113.506 g = 72.4326 -129.734 11.3288
 done fmin call
 ireturn = 1
-about to evaluate gradient with x = 26288.1 31.8378 8.24248 
-transformed = -0.44051 -0.183539 -0.152744 
-finished gradient call: status = 0 g = 84.8572 -143.807 23.0195 
-about to do fmin call with x = 26288.1 31.8378 8.24248  f = 113.506 g = 84.8572 -143.807 23.0195 
+about to evaluate gradient with x = 26288.1 31.8378 8.24248
+transformed = -0.44051 -0.183539 -0.152744
+finished gradient call: status = 0 g = 84.8572 -143.807 23.0195
+about to do fmin call with x = 26288.1 31.8378 8.24248  f = 113.506 g = 84.8572 -143.807 23.0195
 Convergence check: current value is 1.26695 and threshold is 1e-06
 done fmin call
 ireturn = 0
-about to evaluate function with x = 26252.1 31.6413 7.84696 
+about to evaluate function with x = 26252.1 31.6413 7.84696
 finished objective call: f = 113.366
-about to do fmin call with x = 26252.1 31.6413 7.84696  f = 113.366 g = 84.8572 -143.807 23.0195 
+about to do fmin call with x = 26252.1 31.6413 7.84696  f = 113.366 g = 84.8572 -143.807 23.0195
 done fmin call
 ireturn = 1
-about to evaluate gradient with x = 26252.1 31.6413 7.84696 
-transformed = -0.441174 -0.187022 -0.180183 
-finished gradient call: status = 0 g = 83.1805 -137.56 18.8449 
-about to do fmin call with x = 26252.1 31.6413 7.84696  f = 113.366 g = 83.1805 -137.56 18.8449 
+about to evaluate gradient with x = 26252.1 31.6413 7.84696
+transformed = -0.441174 -0.187022 -0.180183
+finished gradient call: status = 0 g = 83.1805 -137.56 18.8449
+about to do fmin call with x = 26252.1 31.6413 7.84696  f = 113.366 g = 83.1805 -137.56 18.8449
 Convergence check: current value is 1.21341 and threshold is 1e-06
 done fmin call
 ireturn = 0
-about to evaluate function with x = 26367.1 31.6476 7.51907 
+about to evaluate function with x = 26367.1 31.6476 7.51907
 finished objective call: f = 113.147
-about to do fmin call with x = 26367.1 31.6476 7.51907  f = 113.147 g = 83.1805 -137.56 18.8449 
+about to do fmin call with x = 26367.1 31.6476 7.51907  f = 113.147 g = 83.1805 -137.56 18.8449
 done fmin call
 ireturn = 1
-about to evaluate gradient with x = 26367.1 31.6476 7.51907 
-transformed = -0.439062 -0.186909 -0.203192 
-finished gradient call: status = 0 g = 85.1963 -128.302 14.3506 
-about to do fmin call with x = 26367.1 31.6476 7.51907  f = 113.147 g = 85.1963 -128.302 14.3506 
+about to evaluate gradient with x = 26367.1 31.6476 7.51907
+transformed = -0.439062 -0.186909 -0.203192
+finished gradient call: status = 0 g = 85.1963 -128.302 14.3506
+about to do fmin call with x = 26367.1 31.6476 7.51907  f = 113.147 g = 85.1963 -128.302 14.3506
 Convergence check: current value is 1.13394 and threshold is 1e-06
 done fmin call
 ireturn = 0
-about to evaluate function with x = 26824 32.0882 7.28131 
+about to evaluate function with x = 26824 32.0882 7.28131
 finished objective call: f = 112.774
-about to do fmin call with x = 26824 32.0882 7.28131  f = 112.774 g = 85.1963 -128.302 14.3506 
+about to do fmin call with x = 26824 32.0882 7.28131  f = 112.774 g = 85.1963 -128.302 14.3506
 done fmin call
 ireturn = 1
-about to evaluate gradient with x = 26824 32.0882 7.28131 
-transformed = -0.430727 -0.179109 -0.220048 
-finished gradient call: status = 0 g = 95.0123 -110.936 8.47839 
-about to do fmin call with x = 26824 32.0882 7.28131  f = 112.774 g = 95.0123 -110.936 8.47839 
+about to evaluate gradient with x = 26824 32.0882 7.28131
+transformed = -0.430727 -0.179109 -0.220048
+finished gradient call: status = 0 g = 95.0123 -110.936 8.47839
+about to do fmin call with x = 26824 32.0882 7.28131  f = 112.774 g = 95.0123 -110.936 8.47839
 Convergence check: current value is 0.983702 and threshold is 1e-06
 done fmin call
 ireturn = 0
-about to evaluate function with x = 27338.4 32.7657 7.47861 
+about to evaluate function with x = 27338.4 32.7657 7.47861
 finished objective call: f = 112.56
-about to do fmin call with x = 27338.4 32.7657 7.47861  f = 112.56 g = 95.0123 -110.936 8.47839 
+about to do fmin call with x = 27338.4 32.7657 7.47861  f = 112.56 g = 95.0123 -110.936 8.47839
 done fmin call
 ireturn = 1
-about to evaluate gradient with x = 27338.4 32.7657 7.47861 
-transformed = -0.421448 -0.167168 -0.20605 
-finished gradient call: status = 0 g = 106.982 -99.6075 6.71177 
-about to do fmin call with x = 27338.4 32.7657 7.47861  f = 112.56 g = 106.982 -99.6075 6.71177 
+about to evaluate gradient with x = 27338.4 32.7657 7.47861
+transformed = -0.421448 -0.167168 -0.20605
+finished gradient call: status = 0 g = 106.982 -99.6075 6.71177
+about to do fmin call with x = 27338.4 32.7657 7.47861  f = 112.56 g = 106.982 -99.6075 6.71177
 Convergence check: current value is 0.950446 and threshold is 1e-06
 done fmin call
 ireturn = 0
-about to evaluate function with x = 27605.3 33.2153 7.83121 
+about to evaluate function with x = 27605.3 33.2153 7.83121
 finished objective call: f = 112.492
-about to do fmin call with x = 27605.3 33.2153 7.83121  f = 112.492 g = 106.982 -99.6075 6.71177 
+about to do fmin call with x = 27605.3 33.2153 7.83121  f = 112.492 g = 106.982 -99.6075 6.71177
 done fmin call
 ireturn = 1
-about to evaluate gradient with x = 27605.3 33.2153 7.83121 
-transformed = -0.416674 -0.159279 -0.181283 
-finished gradient call: status = 0 g = 114.061 -98.5316 8.32628 
-about to do fmin call with x = 27605.3 33.2153 7.83121  f = 112.492 g = 114.061 -98.5316 8.32628 
+about to evaluate gradient with x = 27605.3 33.2153 7.83121
+transformed = -0.416674 -0.159279 -0.181283
+finished gradient call: status = 0 g = 114.061 -98.5316 8.32628
+about to do fmin call with x = 27605.3 33.2153 7.83121  f = 112.492 g = 114.061 -98.5316 8.32628
 Convergence check: current value is 1.01395 and threshold is 1e-06
 done fmin call
 ireturn = 0
-about to evaluate function with x = 27644.3 33.3294 8.00562 
+about to evaluate function with x = 27644.3 33.3294 8.00562
 finished objective call: f = 112.483
-about to do fmin call with x = 27644.3 33.3294 8.00562  f = 112.483 g = 114.061 -98.5316 8.32628 
+about to do fmin call with x = 27644.3 33.3294 8.00562  f = 112.483 g = 114.061 -98.5316 8.32628
 done fmin call
 ireturn = 1
-about to evaluate gradient with x = 27644.3 33.3294 8.00562 
-transformed = -0.415978 -0.15728 -0.169138 
-finished gradient call: status = 0 g = 115.55 -100.83 9.87411 
-about to do fmin call with x = 27644.3 33.3294 8.00562  f = 112.483 g = 115.55 -100.83 9.87411 
+about to evaluate gradient with x = 27644.3 33.3294 8.00562
+transformed = -0.415978 -0.15728 -0.169138
+finished gradient call: status = 0 g = 115.55 -100.83 9.87411
+about to do fmin call with x = 27644.3 33.3294 8.00562  f = 112.483 g = 115.55 -100.83 9.87411
 Convergence check: current value is 1.02726 and threshold is 1e-06
 done fmin call
 ireturn = 0
-about to evaluate function with x = 27633.3 33.3209 8.01639 
+about to evaluate function with x = 27633.3 33.3209 8.01639
 finished objective call: f = 112.483
-about to do fmin call with x = 27633.3 33.3209 8.01639  f = 112.483 g = 115.55 -100.83 9.87411 
+about to do fmin call with x = 27633.3 33.3209 8.01639  f = 112.483 g = 115.55 -100.83 9.87411
 done fmin call
 ireturn = 1
-about to evaluate gradient with x = 27633.3 33.3209 8.01639 
-transformed = -0.416175 -0.15743 -0.16839 
-finished gradient call: status = 0 g = 115.36 -101.374 10.076 
-about to do fmin call with x = 27633.3 33.3209 8.01639  f = 112.483 g = 115.36 -101.374 10.076 
+about to evaluate gradient with x = 27633.3 33.3209 8.01639
+transformed = -0.416175 -0.15743 -0.16839
+finished gradient call: status = 0 g = 115.36 -101.374 10.076
+about to do fmin call with x = 27633.3 33.3209 8.01639  f = 112.483 g = 115.36 -101.374 10.076
 Convergence check: current value is 1.02557 and threshold is 1e-06
 done fmin call
 ireturn = 0
-about to evaluate function with x = 27631 33.318 8.0157 
+about to evaluate function with x = 27631 33.318 8.0157
 finished objective call: f = 112.483
-about to do fmin call with x = 27631 33.318 8.0157  f = 112.483 g = 115.36 -101.374 10.076 
+about to do fmin call with x = 27631 33.318 8.0157  f = 112.483 g = 115.36 -101.374 10.076
 done fmin call
 ireturn = 1
-about to evaluate gradient with x = 27631 33.318 8.0157 
-transformed = -0.416216 -0.15748 -0.168438 
-finished gradient call: status = 0 g = 115.31 -101.428 10.0863 
-about to do fmin call with x = 27631 33.318 8.0157  f = 112.483 g = 115.31 -101.428 10.0863 
+about to evaluate gradient with x = 27631 33.318 8.0157
+transformed = -0.416216 -0.15748 -0.168438
+finished gradient call: status = 0 g = 115.31 -101.428 10.0863
+about to do fmin call with x = 27631 33.318 8.0157  f = 112.483 g = 115.31 -101.428 10.0863
 Convergence check: current value is 1.02513 and threshold is 1e-06
 done fmin call
 ireturn = 0
-about to evaluate function with x = 27630.7 33.3176 8.01554 
+about to evaluate function with x = 27630.7 33.3176 8.01554
 finished objective call: f = 112.483
-about to do fmin call with x = 27630.7 33.3176 8.01554  f = 112.483 g = 115.31 -101.428 10.0863 
+about to do fmin call with x = 27630.7 33.3176 8.01554  f = 112.483 g = 115.31 -101.428 10.0863
 done fmin call
 ireturn = 1
-about to evaluate gradient with x = 27630.7 33.3176 8.01554 
-transformed = -0.416221 -0.157487 -0.168449 
-finished gradient call: status = 0 g = 115.303 -101.434 10.087 
-about to do fmin call with x = 27630.7 33.3176 8.01554  f = 112.483 g = 115.303 -101.434 10.087 
+about to evaluate gradient with x = 27630.7 33.3176 8.01554
+transformed = -0.416221 -0.157487 -0.168449
+finished gradient call: status = 0 g = 115.303 -101.434 10.087
+about to do fmin call with x = 27630.7 33.3176 8.01554  f = 112.483 g = 115.303 -101.434 10.087
 Convergence check: current value is 1.02507 and threshold is 1e-06
 done fmin call
 ireturn = 0
-about to evaluate function with x = 27628.6 33.3147 8.01441 
+about to evaluate function with x = 27628.6 33.3147 8.01441
 finished objective call: f = 112.483
-about to do fmin call with x = 27628.6 33.3147 8.01441  f = 112.483 g = 115.303 -101.434 10.087 
+about to do fmin call with x = 27628.6 33.3147 8.01441  f = 112.483 g = 115.303 -101.434 10.087
 done fmin call
 ireturn = 1
-about to evaluate gradient with x = 27628.6 33.3147 8.01441 
-transformed = -0.416259 -0.157538 -0.168527 
-finished gradient call: status = 0 g = 115.255 -101.474 10.0915 
-about to do fmin call with x = 27628.6 33.3147 8.01441  f = 112.483 g = 115.255 -101.474 10.0915 
+about to evaluate gradient with x = 27628.6 33.3147 8.01441
+transformed = -0.416259 -0.157538 -0.168527
+finished gradient call: status = 0 g = 115.255 -101.474 10.0915
+about to do fmin call with x = 27628.6 33.3147 8.01441  f = 112.483 g = 115.255 -101.474 10.0915
 Convergence check: current value is 1.02464 and threshold is 1e-06
 done fmin call
 ireturn = 0
-about to evaluate function with x = 27626.2 33.3113 8.01313 
+about to evaluate function with x = 27626.2 33.3113 8.01313
 finished objective call: f = 112.483
-about to do fmin call with x = 27626.2 33.3113 8.01313  f = 112.483 g = 115.255 -101.474 10.0915 
+about to do fmin call with x = 27626.2 33.3113 8.01313  f = 112.483 g = 115.255 -101.474 10.0915
 done fmin call
 ireturn = 1
-about to evaluate gradient with x = 27626.2 33.3113 8.01313 
-transformed = -0.416302 -0.157596 -0.168616 
-finished gradient call: status = 0 g = 115.199 -101.521 10.0966 
-about to do fmin call with x = 27626.2 33.3113 8.01313  f = 112.483 g = 115.199 -101.521 10.0966 
+about to evaluate gradient with x = 27626.2 33.3113 8.01313
+transformed = -0.416302 -0.157596 -0.168616
+finished gradient call: status = 0 g = 115.199 -101.521 10.0966
+about to do fmin call with x = 27626.2 33.3113 8.01313  f = 112.483 g = 115.199 -101.521 10.0966
 Convergence check: current value is 1.02414 and threshold is 1e-06
 done fmin call
 ireturn = 0
-about to evaluate function with x = 27621.6 33.3051 8.01072 
+about to evaluate function with x = 27621.6 33.3051 8.01072
 finished objective call: f = 112.483
-about to do fmin call with x = 27621.6 33.3051 8.01072  f = 112.483 g = 115.199 -101.521 10.0966 
+about to do fmin call with x = 27621.6 33.3051 8.01072  f = 112.483 g = 115.199 -101.521 10.0966
 done fmin call
 ireturn = 1
-about to evaluate gradient with x = 27621.6 33.3051 8.01072 
-transformed = -0.416384 -0.157705 -0.168783 
-finished gradient call: status = 0 g = 115.094 -101.608 10.1061 
-about to do fmin call with x = 27621.6 33.3051 8.01072  f = 112.483 g = 115.094 -101.608 10.1061 
+about to evaluate gradient with x = 27621.6 33.3051 8.01072
+transformed = -0.416384 -0.157705 -0.168783
+finished gradient call: status = 0 g = 115.094 -101.608 10.1061
+about to do fmin call with x = 27621.6 33.3051 8.01072  f = 112.483 g = 115.094 -101.608 10.1061
 Convergence check: current value is 1.02321 and threshold is 1e-06
 done fmin call
 ireturn = 0
-about to evaluate function with x = 27614.6 33.2957 8.00705 
+about to evaluate function with x = 27614.6 33.2957 8.00705
 finished objective call: f = 112.483
-about to do fmin call with x = 27614.6 33.2957 8.00705  f = 112.483 g = 115.094 -101.608 10.1061 
+about to do fmin call with x = 27614.6 33.2957 8.00705  f = 112.483 g = 115.094 -101.608 10.1061
 done fmin call
 ireturn = 1
-about to evaluate gradient with x = 27614.6 33.2957 8.00705 
-transformed = -0.416509 -0.157871 -0.169038 
-finished gradient call: status = 0 g = 114.932 -101.739 10.1206 
-about to do fmin call with x = 27614.6 33.2957 8.00705  f = 112.483 g = 114.932 -101.739 10.1206 
+about to evaluate gradient with x = 27614.6 33.2957 8.00705
+transformed = -0.416509 -0.157871 -0.169038
+finished gradient call: status = 0 g = 114.932 -101.739 10.1206
+about to do fmin call with x = 27614.6 33.2957 8.00705  f = 112.483 g = 114.932 -101.739 10.1206
 fmm: too many quasi-Newton iterations
 done fmin call
 ireturn = -2
 finished main minimiser loop
 Ran out of iterations or evaluations in optimise
-about to evaluate function with x = 27614.6 0.09 0.04 33.2957 8.00705 
+about to evaluate function with x = 27614.6 0.09 0.04 33.2957 8.00705
 finished objective call: f = 112.483
-about to evaluate gradient with x = 27614.6 0.09 0.04 33.2957 8.00705 
-transformed = -0.416509 -0.632998 -0.777222 -0.157871 -0.169038 
-finished gradient call: status = 0 g = 114.932 -27.4453 21.4072 -101.739 10.1206 
-about to do fmin call with x = 27614.6 0.09 0.04 33.2957 8.00705  f = 112.483 g = 114.932 -27.4453 21.4072 -101.739 10.1206 
+about to evaluate gradient with x = 27614.6 0.09 0.04 33.2957 8.00705
+transformed = -0.416509 -0.632998 -0.777222 -0.157871 -0.169038
+finished gradient call: status = 0 g = 114.932 -27.4453 21.4072 -101.739 10.1206
+about to do fmin call with x = 27614.6 0.09 0.04 33.2957 8.00705  f = 112.483 g = 114.932 -27.4453 21.4072 -101.739 10.1206
 Convergence check: current value is 1.02177 and threshold is 1e-06
 done fmin call
 ireturn = 0
-about to evaluate function with x = 20249.6 0.221007 0.0106434 77.0687 6.74062 
+about to evaluate function with x = 20249.6 0.221007 0.0106434 77.0687 6.74062
 finished objective call: f = 9.23083e+08
-about to do fmin call with x = 20249.6 0.221007 0.0106434 77.0687 6.74062  f = 9.23083e+08 g = 114.932 -27.4453 21.4072 -101.739 10.1206 
+about to do fmin call with x = 20249.6 0.221007 0.0106434 77.0687 6.74062  f = 9.23083e+08 g = 114.932 -27.4453 21.4072 -101.739 10.1206
 done fmin call
 ireturn = 0
-about to evaluate function with x = 22260.1 0.100643 0.0351352 38.5359 7.87775 
+about to evaluate function with x = 22260.1 0.100643 0.0351352 38.5359 7.87775
 finished objective call: f = 1.21826e+08
-about to do fmin call with x = 22260.1 0.100643 0.0351352 38.5359 7.87775  f = 1.21826e+08 g = 114.932 -27.4453 21.4072 -101.739 10.1206 
+about to do fmin call with x = 22260.1 0.100643 0.0351352 38.5359 7.87775  f = 1.21826e+08 g = 114.932 -27.4453 21.4072 -101.739 10.1206
 done fmin call
 ireturn = 0
-about to evaluate function with x = 27045 0.0910372 0.0394948 33.8131 7.9941 
+about to evaluate function with x = 27045 0.0910372 0.0394948 33.8131 7.9941
 finished objective call: f = 1.30495e+06
-about to do fmin call with x = 27045 0.0910372 0.0394948 33.8131 7.9941  f = 1.30495e+06 g = 114.932 -27.4453 21.4072 -101.739 10.1206 
+about to do fmin call with x = 27045 0.0910372 0.0394948 33.8131 7.9941  f = 1.30495e+06 g = 114.932 -27.4453 21.4072 -101.739 10.1206
 done fmin call
 ireturn = 0
-about to evaluate function with x = 27557.3 0.0901034 0.0399493 33.3473 8.00576 
+about to evaluate function with x = 27557.3 0.0901034 0.0399493 33.3473 8.00576
 finished objective call: f = 112.266
-about to do fmin call with x = 27557.3 0.0901034 0.0399493 33.3473 8.00576  f = 112.266 g = 114.932 -27.4453 21.4072 -101.739 10.1206 
+about to do fmin call with x = 27557.3 0.0901034 0.0399493 33.3473 8.00576  f = 112.266 g = 114.932 -27.4453 21.4072 -101.739 10.1206
 done fmin call
 ireturn = 1
-about to evaluate gradient with x = 27557.3 0.0901034 0.0399493 33.3473 8.00576 
-transformed = -0.41753 -0.632754 -0.777413 -0.156966 -0.169128 
-finished gradient call: status = 0 g = 110.406 -28.0033 20.8911 -97.5127 9.40417 
-about to do fmin call with x = 27557.3 0.0901034 0.0399493 33.3473 8.00576  f = 112.266 g = 110.406 -28.0033 20.8911 -97.5127 9.40417 
+about to evaluate gradient with x = 27557.3 0.0901034 0.0399493 33.3473 8.00576
+transformed = -0.41753 -0.632754 -0.777413 -0.156966 -0.169128
+finished gradient call: status = 0 g = 110.406 -28.0033 20.8911 -97.5127 9.40417
+about to do fmin call with x = 27557.3 0.0901034 0.0399493 33.3473 8.00576  f = 112.266 g = 110.406 -28.0033 20.8911 -97.5127 9.40417
 Convergence check: current value is 0.98343 and threshold is 1e-06
 done fmin call
 ireturn = 0
-about to evaluate function with x = 23360.5 0.327323 0.0206091 34.4249 8.97963 
+about to evaluate function with x = 23360.5 0.327323 0.0206091 34.4249 8.97963
 finished objective call: f = 3.79035e+07
-about to do fmin call with x = 23360.5 0.327323 0.0206091 34.4249 8.97963  f = 3.79035e+07 g = 110.406 -28.0033 20.8911 -97.5127 9.40417 
+about to do fmin call with x = 23360.5 0.327323 0.0206091 34.4249 8.97963  f = 3.79035e+07 g = 110.406 -28.0033 20.8911 -97.5127 9.40417
 done fmin call
 ireturn = 0
-about to evaluate function with x = 27117.6 0.107829 0.0375847 33.4547 8.10208 
+about to evaluate function with x = 27117.6 0.107829 0.0375847 33.4547 8.10208
 finished objective call: f = 230255
-about to do fmin call with x = 27117.6 0.107829 0.0375847 33.4547 8.10208  f = 230255 g = 110.406 -28.0033 20.8911 -97.5127 9.40417 
+about to do fmin call with x = 27117.6 0.107829 0.0375847 33.4547 8.10208  f = 230255 g = 110.406 -28.0033 20.8911 -97.5127 9.40417
 done fmin call
 ireturn = 0
-about to evaluate function with x = 27513.2 0.0918038 0.0397086 33.3581 8.01538 
+about to evaluate function with x = 27513.2 0.0918038 0.0397086 33.3581 8.01538
 finished objective call: f = 112.05
-about to do fmin call with x = 27513.2 0.0918038 0.0397086 33.3581 8.01538  f = 112.05 g = 110.406 -28.0033 20.8911 -97.5127 9.40417 
+about to do fmin call with x = 27513.2 0.0918038 0.0397086 33.3581 8.01538  f = 112.05 g = 110.406 -28.0033 20.8911 -97.5127 9.40417
 done fmin call
 ireturn = 1
-about to evaluate gradient with x = 27513.2 0.0918038 0.0397086 33.3581 8.01538 
-transformed = -0.418319 -0.628764 -0.778318 -0.156778 -0.16846 
-finished gradient call: status = 0 g = 108.424 -21.3537 22.9408 -98.4312 10.4346 
-about to do fmin call with x = 27513.2 0.0918038 0.0397086 33.3581 8.01538  f = 112.05 g = 108.424 -21.3537 22.9408 -98.4312 10.4346 
+about to evaluate gradient with x = 27513.2 0.0918038 0.0397086 33.3581 8.01538
+transformed = -0.418319 -0.628764 -0.778318 -0.156778 -0.16846
+finished gradient call: status = 0 g = 108.424 -21.3537 22.9408 -98.4312 10.4346
+about to do fmin call with x = 27513.2 0.0918038 0.0397086 33.3581 8.01538  f = 112.05 g = 108.424 -21.3537 22.9408 -98.4312 10.4346
 Convergence check: current value is 0.967645 and threshold is 1e-06
 done fmin call
 ireturn = 0
-about to evaluate function with x = 29042.7 0.161602 0.014042 38.9967 8.45571 
+about to evaluate function with x = 29042.7 0.161602 0.014042 38.9967 8.45571
 finished objective call: f = 2.54453e+07
-about to do fmin call with x = 29042.7 0.161602 0.014042 38.9967 8.45571  f = 2.54453e+07 g = 108.424 -21.3537 22.9408 -98.4312 10.4346 
+about to do fmin call with x = 29042.7 0.161602 0.014042 38.9967 8.45571  f = 2.54453e+07 g = 108.424 -21.3537 22.9408 -98.4312 10.4346
 done fmin call
 ireturn = 0
-about to evaluate function with x = 27664 0.097928 0.0321973 33.9145 8.05917 
+about to evaluate function with x = 27664 0.097928 0.0321973 33.9145 8.05917
 finished objective call: f = 129528
-about to do fmin call with x = 27664 0.097928 0.0321973 33.9145 8.05917  f = 129528 g = 108.424 -21.3537 22.9408 -98.4312 10.4346 
+about to do fmin call with x = 27664 0.097928 0.0321973 33.9145 8.05917  f = 129528 g = 108.424 -21.3537 22.9408 -98.4312 10.4346
 done fmin call
 ireturn = 0
-about to evaluate function with x = 27528.2 0.0924071 0.0389097 33.4136 8.01975 
+about to evaluate function with x = 27528.2 0.0924071 0.0389097 33.4136 8.01975
 finished objective call: f = 111.892
-about to do fmin call with x = 27528.2 0.0924071 0.0389097 33.4136 8.01975  f = 111.892 g = 108.424 -21.3537 22.9408 -98.4312 10.4346 
+about to do fmin call with x = 27528.2 0.0924071 0.0389097 33.4136 8.01975  f = 111.892 g = 108.424 -21.3537 22.9408 -98.4312 10.4346
 done fmin call
 ireturn = 1
-about to evaluate gradient with x = 27528.2 0.0924071 0.0389097 33.4136 8.01975 
-transformed = -0.41805 -0.627357 -0.781349 -0.155806 -0.168156 
-finished gradient call: status = 0 g = 107.789 -21.6924 19.8844 -95.7973 9.97372 
-about to do fmin call with x = 27528.2 0.0924071 0.0389097 33.4136 8.01975  f = 111.892 g = 107.789 -21.6924 19.8844 -95.7973 9.97372 
+about to evaluate gradient with x = 27528.2 0.0924071 0.0389097 33.4136 8.01975
+transformed = -0.41805 -0.627357 -0.781349 -0.155806 -0.168156
+finished gradient call: status = 0 g = 107.789 -21.6924 19.8844 -95.7973 9.97372
+about to do fmin call with x = 27528.2 0.0924071 0.0389097 33.4136 8.01975  f = 111.892 g = 107.789 -21.6924 19.8844 -95.7973 9.97372
 Convergence check: current value is 0.963332 and threshold is 1e-06
 done fmin call
 ireturn = 0
-about to evaluate function with x = 23548.3 0.105286 0.0308578 34.0499 8.53449 
+about to evaluate function with x = 23548.3 0.105286 0.0308578 34.0499 8.53449
 finished objective call: f = 3.86709e+07
-about to do fmin call with x = 23548.3 0.105286 0.0308578 34.0499 8.53449  f = 3.86709e+07 g = 107.789 -21.6924 19.8844 -95.7973 9.97372 
+about to do fmin call with x = 23548.3 0.105286 0.0308578 34.0499 8.53449  f = 3.86709e+07 g = 107.789 -21.6924 19.8844 -95.7973 9.97372
 done fmin call
 ireturn = 0
-about to evaluate function with x = 27112.3 0.0936569 0.0380472 33.4771 8.07091 
+about to evaluate function with x = 27112.3 0.0936569 0.0380472 33.4771 8.07091
 finished objective call: f = 286936
-about to do fmin call with x = 27112.3 0.0936569 0.0380472 33.4771 8.07091  f = 286936 g = 107.789 -21.6924 19.8844 -95.7973 9.97372 
+about to do fmin call with x = 27112.3 0.0936569 0.0380472 33.4771 8.07091  f = 286936 g = 107.789 -21.6924 19.8844 -95.7973 9.97372
 done fmin call
 ireturn = 0
-about to evaluate function with x = 27486.5 0.0925317 0.0388229 33.42 8.02487 
+about to evaluate function with x = 27486.5 0.0925317 0.0388229 33.42 8.02487
 finished objective call: f = 172.439
-about to do fmin call with x = 27486.5 0.0925317 0.0388229 33.42 8.02487  f = 172.439 g = 107.789 -21.6924 19.8844 -95.7973 9.97372 
+about to do fmin call with x = 27486.5 0.0925317 0.0388229 33.42 8.02487  f = 172.439 g = 107.789 -21.6924 19.8844 -95.7973 9.97372
 done fmin call
 ireturn = 0
-about to evaluate function with x = 27505.8 0.0924741 0.038863 33.417 8.0225 
+about to evaluate function with x = 27505.8 0.0924741 0.038863 33.417 8.0225
 finished objective call: f = 111.839
-about to do fmin call with x = 27505.8 0.0924741 0.038863 33.417 8.0225  f = 111.839 g = 107.789 -21.6924 19.8844 -95.7973 9.97372 
+about to do fmin call with x = 27505.8 0.0924741 0.038863 33.417 8.0225  f = 111.839 g = 107.789 -21.6924 19.8844 -95.7973 9.97372
 done fmin call
 ireturn = 1
-about to evaluate gradient with x = 27505.8 0.0924741 0.038863 33.417 8.0225 
-transformed = -0.418451 -0.627201 -0.781527 -0.155746 -0.167966 
-finished gradient call: status = 0 g = 106.445 -21.5921 19.7769 -95.0351 9.89816 
-about to do fmin call with x = 27505.8 0.0924741 0.038863 33.417 8.0225  f = 111.839 g = 106.445 -21.5921 19.7769 -95.0351 9.89816 
+about to evaluate gradient with x = 27505.8 0.0924741 0.038863 33.417 8.0225
+transformed = -0.418451 -0.627201 -0.781527 -0.155746 -0.167966
+finished gradient call: status = 0 g = 106.445 -21.5921 19.7769 -95.0351 9.89816
+about to do fmin call with x = 27505.8 0.0924741 0.038863 33.417 8.0225  f = 111.839 g = 106.445 -21.5921 19.7769 -95.0351 9.89816
 Convergence check: current value is 0.951777 and threshold is 1e-06
 done fmin call
 ireturn = 0
-about to evaluate function with x = 30266.9 0.126655 0.0485748 42.2395 8.23909 
+about to evaluate function with x = 30266.9 0.126655 0.0485748 42.2395 8.23909
 finished objective call: f = 5.38491e+07
-about to do fmin call with x = 30266.9 0.126655 0.0485748 42.2395 8.23909  f = 5.38491e+07 g = 106.445 -21.5921 19.7769 -95.0351 9.89816 
+about to do fmin call with x = 30266.9 0.126655 0.0485748 42.2395 8.23909  f = 5.38491e+07 g = 106.445 -21.5921 19.7769 -95.0351 9.89816
 done fmin call
 ireturn = 0
-about to evaluate function with x = 27775.1 0.095653 0.039773 34.2843 8.0441 
+about to evaluate function with x = 27775.1 0.095653 0.039773 34.2843 8.0441
 finished objective call: f = 408678
-about to do fmin call with x = 27775.1 0.095653 0.039773 34.2843 8.0441  f = 408678 g = 106.445 -21.5921 19.7769 -95.0351 9.89816 
+about to do fmin call with x = 27775.1 0.095653 0.039773 34.2843 8.0441  f = 408678 g = 106.445 -21.5921 19.7769 -95.0351 9.89816
 done fmin call
 ireturn = 0
-about to evaluate function with x = 27532.6 0.0927895 0.0389534 33.5035 8.02466 
+about to evaluate function with x = 27532.6 0.0927895 0.0389534 33.5035 8.02466
 finished objective call: f = 2648.21
-about to do fmin call with x = 27532.6 0.0927895 0.0389534 33.5035 8.02466  f = 2648.21 g = 106.445 -21.5921 19.7769 -95.0351 9.89816 
+about to do fmin call with x = 27532.6 0.0927895 0.0389534 33.5035 8.02466  f = 2648.21 g = 106.445 -21.5921 19.7769 -95.0351 9.89816
 done fmin call
 ireturn = 0
-about to evaluate function with x = 27508.5 0.0925056 0.0388721 33.4257 8.02272 
+about to evaluate function with x = 27508.5 0.0925056 0.0388721 33.4257 8.02272
 finished objective call: f = 111.829
-about to do fmin call with x = 27508.5 0.0925056 0.0388721 33.4257 8.02272  f = 111.829 g = 106.445 -21.5921 19.7769 -95.0351 9.89816 
+about to do fmin call with x = 27508.5 0.0925056 0.0388721 33.4257 8.02272  f = 111.829 g = 106.445 -21.5921 19.7769 -95.0351 9.89816
 done fmin call
 ireturn = 1
-about to evaluate gradient with x = 27508.5 0.0925056 0.0388721 33.4257 8.02272 
-transformed = -0.418403 -0.627128 -0.781493 -0.155595 -0.167951 
-finished gradient call: status = 0 g = 106.343 -21.5218 19.8147 -94.7377 9.85078 
-about to do fmin call with x = 27508.5 0.0925056 0.0388721 33.4257 8.02272  f = 111.829 g = 106.343 -21.5218 19.8147 -94.7377 9.85078 
+about to evaluate gradient with x = 27508.5 0.0925056 0.0388721 33.4257 8.02272
+transformed = -0.418403 -0.627128 -0.781493 -0.155595 -0.167951
+finished gradient call: status = 0 g = 106.343 -21.5218 19.8147 -94.7377 9.85078
+about to do fmin call with x = 27508.5 0.0925056 0.0388721 33.4257 8.02272  f = 111.829 g = 106.343 -21.5218 19.8147 -94.7377 9.85078
 Convergence check: current value is 0.950943 and threshold is 1e-06
 done fmin call
 ireturn = 0
-about to evaluate function with x = 24885.4 0.11445 0.0239217 34.6886 8.75527 
+about to evaluate function with x = 24885.4 0.11445 0.0239217 34.6886 8.75527
 finished objective call: f = 2.62407e+07
-about to do fmin call with x = 24885.4 0.11445 0.0239217 34.6886 8.75527  f = 2.62407e+07 g = 106.343 -21.5218 19.8147 -94.7377 9.85078 
+about to do fmin call with x = 24885.4 0.11445 0.0239217 34.6886 8.75527  f = 2.62407e+07 g = 106.343 -21.5218 19.8147 -94.7377 9.85078
 done fmin call
 ireturn = 0
-about to evaluate function with x = 27238.8 0.094595 0.0371406 33.5515 8.09535 
+about to evaluate function with x = 27238.8 0.094595 0.0371406 33.5515 8.09535
 finished objective call: f = 214749
-about to do fmin call with x = 27238.8 0.094595 0.0371406 33.5515 8.09535  f = 214749 g = 106.343 -21.5218 19.8147 -94.7377 9.85078 
+about to do fmin call with x = 27238.8 0.094595 0.0371406 33.5515 8.09535  f = 214749 g = 106.343 -21.5218 19.8147 -94.7377 9.85078
 done fmin call
 ireturn = 0
-about to evaluate function with x = 27481.4 0.0927135 0.0386966 33.4383 8.02997 
+about to evaluate function with x = 27481.4 0.0927135 0.0386966 33.4383 8.02997
 finished objective call: f = 1316.94
-about to do fmin call with x = 27481.4 0.0927135 0.0386966 33.4383 8.02997  f = 1316.94 g = 106.343 -21.5218 19.8147 -94.7377 9.85078 
+about to do fmin call with x = 27481.4 0.0927135 0.0386966 33.4383 8.02997  f = 1316.94 g = 106.343 -21.5218 19.8147 -94.7377 9.85078
 done fmin call
 ireturn = 0
-about to evaluate function with x = 27505.8 0.0925264 0.0388545 33.4269 8.02344 
+about to evaluate function with x = 27505.8 0.0925264 0.0388545 33.4269 8.02344
 finished objective call: f = 111.82
-about to do fmin call with x = 27505.8 0.0925264 0.0388545 33.4269 8.02344  f = 111.82 g = 106.343 -21.5218 19.8147 -94.7377 9.85078 
+about to do fmin call with x = 27505.8 0.0925264 0.0388545 33.4269 8.02344  f = 111.82 g = 106.343 -21.5218 19.8147 -94.7377 9.85078
 done fmin call
 ireturn = 1
-about to evaluate gradient with x = 27505.8 0.0925264 0.0388545 33.4269 8.02344 
-transformed = -0.418451 -0.62708 -0.78156 -0.155573 -0.1679 
-finished gradient call: status = 0 g = 106.163 -21.4925 19.7658 -94.6165 9.84094 
-about to do fmin call with x = 27505.8 0.0925264 0.0388545 33.4269 8.02344  f = 111.82 g = 106.163 -21.4925 19.7658 -94.6165 9.84094 
+about to evaluate gradient with x = 27505.8 0.0925264 0.0388545 33.4269 8.02344
+transformed = -0.418451 -0.62708 -0.78156 -0.155573 -0.1679
+finished gradient call: status = 0 g = 106.163 -21.4925 19.7658 -94.6165 9.84094
+about to do fmin call with x = 27505.8 0.0925264 0.0388545 33.4269 8.02344  f = 111.82 g = 106.163 -21.4925 19.7658 -94.6165 9.84094
 Convergence check: current value is 0.94941 and threshold is 1e-06
 done fmin call
 ireturn = 0
-about to evaluate function with x = 26413.6 0.106325 0.0321403 35.1303 8.47855 
+about to evaluate function with x = 26413.6 0.106325 0.0321403 35.1303 8.47855
 finished objective call: f = 1.34808e+07
-about to do fmin call with x = 26413.6 0.106325 0.0321403 35.1303 8.47855  f = 1.34808e+07 g = 106.163 -21.4925 19.7658 -94.6165 9.84094 
+about to do fmin call with x = 26413.6 0.106325 0.0321403 35.1303 8.47855  f = 1.34808e+07 g = 106.163 -21.4925 19.7658 -94.6165 9.84094
 done fmin call
 ireturn = 0
-about to evaluate function with x = 27395.3 0.0938629 0.0381443 33.5964 8.0687 
+about to evaluate function with x = 27395.3 0.0938629 0.0381443 33.5964 8.0687
 finished objective call: f = 108038
-about to do fmin call with x = 27395.3 0.0938629 0.0381443 33.5964 8.0687  f = 108038 g = 106.163 -21.4925 19.7658 -94.6165 9.84094 
+about to do fmin call with x = 27395.3 0.0938629 0.0381443 33.5964 8.0687  f = 108038 g = 106.163 -21.4925 19.7658 -94.6165 9.84094
 done fmin call
 ireturn = 0
-about to evaluate function with x = 27494.7 0.0926596 0.0387831 33.4439 8.02796 
+about to evaluate function with x = 27494.7 0.0926596 0.0387831 33.4439 8.02796
 finished objective call: f = 717.433
-about to do fmin call with x = 27494.7 0.0926596 0.0387831 33.4439 8.02796  f = 717.433 g = 106.163 -21.4925 19.7658 -94.6165 9.84094 
+about to do fmin call with x = 27494.7 0.0926596 0.0387831 33.4439 8.02796  f = 717.433 g = 106.163 -21.4925 19.7658 -94.6165 9.84094
 done fmin call
 ireturn = 0
-about to evaluate function with x = 27504.6 0.0925397 0.0388474 33.4286 8.02389 
+about to evaluate function with x = 27504.6 0.0925397 0.0388474 33.4286 8.02389
 finished objective call: f = 111.814
-about to do fmin call with x = 27504.6 0.0925397 0.0388474 33.4286 8.02389  f = 111.814 g = 106.163 -21.4925 19.7658 -94.6165 9.84094 
+about to do fmin call with x = 27504.6 0.0925397 0.0388474 33.4286 8.02389  f = 111.814 g = 106.163 -21.4925 19.7658 -94.6165 9.84094
 done fmin call
 ireturn = 1
-about to evaluate gradient with x = 27504.6 0.0925397 0.0388474 33.4286 8.02389 
-transformed = -0.418471 -0.627049 -0.781587 -0.155543 -0.167869 
-finished gradient call: status = 0 g = 106.056 -21.4706 19.7473 -94.5183 9.83026 
-about to do fmin call with x = 27504.6 0.0925397 0.0388474 33.4286 8.02389  f = 111.814 g = 106.056 -21.4706 19.7473 -94.5183 9.83026 
+about to evaluate gradient with x = 27504.6 0.0925397 0.0388474 33.4286 8.02389
+transformed = -0.418471 -0.627049 -0.781587 -0.155543 -0.167869
+finished gradient call: status = 0 g = 106.056 -21.4706 19.7473 -94.5183 9.83026
+about to do fmin call with x = 27504.6 0.0925397 0.0388474 33.4286 8.02389  f = 111.814 g = 106.056 -21.4706 19.7473 -94.5183 9.83026
 Convergence check: current value is 0.948502 and threshold is 1e-06
 done fmin call
 ireturn = 0
-about to evaluate function with x = 26367.2 0.106183 0.0317111 35.0267 8.50222 
+about to evaluate function with x = 26367.2 0.106183 0.0317111 35.0267 8.50222
 finished objective call: f = 1.28123e+07
-about to do fmin call with x = 26367.2 0.106183 0.0317111 35.0267 8.50222  f = 1.28123e+07 g = 106.056 -21.4706 19.7473 -94.5183 9.83026 
+about to do fmin call with x = 26367.2 0.106183 0.0317111 35.0267 8.50222  f = 1.28123e+07 g = 106.056 -21.4706 19.7473 -94.5183 9.83026
 done fmin call
 ireturn = 0
-about to evaluate function with x = 27389.6 0.0938616 0.0380895 33.5877 8.07145 
+about to evaluate function with x = 27389.6 0.0938616 0.0380895 33.5877 8.07145
 finished objective call: f = 104696
-about to do fmin call with x = 27389.6 0.0938616 0.0380895 33.5877 8.07145  f = 104696 g = 106.056 -21.4706 19.7473 -94.5183 9.83026 
+about to do fmin call with x = 27389.6 0.0938616 0.0380895 33.5877 8.07145  f = 104696 g = 106.056 -21.4706 19.7473 -94.5183 9.83026
 done fmin call
 ireturn = 0
-about to evaluate function with x = 27493.1 0.0926714 0.0387711 33.4445 8.02865 
+about to evaluate function with x = 27493.1 0.0926714 0.0387711 33.4445 8.02865
 finished objective call: f = 850.152
-about to do fmin call with x = 27493.1 0.0926714 0.0387711 33.4445 8.02865  f = 850.152 g = 106.056 -21.4706 19.7473 -94.5183 9.83026 
+about to do fmin call with x = 27493.1 0.0926714 0.0387711 33.4445 8.02865  f = 850.152 g = 106.056 -21.4706 19.7473 -94.5183 9.83026
 done fmin call
 ireturn = 0
-about to evaluate function with x = 27503.5 0.0925529 0.0388397 33.4302 8.02437 
+about to evaluate function with x = 27503.5 0.0925529 0.0388397 33.4302 8.02437
 finished objective call: f = 111.808
-about to do fmin call with x = 27503.5 0.0925529 0.0388397 33.4302 8.02437  f = 111.808 g = 106.056 -21.4706 19.7473 -94.5183 9.83026 
+about to do fmin call with x = 27503.5 0.0925529 0.0388397 33.4302 8.02437  f = 111.808 g = 106.056 -21.4706 19.7473 -94.5183 9.83026
 done fmin call
 ireturn = 1
-about to evaluate gradient with x = 27503.5 0.0925529 0.0388397 33.4302 8.02437 
-transformed = -0.418492 -0.627018 -0.781617 -0.155516 -0.167836 
-finished gradient call: status = 0 g = 105.949 -21.4491 19.7274 -94.424 9.8204 
-about to do fmin call with x = 27503.5 0.0925529 0.0388397 33.4302 8.02437  f = 111.808 g = 105.949 -21.4491 19.7274 -94.424 9.8204 
+about to evaluate gradient with x = 27503.5 0.0925529 0.0388397 33.4302 8.02437
+transformed = -0.418492 -0.627018 -0.781617 -0.155516 -0.167836
+finished gradient call: status = 0 g = 105.949 -21.4491 19.7274 -94.424 9.8204
+about to do fmin call with x = 27503.5 0.0925529 0.0388397 33.4302 8.02437  f = 111.808 g = 105.949 -21.4491 19.7274 -94.424 9.8204
 Convergence check: current value is 0.9476 and threshold is 1e-06
 done fmin call
 ireturn = 0
-about to evaluate function with x = 26377.8 0.106115 0.0317875 35.0447 8.51048 
+about to evaluate function with x = 26377.8 0.106115 0.0317875 35.0447 8.51048
 finished objective call: f = 1.28249e+07
-about to do fmin call with x = 26377.8 0.106115 0.0317875 35.0447 8.51048  f = 1.28249e+07 g = 105.949 -21.4491 19.7274 -94.424 9.8204 
+about to do fmin call with x = 26377.8 0.106115 0.0317875 35.0447 8.51048  f = 1.28249e+07 g = 105.949 -21.4491 19.7274 -94.424 9.8204
 fmm: too many function evaluations
 done fmin call
 ireturn = -2
@@ -1006,8 +1006,8 @@ Ran out of iterations or evaluations in optimise
 *initialisation_partition[Init]
 values {d}
 category 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 21 22 23 24 25 26 27 28 29 30 31 32 33 34 35 36 37 38 39 40 41 42 43 44 45 46 47 48 49 50 51 52 53 54 55 56 57 58 59 60 61 62 63 64 65 66 67 68 69 70 71 72 73 74 75 76 77 78 79 80
-immature 2949794.840938 2819996.439861 2695909.495286 2577282.688743 2463875.760410 2355459.022502 2251812.894073 2152727.456293 2058002.027289 1967444.755696 1880872.232091 1798109.117529 1718987.788419 1643347.997030 1571008.887818 1501850.726331 1435704.875027 1372406.927389 1311766.813715 1253536.054137 1197341.885201 1142555.493425 1088032.601790 1031621.249208 969304.995475 894015.876337 795096.724080 661935.412007 496399.990703 325346.203788 186362.081436 96158.982430 46445.440265 21631.481357 9889.493462 4480.470634 2021.096208 909.820708 409.168724 183.928995 82.661716 37.146222 16.691840 7.500393 3.370228 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000
-mature 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 27.659118 56.256408 114.418419 232.701513 473.214979 962.108855 1955.199584 3969.499599 8042.404400 16223.696609 32432.134078 63642.296974 120422.078063 213298.257412 340321.193277 474557.141094 578343.501981 634897.629660 652442.839971 646503.954631 628846.300866 606149.340300 581739.465378 557163.806161 533107.813240 509856.962278 487515.145973 466105.130076 445614.150477 426014.462689 407272.553684 389354.757671 372222.167873 355843.455169 340185.447069 325216.430754 310906.088851 297225.438029 284146.770292 271643.596870 259690.594564 248263.554459 237339.332894 226895.804586 216911.817823 207367.151619 198242.474762 189519.306665 181179.979931 173207.604572 165586.033805 158299.831345 151334.240140 144675.152489 138309.081463 132223.133594 126404.982756 120842.845206 115525.455714 110442.044750 105582.316670 100936.428862 96494.971818 92248.950067 88189.763966 1916008.351049
+immature 2949794.840941 2819996.439864 2695909.495288 2577282.688745 2463875.760412 2355459.022504 2251812.894075 2152727.456295 2058002.027291 1967444.755697 1880872.232092 1798109.117530 1718987.788420 1643347.997031 1571008.887819 1501850.726332 1435704.875028 1372406.927390 1311766.813716 1253536.054138 1197341.885202 1142555.493426 1088032.601790 1031621.249209 969304.995476 894015.876338 795096.724080 661935.412008 496399.990703 325346.203788 186362.081436 96158.982430 46445.440265 21631.481357 9889.493462 4480.470634 2021.096208 909.820708 409.168724 183.928995 82.661716 37.146222 16.691840 7.500393 3.370228 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000
+mature 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 27.659118 56.256408 114.418419 232.701513 473.214979 962.108855 1955.199584 3969.499599 8042.404400 16223.696609 32432.134078 63642.296975 120422.078063 213298.257412 340321.193278 474557.141094 578343.501981 634897.629661 652442.839971 646503.954632 628846.300867 606149.340300 581739.465378 557163.806161 533107.813241 509856.962278 487515.145973 466105.130076 445614.150478 426014.462689 407272.553684 389354.757671 372222.167874 355843.455170 340185.447069 325216.430754 310906.088852 297225.438029 284146.770292 271643.596870 259690.594564 248263.554459 237339.332894 226895.804587 216911.817823 207367.151619 198242.474762 189519.306665 181179.979931 173207.604572 165586.033806 158299.831345 151334.240140 144675.152489 138309.081464 132223.133594 126404.982756 120842.845206 115525.455714 110442.044750 105582.316670 100936.428862 96494.971818 92248.950067 88189.763966 1916008.351051
 *end
 
 *partition[state1]
@@ -1015,8 +1015,8 @@ year: 1979
 time_step: Jul_Jun
 values {d_r}
 category 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 21 22 23 24 25 26 27 28 29 30 31 32 33 34 35 36 37 38 39 40 41 42 43 44 45 46 47 48 49 50 51 52 53 54 55 56 57 58 59 60 61 62 63 64 65 66 67 68 69 70 71 72 73 74 75 76 77 78 79 80
-immature 2949794.839276 2819996.437568 2695909.492121 2577282.684377 2463875.754386 2355459.014190 2251812.882604 2152727.440469 2058002.005456 1967444.725572 1880872.190529 1798109.060189 1718987.709315 1643347.887910 1571008.737310 1501850.518771 1435704.588859 1372406.532991 1311766.270464 1253535.306519 1197340.857804 1142554.084884 1088030.678514 1031618.641878 969301.506730 894011.319748 795091.030252 661928.822531 496393.218678 325340.232961 186357.585929 96156.016798 46443.665335 21630.490555 9888.968226 4480.203105 2020.964159 909.757114 409.138670 183.914992 82.655260 37.143267 16.690495 7.499784 3.369952 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000
-mature 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 27.659116 56.256400 114.418396 232.701446 473.214783 962.108281 1955.197906 3969.494706 8042.390184 16223.655605 32432.017348 63641.972605 120421.215700 213296.134057 340316.550522 474548.431915 578329.550927 634878.048828 652417.906617 646474.342371 628812.902534 606113.147087 581701.457390 557124.861915 533068.655988 509818.145504 487477.066861 466068.056621 445578.251403 425979.834282 407239.241370 389322.772125 372191.497158 355814.072384 340157.316213 325189.510511 310880.335110 297200.805542 284123.213759 271621.071623 259669.056998 248242.962290 237319.645302 226876.982285 216893.823079 207349.948244 198226.028084 189503.583487 181164.948483 173193.234461 165572.295958 158286.697960 151321.684632 144663.149439 138297.606567 132212.163614 126394.495478 120832.819391 115515.871059 110432.881839 105573.556950 100928.054592 96486.966037 92241.296561 88182.447233 1915849.387912
+immature 2949794.839279 2819996.437570 2695909.492124 2577282.684379 2463875.754388 2355459.014192 2251812.882606 2152727.440471 2058002.005457 1967444.725574 1880872.190531 1798109.060191 1718987.709316 1643347.887911 1571008.737311 1501850.518772 1435704.588861 1372406.532992 1311766.270465 1253535.306520 1197340.857805 1142554.084884 1088030.678515 1031618.641879 969301.506731 894011.319749 795091.030253 661928.822531 496393.218678 325340.232962 186357.585929 96156.016798 46443.665335 21630.490555 9888.968226 4480.203105 2020.964159 909.757114 409.138670 183.914992 82.655260 37.143267 16.690495 7.499784 3.369952 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000
+mature 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 27.659116 56.256400 114.418396 232.701446 473.214783 962.108281 1955.197906 3969.494706 8042.390184 16223.655605 32432.017348 63641.972605 120421.215700 213296.134057 340316.550523 474548.431916 578329.550927 634878.048829 652417.906617 646474.342371 628812.902534 606113.147087 581701.457390 557124.861916 533068.655988 509818.145504 487477.066862 466068.056622 445578.251403 425979.834282 407239.241371 389322.772125 372191.497158 355814.072384 340157.316213 325189.510512 310880.335110 297200.805542 284123.213759 271621.071623 259669.056998 248242.962291 237319.645302 226876.982285 216893.823079 207349.948244 198226.028085 189503.583488 181164.948483 173193.234461 165572.295958 158286.697960 151321.684632 144663.149439 138297.606567 132212.163614 126394.495478 120832.819391 115515.871059 110432.881839 105573.556950 100928.054592 96486.966037 92241.296561 88182.447233 1915849.387914
 *end
 
 *partition[state1]
@@ -1024,17 +1024,107 @@ year: 2005
 time_step: Jul_Jun
 values {d_r}
 category 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 21 22 23 24 25 26 27 28 29 30 31 32 33 34 35 36 37 38 39 40 41 42 43 44 45 46 47 48 49 50 51 52 53 54 55 56 57 58 59 60 61 62 63 64 65 66 67 68 69 70 71 72 73 74 75 76 77 78 79 80
-immature 2949781.426016 2819967.540663 2695858.035313 2577204.772134 2463765.100364 2355302.192270 2251594.392007 2152423.647170 2057581.829919 1966863.376142 1880068.435920 1796996.974404 1717451.157901 1641224.345039 1568080.018837 1497812.176139 1430138.038367 1364737.083835 1301207.005538 1239013.175404 1177402.872544 1115256.311638 1050829.218368 981324.821030 902269.900219 806948.545704 687145.887474 538350.785260 371257.432961 217168.148339 106973.583831 45435.052026 17220.024587 5999.809895 1967.862139 620.520078 191.982318 59.390680 18.655732 6.011372 1.996292 0.683321 0.240483 0.086737 0.031983 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000
-mature 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 27.607553 56.105131 113.974770 231.401035 469.405568 950.962315 1922.640171 3874.655986 7767.408362 15432.714462 30189.195883 57444.236001 104072.288561 173475.058577 254526.138124 316766.245963 331974.598135 299988.686505 241898.487380 179317.392110 125131.062744 83948.287277 55258.968184 36370.173823 24306.638705 16663.712226 11773.557048 8574.209939 6420.049162 4926.548882 3864.935981 3096.636875 2534.370039 2120.190217 1813.456135 1584.607721 1411.838845 1279.125344 1174.849002 1090.720246 1020.909799 961.364152 909.285768 862.751833 820.441867 781.446669 745.136096 711.068536 678.929518 648.490371 619.580509 592.068884 565.851571 540.843437 516.972566 494.176498 472.399703 451.591869 431.706740 412.701029 394.534947 377.170241 360.571168 344.703434 329.534479 7159.408310
+immature 2949781.426019 2819967.540665 2695858.035315 2577204.772136 2463765.100366 2355302.192271 2251594.392009 2152423.647172 2057581.829921 1966863.376144 1880068.435922 1796996.974406 1717451.157902 1641224.345040 1568080.018838 1497812.176141 1430138.038368 1364737.083836 1301207.005539 1239013.175405 1177402.872545 1115256.311639 1050829.218369 981324.821032 902269.900220 806948.545705 687145.887475 538350.785261 371257.432962 217168.148339 106973.583832 45435.052027 17220.024587 5999.809895 1967.862139 620.520078 191.982318 59.390680 18.655732 6.011372 1.996292 0.683321 0.240483 0.086737 0.031983 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000
+mature 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 27.607553 56.105131 113.974770 231.401035 469.405568 950.962315 1922.640171 3874.655986 7767.408362 15432.714462 30189.195883 57444.236001 104072.288561 173475.058578 254526.138125 316766.245964 331974.598136 299988.686508 241898.487382 179317.392112 125131.062746 83948.287278 55258.968185 36370.173824 24306.638705 16663.712227 11773.557048 8574.209939 6420.049163 4926.548882 3864.935981 3096.636875 2534.370039 2120.190217 1813.456135 1584.607721 1411.838845 1279.125344 1174.849002 1090.720246 1020.909799 961.364152 909.285768 862.751833 820.441867 781.446669 745.136096 711.068536 678.929518 648.490371 619.580509 592.068884 565.851571 540.843437 516.972566 494.176498 472.399703 451.591869 431.706740 412.701029 394.534947 377.170241 360.571168 344.703434 329.534479 7159.408310
+*end
+
+*age_length[age_length_mature]
+year: 2005
+time_step: Jul_Jun
+year time_step 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 21 22 23 24 25 26 27 28 29 30 31 32 33 34 35 36 37 38 39 40 41 42 43 44 45 46 47 48 49 50 51 52 53 54 55 56 57 58 59 60 61 62 63 64 65 66 67 68 69 70 71 72 73 74 75 76 77 78 79 80
+2005 0 0.0925529 0.0918729 0.091193 0.0905131 0.0898332 0.0891533 0.0884734 0.0877935 0.0871136 0.0864336 0.0857537 0.0850738 0.0843939 0.083714 0.0830341 0.0823542 0.0816743 0.0809943 0.0803144 0.0796345 0.0789546 0.0782747 0.0775948 0.0769149 0.0762349 0.075555 0.0748751 0.0741952 0.0735153 0.0728354 0.0721555 0.0714756 0.0707956 0.0701157 0.0694358 0.0687559 0.068076 0.0673961 0.0667162 0.0660363 0.0653563 0.0646764 0.0639965 0.0633166 0.0626367 0.0619568 0.0612769 0.0605969 0.059917 0.0592371 0.0585572 0.0578773 0.0571974 0.0565175 0.0558376 0.0551576 0.0544777 0.0537978 0.0531179 0.052438 0.0517581 0.0510782 0.0503983 0.0497183 0.0490384 0.0483585 0.0476786 0.0469987 0.0463188 0.0456389 0.0449589 0.044279 0.0435991 0.0429192 0.0422393 0.0415594 0.0408795 0.0401996 0.0395196 0.0388397
+
+
+year time_step age  L(19) L(20) L(21) L(22) L(23) L(24) L(25) L(26) L(27) L(28) L(29) L(30) L(31) L(32) L(33) L(34) L(35) L(36) L(37) L(38) L(39) L(40) L(41) L(42) L(43) L(44) L(45) L(46)
+2005 0 1 3.16339e-10 6.00844e-11 1.3168e-11 3.25839e-12 8.94729e-13 2.68674e-13 8.73746e-14 3.04201e-14 1.12133e-14 4.44089e-15 1.77636e-15 7.77156e-16 3.33067e-16 2.22045e-16 0 1.11022e-16 0 0 0 0 0 0 0 0 0 0 0
+2005 0 2 2.826e-10 5.36183e-11 1.17418e-11 2.9039e-12 7.96918e-13 2.39364e-13 7.77156e-14 2.70894e-14 9.99201e-15 3.88578e-15 1.66533e-15 6.66134e-16 2.22045e-16 2.22045e-16 0 1.11022e-16 0 0 0 0 0 0 0 0 0 0 0
+2005 0 3 2.52226e-10 4.78045e-11 1.04606e-11 2.58549e-12 7.09321e-13 2.12941e-13 6.91669e-14 2.39808e-14 8.99281e-15 3.44169e-15 1.44329e-15 5.55112e-16 3.33067e-16 1.11022e-16 0 1.11022e-16 0 0 0 0 0 0 0 0 0 0 0
+2005 0 4 2.24905e-10 4.25816e-11 9.31077e-12 2.29994e-12 6.30718e-13 1.89182e-13 6.15064e-14 2.13163e-14 7.99361e-15 3.10862e-15 1.22125e-15 5.55112e-16 2.22045e-16 1.11022e-16 1.11022e-16 0 0 0 0 0 0 0 0 0 0 0 0
+2005 0 5 2.00354e-10 3.78936e-11 8.27949e-12 2.04403e-12 5.6033e-13 1.68088e-13 5.4512e-14 1.89848e-14 6.99441e-15 2.77556e-15 1.11022e-15 4.44089e-16 2.22045e-16 1.11022e-16 1.11022e-16 0 0 0 0 0 0 0 0 0 0 0 0
+2005 0 6 1.7831e-10 3.36896e-11 7.35545e-12 1.81488e-12 4.97269e-13 1.49103e-13 4.84057e-14 1.68754e-14 6.21725e-15 2.44249e-15 9.99201e-16 4.44089e-16 1.11022e-16 1.11022e-16 1.11022e-16 0 0 0 0 0 0 0 0 0 0 0 0
+2005 0 7 1.58537e-10 2.9923e-11 6.52833e-12 1.60993e-12 4.40981e-13 1.32117e-13 4.28546e-14 1.4988e-14 5.44009e-15 2.22045e-15 8.88178e-16 3.33067e-16 2.22045e-16 0 1.11022e-16 0 0 0 0 0 0 0 0 0 0 0 0
+2005 0 8 1.40816e-10 2.65514e-11 5.78848e-12 1.42675e-12 3.90576e-13 1.17018e-13 3.79696e-14 1.32117e-14 4.88498e-15 1.88738e-15 7.77156e-16 3.33067e-16 2.22045e-16 0 1.11022e-16 0 0 0 0 0 0 0 0 0 0 0 0
+2005 0 9 1.2495e-10 2.35363e-11 5.12745e-12 1.2631e-12 3.45612e-13 1.03584e-13 3.36398e-14 1.16573e-14 4.32987e-15 1.66533e-15 6.66134e-16 3.33067e-16 1.11022e-16 0 1.11022e-16 0 0 0 0 0 0 0 0 0 0 0 0
+2005 0 10 1.10759e-10 2.08424e-11 4.53737e-12 1.11722e-12 3.05533e-13 9.14824e-14 2.9754e-14 1.02141e-14 3.88578e-15 1.44329e-15 6.66134e-16 2.22045e-16 1.11022e-16 1.11022e-16 0 0 0 0 0 0 0 0 0 0 0 0 0
+2005 0 11 0.22027 0.22027 0.157741 0.0820858 0.0300328 0.00786176 0.00163263 0.000305271 5.67038e-05 1.10921e-05 2.34963e-06 5.44178e-07 1.37797e-07 3.79792e-08 1.13218e-08 3.62593e-09 1.23941e-09 4.49443e-10 1.71955e-10 6.90731e-11 2.90047e-11 1.26827e-11 5.75517e-12 2.70206e-12 1.30906e-12 6.527e-13 3.34399e-13
+2005 0 12 0.192147 0.225721 0.192147 0.119146 0.053648 0.0170959 0.00408518 0.000822466 0.000156228 3.02733e-05 6.2471e-06 1.39908e-06 3.4183e-07 9.09473e-08 2.62178e-08 8.13824e-09 2.70277e-09 9.545e-10 3.56441e-10 1.40035e-10 5.76169e-11 2.4727e-11 1.10293e-11 5.09659e-12 2.43305e-12 1.19682e-12 6.05294e-13
+2005 0 13 0.0128281 0.0357552 0.077628 0.131666 0.179133 0.191643 0.16265 0.109564 0.0587208 0.02441 0.00801274 0.00221095 0.000553919 0.000134631 3.32373e-05 8.5651e-06 2.33614e-06 6.78112e-07 2.09603e-07 6.88495e-08 2.39536e-08 8.79299e-09 3.39224e-09 1.37013e-09 5.77302e-10 2.52915e-10 1.14859e-10
+2005 0 14 0.00685584 0.0210374 0.0516579 0.0990814 0.151555 0.186216 0.18242 0.141541 0.0886661 0.0440228 0.017086 0.00536189 0.00145572 0.000367553 9.14439e-05 2.32966e-05 6.21382e-06 1.75423e-06 5.26229e-07 1.67716e-07 5.66638e-08 2.02274e-08 7.60099e-09 2.9955e-09 1.23359e-09 5.29051e-10 2.35558e-10
+2005 0 15 0.0212887 0.0552594 0.108882 0.166929 0.199496 0.185303 0.132857 0.074879 0.0322124 0.0106245 0.00285587 0.000681943 0.000156318 3.63197e-05 8.83249e-06 2.2845e-06 6.32268e-07 1.87329e-07 5.92669e-08 1.99451e-08 7.10826e-09 2.67094e-09 1.05363e-09 4.34626e-10 1.86797e-10 8.33714e-11 3.85275e-11
+2005 0 16 0.00203407 0.00703401 0.0208472 0.0499677 0.0947121 0.144686 0.17999 0.17999 0.144686 0.0947121 0.0499677 0.0208472 0.00703401 0.00203407 0.000539654 0.000139218 3.63788e-05 9.87164e-06 2.81881e-06 8.5181e-07 2.72722e-07 9.23844e-08 3.30225e-08 1.24145e-08 4.89157e-09 2.01321e-09 8.62657e-10
+2005 0 17 0.000170827 0.00059361 0.00200417 0.00627581 0.0172751 0.0398686 0.0753818 0.117878 0.155544 0.169875 0.155544 0.117878 0.0753818 0.0398686 0.0172751 0.00627581 0.00200417 0.00059361 0.000170827 4.94182e-05 1.46915e-05 4.54615e-06 1.47364e-06 5.01557e-07 1.79213e-07 6.71232e-08 2.62932e-08
+2005 0 18 0.000156938 0.000551381 0.00188626 0.00599512 0.0167583 0.039225 0.0749924 0.118144 0.156582 0.171287 0.156582 0.118144 0.0749924 0.039225 0.0167583 0.00599512 0.00188626 0.000551381 0.000156938 4.4998e-05 1.32832e-05 4.08745e-06 1.31911e-06 4.47383e-07 1.59405e-07 5.95677e-08 2.32901e-08
+2005 0 19 0.000143969 0.00051143 0.00177295 0.00572041 0.0162426 0.03857 0.0745843 0.118402 0.157632 0.172723 0.157632 0.118402 0.0745843 0.03857 0.0162426 0.00572041 0.00177295 0.00051143 0.000143969 4.09141e-05 1.19929e-05 3.66994e-06 1.17918e-06 3.9853e-07 1.41601e-07 5.27951e-08 2.0604e-08
+2005 0 20 9.20107e-05 0.000324569 0.00113278 0.00375063 0.0111716 0.028358 0.0590989 0.100641 0.143084 0.169473 0.16673 0.135177 0.0918671 0.0518772 0.0238931 0.0090817 0.00297169 0.000884588 0.000252176 7.16115e-05 2.07966e-05 6.27386e-06 1.98225e-06 6.58123e-07 2.29694e-07 8.41617e-08 3.23028e-08
+2005 0 21 3.86753e-05 0.000131418 0.000451228 0.00151865 0.00480118 0.0135459 0.0324769 0.0642281 0.104928 0.144664 0.166842 0.161569 0.129717 0.0881077 0.0500696 0.023402 0.00909951 0.00306218 0.000939169 0.000275602 8.03634e-05 2.38905e-05 7.35504e-06 2.36485e-06 7.97053e-07 2.81815e-07 1.04426e-07
+2005 0 22 3.22509e-05 0.000109913 0.000379897 0.00129345 0.00416144 0.0120187 0.0296135 0.0601942 0.100697 0.141593 0.16677 0.164177 0.134003 0.0921916 0.0530747 0.0250931 0.00983115 0.003317 0.00101542 0.000296472 8.58513e-05 2.53243e-05 7.73478e-06 2.46783e-06 8.25726e-07 2.89984e-07 1.06786e-07
+2005 0 23 1.65535e-05 5.45629e-05 0.000184342 0.00062471 0.00205488 0.00627632 0.0169207 0.0385062 0.0723399 0.113113 0.150183 0.166429 0.155757 0.121248 0.0802179 0.0443642 0.0202405 0.0077426 0.00258842 0.000795583 0.000235457 6.95061e-05 2.09567e-05 6.5469e-06 2.13546e-06 7.29641e-07 2.61297e-07
+2005 0 24 8.0874e-06 2.55725e-05 8.35213e-05 0.00027758 0.000916359 0.00290131 0.00842263 0.0213667 0.0456005 0.0807878 0.120474 0.153542 0.163652 0.148226 0.112638 0.07311 0.0397737 0.017967 0.00686931 0.00231649 0.000723143 0.000218224 6.57852e-05 2.02537e-05 6.45446e-06 2.14453e-06 7.45217e-07
+2005 0 25 9.79682e-06 3.19637e-05 0.000107639 0.000367603 0.00123791 0.00394896 0.0113549 0.0279985 0.057223 0.09652 0.13708 0.164115 0.164115 0.13708 0.09652 0.057223 0.0279985 0.0113549 0.00394896 0.00123791 0.000367603 0.000107639 3.19637e-05 9.79682e-06 3.12988e-06 1.04712e-06 3.6735e-07
+2005 0 26 4.49864e-06 1.39669e-05 4.50219e-05 0.000148994 0.000496602 0.0016186 0.00495401 0.0135706 0.0317948 0.0619845 0.100662 0.138959 0.162133 0.159786 0.131897 0.0926168 0.0550611 0.0272003 0.0112186 0.00398987 0.00128254 0.000390604 0.000117124 3.55342e-05 1.1099e-05 3.60483e-06 1.2234e-06
+2005 0 27 3.24238e-06 9.93889e-06 3.16992e-05 0.000104215 0.000347377 0.00114363 0.00358235 0.0101919 0.0251118 0.0517714 0.088625 0.128183 0.158063 0.162925 0.14226 0.104685 0.0656009 0.0343035 0.0149087 0.00552106 0.00182093 0.000561358 0.000168613 5.08792e-05 1.57371e-05 5.0492e-06 1.69094e-06
+2005 0 28 2.68819e-06 8.2342e-06 2.62838e-05 8.66849e-05 0.000290844 0.000968227 0.00308403 0.00897352 0.0227103 0.0481435 0.0845017 0.124735 0.156883 0.16452 0.146076 0.108818 0.0689815 0.0364648 0.0159746 0.00593659 0.00195603 0.000600282 0.000179089 5.36153e-05 1.64473e-05 5.23452e-06 1.73956e-06
+2005 0 29 2.74705e-06 8.56767e-06 2.78778e-05 9.37729e-05 0.000320693 0.00108546 0.00349734 0.0102119 0.0256855 0.0536478 0.0923293 0.133417 0.162932 0.165453 0.140855 0.100704 0.0607142 0.0302297 0.0124467 0.00437485 0.00137906 0.000410033 0.000119841 3.54524e-05 1.08133e-05 3.43623e-06 1.14337e-06
+2005 0 30 1.15009e-06 3.36812e-06 1.03057e-05 3.27949e-05 0.000107513 0.000357119 0.00117076 0.00364958 0.010329 0.0253199 0.0519718 0.0886794 0.127993 0.157641 0.162456 0.141968 0.104648 0.0657596 0.0345231 0.0150777 0.00561304 0.00186065 0.000576179 0.000173721 5.25823e-05 1.63042e-05 5.24149e-06
+2005 0 31 1.51694e-06 4.63157e-06 1.47979e-05 4.91655e-05 0.000167768 0.000575545 0.00192093 0.00596409 0.0163533 0.0377978 0.07189 0.113355 0.151264 0.167978 0.156983 0.121658 0.0798776 0.0436686 0.0196261 0.00738245 0.00242735 0.000734976 0.000214771 6.27445e-05 1.87612e-05 5.82242e-06 1.8892e-06
+2005 0 32 1.33824e-06 4.10637e-06 1.32026e-05 4.42145e-05 0.000152384 0.000529238 0.00179255 0.00565879 0.0157865 0.0370746 0.0714163 0.113585 0.152359 0.169557 0.158229 0.122061 0.0795143 0.0429554 0.0190098 0.00702882 0.00227238 0.000677706 0.000195519 5.65287e-05 1.67628e-05 5.16808e-06 1.66815e-06
+2005 0 33 7.36175e-07 2.17184e-06 6.71614e-06 2.16961e-05 7.26381e-05 0.000248315 0.000845678 0.00276635 0.00828748 0.0215932 0.0469607 0.0840329 0.125614 0.159141 0.167196 0.147832 0.109115 0.0681282 0.0352294 0.0150165 0.00541821 0.00173525 0.000519295 0.00015169 4.46397e-05 1.35072e-05 4.25215e-06
+2005 0 34 7.88259e-07 2.38016e-06 7.54587e-06 2.50197e-05 8.59837e-05 0.000301172 0.00104586 0.00345748 0.010332 0.0264487 0.0558005 0.0963096 0.138769 0.167414 0.167414 0.138769 0.0963096 0.0558005 0.0264487 0.010332 0.00345748 0.00104586 0.000301172 8.59837e-05 2.50197e-05 7.54587e-06 2.38016e-06
+2005 0 35 4.10297e-07 1.18403e-06 3.58522e-06 1.13717e-05 3.75847e-05 0.000128038 0.000441009 0.00148989 0.00473073 0.0134084 0.0322869 0.0640799 0.104947 0.144911 0.167251 0.161934 0.129872 0.0880471 0.049889 0.0232263 0.00899065 0.00301187 0.000919921 0.000269001 7.82112e-05 2.31968e-05 7.12829e-06
+2005 0 36 6.04667e-07 1.84237e-06 5.90792e-06 1.98743e-05 6.95643e-05 0.000249333 0.00089062 0.00304344 0.00943005 0.0250162 0.0544158 0.0960313 0.140307 0.170519 0.170519 0.140307 0.0960313 0.0544158 0.0250162 0.00943005 0.00304344 0.00089062 0.000249333 6.95643e-05 1.98743e-05 5.90792e-06 1.84237e-06
+2005 0 37 2.15629e-07 6.05101e-07 1.7819e-06 5.50529e-06 1.77946e-05 5.97457e-05 0.000205513 0.000707543 0.00235347 0.00721476 0.0193355 0.0433343 0.0797091 0.121849 0.157569 0.168719 0.151779 0.113465 0.0716695 0.0374583 0.0160857 0.00581916 0.00185966 0.000553344 0.000160364 4.67755e-05 1.4026e-05
+2005 0 38 1.99177e-07 5.64205e-07 1.67915e-06 5.2501e-06 1.71977e-05 5.8597e-05 0.000204767 0.000716435 0.00241941 0.0075084 0.0202716 0.0455003 0.083396 0.126626 0.161868 0.17045 0.149933 0.109408 0.0670357 0.033731 0.0139016 0.00483887 0.00149762 0.000434945 0.000123921 3.57413e-05 1.06431e-05
+2005 0 39 1.28097e-07 3.5369e-07 1.02509e-06 3.12076e-06 9.96616e-06 3.32238e-05 0.000114414 0.000399418 0.00137146 0.00443657 0.0128257 0.0314693 0.0634298 0.105014 0.145971 0.169016 0.163506 0.13053 0.0877719 0.049104 0.0224749 0.00853209 0.00280298 0.000841043 0.000242244 6.95664e-05 2.04299e-05
+2005 0 40 1.40833e-07 3.99339e-07 1.19133e-06 3.74128e-06 1.23452e-05 4.25477e-05 0.000151255 0.000542388 0.001894 0.00613253 0.0173843 0.0409948 0.0784422 0.123083 0.161598 0.173867 0.155304 0.11413 0.0700518 0.0351039 0.0143037 0.00489098 0.00148126 0.000420468 0.000117181 3.31206e-05 9.68668e-06
+2005 0 41 9.57444e-08 2.66059e-07 7.77282e-07 2.39014e-06 7.72999e-06 2.61854e-05 9.20216e-05 0.000329487 0.00116673 0.00391133 0.0117479 0.0299005 0.0621274 0.105081 0.147984 0.172429 0.166535 0.131752 0.0871763 0.0475622 0.0210544 0.00769592 0.00243496 0.000706273 0.000197689 5.54684e-05 1.59916e-05
+2005 0 42 8.75842e-08 2.45585e-07 7.24819e-07 2.25468e-06 7.38754e-06 2.53928e-05 9.06765e-05 0.000330229 0.00118929 0.00404753 0.0122911 0.0314387 0.0652401 0.109717 0.153097 0.175471 0.166038 0.128063 0.0822744 0.0432109 0.0183188 0.00642057 0.00196024 0.000553281 0.000151919 4.20905e-05 1.20409e-05
+2005 0 43 8.00232e-08 2.26441e-07 6.75265e-07 2.12532e-06 7.05662e-06 2.46186e-05 8.93608e-05 0.000331133 0.00121331 0.00419308 0.012874 0.0330854 0.0685411 0.114563 0.158278 0.178313 0.165025 0.124017 0.0772186 0.0389613 0.0157981 0.00530838 0.00156492 0.000430274 0.000116025 3.17731e-05 9.02616e-06
+2005 0 44 4.82287e-08 1.32172e-07 3.81015e-07 1.15776e-06 3.71078e-06 1.25218e-05 4.42078e-05 0.000161124 0.000591889 0.00210979 0.00692273 0.0196766 0.0459902 0.0864974 0.13291 0.169556 0.175852 0.149955 0.105063 0.060766 0.0283492 0.0107321 0.00343896 0.000990282 0.000271367 7.39548e-05 2.06388e-05
+2005 0 45 2.94491e-08 7.82812e-08 2.18458e-07 6.41606e-07 1.98611e-06 6.47776e-06 2.21804e-05 7.90187e-05 0.000287831 0.00104092 0.00357658 0.011033 0.0288166 0.061184 0.105077 0.149363 0.174815 0.168642 0.132566 0.0867116 0.0464689 0.0200889 0.00715022 0.00220393 0.000624534 0.000171435 4.73527e-05
+2005 0 46 2.13502e-08 5.5994e-08 1.54063e-07 4.45895e-07 1.36009e-06 4.37399e-06 1.47959e-05 5.22789e-05 0.000190182 0.000694467 0.0024469 0.00788396 0.0218716 0.0497432 0.0911741 0.137116 0.171143 0.17416 0.145588 0.100412 0.0571198 0.0262204 0.00980357 0.00312019 0.00089733 0.000246597 6.75704e-05
+2005 0 47 2.26365e-08 6.08145e-08 1.71811e-07 5.11873e-07 1.61128e-06 5.35964e-06 1.87812e-05 6.87394e-05 0.000258261 0.00096654 0.0034414 0.0109759 0.0294392 0.0635472 0.109848 0.155826 0.179924 0.169695 0.12921 0.0811458 0.0411585 0.0166815 0.00556605 0.00162098 0.000439018 0.000116512 3.14171e-05
+2005 0 48 2.03519e-08 5.51232e-08 1.57175e-07 4.73198e-07 1.50741e-06 5.0826e-06 1.80851e-05 6.73272e-05 0.000257626 0.000982217 0.0035569 0.011489 0.0310039 0.0668599 0.114878 0.161317 0.182959 0.168557 0.124863 0.0758197 0.0368371 0.0142423 0.00454813 0.0012781 0.000337221 8.79291e-05 2.34478e-05
+2005 0 49 1.24074e-08 3.2601e-08 8.99763e-08 2.61664e-07 8.03919e-07 2.61298e-06 8.97633e-06 3.2425e-05 0.000121685 0.000463729 0.00172823 0.00596612 0.0178729 0.0438084 0.0854405 0.134385 0.173666 0.180538 0.152572 0.104906 0.0588227 0.0262713 0.00944691 0.00287319 0.000789088 0.00020778 5.48358e-05
+2005 0 50 6.57092e-09 1.65277e-08 4.35134e-08 1.20293e-07 3.50219e-07 1.07622e-06 3.49378e-06 1.19612e-05 4.2917e-05 0.000159203 0.000595692 0.00216126 0.00719694 0.0206467 0.0483739 0.090657 0.13827 0.173903 0.177099 0.147107 0.100185 0.0558325 0.0249107 0.00901026 0.00277356 0.000773931 0.000207355
+2005 0 51 1.10256e-08 2.97499e-08 8.45732e-08 2.54203e-07 8.10231e-07 2.74291e-06 9.85194e-06 3.7323e-05 0.000147048 0.00058657 0.00226644 0.00796619 0.0236906 0.0562032 0.104479 0.155807 0.186573 0.178914 0.136096 0.0838723 0.0409694 0.0156992 0.00489589 0.00132977 0.000337576 8.46872e-05 2.17825e-05
+2005 0 52 1.16521e-08 3.22502e-08 9.42953e-08 2.92355e-07 9.64097e-07 3.38652e-06 1.2649e-05 4.98619e-05 0.000203886 0.000837279 0.00327756 0.0113884 0.0325444 0.0726088 0.126187 0.175629 0.192482 0.167321 0.115094 0.0631348 0.0268794 0.00899641 0.00251231 0.00063238 0.000153586 3.77603e-05 9.6732e-06
+2005 0 53 6.60811e-09 1.76167e-08 4.94595e-08 1.46797e-07 4.62207e-07 1.54771e-06 5.51401e-06 2.08285e-05 8.25563e-05 0.000336006 0.00135166 0.00507034 0.0164738 0.0432126 0.0882391 0.142091 0.183978 0.187891 0.152329 0.0988144 0.0508669 0.0203608 0.00650815 0.00177455 0.000444977 0.000109185 2.73413e-05
+2005 0 54 3.62181e-09 9.27464e-09 2.4926e-08 7.05702e-08 2.11244e-07 6.70669e-07 2.26269e-06 8.10779e-06 3.07007e-05 0.000121285 0.000487523 0.00191145 0.00687405 0.0210724 0.0516983 0.0990946 0.151515 0.18613 0.18234 0.141512 0.0886875 0.0440643 0.0171178 0.0053772 0.00146125 0.000369244 9.19241e-05
+2005 0 55 3.35463e-09 8.69656e-09 2.36944e-08 6.81173e-08 2.07422e-07 6.71256e-07 2.3134e-06 8.48594e-06 3.29514e-05 0.000133585 0.000550207 0.00219904 0.00798159 0.0243525 0.0586605 0.109555 0.162728 0.191783 0.179244 0.131691 0.0775816 0.0356913 0.0127863 0.00374159 0.00096428 0.000235372 5.74498e-05
+2005 0 56 3.27585e-09 8.64625e-09 2.40319e-08 7.06364e-08 2.2046e-07 7.332e-07 2.60382e-06 9.86534e-06 3.96219e-05 0.000166 0.000703126 0.00285787 0.0103562 0.0308408 0.0711856 0.126569 0.17844 0.196354 0.169675 0.11502 0.0615299 0.0252728 0.00811138 0.00217318 0.000527487 0.000124377 2.98815e-05
+2005 0 57 2.8731e-09 7.64025e-09 2.14169e-08 6.3563e-08 2.00598e-07 6.75716e-07 2.43522e-06 9.38357e-06 3.84149e-05 0.000164374 0.000711736 0.00295334 0.0108737 0.0326331 0.0752247 0.132733 0.184567 0.198551 0.166426 0.108985 0.0556832 0.0216522 0.00658574 0.00168767 0.000396627 9.15599e-05 2.1718e-05
+2005 0 58 2.9691e-09 8.09241e-09 2.33134e-08 7.13278e-08 2.3283e-07 8.14077e-07 3.05568e-06 1.2296e-05 5.2606e-05 0.000234465 0.00104655 0.00438548 0.0158136 0.0449791 0.0962999 0.15755 0.200085 0.19525 0.145609 0.0846027 0.03731 0.0124393 0.00332263 0.000777953 0.00017359 3.91722e-05 9.25824e-06
+2005 0 59 1.86448e-09 4.95045e-09 1.38609e-08 4.11161e-08 1.29821e-07 4.38213e-07 1.58647e-06 6.16438e-06 2.55949e-05 0.000112024 0.000502048 0.002188 0.0085848 0.0276851 0.0683072 0.127054 0.183701 0.203747 0.174026 0.114628 0.0583527 0.0223422 0.00661522 0.00163915 0.000372005 8.31251e-05 1.91604e-05
+2005 0 60 1.30916e-09 3.42631e-09 9.44499e-09 2.75502e-08 8.54416e-08 2.83033e-07 1.00527e-06 3.83532e-06 1.56823e-05 6.80412e-05 0.000306018 0.00136535 0.00563483 0.0196527 0.0532784 0.108339 0.169208 0.203869 0.188683 0.133365 0.0732311 0.030291 0.00952702 0.00244139 0.000558989 0.000123857 2.80331e-05
+2005 0 61 3.85998e-10 9.14452e-10 2.26022e-09 5.85e-09 1.59183e-08 4.57279e-08 1.3926e-07 4.51324e-07 1.56093e-06 5.76427e-06 2.26417e-05 9.35046e-05 0.000396171 0.00164908 0.00631556 0.0205204 0.0526356 0.103556 0.159792 0.194444 0.185678 0.13801 0.0815029 0.0372676 0.0131314 0.00374692 0.000937631
+2005 0 62 4.57878e-10 1.12629e-09 2.90133e-09 7.85952e-09 2.24897e-08 6.82933e-08 2.21084e-07 7.65998e-07 2.84703e-06 1.13385e-05 4.80155e-05 0.000212091 0.000941233 0.00394461 0.0143435 0.0414771 0.0906557 0.151337 0.197025 0.197025 0.151337 0.0906557 0.0414771 0.0143435 0.00394461 0.000941233 0.000212091
+2005 0 63 8.00473e-10 2.12942e-09 5.98061e-09 1.7825e-08 5.66844e-08 1.93376e-07 7.11104e-07 2.82722e-06 1.21404e-05 5.58e-05 0.000268132 0.00128546 0.00569082 0.0210042 0.0588048 0.120362 0.185392 0.214242 0.185392 0.120362 0.0588048 0.0210042 0.00569082 0.00128546 0.000268132 5.58e-05 1.21404e-05
+2005 0 64 6.88013e-10 1.84378e-09 5.2219e-09 1.57134e-08 5.05233e-08 1.74573e-07 6.51569e-07 2.63579e-06 1.15483e-05 5.43113e-05 0.000267653 0.00131651 0.00595948 0.0223011 0.0625698 0.127124 0.193019 0.217363 0.181544 0.113077 0.0522428 0.0174826 0.00445751 0.000960729 0.000194194 3.9658e-05 8.54158e-06
+2005 0 65 4.75176e-10 1.25453e-09 3.49562e-09 1.03339e-08 3.25956e-08 1.10342e-07 4.0311e-07 1.59613e-06 6.85751e-06 3.17921e-05 0.000156182 0.000781289 0.00370682 0.0150537 0.0469596 0.105927 0.175848 0.217539 0.198988 0.13424 0.0676379 0.0246167 0.00665819 0.00147328 0.000297679 5.9777e-05 1.25587e-05
+2005 0 66 1.80853e-10 4.43201e-10 1.13772e-09 3.07284e-09 8.77412e-09 2.66245e-08 8.63207e-08 3.00591e-07 1.1291e-06 4.58362e-06 2.00464e-05 9.32431e-05 0.000447708 0.00209895 0.00881578 0.0299104 0.0756432 0.140809 0.19928 0.210609 0.167126 0.100437 0.0450197 0.0148266 0.00379767 0.000836466 0.000174411
+2005 0 67 2.93773e-10 7.73889e-10 2.15197e-09 6.35092e-09 2.00101e-08 6.77315e-08 2.47833e-07 9.85532e-07 4.27112e-06 2.01137e-05 0.000101452 0.000529211 0.00267007 0.0117495 0.0400331 0.0975908 0.171285 0.22116 0.207935 0.141822 0.0712394 0.0254519 0.00665472 0.00141141 0.000273167 5.27586e-05 1.07209e-05
+2005 0 68 1.64495e-10 4.18276e-10 1.1187e-09 3.16286e-09 9.50535e-09 3.05476e-08 1.05634e-07 3.95401e-07 1.60949e-06 7.13355e-06 3.42215e-05 0.000174194 0.000900473 0.00437201 0.01784 0.054695 0.119447 0.190821 0.223413 0.190821 0.119447 0.054695 0.01784 0.00437201 0.000900473 0.000174194 3.42215e-05
+2005 0 69 8.11425e-11 1.96856e-10 4.99979e-10 1.33531e-09 3.76867e-09 1.13011e-08 3.62176e-08 1.24792e-07 4.64916e-07 1.88064e-06 8.26522e-06 3.91979e-05 0.000196448 0.000994904 0.0047094 0.0186875 0.0558479 0.119747 0.189337 0.220861 0.189337 0.119747 0.0558479 0.0186875 0.0047094 0.000994904 0.000196448
+2005 0 70 1.1033e-10 2.82778e-10 7.63202e-10 2.18056e-09 6.63412e-09 2.1631e-08 7.61027e-08 2.90854e-07 1.21436e-06 5.55271e-06 2.76793e-05 0.000147614 0.000805814 0.00414844 0.0178622 0.0568657 0.126263 0.201297 0.230113 0.187992 0.110719 0.0464098 0.0136178 0.00301938 0.000574702 0.000105221 1.99478e-05
+2005 0 71 1.135e-10 2.99173e-10 8.33075e-10 2.46487e-09 7.79922e-09 2.6578e-08 9.82739e-08 3.9713e-07 1.76391e-06 8.6238e-06 4.6036e-05 0.000261199 0.00148387 0.00760312 0.0305969 0.0862621 0.167253 0.230316 0.222635 0.150603 0.0723194 0.0237665 0.00556505 0.00105282 0.000184104 3.27313e-05 6.23163e-06
+2005 0 72 1.74865e-10 4.95404e-10 1.49523e-09 4.84189e-09 1.69548e-08 6.47473e-08 2.71967e-07 1.26581e-06 6.55e-06 3.74436e-05 0.000230229 0.00142832 0.00795377 0.0339433 0.0977223 0.1874 0.24639 0.219378 0.132708 0.0545221 0.0148048 0.00290001 0.000479787 7.69475e-05 1.30104e-05 2.41222e-06 4.96787e-07
+2005 0 73 1.37966e-10 3.9152e-10 1.18415e-09 3.8447e-09 1.3509e-08 5.18206e-08 2.18984e-07 1.02766e-06 5.3793e-06 3.12556e-05 0.000196638 0.00125863 0.00728704 0.0323973 0.0964258 0.188624 0.250051 0.221829 0.132204 0.0528114 0.0137915 0.00259366 0.000414503 6.47638e-05 1.07475e-05 1.96652e-06 4.01203e-07
+2005 0 74 1.29491e-10 3.75289e-10 1.16241e-09 3.87766e-09 1.40525e-08 5.58484e-08 2.45782e-07 1.20801e-06 6.65881e-06 4.08838e-05 0.000271125 0.00180155 0.0104565 0.0443745 0.121631 0.217597 0.257553 0.199884 0.103081 0.0343421 0.00749952 0.00124034 0.000185087 2.8223e-05 4.69014e-06 8.70556e-07 1.81179e-07
+2005 0 75 1.56363e-10 4.7644e-10 1.56154e-09 5.5539e-09 2.16491e-08 9.348e-08 4.51898e-07 2.4661e-06 1.5207e-05 0.000104173 0.000750806 0.00506254 0.026561 0.0907688 0.192974 0.264728 0.23133 0.129537 0.0460154 0.0102422 0.0016387 0.000229271 3.24854e-05 5.03297e-06 8.77771e-07 1.7311e-07 3.83666e-08
+2005 0 76 1.20872e-11 2.88913e-11 7.2243e-11 1.89839e-10 5.26975e-10 1.55436e-09 4.90388e-09 1.66697e-08 6.15364e-08 2.48657e-07 1.10747e-06 5.45552e-06 2.95835e-05 0.000172756 0.0010298 0.00566778 0.0249523 0.0769192 0.159683 0.231539 0.231539 0.159683 0.0769192 0.0249523 0.00566778 0.0010298 0.000172756
+2005 0 77 1.07339e-11 2.60337e-11 6.61616e-11 1.77034e-10 5.01505e-10 1.51348e-09 4.90029e-09 1.71562e-08 6.55008e-08 2.75044e-07 1.27957e-06 6.61719e-06 3.77952e-05 0.000232111 0.00143765 0.00798955 0.0340241 0.097788 0.187336 0.2462 0.219251 0.132733 0.0546105 0.0148586 0.0029167 0.00048342 7.76364e-05
+2005 0 78 1.55768e-11 4.03316e-11 1.10215e-10 3.19778e-10 9.91851e-10 3.31456e-09 1.20396e-08 4.79952e-08 2.12098e-07 1.04845e-06 5.82628e-06 3.61895e-05 0.000243996 0.00165842 0.00989829 0.0432107 0.121008 0.219041 0.260171 0.200875 0.102196 0.0332639 0.00705788 0.00113607 0.000165939 2.49159e-05 4.09613e-06
+2005 0 79 2.70497e-11 7.64925e-11 2.30711e-10 7.47965e-10 2.62988e-09 1.01312e-08 4.32491e-08 2.07046e-07 1.12373e-06 6.9555e-06 4.87089e-05 0.000370895 0.00277871 0.0171033 0.0700194 0.172447 0.265106 0.253022 0.149742 0.0549859 0.0122098 0.00187401 0.000246382 3.27193e-05 4.78036e-06 7.92877e-07 1.49908e-07
+2005 0 80 4.4158e-12 1.06436e-11 2.68705e-11 7.13989e-11 2.00792e-10 6.01454e-10 1.93296e-09 6.7204e-09 2.55096e-08 1.06761e-07 4.97374e-07 2.59815e-06 1.52231e-05 9.84567e-05 0.000669088 0.00430176 0.0221592 0.077178 0.171084 0.250668 0.240571 0.15095 0.0623685 0.0163978 0.00299992 0.000456126 6.73606e-05
 *end
 
 *estimate_value[estimated_values]
 values {d}
-process[Recruitment].b0 age_length[age_len_label].cv_first age_length[age_len_label].cv_last selectivity[SELandes].a50 selectivity[SELandes].ato95 
-27503.5 0.0925529 0.0388397 33.4302 8.02437 
+process[Recruitment].b0 age_length[age_len_label].cv_first age_length[age_len_label].cv_last selectivity[SELandes].a50 selectivity[SELandes].ato95
+27503.5 0.0925529 0.0388397 33.4302 8.02437
 std_dev {d}
-process[Recruitment].b0 age_length[age_len_label].cv_first age_length[age_len_label].cv_last selectivity[SELandes].a50 selectivity[SELandes].ato95 
-1269.57 0.0129625 0.00921014 1.75991 1.33308 
+process[Recruitment].b0 age_length[age_len_label].cv_first age_length[age_len_label].cv_last selectivity[SELandes].a50 selectivity[SELandes].ato95
+1269.57 0.0129625 0.00921014 1.75991 1.33308
 *end
 
 *objective_function[obj_fun]
@@ -1070,7 +1160,7 @@ total_score 111.808
 *process[Recruitment]
 age: 1
 b0: 27503.5
-b0_initialisation_phase: 
+b0_initialisation_phase:
 categories: immature mature
 label: Recruitment
 proportions: 1 0
@@ -1080,12 +1170,12 @@ ssb_offset: 1
 standardise_ycs_years: 1979 1980 1981 1982 1983 1984 1985 1986 1987 1988 1989 1990 1991 1992 1993 1994 1995 1996 1997 1998 1999 2000 2001 2002 2003
 steepness: 1
 type: recruitment_beverton_holt
-ycs_years: 1978 1979 1980 1981 1982 1983 1984 1985 1986 1987 1988 1989 1990 1991 1992 1993 1994 1995 1996 1997 1998 1999 2000 2001 2002 2003 2004 
-standardised_ycs: 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 
-ycs_values: 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 
-true_ycs: 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 
-Recruits: 3.08557e+06 3.08557e+06 3.08557e+06 3.08557e+06 3.08557e+06 3.08557e+06 3.08557e+06 3.08557e+06 3.08557e+06 3.08557e+06 3.08557e+06 3.08557e+06 3.08557e+06 3.08557e+06 3.08557e+06 3.08557e+06 3.08557e+06 3.08557e+06 3.08557e+06 3.08557e+06 3.08557e+06 3.08557e+06 3.08557e+06 3.08557e+06 3.08557e+06 3.08557e+06 3.08557e+06 
-SSB: 27503.5 27502.5 27499.7 27497.9 27498.1 27498.2 27498.4 27498.5 27460.3 27422.6 27419.3 27400.6 27320.3 27198 23019.5 17381.8 14436.5 12501.1 11751.2 11379.2 10937.1 10299.7 9440.86 8550.51 7532.87 5774.56 4389.81 
+ycs_years: 1978 1979 1980 1981 1982 1983 1984 1985 1986 1987 1988 1989 1990 1991 1992 1993 1994 1995 1996 1997 1998 1999 2000 2001 2002 2003 2004
+standardised_ycs: 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1
+ycs_values: 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1
+true_ycs: 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1
+Recruits: 3.08557e+06 3.08557e+06 3.08557e+06 3.08557e+06 3.08557e+06 3.08557e+06 3.08557e+06 3.08557e+06 3.08557e+06 3.08557e+06 3.08557e+06 3.08557e+06 3.08557e+06 3.08557e+06 3.08557e+06 3.08557e+06 3.08557e+06 3.08557e+06 3.08557e+06 3.08557e+06 3.08557e+06 3.08557e+06 3.08557e+06 3.08557e+06 3.08557e+06 3.08557e+06 3.08557e+06
+SSB: 27503.5 27502.5 27499.7 27497.9 27498.1 27498.2 27498.4 27498.5 27460.3 27422.6 27419.3 27400.6 27320.3 27198 23019.5 17381.8 14436.5 12501.1 11751.2 11379.2 10937.1 10299.7 9440.86 8550.51 7532.87 5774.56 4389.81
 *end
 
 *process[Mortality]
@@ -1095,16 +1185,16 @@ m: 0.045 0.045
 selectivities: One One
 time_step_ratio: 1
 type: mortality_instantaneous
-year: 1979 1980 1981 1982 1983 1984 1985 1986 1987 1988 1989 1990 1991 1992 1993 1994 1995 1996 1997 1998 1999 2000 2001 2002 2003 2004 2005 
-fishing_pressure[AndesFishery]: 8.29658e-05 0.000165944 0 0 0 4.14913e-06 0 0.00336077 0 0.000499337 0.00137368 0.00595931 0.00523613 0.366671 0.208845 0.265163 0.132722 0.122364 0.0732366 0.15946 0.138199 0.259085 0.188383 0.394953 0.632767 0.542483 0.669636 
-catch[AndesFishery]: 2 4 0 0 0 0.1 0 81 0 12 33 143 125 8715 3358 3543 1407 1192 667 1425 1132 1999 1244 2415 3038 1713 1713 
-actual_catch[AndesFishery]: 2 4 0 0 0 0.1 0 81 0 12 33 143 125 8715 3358 3543 1407 1192 667 1425 1132 1999 1244 2415 3038 1713 1713 
+year: 1979 1980 1981 1982 1983 1984 1985 1986 1987 1988 1989 1990 1991 1992 1993 1994 1995 1996 1997 1998 1999 2000 2001 2002 2003 2004 2005
+fishing_pressure[AndesFishery]: 8.29658e-05 0.000165944 0 0 0 4.14913e-06 0 0.00336077 0 0.000499337 0.00137368 0.00595931 0.00523613 0.366671 0.208845 0.265163 0.132722 0.122364 0.0732366 0.15946 0.138199 0.259085 0.188383 0.394953 0.632767 0.542483 0.669636
+catch[AndesFishery]: 2 4 0 0 0 0.1 0 81 0 12 33 143 125 8715 3358 3543 1407 1192 667 1425 1132 1999 1244 2415 3038 1713 1713
+actual_catch[AndesFishery]: 2 4 0 0 0 0.1 0 81 0 12 33 143 125 8715 3358 3543 1407 1192 667 1425 1132 1999 1244 2415 3038 1713 1713
 *end
 
 *derived_quantity[DerivedQuantities]
-SSB {L} 
-type: biomass 
-initialisation_phase[1]: 27503.5 
+SSB {L}
+type: biomass
+initialisation_phase[1]: 27503.5
 values {v}
 1979 27502.5
 1980 27499.7
@@ -1137,13 +1227,13 @@ end {L}
 *end
 
 *catchability[nuisance_Q]
-Qandes: 0.000112879 
+Qandes: 0.000112879
 *end
 
 *derived_quantity[SSB]
-SSB {L} 
-type: biomass 
-initialisation_phase[1]: 27503.5 
+SSB {L}
+type: biomass
+initialisation_phase[1]: 27503.5
 values {v}
 1979 27502.5
 1980 27499.7
@@ -1176,16 +1266,16 @@ end {L}
 *end
 
 *selectivity[maturity_ogive]
-a50: 29.5 
-alpha: 1 
-ato95: 3.9 
-h: 49 
-intervals: 5 
-l: 15 
-label: maturity_sel 
-length_based: 0 
-partition_type: model 
-type: logistic_producing 
+a50: 29.5
+alpha: 1
+ato95: 3.9
+h: 49
+intervals: 5
+l: 15
+label: maturity_sel
+length_based: 0
+partition_type: model
+type: logistic_producing
 Values {v}
 1 0
 2 0
@@ -1273,13 +1363,13 @@ Values {v}
 time_step: Jul_Jun
 immature {L}
 mean_lengths {d}
-year 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 21 22 23 24 25 26 27 28 29 30 31 32 33 34 35 36 37 38 39 40 41 42 43 44 45 46 47 48 49 50 51 52 53 54 55 56 57 58 59 60 61 62 63 64 65 66 67 68 69 70 71 72 73 74 75 76 77 78 79 80 
-2005 10 10 10 10 10 10 10 10 10 10 20 20.5 24.3 24.9 23.7 26 28.5 28.5 28.5 28.9 29.8 29.9 30.6 31.4 31 31.9 32.2 32.3 32.1 33.2 32.6 32.6 33.3 33 33.8 33 34.4 34.3 34.8 34.4 34.8 34.7 34.6 35.2 35.8 36.1 35.7 35.6 36.2 37.1 35.8 35.4 36.1 36.9 36.7 36.4 36.3 35.9 36.4 36.7 38.8 38 36.5 36.4 36.7 38.2 36.8 37.5 38.5 37.4 36.9 35.7 35.7 35.4 34.7 39 38.7 37.4 35.9 38.9 
+year 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 21 22 23 24 25 26 27 28 29 30 31 32 33 34 35 36 37 38 39 40 41 42 43 44 45 46 47 48 49 50 51 52 53 54 55 56 57 58 59 60 61 62 63 64 65 66 67 68 69 70 71 72 73 74 75 76 77 78 79 80
+2005 10 10 10 10 10 10 10 10 10 10 20 20.5 24.3 24.9 23.7 26 28.5 28.5 28.5 28.9 29.8 29.9 30.6 31.4 31 31.9 32.2 32.3 32.1 33.2 32.6 32.6 33.3 33 33.8 33 34.4 34.3 34.8 34.4 34.8 34.7 34.6 35.2 35.8 36.1 35.7 35.6 36.2 37.1 35.8 35.4 36.1 36.9 36.7 36.4 36.3 35.9 36.4 36.7 38.8 38 36.5 36.4 36.7 38.2 36.8 37.5 38.5 37.4 36.9 35.7 35.7 35.4 34.7 39 38.7 37.4 35.9 38.9
 end {L}
 mature {L}
 mean_lengths {d}
-year 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 21 22 23 24 25 26 27 28 29 30 31 32 33 34 35 36 37 38 39 40 41 42 43 44 45 46 47 48 49 50 51 52 53 54 55 56 57 58 59 60 61 62 63 64 65 66 67 68 69 70 71 72 73 74 75 76 77 78 79 80 
-2005 10 10 10 10 10 10 10 10 10 10 20 20.5 24.3 24.9 23.7 26 28.5 28.5 28.5 28.9 29.8 29.9 30.6 31.4 31 31.9 32.2 32.3 32.1 33.2 32.6 32.6 33.3 33 33.8 33 34.4 34.3 34.8 34.4 34.8 34.7 34.6 35.2 35.8 36.1 35.7 35.6 36.2 37.1 35.8 35.4 36.1 36.9 36.7 36.4 36.3 35.9 36.4 36.7 38.8 38 36.5 36.4 36.7 38.2 36.8 37.5 38.5 37.4 36.9 35.7 35.7 35.4 34.7 39 38.7 37.4 35.9 38.9 
+year 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 21 22 23 24 25 26 27 28 29 30 31 32 33 34 35 36 37 38 39 40 41 42 43 44 45 46 47 48 49 50 51 52 53 54 55 56 57 58 59 60 61 62 63 64 65 66 67 68 69 70 71 72 73 74 75 76 77 78 79 80
+2005 10 10 10 10 10 10 10 10 10 10 20 20.5 24.3 24.9 23.7 26 28.5 28.5 28.5 28.9 29.8 29.9 30.6 31.4 31 31.9 32.2 32.3 32.1 33.2 32.6 32.6 33.3 33 33.8 33 34.4 34.3 34.8 34.4 34.8 34.7 34.6 35.2 35.8 36.1 35.7 35.6 36.2 37.1 35.8 35.4 36.1 36.9 36.7 36.4 36.3 35.9 36.4 36.7 38.8 38 36.5 36.4 36.7 38.2 36.8 37.5 38.5 37.4 36.9 35.7 35.7 35.4 34.7 39 38.7 37.4 35.9 38.9
 end {L}
 *end
 
@@ -1287,25 +1377,25 @@ end {L}
 time_step: Jul_Jun
 immature {L}
 mean_weights {d}
-year 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 21 22 23 24 25 26 27 28 29 30 31 32 33 34 35 36 37 38 39 40 41 42 43 44 45 46 47 48 49 50 51 52 53 54 55 56 57 58 59 60 61 62 63 64 65 66 67 68 69 70 71 72 73 74 75 76 77 78 79 80 
-2005 0 4.81773e-05 4.81635e-05 4.81497e-05 4.8136e-05 4.81225e-05 4.8109e-05 4.80956e-05 4.80824e-05 4.80692e-05 4.80562e-05 0.000314357 0.000336023 0.000532592 0.000568836 0.000497441 0.000639204 0.000819558 0.000819349 0.000819142 0.00085046 0.00092393 0.000932127 0.000992214 0.00106384 0.00102726 0.00110984 0.00113809 0.00114742 0.00112801 0.00123557 0.00117572 0.00117546 0.00124484 0.00121442 0.00129558 0.00121389 0.00135827 0.00134731 0.0014009 0.00135741 0.00140032 0.00138916 0.00137806 0.0014435 0.00151086 0.00154511 0.00149886 0.00148723 0.00155584 0.0016626 0.00150913 0.0014636 0.00154309 0.00163723 0.00161301 0.00157725 0.00156527 0.00151871 0.00157645 0.00161164 0.00187364 0.0017705 0.00158718 0.00157517 0.00161036 0.00179474 0.00162178 0.00170649 0.00183238 0.0016937 0.0016328 0.00149266 0.00149246 0.00145851 0.00138149 0.00189575 0.00185625 0.00169187 0.00151404 
+year 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 21 22 23 24 25 26 27 28 29 30 31 32 33 34 35 36 37 38 39 40 41 42 43 44 45 46 47 48 49 50 51 52 53 54 55 56 57 58 59 60 61 62 63 64 65 66 67 68 69 70 71 72 73 74 75 76 77 78 79 80
+2005 0 4.81773e-05 4.81635e-05 4.81497e-05 4.8136e-05 4.81225e-05 4.8109e-05 4.80956e-05 4.80824e-05 4.80692e-05 4.80562e-05 0.000314357 0.000336023 0.000532592 0.000568836 0.000497441 0.000639204 0.000819558 0.000819349 0.000819142 0.00085046 0.00092393 0.000932127 0.000992214 0.00106384 0.00102726 0.00110984 0.00113809 0.00114742 0.00112801 0.00123557 0.00117572 0.00117546 0.00124484 0.00121442 0.00129558 0.00121389 0.00135827 0.00134731 0.0014009 0.00135741 0.00140032 0.00138916 0.00137806 0.0014435 0.00151086 0.00154511 0.00149886 0.00148723 0.00155584 0.0016626 0.00150913 0.0014636 0.00154309 0.00163723 0.00161301 0.00157725 0.00156527 0.00151871 0.00157645 0.00161164 0.00187364 0.0017705 0.00158718 0.00157517 0.00161036 0.00179474 0.00162178 0.00170649 0.00183238 0.0016937 0.0016328 0.00149266 0.00149246 0.00145851 0.00138149 0.00189575 0.00185625 0.00169187 0.00151404
 end {L}
 mature {L}
 mean_weights {d}
-year 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 21 22 23 24 25 26 27 28 29 30 31 32 33 34 35 36 37 38 39 40 41 42 43 44 45 46 47 48 49 50 51 52 53 54 55 56 57 58 59 60 61 62 63 64 65 66 67 68 69 70 71 72 73 74 75 76 77 78 79 80 
-2005 0 4.81773e-05 4.81635e-05 4.81497e-05 4.8136e-05 4.81225e-05 4.8109e-05 4.80956e-05 4.80824e-05 4.80692e-05 4.80562e-05 0.000314357 0.000336023 0.000532592 0.000568836 0.000497441 0.000639204 0.000819558 0.000819349 0.000819142 0.00085046 0.00092393 0.000932127 0.000992214 0.00106384 0.00102726 0.00110984 0.00113809 0.00114742 0.00112801 0.00123557 0.00117572 0.00117546 0.00124484 0.00121442 0.00129558 0.00121389 0.00135827 0.00134731 0.0014009 0.00135741 0.00140032 0.00138916 0.00137806 0.0014435 0.00151086 0.00154511 0.00149886 0.00148723 0.00155584 0.0016626 0.00150913 0.0014636 0.00154309 0.00163723 0.00161301 0.00157725 0.00156527 0.00151871 0.00157645 0.00161164 0.00187364 0.0017705 0.00158718 0.00157517 0.00161036 0.00179474 0.00162178 0.00170649 0.00183238 0.0016937 0.0016328 0.00149266 0.00149246 0.00145851 0.00138149 0.00189575 0.00185625 0.00169187 0.00151404 
+year 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 21 22 23 24 25 26 27 28 29 30 31 32 33 34 35 36 37 38 39 40 41 42 43 44 45 46 47 48 49 50 51 52 53 54 55 56 57 58 59 60 61 62 63 64 65 66 67 68 69 70 71 72 73 74 75 76 77 78 79 80
+2005 0 4.81773e-05 4.81635e-05 4.81497e-05 4.8136e-05 4.81225e-05 4.8109e-05 4.80956e-05 4.80824e-05 4.80692e-05 4.80562e-05 0.000314357 0.000336023 0.000532592 0.000568836 0.000497441 0.000639204 0.000819558 0.000819349 0.000819142 0.00085046 0.00092393 0.000932127 0.000992214 0.00106384 0.00102726 0.00110984 0.00113809 0.00114742 0.00112801 0.00123557 0.00117572 0.00117546 0.00124484 0.00121442 0.00129558 0.00121389 0.00135827 0.00134731 0.0014009 0.00135741 0.00140032 0.00138916 0.00137806 0.0014435 0.00151086 0.00154511 0.00149886 0.00148723 0.00155584 0.0016626 0.00150913 0.0014636 0.00154309 0.00163723 0.00161301 0.00157725 0.00156527 0.00151871 0.00157645 0.00161164 0.00187364 0.0017705 0.00158718 0.00157517 0.00161036 0.00179474 0.00162178 0.00170649 0.00183238 0.0016937 0.0016328 0.00149266 0.00149246 0.00145851 0.00138149 0.00189575 0.00185625 0.00169187 0.00151404
 end {L}
 *end
 
 *selectivity[fishery_selectivity]
-a50: 33.4302 
-alpha: 1 
-ato95: 8.02437 
-intervals: 5 
-label: SELandes 
-length_based: 0 
-partition_type: model 
-type: logistic 
+a50: 33.4302
+alpha: 1
+ato95: 8.02437
+intervals: 5
+label: SELandes
+length_based: 0
+partition_type: model
+type: logistic
 Values {v}
 1 6.79138e-06
 2 9.80201e-06
@@ -1554,123 +1644,123 @@ year category age length observed expected residual error_value process_error ad
 
 *hessian_matrix[Hess]
 hessian_matrix {m}
-1.0168e-06 0.00430577 0.00540246 -0.000574704 0.000358299 
-0.00430577 9652.98 6933.06 -26.7665 48.8736 
-0.00540246 6933.06 17085 -33.1784 45.3634 
--0.000574704 -26.7665 -33.1784 0.90271 -0.729688 
-0.000358299 48.8736 45.3634 -0.729688 1.24342 
+1.0168e-06 0.00430577 0.00540246 -0.000574704 0.000358299
+0.00430577 9652.98 6933.06 -26.7665 48.8736
+0.00540246 6933.06 17085 -33.1784 45.3634
+-0.000574704 -26.7665 -33.1784 0.90271 -0.729688
+0.000358299 48.8736 45.3634 -0.729688 1.24342
 *end
 
 *covariance_matrix[Covar]
 covariance_matrix {m}
-1.6118e+06 1.08381 0.969317 1246.97 189.355 
-1.08381 0.000168026 -5.5805e-05 -0.000616711 -0.00524269 
-0.969317 -5.5805e-05 8.48267e-05 0.00214191 7.63841e-05 
-1246.97 -0.000616711 0.00214191 3.0973 1.40439 
-189.355 -0.00524269 7.63841e-05 1.40439 1.7771 
+1.6118e+06 1.08381 0.969317 1246.97 189.355
+1.08381 0.000168026 -5.5805e-05 -0.000616711 -0.00524269
+0.969317 -5.5805e-05 8.48267e-05 0.00214191 7.63841e-05
+1246.97 -0.000616711 0.00214191 3.0973 1.40439
+189.355 -0.00524269 7.63841e-05 1.40439 1.7771
 *end
 
 *correlation_matrix[Corr]
 correlation_matrix {m}
-1 0.0658583 0.0828978 0.558094 0.111883 
-0.0658583 1 -0.467432 -0.0270335 -0.303396 
-0.0828978 -0.467432 1 0.132143 0.00622129 
-0.558094 -0.0270335 0.132143 1 0.598605 
-0.111883 -0.303396 0.00622129 0.598605 1 
+1 0.0658583 0.0828978 0.558094 0.111883
+0.0658583 1 -0.467432 -0.0270335 -0.303396
+0.0828978 -0.467432 1 0.132143 0.00622129
+0.558094 -0.0270335 0.132143 1 0.598605
+0.111883 -0.303396 0.00622129 0.598605 1
 *end
 
 *estimate_summary[estimated_summary]
 process[Recruitment].b0 {L}
 value: 27503.5
 std_dev: 1269.57
-estimation_phase: 1 
-label: B0 
-lower_bound: 1e4 
-mcmc: 
-parameter: process[Recruitment].b0 
-prior_applies_to_transform: 
-same: 
-transform_with_jacobian: 
-transformation: 
-type: uniform_log 
-upper_bound: 1e5 
+estimation_phase: 1
+label: B0
+lower_bound: 1e4
+mcmc:
+parameter: process[Recruitment].b0
+prior_applies_to_transform:
+same:
+transform_with_jacobian:
+transformation:
+type: uniform_log
+upper_bound: 1e5
 end {L}
 
 age_length[age_len_label].cv_first {L}
 value: 0.0925529
 std_dev: 0.0129625
-estimation_phase: 3 
-label: age_len_cv_first 
-lognormal_transfomration: 
-lower_bound: 0.01 
-mcmc: 
-mu: 0.15 
-parameter: age_length[age_len_label].cv_first 
-prior_applies_to_transform: 
-same: 
-sigma: 0.025 
-transform_with_jacobian: 
-transformation: 
-type: normal_by_stdev 
-upper_bound: 1.0 
+estimation_phase: 3
+label: age_len_cv_first
+lognormal_transfomration:
+lower_bound: 0.01
+mcmc:
+mu: 0.15
+parameter: age_length[age_len_label].cv_first
+prior_applies_to_transform:
+same:
+sigma: 0.025
+transform_with_jacobian:
+transformation:
+type: normal_by_stdev
+upper_bound: 1.0
 end {L}
 
 age_length[age_len_label].cv_last {L}
 value: 0.0388397
 std_dev: 0.00921014
-cv: 0.5 
-estimation_phase: 3 
-label: age_len_cv_last 
-lower_bound: 0.01 
-mcmc: 
-mu: 0.1 
-parameter: age_length[age_len_label].cv_last 
-prior_applies_to_transform: 
-same: 
-transform_with_jacobian: 
-transformation: 
-type: normal 
-upper_bound: 1.0 
+cv: 0.5
+estimation_phase: 3
+label: age_len_cv_last
+lower_bound: 0.01
+mcmc:
+mu: 0.1
+parameter: age_length[age_len_label].cv_last
+prior_applies_to_transform:
+same:
+transform_with_jacobian:
+transformation:
+type: normal
+upper_bound: 1.0
 end {L}
 
 selectivity[SELandes].a50 {L}
 value: 33.4302
 std_dev: 1.75991
-cv: 0.3 
-estimation_phase: 2 
-label: fishery_sel_a50 
-lower_bound: 5 
-mcmc: 
-mu: 35 
-parameter: selectivity[SELandes].a50 
-prior_applies_to_transform: 
-same: 
-transform_with_jacobian: 
-transformation: 
-type: normal 
-upper_bound: 80 
+cv: 0.3
+estimation_phase: 2
+label: fishery_sel_a50
+lower_bound: 5
+mcmc:
+mu: 35
+parameter: selectivity[SELandes].a50
+prior_applies_to_transform:
+same:
+transform_with_jacobian:
+transformation:
+type: normal
+upper_bound: 80
 end {L}
 
 selectivity[SELandes].ato95 {L}
 value: 8.02437
 std_dev: 1.33308
-cv: 0.5 
-estimation_phase: 2 
-label: fishery_sel_ato95 
-lower_bound: 1 
-mcmc: 
-mu: 5 
-parameter: selectivity[SELandes].ato95 
-prior_applies_to_transform: 
-same: 
-transform_with_jacobian: 
-transformation: 
-type: normal 
-upper_bound: 20 
+cv: 0.5
+estimation_phase: 2
+label: fishery_sel_ato95
+lower_bound: 1
+mcmc:
+mu: 5
+parameter: selectivity[SELandes].ato95
+prior_applies_to_transform:
+same:
+transform_with_jacobian:
+transformation:
+type: normal
+upper_bound: 20
 end {L}
 
 *end
 
-Total CPU time: 0.015 hours.
-Total elapsed time: 27 seconds
+Total CPU time: 0.019 hours.
+Total elapsed time: 34 seconds
 Completed

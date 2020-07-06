@@ -49,6 +49,14 @@ type selectivity
 selectivity maturity_sel
 
 
+#@report age_length_mature
+#type age_length
+#time_step Jul_Jun
+#years 2005
+#age_length age_len_label
+#category mature
+
+
 @report growth_length_at_age
 type partition_mean_length
 time_step Jul_Jun
