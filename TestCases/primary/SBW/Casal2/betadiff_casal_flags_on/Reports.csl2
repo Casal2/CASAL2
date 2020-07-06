@@ -6,25 +6,36 @@ type initialisation_partition
 @report Init_weight
 type initialisation_partition_mean_weight
 
-@report part1
+
+@report state1
 type partition
 time_step step1
-years 1960:2015
+years 1960 2015
 
-@report part2
+@report state2
 type partition
 time_step step2
-years 1960:2015
+years 1960 2015
+
+@report part_length_1
+type partition_mean_length
+time_step step1
+years 1960 2015
+
+@report part_length_2
+type partition_mean_length
+time_step step2
+years 1960 2015
 
 @report part_weight_1
 type partition_mean_weight
 time_step step1
-years 1960:2015
+years 1960 2015
 
 @report part_weight_2
 type partition_mean_weight
 time_step step2
-years 1960:2015
+years 1960 2015
 
 
 @report Recruitment
@@ -35,14 +46,19 @@ process Recruitment
 type process
 process Instantaneous_Mortality
 
-@report estimate_value
+
+@report estimated_values
 type estimate_value
 
-@report obj
+@report estimated_summary
+type estimate_summary
+
+@report obj_fun
 type objective_function
 
-@report SSB
+@report DerivedQuantities
 type derived_quantity
+
 
 ## report selectivities
 @report MaturationSel_male
