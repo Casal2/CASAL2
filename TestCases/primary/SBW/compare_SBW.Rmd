@@ -25,28 +25,30 @@ The Casal2 ADOL-C and BetaDiff low tolerance models have a smaller tolerance val
 The main characteristics of the Test Case SBW (southern blue whiting) CASAL model are:
 
 * one stock, ages 2 - 15
-* one area
-* years 1979 - 2005, projection years 2006 - 2010
-* one time step
-* four stock categories: male and female, spawn and nonspawn, with logistic-producing maturity ogive
-* natural mortality (M) of 0.045
-* Beverton-Holt stock-recruitment relationship, with steepness (h) set to 1.0
+* two areas, spawn and nospawn
+* years 1960 - 2015, projection years 2016 - 2021
+* two time steps
+* two stock categories, male and female
+* sex-specific migration from 'nospawn' to 'spawn'
+* male and female natural mortality (M) average of 0.2, difference of 0.02
+* Beverton-Holt stock-recruitment relationship, with steepness (h) set to 0.9, $\sigma_R$ set to 1.0
 * length-weight relationship ($W = aL^b$)
 * no ageing error
-* one fishery with logistic selectivity-at-age
+* one fishery in area 'spawn'
 
 Observation data include:
 
-* empirical length-at-age data for one year
-* one CPUE index
-* fishery proportions-at-age
+* empirical sex-specific length-at-age data for 1979 - 2015
+* survey indices for immature and mature partitions
+* fishery sex-specific proportions-at-age
 
 Parameters estimated include:
 
 * B0
-* the first and last CV for the age-length relationship
-* nuisance catchability (q) for the fishery CPUE index
-* fishery selectivity parameters a50 and ato95
+* process error for the immature and mature survey indices
+* the difference between male and female natural mortality
+* sex-specific migration rates
+* YCS
 
 
 ## R environment
@@ -310,7 +312,6 @@ for (c in 1:num_C2_models)
 }
 
 plot_legend()
-
 ```
 
 

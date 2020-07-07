@@ -270,6 +270,23 @@ for (c in 1:num_C2_models)
 }
 
 plot_legend()
+
+
+
+# plot recruitment
+
+max_val <- max(c1_quant$recruitments$recruitment,
+               c1_sens1_quant$recruitments$recruitment,
+               max(unlist(list.map(cas2_mpd, max(Recruitment$Recruits)))))
+
+plot(c1_quant$recruitments$year, c1_quant$recruitments$recruitment, type='l', col='black', lwd=5, ylim=c(0, max_val), xlab='Year', ylab='', main='Recruitment comparison')
+lines(c1_sens1_quant$recruitments$year, c1_sens1_quant$recruitments$recruitment, type='l', col='grey', lwd=2.5)
+for (c in 1:num_C2_models)
+{
+    lines(cas2_mpd[[c]]$Recruitment$ycs_years, cas2_mpd[[c]]$Recruitment$Recruits, col=C2_color[c], lwd=1)
+}
+
+plot_legend()
 ```
 
 
