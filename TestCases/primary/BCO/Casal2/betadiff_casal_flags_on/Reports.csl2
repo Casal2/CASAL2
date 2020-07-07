@@ -97,6 +97,14 @@ type selectivity
 selectivity recFSelf
 */
 
+@report potSSelm
+type selectivity
+selectivity potSurveySel_male
+
+@report potSSelf
+type selectivity
+selectivity potSurveySel_female
+
 
 ## Fits Observations
 

@@ -136,14 +136,23 @@ for (c in 1:num_C2_models)
 {
     print(paste('Catch time series base model comparison for run', C2_subdir[c]))
 
-    print(paste('Actual catches for trawl match:',
-                time_series_match(c1_quant$actual_catches$trawl, cas2_mpd[[c]]$Mortality$`actual_catch[FishingTrwl]`)))
+    print(paste('Actual catches for line match:',
+                time_series_match(c1_quant$actual_catches$line, cas2_mpd[[c]]$Mortality$`actual_catch[FishingLine]`)))
 
-    print(paste('Actual catches for line_home match:',
-                time_series_match(c1_quant$actual_catches$line_home, cas2_mpd[[c]]$Mortality$`actual_catch[FishingLineHome]`)))
+    print(paste('Discarded catches for line match:',
+                time_series_match(c1_quant$discards$line, cas2_mpd[[c]]$Mortality$`discards[FishingLine]`)))
 
-    print(paste('Actual catches for line_spawn match:',
-                time_series_match(c1_quant$actual_catches$line_spawn, cas2_mpd[[c]]$Mortality$`actual_catch[FishingLineSpawn]`)))
+    print(paste('Actual catches for pot match:',
+                time_series_match(c1_quant$actual_catches$pot, cas2_mpd[[c]]$Mortality$`actual_catch[FishingPot]`)))
+
+    print(paste('Discarded catches for pot match:',
+                time_series_match(c1_quant$discards$pot, cas2_mpd[[c]]$Mortality$`discards[FishingPot]`)))
+
+    print(paste('Actual catches for rec match:',
+                time_series_match(c1_quant$actual_catches$rec, cas2_mpd[[c]]$Mortality$`actual_catch[Recreation]`)))
+
+    print(paste('Discarded catches for rec match:',
+                time_series_match(c1_quant$discards$rec, cas2_mpd[[c]]$Mortality$`discards[Recreation]`)))
 
     print('')
 }
@@ -306,137 +315,78 @@ plot_legend()
 ```
 
 
-```{r plots_set_3, echo=FALSE}
-# plot true natural mortality-at-age
-
-max_val <- max(c1_quant$`Ogive parameter values`$natural_mortality.ogive_all,
-               c1_sens1_quant$`Ogive parameter values`$natural_mortality.ogive_all,
-               max(unlist(list.map(cas2_mpd, max(NaturalMortalityOgive_all$Values)))))
-
-plot(c1_quant$`Ogive parameter values`$natural_mortality.ogive_all, type='l', col='black', lwd=5, ylim=c(0, max_val), xlab='Age', ylab='', main='Natural mortality-at-age comparison')
-lines(c1_sens1_quant$`Ogive parameter values`$natural_mortality.ogive_all, type='l', col='grey', lwd=2.5)
-for (c in 1:num_C2_models)
-{
-    lines(cas2_mpd[[c]]$NaturalMortalityOgive_all$Values, col=C2_color[c], lwd=1)
-}
-
-plot_legend()
-```
-
-
-```{r plots_set_4, echo=FALSE}
-# plot summer survey
-c1_surv      <- cas_mpd$free$`q[tan_sum].q` * unlist(c1_quant$Tangaroa_bio_summer_est)
-c1_s1_surv   <- cas_mpd_sens1$free$`q[tan_sum].q` * unlist(c1_sens1_quant$Tangaroa_bio_summer_est)
-
-c2_surv <- list()
-for (c in 1:num_C2_models)
-{
-    c2_surv[[c]] <- cas2_mpd[[c]]$Tangaroa_bio_summer$Values
-}
-
-max_val <- max(c1_surv,
-               c1_s1_surv,
-               (c2_surv[[1]]$observed * exp(1.96 * c2_surv[[1]]$error_value)),
-               max(unlist(list.map(c2_surv, max(expected)))))
-
-plot(names(c1_surv), c1_surv, type='l', col='black', lwd=5, ylim=c(0, max_val), xlab='Year', ylab='Biomass (t)', main='Tangaroa summer survey comparison')
-lines(names(c1_s1_surv), c1_s1_surv, type='l', col='grey', lwd=2.5)
-points(c2_surv[[1]]$year, c2_surv[[1]]$observed, pch=20, col='black')
-arrows(c2_surv[[1]]$year, (c2_surv[[1]]$observed * exp(-1.96 * c2_surv[[1]]$error_value)), c2_surv[[1]]$year, (c2_surv[[1]]$observed * exp(1.96 * c2_surv[[1]]$error_value)), length=0.05, angle=90, code=3)
-for (c in 1:num_C2_models)
-{
-    points(c2_surv[[c]]$year, c2_surv[[c]]$expected, col=C2_color[c], pch=(15+c-1))
-}
-
-plot_legend()
-
-
-
-# plot autumn survey
-
-c1_surv      <- cas_mpd$free$`q[tan_aut].q` * unlist(c1_quant$Tangaroa_bio_autumn_est)
-c1_s1_surv   <- cas_mpd_sens1$free$`q[tan_aut].q` * unlist(c1_sens1_quant$Tangaroa_bio_autumn_est)
-c2_surv <- list()
-for (c in 1:num_C2_models)
-{
-    c2_surv[[c]] <- cas2_mpd[[c]]$Tangaroa_bio_autumn$Values
-}
-
-max_val <- max(c1_surv,
-               c1_s1_surv,
-               (c2_surv[[1]]$observed * exp(1.96 * c2_surv[[1]]$error_value)),
-               max(unlist(list.map(c2_surv, max(expected)))))
-
-plot(names(c1_surv), c1_surv, type='l', col='black', lwd=5, ylim=c(0, max_val), xlab='Year', ylab='Biomass (t)', main='Tangaroa autumn survey comparison')
-lines(names(c1_s1_surv), c1_s1_surv, type='l', col='grey', lwd=2.5)
-points(c2_surv[[1]]$year, c2_surv[[1]]$observed, pch=20, col='black')
-arrows(c2_surv[[1]]$year, (c2_surv[[1]]$observed * exp(-1.96 * c2_surv[[1]]$error_value)), c2_surv[[1]]$year, (c2_surv[[1]]$observed * exp(1.96 * c2_surv[[1]]$error_value)), length=0.05, angle=90, code=3)
-for (c in 1:num_C2_models)
-{
-    points(c2_surv[[c]]$year, c2_surv[[c]]$expected, col=C2_color[c], pch=(15+c-1))
-}
-
-plot_legend()
-```
-
-
 ```{r plots_set_5, echo=FALSE}
-# > names(cas2_mpd_base$Mortality)
+
+# > names(cas2_mpd[[1]])
+#  [1] "Init"                 "state1"               "estimated_values"
+#  [4] "estimated_summary"    "obj_fun"              "DerivedQuantities"
+#  [7] "Hess"                 "Covar"                "Corr"
+# [10] "Recruitment"          "Mortality"            "Qs"
+# [13] "growth_length_at_age" "growth_weight_at_age" "pot_survey"
+# [16] "CPUE"                 "LFlogbook"            "warnings_encounted"
+
+# > names(cas2_mpd[[1]]$Mortality)
 #  [1] "categories"                         "label"
 #  [3] "m"                                  "selectivities"
-#  [5] "time_step_ratio"                    "type"
-#  [7] "year"                               "fishing_pressure[FishingLineHome]"
-#  [9] "catch[FishingLineHome]"             "actual_catch[FishingLineHome]"
-# [11] "fishing_pressure[FishingLineSpawn]" "catch[FishingLineSpawn]"
-# [13] "actual_catch[FishingLineSpawn]"     "fishing_pressure[FishingTrwl]"
-# [15] "catch[FishingTrwl]"                 "actual_catch[FishingTrwl]"
+#  [5] "time_step_ratio"                    "sub_type"
+#  [7] "year"                               "fishing_pressure[FishingLine]"
+#  [9] "actual_catch[FishingLine]"          "retained_catch[FishingLine]"
+# [11] "actual_retained_catch[FishingLine]" "discards[FishingLine]"
+# [13] "discards_dead[FishingLine]"         "fishing_pressure[FishingPot]"
+# [15] "actual_catch[FishingPot]"           "retained_catch[FishingPot]"
+# [17] "actual_retained_catch[FishingPot]"  "discards[FishingPot]"
+# [19] "discards_dead[FishingPot]"          "fishing_pressure[Recreation]"
+# [21] "actual_catch[Recreation]"           "retained_catch[Recreation]"
+# [23] "actual_retained_catch[Recreation]"  "discards[Recreation]"
+# [25] "discards_dead[Recreation]"          "type"
 
-# plot fishing pressures - trawl
 
-max_val <- max(c1_quant$fishing_pressures$trawl,
-               c1_sens1_quant$fishing_pressures$trawl,
-               max(unlist(list.map(cas2_mpd, max(Mortality$`fishing_pressure[FishingTrwl]`)))))
 
-plot(c1_quant$fishing_pressures$year, c1_quant$fishing_pressures$trawl, type='l', col='black', lwd=5, ylim=c(0, max_val), xlab='Year', ylab='U', main='Fishing pressure comparison: trawl')
-lines(c1_sens1_quant$fishing_pressures$year, c1_sens1_quant$fishing_pressures$trawl, type='l', col='grey', lwd=2.5)
+# plot fishing pressures - line
+
+max_val <- max(c1_quant$fishing_pressures$line,
+               c1_sens1_quant$fishing_pressures$line,
+               max(unlist(list.map(cas2_mpd, max(Mortality$`fishing_pressure[FishingLine]`)))))
+
+plot(c1_quant$fishing_pressures$year, c1_quant$fishing_pressures$line, type='l', col='black', lwd=5, ylim=c(0, max_val), xlab='Year', ylab='U', main='Fishing pressure comparison: line')
+lines(c1_sens1_quant$fishing_pressures$year, c1_sens1_quant$fishing_pressures$line, type='l', col='grey', lwd=2.5)
 for (c in 1:num_C2_models)
 {
-    lines(cas2_mpd[[c]]$Mortality$year, cas2_mpd[[c]]$Mortality$`fishing_pressure[FishingTrwl]`, col=C2_color[c], lwd=1)
+    lines(cas2_mpd[[c]]$Mortality$year, cas2_mpd[[c]]$Mortality$`fishing_pressure[FishingLine]`, col=C2_color[c], lwd=1)
 }
 
 plot_legend()
 
 
 
-# plot fishing pressures - line_home
+# plot fishing pressures - pot
 
-max_val <- max(c1_quant$fishing_pressures$line_home,
-               c1_sens1_quant$fishing_pressures$line_home,
-               max(unlist(list.map(cas2_mpd, max(Mortality$`fishing_pressure[FishingLineHome]`)))))
+max_val <- max(c1_quant$fishing_pressures$pot,
+               c1_sens1_quant$fishing_pressures$pot,
+               max(unlist(list.map(cas2_mpd, max(Mortality$`fishing_pressure[FishingPot]`)))))
 
-plot(c1_quant$fishing_pressures$year, c1_quant$fishing_pressures$line_home, type='l', col='black', lwd=5, ylim=c(0, max_val), xlab='Year', ylab='U', main='Fishing pressure comparison: line_home')
-lines(c1_sens1_quant$fishing_pressures$year, c1_sens1_quant$fishing_pressures$line_home, type='l', col='grey', lwd=2.5)
+plot(c1_quant$fishing_pressures$year, c1_quant$fishing_pressures$pot, type='l', col='black', lwd=5, ylim=c(0, max_val), xlab='Year', ylab='U', main='Fishing pressure comparison: pot')
+lines(c1_sens1_quant$fishing_pressures$year, c1_sens1_quant$fishing_pressures$pot, type='l', col='grey', lwd=2.5)
 for (c in 1:num_C2_models)
 {
-    lines(cas2_mpd[[c]]$Mortality$year, cas2_mpd[[c]]$Mortality$`fishing_pressure[FishingLineHome]`, col=C2_color[c], lwd=1)
+    lines(cas2_mpd[[c]]$Mortality$year, cas2_mpd[[c]]$Mortality$`fishing_pressure[FishingPot]`, col=C2_color[c], lwd=1)
 }
 
 plot_legend()
 
 
 
-# plot fishing pressures - line_spawn
+# plot fishing pressures - rec
 
-max_val <- max(c1_quant$fishing_pressures$line_spawn,
-               c1_sens1_quant$fishing_pressures$line_spawn,
-               max(unlist(list.map(cas2_mpd, max(Mortality$`fishing_pressure[FishingLineSpawn]`)))))
+max_val <- max(c1_quant$fishing_pressures$rec,
+               c1_sens1_quant$fishing_pressures$rec,
+               max(unlist(list.map(cas2_mpd, max(Mortality$`fishing_pressure[Recreation]`)))))
 
-plot(c1_quant$fishing_pressures$year, c1_quant$fishing_pressures$line_spawn, type='l', col='black', lwd=5, ylim=c(0, max_val), xlab='Year', ylab='U', main='Fishing pressure comparison: line_spawn')
-lines(c1_sens1_quant$fishing_pressures$year, c1_sens1_quant$fishing_pressures$line_spawn, col='grey', lwd=2.5)
+plot(c1_quant$fishing_pressures$year, c1_quant$fishing_pressures$rec, type='l', col='black', lwd=5, ylim=c(0, max_val), xlab='Year', ylab='U', main='Fishing pressure comparison: recreational')
+lines(c1_sens1_quant$fishing_pressures$year, c1_sens1_quant$fishing_pressures$rec, col='grey', lwd=2.5)
 for (c in 1:num_C2_models)
 {
-    lines(cas2_mpd[[c]]$Mortality$year, cas2_mpd[[c]]$Mortality$`fishing_pressure[FishingLineSpawn]`, col=C2_color[c], lwd=1)
+    lines(cas2_mpd[[c]]$Mortality$year, cas2_mpd[[c]]$Mortality$`fishing_pressure[Recreation]`, col=C2_color[c], lwd=1)
 }
 
 plot_legend()
@@ -447,94 +397,18 @@ plot_legend()
 ages <- seq(3, 20, 1)
 
 max_val <- max(1,
-               c1_quant$`Ogive parameter values`$`selectivity[surveysum_sel].male`, c1_quant$`Ogive parameter values`$`selectivity[surveysum_sel].female`,
-               c1_sens1_quant$`Ogive parameter values`$`selectivity[surveysum_sel].male`, c1_sens1_quant$`Ogive parameter values`$`selectivity[surveysum_sel].female`)
-plot(ages, c1_quant$`Ogive parameter values`$`selectivity[surveysum_sel].male`, type='l', col='black', lwd=5, ylim=c(0,max_val), xlab='Age', ylab='', main='Summer survey selectivity-at-age comparison')
-lines(ages, c1_quant$`Ogive parameter values`$`selectivity[surveysum_sel].female`, col='black', lwd=5, lty=3)
+               c1_quant$`Ogive parameter values`$`selectivity[potSsel].male`, c1_quant$`Ogive parameter values`$`selectivity[potSsel].female`,
+               c1_sens1_quant$`Ogive parameter values`$`selectivity[potSsel].male`, c1_sens1_quant$`Ogive parameter values`$`selectivity[potSsel].female`)
+plot(ages, c1_quant$`Ogive parameter values`$`selectivity[potSsel].male`, type='l', col='black', lwd=5, ylim=c(0,max_val), xlab='Age', ylab='', main='Summer survey selectivity-at-age comparison')
+lines(ages, c1_quant$`Ogive parameter values`$`selectivity[potSsel].female`, col='black', lwd=5, lty=3)
 
-lines(ages, c1_sens1_quant$`Ogive parameter values`$`selectivity[surveysum_sel].male`, col='grey', lwd=2.5)
-lines(ages, c1_sens1_quant$`Ogive parameter values`$`selectivity[surveysum_sel].female`, col='grey', lwd=2.5, lty=3)
-
-for (c in 1:num_C2_models)
-{
-    lines(ages, cas2_mpd[[c]]$summerTANSel_male$Values, col=C2_color[c], lwd=1)
-    lines(ages, cas2_mpd[[c]]$summerTANSel_female$Values, col=C2_color[c], lwd=1, lty=3)
-}
-
-plot_legend()
-
-
-
-max_val <- max(1,
-               c1_quant$`Ogive parameter values`$`selectivity[surveyaut_sel].male`, c1_quant$`Ogive parameter values`$`selectivity[surveyaut_sel].female`,
-               c1_sens1_quant$`Ogive parameter values`$`selectivity[surveyaut_sel].male`, c1_sens1_quant$`Ogive parameter values`$`selectivity[surveyaut_sel].female`)
-plot(ages, c1_quant$`Ogive parameter values`$`selectivity[surveyaut_sel].male`, type='l', col='black', lwd=5, ylim=c(0,max_val), xlab='Age', ylab='', main='Autumn survey selectivity-at-age comparison')
-lines(ages, c1_quant$`Ogive parameter values`$`selectivity[surveyaut_sel].female`, col='black', lwd=5, lty=3)
-
-lines(ages, c1_sens1_quant$`Ogive parameter values`$`selectivity[surveyaut_sel].male`, col='grey', lwd=2.5)
-lines(ages, c1_sens1_quant$`Ogive parameter values`$`selectivity[surveyaut_sel].female`, col='grey', lwd=2.5, lty=3)
+lines(ages, c1_sens1_quant$`Ogive parameter values`$`selectivity[potSsel].male`, col='grey', lwd=2.5)
+lines(ages, c1_sens1_quant$`Ogive parameter values`$`selectivity[potSsel].female`, col='grey', lwd=2.5, lty=3)
 
 for (c in 1:num_C2_models)
 {
-    lines(ages, cas2_mpd[[c]]$autumnTANSel_male$Values, col=C2_color[c], lwd=1)
-    lines(ages, cas2_mpd[[c]]$autumnTANSel_female$Values, col=C2_color[c], lwd=1, lty=3)
-}
-
-plot_legend()
-
-
-
-max_val <- max(1,
-               c1_quant$`Ogive parameter values`$`selectivity[trawl_sel].male`, c1_quant$`Ogive parameter values`$`selectivity[trawl_sel].female`,
-               c1_sens1_quant$`Ogive parameter values`$`selectivity[trawl_sel].male`, c1_sens1_quant$`Ogive parameter values`$`selectivity[trawl_sel].female`)
-plot(ages, c1_quant$`Ogive parameter values`$`selectivity[trawl_sel].male`, type='l', col='black', lwd=5, ylim=c(0,max_val), xlab='Age',  ylab='',main='Trawl fishery selectivity-at-age comparison')
-lines(ages, c1_quant$`Ogive parameter values`$`selectivity[trawl_sel].female`, col='black', lwd=5, lty=3)
-
-lines(ages, c1_sens1_quant$`Ogive parameter values`$`selectivity[trawl_sel].male`, col='grey', lwd=2.5)
-lines(ages, c1_sens1_quant$`Ogive parameter values`$`selectivity[trawl_sel].female`, col='grey', lwd=2.5, lty=3)
-
-for (c in 1:num_C2_models)
-{
-    lines(ages, cas2_mpd[[c]]$trwlFSel_male$Values, col=C2_color[c], lwd=1)
-    lines(ages, cas2_mpd[[c]]$trwlFSel_female$Values, col=C2_color[c], lwd=1, lty=3)
-}
-
-plot_legend()
-
-
-
-max_val <- max(1,
-               c1_quant$`Ogive parameter values`$`selectivity[line_home_sel].male`, c1_quant$`Ogive parameter values`$`selectivity[line_home_sel].female`,
-               c1_sens1_quant$`Ogive parameter values`$`selectivity[line_home_sel].male`, c1_sens1_quant$`Ogive parameter values`$`selectivity[line_home_sel].female`)
-plot(ages, c1_quant$`Ogive parameter values`$`selectivity[line_home_sel].male`, type='l', col='black', lwd=5, ylim=c(0,max_val), xlab='Age',  ylab='',main='Longline home fishery selectivity-at-age comparison')
-lines(ages, c1_quant$`Ogive parameter values`$`selectivity[line_home_sel].female`, col='black', lwd=5, lty=3)
-
-lines(ages, c1_sens1_quant$`Ogive parameter values`$`selectivity[line_home_sel].male`, col='grey', lwd=2.5)
-lines(ages, c1_sens1_quant$`Ogive parameter values`$`selectivity[line_home_sel].female`, col='grey', lwd=2.5, lty=3)
-
-for (c in 1:num_C2_models)
-{
-    lines(ages, cas2_mpd[[c]]$lineHomeFSel_male$Values, col=C2_color[c], lwd=1)
-    lines(ages, cas2_mpd[[c]]$lineHomeFSel_female$Values, col=C2_color[c], lwd=1, lty=3)
-}
-
-plot_legend()
-
-
-
-max_val <- max(1,
-               c1_quant$`Ogive parameter values`$`selectivity[line_spawn_sel].male`, c1_quant$`Ogive parameter values`$`selectivity[line_spawn_sel].female`,
-               c1_sens1_quant$`Ogive parameter values`$`selectivity[line_spawn_sel].male`, c1_sens1_quant$`Ogive parameter values`$`selectivity[line_spawn_sel].female`)
-plot(ages, c1_quant$`Ogive parameter values`$`selectivity[line_spawn_sel].male`, type='l', col='black', lwd=5, ylim=c(0,max_val), xlab='Age',  ylab='',main='Longline spawn fishery selectivity-at-age comparison')
-lines(ages, c1_quant$`Ogive parameter values`$`selectivity[line_spawn_sel].female`, col='black', lwd=5, lty=3)
-
-lines(ages, c1_sens1_quant$`Ogive parameter values`$`selectivity[line_spawn_sel].male`, col='grey', lwd=2.5)
-lines(ages, c1_sens1_quant$`Ogive parameter values`$`selectivity[line_spawn_sel].female`, col='grey', lwd=2.5, lty=3)
-
-for (c in 1:num_C2_models)
-{
-    lines(ages, cas2_mpd[[c]]$lineSpawnFSel_male$Values, col=C2_color[c], lwd=1)
-    lines(ages, cas2_mpd[[c]]$lineSpawnFSel_female$Values, col=C2_color[c], lwd=1, lty=3)
+    lines(ages, cas2_mpd[[c]]$potSSelm$Values, col=C2_color[c], lwd=1)
+    lines(ages, cas2_mpd[[c]]$potSSelf$Values, col=C2_color[c], lwd=1, lty=3)
 }
 
 plot_legend()
