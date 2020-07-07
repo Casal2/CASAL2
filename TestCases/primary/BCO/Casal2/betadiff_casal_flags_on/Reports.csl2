@@ -53,9 +53,11 @@ years 2001 2010 2019
 type catchability
 
 
+/*
 @report Ageing_error
 type ageing_error
 ageing_error Ageing_error
+*/
 
 
 @report growth_length_at_age
@@ -69,6 +71,7 @@ time_step 1
 years 2019
 
 
+/*
 @report potFSelm_selectivity
 type selectivity
 selectivity potFSelm
@@ -92,6 +95,7 @@ selectivity recFSelm
 @report recFSelf_selectivity
 type selectivity
 selectivity recFSelf
+*/
 
 
 ## Fits Observations

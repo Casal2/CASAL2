@@ -2,18 +2,24 @@
 # BCO 5 assessment
 # no sex change version
 # Apply discards & retained catch
-#AGE SEL
-# testcase for Casal2 features cv1 cv2 on growth, different M on sex, est Linf, retained catch (100% deaths)
-# fisheries have one selectivity not several
+
+# testcase for Casal2 features different M on sex, est Linf male and male cv2 on growth, retained catch (100% deaths)
+# fisheries have one selectivity not several - all length based
 # pot survey with AF
-# CPUE from 1990
+# CPUE from 1990 + LF + AF
+# rec fishery + LF
 # 025 model
 
+# note: cannot get CASAL & Caal2 to agree when est pot fishery selectivity
+#	this model evokes the catch penalty for pot and rec fisheries
+#	Bo diff is 1.5%
+# Hence, pot selectivity is not estimated
 
 # fisheries
 #   pot fishery
 #   	change in MLS and gear ignored --> has 3 periods
 #       --> use 33 cm retained catch
+#
 
 #   line fishery  same as before, no longer operational
 #   Rec   fishery
@@ -25,10 +31,10 @@
 
 
 @model
-start_year 1900  #1975
-final_year 2019  #2012
+start_year 1900
+final_year 2019
 min_age 3    # sex ratio odd for year 0 & 1 (~10%??) but goes to 50% at age 2 or 3 so start at 3
-max_age 20   #30  AF has few data over 15
+max_age 20   # AF has few data over 15
 age_plus true
 base_weight_units tonnes
 initialisation_phases Equilibrium_state
@@ -63,11 +69,10 @@ processes Ageing  Recruitment Fishing
 
 @process Recruitment
 type recruitment_beverton_holt
-categories *   #transition=T0
-proportions 0.5 0.5  #  FIX  = for no sex change
-
+categories *
+proportions 0.5 0.5
 b0 15000
-ycs_years 1897:2016     #1974:2011  1897 2016
+ycs_years 1897:2016
 ycs_values    1.00 * 120
 steepness 0.75
 ssb SSB
@@ -81,14 +86,12 @@ categories *
 
 ## Fishing and Natural Mortality
 @process Fishing
-type mortality_instantaneous#_retained
-m 0.17 0.17 #0.15 0.19   #0.17    #testing at old values
+type mortality_instantaneous_retained
+m 0.14 0.20 #assessment uses 0.17 0.17
 time_step_ratio 1
 selectivities One One   #for age based M
 categories *
-#table catches
-#!include "Input_files/Catch.025.3fisheries.txt"
-#end_table
+
 table catches
 year	FishingLine	FishingPot	Recreation
 1900	0	0	0
@@ -214,35 +217,11 @@ year	FishingLine	FishingPot	Recreation
 end_table
 
 
-/*
 table method
 method  	category 		selectivity 		u_max 		retained_selectivity		discard_mortality_selectivity	time_step 		penalty
 FishingPot   	*  	 potFSel		0.7 		potFretained		potFdis	1		CatchMustBeTaken1
 FishingLine  	*   	lineFSel 			0.7 		lineFretained		potFdis		1 	CatchMustBeTaken1
 Recreation  	*   	 recFSel		0.7 		recFretained		recFdis 1 		CatchMustBeTaken1
-end_table
-*/
-
-/*
-table method
-method  	category 		selectivity 		u_max 		retained_selectivity		discard_mortality_selectivity	time_step 		penalty
-FishingPot   	format=male  	 potFSelm		0.7 		potFretained		potFdis	1		CatchMustBeTaken1
-FishingPot   	format=female  	 potFSelf 	0.7 		potFretained		potFdis	1		CatchMustBeTaken1
-FishingLine  	format=male   	lineFSelm 			0.7 		lineFretained		potFdis		1 	CatchMustBeTaken1
-FishingLine  	format=female   lineFSelf 			0.7 		lineFretained 		potFdis		1 	CatchMustBeTaken1
-Recreation  	format=male   	 recFSelm 		0.7 		recFretained		recFdis 1 		CatchMustBeTaken1
-Recreation  	format=female   recFSelf		0.7 		recFretained		recFdis 1 		CatchMustBeTaken1
-end_table
-*/
-
-table method
-method          category         selectivity      u_max    time_step     penalty
-FishingPot      male             potFSelm         0.7          1         CatchMustBeTaken1
-FishingPot      female           potFSelf         0.7          1         CatchMustBeTaken1
-FishingLine     male             lineFSelm        0.7          1         CatchMustBeTaken1
-FishingLine     female           lineFSelf        0.7          1         CatchMustBeTaken1
-Recreation      male             recFSelm         0.7          1         CatchMustBeTaken1
-Recreation      female           recFSelf         0.7          1         CatchMustBeTaken1
 end_table
 
 
@@ -253,29 +232,11 @@ end_table
 @derived_quantity SSB
 type biomass
 time_step 1
-categories *   #transition=T0
+categories *
 time_step_proportion 0.92    #  aug =11/12
 time_step_proportion_method weighted_sum
 selectivities MaturationSel_male MaturationSel_female
-/*
-@derived_quantity potVuln
-type biomass
-time_step 1
-categories *   #transition=T0
-time_step_proportion 0.5    #
-time_step_proportion_method weighted_sum
-selectivities potFretained potFretained
 
-
-@derived_quantity potSurveyVuln
-type biomass
-time_step 1
-categories *   #transition=T0
-time_step_proportion 0.42   #
-time_step_proportion_method weighted_sum
-selectivities potSurveySel_male potSurveySel_female
-*/
-## you can add other derived quantities for reporting purposes as well
 
 #################
 # SELECTIVITIES
@@ -283,8 +244,8 @@ selectivities potSurveySel_male potSurveySel_female
 
 @selectivity MaturationSel_male
 type logistic #
-a50     4.1   #3.7  #4.6
-ato95   2.47 #1.9
+a50     4.1   #
+ato95   2.47 #
 length_based  false
 
 @selectivity MaturationSel_female
@@ -299,20 +260,20 @@ length_based  false
 #used same as in 1995 assessment
 #
 
-@selectivity lineFSelf # NEED CATCH + RETAINED
+@selectivity lineFSel
 type logistic #knife_edge
-a50    8 #28
-ato95  2 #2.5     # 30.5 - 28 = 2.5
-#length_based true
-#intervals 11  #match CASAL for cum normal calc
+a50    28
+ato95  2.5
+length_based true
+intervals 11  #match CASAL for cum normal calc
 
-
-@selectivity lineFSelm # NEED CATCH + RETAINED
+@selectivity lineFretained #
 type logistic #knife_edge
-a50    4.5 #28
-ato95  2 #2.5     # 30.5 - 28 = 2.5
-#length_based true
-#intervals 11  #match CASAL for cum normal calc
+a50    33
+ato95   2.5
+length_based true
+intervals 11  #match CASAL for cum normal calc
+
 
 #
 # pot fishery
@@ -322,20 +283,12 @@ ato95  2 #2.5     # 30.5 - 28 = 2.5
 # retained (length, both sexes) from MLS 30 & 33, then AF 2018&2019
 
 
-@selectivity potFSelf # length based ogive = mesh size
+@selectivity potFSel # length based ogive = mesh size
 type logistic
-a50    9# 31	#
-ato95   2# 2l
-#ength_based  true
-#ntervals 11  #match CASAL for cum normal calc
-
-
-@selectivity potFSelm # length based ogive = mesh size
-type logistic
-a50     5#31	#
+a50     31	#
 ato95    2
-#length_based  true
-#intervals 11  #match CASAL for cum normal calc
+length_based  true
+intervals 11  #match CASAL for cum normal calc
 
 @selectivity potFretained
 type logistic
@@ -348,26 +301,19 @@ intervals 11 #match CASAL for cum normal calc
 # rec data in 2010 + 1 change in MLS in 1994
 #
 
-@selectivity recFretained # time varying a50; 1994 MLS changed
+@selectivity recFretained
 type logistic
-A50     33 #30  #30 to 1993, then estimates ~33
+A50     33 #30
 ato95  2.5
 length_based true
 intervals 11 #match CASAL for cum normal calc
 
-@selectivity recFSelm # 1994 onwards
+@selectivity recFSel # 1994 onwards
 type logistic
-A50    5# 30
-ato95   2# 5
-#length_based true
-#intervals 11  #match CASAL for cum normal calc
-
-@selectivity recFSelf # 1994 onwards
-type logistic
-A50    9# 30
-ato95   2# 5
-#length_based true
-#intervals 11  #match CASAL for cum normal calc
+A50     30
+ato95    5
+length_based true
+intervals 11  #match CASAL for cum normal calc
 
 #
 # discard mortality
@@ -375,12 +321,12 @@ ato95   2# 5
 
 @selectivity potFdis
 type constant
-c 1.0 #0.5  #SIWG assumption in 1995
+c 1.0
 
 
 @selectivity recFdis
 type constant
-c 1.0 #0.13  #experimental data
+c 1.0 #mimic CASAL was 0.13  #experimental data
 
 
 
@@ -390,22 +336,16 @@ c 1.0 #0.13  #experimental data
 
 
 @selectivity potSurveySel_female #
-type logistic #knife_edge does not work--> no estimation done, but no warning msgs
-#					logistic gives  msg:ADOL-C message: exponent of zero/negative basis deactivated
-#						~3000 when a50/ato95 is 30/0.1 & 22000 for 20/1.5
-#E 30
-A50   3
-ato95 .27 #1.5  #=age  2.5 but no fish in expected AF
+type logistic
+A50   4
+ato95 1.27 #1.5  #=age  2.5 but no fish in expected AF
 length_based false
 
 
 @selectivity potSurveySel_male #
-type logistic #knife_edge does not work--> no estimation done, but no warning msgs
-#					logistic gives  msg:ADOL-C message: exponent of zero/negative basis deactivated
-#						~3000 when a50/ato95 is 30/0.1 & 22000 for 20/1.5
-#E 30
-A50   3.
-ato95 0.3  # no age 2's
+type logistic
+A50   4.
+ato95 1.3  # no age 2's
 length_based false
 
 @selectivity One
@@ -426,25 +366,25 @@ c 1
 @age_length asMm0   #male medium growth path
 type von_bertalanffy
 by_length false #CASAL cv interp
-time_step_proportions 0.5
-linf	50.0 #55.7   #only survey data
+#time_step_proportions 1 #0.5
+linf	50.7   #set to this to get right minima, was 54 from only survey data
 k		 0.20
 t0		-0.51
 cv_first 0.1  #
-cv_last   0.05 #0.10 #0.15   #test logbook LF logL
+cv_last   0.10 #0.15
 length_weight Length_Weight
-casal_switch false #replicate CASAL cum dist code
+casal_switch false
 
 
 @age_length asFm0  #female medium growth
 type von_bertalanffy #not in manual<<<<<<<<
 by_length false #mimic CASAL get betadiff error if true in CASAL
-time_step_proportions 0.5
+#time_step_proportions 1 #0.5
 linf	40.9   #survey + comm (age >=10)
 k		0.19
 t0		-0.62
 cv_first 0.10  #
-cv_last   0.10 #0.15
+cv_last   0.10
 length_weight Length_Weight
 casal_switch false
 
@@ -454,9 +394,9 @@ casal_switch false
 #################
 @length_weight Length_Weight
 type basic
-units kgs #
+units tonnes #kgs #
 # Beentjes, M.P.; Miller, A.; Kater, D. (2019). Relative abundance, size and age structure, and stock status of blue cod in Foveaux Strait in 2018.
 # New Zealand Fisheries Assessment Report 2019/XX 52 p.
 
-a 0.007289  #male, but female gives the same values
+a 0.00000007289 #male, but female gives the same values
 b 3.2055
