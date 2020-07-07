@@ -29,12 +29,14 @@ unused_parameters 1
 
 @quantities
 all_free_parameters 1
+YCS 1
 true_YCS 1
 B0 1
 R0 1
 SSBs 1
 actual_catches 1
 fishing_pressures 1
+recruitments 1
 ogive_parameters selectivity[surveyaut_sel].male selectivity[surveyaut_sel].female
 
 @abundance Tangaroa_bio_summer_est

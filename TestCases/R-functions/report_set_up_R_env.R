@@ -4,7 +4,6 @@
 require(ggplot2)
 require(rlist)
 
-
 require(devtools)
 
 # the CASAL and Casal2 R libraries are installed in the TestCases subdirectory

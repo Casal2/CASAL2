@@ -2,9 +2,14 @@
 title: "Casal2 Test Case comparisons for BCO"
 output:
     html_document:
-        toc: true
+        toc: TRUE
         toc_depth: 2
-        number_sections: true
+        number_sections: TRUE
+
+header-includes:
+ - \usepackage{pdflscape}
+ - \newcommand{\blandscape}{\begin{landscape}}
+ - \newcommand{\elandscape}{\end{landscape}}
 ---
 
 ```{r setup, include=FALSE}
@@ -71,6 +76,8 @@ source('../../R-functions/report_read_in_Casal2_MPD_files.R')
 
 
 
+\newpage
+\blandscape
 ## Tables
 
 Tables of parameter estimates and objective function components for the CASAL and Casal2 model MPD results
@@ -84,11 +91,18 @@ options(scipen=999)
 
 ```{r huxtables_parameters, echo=FALSE, warning=FALSE, message=FALSE}
 source('../../R-functions/report_print_parameter_tables.R')
+
+hux_C1_est_params
+hux_C2_est_params
+hux_C2_pd_est_params
 ```
 
 
 ```{r huxtables_obj_fun, echo=FALSE, warning=FALSE, message=FALSE}
 source('../../R-functions/report_print_obj_fun_tables.R')
+
+hux_C1_obj_fun
+hux_C2_obj_fun
 ```
 
 
@@ -105,6 +119,8 @@ source('../../R-functions/report_print_warnings.R')
 ```{r huxtables_close, echo=FALSE}
 options(scipen=0)
 ```
+\elandscape
+\newpage
 
 
 

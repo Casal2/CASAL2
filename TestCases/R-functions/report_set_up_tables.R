@@ -43,23 +43,3 @@ reformat_to_huxtable <- function(df_1, caption_str=NA, format_num=3, reformat_co
     return (hux_table)
 }
 
-
-C2_est_params   <- cas2_mpd[[1]]$estimated_values$values
-c2_est_params_1 <- C2_est_params
-C2_obj_fun      <- cas2_mpd[[1]]$obj_fun$values
-
-C2_pd_est_params <- C2_est_params - C2_est_params
-
-if (num_C2_models > 1)
-{
-    for (c in 2:num_C2_models)
-    {
-        c2_est_params_c  <- cas2_mpd[[c]]$estimated_values$values
-        C2_est_params    <- bind_rows(C2_est_params, c2_est_params_c)
-
-        C2_pd_est_params <- bind_rows(C2_pd_est_params, 100.0 * (1.0 - (c2_est_params_c / c2_est_params_1)))
-
-        C2_obj_fun       <- bind_rows(C2_obj_fun, cas2_mpd[[c]]$obj_fun$values)
-    }
-}
-

@@ -2,9 +2,14 @@
 title: "Casal2 Test Case comparisons for ORH"
 output:
     html_document:
-        toc: true
+        toc: TRUE
         toc_depth: 2
-        number_sections: true
+        number_sections: TRUE
+
+header-includes:
+ - \usepackage{pdflscape}
+ - \newcommand{\blandscape}{\begin{landscape}}
+ - \newcommand{\elandscape}{\end{landscape}}
 ---
 
 ```{r setup, include=FALSE}
@@ -30,7 +35,7 @@ The main characteristics of the Test Case ORH (orange roughy) CASAL model are:
 * one time step
 * two stock categories: immature and mature, with logistic-producing maturity ogive
 * natural mortality (M) of 0.045
-* Beverton-Holt stock-recruitment relationship, with steepness (h) set to 1.0
+* no stock-recruitment relationship, with $sigma_R$ set to 1.1, standardised YCS
 * length-weight relationship ($W = aL^b$)
 * no ageing error
 * one fishery with logistic selectivity-at-age
@@ -69,6 +74,8 @@ source('../../R-functions/report_read_in_Casal2_MPD_files.R')
 
 
 
+\newpage
+\blandscape
 ## Tables
 
 Tables of parameter estimates and objective function components for the CASAL and Casal2 model MPD results
@@ -82,11 +89,18 @@ options(scipen=999)
 
 ```{r huxtables_parameters, echo=FALSE, warning=FALSE, message=FALSE}
 source('../../R-functions/report_print_parameter_tables.R')
+
+hux_C1_est_params
+hux_C2_est_params
+hux_C2_pd_est_params
 ```
 
 
 ```{r huxtables_obj_fun, echo=FALSE, warning=FALSE, message=FALSE}
 source('../../R-functions/report_print_obj_fun_tables.R')
+
+hux_C1_obj_fun
+hux_C2_obj_fun
 ```
 
 
@@ -103,6 +117,8 @@ source('../../R-functions/report_print_warnings.R')
 ```{r huxtables_close, echo=FALSE}
 options(scipen=0)
 ```
+\elandscape
+\newpage
 
 
 
@@ -157,14 +173,14 @@ source('../../R-functions/report_set_up_legend.R')
 
 max_val <- max(c1_quant$SSBs$SSB,
                c1_sens1_quant$SSBs$SSB,
-               max(unlist(list.map(cas2_mpd, max(SSB$SSB$values)))))
+               max(unlist(list.map(cas2_mpd, max(DerivedQuantities$SSB$values)))))
 
 plot(c1_quant$SSBs$year, c1_quant$SSBs$SSB, type='l', col='black', lwd=5, ylim=c(0, max_val), xlab='Year', ylab='Biomass (t)', main='SSB comparison')
 lines(c1_sens1_quant$SSBs$year, c1_sens1_quant$SSBs$SSB, type='l', col='grey', lwd=2.5)
 
 for (c in 1:num_C2_models)
 {
-    lines(names(cas2_mpd[[c]]$SSB$SSB$values), cas2_mpd[[c]]$SSB$SSB$values, col=C2_color[c], lwd=1)
+    lines(names(cas2_mpd[[c]]$DerivedQuantities$SSB$values), cas2_mpd[[c]]$DerivedQuantities$SSB$values, col=C2_color[c], lwd=1)
 }
 
 plot_legend()

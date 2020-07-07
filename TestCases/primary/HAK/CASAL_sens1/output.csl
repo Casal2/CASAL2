@@ -36,6 +36,7 @@ B0 True
 R0 True
 SSBs True
 YCS True
+recruitments True
 actual_catches True
 ogive_parameters selectivity[subaFsel].all selectivity[subaTANselA].all
 ogive_arguments selectivity[subaFsel].all selectivity[subaTANselA].all
