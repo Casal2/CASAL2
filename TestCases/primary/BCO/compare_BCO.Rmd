@@ -34,14 +34,14 @@ The main characteristics of the Test Case BCO (ling) CASAL model are:
 * years 1900 - 2019, projection year 2020
 * one time step
 * two stock categories: male and female
-* natural mortality-at-age is 0.17
+* natural mortality-at-age is 0.14 for males and 0.20 for females
 * sex-specific logistic maturity
 * sex-specific von Bertalanffy age-length relationship
 * one length-weight relationship ($W = aL^b$)
-* Beverton-Holt stock-recruitment relationship, with steepness (h) set to 0.75, sigmaR set to 0.6
-* ageing error
+* Beverton-Holt stock-recruitment relationship, with steepness (h) set to 0.75, $\sigma_R$ set to 0.6
+* no ageing error
 * one survey with sex-specific logistic selectivity
-* three fisheries, all three with sex-specific logistic selectivity
+* three fisheries, all with sex-specific logistic selectivity and retained/discarded catches
 
 Observation data include:
 
@@ -52,8 +52,10 @@ Observation data include:
 Parameters estimated include:
 
 * B0
-* male L_inf
-* year-class strengths (recruitment deviations)
+* male $L_{\infty}$
+* male age-length CV2
+* sex-specific survey logistic selectivity
+* YCS (recruitment deviations)
 
 
 ## R environment
@@ -136,20 +138,20 @@ for (c in 1:num_C2_models)
 {
     print(paste('Catch time series base model comparison for run', C2_subdir[c]))
 
-    print(paste('Actual catches for line match:',
-                time_series_match(c1_quant$actual_catches$line, cas2_mpd[[c]]$Mortality$`actual_catch[FishingLine]`)))
+    print(paste('Removals / Actual catches for line match:',
+                time_series_match(c1_quant$removals$line, cas2_mpd[[c]]$Mortality$`actual_catch[FishingLine]`)))
 
     print(paste('Discarded catches for line match:',
                 time_series_match(c1_quant$discards$line, cas2_mpd[[c]]$Mortality$`discards[FishingLine]`)))
 
-    print(paste('Actual catches for pot match:',
-                time_series_match(c1_quant$actual_catches$pot, cas2_mpd[[c]]$Mortality$`actual_catch[FishingPot]`)))
+    print(paste('Removals / Actual catches for pot match:',
+                time_series_match(c1_quant$removals$pot, cas2_mpd[[c]]$Mortality$`actual_catch[FishingPot]`)))
 
     print(paste('Discarded catches for pot match:',
                 time_series_match(c1_quant$discards$pot, cas2_mpd[[c]]$Mortality$`discards[FishingPot]`)))
 
-    print(paste('Actual catches for rec match:',
-                time_series_match(c1_quant$actual_catches$rec, cas2_mpd[[c]]$Mortality$`actual_catch[Recreation]`)))
+    print(paste('Removals / Actual catches for rec match:',
+                time_series_match(c1_quant$removals$rec, cas2_mpd[[c]]$Mortality$`actual_catch[Recreation]`)))
 
     print(paste('Discarded catches for rec match:',
                 time_series_match(c1_quant$discards$rec, cas2_mpd[[c]]$Mortality$`discards[Recreation]`)))
@@ -315,6 +317,119 @@ plot_legend()
 ```
 
 
+```{r plots_set_4, echo=FALSE}
+
+# > names(c1_quant)
+#  [1] "Scalar parameter values"        "Vector parameter values"
+#  [3] "Ogive parameter values"         "Nuisance q's"
+#  [5] "B0"                             "SSBs"
+#  [7] "recruitments"                   "YCS"
+#  [9] "true_YCS"                       "actual_catches"
+# [11] "discards"                       "removals"
+# [13] "fishing_pressures"              "potCPUE.fits"
+# [15] "potSurveyAbd.fits"              "logbookLF.fits"
+# [17] "potCommAF.fits"                 "potSurveyAF.fits"
+# [19] "recCatchLF.fits"                "potCPUE.resids"
+# [21] "potSurveyAbd.resids"            "logbookLF.resids"
+# [23] "potCommAF.resids"               "potSurveyAF.resids"
+# [25] "recCatchLF.resids"              "potCPUE.pearson_resids"
+# [27] "potSurveyAbd.pearson_resids"    "logbookLF.pearson_resids"
+# [29] "potCommAF.pearson_resids"       "potSurveyAF.pearson_resids"
+# [31] "recCatchLF.pearson_resids"      "potCPUE.normalised_resids"
+# [33] "potSurveyAbd.normalised_resids" "PotSurvey"
+# [35] "selected_bio_Pot"
+
+
+# plot removals (C1) / actual catch (C2)
+
+max_val <- max(c1_quant$removals$line,
+               c1_sens1_quant$removals$line,
+               max(unlist(list.map(cas2_mpd, max(Mortality$`actual_catch[FishingLine]`)))))
+
+plot(c1_quant$removals$year, c1_quant$removals$line, type='l', col='black', lwd=5, ylim=c(0, max_val), xlab='Year', ylab='Catch (tonnes)', main='Removals / Actual catch comparison: line')
+lines(c1_sens1_quant$removals$year, c1_sens1_quant$removals$line, type='l', col='grey', lwd=2.5)
+for (c in 1:num_C2_models)
+{
+    lines(cas2_mpd[[c]]$Mortality$year, cas2_mpd[[c]]$Mortality$`actual_catch[FishingLine]`, col=C2_color[c], lwd=1)
+}
+
+plot_legend()
+
+
+max_val <- max(c1_quant$removals$pot,
+               c1_sens1_quant$removals$pot,
+               max(unlist(list.map(cas2_mpd, max(Mortality$`actual_catch[FishingPot]`)))))
+
+plot(c1_quant$removals$year, c1_quant$removals$pot, type='l', col='black', lwd=5, ylim=c(0, max_val), xlab='Year', ylab='Catch (tonnes)', main='Removals / Actual catch comparison: pot')
+lines(c1_sens1_quant$removals$year, c1_sens1_quant$removals$pot, type='l', col='grey', lwd=2.5)
+for (c in 1:num_C2_models)
+{
+    lines(cas2_mpd[[c]]$Mortality$year, cas2_mpd[[c]]$Mortality$`actual_catch[FishingPot]`, col=C2_color[c], lwd=1)
+}
+
+plot_legend()
+
+
+max_val <- max(c1_quant$removals$rec,
+               c1_sens1_quant$removals$rec,
+               max(unlist(list.map(cas2_mpd, max(Mortality$`actual_catch[Recreation]`)))))
+
+plot(c1_quant$removals$year, c1_quant$removals$rec, type='l', col='black', lwd=5, ylim=c(0, max_val), xlab='Year', ylab='Catch (tonnes)', main='Removals / Actual catch comparison: recreational')
+lines(c1_sens1_quant$removals$year, c1_sens1_quant$removals$rec, type='l', col='grey', lwd=2.5)
+for (c in 1:num_C2_models)
+{
+    lines(cas2_mpd[[c]]$Mortality$year, cas2_mpd[[c]]$Mortality$`actual_catch[Recreation]`, col=C2_color[c], lwd=1)
+}
+
+plot_legend()
+
+
+
+# plot discarded catch
+
+max_val <- max(c1_quant$discards$line,
+               c1_sens1_quant$discards$line,
+               max(unlist(list.map(cas2_mpd, max(Mortality$`discards[FishingLine]`)))))
+
+plot(c1_quant$discards$year, c1_quant$discards$line, type='l', col='black', lwd=5, ylim=c(0, max_val), xlab='Year', ylab='Catch (tonnes)', main='Discarded catch comparison: line')
+lines(c1_sens1_quant$discards$year, c1_sens1_quant$discards$line, type='l', col='grey', lwd=2.5)
+for (c in 1:num_C2_models)
+{
+    lines(cas2_mpd[[c]]$Mortality$year, cas2_mpd[[c]]$Mortality$`discards[FishingLine]`, col=C2_color[c], lwd=1)
+}
+
+plot_legend()
+
+
+max_val <- max(c1_quant$discards$pot,
+               c1_sens1_quant$discards$pot,
+               max(unlist(list.map(cas2_mpd, max(Mortality$`discards[FishingPot]`)))))
+
+plot(c1_quant$discards$year, c1_quant$discards$pot, type='l', col='black', lwd=5, ylim=c(0, max_val), xlab='Year', ylab='Catch (tonnes)', main='Discarded catch comparison: pot')
+lines(c1_sens1_quant$discards$year, c1_sens1_quant$discards$pot, type='l', col='grey', lwd=2.5)
+for (c in 1:num_C2_models)
+{
+    lines(cas2_mpd[[c]]$Mortality$year, cas2_mpd[[c]]$Mortality$`discards[FishingPot]`, col=C2_color[c], lwd=1)
+}
+
+plot_legend()
+
+
+max_val <- max(c1_quant$discards$rec,
+               c1_sens1_quant$discards$rec,
+               max(unlist(list.map(cas2_mpd, max(Mortality$`discards[Recreation]`)))))
+
+plot(c1_quant$discards$year, c1_quant$discards$rec, type='l', col='black', lwd=5, ylim=c(0, max_val), xlab='Year', ylab='Catch (tonnes)', main='Discarded catch comparison: recreational')
+lines(c1_sens1_quant$discards$year, c1_sens1_quant$discards$rec, type='l', col='grey', lwd=2.5)
+for (c in 1:num_C2_models)
+{
+    lines(cas2_mpd[[c]]$Mortality$year, cas2_mpd[[c]]$Mortality$`discards[Recreation]`, col=C2_color[c], lwd=1)
+}
+
+plot_legend()
+```
+
+
 ```{r plots_set_5, echo=FALSE}
 
 # > names(cas2_mpd[[1]])
@@ -399,7 +514,7 @@ ages <- seq(3, 20, 1)
 max_val <- max(1,
                c1_quant$`Ogive parameter values`$`selectivity[potSsel].male`, c1_quant$`Ogive parameter values`$`selectivity[potSsel].female`,
                c1_sens1_quant$`Ogive parameter values`$`selectivity[potSsel].male`, c1_sens1_quant$`Ogive parameter values`$`selectivity[potSsel].female`)
-plot(ages, c1_quant$`Ogive parameter values`$`selectivity[potSsel].male`, type='l', col='black', lwd=5, ylim=c(0,max_val), xlab='Age', ylab='', main='Summer survey selectivity-at-age comparison')
+plot(ages, c1_quant$`Ogive parameter values`$`selectivity[potSsel].male`, type='l', col='black', lwd=5, ylim=c(0,max_val), xlab='Age', ylab='', main='Pot survey selectivity-at-age comparison')
 lines(ages, c1_quant$`Ogive parameter values`$`selectivity[potSsel].female`, col='black', lwd=5, lty=3)
 
 lines(ages, c1_sens1_quant$`Ogive parameter values`$`selectivity[potSsel].male`, col='grey', lwd=2.5)
