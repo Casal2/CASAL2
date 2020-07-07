@@ -1,45 +1,57 @@
-## Report section for now
-
-@report Init
-type initialisation_partition
-
-@report obj_fun
-type objective_function
-
-@report mcmc_covariance
-type mcmc_covariance
-
-
-@report DQs
-type derived_quantity
-
+## Print estimate values
 @report estimated_values
 type estimate_value
 
 @report estimated_summary
 type estimate_summary
 
+@report obj_fun
+type objective_function
 
-@report state1
-type partition
-time_step Dec_Aug
-years 1972:2018
 
-@report state2
-type partition
-time_step Sep_Nov
-years 1972:2018
-
-@report SSB
+## Derived Quantities
+@report DerivedQuantities
 type derived_quantity
+
+@report Init
+type initialisation_partition
+
+
+@report Hess
+type hessian_matrix
+
+
+@report Covar
+type covariance_matrix
+
+
+@report Corr
+type correlation_matrix
+
+
+@report mcmc_covariance
+type mcmc_covariance
+
+
+## Print process information
+@report Recruitment
+type process
+process Recruitment
 
 @report Mortality
 type process
 process Instantaneous_Mortality
 
-@report Rec
-type process
-process Recruitment
+
+@report state1
+type partition
+time_step Dec_Aug
+years 1972 2018
+
+@report state2
+type partition
+time_step Sep_Nov
+years 1972 2018
 
 
 @report NaturalMortalityOgive_all
@@ -113,14 +125,4 @@ observation autumnTANbiomass
 @report Ageing_error
 type ageing_error
 ageing_error Normal_ageing
-
-## estimation stuff
-@report Covar
-type covariance_matrix
-
-@report Hess
-type hessian_matrix
-
-@report Corr
-type correlation_matrix
 

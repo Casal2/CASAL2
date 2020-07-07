@@ -1,3 +1,4 @@
+## Print estimate values
 @report estimated_values
 type estimate_value
 
@@ -6,6 +7,30 @@ type estimate_summary
 
 @report obj_fun
 type objective_function
+
+
+## Derived Quantities
+@report DerivedQuantities
+type derived_quantity
+
+@report Init
+type initialisation_partition
+
+
+@report Hess
+type hessian_matrix
+
+
+@report Covar
+type covariance_matrix
+
+
+@report Corr
+type correlation_matrix
+
+
+@report mcmc_covariance
+type mcmc_covariance
 
 
 ## Print process information
@@ -18,19 +43,6 @@ type process
 process Fishing_Mortality
 
 
-## Derived Quantities
-@report DerivedQuantities
-type derived_quantity
-
-@report Init
-type initialisation_partition
-
-
-@report mcmc_covariance
-type mcmc_covariance
-
-
-
 @report state1
 type partition
 time_step Jul_Jun
@@ -39,9 +51,6 @@ years 1979 2005
 
 @report nuisance_Q
 type catchability
-
-@report SSB
-type derived_quantity
 
 
 @report maturity_ogive
@@ -88,17 +97,4 @@ pearsons_residuals True
 @report Ageing_error
 type ageing_error
 ageing_error Normal_ageing
-
-
-@report Hess
-type hessian_matrix
-
-
-@report Covar
-type covariance_matrix
-
-
-@report Corr
-type correlation_matrix
-
 

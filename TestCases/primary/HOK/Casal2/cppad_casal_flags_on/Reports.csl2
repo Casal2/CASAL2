@@ -1,3 +1,4 @@
+## Print estimate values
 @report estimated_values
 type estimate_value
 
@@ -8,18 +9,38 @@ type estimate_summary
 type objective_function
 
 
-## Print process information
-@report Mortality
-type process
-process Instant_mortality
-
-
 ## Derived Quantities
 @report DerivedQuantities
 type derived_quantity
 
 @report Init
 type initialisation_partition
+
+
+@report Hess
+type hessian_matrix
+
+
+@report Covar
+type covariance_matrix
+
+
+@report Corr
+type correlation_matrix
+
+
+@report mcmc_covariance
+type mcmc_covariance
+
+
+## Print process information
+#@report Recruitment
+#type process
+#process Recruitment
+
+@report Mortality
+type process
+process Instant_mortality
 
 
 @report state1
@@ -33,8 +54,8 @@ time_step Jul_Sep
 years 1972 2018
 
 
-@report mcmc_covariance
-type mcmc_covariance
+@report Qs
+type catchability
 
 
 @report Recruit_E
@@ -147,15 +168,3 @@ selectivity SAsl
 @report time_var
 type time_varying
 
-@report Qs
-type catchability
-
-## estimation stuff
-@report Covar
-type covariance_matrix
-
-@report Hess
-type hessian_matrix
-
-@report Corr
-type correlation_matrix

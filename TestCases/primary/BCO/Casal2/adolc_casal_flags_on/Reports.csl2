@@ -1,4 +1,3 @@
-## Report section for now
 ## Print estimate values
 @report estimated_values
 type estimate_value
@@ -8,6 +7,30 @@ type estimate_summary
 
 @report obj_fun
 type objective_function
+
+
+## Derived Quantities
+@report DerivedQuantities
+type derived_quantity
+
+@report Init
+type initialisation_partition
+
+
+@report Hess
+type hessian_matrix
+
+
+@report Covar
+type covariance_matrix
+
+
+@report Corr
+type correlation_matrix
+
+
+@report mcmc_covariance
+type mcmc_covariance
 
 
 ## Print process information
@@ -20,14 +43,6 @@ type process
 process Fishing
 
 
-## Derived Quantities
-@report DerivedQuantities
-type derived_quantity
-
-@report Init
-type initialisation_partition
-
-
 @report state1
 type partition
 time_step 1
@@ -36,6 +51,7 @@ years 2001 2010 2019
 
 @report Qs
 type catchability
+
 
 @report Ageing_error
 type ageing_error
@@ -134,18 +150,3 @@ pearsons_residuals True
 # @report TV
 # type time_varying
 
-
-@report Hess
-type hessian_matrix
-
-
-@report Covar
-type covariance_matrix
-
-
-@report Corr
-type correlation_matrix
-
-
-@report mcmc_covariance
-type mcmc_covariance

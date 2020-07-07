@@ -1,25 +1,46 @@
+## Print estimate values
+@report estimated_values
+type estimate_value
+
+@report estimated_summary
+type estimate_summary
+
+@report obj_fun
+type objective_function
+
+
+## Derived Quantities
+@report DerivedQuantities
+type derived_quantity
+
 @report Init
 type initialisation_partition
 
 
-@report obj_fun
-type objective_function
+@report Hess
+type hessian_matrix
+
+
+@report Covar
+type covariance_matrix
+
+
+@report Corr
+type correlation_matrix
 
 
 @report mcmc_covariance
 type mcmc_covariance
 
 
-@report DQs
-type derived_quantity
+## Print process information
+@report Recruitment
+type process
+process Recruitment
 
-
-@report estimated_values
-type estimate_value
-
-
-@report estimated_summary
-type estimate_summary
+@report Mortality
+type process
+process Instantaneous_Mortality
 
 
 @report state1
@@ -35,19 +56,6 @@ years 1975 2018
 
 @report Qs
 type catchability
-
-@report SSB
-type derived_quantity
-
-
-@report Mortality
-type process
-process Instantaneous_Mortality
-
-
-@report Recruitment
-type process
-process Recruitment
 
 
 @report maturity_ogive_m
@@ -114,17 +122,5 @@ pearsons_residuals True
 @report Ageing_error
 type ageing_error
 ageing_error Normal_ageing
-
-
-@report Hess
-type hessian_matrix
-
-
-@report Covar
-type covariance_matrix
-
-
-@report Corr
-type correlation_matrix
 
 
