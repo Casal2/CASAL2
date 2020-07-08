@@ -193,13 +193,13 @@ source('../../R-functions/report_set_up_legend.R')
 
 max_val <- max(c1_quant$SSBs$E,
                c1_sens1_quant$SSBs$E,
-               max(unlist(list.map(cas2_mpd, max(SSB$SSB_E$values)))))
+               max(unlist(list.map(cas2_mpd, max(DerivedQuantities$SSB_E$values)))))
 
 plot(c1_quant$SSBs$year, c1_quant$SSBs$E, type='l', col='black', lwd=5, ylim=c(0, max_val), xlab='Year', ylab='Biomass (t)', main='E SSB comparison')
 lines(c1_sens1_quant$SSBs$year, c1_sens1_quant$SSBs$E, type='l', col='grey', lwd=2.5)
 for (c in 1:num_C2_models)
 {
-    lines(names(cas2_mpd[[c]]$SSB$SSB_E$values), cas2_mpd[[c]]$SSB$SSB_E$values, col=C2_color[c], lwd=1)
+    lines(names(cas2_mpd[[c]]$DerivedQuantities$SSB_E$values), cas2_mpd[[c]]$DerivedQuantities$SSB_E$values, col=C2_color[c], lwd=1)
 }
 
 plot_legend()
@@ -209,13 +209,13 @@ plot_legend()
 
 max_val <- max(c1_quant$SSBs$W,
                c1_sens1_quant$SSBs$W,
-               max(unlist(list.map(cas2_mpd, max(SSB$SSB_W$values)))))
+               max(unlist(list.map(cas2_mpd, max(DerivedQuantities$SSB_W$values)))))
 
 plot(c1_quant$SSBs$year, c1_quant$SSBs$W, type='l', col='black', lwd=5, ylim=c(0, max_val), xlab='Year', ylab='Biomass (t)', main='W SSB comparison')
 lines(c1_sens1_quant$SSBs$year, c1_sens1_quant$SSBs$W, type='l', col='grey', lwd=2.5)
 for (c in 1:num_C2_models)
 {
-    lines(names(cas2_mpd[[c]]$SSB$SSB_E$values), cas2_mpd[[c]]$SSB$SSB_W$values, col=C2_color[c], lwd=1)
+    lines(names(cas2_mpd[[c]]$DerivedQuantities$SSB_E$values), cas2_mpd[[c]]$DerivedQuantities$SSB_W$values, col=C2_color[c], lwd=1)
 }
 
 plot_legend()

@@ -142,13 +142,13 @@ for (c in 1:num_C2_models)
     print(paste('Catch time series base model comparison for run', C2_subdir[c]))
 
     print(paste('Actual catches for trawl match:',
-                time_series_match(c1_quant$actual_catches$trawl, cas2_mpd[[c]]$Mortality$`actual_catch[FishingTrwl]`)))
+                time_series_match(c1_quant$actual_catches$trawl, cas2_mpd[[c]]$Mortality$`catch[FishingTrwl]`)))
 
     print(paste('Actual catches for line_home match:',
-                time_series_match(c1_quant$actual_catches$line_home, cas2_mpd[[c]]$Mortality$`actual_catch[FishingLineHome]`)))
+                time_series_match(c1_quant$actual_catches$line_home, cas2_mpd[[c]]$Mortality$`catch[FishingLineHome]`)))
 
     print(paste('Actual catches for line_spawn match:',
-                time_series_match(c1_quant$actual_catches$line_spawn, cas2_mpd[[c]]$Mortality$`actual_catch[FishingLineSpawn]`)))
+                time_series_match(c1_quant$actual_catches$line_spawn, cas2_mpd[[c]]$Mortality$`catch[FishingLineSpawn]`)))
 
     print('')
 }
@@ -250,7 +250,35 @@ max_val <- max(cas_part$final,
                cas_sens1_part$final,
                max(c2_mat))
 
-plot(ages, cas_part$final[1,], type='l', col='black', lwd=bl_lwd, ylim=c(0, max_val), xlab='Age', ylab='', main='Final numbers-at-age comparison (male and female)')
+plot(ages, cas_part$final[1,], type='l', col='black', lwd=bl_lwd, ylim=c(0, max_val), xlab='Age', ylab='', main='Final numbers-at-age comparison (male and female) (time step 1)')
+lines(ages, cas_part$final[2,], col='black', lwd=bl_lwd, lty=3)
+
+lines(ages, cas_sens1_part$final[1,], col='grey', lwd=gr_lwd)
+lines(ages, cas_sens1_part$final[2,], col='grey', lwd=gr_lwd, lty=3)
+
+for (c in 1:num_C2_models)
+{
+    lines(ages, c2_mat[c,1,], col=C2_color[c], lwd=1)
+    lines(ages, c2_mat[c,2,], col=C2_color[c], lwd=1, lty=3)
+}
+
+plot_legend()
+
+
+
+c2_mat <- array(0, dim=c(num_C2_models, dim(as.matrix(cas2_mpd[[1]]$state2$`2018`$values))))
+for (c in 1:num_C2_models)
+{
+    c2_mat[c,,] <- as.matrix(cas2_mpd[[c]]$state2$`2018`$values)
+}
+
+# plot final year numbers
+
+max_val <- max(cas_part$final,
+               cas_sens1_part$final,
+               max(c2_mat))
+
+plot(ages, cas_part$final[1,], type='l', col='black', lwd=bl_lwd, ylim=c(0, max_val), xlab='Age', ylab='', main='Final numbers-at-age comparison (male and female) (time step 2)')
 lines(ages, cas_part$final[2,], col='black', lwd=bl_lwd, lty=3)
 
 lines(ages, cas_sens1_part$final[1,], col='grey', lwd=gr_lwd)
