@@ -356,6 +356,11 @@ for (c in 1:num_C2_models)
 plot_legend()
 
 
+# add percent difference
+
+
+
+
 max_val <- max(c1_quant$removals$pot,
                c1_sens1_quant$removals$pot,
                max(unlist(list.map(cas2_mpd, max(Mortality$`actual_catch[FishingPot]`)))))
@@ -382,6 +387,9 @@ for (c in 1:num_C2_models)
 }
 
 plot_legend()
+
+
+# plot percent difference
 
 
 
@@ -427,6 +435,11 @@ for (c in 1:num_C2_models)
 }
 
 plot_legend()
+
+
+# plot percent difference
+
+
 ```
 
 
@@ -518,8 +531,10 @@ max_val <- max(1,
 
 plot(ages, c1_quant$`Ogive parameter values`$`selectivity[potSsel].male`, type='l', col='black', lwd=5, ylim=c(0,max_val), xlab='Age', ylab='', main='Pot survey selectivity-at-age comparison (males and females)')
 lines(ages, c1_quant$`Ogive parameter values`$`selectivity[potSsel].female`, col='black', lwd=5, lty=3)
+
 lines(ages, c1_sens1_quant$`Ogive parameter values`$`selectivity[potSsel].male`, col='grey', lwd=2.5)
 lines(ages, c1_sens1_quant$`Ogive parameter values`$`selectivity[potSsel].female`, col='grey', lwd=2.5, lty=3)
+
 for (c in 1:num_C2_models)
 {
     lines(ages, cas2_mpd[[c]]$potSSelm$Values, col=C2_color[c], lwd=1)

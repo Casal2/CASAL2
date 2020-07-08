@@ -170,6 +170,9 @@ Comparison plots
 par(mar=c(4,4,2,1) + 0.1)
 
 par(mfrow=c(1,2))
+
+bl_lwd <- 6
+gr_lwd <- 3
 ```
 
 
@@ -186,8 +189,8 @@ max_val <- max(c1_quant$SSBs$SSB,
                c1_sens1_quant$SSBs$SSB,
                max(unlist(list.map(cas2_mpd, max(DerivedQuantities$SSB$values)))))
 
-plot(c1_quant$SSBs$year, c1_quant$SSBs$SSB, type='l', col='black', lwd=5, ylim=c(0, max_val), xlab='Year', ylab='Biomass (t)', main='SSB comparison')
-lines(c1_sens1_quant$SSBs$year, c1_sens1_quant$SSBs$SSB, type='l', col='grey', lwd=2.5)
+plot(c1_quant$SSBs$year, c1_quant$SSBs$SSB, type='l', col='black', lwd=bl_lwd, ylim=c(0, max_val), xlab='Year', ylab='Biomass (t)', main='SSB comparison')
+lines(c1_sens1_quant$SSBs$year, c1_sens1_quant$SSBs$SSB, type='l', col='grey', lwd=gr_lwd)
 
 for (c in 1:num_C2_models)
 {
@@ -219,11 +222,11 @@ max_val <- max(cas_part$initial,
                cas_sens1_part$initial,
                max(c2_mat))
 
-plot(ages, cas_part$initial[1,], type='l', col='black', lwd=5, ylim=c(0, max_val), xlab='Age', ylab='', main='Initial numbers-at-age comparison (male and female)')
-lines(ages, cas_part$initial[2,], col='black', lwd=5, lty=3)
+plot(ages, cas_part$initial[1,], type='l', col='black', lwd=bl_lwd, ylim=c(0, max_val), xlab='Age', ylab='', main='Initial numbers-at-age comparison (male and female)')
+lines(ages, cas_part$initial[2,], col='black', lwd=bl_lwd, lty=3)
 
-lines(ages, cas_sens1_part$initial[1,], col='grey', lwd=2.5)
-lines(ages, cas_sens1_part$initial[2,], col='grey', lwd=2.5, lty=3)
+lines(ages, cas_sens1_part$initial[1,], col='grey', lwd=gr_lwd)
+lines(ages, cas_sens1_part$initial[2,], col='grey', lwd=gr_lwd, lty=3)
 
 for (c in 1:num_C2_models)
 {
@@ -247,11 +250,11 @@ max_val <- max(cas_part$final,
                cas_sens1_part$final,
                max(c2_mat))
 
-plot(ages, cas_part$final[1,], type='l', col='black', lwd=5, ylim=c(0, max_val), xlab='Age', ylab='', main='Final numbers-at-age comparison (male and female)')
-lines(ages, cas_part$final[2,], col='black', lwd=5, lty=3)
+plot(ages, cas_part$final[1,], type='l', col='black', lwd=bl_lwd, ylim=c(0, max_val), xlab='Age', ylab='', main='Final numbers-at-age comparison (male and female)')
+lines(ages, cas_part$final[2,], col='black', lwd=bl_lwd, lty=3)
 
-lines(ages, cas_sens1_part$final[1,], col='grey', lwd=2.5)
-lines(ages, cas_sens1_part$final[2,], col='grey', lwd=2.5, lty=3)
+lines(ages, cas_sens1_part$final[1,], col='grey', lwd=gr_lwd)
+lines(ages, cas_sens1_part$final[2,], col='grey', lwd=gr_lwd, lty=3)
 
 for (c in 1:num_C2_models)
 {
@@ -270,8 +273,8 @@ max_val <- max(c1_quant$`Vector parameter values`$recruitment.YCS,
                c1_sens1_quant$`Vector parameter values`$recruitment.YCS,
                max(unlist(list.map(cas2_mpd, max(Recruitment$ycs_values)))))
 
-plot(c1_quant$`Vector parameter values`$recruitment.YCS, type='l', col='black', lwd=5, ylim=c(0, max_val), xlab='Year', ylab='', main='YCS comparison')
-lines(c1_sens1_quant$`Vector parameter values`$recruitment.YCS, type='l', col='grey', lwd=2.5)
+plot(c1_quant$`Vector parameter values`$recruitment.YCS, type='l', col='black', lwd=bl_lwd, ylim=c(0, max_val), xlab='Year', ylab='', main='YCS comparison')
+lines(c1_sens1_quant$`Vector parameter values`$recruitment.YCS, type='l', col='grey', lwd=gr_lwd)
 for (c in 1:num_C2_models)
 {
     lines(cas2_mpd[[c]]$Recruitment$ycs_values, col=C2_color[c], lwd=1)
@@ -287,8 +290,8 @@ max_val <- max(c1_quant$true_YCS$true_YCS,
                c1_sens1_quant$true_YCS$true_YCS,
                max(unlist(list.map(cas2_mpd, max(Recruitment$true_ycs)))))
 
-plot(c1_quant$true_YCS$year, c1_quant$true_YCS$true_YCS, type='l', col='black', lwd=5, ylim=c(0, max_val), xlab='Year', ylab='', main='true YCS comparison')
-lines(c1_sens1_quant$true_YCS$year, c1_sens1_quant$true_YCS$true_YCS, type='l', col='grey', lwd=2.5)
+plot(c1_quant$true_YCS$year, c1_quant$true_YCS$true_YCS, type='l', col='black', lwd=bl_lwd, ylim=c(0, max_val), xlab='Year', ylab='', main='true YCS comparison')
+lines(c1_sens1_quant$true_YCS$year, c1_sens1_quant$true_YCS$true_YCS, type='l', col='grey', lwd=gr_lwd)
 for (c in 1:num_C2_models)
 {
     lines(cas2_mpd[[c]]$Recruitment$ycs_years, cas2_mpd[[c]]$Recruitment$true_ycs, col=C2_color[c], lwd=1)
@@ -304,8 +307,8 @@ max_val <- max(c1_quant$recruitments$recruitment,
                c1_sens1_quant$recruitments$recruitment,
                max(unlist(list.map(cas2_mpd, max(Recruitment$Recruits)))))
 
-plot(c1_quant$recruitments$year, c1_quant$recruitments$recruitment, type='l', col='black', lwd=5, ylim=c(0, max_val), xlab='Year', ylab='', main='Recruitment comparison')
-lines(c1_sens1_quant$recruitments$year, c1_sens1_quant$recruitments$recruitment, type='l', col='grey', lwd=2.5)
+plot(c1_quant$recruitments$year, c1_quant$recruitments$recruitment, type='l', col='black', lwd=bl_lwd, ylim=c(0, max_val), xlab='Year', ylab='', main='Recruitment comparison')
+lines(c1_sens1_quant$recruitments$year, c1_sens1_quant$recruitments$recruitment, type='l', col='grey', lwd=gr_lwd)
 for (c in 1:num_C2_models)
 {
     lines((cas2_mpd[[c]]$Recruitment$ycs_years + cas2_mpd[[c]]$Recruitment$ssb_offset), cas2_mpd[[c]]$Recruitment$Recruits, col=C2_color[c], lwd=1)
@@ -322,8 +325,8 @@ max_val <- max(c1_quant$`Ogive parameter values`$natural_mortality.ogive_all,
                c1_sens1_quant$`Ogive parameter values`$natural_mortality.ogive_all,
                max(unlist(list.map(cas2_mpd, max(NaturalMortalityOgive_all$Values)))))
 
-plot(c1_quant$`Ogive parameter values`$natural_mortality.ogive_all, type='l', col='black', lwd=5, ylim=c(0, max_val), xlab='Age', ylab='', main='Natural mortality-at-age comparison')
-lines(c1_sens1_quant$`Ogive parameter values`$natural_mortality.ogive_all, type='l', col='grey', lwd=2.5)
+plot(c1_quant$`Ogive parameter values`$natural_mortality.ogive_all, type='l', col='black', lwd=bl_lwd, ylim=c(0, max_val), xlab='Age', ylab='', main='Natural mortality-at-age comparison')
+lines(c1_sens1_quant$`Ogive parameter values`$natural_mortality.ogive_all, type='l', col='grey', lwd=gr_lwd)
 for (c in 1:num_C2_models)
 {
     lines(cas2_mpd[[c]]$NaturalMortalityOgive_all$Values, col=C2_color[c], lwd=1)
@@ -349,8 +352,8 @@ max_val <- max(c1_surv,
                (c2_surv[[1]]$observed * exp(1.96 * c2_surv[[1]]$error_value)),
                max(unlist(list.map(c2_surv, max(expected)))))
 
-plot(names(c1_surv), c1_surv, type='l', col='black', lwd=5, ylim=c(0, max_val), xlab='Year', ylab='Biomass (t)', main='Tangaroa summer survey comparison')
-lines(names(c1_s1_surv), c1_s1_surv, type='l', col='grey', lwd=2.5)
+plot(names(c1_surv), c1_surv, type='l', col='black', lwd=bl_lwd, ylim=c(0, max_val), xlab='Year', ylab='Biomass (t)', main='Tangaroa summer survey comparison')
+lines(names(c1_s1_surv), c1_s1_surv, type='l', col='grey', lwd=gr_lwd)
 points(c2_surv[[1]]$year, c2_surv[[1]]$observed, pch=20, col='black')
 arrows(c2_surv[[1]]$year, (c2_surv[[1]]$observed * exp(-1.96 * c2_surv[[1]]$error_value)), c2_surv[[1]]$year, (c2_surv[[1]]$observed * exp(1.96 * c2_surv[[1]]$error_value)), length=0.05, angle=90, code=3)
 for (c in 1:num_C2_models)
@@ -377,8 +380,8 @@ max_val <- max(c1_surv,
                (c2_surv[[1]]$observed * exp(1.96 * c2_surv[[1]]$error_value)),
                max(unlist(list.map(c2_surv, max(expected)))))
 
-plot(names(c1_surv), c1_surv, type='l', col='black', lwd=5, ylim=c(0, max_val), xlab='Year', ylab='Biomass (t)', main='Tangaroa autumn survey comparison')
-lines(names(c1_s1_surv), c1_s1_surv, type='l', col='grey', lwd=2.5)
+plot(names(c1_surv), c1_surv, type='l', col='black', lwd=bl_lwd, ylim=c(0, max_val), xlab='Year', ylab='Biomass (t)', main='Tangaroa autumn survey comparison')
+lines(names(c1_s1_surv), c1_s1_surv, type='l', col='grey', lwd=gr_lwd)
 points(c2_surv[[1]]$year, c2_surv[[1]]$observed, pch=20, col='black')
 arrows(c2_surv[[1]]$year, (c2_surv[[1]]$observed * exp(-1.96 * c2_surv[[1]]$error_value)), c2_surv[[1]]$year, (c2_surv[[1]]$observed * exp(1.96 * c2_surv[[1]]$error_value)), length=0.05, angle=90, code=3)
 for (c in 1:num_C2_models)
@@ -407,11 +410,17 @@ max_val <- max(c1_quant$fishing_pressures$trawl,
                c1_sens1_quant$fishing_pressures$trawl,
                max(unlist(list.map(cas2_mpd, max(Mortality$`fishing_pressure[FishingTrwl]`)))))
 
-plot(c1_quant$fishing_pressures$year, c1_quant$fishing_pressures$trawl, type='l', col='black', lwd=5, ylim=c(0, max_val), xlab='Year', ylab='U', main='Fishing pressure comparison: trawl')
-lines(c1_sens1_quant$fishing_pressures$year, c1_sens1_quant$fishing_pressures$trawl, type='l', col='grey', lwd=2.5)
+plot(c1_quant$fishing_pressures$year, c1_quant$fishing_pressures$trawl, type='l', col='black', lwd=bl_lwd, ylim=c(0, max_val), xlab='Year', ylab='U', main='Fishing pressure comparison: trawl', sub='Dotted line is summed Casal2 trawl and line_home')
+lines(c1_sens1_quant$fishing_pressures$year, c1_sens1_quant$fishing_pressures$trawl, type='l', col='grey', lwd=gr_lwd)
 for (c in 1:num_C2_models)
 {
     lines(cas2_mpd[[c]]$Mortality$year, cas2_mpd[[c]]$Mortality$`fishing_pressure[FishingTrwl]`, col=C2_color[c], lwd=1)
+
+    # sum fishing pressure for time step 1 to match CASAL output
+    cas2_mpd[[c]]$Mortality$fishing_pressure_all <- cas2_mpd[[c]]$Mortality$`fishing_pressure[FishingTrwl]` +
+                                                    cas2_mpd[[c]]$Mortality$`fishing_pressure[FishingLineHome]`
+
+    lines(cas2_mpd[[c]]$Mortality$year, cas2_mpd[[c]]$Mortality$fishing_pressure_all, col=C2_color[c], lwd=1.5, lty=3)
 }
 
 plot_legend()
@@ -424,11 +433,13 @@ max_val <- max(c1_quant$fishing_pressures$line_home,
                c1_sens1_quant$fishing_pressures$line_home,
                max(unlist(list.map(cas2_mpd, max(Mortality$`fishing_pressure[FishingLineHome]`)))))
 
-plot(c1_quant$fishing_pressures$year, c1_quant$fishing_pressures$line_home, type='l', col='black', lwd=5, ylim=c(0, max_val), xlab='Year', ylab='U', main='Fishing pressure comparison: line_home')
-lines(c1_sens1_quant$fishing_pressures$year, c1_sens1_quant$fishing_pressures$line_home, type='l', col='grey', lwd=2.5)
+plot(c1_quant$fishing_pressures$year, c1_quant$fishing_pressures$line_home, type='l', col='black', lwd=bl_lwd, ylim=c(0, max_val), xlab='Year', ylab='U', main='Fishing pressure comparison: line_home', sub='Dotted line is summed Casal2 trawl and line_home')
+lines(c1_sens1_quant$fishing_pressures$year, c1_sens1_quant$fishing_pressures$line_home, type='l', col='grey', lwd=gr_lwd)
 for (c in 1:num_C2_models)
 {
     lines(cas2_mpd[[c]]$Mortality$year, cas2_mpd[[c]]$Mortality$`fishing_pressure[FishingLineHome]`, col=C2_color[c], lwd=1)
+
+    lines(cas2_mpd[[c]]$Mortality$year, cas2_mpd[[c]]$Mortality$fishing_pressure_all, col=C2_color[c], lwd=1.5, lty=3)
 }
 
 plot_legend()
@@ -441,8 +452,8 @@ max_val <- max(c1_quant$fishing_pressures$line_spawn,
                c1_sens1_quant$fishing_pressures$line_spawn,
                max(unlist(list.map(cas2_mpd, max(Mortality$`fishing_pressure[FishingLineSpawn]`)))))
 
-plot(c1_quant$fishing_pressures$year, c1_quant$fishing_pressures$line_spawn, type='l', col='black', lwd=5, ylim=c(0, max_val), xlab='Year', ylab='U', main='Fishing pressure comparison: line_spawn')
-lines(c1_sens1_quant$fishing_pressures$year, c1_sens1_quant$fishing_pressures$line_spawn, col='grey', lwd=2.5)
+plot(c1_quant$fishing_pressures$year, c1_quant$fishing_pressures$line_spawn, type='l', col='black', lwd=bl_lwd, ylim=c(0, max_val), xlab='Year', ylab='U', main='Fishing pressure comparison: line_spawn')
+lines(c1_sens1_quant$fishing_pressures$year, c1_sens1_quant$fishing_pressures$line_spawn, col='grey', lwd=gr_lwd)
 for (c in 1:num_C2_models)
 {
     lines(cas2_mpd[[c]]$Mortality$year, cas2_mpd[[c]]$Mortality$`fishing_pressure[FishingLineSpawn]`, col=C2_color[c], lwd=1)
@@ -459,11 +470,11 @@ max_val <- max(1,
                c1_quant$`Ogive parameter values`$`selectivity[surveysum_sel].male`, c1_quant$`Ogive parameter values`$`selectivity[surveysum_sel].female`,
                c1_sens1_quant$`Ogive parameter values`$`selectivity[surveysum_sel].male`, c1_sens1_quant$`Ogive parameter values`$`selectivity[surveysum_sel].female`)
 
-plot(ages, c1_quant$`Ogive parameter values`$`selectivity[surveysum_sel].male`, type='l', col='black', lwd=5, ylim=c(0,max_val), xlab='Age', ylab='', main='Summer survey selectivity-at-age comparison (male and female)')
-lines(ages, c1_quant$`Ogive parameter values`$`selectivity[surveysum_sel].female`, col='black', lwd=5, lty=3)
+plot(ages, c1_quant$`Ogive parameter values`$`selectivity[surveysum_sel].male`, type='l', col='black', lwd=bl_lwd, ylim=c(0,max_val), xlab='Age', ylab='', main='Summer survey selectivity-at-age comparison (male and female)')
+lines(ages, c1_quant$`Ogive parameter values`$`selectivity[surveysum_sel].female`, col='black', lwd=bl_lwd, lty=3)
 
-lines(ages, c1_sens1_quant$`Ogive parameter values`$`selectivity[surveysum_sel].male`, col='grey', lwd=2.5)
-lines(ages, c1_sens1_quant$`Ogive parameter values`$`selectivity[surveysum_sel].female`, col='grey', lwd=2.5, lty=3)
+lines(ages, c1_sens1_quant$`Ogive parameter values`$`selectivity[surveysum_sel].male`, col='grey', lwd=gr_lwd)
+lines(ages, c1_sens1_quant$`Ogive parameter values`$`selectivity[surveysum_sel].female`, col='grey', lwd=gr_lwd, lty=3)
 
 for (c in 1:num_C2_models)
 {
@@ -479,11 +490,11 @@ max_val <- max(1,
                c1_quant$`Ogive parameter values`$`selectivity[surveyaut_sel].male`, c1_quant$`Ogive parameter values`$`selectivity[surveyaut_sel].female`,
                c1_sens1_quant$`Ogive parameter values`$`selectivity[surveyaut_sel].male`, c1_sens1_quant$`Ogive parameter values`$`selectivity[surveyaut_sel].female`)
 
-plot(ages, c1_quant$`Ogive parameter values`$`selectivity[surveyaut_sel].male`, type='l', col='black', lwd=5, ylim=c(0,max_val), xlab='Age', ylab='', main='Autumn survey selectivity-at-age comparison (male and female)')
-lines(ages, c1_quant$`Ogive parameter values`$`selectivity[surveyaut_sel].female`, col='black', lwd=5, lty=3)
+plot(ages, c1_quant$`Ogive parameter values`$`selectivity[surveyaut_sel].male`, type='l', col='black', lwd=bl_lwd, ylim=c(0,max_val), xlab='Age', ylab='', main='Autumn survey selectivity-at-age comparison (male and female)')
+lines(ages, c1_quant$`Ogive parameter values`$`selectivity[surveyaut_sel].female`, col='black', lwd=bl_lwd, lty=3)
 
-lines(ages, c1_sens1_quant$`Ogive parameter values`$`selectivity[surveyaut_sel].male`, col='grey', lwd=2.5)
-lines(ages, c1_sens1_quant$`Ogive parameter values`$`selectivity[surveyaut_sel].female`, col='grey', lwd=2.5, lty=3)
+lines(ages, c1_sens1_quant$`Ogive parameter values`$`selectivity[surveyaut_sel].male`, col='grey', lwd=gr_lwd)
+lines(ages, c1_sens1_quant$`Ogive parameter values`$`selectivity[surveyaut_sel].female`, col='grey', lwd=gr_lwd, lty=3)
 
 for (c in 1:num_C2_models)
 {
@@ -499,11 +510,11 @@ max_val <- max(1,
                c1_quant$`Ogive parameter values`$`selectivity[trawl_sel].male`, c1_quant$`Ogive parameter values`$`selectivity[trawl_sel].female`,
                c1_sens1_quant$`Ogive parameter values`$`selectivity[trawl_sel].male`, c1_sens1_quant$`Ogive parameter values`$`selectivity[trawl_sel].female`)
 
-plot(ages, c1_quant$`Ogive parameter values`$`selectivity[trawl_sel].male`, type='l', col='black', lwd=5, ylim=c(0,max_val), xlab='Age',  ylab='',main='Trawl fishery selectivity-at-age comparison (male and female)')
-lines(ages, c1_quant$`Ogive parameter values`$`selectivity[trawl_sel].female`, col='black', lwd=5, lty=3)
+plot(ages, c1_quant$`Ogive parameter values`$`selectivity[trawl_sel].male`, type='l', col='black', lwd=bl_lwd, ylim=c(0,max_val), xlab='Age',  ylab='',main='Trawl fishery selectivity-at-age comparison (male and female)')
+lines(ages, c1_quant$`Ogive parameter values`$`selectivity[trawl_sel].female`, col='black', lwd=bl_lwd, lty=3)
 
-lines(ages, c1_sens1_quant$`Ogive parameter values`$`selectivity[trawl_sel].male`, col='grey', lwd=2.5)
-lines(ages, c1_sens1_quant$`Ogive parameter values`$`selectivity[trawl_sel].female`, col='grey', lwd=2.5, lty=3)
+lines(ages, c1_sens1_quant$`Ogive parameter values`$`selectivity[trawl_sel].male`, col='grey', lwd=gr_lwd)
+lines(ages, c1_sens1_quant$`Ogive parameter values`$`selectivity[trawl_sel].female`, col='grey', lwd=gr_lwd, lty=3)
 
 for (c in 1:num_C2_models)
 {
@@ -519,11 +530,11 @@ max_val <- max(1,
                c1_quant$`Ogive parameter values`$`selectivity[line_home_sel].male`, c1_quant$`Ogive parameter values`$`selectivity[line_home_sel].female`,
                c1_sens1_quant$`Ogive parameter values`$`selectivity[line_home_sel].male`, c1_sens1_quant$`Ogive parameter values`$`selectivity[line_home_sel].female`)
 
-plot(ages, c1_quant$`Ogive parameter values`$`selectivity[line_home_sel].male`, type='l', col='black', lwd=5, ylim=c(0,max_val), xlab='Age',  ylab='',main='Longline home fishery selectivity-at-age comparison (male and female)')
-lines(ages, c1_quant$`Ogive parameter values`$`selectivity[line_home_sel].female`, col='black', lwd=5, lty=3)
+plot(ages, c1_quant$`Ogive parameter values`$`selectivity[line_home_sel].male`, type='l', col='black', lwd=bl_lwd, ylim=c(0,max_val), xlab='Age',  ylab='',main='Longline home fishery selectivity-at-age comparison (male and female)')
+lines(ages, c1_quant$`Ogive parameter values`$`selectivity[line_home_sel].female`, col='black', lwd=bl_lwd, lty=3)
 
-lines(ages, c1_sens1_quant$`Ogive parameter values`$`selectivity[line_home_sel].male`, col='grey', lwd=2.5)
-lines(ages, c1_sens1_quant$`Ogive parameter values`$`selectivity[line_home_sel].female`, col='grey', lwd=2.5, lty=3)
+lines(ages, c1_sens1_quant$`Ogive parameter values`$`selectivity[line_home_sel].male`, col='grey', lwd=gr_lwd)
+lines(ages, c1_sens1_quant$`Ogive parameter values`$`selectivity[line_home_sel].female`, col='grey', lwd=gr_lwd, lty=3)
 
 for (c in 1:num_C2_models)
 {
@@ -539,11 +550,11 @@ max_val <- max(1,
                c1_quant$`Ogive parameter values`$`selectivity[line_spawn_sel].male`, c1_quant$`Ogive parameter values`$`selectivity[line_spawn_sel].female`,
                c1_sens1_quant$`Ogive parameter values`$`selectivity[line_spawn_sel].male`, c1_sens1_quant$`Ogive parameter values`$`selectivity[line_spawn_sel].female`)
 
-plot(ages, c1_quant$`Ogive parameter values`$`selectivity[line_spawn_sel].male`, type='l', col='black', lwd=5, ylim=c(0,max_val), xlab='Age',  ylab='',main='Longline spawn fishery selectivity-at-age comparison (male and female)')
-lines(ages, c1_quant$`Ogive parameter values`$`selectivity[line_spawn_sel].female`, col='black', lwd=5, lty=3)
+plot(ages, c1_quant$`Ogive parameter values`$`selectivity[line_spawn_sel].male`, type='l', col='black', lwd=bl_lwd, ylim=c(0,max_val), xlab='Age',  ylab='',main='Longline spawn fishery selectivity-at-age comparison (male and female)')
+lines(ages, c1_quant$`Ogive parameter values`$`selectivity[line_spawn_sel].female`, col='black', lwd=bl_lwd, lty=3)
 
-lines(ages, c1_sens1_quant$`Ogive parameter values`$`selectivity[line_spawn_sel].male`, col='grey', lwd=2.5)
-lines(ages, c1_sens1_quant$`Ogive parameter values`$`selectivity[line_spawn_sel].female`, col='grey', lwd=2.5, lty=3)
+lines(ages, c1_sens1_quant$`Ogive parameter values`$`selectivity[line_spawn_sel].male`, col='grey', lwd=gr_lwd)
+lines(ages, c1_sens1_quant$`Ogive parameter values`$`selectivity[line_spawn_sel].female`, col='grey', lwd=gr_lwd, lty=3)
 
 for (c in 1:num_C2_models)
 {
