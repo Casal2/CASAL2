@@ -1,15 +1,17 @@
 ---
 title: "Casal2 Test Case comparisons for BCO"
 output:
-    html_document:
-        toc: TRUE
-        toc_depth: 2
-        number_sections: TRUE
-
+  pdf_document:
+    toc: yes
+    toc_depth: '2'
+  html_document:
+    number_sections: yes
+    toc: yes
+    toc_depth: 2
 header-includes:
- - \usepackage{pdflscape}
- - \newcommand{\blandscape}{\begin{landscape}}
- - \newcommand{\elandscape}{\end{landscape}}
+- \usepackage{pdflscape}
+- \newcommand{\blandscape}{\begin{landscape}}
+- \newcommand{\elandscape}{\end{landscape}}
 ---
 
 ```{r setup, include=FALSE}
@@ -34,14 +36,14 @@ The main characteristics of the Test Case BCO (ling) CASAL model are:
 * years 1900 - 2019, projection year 2020
 * one time step
 * two stock categories: male and female
-* natural mortality-at-age is 0.14 for males and 0.20 for females
+* natural mortality-at-age is 0.17
 * sex-specific logistic maturity
 * sex-specific von Bertalanffy age-length relationship
 * one length-weight relationship ($W = aL^b$)
-* Beverton-Holt stock-recruitment relationship, with steepness (h) 0.75 and $\sigma_R$ 0.6
-* no ageing error
-* one survey with sex-specific age-based logistic selectivity
-* three fisheries, all with sex-specific length-based logistic selectivity and retained/discarded catches
+* Beverton-Holt stock-recruitment relationship, with steepness (h) set to 0.75, sigmaR set to 0.6
+* ageing error
+* one survey with sex-specific logistic selectivity
+* three fisheries, all three with sex-specific logistic selectivity
 
 Observation data include:
 
@@ -52,10 +54,8 @@ Observation data include:
 Parameters estimated include:
 
 * B0
-* male $L_{\infty}$
-* male age-length CV2
-* sex-specific survey logistic selectivity (a50 and ato95)
-* YCS (recruitment deviations)
+* male L_inf
+* year-class strengths (recruitment deviations)
 
 
 ## R environment
@@ -225,7 +225,7 @@ max_val <- max(cas_part$initial,
                cas_sens1_part$initial,
                max(c2_mat))
 
-plot(ages, cas_part$initial[1,], type='l', col='black', lwd=5, ylim=c(0, max_val), xlab='Age', ylab='', main='Initial numbers-at-age comparison (males and females)')
+plot(ages, cas_part$initial[1,], type='l', col='black', lwd=5, ylim=c(0, max_val), xlab='Age', ylab='', main='Initial numbers-at-age comparison')
 lines(ages, cas_part$initial[2,], col='black', lwd=5, lty=3)
 lines(ages, cas_sens1_part$initial[1,], col='grey', lwd=2.5)
 lines(ages, cas_sens1_part$initial[2,], col='grey', lwd=2.5, lty=3)
@@ -251,7 +251,7 @@ max_val <- max(cas_part$final,
                cas_sens1_part$final,
                max(c2_mat))
 
-plot(ages, cas_part$final[1,], type='l', col='black', lwd=5, ylim=c(0, max_val), xlab='Age', ylab='', main='Final numbers-at-age comparison (males and females)')
+plot(ages, cas_part$final[1,], type='l', col='black', lwd=5, ylim=c(0, max_val), xlab='Age', ylab='', main='Final numbers-at-age comparison')
 lines(ages, cas_part$final[2,], col='black', lwd=5, lty=3)
 lines(ages, cas_sens1_part$final[1,], col='grey', lwd=2.5)
 lines(ages, cas_sens1_part$final[2,], col='grey', lwd=2.5, lty=3)
@@ -310,7 +310,7 @@ plot(c1_quant$recruitments$year, c1_quant$recruitments$recruitment, type='l', co
 lines(c1_sens1_quant$recruitments$year, c1_sens1_quant$recruitments$recruitment, type='l', col='grey', lwd=2.5)
 for (c in 1:num_C2_models)
 {
-    lines((cas2_mpd[[c]]$Recruitment$ycs_years + cas2_mpd[[c]]$Recruitment$ssb_offset), cas2_mpd[[c]]$Recruitment$Recruits, col=C2_color[c], lwd=1)
+    lines(cas2_mpd[[c]]$Recruitment$ycs_years, cas2_mpd[[c]]$Recruitment$Recruits, col=C2_color[c], lwd=1)
 }
 
 plot_legend()
@@ -509,17 +509,17 @@ plot_legend()
 
 
 ```{r plots_set_6, echo=FALSE}
-
-# plot survey selectivity
+ages <- seq(3, 20, 1)
 
 max_val <- max(1,
                c1_quant$`Ogive parameter values`$`selectivity[potSsel].male`, c1_quant$`Ogive parameter values`$`selectivity[potSsel].female`,
                c1_sens1_quant$`Ogive parameter values`$`selectivity[potSsel].male`, c1_sens1_quant$`Ogive parameter values`$`selectivity[potSsel].female`)
-
-plot(ages, c1_quant$`Ogive parameter values`$`selectivity[potSsel].male`, type='l', col='black', lwd=5, ylim=c(0,max_val), xlab='Age', ylab='', main='Pot survey selectivity-at-age comparison (males and females)')
+plot(ages, c1_quant$`Ogive parameter values`$`selectivity[potSsel].male`, type='l', col='black', lwd=5, ylim=c(0,max_val), xlab='Age', ylab='', main='Summer survey selectivity-at-age comparison')
 lines(ages, c1_quant$`Ogive parameter values`$`selectivity[potSsel].female`, col='black', lwd=5, lty=3)
+
 lines(ages, c1_sens1_quant$`Ogive parameter values`$`selectivity[potSsel].male`, col='grey', lwd=2.5)
 lines(ages, c1_sens1_quant$`Ogive parameter values`$`selectivity[potSsel].female`, col='grey', lwd=2.5, lty=3)
+
 for (c in 1:num_C2_models)
 {
     lines(ages, cas2_mpd[[c]]$potSSelm$Values, col=C2_color[c], lwd=1)

@@ -36,7 +36,7 @@ The main characteristics of the Test Case SBW (southern blue whiting) CASAL mode
 * two stock categories, male and female
 * sex-specific migration from 'nospawn' to 'spawn'
 * male and female natural mortality (M) average of 0.2, difference of 0.02
-* Beverton-Holt stock-recruitment relationship, with steepness (h) set to 0.9, $\sigma_R$ set to 1.0
+* Beverton-Holt stock-recruitment relationship, with steepness (h) 0.9 and $\sigma_R$ 1.0
 * length-weight relationship ($W = aL^b$)
 * no ageing error
 * one fishery in area 'spawn'
@@ -51,9 +51,9 @@ Parameters estimated include:
 
 * B0
 * process error for the immature and mature survey indices
-* the difference between male and female natural mortality
+* the average of and difference between male and female natural mortality
 * sex-specific migration rates
-* YCS
+* YCS (recruitment deviations)
 
 
 ## R environment
@@ -324,7 +324,7 @@ plot(c1_quant$recruitments$year, c1_quant$recruitments$recruitment, type='l', co
 lines(c1_sens1_quant$recruitments$year, c1_sens1_quant$recruitments$recruitment, type='l', col='grey', lwd=2.5)
 for (c in 1:num_C2_models)
 {
-    lines(cas2_mpd[[c]]$Recruitment$ycs_years, cas2_mpd[[c]]$Recruitment$Recruits, col=C2_color[c], lwd=1)
+    lines((cas2_mpd[[c]]$Recruitment$ycs_years + cas2_mpd[[c]]$Recruitment$ssb_offset), cas2_mpd[[c]]$Recruitment$Recruits, col=C2_color[c], lwd=1)
 }
 
 plot_legend()

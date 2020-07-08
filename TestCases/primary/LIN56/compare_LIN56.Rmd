@@ -38,7 +38,7 @@ The main characteristics of the Test Case LIN5/6 (ling) CASAL model are:
 * sex-specific maturity ogives specified by age
 * sex-specific von Bertalanffy age-length relationship
 * sex-specific length-weight relationship ($W = aL^b$)
-* Beverton-Holt stock-recruitment relationship, with steepness (h) set to 0.84
+* Beverton-Holt stock-recruitment relationship, with steepness (h) 0.84
 * ageing error
 * two surveys with sex-specific logistic selectivity
 * three fisheries, one with double normal selectivity and two with logistic selectivity
@@ -53,10 +53,10 @@ Parameters estimated include:
 
 * B0
 * parameters for the natural mortality-at-age ogive
-* free catchability (q) for the two surveys
+* catchability (q) for the two surveys
 * parameters for the sex-specific selectivity curves for the two surveys
 * parameters for the sex-specific selectivity curves for the three fisheries
-* year-class strengths (recruitment deviations)
+* YCS (recruitment deviations)
 
 
 ## R environment
@@ -304,7 +304,7 @@ plot(c1_quant$recruitments$year, c1_quant$recruitments$recruitment, type='l', co
 lines(c1_sens1_quant$recruitments$year, c1_sens1_quant$recruitments$recruitment, type='l', col='grey', lwd=2.5)
 for (c in 1:num_C2_models)
 {
-    lines(cas2_mpd[[c]]$Recruitment$ycs_years, cas2_mpd[[c]]$Recruitment$Recruits, col=C2_color[c], lwd=1)
+    lines((cas2_mpd[[c]]$Recruitment$ycs_years + cas2_mpd[[c]]$Recruitment$ssb_offset), cas2_mpd[[c]]$Recruitment$Recruits, col=C2_color[c], lwd=1)
 }
 
 plot_legend()

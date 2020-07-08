@@ -35,8 +35,8 @@ The main characteristics of the Test Case ORH (orange roughy) CASAL model are:
 * one time step
 * two stock categories: immature and mature, with logistic-producing maturity ogive
 * natural mortality (M) of 0.045
-* no stock-recruitment relationship, with $sigma_R$ set to 1.1, standardised YCS
 * length-weight relationship ($W = aL^b$)
+* no stock-recruitment relationship, with $sigma_R$ 1.1
 * no ageing error
 * one fishery with logistic selectivity-at-age
 
@@ -50,7 +50,6 @@ Parameters estimated include:
 
 * B0
 * the first and last CV for the age-length relationship
-* nuisance catchability (q) for the fishery CPUE index
 * fishery selectivity parameters a50 and ato95
 
 

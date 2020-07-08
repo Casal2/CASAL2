@@ -36,7 +36,7 @@ The main characteristics of the Test Case HAK (hake) CASAL model are:
 * recruitment, spawning, aging, maturation, fishing in time step 1
 * two stock categories: males and females, with user-provided maturity-at-age ogive
 * natural mortality (M) of 0.19
-* Beverton-Holt stock-recruitment relationship, with steepness (h) set to 0.8
+* Beverton-Holt stock-recruitment relationship, with steepness (h) 0.8
 * sex-specific Schnute age-length relationship
 * sex-specific length-weight relationship ($W = aL^b$)
 * ageing error type normal (c = 0.08)
@@ -53,9 +53,9 @@ Observation data include:
 Parameters estimated include:
 
 * B0
-* YCS
 * catchability (q) for the fishery CPUE index and for the survey index
 * fishery and survey selectivity parameters a50 and ato95
+* YCS (recruitment deviations)
 
 
 ## R environment
@@ -321,7 +321,7 @@ plot(c1_quant$recruitments$year, c1_quant$recruitments$recruitment, type='l', co
 lines(c1_sens1_quant$recruitments$year, c1_sens1_quant$recruitments$recruitment, type='l', col='grey', lwd=2.5)
 for (c in 1:num_C2_models)
 {
-    lines(cas2_mpd[[c]]$Recruitment$ycs_years, cas2_mpd[[c]]$Recruitment$Recruits, col=C2_color[c], lwd=1)
+    lines((cas2_mpd[[c]]$Recruitment$ycs_years + cas2_mpd[[c]]$Recruitment$ssb_offset), cas2_mpd[[c]]$Recruitment$Recruits, col=C2_color[c], lwd=1)
 }
 
 plot_legend()
