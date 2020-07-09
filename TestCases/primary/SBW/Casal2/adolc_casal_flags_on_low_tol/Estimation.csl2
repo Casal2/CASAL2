@@ -1,0 +1,136 @@
+## Structure of my estimation.csl2
+# - Define Minimiser along with subcommands such as gradient tolerance to stop, how many evaluations to stop at etc.
+# - Define Estimates = Parameters being estiamted with assumed priors and bounds
+# - Define Penalties = Additional Penalties assumed on these models
+# - Define AdditionalPriors = Analogous to Penalties really.
+
+################################### Minimiser ###############################
+
+@minimiser adolc
+type adolc
+iterations 1000000
+evaluations 1000000
+tolerance 0.000000001
+covariance True
+
+################################### Estimates ###############################
+## Format for parameter in @estimate block = type[label].parameter
+#######
+## B0
+#######
+@estimate B0
+type uniform_log
+parameter process[Recruitment].b0
+lower_bound  30000
+upper_bound 800000
+
+## profile B0
+@profile B0_profile
+parameter process[Recruitment].b0
+lower_bound 250000
+upper_bound 380000
+steps 10
+
+#######################
+## Migration/Maturation
+#######################
+#male
+@estimate Migration_male
+type uniform
+parameter selectivity[MaturationSel_male].v
+lower_bound 0.001 0.001 0.001 0.001 0.990
+upper_bound 0.999 0.999 0.999 0.999 0.990
+
+#female
+@estimate Migration_female
+type uniform
+parameter selectivity[MaturationSel_female].v
+lower_bound 0.001 0.001 0.001 0.001 0.990
+upper_bound 0.999 0.999 0.999 0.999 0.990
+
+#######
+## YCS
+#######
+@estimate YCS
+parameter process[Recruitment].ycs_values{1958:2012} ## he doesn't estimate the last year see bounds of CASAL
+type lognormal
+mu 	      1 * 55
+cv            1.3 * 55
+lower_bound   0.001 * 55
+upper_bound   100 * 55
+
+#######
+## M's
+#######
+# male
+@estimate M_male_with_avg_prior
+type lognormal
+parameter process[Instantaneous_Mortality].m{male.nonspawn}
+same process[Instantaneous_Mortality].m{male.spawn}
+mu 0.20
+cv 0.20
+estimation_phase 2
+lower_bound 0.05
+upper_bound 0.75
+prior_applies_to_transform true
+
+# female
+@estimate M_female_with_diff_prior
+type normal_by_stdev
+estimation_phase 2
+parameter process[Instantaneous_Mortality].m{female.nonspawn}
+same process[Instantaneous_Mortality].m{female.spawn}
+mu 0.0
+sigma 0.05
+lower_bound -0.05
+upper_bound 0.05
+prior_applies_to_transform true
+
+## transformation
+@estimate_transformation avg_diff
+type average_difference
+theta1 M_male_with_avg_prior
+transform_with_jacobian false
+theta2 M_female_with_diff_prior
+
+##################
+## Acoustic process error
+##################
+@estimate mature_process_error
+parameter observation[TangaroaAcousticMature].process_error
+type uniform_log
+lower_bound 0.0001
+upper_bound 1.0
+
+@estimate immature_process_error
+parameter observation[TangaroaAcousticImmature].process_error
+type uniform_log
+lower_bound 0.0001
+upper_bound 1.0
+
+################################### Penalties ###############################
+@penalty CatchMustBeTaken
+type process
+log_scale True
+multiplier 100
+
+################################### Additional Priors ########################
+########
+## YCS's
+#########
+@additional_prior Penalty-YCS
+type vector_average
+parameter process[Recruitment].ycs_values
+k 1
+multiplier 1
+
+#######
+## Q's
+#######
+@additional_prior TangaroaMatureq
+type lognormal
+parameter catchability[TangaroaMatureq].q
+mu 0.54
+cv 0.44
+
+## don't need to add a uniform prior for the other q as- it's not a true estiamte so has a null contribution.

@@ -131,12 +131,13 @@ Time series comparisons with CASAL base model results
 source('../../R-functions/report_time_series_match_function.R')
 
 
+c1_catch <- c1_quant$actual_catches$catch
+
 for (c in 1:num_C2_models)
 {
     print(paste('Catch time series base model comparison for run', C2_subdir[c]))
 
-    print(paste('Actual catches for Andes match:',
-                time_series_match(c1_quant$actual_catches$catch, cas2_mpd[[c]]$Mortality$`actual_catch[AndesFishery]`)))
+    print(paste('Actual catches for Andes match:', time_series_match(c1_catch, cas2_mpd[[c]]$Mortality$`catch[AndesFishery]`)))
 
     print('')
 }
@@ -158,6 +159,9 @@ Comparison plots
 par(mar=c(4,4,2,1) + 0.1)
 
 par(mfrow=c(1,2))
+
+bl_lwd <- 6
+gr_lwd <- 3
 ```
 
 
@@ -174,8 +178,8 @@ max_val <- max(c1_quant$SSBs$SSB,
                c1_sens1_quant$SSBs$SSB,
                max(unlist(list.map(cas2_mpd, max(DerivedQuantities$SSB$values)))))
 
-plot(c1_quant$SSBs$year, c1_quant$SSBs$SSB, type='l', col='black', lwd=5, ylim=c(0, max_val), xlab='Year', ylab='Biomass (t)', main='SSB comparison')
-lines(c1_sens1_quant$SSBs$year, c1_sens1_quant$SSBs$SSB, type='l', col='grey', lwd=2.5)
+plot(c1_quant$SSBs$year, c1_quant$SSBs$SSB, type='l', col='black', lwd=bl_lwd, ylim=c(0, max_val), xlab='Year', ylab='Biomass (t)', main='SSB comparison')
+lines(c1_sens1_quant$SSBs$year, c1_sens1_quant$SSBs$SSB, type='l', col='grey', lwd=gr_lwd)
 
 for (c in 1:num_C2_models)
 {
@@ -207,11 +211,11 @@ max_val <- max(cas_part$initial,
                cas_sens1_part$initial,
                max(c2_mat))
 
-plot(ages, cas_part$initial[1,], type='l', col='black', lwd=5, ylim=c(0, max_val), xlab='Age', ylab='', main='Initial numbers-at-age comparison (male and female)')
-lines(ages, cas_part$initial[2,], col='black', lwd=5, lty=3)
+plot(ages, cas_part$initial[1,], type='l', col='black', lwd=bl_lwd, ylim=c(0, max_val), xlab='Age', ylab='', main='Initial numbers-at-age comparison (male and female)')
+lines(ages, cas_part$initial[2,], col='black', lwd=bl_lwd, lty=3)
 
-lines(ages, cas_sens1_part$initial[1,], col='grey', lwd=2.5)
-lines(ages, cas_sens1_part$initial[2,], col='grey', lwd=2.5, lty=3)
+lines(ages, cas_sens1_part$initial[1,], col='grey', lwd=gr_lwd)
+lines(ages, cas_sens1_part$initial[2,], col='grey', lwd=gr_lwd, lty=3)
 
 for (c in 1:num_C2_models)
 {
@@ -235,11 +239,11 @@ max_val <- max(cas_part$final,
                cas_sens1_part$final,
                max(c2_mat))
 
-plot(ages, cas_part$final[1,], type='l', col='black', lwd=5, ylim=c(0, max_val), xlab='Age', ylab='', main='Final numbers-at-age comparison (male and female)')
-lines(ages, cas_part$final[2,], col='black', lwd=5, lty=3)
+plot(ages, cas_part$final[1,], type='l', col='black', lwd=bl_lwd, ylim=c(0, max_val), xlab='Age', ylab='', main='Final numbers-at-age comparison (male and female)')
+lines(ages, cas_part$final[2,], col='black', lwd=bl_lwd, lty=3)
 
-lines(ages, cas_sens1_part$final[1,], col='grey', lwd=2.5)
-lines(ages, cas_sens1_part$final[2,], col='grey', lwd=2.5, lty=3)
+lines(ages, cas_sens1_part$final[1,], col='grey', lwd=gr_lwd)
+lines(ages, cas_sens1_part$final[2,], col='grey', lwd=gr_lwd, lty=3)
 
 for (c in 1:num_C2_models)
 {
@@ -267,8 +271,8 @@ max_val <- max(c1_quant$fishing_pressures$pressure,
                c1_sens1_quant$fishing_pressures$pressure,
                max(unlist(list.map(cas2_mpd, max(Mortality$`fishing_pressure[AndesFishery]`)))))
 
-plot(c1_quant$fishing_pressures$year, c1_quant$fishing_pressures$pressure, type='l', col='black', lwd=5, ylim=c(0, max_val), xlab='Year', ylab='U', main='Fishing pressure comparison: Andes')
-lines(c1_sens1_quant$fishing_pressures$year, c1_sens1_quant$fishing_pressures$pressure, type='l', col='grey', lwd=2.5)
+plot(c1_quant$fishing_pressures$year, c1_quant$fishing_pressures$pressure, type='l', col='black', lwd=bl_lwd, ylim=c(0, max_val), xlab='Year', ylab='U', main='Fishing pressure comparison: Andes')
+lines(c1_sens1_quant$fishing_pressures$year, c1_sens1_quant$fishing_pressures$pressure, type='l', col='grey', lwd=gr_lwd)
 for (c in 1:num_C2_models)
 {
     lines(cas2_mpd[[c]]$Mortality$year, cas2_mpd[[c]]$Mortality$`fishing_pressure[AndesFishery]`, col=C2_color[c], lwd=1)
@@ -284,9 +288,9 @@ ages <- seq(1, 80)
 max_val <- max(1,
                c1_quant$`Ogive parameter values`$`selectivity[SELandes].all`,
                c1_sens1_quant$`Ogive parameter values`$`selectivity[SELandes].all`)
-plot(ages, c1_quant$`Ogive parameter values`$`selectivity[SELandes].all`, type='l', col='black', lwd=5, ylim=c(0,max_val), xlab='Age', ylab='', main='Andes fishery selectivity-at-age comparison')
+plot(ages, c1_quant$`Ogive parameter values`$`selectivity[SELandes].all`, type='l', col='black', lwd=bl_lwd, ylim=c(0,max_val), xlab='Age', ylab='', main='Andes fishery selectivity-at-age comparison')
 
-lines(ages, c1_sens1_quant$`Ogive parameter values`$`selectivity[SELandes].all`, col='grey', lwd=2.5)
+lines(ages, c1_sens1_quant$`Ogive parameter values`$`selectivity[SELandes].all`, col='grey', lwd=gr_lwd)
 
 for (c in 1:num_C2_models)
 {

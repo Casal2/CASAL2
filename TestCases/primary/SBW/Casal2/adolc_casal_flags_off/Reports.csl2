@@ -1,0 +1,102 @@
+## Print estimate values
+@report estimated_values
+type estimate_value
+
+@report estimated_summary
+type estimate_summary
+
+@report obj_fun
+type objective_function
+
+
+## Derived Quantities
+@report DerivedQuantities
+type derived_quantity
+
+@report Init
+type initialisation_partition
+
+
+@report Hess
+type hessian_matrix
+
+
+@report Covar
+type covariance_matrix
+
+
+@report Corr
+type correlation_matrix
+
+
+@report mcmc_covariance
+type mcmc_covariance
+
+
+## Print process information
+@report Recruitment
+type process
+process Recruitment
+
+@report Mortality
+type process
+process Instantaneous_Mortality
+
+
+@report Init_weight
+type initialisation_partition_mean_weight
+
+
+@report state1
+type partition
+time_step step1
+years 1960 2015
+
+@report state2
+type partition
+time_step step2
+years 1960 2015
+
+
+@report part_length_1
+type partition_mean_length
+time_step step1
+years 1960 2015
+
+@report part_length_2
+type partition_mean_length
+time_step step2
+years 1960 2015
+
+@report part_weight_1
+type partition_mean_weight
+time_step step1
+years 1960 2015
+
+@report part_weight_2
+type partition_mean_weight
+time_step step2
+years 1960 2015
+
+
+## report selectivities
+@report MaturationSel_male
+type selectivity
+selectivity MaturationSel_male
+
+@report MaturationSel_female
+type selectivity
+selectivity MaturationSel_female
+
+## report Observations
+@report TangaroaAcousticMature
+type observation
+observation TangaroaAcousticMature
+
+@report TangaroaAcousticImmature
+type observation
+observation TangaroaAcousticImmature
+
+## report Catchabilities
+@report Qs
+type catchability

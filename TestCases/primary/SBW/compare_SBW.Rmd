@@ -131,15 +131,14 @@ Time series comparisons with CASAL base model results
 ```{r Time_Series_Match, echo=FALSE, warning=FALSE, message=FALSE}
 source('../../R-functions/report_time_series_match_function.R')
 
+
 c1_catch <- c1_quant$actual_catches$catch
 
 for (c in 1:num_C2_models)
 {
     print(paste('Catch time series base model comparison for run', C2_subdir[c]))
 
-    c2_catch <- cas2_mpd[[c]]$Mortality$`actual_catch[Trawl]`
-
-    print(paste('Actual catches for Trawl match:', time_series_match(c1_catch, c2_catch)))
+    print(paste('Actual catches for Trawl match:', time_series_match(c1_catch, cas2_mpd[[c]]$Mortality$`catch[Trawl]`)))
 
     print('')
 }
@@ -161,6 +160,9 @@ Comparison plots
 par(mar=c(4,4,2,1) + 0.1)
 
 par(mfrow=c(1,2))
+
+bl_lwd <- 6
+gr_lwd <- 3
 ```
 
 
@@ -177,8 +179,8 @@ max_val <- max(c1_quant$SSBs$SSB,
                c1_sens1_quant$SSBs$SSB,
                max(unlist(list.map(cas2_mpd, max(DerivedQuantities$SSB$values)))))
 
-plot(c1_quant$SSBs$year, c1_quant$SSBs$SSB, type='l', col='black', lwd=5, ylim=c(0, max_val), xlab='Year', ylab='Biomass (t)', main='SSB comparison')
-lines(c1_sens1_quant$SSBs$year, c1_sens1_quant$SSBs$SSB, type='l', col='grey', lwd=2.5)
+plot(c1_quant$SSBs$year, c1_quant$SSBs$SSB, type='l', col='black', lwd=bl_lwd, ylim=c(0, max_val), xlab='Year', ylab='Biomass (t)', main='SSB comparison')
+lines(c1_sens1_quant$SSBs$year, c1_sens1_quant$SSBs$SSB, type='l', col='grey', lwd=gr_lwd)
 
 for (c in 1:num_C2_models)
 {
@@ -195,8 +197,7 @@ plot_legend()
 # A:  use 'casal::extract.partition()''
 
 
-
-ages <- seq(2, 15, 1)
+ages <- seq(2, 15)
 
 # omit the 'category' column
 c2_mat <- array(0, dim=c(num_C2_models, dim(as.matrix(cas2_mpd[[1]]$Init$values[,-1]))))
@@ -211,11 +212,11 @@ max_val <- max(cas_part$initial,
                cas_sens1_part$initial,
                max(c2_mat))
 
-plot(ages, cas_part$initial[1,], type='l', col='black', lwd=5, ylim=c(0, max_val), xlab='Age', ylab='', main='Initial numbers-at-age comparison (male and female) (spawn)')
-lines(ages, cas_part$initial[2,], col='black', lwd=5, lty=3)
+plot(ages, cas_part$initial[1,], type='l', col='black', lwd=bl_lwd, ylim=c(0, max_val), xlab='Age', ylab='', main='Initial numbers-at-age comparison (male and female) (spawn)')
+lines(ages, cas_part$initial[2,], col='black', lwd=bl_lwd, lty=3)
 
-lines(ages, cas_sens1_part$initial[1,], col='grey', lwd=2.5)
-lines(ages, cas_sens1_part$initial[2,], col='grey', lwd=2.5, lty=3)
+lines(ages, cas_sens1_part$initial[1,], col='grey', lwd=gr_lwd)
+lines(ages, cas_sens1_part$initial[2,], col='grey', lwd=gr_lwd, lty=3)
 
 for (c in 1:num_C2_models)
 {
@@ -227,11 +228,11 @@ plot_legend()
 
 
 
-plot(ages, cas_part$initial[3,], type='l', col='black', lwd=5, ylim=c(0, max_val), xlab='Age', ylab='', main='Initial numbers-at-age comparison (male and female) (nonspawn)')
-lines(ages, cas_part$initial[4,], col='black', lwd=5, lty=3)
+plot(ages, cas_part$initial[3,], type='l', col='black', lwd=bl_lwd, ylim=c(0, max_val), xlab='Age', ylab='', main='Initial numbers-at-age comparison (male and female) (nonspawn)')
+lines(ages, cas_part$initial[4,], col='black', lwd=bl_lwd, lty=3)
 
-lines(ages, cas_sens1_part$initial[3,], col='grey', lwd=2.5)
-lines(ages, cas_sens1_part$initial[4,], col='grey', lwd=2.5, lty=3)
+lines(ages, cas_sens1_part$initial[3,], col='grey', lwd=gr_lwd)
+lines(ages, cas_sens1_part$initial[4,], col='grey', lwd=gr_lwd, lty=3)
 
 for (c in 1:num_C2_models)
 {
@@ -257,11 +258,11 @@ max_val <- max(cas_part$final,
                cas_sens1_part$final,
                max(c2_mat))
 
-plot(ages, cas_part$final[1,], type='l', col='black', lwd=5, ylim=c(0, max_val), xlab='Age', ylab='', main='Final numbers-at-age comparison (male and female) (spawn; time step 2)')
-lines(ages, cas_part$final[2,], col='black', lwd=5, lty=3)
+plot(ages, cas_part$final[1,], type='l', col='black', lwd=bl_lwd, ylim=c(0, max_val), xlab='Age', ylab='', main='Final numbers-at-age comparison (male and female) (spawn; time step 2)')
+lines(ages, cas_part$final[2,], col='black', lwd=bl_lwd, lty=3)
 
-lines(ages, cas_sens1_part$final[1,], col='grey', lwd=2.5)
-lines(ages, cas_sens1_part$final[2,], col='grey', lwd=2.5, lty=3)
+lines(ages, cas_sens1_part$final[1,], col='grey', lwd=gr_lwd)
+lines(ages, cas_sens1_part$final[2,], col='grey', lwd=gr_lwd, lty=3)
 
 for (c in 1:num_C2_models)
 {
@@ -273,11 +274,11 @@ plot_legend()
 
 
 
-plot(ages, cas_part$final[3,], type='l', col='black', lwd=5, ylim=c(0, max_val), xlab='Age', ylab='', main='Final numbers-at-age comparison (male and female) (nonspawn; time step 2)')
-lines(ages, cas_part$final[4,], col='black', lwd=5, lty=3)
+plot(ages, cas_part$final[3,], type='l', col='black', lwd=bl_lwd, ylim=c(0, max_val), xlab='Age', ylab='', main='Final numbers-at-age comparison (male and female) (nonspawn; time step 2)')
+lines(ages, cas_part$final[4,], col='black', lwd=bl_lwd, lty=3)
 
-lines(ages, cas_sens1_part$final[3,], col='grey', lwd=2.5)
-lines(ages, cas_sens1_part$final[4,], col='grey', lwd=2.5, lty=3)
+lines(ages, cas_sens1_part$final[3,], col='grey', lwd=gr_lwd)
+lines(ages, cas_sens1_part$final[4,], col='grey', lwd=gr_lwd, lty=3)
 
 for (c in 1:num_C2_models)
 {
@@ -296,8 +297,8 @@ max_val <- max(c1_quant$`Vector parameter values`$recruitment.YCS,
                c1_sens1_quant$`Vector parameter values`$recruitment.YCS,
                max(unlist(list.map(cas2_mpd, max(Recruitment$ycs_values)))))
 
-plot(c1_quant$`Vector parameter values`$recruitment.YCS, type='l', col='black', lwd=5, ylim=c(0, max_val), xlab='Year', ylab='', main='YCS comparison')
-lines(c1_sens1_quant$`Vector parameter values`$recruitment.YCS, type='l', col='grey', lwd=2.5)
+plot(c1_quant$`Vector parameter values`$recruitment.YCS, type='l', col='black', lwd=bl_lwd, ylim=c(0, max_val), xlab='Year', ylab='', main='YCS comparison')
+lines(c1_sens1_quant$`Vector parameter values`$recruitment.YCS, type='l', col='grey', lwd=gr_lwd)
 for (c in 1:num_C2_models)
 {
     lines(cas2_mpd[[c]]$Recruitment$ycs_values, col=C2_color[c], lwd=1)
@@ -313,8 +314,8 @@ max_val <- max(c1_quant$true_YCS$true_YCS,
                c1_sens1_quant$true_YCS$true_YCS,
                max(unlist(list.map(cas2_mpd, max(Recruitment$true_ycs)))))
 
-plot(c1_quant$true_YCS$year, c1_quant$true_YCS$true_YCS, type='l', col='black', lwd=5, ylim=c(0, max_val), xlab='Year', ylab='', main='true YCS comparison')
-lines(c1_sens1_quant$true_YCS$year, c1_sens1_quant$true_YCS$true_YCS, type='l', col='grey', lwd=2.5)
+plot(c1_quant$true_YCS$year, c1_quant$true_YCS$true_YCS, type='l', col='black', lwd=bl_lwd, ylim=c(0, max_val), xlab='Year', ylab='', main='true YCS comparison')
+lines(c1_sens1_quant$true_YCS$year, c1_sens1_quant$true_YCS$true_YCS, type='l', col='grey', lwd=gr_lwd)
 for (c in 1:num_C2_models)
 {
     lines(cas2_mpd[[c]]$Recruitment$ycs_years, cas2_mpd[[c]]$Recruitment$true_ycs, col=C2_color[c], lwd=1)
@@ -330,8 +331,8 @@ max_val <- max(c1_quant$recruitments$recruitment,
                c1_sens1_quant$recruitments$recruitment,
                max(unlist(list.map(cas2_mpd, max(Recruitment$Recruits)))))
 
-plot(c1_quant$recruitments$year, c1_quant$recruitments$recruitment, type='l', col='black', lwd=5, ylim=c(0, max_val), xlab='Year', ylab='', main='Recruitment comparison')
-lines(c1_sens1_quant$recruitments$year, c1_sens1_quant$recruitments$recruitment, type='l', col='grey', lwd=2.5)
+plot(c1_quant$recruitments$year, c1_quant$recruitments$recruitment, type='l', col='black', lwd=bl_lwd, ylim=c(0, max_val), xlab='Year', ylab='', main='Recruitment comparison')
+lines(c1_sens1_quant$recruitments$year, c1_sens1_quant$recruitments$recruitment, type='l', col='grey', lwd=gr_lwd)
 for (c in 1:num_C2_models)
 {
     lines((cas2_mpd[[c]]$Recruitment$ycs_years + cas2_mpd[[c]]$Recruitment$ssb_offset), cas2_mpd[[c]]$Recruitment$Recruits, col=C2_color[c], lwd=1)
@@ -358,8 +359,8 @@ max_val <- max(c1_quant$fishing_pressures$pressure,
                c1_sens1_quant$fishing_pressures$pressure,
                max(unlist(list.map(cas2_mpd, max(Mortality$`fishing_pressure[Trawl]`)))))
 
-plot(c1_quant$fishing_pressures$year, c1_quant$fishing_pressures$pressure, type='l', col='black', lwd=5, ylim=c(0, max_val), xlab='Year', ylab='U', main='Fishing pressure comparison: Trawl')
-lines(c1_sens1_quant$fishing_pressures$year, c1_sens1_quant$fishing_pressures$pressure, type='l', col='grey', lwd=2.5)
+plot(c1_quant$fishing_pressures$year, c1_quant$fishing_pressures$pressure, type='l', col='black', lwd=bl_lwd, ylim=c(0, max_val), xlab='Year', ylab='U', main='Fishing pressure comparison: Trawl')
+lines(c1_sens1_quant$fishing_pressures$year, c1_sens1_quant$fishing_pressures$pressure, type='l', col='grey', lwd=gr_lwd)
 for (c in 1:num_C2_models)
 {
     lines(cas2_mpd[[c]]$Mortality$year, cas2_mpd[[c]]$Mortality$`fishing_pressure[Trawl]`, col=C2_color[c], lwd=1)
@@ -374,9 +375,9 @@ plot_legend()
 max_val <- max(1,
                c1_quant$`Ogive parameter values`$`migration[toSpawn].rates_male`,
                c1_sens1_quant$`Ogive parameter values`$`migration[toSpawn].rates_male`)
-plot(ages, c1_quant$`Ogive parameter values`$`migration[toSpawn].rates_male`, type='l', col='black', lwd=5, ylim=c(0,max_val), xlab='Age', ylab='', main='Migration rates-at-age (male toSpawn)')
+plot(ages, c1_quant$`Ogive parameter values`$`migration[toSpawn].rates_male`, type='l', col='black', lwd=bl_lwd, ylim=c(0,max_val), xlab='Age', ylab='', main='Migration rates-at-age (male toSpawn)')
 
-lines(ages, c1_sens1_quant$`Ogive parameter values`$`migration[toSpawn].rates_male`, col='grey', lwd=2.5)
+lines(ages, c1_sens1_quant$`Ogive parameter values`$`migration[toSpawn].rates_male`, col='grey', lwd=gr_lwd)
 
 for (c in 1:num_C2_models)
 {
@@ -390,9 +391,9 @@ plot_legend()
 max_val <- max(1,
                c1_quant$`Ogive parameter values`$`migration[toSpawn].rates_female`,
                c1_sens1_quant$`Ogive parameter values`$`migration[toSpawn].rates_female`)
-plot(ages, c1_quant$`Ogive parameter values`$`migration[toSpawn].rates_female`, type='l', col='black', lwd=5, ylim=c(0,max_val), xlab='Age', ylab='', main='Migration rates-at-age (female toSpawn)')
+plot(ages, c1_quant$`Ogive parameter values`$`migration[toSpawn].rates_female`, type='l', col='black', lwd=bl_lwd, ylim=c(0,max_val), xlab='Age', ylab='', main='Migration rates-at-age (female toSpawn)')
 
-lines(ages, c1_sens1_quant$`Ogive parameter values`$`migration[toSpawn].rates_female`, col='grey', lwd=2.5)
+lines(ages, c1_sens1_quant$`Ogive parameter values`$`migration[toSpawn].rates_female`, col='grey', lwd=gr_lwd)
 
 for (c in 1:num_C2_models)
 {

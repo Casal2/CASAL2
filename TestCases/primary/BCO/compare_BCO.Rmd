@@ -176,6 +176,9 @@ Comparison plots
 par(mar=c(4,4,2,1) + 0.1)
 
 par(mfrow=c(1,2))
+
+bl_lwd <- 6
+gr_lwd <- 3
 ```
 
 
@@ -192,8 +195,8 @@ max_val <- max(c1_quant$SSBs$SSB,
                c1_sens1_quant$SSBs$SSB,
                max(unlist(list.map(cas2_mpd, max(DerivedQuantities$SSB$values)))))
 
-plot(c1_quant$SSBs$year, c1_quant$SSBs$SSB, type='l', col='black', lwd=5, ylim=c(0, max_val), xlab='Year', ylab='Biomass (t)', main='SSB comparison')
-lines(c1_sens1_quant$SSBs$year, c1_sens1_quant$SSBs$SSB, type='l', col='grey', lwd=2.5)
+plot(c1_quant$SSBs$year, c1_quant$SSBs$SSB, type='l', col='black', lwd=bl_lwd, ylim=c(0, max_val), xlab='Year', ylab='Biomass (t)', main='SSB comparison')
+lines(c1_sens1_quant$SSBs$year, c1_sens1_quant$SSBs$SSB, type='l', col='grey', lwd=gr_lwd)
 
 for (c in 1:num_C2_models)
 {
@@ -210,7 +213,7 @@ plot_legend()
 # A:  use 'casal::extract.partition()''
 
 
-ages <- seq(3, 20, 1)
+ages <- seq(3, 20)
 
 # omit the 'category' column
 c2_mat <- array(0, dim=c(num_C2_models, dim(as.matrix(cas2_mpd[[1]]$Init$values[,-1]))))
@@ -225,10 +228,10 @@ max_val <- max(cas_part$initial,
                cas_sens1_part$initial,
                max(c2_mat))
 
-plot(ages, cas_part$initial[1,], type='l', col='black', lwd=5, ylim=c(0, max_val), xlab='Age', ylab='', main='Initial numbers-at-age comparison (males and females)')
-lines(ages, cas_part$initial[2,], col='black', lwd=5, lty=3)
-lines(ages, cas_sens1_part$initial[1,], col='grey', lwd=2.5)
-lines(ages, cas_sens1_part$initial[2,], col='grey', lwd=2.5, lty=3)
+plot(ages, cas_part$initial[1,], type='l', col='black', lwd=bl_lwd, ylim=c(0, max_val), xlab='Age', ylab='', main='Initial numbers-at-age comparison (males and females)')
+lines(ages, cas_part$initial[2,], col='black', lwd=bl_lwd, lty=3)
+lines(ages, cas_sens1_part$initial[1,], col='grey', lwd=gr_lwd)
+lines(ages, cas_sens1_part$initial[2,], col='grey', lwd=gr_lwd, lty=3)
 for (c in 1:num_C2_models)
 {
     lines(ages, c2_mat[c,1,], col=C2_color[c], lwd=1)
@@ -251,10 +254,10 @@ max_val <- max(cas_part$final,
                cas_sens1_part$final,
                max(c2_mat))
 
-plot(ages, cas_part$final[1,], type='l', col='black', lwd=5, ylim=c(0, max_val), xlab='Age', ylab='', main='Final numbers-at-age comparison (males and females)')
-lines(ages, cas_part$final[2,], col='black', lwd=5, lty=3)
-lines(ages, cas_sens1_part$final[1,], col='grey', lwd=2.5)
-lines(ages, cas_sens1_part$final[2,], col='grey', lwd=2.5, lty=3)
+plot(ages, cas_part$final[1,], type='l', col='black', lwd=bl_lwd, ylim=c(0, max_val), xlab='Age', ylab='', main='Final numbers-at-age comparison (males and females)')
+lines(ages, cas_part$final[2,], col='black', lwd=bl_lwd, lty=3)
+lines(ages, cas_sens1_part$final[1,], col='grey', lwd=gr_lwd)
+lines(ages, cas_sens1_part$final[2,], col='grey', lwd=gr_lwd, lty=3)
 for (c in 1:num_C2_models)
 {
     lines(ages, c2_mat[c,1,], col=C2_color[c], lwd=1)
@@ -272,8 +275,8 @@ max_val <- max(c1_quant$`Vector parameter values`$recruitment.YCS,
                c1_sens1_quant$`Vector parameter values`$recruitment.YCS,
                max(unlist(list.map(cas2_mpd, max(Recruitment$ycs_values)))))
 
-plot(c1_quant$`Vector parameter values`$recruitment.YCS, type='l', col='black', lwd=5, ylim=c(0, max_val), xlab='Year', ylab='', main='YCS comparison')
-lines(c1_sens1_quant$`Vector parameter values`$recruitment.YCS, type='l', col='grey', lwd=2.5)
+plot(c1_quant$`Vector parameter values`$recruitment.YCS, type='l', col='black', lwd=bl_lwd, ylim=c(0, max_val), xlab='Year', ylab='', main='YCS comparison')
+lines(c1_sens1_quant$`Vector parameter values`$recruitment.YCS, type='l', col='grey', lwd=gr_lwd)
 for (c in 1:num_C2_models)
 {
     lines(cas2_mpd[[c]]$Recruitment$ycs_values, col=C2_color[c], lwd=1)
@@ -289,8 +292,8 @@ max_val <- max(c1_quant$true_YCS$true_YCS,
                c1_sens1_quant$true_YCS$true_YCS,
                max(unlist(list.map(cas2_mpd, max(Recruitment$true_ycs)))))
 
-plot(c1_quant$true_YCS$year, c1_quant$true_YCS$true_YCS, type='l', col='black', lwd=5, ylim=c(0, max_val), xlab='Year', ylab='', main='true YCS comparison')
-lines(c1_sens1_quant$true_YCS$year, c1_sens1_quant$true_YCS$true_YCS, type='l', col='grey', lwd=2.5)
+plot(c1_quant$true_YCS$year, c1_quant$true_YCS$true_YCS, type='l', col='black', lwd=bl_lwd, ylim=c(0, max_val), xlab='Year', ylab='', main='true YCS comparison')
+lines(c1_sens1_quant$true_YCS$year, c1_sens1_quant$true_YCS$true_YCS, type='l', col='grey', lwd=gr_lwd)
 for (c in 1:num_C2_models)
 {
     lines(cas2_mpd[[c]]$Recruitment$ycs_years, cas2_mpd[[c]]$Recruitment$true_ycs, col=C2_color[c], lwd=1)
@@ -306,8 +309,8 @@ max_val <- max(c1_quant$recruitments$recruitment,
                c1_sens1_quant$recruitments$recruitment,
                max(unlist(list.map(cas2_mpd, max(Recruitment$Recruits)))))
 
-plot(c1_quant$recruitments$year, c1_quant$recruitments$recruitment, type='l', col='black', lwd=5, ylim=c(0, max_val), xlab='Year', ylab='', main='Recruitment comparison')
-lines(c1_sens1_quant$recruitments$year, c1_sens1_quant$recruitments$recruitment, type='l', col='grey', lwd=2.5)
+plot(c1_quant$recruitments$year, c1_quant$recruitments$recruitment, type='l', col='black', lwd=bl_lwd, ylim=c(0, max_val), xlab='Year', ylab='', main='Recruitment comparison')
+lines(c1_sens1_quant$recruitments$year, c1_sens1_quant$recruitments$recruitment, type='l', col='grey', lwd=gr_lwd)
 for (c in 1:num_C2_models)
 {
     lines((cas2_mpd[[c]]$Recruitment$ycs_years + cas2_mpd[[c]]$Recruitment$ssb_offset), cas2_mpd[[c]]$Recruitment$Recruits, col=C2_color[c], lwd=1)
@@ -346,8 +349,8 @@ max_val <- max(c1_quant$removals$line,
                c1_sens1_quant$removals$line,
                max(unlist(list.map(cas2_mpd, max(Mortality$`actual_catch[FishingLine]`)))))
 
-plot(c1_quant$removals$year, c1_quant$removals$line, type='l', col='black', lwd=5, ylim=c(0, max_val), xlab='Year', ylab='Catch (tonnes)', main='Removals / Actual catch comparison: line')
-lines(c1_sens1_quant$removals$year, c1_sens1_quant$removals$line, type='l', col='grey', lwd=2.5)
+plot(c1_quant$removals$year, c1_quant$removals$line, type='l', col='black', lwd=bl_lwd, ylim=c(0, max_val), xlab='Year', ylab='Catch (tonnes)', main='Removals / Actual catch comparison: line')
+lines(c1_sens1_quant$removals$year, c1_sens1_quant$removals$line, type='l', col='grey', lwd=gr_lwd)
 for (c in 1:num_C2_models)
 {
     lines(cas2_mpd[[c]]$Mortality$year, cas2_mpd[[c]]$Mortality$`actual_catch[FishingLine]`, col=C2_color[c], lwd=1)
@@ -365,8 +368,8 @@ max_val <- max(c1_quant$removals$pot,
                c1_sens1_quant$removals$pot,
                max(unlist(list.map(cas2_mpd, max(Mortality$`actual_catch[FishingPot]`)))))
 
-plot(c1_quant$removals$year, c1_quant$removals$pot, type='l', col='black', lwd=5, ylim=c(0, max_val), xlab='Year', ylab='Catch (tonnes)', main='Removals / Actual catch comparison: pot')
-lines(c1_sens1_quant$removals$year, c1_sens1_quant$removals$pot, type='l', col='grey', lwd=2.5)
+plot(c1_quant$removals$year, c1_quant$removals$pot, type='l', col='black', lwd=bl_lwd, ylim=c(0, max_val), xlab='Year', ylab='Catch (tonnes)', main='Removals / Actual catch comparison: pot')
+lines(c1_sens1_quant$removals$year, c1_sens1_quant$removals$pot, type='l', col='grey', lwd=gr_lwd)
 for (c in 1:num_C2_models)
 {
     lines(cas2_mpd[[c]]$Mortality$year, cas2_mpd[[c]]$Mortality$`actual_catch[FishingPot]`, col=C2_color[c], lwd=1)
@@ -379,8 +382,8 @@ max_val <- max(c1_quant$removals$rec,
                c1_sens1_quant$removals$rec,
                max(unlist(list.map(cas2_mpd, max(Mortality$`actual_catch[Recreation]`)))))
 
-plot(c1_quant$removals$year, c1_quant$removals$rec, type='l', col='black', lwd=5, ylim=c(0, max_val), xlab='Year', ylab='Catch (tonnes)', main='Removals / Actual catch comparison: recreational')
-lines(c1_sens1_quant$removals$year, c1_sens1_quant$removals$rec, type='l', col='grey', lwd=2.5)
+plot(c1_quant$removals$year, c1_quant$removals$rec, type='l', col='black', lwd=bl_lwd, ylim=c(0, max_val), xlab='Year', ylab='Catch (tonnes)', main='Removals / Actual catch comparison: recreational')
+lines(c1_sens1_quant$removals$year, c1_sens1_quant$removals$rec, type='l', col='grey', lwd=gr_lwd)
 for (c in 1:num_C2_models)
 {
     lines(cas2_mpd[[c]]$Mortality$year, cas2_mpd[[c]]$Mortality$`actual_catch[Recreation]`, col=C2_color[c], lwd=1)
@@ -399,8 +402,8 @@ max_val <- max(c1_quant$discards$line,
                c1_sens1_quant$discards$line,
                max(unlist(list.map(cas2_mpd, max(Mortality$`discards[FishingLine]`)))))
 
-plot(c1_quant$discards$year, c1_quant$discards$line, type='l', col='black', lwd=5, ylim=c(0, max_val), xlab='Year', ylab='Catch (tonnes)', main='Discarded catch comparison: line')
-lines(c1_sens1_quant$discards$year, c1_sens1_quant$discards$line, type='l', col='grey', lwd=2.5)
+plot(c1_quant$discards$year, c1_quant$discards$line, type='l', col='black', lwd=bl_lwd, ylim=c(0, max_val), xlab='Year', ylab='Catch (tonnes)', main='Discarded catch comparison: line')
+lines(c1_sens1_quant$discards$year, c1_sens1_quant$discards$line, type='l', col='grey', lwd=gr_lwd)
 for (c in 1:num_C2_models)
 {
     lines(cas2_mpd[[c]]$Mortality$year, cas2_mpd[[c]]$Mortality$`discards[FishingLine]`, col=C2_color[c], lwd=1)
@@ -413,8 +416,8 @@ max_val <- max(c1_quant$discards$pot,
                c1_sens1_quant$discards$pot,
                max(unlist(list.map(cas2_mpd, max(Mortality$`discards[FishingPot]`)))))
 
-plot(c1_quant$discards$year, c1_quant$discards$pot, type='l', col='black', lwd=5, ylim=c(0, max_val), xlab='Year', ylab='Catch (tonnes)', main='Discarded catch comparison: pot')
-lines(c1_sens1_quant$discards$year, c1_sens1_quant$discards$pot, type='l', col='grey', lwd=2.5)
+plot(c1_quant$discards$year, c1_quant$discards$pot, type='l', col='black', lwd=bl_lwd, ylim=c(0, max_val), xlab='Year', ylab='Catch (tonnes)', main='Discarded catch comparison: pot')
+lines(c1_sens1_quant$discards$year, c1_sens1_quant$discards$pot, type='l', col='grey', lwd=gr_lwd)
 for (c in 1:num_C2_models)
 {
     lines(cas2_mpd[[c]]$Mortality$year, cas2_mpd[[c]]$Mortality$`discards[FishingPot]`, col=C2_color[c], lwd=1)
@@ -427,8 +430,8 @@ max_val <- max(c1_quant$discards$rec,
                c1_sens1_quant$discards$rec,
                max(unlist(list.map(cas2_mpd, max(Mortality$`discards[Recreation]`)))))
 
-plot(c1_quant$discards$year, c1_quant$discards$rec, type='l', col='black', lwd=5, ylim=c(0, max_val), xlab='Year', ylab='Catch (tonnes)', main='Discarded catch comparison: recreational')
-lines(c1_sens1_quant$discards$year, c1_sens1_quant$discards$rec, type='l', col='grey', lwd=2.5)
+plot(c1_quant$discards$year, c1_quant$discards$rec, type='l', col='black', lwd=bl_lwd, ylim=c(0, max_val), xlab='Year', ylab='Catch (tonnes)', main='Discarded catch comparison: recreational')
+lines(c1_sens1_quant$discards$year, c1_sens1_quant$discards$rec, type='l', col='grey', lwd=gr_lwd)
 for (c in 1:num_C2_models)
 {
     lines(cas2_mpd[[c]]$Mortality$year, cas2_mpd[[c]]$Mortality$`discards[Recreation]`, col=C2_color[c], lwd=1)
@@ -476,8 +479,8 @@ max_val <- max(c1_quant$fishing_pressures$line,
                c1_sens1_quant$fishing_pressures$line,
                max(unlist(list.map(cas2_mpd, max(Mortality$`fishing_pressure[FishingLine]`)))))
 
-plot(c1_quant$fishing_pressures$year, c1_quant$fishing_pressures$line, type='l', col='black', lwd=5, ylim=c(0, max_val), xlab='Year', ylab='U', main='Fishing pressure comparison: line')
-lines(c1_sens1_quant$fishing_pressures$year, c1_sens1_quant$fishing_pressures$line, type='l', col='grey', lwd=2.5)
+plot(c1_quant$fishing_pressures$year, c1_quant$fishing_pressures$line, type='l', col='black', lwd=bl_lwd, ylim=c(0, max_val), xlab='Year', ylab='U', main='Fishing pressure comparison: line')
+lines(c1_sens1_quant$fishing_pressures$year, c1_sens1_quant$fishing_pressures$line, type='l', col='grey', lwd=gr_lwd)
 for (c in 1:num_C2_models)
 {
     lines(cas2_mpd[[c]]$Mortality$year, cas2_mpd[[c]]$Mortality$`fishing_pressure[FishingLine]`, col=C2_color[c], lwd=1)
@@ -493,8 +496,8 @@ max_val <- max(c1_quant$fishing_pressures$pot,
                c1_sens1_quant$fishing_pressures$pot,
                max(unlist(list.map(cas2_mpd, max(Mortality$`fishing_pressure[FishingPot]`)))))
 
-plot(c1_quant$fishing_pressures$year, c1_quant$fishing_pressures$pot, type='l', col='black', lwd=5, ylim=c(0, max_val), xlab='Year', ylab='U', main='Fishing pressure comparison: pot')
-lines(c1_sens1_quant$fishing_pressures$year, c1_sens1_quant$fishing_pressures$pot, type='l', col='grey', lwd=2.5)
+plot(c1_quant$fishing_pressures$year, c1_quant$fishing_pressures$pot, type='l', col='black', lwd=bl_lwd, ylim=c(0, max_val), xlab='Year', ylab='U', main='Fishing pressure comparison: pot')
+lines(c1_sens1_quant$fishing_pressures$year, c1_sens1_quant$fishing_pressures$pot, type='l', col='grey', lwd=gr_lwd)
 for (c in 1:num_C2_models)
 {
     lines(cas2_mpd[[c]]$Mortality$year, cas2_mpd[[c]]$Mortality$`fishing_pressure[FishingPot]`, col=C2_color[c], lwd=1)
@@ -510,8 +513,8 @@ max_val <- max(c1_quant$fishing_pressures$rec,
                c1_sens1_quant$fishing_pressures$rec,
                max(unlist(list.map(cas2_mpd, max(Mortality$`fishing_pressure[Recreation]`)))))
 
-plot(c1_quant$fishing_pressures$year, c1_quant$fishing_pressures$rec, type='l', col='black', lwd=5, ylim=c(0, max_val), xlab='Year', ylab='U', main='Fishing pressure comparison: recreational')
-lines(c1_sens1_quant$fishing_pressures$year, c1_sens1_quant$fishing_pressures$rec, col='grey', lwd=2.5)
+plot(c1_quant$fishing_pressures$year, c1_quant$fishing_pressures$rec, type='l', col='black', lwd=bl_lwd, ylim=c(0, max_val), xlab='Year', ylab='U', main='Fishing pressure comparison: recreational')
+lines(c1_sens1_quant$fishing_pressures$year, c1_sens1_quant$fishing_pressures$rec, col='grey', lwd=gr_lwd)
 for (c in 1:num_C2_models)
 {
     lines(cas2_mpd[[c]]$Mortality$year, cas2_mpd[[c]]$Mortality$`fishing_pressure[Recreation]`, col=C2_color[c], lwd=1)
@@ -529,11 +532,11 @@ max_val <- max(1,
                c1_quant$`Ogive parameter values`$`selectivity[potSsel].male`, c1_quant$`Ogive parameter values`$`selectivity[potSsel].female`,
                c1_sens1_quant$`Ogive parameter values`$`selectivity[potSsel].male`, c1_sens1_quant$`Ogive parameter values`$`selectivity[potSsel].female`)
 
-plot(ages, c1_quant$`Ogive parameter values`$`selectivity[potSsel].male`, type='l', col='black', lwd=5, ylim=c(0,max_val), xlab='Age', ylab='', main='Pot survey selectivity-at-age comparison (males and females)')
-lines(ages, c1_quant$`Ogive parameter values`$`selectivity[potSsel].female`, col='black', lwd=5, lty=3)
+plot(ages, c1_quant$`Ogive parameter values`$`selectivity[potSsel].male`, type='l', col='black', lwd=bl_lwd, ylim=c(0,max_val), xlab='Age', ylab='', main='Pot survey selectivity-at-age comparison (males and females)')
+lines(ages, c1_quant$`Ogive parameter values`$`selectivity[potSsel].female`, col='black', lwd=bl_lwd, lty=3)
 
-lines(ages, c1_sens1_quant$`Ogive parameter values`$`selectivity[potSsel].male`, col='grey', lwd=2.5)
-lines(ages, c1_sens1_quant$`Ogive parameter values`$`selectivity[potSsel].female`, col='grey', lwd=2.5, lty=3)
+lines(ages, c1_sens1_quant$`Ogive parameter values`$`selectivity[potSsel].male`, col='grey', lwd=gr_lwd)
+lines(ages, c1_sens1_quant$`Ogive parameter values`$`selectivity[potSsel].female`, col='grey', lwd=gr_lwd, lty=3)
 
 for (c in 1:num_C2_models)
 {

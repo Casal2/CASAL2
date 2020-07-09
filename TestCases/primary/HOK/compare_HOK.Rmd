@@ -141,22 +141,22 @@ for (c in 1:num_C2_models)
     print(paste('Catch time series base model comparison for run', C2_subdir[c]))
 
     print(paste('Actual catches for Ensp1 match:',
-                time_series_match(c1_quant$actual_catches$Ensp1, cas2_mpd[[c]]$Mortality$`actual_catch[Ensp1]`)))
+                time_series_match(c1_quant$actual_catches$Ensp1, cas2_mpd[[c]]$Mortality$`catch[Ensp1]`)))
 
     print(paste('Actual catches for Wnsp1 match:',
-                time_series_match(c1_quant$actual_catches$Wnsp1, cas2_mpd[[c]]$Mortality$`actual_catch[Wnsp1]`)))
+                time_series_match(c1_quant$actual_catches$Wnsp1, cas2_mpd[[c]]$Mortality$`catch[Wnsp1]`)))
 
     print(paste('Actual catches for Ensp2 match:',
-                time_series_match(c1_quant$actual_catches$Ensp2, cas2_mpd[[c]]$Mortality$`actual_catch[Ensp2]`)))
+                time_series_match(c1_quant$actual_catches$Ensp2, cas2_mpd[[c]]$Mortality$`catch[Ensp2]`)))
 
     print(paste('Actual catches for Wnsp2 match:',
-                time_series_match(c1_quant$actual_catches$Wnsp2, cas2_mpd[[c]]$Mortality$`actual_catch[Wnsp2]`)))
+                time_series_match(c1_quant$actual_catches$Wnsp2, cas2_mpd[[c]]$Mortality$`catch[Wnsp2]`)))
 
     print(paste('Actual catches for Esp match:',
-                time_series_match(c1_quant$actual_catches$Esp, cas2_mpd[[c]]$Mortality$`actual_catch[Esp]`)))
+                time_series_match(c1_quant$actual_catches$Esp, cas2_mpd[[c]]$Mortality$`catch[Esp]`)))
 
     print(paste('Actual catches for Wsp match:',
-                time_series_match(c1_quant$actual_catches$Wsp, cas2_mpd[[c]]$Mortality$`actual_catch[Wsp]`)))
+                time_series_match(c1_quant$actual_catches$Wsp, cas2_mpd[[c]]$Mortality$`catch[Wsp]`)))
 
     print('')
 }
@@ -178,6 +178,9 @@ Comparison plots
 par(mar=c(4,4,2,1) + 0.1)
 
 par(mfrow=c(1,2))
+
+bl_lwd <- 6
+gr_lwd <- 3
 ```
 
 
@@ -195,8 +198,8 @@ max_val <- max(c1_quant$SSBs$E,
                c1_sens1_quant$SSBs$E,
                max(unlist(list.map(cas2_mpd, max(DerivedQuantities$SSB_E$values)))))
 
-plot(c1_quant$SSBs$year, c1_quant$SSBs$E, type='l', col='black', lwd=5, ylim=c(0, max_val), xlab='Year', ylab='Biomass (t)', main='E SSB comparison')
-lines(c1_sens1_quant$SSBs$year, c1_sens1_quant$SSBs$E, type='l', col='grey', lwd=2.5)
+plot(c1_quant$SSBs$year, c1_quant$SSBs$E, type='l', col='black', lwd=bl_lwd, ylim=c(0, max_val), xlab='Year', ylab='Biomass (t)', main='E SSB comparison')
+lines(c1_sens1_quant$SSBs$year, c1_sens1_quant$SSBs$E, type='l', col='grey', lwd=gr_lwd)
 for (c in 1:num_C2_models)
 {
     lines(names(cas2_mpd[[c]]$DerivedQuantities$SSB_E$values), cas2_mpd[[c]]$DerivedQuantities$SSB_E$values, col=C2_color[c], lwd=1)
@@ -211,8 +214,8 @@ max_val <- max(c1_quant$SSBs$W,
                c1_sens1_quant$SSBs$W,
                max(unlist(list.map(cas2_mpd, max(DerivedQuantities$SSB_W$values)))))
 
-plot(c1_quant$SSBs$year, c1_quant$SSBs$W, type='l', col='black', lwd=5, ylim=c(0, max_val), xlab='Year', ylab='Biomass (t)', main='W SSB comparison')
-lines(c1_sens1_quant$SSBs$year, c1_sens1_quant$SSBs$W, type='l', col='grey', lwd=2.5)
+plot(c1_quant$SSBs$year, c1_quant$SSBs$W, type='l', col='black', lwd=bl_lwd, ylim=c(0, max_val), xlab='Year', ylab='Biomass (t)', main='W SSB comparison')
+lines(c1_sens1_quant$SSBs$year, c1_sens1_quant$SSBs$W, type='l', col='grey', lwd=gr_lwd)
 for (c in 1:num_C2_models)
 {
     lines(names(cas2_mpd[[c]]$DerivedQuantities$SSB_E$values), cas2_mpd[[c]]$DerivedQuantities$SSB_W$values, col=C2_color[c], lwd=1)
@@ -229,6 +232,7 @@ plot_legend()
 # A:  use 'casal::extract.partition()''
 
 
+ages <- seq(1, 17)
 
 # omit the 'category' column
 # categories: west.sa, east.cr, west.cr, west.wc, east.cs
@@ -245,8 +249,8 @@ for (i in 1:nrow(c2_mat[1,,]))
                    cas_sens1_part$initial[i,],
                    max(c2_mat[,i,]))
 
-    plot(seq(1, 17), cas_part$initial[i,], type='l', col='black', lwd=5, ylim=c(0, max_val), xlab='Age', ylab='', main=paste('Initial numbers-at-age comparison:', cas2_mpd[[1]]$Init$values[i,1]))
-    lines(seq(1, 17), cas_sens1_part$initial[i,], col='grey', lwd=2.5)
+    plot(ages, cas_part$initial[i,], type='l', col='black', lwd=bl_lwd, ylim=c(0, max_val), xlab='Age', ylab='', main=paste('Initial numbers-at-age comparison:', cas2_mpd[[1]]$Init$values[i,1]))
+    lines(ages, cas_sens1_part$initial[i,], col='grey', lwd=gr_lwd)
     for (c in 1:num_C2_models)
     {
         lines(seq(1, dim(c2_mat[c,,])[2]), c2_mat[c,i,], col=C2_color[c], lwd=1)
@@ -271,8 +275,8 @@ for (i in 1:nrow(c2_mat[1,,]))
                    cas_sens1_part$final[i,],
                    max(c2_mat[,i,]))
 
-    plot(seq(1, 17), cas_part$final[i,], type='l', col='black', lwd=5, ylim=c(0, max_val), xlab='Age', ylab='', main=paste('Final numbers-at-age comparison:', cas2_mpd[[1]]$Init$values[i,1]))
-    lines(seq(1, 17), cas_sens1_part$final[i,], col='grey', lwd=2.5)
+    plot(ages, cas_part$final[i,], type='l', col='black', lwd=bl_lwd, ylim=c(0, max_val), xlab='Age', ylab='', main=paste('Final numbers-at-age comparison:', cas2_mpd[[1]]$Init$values[i,1]))
+    lines(ages, cas_sens1_part$final[i,], col='grey', lwd=gr_lwd)
     for (c in 1:num_C2_models)
     {
         lines(seq(1, dim(c2_mat[c,,])[2]), c2_mat[c,i,], col=C2_color[c], lwd=1)
@@ -290,8 +294,8 @@ max_val <- max(c1_quant$YCS$E,
                c1_sens1_quant$YCS$E,
                max(unlist(list.map(cas2_mpd, max(Recruit_E$ycs_values)))))
 
-plot(c1_quant$YCS$E, type='l', col='black', lwd=5, ylim=c(0, max_val), xlab='Year', ylab='', main='E YCS comparison')
-lines(c1_sens1_quant$YCS$E, type='l', col='grey', lwd=2.5)
+plot(c1_quant$YCS$E, type='l', col='black', lwd=bl_lwd, ylim=c(0, max_val), xlab='Year', ylab='', main='E YCS comparison')
+lines(c1_sens1_quant$YCS$E, type='l', col='grey', lwd=gr_lwd)
 for (c in 1:num_C2_models)
 {
     lines(cas2_mpd[[c]]$Recruit_E$ycs_values, col=C2_color[c], lwd=1)
@@ -304,8 +308,8 @@ max_val <- max(c1_quant$YCS$W,
                c1_sens1_quant$YCS$W,
                max(unlist(list.map(cas2_mpd, max(Recruit_W$ycs_values)))))
 
-plot(c1_quant$YCS$W, type='l', col='black', lwd=5, ylim=c(0, max_val), xlab='Year', ylab='', main='W YCS comparison')
-lines(c1_sens1_quant$YCS$W, type='l', col='grey', lwd=2.5)
+plot(c1_quant$YCS$W, type='l', col='black', lwd=bl_lwd, ylim=c(0, max_val), xlab='Year', ylab='', main='W YCS comparison')
+lines(c1_sens1_quant$YCS$W, type='l', col='grey', lwd=gr_lwd)
 for (c in 1:num_C2_models)
 {
     lines(cas2_mpd[[c]]$Recruit_W$ycs_values, col=C2_color[c], lwd=1)
@@ -321,8 +325,8 @@ max_val <- max(c1_quant$true_YCS$E,
                c1_sens1_quant$true_YCS$E,
                max(unlist(list.map(cas2_mpd, max(Recruit_E$true_ycs)))))
 
-plot(c1_quant$true_YCS$year, c1_quant$true_YCS$E, type='l', col='black', lwd=5, ylim=c(0, max_val), xlab='Year', ylab='', main='E true YCS comparison')
-lines(c1_sens1_quant$true_YCS$year, c1_sens1_quant$true_YCS$E, type='l', col='grey', lwd=2.5)
+plot(c1_quant$true_YCS$year, c1_quant$true_YCS$E, type='l', col='black', lwd=bl_lwd, ylim=c(0, max_val), xlab='Year', ylab='', main='E true YCS comparison')
+lines(c1_sens1_quant$true_YCS$year, c1_sens1_quant$true_YCS$E, type='l', col='grey', lwd=gr_lwd)
 for (c in 1:num_C2_models)
 {
     lines(cas2_mpd[[c]]$Recruit_E$ycs_years, cas2_mpd[[c]]$Recruit_E$true_ycs, col=C2_color[c], lwd=1)
@@ -335,8 +339,8 @@ max_val <- max(c1_quant$true_YCS$W,
                c1_sens1_quant$true_YCS$W,
                max(unlist(list.map(cas2_mpd, max(Recruit_W$true_ycs)))))
 
-plot(c1_quant$true_YCS$year, c1_quant$true_YCS$W, type='l', col='black', lwd=5, ylim=c(0, max_val), xlab='Year', ylab='', main='W true YCS comparison')
-lines(c1_sens1_quant$true_YCS$year, c1_sens1_quant$true_YCS$W, type='l', col='grey', lwd=2.5)
+plot(c1_quant$true_YCS$year, c1_quant$true_YCS$W, type='l', col='black', lwd=bl_lwd, ylim=c(0, max_val), xlab='Year', ylab='', main='W true YCS comparison')
+lines(c1_sens1_quant$true_YCS$year, c1_sens1_quant$true_YCS$W, type='l', col='grey', lwd=gr_lwd)
 for (c in 1:num_C2_models)
 {
     lines(cas2_mpd[[c]]$Recruit_E$ycs_years, cas2_mpd[[c]]$Recruit_W$true_ycs, col=C2_color[c], lwd=1)
@@ -353,8 +357,8 @@ max_val <- max(c1_quant$recruitments$E,
                c1_sens1_quant$recruitments$E,
                max(unlist(list.map(cas2_mpd, max(Recruit_E$Recruits)))))
 
-plot(c1_quant$recruitments$year, c1_quant$recruitments$E, type='l', col='black', lwd=5, ylim=c(0, max_val), xlab='Year', ylab='', main='E Recruits comparison')
-lines(c1_sens1_quant$recruitments$year, c1_sens1_quant$recruitments$E, type='l', col='grey', lwd=2.5)
+plot(c1_quant$recruitments$year, c1_quant$recruitments$E, type='l', col='black', lwd=bl_lwd, ylim=c(0, max_val), xlab='Year', ylab='', main='E Recruits comparison')
+lines(c1_sens1_quant$recruitments$year, c1_sens1_quant$recruitments$E, type='l', col='grey', lwd=gr_lwd)
 for (c in 1:num_C2_models)
 {
     lines((cas2_mpd[[c]]$Recruit_E$ycs_years + cas2_mpd[[c]]$Recruit_E$ssb_offset), cas2_mpd[[c]]$Recruit_E$Recruits, col=C2_color[c], lwd=1)
@@ -367,8 +371,8 @@ max_val <- max(c1_quant$recruitments$W,
                c1_sens1_quant$recruitments$W,
                max(unlist(list.map(cas2_mpd, max(Recruit_W$Recruits)))))
 
-plot(c1_quant$recruitments$year, c1_quant$recruitments$W, type='l', col='black', lwd=5, ylim=c(0, max_val), xlab='Year', ylab='', main='W Recruits comparison')
-lines(c1_sens1_quant$recruitments$year, c1_sens1_quant$recruitments$W, type='l', col='grey', lwd=2.5)
+plot(c1_quant$recruitments$year, c1_quant$recruitments$W, type='l', col='black', lwd=bl_lwd, ylim=c(0, max_val), xlab='Year', ylab='', main='W Recruits comparison')
+lines(c1_sens1_quant$recruitments$year, c1_sens1_quant$recruitments$W, type='l', col='grey', lwd=gr_lwd)
 for (c in 1:num_C2_models)
 {
     lines((cas2_mpd[[c]]$Recruit_W$ycs_years + cas2_mpd[[c]]$Recruit_W$ssb_offset), cas2_mpd[[c]]$Recruit_W$Recruits, col=C2_color[c], lwd=1)
@@ -395,8 +399,8 @@ max_val <- max(c1_surv,
                (c2_surv[[1]]$observed * exp(1.96 * c2_surv[[1]]$error_value)),
                max(unlist(list.map(c2_surv, max(expected)))))
 
-plot(names(c1_surv), c1_surv, type='l', col='black', lwd=5, ylim=c(0, max_val), xlab='Year', ylab='Biomass (t)', main='Survey comparison: WCacous')
-lines(names(c1_s1_surv), c1_s1_surv, type='l', col='grey', lwd=2.5)
+plot(names(c1_surv), c1_surv, type='l', col='black', lwd=bl_lwd, ylim=c(0, max_val), xlab='Year', ylab='Biomass (t)', main='Survey comparison: WCacous')
+lines(names(c1_s1_surv), c1_s1_surv, type='l', col='grey', lwd=gr_lwd)
 points(c2_surv[[c]]$year, c2_surv[[c]]$observed, pch=20, col='black')
 arrows(c2_surv[[c]]$year, (c2_surv[[c]]$observed * exp(-1.96 * c2_surv[[c]]$error_value)), c2_surv[[c]]$year, (c2_surv[[c]]$observed * exp(1.96 * c2_surv[[c]]$error_value)), length=0.05, angle=90, code=3)
 for (c in 1:num_C2_models)
@@ -422,8 +426,8 @@ max_val <- max(c1_surv,
                (c2_surv[[1]]$observed * exp(1.96 * c2_surv[[1]]$error_value)),
                max(unlist(list.map(c2_surv, max(expected)))))
 
-plot(names(c1_surv), c1_surv, type='l', col='black', lwd=5, ylim=c(0, max_val), xlab='Year', ylab='Biomass (t)', main='Survey comparison: CRsumbio')
-lines(names(c1_s1_surv), c1_s1_surv, type='l', col='grey', lwd=2.5)
+plot(names(c1_surv), c1_surv, type='l', col='black', lwd=bl_lwd, ylim=c(0, max_val), xlab='Year', ylab='Biomass (t)', main='Survey comparison: CRsumbio')
+lines(names(c1_s1_surv), c1_s1_surv, type='l', col='grey', lwd=gr_lwd)
 points(c2_surv[[c]]$year, c2_surv[[c]]$observed, pch=20, col='black')
 arrows(c2_surv[[c]]$year, (c2_surv[[c]]$observed * exp(-1.96 * c2_surv[[c]]$error_value)), c2_surv[[c]]$year, (c2_surv[[c]]$observed * exp(1.96 * c2_surv[[c]]$error_value)), length=0.05, angle=90, code=3)
 for (c in 1:num_C2_models)
@@ -449,8 +453,8 @@ max_val <- max(c1_surv,
                (c2_surv[[1]]$observed * exp(1.96 * c2_surv[[1]]$error_value)),
                max(unlist(list.map(c2_surv, max(expected)))))
 
-plot(names(c1_surv), c1_surv, type='l', col='black', lwd=5, ylim=c(0, max_val), xlab='Year', ylab='Biomass (t)', main='Survey comparison: CRsumbio')
-lines(names(c1_s1_surv), c1_s1_surv, type='l', col='grey', lwd=2.5)
+plot(names(c1_surv), c1_surv, type='l', col='black', lwd=bl_lwd, ylim=c(0, max_val), xlab='Year', ylab='Biomass (t)', main='Survey comparison: CRsumbio')
+lines(names(c1_s1_surv), c1_s1_surv, type='l', col='grey', lwd=gr_lwd)
 points(c2_surv[[c]]$year, c2_surv[[c]]$observed, pch=20, col='black')
 arrows(c2_surv[[c]]$year, (c2_surv[[c]]$observed * exp(-1.96 * c2_surv[[c]]$error_value)), c2_surv[[c]]$year, (c2_surv[[c]]$observed * exp(1.96 * c2_surv[[c]]$error_value)), length=0.05, angle=90, code=3)
 for (c in 1:num_C2_models)
@@ -469,8 +473,8 @@ max_val <- max(c1_quant$fishing_pressures$Ensp1,
                c1_sens1_quant$fishing_pressures$Ensp1,
                max(unlist(list.map(cas2_mpd, max(Mortality$`fishing_pressure[Ensp1]`)))))
 
-plot(c1_quant$fishing_pressures$year, c1_quant$fishing_pressures$Ensp1, type='l', col='black', lwd=5, ylim=c(0, max_val), xlab='Year', ylab='U', main='Fishing pressure comparison: Ensp1')
-lines(c1_sens1_quant$fishing_pressures$year, c1_sens1_quant$fishing_pressures$Ensp1, type='l', col='grey', lwd=2.5)
+plot(c1_quant$fishing_pressures$year, c1_quant$fishing_pressures$Ensp1, type='l', col='black', lwd=bl_lwd, ylim=c(0, max_val), xlab='Year', ylab='U', main='Fishing pressure comparison: Ensp1')
+lines(c1_sens1_quant$fishing_pressures$year, c1_sens1_quant$fishing_pressures$Ensp1, type='l', col='grey', lwd=gr_lwd)
 for (c in 1:num_C2_models)
 {
     lines(cas2_mpd[[c]]$Mortality$year, cas2_mpd[[c]]$Mortality$`fishing_pressure[Ensp1]`, col=C2_color[c], lwd=1)
@@ -484,8 +488,8 @@ max_val <- max(c1_quant$fishing_pressures$Wnsp1,
                c1_sens1_quant$fishing_pressures$Wnsp1,
                max(unlist(list.map(cas2_mpd, max(Mortality$`fishing_pressure[Wnsp1]`)))))
 
-plot(c1_quant$fishing_pressures$year, c1_quant$fishing_pressures$Wnsp1, type='l', col='black', lwd=5, ylim=c(0, max_val), xlab='Year', ylab='U', main='Fishing pressure comparison: Wnsp1')
-lines(c1_sens1_quant$fishing_pressures$year, c1_sens1_quant$fishing_pressures$Wnsp1, type='l', col='grey', lwd=2.5)
+plot(c1_quant$fishing_pressures$year, c1_quant$fishing_pressures$Wnsp1, type='l', col='black', lwd=bl_lwd, ylim=c(0, max_val), xlab='Year', ylab='U', main='Fishing pressure comparison: Wnsp1')
+lines(c1_sens1_quant$fishing_pressures$year, c1_sens1_quant$fishing_pressures$Wnsp1, type='l', col='grey', lwd=gr_lwd)
 for (c in 1:num_C2_models)
 {
     lines(cas2_mpd[[c]]$Mortality$year, cas2_mpd[[c]]$Mortality$`fishing_pressure[Wnsp1]`, col=C2_color[c], lwd=1)
@@ -499,8 +503,8 @@ max_val <- max(c1_quant$fishing_pressures$Ensp2,
                c1_sens1_quant$fishing_pressures$Ensp2,
                max(unlist(list.map(cas2_mpd, max(Mortality$`fishing_pressure[Ensp2]`)))))
 
-plot(c1_quant$fishing_pressures$year, c1_quant$fishing_pressures$Ensp2, type='l', col='black', lwd=5, ylim=c(0, max_val), xlab='Year', ylab='U', main='Fishing pressure comparison: Ensp2')
-lines(c1_sens1_quant$fishing_pressures$year, c1_sens1_quant$fishing_pressures$Ensp2, type='l', col='grey', lwd=2.5)
+plot(c1_quant$fishing_pressures$year, c1_quant$fishing_pressures$Ensp2, type='l', col='black', lwd=bl_lwd, ylim=c(0, max_val), xlab='Year', ylab='U', main='Fishing pressure comparison: Ensp2')
+lines(c1_sens1_quant$fishing_pressures$year, c1_sens1_quant$fishing_pressures$Ensp2, type='l', col='grey', lwd=gr_lwd)
 for (c in 1:num_C2_models)
 {
     lines(cas2_mpd[[c]]$Mortality$year, cas2_mpd[[c]]$Mortality$`fishing_pressure[Ensp2]`, col=C2_color[c], lwd=1)
@@ -514,8 +518,8 @@ max_val <- max(c1_quant$fishing_pressures$Wnsp2,
                c1_sens1_quant$fishing_pressures$Wnsp2,
                max(unlist(list.map(cas2_mpd, max(Mortality$`fishing_pressure[Wnsp2]`)))))
 
-plot(c1_quant$fishing_pressures$year, c1_quant$fishing_pressures$Wnsp2, type='l', col='black', lwd=5, ylim=c(0, max_val), xlab='Year', ylab='U', main='Fishing pressure comparison: Wnsp2')
-lines(c1_sens1_quant$fishing_pressures$year, c1_sens1_quant$fishing_pressures$Wnsp2, type='l', col='grey', lwd=2.5)
+plot(c1_quant$fishing_pressures$year, c1_quant$fishing_pressures$Wnsp2, type='l', col='black', lwd=bl_lwd, ylim=c(0, max_val), xlab='Year', ylab='U', main='Fishing pressure comparison: Wnsp2')
+lines(c1_sens1_quant$fishing_pressures$year, c1_sens1_quant$fishing_pressures$Wnsp2, type='l', col='grey', lwd=gr_lwd)
 for (c in 1:num_C2_models)
 {
     lines(cas2_mpd[[c]]$Mortality$year, cas2_mpd[[c]]$Mortality$`fishing_pressure[Wnsp2]`, col=C2_color[c], lwd=1)
@@ -529,8 +533,8 @@ max_val <- max(c1_quant$fishing_pressures$Esp,
                c1_sens1_quant$fishing_pressures$Esp,
                max(unlist(list.map(cas2_mpd, max(Mortality$`fishing_pressure[Esp]`)))))
 
-plot(c1_quant$fishing_pressures$year, c1_quant$fishing_pressures$Esp, type='l', col='black', lwd=5, ylim=c(0, max_val), xlab='Year', ylab='U', main='Fishing pressure comparison: Esp')
-lines(c1_sens1_quant$fishing_pressures$year, c1_sens1_quant$fishing_pressures$Esp, type='l', col='grey', lwd=2.5)
+plot(c1_quant$fishing_pressures$year, c1_quant$fishing_pressures$Esp, type='l', col='black', lwd=bl_lwd, ylim=c(0, max_val), xlab='Year', ylab='U', main='Fishing pressure comparison: Esp')
+lines(c1_sens1_quant$fishing_pressures$year, c1_sens1_quant$fishing_pressures$Esp, type='l', col='grey', lwd=gr_lwd)
 for (c in 1:num_C2_models)
 {
     lines(cas2_mpd[[c]]$Mortality$year, cas2_mpd[[c]]$Mortality$`fishing_pressure[Esp]`, col=C2_color[c], lwd=1)
@@ -544,8 +548,8 @@ max_val <- max(c1_quant$fishing_pressures$Wsp,
                c1_sens1_quant$fishing_pressures$Wsp,
                max(unlist(list.map(cas2_mpd, max(Mortality$`fishing_pressure[Wsp]`)))))
 
-plot(c1_quant$fishing_pressures$year, c1_quant$fishing_pressures$Wsp, type='l', col='black', lwd=5, ylim=c(0, max_val), xlab='Year', ylab='U', main='Fishing pressure comparison: Wsp')
-lines(c1_sens1_quant$fishing_pressures$year, c1_sens1_quant$fishing_pressures$Wsp, type='l', col='grey', lwd=2.5)
+plot(c1_quant$fishing_pressures$year, c1_quant$fishing_pressures$Wsp, type='l', col='black', lwd=bl_lwd, ylim=c(0, max_val), xlab='Year', ylab='U', main='Fishing pressure comparison: Wsp')
+lines(c1_sens1_quant$fishing_pressures$year, c1_sens1_quant$fishing_pressures$Wsp, type='l', col='grey', lwd=gr_lwd)
 for (c in 1:num_C2_models)
 {
     lines(cas2_mpd[[c]]$Mortality$year, cas2_mpd[[c]]$Mortality$`fishing_pressure[Wsp]`, col=C2_color[c], lwd=1)
@@ -558,14 +562,11 @@ plot_legend()
 ```{r plots_set_6, echo=FALSE}
 # plot selectivity
 
-ages <- seq(1, 17, 1)
-
-
 max_val <- max(1,
                c1_quant$`Ogive parameter values`$`selectivity[Enspsl].all`,
                c1_sens1_quant$`Ogive parameter values`$`selectivity[Enspsl].all`)
-plot(ages, c1_quant$`Ogive parameter values`$`selectivity[Enspsl].all`, type='l', col='black', lwd=5, ylim=c(0,max_val), xlab='Age', ylab='', main='Survey selectivity-at-age comparison: Enspsl')
-lines(ages, c1_sens1_quant$`Ogive parameter values`$`selectivity[Enspsl].all`, col='grey', lwd=2.5)
+plot(ages, c1_quant$`Ogive parameter values`$`selectivity[Enspsl].all`, type='l', col='black', lwd=bl_lwd, ylim=c(0,max_val), xlab='Age', ylab='', main='Survey selectivity-at-age comparison: Enspsl')
+lines(ages, c1_sens1_quant$`Ogive parameter values`$`selectivity[Enspsl].all`, col='grey', lwd=gr_lwd)
 for (c in 1:num_C2_models)
 {
     lines(ages, cas2_mpd[[c]]$Enspsl$Values, col=C2_color[c], lwd=1)
@@ -578,8 +579,8 @@ plot_legend()
 max_val <- max(1,
                c1_quant$`Ogive parameter values`$`selectivity[Wnspsl].all`,
                c1_sens1_quant$`Ogive parameter values`$`selectivity[Wnspsl].all`)
-plot(ages, c1_quant$`Ogive parameter values`$`selectivity[Wnspsl].all`, type='l', col='black', lwd=5, ylim=c(0,max_val), xlab='Age', ylab='', main='Survey selectivity-at-age comparison: Wnspsl')
-lines(ages, c1_sens1_quant$`Ogive parameter values`$`selectivity[Wnspsl].all`, col='grey', lwd=2.5)
+plot(ages, c1_quant$`Ogive parameter values`$`selectivity[Wnspsl].all`, type='l', col='black', lwd=bl_lwd, ylim=c(0,max_val), xlab='Age', ylab='', main='Survey selectivity-at-age comparison: Wnspsl')
+lines(ages, c1_sens1_quant$`Ogive parameter values`$`selectivity[Wnspsl].all`, col='grey', lwd=gr_lwd)
 for (c in 1:num_C2_models)
 {
     lines(ages, cas2_mpd[[c]]$Wnspsl$Values, col=C2_color[c], lwd=1)
@@ -591,8 +592,8 @@ plot_legend()
 max_val <- max(1,
                c1_quant$`Ogive parameter values`$`selectivity[Espsl].all`,
                c1_sens1_quant$`Ogive parameter values`$`selectivity[Espsl].all`)
-plot(ages, c1_quant$`Ogive parameter values`$`selectivity[Espsl].all`, type='l', col='black', lwd=5, ylim=c(0,max_val), xlab='Age', ylab='', main='Survey selectivity-at-age comparison: Espsl')
-lines(ages, c1_sens1_quant$`Ogive parameter values`$`selectivity[Espsl].all`, col='grey', lwd=2.5)
+plot(ages, c1_quant$`Ogive parameter values`$`selectivity[Espsl].all`, type='l', col='black', lwd=bl_lwd, ylim=c(0,max_val), xlab='Age', ylab='', main='Survey selectivity-at-age comparison: Espsl')
+lines(ages, c1_sens1_quant$`Ogive parameter values`$`selectivity[Espsl].all`, col='grey', lwd=gr_lwd)
 for (c in 1:num_C2_models)
 {
     lines(ages, cas2_mpd[[c]]$Espsl$Values, col=C2_color[c], lwd=1)
@@ -604,8 +605,8 @@ plot_legend()
 max_val <- max(1,
                c1_quant$`Ogive parameter values`$`selectivity[Wspsl].all`,
                c1_sens1_quant$`Ogive parameter values`$`selectivity[Wspsl].all`)
-plot(ages, c1_quant$`Ogive parameter values`$`selectivity[Wspsl].all`, type='l', col='black', lwd=5, ylim=c(0,max_val), xlab='Age', ylab='', main='Survey selectivity-at-age comparison: Wspsl')
-lines(ages, c1_sens1_quant$`Ogive parameter values`$`selectivity[Wspsl].all`, col='grey', lwd=2.5)
+plot(ages, c1_quant$`Ogive parameter values`$`selectivity[Wspsl].all`, type='l', col='black', lwd=bl_lwd, ylim=c(0,max_val), xlab='Age', ylab='', main='Survey selectivity-at-age comparison: Wspsl')
+lines(ages, c1_sens1_quant$`Ogive parameter values`$`selectivity[Wspsl].all`, col='grey', lwd=gr_lwd)
 for (c in 1:num_C2_models)
 {
     lines(ages, cas2_mpd[[c]]$Wspsl$Values, col=C2_color[c], lwd=1)
@@ -617,8 +618,8 @@ plot_legend()
 max_val <- max(1,
                c1_quant$`Ogive parameter values`$`selectivity[CRsl].all`,
                c1_sens1_quant$`Ogive parameter values`$`selectivity[CRsl].all`)
-plot(ages, c1_quant$`Ogive parameter values`$`selectivity[CRsl].all`, type='l', col='black', lwd=5, ylim=c(0,max_val), xlab='Age', ylab='', main='Survey selectivity-at-age comparison: CRsl')
-lines(ages, c1_sens1_quant$`Ogive parameter values`$`selectivity[CRsl].all`, col='grey', lwd=2.5)
+plot(ages, c1_quant$`Ogive parameter values`$`selectivity[CRsl].all`, type='l', col='black', lwd=bl_lwd, ylim=c(0,max_val), xlab='Age', ylab='', main='Survey selectivity-at-age comparison: CRsl')
+lines(ages, c1_sens1_quant$`Ogive parameter values`$`selectivity[CRsl].all`, col='grey', lwd=gr_lwd)
 for (c in 1:num_C2_models)
 {
     lines(ages, cas2_mpd[[c]]$CRsl$Values, col=C2_color[c], lwd=1)
@@ -630,8 +631,8 @@ plot_legend()
 max_val <- max(1,
                c1_quant$`Ogive parameter values`$`selectivity[SAsl].all`,
                c1_sens1_quant$`Ogive parameter values`$`selectivity[SAsl].all`)
-plot(ages, c1_quant$`Ogive parameter values`$`selectivity[SAsl].all`, type='l', col='black', lwd=5, ylim=c(0,max_val), xlab='Age', ylab='', main='Survey selectivity-at-age comparison: SAsl')
-lines(ages, c1_sens1_quant$`Ogive parameter values`$`selectivity[SAsl].all`, col='grey', lwd=2.5)
+plot(ages, c1_quant$`Ogive parameter values`$`selectivity[SAsl].all`, type='l', col='black', lwd=bl_lwd, ylim=c(0,max_val), xlab='Age', ylab='', main='Survey selectivity-at-age comparison: SAsl')
+lines(ages, c1_sens1_quant$`Ogive parameter values`$`selectivity[SAsl].all`, col='grey', lwd=gr_lwd)
 for (c in 1:num_C2_models)
 {
     lines(ages, cas2_mpd[[c]]$SAsl$Values, col=C2_color[c], lwd=1)

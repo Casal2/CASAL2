@@ -1,7 +1,8 @@
 plot_image_and_range <- function(corr_obj, label)
 {
     image(corr_obj, zlim=c(-1,1), col=hcl.colors(51, 'RdYlBu'), xlab='Parameter', ylab='Parameter', main=label)
-    print(paste(label, 'range (excluding 1.0):', paste0(range(corr_obj[corr_obj < 1], na.rm=TRUE), collapse=' ')))
+
+    print(paste(label, 'range (excluding 1.0):', paste0(range(corr_obj[corr_obj < 1], finite=TRUE), collapse=' ')))
 }
 
 plot_image_and_range(cas_corr, 'CASAL base parameter correlation')
