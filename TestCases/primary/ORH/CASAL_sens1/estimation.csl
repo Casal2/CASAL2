@@ -55,15 +55,17 @@ cvs_2002	0.071
 cvs_2003	0.065
 cvs_2004	0.069
 
-@proportions_at Obs_Andes
+##@proportions_at Obs_Andes
+@catch_at Obs_Andes
+fishery Andes
 years 1993 1994 1997 2001 2003
-step 1
-proportion_mortality 0.5
+##step 1
+##proportion_mortality 0.5
 sexed F
 sum_to_one True
 at_size True
 plus_group False
-ogive SELandes
+##ogive SELandes
 class_mins	19	20	21	22	23	24	25	26	27	28	29	30	31	32	33	34	35	36	37	38	39	40	41	42	43	44	45	46
 1993		0.00048	0.00100	0.00291	0.00150	0.00463	0.00686	0.00891	0.00895	0.01072	0.01373	0.01751	0.02609	0.04041	0.06405	0.09926	0.12552	0.14803	0.14041	0.12092	0.08129	0.04315	0.02042	0.00852	0.00423	0.00046	0.00006	0.00000
 1994		0.00000	0.00000	0.00000	0.00000	0.00000	0.00012	0.00142	0.00122	0.00211	0.01052	0.01703	0.02583	0.04749	0.07759	0.10289	0.14212	0.14695	0.13756	0.12181	0.08130	0.04229	0.02465	0.01136	0.00474	0.00065	0.00031	0.00003
@@ -87,7 +89,7 @@ prior uniform-log
 @q_method nuisance
 
 @estimate
-phase 2
+phase 1
 parameter selectivity[SELandes].all
 lower_bound	5 	1
 upper_bound	80	20
@@ -103,7 +105,7 @@ upper_bound 100000
 prior uniform-log
 
 @estimate
-phase 3
+phase 1
 parameter size_at_age.cv1
 lower_bound	0.01
 upper_bound	1
@@ -112,7 +114,7 @@ mu 0.15
 stdev 0.025
 
 @estimate
-phase 3
+phase 1
 parameter size_at_age.cv2
 lower_bound	0.01
 upper_bound	1

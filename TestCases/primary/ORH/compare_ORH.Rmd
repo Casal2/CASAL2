@@ -211,7 +211,7 @@ max_val <- max(cas_part$initial,
                cas_sens1_part$initial,
                max(c2_mat))
 
-plot(ages, cas_part$initial[1,], type='l', col='black', lwd=bl_lwd, ylim=c(0, max_val), xlab='Age', ylab='', main='Initial numbers-at-age comparison (male and female)')
+plot(ages, cas_part$initial[1,], type='l', col='black', lwd=bl_lwd, ylim=c(0, max_val), xlab='Age', ylab='', main='Initial numbers-at-age comparison (immature and mature)', sub='Dotted lines are for mature')
 lines(ages, cas_part$initial[2,], col='black', lwd=bl_lwd, lty=3)
 
 lines(ages, cas_sens1_part$initial[1,], col='grey', lwd=gr_lwd)
@@ -239,7 +239,7 @@ max_val <- max(cas_part$final,
                cas_sens1_part$final,
                max(c2_mat))
 
-plot(ages, cas_part$final[1,], type='l', col='black', lwd=bl_lwd, ylim=c(0, max_val), xlab='Age', ylab='', main='Final numbers-at-age comparison (male and female)')
+plot(ages, cas_part$final[1,], type='l', col='black', lwd=bl_lwd, ylim=c(0, max_val), xlab='Age', ylab='', main='Final numbers-at-age comparison (immature and mature)', sub='Dotted lines are for mature')
 lines(ages, cas_part$final[2,], col='black', lwd=bl_lwd, lty=3)
 
 lines(ages, cas_sens1_part$final[1,], col='grey', lwd=gr_lwd)
