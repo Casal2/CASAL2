@@ -117,11 +117,13 @@ private:
   accessor::Categories        partition_;
   Double                      current_m_ = 0.0;
   vector<unsigned>            process_years_; // Can we get @project classes to modify this?
+
   // members from mortality event
   //Double                      u_max_ = 0.99; // Now attached to the fishery object
   string                      penalty_label_ = "";
   penalties::Process*         penalty_ = nullptr;
   string                      unit_;
+
   // members from natural mortality
   vector<Double>              m_input_;
   OrderedMap<string, Double>  m_;
@@ -134,7 +136,7 @@ private:
   map<unsigned,  map<string, map<string, vector<Double>>>> removals_by_year_fishery_category_; // Year,  fishery, category
 
   // Members for reporting
-  vector<unsigned>            time_steps_to_skip_applying_F_mortaltiy_;
+  vector<unsigned>            time_steps_to_skip_applying_F_mortality_;
   bool                        use_age_weight_ = true;
   vector<vector<vector<Double>>> removals_by_year_category_age_; // year[year_ndx][category_ndx][age_ndx]
   vector<vector<Double>>     removals_by_category_age_; // [category_ndx][age_ndx]

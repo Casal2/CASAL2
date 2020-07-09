@@ -130,12 +130,14 @@ private:
 
   accessor::Categories        partition_;
   Double                      current_m_ = 0.0;
+  vector<unsigned>            process_years_;
 
   // members from mortality event
   //Double                      u_max_ = 0.99; // Now attached to the fishery object
   string                      penalty_label_ = "";
   penalties::Process*         penalty_ = nullptr;
   string                      unit_;
+
   // members from natural mortality
   vector<Double>              m_input_;
   OrderedMap<string, Double>  m_;

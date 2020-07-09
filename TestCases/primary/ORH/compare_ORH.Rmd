@@ -44,7 +44,7 @@ Observation data include:
 
 * empirical length-at-age data for one year
 * one CPUE index
-* fishery proportions-at-age
+* fishery catch-at-length
 
 Parameters estimated include:
 
