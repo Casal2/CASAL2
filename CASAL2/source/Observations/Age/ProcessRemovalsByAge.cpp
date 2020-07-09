@@ -231,12 +231,11 @@ void ProcessRemovalsByAge::DoBuild() {
 
   // Create a pointer to misclassification matrix
     if( ageing_error_label_ != "") {
-    ageing_error_ = model_->managers().ageing_error()->GetAgeingError(ageing_error_label_);
-    if (!ageing_error_)
-      LOG_ERROR_P(PARAM_AGEING_ERROR) << "Ageing error label (" << ageing_error_label_ << ") was not found.";
-    }
-    if (ageing_error_label_ == "") {
-      LOG_WARNING() << "An age-based observation with no ageing_misclassification was provided";
+      ageing_error_ = model_->managers().ageing_error()->GetAgeingError(ageing_error_label_);
+      if (!ageing_error_)
+        LOG_ERROR_P(PARAM_AGEING_ERROR) << "Ageing error label (" << ageing_error_label_ << ") was not found.";
+    } else {
+      LOG_ERROR() << "An age-based observation with no ageing error type was provided";
     }
 
   age_results_.resize(age_spread_ * category_labels_.size(), 0.0);
