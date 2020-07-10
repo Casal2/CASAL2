@@ -212,7 +212,7 @@ max_val <- max(cas_part$initial,
                cas_sens1_part$initial,
                max(c2_mat))
 
-plot(ages, cas_part$initial[1,], type='l', col='black', lwd=bl_lwd, ylim=c(0, max_val), xlab='Age', ylab='', main='Initial numbers-at-age comparison (male and female) (spawn)')
+plot(ages, cas_part$initial[1,], type='l', col='black', lwd=bl_lwd, ylim=c(0, max_val), xlab='Age', ylab='', main='Initial numbers-at-age comparison (male and female) (spawn)', sub='Dotted lines for female')
 lines(ages, cas_part$initial[2,], col='black', lwd=bl_lwd, lty=3)
 
 lines(ages, cas_sens1_part$initial[1,], col='grey', lwd=gr_lwd)
@@ -228,7 +228,7 @@ plot_legend()
 
 
 
-plot(ages, cas_part$initial[3,], type='l', col='black', lwd=bl_lwd, ylim=c(0, max_val), xlab='Age', ylab='', main='Initial numbers-at-age comparison (male and female) (nonspawn)')
+plot(ages, cas_part$initial[3,], type='l', col='black', lwd=bl_lwd, ylim=c(0, max_val), xlab='Age', ylab='', main='Initial numbers-at-age comparison (male and female) (nonspawn)', sub='Dotted lines for female')
 lines(ages, cas_part$initial[4,], col='black', lwd=bl_lwd, lty=3)
 
 lines(ages, cas_sens1_part$initial[3,], col='grey', lwd=gr_lwd)
@@ -258,7 +258,7 @@ max_val <- max(cas_part$final,
                cas_sens1_part$final,
                max(c2_mat))
 
-plot(ages, cas_part$final[1,], type='l', col='black', lwd=bl_lwd, ylim=c(0, max_val), xlab='Age', ylab='', main='Final numbers-at-age comparison (male and female) (spawn; time step 2)')
+plot(ages, cas_part$final[1,], type='l', col='black', lwd=bl_lwd, ylim=c(0, max_val), xlab='Age', ylab='', main='Final numbers-at-age comparison (male and female) (spawn; time step 2)', sub='Dotted lines for female')
 lines(ages, cas_part$final[2,], col='black', lwd=bl_lwd, lty=3)
 
 lines(ages, cas_sens1_part$final[1,], col='grey', lwd=gr_lwd)
@@ -274,7 +274,7 @@ plot_legend()
 
 
 
-plot(ages, cas_part$final[3,], type='l', col='black', lwd=bl_lwd, ylim=c(0, max_val), xlab='Age', ylab='', main='Final numbers-at-age comparison (male and female) (nonspawn; time step 2)')
+plot(ages, cas_part$final[3,], type='l', col='black', lwd=bl_lwd, ylim=c(0, max_val), xlab='Age', ylab='', main='Final numbers-at-age comparison (male and female) (nonspawn; time step 2)', sub='Dotted lines for female')
 lines(ages, cas_part$final[4,], col='black', lwd=bl_lwd, lty=3)
 
 lines(ages, cas_sens1_part$final[3,], col='grey', lwd=gr_lwd)
@@ -375,10 +375,9 @@ plot_legend()
 max_val <- max(1,
                c1_quant$`Ogive parameter values`$`migration[toSpawn].rates_male`,
                c1_sens1_quant$`Ogive parameter values`$`migration[toSpawn].rates_male`)
+
 plot(ages, c1_quant$`Ogive parameter values`$`migration[toSpawn].rates_male`, type='l', col='black', lwd=bl_lwd, ylim=c(0,max_val), xlab='Age', ylab='', main='Migration rates-at-age (male toSpawn)')
-
 lines(ages, c1_sens1_quant$`Ogive parameter values`$`migration[toSpawn].rates_male`, col='grey', lwd=gr_lwd)
-
 for (c in 1:num_C2_models)
 {
     lines(ages, cas2_mpd[[c]]$MaturationSel_male$Values, col=C2_color[c], lwd=1)
@@ -391,16 +390,14 @@ plot_legend()
 max_val <- max(1,
                c1_quant$`Ogive parameter values`$`migration[toSpawn].rates_female`,
                c1_sens1_quant$`Ogive parameter values`$`migration[toSpawn].rates_female`)
+
 plot(ages, c1_quant$`Ogive parameter values`$`migration[toSpawn].rates_female`, type='l', col='black', lwd=bl_lwd, ylim=c(0,max_val), xlab='Age', ylab='', main='Migration rates-at-age (female toSpawn)')
-
 lines(ages, c1_sens1_quant$`Ogive parameter values`$`migration[toSpawn].rates_female`, col='grey', lwd=gr_lwd)
-
 for (c in 1:num_C2_models)
 {
     lines(ages, cas2_mpd[[c]]$MaturationSel_female$Values, col=C2_color[c], lwd=1)
 }
 
 plot_legend()
-
 ```
 
