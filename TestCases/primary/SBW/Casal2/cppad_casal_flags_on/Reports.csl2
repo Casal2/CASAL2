@@ -43,10 +43,6 @@ type process
 process Instantaneous_Mortality
 
 
-@report Init_weight
-type initialisation_partition_mean_weight
-
-
 @report state1
 type partition
 time_step step1
