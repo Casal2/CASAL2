@@ -72,9 +72,8 @@ void PartitionMeanWeight::DoExecute() {
 //      year_index = year > model_->start_year() ? year - model_->start_year() : 0;
       cache_ << year << " ";
 
-      unsigned age_bins = (*iterator)->age_spread();
-      for (unsigned age_index = 0; age_index < age_bins; ++age_index) {
-        Double temp = (*iterator)->mean_weight_by_time_step_age_[time_step_index][age_index];
+      for (unsigned age = (*iterator)->min_age_; age <= (*iterator)->max_age_; ++age) {
+        Double temp = (*iterator)->mean_weight_by_time_step_age_[time_step_index][age];
         cache_ << AS_VALUE(temp) << " ";
       }
 
