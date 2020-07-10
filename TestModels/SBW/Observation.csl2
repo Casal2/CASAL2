@@ -44,7 +44,7 @@ likelihood multinomial
 mortality_instantaneous_process Instantaneous_Mortality
 method_of_removal Trawl
 plus_group true
-#ageing_error Ageing_error
+ageing_error No_ageing_error
 delta 1e-011
 time_step step2
 min_age 2
@@ -131,3 +131,7 @@ table error_values
 2014 73 # 908"
 2015 57 # 717"
 end_table
+
+@ageing_error No_ageing_error
+type none
+
