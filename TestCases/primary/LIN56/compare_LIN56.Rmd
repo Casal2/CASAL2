@@ -498,7 +498,7 @@ max_val <- max(1,
                c1_quant$`Ogive parameter values`$`selectivity[surveysum_sel].male`, c1_quant$`Ogive parameter values`$`selectivity[surveysum_sel].female`,
                c1_sens1_quant$`Ogive parameter values`$`selectivity[surveysum_sel].male`, c1_sens1_quant$`Ogive parameter values`$`selectivity[surveysum_sel].female`)
 
-plot(ages, c1_quant$`Ogive parameter values`$`selectivity[surveysum_sel].male`, type='l', col='black', lwd=bl_lwd, ylim=c(0,max_val), xlab='Age', ylab='', main='Summer survey selectivity-at-age comparison (male and female)')
+plot(ages, c1_quant$`Ogive parameter values`$`selectivity[surveysum_sel].male`, type='l', col='black', lwd=bl_lwd, ylim=c(0,max_val), xlab='Age', ylab='', main='Summer survey selectivity-at-age comparison (male and female)', sub='Dotted lines are for female')
 lines(ages, c1_quant$`Ogive parameter values`$`selectivity[surveysum_sel].female`, col='black', lwd=bl_lwd, lty=3)
 
 lines(ages, c1_sens1_quant$`Ogive parameter values`$`selectivity[surveysum_sel].male`, col='grey', lwd=gr_lwd)
@@ -518,7 +518,7 @@ max_val <- max(1,
                c1_quant$`Ogive parameter values`$`selectivity[surveyaut_sel].male`, c1_quant$`Ogive parameter values`$`selectivity[surveyaut_sel].female`,
                c1_sens1_quant$`Ogive parameter values`$`selectivity[surveyaut_sel].male`, c1_sens1_quant$`Ogive parameter values`$`selectivity[surveyaut_sel].female`)
 
-plot(ages, c1_quant$`Ogive parameter values`$`selectivity[surveyaut_sel].male`, type='l', col='black', lwd=bl_lwd, ylim=c(0,max_val), xlab='Age', ylab='', main='Autumn survey selectivity-at-age comparison (male and female)')
+plot(ages, c1_quant$`Ogive parameter values`$`selectivity[surveyaut_sel].male`, type='l', col='black', lwd=bl_lwd, ylim=c(0,max_val), xlab='Age', ylab='', main='Autumn survey selectivity-at-age comparison (male and female)', sub='Dotted lines are for female')
 lines(ages, c1_quant$`Ogive parameter values`$`selectivity[surveyaut_sel].female`, col='black', lwd=bl_lwd, lty=3)
 
 lines(ages, c1_sens1_quant$`Ogive parameter values`$`selectivity[surveyaut_sel].male`, col='grey', lwd=gr_lwd)
@@ -538,7 +538,7 @@ max_val <- max(1,
                c1_quant$`Ogive parameter values`$`selectivity[trawl_sel].male`, c1_quant$`Ogive parameter values`$`selectivity[trawl_sel].female`,
                c1_sens1_quant$`Ogive parameter values`$`selectivity[trawl_sel].male`, c1_sens1_quant$`Ogive parameter values`$`selectivity[trawl_sel].female`)
 
-plot(ages, c1_quant$`Ogive parameter values`$`selectivity[trawl_sel].male`, type='l', col='black', lwd=bl_lwd, ylim=c(0,max_val), xlab='Age',  ylab='',main='Trawl fishery selectivity-at-age comparison (male and female)')
+plot(ages, c1_quant$`Ogive parameter values`$`selectivity[trawl_sel].male`, type='l', col='black', lwd=bl_lwd, ylim=c(0,max_val), xlab='Age',  ylab='',main='Trawl fishery selectivity-at-age comparison (male and female)', sub='Dotted lines are for female')
 lines(ages, c1_quant$`Ogive parameter values`$`selectivity[trawl_sel].female`, col='black', lwd=bl_lwd, lty=3)
 
 lines(ages, c1_sens1_quant$`Ogive parameter values`$`selectivity[trawl_sel].male`, col='grey', lwd=gr_lwd)
@@ -558,7 +558,7 @@ max_val <- max(1,
                c1_quant$`Ogive parameter values`$`selectivity[line_home_sel].male`, c1_quant$`Ogive parameter values`$`selectivity[line_home_sel].female`,
                c1_sens1_quant$`Ogive parameter values`$`selectivity[line_home_sel].male`, c1_sens1_quant$`Ogive parameter values`$`selectivity[line_home_sel].female`)
 
-plot(ages, c1_quant$`Ogive parameter values`$`selectivity[line_home_sel].male`, type='l', col='black', lwd=bl_lwd, ylim=c(0,max_val), xlab='Age',  ylab='',main='Longline home fishery selectivity-at-age comparison (male and female)')
+plot(ages, c1_quant$`Ogive parameter values`$`selectivity[line_home_sel].male`, type='l', col='black', lwd=bl_lwd, ylim=c(0,max_val), xlab='Age',  ylab='',main='Longline home fishery selectivity-at-age comparison (male and female)', sub='Dotted lines are for female')
 lines(ages, c1_quant$`Ogive parameter values`$`selectivity[line_home_sel].female`, col='black', lwd=bl_lwd, lty=3)
 
 lines(ages, c1_sens1_quant$`Ogive parameter values`$`selectivity[line_home_sel].male`, col='grey', lwd=gr_lwd)
@@ -578,7 +578,7 @@ max_val <- max(1,
                c1_quant$`Ogive parameter values`$`selectivity[line_spawn_sel].male`, c1_quant$`Ogive parameter values`$`selectivity[line_spawn_sel].female`,
                c1_sens1_quant$`Ogive parameter values`$`selectivity[line_spawn_sel].male`, c1_sens1_quant$`Ogive parameter values`$`selectivity[line_spawn_sel].female`)
 
-plot(ages, c1_quant$`Ogive parameter values`$`selectivity[line_spawn_sel].male`, type='l', col='black', lwd=bl_lwd, ylim=c(0,max_val), xlab='Age',  ylab='',main='Longline spawn fishery selectivity-at-age comparison (male and female)')
+plot(ages, c1_quant$`Ogive parameter values`$`selectivity[line_spawn_sel].male`, type='l', col='black', lwd=bl_lwd, ylim=c(0,max_val), xlab='Age',  ylab='',main='Longline spawn fishery selectivity-at-age comparison (male and female)', sub='Dotted lines are for female')
 lines(ages, c1_quant$`Ogive parameter values`$`selectivity[line_spawn_sel].female`, col='black', lwd=bl_lwd, lty=3)
 
 lines(ages, c1_sens1_quant$`Ogive parameter values`$`selectivity[line_spawn_sel].male`, col='grey', lwd=gr_lwd)
