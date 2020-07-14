@@ -1,11 +1,11 @@
 Casal2
 Call: ../../BuildSystem/bin/linux/release_betadiff/casal2 -e -o params_est.out 
-Date: Mon May 11 13:25:19 2020
-Version: 2020-05-08 05:01:48 UTC (rev. 96f97b0)
+Date: Tue Jul 14 17:31:09 2020
+Version: 2020-07-13 03:44:42 UTC (rev. 87aeb31d)
 Copyright (c) 2020 - 2020, NIWA (www.niwa.co.nz)
 -- Username: niwauser
--- Machine: niwa-computer (Linux 5.6.0-1-amd64 x86_64)
--- Process Id: 75629
+-- Machine: niwa-computer (Linux 5.7.0-1-amd64 x86_64)
+-- Process Id: 84307
 
 resizing from 40000 to 44000
 resizing from 44000 to 48400
@@ -2478,12 +2478,15 @@ category 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 21 22 23 24 25 26 27
 HAK4 0.000000 12497241.255216 10162691.095743 1177925.588817 836903.341682 750737.499634 708851.570123 345983.890010 638218.696112 607686.864967 833353.792760 228673.878811 116742.724142 134815.356804 68928.041885 72628.694936 59046.221222 68947.954722 64732.318919 55639.425083 50686.459011 52652.097170 28213.709601 15011.303162 14503.775930 8686.949052 9846.912240 7663.398250 5878.076897 84147.960362
 *end
 
-[WARNING] /home/niwauser/casal2-development/CASAL2/source/Reports/Common/EstimateValue.cpp(line: 48): estimated parameter 'process[Recruitment].ycs_values{2010}' was within 0.001 of upper bound 3
-[WARNING] /home/niwauser/casal2-development/CASAL2/source/Reports/Common/EstimateValue.cpp(line: 48): estimated parameter 'process[Recruitment].ycs_values{2011}' was within 0.001 of upper bound 3
+[WARNING] /home/niwauser/casal2-development/CASAL2/source/Reports/Common/EstimateValue.cpp(line: 50): estimated parameter 'process[Recruitment].ycs_values{2010}' was within 0.001 of upper bound 3
+[WARNING] /home/niwauser/casal2-development/CASAL2/source/Reports/Common/EstimateValue.cpp(line: 50): estimated parameter 'process[Recruitment].ycs_values{2011}' was within 0.001 of upper bound 3
 *estimate_value[summary]
 values {d}
 process[Recruitment].b0 selectivity[chatTANSel].mu selectivity[chatTANSel].sigma_l selectivity[chatTANSel].sigma_r selectivity[eastFSel].mu selectivity[eastFSel].sigma_l selectivity[eastFSel].sigma_r selectivity[westFSel].mu selectivity[westFSel].sigma_l selectivity[westFSel].sigma_r process[Recruitment].ycs_values{1975} process[Recruitment].ycs_values{1976} process[Recruitment].ycs_values{1977} process[Recruitment].ycs_values{1978} process[Recruitment].ycs_values{1979} process[Recruitment].ycs_values{1980} process[Recruitment].ycs_values{1981} process[Recruitment].ycs_values{1982} process[Recruitment].ycs_values{1983} process[Recruitment].ycs_values{1984} process[Recruitment].ycs_values{1985} process[Recruitment].ycs_values{1986} process[Recruitment].ycs_values{1987} process[Recruitment].ycs_values{1988} process[Recruitment].ycs_values{1989} process[Recruitment].ycs_values{1990} process[Recruitment].ycs_values{1991} process[Recruitment].ycs_values{1992} process[Recruitment].ycs_values{1993} process[Recruitment].ycs_values{1994} process[Recruitment].ycs_values{1995} process[Recruitment].ycs_values{1996} process[Recruitment].ycs_values{1997} process[Recruitment].ycs_values{1998} process[Recruitment].ycs_values{1999} process[Recruitment].ycs_values{2000} process[Recruitment].ycs_values{2001} process[Recruitment].ycs_values{2002} process[Recruitment].ycs_values{2003} process[Recruitment].ycs_values{2004} process[Recruitment].ycs_values{2005} process[Recruitment].ycs_values{2006} process[Recruitment].ycs_values{2007} process[Recruitment].ycs_values{2008} process[Recruitment].ycs_values{2009} process[Recruitment].ycs_values{2010} process[Recruitment].ycs_values{2011} 
 52715.2 9.60572 5.44333 11.6139 10.9038 3.51659 7.05311 6.57345 3.05878 8.04328 1.02704 1.05107 1.0695 1.08057 1.08292 1.07388 1.05136 1.02565 1.01001 0.423036 0.474271 0.515759 0.379102 0.521181 0.439839 0.66603 0.988851 0.749307 0.643662 0.583723 0.48119 0.31672 0.299188 0.218314 0.328051 0.216723 0.324072 0.910974 0.518689 0.429989 0.185345 0.304371 0.257212 0.229268 0.259215 3 3 
+std_dev {d}
+process[Recruitment].b0 selectivity[chatTANSel].mu selectivity[chatTANSel].sigma_l selectivity[chatTANSel].sigma_r selectivity[eastFSel].mu selectivity[eastFSel].sigma_l selectivity[eastFSel].sigma_r selectivity[westFSel].mu selectivity[westFSel].sigma_l selectivity[westFSel].sigma_r process[Recruitment].ycs_values{1975} process[Recruitment].ycs_values{1976} process[Recruitment].ycs_values{1977} process[Recruitment].ycs_values{1978} process[Recruitment].ycs_values{1979} process[Recruitment].ycs_values{1980} process[Recruitment].ycs_values{1981} process[Recruitment].ycs_values{1982} process[Recruitment].ycs_values{1983} process[Recruitment].ycs_values{1984} process[Recruitment].ycs_values{1985} process[Recruitment].ycs_values{1986} process[Recruitment].ycs_values{1987} process[Recruitment].ycs_values{1988} process[Recruitment].ycs_values{1989} process[Recruitment].ycs_values{1990} process[Recruitment].ycs_values{1991} process[Recruitment].ycs_values{1992} process[Recruitment].ycs_values{1993} process[Recruitment].ycs_values{1994} process[Recruitment].ycs_values{1995} process[Recruitment].ycs_values{1996} process[Recruitment].ycs_values{1997} process[Recruitment].ycs_values{1998} process[Recruitment].ycs_values{1999} process[Recruitment].ycs_values{2000} process[Recruitment].ycs_values{2001} process[Recruitment].ycs_values{2002} process[Recruitment].ycs_values{2003} process[Recruitment].ycs_values{2004} process[Recruitment].ycs_values{2005} process[Recruitment].ycs_values{2006} process[Recruitment].ycs_values{2007} process[Recruitment].ycs_values{2008} process[Recruitment].ycs_values{2009} process[Recruitment].ycs_values{2010} process[Recruitment].ycs_values{2011} 
+12781.8 0.941026 0.799638 2.95496 1.75396 1.02515 2.15534 1.0505 1.07848 1.46112 0.0720313 0.10061 0.121998 0.136976 0.150599 0.153496 0.157246 0.163522 0.171965 0.27683 0.257772 0.2077 0.15377 0.170768 0.187938 0.195608 0.252888 0.200267 0.161674 0.149904 0.131549 0.0980623 0.0947994 0.0879243 0.10825 0.0918251 0.13139 0.215838 0.171549 0.148478 0.0913314 0.133281 0.14217 0.145866 0.224296 3.45135e-07 1.35718e-06 
 *end
 
 *objective_function[objective]
@@ -3556,5 +3559,5 @@ estimated parameter 'process[Recruitment].ycs_values{2011}' was within 0.001 of 
 *end
 
 Total CPU time: 0.005 hours.
-Total elapsed time: 9 seconds
+Total elapsed time: 10 seconds
 Completed

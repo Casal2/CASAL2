@@ -121,7 +121,6 @@ distribution
 e
 electivities
 equation
-error_value
 error_value_multiplier
 estimate_label
 estimate_labels
@@ -188,7 +187,6 @@ n
 names
 normalised_residuals
 number_of_growth_episodes
-obs
 observation
 p1
 p2
