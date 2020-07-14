@@ -36,7 +36,7 @@ Abundance::Abundance(Model* model) : Observation(model) {
   parameters_.Bind<string>(PARAM_SELECTIVITIES, &selectivity_labels_, "The labels of the selectivities", "", true);
   parameters_.Bind<Double>(PARAM_PROCESS_ERROR, &process_error_value_, "The process error", "", Double(0.0))->set_lower_bound(0.0);
   parameters_.Bind<unsigned>(PARAM_YEARS, &years_, "The years for which there are observations", "");
-  parameters_.BindTable(PARAM_OBS, obs_table_, "The table of observed values", "", false);
+  parameters_.BindTable(PARAM_OBS, obs_table_, "The table of observed values and error values", "", false);
 
   RegisterAsAddressable(PARAM_PROCESS_ERROR, &process_error_value_);
 
