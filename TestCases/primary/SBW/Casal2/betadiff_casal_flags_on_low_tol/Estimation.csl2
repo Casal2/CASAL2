@@ -69,7 +69,7 @@ parameter process[Instantaneous_Mortality].m{male.nonspawn}
 same process[Instantaneous_Mortality].m{male.spawn}
 mu 0.20
 cv 0.20
-estimation_phase 2
+estimation_phase 1
 lower_bound 0.05
 upper_bound 0.75
 prior_applies_to_transform true
@@ -77,7 +77,7 @@ prior_applies_to_transform true
 # female
 @estimate M_female_with_diff_prior
 type normal_by_stdev
-estimation_phase 2
+estimation_phase 1
 parameter process[Instantaneous_Mortality].m{female.nonspawn}
 same process[Instantaneous_Mortality].m{female.spawn}
 mu 0.0

@@ -50,7 +50,7 @@ Observation data include:
 Parameters estimated include:
 
 * B0
-* process error for the immature and mature survey indices
+* process error for the mature survey index
 * the average of and difference between male and female natural mortality
 * sex-specific migration rates
 * YCS (recruitment deviations)
