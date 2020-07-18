@@ -84,7 +84,6 @@ class Installer:
     file.write('Source: "Casal2\\Casal2 User Manual.pdf"; DestDir: "{app}"; Flags: ignoreversion\n')
     file.write('Source: "Casal2\\R-Libraries\\*"; DestDir: "{app}\\R-Libraries"; Flags: replacesameversion recursesubdirs\n')
     file.write('Source: "Casal2\\Examples\\*"; DestDir: "{app}\\Examples"; Flags: replacesameversion recursesubdirs\n')
-    file.write('Source: "Casal2\\TestCases\\*"; DestDir: "{app}\\TestCases"; Flags: replacesameversion recursesubdirs\n')
     file.write('Source: "Casal2\\README.txt"; DestDir: "{app}"; Flags: ignoreversion\n')
     file.write('Source: "Casal2\\GettingStartedGuide.pdf"; DestDir: "{app}"; Flags: ignoreversion\n')
     file.write('Source: "Casal2\\ContributorsGuide.pdf"; DestDir: "{app}"; Flags: ignoreversion\n')
