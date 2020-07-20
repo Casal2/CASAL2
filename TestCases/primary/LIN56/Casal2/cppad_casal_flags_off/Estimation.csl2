@@ -10,13 +10,13 @@ covariance true
 
 @mcmc mcmc
 start 0.3
-length 42000000 # originally 30M
-keep 3500 # originally 2500 -> save every 12000th
+length 31000000 # originally 30M
+keep 2500
 step_size 0.02
 adapt_stepsize_at 10000 50000 150000 250000 450000
 proposal_distribution t
 adapt_stepsize_method double_half
-adapt_covariance_matrix_at 12000000
+adapt_covariance_matrix_at 1000000
 max_correlation 0.9
 
 

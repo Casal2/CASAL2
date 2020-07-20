@@ -13,12 +13,13 @@ type cppad
 ################
 @mcmc mcmc
 start 0
-length 4000000
+length 5500000 # originally 4M
 keep 2500
 step_size 0.02
 adapt_stepsize_at 10000 50000 150000 250000 450000 750000 1400000
 proposal_distribution t
 adapt_stepsize_method double_half
+adapt_covariance_matrix_at 1500000
 
 #############
 ## Estimates
