@@ -1,11 +1,10 @@
-## Estimation script for HAK base model
 #############
 ## Estimation BCO
 #############
 @minimiser cppad
 type cppad
+iterations 20
 #evaluations 4000
-#iterations 1000
 #tolerance 0.00002
 
 ################
