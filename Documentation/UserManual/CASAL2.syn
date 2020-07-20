@@ -174,7 +174,6 @@ m
 max_age
 max_correlation
 max_generations
-max_iter
 mcmc
 mean
 method
@@ -259,7 +258,6 @@ time_step_proportions
 time_step_ratio
 time_steps
 to
-tol
 tolerance
 total_categories
 transform_with_jacobian
