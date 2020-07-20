@@ -112,17 +112,18 @@ void EstimateValue::DoExecuteTabular() {
     auto minimiser_ = model_->managers().minimiser()->active_minimiser();
     if (minimiser_) {
       covariance_matrix_ = minimiser_->covariance_matrix();
-      if (estimates.size() != covariance_matrix_.size1())
+      if (model_->run_mode() == RunMode::kEstimation && estimates.size() != covariance_matrix_.size1())
         LOG_WARNING() << "The number of estimated parameters " << estimates.size() << " does not match the dimension of the covariance matrix "
           << covariance_matrix_.size1();
-      vector<double> est_std_dev(covariance_matrix_.size1(), 0.0);
-      for (unsigned i = 0; i < covariance_matrix_.size1(); ++i) {
-        est_std_dev[i] = sqrt(covariance_matrix_(i, i));
-      }
+      if (covariance_matrix_.size1() > 0) {
+        vector<double> est_std_dev(covariance_matrix_.size1(), 0.0);
+        for (unsigned i = 0; i < covariance_matrix_.size1(); ++i)
+          est_std_dev[i] = sqrt(covariance_matrix_(i, i));
 
-      for (auto sd: est_std_dev)
-        cache_ << sd << " ";
-      cache_ << "\n";
+        for (auto sd: est_std_dev)
+          cache_ << sd << " ";
+        cache_ << "\n";
+      }
     }
   }
 }
