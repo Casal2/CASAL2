@@ -76,13 +76,13 @@ Model::Model() {
   parameters_.Bind<string>(PARAM_BASE_UNITS, &base_weight_units_, "The units for the base weight. This will be the default unit of any weight input parameters ", "grams, kgs or tonnes", PARAM_TONNES)->set_allowed_values({PARAM_GRAMS, PARAM_TONNES,PARAM_KGS});
 
   global_configuration_ = new GlobalConfiguration();
-  managers_ = new Managers(this);
-  objects_ = new Objects(this);
-  categories_ = new Categories(this);
-  factory_ = new Factory(this);
-  partition_ = new Partition(this);
-  objective_function_ = new ObjectiveFunction(this);
-  equation_parser_ = new EquationParser(this);
+  managers_             = new Managers(this);
+  objects_              = new Objects(this);
+  categories_           = new Categories(this);
+  factory_              = new Factory(this);
+  partition_            = new Partition(this);
+  objective_function_   = new ObjectiveFunction(this);
+  equation_parser_      = new EquationParser(this);
 }
 
 /**
@@ -92,10 +92,11 @@ Model::~Model() {
   delete global_configuration_;
   delete managers_;
   delete objects_;
-  delete factory_;
   delete categories_;
+  delete factory_;
   delete partition_;
   delete objective_function_;
+  delete equation_parser_;
 }
 
 /**
@@ -795,12 +796,15 @@ void Model::RunSimulation() {
  */
 void Model::RunProjection() {
   LOG_TRACE();
+
   int projection_candidates = global_configuration_->projection_candidates();
   if (projection_candidates < 1) {
     LOG_FATAL() << "The number of projections specified at the command line parser must be at least 1";
   }
+
   Estimables& estimables = *managers_->estimables();
   vector<Double*> estimable_targets;
+
   // Create an instance of all categories
   niwa::partition::accessors::All all_view(this);
 
@@ -809,6 +813,7 @@ void Model::RunProjection() {
     for (int j = 0; j < projection_candidates; ++j) {
       LOG_FINE() << "Beginning initial model run for projections";
       projection_final_phase_ = false;
+
       if (addressable_values_file_) {
         LOG_FINE() << "Loading input parameters";
         estimables.LoadValues(i);
@@ -828,17 +833,19 @@ void Model::RunProjection() {
 
       state_ = State::kExecute;
 
-      timesteps::Manager& time_step_manager = *managers_->time_step();
+      timesteps::Manager& time_step_manager      = *managers_->time_step();
       timevarying::Manager& time_varying_manager = *managers_->time_varying();
-      projects::Manager& project_manager = *managers_->project();
+      projects::Manager& project_manager         = *managers_->project();
 
       for (current_year_ = start_year_; current_year_ <= final_year_; ++current_year_) {
         LOG_FINE() << "Iteration year: " << current_year_;
         time_varying_manager.Update(current_year_);
+
         // Iterate over all partition members and UpDate Mean Weight for the inital weight calculations
         for (auto iterator = all_view.Begin(); iterator != all_view.End(); ++iterator) {
           (*iterator)->UpdateMeanLengthData();
         }
+
         time_step_manager.Execute(current_year_);
         project_manager.StoreValues(current_year_);
       }
@@ -847,13 +854,16 @@ void Model::RunProjection() {
        * Running the model now
        */
       LOG_FINE() << "Entering the Projection Sub-System";
+
       // Reset the model
       projection_final_phase_ = true;
       Reset();
       state_ = State::kInitialise;
       current_year_ = start_year_;
+
       // Run the intialisation phase
       init_phase_manager.Execute();
+
       // Reset all parameter and re run the model
       managers_->report()->Execute(State::kInitialise);
 
@@ -861,10 +871,12 @@ void Model::RunProjection() {
       LOG_FINE() << "Starting projection years";
       for (; current_year_ <= projection_final_year_; ++current_year_) {
         LOG_FINE() << "Iteration year: " << current_year_;
+
         // Iterate over all partition members and UpDate Mean Weight for the inital weight calculations
         for (auto iterator = all_view.Begin(); iterator != all_view.End(); ++iterator) {
           (*iterator)->UpdateMeanLengthData();
         }
+
         project_manager.Update(current_year_);
         time_step_manager.Execute(current_year_);
       }

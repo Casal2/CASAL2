@@ -40,7 +40,7 @@ TagByAge::TagByAge(Model* model)
   parameters_.Bind<unsigned>(PARAM_MIN_AGE, &min_age_, "The minimum age to transition", "");
   parameters_.Bind<unsigned>(PARAM_MAX_AGE, &max_age_, "The maximum age to transition", "");
   parameters_.Bind<string>(PARAM_PENALTY, &penalty_label_, "The penalty label", "", "");
-  parameters_.Bind<Double>(PARAM_U_MAX, &u_max_, "U Max", "", 0.99)->set_range(0.0, 1.0, false, true);
+  parameters_.Bind<Double>(PARAM_U_MAX, &u_max_, "U max", "", 0.99)->set_range(0.0, 1.0, false, true);
   parameters_.Bind<unsigned>(PARAM_YEARS, &years_, "The years to execute the transition in", "");
   parameters_.Bind<double>(PARAM_INITIAL_MORTALITY, &initial_mortality_, "The initial mortality value", "", 0.0)->set_lower_bound(0.0);
   parameters_.Bind<string>(PARAM_INITIAL_MORTALITY_SELECTIVITY, &initial_mortality_selectivity_label_, "The initial mortality selectivity label", "", "");

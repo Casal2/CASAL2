@@ -22,7 +22,7 @@ namespace projects {
  */
 
 LogNormalEmpirical::LogNormalEmpirical(Model* model) : Project(model) {
-  parameters_.Bind<Double>(PARAM_MEAN, &mean_, "The mean of gaussian process", "",0.0);
+  parameters_.Bind<Double>(PARAM_MEAN, &mean_, "The mean of the Gaussian process", "",0.0);
   parameters_.Bind<unsigned>(PARAM_START_YEAR, &start_year_, "The start year of sampling", "", false);
   parameters_.Bind<unsigned>(PARAM_FINAL_YEAR, &final_year_, "The final year of sampling", "", false);
 }
@@ -49,7 +49,7 @@ void LogNormalEmpirical::DoReset() {
   Double Random_draw = 0.0;
   unsigned year = 0;
   for (unsigned project_year : years_) {
-    Random_draw = ceil(rng.uniform((unsigned)start_year_, (unsigned)final_year_));
+    Random_draw = floor(rng.uniform((double)start_year_, ((double)final_year_ + 0.99999)));
     year = 0;
     if (!utilities::To<Double>(Random_draw, year))
       LOG_ERROR() << " Random draw " << Random_draw << " could not be converted to Double";
@@ -99,13 +99,13 @@ void LogNormalEmpirical::DoUpdate() {
     value_ = exp((alpha_ + rho_ * last_value_ + Z) - 0.5 * sigma_ * sigma_);
   } else {
   */
-    // Just a standard normal deviation
-    value_ = exp(normal_draw_by_year_[model_->current_year()] - 0.5 * sigma_ * sigma_);
+  // Just a standard normal deviation
+  value_ = exp(normal_draw_by_year_[model_->current_year()] - 0.5 * sigma_ * sigma_);
 
   // Store this value to be pulled out next projection year
   value_ = value_ * multiplier_;
 
-  LOG_FINE() << "Setting Value to: " << value_;
+  LOG_FINE() << "Setting value to: " << value_;
   (this->*DoUpdateFunc_)(value_);
 }
 

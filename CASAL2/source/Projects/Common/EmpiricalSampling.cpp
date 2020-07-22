@@ -56,7 +56,7 @@ void EmpiricalSampling::DoReset() {
   Double Random_draw = 0.0;
   unsigned year = 0;
   for (unsigned project_year : years_) {
-    Random_draw = ceil(rng.uniform((unsigned)start_year_, (unsigned)final_year_));
+    Random_draw = floor(rng.uniform((double)start_year_, ((double)final_year_ + 0.99999)));
     year = 0;
     // if (!utilities::To<Double, unsigned>(Random_draw, year))
     if (!utilities::To<Double>(Random_draw, year))
@@ -71,7 +71,7 @@ void EmpiricalSampling::DoReset() {
  */
 void EmpiricalSampling::DoUpdate() {
   value_ = stored_values_[resampled_years_[model_->current_year()]] * multiplier_;
-  LOG_FINE() << "In year: " << model_->current_year() << " Setting Value to: " << value_ << " drawn from year: "
+  LOG_FINE() << "In year: " << model_->current_year() << " setting value to: " << value_ << " drawn from year: "
     << resampled_years_[model_->current_year()];
   (this->*DoUpdateFunc_)(value_);
 }
