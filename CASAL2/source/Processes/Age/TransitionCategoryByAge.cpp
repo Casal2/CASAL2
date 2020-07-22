@@ -44,7 +44,7 @@ TransitionCategoryByAge::TransitionCategoryByAge(Model* model)
   parameters_.Bind<unsigned>(PARAM_MIN_AGE, &min_age_, "The minimum age to transition", "");
   parameters_.Bind<unsigned>(PARAM_MAX_AGE, &max_age_, "The maximum age to transition", "");
   parameters_.Bind<string>(PARAM_PENALTY, &penalty_label_, "The penalty label", "", "");
-  parameters_.Bind<Double>(PARAM_U_MAX, &u_max_, "U max", "", 0.99)->set_range(0.0, 1.0, false, true);
+  parameters_.Bind<Double>(PARAM_U_MAX, &u_max_, "The maximum exploitation rate ($U_max$)", "", 0.99)->set_range(0.0, 1.0);
   parameters_.Bind<unsigned>(PARAM_YEARS, &years_, "The years to execute the transition in", "");
   parameters_.BindTable(PARAM_N, n_table_, "The table of N data", "");
 }
