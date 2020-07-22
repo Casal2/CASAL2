@@ -811,7 +811,7 @@ void Model::RunProjection() {
   // Model is about to run
   for (unsigned i = 0; i < addressable_values_count_; ++i) {
     for (int j = 0; j < projection_candidates; ++j) {
-      LOG_FINE() << "Beginning initial model run for projections";
+      LOG_FINE() << "Beginning initial model run for projection number " << (j+1);
       projection_final_phase_ = false;
 
       if (addressable_values_file_) {
@@ -853,7 +853,7 @@ void Model::RunProjection() {
       /**
        * Running the model now
        */
-      LOG_FINE() << "Entering the Projection Sub-System";
+      LOG_FINE() << "Entering the Projection Subsystem";
 
       // Reset the model
       projection_final_phase_ = true;
@@ -899,8 +899,8 @@ void Model::RunProjection() {
  * Iterate the model
  *
  * This method will do a single iteration of the model. During
- * a basic run it'll only run once, but during the other run modes i.e. estiamtion and MCMC
- * it'll run multiple times.
+ * a basic run it will run once only. During the other run modes e.g., estimation, MCMC,
+ * it will run multiple times.
  */
 void Model::Iterate() {
   LOG_TRACE();

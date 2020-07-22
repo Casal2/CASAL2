@@ -138,7 +138,7 @@ void RecruitmentBevertonHolt::DoValidate() {
     proportions_by_category_[category] = proportions_[iter];
     ++iter;
   }
-  last_ycs_year_ = ycs_years_[std::distance(ycs_years_.begin(),std::max_element(ycs_years_.begin(), ycs_years_.end()))];
+  last_ycs_year_ = ycs_years_[std::distance(ycs_years_.begin(), std::max_element(ycs_years_.begin(), ycs_years_.end()))];
 
 }
 
@@ -495,14 +495,12 @@ void RecruitmentBevertonHolt::FillReportCache(ostringstream& cache) {
 void RecruitmentBevertonHolt::FillTabularReportCache(ostringstream& cache, bool first_run) {
   if (first_run) {
     vector<unsigned> years = model_->years();
-    for (auto year : years) {
-      unsigned ssb_year = year - ssb_offset_;
-      cache << "standardised_ycs[" << ssb_year << "] ";
-    }
-    for (auto year : years) {
-      unsigned ssb_year = year - ssb_offset_;
-      cache << "ycs_values[" << ssb_year << "] ";
-    }
+
+    for (auto iter : stand_ycs_value_by_year_)
+      cache << "standardised_ycs[" << iter.first << "] ";
+    for (auto iter : ycs_value_by_year_)
+      cache << "ycs_values[" << iter.first << "] ";
+
     for (auto year : years) {
       unsigned ssb_year = year - ssb_offset_;
       cache <<  "true_ycs[" << ssb_year << "] ";
@@ -515,6 +513,7 @@ void RecruitmentBevertonHolt::FillTabularReportCache(ostringstream& cache, bool 
       unsigned ssb_year = year - ssb_offset_;
       cache << "SSB["<< ssb_year << "] ";
     }
+
     cache << "R0 B0 steepness ";
     cache << "\n";
   }
@@ -523,12 +522,14 @@ void RecruitmentBevertonHolt::FillTabularReportCache(ostringstream& cache, bool 
     cache << AS_VALUE(iter.second) << " ";
   for (auto iter : ycs_value_by_year_)
     cache << AS_VALUE(iter.second) << " ";
+
   for (auto value : true_ycs_values_)
     cache << AS_VALUE(value) << " ";
   for (auto value : recruitment_values_)
     cache << AS_VALUE(value) << " ";
   for (auto value : ssb_values_)
     cache << AS_VALUE(value) << " ";
+
   cache << AS_VALUE(r0_) << " " << AS_VALUE(b0_) << " " << AS_VALUE(steepness_) << " ";
   cache << "\n";
 
