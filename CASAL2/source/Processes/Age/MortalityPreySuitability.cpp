@@ -52,7 +52,7 @@ MortalityPreySuitability::MortalityPreySuitability(Model* model)
   parameters_.Bind<string>(PARAM_PREDATOR_CATEGORIES, &predator_category_labels_, "The predator categories labels", "");
   parameters_.Bind<Double>(PARAM_CONSUMPTION_RATE, &consumption_rate_, "The predator consumption rate", "")->set_range(0.0, 1.0);
   parameters_.Bind<Double>(PARAM_ELECTIVITIES, &electivities_, "The prey electivities", "")->set_range(0.0, 1.0);
-  parameters_.Bind<Double>(PARAM_U_MAX, &u_max_, "The maximum exploitation rate ($U_max$)", "", 0.99)->set_range(0.0, 1.0);
+  parameters_.Bind<Double>(PARAM_U_MAX, &u_max_, "The maximum exploitation rate ($U_{max}$)", "", 0.99)->set_range(0.0, 1.0);
   parameters_.Bind<string>(PARAM_PREY_SELECTIVITIES, &prey_selectivity_labels_, "The selectivities for prey categories", "");
   parameters_.Bind<string>(PARAM_PREDATOR_SELECTIVITIES, &predator_selectivity_labels_, "The selectivities for predator categories", "");
   parameters_.Bind<string>(PARAM_PENALTY, &  penalty_label_, "The label of the penalty", "","");
