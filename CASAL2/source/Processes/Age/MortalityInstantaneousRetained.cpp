@@ -623,21 +623,27 @@ void MortalityInstantaneousRetained::DoExecute() {
     /**
      * Work out the exploitation rate to remove (catch/vulnerable) for each fishery
      */
+    Double exploitation;
     for (auto& fishery_iter : fisheries_) {
       auto& fishery = fishery_iter.second;
-      Double exploitation = 0.0;
+      exploitation  = 0.0;
 
       // If fishery occurs in this time step calculate exploitation rate
       if (fishery.time_step_index_ == time_step_index) {
         fishery.catches_[year] = fishery.retained_catches_[year] * fishery.total_vulnerability_ / utilities::doublecompare::ZeroFun(fishery.retained_vulnerability_);
         exploitation = fishery.catches_[year] / utilities::doublecompare::ZeroFun(fishery.total_vulnerability_); // like first process (except with "total_")
 //        exploitation = fishery.catches_[year] / utilities::doublecompare::ZeroFun(fishery.retained_vulnerability_);
+
+        fishery.exploitation_ = exploitation;
+
         LOG_FINEST() << " Vulnerable biomass for fishery " << fishery.label_ << " = " << fishery.retained_vulnerability_
           << " with catch = " << fishery.catches_[model_->current_year()] << " and exploitation = " << exploitation;
+      } else if (fishery.time_step_index_ > time_step_index) {
+        // reset exploitation for fisheries in subsequent time steps only
+        fishery.exploitation_ = exploitation;
       }
 
-      fishery.exploitation_ = exploitation;
-      LOG_FINE() << "time_step = " << time_step_index << " fishery = " << fishery.label_ << " exploitation = " << fishery.exploitation_;
+      LOG_FINE() << "year = " << year << " time_step = " << time_step_index << " fishery = " << fishery.label_ << " exploitation = " << fishery.exploitation_;
     }
 
     for (auto& fishery_category : fishery_categories_) {
