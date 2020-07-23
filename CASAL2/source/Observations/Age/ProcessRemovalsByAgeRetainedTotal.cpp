@@ -404,7 +404,7 @@ void ProcessRemovalsByAgeRetainedTotal::CalculateScore() {
    * Simulate or generate results
    * During simulation mode we'll simulate results for this observation
    */
-  LOG_FINEST() << "Calculating score for observation = " << label_;
+  LOG_FINEST() << "Calculating neglogLikelihood for observation = " << label_;
 
   if (model_->run_mode() == RunMode::kSimulation) {
 
@@ -441,18 +441,18 @@ void ProcessRemovalsByAgeRetainedTotal::CalculateScore() {
     }
 
     likelihood_->GetScores(comparisons_);
-
     for (unsigned year : years_) {
       scores_[year] = likelihood_->GetInitialScore(comparisons_, year);
-      LOG_FINEST() << "-- Observation score calculation";
-      LOG_FINEST() << "[" << year << "] Initial Score:" << scores_[year];
+      LOG_FINEST() << "-- Observation neglogLikelihood calculation";
+      LOG_FINEST() << "[" << year << "] Initial neglogLikelihood:" << scores_[year];
 
       for (obs::Comparison comparison : comparisons_[year]) {
-        LOG_FINEST() << "[" << year << "]+ likelihood score: "
-            << comparison.score_;
+        LOG_FINEST() << "[" << year << "] + neglogLikelihood: " << comparison.score_;
         scores_[year] += comparison.score_;
       }
     }
+
+    LOG_FINEST() << "Finished calculating neglogLikelihood for = " << label_;
   }
 }
 
