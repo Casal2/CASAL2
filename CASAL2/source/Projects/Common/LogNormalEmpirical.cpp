@@ -36,8 +36,14 @@ void LogNormalEmpirical::DoValidate() {
     start_year_ = model_->start_year();
   if (!parameters_.Get(PARAM_FINAL_YEAR)->has_been_defined())
     final_year_ = model_->final_year();
+
+  if (start_year_ < model_->start_year())
+    LOG_ERROR_P(PARAM_START_YEAR) << start_year_ << " must be greater than or equal to the model start year " << model_->start_year();
+  if (final_year_ > model_->final_year())
+    LOG_ERROR_P(PARAM_FINAL_YEAR) << final_year_ << " must be less than or equal to the model final year " << model_->final_year();
+
   if (final_year_ <= start_year_)
-    LOG_ERROR_P(PARAM_FINAL_YEAR) << " " << final_year_ << " must be greater than start year " << start_year_;
+    LOG_ERROR_P(PARAM_FINAL_YEAR) << final_year_ << " must be greater than start year " << start_year_;
 }
 
 /**
