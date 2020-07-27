@@ -59,7 +59,7 @@ MortalityInstantaneousRetained::MortalityInstantaneousRetained(Model* model)
   parameters_.BindTable(PARAM_METHOD, method_table_, "The table of method of removal data", "", true, false);
   parameters_.Bind<Double>(PARAM_M, &m_input_, "The natural mortality rates for each category", "")->set_lower_bound(0.0);
   parameters_.Bind<double>(PARAM_TIME_STEP_RATIO, &time_step_ratios_temp_, "The time step ratios for natural mortality", "", true)->set_range(0.0, 1.0);
-  parameters_.Bind<string>(PARAM_SELECTIVITIES, &selectivity_labels_, "The selectivities to apply on the categories for natural mortality", "");
+  parameters_.Bind<string>(PARAM_RELATIVE_M_BY_AGE, &selectivity_labels_, "The M-by-age ogives to apply on the categories for natural mortality", "");
 
   RegisterAsAddressable(PARAM_M, &m_);
 }
@@ -131,9 +131,9 @@ void MortalityInstantaneousRetained::DoValidate() {
   }
 
   if (selectivity_labels_.size() != category_labels_.size()) {
-    LOG_FATAL_P(PARAM_SELECTIVITIES)
-      << ": The number of selectivities provided is not the same as the number of categories provided. Categories: "
-      << category_labels_.size()<< ", Selectivities: " << selectivity_labels_.size();
+    LOG_FATAL_P(PARAM_RELATIVE_M_BY_AGE)
+      << ": The number of M-by-age ogives provided is not the same as the number of categories provided. Categories: "
+      << category_labels_.size()<< ", Ogives: " << selectivity_labels_.size();
   }
 
   if (m_input_.size() == 1) {
@@ -413,7 +413,7 @@ void MortalityInstantaneousRetained::DoBuild() {
     // Selectivity
     Selectivity* selectivity = model_->managers().selectivity()->GetSelectivity(category.selectivity_label_);
     if (!selectivity)
-      LOG_ERROR_P(PARAM_SELECTIVITIES) << "Selectivity label " << category.selectivity_label_ << " was not found.";
+      LOG_ERROR_P(PARAM_RELATIVE_M_BY_AGE) << "M-by-age ogive label " << category.selectivity_label_ << " was not found.";
     category.selectivity_ = selectivity;
     selectivities_.push_back(selectivity);
 

@@ -536,6 +536,7 @@
 #define PARAM_RECRUITMENT_CONSTANT                "recruitment_constant"
 #define PARAM_RECRUITMENT_LABEL                   "recruitment_label"
 #define PARAM_RECRUITMENT_VALUES                  "recruitment_values"
+#define PARAM_RELATIVE_M_BY_AGE                   "relative_m_by_age"
 #define PARAM_REPORT                              "report"
 #define PARAM_RESCALE                             "rescale"
 #define PARAM_RETAINED_SELECTIVITY                "retained_selectivity"

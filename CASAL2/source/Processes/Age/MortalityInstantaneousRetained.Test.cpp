@@ -30,19 +30,19 @@ using niwa::testfixtures::InternalEmptyModel;
 const std::string test_cases_process_mortality_instantaneous_retained =
 R"(
 @model
-start_year 2001 
+start_year 2001
 final_year 2005
 min_age 1
-max_age 20 
+max_age 20
 age_plus true
 base_weight_units tonnes
 initialisation_phases Define_manually
 time_steps 1
 
-@categories 
+@categories
 format sex
 names   male
-age_lengths asMm0 
+age_lengths asMm0
 
 @initialisation_phase Define_manually
 type state_category_by_age
@@ -53,14 +53,14 @@ table n
 male 100000 90000 80000 70000 60000 50000 40000 30000 20000 10000
 end_table
 
-@time_step 1 
+@time_step 1
 processes mort
 
 @process mort
 type mortality_instantaneous_retained
 m 0
 time_step_ratio 1
-selectivities One
+relative_m_by_age One
 categories *
 table catches
 year FishingPot
@@ -80,13 +80,13 @@ type constant
 c 0.5
 
 @selectivity potFSel_length_male
-type logistic 
+type logistic
 a50   4
 ato95  1
 length_based False
 
 @selectivity potRet_male
-type logistic 
+type logistic
 a50   6
 ato95  1
 length_based False

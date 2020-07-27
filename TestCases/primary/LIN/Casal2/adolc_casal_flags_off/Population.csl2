@@ -44,7 +44,7 @@ ssb SSB
 age 3           ## Same as min_age
 
 
-## Ageing
+# Ageing
 @process Ageing
 type ageing
 categories male female
@@ -55,7 +55,7 @@ categories male female
 type mortality_instantaneous
 m 1
 time_step_ratio 0.75 0.25
-selectivities M_all
+relative_m_by_age M_all
 categories male female
 table catches
 year	FishingTrwl	FishingLineHome	FishingLineSpawn

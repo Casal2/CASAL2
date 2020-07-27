@@ -59,7 +59,7 @@ categories male female
 type mortality_instantaneous
 m 0.19
 time_step_ratio 0.58 0.42
-selectivities One
+relative_m_by_age One
 categories *
 table catches
 year    subaF
