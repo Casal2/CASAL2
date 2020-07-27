@@ -27,7 +27,7 @@ adapt_stepsize_method double_half
 #burn_in 500
 #subsample_size 2000
 #systematic 1
-max_correlation 0.9
+max_correlation 0.8
 adapt_covariance_matrix_at 1000000
 
 

@@ -17,7 +17,7 @@ adapt_stepsize_at 10000 50000 150000 250000 450000
 proposal_distribution t
 adapt_stepsize_method double_half
 adapt_covariance_matrix_at 1000000
-max_correlation 0.9
+max_correlation 0.8
 
 
 @estimate B0
