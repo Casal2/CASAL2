@@ -1,0 +1,277 @@
+# THE MODEL
+@model
+start_year 1972
+final_year 2018
+projection_final_year 2023
+min_age 3
+max_age 25
+base_weight_units tonnes
+age_plus true
+initialisation_phases Equilibrium_phase
+time_steps Dec_Aug Sep_Nov
+
+# CATEGORIES
+@categories
+format sex ## sex category
+names male female
+age_lengths vb_male vb_female ## naming
+
+@initialisation_phase Equilibrium_phase
+type Derived
+casal_initialisation_switch false
+
+
+## Define the Annual Cycle
+## This is a list of labels that correspond to a process
+@time_step Dec_Aug
+processes Recruitment Instantaneous_Mortality
+
+@time_step Sep_Nov
+processes Ageing Instantaneous_Mortality
+
+
+## Define the above Processes
+@process Recruitment
+type recruitment_beverton_holt
+categories male female
+proportions 0.5 0.5
+b0 350000          ## find a reasonable starting value
+standardise_ycs_years                     1972 1973 1974 1975 1976 1977 1978 1979 1980 1981 1982 1983 1984 1985 1986 1987 1988 1989 1990 1991 1992 1993 1994 1995 1996 1997 1998 1999 2000 2001 2002 2003 2004 2005 2006 2007 2008 2009 2010 2011 2012 2013 2014
+ycs_values            1    1    1    1    1.00 0.17 1.62 1.15 0.66 1.16 0.88 1.22 0.97 1.52 0.83 1.13 0.67 0.98 0.67 0.66 0.68 0.87 0.91 0.89 0.91 1.56 1.36 1.50 1.20 0.95 0.90 1.00 1.00 1.00 1.00 1.00 1.00 1.00 1.00 1.00 1.00 1.00 1.00 1.00 1.00 1.00 1.00
+ycs_years 1968:2014
+steepness 0.84
+ssb SSB
+age 3           ## Same as min_age
+
+
+## Ageing
+@process Ageing
+type ageing
+categories male female
+
+
+## Fishing Mortality
+@process Instantaneous_Mortality
+type mortality_instantaneous
+m 1
+time_step_ratio 0.75 0.25
+selectivities M_all
+categories male female
+table catches
+year	FishingTrwl	FishingLineHome	FishingLineSpawn
+1972	0	0	0
+1973	500	0	0
+1974	1120	0	0
+1975	900	118	192
+1976	3402	190	309
+1977	3100	301	490
+1978	1945	494	806
+1979	3707	1022	1668
+1980	5200	0	0
+1981	4427	0	0
+1982	2402	0	0
+1983	2778	5	1
+1984	3203	2	0
+1985	4480	25	3
+1986	3182	2	0
+1987	3962	0	0
+1988	2065	6	0
+1989	2923	10	2
+1990	3199	9	4
+1991	4534	392	97
+1992	6237	566	518
+1993	7335	1238	474
+1994	5456	770	486
+1995	5348	2355	338
+1996	6769	2153	531
+1997	6923	3412	614
+1998	6032	4032	581
+1999	5593	2721	489
+2000	7089	1421	1161
+2001	6629	818	1007
+2002	6970	426	1220
+2003	7205	183	892
+2004	7826	774	471
+2005	7870	276	894
+2006	6161	178	692
+2007	7504	34	651
+2008	6990	329	821
+2009	5225	276	432
+2010	4270	864	313
+2011	4404	567	169
+2012	4384	934	376
+2013	6234	135	340
+2014	5841	785	247
+2015	6176	611	229
+2016	5228	440	190
+2017	5816	633	153
+2018	5800	600	190
+end_table
+table method
+method  		category 	selectivity 	u_max	time_step	penalty
+FishingTrwl  		male   		trwlFSel_m	0.6	Dec_Aug		none
+FishingTrwl  		female   	trwlFSel_f	0.6	Dec_Aug		none
+FishingLineHome  	male	   	lineHomeFSel_m	0.6	Dec_Aug		none
+FishingLineHome  	female   	lineHomeFSel_f	0.6	Dec_Aug		none
+FishingLineSpawn  	male	   	lineSpawnFSel_m	0.6	Sep_Nov		none
+FishingLineSpawn  	female   	lineSpawnFSel_f	0.6	Sep_Nov		none
+end_table
+
+
+## Derived Quantities
+## SSB which gets fed into Recruitment
+@derived_quantity SSB
+type biomass
+time_step Sep_Nov
+categories male female
+time_step_proportion 0.5
+time_step_proportion_method weighted_sum
+selectivities MaturationSel_male MaturationSel_female
+
+
+## SELECTIVITIES
+@selectivity MaturationSel_male
+type all_values_bounded
+l 3
+h 10
+v 0 0 0.10 0.30 0.50 0.80 1.00 1.00
+
+@selectivity MaturationSel_female
+type all_values_bounded
+l 3
+h 10
+v 0 0 0.05 0.10 0.30 0.50 0.80 1.00
+
+
+@selectivity summerTANSel_m # Summer research survey
+type logistic
+a50 5
+ato95  3
+alpha  0.9
+
+@selectivity summerTANSel_f # Summer survey
+type logistic
+a50 5
+ato95  3
+alpha  1
+
+
+@selectivity autumnTANSel_m # Autumn survey
+type logistic
+a50 5
+ato95  3
+alpha  0.9
+
+@selectivity autumnTANSel_f # Autumn survey
+type logistic
+a50 5
+ato95  3
+alpha  1
+
+
+@selectivity trwlFSel_m # Trawl fishery
+type double_normal
+mu 10
+sigma_l 3
+sigma_r 25
+alpha  1
+
+@selectivity trwlFSel_f # Trawl fishery
+type double_normal
+mu 10
+sigma_l 3
+sigma_r 25
+alpha  1
+
+
+@selectivity lineHomeFSel_m # Line Non-spawning fishery
+type logistic
+a50 11
+ato95  3
+alpha  0.3
+
+@selectivity lineHomeFSel_f # Line Non-spawning fishery
+type logistic
+a50 11
+ato95  3
+alpha  1
+
+
+@selectivity lineSpawnFSel_m # Line Spawn fishery
+type logistic
+a50 11
+ato95  3
+alpha  0.5
+
+@selectivity lineSpawnFSel_f # Line Spawn fishery
+type logistic
+a50 11
+ato95  3
+alpha  1
+
+
+## Natural Mortality by age
+@selectivity M_all
+type double_exponential
+x0 8
+x1 3
+x2 25
+y0 0.18
+y1 0.25
+y2 0.5
+alpha 1.0
+
+
+# SIZE AT AGE
+@age_length vb_male
+type von_bertalanffy
+casal_switch false
+by_length true
+time_step_proportions 0.4 0.0
+k 0.188
+t0 -0.67
+Linf 93.2
+cv_first 0.12
+cv_last 0.12
+distribution normal
+length_weight wgt_male
+
+@age_length vb_female
+type von_bertalanffy
+casal_switch false
+by_length true
+time_step_proportions 0.4 0.0
+k 0.124
+t0 -1.26
+Linf 115.1
+cv_first 0.12
+cv_last 0.12
+distribution normal
+length_weight wgt_female
+
+
+# SIZE-WEIGHT
+@length_weight wgt_male
+type basic
+units tonnes
+a 2.08e-9
+b 3.190
+
+@length_weight wgt_female
+type basic
+units tonnes
+a 1.28e-9
+b 3.303
+#verify_size_weight 70 0.8 4
+
+
+## Catchability
+@catchability summerTANq
+type free
+q 0.12
+
+@catchability autumnTANq
+type free
+q 0.12
+
+

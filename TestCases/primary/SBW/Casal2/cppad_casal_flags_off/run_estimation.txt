@@ -1,87 +1,19 @@
 Casal2
-Call: ../../../../../BuildSystem/bin/linux/release_cppad/casal2 -e -o params_est.out
-Date: Fri Jul 17 11:57:43 2020
-Version: 2020-07-13 03:44:42 UTC (rev. 87aeb31)
+Call: ..\..\..\..\..\BuildSystem\bin\windows\release_cppad\casal2 -e -o params_est.out 
+Date: Mon Jul 27 06:05:46 2020
+Version: 2020-07-23 20:20:57 UTC (rev. 592f395e)
 Copyright (c) 2020 - 2020, NIWA (www.niwa.co.nz)
--- Username: niwauser
--- Machine: niwa-computer (Linux 3.10.0-1127.10.1.el7.x86_64 x86_64)
--- Process Id: 4695
+Environment: machine:niwa-computer, user:niwauser, os:Windows_NT, pid:2288
 
-[WARNING] /workspace/casal2-linux-rlibrary/CASAL2/source/Estimates/Manager.cpp(line: 95): Estimates were removed because of matching lower and upper bounds. Originally had 69 estimates, now have 67
-This is Ipopt version 3.12.4, running with linear solver mumps.
+[WARNING] C:\workspace\casal2-windows-rlibrary\CASAL2\source\Estimates\Manager.cpp(line: 95): Estimates were removed because of matching lower and upper bounds. Originally had 69 estimates, now have 67
+This is Ipopt version 3.11.9, running with linear solver mumps.
 NOTE: Other linear solvers might be more efficient (see Ipopt documentation).
 
 Starting derivative checker for first derivatives.
 
- grad_f[          0] = -3.8169311108569137e-01    ~ -1.6258747080185760e+03  [ 9.998e-01]
- grad_f[          1] =  5.7346589177268424e+03    ~ -1.9510786281898618e+08  [ 1.000e+00]
- grad_f[          2] =  3.6350803450552630e+03    ~ -1.9510962120257318e+08  [ 1.000e+00]
- grad_f[          3] =  4.2211938043754144e+03    ~ -1.9510902082547545e+08  [ 1.000e+00]
- grad_f[          4] =  9.5471696578768842e+03    ~ -1.9510362911969423e+08  [ 1.000e+00]
- grad_f[          5] =  9.3399287430845034e+03    ~ -1.9510382465086877e+08  [ 1.000e+00]
- grad_f[          6] =  4.7200826901716582e+03    ~ -1.9510864363983274e+08  [ 1.000e+00]
- grad_f[          7] =  5.8515692889805005e+03    ~ -1.9510741503909230e+08  [ 1.000e+00]
- grad_f[          8] =  1.1890683496652677e+04    ~ -1.9510130500420928e+08  [ 1.000e+00]
- grad_f[          9] =  7.7899603191670246e+02    ~ -1.9511238709092140e+08  [ 1.000e+00]
- grad_f[         10] =  7.4288941932102898e+02    ~ -1.9511243696324527e+08  [ 1.000e+00]
- grad_f[         11] =  7.0212656290196719e+02    ~ -1.9511247742921114e+08  [ 1.000e+00]
- grad_f[         12] =  6.5529294785743309e+02    ~ -1.9511252399533987e+08  [ 1.000e+00]
- grad_f[         13] =  6.0106572596722071e+02    ~ -1.9511257810518146e+08  [ 1.000e+00]
- grad_f[         14] =  5.4259186768637460e+02    ~ -1.9511263631284237e+08  [ 1.000e+00]
- grad_f[         15] =  4.7974054815613727e+02    ~ -1.9511269899085164e+08  [ 1.000e+00]
- grad_f[         16] =  4.0967938484412355e+02    ~ -1.9511276884004474e+08  [ 1.000e+00]
- grad_f[         17] =  3.4064044633615799e+02    ~ -1.9511283757165074e+08  [ 1.000e+00]
- grad_f[         18] =  2.7922249674917509e+02    ~ -1.9511289871297777e+08  [ 1.000e+00]
- grad_f[         19] =  2.2891232226621150e+02    ~ -1.9511294881813228e+08  [ 1.000e+00]
- grad_f[         20] =  1.8086878116677894e+02    ~ -1.9511299668811262e+08  [ 1.000e+00]
- grad_f[         21] =  1.1062253411261293e+02    ~ -1.9511306681670249e+08  [ 1.000e+00]
- grad_f[         22] = -2.0148740717894384e+01    ~ -1.9511319724842906e+08  [ 1.000e+00]
- grad_f[         23] = -1.6540109821313331e+02    ~ -1.9511334192939103e+08  [ 1.000e+00]
- grad_f[         24] = -2.3929925705335086e+02    ~ -1.9511341527104378e+08  [ 1.000e+00]
- grad_f[         25] = -3.2013234761214903e+02    ~ -1.9511349573731422e+08  [ 1.000e+00]
- grad_f[         26] = -4.5585319277185226e+02    ~ -1.9511363115161657e+08  [ 1.000e+00]
- grad_f[         27] = -5.0013853977862186e+02    ~ -1.9511367483064532e+08  [ 1.000e+00]
- grad_f[         28] = -5.5944601721708409e+02    ~ -1.9511373392306268e+08  [ 1.000e+00]
- grad_f[         29] = -6.5919933281321892e+02    ~ -1.9511383324861526e+08  [ 1.000e+00]
- grad_f[         30] = -8.2440934157451807e+02    ~ -1.9511399799957871e+08  [ 1.000e+00]
- grad_f[         31] = -8.6723288285577746e+02    ~ -1.9511404046788812e+08  [ 1.000e+00]
- grad_f[         32] = -9.2068340005012601e+02    ~ -1.9511409378610551e+08  [ 1.000e+00]
- grad_f[         33] = -1.0533926563881114e+03    ~ -1.9511422594077885e+08  [ 1.000e+00]
- grad_f[         34] = -1.1994384682765096e+03    ~ -1.9511437136679888e+08  [ 1.000e+00]
- grad_f[         35] = -1.3130033044399186e+03    ~ -1.9511448442935944e+08  [ 1.000e+00]
- grad_f[         36] = -1.3977849871959781e+03    ~ -1.9511456862092018e+08  [ 1.000e+00]
- grad_f[         37] = -1.4248657320232321e+03    ~ -1.9511459534987807e+08  [ 1.000e+00]
- grad_f[         38] = -1.2887703279226396e+03    ~ -1.9511445942334831e+08  [ 1.000e+00]
- grad_f[         39] = -1.1041993169549253e+03    ~ -1.9511427511461079e+08  [ 1.000e+00]
- grad_f[         40] = -5.1598047179970331e+02    ~ -1.9511368772946298e+08  [ 1.000e+00]
- grad_f[         41] = -1.9033056273213310e+02    ~ -1.9511336390860379e+08  [ 1.000e+00]
- grad_f[         42] = -2.3339495186086515e+02    ~ -1.9511340856552124e+08  [ 1.000e+00]
- grad_f[         43] =  4.9384954925547743e+02    ~ -1.9511268259957433e+08  [ 1.000e+00]
- grad_f[         44] =  7.2258397618436948e+02    ~ -1.9511245526373386e+08  [ 1.000e+00]
- grad_f[         45] =  5.2018523626314368e+02    ~ -1.9511265782639384e+08  [ 1.000e+00]
- grad_f[         46] =  3.5215237110182159e+02    ~ -1.9511282467283309e+08  [ 1.000e+00]
- grad_f[         47] =  4.1774195366199365e+02    ~ -1.9511275822296739e+08  [ 1.000e+00]
- grad_f[         48] =  4.3822283168286208e+02    ~ -1.9511273680254817e+08  [ 1.000e+00]
- grad_f[         49] =  3.5791537353822287e+02    ~ -1.9511281549930573e+08  [ 1.000e+00]
- grad_f[         50] =  3.8110912426841014e+02    ~ -1.9511279049329460e+08  [ 1.000e+00]
- grad_f[         51] =  4.2293974444843138e+02    ~ -1.9511274793185294e+08  [ 1.000e+00]
- grad_f[         52] =  3.6866237345707145e+02    ~ -1.9511279938742518e+08  [ 1.000e+00]
- grad_f[         53] =  3.5552051410743593e+02    ~ -1.9511280758306384e+08  [ 1.000e+00]
- grad_f[         54] =  3.6628387954307652e+02    ~ -1.9511279608123004e+08  [ 1.000e+00]
- grad_f[         55] =  3.7866647174517425e+02    ~ -1.9511278234422207e+08  [ 1.000e+00]
- grad_f[         56] =  3.5029077878137036e+02    ~ -1.9511279840953648e+08  [ 1.000e+00]
- grad_f[         57] =  2.5312263346958048e+02    ~ -1.9511288781650364e+08  [ 1.000e+00]
- grad_f[         58] =  3.2456455205887983e+02    ~ -1.9511282700113952e+08  [ 1.000e+00]
- grad_f[         59] =  3.9341824611072707e+02    ~ -1.9511274388059974e+08  [ 1.000e+00]
- grad_f[         60] =  4.2184230002193533e+02    ~ -1.9511267975904047e+08  [ 1.000e+00]
- grad_f[         61] =  5.7365477755670884e+02    ~ -1.9511254592798650e+08  [ 1.000e+00]
- grad_f[         62] =  6.0858302648236418e+02    ~ -1.9511254969984293e+08  [ 1.000e+00]
- grad_f[         63] =  7.8164614723076375e+02    ~ -1.9511228073388338e+08  [ 1.000e+00]
- grad_f[         64] = -2.2113148617669469e+05    ~ -1.9533417336642742e+08  [ 9.989e-01]
- grad_f[         65] =  2.6890105396401312e+04    ~ -1.9508125130087137e+08  [ 1.000e+00]
- grad_f[         66] =  9.6225352206096409e+02    ~ -1.9511282998137176e+08  [ 1.000e+00]
+* grad_f[         22] =  2.1366461329876074e+00    ~  2.1373125491663814e+00  [ 3.118e-04]
 
-Derivative checker detected 67 error(s).
+Derivative checker detected 1 error(s).
 
 Number of nonzeros in equality constraint Jacobian...:        0
 Number of nonzeros in inequality constraint Jacobian.:       67
@@ -98,103 +30,108 @@ Total number of inequality constraints...............:        1
         inequality constraints with only upper bounds:        0
 
 iter    objective    inf_pr   inf_du lg(mu)  ||d||  lg(rg) alpha_du alpha_pr  ls
-   0  3.9096062e+06 0.00e+00 9.98e+01  -1.0 0.00e+00    -  0.00e+00 0.00e+00   0 y
-   1  3.9063817e+06 0.00e+00 3.72e+01  -1.0 2.52e-01    -  2.83e-01 9.90e-01f  1
-   2  3.7011838e+06 0.00e+00 1.12e+02  -1.0 3.68e-01    -  8.79e-01 9.90e-01f  1 Nhj
-   3  4.1293916e+05 0.00e+00 6.09e+04  -1.0 4.83e+01    -  3.91e-01 1.00e+00f  1
-   4  3.2069635e+03 0.00e+00 2.58e+06  -1.0 4.20e+01    -  7.40e-01 1.00e+00f  1
-   5  3.5735463e+03 0.00e+00 4.50e+05  -1.0 2.72e+01    -  8.26e-01 5.00e-01f  2
-   6  4.0256779e+03 0.00e+00 6.07e+03  -1.0 3.61e+02    -  9.87e-01 5.00e-01f  2
-   7  4.9717824e+03 0.00e+00 7.25e+02  -1.0 1.54e+04    -  8.81e-01 1.00e+00f  1
-   8  3.7944633e+03 0.00e+00 1.66e+06  -1.7 2.67e+04    -  7.92e-01 1.00e+00f  1
-   9  2.7765487e+03 0.00e+00 4.88e-01  -1.7 2.89e+04    -  1.00e+00 1.00e+00f  1
+   0  1.2461106e+04 0.00e+00 9.98e+01  -1.0 0.00e+00    -  0.00e+00 0.00e+00   0 y
+   1  9.2104397e+03 0.00e+00 3.78e+01  -1.0 2.54e-01    -  2.71e-01 9.90e-01f  1 
+   2  7.1749955e+03 0.00e+00 1.10e+02  -1.0 3.51e-01    -  8.80e-01 9.90e-01f  1 Nhj 
+   3  4.4696965e+03 0.00e+00 4.66e+04  -1.0 2.73e+01    -  5.34e-01 1.00e+00f  1 
+   4  3.4234745e+03 0.00e+00 1.67e+06  -1.0 2.79e+02    -  2.75e-02 1.92e-01f  1 
+   5  3.4159047e+03 0.00e+00 1.32e+05  -1.0 2.10e+01    -  9.86e-01 1.00e+00f  1 
+   6  4.3327980e+03 0.00e+00 3.77e+04  -1.0 1.40e+03    -  7.14e-01 8.73e-01f  1 
+   7  4.7525174e+03 0.00e+00 1.66e+03  -1.0 3.93e+03    -  9.56e-01 1.00e+00f  1 
+   8  4.5639817e+03 0.00e+00 2.13e+00  -1.0 2.66e+04    -  1.00e+00 6.32e-01f  1 
+   9  3.4559778e+03 0.00e+00 2.18e+06  -5.7 1.25e+04    -  7.82e-01 1.00e+00f  1 
 iter    objective    inf_pr   inf_du lg(mu)  ||d||  lg(rg) alpha_du alpha_pr  ls
-  10  1.8959123e+03 0.00e+00 1.69e+05  -3.8 1.38e+04    -  7.87e-01 8.72e-01f  1
-  11  1.5630774e+03 0.00e+00 6.56e+04  -3.8 4.57e+04    -  4.43e-01 3.32e-01f  1
-  12  1.3337275e+03 0.00e+00 2.90e+04  -3.8 1.69e+04    -  8.26e-01 5.87e-01f  1
-  13  1.2390931e+03 0.00e+00 3.45e+04  -3.8 3.75e+04    -  5.74e-01 2.57e-01f  2
-  14  1.1606197e+03 0.00e+00 2.50e+04  -3.8 1.13e+04    -  6.24e-01 3.92e-01f  1
-  15  1.1339589e+03 0.00e+00 8.70e-01  -3.8 3.84e-03   2.0 1.00e+00 1.00e+00f  1
-  16  1.1210260e+03 0.00e+00 9.69e-01  -3.8 8.87e-03   1.5 6.48e-01 1.00e+00f  1
-  17  1.1093452e+03 0.00e+00 3.14e-01  -3.8 8.29e-03   1.0 1.00e+00 1.00e+00f  1
-  18  1.1105990e+03 0.00e+00 1.72e-01  -3.8 1.30e-02   0.6 8.17e-01 1.62e-319h1060
-  19  1.1033195e+03 0.00e+00 4.89e-01  -3.8 1.70e-02   0.1 1.00e+00 1.00e+00f  1
+  10  2.5788645e+03 0.00e+00 5.71e+05  -5.7 1.39e+04    -  7.38e-01 7.51e-01f  1 
+  11  2.2776726e+03 0.00e+00 3.54e+05  -5.7 8.65e+00  -4.0 3.81e-01 9.50e-01f  1 
+  12  1.9905812e+03 0.00e+00 3.43e+05  -5.7 3.65e+01  -4.5 3.09e-02 3.02e-01f  1 
+  13  1.7874976e+03 0.00e+00 1.86e+05  -5.7 1.72e+04    -  4.59e-01 2.18e-01f  1 
+  14  1.5879946e+03 0.00e+00 1.52e+05  -5.7 5.46e+01  -5.0 1.82e-01 3.37e-01f  1 
+  15  1.5156937e+03 0.00e+00 1.16e+05  -5.7 3.06e+00  -3.6 2.39e-01 6.97e-01f  1 
+  16  1.4875538e+03 0.00e+00 7.52e+04  -5.7 2.42e+01  -4.1 3.49e-01 1.88e-01f  1 
+  17  1.3867372e+03 0.00e+00 5.50e+04  -5.7 4.47e+00  -3.7 2.68e-01 1.00e+00f  1 
+  18  1.3713745e+03 0.00e+00 3.28e+04  -5.7 5.68e-01  -1.4 4.03e-01 1.43e-01f  1 
+  19  1.3293510e+03 0.00e+00 3.28e+04  -5.7 8.67e-02  -1.9 2.73e-03 1.00e+00f  1 
 iter    objective    inf_pr   inf_du lg(mu)  ||d||  lg(rg) alpha_du alpha_pr  ls
-  20  1.0998269e+03 0.00e+00 2.18e-01  -3.8 2.94e-01   0.5 1.00e+00 1.60e-03f  9
-  21  1.0985795e+03 0.00e+00 1.87e-01  -3.8 1.97e-02   0.0 1.00e+00 1.25e-01f  4
-  22  1.0965147e+03 0.00e+00 3.49e-01  -3.8 2.54e-02  -0.4 1.00e+00 1.25e-01f  4
-  23  1.0962209e+03 0.00e+00 3.67e-01  -3.8 4.93e-02  -0.9 1.00e+00 1.56e-02f  7
-  24  1.0961006e+03 0.00e+00 2.69e-01  -3.8 1.05e-01  -1.4 1.00e+00 7.81e-03f  8
-  25  1.0734259e+03 0.00e+00 4.85e-01  -3.8 2.10e-01  -1.9 1.00e+00 1.00e+00f  1
-  26  1.0510029e+03 0.00e+00 2.41e-01  -3.8 3.20e-01  -2.3 1.00e+00 1.00e+00f  1
-  27  1.0484850e+03 0.00e+00 5.39e-02  -3.8 2.03e-02  -0.1 1.00e+00 1.00e+00f  1
-  28  1.0435149e+03 0.00e+00 4.37e+00  -3.8 1.28e-01   0.3 1.00e+00 1.10e-01f  1
-  29  1.0449362e+03 0.00e+00 1.07e+00  -3.8 1.03e-02   4.4 2.76e-04 3.12e-02f  6
+  20  1.3280968e+03 0.00e+00 4.80e+00  -5.7 5.38e-04   3.9 1.00e+00 3.69e-01f  1 
+  21  1.3280167e+03 0.00e+00 1.61e+00  -5.7 3.33e-04   3.4 2.22e-03 1.00e+00f  1 
+  22  1.3268189e+03 0.00e+00 4.80e+00  -5.7 7.80e-04   3.9 1.00e+00 2.55e-01f  1 
+  23  1.3268086e+03 0.00e+00 1.61e+00  -5.7 3.31e-04   3.4 2.19e-03 1.00e+00f  1 
+  24  1.3256556e+03 0.00e+00 4.80e+00  -5.7 1.30e-03   3.8 1.00e+00 1.53e-01f  1 
+  25  1.3257018e+03 0.00e+00 1.61e+00  -5.7 3.29e-04   3.3 2.15e-03 1.00e+00f  1 
+  26  1.3245834e+03 0.00e+00 4.80e+00  -5.7 3.18e-03   3.8 1.00e+00 6.24e-02f  1 
+  27  1.3246051e+03 0.00e+00 1.61e+00  -5.7 3.59e-04   3.3 2.12e-03 1.00e+00f  1 
+  28  1.3243977e+03 0.00e+00 1.87e+00  -5.7 4.38e-05   4.6 1.00e+00 1.00e+00f  1 
+  29  1.3233812e+03 0.00e+00 4.78e+00  -5.7 2.82e-04   4.1 1.00e+00 5.49e-01f  1 
 iter    objective    inf_pr   inf_du lg(mu)  ||d||  lg(rg) alpha_du alpha_pr  ls
-  30  1.0445961e+03 0.00e+00 1.04e+00  -3.8 1.22e-04   3.9 1.00e+00 1.00e+00f  1
-  31  1.0444394e+03 0.00e+00 9.07e-01  -3.8 4.36e-05   4.3 1.00e+00 1.00e+00f  1
-  32  1.0440855e+03 0.00e+00 7.20e-01  -3.8 1.53e-04   3.8 1.00e+00 5.00e-01f  2
-  33  1.0438974e+03 0.00e+00 2.02e-01  -3.8 6.17e-05   3.3 1.00e+00 5.00e-01f  2
-  34  1.0438893e+03 0.00e+00 4.42e-02  -3.8 5.98e-05   2.9 1.00e+00 1.00e+00f  1
-  35  1.0438739e+03 0.00e+00 3.70e-02  -3.8 1.50e-04   2.4 1.00e+00 1.00e+00f  1
-  36  1.0438493e+03 0.00e+00 2.37e-02  -3.8 2.85e-04   1.9 1.00e+00 1.00e+00f  1
-  37  1.0438197e+03 0.00e+00 1.07e-02  -3.8 3.90e-04   1.4 1.00e+00 1.00e+00f  1
-  38  1.0437634e+03 0.00e+00 1.05e-02  -3.8 1.15e-03   1.0 1.00e+00 1.00e+00f  1
-  39  1.0436128e+03 0.00e+00 9.84e-03  -3.8 3.23e-03   0.5 1.00e+00 1.00e+00f  1
+  30  1.3234050e+03 0.00e+00 2.43e+00  -5.7 1.47e-04   3.7 1.00e+00 1.25e-01f  4 
+  31  1.3228386e+03 0.00e+00 6.78e-01  -5.7 4.19e-04   3.2 1.00e+00 4.04e-01f  1 
+  32  1.3199135e+03 0.00e+00 5.66e-01  -5.7 1.08e-03   2.7 1.00e+00 1.00e+00f  1 
+  33  1.3148078e+03 0.00e+00 3.90e-01  -5.7 2.11e-03   2.2 1.00e+00 1.00e+00f  1 
+  34  1.3081599e+03 0.00e+00 2.10e-01  -5.7 3.03e-03   1.8 1.00e+00 1.00e+00f  1 
+  35  1.3009176e+03 0.00e+00 1.07e-01  -5.7 4.94e-03   1.3 1.00e+00 1.00e+00f  1 
+  36  1.2934523e+03 0.00e+00 7.26e-02  -5.7 1.03e-02   0.8 1.00e+00 1.00e+00f  1 
+  37  1.2860154e+03 0.00e+00 4.85e-02  -5.7 1.83e-02   0.3 1.00e+00 1.00e+00f  1 
+  38  1.2790690e+03 0.00e+00 2.97e-02  -5.7 2.95e-02  -0.1 1.00e+00 1.00e+00f  1 
+  39  1.2730786e+03 0.00e+00 1.68e-02  -5.7 4.44e-02  -0.6 1.00e+00 1.00e+00f  1 
 iter    objective    inf_pr   inf_du lg(mu)  ||d||  lg(rg) alpha_du alpha_pr  ls
-  40  1.0432533e+03 0.00e+00 8.48e-03  -3.8 8.22e-03   0.0 1.00e+00 1.00e+00f  1
-  41  1.0425697e+03 0.00e+00 6.41e-03  -3.8 1.76e-02  -0.5 1.00e+00 1.00e+00f  1
-  42  1.0414528e+03 0.00e+00 4.27e-03  -3.8 3.17e-02  -0.9 1.00e+00 1.00e+00f  1
-  43  1.0395396e+03 0.00e+00 2.69e-03  -3.8 5.10e-02  -1.4 1.00e+00 1.00e+00f  1
-  44  1.0363999e+03 0.00e+00 1.61e+03  -5.7 1.21e-01  -1.9 7.84e-01 6.76e-01f  1
-  45  1.0294970e+03 0.00e+00 8.64e+01  -5.7 2.99e-01  -2.4 9.73e-01 1.00e+00f  1
-  46  1.0192377e+03 0.00e+00 2.96e-02  -5.7 1.02e+00  -2.9 1.00e+00 1.00e+00f  1
-  47  9.9988817e+02 0.00e+00 5.02e-02  -5.7 3.30e+00  -3.3 1.00e+00 1.00e+00f  1
-  48  9.8601492e+02 0.00e+00 2.87e-02  -5.7 3.22e+04    -  1.00e+00 7.25e-02f  2
-  49  9.6394303e+02 0.00e+00 1.98e-01  -5.7 4.33e+04    -  1.00e+00 4.76e-01f  2
+  40  1.2681929e+03 0.00e+00 8.69e-03  -5.7 6.18e-02  -1.1 1.00e+00 1.00e+00f  1 
+  41  1.2640536e+03 0.00e+00 3.85e-03  -5.7 7.47e-02  -1.6 1.00e+00 1.00e+00f  1 
+  42  1.2596930e+03 0.00e+00 3.12e-03  -5.7 1.18e-01  -2.1 1.00e+00 1.00e+00f  1 
+  43  1.2537740e+03 0.00e+00 8.04e-03  -5.7 2.94e-01  -2.5 1.00e+00 1.00e+00f  1 
+  44  1.2445980e+03 0.00e+00 1.57e-02  -5.7 8.45e-01  -3.0 1.00e+00 1.00e+00f  1 
+  45  1.2281066e+03 0.00e+00 2.79e-02  -5.7 2.95e+00  -3.5 1.00e+00 1.00e+00f  1 
+  46  1.1850271e+03 0.00e+00 5.15e-02  -5.7 1.07e+01  -4.0 1.00e+00 1.00e+00f  1 
+  47  1.1628657e+03 0.00e+00 4.84e+00  -5.7 5.89e+01  -4.4 1.00e+00 3.54e-01f  1 
+  48  1.1303733e+03 0.00e+00 4.72e+00  -5.7 2.55e+01  -3.1 4.23e-01 3.72e-02f  2 
+  49  1.1003937e+03 0.00e+00 5.55e+00  -5.7 5.17e+04    -  6.15e-02 8.87e-01f  1 
 iter    objective    inf_pr   inf_du lg(mu)  ||d||  lg(rg) alpha_du alpha_pr  ls
-  50  9.4910101e+02 0.00e+00 6.24e-02  -5.7 3.97e+04    -  8.65e-01 1.00e+00f  1
-  51  9.4663406e+02 0.00e+00 7.07e-02  -5.7 9.73e+00  -3.8 1.00e+00 9.20e-02f  3
-  52  9.4205801e+02 0.00e+00 8.49e-02  -5.7 4.16e+04    -  1.00e+00 2.03e-01f  2
-  53  9.3951372e+02 0.00e+00 7.25e-02  -5.7 1.97e+04    -  1.00e+00 6.47e-01f  1
-  54  9.3844670e+02 0.00e+00 3.22e-02  -5.7 1.28e+04    -  1.00e+00 1.00e+00f  1
-  55  9.3825233e+02 0.00e+00 7.78e-03  -5.7 5.04e+03    -  1.00e+00 1.00e+00f  1
-  56  9.3823725e+02 0.00e+00 1.21e-03  -5.7 8.02e+02    -  1.00e+00 1.00e+00f  1
-  57  9.3823696e+02 0.00e+00 5.33e-05  -5.7 2.25e+01    -  1.00e+00 1.00e+00f  1
-  58  9.3823696e+02 0.00e+00 9.22e-08  -5.7 2.15e+00    -  1.00e+00 1.00e+00f  1
-  59  9.3822849e+02 0.00e+00 1.18e+00  -8.6 1.73e+01    -  9.91e-01 9.97e-01f  1
+  50  1.0610783e+03 0.00e+00 4.91e+00  -5.7 3.84e-01  -1.8 1.00e+00 1.00e+00f  1 
+  51  1.0141519e+03 0.00e+00 2.24e+00  -5.7 3.29e+04    -  5.06e-01 1.00e+00f  1 
+  52  1.0029593e+03 0.00e+00 1.36e+00  -5.7 2.99e+04    -  5.42e-01 2.58e-01f  2 
+  53  9.7707529e+02 0.00e+00 6.52e-01  -5.7 2.67e+04    -  1.00e+00 1.00e+00f  1 
+  54  9.7416801e+02 0.00e+00 5.81e-01  -5.7 6.13e+04    -  5.82e-01 2.67e-01f  1 
+  55  9.6017496e+02 0.00e+00 2.54e-01  -5.7 1.45e-01  -2.3 1.00e+00 1.00e+00f  1 
+  56  9.4959805e+02 0.00e+00 1.06e-01  -5.7 2.75e+04    -  8.93e-01 1.00e+00f  1 
+  57  9.4619082e+02 0.00e+00 7.56e-02  -5.7 1.60e-01  -1.8 1.00e+00 5.00e-01f  2 
+  58  9.4259466e+02 0.00e+00 4.09e-02  -5.7 7.99e+03    -  1.00e+00 6.04e-01f  1 
+  59  9.3963330e+02 0.00e+00 1.46e-02  -5.7 1.12e+03    -  1.00e+00 1.00e+00f  1 
 iter    objective    inf_pr   inf_du lg(mu)  ||d||  lg(rg) alpha_du alpha_pr  ls
-  60  9.3822840e+02 0.00e+00 2.63e-10  -8.6 3.32e-01    -  1.00e+00 1.00e+00f  1 A
-  61  9.3822839e+02 0.00e+00 1.29e-10 -10.0 2.35e-02    -  1.00e+00 1.00e+00f  1
+  60  9.3849139e+02 0.00e+00 4.09e-03  -5.7 2.90e+03    -  1.00e+00 1.00e+00f  1 
+  61  9.3825224e+02 0.00e+00 8.21e-04  -5.7 1.70e+03    -  1.00e+00 1.00e+00f  1 
+  62  9.3823643e+02 0.00e+00 1.25e-04  -5.7 6.68e+02    -  1.00e+00 1.00e+00f  1 
+  63  9.3823643e+02 0.00e+00 2.50e-06  -5.7 6.71e+01    -  1.00e+00 1.00e+00f  1 
+  64  9.3822848e+02 0.00e+00 1.12e+00  -8.6 1.55e+01    -  9.91e-01 9.98e-01f  1 
+  65  9.3822840e+02 0.00e+00 2.20e-10  -8.6 3.05e-01    -  1.00e+00 1.00e+00f  1 A
+  66  9.3822839e+02 0.00e+00 1.21e-10 -10.0 2.21e-02    -  1.00e+00 1.00e+00f  1 
 
-Number of Iterations....: 61
+Number of Iterations....: 66
 
                                    (scaled)                 (unscaled)
-Objective...............:   4.2425935908756768e-01    9.3822839372193857e+02
-Dual infeasibility......:   1.2900149390059343e-10    2.8528036404519923e-07
+Objective...............:   4.5077843112906718e-01    9.3822839369827068e+02
+Dual infeasibility......:   1.2141289755846144e-10    2.5270292450596936e-07
 Constraint violation....:   0.0000000000000000e+00    0.0000000000000000e+00
-Complementarity.........:   9.0974748450624124e-11    2.0118611476634295e-07
-Overall NLP error.......:   1.2900149390059343e-10    2.8528036404519923e-07
+Complementarity.........:   9.0970830119502923e-11    1.8934227975956910e-07
+Overall NLP error.......:   1.2141289755846144e-10    2.5270292450596936e-07
 
 
-Number of objective function evaluations             = 1227
-Number of objective gradient evaluations             = 62
+Number of objective function evaluations             = 89
+Number of objective gradient evaluations             = 67
 Number of equality constraint evaluations            = 0
-Number of inequality constraint evaluations          = 1227
+Number of inequality constraint evaluations          = 89
 Number of equality constraint Jacobian evaluations   = 0
-Number of inequality constraint Jacobian evaluations = 62
-Number of Lagrangian Hessian evaluations             = 61
-Total CPU secs in IPOPT (w/o function evaluations)   =      3.229
-Total CPU secs in NLP function evaluations           =    154.624
+Number of inequality constraint Jacobian evaluations = 67
+Number of Lagrangian Hessian evaluations             = 66
+Total CPU secs in IPOPT (w/o function evaluations)   =      1.888
+Total CPU secs in NLP function evaluations           =     46.999
 
 EXIT: Optimal Solution Found.
 *initialisation_partition[Init]
 values {d}
 category 2 3 4 5 6 7 8 9 10 11 12 13 14 15
-male.spawn 3928483.342793 29716165.919478 29841873.142199 26817212.325752 25052474.371146 21554549.847609 18530388.754228 15930399.888062 13695212.979006 11773644.083657 10121689.616659 8701520.104399 7480613.908831 45834466.772444
-female.spawn 874768.990093 20386442.864287 32343848.305183 28348839.051105 24150063.713638 20572606.061382 17525088.483911 14929014.078518 12717508.476780 10833603.679806 9228770.627943 7861669.101107 6697082.801925 38512318.140208
-male.nonspawn 41973546.469965 9745371.667194 4082834.655178 2347535.667396 20181.540414 173.498780 1.491552 0.012823 0.000110 0.000001 0.000000 0.000000 0.000000 0.000000
-female.nonspawn 44985307.026576 18680162.768218 935635.904371 797.456152 6.793252 0.057869 0.000493 0.000004 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000
+male.spawn 3928483.342512 29716165.931225 29841873.151111 26817212.321827 25052474.372722 21554549.849411 18530388.756127 15930399.889995 13695212.980927 11773644.085531 10121689.618461 8701520.106112 7480613.910446 45834466.788506
+female.spawn 874768.989156 20386442.870884 32343848.308245 28348839.076616 24150063.714278 20572606.061898 17525088.484479 14929014.079112 12717508.477380 10833603.680398 9228770.628515 7861669.101653 6697082.802439 38512318.145088
+male.nonspawn 41973546.469747 9745371.655764 4082834.647180 2347535.672657 20181.540460 173.498780 1.491552 0.012823 0.000110 0.000001 0.000000 0.000000 0.000000 0.000000
+female.nonspawn 44985307.026963 18680162.761441 935635.901401 797.430930 6.793037 0.057868 0.000493 0.000004 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000
 *end
 
 *partition[state1]
@@ -202,10 +139,10 @@ year: 1960
 time_step: step1
 values {d_r}
 category 2 3 4 5 6 7 8 9 10 11 12 13 14 15
-male.spawn 3428726.288619 25935861.347612 26045576.884527 23405694.479391 21865455.438138 18812514.971569 16173068.717859 13903834.156410 11952993.731156 10275874.799505 8834071.636717 7594567.197958 6528977.044353 40003692.884642
-female.spawn 757228.927776 17647178.222047 27997903.274647 24539691.325914 20905092.725860 17808327.233642 15170295.371858 12923047.629098 11008695.343477 9377925.133741 7988728.643141 6805320.411882 5797216.049908 33337534.482537
-male.nonspawn 36633934.689368 8505626.500612 3563441.993455 2048896.877987 17614.171202 151.427351 1.301807 0.011192 0.000096 0.000001 0.000000 0.000000 0.000000 0.000000
-female.nonspawn 38940767.438256 16170165.819613 809917.338954 690.304382 5.880463 0.050094 0.000427 0.000004 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000
+male.spawn 3428726.288433 25935861.358306 26045576.892747 23405694.476363 21865455.439885 18812514.973461 16173068.719791 13903834.158334 11952993.733036 10275874.801315 8834071.638440 7594567.199583 6528977.045873 40003692.899341
+female.spawn 757228.926970 17647178.227875 27997903.277484 24539691.348161 20905092.726553 17808327.234207 15170295.372450 12923047.629698 11008695.344069 9377925.134315 7988728.643690 6805320.412399 5797216.050392 33337534.486983
+male.nonspawn 36633934.689801 8505626.490780 3563441.986534 2048896.882614 17614.171242 151.427352 1.301807 0.011192 0.000096 0.000001 0.000000 0.000000 0.000000 0.000000
+female.nonspawn 38940767.438850 16170165.813855 809917.336388 690.282549 5.880277 0.050092 0.000427 0.000004 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000
 *end
 
 *partition[state2]
@@ -213,10 +150,10 @@ year: 1960
 time_step: step2
 values {d_r}
 category 2 3 4 5 6 7 8 9 10 11 12 13 14 15
-male.spawn 2806607.369863 29716165.919478 29841873.142199 26817212.325752 25052474.371146 21554549.847609 18530388.754228 15930399.888062 13695212.979006 11773644.083657 10121689.616659 8701520.104399 7480613.908831 45834466.772444
-female.spawn 624956.982197 20386442.864287 32343848.305183 28348839.051105 24150063.713638 20572606.061382 17525088.483911 14929014.078518 12717508.476780 10833603.679806 9228770.627943 7861669.101107 6697082.801925 38512318.140208
-male.nonspawn 29986957.963821 9745371.667194 4082834.655178 2347535.667396 20181.540414 173.498780 1.491552 0.012823 0.000110 0.000001 0.000000 0.000000 0.000000 0.000000
-female.nonspawn 32138635.503693 18680162.768218 935635.904371 797.456152 6.793252 0.057869 0.000493 0.000004 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000
+male.spawn 2806607.369449 29716165.931225 29841873.151111 26817212.321827 25052474.372722 21554549.849411 18530388.756127 15930399.889995 13695212.980927 11773644.085531 10121689.618461 8701520.106112 7480613.910446 45834466.788506
+female.spawn 624956.981480 20386442.870884 32343848.308245 28348839.076616 24150063.714278 20572606.061898 17525088.484479 14929014.079112 12717508.477380 10833603.680398 9228770.628515 7861669.101653 6697082.802439 38512318.145088
+male.nonspawn 29986957.961384 9745371.655764 4082834.647180 2347535.672657 20181.540460 173.498780 1.491552 0.012823 0.000110 0.000001 0.000000 0.000000 0.000000 0.000000
+female.nonspawn 32138635.501524 18680162.761441 935635.901401 797.430930 6.793037 0.057868 0.000493 0.000004 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000
 *end
 
 *partition[state1]
@@ -224,10 +161,10 @@ year: 2015
 time_step: step1
 values {d_r}
 category 2 3 4 5 6 7 8 9 10 11 12 13 14 15
-male.spawn 1071784.837305 52335267.557761 8831558.266465 49030026.011676 6528072.888351 16707997.265389 30788206.218063 4206451.891972 2329255.317399 1689994.682786 1979903.380656 2424301.509819 720656.083994 1876229.933382
-female.spawn 236702.033012 36062116.340060 10158207.435202 54030489.319753 6376180.773473 15833324.667615 29142674.612567 4018270.272061 2174401.023891 1548041.549347 1818905.570594 2190729.460683 654456.089853 1613874.275774
-male.nonspawn 13226015.336138 20194265.795758 1638885.302053 6624989.402415 9320.547175 275.879209 5.901691 0.009763 0.000065 0.000001 0.000000 0.000000 0.000000 0.000000
-female.nonspawn 14058855.312881 38391601.900135 372494.241558 2232.059244 3.111650 0.091263 0.001935 0.000003 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000
+male.spawn 1071784.837449 52335267.594401 8831558.271502 49030026.026479 6528072.892008 16707997.274025 30788206.234637 4206451.894473 2329255.319132 1689994.684259 1979903.382085 2424301.512210 720656.084653 1876229.935903
+female.spawn 236702.032805 36062116.362158 10158207.438461 54030489.410699 6376180.775406 15833324.672557 29142674.618542 4018270.273510 2174401.024922 1548041.550117 1818905.571239 2190729.462122 654456.090184 1613874.277275
+male.nonspawn 13226015.337654 20194265.776165 1638885.299058 6624989.419904 9320.547199 275.879210 5.901691 0.009763 0.000065 0.000001 0.000000 0.000000 0.000000 0.000000
+female.nonspawn 14058855.314541 38391601.893593 372494.240421 2231.988648 3.111552 0.091261 0.001935 0.000003 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000
 *end
 
 *partition[state2]
@@ -235,22 +172,22 @@ year: 2015
 time_step: step2
 values {d_r}
 category 2 3 4 5 6 7 8 9 10 11 12 13 14 15
-male.spawn 3351795.711416 9247704.076340 54049308.920960 8082462.693345 47928148.558873 5636403.213288 14405724.928783 26545327.778081 3626766.123717 2008263.609427 1457098.668454 1707055.417988 2090211.607094 2239012.463523
-female.spawn 746355.958173 6410930.372729 62190218.689416 9070859.543349 46543942.222218 5492465.452787 13638877.301388 25103594.436236 3461351.045486 1873036.094579 1333488.011630 1566811.158071 1887101.462992 1953947.134207
-male.nonspawn 40912769.457025 3518389.062480 9693565.573432 1079670.079773 65255.842206 91.806963 2.717398 0.058131 0.000096 0.000001 0.000000 0.000000 0.000000 0.000000
-female.nonspawn 43848415.254803 6744132.765125 2221409.573951 366.763138 21.965587 0.030622 0.000898 0.000019 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000
+male.spawn 3351795.711445 9247704.081701 54049308.954390 8082462.693430 47928148.589817 5636403.216843 14405724.937208 26545327.794173 3626766.126119 2008263.611058 1457098.669823 1707055.419336 2090211.609298 2239012.466416
+female.spawn 746355.957432 6410930.375947 62190218.712777 9070859.555936 46543942.243461 5492465.454734 13638877.306552 25103594.443058 3461351.046964 1873036.095592 1333488.012382 1566811.158731 1887101.464358 1953947.135915
+male.nonspawn 40912769.457390 3518389.058715 9693565.556241 1079670.082317 65255.842379 91.806963 2.717398 0.058131 0.000096 0.000001 0.000000 0.000000 0.000000 0.000000
+female.nonspawn 43848415.255799 6744132.763372 2221409.567313 366.751538 21.964892 0.030621 0.000898 0.000019 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000
 *end
 
-[WARNING] /workspace/casal2-linux-rlibrary/CASAL2/source/Reports/Common/EstimateValue.cpp(line: 50): estimated parameter 'selectivity[MaturationSel_female].v{4}' was within 0.001 of upper bound 0.999
-[WARNING] /workspace/casal2-linux-rlibrary/CASAL2/source/Reports/Common/EstimateValue.cpp(line: 50): estimated parameter 'process[Instantaneous_Mortality].m{female.nonspawn}' was within 0.001 of upper bound 0.05
-[WARNING] /workspace/casal2-linux-rlibrary/CASAL2/source/Reports/Common/EstimateValue.cpp(line: 48): estimated parameter 'observation[TangaroaAcousticMature].process_error' was within 0.001 of lower bound 0.0001
+[WARNING] C:\workspace\casal2-windows-rlibrary\CASAL2\source\Reports\Common\EstimateValue.cpp(line: 50): estimated parameter 'selectivity[MaturationSel_female].v{4}' was within 0.001 of upper bound 0.999
+[WARNING] C:\workspace\casal2-windows-rlibrary\CASAL2\source\Reports\Common\EstimateValue.cpp(line: 50): estimated parameter 'process[Instantaneous_Mortality].m{female.nonspawn}' was within 0.001 of upper bound 0.05
+[WARNING] C:\workspace\casal2-windows-rlibrary\CASAL2\source\Reports\Common\EstimateValue.cpp(line: 48): estimated parameter 'observation[TangaroaAcousticMature].process_error' was within 0.001 of lower bound 0.0001
 *estimate_value[estimated_values]
 values {d}
-process[Recruitment].b0 selectivity[MaturationSel_male].v{1} selectivity[MaturationSel_male].v{2} selectivity[MaturationSel_male].v{3} selectivity[MaturationSel_male].v{4} selectivity[MaturationSel_female].v{1} selectivity[MaturationSel_female].v{2} selectivity[MaturationSel_female].v{3} selectivity[MaturationSel_female].v{4} process[Recruitment].ycs_values{1958} process[Recruitment].ycs_values{1959} process[Recruitment].ycs_values{1960} process[Recruitment].ycs_values{1961} process[Recruitment].ycs_values{1962} process[Recruitment].ycs_values{1963} process[Recruitment].ycs_values{1964} process[Recruitment].ycs_values{1965} process[Recruitment].ycs_values{1966} process[Recruitment].ycs_values{1967} process[Recruitment].ycs_values{1968} process[Recruitment].ycs_values{1969} process[Recruitment].ycs_values{1970} process[Recruitment].ycs_values{1971} process[Recruitment].ycs_values{1972} process[Recruitment].ycs_values{1973} process[Recruitment].ycs_values{1974} process[Recruitment].ycs_values{1975} process[Recruitment].ycs_values{1976} process[Recruitment].ycs_values{1977} process[Recruitment].ycs_values{1978} process[Recruitment].ycs_values{1979} process[Recruitment].ycs_values{1980} process[Recruitment].ycs_values{1981} process[Recruitment].ycs_values{1982} process[Recruitment].ycs_values{1983} process[Recruitment].ycs_values{1984} process[Recruitment].ycs_values{1985} process[Recruitment].ycs_values{1986} process[Recruitment].ycs_values{1987} process[Recruitment].ycs_values{1988} process[Recruitment].ycs_values{1989} process[Recruitment].ycs_values{1990} process[Recruitment].ycs_values{1991} process[Recruitment].ycs_values{1992} process[Recruitment].ycs_values{1993} process[Recruitment].ycs_values{1994} process[Recruitment].ycs_values{1995} process[Recruitment].ycs_values{1996} process[Recruitment].ycs_values{1997} process[Recruitment].ycs_values{1998} process[Recruitment].ycs_values{1999} process[Recruitment].ycs_values{2000} process[Recruitment].ycs_values{2001} process[Recruitment].ycs_values{2002} process[Recruitment].ycs_values{2003} process[Recruitment].ycs_values{2004} process[Recruitment].ycs_values{2005} process[Recruitment].ycs_values{2006} process[Recruitment].ycs_values{2007} process[Recruitment].ycs_values{2008} process[Recruitment].ycs_values{2009} process[Recruitment].ycs_values{2010} process[Recruitment].ycs_values{2011} process[Recruitment].ycs_values{2012} process[Instantaneous_Mortality].m{male.nonspawn} process[Instantaneous_Mortality].m{female.nonspawn} observation[TangaroaAcousticMature].process_error
-314527 0.0855841 0.729927 0.512672 0.331181 0.0190747 0.51254 0.941203 0.998999 0.255898 0.260995 0.267025 0.274313 0.283173 0.294102 0.308798 0.824676 0.531625 0.370704 0.266765 0.138528 0.0802537 0.158215 0.106305 0.0575723 0.060793 0.127247 0.0505653 0.0395934 0.0499646 0.375867 0.368155 0.0940203 0.0328014 0.136473 0.130806 0.112561 0.286165 0.127934 0.437718 0.035898 0.256495 2.75116 0.558714 0.2639 0.126748 0.560017 0.36192 0.144856 0.320596 0.192791 0.298743 0.705184 0.417689 0.254272 0.252378 0.324953 1.69567 0.686598 0.200671 1.20372 0.169349 0.875687 0.132658 0.151183 0.160327 9.999e-05
+process[Recruitment].b0 selectivity[MaturationSel_male].v{1} selectivity[MaturationSel_male].v{2} selectivity[MaturationSel_male].v{3} selectivity[MaturationSel_male].v{4} selectivity[MaturationSel_female].v{1} selectivity[MaturationSel_female].v{2} selectivity[MaturationSel_female].v{3} selectivity[MaturationSel_female].v{4} process[Recruitment].ycs_values{1958} process[Recruitment].ycs_values{1959} process[Recruitment].ycs_values{1960} process[Recruitment].ycs_values{1961} process[Recruitment].ycs_values{1962} process[Recruitment].ycs_values{1963} process[Recruitment].ycs_values{1964} process[Recruitment].ycs_values{1965} process[Recruitment].ycs_values{1966} process[Recruitment].ycs_values{1967} process[Recruitment].ycs_values{1968} process[Recruitment].ycs_values{1969} process[Recruitment].ycs_values{1970} process[Recruitment].ycs_values{1971} process[Recruitment].ycs_values{1972} process[Recruitment].ycs_values{1973} process[Recruitment].ycs_values{1974} process[Recruitment].ycs_values{1975} process[Recruitment].ycs_values{1976} process[Recruitment].ycs_values{1977} process[Recruitment].ycs_values{1978} process[Recruitment].ycs_values{1979} process[Recruitment].ycs_values{1980} process[Recruitment].ycs_values{1981} process[Recruitment].ycs_values{1982} process[Recruitment].ycs_values{1983} process[Recruitment].ycs_values{1984} process[Recruitment].ycs_values{1985} process[Recruitment].ycs_values{1986} process[Recruitment].ycs_values{1987} process[Recruitment].ycs_values{1988} process[Recruitment].ycs_values{1989} process[Recruitment].ycs_values{1990} process[Recruitment].ycs_values{1991} process[Recruitment].ycs_values{1992} process[Recruitment].ycs_values{1993} process[Recruitment].ycs_values{1994} process[Recruitment].ycs_values{1995} process[Recruitment].ycs_values{1996} process[Recruitment].ycs_values{1997} process[Recruitment].ycs_values{1998} process[Recruitment].ycs_values{1999} process[Recruitment].ycs_values{2000} process[Recruitment].ycs_values{2001} process[Recruitment].ycs_values{2002} process[Recruitment].ycs_values{2003} process[Recruitment].ycs_values{2004} process[Recruitment].ycs_values{2005} process[Recruitment].ycs_values{2006} process[Recruitment].ycs_values{2007} process[Recruitment].ycs_values{2008} process[Recruitment].ycs_values{2009} process[Recruitment].ycs_values{2010} process[Recruitment].ycs_values{2011} process[Recruitment].ycs_values{2012} process[Instantaneous_Mortality].m{male.nonspawn} process[Instantaneous_Mortality].m{female.nonspawn} observation[TangaroaAcousticMature].process_error 
+314527 0.0855841 0.729927 0.512672 0.331181 0.0190747 0.51254 0.941203 0.999 0.255898 0.260995 0.267025 0.274313 0.283173 0.294102 0.308798 0.824676 0.531625 0.370704 0.266765 0.138528 0.0802537 0.158215 0.106305 0.0575723 0.060793 0.127247 0.0505653 0.0395934 0.0499646 0.375867 0.368155 0.0940203 0.0328014 0.136473 0.130806 0.112561 0.286165 0.127934 0.437718 0.035898 0.256495 2.75116 0.558714 0.2639 0.126748 0.560017 0.36192 0.144856 0.320596 0.192791 0.298743 0.705184 0.417689 0.254272 0.252378 0.324953 1.69567 0.686598 0.200671 1.20372 0.169349 0.875687 0.132658 0.151183 0.160327 9.999e-05 
 std_dev {d}
-process[Recruitment].b0 selectivity[MaturationSel_male].v{1} selectivity[MaturationSel_male].v{2} selectivity[MaturationSel_male].v{3} selectivity[MaturationSel_male].v{4} selectivity[MaturationSel_female].v{1} selectivity[MaturationSel_female].v{2} selectivity[MaturationSel_female].v{3} selectivity[MaturationSel_female].v{4} process[Recruitment].ycs_values{1958} process[Recruitment].ycs_values{1959} process[Recruitment].ycs_values{1960} process[Recruitment].ycs_values{1961} process[Recruitment].ycs_values{1962} process[Recruitment].ycs_values{1963} process[Recruitment].ycs_values{1964} process[Recruitment].ycs_values{1965} process[Recruitment].ycs_values{1966} process[Recruitment].ycs_values{1967} process[Recruitment].ycs_values{1968} process[Recruitment].ycs_values{1969} process[Recruitment].ycs_values{1970} process[Recruitment].ycs_values{1971} process[Recruitment].ycs_values{1972} process[Recruitment].ycs_values{1973} process[Recruitment].ycs_values{1974} process[Recruitment].ycs_values{1975} process[Recruitment].ycs_values{1976} process[Recruitment].ycs_values{1977} process[Recruitment].ycs_values{1978} process[Recruitment].ycs_values{1979} process[Recruitment].ycs_values{1980} process[Recruitment].ycs_values{1981} process[Recruitment].ycs_values{1982} process[Recruitment].ycs_values{1983} process[Recruitment].ycs_values{1984} process[Recruitment].ycs_values{1985} process[Recruitment].ycs_values{1986} process[Recruitment].ycs_values{1987} process[Recruitment].ycs_values{1988} process[Recruitment].ycs_values{1989} process[Recruitment].ycs_values{1990} process[Recruitment].ycs_values{1991} process[Recruitment].ycs_values{1992} process[Recruitment].ycs_values{1993} process[Recruitment].ycs_values{1994} process[Recruitment].ycs_values{1995} process[Recruitment].ycs_values{1996} process[Recruitment].ycs_values{1997} process[Recruitment].ycs_values{1998} process[Recruitment].ycs_values{1999} process[Recruitment].ycs_values{2000} process[Recruitment].ycs_values{2001} process[Recruitment].ycs_values{2002} process[Recruitment].ycs_values{2003} process[Recruitment].ycs_values{2004} process[Recruitment].ycs_values{2005} process[Recruitment].ycs_values{2006} process[Recruitment].ycs_values{2007} process[Recruitment].ycs_values{2008} process[Recruitment].ycs_values{2009} process[Recruitment].ycs_values{2010} process[Recruitment].ycs_values{2011} process[Recruitment].ycs_values{2012} process[Instantaneous_Mortality].m{male.nonspawn} process[Instantaneous_Mortality].m{female.nonspawn} observation[TangaroaAcousticMature].process_error
-1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1
+process[Recruitment].b0 selectivity[MaturationSel_male].v{1} selectivity[MaturationSel_male].v{2} selectivity[MaturationSel_male].v{3} selectivity[MaturationSel_male].v{4} selectivity[MaturationSel_female].v{1} selectivity[MaturationSel_female].v{2} selectivity[MaturationSel_female].v{3} selectivity[MaturationSel_female].v{4} process[Recruitment].ycs_values{1958} process[Recruitment].ycs_values{1959} process[Recruitment].ycs_values{1960} process[Recruitment].ycs_values{1961} process[Recruitment].ycs_values{1962} process[Recruitment].ycs_values{1963} process[Recruitment].ycs_values{1964} process[Recruitment].ycs_values{1965} process[Recruitment].ycs_values{1966} process[Recruitment].ycs_values{1967} process[Recruitment].ycs_values{1968} process[Recruitment].ycs_values{1969} process[Recruitment].ycs_values{1970} process[Recruitment].ycs_values{1971} process[Recruitment].ycs_values{1972} process[Recruitment].ycs_values{1973} process[Recruitment].ycs_values{1974} process[Recruitment].ycs_values{1975} process[Recruitment].ycs_values{1976} process[Recruitment].ycs_values{1977} process[Recruitment].ycs_values{1978} process[Recruitment].ycs_values{1979} process[Recruitment].ycs_values{1980} process[Recruitment].ycs_values{1981} process[Recruitment].ycs_values{1982} process[Recruitment].ycs_values{1983} process[Recruitment].ycs_values{1984} process[Recruitment].ycs_values{1985} process[Recruitment].ycs_values{1986} process[Recruitment].ycs_values{1987} process[Recruitment].ycs_values{1988} process[Recruitment].ycs_values{1989} process[Recruitment].ycs_values{1990} process[Recruitment].ycs_values{1991} process[Recruitment].ycs_values{1992} process[Recruitment].ycs_values{1993} process[Recruitment].ycs_values{1994} process[Recruitment].ycs_values{1995} process[Recruitment].ycs_values{1996} process[Recruitment].ycs_values{1997} process[Recruitment].ycs_values{1998} process[Recruitment].ycs_values{1999} process[Recruitment].ycs_values{2000} process[Recruitment].ycs_values{2001} process[Recruitment].ycs_values{2002} process[Recruitment].ycs_values{2003} process[Recruitment].ycs_values{2004} process[Recruitment].ycs_values{2005} process[Recruitment].ycs_values{2006} process[Recruitment].ycs_values{2007} process[Recruitment].ycs_values{2008} process[Recruitment].ycs_values{2009} process[Recruitment].ycs_values{2010} process[Recruitment].ycs_values{2011} process[Recruitment].ycs_values{2012} process[Instantaneous_Mortality].m{male.nonspawn} process[Instantaneous_Mortality].m{female.nonspawn} observation[TangaroaAcousticMature].process_error 
+1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 
 *end
 
 *objective_function[obj_fun]
@@ -384,13 +321,13 @@ prior->mature_process_error->observation[TangaroaAcousticMature].process_error -
 additional_prior->Penalty-YCS 0.397344
 additional_prior->TangaroaMatureq -0.731801
 jacobian->avg_diff 0
-total_score 938.228
+total_negloglike 938.228
 *end
 
 *derived_quantity[DerivedQuantities]
-SSB {L}
-type: biomass
-initialisation_phase[1]: 314527
+SSB {L} 
+type: biomass 
+initialisation_phase[1]: 314527 
 values {v}
 1960 314290
 1961 310378
@@ -454,7 +391,7 @@ end {L}
 *process[Recruitment]
 age: 2
 b0: 314527
-b0_initialisation_phase:
+b0_initialisation_phase: 
 categories: male.nonspawn male.spawn female.nonspawn female.spawn
 label: Recruitment
 proportions: 0.5 0 0.5 0
@@ -464,12 +401,12 @@ ssb_offset: 2
 standardise_ycs_years: 1958 1959 1960 1961 1962 1963 1964 1965 1966 1967 1968 1969 1970 1971 1972 1973 1974 1975 1976 1977 1978 1979 1980 1981 1982 1983 1984 1985 1986 1987 1988 1989 1990 1991 1992 1993 1994 1995 1996 1997 1998 1999 2000 2001 2002 2003 2004 2005 2006 2007 2008 2009 2010 2011 2012
 steepness: 0.9
 type: recruitment_beverton_holt
-ycs_years: 1958 1959 1960 1961 1962 1963 1964 1965 1966 1967 1968 1969 1970 1971 1972 1973 1974 1975 1976 1977 1978 1979 1980 1981 1982 1983 1984 1985 1986 1987 1988 1989 1990 1991 1992 1993 1994 1995 1996 1997 1998 1999 2000 2001 2002 2003 2004 2005 2006 2007 2008 2009 2010 2011 2012 2013
-standardised_ycs: 0.714425 0.728656 0.74549 0.765836 0.790572 0.821086 0.862115 2.30236 1.48421 1.03494 0.744766 0.386748 0.224055 0.44171 0.296787 0.160733 0.169724 0.355254 0.14117 0.110539 0.139493 1.04936 1.02783 0.262489 0.0915762 0.381009 0.365188 0.314253 0.798925 0.357171 1.22204 0.100221 0.716093 7.6808 1.55984 0.736766 0.353861 1.56348 1.01042 0.404415 0.895053 0.538242 0.834043 1.96876 1.16612 0.709887 0.704598 0.907217 4.73403 1.91687 0.560242 3.36059 0.472795 2.44478 0.370361 1
-ycs_values: 0.255898 0.260995 0.267025 0.274313 0.283173 0.294102 0.308798 0.824676 0.531625 0.370704 0.266765 0.138528 0.0802537 0.158215 0.106305 0.0575723 0.060793 0.127247 0.0505653 0.0395934 0.0499646 0.375867 0.368155 0.0940203 0.0328014 0.136473 0.130806 0.112561 0.286165 0.127934 0.437718 0.035898 0.256495 2.75116 0.558714 0.2639 0.126748 0.560017 0.36192 0.144856 0.320596 0.192791 0.298743 0.705184 0.417689 0.254272 0.252378 0.324953 1.69567 0.686598 0.200671 1.20372 0.169349 0.875687 0.132658 1
-true_ycs: 0.714425 0.728656 0.745474 0.765552 0.789804 0.819762 0.860152 2.29576 1.47924 1.03127 0.743455 0.386808 0.224276 0.442092 0.296488 0.159857 0.167676 0.349096 0.138041 0.107113 0.133943 0.981939 0.933535 0.23326 0.0824529 0.349743 0.335424 0.286378 0.71966 0.316322 1.05778 0.0844279 0.580693 6.35857 1.27027 0.611638 0.33611 1.52316 0.988377 0.395726 0.874202 0.524228 0.808538 1.90116 1.11725 0.674486 0.67417 0.872314 4.53346 1.82186 0.52915 3.23344 0.459916 2.37422 0.361032 0.974727
-Recruits: 6.65862e+07 6.79126e+07 6.94801e+07 7.13514e+07 7.36118e+07 7.64039e+07 8.01684e+07 2.13971e+08 1.37869e+08 9.61169e+07 6.92919e+07 3.60515e+07 2.09031e+07 4.12041e+07 2.76335e+07 1.48991e+07 1.56278e+07 3.25366e+07 1.28658e+07 9.98321e+06 1.24838e+07 9.15192e+07 8.70078e+07 2.17404e+07 7.68481e+06 3.25969e+07 3.12624e+07 2.66911e+07 6.70741e+07 2.9482e+07 9.85878e+07 7.8689e+06 5.41221e+07 5.92635e+08 1.18393e+08 5.70062e+07 3.13263e+07 1.41962e+08 9.21192e+07 3.68827e+07 8.14778e+07 4.88594e+07 7.53578e+07 1.77193e+08 1.0413e+08 6.28638e+07 6.28343e+07 8.13019e+07 4.2253e+08 1.69802e+08 4.93182e+07 3.01365e+08 4.28654e+07 2.21284e+08 3.36491e+07 9.08471e+07
-SSB: 314527 314527 314290 310378 303889 297238 290657 285019 280581 278762 295763 316296 326056 324625 303505 262719 218466 192362 173193 146205 126231 90594.2 67840.7 57070.9 63115.2 74562.5 74986.7 69830.5 63346.8 55677.9 47725.8 40666.5 33481.4 37064.3 34164 37601.2 108409 161046 174445 175670 169222 160276 147277 137945 122155 108852 119828 128882 121314 109307 100963 130205 156630 151961 162948 162681
+ycs_years: 1958 1959 1960 1961 1962 1963 1964 1965 1966 1967 1968 1969 1970 1971 1972 1973 1974 1975 1976 1977 1978 1979 1980 1981 1982 1983 1984 1985 1986 1987 1988 1989 1990 1991 1992 1993 1994 1995 1996 1997 1998 1999 2000 2001 2002 2003 2004 2005 2006 2007 2008 2009 2010 2011 2012 2013 
+standardised_ycs: 0.714425 0.728656 0.74549 0.765836 0.790572 0.821086 0.862115 2.30236 1.48421 1.03494 0.744766 0.386748 0.224055 0.44171 0.296787 0.160733 0.169724 0.355254 0.14117 0.110539 0.139493 1.04936 1.02783 0.262489 0.0915762 0.381009 0.365188 0.314253 0.798925 0.357171 1.22204 0.100221 0.716093 7.6808 1.55984 0.736766 0.353861 1.56348 1.01042 0.404415 0.895053 0.538242 0.834043 1.96876 1.16612 0.709887 0.704598 0.907217 4.73403 1.91687 0.560242 3.36059 0.472795 2.44478 0.370361 1 
+ycs_values: 0.255898 0.260995 0.267025 0.274313 0.283173 0.294102 0.308798 0.824676 0.531625 0.370704 0.266765 0.138528 0.0802537 0.158215 0.106305 0.0575723 0.060793 0.127247 0.0505653 0.0395934 0.0499646 0.375867 0.368155 0.0940203 0.0328014 0.136473 0.130806 0.112561 0.286165 0.127934 0.437718 0.035898 0.256495 2.75116 0.558714 0.2639 0.126748 0.560017 0.36192 0.144856 0.320596 0.192791 0.298743 0.705184 0.417689 0.254272 0.252378 0.324953 1.69567 0.686598 0.200671 1.20372 0.169349 0.875687 0.132658 1 
+true_ycs: 0.714425 0.728656 0.745474 0.765552 0.789804 0.819762 0.860152 2.29576 1.47924 1.03127 0.743455 0.386808 0.224276 0.442092 0.296488 0.159857 0.167676 0.349096 0.138041 0.107113 0.133943 0.981939 0.933535 0.23326 0.0824529 0.349743 0.335424 0.286378 0.71966 0.316322 1.05778 0.0844279 0.580693 6.35857 1.27027 0.611638 0.33611 1.52316 0.988377 0.395726 0.874202 0.524228 0.808538 1.90116 1.11725 0.674486 0.67417 0.872314 4.53346 1.82186 0.52915 3.23344 0.459916 2.37422 0.361032 0.974727 
+Recruits: 6.65862e+07 6.79126e+07 6.94801e+07 7.13514e+07 7.36118e+07 7.64039e+07 8.01684e+07 2.13971e+08 1.37869e+08 9.61169e+07 6.92919e+07 3.60515e+07 2.09031e+07 4.12041e+07 2.76335e+07 1.48991e+07 1.56278e+07 3.25366e+07 1.28658e+07 9.98321e+06 1.24838e+07 9.15192e+07 8.70078e+07 2.17404e+07 7.68481e+06 3.25969e+07 3.12624e+07 2.66911e+07 6.70741e+07 2.9482e+07 9.85878e+07 7.8689e+06 5.41221e+07 5.92635e+08 1.18393e+08 5.70062e+07 3.13263e+07 1.41962e+08 9.21192e+07 3.68827e+07 8.14778e+07 4.88594e+07 7.53578e+07 1.77193e+08 1.0413e+08 6.28638e+07 6.28343e+07 8.13019e+07 4.2253e+08 1.69802e+08 4.93182e+07 3.01365e+08 4.28654e+07 2.21284e+08 3.36491e+07 9.08471e+07 
+SSB: 314527 314527 314290 310378 303889 297238 290657 285019 280581 278762 295763 316296 326056 324625 303505 262719 218466 192362 173193 146205 126231 90594.2 67840.7 57070.9 63115.2 74562.5 74986.7 69830.5 63346.8 55677.9 47725.8 40666.5 33481.4 37064.3 34164 37601.2 108409 161046 174445 175670 169222 160276 147277 137945 122155 108852 119828 128882 121314 109307 100963 130205 156630 151961 162948 162681 
 *end
 
 *process[Mortality]
@@ -479,37 +416,37 @@ m: 0.151183 0.151183 0.160327 0.160327
 selectivities: One One One One
 time_step_ratio: 0.90000000000000002 0.10000000000000001
 type: mortality_instantaneous
-year: 1960 1961 1962 1963 1964 1965 1966 1967 1968 1969 1970 1971 1972 1973 1974 1975 1976 1977 1978 1979 1980 1981 1982 1983 1984 1985 1986 1987 1988 1989 1990 1991 1992 1993 1994 1995 1996 1997 1998 1999 2000 2001 2002 2003 2004 2005 2006 2007 2008 2009 2010 2011 2012 2013 2014 2015
-fishing_pressure[Trawl]: 0 0 0 0 0 0 0 0 0 0 0 0.0221255 0.0576666 0.121168 0.126433 0.0085982 0.0666245 0.118822 0.0494808 0.245334 0.172878 0.0997497 0.118064 0.158234 0.134158 0.101844 0.215085 0.206422 0.309079 0.494013 0.396816 0.447424 0.344758 0.220644 0.102177 0.0627848 0.09037 0.102258 0.148686 0.15656 0.115549 0.185803 0.241056 0.196643 0.152715 0.184605 0.150731 0.175376 0.18433 0.136344 0.12135 0.185159 0.122873 0.161737 0.134177 0.124675
-catch[Trawl]: 0 0 0 0 0 0 0 0 0 0 0 7262 18017 33868 29469 1661 11933 18460 6403 25305 12828 5989 7915 12803 10777 7490 15252 12804 17422 26611 16542 21314 14208 9316 11668 10436 16504 18923 27164 27205 18052 28232 33445 23718 19799 26190 19763 20996 20483 19040 20224 30982 21321 28606 23397 22100
-actual_catch[Trawl]: 0 0 0 0 0 0 0 0 0 0 0 7262 18017 33868 29469 1661 11933 18460 6403 25305 12828 5989 7915 12803 10777 7490 15252 12804 17422 26611 16542 21314 14208 9316 11668 10436 16504 18923 27164 27205 18052 28232 33445 23718 19799 26190 19763 20996 20483 19040 20224 30982 21321 28606 23397 22100
+year: 1960 1961 1962 1963 1964 1965 1966 1967 1968 1969 1970 1971 1972 1973 1974 1975 1976 1977 1978 1979 1980 1981 1982 1983 1984 1985 1986 1987 1988 1989 1990 1991 1992 1993 1994 1995 1996 1997 1998 1999 2000 2001 2002 2003 2004 2005 2006 2007 2008 2009 2010 2011 2012 2013 2014 2015 
+fishing_pressure[Trawl]: 0 0 0 0 0 0 0 0 0 0 0 0.0221255 0.0576666 0.121168 0.126433 0.0085982 0.0666245 0.118822 0.0494808 0.245334 0.172878 0.0997497 0.118064 0.158234 0.134158 0.101844 0.215085 0.206422 0.309079 0.494013 0.396816 0.447424 0.344758 0.220644 0.102177 0.0627848 0.09037 0.102258 0.148686 0.15656 0.115549 0.185803 0.241056 0.196643 0.152715 0.184605 0.150731 0.175376 0.18433 0.136344 0.12135 0.185159 0.122873 0.161737 0.134177 0.124675 
+catch[Trawl]: 0 0 0 0 0 0 0 0 0 0 0 7262 18017 33868 29469 1661 11933 18460 6403 25305 12828 5989 7915 12803 10777 7490 15252 12804 17422 26611 16542 21314 14208 9316 11668 10436 16504 18923 27164 27205 18052 28232 33445 23718 19799 26190 19763 20996 20483 19040 20224 30982 21321 28606 23397 22100 
+actual_catch[Trawl]: 0 0 0 0 0 0 0 0 0 0 0 7262 18017 33868 29469 1661 11933 18460 6403 25305 12828 5989 7915 12803 10777 7490 15252 12804 17422 26611 16542 21314 14208 9316 11668 10436 16504 18923 27164 27205 18052 28232 33445 23718 19799 26190 19763 20996 20483 19040 20224 30982 21321 28606 23397 22100 
 *end
 
 *partition_mean_length[part_length_1]
 time_step: step1
 male.spawn {L}
 mean_lengths {d}
-year 2 3 4 5 6 7 8 9 10 11 12 13 14 15
-1960 29.3107 33.8502 36.4551 39.4219 40.7614 41.8791 42.9256 43.8858 44.8865 45.3398 44.9126 46.3484 46.6014 46.8544
-2015 27.29 29.66 33.19 35.44 37.79 38.39 39.76 41.16 43.08 43.49 42.79 43.03 44.89 46.05
+year 2 3 4 5 6 7 8 9 10 11 12 13 14 15 
+1960 29.3107 33.8502 36.4551 39.4219 40.7614 41.8791 42.9256 43.8858 44.8865 45.3398 44.9126 46.3484 46.6014 46.8544 
+2015 27.29 29.66 33.19 35.44 37.79 38.39 39.76 41.16 43.08 43.49 42.79 43.03 44.89 46.05 
 end {L}
 female.spawn {L}
 mean_lengths {d}
-year 2 3 4 5 6 7 8 9 10 11 12 13 14 15
-1960 30.9619 35.3521 37.9558 40.9533 43.0528 44.7691 45.7537 46.437 48.2958 48.6735 49.1558 50.1777 50.3326 50.4874
-2015 28.39 31.48 34.17 36.84 39.21 40.82 42.21 44.07 45.03 46.51 47.31 48.17 49.76 49.55
+year 2 3 4 5 6 7 8 9 10 11 12 13 14 15 
+1960 30.9619 35.3521 37.9558 40.9533 43.0528 44.7691 45.7537 46.437 48.2958 48.6735 49.1558 50.1777 50.3326 50.4874 
+2015 28.39 31.48 34.17 36.84 39.21 40.82 42.21 44.07 45.03 46.51 47.31 48.17 49.76 49.55 
 end {L}
 male.nonspawn {L}
 mean_lengths {d}
-year 2 3 4 5 6 7 8 9 10 11 12 13 14 15
-1960 29.3107 33.8502 36.4551 39.4219 40.7614 41.8791 42.9256 43.8858 44.8865 45.3398 44.9126 46.3484 46.6014 46.8544
-2015 27.29 29.66 33.19 35.44 37.79 38.39 39.76 41.16 43.08 43.49 42.79 43.03 44.89 46.05
+year 2 3 4 5 6 7 8 9 10 11 12 13 14 15 
+1960 29.3107 33.8502 36.4551 39.4219 40.7614 41.8791 42.9256 43.8858 44.8865 45.3398 44.9126 46.3484 46.6014 46.8544 
+2015 27.29 29.66 33.19 35.44 37.79 38.39 39.76 41.16 43.08 43.49 42.79 43.03 44.89 46.05 
 end {L}
 female.nonspawn {L}
 mean_lengths {d}
-year 2 3 4 5 6 7 8 9 10 11 12 13 14 15
-1960 30.9619 35.3521 37.9558 40.9533 43.0528 44.7691 45.7537 46.437 48.2958 48.6735 49.1558 50.1777 50.3326 50.4874
-2015 28.39 31.48 34.17 36.84 39.21 40.82 42.21 44.07 45.03 46.51 47.31 48.17 49.76 49.55
+year 2 3 4 5 6 7 8 9 10 11 12 13 14 15 
+1960 30.9619 35.3521 37.9558 40.9533 43.0528 44.7691 45.7537 46.437 48.2958 48.6735 49.1558 50.1777 50.3326 50.4874 
+2015 28.39 31.48 34.17 36.84 39.21 40.82 42.21 44.07 45.03 46.51 47.31 48.17 49.76 49.55 
 end {L}
 *end
 
@@ -517,27 +454,27 @@ end {L}
 time_step: step2
 male.spawn {L}
 mean_lengths {d}
-year 2 3 4 5 6 7 8 9 10 11 12 13 14 15
-1960 28.7563 32.7502 36.1898 38.5293 40.6035 41.7851 42.8088 43.7386 44.5516 45.2174 45.5484 45.757 46.6014 46.8544
-2015 28.7563 30.78 33.93 35.63 38.05 38.94 39.87 41.21 42.7 43.39 42.87 43.12 45.15 46.24
+year 2 3 4 5 6 7 8 9 10 11 12 13 14 15 
+1960 28.7563 32.7502 36.1898 38.5293 40.6035 41.7851 42.8088 43.7386 44.5516 45.2174 45.5484 45.757 46.6014 46.8544 
+2015 28.7563 30.78 33.93 35.63 38.05 38.94 39.87 41.21 42.7 43.39 42.87 43.12 45.15 46.24 
 end {L}
 female.spawn {L}
 mean_lengths {d}
-year 2 3 4 5 6 7 8 9 10 11 12 13 14 15
-1960 28.9163 34.3972 37.8326 40.313 42.6702 44.3872 45.7216 46.6742 47.5947 48.7523 49.2088 49.7442 50.3326 50.4874
-2015 28.9163 32.43 35.08 37.11 39.55 40.88 42.2 44 45.43 46.76 47.56 48.3 49.58 49.75
+year 2 3 4 5 6 7 8 9 10 11 12 13 14 15 
+1960 28.9163 34.3972 37.8326 40.313 42.6702 44.3872 45.7216 46.6742 47.5947 48.7523 49.2088 49.7442 50.3326 50.4874 
+2015 28.9163 32.43 35.08 37.11 39.55 40.88 42.2 44 45.43 46.76 47.56 48.3 49.58 49.75 
 end {L}
 male.nonspawn {L}
 mean_lengths {d}
-year 2 3 4 5 6 7 8 9 10 11 12 13 14 15
-1960 28.7563 32.7502 36.1898 38.5293 40.6035 41.7851 42.8088 43.7386 44.5516 45.2174 45.5484 45.757 46.6014 46.8544
-2015 28.7563 30.78 33.93 35.63 38.05 38.94 39.87 41.21 42.7 43.39 42.87 43.12 45.15 46.24
+year 2 3 4 5 6 7 8 9 10 11 12 13 14 15 
+1960 28.7563 32.7502 36.1898 38.5293 40.6035 41.7851 42.8088 43.7386 44.5516 45.2174 45.5484 45.757 46.6014 46.8544 
+2015 28.7563 30.78 33.93 35.63 38.05 38.94 39.87 41.21 42.7 43.39 42.87 43.12 45.15 46.24 
 end {L}
 female.nonspawn {L}
 mean_lengths {d}
-year 2 3 4 5 6 7 8 9 10 11 12 13 14 15
-1960 28.9163 34.3972 37.8326 40.313 42.6702 44.3872 45.7216 46.6742 47.5947 48.7523 49.2088 49.7442 50.3326 50.4874
-2015 28.9163 32.43 35.08 37.11 39.55 40.88 42.2 44 45.43 46.76 47.56 48.3 49.58 49.75
+year 2 3 4 5 6 7 8 9 10 11 12 13 14 15 
+1960 28.9163 34.3972 37.8326 40.313 42.6702 44.3872 45.7216 46.6742 47.5947 48.7523 49.2088 49.7442 50.3326 50.4874 
+2015 28.9163 32.43 35.08 37.11 39.55 40.88 42.2 44 45.43 46.76 47.56 48.3 49.58 49.75 
 end {L}
 *end
 
@@ -545,27 +482,27 @@ end {L}
 time_step: step1
 male.spawn {L}
 mean_weights {d}
-year 2 3 4 5 6 7 8 9 10 11 12 13 14 15
-1960 0.000146523 0.000189556 0.000268372 0.000328714 0.000400897 0.000420907 0.000469107 0.000522085 0.000601124 0.00061899 0.0005887 0.000598969 0.0006827 0.000738737
-2015 0.000146523 0.000189556 0.000268372 0.000328714 0.000400897 0.000420907 0.000469107 0.000522085 0.000601124 0.00061899 0.0005887 0.000598969 0.0006827 0.000738737
+year 2 3 4 5 6 7 8 9 10 11 12 13 14 15 
+1960 0.000146523 0.000189556 0.000268372 0.000328714 0.000400897 0.000420907 0.000469107 0.000522085 0.000601124 0.00061899 0.0005887 0.000598969 0.0006827 0.000738737 
+2015 0.000146523 0.000189556 0.000268372 0.000328714 0.000400897 0.000420907 0.000469107 0.000522085 0.000601124 0.00061899 0.0005887 0.000598969 0.0006827 0.000738737 
 end {L}
 female.spawn {L}
 mean_weights {d}
-year 2 3 4 5 6 7 8 9 10 11 12 13 14 15
-1960 0.000160187 0.000221848 0.000287276 0.000364158 0.000443238 0.000503179 0.00055919 0.000640604 0.000685628 0.000759201 0.000801129 0.000847935 0.000939329 0.00092689
-2015 0.000160187 0.000221848 0.000287276 0.000364158 0.000443238 0.000503179 0.00055919 0.000640604 0.000685628 0.000759201 0.000801129 0.000847935 0.000939329 0.00092689
+year 2 3 4 5 6 7 8 9 10 11 12 13 14 15 
+1960 0.000160187 0.000221848 0.000287276 0.000364158 0.000443238 0.000503179 0.00055919 0.000640604 0.000685628 0.000759201 0.000801129 0.000847935 0.000939329 0.00092689 
+2015 0.000160187 0.000221848 0.000287276 0.000364158 0.000443238 0.000503179 0.00055919 0.000640604 0.000685628 0.000759201 0.000801129 0.000847935 0.000939329 0.00092689 
 end {L}
 male.nonspawn {L}
 mean_weights {d}
-year 2 3 4 5 6 7 8 9 10 11 12 13 14 15
-1960 0.000146523 0.000189556 0.000268372 0.000328714 0.000400897 0.000420907 0.000469107 0.000522085 0.000601124 0.00061899 0.0005887 0.000598969 0.0006827 0.000738737
-2015 0.000146523 0.000189556 0.000268372 0.000328714 0.000400897 0.000420907 0.000469107 0.000522085 0.000601124 0.00061899 0.0005887 0.000598969 0.0006827 0.000738737
+year 2 3 4 5 6 7 8 9 10 11 12 13 14 15 
+1960 0.000146523 0.000189556 0.000268372 0.000328714 0.000400897 0.000420907 0.000469107 0.000522085 0.000601124 0.00061899 0.0005887 0.000598969 0.0006827 0.000738737 
+2015 0.000146523 0.000189556 0.000268372 0.000328714 0.000400897 0.000420907 0.000469107 0.000522085 0.000601124 0.00061899 0.0005887 0.000598969 0.0006827 0.000738737 
 end {L}
 female.nonspawn {L}
 mean_weights {d}
-year 2 3 4 5 6 7 8 9 10 11 12 13 14 15
-1960 0.000160187 0.000221848 0.000287276 0.000364158 0.000443238 0.000503179 0.00055919 0.000640604 0.000685628 0.000759201 0.000801129 0.000847935 0.000939329 0.00092689
-2015 0.000160187 0.000221848 0.000287276 0.000364158 0.000443238 0.000503179 0.00055919 0.000640604 0.000685628 0.000759201 0.000801129 0.000847935 0.000939329 0.00092689
+year 2 3 4 5 6 7 8 9 10 11 12 13 14 15 
+1960 0.000160187 0.000221848 0.000287276 0.000364158 0.000443238 0.000503179 0.00055919 0.000640604 0.000685628 0.000759201 0.000801129 0.000847935 0.000939329 0.00092689 
+2015 0.000160187 0.000221848 0.000287276 0.000364158 0.000443238 0.000503179 0.00055919 0.000640604 0.000685628 0.000759201 0.000801129 0.000847935 0.000939329 0.00092689 
 end {L}
 *end
 
@@ -573,39 +510,39 @@ end {L}
 time_step: step2
 male.spawn {L}
 mean_weights {d}
-year 2 3 4 5 6 7 8 9 10 11 12 13 14 15
-1960 0.00017226 0.000212574 0.000287309 0.000334194 0.000409487 0.000439833 0.000473131 0.000524049 0.00058488 0.0006146 0.00059211 0.000602851 0.000695001 0.000748202
-2015 0.00017226 0.000212574 0.000287309 0.000334194 0.000409487 0.000439833 0.000473131 0.000524049 0.00058488 0.0006146 0.00059211 0.000602851 0.000695001 0.000748202
+year 2 3 4 5 6 7 8 9 10 11 12 13 14 15 
+1960 0.00017226 0.000212574 0.000287309 0.000334194 0.000409487 0.000439833 0.000473131 0.000524049 0.00058488 0.0006146 0.00059211 0.000602851 0.000695001 0.000748202 
+2015 0.00017226 0.000212574 0.000287309 0.000334194 0.000409487 0.000439833 0.000473131 0.000524049 0.00058488 0.0006146 0.00059211 0.000602851 0.000695001 0.000748202 
 end {L}
 female.spawn {L}
 mean_weights {d}
-year 2 3 4 5 6 7 8 9 10 11 12 13 14 15
-1960 0.000169735 0.000243644 0.000312089 0.000372637 0.000455466 0.000505514 0.000558773 0.000637402 0.000705009 0.000772138 0.000814548 0.000855169 0.00092866 0.000938734
-2015 0.000169735 0.000243644 0.000312089 0.000372637 0.000455466 0.000505514 0.000558773 0.000637402 0.000705009 0.000772138 0.000814548 0.000855169 0.00092866 0.000938734
+year 2 3 4 5 6 7 8 9 10 11 12 13 14 15 
+1960 0.000169735 0.000243644 0.000312089 0.000372637 0.000455466 0.000505514 0.000558773 0.000637402 0.000705009 0.000772138 0.000814548 0.000855169 0.00092866 0.000938734 
+2015 0.000169735 0.000243644 0.000312089 0.000372637 0.000455466 0.000505514 0.000558773 0.000637402 0.000705009 0.000772138 0.000814548 0.000855169 0.00092866 0.000938734 
 end {L}
 male.nonspawn {L}
 mean_weights {d}
-year 2 3 4 5 6 7 8 9 10 11 12 13 14 15
-1960 0.00017226 0.000212574 0.000287309 0.000334194 0.000409487 0.000439833 0.000473131 0.000524049 0.00058488 0.0006146 0.00059211 0.000602851 0.000695001 0.000748202
-2015 0.00017226 0.000212574 0.000287309 0.000334194 0.000409487 0.000439833 0.000473131 0.000524049 0.00058488 0.0006146 0.00059211 0.000602851 0.000695001 0.000748202
+year 2 3 4 5 6 7 8 9 10 11 12 13 14 15 
+1960 0.00017226 0.000212574 0.000287309 0.000334194 0.000409487 0.000439833 0.000473131 0.000524049 0.00058488 0.0006146 0.00059211 0.000602851 0.000695001 0.000748202 
+2015 0.00017226 0.000212574 0.000287309 0.000334194 0.000409487 0.000439833 0.000473131 0.000524049 0.00058488 0.0006146 0.00059211 0.000602851 0.000695001 0.000748202 
 end {L}
 female.nonspawn {L}
 mean_weights {d}
-year 2 3 4 5 6 7 8 9 10 11 12 13 14 15
-1960 0.000169735 0.000243644 0.000312089 0.000372637 0.000455466 0.000505514 0.000558773 0.000637402 0.000705009 0.000772138 0.000814548 0.000855169 0.00092866 0.000938734
-2015 0.000169735 0.000243644 0.000312089 0.000372637 0.000455466 0.000505514 0.000558773 0.000637402 0.000705009 0.000772138 0.000814548 0.000855169 0.00092866 0.000938734
+year 2 3 4 5 6 7 8 9 10 11 12 13 14 15 
+1960 0.000169735 0.000243644 0.000312089 0.000372637 0.000455466 0.000505514 0.000558773 0.000637402 0.000705009 0.000772138 0.000814548 0.000855169 0.00092866 0.000938734 
+2015 0.000169735 0.000243644 0.000312089 0.000372637 0.000455466 0.000505514 0.000558773 0.000637402 0.000705009 0.000772138 0.000814548 0.000855169 0.00092866 0.000938734 
 end {L}
 *end
 
 *selectivity[MaturationSel_male]
-h: 6
-intervals: 5
-l: 2
-label: MaturationSel_male
-length_based: 0
-partition_type: model
-type: all_values_bounded
-v: 0.0855841 0.729927 0.512672 0.331181 0.99
+h: 6 
+intervals: 5 
+l: 2 
+label: MaturationSel_male 
+length_based: 0 
+partition_type: model 
+type: all_values_bounded 
+v: 0.0855841 0.729927 0.512672 0.331181 0.99 
 Values {v}
 2 0.0855841
 3 0.729927
@@ -624,19 +561,19 @@ Values {v}
 *end
 
 *selectivity[MaturationSel_female]
-h: 6
-intervals: 5
-l: 2
-label: MaturationSel_female
-length_based: 0
-partition_type: model
-type: all_values_bounded
-v: 0.0190747 0.51254 0.941203 0.998999 0.99
+h: 6 
+intervals: 5 
+l: 2 
+label: MaturationSel_female 
+length_based: 0 
+partition_type: model 
+type: all_values_bounded 
+v: 0.0190747 0.51254 0.941203 0.999 0.99 
 Values {v}
 2 0.0190747
 3 0.51254
 4 0.941203
-5 0.998999
+5 0.999
 6 0.99
 7 0.99
 8 0.99
@@ -653,7 +590,7 @@ Values {v}
 observation_type: biomass
 likelihood: lognormal
 Values {d}
-year category age length observed expected residual error_value process_error adjusted_error score
+year category age length observed expected residual error_value process_error adjusted_error neglogLike
 1993 male.spawn+female.spawn 0 0 16060 18043 -1983 0.24 9.999e-05 0.24 -1.37137
 1994 male.spawn+female.spawn 0 0 72168 52020.1 20147.9 0.34 9.999e-05 0.34 -0.439215
 1995 male.spawn+female.spawn 0 0 53608 77278.4 -23670.4 0.3 9.999e-05 0.3 -0.621755
@@ -671,7 +608,7 @@ year category age length observed expected residual error_value process_error ad
 observation_type: biomass
 likelihood: lognormal
 Values {d}
-year category age length observed expected residual error_value process_error adjusted_error score
+year category age length observed expected residual error_value process_error adjusted_error neglogLike
 1993 male.nonspawn+female.nonspawn 0 0 35208 18176.6 17031.4 0.25 0.001 0.250002 2.54156
 1994 male.nonspawn+female.nonspawn 0 0 8018 16610.6 -8592.62 0.38 0.001 0.380001 0.61754
 1995 male.nonspawn+female.nonspawn 0 0 15507 7647.78 7859.22 0.29 0.001 0.290002 2.19925
@@ -689,1408 +626,1408 @@ year category age length observed expected residual error_value process_error ad
 process[Recruitment].b0 {L}
 value: 314527
 std_dev: 1
-estimation_phase:
-label: B0
-lower_bound: 30000
-mcmc:
-parameter: process[Recruitment].b0
-prior_applies_to_transform:
-same:
-transform_with_jacobian:
-transformation:
-type: uniform_log
-upper_bound: 800000
+estimation_phase: 
+label: B0 
+lower_bound: 30000 
+mcmc: 
+parameter: process[Recruitment].b0 
+prior_applies_to_transform: 
+same: 
+transform_with_jacobian: 
+transformation: 
+type: uniform_log 
+upper_bound: 800000 
 end {L}
 
 selectivity[MaturationSel_male].v{1} {L}
 value: 0.0855841
 std_dev: 1
-estimation_phase:
-label: Migration_male
-lower_bound: 0.001
-mcmc:
-parameter: selectivity[MaturationSel_male].v{1}
-prior_applies_to_transform:
-same:
-transform_with_jacobian:
-transformation:
-type: uniform
-upper_bound: 0.999
+estimation_phase: 
+label: Migration_male 
+lower_bound: 0.001 
+mcmc: 
+parameter: selectivity[MaturationSel_male].v{1} 
+prior_applies_to_transform: 
+same: 
+transform_with_jacobian: 
+transformation: 
+type: uniform 
+upper_bound: 0.999 
 end {L}
 
 selectivity[MaturationSel_male].v{2} {L}
 value: 0.729927
 std_dev: 1
-estimation_phase:
-label: Migration_male
-lower_bound: 0.001
-mcmc:
-parameter: selectivity[MaturationSel_male].v{2}
-prior_applies_to_transform:
-same:
-transform_with_jacobian:
-transformation:
-type: uniform
-upper_bound: 0.999
+estimation_phase: 
+label: Migration_male 
+lower_bound: 0.001 
+mcmc: 
+parameter: selectivity[MaturationSel_male].v{2} 
+prior_applies_to_transform: 
+same: 
+transform_with_jacobian: 
+transformation: 
+type: uniform 
+upper_bound: 0.999 
 end {L}
 
 selectivity[MaturationSel_male].v{3} {L}
 value: 0.512672
 std_dev: 1
-estimation_phase:
-label: Migration_male
-lower_bound: 0.001
-mcmc:
-parameter: selectivity[MaturationSel_male].v{3}
-prior_applies_to_transform:
-same:
-transform_with_jacobian:
-transformation:
-type: uniform
-upper_bound: 0.999
+estimation_phase: 
+label: Migration_male 
+lower_bound: 0.001 
+mcmc: 
+parameter: selectivity[MaturationSel_male].v{3} 
+prior_applies_to_transform: 
+same: 
+transform_with_jacobian: 
+transformation: 
+type: uniform 
+upper_bound: 0.999 
 end {L}
 
 selectivity[MaturationSel_male].v{4} {L}
 value: 0.331181
 std_dev: 1
-estimation_phase:
-label: Migration_male
-lower_bound: 0.001
-mcmc:
-parameter: selectivity[MaturationSel_male].v{4}
-prior_applies_to_transform:
-same:
-transform_with_jacobian:
-transformation:
-type: uniform
-upper_bound: 0.999
+estimation_phase: 
+label: Migration_male 
+lower_bound: 0.001 
+mcmc: 
+parameter: selectivity[MaturationSel_male].v{4} 
+prior_applies_to_transform: 
+same: 
+transform_with_jacobian: 
+transformation: 
+type: uniform 
+upper_bound: 0.999 
 end {L}
 
 selectivity[MaturationSel_female].v{1} {L}
 value: 0.0190747
 std_dev: 1
-estimation_phase:
-label: Migration_female
-lower_bound: 0.001
-mcmc:
-parameter: selectivity[MaturationSel_female].v{1}
-prior_applies_to_transform:
-same:
-transform_with_jacobian:
-transformation:
-type: uniform
-upper_bound: 0.999
+estimation_phase: 
+label: Migration_female 
+lower_bound: 0.001 
+mcmc: 
+parameter: selectivity[MaturationSel_female].v{1} 
+prior_applies_to_transform: 
+same: 
+transform_with_jacobian: 
+transformation: 
+type: uniform 
+upper_bound: 0.999 
 end {L}
 
 selectivity[MaturationSel_female].v{2} {L}
 value: 0.51254
 std_dev: 1
-estimation_phase:
-label: Migration_female
-lower_bound: 0.001
-mcmc:
-parameter: selectivity[MaturationSel_female].v{2}
-prior_applies_to_transform:
-same:
-transform_with_jacobian:
-transformation:
-type: uniform
-upper_bound: 0.999
+estimation_phase: 
+label: Migration_female 
+lower_bound: 0.001 
+mcmc: 
+parameter: selectivity[MaturationSel_female].v{2} 
+prior_applies_to_transform: 
+same: 
+transform_with_jacobian: 
+transformation: 
+type: uniform 
+upper_bound: 0.999 
 end {L}
 
 selectivity[MaturationSel_female].v{3} {L}
 value: 0.941203
 std_dev: 1
-estimation_phase:
-label: Migration_female
-lower_bound: 0.001
-mcmc:
-parameter: selectivity[MaturationSel_female].v{3}
-prior_applies_to_transform:
-same:
-transform_with_jacobian:
-transformation:
-type: uniform
-upper_bound: 0.999
+estimation_phase: 
+label: Migration_female 
+lower_bound: 0.001 
+mcmc: 
+parameter: selectivity[MaturationSel_female].v{3} 
+prior_applies_to_transform: 
+same: 
+transform_with_jacobian: 
+transformation: 
+type: uniform 
+upper_bound: 0.999 
 end {L}
 
 selectivity[MaturationSel_female].v{4} {L}
-value: 0.998999
+value: 0.999
 std_dev: 1
-estimation_phase:
-label: Migration_female
-lower_bound: 0.001
-mcmc:
-parameter: selectivity[MaturationSel_female].v{4}
-prior_applies_to_transform:
-same:
-transform_with_jacobian:
-transformation:
-type: uniform
-upper_bound: 0.999
+estimation_phase: 
+label: Migration_female 
+lower_bound: 0.001 
+mcmc: 
+parameter: selectivity[MaturationSel_female].v{4} 
+prior_applies_to_transform: 
+same: 
+transform_with_jacobian: 
+transformation: 
+type: uniform 
+upper_bound: 0.999 
 end {L}
 
 process[Recruitment].ycs_values{1958} {L}
 value: 0.255898
 std_dev: 1
-cv: 1.3
-estimation_phase:
-label: YCS
-lower_bound: 0.001
-mcmc:
-mu: 1
-parameter: process[Recruitment].ycs_values{1958}
-prior_applies_to_transform:
-same:
-transform_with_jacobian:
-transformation:
-type: lognormal
-upper_bound: 100
+cv: 1.3 
+estimation_phase: 
+label: YCS 
+lower_bound: 0.001 
+mcmc: 
+mu: 1 
+parameter: process[Recruitment].ycs_values{1958} 
+prior_applies_to_transform: 
+same: 
+transform_with_jacobian: 
+transformation: 
+type: lognormal 
+upper_bound: 100 
 end {L}
 
 process[Recruitment].ycs_values{1959} {L}
 value: 0.260995
 std_dev: 1
-cv: 1.3
-estimation_phase:
-label: YCS
-lower_bound: 0.001
-mcmc:
-mu: 1
-parameter: process[Recruitment].ycs_values{1959}
-prior_applies_to_transform:
-same:
-transform_with_jacobian:
-transformation:
-type: lognormal
-upper_bound: 100
+cv: 1.3 
+estimation_phase: 
+label: YCS 
+lower_bound: 0.001 
+mcmc: 
+mu: 1 
+parameter: process[Recruitment].ycs_values{1959} 
+prior_applies_to_transform: 
+same: 
+transform_with_jacobian: 
+transformation: 
+type: lognormal 
+upper_bound: 100 
 end {L}
 
 process[Recruitment].ycs_values{1960} {L}
 value: 0.267025
 std_dev: 1
-cv: 1.3
-estimation_phase:
-label: YCS
-lower_bound: 0.001
-mcmc:
-mu: 1
-parameter: process[Recruitment].ycs_values{1960}
-prior_applies_to_transform:
-same:
-transform_with_jacobian:
-transformation:
-type: lognormal
-upper_bound: 100
+cv: 1.3 
+estimation_phase: 
+label: YCS 
+lower_bound: 0.001 
+mcmc: 
+mu: 1 
+parameter: process[Recruitment].ycs_values{1960} 
+prior_applies_to_transform: 
+same: 
+transform_with_jacobian: 
+transformation: 
+type: lognormal 
+upper_bound: 100 
 end {L}
 
 process[Recruitment].ycs_values{1961} {L}
 value: 0.274313
 std_dev: 1
-cv: 1.3
-estimation_phase:
-label: YCS
-lower_bound: 0.001
-mcmc:
-mu: 1
-parameter: process[Recruitment].ycs_values{1961}
-prior_applies_to_transform:
-same:
-transform_with_jacobian:
-transformation:
-type: lognormal
-upper_bound: 100
+cv: 1.3 
+estimation_phase: 
+label: YCS 
+lower_bound: 0.001 
+mcmc: 
+mu: 1 
+parameter: process[Recruitment].ycs_values{1961} 
+prior_applies_to_transform: 
+same: 
+transform_with_jacobian: 
+transformation: 
+type: lognormal 
+upper_bound: 100 
 end {L}
 
 process[Recruitment].ycs_values{1962} {L}
 value: 0.283173
 std_dev: 1
-cv: 1.3
-estimation_phase:
-label: YCS
-lower_bound: 0.001
-mcmc:
-mu: 1
-parameter: process[Recruitment].ycs_values{1962}
-prior_applies_to_transform:
-same:
-transform_with_jacobian:
-transformation:
-type: lognormal
-upper_bound: 100
+cv: 1.3 
+estimation_phase: 
+label: YCS 
+lower_bound: 0.001 
+mcmc: 
+mu: 1 
+parameter: process[Recruitment].ycs_values{1962} 
+prior_applies_to_transform: 
+same: 
+transform_with_jacobian: 
+transformation: 
+type: lognormal 
+upper_bound: 100 
 end {L}
 
 process[Recruitment].ycs_values{1963} {L}
 value: 0.294102
 std_dev: 1
-cv: 1.3
-estimation_phase:
-label: YCS
-lower_bound: 0.001
-mcmc:
-mu: 1
-parameter: process[Recruitment].ycs_values{1963}
-prior_applies_to_transform:
-same:
-transform_with_jacobian:
-transformation:
-type: lognormal
-upper_bound: 100
+cv: 1.3 
+estimation_phase: 
+label: YCS 
+lower_bound: 0.001 
+mcmc: 
+mu: 1 
+parameter: process[Recruitment].ycs_values{1963} 
+prior_applies_to_transform: 
+same: 
+transform_with_jacobian: 
+transformation: 
+type: lognormal 
+upper_bound: 100 
 end {L}
 
 process[Recruitment].ycs_values{1964} {L}
 value: 0.308798
 std_dev: 1
-cv: 1.3
-estimation_phase:
-label: YCS
-lower_bound: 0.001
-mcmc:
-mu: 1
-parameter: process[Recruitment].ycs_values{1964}
-prior_applies_to_transform:
-same:
-transform_with_jacobian:
-transformation:
-type: lognormal
-upper_bound: 100
+cv: 1.3 
+estimation_phase: 
+label: YCS 
+lower_bound: 0.001 
+mcmc: 
+mu: 1 
+parameter: process[Recruitment].ycs_values{1964} 
+prior_applies_to_transform: 
+same: 
+transform_with_jacobian: 
+transformation: 
+type: lognormal 
+upper_bound: 100 
 end {L}
 
 process[Recruitment].ycs_values{1965} {L}
 value: 0.824676
 std_dev: 1
-cv: 1.3
-estimation_phase:
-label: YCS
-lower_bound: 0.001
-mcmc:
-mu: 1
-parameter: process[Recruitment].ycs_values{1965}
-prior_applies_to_transform:
-same:
-transform_with_jacobian:
-transformation:
-type: lognormal
-upper_bound: 100
+cv: 1.3 
+estimation_phase: 
+label: YCS 
+lower_bound: 0.001 
+mcmc: 
+mu: 1 
+parameter: process[Recruitment].ycs_values{1965} 
+prior_applies_to_transform: 
+same: 
+transform_with_jacobian: 
+transformation: 
+type: lognormal 
+upper_bound: 100 
 end {L}
 
 process[Recruitment].ycs_values{1966} {L}
 value: 0.531625
 std_dev: 1
-cv: 1.3
-estimation_phase:
-label: YCS
-lower_bound: 0.001
-mcmc:
-mu: 1
-parameter: process[Recruitment].ycs_values{1966}
-prior_applies_to_transform:
-same:
-transform_with_jacobian:
-transformation:
-type: lognormal
-upper_bound: 100
+cv: 1.3 
+estimation_phase: 
+label: YCS 
+lower_bound: 0.001 
+mcmc: 
+mu: 1 
+parameter: process[Recruitment].ycs_values{1966} 
+prior_applies_to_transform: 
+same: 
+transform_with_jacobian: 
+transformation: 
+type: lognormal 
+upper_bound: 100 
 end {L}
 
 process[Recruitment].ycs_values{1967} {L}
 value: 0.370704
 std_dev: 1
-cv: 1.3
-estimation_phase:
-label: YCS
-lower_bound: 0.001
-mcmc:
-mu: 1
-parameter: process[Recruitment].ycs_values{1967}
-prior_applies_to_transform:
-same:
-transform_with_jacobian:
-transformation:
-type: lognormal
-upper_bound: 100
+cv: 1.3 
+estimation_phase: 
+label: YCS 
+lower_bound: 0.001 
+mcmc: 
+mu: 1 
+parameter: process[Recruitment].ycs_values{1967} 
+prior_applies_to_transform: 
+same: 
+transform_with_jacobian: 
+transformation: 
+type: lognormal 
+upper_bound: 100 
 end {L}
 
 process[Recruitment].ycs_values{1968} {L}
 value: 0.266765
 std_dev: 1
-cv: 1.3
-estimation_phase:
-label: YCS
-lower_bound: 0.001
-mcmc:
-mu: 1
-parameter: process[Recruitment].ycs_values{1968}
-prior_applies_to_transform:
-same:
-transform_with_jacobian:
-transformation:
-type: lognormal
-upper_bound: 100
+cv: 1.3 
+estimation_phase: 
+label: YCS 
+lower_bound: 0.001 
+mcmc: 
+mu: 1 
+parameter: process[Recruitment].ycs_values{1968} 
+prior_applies_to_transform: 
+same: 
+transform_with_jacobian: 
+transformation: 
+type: lognormal 
+upper_bound: 100 
 end {L}
 
 process[Recruitment].ycs_values{1969} {L}
 value: 0.138528
 std_dev: 1
-cv: 1.3
-estimation_phase:
-label: YCS
-lower_bound: 0.001
-mcmc:
-mu: 1
-parameter: process[Recruitment].ycs_values{1969}
-prior_applies_to_transform:
-same:
-transform_with_jacobian:
-transformation:
-type: lognormal
-upper_bound: 100
+cv: 1.3 
+estimation_phase: 
+label: YCS 
+lower_bound: 0.001 
+mcmc: 
+mu: 1 
+parameter: process[Recruitment].ycs_values{1969} 
+prior_applies_to_transform: 
+same: 
+transform_with_jacobian: 
+transformation: 
+type: lognormal 
+upper_bound: 100 
 end {L}
 
 process[Recruitment].ycs_values{1970} {L}
 value: 0.0802537
 std_dev: 1
-cv: 1.3
-estimation_phase:
-label: YCS
-lower_bound: 0.001
-mcmc:
-mu: 1
-parameter: process[Recruitment].ycs_values{1970}
-prior_applies_to_transform:
-same:
-transform_with_jacobian:
-transformation:
-type: lognormal
-upper_bound: 100
+cv: 1.3 
+estimation_phase: 
+label: YCS 
+lower_bound: 0.001 
+mcmc: 
+mu: 1 
+parameter: process[Recruitment].ycs_values{1970} 
+prior_applies_to_transform: 
+same: 
+transform_with_jacobian: 
+transformation: 
+type: lognormal 
+upper_bound: 100 
 end {L}
 
 process[Recruitment].ycs_values{1971} {L}
 value: 0.158215
 std_dev: 1
-cv: 1.3
-estimation_phase:
-label: YCS
-lower_bound: 0.001
-mcmc:
-mu: 1
-parameter: process[Recruitment].ycs_values{1971}
-prior_applies_to_transform:
-same:
-transform_with_jacobian:
-transformation:
-type: lognormal
-upper_bound: 100
+cv: 1.3 
+estimation_phase: 
+label: YCS 
+lower_bound: 0.001 
+mcmc: 
+mu: 1 
+parameter: process[Recruitment].ycs_values{1971} 
+prior_applies_to_transform: 
+same: 
+transform_with_jacobian: 
+transformation: 
+type: lognormal 
+upper_bound: 100 
 end {L}
 
 process[Recruitment].ycs_values{1972} {L}
 value: 0.106305
 std_dev: 1
-cv: 1.3
-estimation_phase:
-label: YCS
-lower_bound: 0.001
-mcmc:
-mu: 1
-parameter: process[Recruitment].ycs_values{1972}
-prior_applies_to_transform:
-same:
-transform_with_jacobian:
-transformation:
-type: lognormal
-upper_bound: 100
+cv: 1.3 
+estimation_phase: 
+label: YCS 
+lower_bound: 0.001 
+mcmc: 
+mu: 1 
+parameter: process[Recruitment].ycs_values{1972} 
+prior_applies_to_transform: 
+same: 
+transform_with_jacobian: 
+transformation: 
+type: lognormal 
+upper_bound: 100 
 end {L}
 
 process[Recruitment].ycs_values{1973} {L}
 value: 0.0575723
 std_dev: 1
-cv: 1.3
-estimation_phase:
-label: YCS
-lower_bound: 0.001
-mcmc:
-mu: 1
-parameter: process[Recruitment].ycs_values{1973}
-prior_applies_to_transform:
-same:
-transform_with_jacobian:
-transformation:
-type: lognormal
-upper_bound: 100
+cv: 1.3 
+estimation_phase: 
+label: YCS 
+lower_bound: 0.001 
+mcmc: 
+mu: 1 
+parameter: process[Recruitment].ycs_values{1973} 
+prior_applies_to_transform: 
+same: 
+transform_with_jacobian: 
+transformation: 
+type: lognormal 
+upper_bound: 100 
 end {L}
 
 process[Recruitment].ycs_values{1974} {L}
 value: 0.060793
 std_dev: 1
-cv: 1.3
-estimation_phase:
-label: YCS
-lower_bound: 0.001
-mcmc:
-mu: 1
-parameter: process[Recruitment].ycs_values{1974}
-prior_applies_to_transform:
-same:
-transform_with_jacobian:
-transformation:
-type: lognormal
-upper_bound: 100
+cv: 1.3 
+estimation_phase: 
+label: YCS 
+lower_bound: 0.001 
+mcmc: 
+mu: 1 
+parameter: process[Recruitment].ycs_values{1974} 
+prior_applies_to_transform: 
+same: 
+transform_with_jacobian: 
+transformation: 
+type: lognormal 
+upper_bound: 100 
 end {L}
 
 process[Recruitment].ycs_values{1975} {L}
 value: 0.127247
 std_dev: 1
-cv: 1.3
-estimation_phase:
-label: YCS
-lower_bound: 0.001
-mcmc:
-mu: 1
-parameter: process[Recruitment].ycs_values{1975}
-prior_applies_to_transform:
-same:
-transform_with_jacobian:
-transformation:
-type: lognormal
-upper_bound: 100
+cv: 1.3 
+estimation_phase: 
+label: YCS 
+lower_bound: 0.001 
+mcmc: 
+mu: 1 
+parameter: process[Recruitment].ycs_values{1975} 
+prior_applies_to_transform: 
+same: 
+transform_with_jacobian: 
+transformation: 
+type: lognormal 
+upper_bound: 100 
 end {L}
 
 process[Recruitment].ycs_values{1976} {L}
 value: 0.0505653
 std_dev: 1
-cv: 1.3
-estimation_phase:
-label: YCS
-lower_bound: 0.001
-mcmc:
-mu: 1
-parameter: process[Recruitment].ycs_values{1976}
-prior_applies_to_transform:
-same:
-transform_with_jacobian:
-transformation:
-type: lognormal
-upper_bound: 100
+cv: 1.3 
+estimation_phase: 
+label: YCS 
+lower_bound: 0.001 
+mcmc: 
+mu: 1 
+parameter: process[Recruitment].ycs_values{1976} 
+prior_applies_to_transform: 
+same: 
+transform_with_jacobian: 
+transformation: 
+type: lognormal 
+upper_bound: 100 
 end {L}
 
 process[Recruitment].ycs_values{1977} {L}
 value: 0.0395934
 std_dev: 1
-cv: 1.3
-estimation_phase:
-label: YCS
-lower_bound: 0.001
-mcmc:
-mu: 1
-parameter: process[Recruitment].ycs_values{1977}
-prior_applies_to_transform:
-same:
-transform_with_jacobian:
-transformation:
-type: lognormal
-upper_bound: 100
+cv: 1.3 
+estimation_phase: 
+label: YCS 
+lower_bound: 0.001 
+mcmc: 
+mu: 1 
+parameter: process[Recruitment].ycs_values{1977} 
+prior_applies_to_transform: 
+same: 
+transform_with_jacobian: 
+transformation: 
+type: lognormal 
+upper_bound: 100 
 end {L}
 
 process[Recruitment].ycs_values{1978} {L}
 value: 0.0499646
 std_dev: 1
-cv: 1.3
-estimation_phase:
-label: YCS
-lower_bound: 0.001
-mcmc:
-mu: 1
-parameter: process[Recruitment].ycs_values{1978}
-prior_applies_to_transform:
-same:
-transform_with_jacobian:
-transformation:
-type: lognormal
-upper_bound: 100
+cv: 1.3 
+estimation_phase: 
+label: YCS 
+lower_bound: 0.001 
+mcmc: 
+mu: 1 
+parameter: process[Recruitment].ycs_values{1978} 
+prior_applies_to_transform: 
+same: 
+transform_with_jacobian: 
+transformation: 
+type: lognormal 
+upper_bound: 100 
 end {L}
 
 process[Recruitment].ycs_values{1979} {L}
 value: 0.375867
 std_dev: 1
-cv: 1.3
-estimation_phase:
-label: YCS
-lower_bound: 0.001
-mcmc:
-mu: 1
-parameter: process[Recruitment].ycs_values{1979}
-prior_applies_to_transform:
-same:
-transform_with_jacobian:
-transformation:
-type: lognormal
-upper_bound: 100
+cv: 1.3 
+estimation_phase: 
+label: YCS 
+lower_bound: 0.001 
+mcmc: 
+mu: 1 
+parameter: process[Recruitment].ycs_values{1979} 
+prior_applies_to_transform: 
+same: 
+transform_with_jacobian: 
+transformation: 
+type: lognormal 
+upper_bound: 100 
 end {L}
 
 process[Recruitment].ycs_values{1980} {L}
 value: 0.368155
 std_dev: 1
-cv: 1.3
-estimation_phase:
-label: YCS
-lower_bound: 0.001
-mcmc:
-mu: 1
-parameter: process[Recruitment].ycs_values{1980}
-prior_applies_to_transform:
-same:
-transform_with_jacobian:
-transformation:
-type: lognormal
-upper_bound: 100
+cv: 1.3 
+estimation_phase: 
+label: YCS 
+lower_bound: 0.001 
+mcmc: 
+mu: 1 
+parameter: process[Recruitment].ycs_values{1980} 
+prior_applies_to_transform: 
+same: 
+transform_with_jacobian: 
+transformation: 
+type: lognormal 
+upper_bound: 100 
 end {L}
 
 process[Recruitment].ycs_values{1981} {L}
 value: 0.0940203
 std_dev: 1
-cv: 1.3
-estimation_phase:
-label: YCS
-lower_bound: 0.001
-mcmc:
-mu: 1
-parameter: process[Recruitment].ycs_values{1981}
-prior_applies_to_transform:
-same:
-transform_with_jacobian:
-transformation:
-type: lognormal
-upper_bound: 100
+cv: 1.3 
+estimation_phase: 
+label: YCS 
+lower_bound: 0.001 
+mcmc: 
+mu: 1 
+parameter: process[Recruitment].ycs_values{1981} 
+prior_applies_to_transform: 
+same: 
+transform_with_jacobian: 
+transformation: 
+type: lognormal 
+upper_bound: 100 
 end {L}
 
 process[Recruitment].ycs_values{1982} {L}
 value: 0.0328014
 std_dev: 1
-cv: 1.3
-estimation_phase:
-label: YCS
-lower_bound: 0.001
-mcmc:
-mu: 1
-parameter: process[Recruitment].ycs_values{1982}
-prior_applies_to_transform:
-same:
-transform_with_jacobian:
-transformation:
-type: lognormal
-upper_bound: 100
+cv: 1.3 
+estimation_phase: 
+label: YCS 
+lower_bound: 0.001 
+mcmc: 
+mu: 1 
+parameter: process[Recruitment].ycs_values{1982} 
+prior_applies_to_transform: 
+same: 
+transform_with_jacobian: 
+transformation: 
+type: lognormal 
+upper_bound: 100 
 end {L}
 
 process[Recruitment].ycs_values{1983} {L}
 value: 0.136473
 std_dev: 1
-cv: 1.3
-estimation_phase:
-label: YCS
-lower_bound: 0.001
-mcmc:
-mu: 1
-parameter: process[Recruitment].ycs_values{1983}
-prior_applies_to_transform:
-same:
-transform_with_jacobian:
-transformation:
-type: lognormal
-upper_bound: 100
+cv: 1.3 
+estimation_phase: 
+label: YCS 
+lower_bound: 0.001 
+mcmc: 
+mu: 1 
+parameter: process[Recruitment].ycs_values{1983} 
+prior_applies_to_transform: 
+same: 
+transform_with_jacobian: 
+transformation: 
+type: lognormal 
+upper_bound: 100 
 end {L}
 
 process[Recruitment].ycs_values{1984} {L}
 value: 0.130806
 std_dev: 1
-cv: 1.3
-estimation_phase:
-label: YCS
-lower_bound: 0.001
-mcmc:
-mu: 1
-parameter: process[Recruitment].ycs_values{1984}
-prior_applies_to_transform:
-same:
-transform_with_jacobian:
-transformation:
-type: lognormal
-upper_bound: 100
+cv: 1.3 
+estimation_phase: 
+label: YCS 
+lower_bound: 0.001 
+mcmc: 
+mu: 1 
+parameter: process[Recruitment].ycs_values{1984} 
+prior_applies_to_transform: 
+same: 
+transform_with_jacobian: 
+transformation: 
+type: lognormal 
+upper_bound: 100 
 end {L}
 
 process[Recruitment].ycs_values{1985} {L}
 value: 0.112561
 std_dev: 1
-cv: 1.3
-estimation_phase:
-label: YCS
-lower_bound: 0.001
-mcmc:
-mu: 1
-parameter: process[Recruitment].ycs_values{1985}
-prior_applies_to_transform:
-same:
-transform_with_jacobian:
-transformation:
-type: lognormal
-upper_bound: 100
+cv: 1.3 
+estimation_phase: 
+label: YCS 
+lower_bound: 0.001 
+mcmc: 
+mu: 1 
+parameter: process[Recruitment].ycs_values{1985} 
+prior_applies_to_transform: 
+same: 
+transform_with_jacobian: 
+transformation: 
+type: lognormal 
+upper_bound: 100 
 end {L}
 
 process[Recruitment].ycs_values{1986} {L}
 value: 0.286165
 std_dev: 1
-cv: 1.3
-estimation_phase:
-label: YCS
-lower_bound: 0.001
-mcmc:
-mu: 1
-parameter: process[Recruitment].ycs_values{1986}
-prior_applies_to_transform:
-same:
-transform_with_jacobian:
-transformation:
-type: lognormal
-upper_bound: 100
+cv: 1.3 
+estimation_phase: 
+label: YCS 
+lower_bound: 0.001 
+mcmc: 
+mu: 1 
+parameter: process[Recruitment].ycs_values{1986} 
+prior_applies_to_transform: 
+same: 
+transform_with_jacobian: 
+transformation: 
+type: lognormal 
+upper_bound: 100 
 end {L}
 
 process[Recruitment].ycs_values{1987} {L}
 value: 0.127934
 std_dev: 1
-cv: 1.3
-estimation_phase:
-label: YCS
-lower_bound: 0.001
-mcmc:
-mu: 1
-parameter: process[Recruitment].ycs_values{1987}
-prior_applies_to_transform:
-same:
-transform_with_jacobian:
-transformation:
-type: lognormal
-upper_bound: 100
+cv: 1.3 
+estimation_phase: 
+label: YCS 
+lower_bound: 0.001 
+mcmc: 
+mu: 1 
+parameter: process[Recruitment].ycs_values{1987} 
+prior_applies_to_transform: 
+same: 
+transform_with_jacobian: 
+transformation: 
+type: lognormal 
+upper_bound: 100 
 end {L}
 
 process[Recruitment].ycs_values{1988} {L}
 value: 0.437718
 std_dev: 1
-cv: 1.3
-estimation_phase:
-label: YCS
-lower_bound: 0.001
-mcmc:
-mu: 1
-parameter: process[Recruitment].ycs_values{1988}
-prior_applies_to_transform:
-same:
-transform_with_jacobian:
-transformation:
-type: lognormal
-upper_bound: 100
+cv: 1.3 
+estimation_phase: 
+label: YCS 
+lower_bound: 0.001 
+mcmc: 
+mu: 1 
+parameter: process[Recruitment].ycs_values{1988} 
+prior_applies_to_transform: 
+same: 
+transform_with_jacobian: 
+transformation: 
+type: lognormal 
+upper_bound: 100 
 end {L}
 
 process[Recruitment].ycs_values{1989} {L}
 value: 0.035898
 std_dev: 1
-cv: 1.3
-estimation_phase:
-label: YCS
-lower_bound: 0.001
-mcmc:
-mu: 1
-parameter: process[Recruitment].ycs_values{1989}
-prior_applies_to_transform:
-same:
-transform_with_jacobian:
-transformation:
-type: lognormal
-upper_bound: 100
+cv: 1.3 
+estimation_phase: 
+label: YCS 
+lower_bound: 0.001 
+mcmc: 
+mu: 1 
+parameter: process[Recruitment].ycs_values{1989} 
+prior_applies_to_transform: 
+same: 
+transform_with_jacobian: 
+transformation: 
+type: lognormal 
+upper_bound: 100 
 end {L}
 
 process[Recruitment].ycs_values{1990} {L}
 value: 0.256495
 std_dev: 1
-cv: 1.3
-estimation_phase:
-label: YCS
-lower_bound: 0.001
-mcmc:
-mu: 1
-parameter: process[Recruitment].ycs_values{1990}
-prior_applies_to_transform:
-same:
-transform_with_jacobian:
-transformation:
-type: lognormal
-upper_bound: 100
+cv: 1.3 
+estimation_phase: 
+label: YCS 
+lower_bound: 0.001 
+mcmc: 
+mu: 1 
+parameter: process[Recruitment].ycs_values{1990} 
+prior_applies_to_transform: 
+same: 
+transform_with_jacobian: 
+transformation: 
+type: lognormal 
+upper_bound: 100 
 end {L}
 
 process[Recruitment].ycs_values{1991} {L}
 value: 2.75116
 std_dev: 1
-cv: 1.3
-estimation_phase:
-label: YCS
-lower_bound: 0.001
-mcmc:
-mu: 1
-parameter: process[Recruitment].ycs_values{1991}
-prior_applies_to_transform:
-same:
-transform_with_jacobian:
-transformation:
-type: lognormal
-upper_bound: 100
+cv: 1.3 
+estimation_phase: 
+label: YCS 
+lower_bound: 0.001 
+mcmc: 
+mu: 1 
+parameter: process[Recruitment].ycs_values{1991} 
+prior_applies_to_transform: 
+same: 
+transform_with_jacobian: 
+transformation: 
+type: lognormal 
+upper_bound: 100 
 end {L}
 
 process[Recruitment].ycs_values{1992} {L}
 value: 0.558714
 std_dev: 1
-cv: 1.3
-estimation_phase:
-label: YCS
-lower_bound: 0.001
-mcmc:
-mu: 1
-parameter: process[Recruitment].ycs_values{1992}
-prior_applies_to_transform:
-same:
-transform_with_jacobian:
-transformation:
-type: lognormal
-upper_bound: 100
+cv: 1.3 
+estimation_phase: 
+label: YCS 
+lower_bound: 0.001 
+mcmc: 
+mu: 1 
+parameter: process[Recruitment].ycs_values{1992} 
+prior_applies_to_transform: 
+same: 
+transform_with_jacobian: 
+transformation: 
+type: lognormal 
+upper_bound: 100 
 end {L}
 
 process[Recruitment].ycs_values{1993} {L}
 value: 0.2639
 std_dev: 1
-cv: 1.3
-estimation_phase:
-label: YCS
-lower_bound: 0.001
-mcmc:
-mu: 1
-parameter: process[Recruitment].ycs_values{1993}
-prior_applies_to_transform:
-same:
-transform_with_jacobian:
-transformation:
-type: lognormal
-upper_bound: 100
+cv: 1.3 
+estimation_phase: 
+label: YCS 
+lower_bound: 0.001 
+mcmc: 
+mu: 1 
+parameter: process[Recruitment].ycs_values{1993} 
+prior_applies_to_transform: 
+same: 
+transform_with_jacobian: 
+transformation: 
+type: lognormal 
+upper_bound: 100 
 end {L}
 
 process[Recruitment].ycs_values{1994} {L}
 value: 0.126748
 std_dev: 1
-cv: 1.3
-estimation_phase:
-label: YCS
-lower_bound: 0.001
-mcmc:
-mu: 1
-parameter: process[Recruitment].ycs_values{1994}
-prior_applies_to_transform:
-same:
-transform_with_jacobian:
-transformation:
-type: lognormal
-upper_bound: 100
+cv: 1.3 
+estimation_phase: 
+label: YCS 
+lower_bound: 0.001 
+mcmc: 
+mu: 1 
+parameter: process[Recruitment].ycs_values{1994} 
+prior_applies_to_transform: 
+same: 
+transform_with_jacobian: 
+transformation: 
+type: lognormal 
+upper_bound: 100 
 end {L}
 
 process[Recruitment].ycs_values{1995} {L}
 value: 0.560017
 std_dev: 1
-cv: 1.3
-estimation_phase:
-label: YCS
-lower_bound: 0.001
-mcmc:
-mu: 1
-parameter: process[Recruitment].ycs_values{1995}
-prior_applies_to_transform:
-same:
-transform_with_jacobian:
-transformation:
-type: lognormal
-upper_bound: 100
+cv: 1.3 
+estimation_phase: 
+label: YCS 
+lower_bound: 0.001 
+mcmc: 
+mu: 1 
+parameter: process[Recruitment].ycs_values{1995} 
+prior_applies_to_transform: 
+same: 
+transform_with_jacobian: 
+transformation: 
+type: lognormal 
+upper_bound: 100 
 end {L}
 
 process[Recruitment].ycs_values{1996} {L}
 value: 0.36192
 std_dev: 1
-cv: 1.3
-estimation_phase:
-label: YCS
-lower_bound: 0.001
-mcmc:
-mu: 1
-parameter: process[Recruitment].ycs_values{1996}
-prior_applies_to_transform:
-same:
-transform_with_jacobian:
-transformation:
-type: lognormal
-upper_bound: 100
+cv: 1.3 
+estimation_phase: 
+label: YCS 
+lower_bound: 0.001 
+mcmc: 
+mu: 1 
+parameter: process[Recruitment].ycs_values{1996} 
+prior_applies_to_transform: 
+same: 
+transform_with_jacobian: 
+transformation: 
+type: lognormal 
+upper_bound: 100 
 end {L}
 
 process[Recruitment].ycs_values{1997} {L}
 value: 0.144856
 std_dev: 1
-cv: 1.3
-estimation_phase:
-label: YCS
-lower_bound: 0.001
-mcmc:
-mu: 1
-parameter: process[Recruitment].ycs_values{1997}
-prior_applies_to_transform:
-same:
-transform_with_jacobian:
-transformation:
-type: lognormal
-upper_bound: 100
+cv: 1.3 
+estimation_phase: 
+label: YCS 
+lower_bound: 0.001 
+mcmc: 
+mu: 1 
+parameter: process[Recruitment].ycs_values{1997} 
+prior_applies_to_transform: 
+same: 
+transform_with_jacobian: 
+transformation: 
+type: lognormal 
+upper_bound: 100 
 end {L}
 
 process[Recruitment].ycs_values{1998} {L}
 value: 0.320596
 std_dev: 1
-cv: 1.3
-estimation_phase:
-label: YCS
-lower_bound: 0.001
-mcmc:
-mu: 1
-parameter: process[Recruitment].ycs_values{1998}
-prior_applies_to_transform:
-same:
-transform_with_jacobian:
-transformation:
-type: lognormal
-upper_bound: 100
+cv: 1.3 
+estimation_phase: 
+label: YCS 
+lower_bound: 0.001 
+mcmc: 
+mu: 1 
+parameter: process[Recruitment].ycs_values{1998} 
+prior_applies_to_transform: 
+same: 
+transform_with_jacobian: 
+transformation: 
+type: lognormal 
+upper_bound: 100 
 end {L}
 
 process[Recruitment].ycs_values{1999} {L}
 value: 0.192791
 std_dev: 1
-cv: 1.3
-estimation_phase:
-label: YCS
-lower_bound: 0.001
-mcmc:
-mu: 1
-parameter: process[Recruitment].ycs_values{1999}
-prior_applies_to_transform:
-same:
-transform_with_jacobian:
-transformation:
-type: lognormal
-upper_bound: 100
+cv: 1.3 
+estimation_phase: 
+label: YCS 
+lower_bound: 0.001 
+mcmc: 
+mu: 1 
+parameter: process[Recruitment].ycs_values{1999} 
+prior_applies_to_transform: 
+same: 
+transform_with_jacobian: 
+transformation: 
+type: lognormal 
+upper_bound: 100 
 end {L}
 
 process[Recruitment].ycs_values{2000} {L}
 value: 0.298743
 std_dev: 1
-cv: 1.3
-estimation_phase:
-label: YCS
-lower_bound: 0.001
-mcmc:
-mu: 1
-parameter: process[Recruitment].ycs_values{2000}
-prior_applies_to_transform:
-same:
-transform_with_jacobian:
-transformation:
-type: lognormal
-upper_bound: 100
+cv: 1.3 
+estimation_phase: 
+label: YCS 
+lower_bound: 0.001 
+mcmc: 
+mu: 1 
+parameter: process[Recruitment].ycs_values{2000} 
+prior_applies_to_transform: 
+same: 
+transform_with_jacobian: 
+transformation: 
+type: lognormal 
+upper_bound: 100 
 end {L}
 
 process[Recruitment].ycs_values{2001} {L}
 value: 0.705184
 std_dev: 1
-cv: 1.3
-estimation_phase:
-label: YCS
-lower_bound: 0.001
-mcmc:
-mu: 1
-parameter: process[Recruitment].ycs_values{2001}
-prior_applies_to_transform:
-same:
-transform_with_jacobian:
-transformation:
-type: lognormal
-upper_bound: 100
+cv: 1.3 
+estimation_phase: 
+label: YCS 
+lower_bound: 0.001 
+mcmc: 
+mu: 1 
+parameter: process[Recruitment].ycs_values{2001} 
+prior_applies_to_transform: 
+same: 
+transform_with_jacobian: 
+transformation: 
+type: lognormal 
+upper_bound: 100 
 end {L}
 
 process[Recruitment].ycs_values{2002} {L}
 value: 0.417689
 std_dev: 1
-cv: 1.3
-estimation_phase:
-label: YCS
-lower_bound: 0.001
-mcmc:
-mu: 1
-parameter: process[Recruitment].ycs_values{2002}
-prior_applies_to_transform:
-same:
-transform_with_jacobian:
-transformation:
-type: lognormal
-upper_bound: 100
+cv: 1.3 
+estimation_phase: 
+label: YCS 
+lower_bound: 0.001 
+mcmc: 
+mu: 1 
+parameter: process[Recruitment].ycs_values{2002} 
+prior_applies_to_transform: 
+same: 
+transform_with_jacobian: 
+transformation: 
+type: lognormal 
+upper_bound: 100 
 end {L}
 
 process[Recruitment].ycs_values{2003} {L}
 value: 0.254272
 std_dev: 1
-cv: 1.3
-estimation_phase:
-label: YCS
-lower_bound: 0.001
-mcmc:
-mu: 1
-parameter: process[Recruitment].ycs_values{2003}
-prior_applies_to_transform:
-same:
-transform_with_jacobian:
-transformation:
-type: lognormal
-upper_bound: 100
+cv: 1.3 
+estimation_phase: 
+label: YCS 
+lower_bound: 0.001 
+mcmc: 
+mu: 1 
+parameter: process[Recruitment].ycs_values{2003} 
+prior_applies_to_transform: 
+same: 
+transform_with_jacobian: 
+transformation: 
+type: lognormal 
+upper_bound: 100 
 end {L}
 
 process[Recruitment].ycs_values{2004} {L}
 value: 0.252378
 std_dev: 1
-cv: 1.3
-estimation_phase:
-label: YCS
-lower_bound: 0.001
-mcmc:
-mu: 1
-parameter: process[Recruitment].ycs_values{2004}
-prior_applies_to_transform:
-same:
-transform_with_jacobian:
-transformation:
-type: lognormal
-upper_bound: 100
+cv: 1.3 
+estimation_phase: 
+label: YCS 
+lower_bound: 0.001 
+mcmc: 
+mu: 1 
+parameter: process[Recruitment].ycs_values{2004} 
+prior_applies_to_transform: 
+same: 
+transform_with_jacobian: 
+transformation: 
+type: lognormal 
+upper_bound: 100 
 end {L}
 
 process[Recruitment].ycs_values{2005} {L}
 value: 0.324953
 std_dev: 1
-cv: 1.3
-estimation_phase:
-label: YCS
-lower_bound: 0.001
-mcmc:
-mu: 1
-parameter: process[Recruitment].ycs_values{2005}
-prior_applies_to_transform:
-same:
-transform_with_jacobian:
-transformation:
-type: lognormal
-upper_bound: 100
+cv: 1.3 
+estimation_phase: 
+label: YCS 
+lower_bound: 0.001 
+mcmc: 
+mu: 1 
+parameter: process[Recruitment].ycs_values{2005} 
+prior_applies_to_transform: 
+same: 
+transform_with_jacobian: 
+transformation: 
+type: lognormal 
+upper_bound: 100 
 end {L}
 
 process[Recruitment].ycs_values{2006} {L}
 value: 1.69567
 std_dev: 1
-cv: 1.3
-estimation_phase:
-label: YCS
-lower_bound: 0.001
-mcmc:
-mu: 1
-parameter: process[Recruitment].ycs_values{2006}
-prior_applies_to_transform:
-same:
-transform_with_jacobian:
-transformation:
-type: lognormal
-upper_bound: 100
+cv: 1.3 
+estimation_phase: 
+label: YCS 
+lower_bound: 0.001 
+mcmc: 
+mu: 1 
+parameter: process[Recruitment].ycs_values{2006} 
+prior_applies_to_transform: 
+same: 
+transform_with_jacobian: 
+transformation: 
+type: lognormal 
+upper_bound: 100 
 end {L}
 
 process[Recruitment].ycs_values{2007} {L}
 value: 0.686598
 std_dev: 1
-cv: 1.3
-estimation_phase:
-label: YCS
-lower_bound: 0.001
-mcmc:
-mu: 1
-parameter: process[Recruitment].ycs_values{2007}
-prior_applies_to_transform:
-same:
-transform_with_jacobian:
-transformation:
-type: lognormal
-upper_bound: 100
+cv: 1.3 
+estimation_phase: 
+label: YCS 
+lower_bound: 0.001 
+mcmc: 
+mu: 1 
+parameter: process[Recruitment].ycs_values{2007} 
+prior_applies_to_transform: 
+same: 
+transform_with_jacobian: 
+transformation: 
+type: lognormal 
+upper_bound: 100 
 end {L}
 
 process[Recruitment].ycs_values{2008} {L}
 value: 0.200671
 std_dev: 1
-cv: 1.3
-estimation_phase:
-label: YCS
-lower_bound: 0.001
-mcmc:
-mu: 1
-parameter: process[Recruitment].ycs_values{2008}
-prior_applies_to_transform:
-same:
-transform_with_jacobian:
-transformation:
-type: lognormal
-upper_bound: 100
+cv: 1.3 
+estimation_phase: 
+label: YCS 
+lower_bound: 0.001 
+mcmc: 
+mu: 1 
+parameter: process[Recruitment].ycs_values{2008} 
+prior_applies_to_transform: 
+same: 
+transform_with_jacobian: 
+transformation: 
+type: lognormal 
+upper_bound: 100 
 end {L}
 
 process[Recruitment].ycs_values{2009} {L}
 value: 1.20372
 std_dev: 1
-cv: 1.3
-estimation_phase:
-label: YCS
-lower_bound: 0.001
-mcmc:
-mu: 1
-parameter: process[Recruitment].ycs_values{2009}
-prior_applies_to_transform:
-same:
-transform_with_jacobian:
-transformation:
-type: lognormal
-upper_bound: 100
+cv: 1.3 
+estimation_phase: 
+label: YCS 
+lower_bound: 0.001 
+mcmc: 
+mu: 1 
+parameter: process[Recruitment].ycs_values{2009} 
+prior_applies_to_transform: 
+same: 
+transform_with_jacobian: 
+transformation: 
+type: lognormal 
+upper_bound: 100 
 end {L}
 
 process[Recruitment].ycs_values{2010} {L}
 value: 0.169349
 std_dev: 1
-cv: 1.3
-estimation_phase:
-label: YCS
-lower_bound: 0.001
-mcmc:
-mu: 1
-parameter: process[Recruitment].ycs_values{2010}
-prior_applies_to_transform:
-same:
-transform_with_jacobian:
-transformation:
-type: lognormal
-upper_bound: 100
+cv: 1.3 
+estimation_phase: 
+label: YCS 
+lower_bound: 0.001 
+mcmc: 
+mu: 1 
+parameter: process[Recruitment].ycs_values{2010} 
+prior_applies_to_transform: 
+same: 
+transform_with_jacobian: 
+transformation: 
+type: lognormal 
+upper_bound: 100 
 end {L}
 
 process[Recruitment].ycs_values{2011} {L}
 value: 0.875687
 std_dev: 1
-cv: 1.3
-estimation_phase:
-label: YCS
-lower_bound: 0.001
-mcmc:
-mu: 1
-parameter: process[Recruitment].ycs_values{2011}
-prior_applies_to_transform:
-same:
-transform_with_jacobian:
-transformation:
-type: lognormal
-upper_bound: 100
+cv: 1.3 
+estimation_phase: 
+label: YCS 
+lower_bound: 0.001 
+mcmc: 
+mu: 1 
+parameter: process[Recruitment].ycs_values{2011} 
+prior_applies_to_transform: 
+same: 
+transform_with_jacobian: 
+transformation: 
+type: lognormal 
+upper_bound: 100 
 end {L}
 
 process[Recruitment].ycs_values{2012} {L}
 value: 0.132658
 std_dev: 1
-cv: 1.3
-estimation_phase:
-label: YCS
-lower_bound: 0.001
-mcmc:
-mu: 1
-parameter: process[Recruitment].ycs_values{2012}
-prior_applies_to_transform:
-same:
-transform_with_jacobian:
-transformation:
-type: lognormal
-upper_bound: 100
+cv: 1.3 
+estimation_phase: 
+label: YCS 
+lower_bound: 0.001 
+mcmc: 
+mu: 1 
+parameter: process[Recruitment].ycs_values{2012} 
+prior_applies_to_transform: 
+same: 
+transform_with_jacobian: 
+transformation: 
+type: lognormal 
+upper_bound: 100 
 end {L}
 
 process[Instantaneous_Mortality].m{male.nonspawn} {L}
 value: 0.151183
 std_dev: 1
-cv: 0.20
-estimation_phase: 1
-label: M_male_with_avg_prior
-lower_bound: 0.05
-mcmc:
-mu: 0.20
-parameter: process[Instantaneous_Mortality].m{male.nonspawn}
-prior_applies_to_transform: true
-same:
-transform_with_jacobian:
-transformation:
-type: lognormal
-upper_bound: 0.75
+cv: 0.20 
+estimation_phase: 1 
+label: M_male_with_avg_prior 
+lower_bound: 0.05 
+mcmc: 
+mu: 0.20 
+parameter: process[Instantaneous_Mortality].m{male.nonspawn} 
+prior_applies_to_transform: true 
+same: 
+transform_with_jacobian: 
+transformation: 
+type: lognormal 
+upper_bound: 0.75 
 end {L}
 
 process[Instantaneous_Mortality].m{female.nonspawn} {L}
 value: 0.160327
 std_dev: 1
-estimation_phase: 1
-label: M_female_with_diff_prior
-lognormal_transfomration:
-lower_bound: -0.05
-mcmc:
-mu: 0.0
-parameter: process[Instantaneous_Mortality].m{female.nonspawn}
-prior_applies_to_transform: true
-same:
-sigma: 0.05
-transform_with_jacobian:
-transformation:
-type: normal_by_stdev
-upper_bound: 0.05
+estimation_phase: 1 
+label: M_female_with_diff_prior 
+lognormal_transfomration: 
+lower_bound: -0.05 
+mcmc: 
+mu: 0.0 
+parameter: process[Instantaneous_Mortality].m{female.nonspawn} 
+prior_applies_to_transform: true 
+same: 
+sigma: 0.05 
+transform_with_jacobian: 
+transformation: 
+type: normal_by_stdev 
+upper_bound: 0.05 
 end {L}
 
 observation[TangaroaAcousticMature].process_error {L}
 value: 9.999e-05
 std_dev: 1
-estimation_phase:
-label: mature_process_error
-lower_bound: 0.0001
-mcmc:
-parameter: observation[TangaroaAcousticMature].process_error
-prior_applies_to_transform:
-same:
-transform_with_jacobian:
-transformation:
-type: uniform_log
-upper_bound: 1.0
+estimation_phase: 
+label: mature_process_error 
+lower_bound: 0.0001 
+mcmc: 
+parameter: observation[TangaroaAcousticMature].process_error 
+prior_applies_to_transform: 
+same: 
+transform_with_jacobian: 
+transformation: 
+type: uniform_log 
+upper_bound: 1.0 
 end {L}
 
 *end
 
 *hessian_matrix[Hess]
 hessian_matrix {m}
-0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
-0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
-0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
-0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
-0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
-0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
-0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
-0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
-0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
-0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
-0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
-0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
-0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
-0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
-0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
-0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
-0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
-0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
-0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
-0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
-0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
-0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
-0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
-0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
-0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
-0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
-0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
-0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
-0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
-0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
-0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
-0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
-0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
-0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
-0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
-0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
-0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
-0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
-0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
-0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
-0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
-0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
-0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
-0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
-0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
-0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
-0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
-0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
-0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
-0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
-0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
-0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
-0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
-0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
-0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
-0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
-0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
-0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
-0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
-0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
-0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
-0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
-0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
-0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
-0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
-0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
-0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
+0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 
+0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 
+0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 
+0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 
+0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 
+0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 
+0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 
+0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 
+0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 
+0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 
+0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 
+0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 
+0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 
+0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 
+0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 
+0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 
+0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 
+0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 
+0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 
+0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 
+0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 
+0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 
+0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 
+0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 
+0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 
+0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 
+0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 
+0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 
+0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 
+0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 
+0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 
+0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 
+0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 
+0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 
+0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 
+0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 
+0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 
+0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 
+0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 
+0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 
+0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 
+0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 
+0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 
+0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 
+0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 
+0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 
+0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 
+0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 
+0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 
+0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 
+0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 
+0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 
+0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 
+0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 
+0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 
+0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 
+0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 
+0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 
+0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 
+0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 
+0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 
+0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 
+0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 
+0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 
+0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 
+0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 
+0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 
 *end
 
 *covariance_matrix[Covar]
 covariance_matrix {m}
-1 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
-0 1 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
-0 0 1 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
-0 0 0 1 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
-0 0 0 0 1 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
-0 0 0 0 0 1 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
-0 0 0 0 0 0 1 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
-0 0 0 0 0 0 0 1 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
-0 0 0 0 0 0 0 0 1 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
-0 0 0 0 0 0 0 0 0 1 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
-0 0 0 0 0 0 0 0 0 0 1 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
-0 0 0 0 0 0 0 0 0 0 0 1 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
-0 0 0 0 0 0 0 0 0 0 0 0 1 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
-0 0 0 0 0 0 0 0 0 0 0 0 0 1 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
-0 0 0 0 0 0 0 0 0 0 0 0 0 0 1 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
-0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
-0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
-0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
-0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
-0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
-0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
-0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
-0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
-0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
-0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
-0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
-0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
-0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
-0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
-0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
-0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
-0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
-0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
-0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
-0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
-0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
-0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
-0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
-0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
-0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
-0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
-0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
-0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
-0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
-0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
-0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
-0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
-0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
-0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
-0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
-0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
-0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
-0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1 0 0 0 0 0 0 0 0 0 0 0 0 0 0
-0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1 0 0 0 0 0 0 0 0 0 0 0 0 0
-0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1 0 0 0 0 0 0 0 0 0 0 0 0
-0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1 0 0 0 0 0 0 0 0 0 0 0
-0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1 0 0 0 0 0 0 0 0 0 0
-0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1 0 0 0 0 0 0 0 0 0
-0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1 0 0 0 0 0 0 0 0
-0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1 0 0 0 0 0 0 0
-0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1 0 0 0 0 0 0
-0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1 0 0 0 0 0
-0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1 0 0 0 0
-0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1 0 0 0
-0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1 0 0
-0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1 0
-0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1
+1 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 
+0 1 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 
+0 0 1 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 
+0 0 0 1 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 
+0 0 0 0 1 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 
+0 0 0 0 0 1 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 
+0 0 0 0 0 0 1 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 
+0 0 0 0 0 0 0 1 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 
+0 0 0 0 0 0 0 0 1 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 
+0 0 0 0 0 0 0 0 0 1 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 
+0 0 0 0 0 0 0 0 0 0 1 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 
+0 0 0 0 0 0 0 0 0 0 0 1 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 
+0 0 0 0 0 0 0 0 0 0 0 0 1 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 
+0 0 0 0 0 0 0 0 0 0 0 0 0 1 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 
+0 0 0 0 0 0 0 0 0 0 0 0 0 0 1 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 
+0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 
+0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 
+0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 
+0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 
+0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 
+0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 
+0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 
+0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 
+0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 
+0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 
+0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 
+0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 
+0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 
+0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 
+0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 
+0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 
+0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 
+0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 
+0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 
+0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 
+0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 
+0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 
+0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 
+0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 
+0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 
+0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 
+0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 
+0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 
+0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 
+0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 
+0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 
+0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 
+0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 
+0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 
+0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 
+0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 
+0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 
+0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1 0 0 0 0 0 0 0 0 0 0 0 0 0 0 
+0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1 0 0 0 0 0 0 0 0 0 0 0 0 0 
+0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1 0 0 0 0 0 0 0 0 0 0 0 0 
+0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1 0 0 0 0 0 0 0 0 0 0 0 
+0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1 0 0 0 0 0 0 0 0 0 0 
+0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1 0 0 0 0 0 0 0 0 0 
+0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1 0 0 0 0 0 0 0 0 
+0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1 0 0 0 0 0 0 0 
+0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1 0 0 0 0 0 0 
+0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1 0 0 0 0 0 
+0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1 0 0 0 0 
+0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1 0 0 0 
+0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1 0 0 
+0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1 0 
+0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1 
 *end
 
 *correlation_matrix[Corr]
 correlation_matrix {m}
-1 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
-0 1 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
-0 0 1 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
-0 0 0 1 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
-0 0 0 0 1 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
-0 0 0 0 0 1 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
-0 0 0 0 0 0 1 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
-0 0 0 0 0 0 0 1 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
-0 0 0 0 0 0 0 0 1 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
-0 0 0 0 0 0 0 0 0 1 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
-0 0 0 0 0 0 0 0 0 0 1 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
-0 0 0 0 0 0 0 0 0 0 0 1 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
-0 0 0 0 0 0 0 0 0 0 0 0 1 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
-0 0 0 0 0 0 0 0 0 0 0 0 0 1 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
-0 0 0 0 0 0 0 0 0 0 0 0 0 0 1 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
-0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
-0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
-0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
-0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
-0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
-0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
-0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
-0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
-0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
-0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
-0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
-0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
-0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
-0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
-0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
-0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
-0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
-0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
-0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
-0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
-0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
-0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
-0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
-0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
-0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
-0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
-0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
-0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
-0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
-0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
-0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
-0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
-0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
-0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
-0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
-0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
-0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
-0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1 0 0 0 0 0 0 0 0 0 0 0 0 0 0
-0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1 0 0 0 0 0 0 0 0 0 0 0 0 0
-0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1 0 0 0 0 0 0 0 0 0 0 0 0
-0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1 0 0 0 0 0 0 0 0 0 0 0
-0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1 0 0 0 0 0 0 0 0 0 0
-0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1 0 0 0 0 0 0 0 0 0
-0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1 0 0 0 0 0 0 0 0
-0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1 0 0 0 0 0 0 0
-0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1 0 0 0 0 0 0
-0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1 0 0 0 0 0
-0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1 0 0 0 0
-0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1 0 0 0
-0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1 0 0
-0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1 0
-0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1
+1 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 
+0 1 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 
+0 0 1 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 
+0 0 0 1 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 
+0 0 0 0 1 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 
+0 0 0 0 0 1 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 
+0 0 0 0 0 0 1 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 
+0 0 0 0 0 0 0 1 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 
+0 0 0 0 0 0 0 0 1 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 
+0 0 0 0 0 0 0 0 0 1 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 
+0 0 0 0 0 0 0 0 0 0 1 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 
+0 0 0 0 0 0 0 0 0 0 0 1 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 
+0 0 0 0 0 0 0 0 0 0 0 0 1 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 
+0 0 0 0 0 0 0 0 0 0 0 0 0 1 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 
+0 0 0 0 0 0 0 0 0 0 0 0 0 0 1 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 
+0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 
+0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 
+0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 
+0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 
+0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 
+0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 
+0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 
+0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 
+0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 
+0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 
+0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 
+0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 
+0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 
+0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 
+0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 
+0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 
+0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 
+0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 
+0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 
+0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 
+0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 
+0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 
+0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 
+0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 
+0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 
+0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 
+0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 
+0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 
+0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 
+0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 
+0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 
+0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 
+0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 
+0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 
+0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 
+0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 
+0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 
+0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1 0 0 0 0 0 0 0 0 0 0 0 0 0 0 
+0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1 0 0 0 0 0 0 0 0 0 0 0 0 0 
+0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1 0 0 0 0 0 0 0 0 0 0 0 0 
+0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1 0 0 0 0 0 0 0 0 0 0 0 
+0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1 0 0 0 0 0 0 0 0 0 0 
+0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1 0 0 0 0 0 0 0 0 0 
+0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1 0 0 0 0 0 0 0 0 
+0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1 0 0 0 0 0 0 0 
+0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1 0 0 0 0 0 0 
+0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1 0 0 0 0 0 
+0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1 0 0 0 0 
+0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1 0 0 0 
+0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1 0 0 
+0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1 0 
+0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1 
 *end
 
 *catchability[Qs]
-TangaroaMatureq: 0.479852
-TangaroaImmatureq: 0.37993
+TangaroaMatureq: 0.479852 
+TangaroaImmatureq: 0.37993 
 *end
 
 *warnings[warnings_encounted]
@@ -2105,6 +2042,5 @@ warning_3 {s}
 estimated parameter 'observation[TangaroaAcousticMature].process_error' was within 0.001 of lower bound 0.0001
 *end
 
-Total CPU time: 0.044 hours.
-Total elapsed time: 1.333 minutes
+Total elapsed time: 49 seconds
 Completed
