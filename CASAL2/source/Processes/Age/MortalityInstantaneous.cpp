@@ -624,6 +624,7 @@ void MortalityInstantaneous::DoExecute() {
       for (auto& fishery_category : fishery_categories_) {
         if (fishery_category.fishery_.label_ != fishery.label_)
           continue;
+
         for (Double age_exploitation : fishery_category.category_.exploitation_) {
           uobs = uobs > age_exploitation ? uobs : age_exploitation;
         }
@@ -708,17 +709,20 @@ void MortalityInstantaneous::DoExecute() {
    */
   unsigned category_ndx = 0;
   for (auto& category : categories_) {
+    LOG_FINE() << "category " << category.category_label_ << " used in time step " << time_step_index << ": " << category.used_in_current_timestep_;
+
     for (unsigned i = 0; i < category.category_->data_.size(); ++i) {
       //removals_by_category_age_[category_ndx][i] = category.category_->data_[i]; // initial numbers before process
-      LOG_FINEST() << "numbers at age = " << category.category_->data_[i] << " age " << i + model_->min_age()
-        << " exploitation = " << category.exploitation_[i] << " M = " << *category.m_;
+      LOG_FINEST() << "category " << category.category_label_ << ": numbers at age = " << category.category_->data_[i]
+        << " age " << i + model_->min_age() << " exploitation = " << category.exploitation_[i] << " M = " << *category.m_;
 
       category.category_->data_[i] *= exp(-(*category.m_) * ratio * category.selectivity_values_[i]) * (1.0 - category.exploitation_[i]);
 
       if (category.category_->data_[i] < 0.0) {
         LOG_CODE_ERROR() << " Fishing caused a negative partition : if (categories->data_[i] < 0.0), category.category_->data_[i] = "
-          << category.category_->data_[i] << " i = " << i + 1 << "; numbers at age = " << category.category_->data_[i] << " age "
-          << i + model_->min_age() << " exploitation = " << category.exploitation_[i] << " M = " << *category.m_;
+          << category.category_->data_[i] << " i = " << i + 1 << "; category " << category.category_label_ << ": numbers at age = " << category.category_->data_[i]
+          << " age " << i + model_->min_age() << " exploitation = " << category.exploitation_[i] << " selectivity = " << category.selectivity_values_[i]
+          << " M = " << *category.m_ << " time step = " << time_step_index << " used in time step = " << category.used_in_current_timestep_;
       }
       //removals_by_category_age_[category_ndx][i] -= category.category_->data_[i]; // minus what was left thus keeping the difference
     }
