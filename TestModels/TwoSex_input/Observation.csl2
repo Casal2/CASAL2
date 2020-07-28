@@ -7,10 +7,34 @@ catchability chatTANq
 selectivities chatTANSel_m chatTANSel_f
 likelihood lognormal
 years 1992:2014
-obs	    8930	9360	10129	7363	8424	8543	7313	10309	8348	9352	9442	7261	8248	8929	9301	7800	7503	10600	8850	7030	8100	8710	7490
-error_value  0.06    0.08    0.07     0.08    0.08    0.1     0.08    0.16     0.08    0.08    0.08    0.1     0.07    0.09    0.07    0.07    0.07    0.12     0.1     0.14    0.07    0.1     0.07
 time_step_proportion 0.2
 process_error 0.15
+table obs
+#year   obs   error_value
+1992    8930    0.06
+1993    9360    0.08
+1994    10129   0.07
+1995    7363    0.08
+1996    8424    0.08
+1997    8543    0.10
+1998    7313    0.08
+1999    10309   0.16
+2000    8348    0.08
+2001    9352    0.08
+2002    9442    0.08
+2003    7261    0.10
+2004    8248    0.07
+2005    8929    0.09
+2006    9301    0.07
+2007    7800    0.07
+2008    7503    0.07
+2009    10600   0.12
+2010    8850    0.10
+2011    7030    0.14
+2012    8100    0.07
+2013    8710    0.10
+2014    7490    0.07
+end_table
 
 
 @observation Tangaroa_propn_at_age_Jan
@@ -223,26 +247,7 @@ table error_values
 end_table
 
 
-
-
-# OBSERVATIONS Line fishery CPUE series
 @ageing_error Normal_ageing
 type none
 #cv 0.05
-/*
-@observation chatCPUEline
-type biomass
-time_step step1
-categories male+female
-catchability chatCPUEq
-selectivities lineFSel_a lineFSel_f
-likelihood lognormal
-years 1991:2010
-obs	    1.66	2.15	1.54	1.54	1.48	1.19	0.82	0.89	0.78	0.92	0.91	0.74	0.9	0.74	0.84	0.71	0.78	0.99	0.71	0.88
-error_value 0.06 0.05 0.05 0.05 0.05 0.04 0.04 0.04 0.04 0.04 0.04 0.04 0.04 0.04 0.04 0.04 0.04 0.05 0.04 0.04
-time_step_proportion 0.5
-process_error 0.2
 
-
-
-*/

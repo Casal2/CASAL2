@@ -29,19 +29,27 @@ namespace utils = niwa::utilities;
  * Default constructor
  */
 Abundance::Abundance(Model* model) : Observation(model) {
+  obs_table_ = new parameters::Table(PARAM_OBS);
+
   parameters_.Bind<string>(PARAM_TIME_STEP, &time_step_label_, "The label of the time step that the observation occurs in", "");
   parameters_.Bind<string>(PARAM_CATCHABILITY, &catchability_label_, "The label of the catchability coefficient (q)", "");
   parameters_.Bind<string>(PARAM_SELECTIVITIES, &selectivity_labels_, "The labels of the selectivities", "", true);
   parameters_.Bind<Double>(PARAM_PROCESS_ERROR, &process_error_value_, "The process error", "", Double(0.0))->set_lower_bound(0.0);
   parameters_.Bind<unsigned>(PARAM_YEARS, &years_, "The years for which there are observations", "");
-  parameters_.Bind<string>(PARAM_OBS, &obs_, "The observed values", "");
-  parameters_.Bind<Double>(PARAM_ERROR_VALUE, &error_values_, "The error values of the observed values (note that the units depend on the likelihood)", "");
+  parameters_.BindTable(PARAM_OBS, obs_table_, "The table of observed values and error values", "", false);
 
   RegisterAsAddressable(PARAM_PROCESS_ERROR, &process_error_value_);
 
   allowed_likelihood_types_.push_back(PARAM_NORMAL);
   allowed_likelihood_types_.push_back(PARAM_LOGNORMAL);
   allowed_likelihood_types_.push_back(PARAM_PSEUDO);
+}
+
+/**
+ * Destructor
+ */
+Abundance::~Abundance() {
+  delete obs_table_;
 }
 
 /**
@@ -61,36 +69,44 @@ void Abundance::DoValidate() {
   if (process_error_value_ < 0.0)
     LOG_ERROR_P(PARAM_PROCESS_ERROR) << ": process_error (" << AS_VALUE(process_error_value_) << ") cannot be less than 0.0";
 
-  // Obs
-  vector<string> obs  = obs_;
-  if (obs.size() != category_labels_.size() * years_.size())
-    LOG_ERROR_P(PARAM_OBS) << ": obs values length (" << obs.size() << ") must match the number of category collections provided ("
-      << category_labels_.size() << ") * years (" << years_.size() << ")";
 
-  // Error Value
-  if (error_values_.size() == 1 && obs.size() > 1) {
-    auto val_e = error_values_[0];
-    error_values_.assign(obs.size(), val_e);
+  // Obs
+  unsigned num_obs       = category_labels_.size();
+  unsigned vals_expected = 1 + num_obs + 1; // year, observation value(s), error value
+  vector<vector<string>>& obs_data = obs_table_->data();
+  if (obs_data.size() != years_.size()) {
+    LOG_ERROR_P(PARAM_OBS) << " has " << obs_data.size() << " rows defined, but "
+      << "does not match the number of years provided " << years_.size();
   }
 
-  if (error_values_.size() != obs.size())
-    LOG_ERROR_P(PARAM_ERROR_VALUE) << ": error_value length (" << error_values_.size()
-      << ") must be same length as obs (" << obs.size() << ")";
+  LOG_MEDIUM() << "Number of categories: " << num_obs << ", number of years: " << years_.size() << ", number of observation columns: " << obs_data.size();
 
-  error_values_by_year_ = utils::Map<Double>::create(years_, error_values_);
-
-  Double value = 0.0;
-  for (unsigned i = 0; i < years_.size(); ++i) {
-    for (unsigned j = 0; j < category_labels_.size(); ++j) {
-      unsigned index = (i * category_labels_.size()) + j;
-
-      if (!utils::To<Double>(obs[index], value))
-        LOG_ERROR_P(PARAM_OBS) << ": obs value " << obs[index] << " could not be converted to a Double";
-      if (value <= 0.0)
-        LOG_ERROR_P(PARAM_OBS) << ": obs value " << value << " cannot be less than or equal to 0.0";
-
-      proportions_by_year_[years_[i]].push_back(value);
+  unsigned year    = 0;
+  Double obs_value = 0;
+  Double err_value = 0;
+  for (vector<string>& obs_data_line : obs_data) {
+    if (obs_data_line.size() != vals_expected) {
+      LOG_ERROR_P(PARAM_OBS) << " has " << obs_data_line.size() << " values defined, but does not match " << vals_expected;
     }
+
+    if (!utilities::To<unsigned>(obs_data_line.front(), year))
+      LOG_ERROR_P(PARAM_OBS) << " value " << obs_data_line.front() << " could not be converted to an unsigned integer. It should be the year for this line";
+    if (std::find(years_.begin(), years_.end(), year) == years_.end())
+      LOG_ERROR_P(PARAM_OBS) << " year " << year << " is not a valid year for this observation";
+
+    for (unsigned i = 1; i <= num_obs; ++i) {
+      if (!utilities::To<Double>(obs_data_line[i], obs_value))
+        LOG_ERROR_P(PARAM_OBS) << " value " << obs_data_line[i] << " could not be converted to a Double. It should be the observation value for this line";
+      if (obs_value <= 0.0)
+        LOG_ERROR_P(PARAM_OBS) << ": observation value " << obs_value << " for year " << year << " cannot be less than or equal to 0.0";
+      proportions_by_year_[year].push_back(obs_value);
+    }
+
+    if (!utilities::To<Double>(obs_data_line.back(), err_value))
+      LOG_ERROR_P(PARAM_OBS) << " value " << obs_data_line.back() << " could not be converted to a Double. It should be the error value for this line";
+    if (err_value <= 0.0)
+      LOG_ERROR_P(PARAM_OBS) << ": error value " << err_value << " for year " << year << " cannot be less than or equal to 0.0";
+    error_values_by_year_[year] = err_value;
   }
 }
 
@@ -98,6 +114,8 @@ void Abundance::DoValidate() {
  * Build any runtime relationships and ensure that the labels for other objects are valid.
  */
 void Abundance::DoBuild() {
+  LOG_TRACE();
+
   catchability_ = model_->managers().catchability()->GetCatchability(catchability_label_);
   if (!catchability_)
     LOG_ERROR_P(PARAM_CATCHABILITY) << ": catchability label " << catchability_label_ << " was not found.";

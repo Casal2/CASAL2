@@ -19,7 +19,7 @@
 #include "Model/Factory.h"
 #include "Observations/Manager.h"
 #include "Partition/Partition.h"
-#include "TestResources/TestFixtures/BasicModel.h"
+#include "TestResources/TestFixtures/InternalEmptyModel.h"
 #include "TimeSteps/Manager.h"
 
 // Namespaces
@@ -28,11 +28,75 @@ namespace age {
 
 using std::cout;
 using std::endl;
-using niwa::testfixtures::BasicModel;
+using niwa::testfixtures::InternalEmptyModel;
+
+
+// from TestResources/TestFixtures/BasicModel.cpp
+const std::string test_cases_observation_abundance =
+R"(
+@model
+min_age 1
+max_age 20
+age_plus t
+start_year 1994
+final_year 2008
+base_weight_units kgs
+time_steps step_one
+
+@categories
+format stage.sex
+names immature.male mature.male immature.female mature.female
+
+
+@time_step step_one
+processes ageing recruitment mortality
+
+@ageing ageing
+categories immature.male immature.female
+
+@recruitment recruitment
+type constant
+categories immature.male immature.female
+proportions 0.6 0.4
+r0 100000
+age 1
+
+@mortality mortality
+type constant_rate
+categories immature.male immature.female mature.male mature.female
+m 0.065
+relative_m_by_age constant_one
+
+@selectivity constant_one
+type constant
+c 1
+
+@catchability catchability
+type free
+q 0.000153139
+
+@observation abundance
+type abundance
+catchability catchability
+time_step step_one
+categories immature.male+immature.female immature.female
+selectivities constant_one constant_one constant_one
+likelihood lognormal
+time_step_proportion 1.0
+years 2008
+table obs
+2008 22.50 11.25 0.2
+end_table
+
+@report DQ
+type derived_quantity
+
+)";
 
 /**
  *
  */
+/*
 TEST_F(BasicModel, Observation_Abundance) {
 
   // Recruitment process
@@ -81,8 +145,7 @@ TEST_F(BasicModel, Observation_Abundance) {
 
   // Observation
   vector<string> observation_categories = { "immature.male+immature.female", "immature.female" };
-  vector<string> obs = { "22.50", "11.25" };
-  vector<string> error_values = { "0.2", "0.2" };
+  vector<string> obs = { "2008", "22.50", "11.25", "0.2" };
   vector<string> selectivities = { "constant_one", "constant_one", "constant_one" };
   base::Object* observation = model_->factory().CreateObject(PARAM_OBSERVATION, PARAM_ABUNDANCE);
   observation->parameters().Add(PARAM_LABEL, "abundance", __FILE__, __LINE__);
@@ -93,9 +156,13 @@ TEST_F(BasicModel, Observation_Abundance) {
   observation->parameters().Add(PARAM_CATEGORIES, observation_categories, __FILE__, __LINE__);
   observation->parameters().Add(PARAM_SELECTIVITIES, selectivities, __FILE__, __LINE__);
   observation->parameters().Add(PARAM_OBS, obs, __FILE__, __LINE__);
-  observation->parameters().Add(PARAM_ERROR_VALUE, error_values, __FILE__, __LINE__);
   observation->parameters().Add(PARAM_LIKELIHOOD, "lognormal", __FILE__, __LINE__);
   observation->parameters().Add(PARAM_TIME_STEP_PROPORTION, "1.0", __FILE__, __LINE__);
+  */
+
+TEST_F(InternalEmptyModel, Observation_Abundance) {
+  AddConfigurationLine(test_cases_observation_abundance, __FILE__, 32);
+  LoadConfiguration();
 
   model_->Start(RunMode::kTesting);
   model_->FullIteration();

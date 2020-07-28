@@ -21,7 +21,7 @@ q 0.0744265
 
 ################ Observations
 
-## Cook Straight Acoustic biomass survey
+## Cook Strait Acoustic biomass survey
 @observation CSacous
 type biomass
 time_step Jul_Sep
@@ -30,9 +30,30 @@ categories male.east.cs+female.east.cs
 selectivities One One
 catchability CSacous
 years 		1991 1993 1994 1995 1996 1997 1998 1999 2001 2002 2003 2005 2006 2007 2008 2009 2011 2013 2015
-obs 		88000	283000	278000	194000	92000	141000	80000	114000	102000	145000	104000	59000	60000	104000	82000	166000	141000	168000	204000
-error_value 	0.41	0.52	0.91	0.61	0.57	0.4	0.44	0.36	0.3	0.35	0.34	0.32	0.34	0.46	0.3	0.39	0.35	0.3	0.33
 likelihood lognormal
+table obs
+#year   obs   error_value
+1991    88000   0.41
+1993    283000  0.52
+1994    278000  0.91
+1995    194000  0.61
+1996    92000   0.57
+1997    141000  0.40
+1998    80000   0.44
+1999    114000  0.36
+2001    102000  0.30
+2002    145000  0.35
+2003    104000  0.34
+2005    59000   0.32
+2006    60000   0.34
+2007    104000  0.46
+2008    82000   0.30
+2009    166000  0.39
+2011    141000  0.35
+2013    168000  0.30
+2015    204000  0.33
+end_table
+
 
 ## West Coast Acoustic biomass survey
 @observation WCacous
@@ -43,9 +64,20 @@ catchability WCacous
 categories male.west.wc+female.west.wc
 selectivities One One
 years 		1988 1989 1990 1991 1992 1993 1997 2000 2012 2013
-obs		266000	165000	169000	227000	229000	380000	445000	263000	283000	233000
-error_value	0.6	0.38	0.4	0.73	0.49	0.38	0.6	0.28	0.34	0.35
 likelihood lognormal
+table obs
+#year   obs   error_value
+1988    266000  0.60
+1989    165000  0.38
+1990    169000  0.40
+1991    227000  0.73
+1992    229000  0.49
+1993    380000  0.38
+1997    445000  0.60
+2000    263000  0.28
+2012    283000  0.34
+2013    233000  0.35
+end_table
 
 
 @observation CRsumbio
@@ -57,10 +89,35 @@ categories male.east.cr+female.east.cr+male.west.cr+female.west.cr
 selectivities CRsl CRsl CRsl CRsl
 catchability CRsum
 years 		1992 1993 1994 1995 1996 1997 1998 1999 2000 2001 2002 2003 2004 2005 2006 2007 2008 2009 2010 2011 2012 2013 2014 2016
-obs		120190	185570	145633	120441	152813	157900	86678	109336	71740	60330	74351	52600	52700	84594	99208	70479	76859	144088	97503	93900	87500	124100	101900	114514
-error_value	0.077	0.103	0.098	0.076	0.098	0.084	0.109	0.116	0.123	0.097	0.114	0.087	0.127	0.115	0.106	0.084	0.11	0.106	0.146	0.14	0.098	0.153	0.098	0.142
 likelihood lognormal
 process_error 0.146332
+table obs
+#year   obs   error_value
+1992    120190  0.077
+1993    185570  0.103
+1994    145633  0.098
+1995    120441  0.076
+1996    152813  0.098
+1997    157900  0.084
+1998    86678   0.109
+1999    109336  0.116
+2000    71740   0.123
+2001    60330   0.097
+2002    74351   0.114
+2003    52600   0.087
+2004    52700   0.127
+2005    84594   0.115
+2006    99208   0.106
+2007    70479   0.084
+2008    76859   0.110
+2009    144088  0.106
+2010    97503   0.146
+2011    93900   0.140
+2012    87500   0.098
+2013    124100  0.153
+2014    101900  0.098
+2016    114514  0.142
+end_table
 
 @observation SAsumbio
 type biomass
@@ -71,10 +128,28 @@ categories male.west.sa+female.west.sa
 selectivities SAsl SAsl
 catchability SAsum
 years		1992 1993 1994 2001 2002 2003 2004 2005 2006 2007 2008 2009 2010 2012 2013 2015
-obs		80285	87359	99695	55662	38145	39890	14318	17665	20517	14488	45876	47488	65017	46070	55738	31329
-error_value	0.068	0.061	0.092	0.126	0.16	0.14	0.129	0.12	0.13	0.106	0.157	0.14	0.162	0.147	0.152	0.129
 likelihood lognormal
 process_error 0.374328
+table obs
+#year   obs   error_value
+1992    80285   0.068
+1993    87359   0.061
+1994    99695   0.092
+2001    55662   0.126
+2002    38145   0.160
+2003    39890   0.140
+2004    14318   0.129
+2005    17665   0.120
+2006    20517   0.130
+2007    14488   0.106
+2008    45876   0.157
+2009    47488   0.140
+2010    65017   0.162
+2012    46070   0.147
+2013    55738   0.152
+2015    31329   0.129
+end_table
+
 
 @observation SAautbio
 type biomass
@@ -84,10 +159,14 @@ categories male.west.sa+female.west.sa
 selectivities SAsl SAsl
 catchability SAaut
 years 		1992 	1996 	1998
-obs		67832	89029	67709
-error_value	0.083	0.092	0.110
 likelihood lognormal
 process_error 0.20
+table obs
+#year   obs   error_value
+1992    67832   0.083
+1996    89029   0.092
+1998    67709   0.110
+end_table
 
 @observation Espage
 type process_removals_by_age

@@ -157,8 +157,18 @@ categories male+female
 selectivities chatFselMale chatFselFemale
 likelihood lognormal
 years 1992:2001
-obs 1.50 1.10 0.93 1.33 1.53 0.90 0.68 0.75 0.57 1.23
-error_value 0.35
+table obs
+1992    1.50  0.35
+1993    1.10  0.35
+1994    0.93  0.35
+1995    1.33  0.35
+1996    1.53  0.35
+1997    0.90  0.35
+1998    0.68  0.35
+1999    0.75  0.35
+2000    0.57  0.35
+2001    1.23  0.35
+end_table
 
 @observation chatTANbiomass
 type biomass
@@ -167,11 +177,22 @@ time_step one
 categories male+female
 selectivities chatTANselMale chatTANselFemale
 likelihood lognormal
-years 1992:2002
-obs 4180 2950 3353 3303 2457 2811 2873 2302 2090 1589 1567
-error_value 0.15 0.17 0.10 0.23 0.13 0.17 0.18 0.12 0.09 0.13 0.15
 time_step_proportion 1.0
 delta 1e-10
+years 1992:2002
+table obs
+1992    4180    0.15
+1993    2950    0.17
+1994    3353    0.10
+1995    3303    0.23
+1996    2457    0.13
+1997    2811    0.17
+1998    2873    0.18
+1999    2302    0.12
+2000    2090    0.09
+2001    1589    0.13
+2002    1567    0.15
+end_table
 
 @observation chatTANage1992
 type proportions_at_age

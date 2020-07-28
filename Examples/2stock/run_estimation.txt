@@ -1,11 +1,11 @@
 Casal2
 Call: ../../BuildSystem/bin/linux/release_betadiff/casal2 -e -o params_est.out
-Date: Tue Jul 28 10:24:04 2020
-Version: 2020-07-27 05:40:39 UTC (rev. a6650954)
+Date: Tue Jul 28 17:58:43 2020
+Version: 2020-07-28 04:42:37 UTC (rev. f75af3cf)
 Copyright (c) 2020 - 2020, NIWA (www.niwa.co.nz)
 -- Username: niwauser
 -- Machine: niwa-computer (Linux 5.7.0-1-amd64 x86_64)
--- Process Id: 33304
+-- Process Id: 197015
 
 [WARNING] /home/niwauser/casal2-development/CASAL2/source/Estimates/Manager.cpp(line: 95): Estimates were removed because of matching lower and upper bounds. Originally had 152 estimates, now have 151
 resizing from 40000 to 44000

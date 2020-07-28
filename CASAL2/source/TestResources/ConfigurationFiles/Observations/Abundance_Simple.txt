@@ -30,11 +30,13 @@ q 0.000153139
 @observation CPUE-1998
 type abundance
 catchability CPUEq
-year 1998
 time_step step_one
 categories immature.male mature.male
 selectivities FishingSel
-obs all 22.55065505
-error_value all 0.2
 likelihood log_normal
 #process_error 0.00
+year 1998
+table obs
+# year obs          error_value
+1998   22.55065505  0.2
+end_table

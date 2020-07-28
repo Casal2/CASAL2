@@ -9,8 +9,26 @@ selectivities summerTANSel_m summerTANSel_f
 likelihood lognormal
 process_error 0.15
 years		1992	1993	1994	2001	2002	2003	2004	2005	2006	2007	2008	2009	2010	2012	2013	2015	2017
-obs		24085	21368	29747	33023	25059	25628	22174	23744	19700	19640	26492	22840	22710	23180	27010	30010	26656
-error_value	0.07	0.06	0.12	0.07	0.07	0.1	0.09	0.12	0.09	0.12	0.08	0.1	0.1	0.12	0.11	0.08	0.16
+table obs
+# year  obs   error_value
+1992    24085   0.07
+1993    21368   0.06
+1994    29747   0.12
+2001    33023   0.07
+2002    25059   0.07
+2003    25628   0.10
+2004    22174   0.09
+2005    23744   0.12
+2006    19700   0.09
+2007    19640   0.12
+2008    26492   0.08
+2009    22840   0.10
+2010    22710   0.10
+2012    23180   0.12
+2013    27010   0.11
+2015    30010   0.08
+2017    26656   0.16
+end_table
 
 @observation Tangaroa_propn_at_age_summer
 # Note that first year (1990) is from Amaltal Explorer survey
@@ -79,8 +97,13 @@ selectivities autumnTANSel_m autumnTANSel_f
 likelihood lognormal
 process_error 0.15
 years		1992	1993	1996	1998
-obs		42334	33553	32133	30776
-error_value	0.06	0.05	0.08	0.09
+table obs
+# year  obs   error_value
+1992    42334   0.06
+1993    33553   0.05
+1996    32133   0.08
+1998    30776   0.09
+end_table
 
 @observation Tangaroa_propn_at_age_autumn
 type proportions_at_age

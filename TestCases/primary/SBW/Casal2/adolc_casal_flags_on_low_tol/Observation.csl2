@@ -18,11 +18,23 @@ time_step_proportion 0.5
 categories male.spawn+female.spawn
 selectivities One One
 catchability TangaroaMatureq
-years		1993	1994	1995	1998	2000	2002	2004	2006	2009	2011	2013
-obs		16060	72168	53608	91639	71749	66034	42236	43843	99521	53299	65801
-error_value	0.24	0.34	0.3	0.14	0.17	0.68	0.35	0.32	0.27	0.22	0.25
 likelihood lognormal
 process_error 0.001
+years		1993	1994	1995	1998	2000	2002	2004	2006	2009	2011	2013
+table obs
+# year  obs   error_value
+1993    16060   0.24
+1994    72168   0.34
+1995    53608   0.30
+1998    91639   0.14
+2000    71749   0.17
+2002    66034   0.68
+2004    42236   0.35
+2006    43843   0.32
+2009    99521   0.27
+2011    53299   0.22
+2013    65801   0.25
+end_table
 
 @observation TangaroaAcousticImmature
 type biomass
@@ -31,11 +43,23 @@ time_step_proportion 0.5
 categories male.nonspawn+female.nonspawn
 selectivities TangaroaImmatureSel TangaroaImmatureSel
 catchability TangaroaImmatureq
-years		1993	1994	1995	1998	2000	2002	2004	2006	2009	2011	2013
-obs		35208	8018	15507	6759	1864	247	5617	3423	24479	14454	8004
-error_value	0.25	0.38	0.29	0.2	0.24	0.76	0.16	0.24	0.26	0.17	0.55
 likelihood lognormal
 process_error 0.001
+years		1993	1994	1995	1998	2000	2002	2004	2006	2009	2011	2013
+table obs
+# year  obs   error_value
+1993    35208   0.25
+1994    8018    0.38
+1995    15507   0.29
+1998    6759    0.2
+2000    1864    0.24
+2002    247     0.76
+2004    5617    0.16
+2006    3423    0.24
+2009    24479   0.26
+2011    14454   0.17
+2013    8004    0.55
+end_table
 
 ## C@A
 @observation ObserverProportionsAtAge

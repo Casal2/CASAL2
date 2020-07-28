@@ -20,10 +20,13 @@ time_step_proportion 0.75
 categories spawn
 selectivities NWCR_Fsel
 catchability acoq_99_12
-years 		1999 2012
-obs 		8126 14637
-error_value 	0.22 0.09
 likelihood lognormal
+years       1999 2012
+table obs
+#year  obs   error_value
+1999   8126    0.22
+2012   14637   0.09
+end_table
 
 @observation aco_13
 type biomass
@@ -32,10 +35,13 @@ time_step_proportion 0.75
 categories spawn
 selectivities NWCR_Fsel
 catchability acoq_13
-years 		2013
-obs 		7379
-error_value 	0.31
 likelihood lognormal
+years       2013
+table obs
+#year  obs  error_value
+2013   7379   0.31
+end_table
+
 
 # Age Composition data
 @observation Trawl_1994
