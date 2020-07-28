@@ -1,9 +1,9 @@
 Casal2
 Call: ..\..\..\..\..\BuildSystem\bin\windows\release_betadiff\casal2 -e -o params_est.out 
-Date: Mon Jul 27 06:00:31 2020
-Version: 2020-07-23 20:20:57 UTC (rev. 592f395e)
+Date: Wed Jul 29 06:26:14 2020
+Version: 2020-07-28 08:18:28 UTC (rev. 258dfb65)
 Copyright (c) 2020 - 2020, NIWA (www.niwa.co.nz)
-Environment: machine:niwa-computer, user:niwauser, os:Windows_NT, pid:2088
+Environment: machine:niwa-computer, user:niwauser, os:Windows_NT, pid:7212
 
 [WARNING] C:\workspace\casal2-windows-rlibrary\CASAL2\source\Estimates\Manager.cpp(line: 95): Estimates were removed because of matching lower and upper bounds. Originally had 69 estimates, now have 67
 resizing from 40000 to 44000
@@ -4092,438 +4092,6 @@ process[Recruitment].b0 selectivity[MaturationSel_male].v{1} selectivity[Maturat
 13347.9 0.013976 0.0605158 0.146397 9.7755e-08 0.00577564 0.0460435 0.0952004 5.21268e-05 0.271707 0.267398 0.272505 0.268771 0.285082 0.29169 0.343665 0.508413 0.269031 0.139864 0.109607 0.0652297 0.0398584 0.0537908 0.0364222 0.0215167 0.0186915 0.0276007 0.0135461 0.0114481 0.0122783 0.0552254 0.0544362 0.0177524 0.00845995 0.0225279 0.0225161 0.0200723 0.0448661 0.0219158 0.0624256 0.010693 0.0453686 0.344326 0.0870202 0.0513442 0.0314743 0.0859615 0.0626267 0.0326408 0.0534597 0.0393414 0.0531559 0.104032 0.067214 0.0486386 0.0467307 0.0604105 0.22452 0.105432 0.0456147 0.164764 0.00208166 0.148144 0.0477596 0.0205845 0.00791241 2.30327e-10 
 *end
 
-*objective_function[obj_fun]
-values {v}
-observation->TangaroaAcousticMature-1993 -1.28784
-observation->TangaroaAcousticMature-1994 -0.609711
-observation->TangaroaAcousticMature-1995 -0.415651
-observation->TangaroaAcousticMature-1998 -1.7157
-observation->TangaroaAcousticMature-2000 -1.77821
-observation->TangaroaAcousticMature-2002 -0.371038
-observation->TangaroaAcousticMature-2004 -0.782243
-observation->TangaroaAcousticMature-2006 -0.891008
-observation->TangaroaAcousticMature-2009 0.703483
-observation->TangaroaAcousticMature-2011 -1.02754
-observation->TangaroaAcousticMature-2013 -1.40121
-observation->TangaroaAcousticImmature-1993 1.95756
-observation->TangaroaAcousticImmature-1994 0.799758
-observation->TangaroaAcousticImmature-1995 2.24688
-observation->TangaroaAcousticImmature-1998 -1.53402
-observation->TangaroaAcousticImmature-2000 5.06028
-observation->TangaroaAcousticImmature-2002 7.27968
-observation->TangaroaAcousticImmature-2004 1.64998
-observation->TangaroaAcousticImmature-2006 -0.376721
-observation->TangaroaAcousticImmature-2009 2.27182
-observation->TangaroaAcousticImmature-2011 1.40903
-observation->TangaroaAcousticImmature-2013 -0.345549
-observation->ObserverProportionsAtAge-1979 15.1841
-observation->ObserverProportionsAtAge-1980 17.0661
-observation->ObserverProportionsAtAge-1981 30.9558
-observation->ObserverProportionsAtAge-1982 26.0137
-observation->ObserverProportionsAtAge-1983 20.4139
-observation->ObserverProportionsAtAge-1984 26.2529
-observation->ObserverProportionsAtAge-1985 22.9308
-observation->ObserverProportionsAtAge-1986 27.6186
-observation->ObserverProportionsAtAge-1987 28.8244
-observation->ObserverProportionsAtAge-1988 28.8654
-observation->ObserverProportionsAtAge-1989 31.7236
-observation->ObserverProportionsAtAge-1990 28.0964
-observation->ObserverProportionsAtAge-1991 37.5125
-observation->ObserverProportionsAtAge-1992 28.0869
-observation->ObserverProportionsAtAge-1993 29.2873
-observation->ObserverProportionsAtAge-1994 22.1641
-observation->ObserverProportionsAtAge-1995 22.0024
-observation->ObserverProportionsAtAge-1996 25.6759
-observation->ObserverProportionsAtAge-1997 21.1302
-observation->ObserverProportionsAtAge-1998 20.3504
-observation->ObserverProportionsAtAge-1999 24.4266
-observation->ObserverProportionsAtAge-2000 16.7417
-observation->ObserverProportionsAtAge-2001 26.2577
-observation->ObserverProportionsAtAge-2002 19.992
-observation->ObserverProportionsAtAge-2003 34.1197
-observation->ObserverProportionsAtAge-2004 18.4027
-observation->ObserverProportionsAtAge-2005 28.0021
-observation->ObserverProportionsAtAge-2006 23.3231
-observation->ObserverProportionsAtAge-2007 26.679
-observation->ObserverProportionsAtAge-2008 37.8815
-observation->ObserverProportionsAtAge-2009 20.478
-observation->ObserverProportionsAtAge-2010 27.6562
-observation->ObserverProportionsAtAge-2011 25.1013
-observation->ObserverProportionsAtAge-2012 27.2521
-observation->ObserverProportionsAtAge-2013 25.124
-observation->ObserverProportionsAtAge-2014 48.9371
-observation->ObserverProportionsAtAge-2015 34.2306
-prior->B0->process[Recruitment].b0 12.6081
-prior->Migration_male->selectivity[MaturationSel_male].v{1} 0
-prior->Migration_male->selectivity[MaturationSel_male].v{2} 0
-prior->Migration_male->selectivity[MaturationSel_male].v{3} 0
-prior->Migration_male->selectivity[MaturationSel_male].v{4} 0
-prior->Migration_female->selectivity[MaturationSel_female].v{1} 0
-prior->Migration_female->selectivity[MaturationSel_female].v{2} 0
-prior->Migration_female->selectivity[MaturationSel_female].v{3} 0
-prior->Migration_female->selectivity[MaturationSel_female].v{4} 0
-prior->YCS->process[Recruitment].ycs_values{1958} -0.98386
-prior->YCS->process[Recruitment].ycs_values{1959} -0.981725
-prior->YCS->process[Recruitment].ycs_values{1960} -0.978808
-prior->YCS->process[Recruitment].ycs_values{1961} -0.974733
-prior->YCS->process[Recruitment].ycs_values{1962} -0.969052
-prior->YCS->process[Recruitment].ycs_values{1963} -0.96092
-prior->YCS->process[Recruitment].ycs_values{1964} -0.948152
-prior->YCS->process[Recruitment].ycs_values{1965} -0.326654
-prior->YCS->process[Recruitment].ycs_values{1966} -0.727521
-prior->YCS->process[Recruitment].ycs_values{1967} -0.926043
-prior->YCS->process[Recruitment].ycs_values{1968} -0.989264
-prior->YCS->process[Recruitment].ycs_values{1969} -0.793403
-prior->YCS->process[Recruitment].ycs_values{1970} -0.308128
-prior->YCS->process[Recruitment].ycs_values{1971} -0.858509
-prior->YCS->process[Recruitment].ycs_values{1972} -0.574209
-prior->YCS->process[Recruitment].ycs_values{1973} 0.168432
-prior->YCS->process[Recruitment].ycs_values{1974} 0.102746
-prior->YCS->process[Recruitment].ycs_values{1975} -0.709183
-prior->YCS->process[Recruitment].ycs_values{1976} 0.399307
-prior->YCS->process[Recruitment].ycs_values{1977} 0.844718
-prior->YCS->process[Recruitment].ycs_values{1978} 0.436063
-prior->YCS->process[Recruitment].ycs_values{1979} -0.936854
-prior->YCS->process[Recruitment].ycs_values{1980} -0.945275
-prior->YCS->process[Recruitment].ycs_values{1981} -0.413848
-prior->YCS->process[Recruitment].ycs_values{1982} 1.25684
-prior->YCS->process[Recruitment].ycs_values{1983} -0.740707
-prior->YCS->process[Recruitment].ycs_values{1984} -0.707314
-prior->YCS->process[Recruitment].ycs_values{1985} -0.584794
-prior->YCS->process[Recruitment].ycs_values{1986} -0.988789
-prior->YCS->process[Recruitment].ycs_values{1987} -0.690639
-prior->YCS->process[Recruitment].ycs_values{1988} -0.88319
-prior->YCS->process[Recruitment].ycs_values{1989} 1.07388
-prior->YCS->process[Recruitment].ycs_values{1990} -0.987251
-prior->YCS->process[Recruitment].ycs_values{1991} 1.69279
-prior->YCS->process[Recruitment].ycs_values{1992} -0.735048
-prior->YCS->process[Recruitment].ycs_values{1993} -0.988978
-prior->YCS->process[Recruitment].ycs_values{1994} -0.700213
-prior->YCS->process[Recruitment].ycs_values{1995} -0.739135
-prior->YCS->process[Recruitment].ycs_values{1996} -0.948411
-prior->YCS->process[Recruitment].ycs_values{1997} -0.787757
-prior->YCS->process[Recruitment].ycs_values{1998} -0.976622
-prior->YCS->process[Recruitment].ycs_values{1999} -0.927019
-prior->YCS->process[Recruitment].ycs_values{2000} -0.985714
-prior->YCS->process[Recruitment].ycs_values{2001} -0.555013
-prior->YCS->process[Recruitment].ycs_values{2002} -0.907427
-prior->YCS->process[Recruitment].ycs_values{2003} -0.984614
-prior->YCS->process[Recruitment].ycs_values{2004} -0.982192
-prior->YCS->process[Recruitment].ycs_values{2005} -0.981789
-prior->YCS->process[Recruitment].ycs_values{2006} 0.570879
-prior->YCS->process[Recruitment].ycs_values{2007} -0.640053
-prior->YCS->process[Recruitment].ycs_values{2008} -0.907068
-prior->YCS->process[Recruitment].ycs_values{2009} -0.0800734
-prior->YCS->process[Recruitment].ycs_values{2010} 4.78305
-prior->YCS->process[Recruitment].ycs_values{2011} -0.535187
-prior->YCS->process[Recruitment].ycs_values{2012} -0.603094
-prior->M_male_with_avg_prior->process[Instantaneous_Mortality].m{male.nonspawn} -1.36237
-prior->M_female_with_diff_prior->process[Instantaneous_Mortality].m{female.nonspawn} 0.0166237
-prior->mature_process_error->observation[TangaroaAcousticMature].process_error -9.21034
-additional_prior->Penalty-YCS 0.482779
-additional_prior->TangaroaMatureq -0.711791
-jacobian->avg_diff 0
-total_negloglike 962.9
-*end
-
-*derived_quantity[DerivedQuantities]
-SSB {L} 
-type: biomass 
-initialisation_phase[1]: 298978 
-values {v}
-1960 298862
-1961 296963
-1962 293937
-1963 291162
-1964 288709
-1965 287109
-1966 286568
-1967 288471
-1968 308595
-1969 331242
-1970 340974
-1971 339026
-1972 316627
-1973 274116
-1974 228341
-1975 200857
-1976 180091
-1977 151779
-1978 130814
-1979 94016.1
-1980 70522.8
-1981 59357.9
-1982 65466.6
-1983 77215
-1984 77088.1
-1985 71338.7
-1986 64682.7
-1987 56829.1
-1988 48542.5
-1989 41474
-1990 34397.2
-1991 37897
-1992 35283.3
-1993 38371.9
-1994 111719
-1995 165732
-1996 176335
-1997 177868
-1998 170708
-1999 161338
-2000 147271
-2001 137440
-2002 121452
-2003 107661
-2004 118496
-2005 126939
-2006 118157
-2007 105574
-2008 96463.1
-2009 123092
-2010 146463
-2011 138180
-2012 144534
-2013 137370
-2014 128470
-2015 126789
-end {L}
-*end
-
-*process[Recruitment]
-age: 2
-b0: 298978
-b0_initialisation_phase: 
-categories: male.nonspawn male.spawn female.nonspawn female.spawn
-label: Recruitment
-proportions: 0.5 0 0.5 0
-r0: 9.39614e+07
-ssb: SSB
-ssb_offset: 2
-standardise_ycs_years: 1958 1959 1960 1961 1962 1963 1964 1965 1966 1967 1968 1969 1970 1971 1972 1973 1974 1975 1976 1977 1978 1979 1980 1981 1982 1983 1984 1985 1986 1987 1988 1989 1990 1991 1992 1993 1994 1995 1996 1997 1998 1999 2000 2001 2002 2003 2004 2005 2006 2007 2008 2009 2010 2011 2012
-steepness: 0.9
-type: recruitment_beverton_holt
-ycs_years: 1958 1959 1960 1961 1962 1963 1964 1965 1966 1967 1968 1969 1970 1971 1972 1973 1974 1975 1976 1977 1978 1979 1980 1981 1982 1983 1984 1985 1986 1987 1988 1989 1990 1991 1992 1993 1994 1995 1996 1997 1998 1999 2000 2001 2002 2003 2004 2005 2006 2007 2008 2009 2010 2011 2012 2013 
-standardised_ycs: 0.861453 0.877393 0.896348 0.919451 0.947617 0.982973 1.03152 2.43565 1.59192 1.10443 0.793153 0.415527 0.242573 0.465608 0.312922 0.170501 0.178092 0.367859 0.147626 0.115271 0.144443 1.07009 1.04165 0.266449 0.0940741 0.384071 0.366948 0.316582 0.805251 0.359049 1.22581 0.102696 0.724339 7.75903 1.57542 0.749351 0.363536 1.56643 1.03059 0.411844 0.909128 0.545019 0.845231 1.95849 1.15946 0.701927 0.686756 0.876947 4.49136 1.77978 0.517276 2.96369 0.0263793 1.99989 0.323128 1 
-ycs_values: 0.252013 0.256676 0.262221 0.26898 0.27722 0.287563 0.301765 0.712535 0.465706 0.323093 0.232032 0.12156 0.0709633 0.136211 0.0915435 0.049879 0.0520999 0.107615 0.043187 0.0337219 0.0422559 0.313048 0.30473 0.0779481 0.0275208 0.112358 0.107349 0.0926141 0.235571 0.105038 0.358605 0.030043 0.211901 2.26986 0.460879 0.219218 0.10635 0.45825 0.301494 0.120482 0.26596 0.159442 0.247267 0.572944 0.339194 0.205345 0.200907 0.256546 1.31392 0.520666 0.151326 0.867011 0.0077171 0.585056 0.0945292 1 
-true_ycs: 0.861453 0.877393 0.896338 0.919278 0.947166 0.982241 1.0305 2.43286 1.59 1.10331 0.79384 0.416654 0.243406 0.467141 0.313407 0.170072 0.176575 0.362934 0.144967 0.112247 0.139463 1.00898 0.95566 0.239583 0.0855935 0.355694 0.339781 0.290805 0.731635 0.321049 1.07216 0.0875894 0.59682 6.51271 1.30458 0.630419 0.347362 1.53221 1.01106 0.404199 0.890541 0.532402 0.821718 1.89657 1.11422 0.668908 0.65888 0.845131 4.30822 1.6936 0.488773 2.85055 0.0256377 1.93727 0.313813 0.968355 
-Recruits: 8.09433e+07 8.2441e+07 8.42212e+07 8.63766e+07 8.8997e+07 9.22927e+07 9.68272e+07 2.28594e+08 1.49399e+08 1.03668e+08 7.45903e+07 3.91494e+07 2.28707e+07 4.38932e+07 2.94482e+07 1.59802e+07 1.65912e+07 3.41018e+07 1.36213e+07 1.05469e+07 1.31041e+07 9.48056e+07 8.97951e+07 2.25116e+07 8.04249e+06 3.34215e+07 3.19263e+07 2.73245e+07 6.87455e+07 3.01662e+07 1.00742e+08 8.23002e+06 5.6078e+07 6.11943e+08 1.2258e+08 5.9235e+07 3.26386e+07 1.43969e+08 9.50004e+07 3.79791e+07 8.36764e+07 5.00252e+07 7.72097e+07 1.78204e+08 1.04694e+08 6.28515e+07 6.19093e+07 7.94096e+07 4.04806e+08 1.59133e+08 4.59257e+07 2.67841e+08 2.40895e+06 1.82028e+08 2.94863e+07 9.0988e+07 
-SSB: 298978 298978 298862 296963 293937 291162 288709 287109 286568 288471 308595 331242 340974 339026 316627 274116 228341 200857 180091 151779 130814 94016.1 70522.8 59357.9 65466.6 77215 77088.1 71338.7 64682.7 56829.1 48542.5 41474 34397.2 37897 35283.3 38371.9 111719 165732 176335 177868 170708 161338 147271 137440 121452 107661 118496 126939 118157 105574 96463.1 123092 146463 138180 144534 137370 
-*end
-
-*process[Mortality]
-categories: male.nonspawn male.spawn female.nonspawn female.spawn
-label: Instantaneous_Mortality
-m: 0.157771 0.157771 0.166888 0.166888
-selectivities: One One One One
-time_step_ratio: 0.90000000000000002 0.10000000000000001
-type: mortality_instantaneous
-year: 1960 1961 1962 1963 1964 1965 1966 1967 1968 1969 1970 1971 1972 1973 1974 1975 1976 1977 1978 1979 1980 1981 1982 1983 1984 1985 1986 1987 1988 1989 1990 1991 1992 1993 1994 1995 1996 1997 1998 1999 2000 2001 2002 2003 2004 2005 2006 2007 2008 2009 2010 2011 2012 2013 2014 2015 
-fishing_pressure[Trawl]: 0 0 0 0 0 0 0 0 0 0 0 0.0211957 0.0553429 0.116424 0.121297 0.00823605 0.064155 0.114709 0.047789 0.237466 0.166852 0.0960913 0.114066 0.153216 0.130741 0.099799 0.211116 0.202668 0.304681 0.486756 0.388312 0.43977 0.335662 0.216697 0.0993007 0.0610641 0.0894458 0.101059 0.147491 0.155613 0.115556 0.186428 0.242294 0.198611 0.154305 0.187174 0.154454 0.181027 0.192116 0.143665 0.129237 0.201784 0.137463 0.188753 0.167039 0.160442 
-catch[Trawl]: 0 0 0 0 0 0 0 0 0 0 0 7262 18017 33868 29469 1661 11933 18460 6403 25305 12828 5989 7915 12803 10777 7490 15252 12804 17422 26611 16542 21314 14208 9316 11668 10436 16504 18923 27164 27205 18052 28232 33445 23718 19799 26190 19763 20996 20483 19040 20224 30982 21321 28606 23397 22100 
-actual_catch[Trawl]: 0 0 0 0 0 0 0 0 0 0 0 7262 18017 33868 29469 1661 11933 18460 6403 25305 12828 5989 7915 12803 10777 7490 15252 12804 17422 26611 16542 21314 14208 9316 11668 10436 16504 18923 27164 27205 18052 28232 33445 23718 19799 26190 19763 20996 20483 19040 20224 30982 21321 28606 23397 22100 
-*end
-
-*partition_mean_length[part_length_1]
-time_step: step1
-male.spawn {L}
-mean_lengths {d}
-year 2 3 4 5 6 7 8 9 10 11 12 13 14 15 
-1960 29.3107 33.8502 36.4551 39.4219 40.7614 41.8791 42.9256 43.8858 44.8865 45.3398 44.9126 46.3484 46.6014 46.8544 
-2015 27.29 29.66 33.19 35.44 37.79 38.39 39.76 41.16 43.08 43.49 42.79 43.03 44.89 46.05 
-end {L}
-female.spawn {L}
-mean_lengths {d}
-year 2 3 4 5 6 7 8 9 10 11 12 13 14 15 
-1960 30.9619 35.3521 37.9558 40.9533 43.0528 44.7691 45.7537 46.437 48.2958 48.6735 49.1558 50.1777 50.3326 50.4874 
-2015 28.39 31.48 34.17 36.84 39.21 40.82 42.21 44.07 45.03 46.51 47.31 48.17 49.76 49.55 
-end {L}
-male.nonspawn {L}
-mean_lengths {d}
-year 2 3 4 5 6 7 8 9 10 11 12 13 14 15 
-1960 29.3107 33.8502 36.4551 39.4219 40.7614 41.8791 42.9256 43.8858 44.8865 45.3398 44.9126 46.3484 46.6014 46.8544 
-2015 27.29 29.66 33.19 35.44 37.79 38.39 39.76 41.16 43.08 43.49 42.79 43.03 44.89 46.05 
-end {L}
-female.nonspawn {L}
-mean_lengths {d}
-year 2 3 4 5 6 7 8 9 10 11 12 13 14 15 
-1960 30.9619 35.3521 37.9558 40.9533 43.0528 44.7691 45.7537 46.437 48.2958 48.6735 49.1558 50.1777 50.3326 50.4874 
-2015 28.39 31.48 34.17 36.84 39.21 40.82 42.21 44.07 45.03 46.51 47.31 48.17 49.76 49.55 
-end {L}
-*end
-
-*partition_mean_length[part_length_2]
-time_step: step2
-male.spawn {L}
-mean_lengths {d}
-year 2 3 4 5 6 7 8 9 10 11 12 13 14 15 
-1960 28.7563 32.7502 36.1898 38.5293 40.6035 41.7851 42.8088 43.7386 44.5516 45.2174 45.5484 45.757 46.6014 46.8544 
-2015 28.7563 30.78 33.93 35.63 38.05 38.94 39.87 41.21 42.7 43.39 42.87 43.12 45.15 46.24 
-end {L}
-female.spawn {L}
-mean_lengths {d}
-year 2 3 4 5 6 7 8 9 10 11 12 13 14 15 
-1960 28.9163 34.3972 37.8326 40.313 42.6702 44.3872 45.7216 46.6742 47.5947 48.7523 49.2088 49.7442 50.3326 50.4874 
-2015 28.9163 32.43 35.08 37.11 39.55 40.88 42.2 44 45.43 46.76 47.56 48.3 49.58 49.75 
-end {L}
-male.nonspawn {L}
-mean_lengths {d}
-year 2 3 4 5 6 7 8 9 10 11 12 13 14 15 
-1960 28.7563 32.7502 36.1898 38.5293 40.6035 41.7851 42.8088 43.7386 44.5516 45.2174 45.5484 45.757 46.6014 46.8544 
-2015 28.7563 30.78 33.93 35.63 38.05 38.94 39.87 41.21 42.7 43.39 42.87 43.12 45.15 46.24 
-end {L}
-female.nonspawn {L}
-mean_lengths {d}
-year 2 3 4 5 6 7 8 9 10 11 12 13 14 15 
-1960 28.9163 34.3972 37.8326 40.313 42.6702 44.3872 45.7216 46.6742 47.5947 48.7523 49.2088 49.7442 50.3326 50.4874 
-2015 28.9163 32.43 35.08 37.11 39.55 40.88 42.2 44 45.43 46.76 47.56 48.3 49.58 49.75 
-end {L}
-*end
-
-*partition_mean_weight[part_weight_1]
-time_step: step1
-male.spawn {L}
-mean_weights {d}
-year 2 3 4 5 6 7 8 9 10 11 12 13 14 15 
-1960 0.000146523 0.000189556 0.000268372 0.000328714 0.000400897 0.000420907 0.000469107 0.000522085 0.000601124 0.00061899 0.0005887 0.000598969 0.0006827 0.000738737 
-2015 0.000146523 0.000189556 0.000268372 0.000328714 0.000400897 0.000420907 0.000469107 0.000522085 0.000601124 0.00061899 0.0005887 0.000598969 0.0006827 0.000738737 
-end {L}
-female.spawn {L}
-mean_weights {d}
-year 2 3 4 5 6 7 8 9 10 11 12 13 14 15 
-1960 0.000160187 0.000221848 0.000287276 0.000364158 0.000443238 0.000503179 0.00055919 0.000640604 0.000685628 0.000759201 0.000801129 0.000847935 0.000939329 0.00092689 
-2015 0.000160187 0.000221848 0.000287276 0.000364158 0.000443238 0.000503179 0.00055919 0.000640604 0.000685628 0.000759201 0.000801129 0.000847935 0.000939329 0.00092689 
-end {L}
-male.nonspawn {L}
-mean_weights {d}
-year 2 3 4 5 6 7 8 9 10 11 12 13 14 15 
-1960 0.000146523 0.000189556 0.000268372 0.000328714 0.000400897 0.000420907 0.000469107 0.000522085 0.000601124 0.00061899 0.0005887 0.000598969 0.0006827 0.000738737 
-2015 0.000146523 0.000189556 0.000268372 0.000328714 0.000400897 0.000420907 0.000469107 0.000522085 0.000601124 0.00061899 0.0005887 0.000598969 0.0006827 0.000738737 
-end {L}
-female.nonspawn {L}
-mean_weights {d}
-year 2 3 4 5 6 7 8 9 10 11 12 13 14 15 
-1960 0.000160187 0.000221848 0.000287276 0.000364158 0.000443238 0.000503179 0.00055919 0.000640604 0.000685628 0.000759201 0.000801129 0.000847935 0.000939329 0.00092689 
-2015 0.000160187 0.000221848 0.000287276 0.000364158 0.000443238 0.000503179 0.00055919 0.000640604 0.000685628 0.000759201 0.000801129 0.000847935 0.000939329 0.00092689 
-end {L}
-*end
-
-*partition_mean_weight[part_weight_2]
-time_step: step2
-male.spawn {L}
-mean_weights {d}
-year 2 3 4 5 6 7 8 9 10 11 12 13 14 15 
-1960 0.00017226 0.000212574 0.000287309 0.000334194 0.000409487 0.000439833 0.000473131 0.000524049 0.00058488 0.0006146 0.00059211 0.000602851 0.000695001 0.000748202 
-2015 0.00017226 0.000212574 0.000287309 0.000334194 0.000409487 0.000439833 0.000473131 0.000524049 0.00058488 0.0006146 0.00059211 0.000602851 0.000695001 0.000748202 
-end {L}
-female.spawn {L}
-mean_weights {d}
-year 2 3 4 5 6 7 8 9 10 11 12 13 14 15 
-1960 0.000169735 0.000243644 0.000312089 0.000372637 0.000455466 0.000505514 0.000558773 0.000637402 0.000705009 0.000772138 0.000814548 0.000855169 0.00092866 0.000938734 
-2015 0.000169735 0.000243644 0.000312089 0.000372637 0.000455466 0.000505514 0.000558773 0.000637402 0.000705009 0.000772138 0.000814548 0.000855169 0.00092866 0.000938734 
-end {L}
-male.nonspawn {L}
-mean_weights {d}
-year 2 3 4 5 6 7 8 9 10 11 12 13 14 15 
-1960 0.00017226 0.000212574 0.000287309 0.000334194 0.000409487 0.000439833 0.000473131 0.000524049 0.00058488 0.0006146 0.00059211 0.000602851 0.000695001 0.000748202 
-2015 0.00017226 0.000212574 0.000287309 0.000334194 0.000409487 0.000439833 0.000473131 0.000524049 0.00058488 0.0006146 0.00059211 0.000602851 0.000695001 0.000748202 
-end {L}
-female.nonspawn {L}
-mean_weights {d}
-year 2 3 4 5 6 7 8 9 10 11 12 13 14 15 
-1960 0.000169735 0.000243644 0.000312089 0.000372637 0.000455466 0.000505514 0.000558773 0.000637402 0.000705009 0.000772138 0.000814548 0.000855169 0.00092866 0.000938734 
-2015 0.000169735 0.000243644 0.000312089 0.000372637 0.000455466 0.000505514 0.000558773 0.000637402 0.000705009 0.000772138 0.000814548 0.000855169 0.00092866 0.000938734 
-end {L}
-*end
-
-*selectivity[MaturationSel_male]
-h: 6 
-intervals: 5 
-l: 2 
-label: MaturationSel_male 
-length_based: 0 
-partition_type: model 
-type: all_values_bounded 
-v: 0.0852945 0.733465 0.581956 0.001 0.99 
-Values {v}
-2 0.0852945
-3 0.733465
-4 0.581956
-5 0.001
-6 0.99
-7 0.99
-8 0.99
-9 0.99
-10 0.99
-11 0.99
-12 0.99
-13 0.99
-14 0.99
-15 0.99
-*end
-
-*selectivity[MaturationSel_female]
-h: 6 
-intervals: 5 
-l: 2 
-label: MaturationSel_female 
-length_based: 0 
-partition_type: model 
-type: all_values_bounded 
-v: 0.0190108 0.514065 0.939775 0.999 0.99 
-Values {v}
-2 0.0190108
-3 0.514065
-4 0.939775
-5 0.999
-6 0.99
-7 0.99
-8 0.99
-9 0.99
-10 0.99
-11 0.99
-12 0.99
-13 0.99
-14 0.99
-15 0.99
-*end
-
-*observation[TangaroaAcousticMature]
-observation_type: biomass
-likelihood: lognormal
-Values {d}
-year category age length observed expected residual error_value process_error adjusted_error neglogLike
-1993 male.spawn+female.spawn 0 0 16060 18828.7 -2768.75 0.24 0.0001 0.24 -1.28784
-1994 male.spawn+female.spawn 0 0 72168 54819.3 17348.7 0.34 0.0001 0.34 -0.609711
-1995 male.spawn+female.spawn 0 0 53608 81323.4 -27715.4 0.3 0.0001 0.3 -0.415651
-1998 male.spawn+female.spawn 0 0 91639 83764.8 7874.21 0.14 0.0001 0.14 -1.7157
-2000 male.spawn+female.spawn 0 0 71749 72264.4 -515.361 0.17 0.0001 0.17 -1.77821
-2002 male.spawn+female.spawn 0 0 66034 59595.5 6438.51 0.68 0.0001 0.68 -0.371038
-2004 male.spawn+female.spawn 0 0 42236 58144.8 -15908.8 0.35 0.0001 0.35 -0.782243
-2006 male.spawn+female.spawn 0 0 43843 57978.6 -14135.6 0.32 0.0001 0.32 -0.891008
-2009 male.spawn+female.spawn 0 0 99521 60400.1 39120.9 0.27 0.0001 0.27 0.703483
-2011 male.spawn+female.spawn 0 0 53299 67803.8 -14504.8 0.22 0.0001 0.22 -1.02754
-2013 male.spawn+female.spawn 0 0 65801 67406.4 -1605.42 0.25 0.0001 0.25 -1.40121
-*end
-
-*observation[TangaroaAcousticImmature]
-observation_type: biomass
-likelihood: lognormal
-Values {d}
-year category age length observed expected residual error_value process_error adjusted_error neglogLike
-1993 male.nonspawn+female.nonspawn 0 0 35208 19170.9 16037.1 0.25 0.001 0.250002 1.95756
-1994 male.nonspawn+female.nonspawn 0 0 8018 17222.9 -9204.88 0.38 0.001 0.380001 0.799758
-1995 male.nonspawn+female.nonspawn 0 0 15507 7608.65 7898.35 0.29 0.001 0.290002 2.24688
-1998 male.nonspawn+female.nonspawn 0 0 6759 6351.65 407.345 0.2 0.001 0.200002 -1.53402
-2000 male.nonspawn+female.nonspawn 0 0 1864 4499.99 -2635.99 0.24 0.001 0.240002 5.06028
-2002 male.nonspawn+female.nonspawn 0 0 247 4369.03 -4122.03 0.76 0.001 0.760001 7.27968
-2004 male.nonspawn+female.nonspawn 0 0 5617 8657.48 -3040.48 0.16 0.001 0.160003 1.64998
-2006 male.nonspawn+female.nonspawn 0 0 3423 4971.94 -1548.94 0.24 0.001 0.240002 -0.376721
-2009 male.nonspawn+female.nonspawn 0 0 24479 12690.9 11788.1 0.26 0.001 0.260002 2.27182
-2011 male.nonspawn+female.nonspawn 0 0 14454 9573.45 4880.55 0.17 0.001 0.170003 1.40903
-2013 male.nonspawn+female.nonspawn 0 0 8004 6055.31 1948.69 0.55 0.001 0.550001 -0.345549
-*end
-
 *estimate_summary[estimated_summary]
 process[Recruitment].b0 {L}
 value: 298978
@@ -5714,6 +5282,204 @@ end {L}
 
 *end
 
+*objective_function[obj_fun]
+values {v}
+observation->TangaroaAcousticMature-1993 -1.28784
+observation->TangaroaAcousticMature-1994 -0.609711
+observation->TangaroaAcousticMature-1995 -0.415651
+observation->TangaroaAcousticMature-1998 -1.7157
+observation->TangaroaAcousticMature-2000 -1.77821
+observation->TangaroaAcousticMature-2002 -0.371038
+observation->TangaroaAcousticMature-2004 -0.782243
+observation->TangaroaAcousticMature-2006 -0.891008
+observation->TangaroaAcousticMature-2009 0.703483
+observation->TangaroaAcousticMature-2011 -1.02754
+observation->TangaroaAcousticMature-2013 -1.40121
+observation->TangaroaAcousticImmature-1993 1.95756
+observation->TangaroaAcousticImmature-1994 0.799758
+observation->TangaroaAcousticImmature-1995 2.24688
+observation->TangaroaAcousticImmature-1998 -1.53402
+observation->TangaroaAcousticImmature-2000 5.06028
+observation->TangaroaAcousticImmature-2002 7.27968
+observation->TangaroaAcousticImmature-2004 1.64998
+observation->TangaroaAcousticImmature-2006 -0.376721
+observation->TangaroaAcousticImmature-2009 2.27182
+observation->TangaroaAcousticImmature-2011 1.40903
+observation->TangaroaAcousticImmature-2013 -0.345549
+observation->ObserverProportionsAtAge-1979 15.1841
+observation->ObserverProportionsAtAge-1980 17.0661
+observation->ObserverProportionsAtAge-1981 30.9558
+observation->ObserverProportionsAtAge-1982 26.0137
+observation->ObserverProportionsAtAge-1983 20.4139
+observation->ObserverProportionsAtAge-1984 26.2529
+observation->ObserverProportionsAtAge-1985 22.9308
+observation->ObserverProportionsAtAge-1986 27.6186
+observation->ObserverProportionsAtAge-1987 28.8244
+observation->ObserverProportionsAtAge-1988 28.8654
+observation->ObserverProportionsAtAge-1989 31.7236
+observation->ObserverProportionsAtAge-1990 28.0964
+observation->ObserverProportionsAtAge-1991 37.5125
+observation->ObserverProportionsAtAge-1992 28.0869
+observation->ObserverProportionsAtAge-1993 29.2873
+observation->ObserverProportionsAtAge-1994 22.1641
+observation->ObserverProportionsAtAge-1995 22.0024
+observation->ObserverProportionsAtAge-1996 25.6759
+observation->ObserverProportionsAtAge-1997 21.1302
+observation->ObserverProportionsAtAge-1998 20.3504
+observation->ObserverProportionsAtAge-1999 24.4266
+observation->ObserverProportionsAtAge-2000 16.7417
+observation->ObserverProportionsAtAge-2001 26.2577
+observation->ObserverProportionsAtAge-2002 19.992
+observation->ObserverProportionsAtAge-2003 34.1197
+observation->ObserverProportionsAtAge-2004 18.4027
+observation->ObserverProportionsAtAge-2005 28.0021
+observation->ObserverProportionsAtAge-2006 23.3231
+observation->ObserverProportionsAtAge-2007 26.679
+observation->ObserverProportionsAtAge-2008 37.8815
+observation->ObserverProportionsAtAge-2009 20.478
+observation->ObserverProportionsAtAge-2010 27.6562
+observation->ObserverProportionsAtAge-2011 25.1013
+observation->ObserverProportionsAtAge-2012 27.2521
+observation->ObserverProportionsAtAge-2013 25.124
+observation->ObserverProportionsAtAge-2014 48.9371
+observation->ObserverProportionsAtAge-2015 34.2306
+prior->B0->process[Recruitment].b0 12.6081
+prior->Migration_male->selectivity[MaturationSel_male].v{1} 0
+prior->Migration_male->selectivity[MaturationSel_male].v{2} 0
+prior->Migration_male->selectivity[MaturationSel_male].v{3} 0
+prior->Migration_male->selectivity[MaturationSel_male].v{4} 0
+prior->Migration_female->selectivity[MaturationSel_female].v{1} 0
+prior->Migration_female->selectivity[MaturationSel_female].v{2} 0
+prior->Migration_female->selectivity[MaturationSel_female].v{3} 0
+prior->Migration_female->selectivity[MaturationSel_female].v{4} 0
+prior->YCS->process[Recruitment].ycs_values{1958} -0.98386
+prior->YCS->process[Recruitment].ycs_values{1959} -0.981725
+prior->YCS->process[Recruitment].ycs_values{1960} -0.978808
+prior->YCS->process[Recruitment].ycs_values{1961} -0.974733
+prior->YCS->process[Recruitment].ycs_values{1962} -0.969052
+prior->YCS->process[Recruitment].ycs_values{1963} -0.96092
+prior->YCS->process[Recruitment].ycs_values{1964} -0.948152
+prior->YCS->process[Recruitment].ycs_values{1965} -0.326654
+prior->YCS->process[Recruitment].ycs_values{1966} -0.727521
+prior->YCS->process[Recruitment].ycs_values{1967} -0.926043
+prior->YCS->process[Recruitment].ycs_values{1968} -0.989264
+prior->YCS->process[Recruitment].ycs_values{1969} -0.793403
+prior->YCS->process[Recruitment].ycs_values{1970} -0.308128
+prior->YCS->process[Recruitment].ycs_values{1971} -0.858509
+prior->YCS->process[Recruitment].ycs_values{1972} -0.574209
+prior->YCS->process[Recruitment].ycs_values{1973} 0.168432
+prior->YCS->process[Recruitment].ycs_values{1974} 0.102746
+prior->YCS->process[Recruitment].ycs_values{1975} -0.709183
+prior->YCS->process[Recruitment].ycs_values{1976} 0.399307
+prior->YCS->process[Recruitment].ycs_values{1977} 0.844718
+prior->YCS->process[Recruitment].ycs_values{1978} 0.436063
+prior->YCS->process[Recruitment].ycs_values{1979} -0.936854
+prior->YCS->process[Recruitment].ycs_values{1980} -0.945275
+prior->YCS->process[Recruitment].ycs_values{1981} -0.413848
+prior->YCS->process[Recruitment].ycs_values{1982} 1.25684
+prior->YCS->process[Recruitment].ycs_values{1983} -0.740707
+prior->YCS->process[Recruitment].ycs_values{1984} -0.707314
+prior->YCS->process[Recruitment].ycs_values{1985} -0.584794
+prior->YCS->process[Recruitment].ycs_values{1986} -0.988789
+prior->YCS->process[Recruitment].ycs_values{1987} -0.690639
+prior->YCS->process[Recruitment].ycs_values{1988} -0.88319
+prior->YCS->process[Recruitment].ycs_values{1989} 1.07388
+prior->YCS->process[Recruitment].ycs_values{1990} -0.987251
+prior->YCS->process[Recruitment].ycs_values{1991} 1.69279
+prior->YCS->process[Recruitment].ycs_values{1992} -0.735048
+prior->YCS->process[Recruitment].ycs_values{1993} -0.988978
+prior->YCS->process[Recruitment].ycs_values{1994} -0.700213
+prior->YCS->process[Recruitment].ycs_values{1995} -0.739135
+prior->YCS->process[Recruitment].ycs_values{1996} -0.948411
+prior->YCS->process[Recruitment].ycs_values{1997} -0.787757
+prior->YCS->process[Recruitment].ycs_values{1998} -0.976622
+prior->YCS->process[Recruitment].ycs_values{1999} -0.927019
+prior->YCS->process[Recruitment].ycs_values{2000} -0.985714
+prior->YCS->process[Recruitment].ycs_values{2001} -0.555013
+prior->YCS->process[Recruitment].ycs_values{2002} -0.907427
+prior->YCS->process[Recruitment].ycs_values{2003} -0.984614
+prior->YCS->process[Recruitment].ycs_values{2004} -0.982192
+prior->YCS->process[Recruitment].ycs_values{2005} -0.981789
+prior->YCS->process[Recruitment].ycs_values{2006} 0.570879
+prior->YCS->process[Recruitment].ycs_values{2007} -0.640053
+prior->YCS->process[Recruitment].ycs_values{2008} -0.907068
+prior->YCS->process[Recruitment].ycs_values{2009} -0.0800734
+prior->YCS->process[Recruitment].ycs_values{2010} 4.78305
+prior->YCS->process[Recruitment].ycs_values{2011} -0.535187
+prior->YCS->process[Recruitment].ycs_values{2012} -0.603094
+prior->M_male_with_avg_prior->process[Instantaneous_Mortality].m{male.nonspawn} -1.36237
+prior->M_female_with_diff_prior->process[Instantaneous_Mortality].m{female.nonspawn} 0.0166237
+prior->mature_process_error->observation[TangaroaAcousticMature].process_error -9.21034
+additional_prior->Penalty-YCS 0.482779
+additional_prior->TangaroaMatureq -0.711791
+jacobian->avg_diff 0
+total_negloglike 962.9
+*end
+
+*derived_quantity[DerivedQuantities]
+SSB {L} 
+type: biomass 
+initialisation_phase[1]: 298978 
+values {v}
+1960 298862
+1961 296963
+1962 293937
+1963 291162
+1964 288709
+1965 287109
+1966 286568
+1967 288471
+1968 308595
+1969 331242
+1970 340974
+1971 339026
+1972 316627
+1973 274116
+1974 228341
+1975 200857
+1976 180091
+1977 151779
+1978 130814
+1979 94016.1
+1980 70522.8
+1981 59357.9
+1982 65466.6
+1983 77215
+1984 77088.1
+1985 71338.7
+1986 64682.7
+1987 56829.1
+1988 48542.5
+1989 41474
+1990 34397.2
+1991 37897
+1992 35283.3
+1993 38371.9
+1994 111719
+1995 165732
+1996 176335
+1997 177868
+1998 170708
+1999 161338
+2000 147271
+2001 137440
+2002 121452
+2003 107661
+2004 118496
+2005 126939
+2006 118157
+2007 105574
+2008 96463.1
+2009 123092
+2010 146463
+2011 138180
+2012 144534
+2013 137370
+2014 128470
+2015 126789
+end {L}
+*end
+
 *hessian_matrix[Hess]
 hessian_matrix {m}
 8.78152e-08 -0.0039109 -0.0029161 -0.000497926 150.84 -0.00461638 -0.00241749 -0.00114906 -0.205055 -0.000990157 -0.00085596 -0.000739141 -0.000630117 -0.000417682 -0.000246547 -3.34917e-05 0.000196821 0.000448872 0.000726059 0.00110474 0.00145183 0.00181401 0.0025232 0.00327628 0.00388971 0.00458818 0.00523182 0.00567723 0.00569773 0.00613857 0.00679463 0.00712063 0.00716483 0.00756811 0.00805094 0.00826459 0.00795954 0.00695495 0.00411824 0.00125104 -0.000272917 -0.000625636 -0.000993269 -0.000770824 -0.000659296 -0.000951659 -0.000877956 -0.000739309 -0.000763856 -0.000732305 -0.000841978 -0.00102711 -0.00107935 -0.00120248 -0.00127162 -0.00148197 -0.00151882 -0.00156908 -0.00174582 -0.00182277 -0.00195372 0.00222795 -0.00209313 -0.00182354 0.0296446 -0.00270694 10195.5 
@@ -5783,6 +5549,240 @@ hessian_matrix {m}
 0.0296446 -212.36 -529.263 -47.5423 5.86451e+07 -1381.89 -836.574 -503.938 8491.86 -659.291 -598.324 -625.054 -619.119 -639.075 -626.063 -611.207 -633.728 -630.906 -796.033 -624 -561.487 -292.51 -140.785 86.2955 257.612 532.815 1071.7 1719.34 2439.76 2920.59 2772.09 2894.98 3214.9 4296.68 4267.77 4034.73 4282.04 3843.78 2963.17 1469.21 333.313 -89.434 -260.128 21.1005 96.5397 -84.5363 -15.3865 54.8199 150.058 209.119 69.4598 -54.3487 -111.599 -160.67 -234.946 -336.781 -407.224 -477.351 -588.173 -605.01 -746.898 433.574 -886.91 -637.843 40567 -741.846 7.45852e+09 
 -0.00270694 53.5149 -240.993 -129.394 -7.03339e+06 459.669 344.05 20.1785 5977.16 27.4407 21.1763 14.8371 8.84672 -15.847 -32.5785 -20.7081 -18.0802 -32.6659 -20.059 -56.3216 21.7834 -93.0596 -121.993 -192.706 -113.669 -352.638 -202.666 -155.583 -166.048 -445.829 -76.2661 -56.0794 -46.4278 300.944 -506.255 229.435 -63.195 10.5706 -198.277 -203.76 -336.049 47.0686 34.3536 2.51772 22.5671 24.2405 63.9197 5.58989 0.19917 38.143 50.0863 56.4813 60.0432 11.1729 -0.0478649 24.2439 -20.6881 29.4802 42.3159 95.016 23.7065 -1016.98 92.7193 71.1338 -741.846 17060.9 -1.82473e+09 
 10195.5 1.31443e+09 4.91508e+08 2.68211e+08 3.00205e+16 -1.3786e+10 -7.72788e+08 1.5703e+09 2.62016e+13 -8.75688e+08 -5.81965e+08 -4.16279e+08 -7.98737e+08 -2.02912e+08 -8.19052e+08 -5.7405e+08 -2.57004e+08 -6.10502e+08 -5.44783e+08 5.6237e+08 -2.29795e+09 1.57689e+09 7.92505e+08 -4.39764e+08 -8.19596e+08 1.68298e+08 1.16384e+09 -2.30645e+09 6.6701e+08 1.63522e+09 7.87806e+08 1.37444e+09 8.4947e+08 3.54059e+09 -4.25555e+09 2.44023e+09 2.58191e+09 -2.28979e+08 -3.4559e+09 -5.89e+09 -2.55983e+09 -7.27017e+08 5.94673e+08 2.38464e+08 8.1067e+08 1.10118e+09 3.52127e+08 1.39939e+09 1.16011e+09 1.98285e+09 4.80373e+08 1.25488e+09 -1.13963e+08 5.28862e+08 -3.05763e+08 -2.54301e+08 2.97602e+08 -3.38209e+08 -8.26974e+07 1.05606e+08 -6.62159e+08 -2.73044e+10 2.12759e+08 2.63642e+09 7.45852e+09 -1.82473e+09 2.59259e+19 
+*end
+
+*process[Recruitment]
+age: 2
+b0: 298978
+b0_initialisation_phase: 
+categories: male.nonspawn male.spawn female.nonspawn female.spawn
+label: Recruitment
+proportions: 0.5 0 0.5 0
+r0: 9.39614e+07
+ssb: SSB
+ssb_offset: 2
+standardise_ycs_years: 1958 1959 1960 1961 1962 1963 1964 1965 1966 1967 1968 1969 1970 1971 1972 1973 1974 1975 1976 1977 1978 1979 1980 1981 1982 1983 1984 1985 1986 1987 1988 1989 1990 1991 1992 1993 1994 1995 1996 1997 1998 1999 2000 2001 2002 2003 2004 2005 2006 2007 2008 2009 2010 2011 2012
+steepness: 0.9
+type: recruitment_beverton_holt
+ycs_years: 1958 1959 1960 1961 1962 1963 1964 1965 1966 1967 1968 1969 1970 1971 1972 1973 1974 1975 1976 1977 1978 1979 1980 1981 1982 1983 1984 1985 1986 1987 1988 1989 1990 1991 1992 1993 1994 1995 1996 1997 1998 1999 2000 2001 2002 2003 2004 2005 2006 2007 2008 2009 2010 2011 2012 2013 
+standardised_ycs: 0.861453 0.877393 0.896348 0.919451 0.947617 0.982973 1.03152 2.43565 1.59192 1.10443 0.793153 0.415527 0.242573 0.465608 0.312922 0.170501 0.178092 0.367859 0.147626 0.115271 0.144443 1.07009 1.04165 0.266449 0.0940741 0.384071 0.366948 0.316582 0.805251 0.359049 1.22581 0.102696 0.724339 7.75903 1.57542 0.749351 0.363536 1.56643 1.03059 0.411844 0.909128 0.545019 0.845231 1.95849 1.15946 0.701927 0.686756 0.876947 4.49136 1.77978 0.517276 2.96369 0.0263793 1.99989 0.323128 1 
+ycs_values: 0.252013 0.256676 0.262221 0.26898 0.27722 0.287563 0.301765 0.712535 0.465706 0.323093 0.232032 0.12156 0.0709633 0.136211 0.0915435 0.049879 0.0520999 0.107615 0.043187 0.0337219 0.0422559 0.313048 0.30473 0.0779481 0.0275208 0.112358 0.107349 0.0926141 0.235571 0.105038 0.358605 0.030043 0.211901 2.26986 0.460879 0.219218 0.10635 0.45825 0.301494 0.120482 0.26596 0.159442 0.247267 0.572944 0.339194 0.205345 0.200907 0.256546 1.31392 0.520666 0.151326 0.867011 0.0077171 0.585056 0.0945292 1 
+true_ycs: 0.861453 0.877393 0.896338 0.919278 0.947166 0.982241 1.0305 2.43286 1.59 1.10331 0.79384 0.416654 0.243406 0.467141 0.313407 0.170072 0.176575 0.362934 0.144967 0.112247 0.139463 1.00898 0.95566 0.239583 0.0855935 0.355694 0.339781 0.290805 0.731635 0.321049 1.07216 0.0875894 0.59682 6.51271 1.30458 0.630419 0.347362 1.53221 1.01106 0.404199 0.890541 0.532402 0.821718 1.89657 1.11422 0.668908 0.65888 0.845131 4.30822 1.6936 0.488773 2.85055 0.0256377 1.93727 0.313813 0.968355 
+Recruits: 8.09433e+07 8.2441e+07 8.42212e+07 8.63766e+07 8.8997e+07 9.22927e+07 9.68272e+07 2.28594e+08 1.49399e+08 1.03668e+08 7.45903e+07 3.91494e+07 2.28707e+07 4.38932e+07 2.94482e+07 1.59802e+07 1.65912e+07 3.41018e+07 1.36213e+07 1.05469e+07 1.31041e+07 9.48056e+07 8.97951e+07 2.25116e+07 8.04249e+06 3.34215e+07 3.19263e+07 2.73245e+07 6.87455e+07 3.01662e+07 1.00742e+08 8.23002e+06 5.6078e+07 6.11943e+08 1.2258e+08 5.9235e+07 3.26386e+07 1.43969e+08 9.50004e+07 3.79791e+07 8.36764e+07 5.00252e+07 7.72097e+07 1.78204e+08 1.04694e+08 6.28515e+07 6.19093e+07 7.94096e+07 4.04806e+08 1.59133e+08 4.59257e+07 2.67841e+08 2.40895e+06 1.82028e+08 2.94863e+07 9.0988e+07 
+SSB: 298978 298978 298862 296963 293937 291162 288709 287109 286568 288471 308595 331242 340974 339026 316627 274116 228341 200857 180091 151779 130814 94016.1 70522.8 59357.9 65466.6 77215 77088.1 71338.7 64682.7 56829.1 48542.5 41474 34397.2 37897 35283.3 38371.9 111719 165732 176335 177868 170708 161338 147271 137440 121452 107661 118496 126939 118157 105574 96463.1 123092 146463 138180 144534 137370 
+*end
+
+*process[Mortality]
+categories: male.nonspawn male.spawn female.nonspawn female.spawn
+label: Instantaneous_Mortality
+m: 0.157771 0.157771 0.166888 0.166888
+relative_m_by_age: One One One One
+time_step_ratio: 0.90000000000000002 0.10000000000000001
+type: mortality_instantaneous
+year: 1960 1961 1962 1963 1964 1965 1966 1967 1968 1969 1970 1971 1972 1973 1974 1975 1976 1977 1978 1979 1980 1981 1982 1983 1984 1985 1986 1987 1988 1989 1990 1991 1992 1993 1994 1995 1996 1997 1998 1999 2000 2001 2002 2003 2004 2005 2006 2007 2008 2009 2010 2011 2012 2013 2014 2015 
+fishing_pressure[Trawl]: 0 0 0 0 0 0 0 0 0 0 0 0.0211957 0.0553429 0.116424 0.121297 0.00823605 0.064155 0.114709 0.047789 0.237466 0.166852 0.0960913 0.114066 0.153216 0.130741 0.099799 0.211116 0.202668 0.304681 0.486756 0.388312 0.43977 0.335662 0.216697 0.0993007 0.0610641 0.0894458 0.101059 0.147491 0.155613 0.115556 0.186428 0.242294 0.198611 0.154305 0.187174 0.154454 0.181027 0.192116 0.143665 0.129237 0.201784 0.137463 0.188753 0.167039 0.160442 
+catch[Trawl]: 0 0 0 0 0 0 0 0 0 0 0 7262 18017 33868 29469 1661 11933 18460 6403 25305 12828 5989 7915 12803 10777 7490 15252 12804 17422 26611 16542 21314 14208 9316 11668 10436 16504 18923 27164 27205 18052 28232 33445 23718 19799 26190 19763 20996 20483 19040 20224 30982 21321 28606 23397 22100 
+actual_catch[Trawl]: 0 0 0 0 0 0 0 0 0 0 0 7262 18017 33868 29469 1661 11933 18460 6403 25305 12828 5989 7915 12803 10777 7490 15252 12804 17422 26611 16542 21314 14208 9316 11668 10436 16504 18923 27164 27205 18052 28232 33445 23718 19799 26190 19763 20996 20483 19040 20224 30982 21321 28606 23397 22100 
+*end
+
+*partition_mean_length[part_length_1]
+time_step: step1
+male.spawn {L}
+mean_lengths {d}
+year 2 3 4 5 6 7 8 9 10 11 12 13 14 15 
+1960 29.3107 33.8502 36.4551 39.4219 40.7614 41.8791 42.9256 43.8858 44.8865 45.3398 44.9126 46.3484 46.6014 46.8544 
+2015 27.29 29.66 33.19 35.44 37.79 38.39 39.76 41.16 43.08 43.49 42.79 43.03 44.89 46.05 
+end {L}
+female.spawn {L}
+mean_lengths {d}
+year 2 3 4 5 6 7 8 9 10 11 12 13 14 15 
+1960 30.9619 35.3521 37.9558 40.9533 43.0528 44.7691 45.7537 46.437 48.2958 48.6735 49.1558 50.1777 50.3326 50.4874 
+2015 28.39 31.48 34.17 36.84 39.21 40.82 42.21 44.07 45.03 46.51 47.31 48.17 49.76 49.55 
+end {L}
+male.nonspawn {L}
+mean_lengths {d}
+year 2 3 4 5 6 7 8 9 10 11 12 13 14 15 
+1960 29.3107 33.8502 36.4551 39.4219 40.7614 41.8791 42.9256 43.8858 44.8865 45.3398 44.9126 46.3484 46.6014 46.8544 
+2015 27.29 29.66 33.19 35.44 37.79 38.39 39.76 41.16 43.08 43.49 42.79 43.03 44.89 46.05 
+end {L}
+female.nonspawn {L}
+mean_lengths {d}
+year 2 3 4 5 6 7 8 9 10 11 12 13 14 15 
+1960 30.9619 35.3521 37.9558 40.9533 43.0528 44.7691 45.7537 46.437 48.2958 48.6735 49.1558 50.1777 50.3326 50.4874 
+2015 28.39 31.48 34.17 36.84 39.21 40.82 42.21 44.07 45.03 46.51 47.31 48.17 49.76 49.55 
+end {L}
+*end
+
+*partition_mean_length[part_length_2]
+time_step: step2
+male.spawn {L}
+mean_lengths {d}
+year 2 3 4 5 6 7 8 9 10 11 12 13 14 15 
+1960 28.7563 32.7502 36.1898 38.5293 40.6035 41.7851 42.8088 43.7386 44.5516 45.2174 45.5484 45.757 46.6014 46.8544 
+2015 28.7563 30.78 33.93 35.63 38.05 38.94 39.87 41.21 42.7 43.39 42.87 43.12 45.15 46.24 
+end {L}
+female.spawn {L}
+mean_lengths {d}
+year 2 3 4 5 6 7 8 9 10 11 12 13 14 15 
+1960 28.9163 34.3972 37.8326 40.313 42.6702 44.3872 45.7216 46.6742 47.5947 48.7523 49.2088 49.7442 50.3326 50.4874 
+2015 28.9163 32.43 35.08 37.11 39.55 40.88 42.2 44 45.43 46.76 47.56 48.3 49.58 49.75 
+end {L}
+male.nonspawn {L}
+mean_lengths {d}
+year 2 3 4 5 6 7 8 9 10 11 12 13 14 15 
+1960 28.7563 32.7502 36.1898 38.5293 40.6035 41.7851 42.8088 43.7386 44.5516 45.2174 45.5484 45.757 46.6014 46.8544 
+2015 28.7563 30.78 33.93 35.63 38.05 38.94 39.87 41.21 42.7 43.39 42.87 43.12 45.15 46.24 
+end {L}
+female.nonspawn {L}
+mean_lengths {d}
+year 2 3 4 5 6 7 8 9 10 11 12 13 14 15 
+1960 28.9163 34.3972 37.8326 40.313 42.6702 44.3872 45.7216 46.6742 47.5947 48.7523 49.2088 49.7442 50.3326 50.4874 
+2015 28.9163 32.43 35.08 37.11 39.55 40.88 42.2 44 45.43 46.76 47.56 48.3 49.58 49.75 
+end {L}
+*end
+
+*partition_mean_weight[part_weight_1]
+time_step: step1
+male.spawn {L}
+mean_weights {d}
+year 2 3 4 5 6 7 8 9 10 11 12 13 14 15 
+1960 0.000146523 0.000189556 0.000268372 0.000328714 0.000400897 0.000420907 0.000469107 0.000522085 0.000601124 0.00061899 0.0005887 0.000598969 0.0006827 0.000738737 
+2015 0.000146523 0.000189556 0.000268372 0.000328714 0.000400897 0.000420907 0.000469107 0.000522085 0.000601124 0.00061899 0.0005887 0.000598969 0.0006827 0.000738737 
+end {L}
+female.spawn {L}
+mean_weights {d}
+year 2 3 4 5 6 7 8 9 10 11 12 13 14 15 
+1960 0.000160187 0.000221848 0.000287276 0.000364158 0.000443238 0.000503179 0.00055919 0.000640604 0.000685628 0.000759201 0.000801129 0.000847935 0.000939329 0.00092689 
+2015 0.000160187 0.000221848 0.000287276 0.000364158 0.000443238 0.000503179 0.00055919 0.000640604 0.000685628 0.000759201 0.000801129 0.000847935 0.000939329 0.00092689 
+end {L}
+male.nonspawn {L}
+mean_weights {d}
+year 2 3 4 5 6 7 8 9 10 11 12 13 14 15 
+1960 0.000146523 0.000189556 0.000268372 0.000328714 0.000400897 0.000420907 0.000469107 0.000522085 0.000601124 0.00061899 0.0005887 0.000598969 0.0006827 0.000738737 
+2015 0.000146523 0.000189556 0.000268372 0.000328714 0.000400897 0.000420907 0.000469107 0.000522085 0.000601124 0.00061899 0.0005887 0.000598969 0.0006827 0.000738737 
+end {L}
+female.nonspawn {L}
+mean_weights {d}
+year 2 3 4 5 6 7 8 9 10 11 12 13 14 15 
+1960 0.000160187 0.000221848 0.000287276 0.000364158 0.000443238 0.000503179 0.00055919 0.000640604 0.000685628 0.000759201 0.000801129 0.000847935 0.000939329 0.00092689 
+2015 0.000160187 0.000221848 0.000287276 0.000364158 0.000443238 0.000503179 0.00055919 0.000640604 0.000685628 0.000759201 0.000801129 0.000847935 0.000939329 0.00092689 
+end {L}
+*end
+
+*partition_mean_weight[part_weight_2]
+time_step: step2
+male.spawn {L}
+mean_weights {d}
+year 2 3 4 5 6 7 8 9 10 11 12 13 14 15 
+1960 0.00017226 0.000212574 0.000287309 0.000334194 0.000409487 0.000439833 0.000473131 0.000524049 0.00058488 0.0006146 0.00059211 0.000602851 0.000695001 0.000748202 
+2015 0.00017226 0.000212574 0.000287309 0.000334194 0.000409487 0.000439833 0.000473131 0.000524049 0.00058488 0.0006146 0.00059211 0.000602851 0.000695001 0.000748202 
+end {L}
+female.spawn {L}
+mean_weights {d}
+year 2 3 4 5 6 7 8 9 10 11 12 13 14 15 
+1960 0.000169735 0.000243644 0.000312089 0.000372637 0.000455466 0.000505514 0.000558773 0.000637402 0.000705009 0.000772138 0.000814548 0.000855169 0.00092866 0.000938734 
+2015 0.000169735 0.000243644 0.000312089 0.000372637 0.000455466 0.000505514 0.000558773 0.000637402 0.000705009 0.000772138 0.000814548 0.000855169 0.00092866 0.000938734 
+end {L}
+male.nonspawn {L}
+mean_weights {d}
+year 2 3 4 5 6 7 8 9 10 11 12 13 14 15 
+1960 0.00017226 0.000212574 0.000287309 0.000334194 0.000409487 0.000439833 0.000473131 0.000524049 0.00058488 0.0006146 0.00059211 0.000602851 0.000695001 0.000748202 
+2015 0.00017226 0.000212574 0.000287309 0.000334194 0.000409487 0.000439833 0.000473131 0.000524049 0.00058488 0.0006146 0.00059211 0.000602851 0.000695001 0.000748202 
+end {L}
+female.nonspawn {L}
+mean_weights {d}
+year 2 3 4 5 6 7 8 9 10 11 12 13 14 15 
+1960 0.000169735 0.000243644 0.000312089 0.000372637 0.000455466 0.000505514 0.000558773 0.000637402 0.000705009 0.000772138 0.000814548 0.000855169 0.00092866 0.000938734 
+2015 0.000169735 0.000243644 0.000312089 0.000372637 0.000455466 0.000505514 0.000558773 0.000637402 0.000705009 0.000772138 0.000814548 0.000855169 0.00092866 0.000938734 
+end {L}
+*end
+
+*selectivity[MaturationSel_male]
+h: 6 
+intervals: 5 
+l: 2 
+label: MaturationSel_male 
+length_based: 0 
+partition_type: model 
+type: all_values_bounded 
+v: 0.0852945 0.733465 0.581956 0.001 0.99 
+Values {v}
+2 0.0852945
+3 0.733465
+4 0.581956
+5 0.001
+6 0.99
+7 0.99
+8 0.99
+9 0.99
+10 0.99
+11 0.99
+12 0.99
+13 0.99
+14 0.99
+15 0.99
+*end
+
+*selectivity[MaturationSel_female]
+h: 6 
+intervals: 5 
+l: 2 
+label: MaturationSel_female 
+length_based: 0 
+partition_type: model 
+type: all_values_bounded 
+v: 0.0190108 0.514065 0.939775 0.999 0.99 
+Values {v}
+2 0.0190108
+3 0.514065
+4 0.939775
+5 0.999
+6 0.99
+7 0.99
+8 0.99
+9 0.99
+10 0.99
+11 0.99
+12 0.99
+13 0.99
+14 0.99
+15 0.99
+*end
+
+*observation[TangaroaAcousticMature]
+observation_type: biomass
+likelihood: lognormal
+Values {d}
+year category age length observed expected residual error_value process_error adjusted_error neglogLike
+1993 male.spawn+female.spawn 0 0 16060 18828.7 -2768.75 0.24 0.0001 0.24 -1.28784
+1994 male.spawn+female.spawn 0 0 72168 54819.3 17348.7 0.34 0.0001 0.34 -0.609711
+1995 male.spawn+female.spawn 0 0 53608 81323.4 -27715.4 0.3 0.0001 0.3 -0.415651
+1998 male.spawn+female.spawn 0 0 91639 83764.8 7874.21 0.14 0.0001 0.14 -1.7157
+2000 male.spawn+female.spawn 0 0 71749 72264.4 -515.361 0.17 0.0001 0.17 -1.77821
+2002 male.spawn+female.spawn 0 0 66034 59595.5 6438.51 0.68 0.0001 0.68 -0.371038
+2004 male.spawn+female.spawn 0 0 42236 58144.8 -15908.8 0.35 0.0001 0.35 -0.782243
+2006 male.spawn+female.spawn 0 0 43843 57978.6 -14135.6 0.32 0.0001 0.32 -0.891008
+2009 male.spawn+female.spawn 0 0 99521 60400.1 39120.9 0.27 0.0001 0.27 0.703483
+2011 male.spawn+female.spawn 0 0 53299 67803.8 -14504.8 0.22 0.0001 0.22 -1.02754
+2013 male.spawn+female.spawn 0 0 65801 67406.4 -1605.42 0.25 0.0001 0.25 -1.40121
+*end
+
+*observation[TangaroaAcousticImmature]
+observation_type: biomass
+likelihood: lognormal
+Values {d}
+year category age length observed expected residual error_value process_error adjusted_error neglogLike
+1993 male.nonspawn+female.nonspawn 0 0 35208 19170.9 16037.1 0.25 0.001 0.250002 1.95756
+1994 male.nonspawn+female.nonspawn 0 0 8018 17222.9 -9204.88 0.38 0.001 0.380001 0.799758
+1995 male.nonspawn+female.nonspawn 0 0 15507 7608.65 7898.35 0.29 0.001 0.290002 2.24688
+1998 male.nonspawn+female.nonspawn 0 0 6759 6351.65 407.345 0.2 0.001 0.200002 -1.53402
+2000 male.nonspawn+female.nonspawn 0 0 1864 4499.99 -2635.99 0.24 0.001 0.240002 5.06028
+2002 male.nonspawn+female.nonspawn 0 0 247 4369.03 -4122.03 0.76 0.001 0.760001 7.27968
+2004 male.nonspawn+female.nonspawn 0 0 5617 8657.48 -3040.48 0.16 0.001 0.160003 1.64998
+2006 male.nonspawn+female.nonspawn 0 0 3423 4971.94 -1548.94 0.24 0.001 0.240002 -0.376721
+2009 male.nonspawn+female.nonspawn 0 0 24479 12690.9 11788.1 0.26 0.001 0.260002 2.27182
+2011 male.nonspawn+female.nonspawn 0 0 14454 9573.45 4880.55 0.17 0.001 0.170003 1.40903
+2013 male.nonspawn+female.nonspawn 0 0 8004 6055.31 1948.69 0.55 0.001 0.550001 -0.345549
 *end
 
 *covariance_matrix[Covar]
@@ -5946,5 +5946,5 @@ warning_4 {s}
 estimated parameter 'observation[TangaroaAcousticMature].process_error' was within 0.001 of lower bound 0.0001
 *end
 
-Total elapsed time: 1.283 minutes
+Total elapsed time: 1.267 minutes
 Completed

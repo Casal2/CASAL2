@@ -1,9 +1,9 @@
 Casal2
 Call: ..\..\..\..\..\BuildSystem\bin\windows\release_cppad\casal2 -e -o params_est.out 
-Date: Mon Jul 27 04:23:20 2020
-Version: 2020-07-23 20:20:57 UTC (rev. 592f395e)
+Date: Wed Jul 29 04:48:21 2020
+Version: 2020-07-28 08:18:28 UTC (rev. 258dfb65)
 Copyright (c) 2020 - 2020, NIWA (www.niwa.co.nz)
-Environment: machine:niwa-computer, user:niwauser, os:Windows_NT, pid:7360
+Environment: machine:niwa-computer, user:niwauser, os:Windows_NT, pid:12540
 
 This is Ipopt version 3.11.9, running with linear solver mumps.
 NOTE: Other linear solvers might be more efficient (see Ipopt documentation).
@@ -157,8 +157,8 @@ Number of inequality constraint evaluations          = 820
 Number of equality constraint Jacobian evaluations   = 0
 Number of inequality constraint Jacobian evaluations = 101
 Number of Lagrangian Hessian evaluations             = 100
-Total CPU secs in IPOPT (w/o function evaluations)   =      4.390
-Total CPU secs in NLP function evaluations           =    623.763
+Total CPU secs in IPOPT (w/o function evaluations)   =      4.381
+Total CPU secs in NLP function evaluations           =    692.741
 
 EXIT: Maximum Number of Iterations Exceeded.
 *initialisation_partition[Init]
@@ -286,7 +286,7 @@ SSB: 27506.5 27505.6 27502.7 27500.9 27501.1 27501.3 27501.4 27501.5 27463.4 274
 categories: immature mature
 label: Fishing_Mortality
 m: 0.045 0.045
-selectivities: One One
+relative_m_by_age: One One
 time_step_ratio: 1
 type: mortality_instantaneous
 year: 1979 1980 1981 1982 1983 1984 1985 1986 1987 1988 1989 1990 1991 1992 1993 1994 1995 1996 1997 1998 1999 2000 2001 2002 2003 2004 2005 
@@ -795,5 +795,5 @@ correlation_matrix {m}
 Qandes: 0.000113745 
 *end
 
-Total elapsed time: 10.467 minutes
+Total elapsed time: 11.633 minutes
 Completed

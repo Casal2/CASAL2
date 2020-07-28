@@ -1,9 +1,9 @@
 Casal2
 Call: ..\..\..\..\..\BuildSystem\bin\windows\release_adolc\casal2 -e -o params_est.out 
-Date: Mon Jul 27 04:44:03 2020
-Version: 2020-07-23 20:20:57 UTC (rev. 592f395e)
+Date: Wed Jul 29 05:10:15 2020
+Version: 2020-07-28 08:18:28 UTC (rev. 258dfb65)
 Copyright (c) 2020 - 2020, NIWA (www.niwa.co.nz)
-Environment: machine:niwa-computer, user:niwauser, os:Windows_NT, pid:10916
+Environment: machine:niwa-computer, user:niwauser, os:Windows_NT, pid:11996
 
 *initialisation_partition[Init]
 values {d}
@@ -37,6 +37,98 @@ process[Recruitment].b0 age_length[age_len_label].cv_first age_length[age_len_la
 std_dev {d}
 process[Recruitment].b0 age_length[age_len_label].cv_first age_length[age_len_label].cv_last selectivity[SELandes].a50 selectivity[SELandes].ato95 
 1133.22 0.0135853 0.00777419 1.85895 1.78991 
+*end
+
+*estimate_summary[estimated_summary]
+process[Recruitment].b0 {L}
+value: 27506.5
+std_dev: 1133.22
+estimation_phase: 1 
+label: B0 
+lower_bound: 1e4 
+mcmc: 
+parameter: process[Recruitment].b0 
+prior_applies_to_transform: 
+same: 
+transform_with_jacobian: 
+transformation: 
+type: uniform_log 
+upper_bound: 1e5 
+end {L}
+
+age_length[age_len_label].cv_first {L}
+value: 0.102891
+std_dev: 0.0135853
+estimation_phase: 1 
+label: age_len_cv_first 
+lognormal_transfomration: 
+lower_bound: 0.01 
+mcmc: 
+mu: 0.15 
+parameter: age_length[age_len_label].cv_first 
+prior_applies_to_transform: 
+same: 
+sigma: 0.025 
+transform_with_jacobian: 
+transformation: 
+type: normal_by_stdev 
+upper_bound: 1.0 
+end {L}
+
+age_length[age_len_label].cv_last {L}
+value: 0.0310498
+std_dev: 0.00777419
+cv: 0.5 
+estimation_phase: 1 
+label: age_len_cv_last 
+lower_bound: 0.01 
+mcmc: 
+mu: 0.1 
+parameter: age_length[age_len_label].cv_last 
+prior_applies_to_transform: 
+same: 
+transform_with_jacobian: 
+transformation: 
+type: normal 
+upper_bound: 1.0 
+end {L}
+
+selectivity[SELandes].a50 {L}
+value: 33.6382
+std_dev: 1.85895
+cv: 0.3 
+estimation_phase: 1 
+label: fishery_sel_a50 
+lower_bound: 5 
+mcmc: 
+mu: 35 
+parameter: selectivity[SELandes].a50 
+prior_applies_to_transform: 
+same: 
+transform_with_jacobian: 
+transformation: 
+type: normal 
+upper_bound: 80 
+end {L}
+
+selectivity[SELandes].ato95 {L}
+value: 8.35291
+std_dev: 1.78991
+cv: 0.5 
+estimation_phase: 1 
+label: fishery_sel_ato95 
+lower_bound: 1 
+mcmc: 
+mu: 5 
+parameter: selectivity[SELandes].ato95 
+prior_applies_to_transform: 
+same: 
+transform_with_jacobian: 
+transformation: 
+type: normal 
+upper_bound: 20 
+end {L}
+
 *end
 
 *objective_function[obj_fun]
@@ -105,6 +197,33 @@ values {v}
 end {L}
 *end
 
+*hessian_matrix[Hess]
+hessian_matrix {m}
+4.0928 2959.99 -522.11 -3715.11 2198.59 
+2959.99 2.1505e+06 -368947 -2.68686e+06 1.5901e+06 
+-522.11 -368947 91049.5 473910 -280439 
+-3715.11 -2.68686e+06 473910 3.37228e+06 -1.9957e+06 
+2198.59 1.5901e+06 -280439 -1.9957e+06 1.18105e+06 
+*end
+
+*covariance_matrix[Covar]
+covariance_matrix {m}
+1.28418e+06 0.218158 0.614287 1770.86 601.637 
+0.218158 0.000184561 -5.72244e-05 -0.00553407 -0.0100195 
+0.614287 -5.72244e-05 6.0438e-05 0.00156369 0.00159014 
+1770.86 -0.00553407 0.00156369 3.45568 2.55057 
+601.637 -0.0100195 0.00159014 2.55057 3.20377 
+*end
+
+*correlation_matrix[Corr]
+correlation_matrix {m}
+1 0.0141706 0.0697274 0.840632 0.296614 
+0.0141706 1 -0.541821 -0.219133 -0.412046 
+0.0697274 -0.541821 1 0.1082 0.114274 
+0.840632 -0.219133 0.1082 1 0.766549 
+0.296614 -0.412046 0.114274 0.766549 1 
+*end
+
 *process[Recruitment]
 age: 1
 b0: 27506.5
@@ -130,13 +249,17 @@ SSB: 27506.5 27505.6 27502.8 27501 27501.1 27501.3 27501.4 27501.6 27463.4 27425
 categories: immature mature
 label: Fishing_Mortality
 m: 0.045 0.045
-selectivities: One One
+relative_m_by_age: One One
 time_step_ratio: 1
 type: mortality_instantaneous
 year: 1979 1980 1981 1982 1983 1984 1985 1986 1987 1988 1989 1990 1991 1992 1993 1994 1995 1996 1997 1998 1999 2000 2001 2002 2003 2004 2005 
 fishing_pressure[AndesFishery]: 8.35145e-05 0.000167041 0 0 0 4.17657e-06 0 0.003383 0 0.000502642 0.00138277 0.00599878 0.00527087 0.369107 0.210419 0.267243 0.133806 0.123381 0.073859 0.160855 0.139442 0.261481 0.190134 0.398647 0.638149 0.545011 0.67 
 catch[AndesFishery]: 2 4 0 0 0 0.1 0 81 0 12 33 143 125 8715 3358 3543 1407 1192 667 1425 1132 1999 1244 2415 3038 1713 1713 
 actual_catch[AndesFishery]: 2 4 0 0 0 0.1 0 81 0 12 33 143 125 8715 3358 3543 1407 1192 667 1425 1132 1999 1244 2415 3038 1713 1713 
+*end
+
+*catchability[nuisance_Q]
+Qandes: 0.000113745 
 *end
 
 *selectivity[maturity_ogive]
@@ -516,128 +639,5 @@ year category age length observed expected residual error_value process_error ad
 2003 immature+mature 0 45 0 5.14877e-06 -5.14877e-06 83 0 83 0 -0.0206724
 *end
 
-*estimate_summary[estimated_summary]
-process[Recruitment].b0 {L}
-value: 27506.5
-std_dev: 1133.22
-estimation_phase: 1 
-label: B0 
-lower_bound: 1e4 
-mcmc: 
-parameter: process[Recruitment].b0 
-prior_applies_to_transform: 
-same: 
-transform_with_jacobian: 
-transformation: 
-type: uniform_log 
-upper_bound: 1e5 
-end {L}
-
-age_length[age_len_label].cv_first {L}
-value: 0.102891
-std_dev: 0.0135853
-estimation_phase: 1 
-label: age_len_cv_first 
-lognormal_transfomration: 
-lower_bound: 0.01 
-mcmc: 
-mu: 0.15 
-parameter: age_length[age_len_label].cv_first 
-prior_applies_to_transform: 
-same: 
-sigma: 0.025 
-transform_with_jacobian: 
-transformation: 
-type: normal_by_stdev 
-upper_bound: 1.0 
-end {L}
-
-age_length[age_len_label].cv_last {L}
-value: 0.0310498
-std_dev: 0.00777419
-cv: 0.5 
-estimation_phase: 1 
-label: age_len_cv_last 
-lower_bound: 0.01 
-mcmc: 
-mu: 0.1 
-parameter: age_length[age_len_label].cv_last 
-prior_applies_to_transform: 
-same: 
-transform_with_jacobian: 
-transformation: 
-type: normal 
-upper_bound: 1.0 
-end {L}
-
-selectivity[SELandes].a50 {L}
-value: 33.6382
-std_dev: 1.85895
-cv: 0.3 
-estimation_phase: 1 
-label: fishery_sel_a50 
-lower_bound: 5 
-mcmc: 
-mu: 35 
-parameter: selectivity[SELandes].a50 
-prior_applies_to_transform: 
-same: 
-transform_with_jacobian: 
-transformation: 
-type: normal 
-upper_bound: 80 
-end {L}
-
-selectivity[SELandes].ato95 {L}
-value: 8.35291
-std_dev: 1.78991
-cv: 0.5 
-estimation_phase: 1 
-label: fishery_sel_ato95 
-lower_bound: 1 
-mcmc: 
-mu: 5 
-parameter: selectivity[SELandes].ato95 
-prior_applies_to_transform: 
-same: 
-transform_with_jacobian: 
-transformation: 
-type: normal 
-upper_bound: 20 
-end {L}
-
-*end
-
-*hessian_matrix[Hess]
-hessian_matrix {m}
-4.0928 2959.99 -522.11 -3715.11 2198.59 
-2959.99 2.1505e+06 -368947 -2.68686e+06 1.5901e+06 
--522.11 -368947 91049.5 473910 -280439 
--3715.11 -2.68686e+06 473910 3.37228e+06 -1.9957e+06 
-2198.59 1.5901e+06 -280439 -1.9957e+06 1.18105e+06 
-*end
-
-*covariance_matrix[Covar]
-covariance_matrix {m}
-1.28418e+06 0.218158 0.614287 1770.86 601.637 
-0.218158 0.000184561 -5.72244e-05 -0.00553407 -0.0100195 
-0.614287 -5.72244e-05 6.0438e-05 0.00156369 0.00159014 
-1770.86 -0.00553407 0.00156369 3.45568 2.55057 
-601.637 -0.0100195 0.00159014 2.55057 3.20377 
-*end
-
-*correlation_matrix[Corr]
-correlation_matrix {m}
-1 0.0141706 0.0697274 0.840632 0.296614 
-0.0141706 1 -0.541821 -0.219133 -0.412046 
-0.0697274 -0.541821 1 0.1082 0.114274 
-0.840632 -0.219133 0.1082 1 0.766549 
-0.296614 -0.412046 0.114274 0.766549 1 
-*end
-
-*catchability[nuisance_Q]
-Qandes: 0.000113745 
-*end
-
-Total elapsed time: 3.983 minutes
+Total elapsed time: 3.967 minutes
 Completed

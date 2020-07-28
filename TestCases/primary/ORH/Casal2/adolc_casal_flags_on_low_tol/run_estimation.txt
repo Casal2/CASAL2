@@ -1,9 +1,9 @@
 Casal2
 Call: ..\..\..\..\..\BuildSystem\bin\windows\release_adolc\casal2 -e -o params_est.out 
-Date: Mon Jul 27 04:51:05 2020
-Version: 2020-07-23 20:20:57 UTC (rev. 592f395e)
+Date: Wed Jul 29 05:17:19 2020
+Version: 2020-07-28 08:18:28 UTC (rev. 258dfb65)
 Copyright (c) 2020 - 2020, NIWA (www.niwa.co.nz)
-Environment: machine:niwa-computer, user:niwauser, os:Windows_NT, pid:6104
+Environment: machine:niwa-computer, user:niwauser, os:Windows_NT, pid:8172
 
 *initialisation_partition[Init]
 values {d}
@@ -130,7 +130,7 @@ SSB: 27500.6 27499.7 27496.9 27495 27495.2 27495.4 27495.5 27495.7 27457.5 27419
 categories: immature mature
 label: Fishing_Mortality
 m: 0.045 0.045
-selectivities: One One
+relative_m_by_age: One One
 time_step_ratio: 1
 type: mortality_instantaneous
 year: 1979 1980 1981 1982 1983 1984 1985 1986 1987 1988 1989 1990 1991 1992 1993 1994 1995 1996 1997 1998 1999 2000 2001 2002 2003 2004 2005 
@@ -516,10 +516,6 @@ year category age length observed expected residual error_value process_error ad
 2003 immature+mature 0 45 0 1.46024e-05 -1.46024e-05 83 0 83 0 -0.034814
 *end
 
-*catchability[nuisance_Q]
-Qandes: 0.000113594 
-*end
-
 *estimate_summary[estimated_summary]
 process[Recruitment].b0 {L}
 value: 27500.6
@@ -639,5 +635,9 @@ correlation_matrix {m}
 0.285845 -0.424523 0.125961 0.776245 1 
 *end
 
-Total elapsed time: 3.183 minutes
+*catchability[nuisance_Q]
+Qandes: 0.000113594 
+*end
+
+Total elapsed time: 3.05 minutes
 Completed

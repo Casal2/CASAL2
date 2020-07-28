@@ -1,9 +1,9 @@
 Casal2
 Call: ..\..\..\..\..\BuildSystem\bin\windows\release_adolc\casal2 -e -o params_est.out 
-Date: Mon Jul 27 06:07:29 2020
-Version: 2020-07-23 20:20:57 UTC (rev. 592f395e)
+Date: Wed Jul 29 06:32:57 2020
+Version: 2020-07-28 08:18:28 UTC (rev. 258dfb65)
 Copyright (c) 2020 - 2020, NIWA (www.niwa.co.nz)
-Environment: machine:niwa-computer, user:niwauser, os:Windows_NT, pid:6748
+Environment: machine:niwa-computer, user:niwauser, os:Windows_NT, pid:3708
 
 [WARNING] C:\workspace\casal2-windows-rlibrary\CASAL2\source\Estimates\Manager.cpp(line: 95): Estimates were removed because of matching lower and upper bounds. Originally had 69 estimates, now have 67
 *initialisation_partition[Init]
@@ -294,7 +294,7 @@ SSB: 299610 299610 299493 297572 294533 291678 289165 287489 286851 288617 30845
 categories: male.nonspawn male.spawn female.nonspawn female.spawn
 label: Instantaneous_Mortality
 m: 0.157447 0.157447 0.16651 0.16651
-selectivities: One One One One
+relative_m_by_age: One One One One
 time_step_ratio: 0.90000000000000002 0.10000000000000001
 type: mortality_instantaneous
 year: 1960 1961 1962 1963 1964 1965 1966 1967 1968 1969 1970 1971 1972 1973 1974 1975 1976 1977 1978 1979 1980 1981 1982 1983 1984 1985 1986 1987 1988 1989 1990 1991 1992 1993 1994 1995 1996 1997 1998 1999 2000 2001 2002 2003 2004 2005 2006 2007 2008 2009 2010 2011 2012 2013 2014 2015 
@@ -501,6 +501,11 @@ year category age length observed expected residual error_value process_error ad
 2009 male.nonspawn+female.nonspawn 0 0 24479 12752.2 11726.8 0.26 0.001 0.260002 2.22115
 2011 male.nonspawn+female.nonspawn 0 0 14454 9488.67 4965.33 0.17 0.001 0.170003 1.54348
 2013 male.nonspawn+female.nonspawn 0 0 8004 6227.7 1776.3 0.55 0.001 0.550001 -0.387731
+*end
+
+*catchability[Qs]
+TangaroaMatureq: 0.490294 
+TangaroaImmatureq: 0.389118 
 *end
 
 *estimate_summary[estimated_summary]
@@ -1906,11 +1911,6 @@ correlation_matrix {m}
 -0.00201185 -0.00557123 -0.011045 -0.00772528 -0.00672349 -0.00432721 0.000603815 0.00369668 -0.0162616 -0.00623112 0.00561507 -0.000389294 -0.00391069 -0.0144514 -0.00123828 0.00115116 0.0104814 0.0133956 -0.0198033 0.0101559 0.00274081 0.00460234 -0.00110359 -0.000233401 -0.00165419 0.00553211 0.0014216 0.00112308 -0.000690165 0.0011461 0.00315532 0.00635712 -0.00275514 0.0216948 -0.00168624 -0.0116466 0.0101382 0.00417942 -8.01173e-05 0.000493056 0.00380053 0.00238733 0.00446621 0.00433831 0.00863525 0.00102536 -0.00118533 0.00440909 -0.0010924 0.000847724 0.00263793 0.00978941 0.00494086 0.00635207 0.000829108 -4.4054e-05 0.00077022 0.0020504 0.00198129 0.00273816 0.00265051 -0.00367169 0.00996448 0.012029 0.00502588 0.00301822 1 
 *end
 
-*catchability[Qs]
-TangaroaMatureq: 0.490294 
-TangaroaImmatureq: 0.389118 
-*end
-
 *warnings[warnings_encounted]
 warnings_found: 4
 warning_0 {s}
@@ -1923,5 +1923,5 @@ warning_3 {s}
 estimated parameter 'observation[TangaroaAcousticMature].process_error' was within 0.001 of lower bound 0.0001
 *end
 
-Total elapsed time: 1.367 minutes
+Total elapsed time: 1.15 minutes
 Completed
