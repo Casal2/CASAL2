@@ -60,7 +60,7 @@ TEST_F(BasicModel, Processes_Mortality_Constant_Rate) {
   process->parameters().Add(PARAM_TYPE, "constant_rate", __FILE__, __LINE__);
   process->parameters().Add(PARAM_CATEGORIES, mortality_categories, __FILE__, __LINE__);
   process->parameters().Add(PARAM_M, "0.065", __FILE__, __LINE__);
-  process->parameters().Add(PARAM_SELECTIVITIES, "constant_one", __FILE__, __LINE__);
+  process->parameters().Add(PARAM_RELATIVE_M_BY_AGE, "constant_one", __FILE__, __LINE__);
 
   // Ageing process
   vector<string> ageing_categories   = { "immature.male", "immature.female" };

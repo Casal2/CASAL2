@@ -50,7 +50,7 @@ Observation data include:
 Parameters estimated include:
 
 * B0
-* process error for the immature and mature survey indices
+* process error for the mature survey index
 * the average of and difference between male and female natural mortality
 * sex-specific migration rates
 * YCS (recruitment deviations)
@@ -78,6 +78,7 @@ source('../../R-functions/report_read_in_Casal2_MPD_files.R')
 
 \newpage
 \blandscape
+
 ## Tables
 
 Tables of parameter estimates and objective function components for the CASAL and Casal2 model MPD results
@@ -119,6 +120,7 @@ source('../../R-functions/report_print_warnings.R')
 ```{r huxtables_close, echo=FALSE}
 options(scipen=0)
 ```
+
 \elandscape
 \newpage
 

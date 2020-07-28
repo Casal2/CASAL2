@@ -13,6 +13,18 @@ evaluations 1000000
 tolerance 0.000000001
 covariance True
 
+
+@mcmc mcmc
+start 0
+length 11000000
+keep 10000
+step_size 0.002
+adapt_stepsize_at 50000 100000 150000 200000 500000
+proposal_distribution t
+adapt_stepsize_method double_half
+max_correlation 0.8
+
+
 ################################### Estimates ###############################
 ## Format for parameter in @estimate block = type[label].parameter
 #######
@@ -69,7 +81,7 @@ parameter process[Instantaneous_Mortality].m{male.nonspawn}
 same process[Instantaneous_Mortality].m{male.spawn}
 mu 0.20
 cv 0.20
-estimation_phase 2
+estimation_phase 1
 lower_bound 0.05
 upper_bound 0.75
 prior_applies_to_transform true
@@ -77,7 +89,7 @@ prior_applies_to_transform true
 # female
 @estimate M_female_with_diff_prior
 type normal_by_stdev
-estimation_phase 2
+estimation_phase 1
 parameter process[Instantaneous_Mortality].m{female.nonspawn}
 same process[Instantaneous_Mortality].m{female.spawn}
 mu 0.0
@@ -102,11 +114,11 @@ type uniform_log
 lower_bound 0.0001
 upper_bound 1.0
 
-@estimate immature_process_error
-parameter observation[TangaroaAcousticImmature].process_error
-type uniform_log
-lower_bound 0.0001
-upper_bound 1.0
+#@estimate immature_process_error
+#parameter observation[TangaroaAcousticImmature].process_error
+#type uniform_log
+#lower_bound 0.0001
+#upper_bound 1.0
 
 ################################### Penalties ###############################
 @penalty CatchMustBeTaken

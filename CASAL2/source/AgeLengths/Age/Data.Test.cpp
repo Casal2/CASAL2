@@ -84,7 +84,7 @@ standardise_ycs_years 1973:1999
 @mortality halfm
 type constant_rate
 categories male female
-selectivities [type=constant; c=1] halfm.one
+relative_m_by_age [type=constant; c=1] halfm.one
 m 0.10 0.10
 
 @mortality fishing
@@ -200,8 +200,8 @@ end_table
 @length_weight lw
 type basic
 units tonnes
-a 4.79e-09 
-b 2.89 
+a 4.79e-09
+b 2.89
 
 
 @observation chatOBS

@@ -173,7 +173,6 @@ m
 max_age
 max_correlation
 max_generations
-max_iter
 mcmc
 mean
 method
@@ -216,6 +215,7 @@ q
 r
 r0
 rates
+relative_m_by_age
 retape
 rho
 s
@@ -257,7 +257,6 @@ time_step_proportions
 time_step_ratio
 time_steps
 to
-tol
 tolerance
 total_categories
 transform_with_jacobian

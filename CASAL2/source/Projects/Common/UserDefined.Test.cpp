@@ -34,7 +34,7 @@ using niwa::testfixtures::InternalEmptyModel;
 const std::string test_cases_mode_with_mortality_instantaneous =
 R"(
 @model
-start_year 1970 
+start_year 1970
 final_year 2012
 projection_final_year 2015
 min_age 1
@@ -47,25 +47,25 @@ time_steps step1 step2 step3
 @categories
 format stock
 names stock
-age_lengths age_size 
+age_lengths age_size
 
 @initialisation_phase iphase1
 type iterative
 years 100
 
-@time_step step1 
+@time_step step1
 processes Recruitment fishing
 
 @time_step step2
-processes M 
+processes M
 
 @time_step step3
-processes M Ageing 
+processes M Ageing
 
 @process Recruitment
 type recruitment_beverton_holt
 categories stock
-proportions 1 
+proportions 1
 r0 6065920
 ycs_years 1969:2011
 standardise_ycs_years 1969 1970 1971 1972 1973 1974 1975 1976 1977 1978 1979 1980 1981 1982 1983 1984 1985 1986 1987 1988 1989 1990 1991 1992 1993 1994 1995 1996 1997 1998 1999 2000 2001 2002 2003 2004 2005 2006 2007 2008 2009 2010 2011
@@ -83,7 +83,7 @@ categories stock
 type mortality_constant_rate
 categories stock
 M 0.19
-selectivities One
+relative_m_by_age One
 time_step_ratio 0.25 0.33
 
 @derived_quantity biomass_t1
@@ -135,7 +135,7 @@ length_weight size_weight3
 
 @length_weight size_weight3
 type basic
-units kgs 
+units kgs
 a 2.0e-6
 b 3.288
 
@@ -143,11 +143,11 @@ b 3.288
 @process fishing
 type mortality_instantaneous
 m 0.0798
-selectivities One
+relative_m_by_age One
 categories stock
 table catches
 year FishingWest FishingEest
-1975 80000 111000                                                            
+1975 80000 111000
 1976 152000 336000
 1977 74000 1214000
 1978 28000 6000

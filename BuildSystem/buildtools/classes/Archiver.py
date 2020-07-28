@@ -112,7 +112,6 @@ class Archiver:
     os.system('rm -rf casal2.zip')
     os.system('mkdir Casal2')
     os.makedirs('Casal2/R-Libraries')
-    os.makedirs('Casal2/TestCases')
     os.system('cp ' + binary_path + '/frontend/' + binary_name + ' Casal2/' + binary_name)
     os.system('cp ' + binary_path + '/library_release/' + library_name + ' Casal2/casal2_release' + extension)
     os.system('cp ' + binary_path + '/library_adolc/' + library_name + ' Casal2/casal2_adolc' + extension)
@@ -129,8 +128,6 @@ class Archiver:
     os.system('cp ../Documentation/UserManual/TextPad_syntax_highlighter.readme Casal2/TextPad_syntax_highlighter.readme')
     os.system('cp -r ../Examples Casal2/Examples')
     print("-- Example models copied"    )
-    os.system('cp -r ../TestCases/[cp]* Casal2/TestCases')
-    print("-- TestCase models copied"    )
     os.system('cp -r ../README.txt Casal2/README.txt')
     ## deal with R libraries
     if Globals.operating_system_ == "windows":

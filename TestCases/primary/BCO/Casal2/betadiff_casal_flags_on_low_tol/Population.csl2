@@ -89,7 +89,7 @@ categories *
 type mortality_instantaneous_retained
 m 0.14 0.20 #assessment uses 0.17 0.17
 time_step_ratio 1
-selectivities One One   #for age based M
+relative_m_by_age One One   #for age based M
 categories *
 
 table catches

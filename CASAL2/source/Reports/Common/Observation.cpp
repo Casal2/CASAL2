@@ -78,7 +78,7 @@ void Observation::DoExecute() {
   if(pearson_resids_ && !normalised_resids_) {
     LOG_FINEST() << "calculating Pearsons residuals for observation " << label_ << " with likelihood type " << observation_->likelihood();
     // reporting pearsons residuals
-    cache_ << "year category age length observed expected residual error_value process_error adjusted_error score pearsons_residuals\n";
+    cache_ << "year category age length observed expected residual error_value process_error adjusted_error neglogLike pearsons_residuals\n";
     Double resid;
     for (auto iter = comparisons.begin(); iter != comparisons.end(); ++iter) {
       for (obs::Comparison comparison : iter->second) {
@@ -104,7 +104,7 @@ void Observation::DoExecute() {
   } else if (normalised_resids_ && !pearson_resids_) {
     LOG_FINEST() << "calculating normalised residuals for observation " << label_ << " with likelihood type " << observation_->likelihood();
     // reporting normalised residuals
-    cache_ << "year category age length observed expected residual error_value process_error adjusted_error score normalised_residuals\n";
+    cache_ << "year category age length observed expected residual error_value process_error adjusted_error neglogLike normalised_residuals\n";
     Double resid;
     for (auto iter = comparisons.begin(); iter != comparisons.end(); ++iter) {
       for (obs::Comparison comparison : iter->second) {
@@ -126,7 +126,7 @@ void Observation::DoExecute() {
     LOG_FINEST() << "calculating normalised and Pearsons residuals for observation " << label_ << " with likelihood type " << observation_->likelihood();
     // report both normalised residuals and pearsons residuals
     Double pearson_resid, normalised_resid;
-    cache_ << "year category age length observed expected residual error_value process_error adjusted_error score pearsons_residuals normalised_residuals\n";
+    cache_ << "year category age length observed expected residual error_value process_error adjusted_error neglogLike pearsons_residuals normalised_residuals\n";
     for (auto iter = comparisons.begin(); iter != comparisons.end(); ++iter) {
       for (obs::Comparison comparison : iter->second) {
         if (observation_->likelihood() == PARAM_LOGNORMAL) {
@@ -147,7 +147,7 @@ void Observation::DoExecute() {
     }
   } else {
     // report raw residuals
-    cache_ << "year category age length observed expected residual error_value process_error adjusted_error score\n";
+    cache_ << "year category age length observed expected residual error_value process_error adjusted_error neglogLike\n";
     for (auto iter = comparisons.begin(); iter != comparisons.end(); ++iter) {
       for (obs::Comparison comparison : iter->second) {
         cache_ << iter->first << " " << comparison.category_ << " " << comparison.age_ << " " << comparison.length_ << " " << AS_VALUE(comparison.observed_) << " " << AS_VALUE(comparison.expected_)

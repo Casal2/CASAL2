@@ -113,7 +113,7 @@ proportions 1.0 0.0
 type mortality_instantaneous
 m 0.27
 time_step_ratio 0.17 0.33 0.25 0.25
-selectivities One*5 #M_male*5  M_female*5
+relative_m_by_age One*5 #M_male*5  M_female*5
 categories *
 table catches
 year Ensp1 Ensp2 Wnsp1 Wnsp2 Esp Wsp
@@ -302,7 +302,7 @@ time_step_proportions 0.25 0.6 0.9 0.9 0.0
 /*
 @age_length age_size_W
 type von_bertalanffy
-casal_switch T
+casal_switch true
 length_weight Length_weight
 k 0.206
 t0 -0.96
@@ -311,7 +311,7 @@ time_step_proportions 0.25 0.6 0.9 0.9 0.0
 
 @age_length age_size_E
 type von_bertalanffy
-casal_switch T
+casal_switch true
 length_weight Length_weight
 k 0.164
 t0 -2.16

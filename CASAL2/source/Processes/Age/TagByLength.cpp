@@ -45,7 +45,7 @@ TagByLength::TagByLength(Model* model)
   parameters_.Bind<string>(PARAM_FROM, &from_category_labels_, "The categories to transition from", "");
   parameters_.Bind<string>(PARAM_TO, &to_category_labels_, "The categories to transition to", "");
   parameters_.Bind<string>(PARAM_PENALTY, &penalty_label_, "The penalty label", "", "");
-  parameters_.Bind<Double>(PARAM_U_MAX, &u_max_, "U Max", "", 0.99)->set_range(0.0, 1.0, false, true);
+  parameters_.Bind<Double>(PARAM_U_MAX, &u_max_, "The maximum exploitation rate ($U_{max}$)", "", 0.99)->set_range(0.0, 1.0);
   // TODO:  is tolerance missing? the number '0.001' is hard-coded
   parameters_.Bind<unsigned>(PARAM_YEARS, &years_, "The years to execute the transition in", "");
   parameters_.Bind<double>(PARAM_INITIAL_MORTALITY, &initial_mortality_, "", "", 0.0)->set_lower_bound(0.0);

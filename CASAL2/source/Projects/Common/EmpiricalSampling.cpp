@@ -35,9 +35,13 @@ void EmpiricalSampling::DoValidate() {
   if (!parameters_.Get(PARAM_FINAL_YEAR)->has_been_defined())
     final_year_ = model_->final_year();
 
-  if (final_year_ <= start_year_)
-    LOG_ERROR_P(PARAM_FINAL_YEAR) << " " << final_year_ << " must be larger than start year " << start_year_;
+  if (start_year_ < model_->start_year())
+    LOG_ERROR_P(PARAM_START_YEAR) << start_year_ << " must be greater than or equal to the model start year " << model_->start_year();
+  if (final_year_ > model_->final_year())
+    LOG_ERROR_P(PARAM_FINAL_YEAR) << final_year_ << " must be less than or equal to the model final year " << model_->final_year();
 
+  if (final_year_ <= start_year_)
+    LOG_ERROR_P(PARAM_FINAL_YEAR) << final_year_ << " must be larger than start year " << start_year_;
 }
 
 /**
@@ -56,7 +60,7 @@ void EmpiricalSampling::DoReset() {
   Double Random_draw = 0.0;
   unsigned year = 0;
   for (unsigned project_year : years_) {
-    Random_draw = ceil(rng.uniform((unsigned)start_year_, (unsigned)final_year_));
+    Random_draw = floor(rng.uniform((double)start_year_, ((double)final_year_ + 0.99999)));
     year = 0;
     // if (!utilities::To<Double, unsigned>(Random_draw, year))
     if (!utilities::To<Double>(Random_draw, year))
@@ -71,7 +75,7 @@ void EmpiricalSampling::DoReset() {
  */
 void EmpiricalSampling::DoUpdate() {
   value_ = stored_values_[resampled_years_[model_->current_year()]] * multiplier_;
-  LOG_FINE() << "In year: " << model_->current_year() << " Setting Value to: " << value_ << " drawn from year: "
+  LOG_FINE() << "In year: " << model_->current_year() << " setting value to: " << value_ << " drawn from year: "
     << resampled_years_[model_->current_year()];
   (this->*DoUpdateFunc_)(value_);
 }

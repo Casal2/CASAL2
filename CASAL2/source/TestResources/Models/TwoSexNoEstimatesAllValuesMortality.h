@@ -69,7 +69,7 @@ age 1
 type constant_rate
 categories *
 M 0.065 0.065 0.065 0.065
-selectivities av av av av 
+relative_m_by_age av av av av
 
 @selectivity av
 type all_values

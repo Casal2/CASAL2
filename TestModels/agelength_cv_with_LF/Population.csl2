@@ -1,6 +1,6 @@
 #THE MODEL
 @model
-start_year 1911 
+start_year 1911
 final_year 2014
 min_age 1
 max_age 100
@@ -13,8 +13,8 @@ length_plus true
 
 #CATEGORIES
 #
-@categories 
-format Maturity 
+@categories
+format Maturity
 names nonspawn spawn
 age_lengths VB VB
 
@@ -25,7 +25,7 @@ casal_initialisation_switch false
 
 ## Define the Annual Cycle
 ## This is a list of labels that correspond to a process
-@time_step Annual 
+@time_step Annual
 processes Ageing Recruitment Maturation Instantaneous_Mortality
 
 ## Define the above Processes
@@ -33,7 +33,7 @@ processes Ageing Recruitment Maturation Instantaneous_Mortality
 type recruitment_beverton_holt
 categories spawn nonspawn
 proportions 0.0 1.0
-b0 67641.5 
+b0 67641.5
 ycs_years 1910:2013
 standardise_ycs_years 1940:1979
 ycs_values 1*30 1.45049 6.61749 1.57546 1.446 1.19345 0.964907 0.820933 0.72061 0.654838 0.615623 0.601377 0.623127 0.695011 0.85622 1.16872 1.97075 1.32917 0.800021 0.545325 0.426432 0.381213 0.384545 0.422549 0.513972 0.700688 1.11599 3.71888 1.56943 0.987474 0.7131 0.614773 0.595055 0.672532 0.882377 1.3262 1.90351 1.67791 1.64262 7.59531 1.11698 1*34
@@ -51,7 +51,7 @@ categories *
 ## Maturation
 @process Maturation
 type transition_category
-from nonspawn 
+from nonspawn
 to spawn
 selectivities MaturationSel
 proportions 1
@@ -62,7 +62,7 @@ proportions 1
 type mortality_instantaneous
 m 0.045
 time_step_ratio 1
-selectivities One
+relative_m_by_age One
 categories *
 table catches
 year NWCR
@@ -123,23 +123,23 @@ selectivities One ## Assume all mature fish contribute to SSB
 @selectivity MaturationSel
 type logistic_producing
 length_based false
-l 10 
+l 10
 h 60
-a50 36.9457 
-ato95 12.453 
+a50 36.9457
+ato95 12.453
 
-@selectivity NWCR_Fsel 
+@selectivity NWCR_Fsel
 type constant
 c 1
 
 
 @selectivity Trawlsel # December suurvey
 type logistic
-a50 24.0898 
-ato95 12.3907 
+a50 24.0898
+ato95 12.3907
 
 @selectivity One
-type constant 
+type constant
 c 1
 
 #Length AT AGE
@@ -150,15 +150,15 @@ time_step_proportions 0.0
 k 0.059
 t0 -0.491
 Linf 37.78
-cv_first 0.095676 
-cv_last 0.0443949 
+cv_first 0.095676
+cv_last 0.0443949
 distribution normal
-length_weight wgt 
+length_weight wgt
 
 # Length Weight relationship
 #
 @length_weight wgt
 type basic
-units tonnes 
+units tonnes
 a 8.0e-8
 b 2.75

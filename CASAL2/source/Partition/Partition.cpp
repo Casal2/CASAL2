@@ -268,6 +268,7 @@ void Partition::BuildAgeLengthProportions() {
           sum = 0;
           vector<Double>& prop_in_length = (*age_length_proportion)[year_iter][time_step][age_index];
           for (unsigned j = 0; j < length_bin_count; ++j) {
+            LOG_FINEST() << "calculating pnorm for length " << length_bins[j];
             // If we are using CASAL's Normal CDF function use this switch
             if (casal_normal_cdf) {
               tmp = utilities::math::pnorm(length_bins[j], mu, sigma);

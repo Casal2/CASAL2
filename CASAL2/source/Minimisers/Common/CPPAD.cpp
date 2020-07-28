@@ -75,8 +75,8 @@ CPPAD::CPPAD(Model* model) : Minimiser(model) {
   parameters_.Bind<unsigned>(PARAM_PRINT_LEVEL, &print_level_, "The level of debug to stdout", "", 5u)->set_range(0u, 12u);
   parameters_.Bind<string>(PARAM_SB, &sb_, "String buffer output?", "", "yes")->set_allowed_values({"yes", "no"});
   parameters_.Bind<string>(PARAM_PIDI, &pidi_, "Print iteration diagnostic information?", "", "yes")->set_allowed_values({"yes", "no"});
-  parameters_.Bind<unsigned>(PARAM_MAX_ITER, &max_iter_, "The maximum number of iterations", "", 4000)->set_lower_bound(1u);
-  parameters_.Bind<double>(PARAM_TOL, &tol_, "The tolerance for convergence", "", 1e-9)->set_lower_bound(0.0, false);
+  parameters_.Bind<unsigned>(PARAM_MAX_ITERATIONS, &max_iter_, "The maximum number of iterations", "", 100)->set_lower_bound(1u);
+  parameters_.Bind<double>(PARAM_TOLERANCE, &tol_, "The tolerance for convergence", "", 1e-9)->set_lower_bound(0.0, false);
   parameters_.Bind<double>(PARAM_ACCEPTABLE_TOL, &acceptable_tol_, "The acceptable tolerance", "", 1e-6)->set_lower_bound(0.0, false);
   parameters_.Bind<double>(PARAM_ACCEPTABLE_OBJ_CHANGE_TOL, &acceptable_obj_change_tol_, "", "", 1e+20)->set_lower_bound(0.0, false);
   parameters_.Bind<string>(PARAM_DERIVATIVE_TEST, &derivative_test_, "How to test for derivatives", "", "first-order")

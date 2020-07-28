@@ -47,7 +47,7 @@ reformat.compositional.data = function(model, report_label) {
   print(Paste("n_bins = " , n_bins, " n_category = ", n_category, " n years " ,n_years))
   #print(head(this_ob))
 
-  like <- matrix(this_ob[,"score"], byrow = T, ncol = n_bins * n_category, nrow = n_years)
+  like <- matrix(this_ob[,"neglogLike"], byrow = T, ncol = n_bins * n_category, nrow = n_years)
   obs  <- matrix(this_ob[,"observed"], byrow = T, ncol = n_bins * n_category, nrow = n_years)
   fit  <- matrix(this_ob[,"expected"], byrow = T, ncol = n_bins * n_category, nrow = n_years)
   err  <- matrix(this_ob[,"error_value"], byrow = T, ncol = n_bins * n_category, nrow = n_years)

@@ -5,6 +5,19 @@
 #@grad_tol 0.00001 default should be OK
 @grad_tol 0.0000001 # 0.00002
 
+
+@MCMC
+start 0
+length 4000000
+stepsize 0.02
+keep 2500
+adaptive_stepsize True
+adapt_at 10000 50000 150000 250000 450000 750000 1400000
+df 2
+burn_in 1000
+proposal_t True
+
+
 @estimate
 parameter initialization.B0
 lower_bound 100

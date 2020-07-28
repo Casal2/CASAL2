@@ -378,7 +378,7 @@ void ProportionsMigrating::CalculateScore() {
    * Simulate or generate results
    * During simulation mode we'll simulate results for this observation
    */
-  LOG_FINEST() << "Calculating score for observation = " << label_;
+  LOG_FINEST() << "Calculating neglogLikelihood for observation = " << label_;
 
   if (model_->run_mode() == RunMode::kSimulation) {
     likelihood_->SimulateObserved(comparisons_);
@@ -391,7 +391,7 @@ void ProportionsMigrating::CalculateScore() {
     for (unsigned year : years_) {
       scores_[year] = likelihood_->GetInitialScore(comparisons_, year);
       for (obs::Comparison comparison : comparisons_[year]) {
-        LOG_FINEST() << "[" << year << "]+ likelihood score: " << comparison.score_;
+        LOG_FINEST() << "[" << year << "] + neglogLikelihood: " << comparison.score_;
         scores_[year] += comparison.score_;
       }
     }

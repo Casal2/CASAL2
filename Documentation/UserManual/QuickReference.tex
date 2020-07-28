@@ -222,8 +222,8 @@
 \defSub{print\_level} {The level of debug to stdout}
 \defSub{sb} {String buffer output?}
 \defSub{pidi} {Print iteration diagnostic information?}
-\defSub{max\_iter} {The maximum number of iterations}
-\defSub{tol} {The tolerance for convergence}
+\defSub{iterations} {The maximum number of iterations}
+\defSub{tolerance} {The tolerance for convergence}
 \defSub{acceptable\_tol} {The acceptable tolerance}
 \defSub{acceptable\_obj\_change\_tol} {}
 \defSub{derivative\_test} {How to test for derivatives}
@@ -441,7 +441,7 @@
 \defSub{categories} {The categories}
 \defSub{years} {The years in which to apply the mortality process}
 \defSub{catches} {The number of removals ,catches, to apply for each year}
-\defSub{u\_max} {The maximum exploitation rate ,$Umax$,}
+\defSub{u\_max} {The maximum exploitation rate ,$U_{max}$,}
 \defSub{selectivities} {The list of selectivities}
 \defSub{penalty} {The label of the penalty to apply if the total number of removals cannot be taken}
 \par\textbf{\commandlabsubarg{process}{type}{mortality\_event\_biomass}}\par
@@ -449,7 +449,7 @@
 \defSub{selectivities} {The labels of the selectivities for each of the categories}
 \defSub{years} {The years in which to apply the mortality process}
 \defSub{catches} {The biomass of removals ,catches, to apply for each year}
-\defSub{u\_max} {The maximum exploitation rate ,$Umax$,}
+\defSub{u\_max} {The maximum exploitation rate ,$U_{max}$,}
 \defSub{penalty} {The label of the penalty to apply if the total biomass of removals cannot be taken}
 \par\textbf{\commandlabsubarg{process}{type}{mortality\_holling\_rate}}\par
 \defSub{prey\_categories} {The prey categories labels}
@@ -458,7 +458,7 @@
 \defSub{a} {Parameter a}
 \defSub{b} {Parameter b}
 \defSub{x} {This parameter controls the functional form: Holling function type 2 ,x=2, or 3 ,x=3, or generalised ,Michaelis Menten, x,=1,}
-\defSub{u\_max} {The maximum exploitation rate ,$Umax$,}
+\defSub{u\_max} {The maximum exploitation rate ,$U_{max}$,}
 \defSub{prey\_selectivities} {The selectivities for prey categories}
 \defSub{predator\_selectivities} {The selectivities for predator categories}
 \defSub{penalty} {The label of penalty}
@@ -466,31 +466,31 @@
 \par\textbf{\commandlabsubarg{process}{type}{mortality\_initialisation\_event}}\par
 \defSub{categories} {The categories}
 \defSub{catch} {The number of removals ,catches, to apply for each year}
-\defSub{u\_max} {The maximum exploitation rate ,$Umax$,}
+\defSub{u\_max} {The maximum exploitation rate ,$U_{max}$,}
 \defSub{selectivities} {The list of selectivities}
 \defSub{penalty} {The label of the penalty to apply if the total number of removals cannot be taken}
 \par\textbf{\commandlabsubarg{process}{type}{mortality\_initialisation\_event\_biomass}}\par
 \defSub{categories} {The categories}
 \defSub{catch} {The number of removals ,catches, to apply for each year}
-\defSub{u\_max} {The maximum exploitation rate ,$Umax$,}
+\defSub{u\_max} {The maximum exploitation rate ,$U_{max}$,}
 \defSub{selectivities} {The list of selectivities}
 \defSub{penalty} {The label of the penalty to apply if the total number of removals cannot be taken}
 \par\textbf{\commandlabsubarg{process}{type}{mortality\_instantaneous}}\par
 \defSub{categories} {The categories for instantaneous mortality}
 \defSub{m} {The natural mortality rates for each category}
 \defSub{time\_step\_ratio} {The time step ratios for natural mortality}
-\defSub{selectivities} {The selectivities to apply on the categories for natural mortality}
+\defSub{relative\_m\_by\_age} {The M-by-age ogives to apply on the categories for natural mortality}
 \par\textbf{\commandlabsubarg{process}{type}{mortality\_instantaneous\_retained}}\par
 \defSub{categories} {The categories for instantaneous mortality}
 \defSub{m} {The natural mortality rates for each category}
 \defSub{time\_step\_ratio} {The time step ratios for natural mortality}
-\defSub{selectivities} {The selectivities to apply on the categories for natural mortality}
+\defSub{relative\_m\_by\_age} {The M-by-age ogives to apply on the categories for natural mortality}
 \par\textbf{\commandlabsubarg{process}{type}{mortality\_prey\_suitability}}\par
 \defSub{prey\_categories} {The prey categories labels}
 \defSub{predator\_categories} {The predator categories labels}
 \defSub{consumption\_rate} {The predator consumption rate}
 \defSub{electivities} {The prey electivities}
-\defSub{u\_max} {U max}
+\defSub{u\_max} {The maximum exploitation rate ,$U_{max}$,}
 \defSub{prey\_selectivities} {The selectivities for prey categories}
 \defSub{predator\_selectivities} {The selectivities for predator categories}
 \defSub{penalty} {The label of the penalty}
@@ -542,7 +542,7 @@
 \defSub{min\_age} {The minimum age to transition}
 \defSub{max\_age} {The maximum age to transition}
 \defSub{penalty} {The penalty label}
-\defSub{u\_max} {U Max}
+\defSub{u\_max} {The maximum exploitation rate ,$U_{max}$,}
 \defSub{years} {The years to execute the transition in}
 \defSub{initial\_mortality} {The initial mortality value}
 \defSub{initial\_mortality\_selectivity} {The initial mortality selectivity label}
@@ -554,7 +554,7 @@
 \defSub{from} {The categories to transition from}
 \defSub{to} {The categories to transition to}
 \defSub{penalty} {The penalty label}
-\defSub{u\_max} {U Max}
+\defSub{u\_max} {The maximum exploitation rate ,$U_{max}$,}
 \defSub{initial\_mortality} {}
 \defSub{initial\_mortality\_selectivity} {}
 \defSub{selectivities} {}
@@ -577,7 +577,7 @@
 \defSub{min\_age} {The minimum age to transition}
 \defSub{max\_age} {The maximum age to transition}
 \defSub{penalty} {The penalty label}
-\defSub{u\_max} {U max}
+\defSub{u\_max} {The maximum exploitation rate ,$U_{max}$,}
 \defSub{years} {The years to execute the transition in}
 \defComLab{profile}{Define an object of type \emph{profile}}\par\par
 \defSub{label} {The label of the profile}
@@ -587,11 +587,11 @@
 \defSub{parameter} {The system parameter to profile}
 \defSub{same} {A parameter that is constrained to have the same value as the parameter being profiled}
 \defComLab{project}{Define an object of type \emph{project}}\par\par
-\defSub{label} {Label}
-\defSub{type} {Type}
-\defSub{years} {Years to recalculate the values}
-\defSub{parameter} {Parameter to project}
-\defSub{multiplier} {Multiplier that is applied to the projected value}
+\defSub{label} {The projection label}
+\defSub{type} {The projection type}
+\defSub{years} {The years to recalculate the values}
+\defSub{parameter} {The parameter to project}
+\defSub{multiplier} {The multiplier applied to the projected value}
 \par\textbf{\commandlabsubarg{project}{type}{constant}}\par
 \defSub{values} {The values to assign to the addressable}
 \par\textbf{\commandlabsubarg{project}{type}{empirical\_sampling}}\par
@@ -601,7 +601,7 @@
 \defSub{mean} {The mean of the lognormal process}
 \defSub{sigma} {The standard deviation ,sigma, of the lognormal process}
 \par\textbf{\commandlabsubarg{project}{type}{log\_normal\_empirical}}\par
-\defSub{mean} {The mean of gaussian process}
+\defSub{mean} {The mean of the Gaussian process}
 \defSub{start\_year} {The start year of sampling}
 \defSub{final\_year} {The final year of sampling}
 \par\textbf{\commandlabsubarg{project}{type}{user\_defined}}\par

@@ -19,7 +19,7 @@ covariance True
 @mcmc mcmc
 start 0.3
 length 5000000 # originally 4M
-keep 1250 # originally 1000 -> save every 4000th
+keep 1000
 step_size 0.02
 adapt_stepsize_at 20000 40000 60000 80000 100000
 proposal_distribution t
@@ -27,7 +27,7 @@ adapt_stepsize_method double_half
 #burn_in 500
 #subsample_size 2000
 #systematic 1
-max_correlation 0.9
+max_correlation 0.8
 adapt_covariance_matrix_at 1000000
 
 

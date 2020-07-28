@@ -1,4 +1,4 @@
-## Structure of my estimation.csl2 
+## Structure of my estimation.csl2
 # - Define Minimiser along with subcommands such as gradient tolerance to stop, how many evaluations to stop at etc.
 # - Define Estimates = Parameters being estiamted with assumed priors and bounds
 # - Define Penalties = Additional Penalties assumed on these models
@@ -20,16 +20,16 @@ evaluations 4000
 @estimate acoq_99_12
 type normal
 parameter catchability[acoq_99_12].q
-mu 0.8				
-cv 0.19			
+mu 0.8
+cv 0.19
 lower_bound 0.1
 upper_bound 1.5
 
 @estimate acoq_13
 type normal
 parameter catchability[acoq_13].q
-mu 0.3		
-cv 0.19				
+mu 0.3
+cv 0.19
 lower_bound 0.03
 upper_bound 0.6
 
@@ -61,7 +61,7 @@ upper_bound 3e5
 @estimate Trawlsel_a50
 parameter selectivity[Trawlsel].a50
 type uniform
-lower_bound 5 
+lower_bound 5
 upper_bound 50
 
 @estimate Trawlsel_ato95
@@ -74,7 +74,7 @@ upper_bound 20
 @estimate MaturationSel_a50
 parameter selectivity[MaturationSel].a50
 type uniform
-lower_bound 10 
+lower_bound 10
 upper_bound 100
 
 @estimate MaturationSel_ato95

@@ -36,7 +36,7 @@ R"(
 type empirical_sampling
 parameter process[recruitment].ycs_values
 years 1999:2010
-start_year 1974
+start_year 1975
 final_year 1999
 )";
 
@@ -56,24 +56,24 @@ TEST_F(InternalEmptyModel, Projects_Empirical_Sampling_YCS) {
 	if(!project)
 		LOG_FATAL() << "!project";
 
-  DerivedQuantity* dq = model_->managers().derived_quantity()->GetDerivedQuantity("ssb");
+    DerivedQuantity* dq = model_->managers().derived_quantity()->GetDerivedQuantity("ssb");
 	if(!dq)
 		LOG_FATAL() << "!dq";
+
 	// test the values have changed
 	map<unsigned,Double>& values = project->projected_parameters();
-	vector<double> expected = {1.014, 0.94499999999999995, 0.93400000000000005, 0.94499999999999995, 0.93400000000000005, 1.325, 1.0487, 0.35199999999999998, 1.345, 1.5434000000000001, 0.94599999999999995, 1.0487};
+	vector<double> expected = {1.014, 0.9450, 0.9340, 0.9450, 0.9340, 1.325, 1.0487, 0.3520, 1.345, 1.5434, 0.946, 1.0487};
 	unsigned iter = 0;
 	for (auto value : values) {
 		EXPECT_DOUBLE_EQ(expected[iter], value.second);
 		++iter;
 	}
-	// test the final SSB's haven't changed, this will ensure as well as saving the parameters the parameters in the underlying system have changed as well
-  vector<double> Expect = {14380285.66, 14954609.6, 15177987.29,  15033001.02,  14756909.92,  14567939.81,  14524441.87,  14549946.66,  14490135.35,  14239342.24};
-  for (unsigned i = 0; i < 10; ++i) {
-    unsigned year = 2002 + i;
-    EXPECT_NEAR(Expect[i], dq->GetValue(year), 1e-2);
-  }
-
+    // test the final SSB's haven't changed, this will ensure as well as saving the parameters the parameters in the underlying system have changed as well
+    vector<double> Expect = {14380285.66, 14954609.60, 15177987.29, 15033001.02, 14756909.92, 14567939.81, 14524441.87, 14549946.66, 14490135.35, 14239342.24};
+    for (unsigned i = 0; i < 10; ++i) {
+      unsigned year = 2002 + i;
+      EXPECT_NEAR(Expect[i], dq->GetValue(year), 1e-2);
+    }
 }
 
 
