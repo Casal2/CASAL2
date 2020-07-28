@@ -68,7 +68,7 @@ age 1
 type constant_rate
 categories *
 M 0.065 0.065 0.065 0.065
-selectivities One One One One
+relative_m_by_age One One One One
 
 @mortality Fishing
 type event
@@ -205,7 +205,7 @@ age 1
 type constant_rate
 categories *
 M 0.065 0.065 0.065 0.065
-selectivities One One One One
+relative_m_by_age One One One One
 
 @mortality Fishing
 type event

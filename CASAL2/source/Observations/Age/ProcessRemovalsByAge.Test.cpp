@@ -30,7 +30,7 @@ using niwa::testfixtures::InternalEmptyModel;
 const std::string test_cases_observation_process_removals_by_age_single =
 R"(
 @model
-start_year 1990 
+start_year 1990
 final_year 2012
 min_age 1
 max_age 30
@@ -40,31 +40,31 @@ initialisation_phases iphase1
 time_steps init step1 step2 step3
 
 @categories
-format stock 
+format stock
 names stock
-age_lengths age_size 
+age_lengths age_size
 
 @initialisation_phase iphase1
 type iterative
 years 100
 
-@time_step init  
+@time_step init
 processes [type=nop]
 
-@time_step step1 
+@time_step step1
 processes Recruitment instant_mort
 
-@time_step step2 
-processes instant_mort 
+@time_step step2
+processes instant_mort
 
-@time_step step3 
+@time_step step3
 processes  Ageing instant_mort
 
 @process Recruitment
 type recruitment_beverton_holt
 categories stock
-proportions 1 
-r0 3.04838e+006  
+proportions 1
+r0 3.04838e+006
 standardise_ycs_years 1989 1990 1991 1992 1993 1994 1995 1996 1997 1998 1999 2000 2001 2002 2003 2004 2005 2006 2007 2008 2009 2010 2011
 ycs_values            1.00 1.00 1.00 1.00 1.00 1.00 1.00 1.00 1.00 1.00 1.00 1.00 1.00 1.00 1.00 1.00 1.00 1.00 1.00 1.00 1.00 1.00 1.00
 steepness 0.9
@@ -80,7 +80,7 @@ categories stock
 type mortality_instantaneous
 m 0.19
 time_step_ratio 0.42 0.25 0.33
-selectivities One
+relative_m_by_age One
 categories stock
 table catches
 year FishingWest FishingEest
@@ -133,7 +133,7 @@ l 2
 h 13
 v 0.02  0.05  0.13  0.29  0.50  0.70  0.84  0.93  0.97  0.99  0.99  1.00
 
-@selectivity westFSel 
+@selectivity westFSel
 type double_normal
 mu 10
 sigma_l 9.33
@@ -147,7 +147,7 @@ sigma_l 3
 sigma_r 10
 alpha 1.0
 
-@selectivity chatTANSel 
+@selectivity chatTANSel
 type double_normal
 mu 21
 sigma_l 17
@@ -160,17 +160,17 @@ by_length true
 time_step_proportions 0.0 0.25 0.5 0.0
 y1 24.5
 y2 104.8
-tau1 1 
-tau2 20 
+tau1 1
+tau2 20
 a 0.131
 b 1.70
 cv_first 0.1
-length_weight size_weight3 
+length_weight size_weight3
 
 @length_weight size_weight3
 type basic
-units kgs 
-a 2.0e-6 
+units kgs
+a 2.0e-6
 b 3.288
 
 @observation observation
@@ -204,7 +204,7 @@ table error_values
 2001 53
 2004 43
 2007 42
-end_table    
+end_table
 
 @ageing_error Ageing_error
 type none

@@ -78,7 +78,7 @@ categories stock
 type mortality_constant_rate
 categories stock
 M 0.19
-selectivities One
+relative_m_by_age One
 time_step_ratio 0.25 0.33
 
 @derived_quantity biomass_t1
@@ -143,7 +143,7 @@ R"(
 @process fishing
 type mortality_instantaneous
 m 0.0798
-relative_M_by_age One
+relative_m_by_age One
 categories stock
 table catches
 year FishingWest FishingEest

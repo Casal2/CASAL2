@@ -35,7 +35,7 @@ using niwa::testfixtures::InternalEmptyModel;
 const std::string base_model =
 R"(
 @model
-start_year 1975 
+start_year 1975
 final_year 2012
 min_age 1
 max_age 30
@@ -44,27 +44,27 @@ base_weight_units tonnes
 initialisation_phases iphase1
 time_steps step1 step2 step3
 
-@categories 
-format stock 
+@categories
+format stock
 names stock
-age_lengths age_size 
+age_lengths age_size
 
 @initialisation_phase iphase1
 type derived
 
-@time_step step1 
+@time_step step1
 processes Recruitment instant_mort
 
-@time_step step2 
-processes instant_mort 
+@time_step step2
+processes instant_mort
 
-@time_step step3 
+@time_step step3
 processes  Ageing instant_mort
 
 @process Recruitment
 type recruitment_beverton_holt
 categories stock
-proportions 1 
+proportions 1
 b0 52583
 standardise_ycs_years 1975 1976 1977 1978 1979 1980 1981 1982 1983 1984 1985 1986 1987 1988 1989 1990 1991 1992 1993 1994 1995 1996 1997 1998 1999 2000 2001 2002 2003 2004 2005 2006 2007 2008 2009
 ycs_values          1.00 1.02472  1.04658 1.06324 1.07299 1.07458 1.06541 1.04328 1.01815 1.00285 0.426938  0.476756  0.520428  0.382199  0.527158  0.445187  0.67427 1.00397 0.761247  0.653433  0.592745  0.488619  0.321246  0.303421  0.221372  0.33299 0.219917  0.328752  0.925172  0.525766  0.434871  0.18722 0.307342  0.259689  0.230941  0.260211  3 3
@@ -82,7 +82,7 @@ categories stock
 type mortality_instantaneous
 m 0.19
 time_step_ratio 0.42 0.25 0.33
-selectivities One
+relative_m_by_age One
 categories stock
 table catches
 year FishingWest FishingEest
@@ -148,27 +148,27 @@ v 0.02  0.05  0.13  0.29  0.50  0.70  0.84  0.93  0.97  0.99  0.99  1.00
 
 @selectivity westFSel
 type double_normal
-mu 6.44798 
-sigma_l  3.00327 
-sigma_r 7.88331  
+mu 6.44798
+sigma_l  3.00327
+sigma_r 7.88331
 alpha 1.0
 
 @selectivity eastFSel
 type double_normal
-mu 10.8129 
-sigma_l  3.50265 
-sigma_r 6.86988 
+mu 10.8129
+sigma_l  3.50265
+sigma_r 6.86988
 alpha 1.0
 
 @selectivity chatTANSel
 type double_normal
 mu 9.51995
-sigma_l 5.53388 
+sigma_l 5.53388
 sigma_r 10.8664
 alpha 1.0
 
 @selectivity One
-type constant 
+type constant
 c 1
 
 @age_length age_size
@@ -177,18 +177,18 @@ by_length true
 time_step_proportions 0.25 0.5 0.0
 y1 24.5
 y2 104.8
-tau1 1 
-tau2 20 
+tau1 1
+tau2 20
 a 0.131
 b 1.70
-cv_first 0.1 
-length_weight size_weight3 
+cv_first 0.1
+length_weight size_weight3
 
 
 @length_weight size_weight3
 type basic
-units kgs 
-a 2.0e-6 
+units kgs
+a 2.0e-6
 b 3.288
 
 @observation chatTANage

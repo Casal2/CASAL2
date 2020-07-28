@@ -38,7 +38,7 @@ MortalityConstantRate::MortalityConstantRate(Model* model)
   parameters_.Bind<string>(PARAM_CATEGORIES, &category_labels_, "The list of category labels", "");
   parameters_.Bind<Double>(PARAM_M, &m_input_, "The mortality rates", "")->set_lower_bound(0.0);
   parameters_.Bind<double>(PARAM_TIME_STEP_RATIO, &ratios_, "The time step ratios for the mortality rates", "", true)->set_range(0.0, 1.0);
-  parameters_.Bind<string>(PARAM_SELECTIVITIES, &selectivity_names_, "The list of selectivities for the categories", "");
+  parameters_.Bind<string>(PARAM_RELATIVE_M_BY_AGE, &selectivity_names_, "The list of M-by-age ogives for the categories", "");
 
   RegisterAsAddressable(PARAM_M, &m_);
 }
@@ -73,8 +73,8 @@ void MortalityConstantRate::DoValidate() {
   }
 
   if (selectivity_names_.size() != category_labels_.size()) {
-    LOG_ERROR_P(PARAM_SELECTIVITIES)
-      << ": The number of selectivities provided (" << selectivity_names_.size() << ") does not match the number of categories provided ("
+    LOG_ERROR_P(PARAM_RELATIVE_M_BY_AGE)
+      << ": The number of M-by-age ogives provided (" << selectivity_names_.size() << ") does not match the number of categories provided ("
       << category_labels_.size() << ").";
   }
 
@@ -101,7 +101,7 @@ void MortalityConstantRate::DoBuild() {
   for (string label : selectivity_names_) {
     Selectivity* selectivity = model_->managers().selectivity()->GetSelectivity(label);
     if (!selectivity)
-      LOG_ERROR_P(PARAM_SELECTIVITIES) << ": Selectivity label " << label << " was not found.";
+      LOG_ERROR_P(PARAM_RELATIVE_M_BY_AGE) << ": M-by-age ogive label " << label << " was not found.";
 
     selectivities_.push_back(selectivity);
   }

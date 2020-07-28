@@ -53,7 +53,7 @@ TEST_F(BasicModel, Observation_Abundance) {
   process->parameters().Add(PARAM_TYPE, "constant_rate", __FILE__, __LINE__);
   process->parameters().Add(PARAM_CATEGORIES, mortality_categories, __FILE__, __LINE__);
   process->parameters().Add(PARAM_M, "0.065", __FILE__, __LINE__);
-  process->parameters().Add(PARAM_SELECTIVITIES, "constant_one", __FILE__, __LINE__);
+  process->parameters().Add(PARAM_RELATIVE_M_BY_AGE, "constant_one", __FILE__, __LINE__);
 
   // Report process
   base::Object* report = model_->factory().CreateObject(PARAM_REPORT, PARAM_DERIVED_QUANTITY);

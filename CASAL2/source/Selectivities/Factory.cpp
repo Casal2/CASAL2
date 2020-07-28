@@ -46,7 +46,7 @@ namespace selectivities {
 Selectivity* Factory::Create(Model* model, const string& object_type, const string& sub_type) {
   Selectivity* result = nullptr;
 
-  if (object_type == PARAM_SELECTIVITY || object_type == PARAM_SELECTIVITIES) {
+  if (object_type == PARAM_SELECTIVITY || object_type == PARAM_SELECTIVITIES || object_type == PARAM_RELATIVE_M_BY_AGE) {
     if (sub_type == PARAM_ALL_VALUES)
       result = new AllValues(model);
     else if (sub_type == PARAM_ALL_VALUES_BOUNDED)

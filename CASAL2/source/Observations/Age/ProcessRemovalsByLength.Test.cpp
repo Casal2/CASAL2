@@ -29,7 +29,7 @@ using niwa::testfixtures::InternalEmptyModel;
 const std::string test_cases_observation_removals_by_length_for_fishery_single =
 R"(
 @model
-start_year 1990 
+start_year 1990
 final_year 1997
 min_age 1
 max_age 4
@@ -40,35 +40,35 @@ time_steps init step1 step2 step3
 length_plus false
 length_bins 0 20 40 60 80 110
 
-@categories 
-format stock 
+@categories
+format stock
 names stock
-age_lengths age_size 
+age_lengths age_size
 
 @initialisation_phase iphase1
 type iterative
 years 100
 
-@time_step init  
+@time_step init
 processes [type=nop]
 
-@time_step step1 
+@time_step step1
 processes Recruitment instant_mort
 
-@time_step step2 
-processes instant_mort 
+@time_step step2
+processes instant_mort
 
-@time_step step3 
+@time_step step3
 processes  Ageing instant_mort
 
 @process Recruitment
 type recruitment_beverton_holt
 categories stock
-proportions 1 
-r0 4.04838e+006   
+proportions 1
+r0 4.04838e+006
 ycs_years 1989:1996
-standardise_ycs_years 1989 1990 1991 1992 1993 1994 1995 1996 
-ycs_values      1.00 1.00 1.00 1.00 1.00 1.00 1.00 1.00 
+standardise_ycs_years 1989 1990 1991 1992 1993 1994 1995 1996
+ycs_values      1.00 1.00 1.00 1.00 1.00 1.00 1.00 1.00
 steepness 0.9
 ssb biomass_t1
 age 1
@@ -82,7 +82,7 @@ categories stock
 type mortality_instantaneous
 m 0.19
 time_step_ratio 0.42 0.25 0.33
-selectivities One
+relative_m_by_age One
 categories stock
 table catches
 year FishingWest FishingEest
@@ -145,18 +145,18 @@ by_length True
 k  0.5
 t0 -0.21
 Linf 88.3
-cv_first 0.1  
-length_weight size_weight3  
+cv_first 0.1
+length_weight size_weight3
 
 @length_weight size_weight3
 type basic
-units kgs 
-a 2.0e-6 
+units kgs
+a 2.0e-6
 b 3.288
 
-@observation observation 
+@observation observation
 type process_removals_by_length
-years 1991 1992 1993 1994 1995 
+years 1991 1992 1993 1994 1995
 likelihood multinomial
 time_step step1
 method_of_removal FishingEest
@@ -166,11 +166,11 @@ length_plus false
 length_bins 0 20 40 60 80 110
 delta 1e-5
 table obs
-1991    0.2   0.3     0.1     0.2     0.2 
-1992    0.12  0.25    0.28    0.25    0.1 
-1993    0.0   0.05    0.05    0.10    0.80  
-1994    0.05  0.1     0.05    0.05    0.75  
-1995    0.3   0.4     0.2     0.05    0.05  
+1991    0.2   0.3     0.1     0.2     0.2
+1992    0.12  0.25    0.28    0.25    0.1
+1993    0.0   0.05    0.05    0.10    0.80
+1994    0.05  0.1     0.05    0.05    0.75
+1995    0.3   0.4     0.2     0.05    0.05
 end_table
 table error_values
 1991 25
@@ -178,7 +178,7 @@ table error_values
 1993 31
 1994 34
 1995 22
-end_table   
+end_table
 
 @report DQ
 type derived_quantity

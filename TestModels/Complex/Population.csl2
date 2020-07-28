@@ -17,10 +17,10 @@ time_steps Oct_Nov Dec_Mar Apr_Jun End_Jun Jul_Sep  # 5 time steps May have to b
 @initialisation_phase Equilibrium_State
 type derived
 
-# Categories 
+# Categories
 @categories
 format sex.stock.area ## sex male or female, stock E (east) or W (west),  area WC-SA-CR-CS
-names  		male.west.sa 	male.east.cr 	male.west.cr 	male.west.wc 	male.east.cs 	female.west.sa 		female.east.cr 		female.west.cr 		female.west.wc 		female.east.cs	
+names  		male.west.sa 	male.east.cr 	male.west.cr 	male.west.wc 	male.east.cs 	female.west.sa 		female.east.cr 		female.west.cr 		female.west.wc 		female.east.cs
 age_lengths 	age_size_W_male age_size_E_male age_size_W_male age_size_W_male age_size_E_male age_size_W_female 	age_size_E_female 	age_size_W_female 	age_size_W_female  	age_size_E_female
 
 
@@ -28,13 +28,13 @@ age_lengths 	age_size_W_male age_size_E_male age_size_W_male age_size_W_male age
 processes  Wrtn Ertn  Instant_mortality			## 2 Migration steps - Natural mortaltiy
 
 @time_step Dec_Mar # Dec-Mar
-processes  recruit_W recruit_E Instant_mortality	## 2 Fishing events - recruitment 
+processes  recruit_W recruit_E Instant_mortality	## 2 Fishing events - recruitment
 
 @time_step Apr_Jun # Apr-Jun
 processes  Whome Instant_mortality			## 2 fishing events 1 migration step
 
-@time_step End_Jun # End Jun 
-processes  Wspmg Espmg					## 2 Migration 
+@time_step End_Jun # End Jun
+processes  Wspmg Espmg					## 2 Migration
 
 @time_step Jul_Sep # Jul-Sep
 processes  Ageing Instant_mortality  			## 2 Fishing - Spawning -Ageing
@@ -49,37 +49,37 @@ categories * ## shorthand Syntax for all categories
 
 # Migration
 @process Ertn
-type transition_category 		
-from format=male,female.east.cs	## short hand syntax of male and female, = male.east.cs female.east.cs		
-to format=male,female.east.cr	
+type transition_category
+from format=male,female.east.cs	## short hand syntax of male and female, = male.east.cs female.east.cs
+to format=male,female.east.cr
 proportions 1.0 1.0
 selectivities One
 
 @process Wrtn
-type transition_category 
+type transition_category
 from format=male,female.west.wc
-to format=male,female.west.sa	
+to format=male,female.west.sa
 proportions 1.0 1.0
 selectivities One
 
 @process Whome
-type transition_category 
+type transition_category
 from format=male,female.west.cr
-to format=male,female.west.sa	
+to format=male,female.west.sa
 proportions 1.0 1.0
 selectivities sel_Whome sel_Whome
 
 @process Espmg
-type transition_category 
+type transition_category
 from format=male,female.east.cr
 to format=male,female.east.cs
 proportions 1.0 1.0
 selectivities sel_Espmg_Male sel_Espmg_Female
- 
+
 @process Wspmg
-type transition_category 
-from format=male,female.west.sa	
-to format=male,female.west.wc	
+type transition_category
+from format=male,female.west.sa
+to format=male,female.west.wc
 proportions 1.0 1.0
 selectivities sel_Wspmg_Male sel_Wspmg_Female
 
@@ -96,7 +96,7 @@ ssb SSB_W
 categories format=male,female.west.cr format=male,female.west.sa format=male,female.west.wc
 proportions 0.5 0.5 0.0 0.0 0.0 0.0 ## The zeros are needed if you initialise via B0
 
-# male.west.sa 	male.east.cr 	male.west.cr 	male.west.wc 	male.east.cs 	female.west.sa 	female.east.cr 	female.west.cr 	female.west.wc 	female.east.cs	
+# male.west.sa 	male.east.cr 	male.west.cr 	male.west.wc 	male.east.cs 	female.west.sa 	female.east.cr 	female.west.cr 	female.west.wc 	female.east.cs
 @process recruit_E
 type recruitment_beverton_holt
 b0 451777
@@ -116,8 +116,8 @@ proportions 0.5 0.5 0.0 0.0
 type mortality_instantaneous
 m 1
 time_step_ratio 0.17 0.33 0.25 0.25
-selectivities M_male*5  M_female*5
-categories sex=male sex=female	
+relative_m_by_age M_male*5  M_female*5
+categories sex=male sex=female
 table catches
 year	Ensp1	Ensp2	Wnsp1	Wnsp2	Esp	Wsp
 1972	1500	2500	0	0	0	5000
@@ -173,7 +173,7 @@ Esp		male.east.cs		Espsl		0.67	Jul_Sep		none
 Ensp1		male.east.cr		Enspsl		0.3	Dec_Mar		none
 Ensp1		male.west.cr		Enspsl		0.3	Dec_Mar		none
 Ensp2		male.east.cr		Enspsl		0.3	Apr_Jun		none
-Ensp2		male.west.cr		Enspsl		0.3	Apr_Jun		none		
+Ensp2		male.west.cr		Enspsl		0.3	Apr_Jun		none
 Wsp		male.west.wc		Wspsl		0.67	Jul_Sep		none
 Wnsp1		male.west.sa		Wnspsl		0.3	Dec_Mar		none
 Wnsp2		male.west.sa		Wnspsl		0.3	Apr_Jun		none
@@ -181,7 +181,7 @@ Esp		female.east.cs		Espsl		0.67	Jul_Sep		none
 Ensp1		female.east.cr		Enspsl		0.3	Dec_Mar		none
 Ensp1		female.west.cr		Enspsl		0.3	Dec_Mar		none
 Ensp2		female.east.cr		Enspsl		0.3	Apr_Jun		none
-Ensp2		female.west.cr		Enspsl		0.3	Apr_Jun		none		
+Ensp2		female.west.cr		Enspsl		0.3	Apr_Jun		none
 Wsp		female.west.wc		Wspsl		0.67	Jul_Sep		none
 Wnsp1		female.west.sa		Wnspsl		0.3	Dec_Mar		none
 Wnsp2		female.west.sa		Wnspsl		0.3	Apr_Jun		none
@@ -195,7 +195,7 @@ type double_exponential
 x0 7.06524
 x1 1
 x2 17
-y0 0.182154 
+y0 0.182154
 y1 1.43768
 y2 1.57169
 alpha 1.0
@@ -205,54 +205,54 @@ type double_exponential
 x0 6.50502
 x1 1
 x2 17
-y0 0.0886197 
+y0 0.0886197
 y1 1.72199
 y2 0.811488
 alpha 1.0
 
 ## Fishery Selectivities
-@selectivity Enspsl 
-type double_normal 
-mu 71.0859 
-sigma_l 10.7575  
-sigma_r 44 
+@selectivity Enspsl
+type double_normal
+mu 71.0859
+sigma_l 10.7575
+sigma_r 44
 alpha 1.0
 length_based T
 
-@selectivity Wnspsl 
-type double_normal 
-mu 67.527 
-sigma_l 12.6136  
+@selectivity Wnspsl
+type double_normal
+mu 67.527
+sigma_l 12.6136
 sigma_r 27.0358
 alpha 1.0
 length_based T
 
-@selectivity Espsl 
-type logistic 
-a50 44.8005 
+@selectivity Espsl
+type logistic
+a50 44.8005
 ato95  4
 length_based T
 
-@selectivity Wspsl 
-type logistic 
-a50 44.8005 
+@selectivity Wspsl
+type logistic
+a50 44.8005
 ato95  4
 alpha 1.0
 length_based T
 
-@selectivity CRsl 
-type double_normal 
+@selectivity CRsl
+type double_normal
 length_based T
-mu 64 
-sigma_l 17.0631 
-sigma_r 38.2803 
+mu 64
+sigma_l 17.0631
+sigma_r 38.2803
 alpha 1.0
 
 @selectivity SAsl
-type double_normal 
+type double_normal
 length_based T
-mu 84  
-sigma_l 44 
+mu 84
+sigma_l 44
 sigma_r 44
 alpha 1.0
 
@@ -262,33 +262,33 @@ alpha 1.0
 type all_values_bounded
 l 1
 h 8
-v 0.135443 0.0517902 0.264679 0.366852 0.320746 0.719069 0.999999 1 
+v 0.135443 0.0517902 0.264679 0.366852 0.320746 0.719069 0.999999 1
 
 # E spawning: CR to CS
 @selectivity sel_Espmg_Male
 type all_values_bounded
 l 1
 h 8
-v 0.00260071 0.131903 0.419269 0.651485 0.656925 0.740576 0.820545 0.564856  
+v 0.00260071 0.131903 0.419269 0.651485 0.656925 0.740576 0.820545 0.564856
 
 @selectivity sel_Espmg_Female
 type all_values_bounded
 l 1
 h 8
-v 0.000389448 0.0649228 0.203769 0.373533 0.372642 0.473007 0.62007 0.6 
+v 0.000389448 0.0649228 0.203769 0.373533 0.372642 0.473007 0.62007 0.6
 # W spawning: SA to WC
 @selectivity sel_Wspmg_Male
 type all_values_bounded
 l 1
 h 8
-v 0.21816 0.671696 0.778671 0.801159 0.867848 0.744763 0.637949 0.541748 
+v 0.21816 0.671696 0.778671 0.801159 0.867848 0.744763 0.637949 0.541748
 
 
 @selectivity sel_Wspmg_Female
 type all_values_bounded
 l 1
 h 8
-v 0.12127 0.332454 0.23476 0.50265 0.545184 0.544605 0.700431 0.6  
+v 0.12127 0.332454 0.23476 0.50265 0.545184 0.544605 0.700431 0.6
 
 ## other useful selectivities
 @selectivity One
@@ -298,6 +298,7 @@ c 1
 @selectivity Point5
 type constant
 c 0.5
+
 ## Age length - Length Weight relationships
 @age_length age_size_W_male
 type von_bertalanffy
@@ -339,8 +340,8 @@ time_step_proportions 0.25 0.6 0.9 0.9 0.0
 @length_weight Length_weight
 type basic
 units tonnes
-a 4.79e-09 
-b 2.89 
+a 4.79e-09
+b 2.89
 
 ## Derive SSB
 @derived_quantity SSB_E

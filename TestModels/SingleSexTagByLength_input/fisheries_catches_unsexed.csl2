@@ -16,13 +16,13 @@ year FishingShelf FishingSlope FishingNorth
 2011	483.230	2053.800	310.360
 2012	276.810	2375.220	546.840
 2013	268.450	2506.030	411.340
-2014	265.300	2314.770	340.580	
+2014	265.300	2314.770	340.580
 2015	232.620	2236.180	364.140
 end_table
 
 table method
-method		category	selectivity	u_max	time_step	penalty								
-FishingShelf	format=*	Shelfsel	0.99	Summer	event_mortality_penalty	
-FishingSlope	format=*	Slopesel	0.99	Summer	event_mortality_penalty	
-FishingNorth	format=*	Northsel	0.99	Summer	event_mortality_penalty		
+method		category	selectivity	u_max	time_step	penalty
+FishingShelf	format=*	Shelfsel	0.99	Summer	event_mortality_penalty
+FishingSlope	format=*	Slopesel	0.99	Summer	event_mortality_penalty
+FishingNorth	format=*	Northsel	0.99	Summer	event_mortality_penalty
 end_table

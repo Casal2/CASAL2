@@ -38,10 +38,10 @@ age_plus true
 initialisation_phases Fixed
 time_steps step1
 
-@categories 
-format sex 
-names     male female 
-age_lengths   AL   AL  
+@categories
+format sex
+names     male female
+age_lengths   AL   AL
 
 @initialisation_phase Fixed
 type state_category_by_age
@@ -60,7 +60,7 @@ processes Rec M Ageing
 type constant
 categories *
 r0 59000
-proportions 0.5 0.5 
+proportions 0.5 0.5
 age 1
 
 @process Ageing
@@ -72,7 +72,7 @@ type constant_rate
 m 0.4*2
 categories *
 time_step_ratio 1
-selectivities [type = constant; c = 1]*2
+relative_m_by_age [type = constant; c = 1]*2
 
 @age_length AL
 type schnute
@@ -80,17 +80,17 @@ by_length true
 time_step_proportions 0.1
 y1 24.5
 y2 104.8
-tau1 1 
-tau2 20 
+tau1 1
+tau2 20
 a 0.131
 b 1.70
-cv_first 0.1 
-length_weight size_weight3 
+cv_first 0.1
+length_weight size_weight3
 
 @length_weight size_weight3
 type basic
-units kgs 
-a 2.0e-6 
+units kgs
+a 2.0e-6
 b 3.288
 
 @derived_quantity SSB

@@ -77,7 +77,7 @@ age 1
 type constant_rate
 categories immature.male mature.male immature.female mature.female
 M 0.065 0.065 0.045 0.045
-selectivities One One One One
+relative_m_by_age One One One One
 
 @transition transition
 type category_by_age

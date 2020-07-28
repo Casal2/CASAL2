@@ -84,7 +84,7 @@ proportions 1
 type mortality_instantaneous
 m 0.045
 time_step_ratio 1
-selectivities One
+relative_m_by_age One
 categories *
 table catches
 year NWCR

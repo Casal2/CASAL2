@@ -1,6 +1,6 @@
 #THE MODEL
 @model
-start_year 1960 
+start_year 1960
 final_year 2015
 projection_final_year 2021
 min_age 2
@@ -11,7 +11,7 @@ initialisation_phases Equilibrium_phase
 time_steps step1 step2
 
 #CATEGORIES
-@categories 
+@categories
 format sex.maturity ## sex.category
 names male.spawn female.spawn male.nonspawn female.nonspawn
 age_lengths male_AL female_AL male_AL female_AL ## namimg
@@ -22,10 +22,10 @@ type Derived
 
 ## Define the Annual Cycle
 ## This is a list of labels that correspond to a process
-@time_step step1 
+@time_step step1
 processes  Instantaneous_Mortality
 
-@time_step step2 
+@time_step step2
 processes  Ageing Recruitment Maturity_Migration Instantaneous_Mortality ## also spawning but defined in @derived_quantity
 
 ## Define the above Processes
@@ -60,7 +60,7 @@ proportions 1
 type mortality_instantaneous
 m 0.21 0.21 0.19 0.19
 time_step_ratio 0.9 0.1
-selectivities One
+relative_m_by_age One
 categories male.nonspawn male.spawn female.nonspawn female.spawn
 table catches
 year Trawl
@@ -148,7 +148,7 @@ ato95 3
 alpha 1.0
 
 @selectivity One
-type constant 
+type constant
 c 1
 
 #SIZE/Length AT AGE
@@ -310,13 +310,13 @@ end_table
 #
 @length_weight wgt_male
 type basic
-units tonnes 
+units tonnes
 a 0.00000000515
 b 3.092
 
 @length_weight wgt_female
 type basic
-units tonnes 
+units tonnes
 a 0.00000000407
 b 3.152
 

@@ -49,7 +49,7 @@ years 200
 exclude_processes fishing
 
 @time_step one
-processes halfm fishing 
+processes halfm fishing
 
 @time_step two
 processes halfm
@@ -81,7 +81,7 @@ standardise_ycs_years 1973:1999
 @mortality halfm
 type constant_rate
 categories male female
-selectivities [type=constant; c=1] halfm.one
+relative_m_by_age [type=constant; c=1] halfm.one
 m 0.10 0.10
 
 @mortality fishing
@@ -139,12 +139,12 @@ years 1992
 table obs
 1992 0.0241 0.0473 0.0448 0.071 0.078 0.104 0.0672 0.1213 0.0869 0.111 0.0788 0.0436 0.122
 end_table
-table error_values   
+table error_values
 1992 1.399 0.795 0.764 0.663 0.724 0.735 0.709 0.684 0.673 0.59 0.669 0.878 0.53
-end_table 
+end_table
 
 @report DQ
-type derived_quantity          
+type derived_quantity
 )";
 
 /**
@@ -220,7 +220,7 @@ years 200
 exclude_processes fishing
 
 @time_step one
-processes halfm fishing 
+processes halfm fishing
 
 @time_step two
 processes halfm
@@ -253,7 +253,7 @@ standardise_ycs_years 1973:1999
 @mortality halfm
 type constant_rate
 categories male female
-selectivities [type=constant; c=1] halfm.one
+relative_m_by_age [type=constant; c=1] halfm.one
 m 0.10 0.10
 
 @mortality fishing
@@ -313,10 +313,10 @@ table obs
 end_table
 table error_values
 1992 1.091 0.770 0.539 0.421 0.412 0.297 0.367 0.322 0.391 0.510 0.523 0.734 0.481 0.612 0.643 0.756 0.772 0.399 0.369 0.331 0.306 0.304 0.309 0.461 0.752 0.423
-end_table  
+end_table
 
 @report DQ
-type derived_quantity       
+type derived_quantity
 )";
 
 /**

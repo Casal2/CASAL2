@@ -29,7 +29,7 @@ using niwa::testfixtures::InternalEmptyModel;
 const std::string test_cases_observation_proportions_at_length_single =
 R"(
 @model
-start_year 1990 
+start_year 1990
 final_year 1997
 min_age 1
 max_age 4
@@ -40,10 +40,10 @@ time_steps init step1 step2 step3
 length_bins 0 20 40 60 80 110
 length_plus f
 
-@categories 
-format stock 
+@categories
+format stock
 names stock
-age_lengths age_size 
+age_lengths age_size
 
 @initialisation_phase iphase1
 type iterative
@@ -52,27 +52,27 @@ years 100
 
 
 
-@time_step init  
+@time_step init
 processes [type=nop]
 
-@time_step step1 
+@time_step step1
 processes Recruitment instant_mort
 
-@time_step step2 
-processes instant_mort 
+@time_step step2
+processes instant_mort
 
-@time_step step3 
+@time_step step3
 processes  Ageing instant_mort
 
 
 @process Recruitment
 type recruitment_beverton_holt
 categories stock
-proportions 1 
-r0 4.04838e+006  
+proportions 1
+r0 4.04838e+006
 ycs_years  1989:1996
-standardise_ycs_years 1989 1990 1991 1992 1993 1994 1995 1996 
-ycs_values      1.00 1.00 1.00 1.00 1.00 1.00 1.00 1.00 
+standardise_ycs_years 1989 1990 1991 1992 1993 1994 1995 1996
+ycs_values      1.00 1.00 1.00 1.00 1.00 1.00 1.00 1.00
 steepness 0.9
 ssb biomass_t1
 age 1
@@ -87,7 +87,7 @@ categories stock
 type mortality_instantaneous
 m 0.19
 time_step_ratio 0.42 0.25 0.33
-selectivities One
+relative_m_by_age One
 categories stock
 table catches
 year FishingWest FishingEest
@@ -141,7 +141,7 @@ sigma_l 3
 sigma_r 10
 alpha 1.0
 
-@selectivity log 
+@selectivity log
 type logistic
 a50 6
 ato95 3
@@ -161,20 +161,20 @@ by_length True
 k  0.5
 t0 -0.21
 Linf 88.3
-cv_first 0.1  
-length_weight size_weight3  
+cv_first 0.1
+length_weight size_weight3
 
 
 @length_weight size_weight3
 type basic
-units kgs 
-a 2.0e-6 
+units kgs
+a 2.0e-6
 b 3.288
 
 
 @observation observation
 type proportions_at_length
-years 1990 1992 1993 1994 1995 
+years 1990 1992 1993 1994 1995
 likelihood multinomial
 time_step step1
 categories stock
@@ -182,11 +182,11 @@ time_step_proportion 1
 selectivities chatTANSel
 delta 1e-5
 table obs
-1990    0.2   0.3   0.1   0.2   0.2 
-1992    0.12  0.25    0.28    0.25    0.1 
-1993    0.0   0.05    0.05    0.10    0.80  
-1994    0.05    0.1   0.05    0.05    0.75  
-1995    0.3   0.4   0.2   0.05    0.05  
+1990    0.2   0.3   0.1   0.2   0.2
+1992    0.12  0.25    0.28    0.25    0.1
+1993    0.0   0.05    0.05    0.10    0.80
+1994    0.05    0.1   0.05    0.05    0.75
+1995    0.3   0.4   0.2   0.05    0.05
 end_table
 table error_values
 1990 25
@@ -194,10 +194,10 @@ table error_values
 1993 31
 1994 34
 1995 22
-end_table   
+end_table
 
 @report DQ
-type derived_quantity 
+type derived_quantity
 )";
 
 /**
@@ -304,7 +304,7 @@ standardise_ycs_years 1973:1999
 @mortality halfm
 type constant_rate
 categories male female
-selectivities [type=constant; c=1] halfm.1
+relative_m_by_age [type=constant; c=1] halfm.1
 m 0.10 0.10
 
 @mortality fishing
@@ -367,10 +367,10 @@ end_table
 table error_values
 1992 1.091 0.770 0.539 0.421 0.412 0.297 0.367 0.322 0.391 0.510 0.523 0.734 0.481 0.612 0.643 0.756 0.772 0.399 0.369 0.331 0.306 0.304 0.309 0.461 0.752 0.423
 end_table
-time_step_proportion 1.0    
+time_step_proportion 1.0
 
 @report DQ
-type derived_quantity     
+type derived_quantity
 )";
 
 /**
