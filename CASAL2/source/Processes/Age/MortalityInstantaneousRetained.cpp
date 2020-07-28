@@ -580,6 +580,7 @@ void MortalityInstantaneousRetained::DoExecute() {
     LOG_FINEST() << "time step = " << time_step_index << " not in initialisation and there is an F method in this timestep. year = " << model_->current_year();
       for (auto& fishery_category : fishery_categories_) {
         LOG_FINEST() << "checking fishery = " << fishery_category.fishery_label_;
+
         if (fishery_category.fishery_.time_step_index_ != time_step_index)
           continue;
 
@@ -626,7 +627,7 @@ void MortalityInstantaneousRetained::DoExecute() {
     Double exploitation;
     for (auto& fishery_iter : fisheries_) {
       auto& fishery = fishery_iter.second;
-      exploitation  = 0.0;
+      exploitation = 0.0;
 
       // If fishery occurs in this time step calculate exploitation rate
       if (fishery.time_step_index_ == time_step_index) {
@@ -689,6 +690,10 @@ void MortalityInstantaneousRetained::DoExecute() {
     for (auto& fishery_iter : fisheries_) {
       auto& fishery = fishery_iter.second;
 
+      // Don't enter if this fishery is not executed here.
+      if (fishery.time_step_index_ != time_step_index)
+        continue;
+
       if (fishery.uobs_fishery_ > fishery.u_max_) {
         /**
          * Rescaling exploitation and applying penalties
@@ -724,12 +729,22 @@ void MortalityInstantaneousRetained::DoExecute() {
         if (!category.used_in_current_timestep_)
           continue;
 
+        LOG_MEDIUM() << "recalculating age exploitation for category " << category.category_label_ << " in time step " << time_step_index;
+
         for (unsigned i = 0; i < category.category_->age_spread(); ++i)
           category.exploitation_[i] = 0.0;
       }
 
       for (auto& fishery_category : fishery_categories_) {
         partition::Category* category = fishery_category.category_.category_;
+
+        // Don't enter if this fishery is not executed here.
+        if (fishery_category.fishery_.time_step_index_ != time_step_index)
+          continue;
+
+        LOG_MEDIUM() << "updating category exploitation with fishery " << fishery_category.fishery_.label_ << " in time step " << time_step_index
+          << ": exploitation = " << fishery_category.fishery_.exploitation_;
+
         for (unsigned i = 0; i < category->data_.size(); ++i) {
 //          fishery_category.category_.exploitation_[i] += fishery_category.fishery_.exploitation_ * fishery_category.selectivity_values_[i]; // like first process
           fishery_category.category_.exploitation_[i] += fishery_category.fishery_.exploitation_ * fishery_category.selectivity_values_[i]
@@ -789,7 +804,8 @@ void MortalityInstantaneousRetained::DoExecute() {
         for (unsigned i = 0; i < category.category_->data_.size(); ++i) { // over all ages
           LOG_FINEST() << "Age " << i + model_->min_age();
           for (auto& fishery_category : fishery_categories_) { // over all fisheries
-            if (fishery_category.category_label_ == category.category_label_ && fishery_category.fishery_.time_step_index_ == time_step_index) { // if fishing occurs on this category at this time
+            if (fishery_category.category_label_ == category.category_label_ &&
+                fishery_category.fishery_.time_step_index_ == time_step_index) { // if fishing occurs on this category at this time
               LOG_FINEST() << "Numbers before: " << category.category_->data_[i];
               LOG_FINEST() << "category.selectivity_values_[i] = " << category.selectivity_values_[i];
               LOG_FINEST() << "fishery_category.selectivity_values_[i] = " << fishery_category.selectivity_values_[i];
@@ -820,19 +836,20 @@ void MortalityInstantaneousRetained::DoExecute() {
    */
   unsigned category_ndx = 0;
   for (auto& category : categories_) {
-    LOG_FINE() << "category " << category.category_label_ << " used in time step " << time_step_index << ": " << category.used_in_current_timestep_;
+    LOG_MEDIUM() << "category " << category.category_label_ << " used in time step " << time_step_index << ": " << category.used_in_current_timestep_;
 
     for (unsigned i = 0; i < category.category_->data_.size(); ++i) {
       //removals_by_category_age_[category_ndx][i] = category.category_->data_[i]; // initial numbers before process
       LOG_FINEST() << "category " << category.category_label_ << ": numbers at age = " << category.category_->data_[i]
-        << " age " << i + model_->min_age() << " exploitation = " << category.exploitation_[i] << " M = " << *category.m_;
+        << " age " << i + model_->min_age() << " exploitation = " << category.exploitation_[i] << " M = " << *category.m_
+        << " relative_m_by_age = " << category.selectivity_values_[i];
 
       category.category_->data_[i] *= exp(-(*category.m_) * ratio * category.selectivity_values_[i]) * (1 - category.exploitation_[i]);
 
       if (category.category_->data_[i] < 0.0) {
         LOG_CODE_ERROR() << " Fishing caused a negative partition : if (categories->data_[i] < 0.0), category.category_->data_[i] = "
           << category.category_->data_[i] << " i = " << i + 1 << "; category " << category.category_label_ << ": numbers at age = " << category.category_->data_[i]
-          << " age " << i + model_->min_age() << " exploitation = " << category.exploitation_[i] << " selectivity = " << category.selectivity_values_[i]
+          << " age " << i + model_->min_age() << " exploitation = " << category.exploitation_[i] << " relative_m_by_age = " << category.selectivity_values_[i]
           << " M = " << *category.m_ << " time step = " << time_step_index << " used in time step = " << category.used_in_current_timestep_;
       }
       //removals_by_category_age_[category_ndx][i] -= category.category_->data_[i]; // minus what was left thus keeping the difference

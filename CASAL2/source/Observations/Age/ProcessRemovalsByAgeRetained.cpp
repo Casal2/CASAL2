@@ -355,7 +355,7 @@ void ProcessRemovalsByAgeRetained::Execute() {
           for (unsigned k = 0; k < Retained_at_age[year][fishery][(*category_iter)->name_].size(); ++k) {
             LOG_FINE() << "----------";
             LOG_FINE() << "Fishery: " << fishery;
-            LOG_FINE() << "Numbers At Age After Ageing error: " << (*category_iter)->min_age_ + k << "for category "
+            LOG_FINE() << "Numbers At Age After Ageing error: " << (*category_iter)->min_age_ + k << " for category "
                           << (*category_iter)->name_ << " " << Retained_at_age[year][fishery][(*category_iter)->name_][k];
 
             unsigned age_offset = min_age_ - model_->min_age();
