@@ -81,8 +81,7 @@ TEST_F(BasicModel, Observation_Abundance) {
 
   // Observation
   vector<string> observation_categories = { "immature.male+immature.female", "immature.female" };
-  vector<string> obs = { "22.50", "11.25" };
-  vector<string> error_values = { "0.2", "0.2" };
+  vector<string> obs = { "2008", "22.50", "11.25", "0.2" };
   vector<string> selectivities = { "constant_one", "constant_one", "constant_one" };
   base::Object* observation = model_->factory().CreateObject(PARAM_OBSERVATION, PARAM_ABUNDANCE);
   observation->parameters().Add(PARAM_LABEL, "abundance", __FILE__, __LINE__);
@@ -93,7 +92,6 @@ TEST_F(BasicModel, Observation_Abundance) {
   observation->parameters().Add(PARAM_CATEGORIES, observation_categories, __FILE__, __LINE__);
   observation->parameters().Add(PARAM_SELECTIVITIES, selectivities, __FILE__, __LINE__);
   observation->parameters().Add(PARAM_OBS, obs, __FILE__, __LINE__);
-  observation->parameters().Add(PARAM_ERROR_VALUE, error_values, __FILE__, __LINE__);
   observation->parameters().Add(PARAM_LIKELIHOOD, "lognormal", __FILE__, __LINE__);
   observation->parameters().Add(PARAM_TIME_STEP_PROPORTION, "1.0", __FILE__, __LINE__);
 

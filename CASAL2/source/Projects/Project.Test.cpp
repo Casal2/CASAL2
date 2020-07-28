@@ -26,7 +26,7 @@ using niwa::testfixtures::InternalEmptyModel;
 
 
 const string simple_model =
-    R"(
+R"(
 @model
 start_year 2000
 final_year 2012

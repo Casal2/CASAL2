@@ -32,7 +32,7 @@ catchability CSacous
 years 		1991 1993 1994 1995 1996 1997 1998 1999 2001 2002 2003 2005 2006 2007 2008 2009 2011 2013 2015
 likelihood lognormal
 table obs
-#years  obs   error_value
+# year  obs   error_value
 1991    88000   0.41
 1993    283000  0.52
 1994    278000  0.91
@@ -66,7 +66,7 @@ selectivities One One
 years 		1988 1989 1990 1991 1992 1993 1997 2000 2012 2013
 likelihood lognormal
 table obs
-#years  obs   error_value
+# year  obs   error_value
 1988    266000  0.60
 1989    165000  0.38
 1990    169000  0.40
@@ -91,7 +91,7 @@ years 		1992 1993 1994 1995 1996 1997 1998 1999 2000 2001 2002 2003 2004 2005 20
 likelihood lognormal
 process_error 0.146332
 table obs
-#years   obs   error_value
+# year   obs   error_value
 1992    120190  0.077
 1993    185570  0.103
 1994    145633  0.098
@@ -131,7 +131,7 @@ years		1992 1993 1994 2001 2002 2003 2004 2005 2006 2007 2008 2009 2010 2012 201
 likelihood lognormal
 process_error 0.374328
 table obs
-#years  obs   error_value
+# year  obs   error_value
 1992    80285   0.068
 1993    87359   0.061
 1994    99695   0.092
@@ -162,7 +162,7 @@ years 		1992 	1996 	1998
 likelihood lognormal
 process_error 0.20
 table obs
-#years  obs   error_value
+# year  obs   error_value
 1992    67832   0.083
 1996    89029   0.092
 1998    67709   0.110

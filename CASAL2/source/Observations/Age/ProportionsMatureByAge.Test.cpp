@@ -158,10 +158,12 @@ time_step_proportion 0.75
 categories spawn
 selectivities NWCR_Fsel
 catchability acoq_99_12
-years     1992 1993
-obs     8126 14637
-error_value   0.22 0.09
 likelihood lognormal
+years     1992 1993
+table obs
+1992    8126  0.22
+1993   14637  0.09
+end_table
 
 @observation LFcom
 type proportions_at_length
