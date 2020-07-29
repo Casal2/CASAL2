@@ -2,6 +2,8 @@
 # print(paste('pandoc version:', rmarkdown::pandoc_version()))
 
 require(ggplot2)
+require(coda)
+require(ggmcmc)
 require(rlist)
 
 require(devtools)
@@ -27,10 +29,22 @@ print(sessionInfo())
 
 base_dir <- '.'
 
+
 # MPD files are params_est.out, run_estimation.txt, and mpd.out for both CASAL and Casal2
 params_est <- 'params_est.out'
 mpd_run    <- 'run_estimation.txt'
 mpd_out    <- 'mpd.out'
+
+
+# MCMC files are run_mcmc.txt for both CASAL and Casal2
+mcmc_run        <- 'run_mcmc.txt'
+
+C1_sample_file  <- 'samples.1'
+C1_obj_fun_file <- 'objectives.1'
+
+C2_sample_file  <- 'mcmc_samples.out'
+C2_obj_fun_file <- 'mcmc_objectives.out'
+
 
 get_convergence_information <- function(filename)
 {

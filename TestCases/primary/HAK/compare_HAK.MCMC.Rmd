@@ -1,0 +1,106 @@
+---
+title: "Casal2 Test Case MCMC comparisons for HAK"
+output:
+    html_document:
+        toc: TRUE
+        toc_depth: 2
+        number_sections: TRUE
+
+header-includes:
+ - \usepackage{pdflscape}
+ - \newcommand{\blandscape}{\begin{landscape}}
+ - \newcommand{\elandscape}{\end{landscape}}
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+# HAK comparison of CASAL and Casal2 model configurations
+
+This document compares the results of at least 2 CASAL model configurations (base and at least one sensitivity) and up to 8 Casal2 model configurations (3 BetaDiff, 2 CppAD, and 3 ADOL-C).
+
+The CASAL model sensitivity 1 has a smaller minimisation tolerance value than the CASAL base model (1e-6 vs. 2e-3).
+
+The Casal2 ADOL-C and BetaDiff low tolerance models have a smaller tolerance value than the CASAL base model (1e-6 vs. 2e-3). The Casal2 CppAD models have a tolerance value of 1e-9.
+
+
+## HAK model characteristics
+
+The main characteristics of the Test Case HAK (hake) CASAL model are:
+
+* one stock, ages 1 - 30
+* one area
+* years 1975 - 2018, projection years 2019 - 2022
+* two time steps, duration 7 months and 5 months
+* recruitment, spawning, aging, maturation, fishing in time step 1
+* two stock categories: males and females, with user-provided maturity-at-age ogive
+* natural mortality (M) of 0.19
+* Beverton-Holt stock-recruitment relationship, with steepness (h) 0.8
+* sex-specific Schnute age-length relationship
+* sex-specific length-weight relationship ($W = aL^b$)
+* ageing error type normal (c = 0.08)
+* one fishery with logistic selectivity-at-age
+* one survey with logistic selectivity-at-age
+
+Observation data include:
+
+* fishery CPUE index
+* fishery proportions-at-age
+* survey biomass index
+* survey proportions-at-age
+
+Parameters estimated include:
+
+* B0
+* catchability (q) for the fishery CPUE index and for the survey index
+* fishery and survey selectivity parameters a50 and ato95
+* YCS (recruitment deviations)
+
+
+## R environment
+
+```{r C1_C2_setup, echo=FALSE, warning=FALSE, message=FALSE}
+source('../../R-functions/report_set_up_R_env.R')
+```
+
+
+## CASAL and Casal2 model output
+
+```{r CASAL, warning=FALSE}
+source('../../R-functions/report_read_in_CASAL_MPD_files.R')
+source('../../R-functions/report_read_in_CASAL_MCMC_files.R')
+```
+
+
+```{r Casal2}
+source('../../R-functions/report_read_in_Casal2_MPD_files.R')
+source('../../R-functions/report_read_in_Casal2_MCMC_files.R')
+```
+
+
+## MCMC diagnostics
+
+Diagnostics for the CASAL and Casal2 model MCMC results
+
+```{r CASAL_MCMC_diag, message=FALSE}
+num_samples_to_use <- 10000
+MCMC_params_rename <- c('objective_function', 'SB0', 'q_CPUE', 'q_subaTANqA')
+
+C1_MCMC_params <- c('neg_ln_posterior', 'initialization.B0', 'q[cpue].q', 'q[subaTANqA].q')
+
+source('../../R-functions/report_CASAL_MCMC_diagnostics.R')
+```
+
+
+```{r Casal2_MCMC_diag, message=FALSE}
+C2_MCMC_params <- c('objective_score', 'process[Recruitment].b0', 'catchability[CPUEq].q', 'catchability[subaTANqA].q')
+
+source('../../R-functions/report_Casal2_MCMC_diagnostics.R')
+```
+
+```{r plot_MCMC_diag, message=FALSE}
+source('../../R-functions/report_plot_MCMC_diagnostics.R')
+```
+
+
