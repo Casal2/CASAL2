@@ -10,8 +10,8 @@ if (num_rows < num_samples_to_use) {
     stop('ERROR: the number of CASAL sensitivity run samples is smaller than the number of requested samples')
 }
 
-C1_mcmc_mat       <- cas_mcmc[((num_rows - num_samples_to_use + 1):num_rows), C1_MCMC_params]
+C1_mcmc_mat       <- cas_mcmc[seq((num_rows - num_samples_to_use + 1), num_rows, num_to_subsample), C1_MCMC_params]
 colnames(C1_mcmc_mat) <- MCMC_params_rename
 
-C1_mcmc_sens1_mat <- cas_mcmc_sens1[((num_rows_sens1 - num_samples_to_use + 1):num_rows), C1_MCMC_params]
+C1_mcmc_sens1_mat <- cas_mcmc_sens1[seq((num_rows_sens1 - num_samples_to_use + 1), num_rows, num_to_subsample), C1_MCMC_params]
 colnames(C1_mcmc_sens1_mat) <- MCMC_params_rename

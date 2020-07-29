@@ -85,6 +85,7 @@ Diagnostics for the CASAL and Casal2 model MCMC results
 
 ```{r CASAL_MCMC_diag, message=FALSE}
 num_samples_to_use <- 10000
+num_to_subsample   <- 10
 MCMC_params_rename <- c('objective_function', 'SB0', 'q_CPUE', 'q_subaTANqA')
 
 C1_MCMC_params <- c('neg_ln_posterior', 'initialization.B0', 'q[cpue].q', 'q[subaTANqA].q')

@@ -11,6 +11,6 @@ for (c in 1:num_C2_models)
         stop(paste('ERROR: the number of Casal2', C2_subdir[c], 'run samples is smaller than the number of requested samples'))
     }
 
-    C2_mcmc_mat[[c]] <- cas2_mcmc[[c]]$Data[((num_rows - num_samples_to_use + 1):num_rows), C2_MCMC_params]
+    C2_mcmc_mat[[c]] <- cas2_mcmc[[c]]$Data[seq((num_rows - num_samples_to_use + 1), num_rows, num_to_subsample), C2_MCMC_params]
     colnames(C2_mcmc_mat[[c]]) <- MCMC_params_rename
 }
