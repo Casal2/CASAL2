@@ -96,7 +96,7 @@ source('../../R-functions/report_set_up_R_env.R')
 ## CASAL and Casal2 model output
 
 ```{r CASAL, warning=FALSE}
-source('../../R-functions/report_read_in_CASAL_MPD_files.R')
+# source('../../R-functions/report_read_in_CASAL_MPD_files.R')
 source('../../R-functions/report_read_in_CASAL_MCMC_files.R')
 ```
 
@@ -119,16 +119,16 @@ plot_file_label <- 'HAK'
 
 num_samples_to_use <- 10000
 num_to_subsample   <- 10
-MCMC_params_rename <- c('objective_function', 'SB0', 'q_CPUE', 'q_subaTANqA')
+MCMC_params_rename <- c('objective_function', 'SB0', 'q_CPUE', 'q_subaTANqA', 'YCS_last')
 
-C1_MCMC_params <- c('neg_ln_posterior', 'initialization.B0', 'q[cpue].q', 'q[subaTANqA].q')
+C1_MCMC_params <- c('neg_ln_posterior', 'initialization.B0', 'q[cpue].q', 'q[subaTANqA].q', 'recruitment.YCS.43')
 
 source('../../R-functions/report_CASAL_MCMC_diagnostics.R')
 ```
 
 
 ```{r Casal2_MCMC_diag, echo=FALSE, message=FALSE}
-C2_MCMC_params <- c('objective_score', 'process[Recruitment].b0', 'catchability[CPUEq].q', 'catchability[subaTANqA].q')
+C2_MCMC_params <- c('objective_score', 'process[Recruitment].b0', 'catchability[CPUEq].q', 'catchability[subaTANqA].q', 'process[Recruitment].ycs_values{2016}')
 
 source('../../R-functions/report_Casal2_MCMC_diagnostics.R')
 ```
@@ -142,8 +142,12 @@ par(mfrow=c(1,1))
 ```
 
 
-```{r plot_MCMC_diag, echo=FALSE, warning=FALSE, message=FALSE}
-source('../../R-functions/report_plot_MCMC_diagnostics.R')
+```{r plot_MCMC_coda_diag, echo=FALSE, warning=FALSE, message=FALSE}
+source('../../R-functions/report_plot_MCMC_coda_diagnostics.R')
 ```
 
+
+```{r plot_MCMC_ggmcmc_diag, echo=FALSE, warning=FALSE, message=FALSE}
+source('../../R-functions/report_plot_MCMC_ggmcmc_diagnostics.R')
+```
 

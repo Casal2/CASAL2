@@ -1,10 +1,10 @@
 # print(paste('pandoc installed?', rmarkdown::pandoc_available()))
 # print(paste('pandoc version:', rmarkdown::pandoc_version()))
 
-require(ggplot2)
-require(coda)
 require(ggmcmc)
-require(rlist)
+require(coda)
+require(gridExtra)
+require(ggthemes)
 
 require(devtools)
 
