@@ -58,6 +58,34 @@ Parameters estimated include:
 * YCS (recruitment deviations)
 
 
+## HAK model MCMC specifications
+
+The CASAL MCMC options include
+
+* start 0.5
+* length 11000000
+* stepsize 0.001
+* keep 1000
+* adaptive_stepsize True
+* adapt_at 10000 20000 30000 40000 50000 100000 200000 300000 4000000 500000 600000 700000 800000
+* df 2
+* burn_in 1000
+* proposal_t True
+
+The Casal2 MCMC options include
+
+* start 0.5
+* length 11000000
+* step_size 0.001
+* keep 1000
+* adapt_stepsize_at 10000 20000 30000 40000 50000 100000 200000 300000 4000000 500000 600000 700000 800000
+* df 2
+* proposal_distribution t
+* adapt_stepsize_method double_half
+* max_correlation 0.8
+
+
+
 ## R environment
 
 ```{r C1_C2_setup, echo=FALSE, warning=FALSE, message=FALSE}
@@ -81,9 +109,14 @@ source('../../R-functions/report_read_in_Casal2_MCMC_files.R')
 
 ## MCMC diagnostics
 
-Diagnostics for the CASAL and Casal2 model MCMC results
+### Diagnostics for the CASAL and Casal2 model MCMC results
 
-```{r CASAL_MCMC_diag, message=FALSE}
+For the diagnostics below, the last 10000 samples for each chain are used and subsampled at 10, so that 1000 samples are input into the diagnostic functions.
+
+
+```{r CASAL_MCMC_diag, echo=FALSE, message=FALSE}
+plot_file_label <- 'HAK'
+
 num_samples_to_use <- 10000
 num_to_subsample   <- 10
 MCMC_params_rename <- c('objective_function', 'SB0', 'q_CPUE', 'q_subaTANqA')
@@ -94,13 +127,22 @@ source('../../R-functions/report_CASAL_MCMC_diagnostics.R')
 ```
 
 
-```{r Casal2_MCMC_diag, message=FALSE}
+```{r Casal2_MCMC_diag, echo=FALSE, message=FALSE}
 C2_MCMC_params <- c('objective_score', 'process[Recruitment].b0', 'catchability[CPUEq].q', 'catchability[subaTANqA].q')
 
 source('../../R-functions/report_Casal2_MCMC_diagnostics.R')
 ```
 
-```{r plot_MCMC_diag, message=FALSE}
+
+```{r plots_base, echo=FALSE}
+# c(bottom, left, top, right)
+par(mar=c(4,4,2,1) + 0.1)
+
+par(mfrow=c(1,1))
+```
+
+
+```{r plot_MCMC_diag, echo=FALSE, warning=FALSE, message=FALSE}
 source('../../R-functions/report_plot_MCMC_diagnostics.R')
 ```
 
