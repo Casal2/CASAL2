@@ -1,12 +1,12 @@
 \section{\I{Partition \& Categories}\label{sec:partition-categories-section}}
 
-Dividing the population into different categories is fundamental to modelling the dynamics of a fish stock. CASAL had a fixed set of hard-wired categories (e.g., factors like sex area,or stock) and each category type had a predefined set of allowed processes (or transitions in CASAL-speak), e.g., immature fish moving into mature category \citep{1388}. This made sense when CASAL was coded, but now it is seen as a limitation, e.g., changing sex was not allowed and there can only be male and female sexes, not an unknown sex that sometimes occurs in data. [SHIFT TO INTRO OR DROP?]
+Dividing the population into different categories is fundamental to modelling the dynamics of a fish stock. CASAL had a fixed set of hard-wired categories (e.g., factors like sex, area, or stock) and each category type had a predefined set of allowed processes (or transitions in CASAL-speak), e.g., immature fish moving into mature category \citep{1388}. This made sense when CASAL was coded, but now it is seen as a limitation, e.g., changing sex was not allowed and there can only be male and female sexes, not an unknown sex that sometimes occurs in data. [SHIFT TO INTRO OR DROP?]
 
-In \CNAME~, the concept of user defined categories was introduced to allow more flexibility in dividing up the population which we believe is more future proofed. Note that \CNAME~does not know about sex or area and their properties; these are explicitly built up by the user by specifying processes that act on the categories in the input files. The cost is that users need to follow good practice to achieve clarity and readability of the input files, i.e., poor specifications can result in obscure input files.
+In \CNAME~, the concept of user defined categories was introduced to allow more flexibility in dividing up the population. Note that \CNAME~does not know about sex or area and their properties; these are explicitly built up by the user by specifying processes that act on the categories in the input files. The cost is that users need to follow good practice to achieve clarity and readability of the input files, i.e., poor specifications can result in obscure input files.
 
 \subsection{Specifying the partition using categories}
-A key element of the model is the partition which  holds the current state of the population. The partition can be conceptualised as a matrix, where each row represents a category and the columns are the age classes (Figure~\ref{Fig:part}). Each row represents all individuals in that category as a numbers-at-age vector.  There must be at least one category defined for each model.
 
+A key element of the model is the partition which holds the current state of the population. The partition can be conceptualised as a matrix, where each row represents a category and the columns are the age classes (Figure~\ref{Fig:part}). Each row represents all individuals in that category as a numbers-at-age vector.  There must be at least one category defined for each model.
 
 \begin{figure}[H]
 	\centering
@@ -14,12 +14,9 @@ A key element of the model is the partition which  holds the current state of th
 		\caption{A visual representation of a partition.}\label{Fig:part}
 \end{figure}
 
-The categories can include combinations of levels from one or more  factors such as sex, maturity state, area, or even species. \CNAME~has no predefined categories; \emph{all} categories are defined by the user.
-Note that the partition only has the current state of the model, past states are not kept (\textit{See} the section on derived quantities about saving past summaries from the partition, p. \pageref{sec:derived-quantities} ).
+The categories can include combinations of levels from one or more factors such as sex, maturity state, area, or even species. \CNAME~has no predefined categories; \emph{all} categories are defined by the user. Note that the partition only has the current state of the model; past states are not kept (\textit{See} the section on derived quantities about saving past summaries from the partition, p. \pageref{sec:derived-quantities}).
 
-
-
-To illustrate categories, we consider a model of a fish population with  two fisheries, one on spawning fish at the spawning grounds and another on the  non-spawning population in the rest of the stock area.  The mature fish will migrate to the spawning area, where the spawning fishery occurs. At the end of spawning, these fish, along with the recruits from the previous year, migrate back to the non-spawning area. The fish population can be represented  by factors sex (levels \textit{male} and \textit{female}), maturity (levels \textit{immature} and \textit{mature}), and area (levels \textit{spawning} and \textit{non-spawning} ). So the partition has 8 rows of numbers-at-age, from 2 sexes $\times$ 2 maturity levels $\times$ 2 areas.
+To illustrate categories, consider a model of a fish population with two fisheries, one on spawning fish at the spawning grounds and another on the non-spawning population in the rest of the stock area. The mature fish will migrate to the spawning area, where the spawning fishery occurs. At the end of spawning, these fish, along with the recruits from the previous year, migrate back to the non-spawning area. The fish population can be represented  by factors sex (levels \textit{male} and \textit{female}), maturity (levels \textit{immature} and \textit{mature}), and area (levels \textit{spawning} and \textit{non-spawning} ). So the partition has 8 rows of numbers-at-age, from 2 sexes $\times$ 2 maturity levels $\times$ 2 areas.
 
 These categories are specified in a categories block which starts with a \textit{@categories} line followed on the next line by a \textit{format} subcommand that specifies the factors to use and their order. Factor names are user defined and have no intrinsic meaning to \CNAME). The command block is:
 
@@ -28,18 +25,23 @@ These categories are specified in a categories block which starts with a \textit
 	format area.sex.mature
 	names spawn.male.immature spawn.male.mature spawn.female.immature spawn.female.mature nonspawn.male.immature nonspawn.male.mature nonspawn.female.immature #all on one line nonspawn.female.mature  
 \end{lstlisting}}}  %{verbatimIJD}}}
+
 Note the "." syntax to separate the factor names.
 
-Next comes the \textit{names} subcommand which specifies the combinations of levels that makes up each category. In a sense, the \textit{format} subcommand is not needed since the \textit{names} subcommand can define all categories. However, \textit{format} allows a more  digestible and shorter syntax to define categories here and in other blocks such as matching observation to categories that provided the data (including combinations of categories, e.g., age compositions that combine both sexes). For example, the \textit{names} subcommand can be specified by:
+Next comes the \textit{names} subcommand which specifies the combinations of levels that makes up each category. In a sense, the \textit{format} subcommand is not needed since the \textit{names} subcommand can define all categories. However, \textit{format} allows a more  digestible and shorter syntax to define categories here and in other blocks such as matching observation to categories that provided the data (including combinations of categories, e.g., age compositions that combine both sexes).
+
+For example, the \textit{names} subcommand can be specified by:
+
 {\small{\begin{verbatim}names spawn,nonspawn.male,female.immature,mature
 \end{verbatim}}}
-which defines the categories above in a more efficient manner, (again, note the "." to separate the factors and "," to separate the levels within each factor (\textit{see} the next section for more details). 
-A visualisation of the partition is in Figure \ref{Fig:part}.
 
+which defines the categories above in a more efficient manner, (again, note the "." to separate the factors and "," to separate the levels within each factor (\textit{see} the next section for more details). A visualisation of the partition is in Figure \ref{Fig:part}.
 
-When using the short-cut syntax in \textit{names}, the order of level combinations is for the levels of the first factor to change the slowest, then the next factor will change faster, and so on with the last factor to changing levels the  fastest. The order is important because linking categories to their, e.g., growth curve or selectivity, is done in other subcommands where these must be specified in the same order.
+When using the short-cut syntax in \textit{names}, the order of level combinations is for the levels of the first factor to change the slowest, then the next factor will change faster, and so on with the last factor to changing levels the fastest. The order is important because linking categories to their characteristics, e.g., growth curve or selectivity, is done in other subcommands where these must be specified in the same order.
 
-To exclude unused categories from the partition, the long form must be used in the \textit{names} subcommand, e.g., to exclude  \textit{spawn.female.immature} and \textit{spawn.male.immature} since they are never in the spawning area if make recruitment to enter the partition in  the non-spawning area, use
+To exclude unused categories from the partition, the long form must be used in the \textit{names} subcommand, e.g., to exclude  \textit{spawn.female.immature} and \textit{spawn.male.immature} since they are never in the spawning area.
+
+To make recruitment to enter the partition in  the non-spawning area, use
 
 {\small{\begin{lstlisting}
 	@categories
@@ -48,13 +50,12 @@ To exclude unused categories from the partition, the long form must be used in t
 \end{lstlisting}}}
 
 \subsection{Shorthand syntax for categories}\label{sec:ShorthandSyntax-section}
+
 This can be skipped on the first reading.
 
-Some specifications have long lists of categories or years or initial values for parameters and the like, e.g., for YCS from 1900 to 2019, we have to specify 120 years and 120 initial vales of YCS; this is hard to do by hand and it can be error prone as well as difficult to match values for each year. Here, we can use the range short cut (\textit{:)} so the  the year specification is \textit{1900:2019}, and the multiplier shortcut (\textit{*)} to give the initial values specification as \textit{1*120}.
+Some specifications have long lists of categories or years or initial values for parameters and the like, e.g., for YCS from 1900 to 2019, 120 years and 120 initial vales of YCS must be specified; this is hard to do by hand and it can be error prone as well as difficult to match values for each year. Here, the range short cut (\textit{:)} can be used so the  the year specification is \textit{1900:2019}, and the multiplier short cut (\textit{*)} to give the initial values specification as \textit{1*120}.
 
-There is also shorthand notation for categories since 
- each category can be quite complicated. \label{sub:categories}
- We first use the \texttt{format} subcommand in the \textit{@categories} block to define the factors that make up the sections of the category names. Here, we use a "." (period) character to delineate each factor and this structure allows a shorthand syntax to compose category names. 
+There is also shorthand notation for categories since each category can be quite complicated. \label{sub:categories}. First use the \texttt{format} subcommand in the \textit{@categories} block to define the factors that make up the sections of the category names. A "." (period) character delineates each factor and this structure allows a shorthand syntax to compose category names. 
 
 The \texttt{names} subcommand is used to list the category names. Sections within the shorthand syntax for \textit{names} are required to match the order of factors in the \textit{format} subcommand so \CNAME\ can organise and search on them. In these sections, levels for each factor use the "list specifier" and range characters, e.g.,
 
@@ -73,7 +74,7 @@ names male,female.immature,mature.notag,2001:2005 # Valid shortcut
 names male.immature.notag male.immature.2001 male.immature.2002 male.immature.2003 male.immature.2004 male.immature.2005 male.mature.notag male.mature.2001 male.mature.2002 male.mature.2003 male.mature.2004 male.mature.2005 female.immature.notag female.immature.2001 female.immature.2002 female.immature.2003 female.immature.2004 female.immature.2005 female.mature.notag female.mature.2001 female.mature.2002 female.mature.2003 female.mature.2004 female.mature.2005
 \end{lstlisting}}}
 
-The shorthand syntax available are: [IJD: edit list]
+The shorthand syntax available are: [TODO: edit list]
 
 \begin{itemize}
 	\item \textit{*} Specify all categories
@@ -88,7 +89,7 @@ specifies that the observation covers both sexes combined.
 \end{itemize}
 
 
-Example of specifying categories using the shortcuts:
+Example of specifying categories using the short cuts:
 
 This syntax is the long way:
 {\small{\begin{verbatim}
@@ -97,8 +98,8 @@ This syntax is the long way:
 		names male.immature male.mature female.immature female.mature
 		\end{verbatim}}}
 
-A shorter way to specify the exact same partition structure 
-using \textit{lists}:
+A shorter way to specify the exact same partition structure  using \textit{lists}:
+
 {\small{\begin{verbatim}
 		@categories
 		format sex.stage
@@ -107,7 +108,8 @@ using \textit{lists}:
 
 \CNAME\ requires categories in processes and observations so that the correct model dynamics can be applied to the correct elements of the partition.
 
-We illustrate using categories required for the ageing process block:
+This block illustrates using categories required for the ageing process:
+
 {\small{\begin{verbatim}
 		# 1. The long-hand way
 		@ageing my_ageing
@@ -167,10 +169,9 @@ Then, to migrate a portion of the mature population from the southern area to th
 		to format=north.mature.*   # into the relevant north categories
 		\end{verbatim}}}
 
-
 \textbf{Advanced partition syntax}
 
-Specific data for a year in a category can be set up so that this category is not to be processed during specific years or in the initialisation phases. Years that each category is available cma be specified and these years which will override the default setting of all years in the model. Any category with the default years overridden will no longer be accessible in the initialisation phases.
+Specific data for a year in a category can be set up so that this category is not to be processed during specific years or in the initialisation phases. Years that each category is available can be specified and these years which will override the default setting of all years in the model. Any category with the default years overridden will no longer be accessible in the initialisation phases.
 
 Examples:
 
@@ -188,7 +189,7 @@ names male,female.immature,mature.notag,2001:2005 # Valid
         #2003, 2004, 2005, 2006, 2007
 years tag=2001=1999:2003  tag=2005=2003:2007
 \end{verbatim}}}
-\label{sec:ShorthandSyntax-section}
+%\label{sec:ShorthandSyntax-section}
 %\resizebox{\textwidth}{!}{%
 
 \begin{table}[h]
@@ -233,6 +234,7 @@ unsexed.immature&0&0&0&0&0&unsexed.immature\\
 \end{table}
 
 Category shortcuts can be used in a sequence to create a complex partition. For example, using the following creates the partition shown in Table \ref{Tab:part}.
+
 {\small{\begin{lstlisting}
 @categories
 format sex.maturation.tag
@@ -246,7 +248,7 @@ names male.immature male.mature female.immature female.mature
       unsexed.immature
 \end{lstlisting}}}
 
-Note that the algorithm goes from left to right over the factors in the \textit{format} subcommand. So substituting \textit{unsexed} for \textit{unsexed.immature} is OK and gives a category called \textit{unsexed} in the \textit{sex} factor. But substituting \textit{.immature} (or \textit{.zzz}) for \textit{unsexed.immature} results in one less category and generates an error (i.e., no level provided for factor \textit{sex}).
+Note that the algorithm goes from left to right over the factors in the \textit{format} subcommand. So substituting \textit{unsexed} for \textit{unsexed.immature} is valid and gives a category called \textit{unsexed} in the \textit{sex} factor. But substituting \textit{.immature} (or \textit{.zzz}) for \textit{unsexed.immature} results in one less category and generates an error (i.e., no level provided for factor \textit{sex}).
 
 \subsection{\I{Referencing vector and map parameters}\label{sec:params}}
 
@@ -270,12 +272,9 @@ process[Fishing].method_pot      #pot fishery in the process called Fishing
                                  # identify each one
 \end{verbatim}}}
 
+Parameters can be scalars (one value), vectors (several values), or maps. A map consists of two vectors: one containing a key value (for searching or uniquely indexing), and another vector that contains values associated with the index, e.g., specifying YCS values for each year; the years are the key (or index).  To reference one or more components of a vector or map use the \textit{\{\}} syntax. This is sometime needed when specifying which element(s) in a vector or map are to be estimated.
 
-
-
-Parameters can be scalars (one value), vectors (several values), or maps. A map consists of two vectors; one containing a key value (for searching or uniquely indexing), and another vector that contains values associated with the index, e.g., specifying YCS values for each year; the years are the key (or index).  To reference one or more components of a vector or map we use the \textit{\{\}} syntax. This is sometime needed when  specifying which element(s) in a vector or map are to be estimated.
-
-An example of a map parameter is \texttt{ycs\_values} in a recruitment process, e.g.,
+An example of a map parameter is \texttt{ycs\_values} in a recruitment process
 
 {\small{\begin{verbatim}
 		@process   WestRecruitment
@@ -287,16 +286,16 @@ An example of a map parameter is \texttt{ycs\_values} in a recruitment process, 
 		ycs_values 1*8
 		\end{verbatim}}}
 
-To specify that only the last four years of the YCS parameter \texttt{process[WestRecruitment].ycs\_values} are to be  estimated we write:
+To specify that only the last four years of the YCS parameter \texttt{process[WestRecruitment].ycs\_values} are to be  estimated:
 
 {\small{\begin{verbatim}
 		@estimate YCS    #YCS is a label to identify this block
 		parameter process[WestRecruitment].ycs_values{1980:1983}  #estimate 4 values only: 1980 1981 1982 & 1983
 		\end{verbatim}}}
 
-To estimate a common value for a block of years in a map parameter we use the \textit{same} subcommand. We illustrate the idea within the process \command{time\_varying}\texttt{[label].type=constant},where we want to fix \textit{q} over a specified block of years, 1992 to 1995.
+To estimate a common value for a block of years in a map parameter use the \textit{same} subcommand. We illustrate the idea within the process \command{time\_varying}\texttt{[label].type=constant}, where we want to fix \textit{q} over a specified block of years, 1992 to 1995.
 
-We first specify the relationships in a \command{time\_varying} block:
+First specify the relationships in a \command{time\_varying} block:
 
 {\small{\begin{verbatim}
 		@time_varying q_step1
@@ -306,7 +305,7 @@ We first specify the relationships in a \command{time\_varying} block:
 		value 	0.2		0.2		0.2		0.2   # or 0.2*4, initial values of q
 		\end{verbatim}}}
 
-Next, to estimate only one \textit{q} value for the time block, we pick one element of the map (say 1992), and then force all other years to have the same value, e.g.,  
+Next, to estimate only one \textit{q} value for the time block, pick one element of the map (say 1992), and then force all other years to have the same value:
 
 {\small{\begin{verbatim}
 		@estimate q_block_1992
@@ -317,7 +316,8 @@ Next, to estimate only one \textit{q} value for the time block, we pick one elem
 		upper_bound  10  
 		\end{verbatim}}}
 
-Keys are restricted in \CNAME~ to years and categories. An example using categories as a key in a map is:
+Keys are restricted in \CNAME~ to years and categories. An example using categories as a key in a map:
+
 {\small{\begin{verbatim}
 @category
 factor sex
@@ -332,7 +332,7 @@ m  0.17 0.17             # natural mortality values indexed by categories
 type uniform                     #prior
 parameter recruitment.[m]{male}  # estimate male M, "male" is a level for factor sex
 same recruitment.[m]{female}     # set female M to the same value as male's
-	\end{verbatim}}}
+\end{verbatim}}}
 	
 For vector parameters (i.e., no key values), the index is an integer starting with 1 for the first value. An example is the selectivity \textit{all.values.bounded} which can be defined by:
 
@@ -348,19 +348,16 @@ type       uniform                   #prior
 parameter selectivity[MatSel].v{2}  # estimate the 2nd value only, i.e., age 3
 lower_bound 0.1                     # lower parameter range
 upper_bound 1.0                     # upper parameter range
-	\end{verbatim}}}
+\end{verbatim}}}
 	
-You cannot use the integer \textit{{2}} to specify the \textit{q} parameter for 1993 in the above example labeled \textit{q\_block\_1992}. This will pass the syntax test, but it will fail at the validate stage in \CNAME.
-
-
+The integer \textit{{2}} cannot be used to specify the \textit{q} parameter for 1993 in the above example labeled \textit{q\_block\_1992}. This will pass the syntax test, but it will fail at the validate stage in \CNAME.
 
 
 \paragraph*{\I{In-line declaration, avoiding extra command blocks}\label{sec:declare}}
 
-
 In-line declarations can help shorten models by defining \command{} blocks within the subcommand line instead of having a label that points to a command block define somewhere else in the input files.
 
-For example, here we define catchability for an CPUE index series inline:
+For example, catchability for an CPUE index series can be defined inline:
 
 {\small{\begin{verbatim}
 		@observation chatCPUE
@@ -377,6 +374,7 @@ For example, here we define catchability for an CPUE index series inline:
 		\end{verbatim}}}
 
 In the above code catchability is defined and estimated without explicitly creating a \command{catchability} block.
+
 \subsection{Examples? not needed?}
 
 \section{\I {Specifying the population model}\label{sec:population-section}}
@@ -385,13 +383,11 @@ In the above code catchability is defined and estimated without explicitly creat
 
 This section\index{Population section} show how to specify a model for the population dynamics. It describes the model time and age scope, the population processes used (e.g., recruitment, ageing, migration, and mortality), the selectivities, and how to set values for their associated parameters, or starting values if they are going to be estimated.
 
+The basic structure of the population is defined in terms of its partitions and the succession of processes that act on them throughout a year. \CNAME~assumes an annual cycle, i.e., rates like natural mortality are assumed to be for a year. To place certain processes or observations (e.g., a research survey) into the right part of the year, the year can be divided into one or more time steps, and each time step needs  at least one process. Each time step can represent a specific period of the calendar year, or it can be an abstract sequence of events. Certain processes like natural mortality and growth can have a proportion of the effects of the process assigned to different time steps to crudely mimic seasonal effects, or fisheries that occur in short periods of the year, as well as place a survey within the year relative to the proportion of annual natural mortality that has occurred (\ref{sec:derived-quantities}, p. \pageref{sec:derived-quantities}).
 
-The basic structure of the population is defined in terms of its partition and the succession of processes that act on it throughout a year. \CNAME~assumes an annual cycle, i.e., rates like natural mortality are assumed to be for a year. To place certain processes or observations (e.g., a research survey) into the right part of the year, the year can be divided into one or more time steps, and each time step needs  at least one process. Each time step can represent a specific period of the calendar year, or it can be an abstract sequence of events. Certain processes like natural mortality and growth can have a proportion of the effects of the process assigned to different time steps to crudely mimic seasonal effects, or fisheries that occur in short periods of the year, as well as place a survey within the year relative to the proportion of annual natural mortality that has occurred (\ref{sec:derived-quantities}, p. \pageref{sec:derived-quantities}).
+The \textit{state} is the current status of the population at any given time and it can change one or more times during the year. The state object must contain sufficient information to determine how the population changes over time, given a model and a complete set of parameters. The partition is key to the state, but it has no "memory". Thus, other information must also be kept, such as the mature biomass from a previous year or time step to calculate the recruit numbers into first age class via the spawner-recruitment function. The latter are specified as \textit{derived variables} and they are kept for the whole model run. However, the \textit{derived variables}  record only summary information from the partition at a specified time step and year.
 
-The \textit{state} is the current status of the population at any given time and it can change one or more times during the year. The state object must contain sufficient information to determine how the population changes over time, given a model and a complete set of parameters. The partition is key to the state, but it has no "memory". Thus, other information must also be kept, such as the mature biomass from a previous year or time step to calculate the recruit numbers into first age class via the spawner-recruitment function. The latter are specified as \textit{derived variables} and they are kept for the whole model run. However, the  \textit{derived variables} only record summary information from the partition at a specified time step and year.
-
-Processes can change the partition and examples include 
-recruitment, natural mortality, fishing mortality, ageing, migration, and maturation. These processes are repeated for each year of the model, although some processes can be specified to occur in a subset of years only.[REPEATED?]
+Processes can change the partition and examples include recruitment, natural mortality, fishing mortality, ageing, migration, and maturation. These processes are repeated for each year of the model, although some processes can be specified to occur in a subset of years only.[REPEATED?]
 
 The specification and ordering of processes in multiple time steps can be used to represent complex dynamics, with the intermingling of multiple species and stocks, migration patterns occurring over multiple areas, and/or multiple sources of anthropogenic impacts using a range of methods which cover different areas and times.
 However, the complexity of a stock structure definition is constrained by the available data. It is challenging to use a complex structure to model a population when there are no observations to support that structure.  For information on how to define categories and use the shorthand syntax see Section~\ref{sec:ShorthandSyntax-section}.
@@ -399,15 +395,14 @@ However, the complexity of a stock structure definition is constrained by the av
 Topics covered are: 
 
 \begin{itemize}
-     \item Model scope: such as the ages covered, the years over which the model runs, and the end year for projections;
-     \item Linking processes ,such as growth to each category
-     \item the number of time steps and the processes that are applied in each time step\index{Annual cycle};
-  \item The specification of and the parameters for the population processes: processes that add or remove individuals from a partition, or shift individuals between ages and categories in a partition;
-   \item The initialisation process: the state of the partition at the start of the first year\index{Initialisation}\index{Model ! initialisation};
-   
-  \item Defining selectivities and linking them to  observations;
-  \item The parameters: their definitions, initial values, and other characteristics; and
-  \item Derived quantities, e.g., mature biomass to include in density-dependent processes such as the spawner-recruit relationship
+	\item The model scope, such as the ages covered, the years over which the model runs, and the end year for projections;
+    \item Linking processes, such as growth to each category;
+    \item The number of time steps and the processes that are applied in each time step\index{Annual cycle};
+    \item The specification of and the parameters for the population processes: processes that add or remove individuals from a partition, or shift individuals between ages and categories in a partition;
+    \item The initialisation process: the state of the partition at the start of the first year\index{Initialisation}\index{Model ! initialisation};
+   \item Defining selectivities and linking them to observations;
+   \item The parameters: their definitions, initial values, and other characteristics; and
+   \item Derived quantities, e.g., mature biomass, to include in density-dependent processes such as the spawner-recruit relationship
 \end{itemize}
 
 \subsection{\I{Model scope and structure}}\label{sub:sec:pop_sec}
@@ -420,7 +415,6 @@ Each \CNAME~model requires:
 \item The minimum and maximum population ages
 \item Whether the maximum age is a plus group
 \item The start and final year
-
 \item The names of all of the categories
 \end{itemize}
 
@@ -446,7 +440,7 @@ An example of how to specify a potential model with two categories is outlined b
 		age_lengths male_growth female_growth  #labels for growth blocks
 \end{verbatim}}}
 
-This model will run for 20 years, starting in 1981, and project for 10 years for a population aged between one and twenty with age 20 being a plus-group, i.e., all ages 20 and over are accumulated there. Each year is divided into three time-steps. The categories are male and female (one factor, sex) and each category has an age-specific age-length relationship (growth).
+This model runs for 20 years, starting in 1981, and project over 10 years for a population aged between one and twenty with age 20 being the plus-group, i.e., all ages 20 and over are accumulated there. Each year is divided into three time-steps. The categories are male and female (one factor, sex) and each category has an age-specific age-length relationship (growth).
 
 Whist \CNAME~  generally uses generic formulation, it does have some specific population concepts, in this case, growth which can vary for each category. Additionally, there is a  length-weight concept which is specified in the age-length blocks, here blocks starting with \textit{@age\_size male\_growth} and \textit{@age\_size female\_growth} that are placed elsewhere in the input files (not shown). 
  
@@ -456,27 +450,29 @@ The structure of the partition is defined in a configuration block with the \com
 
 Derived quantities are another important component of the state object. An example of a derived quantity is spawning stock biomass (SSB; the biomass of [female] spawning fish calculated at the mid point of the spawning season). \CNAME~calculates derived quantities using the command \command{derived\_quantity}, which may be required for some processes. In fisheries stock assessment models, a recruitment process which includes a stock-recruitment relationship requires the definition of a derived quantity that specifies the mid-season spawning stock biomass (\ref{sec:derived-quantities}, p. \pageref{sec:derived-quantities}). 
 
-SHIFT SOMEWHER For this example four time steps are defined and labelled 1 through 4: \texttt{step1} for the non-spawning fishery period, \texttt{step2} for the migration to the spawning area, \texttt{step3} for the spawning fishery period, and \texttt{step4} for recruitment and migration back to the non-spawning area. The default order of processes within a time step has migrations occurring before fisheries (TODO: check this CASAL concept), so that the processes in steps 2 and 3 could have occurred in one time step. Other details that describe the population structure are also linked to time steps, such as proportion of natural mortality occurring in each time step and in which time step the observations occur.
-
+[TODO: SHIFT SOMEWHERE] For this example four time steps are defined and labelled 1 through 4: \texttt{step1} for the non-spawning fishery period, \texttt{step2} for the migration to the spawning area, \texttt{step3} for the spawning fishery period, and \texttt{step4} for recruitment and migration back to the non-spawning area. The default order of processes within a time step has migrations occurring before fisheries (TODO: check this CASAL concept), so that the processes in steps 2 and 3 could have occurred in one time step. Other details that describe the population structure are also linked to time steps, such as proportion of natural mortality occurring in each time step and in which time step the observations occur.
 
 \subsubsection{\I{The implicit annual cycle}}
 
 There is an implicit annual cycle that orders the sequence of processes within the year, but there is no command block as such. The implementation is by ordering processes within the time-steps. This sequence is repeated for every year. Time steps are used to break the year into separate components and allow observations to be associated with specific time periods and processes. Any number of processes can occur within each time step, in any order, although there are restrictions for mortality-based processes (see Section~\ref{sec:mortality_block}); processes can occur multiple times within each time step. Time steps are not implemented during the initialisation phases (effectively there is only one initialisation time step), and the annual cycle in the initialisation phases can be different from the annual cycle specified for the model years (\ref{subsec:initialisation}). 
 
 Figure \ref{Fig:annual} shows an example of the annual cycle using three time-steps.
-[REDO FIGURE<<<<<<]
+[TODO: REDO FIGURE]
+
 \begin{figure}[H]
 	\centering
 	\includegraphics[scale=0.5]{Figures/annual_cycle.jpg}
 	\caption{A example sequence for an annual cycle.}\label{Fig:annual}
 \end{figure}
 
-This would be specified using @time\_step block, i.e.
+This would be specified using @time\_step block:
 
+{\small{\begin{verbatim}
 @model
-time\_steps step1 step2 step 3
+time\_steps step1 step2 step3
+\end{verbatim}}}
 
-This gives the order and labels for each time step, i.e., 3. Processes are sequenced using order within the \textit{@time\_step} block, e.g.,
+This gives the order and labels for each time step, i.e., 3. Processes are sequenced using order within the \textit{@time\_step} block:
 
 {\small{\begin{verbatim}
 @time_step step1
@@ -489,9 +485,11 @@ processes Spawn_migration Fishing
 processes Home_migration Ageing
 \end{verbatim}}}
 
-The \textit{Recruitment,  Fishing,Spawn\_migration, Home\_migration} and \textit{ Ageing } are all labels to command blocks where these processes are parameterised (see \ref{sec:Population processes} for allowed processes). The order that the  processes are executed is in the same order as specified. The process \textit{Fishing} could be the process type \textit{InstanandousMorality} (\ref{subsubsec:instantaneous-mortality}) which takes natural mortality as a parameter as well as specifying the catches in the time-steps, so it is possible to have all catch taken in time-step \textit{step1} with some natural morality, and no fishing in time-step \textit{step2} where the rest of the natural mortality occurs.
+The \textit{Recruitment, Fishing,Spawn\_migration, Home\_migration} and \textit{Ageing } are all labels to command blocks where these processes are parameterised (see \ref{sec:Population processes} for allowed processes). The order that the  processes are executed is in the same order as specified. The process \textit{Fishing} could be the process type \textit{InstantaneousMortality} (\ref{subsubsec:instantaneous-mortality}) which takes natural mortality as a parameter as well as specifying the catches in the time-steps, so it is possible to have all catch taken in time-step \textit{step1} with some natural mortality, and no fishing in time-step \textit{step2} where the rest of the natural mortality occurs.
 
-Although \textit{Spawn} represents a biological process, spawning, for the usual modeling it is the time that the spawning stock biomass is calculated since this is needed to calculate recruitment is there is a spawning biomass recruitment relationship. A related concept is maturity which can be in the partition, so there needs to be a transfer of immature fish into the mature category, i.e., a process, but it is only indirectly related to spawning. Hence, in modelling, spawning is not a process that affects the partition directly, but it the time to calculate the SSB which must be setup as a derived variable (from the partition). Hence, \textit{Spawn} is located in Figure \ref{Fig:annual} and it is an important component in stock assessment. To calculate the SSB an \textit{@derived\_quantity} command block is needed in which the "timing" of the SSB calculation in terms of which time-step and the proportion of natural mortality within it is specified (\ref{sec:derived-quantities}).
+Although \textit{Spawn} represents a biological process, spawning, for the usual modelling it is the time that the spawning stock biomass is calculated since this is needed to calculate recruitment is there is a spawning biomass recruitment relationship. A related concept is maturity which can be in the partition, so there needs to be a transfer of immature fish into the mature category, i.e., a process, but it is only indirectly related to spawning. Hence, in modelling, spawning is not a process that affects the partition directly, but it the time to calculate the SSB which must be setup as a derived variable (from the partition). Hence, \textit{Spawn} is located in Figure \ref{Fig:annual} and it is an important component in stock assessment.
+
+To calculate the SSB a \textit{@derived\_quantity} command block is needed in which the "timing" of the SSB calculation in terms of which time-step and the proportion of natural mortality within it is specified (\ref{sec:derived-quantities}).
 
 \subsubsection{\I{The initialisation phases}}\label{subsec:initialisation}
 
@@ -513,15 +511,14 @@ Initialisation specifications starts with nominating the initialisation label in
 ...     # other subcommands
 initialisation_phase int_label
 
-
 @initialisation_phase int_label
 type iterative  #choose one from the list above
 ...             # specify option values
 
-
 \end{verbatim}}}
 
-If needed, the processes  used and their order in the initialisation are those specified in the annual cycle, but these can by changed by either excluding some processes or including others by using the  \texttt{exclude\_processes} or  \texttt{insert\_processes} subcommands in the \textit{initialisation\_phase} command blocks, e.g.,
+If needed, the processes used and their order in the initialisation are those specified in the annual cycle, but these can by changed by either excluding some processes or including others by using the  \texttt{exclude\_processes} or  \texttt{insert\_processes} subcommands in the \textit{initialisation\_phase} command blocks,
+
 {\small{\begin{verbatim}
 
 @initialisation_phase int_label
@@ -533,10 +530,9 @@ insert_processes step1(recruitment)=initialFishing
 
 \end{verbatim}}}
 
-where \textit{ Fishing} is the normal fishing process which defines natural mortality so when excluded, initialisation can use another value that incorporates some unrecorded fishing before the start of the assessment period by setting natural mortality to a higher value in the process \textit{initialFishing}. 
-The place to insert \textit{initialFishing}is in the time-step labeled \textit{step1} before the process \textit{recruitment} which must be in that time-step (process label is enclosed in brackets). To insert at the end of the time-step use \textit{()}, i.e. \textit{step1()=initialFishing}.
+where \textit{ Fishing} is the normal fishing process which defines natural mortality so when excluded, initialisation can use another value that incorporates some unrecorded fishing before the start of the assessment period by setting natural mortality to a higher value in the process \textit{initialFishing}. The place to insert \textit{initialFishing}is in the time-step labeled \textit{step1} before the process \textit{recruitment} which must be in that time-step (process label is enclosed in brackets). To insert at the end of the time-step use \textit{()}, i.e. \textit{step1()=initialFishing}.
 
-Normally,the type \textit{iteration} is used, but more complicated initialisation can by used by sequencing other phases one after another, e.g.,
+Normally,the type \textit{iteration} is used, but more complicated initialisation can by used by sequencing other phases one after another,
 
 {\small{\begin{verbatim}
 @model
@@ -553,7 +549,8 @@ type iterative    #choose one from the list above
 ...             # specify option values
 
 \end{verbatim}}}
-which may be faster overall since less iterations can be used in the 2nd phase. The order of applying each initialisation is that given in the \textit{@model} command block.
+
+which may be faster overall since less iterations can be used in the second phase. The order of applying each initialisation is that given in the \textit{@model} command block.
  
 The multi-phased initialisation allows for flexibility in the number and type of initialisation, for initialising a non-equilibrium starting state, or applying simple processes before applying more complex ones.
 
@@ -575,9 +572,9 @@ In addition, the iterative initialisation phase can optionally be stopped early 
   \widehat{\lambda} = \frac{\sum\limits_{i,j}  \left|\text{element}(t)_{i,j} - \text{element}(t-1)_{i,j} \right|}{\sum\limits_{i,j} \frac{}{}\text{element}(t)_{i,j}}
 \end{equation}
 
-Where $\text{element}(t)_{i,j}$ denotes the numbers at time step $t$ in category $j$ and (age?) class $i$.
+where $\text{element}(t)_{i,j}$ denotes the numbers at time step $t$ in category $j$ and (age?) class $i$.
 
-Hence, for the initialisation we define:
+Hence, for the initialisation define:
 
 \begin{itemize}
   \item The number of initialisation phases,
@@ -622,10 +619,11 @@ After the first initialisation phase we have an equilibrium age-structure denote
 
 \textit{Ciniital} specifies an age structure denoted by $N_{cinit}$ (in numbers), but this can be combinations of categories, say both sexes by two areas.
 
-$Multiplier =  N_{cinit} /  N_{equil}^{combined} $
+$Multiplier =  N_{cinit} / N_{equil}^{combined}$
+
 where $N_{equil}^{combined} $ is summed over the same combined categories as \textit{Cinitial}. Then
-$
-N_{init} =  N_{equil} *  Multiplier $
+
+$N_{init} =  N_{equil} * Multiplier $
 
 $N_{init}$ is the numbers-at-age by category for the start of the model run.
 
@@ -664,10 +662,9 @@ The Cinitial factors can also be estimated with the syntax
 	type uniform
 	\end{verbatim}}}
 
-\paragraph{\I{
-State\_category\_by\_age UNTESTED}}
+\paragraph{\I{State\_category\_by\_age UNTESTED}}
 
-The \texttt{state\_category\_by\_age} initialisation uses a user-defined table as the initial partition numbers-at-agefor the beginning of the  start year. Models can be initialised by specifying the numbers-at-age for each category. 
+The \texttt{state\_category\_by\_age} initialisation uses a user-defined table as the initial partition numbers-at-age for the beginning of the  start year. Models can be initialised by specifying the numbers-at-age for each category. 
 
 An example with one initialisation phase:
 
@@ -687,7 +684,7 @@ An example with one initialisation phase:
 		end_table
 		\end{verbatim}}}
 
-When initialising models with this type, undefined behaviour may result if the model applies processes that require derived quantities to be calculated in the initialisation phase. (e.g., SSB so that recruitment can be calculated for the start year). In the latter case, you would have to use a subsequent initialisation phase \textit{iterator} that has natural morality set to zero (i.e., \textit{insert\_processes} subcommand to introduce zero natural mortality and \textit{exclude\_processes} tp exclude the mortality process that defines natural mortality) for as many year needed to set up the SSBs.
+When initialising models with this type, undefined behaviour may result if the model applies processes that require derived quantities to be calculated in the initialisation phase. (e.g., SSB so that recruitment can be calculated for the start year). In the latter case, you would have to use a subsequent initialisation phase \textit{iterator} that has natural mortality set to zero (i.e., \textit{insert\_processes} subcommand to introduce zero natural mortality and \textit{exclude\_processes} to exclude the mortality process that defines natural mortality) for as many year needed to set up the SSBs.
 
 
 \subsection{\I{Population processes}}\label{sec:Population processes}
@@ -709,17 +706,13 @@ There are two types of processes: (1) processes that occur across multiple time 
 
 \subsubsection{\I{Recruitment}}
 
-Recruitment processes  add new individuals to the partition. Recruitment depends on virgin biomass or alternatively recruitment in the virgin state and so these parameters are located in this process (as \textit{b0}
- and \textit{r0}). The other factors needed are SSB if there is a stock-recruitment relationship and the cv for the prior on YCS (the mean is mandated to be 1 over some specified year range). Thus, a SSB label may have to be included (pointing to a derived quantity).
+Recruitment processes  add new individuals to the partition. Recruitment depends on virgin biomass or alternatively recruitment in the virgin state and so these parameters are located in this process (as \textit{b0} and \textit{r0}). The other factors needed are SSB if there is a stock-recruitment relationship and the CV for the prior on YCS (the mean is mandated to be 1 over some specified year range). Thus, a SSB label may have to be included (pointing to a derived quantity).
  
 In the recruitment processes, a number of individuals are added to a single age class (subcommand \textit{age}) within the partition, with the number determined by the type of stock-recruitment process specified. If recruits are added to more than one category, then the proportion of recruits to be added to each category is specified by the \argument{proportions} subcommand. For example, if recruiting to categories labelled \texttt{male} and \texttt{female}, then the proportions may be set to $0.5$ and $0.5$, so that half of the recruits are added to the male category and the other half to the female category.
-
-
 
 Recruitment can differ between a spawning event or the creation of a cohort/year class. One view for fisheries is that recruitment usually refers to individuals "recruiting" to a fishery. This definition is used because there is usually not a lot of information on younger age classes between the time of spawning and being vulnerable to a survey or fishery for data collection. However, here, recruitment is to a fixed age class for one or more categories. 
 
 The offset between spawning and recruitment is parameterised either by the recruitment subcommand \texttt{age}, or \texttt{min\_age}, which is the default value for the \texttt{age} subcommand in the recruitment process. The \CNAME~parameter \texttt{age} is the same as the CASAL parameter \texttt{y\_enter}.[IS IT????] Notice that the minimum age is usually different from zero and so there is usually  a one or more year's delay between spawning and recruitment into the partition. There is also a complication from when spawning occurs in the annual cycle and when recruitment occurs.
-
 
 \CNAME~has two  recruitment processes, constant recruitment\index{Recruitment ! Constant} and the \I{Beverton-Holt stock-recruitment relationship}\index{Recruitment ! Beverton-Holt} \citep{1203}. The  number of individuals following recruitment in year $y$ is
 
@@ -779,7 +772,6 @@ The Beverton-Holt recruitment process requires a value for \Bzero\ and $SSB_y$ t
 During initialisation the $YCS$ multipliers are assumed to be equal to 1, and recruitment that happens in the initialisation phases that occur before and during the phase when \Bzero\ is determined are assumed to have steepness $h=1$ (i.e., in those initialisation phases, recruitment is equal to \Rzero).
 
 Recruitment in the initialisation phases after the phase where \Bzero\ was determined are calculated using the Beverton-Holt stock-recruit relationship. \Rzero\ and \Bzero\ have a direct relationship when there are no density-dependent processes in the annual cycle. Models can thus be initialised using \Bzero\ or \Rzero.
-
 
 An example of the specification of a Beverton-Holt recruitment process, where individuals are added to the category "immature" at $age=1$, and the number added is $R_0=5 \times 10^5$; \texttt{SSB\_derived\_quantity} is a derived quantity that specifies the total spawning stock biomass that contributed to the year class, with \Bzero\ the value of the derived quantity at the end of the initialisation phase labelled \texttt{phase1}; and $YCS$ are standardised to have mean one in the period 1995 to 2004, and recruits enter into the model two years following spawning
 
@@ -892,6 +884,7 @@ The ramp function described above for the bias correction has the additional sub
 \end{verbatim}}}
 
 \paragraph*{Recruitment when modelling two stocks (or species)}
+
 To specify a Beverton-Holt recruitment for each stock, the information required is:
 
 \begin{enumerate}
@@ -928,9 +921,8 @@ If \command{initialisation\_phase}, \subcommand{type=derived} is used, then all 
 		r0 200000
 		ssb SSB2
 		....
-		\end{verbatim}}}
+\end{verbatim}}}
 
-	
 The \texttt{proportions = 0.0} for "spawn.male" and "spawn.female" are needed due to the way the derived initialisation phase works. The derived initialisation finds a solution for when \subcommand{r0} = 1.0 based on an infinite geometric series for the plus group, and scales the initial partition by \subcommand{r0}. Thus, if all categories are not specified, then those that are missed would not be initialised to true values and this could lead to inaccurate model outputs. This set-up extends to multiple-stock fisheries model configurations as well, where all of the categories that make up the stock need to be listed.
 
 \subsubsection{\I{Ageing}\label{sec:ageing}}
@@ -974,17 +966,17 @@ There are 8 types of mortality processes available in \CNAME:
 
 These processes remove individuals from the partition, either as a rate, as a total number (abundance), as a biomass of individuals or, as a combination of these. \CNAME~does not (yet) implement the Baranov catch equation. However, instantaneous mortality is considered an approximation to the Baranov catch equation.
 
-To apply both natural and biomass-event mortality, the mortality type \texttt{mortality\_instantaneous} can be specified. Or, you can use \texttt{mortality\_instantaneous\_retained}, where discards are allowed. Mortality blocks are special because they allow both nature morality and fishing mortality at the same time. Note that all mortality processes occur within the mortality block of a time step. See Section~\ref{sec:mortality_block} for more information and definitions on mortality blocks.
+To apply both natural and biomass-event mortality, the mortality type \texttt{mortality\_instantaneous} can be specified. Or, you can use \texttt{mortality\_instantaneous\_retained}, where discards are allowed. Mortality blocks are special because they allow both natural mortality and fishing mortality at the same time. Note that all mortality processes occur within the mortality block of a time step. See Section~\ref{sec:mortality_block} for more information and definitions on mortality blocks.
 
 
 \paragraph{\I{Timing evaluation interval; timing the point when observations are fitted or derived quantities are evaluated }}\label{sec:mortality_block}\label{Timing evaluation interval}
 
-PARA LEFT HERE FOR THE TIME BEING; PUT INTO OBSERVATIONS?
+[TODO: review; PARA LEFT HERE FOR THE TIME BEING; PUT INTO OBSERVATIONS?]
 
 Observations (see Section~\ref{sec:observation-section})  and derived quantities (see Section~\ref{sec:derived-quantities}) need a concept called a \textit{timing evaluation interval} so that the "time" within a year can be specified for their fit or evaluation. This interval is intimately tied into mortality processes.
 
-There can be one or more morality processes specified within a time-step, but these must  be 
- grouped sequentially, i.e., there cannot be a non-mortality process between any two mortality processes within any one time step. The sequence of mortality processes is called a \textit{timing evaluation interval}.  If no mortality processes occurs in a time step, then the \textit{timing evaluation interval} is defined to occur at the end of the time step, i.e., it is a virtual, unspecified,  process. Thus  each time step has one \textit{timing evaluation interval}. 
+There can be one or more mortality processes specified within a time-step, but these must  be grouped sequentially, i.e., there cannot be a non-mortality process between any two mortality processes within any one time step. The sequence of mortality processes is called a \textit{timing evaluation interval}.  If no mortality processes occurs in a time step, then the \textit{timing evaluation interval} is defined to occur at the end of the time step, i.e., it is a virtual, unspecified,  process. Thus  each time step has one \textit{timing evaluation interval}. 
+
 \CNAME~will output an error if more than one \textit{timing evaluation interval} occurs in a single time step. 
 
 The "time" for an observation or derived quantity is based on the proportion of mortality that has occurred within the \textit{timing evaluation interval}. The starting and ending partition are saved so that a partition can be estimated by  interpolation between the start and end partitions.
@@ -1001,7 +993,7 @@ where $n_{p,j}$ is the derived quantity at proportion $p$ of the mortality block
 
 In the case of a virtual \textit{timing evaluation interval}, the partition at the end of the time-step is used. 
 
-[REDO FIGURE TO REELECT TEI rather than mortality blocks; have two mortality processes in step 2]
+[REDO FIGURE TO REFLECT TEI rather than mortality blocks; have two mortality processes in step 2]
 
 \begin{figure}[H]
 	\centering
@@ -1022,7 +1014,7 @@ To specify a constant annual mortality rate \index{Constant mortality}(e.g. $M=0
 @process NaturalMortality  #label is NaturalMortality
 type          mortality_constant_rate
 categories    male female
-selectivities One One     #effectively age related mortality 
+relative_m_by_age One One     #effectively age related mortality 
 m             0.2 0.2
 \end{verbatim}}}
 
@@ -1058,7 +1050,7 @@ alpha 1.0
 @process      NaturalMortalityByAge
 type          mortality_constant_rate
 categories    male female
-selectivities age_specific_M age_specific_M
+relative_m_by_age age_specific_M age_specific_M
 m             1.0 1.0
 \end{verbatim}}}
 
@@ -1165,7 +1157,7 @@ TODO where is \texttt{time\_step\_ratio} and its usage defined?
 	type mortality_instantaneous
 	m 0.20
 	time_step_ratio 0.42 0.25 0.33
-	selectivities One
+	relative_m_by_age One
 	categories male female
 	units kgs
 
@@ -1187,7 +1179,7 @@ and for referencing catch parameters for use in projecting, time-varying, and es
 
 {\small{\begin{verbatim}
 		parameter process[mortality_instantaneous].method_"method_label"{2018}
-		\end{verbatim}}}
+\end{verbatim}}}
 
 where \subcommand{"method\_label"} is the label from the \subcommand{catch} or \subcommand{method} table and continuing the example,
 
@@ -1231,7 +1223,7 @@ Extending the example shown in instantaneous mortality process (\ref{subsubsec:i
     m 0.20
     # the ratio of natural mortality in each of the three time steps
     time_step_ratio 0.42 0.25 0.33
-    selectivities One
+    relative_m_by_age One
     #for natural mortality by age
     categories male female
     units kgs
@@ -1382,7 +1374,7 @@ For example, a biomass Holling type II mortality process on prey \texttt{prey} b
 		predator_categories predator
 		predator_selectivities One
 		u_max 0.8
-		\end{verbatim}}}
+\end{verbatim}}}
 
 \paragraph{Initialisation-event mortality UNTESTED}
 
@@ -1485,7 +1477,7 @@ For example, to specify two prey groups of two species made up of the males and 
 
 {\small{\begin{verbatim}
 		prey_categories maleSpeciesA + femaleSpeciesA maleSpeciesB + femaleSpeciesB
-		\end{verbatim}}}
+\end{verbatim}}}
 
 This syntax indicates that there are two prey groups, \texttt{maleSpeciesA + femaleSpeciesA} and \texttt{maleSpeciesB + femaleSpeciesB}, with each group having its own electivity.
 
@@ -1502,7 +1494,7 @@ For example, a biomass prey-suitability mortality process with an overall consum
 		predator_categories predatorSpecies
 		predator_selectivities One
 		u_max 0.8
-		\end{verbatim}}}
+\end{verbatim}}}
 
 \subsubsection{\I{Transition By Category}}
 
@@ -1590,7 +1582,7 @@ The syntax for an example of tag release by length process
 		end_table
 		n 207
 		U_max 0.999
-		\end{verbatim}}}
+\end{verbatim}}}
 
 This process moves 207 individuals from a combination of male.untagged and female.untagged categories, based on the combination of growth rates and selectivity, into tagged male and tagged female categories.
 
@@ -1611,15 +1603,15 @@ The syntax for the tag loss is
 	selectivities One
 	tag_loss_type single
 	year 1985
-		\end{verbatim}}}
+\end{verbatim}}}
 
 \subsection{\I{Derived quantities}\label{sec:derived-quantities}}
 
-Some processes require a population value derived from the population state as an argument. These values are \texttt{derived quantities}. Derived quantities are values calculated in a specified time step in every year, and thus have a single value for each year of the model. The time withing the time-step is and the end unless otherwise specified (using \textit{proportion\_morality}-like subcommand.
+Some processes require a population value derived from the population state as an argument. These values are \texttt{derived quantities}. Derived quantities are values calculated in a specified time step in every year, and thus have a single value for each year of the model. The time withing the time-step is and the end unless otherwise specified (using \textit{proportion\_mortality}-like subcommand.
 
 Derived quantities can be calculated as either abundance or biomass. Abundance-derived quantities are the sum over the specified categories (after applying a selectivity). Biomass-derived quantities are calculated similarly. 
 
-Derived quantities are also calculated during the initialisation phases. Therefore, the time step during each initialisation phase must be specified. If the initialisation time steps are not specified, the derived quantity will be calculated during the initialisation phases. [????]
+Derived quantities are also calculated during the initialisation phases. Therefore, the time step during each initialisation phase must be specified. If the initialisation time steps are not specified, the derived quantity will be calculated during the initialisation phases. [TODO: review]
 
 A common use of an derived quantities is as input into a stock-recruit relationship  which requires an equilibrium biomass ($B_0$) and annual spawning stock biomass values ($SSB_y$) to calculate recruitment into the first age class. $SSB_y$ is an derived quantity based on the mature biomass, usually at spawning time. 
 
@@ -1717,23 +1709,23 @@ There are two length-weight relationships options. The first is the naive "no re
 
 \paragraph[None]{The "no relationship" relationship, \argument{none}}\index{Length-weight relationship!None}
 
-  \begin{equation}
-    \text{mean weight}=1
-  \end{equation}
+\begin{equation}
+  \text{mean weight}=1
+\end{equation}
 
 \paragraph[Basic]{The standard length-weight relationship, \argument{basic}}\index{Length-weight relationship!Basic}\label{Length-weight relationship:Basic}
 
 The mean weight $\hat{w}_a$ of an individual of age $a$ is
 
-  \begin{equation}
-    \hat{w}_a=a \hat{l}_a^b
-  \end{equation}
+\begin{equation}
+  \hat{w}_a=a \hat{l}_a^b
+\end{equation}
 
 where $\hat{l}_a$ is the mean length at age $a$. If a distribution of length-at-age is specified, then the mean weight is calculated over the distribution of lengths
 
-  \begin{equation}
-	  \hat{w}_a=(a\hat{l}_a^b)(1+cv^2)^{\frac{b(b-1)}{2}}
-  \end{equation}
+\begin{equation}
+  \hat{w}_a=(a\hat{l}_a^b)(1+cv^2)^{\frac{b(b-1)}{2}}
+\end{equation}
 
 where the $cv$ is the coefficient of variation (CV) of the length-at-age relationship. This adjustment is exact for lognormal distributions, and an approximation for normal distributions if the CV is not large \citep{1388}.
 
@@ -1755,7 +1747,6 @@ Empirical weight-at-age data can be input. This option is different from the met
 
 This option specifies the weight-at-age values for categories at a point in time. 
 
-
 An example
 
 {\small{\begin{verbatim}
@@ -1770,7 +1761,7 @@ An example
 		1989	0.137	0.722	1.606	2.416	3.629	5.027	5.561	6.35	6.933	7.217
 		1990	0.138	0.773	1.645	2.74	3.711	4.506	5.684	6.929	7.424	7.479
 		end_table
-		\end{verbatim}}}
+\end{verbatim}}}
 
 If weight is defined by the empirical weight-at-age data, then the age-length block in the \command{categories} block can be omitted.
 
@@ -1804,7 +1795,10 @@ This selectivity is specified in the block that requires mature fish, the most c
 
 Selectivity is a term used in \CNAME~ to mean an ogive that is a function of age. They can be used to specify the selection curve for a fishery or observation  (Section \ref{sec:estimation-section}) or to modify the effects of processes on each age class, e.g., migration rates by age (Section \ref{sec:population-section}). The curves can use length rather than age, in which case they operate on the length distribution for each age (use the subcommand "\textit{by\_length true}", \textit{false} is the default). Do not expect too much from length selectivities because in the next time-step or year, the length distribution for each age reverts to being as defined in the \textit{age\_length} blocks, e.g., normal, rather than being partially truncated because, e.g., larger fish in an age class have been preferentially caught.
 
-There are a number of different parametric forms as options, including logistic and double normal curves. Selectivities are defined in command block \command{selectivity <label>}, where the unique label of the selectivity is used by observations and processes to identify which selectivity to apply. For example, a logistic selectivity can be defined by:
+There are a number of different parametric forms as options, including logistic and double normal curves. Selectivities are defined in command block \command{selectivity <label>}, where the unique label of the selectivity is used by observations and processes to identify which selectivity to apply.
+
+For example, a logistic selectivity can be defined by:
+
 {\small{\begin{verbatim}
 @selectivity trawlSel    #label for the trawl fishery selectivity
 type      logistic       # type of curve
@@ -1819,7 +1813,7 @@ For some selectivities, the function values for some choices of parameters can r
 
 For example, the logistic selectivity is implemented such that if $(a_{50}-x)/a_{to95} > 5$ then the value of the selectivity at $x=0$, i.e., for $a_{50}=5$, $a_{to95}=0.1$, then the value of the selectivity at $x=1$, without range checking would be $7.1 \times 10^{-52}$. With range checking, that value is $0$ (as $(a_{50}-x)/a_{to95}=40 > 5$).
 
-The selectivities options are:
+The selectivity options are:
 
 \begin{itemize}
   \item Constant
@@ -1850,7 +1844,8 @@ type constant
 c    0.5
 \end{verbatim}}}
 
-\subsubsection[Knife-edge]{\argument{knife\_edge}  UNTESTED}
+\subsubsection[Knife-edge]{\argument{knife\_edge} UNTESTED}
+
 \begin{equation}
 f(x)= \begin{cases}
   0, & \text{if $x < E$} \\
@@ -1885,7 +1880,6 @@ f(x)=\begin{cases}
 \end{equation}
 
 The all-values-bounded selectivity has non-estimable parameters L and H. The estimable parameters are $V_L$, $V_{L+1}$ \ldots $V_H$. Selectivity values for each age class from $L \ldots H$ must be set.
-
 
 Selectivities \subcommand{all\_values} and \subcommand{all\_values\_bounded} can be included in additional priors using the syntax
 
@@ -2038,7 +2032,7 @@ Method types for a time-varying parameter are:
 
 This option allows for a parameter to be fixed in a year, or be the result of a deterministic or stochastic equation. \textbf{Note:} the stochastic time-varying functionality was added for simulation purposes. \textbf{It has not been tested in an estimation context.}
 
-To implement hierarchical models, the prior parameter values need to be estimated using hyperpriors. To implement a hierarchical model using the time-varying functionality, use MCMC estimation as a way to calculate the integral which is required to obtain unbiased estimates. In an MCMC context, a Gibbs sampler is assumed. That is, every draw is from a conditional distribution and so every draw is a candidate value.  [HELP<<<<<<<<<<]
+To implement hierarchical models, the prior parameter values need to be estimated using hyperpriors. To implement a hierarchical model using the time-varying functionality, use MCMC estimation as a way to calculate the integral which is required to obtain unbiased estimates. In an MCMC context, a Gibbs sampler is assumed. That is, every draw is from a conditional distribution and so every draw is a candidate value.  [TODO: review]
 
 When allowing removals with annually varying catchabilities, selectivities, and/or other model components, simulated observations more closely model real data and associated conclusions become more useful. Implementing time-varying parameters also allows for mean or location parameters of selectivities to change between years based on an explanatory variable. An example of this is in the New Zealand Hoki fishery where the $\mu$ and $a_{50}$ parameters are allowed to shift depending on when the fishing season occurs. Descriptive analysis showed that when fishing was earlier relative to other years smaller fish were caught and vice versa. This can be shown in the CASAL2/Examples/2stock directory, implemented at line: \texttt{382} in the \texttt{population.csl2} file. [Craig to edit]
 
@@ -2133,7 +2127,7 @@ Parameters are shifted based on an exogenous variable. An example of this is an 
 
 where $\delta_y$ is the shift or deviation in parameter $\theta_y$ in year $y$ to generate the new parameter value in year $y$ ($\theta'_y$). $a$ is an estimable shift parameter, $E$ is the exogenous variable, and $E_y$ is the value of this variable in year $y$. For more information readers can see \cite{francis_03}.
 
-\subsection{\I{Equation Parser  UNTESTED NOT SURE HOW THIS WORKS}\label{sec:eq_parser}}
+\subsection{\I{Equation Parser UNTESTED}\label{sec:eq_parser}}
 
 \CNAME~has an equation parser, which is currently implemented in Projections (section~\ref{sec:projections}), Derived quantities (section~\ref{sec:derived-quantities}), and Reports (section~\ref{sec:report-section}).
 
@@ -2142,32 +2136,32 @@ Examples of syntax for implementing the equation parser are below. For more info
 
 {\small{\begin{verbatim}
 		equation process[Recruitment].r0 * 2 #double the recruitment
-		\end{verbatim}}}
+\end{verbatim}}}
 
 mathematical functions such as \texttt{sqrt()}, \texttt{log()},  \texttt{exp()},  \texttt{cos()}, \texttt{sin()}, and \texttt{tan()} can be used
 
 {\small{\begin{verbatim}
 		equation sqrt(process[Recruitment].r0)
-		\end{verbatim}}}
+\end{verbatim}}}
 
 exponents can be used with \texttt{pow()}
 
 {\small{\begin{verbatim}
 		equation pow(2, 3)
-		\end{verbatim}}}
+\end{verbatim}}}
 
 the absolute value of an equation using \texttt{abs()}
 
 {\small{\begin{verbatim}
 		equation abs(sqrt(process[Recruitment].r0) * 1.33)
-		\end{verbatim}}}
+\end{verbatim}}}
 
 \texttt{if-else} statements can be used
 
 {\small{\begin{verbatim}
 		equation if(process[Recruitment].r0 > 23, 44, 55)
 		## if R0 is greater than 23 return 44 else return 55
-		\end{verbatim}}}
+\end{verbatim}}}
 
 \texttt{if-else} statements can also be linked, more complex syntax
 
@@ -2176,7 +2170,7 @@ the absolute value of an equation using \texttt{abs()}
          		if(process[Recruitment].r0 > 10, 55, 66))
 		## if R0 is greater than 23 return 44 else if R0 less than 23 but greater than 10 return 55,
 		else R0 must be less than 10 return 66
-		\end{verbatim}}}
+\end{verbatim}}}
 
 Only single values can be referenced, so an equation cannot be applied to a vector, e.g., \subcommand{process[Recruit].ycs\_values\{1974:1980\}} cannot be referenced. More information on which parameters can be included in an equation parser is available (Section~\ref{sec:syntax}). Any subcommand that has a \texttt{type estimable} could be referenced with the equation parser.
 
@@ -2188,18 +2182,17 @@ For example, the wrong year could be misspecified in the case of removals in yea
 		parameter process[removals].catch
 		year 2015
 		equation derived_quantity[percent_b0].values{2020}
-		\end{verbatim}}}
+\end{verbatim}}}
 
 This example is a valid equation but it will have nonsensical results, since a value for 2020 is to be calculated using values for 2015. Although the equation parser adds flexibility, it is easy to misspecify equations.
 
 
-\subsection{\I{Specifying projections UNTESTED, BUT BEING DONE?}}\label{sec:projection}
+\subsection{\I{Specifying projections UNTESTED}}\label{sec:projection}
 
 Given a set of estimated parameter values from a \textit{-e} or a MCMC run, 
 the model can be projected into the future. Projection years are after the model run years, and are defined in the \textit{@model} command block using the \subcommand{final\_projection\_year} subcommand, i.e., projection years are \subcommand{final\_year + 1} through to \subcommand{final\_projection\_year}.
 
-Parameter values for the projected years can be specified in a stochastic way or fixed at some value (the default is the estimated value if the parameter is not time-varying) and these are specified in the \textit{@projection} block, e.g.,
-
+Parameter values for the projected years can be specified in a stochastic way or fixed at some value (the default is the estimated value if the parameter is not time-varying) and these are specified in the \textit{@projection} block,
 
 {\small{\begin{verbatim}
 
@@ -2210,7 +2203,6 @@ years      2012:2016
 multiplier 1
 ....            #other parameters
 \end{verbatim}}}
-
 
 The subcommands \subcommand{years} and \subcommand{parameter} are common to all projection methods. Subcommand \subcommand{years} specifies the years to apply the new values to for the parameter in \subcommand{parameter}. Note that the years can be before the \textit{finial\_year}, e.g., it is normal to vary the last few YCS in a projection run because they are usually poorly estimated or they have been set to 1.  The argument \argument{multiplier} is a constant which is multiplied with the projected value after it has been generated. The \subcommand{type} subcommand gives the method to use to generate new parameter values.
 
@@ -2224,19 +2216,17 @@ The subcommands \subcommand{years} and \subcommand{parameter} are common to all 
 	\item user-defined
 \end{itemize}
 
-
 \CNAME~has no default projection properties for parameters that are specified by year, e.g., year class strength parameters, time-varying parameters, and as a special case, future catches). For these, projections  must have a \command{project} command block. For example, \CNAME~will produce errors if run in projection mode without a \command{project} block for the \subcommand{ycs\_values} parameter being specified.
 
 \textbf{Note for the year class parameters:} the definition of year applies to the \argument{ycs\_years}, not the model years. As defined in Section~\ref{subsubsec:BH-recruitment}, \argument{ycs\_years} are offset between the time of spawning and when individuals are added to the partition.
 
-Future catches are also specified in a \textit{@project} block, one for each fishery (see \ref{Projections@Catches} for examples). Here, a fishery is reference in the \textit{parameter}
- subcommand with the \textit{method\_} fragment to identify it,i.e.,
+Future catches are also specified in a \textit{@project} block, one for each fishery (see \ref{Projections@Catches} for examples). Here, a fishery is reference in the \textit{parameter} subcommand with the \textit{method\_} fragment to identify it,
  
  \textit{process[<block label>].method\_<fisheries label>},
  
- e.g., for a process called \textit{Fishing} that has three fisheries defined, it would be \textit{process[Fishing].method\_pot} to specify the fishery labeled \textit{pot}.
+For a process called \textit{Fishing} that has three fisheries defined, it would be \textit{process[Fishing].method\_pot} to specify the fishery labeled \textit{pot}.
  
-The \CNAME~command to run the model in projection mode is \texttt{Casal2 -f 1}. NOT IN MANUAL OR CODE THAT I CAN SEE This functionality allows for the exploration of many scenarios with a single set of parameters. The number of projections should be greater than 1 only if applying a projection type that is stochastic.
+The \CNAME~command to run the model in projection mode is \texttt{Casal2 -f 1}. []TODO: review; NOT IN MANUAL OR ELSEWHERE] This functionality allows for the exploration of many scenarios with a single set of parameters. The number of projections should be greater than 1 only if applying a projection type that is stochastic.
 
 The \texttt{-{}-tabular} flag should be used when running projections after a Bayesian analysis. This option will output a tabular report (see Section~\ref{sub:tabular}) which can then be analysed in \R.
 
@@ -2247,7 +2237,6 @@ An example of the command line evocation is
 where \textit{mcmc.txt} is output from a MCMC run, one parameter set per row, which will give one projection per row, and \textit{projection.out.txt} will contain one row for each MCMC run in each of the reports specified in (usually) the \textit{Report.csv2} file (quantities as specified in the \textit{report.csl2} file).
 
 For a projection run in \CNAME, the model is initialised and run through the model years from \argument{start\_year} to \argument{final\_year}. During this run mode \CNAME~stores all parameter values so that projection classes can allow parameters before \subcommand{final\_year} to be projected. The model then is re-run from \argument{start\_year} to \argument{projection\_final\_year}, where any parameter can either be fixed or drawn from a stochastic distribution or process.
-
 
 
 \subsubsection{\I{Projection methods}\label{sec:projections}}
@@ -2357,7 +2346,7 @@ Catches are unique in that they are known inputs in a table format. For example,
 type mortality_instantaneous_retained
 m 0.17*6  #0.17    #testing at old values
 time_step_ratio 1
-selectivities One*6   #for age based M
+relative_m_by_age One*6   #for age based M
 categories *
 table catches
 year	FishingLine	FishingPot	Recreation
@@ -2375,4 +2364,4 @@ years     2020:2029
 values    4000
 \end{verbatim}}}
 
-This uses the syntax \texttt{block\_type[block\_label].method\_fishinglabel}. \textbf{Note:} the fishing label which is defined in the table needs to be lower case form in the \command{projection} block. Notice the use of \textit{method\_} syntax to identify the right fishery
+This uses the syntax \texttt{block\_type[block\_label].method\_fishinglabel}. \textbf{Note:} the fishing label which is defined in the table needs to be lower case form in the \command{projection} block. Notice the use of \textit{method\_} syntax to identify the right fishery.
