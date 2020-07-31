@@ -48,7 +48,7 @@ plot_ggmcmc <- function(chain_list, filename, title='')
 }
 
 ggs_all_chains <- ggs(coda::mcmc.list(coda_mcmc_list))
-plot_ggmcmc(ggs_all_chains, file.path(base_dir, paste(plot_file_label, '.ggmcmc_comparison.ALL.html', sep='')), 'CASAL (#1 and #2) and Casal2 MCMC comparison')
+plot_ggmcmc(ggs_all_chains, file.path(base_dir, paste(plot_file_label, '.ggmcmc_comparison.ALL.html', sep='')), 'CASAL (chains 1 and 2) and Casal2 MCMC comparison')
 
 
 ggs_C1_chains <- ggs(coda::mcmc.list(coda_mcmc_list[1:2]))

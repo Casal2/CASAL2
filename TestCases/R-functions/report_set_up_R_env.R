@@ -67,3 +67,9 @@ get_convergence_information <- function(filename)
     return (str_vec)
 }
 
+get_num_seq <- function(tot_num, num_to_use, num_to_subsample=1)
+{
+    num_to_subsample <- max(1, num_to_subsample)
+    return (sort(-seq(-(tot_num), -(tot_num - num_to_use + 1), num_to_subsample)))
+}
+
