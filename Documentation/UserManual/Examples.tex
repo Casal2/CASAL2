@@ -293,10 +293,20 @@ For example,
 		categories male+female
 		selectivities FishSel
 		likelihood lognormal
-		years 1992:2001
 		time_step_proportion 1.0
-		obs 1.50 1.10 0.93 1.33 1.53 0.90 0.68 0.75 0.57 1.23
-		error_value 0.35
+		years 1992:2001
+		table obs
+		1992    1.50    0.35
+		1993    1.10    0.35
+		1994    0.93    0.35
+		1995    1.33    0.35
+		1996    1.53    0.35
+		1997    0.90    0.35
+		1998    0.68    0.35
+		1999    0.75    0.35
+		2000    0.57    0.35
+		2001    1.23    0.35
+		end_table
 		\end{verbatim}}}
 
 This combination/aggregation functionality can be used to compare an observation to the total combined population:
@@ -309,10 +319,20 @@ This combination/aggregation functionality can be used to compare an observation
 		categories *+
 		selectivities FishSel
 		likelihood lognormal
-		years 1992:2001
 		time_step_proportion 1.0
-		obs 1.50 1.10 0.93 1.33 1.53 0.90 0.68 0.75 0.57 1.23
-		error_value 0.35
+		years 1992:2001
+		table obs
+		1992    1.50    0.35
+		1993    1.10    0.35
+		1994    0.93    0.35
+		1995    1.33    0.35
+		1996    1.53    0.35
+		1997    0.90    0.35
+		1998    0.68    0.35
+		1999    0.75    0.35
+		2000    0.57    0.35
+		2001    1.23    0.35
+		end_table
 		\end{verbatim}}}
 
 If \subcommand{male} and \subcommand{female} are the only categories in a population, then this is the same syntax as the command block above it.
@@ -409,10 +429,20 @@ For example,
 		categories male+female
 		selectivities chatFselMale chatFselFemale
 		likelihood lognormal
-		years 1992:2001
 		time_step_proportion 1.0
-		obs 1.50 1.10 0.93 1.33 1.53 0.90 0.68 0.75 0.57 1.23
-		error_value 0.35
+		years 1992:2001
+		table obs
+		1992    1.50    0.35
+		1993    1.10    0.35
+		1994    0.93    0.35
+		1995    1.33    0.35
+		1996    1.53    0.35
+		1997    0.90    0.35
+		1998    0.68    0.35
+		1999    0.75    0.35
+		2000    0.57    0.35
+		2001    1.23    0.35
+		end_table
 
 		@estimate
 		parameter catchability[chatTANbiomass.one].q

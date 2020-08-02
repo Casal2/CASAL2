@@ -41,7 +41,7 @@ For example,
 {\small{\begin{verbatim}
 		categories male
 		selectivities male-selectivity
-		\end{verbatim}}}
+\end{verbatim}}}
 
 defines an observation for males after applying the selectivity male-selectivity. \CNAME\ then requires that an observation is supplied. The expected values for the observations will be the expected abundance (or biomass) of males, after applying the selectivities, at the year and time-step specified.
 
@@ -65,17 +65,21 @@ For applying quantities of mortality between these values ($M_i$), the linear in
 E_{i} = |E_{i,1} - E_{i,2}|  M_i
 \end{equation}
 
+For each year of observations, the observation table \texttt{table obs} has a row with year in the first column, the observation per category in the middle column(s), and the error value in the final column:
+
 {\small{\begin{verbatim}
 		@observation MyAbundance
 		type abundance
 		years 1999
 		...
 		categories male
-		obs 1000
+		table obs
+		1999 1000 0.10
+		end_table
 		...
-		\end{verbatim}}}
+\end{verbatim}}}
 
-Or, for an observation aggregated over multiple categories,
+For an observation aggregated over multiple categories:
 
 {\small{\begin{verbatim}
 		@observation MyAbundance
@@ -84,11 +88,26 @@ Or, for an observation aggregated over multiple categories,
 		...
 		categories male+female
 		table obs
-		1990 1000
-		1991 1200
+		1990 1000 0.10
+		1991 1200 0.12
 		end_table
 		...
-		\end{verbatim}}}
+\end{verbatim}}}
+
+For observations for multiple categories:
+
+{\small{\begin{verbatim}
+		@observation MyAbundance
+		type abundance
+		years 1990 1991
+		...
+		categories male female
+		table obs
+		1990 550 450 0.10
+		1991 700 500 0.12
+		end_table
+		...
+\end{verbatim}}}
 
 
 To define a biomass observation instead of an abundance observation, use
@@ -97,7 +116,8 @@ To define a biomass observation instead of an abundance observation, use
 		@observation MyBiomass
 		type biomass
 		...
-		\end{verbatim}}}
+\end{verbatim}}}
+
 
 \paragraph*{\I{Proportions-at-age}}
 
@@ -106,7 +126,6 @@ Proportions-at-age observations are observations of the relative number of indiv
 The observation is supplied for a given year and time-step, for some selected age classes of the population (i.e., for a range of ages multiplied by a selectivity), for categories aggregated over a set of spatial cells. Note that the categories defined in the observations must have an associated selectivity, defined by \subcommand{selectivities}.
 
 The age range must be ages defined in the partition (i.e., between \commandsub{model}{min\_age} and \commandsub{model}{max\_age} inclusive); the upper end of the age range can optionally be a plus group, which must be either the same as or less than the plus group defined for the partition.
-
 
 Proportions-at-age observations can be supplied as
 
@@ -126,7 +145,7 @@ Defining an observation for a single category is used to model a set of proporti
 
 {\small{\begin{verbatim}
 		categories male
-		\end{verbatim}}}
+\end{verbatim}}}
 
 \CNAME\ then requires that there will be a single vector of proportions supplied, with one proportion for each age class within the defined age range, and that these proportions sum to one.
 
@@ -144,14 +163,13 @@ For example, if the age range was 3 to 10, then 8 proportions should be supplied
 		1990 0.01 0.09 0.20 0.20 0.35 0.10 0.05
 		end_table
 		...
-		\end{verbatim}}}
-
+\end{verbatim}}}
 
 Defining an observation for multiple categories extends the single category observation definition. It is used to model a set of proportions over several categories by age class. For example, to specify that the observations are of the proportions of male or females within each age class, then the subcommand \subcommand{categories} for the \commandlabsubarg{observation}{type}{proportion\_by\_age} command is
 
 {\small{\begin{verbatim}
 		categories male female
-		\end{verbatim}}}
+\end{verbatim}}}
 
 \CNAME\ then requires that there will be a single vector of proportions supplied, with one proportion for each category and age class combination, and that these proportions sum to one across all ages and categories.
 
@@ -172,14 +190,14 @@ For example,
 		1991 0.02 0.06 0.10 0.21 0.18 0.02 0.03 0.17 0.20 0.01
 		end_table
 		...
-		\end{verbatim}}}
+\end{verbatim}}}
 
 
 Defining an observation across aggregated categories allows categories to be aggregated before the proportions are calculated. It is used to model a set of proportions from several categories that have been combined by age class. To indicate that two (or more) categories are to be aggregated, separate them with a '+' symbol. For example, to specify that the observations are of the proportions of male and females combined within each age class, then the subcommand \subcommand{categories} for the \commandlabsubarg{observation}{type}{proportion\_by\_age} command is
 
 {\small{\begin{verbatim}
 		categories male + female
-		\end{verbatim}}}
+\end{verbatim}}}
 
 \CNAME\ then requires that there will be a single vector of proportions supplied, with one proportion for each age class, and that these proportions sum to one.
 
@@ -200,7 +218,7 @@ For example,
 				1991 0.02 0.06 0.18 0.35 0.39
 				end_table
 				...
-				\end{verbatim}}}
+\end{verbatim}}}
 
 The latter form can then be extended to include multiple categories, or multiple aggregated categories. For example, to describe proportions for the three groups: immature males, mature males, and all females (immature and mature females added together) for ages 1 through 4, a total of 12 proportions are required
 
@@ -248,6 +266,7 @@ table error_values
 end_table
 \end{verbatim}}}
 
+
 \paragraph*{\I{Proportions-by-category observations}\label{sec:proportions-by-category}}
 
 TODO 'between categories' or 'within categories'?
@@ -267,7 +286,7 @@ For example,
 		categories2 female
 		selectivities male-selectivity
 		selectivities2 female-selectivity
-		\end{verbatim}}}
+\end{verbatim}}}
 
 defines the proportion of males in each age class as a proportion of males $+$ females. \CNAME\ then requires that there will be a vector of proportions supplied, with one proportion for each age class within the defined age range, i.e., if the age range was 3 to 10, then 8 proportions should be supplied (one proportion for each of the the ages 3, 4, 5, 6, 7, 8, 9, and 10). The expected values will be the expected ratios of male to male $+$ female within each of these age classes, after applying the selectivities at the year and time-step specified.
 
@@ -289,7 +308,7 @@ For example,
 		1991 0.02 0.06 0.10 0.21 0.18
 		end_table
 		...
-		\end{verbatim}}}
+\end{verbatim}}}
 
 \paragraph*{\I{Tag Recapture by length}\label{sec:tag-recapture-by-length}}
 
@@ -350,7 +369,7 @@ An example of a tag recapture observation:
 
 		delta 1e-11 ## robustification value
 		dispersion 6.3	## dispersion factor
-		\end{verbatim}}}
+\end{verbatim}}}
 
 The observed ($O_{y,l}$) and expected ($E_{y,l}$) values in year $y$ and length $l$ of this observation are:
 
@@ -680,6 +699,7 @@ Z \left(\theta,\delta \right) = \begin{cases}
 
 The default value of $\delta$ is $1 \times 10^{-11}$.
 
+
 \subsubsection{Likelihoods for abundance and biomass observations}\label{Obs:biomass}
 
 Abundance and biomass observations are expected as an annual time series in \CNAME, where they select the same categories over that time series. The parameters and inputs needed to use this observation class are: a observation $O_i$, c.v. $c_i$, catchability coefficient $q$, where $i$ indexed the year. \CNAME\ calculates an expectation $E_i$ and scales it by $q$ before comparing it to $O_i$. This means that the value chosen for $q$ will determine whether the observation is relative ($q\neq 1$) or absolute $q = 1$. Before we describe each of the likelihoods we will discuss the methods available to handle $q$s:
@@ -954,7 +974,8 @@ An example of specifying the syntax and an equivalent additional prior
 	parameter catchabilityp[chatTANq].q
 	mu 0.3
 	cv 0.2
-	\end{verbatim}}}
+\end{verbatim}}}
+
 
 \subsection{\I{Ageing error}}
 
@@ -1009,6 +1030,7 @@ Methods for generating the random error, and hence the simulated values, depend 
   \item The subcommands \subcommand{likelihood}, \subcommand{obs}, \subcommand{error\_value}, and \subcommand{process\_error} have no effect when generating the expected values for the pseudo-observation.
   \item When simulating observations, the subcommand \subcommand{simulation\_likelihood} to indicate the likelihood to use. In this case, the \subcommand{obs}, \subcommand{error\_value}, and \subcommand{process\_error} are used to determine the appropriate terms to use for the likelihood when simulating.
 \end{itemize}
+
 
 \subsection{\I{Residuals}}\label{sec:Residuals}
 
