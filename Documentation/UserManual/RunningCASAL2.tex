@@ -96,11 +96,9 @@ and where the following optional arguments\index{Optional command line arguments
 
 \item [\texttt{   [-{}-sample-file] }] \emph{arg}. Sample file for resuming an MCMC is \emph{arg}
 
- 
 \item [\texttt{   [-{}-skip-estimation] }] For \texttt{   [-{}-mcmc]} run, skip estimating the covariance matrix; take it from the file \texttt{mpd.out}. This is a way use a re-calculated covariance matrix based on a previous MCMC run and start a new chain
 
 \item [\texttt{   [-{}-no-mpd] }] For \texttt{-e   [-{}-estimate]} run, do not create the MPD file, \texttt{mpd.out}
-
 
 \item [\texttt{-q [-{}-query]\emph{object type}}] \emph{Query} an object type to print an extract of the object description and parameter definitions.  An object can be defined as \texttt{\emph{block.type}}, e.g. \texttt{casal2 -{}-query process.recruitment\_constant} will query the constant recruitment block.
 
@@ -147,7 +145,7 @@ Commands that have a label must have a unique label, i.e., the label cannot be u
 @process NaturalMortality
 or
 !include MyModelSpecification.csl2
-		\end{verbatim}}}
+\end{verbatim}}}
 
 \subsubsection{Subcommands}\index{Commands ! Subcommands}
 
@@ -178,15 +176,15 @@ Integers must be entered as whole numbers without decimal points (i.e., if \subc
 
 Arguments of type integer vector, constant vector, estimable vector, addressable vector, or categorical vector must contain one or more entries on a row, separated by whitespace (tabs or spaces). Arguments of type integer range must contain a colon (\texttt{:}) and no whitespace (tabs or spaces).
 
-Parameters are defined in the population section and can be specified as estimable with the subcommand type \texttt{estimable} or \texttt{estimable vector}.  These parameters will be estimated if specified as such in the estimation section. If an estimable parameter is not specified in the estimation section it will instead be treated as a constant (or constant vector). In other words, only estimable parameters can be estimated and the parameter command must explicitly specify that the parameter is estimable with the \texttt{estimable} or \texttt{estimable vector} subcommand type. CHECK THIS?????
+Parameters are defined in the population section and can be specified as estimable with the subcommand type \texttt{estimable} or \texttt{estimable vector}.  These parameters will be estimated if specified as such in the estimation section. If an estimable parameter is not specified in the estimation section it will instead be treated as a constant (or constant vector). In other words, only estimable parameters can be estimated and the parameter command must explicitly specify that the parameter is estimable with the \texttt{estimable} or \texttt{estimable vector} subcommand type. TODO: check
 
 Parameters defined as addressable with the subcommand type \texttt{addressable} or \texttt{addressable vector} are usually derived quantities and are not directly estimable. As such, they can be referenced by various processes, or have priors and/or penalties associated with them, but they do not directly contribute to any estimation within the model. WHAT IS ADDRESSABLE????
 
 \subsubsection{The command block format}\index{Command block format}\label{sec:command-block-format}
+
 The command block is a basic continuous unit within the input file(s). It begin with a line that starts with the symbol \command{}, juxtaposition against a single command and followed, if required, by any unique label or argument. There is no indicator of the end of a command block. Each command block is delimited by the end of the file or the start of the next command block (which is marked by the \command{} on the first character of a line). The \texttt{!include} command is the only exception to this rule (see Section \ref{sec:general-syntax}\index{command ! include files} for details of the use of \texttt{!include}). The \texttt{!include} command can be used to include contents of another file within the scope of the command block.
 
-
-Within the command block, any subcommands needed and their arguments are presented, e.g.,
+Within the command block, any subcommands needed and their arguments are presented,
 
 \begin{multicols}{3}
 	\begin{description}
@@ -209,14 +207,13 @@ Within the command block, any subcommands needed and their arguments are present
 		\item .
 		\item etc.
 		\end{description}
-	\end{multicols}
+\end{multicols}
 
 Subcommands can be in any order within the command block. Command blocks can be in any order within the input files, except \texttt{\command{}model} which must be the first command block encountered by \CNAME~since this scopes the basic model dimensions (but excluding the \texttt{!include} command).
 	
 Blank lines are ignored, as is extra whitespace (tabs and spaces) between arguments. However, to start command block the \command{} character must be the first character on the line and must not be preceded by any whitespace. Each input file must end with a carriage return.
 
 Commands, subcommands, and arguments in the \config s are not case sensitive. However, labels and variable values are case sensitive. On Linux, filenames and paths are case sensitive (i.e., when using \texttt{!include} \argument{\emph{filename}}, the argument \argument{\emph{filename}} will be case sensitive).
-
 
 
 \subsubsection{\I{Commenting out lines}}\index{Comments}
@@ -234,7 +231,7 @@ Alternatively, to comment out an entire block or section, use \commentstart\ at 
 		is a comment and
 		will be ignored
 		*/
-		\end{verbatim}}}
+\end{verbatim}}}
 
 \subsubsection{How to reference parameters\label{sec:parameter-names}\index{Determining parameter names}\index{Parameter names}}
 
@@ -261,20 +258,25 @@ All labels (parameter names) are user specified. As such, naming conventions are
 
 Here, we illustrate reading a command block using two important commands, \texttt{@process} and \texttt{@estimate}.
 
-The command \texttt{@process} specifies a process that can be used in the model. The are a fixed set of predefined processes (subroutines in C++ code). The way to identify which one is by the \texttt{type} subsommand. Processes can take one or more parameters and some will need other data to be applied too. Some parameters are mandatory and others can take a default value if they are not specified.
+The command \texttt{@process} specifies a process that can be used in the model. The are a fixed set of predefined processes (subroutines in C++ code). The way to identify which one is by the \texttt{type} subcommand. Processes can take one or more parameters and some will need other data to be applied too. Some parameters are mandatory and others can take a default value if they are not specified.
 We have categories male and female, and two fisheries, line and pot. The command block starts with a\textit{@process}:
 
 {\small{\begin{verbatim}
 @process Fishing
 type mortality_instantaneous
 \end{verbatim}}}
+
 This sets up a process block using the \textit{mortality\_instantaneous}~ process which simultaneously depletes the population by natural mortality and from two types of fishing. Its label is \textit{Fishing}.
-Next we specify the values for natural mortality (\textit{m}) an argument to this process, to 0.17 and specify that fisheries acts on all categories. Note there are two values for natural mortality, one for each sex. The parameters \textit{m} can be estimated, if required. The command block fragment is:
+
+Next we specify the values for natural mortality (\textit{m}) an argument to this process, to 0.17 and specify that fisheries acts on all categories. Note there are two values for natural mortality, one for each sex. The parameters \textit{m} can be estimated, if required. The command block fragment:
+
 {\small{\begin{verbatim}
-m 0.17 0.17   #natural mortality  for each category
+m 0.17 0.17   # natural mortality  for each category
+relative_m_by_age One One # natural mortality multiplier
 categories *  # fishing acts on all categories ("*" shorthand for male female)
 \end{verbatim}}}
-Catches are supplied via a \textit{table} format using three columns: year and two for the fisheries, one for each, which take the labels \textit{line} and \textit{pot}. Column names are on the first line of the table and these columns can be in any order. e.g
+
+Catches are supplied via a \textit{table} format using three columns: year and two for the fisheries, one for each, which take the labels \textit{line} and \textit{pot}. Column names are on the first line of the table and these columns can be in any order,
 
 {\small{\begin{verbatim}
 #catches
@@ -285,17 +287,19 @@ year line pot       #names columns so can identity catch for each fishery
 2002 1000 5000
 end_table           # end of table marker
 \end{verbatim}}}
- Other information needed are supplied in the methods table which has a fixed number of columns (again these can be in any order), one for each piece of information needed to model a fishery. The method column defines the fishery name which is used in the catch table and also in other observations like age composition from that fishery. The categories that the fishery operates on (all in this case, but it could be just males for one and females for the other) are in the category column, the fishing selectivity to be used is given as a selectivity block name which is define somewhere else in the files,  \textit{u\_max} is the maximum exploitation rate in any year that is allowed, next comes the time step the fishing operates in, and lastly the block name of a penalty function that is used to penalise estimable parameter values that result in the supplied catch not being caught. Again, the penalty block is define elsewhere in the files. After the  row with the column names, there follows one row for each fishery. e.g
+
+Other information needed are supplied in the methods table which has a fixed number of columns (again these can be in any order), one for each piece of information needed to model a fishery. The method column defines the fishery name which is used in the catch table and also in other observations like age composition from that fishery. The categories that the fishery operates on (all in this case, but it could be just males for one and females for the other) are in the category column, the fishing selectivity to be used is given as a selectivity block name which is define somewhere else in the files, \textit{u\_max} is the maximum exploitation rate in any year that is allowed, next comes the time step the fishing operates in, and lastly the block name of a penalty function that is used to penalise estimable parameter values that result in the supplied catch not being caught. Again, the penalty block is define elsewhere in the files. After the row with the column names, there follows one row for each fishery:
+
 {\small{\begin{verbatim}
 table method        # supply arguments and name selectivity etc
 method  	category 	selectivity 	u_max 	time_step 		penalty
 pot        	*  	       potFSel		   0.7 			1 	CatchMustBeTaken1
 line     	*  	      lineFSel 	    0.7 			1 	CatchMustBeTaken1
 end_table
-
 \end{verbatim}}}
 
-To estimate natural morality, you need to supply an \textit{@estimate} block with a reference name back to \textit{m} in the \textit{Fishing} block. For \textit{@estimate}, \textit{type} specifies the prior to be used in the estimation, which in this case is a normal distribution. The block is:
+To estimate natural mortality, you need to supply an \textit{@estimate} block with a reference name back to \textit{m} in the \textit{Fishing} block. For \textit{@estimate}, \textit{type} specifies the prior to be used in the estimation, which in this case is a normal distribution:
+
 {\small{\begin{verbatim}
 @estimate estimate.m
 type normal normal
@@ -308,9 +312,9 @@ mu  0.2 0.2   #argument to prior = mean
 sd  0.02 0.02 #another argument to the prior = standard deviation
 \end{verbatim}}}
 
-Note that there are two \textit{m}s, one for each sex, so there has to be two priors. The \textit{\@estiamte} label \textit{estimate.m} is often redundant, but it may be needed , e.g., in a transformation command block.
+Note that there are two \textit{m}s, one for each sex, so there has to be two priors. The \textit{\@estiamte} label \textit{estimate.m} is often redundant, but it may be needed, e.g., in a transformation command block.
 
-To estimate a common \textit{m} over both sexes, we estimate one \textit{m}, say male, and use the \textit{same} subcommand to apply the same value to the female \textit{m}, e.g.,
+To estimate a common \textit{m} over both sexes, we estimate one \textit{m}, say male, and use the \textit{same} subcommand to apply the same value to the female \textit{m},
 
 {\small{\begin{verbatim}
 @estimate estimate.m
@@ -322,11 +326,14 @@ sd  0.02 #another argument to the prior = standard deviation
 \end{verbatim}}}
 
 There are section detailing the equations involve and a separate syntax section that gives the possible \texttt{type}s and their subcommands.
-Note that the syntax sections are auto-generated from the code base (i.e., from the constructors) so they give the definitive set of subcommands and their names. 
 
-\subsection{\I{Single-stepping \CNAME~SHIFT TO SOMEWHERE ELSE}\label{sec:singlestepping}}\index{Single\_stepping}\index{single\_stepping section}
+Note that the syntax sections are auto-generated from the code base (from the class constructors) so they give the definitive set of subcommands and their names. 
 
-Single-stepping means \CNAME~can `pause' after each year in the annual cycle during a model run, write reports, then wait and process user input of updated estimable parameters for the next year (see the command line argument \texttt{ -{}-single-step}).
+\subsection{\I{Single-stepping \CNAME~}\label{sec:singlestepping}}\index{Single\_stepping}\index{single\_stepping section}
+
+TODO: move this section to somewhere else
+
+Single-stepping means \CNAME~can 'pause' after each year in the annual cycle during a model run, write reports, then wait and process user input of updated estimable parameters for the next year (see the command line argument \texttt{ -{}-single-step}).
 
 This enables \CNAME~to implement models for management simulations or scenarios that require feedback and can be used, for example, in operational management procedures (OMPs). The single-stepping process can be automated using \R, so that \CNAME~may be used with \R\ to update input harvest values (e.g., catches from a fishery in a fisheries model) to evaluate a particular harvest control rule.
 

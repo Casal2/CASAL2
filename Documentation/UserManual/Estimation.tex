@@ -92,13 +92,13 @@ evaluations 4000
 
 \subsubsection{\I{The differential evolution minimiser}}
 
-The differential evolution minimiser is a simple populatio- based, stochastic function minimizer, but is claimed to be quite powerful in solving minimisation problems. It is a method of mathematical optimization of multidimensional functions and belongs to the class of evolution strategy optimizers (TODO reference?).
+The differential evolution minimiser is a simple population-based, stochastic function minimizer, but is claimed to be quite powerful in solving minimisation problems. It is a method of mathematical optimization of multidimensional functions and belongs to the class of evolution strategy optimizers (TODO reference?).
 
 Initially, the procedure randomly generates and evaluates a number of solution vectors (the population size), each with $p$ parameters. Then, for each generation (iteration), the algorithm creates a candidate solution for each existing solution by random mutation and uniform crossover. The random mutation generates a new solution by multiplying the difference between two randomly selected solution vectors by some scale factor, then adding the result to a third vector. Then an element-wise crossover takes place with probability $P_{cr}$, to generate a potential candidate solution. If this is better than the initial solution vector, it replaces it, otherwise the original solution is retained. The algorithm terminates after either a predefined number of generations (\argument{max\_generations}) or when the maximum difference between the scaled individual parameters from the candidate solutions from all populations is less than some predefined amount \argument{tolerance}.
 
 The differential evolution minimiser can be good at finding global minimums in surfaces that may have local minima. However, the speed of the minimiser, and the ability to find a good minima depend on the number of initial 'populations'. Some authors recommend that the number of populations be set at about $10*p$, where $p$ is the number of free parameters. However, depending on the model, this value can be set to a lower value and still find a robust solution.
 
-There is no proof of convergence for the differential evolution solver, but several papers have found it to be an efficient method of solving multidimensional problems. Some results suggest that it can often find a better minima and may be faster or longer (depending on the actual model specification) at finding a solution when compared with the numerical differences minimiser. Comparisons with auto matic differentiation minimisers or other more sophisticated algorithms have not been made.
+There is no proof of convergence for the differential evolution solver, but several papers have found it to be an efficient method of solving multidimensional problems. Some results suggest that it can often find a better minima and may be faster or longer (depending on the actual model specification) at finding a solution when compared with the numerical differences minimiser. Comparisons with automatic differentiation minimisers or other more sophisticated algorithms have not been made.
 
 {\small{\begin{verbatim}
 		@minimiser DE_solver
@@ -106,7 +106,7 @@ There is no proof of convergence for the differential evolution solver, but seve
 		tolerance 1e-6
 		iterations 2500
 		evaluations 4000
-		\end{verbatim}}}
+\end{verbatim}}}
 
 \subsubsection{\I{The BetaDiff minimiser}}
 
@@ -118,7 +118,7 @@ An automatic differentiation minimiser for non-linear models, This is the minimi
 		tolerance 1e-6
 		iterations 2500
 		evaluations 4000
-		\end{verbatim}}}
+\end{verbatim}}}
 
 \subsubsection{\I{The ADOL-C minimiser}}
 
@@ -131,7 +131,7 @@ An automatic differentiation minimiser for non-linear models. See \url{https://p
 		iterations 2500
 		evaluations 4000
 		tolerance 1e-6
-		\end{verbatim}}}
+\end{verbatim}}}
 
 \subsubsection{\I{The CppAD minimiser}}
 
@@ -140,7 +140,7 @@ An automatic differentiation minimiser for non-linear models using the MUMPS sol
 {\small{\begin{verbatim}
 		@minimiser CPPAD
 		type cppad
-		\end{verbatim}}}
+\end{verbatim}}}
 
 CppAD has an implicit tolerance value of 1e-9.
 
@@ -156,7 +156,7 @@ Non-automatic differentiation minimiser. See \url{http://dlib.net/} for more inf
 		tolerance 1e-6
 		iterations 2500
 		evaluations 4000
-		\end{verbatim}}}
+\end{verbatim}}}
 
 \subsection{\I{Posterior profiles}\label{sec:estimate-profiles}}
 
@@ -343,7 +343,6 @@ Vectors of parameters can be independently (but not necessarily identically) dis
 		cv 			0.9 	0.9 	0.9 	0.9 	0.9 	0.9
 		lower_bound 0.01	0.01	0.01	0.01	0.01	0.01
 		upper_bound 9		9		9		9		9		9
-
 \end{verbatim}}}
 
 \subsection{Penalties\label{sec:penalties}}
@@ -506,7 +505,7 @@ For example:
 		type log
 		estimate_label log_R0
 		transform_with_jacobian true
-		\end{verbatim}}}
+\end{verbatim}}}
 
 \subsubsection*{Transform with Jacobian}
 
@@ -559,7 +558,7 @@ For example:
 		cv 0.5
 		lower_bound 8
 		upper_bound 17
-		\end{verbatim}}}
+\end{verbatim}}}
 
 
 \subsubsection*{Transformation types}

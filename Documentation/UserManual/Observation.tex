@@ -173,7 +173,7 @@ Defining an observation for multiple categories extends the single category obse
 
 \CNAME\ then requires that there will be a single vector of proportions supplied, with one proportion for each category and age class combination, and that these proportions sum to one across all ages and categories.
 
-For example, if there were two categories and the age range was 3 to 10, then 16 proportions should be supplied (one proportion for each of the the ages 3, 4, 5, 6, 7, 8, 9, and 10, for each category male and female). The expected values will be the expected proportions of males and females within each of these age classes (after omitting those aged less than 3 and older than 10), after applying a selectivity at the year and time-step specified. The supplied vector of proportions (i.e., in this example, the 16 proportions) must sum to one, which is evaluated with a default tolerance of 0.001.
+For example, if there were two categories and the age range was 3 to 10, then 16 proportions should be supplied (one proportion for each of the ages 3, 4, 5, 6, 7, 8, 9, and 10, for each category male and female). The expected values will be the expected proportions of males and females within each of these age classes (after omitting those aged less than 3 and older than 10), after applying a selectivity at the year and time-step specified. The supplied vector of proportions (i.e., in this example, the 16 proportions) must sum to one, which is evaluated with a default tolerance of 0.001.
 
 For example,
 
@@ -441,7 +441,7 @@ where $N_{a,c}$ are the numbers-at-age in category $c$ before the process is exe
 
 The observation class accesses the variable $E[N_{a,c,m}]$ and applies ageing error if the user has specified it. Then the observations are aggregated by method and category depending on how the user specifies the observation, before converting numbers-at-age to proportions-at-age and then calculating the likelihood.
 
-Likelihoods that are available for this observation class are the mulitnomial, Dirichlet, and the lognormal. See Section~\ref{sec:likelihood-observations} for information on the respected likelihood.
+Likelihoods that are available for this observation class are the multinomial, Dirichlet, and the lognormal. See Section~\ref{sec:likelihood-observations} for information on the respected likelihood.
 
 \paragraph*{\I{Process removals by age retained}\label{sec:removals-by-age-retained}}
 
@@ -536,7 +536,7 @@ table error_values
 end_table
 \end{verbatim}}}
 
-Likelihoods that are available for this observation are the mulitnomial, Dirichlet and the lognormal. See Section~\ref{sec:likelihood-observations} for information on the  likelihoods.
+Likelihoods that are available for this observation are the multinomial, Dirichlet and the lognormal. See Section~\ref{sec:likelihood-observations} for information on the  likelihoods.
 
 \paragraph*{\I{Process removals by length retained}\label{sec:removals-by-length-retained}}
 
@@ -591,7 +591,7 @@ delta 1e-11
 
 \paragraph*{\I{Proportions migrating}\label{sec:Proportions-migrating}}
 
-This observation is of the proportion migrating from one area to another. This observation is exclusively associated with the process type \texttt{transition\_category}, and will produce an error when associated with any other process type. This observation is used to inform migration rates in migration processes. This observation class is used in the Hoki stock assessment see~\cite{francis_03} for more information on how these observations are collected and a situation that uses it.
+This observation is of the proportion migrating from one area to another. This observation is exclusively associated with the process type \texttt{transition\_category}, and will produce an error when associated with any other process type. This observation is used to inform migration rates in migration processes. This observation class is used in the hoki stock assessment see~\cite{francis_03} for more information on how these observations are collected and a situation that uses it.
 
 This observation calculates an expectation $E_a$ of proportions for each age class $a$ that have migrated, by
 
@@ -603,7 +603,7 @@ where $N_a$ are the numbers of individuals in age $a$ before the migration proce
 
 The likelihoods that are allowed for this observation are the lognormal, multinomial, and Dirichlet.
 
-A section of the Hoki stock assessment model:
+A section of the hoki stock assessment model:
 
 {\small{\begin{verbatim}
 		@observation pspawn_1993
@@ -626,9 +626,10 @@ A section of the Hoki stock assessment model:
 		## if lognormal these are c.v.'s
 		1993 0.25
 		end_table
-		\end{verbatim}}}
+\end{verbatim}}}
 
 \end{itemize}
+
 
 \subsection{\I{Likelihoods}\label{sec:likelihood-observations}\index{Likelihoods}}
 
@@ -705,7 +706,7 @@ The default value of $\delta$ is $1 \times 10^{-11}$.
 Abundance and biomass observations are expected as an annual time series in \CNAME, where they select the same categories over that time series. The parameters and inputs needed to use this observation class are: a observation $O_i$, c.v. $c_i$, catchability coefficient $q$, where $i$ indexed the year. \CNAME\ calculates an expectation $E_i$ and scales it by $q$ before comparing it to $O_i$. This means that the value chosen for $q$ will determine whether the observation is relative ($q\neq 1$) or absolute $q = 1$. Before we describe each of the likelihoods we will discuss the methods available to handle $q$s:
 
 \begin{itemize}
-	\item The $q$s can be treated as 'nuisance' parameters. For each set of values of the free parameters, the model uses the values of the $q$swhich minimise the objective function. These optimal $q$s are calculated algebraically (see Section~\ref{subsec:nuisance}). If one of the $q$s falls outside the bounds specified by the user, it is set equal to the closest bound. This approach reduces the size of the parameter vector and hence should improve the performance of the estimation method. However, it is not correct when calculating a sample from the posterior in a Bayesian analysis (except asymptotically, see \cite{Walters_ludwig_94}) and we offer the following alternative;
+	\item The $q$s can be treated as 'nuisance' parameters. For each set of values of the free parameters, the model uses the values of the $q$s which minimise the objective function. These optimal $q$s are calculated algebraically (see Section~\ref{subsec:nuisance}). If one of the $q$s falls outside the bounds specified by the user, it is set equal to the closest bound. This approach reduces the size of the parameter vector and hence should improve the performance of the estimation method. However, it is not correct when calculating a sample from the posterior in a Bayesian analysis (except asymptotically, see \cite{Walters_ludwig_94}) and we offer the following alternative;
 
 	\item The $q$s can be treated as ordinary free parameters.
 \end{itemize}
