@@ -5,6 +5,7 @@ require(ggmcmc)
 require(coda)
 require(gridExtra)
 require(ggthemes)
+require(rlist)
 
 require(devtools)
 
