@@ -1,0 +1,157 @@
+---
+title: "Casal2 Test Case MCMC comparisons for ORH"
+output:
+    html_document:
+        toc: TRUE
+        toc_depth: 2
+        number_sections: TRUE
+
+header-includes:
+ - \usepackage{pdflscape}
+ - \newcommand{\blandscape}{\begin{landscape}}
+ - \newcommand{\elandscape}{\end{landscape}}
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+# ORH comparison of CASAL and Casal2 model configurations
+
+This document compares the results of at least 2 CASAL model configurations (base and at least one sensitivity) and up to 8 Casal2 model configurations (3 BetaDiff, 2 CppAD, and 3 ADOL-C).
+
+The CASAL model sensitivity 1 has a smaller minimisation tolerance value than the CASAL base model (1e-6 vs. 2e-3).
+
+The Casal2 ADOL-C and BetaDiff low tolerance models have a smaller tolerance value than the CASAL base model (1e-6 vs. 2e-3). The Casal2 CppAD models have a tolerance value of 1e-9.
+
+
+## ORH model characteristics
+
+The main characteristics of the Test Case ORH (orange roughy) CASAL model are:
+
+* one stock, ages 1 - 80
+* one area
+* years 1979 - 2005, projection years 2006 - 2010
+* one time step
+* two stock categories: immature and mature, with logistic-producing maturity ogive
+* natural mortality (M) of 0.045
+* length-weight relationship ($W = aL^b$)
+* no stock-recruitment relationship, with $\sigma_R$ 1.1
+* no ageing error
+* one fishery with logistic selectivity-at-age
+
+Observation data include:
+
+* empirical length-at-age data for one year
+* one CPUE index
+* fishery catch-at-length
+
+Parameters estimated include:
+
+* B0
+* the first and last CV for the age-length relationship
+* fishery selectivity parameters a50 and ato95
+
+
+## ORH model MCMC specifications
+
+The CASAL MCMC options include
+
+* start 0.2
+* keep 1000
+* length 11000000
+* adaptive_stepsize True
+* adapt_at 10000 20000 30000 40000 50000 100000 200000 4000000
+* df 2
+* burn_in 500
+* proposal_t True
+
+The Casal2 ADOL-C and BetaDiff MCMC options include
+
+* start 0.2
+* length 11000000
+* keep 1000
+* step_size 0.02
+* adapt_stepsize_at 10000 20000 30000 40000 50000 100000 200000 4000000
+* proposal_distribution t
+* adapt_stepsize_method double_half
+* max_correlation 0.8
+
+The Casal2 CppAD MCMC runs use the BetaDiff covariance matrices since Casal2 does not output the covariance matrix from CppAD minimisation. The Casal2 CppAD MCMC options include
+
+* start 0.2
+* keep 1000
+* length 12000000 (originally 11M)
+* step_size 0.02
+* adapt_stepsize_at 10000 20000 30000 40000 50000 100000 200000 4000000
+* proposal_distribution t
+* adapt_stepsize_method double_half
+* max_correlation 0.8
+* adapt_covariance_matrix_at 1000000
+
+
+## R environment
+
+```{r C1_C2_setup, echo=FALSE, warning=FALSE, message=FALSE}
+source('../../R-functions/report_set_up_R_env.R')
+```
+
+
+## CASAL and Casal2 model output
+
+```{r CASAL, warning=FALSE}
+# source('../../R-functions/report_read_in_CASAL_MPD_files.R')
+source('../../R-functions/report_read_in_CASAL_MCMC_files.R')
+```
+
+
+```{r Casal2}
+source('../../R-functions/report_read_in_Casal2_MPD_files.R')
+source('../../R-functions/report_read_in_Casal2_MCMC_files.R')
+```
+
+
+## MCMC diagnostics
+
+### Diagnostics for the CASAL and Casal2 model MCMC results
+
+For the diagnostics below, the last 10000 samples for each chain are used and subsampled at 10, so that 1000 samples are input into the diagnostic functions.
+
+
+```{r CASAL_MCMC_diag, echo=FALSE, message=FALSE}
+plot_file_label <- 'ORH'
+
+num_samples_to_use <- 10000
+num_to_subsample   <- 10
+MCMC_params_rename <- c('objective_function', 'SB0', 'Sel_a50', 'Sel_ato95', 'CV_first', 'CV_last')
+
+C1_MCMC_params <- c('neg_ln_posterior', 'initialization.B0', 'selectivity[SELandes].all.1', 'selectivity[SELandes].all.2', 'size_at_age.cv1.1', 'size_at_age.cv2.1')
+
+source('../../R-functions/report_CASAL_MCMC_diagnostics.R')
+```
+
+
+```{r Casal2_MCMC_diag, echo=FALSE, message=FALSE}
+C2_MCMC_params <- c('objective_score', 'process[Recruitment].b0', 'selectivity[SELandes].a50', 'selectivity[SELandes].ato95', 'age_length[age_len_label].cv_first', 'age_length[age_len_label].cv_last')
+
+source('../../R-functions/report_Casal2_MCMC_diagnostics.R')
+```
+
+
+```{r plots_base, echo=FALSE}
+# c(bottom, left, top, right)
+par(mar=c(4,4,2,1) + 0.1)
+
+par(mfrow=c(1,1))
+```
+
+
+```{r plot_MCMC_coda_diag, echo=FALSE, warning=FALSE, message=FALSE}
+source('../../R-functions/report_plot_MCMC_coda_diagnostics.R')
+```
+
+
+```{r plot_MCMC_ggmcmc_diag, echo=FALSE, warning=FALSE, message=FALSE}
+source('../../R-functions/report_plot_MCMC_ggmcmc_diagnostics.R')
+```
+
