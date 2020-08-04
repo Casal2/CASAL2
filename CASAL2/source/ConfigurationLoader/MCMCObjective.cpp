@@ -72,6 +72,7 @@ bool MCMCObjective::LoadFile(const string& file_name) {
       LOG_ERROR() << "Failed to read a line from the MCMC Objective file when looking for 'covariance_matrix:'";
       return false;
     }
+    boost::trim_right(line);
   }
 
   if (line != "starting_covariance_matrix {m}") {
@@ -88,6 +89,7 @@ bool MCMCObjective::LoadFile(const string& file_name) {
   // Check the order of parameters
   LOG_MEDIUM() << "Check the order of parameters";
   getline(file, line);
+  boost::trim_right(line);
   vector<string> param_labels;
   boost::split(param_labels, line, boost::is_any_of(" "), boost::token_compress_on);
   if (estimate_count != param_labels.size()) {
@@ -109,6 +111,7 @@ bool MCMCObjective::LoadFile(const string& file_name) {
     if (!getline(file, line)) {
       LOG_ERROR() << "Failed to load line " << i+1 << " of the covariance matrix from the file " << file_name;
     }
+    boost::trim_right(line);
 
     // split the line
     vector<string> addressable_values;
@@ -138,6 +141,7 @@ bool MCMCObjective::LoadFile(const string& file_name) {
    */
   string last_line = "";
   while(getline(file, line)) {
+    boost::trim_right(line);
     last_line = line;
   }
 
@@ -149,6 +153,7 @@ bool MCMCObjective::LoadFile(const string& file_name) {
     LOG_ERROR() << "Could not convert " << Chain_info[0] << " to an unsigned integer";
     return false;
   }
+  LOG_MEDIUM() << "Iteration number = " << iteration_number;
 
   // Acceptance rate
   double AR = 0;
@@ -157,12 +162,13 @@ bool MCMCObjective::LoadFile(const string& file_name) {
     return false;
   }
   LOG_MEDIUM() << "Acceptance rate = " << AR;
+
   // Now calculate successful jumps
   double succesful_jumps = (double)iteration_number * AR;
   LOG_MEDIUM() << "Successful jumps = " << succesful_jumps;
 
   unsigned success_jump = (unsigned)succesful_jumps;
-  LOG_MEDIUM() << "Successful jumps = " << success_jump;
+  LOG_MEDIUM() << "Successful jump = " << success_jump;
 
 /*
   if (!utilities::To<double, unsigned>(succesful_jumps, success_jump)) {
@@ -188,6 +194,7 @@ bool MCMCObjective::LoadFile(const string& file_name) {
   model_->managers().mcmc()->active_mcmc()->set_starting_iteration(iteration_number);
   model_->managers().mcmc()->active_mcmc()->set_successful_jumps(success_jump);
   model_->managers().mcmc()->active_mcmc()->set_step_size(step_size);
+  model_->managers().mcmc()->active_mcmc()->set_acceptance_rate(AR);
   model_->managers().mcmc()->active_mcmc()->set_acceptance_rate_from_last_adapt(AR_since_last_adapt);
 
   file.close();

@@ -39,7 +39,7 @@ IndependenceMetropolis::IndependenceMetropolis(Model* model) : MCMC(model) {
   parameters_.Bind<string>(PARAM_PROPOSAL_DISTRIBUTION, &proposal_distribution_, "The shape of the proposal distribution (either the t or the normal distribution)", "", PARAM_T);
   parameters_.Bind<unsigned>(PARAM_DF, &df_, "The degrees of freedom of the multivariate t proposal distribution", "", 4)->set_lower_bound(0, false);
   parameters_.Bind<unsigned>(PARAM_ADAPT_STEPSIZE_AT, &adapt_step_size_, "The iteration numbers in which to check and resize the MCMC stepsize", "", true)->set_lower_bound(0);
-  parameters_.Bind<unsigned>(PARAM_ADAPT_COVARIANCE_AT, &adapt_covariance_matrix_, "The iteration numbers in which to check and resize the MCMC stepsize", "", true)->set_lower_bound(0);
+  parameters_.Bind<unsigned>(PARAM_ADAPT_COVARIANCE_AT, &adapt_covariance_matrix_, "The iteration numbers in which to adapt the covariance matrix", "", true)->set_lower_bound(0);
   parameters_.Bind<string>(PARAM_ADAPT_STEPSIZE_METHOD, &adapt_stepsize_method_, "The method to use to adapt the step size", "", PARAM_RATIO)->set_allowed_values({PARAM_RATIO, PARAM_DOUBLE_HALF});
 
   jumps_                          = 0;
@@ -551,7 +551,7 @@ void IndependenceMetropolis::DoExecute() {
     for (unsigned i = 0; i < adapt_step_size_.size(); ++i) {
       if (adapt_step_size_[i] < starting_iteration_) {
         jumps_since_last_adapt = adapt_step_size_[i];
-        LOG_FINE() << "Chain last adapted at " << jumps_since_last_adapt;
+        LOG_MEDIUM() << "Chain last adapted at " << jumps_since_last_adapt;
       }
     }
     jumps_= starting_iteration_;
@@ -605,25 +605,37 @@ void IndependenceMetropolis::DoExecute() {
   /**
    * Store first location
    */
-  {
+  mcmc::ChainLink new_link;
+  new_link.penalty_                       = AS_VALUE(obj_function.penalties());
+  new_link.score_                         = AS_VALUE(obj_function.score());
+  new_link.prior_                         = AS_VALUE(obj_function.priors());
+  new_link.likelihood_                    = AS_VALUE(obj_function.likelihoods());
+  new_link.additional_priors_             = AS_VALUE(obj_function.additional_priors());
+  new_link.jacobians_                     = AS_VALUE(obj_function.jacobians());
+  new_link.step_size_                     = step_size_;
+  new_link.values_                        = previous_untransformed_candidates;
+
+  if (!model_->global_configuration().resume()) {
     jumps_++;
     jumps_since_adapt_++;
-    mcmc::ChainLink new_link;
-    new_link.iteration_                     = jumps_;
-    new_link.penalty_                       = AS_VALUE(obj_function.penalties());
-    new_link.score_                         = AS_VALUE(obj_function.score());
-    new_link.prior_                         = AS_VALUE(obj_function.priors());
-    new_link.likelihood_                    = AS_VALUE(obj_function.likelihoods());
-    new_link.additional_priors_             = AS_VALUE(obj_function.additional_priors());
-    new_link.jacobians_                     = AS_VALUE(obj_function.jacobians());
-    new_link.acceptance_rate_               = 0;
-    new_link.acceptance_rate_since_adapt_   = 0;
-    new_link.step_size_                     = step_size_;
-    new_link.values_                        = previous_untransformed_candidates;
+
+    new_link.iteration_                   = jumps_;
+    new_link.acceptance_rate_             = 0;
+    new_link.acceptance_rate_since_adapt_ = 0;
+
     chain_.push_back(new_link);
 
     // Print first value
     model_->managers().report()->Execute(State::kIterationComplete);
+  } else {
+    // resume
+    new_link.iteration_                   = jumps_;
+    new_link.acceptance_rate_             = acceptance_rate_;
+    new_link.acceptance_rate_since_adapt_ = acceptance_rate_since_last_adapt_;
+
+    chain_.push_back(new_link);
+
+    LOG_MEDIUM() << "Resuming MCMC chain with iteration " << jumps_;
   }
 
   /**
@@ -635,12 +647,13 @@ void IndependenceMetropolis::DoExecute() {
   LOG_MEDIUM() << "Estimate Count: " << estimate_count_;
 
   vector<Double> previous_candidates = candidates_;
-  Double previous_score = score;
-  Double previous_prior = prior;
-  Double previous_likelihood = likelihood;
-  Double previous_penalty = penalty;
+
+  Double previous_score            = score;
+  Double previous_prior            = prior;
+  Double previous_likelihood       = likelihood;
+  Double previous_penalty          = penalty;
   Double previous_additional_prior = additional_prior;
-  Double previous_jacobian = jacobian;
+  Double previous_jacobian         = jacobian;
 
   do {
     // Check If we need to update the step size
@@ -701,6 +714,7 @@ void IndependenceMetropolis::DoExecute() {
         previous_penalty          = penalty;
         previous_additional_prior = additional_prior;
         previous_jacobian         = jacobian;
+
         // For reporting purposes
         for (unsigned i = 0; i < estimate_count_; ++i) {
           previous_untransformed_candidates[i] = estimates_[i]->value();
@@ -721,17 +735,19 @@ void IndependenceMetropolis::DoExecute() {
       // Record the score, and its compontent parts if the successful jump divided by keep has no remainder
       // i.e this proposed candidate is a 'keep' iteration
       mcmc::ChainLink new_link;
-      new_link.iteration_         = jumps_;
-      new_link.penalty_           = previous_penalty;
-      new_link.score_             = previous_score;
-      new_link.prior_             = previous_prior;
-      new_link.likelihood_        = previous_likelihood;
-      new_link.additional_priors_ = previous_additional_prior;
-      new_link.jacobians_         = previous_jacobian;
-      new_link.acceptance_rate_   = double(successful_jumps_) / double(jumps_);
+
+      new_link.iteration_                   = jumps_;
+      new_link.penalty_                     = previous_penalty;
+      new_link.score_                       = previous_score;
+      new_link.prior_                       = previous_prior;
+      new_link.likelihood_                  = previous_likelihood;
+      new_link.additional_priors_           = previous_additional_prior;
+      new_link.jacobians_                   = previous_jacobian;
+      new_link.acceptance_rate_             = double(successful_jumps_) / double(jumps_);
       new_link.acceptance_rate_since_adapt_ = double(successful_jumps_since_adapt_) / double(jumps_since_adapt_);
-      new_link.step_size_         = step_size_;
-      new_link.values_            = previous_untransformed_candidates;
+      new_link.step_size_                   = step_size_;
+      new_link.values_                      = previous_untransformed_candidates;
+
       chain_.push_back(new_link);
 
       //LOG_MEDIUM() << "Storing: Successful Jumps " << successful_jumps_ << " Jumps : " << jumps_;

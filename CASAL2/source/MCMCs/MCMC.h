@@ -66,6 +66,7 @@ public:
   void                        set_starting_iteration(unsigned value) { starting_iteration_ = value; }
   void                        set_successful_jumps(unsigned value) { successful_jumps_ = value; }
   void                        set_step_size(double value) { step_size_ = value; }
+  void                        set_acceptance_rate(double value) { acceptance_rate_ = value; }
   void                        set_acceptance_rate_from_last_adapt(double value) { acceptance_rate_since_last_adapt_ = value; }
   bool                        recalculate_covariance() const { return recalculate_covariance_; }
 
@@ -86,9 +87,10 @@ protected:
   bool                        print_default_reports_;
   bool                        recalculate_covariance_ = false;
 
-  // These were moved from the child for scenerios where we are resuming the chain
+  // These were moved from the child for scenarios where we are resuming the chain
   double                      step_size_ = 0.0;
   unsigned                    successful_jumps_ = 0;
+  double                      acceptance_rate_ = 0;
   double                      acceptance_rate_since_last_adapt_ = 0;
 
 };

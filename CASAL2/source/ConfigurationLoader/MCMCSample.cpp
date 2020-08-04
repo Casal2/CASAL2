@@ -70,6 +70,7 @@ bool MCMCSample::LoadFile(const string& file_name) {
       LOG_ERROR() << "Failed to read a line from the MCMC Sample file when looking for '*mcmc_sample[mcmc]'";
       return false;
     }
+    boost::trim_right(line);
   }
 
   if (line != "*mcmc_sample[mcmc]") {
@@ -101,6 +102,7 @@ bool MCMCSample::LoadFile(const string& file_name) {
     LOG_ERROR() << "Could not read header line from MCMC sample file " << file_name;
     return false;
   }
+  boost::trim_right(line);
 
   // Check the order of parameters
   auto estimate_count      = model_->managers().estimate()->GetIsEstimatedCount();
@@ -119,7 +121,6 @@ bool MCMCSample::LoadFile(const string& file_name) {
       LOG_ERROR() << "parameter " << param_labels[i] << " is not matched with internal estimate parameters which expected " << estimates[i]->label();
   }
 
-
   vector<string> columns;
   boost::split(columns, line, boost::is_any_of(" "), boost::token_compress_on);
 
@@ -128,6 +129,7 @@ bool MCMCSample::LoadFile(const string& file_name) {
    */
   string last_line = "";
   while(getline(file, line)) {
+    boost::trim_right(line);
     last_line = line;
   }
 
@@ -170,6 +172,7 @@ bool MCMCSample::LoadFile(const string& file_name) {
     }
 
     estimates[i]->set_value(value);
+    LOG_MEDIUM() << "MCMC sample starting value for parameter " << estimates[i]->parameter() << " is " << value;
   }
 
   file.close();
