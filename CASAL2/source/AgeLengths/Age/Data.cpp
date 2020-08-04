@@ -58,10 +58,12 @@ void Data::DoBuild() {
 
   LOG_FINE() << "Building age length block " << label_;
   length_weight_ = model_->managers().length_weight()->GetLengthWeight(length_weight_label_);
+
   if (!length_weight_)
     LOG_ERROR_P(PARAM_LENGTH_WEIGHT) << "Length-weight label " << length_weight_label_ << " was not found.";
   if (!data_table_)
     LOG_CODE_ERROR() << "!data_table_";
+
   if (model_->run_mode() == RunMode::kProjection)
     final_year_ = model_->projection_final_year();
   else
@@ -262,7 +264,7 @@ void Data::InterpolateTimeStepsForAllYears() {
 
           w2 = 1.0 - w1;
           LOG_FINEST() << "w2 = "  << w2;
-          if ((a2 + model_->min_age()) > model_->max_age() || y2 > model_->final_year()){
+          if ((a2 + model_->min_age()) > model_->max_age() || y2 > final_year_) {
             a1 -= 1;
             a2 -= 1;
             if((y1 - 1) > model_->start_year())
@@ -272,7 +274,7 @@ void Data::InterpolateTimeStepsForAllYears() {
             w2 += 1;
           }
 
-          if ((a1 + model_->min_age()) < model_->min_age() || y1 < model_->start_year()){
+          if ((a1 + model_->min_age()) < model_->min_age() || y1 < model_->start_year()) {
             LOG_FINEST() << "w2 = "  << w2;
             a1 += 1;
             a2 += 1;
@@ -283,7 +285,7 @@ void Data::InterpolateTimeStepsForAllYears() {
           }
 
           if ((a2 + model_->min_age()) > model_->max_age() ||
-              y2 > model_->final_year() ||
+              y2 > final_year_ ||
               (a1 + model_->min_age()) < model_->min_age() ||
               y1 < model_->start_year()) {
             // unusual case - very little info on this cohort - just use averages

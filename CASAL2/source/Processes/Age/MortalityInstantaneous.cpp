@@ -256,7 +256,7 @@ void MortalityInstantaneous::DoValidate() {
 
       // check categories are in category_labels_ as well
       if (std::find(category_labels_.begin(), category_labels_.end(), categories[i]) == category_labels_.end())
-        LOG_ERROR_P(PARAM_METHOD) << "The category " << categories[i] << " was found in table but not in the '" << PARAM_CATEGORIES << "' subcommand."
+        LOG_ERROR_P(PARAM_METHOD) << "The category " << categories[i] << " was found in the methods table but not in the '" << PARAM_CATEGORIES << "' subcommand."
           << " This configuration will apply exploitation processes and not natural mortality, which is not valid."
           << " Make sure all categories in the methods table are in the categories subcommand.";
 
@@ -544,27 +544,24 @@ void MortalityInstantaneous::DoExecute() {
         Double vulnerable = 0.0;
         if (fishery_category.category_.age_weight_) {
           for (unsigned i = 0; i < category->data_.size(); ++i) {
-            vulnerable = category->data_[i]
-                       * fishery_category.category_.age_weight_->mean_weight_at_age_by_year(year, i + model_->min_age())
-                       * fishery_category.selectivity_values_[i]
-                       * fishery_category.category_.exp_values_[i];
-
-            fishery_category.fishery_.vulnerability_ += vulnerable;
+            vulnerable += category->data_[i]
+                        * fishery_category.category_.age_weight_->mean_weight_at_age_by_year(year, i + model_->min_age())
+                        * fishery_category.selectivity_values_[i]
+                        * fishery_category.category_.exp_values_[i];
           }
         } else {
           for (unsigned i = 0; i < category->data_.size(); ++i) {
-            vulnerable = category->data_[i]
-                       * category->mean_weight_by_time_step_age_[time_step_index][category->min_age_ + i]
-                       * fishery_category.selectivity_values_[i]
-                       * fishery_category.category_.exp_values_[i];
-
-            fishery_category.fishery_.vulnerability_ += vulnerable;
+            vulnerable += category->data_[i]
+                        * category->mean_weight_by_time_step_age_[time_step_index][category->min_age_ + i]
+                        * fishery_category.selectivity_values_[i]
+                        * fishery_category.category_.exp_values_[i];
           }
         }
+        fishery_category.fishery_.vulnerability_ += vulnerable;
 
-        LOG_FINEST() << "Category is fished in this time_step " << time_step_index << " numbers at age = " << category->data_.size();
+        LOG_FINEST() << "Category is fished in year " << year << " time_step " << time_step_index << ", numbers at age length = " << category->data_.size();
         LOG_FINEST() << "Vulnerable biomass from category " << category->name_ << " contributing to fishery "
-          << fishery_category.fishery_label_ << " = " << fishery_category.fishery_.vulnerability_;
+          << fishery_category.fishery_label_ << " = " << vulnerable;
       }
 
     /**
@@ -582,7 +579,7 @@ void MortalityInstantaneous::DoExecute() {
         fishery.exploitation_ = exploitation;
         fishery.uobs_fishery_ = exploitation;
 
-        LOG_FINEST() << " Vulnerable biomass for fishery " << fishery.label_ << " = " << fishery.vulnerability_
+        LOG_FINEST() << "Vulnerable biomass for fishery " << fishery.label_ << " = " << fishery.vulnerability_
           << " with catch = " << fishery.catches_[model_->current_year()] << " and exploitation = " << exploitation;
       } else if (fishery.time_step_index_ > time_step_index) {
         // reset exploitation for fisheries in subsequent time steps only

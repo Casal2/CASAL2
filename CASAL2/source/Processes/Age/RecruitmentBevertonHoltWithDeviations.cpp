@@ -430,7 +430,8 @@ void RecruitmentBevertonHoltWithDeviations::DoExecute() {
 
   unsigned i = 0;
   for (auto category : partition_) {
-    LOG_FINEST() << category->name_ << "; age: " << age_ << "; category->min_age_: " << category->min_age_;
+    LOG_FINEST() << category->name_ << "; age: " << age_ << "; category->min_age_: " << category->min_age_ << " recruits = " << amount_per
+      << ", proportion of recruits " << proportions_by_category_[category->name_];
     category->data_[age_ - category->min_age_] += amount_per  * proportions_by_category_[category->name_];
     ++i;
   }
@@ -501,8 +502,7 @@ void RecruitmentBevertonHoltWithDeviations::FillTabularReportCache(ostringstream
       cache <<  "true_ycs[" << ssb_year << "] ";
     }
     for (auto year : years) {
-      unsigned ssb_year = year - ssb_offset_;
-      cache << "Recruits[" << ssb_year << "] ";
+      cache << "Recruits[" << year << "] ";
     }
     for (auto year : years) {
       unsigned ssb_year = year - ssb_offset_;

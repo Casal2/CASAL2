@@ -119,8 +119,8 @@ void AverageDifference::DoTransform() {
     Double diff = (mean - difference_estimate_->value()) * 2.0;
 
     // Set the first estimate as the mean and the second as the difference
-    LOG_MEDIUM() << "Transforming @estimate " << estimate_->label() << " from: " << estimate_->value() << "to: " << mean;
-    LOG_MEDIUM() << "Transforming @estimate " << difference_estimate_->label() << " from: " << difference_estimate_->value() << "to: " << diff;
+    LOG_MEDIUM() << "Transforming @estimate " << estimate_->label() << " from: " << estimate_->value() << " to: " << mean;
+    LOG_MEDIUM() << "Transforming @estimate " << difference_estimate_->label() << " from: " << difference_estimate_->value() << " to: " << diff;
 
     estimate_->set_value(mean);
     difference_estimate_->set_value(diff);
@@ -144,8 +144,8 @@ void AverageDifference::DoRestore() {
   estimate_->set_value(x1_);
 
   // Set the first estimate as the mean and the second as the difference
-  LOG_MEDIUM() << "Restoring @estimate " << estimate_->label() << "to: " << estimate_->value();
-  LOG_MEDIUM() << "Restoring @estimate " << difference_estimate_->label() << "to: " << difference_estimate_->value();
+  LOG_MEDIUM() << "Restoring @estimate " << estimate_->label() << " to: " << estimate_->value();
+  LOG_MEDIUM() << "Restoring @estimate " << difference_estimate_->label() << " to: " << difference_estimate_->value();
 }
 
 /**
