@@ -3,11 +3,11 @@
 
 cd CASAL
 rm -f params_mcmc.out objectives.* samples.*
-../../../casal -m -o params_mcmc.out > run_mcmc.txt 2>&1 &
+../../../CASAL/casal -m -o params_mcmc.out > run_mcmc.txt 2>&1 &
 
 cd ../CASAL_sens1
 rm -f params_mcmc.out objectives.* samples.*
-../../../casal -m -o params_mcmc.out > run_mcmc.txt 2>&1 &
+../../../CASAL/casal -m -o params_mcmc.out > run_mcmc.txt 2>&1 &
 
 
 cd ../Casal2/betadiff_casal_flags_off

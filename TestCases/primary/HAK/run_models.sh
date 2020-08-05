@@ -3,11 +3,11 @@
 
 # cd CASAL
 # rm -f params_est.out
-# ../../../casal.202007 -e -o params_est.out > run_estimation.txt 2>&1
+# ../../../CASAL/casal.202007 -e -o params_est.out > run_estimation.txt 2>&1
 
 # cd ../CASAL_sens1
 # rm -f params_est.out
-# ../../../casal.202007 -e -o params_est.out > run_estimation.txt 2>&1
+# ../../../CASAL/casal.202007 -e -o params_est.out > run_estimation.txt 2>&1
 
 
 cd Casal2/betadiff_casal_flags_off

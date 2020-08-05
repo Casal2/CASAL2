@@ -1,13 +1,13 @@
 # this assumes that 'release adolc', 'release betadiff', and 'release cppad' have already been built successfully
-# start in directory TestCases/primary/LIN56
+# start in directory TestCases/primary/LIN
 
 # cd CASAL
 # rm -f params_est.out
-# ../../../casal -e -o params_est.out > run_estimation.txt 2>&1
+# ../../../CASAL/casal -e -o params_est.out > run_estimation.txt 2>&1
 
 # cd ../CASAL_sens1
 # rm -f params_est.out
-# ../../../casal -e -o params_est.out > run_estimation.txt 2>&1
+# ../../../CASAL/casal -e -o params_est.out > run_estimation.txt 2>&1
 
 
 cd Casal2/betadiff_casal_flags_off

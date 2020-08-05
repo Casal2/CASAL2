@@ -1,0 +1,9 @@
+Notes on the Linux versions of CASAL, 2020-08-06
+
+The CASAL executable 'casal' includes bug fixes for an issue with tagging length bins (Craig Marsh)
+and an issue with two subcommands available for 'abundance' but not available for 'relative_abundance' (Alistair Dunn).
+
+The CASAL executable 'casal.202007' has the above bugs fixes as well as fixing a bug with the sex-specific Schnute age-length
+relationship, which was previously using the female-specific relationship for both males and females.
+
+Please contact the Casal2 Development Team at casal2@niwa.co.nz for more information.

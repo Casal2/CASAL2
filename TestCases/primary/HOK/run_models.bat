@@ -4,11 +4,11 @@ rem this script runs in directory TestCases\primary\HOK
 
 rem cd CASAL
 rem del params_est.out
-rem ..\..\..\casal.exe -e -o params_est.out > run_estimation.txt 2>&1
+rem ..\..\..\CASAL\casal.exe -e -o params_est.out > run_estimation.txt 2>&1
 
 rem cd ..\CASAL_sens1
 rem del params_est.out
-rem ..\..\..\casal.exe -e -o params_est.out > run_estimation.txt 2>&1
+rem ..\..\..\CASAL\casal.exe -e -o params_est.out > run_estimation.txt 2>&1
 
 
 cd Casal2\betadiff_casal_flags_off
