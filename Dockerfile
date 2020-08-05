@@ -38,7 +38,7 @@ RUN apt-get update && apt-get upgrade -y \
 # the batch job libraries (in r-parallel image)
 #&& R -e "install.packages(c('BatchJobs', 'future.BatchJobs', 'batchtools', 'future.batchtools', 'clustermq'))"
 
-RUN R -e "install.packages(c('devtools', 'roxygen2', 'data.table', 'dplyr', 'ggplot2', 'here', 'Hmisc', 'rlist', 'rmarkdown', 'huxtable', 'rmvnorm', 'coda'))" \
+RUN R -e "install.packages(c('devtools', 'roxygen2', 'data.table', 'dplyr', 'ggplot2', 'here', 'Hmisc', 'rlist', 'rmarkdown', 'huxtable', 'rmvnorm', 'coda', 'ggmcmc', 'ggthemes', 'gridExtra'))" \
  && useradd --home-dir /r-script -U casal2
 
 WORKDIR /r-script/casal2

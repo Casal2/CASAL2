@@ -46,7 +46,7 @@ void MCMC::Validate() {
 }
 
 /**
- * Build any relationships we need and objects that will hold data
+ * Build any relationships and objects that will hold data
  * so they can be used during the execution
  */
 void MCMC::Build() {
@@ -152,9 +152,11 @@ void MCMC::Build() {
 void MCMC::Execute() {
   LOG_FINE() << "Executing MCMC";
   if (model_->global_configuration().create_mpd_file()) {
-    configuration::MPD mpd_loader(model_);
-    if (!mpd_loader.LoadFile("mpd.out"))
-      LOG_FATAL() << "Failed to load MPD Data from mpd.out file";
+    if (!model_->global_configuration().resume()) {
+      configuration::MPD mpd_loader(model_);
+      if (!mpd_loader.LoadFile("mpd.out"))
+        LOG_FATAL() << "Failed to load MPD Data from mpd.out file";
+    }
   }
 
   DoExecute();
