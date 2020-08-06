@@ -1,39 +1,13 @@
 Casal2
 ======
 
-Casal2 is an open source age structured population dynamics model. 
-It can implement a range of a statistical catch-at-age 
-population dynamics models, using a discrete time-step 
-area-space model that represents a cohort-based 
-population age structure. 
+Casal2 is an open-source age structured population dynamics modelling package. The Casal2 software implements a generalised age-structured population model that allows for a great deal of choice in specifying the population dynamics, parameter estimation, and model outputs. Casal2 is designed for flexibility. It can implement an age-structured model for a single population or multiple populations using user-defined categories such as area, sex, and maturity. These structural elements are generic and not predefined, and are easily constructed. Casal2 models can be used for a single population with a single anthropogenic event (in a fish population model this would be a single fishery), or for multiple species and populations, areas, and/or anthropogenic or exploitation methods, and including predator-prey interactions.
 
-This repository is standalone containing all thirdparty 
-libraries and source code necessary to compile Casal2. 
-This project is covered under the GNU General Public 
-License version 2. This program is distributed in the 
-hope that it will be useful, but WITHOUT ANY WARRANTY; 
-without even the implied warranty of MERCHANTABILITY 
-or FITNESS FOR A PARTICULAR PURPOSE.
+## Casal2 Release V1.0.0
 
-Casal2 is in an alpha testing phase, with some modules functioning as intended and others in development phase. 
+V1.0.0 is the first official production release of Casal2. More information about Casal2, including release notes and project status, is available at https://casal2.github.io
+
+This repository is standalone containing all third-party libraries and source code necessary to compile Casal2. This project is covered under the GNU General Public License version 2. This program is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
 
 For more information about Casal2 contact the Casal2 Development Team at casal2@niwa.co.nz
-
-## Docker
-
-The Dockerfile currently defines the development environment:  
-
-To start the docker container and keep it running in background:  
-`docker-compose up -d`
-
-To get into the running container and test further developerment:  
-`docker-compose exec r bash`
-
-To stop the running container and start again:  
-`docker-compose down`
-
-To make sure that you build the full local system:  
-`docker build . -t local:casal2`
-Add more `FROM` clauses in the Dockerfile to create artefacts instead of the development environment
-
 
