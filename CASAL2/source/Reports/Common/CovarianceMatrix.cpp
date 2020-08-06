@@ -13,8 +13,9 @@
 namespace niwa {
 namespace reports {
 namespace ublas = boost::numeric::ublas;
+
 /**
- *
+ * Default constructor
  */
 CovarianceMatrix::CovarianceMatrix(Model* model) : Report(model) {
   run_mode_    = (RunMode::Type)(RunMode::kEstimation | RunMode::kProfiling | RunMode::kMCMC);
@@ -22,11 +23,11 @@ CovarianceMatrix::CovarianceMatrix(Model* model) : Report(model) {
 }
 
 /**
- *
+ * Execute the report
  */
 void CovarianceMatrix::DoExecute() {
   /*
-   * This reports the Covariance, Correlation and Hessian matrix
+   * This reports the covariance, correlation and Hessian matrix
    */
   LOG_TRACE();
   auto minimiser_ = model_->managers().minimiser()->active_minimiser();
@@ -37,7 +38,7 @@ void CovarianceMatrix::DoExecute() {
 
   for (unsigned i = 0; i < covariance_matrix_.size1(); ++i) {
     for (unsigned j = 0; j < covariance_matrix_.size2(); ++j)
-      cache_ << AS_DOUBLE(covariance_matrix_(i, j)) << " ";
+      cache_ << covariance_matrix_(i, j) << " ";
     cache_ << "\n";
   }
 
@@ -45,13 +46,13 @@ void CovarianceMatrix::DoExecute() {
     auto mcmc_ = model_->managers().mcmc()->active_mcmc();
     if (mcmc_->recalculate_covariance()) {
       cache_ << REPORT_END << "\n\n";
-      LOG_FINE() << "During the mcmc run you recalculated the the covariance matrix, so we will print the modified matrix at the end of the chain";
-      cache_ << "Modified_covariance_matrix  " << REPORT_R_MATRIX  << "\n";
+      LOG_FINE() << "During the MCMC run the covariance matrix was recalculated, so the modified matrix will be printed at the end of the chain";
+      cache_ << "Modified_covariance_matrix " << REPORT_R_MATRIX  << "\n";
       auto covariance = mcmc_->covariance_matrix();
       for (unsigned i = 0; i < covariance.size1(); ++i) {
         for (unsigned j = 0; j < covariance.size2() - 1; ++j)
-          cache_ << AS_DOUBLE(covariance(i, j)) << " ";
-        cache_ << AS_DOUBLE(covariance(i, covariance.size2() - 1)) << "\n";
+          cache_ << covariance(i, j) << " ";
+        cache_ << covariance(i, covariance.size2() - 1) << "\n";
       }
     }
   }

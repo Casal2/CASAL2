@@ -22,8 +22,8 @@ namespace projects {
  */
 
 LogNormal::LogNormal(Model* model) : Project(model) {
-  parameters_.Bind<Double>(PARAM_SIGMA, &sigma_, "Standard deviation of gaussian process on the log scale", "");
-  parameters_.Bind<Double>(PARAM_MEAN, &mean_, "Mean of gaussian process", "",0.0);
+  parameters_.Bind<Double>(PARAM_MEAN, &mean_, "The mean of the lognormal process", "", 0.0);
+  parameters_.Bind<Double>(PARAM_SIGMA, &sigma_, "The standard deviation (sigma) of the lognormal process", "")->set_lower_bound(0.0);
   //parameters_.Bind<Double>(PARAM_RHO, &rho_, "an autocorrelation parameter on the log scale", "", 0.0);
   //parameters_.Bind<Double>(PARAM_ALPHA, &alpha_, "The alpha constant in the gaussian AR(1) process", 0.0,true);
 
@@ -33,8 +33,7 @@ LogNormal::LogNormal(Model* model) : Project(model) {
  * Validate
  */
 void LogNormal::DoValidate() {
-  if (sigma_ == 0)
-    LOG_ERROR_P(PARAM_SIGMA) << " must not equal 0.0, Use the constant projection method if you would like to project a parameter with 0 variability";
+
 }
 
 /**
@@ -53,14 +52,14 @@ void LogNormal::DoReset() {
     //if (parameters_.Get(PARAM_RHO)->has_been_defined()) {
     //   lognormal_draw_by_year_[project_year] = rng.normal(0.0, 1.0);
     //} else {
-      normal_draw_by_year_[project_year] = rng.normal(AS_DOUBLE(mean_), AS_DOUBLE(sigma_));
+      normal_draw_by_year_[project_year] = rng.normal(AS_VALUE(mean_), AS_VALUE(sigma_));
     //}
     LOG_FINEST() << "generated value = " << normal_draw_by_year_[project_year] << " to be applied in year " << project_year;
   }
 }
 
 /**
- *  Update our parameter with a random draw from a lognormal distribution with specified inputs
+ *  Update the parameter with a random draw from a lognormal distribution with specified inputs
  */
 void LogNormal::DoUpdate() {
   // instance the random number generator

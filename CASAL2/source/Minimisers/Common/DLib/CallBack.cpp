@@ -24,13 +24,13 @@ namespace minimisers {
 namespace dlib {
 
 /**
- *
+ * Default constructor
  */
 Callback::Callback(Model* model) : model_(model) {
 }
 
 /**
- *
+ * Operator ()
  */
 Double Callback::operator()(const ::dlib::matrix<double, 0, 1>& Parameters) const {
   // Update our Components with the New Parameters

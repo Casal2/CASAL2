@@ -28,28 +28,27 @@ namespace utils = niwa::utilities;
  *
  * Bind any parameters that are allowed to be loaded from the configuration files.
  * Set bounds on registered parameters
- * Register any parameters that can be an estimated or utilised in other run modes (e.g profiling, yields, projections etc)
+ * Register any parameters that can be an estimated or utilised in other run modes (e.g., profiling, yields, projections, etc.)
  * Set some initial values
  *
- * Note: The constructor is parsed to generate Latex for the documentation.
+ * Note: The constructor is parsed to generate LaTeX for the documentation.
  */
 Nuisance::Nuisance(Model* model) : Catchability(model) {
-  parameters_.Bind<Double>(PARAM_LOWER_BOUND, &lower_bound_, "Upper bound for nuisance catchability", "");
-  parameters_.Bind<Double>(PARAM_UPPER_BOUND, &upper_bound_, "Lower bound for nuisance catchability", "");
+  parameters_.Bind<double>(PARAM_LOWER_BOUND, &lower_bound_, "The upper bound for nuisance catchability", "");
+  parameters_.Bind<double>(PARAM_UPPER_BOUND, &upper_bound_, "The lower bound for nuisance catchability", "");
 
   RegisterAsAddressable(PARAM_Q, &q_, addressable::kLookup);
 }
 
-/*
- *
+/**
+ * Validate the objects
  */
 void Nuisance::DoValidate() {
 }
 
-/*
- *  Build
+/**
+ *  Build the objects
  */
-
 void Nuisance::DoBuild() {
   LOG_TRACE();
 
@@ -63,12 +62,12 @@ void Nuisance::DoBuild() {
 
   if (has_prior) {
     // Obtain a pointer to the estimate
-  	AdditionalPrior* additional_prior = model_->managers().additional_prior()->GetAdditionalPrior(parameter);
+    AdditionalPrior* additional_prior = model_->managers().additional_prior()->GetAdditionalPrior(parameter);
     if (!additional_prior)
       LOG_ERROR() << "Can not get additional_prior with the parameter label " << parameter;
     // Find out the prior type
     prior_type_ = additional_prior->type();
-    LOG_FINEST() << "Type of prior on Nuisance Q = "  << prior_type_;
+    LOG_FINEST() << "Type of prior on Nuisance q = "  << prior_type_;
 
     // Perhaps set value to the mean of the bounds for now if the estimate system cannot handle an uninitialised estimate
     q_ = (upper_bound_ + lower_bound_) / 2.0;
@@ -79,45 +78,42 @@ void Nuisance::DoBuild() {
     map<string, Parameter*> parameters = additional_prior->parameters().parameters();
      for (auto iter = parameters.begin(); iter != parameters.end(); ++iter) {
        if (iter->first == PARAM_MU) {
-         Double mu = 0.0;
+         double mu = 0.0;
          for (string parameter_value : iter->second->values()) {
-           if (!utils::To<Double>(parameter_value, mu))
-             LOG_ERROR() << "parameter mu = " << parameter_value << " cannot be converted to a double";
+           if (!utils::To<double>(parameter_value, mu))
+             LOG_ERROR() << "parameter mu = " << parameter_value << " could not be converted to a double";
          }
          mu_ = mu;
        }
        if (iter->first == PARAM_CV) {
-         Double cv = 0.0;
+         double cv = 0.0;
          for (string parameter_value : iter->second->values()) {
-           if (!utils::To<Double>(parameter_value, cv))
-             LOG_ERROR() << "parameter cv = " << parameter_value << " cannot be converted to a double";
+           if (!utils::To<double>(parameter_value, cv))
+             LOG_ERROR() << "parameter cv = " << parameter_value << " could not be converted to a double";
          }
          cv_ = cv;
        }
      }
     }
   } else {
-    LOG_FINEST() << "solving for q in a maximum likelihood context. i.e. no prior";
+    LOG_FINEST() << "solving for q in a maximum likelihood context, i.e., with no prior";
     q_ = 1.0;
   }
-
-
 }
 
 /**
  * Function CalculateQ() Analytically solve for Q, this gets called in Observation/Common/Biomass.cpp and Abundance.cpp
  *
- * @param Comparison this is the comparsion object that observed, expected and errors are stored in the Observation class.
+ * @param Comparison this is the comparison object that observed, expected and errors are stored in the Observation class.
  * @param likelihood is a string indicating the type of likelihood
- *
  * @return this function will solve for q given the comparison structure.
  */
 void Nuisance::CalculateQ(map<unsigned, vector<observations::Comparison> >& comparisons,const string& likelihood) {
   LOG_TRACE();
   LOG_FINEST() << "Converting nuisance q with prior = " << prior_type_ << " and likelihood = " << likelihood;
   if (likelihood != PARAM_NORMAL && likelihood != PARAM_LOGNORMAL) {
-    LOG_FATAL() << "Nuisance q method can only be applied to observations that have the following likelihoods, normal and "
-        "lognormal. This needs to be corrected in the @observation block, or alternatively try using a q type = free";
+    LOG_FATAL() << "The nuisance q method can be applied only to observations with normal or lognormal likelihoods. "
+      << "Check the @observation block or use q type = free";
   }
 
   // The first set of conditions
@@ -149,7 +145,7 @@ void Nuisance::CalculateQ(map<unsigned, vector<observations::Comparison> >& comp
     // Iterate over each category
     for (observations::Comparison& comparison : year_iterator->second) {
       if (comparison.expected_ <= ZERO)
-        LOG_WARNING() << "Expected less than " << ZERO << " you may want to check this.";
+        LOG_WARNING() << "The comparison expected less than " << ZERO;
       comparison.expected_ = dc::ZeroFun(comparison.expected_,ZERO);
         n++;
         Double cv = comparison.error_value_;
@@ -230,11 +226,11 @@ void Nuisance::CalculateQ(map<unsigned, vector<observations::Comparison> >& comp
       LOG_FINE() << "mu = " << mu_ << " cv = " << cv_ << " s3 = " << s3 << " s4 = " << s4 << " n = " << n;
       q_ = exp((0.5 * n - 1.5 + log(mu_) / var_q + s3) / (s4 + 1 / var_q));
     } else {
-      LOG_ERROR() << "Unrecognised combination in CalculateQ : likelihood_type = " <<  likelihood << " prior_type = " << prior_type_ << " these combinations ";
+      LOG_ERROR() << "Unrecognised combination in CalculateQ : likelihood_type = " <<  likelihood
+        << " prior_type = " << prior_type_;
     }
 
   LOG_FINE() << "Analytical q = " << q_;
-
 
   if (q_ > upper_bound_) {
     q_ = upper_bound_;
@@ -245,11 +241,9 @@ void Nuisance::CalculateQ(map<unsigned, vector<observations::Comparison> >& comp
     q_ = lower_bound_;
     LOG_FINE() << "Nuisance q hit upper bound q set to lower bound = " << lower_bound_;
   }
+
   LOG_FINEST() << "Setting q = " << q_;
-
 }
-
-
 
 } /* namespace catchabilities */
 } /* namespace niwa */

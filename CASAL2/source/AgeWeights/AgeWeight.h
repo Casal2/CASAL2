@@ -36,14 +36,13 @@ public:
   // accessor
   virtual Double              mean_weight_at_age_by_year(unsigned year,  unsigned age) = 0;
 
-
 protected:
   // methods
-
   virtual void                DoValidate() = 0;
   virtual void                DoBuild() = 0;
   virtual void                DoReset() = 0;
   virtual void                DoRebuildCache() = 0;
+
   // members
   Model*                      model_ = nullptr;
 };

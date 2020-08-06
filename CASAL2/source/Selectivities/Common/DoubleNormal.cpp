@@ -24,15 +24,15 @@ namespace niwa {
 namespace selectivities {
 
 /**
- * Explicit constructor
+ * Default constructor
  */
 DoubleNormal::DoubleNormal(Model* model)
 : Selectivity(model) {
 
-  parameters_.Bind<Double>(PARAM_MU, &mu_, "Mu", "");
-  parameters_.Bind<Double>(PARAM_SIGMA_L, &sigma_l_, "Sigma L", "");
-  parameters_.Bind<Double>(PARAM_SIGMA_R, &sigma_r_, "Sigma R", "");
-  parameters_.Bind<Double>(PARAM_ALPHA, &alpha_, "Alpha", "", 1.0);
+  parameters_.Bind<Double>(PARAM_MU, &mu_, "The mean (mu)", "");
+  parameters_.Bind<Double>(PARAM_SIGMA_L, &sigma_l_, "The sigma L parameter", "")->set_lower_bound(0.0, false);
+  parameters_.Bind<Double>(PARAM_SIGMA_R, &sigma_r_, "The sigma R parameter", "")->set_lower_bound(0.0, false);
+  parameters_.Bind<Double>(PARAM_ALPHA, &alpha_, "alpha", "", 1.0)->set_lower_bound(0.0, false);
 
   RegisterAsAddressable(PARAM_MU, &mu_);
   RegisterAsAddressable(PARAM_SIGMA_L, &sigma_l_);
@@ -45,7 +45,7 @@ DoubleNormal::DoubleNormal(Model* model)
  * values that were passed in from the configuration
  * file and assign them to the local variables.
  *
- * We'll then do some basic checks on the local
+ * Then do some basic checks on the local
  * variables to ensure they are within the business
  * rules for the model.
  */
@@ -59,25 +59,28 @@ void DoubleNormal::DoValidate() {
 }
 
 /**
- * Reset this selectivity so it's ready for the next execution
+ * Reset this selectivity so it is ready for the next execution
  * phase in the model.
  *
  * This method will rebuild the cache of selectivity values
- * for each age in the model.
+ * for each age or length in the model.
  */
 void DoubleNormal::RebuildCache() {
   if (model_->partition_type() == PartitionType::kAge) {
+    Double temp = 0.0;
     for (unsigned age = model_->min_age(); age <= model_->max_age(); ++age) {
-      Double temp = (Double)age;
+      temp = age;
       if (temp < mu_)
         values_[age - age_index_] = pow(2.0, -((temp - mu_) / sigma_l_ * (temp - mu_) / sigma_l_)) * alpha_;
       else
         values_[age - age_index_] = pow(2.0, -((temp - mu_) / sigma_r_ * (temp - mu_) / sigma_r_)) * alpha_;
     }
   } else if (model_->partition_type() == PartitionType::kLength) {
-    vector<unsigned> length_bins = model_->length_bins();
+    vector<double> length_bins = model_->length_bins();
+    Double temp = 0.0;
     for (unsigned length_bin_index = 0; length_bin_index < length_bins.size(); ++length_bin_index) {
-      Double temp = (Double)length_bins[length_bin_index];
+      temp = length_bins[length_bin_index];
+
       if (temp < mu_)
         length_values_[length_bin_index] = pow(2.0, -((temp - mu_) / sigma_l_ * (temp - mu_) / sigma_l_)) * alpha_;
       else
@@ -91,9 +94,10 @@ void DoubleNormal::RebuildCache() {
  *
  * @param age
  * @param age_length AgeLength pointer
+ * @param year
+ * @param time_step_index
  * @return Double selectivity for an age based on age length distribution_label
  */
-
 Double DoubleNormal::GetLengthBasedResult(unsigned age, AgeLength* age_length, unsigned year, int time_step_index) {
   LOG_TRACE();
   unsigned yearx = year == 0 ? model_->current_year() : year;
@@ -107,7 +111,7 @@ Double DoubleNormal::GetLengthBasedResult(unsigned age, AgeLength* age_length, u
     if (mean < mu_)
       return pow(2.0, -((mean - mu_) / sigma_l_ * (mean - mu_) / sigma_l_)) * alpha_;
     else
-      return  pow(2.0, -((mean - mu_)/sigma_r_ * (mean - mu_) / sigma_r_)) * alpha_;
+      return pow(2.0, -((mean - mu_) / sigma_r_ * (mean - mu_) / sigma_r_)) * alpha_;
 
   } else if (dist == PARAM_NORMAL) {
 
@@ -119,9 +123,9 @@ Double DoubleNormal::GetLengthBasedResult(unsigned age, AgeLength* age_length, u
       size = mean + sigma * quantiles_at_[j];
 
       if (size < mu_)
-        total +=  pow(2.0, -((size - mu_) / sigma_l_ * (size - mu_) / sigma_l_)) * alpha_;
+        total += pow(2.0, -((size - mu_) / sigma_l_ * (size - mu_) / sigma_l_)) * alpha_;
       else
-        total +=   pow(2.0, -((size - mu_)/sigma_r_ * (size - mu_) / sigma_r_)) * alpha_;
+        total += pow(2.0, -((size - mu_) / sigma_r_ * (size - mu_) / sigma_r_)) * alpha_;
     }
     return total / n_quant_;
 
@@ -131,15 +135,15 @@ Double DoubleNormal::GetLengthBasedResult(unsigned age, AgeLength* age_length, u
     Double mu = log(mean) - sigma * sigma * 0.5;
     Double size = 0.0;
     Double total = 0.0;
-    boost::math::lognormal dist{AS_DOUBLE(mu), AS_DOUBLE(sigma)};
+    boost::math::lognormal dist{AS_VALUE(mu), AS_VALUE(sigma)};
 
     for (unsigned j = 0; j < n_quant_; ++j) {
-      size = mu + sigma * quantile(dist, AS_DOUBLE(quantiles_[j]));
+      size = mu + sigma * quantile(dist, AS_VALUE(quantiles_[j]));
 
       if (size < mu_)
-        total +=  pow(2.0, -((size - mu_) / sigma_l_ * (size - mu_) / sigma_l_)) * alpha_;
+        total += pow(2.0, -((size - mu_) / sigma_l_ * (size - mu_) / sigma_l_)) * alpha_;
       else
-        total +=   pow(2.0, -((size - mu_)/sigma_r_ * (size - mu_) / sigma_r_)) * alpha_;
+        total += pow(2.0, -((size - mu_) / sigma_r_ * (size - mu_) / sigma_r_)) * alpha_;
     }
     return total / n_quant_;
   }

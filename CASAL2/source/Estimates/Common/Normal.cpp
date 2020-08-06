@@ -29,7 +29,8 @@ Normal::Normal(Model* model) : Estimate(model) {
 }
 
 /**
- * Calculate and return the score for this prior
+ * Calculate and return the score
+ * @return The score
  */
 Double Normal::GetScore() {
   Double score_ = 0.5 * ((value() - mu_) / (cv_ * mu_)) * ((value() - mu_) / (cv_ * mu_));

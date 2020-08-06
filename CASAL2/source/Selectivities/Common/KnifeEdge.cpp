@@ -24,24 +24,24 @@ namespace niwa {
 namespace selectivities {
 
 /**
- * Explicit Constructor
+ * Default Constructor
  */
 KnifeEdge::KnifeEdge(Model* model)
 : Selectivity(model) {
 
-  parameters_.Bind<Double>(PARAM_E, &edge_, "Edge", "");
-  parameters_.Bind<Double>(PARAM_ALPHA, &alpha_, "Alpha", "", 1.0);
+  parameters_.Bind<Double>(PARAM_E, &edge_, "The edge value", "");
+  parameters_.Bind<Double>(PARAM_ALPHA, &alpha_, "alpha", "", 1.0);
 
   RegisterAsAddressable(PARAM_ALPHA, &alpha_);
   RegisterAsAddressable(PARAM_E, &edge_);
 }
 
 /**
- * Reset this selectivity so it's ready for the next execution
+ * Reset this selectivity so it is ready for the next execution
  * phase in the model.
  *
  * This method will rebuild the cache of selectivity values
- * for each age in the model.
+ * for each age or length in the model.
  */
 void KnifeEdge::RebuildCache() {
   if (model_->partition_type() == PartitionType::kAge) {
@@ -53,7 +53,7 @@ void KnifeEdge::RebuildCache() {
         values_[age - age_index_] = 0.0;
     }
   } else if (model_->partition_type() == PartitionType::kLength) {
-    vector<unsigned> length_bins = model_->length_bins();
+    vector<double> length_bins = model_->length_bins();
 
     for (unsigned length_bin_index = 0; length_bin_index < length_bins.size(); ++length_bin_index) {
       Double temp = (Double)length_bins[length_bin_index];
@@ -70,9 +70,10 @@ void KnifeEdge::RebuildCache() {
  *
  * @param age
  * @param age_length AgeLength pointer
+ * @param year
+ * @param time_step_index
  * @return Double selectivity for an age based on age length distribution_label
  */
-
 Double KnifeEdge::GetLengthBasedResult(unsigned age, AgeLength* age_length, unsigned year, int time_step_index) {
   unsigned yearx = year == 0 ? model_->current_year() : year;
   unsigned time_step = model_->managers().time_step()->current_time_step();
@@ -109,10 +110,10 @@ Double KnifeEdge::GetLengthBasedResult(unsigned age, AgeLength* age_length, unsi
     Double mu = log(mean) - sigma * sigma * 0.5;
     Double size = 0.0;
     Double total = 0.0;
-    boost::math::lognormal dist{AS_DOUBLE(mu), AS_DOUBLE(sigma)};
+    boost::math::lognormal dist{AS_VALUE(mu), AS_VALUE(sigma)};
 
     for (unsigned j = 0; j < n_quant_; ++j) {
-      size = mu + sigma * quantile(dist, AS_DOUBLE(quantiles_[j]));
+      size = mu + sigma * quantile(dist, AS_VALUE(quantiles_[j]));
 
       if (size >= edge_)
         total += alpha_;
@@ -124,7 +125,6 @@ Double KnifeEdge::GetLengthBasedResult(unsigned age, AgeLength* age_length, unsi
   LOG_CODE_ERROR() << "dist is invalid " << dist;
   return 0;
 }
-
 
 } /* namespace selectivities */
 } /* namespace niwa */

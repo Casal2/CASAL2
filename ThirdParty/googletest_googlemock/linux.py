@@ -23,7 +23,7 @@ class Builder:
       ]
     
     # Clean our any existing files if they already exist
-    print '-- Cleaning files'
+    print('-- Cleaning files')
     if os.path.exists(gmockFileName):
         shutil.rmtree(gmockFileName)
     if os.path.exists(Globals.target_include_path_ + 'gmock'):
@@ -35,7 +35,7 @@ class Builder:
       os.system('rm -rf ' + Globals.target_release_lib_path_ + library + '*')
         
     # Decompress our archive
-    print '-- Decompressing - check casal2_unzip.log'
+    print('-- Decompressing - check casal2_unzip.log')
     if os.path.exists(gmockFileName + '.zip'):
         os.system('unzip ' + gmockFileName + '.zip 1> casal2_unzip.log 2>&1')
         
@@ -44,11 +44,11 @@ class Builder:
     os.system('cmake -G "Unix Makefiles"')
    
     # Build 
-    print '-- Building - check ' + gmockFileName +'/make/casal2_build.log'
+    print('-- Building - check ' + gmockFileName +'/make/casal2_build.log')
     os.system("make CXXFLAGS='-fPIC' GTEST_CXXFLAGS='-fPIC' 1> casal2_build.log 2>&1")
         
     # Move our headers and libraries
-    print '-- Moving headers and libraries'
+    print('-- Moving headers and libraries')
     shutil.copy('libgmock.a', Globals.target_debug_lib_path_ + '/02libgmock.a')
     shutil.copy('libgmock.a', Globals.target_release_lib_path_ + '/02libgmock.a')
     shutil.copy('gtest/libgtest.a', Globals.target_debug_lib_path_ + '/01libgtest.a')

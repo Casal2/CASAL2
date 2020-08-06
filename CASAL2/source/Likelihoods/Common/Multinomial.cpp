@@ -42,7 +42,9 @@ Double Multinomial::AdjustErrorValue(const Double process_error, const Double er
 }
 
 /**
+ * Calculate the scores
  *
+ * @param comparisons A collection of comparisons passed by the observation
  */
 void Multinomial::GetScores(map<unsigned, vector<observations::Comparison> >& comparisons) {
   for (auto year_iterator = comparisons.begin(); year_iterator != comparisons.end(); ++year_iterator) {
@@ -59,21 +61,20 @@ void Multinomial::GetScores(map<unsigned, vector<observations::Comparison> >& co
 }
 
 /**
- * Grab the initial score for this likelihood
+ * Calculate the initial score
  *
  * @param comparisons A collection of comparisons passed by the observation
  */
-
 Double Multinomial::GetInitialScore(map<unsigned, vector<observations::Comparison> >& comparisons, unsigned year) {
   Double score = 0.0;
-
 
  // int stopper = 0;
   observations::Comparison& comparison = comparisons[year][0];
     //if (stopper == 1)
     //  break;
     Double temp_score = -math::LnFactorial(AdjustErrorValue(comparison.process_error_, comparison.error_value_)  * error_value_multiplier_);
-    LOG_FINEST() << "Adding: " << temp_score << " = LnFactorial(AdjustErrorValue(" << comparison.process_error_ << ", " << comparison.error_value_ << ")  * " << error_value_multiplier_ << ")";
+    LOG_FINEST() << "Adding: " << temp_score << " = LnFactorial(AdjustErrorValue(" << comparison.process_error_
+      << ", " << comparison.error_value_ << ")  * " << error_value_multiplier_ << ")";
     score += temp_score;
     //stopper += 1;
   //}
@@ -101,10 +102,9 @@ void Multinomial::SimulateObserved(map<unsigned, vector<observations::Comparison
       if (comparison.expected_ <= 0.0 || error_value <= 0.0)
         comparison.observed_ = 0.0;
       else {
-        LOG_FINEST() << "expected = " << comparison.expected_;
-        comparison.observed_ = rng.binomial(AS_DOUBLE(comparison.expected_), AS_DOUBLE(error_value));
+        LOG_FINEST() << "Expected = " << comparison.expected_;
+        comparison.observed_ = rng.binomial(AS_VALUE(comparison.expected_), AS_VALUE(error_value));
         LOG_FINEST() << "Simulated = " << comparison.observed_;
-
       }
 //      totals[comparison.category_] += comparison.observed_;
     }

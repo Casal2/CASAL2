@@ -19,8 +19,11 @@ namespace niwa {
 namespace derivedquantities {
 namespace age {
 
+/**
+ * Default constructor
+ */
 Biomass::Biomass(Model* model) : DerivedQuantity(model) {
-  parameters_.Bind<string>(PARAM_AGE_WEIGHT_LABELS, &age_weight_labels_, "The labels for the @age_weight block which corresponds to each category, if you want to use that weight calculation method for biomass calculations", "", "");
+  parameters_.Bind<string>(PARAM_AGE_WEIGHT_LABELS, &age_weight_labels_, "The labels for the @age_weight block which corresponds to each category, to use that weight calculation method for biomass calculations", "", "");
 
 }
 
@@ -31,10 +34,10 @@ void Biomass::DoValidate() {
   if (parameters_.Get(PARAM_AGE_WEIGHT_LABELS)->has_been_defined()) {
     // Do some house keeping if this parameter has been defined
     if(age_weight_labels_.size() != category_labels_.size())
-      LOG_ERROR_P(PARAM_AGE_WEIGHT_LABELS) << "If you supply age_weight_labels, there needs to be one for each category. You supplied " << age_weight_labels_.size() << " age weight labels but " << category_labels_.size() << " category labels, please sort these out";
+      LOG_ERROR_P(PARAM_AGE_WEIGHT_LABELS) << "If age_weight_labels are used, one is required for each category. There are "
+        << age_weight_labels_.size() << " age weight labels, but there are " << category_labels_.size() << " category labels";
   }
 }
-
 
 /**
  * Build pointers class
@@ -47,7 +50,7 @@ void Biomass::DoBuild() {
     for (string label : age_weight_labels_) {
       AgeWeight* age_weight = model_->managers().age_weight()->FindAgeWeight(label);
       if (!age_weight)
-        LOG_ERROR_P(PARAM_AGE_WEIGHT_LABELS) << " (" << label << ") could not be found. Have you defined it?";
+        LOG_ERROR_P(PARAM_AGE_WEIGHT_LABELS) << "Age-weight label (" << label << ") was not found.";
       age_weights_.push_back(age_weight);
     }
   }
@@ -71,7 +74,9 @@ void Biomass::PreExecute() {
       for (unsigned j = 0; j < (*iterator)->data_.size(); ++j) {
         unsigned age = (*iterator)->min_age_ + j;
         cache_value_ += (*iterator)->data_[j] * selectivities_[i]->GetAgeResult(age, (*iterator)->age_length_) * (*iterator)->mean_weight_by_time_step_age_[time_step_index][age];
-        LOG_FINE() << "Biomass (Pre-execute) for category = " << (*iterator)->name_ << " age = " << age << " mean weight = " << (*iterator)->mean_weight_by_time_step_age_[time_step_index][age] << " selectivity = " << selectivities_[i]->GetAgeResult(age, (*iterator)->age_length_) << " numbers = " << (*iterator)->data_[j];
+        LOG_FINE() << "Biomass (Pre-execute) for category = " << (*iterator)->name_ << " age = " << age
+          << " mean weight = " << (*iterator)->mean_weight_by_time_step_age_[time_step_index][age]
+          << " selectivity = " << selectivities_[i]->GetAgeResult(age, (*iterator)->age_length_) << " numbers = " << (*iterator)->data_[j];
       }
     }
   } else {
@@ -80,8 +85,9 @@ void Biomass::PreExecute() {
       for (unsigned j = 0; j < (*iterator)->data_.size(); ++j) {
         unsigned age = (*iterator)->min_age_ + j;
         cache_value_ += (*iterator)->data_[j] * selectivities_[i]->GetAgeResult(age, (*iterator)->age_length_) * age_weights_[i]->mean_weight_at_age_by_year(year, age);
-        LOG_FINE() << "Biomass (Pre-execute) for category = " << (*iterator)->name_ << " age = " << age << " mean weight = " << age_weights_[i]->mean_weight_at_age_by_year(year, age) << " selectivity = " << selectivities_[i]->GetAgeResult(age, (*iterator)->age_length_) << " numbers = " << (*iterator)->data_[j];
-
+        LOG_FINE() << "Biomass (Pre-execute) for category = " << (*iterator)->name_ << " age = " << age
+          << " mean weight = " << age_weights_[i]->mean_weight_at_age_by_year(year, age)
+          << " selectivity = " << selectivities_[i]->GetAgeResult(age, (*iterator)->age_length_) << " numbers = " << (*iterator)->data_[j];
       }
     }
   }
@@ -96,8 +102,7 @@ void Biomass::PreExecute() {
  * This class will calculate a value that is the sum total
  * of the population in the model filtered by category and
  * multiplied by the selectivities.
- *
- */
+  */
 void Biomass::Execute() {
   LOG_TRACE();
   unsigned year = model_->current_year();
@@ -112,7 +117,9 @@ void Biomass::Execute() {
         (*iterator)->UpdateMeanWeightData();
         for (unsigned j = 0; j < (*iterator)->data_.size(); ++j) {
           unsigned age = (*iterator)->min_age_ + j;
-          LOG_FINE() << "Biomass for category = " << (*iterator)->name_ << " age = " << age << " mean weight = " << (*iterator)->mean_weight_by_time_step_age_[time_step_index][age] << " selectivity = " << selectivities_[i]->GetAgeResult(age, (*iterator)->age_length_) << " numbers = " << (*iterator)->data_[j];
+          LOG_FINE() << "Biomass for category = " << (*iterator)->name_ << " age = " << age
+            << " mean weight = " << (*iterator)->mean_weight_by_time_step_age_[time_step_index][age]
+            << " selectivity = " << selectivities_[i]->GetAgeResult(age, (*iterator)->age_length_) << " numbers = " << (*iterator)->data_[j];
           value += (*iterator)->data_[j] * selectivities_[i]->GetAgeResult(age, (*iterator)->age_length_) * (*iterator)->mean_weight_by_time_step_age_[time_step_index][age];
         }
       }
@@ -122,7 +129,9 @@ void Biomass::Execute() {
         (*iterator)->UpdateMeanWeightData();
         for (unsigned j = 0; j < (*iterator)->data_.size(); ++j) {
           unsigned age = (*iterator)->min_age_ + j;
-          LOG_FINE() << "Biomass for category = " << (*iterator)->name_ << " age = " << age << " mean weight = " << age_weights_[i]->mean_weight_at_age_by_year(year, age) << " selectivity = " << selectivities_[i]->GetAgeResult(age, (*iterator)->age_length_) << " numbers = " << (*iterator)->data_[j];
+          LOG_FINE() << "Biomass for category = " << (*iterator)->name_ << " age = " << age
+            << " mean weight = " << age_weights_[i]->mean_weight_at_age_by_year(year, age)
+            << " selectivity = " << selectivities_[i]->GetAgeResult(age, (*iterator)->age_length_) << " numbers = " << (*iterator)->data_[j];
           value += (*iterator)->data_[j] * selectivities_[i]->GetAgeResult(age, (*iterator)->age_length_) * age_weights_[i]->mean_weight_at_age_by_year(year, age);
         }
       }
@@ -144,7 +153,7 @@ void Biomass::Execute() {
       b0_value = cache_value_ + ((value - cache_value_) * time_step_proportion_);
       initialisation_values_[initialisation_phase].push_back(b0_value);
     } else {
-      b0_value = pow(cache_value_, 1 - time_step_proportion_) * pow(value ,time_step_proportion_);
+      b0_value = pow(cache_value_, 1 - time_step_proportion_) * pow(value, time_step_proportion_);
       initialisation_values_[initialisation_phase].push_back(b0_value);
     }
 
@@ -179,17 +188,17 @@ void Biomass::Execute() {
       }
     }
 
-
     if (time_step_proportion_ == 0.0)
       values_[model_->current_year()] = cache_value_;
     else if (time_step_proportion_ == 1.0)
       values_[model_->current_year()] = value;
-    if (mean_proportion_method_)
+    else if (mean_proportion_method_)
       values_[model_->current_year()] = cache_value_ + ((value - cache_value_) * time_step_proportion_);
     else
-      values_[model_->current_year()] = pow(cache_value_, 1 - time_step_proportion_) * pow(value ,time_step_proportion_);
+      values_[model_->current_year()] = pow(cache_value_, 1 - time_step_proportion_) * pow(value, time_step_proportion_);
   }
-  LOG_FINEST() << " Pre Exploitation value " <<  cache_value_ << " Post exploitation " << value << " Final value " << values_[model_->current_year()];
+  LOG_FINEST() << " Pre Exploitation value " <<  cache_value_ << " Post exploitation " << value
+    << " Final value " << values_[model_->current_year()];
 }
 
 } /* namespace age */

@@ -1,0 +1,163 @@
+---
+title: "Casal2 Test Case MCMC comparisons for LIN"
+output:
+    html_document:
+        toc: TRUE
+        toc_depth: 2
+        number_sections: TRUE
+
+header-includes:
+ - \usepackage{pdflscape}
+ - \newcommand{\blandscape}{\begin{landscape}}
+ - \newcommand{\elandscape}{\end{landscape}}
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+# LIN comparison of CASAL and Casal2 model configurations
+
+This document compares the results of at least 2 CASAL model configurations (base and at least one sensitivity) and up to 8 Casal2 model configurations (3 BetaDiff, 2 CppAD, and 3 ADOL-C).
+
+The CASAL model sensitivity 1 has a smaller minimisation tolerance value than the CASAL base model (1e-6 vs. 2e-3).
+
+The Casal2 ADOL-C and BetaDiff low tolerance models have a smaller tolerance value than the CASAL base model (1e-6 vs. 2e-3). The Casal2 CppAD models have a tolerance value of 1e-9.
+
+
+## LIN model characteristics
+
+The main characteristics of the Test Case LIN (ling) CASAL model are:
+
+* one stock, ages 3 - 25
+* one area
+* years 1972 - 2018, projection years 2019 - 2023
+* two time steps: Dec_Aug and Sep_Nov
+* two stock categories: male and female
+* natural mortality-at-age is double exponential
+* sex-specific maturity ogives specified by age
+* sex-specific von Bertalanffy age-length relationship
+* sex-specific length-weight relationship ($W = aL^b$)
+* Beverton-Holt stock-recruitment relationship, with steepness (h) 0.84
+* ageing error
+* two surveys with sex-specific logistic selectivity
+* three fisheries, one with double normal selectivity and two with logistic selectivity
+
+Observation data include:
+
+* survey indices
+* survey proportions-at-age
+* fishery proportions-at-age
+
+Parameters estimated include:
+
+* B0
+* parameters for the natural mortality-at-age ogive
+* catchability (q) for the two surveys
+* parameters for the sex-specific selectivity curves for the two surveys
+* parameters for the sex-specific selectivity curves for the three fisheries
+* YCS (recruitment deviations)
+
+
+## LIN model MCMC specifications
+
+The CASAL MCMC options include
+
+* start 0
+* keep 2500
+* length 30000000
+* stepsize 0.02
+* adaptive_stepsize True
+* adapt_at 10000 50000 150000 250000 450000
+* burn_in 200
+* proposal_t True
+
+The Casal2 ADOL-C and BetaDiff MCMC options include
+
+* start 0.3
+* keep 2500
+* length 30000000
+* step_size 0.02
+* adapt_stepsize_at 10000 50000 150000 250000 450000
+* proposal_distribution t
+* adapt_stepsize_method double_half
+* max_correlation 0.9
+
+The Casal2 CppAD MCMC runs use the BetaDiff covariance matrices since Casal2 does not output the covariance matrix from CppAD minimisation. The Casal2 CppAD MCMC options include
+
+* start 0.3
+* keep 2500
+* length 31000000 (originally 30M)
+* step_size 0.02
+* adapt_stepsize_at 10000 50000 150000 250000 450000
+* proposal_distribution t
+* adapt_stepsize_method double_half
+* max_correlation 0.9
+* adapt_covariance_matrix_at 1000000
+
+
+## R environment
+
+```{r C1_C2_setup, echo=FALSE, warning=FALSE, message=FALSE}
+source('../../R-functions/report_set_up_R_env.R')
+```
+
+
+## CASAL and Casal2 model output
+
+```{r CASAL, warning=FALSE}
+# source('../../R-functions/report_read_in_CASAL_MPD_files.R')
+source('../../R-functions/report_read_in_CASAL_MCMC_files.R')
+```
+
+
+```{r Casal2}
+source('../../R-functions/report_read_in_Casal2_MPD_files.R')
+source('../../R-functions/report_read_in_Casal2_MCMC_files.R')
+```
+
+
+## MCMC diagnostics
+
+### Diagnostics for the CASAL and Casal2 model MCMC results
+
+For the diagnostics below, the last 10000 samples for each chain are used and subsampled at 10, so that 1000 samples are input into the diagnostic functions.
+
+
+```{r CASAL_MCMC_diag, echo=FALSE, message=FALSE}
+plot_file_label <- 'LIN'
+
+num_samples_to_use <- 10000
+num_to_subsample   <- 10
+MCMC_params_rename <- c('objective_function', 'SB0', 'TanSum_q', 'TanAut_q', 'M_x0', 'YCS_last')
+
+C1_MCMC_params <- c('neg_ln_posterior', 'initialization.B0', 'q[tan_sum].q', 'q[tan_aut].q', 'natural_mortality.ogive_all.1', 'recruitment.YCS.47')
+
+source('../../R-functions/report_CASAL_MCMC_diagnostics.R')
+```
+
+
+```{r Casal2_MCMC_diag, echo=FALSE, message=FALSE}
+C2_MCMC_params <- c('objective_score', 'process[Recruitment].b0', 'catchability[summerTANq].q', 'catchability[autumnTANq].q', 'selectivity[M_all].x0', 'process[Recruitment].ycs_values{2014}')
+
+source('../../R-functions/report_Casal2_MCMC_diagnostics.R')
+```
+
+
+```{r plots_base, echo=FALSE}
+# c(bottom, left, top, right)
+par(mar=c(4,4,2,1) + 0.1)
+
+par(mfrow=c(1,1))
+```
+
+
+```{r plot_MCMC_coda_diag, echo=FALSE, warning=FALSE, message=FALSE}
+source('../../R-functions/report_plot_MCMC_coda_diagnostics.R')
+```
+
+
+```{r plot_MCMC_ggmcmc_diag, echo=FALSE, warning=FALSE, message=FALSE}
+source('../../R-functions/report_plot_MCMC_ggmcmc_diagnostics.R')
+```
+

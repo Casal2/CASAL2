@@ -104,7 +104,7 @@ EquationParser::EquationParser(Model* model) : model_(model) {
 }
 
 /**
- *
+ * Destructor
  */
 EquationParser::~EquationParser() {
   if (parser_ != nullptr)
@@ -123,7 +123,7 @@ Double& EquationParser::LookupValue(const std::string& name) {
 
   string error = "";
   if (!model_->objects().VerfiyAddressableForUse(name, addressable::kLookup, error)) {
-    LOG_FATAL() << "addressable "<< name << " could not be verified for use in equation_parser. Error was " << error;
+    LOG_FATAL() << "addressable "<< name << " could not be verified for use in equation_parser. Error: " << error;
   }
 
   Double* value = model_->objects().GetAddressable(name);
@@ -131,13 +131,14 @@ Double& EquationParser::LookupValue(const std::string& name) {
   return *value;
 }
 
-
 /**
+ * This method parses the equation string and evaluates it
  *
+ * @param equation The equation string to parse
+ * @return the value of the equation
  */
 Double EquationParser::Parse(string equation) {
   return parser_->Evaluate(equation);
 }
-
 
 } /* namespace niwa */

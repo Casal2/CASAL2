@@ -14,7 +14,7 @@ namespace timevarying {
  * Default constructor
  */
 Constant::Constant(Model* model) : TimeVarying(model) {
-  parameters_.Bind<Double>(PARAM_VALUES, &values_, "Value to assign to addressable", "");
+  parameters_.Bind<Double>(PARAM_VALUES, &values_, "The value to assign to addressable", "");
 
   RegisterAsAddressable(PARAM_VALUES, &parameter_by_year_);
 }
@@ -28,8 +28,11 @@ void Constant::DoValidate() {
     return;
   }
 
-  if (values_.size() == 1)
-    values_.assign(years_.size(), values_[0]);
+  if (values_.size() == 1) {
+    auto val_v = values_[0];
+    values_.assign(years_.size(), val_v);
+  }
+
   for (unsigned i = 0; i < years_.size(); ++i) {
     parameter_by_year_[years_[i]] = values_[i];
   }
@@ -46,7 +49,7 @@ void Constant::DoBuild() { }
 void Constant::DoReset() { }
 
 /**
- *
+ * Update
  */
 void Constant::DoUpdate() {
   LOG_FINE() << "Setting Value to: " << parameter_by_year_[model_->current_year()];

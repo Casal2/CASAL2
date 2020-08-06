@@ -21,6 +21,7 @@
 #include "TimeSteps/Manager.h"
 #include "Utilities/Map.h"
 #include "Estimates/Manager.h"
+#include "TimeVarying/Manager.h"
 
 
 // namespaces
@@ -31,20 +32,20 @@ namespace niwa {
  *
  * Bind any parameters that are allowed to be loaded from the configuration files.
  * Set bounds on registered parameters
- * Register any parameters that can be an estimated or utilised in other run modes (e.g profiling, yields, projections etc)
+ * Register any parameters that can be an estimated or utilised in other run modes (e.g., profiling, yields, projections, etc.)
  * Set some initial values
  *
- * Note: The constructor is parsed to generate Latex for the documentation.
+ * Note: The constructor is parsed to generate LaTeX for the documentation.
  */
 AgeLength::AgeLength(Model* model) : model_(model) {
-  parameters_.Bind<string>(PARAM_LABEL, &label_, "Label of the age length relationship", "");
-  parameters_.Bind<string>(PARAM_TYPE, &type_, "Type of age length relationship", "");
-  parameters_.Bind<Double>(PARAM_TIME_STEP_PROPORTIONS, &time_step_proportions_, "the fraction of the year applied in each time step that is added to the age for the purposes of evaluating the length, i.e., a value of 0.5 for a time step will evaluate the length of individuals at age+0.5 in that time step", "", true);
+  parameters_.Bind<string>(PARAM_LABEL, &label_, "The label of the age length relationship", "");
+  parameters_.Bind<string>(PARAM_TYPE, &type_, "The type of age length relationship", "");
+  parameters_.Bind<double>(PARAM_TIME_STEP_PROPORTIONS, &time_step_proportions_, "The fraction of the year applied in each time step that is added to the age for the purposes of evaluating the length, i.e., a value of 0.5 for a time step will evaluate the length of individuals at age+0.5 in that time step", "", true)->set_range(0.0, 1.0);
   parameters_.Bind<string>(PARAM_DISTRIBUTION, &distribution_label_, "The assumed distribution for the growth curve", "", PARAM_NORMAL);
-  parameters_.Bind<Double>(PARAM_CV_FIRST, &cv_first_ , "CV for the first age class", "",Double(0.0))->set_lower_bound(0.0);
-  parameters_.Bind<Double>(PARAM_CV_LAST, &cv_last_ , "CV for last age class", "",Double(0.0))->set_lower_bound(0.0);
+  parameters_.Bind<Double>(PARAM_CV_FIRST, &cv_first_ , "The CV for the first age class", "", Double(0.0))->set_lower_bound(0.0);
+  parameters_.Bind<Double>(PARAM_CV_LAST, &cv_last_ , "The CV for last age class", "", Double(0.0))->set_lower_bound(0.0);
   parameters_.Bind<bool>(PARAM_CASAL_SWITCH, &casal_normal_cdf_ , "If true, use the (less accurate) equation for the cumulative normal function as was used in the legacy version of CASAL.", "",false);
-  parameters_.Bind<bool>(PARAM_BY_LENGTH, &by_length_, "Specifies if the linear interpolation of CV's is a linear function of mean length at age. Default is just by age", "", true);
+  parameters_.Bind<bool>(PARAM_BY_LENGTH, &by_length_, "Specifies if the linear interpolation of CVs is a linear function of mean length at age. Default is by age only", "", true);
 
   RegisterAsAddressable(PARAM_CV_FIRST, &cv_first_);
   RegisterAsAddressable(PARAM_CV_LAST, &cv_last_);
@@ -52,7 +53,7 @@ AgeLength::AgeLength(Model* model) : model_(model) {
 
 /**
  * Populate any parameters,
- * Validate values are within expected ranges when we cannot use bind<>() overloads
+ * Validate that values are within expected ranges when bind<>() overloads cannot be used
  *
  * Note: all parameters are populated from configuration files
  */
@@ -67,7 +68,7 @@ void AgeLength::Validate() {
   else if (distribution_label_ == PARAM_NONE)
     distribution_ = Distribution::kNone;
   else
-    LOG_CODE_ERROR() << "We haven't enum'd the distribution: " << distribution_label_;
+    LOG_CODE_ERROR() << "The age-length distribution '" << distribution_label_ << "' is not valid.";
 
   DoValidate();
 }
@@ -82,12 +83,12 @@ void AgeLength::Build() {
     time_step_proportions_.assign(time_step_count, 0.0);
   } else if (time_step_count != time_step_proportions_.size()) {
     LOG_FATAL_P(PARAM_TIME_STEP_PROPORTIONS) << "size (" << time_step_proportions_.size() << ") must match the number "
-        "of defined time steps for this process (" << time_step_count << ")";
+      << "of defined time steps for this process (" << time_step_count << ")";
   }
 
   for (auto iter : time_step_proportions_) {
     if (iter < 0.0 || iter > 1.0)
-      LOG_ERROR_P(PARAM_TIME_STEP_PROPORTIONS) << " value (" << iter << ") must be in the range 0.0-1.0";
+      LOG_ERROR_P(PARAM_TIME_STEP_PROPORTIONS) << "Time step proportion value (" << iter << ") must be in the range 0.0 to 1.0 inclusive";
   }
 
   DoBuild();
@@ -95,8 +96,8 @@ void AgeLength::Build() {
 }
 
 /**
- * BuildCV function
- * populates a 3d map of cv's by year, age and time_step
+ * Calculate the CVs
+ * populates a 3-D map of CVs by year, age, and time_step
  */
 void AgeLength::BuildCV() {
   unsigned min_age = model_->min_age();
@@ -133,20 +134,25 @@ void AgeLength::BuildCV() {
 }
 
 /**
- * Reset the age length class.
+ * Reset the age length class
  */
 void AgeLength::Reset() {
   if (is_estimated_) {
-    LOG_FINEST() << "We are re-building cv lookup table.";
+    LOG_FINEST() << "Rebuilding cv lookup table";
     BuildCV();
   }
+
+  LOG_FINE() << "Resetting age-length";
   DoReset();
 }
 
 /**
- * ReBuild Cache: called by the time_varying class.
+ * ReBuild Cache: called by the time_varying class
  */
 void AgeLength::RebuildCache() {
+  LOG_FINE() << "Rebuilding age-length cache for year " << model_->current_year() << " run mode " << model_->run_mode()
+    << " state " << model_->state();
+
   BuildCV();
   DoRebuildCache();
 }

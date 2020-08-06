@@ -32,30 +32,31 @@ namespace niwa {
 namespace processes {
 namespace age {
 namespace dc = niwa::utilities::doublecompare;
+
 /**
  * Default constructor
  *
  * Bind any parameters that are allowed to be loaded from the configuration files.
  * Set bounds on registered parameters
- * Register any parameters that can be an estimated or utilised in other run modes (e.g profiling, yields, projections etc)
+ * Register any parameters that can be an estimated or utilised in other run modes (e.g., profiling, yields, projections, etc.)
  * Set some initial values
  *
- * Note: The constructor is parsed to generate Latex for the documentation.
+ * Note: The constructor is parsed to generate LaTeX for the documentation.
  */
 MortalityPreySuitability::MortalityPreySuitability(Model* model)
   : Process(model) {
   process_type_ = ProcessType::kMortality;
   partition_structure_ = PartitionType::kAge;
 
-  parameters_.Bind<string>(PARAM_PREY_CATEGORIES, &prey_category_labels_, "Prey Categories labels", "");
-  parameters_.Bind<string>(PARAM_PREDATOR_CATEGORIES, &predator_category_labels_, "Predator Categories labels", "");
-  parameters_.Bind<Double>(PARAM_CONSUMPTION_RATE, &consumption_rate_, "Predator consumption rate", "")->set_range(0.0, 1.0);
-  parameters_.Bind<Double>(PARAM_ELECTIVITIES, &electivities_, "Prey Electivities", "")->set_range(0.0, 1.0);
-  parameters_.Bind<Double>(PARAM_U_MAX, &u_max_, "Umax", "")->set_range(0.0, 1.0);
-  parameters_.Bind<string>(PARAM_PREY_SELECTIVITIES, &prey_selectivity_labels_, "Selectivities for prey categories", "");
-  parameters_.Bind<string>(PARAM_PREDATOR_SELECTIVITIES, &predator_selectivity_labels_, "Selectivities for predator categories", "");
-  parameters_.Bind<string>(PARAM_PENALTY, &  penalty_label_, "Label of penalty to be applied", "","");
-  parameters_.Bind<unsigned>(PARAM_YEARS, &years_, "Year that process occurs", "");
+  parameters_.Bind<string>(PARAM_PREY_CATEGORIES, &prey_category_labels_, "The prey categories labels", "");
+  parameters_.Bind<string>(PARAM_PREDATOR_CATEGORIES, &predator_category_labels_, "The predator categories labels", "");
+  parameters_.Bind<Double>(PARAM_CONSUMPTION_RATE, &consumption_rate_, "The predator consumption rate", "")->set_range(0.0, 1.0);
+  parameters_.Bind<Double>(PARAM_ELECTIVITIES, &electivities_, "The prey electivities", "")->set_range(0.0, 1.0);
+  parameters_.Bind<Double>(PARAM_U_MAX, &u_max_, "The maximum exploitation rate ($U_{max}$)", "", 0.99)->set_range(0.0, 1.0);
+  parameters_.Bind<string>(PARAM_PREY_SELECTIVITIES, &prey_selectivity_labels_, "The selectivities for prey categories", "");
+  parameters_.Bind<string>(PARAM_PREDATOR_SELECTIVITIES, &predator_selectivity_labels_, "The selectivities for predator categories", "");
+  parameters_.Bind<string>(PARAM_PENALTY, &  penalty_label_, "The label of the penalty", "","");
+  parameters_.Bind<unsigned>(PARAM_YEARS, &years_, "The year that process occurs", "");
 
   RegisterAsAddressable(PARAM_CONSUMPTION_RATE, &consumption_rate_);
   RegisterAsAddressable(PARAM_ELECTIVITIES, &electivities_);
@@ -64,23 +65,23 @@ MortalityPreySuitability::MortalityPreySuitability(Model* model)
 
 /**
  * Populate any parameters,
- * Validate values are within expected ranges when we cannot use bind<>() overloads
+ * Validate values are within expected ranges when bind<>() overloads cannot be used
  *
  * Note: all parameters are populated from configuration files
  */
 void MortalityPreySuitability::DoValidate() {
   // Check length of categories are the same as selectivities
   if (prey_category_labels_.size() != prey_selectivity_labels_.size())
-    LOG_ERROR_P(PARAM_PREY_CATEGORIES) << ": You provided (" << prey_selectivity_labels_.size() << ") prey selectivities but we have "
-        << prey_category_labels_.size() << " prey catregories";
+    LOG_ERROR_P(PARAM_PREY_CATEGORIES) << ": There are " << prey_selectivity_labels_.size() << " prey selectivities but there are "
+      << prey_category_labels_.size() << " prey categories";
 
   if (predator_category_labels_.size() != predator_selectivity_labels_.size())
-    LOG_ERROR_P(PARAM_PREY_CATEGORIES) << ": You provided (" << predator_selectivity_labels_.size() << ") predator selectivities but we have "
-        << predator_category_labels_.size() << " predator categories";
+    LOG_ERROR_P(PARAM_PREY_CATEGORIES) << ": There are " << predator_selectivity_labels_.size() << " predator selectivities but there are "
+      << predator_category_labels_.size() << " predator categories";
 
   if (prey_category_labels_.size() != electivities_.size())
-    LOG_ERROR_P(PARAM_ELECTIVITIES) << ": You provided (" << prey_category_labels_.size() << ") prey categories but we have "
-            << electivities_.size() << " prey electivities, these must be equal";
+    LOG_ERROR_P(PARAM_ELECTIVITIES) << ": There are " << prey_category_labels_.size() << " prey categories but there are "
+      << electivities_.size() << " prey electivities. These must be the same length.";
 }
 
 /**
@@ -89,7 +90,7 @@ void MortalityPreySuitability::DoValidate() {
  * in the system
  */
 void MortalityPreySuitability::DoBuild() {
-  prey_partition_ = CombinedCategoriesPtr(new niwa::partition::accessors::CombinedCategories(model_, prey_category_labels_));
+  prey_partition_     = CombinedCategoriesPtr(new niwa::partition::accessors::CombinedCategories(model_, prey_category_labels_));
   predator_partition_ = CombinedCategoriesPtr(new niwa::partition::accessors::CombinedCategories(model_, predator_category_labels_));
 
   /**
@@ -99,7 +100,7 @@ void MortalityPreySuitability::DoBuild() {
   for (string selectivity : prey_selectivity_labels_) {
     prey_selectivities_.push_back(model_->managers().selectivity()->GetSelectivity(selectivity));
     if (!prey_selectivities_[category_offset])
-      LOG_ERROR_P(PARAM_PREY_SELECTIVITIES) << "selectivity " << selectivity << " does not exist. Have you defined it?";
+      LOG_ERROR_P(PARAM_PREY_SELECTIVITIES) << "Prey selectivity " << selectivity << " was not found.";
     ++category_offset;
   }
 
@@ -107,14 +108,14 @@ void MortalityPreySuitability::DoBuild() {
   for (string selectivity : predator_selectivity_labels_) {
     predator_selectivities_.push_back(model_->managers().selectivity()->GetSelectivity(selectivity));
     if (!predator_selectivities_[category_offset])
-      LOG_ERROR_P(PARAM_PREDATOR_SELECTIVITIES) << "selectivity " << selectivity << " does not exist. Have you defined it?";
+      LOG_ERROR_P(PARAM_PREDATOR_SELECTIVITIES) << "Predator selectivity " << selectivity << " was not found.";
     ++category_offset;
   }
 
   if (penalty_label_ != "none") {
     penalty_ = model_->managers().penalty()->GetProcessPenalty(penalty_label_);
     if (!penalty_)
-      LOG_ERROR_P(PARAM_PENALTY) << ": penalty " << penalty_label_ << " does not exist. Have you defined it?";
+      LOG_ERROR_P(PARAM_PENALTY) << ": Penalty label " << penalty_label_ << " was not found.";
   }
 
 /*  *
@@ -122,11 +123,11 @@ void MortalityPreySuitability::DoBuild() {
 
   for (const string& label : prey_category_labels_) {
     if (!model_->categories()->IsValid(label))
-      LOG_ERROR_P(PARAM_PREY_CATEGORIES) << ": category " << label << " does not exist. Have you defined it?";
+      LOG_ERROR_P(PARAM_PREY_CATEGORIES) << ": category " << label << " was not found.";
   }
   for (const string& label : predator_category_labels_) {
     if (!model_->categories()->IsValid(label))
-      LOG_ERROR_P(PARAM_PREDATOR_CATEGORIES) << ": category " << label << " does not exist. Have you defined it?";
+      LOG_ERROR_P(PARAM_PREDATOR_CATEGORIES) << ": category " << label << " was not found.";
   }*/
 }
 
@@ -163,11 +164,12 @@ void MortalityPreySuitability::DoExecute() {
            TotalPreyAvailability += vulnerable;
          }
        }
-       LOG_FINEST() << ": Vulnerable abundance for prey category " << prey_category_labels_[category_offset] << " = " << Vulnerable_by_Prey[prey_category_labels_[category_offset]];
+       LOG_FINEST() << ": Vulnerable abundance for prey category " << prey_category_labels_[category_offset] << " = "
+         << Vulnerable_by_Prey[prey_category_labels_[category_offset]];
     }
 
     TotalPreyAvailability = dc::ZeroFun(TotalPreyAvailability, ZERO);
-    TotalPreyVulnerable = dc::ZeroFun(TotalPreyVulnerable / TotalPreyAvailability, ZERO);
+    TotalPreyVulnerable   = dc::ZeroFun(TotalPreyVulnerable / TotalPreyAvailability, ZERO);
 
     /*
      * Loop through the predators calculating vulnerable predator abyundance
@@ -209,7 +211,8 @@ void MortalityPreySuitability::DoExecute() {
         Exploitation = 0.0;
 
       Exploitation_by_Prey[prey_category_labels_[category_offset]] = Exploitation;
-      LOG_FINEST() << ": Exploitation rate for prey category " << prey_category_labels_[category_offset] << " = " << Exploitation_by_Prey[prey_category_labels_[category_offset]];
+      LOG_FINEST() << ": Exploitation rate for prey category " << prey_category_labels_[category_offset] << " = "
+        << Exploitation_by_Prey[prey_category_labels_[category_offset]];
 
     }
 
@@ -225,7 +228,7 @@ void MortalityPreySuitability::DoExecute() {
            Double Current = (*category_iter)->data_.size() * prey_selectivities_[category_offset]->GetAgeResult((*category_iter)->min_age_ + data_offset, (*category_iter)->age_length_)
                * Exploitation_by_Prey[prey_category_labels_[category_offset]];
            if (Current <= 0.0) {
-             LOG_WARNING() << ": Negative partition create";
+             LOG_WARNING() << ": Negative partition created";
              continue;
            }
 
@@ -238,22 +241,22 @@ void MortalityPreySuitability::DoExecute() {
   } // if (std::find(years_.begin(), years_.end(), model_->current_year()) != years_.end()) {
 }
 
-/*
- * @fun FillReportCache
+/**
+ * Fill the report cache
  * @description A method for reporting process information
  * @param cache a cache object to print to
-*/
+ */
 void MortalityPreySuitability::FillReportCache(ostringstream& cache) {
 
 }
 
-/*
- * @fun FillTabularReportCache
+/**
+ * Fill the tabular report cache
  * @description A method for reporting tabular process information
  * @param cache a cache object to print to
  * @param first_run whether to print the header
  *
-*/
+ */
 void MortalityPreySuitability::FillTabularReportCache(ostringstream& cache, bool first_run) {
 
 }

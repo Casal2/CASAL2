@@ -47,6 +47,7 @@ public:
   void                        Pause();
   void                        Resume() { pause_ = false; }
   void                        WaitForReportsToFinish();
+  Report*                     GetReport(const string& type);
 
   // accessors
   void                        set_report_suffix(const string& suffix) { report_suffix_ = suffix; }

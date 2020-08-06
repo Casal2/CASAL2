@@ -30,7 +30,7 @@ namespace niwa {
 namespace likelihoods {
 
 /**
- * Create and return our likelihood
+ * Create and return the likelihood
  *
  * @param likelihood_type The type of likelihood to create
  * @return shared_ptr to the likelihood
@@ -60,7 +60,6 @@ Likelihood* Factory::Create(Model* model, const string& object_type, const strin
 
   return result;
 }
-
 
 } /* namespace likelihoods */
 } /* namespace niwa */

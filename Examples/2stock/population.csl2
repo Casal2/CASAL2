@@ -116,7 +116,7 @@ proportions 0.5 0.5 0.0 0.0
 type mortality_instantaneous
 m 1
 time_step_ratio 0.17 0.33 0.25 0.25
-selectivities M_male*5  M_female*5
+relative_m_by_age M_male*5  M_female*5
 categories sex=male sex=female	
 table catches
 year	Ensp1	Ensp2	Wnsp1	Wnsp2	Esp	Wsp

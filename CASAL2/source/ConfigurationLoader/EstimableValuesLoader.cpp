@@ -36,15 +36,16 @@ using std::vector;
 using niwa::utilities::Double;
 
 /**
- * Load the values of our estimates from the file provided
+ * Load the values of the estimate parameters from the file provided
  *
  * @param file_name The name of the file containing the values
  */
 void EstimableValuesLoader::LoadValues(const string& file_name) {
+  LOG_FINE() << "Load values from file " << file_name;
   ifstream file_;
   file_.open(file_name.c_str());
   if (file_.fail() || !file_.is_open())
-    LOG_FATAL() << "Unable to open the estimate_value file: " << file_name << ". Does this file exist?";
+    LOG_FATAL() << "Unable to open the estimate_value file " << file_name;
 
   /**
    * Get the first line which should contain a list of parameters
@@ -71,7 +72,6 @@ void EstimableValuesLoader::LoadValues(const string& file_name) {
   /**
    * Iterate through file
    */
-
   vector<string> values;
   Estimables& estimables = *model_->managers().estimables();
   ++line_number;
@@ -84,13 +84,15 @@ void EstimableValuesLoader::LoadValues(const string& file_name) {
 
     boost::split(values, current_line, boost::is_any_of(" "));
     if (values.size() != parameters.size())
-      LOG_FATAL() << "In estimate_value file, line " << line_number << " has " << values.size() << " values when we expected " << parameters.size();
+      LOG_FATAL() << "In estimate_value file, line " << line_number << " has " << values.size()
+        << " values when the number of parameters is " << parameters.size();
+
+    double numeric = 0.0;
     for (unsigned i = 0; i < values.size(); ++i) {
       boost::trim_all(parameters[i]);
       boost::trim_all(values[i]);
 
-      Double numeric = 0.0;
-      if (!utilities::To<Double>(values[i], numeric))
+      if (!utilities::To<double>(values[i], numeric))
         LOG_FATAL() << "In estimate_value file could not convert the value " << values[i] << " to a double";
       estimables.AddValue(parameters[i], numeric);
     }

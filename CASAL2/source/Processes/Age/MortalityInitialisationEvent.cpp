@@ -24,15 +24,15 @@ namespace processes {
 namespace age {
 
 /**
- * Default Constructor
+ * Default constructor
  */
 MortalityInitialisationEvent::MortalityInitialisationEvent(Model* model)
   : Process(model),
     partition_(model) {
-  parameters_.Bind<string>(PARAM_CATEGORIES, &category_labels_, "Categories", "");
+  parameters_.Bind<string>(PARAM_CATEGORIES, &category_labels_, "The categories", "");
   parameters_.Bind<Double>(PARAM_CATCH, &catch_, "The number of removals (catches) to apply for each year", "");
-  parameters_.Bind<Double>(PARAM_U_MAX, &u_max_, "Maximum exploitation rate ($Umax$)", "", 0.99);
-  parameters_.Bind<string>(PARAM_SELECTIVITIES, &selectivity_names_, "List of selectivities", "");
+  parameters_.Bind<Double>(PARAM_U_MAX, &u_max_, "The maximum exploitation rate ($U_{max}$)", "", 0.99)->set_range(0.0, 1.0);
+  parameters_.Bind<string>(PARAM_SELECTIVITIES, &selectivity_names_, "The list of selectivities", "");
   parameters_.Bind<string>(PARAM_PENALTY, &penalty_name_, "The label of the penalty to apply if the total number of removals cannot be taken", "", "");
 
   RegisterAsAddressable(PARAM_U_MAX, &u_max_);
@@ -43,7 +43,7 @@ MortalityInitialisationEvent::MortalityInitialisationEvent(Model* model)
 }
 
 /**
- * Validate our Mortality Event Process
+ * Validate the Mortality Event Process
  *
  * 1. Check for the required parameters
  * 2. Assign any remaining variables
@@ -52,13 +52,13 @@ void MortalityInitialisationEvent::DoValidate() {
   // Validate that the number of selectivities is the same as the number of categories
   if (category_labels_.size() != selectivity_names_.size()) {
     LOG_ERROR_P(PARAM_SELECTIVITIES)
-        << " Number of selectivities provided does not match the number of categories provided."
-        << " Expected " << category_labels_.size() << " but got " << selectivity_names_.size();
+      << " The number of selectivities provided does not match the number of categories provided."
+      << " Categories: " << category_labels_.size() << ", Selectivities: " << selectivity_names_.size();
   }
 
   // Validate u_max
   if (u_max_ < 0.0 || u_max_ > 1.0)
-    LOG_ERROR_P(PARAM_U_MAX) << ": u_max must be between 0.0 and 1.0 (inclusive). Value defined was " << AS_DOUBLE(u_max_);
+    LOG_ERROR_P(PARAM_U_MAX) << ": u_max (" << AS_DOUBLE(u_max_) << ") must be between 0.0 and 1.0 (inclusive).";
 }
 
 /**
@@ -71,7 +71,7 @@ void MortalityInitialisationEvent::DoBuild() {
   for (string label : selectivity_names_) {
     Selectivity* selectivity = model_->managers().selectivity()->GetSelectivity(label);
     if (!selectivity)
-      LOG_ERROR_P(PARAM_SELECTIVITIES) << ": selectivity " << label << " does not exist. Have you defined it?";
+      LOG_ERROR_P(PARAM_SELECTIVITIES) << ": Selectivity label " << label << " was not found.";
 
     selectivities_.push_back(selectivity);
   }
@@ -79,14 +79,13 @@ void MortalityInitialisationEvent::DoBuild() {
   if (penalty_name_ != "") {
     penalty_ = model_->managers().penalty()->GetProcessPenalty(penalty_name_);
     if (!penalty_) {
-      LOG_ERROR_P(PARAM_PENALTY) << ": penalty " << penalty_name_ << " does not exist. Have you defined it?";
+      LOG_ERROR_P(PARAM_PENALTY) << ": Penalty label " << penalty_name_ << " was not found.";
     }
   }
 }
 
 /**
- * Execute our mortality event object.
- *
+ * Execute the mortality event object
  */
 void MortalityInitialisationEvent::DoExecute() {
   LOG_TRACE();
@@ -109,6 +108,7 @@ void MortalityInitialisationEvent::DoExecute() {
 
       ++i;
     }
+
     /**
      * Work out the exploitation rate to remove (catch/vulnerable)
      */
@@ -144,6 +144,7 @@ void MortalityInitialisationEvent::DoExecute() {
       }
     }
   }
+
   ++init_iteration_;
 }
 

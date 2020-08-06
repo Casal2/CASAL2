@@ -17,20 +17,20 @@ namespace niwa {
  *
  * Bind any parameters that are allowed to be loaded from the configuration files.
  * Set bounds on registered parameters
- * Register any parameters that can be an estimated or utilised in other run modes (e.g profiling, yields, projections etc)
+ * Register any parameters that can be an estimated or utilised in other run modes (e.g., profiling, yields, projections, etc.)
  * Set some initial values
  *
- * Note: The constructor is parsed to generate Latex for the documentation.
+ * Note: The constructor is parsed to generate LaTeX for the documentation.
  */
 EstimateTransformation::EstimateTransformation(Model* model) : model_(model) {
   parameters_.Bind<string>(PARAM_LABEL, &label_, "Label for the transformation block", "");
-  parameters_.Bind<string>(PARAM_TYPE, &type_, "Type of transformation", "");
-  parameters_.Bind<bool>(PARAM_TRANSFORM_WITH_JACOBIAN, &transform_with_jacobian_, "Apply jacobian during transformation", "", true);
+  parameters_.Bind<string>(PARAM_TYPE, &type_, "The type of transformation", "");
+  parameters_.Bind<bool>(PARAM_TRANSFORM_WITH_JACOBIAN, &transform_with_jacobian_, "Apply Jacobian during transformation", "", true);
 }
 
 /**
  * Populate any parameters,
- * Validate values are within expected ranges when we cannot use bind<>() overloads
+ * Validate values are within expected ranges when bind<>() overloads cannot be used
  *
  * Note: all parameters are populated from configuration files
  */
@@ -47,8 +47,8 @@ void EstimateTransformation::Build() {
 }
 
 /**
- * This method will check to ensure we're not already transformed, then transform if it's
- * ok.
+ * This method checks to ensure that the estimate has not already transformed,
+ * then transform if it is ok.
  */
 void EstimateTransformation::Transform() {
   LOG_TRACE();
@@ -61,7 +61,7 @@ void EstimateTransformation::Transform() {
 }
 
 /**
- * This method will check to ensure we're currently transformed, then restore
+ * This method checks to ensure that the estimate was already transformed, then restore
  */
 void EstimateTransformation::Restore() {
   LOG_TRACE();

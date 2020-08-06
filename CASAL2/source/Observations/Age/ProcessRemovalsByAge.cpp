@@ -39,17 +39,17 @@ ProcessRemovalsByAge::ProcessRemovalsByAge(Model* model) : Observation(model) {
   obs_table_ = new parameters::Table(PARAM_OBS);
   error_values_table_ = new parameters::Table(PARAM_ERROR_VALUES);
 
-  parameters_.Bind<unsigned>(PARAM_MIN_AGE, &min_age_, "Minimum age", "");
-  parameters_.Bind<unsigned>(PARAM_MAX_AGE, &max_age_, "Maximum age", "");
-  parameters_.Bind<bool>(PARAM_PLUS_GROUP, &plus_group_, "Use age plus group", "", true);
+  parameters_.Bind<unsigned>(PARAM_MIN_AGE, &min_age_, "The minimum age", "");
+  parameters_.Bind<unsigned>(PARAM_MAX_AGE, &max_age_, "The maximum age", "");
+  parameters_.Bind<bool>(PARAM_PLUS_GROUP, &plus_group_, "Is the maximum age the age plus group", "", true);
   parameters_.Bind<string>(PARAM_TIME_STEP, &time_step_label_, "The label of time-step that the observation occurs in", "");
-  parameters_.Bind<Double>(PARAM_TOLERANCE, &tolerance_, "Tolerance", "", Double(0.001));
-  parameters_.Bind<unsigned>(PARAM_YEARS, &years_, "Years for which there are observations", "");
-  parameters_.Bind<Double>(PARAM_PROCESS_ERRORS, &process_error_values_, "Label of process error to use", "", true);
-  parameters_.Bind<string>(PARAM_AGEING_ERROR, &ageing_error_label_, "Label of ageing error to use", "", "");
-  parameters_.Bind<string>(PARAM_METHOD_OF_REMOVAL, &method_, "Label of observed method of removals", "", "");
-  parameters_.BindTable(PARAM_OBS, obs_table_, "Table of observed values", "", false);
-  parameters_.BindTable(PARAM_ERROR_VALUES, error_values_table_, "Table of error values of the observed values (note the units depend on the likelihood)", "", false);
+  parameters_.Bind<double>(PARAM_TOLERANCE, &tolerance_, "The tolerance", "", double(0.001))->set_range(0.0, 1.0, false, false);
+  parameters_.Bind<unsigned>(PARAM_YEARS, &years_, "The years for which there are observations", "");
+  parameters_.Bind<Double>(PARAM_PROCESS_ERRORS, &process_error_values_, "The label of process error to use", "", true);
+  parameters_.Bind<string>(PARAM_AGEING_ERROR, &ageing_error_label_, "The label of the ageing error to use", "", "");
+  parameters_.Bind<string>(PARAM_METHOD_OF_REMOVAL, &method_, "The label of the observed method of removals", "", "");
+  parameters_.BindTable(PARAM_OBS, obs_table_, "The table of observed values", "", false);
+  parameters_.BindTable(PARAM_ERROR_VALUES, error_values_table_, "The table of error values of the observed values (note that the units depend on the likelihood)", "", false);
   parameters_.Bind<string>(PARAM_MORTALITY_INSTANTANEOUS_PROCESS, &process_label_, "The label of the mortality instantaneous process for the observation", "");
 
   mean_proportion_method_ = false;
@@ -73,6 +73,7 @@ ProcessRemovalsByAge::~ProcessRemovalsByAge() {
  */
 void ProcessRemovalsByAge::DoValidate() {
   age_spread_ = (max_age_ - min_age_) + 1;
+
   map<unsigned, vector<Double>> error_values_by_year;
   map<unsigned, vector<Double>> obs_by_year;
 
@@ -84,12 +85,13 @@ void ProcessRemovalsByAge::DoValidate() {
   if (max_age_ > model_->max_age())
     LOG_ERROR_P(PARAM_MAX_AGE) << ": max_age (" << max_age_ << ") is greater than the model's max_age (" << model_->max_age() << ")";
   if (process_error_values_.size() != 0 && process_error_values_.size() != years_.size()) {
-    LOG_ERROR_P(PARAM_PROCESS_ERRORS) << " number of values provied (" << process_error_values_.size() << ") does not match the number of years provided ("
-        << years_.size() << ")";
+    LOG_ERROR_P(PARAM_PROCESS_ERRORS) << " number of values provided (" << process_error_values_.size()
+      << ") does not match the number of years provided (" << years_.size() << ")";
   }
   for (auto year : years_) {
-  	if((year < model_->start_year()) || (year > model_->final_year()))
-  		LOG_ERROR_P(PARAM_YEARS) << "Years can't be less than start_year (" << model_->start_year() << "), or greater than final_year (" << model_->final_year() << "). Please fix this.";
+    if((year < model_->start_year()) || (year > model_->final_year()))
+      LOG_ERROR_P(PARAM_YEARS) << "Years cannot be less than start_year (" << model_->start_year()
+        << "), or greater than final_year (" << model_->final_year() << ").";
   }
   for (Double process_error : process_error_values_) {
     if (process_error < 0.0)
@@ -98,16 +100,17 @@ void ProcessRemovalsByAge::DoValidate() {
 
   if (process_error_values_.size() != 0) {
     if (process_error_values_.size() != years_.size()) {
-      LOG_FATAL_P(PARAM_PROCESS_ERRORS) << "need to supply a process error for each year, you supplied '" << process_error_values_.size() << "', but you need to supply '" << years_.size() << "'";
+      LOG_FATAL_P(PARAM_PROCESS_ERRORS) << "Supply a process error for each year. Values for " << process_error_values_.size()
+        << " years were provided, but " << years_.size() << " years are required";
     }
-    process_errors_by_year_ = utilities::Map::create(years_, process_error_values_);
+    process_errors_by_year_ = utilities::Map<Double>::create(years_, process_error_values_);
   } else {
     Double process_val = 0.0;
-    process_errors_by_year_ = utilities::Map::create(years_, process_val);
+    process_errors_by_year_ = utilities::Map<Double>::create(years_, process_val);
   }
 
   if (delta_ < 0.0)
-    LOG_ERROR_P(PARAM_DELTA) << ": delta (" << AS_DOUBLE(delta_) << ") cannot be less than 0.0";
+    LOG_ERROR_P(PARAM_DELTA) << ": delta (" << delta_ << ") cannot be less than 0.0";
 
   /**
    * Validate the number of obs provided matches age spread * category_labels * years
@@ -117,71 +120,73 @@ void ProcessRemovalsByAge::DoValidate() {
   unsigned obs_expected = age_spread_ * category_labels_.size() + 1;
   vector<vector<string>>& obs_data = obs_table_->data();
   if (obs_data.size() != years_.size()) {
-    LOG_ERROR_P(PARAM_OBS) << " has " << obs_data.size() << " rows defined, but we expected " << years_.size()
-        << " to match the number of years provided";
+    LOG_ERROR_P(PARAM_OBS) << " has " << obs_data.size() << " rows defined, but " << years_.size()
+      << " should match the number of years provided";
   }
 
   for (vector<string>& obs_data_line : obs_data) {
     if (obs_data_line.size() != obs_expected) {
-      LOG_ERROR_P(PARAM_OBS) << " has " << obs_data_line.size() << " values defined, but we expected " << obs_expected
-          << " to match the age speard * categories + 1 (for year)";
+      LOG_ERROR_P(PARAM_OBS) << " has " << obs_data_line.size() << " values defined, but " << obs_expected
+        << " should match the age spread * categories + 1 (for year)";
     }
 
     unsigned year = 0;
     if (!utilities::To<unsigned>(obs_data_line[0], year))
-      LOG_ERROR_P(PARAM_OBS) << " value " << obs_data_line[0] << " could not be converted in to an unsigned integer. It should be the year for this line";
+      LOG_ERROR_P(PARAM_OBS) << " value " << obs_data_line[0] << " could not be converted to an unsigned integer. It should be the year for this line";
     if (std::find(years_.begin(), years_.end(), year) == years_.end())
       LOG_ERROR_P(PARAM_OBS) << " value " << year << " is not a valid year for this observation";
 
     for (unsigned i = 1; i < obs_data_line.size(); ++i) {
-      Double value = 0;
+      Double value = 0.0;
       if (!utilities::To<Double>(obs_data_line[i], value))
-        LOG_ERROR_P(PARAM_OBS) << " value (" << obs_data_line[i] << ") could not be converted to a double";
+        LOG_ERROR_P(PARAM_OBS) << " value (" << obs_data_line[i] << ") could not be converted to a Double";
       obs_by_year[year].push_back(value);
     }
     if (obs_by_year[year].size() != obs_expected - 1)
-      LOG_FATAL_P(PARAM_OBS) << "you supplied " << obs_by_year[year].size() << " ages, but we expected " << obs_expected -1 << " can you please sort this out. Chairs";
+      LOG_FATAL_P(PARAM_OBS) << " " << obs_by_year[year].size() << " ages were supplied, but " << obs_expected -1 << " ages are required";
   }
-
 
   /**
    * Build our error value map
    */
   vector<vector<string>>& error_values_data = error_values_table_->data();
   if (error_values_data.size() != years_.size()) {
-    LOG_ERROR_P(PARAM_ERROR_VALUES) << " has " << error_values_data.size() << " rows defined, but we expected " << years_.size()
-        << " to match the number of years provided";
+    LOG_ERROR_P(PARAM_ERROR_VALUES) << " has " << error_values_data.size() << " rows defined, but " << years_.size()
+      << " should match the number of years provided";
   }
 
   for (vector<string>& error_values_data_line : error_values_data) {
     if (error_values_data_line.size() != 2 && error_values_data_line.size() != obs_expected) {
-      LOG_FATAL_P(PARAM_VALUES) << " has " << error_values_data_line.size() << " values defined, but we expected " << obs_expected
-          << " to match the age speard * categories + 1 (for year)";
+      LOG_FATAL_P(PARAM_VALUES) << " has " << error_values_data_line.size() << " values defined, but " << obs_expected
+        << " should match the age spread * categories + 1 (for year)";
     }
 
     unsigned year = 0;
     if (!utilities::To<unsigned>(error_values_data_line[0], year))
-      LOG_ERROR_P(PARAM_ERROR_VALUES) << " value " << error_values_data_line[0] << " could not be converted in to an unsigned integer. It should be the year for this line";
+      LOG_ERROR_P(PARAM_ERROR_VALUES) << " value " << error_values_data_line[0] << " could not be converted to an unsigned integer. It should be the year for this line";
     if (std::find(years_.begin(), years_.end(), year) == years_.end())
       LOG_ERROR_P(PARAM_ERROR_VALUES) << " value " << year << " is not a valid year for this observation";
     for (unsigned i = 1; i < error_values_data_line.size(); ++i) {
       Double value = 0;
-
       if (!utilities::To<Double>(error_values_data_line[i], value))
-        LOG_FATAL_P(PARAM_ERROR_VALUES) << " value (" << error_values_data_line[i] << ") could not be converted to a double";
+        LOG_FATAL_P(PARAM_ERROR_VALUES) << " value (" << error_values_data_line[i] << ") could not be converted to a Double";
       if (likelihood_type_ == PARAM_LOGNORMAL && value <= 0.0) {
-        LOG_ERROR_P(PARAM_ERROR_VALUES) << ": error_value (" << AS_DOUBLE(value) << ") cannot be equal to or less than 0.0";
+        LOG_ERROR_P(PARAM_ERROR_VALUES) << ": error_value (" << value << ") cannot be equal to or less than 0.0";
       } else if (likelihood_type_ == PARAM_MULTINOMIAL && value < 0.0) {
-        LOG_ERROR_P(PARAM_ERROR_VALUES) << ": error_value (" << AS_DOUBLE(value) << ") cannot be less than 0.0";
+        LOG_ERROR_P(PARAM_ERROR_VALUES) << ": error_value (" << value << ") cannot be less than 0.0";
       }
 
       error_values_by_year[year].push_back(value);
     }
+
     if (error_values_by_year[year].size() == 1) {
-      error_values_by_year[year].assign(obs_expected - 1, error_values_by_year[year][0]);
+      auto val_e = error_values_by_year[year][0];
+      error_values_by_year[year].assign(obs_expected - 1, val_e);
     }
+
     if (error_values_by_year[year].size() != obs_expected - 1)
-      LOG_FATAL_P(PARAM_ERROR_VALUES) << "We counted " << error_values_by_year[year].size() << " error values by year but expected " << obs_expected -1 << " based on the obs table";
+      LOG_FATAL_P(PARAM_ERROR_VALUES) << " " << error_values_by_year[year].size() << " error values by year were supplied, but "
+        << obs_expected -1 << " values are required based on the obs table";
   }
 
   /**
@@ -195,12 +200,15 @@ void ProcessRemovalsByAge::DoValidate() {
 
     for (unsigned i = 0; i < category_labels_.size(); ++i) {
       for (unsigned j = 0; j < age_spread_; ++j) {
-        unsigned obs_index = i * age_spread_ + j;
-        value = iter->second[obs_index];
-        Double error_value = error_values_by_year[iter->first][obs_index];
-        error_values_[iter->first][category_labels_[i]].push_back(error_value);
-        proportions_[iter->first][category_labels_[i]].push_back(value);
-        total += value;
+        auto e_f = error_values_by_year.find(iter->first);
+        if (e_f != error_values_by_year.end())
+        {
+          unsigned obs_index = i * age_spread_ + j;
+          value = iter->second[obs_index];
+          error_values_[iter->first][category_labels_[i]].push_back(e_f->second[obs_index]);
+          proportions_[iter->first][category_labels_[i]].push_back(value);
+          total += value;
+        }
       }
     }
 
@@ -208,26 +216,26 @@ void ProcessRemovalsByAge::DoValidate() {
       LOG_ERROR_P(PARAM_OBS) << ": obs sum total (" << total << ") for year (" << iter->first << ") exceeds tolerance (" << tolerance_ << ") from 1.0";
     }
   }
+
   if (time_step_label_.size() != method_.size()) {
-  	LOG_ERROR_P(PARAM_TIME_STEP) << "you must specify the same number of time step labels as methods. You have specified " << time_step_label_.size() << " time-step labels but only " << method_.size() << " methods, please fix this";
+    LOG_ERROR_P(PARAM_TIME_STEP) << "Specify the same number of time step labels as methods. " << time_step_label_.size()
+      << " time-step labels were specified, but " << method_.size() << " methods were specified";
   }
 }
 
 /**
- * Build any runtime relationships we may have and ensure
- * the labels for other objects are valid.
+ * Build any runtime relationships and ensure that the labels for other objects are valid.
  */
 void ProcessRemovalsByAge::DoBuild() {
   partition_ = CombinedCategoriesPtr(new niwa::partition::accessors::CombinedCategories(model_, category_labels_));
 
   // Create a pointer to misclassification matrix
     if( ageing_error_label_ != "") {
-    ageing_error_ = model_->managers().ageing_error()->GetAgeingError(ageing_error_label_);
-    if (!ageing_error_)
-      LOG_ERROR_P(PARAM_AGEING_ERROR) << "(" << ageing_error_label_ << ") could not be found. Have you defined it?";
-    }
-    if (ageing_error_label_ == "") {
-      LOG_WARNING() << "You are suppling a an age based observation with no ageing_misclassification";
+      ageing_error_ = model_->managers().ageing_error()->GetAgeingError(ageing_error_label_);
+      if (!ageing_error_)
+        LOG_ERROR_P(PARAM_AGEING_ERROR) << "Ageing error label (" << ageing_error_label_ << ") was not found.";
+    } else {
+      LOG_ERROR() << "An age-based observation with no ageing error type was provided";
     }
 
   age_results_.resize(age_spread_ * category_labels_.size(), 0.0);
@@ -235,12 +243,17 @@ void ProcessRemovalsByAge::DoBuild() {
   for (string time_label : time_step_label_) {
     auto time_step = model_->managers().time_step()->GetTimeStep(time_label);
     if (!time_step) {
-      LOG_FATAL_P(PARAM_TIME_STEP) << time_label << " could not be found. Have you defined it?";
+      LOG_FATAL_P(PARAM_TIME_STEP) << "Time step label " << time_label << " was not found.";
     } else {
       auto process = time_step->SubscribeToProcess(this, years_, process_label_);
       mortality_instantaneous_ = dynamic_cast<MortalityInstantaneous*>(process);
     }
   }
+
+  if (mortality_instantaneous_ == nullptr)
+    LOG_FATAL() << "Observation " << label_ << " can be used with Process type " << PARAM_MORTALITY_INSTANTANEOUS
+    << " only. Process " << process_label_ << " was not found or has retained catch characteristics specified.";
+
 
   // Need to split the categories if any are combined for checking
   vector<string> temp_split_category_labels, split_category_labels;
@@ -253,15 +266,17 @@ void ProcessRemovalsByAge::DoBuild() {
   }
   for (auto category : split_category_labels)
     LOG_FINEST() << category;
-  if (!mortality_instantaneous_)
-    LOG_ERROR_P(PARAM_PROCESS) << "This observation can only be used for Process of type = " << PARAM_MORTALITY_INSTANTANEOUS << " could not find process " << process_label_ << " have you defined it?";
+
   // Do some checks so that the observation and process are compatible
   if (!mortality_instantaneous_->check_methods_for_removal_obs(method_))
-    LOG_ERROR_P(PARAM_METHOD_OF_REMOVAL) << "could not find all these methods in the instantaneous_mortality process labeled " << process_label_ << " please check that the methods are compatible with this process";
+    LOG_ERROR_P(PARAM_METHOD_OF_REMOVAL) << "could not find all these methods in the instantaneous_mortality process labeled " << process_label_
+      << ". Check that the methods are compatible with this process";
   if (!mortality_instantaneous_->check_categories_in_methods_for_removal_obs(method_, split_category_labels))
-    LOG_ERROR_P(PARAM_CATEGORIES) << "could not find all these categories in the instantaneous_mortality process labeled " << process_label_ << " please check that the categories are compatible with this process";
+    LOG_ERROR_P(PARAM_CATEGORIES) << "could not find all these categories in the instantaneous_mortality process labeled " << process_label_
+      << ". Check that the categories are compatible with this process";
   if (!mortality_instantaneous_->check_years_in_methods_for_removal_obs(years_, method_))
-    LOG_ERROR_P(PARAM_YEARS) << "could not find catches with catch in all years in the instantaneous_mortality process labeled " << process_label_ << " please check that the years are compatible with this process";
+    LOG_ERROR_P(PARAM_YEARS) << "could not find catches with catch in all years in the instantaneous_mortality process labeled " << process_label_
+      << ". Check that the years are compatible with this process";
 
   // If this observation is made up of multiple methods lets find out the last one, because that is when we execute the process
   vector<unsigned> time_step_index;
@@ -281,105 +296,111 @@ void ProcessRemovalsByAge::DoBuild() {
     time_step_to_execute_ = time_step_index[0];
   }
 
-  LOG_FINEST() << "Executing observation in time step = " << time_step_to_execute_;
-
+  expected_values_.resize(age_spread_, 0.0);
+  accumulated_expected_values_.resize(age_spread_, 0.0);
 }
 
 /**
- * This method is called at the start of the targetted
+ * This method is called at the start of the targeted
  * time step for this observation.
  *
- * At this point we need to build our cache for the partition
+ * Build the cache for the partition
  * structure to use with any interpolation
  */
 void ProcessRemovalsByAge::PreExecute() {
 }
 
 /**
- *
+ * Execute
  */
 void ProcessRemovalsByAge::Execute() {
-  LOG_TRACE();
-  LOG_FINEST() << "Entering observation " << label_;
-
+  LOG_MEDIUM() << "Entering observation " << label_;
+  unsigned year = model_->current_year();
+  LOG_MEDIUM() << "current year " << year;
   // Check if we are in the final time_step so we have all the relevent information from the Mortaltiy process
   unsigned current_time_step = model_->managers().time_step()->current_time_step();
-	if (time_step_to_execute_ == current_time_step) {
+  if (time_step_to_execute_ == current_time_step) {
 
-		unsigned year = model_->current_year();
-		map<unsigned,map<string, map<string, vector<Double>>>> &Removals_at_age = mortality_instantaneous_->catch_at();
+    map<unsigned,map<string, map<string, vector<Double>>>> &Removals_at_age = mortality_instantaneous_->catch_at();
+    auto partition_iter = partition_->Begin(); // vector<vector<partition::Category> >
+    for (unsigned category_offset = 0; category_offset < category_labels_.size(); ++category_offset, ++partition_iter) {
+          fill(accumulated_expected_values_.begin(), accumulated_expected_values_.end(),0.0);
+          fill(expected_values_.begin(), expected_values_.end(),0.0);
+      LOG_FINEST() << "Category = " << category_labels_[category_offset];
+      auto category_iter = partition_iter->begin();
+      for (; category_iter != partition_iter->end(); ++category_iter) {
+        // Go through all the fisheries and accumulate the expectation whilst also applying ageing error
+        unsigned method_offset = 0;
+        for (string fishery : method_) {
+          // This should get caught in the DoBuild now.
+          if (Removals_at_age.find(year) == Removals_at_age.end() ||
+              Removals_at_age[year].find(fishery) == Removals_at_age[year].end() ||
+              Removals_at_age[year][fishery].find((*category_iter)->name_) == Removals_at_age[year][fishery].end() ||
+              Removals_at_age[year][fishery][(*category_iter)->name_].size() == 0) {
+            LOG_FATAL() << "There is no catch at age data in year " << year << " for method " << fishery << " applied to category = "
+              << (*category_iter)->name_ << ". Check that the mortality_instantaneous process '" << process_label_<< "' is comparable with the observation " << label_;
+          }
 
-		auto partition_iter = partition_->Begin(); // vector<vector<partition::Category> >
-		for (unsigned category_offset = 0; category_offset < category_labels_.size(); ++category_offset, ++partition_iter) {
-			vector<Double> expected_values(age_spread_, 0.0);
-			vector<Double> accumulated_expected_values(age_spread_, 0.0);
-			LOG_FINEST() << "Category = " << category_labels_[category_offset];
-			auto category_iter = partition_iter->begin();
-			for (; category_iter != partition_iter->end(); ++category_iter) {
-				// Go through all the fisheries and accumulate the expectation whilst also applying ageing error
-				unsigned method_offset = 0;
-				for (string fishery : method_) {
-				  // This should get caught in the DoBuild now.
-					if (Removals_at_age[year][fishery][(*category_iter)->name_].size() == 0) {
-						LOG_FATAL() << "There is no catch at age data in year " << year << " for method " << fishery << " applied to category = " << (*category_iter)->name_ << " please check that your mortality_instantaneous process '" << process_label_<< "' is comparable with the observation " << label_;
-					}
-					/*
-					 *  Apply Ageing error on Removals at age vector
-					 */
-					if (ageing_error_label_ != "") {
-						vector < vector < Double >> &mis_matrix = ageing_error_->mis_matrix();
-						vector<Double> temp(Removals_at_age[year][fishery][(*category_iter)->name_].size(), 0.0);
-						LOG_FINEST() << "category = " << (*category_iter)->name_;
-						LOG_FINEST() << "size = " << Removals_at_age[year][fishery][(*category_iter)->name_].size();
+          /*
+           *  Apply Ageing error on Removals at age vector
+           */
+          if (ageing_error_label_ != "") {
+            vector < vector < Double >> &mis_matrix = ageing_error_->mis_matrix();
+            vector<Double> temp(Removals_at_age[year][fishery][(*category_iter)->name_].size(), 0.0);
+            LOG_FINEST() << "category = " << (*category_iter)->name_;
+            LOG_FINEST() << "size = " << Removals_at_age[year][fishery][(*category_iter)->name_].size();
 
-						for (unsigned i = 0; i < mis_matrix.size(); ++i) {
-							for (unsigned j = 0; j < mis_matrix[i].size(); ++j) {
-								temp[j] += Removals_at_age[year][fishery][(*category_iter)->name_][i] * mis_matrix[i][j];
-							}
-						}
-						Removals_at_age[year][fishery][(*category_iter)->name_] = temp;
-					}
-					LOG_TRACE();
-					/*
-					 *  Now collapse the number_age into the expected_values for the observation
-					 */
-					for (unsigned k = 0; k < Removals_at_age[year][fishery][(*category_iter)->name_].size(); ++k) {
-						LOG_FINE() << "----------";
-						LOG_FINE() << "Fishery: " << fishery;
-						LOG_FINE() << "Numbers At Age After Ageing error: " << (*category_iter)->min_age_ + k << "for category " << (*category_iter)->name_ << " " << Removals_at_age[year][fishery][(*category_iter)->name_][k];
+            for (unsigned i = 0; i < mis_matrix.size(); ++i) {
+              for (unsigned j = 0; j < mis_matrix[i].size(); ++j) {
+                temp[j] += Removals_at_age[year][fishery][(*category_iter)->name_][i] * mis_matrix[i][j];
+              }
+            }
+            Removals_at_age[year][fishery][(*category_iter)->name_] = temp;
+          }
+          LOG_TRACE();
 
-						unsigned age_offset = min_age_ - model_->min_age();
-						if (k >= age_offset && (k - age_offset + min_age_) <= max_age_)
-						expected_values[k - age_offset] = Removals_at_age[year][fishery][(*category_iter)->name_][k];
-						// Deal with the plus group
-						if (((k - age_offset + min_age_) > max_age_) && plus_group_)
-						expected_values[age_spread_ - 1] += Removals_at_age[year][fishery][(*category_iter)->name_][k];
-					}
+          /*
+           *  Now collapse the number_age into the expected_values for the observation
+           */
+          for (unsigned k = 0; k < Removals_at_age[year][fishery][(*category_iter)->name_].size(); ++k) {
+            LOG_FINE() << "----------";
+            LOG_FINE() << "Fishery: " << fishery;
+            LOG_FINE() << "Numbers At Age After Ageing error: " << (*category_iter)->min_age_ + k << " for category "
+                          << (*category_iter)->name_ << " " << Removals_at_age[year][fishery][(*category_iter)->name_][k];
 
-					if (expected_values.size() != proportions_[model_->current_year()][category_labels_[category_offset]].size())
-					LOG_CODE_ERROR()<< "expected_values.size(" << expected_values.size() << ") != proportions_[category_offset].size("
-					<< proportions_[model_->current_year()][category_labels_[category_offset]].size() << ")";
+            unsigned age_offset = min_age_ - model_->min_age();
+            if (k >= age_offset && (k - age_offset + min_age_) <= max_age_)
+              expected_values_[k - age_offset] = Removals_at_age[year][fishery][(*category_iter)->name_][k];
+            // Deal with the plus group
+            if (((k - age_offset + min_age_) > max_age_) && plus_group_)
+              expected_values_[age_spread_ - 1] += Removals_at_age[year][fishery][(*category_iter)->name_][k];
+          }
 
-					// Accumulate the expectations if they come form multiple fisheries
-					for (unsigned i = 0; i < expected_values.size(); ++i)
-					accumulated_expected_values[i] += expected_values[i];
+          if (expected_values_.size() != proportions_[model_->current_year()][category_labels_[category_offset]].size())
+          LOG_CODE_ERROR()<< "expected_values_.size(" << expected_values_.size() << ") != proportions_[category_offset].size("
+            << proportions_[model_->current_year()][category_labels_[category_offset]].size() << ")";
 
-					method_offset++;
-				}
-			}
+          // Accumulate the expectations if they come form multiple fisheries
+          for (unsigned i = 0; i < expected_values_.size(); ++i)
+          accumulated_expected_values_[i] += expected_values_[i];
 
-			/**
-			 * save our comparisons so we can use them to generate the score from the likelihoods later
-			 */
-			for (unsigned i = 0; i < expected_values.size(); ++i) {
-				LOG_FINEST() << "-----";
-				LOG_FINEST() << "Numbers at age for category: " << category_labels_[category_offset] << " for age " << min_age_ + i << " = " << accumulated_expected_values[i];
-				SaveComparison(category_labels_[category_offset], min_age_ + i, 0.0, accumulated_expected_values[i],
-				proportions_[model_->current_year()][category_labels_[category_offset]][i], process_errors_by_year_[model_->current_year()],
-				error_values_[model_->current_year()][category_labels_[category_offset]][i],0.0, delta_, 0.0);
-			}
-		}
-	}
+          method_offset++;
+        }
+      }
+
+      /**
+       * save our comparisons so we can use them to generate the score from the likelihoods later
+       */
+      for (unsigned i = 0; i < accumulated_expected_values_.size(); ++i) {
+        LOG_FINEST() << "-----";
+        LOG_FINEST() << "Numbers at age for category: " << category_labels_[category_offset] << " for age " << min_age_ + i << " = " << accumulated_expected_values_[i];
+        SaveComparison(category_labels_[category_offset], min_age_ + i, 0.0, accumulated_expected_values_[i],
+                       proportions_[model_->current_year()][category_labels_[category_offset]][i],
+                       process_errors_by_year_[model_->current_year()],
+                       error_values_[model_->current_year()][category_labels_[category_offset]][i],0.0, delta_, 0.0);
+      }
+    }
+  }
 }
 
 /**
@@ -391,7 +412,8 @@ void ProcessRemovalsByAge::CalculateScore() {
    * Simulate or generate results
    * During simulation mode we'll simulate results for this observation
    */
-	LOG_FINEST() << "Calculating score for observation = " << label_;
+  LOG_FINEST() << "Calculating neglogLikelihood for observation = " << label_;
+
   if (model_->run_mode() == RunMode::kSimulation) {
 
     for (auto& iter : comparisons_) {
@@ -413,8 +435,6 @@ void ProcessRemovalsByAge::CalculateScore() {
     /**
      * Convert the expected_values in to a proportion
      */
-
-
     for (unsigned year : years_) {
       Double running_total = 0.0;
       for (obs::Comparison comparison : comparisons_[year]) {
@@ -429,18 +449,18 @@ void ProcessRemovalsByAge::CalculateScore() {
     }
 
     likelihood_->GetScores(comparisons_);
-
     for (unsigned year : years_) {
       scores_[year] = likelihood_->GetInitialScore(comparisons_, year);
-      LOG_FINEST() << "-- Observation score calculation";
-      LOG_FINEST() << "[" << year << "] Initial Score:" << scores_[year];
+      LOG_FINEST() << "-- Observation neglogLikelihood calculation";
+      LOG_FINEST() << "[" << year << "] Initial neglogLikelihood:" << scores_[year];
 
       for (obs::Comparison comparison : comparisons_[year]) {
-        LOG_FINEST() << "[" << year << "]+ likelihood score: "
-            << comparison.score_;
+        LOG_FINEST() << "[" << year << "] + neglogLikelihood: " << comparison.score_;
         scores_[year] += comparison.score_;
       }
     }
+
+    LOG_FINEST() << "Finished calculating neglogLikelihood for = " << label_;
   }
 }
 

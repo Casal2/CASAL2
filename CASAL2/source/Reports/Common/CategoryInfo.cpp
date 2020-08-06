@@ -28,10 +28,9 @@ CategoryInfo::CategoryInfo(Model* model) : Report(model) {
 }
 
 /**
- *
+ * Execute the report
  */
 void CategoryInfo::DoExecute() {
-
 
   auto categories = model_->categories();
   vector<string> names = categories->category_names();
@@ -49,7 +48,6 @@ void CategoryInfo::DoExecute() {
     cache_ << "\n";
     cache_ << REPORT_R_LIST_END << "\n";
   }
-
 
   ready_for_writing_ = true;
 }

@@ -36,7 +36,7 @@ public:
 class MockSchnute : public Schnute {
 public:
   MockSchnute(Model& model, Double y1, Double y2, Double tau1, Double tau2, Double a, Double b, bool by_length,
-      Double cv_first, Double cv_last, vector<Double> time_step_proportions) : Schnute(&model) {
+      Double cv_first, Double cv_last, vector<double> time_step_proportions) : Schnute(&model) {
     y1_ = y1;
     y2_ = y2;
     tau1_ = tau1;

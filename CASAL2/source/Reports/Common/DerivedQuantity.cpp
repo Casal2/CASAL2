@@ -12,18 +12,16 @@
 namespace niwa {
 namespace reports {
 
-
 /**
- *
+ * Default constructor
  */
 DerivedQuantity::DerivedQuantity(Model* model) : Report(model) {
-  run_mode_    = (RunMode::Type)(RunMode::kBasic | RunMode::kProjection | RunMode::kSimulation| RunMode::kEstimation | RunMode::kProfiling);
+  run_mode_    = (RunMode::Type)(RunMode::kBasic | RunMode::kProjection | RunMode::kSimulation | RunMode::kEstimation | RunMode::kProfiling);
   model_state_ = (State::Type)(State::kIterationComplete);
 }
 
-
 /**
- *
+ * Execute the report
  */
 void DerivedQuantity::DoExecute() {
   LOG_TRACE();
@@ -35,32 +33,31 @@ void DerivedQuantity::DoExecute() {
     string label =  dq->label();
     cache_ << label << " " << REPORT_R_LIST <<" \n";
     cache_ << "type: " << dq->type() << " \n";
-    vector<vector<Double>> init_values = dq->initialisation_values();
+    const vector<vector<Double>> init_values = dq->initialisation_values();
     for (unsigned i = 0; i < init_values.size(); ++i) {
       cache_ << "initialisation_phase["<< i + 1 << "]: ";
-      cache_ << init_values[i].back() << " ";
+      Double value = init_values[i].back();
+      cache_ << AS_VALUE(value) << " ";
       cache_ << "\n";
     }
-
 
     const map<unsigned, Double> values = dq->values();
     cache_ << "values " << REPORT_R_VECTOR <<"\n";
     for (auto iter = values.begin(); iter != values.end(); ++iter) {
-        Double weight = iter->second;
-        cache_ << iter->first << " " << AS_DOUBLE(weight) << "\n";
+      Double weight = iter->second;
+      cache_ << iter->first << " " << AS_VALUE(weight) << "\n";
     }
     //cache_ <<"\n";
     cache_ << REPORT_R_LIST_END <<"\n";
-
   }
+
   ready_for_writing_ = true;
 }
 
 
 /**
- * Execute Tabular report
+ * Execute the tabular report
  */
-
 void DerivedQuantity::DoExecuteTabular() {
   derivedquantities::Manager& manager = *model_->managers().derived_quantity();
   auto derived_quantities = manager.objects();
@@ -86,18 +83,19 @@ void DerivedQuantity::DoExecuteTabular() {
     const map<unsigned, Double> values = dq->values();
     const vector<vector<Double>> init_values = dq->initialisation_values();
     for (unsigned i = 0; i < init_values.size(); ++i) {
-      cache_ << init_values[i].back() << " ";
+      Double value = init_values[i].back();
+      cache_ << AS_VALUE(value) << " ";
     }
     for (auto iter = values.begin(); iter != values.end(); ++iter) {
-        Double weight = iter->second;
-        cache_ << AS_DOUBLE(weight) << " ";
+      Double weight = iter->second;
+      cache_ << AS_VALUE(weight) << " ";
     }
   }
   cache_ << "\n";
 }
 
 /**
- *
+ * Finalise the tabular report
  */
 void DerivedQuantity::DoFinaliseTabular() {
   ready_for_writing_ = true;

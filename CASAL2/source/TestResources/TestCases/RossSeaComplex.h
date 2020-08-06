@@ -26,8 +26,8 @@ namespace testcases {
  */
 const std::string test_cases_models_casal_ross_sea_complex_with_partition_asserts =
 R"(
-@model  
-min_age    1 
+@model
+min_age    1
 max_age   50
 age_plus T
 start_year   1995
@@ -35,7 +35,7 @@ final_year   2015
 projection_final_year 2051
 base_weight_units tonnes
 initialisation_phases phase1
-time_steps Summer Winter Winter_age 
+time_steps Summer Winter Winter_age
 length_bins 30 40 50 60 70 80 90 100 110 120 130 140 150 160 170 180 190 200 210 220 230
 length_plus False
 
@@ -67,7 +67,7 @@ q 0.00609399
 @process Recruitment
 type recruitment_beverton_holt
 categories tagyear=untagged
-proportions 0.5 0.5 
+proportions 0.5 0.5
 b0 80000
 standardise_ycs_years 2003:2009
 ycs_values 1*21
@@ -87,9 +87,9 @@ selectivities MaturityMale*15 MaturityFemale*15
 @process Mortality
 type mortality_instantaneous
 m 0.13*30
-selectivities One*30
+relative_m_by_age One*30
 categories *
-time_step_ratio 0.5 0.5 
+time_step_ratio 0.5 0.5
 table catches
 year FishingShelf FishingSlope FishingNorth
 1998  8.030 28.970    3.970
@@ -108,101 +108,101 @@ year FishingShelf FishingSlope FishingNorth
 2011  483.230 2053.800  310.360
 2012  276.810 2375.220  546.840
 2013  268.450 2506.030  411.340
-2014  265.300 2314.770  340.580 
+2014  265.300 2314.770  340.580
 2015  232.620 2236.180  364.140
 end_table
 table method
-method  category  selectivity u_max time_step penalty               
-FishingShelf  male.untagged ShelfselMale  0.99  Summer  event_mortality_penalty               
-FishingShelf  male.2001 ShelfselMale  0.99  Summer  event_mortality_penalty               
-FishingShelf  male.2002 ShelfselMale  0.99  Summer  event_mortality_penalty               
-FishingShelf  male.2003 ShelfselMale  0.99  Summer  event_mortality_penalty               
-FishingShelf  male.2004 ShelfselMale  0.99  Summer  event_mortality_penalty               
-FishingShelf  male.2005 ShelfselMale  0.99  Summer  event_mortality_penalty               
-FishingShelf  male.2006 ShelfselMale  0.99  Summer  event_mortality_penalty               
-FishingShelf  male.2007 ShelfselMale  0.99  Summer  event_mortality_penalty               
-FishingShelf  male.2008 ShelfselMale  0.99  Summer  event_mortality_penalty               
-FishingShelf  male.2009 ShelfselMale  0.99  Summer  event_mortality_penalty               
-FishingShelf  male.2010 ShelfselMale  0.99  Summer  event_mortality_penalty               
-FishingShelf  male.2011 ShelfselMale  0.99  Summer  event_mortality_penalty               
-FishingShelf  male.2012 ShelfselMale  0.99  Summer  event_mortality_penalty               
-FishingShelf  male.2013 ShelfselMale  0.99  Summer  event_mortality_penalty               
-FishingShelf  male.2014 ShelfselMale  0.99  Summer  event_mortality_penalty               
-FishingShelf  female.untagged ShelfselFemale  0.99  Summer  event_mortality_penalty               
-FishingShelf  female.2001 ShelfselFemale  0.99  Summer  event_mortality_penalty               
-FishingShelf  female.2002 ShelfselFemale  0.99  Summer  event_mortality_penalty               
-FishingShelf  female.2003 ShelfselFemale  0.99  Summer  event_mortality_penalty               
-FishingShelf  female.2004 ShelfselFemale  0.99  Summer  event_mortality_penalty               
-FishingShelf  female.2005 ShelfselFemale  0.99  Summer  event_mortality_penalty               
-FishingShelf  female.2006 ShelfselFemale  0.99  Summer  event_mortality_penalty               
-FishingShelf  female.2007 ShelfselFemale  0.99  Summer  event_mortality_penalty               
-FishingShelf  female.2008 ShelfselFemale  0.99  Summer  event_mortality_penalty               
-FishingShelf  female.2009 ShelfselFemale  0.99  Summer  event_mortality_penalty               
-FishingShelf  female.2010 ShelfselFemale  0.99  Summer  event_mortality_penalty               
-FishingShelf  female.2011 ShelfselFemale  0.99  Summer  event_mortality_penalty               
-FishingShelf  female.2012 ShelfselFemale  0.99  Summer  event_mortality_penalty               
-FishingShelf  female.2013 ShelfselFemale  0.99  Summer  event_mortality_penalty               
-FishingShelf  female.2014 ShelfselFemale  0.99  Summer  event_mortality_penalty               
-FishingSlope  male.untagged SlopeselMale  0.99  Summer  event_mortality_penalty               
-FishingSlope  male.2001 SlopeselMale  0.99  Summer  event_mortality_penalty               
-FishingSlope  male.2002 SlopeselMale  0.99  Summer  event_mortality_penalty               
-FishingSlope  male.2003 SlopeselMale  0.99  Summer  event_mortality_penalty               
-FishingSlope  male.2004 SlopeselMale  0.99  Summer  event_mortality_penalty               
-FishingSlope  male.2005 SlopeselMale  0.99  Summer  event_mortality_penalty               
-FishingSlope  male.2006 SlopeselMale  0.99  Summer  event_mortality_penalty               
-FishingSlope  male.2007 SlopeselMale  0.99  Summer  event_mortality_penalty               
-FishingSlope  male.2008 SlopeselMale  0.99  Summer  event_mortality_penalty               
-FishingSlope  male.2009 SlopeselMale  0.99  Summer  event_mortality_penalty               
-FishingSlope  male.2010 SlopeselMale  0.99  Summer  event_mortality_penalty               
-FishingSlope  male.2011 SlopeselMale  0.99  Summer  event_mortality_penalty               
-FishingSlope  male.2012 SlopeselMale  0.99  Summer  event_mortality_penalty               
-FishingSlope  male.2013 SlopeselMale  0.99  Summer  event_mortality_penalty               
-FishingSlope  male.2014 SlopeselMale  0.99  Summer  event_mortality_penalty               
-FishingSlope  female.untagged SlopeselFemale  0.99  Summer  event_mortality_penalty               
-FishingSlope  female.2001 SlopeselFemale  0.99  Summer  event_mortality_penalty               
-FishingSlope  female.2002 SlopeselFemale  0.99  Summer  event_mortality_penalty               
-FishingSlope  female.2003 SlopeselFemale  0.99  Summer  event_mortality_penalty               
-FishingSlope  female.2004 SlopeselFemale  0.99  Summer  event_mortality_penalty               
-FishingSlope  female.2005 SlopeselFemale  0.99  Summer  event_mortality_penalty               
-FishingSlope  female.2006 SlopeselFemale  0.99  Summer  event_mortality_penalty               
-FishingSlope  female.2007 SlopeselFemale  0.99  Summer  event_mortality_penalty               
-FishingSlope  female.2008 SlopeselFemale  0.99  Summer  event_mortality_penalty               
-FishingSlope  female.2009 SlopeselFemale  0.99  Summer  event_mortality_penalty               
-FishingSlope  female.2010 SlopeselFemale  0.99  Summer  event_mortality_penalty               
-FishingSlope  female.2011 SlopeselFemale  0.99  Summer  event_mortality_penalty               
-FishingSlope  female.2012 SlopeselFemale  0.99  Summer  event_mortality_penalty               
-FishingSlope  female.2013 SlopeselFemale  0.99  Summer  event_mortality_penalty               
-FishingSlope  female.2014 SlopeselFemale  0.99  Summer  event_mortality_penalty               
-FishingNorth  male.untagged NorthselMale  0.99  Summer  event_mortality_penalty               
-FishingNorth  male.2001 NorthselMale  0.99  Summer  event_mortality_penalty               
-FishingNorth  male.2002 NorthselMale  0.99  Summer  event_mortality_penalty               
-FishingNorth  male.2003 NorthselMale  0.99  Summer  event_mortality_penalty               
-FishingNorth  male.2004 NorthselMale  0.99  Summer  event_mortality_penalty               
-FishingNorth  male.2005 NorthselMale  0.99  Summer  event_mortality_penalty               
-FishingNorth  male.2006 NorthselMale  0.99  Summer  event_mortality_penalty               
-FishingNorth  male.2007 NorthselMale  0.99  Summer  event_mortality_penalty               
-FishingNorth  male.2008 NorthselMale  0.99  Summer  event_mortality_penalty               
-FishingNorth  male.2009 NorthselMale  0.99  Summer  event_mortality_penalty               
-FishingNorth  male.2010 NorthselMale  0.99  Summer  event_mortality_penalty               
-FishingNorth  male.2011 NorthselMale  0.99  Summer  event_mortality_penalty               
-FishingNorth  male.2012 NorthselMale  0.99  Summer  event_mortality_penalty               
-FishingNorth  male.2013 NorthselMale  0.99  Summer  event_mortality_penalty               
-FishingNorth  male.2014 NorthselMale  0.99  Summer  event_mortality_penalty               
-FishingNorth  female.untagged NorthselFemale  0.99  Summer  event_mortality_penalty               
-FishingNorth  female.2001 NorthselFemale  0.99  Summer  event_mortality_penalty               
-FishingNorth  female.2002 NorthselFemale  0.99  Summer  event_mortality_penalty               
-FishingNorth  female.2003 NorthselFemale  0.99  Summer  event_mortality_penalty               
-FishingNorth  female.2004 NorthselFemale  0.99  Summer  event_mortality_penalty               
-FishingNorth  female.2005 NorthselFemale  0.99  Summer  event_mortality_penalty               
-FishingNorth  female.2006 NorthselFemale  0.99  Summer  event_mortality_penalty               
-FishingNorth  female.2007 NorthselFemale  0.99  Summer  event_mortality_penalty               
-FishingNorth  female.2008 NorthselFemale  0.99  Summer  event_mortality_penalty               
-FishingNorth  female.2009 NorthselFemale  0.99  Summer  event_mortality_penalty               
-FishingNorth  female.2010 NorthselFemale  0.99  Summer  event_mortality_penalty               
-FishingNorth  female.2011 NorthselFemale  0.99  Summer  event_mortality_penalty               
-FishingNorth  female.2012 NorthselFemale  0.99  Summer  event_mortality_penalty               
-FishingNorth  female.2013 NorthselFemale  0.99  Summer  event_mortality_penalty               
-FishingNorth  female.2014 NorthselFemale  0.99  Summer  event_mortality_penalty               
+method  category  selectivity u_max time_step penalty
+FishingShelf  male.untagged ShelfselMale  0.99  Summer  event_mortality_penalty
+FishingShelf  male.2001 ShelfselMale  0.99  Summer  event_mortality_penalty
+FishingShelf  male.2002 ShelfselMale  0.99  Summer  event_mortality_penalty
+FishingShelf  male.2003 ShelfselMale  0.99  Summer  event_mortality_penalty
+FishingShelf  male.2004 ShelfselMale  0.99  Summer  event_mortality_penalty
+FishingShelf  male.2005 ShelfselMale  0.99  Summer  event_mortality_penalty
+FishingShelf  male.2006 ShelfselMale  0.99  Summer  event_mortality_penalty
+FishingShelf  male.2007 ShelfselMale  0.99  Summer  event_mortality_penalty
+FishingShelf  male.2008 ShelfselMale  0.99  Summer  event_mortality_penalty
+FishingShelf  male.2009 ShelfselMale  0.99  Summer  event_mortality_penalty
+FishingShelf  male.2010 ShelfselMale  0.99  Summer  event_mortality_penalty
+FishingShelf  male.2011 ShelfselMale  0.99  Summer  event_mortality_penalty
+FishingShelf  male.2012 ShelfselMale  0.99  Summer  event_mortality_penalty
+FishingShelf  male.2013 ShelfselMale  0.99  Summer  event_mortality_penalty
+FishingShelf  male.2014 ShelfselMale  0.99  Summer  event_mortality_penalty
+FishingShelf  female.untagged ShelfselFemale  0.99  Summer  event_mortality_penalty
+FishingShelf  female.2001 ShelfselFemale  0.99  Summer  event_mortality_penalty
+FishingShelf  female.2002 ShelfselFemale  0.99  Summer  event_mortality_penalty
+FishingShelf  female.2003 ShelfselFemale  0.99  Summer  event_mortality_penalty
+FishingShelf  female.2004 ShelfselFemale  0.99  Summer  event_mortality_penalty
+FishingShelf  female.2005 ShelfselFemale  0.99  Summer  event_mortality_penalty
+FishingShelf  female.2006 ShelfselFemale  0.99  Summer  event_mortality_penalty
+FishingShelf  female.2007 ShelfselFemale  0.99  Summer  event_mortality_penalty
+FishingShelf  female.2008 ShelfselFemale  0.99  Summer  event_mortality_penalty
+FishingShelf  female.2009 ShelfselFemale  0.99  Summer  event_mortality_penalty
+FishingShelf  female.2010 ShelfselFemale  0.99  Summer  event_mortality_penalty
+FishingShelf  female.2011 ShelfselFemale  0.99  Summer  event_mortality_penalty
+FishingShelf  female.2012 ShelfselFemale  0.99  Summer  event_mortality_penalty
+FishingShelf  female.2013 ShelfselFemale  0.99  Summer  event_mortality_penalty
+FishingShelf  female.2014 ShelfselFemale  0.99  Summer  event_mortality_penalty
+FishingSlope  male.untagged SlopeselMale  0.99  Summer  event_mortality_penalty
+FishingSlope  male.2001 SlopeselMale  0.99  Summer  event_mortality_penalty
+FishingSlope  male.2002 SlopeselMale  0.99  Summer  event_mortality_penalty
+FishingSlope  male.2003 SlopeselMale  0.99  Summer  event_mortality_penalty
+FishingSlope  male.2004 SlopeselMale  0.99  Summer  event_mortality_penalty
+FishingSlope  male.2005 SlopeselMale  0.99  Summer  event_mortality_penalty
+FishingSlope  male.2006 SlopeselMale  0.99  Summer  event_mortality_penalty
+FishingSlope  male.2007 SlopeselMale  0.99  Summer  event_mortality_penalty
+FishingSlope  male.2008 SlopeselMale  0.99  Summer  event_mortality_penalty
+FishingSlope  male.2009 SlopeselMale  0.99  Summer  event_mortality_penalty
+FishingSlope  male.2010 SlopeselMale  0.99  Summer  event_mortality_penalty
+FishingSlope  male.2011 SlopeselMale  0.99  Summer  event_mortality_penalty
+FishingSlope  male.2012 SlopeselMale  0.99  Summer  event_mortality_penalty
+FishingSlope  male.2013 SlopeselMale  0.99  Summer  event_mortality_penalty
+FishingSlope  male.2014 SlopeselMale  0.99  Summer  event_mortality_penalty
+FishingSlope  female.untagged SlopeselFemale  0.99  Summer  event_mortality_penalty
+FishingSlope  female.2001 SlopeselFemale  0.99  Summer  event_mortality_penalty
+FishingSlope  female.2002 SlopeselFemale  0.99  Summer  event_mortality_penalty
+FishingSlope  female.2003 SlopeselFemale  0.99  Summer  event_mortality_penalty
+FishingSlope  female.2004 SlopeselFemale  0.99  Summer  event_mortality_penalty
+FishingSlope  female.2005 SlopeselFemale  0.99  Summer  event_mortality_penalty
+FishingSlope  female.2006 SlopeselFemale  0.99  Summer  event_mortality_penalty
+FishingSlope  female.2007 SlopeselFemale  0.99  Summer  event_mortality_penalty
+FishingSlope  female.2008 SlopeselFemale  0.99  Summer  event_mortality_penalty
+FishingSlope  female.2009 SlopeselFemale  0.99  Summer  event_mortality_penalty
+FishingSlope  female.2010 SlopeselFemale  0.99  Summer  event_mortality_penalty
+FishingSlope  female.2011 SlopeselFemale  0.99  Summer  event_mortality_penalty
+FishingSlope  female.2012 SlopeselFemale  0.99  Summer  event_mortality_penalty
+FishingSlope  female.2013 SlopeselFemale  0.99  Summer  event_mortality_penalty
+FishingSlope  female.2014 SlopeselFemale  0.99  Summer  event_mortality_penalty
+FishingNorth  male.untagged NorthselMale  0.99  Summer  event_mortality_penalty
+FishingNorth  male.2001 NorthselMale  0.99  Summer  event_mortality_penalty
+FishingNorth  male.2002 NorthselMale  0.99  Summer  event_mortality_penalty
+FishingNorth  male.2003 NorthselMale  0.99  Summer  event_mortality_penalty
+FishingNorth  male.2004 NorthselMale  0.99  Summer  event_mortality_penalty
+FishingNorth  male.2005 NorthselMale  0.99  Summer  event_mortality_penalty
+FishingNorth  male.2006 NorthselMale  0.99  Summer  event_mortality_penalty
+FishingNorth  male.2007 NorthselMale  0.99  Summer  event_mortality_penalty
+FishingNorth  male.2008 NorthselMale  0.99  Summer  event_mortality_penalty
+FishingNorth  male.2009 NorthselMale  0.99  Summer  event_mortality_penalty
+FishingNorth  male.2010 NorthselMale  0.99  Summer  event_mortality_penalty
+FishingNorth  male.2011 NorthselMale  0.99  Summer  event_mortality_penalty
+FishingNorth  male.2012 NorthselMale  0.99  Summer  event_mortality_penalty
+FishingNorth  male.2013 NorthselMale  0.99  Summer  event_mortality_penalty
+FishingNorth  male.2014 NorthselMale  0.99  Summer  event_mortality_penalty
+FishingNorth  female.untagged NorthselFemale  0.99  Summer  event_mortality_penalty
+FishingNorth  female.2001 NorthselFemale  0.99  Summer  event_mortality_penalty
+FishingNorth  female.2002 NorthselFemale  0.99  Summer  event_mortality_penalty
+FishingNorth  female.2003 NorthselFemale  0.99  Summer  event_mortality_penalty
+FishingNorth  female.2004 NorthselFemale  0.99  Summer  event_mortality_penalty
+FishingNorth  female.2005 NorthselFemale  0.99  Summer  event_mortality_penalty
+FishingNorth  female.2006 NorthselFemale  0.99  Summer  event_mortality_penalty
+FishingNorth  female.2007 NorthselFemale  0.99  Summer  event_mortality_penalty
+FishingNorth  female.2008 NorthselFemale  0.99  Summer  event_mortality_penalty
+FishingNorth  female.2009 NorthselFemale  0.99  Summer  event_mortality_penalty
+FishingNorth  female.2010 NorthselFemale  0.99  Summer  event_mortality_penalty
+FishingNorth  female.2011 NorthselFemale  0.99  Summer  event_mortality_penalty
+FishingNorth  female.2012 NorthselFemale  0.99  Summer  event_mortality_penalty
+FishingNorth  female.2013 NorthselFemale  0.99  Summer  event_mortality_penalty
+FishingNorth  female.2014 NorthselFemale  0.99  Summer  event_mortality_penalty
 end_table
 
 @selectivity One
@@ -210,12 +210,12 @@ type constant
 c 1
 
 @selectivity MaturityMale
-type logistic 
+type logistic
 a50 11.99
 ato95 5.25
 
 @selectivity MaturityFemale
-type logistic 
+type logistic
 a50 16.92
 ato95 7.68
 
@@ -993,31 +993,31 @@ multiplier 10
 type partition
 values 0.000000 684358.903620 596594.446122 516734.225436 443970.948724 378236.076459 319684.097425 268882.629846 225998.018413 190202.597107 160492.508383 135783.855746 115361.413269 98443.235552 84429.355417 72890.710324 63417.605493 55671.957789 49293.696787 43972.581417 39460.722579 35579.281250 32186.238784 29176.243746 26470.085984 24008.115574 21752.346062 19677.414608 17765.176740 16002.443681 14379.442096 12888.549246 11523.315671 10277.764596 9145.938684 8121.652723 7198.405281 6369.402405 5627.650910 4966.086099 4377.707307 3855.703194 3393.556131 2985.120997 2624.677942 2306.961439 2027.169369 1780.956465 1564.416307 11275.787503
 
-@assert male.2001 
+@assert male.2001
 type partition
 values 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.005639 0.168317 0.801501 1.469554 1.462595 0.949717 0.496113 0.244293 0.119682 0.059218 0.029656 0.015034 0.007719 0.004015 0.002117 0.001131 0.000612 0.000335 0.000185 0.000103 0.000058 0.000033 0.000019 0.000011 0.000006 0.000003 0.000002 0.000001 0.000001 0.000000 0.000000 0.000000 0.000000
 
-@assert male.2002 
+@assert male.2002
 type partition
 values 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000876 0.211391 1.230752 2.110936 1.899449 2.370739 2.886483 2.677425 2.066874 1.434065 0.940603 0.600957 0.380225 0.240073 0.151654 0.095844 0.060544 0.038186 0.024026 0.015069 0.009417 0.005860 0.003631 0.002238 0.001373 0.000837 0.000508 0.000306 0.000183 0.000109 0.000064 0.000037 0.000022 0.000012 0.000016
 
-@assert male.2003 
+@assert male.2003
 type partition
 values 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.032429 0.121150 0.580391 0.819695 1.169668 2.021183 3.004920 3.550608 3.703196 3.628893 3.398511 3.032949 2.578388 2.098880 1.647764 1.255755 0.933663 0.679668 0.485625 0.341168 0.235973 0.160849 0.108138 0.071749 0.047006 0.030420 0.019452 0.012293 0.007680 0.004743 0.002895 0.001748 0.001043 0.000615 0.000358 0.000471
 
-@assert male.2004 
+@assert male.2004
 type partition
 values 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.052145 0.819447 8.582156 15.455657 12.498957 9.693129 8.875898 8.215191 7.001333 5.528619 4.219800 3.199666 2.427539 1.836870 1.379157 1.024121 0.751480 0.545316 0.391881 0.279246 0.197452 0.138553 0.096438 0.066530 0.045448 0.030714 0.020517 0.013539 0.008820 0.005671 0.003597 0.002251 0.001389 0.000845 0.000507 0.000300 0.000404
 
-@assert male.2005 
+@assert male.2005
 type partition
 values 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.001911 1.467718 15.264203 25.835709 23.254845 20.387565 18.464804 15.434409 12.194120 9.473639 7.420578 5.893518 4.718219 3.770078 2.981281 2.320952 1.774723 1.332252 0.982238 0.711780 0.507355 0.355977 0.246001 0.167524 0.112468 0.074464 0.048636 0.031346 0.019939 0.012520 0.007761 0.004750 0.002870 0.001713 0.001009 0.000587 0.000337 0.000427
 
-@assert male.2006 
+@assert male.2006
 type partition
 values 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.076007 1.056192 8.420877 14.161606 12.853213 12.206070 13.365948 14.854594 15.636868 15.486280 14.745599 13.646714 12.267488 10.678660 8.994068 7.342319 5.826618 4.508404 3.410448 2.527705 1.838671 1.314334 0.924179 0.639697 0.436119 0.292980 0.194008 0.126668 0.081560 0.051800 0.032454 0.020062 0.012236 0.007364 0.004373 0.002563 0.001482 0.000846 0.001057
 
-@assert male.2007 
+@assert male.2007
 type partition
 values 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.097758 4.081564 24.792791 36.030807 34.139081 29.959940 24.765929 19.264798 15.254802 13.170772 12.407068 12.009961 11.347799 10.249310 8.828014 7.283862 5.791814 4.462819 3.347017 2.451457 1.757990 1.236736 0.854779 0.581104 0.388935 0.256475 0.166731 0.106905 0.067633 0.042231 0.026032 0.015845 0.009523 0.005653 0.003314 0.001919 0.001097 0.000620 0.000346 0.000413
 

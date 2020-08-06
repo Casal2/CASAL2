@@ -21,13 +21,13 @@ namespace catchabilities {
  *
  * Bind any parameters that are allowed to be loaded from the configuration files.
  * Set bounds on registered parameters
- * Register any parameters that can be an estimated or utilised in other run modes (e.g profiling, yields, projections etc)
+ * Register any parameters that can be an estimated or utilised in other run modes (e.g., profiling, yields, projections, etc.)
  * Set some initial values
  *
- * Note: The constructor is parsed to generate Latex for the documentation.
+ * Note: The constructor is parsed to generate LaTeX for the documentation.
  */
 Free::Free(Model* model) : Catchability(model) {
-  parameters_.Bind<Double>(PARAM_Q, &q_, "value of the catchability", "");
+  parameters_.Bind<Double>(PARAM_Q, &q_, "The value of the catchability", "")->set_lower_bound(0.0);
 
   RegisterAsAddressable(PARAM_Q, &q_);
 }

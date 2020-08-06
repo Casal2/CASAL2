@@ -12,33 +12,33 @@
 \usepackage{comment} % block comments
 \usepackage{multicol}
 \usepackage[toc,page]{appendix}
-\usepackage[usenames, dvipsnames]{color} % Highlighting text for editing
+\usepackage[usenames, dvipsnames]{xcolor} % Highlighting text for editing
 \usepackage[T1]{fontenc} % for searching for terms with underscores
 
-% hyperref for HTML links within pdf 
+% hyperref for HTML links within pdf
 %% EXAMPLE: \href{http://www.niwa.co.nz}{NIWA}
 \usepackage[bookmarks=true,bookmarksopen=false,bookmarksnumbered=true,
             pdfpagelayout=TwoPageRight,
-            pdftitle={Casal2 User Manual}, 
-            pdfauthor={S. Rasmussen, I. Doonan, A. Dunn, K. Large, C. Marsh, S. Datta} %authors
+            pdftitle={Casal2 User Manual},
+            pdfauthor={I. Doonan, A. Dunn, K. Large, C. Marsh, S. Rasmussen, S. Datta} %authors
             pdfsubject={Casal2, User manual},
             pdftex]{hyperref}
 \hypersetup{
   breaklinks=true,      % allow line breaks in URLs
   colorlinks=true,      % use colour to define links
-  linkcolor=black,      % colour of internal links
-  citecolor=black,      % colour of links to bibliography
+  linkcolor=blue,       % colour of internal links
+  citecolor=teal,       % colour of links to bibliography
   filecolor=black,      % colour of file links
   urlcolor=darkgray     % colour of external links
 }
 \pdfadjustspacing=1
 
-% Use AMS Maths 
+% Use AMS Maths
 \usepackage[fleqn]{amsmath}
 \newcommand\AddVspace{\\[0 pt]} % artificial method of adding vertical space within equations
 
 % Package for including and pretty printing of external config files and program code
-\usepackage{listings} 
+\usepackage{listings}
 \lstset{ %
 basicstyle=\ttfamily\footnotesize,
 breaklines=true,
@@ -72,7 +72,7 @@ escapeinside={\%*}{*)}          % if you want to add a comment within your code
 % Graphics (no postscript files.. just use jpeg, png, etc)
 \usepackage[dvips]{graphicx}
 % Changes fonts to Times, Helvetica, Courier
-\usepackage{pslatex} 
+\usepackage{pslatex}
 
 % Section header fonts
 \usepackage{sectsty}
@@ -101,7 +101,7 @@ escapeinside={\%*}{*)}          % if you want to add a comment within your code
 \setlength{\baselineskip}{1ex plus 0.2ex minus 0.1ex}
 \setlength{\parskip}{1.1ex} % Gap between paragraphs
 \raggedbottom % prefer space at the bottom of page
-						
+
 % Make equation numbers be section number then equation number
 \makeatletter
 \@addtoreset{equation}{section}
@@ -112,7 +112,7 @@ escapeinside={\%*}{*)}          % if you want to add a comment within your code
 \def\theequation{\thesection.\@arabic\c@equation}
 \makeatother
 
-%% stop figures from going onto a page by themselves 
+%% stop figures from going onto a page by themselves
 \renewcommand{\topfraction}{0.85}
 \renewcommand{\textfraction}{0.1}
 \renewcommand{\floatpagefraction}{0.75}
@@ -125,13 +125,13 @@ escapeinside={\%*}{*)}          % if you want to add a comment within your code
   \setlength{\itemsep}{0.1ex}}
 \renewcommand{\descripthook}{\setlength{\topsep}{0.5ex}%
   \setlength{\itemsep}{0.1ex}}
-  
+
 % Minimise hyphen use
 \hyphenpenalty=5000
 \tolerance=1000
 
 % Compact titles
-%\usepackage[small,compact]{titlesec} 
+%\usepackage[small,compact]{titlesec}
 
 % New commands to define macros and other aids to text and layout
 \newcommand{\config}{input configuration file}
@@ -191,15 +191,13 @@ escapeinside={\%*}{*)}          % if you want to add a comment within your code
 
 %New commands to automate document dates, manual titles, document reference, etc.
 \newcommand{\VER}{v\SourceControlShortVersionDoc} %% CASAL2 program version
-\newcommand{\CNAME}{\textsc{Casal2}} 
+\newcommand{\CNAME}{\textsc{Casal2}}
 \newcommand{\cname}{\texttt{casal2}} % casal2 binary name
-\newcommand{\authors}{S. Rasmussen, C. Marsh, I. Doonan, A. Dunn, K. Large}
-\newcommand{\authorsTitleFirstLine}{S. Rasmussen, C. Marsh, I. Doonan,}
-\newcommand{\authorsTitleSecondLine}{A. Dunn, K. Large}
+\newcommand{\authors}{\CNAME~Development Team}
 %hyper ref for Development Team email
-\newcommand{\emaillink}{\href{mailto:"Casal2 Development Team"<casal2@niwa.co.nz>?subject=Casal2:}{\texttt{Casal2 Development Team}}}                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    
+\newcommand{\emaillink}{\href{mailto:"Casal2 Development Team"<casal2@niwa.co.nz>?subject=Casal2:}{\texttt{Casal2 Development Team}}}
 \newcommand{\github}{\url{https://github.com/NIWAFisheriesModelling/CASAL2}}
-\newcommand{\authorlink}{\href{mailto:"Casal2 Development Team"<casal2@niwa.co.nz>?subject=Casal2:}{authors}} 
+\newcommand{\authorlink}{\href{mailto:"Casal2 Development Team"<casal2@niwa.co.nz>?subject=Casal2:}{authors}}
 %hyper ref for email
 \newcommand{\Organisation}{National Institute of Water \& Atmospheric Research Ltd.} %%NIWA
 \newcommand{\ManualRef}{\authors\ (\DocYear). \CNAME\ User Manual, \VER. \Organisation\ \emph{NIWA Technical Report 139}. \ref{TotPages} p.} % full document reference
@@ -217,12 +215,12 @@ escapeinside={\%*}{*)}          % if you want to add a comment within your code
 % Load package to count the number of pages in document
 % For getting number of pages in document (NOT the last page number printed), use \ref{TotPages}
 % Load this last to ensure its macros are not overwritten
-\usepackage{totpages} 
+\usepackage{totpages}
 
 \makeatother
 
 %Begin the document
-\begin{document} 
+\begin{document}
 \hbadness=10000 % to deal with underfull hbox warnings
 \sloppy % use sloppy paras
 
@@ -246,8 +244,7 @@ escapeinside={\%*}{*)}          % if you want to add a comment within your code
 		\Huge \CNAME\ User Manual \\
 
 		\vspace{2.0cm}
-		\huge \authorsTitleFirstLine \\ %Document authors
-		\huge \authorsTitleSecondLine \\ %Document authors
+		%\huge \authors %Document authors
 
 		~\vfill
 		\Large NIWA Technical Report 139 \\%Document Date
@@ -256,7 +253,7 @@ escapeinside={\%*}{*)}          % if you want to add a comment within your code
 
 		\vspace{1.0cm}
 		\CNAME\ User Manual (modified \DocVer) for use with \cname\texttt{-\VER}
-	
+
 	\end{center}
 \end{titlepage}
 
@@ -269,7 +266,7 @@ escapeinside={\%*}{*)}          % if you want to add a comment within your code
 ~\vfill
 
 \begin{center}
-Citation: \ManualRef    
+Citation: \ManualRef
 \end{center}
 
 % Table of contents
@@ -366,7 +363,7 @@ Citation: \ManualRef
 \include{QuickReference}
 
 % Appendix
-\include{Appendix}
+%\include{Appendix}
 
 \end{document}
 %End

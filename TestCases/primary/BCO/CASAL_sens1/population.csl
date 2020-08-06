@@ -1,0 +1,161 @@
+# PARTITION
+# BCO 5 assessment, no sex change
+
+# model for Casal2 test case  to test retained catch,  cv2 on growth, estimate Linf (males), different M on each sex
+ # one catch and retained selectivity for all CPUE; remove time varying parameters
+ # starts at age 3 so expect misfits to recLF + also to comm age freq etc
+
+
+@size_based false
+@min_age 3
+@max_age 20
+@plus_group true
+
+@n_stocks 1
+@sex_partition true
+@mature_partition false
+@n_areas 1
+@area_names BCO5  # Area1 Area2 Area3
+
+# TIME SEQUENCE
+@initial 1900
+@current 2019 #2003
+@final   2020 #2013  #projection year
+
+@annual_cycle
+#time_steps 1 # age,  recruit fishing (spawn at year end) CASAL default order
+time_steps    1
+aging_time    1
+M_props       1
+recruitment_time     1
+recruitment_areas   BCO5
+spawning_time        1
+spawning_part_mort 0.92
+spawning_all_areas true
+spawning_p 1
+n_maturations 1
+maturation_times    1
+n_migrations 0
+
+baranov false
+fishery_names   line   pot   rec
+fishery_times     1      1     1
+fishery_areas  BCO5   BCO5    BCO5
+
+# RECRUITMENT
+#@y_enter 5
+@y_enter 3  #?
+
+@standardise_YCS true  #Haist
+@recruitment
+SR BH
+steepness 0.75
+sigma_r 0.6
+YCS 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1
+
+#YCS        1    1    1    1    1    1    1    1    1    1    1    1    1    1    1    1    1    1    1    1    1    1    1    1    1    1    1    1    1    1    1    1    1    1    1
+#YCS_years 1968 1969 1970 1971 1972 1973 1974 1975 1976 1977 1978 1979 1980 1981 1982 1983 1984 1985 1986 1987 1988 1989 1990 1991 1992 1993 1994 1995 1996
+YCS_years  1897 1898 1899 1900 1901 1902 1903 1904 1905 1906 1907 1908 1909 1910 1911 1912 1913 1914 1915 1916 1917 1918 1919 1920 1921 1922 1923 1924 1925 1926 1927 1928 1929 1930 1931 1932 1933 1934 1935 1936 1937 1938 1939 1940 1941 1942 1943 1944 1945 1946 1947 1948 1949 1950 1951 1952 1953 1954 1955 1956 1957 1958 1959 1960 1961 1962 1963 1964 1965 1966 1967 1968 1969 1970 1971 1972 1973 1974 1975 1976 1977 1978 1979 1980 1981 1982 1983 1984 1985 1986 1987 1988 1989 1990 1991 1992 1993 1994 1995 1996 1997 1998 1999 2000 2001 2002 2003 2004 2005 2006 2007 2008 2009 2010 2011 2012 2013 2014 2015 2016
+
+first_free 1980 # with standardisation occurring over the years was 2080 to 2016?
+last_free 2014 # 1979-1998
+
+# RECRUITMENT VARIABILITY
+# needed for MCY/CAY and projections
+@randomisation_method lognormal
+#@first_random_year 1990
+#@last_random_year 2014
+
+
+# MATURITY
+
+@maturity_props
+male   logistic 4.1 2.47 # estimated
+female logistic 4.1 2.47
+
+# NATURAL MORTALITY
+@natural_mortality
+male 0.14
+female 0.20
+
+# FISHING
+@fishery line
+years 1900 1901 1902 1903 1904 1905 1906 1907 1908 1909 1910 1911 1912 1913 1914 1915 1916 1917 1918 1919 1920 1921 1922 1923 1924 1925 1926 1927 1928 1929 1930 1931 1932 1933 1934 1935 1936 1937 1938 1939 1940 1941 1942 1943 1944 1945 1946 1947 1948 1949 1950 1951 1952 1953 1954 1955 1956 1957 1958 1959 1960 1961 1962 1963 1964 1965 1966 1967 1968 1969 1970 1971 1972 1973 1974 1975 1976 1977 1978 1979 1980 1981 1982 1983 1984 1985 1986 1987 1988 1989 1990 1991 1992 1993 1994 1995 1996 1997 1998 1999 2000 2001 2002 2003 2004 2005 2006 2007 2008 2009 2010 2011 2012 2013 2014 2015 2016 2017 2018 2019
+catches 0 13.2 26.4 39.6 52.7 65.8 78.8 91.9 104.8 117.8 130.7 143.6 156.5 169.3 182.1 194.8 207.6 220.3 232.9 245.5 258.1 270.7 283.2 295.7 308.2 320.6 333 345.3 357.7 370 382.2 394.4 405.3 444.7 586.5 153.5 62.5 90.7 51 73.5 22.6 67.7 73.2 112.5 309.1 350.3 394.4 539.3 477.4 536 571 488.8 513.9 245.9 249.7 266.1 409 354.2 331.6 299 444.5 345.2 397 375.3 276.1 184.9 219.4 309.7 286.1 208.7 262.6 231.5 120.3 339.2 289.6 137.3 156.2 126.4 125.8 93.8 205.4 211.2 125 183 167.6 135.1 61.2 2.6 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
+U_max 0.7
+selectivity  lineFsel
+retention_selectivity lineFretained
+
+#future_years   2008 2009 2010 2011 2012 2013 2014 2015 2016 2017
+#future_catches  225  225  225  225  225  225  225  225  225  225
+
+@fishery pot
+years 1900 1901 1902 1903 1904 1905 1906 1907 1908 1909 1910 1911 1912 1913 1914 1915 1916 1917 1918 1919 1920 1921 1922 1923 1924 1925 1926 1927 1928 1929 1930 1931 1932 1933 1934 1935 1936 1937 1938 1939 1940 1941 1942 1943 1944 1945 1946 1947 1948 1949 1950 1951 1952 1953 1954 1955 1956 1957 1958 1959 1960 1961 1962 1963 1964 1965 1966 1967 1968 1969 1970 1971 1972 1973 1974 1975 1976 1977 1978 1979 1980 1981 1982 1983 1984 1985 1986 1987 1988 1989 1990 1991 1992 1993 1994 1995 1996 1997 1998 1999 2000 2001 2002 2003 2004 2005 2006 2007 2008 2009 2010 2011 2012 2013 2014 2015 2016 2017 2018 2019
+catches  0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 29.2 69.9 74.3 180.9 275.1 396.3 409.9 455.5 519.3 425.7 566.9 756.2 576.6 660.5 738.2 739.3 767.9 749.9 617.8 698.4 636.7 807.7 782.9 683 625.3 775.7 856.5 759.6 773.7 751.8 704.7 665.7 614.4 623.9 631 535.6 572.2 623.5 475.2 557
+U_max 0.7
+selectivity  potFsel
+retention_selectivity potFretained  #31
+
+@fishery rec
+years 1900 1901 1902 1903 1904 1905 1906 1907 1908 1909 1910 1911 1912 1913 1914 1915 1916 1917 1918 1919 1920 1921 1922 1923 1924 1925 1926 1927 1928 1929 1930 1931 1932 1933 1934 1935 1936 1937 1938 1939 1940 1941 1942 1943 1944 1945 1946 1947 1948 1949 1950 1951 1952 1953 1954 1955 1956 1957 1958 1959 1960 1961 1962 1963 1964 1965 1966 1967 1968 1969 1970 1971 1972 1973 1974 1975 1976 1977 1978 1979 1980 1981 1982 1983 1984 1985 1986 1987 1988 1989 1990 1991 1992 1993 1994 1995 1996 1997 1998 1999 2000 2001 2002 2003 2004 2005 2006 2007 2008 2009 2010 2011 2012 2013 2014 2015 2016 2017 2018 2019
+catches  0 22.9 23.5 24 24.6 25.1 25.6 26.2 26.7 27.3 27.8 28.3 28.3 28.5 28.6 28.8 28.9 29.1 29.2 29.4 29.5 29.8 30.1 30.4 30.7 31 31.3 31.5 31.7 31.8 32 32.2 32.7 33.2 33.8 34.3 34.8 34.8 34.7 34.7 34.7 34.6 34.4 34.2 34 33.7 33.5 34.2 34.9 35.7 36.4 37.1 37.5 37.8 38.2 38.6 39 40.1 41.3 42.5 43.6 44.8 45.6 46.5 47.3 48.2 49 49.4 49.7 50.1 50.4 50.8 51 51.3 51.5 51.8 52 52 52 52 51.9 51.9 51.6 51.3 51 50.7 50.4 50.1 50 49.7 49.5 49.4 49 49 49 48.9 47.3 46.5 45.6 44.8 44.3 44.6 44.7 44.9 44.9 44.8 44.5 44.5 44.6 44.9 45.2 45.7 45.8 45.9 46.1 46.5 46.8 47 47.3 47
+U_max 0.7
+selectivity  recFsel
+retention_selectivity recFretained
+
+#Selectivities
+@selectivity_names lineFretained potFretained recFretained potFsel lineFsel recFsel potSsel
+
+
+@selectivity lineFretained
+all size_based logistic 33 02.5
+
+@selectivity potFretained
+all size_based logistic 33 2.5
+
+@selectivity recFretained
+all size_based logistic 33 2.5
+
+@selectivity lineFsel
+all size_based logistic 28 2.5
+
+@selectivity potFsel
+all size_based logistic 31 2
+#
+
+@selectivity recFsel
+all size_based logistic 30 5
+
+
+#pot survey
+@selectivity potSsel
+male logistic  4 1.3 #  same as casal2 estimated values
+female logistic 4 1.27 #
+
+# INITIALIZING THE PARTITION
+@initialization
+B0 15000 # biomass
+
+# SIZE AT AGE
+
+@size_at_age_type von_Bert
+@size_at_age_dist normal
+@size_at_age
+k_male     0.2
+t0_male    -0.51
+Linf_male   50.7
+cv1_male 0.1 #
+cv2_male 0.1 #
+by_length false
+
+k_female     0.19
+t0_female    -0.62
+Linf_female   40.9
+cv1_female 0.1 #10
+cv2_female 0.1 #0.15
+
+
+# SIZE-WEIGHT
+@size_weight
+a 0.00000007289   # tonnes, not g as per AH
+b 3.2055

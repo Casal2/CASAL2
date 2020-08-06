@@ -30,20 +30,20 @@ namespace niwa {
  *
  * Bind any parameters that are allowed to be loaded from the configuration files.
  * Set bounds on registered parameters
- * Register any parameters that can be an estimated or utilised in other run modes (e.g profiling, yields, projections etc)
+ * Register any parameters that can be an estimated or utilised in other run modes (e.g., profiling, yields, projections, etc.)
  * Set some initial values
  *
- * Note: The constructor is parsed to generate Latex for the documentation.
+ * Note: The constructor is parsed to generate LaTeX for the documentation.
  */
 AgeWeight::AgeWeight(Model* model) : model_(model) {
   parameters_.Bind<string>(PARAM_LABEL, &label_, "Label of the age weight relationship", "");
-  parameters_.Bind<string>(PARAM_TYPE, &type_, "Type of age weight class", "");
+  parameters_.Bind<string>(PARAM_TYPE, &type_, "The type of age weight class", "");
 
 }
 
 /**
  * Populate any parameters,
- * Validate values are within expected ranges when we cannot use bind<>() overloads
+ * Validate that values are within expected ranges when bind<>() overloads cannot be used
  *
  * Note: all parameters are populated from configuration files
  */
@@ -64,7 +64,7 @@ void AgeWeight::Build() {
 }
 
 /**
- * Reset the age length class.
+ * Reset the age weight class.
  */
 void AgeWeight::Reset() {
   LOG_TRACE();
@@ -76,7 +76,6 @@ void AgeWeight::Reset() {
  */
 void AgeWeight::RebuildCache() {
   LOG_TRACE();
-
 }
 
 } /* namespace niwa */

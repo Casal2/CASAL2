@@ -66,10 +66,10 @@ TEST_F(InternalEmptyModel, Projects_Constant_YCS) {
 		++iter;
 	}
 	// test the final SSB's haven't changed, this will ensure as well as saving the parameters the parameters in the underlying system have changed as well
-  vector<double> Expect = {14965703.465017468,15251602.202804662,14833370.874238312,13964717.650268687,13127532.792981021,12455790.149615716,11880767.879991895,11403186.924666254,11080306.235111535,10931456.295330815};
-	for (unsigned i = 0; i < 10; ++i) {
+  vector<double> Expect = {14270661.55, 14557416, 14192873.25,  13415898.85,  12671105.73,  12078964.29,  11569986.83,  11146711.2, 10868327.73,  10755924.97};
+  for (unsigned i = 0; i < 10; ++i) {
     unsigned year = 2002 + i;
-    EXPECT_DOUBLE_EQ(Expect[i], dq->GetValue(year)) << " for year " << year << " and value " << Expect[i];
+    EXPECT_NEAR(Expect[i], dq->GetValue(year), 1e-2);// << " for year " << year << " and value " << Expect[i];
   }
 }
 
@@ -118,10 +118,10 @@ TEST_F(InternalEmptyModel, Projects_Constant_Catches) {
 		++iter;
 	}
 	// test the final SSB's haven't changed, this will ensure as well as saving the parameters the parameters in the underlying system have changed as well
-  vector<double> Expect = {14965703.465017468,15248109.81818011,14826934.125573922,13955849.25312946,13116673.243825858,12443299.690966839,11866939.818633527,11388260.113195168,11064471.434258007,10914876.88610521};
-	for (unsigned i = 0; i < 10; ++i) {
+  vector<double> Expect = {14270661.55, 14553924.97,  14186439.76,  13407035.26,  12660251.63,  12066479.12,  11556163.21,  11131787.38,  10852493.85,  10739344.23};
+  for (unsigned i = 0; i < 10; ++i) {
     unsigned year = 2002 + i;
-    EXPECT_DOUBLE_EQ(Expect[i], dq->GetValue(year)) << " for year " << year << " and value " << Expect[i];
+    EXPECT_NEAR(Expect[i], dq->GetValue(year), 1e-2);// << " for year " << year << " and value " << Expect[i];
   }
 }
 } /* namespace projects */

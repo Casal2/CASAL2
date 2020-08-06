@@ -35,7 +35,6 @@ public:
       LOG_MEDIUM() << estimates[i]->value() << " ";
     }
 
-
     model_->managers().estimate_transformation()->RestoreEstimates();
     model_->FullIteration();
 
@@ -50,18 +49,17 @@ private:
   Model* model_;
 };
 
-
 /**
  * Default constructor
  */
 BetaDiff::BetaDiff(Model* model) : Minimiser(model) {
-  parameters_.Bind<int>(PARAM_MAX_ITERATIONS, &max_iterations_, "Maximum number of iterations", "", 1000);
-  parameters_.Bind<int>(PARAM_MAX_EVALUATIONS, &max_evaluations_, "Maximum number of evaluations", "", 4000);
-  parameters_.Bind<double>(PARAM_TOLERANCE, &gradient_tolerance_, "Tolerance of the gradient for convergence", "", 2e-3);
+  parameters_.Bind<int>(PARAM_MAX_ITERATIONS, &max_iterations_, "The maximum number of iterations", "", 1000)->set_lower_bound(1);
+  parameters_.Bind<int>(PARAM_MAX_EVALUATIONS, &max_evaluations_, "The maximum number of evaluations", "", 4000)->set_lower_bound(1);
+  parameters_.Bind<double>(PARAM_TOLERANCE, &gradient_tolerance_, "The tolerance of the gradient for convergence", "", 2e-3)->set_lower_bound(0.0, false);
 }
 
 /**
- *
+ * Execute the minimiser
  */
 void BetaDiff::Execute() {
   auto estimate_manager = model_->managers().estimate();
@@ -75,9 +73,9 @@ void BetaDiff::Execute() {
   int i = 0;
   for (auto estimate : estimates) {
     ++i;
-    lower_bounds[i] = AS_DOUBLE(estimate->lower_bound());
-    upper_bounds[i] = AS_DOUBLE(estimate->upper_bound());
-    start_values[i] = AS_DOUBLE(estimate->value());
+    lower_bounds[i] = estimate->lower_bound();
+    upper_bounds[i] = estimate->upper_bound();
+    start_values[i] = AS_VALUE(estimate->value());
 
 //    if (estimate->value() < estimate->lower_bound()) {
 //      LOG_ERROR_P("When starting the DESolver minimiser the starting value (" << estimate->value() << ") for estimate "
@@ -102,7 +100,7 @@ void BetaDiff::Execute() {
       hessian_[row][col] = betadiff_hessian[row+1][col+1];
     }
   }
-  
+
   model_->managers().estimate_transformation()->RestoreEstimates();
 
   switch(convergence) {

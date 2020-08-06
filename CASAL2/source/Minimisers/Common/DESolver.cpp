@@ -27,10 +27,10 @@ namespace minimisers {
  */
 DESolver::DESolver(Model* model) : Minimiser(model) {
   parameters_.Bind<unsigned>(PARAM_POPULATION_SIZE, &population_size_, "The number of candidate solutions to have in the population", "");
-  parameters_.Bind<Double>(PARAM_CROSSOVER_PROBABILITY, &crossover_probability_, "Define the minimisers crossover probability", "", 0.9);
-  parameters_.Bind<Double>(PARAM_DIFFERENCE_SCALE, &difference_scale_, "The scale to apply to new solutions when comparing candidates", "", 0.02);
+  parameters_.Bind<double>(PARAM_CROSSOVER_PROBABILITY, &crossover_probability_, "The minimiser's crossover probability", "", 0.9)->set_range(0.0, 1.0);
+  parameters_.Bind<double>(PARAM_DIFFERENCE_SCALE, &difference_scale_, "The scale to apply to new solutions when comparing candidates", "", 0.02);
   parameters_.Bind<unsigned>(PARAM_MAX_GENERATIONS, &max_generations_, "The maximum number of iterations to run", "");
-  parameters_.Bind<Double>(PARAM_TOLERANCE, &tolerance_, "The total variance between the population and best candidate before acceptance", "", 0.01);
+  parameters_.Bind<double>(PARAM_TOLERANCE, &tolerance_, "The total variance between the population and best candidate before acceptance", "", 0.01)->set_lower_bound(0.0, false);
   parameters_.Bind<string>(PARAM_METHOD, &method_, "The type of candidate generation method to use", "not_yet_implemented", "");
 }
 
@@ -40,12 +40,12 @@ DESolver::DESolver(Model* model) : Minimiser(model) {
  */
 void DESolver::DoValidate() {
   if (crossover_probability_ > 1.0 || crossover_probability_ < 0.0) {
-    LOG_ERROR_P(PARAM_CROSSOVER_PROBABILITY) << ": crossover_probability must be between 0.0 and 1.0. You entered: " << crossover_probability_;
+    LOG_ERROR_P(PARAM_CROSSOVER_PROBABILITY) << ": crossover_probability (" << crossover_probability_ << ") must be between 0.0 and 1.0 inclusive.";
   }
 }
 
 /**
- * Execute our DE Solver minimiser engine
+ * Execute the minimiser
  */
 void DESolver::Execute() {
   estimates::Manager& estimate_manager = *model_->managers().estimate();
@@ -66,10 +66,10 @@ void DESolver::Execute() {
 
     if (estimate->value() < estimate->lower_bound()) {
       LOG_FATAL() << "When starting the DESolver minimiser the starting value (" << estimate->value() << ") for estimate "
-          << estimate->parameter() << " was less than the lower bound (" << estimate->lower_bound() << ")";
+        << estimate->parameter() << " was less than the lower bound (" << estimate->lower_bound() << ")";
     } else if (estimate->value() > estimate->upper_bound()) {
       LOG_FATAL() << "When starting the DESolver minimiser the starting value (" << estimate->value() << ") for estimate "
-          << estimate->parameter() << " was greater than the upper bound (" << estimate->upper_bound() << ")";
+        << estimate->parameter() << " was greater than the upper bound (" << estimate->upper_bound() << ")";
     }
   }
 

@@ -23,7 +23,7 @@ namespace niwa {
 namespace util = niwa::utilities;
 
 /**
- * This method will clear any previously set parameters within our global configuration.
+ * This method clears any previously set parameters within the global configuration.
  * All member objects need to be cleared during this method.
  */
 void GlobalConfiguration::Clear() {
@@ -32,14 +32,13 @@ void GlobalConfiguration::Clear() {
 }
 
 /**
- * This method will take any values that we've stored from
- * the command line and load them into the global configuration.
+ * This method takes values from the command line and loads them into the global configuration.
  *
- * This is done after we parse the configuration files because
+ * This is done after parsing the configuration files because
  * some of the information in the configuration files will
  * be modified by the command line.
  *
- * We'll also parse some of the extra options here and create objects we may need to create
+ * Some of the extra options are parsed here and may create some objects
  */
 void GlobalConfiguration::ParseOptions(Model* model) {
   LOG_TRACE();

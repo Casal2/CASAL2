@@ -13,26 +13,35 @@
 namespace niwa {
 namespace processes {
 
+/**
+ * Default constructor
+ */
 Manager::Manager() {
 }
 
+/**
+ * Destructor
+ */
 Manager::~Manager() noexcept(true) {
 }
 
 /**
- * Validate any loaded processes we have.
+ * Validate the objects - no model
  */
 void Manager::Validate() {
   LOG_TRACE();
   LOG_CODE_ERROR() << "This method is not supported";
 }
 
+/**
+ * Validate the objects
+ */
 void Manager::Validate(Model* model) {
   LOG_TRACE();
   base::Manager<niwa::processes::Manager, niwa::Process>::Validate();
 
   if (objects_.size() == 0)
-    LOG_ERROR() << "The configuration file requires you specify at least one type of process. E.g @recruitment, @mortality, @ageing";
+    LOG_ERROR() << "The configuration file requires that at least one type of process is specified, e.g., @recruitment, @mortality, @ageing";
 
   PartitionType partition_type = model->partition_type();
 
@@ -65,6 +74,8 @@ Process* Manager::GetProcess(const string& label) {
     if (process->label() == label)
       return process;
   }
+
+  LOG_MEDIUM() << "Process label '" << label << "' was not found.";
 
   return nullptr;
 }

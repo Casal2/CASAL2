@@ -45,7 +45,7 @@ public:
   //accessor
   unsigned                    ssb_offset() {return ssb_offset_;};
   string                      ssb_label() {return ssb_;};
-  bool                        bo_initialised() {return bo_initialised_;};
+  bool                        b0_initialised() {return b0_initialised_;};
 
 private:
   // members
@@ -55,7 +55,7 @@ private:
   string                      phase_b0_label_;
   unsigned                    phase_b0_;
   Double                      b0_ = 0.0;
-  bool                        bo_initialised_ = false;
+  bool                        b0_initialised_ = false;
   vector<Double>              proportions_;
   unsigned                    age_ = 0;
   Double                      steepness_ = 0.0;
@@ -74,6 +74,7 @@ private:
   unsigned                    year_counter_ = 0;
   OrderedMap<string, Double>  proportions_by_category_;
   bool                        ycs_standardised_ = true;
+  unsigned                    last_ycs_year_;
 };
 
 } /* namespace age */

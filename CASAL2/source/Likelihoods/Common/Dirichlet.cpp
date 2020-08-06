@@ -41,19 +41,17 @@ Double Dirichlet::AdjustErrorValue(const Double process_error, const Double erro
   return error_value;
 }
 
-
-
 /*
-* Get the result from our likelihood for the observation
+* Calculate the scores
+*
 * @param comparisons A collection of comparisons passed by the observation
 */
-
 void Dirichlet::GetScores(map<unsigned, vector<observations::Comparison> >& comparisons) {
   for (auto year_iterator = comparisons.begin(); year_iterator != comparisons.end(); ++year_iterator) {
     for (observations::Comparison& comparison : year_iterator->second) {
       Double error_value = AdjustErrorValue(comparison.process_error_, comparison.error_value_) * error_value_multiplier_;
-      Double alpha = dc::ZeroFun(comparison.expected_,comparison.delta_) * error_value;
-      Double a2_a3 = math::LnGamma(alpha) - ((alpha - 1.0) * log(dc::ZeroFun(comparison.observed_,comparison.delta_)));
+      Double alpha = dc::ZeroFun(comparison.expected_, comparison.delta_) * error_value;
+      Double a2_a3 = math::LnGamma(alpha) - ((alpha - 1.0) * log(dc::ZeroFun(comparison.observed_, comparison.delta_)));
 
       comparison.adjusted_error_ = error_value;
       comparison.score_ = a2_a3 * multiplier_;
@@ -61,13 +59,11 @@ void Dirichlet::GetScores(map<unsigned, vector<observations::Comparison> >& comp
   }
 }
 
-
 /**
  * Simulate observed values
  *
  * @param comparisons A collection of comparisons passed by the observation
  */
-
 void Dirichlet::SimulateObserved(map<unsigned, vector<observations::Comparison> >& comparisons) {
   // instance the random number generator
   utilities::RandomNumberGenerator& rng = utilities::RandomNumberGenerator::Instance();
@@ -78,10 +74,11 @@ void Dirichlet::SimulateObserved(map<unsigned, vector<observations::Comparison> 
     LOG_FINE() << "Simulating values for year: " << iterator->first;
     for (observations::Comparison& comparison : iterator->second) {
       Double error_value = AdjustErrorValue(comparison.process_error_, comparison.error_value_);
+
       if (comparison.expected_ <= 0.0 || error_value <= 0.0)
         comparison.observed_ = 0.0;
       else
-        comparison.observed_ = rng.gamma(AS_DOUBLE(comparison.expected_) * AS_DOUBLE(error_value));
+        comparison.observed_ = rng.gamma(AS_VALUE(comparison.expected_) * AS_VALUE(error_value));
 
       totals[comparison.category_] += comparison.observed_;
       comparison.adjusted_error_ = error_value;
@@ -93,11 +90,10 @@ void Dirichlet::SimulateObserved(map<unsigned, vector<observations::Comparison> 
 }
 
 /**
- * Grab the initial score for this likelihood
+ * Calculate the initial score
  *
  * @param comparisons A collection of comparisons passed by the observation
  */
-
 Double Dirichlet::GetInitialScore(map<unsigned, vector<observations::Comparison> >& comparisons,unsigned year) {
   Double score = 0.0;
   Double a1 = 0.0;
@@ -105,7 +101,8 @@ Double Dirichlet::GetInitialScore(map<unsigned, vector<observations::Comparison>
   for (observations::Comparison& comparison : comparisons[year]) {
     // Calculate score
     Double temp_score = AdjustErrorValue(comparison.process_error_, comparison.error_value_) * error_value_multiplier_;
-    LOG_FINEST() << "Adding: " << temp_score << " = AdjustErrorValue(" << comparison.process_error_ << ", " << comparison.error_value_ << ")  * " << error_value_multiplier_ << ")";
+    LOG_FINEST() << "Adding: " << temp_score << " = AdjustErrorValue(" << comparison.process_error_
+      << ", " << comparison.error_value_ << ")  * " << error_value_multiplier_ << ")";
     a1 += dc::ZeroFun(comparison.expected_, comparison.delta_) * temp_score;
   }
 

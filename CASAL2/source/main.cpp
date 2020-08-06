@@ -49,7 +49,6 @@ int main(int argc, char * argv[]) {
     Model model;
     reports::StandardHeader standard_report(&model);
 
-
     utilities::RunParameters parameters;
 
     utilities::CommandLineParser parser;
@@ -125,12 +124,12 @@ int main(int argc, char * argv[]) {
       }
 
       Logging& logging = Logging::Instance();
-       config_loader.ParseFileLines();
-       if (logging.errors().size() > 0) {
-         logging.FlushErrors();
-         return_code = -1;
-         break;
-       }
+      config_loader.ParseFileLines();
+      if (logging.errors().size() > 0) {
+        logging.FlushErrors();
+        return_code = -1;
+        break;
+      }
 
       // override any config file values from our command line
       model.global_configuration().ParseOptions(&model);
@@ -159,17 +158,17 @@ int main(int argc, char * argv[]) {
     } // switch(run_mode)
 
   } catch (const string &exception) {
-    cout << "## ERROR - CASAL2 experienced a problem and has stopped execution" << endl;
+    cout << "## ERROR - Casal2 has stopped execution" << endl;
     cout << "Error: " << exception << endl;
     return_code = -1;
 
   } catch (std::exception& e) {
-    cout << "## ERROR - CASAL2 experienced a problem and has stopped execution" << endl;
+    cout << "## ERROR - Casal2 has stopped execution" << endl;
     cout << e.what() << endl;
     return_code = -1;
 
   } catch(...) {
-    cout << "## ERROR - CASAL2 experienced a problem and has stopped execution" << endl;
+    cout << "## ERROR - Casal2 has stopped execution" << endl;
     cout << "The exception was caught with the catch-all. The type was unknown" << endl;
     cout << "Please contact the application developer" << endl;
     return_code = -1;
@@ -181,7 +180,7 @@ int main(int argc, char * argv[]) {
   }
 
   LOG_FINEST() << "Done";
-	return return_code;
+  return return_code;
 }
 #endif
 

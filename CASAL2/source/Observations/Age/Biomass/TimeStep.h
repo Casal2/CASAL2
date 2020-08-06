@@ -34,7 +34,7 @@ public:
 
 private:
   // members
-  Double                      time_step_proportion_;
+  double                      time_step_proportion_;
 };
 
 } /* namespace age */

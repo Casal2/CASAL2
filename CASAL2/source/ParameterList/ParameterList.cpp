@@ -48,11 +48,11 @@ ParameterList::~ParameterList() {
     if (parameter.second != nullptr)
       delete parameter.second;
   }
-  // DO NOT CLEAN UP TABLE MEMORY. IT'S HANDLE BY THE OWNER
+  // DO NOT CLEAN UP TABLE MEMORY. IT IS HANDLE BY THE OWNER
 }
 
 /**
- * Add a single value to our parameter list
+ * Add a single value to an existing parameter on the parameter list
  *
  * @param label The label for the parameter
  * @param value The value of the parameter
@@ -73,7 +73,7 @@ bool ParameterList::Add(const string& label, const vector<string>& values, const
 }
 
 /**
- * Add a single value to our parameter list
+ * Append a single value to the parameter list
  *
  * @param label The label for the parameter
  * @param value The value of the parameter
@@ -89,7 +89,7 @@ bool ParameterList::Add(const string& label, const string& value, const string& 
 }
 
 /**
- * Add a new table to our parameter list
+ * Add a new table to the parameter list
  *
  * @param label The label for the table
  * @param columns A vector containing the columns
@@ -116,7 +116,9 @@ bool ParameterList::Add(const string& label, const string& value, const string& 
 //}
 
 /**
+ * Populate the parameter list
  *
+ * @param model The model
  */
 void ParameterList::Populate(Model* model) {
   LOG_TRACE();
@@ -142,15 +144,15 @@ void ParameterList::Populate(Model* model) {
   if (missing_parameters != "") {
     if (parameters_.find(PARAM_LABEL) == parameters_.end()) {
       LOG_ERROR() << "At line " << defined_line_number_ << " in " << defined_file_name_ << " the following required parameters for the block @"
-                  << parent_block_type_ << " are required but have not been defined: " << missing_parameters;
+        << parent_block_type_ << " are required but have not been defined: " << missing_parameters;
     } else {
       auto parameter = parameters_.find(PARAM_LABEL);
       if (parameter->second->values().size() == 0) {
         LOG_ERROR() << "At line " << defined_line_number_ << " in " << defined_file_name_ << " the following required parameters for the block @"
-            << parent_block_type_ << " are required but have not been defined: " << missing_parameters;
+          << parent_block_type_ << " are required but have not been defined: " << missing_parameters;
       } else {
         LOG_ERROR() << parameter->second->location() << " the following required parameters for the block @"
-            << parent_block_type_ << " are required but have not been defined: " << missing_parameters;
+          << parent_block_type_ << " are required but have not been defined: " << missing_parameters;
       }
     }
     return;
@@ -168,7 +170,7 @@ void ParameterList::Populate(Model* model) {
       LOG_FINE() << "Expanding " << boost::join(iter.second->values(), " ");
       vector<string> expanded_values = model->categories()->ExpandLabels(iter.second->values(), iter.second->location());
       iter.second->set_values(expanded_values);
-      LOG_FINE() << "Expanded To: " << boost::join(expanded_values, " ");
+      LOG_FINE() << "Expanded to: " << boost::join(expanded_values, " ");
 
       /**
        * Check to see if each category is value. Handle + syntax by breaking it up
@@ -235,12 +237,12 @@ void ParameterList::Populate(Model* model) {
 }
 
 /**
- * Return a constant reference to one of our parameter objects.
+ * Return a constant reference to one of the parameter objects.
  *
  * NOTE: This method MUST be called with a valid label otherwise
  * a reference to an empty parameter will be returned.
  *
- * @param label The parameter to return
+ * @param label The label of the parameter to return
  * @return The parameter reference
  */
 Parameter* ParameterList::Get(const string& label) {
@@ -252,10 +254,13 @@ Parameter* ParameterList::Get(const string& label) {
 }
 
 /**
- * Return a constant pointer to one of our parameter tables
+ * Return a constant pointer to one of the parameter tables
  *
- * @param label of the table to return
- * @return
+ * NOTE: This method MUST be called with a valid label otherwise
+ * a reference to an empty parameter will be returned.
+ *
+ * @param label The label of the table to return
+ * @return The parameter reference
  */
 parameters::Table* ParameterList::GetTable(const string& label) {
   auto iter = tables_.find(label);
@@ -266,7 +271,7 @@ parameters::Table* ParameterList::GetTable(const string& label) {
 }
 
 /**
- * This method will copy all of the parameters from
+ * This method copies all of the parameters from
  * the source parameter list into this parameter list.
  *
  * NOTE: The TablesPtr are not recreated.
@@ -289,7 +294,14 @@ void ParameterList::CopyFrom(const ParameterList& source, string parameter_label
 }
 
 /**
+ * This method copies all of the parameters from
+ * the source parameter list into this parameter list.
  *
+ * NOTE: The TablesPtr are not recreated.
+ *
+ * @param source The source parameter list
+ * @param parameter_label The parameter to copy over
+ * @param value_index
  */
 void ParameterList::CopyFrom(const ParameterList& source, string parameter_label, const unsigned &value_index) {
   LOG_TRACE();
@@ -301,14 +313,15 @@ void ParameterList::CopyFrom(const ParameterList& source, string parameter_label
 
   vector<string> values;
   if (iter->second->values().size() <= value_index)
-    LOG_CODE_ERROR() << "iter->second->values().size(" << iter->second->values().size() << ") <= value_index(" << value_index << "): " << parameter_label;
+    LOG_CODE_ERROR() << "iter->second->values().size(" << iter->second->values().size() << ") <= value_index(" << value_index
+      << "): " << parameter_label;
 
   values.push_back(iter->second->values()[value_index]);
   Add(parameter_label, values, iter->second->file_name(), iter->second->line_number());
 }
 
 /**
- *
+ * Clear the parameter list
  */
 void ParameterList::Clear() {
   auto iter = parameters_.begin();
@@ -319,9 +332,8 @@ void ParameterList::Clear() {
   tables_.clear();
 }
 
-
 /**
- * Find the location string for one of our parameters.
+ * Find the location string for one of the parameters.
  *
  * @param label The label for the parameter
  * @return The location string for an error message
@@ -331,8 +343,8 @@ string ParameterList::location(const string& label) {
   auto table_iter = tables_.find(label);
   if (iter == parameters_.end() && table_iter == tables_.end()) {
     LOG_CODE_ERROR() << "Trying to find the configuration file location for the parameter " << label
-        << " failed because it has not been previously bound to this object. This is a developer"
-        << " error most likely caused by using mismatched PARAM_X values";
+      << " failed because it has not been previously bound to this object. This is a developer"
+      << " error most likely caused by using mismatched PARAM_X values";
   }
 
   if (iter != parameters_.end())
@@ -342,18 +354,18 @@ string ParameterList::location(const string& label) {
 }
 
 /**
- * Bind a table pointer to our map so it can be recognised and retrieved by the configuration loader
+ * Bind a table pointer to the map so it can be recognised and retrieved by the configuration loader
  *
  * @param label The label of the table to bind
- * @param table The pointer to the table we're binding
- * @param description used for documentation, ignored
- * @param values used for documentation, ignored
+ * @param table The pointer to the table
+ * @param description Information used for documentation, ignored
+ * @param values Information used for documentation, ignored
  */
-void ParameterList::BindTable(const string& label, parameters::Table* table, const string& description, const string& values, bool requires_columns, bool optional) {
+void ParameterList::BindTable(const string& label, parameters::Table* table, const string& description,
+                              const string& values, bool requires_columns, bool optional) {
   table->set_requires_columns(requires_columns);
   table->set_is_optional(optional);
   tables_[label] = table;
 }
-
 
 } /* namespace niwa */

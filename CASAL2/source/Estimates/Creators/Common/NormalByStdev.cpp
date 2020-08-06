@@ -17,12 +17,12 @@ namespace estimates {
 namespace creators {
 
 /**
- *
+ * Default constructor
  */
 NormalByStdev::NormalByStdev(Model* model) : Creator(model) {
   parameters_.Bind<Double>(PARAM_MU, &mu_, "The normal prior mean (mu) parameter", "");
-  parameters_.Bind<Double>(PARAM_SIGMA, &sigma_, "The normal variance (standard devation) parameter", "");
-  parameters_.Bind<bool>(PARAM_LOGNORMAL_TRANSFORMATION, &assume_lognormal_, "Add a jacobian if the derived outcome of the estimate is assumed to be lognormal, used for rectuitment deviations in the recruitment process, see the user manual for more information", "", false);
+  parameters_.Bind<Double>(PARAM_SIGMA, &sigma_, "The normal standard deviation (sigma) parameter", "");
+  parameters_.Bind<bool>(PARAM_LOGNORMAL_TRANSFORMATION, &assume_lognormal_, "Add a jacobian if the derived outcome of the estimate is assumed to be lognormal, e.g., used for rectuitment deviations in the recruitment process. See the User Manual for more information", "", false);
 
 }
 

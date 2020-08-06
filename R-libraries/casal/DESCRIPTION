@@ -1,0 +1,11 @@
+Package: casal
+Title: CASAL extract package
+Version: 2.30
+Date: 2008-02-15
+Author: CASAL development team <CASAL@niwa.co.nz>
+Description: A set of R functions are available for reading/processing CASAL input and output files.
+             For further information about CASAL, see the webpage http://www.niwa.co.nz/ncfa/tools/casal/
+Maintainer: CASAL development team <CASAL@niwa.co.nz>
+Depends: R (>= 2.10.1)
+License: See the CASAL manual, or use 'casal -l' at the command line to view the CASAL license.
+RoxygenNote: 6.1.1

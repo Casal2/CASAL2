@@ -24,17 +24,17 @@ namespace niwa {
 namespace minimisers {
 
 /**
- *
+ * Default constructor
  */
 ADOLC::ADOLC(Model* model) : Minimiser(model) {
-  parameters_.Bind<int>(PARAM_MAX_ITERATIONS, &max_iterations_, "Maximum number of iterations", "", 1000);
-  parameters_.Bind<int>(PARAM_MAX_EVALUATIONS, &max_evaluations_, "Maximum number of evaluations", "", 4000);
-  parameters_.Bind<Double>(PARAM_TOLERANCE, &gradient_tolerance_, "Tolerance of the gradient for convergence", "", 0.02);
-  parameters_.Bind<Double>(PARAM_STEP_SIZE, &step_size_, "Minimum Step-size before minimisation fails", "", 1e-7);
+  parameters_.Bind<int>(PARAM_MAX_ITERATIONS, &max_iterations_, "The maximum number of iterations", "", 1000)->set_lower_bound(1);
+  parameters_.Bind<int>(PARAM_MAX_EVALUATIONS, &max_evaluations_, "The maximum number of evaluations", "", 4000)->set_lower_bound(1);
+  parameters_.Bind<double>(PARAM_TOLERANCE, &gradient_tolerance_, "The tolerance of the gradient for convergence", "", 0.02)->set_lower_bound(0.0, false);
+  parameters_.Bind<double>(PARAM_STEP_SIZE, &step_size_, "The minimum step size before minimisation fails", "", 1e-7)->set_lower_bound(0.0, false);
 }
 
 /**
- * Execute the minimiser to solve the model
+ * Execute the minimiser
  */
 void ADOLC::Execute() {
   LOG_TRACE();
@@ -43,8 +43,8 @@ void ADOLC::Execute() {
 
   auto estimate_manager = model_->managers().estimate();
 
-  vector<Double>  lower_bounds;
-  vector<Double>  upper_bounds;
+  vector<double>  lower_bounds;
+  vector<double>  upper_bounds;
   vector<Double>  start_values;
 
   model_->managers().estimate_transformation()->TransformEstimates();
@@ -69,11 +69,11 @@ void ADOLC::Execute() {
   adolc.optimise(call_back,
       start_values, lower_bounds, upper_bounds,
       status, max_iterations_, max_evaluations_, gradient_tolerance_,
-      hessian_,1,step_size_);
+      hessian_, 1, step_size_);
 
   model_->managers().estimate_transformation()->RestoreEstimates();
 
-  switch(status) {
+  switch (adolc.get_convergence_status()) {
     case -1:
       result_ = MinimiserResult::kError;
       break;

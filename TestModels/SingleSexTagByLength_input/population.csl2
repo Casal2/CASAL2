@@ -1,15 +1,15 @@
 
-@model  
-min_age    1 
+@model
+min_age    1
 max_age   50
-age_plus T  #plus_group   
+age_plus T  #plus_group
 start_year   1995
 final_year   2015
 projection_final_year 2051
 base_weight_units tonnes
 initialisation_phases phase1
-#time_steps Summer Summer_fishing Summer_tagging Winter Winter_age 
-time_steps Summer Winter Winter_age 
+#time_steps Summer Summer_fishing Summer_tagging Winter Winter_age
+time_steps Summer Winter Winter_age
 length_bins  30 40 50 60 70 80 90 100 110 120 130 140 150 160 170 180 190 200 210 220 230
 length_plus False
 
@@ -29,7 +29,7 @@ processes Recruitment Mortality 2001Tags_north 2002Tags_north 2003Tags_north 200
 
 
 #@time_step Summer_fishing # End summer and fishing
-#processes Mortality 
+#processes Mortality
 
 #@time_step Summer_tagging #tagging
 #processes  2001Tags_shelf 2002Tags_shelf 2003Tags_shelf 2004Tags_shelf 2005Tags_shelf 2006Tags_shelf 2007Tags_shelf 2008Tags_shelf 2009Tags_shelf 2010Tags_shelf 2011Tags_shelf 2012Tags_shelf 2013Tags_shelf 2014Tags_shelf 2001Tags_slope 2002Tags_slope 2003Tags_slope 2004Tags_slope 2005Tags_slope 2006Tags_slope 2007Tags_slope 2008Tags_slope 2009Tags_slope 2010Tags_slope 2011Tags_slope 2012Tags_slope 2013Tags_slope 2014Tags_slope 2001Tags_north 2002Tags_north 2003Tags_north 2004Tags_north 2005Tags_north 2006Tags_north 2007Tags_north 2008Tags_north 2009Tags_north 2010Tags_north 2011Tags_north 2012Tags_north 2013Tags_north 2014Tags_north
@@ -61,7 +61,7 @@ type recruitment_beverton_holt
 categories untagged
 proportions 1.0
 #categories tagyear=untagged
-#proportions 0.5 0.5 
+#proportions 0.5 0.5
 b0 80000
 standardise_ycs_years 2003:2009 #changed to 2014 to replicate casal which is T or F
 ycs_years 1994:2014
@@ -79,14 +79,14 @@ categories *
 time_step_proportion 0.5
 time_step_proportion_method weighted_sum
 #selectivities MaturityMale*15 MaturityFemale*15
-selectivities Maturity*15 
+selectivities Maturity*15
 
 
 @process Mortality
 type mortality_instantaneous
 
 m 0.13*15
-selectivities One*15
+relative_m_by_age One*15
 categories *
 time_step_ratio 0.5 0.5 #I think the below was wrong and this will be better, might solve the R0 issue
 #time_step_ratio 0.5 0.5 0
@@ -98,12 +98,12 @@ type constant
 c 1
 
 @selectivity Maturity#MaturityMale
-type logistic 
+type logistic
 a50 11.99
 ato95 5.25
 
 #@selectivity MaturityFemale
-#type logistic 
+#type logistic
 #a50 16.92
 #ato95 7.68
 

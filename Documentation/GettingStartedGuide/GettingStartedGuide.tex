@@ -18,8 +18,8 @@
 % EXAMPLE: \href{http://www.niwa.co.nz}{NIWA}
 \usepackage[bookmarks=true,bookmarksopen=false,bookmarksnumbered=true,
             pdfpagelayout=TwoPageRight,
-            pdftitle={Getting started with CASAL2}, 
-            pdfauthor={C. Marsh} %authors
+            pdftitle={Getting started with Casal2}, 
+            pdfauthor={C. Marsh et al.} %authors
             pdfsubject={Getting started with Casal2},
             pdftex]{hyperref}
 \hypersetup{
@@ -191,10 +191,10 @@ escapeinside={\%*}{*)}          % if you want to add a comment within your code
 \newcommand{\VER}{v\SourceControlDateDoc} % CASAL2 program version
 \newcommand{\CNAME}{\textsc{Casal2}} 
 \newcommand{\cname}{\texttt{casal2}} % casal2 binary name
-\newcommand{\authors}{C. Marsh}
+\newcommand{\authors}{C. Marsh et al.}
 \newcommand{\email}{casal2@niwa.co.nz}
 \newcommand{\github}{\url{https://github.com/NIWAFisheriesModelling/CASAL2}}
-\newcommand{\authorlink}{\href{mailto:"CASAL2 Development Team"<casal@niwa.co.nz>?subject=CASAL2:}{authors}} 
+\newcommand{\authorlink}{\href{mailto:"CASAL2 Development Team"<casal2@niwa.co.nz>?subject=CASAL2:}{authors}} 
 %hyper ref for email
 \newcommand{\Organisation}{National Institute of Water \& Atmospheric Research Ltd.} %NIWA
 \newcommand{\ManualRef}{\authors\ (\DocYear). Getting started with \CNAME . \Organisation. \ref{TotPages} p.} % full document reference
@@ -223,7 +223,7 @@ escapeinside={\%*}{*)}          % if you want to add a comment within your code
 
 
 % Title page
-\pdfbookmark[1]{Getting started with CASAL2}{title}
+\pdfbookmark[1]{Getting Started with CASAL2}{title}
 \pagenumbering{alph} % alpha not used, but used to remove warnings when page 1 is re-defined below
 
 \begin{titlepage}
@@ -238,7 +238,7 @@ escapeinside={\%*}{*)}          % if you want to add a comment within your code
 		\end{figure}
 
 		\vspace*{2.5cm}
-		\Huge Getting started with \CNAME \\
+		\Huge Getting Started with \CNAME \\
 
 		\vspace{2.0cm}
 		\huge \authors \\ %Document authors
@@ -294,6 +294,7 @@ Citation: \ManualRef
 \include{Installing}
 \include{HowItWorks}
 \include{Syntax}
+\include{ModelStructure}
 \include{ModelComponents}
 \include{Examples}
 \include{Output}

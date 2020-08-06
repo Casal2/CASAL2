@@ -1,0 +1,5 @@
+## Pick up any other files we want to include
+!include "Population.csl2"
+!include "Estimation.csl2"
+!include "Observation.csl2"
+!include "Reports.csl2"

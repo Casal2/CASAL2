@@ -21,17 +21,17 @@ namespace processes {
 namespace age {
 
 /**
- * default constructor
+ * Default constructor
  */
 Maturation::Maturation(Model* model)
   : Process(model),
     from_partition_(model),
     to_partition_(model) {
 
-  parameters_.Bind<string>(PARAM_FROM, &from_category_names_, "List of categories to mature from", "");
-  parameters_.Bind<string>(PARAM_TO, &to_category_names_, "List of categories to mature too", "");
-  parameters_.Bind<string>(PARAM_SELECTIVITIES, &selectivity_names_, "List of selectivities to use for maturation", "");
-  parameters_.Bind<unsigned>(PARAM_YEARS, &years_, "The years to be associated with rates", "");
+  parameters_.Bind<string>(PARAM_FROM, &from_category_names_, "The list of categories to mature from", "");
+  parameters_.Bind<string>(PARAM_TO, &to_category_names_, "The list of categories to mature to", "");
+  parameters_.Bind<string>(PARAM_SELECTIVITIES, &selectivity_names_, "The list of selectivities to use for maturation", "");
+  parameters_.Bind<unsigned>(PARAM_YEARS, &years_, "The years to be associated with the maturity rates", "");
   parameters_.Bind<Double>(PARAM_RATES, &rates_, "The rates to mature for each year", "");
 
   RegisterAsAddressable(PARAM_RATES, &rates_by_years_);
@@ -41,11 +41,13 @@ Maturation::Maturation(Model* model)
 }
 
 /**
- * validate the values from the configuration file
+ * Validate the values from the configuration file
  */
 void Maturation::DoValidate() {
-  if (selectivity_names_.size() == 1)
-    selectivity_names_.assign(from_category_names_.size(), selectivity_names_[0]);
+  if (selectivity_names_.size() == 1) {
+    auto val_sel = selectivity_names_[0];
+    selectivity_names_.assign(from_category_names_.size(), val_sel);
+  }
 
 //  // Validate Categories
   niwa::Categories* categories = model_->categories();
@@ -53,33 +55,33 @@ void Maturation::DoValidate() {
   // Validate the from and to vectors are the same size
   if (from_category_names_.size() != to_category_names_.size()) {
     LOG_ERROR_P(PARAM_TO)
-        << ": Number of 'to' categories provided does not match the number of 'from' categories provided."
-        << " Expected " << from_category_names_.size() << " but got " << to_category_names_.size();
+      << ": Number of 'to' categories provided (" << to_category_names_.size()
+      << ") does not match the number of 'from' categories provided (" << from_category_names_.size() << ").";
   }
 
   // Validate that each from and to category have the same age range.
   for (unsigned i = 0; i < from_category_names_.size(); ++i) {
     if (categories->min_age(from_category_names_[i]) != categories->min_age(to_category_names_[i])) {
-      LOG_ERROR_P(PARAM_FROM) << ": Category " << from_category_names_[i] << " does not"
-          << " have the same age range as the 'to' category " << to_category_names_[i];
+      LOG_ERROR_P(PARAM_FROM) << ": 'from' category " << from_category_names_[i] << " does not"
+        << " have the same age range as the 'to' category " << to_category_names_[i];
     }
 
     if (categories->max_age(from_category_names_[i]) != categories->max_age(to_category_names_[i])) {
-      LOG_ERROR_P(PARAM_FROM) << ": Category " << from_category_names_[i] << " does not"
-          << " have the same age range as the 'to' category " << to_category_names_[i];
+      LOG_ERROR_P(PARAM_FROM) << ": 'from' category " << from_category_names_[i] << " does not"
+        << " have the same age range as the 'to' category " << to_category_names_[i];
     }
   }
 
   // Validate rates and years are the same length
   if (rates_.size() != years_.size())
-    LOG_ERROR_P(PARAM_RATES) << " number (" << rates_.size() << ") does not match the number of years (" << years_.size() << ") provided";
+    LOG_ERROR_P(PARAM_RATES) << ": The number of rates (" << rates_.size() << ") does not match the number of years (" << years_.size() << ").";
   for (unsigned i = 0; i < years_.size(); ++i)
     rates_by_years_[years_[i]] = rates_[i];
 
 }
 
 /**
- * Build any runtime relationships this class needs.
+ * Build any runtime relationships
  * - Build the partition accessors
  * - Verify the selectivities are valid
  * - Get pointers to the selectivities
@@ -93,13 +95,13 @@ void Maturation::DoBuild() {
   for(string label : selectivity_names_) {
     Selectivity* selectivity = model_->managers().selectivity()->GetSelectivity(label);
     if (!selectivity)
-      LOG_ERROR_P(PARAM_SELECTIVITIES) << ": Selectivity " << label << " does not exist. Have you defined it?";
+      LOG_ERROR_P(PARAM_SELECTIVITIES) << ": Selectivity label " << label << " was not found.";
     selectivities_.push_back(selectivity);
   }
 }
 
 /**
- * Execute our maturation rate process.
+ * Execute the maturation rate process
  */
 void Maturation::DoExecute() {
   auto from_iter     = from_partition_.begin();
@@ -113,32 +115,31 @@ void Maturation::DoExecute() {
     rate = rates_by_years_.rbegin()->second;
 
   for (unsigned i = 0; from_iter != from_partition_.end() && to_iter != to_partition_.end(); ++from_iter, ++to_iter, ++i) {
-    unsigned min_age   = (*from_iter)->min_age_;
+    unsigned min_age = (*from_iter)->min_age_;
 
     for (unsigned offset = 0; offset < (*from_iter)->data_.size(); ++offset) {
-      amount = rate * selectivities_[i]->GetAgeResult(min_age + offset, (*from_iter)->age_length_);
+      amount = rate * selectivities_[i]->GetAgeResult(min_age + offset, (*from_iter)->age_length_) * (*from_iter)->data_[offset];
       (*from_iter)->data_[offset] -= amount;
-      (*to_iter)->data_[offset] += amount;
+      (*to_iter)->data_[offset]   += amount;
     }
   }
 }
 
-/*
- * @fun FillReportCache
+/**
+ * Fill the report cache
  * @description A method for reporting process information
  * @param cache a cache object to print to
-*/
+ */
 void Maturation::FillReportCache(ostringstream& cache) {
 
 }
 
-/*
- * @fun FillTabularReportCache
+/**
+ * @Fill the tabular report cache
  * @description A method for reporting tabular process information
  * @param cache a cache object to print to
  * @param first_run whether to print the header
- *
-*/
+ */
 void Maturation::FillTabularReportCache(ostringstream& cache, bool first_run) {
 
 }

@@ -60,7 +60,7 @@ type beverton_holt
 categories stage=immature
 proportions 0.5 0.5
 r0 1.6059e+006
-b0_intialisation_phase iphase2
+b0_initialisation_phase iphase2
 age 1
 ycs_years 1993:2011
 ssb SSB
@@ -73,15 +73,15 @@ type biomass
 time_step model.step_one
 categories stage=immature
 time_step_proportion 1.0
-selectivities MaturityMale MaturityFemale 
+selectivities MaturityMale MaturityFemale
 
 @selectivity MaturityMale
-type logistic 
+type logistic
 a50 11.99
 ato95 5.25
 
 @selectivity MaturityFemale
-type logistic 
+type logistic
 a50 16.92
 ato95 7.68
 
@@ -122,7 +122,7 @@ TEST_F(InternalEmptyModel, Processes_BevertonHolt_Recruitment_AutoSSBOffset) {
 const std::string test_cases_process_recruitment_bh_b0 =
 R"(
 @model
-start_year 1975 
+start_year 1975
 final_year 2012
 min_age 1
 max_age 30
@@ -131,27 +131,27 @@ age_plus true
 initialisation_phases iphase1
 time_steps step1 step2 step3
 
-@categories 
+@categories
 format stock
 names stock
-age_lengths age_size 
+age_lengths age_size
 
 @initialisation_phase iphase1
 type derived
 
-@time_step step1 
+@time_step step1
 processes Recruitment instant_mort
 
-@time_step step2 
-processes instant_mort 
+@time_step step2
+processes instant_mort
 
-@time_step step3 
+@time_step step3
 processes  Ageing instant_mort
 
 @process Recruitment
 type recruitment_beverton_holt
 categories stock
-proportions 1 
+proportions 1
 b0 5.18767e+008
 ycs_years 1974:2011
 standardise_ycs_years 1975 1976 1977 1978 1979 1980 1981 1982 1983 1984 1985 1986 1987 1988 1989 1990 1991 1992 1993 1994 1995 1996 1997 1998 1999 2000 2001 2002 2003 2004 2005 2006 2007 2008 2009
@@ -173,7 +173,7 @@ multiplier 1000
 type mortality_instantaneous
 m 0.19
 time_step_ratio 0.42 0.25 0.33
-selectivities One
+relative_m_by_age One
 categories stock
 table catches
 year FishingWest FishingEest
@@ -238,21 +238,21 @@ l 2
 h 13
 v 0.02  0.05  0.13  0.29  0.50  0.70  0.84  0.93  0.97  0.99  0.99  1.00
 
-@selectivity westFSel 
-type double_normal
-mu 6
-sigma_l  3  
-sigma_r 10
-alpha 1.0
-
-@selectivity eastFSel 
+@selectivity westFSel
 type double_normal
 mu 6
 sigma_l  3
-sigma_r 10 
+sigma_r 10
 alpha 1.0
 
-@selectivity chatTANSel 
+@selectivity eastFSel
+type double_normal
+mu 6
+sigma_l  3
+sigma_r 10
+alpha 1.0
+
+@selectivity chatTANSel
 type double_normal
 mu 6
 sigma_l 3
@@ -260,7 +260,7 @@ sigma_r 10
 alpha 1.0
 
 @selectivity One
-type constant 
+type constant
 c 1
 
 @age_length age_size
@@ -269,17 +269,17 @@ by_length true
 time_step_proportions 0.25 0.5 0.0
 y1 24.5
 y2 104.8
-tau1 1 
-tau2 20 
+tau1 1
+tau2 20
 a 0.131
 b 1.70
-cv_first 0.1 
-length_weight size_weight3 
+cv_first 0.1
+length_weight size_weight3
 
 @length_weight size_weight3
 type basic
-units kgs 
-a 2.0e-6 
+units kgs
+a 2.0e-6
 b 3.288
 
 @report DQ

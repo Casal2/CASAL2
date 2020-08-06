@@ -37,16 +37,19 @@ public:
   Engine();
   virtual                     ~Engine();
   Double optimise(adolc::CallBack& objective,
-      vector<Double>& start_values, vector<Double>& lower_bounds,
-      vector<Double>& upper_bounds, int& convergence, int& max_iterations,
-      int& max_evaluations, Double gradient_tolerance, double **out_hessian,
-      int untransformed_hessians, Double step_size);
+      vector<Double>& start_values, vector<double>& lower_bounds,
+      vector<double>& upper_bounds, int& convergence, int& max_iterations,
+      int& max_evaluations, double gradient_tolerance, double **out_hessian,
+      int untransformed_hessians, double step_size);
+  int                          get_convergence_status() { return convergence_; }
+  int                          get_iterations_used() { return iterations_used_; }
+  int                          get_evaluations_used() { return evaluations_used_; }
 
 private:
   // members
-  Double                      convergence_;
-  Double                      iterations_used_;
-  Double                      evaluations_used_;
+  int                         convergence_;
+  int                         iterations_used_;
+  int                         evaluations_used_;
   vector<Double>              final_candidates_;
 };
 

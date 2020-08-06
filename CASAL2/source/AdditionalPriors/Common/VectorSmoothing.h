@@ -44,7 +44,7 @@ protected:
   map<unsigned, Double>*      addressable_map_ = nullptr;
   vector<Double>*             addressable_vector_ = nullptr;
   bool                        log_scale_ = false;
-  Double                      multiplier_ = 0.0;
+  double                      multiplier_ = 0.0;
   unsigned                    r_ = 0;
   unsigned                    upper_;
   unsigned                    lower_;

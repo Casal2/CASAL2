@@ -49,7 +49,7 @@ years 200
 exclude_processes fishing
 
 @time_step one
-processes halfm fishing 
+processes halfm fishing
 
 @time_step two
 processes halfm
@@ -82,7 +82,7 @@ standardise_ycs_years 1973:1999
 @mortality halfm
 type constant_rate
 categories male female
-selectivities [type=constant; c=1] halfm.one
+relative_m_by_age [type=constant; c=1] halfm.one
 m 0.10 0.10
 
 @mortality fishing
@@ -137,8 +137,18 @@ categories male+female
 selectivities male=[type=logistic; a50=9; ato95=4] female=[type=logistic; a50=9; ato95=4; alpha=0.7]
 likelihood lognormal
 years 1992:2001
-obs 1.50 1.10 0.93 1.33 1.53 0.90 0.68 0.75 0.57 1.23
-error_value 0.35
+table obs
+1992    1.50   0.35
+1993    1.10   0.35
+1994    0.93   0.35
+1995    1.33   0.35
+1996    1.53   0.35
+1997    0.90   0.35
+1998    0.68   0.35
+1999    0.75   0.35
+2000    0.57   0.35
+2001    1.23   0.35
+end_table
 
 @report DQ
 type derived_quantity

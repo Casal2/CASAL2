@@ -41,16 +41,17 @@ ProportionsMatureByAge::ProportionsMatureByAge(Model* model) : Observation(model
   obs_table_ = new parameters::Table(PARAM_OBS);
   error_values_table_ = new parameters::Table(PARAM_ERROR_VALUES);
 
-  parameters_.Bind<unsigned>(PARAM_MIN_AGE, &min_age_, "Minimum age", "");
-  parameters_.Bind<unsigned>(PARAM_MAX_AGE, &max_age_, "Maximum age", "");
+  parameters_.Bind<unsigned>(PARAM_MIN_AGE, &min_age_, "The minimum age", "");
+  parameters_.Bind<unsigned>(PARAM_MAX_AGE, &max_age_, "The maximum age", "");
   parameters_.Bind<string>(PARAM_TIME_STEP, &time_step_label_, "The label of time-step that the observation occurs in", "");
-  parameters_.Bind<bool>(PARAM_PLUS_GROUP, &plus_group_, "Use age plus group", "", true);
-  parameters_.Bind<unsigned>(PARAM_YEARS, &years_, "Years for which there are observations", "");
-  parameters_.Bind<string>(PARAM_AGEING_ERROR, &ageing_error_label_, "Label of ageing error to use", "", "");
-  parameters_.BindTable(PARAM_OBS, obs_table_, "Table of proportions at age mature ", "", false);
-  parameters_.BindTable(PARAM_ERROR_VALUES, error_values_table_, "Table of error values of the observed values (note the units depend on the likelihood)", "", false);
+  parameters_.Bind<bool>(PARAM_PLUS_GROUP, &plus_group_, "Use the age plus group?", "", true);
+  parameters_.Bind<unsigned>(PARAM_YEARS, &years_, "The years for which there are observations", "");
+  parameters_.Bind<string>(PARAM_AGEING_ERROR, &ageing_error_label_, "The label of ageing error to use", "", "");
+  parameters_.BindTable(PARAM_OBS, obs_table_, "The table of proportions at age mature ", "", false);
+  // TODO:  is tolerance missing?
+  parameters_.BindTable(PARAM_ERROR_VALUES, error_values_table_, "The table of error values of the observed values (note the units depend on the likelihood)", "", false);
   parameters_.Bind<string>(PARAM_TOTAL_CATEGORIES, &total_category_labels_, "All category labels that were vulnerable to sampling at the time of this observation (not including the categories already given)", "", true);
-  parameters_.Bind<Double>(PARAM_TIME_STEP_PROPORTION, &time_step_proportion_, "Proportion through the mortality block of the time step when the observation is evaluated", "", Double(0.5));
+  parameters_.Bind<double>(PARAM_TIME_STEP_PROPORTION, &time_step_proportion_, "The proportion through the mortality block of the time step when the observation is evaluated", "", double(0.5))->set_range(0.0, 1.0);
 
   mean_proportion_method_ = false;
 
@@ -71,6 +72,7 @@ ProportionsMatureByAge::~ProportionsMatureByAge() {
  */
 void ProportionsMatureByAge::DoValidate() {
   age_spread_ = (max_age_ - min_age_) + 1;
+
   map<unsigned, vector<Double>> error_values_by_year;
   map<unsigned, vector<Double>> obs_by_year;
 
@@ -81,6 +83,7 @@ void ProportionsMatureByAge::DoValidate() {
   Categories* categories = model_->categories();
   LOG_FINEST() << "Number of different total categories " << total_category_labels_.size();
   vector<string> split_category_labels;
+
   for (const string& category_label : total_category_labels_) {
     boost::split(split_category_labels, category_label, boost::is_any_of("+"));
     for (const string& split_category_label : split_category_labels) {
@@ -89,14 +92,15 @@ void ProportionsMatureByAge::DoValidate() {
           LOG_ERROR_P(PARAM_TOTAL_CATEGORIES) << ": The category " << split_category_label << " is not a valid category.";
         } else {
           LOG_ERROR_P(PARAM_TOTAL_CATEGORIES) << ": The category " << split_category_label << " is not a valid category."
-              << " It was defined in the category collection " << category_label;
+            << " It was defined in the category collection " << category_label;
         }
       }
     }
   }
   for (auto tot_category : total_category_labels_) {
     if(std::find(category_labels_.begin(),category_labels_.end(),tot_category) != category_labels_.end())
-      LOG_ERROR_P(PARAM_TOTAL_CATEGORIES) << "category '" << tot_category << "' was found in the parameter " <<  PARAM_CATEGORIES << ". Please remove it from the " << PARAM_TOTAL_CATEGORIES << " parameter";
+      LOG_ERROR_P(PARAM_TOTAL_CATEGORIES) << "category '" << tot_category << "' was found in the parameter " <<  PARAM_CATEGORIES
+        << ". Please remove it from the " << PARAM_TOTAL_CATEGORIES << " parameter";
 
   }
   LOG_FINEST() << "Number of different total categories after splitting " << total_category_labels_.size();
@@ -109,30 +113,34 @@ void ProportionsMatureByAge::DoValidate() {
   if (max_age_ > model_->max_age())
     LOG_ERROR_P(PARAM_MAX_AGE) << ": max_age (" << max_age_ << ") is greater than the model's max_age (" << model_->max_age() << ")";
   if (process_error_values_.size() != 0 && process_error_values_.size() != years_.size()) {
-    LOG_ERROR_P(PARAM_PROCESS_ERRORS) << " number of values provied (" << process_error_values_.size() << ") does not match the number of years provided ("
-        << years_.size() << ")";
+    LOG_ERROR_P(PARAM_PROCESS_ERRORS) << " number of values provided (" << process_error_values_.size()
+      << ") does not match the number of years provided (" << years_.size() << ")";
   }
+
   for (auto year : years_) {
-  	if((year < model_->start_year()) || (year > model_->final_year()))
-  		LOG_ERROR_P(PARAM_YEARS) << "Years can't be less than start_year (" << model_->start_year() << "), or greater than final_year (" << model_->final_year() << "). Please fix this.";
+    if((year < model_->start_year()) || (year > model_->final_year()))
+      LOG_ERROR_P(PARAM_YEARS) << "Years cannot be less than start_year (" << model_->start_year()
+        << "), or greater than final_year (" << model_->final_year() << ").";
   }
 
   for (Double process_error : process_error_values_) {
     if (process_error < 0.0)
       LOG_ERROR_P(PARAM_PROCESS_ERRORS) << ": process_error (" << AS_DOUBLE(process_error) << ") cannot be less than 0.0";
   }
+
   if (process_error_values_.size() != 0) {
     if (process_error_values_.size() != years_.size()) {
-      LOG_FATAL_P(PARAM_PROCESS_ERRORS) << "need to supply a process error for each year, you supplied '" << process_error_values_.size() << "', but you need to supply '" << years_.size() << "'";
+      LOG_FATAL_P(PARAM_PROCESS_ERRORS) << "Supply a process error for each year. Values for " << process_error_values_.size()
+        << " years were provided, but " << years_.size() << " years are required";
     }
-    process_errors_by_year_ = utilities::Map::create(years_, process_error_values_);
+    process_errors_by_year_ = utilities::Map<Double>::create(years_, process_error_values_);
   } else {
     Double process_val = 0.0;
-    process_errors_by_year_ = utilities::Map::create(years_, process_val);
+    process_errors_by_year_ = utilities::Map<Double>::create(years_, process_val);
   }
 
   if (delta_ < 0.0)
-    LOG_ERROR_P(PARAM_DELTA) << ": delta (" << AS_DOUBLE(delta_) << ") cannot be less than 0.0";
+    LOG_ERROR_P(PARAM_DELTA) << ": delta (" << delta_ << ") cannot be less than 0.0";
 
   /**
    * Validate the number of obs provided matches age spread * category_labels * years
@@ -142,26 +150,27 @@ void ProportionsMatureByAge::DoValidate() {
   unsigned obs_expected = age_spread_ * category_labels_.size() + 1;
   vector<vector<string>>& obs_data = obs_table_->data();
   if (obs_data.size() != years_.size()) {
-    LOG_ERROR_P(PARAM_OBS) << " has " << obs_data.size() << " rows defined, but we expected " << years_.size()
-        << " to match the number of years provided";
+    LOG_ERROR_P(PARAM_OBS) << " has " << obs_data.size() << " rows defined, but " << years_.size()
+      << " should match the number of years provided";
   }
 
   for (vector<string>& obs_data_line : obs_data) {
     if (obs_data_line.size() != obs_expected) {
-      LOG_ERROR_P(PARAM_OBS) << " has " << obs_data_line.size() << " values defined, but we expected " << obs_expected
-          << " to match the age speard * categories + 1 (for year)";
+      LOG_ERROR_P(PARAM_OBS) << " has " << obs_data_line.size() << " values defined, but " << obs_expected
+        << " should match the age spread * categories + 1 (for year)";
     }
 
     unsigned year = 0;
     if (!utilities::To<unsigned>(obs_data_line[0], year))
-      LOG_ERROR_P(PARAM_OBS) << " value " << obs_data_line[0] << " could not be converted in to an unsigned integer. It should be the year for this line";
+      LOG_ERROR_P(PARAM_OBS) << " value " << obs_data_line[0] << " could not be converted to an unsigned integer. It should be the year for this line";
     if (std::find(years_.begin(), years_.end(), year) == years_.end())
       LOG_ERROR_P(PARAM_OBS) << " value " << year << " is not a valid year for this observation";
 
     for (unsigned i = 1; i < obs_data_line.size(); ++i) {
-      Double value = 0;
+      Double value = 0.0;
       if (!utilities::To<Double>(obs_data_line[i], value))
-        LOG_ERROR_P(PARAM_OBS) << " value (" << obs_data_line[i] << ") could not be converted to a double";
+        LOG_ERROR_P(PARAM_OBS) << " value (" << obs_data_line[i] << ") could not be converted to a Double";
+      // TODO:  need additional proportion checks
       obs_by_year[year].push_back(value);
     }
     if (obs_by_year[year].size() != obs_expected - 1)
@@ -173,37 +182,40 @@ void ProportionsMatureByAge::DoValidate() {
    */
   vector<vector<string>>& error_values_data = error_values_table_->data();
   if (error_values_data.size() != years_.size()) {
-    LOG_ERROR_P(PARAM_ERROR_VALUES) << " has " << error_values_data.size() << " rows defined, but we expected " << years_.size()
-        << " to match the number of years provided";
+    LOG_ERROR_P(PARAM_ERROR_VALUES) << " has " << error_values_data.size() << " rows defined, but " << years_.size()
+      << " should match the number of years provided";
   }
 
   for (vector<string>& error_values_data_line : error_values_data) {
     LOG_FINEST() << "cols = " << error_values_data_line.size();
     if (error_values_data_line.size() != 2 && error_values_data_line.size() != obs_expected) {
-      LOG_ERROR_P(PARAM_ERROR_VALUES) << " has " << error_values_data_line.size() << " values defined, but we expected " << obs_expected
-          << " to match the age speard * categories + 1 (for year)";
+      LOG_ERROR_P(PARAM_ERROR_VALUES) << " has " << error_values_data_line.size() << " values defined, but " << obs_expected
+        << " should match the age spread * categories + 1 (for year)";
     }
     unsigned year = 0;
     if (!utilities::To<unsigned>(error_values_data_line[0], year))
-      LOG_ERROR_P(PARAM_ERROR_VALUES) << " value " << error_values_data_line[0] << " could not be converted in to an unsigned integer. It should be the year for this line";
+      LOG_ERROR_P(PARAM_ERROR_VALUES) << " value " << error_values_data_line[0] << " could not be converted to an unsigned integer. It should be the year for this line";
     if (std::find(years_.begin(), years_.end(), year) == years_.end())
       LOG_ERROR_P(PARAM_ERROR_VALUES) << " value " << year << " is not a valid year for this observation";
-    for (unsigned i = 1; i < error_values_data_line.size(); ++i) {
-      Double value = 0;
 
+    for (unsigned i = 1; i < error_values_data_line.size(); ++i) {
+      Double value = 0.0;
       if (!utilities::To<Double>(error_values_data_line[i], value))
-        LOG_ERROR_P(PARAM_ERROR_VALUES) << " value (" << error_values_data_line[i] << ") could not be converted to a double";
+        LOG_ERROR_P(PARAM_ERROR_VALUES) << " value (" << error_values_data_line[i] << ") could not be converted to a Double";
       if (likelihood_type_ == PARAM_LOGNORMAL && value <= 0.0) {
-        LOG_ERROR_P(PARAM_ERROR_VALUES) << ": error_value (" << AS_DOUBLE(value) << ") cannot be equal to or less than 0.0";
+        LOG_ERROR_P(PARAM_ERROR_VALUES) << ": error_value (" << value << ") cannot be equal to or less than 0.0";
       } else if ((likelihood_type_ == PARAM_MULTINOMIAL && value < 0.0) || (likelihood_type_ == PARAM_DIRICHLET && value < 0.0)) {
-        LOG_ERROR_P(PARAM_ERROR_VALUES) << ": error_value (" << AS_DOUBLE(value) << ") cannot be less than 0.0";
+        LOG_ERROR_P(PARAM_ERROR_VALUES) << ": error_value (" << value << ") cannot be less than 0.0";
       }
 
       error_values_by_year[year].push_back(value);
     }
+
     if (error_values_by_year[year].size() == 1) {
-      error_values_by_year[year].assign(obs_expected - 1, error_values_by_year[year][0]);
+      auto val_e = error_values_by_year[year][0];
+      error_values_by_year[year].assign(obs_expected - 1, val_e);
     }
+
     if (error_values_by_year[year].size() != obs_expected - 1)
       LOG_CODE_ERROR() << "error_values_by_year_[year].size() (" << error_values_by_year[year].size() << ") != obs_expected - 1 (" << obs_expected -1 << ")";
   }
@@ -221,18 +233,21 @@ void ProportionsMatureByAge::DoValidate() {
         unsigned obs_index = i * age_spread_ + j;
         if (!utilities::To<Double>(iter->second[obs_index], value))
           LOG_ERROR_P(PARAM_OBS) << ": obs_ value (" << iter->second[obs_index] << ") at index " << obs_index + 1
-              << " in the definition could not be converted to a numeric double";
+            << " in the definition could not be converted to a Double";
 
-        Double error_value = error_values_by_year[iter->first][obs_index];
-        error_values_[iter->first][category_labels_[i]].push_back(error_value);
-        proportions_[iter->first][category_labels_[i]].push_back(value);
+        auto e_f = error_values_by_year.find(iter->first);
+        if (e_f != error_values_by_year.end())
+        {
+          error_values_[iter->first][category_labels_[i]].push_back(e_f->second[obs_index]);
+          proportions_[iter->first][category_labels_[i]].push_back(value);
+        }
       }
     }
   }
 }
 
 /**
- * Build any runtime relationships we may have and ensure
+ * Build any runtime relationships and ensure that
  * the labels for other objects are valid.
  */
 void ProportionsMatureByAge::DoBuild() {
@@ -247,16 +262,16 @@ void ProportionsMatureByAge::DoBuild() {
 
   // Create a pointer to misclassification matrix
   if( ageing_error_label_ != "") {
-  ageing_error_ = model_->managers().ageing_error()->GetAgeingError(ageing_error_label_);
-  if (!ageing_error_)
-    LOG_ERROR_P(PARAM_AGEING_ERROR) << "(" << ageing_error_label_ << ") could not be found. Have you defined it?";
+    ageing_error_ = model_->managers().ageing_error()->GetAgeingError(ageing_error_label_);
+    if (!ageing_error_)
+      LOG_ERROR_P(PARAM_AGEING_ERROR) << "Ageing error label (" << ageing_error_label_ << ") was not found.";
   }
 
   age_results_.resize(age_spread_ * category_labels_.size(), 0.0);
 
   TimeStep* time_step = model_->managers().time_step()->GetTimeStep(time_step_label_);
   if (!time_step) {
-    LOG_FATAL_P(PARAM_TIME_STEP) << time_step_label_ << " could not be found. Have you defined it?";
+    LOG_FATAL_P(PARAM_TIME_STEP) << "Time step label " << time_step_label_ << " was not found.";
   } else {
     for (unsigned year : years_)
       time_step->SubscribeToBlock(this, year);
@@ -264,11 +279,9 @@ void ProportionsMatureByAge::DoBuild() {
 }
 
 /**
- * This method is called at the start of the targetted
- * time step for this observation.
+ * This method is called at the start of the time step for this observation.
  *
- * At this point we need to build our cache for the partition
- * structure to use with any interpolation
+ * Build the cache for the partition structure to use with any interpolation
  */
 void ProportionsMatureByAge::PreExecute() {
   LOG_TRACE();
@@ -281,8 +294,8 @@ void ProportionsMatureByAge::PreExecute() {
   }
   if (total_cached_partition_->Size() != proportions_[model_->current_year()].size()) {
     LOG_CODE_ERROR() << "total_cached_partition_->Size() != proportions_[model->current_year()].size()";
-
   }
+
   if (partition_->Size() != proportions_[model_->current_year()].size())
     LOG_CODE_ERROR() << "partition_->Size() != proportions_[model->current_year()].size()";
   if (total_partition_->Size() != proportions_[model_->current_year()].size())
@@ -290,7 +303,7 @@ void ProportionsMatureByAge::PreExecute() {
 }
 
 /**
- *
+ * Execute
  */
 void ProportionsMatureByAge::Execute() {
   LOG_TRACE();
@@ -302,6 +315,11 @@ void ProportionsMatureByAge::Execute() {
   auto partition_iter         = partition_->Begin();
   auto total_cached_partition_iter  = total_cached_partition_->Begin();
   auto total_partition_iter         = total_partition_->Begin();
+
+  vector<Double> expected_values(age_spread_, 0.0);
+  vector<Double> numbers_age((model_->age_spread() + 1), 0.0);
+  vector<Double> total_numbers_age((model_->age_spread() + 1), 0.0);
+
   /**
    * Loop through the provided categories. Each provided category (combination) will have a list of observations
    * with it. We need to build a vector of proportions for each age using that combination and then
@@ -312,10 +330,10 @@ void ProportionsMatureByAge::Execute() {
     Double      start_value        = 0.0;
     Double      end_value          = 0.0;
 
+    std::fill(expected_values.begin(), expected_values.end(), 0.0);
+    std::fill(numbers_age.begin(), numbers_age.end(), 0.0);
+    std::fill(total_numbers_age.begin(), total_numbers_age.end(), 0.0);
 
-    vector<Double> expected_values(age_spread_, 0.0);
-    vector<Double> numbers_age((model_->age_spread() + 1), 0.0);
-    vector<Double> total_numbers_age((model_->age_spread() + 1), 0.0);
     /**
      * Loop through the total categories building up numbers at age.
      */
@@ -337,6 +355,7 @@ void ProportionsMatureByAge::Execute() {
         LOG_FINE() << "start_value: " << start_value << "; end_value: " << end_value;
       }
     }
+
     /**
      * Loop through the categories building up numbers at age for the mature, but also adding them onto the total .
      */
@@ -378,7 +397,6 @@ void ProportionsMatureByAge::Execute() {
       total_numbers_age = total_temp;
     }
 
-
     /*
      *  Now collapse the number_age into expected values by age
      */
@@ -396,6 +414,7 @@ void ProportionsMatureByAge::Execute() {
           LOG_FINEST() << "age = " << k + age_offset << " total = " << total_numbers_age[k] << " mature = " << numbers_age[k];
         }
       }
+
       if (((k - age_offset + min_age_) > max_age_) && plus_group_) {
         // plus group
         plus += numbers_age[k];
@@ -411,18 +430,18 @@ void ProportionsMatureByAge::Execute() {
         expected_values[age_spread_ - 1] = 0.0;
     }
 
-
-
     if (expected_values.size() != proportions_[model_->current_year()][category_labels_[category_offset]].size())
       LOG_CODE_ERROR() << "expected_values.size(" << expected_values.size() << ") != proportions_[category_offset].size("
         << proportions_[model_->current_year()][category_labels_[category_offset]].size() << ")";
+
     /**
      * save our comparisons so we can use them to generate the score from the likelihoods later
      */
     for (unsigned i = 0; i < expected_values.size(); ++i) {
       LOG_FINEST() << "proportions mature at age " << min_age_ + i << " = " << expected_values[i];
       SaveComparison(category_labels_[category_offset], min_age_ + i ,0.0 ,expected_values[i], proportions_[model_->current_year()][category_labels_[category_offset]][i],
-          process_errors_by_year_[model_->current_year()], error_values_[model_->current_year()][category_labels_[category_offset]][i], 0.0, delta_, 0.0);
+                     process_errors_by_year_[model_->current_year()], error_values_[model_->current_year()][category_labels_[category_offset]][i],
+                     0.0, delta_, 0.0);
     }
   }
 }
@@ -436,7 +455,7 @@ void ProportionsMatureByAge::CalculateScore() {
    * Simulate or generate results
    * During simulation mode we'll simulate results for this observation
    */
-	LOG_FINEST() << "Calculating score for observation = " << label_;
+  LOG_FINEST() << "Calculating neglogLikelihood for observation = " << label_;
 
   if (model_->run_mode() == RunMode::kSimulation) {
     likelihood_->SimulateObserved(comparisons_);
@@ -449,7 +468,7 @@ void ProportionsMatureByAge::CalculateScore() {
     for (unsigned year : years_) {
       scores_[year] = likelihood_->GetInitialScore(comparisons_, year);
       for (obs::Comparison comparison : comparisons_[year]) {
-        LOG_FINEST() << "[" << year << "]+ likelihood score: " << comparison.score_;
+        LOG_FINEST() << "[" << year << "] + neglogLikelihood: " << comparison.score_;
         scores_[year] += comparison.score_;
       }
     }

@@ -9,7 +9,7 @@
  *
  */
 #ifndef ADDITIONAL_PRIORS_FACTORY_H_
-#define ADDITIONAL_PRIORSFACTORY_H_
+#define ADDITIONAL_PRIORS_FACTORY_H_
 
 // headers
 #include "AdditionalPriors/AdditionalPrior.h"

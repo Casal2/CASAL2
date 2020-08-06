@@ -40,8 +40,8 @@ private:
   // Members
   int                         max_iterations_;
   int                         max_evaluations_;
-  Double                      gradient_tolerance_;
-  Double                      step_size_;
+  double                      gradient_tolerance_;
+  double                      step_size_;
 };
 
 } /* namespace minimisers */

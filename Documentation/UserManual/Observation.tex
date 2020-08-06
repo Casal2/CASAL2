@@ -2,44 +2,53 @@
 
 \subsection{\I{Observations}\label{sec:Observations}\index{Observations}}
 
-The objective function is based on the goodness-of-fit of the model to the supplied observational data. Observations are typically supplied at an instance in time, over a group of aggregated categories. Most observations are formed from time, i.e., data which were recorded for one or more years, in the same format each year. Examples of time series data types include relative abundance indices, commercial catch length frequencies, and survey numbers-at-age.
+The objective function calculates the goodness-of-fit of the model to the observation data. Observations are typically supplied at an instance in time, over a group of aggregated categories. Most observations are sampled over time, i.e., data which were recorded for one or more years, in the same format each year. Examples of time series data types include relative abundance indices, commercial catch length frequencies, and survey numbers-at-age.
 
 Definitions for each type of observation are described below, including how the observed values should be formatted, how \CNAME\ calculates the expected values, and the likelihoods that are available for each type of observation.
 
-There are two main types of observations available in \CNAME. The first are observations that are associated with a \hyperref[sec:mortality_block]{\textbf{mortality block}} and, secondly, observations that are associated with a specific process. These can be distinguished by the \subcommand{type} subcommand. If an observation type begins with \texttt{process} it is an observation that is associated with a process. If a type does \textbf{not} begin with \texttt{process} it is associated with the mortality block of the defined time step. For example, the observation type \texttt{process\_abundance} is a process based observation, whereas \texttt{process\_abundance} \texttt{abundance} is an observation that is associated with a mortality block.
+There are two main types of observations available in \CNAME. The first type is observations that are associated with a \hyperref[sec:mortality_block]{\textbf{mortality block}}. The second type is observations that are associated with a specific process. These observations use the \subcommand{type} subcommand.
 
-Process specific observations can also be broken into two types. \textbf{Specific process observations} are observations that are associated to a specific process (e.g. \texttt{process\_proportions\_migrating}), and \textbf{general process observations} are observations that can be associated with any process (e.g. \texttt{process\_proportions\_at\_age}). These tiers of observations have been separated in different sections as to reduce the confusion.
+If an observation begins with \texttt{process} it is an observation that is associated with a process. If an observation does \textbf{not} begin with \texttt{process} it is associated with the mortality block of the defined time step. For example, the observation type \texttt{process\_abundance} is a process-based observation, whereas \texttt{process\_abundance} \texttt{abundance} is an observation that is associated with a mortality block.
+
+There are two types of process observations. \textbf{Specific process observations} are observations that are associated with a specific process (e.g., \texttt{process\_proportions\_migrating}), and \textbf{general process observations} are observations that can be associated with any process (e.g., \texttt{process\_proportions\_at\_age}). The observation types are described in different sections.
 
 \subsubsection{\I{Mortality block associated observations}}
 
-All observations within this class are calculated in a similar fashion. That is, an expectation is calculated at the beginning of the mortality block and at the end of the mortality block. \CNAME\ then uses a linear interpolation to approximate an expectation part way through a mortality block using the subcommand \texttt{time\_step\_proportion}. This could be useful if a survey occurs part-way through an exploitation phase, e.g when modelling a fish population this may be part-way through a fishing season. Each observation in this class will evaluate different expectations of the partition (explained in the following descriptions). A list of observation \texttt{types} available with this class of observations are:
+All observations within this class are calculated similarly. That is, the expected values are calculated at the beginning of the mortality block and at the end of the mortality block. \CNAME\ then uses a linear interpolation to approximate the expected values part way through a mortality block using the subcommand \texttt{time\_step\_proportion}. This feature could be useful if a survey occurs part way through an exploitation phase, which may be part way through a fishing season when modelling a fish population. Each observation in this class will evaluate different expectations of the partition (explained in the following descriptions).
+
+The observation \texttt{types} available with this class of observations are:
+
 \begin{itemize}
 	\item \texttt{abundance}
 	\item \texttt{biomass}
 	\item \texttt{proportions\_at\_age}
-	\item \texttt{proportions\_at\_length}	
-	\item \texttt{proportions\_by\_category}	
-	\item \texttt{tag\_recapture\_by\_length}		
-	\item \texttt{tag\_recapture\_by\_age}														
+	\item \texttt{proportions\_at\_length}
+	\item \texttt{proportions\_by\_category}
+	\item \texttt{tag\_recapture\_by\_length}
+	\item \texttt{tag\_recapture\_by\_age}
 \end{itemize}
 
 \paragraph*{\I{Abundance or biomass observations}}
-Abundance (or biomass) observations are observations of either a relative or absolute number (or biomass) of individuals from a set of categories after applying a selectivity. The observation classes are the same, except that a biomass observation will use the biomass as the observed (and expected) value (calculated from mean weight of individuals within each age and category) while an abundance observation is just the number of individuals. 
 
-Each observation is for a given year and time-step, for some selected age classes of the population (i.e., for a range of ages multiplied by a selectivity), for aggregated categories. Further, you need to provide the label of the catchability coefficient $q$, which can either be estimated of fixed. For absolute abundance or absolute biomass observations, define a catchability where $q=1$.
+Abundance (or biomass) observations are observations of either a relative or absolute number (or biomass) of individuals from a set of categories after applying a selectivity. The observation classes are the same, except that a biomass observation will use the biomass as the observed (and expected) value (calculated from mean weight of individuals within each age and category) while an abundance observation is the number of individuals.
 
-The observations can be supplied for any set of categories. For example, for a model with the two categories \emph{male} and \emph{female}, we might supply an observation of the total abundance/biomass (male $+$ female) or just male abundance/biomass. The subcommand \subcommand{categories} defines the categories used to aggregate the abundance/biomass. In addition, each category must have an associated selectivity, defined by \subcommand{selectivities}. For example,  
+Each observation is for a given year and time-step, for some selected age classes of the population (for a range of ages multiplied by a selectivity), for aggregated categories. Furthermore, the label of the catchability coefficient $q$ is required;  $q$ can either be estimated of fixed. For absolute abundance or absolute biomass observations, define a catchability where $q=1$.
+
+The observations can be supplied for any set of categories. For example, for a model with the two categories \emph{male} and \emph{female}, an observation of the total abundance/biomass (male $+$ female) or male-only abundance/biomass could be provided. The subcommand \subcommand{categories} defines the categories used to aggregate the abundance/biomass. In addition, each category must have an associated selectivity, defined by \subcommand{selectivities}.
+
+For example,
 
 {\small{\begin{verbatim}
 		categories male
 		selectivities male-selectivity
-		\end{verbatim}}}
+\end{verbatim}}}
 
-defines an observation for males after applying the selectivity male-selectivity. \CNAME\ then expects that there will be a single observation supplied. The expected values for the observations will be the expected abundance (or biomass) of males, after applying the selectivities, at the year and time-step specified. 
+defines an observation for males after applying the selectivity male-selectivity. \CNAME\ then requires that an observation is supplied. The expected values for the observations will be the expected abundance (or biomass) of males, after applying the selectivities, at the year and time-step specified.
 
-\CNAME\ calculates the expected values by summing over the defined ages (via the age range and selectivity) and categories at both the beginning and end of a mortality block. You can prompt \CNAME\ to approximate the expectation part way through the mortality block using the \texttt{time\_step\_proportion}. The default value \CNAME\ uses us 0.5, which does linear interpolation between the start and end abundance (or biomass) from the mortality block.
+\CNAME\ calculates the expected values by summing over the defined ages (via the age range and selectivity) and categories at both the beginning and end of a mortality block. \CNAME\ will approximate the expectation part way through the mortality block using the \texttt{time\_step\_proportion}. The default \texttt{time\_step\_proportion} value is 0.5. \CNAME\ does linear interpolation between the start and end abundance (or biomass) from the mortality block.
 
-For an abundance observation the expectation is calculated as follows,
+For an abundance observation the expected value is
+
 \begin{equation}\label{eq:expec_1}
 E_{i,1} = \sum_{c=1}^{} \sum_{a=1}^{A} S_{a,c} N_{a,c,i,1}
 \end{equation}
@@ -48,23 +57,29 @@ E_{i,1} = \sum_{c=1}^{} \sum_{a=1}^{A} S_{a,c} N_{a,c,i,1}
 E_{i,2} = \sum_{c=1}^{} \sum_{a=1}^{A} S_a N_{a,c,i,2}
 \end{equation}
 
-Where $E_{i,1}$ is the expectation at the beginning of time step and $E_{i,2}$ is the expectation at the end of the time-step. $S_a$ is the selectivity for age $a$ and category $c$. If there is no mortality related to this observation then $E_i$ which is used in the likelihood contribution is $E_{i,1}$. If this was a biomass observation we would replace $N_{a,c,i,1}$ in Equation~\eqref{eq:expec_1} and~\eqref{eq:expec_2} with $N_{a,c,i,1} \bar{w}_{a,c}$, where $\bar{w}_{a,c}$ is the mean weight of category $c$ at age $a$. If the user wishes to apply 100\% mortality then $E_i = E_{i,2}$. For applying quantities of mortality between these values ($M_i$), \CNAME\ does the following linear interpolation.
+Where $E_{i,1}$ is the expectation at the beginning of time step and $E_{i,2}$ is the expectation at the end of the time-step. $S_a$ is the selectivity for age $a$ and category $c$. If there is no mortality related to this observation then $E_i$ which is used in the likelihood contribution is $E_{i,1}$. If this was a biomass observation, then $N_{a,c,i,1}$ in Equations~\eqref{eq:expec_1} and~\eqref{eq:expec_2} is replaced with $N_{a,c,i,1} \bar{w}_{a,c}$, where $\bar{w}_{a,c}$ is the mean weight of category $c$ at age $a$. If the user wishes to apply 100\% mortality then $E_i = E_{i,2}$.
+
+For applying quantities of mortality between these values ($M_i$), the linear interpolation is
+
 \begin{equation}
 E_{i} = |E_{i,1} - E_{i,2}|  M_i
 \end{equation}
 
+For each year of observations, the observation table \texttt{table obs} has a row with year in the first column, the observation per category in the middle column(s), and the error value in the final column:
 
 {\small{\begin{verbatim}
 		@observation MyAbundance
 		type abundance
 		years 1999
 		...
-		categories male 
-		obs 1000
+		categories male
+		table obs
+		1999 1000 0.10
+		end_table
 		...
-		\end{verbatim}}}
+\end{verbatim}}}
 
-Or, for an observation aggregated over multiple categories,
+For an observation aggregated over multiple categories:
 
 {\small{\begin{verbatim}
 		@observation MyAbundance
@@ -73,52 +88,68 @@ Or, for an observation aggregated over multiple categories,
 		...
 		categories male+female
 		table obs
-		1990 1000
-		1991 1200
+		1990 1000 0.10
+		1991 1200 0.12
 		end_table
 		...
-		\end{verbatim}}}
+\end{verbatim}}}
+
+For observations for multiple categories:
+
+{\small{\begin{verbatim}
+		@observation MyAbundance
+		type abundance
+		years 1990 1991
+		...
+		categories male female
+		table obs
+		1990 550 450 0.10
+		1991 700 500 0.12
+		end_table
+		...
+\end{verbatim}}}
 
 
-Note that, to define a biomass observation instead of an abundance observation, use 
+To define a biomass observation instead of an abundance observation, use
 
 {\small{\begin{verbatim}
 		@observation MyBiomass
 		type biomass
 		...
-		\end{verbatim}}}
+\end{verbatim}}}
+
 
 \paragraph*{\I{Proportions-at-age}}
-Proportions-at-age observations are observations of the relative number of individuals at age, via some selectivity. 
+
+Proportions-at-age observations are observations of the relative number of individuals at age, via some selectivity.
 
 The observation is supplied for a given year and time-step, for some selected age classes of the population (i.e., for a range of ages multiplied by a selectivity), for categories aggregated over a set of spatial cells. Note that the categories defined in the observations must have an associated selectivity, defined by \subcommand{selectivities}.
 
-The age range must be ages defined in the partition (i.e., between \commandsub{model}{min\_age} and \commandsub{model}{max\_age} inclusive), but the upper end of the age range can optionally be a plus group --- which must be either the same or less than the plus group defined for the partition. 
+The age range must be ages defined in the partition (i.e., between \commandsub{model}{min\_age} and \commandsub{model}{max\_age} inclusive); the upper end of the age range can optionally be a plus group, which must be either the same as or less than the plus group defined for the partition.
 
+Proportions-at-age observations can be supplied as
 
-Proportions-at-age observations can be supplied as; 
-\begin{enumerate}
-	\item a set of proportions for a single category, 
+\begin{itemize}
+	\item a set of proportions for a single category,
 	\item a set of proportions for multiple categories, or
 	\item a set of proportions across aggregated categories.
-\end{enumerate}
+\end{itemize}
 
-The method of evaluating expectations are the same for all three of these sceneries. We will describe how you define these different scenarios and the expected dimensions of observation and error inputs that \CNAME\ expects for each respective scenario with examples.
+The method of evaluating expectations are the same for all three types of proportions. The definitions of these proportions and the expected dimensions of observation and error inputs that \CNAME\ expects for each respective proportion type are described below with examples.
 
-Like all types of observations that are associated with the mortality block, \CNAME\ will evaluate the numbers at age before the mortality block (after taking into account a selectivity that the user defines) and after for the specified time step of the observation. \CNAME\ will generate expectations from the partition part way through the mortality block using the subcommand \texttt{time\_step\_proportion}. This approximation is a linear interpolation of the numbers at age over the mortality block. 
+Like all types of observations that are associated with the mortality block, \CNAME\ will evaluate the numbers at age before and after the mortality block for the specified time step of the observation, and applying the user-defined selectivity. \CNAME\ then generates the expectations from the partition part way through the mortality block using the subcommand \texttt{time\_step\_proportion}. This approximation is a linear interpolation of the numbers-at-age over the mortality block.
 
-Once the interpolation is evaluated \CNAME\ will apply ageing error if the user has specified it. \CNAME\ finally converts numbers at age to proportions at age by dividing all numbers in an age bin by the total and sending that to the likelihood to be evaluated.
+The ageing error is then applied, if the user has specified it. Finally, \CNAME\ converts the numbers-at-age to proportions-at-age by dividing all numbers in an age bin by the total numbers. The likelihood for the proportions-at-age observation is then calculated.
 
-Defining an observation for a single category is the simplest, and is used to model a set of proportions of a single category by age class. For example, to specify that the observations are of the proportions of male within each age class, then the subcommand \subcommand{categories} for the \commandlabsubarg{observation}{type}{proportion\_by\_age} command is,
+Defining an observation for a single category is used to model a set of proportions of a single category by age class. For example, to specify that the observations are of the proportions of male within each age class, then the subcommand \subcommand{categories} for the \commandlabsubarg{observation}{type}{proportion\_by\_age} command is
 
 {\small{\begin{verbatim}
 		categories male
-		\end{verbatim}}}
+\end{verbatim}}}
 
-\CNAME\ then expects that there will be a single vector of proportions supplied, with one proportion for each age class within the defined age range, and that these proportions sum to one. 
+\CNAME\ then requires that there will be a single vector of proportions supplied, with one proportion for each age class within the defined age range, and that these proportions sum to one.
 
-For example, if the age range was 3 to 10, then 8 proportions should be supplied (one proportion for each of the the ages 3, 4, 5, 6, 7, 8, 9, and 10). The expected values will be the expected proportions of males within each of these age classes (after ignoring any males aged less than 3 or older than 10), after applying a selectivity at the year and time-step specified. The supplied vector of proportions (i.e., in this example, the 8 proportions) must sum to one, which is evaluated with a default tolerance of 0.001. 
-
+For example, if the age range was 3 to 10, then 8 proportions should be supplied, one proportion for each of the the ages 3, 4, 5, 6, 7, 8, 9, and 10. The expected values will be the expected proportions of males within each of these age classes (after omitting males aged less than 3 and older than 10), after applying a selectivity at the year and time-step specified. The supplied vector of proportions (i.e., in this example, the 8 proportions) must sum to one, which is evaluated with a default tolerance of 0.001.
 
 {\small{\begin{verbatim}
 		@observation MyProportions
@@ -132,18 +163,17 @@ For example, if the age range was 3 to 10, then 8 proportions should be supplied
 		1990 0.01 0.09 0.20 0.20 0.35 0.10 0.05
 		end_table
 		...
-		\end{verbatim}}}
+\end{verbatim}}}
 
-
-Defining an observation for multiple categories extends on the single category implementation. It is used to model a set of proportions over several categories by age class. For example, to specify that the observations are of the proportions of male or females within each age class, then the subcommand \subcommand{categories} for the \commandlabsubarg{observation}{type}{proportion\_by\_age} command is,
+Defining an observation for multiple categories extends the single category observation definition. It is used to model a set of proportions over several categories by age class. For example, to specify that the observations are of the proportions of male or females within each age class, then the subcommand \subcommand{categories} for the \commandlabsubarg{observation}{type}{proportion\_by\_age} command is
 
 {\small{\begin{verbatim}
 		categories male female
-		\end{verbatim}}}
+\end{verbatim}}}
 
-\CNAME\ then expects that there will be a single vector of proportions supplied, with one proportion for each category and age class combination, and that these proportions sum to one across all ages and categories.
+\CNAME\ then requires that there will be a single vector of proportions supplied, with one proportion for each category and age class combination, and that these proportions sum to one across all ages and categories.
 
-For example, if there were two categories and the age range was 3 to 10, then 16 proportions should be supplied (one proportion for each of the the ages 3, 4, 5, 6, 7, 8, 9, and 10, for each category male and female). The expected values will be the expected proportions of males and within each of these age classes (after ignoring those aged less than 3 or older than 10), after applying a selectivity at the year and time-step specified. The supplied vector of proportions (i.e., in this example, the 16 proportions) must sum to one, which is evaluated with a default tolerance of 0.001. 
+For example, if there were two categories and the age range was 3 to 10, then 16 proportions should be supplied (one proportion for each of the ages 3, 4, 5, 6, 7, 8, 9, and 10, for each category male and female). The expected values will be the expected proportions of males and females within each of these age classes (after omitting those aged less than 3 and older than 10), after applying a selectivity at the year and time-step specified. The supplied vector of proportions (i.e., in this example, the 16 proportions) must sum to one, which is evaluated with a default tolerance of 0.001.
 
 For example,
 
@@ -160,24 +190,24 @@ For example,
 		1991 0.02 0.06 0.10 0.21 0.18 0.02 0.03 0.17 0.20 0.01
 		end_table
 		...
-		\end{verbatim}}}
-		
-		
-Defining an observation across aggregated categories allows categories to be aggregated before the proportions are calculated. It is used to model a set of proportions from several categories that have been combined by age class. To indicate that two (or more) categories are to be aggregated, separate them with a '+' symbol. For example, to specify that the observations are of the proportions of male and females combined within each age class, then the subcommand \subcommand{categories} for the \commandlabsubarg{observation}{type}{proportion\_by\_age} command is,
-		
+\end{verbatim}}}
+
+
+Defining an observation across aggregated categories allows categories to be aggregated before the proportions are calculated. It is used to model a set of proportions from several categories that have been combined by age class. To indicate that two (or more) categories are to be aggregated, separate them with a '+' symbol. For example, to specify that the observations are of the proportions of male and females combined within each age class, then the subcommand \subcommand{categories} for the \commandlabsubarg{observation}{type}{proportion\_by\_age} command is
+
 {\small{\begin{verbatim}
 		categories male + female
-		\end{verbatim}}}
-		
-\CNAME\ then expects that there will be a single vector of proportions supplied, with one proportion for each age class, and that these proportions sum to one. 
-		
-For example, if there were two categories and the age range was 3 to 10, then 8 proportions should be supplied (one proportion for each of the the ages 3, 4, 5, 6, 7, 8, 9, and 10, for the sum of males and females within each age class). The expected values will be the expected proportions of males + females within each of these age classes (after ignoring those aged less than 3 or older than 10), after applying a selectivity at the year and time-step specified. The supplied vector of proportions (i.e., in this example, the 16 proportions) must sum to one, which is evaluated with a default tolerance of 0.001. 
-		
+\end{verbatim}}}
+
+\CNAME\ then requires that there will be a single vector of proportions supplied, with one proportion for each age class, and that these proportions sum to one.
+
+For example, if there were two categories and the age range was 3 to 10, then 8 proportions should be supplied (one proportion for each of the the ages 3, 4, 5, 6, 7, 8, 9, and 10, for the sum of males and females within each age class). The expected values will be the expected proportions of males + females within each of these age classes (after omitting those aged less than 3 and older than 10), after applying a selectivity at the year and time-step specified. The supplied vector of proportions (i.e., in this example, the 8 proportions) must sum to one, which is evaluated with a default tolerance of 0.001.
+
 For example,
-		
+
 {\small{\begin{verbatim}
 				@observation MyProportions
-				type proportions_at_age 
+				type proportions_at_age
 				...
 				years 1990 1991
 				categories male+female
@@ -188,10 +218,10 @@ For example,
 				1991 0.02 0.06 0.18 0.35 0.39
 				end_table
 				...
-				\end{verbatim}}}
-				
-The later form can then be extended to include multiple categories, or multiple aggregated categories. For example, to describe proportions for the three groups: immature males, mature males, and all females (immature and mature females added together) for ages 1--4, a total of 12 proportions are required 
-				
+\end{verbatim}}}
+
+The latter form can then be extended to include multiple categories, or multiple aggregated categories. For example, to describe proportions for the three groups: immature males, mature males, and all females (immature and mature females added together) for ages 1 through 4, a total of 12 proportions are required
+
 {\small{\begin{verbatim}
 @observation MyProportions
 type proportions_at_age
@@ -208,8 +238,12 @@ end_table
 
 
 \paragraph*{\I{Proportions-at-length}}
-Functionality regarding defining combinations of categories and aggregated categories directly translates over from proportions at age to proportions at length. The difference is the observation is over length bins instead of age-classes. \CNAME\ calculates expectations of numbers at length by converting numbers at age to numbers by length by using the age-length relationship and distribution specified for the category specified in the \command{age\_length} block. Instead of supplying a minimum and maximum age users must supply a vector of length bins. If there is no plus group i..,e \texttt{length\_plus\_group=false} \CNAME\ expects a vector of proportions for each year that is $n - 1$, where $n$ is the number of lengths supplied. If \texttt{length\_plus\_group=true} \CNAME\ expects a vector of proportions for each year that is $n$. The last proportion represents the numbers from the last length bin to the maximum length the age-length relationship allows.
 
+Functionality for defining combinations of categories and aggregated categories directly translates from proportions-at-age to proportions-at-length. The difference is the observation is over length bins instead of age classes. \CNAME\ calculates the expected numbers-at-length by converting the numbers-at-age to numbers-at-length by using the age-length relationship and distribution specified for the category specified in the \command{age\_length} block.
+
+Instead of supplying a minimum and maximum age, the user must supply a vector of length bins. If no length bins are specified, then the observation-specific length bins use the model length bins as the default. If observation-specific length bins are specified, they must be a sequential subset of the model length bins, with no missing or added values. For example, if the model length bins are \texttt{0 5 10 15 20 25 ... 100}, then the observation-specific length bins can be \texttt{20 25 30 35 40 45 50} but not \texttt{20 30 40 50}.
+
+If there is no plus group, i.e., \texttt{length\_plus=false}, then \CNAME\ requires a vector of proportions for each year of length $n - 1$, where $n$ is the number of lengths supplied. If \texttt{length\_plus=true} then \CNAME\ expects a vector of proportions for each year of length $n$. The last proportion represents the numbers from the last length bin to the maximum length the age-length relationship allows.
 
 {\small{\begin{verbatim}
 @observation Observed_Length_frequency_Chat_east
@@ -220,37 +254,45 @@ time_step Summer
 fishery EastChathamRise
 process instant_mort
 categories male
-length_plus_group false
+length_plus false
 length_bins 0 20 40 60 80 110
 table obs
-1991    0.2   0.25    0.15     0.2     0.2 
-1992    0.12  0.25    0.28    0.25    0.1 
+1991    0.2   0.25    0.15     0.2     0.2
+1992    0.12  0.25    0.28    0.25    0.1
 end_table
 table error_values
 1991 25
 1992 37
-end_table  
+end_table
 \end{verbatim}}}
- 
+
+
 \paragraph*{\I{Proportions-by-category observations}\label{sec:proportions-by-category}}
-Proportions-by-category observations are observations of either the relative number of individuals between categories within age classes, or relative biomass between categories within age classes. 
 
-The observation is supplied for a given year and time-step, for some selected age classes of the population (i.e., for a range of ages multiplied by a selectivity).
+TODO 'between categories' or 'within categories'?
 
-The age range must be ages defined in the partition (i.e., between \commandsub{model}{min\_age} and \commandsub{model}{max\_age} inclusive), but the upper end of the age range can optionally be a plus group --- which may or may not be the same as the plus group defined for the partition. 
+Proportions-by-category observations are observations of either the relative number of individuals between categories within age classes, or relative biomass between categories within age classes.
 
-Proportions-by-category observations can be supplied for any set of categories as a proportion of themselves and any set of additional categories. For example, for a model with the two categories \emph{male} and \emph{female}, we might supply observations of the proportions of males in the population at each age class. The subcommand \subcommand{categories} defines the categories for the numerator in the calculation of the proportion, and the subcommand \subcommand{categories2} supplies the additional categories to be used in the denominator of the calculation. In addition, each category must have an associated selectivity, defined by \subcommand{selectivities} for the numerator categories and \subcommand{selectivities2} for the additional categories used in the denominator, e.g., 
+The observation is supplied for a given year and time-step, for selected age classes of the population (i.e., for a range of ages multiplied by a selectivity).
+
+The age range must be ages defined in the partition (i.e., between \commandsub{model}{min\_age} and \commandsub{model}{max\_age} inclusive); the upper end of the age range can optionally be a plus group, which may or may not be the same as the plus group defined for the partition.
+
+Proportions-by-category observations can be supplied for any set of categories as a proportion of themselves and any set of additional categories. For example, for a model with the two categories \emph{male} and \emph{female}, observations of the proportions of males in the population at each age class might be provided. The subcommand \subcommand{categories} defines the categories for the numerator in the calculation of the proportion, and the subcommand \subcommand{categories2} supplies the additional categories to be used in the denominator of the calculation. In addition, each category must have an associated selectivity, defined by \subcommand{selectivities} for the numerator categories and \subcommand{selectivities2} for the additional categories used in the denominator.
+
+For example,
 
 {\small{\begin{verbatim}
 		categories male
 		categories2 female
 		selectivities male-selectivity
 		selectivities2 female-selectivity
-		\end{verbatim}}}
+\end{verbatim}}}
 
-defines that the proportion of males in each age class as a proportion of males $+$ females. \CNAME\ then expects that there will be a vector of proportions supplied, with one proportion for each age class within the defined age range, i.e., if the age range was 3 to 10, then 8 proportions should be supplied (one proportion for each of the the ages 3, 4, 5, 6, 7, 8, 9, and 10). The expected values will be the expected proportions of male to male $+$ female within each of these age classes, after applying the selectivities at the year and time-step specified. 
+defines the proportion of males in each age class as a proportion of males $+$ females. \CNAME\ then requires that there will be a vector of proportions supplied, with one proportion for each age class within the defined age range, i.e., if the age range was 3 to 10, then 8 proportions should be supplied (one proportion for each of the the ages 3, 4, 5, 6, 7, 8, 9, and 10). The expected values will be the expected ratios of male to male $+$ female within each of these age classes, after applying the selectivities at the year and time-step specified.
 
-The observations must be supplied using all or some of the values defined by a categorical layer. \CNAME\ calculates the expected values by summing over the ages (via the age range and selectivity) and categories for those spatial cells where the categorical layer has the same value as defined for each vector of observations i.e.,
+The observations must be supplied using all or some of the values defined by a categorical layer. \CNAME\ calculates the expected values by summing over the ages (via the age range and selectivity) and categories for those spatial cells where the categorical layer has the same value as defined for each vector of observations.
+
+For example,
 
 {\small{\begin{verbatim}
 		@observation MyProportions
@@ -266,21 +308,25 @@ The observations must be supplied using all or some of the values defined by a c
 		1991 0.02 0.06 0.10 0.21 0.18
 		end_table
 		...
-		\end{verbatim}}}
+\end{verbatim}}}
 
 \paragraph*{\I{Tag Recapture by length}\label{sec:tag-recapture-by-length}}
 
 Tag data is primarily used to estimate the population abundance of fish. In some models, this estimation can only be made outside the model and the result is used as an estimate of abundance in the model. But in \CNAME\ the tagging data can, alternatively, be fitted within the model.
-\\\\
-Before adding a tag-recapture time series, you will need to define a tag-release process (Section~\ref{sub:tag_release}). Tagging events list the labels of the tags which are modelled, and define the events where fish are tagged (i.e., \CNAME\ moves fish into the section of the partition corresponding to a specific tag).
-\\\\
-The observations are divided into two parts: (i) the number of fish that were scanned, and (ii) the number of tags that were recaptured. Each can be specified by categories, or for combinations of categories. The precise content of the scanned and recaptured observations depends on the sampling method, and the available options are:
 
-\begin{enumerate}
-	\item age: both scanned and recaptured are vectors containing numbers-at-age. Only available in an age-based model. The selectivity ogive is redundant and cannot be supplied.
-	\item size: both scanned and recaptured are vectors containing numbers-at-size. Can be used in either an age- or size-based model. The selectivity ogive is redundant and cannot be supplied.
-\end{enumerate}
-When defining the tag-recapture time series, you also need to specify:
+Before adding a tag-recapture time series, a tag-release process (Section~\ref{sub:tag_release}) needs to be defined. Tagging events list the labels of the tags which are modelled, and define the events where fish are tagged (i.e., \CNAME\ moves fish into the section of the partition corresponding to a specific tag).
+
+The observations are divided into two parts: (i) the number of fish that were scanned, and (ii) the number of tags that were recaptured. Each number can be specified by categories, or for combinations of categories. The precise content of the scanned and recaptured observations depends on the sampling method.
+
+The available options are:
+
+\begin{itemize}
+	\item age: both the scanned and recaptured are vectors containing numbers-at-age. Only available in an age-based model. The selectivity ogive is redundant and cannot be supplied.
+	\item size: both the scanned and recaptured are vectors containing numbers-at-size. Can be used in either an age- or size-based model. The selectivity ogive is redundant and cannot be supplied.
+\end{itemize}
+
+When defining the tag-recapture time series, the following are also required:
+
 \begin{itemize}
 	\item the time step,
 	\item the years (unlike a tag-release process, the tag-recapture observations can occur over several years),
@@ -292,13 +338,14 @@ When defining the tag-recapture time series, you also need to specify:
 \end{itemize}
 
 
-An example of a tag recapture observation applied in \CNAME\,
+An example of a tag recapture observation:
+
 {\small{\begin{verbatim}
 		## For the following partition
 		@categories
 		format sex.area.tag
 		names  		male.Area1.2011,notag female.Area1.2011,notag
-		
+
 		@observation Tag_2011_Area1_recap_2012 ## individuals tagged in 2011 and recaptured in 2012
 		## in Area1
 		type tag_recapture_by_length
@@ -309,133 +356,255 @@ An example of a tag recapture observation applied in \CNAME\,
 		selectivities One ## label of selectivity for tagged
 		tagged_selectivities One ## label of selectivity for scanned
 		years 2012  ## years to apply observation
-		time_step step2  ## time_step to apply observation	
-		time_step_proportion 0.5 ## proportion of mortality applied before observation is calculated 
-		
+		time_step step2  ## time_step to apply observation
+		time_step_proportion 0.5 ## proportion of mortality applied before observation is calculated
+
 		table scanned
 		2012 281271 41360 30239 12234
 		end_table
-		
+
 		table recaptured
 		2012 15 20 12 2
 		end_table
-		
+
 		delta 1e-11 ## robustification value
 		dispersion 6.3	## dispersion factor
-		
-		\end{verbatim}}}
+\end{verbatim}}}
 
-The observed ($O_{y,l}$) and expected ($E_{y,l}$) values in year $y$ and length $l$ of this observation are calculated as followed;
+The observed ($O_{y,l}$) and expected ($E_{y,l}$) values in year $y$ and length $l$ of this observation are:
 
 \begin{equation}
 O_{y,l} = \frac{R_{y,l}}{S_{y,l}}
 \end{equation}
-where $R_{y,l}$ is the recaptures in year $y$ at length $l$ and $S_{y,l}$ are the scanned values, supplied by the user.
+
+where $R_{y,l}$ is the number of recaptures in year $y$ at length $l$ and $S_{y,l}$ are the scanned values.
+
 \begin{equation}
 E_{y,l} = d \frac{\tilde{N}_{y,l,t} +  (\tilde{N}_{y,l,t + 1} - \tilde{N}_{y,l,t}) \times p}
-{N_{y,l,t} + (N_{y,l,t+1} - N_{y,l,t}) \times p} 
+{N_{y,l,t} + (N_{y,l,t+1} - N_{y,l,t}) \times p}
 \end{equation}
-where $\tilde{N}_{y,l,t}$ is an element in the tagged categories at the beginning of time step $t$ and $\tilde{N}_{y,l,t + 1}$ is an element in the tagged categories at the end of time step $t$. $N_{y,l,t}$ is the sum of the categories that were vulnerable to sampling when the obervation occured. $p$ is the proportion of the time step that the observation was taken, $d$ is the detection probability. For cases where there are multiple tagged categories and multiple categories that were vulnerble to sampling.
+
+where $\tilde{N}_{y,l,t}$ is an element in the tagged categories at the beginning of time step $t$ and $\tilde{N}_{y,l,t + 1}$ is an element in the tagged categories at the end of time step $t$, $N_{y,l,t}$ is the sum of the categories that were vulnerable to sampling when the observation occurred, $p$ is the proportion of the time step that the observation was taken, and $d$ is the detection probability.
+
+For observations with multiple tagged categories and multiple categories that were vulnerable to sampling:
 
 \begin{equation}
 	\tilde{N}_{y,l,t} = \sum_{j = 1}^{J} N_{y,l,t,j}
 \end{equation}
 
-where $j = \{1,2,3,...,J\}$  are all the tagged categories, the same method is applied to the vulnerable categories to get $N_{y,l,t}$. Remember that the tagged categories should be defined in the vulnerable categories. If you think about an extreme case where we tag every individual in the population this would be divide by zero. So to constrain the expectation to be between 0-1, we need the numerator to be in the denominator.
+where $j = \{1,2,3,...,J\}$  are all the tagged categories, the same method is applied to the vulnerable categories to calculate $N_{y,l,t}$. The tagged categories should be defined in the vulnerable categories. In an extreme case where every individual in the population is tagged, this result would be divided by zero. So, to constrain the expectation to be between 0 and 1, the numerator must be in the denominator.
 
-The tag-recapture likelihood (binomial) is specified below as it is a modified version of the more general binomial. Note that this likelihood does not have any user-set precision parameters such as $N$ or $c.v.$ (though there are user-specified robustification and dispersion parameters available). Note that factorials are calculated using the log-gamma function, to allow for non-integer arguments where necessary (and avoid overflow errors).
-
+The tag-recapture likelihood (binomial) is specified below. It is a modified version of the more general binomial. Note that this likelihood does not have any user-set precision parameters such as $N$ or $c.v.$, although there are user-specified robustification and dispersion parameters available. The factorials are calculated using the log-gamma function, to allow for non-integer arguments where necessary (and to avoid overflow errors).
 
 \subsubsection{\I{General process observations}}
+
 A list of \texttt{types} that are associated with this set of observations:
+
 \begin{itemize}
 	\item \texttt{process\_abundance}
 	\item \texttt{process\_biomass}
 	\item \texttt{process\_proportions\_at\_age}
-	\item \texttt{process\_proportions\_at\_length}	
-	\item \texttt{process\_proportions\_by\_category}				
+	\item \texttt{process\_proportions\_at\_length}
+	\item \texttt{process\_proportions\_by\_category}
 \end{itemize}
 
 These observations have the same expectations as the mortality block versions described in Section~\ref{sec:mortality_block}. With the exception that instead of wrapping a mortality block they can wrap any process type available in \CNAME.
 
 \subsubsection{\I{Specific process observations}}
+
 A list of \texttt{types} that are associated with this set of observations are:
+
 \begin{itemize}
 	\item \texttt{process\_removals\_by\_age}
+	\item \texttt{process\_removals\_by\_age\_retained}
+	\item \texttt{process\_removals\_by\_age\_retained\_total}
 	\item \texttt{process\_removals\_by\_length}
-	\item \texttt{process\_proportions\_migrating}	
-\\	
-\paragraph*{\I{Process removals by age}\label{sec:removals-by-age}}	
-Removals at age observations are observations of the relative number of individuals at age, partway through a process of type \texttt{mortality\_instantaneous}. This observation is exclusively associated with the process of type \texttt{mortality\_instantaneous}, and will error out if associated with any other process type.
+	\item \texttt{process\_removals\_by\_length\_retained}
+	\item \texttt{process\_removals\_by\_length\_retained\_total}
+	\item \texttt{process\_proportions\_migrating}
 
-The observation is supplied for a given year and time-step, for some selected age classes of the population (i.e., for a range of ages multiplied by a selectivity that is associated with the process).
+\paragraph*{\I{Process removals by age}\label{sec:removals-by-age}}
 
-The age range must be ages defined in the partition (i.e., between \commandsub{model}{min\_age} and \commandsub{model}{max\_age} inclusive), but the upper end of the age range can optionally be a plus group --- which must be either the same or less than the plus group defined for the partition. 
+Removals-at-age observations are observations of the relative number of individuals at age, part way through a process of type \texttt{mortality\_instantaneous}. This observation is exclusively associated with the process of type \texttt{mortality\_instantaneous}, and will produce an error if it is associated with any other process type.
 
-The expectations from this observation are generated whilst the process is being executed. The expectation of numbers at age $a$ for category $c$ from exploitation method $m$ ($E[N_{a,c,m}]$) are defined as,
+The observation is supplied for a given year and time-step, for selected age classes of the population (i.e., for a range of ages multiplied by a selectivity that is associated with the process).
 
+The age range must be ages defined in the partition (i.e., between \commandsub{model}{min\_age} and \commandsub{model}{max\_age} inclusive); the upper end of the age range can optionally be a plus group, which must be either the same or less than the plus group defined for the partition.
+
+The expectations from this observation are generated whilst the process is being executed. The expectation of numbers at age $a$ for category $c$ from exploitation method $m$ ($E[N_{a,c,m}]$) are
 
 \begin{equation}
 E[N_{a,c,m}] = N_{a,c} U_{a,m} S_{a,c,m} 0.5 M_{a,c}
 \end{equation}
 
-where, $N_{a,c}$ are the numbers at age in category $c$ before the process is executed, $U_{a,m}$ is the exploitation rate for age $a$ from method $m$. $S_{a,c,m}$ is the selectivity and $M$ is the natural mortality. These are all relevant to the time step which the user defines.
-\\\\
-The observation class then acquires the variable $E[N_{a,c,m}]$ and applies ageing error if the user has specified it. Then it amalgamates the observations by method and category depending on how the user specifies the observation, before converting numbers at age to proportions and sending them to the likelihood to be evaluated.
-\\\\
-Likelihoods that are available for this observation class are the mulitnomial, dirichlet and the lognormal. See Section~\ref{sec:likelihood-observations} for information on the respected likelihood.
-\\\\
+where $N_{a,c}$ are the numbers-at-age in category $c$ before the process is executed, $U_{a,m}$ is the exploitation rate for age $a$ from method $m$, $S_{a,c,m}$ is the selectivity, and $M$ is the natural mortality.
+
+The observation class accesses the variable $E[N_{a,c,m}]$ and applies ageing error if the user has specified it. Then the observations are aggregated by method and category depending on how the user specifies the observation, before converting numbers-at-age to proportions-at-age and then calculating the likelihood.
+
+Likelihoods that are available for this observation class are the multinomial, Dirichlet, and the lognormal. See Section~\ref{sec:likelihood-observations} for information on the respected likelihood.
+
+\paragraph*{\I{Process removals by age retained}\label{sec:removals-by-age-retained}}
+
+Observations of retained and total catches by age can be included, using the labels \texttt{process\_removals\_by\_age\_retained} and \texttt{process\_removals\_by\_age\_retained\_total}, respectively. Examples of two such observations are given below, with the associated process \texttt{Instantaneous\_Mortality\_Retained} having the form of the example in Section \ref{sec:inst-mort-retained}.
+
+For retained catch:
+
+{\small{\begin{verbatim}
+@observation potFishAFtotal   #test syntax get catch AF out
+type process_removals_by_age_retained_total
+mortality_instantaneous_process Instantaneous_Mortality_Retained
+method_of_removal FishingPot
+years 2005
+time_step 1
+categories male
+### ageing_error Normal_ageing
+min_age 3
+max_age 15
+plus_group True
+table obs
+2005 0.0002814574 0.0095351205 0.1661896098 0.2701718827 0.2214454177 0.1661869474 0.1107930285 0.0553965360 0 0 0 0 0 # from R code, for a50 = 5, ato95 = 0.8
+end_table
+table error_values
+2005 651
+end_table
+likelihood multinomial
+delta 1e-11
+\end{verbatim}}}
+
+For total catch:
+
+{\small{\begin{verbatim}
+@observation potFishAFretained   #test syntax --> fits to discards not catch
+type process_removals_by_age_retained
+mortality_instantaneous_process Instantaneous_Mortality_Retained
+method_of_removal FishingPot
+years 2005
+time_step 1
+categories male
+# ageing_error Normal_ageing
+min_age 3
+max_age 15
+plus_group True
+table obs
+2005 1.650990e-10 7.566419e-07 1.771126e-03 1.962050e-01 3.192775e-01 2.413644e-01 1.609208e-01 8.046047e-02 0 0 0 0 0 # from R code, for a50 = 6. ato95 = 0.6
+end_table
+table error_values
+2005 651
+end_table
+likelihood multinomial
+delta 1e-11
+\end{verbatim}}}
+
 \paragraph*{\I{Process removals by length}\label{sec:removals-by-length}}
-Removals by length observations are observations of the relative number of individuals at length, partway through a process of type \texttt{mortality\_instantaneous}. This observation is exclusively associated with the process of type \texttt{mortality\_instantaneous}, and will error out if associated with any other process type.
-\\\\
+
+Removals by length observations are observations of the relative number of individuals at length, part way through a process of type \texttt{mortality\_instantaneous}. This observation is exclusively associated with the process of type \texttt{mortality\_instantaneous}, and will produce an error if associated with any other process type.
+
 The observation is supplied for a given year and time-step, for some selected age classes of the population (i.e., for a range of ages multiplied by a selectivity that is associated with the process).
 
-The expectations from this observation are generated whilst the process is being executed. The expectation of numbers at age $a$ for category $c$ from exploitation method $m$ ($E[N_{a,c,m}]$) are defined as,
-
+The expectations from this observation are generated whilst the process is being executed. The expectation of numbers at age $a$ for category $c$ from exploitation method $m$ ($E[N_{a,c,m}]$) are
 
 \begin{equation}
 E[N_{a,c,m}] = N_{a,c} U_{a,m} S_{a,c,m} 0.5 M_{a,c}
 \end{equation}
 
-where, $N_{a,c}$ are the numbers at age in category $c$ before the process is executed, $U_{a,m}$ is the exploitation rate for age $a$ from method $m$. $S_{a,c,m}$ is the selectivity and $M$ is the natural mortality. These are all relevant to the time step which the user defines.
+where $N_{a,c}$ are the numbers at age in category $c$ before the process is executed, $U_{a,m}$ is the exploitation rate for age $a$ from method $m$, $S_{a,c,m}$ is the selectivity, and $M$ is the natural mortality.
 
-The observation class acquires the variable $E[N_{a,c,m}]$ from the process and applies the age-length relationship specified in the model. This converts numbers at age to numbers at age and length, where \CNAME\ then converts to numbers at length. Then it amalgamates the observations by method and category depending on how the user specifies the observation, before converting numbers at age to proportions and sending them to the likelihood to be evaluated.
+The observation class accesses the variable $E[N_{a,c,m}]$ from the process and applies the age-length relationship specified in the model. This converts numbers-at-age to numbers-at-age and -length, which are then converted to numbers-at-length. The observations are aggregated by method and category depending on how the user specifies the observation, before converting numbers-at-age to proportions and calculating the likelihood.
+
+Similar to the proportions-at-length observation type, the user must supply a vector of length bins. The observation-specific length bins must be a sequential subset of the model length bins, with no missing or added values. For example, if the model length bins are \texttt{0 5 10 15 20 25 ... 100}, then the observation-specific length bins can be \texttt{20 25 30 35 40 45 50} but not \texttt{20 30 40 50}.
+
 {\small{\begin{verbatim}
 @observation observation_fishery_LF
 type process_removals_by_length
 ...
-years  1993 1994 1995 
+years  1993 1994 1995
 method_of_removal FishingEast
 mortality_instantaneous_process instant_mort
-length_plus_group false
+length_plus false
 length_bins 0 20 40 60 80 110
 delta 1e-5
 table obs
-1993    0.0   0.05    0.05    0.10    0.80  
-1994    0.05  0.1     0.05    0.05    0.75  
-1995    0.3   0.4     0.2     0.05    0.05  
+1993    0.0   0.05    0.05    0.10    0.80
+1994    0.05  0.1     0.05    0.05    0.75
+1995    0.3   0.4     0.2     0.05    0.05
 end_table
 
 table error_values
 1993 31
 1994 34
 1995 22
-end_table   
+end_table
 \end{verbatim}}}
 
-Likelihoods that are available for this observation are the mulitnomial, dirichlet and the lognormal. See Section~\ref{sec:likelihood-observations} for information on the respected likelihood.
+Likelihoods that are available for this observation are the multinomial, Dirichlet and the lognormal. See Section~\ref{sec:likelihood-observations} for information on the  likelihoods.
+
+\paragraph*{\I{Process removals by length retained}\label{sec:removals-by-length-retained}}
+
+Observations of retained and total catches by length can be included, using the labels \texttt{process\_removals\_by\_length\_retained} and \texttt{process\_removals\_by\_length\_retained\_total} respectively. Examples of two such observations are given below, with the associated process \texttt{Instantaneous\_Mortality\_Retained} having the form of the example in Section \ref{sec:inst-mort-retained}.
+
+Similar to the proportions-at-length observation type, the user must supply a vector of length bins. The observation-specific length bins must be a sequential subset of the model length bins, with no missing or added values. For example, if the model length bins are \texttt{0 5 10 15 20 25 ... 100}, then the observation-specific length bins can be \texttt{20 25 30 35 40 45 50} but not \texttt{20 30 40 50}.
+
+For retained catch:
+
+{\small{\begin{verbatim}
+@observation potFishLFtotal   #test syntax get catch LF out
+type process_removals_by_length_retained_total
+mortality_instantaneous_process Instantaneous_Mortality_Retained
+method_of_removal FishingPot
+years 2005
+time_step 1
+categories male
+length_bins 30 31 32 33 34 35 36 37 38 39 40 41 42 43 44 45 46 # for LF in catch
+length_plus False
+table obs
+2005 0.05344612 0.06432242 0.07357780 0.08050385 0.08473451 0.08619620 0.08502982 0.08152921 0.07609540 0.06919236 0.06130315 0.05289594 0.04440352 0.03620990 0.02863612 0.02192368 # from R code, converted lengths for a50 = 5, ato95 = 0.8
+end_table
+table error_values
+2005 651
+end_table
+likelihood multinomial
+delta 1e-11
+\end{verbatim}}}
+
+For total catch:
+
+{\small{\begin{verbatim}
+@observation potFishLFretained   #test syntax get retained LF out
+type process_removals_by_length_retained
+mortality_instantaneous_process Instantaneous_Mortality_Retained
+method_of_removal FishingPot
+years 2005
+time_step 1
+categories male
+length_bins 30 31 32 33 34 35 36 37 38 39 40 41 42 43 44 45 46 # for LF in catch
+length_plus False
+table obs
+2005 0.02462879 0.03536036 0.04759163 0.06025858 0.07205340 0.08169356 0.08817806 0.09095124 0.08994426 0.08551446 0.07832640 0.06921554 0.05906081 0.04868002 0.03875492 0.02978796 # from R code, converted lengths for a50 = 6, ato95 = 0.6
+end_table
+table error_values
+2005 651
+end_table
+likelihood multinomial
+delta 1e-11
+\end{verbatim}}}
+
 
 \paragraph*{\I{Proportions migrating}\label{sec:Proportions-migrating}}
-This observation is of the proportion migrating from one area to another. This observation is exclusively associated with the process type \texttt{transition\_category}, and will error out when trying to associate with any other process type. This observation is used to inform migration rates in migration processes. This observation class is used in the Hoki stock assessment see~\cite{francis_03} for more information on how these observations are collected and the situation you would use it. This observation calculates an expectation $E_a$ of proportions for each age class $a$ that have migrated, by evaluating the following,
+
+This observation is of the proportion migrating from one area to another. This observation is exclusively associated with the process type \texttt{transition\_category}, and will produce an error when associated with any other process type. This observation is used to inform migration rates in migration processes. This observation class is used in the hoki stock assessment see~\cite{francis_03} for more information on how these observations are collected and a situation that uses it.
+
+This observation calculates an expectation $E_a$ of proportions for each age class $a$ that have migrated, by
 
 \begin{equation}
 E_a = \frac{N_a - N_a'}{N_a}
 \end{equation}
-where, $N_a$ are the numbers of individuals in age $a$ before the migration process occurs and $N_a'$ is the number of individuals after the migration process occurs.
-\\
-The likelihoods that are allowed for this observation are the lognormal, multinomial and dirichlet.
-\\\\
-An extract of the Hoki stock assessment is as follows,
+
+where $N_a$ are the numbers of individuals in age $a$ before the migration process occurs, and $N_a'$ are the number of individuals after the migration process occurs.
+
+The likelihoods that are allowed for this observation are the lognormal, multinomial, and Dirichlet.
+
+A section of the hoki stock assessment model:
+
 {\small{\begin{verbatim}
 		@observation pspawn_1993
 		type process_proportions_migrating
@@ -452,51 +621,55 @@ An extract of the Hoki stock assessment is as follows,
 		#age    4    5    6    7    8    9
 		1993 0.64 0.58 0.65 0.66 0.71 0.60
 		end_table
-		
+
 		table error_values
 		## if lognormal these are c.v.'s
 		1993 0.25
 		end_table
-		\end{verbatim}}}
-			
+\end{verbatim}}}
+
 \end{itemize}
+
 
 \subsection{\I{Likelihoods}\label{sec:likelihood-observations}\index{Likelihoods}}
 
 \subsubsection{Likelihoods for proportions-at-age observations}
-\CNAME\ implements three likelihoods for proportions-at-age observations, the multinomial likelihood, dirichlet, and the lognormal likelihood. 
+
+\CNAME\ implements three likelihoods for proportions-at-age observations, the multinomial likelihood, the Dirichlet, and the lognormal likelihood.
 
 \subsubsection*{The multinomial likelihood\index{Multinomial likelihood}}
-For the observed proportions at age $O_i$ for age classes $i$, with sample size $N$, and the expected proportions at the same age classes $E_i$, the negative log-likelihood is defined as; 
+
+For the observed proportions at age $O_i$ for age classes $i$, with sample size $N$, and the expected proportions at the same age classes $E_i$, the negative log-likelihood is:
 
 \begin{equation}
 -\log \left(L \right) =  -\log \left(N! \right) + \sum\limits_i \log \left( \left(NO_i \right)! \right) - NO_i \log \left(Z \left(E_i,\delta \right) \right)
 \end{equation}
 
-where $\sum\limits_i O_i = 1$ and $\sum\limits_i E_i = 1$. $Z \left(\theta,\delta \right)$ is a robustifying function to prevent division by zero errors, with parameter $\delta>0$. $Z \left(\theta,\delta \right)$ is defined as,
+where $\sum\limits_i O_i = 1$ and $\sum\limits_i E_i = 1$. $Z \left(\theta,\delta \right)$ is a robustifying function to prevent division by zero errors, with parameter $\delta>0$.
 
 \begin{equation}
 Z \left(\theta,\delta \right) = \begin{cases}
 \theta, & \text{where $\theta \ge r$} \\
-\delta/\left( 2-\theta/\delta \right), & \text{otherwise} \\  
+\delta/\left( 2-\theta/\delta \right), & \text{otherwise} \\
 \end{cases}
 \end{equation}
 
 The default value of $\delta$ is $1 \times 10^{-11}$.
-\subsubsection*{The dirichlet likelihood\index{Dirichlet likelihood}}
 
-For the observed proportions at age $O_i$ for age classes $i$, with sample size $N$, and the expected proportions at the same age classes $E_i$, the negative log-likelihood is defined as; 
+\subsubsection*{The Dirichlet likelihood\index{Dirichlet likelihood}}
+
+For the observed proportions at age $O_i$ for age classes $i$, with sample size $N$, and the expected proportions at the same age classes $E_i$, the negative log-likelihood is:
 
 \begin{equation}
 -\log \left(L \right) = -\log(\Gamma \sum\limits_i (\alpha_i)) + \sum\limits_i \log(\Gamma (\alpha_i)) - \sum\limits_i (\alpha_i-1) \log(Z(O_i,\delta))
 \end{equation}
 
-where $\alpha_i = Z \left(N E_i,\delta \right)$, $\sum\limits_i O_i = 1$, and $\sum\limits_i E_i = 1$. $Z \left(\theta,\delta \right)$ is a robustifying function to prevent division by zero errors, with parameter $\delta>0$. $Z \left(\theta,\delta \right)$ is defined as,
+where $\alpha_i = Z \left(N E_i,\delta \right)$, $\sum\limits_i O_i = 1$, and $\sum\limits_i E_i = 1$. $Z \left(\theta,\delta \right)$ is a robustifying function to prevent division by zero errors, with parameter $\delta>0$.
 
 \begin{equation}
 Z \left(\theta,\delta \right) = \begin{cases}
 \theta, & \text{where $\theta \ge r$} \\
-\delta/\left( 2-\theta/\delta \right), & \text{otherwise} \\  
+\delta/\left( 2-\theta/\delta \right), & \text{otherwise} \\
 \end{cases}
 \end{equation}
 
@@ -504,67 +677,68 @@ The default value of $\delta$ is $1 \times 10^{-11}$.
 
 \subsubsection*{The lognormal likelihood\index{Lognormal likelihood}}
 
-For the observed proportions at age $O_i$ for age classes $i$, with c.v. $c_i$, and the expected proportions at the same age classes $E_i$, the negative log-likelihood is defined as; 
+For the observed proportions at age $O_i$ for age classes $i$, with c.v. $c_i$, and the expected proportions at the same age classes $E_i$, the negative log-likelihood is defined as;
 
 \begin{equation}
 - \log \left(L \right) = \sum\limits_i \left( \log \left( \sigma _i \right) + 0.5\left( \frac{\log \left(O_i / Z \left(E_i,\delta \right) \right)}{\sigma_i} + 0.5 \sigma_i \right)^2 \right)
 \end{equation}
 
-where 
+where
 
 \begin{equation}
 \sigma_i  = \sqrt{\log \left(1+c_i^2 \right)}
 \end{equation}
 
-and the $c_i$'s are the c.v.s for each age class $i$, and $Z \left(\theta,\delta \right)$ is a robustifying function to prevent division by zero errors, with parameter $\delta>0$. $Z \left(\theta,\delta \right)$ is defined as,
+and the $c_i$'s are the c.v.s for each age class $i$, and $Z \left(\theta,\delta \right)$ is a robustifying function to prevent division by zero errors, with parameter $\delta>0$.
 
 \begin{equation}
 Z \left(\theta,\delta \right) = \begin{cases}
 \theta, & \text{where $\theta \ge r$} \\
-\delta/\left( 2-\theta/\delta \right), & \text{otherwise} \\  
+\delta/\left( 2-\theta/\delta \right), & \text{otherwise} \\
 \end{cases}
 \end{equation}
 
 The default value of $\delta$ is $1 \times 10^{-11}$.
 
+
 \subsubsection{Likelihoods for abundance and biomass observations}\label{Obs:biomass}
-Abundance and biomass observations are expected as an annual time series in \CNAME, where they select the same categories over that time series. The parameters and inputs needed to use this observation class are: a observation $O_i$, c.v. $c_i$, catchability coefficient $q$, where $i$ indexed the year. \CNAME\ calculates an expectation $E_i$ and scales it by $q$ before comparing it to $O_i$. This means that the value chosen for $q$ will determine whether the observation is relative ($q\neq 1$) or absolute $q = 1$. Before we describe each of the likelihoods we will discuss the methods available to handle $q's$:
 
-\begin{enumerate}
-	\item The $q's$ can be treated as ‘nuisance’ parameters. For each set of values of the free parameters, the model uses the values of the $q's$which minimise the objective function. These optimal $q's$ are calculated algebraically (see Section~\ref{subsec:nuisance}). If one of the $q's$ falls outside the bounds specified by the user, it is set equal to the closest bound. This approach reduces the size of the parameter vector and hence should improve the performance of the estimation method. However, it is not correct when calculating a sample from the posterior in a Bayesian analysis (except asymptotically, see \cite{Walters_ludwig_94}) and we offer the following alternative;
-	
-	\item The $q's$ can be treated as ordinary free parameters.
-\end{enumerate}	
-	
-For both options, it is necessary to evaluate the contribution of $O_i$ to the negative loglikelihood for a given value of $q$. Each observation $O_i$ varies about $qE_i$ — express the variability of $O_i$ in terms of its c.v. $c_i$ (or in one case, its standard deviation si). Here are the likelihoods, which are expressed on the objective-function scale of -log(L):
+Abundance and biomass observations are expected as an annual time series in \CNAME, where they select the same categories over that time series. The parameters and inputs needed to use this observation class are: a observation $O_i$, c.v. $c_i$, catchability coefficient $q$, where $i$ indexed the year. \CNAME\ calculates an expectation $E_i$ and scales it by $q$ before comparing it to $O_i$. This means that the value chosen for $q$ will determine whether the observation is relative ($q\neq 1$) or absolute $q = 1$. Before we describe each of the likelihoods we will discuss the methods available to handle $q$s:
 
+\begin{itemize}
+	\item The $q$s can be treated as 'nuisance' parameters. For each set of values of the free parameters, the model uses the values of the $q$s which minimise the objective function. These optimal $q$s are calculated algebraically (see Section~\ref{subsec:nuisance}). If one of the $q$s falls outside the bounds specified by the user, it is set equal to the closest bound. This approach reduces the size of the parameter vector and hence should improve the performance of the estimation method. However, it is not correct when calculating a sample from the posterior in a Bayesian analysis (except asymptotically, see \cite{Walters_ludwig_94}) and we offer the following alternative;
+
+	\item The $q$s can be treated as ordinary free parameters.
+\end{itemize}
+
+For both options, it is necessary to evaluate the contribution of $O_i$ to the negative log likelihood for a given value of $q$. Each observation $O_i$ varies about $qE_i$, which expresses the variability of $O_i$ in terms of its c.v. $c_i$ (or in one case, its standard deviation si). Here are the likelihoods, which are expressed on the objective-function scale of -log(L):
 
 \subsubsection*{The lognormal likelihood\index{Lognormal likelihood}\index{Lognormal likelihood}}
 
-The negative log likelihood for a the lognormal is as follows,
+The negative log likelihood for the lognormal is
 
 \begin{equation}
 - \log \left(L \right) = \sum\limits_i \left( \log \left( \sigma _i \right) + 0.5\left( \frac{\log \left(O_i / q Z \left(E_i,\delta \right) \right)}{\sigma_i} + 0.5 \sigma_i \right)^2 \right)
 \end{equation}
 
-where 
+where
 
 \begin{equation}
 \sigma_i  = \sqrt{\log \left(1+c_i^2 \right)}
 \end{equation}
 
-and $Z \left(\theta,\delta \right)$ is a robustifying function to prevent division by zero errors, with parameter $\delta>0$. $Z \left(\theta,\delta \right)$ is defined as,
-
-This reflects the distributional assumptions that  $O_i$ has the lognormal distribution, that the mean of $O_i$ is $qE_i$  and the c.v. of $O_i$ is $c_i$.
+and $Z \left(\theta,\delta \right)$ is a robustifying function to prevent division by zero errors, with parameter $\delta>0$.
 
 \begin{equation}
 Z \left(\theta,\delta \right) = \begin{cases}
 \theta, & \text{where $\theta \ge r$} \\
-\delta/\left( 2-\theta/\delta \right), & \text{otherwise} \\  
+\delta/\left( 2-\theta/\delta \right), & \text{otherwise} \\
 \end{cases}
 \end{equation}
 
 The default value of $\delta$ is $1 \times 10^{-11}$.
+
+This formulation reflects the distributional assumptions that  $O_i$ has the lognormal distribution, that the mean of $O_i$ is $qE_i$  and the c.v. of $O_i$ is $c_i$.
 
 \subsubsection*{The normal likelihood\index{Normal likelihood}\index{Normal likelihood}}
 
@@ -574,12 +748,12 @@ For observations $O_i$, c.v. $c_i$, and expected values $qE_i$, the negative log
 - \log \left(L \right) = \sum\limits_i \left( \log \left( c_i E_i \right) +0.5 \left( \frac{O_i-E_i}{Z\left(c_i E_i,\delta \right)}\right)^2\right)
 \end{equation}
 
-and $Z \left(\theta,\delta \right)$ is a robustifying function to prevent division by zero errors, with parameter $\delta>0$. $Z \left(\theta,\delta \right)$ is defined as,
+and $Z \left(\theta,\delta \right)$ is a robustifying function to prevent division by zero errors, with parameter $\delta>0$.
 
 \begin{equation}
 Z \left(\theta,\delta \right) = \begin{cases}
 \theta, & \text{where $\theta \ge r$} \\
-\delta/\left( 2-\theta/\delta \right), & \text{otherwise} \\  
+\delta/\left( 2-\theta/\delta \right), & \text{otherwise} \\
 \end{cases}
 \end{equation}
 
@@ -589,27 +763,29 @@ This reflects the distributional assumptions that  $O_i$ has the normal distribu
 
 \subsubsection{Likelihoods for tag recapture by age and length observations}
 \paragraph*{The binomial likelihood\index{Binomial likelihood ! tag-recapture-by-length}}
-Designed for situations where the size frequencies or age frequencies of the recaptured tagged fish and of the scanned fish are known. Available in both age or size based models.
-\\\\
-Here we define the likelihood as a binomial, but based on sizes, rather than ages,
+
+This likelihood is for situations where the size frequencies or age frequencies of the recaptured tagged fish and of the scanned fish are known. Available in both age or size based models.
+
+The likelihood is defined as a binomial, but based on sizes, rather than ages
+
 \begin{equation}
 \begin{split}
 -\log \left(L \right)'= -\sum\limits_i & \left[ \right. \log \left(n_i! \right) - \log \left(\left(n_i - m_i \right)! \right) - \log \left(\left(m_i \right)! \right) + m_i \log \left(Z\left(\frac{M_i}{N_i},\delta \right) \right) \\
 &+  \left(n_i - m_i \right)\log \left(Z\left(1 - \frac{M_i}{N_i},\delta\right) \right) \left. \right]
 \end{split}
 \end{equation}
-where 
-\\
-$n_i$ = number of fish at size or age $i$ that were scanned
-\\
-$m_i$ = number of fish at size or age $i$ that were recaptured
-\\
-$N_i$ = number of fish at size or age $i$ in the available population (tagged and untagged)
-\\
-$M_i$ = number of fish at size or age $i$ in the available population that have the tag after a detection probability $p_d$ has been applied, $M_i = M_i'p_d$, where $M_i'$ is the expected available population that have the tag.
-\\\\
-where $Z(x,\delta)$ is a robustifying function with parameter $r > 0$ (to prevent division by zero errors), defined as
 
+where
+
+$n_i$ = number of fish at size or age $i$ that were scanned
+
+$m_i$ = number of fish at size or age $i$ that were recaptured
+
+$N_i$ = number of fish at size or age $i$ in the available population (tagged and untagged)
+
+$M_i$ = number of fish at size or age $i$ in the available population that have the tag after a detection probability $p_d$ has been applied, $M_i = M_i'p_d$, where $M_i'$ is the expected available population that have the tag.
+
+$Z(x,\delta)$ is a robustifying function with parameter $r > 0$ (to prevent division by zero errors).
 
 \[ Z(x,\delta) =
 \begin{cases}
@@ -618,17 +794,17 @@ x       & \text{where } x \geq \delta\\
 \end{cases}
 \]
 
-Finally if a dispersion parameter ($\tau$) is described in the observation then the final negative log likelihood $-log(L)$ contribution is,
+If a dispersion parameter ($\tau$) is described in the observation then the final negative log likelihood $-log(L)$ contribution is
 
 $$-log(L) = -log(L)' / \tau$$
 
-
 \subsubsection{Likelihoods for proportions-by-category observations}
-\CNAME\ implements two likelihoods for proportions-by-category observations, the binomial likelihood, and the normal approximation to the binomial (binomial-approx). 
+
+\CNAME\ implements two likelihoods for proportions-by-category observations, the binomial likelihood, and the normal approximation to the binomial (binomial-approx).
 
 \subsubsection*{The binomial likelihood\index{Binomial likelihood ! proportions-by-category}}
 
-For observed proportions $O_i$ for age class $i$, where $E_i$ are the expected proportions for age class $i$, and $N_i$ is the effective sample size for age class $i$, then the negative log-likelihood is defined as;  
+For observed proportions $O_i$ for age class $i$, where $E_i$ are the expected proportions for age class $i$, and $N_i$ is the effective sample size for age class $i$, then the negative log-likelihood is
 
 \begin{equation}
 \begin{split}
@@ -637,13 +813,12 @@ For observed proportions $O_i$ for age class $i$, where $E_i$ are the expected p
 \end{split}
 \end{equation}
 
-
-where $Z \left(\theta,\delta \right)$ is a robustifying function to prevent division by zero errors, with parameter $\delta>0$. $Z \left(\theta,\delta \right)$ is defined as,
+where $Z \left(\theta,\delta \right)$ is a robustifying function to prevent division by zero errors, with parameter $\delta>0$.
 
 \begin{equation}
 Z \left(\theta,\delta \right) = \begin{cases}
 \theta, & \text{where $\theta \ge r$} \\
-\delta/\left( 2-\theta/\delta \right), & \text{otherwise} \\  
+\delta/\left( 2-\theta/\delta \right), & \text{otherwise} \\
 \end{cases}
 \end{equation}
 
@@ -651,18 +826,18 @@ The default value of $\delta$ is $1 \times 10^{-11}$.
 
 \subsubsection*{The normal approximation to the binomial likelihood\index{Binomial likelihood (normal approximation) ! proportions-by-category}}
 
-For observed proportions $O_i$ for age class $i$, where $E_i$ are the expected proportions for age class $i$, and $N_i$ is the effective sample size for age class $i$, then the negative log-likelihood is defined as;  
+For observed proportions $O_i$ for age class $i$, where $E_i$ are the expected proportions for age class $i$, and $N_i$ is the effective sample size for age class $i$, then the negative log-likelihood is defined as;
 
 \begin{equation}
--\log \left(L \right)= \sum\limits_i \log \left( \sqrt{Z\left(E_i,\delta \right)Z\left(1-E_i,\delta\right)/N_i} \right)     + \frac{1}{2} \left( \frac{O_i-E_i}{\sqrt{Z\left(E_i,\delta\right)Z\left(1-E_i,\delta \right)/N_i}} \right)^2
+-\log \left(L \right)= \sum\limits_i \log \left( \sqrt{Z\left(E_i,\delta \right)Z\left(1-E_i,\delta\right)/N_i} \right) + \frac{1}{2} \left( \frac{O_i-E_i}{\sqrt{Z\left(E_i,\delta\right)Z\left(1-E_i,\delta \right)/N_i}} \right)^2
 \end{equation}
 
-where $Z \left(\theta,\delta \right)$ is a robustifying function to prevent division by zero errors, with parameter $\delta>0$. $Z \left(\theta,\delta \right)$ is defined as,
+where $Z \left(\theta,\delta \right)$ is a robustifying function to prevent division by zero errors, with parameter $\delta>0$.
 
 \begin{equation}
 Z \left(\theta,\delta \right) = \begin{cases}
 \theta, & \text{where $\theta \ge r$} \\
-\delta/\left( 2-\theta/\delta \right), & \text{otherwise} \\  
+\delta/\left( 2-\theta/\delta \right), & \text{otherwise} \\
 \end{cases}
 \end{equation}
 
@@ -670,12 +845,12 @@ The default value of $\delta$ is $1 \times 10^{-11}$.
 
 \subsection{\I{Process error}}
 
-Additional `process error' can be defined for each set of observations. Additional process error has the effect of increasing the observation error in the data, and hence of decreasing the relative weight given to the data in the fitting process. 
+Additional 'process error' can be defined for any set of observations. Additional process error has the effect of increasing the observation error in the data, and hence of decreasing the relative weight given to the data in the fitting process.
 
-For observations where where the likelihood is parameterised by the c.v., you can specify the process error for a given set of observations as a c.v., in which case all the c.v.s $c_i$ are changed to
+For observations where the likelihood is parameterised by the c.v., the process error can be specified for a given set of observations as a c.v., in which case all the c.v.s $c_i$ are changed to
 
 \begin{equation}
-  c'_i  = \sqrt {c_i^2  + c_{process\_error}^2 } 
+  c'_i  = \sqrt {c_i^2  + c_{process\_error}^2 }
 \end{equation}
 
 Note that $c_{process\_ error} \ge 0$, and that $c_{process\_ error} = 0$ is equivalent to no process error.
@@ -686,173 +861,191 @@ Similarly, if the likelihood is parameterised by the effective sample size $N$,
  N'_i  = \frac{1}{1 / {N_i}+ 1 / N_{process\_error}}
 \end{equation}
 
-Note that this requires that $N_{process\_ error} > 0$, but we allow the special case of $N_{process\_ error}=0$, and define $N_{process\_ error}=0$ as no process error (i.e., defined to be equivalent to $N_{process\_ error}=\infty$). 
+Note that this requires that $N_{process\_ error} > 0$, but the special case of $N_{process\_ error}=0$ is valid, and $N_{process\_ error}=0$ represents no process error (i.e., defined to be equivalent to $N_{process\_ error}=\infty$).
 
-For both the c.v. and $N$ process errors, the process error has more effect on small errors than on large ones. Be clear that a large value for the $N$ process error means a small process error.
+For both the c.v. and $N$ process errors, the process error has more effect on small errors than on large ones. Note that a large value for the $N$ process error means a small process error.
 
-\subsection{\I{Calculating nuisance q's}}\label{subsec:nuisance}
-This section describes the theory used to calculate nuisance (analytical) catchability coefficients $q’s$ (see Section~\ref{Obs:biomass}). From the user's point of view, the essence is that you can use nuisance $q’s$ in the following situations:
-\begin{enumerate}
-	\item With maximum likelihood.
-	\item With Bayesian estimation, providing that your provide an additional prior on the q is one of the following:
-		\begin{itemize} 
-			\item none (default)
+\subsection{\I{Calculating nuisance $q$ parameters}}\label{subsec:nuisance}
+
+This section describes the theory used to calculate nuisance (analytical) catchability coefficients $q$s (see Section~\ref{Obs:biomass}). From the user's point of view, the essence is that you can use nuisance $q$s in the following situations:
+
+\begin{itemize}
+	\item With maximum likelihood estimation
+	\item With Bayesian estimation, providing that the additional prior on $q$ is one of the following:
+		\begin{itemize}
+			\item None (default)
 			\item Uniform-log
 			\item Lognormal with observations distributed lognormal, robustified lognormal
 		\end{itemize}
-\end{enumerate}
-Table~\ref{tab:nus_overview} displays the scenarios when the nuisance catchability can be used for a Bayesian analysis.
+\end{itemize}
+
+The scenarios in which the nuisance catchability $q$ can be used in a Bayesian analysis (Table~\ref{tab:nus_overview}):
 
 \begin{table}[h!]
-	\caption{\textbf{Equations used to calculate nuisance $q$'s. (*=no analytic solution found.)}}\label{tab:nus_overview}
+	\caption{\textbf{Equations used to calculate nuisance $q$s. (*=no analytic solution found.)}}\label{tab:nus_overview}
 	\begin{tabular}{cccccc}
 		Distribution of observations & Maximum Likelihood & None & Uniform-log & Normal & lognormal\\
 		\hline
 		Normal & \eqref{EQ:1} & \eqref{EQ:1} & \eqref{EQ:3} & \textbf{*} & \textbf{*} \\
-		Lognormal & \eqref{EQ:4} & \eqref{EQ:4} & \eqref{EQ:8} & \textbf{*} & \eqref{EQ:9} \\				
+		Lognormal & \eqref{EQ:4} & \eqref{EQ:4} & \eqref{EQ:8} & \textbf{*} & \eqref{EQ:9} \\
 	\end{tabular}
 \end{table}
+
 %% Insert table 4 here
-Note that $q’s$ are calculated for robustified lognormal likelihoods as if they were ordinary lognormal likelihoods.
-\\\\
-The equations and their derivations follow. Let $\sigma_i = \sqrt{log(1 + c_i^2)}$ throughout, and let $n$ be the number of observations in the time series. The case of multiple time series sharing the same $q$, and the modifications required for the assumption of curvature, are addressed at the end of this subsection.
-\\\\
-First, consider maximum likelihood estimation. When the ($Oi$) are assumed to be normally
-distributed,
+
+Note that $q$s are calculated for robustified lognormal likelihoods as if they were ordinary lognormal likelihoods.
+
+Let $\sigma_i = \sqrt{log(1 + c_i^2)}$ throughout, and let $n$ be the number of observations in the time series. The case of multiple time series sharing the same $q$, and the modifications required for the assumption of curvature, are addressed at the end of this subsection.
+
+First, consider maximum likelihood estimation. When the ($Oi$) are assumed to be normally distributed
+
 \begin{equation}\label{EQ:1}
 -log(L) = \sum_i log (c_iqE_i) + 0.5\sum_i \bigg(\frac{O_i - qE_i}{c_iqE_i} \bigg)^2
 \end{equation}
+
 The value of $q$ which minimises the objective function is found by solving for $q$ under the following condition, $\partial/\partial q(-log(L)) = 0$
 
 \begin{equation}\label{EQ:2}
 \frac{\partial }{\partial q}(-log(L)) = \frac{n}{q} + \frac{1}{q^2} \sum_i \frac{O_i}{c_i^2E_i} - \frac{1}{q^3} \sum_i \bigg(\frac{O_i}{c_iE_i}\bigg)^2
 \end{equation}
+
 hence
+
 \begin{equation}\label{EQ:3}
-\hat q = \frac{-S_1 + \sqrt{S_1^2 + 4nS_2}}{2n} 
+\hat q = \frac{-S_1 + \sqrt{S_1^2 + 4nS_2}}{2n}
 \end{equation}
+
 where $S_1 = \sum_i (O_i/c_i^2E_i)$ and $S_2 = \sum_i (O_i/c_iE_i)^2$
-\\\\
+
 When the ($O_i$) are assumed to be lognormally distributed,
+
 \begin{equation}\label{EQ:4}
 -log(L) = \sum_i log (\sigma_i) + 0.5\sum_i \bigg(\frac{log(O_i) - log(qE_i) + 0.5\sigma_i^2}{\sigma_i} \bigg)^2
 \end{equation}
+
 \begin{equation}\label{EQ:5}
 \frac{\partial }{\partial q}(-log(L)) = \frac{-1}{q} \sum_i\bigg( \frac{log(O_i/E_i) - log(q) + 0.5\sigma_i^2}{\sigma_i^2}\bigg)
 \end{equation}
 
 \begin{equation}\label{EQ:6}
-\hat q = exp\frac{0.5n + S_3}{S_4} 
+\hat q = exp\frac{0.5n + S_3}{S_4}
 \end{equation}
 
-where $S_3 = \sum_i (log(O_i /E_I)/\sigma_i^2)$ and $S_4 = \sum_i(1/\sigma_i^2)$ 
-\\\\
-Next consider Bayesian estimation, where we must also specify a prior for $q$.
-\\\\
+where $S_3 = \sum_i (log(O_i /E_I)/\sigma_i^2)$ and $S_4 = \sum_i(1/\sigma_i^2)$.
+
+Next, consider Bayesian estimation, where a prior for $q$ must be specified.
+
 The effects of the prior on the equations are to replace likelihood $L$ by posterior $P$ throughout, to add $-log(\pi(q))$ to the equation for $-log(P)$ and $\partial/\partial q(-log(-\pi(q)))$ to the equation for $\partial/\partial q(-log(P))$
-\\\\
-This last term is 0 for a uniform prior on $q$, $1/q$ for a log-uniform prior, and $\frac{1}{q}\bigg( 1.5 + \frac{log(q) - log(\mu_q)}{\sigma_q^2}$ for a lognormal prior, 
-\\\\
-where $\mu_q$ and $c_q$ are the mean and c.v of the prior on $q$ and $\sigma_q = \sqrt{log(1+c_q^2)}$. Clearly, if the prior is uniform, the equation for $\hat q$ is teh same as teh maximum likelihood estimation.
-\\\\
-When the $(O_i)$ are assumed to be normally distributed and teh prior is log-uniform equation~\eqref{EQ:3} becomes,
+
+This last term is 0 for a uniform prior on $q$, $1/q$ for a log-uniform prior, and $\frac{1}{q}\bigg( 1.5 + \frac{log(q) - log(\mu_q)}{\sigma_q^2}$ for a lognormal prior, where $\mu_q$ and $c_q$ are the mean and c.v. of the prior on $q$, respectively, and $\sigma_q = \sqrt{log(1+c_q^2)}$. Since the prior is uniform, the equation for $\hat q$ is the same as the maximum likelihood estimation.
+
+When the $(O_i)$ are assumed to be normally distributed and the prior is log-uniform equation~\eqref{EQ:3} becomes,
 
 \begin{equation}\label{EQ:7}
-\hat q = \frac{-S_1 + \sqrt{S_1^2 + 4(n + 1)S_2}}{2(n+1)} 
+\hat q = \frac{-S_1 + \sqrt{S_1^2 + 4(n + 1)S_2}}{2(n+1)}
 \end{equation}
 
-but we cannot solve for $\hat q$ with either a normal or lognormal prior.
-\\\\
-When the $O_i$ are assumed to be lognormally distributed and the prior is log-uniform, equation~\eqref{EQ:6} becomes 
+but $\hat q$ with either a normal or lognormal prior cannot be solved for.
+
+When the $O_i$ are assumed to be lognormally distributed and the prior is log-uniform, equation~\eqref{EQ:6} becomes
 
 
 \begin{equation}\label{EQ:8}
-\hat q = exp\frac{0.5n -1 + S_3}{S_4} 
+\hat q = exp\frac{0.5n -1 + S_3}{S_4}
 \end{equation}
 
 and if the prior is lognormal,
 
 \begin{equation}\label{EQ:9}
-\hat q = exp\frac{0.5n -1.5 + log(\mu_q)/\sigma_q^2 + S_3}{S_4 + 1 / \sigma_q^2} 
+\hat q = exp\frac{0.5n -1.5 + log(\mu_q)/\sigma_q^2 + S_3}{S_4 + 1 / \sigma_q^2}
 \end{equation}
-but it is not possible to solve for $\hat q$ with a normal prior. An example of specifying the syntax and an equivalent additional prior see below
+
+However, it is not possible to solve for $\hat q$ with a normal prior.
+
+An example of specifying the syntax and an equivalent additional prior
+
 {\small{\begin{verbatim}
 	@catchability chatTANq
 	type nuisance
 	upper_bound 0.6
 	lower_bound 0.0001
-	
+
 	@additional_prior chatTANq_prior
 	type lognormal
 	parameter catchabilityp[chatTANq].q
 	mu 0.3
-	cv 0.2	
-	\end{verbatim}}}
+	cv 0.2
+\end{verbatim}}}
 
 
 \subsection{\I{Ageing error}}
 
-\CNAME\ can apply ageing error to expected age frequency generated by the model. The ageing error is applied as a misclassification matrix, which has the effect of 'smearing' the expected age frequencies. This is mimicking the error involved in identifying the age of individuals. For example fish species are aged by reading the ear bones (otoliths) which can be quite difficult depending on the species. These are used in calculating the fits to the observed values, and hence the contribution to the total objective function. 
+\CNAME\ can apply ageing error to expected age frequencies estimated by the model. The ageing error is applied as a misclassification matrix, which has the effect of 'smearing' the expected age frequencies. This is mimicking the error involved in identifying the age of individuals. For example, fish species are aged by reading the ear bones (otoliths) which can be quite difficult depending on the species. These age frequencies are used in calculating the fits to the observed values, and hence the contribution to the total objective function.
 
 Ageing error is optional, and if it is used, it may be omitted for any individual time series. Different ageing error models may be applied for different observation commands. See Section \ref{sec:ageingerrorreport} for reporting the misclassification matrix at the end of model run.
 
-The ageing error models implemented are,
-\begin{enumerate}
+The ageing error models implemented are
+
+\begin{itemize}
   \item{None}: The default model is to apply no ageing error.
-  \item{Off by one}: Proportion $p_1$ of individuals of each age $a$ are misclassified as age $a-1$ and proportion $p_2$ are misclassified as age $a+1$. Individuals of age $a < k$ are not misclassified. If there is no plus group in the population model, then proportion $p_2$ of the oldest age class will 'fall off the edge' and disappear. 
+  \item{Off by one}: Proportion $p_1$ of individuals of each age $a$ are misclassified as age $a-1$ and proportion $p_2$ are misclassified as age $a+1$. Individuals of age $a < k$ are not misclassified. If there is no plus group in the population model, then proportion $p_2$ of the oldest age class will 'fall off the edge and disappear'.
   \item{Normal}: Individuals of age $a$ are classified as ages which are normally distributed with mean $a$ and constant c.v. $c$. As above, if there is no plus group in the population model, some individuals of the older age classes may disappear. If $c$ is high enough, some of the younger age classes may 'fall off the other edge'. Individuals of age $a < k$ are not misclassified.
-\end{enumerate}
+\end{itemize}
 
-Note that the expected values (fits) reported by \CNAME\ for observations with ageing error will have had the ageing error applied. 
-
-
+The expected values (fits) reported by \CNAME\ for observations with ageing error will have had the ageing error applied.
 
 \subsection{\I{Simulating observations}\label{sec:simulation-observations}}
 
-\CNAME\ can generate simulated observations for a given model with given parameter values using \texttt{casal2 -s 1} (To simulate one set of simulated observations). Simulated observations are randomly distributed values, generated according to the error assumptions defined for each observation, around fits calculated from one or more sets of the 'true' parameter values. Simulating from a set of parameters can be used to generate observations from an operating model or as a form of parametric bootstrap. 
+\CNAME\ can generate simulated observations for a given model with a set of parameter values using \texttt{casal2 -s 1} (To simulate one set of simulated observations). Simulated observations are randomly generated values, which are generated with the error distributions defined for each observation, around fits calculated from one or more sets of the 'true' parameter values. Simulating from a set of parameters can be used to generate observations from an operating model or as a form of parametric bootstrap.
 
-The procedure \CNAME\ uses for simulating observations is to first run using the `true' parameter values and generate the expected values. Then, if a set of observations uses ageing error, ageing error is applied. Finally a random value for each observed value is generated based on (i) the expected values, (ii) the type of likelihood specified, and (iii) the variability parameters (e.g., \subcommand{error\_value} and \subcommand{process\_error}). 
+The procedure \CNAME\ uses for simulating observations is to use the 'true' parameter values and generate the expected values. Then, if a set of observations use ageing error, ageing error is applied. Finally, a random value for each observed value is generated based on (i) the expected values, (ii) the type of likelihood specified, and (iii) the variability parameters (e.g., \subcommand{error\_value} and \subcommand{process\_error}).
 
-Methods for generating the random error, and hence simulated values, depend on the specific likelihood type of each observation. 
+Methods for generating the random error, and hence the simulated values, depend on the specific likelihood type of each observation.
 
-\begin{enumerate}
+\begin{itemize}
   \item{} Normal likelihood parameterised by c.v.: Let $E_{i}$ be the fitted value for observation $i$, and $c_i$ be the corresponding c.v. (adjusted by the process error if applicable). Each simulated observation value $S_i$ is generated as an independent normal deviate with mean $E_i$ and standard deviation $E_i c_i$.
   \item{} Log-normal likelihood: Let $E_i$ be the fitted value for observation $i$ and $c_i$ be the corresponding c.v. (adjusted by the process error if applicable). Each simulated observation value $S_i$ is generated as an independent lognormal deviate with mean and standard deviation (on the natural scale, not the log-scale) of $E_i$ and $E_i c_i$ respectively. The robustification parameter $\delta$ is ignored.
-  \item{} Multinomial likelihood: Let $E_i$ be the fitted value for observation $i$, for $i$ between $1$ and $n$, and let $N$ be the sample size (adjusted by process error if applicable, and then rounded up to the next whole number). The robustification parameter $\delta$ is ignored. Then, 
+  \item{} Multinomial likelihood: Let $E_i$ be the fitted value for observation $i$, for $i$ between $1$ and $n$, and let $N$ be the sample size (adjusted by process error if applicable, and then rounded up to the next whole number). The robustification parameter $\delta$ is ignored. Then,
   \begin{enumerate}
     \item{} A sample of $N$ values from $1$ to $n$ is generated using the multinomial distribution, using sample probabilities proportional to the values of $E_i$.
     \item{} Each simulated observation value $S_i$ is calculated as the proportion of the $N$ sampled values equalling $i$
     \item{} The simulated observation values $S_i$ are then rescaled so that their sum is equal to $1$
   \end{enumerate}
-\item{} Binomial and the normal approximation to the binomial likelihoods: Let $E_i$ be the fitted value for observation $i$, for $i$ between $1$ and $n$, and $N_i$ the corresponding equivalent sample size (adjusted by process error if applicable, and then rounded up to the next whole number). The robustification parameter $\delta$ is ignored. Then, 
+  \item{} Binomial and the normal approximation to the binomial likelihoods: Let $E_i$ be the fitted value for observation $i$, for $i$ between $1$ and $n$, and $N_i$ the corresponding equivalent sample size (adjusted by process error if applicable, and then rounded up to the next whole number). The robustification parameter $\delta$ is ignored. Then,
   \begin{enumerate}
-    \item{} A sample of $N_i$ independent binary variates is generated, equalling $1$ with probability $E_i$ 
+    \item{} A sample of $N_i$ independent binary variates is generated, equalling $1$ with probability $E_i$
     \item{}	The simulated observation value $S_i$ is calculated as the sum of these binary variates divided by $N_i$
   \end{enumerate}
-\end{enumerate}
+\end{itemize}
 
-\textbf{An important note when simulating:} \CNAME\ will \textbf{not} automatically report simulated observations when users undertake a \texttt{casal2 -s 1} run, you must write an explicit report using the \texttt{simulated\_observation} report (\commandlabsubarg{report}{type}{observation}). See Section \ref{sec:report-section} for more information on how to write this report.
+\textbf{An important note when simulating:} \CNAME\ will \textbf{not} automatically report simulated observations when using a \texttt{casal2 -s 1} run. A report must be defined using the \texttt{simulated\_observation} report (\commandlabsubarg{report}{type}{observation}). See Section \ref{sec:report-section} for more information on how to write this report.
 
 
 \subsection{\I{Pseudo-observations}}
-\CNAME\ can generate expected values for observations without them contributing to the total objective function. These are called pseudo-observations, and can be used to either generate the expected values from \CNAME\ for reporting or diagnostic purposes. To define an observation as a pseudo-observation, use the command \commandlabsubarg{observation}{likelihood}{none}. Any observation type can be used as a pseudo-observation. \CNAME\ can also generate simulated observations from pseudo-observations. Note that;
+
+\CNAME\ can generate expected values for observations without them contributing to the total objective function. These are called pseudo-observations, and can be used to either generate the expected values from \CNAME\ for reporting or diagnostic purposes. To define an observation as a pseudo-observation, use the command \commandlabsubarg{observation}{likelihood}{none}. Any observation type can be used as a pseudo-observation. \CNAME\ can also generate simulated observations from pseudo-observations. Note that
 
 \begin{itemize}
-  \item Output will only be generated if a report command \commandlabsubarg{report}{type}{observation} is specified.
-  \item The observed values should be supplied (even if they are `dummy' observation). These will be processed by \CNAME\ as if they were actual observation values, and must conform to the validations carried out for the other types of likelihood. 
-  \item The subcommands \subcommand{likelihood}, \subcommand{obs}, \subcommand{error\_value} and \subcommand{process\_error} have no effect when generating the expected values for the pseudo-observation.   
-  \item When simulating observations, \CNAME\ needs the subcommand \subcommand{simulation\_likelihood} to tell it what sort of likelihood to use. In this case, the \subcommand{obs}, \subcommand{error\_value} and \subcommand{process\_error} are used to determine the appropriate terms to use for the likelihood when simulating.
+  \item Output will be generated only if a report command \commandlabsubarg{report}{type}{observation} is specified.
+  \item The observed values should be supplied (even if they are 'dummy' observations). These observation values will be processed by \CNAME\ as if they were actual observation values, and must be in the same format as actual observation values.
+  \item The subcommands \subcommand{likelihood}, \subcommand{obs}, \subcommand{error\_value}, and \subcommand{process\_error} have no effect when generating the expected values for the pseudo-observation.
+  \item When simulating observations, the subcommand \subcommand{simulation\_likelihood} to indicate the likelihood to use. In this case, the \subcommand{obs}, \subcommand{error\_value}, and \subcommand{process\_error} are used to determine the appropriate terms to use for the likelihood when simulating.
 \end{itemize}
 
+
 \subsection{\I{Residuals}}\label{sec:Residuals}
-\CNAME\ will only print the usual residual (i.e. observed less fitted) using the report type \command{report}.type=observation. For an observation \textit{O} and \textit{F} the corresponding fit (=\textit{qE} for relative observations), then
+
+\CNAME\ will print the default residual values (i.e., observed less fitted) only when the report type \command{report}\texttt{.type=observation} is used. For an observation \textit{O} and \textit{F} the corresponding fit (=\textit{qE} for relative observations), then
+
 \begin{itemize}
 	\item Residuals = \textit{O} - \textit{F}
 \end{itemize}
 
-Pearson and Normalised residuals can be generated using \CNAME\ \textbf{R} package with-in the \textbf{R} environment. For specific R functions see Section~\ref{sec:post-processing}. The definitions used in the calculations are as follows,
+Pearson and normalised residuals can be generated using the \CNAME\ \textbf{R} package. For specific \R\ functions see Section~\ref{sec:post-processing}.
 
-\begin{enumerate}
+The definitions used in the calculations are
+
+\begin{itemize}
 	\item \textit{Pearson residuals} attempt to express the residual relative to the variability of the observation, and are defined as (\textit{O}-\textit{F})/std.dev.(\textit{O}), where std.dev.(\textit{O}) is calculated as
 	\begin{itemize}
 			\item F $\times$ cv for normal, lognormal, robustified lognormal, and normal-log error distributions.
@@ -866,9 +1059,9 @@ Pearson and Normalised residuals can be generated using \CNAME\ \textbf{R} packa
 		\item (log(\textit{O}/\textit{F})+0.5$\sigma^2$)/$\sigma$ for lognormal (including robustified lognormal) error distributions, where $\sigma= \sqrt{log(1 + cv^2)}$.
 		\item  log(\textit{O}/\textit{F})/$\sigma$ for normal-log error distributions, again with $\sigma= \sqrt{log(1 + cv^2)}$.
 		\item And are otherwise undefined.
-	\end{itemize}	
-\end{enumerate}
+	\end{itemize}
+\end{itemize}
 
-where $Z(\textit{F},r)$ is the robustifying term on \textit{F} (fit or expectation of the observation). This robustifying is described earlier in the likelihood section.
+where $Z(\textit{F},r)$ is the robustifying term on \textit{F} (fit or expectation of the observation). This robustifying function is described earlier in the likelihood section.
 
 

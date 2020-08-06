@@ -9,7 +9,8 @@
  *
  * @section DESCRIPTION
  *
- * This class along with the the uniformLog class were specifically implemented so that Casal2 could emulate the nuisance Q functionality that CASAL does.
+ * This class along with the the uniformLog class were specifically implemented so that
+ * Casal2 could emulate the nuisance Q functionality that CASAL does.
  */
 #ifndef ADDITIONALPRIORS_LOGNORMAL_H_
 #define ADDITIONALPRIORS_LOGNORMAL_H_
@@ -26,7 +27,7 @@ namespace additionalpriors {
 class LogNormal : public AdditionalPrior {
 public:
   // methods
-	LogNormal(Model* model);
+  LogNormal(Model* model);
   virtual                     ~LogNormal() = default;
   void                        DoValidate() override final;
   void                        DoBuild() override final;
@@ -38,10 +39,10 @@ protected:
   map<unsigned, Double>*      addressable_map_ = nullptr;
   vector<Double>*             addressable_vector_ = nullptr;
   vector<Double*>*            addressable_ptr_vector_ = nullptr;
-  Double											score_ = 0.0;
-  Double											mu_;
-  Double											cv_;
-  Double											sigma_;
+  Double                      score_ = 0.0;
+  Double                      mu_;
+  Double                      cv_;
+  Double                      sigma_;
 };
 
 } /* namespace additionalpriors */

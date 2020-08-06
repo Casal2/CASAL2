@@ -35,7 +35,7 @@ File::~File() {
 }
 
 /**
- * Attempt to open our configuration file
+ * This method opens the configuration file
  *
  * @param file_name The name of the file to open
  * @return true on success, false on failure
@@ -44,7 +44,7 @@ bool File::OpenFile(string file_name) {
   LOG_TRACE();
 
   file_name_ = file_name;
-  LOG_FINE() << "Opening file: " << file_name;
+  LOG_FINE() << "Opening file " << file_name;
 
   file_.open(file_name_.c_str());
   if (file_.fail() || !file_.is_open())
@@ -108,7 +108,7 @@ void File::Parse() {
 
         if (!include_file.OpenFile(include_name))
           LOG_FATAL() << "At line: " << line_number_ << " of " << file_name_
-              << ": Include file '" << include_name << "' could not be opened. Does this file exist?";
+            << ": Include file '" << include_name << "' could not be opened.";
 
         include_file.Parse();
         continue;

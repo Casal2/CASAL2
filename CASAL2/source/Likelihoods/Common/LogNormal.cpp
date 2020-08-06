@@ -38,7 +38,7 @@ Double LogNormal::AdjustErrorValue(const Double process_error, const Double erro
 }
 
 /**
- * Get the result from our likelihood
+ * Calculate the scores
  *
  * @param comparisons A collection of comparisons passed by the observation
  */
@@ -74,8 +74,8 @@ void LogNormal::SimulateObserved(map<unsigned, vector<observations::Comparison> 
       if (comparison.expected_ <= 0.0 || error_value <= 0.0)
         comparison.observed_ = comparison.delta_;
       else {
-        LOG_FINEST() << "expected = " << comparison.expected_;
-        comparison.observed_ = rng.lognormal(AS_DOUBLE(comparison.expected_), AS_DOUBLE(error_value));
+        LOG_FINEST() << "Expected = " << comparison.expected_;
+        comparison.observed_ = rng.lognormal(AS_VALUE(comparison.expected_), AS_VALUE(error_value));
         LOG_FINEST() << "Simulated = " << comparison.observed_;
 
       }

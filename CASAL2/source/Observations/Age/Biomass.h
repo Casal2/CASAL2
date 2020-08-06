@@ -39,7 +39,7 @@ class Biomass : public niwa::Observation {
 public:
   // methods
   Biomass(Model* model);
-  virtual                     ~Biomass() = default;
+  virtual                     ~Biomass();
   void                        DoValidate() override final;
   virtual void                DoBuild() override;
   void                        DoReset() override final { };
@@ -51,15 +51,12 @@ public:
 protected:
   // members
   vector<unsigned>                years_;
-  map<unsigned, vector<Double> >  proportions_by_year_;
-  map<unsigned, Double>           error_values_by_year_;
-  vector<Double>                  error_values_;
-  string                          catchability_label_;
+  string                          catchability_label_ = "";
   Catchability*                   catchability_ = nullptr;
-  Double                          process_error_value_;
+  Double                          process_error_value_ = 0;
   CachedCombinedCategoriesPtr     cached_partition_;
   CombinedCategoriesPtr           partition_;
-  vector<string>                  obs_;
+  parameters::Table*              obs_table_ = nullptr;
   vector<string>                  selectivity_labels_;
   vector<Selectivity*>            selectivities_;
   string                          time_step_label_ = "";
@@ -67,6 +64,10 @@ protected:
   bool                            nuisance_q_ = false;
   vector<string>                  age_weight_labels_;
   vector<AgeWeight*>              age_weights_;
+
+  map<unsigned, vector<Double> >  proportions_by_year_;
+  map<unsigned, Double>           error_values_by_year_;
+
 };
 
 } /* namespace age */

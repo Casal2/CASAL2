@@ -27,10 +27,10 @@ namespace asserts {
  *
  * Bind any parameters that are allowed to be loaded from the configuration files.
  * Set bounds on registered parameters
- * Register any parameters that can be an estimated or utilised in other run modes (e.g profiling, yields, projections etc)
+ * Register any parameters that can be an estimated or utilised in other run modes (e.g., profiling, yields, projections, etc.)
  * Set some initial values
  *
- * Note: The constructor is parsed to generate Latex for the documentation.
+ * Note: The constructor is parsed to generate LaTeX for the documentation.
  */
 Partition::Partition(Model* model) : Assert(model) {
   parameters_.Bind<string>(PARAM_CATEGORY, &category_label_, "Category to check population values for", "", "");
@@ -38,8 +38,8 @@ Partition::Partition(Model* model) : Assert(model) {
 }
 
 /**
- * Populate any parameters,
- * Validate values are within expected ranges when we cannot use bind<>() overloads
+ * Populate any parameters
+ * Validate values are within expected ranges when bind<>() overloads cannot be used
  *
  * Note: all parameters are populated from configuration files
  */
@@ -74,8 +74,8 @@ void Partition::Execute() {
       std::streamsize prec = std::cout.precision();
       std::cout.precision(9);
 
-      LOG_ERROR() << "Assert Failure: Partition.Category: " << category_label_ << " had value " << data[i] << " when we expected " << values_[i] <<
-          " for age " << (category.min_age_ + i);
+      LOG_ERROR() << "Assert Failure: Partition.Category: " << category_label_ << " had value " << data[i] << " when " << values_[i]
+        << " values are expected for age " << (category.min_age_ + i) << ". The difference is " << (values_[i] - AS_VALUE(data[i])) << ".";
 
       std::cout.precision(prec);
     }

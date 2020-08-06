@@ -77,6 +77,7 @@ public:
   bool                            HasAddressableUsage(const string& label, const addressable::Usage&) const;
   bool                            IsAddressableAVector(const string& label) const;
   unsigned                        GetAddressableSize(const string& label) const;
+
   Double*                         GetAddressable(const string& label);
   virtual Double*                 GetAddressable(const string& label, const string& index);
   vector<Double*>*                GetAddressables(const string& absolute_label, const vector<string> indexes);
@@ -84,6 +85,7 @@ public:
   map<unsigned, Double>*          GetAddressableUMap(const string& label, bool& create_missing);
   OrderedMap<string, Double>*     GetAddressableSMap(const string& label);
   vector<Double>*                 GetAddressableVector(const string& label);
+
   addressable::Type               GetAddressableType(const string& label) const;
   void                            PrintParameterQueryInfo();
   virtual void                    RebuildCache();
@@ -115,6 +117,7 @@ protected:
   void                        RegisterAsAddressable(const string& label, OrderedMap<string, Double>* variables, addressable::Usage usage = addressable::kAll);
   void                        RegisterAsAddressable(const string& label, map<unsigned, Double>* variables, addressable::Usage usage = addressable::kAll);
   void                        RegisterAsAddressable(map<string, vector<Double>>* variables);
+
 
   // Members
   string                          block_type_           = "";

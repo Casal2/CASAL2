@@ -1,0 +1,43 @@
+@print
+
+unused_parameters 1
+
+population_section 1
+requests 0
+results 0
+initial_state 1
+final_state 1
+state_annually 0
+state_every_step 0
+every_mean_size 1
+
+estimation_section 1
+fits 1
+resids 1
+pearson_resids 1
+normalised_resids 1
+covariance 1
+fits_every_eval 0
+objective_every_eval 0
+parameters_every_eval 0
+parameter_vector_every_eval 0
+
+yields 0
+
+@quantities
+all_free_parameters 1
+nuisance_qs 1
+fishing_pressures 1
+actual_catches 1
+removals 1
+discards 1
+B0 true
+SSBs true
+YCS true
+true_YCS true
+recruitments 1
+fits 1
+resids 1
+pearson_resids 1
+normalised_resids 1
+

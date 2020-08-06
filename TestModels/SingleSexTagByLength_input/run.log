@@ -1,0 +1,87 @@
+Casal2
+Call: casal2 -r -i pars.out
+Date: Mon May 11 13:20:14 2020
+Version: 2020-05-08 05:01:48 UTC (rev. 96f97b0)
+Copyright (c) 2020 - 2020, NIWA (www.niwa.co.nz)
+-- Username: niwauser
+-- Machine: niwa-computer (Linux 5.6.0-1-amd64 x86_64)
+-- Process Id: 74609
+
+resizing from 40000 to 44000
+resizing from 44000 to 48400
+resizing from 48400 to 53240
+[WARNING] /home/niwauser/casal2-development/CASAL2/source/Estimates/Manager.cpp(line: 95): Estimates were removed because of matching lower and upper bounds. Originally had 33 estimates, now have 16
+resizing from 53240 to 58564
+resizing from 58564 to 64420
+resizing from 64420 to 70862
+resizing from 70862 to 77948
+resizing from 77948 to 85742
+resizing from 85742 to 94316
+resizing from 94316 to 103747
+resizing from 103747 to 114121
+resizing from 114121 to 125533
+resizing from 125533 to 138086
+resizing from 138086 to 151894
+resizing from 151894 to 167083
+resizing from 167083 to 183791
+resizing from 183791 to 202170
+resizing from 202170 to 222387
+resizing from 222387 to 244625
+resizing from 244625 to 269087
+resizing from 269087 to 295995
+resizing from 295995 to 325594
+resizing from 325594 to 358153
+resizing from 358153 to 393968
+resizing from 393968 to 433364
+resizing from 433364 to 476700
+resizing from 476700 to 524370
+resizing from 524370 to 576807
+resizing from 576807 to 634487
+resizing from 634487 to 697935
+resizing from 697935 to 767728
+resizing from 767728 to 844500
+resizing from 844500 to 928950
+resizing from 928950 to 1021845
+resizing from 1021845 to 1124029
+resizing from 1124029 to 1236431
+resizing from 1236431 to 1360074
+resizing from 1360074 to 1496081
+resizing from 1496081 to 1645689
+resizing from 1645689 to 1810257
+resizing from 1810257 to 1991282
+resizing from 1991282 to 2190410
+resizing from 2190410 to 2409451
+resizing from 2409451 to 2650396
+resizing from 2650396 to 2915435
+resizing from 2915435 to 3206978
+resizing from 3206978 to 3527675
+resizing from 3527675 to 3880442
+resizing from 3880442 to 4268486
+resizing from 4268486 to 4695334
+resizing from 4695334 to 5164867
+resizing from 5164867 to 5681353
+resizing from 5681353 to 6249488
+resizing from 6249488 to 6874436
+resizing from 6874436 to 7561879
+resizing from 7561879 to 8318066
+resizing from 8318066 to 9149872
+resizing from 9149872 to 10064859
+resizing from 10064859 to 11071344
+resizing from 11071344 to 12178478
+resizing from 12178478 to 13396325
+resizing from 13396325 to 14735957
+resizing from 14735957 to 16209552
+resizing from 16209552 to 17830507
+resizing from 17830507 to 19613557
+resizing from 19613557 to 21574912
+resizing from 21574912 to 23732403
+resizing from 23732403 to 26105643
+*warnings[warnings_encounted]
+warnings_found: 1
+warning_0 {s}
+Estimates were removed because of matching lower and upper bounds. Originally had 33 estimates, now have 16
+*end
+
+Total CPU time: 0.0009 hours.
+Total elapsed time: 2 seconds
+Completed

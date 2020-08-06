@@ -5,7 +5,7 @@
  * @date 25/03/2013
  * @section LICENSE
  *
- * Copyright NIWA Science ©2013 - www.niwa.co.nz
+ * Copyright NIWA Science 2013 - www.niwa.co.nz
  *
  * @section DESCRIPTION
  *
@@ -24,7 +24,7 @@
 #include "Utilities/Types.h"
 #include "Utilities/Distribution.h"
 
-#define PI 3.14159265358979
+#define PI 3.14159265358979323846264338327950288
 
 // Namespaces
 namespace niwa {
@@ -64,7 +64,7 @@ inline Double LnFactorial(Double t) {
  * dnorm: return the pdf for the normal
  */
 inline Double dnorm(const Double& x, const Double& mu, const Double& sigma) {
-  Double z = 1 / (sigma * sqrt(2 * PI)) * exp(-((x - mu) * (x - mu))/(2 * sigma * sigma));
+  Double z = 1.0 / (sigma * sqrt(2.0 * PI)) * exp( -((x - mu) * (x - mu)) / (2.0 * sigma * sigma) );
   return(z);
 }
 
@@ -72,7 +72,7 @@ inline Double dnorm(const Double& x, const Double& mu, const Double& sigma) {
 // These are distributional functions taken from CASAL, some will wont to be updated
 //************************************
 /*
- * dlognorm: return the pdf for the log-normal
+ * dlognorm: return the pdf for the lognormal
  */
 inline Double dlognorm(const Double& x, const Double& mu = 0.0, const Double& sigma = 1.0) {
   // Parameterised by the mean and standard deviation of the (normal) distribution
@@ -106,7 +106,7 @@ inline Double pnorm2(const Double& x, const Double& mu = 0.0, const Double& sigm
   Double norm, ttt, p;
   Double z = fabs((x - mu)/sigma);
   Double tt = 1.0 / (1.0 + 0.2316419 * z);
-  norm = 1.0 / sqrt(2.0 * PI) * exp(-0.5 * z * z);
+  norm = (1.0 / sqrt(2.0 * PI)) * exp(-0.5 * z * z);
   ttt = tt;
   p = 0.319381530 * ttt;
   ttt = ttt * tt;
@@ -118,13 +118,14 @@ inline Double pnorm2(const Double& x, const Double& mu = 0.0, const Double& sigm
   ttt = ttt * tt;
   p = p + 1.330274429 * ttt;
   p *= norm;
+  p = 1 - p;
   if (x < mu)
-    p = 1-p;
+    p = 1 - p;
   return(p);
 }
 
 /**
- * plnorm: return the cdf for the normal
+ * plognorm: return the cdf for the lognormal
  */
 inline Double plognorm(const Double& x, const Double& mu, const Double& sigma) {
   // Parameterised by the mean and standard deviation of the (normal) distribution
@@ -133,6 +134,18 @@ inline Double plognorm(const Double& x, const Double& mu, const Double& sigma) {
     return 0.0;
   else
     return pnorm(log(x),mu,sigma);
+}
+
+/**
+ * plognorm2: return the cdf for the lognormal
+ */
+inline Double plognorm2(const Double& x, const Double& mu, const Double& sigma) {
+  // Parameterised by the mean and standard deviation of the (normal) distribution
+  //  of log(x), NOT by those of the (lognormal) distribution of x.
+  if (x <= 0)
+    return 0.0;
+  else
+    return pnorm2(log(x),mu,sigma);
 }
 
 // Distribution: this is taken from CASAL, will be useful for Samik and his length structured stuff.
@@ -145,9 +158,14 @@ inline Double plognorm(const Double& x, const Double& mu, const Double& sigma) {
 // distribution(...)[i] is the probability that the random variable exceeds class_mins[i]).
 // TODO change dist from string -> enum Think about moving enum Distribution from AgeLength to model as it will be used everywhere in the code base.
 //
-// We use an approximation: P(X is more than 5 std.devs away from its mean) = 0.
-//  Almost true for the normal distribution, but may be problematic if you use something more skewed.
-inline vector<Double> distribution(const vector<Double>& class_mins, bool plus_group = 0, const Distribution& dist = Distribution::kNormal, const Double& mean = 0.0, const Double& stdev = 1.0) {
+// This function uses an approximation: P(X is more than 5 std.devs away from its mean) = 0.
+//  Almost true for the normal distribution, but may be problematic for more skewed distributions.
+/**
+ * distribution: uses the normal CDF functions from CASAL
+ */
+inline vector<Double> distribution(const vector<double>& class_mins, bool plus_group = false,
+                                   const Distribution& dist = Distribution::kNormal,
+                                   const Double& mean = 0.0, const Double& stdev = 1.0) {
   int n_bins = class_mins.size() - (plus_group ? 0 : 1);
   vector<Double> result(n_bins, 0.0);
   Double so_far = 0;
@@ -165,7 +183,7 @@ inline vector<Double> distribution(const vector<Double>& class_mins, bool plus_g
     } else if (dist == Distribution::kLogNormal){
       so_far = plognorm(class_mins[0],mu,sigma);
     } else
-      LOG_CODE_ERROR() << "unknown distribution supplies, this should be caught earlier '";
+      LOG_CODE_ERROR() << "unknown distribution";
   }
 
   int c;
@@ -185,7 +203,7 @@ inline vector<Double> distribution(const vector<Double>& class_mins, bool plus_g
       so_far += result[c];
     }
     if (result[c] < 0 || result[c]!=result[c]) {
-      LOG_CODE_ERROR() << "bad result in distribution, got " << result[c];
+      LOG_CODE_ERROR() << "bad result in distribution, parsed " << result[c];
     }
   }
   LOG_TRACE();
@@ -204,33 +222,98 @@ inline vector<Double> distribution(const vector<Double>& class_mins, bool plus_g
       }
     }
     if (result[c] < 0 || result[c] != result[c]){
-      LOG_CODE_ERROR() << "bad result in distribution, got " << result[c];
+      LOG_CODE_ERROR() << "bad result in distribution, parsed " << result[c];
     }
   }
   return result;
 }
-//**********************************************************************
-// void Engine::condassign( double &res, const double &cond, const double &arg1, const double &arg2 ) {
-// Conditional Assignment
-//**********************************************************************
+
+/**
+ * distribution2: uses the updated/more accurate normal CDF functions
+ */
+inline vector<Double> distribution2(const vector<double>& class_mins, bool plus_group = false,
+                                    const Distribution& dist = Distribution::kNormal,
+                                    const Double& mean = 0.0, const Double& stdev = 1.0) {
+  int n_bins = class_mins.size() - (plus_group ? 0 : 1);
+  vector<Double> result(n_bins, 0.0);
+  Double so_far = 0;
+  Double mu = 0, sigma = 0;
+  // Adjust mu and sigma for lognormal
+  if (dist == Distribution::kLogNormal){
+    sigma = sqrt(log(1+pow(stdev/mean,2)));
+    mu = log(mean) - sigma*sigma/2;
+  }
+  if (class_mins[0] < mean - 5 * stdev) {
+    so_far = 0;
+  } else {
+    if (dist == Distribution::kNormal){
+      so_far = pnorm2(class_mins[0],mean,stdev);
+    } else if (dist == Distribution::kLogNormal){
+      so_far = plognorm2(class_mins[0],mu,sigma);
+    } else
+      LOG_CODE_ERROR() << "unknown distribution";
+  }
+
+  int c;
+  for (c = 0; c < (n_bins - 1); c++) {
+    if (class_mins[c + 1] > mean + 5 * stdev){
+      result[c] = 1-so_far;
+      so_far = 1;
+    } else if (class_mins[c + 1] < mean - 5 * stdev){
+      result[c] = 0;
+      so_far = 0;
+    } else {
+      if (dist == Distribution::kNormal){
+        result[c] = pnorm2(class_mins[c + 1], mean ,stdev) - so_far;
+      } else if (dist == Distribution::kLogNormal){
+        result[c] = plognorm2(class_mins[c + 1], mu, sigma) - so_far;
+      }
+      so_far += result[c];
+    }
+    if (result[c] < 0 || result[c]!=result[c]) {
+      LOG_CODE_ERROR() << "bad result in distribution, parsed " << result[c];
+    }
+  }
+  LOG_TRACE();
+
+  c = n_bins - 1;
+  if (plus_group){
+    result[c] = 1 - so_far;
+  } else {
+    if (class_mins[c + 1] > mean + 5 * stdev){
+      result[c] = 1 - so_far;
+    } else {
+      if (dist == Distribution::kNormal){
+        result[c] = pnorm2(class_mins[c + 1], mean, stdev) - so_far;
+      } else if (dist == Distribution::kLogNormal){
+        result[c] = plognorm2(class_mins[c + 1], mu, sigma) - so_far;
+      }
+    }
+    if (result[c] < 0 || result[c] != result[c]){
+      LOG_CODE_ERROR() << "bad result in distribution, parsed " << result[c];
+    }
+  }
+  return result;
+}
+
+/**
+ * conditional assignment
+ */
 inline void cond_assign(Double &res, const Double &cond, const Double &arg1, const Double &arg2) {
   res = (cond) > 0 ? arg1 : arg2;
 }
 
-//**********************************************************************
-// void Engine::condassign( double &res, const double &cond, const double &arg)
-// Conditional Assignment
-//**********************************************************************
+/**
+ * conditional assignment
+ */
 inline void cond_assign(Double &res, const Double &cond, const Double &arg) {
   res = (cond) > 0 ? arg : res;
 }
 
 /**
- * double Engine::boundpin(double y, double fmin, double fmax)
- * Boundary Pin
+ * scale value
  */
-
-inline Double scale_value(Double value, Double min, Double max) {
+inline Double scale_value(Double value, double min, double max) {
   if (dc::IsEqual(value, min))
     return -1;
   else if (dc::IsEqual(value, max))
@@ -240,9 +323,9 @@ inline Double scale_value(Double value, Double min, Double max) {
 }
 
 /**
- *
+ * unscale value
  */
-inline Double unscale_value(const Double& value, Double& penalty, Double min, Double max) {
+inline Double unscale_value(const Double& value, Double& penalty, double min, double max) {
   // courtesy of AUTODIF - modified to correct error -
   // penalty on values outside [-1,1] multiplied by 100 as of 14/1/02.
   Double t = 0.0;
@@ -271,8 +354,8 @@ inline Double mean(const vector<Double>& Values){
   Double total = 0.0;
   for (const auto& value : Values)
     total += value;
-  Double n = AS_DOUBLE(Values.size();
-  mu = total / n);
+  Double n = Values.size();
+  mu = total / n;
   return mu;
 }
 

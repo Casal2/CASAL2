@@ -25,17 +25,17 @@ namespace age {
 namespace math = niwa::utilities::math;
 
 /**
- * default constructor
+ * Default constructor
  */
 MortalityEventBiomass::MortalityEventBiomass(Model* model)
   : Process(model),
     partition_(model) {
 
-  parameters_.Bind<string>(PARAM_CATEGORIES, &category_labels_, "Category labels", "");
+  parameters_.Bind<string>(PARAM_CATEGORIES, &category_labels_, "The category labels", "");
   parameters_.Bind<string>(PARAM_SELECTIVITIES, &selectivity_labels_, "The labels of the selectivities for each of the categories", "");
-  parameters_.Bind<unsigned>(PARAM_YEARS, &years_, "Years in which to apply the mortality process", "");
+  parameters_.Bind<unsigned>(PARAM_YEARS, &years_, "The years in which to apply the mortality process", "");
   parameters_.Bind<Double>(PARAM_CATCHES, &catches_, "The biomass of removals (catches) to apply for each year", "");
-  parameters_.Bind<Double>(PARAM_U_MAX, &u_max_, "Maximum exploitation rate ($Umax$)", "", 0.99);
+  parameters_.Bind<Double>(PARAM_U_MAX, &u_max_, "The maximum exploitation rate ($U_{max}$)", "", 0.99)->set_range(0.0, 1.0);
   parameters_.Bind<string>(PARAM_PENALTY, &penalty_label_, "The label of the penalty to apply if the total biomass of removals cannot be taken", "", "");
 
 
@@ -47,24 +47,24 @@ MortalityEventBiomass::MortalityEventBiomass(Model* model)
 }
 
 /**
- *
+ * Validate the objects
  */
 void MortalityEventBiomass::DoValidate() {
   if (u_max_ <= 0.0 || u_max_ >= 1.0)
     LOG_ERROR_P(PARAM_U_MAX) << " (" << u_max_ << ") must be between 0.0 and 1.0 exclusive";
 
   if (category_labels_.size() != selectivity_labels_.size())
-    LOG_ERROR_P(PARAM_SELECTIVITIES) << " number provided (" << selectivity_labels_.size() << ") must match the number of "
-        "categories provided (" << category_labels_.size() << ")";
+    LOG_ERROR_P(PARAM_SELECTIVITIES) << " The number of selectivities provided (" << selectivity_labels_.size() << ") must match the number of "
+      << "categories provided (" << category_labels_.size() << ")";
   if (years_.size() != catches_.size())
-    LOG_ERROR_P(PARAM_CATCHES) << " number provided (" << catches_.size() << ") must match the number of "
-        "years provided (" << years_.size() << ")";
+    LOG_ERROR_P(PARAM_CATCHES) << " The number of catches provided (" << catches_.size() << ") must match the number of "
+      << "years provided (" << years_.size() << ")";
 
 
   // Validate: catches_ and years_
   for(unsigned i = 0; i < years_.size(); ++i) {
     if (catch_years_.find(years_[i]) != catch_years_.end()) {
-      LOG_ERROR_P(PARAM_YEARS) << " year " << years_[i] << " has already been specified, please remove the duplicate";
+      LOG_ERROR_P(PARAM_YEARS) << " year '" << years_[i] << "' has already been specified.";
     }
     catch_years_[years_[i]] = catches_[i];
   }
@@ -78,7 +78,7 @@ void MortalityEventBiomass::DoValidate() {
 }
 
 /**
- *
+ * Build the objects
  */
 void MortalityEventBiomass::DoBuild() {
   partition_.Init(category_labels_);
@@ -86,7 +86,7 @@ void MortalityEventBiomass::DoBuild() {
   for (string label : selectivity_labels_) {
     Selectivity* selectivity = model_->managers().selectivity()->GetSelectivity(label);
     if (!selectivity)
-      LOG_ERROR_P(PARAM_SELECTIVITIES) << ": selectivity " << label << " does not exist. Have you defined it?";
+      LOG_ERROR_P(PARAM_SELECTIVITIES) << ": Selectivity label " << label << " was not found.";
 
     selectivities_.push_back(selectivity);
   }
@@ -94,7 +94,7 @@ void MortalityEventBiomass::DoBuild() {
   if (penalty_label_ != "") {
     penalty_ = model_->managers().penalty()->GetProcessPenalty(penalty_label_);
     if (!penalty_) {
-      LOG_ERROR_P(PARAM_PENALTY) << ": penalty " << penalty_label_ << " does not exist. Have you defined it?";
+      LOG_ERROR_P(PARAM_PENALTY) << ": Penalty label " << penalty_label_ << " was not found.";
     }
   }
   exploitation_by_year_.reserve(years_.size());
@@ -103,20 +103,23 @@ void MortalityEventBiomass::DoBuild() {
 }
 
 /**
- *
+ * Reset the objects
  */
 void MortalityEventBiomass::DoReset() {
   exploitation_by_year_.clear();
   actual_catches_.clear();
 }
+
 /**
- *
+ * Execute the process
  */
 void MortalityEventBiomass::DoExecute() {
   if (catch_years_[model_->current_year()] == 0)
     return;
+
   unsigned time_step_index = model_->managers().time_step()->current_time_step();
   LOG_TRACE();
+
   /**
    * Work our how much of the stock is vulnerable
    */
@@ -160,7 +163,6 @@ void MortalityEventBiomass::DoExecute() {
    * Remove the stock now. The amount to remove is
    * vulnerable * exploitation and store for report
    */
-
   i = 0;
   Double removals = 0;
   for (auto categories : partition_) {
@@ -175,32 +177,32 @@ void MortalityEventBiomass::DoExecute() {
   }
 }
 
-/*
- * @fun FillReportCache
+/**
+ * Fill the report cache
+ *
  * @description A method for reporting process information
  * @param cache a cache object to print to
-*/
+ */
 void MortalityEventBiomass::FillReportCache(ostringstream& cache) {
   cache << "years: ";
   for (auto year : years_)
     cache << year << " ";
   cache << "\nactual_catches: ";
   for (auto removal : actual_catches_)
-    cache << removal << " ";
+    cache << AS_VALUE(removal) << " ";
   cache << "\nexploitation_rate: ";
   for (auto exploit : exploitation_by_year_)
-    cache << exploit << " ";
+    cache << AS_VALUE(exploit) << " ";
   cache << "\n";
-
 }
 
-/*
- * @fun FillTabularReportCache
- * @description A method for reporting tabular process information
+/**
+ * Fill the tabular report cache
+ *
  * @param cache a cache object to print to
  * @param first_run whether to print the header
  *
-*/
+ */
 void MortalityEventBiomass::FillTabularReportCache(ostringstream& cache, bool first_run) {
   if (first_run) {
     for (auto year : years_) {
@@ -212,14 +214,11 @@ void MortalityEventBiomass::FillTabularReportCache(ostringstream& cache, bool fi
     cache << "\n";
   }
   for (auto removal : actual_catches_)
-    cache << removal << " ";
+    cache << AS_VALUE(removal) << " ";
   for (auto exploit : exploitation_by_year_)
-    cache << exploit << " ";
+    cache << AS_VALUE(exploit) << " ";
   cache << "\n";
-
 }
-
-
 
 } /* namespace age */
 } /* namespace processes */

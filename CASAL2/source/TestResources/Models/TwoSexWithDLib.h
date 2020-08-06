@@ -67,7 +67,7 @@ age 1
 type constant_rate
 categories *
 M 0.065 0.065 0.065 0.065
-selectivities One One One One
+relative_m_by_age One One One One
 
 @mortality Fishing
 type event
@@ -158,14 +158,24 @@ time_step_proportion 1.0
 @observation CPUE
 type abundance
 catchability CPUEq
-years 1998:2007
 time_step step_one
 categories *+
 selectivities FishingSel FishingSel FishingSel FishingSel
-obs 22.55065505 57.30952381 57.92066148 33.52834377 108.4380734 72.84761934 38.29753826 75.84993311 109.47353102 85.7732931
-error_value 0.2
 likelihood lognormal
 time_step_proportion 1.0
+years 1998:2007
+table obs
+1998    22.55065505  0.2
+1999    57.30952381  0.2
+2000    57.92066148  0.2
+2001    33.52834377  0.2
+2002    108.4380734  0.2
+2003    72.84761934  0.2
+2004    38.29753826  0.2
+2005    75.84993311  0.2
+2006    109.47353102 0.2
+2007    85.7732931   0.2
+end_table
 
 @estimate
 parameter catchability[CPUEq].q

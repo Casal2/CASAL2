@@ -31,21 +31,21 @@ Manager::~Manager() noexcept(true) {
 }
 
 /**
- * Build our reports then
- * organise the reports stored in our
+ * Build the reports then
+ * organise the reports stored in the
  * object list into different containers
  * based on their type.
  */
 void Manager::Build() {
   if (objects_.size() == 0)
-    LOG_WARNING() << "No reports have been specified for this model run";
+    LOG_WARNING() << "No reports have been specified";
 
   LOG_FINEST() << "objects_.size(): " << objects_.size();
   for (auto report : objects_) {
     report->Build();
 
     if ((RunMode::Type)(report->run_mode() & RunMode::kInvalid) == RunMode::kInvalid)
-      LOG_CODE_ERROR() << "Report: " << report->label() << " has not been properly configured to have a run mode";
+      LOG_CODE_ERROR() << "Report " << report->label() << " has not been properly configured to have a run mode";
 
     if (report->model_state() != State::kExecute) {
       LOG_FINE() << "Adding report " << report->label() << " to state reports, with model->state() = " << report->model_state();
@@ -69,14 +69,14 @@ void Manager::Execute(State::Type model_state) {
   bool tabular = model_->global_configuration().print_tabular();
   LOG_FINE() << "Checking " << state_reports_[model_state].size() << " reports";
   for(auto report : state_reports_[model_state]) {
-      LOG_FINE() << "Checking report: " << report->label();
+      LOG_FINE() << "Checking report " << report->label();
       if ( (RunMode::Type)(report->run_mode() & run_mode) == run_mode) {
         if (tabular)
           report->ExecuteTabular();
         else
           report->Execute();
       } else
-        LOG_FINE() << "Skipping report: " << report->label() << " because run mode is incorrect";
+        LOG_FINE() << "Skipping report '" << report->label() << "' because run mode is incorrect";
   }
 }
 
@@ -95,13 +95,13 @@ void Manager::Execute(unsigned year, const string& time_step_label) {
   RunMode::Type run_mode = model_->run_mode();
   bool tabular = model_->global_configuration().print_tabular();
   for(auto report : time_step_reports_[time_step_label]) {
-    LOG_FINE() << "executing report " << report->label();
+    LOG_FINE() << "Executing report " << report->label();
     if ( (RunMode::Type)(report->run_mode() & run_mode) != run_mode) {
-      LOG_FINEST() << "Skipping report: " << report->label() << " because run mode is not right";
+      LOG_FINE() << "Skipping report '" << report->label() << "' because run mode is incorrect";
       continue;
     }
     if (!report->HasYear(year)) {
-      LOG_FINEST() << "Skipping report: " << report->label() << " because it does not have year " << year;
+      LOG_FINE() << "Skipping report '" << report->label() << "' because it does not have year " << year;
       continue;
     }
 
@@ -114,7 +114,7 @@ void Manager::Execute(unsigned year, const string& time_step_label) {
 }
 
 /**
- *
+ * Prepare the report objects
  */
 void Manager::Prepare() {
   LOG_TRACE();
@@ -122,7 +122,7 @@ void Manager::Prepare() {
   bool tabular = model_->global_configuration().print_tabular();
   for (auto report : objects_) {
     if ( (RunMode::Type)(report->run_mode() & run_mode) != run_mode) {
-      LOG_FINEST() << "Skipping report: " << report->label() << " because run mode is not right";
+      LOG_FINE() << "Skipping report '" << report->label() << "' because run mode is incorrect";
       continue;
     }
 
@@ -134,7 +134,7 @@ void Manager::Prepare() {
 }
 
 /**
- *
+ * Finalise the report objects
  */
 void Manager::Finalise() {
   LOG_TRACE();
@@ -142,7 +142,7 @@ void Manager::Finalise() {
   bool tabular = model_->global_configuration().print_tabular();
   for (auto report : objects_) {
     if ( (RunMode::Type)(report->run_mode() & run_mode) != run_mode) {
-      LOG_FINEST() << "Skipping report: " << report->label() << " because run mode is not right";
+      LOG_FINE() << "Skipping report '" << report->label() << "' because run mode is incorrect";
       continue;
     }
 
@@ -156,8 +156,8 @@ void Manager::Finalise() {
 }
 
 /**
- * This method can be called from the main thread to ensure
- * we wait for all reports to finish
+ * This method can be called from the main thread to
+ * wait for all reports to finish
  */
 void Manager::WaitForReportsToFinish() {
 #ifndef TESTMODE
@@ -169,17 +169,17 @@ void Manager::WaitForReportsToFinish() {
 }
 
 /**
- * This method will flush all of the reports to stdout or a file depending on each
- * report when it has finished caching it's output internally.
+ * This method flushes all of the reports to stdout or a file depending on each
+ * report when it has finished caching its output internally.
  *
- * NOTE: This method is called in it's own thread so we can continue to run the model
- * without having to wait for the reports to be ready.
+ * NOTE: This method is called in its own thread so that the model can continue
+ * to run without having to wait for the reports to be ready.
  */
 void Manager::FlushReports() {
   // WARNING: DO NOT CALL THIS ANYWHERE. IT'S THREADED
- bool do_break = run_.test_and_set();
- waiting_ = false;
- bool record_waiting = false;
+  bool do_break = run_.test_and_set();
+  waiting_ = false;
+  bool record_waiting = false;
   while(true) {
     while (pause_) {
       is_paused_ = true;
@@ -208,7 +208,24 @@ void Manager::FlushReports() {
 }
 
 /**
+ * Return the report object for a specific type
  *
+ * @param type The type of report
+ * @return a pointer to the Report
+ */
+Report* Manager::GetReport(const string& type) {
+  for (auto report : objects_) {
+    if (report->type() == type)
+      return report;
+  }
+
+  LOG_MEDIUM() << "Report type '" << type << "' was not found.";
+
+  return nullptr;
+}
+
+/**
+ * Pause the report manager
  */
 void Manager::Pause() {
 #ifndef TESTMODE

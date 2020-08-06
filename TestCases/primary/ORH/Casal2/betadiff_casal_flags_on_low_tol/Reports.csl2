@@ -1,0 +1,100 @@
+## Print estimate values
+@report estimated_values
+type estimate_value
+
+@report estimated_summary
+type estimate_summary
+
+@report obj_fun
+type objective_function
+
+
+## Derived Quantities
+@report DerivedQuantities
+type derived_quantity
+
+@report Init
+type initialisation_partition
+
+
+@report Hess
+type hessian_matrix
+
+
+@report Covar
+type covariance_matrix
+
+
+@report Corr
+type correlation_matrix
+
+
+@report mcmc_covariance
+type mcmc_covariance
+
+
+## Print process information
+@report Recruitment
+type process
+process Recruitment
+
+@report Mortality
+type process
+process Fishing_Mortality
+
+
+@report state1
+type partition
+time_step Jul_Jun
+years 1979 2005
+
+
+@report nuisance_Q
+type catchability
+
+
+@report maturity_ogive
+type selectivity
+selectivity maturity_sel
+
+
+#@report age_length_mature
+#type age_length
+#time_step Jul_Jun
+#years 2005
+#age_length age_len_label
+#category mature
+
+
+@report growth_length_at_age
+type partition_mean_length
+time_step Jul_Jun
+years 2005
+
+
+@report growth_weight_at_age
+type partition_mean_weight
+time_step Jul_Jun
+years 2005
+
+
+@report fishery_selectivity
+type selectivity
+selectivity SELandes
+
+
+@report CPUE_index
+type observation
+observation CPUEandes
+
+
+@report fishery_LF
+type observation
+observation Obs_Andes_LF
+pearsons_residuals True
+
+
+@report Ageing_error
+type ageing_error
+ageing_error Normal_ageing
+

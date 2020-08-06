@@ -1,0 +1,40 @@
+
+alias cp='cp -i'
+alias mv='mv -i'
+alias rm='rm -i'
+
+alias egrep='egrep --color=auto'
+alias fgrep='fgrep --color=auto'
+alias grep='grep --color=auto'
+
+alias gsh='git status | head -40'
+
+alias head1='head -10'
+alias head2='head -20'
+alias head3='head -30'
+alias head4='head -40'
+
+alias l='ls -CF'
+alias l.='ls -d .* --color=auto'
+alias la='ls -A'
+alias ll='ls -alF'
+alias ls='ls -aFC --color=auto'
+alias lt='ls -lt'
+alias lth='ls -lt | head2 '
+alias lth1='ls -lt | head1 '
+alias lth2='ls -lt | head2 '
+alias lth3='ls -lt | head3 '
+alias lth4='ls -lt | head4 '
+
+alias psa='ps aucx'
+alias psc='ps auc'
+alias pst='pstree -a -h'
+alias psx='ps aux'
+
+alias tree='tree -C'
+
+alias vi='vim'
+
+alias which='alias | /usr/bin/which --tty-only --read-alias --show-dot --show-tilde'
+
+

@@ -53,12 +53,12 @@ StandardHeader::~StandardHeader() {
 
 /**
  * Prepare the header. This involves building
- * all of the information we need so it can be printed.
+ * all of the information so it can be printed.
  */
 void StandardHeader::DoPrepare() {
 
   ostringstream               header;
-  header << "CASAL2" << endl;
+  header << "Casal2" << endl;
 
   /**
    * Build the Command line
@@ -76,14 +76,15 @@ void StandardHeader::DoPrepare() {
    * Version information
    */
   header << "Version: " << SOURCE_CONTROL_VERSION << endl;
-  header << "Copyright (c) 2018 - " << SOURCE_CONTROL_YEAR << ", NIWA (www.niwa.co.nz)" << endl;
+  header << "Copyright (c) 2020 - " << SOURCE_CONTROL_YEAR << ", NIWA (www.niwa.co.nz)" << endl;
 
   /**
    * User and Computer Information
    */
 
 #ifdef __MINGW32__
-  header << "Environment: machine:" << getenv("COMPUTERNAME") << ", user:" << getenv("USERNAME") << ", os:" << getenv("OS") << ", pid:" << _getpid() << endl;  
+  header << "Environment: machine:" << getenv("COMPUTERNAME") << ", user:" << getenv("USERNAME")
+         << ", os:" << getenv("OS") << ", pid:" << _getpid() << endl;
 #elif _MSC_VER
 #else
   header << "-- Username: ";
@@ -106,14 +107,14 @@ void StandardHeader::DoPrepare() {
 }
 
 /**
- * This report does it's printing during the start and finalise methods
- * so we do not need to have any logic within the run method.
+ * This report does its printing during the start and finalise methods
  */
-void StandardHeader::DoExecute() { }
+void StandardHeader::DoExecute() {
+}
 
 /**
- * Finalise our report. This will calculate how much time it took
- * to do the execution of our application and print this to the
+ * Finalise the report. This will calculate how much time it took
+ * to do the execution of the application and print this to the
  * console.
  */
 void StandardHeader::DoFinalise() {

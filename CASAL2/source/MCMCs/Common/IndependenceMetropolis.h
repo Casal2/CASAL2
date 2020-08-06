@@ -38,34 +38,34 @@ protected:
   void                        BuildCovarianceMatrix();
   bool                        DoCholeskyDecmposition();
   void                        GenerateRandomStart();
-  void                        FillMultivariateNormal(Double step_size);
-  void                        FillMultivariateT(Double step_size);
+  void                        FillMultivariateNormal(double step_size);
+  void                        FillMultivariateT(double step_size);
   void                        UpdateStepSize();
   void                        UpdateCovarianceMatrix();
   void                        GenerateNewCandidates();
-  bool												WithinBounds();
+  bool                        WithinBounds();
 
   // members
-  Double                      start_ = 0;
+  double                      start_ = 0;
   unsigned                    keep_ = 0;
   unsigned                    estimate_count_ = 0;
   unsigned                    jumps_ = 0;
   unsigned                    jumps_since_adapt_ = 0;
   bool                        last_item_ = false;
   unsigned                    successful_jumps_since_adapt_ = 0;
-  Double                      max_correlation_ = 0;
+  double                      max_correlation_ = 0;
   string                      correlation_method_ = "";
-  Double                      correlation_diff_ = 0;
+  double                      correlation_diff_ = 0;
   string                      proposal_distribution_ = "";
   unsigned                    df_ = 0;
-  ublas::matrix<Double>       covariance_matrix_lt;
+  ublas::matrix<double>       covariance_matrix_lt;
   vector<Double>              candidates_;
   vector<bool>                is_enabled_estimate_;
   vector<unsigned>            adapt_step_size_;
   vector<unsigned>            adapt_covariance_matrix_;
   vector<string>              estimate_labels_;
   string                      adapt_stepsize_method_;
-  vector<Estimate*> 					estimates_;
+  vector<Estimate*>           estimates_;
 };
 
 } /* namespace mcmcs */

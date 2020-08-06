@@ -20,6 +20,7 @@
 #include "Reports/Age/AgeingErrorMatrix.h"
 #include "Reports/Age/AgeLength.h"
 #include "Reports/Age/InitialisationPartitionMeanWeight.h"
+#include "Reports/Age/PartitionMeanLength.h"
 #include "Reports/Age/PartitionMeanWeight.h"
 #include "Reports/Age/PartitionBiomass.h"
 #include "Reports/Age/Partition.h"
@@ -60,12 +61,12 @@ namespace niwa {
 namespace reports {
 
 /**
- * Create the instance of our object as defined by the two parameters
+ * Create the instance of the object as defined by the two parameters
  * object_type and sub_type.
  *
- * @param object_type The type of object to create (e.g age_size, process)
- * @param sub_type The child type of the object to create (e.g ageing, schnute)
- * @return shared_ptr to the object we've created
+ * @param object_type The type of object to create (e.g., age_size, process)
+ * @param sub_type The child type of the object to create (e.g., ageing, schnute)
+ * @return shared_ptr to the object created
  */
 Report* Factory::Create(Model* model, const string& object_type, const string& sub_type) {
   Report* result = nullptr;
@@ -131,6 +132,8 @@ Report* Factory::Create(Model* model, const string& object_type, const string& s
           result = new age::AgeLength(model);
         else if (sub_type == PARAM_PARTITION_BIOMASS)
           result = new age::PartitionBiomass(model);
+        else if (sub_type == PARAM_PARTITION_MEAN_LENGTH)
+          result = new age::PartitionMeanLength(model);
         else if (sub_type == PARAM_PARTITION_MEAN_WEIGHT)
           result = new age::PartitionMeanWeight(model);
         else if (sub_type == PARAM_INITIALISATION_PARTITION_MEAN_WEIGHT)
@@ -150,7 +153,6 @@ Report* Factory::Create(Model* model, const string& object_type, const string& s
       else if (sub_type == PARAM_PARTITION)
         result = new age::Partition(model);
     }
-
 
     if (result)
       model->managers().report()->AddObject(result);

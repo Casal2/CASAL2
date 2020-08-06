@@ -38,9 +38,8 @@ using catchabilities::Nuisance;
 class Abundance : public niwa::Observation {
 public:
   // Methods
-  //Abundance() = delete;
   Abundance(Model* model);
-  virtual                     ~Abundance() = default;
+  virtual                     ~Abundance();
   void                        DoValidate() override final;
   virtual void                DoBuild() override;
   void                        DoReset() override final { };
@@ -52,21 +51,22 @@ public:
 protected:
   // Members
   vector<unsigned>                years_;
-  map<unsigned, vector<Double> >  proportions_by_year_;
-  map<unsigned, Double>           error_values_by_year_;
-  vector<Double>                  error_values_;
   string                          catchability_label_ = "";
   Catchability*                   catchability_ = nullptr;
   Double                          process_error_value_ = 0;
   CachedCombinedCategoriesPtr     cached_partition_;
   CombinedCategoriesPtr           partition_;
-  vector<string>                  obs_;
-  Double                          proportion_of_time_ = 0;
+  double                          proportion_of_time_ = 0;
+  parameters::Table*              obs_table_ = nullptr;
   vector<string>                  selectivity_labels_;
   vector<Selectivity*>            selectivities_;
   string                          time_step_label_ = "";
   Nuisance*                       nuisance_catchability_ = nullptr;
   bool                            nuisance_q_ = false;
+
+  map<unsigned, vector<Double> >  proportions_by_year_;
+  map<unsigned, Double>           error_values_by_year_;
+
 };
 
 } /* namespace observation */

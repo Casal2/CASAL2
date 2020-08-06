@@ -112,6 +112,9 @@ Managers::~Managers() {
   delete time_varying_;
 }
 
+/**
+ * Validate
+ */
 void Managers::Validate() {
   LOG_TRACE();
   time_step_->Validate(model_);
@@ -142,6 +145,9 @@ void Managers::Validate() {
   estimate_->Validate(model_);
 }
 
+/**
+ * Build
+ */
 void Managers::Build() {
   LOG_TRACE();
   time_step_->Build();
@@ -173,6 +179,9 @@ void Managers::Build() {
   report_->Build();
 }
 
+/**
+ * Reset
+ */
 void Managers::Reset() {
   LOG_TRACE();
   age_length_->Reset();

@@ -1,5 +1,5 @@
 /**
- * @file World.h
+ * @file Partition.h
  * @author  Scott Rasmussen (scott.rasmussen@zaita.com)
  * @version 1.0
  * @date 18/09/2012
@@ -9,7 +9,7 @@
  *
  * @section DESCRIPTION
  *
- * This class holds the partition for our model. It's responsible for ensuring
+ * This class holds the partition for the model. It is responsible for ensuring
  * the World::Accessors can access the partition properly.
  *
  * $Date: 2008-03-04 16:33:32 +1300 (Tue, 04 Mar 2008) $

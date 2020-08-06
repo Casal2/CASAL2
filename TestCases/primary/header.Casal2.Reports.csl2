@@ -1,0 +1,76 @@
+## Reports
+
+@report estimated_values
+type estimate_value
+
+@report estimated_summary
+type estimate_summary
+
+@report obj_fun
+type objective_function
+
+
+## Print process information
+@report Recruitment
+type process
+process Recruitment
+
+@report Mortality
+type process
+process Fishing
+
+
+## Derived Quantities
+@report DerivedQuantities
+type derived_quantity
+
+@report Init
+type initialisation_partition
+
+
+@report state1
+type partition
+time_step 1
+# years [Test Case first and final years]
+
+
+@report Qs
+type catchability
+
+@report Ageing_error
+type ageing_error
+ageing_error Ageing_error
+
+
+@report growth_length_at_age
+type partition_mean_length
+time_step 1
+# years [Test Case final year (for constant growth)]
+
+@report growth_weight_at_age
+type partition_mean_weight
+time_step 1
+# years [Test Case final year (for constant growth)]
+
+
+# @report TV
+# type time_varying
+
+
+@report Hess
+type hessian_matrix
+
+@report Covar
+type covariance_matrix
+
+@report Corr
+type correlation_matrix
+
+@report mcmc_covariance
+type mcmc_covariance
+
+
+#
+# Test Case-specific reports
+#
+

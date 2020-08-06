@@ -31,7 +31,11 @@ namespace minimisers {
 using namespace dlib;
 namespace dc = utilities::doublecompare;
 
-
+/**
+ * Calculate the DLib gradient
+ * @param  estimate_original_values The column vector of original values
+ * @return The column vector
+ */
 const column_vector DLib::DLibCalculateGradient(const column_vector& estimate_original_values) {
   ::dlib::matrix<double, 0, 1> gradient_values(estimate_original_values.size());
 
@@ -64,7 +68,7 @@ const column_vector DLib::DLibCalculateGradient(const column_vector& estimate_or
   Double original_score = objective.score();
 //  cout << "os + p: " << objective.score() << " + " << penalty << endl;
 
-  Double eps = 1e-9;
+  double eps = 1e-9;
   Double plus_eps = 0.0;
   Double original_estimate_value = 0.0;
   for (unsigned i = 0; i < estimates.size(); ++i) {
@@ -109,7 +113,7 @@ const column_vector DLib::DLibCalculateGradient(const column_vector& estimate_or
 }
 
 /**
- * default constructor
+ * Default constructor
  */
 DLib::DLib(Model* model) : Minimiser(model) {
 
@@ -117,17 +121,17 @@ DLib::DLib(Model* model) : Minimiser(model) {
       ->set_allowed_values({ PARAM_MIN_USING_APPROX_DERIVATIVES, PARAM_MINIMISATION, PARAM_MIN_BOX_CONSTRAINED, PARAM_MIN_TRUST_REGION, PARAM_MIN_BOBYQA, PARAM_MIN_GLOBAL });
   parameters_.Bind<string>(PARAM_SEARCH_STRATEGY, &search_strategy_, "The type of search strategy to use", "", PARAM_SEARCH_BFGS)
       ->set_allowed_values({ PARAM_SEARCH_BFGS, PARAM_SEARCH_LBFGS, PARAM_SEARCH_CG, PARAM_SEARCH_NEWTON });
-  parameters_.Bind<double>(PARAM_TOLERANCE, &gradient_tolerance_, "Tolerance of the gradient for convergence", "", 1e-7);
-  parameters_.Bind<unsigned>(PARAM_LBFGS_MAX_SIZE, &lbfgs_max_size_, "Max Size for LBFGS search strategy", "", 1);
+  parameters_.Bind<double>(PARAM_TOLERANCE, &gradient_tolerance_, "The tolerance of the gradient for convergence", "", 1e-7)->set_lower_bound(0.0, false);
+  parameters_.Bind<unsigned>(PARAM_LBFGS_MAX_SIZE, &lbfgs_max_size_, "The maximum size for the LBFGS search strategy", "", 1);
   parameters_.Bind<unsigned>(PARAM_BOBYQA_INTERPOLATION_POINTS, &bobyqa_interpolation_points_, "BOBYQA interpolation points", "", 5u);
-  parameters_.Bind<double>(PARAM_BOBYQA_INITIAL_TRUST_RADIUS, &bobyqa_initial_trust_radius_, "BOBYQA initial trust radius", "", 1e-2);
-  parameters_.Bind<double>(PARAM_BOBYQA_STOPPING_TRUST_RADIUS, &bobyqa_stopping_trust_radius_, "BOBYQA stopping trust radius", "", 1e-6);
-  parameters_.Bind<double>(PARAM_BOBYQA_MAX_EVALUATIONS, &bobyqa_max_evaluations_, "BOBYQA max objective evaluations", "", 4000);
-  parameters_.Bind<bool>(PARAM_VERBOSE, &verbose_, "Print debug of objective function calls", "", false);
+  parameters_.Bind<Double>(PARAM_BOBYQA_INITIAL_TRUST_RADIUS, &bobyqa_initial_trust_radius_, "BOBYQA initial trust radius", "", 1e-2);
+  parameters_.Bind<Double>(PARAM_BOBYQA_STOPPING_TRUST_RADIUS, &bobyqa_stopping_trust_radius_, "BOBYQA stopping trust radius", "", 1e-6);
+  parameters_.Bind<Double>(PARAM_BOBYQA_MAX_EVALUATIONS, &bobyqa_max_evaluations_, "BOBYQA max objective evaluations", "", 4000)->set_lower_bound(1);
+  parameters_.Bind<bool>(PARAM_VERBOSE, &verbose_, "Print debug of objective function calls?", "", false);
 }
 
 /**
- *
+ * Execute
  */
 void DLib::Execute() {
   LOG_FINE() << "Executing DLib Minimiser";
@@ -220,10 +224,10 @@ void DLib::Execute() {
                           bobyqa_max_evaluations_    // max number of objective function evaluations
                           );
     } else
-      LOG_FATAL_P(PARAM_MINIMISATION_TYPE) << "has not been implemented yet";
+      LOG_FATAL_P(PARAM_MINIMISATION_TYPE) << "has not been implemented";
 
   } catch(::dlib::error &ex) {
-    LOG_FATAL() << "DLib has experienced an error. Please note that this is NOT a Casal2 error.\nConsult DLib documentation for a solution:\n"
+    LOG_FATAL() << "DLib has experienced an error.\nPlease consult the DLib documentation for more information:\n"
     << "DLib Error: " << ex.what();
   }
 
@@ -231,7 +235,6 @@ void DLib::Execute() {
 
   result_ = MinimiserResult::kSuccess;
 }
-
 
 } /* namespace minimisers */
 } /* namespace niwa */

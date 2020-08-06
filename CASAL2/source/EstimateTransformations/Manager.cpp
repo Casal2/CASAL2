@@ -17,7 +17,7 @@ namespace niwa {
 namespace estimatetransformations {
 
 /**
- * Validate our estimate transformations
+ * Validate the estimate transformations
  */
 void Manager::Validate() {
   map<string, string> estimate_counts;
@@ -27,15 +27,14 @@ void Manager::Validate() {
     for (auto estimate : estimates) {
       if (estimate_counts[estimate] != "") {
         LOG_ERROR() << "Estimate " << estimate << " is referenced by both "
-            << estimate_counts[estimate] << " and " << obj->label()
-            << " transformations";
+          << estimate_counts[estimate] << " and " << obj->label() << " transformations";
       }
     }
   }
 }
 
 /**
- * Transform values
+ * Transform estimated values
  */
 void Manager::TransformEstimates() {
   LOG_TRACE();
@@ -45,7 +44,7 @@ void Manager::TransformEstimates() {
 }
 
 /**
- *   Restore values
+ * Restore estimated values
  */
 void Manager::RestoreEstimates() {
   LOG_TRACE();
@@ -64,7 +63,7 @@ void Manager::TransformEstimatesForObjectiveFunction() {
 }
 
 /**
- * Transform the objects for the objective function
+ * Restore the objects from the objective function
  */
 void Manager::RestoreEstimatesFromObjectiveFunction() {
 LOG_MEDIUM() << "Transforming estimates for the objective function";

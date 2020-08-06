@@ -63,7 +63,7 @@ TEST(Selectivities, LogisticProducing_Age) {
 }
 
 TEST(Selectivities, LogisticProducing_Length) {
-  vector<unsigned> lengths = {10, 20, 30, 40, 50, 60, 120};
+  vector<double> lengths = {10, 20, 30, 40, 50, 60, 120};
 
   MockModel model;
   EXPECT_CALL(model, min_age()).WillRepeatedly(Return(10));

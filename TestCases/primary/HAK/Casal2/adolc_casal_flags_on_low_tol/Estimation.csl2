@@ -1,0 +1,91 @@
+@minimiser adolc
+type adolc
+active true
+iterations 5000
+evaluations 10000
+tolerance 0.000001
+covariance true
+
+
+@mcmc mcmc
+start 0.5
+length 11000000
+keep 1000
+step_size 0.001
+adapt_stepsize_at 10000 20000 30000 40000 50000 100000 200000 300000 4000000 500000 600000 700000 800000
+proposal_distribution t
+df 2
+adapt_stepsize_method double_half
+max_correlation 0.8
+
+
+@estimate B0
+parameter process[Recruitment].b0
+type uniform_log
+lower_bound 10000
+upper_bound 400000
+
+
+@estimate CPUE_q
+parameter catchability[CPUEq].q
+type uniform_log
+lower_bound 1e-8
+upper_bound 1e-1
+
+
+@estimate subaTANA_q
+parameter catchability[subaTANqA].q
+type lognormal
+mu 0.16
+cv 0.79
+lower_bound 0.01
+upper_bound 0.40
+
+
+@estimate fishery_sel_a50
+parameter selectivity[subaFsel].a50
+type uniform
+lower_bound  1
+upper_bound 25
+
+@estimate fishery_sel_ato95
+parameter selectivity[subaFsel].ato95
+type uniform
+lower_bound 0.1
+upper_bound 50
+
+
+@estimate survey_sel_a50
+parameter selectivity[subaTANselA].a50
+type uniform
+lower_bound  1
+upper_bound 25
+
+@estimate survey_sel_ato95
+parameter selectivity[subaTANselA].ato95
+type uniform
+lower_bound 0.1
+upper_bound 50
+
+
+@estimate CPUE_process_error
+parameter observation[CPUE].process_error
+type uniform_log
+lower_bound 0.001
+upper_bound 5
+
+
+@estimate rec_ycs
+parameter process[Recruitment].ycs_values{1974:2017}
+lower_bound 0.01 0.01 0.01 0.01 0.01 0.01 0.01 0.01 0.01 0.01 0.01 0.01 0.01 0.01 0.01 0.01 0.01 0.01 0.01 0.01 0.01 0.01 0.01 0.01 0.01 0.01 0.01 0.01 0.01 0.01 0.01 0.01 0.01 0.01 0.01 0.01 0.01 0.01 0.01 0.01 0.01 0.01 0.01 1
+upper_bound 100  100  100  100  100  100  100  100  100  100  100  100  100  100  100  100  100  100  100  100  100  100  100  100  100  100  100  100  100  100  100  100  100  100  100  100  100  100  100  100  5    5    5    1
+mu          1   1   1   1   1   1   1   1   1   1   1   1   1   1   1   1   1   1   1   1   1   1   1   1   1   1   1   1   1   1   1   1   1   1   1   1   1   1   1   1   1   1   1   1
+cv          1.1 1.1 1.1 1.1 1.1 1.1 1.1 1.1 1.1 1.1 1.1 1.1 1.1 1.1 1.1 1.1 1.1 1.1 1.1 1.1 1.1 1.1 1.1 1.1 1.1 1.1 1.1 1.1 1.1 1.1 1.1 1.1 1.1 1.1 1.1 1.1 1.1 1.1 1.1 1.1 1.1 1.1 1.1 1.1
+type lognormal
+
+
+@penalty fisheryCatchMustBeTaken
+type process
+log_scale True
+multiplier 1000
+

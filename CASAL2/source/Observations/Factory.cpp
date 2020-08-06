@@ -17,7 +17,11 @@
 #include "Model/Managers.h"
 #include "Observations/Manager.h"
 #include "Observations/Age/ProcessRemovalsByAge.h"
+#include "Observations/Age/ProcessRemovalsByAgeRetained.h"
+#include "Observations/Age/ProcessRemovalsByAgeRetainedTotal.h"
 #include "Observations/Age/ProcessRemovalsByLength.h"
+#include "Observations/Age/ProcessRemovalsByLengthRetained.h"
+#include "Observations/Age/ProcessRemovalsByLengthRetainedTotal.h"
 #include "Observations/Age/ProportionsMatureByAge.h"
 #include "Observations/Age/ProportionsMigrating.h"
 #include "Observations/Age/TagRecaptureByAge.h"
@@ -39,12 +43,12 @@ namespace niwa {
 namespace observations {
 
 /**
- * Create the instance of our object as defined by the two parameters
+ * Create the instance of the object as defined by the two parameters
  * object_type and sub_type.
  *
- * @param object_type The type of object to create (e.g age_size, process)
- * @param sub_type The child type of the object to create (e.g ageing, schnute)
- * @return shared_ptr to the object we've created
+ * @param object_type The type of object to create (e.g., age_size, process)
+ * @param sub_type The child type of the object to create (e.g., ageing, schnute)
+ * @return shared_ptr to the object
  */
 Observation* Factory::Create(Model* model, const string& object_type, const string& sub_type) {
   Observation* result = nullptr;
@@ -69,10 +73,18 @@ Observation* Factory::Create(Model* model, const string& object_type, const stri
         result = new age::ProcessProportionsAtAge(model);
       else if (sub_type == PARAM_PROCESS_REMOVALS_BY_AGE)
         result = new age::ProcessRemovalsByAge(model);
+      else if (sub_type == PARAM_PROCESS_REMOVALS_BY_AGE_RETAINED)
+        result = new age::ProcessRemovalsByAgeRetained(model);
+      else if (sub_type == PARAM_PROCESS_REMOVALS_BY_AGE_RETAINED_TOTAL)
+        result = new age::ProcessRemovalsByAgeRetainedTotal(model);
       else if (sub_type == PARAM_PROCESS_PROPORTIONS_AT_LENGTH)
         result = new age::ProcessProportionsAtLength(model);
       else if (sub_type == PARAM_PROCESS_REMOVALS_BY_LENGTH)
         result = new age::ProcessRemovalsByLength(model);
+      else if (sub_type == PARAM_PROCESS_REMOVALS_BY_LENGTH_RETAINED)
+        result = new age::ProcessRemovalsByLengthRetained(model);
+      else if (sub_type == PARAM_PROCESS_REMOVALS_BY_LENGTH_RETAINED_TOTAL)
+        result = new age::ProcessRemovalsByLengthRetainedTotal(model);
       else if (sub_type == PARAM_PROCESS_PROPORTIONS_MIGRATING)
         result = new age::ProportionsMigrating(model);
       else if (sub_type == PARAM_PROCESS_PROPORTIONS_BY_CATEGORY)

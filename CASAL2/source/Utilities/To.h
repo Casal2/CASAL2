@@ -9,7 +9,7 @@
  *
  * @section DESCRIPTION
  *
- * This file gives us some nice and short conversion routines
+ * Some nice and short conversion functions
  * using the boost::lexical_cast<> with some specialisations
  *
  * $Date: 2008-03-04 16:33:32 +1300 (Tue, 04 Mar 2008) $
@@ -25,6 +25,7 @@
 #include "Logging/Logging.h"
 #include "Utilities/Exception.h"
 #include "Utilities/PartitionType.h"
+#include "Utilities/Types.h"
 #include "Translations/Translations.h"
 
 // Namespaces
@@ -37,7 +38,7 @@ using std::string;
 /**
  * This method converts a string into a lowercase version of it
  *
- * @param Copy of the string to lowercase
+ * @param arg The string to convert
  * @return a lowercase version of the string
  */
 inline string ToLowercase(const ::std::string arg) {
@@ -49,9 +50,9 @@ inline string ToLowercase(const ::std::string arg) {
 };
 
 /**
- * This method will lowercase an entire vector of strings.
+ * This method will convert an entire vector of strings to lowercase.
  *
- * @param values The vector containing strings to lowercase
+ * @param values The string vector to convert
  */
 inline void ToLowercase(vector<string> &values) {
 
@@ -62,10 +63,15 @@ inline void ToLowercase(vector<string> &values) {
 
 /**
  * This is a shortened version of the method used
- * to call boost::lexical_cast<Target>(source);.
+ * to call boost::lexical_cast<Target>(source).
+ *
+ * @param arg The string to convert
+ * @param result The variable to store the conversion
+ * @return true (for conversion successful) or false
  */
 template<typename Target>
 bool To(const ::std::string arg, Target &result) {
+  result = Target();
   try {
     result = boost::lexical_cast<Target>(arg);
   } catch (...) {
@@ -76,8 +82,12 @@ bool To(const ::std::string arg, Target &result) {
 
 /**
  * This method will iterate through a vector and attempt to convert every
- * element in to the target type. Any invalid conversions will be returned
+ * element in to the target type. Any invalid strings will be returned
  * in a vector
+ *
+ * @param arg The string vector to convert
+ * @param result The vector variable to store the conversions
+ * @return string vector of invalid strings
  */
 template<typename Target>
 vector<string> To(const vector<string>& source, vector<Target>& result) {
@@ -96,9 +106,14 @@ vector<string> To(const vector<string>& source, vector<Target>& result) {
 
 /**
  * This is a specialisation for handling unsigned ints that are put in as negative
+ *
+ * @param arg The string to convert to an unsigned integer
+ * @param result The variable to store the conversion
+ * @return true (for successful conversion) or false
  */
 template <>
 inline bool To(const ::std::string arg, unsigned &result) {
+  result = (unsigned)0;
   try {
     int temp = boost::lexical_cast<int>(arg);
     if (temp < 0)
@@ -113,15 +128,15 @@ inline bool To(const ::std::string arg, unsigned &result) {
 }
 
 /**
- * This is one of our specializations that handles
- * boolean types
+ * This is a specialization that handles boolean types
  *
- * @param arg The arguement to check for valid boolean type
- * return true/false. Exception on failure
+ * @param arg The string to check for valid boolean type
+ * @param result The variable to store the conversion
+ * @return true/false. Exception on failure
  */
 template<>
 inline bool To(const ::std::string arg, bool &result) {
-
+  result = false;
   try {
     result = boost::lexical_cast<bool>(arg);
     return true;
@@ -147,11 +162,11 @@ inline bool To(const ::std::string arg, bool &result) {
 }
 
 /**
- * This is one of our specializations that handles
- * PartitionType types
+ * This is a specialization that handles PartitionType types
  *
- * @param arg The argument to check for valid PartitionType type
- * return true/false. Exception on failure
+ * @param arg The string to check for valid PartitionType type
+ * @param result The variable to store the conversion
+ * @return true/false. Exception on failure
  */
 template<>
 inline bool To(const ::std::string arg, PartitionType &result) {
@@ -168,16 +183,42 @@ inline bool To(const ::std::string arg, PartitionType &result) {
     result = PartitionType::kModel;
 
   bool success = result != PartitionType::kInvalid;
+
   return success;
 }
 
 /**
- * This is a method of converting from a known type to another
- * type. This method differs from above because we don't have
- * a hard-coded string source
+ * This is a specialisation for handling unsigned ints that are put in as negative
+ *
+ * @param arg The variable to convert
+ * @param result The variable to store the conversion
+ * @result true (for successful conversion) or false
+ */
+template <typename Source>
+inline bool To(const Source& arg, unsigned &result) {
+  result = (unsigned)0;
+  try {
+    int temp = boost::lexical_cast<int>(arg);
+    if (temp < 0)
+      return false;
+
+    result = (unsigned)temp;
+  } catch (...) {
+    return false;
+  }
+  return true;
+}
+
+/**
+ * This is a method for converting from one type to another type.
+ *
+ * @param arg The variable to convert
+ * @param result The variable to store the conversion
+ * @result true (for successful conversion) or false
  */
 template<typename Source, typename Target>
 bool To(const Source& arg, Target& result) {
+  result = Target();
   try {
     result = boost::lexical_cast<Target>(arg);
   } catch (...) {
@@ -186,6 +227,12 @@ bool To(const Source& arg, Target& result) {
   return true;
 }
 
+/**
+ * This is a method for converting from one type to another type.
+ *
+ * @param arg The variable to convert
+ * @return The converted variable. Exception on failure
+ */
 template<typename Source, typename Target>
 Target ToInline(const Source arg) {
   Target result = Target();

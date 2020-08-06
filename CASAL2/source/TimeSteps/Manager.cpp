@@ -35,7 +35,10 @@ Manager::~Manager() noexcept(true) {
 }
 
 /**
+ * Get the time step
  *
+ * @param label The label of the time step
+ * @return a pointer to the TimeStep
  */
 TimeStep* Manager::GetTimeStep(const string& label) const {
   LOG_FINE() << "label: " << label;
@@ -52,7 +55,10 @@ TimeStep* Manager::GetTimeStep(const string& label) const {
 }
 
 /**
+ * Get the index of the time step
  *
+ * @param time_step_label The label of the time step
+ * @return the index of the time step, or 0 if not found
  */
 unsigned Manager::GetTimeStepIndex(const string& time_step_label) const {
   unsigned index = 9999;
@@ -62,12 +68,15 @@ unsigned Manager::GetTimeStepIndex(const string& time_step_label) const {
       return index;
   }
 
-  LOG_ERROR() << "The time step " << time_step_label << " could not be found";
+  LOG_ERROR() << "The time step " << time_step_label << " was not found";
   return 0;
 }
 
 /**
+ * Check that the time step exists
  *
+ * @param time_step_label The label of the time step
+ * @return true if it exists, false if not
  */
 bool Manager::CheckTimeStep(const string& time_step_label) const {
   bool time_step_exists = false;
@@ -76,11 +85,15 @@ bool Manager::CheckTimeStep(const string& time_step_label) const {
     if (ordered_time_steps_[index]->label() == time_step_label)
       time_step_exists = true;
   }
+
   return time_step_exists;
 }
 
 /**
+ * Get the time step index for a process
  *
+ * @param process_label The label of the process
+ * @return the index of the time step, or 0 if not found
  */
 unsigned Manager::GetTimeStepIndexForProcess(const string& process_label) const {
   unsigned index = 9999;
@@ -91,12 +104,15 @@ unsigned Manager::GetTimeStepIndexForProcess(const string& process_label) const 
       return index;
   }
 
-  LOG_ERROR() << "The process " << process_label << " could not be found in any of the time steps";
+  LOG_ERROR() << "The process " << process_label << " was not found in any of the time steps";
   return 0;
 }
 
 /**
+ * Return a vector of time step index values for a process
  *
+ * @param process_label The label of the process
+ * @return the vector of index values of the time steps, or an empty vector if not found
  */
 vector<unsigned> Manager::GetTimeStepIndexesForProcess(const string& process_label) const {
   vector<unsigned> result;
@@ -105,6 +121,7 @@ vector<unsigned> Manager::GetTimeStepIndexesForProcess(const string& process_lab
     if (ordered_time_steps_[index]->HasProcess(process_label))
       result.push_back(index);
   }
+
   return result;
 }
 
@@ -126,8 +143,11 @@ vector<ProcessType> Manager::GetOrderedProcessTypes() {
 }
 
 /**
- *  Return sequence of process label. this treats the annual cycle as continuous. Given a process label return the sequence in which
- *  that process was executed in the entire annual cycle
+ *  Return the sequence in which the process was executed in the entire annual cycle
+ *  This treats the annual cycle as continuous.
+ *
+ * @param process_label The label of the process
+ * @return the index of the time step, or 0 if not found
  */
 unsigned Manager::GetProcessIndex(const string& process_label) const {
   unsigned index = 0;
@@ -138,19 +158,21 @@ unsigned Manager::GetProcessIndex(const string& process_label) const {
         return index;
     }
   }
-  LOG_ERROR() << "No process with the label " << process_label << " is found in the annaul cycle";
+
+  LOG_ERROR() << "Process with the label " << process_label << " was not found in the annual cycle";
   return 0;
 }
 
-
-
 /**
- * Validate our Time Steps
+ * Validate the time step objects - no model
  */
 void Manager::Validate() {
   LOG_CODE_ERROR() << "This method is not supported";
 }
 
+/**
+ * Validate the time step objects
+ */
 void Manager::Validate(Model* model) {
   LOG_TRACE();
   base::Manager<niwa::timesteps::Manager, niwa::TimeStep>::Validate();
@@ -171,9 +193,9 @@ void Manager::Validate(Model* model) {
 }
 
 /**
- * Build our time step manager.
+ * Build the time step manager
  *
- * Get the time steps and order them.
+ * Get the time steps and order them
  */
 void Manager::Build() {
   // Build our objects
@@ -182,8 +204,9 @@ void Manager::Build() {
 }
 
 /**
- * Execute all of the timesteps
- * for the current year.
+ * Execute all of the time steps for a specific year
+ *
+ * @param year The year
  */
 void Manager::Execute(unsigned year) {
   LOG_TRACE();
@@ -200,8 +223,10 @@ void Manager::Execute(unsigned year) {
 }
 
 /**
- * Execute all of the timesteps
- * for the current year.
+ * Execute all of the time steps for a number of years
+ *
+ * @param phase_label The label of the phase
+ * @param year The number of years
  */
 void Manager::ExecuteInitialisation(const string& phase_label, unsigned years) {
   LOG_TRACE();
@@ -216,9 +241,14 @@ void Manager::ExecuteInitialisation(const string& phase_label, unsigned years) {
   current_time_step_ = 0;
 }
 
+/**
+ * Return the current time step index
+ *
+ * @return the current time step
+ */
 unsigned Manager::current_time_step() const {
   if (model_->state() != State::kInitialise && model_->state() != State::kExecute)
-    LOG_CODE_ERROR() << "Model State is not Init or Execute. It's " << (unsigned)model_->state();
+    LOG_CODE_ERROR() << "Model State is not Init or Execute. It is: " << (unsigned)model_->state();
 
   return current_time_step_;
 }

@@ -18,7 +18,7 @@
 namespace niwa {
 
 /**
- *
+ * Default constructor
  */
 Likelihood::Likelihood(Model* model) : model_(model) {
 }

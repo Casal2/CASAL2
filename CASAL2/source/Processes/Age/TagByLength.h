@@ -54,7 +54,7 @@ private:
   string                        penalty_label_ = "";
   Penalty*                      penalty_ = nullptr;
   Double                        u_max_ = 0;
-  Double                        initial_mortality_ = 0;
+  double                        initial_mortality_ = 0;
   string                        initial_mortality_selectivity_label_ = "";
   Selectivity*                  initial_mortality_selectivity_ = nullptr;
   vector<Double>                n_;
@@ -63,6 +63,7 @@ private:
   unsigned                      first_year_ = 0;
   map<unsigned, vector<Double>> numbers_;
   map<unsigned, Double>         n_by_year_;
+
   // Containers for reporting
   vector<vector<vector<Double>>> actual_tagged_fish_from_; // n_years x n_from_categories x n_ages
   vector<vector<vector<Double>>> actual_tagged_fish_to_; // n_years x n_to_categories x n_ages

@@ -44,6 +44,7 @@ class MortalityInstantaneous : public Process {
     Double          u_max_;
     string          penalty_label_;
     Penalty*        penalty_ = nullptr;
+
     map<unsigned, Double>  catches_;
     map<unsigned, Double>  actual_catches_;
     map<unsigned, Double>  exploitation_by_year_; // I added this so it can be reported
@@ -93,15 +94,16 @@ public:
   void                        FillReportCache(ostringstream& cache) override final;
   void                        FillTabularReportCache(ostringstream& cache, bool first_run) override final;
   //
-  bool                       check_categories_in_methods_for_removal_obs(vector<string> methods, vector<string> category_labels);
-  bool                       check_years_in_methods_for_removal_obs(vector<unsigned> years, vector<string> methods);
-  bool                       check_methods_for_removal_obs(vector<string> methods);
+  bool                        check_categories_in_methods_for_removal_obs(vector<string> methods, vector<string> category_labels);
+  bool                        check_years_in_methods_for_removal_obs(vector<unsigned> years, vector<string> methods);
+  bool                        check_methods_for_removal_obs(vector<string> methods);
 
   // accessors
   map<unsigned, map<string, map<string, vector<Double>>>>&  catch_at() { return removals_by_year_fishery_category_; };
 
   // set
   vector<unsigned>            set_years();
+
 private:
   map<string, CategoryData*>  category_data_;
   vector<CategoryData>        categories_;
@@ -114,28 +116,30 @@ private:
   parameters::Table*          method_table_ = nullptr;
   accessor::Categories        partition_;
   Double                      current_m_ = 0.0;
+  vector<unsigned>            process_years_; // Can we get @project classes to modify this?
 
   // members from mortality event
   //Double                      u_max_ = 0.99; // Now attached to the fishery object
   string                      penalty_label_ = "";
   penalties::Process*         penalty_ = nullptr;
   string                      unit_;
+
   // members from natural mortality
   vector<Double>              m_input_;
   OrderedMap<string, Double>  m_;
-  vector<Double>              time_step_ratios_temp_;
-  map<unsigned, Double>       time_step_ratios_;
+  vector<double>              time_step_ratios_temp_;
+  map<unsigned, double>       time_step_ratios_;
   vector<string>              selectivity_labels_;
   vector<Selectivity*>        selectivities_;
+
   // members for observations
   map<unsigned,  map<string, map<string, vector<Double>>>> removals_by_year_fishery_category_; // Year,  fishery, category
-  map<unsigned, map<string, vector<string>>> year_method_category_to_store_; // Year,  fishery, category
+
   // Members for reporting
-  vector<unsigned>            time_steps_to_skip_applying_F_mortaltiy_;
+  vector<unsigned>            time_steps_to_skip_applying_F_mortality_;
   bool                        use_age_weight_ = true;
   vector<vector<vector<Double>>> removals_by_year_category_age_; // year[year_ndx][category_ndx][age_ndx]
   vector<vector<Double>>     removals_by_category_age_; // [category_ndx][age_ndx]
-
 
 };
 

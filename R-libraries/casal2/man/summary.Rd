@@ -4,24 +4,31 @@
 \alias{summary.default}
 \alias{summary.casal2MPD}
 \alias{summary.casal2MCMC}
-\title{summary default}
+\alias{summary.casal2TAB}
+\title{Utility summary function}
 \usage{
 summary.default(model)
 
 \method{summary}{casal2MPD}(model)
 
 \method{summary}{casal2MCMC}(model)
+
+\method{summary}{casal2TAB}(model)
 }
 \arguments{
-\item{model}{<casal2MPD, casal2TAB, casal2MCMC> object that are generated from one of the extract() functions.}
+\item{model}{The casal2TAB object}
 }
 \value{
 \code{NULL}
 
 \code{NULL}
+
+\code{NULL}
+
+\code{NULL}
 }
 \description{
-A summary function for 'casal2MCMC' 'casal2TAB' and 'casal2MPD' objects.
+This function summarises information in 'casal2MCMC', 'casal2TAB', and 'casal2MPD' objects.
 }
 \author{
 C. Marsh

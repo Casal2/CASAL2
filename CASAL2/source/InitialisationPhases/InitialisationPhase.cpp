@@ -30,7 +30,7 @@ InitialisationPhase::InitialisationPhase(Model* model) : model_(model) {
 }
 
 /**
- * Validate our initialisation phase.
+ * Validate the initialisation phase
  *
  * 1. Check for any required parameters
  * 2. Assign local variables from parameters
@@ -41,9 +41,9 @@ void InitialisationPhase::Validate() {
 }
 
 /**
- * Build our initialisation phase.
+ * Build the initialisation phase
  *
- * 1. Ensure timesteps are setup with the default processes for initialisation phases
+ * 1. Ensure timesteps are set up with the default processes for initialisation phases
  */
 void InitialisationPhase::Build() {
   // Set the default process labels for the time step for this phase

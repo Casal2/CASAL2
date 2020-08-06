@@ -21,8 +21,8 @@ namespace projects {
  * Default constructor
  */
 EmpiricalSampling::EmpiricalSampling(Model* model) : Project(model) {
-  parameters_.Bind<unsigned>(PARAM_START_YEAR, &start_year_, "Start year of sampling", "", false);
-  parameters_.Bind<unsigned>(PARAM_FINAL_YEAR, &final_year_, "Last year of sampling", "", false);
+  parameters_.Bind<unsigned>(PARAM_START_YEAR, &start_year_, "The start year of sampling", "", false);
+  parameters_.Bind<unsigned>(PARAM_FINAL_YEAR, &final_year_, "The final year of sampling", "", false);
 }
 
 /**
@@ -35,9 +35,13 @@ void EmpiricalSampling::DoValidate() {
   if (!parameters_.Get(PARAM_FINAL_YEAR)->has_been_defined())
     final_year_ = model_->final_year();
 
-  if (final_year_ <= start_year_)
-    LOG_ERROR_P(PARAM_FINAL_YEAR) << PARAM_FINAL_YEAR << " must be larger than " << PARAM_START_YEAR;
+  if (start_year_ < model_->start_year())
+    LOG_ERROR_P(PARAM_START_YEAR) << start_year_ << " must be greater than or equal to the model start year " << model_->start_year();
+  if (final_year_ > model_->final_year())
+    LOG_ERROR_P(PARAM_FINAL_YEAR) << final_year_ << " must be less than or equal to the model final year " << model_->final_year();
 
+  if (final_year_ <= start_year_)
+    LOG_ERROR_P(PARAM_FINAL_YEAR) << final_year_ << " must be larger than start year " << start_year_;
 }
 
 /**
@@ -56,21 +60,23 @@ void EmpiricalSampling::DoReset() {
   Double Random_draw = 0.0;
   unsigned year = 0;
   for (unsigned project_year : years_) {
-    Random_draw = ceil(rng.uniform((unsigned)start_year_, (unsigned)final_year_));
+    Random_draw = floor(rng.uniform((double)start_year_, ((double)final_year_ + 0.99999)));
     year = 0;
-    if (!utilities::To<Double, unsigned>(Random_draw, year))
-      LOG_ERROR() << " Random Draw " << Random_draw << " Could not be converted from double to type unsigned";
+    // if (!utilities::To<Double, unsigned>(Random_draw, year))
+    if (!utilities::To<Double>(Random_draw, year))
+      LOG_ERROR() << " Random draw " << Random_draw << " could not be converted to Double";
     resampled_years_[project_year] = year;
     LOG_FINEST() << "Value from year: " << year << " used in projection year: " << project_year;
   }
 }
 
 /**
- *  Update our parameter with a random resample of the parameter between start_year_ and final_year_
+ *  Update the parameter with a random resample of the parameter between start_year_ and final_year_
  */
 void EmpiricalSampling::DoUpdate() {
   value_ = stored_values_[resampled_years_[model_->current_year()]] * multiplier_;
-  LOG_FINE() << "In year: " << model_->current_year() << " Setting Value to: " << value_ << " drawn from year: " << resampled_years_[model_->current_year()];
+  LOG_FINE() << "In year: " << model_->current_year() << " setting value to: " << value_ << " drawn from year: "
+    << resampled_years_[model_->current_year()];
   (this->*DoUpdateFunc_)(value_);
 }
 

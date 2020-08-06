@@ -1,0 +1,29 @@
+# see https://docs.gitlab.com/ee/ci/docker/using_docker_build.html
+stages:
+  - build
+
+variables:
+  DOCKER_DRIVER: overlay2
+  DOCKER_TLS_CERTDIR: "/certs"
+
+services:
+  - name: git.niwa.co.nz:4321/public-projects/niwa-dind:latest
+    alias: docker
+
+# Log in to the git.niwa.co.nz container registry for this project
+before_script:
+  - docker login -u $CI_REGISTRY_USER -p $CI_REGISTRY_PASSWORD $CI_REGISTRY
+
+# build docker container and publish to registry
+build:
+  only:
+    - master
+  stage: build
+  tags:
+    - docker
+  script:
+    - docker pull $CI_REGISTRY_IMAGE:latest || true
+    - docker build --cache-from $CI_REGISTRY_IMAGE:latest --tag $CI_REGISTRY_IMAGE:$CI_COMMIT_SHORT_SHA --tag $CI_REGISTRY_IMAGE:latest .
+    - docker push $CI_REGISTRY_IMAGE:$CI_COMMIT_SHORT_SHA
+    - docker push $CI_REGISTRY_IMAGE:latest
+

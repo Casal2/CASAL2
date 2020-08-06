@@ -22,31 +22,31 @@ namespace niwa {
 namespace util = niwa::utilities;
 
 /**
- * default constructor
+ * Default constructor
  */
 Profile::Profile(Model* model) : model_(model) {
-  parameters_.Bind<string>(PARAM_LABEL, &label_, "Label", "", "");
-  parameters_.Bind<unsigned>(PARAM_STEPS, &steps_, "The number of steps to take between the lower and upper bound", "");
-  parameters_.Bind<Double>(PARAM_LOWER_BOUND, &lower_bound_, "The lower bounds", "");
-  parameters_.Bind<Double>(PARAM_UPPER_BOUND, &upper_bound_, "The upper bounds", "");
+  parameters_.Bind<string>(PARAM_LABEL, &label_, "The label of the profile", "", "");
+  parameters_.Bind<unsigned>(PARAM_STEPS, &steps_, "The number of steps between the lower and upper bound", "");
+  parameters_.Bind<double>(PARAM_LOWER_BOUND, &lower_bound_, "The lower bounds", "");
+  parameters_.Bind<double>(PARAM_UPPER_BOUND, &upper_bound_, "The upper bounds", "");
   parameters_.Bind<string>(PARAM_PARAMETER, &parameter_, "The system parameter to profile", "");
-  parameters_.Bind<string>(PARAM_SAME, &same_parameter_, "A Parameter that are constrained to have the same value as the parameter being profiled", "", "");
+  parameters_.Bind<string>(PARAM_SAME, &same_parameter_, "A parameter that is constrained to have the same value as the parameter being profiled", "", "");
 }
 
 /**
- *
+ * Validate the objects
  */
 void Profile::Validate() {
   parameters_.Populate(model_);
 }
 
 /**
- *
+ * Build the objects
  */
 void Profile::Build() {
   string error = "";
   if (!model_->objects().VerfiyAddressableForUse(parameter_, addressable::kProfile, error)) {
-    LOG_FATAL_P(PARAM_PARAMETER) << "could not be verified for use in a @profile block. Error was " << error;
+    LOG_FATAL_P(PARAM_PARAMETER) << "could not be verified for use in a @profile block. Error: " << error;
   }
 
   target_ = model_->objects().GetAddressable(parameter_);
@@ -59,7 +59,7 @@ void Profile::Build() {
    */
   if (same_parameter_ != "") {
     if (!model_->objects().VerfiyAddressableForUse(same_parameter_, addressable::kProfile, error)) {
-      LOG_FATAL_P(PARAM_SAME) << "could not be verified for use in a @profile block. Error was " << error;
+      LOG_FATAL_P(PARAM_SAME) << "could not be verified for use in a @profile block. Error: " << error;
     }
 
     same_target_ = model_->objects().GetAddressable(same_parameter_);
@@ -69,7 +69,7 @@ void Profile::Build() {
 }
 
 /**
- *
+ * Set up the first step of the profile by initialising the object to the lower bound
  */
 void Profile::FirstStep() {
   *target_ = lower_bound_;
@@ -78,8 +78,9 @@ void Profile::FirstStep() {
     LOG_MEDIUM() << "Profiling with profile parameter = " <<  *target_  << " and same parameter = " << *same_target_;
   }
 }
+
 /**
- *
+ * Set up the next step of the profile by incrementing the object by the step size
  */
 void Profile::NextStep() {
   *target_ += step_size_;
@@ -89,6 +90,9 @@ void Profile::NextStep() {
   }
 }
 
+/**
+ * Restore the original value of the object
+ */
 void Profile::RestoreOriginalValue() {
   *target_ = original_value_;
   if (parameters_.Get(PARAM_SAME)->has_been_defined()) {

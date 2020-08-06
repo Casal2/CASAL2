@@ -26,7 +26,7 @@ using niwa::testfixtures::InternalEmptyModel;
 
 
 const string simple_model =
-    R"(
+R"(
 @model
 start_year 2000
 final_year 2012
@@ -38,23 +38,23 @@ base_weight_units tonnes
 initialisation_phases Equilibrium_state
 time_steps Sep_Feb Mar_May
 
-@categories 
+@categories
 format stock
-names HAK4 
-age_lengths age_size 
+names HAK4
+age_lengths age_size
 
 @initialisation_phase Equilibrium_state
 type derived
 
-@time_step Sep_Feb 
+@time_step Sep_Feb
 processes Recruitment Instantaneou_Mortality
-@time_step Mar_May 
+@time_step Mar_May
 processes Instantaneou_Mortality Ageing
 
 @process Recruitment
 type recruitment_beverton_holt
 categories HAK4
-proportions 1 
+proportions 1
 b0 44000
 standardise_ycs_years 2004 2005 2006
 ycs_values  1*13
@@ -71,11 +71,11 @@ categories HAK4
 type mortality_instantaneous
 m 0.2
 time_step_ratio 0.42 0.58
-selectivities One
+relative_m_by_age One
 categories HAK4
 table catches
-year FishingWest 
-2000  1155  
+year FishingWest
+2000  1155
 2001  1208
 2002  454
 2003  497
@@ -112,7 +112,7 @@ v 0.02  0.05  0.13  0.29  0.50  0.70  0.84  0.93  0.97  0.99  0.99  1.00
 @selectivity westFSel
 type double_normal
 mu 6
-sigma_l  3  
+sigma_l  3
 sigma_r 10
 alpha 1.0
 
@@ -123,7 +123,7 @@ sigma_l 3
 sigma_r 10
 alpha 1.0
 @selectivity One
-type constant 
+type constant
 c 1
 @age_length age_size
 type schnute
@@ -131,16 +131,16 @@ by_length true
 time_step_proportions 0.25 0.5
 y1 24.5
 y2 104.8
-tau1 1 
-tau2 20 
+tau1 1
+tau2 20
 a 0.131
 b 1.70
 cv_first 0.1
-length_weight Length_Weight 
+length_weight Length_Weight
 @length_weight Length_Weight
 type basic
-units kgs 
-a 2.0e-6 
+units kgs
+a 2.0e-6
 b 3.288
 
 @report DQs

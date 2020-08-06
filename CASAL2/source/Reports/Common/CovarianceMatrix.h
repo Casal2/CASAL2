@@ -33,7 +33,7 @@ public:
   void                        DoExecuteTabular() override final { };
 
 private:
-  ublas::matrix<Double>       covariance_matrix_;
+  ublas::matrix<double>       covariance_matrix_;
 };
 
 } /* namespace reports */

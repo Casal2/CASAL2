@@ -29,10 +29,10 @@ using::testing::Return;
  */
 class MockVectorSmoothing : public VectorSmoothing {
 public:
-	MockVectorSmoothing(Model* model, bool log_scale, unsigned lower_bound, unsigned upper_bound, unsigned r, double multiplier, vector<double>* parameter) : VectorSmoothing(model) {
-		log_scale_ = log_scale;
-		lower_ = lower_bound;
-		upper_ = upper_bound;
+  MockVectorSmoothing(Model* model, bool log_scale, unsigned lower_bound, unsigned upper_bound, unsigned r, double multiplier, vector<double>* parameter) : VectorSmoothing(model) {
+    log_scale_ = log_scale;
+    lower_ = lower_bound;
+    upper_ = upper_bound;
     multiplier_ = multiplier;
     r_ = r;
     addressable_vector_ = parameter;
@@ -44,12 +44,12 @@ public:
  */
 TEST(AdditionalPriors, VectorSmoothing) {
   // layout is mu, sigma, a, b, expected_score
-	vector<double> example_ycs = {0.478482, 0.640663, 0.640091, 0.762361, 0.560125, 0.651637, 0.764833, 0.645498, 0.678341};
-	double multiplier = 150;
-	bool log_scale = true;
-	unsigned upper_bound = 9;
-	unsigned lower_bound = 1;
-	unsigned r = 2;
+  vector<double> example_ycs = {0.478482, 0.640663, 0.640091, 0.762361, 0.560125, 0.651637, 0.764833, 0.645498, 0.678341};
+  double multiplier = 150;
+  bool log_scale = true;
+  unsigned upper_bound = 9;
+  unsigned lower_bound = 1;
+  unsigned r = 2;
 
   Model model;
   MockVectorSmoothing vector_smooth_log(&model, log_scale, lower_bound, upper_bound, r, multiplier, &example_ycs);

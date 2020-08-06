@@ -51,7 +51,7 @@ protected:
   // Members
   vector<unsigned>              years_;
   parameters::Table*            obs_table_ = nullptr;
-  Double                        tolerance_ = 0.0;
+  double                        tolerance_ = 0.0;
   vector<Double>                process_error_values_;
   map<unsigned, Double>         process_errors_by_year_;
   parameters::Table*            error_values_table_ = nullptr;
@@ -61,6 +61,11 @@ protected:
   vector<string>                selectivity_labels_;
   vector<Selectivity*>          selectivities_;
   string                        time_step_label_ = "";
+
+  vector<double>                length_bins_;
+  bool                          length_plus_ = false;
+  unsigned                      number_bins_ = 0;
+  unsigned                      mlb_index_first_ = 0; // index of model length bin for length_bins_[0]
 
   map<unsigned, map<string, vector<Double>>> proportions_;
   map<unsigned, map<string, vector<Double>>> error_values_;

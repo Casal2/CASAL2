@@ -1,0 +1,143 @@
+## Population file template for NOAA SAMCP
+
+@model
+start_year 2001
+final_year 2030
+projection_final_year 2035
+min_age 1
+max_age 12
+base_weight_units tonnes
+age_plus true
+initialisation_phases Equilibrium_phase
+time_steps Jul_Jun
+
+
+# CATEGORIES
+@categories
+format stock
+names stock
+age_lengths age_len_label
+
+
+@initialisation_phase Equilibrium_phase
+type Derived
+casal_initialisation_switch false
+
+
+## Define the Annual Cycle
+## This is a list of labels that correspond to a process
+@time_step Jul_Jun
+processes Recruitment halfM Fishing_Mortality halfM Ageing
+
+
+## Define the above Processes
+@process Recruitment
+type recruitment_beverton_holt
+categories stock
+proportions 1.0
+r0 1000000          ## set a reasonable starting value
+ycs_years   1988 1989 1990 1991 1992 1993 1994 1995 1996 1997 1998 1999 2000 2001 2002 2003 2004 2005 2006 2007 2008 2009 2010 2011 2012 2013 2014 2015 2016 2017 2018 2019 2020 2021 2022 2023 2024 2025 2026 2027 2028 2029
+ycs_values  1.00 1.00 1.00 1.00 1.00 1.00 1.00 1.00 1.00 1.00 1.00 1.00 1.00 1.00 1.00 1.00 1.00 1.00 1.00 1.00 1.00 1.00 1.00 1.00 1.00 1.00 1.00 1.00 1.00 1.00 1.00 1.00 1.00 1.00 1.00 1.00 1.00 1.00 1.00 1.00 1.00 1.00
+standardise_ycs_years 2000:2029 # for age 1
+steepness 0.75
+ssb SSB
+age 1           ## Same as min_age
+
+
+## Ageing
+@process Ageing
+type ageing
+categories stock
+
+
+## Fishing Mortality
+@process Fishing_Mortality
+type mortality_instantaneous
+m 0.0
+selectivities One
+categories stock
+time_step_ratio 0.5
+table catches
+year Fishery
+2001    1
+2030    1
+end_table
+table method
+method   category  selectivity  u_max  time_step  penalty
+Fishery  stock     fishery_sel  0.99   Jul_Jun    fisheryCatchMustBeTaken
+end_table
+
+
+@mortality halfM
+type constant_rate
+categories stock
+M 0.1
+selectivities One
+
+
+## Derived Quantities
+## SSB which gets fed into Recruitment
+@derived_quantity SSB
+type biomass
+time_step Jul_Jun
+categories stock
+time_step_proportion 0.0
+time_step_proportion_method weighted_sum
+selectivities maturity_sel
+
+
+## SELECTIVITIES
+@selectivity maturity_sel
+type logistic
+a50 2.25
+ato95 1
+alpha 0.5 # for female spawning biomass
+
+
+@selectivity survey_sel
+type logistic
+a50 1.5
+ato95 2
+alpha 1
+
+
+@selectivity fishery_sel
+type logistic
+a50 2
+ato95 2
+alpha 1
+
+
+@selectivity One
+type constant
+c 1.0
+
+
+# SIZE AT AGE
+@age_length age_len_label
+type von_bertalanffy
+casal_switch false
+time_step_proportions 0.0
+k 0.18
+t0 -1.36
+Linf 80.0
+cv_first 0.10
+cv_last 0.10
+distribution normal
+length_weight len_wt_label
+
+
+# SIZE-WEIGHT
+@length_weight len_wt_label
+type basic
+units tonnes
+a 2.5e-8
+b 3.0
+
+
+## Catchability
+@catchability survey_q
+type free
+q 1.0e-7
+
+

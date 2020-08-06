@@ -54,5 +54,6 @@ protected:
   Double                      multiplier_ = 1.0;
   Double                      error_value_multiplier_ = 1.0;
 };
+
 } /* namespace niwa */
 #endif /* LIKELIHOOD_H_ */

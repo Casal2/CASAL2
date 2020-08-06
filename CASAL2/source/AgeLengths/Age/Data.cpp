@@ -26,19 +26,19 @@ namespace agelengths {
  *
  * Bind any parameters that are allowed to be loaded from the configuration files.
  * Set bounds on registered parameters
- * Register any parameters that can be an estimated or utilised in other run modes (e.g profiling, yields, projections etc)
+ * Register any parameters that can be an estimated or utilised in other run modes (e.g., profiling, yields, projections, etc.)
  * Set some initial values
  *
- * Note: The constructor is parsed to generate Latex for the documentation.
+ * Note: The constructor is parsed to generate LaTeX for the documentation.
  */
 Data::Data(Model* model) : AgeLength(model) {
   data_table_ = new parameters::Table(PARAM_DATA);
 
   parameters_.BindTable(PARAM_DATA, data_table_, "", "");
-  parameters_.Bind<string>(PARAM_EXTERNAL_GAPS, &external_gaps_, "", "", PARAM_MEAN)->set_allowed_values({PARAM_MEAN, PARAM_NEAREST_NEIGHBOUR});
-  parameters_.Bind<string>(PARAM_INTERNAL_GAPS, &internal_gaps_, "", "", PARAM_MEAN)->set_allowed_values({PARAM_MEAN, PARAM_NEAREST_NEIGHBOUR, PARAM_INTERPOLATE});
+  parameters_.Bind<string>(PARAM_EXTERNAL_GAPS, &external_gaps_, "The method to use for external data gaps", "", PARAM_MEAN)->set_allowed_values({PARAM_MEAN, PARAM_NEAREST_NEIGHBOUR});
+  parameters_.Bind<string>(PARAM_INTERNAL_GAPS, &internal_gaps_, "The method to use for internal data gaps", "", PARAM_MEAN)->set_allowed_values({PARAM_MEAN, PARAM_NEAREST_NEIGHBOUR, PARAM_INTERPOLATE});
   parameters_.Bind<string>(PARAM_LENGTH_WEIGHT, &length_weight_label_, "The label from an associated length-weight block", "");
-  parameters_.Bind<string>(PARAM_TIME_STEP_MEASUREMENTS_WERE_MADE, &step_data_supplied_, "Time step label for which size-at-age data are provided", "");
+  parameters_.Bind<string>(PARAM_TIME_STEP_MEASUREMENTS_WERE_MADE, &step_data_supplied_, "The time step label for which size-at-age data are provided", "");
 
   varies_by_year_ = true;
 }
@@ -49,6 +49,7 @@ Data::Data(Model* model) : AgeLength(model) {
 Data::~Data() {
   delete data_table_;
 }
+
 /**
  * Build any objects that will need to be utilised by this object.
  * Obtain smart_pointers to any objects that will be used by this object.
@@ -57,10 +58,12 @@ void Data::DoBuild() {
 
   LOG_FINE() << "Building age length block " << label_;
   length_weight_ = model_->managers().length_weight()->GetLengthWeight(length_weight_label_);
+
   if (!length_weight_)
-    LOG_ERROR_P(PARAM_LENGTH_WEIGHT) << "(" << length_weight_label_ << ") could not be found. Have you defined it?";
+    LOG_ERROR_P(PARAM_LENGTH_WEIGHT) << "Length-weight label " << length_weight_label_ << " was not found.";
   if (!data_table_)
     LOG_CODE_ERROR() << "!data_table_";
+
   if (model_->run_mode() == RunMode::kProjection)
     final_year_ = model_->projection_final_year();
   else
@@ -71,7 +74,7 @@ void Data::DoBuild() {
    */
   TimeStep* time_step = model_->managers().time_step()->GetTimeStep(step_data_supplied_);
   if (!time_step)
-    LOG_ERROR_P(PARAM_TIME_STEP_MEASUREMENTS_WERE_MADE) << "could not found time_step " << step_data_supplied_<< " please check this parameter?";
+    LOG_ERROR_P(PARAM_TIME_STEP_MEASUREMENTS_WERE_MADE) << "could not find time_step " << step_data_supplied_;
   // Get time step index
   step_index_data_supplied_ = model_->managers().time_step()->GetTimeStepIndex(step_data_supplied_);
   // Need to get ageing index
@@ -84,6 +87,7 @@ void Data::DoBuild() {
          ageing_index_ = time_step_index;
        }
     }
+
     // Find unique time-steps where the sizes need to be updated
     if (time_step_index == 0)
       steps_to_figure_.push_back(time_step_index);
@@ -99,9 +103,10 @@ void Data::DoBuild() {
   // basic validation
   const vector<string>& columns = data_table_->columns();
   if (columns.size() != model_->age_spread() + 1)
-    LOG_ERROR_P(PARAM_DATA) << "column count (" << columns.size() << ") must be <year> <ages> for a total of " << model_->age_spread() + 1 << " columns";
+    LOG_ERROR_P(PARAM_DATA) << "The column count (" << columns.size() << ") must be <year> <ages> for a total of "
+      << model_->age_spread() + 1 << " columns";
   if (columns[0] != PARAM_YEAR)
-    LOG_ERROR_P(PARAM_DATA) << "first column label must be 'year'. First column label was '" << columns[0] << "'";
+    LOG_ERROR_P(PARAM_DATA) << "The first column label must be 'year'. First column label was '" << columns[0] << "'";
 
   /**
    * Build our data_by_year map so we can fill the gaps
@@ -116,11 +121,12 @@ void Data::DoBuild() {
       LOG_CODE_ERROR() << "row.size() != columns.size()";
     number_of_years += 1;
     if ((columns.size() - 1) != model_->age_spread())
-      LOG_ERROR_P(PARAM_DATA) << "Need to specify an age for every age in the model, you specified " << columns.size() - 1 << " ages, where as there are " << model_->age_spread() << " ages in the model";
+      LOG_ERROR_P(PARAM_DATA) << "An age needs to be specified for every age in the model. "
+        << columns.size() - 1 << " ages were specified, and there are " << model_->age_spread() << " ages in the model";
     unsigned year = utilities::ToInline<string, unsigned>(row[0]);
     // Check year is valid
     if (find(model_->years().begin(), model_->years().end(), year) == model_->years().end())
-      LOG_WARNING() << "Supplied year: " << year << " which is not included in the model run years, this age length wont be used in this run mode.";
+      LOG_WARNING() << "year " << year << " is not in the model run years, so this age length will not be used";
 
 
     for (unsigned i = 1; i < row.size(); ++i) {
@@ -137,7 +143,6 @@ void Data::DoBuild() {
     }
     // Make adjustment for data_by_age_time_step_ for different time steps.
 
-
   /**
    * Check if we're using a mean method and build a vector of means now
    * before we modify the data_by_year object by filling the external
@@ -151,19 +156,21 @@ void Data::DoBuild() {
       means_.push_back(total / data_by_year_.size());
     }
   }
+
   // Do our timestep interpolation
   InterpolateTimeStepsForInitialConditions();
+
   // Fill our gaps
   FillExternalGaps();
   FillInternalGaps();
+
   // Do our timestep interpolation
   InterpolateTimeStepsForAllYears();
-
 
 }
 
 /**
- * Interpolate across time steps, for the object that is used in initialisation.
+ * Interpolate across time steps for the object that is used in initialisation.
  */
 void Data::InterpolateTimeStepsForInitialConditions() {
   LOG_TRACE();
@@ -176,11 +183,18 @@ void Data::InterpolateTimeStepsForInitialConditions() {
       LOG_FINEST() << "adapting for time step = " << i + 1 << " initialiations";
       for (unsigned a = 0; a < model_->age_spread(); ++a) {
         age = a + model_->min_age();
-        if ((step_index_data_supplied_ < i && i < ageing_index_) || (i < ageing_index_ && ageing_index_ < step_index_data_supplied_) || (ageing_index_ < step_index_data_supplied_ && step_index_data_supplied_ < i) || (ageing_index_ == step_index_data_supplied_) || (i == step_index_data_supplied_))
+
+        if ((step_index_data_supplied_ < i && i < ageing_index_) ||
+            (i < ageing_index_ && ageing_index_ < step_index_data_supplied_) ||
+            (ageing_index_ < step_index_data_supplied_ && step_index_data_supplied_ < i) ||
+            (ageing_index_ == step_index_data_supplied_) ||
+            (i == step_index_data_supplied_))
           a1 = a;
         else
           a1 = a - 1;
+
         a2 = a1 + 1;
+
         if (a1==a)
           w1 = 1 + time_step_proportions_[step_index_data_supplied_] - time_step_proportions_[i];
         else
@@ -193,12 +207,14 @@ void Data::InterpolateTimeStepsForInitialConditions() {
           w1 -= 1;
           w2 += 1;
         }
+
         if ((a1 + model_->min_age()) < model_->min_age()){
           a1 += 1;
           a2 += 1;
           w1 += 1;
           w2 -= 1;
         }
+
         data_by_age_time_step_[i][age] = w1 * means_[a1] + w2 * means_[a2];
         LOG_FINEST() << "for age = " << a + model_->min_age() << " a1 = " << a1 + model_->min_age();
         LOG_FINEST() << means_[a1];
@@ -212,7 +228,7 @@ void Data::InterpolateTimeStepsForInitialConditions() {
 }
 
 /**
- * Interpolate across time steps, for the remaining years
+ * Interpolate across time steps for the remaining years
  */
 void Data::InterpolateTimeStepsForAllYears() {
   LOG_TRACE();
@@ -230,18 +246,25 @@ void Data::InterpolateTimeStepsForAllYears() {
           //// Check this code out
           y1 = (i >= step_index_data_supplied_ ? year : year - 1);
           y2 = y1 + 1;
-          if ((step_index_data_supplied_ < i && i < ageing_index_) || (i < ageing_index_ && ageing_index_ < step_index_data_supplied_) || (ageing_index_ < step_index_data_supplied_ && step_index_data_supplied_ < i) || (ageing_index_ == step_index_data_supplied_) || (i == step_index_data_supplied_))
+          if ((step_index_data_supplied_ < i && i < ageing_index_) ||
+              (i < ageing_index_ && ageing_index_ < step_index_data_supplied_) ||
+              (ageing_index_ < step_index_data_supplied_ && step_index_data_supplied_ < i) ||
+              (ageing_index_ == step_index_data_supplied_) ||
+              (i == step_index_data_supplied_))
             a1 = a;
           else
             a1 = a - 1;
+
           a2 = a1 + 1;
+
           if (a1==a)
             w1 = 1 + time_step_proportions_[step_index_data_supplied_] - time_step_proportions_[i];
           else
             w1 = time_step_proportions_[step_index_data_supplied_] - time_step_proportions_[i];
+
           w2 = 1.0 - w1;
           LOG_FINEST() << "w2 = "  << w2;
-          if ((a2 + model_->min_age()) > model_->max_age() || y2 > model_->final_year()){
+          if ((a2 + model_->min_age()) > model_->max_age() || y2 > final_year_) {
             a1 -= 1;
             a2 -= 1;
             if((y1 - 1) > model_->start_year())
@@ -250,7 +273,8 @@ void Data::InterpolateTimeStepsForAllYears() {
             w1 -= 1;
             w2 += 1;
           }
-          if ((a1 + model_->min_age()) < model_->min_age() || y1 < model_->start_year()){
+
+          if ((a1 + model_->min_age()) < model_->min_age() || y1 < model_->start_year()) {
             LOG_FINEST() << "w2 = "  << w2;
             a1 += 1;
             a2 += 1;
@@ -259,7 +283,11 @@ void Data::InterpolateTimeStepsForAllYears() {
             w1 += 1;
             w2 -= 1;
           }
-          if ((a2 + model_->min_age()) > model_->max_age() || y2 > model_->final_year() || (a1 + model_->min_age()) < model_->min_age() || y1 < model_->start_year()){
+
+          if ((a2 + model_->min_age()) > model_->max_age() ||
+              y2 > final_year_ ||
+              (a1 + model_->min_age()) < model_->min_age() ||
+              y1 < model_->start_year()) {
             // unusual case - very little info on this cohort - just use averages
             mean_length_by_year_[year][age][i] = data_by_age_time_step_[i][age];
             LOG_FINEST() << "for age = " << a + model_->min_age();
@@ -281,7 +309,7 @@ void Data::InterpolateTimeStepsForAllYears() {
 }
 
 /**
- * Fill our external gaps in the data
+ * Fill the external gaps in the data
  */
 void Data::FillExternalGaps() {
   vector<unsigned> model_years = model_->years();
@@ -304,7 +332,6 @@ void Data::FillExternalGaps() {
       else
         break;
     }
-
 
     // loop over the ages
     for (unsigned year : missing_years)
@@ -342,7 +369,7 @@ void Data::FillExternalGaps() {
 
 /**
  * Fill the internal missing years with one of the three
- * methods (mean, nearest_neighbour or interpolate)
+ * methods (mean, nearest_neighbour, or interpolate)
  */
 void Data::FillInternalGaps() {
   vector<unsigned> model_years = model_->years();
@@ -409,48 +436,48 @@ void Data::FillInternalGaps() {
   }
 }
 
-
 /**
- * Get the mean length of a single population
+ * Return the mean length of a single population
  *
- * @param time_step we want mean weight for
- * @param age The age of the population we want mean weight for
- * @return mean length for 1 member cvs_
+ * @param time_step The time step
+ * @param age The age of the population
+ * @return mean length for one member
  */
 Double Data::mean_length(unsigned time_step, unsigned age) {
-  if (model_->state() == State::kInitialise)
+  if (model_->state() == State::kInitialise || model_->state() == State::kBuild)
     return data_by_age_time_step_[time_step][age];
+
   unsigned year = model_->current_year();
   return mean_length_by_year_[year][age][time_step];
 }
 
 /**
- * Get the mean weight of a single population
+ * Return the mean weight of a single population
  *
- * @param year The year we want mean weight for
- * @param age The age of the population we want mean weight for
- * @return mean weight for 1 member cvs_[i]
+ * @param time_step The time step
+ * @param age The age of the population
+ * @return mean weight for one member
  */
 Double Data::mean_weight(unsigned time_step, unsigned age) {
   unsigned year = model_->current_year();
   Double size   = this->mean_length(time_step, age);
+
   return length_weight_->mean_weight(size, distribution_, cvs_[year][time_step][age]);
 }
 
 /**
- * Return the mean length for an time_step and age
+ * Return the mean length for a time_step and age
  *
  * @param year Ignored for this child (was implemented for the Data AgeLength child)
- * @param time_step time_step
- * @param age The age of the population we want mean weight for
- * @return mean weight for 1 member
+ * @param time_step The time step
+ * @param age The age of the population
+ * @return mean weight for one member
  */
 Double Data::GetMeanLength(unsigned year, unsigned time_step, unsigned age) {
   if (model_->state() == State::kInitialise)
     return data_by_age_time_step_[time_step][age];
 
   return mean_length_by_year_[year][age][time_step];
-
 }
 
 } /* namespace agelengths */

@@ -1,10 +1,10 @@
 /**
  * @file SurvivalConstantRate.cpp
  * @author  You're Name e.g. Craig Marsh
- * @institute NIWA 
+ * @institute NIWA
  * @version 1.0
  * @date date of creation e.g. 17/07/16
- * @licence 
+ * @licence
  *
  */
 
@@ -33,42 +33,48 @@ SurvivalConstantRate::SurvivalConstantRate(Model* model)
   process_type_ = ProcessType::kMortality;
   partition_structure_ = PartitionType::kAge;
 
-  parameters_.Bind<string>(PARAM_CATEGORIES, &category_labels_, "List of categories", "");
-  parameters_.Bind<Double>(PARAM_S, &s_input_, "Survival rates", "");
-  parameters_.Bind<Double>(PARAM_TIME_STEP_RATIO, &ratios_, "Time step ratios for S", "", true);
-  parameters_.Bind<string>(PARAM_SELECTIVITIES, &selectivity_names_, "Selectivity label", "");
+  parameters_.Bind<string>(PARAM_CATEGORIES, &category_labels_, "The list of categories", "");
+  parameters_.Bind<Double>(PARAM_S, &s_input_, "The survival rates", "")->set_range(0.0, 1.0);
+  parameters_.Bind<double>(PARAM_TIME_STEP_RATIO, &ratios_, "The time step ratios for S", "", true)->set_range(0.0, 1.0, false, true);
+  parameters_.Bind<string>(PARAM_SELECTIVITIES, &selectivity_names_, "The selectivity label", "");
 
   RegisterAsAddressable(PARAM_S, &s_);
 }
 
 /**
- * Validate our Survival Constant Rate process
+ * Validate the Survival Constant Rate process
  *
  * - Validate the required parameters
  * - Assign the label from the parameters
  * - Assign and validate remaining parameters
- * - Duplicate 's' and 'selectivities' if only 1 vale specified
+ * - Duplicate 's' and 'selectivities' if only one value specified
  * - Check s is between 0.0 and 1.0
  * - Check the categories are real
  */
 void SurvivalConstantRate::DoValidate() {
   // If one S supplied expand for each category
-  if (s_input_.size() == 1)
-    s_input_.assign(category_labels_.size(), s_input_[0]);
+  if (s_input_.size() == 1) {
+    auto val_s = s_input_[0];
+    s_input_.assign(category_labels_.size(), val_s);
+  }
+
   // Do the same for selectivity labels
-  if (selectivity_names_.size() == 1)
-    selectivity_names_.assign(category_labels_.size(), selectivity_names_[0]);
+  if (selectivity_names_.size() == 1) {
+    auto val_sel = selectivity_names_[0];
+    selectivity_names_.assign(category_labels_.size(), val_sel);
+  }
+
   //Check we have equal category labels as survival rates
   if (s_input_.size() != category_labels_.size()) {
     LOG_ERROR_P(PARAM_S)
-        << ": Number of Ms provided is not the same as the number of categories provided. Expected: "
-        << category_labels_.size()<< " but got " << s_input_.size();
+      << ": the number of Ms provided is not the same as the number of categories provided. Categories: "
+      << category_labels_.size()<< ", input size " << s_input_.size();
   }
   //Check we have equal category labels to selectivity labels
   if (selectivity_names_.size() != category_labels_.size()) {
     LOG_ERROR_P(PARAM_SELECTIVITIES)
-        << ": Number of selectivities provided is not the same as the number of categories provided. Expected: "
-        << category_labels_.size()<< " but got " << selectivity_names_.size();
+      << ": the number of selectivities provided is not the same as the number of categories provided. Categories: "
+      << category_labels_.size()<< ", selectivities size " << selectivity_names_.size();
   }
 
   // Validate our S's are between 1.0 and 0.0
@@ -84,8 +90,8 @@ void SurvivalConstantRate::DoValidate() {
 /**
  * Build any runtime relationships
  * - Build the partition accessor
- * - Build our list of selectivities
- * - Build our ratios for the number of time steps
+ * - Build the list of selectivities
+ * - Build the ratios for the number of time steps
  */
 void SurvivalConstantRate::DoBuild() {
   partition_.Init(category_labels_);
@@ -93,7 +99,7 @@ void SurvivalConstantRate::DoBuild() {
   for (string label : selectivity_names_) {
     Selectivity* selectivity = model_->managers().selectivity()->GetSelectivity(label);
     if (!selectivity)
-      LOG_ERROR_P(PARAM_SELECTIVITIES) << ": selectivity " << label << " does not exist. Have you defined it?";
+      LOG_ERROR_P(PARAM_SELECTIVITIES) << ": Selectivity label " << label << " was not found.";
 
     selectivities_.push_back(selectivity);
   }
@@ -117,9 +123,9 @@ void SurvivalConstantRate::DoBuild() {
   } else {
     if (ratios_.size() != active_time_steps.size())
       LOG_ERROR_P(PARAM_TIME_STEP_RATIO) << " length (" << ratios_.size()
-          << ") does not match the number of time steps this process has been assigned to (" << active_time_steps.size() << ")";
+        << ") does not match the number of time steps this process has been assigned to (" << active_time_steps.size() << ")";
 
-    for (Double value : ratios_) {
+    for (auto value : ratios_) {
       if (value <= 0.0 || value > 1.0)
         LOG_ERROR_P(PARAM_TIME_STEP_RATIO) << " value (" << value << ") must be between 0.0 (exclusive) and 1.0 (inclusive)";
     }
@@ -139,7 +145,7 @@ void SurvivalConstantRate::DoExecute() {
   unsigned time_step = model_->managers().time_step()->current_time_step();
 
   LOG_FINEST() << "Ratios.size() " << time_step_ratios_.size() << " : time_step: " << time_step << "; ratio: " << time_step_ratios_[time_step];
-  Double ratio = time_step_ratios_[time_step];
+  double ratio = time_step_ratios_[time_step];
 
   //StoreForReport("year", model_->current_year());
 
@@ -151,7 +157,7 @@ void SurvivalConstantRate::DoExecute() {
     LOG_FINEST() << "category " << category->name_ << "; min_age: " << category->min_age_ << "; ratio: " << ratio;
     //StoreForReport(category->name_ + " ratio", ratio);
     for (Double& data : category->data_) {
-      data -= data * (1 - exp(-selectivities_[i]->GetAgeResult(category->min_age_ + j, category->age_length_)  * ((1.0 - s) * ratio)));
+      data -= data * (1.0 - exp(-selectivities_[i]->GetAgeResult(category->min_age_ + j, category->age_length_) * ((1.0 - s) * ratio)));
       ++j;
     }
 

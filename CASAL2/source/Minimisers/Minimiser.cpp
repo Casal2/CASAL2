@@ -22,10 +22,12 @@
 #include <boost/numeric/ublas/io.hpp>
 #include <boost/numeric/ublas/lu.hpp>
 
+#include "Reports/Manager.h"
 #include "Estimates/Manager.h"
 #include "Logging/Logging.h"
 #include "Model/Model.h"
 #include "Utilities/DoubleCompare.h"
+#include "Reports/Common/EstimationResult.h"
 
 // Namespaces
 namespace niwa {
@@ -82,6 +84,30 @@ void Minimiser::Build() {
       hessian_[i][j] = 0.0;
   }
 
+  // Check that there is a report for estimation result
+  // TODO:  this section causes a segfault if a report of type 'estimate_value' is not specified. why???
+  if (model_->run_mode() == RunMode::kEstimation || model_->run_mode() == RunMode::kMCMC || model_->run_mode() == RunMode::kProfiling) {
+    if (!model_->managers().report()->HasType(PARAM_ESTIMATION_RESULT)) {
+      LOG_MEDIUM() << "Create default estimation summary report";
+
+      reports::EstimationResult* objective_report = new reports::EstimationResult(model_);
+      objective_report->set_block_type(PARAM_REPORT);
+      objective_report->set_defined_file_name(__FILE__);
+      objective_report->set_defined_line_number(__LINE__);
+      objective_report->parameters().Add(PARAM_LABEL, "minimiser_result", __FILE__, __LINE__);
+      objective_report->parameters().Add(PARAM_TYPE, PARAM_ESTIMATION_RESULT, __FILE__, __LINE__);
+      objective_report->parameters().Add(PARAM_FILE_NAME, "minimiser_result.out", __FILE__, __LINE__);
+      objective_report->parameters().Add(PARAM_WRITE_MODE, PARAM_OVERWRITE, __FILE__, __LINE__);
+      objective_report->Validate();
+      model_->managers().report()->AddObject(objective_report);
+    } else {
+      // Overwrite the current report
+      LOG_MEDIUM() << "Overwrite existing estimation summary report";
+      auto report_ptr = model_->managers().report()->GetReport(PARAM_ESTIMATION_RESULT);
+      report_ptr->set_write_mode(PARAM_OVERWRITE);
+    }
+  }
+
   DoBuild();
 }
 
@@ -92,7 +118,7 @@ void Minimiser::BuildCovarianceMatrix() {
   if (!build_covariance_)
     return;
   if (hessian_ == 0)
-    LOG_CODE_ERROR() << "Cannot build the covariance matrix as the hessian has not been allocated, try a different minimiser.";
+    LOG_CODE_ERROR() << "Cannot build the covariance matrix as the Hessian has not been allocated. Use a different minimiser.";
 
   LOG_FINE() << "Building covariance matrix";
 
@@ -122,8 +148,8 @@ void Minimiser::BuildCovarianceMatrix() {
   for (unsigned i = 0; i < hessian_size_; ++i) {
     diag = correlation_matrix_(i,i);
     for (unsigned j = 0; j < hessian_size_; ++j) {
-      correlation_matrix_(i,j) = correlation_matrix_(i,j) / sqrt(diag);
-      correlation_matrix_(j,i) = correlation_matrix_(j,i) / sqrt(diag);
+      correlation_matrix_(i,j) /= sqrt(diag);
+      correlation_matrix_(j,i) /= sqrt(diag);
     }
   }
 }

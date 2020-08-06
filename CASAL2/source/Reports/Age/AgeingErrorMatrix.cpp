@@ -14,25 +14,27 @@ namespace reports {
 namespace age {
 
 /**
- *
+ * Default constructor
  */
 AgeingErrorMatrix::AgeingErrorMatrix(Model* model) : Report(model) {
   run_mode_    = (RunMode::Type)(RunMode::kBasic | RunMode::kProjection);
   model_state_ = State::kFinalise;
 
-  parameters_.Bind<string>(PARAM_AGEING_ERROR, &ageingerror_label_, "Ageing Error label", "");
+  parameters_.Bind<string>(PARAM_AGEING_ERROR, &ageingerror_label_, "The ageing error label", "");
 }
 
 /**
- *
+ * Build
  */
-
 void AgeingErrorMatrix::DoBuild() {
   ageingerror_ = model_->managers().ageing_error()->GetAgeingError(ageingerror_label_);
   if (!ageingerror_)
-    LOG_ERROR_P(PARAM_AGEING_ERROR) << "(" << ageingerror_label_ << ") could not be found. Have you defined it?";
+    LOG_ERROR_P(PARAM_AGEING_ERROR) << "Ageing error label (" << ageingerror_label_ << ") was not found.";
   }
 
+/**
+ * Execute the report
+ */
 void AgeingErrorMatrix::DoExecute() {
   LOG_TRACE();
 
@@ -43,7 +45,7 @@ void AgeingErrorMatrix::DoExecute() {
 
   for (unsigned i = 0; i < mis_matrix.size(); ++i) {
     for (unsigned j = 0; j < mis_matrix[i].size(); ++j) {
-      cache_ << AS_DOUBLE(mis_matrix [i][j]) << " ";
+      cache_ << AS_VALUE(mis_matrix [i][j]) << " ";
       if ( j == (mis_matrix[i].size() - 1))
         cache_ << "\n";
     }

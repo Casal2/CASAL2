@@ -50,10 +50,10 @@ private:
   Double                      phi_2_ = 0.0;
   Double                      theta_1_ = 0.0;
   Double                      theta_2_ = 0.0;
-  Double                      first_original_upper_bound_ = 0.0;
-  Double                      first_original_lower_bound_ = 0.0;
-  Double                      second_original_upper_bound_ = 0.0;
-  Double                      second_original_lower_bound_ = 0.0;
+  double                      first_original_upper_bound_ = 0.0;
+  double                      first_original_lower_bound_ = 0.0;
+  double                      second_original_upper_bound_ = 0.0;
+  double                      second_original_lower_bound_ = 0.0;
 
 };
 

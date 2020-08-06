@@ -7,7 +7,7 @@ import re
 import collections
 import copy
 from datetime import datetime, date
-from dateutil import tz
+import pytz
 
 import Globals
 
@@ -26,7 +26,7 @@ class Variable:
         self.upper_bound_ = ""
 
     def Print(self):
-        print 'Variable: ' + self.name_ + '; type: ' + self.type_
+        print('Variable: ' + self.name_ + '; type: ' + self.type_)
         #+ '; description: ' + self.description_
         #+ '; value ' + self.value_
         #+ '; default: ' + self.default_
@@ -52,7 +52,7 @@ parent_class_ = Class() # Hold our top most parent class (e.g niwa::Process)
 class Documentation:
     # Methods
     def __init__(self):
-        print '--> Starting Documentation Builder'
+        print('--> Starting Documentation Builder')
         type_aliases_['double']           = 'constant'
         type_aliases_['unsigned']         = 'non-negative integer'
         type_aliases_['bool']             = 'boolean'
@@ -66,7 +66,7 @@ class Documentation:
         type_aliases_['map<string, vector<string>>'] = 'string matrix'
         type_aliases_['map<string, vector<Double>>'] = 'constant vector'
         type_aliases_['parameters::table*']          = 'constant'
-        
+
     """
     Start the documentation builder
     """
@@ -91,12 +91,12 @@ class Documentation:
     to the file
     """
     def load_translations(self):
-        print '--> Loading translations'
+        print('--> Loading translations')
         file = fileinput.FileInput('../CASAL2/source/Translations/English_UK.h')
         if not file:
             return Globals.PrintError('Failed to open the English_UK.h for translation loading')
 
-        for line in file:
+        for line in open('../CASAL2/source/Translations/English_UK.h', encoding = "ISO-8859-1"):
             if not line.startswith('#define'):
                 continue
             pieces = line.split()
@@ -107,26 +107,26 @@ class Documentation:
             value = pieces[2].lstrip().rstrip().replace('"', '').replace('_', '\_')
             translations_[lookup] = value
 
-        print '-- Loaded ' + str(len(translations_)) + ' translation values'
+        print('-- Loaded ' + str(len(translations_)) + ' translation values')
         return True
-
 
 class ClassLoader:
     def Run(self):
         global parent_class_
         casal2_src_folder = '../CASAL2/source/'
         parent_class_folders = [ 'AdditionalPriors', 'AgeingErrors', 'AgeLengths', 'Asserts',
-                        'Catchabilities', 'Categories', 'DerivedQuantities',
-                        'Estimates', 'EstimateTransformations', 'InitialisationPhases', 'LengthWeights',
-                        'Likelihoods', 'MCMCs', 'Minimisers',
-                        'Model', 'Observations', 'Penalties', 'Processes', 'Profiles', 'Projects',
-                        'Reports', 'Selectivities', 'Simulates', 'TimeSteps', 'TimeVarying']
+                                 'Catchabilities', 'Categories', 'DerivedQuantities',
+                                 'Estimates', 'EstimateTransformations', 'InitialisationPhases', 'LengthWeights',
+                                 'Likelihoods', 'MCMCs', 'Minimisers',
+                                 'Model', 'Observations', 'Penalties', 'Processes', 'Profiles', 'Projects',
+                                 'Reports', 'Selectivities', 'Simulates', 'TimeSteps', 'TimeVarying']
         type_without_children_folders = [ 'Model', 'Profiles', 'TimeSteps' ]
         type_to_exclude_third_level_children = [ 'Minimisers' ]
+        type_to_exclude_common_children = [ 'Processes' ]
         for folder in parent_class_folders:
             parent_class_ = Class()
-            print folder
-			# Start with folder, but know we also go through age and length folders
+            print(folder)
+            # Start with folder, but know we also go through age and length folders
             if (os.path.exists(casal2_src_folder + folder) or folder in type_without_children_folders):
                 label_ = Variable()
                 label_.name_ = 'label'
@@ -134,22 +134,22 @@ class ClassLoader:
                 parent_class_.variables_['label_'] = label_
                 type_ = Variable()
                 type_.name_ = 'type'
-                type_.type_ = 'string'                
+                type_.type_ = 'string'
                 parent_class_.variables_['type_'] = type_
-                print type
-                if (os.path.exists(casal2_src_folder + folder + '/')): 
+                print(type)
+                if (os.path.exists(casal2_src_folder + folder + '/')):
                 #This if statement deals with Classes that have parents in Common, it also checks if it has children in Age or Length
                     file_list = os.listdir(casal2_src_folder + folder + '/')
                     for file in file_list:
                         if file.startswith(folder[:-3]) and file.endswith('.h') and not file.endswith('-inl.h'):
-                            print '-- Loading Common -> top-level parent class from file ' + file
+                            print('-- Loading Common -> top-level parent class from file ' + file)
                             parent_class_.name_ = file.replace('.h', '')
                             if not VariableLoader().Load('../CASAL2/source/' + folder + '/' + file, parent_class_):
                                 return False
                             break;
 
                     if os.path.exists(casal2_src_folder + folder + '/Children/'):
-                        print '--> Scanning for children'
+                        print('--> Scanning for children')
                         child_file_list = os.listdir(casal2_src_folder + folder + '/Children/')
                         # Scan First For 2nd Level Children
                         for file in child_file_list:
@@ -165,7 +165,7 @@ class ClassLoader:
                                 return False
 
                         # Scan 3rd Level Children
-                        print '--> Scanning for Third Level Children'
+                        print('--> Scanning for Third Level Children')
                         for file in child_file_list:
                             #print file
                             if os.path.isdir(casal2_src_folder + folder + '/Children/' + file):
@@ -180,22 +180,22 @@ class ClassLoader:
                                         sub_child_class = copy.deepcopy(parent_class_.child_classes_[file])
                                         sub_child_class.name_ = child_file.replace('.h', '') + file
                                         sub_child_class.parent_name_ = file
-                                        print 'child file ' + sub_child_class.name_
-                                        
+                                        print('child file ' + sub_child_class.name_)
+
                                         parent_class_.child_classes_[file].child_classes_[sub_child_class.name_] = sub_child_class
                                         if not VariableLoader().Load('../CASAL2/source/' + folder + '/Children/' + file + '/' + child_file, sub_child_class):
                                             return False
 
                 # Go through Age folders
-                print '--- Does Source/Age have any children folder named ' + folder
+                print('--- Does Source/Age have any children folder named ' + folder)
                 if (os.path.exists(casal2_src_folder + folder + '/Age/')):
-                    print '--> Scanning for file in source/Age/' + folder
+                    print('--> Scanning for file in source/Age/' + folder)
                     child_file_list = os.listdir(casal2_src_folder + folder + '/Age/')
                     # Scan First For 2nd Level Children
                     for file in child_file_list:
                         if not file.endswith('.h'):
                             continue
-                        print '--> Creating class for /Source/Age/' + folder + '/' + file
+                        print('--> Creating class for /Source/Age/' + folder + '/' + file)
                         child_class = Class()
                         child_class.variables_ = copy.deepcopy(parent_class_.variables_)
                         child_class.variables_['label_'].name_ = ''
@@ -207,7 +207,7 @@ class ClassLoader:
 
                 # Go through Length folders
                 if (os.path.exists(casal2_src_folder + folder + '/Length/')):
-                    print '--> Scanning for following child in Length: ' + folder
+                    print('--> Scanning for following child in Length: ' + folder)
                     child_file_list = os.listdir(casal2_src_folder + folder + '/Length/')
                     # Scan First For 2nd Level Children
                     for file in child_file_list:
@@ -221,7 +221,26 @@ class ClassLoader:
                         parent_class_.child_classes_[child_class.name_] = child_class
                         if not VariableLoader().Load('../CASAL2/source/' + folder + '/Length/' + file, child_class):
                             return False
-            
+
+                # Go through Common folders
+                if (os.path.exists(casal2_src_folder + folder + '/Common/') and folder not in type_to_exclude_common_children):
+                    print('--> Scanning for following child in Common: ' + folder)
+                    child_file_list = os.listdir(casal2_src_folder + folder + '/Common/')
+                    # Scan First For 2nd Level Children
+                    for file in child_file_list:
+                        if file.endswith('.Mock.h'):
+                            continue
+                        if not file.endswith('.h'):
+                            continue
+                        child_class = Class()
+                        child_class.variables_ = copy.deepcopy(parent_class_.variables_)
+                        child_class.variables_['label_'].name_ = ''
+                        child_class.variables_['type_'].name_ = ''
+                        child_class.name_ = file.replace('.h', '')
+                        parent_class_.child_classes_[child_class.name_] = child_class
+                        if not VariableLoader().Load('../CASAL2/source/' + folder + '/Common/' + file, child_class):
+                            return False
+
             parent_class_.child_classes_ = collections.OrderedDict(sorted(parent_class_.child_classes_.items()))
             Printer().Run()
         return True
@@ -232,10 +251,10 @@ class VariableLoader:
         return self.LoadCppFile(header_file_, class_)
 
     def LoadHeaderFile(self, header_file_, class_):
-        print '--> Loading Variables for ' + class_.name_ + ' from header file ' + header_file_
+        print('--> Loading Variables for ' + class_.name_ + ' from header file ' + header_file_)
         fi = fileinput.FileInput(header_file_)
         found_class = False
-        for line in fi:
+        for line in open(header_file_, encoding = "ISO-8859-1"):
             line = line.lower().rstrip().lstrip()
             if line == '':
                 continue
@@ -260,20 +279,20 @@ class VariableLoader:
 
             variable = Variable()
             variable.type_ = pieces[0]
-            class_.variables_[pieces[1]] = variable            
-            print '-- Heading Variable: ' + pieces[1] + '(' + pieces[0] + ')'
+            class_.variables_[pieces[1]] = variable
+            print('-- Heading Variable: ' + pieces[1] + '(' + pieces[0] + ')')
 
     def LoadCppFile(self, header_file_, class_):
         cpp_file = header_file_.replace('.h', '.cpp')
         constructor_line = class_.name_ + '::' + class_.name_ + '('
 
-        print '--> Loading Variables from CppFile ' + cpp_file
-        print '-- Looking for constructor line: ' + constructor_line
+        print('--> Loading Variables from CppFile ' + cpp_file)
+        print('-- Looking for constructor line: ' + constructor_line)
         fi = fileinput.FileInput(cpp_file)
         in_constructor = False
         finished_constructor_definition = False
         previous_line = ''
-        for line in fi:
+        for line in open(cpp_file, encoding = "ISO-8859-1"):
             line = line.rstrip().lstrip()
             if line == '' or line == '\n':
                 continue
@@ -298,29 +317,30 @@ class VariableLoader:
                 line = previous_line + line
             previous_line = ''
             if line.startswith('parameters_.Bind<'):
-                print '-- Bind Line ' + line
+                print('-- Bind Line ' + line)
                 if not self.HandleParameterBindLine(line, class_):
                     return False
             if line.startswith('parameters_.BindTable('):
-                print '-- Bind Table Line ' + line
+                print('-- Bind Table Line ' + line)
                 if not self.HandleParameterBindTable(line, class_):
-                    return False            
+                    return False
             if line.startswith('RegisterAsAddressable('):
-                print '-- RegisterAsAddressable Line ' + line
+                print('-- RegisterAsAddressable Line ' + line)
                 if not self.HandlRegisterAsLine(line, class_):
                     return False
         return True
 
     def HandleParameterBindLine(self, line, class_):
-        line = line.replace('Double(', '') 
+        line = line.replace('Double(', '')
         lines = re.split('->', line)
         short_line = lines[0].replace('parameters_.Bind<', '')
-        pieces = re.split(',|<|>|;|(|)', short_line)
-        pieces = filter(None, pieces)
+        pieces = re.split(',|<|>|;|\(|\)', short_line)
+        pieces = list(filter(None, pieces))
 
         # Check for the name of the variable we're binding too
         used_variable = pieces[2].replace('&', '').rstrip().lstrip().lower()
-
+        print('-- short_line ' + short_line)
+        print('-- used variable '+used_variable)
         variable = Variable()
         if used_variable in class_.variables_:
             variable = class_.variables_[used_variable];
@@ -398,10 +418,10 @@ class VariableLoader:
         return True
 
     def HandleParameterBindTable(self, line, class_):
-        lines  = re.split('->', line)    
+        lines  = re.split('->', line)
         short_line = line.replace('parameters_.BindTable(', '')
-        pieces = re.split(',|<|>|;|(|)', short_line)
-        pieces = filter(None, pieces)
+        pieces = re.split(',|<|>|;|\(|\)', short_line)
+        pieces = list(filter(None, pieces))
 
         # Check for the name of the variable we're binding too
         used_variable = pieces[1].rstrip().lstrip().lower()
@@ -411,7 +431,7 @@ class VariableLoader:
             variable = class_.variables_[used_variable];
         else:
             return Globals.PrintError('Could not find record for the header variable: ' + used_variable)
-            
+
         # Check for Name
         variable.name_ = translations_[pieces[0].rstrip().lstrip()]
 
@@ -431,18 +451,18 @@ class VariableLoader:
             value += ',' + pieces[index]
         value = value.replace(')', '')
         variable.value_ = value.replace(')', '').replace('R"(', '').replace(')"', '').replace('"', '').replace(')', '').rstrip().lstrip()
- 
+
         return True
- 
+
          # Set the default value
         index += 1
         if len(pieces) > index:
             variable.default_ = pieces[index].replace(')', '').rstrip().lstrip()
-        
+
     def HandlRegisterAsLine(self, line, class_):
         short_line = line.replace('RegisterAsAddressable(', '')
-        pieces = re.split(',|<|>|;|(|)', short_line)
-        pieces = filter(None, pieces)
+        pieces = re.split(',|<|>|;|\(|\)', short_line)
+        pieces = list(filter(None, pieces))
 
         if len(pieces) != 3 and len(pieces) != 2 and len(pieces) != 1:
             return Globals.PrintError('Expected 2 or 3 pieces but got ' + str(len(pieces)) + ' with line: ' + line)
@@ -455,23 +475,23 @@ class VariableLoader:
           name = pieces[0]
           variable = pieces[1].replace('&', '').replace(')', '').lstrip().rstrip()
           lookup = "all"
-	else:
+        else:
           name = pieces[0]
           variable = pieces[1].replace('&', '').replace(')', '').lstrip().rstrip()
-	  lookup = pieces[2].replace('addressable::k', '').replace(')', '').lstrip().rstrip()
-	
-	## At some point it would be nice to add the lookup into the auto-documentation but that can wait.
-        print '--> Estimable: ' + name + ' with variable ' + variable + ' lookup = ' + lookup  + ' ' + class_.variables_[variable].name_
-        if name in translations_:    
+          lookup = pieces[2].replace('addressable::k', '').replace(')', '').lstrip().rstrip()
+
+    ## At some point it would be nice to add the lookup into the auto-documentation but that can wait.
+        print('--> Estimable: ' + name + ' with variable ' + variable + ' lookup = ' + lookup  + ' ' + class_.variables_[variable].name_)
+        if name in translations_:
           name = translations_[name]
-        print class_.variables_
-  	if lookup == "all":
+        print(class_.variables_)
+        if lookup == "all":
           class_.estimables_[name] = class_.variables_[variable].type_
-          print '--> Estimable: ' + name + ' as type ' + class_.estimables_[name]
+          print('--> Estimable: ' + name + ' as type ' + class_.estimables_[name])
         else:
           class_.addressables_[name] = class_.variables_[variable].type_
           ## This will not deal with the following case. When a object is user defined in the constructor, and has an addressable not 'all'
-          print '--> Addressable: ' + name + ' as type ' + class_.addressables_[name] + ' ' + class_.variables_[variable].name_
+          print('--> Addressable: ' + name + ' as type ' + class_.addressables_[name] + ' ' + class_.variables_[variable].name_)
           variable_temp = Variable()
           variable_temp.name_ = name
           class_.variables_[name] = variable_temp
@@ -482,8 +502,8 @@ class Printer:
     output_path_ = '../Documentation/UserManual/Syntax/'
     def Run(self):
         global parent_class_
-        print '--> Running Latex Printer'
-        print '--> Top Class ' + parent_class_.name_
+        print('--> Running Latex Printer')
+        print('--> Top Class ' + parent_class_.name_)
         self.current_output_file_ = self.output_path_ + parent_class_.name_
 
         # Handle an Issue with MCMC
@@ -493,31 +513,31 @@ class Printer:
         if not os.path.exists('../Documentation/UserManual/Syntax/'):
             os.makedirs('../Documentation/UserManual/Syntax/')
 
-        print '-- Printing to file ' + self.current_output_file_
+        print('-- Printing to file ' + self.current_output_file_)
         file = open(self.current_output_file_ + '.tex', 'w')
         file.write('\defComLab{' + parent_class_.name_.lower() + '}{Define an object of type \emph{' + parent_class_.name_.lower() + '}}\n')
         file.write('\n')
         self.PrintClass(file, parent_class_)
 
         parent_class_.child_classes_ = collections.OrderedDict(sorted(parent_class_.child_classes_.items()))
-        for child_class_name, child_class in parent_class_.child_classes_.iteritems():
+        for child_class_name, child_class in parent_class_.child_classes_.items():
             if len(child_class.child_classes_) > 0:
                 child_class.child_classes_ = collections.OrderedDict(sorted(child_class.child_classes_.items()))
-                for third_class_name, third_class in child_class.child_classes_.iteritems():
-                    
+                for third_class_name, third_class in child_class.child_classes_.items():
+
                     ## this is an exception to remove time_step in front of mortality block observations
-                    first_val = third_class.name_[0:8]                  
+                    first_val = third_class.name_[0:8]
                     if parent_class_.name_ == 'Observation' and first_val == 'TimeStep':
                     	third_class.name_ = third_class.name_[8:len(third_class.name_)]
-                    
+
                     object_name = re.sub( '(?<!^)(?=[A-Z])', ' ', third_class.name_)
                     class_name = re.sub( '(?<!^)(?=[A-Z])', '\_', third_class.name_).lower()
                     parent_class = re.sub( '(?<!^)(?=[A-Z])', '\_', parent_class_.name_).lower()
-					   
+
                     # Exeption corrections
                     class_name = class_name.replace('m\_c\_m\_c', 'mcmc')
                     class_name = class_name.replace('beta\_diff', 'betadiff')
-                    class_name = class_name.replace('gamma\_diff', 'numerical\_differences')    
+                    class_name = class_name.replace('gamma\_diff', 'numerical\_differences')
                     class_name = class_name.replace('a\_d\_o\_l\_c', 'adolc')
                     class_name = class_name.replace('c\_p\_p\_a\_d', 'cppad')
                     class_name = class_name.replace('d\_e\_solver', 'de\_solver')
@@ -546,9 +566,9 @@ class Printer:
  			   # Exeption corrections
                 class_name = class_name.replace('m\_c\_m\_c', 'mcmc')
                 class_name = class_name.replace('a\_d\_o\_l\_c', 'adolc')
-                class_name = class_name.replace('beta\_diff', 'betadiff')                       
+                class_name = class_name.replace('beta\_diff', 'betadiff')
                 class_name = class_name.replace('c\_p\_p\_a\_d', 'cppad')
-                class_name = class_name.replace('gamma\_diff', 'numerical\_differences')     
+                class_name = class_name.replace('gamma\_diff', 'numerical\_differences')
                 class_name = class_name.replace('d\_e\_solver', 'de\_solver')
                 parent_class = parent_class.replace('m\_c\_m\_c', 'mcmc')
                 parent_class = parent_class.replace('a\_d\_o\_l\_c', 'adolc')
@@ -573,16 +593,16 @@ class Printer:
     def PrintClass(self, file_, class_):
         class_.estimables_ = collections.OrderedDict(sorted(class_.estimables_.items()))
         for key in class_.variable_order_:
-            print key
+            print(key)
             variable = class_.variables_[(key)]
             if variable.name_ == '':
                 continue
-            print variable.name_ + ' ' + class_.name_
+            print(variable.name_ + ' ' + class_.name_)
             # Remove PARAMs and associated desriptions of variables that have yet to be completed in the code
             if variable.description_.startswith('TBA'):
                 continue
             # And continue as normal
-            file_.write('\\defSub{' + variable.name_ + '} {' + variable.description_ + '}\n')            
+            file_.write('\\defSub{' + variable.name_ + '} {' + variable.description_ + '}\n')
             if variable.name_ in class_.estimables_:
                 if class_.estimables_[variable.name_ ].startswith('vector<') or class_.estimables_[variable.name_ ].startswith('map<'):
                     file_.write('\\defType{estimable vector}\n')
@@ -592,7 +612,7 @@ class Printer:
                 if class_.addressables_[variable.name_ ].startswith('vector<') or class_.addressables_[variable.name_ ].startswith('map<'):
                     file_.write('\\defType{Addressable vector}\n')
                 else:
-                    file_.write('\\defType{Addressable}\n')                    
+                    file_.write('\\defType{Addressable}\n')
             else:
                 file_.write('\\defType{' + type_aliases_[variable.type_] + '}\n')
 
@@ -614,26 +634,25 @@ class Printer:
 class Latex:
     def Build(self):
 
-        print '-- Building latex documentation and pdf'
+        print('-- Building latex documentation and pdf')
         cwd = os.path.normpath(os.getcwd())
         os.chdir('../Documentation/UserManual/')
-        print '-- Building CASAL.syn'
+        print('-- Building CASAL.syn')
         os.system('python QuickReference.py')
-        
+
         # Build the Version.tex file
         if Globals.git_path_ != '':
-            print '-- Build version.tex with Git log information'
+            print('-- Build Version.tex with git log information')
             p = subprocess.Popen(['git', '--no-pager', 'log', '-n', '1', '--pretty=format:%H%n%h%n%ci' ], stdout=subprocess.PIPE, stderr=subprocess.PIPE)
             out, err = p.communicate()
-            lines = out.split('\n')
+            lines = out.decode('utf-8').split('\n')
             if len(lines) != 3:
-                return Globals.PrintError('Format printed by GIT did not meet expectations. Expected 3 lines but got ' + str(len(lines)))
+                return Globals.PrintError('Format printed by git did not meet expectations. Expected 3 lines but got ' + str(len(lines)))
 
             time_pieces = lines[2].split(' ')
-            del time_pieces[-1];
             temp = ' '.join(time_pieces)
-            local_time = datetime.strptime(temp, '%Y-%m-%d %H:%M:%S')
-            utc_time   = local_time.replace(tzinfo=tz.tzlocal()).astimezone(tz.tzutc())
+            local_time = datetime.strptime(temp, '%Y-%m-%d %H:%M:%S %z')
+            utc_time   = local_time.astimezone(pytz.utc)
 
             version = '% WARNING: THIS FILE IS AUTOMATICALLY GENERATED BY doBuild documentation. DO NOT EDIT THIS FILE\n'
             version += '\\newcommand{\\SourceControlRevisionDoc}{' + lines[0] + '}\n'
@@ -647,7 +666,7 @@ class Latex:
             file_output.write(version)
             file_output.close()
         else:
-            print '-- Building a default version.tex because Git was not found'
+            print('-- Building a default Version.tex because git was not found')
             version = '% WARNING: THIS FILE IS AUTOMATICALLY GENERATED BY doBuild documentation. DO NOT EDIT THIS FILE\n'
             version += '\\newcommand{\\SourceControlRevisionDoc}{000000}\n'
             version += '\\newcommand{\\SourceControlDateDoc}{0000-00-00}\n'
@@ -684,13 +703,13 @@ class Latex:
               return Globals.PrintError('pdflatex failed')
             if os.system('makeindex.exe CASAL2') != EX_OK:
               return Globals.PrintError('makeindex failed')
-        print '-- Built the Casal2 usermanual'
+        print('-- Built the Casal2 usermanual')
 
         os.chdir('../GettingStartedGuide/')
         for i in range(0,3):
           if Globals.operating_system_ != "windows":
             if os.system('pdflatex --interaction=nonstopmode GettingStartedGuide') != EX_OK:
-              return False            
+              return False
             if os.system('bibtex GettingStartedGuide') != EX_OK:
               return False
             if os.system('pdflatex --halt-on-error --interaction=nonstopmode GettingStartedGuide') != EX_OK:
@@ -706,8 +725,8 @@ class Latex:
               return Globals.PrintError('pdflatex failed')
             if os.system('makeindex.exe GettingStartedGuide') != EX_OK:
               return Globals.PrintError('makeindex failed')
-              
-        print '-- Built the GettingStartedGuide'
+
+        print('-- Built the GettingStartedGuide')
         os.chdir('../ContributorsManual/')
         for i in range(0,3):
           if Globals.operating_system_ != "windows":
@@ -716,6 +735,6 @@ class Latex:
           else:
             if os.system('pdflatex.exe --halt-on-error --enable-installer ContributorsGuide') != EX_OK:
               return Globals.PrintError('pdflatex failed')
-        print '-- Built the ContributorsGuide'
+        print('-- Built the ContributorsGuide')
 
         return True

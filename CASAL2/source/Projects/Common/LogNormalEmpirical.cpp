@@ -22,9 +22,9 @@ namespace projects {
  */
 
 LogNormalEmpirical::LogNormalEmpirical(Model* model) : Project(model) {
-  parameters_.Bind<Double>(PARAM_MEAN, &mean_, "Mean of gaussian process", "",0.0);
-  parameters_.Bind<unsigned>(PARAM_START_YEAR, &start_year_, "Start year of sampling", "", false);
-  parameters_.Bind<unsigned>(PARAM_FINAL_YEAR, &final_year_, "Last year of sampling", "", false);
+  parameters_.Bind<Double>(PARAM_MEAN, &mean_, "The mean of the Gaussian process", "",0.0);
+  parameters_.Bind<unsigned>(PARAM_START_YEAR, &start_year_, "The start year of sampling", "", false);
+  parameters_.Bind<unsigned>(PARAM_FINAL_YEAR, &final_year_, "The final year of sampling", "", false);
 }
 
 /**
@@ -36,8 +36,14 @@ void LogNormalEmpirical::DoValidate() {
     start_year_ = model_->start_year();
   if (!parameters_.Get(PARAM_FINAL_YEAR)->has_been_defined())
     final_year_ = model_->final_year();
+
+  if (start_year_ < model_->start_year())
+    LOG_ERROR_P(PARAM_START_YEAR) << start_year_ << " must be greater than or equal to the model start year " << model_->start_year();
+  if (final_year_ > model_->final_year())
+    LOG_ERROR_P(PARAM_FINAL_YEAR) << final_year_ << " must be less than or equal to the model final year " << model_->final_year();
+
   if (final_year_ <= start_year_)
-    LOG_ERROR_P(PARAM_FINAL_YEAR) << PARAM_FINAL_YEAR << " must be larger than " << PARAM_START_YEAR;
+    LOG_ERROR_P(PARAM_FINAL_YEAR) << final_year_ << " must be greater than start year " << start_year_;
 }
 
 /**
@@ -47,11 +53,12 @@ void LogNormalEmpirical::DoReset() {
   utilities::RandomNumberGenerator& rng = utilities::RandomNumberGenerator::Instance();
   // Empirically calculate the years to sample from
   Double Random_draw = 0.0;
+  unsigned year = 0;
   for (unsigned project_year : years_) {
-    Random_draw = ceil(rng.uniform((unsigned)start_year_, (unsigned)final_year_));
-    unsigned year = 0.0;
-    if (!utilities::To<Double, unsigned>(Random_draw, year))
-      LOG_ERROR() << " Random Draw " << Random_draw << " Could not be converted from double to type unsigned";
+    Random_draw = floor(rng.uniform((double)start_year_, ((double)final_year_ + 0.99999)));
+    year = 0;
+    if (!utilities::To<Double>(Random_draw, year))
+      LOG_ERROR() << " Random draw " << Random_draw << " could not be converted to Double";
     resampled_years_[project_year] = year;
     LOG_FINEST() << "Value from year: " << year << " used in projection year: " << project_year;
   }
@@ -65,7 +72,8 @@ void LogNormalEmpirical::DoReset() {
 
     Total += log(stored_values_[resampled_years.second]);
     Total_sq += log(stored_values_[resampled_years.second]) * log(stored_values_[resampled_years.second]);
-    LOG_FINEST() << "using value " << stored_values_[resampled_years.second] << " sampled from year " << resampled_years.second << " to be applied in year " << resampled_years.first;
+    LOG_FINEST() << "using value " << stored_values_[resampled_years.second] << " sampled from year "
+      << resampled_years.second << " to be applied in year " << resampled_years.first;
   }
   LOG_FINEST() << "Total = " << Total;
 
@@ -79,14 +87,14 @@ void LogNormalEmpirical::DoReset() {
     //if (parameters_.Get(PARAM_RHO)->has_been_defined()) {
     //  normal_draw_by_year_[project_year] = rng.normal(0.0, 1.0);
     //} else {
-    normal_draw_by_year_[project_year] = rng.normal(AS_DOUBLE(mean_), AS_DOUBLE(sigma_));
+    normal_draw_by_year_[project_year] = rng.normal(AS_VALUE(mean_), AS_VALUE(sigma_));
     //}
     LOG_FINEST() << "generated value = " << normal_draw_by_year_[project_year] << " to be applied in year " << project_year;
   }
 }
 
 /**
- *  Update our parameter with a random draw from a lognormal distribution with specified inputs
+ *  Update the parameter with a random draw from a lognormal distribution with specified inputs
  */
 void LogNormalEmpirical::DoUpdate() {
   /*
@@ -97,13 +105,13 @@ void LogNormalEmpirical::DoUpdate() {
     value_ = exp((alpha_ + rho_ * last_value_ + Z) - 0.5 * sigma_ * sigma_);
   } else {
   */
-    // Just a standard normal deviation
-    value_ = exp(normal_draw_by_year_[model_->current_year()] - 0.5 * sigma_ * sigma_);
+  // Just a standard normal deviation
+  value_ = exp(normal_draw_by_year_[model_->current_year()] - 0.5 * sigma_ * sigma_);
 
   // Store this value to be pulled out next projection year
   value_ = value_ * multiplier_;
 
-  LOG_FINE() << "Setting Value to: " << value_;
+  LOG_FINE() << "Setting value to: " << value_;
   (this->*DoUpdateFunc_)(value_);
 }
 

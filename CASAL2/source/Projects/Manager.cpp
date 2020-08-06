@@ -33,14 +33,14 @@ Manager::~Manager() noexcept(true) {
 }
 
 /**
- * Build
+ * Build the objects - no model
  */
 void Manager::Build() {
   LOG_CODE_ERROR() << "This method is not supported";
 }
 
 /**
- * Build
+ * Build the objects
  */
 void Manager::Build(Model* model) {
   LOG_TRACE();
@@ -55,32 +55,35 @@ void Manager::Build(Model* model) {
     if (!ycs_values_exist) {
       for (auto process : model->managers().process()->objects()) {
         if (process->type() == PARAM_RECRUITMENT_BEVERTON_HOLT)
-          LOG_ERROR() << process->location() << " process " << process->label() << " does not contain a @project for ycs_values, but you are running in projection mode";
+          LOG_ERROR() << process->location() << " process " << process->label()
+            << " does not contain a @project for ycs_values, but this model is running in projection mode";
       }
     }
   }
 }
 
 /**
+ * Update the objects for a specified year
  *
+ * @param year The year
  */
-void Manager::Update(unsigned current_year) {
+void Manager::Update(unsigned year) {
   LOG_TRACE();
   for (auto project : objects_)
-    project->Update(current_year);
+    project->Update(year);
 }
 
 /**
- *  @param current_year The year this is called.
+ * This function will store all parameter values to overwrite at in projection years
+ * TODO: This is not how projections work. They will only modify values in the year they're called.
  *
- *  This function will store all parameter values that we may want to overwrite at in projection years
- *  TODO: This is not how projections work. They will only modify values in the year they're called.
+ * @param year The year
  */
-void Manager::StoreValues(unsigned current_year) {
+void Manager::StoreValues(unsigned year) {
   LOG_TRACE();
   // iterate over all @project blocks
   for (auto project : objects_) {
-    project->StoreValue(current_year);
+    project->StoreValue(year);
   }
 }
 

@@ -25,23 +25,23 @@ namespace timevarying {
  * Default constructor
  */
 RandomDraw::RandomDraw(Model* model) : TimeVarying(model) {
-  parameters_.Bind<Double>(PARAM_MEAN, &mu_, "Mean", "", 0);
-  parameters_.Bind<Double>(PARAM_SIGMA, &sigma_, "Standard deviation", "", 1);
-  parameters_.Bind<string>(PARAM_DISTRIBUTION, &distribution_, "distribution", "", PARAM_NORMAL)->set_allowed_values({PARAM_NORMAL,PARAM_LOGNORMAL});
+  parameters_.Bind<Double>(PARAM_MEAN, &mu_, "The mean (mu)", "", 0);
+  parameters_.Bind<Double>(PARAM_SIGMA, &sigma_, "The standard deviation (sigma)", "", 1);
+  parameters_.Bind<string>(PARAM_DISTRIBUTION, &distribution_, "The distribution", "", PARAM_NORMAL)->set_allowed_values({PARAM_NORMAL,PARAM_LOGNORMAL});
 
   RegisterAsAddressable(PARAM_MEAN, &mu_);
   RegisterAsAddressable(PARAM_SIGMA, &sigma_);
 }
 
 /**
- *
+ * Validate
  */
 void RandomDraw::DoValidate() {
 
 }
 
 /**
- *
+ * Build
  */
 void RandomDraw::DoBuild() {
   Estimate* estimate = model_->managers().estimate()->GetEstimate(parameter_);
@@ -51,40 +51,42 @@ void RandomDraw::DoBuild() {
     upper_bound_ = estimate->upper_bound();
     lower_bound_ = estimate->lower_bound();
     if (model_->run_mode() == RunMode::kEstimation) {
-      LOG_ERROR_P(PARAM_PARAMETER) << "You cannot have an @estimate block for a parameter that is time varying of type " << type_
-          << ", casal2 will overwrite the estimate and a false minimum will be found";
+      LOG_ERROR_P(PARAM_PARAMETER) << "This @estimate block cannot have a parameter that is time varying of type " << type_
+          << ", as Casal2 will overwrite the estimate and a false minimum will be found";
     }
   }
 
   if(model_->objects().GetAddressableType(parameter_) != addressable::kSingle)
-    LOG_ERROR_P(PARAM_TYPE) << "@time_varying blocks of type " << PARAM_RANDOMWALK << " can only be implemented in parameters that are scalars or single values";
+    LOG_ERROR_P(PARAM_TYPE) << "@time_varying blocks of type " << PARAM_RANDOMWALK
+      << " can be used only with parameters that are scalars or single values";
   DoReset();
 }
 
 /**
- *
+ * Reset
  */
 void RandomDraw::DoReset() {
   utilities::RandomNumberGenerator& rng = utilities::RandomNumberGenerator::Instance();
-  Double new_value = 0.0;
+  double new_value = 0.0;
   // Draw from the random distribution
   if (distribution_ == PARAM_NORMAL) {
     for (unsigned year : years_) {
-    new_value = rng.normal(AS_DOUBLE(mu_), AS_DOUBLE(sigma_));
-    LOG_FINEST() << "with mean = " << mu_ << " and sigma = " << sigma_ << " new value = " << new_value;
+    new_value = rng.normal(AS_VALUE(mu_), AS_VALUE(sigma_));
+    LOG_FINEST() << "with mean = " << mu_ << " and standard deviation = " << sigma_ << " new value = " << new_value;
     // Set value
     if (has_at_estimate_) {
       if (new_value < lower_bound_) {
-        LOG_FINEST() << "hit @estimate lower bound setting value from " << new_value << " to " << lower_bound_;
+        LOG_FINEST() << "@estimate at lower bound, changing value from " << new_value << " to " << lower_bound_;
         new_value = lower_bound_;
       }
       if (new_value > upper_bound_) {
-        LOG_FINEST() << "hit @estimate upper bound setting value from " << new_value << " to " << upper_bound_;
+        LOG_FINEST() << "@estimate at upper bound, changing value from " << new_value << " to " << upper_bound_;
         new_value = upper_bound_;
       }
     }
     if (new_value <= 0.0) {
-      LOG_WARNING() << "parameter: " << parameter_ << " random draw of value = " << new_value << " a natural lower bound of 0.0 has been forced so resetting the value = 0.01";
+      LOG_WARNING() << "parameter: " << parameter_ << " random draw of value = " << new_value
+        << " a natural lower bound of 0.0 has been forced so setting the value to 0.01";
       new_value  = 0.01;
     }
     parameter_by_year_[year] = new_value;
@@ -92,21 +94,23 @@ void RandomDraw::DoReset() {
   } else if (distribution_ == PARAM_LOGNORMAL)  {
     for (unsigned year : years_) {
       Double cv = sigma_ / mu_;
-      new_value = rng.lognormal(AS_DOUBLE(mu_), AS_DOUBLE(cv));
-      LOG_FINEST() << "with mean = " << mu_ << " and sigma = " << sigma_ << " new value = " << new_value;
+      new_value = rng.lognormal(AS_VALUE(mu_), AS_VALUE(cv));
+      LOG_FINEST() << "with mean = " << mu_ << " and standard deviation = " << sigma_ << " new value = " << new_value;
       // Set value
       if (has_at_estimate_) {
         if (new_value < lower_bound_) {
-          LOG_FINEST() << "hit @estimate lower bound setting value from " << new_value << " to " << lower_bound_;
+          LOG_FINEST() << "@estimate at lower bound, changing value from " << new_value << " to " << lower_bound_;
           new_value = lower_bound_;
         }
         if (new_value > upper_bound_) {
-          LOG_FINEST() << "hit @estimate upper bound setting value from " << new_value << " to " << upper_bound_;
+          LOG_FINEST() << "@estimate at upper bound, changing value from " << new_value << " to " << upper_bound_;
           new_value = upper_bound_;
         }
       }
+
       if (new_value <= 0.0) {
-        LOG_WARNING() << "parameter: " << parameter_ << " random draw of value = " << new_value << " a natural lower bound of 0.0 has been forced so resetting the value = 0.01";
+        LOG_WARNING() << "parameter: " << parameter_ << " random draw of value = " << new_value
+          << " a natural lower bound of 0.0 has been forced so setting the value to 0.01";
         new_value  = 0.01;
       }
       parameter_by_year_[year] = new_value;
@@ -115,7 +119,7 @@ void RandomDraw::DoReset() {
 }
 
 /**
- *
+ * Update
  */
 void RandomDraw::DoUpdate() {
   LOG_FINE() << "Setting Value to: " << parameter_by_year_[model_->current_year()];

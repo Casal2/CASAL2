@@ -41,8 +41,6 @@ private:
   // methods
   // members
   parameters::Table*            data_table_ = nullptr;
-  map<unsigned, vector<Double>> data_by_year_; // To initially store inputs
-  map<unsigned,map<unsigned,Double>> mean_data_by_year_and_age_; // during execute and projection
   map<unsigned,Double>          initial_; // For initial state
   vector<unsigned>              steps_to_figure_;
   unsigned                      number_time_steps_;
@@ -52,6 +50,9 @@ private:
   string                        units_;
   string                        equilibrium_method_;
   Double                        unit_multipier_ =  1.0;
+
+  map<unsigned, vector<Double>> data_by_year_; // To initially store inputs
+  map<unsigned,map<unsigned,Double>> mean_data_by_year_and_age_; // during execute and projection
 };
 
 } /* namespace ageweights */

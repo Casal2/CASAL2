@@ -25,7 +25,7 @@ namespace processes {
 namespace length {
 
 /**
- * Default Constructor
+ * Default constructor
  */
 MortalityConstantRate::MortalityConstantRate(Model* model)
   : Process(model),
@@ -34,48 +34,53 @@ MortalityConstantRate::MortalityConstantRate(Model* model)
   process_type_ = ProcessType::kMortality;
   partition_structure_ = PartitionType::kLength;
 
-  parameters_.Bind<string>(PARAM_CATEGORIES, &category_labels_, "List of categories labels", "");
-  parameters_.Bind<Double>(PARAM_M, &m_input_, "Mortality rates", "");
-  parameters_.Bind<Double>(PARAM_TIME_STEP_RATIO, &ratios_, "Time step ratios for the mortality rates", "", true);
+  parameters_.Bind<string>(PARAM_CATEGORIES, &category_labels_, "The list of categories labels", "");
+  parameters_.Bind<Double>(PARAM_M, &m_input_, "The mortality rates", "")->set_lower_bound(0.0);
+  parameters_.Bind<double>(PARAM_TIME_STEP_RATIO, &ratios_, "The time step ratios for the mortality rates", "", true)->set_range(0.0, 1.0);
 //  parameters_.Bind<string>(PARAM_SELECTIVITIES, &selectivity_names_, "List of selectivities for the categories", "");
 
   RegisterAsAddressable(PARAM_M, &m_);
 }
 
 /**
- * Validate our Mortality Constant Rate process
+ * Validate the Mortality Constant Rate process
  *
  * - Validate the required parameters
  * - Assign the label from the parameters
  * - Assign and validate remaining parameters
- * - Duplicate 'm' and 'selectivities' if only 1 vale specified
+ * - Duplicate 'm' and 'selectivities' if only one value specified
  * - Check m is between 0.0 and 1.0
  * - Check the categories are real
  */
 void MortalityConstantRate::DoValidate() {
-  if (m_input_.size() == 1)
-    m_input_.assign(category_labels_.size(), m_input_[0]);
-//  if (selectivity_names_.size() == 1)
-//    selectivity_names_.assign(category_labels_.size(), selectivity_names_[0]);
+  if (m_input_.size() == 1) {
+    auto val_m = m_input_[0];
+    m_input_.assign(category_labels_.size(), val_m);
+  }
+
+//  if (selectivity_names_.size() == 1) {
+//    auto val_s = selectivity_names_[0];
+//    selectivity_names_.assign(category_labels_.size(), val_s);
+//  }
 
   if (m_input_.size() != category_labels_.size()) {
     LOG_ERROR_P(PARAM_M)
-        << ": Number of Ms provided is not the same as the number of categories provided. Expected: "
-        << category_labels_.size()<< " but got " << m_input_.size();
+      << ": the number of Ms provided is not the same as the number of categories provided. Expected: "
+      << category_labels_.size()<< ", parsed " << m_input_.size();
   }
 /*
 
   if (selectivity_names_.size() != category_labels_.size()) {
     LOG_ERROR_P(PARAM_SELECTIVITIES)
-        << ": Number of selectivities provided is not the same as the number of categories provided. Expected: "
-        << category_labels_.size()<< " but got " << selectivity_names_.size();
+      << ": Number of selectivities provided is not the same as the number of categories provided. Expected: "
+      << category_labels_.size()<< " but got " << selectivity_names_.size();
   }
 */
 
-  // Validate our Ms are between 1.0 and 0.0
+  // Validate our Ms are greater than or equal to 0.0
   for (Double m : m_input_) {
-    if (m < 0.0 || m > 1.0)
-      LOG_ERROR_P(PARAM_M) << ": m value " << AS_DOUBLE(m) << " must be between 0.0 and 1.0 (inclusive)";
+    if (m < 0.0)
+      LOG_ERROR_P(PARAM_M) << ": m value " << AS_DOUBLE(m) << " must be greater than or equal to 0.0";
   }
 
   for (unsigned i = 0; i < m_input_.size(); ++i)
@@ -84,9 +89,10 @@ void MortalityConstantRate::DoValidate() {
 
 /**
  * Build any runtime relationships
+ *
  * - Build the partition accessor
- * - Build our list of selectivities
- * - Build our ratios for the number of time steps
+ * - Build the list of selectivities
+ * - Build the ratios for the number of time steps
  */
 void MortalityConstantRate::DoBuild() {
   partition_.Init(category_labels_);
@@ -95,7 +101,7 @@ void MortalityConstantRate::DoBuild() {
   for (string label : selectivity_names_) {
     Selectivity* selectivity = model_->managers().selectivity()->GetSelectivity(label);
     if (!selectivity)
-      LOG_ERROR_P(PARAM_SELECTIVITIES) << ": selectivity " << label << " does not exist. Have you defined it?";
+      LOG_ERROR_P(PARAM_SELECTIVITIES) << ": selectivity " << label << " was not found.";
 
     selectivities_.push_back(selectivity);
   }
@@ -120,11 +126,11 @@ void MortalityConstantRate::DoBuild() {
   } else {
     if (ratios_.size() != active_time_steps.size())
       LOG_ERROR_P(PARAM_TIME_STEP_RATIO) << " length (" << ratios_.size()
-          << ") does not match the number of time steps this process has been assigned to (" << active_time_steps.size() << ")";
+        << ") does not match the number of time steps this process has been assigned to (" << active_time_steps.size() << ")";
 
-    for (Double value : ratios_) {
+    for (double value : ratios_) {
       if (value < 0.0 || value > 1.0)
-        LOG_ERROR_P(PARAM_TIME_STEP_RATIO) << " value (" << value << ") must be between 0.0 (exclusive) and 1.0 (inclusive)";
+        LOG_ERROR_P(PARAM_TIME_STEP_RATIO) << " value (" << value << ") must be between 0.0 and 1.0 inclusive";
     }
 
     for (unsigned i = 0; i < ratios_.size(); ++i)
@@ -142,7 +148,7 @@ void MortalityConstantRate::DoExecute() {
   unsigned time_step = model_->managers().time_step()->current_time_step();
 
   LOG_FINEST() << "Ratios.size() " << time_step_ratios_.size() << " : time_step: " << time_step << "; ratio: " << time_step_ratios_[time_step];
-  Double ratio = time_step_ratios_[time_step];
+  double ratio = time_step_ratios_[time_step];
 
  // StoreForReport("year", model_->current_year());
 
@@ -157,7 +163,7 @@ void MortalityConstantRate::DoExecute() {
     LOG_FINEST() << "category " << category->name_ << "; min_age: " << category->min_age_ << "; ratio: " << ratio;
     //StoreForReport(category->name_ + " ratio", ratio);
     for (Double& data : category->data_) {
-    	amount = data * (1-exp(m * ratio));
+      amount = data * (1.0 - exp(-m * ratio));
       data -= amount;
       total_amount += amount;
       ++j;
