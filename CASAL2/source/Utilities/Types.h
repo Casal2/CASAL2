@@ -63,16 +63,21 @@ namespace utilities {
 #ifdef USE_ADOLC
 typedef adouble Double;
 #define AS_DOUBLE(x) x.value()
+#define AS_VALUE(x) AS_DOUBLE(x)
 #endif
 
 #ifdef USE_BETADIFF
 typedef adouble Double;
 #define AS_DOUBLE(x) x.toDouble()
+#define AS_VALUE(x) AS_DOUBLE(x)
 #endif
 
 #ifdef USE_CPPAD
 typedef CppAD::AD<double> Double;
-#define AS_DOUBLE(x) x.getValue()
+// per https://coin-or.github.io/CppAD/doc/ad_output.htm
+// use this (CppAD::AD<base> has '<<'' defined)
+#define AS_DOUBLE(x) x
+#define AS_VALUE(x) Value(x)
 #endif
 
 #ifndef USE_AUTODIFF
@@ -81,6 +86,7 @@ typedef CppAD::AD<double> Double;
 #endif
 
 #define AS_DOUBLE(x) x
+#define AS_VALUE(x) AS_DOUBLE(x)
 typedef double Double;
 #endif
 

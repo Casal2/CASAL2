@@ -33,7 +33,7 @@ Parameter::Parameter(const string& label, const string& description)
 }
 
 /**
- * Return a string that shows the location this parameter was defined.
+ * Return a string that shows the location this parameter was defined
  *
  * @return string containing the file and line details for this parameter
  */
@@ -47,14 +47,18 @@ string Parameter::location() const {
 }
 
 /**
+ * Append a value to this parameter
  *
+ * @param value The value to append
  */
 void Parameter::AddValue(const string& value) {
   values_.push_back(value);
 }
 
 /**
+ * Set the partition type for this parameter
  *
+ * @param partition_type The partition type
  */
 void Parameter::set_partition_type(PartitionType partition_type) {
   partition_type_ = partition_type;

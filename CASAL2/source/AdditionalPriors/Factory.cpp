@@ -30,7 +30,7 @@ namespace additionalpriors {
  * Create an additional prior
  *
  * @param object_type The type of object
- * @param sub_type The sub type (e.g beta)
+ * @param sub_type The subtype of the object (e.g., beta)
  * @return smart_ptr of an additional prior
  */
 AdditionalPrior* Factory::Create(Model* model, const string& object_type, const string& sub_type) {

@@ -19,18 +19,18 @@ namespace reports {
 namespace length {
 
 /**
- *
+ * Default constructor
  */
 PartitionBiomass::PartitionBiomass(Model* model) : Report(model) {
   run_mode_    = (RunMode::Type)(RunMode::kBasic | RunMode::kProjection);
   model_state_ = State::kExecute;
 
-  parameters_.Bind<string>(PARAM_TIME_STEP, &time_step_, "Time Step label", "", "");
-  parameters_.Bind<unsigned>(PARAM_YEARS, &years_, "Years", "", true);
+  parameters_.Bind<string>(PARAM_TIME_STEP, &time_step_, "The time step label", "", "");
+  parameters_.Bind<unsigned>(PARAM_YEARS, &years_, "The years for the report", "", true);
 }
 
 /**
- *
+ * Validate
  */
 void PartitionBiomass::DoValidate() {
   vector<unsigned> model_years = model_->years();
@@ -41,12 +41,12 @@ void PartitionBiomass::DoValidate() {
 }
 
 /**
- *
+ * Execute the report
  */
 void PartitionBiomass::DoExecute() {
   // First, figure out the lowest and highest ages/length
   unsigned time_step_index = model_->managers().time_step()->current_time_step();
-  vector<unsigned> length_bins = model_->length_bins();
+  vector<double> length_bins = model_->length_bins();
 
   niwa::partition::accessors::All all_view(model_);
 
@@ -64,10 +64,9 @@ void PartitionBiomass::DoExecute() {
   cache_ << std::fixed;
 
   for (auto iterator = all_view.Begin(); iterator != all_view.End(); ++iterator) {
-
     cache_ << (*iterator)->name_;
     for (unsigned i = 0; i < (*iterator)->data_.size(); ++i) {
-        cache_ << " " << std::fixed << std::setprecision(5) << AS_DOUBLE(((*iterator)->data_[i] * (*iterator)->mean_weight_by_time_step_length_[time_step_index][i]));
+      cache_ << " " << std::fixed << std::setprecision(5) << AS_VALUE(((*iterator)->data_[i] * (*iterator)->mean_weight_by_time_step_length_[time_step_index][i]));
     }
     cache_ << "\n";
   }

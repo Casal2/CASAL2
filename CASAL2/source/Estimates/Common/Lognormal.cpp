@@ -15,7 +15,7 @@ namespace estimates {
  */
 Lognormal::Lognormal(Model* model) : Estimate(model) {
   parameters_.Bind<Double>(PARAM_MU, &mu_, "The lognormal prior mean (mu) parameter", "")->set_lower_bound(0.0, false);
-  parameters_.Bind<Double>(PARAM_CV, &cv_, "The Lognormal variance (CV) parameter", "")->set_lower_bound(0.0, false);
+  parameters_.Bind<Double>(PARAM_CV, &cv_, "The lognormal variance (cv) parameter", "")->set_lower_bound(0.0, false);
 
   RegisterAsAddressable(PARAM_MU, &mu_);
   RegisterAsAddressable(PARAM_CV, &cv_);
@@ -23,8 +23,7 @@ Lognormal::Lognormal(Model* model) : Estimate(model) {
 
 /**
  * Calculate and return the score
- *
- * @return The score for this prior
+ * @return The score
  */
 Double Lognormal::GetScore() {
   sigma_ = sqrt(log( 1 + cv_ * cv_));

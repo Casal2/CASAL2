@@ -35,7 +35,7 @@ void Parameter::RequireValueType() const {
   for (size_t i = 0; i < values_.size(); ++i) {
     if (!niwa::utilities::To<T>(values_[i], result_value)) {
       LOG_ERROR() << "At line " << line_number_ << " in file " << file_name_
-          << ": " << label_ << " cannot be interpreted as type " << typeid(T).name() << " because the value " << values_[i] << " is invalid";
+          << ": " << label_ << " cannot be converted to type " << typeid(T).name() << " because the value " << values_[i] << " is invalid";
     }
   }
 }
@@ -50,7 +50,7 @@ inline void Parameter::RequireValueType<unsigned>() const {
   for (size_t i = 0; i < values_.size(); ++i) {
     if (!niwa::utilities::To<unsigned>(values_[i], result_value)) {
       LOG_ERROR() << "At line " << line_number_ << " in file " << file_name_
-          << ": " << label_ << " cannot be interpreted as a positive number because the value " << values_[i] << " is invalid";
+          << ": " << label_ << " cannot be converted to an unsigned integer because the value " << values_[i] << " is invalid";
     }
   }
 }

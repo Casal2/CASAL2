@@ -41,6 +41,7 @@ public:
     for (StoredType* object: objects_)
       delete object;
   }
+
   virtual void                Validate();
   virtual void                Build();
   virtual void                Reset();

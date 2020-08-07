@@ -25,14 +25,14 @@ namespace reports {
 namespace length {
 
 /**
- * default constructor
+ * Default constructor
  */
 PartitionMeanWeight::PartitionMeanWeight(Model* model) : Report(model) {
   run_mode_    = (RunMode::Type)(RunMode::kBasic | RunMode::kProjection | RunMode::kSimulation| RunMode::kEstimation | RunMode::kProfiling);
   model_state_ = State::kExecute;
 
-  parameters_.Bind<string>(PARAM_TIME_STEP, &time_step_, "Time Step label", "", "");
-  parameters_.Bind<unsigned>(PARAM_YEARS, &years_, "Years", "", true);
+  parameters_.Bind<string>(PARAM_TIME_STEP, &time_step_, "The time step label", "", "");
+  parameters_.Bind<unsigned>(PARAM_YEARS, &years_, "The years for the report", "", true);
 }
 
 /**
@@ -52,7 +52,7 @@ void PartitionMeanWeight::DoExecute() {
 
 //  auto categories = Categories::Instance();
   niwa::partition::accessors::All all_view(model_);
-  vector<unsigned> length_bins = model_->length_bins();
+  vector<double> length_bins = model_->length_bins();
   unsigned year = model_->current_year();
   cache_ << "*"<< type_ << "[" << label_ << "]" << "\n";
   cache_ << "year: " << year << "\n";
@@ -65,14 +65,13 @@ void PartitionMeanWeight::DoExecute() {
     cache_ << "values: ";
 
     for (unsigned length_bin_index = 0; length_bin_index <= length_bins.size(); ++length_bin_index)
-      cache_ << AS_DOUBLE((*iterator)->mean_weight_by_time_step_length_[time_step_index][length_bin_index]) << " ";
+      cache_ << AS_VALUE((*iterator)->mean_weight_by_time_step_length_[time_step_index][length_bin_index]) << " ";
     cache_<<"\n";
 
     cache_ << REPORT_R_LIST_END <<"\n";
 
     cache_ << REPORT_R_LIST_END <<"\n";
   }
-
 
   ready_for_writing_ = true;
 }

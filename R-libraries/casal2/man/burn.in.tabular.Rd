@@ -20,7 +20,7 @@ returns a casal2TAB class that has been shortened to the ith iteration
 \examples{
 library(casal2)
 # plotting Standard Output
-tab <- extract.tabular(file = system.file("extdata", "tabular_report.out", package="casal2"))
+tab <- extract.tabular(file = system.file("extdata", "tabular.out", package="casal2"))
 burn_in_tab = burn.in.tabular(tab_object = tab, Row = 5);
 
 }

@@ -17,24 +17,34 @@ namespace niwa {
 namespace reports {
 namespace age {
 
+/**
+ * Default constructor
+ */
 AgeLength::AgeLength(Model* model) : Report(model) {
   run_mode_    = (RunMode::Type)(RunMode::kBasic | RunMode::kProjection);
   model_state_ = State::kExecute;
 
-  parameters_.Bind<string>(PARAM_TIME_STEP, &time_step_, "Time Step label", "", "");
-  parameters_.Bind<unsigned>(PARAM_YEARS, &years_, "Years", "", true);
-  parameters_.Bind<string>(PARAM_AGE_LENGTH, &age_length_label_, "", "");
-  parameters_.Bind<string>(PARAM_CATEGORY, &category_, "", "");
+  parameters_.Bind<string>(PARAM_TIME_STEP, &time_step_, "The time step label", "", "");
+  parameters_.Bind<unsigned>(PARAM_YEARS, &years_, "The years for the report", "", true);
+  parameters_.Bind<string>(PARAM_AGE_LENGTH, &age_length_label_, "The age-length label", "");
+  parameters_.Bind<string>(PARAM_CATEGORY, &category_, "The category label", "");
 }
 
+/**
+ * Validate method
+ */
 void AgeLength::DoValidate() {
+  if (model_->length_bins().size() == 0) {
+    LOG_ERROR() << "There are no model length bins defined, so 'age_length' report " << label_ << " cannot be used.";
+  }
+
  if (!parameters_.Get(PARAM_YEARS)->has_been_defined()) {
    years_ = model_->years();
  }
 }
 
 /**
- *
+ * Execute the report
  */
 void AgeLength::DoExecute() {
   auto age_length = model_->managers().age_length()->FindAgeLength(age_length_label_);
@@ -59,7 +69,7 @@ void AgeLength::DoExecute() {
   for (unsigned time_step = 0; time_step < time_steps; ++time_step) {
     cache_ << year << " " << time_step << " ";
     for (unsigned age = min_age; age <= max_age; ++age)
-      cache_ << age_length->cv(year, time_step, age) << " ";
+      cache_ << AS_VALUE(age_length->cv(year, time_step, age)) << " ";
     cache_ << "\n";
   }
 
@@ -79,7 +89,7 @@ void AgeLength::DoExecute() {
         for (unsigned k = 0; k < age_lengths[i][j].size(); ++k) {
           cache_ << (start_year + i) << " " << j << " " << (min_age + k) << " ";
           for (unsigned l = 0; l < age_lengths[i][j][k].size(); ++l) {
-            cache_ << age_lengths[i][j][k][l] << " ";
+            cache_ << AS_VALUE(age_lengths[i][j][k][l]) << " ";
           }
           cache_ << "\n";
         }

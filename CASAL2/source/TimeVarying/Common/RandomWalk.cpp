@@ -25,57 +25,58 @@ namespace timevarying {
  * Default constructor
  */
 RandomWalk::RandomWalk(Model* model) : TimeVarying(model) {
-  parameters_.Bind<Double>(PARAM_MEAN, &mu_, "Mean", "", 0);
-  parameters_.Bind<Double>(PARAM_SIGMA, &sigma_, "Standard deviation", "", 1);
-  parameters_.Bind<Double>(PARAM_UPPER_BOUND, &upper_bound_, "Upper bound for the random walk", "", 1);
-  parameters_.Bind<Double>(PARAM_UPPER_BOUND, &lower_bound_, "Lower bound for the random walk", "", 1);
-  parameters_.Bind<Double>(PARAM_RHO, &rho_, "Auto Correlation parameter", "", 1);
-  parameters_.Bind<string>(PARAM_DISTRIBUTION, &distribution_, "distribution", "", PARAM_NORMAL);
+  parameters_.Bind<Double>(PARAM_MEAN, &mu_, "The mean (mu)", "", 0);
+  parameters_.Bind<Double>(PARAM_SIGMA, &sigma_, "The standard deviation (sigma)", "", 1);
+  parameters_.Bind<double>(PARAM_UPPER_BOUND, &upper_bound_, "The upper bound for the random walk", "", 1);
+  parameters_.Bind<double>(PARAM_UPPER_BOUND, &lower_bound_, "The lower bound for the random walk", "", 1);
+  parameters_.Bind<Double>(PARAM_RHO, &rho_, "The autocorrelation parameter (rho)", "", 1);
+  parameters_.Bind<string>(PARAM_DISTRIBUTION, &distribution_, "The distribution", "", PARAM_NORMAL);
 
   RegisterAsAddressable(PARAM_MEAN, &mu_);
   RegisterAsAddressable(PARAM_SIGMA, &sigma_);
 }
 
 /**
- *
+ * Validate
  */
 void RandomWalk::DoValidate() {
   if (distribution_ != PARAM_NORMAL)
-    LOG_ERROR() << "Random Walk can only can draw from a normal distribution currently";
+    LOG_ERROR() << "Random walk can draw from a normal distribution only";
 }
 
 /**
- *
+ * Build
  */
 void RandomWalk::DoBuild() {
-	// Warn users that they have a time-varying parameter in estimation mode.
-	if (model_->run_mode() == RunMode::kEstimation) {
-		LOG_WARNING() << "You have a varying of type " << type_
-				<< " during estimation, Not the correct implementation of a random effect, its purpose is more for simulating/projecting adding variaion.";
-	}
+  // Warn users that they have a time-varying parameter in estimation mode.
+  if (model_->run_mode() == RunMode::kEstimation) {
+    LOG_WARNING() << "Time varying of type " << type_
+      << " during estimation, Not the correct implementation of a random effect. Its purpose is for simulating/projecting adding variaion.";
+  }
   if(model_->objects().GetAddressableType(parameter_) != addressable::kSingle)
-    LOG_ERROR_P(PARAM_TYPE) << "@time_varying blocks of type " << PARAM_RANDOMWALK << " can only be implemented in parameters that are scalars or single values";
+    LOG_ERROR_P(PARAM_TYPE) << "@time_varying blocks of type " << PARAM_RANDOMWALK
+      << " can be used only with parameters that are scalars or single values";
 }
 
 /**
- *
+ * Update
  */
 void RandomWalk::DoUpdate() {
   LOG_FINEST() << "value = " << *addressable_;
   utilities::RandomNumberGenerator& rng = utilities::RandomNumberGenerator::Instance();
   Double value = *addressable_;
-  Double deviate = rng.normal(AS_DOUBLE(mu_), AS_DOUBLE(sigma_));
+  double deviate = rng.normal(AS_VALUE(mu_), AS_VALUE(sigma_));
   value += value * rho_ + deviate;
 
 
-	if (value < lower_bound_) {
-		LOG_FINEST() << "hit @estimate lower bound setting value from " << value << " to " << lower_bound_;
-		value = lower_bound_;
-	}
-	if (value > upper_bound_) {
-		LOG_FINEST() << "hit @estimate upper bound setting value from " << value << " to " << upper_bound_;
-		value = upper_bound_;
-	}
+  if (value < lower_bound_) {
+    LOG_FINEST() << "@estimate at lower bound, changing value from " << value << " to " << lower_bound_;
+    value = lower_bound_;
+  }
+  if (value > upper_bound_) {
+    LOG_FINEST() << "@estimate at upper bound, changing value from " << value << " to " << upper_bound_;
+    value = upper_bound_;
+  }
 
   LOG_FINEST() << "value after deviate of " << deviate << " = " << value << " for year " << model_->current_year();
 

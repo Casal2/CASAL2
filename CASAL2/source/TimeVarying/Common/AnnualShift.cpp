@@ -21,16 +21,16 @@ namespace timevarying {
  * Default constructor
  */
 AnnualShift::AnnualShift(Model* model) : TimeVarying(model) {
-  parameters_.Bind<Double>(PARAM_VALUES, &values_, "", "");
-  parameters_.Bind<Double>(PARAM_A, &a_, "", "");
-  parameters_.Bind<Double>(PARAM_B, &b_, "", "");
-  parameters_.Bind<Double>(PARAM_C, &c_, "", "");
-  parameters_.Bind<unsigned>(PARAM_SCALING_YEARS, &scaling_years_, "" ,"", true);
+  parameters_.Bind<Double>(PARAM_VALUES, &values_, "The values", "");
+  parameters_.Bind<Double>(PARAM_A, &a_, "Parameter A", "");
+  parameters_.Bind<Double>(PARAM_B, &b_, "Parmeter B", "");
+  parameters_.Bind<Double>(PARAM_C, &c_, "Parameter C", "");
+  parameters_.Bind<unsigned>(PARAM_SCALING_YEARS, &scaling_years_, "The scaling years" ,"", true);
 
 }
 
 /**
- *
+ * Validate
  */
 void AnnualShift::DoValidate() {
   if (years_.size() != values_.size())
@@ -46,10 +46,10 @@ void AnnualShift::DoValidate() {
 }
 
 /**
- *
+ * Build
  */
 void AnnualShift::DoBuild() {
-  map<unsigned, Double> values = utilities::Map::create(years_, values_);
+  map<unsigned, Double> values = utilities::Map<Double>::create(years_, values_);
 
   Double total = 0.0;
   for (unsigned scaling_year : scaling_years_) {
@@ -63,14 +63,14 @@ void AnnualShift::DoBuild() {
 }
 
 /**
- *
+ * Reset
  */
 void AnnualShift::DoReset() {
 
 }
 
 /**
- *
+ * Update
  */
 void AnnualShift::DoUpdate() {
   LOG_FINE() << "Setting Value to: " << values_by_year_[model_->current_year()];

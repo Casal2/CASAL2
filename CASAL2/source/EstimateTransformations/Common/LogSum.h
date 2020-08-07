@@ -43,7 +43,7 @@ private:
   // members
   string                      second_estimate_label_ = "";
   Estimate*                   second_estimate_ = nullptr;
-  Double 											xt_;
+  Double                      xt_;
 };
 
 } /* namespace estimatetransformations */

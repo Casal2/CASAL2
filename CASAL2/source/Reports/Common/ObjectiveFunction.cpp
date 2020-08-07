@@ -12,7 +12,6 @@
 
 // Headers
 #include "ObjectiveFunction.h"
-
 #include "ObjectiveFunction/ObjectiveFunction.h"
 
 // Namespaces
@@ -38,13 +37,12 @@ void ObjectiveFunction::DoExecute() {
 
   const vector<objective::Score>& score_list = obj_function.score_list();
   for (objective::Score score : score_list) {
-    cache_ << score.label_ << " " << AS_DOUBLE(score.score_) << "\n";
+    cache_ << score.label_ << " " << AS_VALUE(score.score_) << "\n";
   }
+  cache_ << PARAM_TOTAL_NEGLOGLIKE << " " << AS_VALUE(obj_function.score()) << "\n";
 
-  cache_ << PARAM_TOTAL_SCORE << " " << AS_DOUBLE(obj_function.score()) << "\n";
   ready_for_writing_ = true;
 }
-
 
 } /* namespace reports */
 } /* namespace niwa */

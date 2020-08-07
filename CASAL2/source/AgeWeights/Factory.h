@@ -29,8 +29,6 @@ private:
   virtual ~Factory() = delete;
 };
 
-
-
 } /* namespace ageweights */
 } /* namespace niwa */
 #endif /* AGEWEIGHTS_FACTORY_H_ */

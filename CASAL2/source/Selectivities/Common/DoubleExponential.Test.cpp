@@ -66,7 +66,7 @@ TEST(Selectivities, DoubleExponential_Age) {
 
 TEST(Selectivities, DoubleExponential_Length) {
   MockModel model;
-  vector<unsigned> lengths = {10, 12, 14, 16, 18, 20};
+  vector<double> lengths = {10, 12, 14, 16, 18, 20};
   EXPECT_CALL(model, min_age()).WillRepeatedly(Return(10));
   EXPECT_CALL(model, max_age()).WillRepeatedly(Return(20));
   EXPECT_CALL(model, age_spread()).WillRepeatedly(Return(11));

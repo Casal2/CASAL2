@@ -19,23 +19,33 @@ class Rlibrary:
     binary_name = 'casal2'
     if Globals.operating_system_ == 'windows':
       binary_name += '.exe'
-   
+
     ## Check Casal2 is in your path. The R script needs it to get versions and that sort of information. Betadiff should be in the system because it is required for
     ## modelrunner class
     if not os.path.exists('bin/' + Globals.operating_system_ + '/release_betadiff/' + binary_name):
-      print 'Looking for bin/' + Globals.operating_system_ + '/release_betadiff/' + binary_name
-      print 'CASAL2 binary was not found. Can not continue'
-      print 'Please complete a release betadiff binary build before running the models'
+      print('Looking for bin/' + Globals.operating_system_ + '/release_betadiff/' + binary_name)
+      print('The Casal2 binary was not found.')
+      print('Please build the release betadiff executable before building the R package')
       return False
+
     ## CHG Dir to R library
-    os.chdir("../R-libraries/")  
+    os.chdir("../R-libraries/")
+
     ## Run the oxygen
-    os.system("R --vanilla < run-roxygen.R")   
+    print("--> Running roxygen")
+    os.system("R --vanilla < run-roxygen.R")
+
     ## Build Namespace
+    print("--> Running make_version")
     os.system("R --vanilla < CASAL2_make_version.R")
+
     ## build package
+    print("--> Building the Casal2 R package")
     os.system("R CMD build --force casal2")
+    print("--> Installing of the Casal2 R package")
     os.system("R CMD INSTALL --build casal2")
+    print("--> Checking the Casal2 R package")
     os.system("R CMD check casal2")
-    os.system("del casal2.html")
+    os.system("rm casal2.html")
+
     return True

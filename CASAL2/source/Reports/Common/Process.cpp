@@ -25,23 +25,21 @@ namespace reports {
 
 /**
  * Default constructor
- *
- * @param model Pointer to the current model context
  */
 Process::Process(Model* model) : Report(model) {
   model_state_ = State::kIterationComplete;
   run_mode_    = (RunMode::Type)(RunMode::kBasic | RunMode::kSimulation | RunMode::kEstimation | RunMode::kProjection | RunMode::kProfiling);
 
-  parameters_.Bind<string>(PARAM_PROCESS, &process_label_, "Process label that is reported", "", "");
+  parameters_.Bind<string>(PARAM_PROCESS, &process_label_, "The process label that is reported", "", "");
 }
 
 /**
- * Build our relationships between this object and other objects
+ * Build the relationships between this object and other objects
  */
 void Process::DoBuild() {
   process_ = model_->managers().process()->GetProcess(process_label_);
   if (!process_) {
-    LOG_ERROR_P(PARAM_PROCESS) << "process " << process_label_ << " could not be found. Have you defined it?";
+    LOG_ERROR_P(PARAM_PROCESS) << "process " << process_label_ << " was not found.";
   }
 }
 
@@ -49,14 +47,14 @@ void Process::DoBuild() {
  * Execute this report
  */
 void Process::DoExecute() {
-  LOG_FINE() <<" printing report " << label_ << " of type " << process_->type();
+  LOG_FINE() <<"printing report " << label_ << " of type " << process_->type();
 
-  bool is_BH_recruitment = (process_->type() == PARAM_RECRUITMENT_BEVERTON_HOLT) | (process_->type() == PARAM_BEVERTON_HOLT);
+  bool is_BH_recruitment = (process_->type() == PARAM_RECRUITMENT_BEVERTON_HOLT) || (process_->type() == PARAM_BEVERTON_HOLT);
   cache_ << "*"<< type_ << "[" << label_ << "]" << "\n";
 
   auto parameters = process_->parameters().parameters();
   for (auto parameter : parameters) {
-    if(!(is_BH_recruitment & ((parameter.first == PARAM_YCS_YEARS ||  parameter.first  == PARAM_YCS_VALUES)))) {
+    if(!(is_BH_recruitment && ((parameter.first == PARAM_YCS_YEARS ||  parameter.first  == PARAM_YCS_VALUES)))) {
       // if this process is a beverton holt process don't print the parameters ycs_years or ycs_values. The reason is, this is printed in the storeForReport Function within the process
       // The reason this was done was, we can't update the input parameters to include future years in projection mode, specifically we push back on a vector and becomes a non-sensical vector (when doing multiple projections), thus we went down the
       // store for report method.
@@ -85,10 +83,11 @@ void Process::DoExecuteTabular() {
 }
 
 /**
- *  End report signature
+ *  Finalise the tabular report
  */
 void Process::DoFinaliseTabular() {
   ready_for_writing_ = true;
 }
+
 } /* namespace reports */
 } /* namespace niwa */

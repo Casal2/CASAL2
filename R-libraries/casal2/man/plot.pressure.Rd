@@ -6,15 +6,44 @@
 \alias{plot.pressure.casal2TAB}
 \title{plot.pressure plot fishing pressure if there has been an exploitation process reported.}
 \usage{
-plot.pressure(model, report_label = "", xlim, ylim, xlab, ylab, main,
-  col, plot.it = T, ...)
+plot.pressure(
+  model,
+  report_label = "",
+  xlim,
+  ylim,
+  xlab,
+  ylab,
+  main,
+  col,
+  plot.it = T,
+  ...
+)
 
-\method{plot.pressure}{casal2MPD}(model, report_label = "",
-  xlim = NULL, ylim = NULL, xlab = NULL, ylab = NULL,
-  main = NULL, col = NULL, plot.it = T, ...)
+\method{plot.pressure}{casal2MPD}(
+  model,
+  report_label = "",
+  xlim = NULL,
+  ylim = NULL,
+  xlab = NULL,
+  ylab = NULL,
+  main = NULL,
+  col = NULL,
+  plot.it = T,
+  ...
+)
 
-\method{plot.pressure}{casal2TAB}(model, report_label = "", xlim, ylim,
-  xlab, ylab, main, col, plot.it = T, ...)
+\method{plot.pressure}{casal2TAB}(
+  model,
+  report_label = "",
+  xlim,
+  ylim,
+  xlab,
+  ylab,
+  main,
+  col,
+  plot.it = T,
+  ...
+)
 }
 \arguments{
 \item{model}{<casal2MPD, casal2TAB> object that are generated from one of the extract.mpd() and extract.tabular() functions.}

@@ -31,7 +31,7 @@ using niwa::testfixtures::InternalEmptyModel;
 const string age_weight =
 R"(
 @model
-start_year 1986 
+start_year 1986
 final_year 2005
 projection_final_year 2006
 min_age 1
@@ -41,7 +41,7 @@ age_plus true
 initialisation_phases Equilibrium_phase Non_equilibrium_phase
 time_steps Annual Ageing
 
-@categories 
+@categories
 format stock
 names Stock
 
@@ -52,10 +52,10 @@ type derived
 type cinitial
 categories Stock
 table n
-Stock 10000 9000  8000  7000  6000  5000  4000  3000  2000  2000 
+Stock 10000 9000  8000  7000  6000  5000  4000  3000  2000  2000
 end_table
 
-@time_step Annual 
+@time_step Annual
 processes Recruitment Instantaneous_Mortality
 
 @time_step Ageing
@@ -65,16 +65,16 @@ processes Ageing
 type recruitment_beverton_holt_with_deviations
 categories Stock
 proportions 1.0
-b0 5973.9         
+b0 5973.9
 last_year_with_no_bias 1986
 first_year_with_bias 1986
-last_year_with_bias 2005 
+last_year_with_bias 2005
 first_recent_year_with_no_bias 2005
 b_max 1.0
 deviation_values 0.161055491247 0.0935823574532 -0.454148603651 -0.143755692424 -0.979662527968 1.70885246646 0.207878584523 -0.142998000652 0.448480496158 -1.25142717617 0.621050539438 0.0732265269830 0.0247523483886 0.137793954591 0.199439856167 -0.701101119095 0.613584736138 -0.103102553946 -0.101487357908 -0.412014325737
 steepness 0.5792984
 ssb SSB
-age 1     
+age 1
 sigma_r 0.6
 deviation_years 1985:2004
 
@@ -86,7 +86,7 @@ categories *
 type mortality_instantaneous
 m 0.3
 time_step_ratio 1.0
-selectivities One
+relative_m_by_age One
 categories Stock
 table catches
 year Fishery
@@ -128,7 +128,7 @@ age_weight_labels weight_matrix_2
 
 @selectivity MaturationSel
 type all_values
-v 0.0180     0.1192     0.5000     0.8808     0.9820     0.9975     0.9997     1.0000     1.0000     1.0000 
+v 0.0180     0.1192     0.5000     0.8808     0.9820     0.9975     0.9997     1.0000     1.0000     1.0000
 
 @selectivity Logistic
 type logistic
@@ -141,7 +141,7 @@ type all_values
 v 0.154297 0.349839 0.614098 0.879678 0.945269 0.926326 1 1 1 1
 
 @selectivity One
-type constant 
+type constant
 c 1
 
 @selectivity AgeOne
@@ -215,28 +215,68 @@ q 0.02489229
 
 
 @observation Index1
-type biomass 
+type biomass
 time_step Annual
 time_step_proportion 0.5
 categories Stock
 selectivities Logistic
 catchability Index1Q
-years 1986  1987  1988  1989  1990  1991  1992  1993  1994  1995  1996  1997  1998  1999  2000  2001  2002  2003  2004  2005
-obs 728 522 804 454 456 530 218 367 366 176 180 154 109 145 140 160 142 215 156 198
-error_value 0.3 0.3 0.3 0.3 0.3 0.3 0.3 0.3 0.3 0.3 0.3 0.3 0.3 0.3 0.3 0.3 0.3 0.3 0.3 0.3
 likelihood lognormal
+years 1986  1987  1988  1989  1990  1991  1992  1993  1994  1995  1996  1997  1998  1999  2000  2001  2002  2003  2004  2005
+table obs
+1986    728  0.3
+1987    522  0.3
+1988    804  0.3
+1989    454  0.3
+1990    456  0.3
+1991    530  0.3
+1992    218  0.3
+1993    367  0.3
+1994    366  0.3
+1995    176  0.3
+1996    180  0.3
+1997    154  0.3
+1998    109  0.3
+1999    145  0.3
+2000    140  0.3
+2001    160  0.3
+2002    142  0.3
+2003    215  0.3
+2004    156  0.3
+2005    198  0.3
+end_table
 
 @observation Index2
-type abundance 
+type abundance
 time_step Annual
 time_step_proportion 0.25
 categories Stock
 selectivities AgeOne
 catchability Index2Q
-years   1986  1987  1988  1989  1990  1991  1992  1993  1994  1995  1996  1997  1998  1999  2000  2001  2002  2003  2004  2005
-obs   5 13.1  14.3  13  3.3 15  10.8  12.1  8.6 6.8 13  7.3 7.4 24.3  4.4 3.3 12.3  12.1  16.8  25.2
-error_value 0.65  0.65  0.65  0.65  0.65  0.65  0.65  0.65  0.65  0.65  0.65  0.65  0.65  0.65  0.65  0.65  0.65  0.65  0.65  0.65
 likelihood lognormal
+years   1986  1987  1988  1989  1990  1991  1992  1993  1994  1995  1996  1997  1998  1999  2000  2001  2002  2003  2004  2005
+table obs
+1986    5       0.65
+1987    13.1    0.65
+1988    14.3    0.65
+1989    13      0.65
+1990    3.3     0.65
+1991    15      0.65
+1992    10.8    0.65
+1993    12.1    0.65
+1994    8.6     0.65
+1995    6.8     0.65
+1996    13      0.65
+1997    7.3     0.65
+1998    7.4     0.65
+1999    24.3    0.65
+2000    4.4     0.65
+2001    3.3     0.65
+2002    12.3    0.65
+2003    12.1    0.65
+2004    16.8    0.65
+2005    25.2    0.65
+end_table
 
 @observation Index1_age
 type proportions_at_age
@@ -338,7 +378,7 @@ type none
 
 
 @report obj
-type objective_function 
+type objective_function
 )";
 
 /**

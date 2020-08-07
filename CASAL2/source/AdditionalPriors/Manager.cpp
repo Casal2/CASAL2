@@ -17,7 +17,7 @@ namespace niwa {
 namespace additionalpriors {
 
 /**
- * This method will look for additional_priors that match our parameter.
+ * This method will look for additional_priors that match the parameter.
  *
  * @param parameter The parameter the additional prior is targeting
  * @return True if found, false otherwise
@@ -31,14 +31,17 @@ bool Manager::HasAdditionalPrior(const string& parameter) {
 }
 
 /**
- *	return An additionalPrior
+ * Get the additional prior pointer
+ *
+ * @param parameter The parameter string
+ * @return An AdditionalPrior pointer
  */
 AdditionalPrior* Manager::GetAdditionalPrior(const string& parameter) {
   for (AdditionalPrior* additional_prior : objects_) {
     if (additional_prior->parameter() == parameter)
       return additional_prior;
   }
-  return nullptr;;
+  return nullptr;
 }
 
 

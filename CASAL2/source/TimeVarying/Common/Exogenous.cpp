@@ -22,39 +22,37 @@ namespace timevarying {
  * Default constructor
  */
 Exogenous::Exogenous(Model* model) : TimeVarying(model) {
-  parameters_.Bind<Double>(PARAM_A, &a_, "Shift parameter", "");
-  parameters_.Bind<Double>(PARAM_EXOGENOUS_VARIABLE, &exogenous_, "Values of exogeneous variable for each year", "");
+  parameters_.Bind<Double>(PARAM_A, &a_, "The shift parameter", "");
+  parameters_.Bind<Double>(PARAM_EXOGENOUS_VARIABLE, &exogenous_, "The values of exogeneous variable for each year", "");
 
   RegisterAsAddressable(PARAM_A, &a_);
 }
 
 /**
- *    Validate parameters from config file
+ * Validate parameters from config file
  */
 void Exogenous::DoValidate() {
   if (years_.size() != exogenous_.size())
     LOG_ERROR_P(PARAM_YEARS) << " provided (" << years_.size() << ") does not match the number of values provided (" << exogenous_.size() << ")";
-
-
 }
 
 /**
- *  Calculate mean of exogenous variable, then using the shift paramter. Store the parameters in the map
- *  values_by_year.
+ * Calculate mean of exogenous variable, then using the shift paramter. Store the parameters in the map
+ * values_by_year.
  */
 void Exogenous::DoBuild() {
   // Check that the parameter is of type scalar
   if (model_->objects().GetAddressableType(parameter_) != addressable::kSingle)
-    LOG_ERROR_P(PARAM_PARAMETER) << "Parameter must be a scalar, other addressable types not supported yet";
+    LOG_ERROR_P(PARAM_PARAMETER) << "Parameter must be a scalar. Other addressable types not supported";
   DoReset();
 }
 
 /**
- *
+ * Reset
  */
 void Exogenous::DoReset() {
   // Add this to the Reset so that if a, is estimated the model can actually update the model.
-  values_by_year_ = utilities::Map::create(years_, exogenous_);
+  values_by_year_ = utilities::Map<Double>::create(years_, exogenous_);
   Double* value = model_->objects().GetAddressable(parameter_);
   LOG_FINEST() << "Parameter value = " << (*value);
   Double total = 0.0;
@@ -70,7 +68,7 @@ void Exogenous::DoReset() {
 }
 
 /**
- *
+ * Update
  */
 void Exogenous::DoUpdate() {
   LOG_FINE() << "Setting Value to: " << parameter_by_year_[model_->current_year()];

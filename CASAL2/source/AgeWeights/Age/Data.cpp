@@ -24,10 +24,10 @@ namespace ageweights {
  *
  * Bind any parameters that are allowed to be loaded from the configuration files.
  * Set bounds on registered parameters
- * Register any parameters that can be an estimated or utilised in other run modes (e.g profiling, yields, projections etc)
+ * Register any parameters that can be an estimated or utilised in other run modes (e.g., profiling, yields, projections, etc.)
  * Set some initial values
  *
- * Note: The constructor is parsed to generate Latex for the documentation.
+ * Note: The constructor is parsed to generate LaTeX for the documentation.
  */
 Data::Data(Model* model) : AgeWeight(model) {
   data_table_ = new parameters::Table(PARAM_DATA);
@@ -49,7 +49,6 @@ Data::~Data() {
  * Build any objects that will need to be utilised by this object.
  * Obtain smart_pointers to any objects that will be used by this object.
  */
-
 void Data::DoBuild() {
   LOG_FINE() << "Building age weight block " << label_;
 
@@ -72,7 +71,7 @@ void Data::DoBuild() {
 
 
   if (!data_table_)
-    LOG_FATAL_P(PARAM_DATA) << "could not find table";
+    LOG_FATAL_P(PARAM_DATA) << "could not find data table";
   if (model_->run_mode() == RunMode::kProjection)
     final_year_ = model_->projection_final_year();
   else
@@ -102,14 +101,17 @@ void Data::DoBuild() {
       LOG_CODE_ERROR() << "row.size() != columns.size()";
     number_of_years += 1;
     if ((columns.size() - 1) != model_->age_spread())
-      LOG_FATAL_P(PARAM_DATA) << "Need to specify an age for every age in the model, you specified " << columns.size() - 1 << " ages, where as there are " << model_->age_spread() << " ages in the model";
+      LOG_FATAL_P(PARAM_DATA) << "An age must be specified for every age in the model. " << columns.size() - 1
+        << " ages were specified, and there are " << model_->age_spread() << " ages";
 
     unsigned year = utilities::ToInline<string, unsigned>(row[0]);
     // Check year is valid
     if (find(model_->years().begin(), model_->years().end(), year) == model_->years().end())
-      LOG_WARNING() << "Supplied year: " << year << " which is not included in the model run years, this age weight wont be used in this run mode.";
+      LOG_WARNING() << "year " << year << " is not included in the model run years, so this age weight will not be used.";
+
     LOG_FINE() << "Loading years = " << year;
     years_.push_back(year);
+
     for (unsigned i = 1; i < row.size(); ++i) {
       mean_data_by_year_and_age_[year][age_[i - 1]] = utilities::ToInline<string, Double>(row[i]) * unit_multipier_;
       data_by_year_[year].push_back(utilities::ToInline<string, Double>(row[i]) * unit_multipier_);
@@ -120,7 +122,8 @@ void Data::DoBuild() {
 
   // Check there are equal years as in the model
   if (model_->years().size() != years_.size())
-    LOG_ERROR_P(PARAM_DATA) << "You need to specify the same number of years as the model has. You supplied " << years_.size() << " years, but there are " << model_->years().size() << " years in the model";
+    LOG_ERROR_P(PARAM_DATA) << "Specify the same number of years as the model has. " << years_.size()
+      << " years were supplied, but there are " << model_->years().size() << " years";
 
   LOG_FINEST() << "ages";
   for (auto age : age_)
@@ -149,22 +152,20 @@ void Data::DoBuild() {
   LOG_FINEST() << "initial weight at age";
   for (auto init : initial_)
     LOG_FINEST() << init.second;
-
 }
 
 /**
- * Get the mean weight of a single population
+ * Get the mean weight of a single population by year and age (group)
  *
- * @param year The year we want mean weight for
- * @param age The age of the population we want mean weight for
- * @return mean weight for 1 member cvs_[i]
+ * @param year The year
+ * @param age The age (group)
+ * @return mean weight
  */
 Double Data::mean_weight_at_age_by_year(unsigned year, unsigned age) {
   if (model_->state() == State::kInitialise)
     return initial_[age];
 
   return mean_data_by_year_and_age_[year][age];
-
 }
 
 } /* namespace ageweights */

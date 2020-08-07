@@ -54,10 +54,10 @@ Engine::~Engine() {
 // OPTIMIZE our function
 //**********************************************************************
 Double Engine::optimise(adolc::CallBack& objective,
-    vector<Double>& start_values, vector<Double>& lower_bounds,
-    vector<Double>& upper_bounds, int& convergence, int& max_iterations,
-    int& max_evaluations, Double gradient_tolerance, double **out_hessian,
-    int untransformed_hessians, Double step_size) {
+    vector<Double>& start_values, vector<double>& lower_bounds,
+    vector<double>& upper_bounds, int& convergence, int& max_iterations,
+    int& max_evaluations, double gradient_tolerance, double **out_hessian,
+    int untransformed_hessians, double step_size) {
 
   // Variables
   unsigned parameter_count = start_values.size();
@@ -78,7 +78,7 @@ Double Engine::optimise(adolc::CallBack& objective,
     LOG_CODE_ERROR() << "upper_bounds.size() != parameter_count";
 
   // Create our Minimiser
-  FMM fmm(parameter_count, max_evaluations, max_iterations, gradient_tolerance.value());
+  FMM fmm(parameter_count, max_evaluations, max_iterations, gradient_tolerance);
 
   vector<adouble> candidates(parameter_count, 0.0);
   vector<adouble> scaled_candidates(parameter_count, 0.0);
@@ -257,11 +257,11 @@ Double Engine::optimise(adolc::CallBack& objective,
         dGradBoundP[i] = 0.0;
 
       for (unsigned i = 0; i < parameter_count; ++i) {
-        double dDiv = ((candidates[i].value() - lower_bounds[i].value())
-            / (upper_bounds[i].value() - lower_bounds[i].value()));
+        double dDiv = ((candidates[i].value() - lower_bounds[i])
+            / (upper_bounds[i] - lower_bounds[i]));
         double dProd = (2 * dDiv - 1) * (2 * dDiv - 1);
         double dSqrt = sqrt(dc::ZeroFun(1 - dProd));
-        double dProd2 = (upper_bounds[i].value() - lower_bounds[i].value()) * dSqrt;
+        double dProd2 = (upper_bounds[i] - lower_bounds[i]) * dSqrt;
         dGradBoundP[i] = ((4 / 3.14159265) / dProd2);
       }
 

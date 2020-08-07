@@ -29,8 +29,7 @@ NormalLog::NormalLog(Model* model) : Estimate(model) {
 }
 
 /**
- * Calculate and return the score for this prior
- *
+ * Calculate and return the score
  * @return The score
  */
 Double NormalLog::GetScore() {

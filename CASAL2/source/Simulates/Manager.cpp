@@ -28,12 +28,14 @@ Manager::~Manager() noexcept(true) {
 }
 
 /**
+ * Update the objects for a specific year
  *
+ * @param year The year
  */
-void Manager::Update(unsigned current_year) {
+void Manager::Update(unsigned year) {
 //  LOG_TRACE();
 //  for (ProjectPtr project : objects_)
-//    project->Update(current_year);
+//    project->Update(year);
 }
 
 } /* namespace simulates */

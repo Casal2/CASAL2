@@ -31,17 +31,21 @@ Partition::Partition(Model* model) : Report(model) {
   run_mode_    = (RunMode::Type)(RunMode::kBasic | RunMode::kProjection);
   model_state_ = State::kExecute;
 
-  parameters_.Bind<string>(PARAM_TIME_STEP, &time_step_, "Time Step label", "", "");
-  parameters_.Bind<unsigned>(PARAM_YEARS, &years_, "Years", "", true);
+  parameters_.Bind<string>(PARAM_TIME_STEP, &time_step_, "The time step label", "", "");
+  parameters_.Bind<unsigned>(PARAM_YEARS, &years_, "The years for the report", "", true);
 }
 
+/**
+ * Validate
+ */
 void Partition::DoValidate() {
  if (!parameters_.Get(PARAM_YEARS)->has_been_defined()) {
    years_ = model_->years();
  }
 }
+
 /**
- *
+ * Execute the report
  */
 void Partition::DoExecute() {
   //cerr << "execute " << label_ << "\n";
@@ -64,7 +68,7 @@ void Partition::DoExecute() {
   cache_ << "*"<< type_ << "[" << label_ << "]" << "\n";
   cache_ << "year: " << model_->current_year() << "\n";
   cache_ << "time_step: " << time_step_ << "\n";
-  cache_ << "values "<< REPORT_R_DATAFRAME<<"\n";
+  cache_ << "values "<< REPORT_R_DATAFRAME_ROW_LABELS<<"\n";
   cache_ << "category";
   for (unsigned i = lowest; i <= highest; ++i)
     cache_ << " " << i;
@@ -76,12 +80,13 @@ void Partition::DoExecute() {
     for (auto values = (*iterator)->data_.begin(); values != (*iterator)->data_.end(); ++values, age++) {
       if (age >= lowest && age <= highest) {
         Double value = *values;
-        cache_ << " " << std::fixed << AS_DOUBLE(value);
+        cache_ << " " << std::fixed << AS_VALUE(value);
       } else
         cache_ << " " << "null";
     }
     cache_ << "\n";
   }
+
   ready_for_writing_ = true;
 }
 

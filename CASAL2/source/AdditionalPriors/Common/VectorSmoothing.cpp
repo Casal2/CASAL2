@@ -24,26 +24,26 @@ namespace additionalpriors {
  * Default constructor
  */
 VectorSmoothing::VectorSmoothing(Model* model) : AdditionalPrior(model) {
-  parameters_.Bind<bool>(PARAM_LOG_SCALE, &log_scale_, "Should sums of squares be calculated on the log scale?", "", false);
-  parameters_.Bind<Double>(PARAM_MULTIPLIER, &multiplier_, "Multiply the penalty by this factor", "", 1);
-  parameters_.Bind<unsigned>(PARAM_LOWER_BOUND, &lower_, "First element to apply the penalty to in the vector", "", 0u);
-  parameters_.Bind<unsigned>(PARAM_UPPER_BOUND, &upper_, "Last element to apply the penalty to in the vector", "", 0u);
+  parameters_.Bind<bool>(PARAM_LOG_SCALE, &log_scale_, "Should the sums of squares be calculated on the log scale?", "", false);
+  parameters_.Bind<double>(PARAM_MULTIPLIER, &multiplier_, "Multiply the penalty by this factor", "", 1);
+  parameters_.Bind<unsigned>(PARAM_LOWER_BOUND, &lower_, "The first element to apply the penalty to in the vector", "", 0u);
+  parameters_.Bind<unsigned>(PARAM_UPPER_BOUND, &upper_, "The last element to apply the penalty to in the vector", "", 0u);
   parameters_.Bind<unsigned>(PARAM_R, &r_, "Penalty applied to rth differences", "", 2u);
 }
 
 /**
- * Validate our parameters
+ * Validate the parameters
  */
 void VectorSmoothing::DoValidate() {
 }
 
 /**
- * Build our parameters
+ * Build the parameters
  */
 void VectorSmoothing::DoBuild() {
   string error = "";
   if (!model_->objects().VerfiyAddressableForUse(parameter_, addressable::kLookup, error)) {
-    LOG_FATAL_P(PARAM_PARAMETER) << "could not be verified for use in additional_prior.vector_smoothing. Error was " << error;
+    LOG_FATAL_P(PARAM_PARAMETER) << "could not be verified for use in additional_prior.vector_smoothing. Error: " << error;
   }
 
   addressable::Type addressable_type = model_->objects().GetAddressableType(parameter_);
@@ -59,15 +59,14 @@ void VectorSmoothing::DoBuild() {
       addressable_map_ = model_->objects().GetAddressableUMap(parameter_);
       break;
     default:
-      LOG_ERROR() << "The addressable you have provided for use in a additional priors: " << parameter_
-        << " is not a type that is supported for vector smoothing additional priors";
+      LOG_ERROR() << "The addressable provided for use in additional priors '" << parameter_
+        << "' has a type that is not supported for vector smoothing additional priors";
       break;
   }
 }
 
 /**
  * Get the score for this penalty
- *
  * @return Penalty score
  */
 Double VectorSmoothing::GetScore() {
@@ -86,20 +85,21 @@ Double VectorSmoothing::GetScore() {
   }
 
   if(upper_ == lower_)
-    LOG_FATAL_P(PARAM_UPPER_BOUND) << "Lower and upper bound cannot be equal";
+    LOG_FATAL_P(PARAM_UPPER_BOUND) << "The lower and upper bounds cannot be the same";
   if (upper_ > values.size())
-    LOG_FATAL_P(PARAM_UPPER_BOUND) << "The last element must not be greater than size of vector";
+    LOG_FATAL_P(PARAM_UPPER_BOUND) << "The last element cannot be greater than size of the vector";
   if (lower_ < 1)
-    LOG_FATAL_P(PARAM_LOWER_BOUND) << "The first element must not be less than 1";
+    LOG_FATAL_P(PARAM_LOWER_BOUND) << "The first element cannot be less than 1";
 
   if (r_ >= (upper_ - lower_))
-  LOG_FATAL_P(PARAM_R) << PARAM_R << " R cannot be greater than or equal to size of vector - 1";
+  LOG_FATAL_P(PARAM_R) << PARAM_R << " R cannot be greater than or equal to the size of vector - 1";
 
   Double score = 0.0;
   if (log_scale_) {
     for (Double& value : values)
       value = log(value);
   }
+
   for (unsigned i = 1; i <= r_; ++i) {
     for(unsigned j = (lower_ - 1); j <= ((upper_ - 1) - i); ++j) {
       values[j] = values[j + 1] - values[j];
@@ -109,6 +109,7 @@ Double VectorSmoothing::GetScore() {
 
   for (unsigned k = (lower_ - 1); k <= (upper_ - 1); ++k)
     score += values[k] * values[k];
+
   return score * multiplier_;
 }
 

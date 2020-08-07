@@ -35,56 +35,62 @@ TagLoss::TagLoss(Model* model)
   process_type_ = ProcessType::kTransition;
   partition_structure_ = PartitionType::kAge;
 
-  parameters_.Bind<string>(PARAM_CATEGORIES, &category_labels_, "List of categories", "");
-  parameters_.Bind<Double>(PARAM_TAG_LOSS_RATE, &tag_loss_input_, "Tag Loss rates", "");
-  parameters_.Bind<Double>(PARAM_TIME_STEP_RATIO, &ratios_, "Time step ratios for Tag Loss", "", true);
-  parameters_.Bind<string>(PARAM_TAG_LOSS_TYPE, &tag_loss_type_, "Type of tag loss", "");
-  parameters_.Bind<string>(PARAM_SELECTIVITIES, &selectivity_names_, "Selectivities", "");
+  parameters_.Bind<string>(PARAM_CATEGORIES, &category_labels_, "The list of categories", "");
+  parameters_.Bind<double>(PARAM_TAG_LOSS_RATE, &tag_loss_input_, "The tag loss rates", "")->set_range(0.0, 1.0);
+  parameters_.Bind<double>(PARAM_TIME_STEP_RATIO, &ratios_, "The time step ratios for tag loss", "", true)->set_range(0.0, 1.0);
+  parameters_.Bind<string>(PARAM_TAG_LOSS_TYPE, &tag_loss_type_, "The type of tag loss", "");
+  parameters_.Bind<string>(PARAM_SELECTIVITIES, &selectivity_names_, "The selectivities", "");
   parameters_.Bind<unsigned>(PARAM_YEAR, &year_, "The year the first tagging release process was executed", "");
 
   RegisterAsAddressable(PARAM_TAG_LOSS, &tag_loss_);
 }
 
 /**
- * Validate our Mortality Constant Rate process
+ * Validate the Mortality Constant Rate process
  *
  * - Validate the required parameters
  * - Assign the label from the parameters
  * - Assign and validate remaining parameters
- * - Duplicate 'm' and 'selectivities' if only 1 vale specified
+ * - Duplicate 'm' and 'selectivities' if only one value specified
  * - Check m is between 0.0 and 1.0
  * - Check the categories are real
  */
 void TagLoss::DoValidate() {
-  LOG_FINEST() << "Number of categories = " << category_labels_.size() << " number of proportions given = " << tag_loss_input_.size();
+  LOG_FINEST() << "the number of categories = " << category_labels_.size() << ", the number of proportions = " << tag_loss_input_.size();
 
-  if (tag_loss_input_.size() == 1)
-    tag_loss_input_.assign(category_labels_.size(), tag_loss_input_[0]);
-  if (selectivity_names_.size() == 1)
-    selectivity_names_.assign(category_labels_.size(), selectivity_names_[0]);
+  if (tag_loss_input_.size() == 1) {
+    auto val_t = tag_loss_input_[0];
+    tag_loss_input_.assign(category_labels_.size(), val_t);
+  }
+
+  if (selectivity_names_.size() == 1) {
+    auto val_s = selectivity_names_[0];
+    selectivity_names_.assign(category_labels_.size(), val_s);
+  }
 
   if (tag_loss_input_.size() != category_labels_.size()) {
     LOG_ERROR_P(PARAM_TAG_LOSS_RATE)
-        << ": Number of tag loss values provided is not the same as the number of categories provided. Expected: "
-        << category_labels_.size()<< " but got " << tag_loss_input_.size();
+        << ": the number of tag loss values provided is not the same as the number of categories provided. Categories: "
+        << category_labels_.size() << ", tag loss size " << tag_loss_input_.size();
   }
 
   if (selectivity_names_.size() != category_labels_.size()) {
     LOG_ERROR_P(PARAM_SELECTIVITIES)
-        << ": Number of selectivities provided is not the same as the number of categories provided. Expected: "
-        << category_labels_.size()<< " but got " << selectivity_names_.size();
+        << ": the number of selectivities provided is not the same as the number of categories provided. Categories: "
+        << category_labels_.size() << ", selectivities size " << selectivity_names_.size();
   }
 
   // Validate type of tag loss
   if (tag_loss_type_ != "single")
-    LOG_ERROR_P(PARAM_TAG_LOSS_TYPE) << tag_loss_type_ << " Is not an expected type. Values allowed are " << PARAM_SINGLE << " and " << PARAM_DOUBLE << " is coming soon";
+    LOG_ERROR_P(PARAM_TAG_LOSS_TYPE) << tag_loss_type_ << " is not an expected type. Values allowed are: " << PARAM_SINGLE;
 
   if (tag_loss_type_ == PARAM_DOUBLE)
-    LOG_ERROR() << PARAM_TAG_LOSS_TYPE << " " << PARAM_DOUBLE << " is not implemented yet";
+    LOG_ERROR() << PARAM_TAG_LOSS_TYPE << " " << PARAM_DOUBLE << " is not implemented";
+
   // Validate our Ms are between 1.0 and 0.0
-  for (Double tag_loss : tag_loss_input_) {
+  for (double tag_loss : tag_loss_input_) {
     if (tag_loss < 0.0 || tag_loss > 1.0)
-      LOG_ERROR_P(PARAM_TAG_LOSS_RATE) << ": m value " << AS_DOUBLE(tag_loss) << " must be between 0.0 and 1.0 (inclusive)";
+      LOG_ERROR_P(PARAM_TAG_LOSS_RATE) << ": Tag loss rate " << tag_loss << " must be between 0.0 and 1.0 (inclusive)";
   }
 
   for (unsigned i = 0; i < tag_loss_input_.size(); ++i)
@@ -94,8 +100,8 @@ void TagLoss::DoValidate() {
 /**
  * Build any runtime relationships
  * - Build the partition accessor
- * - Build our list of selectivities
- * - Build our ratios for the number of time steps
+ * - Build the list of selectivities
+ * - Build the ratios for the number of time steps
  */
 void TagLoss::DoBuild() {
   partition_.Init(category_labels_);
@@ -103,7 +109,7 @@ void TagLoss::DoBuild() {
   for (string label : selectivity_names_) {
     Selectivity* selectivity = model_->managers().selectivity()->GetSelectivity(label);
     if (!selectivity)
-      LOG_ERROR_P(PARAM_SELECTIVITIES) << ": selectivity " << label << " does not exist. Have you defined it?";
+      LOG_ERROR_P(PARAM_SELECTIVITIES) << ": Selectivity label " << label << " was not found.";
 
     selectivities_.push_back(selectivity);
   }
@@ -129,9 +135,9 @@ void TagLoss::DoBuild() {
       LOG_FATAL_P(PARAM_TIME_STEP_RATIO) << " length (" << ratios_.size()
           << ") does not match the number of time steps this process has been assigned to (" << active_time_steps.size() << ")";
 
-    for (Double value : ratios_) {
+    for (double value : ratios_) {
       if (value < 0.0 || value > 1.0)
-        LOG_ERROR_P(PARAM_TIME_STEP_RATIO) << " value (" << value << ") must be between 0.0 (inclusive) and 1.0 (inclusive)";
+        LOG_ERROR_P(PARAM_TIME_STEP_RATIO) << " Time step ratio (" << value << ") must be between 0.0 and 1.0 inclusive";
     }
 
     for (unsigned i = 0; i < ratios_.size(); ++i)
@@ -151,7 +157,7 @@ void TagLoss::DoExecute() {
     unsigned time_step = model_->managers().time_step()->current_time_step();
 
     LOG_FINEST() << "Ratios.size() " << time_step_ratios_.size() << " : time_step: " << time_step << "; ratio: " << time_step_ratios_[time_step];
-    Double ratio = time_step_ratios_[time_step];
+    double ratio = time_step_ratios_[time_step];
 
     //StoreForReport("year", model_->current_year());
 
@@ -176,7 +182,7 @@ void TagLoss::DoExecute() {
 }
 
 /**
- * Reset the Tag loss Process
+ * Reset the tag loss process
  */
 void TagLoss::DoReset() {
 }

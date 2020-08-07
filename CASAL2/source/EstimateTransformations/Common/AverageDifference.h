@@ -43,15 +43,15 @@ private:
   // members
   string                      difference_estimate_label_ = "";
   Estimate*                   difference_estimate_ = nullptr;
-  Double                      average_original_upper_bound_;
-  Double                      average_original_lower_bound_;
-  Double                      difference_original_lower_bound_;
-  Double                      difference_original_upper_bound_;
-  Double                      average_upper_bound_;
-  Double                      average_lower_bound_;
-  Double                      difference_lower_bound_;
-  Double                      difference_upper_bound_;
-  Double 											x1_;
+  double                      average_original_upper_bound_;
+  double                      average_original_lower_bound_;
+  double                      difference_original_lower_bound_;
+  double                      difference_original_upper_bound_;
+  double                      average_upper_bound_;
+  double                      average_lower_bound_;
+  double                      difference_lower_bound_;
+  double                      difference_upper_bound_;
+  Double                      x1_;
   Double                      y1_;
   Double                      y2_;
   bool                        first_time_transform_ = true;

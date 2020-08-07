@@ -20,21 +20,27 @@
 namespace niwa {
 namespace initialisationphases {
 
+/**
+ * Default constructor
+ */
 Manager::Manager() {
 }
 
+/**
+ * Destructor
+ */
 Manager::~Manager() noexcept(true) {
 }
 
 /**
- *
+ * Build the objects - no model
  */
 void Manager::Build() {
   LOG_CODE_ERROR() << "This method is not supported";
 }
 
 /**
- *
+ * Validate the objects
  */
 void Manager::Validate() {
   bool has_derived_or_iterative = false;
@@ -42,13 +48,13 @@ void Manager::Validate() {
     phase->Validate();
     has_derived_or_iterative = phase->type() == PARAM_ITERATIVE || phase->type() == PARAM_DERIVED || has_derived_or_iterative;
     if (phase->type() == PARAM_CINITIAL && !has_derived_or_iterative) {
-      LOG_ERROR() << phase->location() << " cannot be defined unless you have defined an iterative or derived initialisation phase prior in the annual cycle";
+      LOG_ERROR() << phase->location() << " cannot be defined unless an iterative or derived initialisation phase prior has been defined in the annual cycle";
     }
   }
 }
 
 /**
- *
+ * Build the objects
  */
 void Manager::Build(Model* model) {
   LOG_TRACE();
@@ -89,7 +95,10 @@ void Manager::Execute() {
 }
 
 /**
+ * Indicate if the phase is defined for an object
  *
+ * @param label The label of the object
+ * @return true if yes, false otherwise
  */
 bool Manager::IsPhaseDefined(const string& label) const {
   for(auto phase : objects_)
@@ -100,7 +109,10 @@ bool Manager::IsPhaseDefined(const string& label) const {
 }
 
 /**
+ * Get the phase index for an object
  *
+ * @param label The label of the object
+ * @return the phase index
  */
 unsigned Manager::GetPhaseIndex(const string& label) const {
   for (unsigned i = 0; i < ordered_initialisation_phases_.size(); ++i) {

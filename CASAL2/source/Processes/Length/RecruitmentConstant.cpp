@@ -22,16 +22,15 @@ namespace processes {
 namespace length {
 
 /**
- * Default Constructor
+ * Default constructor
  */
 RecruitmentConstant::RecruitmentConstant(Model* model)
   : Process(model),
     partition_(model) {
-  parameters_.Bind<string>(PARAM_CATEGORIES, &category_labels_, "Categories", "");
-  parameters_.Bind<Double>(PARAM_PROPORTIONS, &proportions_, "Proportions", "", true);
-  parameters_.Bind<unsigned>(PARAM_LENGTH_BINS, &length_bins_, "The length bins recruits are uniformly distributed over, when recruitment occurs", "");
-  parameters_.Bind<Double>(PARAM_R0, &r0_, "R0", "")
-      ->set_lower_bound(0.0, false);
+  parameters_.Bind<string>(PARAM_CATEGORIES, &category_labels_, "The categories", "");
+  parameters_.Bind<Double>(PARAM_PROPORTIONS, &proportions_, "The proportions", "", true);
+  parameters_.Bind<double>(PARAM_LENGTH_BINS, &length_bins_, "The length bins that recruits are uniformly distributed over at the time of recruitment", "");
+  parameters_.Bind<Double>(PARAM_R0, &r0_, "R0", "")->set_lower_bound(0.0);
 
   RegisterAsAddressable(PARAM_R0, &r0_);
   RegisterAsAddressable(PARAM_PROPORTIONS, &proportions_categories_);
@@ -54,7 +53,7 @@ void RecruitmentConstant::DoValidate() {
    */
   for (auto length_bin : length_bins_) {
     if (std::find(model_->length_bins().begin(),model_->length_bins().end(), length_bin) == model_->length_bins().end())
-      LOG_ERROR_P(PARAM_LENGTH_BINS) << "The length bin " << length_bin << ", wasn't a length bin in the @model block, please check you have specified the correct lenght bins.";
+      LOG_ERROR_P(PARAM_LENGTH_BINS) << "The length bin '" << length_bin << "' is not a length bin in the @model block.";
   }
 
   /**
@@ -65,21 +64,20 @@ void RecruitmentConstant::DoValidate() {
   if (proportions_.size() > 0) {
     if (proportions_.size() != category_labels_.size()) {
       LOG_ERROR_P(PARAM_PROPORTIONS)
-          << ": Number of proportions provided is not the same as the number of categories provided. Expected: "
-          << category_labels_.size()<< " but got " << proportions_.size();
+        << ": the number of proportions provided is not the same as the number of categories provided. Expected: "
+        << category_labels_.size()<< ", parsed " << proportions_.size();
     }
 
     Double proportion_total = 0.0;
-
     for (Double proportion : proportions_)
       proportion_total += proportion;
 
     if (!utilities::doublecompare::IsOne(proportion_total)) {
       LOG_WARNING() << parameters_.location(PARAM_PROPORTIONS)
-          <<": proportion does not sum to 1.0. Proportion sums to " << AS_DOUBLE(proportion_total) << ". Auto-scaling proportions to sum to 1.0";
+        <<": the proportions do not sum to 1.0. The proportions sum to " << AS_DOUBLE(proportion_total) << ". Auto-scaling the proportions to sum to 1.0";
 
       for (Double& proportion : proportions_)
-        proportion = proportion / proportion_total;
+        proportion /= proportion_total;
     }
 
     for (unsigned i = 0; i < category_labels_.size(); ++i) {
@@ -95,8 +93,7 @@ void RecruitmentConstant::DoValidate() {
 }
 
 /**
- * Build any runtime relationships we might
- * have to other objects in the system.
+ * Build any runtime relationships to other objects in the system.
  */
 void RecruitmentConstant::DoBuild() {
   LOG_TRACE();
@@ -104,27 +101,27 @@ void RecruitmentConstant::DoBuild() {
 }
 
 /**
- * Execute our constant recruitment process
+ * Execute the constant recruitment process
  */
 void RecruitmentConstant::DoExecute() {
   LOG_TRACE();
   //Calculate new proportion totals to account for dynamic categories
   Double total_proportions = 0.0;
   for (auto category : partition_)
-   total_proportions += proportions_categories_[category->name_];
-
+    total_proportions += proportions_categories_[category->name_];
 
   //Update our partition with new recruitment values
   for (auto category : partition_) {
-   if (category->data_.size() != model_->length_bins().size())
-     LOG_CODE_ERROR() << "This function was written when categories were forced to have the same length bins as models, this is not the case now please review code.";
-   r0_by_length_bin_ = (r0_ * (proportions_categories_[category->name_]) / total_proportions) / length_bins_.size();
-   unsigned length_index = 0;
-   for (auto length_bin : length_bins_) {
-     length_index = std::distance(std::find(model_->length_bins().begin(), model_->length_bins().end(), length_bin), model_->length_bins().begin());
-     LOG_FINEST() << "putting " << r0_by_length_bin_ << " in category " << category->name_ << " in length bin " << model_->length_bins()[length_index];
-     category->data_[length_index] += r0_by_length_bin_;
-   }
+    if (category->data_.size() != model_->length_bins().size())
+      LOG_CODE_ERROR() << "This function was written when categories were forced to have the same length bins as models. This is no longer the case.";
+
+    r0_by_length_bin_ = (r0_ * (proportions_categories_[category->name_]) / total_proportions) / length_bins_.size();
+    unsigned length_index = 0;
+    for (auto length_bin : length_bins_) {
+      length_index = std::distance(std::find(model_->length_bins().begin(), model_->length_bins().end(), length_bin), model_->length_bins().begin());
+      LOG_FINEST() << "putting " << r0_by_length_bin_ << " in category " << category->name_ << " in length bin " << model_->length_bins()[length_index];
+      category->data_[length_index] += r0_by_length_bin_;
+    }
   }
 }
 

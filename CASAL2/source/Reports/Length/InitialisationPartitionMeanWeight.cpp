@@ -24,7 +24,7 @@ namespace reports {
 namespace length {
 
 /**
- * Default constructor.
+ * Default constructor
  *
  * Set the run mode and model state for this report
  */
@@ -33,17 +33,17 @@ InitialisationPartitionMeanWeight::InitialisationPartitionMeanWeight(Model* mode
   model_state_ = State::kInitialise;
 }
 
-
 /**
- *
+ * Execute the InitialisationPartitionMeanWeight report
  */
 void InitialisationPartitionMeanWeight::DoExecute() {
   LOG_TRACE();
   //  auto categories = Categories::Instance();
   niwa::partition::accessors::All all_view(model_);
   unsigned time_step_index = model_->managers().time_step()->current_time_step();
-  vector<unsigned> length_bins = model_->length_bins();
+  vector<double> length_bins = model_->length_bins();
   cache_ << "*" << type_ << "[" << label_ << "]\n";
+
   for (auto iterator = all_view.Begin(); iterator != all_view.End(); ++iterator) {
 
     string category = (*iterator)->name_;
@@ -53,7 +53,7 @@ void InitialisationPartitionMeanWeight::DoExecute() {
     cache_ << "values: ";
 
     for (unsigned length_bin_index = 0; length_bin_index <= length_bins.size(); ++length_bin_index)
-      cache_ << AS_DOUBLE((*iterator)->mean_weight_by_time_step_length_[time_step_index][length_bin_index]) << " ";
+      cache_ << AS_VALUE((*iterator)->mean_weight_by_time_step_length_[time_step_index][length_bin_index]) << " ";
     cache_<<"\n";
 
     cache_ << REPORT_R_LIST_END <<"\n";

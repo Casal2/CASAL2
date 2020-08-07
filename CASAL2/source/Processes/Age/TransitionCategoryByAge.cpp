@@ -39,14 +39,14 @@ TransitionCategoryByAge::TransitionCategoryByAge(Model* model)
 
   n_table_ = new parameters::Table(PARAM_N);
 
-  parameters_.Bind<string>(PARAM_FROM, &from_category_labels_, "Categories to transition from", "");
-  parameters_.Bind<string>(PARAM_TO, &to_category_labels_, "Categories to transition to", "");
-  parameters_.Bind<unsigned>(PARAM_MIN_AGE, &min_age_, "Minimum age to transition", "");
-  parameters_.Bind<unsigned>(PARAM_MAX_AGE, &max_age_, "Maximum age to transition", "");
-  parameters_.Bind<string>(PARAM_PENALTY, &penalty_label_, "Penalty label", "", "");
-  parameters_.Bind<Double>(PARAM_U_MAX, &u_max_, "U Max", "", 0.99);
-  parameters_.Bind<unsigned>(PARAM_YEARS, &years_, "Years to execute the transition in", "");
-  parameters_.BindTable(PARAM_N, n_table_, "Table of N data", "");
+  parameters_.Bind<string>(PARAM_FROM, &from_category_labels_, "The categories to transition from", "");
+  parameters_.Bind<string>(PARAM_TO, &to_category_labels_, "The categories to transition to", "");
+  parameters_.Bind<unsigned>(PARAM_MIN_AGE, &min_age_, "The minimum age to transition", "");
+  parameters_.Bind<unsigned>(PARAM_MAX_AGE, &max_age_, "The maximum age to transition", "");
+  parameters_.Bind<string>(PARAM_PENALTY, &penalty_label_, "The penalty label", "", "");
+  parameters_.Bind<Double>(PARAM_U_MAX, &u_max_, "The maximum exploitation rate ($U_{max}$)", "", 0.99)->set_range(0.0, 1.0);
+  parameters_.Bind<unsigned>(PARAM_YEARS, &years_, "The years to execute the transition in", "");
+  parameters_.BindTable(PARAM_N, n_table_, "The table of N data", "");
 }
 
 /**
@@ -57,15 +57,15 @@ TransitionCategoryByAge::~TransitionCategoryByAge() {
 }
 
 /**
- * Validate our parameters
+ * Validate the parameters
  */
 void TransitionCategoryByAge::DoValidate() {
   if (from_category_labels_.size() != to_category_labels_.size()) {
-    LOG_ERROR_P(PARAM_TO) << " number of values supplied (" << to_category_labels_.size()
-        << ") does not match the number of from categories provided (" << from_category_labels_.size() << ")";
+    LOG_ERROR_P(PARAM_TO) << " the number of 'to' categories (" << to_category_labels_.size()
+      << ") does not match the number of 'from' categories (" << from_category_labels_.size() << ")";
   }
   if (u_max_ <= 0.0 || u_max_ > 1.0)
-    LOG_ERROR_P(PARAM_U_MAX) << " (" << u_max_ << ") must be greater than 0.0 and less than 1.0";
+    LOG_ERROR_P(PARAM_U_MAX) << " (" << u_max_ << ") must be greater than 0.0 and less than or equal to 1.0";
   if (min_age_ < model_->min_age())
     LOG_ERROR_P(PARAM_MIN_AGE) << " (" << min_age_ << ") is less than the model's minimum age (" << model_->min_age() << ")";
   if (max_age_ > model_->max_age())
@@ -78,10 +78,10 @@ void TransitionCategoryByAge::DoValidate() {
    */
   vector<string> columns = n_table_->columns();
   if (columns.size() != age_spread + 1)
-    LOG_ERROR_P(PARAM_N) << " number of columns provided (" << columns.size() << ") does not match the model's age spread + 1 ("
-        << (age_spread + 1) << ")";
+    LOG_ERROR_P(PARAM_N) << "the number of columns provided (" << columns.size() << ") does not match the model's age spread + 1 ("
+      << (age_spread + 1) << ")";
   if (columns[0] != PARAM_YEAR)
-    LOG_ERROR_P(PARAM_N) << " first column label (" << columns[0] << ") provided must be 'year'";
+    LOG_ERROR_P(PARAM_N) << "the first column label (" << columns[0] << ") provided must be 'year'";
 
   map<unsigned, unsigned> age_index;
   for (unsigned i = 1; i < columns.size(); ++i) {
@@ -97,10 +97,10 @@ void TransitionCategoryByAge::DoValidate() {
   Double n_value = 0.0;
   for (auto iter : data) {
     if (!utilities::To<unsigned>(iter[0], year))
-      LOG_ERROR_P(PARAM_N) << " value (" << iter[0] << ") is not a valid unsigned value that could be converted to a model year";
+      LOG_ERROR_P(PARAM_N) << " value (" << iter[0] << ") could not be converted to an unsigned integer";
     for (unsigned i = 1; i < iter.size(); ++i) {
       if (!utilities::To<Double>(iter[i], n_value))
-        LOG_ERROR_P(PARAM_N) << " value (" << iter[i] << ") could not be converted to a double. Please ensure it's a numeric value";
+        LOG_ERROR_P(PARAM_N) << " value (" << iter[i] << ") could not be converted to a double.";
       if (n_[year].size() == 0)
         n_[year].resize(age_spread, 0.0);
       n_[year][i - 1] = n_value;
@@ -109,7 +109,7 @@ void TransitionCategoryByAge::DoValidate() {
 }
 
 /**
- * Build our partition objects
+ * Build the partition objects
  */
 void TransitionCategoryByAge::DoBuild() {
   from_partition_.Init(from_category_labels_);

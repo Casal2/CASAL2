@@ -22,9 +22,7 @@ namespace niwa {
 namespace reports {
 
 /**
- * Constructor
- *
- * @param model A pointer to the model this report is linked to
+ * Default constructor
  */
 MPD::MPD(Model* model) : Report(model) {
   run_mode_ = RunMode::kEstimation;
@@ -47,7 +45,7 @@ void MPD::DoExecute() {
   cache_ << "\n";
 
   for (auto estimate : estimates)
-    cache_ << AS_DOUBLE(estimate->value()) << " ";
+    cache_ << AS_VALUE(estimate->value()) << " ";
   cache_ << "\n";
 
   /**
@@ -56,9 +54,9 @@ void MPD::DoExecute() {
   cache_ << "covariance_matrix:\n";
   auto covariance_matrix = model_->managers().minimiser()->active_minimiser()->covariance_matrix();
   for (unsigned i = 0; i < covariance_matrix.size1(); ++i) {
-     for (unsigned j = 0; j < covariance_matrix.size2(); ++j)
-       cache_ << covariance_matrix(i,j) << " ";
-     cache_ << "\n";
+    for (unsigned j = 0; j < covariance_matrix.size2(); ++j)
+      cache_ << covariance_matrix(i,j) << " ";
+    cache_ << "\n";
   }
 
   ready_for_writing_ = true;

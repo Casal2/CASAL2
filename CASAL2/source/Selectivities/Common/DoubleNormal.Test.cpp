@@ -64,7 +64,7 @@ TEST(Selectivities, DoubleNormal_Age) {
 
 TEST(Selectivities, DoubleNormal_Length) {
   MockModel model;
-  vector<unsigned> lengths = {10, 20, 30, 40, 50, 60};
+  vector<double> lengths = {10, 20, 30, 40, 50, 60};
   EXPECT_CALL(model, min_age()).WillRepeatedly(Return(10));
   EXPECT_CALL(model, max_age()).WillRepeatedly(Return(20));
   EXPECT_CALL(model, age_spread()).WillRepeatedly(Return(11));

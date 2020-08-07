@@ -38,10 +38,10 @@ public:
   // Accessors
   double                        uniform(double min = 0.0, double max = 1.0);
   double                        normal(double mean = 0.0, double sigma = 1.0);
-  double                        lognormal(double mean, double cv);
+  double                        lognormal(double mean, double cv); // Note the mean parameter is not the same as mu, from the lognormal distribution.
   double                        binomial(double p, double n);
-  double                        chi_square(unsigned df);
-  double                        gamma(double shape);
+  double                        chi_squared(unsigned df);
+  double                        gamma(double shape); // assumes scale (theta) = 1
 
 private:
   // Methods

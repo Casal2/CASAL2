@@ -28,7 +28,7 @@ inline bool IsZero(const Double &value) { return (value < ZERO && value > -ZERO)
 //inline bool IsInfinite(const Double &value) { return (isinf(value));}
 inline bool IsTrueZero(const Double &value) { return (value < TRUE_ZERO && value > -TRUE_ZERO); }
 inline bool IsOne(const Double &value) { return ( ((value-ONE) < ZERO) && ((value-ONE) > -ZERO) ); }
-inline bool IsEqual(Double A, Double B) { return ( ((A-B) < ZERO) && ((A-B) > -ZERO) ); }
+inline bool IsEqual(Double A, double B) { return ( ((A-B) < ZERO) && ((A-B) > -ZERO) ); }
 inline bool IsBasicallyEqual(Double A, Double B) { return ( ((A-B) < CLOSE) && ((A-B) > -CLOSE) ); }
 
 inline niwa::utilities::Double ZeroFun(Double x) {
@@ -38,14 +38,29 @@ inline niwa::utilities::Double ZeroFun(Double x) {
   return ZERO / (2.0 - (x / ZERO));
 }
 
-inline niwa::utilities::Double ZeroFun(Double x, Double delta) {
+inline niwa::utilities::Double ZeroFun(Double x, double delta) {
   if (x >= delta)
     return x;
 
   return delta / (2.0 - (x / delta));
 }
 
+
 #ifdef USE_AUTODIFF
+inline bool IsZero(const double &value) { return (value < ZERO && value > -ZERO); }
+//inline bool IsInfinite(const double &value) { return (isinf(value));}
+inline bool IsTrueZero(const double &value) { return (value < TRUE_ZERO && value > -TRUE_ZERO); }
+inline bool IsOne(const double &value) { return ( ((value-ONE) < ZERO) && ((value-ONE) > -ZERO) ); }
+inline bool IsEqual(double A, double B) { return ( ((A-B) < ZERO) && ((A-B) > -ZERO) ); }
+inline bool IsBasicallyEqual(double A, double B) { return ( ((A-B) < CLOSE) && ((A-B) > -CLOSE) ); }
+
+inline double ZeroFun(double x, double delta) {
+  if (x >= delta)
+    return x;
+
+  return delta / (2.0 - (x / delta));
+}
+
 inline double ZeroFun(double x) {
   if (x >= ZERO)
     return x;

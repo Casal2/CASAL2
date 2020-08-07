@@ -49,13 +49,14 @@ private:
   vector<string>              category_labels_;
   vector<Double>              m_input_;
   OrderedMap<string, Double>  m_;
-  vector<Double>              ratios_;
-  map<unsigned, Double>       time_step_ratios_;
+  vector<double>              ratios_;
+  map<unsigned, double>       time_step_ratios_;
   vector<vector<Double>>      mortality_rates_;
   vector<string>              selectivity_names_;
   accessor::Categories        partition_;
   vector<Selectivity*>        selectivities_;
   vector<Double>              total_removals_by_year_;
+
 };
 
 } /* namespace age */

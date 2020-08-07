@@ -27,8 +27,8 @@ using std::vector;
  * default constructor
  *
  * @param label The label of the parameter
- * @param target The target variable in the model to bind to this parameter
- * @param description A text description of the parameter for the help system
+ * @param target The target variable to bind to this parameter
+ * @param description A description of the parameter for the help system
  */
 template<typename T>
 BindableVector<T>::BindableVector(const string& label, vector<T>* target, const string& description)
@@ -38,8 +38,8 @@ BindableVector<T>::BindableVector(const string& label, vector<T>* target, const 
 }
 
 /**
- * This method will bind our string values to the target value doing the proper
- * type checking etc.
+ * This method will bind the string values to the target value doing the proper
+ * type checking, etc.
  */
 template<typename T>
 void BindableVector<T>::Bind() {
@@ -47,7 +47,7 @@ void BindableVector<T>::Bind() {
   for (unsigned i = 0; i < values_.size(); ++i) {
     if (!niwa::utilities::To<T>(values_[i], value))
       LOG_ERROR() << location() << ": " << label_ << " value " << values_[i] << " could not be converted to type "
-        << utilities::demangle(typeid(value).name()) << ". Please check you have defined it properly.";
+        << utilities::demangle(typeid(value).name());
 
       target_->push_back(value);
   }
@@ -78,16 +78,17 @@ void BindableVector<T>::Bind() {
   if (allowed_values_.size() != 0) {
     for (T value : *target_) {
       if (std::find(allowed_values_.begin(), allowed_values_.end(), value) == allowed_values_.end())
-        LOG_ERROR() << location() << " value " << value << " is no in the list of allowed values: " << utilities::String::join(allowed_values_, ", ");
+        LOG_ERROR() << location() << " value " << value << " is not in the allowed values list: "
+          << utilities::String::join(allowed_values_, ", ");
     }
   }
 }
 
 /**
- * This method sets a list of allowed values that can be defined for this
+ * This method sets a list of allowed values that can be used for this
  * parameter.
  *
- * @param list A list of values that are allowed for this parameter
+ * @param list A list of values that are valid for this parameter
  */
 template<typename T>
 void BindableVector<T>::set_allowed_values(std::initializer_list<T> list) {
@@ -105,15 +106,15 @@ void BindableVector<T>::set_allowed_values(std::initializer_list<T> list) {
 
 /**
  * This method sets an enforced value range on the objects stored within this parameter.
- * This will be checked during the bind method and an error will be thrown if it's not
- * acceptable.
+ * This objects will be checked during the bind method and an error will be thrown if
+ * the objects are not within the valid range.
  *
  * inclusive means the value being specified as the lower bound is also a valid value.
  * e.g. lower_bound 0 and inclusive means value >= 0 is ok, but value < 0 is not
  * a lower bound 0 not inclusive means value > 0 is ok, but value <= 0 is not.
  *
- * @param lower_bound The lowest the value can be (default inclusive)
- * @param upper_bound The highest the value can be (default inclusive)
+ * @param lower_bound The lowest value the object can be (default inclusive)
+ * @param upper_bound The highest value the object can be (default inclusive)
  * @param lower_inclusive Is the lower bound value inclusive (default true)
  * @param upper_inclusie Is the upper bound value inclusive (default true)
  */
@@ -128,13 +129,13 @@ void BindableVector<T>::set_range(T lower_bound, T upper_bound, bool lower_inclu
 }
 
 /**
- * This method will set an enforced lower bound only
+ * This method will set an enforced lower bound and inclusive flag only
  *
  * inclusive means the value being specified as the lower bound is also a valid value.
- * e.g. lower_bound 0 and inclusive means value >= 0 is ok, but value < 0 is not
+ * e.g., lower_bound 0 and inclusive means value >= 0 is ok, but value < 0 is not;
  * a lower bound 0 not inclusive means value > 0 is ok, but value <= 0 is not.
  *
- * @param lower_bound The lower bound to set
+ * @param lower_bound The lower bound to set for the parameter
  * @param inclusive Is the lower bound inclusive or exclusive
  */
 template<typename T>
@@ -145,14 +146,14 @@ void BindableVector<T>::set_lower_bound(T lower_bound, bool inclusive) {
 }
 
 /**
- * This method sets an enforced upper bound and inclusive flag
+ * This method sets an enforced upper bound and inclusive flag only
  *
  * inclusive means the value being specified as the lower bound is also a valid value.
- * e.g. lower_bound 0 and inclusive means value >= 0 is ok, but value < 0 is not
+ * e.g., lower_bound 0 and inclusive means value >= 0 is ok, but value < 0 is not;
  * a lower bound 0 not inclusive means value > 0 is ok, but value <= 0 is not.
  *
- * @param upper_bound the Upper bound to set for the parameter
- * @param inclusive is the upper bound inclusive or exclusive
+ * @param upper_bound The upper bound to set for the parameter
+ * @param inclusive Is the upper bound inclusive or exclusive
  */
 template<typename T>
 void BindableVector<T>::set_upper_bound(T upper_bound, bool inclusive) {

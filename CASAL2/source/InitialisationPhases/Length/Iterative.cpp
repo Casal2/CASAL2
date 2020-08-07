@@ -38,14 +38,14 @@ Iterative::Iterative(Model* model)
     cached_partition_(model),
     partition_(model) {
   parameters_.Bind<unsigned>(PARAM_YEARS, &years_, "The number of iterations (years) over which to execute this initialisation phase", "");
-  parameters_.Bind<string>(PARAM_INSERT_PROCESSES, &insert_processes_, " (years) over which to execute this initialisation phase", "", true);
-  parameters_.Bind<string>(PARAM_EXCLUDE_PROCESSES, &exclude_processes_, "Processes in the annual cycle to be excluded from this initialisation phase", "", true);
+  parameters_.Bind<string>(PARAM_INSERT_PROCESSES, &insert_processes_, "The processes in the annual cycle to be included in this initialisation phase", "", true);
+  parameters_.Bind<string>(PARAM_EXCLUDE_PROCESSES, &exclude_processes_, "The processes in the annual cycle to be excluded from this initialisation phase", "", true);
   parameters_.Bind<unsigned>(PARAM_CONVERGENCE_YEARS, &convergence_years_, "The iteration (year) when the test for converegence (lambda) is evaluated", "", true);
-  parameters_.Bind<Double>(PARAM_LAMBDA, &lambda_, "The maximum value of the absolute sum of differences (lambda) between the partition at year-1 and year that indicates successfull convergence", "", Double(0.0));
+  parameters_.Bind<Double>(PARAM_LAMBDA, &lambda_, "The maximum value of the absolute sum of differences (lambda) between the partition at year-1 and year that indicates successful convergence", "", Double(0.0));
 }
 
 /**
- *
+ * Validate
  */
 void Iterative::DoValidate() {
   for (string insert : insert_processes_) {
@@ -57,7 +57,7 @@ void Iterative::DoValidate() {
 }
 
 /**
- *
+ * Build
  */
 void Iterative::DoBuild() {
   LOG_TRACE();
@@ -104,7 +104,7 @@ void Iterative::DoBuild() {
     }
 
     if (count == 0)
-      LOG_ERROR_P(PARAM_EXCLUDE_PROCESSES) << " process " << exclude << " does not exist in any time steps to be excluded. Please check your spelling";
+      LOG_ERROR_P(PARAM_EXCLUDE_PROCESSES) << " process " << exclude << " does not exist in any time steps to be excluded.";
   }
 
   if (convergence_years_.size() != 0) {
@@ -142,7 +142,7 @@ void Iterative::DoBuild() {
 }
 
 /**
- * Execute our iterative initialisation phases.
+ * Execute the iterative initialisation phases
  */
 void Iterative::Execute() {
   if (convergence_years_.size() == 0) {
@@ -182,14 +182,14 @@ void Iterative::Execute() {
   // Check if we have B0 initialised or R0 initialised recruitment
   bool B0_intial_recruitment = false;
   for (auto recruitment_process : recruitment_process_) {
-    if (recruitment_process->bo_initialised()) {
+    if (recruitment_process->b0_initialised()) {
       LOG_FINEST() << PARAM_B0 << " has been defined for process labelled " << recruitment_process->label();
       recruitment_process->ScalePartition();
       B0_intial_recruitment = true;
     }
   }
   for (auto recruitment_process_with_devs : recruitment_process_with_devs_) {
-    if (recruitment_process_with_devs->bo_initialised()) {
+    if (recruitment_process_with_devs->b0_initialised()) {
       LOG_FINEST() << PARAM_B0 << " has been defined for process labelled " << recruitment_process_with_devs->label();
       recruitment_process_with_devs->ScalePartition();
       B0_intial_recruitment = true;
@@ -204,10 +204,10 @@ void Iterative::Execute() {
 }
 
 /**
- * Check for convergence on our partition and return true if it exceeds the
- * lambda threshold so we can quit early and save time.
+ * Check for convergence on the partition and return true if it exceeds the
+ * lambda threshold to quit early and save time
  *
- * @return True if convergence, False otherwise
+ * @return True if convergence, false otherwise
  */
 bool Iterative::CheckConvergence() {
   LOG_TRACE();
@@ -233,7 +233,6 @@ bool Iterative::CheckConvergence() {
 
   return false;
 }
-
 
 } /* namespace length */
 } /* namespace age */

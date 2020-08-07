@@ -22,14 +22,19 @@
 namespace niwa {
 
 /**
+ * Append a value to an estimable
  *
+ * @param estimable_label The label of the estimable
+ * @param value The value
  */
 void Estimables::AddValue(const string& estimable_label, Double value) {
   estimable_values_[estimable_label].push_back(value);
 }
 
 /**
+ * Return a vector of estimable labels
  *
+ * @return a vector of estimable labels
  */
 vector<string> Estimables::GetEstimables() const {
   vector<string> result;
@@ -40,7 +45,9 @@ vector<string> Estimables::GetEstimables() const {
 }
 
 /**
+ * Return the number of estimable values
  *
+ * @return the number of estimable values, or 0 if there are none
  */
 unsigned Estimables::GetValueCount() const {
   if (estimable_values_.size() == 0)
@@ -49,8 +56,12 @@ unsigned Estimables::GetValueCount() const {
   auto iter = estimable_values_.begin();
   return iter->second.size();
 }
+
 /**
+ * Return a map of estimable values for a specified index
  *
+ * @param index The index
+ * @return the map of estimable values, or an empty map if there are none
  */
 map<string, Double> Estimables::GetValues(unsigned index) const {
   map<string, Double> result;
@@ -61,7 +72,9 @@ map<string, Double> Estimables::GetValues(unsigned index) const {
 }
 
 /**
+ * Load values into an estimable map for a specified index
  *
+ * @param index The index
  */
 void Estimables::LoadValues(unsigned index) {
   /**
@@ -71,7 +84,7 @@ void Estimables::LoadValues(unsigned index) {
     string error = "";
     for (auto iter : estimable_values_) {
       if (!model_->objects().VerfiyAddressableForUse(iter.first, addressable::kInputRun, error)) {
-        LOG_FATAL() << "The addressable " << iter.first << " could not be verified for use in -i run. Error was " << error;
+        LOG_FATAL() << "The addressable " << iter.first << " could not be verified for use in -i run. Error: " << error;
       }
       Double* ptr = model_->objects().GetAddressable(iter.first);
       estimables_[iter.first] = ptr;
@@ -88,7 +101,7 @@ void Estimables::LoadValues(unsigned index) {
       }
 
       if (estimates.size() != estimable_values_.size())
-        LOG_FATAL() << "The estimate value file does not have the correct number of estimables defined. Expected " << estimates.size() << " but got " << estimable_values_.size();
+        LOG_FATAL() << "The estimate value file does not have the correct number of estimables defined. Expected " << estimates.size() << ", parsed " << estimable_values_.size();
     }
   }
 
@@ -102,8 +115,5 @@ void Estimables::LoadValues(unsigned index) {
       estimate->set_value(estimable_values_[iter.first][index]);
   }
 }
-
-
-
 
 } /* namespace niwa */

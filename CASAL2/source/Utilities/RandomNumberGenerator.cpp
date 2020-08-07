@@ -33,6 +33,7 @@ RandomNumberGenerator::~RandomNumberGenerator() {
 
 /**
  * Singleton instance method
+ *
  * @return reference to singleton object
  */
 RandomNumberGenerator& RandomNumberGenerator::Instance() {
@@ -41,14 +42,16 @@ RandomNumberGenerator& RandomNumberGenerator::Instance() {
 }
 
 /**
+ * Reset the random number generator with a new seed
  *
+ * @param new_seed The new seed
  */
 void RandomNumberGenerator::Reset(unsigned new_seed) {
   generator_.seed(new_seed);
 }
 
 /**
- * Get a random uniform between min and max
+ * Generate a random uniform number between min and max
  *
  * @param min The smallest number to be generated (default 0.0)
  * @param max The largest number to be generated (default 1.0)
@@ -62,7 +65,7 @@ double RandomNumberGenerator::uniform(double min, double max) {
 }
 
 /**
- * Generate a normal distributed random number
+ * Generate a normal random number
  *
  * @param mean (default 0.0)
  * @param sigma (default 1.0)
@@ -76,7 +79,7 @@ double RandomNumberGenerator::normal(double mean, double sigma) {
 }
 
 /**
- * Generate a log normal random number
+ * Generate a lognormal random number
  *
  * @param mean
  * @param cv
@@ -91,7 +94,7 @@ double RandomNumberGenerator::lognormal(double mean, double cv) {
 }
 
 /**
- * Generator a random binomial
+ * Generator a binomial random number
  *
  * @param p
  * @param n
@@ -109,12 +112,12 @@ double RandomNumberGenerator::binomial(double p, double n) {
 }
 
 /**
- * Generate a chi square random number
+ * Generate a chi squared random number
  *
  * @param df Number of random numbers to generate
  * @return random number
  */
-double RandomNumberGenerator::chi_square(unsigned df) {
+double RandomNumberGenerator::chi_squared(unsigned df) {
   boost::normal_distribution<> normal(0.0, 1.0);
   double sum = 0.0;
   for (unsigned i = 0; i < df; ++i) {
@@ -126,8 +129,10 @@ double RandomNumberGenerator::chi_square(unsigned df) {
   return sum;
 }
 /*
-* Generate a
+* Generate a gamma random number
 *
+* @param shape The shape parameter
+* @return random number
 */
 double RandomNumberGenerator::gamma(double shape) {
 

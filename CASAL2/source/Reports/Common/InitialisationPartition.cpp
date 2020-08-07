@@ -23,7 +23,7 @@ namespace niwa {
 namespace reports {
 
 /**
- * Default constructor.
+ * Default constructor
  *
  * Set the run mode and model state for this report
  */
@@ -33,7 +33,7 @@ InitialisationPartition::InitialisationPartition(Model* model) : Report(model) {
 }
 
 /**
- *
+ * Execute the report
  */
 void InitialisationPartition::DoExecute() {
   LOG_TRACE();
@@ -51,7 +51,7 @@ void InitialisationPartition::DoExecute() {
     if (longest_length < (*iterator)->name_.length())
       longest_length = (*iterator)->name_.length();
   }
-  LOG_FINEST() << "min age = " << lowest << " max-age = " << highest << " what ever lonest_length is " << longest_length;
+  LOG_FINEST() << "min age = " << lowest << ", max age = " << highest << ", longest_length = " << longest_length;
 
   // Print the header
   cache_ << "*"<< type_ << "[" << label_ << "]" << "\n";
@@ -67,12 +67,13 @@ void InitialisationPartition::DoExecute() {
     for (auto values = (*iterator)->data_.begin(); values != (*iterator)->data_.end(); ++values, age++) {
       if (age >= lowest && age <= highest) {
         Double value = *values;
-        cache_ << " " << std::fixed << AS_DOUBLE(value);
+        cache_ << " " << std::fixed << AS_VALUE(value);
       } else
         cache_ << " " << "null";
     }
     cache_ << "\n";
   }
+
   ready_for_writing_ = true;
 }
 

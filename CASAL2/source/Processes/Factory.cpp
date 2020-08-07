@@ -38,6 +38,7 @@
 #include "Processes/Length/GrowthBasic.h"
 #include "Processes/Length/MortalityConstantRate.h"
 #include "Processes/Length/RecruitmentConstant.h"
+#include "Processes/Age/MortalityInstantaneousRetained.h"
 
 
 // Namespaces
@@ -45,12 +46,12 @@ namespace niwa {
 namespace processes {
 
 /**
- * Create the instance of our object as defined by the two parameters
+ * Create the instance of the object as defined by the two parameters
  * object_type and sub_type.
  *
- * @param object_type The type of object to create (e.g age_size, process)
- * @param sub_type The child type of the object to create (e.g ageing, schnute)
- * @return shared_ptr to the object we've created
+ * @param object_type The type of object to create (e.g., age_size, process)
+ * @param sub_type The child type of the object to create (e.g., ageing, schnute)
+ * @return shared_ptr to the object
  */
 Process* Factory::Create(Model* model, const string& object_type, const string& sub_type, PartitionType partition_type) {
   Process* result = nullptr;
@@ -64,7 +65,7 @@ Process* Factory::Create(Model* model, const string& object_type, const string& 
    * method so we only need 1 set of conditional statements.
    */
   if (object != PARAM_PROCESS && object != PARAM_PROCESSES) {
-    LOG_FINE() << "Changing object_type (" << object << ") and sub_type (" << ") to the standard declaration format";
+    LOG_FINE() << "Changing object_type (" << object << ") and sub_type (" << sub << ") to the standard declaration format";
     if (sub != "")
       sub = object_type + "_" + sub_type;
     else
@@ -99,6 +100,8 @@ Process* Factory::Create(Model* model, const string& object_type, const string& 
           result = new age::MortalityEventBiomass(model);
         else if (sub == PARAM_MORTALITY_INSTANTANEOUS)
           result = new age::MortalityInstantaneous(model);
+        else if (sub == PARAM_MORTALITY_INSTANTANEOUS_RETAINED)
+          result = new age::MortalityInstantaneousRetained(model);
         else if (sub == PARAM_MORTALITY_HOLLING_RATE)
           result = new age::MortalityHollingRate(model);
         else if (sub == PARAM_PREY_SUITABILITY_PREDATION)
@@ -116,7 +119,9 @@ Process* Factory::Create(Model* model, const string& object_type, const string& 
         else if (sub == PARAM_TRANSITION_CATEGORY_BY_AGE)
           result = new age::TransitionCategoryByAge(model);
       }
-  if (model->partition_type() == PartitionType::kLength || (partition_type == PartitionType::kModel && model->partition_type() == PartitionType::kLength)) {
+
+  if (model->partition_type() == PartitionType::kLength ||
+      (partition_type == PartitionType::kModel && model->partition_type() == PartitionType::kLength)) {
     if (object == PARAM_PROCESS || object == PARAM_PROCESSES) {
       if (sub == PARAM_GROWTH_BASIC)
         result = new length::GrowthBasic(model);

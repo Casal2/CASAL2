@@ -17,15 +17,15 @@ namespace estimates {
 namespace creators {
 
 /**
- *
+ * Default constructor
  */
 NormalLog::NormalLog(Model* model) : Creator(model) {
   parameters_.Bind<Double>(PARAM_MU, &mu_, "The normal-log prior mean (mu) parameter", "");
-  parameters_.Bind<Double>(PARAM_SIGMA, &sigma_, "The normal-log prior variance (standard deviation) parameter", "");
+  parameters_.Bind<Double>(PARAM_SIGMA, &sigma_, "The normal-log prior standard deviation (sigma) parameter", "");
 }
 
 /**
- *
+ * Copy the mu and sigma parameters
  */
 void NormalLog::DoCopyParameters(niwa::Estimate* estimate, unsigned index) {
   estimate->parameters().CopyFrom(parameters_, PARAM_MU, index);

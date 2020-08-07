@@ -1,4 +1,3 @@
-
 /**
  * @file Engine.cpp
  * @author  Scott Rasmussen (scott.rasmussen@zaita.com)
@@ -157,7 +156,7 @@ void Engine::Setup(vector<double> start_values, vector<double> lower_bounds,
  * Start solving the model
  *
  * @param max_generations
- * @return True if we solve, false otherwise
+ * @return True if successful, false otherwise
  */
 bool Engine::Solve(unsigned max_generations) {
   bool new_best_energy  = false;
@@ -239,7 +238,7 @@ bool Engine::Solve(unsigned max_generations) {
 }
 
 /**
- *
+ * Generate the gradient
  */
 bool Engine::GenerateGradient() {
 
@@ -272,7 +271,7 @@ bool Engine::GenerateGradient() {
 }
 
 /**
- * Scale the current values so they're between -1.0 and 1.0
+ * Scale the current values so they are between -1.0 and 1.0
  */
 void Engine::ScaleValues() {
   for (unsigned i = 0; i < vector_size_; ++i) {
@@ -297,7 +296,7 @@ void Engine::UnScaleValues() {
 }
 
 /**
- * Scale a value so that it's between -1.0 and 1.0 using the
+ * Scale a value so that it is between -1.0 and 1.0 using the
  * bounds as a reference.
  *
  * @param value The value to scale

@@ -11,7 +11,7 @@
 
 const std::string license =
 R"(
-CASAL2. Copyright (C) 2017 NIWA
+Casal2. Copyright (C) 2020 NIWA
 
 This program is free software: you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
@@ -25,8 +25,8 @@ GNU General Public License for more details.
 You should have received a copy of the GNU General Public License
 along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-For more information see http://www.niwa.co.nz, or contact the development 
-team at casal2@niwa.co.nz
+For more information, see https://www.niwa.co.nz/, or contact the Casal2
+development team at casal2@niwa.co.nz
 
 )";
 

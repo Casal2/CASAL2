@@ -1,0 +1,170 @@
+## Print estimate values
+@report estimated_values
+type estimate_value
+
+@report estimated_summary
+type estimate_summary
+
+@report obj_fun
+type objective_function
+
+
+## Derived Quantities
+@report DerivedQuantities
+type derived_quantity
+
+@report Init
+type initialisation_partition
+
+
+@report Hess
+type hessian_matrix
+
+
+@report Covar
+type covariance_matrix
+
+
+@report Corr
+type correlation_matrix
+
+
+@report mcmc_covariance
+type mcmc_covariance
+
+
+## Print process information
+#@report Recruitment
+#type process
+#process Recruitment
+
+@report Mortality
+type process
+process Instant_mortality
+
+
+@report state1
+type partition
+time_step Oct_Nov
+years 1972 2018
+
+@report state5
+type partition
+time_step Jul_Sep
+years 1972 2018
+
+
+@report Qs
+type catchability
+
+
+@report Recruit_E
+type process
+process recruit_E
+
+@report Recruit_W
+type process
+process recruit_W
+
+
+@report M_male
+type selectivity
+selectivity M_male
+
+@report M_female
+type selectivity
+selectivity M_female
+
+## observations
+@report CSacous
+type observation
+observation CSacous
+
+@report WCacous
+type observation
+observation WCacous
+
+@report Espage
+type observation
+observation Espage
+
+@report Wspage
+type observation
+observation Wspage
+
+@report Enspage
+type observation
+observation Enspage
+
+@report EnspOLF
+type observation
+observation EnspOLF
+
+@report WnspOLF
+type observation
+observation WnspOLF
+
+@report Wnspage
+type observation
+observation Wnspage
+
+@report CRsumage
+type observation
+observation CRsumage
+
+
+@report SAsumage
+type observation
+observation SAsumage
+
+
+@report SAautage
+type observation
+observation SAautage
+
+@report CRsumbio
+type observation
+observation CRsumbio
+
+@report SAsumbio
+type observation
+observation SAsumbio
+
+@report pspawn_1993
+type observation
+observation pspawn_1993
+
+@report pspawn
+type observation
+observation pspawn
+
+
+## selectivities
+@report Enspsl
+type selectivity
+selectivity Enspsl
+
+@report Wnspsl
+type selectivity
+selectivity Wnspsl
+
+@report Espsl
+type selectivity
+selectivity Espsl
+
+@report Wspsl
+type selectivity
+selectivity Wspsl
+
+@report CRsl
+type selectivity
+selectivity CRsl
+
+@report SAsl
+type selectivity
+selectivity SAsl
+
+
+@report time_var
+type time_varying
+

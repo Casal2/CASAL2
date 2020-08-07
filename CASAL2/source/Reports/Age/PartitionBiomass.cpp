@@ -18,16 +18,19 @@ namespace niwa {
 namespace reports {
 namespace age {
 
+/**
+ * Default constructor
+ */
 PartitionBiomass::PartitionBiomass(Model* model) : Report(model) {
   run_mode_    = (RunMode::Type)(RunMode::kBasic | RunMode::kProjection);
   model_state_ = State::kExecute;
 
-  parameters_.Bind<string>(PARAM_TIME_STEP, &time_step_, "Time Step label", "", "");
-  parameters_.Bind<unsigned>(PARAM_YEARS, &years_, "Years", "", true);
+  parameters_.Bind<string>(PARAM_TIME_STEP, &time_step_, "The time step label", "", "");
+  parameters_.Bind<unsigned>(PARAM_YEARS, &years_, "The years for the report", "", true);
 }
 
 /**
- *
+ * Validate
  */
 void PartitionBiomass::DoValidate() {
   vector<unsigned> model_years = model_->years();
@@ -35,11 +38,10 @@ void PartitionBiomass::DoValidate() {
     if (std::find(model_years.begin(), model_years.end(), year) == model_years.end())
       LOG_ERROR_P(PARAM_YEARS) << " value " << year << " is not a valid year in the model";
   }
-
 }
 
 /**
- *
+ * Execute the report
  */
 void PartitionBiomass::DoExecute() {
   // First, figure out the lowest and highest ages/length
@@ -57,6 +59,7 @@ void PartitionBiomass::DoExecute() {
     if (longest_length < (*iterator)->name_.length())
       longest_length = (*iterator)->name_.length();
   }
+
   cache_ << "*"<< type_ << "[" << label_ << "]" << "\n";
   cache_ << "year: " << model_->current_year() << "\n";
   cache_ << "time_step: " << time_step_ << "\n";
@@ -77,7 +80,7 @@ void PartitionBiomass::DoExecute() {
     for (unsigned i = 0; i < (*iterator)->data_.size(); ++i) {
       unsigned age = (*iterator)->min_age_ + i;
       if (age >= lowest && age <= highest)
-        cache_ << " " << std::fixed << std::setprecision(5) << AS_DOUBLE(((*iterator)->data_[i] * (*iterator)->mean_weight_by_time_step_age_[time_step_index][age]));
+        cache_ << " " << std::fixed << std::setprecision(5) << AS_VALUE(((*iterator)->data_[i] * (*iterator)->mean_weight_by_time_step_age_[time_step_index][age]));
       else
         cache_ << " " << "null";
     }

@@ -68,7 +68,7 @@ public:
   }
 
   MockVonBertalanffy(Model& model, Double linf, Double k, Double t0, bool by_length,
-      Double cv_first, Double cv_last, vector<Double> time_step_proportions, bool casal_switch = false, Distribution distributuion = Distribution::kNormal) : VonBertalanffy(&model) {
+      Double cv_first, Double cv_last, vector<double> time_step_proportions, bool casal_switch = false, Distribution distributuion = Distribution::kNormal) : VonBertalanffy(&model) {
     linf_ = linf;
     k_ = k;
     t0_ = t0;
@@ -245,7 +245,7 @@ TEST(Partition, BuildAgeLengthProportions) {
   ASSERT_EQ(10u, male_age_props[0][0].size());
   ASSERT_EQ(5u, male_age_props[0][0][0].size());
 
-  for (unsigned year = 0; year < 3; ++year) {
+  for (unsigned year = 0; year < 1; ++year) {
   EXPECT_DOUBLE_EQ(0u, male_age_props[year][0][0][0]);
   EXPECT_DOUBLE_EQ(0u, male_age_props[year][0][0][1]);
   EXPECT_DOUBLE_EQ(0u, male_age_props[year][0][0][2]);
@@ -340,8 +340,6 @@ TEST(Partition, BuildAgeLengthProportions_2) {
   ASSERT_EQ(expected.size(), male_age_props[0][0][0].size());
   for (unsigned i = 0; i < expected.size(); ++i) {
     EXPECT_DOUBLE_EQ(expected[i], male_age_props[0][0][0][i]) << " with i = " << i;
-    EXPECT_DOUBLE_EQ(expected[i], male_age_props[1][0][0][i]) << " with i = " << i;
-    EXPECT_DOUBLE_EQ(expected[i], male_age_props[2][0][0][i]) << " with i = " << i;
   }
 }
 
@@ -405,8 +403,6 @@ TEST(Partition, BuildAgeLengthProportions_3) {
   ASSERT_EQ(expected.size(), male_age_props[0][0][0].size());
   for (unsigned i = 0; i < expected.size(); ++i) {
     EXPECT_DOUBLE_EQ(expected[i], male_age_props[0][0][0][i]) << " with i = " << i;
-    EXPECT_DOUBLE_EQ(expected[i], male_age_props[1][0][0][i]) << " with i = " << i;
-    EXPECT_DOUBLE_EQ(expected[i], male_age_props[2][0][0][i]) << " with i = " << i;
   }
 }
 

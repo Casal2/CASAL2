@@ -23,16 +23,16 @@ namespace niwa {
 namespace selectivities {
 
 /**
- * Explicit constructor
+ * Default constructor
  */
 LogisticProducing::LogisticProducing(Model* model)
 : Selectivity(model) {
 
-  parameters_.Bind<unsigned>(PARAM_L, &low_, "Low", "");
-  parameters_.Bind<unsigned>(PARAM_H, &high_, "High", "");
-  parameters_.Bind<Double>(PARAM_A50, &a50_, "A50", "");
-  parameters_.Bind<Double>(PARAM_ATO95, &ato95_, "Ato95", "");
-  parameters_.Bind<Double>(PARAM_ALPHA, &alpha_, "Alpha", "", 1.0);
+  parameters_.Bind<unsigned>(PARAM_L, &low_, "The low value (L)", "");
+  parameters_.Bind<unsigned>(PARAM_H, &high_, "The high value (H)", "");
+  parameters_.Bind<Double>(PARAM_A50, &a50_, "a50", "");
+  parameters_.Bind<Double>(PARAM_ATO95, &ato95_, "ato95", "")->set_lower_bound(0.0, false);
+  parameters_.Bind<Double>(PARAM_ALPHA, &alpha_, "alpha", "", 1.0)->set_lower_bound(0.0, false);
 
   RegisterAsAddressable(PARAM_A50, &a50_);
   RegisterAsAddressable(PARAM_ATO95, &ato95_);
@@ -44,13 +44,13 @@ LogisticProducing::LogisticProducing(Model* model)
  * values that were passed in from the configuration
  * file and assign them to the local variables.
  *
- * We'll then do some basic checks on the local
+ * Then do some basic checks on the local
  * variables to ensure they are within the business
  * rules for the model.
  */
 void LogisticProducing::DoValidate() {
   if (low_ > a50_ || high_ < a50_ || low_ >= high_) {
-    LOG_ERROR_P(PARAM_A50) << "low (l) can't be greater than a50, or high (h) cant be less than a50 and low can't be greater than high";
+    LOG_ERROR_P(PARAM_A50) << "low (l) cannot be greater than a50 | high (h) cannot be less than a50 | low cannot be greater than high";
   }
 
   if (alpha_ <= 0.0)
@@ -60,52 +60,55 @@ void LogisticProducing::DoValidate() {
 }
 
 /**
- * Reset this selectivity so it's ready for the next execution
+ * Reset this selectivity so it is ready for the next execution
  * phase in the model.
  *
  * This method will rebuild the cache of selectivity values
- * for each age in the model.
+ * for each age or length in the model.
  */
 void LogisticProducing::RebuildCache() {
   if (model_->partition_type() == PartitionType::kAge) {
+    Double temp = 0.0;
     for (unsigned age = model_->min_age(); age <= model_->max_age(); ++age) {
-
+      temp = age;
       if (age < low_)
         values_[age - age_index_] = 0.0;
       else if (age >= high_)
         values_[age - age_index_] = alpha_;
       else if (age == low_)
-        values_[age - age_index_] = 1.0 / (1.0 + pow(19.0, (a50_ - (Double)age) / ato95_)) * alpha_;
+        values_[age - age_index_] = alpha_ / (1.0 + pow(19.0, (a50_ - temp) / ato95_));
       else {
-        Double lambda2 = 1.0 / (1.0 + pow(19.0, (a50_- ((Double)age - 1)) / ato95_));
-        if (lambda2 > 0.9999) {
+        Double lambda2 = 1.0 / (1.0 + pow(19.0, (a50_- (temp - 1)) / ato95_));
+        if (lambda2 > 0.99999) {
           values_[age - age_index_] = alpha_;
         } else {
-          Double lambda1 = 1.0 / (1.0 + pow(19.0, (a50_ - (Double)age) / ato95_));
+          Double lambda1 = 1.0 / (1.0 + pow(19.0, (a50_ - temp) / ato95_));
           values_[age - age_index_] = (lambda1 - lambda2) / (1.0 - lambda2) * alpha_;
-          LOG_FINEST() << "age = " << age << " lambda1 = " << lambda1 << " lambda2 = " << lambda2 << " value = " <<  values_[age];
+          LOG_FINEST() << "age = " << age << " lambda1 = " << lambda1 << " lambda2 = " << lambda2 << " value = " <<  values_[age - age_index_];
         }
       }
     }
   } else if (model_->partition_type() == PartitionType::kLength) {
-    vector<unsigned> length_bins = model_->length_bins();
+    vector<double> length_bins = model_->length_bins();
+    Double temp = 0.0;
 
     for (unsigned length_bin_index = 0; length_bin_index < length_bins.size(); ++length_bin_index) {
-      Double temp = (Double)length_bins[length_bin_index];
+      temp = length_bins[length_bin_index];
       if (temp < low_)
         length_values_[length_bin_index] = 0.0;
       else if (temp >= high_)
         length_values_[length_bin_index] = alpha_;
       else if (temp == low_)
-        length_values_[length_bin_index] = 1.0 / (1.0 + pow(19.0, (a50_ - (Double)temp) / ato95_)) * alpha_;
+        length_values_[length_bin_index] = alpha_ / (1.0 + pow(19.0, (a50_ - temp) / ato95_));
       else {
-        Double lambda2 = 1.0 / (1.0 + pow(19.0, (a50_- ((Double)temp - 1)) / ato95_));
-        if (lambda2 > 0.9999) {
+        Double lambda2 = 1.0 / (1.0 + pow(19.0, (a50_- (temp - 1)) / ato95_));
+        if (lambda2 > 0.99999) {
           length_values_[length_bin_index] = alpha_;
         } else {
-          Double lambda1 = 1.0 / (1.0 + pow(19.0, (a50_ - (Double)temp) / ato95_));
+          Double lambda1 = 1.0 / (1.0 + pow(19.0, (a50_ - temp) / ato95_));
           length_values_[length_bin_index] = (lambda1 - lambda2) / (1.0 - lambda2) * alpha_;
-          LOG_FINEST() << "length = " << temp << " lambda1 = " << lambda1 << " lambda2 = " << lambda2 << " value = " <<  length_values_[length_bin_index];
+          LOG_FINEST() << "length = " << temp << " lambda1 = " << lambda1 << " lambda2 = " << lambda2
+            << " value = " <<  length_values_[length_bin_index];
         }
       }
     }
@@ -117,11 +120,12 @@ void LogisticProducing::RebuildCache() {
  *
  * @param age
  * @param age_length AgeLength pointer
+ * @param year
+ * @param time_step_index
  * @return Double selectivity for an age based on age length distribution
  */
-
 Double LogisticProducing::GetLengthBasedResult(unsigned age, AgeLength* age_length, unsigned year, int time_step_index) {
-  LOG_ERROR_P(PARAM_LENGTH_BASED) << ": This selectivity type has not been implemented for length based selectivities ";
+  LOG_ERROR_P(PARAM_LENGTH_BASED) << ": This selectivity type has not been implemented for length-based selectivities ";
   return 0.0;
 }
 

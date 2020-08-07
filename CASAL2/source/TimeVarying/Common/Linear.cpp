@@ -34,32 +34,33 @@ Linear::Linear(Model* model) : TimeVarying(model) {
 }
 
 /**
- *
+ * Validate
  */
 void Linear::DoValidate() {
 
 }
 
 /**
- *
+ * Build
  */
 void Linear::DoBuild() {
   if(model_->objects().GetAddressableType(parameter_) != addressable::kSingle)
-    LOG_ERROR_P(PARAM_TYPE) << "@time_varying blocks of type " << PARAM_LINEAR << " can only be implemented in parameters that are scalars or single values";
+    LOG_ERROR_P(PARAM_TYPE) << "@time_varying blocks of type " << PARAM_LINEAR
+      << " can be used only with parameters that are scalars or single values";
   DoReset();
 }
 
 /**
- *
+ * Reset
  */
 void Linear::DoReset() {
   bool current_year =  model_->current_year() == years_[0];
   unsigned diff = model_->current_year() - years_[0];
   LOG_FINE() << "diff unsigned = " << diff;
 
-  Double years_since_first_year = (Double)model_->current_year() - (Double)years_[0];
+  Double years_since_first_year = (Double)(model_->current_year() - years_[0]);
   LOG_FINE() << "diff from start of year = " << years_since_first_year;
-  LOG_FINE() << " did we make it past this if statement " << current_year;
+  LOG_FINE() << " made it past this if statement " << current_year;
   if (current_year) {
     // First year don't make a change
     LOG_FINE() << "Setting Value to: " << intercept_;
@@ -75,7 +76,7 @@ void Linear::DoReset() {
 }
 
 /**
- *
+ * Update
  */
 void Linear::DoUpdate() {
     (this->*update_function_)(parameter_by_year_[model_->current_year()]);

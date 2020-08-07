@@ -26,7 +26,7 @@ namespace additionalpriors {
 class UniformLog : public AdditionalPrior {
 public:
   // methods
-	UniformLog(Model* model);
+  UniformLog(Model* model);
   virtual                     ~UniformLog() = default;
   void                        DoValidate() override final;
   void                        DoBuild() override final;
@@ -34,8 +34,8 @@ public:
 
 protected:
   // members
-  Double* 										addressable_ = nullptr;
-  Double											score_ = 0.0;
+  Double*                     addressable_ = nullptr;
+  Double                      score_ = 0.0;
 };
 
 } /* namespace additionalpriors */

@@ -38,9 +38,9 @@ struct ChainLink {
   Double          penalty_;
   Double          additional_priors_;
   Double          jacobians_;
-  Double          acceptance_rate_;
-  Double          acceptance_rate_since_adapt_;
-  Double          step_size_;
+  double          acceptance_rate_;
+  double          acceptance_rate_since_adapt_;
+  double          step_size_;
   vector<Double>  values_;
 };
 }
@@ -62,11 +62,12 @@ public:
   // accessors/mutators
   vector<mcmc::ChainLink>&    chain() { return chain_; }
   bool                        active() const { return active_; }
-  ublas::matrix<Double>&      covariance_matrix() {return covariance_matrix_;}
+  ublas::matrix<double>&      covariance_matrix() {return covariance_matrix_;}
   void                        set_starting_iteration(unsigned value) { starting_iteration_ = value; }
-  void                        set_succeful_jumps(unsigned value) { successful_jumps_ = value; }
-  void                        set_step_size(Double value) { step_size_ = value; }
-  void                        set_acceptance_rate_from_last_adapt(Double value) { acceptance_rate_since_last_adapt_ = value; }
+  void                        set_successful_jumps(unsigned value) { successful_jumps_ = value; }
+  void                        set_step_size(double value) { step_size_ = value; }
+  void                        set_acceptance_rate(double value) { acceptance_rate_ = value; }
+  void                        set_acceptance_rate_from_last_adapt(double value) { acceptance_rate_since_last_adapt_ = value; }
   bool                        recalculate_covariance() const { return recalculate_covariance_; }
 
 protected:
@@ -79,17 +80,18 @@ protected:
   Model*                      model_;
   unsigned                    length_ = 0;
   unsigned                    starting_iteration_ = 0;
-  ublas::matrix<Double>       covariance_matrix_;
+  ublas::matrix<double>       covariance_matrix_;
   vector<mcmc::ChainLink>     chain_;
 
   bool                        active_;
   bool                        print_default_reports_;
   bool                        recalculate_covariance_ = false;
 
-  // These were moved from the child for scenerios where we are resuming the chain
-  Double                      step_size_ = 0.0;
+  // These were moved from the child for scenarios where we are resuming the chain
+  double                      step_size_ = 0.0;
   unsigned                    successful_jumps_ = 0;
-  Double                      acceptance_rate_since_last_adapt_ = 0;
+  double                      acceptance_rate_ = 0;
+  double                      acceptance_rate_since_last_adapt_ = 0;
 
 };
 

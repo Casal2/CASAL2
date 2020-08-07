@@ -29,13 +29,29 @@ namespace utils = niwa::utilities;
  * Default constructor
  */
 Abundance::Abundance(Model* model) : Observation(model) {
-  parameters_.Bind<string>(PARAM_SELECTIVITIES, &selectivity_labels_, "Labels of the selectivities", "", true);
-  parameters_.Bind<string>(PARAM_TIME_STEP, &time_step_label_, "The label of time-step that the observation occurs in", "");
+  obs_table_ = new parameters::Table(PARAM_OBS);
+
+  parameters_.Bind<string>(PARAM_TIME_STEP, &time_step_label_, "The label of the time step that the observation occurs in", "");
+  parameters_.Bind<string>(PARAM_CATCHABILITY, &catchability_label_, "The label of the catchability coefficient (q)", "");
+  parameters_.Bind<string>(PARAM_SELECTIVITIES, &selectivity_labels_, "The labels of the selectivities", "", true);
+  parameters_.Bind<Double>(PARAM_PROCESS_ERROR, &process_error_value_, "The process error", "", Double(0.0))->set_lower_bound(0.0);
+  parameters_.Bind<unsigned>(PARAM_YEARS, &years_, "The years for which there are observations", "");
+  parameters_.BindTable(PARAM_OBS, obs_table_, "The table of observed values and error values", "", false);
+
+  RegisterAsAddressable(PARAM_PROCESS_ERROR, &process_error_value_);
 
   allowed_likelihood_types_.push_back(PARAM_NORMAL);
   allowed_likelihood_types_.push_back(PARAM_LOGNORMAL);
   allowed_likelihood_types_.push_back(PARAM_PSEUDO);
 }
+
+/**
+ * Destructor
+ */
+Abundance::~Abundance() {
+  delete obs_table_;
+}
+
 /**
  * Validate configuration file parameters
  */
@@ -44,61 +60,72 @@ void Abundance::DoValidate() {
 
   if (category_labels_.size() != selectivity_labels_.size() && expected_selectivity_count_ != selectivity_labels_.size())
     LOG_ERROR_P(PARAM_SELECTIVITIES) << ": Number of selectivities provided (" << selectivity_labels_.size()
-        << ") is not valid. You can specify either the number of category collections (" << category_labels_.size() << ") or "
-        << "the number of total categories (" << expected_selectivity_count_ << ")";
+      << ") is not valid. Specify either the number of category collections (" << category_labels_.size() << ") or "
+      << "the number of total categories (" << expected_selectivity_count_ << ")";
 
   // Delta
   if (delta_ < 0.0)
-    LOG_ERROR_P(PARAM_DELTA) << ": delta (" << AS_DOUBLE(delta_) << ") cannot be less than 0.0";
+    LOG_ERROR_P(PARAM_DELTA) << ": delta (" << delta_ << ") cannot be less than 0.0";
   if (process_error_value_ < 0.0)
-    LOG_ERROR_P(PARAM_PROCESS_ERROR) << ": process_error (" << AS_DOUBLE(process_error_value_) << ") cannot be less than 0.0";
+    LOG_ERROR_P(PARAM_PROCESS_ERROR) << ": process_error (" << AS_VALUE(process_error_value_) << ") cannot be less than 0.0";
+
 
   // Obs
-  vector<string> obs  = obs_;
-  if (obs.size() != category_labels_.size() * years_.size())
-    LOG_ERROR_P(PARAM_OBS) << ": obs values length (" << obs.size() << ") must match the number of category collections provided ("
-        << category_labels_.size() << ") * years (" << years_.size() << ")";
+  unsigned num_obs       = category_labels_.size();
+  unsigned vals_expected = 1 + num_obs + 1; // year, observation value(s), error value
+  vector<vector<string>>& obs_data = obs_table_->data();
+  if (obs_data.size() != years_.size()) {
+    LOG_ERROR_P(PARAM_OBS) << " has " << obs_data.size() << " rows defined, but "
+      << "does not match the number of years provided " << years_.size();
+  }
 
-  // Error Value
-  if (error_values_.size() == 1 && obs.size() > 1)
-    error_values_.assign(obs.size(), error_values_[0]);
-  if (error_values_.size() != obs.size())
-    LOG_ERROR_P(PARAM_ERROR_VALUE) << ": error_value length (" << error_values_.size()
-        << ") must be same length as obs (" << obs.size() << ")";
+  LOG_MEDIUM() << "Number of categories: " << num_obs << ", number of years: " << years_.size() << ", number of observation columns: " << obs_data.size();
 
-  error_values_by_year_ = utils::Map::create(years_, error_values_);
-
-  Double value = 0.0;
-  for (unsigned i = 0; i < years_.size(); ++i) {
-    for (unsigned j = 0; j < category_labels_.size(); ++j) {
-      unsigned index = (i * category_labels_.size()) + j;
-
-      if (!utils::To<Double>(obs[index], value))
-            LOG_ERROR_P(PARAM_OBS) << ": obs value " << obs[index] << " cannot be converted to a double";
-          if (value <= 0.0)
-            LOG_ERROR_P(PARAM_OBS) << ": obs value " << value << " cannot be less than or equal to 0.0";
-
-          proportions_by_year_[years_[i]].push_back(value);
+  unsigned year    = 0;
+  Double obs_value = 0;
+  Double err_value = 0;
+  for (vector<string>& obs_data_line : obs_data) {
+    if (obs_data_line.size() != vals_expected) {
+      LOG_ERROR_P(PARAM_OBS) << " has " << obs_data_line.size() << " values defined, but does not match " << vals_expected;
     }
+
+    if (!utilities::To<unsigned>(obs_data_line.front(), year))
+      LOG_ERROR_P(PARAM_OBS) << " value " << obs_data_line.front() << " could not be converted to an unsigned integer. It should be the year for this line";
+    if (std::find(years_.begin(), years_.end(), year) == years_.end())
+      LOG_ERROR_P(PARAM_OBS) << " year " << year << " is not a valid year for this observation";
+
+    for (unsigned i = 1; i <= num_obs; ++i) {
+      if (!utilities::To<Double>(obs_data_line[i], obs_value))
+        LOG_ERROR_P(PARAM_OBS) << " value " << obs_data_line[i] << " could not be converted to a Double. It should be the observation value for this line";
+      if (obs_value <= 0.0)
+        LOG_ERROR_P(PARAM_OBS) << ": observation value " << obs_value << " for year " << year << " cannot be less than or equal to 0.0";
+      proportions_by_year_[year].push_back(obs_value);
+    }
+
+    if (!utilities::To<Double>(obs_data_line.back(), err_value))
+      LOG_ERROR_P(PARAM_OBS) << " value " << obs_data_line.back() << " could not be converted to a Double. It should be the error value for this line";
+    if (err_value <= 0.0)
+      LOG_ERROR_P(PARAM_OBS) << ": error value " << err_value << " for year " << year << " cannot be less than or equal to 0.0";
+    error_values_by_year_[year] = err_value;
   }
 }
 
 /**
- * Build any runtime relationships we may have and ensure
- * the labels for other objects are valid.
+ * Build any runtime relationships and ensure that the labels for other objects are valid.
  */
 void Abundance::DoBuild() {
+  LOG_TRACE();
+
   catchability_ = model_->managers().catchability()->GetCatchability(catchability_label_);
   if (!catchability_)
-    LOG_ERROR_P(PARAM_CATCHABILITY) << ": catchability " << catchability_label_ << " could not be found. Have you defined it?";
+    LOG_ERROR_P(PARAM_CATCHABILITY) << ": catchability label " << catchability_label_ << " was not found.";
 
-  if (catchability_->type() == PARAM_NUISANCE){
+  if (catchability_->type() == PARAM_NUISANCE) {
     nuisance_q_ = true;
     // create a dynamic cast pointer to the nuisance catchability
     nuisance_catchability_ = dynamic_cast<Nuisance*>(catchability_);
     if (!nuisance_catchability_)
-      LOG_ERROR_P(PARAM_CATCHABILITY) << ": catchability " << catchability_label_ << " could not create dynamic cast for nuisance catchability";
-
+      LOG_ERROR_P(PARAM_CATCHABILITY) << ": catchability label " << catchability_label_ << " could not create dynamic cast for nuisance catchability";
   }
 
   partition_ = CombinedCategoriesPtr(new niwa::partition::accessors::CombinedCategories(model_, category_labels_));
@@ -108,28 +135,27 @@ void Abundance::DoBuild() {
   for(string label : selectivity_labels_) {
     Selectivity* selectivity = model_->managers().selectivity()->GetSelectivity(label);
     if (!selectivity)
-      LOG_ERROR_P(PARAM_SELECTIVITIES) << ": Selectivity " << label << " does not exist. Have you defined it?";
+      LOG_ERROR_P(PARAM_SELECTIVITIES) << ": Selectivity label " << label << " was not found.";
     selectivities_.push_back(selectivity);
   }
 
-    if (selectivities_.size() == 1 && category_labels_.size() != 1)
-      selectivities_.assign(category_labels_.size(), selectivities_[0]);
-
+    if (selectivities_.size() == 1 && category_labels_.size() != 1) {
+      auto val_sel = selectivities_[0];
+      selectivities_.assign(category_labels_.size(), val_sel);
+    }
 
   if (partition_->category_count() != selectivities_.size())
     LOG_ERROR_P(PARAM_SELECTIVITIES) << ": number of selectivities provided (" << selectivities_.size() << ") does not match the number "
-        "of categories provided (" << partition_->category_count() << ")";
-
+      << "of categories provided (" << partition_->category_count() << ")";
 }
 
 /**
  * This method is called before any of the processes
- * in the timestep will be executed. This allows us to
- * take data from the partition that would otherwise be lost
- * once it's modified.
+ * in the timestep will be executed. This takes data from
+ * the partition that would otherwise be lost once it is modified.
  *
- * In this instance we'll build the cache of our cached partition
- * accessor. This accessor will hold the partition state for us to use
+ * Build the cache of the cached partition
+ * accessor. This accessor will hold the partition state to use
  * during interpolation
  */
 void Abundance::PreExecute() {
@@ -137,7 +163,7 @@ void Abundance::PreExecute() {
 }
 
 /**
- * Run our observation to generate the score
+ * Generate the score
  */
 void Abundance::Execute() {
   LOG_FINEST() << "Entering observation " << label_;
@@ -163,10 +189,12 @@ void Abundance::Execute() {
   auto cached_partition_iter = cached_partition_->Begin();
   auto partition_iter = partition_->Begin(); // auto = map<map<string, vector<partition::category&> > >
 
+  if (proportions_by_year_.find(current_year) == proportions_by_year_.end())
+    LOG_CODE_ERROR() << "proportions_by_year_[current_year] for year " << current_year << " was not found";
   if (cached_partition_->Size() != proportions_by_year_[current_year].size())
-    LOG_CODE_ERROR() << "cached_partition_->Size() != proportions_.size()";
+    LOG_CODE_ERROR() << "cached_partition_->Size() != proportions_by_year_[current_year].size()";
   if (partition_->Size() != proportions_by_year_[current_year].size())
-    LOG_CODE_ERROR() << "partition_->Size() != proportions_.size()";
+    LOG_CODE_ERROR() << "partition_->Size() != proportions_by_year_[current_year].size()";
 
   for (unsigned proportions_index = 0; proportions_index < proportions_by_year_[current_year].size(); ++proportions_index, ++partition_iter, ++cached_partition_iter) {
     expected_total = 0.0;
@@ -203,6 +231,7 @@ void Abundance::Execute() {
       // around issues with bounds in the estimation system
       expected_total *= catchability_->q();
     }
+
     error_value = error_values_by_year_[current_year];
 
     // Store the values
@@ -218,14 +247,14 @@ void Abundance::Execute() {
 }
 
 /**
- *
+ * Calculate the score
  */
 void Abundance::CalculateScore() {
   /**
    * Simulate or generate results
    * During simulation mode we'll simulate results for this observation
    */
-	LOG_FINEST() << "Calculating score for observation = " << label_;
+  LOG_FINEST() << "Calculating neglogLikelihood for observation = " << label_;
 
   if (model_->run_mode() == RunMode::kSimulation) {
     // Check if we have a nusiance q or a free q
@@ -238,16 +267,15 @@ void Abundance::CalculateScore() {
       for (auto year_iterator = comparisons_.begin();
           year_iterator != comparisons_.end(); ++year_iterator) {
         for (obs::Comparison& comparison : year_iterator->second) {
-          LOG_FINEST() << "---- Expected before nuisance Q applied = "
-              << comparison.expected_;
+          LOG_FINEST() << "---- Expected before nuisance Q applied = " << comparison.expected_;
           comparison.expected_ *= nuisance_catchability_->q();
-          LOG_FINEST() << "---- Expected After nuisance Q applied = "
-              << comparison.expected_;
-
+          LOG_FINEST() << "---- Expected After nuisance Q applied = "  << comparison.expected_;
         }
       }
     }
+
     likelihood_->SimulateObserved(comparisons_);
+
     for (auto& iter : comparisons_) {
       Double total = 0.0;
       for (auto& comparison : iter.second)
@@ -271,12 +299,11 @@ void Abundance::CalculateScore() {
         for (obs::Comparison& comparison : year_iterator->second) {
           LOG_FINEST() << "---- Expected before nuisance Q applied = " << comparison.expected_;
           comparison.expected_ *= nuisance_catchability_->q();
-          LOG_FINEST() << "---- Expected After nuisance Q applied = "
-              << comparison.expected_;
-
+          LOG_FINEST() << "---- Expected After nuisance Q applied = "  << comparison.expected_;
         }
       }
     }
+
     likelihood_->GetScores(comparisons_);
 
     for (unsigned year : years_) {

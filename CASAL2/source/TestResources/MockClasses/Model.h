@@ -67,7 +67,7 @@ public:
   MOCK_CONST_METHOD0(years, vector<unsigned>());
   MOCK_CONST_METHOD0(years_all, vector<unsigned>());
   MOCK_CONST_METHOD0(partition_type, PartitionType());
-  MOCK_CONST_METHOD0(length_bins, vector<unsigned>&());
+  MOCK_CONST_METHOD0(length_bins, vector<double>&());
   MOCK_CONST_METHOD0(length_plus, bool());
   MOCK_METHOD0(managers, niwa::Managers&());
   MOCK_METHOD0(categories, niwa::Categories*());
@@ -88,7 +88,7 @@ public:
   void set_time_steps(vector<string> time_steps) { time_steps_ = time_steps; }
   void set_initialiation_phases(vector<string> init_phases) { initialisation_phases_ = init_phases; }
   void set_partition_type(PartitionType partition_type) { partition_type_ = partition_type; }
-  void set_length_bins(vector<unsigned> length_bins) { length_bins_ = length_bins; }
+  void set_length_bins(vector<double> length_bins) { length_bins_ = length_bins; }
 
   /**
    * Mock methods to call parent

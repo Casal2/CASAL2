@@ -18,7 +18,7 @@ namespace niwa {
 namespace observations {
 
 /**
- * Default Constructor
+ * Default constructor
  */
 Manager::Manager() {
 }
@@ -30,7 +30,10 @@ Manager::~Manager() noexcept(true) {
 }
 
 /**
+ * This method returns a pointer to the observation
  *
+ * @param label The label of the observation
+ * @return a pointer to the Observation
  */
 Observation* Manager::GetObservation(const string& label) {
   for (auto observation : objects_) {
@@ -71,7 +74,7 @@ Observation* Manager::GetObservation(const string& label) {
 //}
 
 /**
- *
+ * This method calculates the score for all objects
  */
 void Manager::CalculateScores() {
   for (auto observation : objects_) {

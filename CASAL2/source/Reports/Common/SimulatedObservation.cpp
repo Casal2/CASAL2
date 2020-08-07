@@ -19,27 +19,27 @@ namespace niwa {
 namespace reports {
 
 /**
- * default constructor
+ * Default constructor
  */
 SimulatedObservation::SimulatedObservation(Model* model) : Report(model) {
   run_mode_    = RunMode::kSimulation;
   model_state_ = State::kIterationComplete;
   skip_tags_   = true;
 
-  parameters_.Bind<string>(PARAM_OBSERVATION, &observation_label_, "Observation label", "");
+  parameters_.Bind<string>(PARAM_OBSERVATION, &observation_label_, "The observation label", "");
 }
 
 /**
- * build method
+ * Build method
  */
 void SimulatedObservation::DoBuild() {
   observation_ = model_->managers().observation()->GetObservation(observation_label_);
   if (!observation_)
-    LOG_ERROR_P(PARAM_OBSERVATION) << "(" << observation_label_ << ") could not be found. Have you defined it?";
+    LOG_ERROR_P(PARAM_OBSERVATION) << "The observation label (" << observation_label_ << ") was not found.";
 }
 
 /**
- * execute method
+ * Execute method
  */
 void SimulatedObservation::DoExecute() {
   cache_ << CONFIG_SECTION_SYMBOL << PARAM_OBSERVATION << " " << label_ << "\n";
@@ -91,13 +91,12 @@ void SimulatedObservation::DoExecute() {
     for (auto iter = comparison.begin(); iter != comparison.end(); ++iter) {
       cache_ << iter->first << " ";
       for (obs::Comparison comparison : iter->second) {
-        cache_ << AS_DOUBLE(comparison.observed_) << " ";
+        cache_ << comparison.observed_ << " ";
       }
       cache_ << "\n";
     }
     cache_ << PARAM_END_TABLE << "\n";
   }
-
 
 
   // Print Error values
@@ -115,7 +114,7 @@ void SimulatedObservation::DoExecute() {
     for (auto iter = comparison.begin(); iter != comparison.end(); ++iter) {
       cache_ << iter->first << " ";
       for (obs::Comparison comparison : iter->second) {
-        cache_ << AS_DOUBLE(comparison.error_value_) << " ";
+        cache_ << comparison.error_value_ << " ";
       }
       cache_ << "\n";
     }

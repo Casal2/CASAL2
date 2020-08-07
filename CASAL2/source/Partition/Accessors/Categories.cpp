@@ -22,12 +22,12 @@ namespace partition {
 namespace accessors {
 
 /**
- * Default Constructor
+ * Default constructor
  */
 Categories::Categories(Model* model) : model_(model) { }
 
 /**
- *
+ * Initialise
  */
 void Categories::Init(const vector<string>& category_labels) {
   LOG_TRACE();
@@ -38,7 +38,7 @@ void Categories::Init(const vector<string>& category_labels) {
   if (model_->run_mode() == RunMode::kProjection)
     final_year = model_->projection_final_year();
   LOG_FINEST() << "Model details: start_year: " << start_year << "; final_year: " << final_year;
-  LOG_FINEST() << "Categories: " << category_labels.size();
+  LOG_FINEST() << "Number of categories: " << category_labels.size();
 
   Partition& partition = model_->partition();
 
@@ -54,8 +54,7 @@ void Categories::Init(const vector<string>& category_labels) {
 }
 
 /**
- * Return an iterator to the first object in our container
- * for the current year in the model.
+ * Return an iterator to the first object for the current year in the model
  *
  * @return Iterator to first stored element for current year
  */
@@ -64,8 +63,7 @@ Categories::DataType::iterator Categories::begin() {
 }
 
 /**
- * Return an iterator to the end object in our container
- * for the current year in the model
+ * Return an iterator to the last object for the current year in the model
  *
  * @return End iterator for the stored elements for current year
  */
@@ -74,7 +72,9 @@ Categories::DataType::iterator Categories::end() {
 }
 
 /**
+ * Get the number of categories for the current year
  *
+ * @return number of categories for current year
  */
 unsigned Categories::size() {
   return data_[model_->current_year()].size();

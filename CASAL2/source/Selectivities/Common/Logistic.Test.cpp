@@ -87,13 +87,13 @@ TEST(Selectivities, Logistic_Length) {
   EXPECT_CALL(model, min_age()).WillRepeatedly(Return(10));
   EXPECT_CALL(model, max_age()).WillRepeatedly(Return(20));
   EXPECT_CALL(model, age_spread()).WillRepeatedly(Return(11));
-  vector<unsigned> lengths = {10, 20, 30, 40, 50, 60, 120};
+  vector<double> lengths = {10, 20, 30, 40, 50, 60, 120};
   EXPECT_CALL(model, length_bins()).WillRepeatedly(ReturnRef(lengths));
   EXPECT_CALL(model, partition_type()).WillRepeatedly(Return(PartitionType::kLength));
 
   niwa::selectivities::Logistic logistic(&model);
 
-  vector<double> expected_values = {0.6431099137425979606, 0.5000000000000000000, 0.3568900862574020394, 0.2354523864622996010, 0.1459577602048917067, 0.0866255450880920597, 0.0027624309392264568};
+  vector<double> expected_values = {0.356890086257402, 0.500000000000000, 0.643109913742598, 0.764547613537700, 0.854042239795108, 0.913374454911908, 0.99723756906077354};
 
   logistic.parameters().Add(PARAM_LABEL, "unit_test_logistic", __FILE__, __LINE__);
   logistic.parameters().Add(PARAM_TYPE, "not needed in test", __FILE__, __LINE__);

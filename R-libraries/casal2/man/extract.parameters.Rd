@@ -7,11 +7,11 @@
 extract.parameters(file, path = "", fileEncoding = "")
 }
 \arguments{
-\item{file}{the name of the input file containing model output to extract}
+\item{file}{The name of the input file containing model output to extract}
 
-\item{path}{Optionally, the path to the file}
+\item{path}{The path to the file (optional)}
 
-\item{fileEncoding}{Optional, allows the R-library to read in files that have been encoded in alternative UTF formats, see the manual for the error message that would indicate when to use this switch.}
+\item{fileEncoding}{Switch to read in files that have been encoded in alternative UTF formats (optional); see the Casal2 User Manual for the error message that would indicate when to use this switch.}
 }
 \value{
 Data <"data.frame"> of parameters that are from a -i format.

@@ -33,14 +33,14 @@ TimeStep::TimeStep(Model* model) : model_(model) {
 }
 
 /**
- * Validate our time step
+ * Validate the time step
  */
 void TimeStep::Validate() {
   parameters_.Populate(model_);
 }
 
 /**
- * Build our time step
+ * Build the time step
  */
 void TimeStep::Build() {
 
@@ -49,7 +49,7 @@ void TimeStep::Build() {
   for (string process_name : process_names_) {
     Process* process = process_manager.GetProcess(process_name);
     if (!process) {
-      LOG_ERROR_P(PARAM_PROCESSES) << ": process " << process_name << " does not exist. Have you defined it?";
+      LOG_ERROR_P(PARAM_PROCESSES) << ": process " << process_name << " was not found.";
     } else
       processes_.push_back(process);
   }
@@ -68,7 +68,7 @@ void TimeStep::Build() {
       mortality_block_.first = mortality_block_.first == processes_.size() ? i : mortality_block_.first;
       mortality_block_.second = i;
     } else if (processes_[i]->process_type() == ProcessType::kMortality && finished_mortality_block) {
-      LOG_FATAL() << "Mortality processes within a time step need to be consecutive (i.e. a single mortality block)";
+      LOG_FATAL() << "Mortality processes within a time step need to be consecutive (i.e., a single mortality block)";
     } else if (mortality_block_.first != processes_.size())
       finished_mortality_block = true;
   }
@@ -148,7 +148,9 @@ void TimeStep::Execute(unsigned year) {
 }
 
 /**
+ * Subscribe an executor to this block
  *
+ * @param executor The pointer to the Executor
  */
 void TimeStep::SubscribeToBlock(Executor* executor) {
   vector<unsigned> years = model_->years();
@@ -157,7 +159,12 @@ void TimeStep::SubscribeToBlock(Executor* executor) {
 }
 
 /**
+ * Subscribe an executor to a specific process in a specific year
  *
+ * @param executor The pointer to the Executor
+ * @param year The year
+ * @param process_label The label of the process
+ * @return a pointer to a Process
  */
 Process* TimeStep::SubscribeToProcess(Executor* executor, unsigned year, string process_label) {
   LOG_TRACE();
@@ -174,7 +181,12 @@ Process* TimeStep::SubscribeToProcess(Executor* executor, unsigned year, string 
 }
 
 /**
+ * Subscribe an executor to a specific process for a vector of years
  *
+ * @param executor The pointer to the Executor
+ * @param year The vector of years
+ * @param process_label The label of the process
+ * @return a pointer to a Process
  */
 Process* TimeStep::SubscribeToProcess(Executor* executor, const vector<unsigned>& years, string process_label) {
   LOG_TRACE();
@@ -192,14 +204,17 @@ Process* TimeStep::SubscribeToProcess(Executor* executor, const vector<unsigned>
 }
 
 /**
+ * Set the initialisation process labels
  *
+ * @param initialisation_phase_label The initialisation phase label
+ * @param process_labels The vector of process labels
  */
 void TimeStep::SetInitialisationProcessLabels(const string& initialisation_phase_label, vector<string> process_labels_) {
   initialisation_process_labels_[initialisation_phase_label] = process_labels_;
 }
 
 /**
- *
+ * Build the initialisation process
  */
 void TimeStep::BuildInitialisationProcesses() {
   LOG_TRACE();
@@ -222,7 +237,7 @@ void TimeStep::BuildInitialisationProcesses() {
         initialisation_mortality_blocks_[iter.first].first = initialisation_mortality_blocks_[iter.first].first == processes_.size() ? i : initialisation_mortality_blocks_[iter.first].first;
         initialisation_mortality_blocks_[iter.first].second = i;
       } else if (initialisation_processes_[iter.first][i]->process_type() == ProcessType::kMortality && finished_mortality_block) {
-        LOG_FATAL() << "Mortality processes within a time step need to be consecutive (i.e. a single mortality block)";
+        LOG_FATAL() << "Mortality processes within a time step need to be consecutive (i.e., a single mortality block)";
       } else if (initialisation_mortality_blocks_[iter.first].first != processes_.size())
         finished_mortality_block = true;
     }
@@ -231,4 +246,5 @@ void TimeStep::BuildInitialisationProcesses() {
     initialisation_mortality_blocks_[iter.first].second = initialisation_mortality_blocks_[iter.first].first == processes_.size() ? initialisation_mortality_blocks_[iter.first].first : initialisation_mortality_blocks_[iter.first].second;
   }
 }
+
 } /* namespace niwa */

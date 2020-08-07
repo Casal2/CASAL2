@@ -25,10 +25,10 @@ namespace asserts {
  *
  * Bind any parameters that are allowed to be loaded from the configuration files.
  * Set bounds on registered parameters
- * Register any parameters that can be an estimated or utilised in other run modes (e.g profiling, yields, projections etc)
+ * Register any parameters that can be an estimated or utilised in other run modes (e.g., profiling, yields, projections, etc.)
  * Set some initial values
  *
- * Note: The constructor is parsed to generate Latex for the documentation.
+ * Note: The constructor is parsed to generate LaTeX for the documentation.
  */
 ObjectiveFunction::ObjectiveFunction(Model* model) : Assert(model) {
   parameters_.Bind<Double>(PARAM_VALUE, &value_, "Expected value of the objective function", "");
@@ -47,12 +47,12 @@ void ObjectiveFunction::DoBuild() {
  */
 void ObjectiveFunction::Execute() {
   niwa::ObjectiveFunction& obj = model_->objective_function();
-  if (abs(AS_DOUBLE(value_) - AS_DOUBLE(obj.score())) > 1e-5) {
+  if (fabs(AS_VALUE(value_) - AS_VALUE(obj.score())) > (tol_ * fabs(AS_VALUE(obj.score())) + tol_)) {
     std::streamsize prec = std::cout.precision();
     std::cout.precision(9);
 
-    LOG_ERROR() << "Assert Failure: Objective Function had actual value " << obj.score() << " when we expected " << value_
-        << " with difference: " << abs(AS_DOUBLE(value_) - AS_DOUBLE(obj.score()));
+    LOG_ERROR() << "Assert Failure: Objective Function had actual value " << obj.score() << " when " << value_
+      << " values were expected with difference: " << fabs(AS_VALUE(value_) - AS_VALUE(obj.score()));
 
     std::cout.precision(prec);
   }

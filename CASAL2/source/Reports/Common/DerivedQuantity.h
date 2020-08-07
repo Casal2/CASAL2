@@ -30,8 +30,8 @@ public:
 
 
 private:
-  bool						  first_run_ = true;
-  string            unit_;
+  bool                        first_run_ = true;
+  string                      unit_;
 };
 
 } /* namespace reports */

@@ -36,7 +36,7 @@ Double Normal::AdjustErrorValue(const Double process_error, const Double error_v
 }
 
 /**
- * Get the result from our likelihood
+ * Calculate the scores
  *
  * @param comparisons A collection of comparisons passed by the observation
  */
@@ -74,7 +74,7 @@ void Normal::SimulateObserved(map<unsigned, vector<observations::Comparison> >& 
       if (comparison.expected_ <= 0.0 || error_value <= 0.0)
         comparison.observed_ = 0.0;
       else
-        comparison.observed_ = rng.normal(AS_DOUBLE(comparison.expected_), AS_DOUBLE((comparison.expected_ * error_value)));
+        comparison.observed_ = rng.normal(AS_VALUE(comparison.expected_), AS_VALUE((comparison.expected_ * error_value)));
     }
   }
 }

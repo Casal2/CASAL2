@@ -35,14 +35,13 @@ namespace age {
  */
 Derived::Derived(Model* model) :
     InitialisationPhase(model), cached_partition_(model), partition_(model) {
-  parameters_.Bind<string>(PARAM_INSERT_PROCESSES, &insert_processes_, "Additional processes not defined in the annual cycle, that are to beinserted into this initialisation phase", "", true);
+  parameters_.Bind<string>(PARAM_INSERT_PROCESSES, &insert_processes_, "Additional processes not defined in the annual cycle that are to be inserted into this initialisation phase", "", true);
   parameters_.Bind<string>(PARAM_EXCLUDE_PROCESSES, &exclude_processes_, "Processes in the annual cycle to be excluded from this initialisation phase", "", true);
-  parameters_.Bind<bool>(PARAM_CASAL_INTIALISATION, &casal_initialisation_phase_, "Run an extra annual cycle to evalaute equilibrium SSB's. Warning - if true, this may not correctly evaluate the equilibrium state. Use true if attempting to replicate a legacy CASAL model", "", false);
-
+  parameters_.Bind<bool>(PARAM_CASAL_INITIALISATION, &casal_initialisation_phase_, "Run an extra annual cycle to evalaute equilibrium SSBs. Warning - if true, this may not correctly evaluate the equilibrium state. Set to true if replicating a CASAL model", "", false);
 
 }
 
-/*
+/**
  * Validate the format of insert_processes if any are given
  */
 void Derived::DoValidate() {
@@ -55,10 +54,9 @@ void Derived::DoValidate() {
 
 }
 
-/*
+/**
  * Build any runtime relationships needed for execution
  */
-
 void Derived::DoBuild() {
   time_steps_ = model_->managers().time_step()->ordered_time_steps();
 
@@ -100,10 +98,8 @@ void Derived::DoBuild() {
     }
 
     if (count == 0)
-      LOG_ERROR_P(PARAM_EXCLUDE_PROCESSES) << " process " << exclude
-          << " does not exist in any time steps to be excluded. Please check that the process is defined";
+      LOG_ERROR_P(PARAM_EXCLUDE_PROCESSES) << " process " << exclude << " does not exist in any time steps to be excluded";
   }
-
 
   // Build our partition
   vector < string > categories = model_->categories()->category_names();
@@ -127,19 +123,18 @@ void Derived::DoBuild() {
   if (recruitment_index < ageing_index)
     recruitment_ = true;
 
-
   // Find any BH_recruitment process in the annual cycle
   unsigned i = 0;
   for (auto time_step : model_->managers().time_step()->ordered_time_steps()) {
     for (auto process : time_step->processes()) {
       if (process->process_type() == ProcessType::kRecruitment && process->type() == PARAM_RECRUITMENT_BEVERTON_HOLT) {
-        LOG_FINEST() << "Found a BH process!!!!";
+        LOG_FINEST() << "Found a BevertonHolt process";
         recruitment_process_.push_back(dynamic_cast<RecruitmentBevertonHolt*>(process));
         if (!recruitment_process_[i])
           LOG_CODE_ERROR() << "BevertonHolt Recruitment exists but dynamic cast pointer cannot be made, if (!recruitment) ";
         i++;
       } else if (process->process_type() == ProcessType::kRecruitment && process->type() == PARAM_RECRUITMENT_BEVERTON_HOLT_WITH_DEVIATIONS) {
-        LOG_FINEST() << "Found a BH process!!!!";
+        LOG_FINEST() << "Found a BevertonHolt process";
         recruitment_process_with_devs_.push_back(dynamic_cast<RecruitmentBevertonHoltWithDeviations*>(process));
         if (!recruitment_process_with_devs_[i])
           LOG_CODE_ERROR() << "BevertonHolt Recruitment with deviations exists but dynamic cast pointer cannot be made, if (!recruitment) ";
@@ -147,12 +142,10 @@ void Derived::DoBuild() {
       }
     }
   }
-
-
 }
 
-/*
- * Execute our Derived Initialisation phase
+/**
+ * Execute the Derived Initialisation phase
  */
 void Derived::Execute() {
   unsigned year_range = model_->age_spread();
@@ -215,7 +208,7 @@ void Derived::Execute() {
     old_plus_group[iter] = (*category)->data_[(*category)->data_.size() - 1];
   }
 
-  LOG_FINEST() << "check relative diff";
+  LOG_FINEST() << "check relative difference";
   while (max_rel_diff > 0.005) {
     time_step_manager->ExecuteInitialisation(label_, 1);
     max_rel_diff = 0;
@@ -227,7 +220,7 @@ void Derived::Execute() {
       if (old_plus_group[iter] != 0) {
         if (fabs((plus_group[iter] - old_plus_group[iter]) / old_plus_group[iter]) > max_rel_diff)
           max_rel_diff = fabs((plus_group[iter] - old_plus_group[iter]) / old_plus_group[iter]);
-        LOG_FINEST() << " max diff " << max_rel_diff;
+        LOG_FINEST() << " max difference " << max_rel_diff;
       }
     }
     old_plus_group = plus_group;
@@ -236,28 +229,32 @@ void Derived::Execute() {
   LOG_FINEST() << "Number of Beverton-Holt recruitment processes in annual cycle = " << recruitment_process_.size();
 
   LOG_FINEST() << "Number of Beverton-Holt recruitment processes with deviations in annual cycle = " << recruitment_process_with_devs_.size();
+
   // We are at Equilibrium state here
   // Check if we have B0 initialised or R0 initialised recruitment
   bool B0_intial_recruitment = false;
   for (auto recruitment_process : recruitment_process_) {
-    if (recruitment_process->bo_initialised()) {
+    if (recruitment_process->b0_initialised()) {
       LOG_FINEST() << PARAM_B0 << " has been defined for process labelled " << recruitment_process->label();
       recruitment_process->ScalePartition();
       B0_intial_recruitment = true;
     }
   }
+
   for (auto recruitment_process_with_devs : recruitment_process_with_devs_) {
-    if (recruitment_process_with_devs->bo_initialised()) {
+    if (recruitment_process_with_devs->b0_initialised()) {
       LOG_FINEST() << PARAM_B0 << " has been defined for process labelled " << recruitment_process_with_devs->label();
       recruitment_process_with_devs->ScalePartition();
       B0_intial_recruitment = true;
     }
   }
+
   if (B0_intial_recruitment) {
     LOG_FINE() << "B0 initialised";
     // Calculate derived quanitities in the right space if we have a B0 initialised model
     time_step_manager->ExecuteInitialisation(label_, 1);
   }
+
   // Add a switch for to replicate CASAL output if this method does not reach an equilibrium State
   if (casal_initialisation_phase_) {
     LOG_FINEST() << "Legacy CASAL type initialisation has been executed";

@@ -31,8 +31,6 @@
 #include "Utilities/RunParameters.h"
 #include "Logging/Logging.h"
 
-#include "Utilities/CommandLineParser/CommandLineParser.h"
-
 // Namespaces
 using namespace niwa;
 using std::cout;
@@ -50,33 +48,36 @@ int RunUnitTests(int argc, char * argv[]) {
   return result;
 }
 #else
+
 /**
- *
+ * This method runs the unit tests
  */
 int RunUnitTests(int argc, char * argv[]) {
-  cout << "DLL was built without TESTMODE enabled but it's trying to run unit tests..." << endl;
+  cout << "The shared library was built without TESTMODE enabled but it is trying to run unit tests..." << endl;
   return -1;
 }
 
 /**
+ * This method loads the command-line arguments
  *
+ * @return 0 if successful, -1 if not
  */
 int LoadOptions(int argc, char * argv[], niwa::utilities::RunParameters& options) {
   try {
     niwa::utilities::CommandLineParser parser;
     parser.Parse(argc, argv, options);
   } catch (const string &exception) {
-    cout << "## ERROR - CASAL2 experienced a problem and has stopped execution" << endl;
+    cout << "## ERROR - Casal2 experienced a problem and has stopped execution." << endl;
     cout << "Error: " << exception << endl;
     return -1;
   } catch (std::exception& e) {
-    cout << "## ERROR - CASAL2 experienced a problem and has stopped execution" << endl;
+    cout << "## ERROR - Casal2 experienced a problem and has stopped execution." << endl;
     cout << e.what() << endl;
     return -1;
   } catch(...) {
-    cout << "## ERROR - CASAL2 experienced a problem and has stopped execution" << endl;
-    cout << "The exception was caught with the catch-all. The type was unknown" << endl;
-    cout << "Please contact the application developer" << endl;
+    cout << "## ERROR - Casal2 experienced a problem and has stopped execution." << endl;
+    cout << "The exception was caught with the catch-all. The error type was unknown." << endl;
+    cout << "Please contact the Casal2 application developer." << endl;
     return -1;
   }
 
@@ -84,7 +85,7 @@ int LoadOptions(int argc, char * argv[], niwa::utilities::RunParameters& options
 }
 
 /**
- *
+ * This method is deprecated
  */
 int PreParseConfigFiles(niwa::utilities::RunParameters& options) {
   LOG_CODE_ERROR() << "Code Deprecated";
@@ -92,18 +93,19 @@ int PreParseConfigFiles(niwa::utilities::RunParameters& options) {
 }
 
 /**
- * This is the main run method for our DLL. It's a modified version of main();
+ * This is the main run method for the shared libraries. It is a modified version of main();
  */
 int Run(int argc, char * argv[], niwa::utilities::RunParameters& options) {
   int return_code = 0;
   bool model_start_return_success = true;
 
   try {
+
     Model model;
+    reports::StandardHeader standard_report(&model);
+
     model.global_configuration().set_run_parameters(options);
     RunMode::Type run_mode = options.run_mode_;
-
-    reports::StandardHeader standard_report(&model);
 
     vector<string> cmd_parameters;
     for (int i = 0; i < argc; ++i) cmd_parameters.push_back(argv[i]);
@@ -159,8 +161,17 @@ int Run(int argc, char * argv[], niwa::utilities::RunParameters& options) {
     case RunMode::kProfiling:
     case RunMode::kProjection:
     {
-      if (!model.global_configuration().debug_mode() && !model.global_configuration().disable_standard_report())
+
+      if (run_mode != RunMode::kTesting) {
+        // reset logging
+        utilities::CommandLineParser parser;
+        parser.Parse(argc, argv, options);
+      }
+
+      if (!model.global_configuration().debug_mode() && !model.global_configuration().disable_standard_report()) {
         standard_report.Prepare();
+        model.managers().report()->set_std_header(standard_report.header());
+      }
 
       // load our configuration file
       configuration::Loader config_loader(model);
@@ -211,19 +222,18 @@ int Run(int argc, char * argv[], niwa::utilities::RunParameters& options) {
         options.minimiser_ = minimiser->type();
     }
 
-
   } catch (const string &exception) {
-    cout << "## ERROR - CASAL2 experienced a problem and has stopped execution" << endl;
+    cout << "## ERROR - Casal2 experienced a problem and has stopped execution" << endl;
     cout << "Error: " << exception << endl;
     return_code = -1;
 
   } catch (std::exception& e) {
-    cout << "## ERROR - CASAL2 experienced a problem and has stopped execution" << endl;
+    cout << "## ERROR - Casal2 experienced a problem and has stopped execution" << endl;
     cout << e.what() << endl;
     return_code = -1;
 
   } catch(...) {
-    cout << "## ERROR - CASAL2 experienced a problem and has stopped execution" << endl;
+    cout << "## ERROR - Casal2 experienced a problem and has stopped execution" << endl;
     cout << "The exception was caught with the catch-all. The type was unknown" << endl;
     cout << "Please contact the application developer" << endl;
     return_code = -1;

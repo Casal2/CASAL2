@@ -33,9 +33,8 @@ InitialisationPartitionMeanWeight::InitialisationPartitionMeanWeight(Model* mode
   model_state_ = State::kInitialise;
 }
 
-
 /**
- *
+ * Execute the report
  */
 void InitialisationPartitionMeanWeight::DoExecute() {
   LOG_TRACE();
@@ -53,7 +52,7 @@ void InitialisationPartitionMeanWeight::DoExecute() {
     cache_ << "values: ";
 
     for (unsigned age = (*iterator)->min_age_; age <= (*iterator)->max_age_; ++age)
-      cache_ << AS_DOUBLE((*iterator)->mean_weight_by_time_step_age_[time_step_index][age]) << " ";
+      cache_ << AS_VALUE((*iterator)->mean_weight_by_time_step_age_[time_step_index][age]) << " ";
     cache_<<"\n";
 
     cache_ << REPORT_R_LIST_END <<"\n";
@@ -62,8 +61,9 @@ void InitialisationPartitionMeanWeight::DoExecute() {
     cache_ << "age_lengths " << REPORT_R_LIST << "\n";
     cache_ << "values: ";
 
-    for (unsigned age = (*iterator)->min_age_; age <= (*iterator)->max_age_; ++age)
-      cache_ << AS_DOUBLE((*iterator)->mean_length_by_time_step_age_[0][time_step_index][age]) << " ";
+    unsigned age_bins = (*iterator)->age_spread();
+    for (unsigned age_index = 0; age_index < age_bins; ++age_index)
+      cache_ << AS_VALUE((*iterator)->mean_length_by_time_step_age_[0][time_step_index][age_index]) << " ";
     cache_<<"\n";
 
     cache_ << REPORT_R_LIST_END <<"\n";

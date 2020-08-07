@@ -1,0 +1,164 @@
+## Print estimate values
+@report estimated_values
+type estimate_value
+
+@report estimated_summary
+type estimate_summary
+
+@report obj_fun
+type objective_function
+
+
+## Derived Quantities
+@report DerivedQuantities
+type derived_quantity
+
+@report Init
+type initialisation_partition
+
+
+@report Hess
+type hessian_matrix
+
+
+@report Covar
+type covariance_matrix
+
+
+@report Corr
+type correlation_matrix
+
+
+@report mcmc_covariance
+type mcmc_covariance
+
+
+## Print process information
+@report Recruitment
+type process
+process Recruitment
+
+@report Mortality
+type process
+process Fishing
+
+
+@report state1
+type partition
+time_step 1
+years 2001 2010 2019
+
+
+@report Qs
+type catchability
+
+
+/*
+@report Ageing_error
+type ageing_error
+ageing_error Ageing_error
+*/
+
+
+@report growth_length_at_age
+type partition_mean_length
+time_step 1
+years 2019
+
+@report growth_weight_at_age
+type partition_mean_weight
+time_step 1
+years 2019
+
+
+/*
+@report potFSelm_selectivity
+type selectivity
+selectivity potFSelm
+
+@report potFSelf_selectivity
+type selectivity
+selectivity potFSelf
+
+@report lineFSelm_selectivity
+type selectivity
+selectivity lineFSelm
+
+@report lineFSelf_selectivity
+type selectivity
+selectivity lineFSelf
+
+@report recFSelm_selectivity
+type selectivity
+selectivity recFSelm
+
+@report recFSelf_selectivity
+type selectivity
+selectivity recFSelf
+*/
+
+@report potSSelm
+type selectivity
+selectivity potSurveySel_male
+
+@report potSSelf
+type selectivity
+selectivity potSurveySel_female
+
+
+## Fits Observations
+
+@report pot_survey
+type observation
+observation potSurvey
+pearsons_residuals True
+
+
+@report CPUE
+type observation
+observation potCPUE
+pearsons_residuals True
+
+/*
+@report AFpotSurvey
+type observation
+observation AFpotSurvey
+pearsons_residuals True
+*/
+
+
+@report LFlogbook
+type observation
+observation lgobookLF
+pearsons_residuals True
+
+
+/*
+@report LFrecCatch
+type observation
+observation rec.catch.LF
+pearsons_residuals True
+*/
+
+
+#@report LFrecLanding
+#type observation
+#observation rec.landing.LF
+#pearsons_residuals True
+
+#@report vuln.biomass
+#type biomass
+#years 1990:2019
+#categories *+
+#selectivity potFsel_length_male potFsel_length_female
+
+#@report sel
+#type selectivity
+##year 1990:2019
+#selectivity potFretained
+
+
+
+# @report TV
+# type time_varying
+

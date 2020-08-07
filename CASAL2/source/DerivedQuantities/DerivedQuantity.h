@@ -63,7 +63,7 @@ protected:
   vector<string>              category_labels_;
   accessor::Categories        partition_;
   string                      proportion_method_;
-  Double                      time_step_proportion_;
+  double                      time_step_proportion_;
   bool                        mean_proportion_method_;
 
 

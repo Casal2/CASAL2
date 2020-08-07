@@ -1,8 +1,15 @@
 # Get CASAL2 Version
-VERSION<-system("casal2.exe -v",intern=TRUE)
+# the release_betadiff executable should already exist
+VERSION <- ""
+if (Sys.info()['sysname'] == 'Windows') {
+  VERSION<-system("../BuildSystem/bin/windows/release_betadiff/casal2.exe -v",intern=TRUE)
+} else {
+  VERSION<-system("../BuildSystem/bin/linux/release_betadiff/casal2 -v",intern=TRUE)
+}
+
 VERSION<-substring(VERSION,1,regexpr(" ",VERSION)-1)
 version.number<-"1.0" #substring(VERSION,1,regexpr("-",VERSION)-1)
-version.date<- "2017-03-20" #substring(VERSION,regexpr("-",VERSION)+1)
+version.date<- "2020-06-30" #substring(VERSION,regexpr("-",VERSION)+1)
 
 # Build DESCRIPTION file
 filename<-"casal2/DESCRIPTION"
@@ -12,11 +19,11 @@ cat("\nDate: ",file=filename,append=TRUE)
 cat(version.date,file=filename,append=TRUE)
 cat("\n",file=filename,append=TRUE)
 cat("Author: D. Fu and C. Marsh\n",file=filename,append=TRUE)
-cat("Description: A set of R functions for extracting and plotting from casal2 output files.\n",file=filename,append=TRUE)
+cat("Description: A set of R functions for extracting and plotting from Casal2 output files.\n",file=filename,append=TRUE)
 cat("Maintainer: Casal2 development team <casal2@niwa.co.nz>\n",file=filename,append=TRUE)
-cat("License: CPL v1.0. See the CASAL2 User Manual for license details.\n",file=filename,append=TRUE)
-cat("URL: http://www.niwa.co.nz\n",file=filename,append=TRUE)
-cat("Copyright: National Institute of Water & Atmospheric Research (NIWA), New Zealand Ministry for Primary Industries.\n",file=filename,append=TRUE)
+cat("License: GPL-2\n",file=filename,append=TRUE)
+cat("URL: https://www.niwa.co.nz\n",file=filename,append=TRUE)
+cat("Copyright: National Institute of Water & Atmospheric Research, Ltd. (NIWA), New Zealand Ministry for Primary Industries\n",file=filename,append=TRUE)
 cat("LazyData: true\n",file=filename,append=TRUE)
 cat("BugReports: https://github.com/NIWAFisheriesModelling/CASAL2/issues\n",file=filename,append=TRUE)
 

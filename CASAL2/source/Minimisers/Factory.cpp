@@ -44,9 +44,9 @@ namespace minimisers {
  * Create the instance of our object as defined by the two parameters
  * object_type and sub_type.
  *
- * @param object_type The type of object to create (e.g age_size, process)
- * @param sub_type The child type of the object to create (e.g ageing, schnute)
- * @return shared_ptr to the object we've created
+ * @param object_type The type of object to create (e.g., age_size, process)
+ * @param sub_type The child type of the object to create (e.g., ageing, schnute)
+ * @return shared_ptr to the object
  */
 Minimiser* Factory::Create(Model* model, const string& object_type, const string& sub_type) {
   Minimiser* result = nullptr;
@@ -80,7 +80,8 @@ Minimiser* Factory::Create(Model* model, const string& object_type, const string
 //    else if (sub_type == PARAM_STAN_BFGS)
 //      result = new STANBFGS(model);
     else if (sub_type == PARAM_BETADIFF || sub_type == PARAM_ADOLC || sub_type == PARAM_CPPAD)
-      result = new Dummy(model);
+      result = new GammaDiff(model);    // REVISE - how to get frontend to work with Dummy(model)?
+//      result = new Dummy(model);
 #endif
 
     if (result)

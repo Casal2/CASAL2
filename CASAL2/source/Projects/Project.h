@@ -64,7 +64,7 @@ protected:
 
   // members
   Model*                      model_;
-  Double                      multiplier_;
+  double                      multiplier_;
   string                      type_ = "";
   vector<unsigned>            years_;
   string                      parameter_;

@@ -1,0 +1,10 @@
+Package: casalutils
+Title: NIWA CASAL utilities package
+Version: 2.09
+Date: 2006-09-26
+Author: Alistair Dunn
+Description: A set of R functions are available for interpreting and reading CASAL output.
+             For further information see the webpage http://www.niwa.co.nz/ncfa/tools/casal/
+Maintainer: CASAL development team <CASAL@niwa.co.nz>
+License: None
+

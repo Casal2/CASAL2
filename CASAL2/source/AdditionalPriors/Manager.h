@@ -24,11 +24,12 @@ namespace additionalpriors {
 class Manager : public niwa::base::Manager<niwa::additionalpriors::Manager, niwa::AdditionalPrior> {
   friend class niwa::base::Manager<niwa::additionalpriors::Manager, niwa::AdditionalPrior>;
   friend class niwa::Managers;
+
 public:
   // methods
   virtual                     ~Manager() = default;
-  bool												HasAdditionalPrior(const string& parameter);
-  AdditionalPrior*						GetAdditionalPrior(const string& parameter);
+  bool                         HasAdditionalPrior(const string& parameter);
+  AdditionalPrior*             GetAdditionalPrior(const string& parameter);
 
 protected:
   // methods

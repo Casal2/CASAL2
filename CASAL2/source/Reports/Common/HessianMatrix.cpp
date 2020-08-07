@@ -12,8 +12,9 @@
 namespace niwa {
 namespace reports {
 namespace ublas = boost::numeric::ublas;
+
 /**
- *
+ * Default constructor
  */
 HessianMatrix::HessianMatrix(Model* model) : Report(model) {
   run_mode_    = (RunMode::Type)(RunMode::kBasic | RunMode::kEstimation);
@@ -21,7 +22,7 @@ HessianMatrix::HessianMatrix(Model* model) : Report(model) {
 }
 
 /**
- * If a minimiser pointer exists this report will ask and print for the hessian matrix
+ * If a minimiser pointer exists this report will ask and print for the Gessian matrix
  */
 void HessianMatrix::DoExecute() {
   /*
@@ -40,10 +41,11 @@ void HessianMatrix::DoExecute() {
   for (unsigned i = 0; i < hessian_size; ++i) {
     for (unsigned j = 0; j < hessian_size; ++j) {
       Double value = hessian_[i][j];
-      cache_ << AS_DOUBLE(value) << " ";
+      cache_ << AS_VALUE(value) << " ";
     }
     cache_ << "\n";
   }
+
   ready_for_writing_ = true;
 }
 

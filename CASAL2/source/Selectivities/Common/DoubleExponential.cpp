@@ -24,18 +24,18 @@ namespace niwa {
 namespace selectivities {
 
 /**
- * Explicit Constructor
+ * Default Constructor
  */
 DoubleExponential::DoubleExponential(Model* model)
 : Selectivity(model) {
 
-  parameters_.Bind<Double>(PARAM_X0, &x0_, "X0", "");
-  parameters_.Bind<Double>(PARAM_X1, &x1_, "X1", "");
-  parameters_.Bind<Double>(PARAM_X2, &x2_, "X2", "");
-  parameters_.Bind<Double>(PARAM_Y0, &y0_, "Y0", "");
-  parameters_.Bind<Double>(PARAM_Y1, &y1_, "Y1", "");
-  parameters_.Bind<Double>(PARAM_Y2, &y2_, "Y2", "");
-  parameters_.Bind<Double>(PARAM_ALPHA, &alpha_, "Alpha", "", 1.0);
+  parameters_.Bind<Double>(PARAM_X0, &x0_, "The X0 parameter", "");
+  parameters_.Bind<Double>(PARAM_X1, &x1_, "The X1 parameter", "");
+  parameters_.Bind<Double>(PARAM_X2, &x2_, "The X2 parameter", "");
+  parameters_.Bind<Double>(PARAM_Y0, &y0_, "The Y0 parameter", "")->set_lower_bound(0.0);
+  parameters_.Bind<Double>(PARAM_Y1, &y1_, "The Y1 parameter", "")->set_lower_bound(0.0);
+  parameters_.Bind<Double>(PARAM_Y2, &y2_, "The Y2 parameter", "")->set_lower_bound(0.0);
+  parameters_.Bind<Double>(PARAM_ALPHA, &alpha_, "alpha", "", 1.0)->set_lower_bound(0.0, false);
 
   RegisterAsAddressable(PARAM_X0, &x0_);
   RegisterAsAddressable(PARAM_Y0, &y0_);
@@ -49,7 +49,7 @@ DoubleExponential::DoubleExponential(Model* model)
  * values that were passed in from the configuration
  * file and assign them to the local variables.
  *
- * We'll then do some basic checks on the local
+ * Then do some basic checks on the local
  * variables to ensure they are within the business
  * rules for the model.
  */
@@ -60,42 +60,46 @@ void DoubleExponential::DoValidate() {
 
   // Param: y0, y1, y2
   if (y0_ < 0.0)
-    LOG_ERROR_P(PARAM_Y0) << ": y0 (" << AS_DOUBLE(y0_) << ") is less than 0.0";
+    LOG_ERROR_P(PARAM_Y0) << ": y0 (" << AS_DOUBLE(y0_) << ") cannot be less than 0.0";
   if (y1_ < 0.0)
-    LOG_ERROR_P(PARAM_Y1) << ": y1 (" << AS_DOUBLE(y1_) << ") is less than 0.0";
+    LOG_ERROR_P(PARAM_Y1) << ": y1 (" << AS_DOUBLE(y1_) << ") cannot be less than 0.0";
   if (y2_ < 0.0)
-    LOG_ERROR_P(PARAM_Y2) << ": y2 (" << AS_DOUBLE(y2_) << ") is less than 0.0";
+    LOG_ERROR_P(PARAM_Y2) << ": y2 (" << AS_DOUBLE(y2_) << ") cannot be less than 0.0";
 
   // Param: alpha
   if (alpha_ <= 0.0)
-    LOG_ERROR_P(PARAM_ALPHA) << ": alpha (" << AS_DOUBLE(alpha_) << ") is less than or equal to 0.0";
+    LOG_ERROR_P(PARAM_ALPHA) << ": alpha (" << AS_DOUBLE(alpha_) << ") cannot be less than or equal to 0.0";
 }
 
 /**
- * Reset this selectivity so it's ready for the next execution
+ * Reset this selectivity so it is ready for the next execution
  * phase in the model.
  *
  * This method will rebuild the cache of selectivity values
- * for each age in the model.
+ * for each age or length in the model.
  */
 void DoubleExponential::RebuildCache() {
   if (model_->partition_type() == PartitionType::kAge) {
+    Double temp = 0.0;
     for (unsigned age = model_->min_age(); age <= model_->max_age(); ++age) {
-      if ((Double)age <= x0_) {
-        values_[age - age_index_] = alpha_ * y0_ * pow((y1_ / y0_), ((Double)age - x0_)/(x1_ - x0_));
-      } else if ((Double)age > x0_ && (Double)age <= x2_) {
-        values_[age - age_index_] = alpha_ * y0_ * pow((y2_ / y0_), ((Double)age - x0_)/(x2_ - x0_));
+      temp = age;
+      if (temp <= x0_) {
+        values_[age - age_index_] = alpha_ * y0_ * pow((y1_ / y0_), (temp - x0_)/(x1_ - x0_));
+      } else if (temp > x0_ && temp <= x2_) {
+        values_[age - age_index_] = alpha_ * y0_ * pow((y2_ / y0_), (temp - x0_)/(x2_ - x0_));
       } else {
         values_[age - age_index_] = y2_;
       }
     }
   } else if (model_->partition_type() == PartitionType::kLength) {
-    vector<unsigned> length_bins = model_->length_bins();
+    vector<double> length_bins = model_->length_bins();
+    Double temp = 0.0;
     for (unsigned length_bin_index = 0; length_bin_index < length_bins.size(); ++length_bin_index) {
-      if ((Double)length_bins[length_bin_index] <= x0_) {
-        length_values_[length_bin_index] = alpha_ * y0_ * pow((y1_ / y0_), ((Double)length_bins[length_bin_index] - x0_)/(x1_ - x0_));
-      } else if ((Double)length_bins[length_bin_index] > x0_ && (Double)length_bins[length_bin_index] <= x2_) {
-        length_values_[length_bin_index] = alpha_ * y0_ * pow((y2_ / y0_), ((Double)length_bins[length_bin_index] - x0_)/(x2_ - x0_));
+      temp = length_bins[length_bin_index];
+      if (temp <= x0_) {
+        length_values_[length_bin_index] = alpha_ * y0_ * pow((y1_ / y0_), (temp - x0_)/(x1_ - x0_));
+      } else if (temp > x0_ && temp <= x2_) {
+        length_values_[length_bin_index] = alpha_ * y0_ * pow((y2_ / y0_), (temp - x0_)/(x2_ - x0_));
       } else {
         length_values_[length_bin_index] = y2_;
       }
@@ -108,6 +112,8 @@ void DoubleExponential::RebuildCache() {
  *
  * @param age
  * @param age_length AgeLength pointer
+ * @param year
+ * @param time_step_index
  * @return Double selectivity for an age based on age length distribution_label
  */
 Double DoubleExponential::GetLengthBasedResult(unsigned age, AgeLength* age_length, unsigned year, int time_step_index) {
@@ -121,10 +127,10 @@ Double DoubleExponential::GetLengthBasedResult(unsigned age, AgeLength* age_leng
   if (dist == PARAM_NONE || n_quant_ <= 1) {
     // no distribution_label just use the mu from age_length
     Double val;
-    if ((Double)mean <= x0_)
-      val = alpha_ * y0_ * pow((y1_ / y0_), ((Double)mean - x0_)/(x1_ - x0_));
+    if (mean <= x0_)
+      val = alpha_ * y0_ * pow((y1_ / y0_), (mean - x0_)/(x1_ - x0_));
     else
-      val = alpha_ * y0_ * pow((y2_ / y0_), ((Double)mean - x0_)/(x2_ - x0_));
+      val = alpha_ * y0_ * pow((y2_ / y0_), (mean - x0_)/(x2_ - x0_));
     return val;
 
   } else if (dist == PARAM_NORMAL) {
@@ -136,10 +142,10 @@ Double DoubleExponential::GetLengthBasedResult(unsigned age, AgeLength* age_leng
     for (unsigned j = 0; j < n_quant_; ++j) {
       size = mean + sigma * quantiles_at_[j];
 
-      if ((Double)size <= x0_)
-        total += alpha_ * y0_ * pow((y1_ / y0_), ((Double)size - x0_)/(x1_ - x0_));
+      if (size <= x0_)
+        total += alpha_ * y0_ * pow((y1_ / y0_), (size - x0_)/(x1_ - x0_));
       else
-        total += alpha_ * y0_ * pow((y2_ / y0_), ((Double)size - x0_)/(x2_ - x0_));
+        total += alpha_ * y0_ * pow((y2_ / y0_), (size - x0_)/(x2_ - x0_));
     }
     return total / n_quant_;
 
@@ -149,20 +155,21 @@ Double DoubleExponential::GetLengthBasedResult(unsigned age, AgeLength* age_leng
     Double mu = log(mean) - sigma * sigma * 0.5;
     Double size = 0.0;
     Double total = 0.0;
-    boost::math::lognormal dist{AS_DOUBLE(mu), AS_DOUBLE(sigma)};
+    boost::math::lognormal dist{AS_VALUE(mu), AS_VALUE(sigma)};
 
     for (unsigned j = 0; j < n_quant_; ++j) {
-      size = mu + sigma * quantile(dist, AS_DOUBLE(quantiles_[j]));
+      size = mu + sigma * quantile(dist, AS_VALUE(quantiles_[j]));
 
-      if ((Double)size <= x0_)
-        total += alpha_ * y0_ * pow((y1_ / y0_), ((Double)size - x0_)/(x1_ - x0_));
+      if (size <= x0_)
+        total += alpha_ * y0_ * pow((y1_ / y0_), (size - x0_)/(x1_ - x0_));
       else
-        total += alpha_ * y0_ * pow((y2_ / y0_), ((Double)size - x0_)/(x2_ - x0_));
+        total += alpha_ * y0_ * pow((y2_ / y0_), (size - x0_)/(x2_ - x0_));
     }
     return total / n_quant_;
   }
   LOG_CODE_ERROR() << "dist is invalid " << dist;
   return 0;
 }
+
 } /* namespace selectivities */
 } /* namespace niwa */

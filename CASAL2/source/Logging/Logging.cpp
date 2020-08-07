@@ -43,7 +43,7 @@ Logging& Logging::Instance() {
 }
 
 /**
- *
+ * This method sets the log level
  */
 void Logging::SetLogLevel(const std::string& log_level) {
   if (log_level == PARAM_TRACE)
@@ -62,7 +62,7 @@ void Logging::SetLogLevel(const std::string& log_level) {
 
 #ifdef TESTMODE
 /**
- *
+ * This method flushes the standard output and standard error
  */
 void Logging::Flush(niwa::logger::Record& record) {
   record.BuildMessage();
@@ -104,7 +104,7 @@ void Logging::Flush(niwa::logger::Record& record) {
 #endif
 
 /**
- *
+ * This method summarises the errors and flushes the standard output
  */
 void Logging::FlushErrors() {
   if (errors_.size() == 0)
@@ -130,8 +130,7 @@ void Logging::FlushErrors() {
 }
 
 /**
- *	A warning report that will be compatable with R-Library, so users can still read in output.
- *
+ * A warning report that is compatable with the Casal2 R package
  */
 void Logging::FlushWarnings() {
   if (warnings_.size() == 0)

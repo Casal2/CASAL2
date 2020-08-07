@@ -28,11 +28,10 @@ using niwa::partition::accessors::CategoriesWithAge;
  * Default Constructor
  */
 RecruitmentConstant::RecruitmentConstant(Model* model) : Process(model) {
-  parameters_.Bind<string>(PARAM_CATEGORIES, &category_labels_, "Categories", "");
-  parameters_.Bind<Double>(PARAM_PROPORTIONS, &proportions_, "Proportions", "", true);
-  parameters_.Bind<unsigned>(PARAM_AGE, &age_, "Age", "");
-  parameters_.Bind<Double>(PARAM_R0, &r0_, "R0", "")
-      ->set_lower_bound(0.0, false);
+  parameters_.Bind<string>(PARAM_CATEGORIES, &category_labels_, "The categories", "");
+  parameters_.Bind<Double>(PARAM_PROPORTIONS, &proportions_, "The proportion for each category", "", true);
+  parameters_.Bind<unsigned>(PARAM_AGE, &age_, "The age", "");
+  parameters_.Bind<Double>(PARAM_R0, &r0_, "R0", "")->set_lower_bound(0.0);
 
   RegisterAsAddressable(PARAM_R0, &r0_);
   RegisterAsAddressable(PARAM_PROPORTIONS, &proportions_categories_);
@@ -45,7 +44,7 @@ RecruitmentConstant::RecruitmentConstant(Model* model) : Process(model) {
  * Validate the parameters for this process
  *
  * 1. Check for the required parameters
- * 2. Assign our label from the parameters
+ * 2. Assign the label from the parameters
  * 3. Assign remaining local parameters
  */
 void RecruitmentConstant::DoValidate() {
@@ -65,8 +64,8 @@ void RecruitmentConstant::DoValidate() {
   if (proportions_.size() > 0) {
     if (proportions_.size() != category_labels_.size()) {
       LOG_ERROR_P(PARAM_PROPORTIONS)
-          << ": Number of proportions provided is not the same as the number of categories provided. Expected: "
-          << category_labels_.size()<< " but got " << proportions_.size();
+        << ": The number of proportions provided is not the same as the number of categories provided. Categories: "
+        << category_labels_.size() << ", proportions size " << proportions_.size();
     }
 
     Double proportion_total = 0.0;
@@ -76,10 +75,10 @@ void RecruitmentConstant::DoValidate() {
 
     if (!utilities::doublecompare::IsOne(proportion_total)) {
       LOG_WARNING() << parameters_.location(PARAM_PROPORTIONS)
-          <<": proportion does not sum to 1.0. Proportion sums to " << AS_DOUBLE(proportion_total) << ". Auto-scaling proportions to sum to 1.0";
+        <<": proportion does not sum to 1.0. Proportion sums to " << AS_DOUBLE(proportion_total) << ". Auto-scaling proportions to sum to 1.0";
 
       for (Double& proportion : proportions_)
-        proportion = proportion / proportion_total;
+        proportion /= proportion_total;
     }
 
     for (unsigned i = 0; i < category_labels_.size(); ++i) {
@@ -95,15 +94,14 @@ void RecruitmentConstant::DoValidate() {
 }
 
 /**
- * Build any runtime relationships we might
- * have to other objects in the system.
+ * Build any runtime relationships to other objects in the system.
  */
 void RecruitmentConstant::DoBuild() {
   partition_ = CategoriesWithAgePtr(new CategoriesWithAge(model_, category_labels_, age_));
 }
 
 /**
- * Execute our constant recruitment process
+ * Execute the constant recruitment process
  */
 void RecruitmentConstant::DoExecute() {
   /**
@@ -122,16 +120,17 @@ void RecruitmentConstant::DoExecute() {
  }
 }
 
-/*
- * @fun FillReportCache
+/**
+ * Fill the report cache
  * @description A method for reporting process information
  * @param cache a cache object to print to
 */
 void RecruitmentConstant::FillReportCache(ostringstream& cache) {
 
 }
-/*
- * @fun FillTabularReportCache
+
+/**
+ * Fill the tabular report cache
  * @description A method for reporting tabular process information
  * @param cache a cache object to print to
  * @param first_run whether to print the header

@@ -1,0 +1,11 @@
+* MPD
+estimate_values:
+process[Recruitment].b0 age_length[age_len_label].cv_first age_length[age_len_label].cv_last selectivity[SELandes].a50 selectivity[SELandes].ato95 
+27500.6 0.103046 0.0308078 33.594 8.28892 
+covariance_matrix:
+1.20884e+06 0.193531 1.01263 1673.57 580.022 
+0.193531 0.000180005 -5.90679e-05 -0.00583816 -0.0105117 
+1.01263 -5.90679e-05 6.25077e-05 0.0021442 0.00183794 
+1673.57 -0.00583816 0.0021442 3.396 2.64005 
+580.022 -0.0105117 0.00183794 2.64005 3.4061 
+*end

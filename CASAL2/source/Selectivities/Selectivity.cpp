@@ -23,16 +23,16 @@
 namespace niwa {
 
 /**
- * Explicit Constructor
+ * Default Constructor
  */
 Selectivity::Selectivity(Model* model)
 : model_(model) {
 
   parameters_.Bind<string>(PARAM_LABEL, &label_, "The label for this selectivity", "");
   parameters_.Bind<string>(PARAM_TYPE, &type_, "The type of selectivity", "");
-  parameters_.Bind<bool>(PARAM_LENGTH_BASED, &length_based_, "Is the selectivity length based", "", false);
-  parameters_.Bind<unsigned>(PARAM_INTERVALS, &n_quant_, "Number of quantiles to evaluate a length based selectivity over the age length distribution", "", 5);
-  parameters_.Bind<string>(PARAM_PARTITION_TYPE, &partition_type_label_, "The type of partition this selectivity will support, Defaults to same as the model", "", PARAM_MODEL)
+  parameters_.Bind<bool>(PARAM_LENGTH_BASED, &length_based_, "Is the selectivity length based?", "", false);
+  parameters_.Bind<unsigned>(PARAM_INTERVALS, &n_quant_, "The number of quantiles to evaluate a length-based selectivity over the age-length distribution", "", 5);
+  parameters_.Bind<string>(PARAM_PARTITION_TYPE, &partition_type_label_, "The type of partition that this selectivity will support. Defaults to the same as the model", "", PARAM_MODEL)
       ->set_allowed_values({PARAM_MODEL, PARAM_AGE, PARAM_LENGTH, PARAM_HYBRID});
 
   RegisterAsAddressable(PARAM_VALUES, &values_, addressable::kLookup);
@@ -40,7 +40,7 @@ Selectivity::Selectivity(Model* model)
 }
 
 /**
- *
+ * Validate the objects
  */
 void Selectivity::Validate() {
   parameters_.Populate(model_);
@@ -52,7 +52,7 @@ void Selectivity::Validate() {
   else if (partition_type_label_ == PARAM_LENGTH)
     partition_type_ = PartitionType::kLength;
   else {
-    LOG_CODE_ERROR() << "Selectivity does not recognise the current partition_type. It's not length or age";
+    LOG_CODE_ERROR() << "The current partition_type is not recognized for this selectivity. It is not length or age";
   }
   age_index_ = model_->min_age();
 
@@ -64,7 +64,7 @@ void Selectivity::Validate() {
     for (unsigned i = 1; i <= n_quant_; ++i) {
       quantiles_.push_back((Double(i) - 0.5) / Double(n_quant_));
       LOG_FINEST() << ": Quantile value = " << quantiles_[i - 1];
-      quantiles_at_.push_back(quantile(dist, AS_DOUBLE(quantiles_[i - 1])));
+      quantiles_at_.push_back(quantile(dist, AS_VALUE(quantiles_[i - 1])));
       LOG_FINEST() << ": Normal quantile value = " << quantiles_at_[i - 1];
     }
   }
@@ -78,7 +78,7 @@ void Selectivity::Validate() {
 
 
 /**
- *
+ * Reset the objects
  */
 void Selectivity::Reset() {
   if (is_estimated_) {
@@ -88,13 +88,12 @@ void Selectivity::Reset() {
 
 /**
  * Return the cached value for the specified age or length from
- * our internal map
+ * the internal map
  *
  * @param age_or_length The age or length to get selectivity value for
- * @param time_step_index The time step we want to use for length based results
+ * @param time_step_index The time step to use for length based results
  * @return The value stored in the map or 0.0 as default
  */
-
 Double Selectivity::GetAgeResult(unsigned age, AgeLength* age_length) {
   if (!length_based_) {
     if (age - age_index_ >= values_.size())
@@ -108,15 +107,17 @@ Double Selectivity::GetAgeResult(unsigned age, AgeLength* age_length) {
 }
 
 /**
+ * Return the length values for a length bin
  *
+ * @param length_bin_index The index of the length bin
+ * @return the length value
  */
 Double Selectivity::GetLengthResult(unsigned length_bin_index) {
   return length_values_[length_bin_index];
 }
 
-
 /**
- * This method will return a pointer to a 4D vector object
+ * This method returns a pointer to a 4D vector object
  * containing age length cached values for the target age_length object.
  *
  * If the target object does not exist, then it will build it.

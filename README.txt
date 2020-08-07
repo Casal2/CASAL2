@@ -26,7 +26,7 @@ See the Casal2 User Manual for a copy of the software license.
 Installation
 ============
 
-Your can either
+You can either
 
 Use the Microsoft Windows installer for Casal2. This copies 
 the progam files to the install directory, creates icons in 
@@ -34,7 +34,7 @@ your start menu, and modifies the system registry to,
 (i)   Add to the the Casal2 install directory to the systems 
       PATH
 (ii)  Associate .csl2 files with the Casal2 icon and to open 
-      with Notepad.exe
+      with a text editor like Notepad++
 (iii) Register the uninstall information required for 
       Microsoft Windows to uninstall Casal2.
 
@@ -43,7 +43,7 @@ reboot after installing to re-initialise the system PATH.
 
 Or
 
-Manually copy the Casal2 executable and assocuiated dll files 
+Manually copy the Casal2 executable and associated dll files 
 to a location of your choice.
 
 Note that Casal2 is a console program, and can only be used 
@@ -60,6 +60,7 @@ uninstall manually, delete the files from your computer
 depends on your choices when you installed 
 the program) and any program links in your Start menu.
 
+
 Contributing to Casal2
 ======================
 
@@ -67,6 +68,7 @@ For users who are interested in contributing to Casal2 please see
 ContributorsGuide.pdf which will show you how to get access to the 
 source code, build Casal2 on your local machine and ultimately add 
 functionality to the publically available program.
+
 
 Contact
 =======
@@ -81,3 +83,4 @@ Textpad syntax highlighter
 
 To embed the syntax highlighter recommended for viewing .csl2 files, see
 TextPad_syntax_highlighter.readme for steps on how to do this.
+

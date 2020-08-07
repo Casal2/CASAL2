@@ -20,9 +20,14 @@
 // Headers
 #include "Reports/Report.h"
 
+#include <boost/numeric/ublas/matrix.hpp>
+
 // Namespaces
 namespace niwa {
+class Minimiser;
+
 namespace reports {
+namespace ublas = boost::numeric::ublas;
 
 /**
  * Class definition
@@ -36,6 +41,10 @@ public:
   void                        DoBuild() override final { };
   void                        DoExecute() override final;
   void                        DoExecuteTabular() override final { };
+
+private:
+  ublas::matrix<double>       covariance_matrix_;
+
 };
 
 } /* namespace reports */

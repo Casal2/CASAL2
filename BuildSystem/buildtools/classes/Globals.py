@@ -3,6 +3,7 @@ This module contains the list of global variables we're going to be
 using throughout the build system
 """
 operating_system_ = ""
+in_docker_        = ""
 path_             = ""
 compiler_path_    = ""
 gfortran_path_    = ""
@@ -20,16 +21,16 @@ target_special_lig_path_ = ""
 
 allowed_build_targets_ = [ "debug", "release", "documentation", "thirdparty", "thirdpartylean",
                            "test", "archive", "all", "clean", "cleanall", "help",
-                           "check", "modelrunner", "installer", "deb", "library", "frontend" ,"rlibrary"]
+                           "check", "modelrunner", "installer", "deb", "library", "frontend" ,"rlibrary", "documentationman"]
 allowed_build_types_ = [ "debug", "release", "test" ]
 allowed_build_parameters_ = [ "", "adolc", "betadiff", "cppad" ]
 allowed_library_parameters_ = [ "release", "test", "adolc", "betadiff", "cppad" ]
 
 def PrintError(error_message):
-  print "\n\n\n"
-  print "###### ERROR ######"
-  print "Error Description:"
-  print error_message
-  print "###### ERROR ######"
-  print "\n\n\n"
+  print("\n\n\n")
+  print("###### ERROR ######")
+  print("Error Description:")
+  print(error_message)
+  print("###### ERROR ######")
+  print("\n\n\n")
   return False

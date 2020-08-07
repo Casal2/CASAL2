@@ -24,7 +24,10 @@ Manager::Manager() {
 }
 
 /**
+ * Return the penalty with a specified label
  *
+ * @param label The label of the penalty
+ * @return a pointer to the Penalty
  */
 Penalty* Manager::GetPenalty(const string& label) const {
   for (auto penalty : objects_) {
@@ -39,7 +42,7 @@ Penalty* Manager::GetPenalty(const string& label) const {
 /**
  * Get a pointer to a "process" type penalty.
  *
- * @param label The label of the penalty we want to find
+ * @param label The label of the penalty
  * @return shared_ptr to penalty or empty shared_ptr if not found
  */
 penalties::Process* Manager::GetProcessPenalty(const string& label) {
@@ -51,18 +54,16 @@ penalties::Process* Manager::GetProcessPenalty(const string& label) {
   return nullptr;
 }
 
-
-
 /**
- * Flag a penalty and store it for retrieval later
+ * Flag a penalty and store it for later retrieval
  *
  * @param label of the penalty to flag
  * @param value The penalty amount
  */
 void Manager::FlagPenalty(const string& label, Double value) {
   Info penalty;
-  penalty.label_  = label;
-  penalty.score_  = value;
+  penalty.label_ = label;
+  penalty.score_ = value;
 
   flagged_penalties_.push_back(penalty);
 }
