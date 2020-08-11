@@ -12,8 +12,10 @@ selectivities survey_sel
 likelihood lognormal
 process_error 0.0
 years 2001:2030
-obs   1.0  1.0
-error_value 0.10
+table obs
+2001 1.0 0.10
+2030 1.0 0.10
+end_table
 
 @observation survey_prop_at_age
 type proportions_at_age

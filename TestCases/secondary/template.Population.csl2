@@ -6,8 +6,8 @@ final_year 2030
 projection_final_year 2035
 min_age 1
 max_age 12
-base_weight_units tonnes
 age_plus true
+base_weight_units tonnes
 initialisation_phases Equilibrium_phase
 time_steps Jul_Jun
 
@@ -27,7 +27,7 @@ casal_initialisation_switch false
 ## Define the Annual Cycle
 ## This is a list of labels that correspond to a process
 @time_step Jul_Jun
-processes Recruitment halfM Fishing_Mortality halfM Ageing
+processes Ageing Recruitment halfM Fishing_Mortality halfM
 
 
 ## Define the above Processes
@@ -54,7 +54,7 @@ categories stock
 @process Fishing_Mortality
 type mortality_instantaneous
 m 0.0
-selectivities One
+relative_m_by_age One
 categories stock
 time_step_ratio 0.5
 table catches
@@ -72,7 +72,7 @@ end_table
 type constant_rate
 categories stock
 M 0.1
-selectivities One
+relative_m_by_age One
 
 
 ## Derived Quantities
@@ -81,7 +81,7 @@ selectivities One
 type biomass
 time_step Jul_Jun
 categories stock
-time_step_proportion 0.0
+time_step_proportion 8.33333e-007
 time_step_proportion_method weighted_sum
 selectivities maturity_sel
 
