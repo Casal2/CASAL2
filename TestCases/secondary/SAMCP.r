@@ -323,3 +323,71 @@ for (ds_idx in 1:num_ds) {
 }
 
 saveRDS(ds_mpd, file=file.path(run_dir, 'C2_ds_mpd.rds'), compress='bzip2')
+
+
+
+# summarise
+
+SSB_mat    <- matrix(0, nrow=num_ds, ncol=length(ds_mpd[[1]]$DerivedQuantities$SSB$values))
+Rec_mat    <- matrix(0, nrow=num_ds, ncol=length(ds_mpd[[1]]$Recruitment$Recruits))
+survey_mat <- matrix(0, nrow=num_ds, ncol=length(ds_mpd[[1]]$survey_abundance$Values$expected))
+U_mat      <- matrix(0, nrow=num_ds, ncol=length(ds_mpd[[1]]$Mortality$`fishing_pressure[Fishery]`))
+catch_mat  <- matrix(0, nrow=num_ds, ncol=length(ds_mpd[[1]]$Mortality$`catch[Fishery]`))
+
+survey_q <- c()
+SB0      <- c()
+R0       <- c()
+
+for (d in 1:num_ds) {
+    dsl            <- ds_mpd[[d]]
+
+    SSB_mat[d,]    <- dsl$DerivedQuantities$SSB$values
+    Rec_mat[d,]    <- dsl$Recruitment$Recruits
+    survey_mat[d,] <- dsl$survey_abundance$Values$expected
+    U_mat[d,]      <- dsl$Mortality$`fishing_pressure[Fishery]`
+    catch_mat[d,]  <- dsl$Mortality$`catch[Fishery]`
+
+    survey_q[d]    <- dsl$Qs$survey_q
+    SB0[d]         <- dsl$Recruitment$b0
+    R0[d]          <- dsl$Recruitment$r0
+}
+
+
+
+boxplot(survey_q, main='Survey catchability')
+
+boxplot(SB0, main='Equilibrium spawning biomass')
+
+boxplot(R0, main='Equilibrium recruits')
+
+
+
+true_ssb <- sim1$SSB
+true_rec <- sim1$N.age[,1]
+model_years <- 13:42
+
+boxplot(SSB_mat, main='SSB')
+lines(13:42, sim1$SSB, col='cyan3', lwd=2)
+
+boxplot(Rec_mat, main='Recruits')
+lines(13:42, true_rec, col='cyan3', lwd=2)
+
+boxplot(survey_mat, main='Survey index of abundance')
+lines(survey.sim1, col='cyan3', lwd=2)
+
+boxplot(U_mat, main='Exploitation rate')
+lines(13:42, sim1$F, col='cyan3', lwd=2)
+
+boxplot(catch_mat, main='Catch')
+lines(13:42, sim1$L.mt, col='cyan3', lwd=2)
+
+
+
+# percent difference
+SSB_mat.pd    <- 100.0 * ((SSB_mat[,model_years] / true_ssb) - 1)
+
+Rec_mat.pd    <- 100.0 * ((Rec_mat[,model_years] / true_rec) - 1)
+
+survey_mat.pd <- 100.0 * ((survey_mat / survey.sim1) - 1)
+
+catch_mat.pd  <- 100.0 * ((catch_mat[,model_years] / sim1$L.mt) - 1)
