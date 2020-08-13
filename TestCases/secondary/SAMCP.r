@@ -1,6 +1,10 @@
 # NOAA-SAMCP
 # R 3.6.3, 2020-04-30
 
+require(plyr)
+require(dplyr)
+require(ggplot2)
+
 require(casal2)
 require(here)
 
@@ -320,6 +324,11 @@ for (ds_idx in 1:num_ds) {
     # [19] "Covar"                "Corr"                 "warnings_encounted"
 
 
+    # save simulation-specific values
+    ds_mpd[[ds_idx]]$sim.true  <- dat.sim1
+    ds_mpd[[ds_idx]]$sim.noise <- dat.input
+
+
     setwd(current_dir)
 
 }
@@ -330,15 +339,27 @@ saveRDS(ds_mpd, file=file.path(run_dir, 'C2_ds_mpd.rds'), compress='bzip2')
 
 # summarise
 
-SSB_mat    <- matrix(0, nrow=num_ds, ncol=length(ds_mpd[[1]]$DerivedQuantities$SSB$values))
-Rec_mat    <- matrix(0, nrow=num_ds, ncol=length(ds_mpd[[1]]$Recruitment$Recruits))
-survey_mat <- matrix(0, nrow=num_ds, ncol=length(ds_mpd[[1]]$survey_abundance$Values$expected))
-U_mat      <- matrix(0, nrow=num_ds, ncol=length(ds_mpd[[1]]$Mortality$`fishing_pressure[Fishery]`))
-catch_mat  <- matrix(0, nrow=num_ds, ncol=length(ds_mpd[[1]]$Mortality$`catch[Fishery]`))
+SSB_mat    <- matrix(0, nrow=num_ds, ncol=length(ds_mpd[[1]]$DerivedQuantities$SSB$values), dimnames=list(NULL, full_year_vec))
+Rec_mat    <- matrix(0, nrow=num_ds, ncol=length(ds_mpd[[1]]$Recruitment$Recruits), dimnames=list(NULL, full_year_vec))
+survey_mat <- matrix(0, nrow=num_ds, ncol=length(ds_mpd[[1]]$survey_abundance$Values$expected), dimnames=list(NULL, year_vec))
+U_mat      <- matrix(0, nrow=num_ds, ncol=length(ds_mpd[[1]]$Mortality$`fishing_pressure[Fishery]`), dimnames=list(NULL, full_year_vec))
+catch_mat  <- matrix(0, nrow=num_ds, ncol=length(ds_mpd[[1]]$Mortality$`catch[Fishery]`), dimnames=list(NULL, full_year_vec))
 
-survey_q <- c()
+
+survey_pd.true  <- matrix(0, nrow=num_ds, ncol=length(year_vec), , dimnames=list(NULL, year_vec))
+survey_pd.noise <- matrix(0, nrow=num_ds, ncol=length(year_vec), , dimnames=list(NULL, year_vec))
+
+catch_pd.true  <- matrix(0, nrow=num_ds, ncol=length(year_vec), , dimnames=list(NULL, year_vec))
+catch_pd.noise <- matrix(0, nrow=num_ds, ncol=length(year_vec), , dimnames=list(NULL, year_vec))
+
+
+survey_q <- data.frame()
 SB0      <- c()
 R0       <- c()
+
+
+model_years <- 13:42
+
 
 for (d in 1:num_ds) {
     dsl            <- ds_mpd[[d]]
@@ -349,40 +370,26 @@ for (d in 1:num_ds) {
     U_mat[d,]      <- dsl$Mortality$`fishing_pressure[Fishery]`
     catch_mat[d,]  <- dsl$Mortality$`catch[Fishery]`
 
-    survey_q[d]    <- dsl$Qs$survey_q
-    SB0[d]         <- dsl$Recruitment$b0
-    R0[d]          <- dsl$Recruitment$r0
+
+    survey_pd.true[d,]  <- survey_mat[d,] / dsl$sim.true$survey.obs
+    survey_pd.noise[d,] <- survey_mat[d,] / dsl$sim.noise$survey.obs
+
+    catch_pd.true[d,]   <- catch_mat[d,model_years] / dsl$sim.true$L.obs
+    catch_pd.noise[d,]  <- catch_mat[d,model_years] / dsl$sim.noise$L.obs
+
+
+    survey_q <- bind_rows(survey_q, data.frame(name=c('Casal2', 'Sim', 'Sim+noise'), value=c(dsl$Qs$survey_q, dsl$sim.true$q, dsl$sim.noise$q)))
+    SB0[d]       <- dsl$Recruitment$b0
+    R0[d]        <- dsl$Recruitment$r0
 }
 
 
 
-boxplot(survey_q, main='Survey catchability')
-
-boxplot(SB0, main='Equilibrium spawning biomass')
-
-boxplot(R0, main='Equilibrium recruits')
-
-
-
-true_ssb <- sim1$SSB
-true_rec <- sim1$N.age[,1]
-model_years <- 13:42
-
-boxplot(SSB_mat, main='SSB')
-lines(13:42, sim1$SSB, col='cyan3', lwd=2)
-
-boxplot(Rec_mat, main='Recruits')
-lines(13:42, true_rec, col='cyan3', lwd=2)
-
-boxplot(survey_mat, main='Survey index of abundance')
-lines(survey.sim1, col='cyan3', lwd=2)
-
-boxplot(U_mat, main='Exploitation rate')
-lines(13:42, sim1$F, col='cyan3', lwd=2)
-
-boxplot(catch_mat, main='Catch')
-lines(13:42, sim1$L.mt, col='cyan3', lwd=2)
-
+true_ssb    <- sim1$SSB
+true_rec    <- sim1$N.age[,1]
+true_survey <- survey.sim1
+true_F      <- sim1$F
+true_catch  <- sim1$L.mt
 
 
 # percent difference
@@ -393,6 +400,40 @@ Rec_mat.pd    <- 100.0 * ((Rec_mat[,model_years] / true_rec) - 1)
 survey_mat.pd <- 100.0 * ((survey_mat / survey.sim1) - 1)
 
 catch_mat.pd  <- 100.0 * ((catch_mat[,model_years] / sim1$L.mt) - 1)
+
+
+survey_pd.true  <- 100.0 * (survey_pd.true - 1)
+survey_pd.noise <- 100.0 * (survey_pd.noise - 1)
+
+catch_pd.true   <- 100.0 * (catch_pd.true - 1)
+catch_pd.noise  <- 100.0 * (catch_pd.noise - 1)
+
+
+
+boxplot(value ~ name, survey_q, xlab='', ylab='', main='Survey catchability')
+
+boxplot(SB0, main='Equilibrium spawning biomass')
+
+boxplot(R0, main='Equilibrium recruits')
+
+
+
+boxplot(SSB_mat, main='SSB')
+lines(13:42, true_ssb, col='cyan3', lwd=2)
+
+boxplot(Rec_mat, main='Recruits')
+lines(13:42, true_rec, col='cyan3', lwd=2)
+
+boxplot(survey_mat, main='Survey index of abundance')
+lines(true_survey, col='cyan3', lwd=2)
+
+boxplot(U_mat, main='Exploitation rate')
+lines(13:42, true_F, col='cyan3', lwd=2)
+
+boxplot(catch_mat, main='Catch')
+lines(13:42, true_catch, col='cyan3', lwd=2)
+
+
 
 
 boxplot(SSB_mat.pd, ylab='Percent difference', main='SSB')
@@ -406,5 +447,34 @@ abline(h=0)
 
 boxplot(catch_mat.pd, ylab='Percent difference', main='Catch')
 abline(h=0)
+
+
+
+boxplot(survey_pd.true, ylab='Percent difference', main='Survey index: sim true')
+abline(h=0)
+
+boxplot(survey_pd.noise, ylab='Percent difference', main='Survey index: sim with noise')
+abline(h=0)
+
+boxplot(catch_pd.true, ylab='Percent difference', main='Catch: sim true')
+abline(h=0)
+
+boxplot(catch_pd.noise, ylab='Percent difference', main='Catch: sim with noise')
+abline(h=0)
+
+
+
+
+p <- ggplot(survey_q, aes(x=name, y=value, fill=name)) + geom_violin() + labs(title = 'Survey catchability')
+p <- p + theme(legend.position='none')
+plot(p)
+
+p <- ggplot(as.data.frame(SB0), aes(x=0, y=SB0, fill=SB0)) + geom_violin() + labs(title = 'SB0')
+p <- p + geom_hline(yintercept=(par.sim1$R0 * par.sim1$Phi.0), color='red') + theme(legend.position='none')
+plot(p)
+
+p <- ggplot(as.data.frame(R0), aes(x=0, y=R0, fill=R0)) + geom_violin() + labs(title='R0')
+p <- p + geom_hline(yintercept=par.sim1$R0, color='red') + theme(legend.position='none')
+plot(p)
 
 

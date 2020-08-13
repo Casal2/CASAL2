@@ -12,6 +12,7 @@ require(huxtable)
 require(rlist)
 require(coda)
 require(gridExtra)
+require(ggplot2)
 require(ggmcmc)
 require(ggthemes)
 

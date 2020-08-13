@@ -42,13 +42,15 @@ The main characteristics of the Casal2 model are:
 Observation data include:
 
 * survey index of abundance, at the beginning of the year
-* survey proportions-at-age
-* fishery proportions-at-age
+* survey proportions-at-age, at the beginning of the year
+* fishery proportions-at-age, in the middle of the year
 
 Parameters estimated include:
 
 * SB0
 * survey catchability ($q$)
+* survey selectivity (two parameters)
+* fishery selectivity (two parameters)
 * YCS (recruitment deviations)
 
 
@@ -276,6 +278,16 @@ num_ds <- length(om_files)
 ```{r run_C2_MPD, echo=FALSE, warning=TRUE, message=TRUE}
 ds_mpd <- list()
 
+# simulated data
+# > names(dat.sim1)
+# [1] "L.obs"          "survey.obs"     "L.age.obs"      "survey.age.obs" "q"
+
+# simulated data with noise
+# > names(dat.input)
+# [1] "L.obs"          "survey.obs"     "L.age.obs"      "survey.age.obs" "q"
+# [6] "cv.L"           "cv.survey"
+
+
 for (ds_idx in 1:num_ds) {
 
     print(paste('Running number', ds_idx))
@@ -322,6 +334,11 @@ for (ds_idx in 1:num_ds) {
     # [19] "Covar"                "Corr"                 "warnings_encounted"
 
 
+    # save simulation-specific values
+    ds_mpd[[ds_idx]]$sim.true  <- dat.sim1
+    ds_mpd[[ds_idx]]$sim.noise <- dat.input
+
+
     setwd(base_dir)
 
 }
@@ -341,19 +358,27 @@ true_catch  <- sim1$L.mt
 index_years <- 13:42
 num_years   <- length(index_years)
 
-SSB_mat    <- matrix(0, nrow=num_ds, ncol=length(ds_mpd[[1]]$DerivedQuantities$SSB$values))
-Rec_mat    <- matrix(0, nrow=num_ds, ncol=length(ds_mpd[[1]]$Recruitment$Recruits))
+SSB_mat    <- matrix(0, nrow=num_ds, ncol=length(ds_mpd[[1]]$DerivedQuantities$SSB$values), dimnames=list(NULL, full_year_vec))
+Rec_mat    <- matrix(0, nrow=num_ds, ncol=length(ds_mpd[[1]]$Recruitment$Recruits), dimnames=list(NULL, full_year_vec))
 survey_mat <- matrix(0, nrow=num_ds, ncol=length(ds_mpd[[1]]$survey_abundance$Values$expected))
-U_mat      <- matrix(0, nrow=num_ds, ncol=length(ds_mpd[[1]]$Mortality$`fishing_pressure[Fishery]`))
-catch_mat  <- matrix(0, nrow=num_ds, ncol=length(ds_mpd[[1]]$Mortality$`catch[Fishery]`))
+U_mat      <- matrix(0, nrow=num_ds, ncol=length(ds_mpd[[1]]$Mortality$`fishing_pressure[Fishery]`), dimnames=list(NULL, full_year_vec))
+catch_mat  <- matrix(0, nrow=num_ds, ncol=length(ds_mpd[[1]]$Mortality$`catch[Fishery]`), dimnames=list(NULL, full_year_vec))
 
-SSB_pd     <- matrix(0, nrow=num_ds, ncol=num_years)
-Rec_pd     <- matrix(0, nrow=num_ds, ncol=num_years)
-survey_pd  <- matrix(0, nrow=num_ds, ncol=num_years)
-U_pd       <- matrix(0, nrow=num_ds, ncol=num_years)
-catch_pd   <- matrix(0, nrow=num_ds, ncol=num_years)
+# compare simulation-specific values
+survey_pd.true  <- matrix(0, nrow=num_ds, ncol=length(year_vec), , dimnames=list(NULL, year_vec))
+survey_pd.noise <- matrix(0, nrow=num_ds, ncol=length(year_vec), , dimnames=list(NULL, year_vec))
 
-survey_q <- c()
+catch_pd.true  <- matrix(0, nrow=num_ds, ncol=length(year_vec), , dimnames=list(NULL, year_vec))
+catch_pd.noise <- matrix(0, nrow=num_ds, ncol=length(year_vec), , dimnames=list(NULL, year_vec))
+
+
+SSB_pd     <- matrix(0, nrow=num_ds, ncol=num_years, dimnames=list(NULL, year_vec))
+Rec_pd     <- matrix(0, nrow=num_ds, ncol=num_years, dimnames=list(NULL, year_vec))
+survey_pd  <- matrix(0, nrow=num_ds, ncol=num_years, dimnames=list(NULL, year_vec))
+U_pd       <- matrix(0, nrow=num_ds, ncol=num_years, dimnames=list(NULL, year_vec))
+catch_pd   <- matrix(0, nrow=num_ds, ncol=num_years, dimnames=list(NULL, year_vec))
+
+survey_q <- data.frame()
 SB0      <- c()
 R0       <- c()
 
@@ -366,16 +391,28 @@ for (d in 1:num_ds) {
     U_mat[d,]      <- dsl$Mortality$`fishing_pressure[Fishery]`
     catch_mat[d,]  <- dsl$Mortality$`catch[Fishery]`
 
+    survey_pd.true[d,]  <- survey_mat[d,] / dsl$sim.true$survey.obs
+    survey_pd.noise[d,] <- survey_mat[d,] / dsl$sim.noise$survey.obs
+
+    catch_pd.true[d,]  <- catch_mat[d,model_years] / dsl$sim.true$L.obs
+    catch_pd.noise[d,] <- catch_mat[d,model_years] / dsl$sim.noise$L.obs
+
     SSB_pd[d,]     <- (SSB_mat[d,index_years] / true_ssb)
     Rec_pd[d,]     <- (Rec_mat[d,index_years] / true_rec)
     survey_pd[d,]  <- (survey_mat[d,] / true_survey)
     # U_pd[d,]       <- (U_mat[d,index_years] / ???)
     catch_pd[d,]   <- (catch_pd[d,index_years] / true_catch)
 
-    survey_q[d]    <- dsl$Qs$survey_q
+    survey_q       <- bind_rows(survey_q, data.frame(names=c('Casal2', 'Sim', 'Sim+noise'), values=c(dsl$Qs$survey_q, dsl$sim.true$q, dsl$sim.noise$q)))
     SB0[d]         <- dsl$Recruitment$b0
     R0[d]          <- dsl$Recruitment$r0
 }
+
+survey_pd.true  <- 100.0 * (survey_pd.true - 1)
+survey_pd.noise <- 100.0 * (survey_pd.noise - 1)
+
+catch_pd.true   <- 100.0 * (catch_pd.true - 1)
+catch_pd.noise  <- 100.0 * (catch_pd.noise - 1)
 
 SSB_pd    <- 100.0 * (SSB_pd - 1)
 Rec_pd    <- 100.0 * (Rec_pd - 1)
@@ -386,6 +423,17 @@ catch_pd  <- 100.0 * (catch_pd - 1)
 
 
 ```{r plot_C2_MPD, echo=FALSE, warning=TRUE, message=TRUE}
+p <- ggplot(survey_q, aes(x=name, y=value, fill=name)) + geom_violin() + labs(title = 'Survey catchability')
+p <- p + theme(legend.position='none')
+plot(p)
+
+p <- ggplot(as.data.frame(SB0), aes(x=0, y=SB0, fill=SB0)) + geom_violin() + labs(title = 'SB0')
+p <- p + geom_hline(yintercept=(par.sim1$R0 * par.sim1$Phi.0), color='red') + theme(legend.position='none')
+plot(p)
+
+p <- ggplot(as.data.frame(R0), aes(x=0, y=R0, fill=R0)) + geom_violin() + labs(title='R0')
+p <- p + geom_hline(yintercept=par.sim1$R0, color='red') + theme(legend.position='none')
+plot(p)
 
 ```
 

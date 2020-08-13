@@ -127,5 +127,5 @@ type lognormal
 @penalty fisheryCatchMustBeTaken
 type process
 log_scale True
-multiplier 1
+multiplier 100
 
