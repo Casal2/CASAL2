@@ -14,9 +14,9 @@ time_steps Jul_Jun
 
 # CATEGORIES
 @categories
-format stock
-names stock
-age_lengths age_len_label
+format sex
+names male female
+age_lengths age_len_label*2
 
 
 @initialisation_phase Equilibrium_phase
@@ -27,14 +27,14 @@ casal_initialisation_switch false
 ## Define the Annual Cycle
 ## This is a list of labels that correspond to a process
 @time_step Jul_Jun
-processes Ageing Recruitment halfM Fishing_Mortality halfM
+processes Ageing Recruitment Fishing_Mortality
 
 
 ## Define the above Processes
 @process Recruitment
 type recruitment_beverton_holt
-categories stock
-proportions 1.0
+categories male female
+proportions 0.5 0.5
 r0 1000000          ## set a reasonable starting value
 ycs_years   1988 1989 1990 1991 1992 1993 1994 1995 1996 1997 1998 1999 2000 2001 2002 2003 2004 2005 2006 2007 2008 2009 2010 2011 2012 2013 2014 2015 2016 2017 2018 2019 2020 2021 2022 2023 2024 2025 2026 2027 2028 2029
 ycs_values  1.00 1.00 1.00 1.00 1.00 1.00 1.00 1.00 1.00 1.00 1.00 1.00 1.00 1.00 1.00 1.00 1.00 1.00 1.00 1.00 1.00 1.00 1.00 1.00 1.00 1.00 1.00 1.00 1.00 1.00 1.00 1.00 1.00 1.00 1.00 1.00 1.00 1.00 1.00 1.00 1.00 1.00
@@ -47,16 +47,16 @@ age 1           ## Same as min_age
 ## Ageing
 @process Ageing
 type ageing
-categories stock
+categories *
 
 
 ## Fishing Mortality
 @process Fishing_Mortality
 type mortality_instantaneous
-m 0.0
+m 0.20
 relative_m_by_age One
-categories stock
-time_step_ratio 0.5
+categories *
+time_step_ratio 1.0
 table catches
 year Fishery
 2001    1
@@ -64,15 +64,8 @@ year Fishery
 end_table
 table method
 method   category  selectivity  u_max  time_step  penalty
-Fishery  stock     fishery_sel  0.99   Jul_Jun    fisheryCatchMustBeTaken
+Fishery  *     fishery_sel  0.99   Jul_Jun    fisheryCatchMustBeTaken
 end_table
-
-
-@mortality halfM
-type constant_rate
-categories stock
-M 0.1
-relative_m_by_age One
 
 
 ## Derived Quantities
@@ -80,8 +73,8 @@ relative_m_by_age One
 @derived_quantity SSB
 type biomass
 time_step Jul_Jun
-categories stock
-time_step_proportion 8.33333e-007
+categories female
+time_step_proportion 8.33333e-07
 time_step_proportion_method weighted_sum
 selectivities maturity_sel
 
@@ -91,7 +84,7 @@ selectivities maturity_sel
 type logistic
 a50 2.25
 ato95 1
-alpha 0.5 # for female spawning biomass
+alpha 1
 
 
 @selectivity survey_sel
@@ -121,8 +114,8 @@ time_step_proportions 0.0
 k 0.18
 t0 -1.36
 Linf 80.0
-cv_first 0.10
-cv_last 0.10
+cv_first 0.01
+cv_last 0.01
 distribution normal
 length_weight len_wt_label
 
