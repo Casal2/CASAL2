@@ -90,14 +90,14 @@ alpha 1
 @selectivity survey_sel
 type logistic
 a50 1.5
-ato95 2
+ato95 1.47222
 alpha 1
 
 
 @selectivity fishery_sel
 type logistic
 a50 2
-ato95 2
+ato95 2.94444
 alpha 1
 
 

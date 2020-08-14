@@ -220,7 +220,7 @@ plot_c2_mpd <- function(ds_mpd) {
     plot.selectivities(ds_mpd, c('fishery_selectivity', 'survey_selectivity', 'maturity_ogive'), col=c('black', 'green', 'red'))
     lines(par.sim1$selex, col='black', lwd=2, lty=2)
     lines(par.sim1$selex.survey, col='green', lwd=2, lty=2)
-    lines(par.sim1$mat.age / 2, col='red', lwd=2, lty=2)
+    lines(par.sim1$mat.age, col='red', lwd=2, lty=2)
 
 
     # plots exp(rec_dev)
@@ -230,7 +230,7 @@ plot_c2_mpd <- function(ds_mpd) {
 
     # plot growth comparisons, age-length, age-weight, and length-weight
     # omit the first column which is 'year'
-    age_at_length_vec <- unlist(ds_mpd$growth_length_at_age$stock$mean_lengths[-1])
+    age_at_length_vec <- unlist(ds_mpd$growth_length_at_age$female$mean_lengths[-1])
     plot(age_vec, age_at_length_vec, type='b', col='black', xlab='Age', ylab='Length (cm)',
          ylim=c(0, max(age_at_length_vec, ds_mpd$estimated_values$values$`age_length[age_len_label].Linf`,
                        par.sim1$len / 10.0, par.sim1$Linf / 10.0)))
@@ -240,7 +240,7 @@ plot_c2_mpd <- function(ds_mpd) {
 
 
     # omit the first column which is 'year'
-    weight_at_length_vec <- unlist(ds_mpd$growth_weight_at_age$stock$mean_weights[-1])
+    weight_at_length_vec <- unlist(ds_mpd$growth_weight_at_age$female$mean_weights[-1])
     plot(age_vec, weight_at_length_vec, type='b', col='black',
          xlab='Age', ylab='Weight (mt)', ylim=c(0, max(weight_at_length_vec, par.sim1$W.mt)))
     lines(age_vec, par.sim1$W.mt, type='b', col='cyan2')
