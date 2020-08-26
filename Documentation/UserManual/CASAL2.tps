@@ -11,8 +11,8 @@ MaxPos.x=-1
 MaxPos.y=-1
 NormalPos.left=4
 NormalPos.top=26
-NormalPos.right=1242
-NormalPos.bottom=500
+NormalPos.right=1503
+NormalPos.bottom=585
 Class=LaTeXView
 Document=References.tex
 
@@ -29,8 +29,8 @@ MaxPos.x=-1
 MaxPos.y=-1
 NormalPos.left=4
 NormalPos.top=26
-NormalPos.right=1242
-NormalPos.bottom=500
+NormalPos.right=1503
+NormalPos.bottom=585
 Class=LaTeXView
 Document=CASAL2.tex
 
@@ -47,13 +47,13 @@ MaxPos.x=-1
 MaxPos.y=-1
 NormalPos.left=4
 NormalPos.top=26
-NormalPos.right=1242
-NormalPos.bottom=500
+NormalPos.right=1503
+NormalPos.bottom=585
 Class=LaTeXView
 Document=Introduction.tex
 
 [Frame2_View0,0]
-TopLine=49
+TopLine=59
 Cursor=5775
 
 [Frame3]
@@ -65,13 +65,13 @@ MaxPos.x=-1
 MaxPos.y=-1
 NormalPos.left=4
 NormalPos.top=26
-NormalPos.right=1242
-NormalPos.bottom=500
+NormalPos.right=1503
+NormalPos.bottom=585
 Class=LaTeXView
 Document=Overview.tex
 
 [Frame3_View0,0]
-TopLine=39
+TopLine=15
 Cursor=4230
 
 [Frame4]
@@ -83,14 +83,14 @@ MaxPos.x=-1
 MaxPos.y=-1
 NormalPos.left=4
 NormalPos.top=26
-NormalPos.right=1242
-NormalPos.bottom=500
+NormalPos.right=1503
+NormalPos.bottom=585
 Class=LaTeXView
 Document=Population.tex
 
 [Frame4_View0,0]
-TopLine=796
-Cursor=46399
+TopLine=414
+Cursor=21846
 
 [Frame5]
 Flags=0
@@ -101,18 +101,72 @@ MaxPos.x=-1
 MaxPos.y=-1
 NormalPos.left=4
 NormalPos.top=26
-NormalPos.right=1242
-NormalPos.bottom=500
+NormalPos.right=1503
+NormalPos.bottom=585
 Class=LaTeXView
 Document=Estimation.tex
 
 [Frame5_View0,0]
-TopLine=159
+TopLine=203
 Cursor=13577
 
+[Frame6]
+Flags=0
+ShowCmd=1
+MinPos.x=-1
+MinPos.y=-1
+MaxPos.x=-1
+MaxPos.y=-1
+NormalPos.left=4
+NormalPos.top=26
+NormalPos.right=1503
+NormalPos.bottom=585
+Class=LaTeXView
+Document=Examples.tex
+
+[Frame6_View0,0]
+TopLine=0
+Cursor=2
+
+[Frame7]
+Flags=0
+ShowCmd=1
+MinPos.x=-1
+MinPos.y=-1
+MaxPos.x=-1
+MaxPos.y=-1
+NormalPos.left=4
+NormalPos.top=26
+NormalPos.right=1503
+NormalPos.bottom=585
+Class=LaTeXView
+Document=CompareWithCASAL.tex
+
+[Frame7_View0,0]
+TopLine=0
+Cursor=0
+
+[Frame8]
+Flags=0
+ShowCmd=1
+MinPos.x=-1
+MinPos.y=-1
+MaxPos.x=-1
+MaxPos.y=-1
+NormalPos.left=4
+NormalPos.top=26
+NormalPos.right=1503
+NormalPos.bottom=585
+Class=LaTeXView
+Document=Syntax.tex
+
+[Frame8_View0,0]
+TopLine=118
+Cursor=4147
+
 [SessionInfo]
-FrameCount=6
-ActiveFrame=0
+FrameCount=9
+ActiveFrame=6
 
 [Bookmarks]
 CASAL2.tex=235 264 156 339 
