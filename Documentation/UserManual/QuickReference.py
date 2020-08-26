@@ -6,9 +6,8 @@ q = re.compile('\}.*?\{',re.IGNORECASE)
 r = re.compile('[label]',re.IGNORECASE)
 
 FILE = [open('Syntax/AdditionalPrior.tex', 'r'),
-        open('Syntax/AgeingError.tex', 'r'),
+	open('Syntax/AgeingError.tex', 'r'),
         open('Syntax/AgeLength.tex', 'r'),
-        open('Syntax/Assert.tex', 'r'),
         open('Syntax/Catchability.tex', 'r'),
         open('Syntax/Categories.tex', 'r'),
         open('Syntax/DerivedQuantity.tex', 'r'),
@@ -35,8 +34,7 @@ VERSION = open('Version.tex', 'r')
 SYNTAX_OUTFILE_TEXTPAD = open('CASAL2.syn', 'w')
 SYNTAX_OUTFILE_NOTEPADPLUS = open('CASAL2.xml', 'w')
 
-OUTFILE.write('\section{Quick reference}\label{sec:QuickReference}\n')
-OUTFILE.write('\\small\n')  
+OUTFILE.write("\section{Quick reference\label{sec:quick-reference}}\n")
 
 Keywords1 = []
 Keywords2 = []
@@ -49,69 +47,90 @@ for i in range(len(FILE)):
   count=0
   Command = ''
   for line in FILE[i]:
-    if(line.startswith(('\\section', '\\subsection', '\\defComLab', '\\subsubsection', '\\commandlabsubarg', '\\defSub'))):
-      # if a line has a label, then delete it
-      line = re.sub('\\.label','',line)
-      # if a line has a ref, then delete it
-      line = re.sub('\\.defRef','',line)
-      line = re.sub('\\.ref','',line)
-      # strip white space at start & end
-      line = line.strip()
-      ###############################################################
-      # Scan for Keywords for the syntax files
-      ###############################################################
-      if (line.startswith('\\defCom')) :
+    # strip white space at start & end
+    line = line.strip()
+    # if a line has a label, then delete it
+    find = line.find('\label')
+    # if line if not blank, add a closing bracket
+    if line != "":
+      line = line[0:find] + "}"
+    # recode subsections, subsubsection to be excluded from the contents
+    if line[1:14] == "subsubsection" :
+      mat = line.find(']')+1
+      line = "\\par\\textbf" + line[mat:] + "\\par"
+    if line[1:11] == "subsection" :
+      #line = "\\subsubsection" + line[11:]
+      line = ""
+    if line[1:8] == "section" :
+      line = "\\subsection" + line[8:]
+    # keep line only if it is a section, defCom, defComlab, defComArg, or defSub
+    if (line[1:11]=="subsection" or line[1:14]=="subsubsection" or line[1:11]=="par\\textbf" or line[1:7]=="defCom" or line[1:7]=="defSub") :
+      if (line[1:11]=="subsection") :
+        count=0
+        line = line + "\\par"
+      if (line[1:7]=="defCom") :
         m = p.search(line)
         Command = m.group()[1:(len(m.group())-1)]
         Keywords1.append(m.group()[1:(len(m.group())-1)])
-      if (line.startswith('\\commandlabsubarg')) :
-        result = line.split('{')
-        Keywords2.append(result[3].replace('}','').replace('.','').replace('\\',''))
-      if (line.startswith('\\defSub')) :
-        result = line.split('{')
-        Keywords4.append(result[1].replace('}','').replace('.','').replace('\\',''))
-      
-      ###############################################################
-      # Reformat the LateX for the manual
-      ###############################################################
-      if (line.startswith('\\defComLab')):
-        line = '\n' + line + '\n'
-        line = re.sub('\.$', '',line)
-      if (line.startswith('\\subsubsection')):
-        line = ''
-      if (line.startswith('\\commandlabsubarg')):
-        line = re.sub('\.$', '',line)
-        line = line + '\n'
-      ###############################################################
-      # Print to the output file
-      ###############################################################
+        line = line + "\\par"
+        if (count!=0):
+          line = "\\par" + line
+        else:
+          count=1
+        if(i > 0):
+          line = line + "\\par"
+      if (line[1:7]=="defSub") :
+        m = p.search(line)
+        Keywords2.append(m.group()[1:(len(m.group())-1)])
+      if (line[1:11]=="par\\textbf") :
+        m = q.search(line[::-1])
+        n = m.group()[::-1]
+        if (Command == 'process') :
+          mat = n.find('\_')
+          if (mat != -1) :
+            # take into account special cases for processes where part of the type can be a @ block
+            Keywords1.append(n[1:mat])
+        Keywords4.append(n[1:(len(n)-2)])
+
       OUTFILE.write(line)
       OUTFILE.write('\n')
-      
-OUTFILE.write('\n\\normalsize\n')  
 
-###############################################################
-# Additional sorting and reformatting of Keywords
-###############################################################
+# Remove duplicates
 Keywords1 = list(set(Keywords1))
-Keywords1.sort()
 Keywords2 = list(set(Keywords2))
-Keywords2.sort()
 Keywords3 = list(set(Keywords3))
-Keywords3.sort()
 Keywords4 = list(set(Keywords4))
-Keywords4.sort()
 Keywords5 = list(set(Keywords5))
+Keywords6 = list(set(Keywords6))
+# Sort
+Keywords1.sort()
+Keywords2.sort()
+Keywords3.sort()
+Keywords4.sort()
 Keywords5.sort()
+Keywords6.sort()
+# remove subscript [label]
 
+#Remove '\' in each string
 for i in range(len(Keywords1)):
-  Keywords1[i] = Keywords1[i].replace('\\','')
-  
+  Keywords1[i] = Keywords1[i].replace("\\", "")
+for i in range(len(Keywords2)):
+  Keywords2[i] = Keywords2[i].replace("\\", "")
+  if(Keywords2[i].count('[label]')):
+    Keywords2[i]=Keywords2[i][0:(Keywords2[i].find('[label]')-1)]
+for i in range(len(Keywords3)):
+  Keywords3[i] = Keywords3[i].replace("\\", "")
+for i in range(len(Keywords4)):
+  Keywords4[i] = Keywords4[i].replace("\\", "")
+for i in range(len(Keywords5)):
+  Keywords5[i] = Keywords5[i].replace("\\", "")
+for i in range(len(Keywords6)):
+  Keywords6[i] = Keywords6[i].replace("\\", "")
 
 ###############################################################
 # SYNTAX for TEXTPAD
 ###############################################################
-SYNTAX_OUTFILE_TEXTPAD.write("; TextPad syntax definitions for CASAL2; This is auto generated from the QuickReference.py script do not edit\n")
+SYNTAX_OUTFILE_TEXTPAD.write("; TextPad syntax definitions for CASAL2; This is auto generated from the quickreference.py script do not edit\n")
 SYNTAX_OUTFILE_TEXTPAD.write("; ===================================================================================\n;\n;\n")
 SYNTAX_OUTFILE_TEXTPAD.write("C=1\n")
 SYNTAX_OUTFILE_TEXTPAD.write("[Syntax]\n")
@@ -176,7 +195,7 @@ for i in Keywords6 :
 ###############################################################
 # SYNTAX for Notepad++
 ###############################################################
-SYNTAX_OUTFILE_NOTEPADPLUS.write("<!-- Notepad++ syntax definitions for CASAL2; This is auto generated from the QuickReference.py script do not edit -->\n")
+SYNTAX_OUTFILE_NOTEPADPLUS.write("<!-- Notepad++ syntax definitions for CASAL2; This is auto generated from the quickreference.py script do not edit -->\n")
 SYNTAX_OUTFILE_NOTEPADPLUS.write("<!-- ============================================================================================================= -->\n")
 SYNTAX_OUTFILE_NOTEPADPLUS.write("<NotepadPlus>\n")
 SYNTAX_OUTFILE_NOTEPADPLUS.write("    <UserLang name=\"Casal2\" ext=\"csl2\" udlVersion=\"2.1\">\n")
@@ -268,4 +287,3 @@ SYNTAX_OUTFILE_NOTEPADPLUS.write('            <WordsStyle name="DELIMITERS8" fgC
 SYNTAX_OUTFILE_NOTEPADPLUS.write('        </Styles>\n')
 SYNTAX_OUTFILE_NOTEPADPLUS.write('    </UserLang>\n')
 SYNTAX_OUTFILE_NOTEPADPLUS.write('</NotepadPlus>\n')
-      
