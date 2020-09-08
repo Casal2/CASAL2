@@ -34,9 +34,6 @@ namespace minimisers {
 
 using CppAD::AD;
 
-typedef CPPAD_TESTVECTOR( double ) Dvector;
-typedef CPPAD_TESTVECTOR( AD<double> ) ADvector;
-
 /**
  * Objective Function class
  */
@@ -94,6 +91,9 @@ CPPAD::CPPAD(Model* model) : Minimiser(model) {
  */
 void CPPAD::Execute() {
 
+  typedef CPPAD_TESTVECTOR( double ) Dvector;
+  typedef CPPAD_TESTVECTOR( AD<double> ) ADvector;
+
   auto estimate_manager = model_->managers().estimate();
   auto estimates        = estimate_manager->GetIsEstimated();
   auto num_estimates    = estimates.size();
@@ -136,9 +136,133 @@ void CPPAD::Execute() {
   Dvector gu(1);
   gu[0] = std::numeric_limits<double>::max();
 
+  // original CppAD IpOpt optimisation
   CppAD::ipopt::solve<Dvector, MyObjective>(
       options, start_values, lower_bounds, upper_bounds, gl, gu, obj, solution
     );
+
+
+  // per Brad Bell (CppAD project manager and main developer):
+  // "When using Ipopt, you define a class derived from Ipopt::TNLP. The eval_h function
+  // in this class evaluates the Hessian...You can use this function to get the Hessian."
+  // see https://coin-or.github.io/Ipopt/classIpopt_1_1TNLP.html
+
+  // see CppAD::ipopt::solve<>()
+  CppAD::ipopt::solve_result<Dvector> hess_solution = solution;
+  size_t nf           = 1;
+  size_t nx           = hess_solution.x.size();
+  size_t ng           = gl.size();
+  bool retape         = retape_ == "true";
+  bool sparse_forward = false;
+  bool sparse_reverse = false;
+  Ipopt::SmartPtr<Ipopt::TNLP> local_nlp =
+    new CppAD::ipopt::solve_callback<Dvector, ADvector, MyObjective>(
+      nf,
+      nx,
+      ng,
+      hess_solution.x,
+      lower_bounds,
+      upper_bounds,
+      gl,
+      gu,
+      obj,
+      retape,
+      sparse_forward,
+      sparse_reverse,
+      hess_solution);
+  LOG_MEDIUM() << "pre-Hessian status " << hess_solution.status;
+
+
+  // Create an IpoptApplication
+  using Ipopt::IpoptApplication;
+  Ipopt::SmartPtr<IpoptApplication> app = new IpoptApplication();
+  app->Options()->SetIntegerValue("print_level", print_level_);
+  app->Options()->SetStringValue("sb", sb_);
+  app->Options()->SetStringValue("print_info_string", pidi_);
+  app->Options()->SetIntegerValue("max_iter", max_iter_);
+  app->Options()->SetNumericValue("tol", tol_);
+  app->OptimizeTNLP(local_nlp);
+  LOG_MEDIUM() << "Original CppAD optimisation status " << solution.status << ", post-optimisation pre-Hessian status " << hess_solution.status;
+  LOG_MEDIUM() << "Original CppAD objective function value " << solution.obj_value << ", post-optimisation pre-Hessian value " << hess_solution.obj_value;
+
+
+  // get the number of non-zero Hessian elements
+  Ipopt::Index local_n;
+  Ipopt::Index local_m;
+  Ipopt::Index nnz_jac_g;
+  Ipopt::Index nnz_h_lag;
+  Ipopt::TNLP::IndexStyleEnum local_index_style;
+  bool have_nlp_info = local_nlp->get_nlp_info(local_n, local_m, nnz_jac_g, nnz_h_lag, local_index_style);
+  if (have_nlp_info)
+    LOG_MEDIUM() << "TNLP info: n " << local_n << ", m " << local_m << ", jac " << nnz_jac_g << ", h " << nnz_h_lag << ", index style " << local_index_style;
+
+
+  Ipopt::Number* hess_x      = new Ipopt::Number[hess_solution.x.size()];
+  Ipopt::Number obj_factor   = 1.0;  // This parameter is the "sigma_f in front of the objective term in the Hessian". What should this value be?
+  Ipopt::Index m             = hess_solution.lambda.size();
+  Ipopt::Number* lambda      = new Ipopt::Number[m];
+  Ipopt::Index num_hess_elem = nnz_h_lag;
+  Ipopt::Index* iRow         = new Ipopt::Index[num_hess_elem];
+  Ipopt::Index* jCol         = new Ipopt::Index[num_hess_elem];
+  Ipopt::Number* hess_vec    = new Ipopt::Number[num_hess_elem];
+
+
+  for (unsigned i = 0; i < hess_solution.x.size(); ++i) {
+    hess_x[i] = hess_solution.x[i];
+  }
+
+  for (unsigned i = 0; i < hess_solution.lambda.size(); ++i) {
+    lambda[i] = hess_solution.lambda[i];
+  }
+
+
+  // initialise Hessian row and column vectors (no Hessian values vector)
+  bool have_hess = local_nlp->eval_h(nx,
+                                     hess_x,
+                                     true,
+                                     obj_factor,
+                                     m,
+                                     lambda,
+                                     true,
+                                     num_hess_elem,
+                                     iRow,
+                                     jCol,
+                                     NULL);
+
+  // output Hessian values vector
+  have_hess = local_nlp->eval_h(nx,
+                                hess_x,
+                                false,
+                                obj_factor,
+                                m,
+                                lambda,
+                                false,
+                                num_hess_elem,
+                                iRow,
+                                jCol,
+                                hess_vec);
+
+  if (have_hess) {
+    LOG_MEDIUM() << "CppAD Hessian was produced";
+    // lower left triangle only
+    unsigned i, j;
+    for (int idx = 0; idx < num_hess_elem; ++idx) {
+      i = iRow[idx];
+      j = jCol[idx];
+      LOG_FINE() << "Hessian: i " << i << " j " << j << " value " << hess_vec[idx];
+      hessian_[i][j] = hess_vec[idx];
+      hessian_[j][i] = hessian_[i][j];
+    }
+  }
+
+  delete hess_x;
+  delete lambda;
+  delete iRow;
+  delete jCol;
+  delete hess_vec;
+
+  solution = hess_solution;
+
 
   Dvector x(solution.x.size());
 
@@ -236,116 +360,6 @@ void CPPAD::Execute() {
       result_ = MinimiserResult::kError;
       LOG_MEDIUM() << "unknown error, status type: " << solution.status;
   }
-
-
-  // see CppAD::ipopt::solve<>()
-  CppAD::ipopt::solve_result<Dvector> hess_solution = solution;
-  size_t nf           = 1;
-  size_t nx           = hess_solution.x.size();
-  size_t ng           = gl.size();
-  bool retape         = retape_ == "true";
-  bool sparse_forward = false;
-  bool sparse_reverse = false;
-  Ipopt::SmartPtr<Ipopt::TNLP> local_nlp =
-    new CppAD::ipopt::solve_callback<Dvector, ADvector, MyObjective>(
-      nf,
-      nx,
-      ng,
-      hess_solution.x,
-      lower_bounds,
-      upper_bounds,
-      gl,
-      gu,
-      obj,
-      retape,
-      sparse_forward,
-      sparse_reverse,
-      hess_solution);
-  LOG_MEDIUM() << "pre-Hessian status " << hess_solution.status;
-
-
-  // Create an IpoptApplication
-  using Ipopt::IpoptApplication;
-  Ipopt::SmartPtr<IpoptApplication> app = new IpoptApplication();
-  app->OptimizeTNLP(local_nlp);
-  LOG_MEDIUM() << "Original CppAD optimisation status " << solution.status << ", post-optimisation pre-Hessian status " << hess_solution.status;
-  LOG_MEDIUM() << "Original CppAD objective function value " << solution.obj_value << ", post-optimisation pre-Hessian value " << hess_solution.obj_value;
-
-
-  Ipopt::Index local_n;
-  Ipopt::Index local_m;
-  Ipopt::Index nnz_jac_g;
-  Ipopt::Index nnz_h_lag;
-  Ipopt::TNLP::IndexStyleEnum local_index_style;
-  bool have_nlp_info = local_nlp->get_nlp_info(local_n, local_m, nnz_jac_g, nnz_h_lag, local_index_style);
-  if (have_nlp_info)
-    LOG_MEDIUM() << "TNLP info: n " << local_n << ", m " << local_m << ", jac " << nnz_jac_g << ", h " << nnz_h_lag << ", index style " << local_index_style;
-
-
-  // see https://coin-or.github.io/Ipopt/classIpopt_1_1TNLP.html#a26b9145267e2574c53acc284fef1c354
-  Ipopt::Number* hess_x      = new Ipopt::Number[solution.x.size()];
-  Ipopt::Number obj_factor   = 1;
-  Ipopt::Index m             = solution.lambda.size();
-  Ipopt::Number* lambda      = new Ipopt::Number[m];
-  Ipopt::Index num_hess_elem = nnz_h_lag;
-  Ipopt::Index* iRow         = new Ipopt::Index[num_hess_elem];
-  Ipopt::Index* jCol         = new Ipopt::Index[num_hess_elem];
-  Ipopt::Number* hess_vec    = new Ipopt::Number[num_hess_elem];
-
-
-  for (unsigned i = 0; i < solution.x.size(); ++i) {
-    hess_x[i] = solution.x[i];
-  }
-
-  for (unsigned i = 0; i < solution.lambda.size(); ++i) {
-    lambda[i] = solution.lambda[i];
-  }
-
-
-  // initialise Hessian row and column vectors (no Hessian values vector)
-  bool have_hess = local_nlp->eval_h(nx,
-                                     hess_x,
-                                     true,
-                                     obj_factor,
-                                     m,
-                                     lambda,
-                                     true,
-                                     num_hess_elem,
-                                     iRow,
-                                     jCol,
-                                     NULL);
-
-  // output Hessian values vector
-  have_hess = local_nlp->eval_h(nx,
-                                hess_x,
-                                false,
-                                obj_factor,
-                                m,
-                                lambda,
-                                false,
-                                num_hess_elem,
-                                iRow,
-                                jCol,
-                                hess_vec);
-
-  if (have_hess) {
-    LOG_MEDIUM() << "CppAD Hessian was produced";
-    // lower left triangle only
-    unsigned i, j;
-    for (int idx = 0; idx < num_hess_elem; ++idx) {
-      i = iRow[idx];
-      j = jCol[idx];
-      LOG_FINE() << "Hessian: i " << i << " j " << j << " value " << hess_vec[idx];
-      hessian_[i][j] = hess_vec[idx];
-      hessian_[j][i] = hessian_[i][j];
-    }
-  }
-
-  delete hess_x;
-  delete lambda;
-  delete iRow;
-  delete jCol;
-  delete hess_vec;
 
 
   model_->managers().estimate_transformation()->RestoreEstimates();
