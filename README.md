@@ -5,7 +5,8 @@ Casal2 is an open-source age structured population dynamics modelling package. T
 
 ## Casal2 Release V1.0.0
 
-V1.0.0 is the first official production release of Casal2. More information about Casal2, including release notes and project status, is available at https://casal2.github.io
+V1.0.0 is the first official production release of Casal2. More information about Casal2, including release notes and project status, is available at https://casal2.github.io.
+The Casal2 user and developer forums are available on the [Casal2 Discourse site](https://casal2.discourse.group/).
 
 This repository is standalone containing all third-party libraries and source code necessary to compile Casal2. This project is covered under the GNU General Public License version 2. This program is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
 
