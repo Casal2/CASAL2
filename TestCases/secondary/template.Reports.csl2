@@ -6,11 +6,17 @@ type initialisation_partition
 @report obj_fun
 type objective_function
 
-@report mcmc_covariance
-type mcmc_covariance
+
+@report Mortality
+type process
+process Fishing_Mortality
+
+@report Recruitment
+type process
+process Recruitment
 
 
-@report DQs
+@report DerivedQuantities
 type derived_quantity
 
 @report estimated_values
@@ -20,21 +26,18 @@ type estimate_value
 type estimate_summary
 
 
+@report Qs
+type catchability
+
+
+# @report TV
+# type time_varying
+
+
 @report state1
 type partition
 time_step Jul_Jun
 years 2001:2035
-
-@report SSB
-type derived_quantity
-
-@report Mortality
-type process
-process Fishing_Mortality
-
-@report Recruitment
-type process
-process Recruitment
 
 
 @report maturity_ogive
@@ -52,10 +55,6 @@ years 2030
 type partition_mean_weight
 time_step Jul_Jun
 years 2030
-
-
-@report Qs
-type catchability
 
 
 @report survey_selectivity
@@ -99,3 +98,6 @@ type covariance_matrix
 @report Corr
 type correlation_matrix
 
+
+@report mcmc_covariance
+type mcmc_covariance
