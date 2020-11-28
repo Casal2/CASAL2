@@ -89,15 +89,15 @@ class SystemInfo:
     print('--> Full Version: ' + target_line)
     pieces = target_line.split(' ')
     if len(pieces) < 2:
-      return Globals.PrintError('STD out did not return correct GCC Version format ' + str(len(pieces)) + ': ' + target_line)
+      return Globals.PrintError('STD out did not return correct gcc version format ' + str(len(pieces)) + ': ' + target_line)
 
     Globals.compiler_version_ = pieces[0].lstrip().rstrip()
     print('--> gcc version: ' + Globals.compiler_version_)
 
     pieces = Globals.compiler_version_.split('.')
-    gcc_version = str(pieces[0]) + str(pieces[1])
-    if gcc_version < '48':
-      return Globals.PrintError("g++ version " + Globals.compiler_version_ + " is not supported due to its age")
+    int_pieces = int(pieces[0] + pieces[1])
+    if int_pieces < 48:
+      return Globals.PrintError("gcc version " + Globals.compiler_version_ + " is not supported due to its age")
 
     return True
 
