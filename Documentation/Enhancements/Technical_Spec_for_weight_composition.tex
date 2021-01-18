@@ -1,0 +1,268 @@
+\documentclass[a4paper,11pt,twoside,pdftex,draft]{article}
+
+\usepackage[font=bf,format=hang,labelsep=colon,justification=justified,singlelinecheck=false,compatibility=false]{caption}
+
+\usepackage{ifthen} % for conditional expressions
+\usepackage{float} % for floating tables and graphics
+\usepackage{setspace} % for defining spacing between lines
+\usepackage{cmap} % allow searching in pdf documents
+\usepackage{tabulary} % better tables
+\usepackage{longtable}
+\usepackage{comment} % block comments
+\usepackage{multicol}
+\usepackage[toc,page]{appendix}
+\usepackage[usenames, dvipsnames]{color} % Highlighting text for editing
+\usepackage[T1]{fontenc} % for searching for terms with underscores
+
+\usepackage[bookmarks=true,bookmarksopen=true,bookmarksnumbered=true,
+pdfpagelayout=TwoPageRight,pdftex]{hyperref}
+\hypersetup{
+breaklinks=true,    % allow line breaks in URLs
+colorlinks=true,    % use colour to define links
+linkcolor=cyan,     % colour of internal links
+citecolor=black,    % colour of links to bibliography
+filecolor=red,      % colour of file links
+urlcolor=blue,      % colour of external links
+anchorcolor=black,
+final=true
+}
+
+% Use AMS Maths
+\usepackage[fleqn]{amsmath}
+\newcommand\AddVspace{\\[0 pt]} % artificial method of adding vertical space within equations
+
+% Allow colour for HTML links
+\usepackage{color,soul}
+\definecolor{darkgray}{gray}{0.20}
+\definecolor{lightgray}{gray}{0.95}
+
+% Geometry for A4 layout like MS-Word defaults
+\usepackage[left=2.54cm,top=2.54cm,bottom=2.54cm,right=2.54cm]{geometry}
+
+% Natlib to better cite references (round brackets, commas between refs, and sorted)
+\usepackage[round,comma,sort]{natbib}
+
+% watermark
+\usepackage{draftwatermark}
+
+% Making the index
+\usepackage{makeidx}
+\makeindex
+
+% Package for including and pretty printing of external config files and program code
+\usepackage{listings}
+\lstset{ %
+basicstyle=\ttfamily\footnotesize,
+breaklines=true,
+columns=fullflexible,
+showspaces=false,               % show spaces adding particular underscores
+showstringspaces=false,         % underline spaces within strings
+showtabs=false,                 % show tabs within strings adding particular underscores
+tabsize=2,                      % sets default tabsize to 2 spaces
+breakatwhitespace=false,        % sets if automatic breaks should only happen at whitespace
+escapeinside={\%*}{*)}          % if you want to add a comment within your code
+}
+
+% Graphics (no postscript files.. just use jpeg, png, etc)
+%\usepackage[dvips]{graphicx}
+
+% Changes fonts to Times, Helvetica, Courier
+\usepackage{pslatex}
+
+\usepackage[normalem]{ulem}
+
+% Section header fonts
+\usepackage{sectsty}
+\allsectionsfont{\sffamily\large} % Normal sized arial style section headings
+% Add a dot after section headings
+\makeatletter
+\def\@seccntformat#1{\csname the#1\endcsname.\quad}
+\renewcommand\paragraph{\@startsection{paragraph}{4}{\z@}%
+{-2.5ex\@plus -1ex \@minus -.25ex}%
+{1.25ex \@plus .25ex}%
+{\normalfont\normalsize\bfseries}}
+\makeatother
+
+\setcounter{secnumdepth}{4} % how many sectioning levels to assign numbers to
+\setcounter{tocdepth}{4}    % how many sectioning levels to show in ToC
+
+% Page style
+\usepackage{fancyhdr}
+\pagestyle{fancy}
+\fancyhead{}
+\fancyfoot{}
+\headheight 15pt
+\renewcommand{\headrulewidth}{0pt} % rule line under header
+\renewcommand{\footrulewidth}{0pt}
+\setlength{\parindent}{0pt} % No indentation at start of paragraph
+\setlength{\baselineskip}{1ex plus 0.2ex minus 0.1ex}
+\setlength{\parskip}{1.1ex} % Gap between paragraphs
+\raggedbottom % prefer space at the bottom of page
+
+% Make equation numbers be section number then equation number
+\makeatletter
+\@addtoreset{equation}{section}
+\@addtoreset{figure}{section}
+\@addtoreset{table}{section}
+\def\thefigure{\thesection.\@arabic\c@figure}
+\def\thetable{\thesection.\@arabic\c@table}
+\def\theequation{\thesection.\@arabic\c@equation}
+\makeatother
+
+%% stop figures from going onto a page by themselves
+\renewcommand{\topfraction}{0.85}
+\renewcommand{\textfraction}{0.1}
+\renewcommand{\floatpagefraction}{0.75}
+
+% Minimise hyphen use
+\hyphenpenalty=5000
+\tolerance=1000
+
+
+% Title Page
+\title{Proportions-at-weight, a new Observation type}
+\author{Matt Dunn, Ian Doonan, Teresa A'mar}
+\date{January 2021}
+
+
+\begin{document}
+\maketitle
+
+\pagestyle{plain}
+\setcounter{page}{1}
+
+
+\newpage
+
+\section{Overview}
+
+Overview
+
+\section{Conceptual Description}
+
+The observation process\_removals\_by\_weight was added to allow the use of fish market data, where fish weights have been measured instead of fish lengths or ages, which are collated into proportions-at-weight. The observation is strictly from retained catch and is therefore associated with mortality from a defined fishery. When discarding is included in the model, the retained selectivity should be used for these data. If there are no discarding, then the total catch selectivity is used. However, for current coding purposes, this observation must be linked to a fishery as defined in a mortality\_Instantaneous block, which ignores discards and so the selectivity is that defined in the mortality\_Instantaneous block.
+
+The expected proportions-at-weight are derived from normalizing the expected numbers-at-weight. There are two stages in calculating the expected numbers-at-weight. Firstly, Casal2 calculates the expected numbers-at-length from the numbers-at-age using the age-length and distribution in the @age\_length block. Secondly, the numbers-at-length are converted into numbers-at-weight using the length-weight relationship in the @length\_weight block and its distribution of weight about the mean weight-at-length. The length-weight distribution is currently only applied in Casal2 in the @observation block for weight composition data and is therefore specified here, as the CV of either a normal or lognormal distribution.
+
+The user must specify the units of weight for the proportions-at-weight observations (which may be g or kg), a vector containing the lower edge of each weight bin, and a vector containing the proportions in each weight bin. Note that units for weight in the proportions-at-weight do not have to be the same as specified in @length-weight. Observation-specific weight bins must be a sequential subset of the model weight bins, with no missing or added values. Observations may be specified for any category used in the partition, or for some combinations of them [LINK TO CATEGORY SECTION?], e.g., for both males and females separately, or alternately, one set for combined sex. The weight bins must be the same for each year; if this is not the case, then years for which they are different need to be entered as different process\_removals\_by\_weight blocks.
+
+If there is no plus group, i.e., weight\_plus=false, then Casal2 requires a vector of proportions-at-weight of length n+1, where n is the number of lower edges of each weight bin supplied (the final value provides the upper limit to the final bin). If weight\_plus=true then Casal2 expects a vector of proportions-at-weight of length n. The last proportion represents the numbers from the last length bin to the maximum weight the age-weight relationship allows [not sure how we should specify this?].
+
+Casal2 generates a warning if the mean weight estimated for the youngest age in the partition is greater than the lower size of the first weight bin. This is to guard against including weight observations that may have a substantial contribution from fish younger than the youngest age in the partition.
+
+The only likelihood currently available in Casal2 for proportions\_at\_weight observations is the multinomial, with effective sample sizes for each year provided as error\_values. Note that in the implementation of the multinomial likelihood in Casal2, the weight bins having a value of zero will have no contribution to the likelihood.
+
+No specification is made for the specific time within the timestep that the same was taken. This is because the sample is linked to a fishery, where removed are defined to be at the mid-point.
+
+Proportions-at-weight processes:
+
+1. process\_removals\_by\_weightfishery using Instantaneous\_Mortality
+
+2. process\_removals\_by\_weight\_retainedfishery using Instantaneous\_Mortality\_Retained
+
+3. process\_removals\_by\_weight\_retained\_totalfishery using Instantaneous\_Mortality\_Retained
+
+documented in 7.1.3. Specific process observations (I.e., fishery tied observations; obs fitted to the middle of the fishery since it represents it)
+
+We have “general” obs like process\_proportions\_at\_length, which are used for surveys, but also for fisheries; they can be fitted into any place throughout the time-step. Weight frequencies are not collected on surveys, so we do not need this observation yet.
+
+Length composition observation types for fisheries.
+
+
+
+Linked to mortality\_instantaneous, Casal2 has these length data observations:
+
+process\_removals\_by\_length; works with process of type mortality\_instantaneous
+
+• process\_removals\_by\_length\_retained; works with process of type mortality\_instantaneous \_retained block.
+
+• process\_removals\_by\_length\_retained\_total; works with process of type mortality\_instantaneous \_retained block.
+
+
+Fisheries process: mortality\_instantaneous
+
+Supply time step.
+
+Specific fishery is a method in the table method in the  mortality\_instantaneous block. For one stock, it only makes sense to have one mortality\_instantaneous block that covers all fisheries on the stock (whatever time-step they occur in) and specifies the proportions of M that occurs in each time-step. Rather than covering one process in a specific time-step, mortality\_instantaneous blocks cover the full year which makes it different from other processes. mortality\_instantaneous blocks need to be like this so that M and F can occur simultaneously and to also make sure the various U\_max parameters are evaluated at the same time if fisheries co-occur.
+
+Alt fisheries process mortality\_instantaneous \_retained:  same as above, but with discards and retained catch
+
+Copied from the manual, but changed into proportions-at-weight.
+
+Proportions-at-weight observations can be supplied as
+
+• a set of proportions for a single category, (see example above)
+
+• a set of proportions for multiple categories, or
+
+• a set of proportions across aggregated categories.
+
+The method of evaluating expectations are the same for all three types of proportions.
+
+
+Defining an observation for multiple categories extends the single category observation definition. It is used to model a set of proportions over several categories by weight bin. For example, to specify that the observations are of the proportions of male or females within each weight bin, then the subcommand categories is
+
+\texttt{categories male female}
+
+The vector fd proportions will have the proportion for males over the specified weight bins, followed by the proportions for females. The sum over male and female proportions should be 1 (i.e., it implicitly has a sex ratio).
+
+Defining an observation across aggregated categories allows categories to be aggregated before the proportions are calculated.  To indicate that two (or more) categories are to be aggregated, separate them with a "+" symbol. For example, to specify that the observations are of the proportions of male and females combined within each weight bin, then the subcommand categories is
+
+\texttt{categories male + female}
+
+Casal2 then requires that there will be a single vector of proportions supplied, with one proportion for each weight bin, and that these proportions sum to one.
+
+The latter form can then be extended to include multiple categories, or multiple aggregated categories, e.g., for an east and west combined sex proportions that incorporates an area ratio we could use
+
+\texttt{categories male.east + female.east   male.west + female.west}
+
+Casal2 then requires that there will be a vector made up by a concatenated of proportions for east and another for west, and that these proportions sum to one.
+
+\section{Technical Description}
+
+X
+
+\section{Proposed Input Format}
+
+Example input block
+
+\begin{lstlisting}
+\texttt{@observation Observed\_weight\_frequency\_east}
+type process\_removals\_by\_weight
+method\_of\_removal EastChathamRise (fishery)
+time\_step Summer (Not truly needed, but length code needs it currently)
+mortality\_instantaneous\_process instant\_mort
+length\_weight\_cv 0.1
+length\_weight\_dist lognormal
+years 1991 1992
+categories male
+weight\_unit kg
+delta 1e-5 (robustification value for the likelihood; default 1e-11)
+weight\_plus false
+weight\_bins 1.8 1.9 2.0 2.1 2.2 2.3 ... 11.8
+
+table obs
+1991 0.0020.0100.0410.0940.1260.0860.0730.0510.0450.0500.0370.0250.0160.0170.0110.0080.0110.0110.0090.0120.0130.0090.0100.0090.0100.0070.0080.0060.0050.0100.0080.0140.0080.0120.0060.0070.0090.0050.0070.0060.0040.0060.0040.0040.0070.0050.0020.0060.0040.0030.0040.0020.0040.0030.0020.0020.0020.0010.0020.0030.0010.0020.0010.0010.0010.0010.0010.0010.0010.0000.0010.0010.0000.0010.0010.0010.0010.0000.0010.0010.0010.0010.0010.0010.0000.0010.0000.0010.0000.0000.0010.0000.0000.0000.0000.0000.0000.0000.0000.001
+1992 0.0020.0060.0160.0180.0270.0380.0580.0690.0510.0610.0630.0520.0320.0280.0210.0180.0130.0120.0080.0110.0120.0070.0120.0120.0150.0070.0090.0110.0090.0100.0140.0130.0120.0190.0110.0130.0130.0090.0100.0140.0080.0090.0060.0060.0080.0080.0050.0080.0070.0060.0030.0060.0060.0040.0020.0040.0070.0030.0040.0030.0020.0030.0020.0020.0020.0020.0020.0020.0020.0020.0020.0010.0010.0010.0020.0020.0010.0020.0020.0020.0010.0010.0010.0020.0010.0010.0010.0010.0010.0000.0010.0010.0000.0010.0010.0000.0000.0010.0000.001
+likelihood multinomial
+end\_table
+
+table error\_values
+1991 25
+1992 25
+end\_table
+\end{lstlisting}
+
+\section{Test Plan}
+
+X
+
+\section{Text for the User Manual}
+
+X
+
+\section{References}
+
+X
+
+\end{document}
