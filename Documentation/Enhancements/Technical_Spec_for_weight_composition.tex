@@ -31,6 +31,23 @@ final=true
 \usepackage[fleqn]{amsmath}
 \newcommand\AddVspace{\\[0 pt]} % artificial method of adding vertical space within equations
 
+% Package for including and pretty printing of external config files and program code
+%\usepackage{listings}
+%\lstset{ %
+%	basicstyle=\ttfamily\footnotesize,
+%	breaklines=true,
+%	columns=fullflexible,
+%	showspaces=false,               % show spaces adding particular underscores
+%	showstringspaces=false,         % underline spaces within strings
+%	showtabs=false,                 % show tabs within strings adding particular underscores
+%	tabsize=2,                      % sets default tabsize to 2 spaces
+%	breakatwhitespace=false,        % sets if automatic breaks should only happen at whitespace
+%	escapeinside={\%*}{*)}          % if you want to add a comment within your code
+%}
+
+% text blocks without syntax highlighting
+\usepackage{alltt}
+
 % Allow colour for HTML links
 \usepackage{color,soul}
 \definecolor{darkgray}{gray}{0.20}
@@ -48,20 +65,6 @@ final=true
 % Making the index
 \usepackage{makeidx}
 \makeindex
-
-% Package for including and pretty printing of external config files and program code
-\usepackage{listings}
-\lstset{ %
-basicstyle=\ttfamily\footnotesize,
-breaklines=true,
-columns=fullflexible,
-showspaces=false,               % show spaces adding particular underscores
-showstringspaces=false,         % underline spaces within strings
-showtabs=false,                 % show tabs within strings adding particular underscores
-tabsize=2,                      % sets default tabsize to 2 spaces
-breakatwhitespace=false,        % sets if automatic breaks should only happen at whitespace
-escapeinside={\%*}{*)}          % if you want to add a comment within your code
-}
 
 % Graphics (no postscript files.. just use jpeg, png, etc)
 %\usepackage[dvips]{graphicx}
@@ -142,9 +145,9 @@ Overview
 
 The observation process\_removals\_by\_weight was added to allow the use of fish market data, where fish weights have been measured instead of fish lengths or ages, which are collated into proportions-at-weight. The observation is strictly from retained catch and is therefore associated with mortality from a defined fishery. When discarding is included in the model, the retained selectivity should be used for these data. If there are no discarding, then the total catch selectivity is used. However, for current coding purposes, this observation must be linked to a fishery as defined in a mortality\_Instantaneous block, which ignores discards and so the selectivity is that defined in the mortality\_Instantaneous block.
 
-The expected proportions-at-weight are derived from normalizing the expected numbers-at-weight. There are two stages in calculating the expected numbers-at-weight. Firstly, Casal2 calculates the expected numbers-at-length from the numbers-at-age using the age-length and distribution in the @age\_length block. Secondly, the numbers-at-length are converted into numbers-at-weight using the length-weight relationship in the @length\_weight block and its distribution of weight about the mean weight-at-length. The length-weight distribution is currently only applied in Casal2 in the @observation block for weight composition data and is therefore specified here, as the CV of either a normal or lognormal distribution.
+The expected proportions-at-weight are derived from normalizing the expected numbers-at-weight. There are two stages in calculating the expected numbers-at-weight. Firstly, Casal2 calculates the expected numbers-at-length from the numbers-at-age using the age-length and distribution in the \texttt{@age\_length} block. Secondly, the numbers-at-length are converted into numbers-at-weight using the length-weight relationship in the \texttt{@length\_weight} block and its distribution of weight about the mean weight-at-length. The length-weight distribution is currently only applied in Casal2 in the \texttt{@observation} block for weight composition data and is therefore specified here, as the CV of either a normal or lognormal distribution.
 
-The user must specify the units of weight for the proportions-at-weight observations (which may be g or kg), a vector containing the lower edge of each weight bin, and a vector containing the proportions in each weight bin. Note that units for weight in the proportions-at-weight do not have to be the same as specified in @length-weight. Observation-specific weight bins must be a sequential subset of the model weight bins, with no missing or added values. Observations may be specified for any category used in the partition, or for some combinations of them [LINK TO CATEGORY SECTION?], e.g., for both males and females separately, or alternately, one set for combined sex. The weight bins must be the same for each year; if this is not the case, then years for which they are different need to be entered as different process\_removals\_by\_weight blocks.
+The user must specify the units of weight for the proportions-at-weight observations (which may be g or kg), a vector containing the lower edge of each weight bin, and a vector containing the proportions in each weight bin. Note that units for weight in the proportions-at-weight do not have to be the same as specified in \texttt{@length-weight}. Observation-specific weight bins must be a sequential subset of the model weight bins, with no missing or added values. Observations may be specified for any category used in the partition, or for some combinations of them [LINK TO CATEGORY SECTION?], e.g., for both males and females separately, or alternately, one set for combined sex. The weight bins must be the same for each year; if this is not the case, then years for which they are different need to be entered as different process\_removals\_by\_weight blocks.
 
 If there is no plus group, i.e., weight\_plus=false, then Casal2 requires a vector of proportions-at-weight of length n+1, where n is the number of lower edges of each weight bin supplied (the final value provides the upper limit to the final bin). If weight\_plus=true then Casal2 expects a vector of proportions-at-weight of length n. The last proportion represents the numbers from the last length bin to the maximum weight the age-weight relationship allows [not sure how we should specify this?].
 
@@ -156,28 +159,26 @@ No specification is made for the specific time within the timestep that the same
 
 Proportions-at-weight processes:
 
-1. process\_removals\_by\_weightfishery using Instantaneous\_Mortality
+\begin{itemize}
+	\item process\_removals\_by\_weightfishery using Instantaneous\_Mortality;
+	\item process\_removals\_by\_weight\_retainedfishery using Instantaneous\_Mortality\_Retained;
+	\item process\_removals\_by\_weight\_retained\_totalfishery using Instantaneous\_Mortality\_Retained
+\end{itemize}
 
-2. process\_removals\_by\_weight\_retainedfishery using Instantaneous\_Mortality\_Retained
+documented in Section 7.1.3 (of the User Manual?). Specific process observations (i.e., fishery tied observations; obs fitted to the middle of the fishery since it represents it)
 
-3. process\_removals\_by\_weight\_retained\_totalfishery using Instantaneous\_Mortality\_Retained
-
-documented in 7.1.3. Specific process observations (I.e., fishery tied observations; obs fitted to the middle of the fishery since it represents it)
-
-We have “general” obs like process\_proportions\_at\_length, which are used for surveys, but also for fisheries; they can be fitted into any place throughout the time-step. Weight frequencies are not collected on surveys, so we do not need this observation yet.
+We have ``general'' obs like process\_proportions\_at\_length, which are used for surveys, but also for fisheries; they can be fitted into any place throughout the time-step. Weight frequencies are not collected on surveys, so we do not need this observation yet.
 
 Length composition observation types for fisheries.
 
 
+Linked to mortality\_instantaneous, Casal2 has these fishery length composition data observations:
 
-Linked to mortality\_instantaneous, Casal2 has these length data observations:
-
-process\_removals\_by\_length; works with process of type mortality\_instantaneous
-
-• process\_removals\_by\_length\_retained; works with process of type mortality\_instantaneous \_retained block.
-
-• process\_removals\_by\_length\_retained\_total; works with process of type mortality\_instantaneous \_retained block.
-
+\begin{itemize}
+	\item process\_removals\_by\_length: works with process of type mortality\_instantaneous;
+	\item process\_removals\_by\_length\_retained: works with process of type mortality\_instantaneous \_retained; and
+	\item process\_removals\_by\_length\_retained\_total: works with process of type mortality\_instantaneous \_retained
+\end{itemize}
 
 Fisheries process: mortality\_instantaneous
 
@@ -191,11 +192,11 @@ Copied from the manual, but changed into proportions-at-weight.
 
 Proportions-at-weight observations can be supplied as
 
-• a set of proportions for a single category, (see example above)
-
-• a set of proportions for multiple categories, or
-
-• a set of proportions across aggregated categories.
+\begin{itemize}
+	\item a set of proportions for a single category (see example);
+	\item a set of proportions for multiple categories; or
+	\item a set of proportions across aggregated categories.
+\end{itemize}
 
 The method of evaluating expectations are the same for all three types of proportions.
 
@@ -226,38 +227,38 @@ X
 
 Example input block
 
-\begin{lstlisting}
+\begin{alltt}
 \texttt{@observation Observed\_weight\_frequency\_east}
 type process\_removals\_by\_weight
-method\_of\_removal EastChathamRise (fishery)
-time\_step Summer (Not truly needed, but length code needs it currently)
+method\_of\_removal EastChathamRise  # fishery
+time\_step Summer # Not truly needed, but length code needs it currently
 mortality\_instantaneous\_process instant\_mort
 length\_weight\_cv 0.1
 length\_weight\_dist lognormal
 years 1991 1992
 categories male
 weight\_unit kg
-delta 1e-5 (robustification value for the likelihood; default 1e-11)
+delta 1e-5  # robustification value for the likelihood; default 1e-11
+likelihood multinomial
 weight\_plus false
-weight\_bins 1.8 1.9 2.0 2.1 2.2 2.3 ... 11.8
+weight\_bins 1.8 1.9 2.0 2.1 2.2 2.3 2.4 2.5 2.6 2.7 2.8 2.9 3.0 3.1 3.2 3.3 3.4 3.5 3.6 3.7 % 3.8 3.9 4.0 4.1 4.2 4.3 4.4 4.5 4.6 4.7 4.8 4.9 5.0 5.1 5.2 5.3 5.4 5.5 5.6 5.7 5.8 5.9 6.0 6.1 6.2 6.3 6.4 6.5 6.6 6.7 6.8 6.9 7.0 7.1 7.2 7.3 7.4 7.5 7.6 7.7 7.8 7.9 8.0 8.1 8.2 8.3 8.4 8.5 8.6 8.7 8.8 8.9 9.0 9.1 9.2 9.3 9.4 9.5 9.6 9.7 9.8 9.9 10.0 10.1 10.2 10.3 10.4 10.5 10.6 10.7 10.8 10.9 11.0 11.1 11.2 11.3 11.4 11.5 11.6 11.7 11.8
 
 table obs
-1991 0.0020.0100.0410.0940.1260.0860.0730.0510.0450.0500.0370.0250.0160.0170.0110.0080.0110.0110.0090.0120.0130.0090.0100.0090.0100.0070.0080.0060.0050.0100.0080.0140.0080.0120.0060.0070.0090.0050.0070.0060.0040.0060.0040.0040.0070.0050.0020.0060.0040.0030.0040.0020.0040.0030.0020.0020.0020.0010.0020.0030.0010.0020.0010.0010.0010.0010.0010.0010.0010.0000.0010.0010.0000.0010.0010.0010.0010.0000.0010.0010.0010.0010.0010.0010.0000.0010.0000.0010.0000.0000.0010.0000.0000.0000.0000.0000.0000.0000.0000.001
-1992 0.0020.0060.0160.0180.0270.0380.0580.0690.0510.0610.0630.0520.0320.0280.0210.0180.0130.0120.0080.0110.0120.0070.0120.0120.0150.0070.0090.0110.0090.0100.0140.0130.0120.0190.0110.0130.0130.0090.0100.0140.0080.0090.0060.0060.0080.0080.0050.0080.0070.0060.0030.0060.0060.0040.0020.0040.0070.0030.0040.0030.0020.0030.0020.0020.0020.0020.0020.0020.0020.0020.0020.0010.0010.0010.0020.0020.0010.0020.0020.0020.0010.0010.0010.0020.0010.0010.0010.0010.0010.0000.0010.0010.0000.0010.0010.0000.0000.0010.0000.001
-likelihood multinomial
+1991 0.002 0.010 0.041 0.094 0.126 0.086 0.073 0.051 0.045 0.050 0.037 0.025 0.016 0.017 0.011 0.008 0.011 0.011 0.009 0.012 0.013 0.009 0.010 0.009 % 0.0100.0070.0080.0060.0050.0100.0080.0140.0080.0120.0060.0070.0090.0050.0070.0060.0040.0060.0040.0040.0070.0050.0020.0060.0040.0030.0040.0020.0040.0030.0020.0020.0020.0010.0020.0030.0010.0020.0010.0010.0010.0010.0010.0010.0010.0000.0010.0010.0000.0010.0010.0010.0010.0000.0010.0010.0010.0010.0010.0010.0000.0010.0000.0010.0000.0000.0010.0000.0000.0000.0000.0000.0000.0000.0000.001
+1992 0.002 0.006 0.016 0.018 0.027 0.038 0.058 0.069 0.051 0.061 0.063 0.052 0.032 0.028 0.021 0.018 0.013 0.012 0.008 0.011 0.012 0.007 0.012 0.012 % 0.0150.0070.0090.0110.0090.0100.0140.0130.0120.0190.0110.0130.0130.0090.0100.0140.0080.0090.0060.0060.0080.0080.0050.0080.0070.0060.0030.0060.0060.0040.0020.0040.0070.0030.0040.0030.0020.0030.0020.0020.0020.0020.0020.0020.0020.0020.0020.0010.0010.0010.0020.0020.0010.0020.0020.0020.0010.0010.0010.0020.0010.0010.0010.0010.0010.0000.0010.0010.0000.0010.0010.0000.0000.0010.0000.001
 end\_table
 
 table error\_values
 1991 25
 1992 25
 end\_table
-\end{lstlisting}
+\end{alltt}
 
 \section{Test Plan}
 
 X
 
-\section{Text for the User Manual}
+\section{Text to be added to the User Manual}
 
 X
 
