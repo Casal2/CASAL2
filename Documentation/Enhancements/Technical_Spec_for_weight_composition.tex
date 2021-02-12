@@ -121,6 +121,8 @@ final=true
 \hyphenpenalty=5000
 \tolerance=1000
 
+\newcommand{\CNAME}{\textsc{Casal2}}
+
 
 % Title Page
 \title{Proportions-at-weight, a new Observation type}
@@ -145,15 +147,15 @@ Overview
 
 The observation process\_removals\_by\_weight was added to allow the use of fish market data, where fish weights have been measured instead of fish lengths or ages, which are collated into proportions-at-weight. The observation is strictly from retained catch and is therefore associated with mortality from a defined fishery. When discarding is included in the model, the retained selectivity should be used for these data. If there are no discarding, then the total catch selectivity is used. However, for current coding purposes, this observation must be linked to a fishery as defined in a mortality\_Instantaneous block, which ignores discards and so the selectivity is that defined in the mortality\_Instantaneous block.
 
-The expected proportions-at-weight are derived from normalizing the expected numbers-at-weight. There are two stages in calculating the expected numbers-at-weight. Firstly, Casal2 calculates the expected numbers-at-length from the numbers-at-age using the age-length and distribution in the \texttt{@age\_length} block. Secondly, the numbers-at-length are converted into numbers-at-weight using the length-weight relationship in the \texttt{@length\_weight} block and its distribution of weight about the mean weight-at-length. The length-weight distribution is currently only applied in Casal2 in the \texttt{@observation} block for weight composition data and is therefore specified here, as the CV of either a normal or lognormal distribution.
+The expected proportions-at-weight are derived from normalizing the expected numbers-at-weight. There are two stages in calculating the expected numbers-at-weight. Firstly, \CNAME~ calculates the expected numbers-at-length from the numbers-at-age using the age-length and distribution in the \texttt{@age\_length} block. Secondly, the numbers-at-length are converted into numbers-at-weight using the length-weight relationship in the \texttt{@length\_weight} block and its distribution of weight about the mean weight-at-length. The length-weight distribution is currently only applied in \CNAME~ in the \texttt{@observation} block for weight composition data and is therefore specified here, as the CV of either a normal or lognormal distribution.
 
 The user must specify the units of weight for the proportions-at-weight observations (which may be g or kg), a vector containing the lower edge of each weight bin, and a vector containing the proportions in each weight bin. Note that units for weight in the proportions-at-weight do not have to be the same as specified in \texttt{@length-weight}. Observation-specific weight bins must be a sequential subset of the model weight bins, with no missing or added values. Observations may be specified for any category used in the partition, or for some combinations of them [LINK TO CATEGORY SECTION?], e.g., for both males and females separately, or alternately, one set for combined sex. The weight bins must be the same for each year; if this is not the case, then years for which they are different need to be entered as different process\_removals\_by\_weight blocks.
 
-If there is no plus group, i.e., weight\_plus=false, then Casal2 requires a vector of proportions-at-weight of length n+1, where n is the number of lower edges of each weight bin supplied (the final value provides the upper limit to the final bin). If weight\_plus=true then Casal2 expects a vector of proportions-at-weight of length n. The last proportion represents the numbers from the last length bin to the maximum weight the age-weight relationship allows [not sure how we should specify this?].
+If there is no plus group, i.e., weight\_plus=false, then \CNAME~ requires a vector of proportions-at-weight of length n+1, where n is the number of lower edges of each weight bin supplied (the final value provides the upper limit to the final bin). If weight\_plus=true then \CNAME~ expects a vector of proportions-at-weight of length n. The last proportion represents the numbers from the last length bin to the maximum weight the age-weight relationship allows [not sure how we should specify this?].
 
-Casal2 generates a warning if the mean weight estimated for the youngest age in the partition is greater than the lower size of the first weight bin. This is to guard against including weight observations that may have a substantial contribution from fish younger than the youngest age in the partition.
+\CNAME~ generates a warning if the mean weight estimated for the youngest age in the partition is greater than the lower size of the first weight bin. This is to guard against including weight observations that may have a substantial contribution from fish younger than the youngest age in the partition.
 
-The only likelihood currently available in Casal2 for proportions\_at\_weight observations is the multinomial, with effective sample sizes for each year provided as error\_values. Note that in the implementation of the multinomial likelihood in Casal2, the weight bins having a value of zero will have no contribution to the likelihood.
+The only likelihood currently available in \CNAME~ for proportions\_at\_weight observations is the multinomial, with effective sample sizes for each year provided as error\_values. Note that in the implementation of the multinomial likelihood in \CNAME, the weight bins having a value of zero will have no contribution to the likelihood.
 
 No specification is made for the specific time within the timestep that the same was taken. This is because the sample is linked to a fishery, where removed are defined to be at the mid-point.
 
@@ -172,7 +174,7 @@ We have ``general'' obs like process\_proportions\_at\_length, which are used fo
 Length composition observation types for fisheries.
 
 
-Linked to mortality\_instantaneous, Casal2 has these fishery length composition data observations:
+Linked to mortality\_instantaneous, \CNAME~ has these fishery length composition data observations:
 
 \begin{itemize}
 	\item process\_removals\_by\_length: works with process of type mortality\_instantaneous;
@@ -211,13 +213,13 @@ Defining an observation across aggregated categories allows categories to be agg
 
 \texttt{categories male + female}
 
-Casal2 then requires that there will be a single vector of proportions supplied, with one proportion for each weight bin, and that these proportions sum to one.
+\CNAME~ then requires that there will be a single vector of proportions supplied, with one proportion for each weight bin, and that these proportions sum to one.
 
 The latter form can then be extended to include multiple categories, or multiple aggregated categories, e.g., for an east and west combined sex proportions that incorporates an area ratio we could use
 
 \texttt{categories male.east + female.east   male.west + female.west}
 
-Casal2 then requires that there will be a vector made up by a concatenated of proportions for east and another for west, and that these proportions sum to one.
+\CNAME~ then requires that there will be a vector made up by a concatenated of proportions for east and another for west, and that these proportions sum to one.
 
 \section{Technical Description}
 
@@ -260,7 +262,51 @@ X
 
 \section{Text to be added to the User Manual}
 
-X
+observations 7.7x
+
+\paragraph*{Process removals by weight}
+
+Removals by weight observations are observations of the relative number of individuals at weight, part way through a process of type \texttt{mortality\_instantaneous}. This observation is exclusively associated with the process of type \texttt{mortality\_instantaneous}, and will produce an error if associated with any other process type.
+
+The observation is supplied for a given year and time-step, for some selected age classes of the population (i.e., for a range of ages multiplied by a selectivity that is associated with the process).
+
+The expectations from this observation are generated whilst the process is being executed. The expectation of numbers at age $a$ for category $c$ from exploitation method $m$ ($E[N_{a,c,m}]$) are
+
+\begin{equation}
+E[N_{a,c,m}] = N_{a,c} U_{a,m} S_{a,c,m} 0.5 M_{a,c}
+\end{equation}
+
+where $N_{a,c}$ are the numbers at age in category $c$ before the process is executed, $U_{a,m}$ is the exploitation rate for age $a$ from method $m$, $S_{a,c,m}$ is the selectivity, and $M$ is the natural mortality.
+
+The observation class accesses the variable $E[N_{a,c,m}]$ from the process and applies the age-length relationship specified in the model. This converts numbers-at-age to numbers-at-age and -length. In turn, numbers-at-length and -age are converted into numbers at -age and -weight using the length weight relationship and the spread of weights about a length, which are then converted to numbers-at-weight.  The observations are aggregated by method and category depending on how the user specifies the observation, before converting numbers-at-weight to proportions and calculating the likelihood.
+
+Similar to the proportions-at-length and removels-by-weight observation types, the user must supply a vector of weight bins. The observation-specific weight bins must be a sequential subset of the model weight bins, with no missing or added values. For example, if the model weight bins are \texttt{0 5 10 15 20 25 ... 100}, then the observation-specific weight bins can be \texttt{20 25 30 35 40 45 50} but not \texttt{20 30 40 50}. The length bins used int eh intermediate step to get the numbers-at-age and -length uses the model length bins. For time invarient growth and length weight relationships, the transition matrix from numbers-at-age to numbers at weight is calulated once at the start of a run and stored to be reused in other years to speed up htis observation class.
+
+Currently, \CNAME~ does not allow a weight plus group. WARNING: The user should check that the weight range for fish in the age plus-group is consistent with the specified weight bins for the years with weight compositional data (e.g., weight compositional data collected when the stock has been fished down and so the age plus-group has insignificant fish in it meets this criteria). SImarly for model length bins.
+
+{\small{\begin{verbatim}
+@observation observation_fishery_WF
+type process_removals_by_weight
+...
+years  1993 1994 1995
+method_of_removal FishingEast
+mortality_instantaneous_process instant_mort
+weight_bins 0 20 40 60 80 110
+delta 1e-5
+table obs
+1993    0.0   0.05    0.05    0.10    0.80
+1994    0.05  0.1     0.05    0.05    0.75
+1995    0.3   0.4     0.2     0.05    0.05
+end_table
+
+table error_values
+1993 31
+1994 34
+1995 22
+end_table
+\end{verbatim}}}
+
+Likelihoods that are available for this observation are the mulitnomial and the lognormal. See Section~\ref{sec:likelihood-observations} for information on the  likelihoods.
 
 \section{References}
 
