@@ -149,29 +149,30 @@ The observation process\_removals\_by\_weight was added to allow the use of fish
 
 The expected proportions-at-weight are derived from normalizing the expected numbers-at-weight. There are two stages in calculating the expected numbers-at-weight. Firstly, \CNAME~ calculates the expected numbers-at-length from the numbers-at-age using the age-length and distribution in the \texttt{@age\_length} block. Secondly, the numbers-at-length are converted into numbers-at-weight using the length-weight relationship in the \texttt{@length\_weight} block and its distribution of weight about the mean weight-at-length. The length-weight distribution is currently only applied in \CNAME~ in the \texttt{@observation} block for weight composition data and is therefore specified here, as the CV of either a normal or lognormal distribution.
 
-The user must specify the units of weight for the proportions-at-weight observations (which may be g or kg), a vector containing the lower edge of each weight bin, and a vector containing the proportions in each weight bin. Note that units for weight in the proportions-at-weight do not have to be the same as specified in \texttt{@length-weight}. Observation-specific weight bins must be a sequential subset of the model weight bins, with no missing or added values. Observations may be specified for any category used in the partition, or for some combinations of them [LINK TO CATEGORY SECTION?], e.g., for both males and females separately, or alternately, one set for combined sex. The weight bins must be the same for each year; if this is not the case, then years for which they are different need to be entered as different process\_removals\_by\_weight blocks.
+The user must specify the units of weight for the proportions-at-weight observations (which may be g or kg), a vector containing the lower edge of each weight bin, a vector containing the proportions in each weight bin, and a vector containing the mean number of fish in a box at that weight bin (to adjust the cv of the length-weight distribution to account for the fact that these data are mean weights, not weights for a single fish as found in a length composition). Note that units for weight in the proportions-at-weight do not have to be the same as specified in \texttt{@length-weight}. Observation-specific weight bins must be in a sequence; there is no \texttt{@model/weight\_bins}  as in length composition observations. Observations may be specified for any category used in the partition, or for some combinations of them [LINK TO CATEGORY SECTION?], e.g., for both males and females separately, or alternately, one set for combined sex. The weight bins must be the same for each year; if this is not the case, then years for which they are different need to be entered as a different process\_removals\_by\_weight blocks.
 
-If there is no plus group, i.e., weight\_plus=false, then \CNAME~ requires a vector of proportions-at-weight of length n+1, where n is the number of lower edges of each weight bin supplied (the final value provides the upper limit to the final bin). If weight\_plus=true then \CNAME~ expects a vector of proportions-at-weight of length n. The last proportion represents the numbers from the last length bin to the maximum weight the age-weight relationship allows [not sure how we should specify this?].
+\CNAME~ does not allow a weight plus group, so the data are specified in a vector of proportions-at-weight of length n+1, where n is the number of lower edges of each weight bin supplied (the final value provides the upper limit to the final bin). Note that a plus group can be mimicked by using a large terminal weight bin value.
 
-\CNAME~ generates a warning if the mean weight estimated for the youngest age in the partition is greater than the lower size of the first weight bin. This is to guard against including weight observations that may have a substantial contribution from fish younger than the youngest age in the partition.
+\CNAME~ generates a warning if the mean weight estimated for the youngest age in the partition is smaller than the lower size of the first weight bin. This is to guard against including weight observations that may have a substantial contribution from fish younger than the youngest age in the partition.
 
 The only likelihood currently available in \CNAME~ for proportions\_at\_weight observations is the multinomial, with effective sample sizes for each year provided as error\_values. Note that in the implementation of the multinomial likelihood in \CNAME, the weight bins having a value of zero will have no contribution to the likelihood.
 
-No specification is made for the specific time within the timestep that the same was taken. This is because the sample is linked to a fishery, where removed are defined to be at the mid-point.
+No specification is made for the specific time within the timestep that the sample was taken. This is because the sample is linked to a fishery, where removals and observations are defined to be at the mid-point.
 
-Proportions-at-weight processes:
+\bigskip
+\underline{Proportions-at-weight processes:}
 
 \begin{itemize}
-	\item process\_removals\_by\_weightfishery using Instantaneous\_Mortality;
-	\item process\_removals\_by\_weight\_retainedfishery using Instantaneous\_Mortality\_Retained; LEAVE OUT FOR NOW IJD?
-	\item process\_removals\_by\_weight\_retained\_totalfishery using Instantaneous\_Mortality\_Retained LEAVE OUT FOR NOW IJD?
+	\item process\_removals\_by\_weight\_fishery using Instantaneous\_Mortality;
+	\item process\_removals\_by\_weight\_retained\_fishery using Instantaneous\_Mortality\_Retained; Not coded in this release.
+	\item process\_removals\_by\_weight\_retained\_total\_fishery using Instantaneous\_Mortality\_Retained;  Not coded in this release.
 \end{itemize}
 
-documented in Section 7.1.3 (of the User Manual?). Specific process observations (i.e., fishery tied observations; obs fitted to the middle of the fishery since it represents it)
 
-We have ``general'' obs like process\_proportions\_at\_length, which are used for surveys, but also for fisheries; they can be fitted into any place throughout the time-step. Weight frequencies are not collected on surveys, so we do not need this observation yet.
+We have ``general'' obs like process\_proportions\_at\_length, which are used for surveys, but also for fisheries; they can be fitted into any place throughout the time-step. Weight frequencies are not collected on surveys, so we currently do not need this observation.
 
-Length composition observation types for fisheries.
+\bigskip
+\underline{Length composition observation types for fisheries}
 
 
 Linked to mortality\_instantaneous, \CNAME~ has these fishery length composition data observations:
@@ -182,14 +183,21 @@ Linked to mortality\_instantaneous, \CNAME~ has these fishery length composition
 	\item process\_removals\_by\_length\_retained\_total: works with process of type mortality\_instantaneous \_retained
 \end{itemize}
 
-Fisheries process: mortality\_instantaneous
+Weight data is currently collected in processing sheds and so discarded data is not available. Discard data is not usually collected by observers on fishing vessels and so, again, there is generally no discard data. Hence, only the weight equivalent of process\_removals\_by\_length is needed currently.
+
+
+\bigskip
+\underline{Fisheries process: mortality\_instantaneous}
 
 Supply time step.
 
-Specific fishery is a method in the table method in the  mortality\_instantaneous block. For one stock, it only makes sense to have one mortality\_instantaneous block that covers all fisheries on the stock (whatever time-step they occur in) and specifies the proportions of M that occurs in each time-step. Rather than covering one process in a specific time-step, mortality\_instantaneous blocks cover the full year which makes it different from other processes. mortality\_instantaneous blocks need to be like this so that M and F can occur simultaneously and to also make sure the various U\_max parameters are evaluated at the same time if fisheries co-occur.
+A specific fishery is a \texttt{method} in the \texttt{table method} sub command in the   \texttt{mortality\_instantaneous} block. For one stock, it only makes sense to have one \texttt{mortality\_instantaneous} block that covers all fisheries on the stock (whatever time-step they occur in) and specifies the proportions of M that occurs in each time-step. Rather than covering one process in a specific time-step, \texttt{mortality\_instantaneous} blocks cover the full year which makes it different from other processes.\texttt{ mortality\_instantaneous} blocks need to be like this so that M and F can occur simultaneously and to also make sure the various \texttt{U\_max parameters} are evaluated at the same time if fisheries co-occur.
 
-Alt fisheries process mortality\_instantaneous \_retained:  same as above, but with discards and retained catch
 
+
+
+\bigskip
+\underline{Proportions-at-weight observations}
 Copied from the manual, but changed into proportions-at-weight.
 
 Proportions-at-weight observations can be supplied as
@@ -207,25 +215,25 @@ Defining an observation for multiple categories extends the single category obse
 
 \texttt{categories male female}
 
-The vector of proportions will have the proportion for males over the specified weight bins, followed by the proportions for females. The sum over male and female proportions should be 1 (i.e., it implicitly has a sex ratio).
+The vector of proportions will have the proportion for males over the specified weight bins, followed by the proportions for females. The sum over male and female proportions should be 1 (i.e., it implicitly has a sex ratio). [\CNAME~will issue a warning and normalize observation vectors that do not sum to 1. For length observations, the vector must sum to 1 otherwise an error is logged which seems to be unhelpful since generating these vectors may not sum to 1 if rounded, and requires a complete re-calculation if end parts are to be excluded.]
 
-Defining an observation across aggregated categories allows categories to be aggregated before the proportions are calculated.  To indicate that two (or more) categories are to be aggregated, separate them with a "+" symbol. For example, to specify that the observations are of the proportions of male and females combined within each weight bin, then the subcommand categories is
+Defining an observation across aggregated categories allows categories to be aggregated before the proportions are calculated.  To indicate that two (or more) categories are to be aggregated, separate them with a "+" symbol. For example, to specify that the observations are of the proportions of male and females combined within each weight bin, then the sub-command categories is
 
 \texttt{categories male + female}
 
-\CNAME~ then requires that there will be a single vector of proportions supplied, with one proportion for each weight bin, and that these proportions sum to one.
+\CNAME~ then requires that there will be a single vector of proportions supplied, with one proportion for each weight bin, and that these proportions sum to one. \CNAME~will issue a warning and normalize observation vectors that do not sum to 1.
 
 The latter form can then be extended to include multiple categories, or multiple aggregated categories, e.g., for an east and west combined sex proportions that incorporates an area ratio we could use
 
 \texttt{categories male.east + female.east   male.west + female.west}
 
-\CNAME~ then requires that there will be a vector made up by a concatenated of proportions for east and another for west, and that these proportions sum to one.
+\CNAME~ then requires that there will be a vector made up by a concatenated of proportions for east and another for west, and that these proportions sum to one. \CNAME~will issue a warning and normalize observation vectors that do not sum to 1.
 
 \section{Technical Description}
 
 
 The observation is supplied for a given year and time-step, for some selected age classes of the population (i.e., for a range of ages multiplied by a selectivity that is associated with the process).
-For length selectivities in an age-based model, we must apply the selectivity onto the age-length matrix, so do we generate the length-age matrix first, then apply whatever selectivity is needed?
+
 
 The expectations from this observation are generated whilst the process is being executed. There is a chain of expectations starting with that for ages, then converting this into an expectation for lengths, and lastly, converting lengths into expectations over weight bins.
 
@@ -239,125 +247,88 @@ where $N_{a,c}$ are the numbers at age in category $c$ before the process is exe
 
 
 \subsection{Part 1: age to length transition}
-We now use the specified length bins in the \texttt{@model} command block to generate expectations. This is a transition matrix,\boldmath$Tal$,that converts proportions of an age into the vector of  lengths bins; columns are ages, rows are length bin index so $Nl_{c,m} = \mathbf{Tal} N_{c,m}$, where $Nl$ and $N$ are (column) vectors.
 
-We drop then $m$ subscribe (method) for here on.
+For this observation, the user can specify the terminal length or accept the default value, in contrast to length compositions that uses both an observation \texttt{length\_bins} and a  \texttt{@model/length\_bin}  specifications. The terminal length caps the last length bin, i.e., plus groups are not allowed. \CNAME~ uses length bins from 1 (unit as specified in \texttt{@age\_length}) in steps of 1 unit up to the terminal length$ - 1$. The default value is based on the  4 standard deviations above $L_{inf}$. If there are different candidate growth curves for the categories used in the observation, then the maximum over these growth curves is used. To override the default, use \texttt{terminal\_length  value} in the observation block.
+This clarifies how the transition matrix is calculated and ensures no problems at the edges. 
 
-For the normal distribution of length about an age, 
+The expected length distribution is calculated via 
+a transition matrix,$\mathbf{Tal}$, that converts an age into the vector of proportions by lengths bins; columns are ages, rows are length bin index so $Nl_{c,m} = \mathbf{Tal} N_{c,m}$, where $Nl$ and $N$ are (column) vectors.
+
+We drop the $m$ subscribe (method) from here on.
+
+
+
+For the normal distribution of length given an age, 
 elements of $\mathbf{Tal}$ for length bin $l$ and age $a$ in category $c$ are given by $\zeta_{l,a,c} = \Phi\left( \frac{L_{l+1} - \bar L_{c,a}   }{\sigma_{c,a}} \right)   - \Phi\left( \frac{L_{l} - \bar L_{c,a}   }{\sigma_{c,a}} \right)  $,
 where $\Phi$ is the standard normal cumulative function with mean length $\bar L_{c,a}$ and standard deviation $\sigma_{c,a}$. For a log-normal distribution, the $L_{l}, \bar L_{c,a}$ and $\sigma_{c,a}$ must be on the log scale.
 
-Notice that when the length distribution has a probability of lengths below $L_{1}$ these fish are ``lost''
-which is different to SS3 manual equation A.1.14 where fish in bin $1$ are for fish below $L_{1}$.
-
-The calculation for last length bin, $l_{max}$, depends on whether a length plus-group is defined in \texttt{@model} length bins. For no plus-group, $l_{max}$ is one less than the number of lengths specified since the last length caps the interval for bin $l_{max}$. If we index the last length as $l_{cap}$
-then 
-
-$\zeta_{l_{max},a,c} = \Phi\left( \frac{L_{l_{cap}} - \bar L_{c,a}   }{\sigma_{c,a}} \right)   - \Phi\left( \frac{L_{l_{max}} - \bar L_{c,a}   }{\sigma_{c,a}} \right)  $. 
-
-For a plus-group in \texttt{@model} length bins, $l_{max}$ indexes the bin that starts at  the last specified length, but includes all length larger than it. $\zeta_{l_{max},a,c}$ is now  $ 1 - \Phi\left( \frac{L_{l_{max}} - \bar L_{c,a}   }{\sigma_{c,a}} \right)$.
 
 If growth is not time varying, then $\mathbf{Tal}$ should be calculated once. If length-weight relationships are time-varying, then $\mathbf{Tal}$ should be saved and re-used.
 
 \bigskip
-\underline{Warnings}
+\underline{Recommendations}
 
-The age ranges specified in \texttt{@model} can exclude the youngest ages, but invariably it has a maximum age, usually with a plus-group. Both situations can create bias in predicting length distributions in certain circumstances.  If the age plus-group is not located where the mean length is at $L_{\infty}$, some parts of the length distribution within the age plus-group are not represented and this will result in a bias for length composition data where a length plus-group is specified. This is only an issue in the early part of the model run when the fishdown is occurring, after which it will disappear as the age plus-group is emptied.  A bias may also occur when the youngest ages are excluded if their length distribution(s) overlaps with the smaller length bins in the model. We should detect this, if possible, and issue a warning to alert the practitioner. 
-Can we make growth functions take ages outside the age range to predict mean length (it may do this already - TA)? If so, \CNAME\  can calculate how much the age class below the minimum age (if this is greater than one) contributes to the \texttt{@observation} length composition. 
+The age ranges specified in \texttt{@model} can exclude the youngest ages, but invariably it has a maximum age, usually with a plus-group. Both situations can create bias in predicting length distributions in certain circumstances.  If the age plus-group is not located where the mean length is at $L_{\infty}$, some parts of the length distribution within the age plus-group are not represented and this will result in a bias for length composition data where a length plus-group is specified. This is only an issue in the early part of the model run when the fishdown is occurring, after which it will disappear as the age plus-group is emptied.  A bias may also occur when the youngest ages are excluded if their length distribution(s) overlaps with the smaller length bins in the model. We recommend that the model starts at age 1 and finishes at a sufficiently old age that the mean length is almost at $L_{\infty}$ (especially since the need to save memory space and speed up the  program are not such a consideration these days). 
 
-For age plus-groups, \CNAME\  should be able to generate the cumulative distribution for the terminal length distribution and for years \begin{verbatim} 
-max_age plus c(5, 10, ...)
-\end{verbatim}
- which can be inspected by the user to check the likely consequences of their proposed configuration. For age plus-groups, what age to use for the terminal length distribution is unclear, maybe just \texttt{age.max}. 
-In CASAL, age plus-groups have a parameter to specify the length to used for the weight calculations, which implies an age. In \CNAME, I am unsure what happens given the manual entries:
+As a check, \CNAME~will output the predicted mean length and the length at 3 $x$ standard deviation above the mean for ages at  \texttt{max\_age}, $max\_age + 5$ and $max\_age + 10$ years. This will mean that growth functions can take ages outside the \texttt{@model} age range to predict mean length (it may do this already?). I
 
-\begin{verbatim}
-@model
-length_plus_group The mean length of length plus group #can this be specified statically (IJD)?
-default 0  #??
-
-age_plus The oldest age or extra length midpoint ,plus group size, as a plus group??
-Type: boolean
-Default: true
-Value: true, false
-\end{verbatim}
-
-I am unsure what has been done here and what would be better (IJD).
-For age plus-groups, should we have \texttt{@model/age\_plus\_age/default age\_max} to define the terminal length distribution and mean length for weight calculations?
-Similarly for length plus-groups, should we have \texttt{@model/length\_plus\_length/default length\_max} to define the terminal weight distribution and mean weight for weight calculations? Maybe the \texttt{@model/length\_plus\_group} above does this already?
 
 \subsection{Part 2: age to weight transition}
-Here, $\mathbf{Tal}$ is converted into $\mathbf{Taw}$, the age to weight transition matrix. First, a version is calculated using the weight bins specified in \texttt{@model}, $\mathbf{TawM}$. Second, this is transformed into the specific weight bins specified in the \texttt{@observation} section, $\mathbf{TawO}$. 
+Here, $\mathbf{Tal}$ is converted into $\mathbf{TawO}$, the age to weight transition matrix  using the weight bins specified in observations., i.e., we do not have a
+\texttt{@model/weight\_bins} sub-command. The specific weight bins are specified in the \texttt{@observation/weight\_bins} sub-command. 
+ \texttt{@observation} bins cannot have ``holes'' in it. 
+Holes and bin consecutive order in the specifications should be checked for.
 
-The   \texttt{@observation}  weight bins must be consistent with the  \texttt{@model} bin boundaries, i.e.,  \texttt{@observation} bins cannot cut a 
-\texttt{@model} bin into two or extend outside its range. It can concatenate \texttt{@model} bins and it does not have to cover the full range. \texttt{@observation} bins cannot have ``holes'' in it. 
-Holes and bin consecutive order in the specifications should be checked for in both the \texttt{@observation} and \texttt{@model} versions (this has caused problems for length bins).
 
-
-An intermediate matrix is needed that converts length into a weight distribution, $\mathbf{Tlw}$. This uses the \texttt{@model} length bins so it fits to the $\mathbf{Tal}$, i.e. $\mathbf{TawM} =mathbf{Tal} mathbf{Tlw} $.
+An intermediate matrix is needed that converts length into a weight distribution, $\mathbf{Tlw}$. This uses the \texttt{@observation} length bins so it fits to the columns in $\mathbf{Tal}$, i.e. $\mathbf{TawO} =\mathbf{Tal} \mathbf{Tlw} $.
 
 For the normal distribution of weight about length, 
 elements of $\mathbf{Tlw}$ for weight bin $w$ and length $l$ in category $c$ are given by $\zeta_{w,l,c} = \Phi\left( \frac{W_{w+1} - \bar w_{c,l}   }{\sigma_{c,l}} \right)   - \Phi\left( \frac{W_{w} - \bar W_{c,l}   }{\sigma_{c,l}} \right)  $,
-where $\Phi$ is the standard normal cumulative function with mean weight $\bar W_{c,l}$ and standard deviation $\sigma_{c,l}$. Is there going to be a log-normal version (MD)? 
+where $\Phi$ is the standard normal cumulative function with mean weight $\bar W_{c,l}$ and standard deviation $\sigma_{c,l}$. Again, there can be a log-normal version.
 
-We are not allowing a weight plus-group (?) so the above defines calculations needed. A  plus-group can be made by increasing the $W_{w_{max}}$ to a unlikely value.
+We are not allowing a weight plus-group so the above defines all the calculations that are needed. A  plus-group can be made by increasing the $W_{w_{max}}$ to a unlikely value.
 
-Now  $\mathbf{TawM} =\mathbf{Tal} \ \%*\%\ \mathbf{Tlw} $.
-
-Do we need the \texttt{@model} weight bin? If there are more than one series of weight composition data then \texttt{@model} weight bins will save some time. Is this the case (MD)? The $\Phi$ calculations are expensive since they use exp() and raising to powers up to 5 (or is it 7?) so calculating them once could be advantageous. 
-
-
-To get the finial transition matrix, $\mathbf{TawO}$ we may need to delete \texttt{@model} bins (columns) from both ends and potentially add over internal bins. If $wm_{i}$ are the lower weight bin boundaries (\texttt{model}) for $i=1 ... m-1$ bins ($m^{th}$ value defines the cap for the last bin), and $wo_{j}$ are the lower boundary values  (\texttt{observation}) for  $j=1 ... n-1$ bins, then an $j$ index can be assigned to each \texttt{model} bin based on $wo_{j} <= wm_{i} <wo_{j+1}$; for no fits than 0 is assigned (i.e., deletion). R code is
-\begin{verbatim}
-    j.wm	#j index for model bin into observation bin
-    TawO <- matrix(rep(0,(n-1)*(max.age - min.age +1)),ncol=m-1)
-	
-    for(i in c(1,m-1)){
-    	    TawO[,j.wn[i]] <- TawO[,j.wn[i]] + TawM[,i]
-        	}
-		
-\end{verbatim}
+Now the age-weight transition matrix, $\mathbf{TawO}$ is given by $\mathbf{Tal} \ \%*\%\ \mathbf{Tlw} $.
 
 If growth and length-weight relationships are both not time-varying, then $\mathbf{TawO}$ should be saved and re-used for the other years. If both growth and length-weight parameters are not being estimated, and both are not time-varying, $\mathbf{TawO}$ only needs to be calculated once.
 
-\subsection{Predicted weight composition}
+\subsection{Predicted weight composition for single fish measurements}
 
 
 
 $\overrightarrow N_{c,m}$ is the $n_{age}\ x\ 1$\ column vector of expected numbers-at-age based on $E[N_{a,c,m}]$ from above. Doing this isolates the transition matrix from selectivity in case it is time-varying.
 
-First we calculated the predicted weight composition for single fish measurements (i.e., the above derivation) by $\overrightarrow W_{c,m}\ =\ \mathbf{TawO_{c,m}^T}\ \overrightarrow N_{c,m}$.
+First, we calculated the predicted weight composition for single fish measurements (i.e., the above derivation) by $\overrightarrow W_{c,m}\ =\ \mathbf{TawO_{c,m}^T}\ \overrightarrow N_{c,m}$.
 [$nx1$ vector\ \ \ $n\ x\ n_{age}$\ matrix times $n_{age}\ x\ 1$\ vector]. Then normalize $\overrightarrow W_{c,m}$.
 
+$\overrightarrow W_{c,m}$\ is put into the multinomial log-likelihood. 
+
 \subsection{Accounting for data being mean weight composition}
-$\overrightarrow W_{c,m}$\ is put into the multinomial log-likelihood.
+The above section does not account for data being means over $n_i$ fish in each box. For the bluenose data, $n_i$ can range from 2 to 18, with a median of 4. 
+Using the length-weight relationship to predict its mean weight over several fish, we need to adjust the 
+ length-weight cv (say 10\%) to reflects the variation of weight for several fish which are likely to be at similar lengths, i.e., we should us $cv/\sqrt{n_{i}}$. If all boxes have 4 fish the we just use 10/2 = 5\% for the cv.
 
-Do we adjust sample size by the mean number of fish in a box? Or, do we allow reweighting to do the adjusting?
+To accommodate this structure, the user needs to supply a vector with a $n_i$ for each weight bin, using the \texttt{weight\_bin\_n} sub-command. This is not strictly correct, but it should be good enough. The re-weighting R code needs to be adjusted to take this structure (I think), which may provide further ways to adjusted the error structure.
 
-DOES NOT ACCOUNT FOR DATA BEING MEANS OVER $n_i$ FISH IN EACH BOX.
 
-The data are for mean weights for individuals about the same size (=length?) (yes?).
-So we can use the length-weight relationship to predict its mean weight.
-The length-weight has a cv (say 10\%) which reflects the variation of weight for a length, but this is for one fish, not the 4 that are in the box. If all boxes have 4 fish the we just use 10/2 = 5\% for the cv = easy fix.
-
-But, does the mean number of fish vary significantly across the boxes?
-Numbers from 3 to 5 could be approx. by 4.
-With the switch to juveniles, does the number/box go to 10? 20?
-
-The later might need variable adjustments to the cv across the weight bins, i.e., large numbers decreasing down to 4.
-In that case, we will need a mean number/box for each bin and do the adjustments when calculating transition matrix, i.e., cv\_bin = cv/sqrt(n\_bin).
-
-For the time being, we can leave it as is, i.e., adjust weight distribution cv to be cv/2.
 
 \bigskip
-\underline{Warnings}
+\underline{Recommendations}
 
-There might be the same issues as for lengths, except that we will not allow a weight plus-group
+There might be the same issues as for lengths, except that we will not allow a weight plus-group. Should we try to mean weight and mean + 3 * standard deviation weight at the same ages as for lengths as a check that the weight bins are sufficient for the age plus group, but also ages 1 and 2, say, for the lower end (now mean - 3 * standard deviation weight)?
 
+\bigskip
+\underline{Utility R functions}
+
+Need check extract function from the fit output works for weight frequencies. Otherwise, need to write or adapt some code. 
+We probably need some C++ report code. 
 
 \section{Proposed Input Format}
 
-Example input block
+
+specify units?
+
+Example input block.
 
 \begin{alltt}
 \texttt{@observation Observed\_weight\_frequency\_east}
@@ -365,15 +336,19 @@ type process\_removals\_by\_weight
 method\_of\_removal EastChathamRise  # fishery
 time\_step Summer # Not truly needed, but length code needs it currently
 mortality\_instantaneous\_process instant\_mort
+
+terminal\_length  25
 length\_weight\_cv 0.1
 length\_weight\_dist lognormal
 years 1991 1992
 categories male
 weight\_unit kg
+
 delta 1e-5  # robustification value for the likelihood; default 1e-11
-likelihood multinomial
-weight\_plus false        #not allowed?
+likelihood multinomial	#there are no others
+#weight\_plus false        #not allowed
 weight\_bins 1.8 1.9 2.0 2.1 2.2 2.3 2.4 2.5 2.6 2.7 2.8 2.9 3.0 3.1 3.2 3.3 3.4 3.5 3.6 3.7 % 3.8 3.9 4.0 4.1 4.2 4.3 4.4 4.5 4.6 4.7 4.8 4.9 5.0 5.1 5.2 5.3 5.4 5.5 5.6 5.7 5.8 5.9 6.0 6.1 6.2 6.3 6.4 6.5 6.6 6.7 6.8 6.9 7.0 7.1 7.2 7.3 7.4 7.5 7.6 7.7 7.8 7.9 8.0 8.1 8.2 8.3 8.4 8.5 8.6 8.7 8.8 8.9 9.0 9.1 9.2 9.3 9.4 9.5 9.6 9.7 9.8 9.9 10.0 10.1 10.2 10.3 10.4 10.5 10.6 10.7 10.8 10.9 11.0 11.1 11.2 11.3 11.4 11.5 11.6 11.7 11.8
+weight_bins_n   4    #expanded into a vector with all 4s in it
 
 table obs
 1991 0.002 0.010 0.041 0.094 0.126 0.086 0.073 0.051 0.045 0.050 0.037 0.025 0.016 0.017 0.011 0.008 0.011 0.011 0.009 0.012 0.013 0.009 0.010 0.009 % 0.0100.0070.0080.0060.0050.0100.0080.0140.0080.0120.0060.0070.0090.0050.0070.0060.0040.0060.0040.0040.0070.0050.0020.0060.0040.0030.0040.0020.0040.0030.0020.0020.0020.0010.0020.0030.0010.0020.0010.0010.0010.0010.0010.0010.0010.0000.0010.0010.0000.0010.0010.0010.0010.0000.0010.0010.0010.0010.0010.0010.0000.0010.0000.0010.0000.0000.0010.0000.0000.0000.0000.0000.0000.0000.0000.001
