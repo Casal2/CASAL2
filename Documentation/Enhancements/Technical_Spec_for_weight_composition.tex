@@ -311,8 +311,14 @@ E[N_{a,c,m}] = N_{a,c} U_{a,m} S_{a,c,m} 0.5 M_{a,c}
 where $N_{a,c}$ are the numbers-at-age in category $c$ before the process is executed, $U_{a,m}$ is the exploitation rate for age $a$ from method $m$, $S_{a,c,m}$ is the selectivity, and $M$ is the natural mortality. This works for age-based selectivity, but for length-based selectivity in an age-based model, a form of age-length transition is done, but the probabilities use numerical integration within an age bin, so there may be speed advantages to incorporating this into the age-length transition matrix calculations below. Given $U_{a,m}$ needs $S_{a,c,m} $, it is cleaner to keep length-based selectivity calculations separate for now.
 
 
-\subsection{Part 1: age-length transition}
+\emph{Length-based selectivity in an age-based model}
 
+The weight frequency code uses its own length bins designed to cover all likely length bins starting at length 1 and going up to a specified terminal length. Using a length-based selectivity in an age-based model also has an age-length transition matrix with potentially a different set of length bins. There may be an inconsistency between them that may cause a bias, but it is hard to see how unless there is a mistake in the specification. The weight observation's length bins should enclose or equal that for the \texttt{@model /length\_bins}  sub-command used in the length selectivity; by definition, it does so at the bottom end. At the top end, the weight observation's length bins should go up to the largest length and so should cover the \texttt{@model/length\_bins}. If \texttt{@model/length\_bins}   has a plus-group, then there will be a small part of the length range that is uncovered, but is will have very little biomass in it. The solution is to make the terminal length for the weight frequency data way above the largest length expected.
+
+[CHECK how plus-group is handles in a len-selectivity ($1-\Phi$ (some length)?]
+[Do we have a check to alert a potential problem ?]
+
+\subsection{Part 1: age-length transition}
 This observation uses its own specified length bins to make sure that the intermediate age-length transition is properly specified. This is in contrast to length compositions, which uses both an observation \texttt{length\_bins} and a  \texttt{@model/length\_bin}  specifications, i.e., specifications of weight composition data are independent of specifications for length data. Here, the length bins (lower bound) used are specified in the observation block with sub-command \texttt{length\_bins}.
 
 \CNAME~will check that the values are positive and strictly increasing. [Q: any other checks, e.g., with respect to the population length bins?]
@@ -329,11 +335,11 @@ elements of $\mathbf{Tal}$ for length bin $l$ and age $a$ in category $c$ are gi
 \begin{equation}
 \zeta_{l,a,c} =
 \begin{cases}
-\Phi\left( \frac{L_{1} - \bar L_{c,a}   }{\sigma_{c,a}} \right) & \text{for } l = 1 \\
+%\Phi\left( \frac{L_{1} - \bar L_{c,a}   }{\sigma_{c,a}} \right) & \text{for } l = 1 \\
 
 \Phi\left( \frac{L_{l+1} - \bar L_{c,a}   }{\sigma_{c,a}} \right) - \Phi\left( \frac{L_{l} - \bar L_{c,a}   }{\sigma_{c,a}} \right) & \text{for } 1 < l < L \\
 
-1 - \Phi\left( \frac{L_{L} - \bar L_{c,a}   }{\sigma_{c,a}} \right) & \text{for } l = L
+%1 - \Phi\left( \frac{L_{L} - \bar L_{c,a}   }{\sigma_{c,a}} \right) & \text{for } l = L
 \end{cases}
 \end{equation}
 
@@ -344,11 +350,11 @@ For the lognormal distribution, the $L_{l}, \bar L_{c,a}$ and $\sigma_{c,a}$ mus
 \begin{equation}
 \zeta_{l,a,c} =
 \begin{cases}
-\Phi\left( \frac{\log L_{1} - \left( \log\bar L_{c,a}  - \sigma_{c,a}^2/2 \right)}{\sigma_{c,a}} \right) & \text{for } l = 1 \\
+%\Phi\left( \frac{\log L_{1} - \left( \log\bar L_{c,a}  - \sigma_{c,a}^2/2 \right)}{\sigma_{c,a}} \right) & \text{for } l = 1 \\
 
 \Phi\left( \frac{\log L_{l+1} - \left( \log\bar L_{c,a}  - \sigma_{c,a}^2/2 \right)}{\sigma_{c,a}} \right) - \Phi\left( \frac{\log L_{l} - \left( \log\bar L_{c,a}  - \sigma_{c,a}^2/2 \right)}{\sigma_{c,a}} \right) & \text{for } 1 < l < L \\
 
-1  - \Phi\left( \frac{\log L_{L} - \left( \log\bar L_{c,a}  - \sigma_{c,a}^2/2 \right)}{\sigma_{c,a}} \right) & \text{for } l = L
+%1  - \Phi\left( \frac{\log L_{L} - \left( \log\bar L_{c,a}  - \sigma_{c,a}^2/2 \right)}{\sigma_{c,a}} \right) & \text{for } l = L
 \end{cases}
 \end{equation}
 
@@ -385,11 +391,11 @@ elements of $\mathbf{Tlw}$ for weight bin $w$ and length $l$ in category $c$ are
 \begin{equation}
 \zeta_{w,l,c} =
 \begin{cases}
-\Phi\left( \frac{W_{1} - \bar W_{c,l}   }{\sigma_{c,l}} \right) & \text{for } w = 1 \\
+%\Phi\left( \frac{W_{1} - \bar W_{c,l}   }{\sigma_{c,l}} \right) & \text{for } w = 1 \\
 
 \Phi\left( \frac{W_{w+1} - \bar W_{c,l}   }{\sigma_{c,l}} \right)   - \Phi\left( \frac{W_{w} - \bar W_{c,l}   }{\sigma_{c,l}} \right) & \text{for } 1 < w < W \\
 
-1 - \Phi\left( \frac{W_{w} - \bar W_{c,l}   }{\sigma_{c,l}} \right) & \text{for } w = W
+%1 - \Phi\left( \frac{W_{w} - \bar W_{c,l}   }{\sigma_{c,l}} \right) & \text{for } w = W
 \end{cases}
 \end{equation}
 
@@ -398,11 +404,11 @@ where $\Phi$ is the standard normal cumulative function with mean weight $\bar W
 \begin{equation}
 \zeta_{w,l,c} =
 \begin{cases}
-\Phi\left( \frac{\log W_{1} - \left( \log\bar W_{c,l}  - \sigma_{c,l}^2/2 \right)}{\sigma_{c,l}} \right) & \text{for } w = 1 \\
+%\Phi\left( \frac{\log W_{1} - \left( \log\bar W_{c,l}  - \sigma_{c,l}^2/2 \right)}{\sigma_{c,l}} \right) & \text{for } w = 1 \\
 
 \Phi\left( \frac{\log W_{w+1} - \left( \log\bar W_{c,l}  - \sigma_{c,l}^2/2 \right)}{\sigma_{c,l}} \right)   - \Phi\left( \frac{\log W_{w} - \left( \log\bar W_{c,l}  - \sigma_{c,l}^2/2 \right)}{\sigma_{c,l}} \right) & \text{for } 1 < w < W \\
 
-1 - \Phi\left( \frac{\log W_{w} - \left( \log\bar W_{c,l}  - \sigma_{c,l}^2/2 \right)}{\sigma_{c,l}} \right) & \text{for } w = W
+%1 - \Phi\left( \frac{\log W_{w} - \left( \log\bar W_{c,l}  - \sigma_{c,l}^2/2 \right)}{\sigma_{c,l}} \right) & \text{for } w = W
 \end{cases}
 \end{equation}
 
@@ -451,6 +457,7 @@ $ w_{fish box}/ (a l^{b}) $ rounded into an integer (using some mean fishbox wei
 
 There might be the same issues as for lengths, except that we will not allow a weight plus-group. Should we try to mean weight and mean + 4 * standard deviation weight at the same ages as for lengths as a check that the weight bins are sufficient for the age plus group, but also ages 1 and 2, say, for the lower end (now mean - 4 * standard deviation weight)?
 
+The terminal length for the length bins needs to cover the full length range. Not doing so may bias the predicted weight frequency at the top end.
 \bigskip
 \underline{Utility R functions}
 
