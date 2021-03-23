@@ -332,7 +332,7 @@ elements of $\mathbf{Tal}$ for length bin $l$ and age $a$ in category $c$ are gi
 \begin{cases}
 %\Phi\left( \frac{L_{1} - \bar L_{c,a}   }{\sigma_{c,a}} \right) & \text{for } l = 1 \\
 
-\Phi\left( \frac{L_{l+1} - \bar L_{c,a}   }{\sigma_{c,a}} \right) - \Phi\left( \frac{L_{l} - \bar L_{c,a}   }{\sigma_{c,a}} \right) & \text{for } 1 \geq l \leq L \\
+\Phi\left( \frac{L_{l+1} - \bar L_{c,a}   }{\sigma_{c,a}} \right) - \Phi\left( \frac{L_{l} - \bar L_{c,a}   }{\sigma_{c,a}} \right) & \text{for } 1 \leq l \leq L \\
 
 %1 - \Phi\left( \frac{L_{L} - \bar L_{c,a}   }{\sigma_{c,a}} \right) & \text{for } l = L
 \end{cases}
@@ -347,7 +347,7 @@ For the lognormal distribution, the $L_{l}, \bar L_{c,a}$ and $\sigma_{c,a}$ mus
 \begin{cases}
 %\Phi\left( \frac{\log L_{1} - \left( \log\bar L_{c,a}  - \sigma_{c,a}^2/2 \right)}{\sigma_{c,a}} \right) & \text{for } l = 1 \\
 
-\Phi\left( \frac{\log L_{l+1} - \left( \log\bar L_{c,a}  - \sigma_{c,a}^2/2 \right)}{\sigma_{c,a}} \right) - \Phi\left( \frac{\log L_{l} - \left( \log\bar L_{c,a}  - \sigma_{c,a}^2/2 \right)}{\sigma_{c,a}} \right) & \text{for } 1 \geq l \leq L \\
+\Phi\left( \frac{\log L_{l+1} - \left( \log\bar L_{c,a}  - \sigma_{c,a}^2/2 \right)}{\sigma_{c,a}} \right) - \Phi\left( \frac{\log L_{l} - \left( \log\bar L_{c,a}  - \sigma_{c,a}^2/2 \right)}{\sigma_{c,a}} \right) & \text{for } 1 \leq l \leq L \\
 
 %1  - \Phi\left( \frac{\log L_{L} - \left( \log\bar L_{c,a}  - \sigma_{c,a}^2/2 \right)}{\sigma_{c,a}} \right) & \text{for } l = L
 \end{cases}
@@ -388,7 +388,7 @@ elements of $\mathbf{Tlw}$ for weight bin $w$ and length $l$ in category $c$ are
 \begin{cases}
 %\Phi\left( \frac{W_{1} - \bar W_{c,l}   }{\sigma_{c,l}} \right) & \text{for } w = 1 \\
 
-\Phi\left( \frac{W_{w+1} - \bar W_{c,l}   }{\sigma_{c,l}} \right)   - \Phi\left( \frac{W_{w} - \bar W_{c,l}   }{\sigma_{c,l}} \right) & \text{for } 1 \geq w \leq W \\
+\Phi\left( \frac{W_{w+1} - \bar W_{c,l}   }{\sigma_{c,l}} \right)   - \Phi\left( \frac{W_{w} - \bar W_{c,l}   }{\sigma_{c,l}} \right) & \text{for } 1 \leq w \leq W \\
 
 %1 - \Phi\left( \frac{W_{w} - \bar W_{c,l}   }{\sigma_{c,l}} \right) & \text{for } w = W
 \end{cases}
@@ -401,7 +401,7 @@ where $\Phi$ is the standard normal cumulative function with mean weight $\bar W
 \begin{cases}
 %\Phi\left( \frac{\log W_{1} - \left( \log\bar W_{c,l}  - \sigma_{c,l}^2/2 \right)}{\sigma_{c,l}} \right) & \text{for } w = 1 \\
 
-\Phi\left( \frac{\log W_{w+1} - \left( \log\bar W_{c,l}  - \sigma_{c,l}^2/2 \right)}{\sigma_{c,l}} \right)   - \Phi\left( \frac{\log W_{w} - \left( \log\bar W_{c,l}  - \sigma_{c,l}^2/2 \right)}{\sigma_{c,l}} \right) & \text{for } 1 \geq w \leq W \\
+\Phi\left( \frac{\log W_{w+1} - \left( \log\bar W_{c,l}  - \sigma_{c,l}^2/2 \right)}{\sigma_{c,l}} \right)   - \Phi\left( \frac{\log W_{w} - \left( \log\bar W_{c,l}  - \sigma_{c,l}^2/2 \right)}{\sigma_{c,l}} \right) & \text{for } 1 \leq w \leq W \\
 
 %1 - \Phi\left( \frac{\log W_{w} - \left( \log\bar W_{c,l}  - \sigma_{c,l}^2/2 \right)}{\sigma_{c,l}} \right) & \text{for } w = W
 \end{cases}
@@ -516,19 +516,19 @@ method\_of\_removal EastChathamRise  # fishery
 time\_step Summer # Not truly needed, but length code needs it currently
 mortality\_instantaneous\_process instant\_mort
 
-
 length\_weight\_cv 0.1
 length\_weight\_dist lognormal
+
 years 1991 1992
 categories male
 weight\_unit kg
-
 delta 1e-5  # robustification value for the likelihood; default 1e-11
 likelihood multinomial	#there are no others
 #weight\_plus false        #not allowed
 
 length\_bins 14 16 18 20 22 24 26 28 30 32 34 36 38 40 42 44 46 48 50 52 54 56
 length\_bins\_n 10 10 10 9 9 9 8 8 7 7 6 5 4 4 4 4 4 4 4 4 4 4
+#fishbox\_weight 15
 
 weight\_bins 1.8 1.9 2.0 2.1 2.2 2.3 2.4 2.5 2.6 2.7 2.8 2.9 3.0 3.1 3.2 3.3 3.4 3.5 3.6 3.7 % 3.8 3.9 4.0 4.1 4.2 4.3 4.4 4.5 4.6 4.7 4.8 4.9 5.0 5.1 5.2 5.3 5.4 5.5 5.6 5.7 5.8 5.9 6.0 6.1 6.2 6.3 6.4 6.5 6.6 6.7 6.8 6.9 7.0 7.1 7.2 7.3 7.4 7.5 7.6 7.7 7.8 7.9 8.0 8.1 8.2 8.3 8.4 8.5 8.6 8.7 8.8 8.9 9.0 9.1 9.2 9.3 9.4 9.5 9.6 9.7 9.8 9.9 10.0 10.1 10.2 10.3 10.4 10.5 10.6 10.7 10.8 10.9 11.0 11.1 11.2 11.3 11.4 11.5 11.6 11.7 11.8
 
@@ -546,6 +546,8 @@ end\_table
 \section{Test Plan}
 
 Simulate some test data in R which can become a unit test.
+
+Specify the model configuration and output to be used in \texttt{ProcessRemovalsByWeight.Test.cpp}
 
 \section{Text to be added to the User Manual}
 
