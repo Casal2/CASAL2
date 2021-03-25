@@ -29,6 +29,7 @@ struct Comparison {
   string    category_ = "";
   unsigned  age_ = 0;
   double    length_ = 0;
+  double    weight_ = 0;
   Double    expected_ = 0;
   Double    observed_ = 0;
   Double    process_error_ = 0;
