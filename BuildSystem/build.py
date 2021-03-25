@@ -109,8 +109,8 @@ def start_build_system():
 
   # Check the compiler version to see if it's compatible
   pieces = Globals.compiler_version_.split('.')
-  gcc_version = str(pieces[0]) + str(pieces[1])
-  if gcc_version < '48':
+  gcc_version = int(str(pieces[0]) + str(pieces[1]))
+  if gcc_version < 48:
     return Globals.PrintError("g++ version " + Globals.compiler_version_ + " is not supported due to its age")
 
   # check the Python version
