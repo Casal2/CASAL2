@@ -133,6 +133,7 @@ file_name
 final_year
 first_recent_year_with_no_bias
 first_year_with_bias
+fishbox_weight
 format
 from
 growth_time_steps
@@ -157,10 +158,13 @@ lbfgs_max_size
 length
 length_based
 length_bins
+length_bins_n
 length_plus
 length_plus_group
 length_values
 length_weight
+length_weight_cv
+length_weight_distribution
 likelihood
 likelihood_multiplier
 linf
@@ -269,6 +273,7 @@ v
 value
 values
 verbose
+weight_bins
 write_mode
 x
 x0
@@ -391,6 +396,7 @@ process_removals_by_age_retained_total
 process_removals_by_length
 process_removals_by_length_retained
 process_removals_by_length_retained_total
+process_removals_by_weight
 project
 proportions_at_age
 proportions_at_length
