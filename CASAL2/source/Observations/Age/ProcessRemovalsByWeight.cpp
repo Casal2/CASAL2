@@ -46,13 +46,13 @@ ProcessRemovalsByWeight::ProcessRemovalsByWeight(Model* model) :
   parameters_.Bind<double>(PARAM_TOLERANCE, &tolerance_, "The tolerance for rescaling proportions", "", double(0.001))->set_range(0.0, 1.0, false, false);
   parameters_.Bind<unsigned>(PARAM_YEARS, &years_, "The years for which there are observations", "");
   parameters_.Bind<Double>(PARAM_PROCESS_ERRORS, &process_error_values_, "The process error", "", true);
-  parameters_.Bind<double>(PARAM_LENGTH_WEIGHT_CV, &length_weight_cv_, "The CV for the length-weight relationship", "")->set_lower_bound(0.0);
+  parameters_.Bind<double>(PARAM_LENGTH_WEIGHT_CV, &length_weight_cv_, "The CV for the length-weight relationship", "", double(0.10))->set_lower_bound(0.0, false);
   parameters_.Bind<string>(PARAM_LENGTH_WEIGHT_DISTRIBUTION, &length_weight_dist_, "The distribution of the length-weight relationship", "", PARAM_NORMAL)->set_allowed_values({PARAM_NORMAL, PARAM_LOGNORMAL});
   parameters_.Bind<double>(PARAM_LENGTH_BINS, &length_bins_, "The length bins", "");
   parameters_.Bind<double>(PARAM_LENGTH_BINS_N, &length_bins_n_, "The average number in each length bin", "");
-  parameters_.Bind<double>(PARAM_FISHBOX_WEIGHT, &fishbox_weight_, "The target weight of each box", "")->set_lower_bound(0.0);
-  parameters_.Bind<double>(PARAM_WEIGHT_BINS, &weight_bins_, "The weight bins", "");
   parameters_.Bind<string>(PARAM_UNITS, &units_, "The units for the weight bins", "grams, kgs or tonnes", PARAM_KGS)->set_allowed_values({PARAM_GRAMS, PARAM_TONNES, PARAM_KGS});
+  parameters_.Bind<double>(PARAM_FISHBOX_WEIGHT, &fishbox_weight_, "The target weight of each box", "", double(20.0))->set_lower_bound(0.0, false);
+  parameters_.Bind<double>(PARAM_WEIGHT_BINS, &weight_bins_, "The weight bins", "");
   parameters_.BindTable(PARAM_OBS, obs_table_, "Table of observed values", "", false);
   parameters_.BindTable(PARAM_ERROR_VALUES, error_values_table_, "The table of error values of the observed values (note that the units depend on the likelihood)", "", false);
 
@@ -170,8 +170,8 @@ void ProcessRemovalsByWeight::DoValidate() {
       obs_by_year[year].push_back(value);
     }
     if (obs_by_year[year].size() != obs_expected - 1)
-      LOG_FATAL_P(PARAM_OBS)<< " " << obs_by_year[year].size() << " lengths were provided, but " << obs_expected -1
-        << "lengths are required";
+      LOG_FATAL_P(PARAM_OBS)<< " " << obs_by_year[year].size() << " weights were provided, but " << obs_expected -1
+        << "weights are required";
     }
 
     /**
@@ -285,7 +285,7 @@ void ProcessRemovalsByWeight::DoBuild() {
     }
   }
 
-  // Need to make this a vector so its compatible with the function couldn't be bothered templating sorry
+  // Need to make this a vector so it is compatible with the function
   vector<string> methods;
   methods.push_back(method_);
 
@@ -333,9 +333,9 @@ void ProcessRemovalsByWeight::PreExecute() {
     LOG_CODE_ERROR()<< "partition_->Size() != proportions_[model->current_year()].size()";
 }
 
-  /**
-   * Execute the ProcessRemovalsByWeight expected values calculations
-   */
+/**
+ * Execute the ProcessRemovalsByWeight expected values calculations
+ */
 void ProcessRemovalsByWeight::Execute() {
   LOG_TRACE();
   /**
@@ -357,7 +357,7 @@ void ProcessRemovalsByWeight::Execute() {
 
   /**
    * Loop through the provided categories. Each provided category (combination) will have a list of observations
-   * with it. We need to build a vector of proportions for each length using that combination and then
+   * with it. We need to build a vector of proportions for each weight using that combination and then
    * compare it to the observations.
    */
   for (unsigned category_offset = 0; category_offset < category_labels_.size(); ++category_offset, ++partition_iter, ++cached_partition_iter) {
