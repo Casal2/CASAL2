@@ -55,6 +55,7 @@ protected:
   unsigned                      number_weight_bins_ = 0;
   double                        length_weight_cv_ = 0.0;
   string                        length_weight_dist_;
+  string                        units_;
   double                        fishbox_weight_ = 0.0;
   parameters::Table*            obs_table_ = nullptr;
   double                        tolerance_ = 0.0;
@@ -71,7 +72,10 @@ protected:
   string                        process_label_;
   unsigned                      mlb_index_first_ = 0; // index of model length bin for length_bins_[0]
 
-  vector<vector<Double>>        age_length_matrix;  // local; here so that it doesn't get reallocated in Execute()
+  // local; here so that it doesn't get reallocated in Execute()
+  vector<vector<Double>>        age_length_matrix;
+  vector<vector<Double>>        length_weight_matrix;
+  vector<vector<Double>>        age_weight_matrix;
 
   map<unsigned, map<string, vector<Double>>> proportions_;
   map<unsigned, map<string, vector<Double>>> error_values_;
