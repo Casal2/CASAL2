@@ -428,15 +428,19 @@ void ProcessRemovalsByWeight::Execute() {
       }
     }
 
-    if (expected_values_length.size() != proportions_[model_->current_year()][category_labels_[category_offset]].size())
-      LOG_CODE_ERROR()<< "expected_values_length.size(" << expected_values_length.size() << ") != proportions_[category_offset].size("
+
+    // TODO: calculate length-to-weight matrix, then calculate age-to-weight matrix
+
+
+    if (expected_values_weight.size() != proportions_[model_->current_year()][category_labels_[category_offset]].size())
+      LOG_CODE_ERROR()<< "expected_values_weight.size(" << expected_values_weight.size() << ") != proportions_[category_offset].size("
       << proportions_[model_->current_year()][category_labels_[category_offset]].size() << ")";
 
-      /**
-       * save our comparisons so we can use them to generate the score from the likelihoods later
-       */
-    for (unsigned i = 0; i < expected_values_length.size(); ++i) {
-      SaveComparison(category_labels_[category_offset], 0, length_bins_[i], expected_values_length[i], proportions_[model_->current_year()][category_labels_[category_offset]][i],
+    /**
+     * save our comparisons so we can use them to generate the score from the likelihoods later
+     */
+    for (unsigned i = 0; i < expected_values_weight.size(); ++i) {
+      SaveComparison(category_labels_[category_offset], 0, length_bins_[i], expected_values_weight[i], proportions_[model_->current_year()][category_labels_[category_offset]][i],
                      process_errors_by_year_[model_->current_year()], error_values_[model_->current_year()][category_labels_[category_offset]][i],
                      0.0, delta_, 0.0);
     }
