@@ -73,6 +73,7 @@ protected:
   unsigned                      mlb_index_first_ = 0; // index of model length bin for length_bins_[0]
 
   // local; here so that it doesn't get reallocated in Execute()
+  vector<Double>                length_weight_cv_adj;
   vector<vector<Double>>        age_length_matrix;
   vector<vector<Double>>        length_weight_matrix;
   vector<vector<Double>>        age_weight_matrix;

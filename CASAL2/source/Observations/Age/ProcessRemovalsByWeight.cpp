@@ -93,6 +93,9 @@ void ProcessRemovalsByWeight::DoValidate() {
    * Do some simple checks
    * Validate that the length and weight bins are strictly increasing
    */
+  if (length_bins_.size() != length_bins_n_.size())
+    LOG_ERROR_P(PARAM_LENGTH_BINS_N) << ": The number of length bins " << length_bins_.size() << " does not match the number of length bin number values " << length_bins_n_.size();
+
   for (unsigned length = 0; length < length_bins_.size(); ++length) {
     if (length_bins_[length] < 0.0)
       LOG_ERROR_P(PARAM_LENGTH_BINS) << ": Length bin values must be positive: " << length_bins_[length] << " is less than 0.0";
@@ -313,6 +316,10 @@ void ProcessRemovalsByWeight::DoBuild() {
     length_weight_matrix[i].resize(number_weight_bins_);
   }
 
+  length_weight_cv_adj.resize(number_length_bins_);
+  for (unsigned i = 0; i < number_length_bins_; ++i) {
+    length_weight_cv_adj[i] = length_weight_cv_ / length_bins_n_[i];
+  }
 }
 
 /**
@@ -353,8 +360,8 @@ void ProcessRemovalsByWeight::Execute() {
   Double mean_length;
   Double mean_weight;
 
-  vector<Double> numbers_at_length;
-  vector<Double> numbers_at_weight;
+  vector<Double> numbers_at_length(number_length_bins_);
+  vector<Double> numbers_at_weight(number_weight_bins_);
   vector<Double> expected_values_length(number_length_bins_);
   vector<Double> expected_values_weight(number_weight_bins_);
 
@@ -390,15 +397,16 @@ void ProcessRemovalsByWeight::Execute() {
         LOG_FINEST() << "Numbers at age = " << age << " = " << number_at_age << " start value : " << start_value << " end value : " << end_value;
 
 
-        // TODO:  calculate the age-length matrix given the observation length bins
+        // TODO:  calculate the age-length distribution matrix given the observation length bins
         mean_length = age_length->GetMeanLength(year, time_step, age);
 
-        // TODO:  calculate the length-weight matrix given the observation length and weight bins
+        // TODO:  calculate the length-weight distribution matrix given the observation length and weight bins
         mean_weight = age_length->GetMeanWeight(year, time_step, age, length_bins_[0]);
 
         // so it compiles
         numbers_at_length[0] = mean_length;
         numbers_at_weight[0] = mean_weight;
+
 
         // Loop through the length bins and multiple the partition of the current age to go from
         // length frequencies to age length numbers
