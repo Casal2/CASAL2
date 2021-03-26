@@ -350,6 +350,9 @@ void ProcessRemovalsByWeight::Execute() {
   auto partition_iter        = partition_->Begin(); // vector<vector<partition::Category> >
   map<unsigned, map<string, map<string, vector<Double>>>> &Removals_at_age = mortality_instantaneous_->catch_at();
 
+  Double mean_length;
+  Double mean_weight;
+
   vector<Double> numbers_at_length;
   vector<Double> numbers_at_weight;
   vector<Double> expected_values_length(number_length_bins_);
@@ -376,18 +379,26 @@ void ProcessRemovalsByWeight::Execute() {
     auto category_iter        = partition_iter->begin();
     auto cached_category_iter = cached_partition_iter->begin();
     for (; category_iter != partition_iter->end(); ++cached_category_iter, ++category_iter) {
-//      AgeLength* age_length = categories->age_length((*category_iter)->name_);
+       AgeLength* age_length = (*category_iter)->age_length_;
 
-      // TODO:  calculate the age-length matrix given the observation length bins
-      // Q: is the age-length relationship by category or by partition? how to calculate this once only (if there are no time-varying growth parameters)?
       const auto& age_length_proportions = model_->partition().age_length_proportions((*category_iter)->name_)[year_index][time_step];
 
       for (unsigned data_offset = 0; data_offset < (*category_iter)->data_.size(); ++data_offset) {
         unsigned age = ((*category_iter)->min_age_ + data_offset);
-
         // Calculate the age structure removed from the fishing process
         number_at_age = Removals_at_age[year][method_][(*category_iter)->name_][data_offset];
         LOG_FINEST() << "Numbers at age = " << age << " = " << number_at_age << " start value : " << start_value << " end value : " << end_value;
+
+
+        // TODO:  calculate the age-length matrix given the observation length bins
+        mean_length = age_length->GetMeanLength(year, time_step, age);
+
+        // TODO:  calculate the length-weight matrix given the observation length and weight bins
+        mean_weight = age_length->GetMeanWeight(year, time_step, age, length_bins_[0]);
+
+        // so it compiles
+        numbers_at_length[0] = mean_length;
+        numbers_at_weight[0] = mean_weight;
 
         // Loop through the length bins and multiple the partition of the current age to go from
         // length frequencies to age length numbers

@@ -102,10 +102,23 @@ Double VonBertalanffy::mean_weight(unsigned time_step, unsigned age) {
  * @param year Ignored for this child (was implemented for the Data AgeLength child)
  * @param time_step The time step
  * @param age The age of the population
- * @return mean weight for one member
+ * @return mean length for one member
  */
 Double VonBertalanffy::GetMeanLength(unsigned year, unsigned time_step, unsigned age) {
   return mean_length_[time_step][age];
+}
+
+/**
+ * Return the mean weight for a time_step, age, and length
+ *
+ * @param year Ignored for this child (was implemented for the Data AgeLength child)
+ * @param time_step The time step
+ * @param age The age of the population
+ * @param length The length of the population
+ * @return mean weight for one member
+ */
+Double VonBertalanffy::GetMeanWeight(unsigned year, unsigned time_step, unsigned age, Double length) {
+  return length_weight_->mean_weight(length, distribution_, cvs_[year][time_step][age]);
 }
 
 /**
