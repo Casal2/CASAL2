@@ -493,5 +493,12 @@ Double Data::GetMeanWeight(unsigned year, unsigned time_step, unsigned age, Doub
   return length_weight_->mean_weight(length, distribution_, cvs_[year][time_step][age]);
 }
 
+/**
+ * Return the units for the length-weight relationship
+ */
+string Data::weight_units() {
+    return length_weight_->weight_units();
+}
+
 } /* namespace agelengths */
 } /* namespace niwa */

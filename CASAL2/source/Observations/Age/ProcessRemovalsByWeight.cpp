@@ -368,6 +368,8 @@ void ProcessRemovalsByWeight::Execute() {
   Double mean_length;
   Double mean_weight;
   Double std_dev;
+  string weight_units;
+  Double unit_multiplier;
 
   // vector<Double> numbers_at_length(number_length_bins_);
   vector<Double> numbers_at_weight(number_weight_bins_);
@@ -380,7 +382,7 @@ void ProcessRemovalsByWeight::Execute() {
    * compare it to the observations.
    */
   for (unsigned category_offset = 0; category_offset < category_labels_.size(); ++category_offset, ++partition_iter, ++cached_partition_iter) {
-    LOG_FINEST() << "category: " << category_labels_[category_offset];
+    LOG_FINE() << "category: " << category_labels_[category_offset];
     Double start_value   = 0.0;
     Double end_value     = 0.0;
     Double number_at_age = 0.0;
@@ -398,18 +400,42 @@ void ProcessRemovalsByWeight::Execute() {
 
       AgeLength* age_length = (*category_iter)->age_length_;
 
+      weight_units    = age_length->weight_units();
+      unit_multiplier = 1.0;
+      if ((units_ == PARAM_TONNES) && (weight_units == PARAM_KGS))
+        unit_multiplier = 1000;
+      else if (units_ == PARAM_GRAMS && (weight_units == PARAM_KGS))
+        unit_multiplier = 0.001;
+
+      if ((units_ == PARAM_KGS) && (weight_units == PARAM_TONNES))
+        unit_multiplier = 0.001;
+      else if (units_ == PARAM_GRAMS && (weight_units == PARAM_TONNES))
+        unit_multiplier = 0.000001;
+
+      if ((units_ == PARAM_KGS) && (weight_units == PARAM_GRAMS))
+        unit_multiplier = 1000;
+      else if (units_ == PARAM_TONNES && (weight_units == PARAM_GRAMS))
+        unit_multiplier = 1000000;
+      LOG_FINE() << "category " << (*category_iter)->name_ << " unit multiplier " << unit_multiplier;
+
       for (unsigned j = 0; j < number_length_bins_; ++j) {
        // NOTE: hard-coded for minimum age in the category
         mean_weight = age_length->GetMeanWeight(year, time_step, (*category_iter)->min_age_, length_bins_[j]);
         LOG_FINEST() << "Mean weight at length " << length_bins_[j] << ": " << mean_weight;
+
+        // multiply weight by factor if units differ between the length-weight relationship and this observation
+        mean_weight *= unit_multiplier;
+
         std_dev     = length_weight_cv_adj[j];
         if (length_weight_distribution_ == Distribution::kNormal) {
            std_dev *= mean_weight;
         }
         length_weight_matrix[j] = utilities::math::distribution2(weight_bins_, false, length_weight_distribution_, mean_weight, std_dev);
+        LOG_FINE() << "Distribution of weights at length " << length_bins_[j] << ": " << length_weight_matrix[j][0] << " " << length_weight_matrix[j][(number_weight_bins_ - 1)];
       }
 
-      LOG_FINE() << "category data size " << (*category_iter)->data_.size();
+      LOG_FINE() << " number_length_bins_ " << number_length_bins_ << " number_weight_bins_ " << number_weight_bins_ << " age spread " << model_->age_spread();
+      LOG_FINE() << "category data size (number of ages) " << (*category_iter)->data_.size();
       for (unsigned data_offset = 0; data_offset < (*category_iter)->data_.size(); ++data_offset) {
         unsigned age = ((*category_iter)->min_age_ + data_offset);
         // Calculate the age structure removed from the fishing process
@@ -424,14 +450,20 @@ void ProcessRemovalsByWeight::Execute() {
             std_dev *= mean_length;
         }
         age_length_matrix[data_offset] = utilities::math::distribution2(length_bins_, false, age_length->distribution(), mean_length, std_dev);
+        LOG_FINE() << "Distribution of lengths at age " << age << ": " << age_length_matrix[data_offset][0] << " " << age_length_matrix[data_offset][(number_length_bins_ - 1)];
 
         // Multiply by number_at_age
         // std::transform(age_length_matrix[data_offset].begin(), age_length_matrix[data_offset].end(), age_length_matrix[data_offset].begin(), std::bind(std::multiplies<Double>(), std::placeholders::_1, number_at_age));
-
-        for (unsigned j = 0; j < number_length_bins_; ++j) {
-            for (unsigned k = 0 ; k < number_weight_bins_; ++k)
-            age_weight_matrix[data_offset][k] = number_at_age * age_length_matrix[data_offset][j] * length_weight_matrix[j][k];
+        for (unsigned k = 0; k < number_weight_bins_; ++k) {
+          Double tmp = 0.0;
+          for (unsigned j = 0; j < number_length_bins_; ++j) {
+            tmp += number_at_age * age_length_matrix[data_offset][j] * length_weight_matrix[j][k];
+            LOG_FINEST() << "data_offset j k " << data_offset << " " << j << " " << k;
+          }
+          age_weight_matrix[data_offset][k] = tmp;
+          LOG_FINEST() << "age_weight_matrix[" << data_offset << "][" << k << "] = " << tmp;
         }
+        LOG_FINE() << "Distribution of weights at age " << age << ": " << age_weight_matrix[data_offset][0] << " " << age_weight_matrix[data_offset][(number_weight_bins_ - 1)];
       }
 
 
@@ -445,6 +477,7 @@ void ProcessRemovalsByWeight::Execute() {
       //   }
       // }
 
+      LOG_FINE() << "Got here C";
 
       if (age_weight_matrix.size() == 0)
         LOG_CODE_ERROR()<< "if (age_weight_matrix_.size() == 0)";
@@ -456,6 +489,7 @@ void ProcessRemovalsByWeight::Execute() {
         }
       }
 
+      LOG_FINE() << "Got here D";
 
       // for (unsigned length_offset = 0; length_offset < number_length_bins_; ++length_offset) {
       //   LOG_FINEST() << " numbers for length bin : " << length_bins_[length_offset] << " = " << numbers_at_length[length_offset];

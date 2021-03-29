@@ -122,6 +122,13 @@ Double VonBertalanffy::GetMeanWeight(unsigned year, unsigned time_step, unsigned
 }
 
 /**
+ * Return the units for the length-weight relationship
+ */
+string VonBertalanffy::weight_units() {
+    return length_weight_->weight_units();
+}
+
+/**
  * Reset any objects
  */
 void VonBertalanffy::DoReset() {

@@ -135,6 +135,13 @@ Double Schnute::GetMeanWeight(unsigned year, unsigned time_step, unsigned age, D
 }
 
 /**
+ * Return the units for the length-weight relationship
+ */
+string Schnute::weight_units() {
+    return length_weight_->weight_units();
+}
+
+/**
  * Reset any objects
  */
 void Schnute::DoReset() {

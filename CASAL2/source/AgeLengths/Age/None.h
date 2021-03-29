@@ -38,6 +38,7 @@ public:
   Double                      mean_weight(unsigned year, unsigned age) override final { return 1.0; }
   Double                      GetMeanLength(unsigned year, unsigned time_step, unsigned age) override final { return 1.0; }
   Double                      GetMeanWeight(unsigned year, unsigned time_step, unsigned age, Double length) override final { return 1.0; };
+  string                      weight_units() { return ""; };
 
 };
 
