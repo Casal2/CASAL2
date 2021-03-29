@@ -359,7 +359,6 @@ void ProcessRemovalsByWeight::Execute() {
    */
 //  auto categories = model_->categories();
   unsigned year       = model_->current_year();
-  unsigned year_index = year - model_->start_year();
   unsigned time_step  = model_->managers().time_step()->current_time_step();
 
   auto cached_partition_iter = cached_partition_->Begin();
@@ -399,33 +398,14 @@ void ProcessRemovalsByWeight::Execute() {
 
        AgeLength* age_length = (*category_iter)->age_length_;
 
-      const auto& age_length_proportions = model_->partition().age_length_proportions((*category_iter)->name_)[year_index][time_step];
-
       for (unsigned data_offset = 0; data_offset < (*category_iter)->data_.size(); ++data_offset) {
         unsigned age = ((*category_iter)->min_age_ + data_offset);
         // Calculate the age structure removed from the fishing process
         number_at_age = Removals_at_age[year][method_][(*category_iter)->name_][data_offset];
         LOG_FINEST() << "Numbers at age = " << age << " = " << number_at_age << " start value : " << start_value << " end value : " << end_value;
 
-
-        // TODO:  calculate the age-length distribution matrix given the observation length bins
         mean_length = age_length->GetMeanLength(year, time_step, age);
-
-        // TODO:  calculate the length-weight distribution matrix given the observation length and weight bins
         mean_weight = age_length->GetMeanWeight(year, time_step, age, mean_length);
-
-        // so it compiles
-        numbers_at_length[0] = mean_length;
-        numbers_at_weight[0] = mean_weight;
-
-
-        // Loop through the length bins and multiple the partition of the current age to go from
-        // length frequencies to age length numbers
-        for (unsigned j = 0; j < number_length_bins_; ++j) {
-          // use the subset of age_length_proportions for the length bins associated with the model length bins
-          age_length_matrix[data_offset][j] = number_at_age * age_length_proportions[data_offset][mlb_index_first_ + j]; // added length bin offset to get correct length bin
-          LOG_FINEST() << "The proportion in length bin " << length_bins_[j] << " = " << age_length_matrix[data_offset][j];
-        }
 
         std_dev = age_length->cv(year, time_step, age) * mean_length;
         age_length_matrix[data_offset] = utilities::math::distribution2(length_bins_, false, age_length->distribution(), mean_length, std_dev);
@@ -468,10 +448,17 @@ void ProcessRemovalsByWeight::Execute() {
         LOG_FINE() << "start_value: " << start_value << "; end_value: " << end_value << "; final_value: " << numbers_at_length[length_offset];
         LOG_FINE() << "expected_value becomes: " << expected_values_length[length_offset];
       }
+
+      for (unsigned weight_offset = 0; weight_offset < number_weight_bins_; ++weight_offset) {
+        LOG_FINEST() << " numbers for weight bin : " << weight_bins_[weight_offset] << " = " << numbers_at_weight[weight_offset];
+        expected_values_weight[weight_offset] += numbers_at_weight[weight_offset];
+
+        LOG_FINE() << "----------";
+        LOG_FINE() << "Category: " << (*category_iter)->name_ << " at weight " << weight_bins_[weight_offset];
+        LOG_FINE() << "start_value: " << start_value << "; end_value: " << end_value << "; final_value: " << numbers_at_weight[weight_offset];
+        LOG_FINE() << "expected_value becomes: " << expected_values_weight[weight_offset];
+      }
     }
-
-
-    // TODO: calculate length-to-weight matrix, then calculate age-to-weight matrix
 
 
     if (expected_values_weight.size() != proportions_[model_->current_year()][category_labels_[category_offset]].size())
