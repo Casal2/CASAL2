@@ -47,7 +47,7 @@ ProcessRemovalsByWeight::ProcessRemovalsByWeight(Model* model) :
   parameters_.Bind<unsigned>(PARAM_YEARS, &years_, "The years for which there are observations", "");
   parameters_.Bind<Double>(PARAM_PROCESS_ERRORS, &process_error_values_, "The process error", "", true);
   parameters_.Bind<double>(PARAM_LENGTH_WEIGHT_CV, &length_weight_cv_, "The CV for the length-weight relationship", "", double(0.10))->set_lower_bound(0.0, false);
-  parameters_.Bind<string>(PARAM_LENGTH_WEIGHT_DISTRIBUTION, &length_weight_dist_, "The distribution of the length-weight relationship", "", PARAM_NORMAL)->set_allowed_values({PARAM_NORMAL, PARAM_LOGNORMAL});
+  parameters_.Bind<string>(PARAM_LENGTH_WEIGHT_DISTRIBUTION, &length_weight_distribution_label_, "The distribution of the length-weight relationship", "", PARAM_NORMAL);
   parameters_.Bind<double>(PARAM_LENGTH_BINS, &length_bins_, "The length bins", "");
   parameters_.Bind<double>(PARAM_LENGTH_BINS_N, &length_bins_n_, "The average number in each length bin", "");
   parameters_.Bind<string>(PARAM_UNITS, &units_, "The units for the weight bins", "grams, kgs or tonnes", PARAM_KGS)->set_allowed_values({PARAM_GRAMS, PARAM_TONNES, PARAM_KGS});
@@ -79,6 +79,15 @@ void ProcessRemovalsByWeight::DoValidate() {
   // How many elements are expected in our observed table;
   number_length_bins_ = length_bins_.size();
   number_weight_bins_ = weight_bins_.size();
+
+  if (length_weight_distribution_label_ == PARAM_NORMAL)
+    length_weight_distribution_ = Distribution::kNormal;
+  else if (length_weight_distribution_label_ == PARAM_LOGNORMAL)
+    length_weight_distribution_ = Distribution::kLogNormal;
+  else if (length_weight_distribution_label_ == PARAM_NONE)
+    length_weight_distribution_ = Distribution::kNone;
+  else
+    LOG_CODE_ERROR() << "The length-weight distribution '" << length_weight_distribution_label_ << "' is not valid.";
 
   for (auto year : years_) {
     if ((year < model_->start_year()) || (year > model_->final_year()))
@@ -359,6 +368,7 @@ void ProcessRemovalsByWeight::Execute() {
 
   Double mean_length;
   Double mean_weight;
+  Double std_dev;
 
   vector<Double> numbers_at_length(number_length_bins_);
   vector<Double> numbers_at_weight(number_weight_bins_);
@@ -386,6 +396,7 @@ void ProcessRemovalsByWeight::Execute() {
     auto category_iter        = partition_iter->begin();
     auto cached_category_iter = cached_partition_iter->begin();
     for (; category_iter != partition_iter->end(); ++cached_category_iter, ++category_iter) {
+
        AgeLength* age_length = (*category_iter)->age_length_;
 
       const auto& age_length_proportions = model_->partition().age_length_proportions((*category_iter)->name_)[year_index][time_step];
@@ -401,7 +412,7 @@ void ProcessRemovalsByWeight::Execute() {
         mean_length = age_length->GetMeanLength(year, time_step, age);
 
         // TODO:  calculate the length-weight distribution matrix given the observation length and weight bins
-        mean_weight = age_length->GetMeanWeight(year, time_step, age, length_bins_[0]);
+        mean_weight = age_length->GetMeanWeight(year, time_step, age, mean_length);
 
         // so it compiles
         numbers_at_length[0] = mean_length;
@@ -416,15 +427,15 @@ void ProcessRemovalsByWeight::Execute() {
           LOG_FINEST() << "The proportion in length bin " << length_bins_[j] << " = " << age_length_matrix[data_offset][j];
         }
 
-        // include the larger lengths if specified and they exist
-        unsigned last_obs_bin = mlb_index_first_ + number_length_bins_ - 1;
-        if (age_length_proportions[0].size() > last_obs_bin) {
-          for (unsigned j = (last_obs_bin + 1); j < age_length_proportions[0].size(); ++j) {
-            age_length_matrix[data_offset][(number_length_bins_ - 1)] += number_at_age * age_length_proportions[data_offset][j];
-            LOG_FINEST() << "The proportion of " << number_at_age << " added to length bin " << length_bins_[(number_length_bins_ - 1)] << " = " << age_length_proportions[data_offset][j];
-          }
+        std_dev = age_length->cv(year, time_step, age) * mean_length;
+        age_length_matrix[data_offset] = utilities::math::distribution2(length_bins_, false, age_length->distribution(), mean_length, std_dev);
+
+        for (unsigned j = 0; j < number_length_bins_; ++j) {
+          std_dev = length_weight_cv_adj[j] * mean_weight;
+          length_weight_matrix[j] = utilities::math::distribution2(weight_bins_, false, length_weight_distribution_, mean_weight, std_dev);
         }
       }
+
 
       if (age_length_matrix.size() == 0)
         LOG_CODE_ERROR()<< "if (age_length_matrix_.size() == 0)";
@@ -435,6 +446,18 @@ void ProcessRemovalsByWeight::Execute() {
           numbers_at_length[j] += age_length_matrix[i][j];
         }
       }
+
+
+      if (length_weight_matrix.size() == 0)
+        LOG_CODE_ERROR()<< "if (length_weight_matrix_.size() == 0)";
+
+      numbers_at_weight.assign(length_weight_matrix[0].size(), 0.0);
+      for (unsigned i = 0; i < length_weight_matrix.size(); ++i) {
+        for (unsigned j = 0; j < length_weight_matrix[i].size(); ++j) {
+          numbers_at_weight[j] += length_weight_matrix[i][j];
+        }
+      }
+
 
       for (unsigned length_offset = 0; length_offset < number_length_bins_; ++length_offset) {
         LOG_FINEST() << " numbers for length bin : " << length_bins_[length_offset] << " = " << numbers_at_length[length_offset];
@@ -459,7 +482,7 @@ void ProcessRemovalsByWeight::Execute() {
      * save our comparisons so we can use them to generate the score from the likelihoods later
      */
     for (unsigned i = 0; i < expected_values_weight.size(); ++i) {
-      SaveComparison(category_labels_[category_offset], 0, length_bins_[i], expected_values_weight[i], proportions_[model_->current_year()][category_labels_[category_offset]][i],
+      SaveComparison(category_labels_[category_offset], 0, weight_bins_[i], expected_values_weight[i], proportions_[model_->current_year()][category_labels_[category_offset]][i],
                      process_errors_by_year_[model_->current_year()], error_values_[model_->current_year()][category_labels_[category_offset]][i],
                      0.0, delta_, 0.0);
     }

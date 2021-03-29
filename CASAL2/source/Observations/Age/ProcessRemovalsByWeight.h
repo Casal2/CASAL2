@@ -54,7 +54,8 @@ protected:
   unsigned                      number_length_bins_ = 0;
   unsigned                      number_weight_bins_ = 0;
   double                        length_weight_cv_ = 0.0;
-  string                        length_weight_dist_;
+  string                        length_weight_distribution_label_;
+  Distribution                  length_weight_distribution_;
   string                        units_;
   double                        fishbox_weight_ = 0.0;
   parameters::Table*            obs_table_ = nullptr;
