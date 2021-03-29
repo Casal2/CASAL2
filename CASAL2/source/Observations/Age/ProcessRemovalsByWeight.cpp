@@ -369,9 +369,9 @@ void ProcessRemovalsByWeight::Execute() {
   Double mean_weight;
   Double std_dev;
 
-  vector<Double> numbers_at_length(number_length_bins_);
+  // vector<Double> numbers_at_length(number_length_bins_);
   vector<Double> numbers_at_weight(number_weight_bins_);
-  vector<Double> expected_values_length(number_length_bins_);
+  // vector<Double> expected_values_length(number_length_bins_);
   vector<Double> expected_values_weight(number_weight_bins_);
 
   /**
@@ -385,7 +385,7 @@ void ProcessRemovalsByWeight::Execute() {
     Double end_value     = 0.0;
     Double number_at_age = 0.0;
 
-    std::fill(expected_values_length.begin(), expected_values_length.end(), 0.0);
+    // std::fill(expected_values_length.begin(), expected_values_length.end(), 0.0);
     std::fill(expected_values_weight.begin(), expected_values_weight.end(), 0.0);
 
     /**
@@ -396,8 +396,20 @@ void ProcessRemovalsByWeight::Execute() {
     auto cached_category_iter = cached_partition_iter->begin();
     for (; category_iter != partition_iter->end(); ++cached_category_iter, ++category_iter) {
 
-       AgeLength* age_length = (*category_iter)->age_length_;
+      AgeLength* age_length = (*category_iter)->age_length_;
 
+      for (unsigned j = 0; j < number_length_bins_; ++j) {
+       // NOTE: hard-coded for minimum age in the category
+        mean_weight = age_length->GetMeanWeight(year, time_step, (*category_iter)->min_age_, length_bins_[j]);
+        LOG_FINEST() << "Mean weight at length " << length_bins_[j] << ": " << mean_weight;
+        std_dev     = length_weight_cv_adj[j];
+        if (length_weight_distribution_ == Distribution::kNormal) {
+           std_dev *= mean_weight;
+        }
+        length_weight_matrix[j] = utilities::math::distribution2(weight_bins_, false, length_weight_distribution_, mean_weight, std_dev);
+      }
+
+      LOG_FINE() << "category data size " << (*category_iter)->data_.size();
       for (unsigned data_offset = 0; data_offset < (*category_iter)->data_.size(); ++data_offset) {
         unsigned age = ((*category_iter)->min_age_ + data_offset);
         // Calculate the age structure removed from the fishing process
@@ -405,49 +417,55 @@ void ProcessRemovalsByWeight::Execute() {
         LOG_FINEST() << "Numbers at age = " << age << " = " << number_at_age << " start value : " << start_value << " end value : " << end_value;
 
         mean_length = age_length->GetMeanLength(year, time_step, age);
-        mean_weight = age_length->GetMeanWeight(year, time_step, age, mean_length);
+        LOG_FINEST() << "Mean length at age " << age << ": " << mean_length;
 
-        std_dev = age_length->cv(year, time_step, age) * mean_length;
+        std_dev = age_length->cv(year, time_step, age);
+        if (age_length->distribution() == Distribution::kNormal) {
+            std_dev *= mean_length;
+        }
         age_length_matrix[data_offset] = utilities::math::distribution2(length_bins_, false, age_length->distribution(), mean_length, std_dev);
 
+        // Multiply by number_at_age
+        // std::transform(age_length_matrix[data_offset].begin(), age_length_matrix[data_offset].end(), age_length_matrix[data_offset].begin(), std::bind(std::multiplies<Double>(), std::placeholders::_1, number_at_age));
+
         for (unsigned j = 0; j < number_length_bins_; ++j) {
-          std_dev = length_weight_cv_adj[j] * mean_weight;
-          length_weight_matrix[j] = utilities::math::distribution2(weight_bins_, false, length_weight_distribution_, mean_weight, std_dev);
+            for (unsigned k = 0 ; k < number_weight_bins_; ++k)
+            age_weight_matrix[data_offset][k] = number_at_age * age_length_matrix[data_offset][j] * length_weight_matrix[j][k];
         }
       }
 
 
-      if (age_length_matrix.size() == 0)
-        LOG_CODE_ERROR()<< "if (age_length_matrix_.size() == 0)";
+      // if (age_length_matrix.size() == 0)
+      //   LOG_CODE_ERROR()<< "if (age_length_matrix_.size() == 0)";
 
-      numbers_at_length.assign(age_length_matrix[0].size(), 0.0);
-      for (unsigned i = 0; i < age_length_matrix.size(); ++i) {
-        for (unsigned j = 0; j < age_length_matrix[i].size(); ++j) {
-          numbers_at_length[j] += age_length_matrix[i][j];
+      // numbers_at_length.assign(age_length_matrix[0].size(), 0.0);
+      // for (unsigned i = 0; i < age_length_matrix.size(); ++i) {
+      //   for (unsigned j = 0; j < age_length_matrix[i].size(); ++j) {
+      //     numbers_at_length[j] += age_length_matrix[i][j];
+      //   }
+      // }
+
+
+      if (age_weight_matrix.size() == 0)
+        LOG_CODE_ERROR()<< "if (age_weight_matrix_.size() == 0)";
+
+      numbers_at_weight.assign(age_weight_matrix[0].size(), 0.0);
+      for (unsigned i = 0; i < age_weight_matrix.size(); ++i) {
+        for (unsigned j = 0; j < age_weight_matrix[i].size(); ++j) {
+          numbers_at_weight[j] += age_weight_matrix[i][j];
         }
       }
 
 
-      if (length_weight_matrix.size() == 0)
-        LOG_CODE_ERROR()<< "if (length_weight_matrix_.size() == 0)";
+      // for (unsigned length_offset = 0; length_offset < number_length_bins_; ++length_offset) {
+      //   LOG_FINEST() << " numbers for length bin : " << length_bins_[length_offset] << " = " << numbers_at_length[length_offset];
+      //   expected_values_length[length_offset] += numbers_at_length[length_offset];
 
-      numbers_at_weight.assign(length_weight_matrix[0].size(), 0.0);
-      for (unsigned i = 0; i < length_weight_matrix.size(); ++i) {
-        for (unsigned j = 0; j < length_weight_matrix[i].size(); ++j) {
-          numbers_at_weight[j] += length_weight_matrix[i][j];
-        }
-      }
-
-
-      for (unsigned length_offset = 0; length_offset < number_length_bins_; ++length_offset) {
-        LOG_FINEST() << " numbers for length bin : " << length_bins_[length_offset] << " = " << numbers_at_length[length_offset];
-        expected_values_length[length_offset] += numbers_at_length[length_offset];
-
-        LOG_FINE() << "----------";
-        LOG_FINE() << "Category: " << (*category_iter)->name_ << " at length " << length_bins_[length_offset];
-        LOG_FINE() << "start_value: " << start_value << "; end_value: " << end_value << "; final_value: " << numbers_at_length[length_offset];
-        LOG_FINE() << "expected_value becomes: " << expected_values_length[length_offset];
-      }
+      //   LOG_FINE() << "----------";
+      //   LOG_FINE() << "Category: " << (*category_iter)->name_ << " at length " << length_bins_[length_offset];
+      //   LOG_FINE() << "start_value: " << start_value << "; end_value: " << end_value << "; final_value: " << numbers_at_length[length_offset];
+      //   LOG_FINE() << "expected_value becomes: " << expected_values_length[length_offset];
+      // }
 
       for (unsigned weight_offset = 0; weight_offset < number_weight_bins_; ++weight_offset) {
         LOG_FINEST() << " numbers for weight bin : " << weight_bins_[weight_offset] << " = " << numbers_at_weight[weight_offset];
