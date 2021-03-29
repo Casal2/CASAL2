@@ -402,21 +402,22 @@ void ProcessRemovalsByWeight::Execute() {
 
       weight_units    = age_length->weight_units();
       unit_multiplier = 1.0;
+      // what value to multiply weight_units by to get units_
       if ((units_ == PARAM_TONNES) && (weight_units == PARAM_KGS))
-        unit_multiplier = 1000;
-      else if (units_ == PARAM_GRAMS && (weight_units == PARAM_KGS))
         unit_multiplier = 0.001;
+      else if (units_ == PARAM_GRAMS && (weight_units == PARAM_KGS))
+        unit_multiplier = 1000;
 
       if ((units_ == PARAM_KGS) && (weight_units == PARAM_TONNES))
-        unit_multiplier = 0.001;
+        unit_multiplier = 1000;
       else if (units_ == PARAM_GRAMS && (weight_units == PARAM_TONNES))
-        unit_multiplier = 0.000001;
+        unit_multiplier = 1000000;
 
       if ((units_ == PARAM_KGS) && (weight_units == PARAM_GRAMS))
-        unit_multiplier = 1000;
+        unit_multiplier = 0.0001;
       else if (units_ == PARAM_TONNES && (weight_units == PARAM_GRAMS))
-        unit_multiplier = 1000000;
-      LOG_FINE() << "category " << (*category_iter)->name_ << " unit multiplier " << unit_multiplier;
+        unit_multiplier = 0.0000001;
+      LOG_FINE() << "category " << (*category_iter)->name_ << " unit multiplier " << unit_multiplier << " from " << weight_units << " to " << units_;
 
       for (unsigned j = 0; j < number_length_bins_; ++j) {
        // NOTE: hard-coded for minimum age in the category
