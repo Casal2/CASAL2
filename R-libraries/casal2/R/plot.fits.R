@@ -255,7 +255,7 @@
       pears_ndx <- grepl(pattern = "pearsons_residuals", x = names(this_report$values))
 
       if(!any(norm_ndx) & !any(pears_ndx)) {
-        stop("normalised_residuals or pearson_residuals were not found in the tabular report. Set @report for this observation: 'normalised_residuals true' or 'pearsons_residuals true'")
+        stop("normalised_residuals or pearsons_residuals were not found in the tabular report. Set @report for this observation: 'normalised_residuals true' or 'pearsons_residuals true'")
       }
 
       if (any(norm_ndx)) {
@@ -284,10 +284,10 @@
         abline(h = 0, lty = 0)
       }
     } else if (this_report$likelihood == "multinomial"){
-      pear_ndx <- grepl(pattern = "pearson_residuals", x = names(this_report$values))
+      pear_ndx <- grepl(pattern = "pearsons_residuals", x = names(this_report$values))
 
       if(!any(pear_ndx)) {
-        stop("pearson_residuals were not found in the tabular report. Set @report for this observation: 'pearsons_residuals true'")
+        stop("pearsons_residuals were not found in the tabular report. Set @report for this observation: 'pearsons_residuals true'")
       }
 
       this_pearson <- this_report$values[,pear_ndx]
@@ -313,7 +313,7 @@
       }
 
       for (y in 1:n_years) {
-        this_year <- this_pearson[,grepl(pattern = Paste("pearson_residuals\\[",years[y]), x = names(this_pearson))]
+        this_year <- this_pearson[,grepl(pattern = Paste("pearsons_residuals\\[",years[y]), x = names(this_pearson))]
 
         boxplot(this_year, ylim = c(-3,3), xlab = "bins", ylab = "Pearsons residuals", main = years[y], names = bins)
         abline(h = c(2,-2), col = "red")
