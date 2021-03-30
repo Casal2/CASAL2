@@ -173,7 +173,7 @@
           }
 
           unit_label <- "Length"
-          if (!grepl('length', this_report$observation_type)) {
+          if (grepl('weight', this_report$observation_type)) {
             unit_label <- "Weight"
           }
           plot(years, My[, "Obs"], type = "n", ylab = paste("Mean Age-at-", unit_label, sep=''), xlab = "Years", xlim = xlim, ylim = ylim, col = col, las = 1,...)
