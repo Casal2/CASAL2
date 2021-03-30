@@ -143,7 +143,7 @@
           segments(x0 = t_comp$year, x1 = t_comp$year, y0 = L_CI, y1 = U_CI, col = "black")
           points(t_comp$year, t_comp$fits, col = "red" , pch = 20, cex = 1.3)
         } else if (this_report$likelihood == "multinomial") {
-          cat("Plotting mean age.\n")
+          cat("Plotting mean values.\n")
           Nassumed <- Ry <- Sy <- c()
           Obs <- as.matrix(t_comp$obs)
           Obs <- sweep(Obs, 1, apply(Obs, 1, sum), "/")
