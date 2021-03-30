@@ -172,7 +172,11 @@
             col <- "blue"
           }
 
-          plot(years, My[, "Obs"], type = "n", ylab = "Mean Age/Length", xlab = "Years", xlim = xlim, ylim = ylim, col = col, las = 1,...)
+          unit_label <- "Length"
+          if (!grepl('length', this_report$observation_type)) {
+            unit_label <- "Weight"
+          }
+          plot(years, My[, "Obs"], type = "n", ylab = paste("Mean Age-at-", unit_label, sep=''), xlab = "Years", xlim = xlim, ylim = ylim, col = col, las = 1,...)
           points(years, My[, "Obs"], pch = 1, col = "black")
           segments(years, Obs.bnds[, 1], years, Obs.bnds[, 2], col = "black")
           points(years, My[, "Exp"], col = "red" , pch = 20, cex = 1.3)
