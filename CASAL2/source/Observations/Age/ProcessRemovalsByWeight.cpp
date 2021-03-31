@@ -100,8 +100,15 @@ void ProcessRemovalsByWeight::DoValidate() {
 
   /**
    * Do some simple checks
-   * Validate that the length and weight bins are strictly increasing
+   * e.g., validate that the length and weight bins are strictly increasing
    */
+
+  vector<double> model_length_bins = model_->length_bins();
+  if (length_bins_[0] < model_length_bins[0])
+    LOG_ERROR_P(PARAM_LENGTH_BINS) << ": Length bin value " << length_bins_[0] << " is smaller than the smallest model length bin " << model_length_bins[0];
+  if (length_bins_[(number_length_bins_ - 1)] > model_length_bins[(model_length_bins.size() - 1)])
+    LOG_ERROR_P(PARAM_LENGTH_BINS) << ": Length bin value " << length_bins_[(number_length_bins_ - 1)] << " is larger than the largest model length bin " << model_length_bins[(model_length_bins.size() - 1)];
+
   if (length_bins_.size() != length_bins_n_.size())
     LOG_ERROR_P(PARAM_LENGTH_BINS_N) << ": The number of length bins " << length_bins_.size() << " does not match the number of length bin number values " << length_bins_n_.size();
 
@@ -478,8 +485,6 @@ void ProcessRemovalsByWeight::Execute() {
       //   }
       // }
 
-      LOG_FINE() << "Got here C";
-
       if (age_weight_matrix.size() == 0)
         LOG_CODE_ERROR()<< "if (age_weight_matrix_.size() == 0)";
 
@@ -490,7 +495,6 @@ void ProcessRemovalsByWeight::Execute() {
         }
       }
 
-      LOG_FINE() << "Got here D";
 
       // for (unsigned length_offset = 0; length_offset < number_length_bins_; ++length_offset) {
       //   LOG_FINEST() << " numbers for length bin : " << length_bins_[length_offset] << " = " << numbers_at_length[length_offset];
