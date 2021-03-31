@@ -47,7 +47,7 @@ ProcessRemovalsByWeight::ProcessRemovalsByWeight(Model* model) :
   parameters_.Bind<unsigned>(PARAM_YEARS, &years_, "The years for which there are observations", "");
   parameters_.Bind<Double>(PARAM_PROCESS_ERRORS, &process_error_values_, "The process error", "", true);
   parameters_.Bind<double>(PARAM_LENGTH_WEIGHT_CV, &length_weight_cv_, "The CV for the length-weight relationship", "", double(0.10))->set_lower_bound(0.0, false);
-  parameters_.Bind<string>(PARAM_LENGTH_WEIGHT_DISTRIBUTION, &length_weight_distribution_label_, "The distribution of the length-weight relationship", "", PARAM_NORMAL);
+  parameters_.Bind<string>(PARAM_LENGTH_WEIGHT_DISTRIBUTION, &length_weight_distribution_label_, "The distribution of the length-weight relationship", "", PARAM_NORMAL)->set_allowed_values({PARAM_NORMAL, PARAM_LOGNORMAL});
   parameters_.Bind<double>(PARAM_LENGTH_BINS, &length_bins_, "The length bins", "");
   parameters_.Bind<double>(PARAM_LENGTH_BINS_N, &length_bins_n_, "The average number in each length bin", "");
   parameters_.Bind<string>(PARAM_UNITS, &units_, "The units for the weight bins", "grams, kgs or tonnes", PARAM_KGS)->set_allowed_values({PARAM_GRAMS, PARAM_TONNES, PARAM_KGS});
@@ -84,8 +84,6 @@ void ProcessRemovalsByWeight::DoValidate() {
     length_weight_distribution_ = Distribution::kNormal;
   else if (length_weight_distribution_label_ == PARAM_LOGNORMAL)
     length_weight_distribution_ = Distribution::kLogNormal;
-  else if (length_weight_distribution_label_ == PARAM_NONE)
-    length_weight_distribution_ = Distribution::kNone;
   else
     LOG_CODE_ERROR() << "The length-weight distribution '" << length_weight_distribution_label_ << "' is not valid.";
 
@@ -426,25 +424,9 @@ void ProcessRemovalsByWeight::Execute() {
         unit_multiplier = 0.0000001;
       LOG_FINE() << "category " << (*category_iter)->name_ << " unit multiplier " << unit_multiplier << " from " << weight_units << " to " << units_;
 
-      for (unsigned j = 0; j < number_length_bins_; ++j) {
-       // NOTE: hard-coded for minimum age in the category
-        mean_weight = age_length->GetMeanWeight(year, time_step, (*category_iter)->min_age_, length_bins_[j]);
-
-        // multiply weight by factor if units differ between the length-weight relationship and this observation
-        mean_weight *= unit_multiplier;
-
-        LOG_FINEST() << "Mean weight at length " << length_bins_[j] << ": " << mean_weight;
-
-        std_dev     = length_weight_cv_adj[j];
-        if (length_weight_distribution_ == Distribution::kNormal) {
-           std_dev *= mean_weight;
-        }
-        length_weight_matrix[j] = utilities::math::distribution2(weight_bins_, true, length_weight_distribution_, mean_weight, std_dev);
-        LOG_FINE() << "Distribution of weights at length " << length_bins_[j] << ": " << length_weight_matrix[j][0] << " size " << length_weight_matrix[j].size();
-      }
-
       LOG_FINE() << "number_length_bins_ " << number_length_bins_ << " number_weight_bins_ " << number_weight_bins_ << " age spread " << model_->age_spread();
       LOG_FINE() << "category data size (number of ages) " << (*category_iter)->data_.size();
+
       for (unsigned data_offset = 0; data_offset < (*category_iter)->data_.size(); ++data_offset) {
         unsigned age = ((*category_iter)->min_age_ + data_offset);
         // Calculate the age structure removed from the fishing process
@@ -454,12 +436,19 @@ void ProcessRemovalsByWeight::Execute() {
         mean_length = age_length->GetMeanLength(year, time_step, age);
         LOG_FINEST() << "Mean length at age " << age << ": " << mean_length;
 
-        std_dev = age_length->cv(year, time_step, age);
-        if (age_length->distribution() == Distribution::kNormal) {
-            std_dev *= mean_length;
-        }
+        std_dev = age_length->cv(year, time_step, age) * mean_length;
         age_length_matrix[data_offset] = utilities::math::distribution2(length_bins_, true, age_length->distribution(), mean_length, std_dev);
         LOG_FINE() << "Distribution of lengths at age " << age << ": " << age_length_matrix[data_offset][0] << " size " << age_length_matrix[data_offset].size();
+
+        for (unsigned j = 0; j < number_length_bins_; ++j) {
+          // multiply weight by factor if units differ between the length-weight relationship and this observation
+          mean_weight = unit_multiplier * age_length->GetMeanWeight(year, time_step, age, length_bins_[j]);
+          LOG_FINEST() << "Mean weight at length " << length_bins_[j] << " for age " << age << ": " << mean_weight;
+
+          std_dev = length_weight_cv_adj[j] * mean_weight;
+          length_weight_matrix[j] = utilities::math::distribution2(weight_bins_, true, length_weight_distribution_, mean_weight, std_dev);
+          LOG_FINE() << "Fraction of weights at length " << length_bins_[j] << " for age " << age << ": " << length_weight_matrix[j][0] << " size " << length_weight_matrix[j].size();
+        }
 
         // Multiply by number_at_age
         // std::transform(age_length_matrix[data_offset].begin(), age_length_matrix[data_offset].end(), age_length_matrix[data_offset].begin(), std::bind(std::multiplies<Double>(), std::placeholders::_1, number_at_age));
@@ -471,7 +460,7 @@ void ProcessRemovalsByWeight::Execute() {
           age_weight_matrix[data_offset][k] = tmp * number_at_age;
           LOG_FINEST() << "age_weight_matrix[" << data_offset << "][" << k << "] = " << tmp << " * " << number_at_age;
         }
-        LOG_FINE() << "Distribution of weights at age " << age << ": " << age_weight_matrix[data_offset][0] << " size " << age_weight_matrix[data_offset].size();
+        LOG_FINE() << "Fraction of weights at age " << age << ": " << age_weight_matrix[data_offset][0] << " size " << age_weight_matrix[data_offset].size();
       }
 
 
