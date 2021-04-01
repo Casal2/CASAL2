@@ -424,6 +424,18 @@ void ProcessRemovalsByWeight::Execute() {
         unit_multiplier = 0.0000001;
       LOG_FINE() << "category " << (*category_iter)->name_ << " unit multiplier " << unit_multiplier << " from " << weight_units << " to " << units_;
 
+
+      for (unsigned j = 0; j < number_length_bins_; ++j) {
+        // NOTE: hardcoded for now with minimum age (used to get cv[year][time_step][age])
+        mean_weight = unit_multiplier * age_length->GetMeanWeight(year, time_step, (*category_iter)->min_age_, length_bins_[j]);
+        LOG_FINEST() << "Mean weight at length " << length_bins_[j] << " for age " << (*category_iter)->min_age_ << ": " << mean_weight;
+
+        std_dev = length_weight_cv_adj[j] * mean_weight;
+        length_weight_matrix[j] = utilities::math::distribution2(weight_bins_, true, length_weight_distribution_, mean_weight, std_dev);
+        LOG_FINE() << "Fraction of weight_bin[0] at length " << length_bins_[j] << " for age " << (*category_iter)->min_age_ << ": " << length_weight_matrix[j][0] << " size " << length_weight_matrix[j].size();
+      }
+
+
       LOG_FINE() << "number_length_bins_ " << number_length_bins_ << " number_weight_bins_ " << number_weight_bins_ << " age spread " << model_->age_spread();
       LOG_FINE() << "category data size (number of ages) " << (*category_iter)->data_.size();
 
@@ -438,17 +450,7 @@ void ProcessRemovalsByWeight::Execute() {
 
         std_dev = age_length->cv(year, time_step, age) * mean_length;
         age_length_matrix[data_offset] = utilities::math::distribution2(length_bins_, true, age_length->distribution(), mean_length, std_dev);
-        LOG_FINE() << "Distribution of lengths at age " << age << ": " << age_length_matrix[data_offset][0] << " size " << age_length_matrix[data_offset].size();
-
-        for (unsigned j = 0; j < number_length_bins_; ++j) {
-          // multiply weight by factor if units differ between the length-weight relationship and this observation
-          mean_weight = unit_multiplier * age_length->GetMeanWeight(year, time_step, age, length_bins_[j]);
-          LOG_FINEST() << "Mean weight at length " << length_bins_[j] << " for age " << age << ": " << mean_weight;
-
-          std_dev = length_weight_cv_adj[j] * mean_weight;
-          length_weight_matrix[j] = utilities::math::distribution2(weight_bins_, true, length_weight_distribution_, mean_weight, std_dev);
-          LOG_FINE() << "Fraction of weights at length " << length_bins_[j] << " for age " << age << ": " << length_weight_matrix[j][0] << " size " << length_weight_matrix[j].size();
-        }
+        LOG_FINE() << "Fraction of length_bin[0] at age " << age << ": " << age_length_matrix[data_offset][0] << " size " << age_length_matrix[data_offset].size();
 
         // Multiply by number_at_age
         // std::transform(age_length_matrix[data_offset].begin(), age_length_matrix[data_offset].end(), age_length_matrix[data_offset].begin(), std::bind(std::multiplies<Double>(), std::placeholders::_1, number_at_age));
@@ -460,7 +462,7 @@ void ProcessRemovalsByWeight::Execute() {
           age_weight_matrix[data_offset][k] = tmp * number_at_age;
           LOG_FINEST() << "age_weight_matrix[" << data_offset << "][" << k << "] = " << tmp << " * " << number_at_age;
         }
-        LOG_FINE() << "Fraction of weights at age " << age << ": " << age_weight_matrix[data_offset][0] << " size " << age_weight_matrix[data_offset].size();
+        LOG_FINE() << "Fraction of weight_bin[0] at age " << age << ": " << age_weight_matrix[data_offset][0] << " size " << age_weight_matrix[data_offset].size();
       }
 
 
@@ -474,10 +476,8 @@ void ProcessRemovalsByWeight::Execute() {
       //   }
       // }
 
-      if (age_weight_matrix.size() == 0)
-        LOG_CODE_ERROR()<< "if (age_weight_matrix_.size() == 0)";
-
-      numbers_at_weight.assign(age_weight_matrix[0].size(), 0.0);
+      // numbers_at_weight.assign(age_weight_matrix[0].size(), 0.0);
+      std::fill(numbers_at_weight.begin(), numbers_at_weight.end(), 0.0);
       for (unsigned i = 0; i < age_weight_matrix.size(); ++i) {
         for (unsigned j = 0; j < age_weight_matrix[i].size(); ++j) {
           numbers_at_weight[j] += age_weight_matrix[i][j];
