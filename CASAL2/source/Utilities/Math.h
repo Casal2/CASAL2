@@ -348,12 +348,26 @@ inline Double unscale_value(const Double& value, Double& penalty, double min, do
 //**********************************************************************
 //    General math utilities
 //**********************************************************************
-// Return the mean for a vector
-inline Double mean(const vector<Double>& Values){
-  Double mu = 0.0;
+// Return the sum for a vector
+inline Double Sum(const vector<Double>& Values){
   Double total = 0.0;
   for (const auto& value : Values)
     total += value;
+  return total;
+}
+
+// Return the sum for an unsigned map
+inline Double Sum(const map<unsigned, Double>& Values){
+  Double total = 0.0;
+  for (const auto& value : Values)
+    total += value.second;
+  return total;
+}
+
+// Return the mean for a vector
+inline Double mean(const vector<Double>& Values){
+  Double mu = 0.0;
+  Double total = Sum(Values);
   Double n = Values.size();
   mu = total / n;
   return mu;
@@ -362,9 +376,7 @@ inline Double mean(const vector<Double>& Values){
 // Return the mean for an unsigned map
 inline Double mean(const map<unsigned, Double>& Values){
   Double mu = 0.0;
-  Double total = 0.0;
-  for (const auto& value : Values)
-    total += value.second;
+  Double total = Sum(Values);
   Double n = Values.size();
   mu = total / n;
   return mu;
