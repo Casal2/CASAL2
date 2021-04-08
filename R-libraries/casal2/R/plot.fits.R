@@ -57,7 +57,8 @@
   likelihoods_allowed  <- c("lognormal", "multinomial", "normal")
   observations_allowed <- c("biomass", "abundance", "proportions_at_age", "proportions_at_length",
                             "process_proportions_at_age", "process_proportions_at_length", "process_removals_by_age", "process_removals_by_length",
-                            "process_removals_by_age_retained", "process_removals_by_length_retained", "process_removals_by_age_retained_total", "process_removals_by_length_retained_total")
+                            "process_removals_by_age_retained", "process_removals_by_length_retained", "process_removals_by_age_retained_total", "process_removals_by_length_retained_total",
+                            "process_removals_by_weight")
 
   if (any(names(this_report) == "type")) {
     if (this_report$type != "observation") {
@@ -142,7 +143,7 @@
           segments(x0 = t_comp$year, x1 = t_comp$year, y0 = L_CI, y1 = U_CI, col = "black")
           points(t_comp$year, t_comp$fits, col = "red" , pch = 20, cex = 1.3)
         } else if (this_report$likelihood == "multinomial") {
-          cat("Plotting mean age.\n")
+          cat("Plotting mean values.\n")
           Nassumed <- Ry <- Sy <- c()
           Obs <- as.matrix(t_comp$obs)
           Obs <- sweep(Obs, 1, apply(Obs, 1, sum), "/")
@@ -171,7 +172,13 @@
             col <- "blue"
           }
 
-          plot(years, My[, "Obs"], type = "n", ylab = "Mean Age/Length", xlab = "Years", xlim = xlim, ylim = ylim, col = col, las = 1,...)
+          unit_label <- "Age"
+          if (grepl('length', this_report$observation_type)) {
+            unit_label <- "Length"
+          } else if (grepl('weight', this_report$observation_type)) {
+            unit_label <- "Weight"
+          }
+          plot(years, My[, "Obs"], type = "n", ylab = paste("Mean ", unit_label, sep=''), xlab = "Years", xlim = xlim, ylim = ylim, col = col, las = 1,...)
           points(years, My[, "Obs"], pch = 1, col = "black")
           segments(years, Obs.bnds[, 1], years, Obs.bnds[, 2], col = "black")
           points(years, My[, "Exp"], col = "red" , pch = 20, cex = 1.3)
@@ -216,7 +223,8 @@
   likelihoods_allowed  <- c("lognormal", "multinomial", "normal")
   observations_allowed <- c("biomass", "abundance", "proportions_at_age", "proportions_at_length",
                             "process_proportions_at_age", "process_proportions_at_length", "process_removals_by_age", "process_removals_by_length",
-                            "process_removals_by_age_retained", "process_removals_by_length_retained", "process_removals_by_age_retained_total", "process_removals_by_length_retained_total")
+                            "process_removals_by_age_retained", "process_removals_by_length_retained", "process_removals_by_age_retained_total", "process_removals_by_length_retained_total",
+                            "process_removals_by_weight")
 
   if (!this_report$likelihood %in% likelihoods_allowed) {
     stop(Paste("This function can be used with likelihoods " , paste(likelihoods_allowed, collapse = ", "), " only."))
@@ -249,7 +257,7 @@
       pears_ndx <- grepl(pattern = "pearsons_residuals", x = names(this_report$values))
 
       if(!any(norm_ndx) & !any(pears_ndx)) {
-        stop("normalised_residuals or pearson_residuals were not found in the tabular report. Set @report for this observation: 'normalised_residuals true' or 'pearsons_residuals true'")
+        stop("normalised_residuals or pearsons_residuals were not found in the tabular report. Set @report for this observation: 'normalised_residuals true' or 'pearsons_residuals true'")
       }
 
       if (any(norm_ndx)) {
@@ -278,10 +286,10 @@
         abline(h = 0, lty = 0)
       }
     } else if (this_report$likelihood == "multinomial"){
-      pear_ndx <- grepl(pattern = "pearson_residuals", x = names(this_report$values))
+      pear_ndx <- grepl(pattern = "pearsons_residuals", x = names(this_report$values))
 
       if(!any(pear_ndx)) {
-        stop("pearson_residuals were not found in the tabular report. Set @report for this observation: 'pearsons_residuals true'")
+        stop("pearsons_residuals were not found in the tabular report. Set @report for this observation: 'pearsons_residuals true'")
       }
 
       this_pearson <- this_report$values[,pear_ndx]
@@ -307,7 +315,7 @@
       }
 
       for (y in 1:n_years) {
-        this_year <- this_pearson[,grepl(pattern = Paste("pearson_residuals\\[",years[y]), x = names(this_pearson))]
+        this_year <- this_pearson[,grepl(pattern = Paste("pearsons_residuals\\[",years[y]), x = names(this_pearson))]
 
         boxplot(this_year, ylim = c(-3,3), xlab = "bins", ylab = "Pearsons residuals", main = years[y], names = bins)
         abline(h = c(2,-2), col = "red")

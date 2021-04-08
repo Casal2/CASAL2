@@ -471,13 +471,33 @@ Double Data::mean_weight(unsigned time_step, unsigned age) {
  * @param year Ignored for this child (was implemented for the Data AgeLength child)
  * @param time_step The time step
  * @param age The age of the population
- * @return mean weight for one member
+ * @return mean length for one member
  */
 Double Data::GetMeanLength(unsigned year, unsigned time_step, unsigned age) {
   if (model_->state() == State::kInitialise)
     return data_by_age_time_step_[time_step][age];
 
   return mean_length_by_year_[year][age][time_step];
+}
+
+/**
+ * Return the mean weight for a time_step and age
+ *
+ * @param year Ignored for this child (was implemented for the Data AgeLength child)
+ * @param time_step The time step
+ * @param age The age of the population
+ * @param length The length of the population
+ * @return mean weight for one member
+ */
+Double Data::GetMeanWeight(unsigned year, unsigned time_step, unsigned age, Double length) {
+  return length_weight_->mean_weight(length, distribution_, cvs_[year][time_step][age]);
+}
+
+/**
+ * Return the units for the length-weight relationship
+ */
+string Data::weight_units() {
+    return length_weight_->weight_units();
 }
 
 } /* namespace agelengths */

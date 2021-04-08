@@ -40,6 +40,7 @@ public:
 
   // accessors
   virtual Double                    mean_weight(Double size, Distribution distribution, Double cv) const = 0;
+  virtual string                    weight_units() const = 0;
 
   // members
   Model*                            model_ = nullptr;

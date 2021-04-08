@@ -95,9 +95,9 @@ class SystemInfo:
     print('--> gcc version: ' + Globals.compiler_version_)
 
     pieces = Globals.compiler_version_.split('.')
-    int_pieces = int(pieces[0] + pieces[1])
-    if int_pieces < 48:
-      return Globals.PrintError("gcc version " + Globals.compiler_version_ + " is not supported due to its age")
+    gcc_version = int(str(pieces[0]) + str(pieces[1]))
+    if gcc_version < 48:
+      return Globals.PrintError("g++ version " + Globals.compiler_version_ + " is not supported due to its age")
 
     return True
 
