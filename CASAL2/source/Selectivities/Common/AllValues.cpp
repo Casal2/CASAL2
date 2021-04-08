@@ -95,6 +95,7 @@ void AllValues::RebuildCache() {
  * @param time_step_index
  * @return 0.0 - error
  */
+[[maybe_unused]]
 Double AllValues::GetLengthBasedResult(unsigned age, AgeLength* age_length, unsigned year, int time_step_index) {
   LOG_ERROR_P(PARAM_LENGTH_BASED) << ": This selectivity type has not been implemented for age length based selectivities ";
   return 0.0;

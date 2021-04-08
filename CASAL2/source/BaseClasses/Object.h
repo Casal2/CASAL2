@@ -58,7 +58,7 @@ enum Usage {
   kTimeVarying  = 128,
   kAll          = 255
 };
-};
+}
 
 namespace base {
 

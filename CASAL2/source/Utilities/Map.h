@@ -19,11 +19,13 @@
 #include <set>
 #include <string>
 
-#include "Utilities/Types.h"
+#include "../Utilities/Types.h"
 
 // namespaces
 namespace niwa {
 namespace utilities {
+using std::vector;
+using std::pair;
 
 /**
  * This class is responsible for providing us with a specialised container that allows
@@ -33,39 +35,60 @@ namespace utilities {
  * retrieved in the same order.
  *
  */
-struct cmp_by_insertion {
-  std::vector<std::string> current_keys_;
-
-  bool operator() (std::string const &a, std::string const &b) {
-    if (a == b)
-      return false;
-
-    unsigned a_index = current_keys_.size() + 10;
-    unsigned b_index = current_keys_.size() + 10;
-
-    for (unsigned i = 0; i < current_keys_.size(); ++i) {
-      if (current_keys_[i] == a)
-        a_index = i;
-      if (current_keys_[i] == b)
-        b_index = i;
-    }
-
-    if (a_index > current_keys_.size())
-      current_keys_.push_back(a);
-    if (b_index > current_keys_.size())
-      current_keys_.push_back(b);
-
-    return a_index <= b_index;
-  }
-};
-
 template<typename _Key, typename _Tp>
-class OrderedMap : public ::std::map<_Key, _Tp, cmp_by_insertion> { };
+class OrderedMap {
+public:
+	OrderedMap() = default;
+	~OrderedMap() = default;
+
+	/**
+	 * This behaves like the operator on the std::map.
+	 * If the object exists we return it, if not we create
+	 * a default entry for it.
+	 */
+	_Tp& operator[] (const _Key& search_key) {
+		for (auto& [ key, value ] : storage_)
+			if (key == search_key)
+				return value;
+
+		std::pair<_Key, _Tp> new_value = std::pair<_Key, _Tp>(search_key, _Tp());
+		storage_.push_back(new_value);
+		return storage_[storage_.size() - 1].second;
+	}
+
+	/**
+	 * This behaves like the std::map->find() method
+	 * in that it's a const search that does not
+	 * add a value to the storage_
+	 */
+	const auto find(const _Key& search_key) const {
+		for (auto iter = storage_.begin(); iter != storage_.end(); ++iter)
+			if (iter->first == search_key)
+				return iter;
+
+		return storage_.end();
+	}
+
+	/**
+	 * Return size
+	 */
+	auto size() const { return storage_.size(); }
+
+	/**
+	 * Handlers for begin() and end() so that we can use range
+	 * based for loops
+	 */
+	auto begin() { return storage_.begin(); }
+	auto end() { return storage_.end(); }
+
+private:
+	vector<std::pair<_Key, _Tp>> storage_;
+};
 
 /**
  * Namespace for our map methods
  */
-template<typename _Tp>
+template<typename _Tp> // TODO: Remove this line later, not needed
 class Map {
 public:
   /**
@@ -76,8 +99,8 @@ public:
    * @param value The values to use
    * @return a Map of keys and values
    */
-  static std::map<unsigned, _Tp> create(const std::vector<unsigned>& key, const std::vector<_Tp>& value) {
-    std::map<unsigned, _Tp> result;
+  static std::map<unsigned, Double> create(const std::vector<unsigned>& key, const std::vector<Double>& value) {
+    std::map<unsigned, Double> result;
 
     for (unsigned i = 0; i < key.size(); ++i)
       result[key[i]] = value[i];
@@ -93,8 +116,8 @@ public:
    * @param value The values to use
    * @return a Map of keys and values
    */
-  static std::map<std::string, _Tp> create(const std::vector<std::string>& key, const std::vector<_Tp>& value) {
-    std::map<std::string, _Tp> result;
+  static std::map<std::string, Double> create(const std::vector<std::string>& key, const std::vector<Double>& value) {
+    std::map<std::string, Double> result;
 
     for (unsigned i = 0; i < key.size(); ++i)
       result[key[i]] = value[i];
@@ -110,15 +133,14 @@ public:
    * @param value The values to use
    * @return a Map of keys and values
    */
-  static std::map<unsigned, _Tp> create(const std::vector<unsigned>& key, const _Tp& value) {
-    std::map<unsigned, _Tp> result;
+  static std::map<unsigned, Double> create(const std::vector<unsigned>& key, const Double& value) {
+    std::map<unsigned, Double> result;
 
     for (unsigned i = 0; i < key.size(); ++i)
       result[key[i]] = value;
 
     return result;
   }
-
 
 }; // class
 

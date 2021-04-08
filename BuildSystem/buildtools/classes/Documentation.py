@@ -75,6 +75,9 @@ class Documentation:
         # build the PDF documentation as well
         if Globals.latex_path_ != "":
             self.build_latex_ = True
+        else:
+            return Globals.PrintError("Latex is not installed or cannot be detected properly. Please ensure tools like pdflatex are in the path")
+
         # Load our translations from the Translations.h file so we can convert
         # PARAM_X in to actual English
         if not self.load_translations():
@@ -96,7 +99,7 @@ class Documentation:
         if not file:
             return Globals.PrintError('Failed to open the English_UK.h for translation loading')
 
-        for line in open('../CASAL2/source/Translations/English_UK.h', encoding = "ISO-8859-1"):
+        for line in file:
             if not line.startswith('#define'):
                 continue
             pieces = line.split()
@@ -110,23 +113,23 @@ class Documentation:
         print('-- Loaded ' + str(len(translations_)) + ' translation values')
         return True
 
+
 class ClassLoader:
     def Run(self):
         global parent_class_
         casal2_src_folder = '../CASAL2/source/'
         parent_class_folders = [ 'AdditionalPriors', 'AgeingErrors', 'AgeLengths', 'Asserts',
-                                 'Catchabilities', 'Categories', 'DerivedQuantities',
-                                 'Estimates', 'EstimateTransformations', 'InitialisationPhases', 'LengthWeights',
-                                 'Likelihoods', 'MCMCs', 'Minimisers',
-                                 'Model', 'Observations', 'Penalties', 'Processes', 'Profiles', 'Projects',
-                                 'Reports', 'Selectivities', 'Simulates', 'TimeSteps', 'TimeVarying']
+                        'Catchabilities', 'Categories', 'DerivedQuantities',
+                        'Estimates', 'EstimateTransformations', 'InitialisationPhases', 'LengthWeights',
+                        'Likelihoods', 'MCMCs', 'Minimisers',
+                        'Model', 'Observations', 'Penalties', 'Processes', 'Profiles', 'Projects',
+                        'Reports', 'Selectivities', 'Simulates', 'TimeSteps', 'TimeVarying']
         type_without_children_folders = [ 'Model', 'Profiles', 'TimeSteps' ]
         type_to_exclude_third_level_children = [ 'Minimisers' ]
-        type_to_exclude_common_children = [ 'Processes' ]
         for folder in parent_class_folders:
             parent_class_ = Class()
             print(folder)
-            # Start with folder, but know we also go through age and length folders
+			# Start with folder, but know we also go through age and length folders
             if (os.path.exists(casal2_src_folder + folder) or folder in type_without_children_folders):
                 label_ = Variable()
                 label_.name_ = 'label'
@@ -222,25 +225,6 @@ class ClassLoader:
                         if not VariableLoader().Load('../CASAL2/source/' + folder + '/Length/' + file, child_class):
                             return False
 
-                # Go through Common folders
-                if (os.path.exists(casal2_src_folder + folder + '/Common/') and folder not in type_to_exclude_common_children):
-                    print('--> Scanning for following child in Common: ' + folder)
-                    child_file_list = os.listdir(casal2_src_folder + folder + '/Common/')
-                    # Scan First For 2nd Level Children
-                    for file in child_file_list:
-                        if file.endswith('.Mock.h'):
-                            continue
-                        if not file.endswith('.h'):
-                            continue
-                        child_class = Class()
-                        child_class.variables_ = copy.deepcopy(parent_class_.variables_)
-                        child_class.variables_['label_'].name_ = ''
-                        child_class.variables_['type_'].name_ = ''
-                        child_class.name_ = file.replace('.h', '')
-                        parent_class_.child_classes_[child_class.name_] = child_class
-                        if not VariableLoader().Load('../CASAL2/source/' + folder + '/Common/' + file, child_class):
-                            return False
-
             parent_class_.child_classes_ = collections.OrderedDict(sorted(parent_class_.child_classes_.items()))
             Printer().Run()
         return True
@@ -254,7 +238,7 @@ class VariableLoader:
         print('--> Loading Variables for ' + class_.name_ + ' from header file ' + header_file_)
         fi = fileinput.FileInput(header_file_)
         found_class = False
-        for line in open(header_file_, encoding = "ISO-8859-1"):
+        for line in fi:
             line = line.lower().rstrip().lstrip()
             if line == '':
                 continue
@@ -292,7 +276,7 @@ class VariableLoader:
         in_constructor = False
         finished_constructor_definition = False
         previous_line = ''
-        for line in open(cpp_file, encoding = "ISO-8859-1"):
+        for line in fi:
             line = line.rstrip().lstrip()
             if line == '' or line == '\n':
                 continue
@@ -480,7 +464,7 @@ class VariableLoader:
           variable = pieces[1].replace('&', '').replace(')', '').lstrip().rstrip()
           lookup = pieces[2].replace('addressable::k', '').replace(')', '').lstrip().rstrip()
 
-    ## At some point it would be nice to add the lookup into the auto-documentation but that can wait.
+	## At some point it would be nice to add the lookup into the auto-documentation but that can wait.
         print('--> Estimable: ' + name + ' with variable ' + variable + ' lookup = ' + lookup  + ' ' + class_.variables_[variable].name_)
         if name in translations_:
           name = translations_[name]
@@ -633,7 +617,6 @@ class Printer:
 
 class Latex:
     def Build(self):
-
         print('-- Building latex documentation and pdf')
         cwd = os.path.normpath(os.getcwd())
         os.chdir('../Documentation/UserManual/')
@@ -642,12 +625,12 @@ class Latex:
 
         # Build the Version.tex file
         if Globals.git_path_ != '':
-            print('-- Build Version.tex with git log information')
+            print('-- Build version.tex with Git log information')
             p = subprocess.Popen(['git', '--no-pager', 'log', '-n', '1', '--pretty=format:%H%n%h%n%ci' ], stdout=subprocess.PIPE, stderr=subprocess.PIPE)
             out, err = p.communicate()
             lines = out.decode('utf-8').split('\n')
             if len(lines) != 3:
-                return Globals.PrintError('Format printed by git did not meet expectations. Expected 3 lines but got ' + str(len(lines)))
+                return Globals.PrintError('Format printed by GIT did not meet expectations. Expected 3 lines but got ' + str(len(lines)))
 
             time_pieces = lines[2].split(' ')
             temp = ' '.join(time_pieces)
@@ -666,7 +649,7 @@ class Latex:
             file_output.write(version)
             file_output.close()
         else:
-            print('-- Building a default Version.tex because git was not found')
+            print('-- Building a default version.tex because Git was not found')
             version = '% WARNING: THIS FILE IS AUTOMATICALLY GENERATED BY doBuild documentation. DO NOT EDIT THIS FILE\n'
             version += '\\newcommand{\\SourceControlRevisionDoc}{000000}\n'
             version += '\\newcommand{\\SourceControlDateDoc}{0000-00-00}\n'

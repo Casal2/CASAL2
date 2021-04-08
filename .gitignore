@@ -166,3 +166,17 @@ Documentation/GettingStartedGuide/ModelComponents.aux
 Documentation/GettingStartedGuide/Output.aux
 Documentation/GettingStartedGuide/References.aux
 Documentation/GettingStartedGuide/Syntax.aux
+/ThirdParty/dlib/dlib-19.17
+/ThirdParty/boost/boost_1_71_0
+*__pycache__*
+*_pycache_*
+BuildSystem/buildtools/classes/__pycache__/Archiver.cpython-38.pyc
+/ThirdParty/googletest_googlemock/googletest-release-1.8.1
+/ThirdParty/.pydevproject
+/ThirdParty/.project
+/TestCode/.project
+/Documentation/.project
+/CASAL2/source/.cproject
+/CASAL2/source/.project
+/CASAL2/.project
+/CASAL2/.cproject

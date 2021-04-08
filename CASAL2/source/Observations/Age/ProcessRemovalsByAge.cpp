@@ -314,9 +314,9 @@ void ProcessRemovalsByAge::PreExecute() {
  * Execute
  */
 void ProcessRemovalsByAge::Execute() {
-  LOG_MEDIUM() << "Entering observation " << label_;
+  LOG_FINEST() << "Entering observation " << label_;
   unsigned year = model_->current_year();
-  LOG_MEDIUM() << "current year " << year;
+  LOG_FINEST() << "current year " << year;
   // Check if we are in the final time_step so we have all the relevent information from the Mortaltiy process
   unsigned current_time_step = model_->managers().time_step()->current_time_step();
   if (time_step_to_execute_ == current_time_step) {

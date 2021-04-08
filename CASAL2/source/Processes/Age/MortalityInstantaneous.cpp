@@ -665,7 +665,7 @@ void MortalityInstantaneous::DoExecute() {
         if (!category.used_in_current_timestep_)
           continue;
 
-        LOG_MEDIUM() << "recalculating age exploitation for category " << category.category_label_ << " in time step " << time_step_index;
+        LOG_FINE() << "recalculating age exploitation for category " << category.category_label_ << " in time step " << time_step_index;
 
         for (unsigned i = 0; i < category.category_->age_spread(); ++i)
           category.exploitation_[i] = 0.0;
@@ -678,7 +678,7 @@ void MortalityInstantaneous::DoExecute() {
         if (fishery_category.fishery_.time_step_index_ != time_step_index)
           continue;
 
-        LOG_MEDIUM() << "updating category exploitation with fishery " << fishery_category.fishery_.label_ << " in time step " << time_step_index
+        LOG_FINE() << "updating category exploitation with fishery " << fishery_category.fishery_.label_ << " in time step " << time_step_index
           << ": exploitation = " << fishery_category.fishery_.exploitation_;
 
         for (unsigned i = 0; i < category->data_.size(); ++i) {
@@ -722,7 +722,7 @@ void MortalityInstantaneous::DoExecute() {
    */
   unsigned category_ndx = 0;
   for (auto& category : categories_) {
-    LOG_MEDIUM() << "category " << category.category_label_ << " used in time step " << time_step_index << ": " << category.used_in_current_timestep_;
+    LOG_FINEST() << "category " << category.category_label_ << " used in time step " << time_step_index << ": " << category.used_in_current_timestep_;
 
     for (unsigned i = 0; i < category.category_->data_.size(); ++i) {
       //removals_by_category_age_[category_ndx][i] = category.category_->data_[i]; // initial numbers before process

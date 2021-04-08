@@ -16,7 +16,7 @@ class Builder:
     # Variables
     fileName = 'parser'
     header   = 'parser.h'
-    header2   = 'parser-inl.h'
+    header2  = 'parser-inl.h'
     library  = 'parser.a'
     
     # Clean our any existing files if they already exist

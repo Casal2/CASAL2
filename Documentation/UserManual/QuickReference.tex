@@ -3,28 +3,6 @@
 \defSub{parameter} {The name of the parameter to generate additional prior on}
 \defSub{label} {The label for the additional prior}
 \defSub{type} {The type of additional prior}
-\par\textbf{\commandlabsubarg{additional\_\_prior}{type}{beta}}\par
-\defSub{mu} {Beta distribution mean ,mu, parameter}
-\defSub{sigma} {Beta distribution variance ,sigma, parameter}
-\defSub{a} {Beta distribution lower bound of the range ,A, parameter}
-\defSub{b} {Beta distribution upper bound of the range ,B, parameter}
-\par\textbf{\commandlabsubarg{additional\_\_prior}{type}{element\_difference}}\par
-\defSub{second\_parameter} {The name of the second parameter for comparing}
-\defSub{multiplier} {Multiply the penalty by this factor}
-\par\textbf{\commandlabsubarg{additional\_\_prior}{type}{log\_normal}}\par
-\defSub{mu} {The lognormal prior mean ,mu, parameter}
-\defSub{cv} {The lognormal variance ,cv, parameter}
-\par\textbf{\commandlabsubarg{additional\_\_prior}{type}{uniform\_log}}\par
-\par\textbf{\commandlabsubarg{additional\_\_prior}{type}{vector\_average}}\par
-\defSub{method} {Which calculation method to use: k, l, or m}
-\defSub{k} {The k value to use in the calculation}
-\defSub{multiplier} {The multiplier for the penalty amount}
-\par\textbf{\commandlabsubarg{additional\_\_prior}{type}{vector\_smoothing}}\par
-\defSub{log\_scale} {Should the sums of squares be calculated on the log scale?}
-\defSub{multiplier} {Multiply the penalty by this factor}
-\defSub{lower\_bound} {The first element to apply the penalty to in the vector}
-\defSub{upper\_bound} {The last element to apply the penalty to in the vector}
-\defSub{r} {Penalty applied to rth differences}
 \defComLab{ageing\_error}{Define an object of type \emph{ageing\_error}}\par\par
 \defSub{label} {The label of the ageing error}
 \defSub{type} {The type of ageing error}
@@ -68,12 +46,6 @@
 \defComLab{catchability}{Define an object of type \emph{catchability}}\par\par
 \defSub{label} {Label of the catchability}
 \defSub{type} {The type of catchability}
-\par\textbf{\commandlabsubarg{catchability}{type}{free}}\par
-\defSub{q} {The value of the catchability}
-\par\textbf{\commandlabsubarg{catchability}{type}{nuisance}}\par
-\defSub{lower\_bound} {The upper bound for nuisance catchability}
-\defSub{upper\_bound} {The lower bound for nuisance catchability}
-\defSub{q} {}
 \defComLab{categories}{Define an object of type \emph{categories}}\par\par
 \defSub{format} {The format that the category names use}
 \defSub{names} {The names of the categories to be used in the model}
@@ -104,52 +76,10 @@
 \defSub{transformation} {Type of simple transformation to apply to estimate}
 \defSub{transform\_with\_jacobian} {Apply jacobian during transformation}
 \defSub{prior\_applies\_to\_transform} {Does the prior apply to the transformed parameter? a legacy switch, see Manual for more information}
-\par\textbf{\commandlabsubarg{estimate}{type}{beta}}\par
-\defSub{mu} {Beta prior  mean ,mu, parameter}
-\defSub{sigma} {Beta prior variance ,sigma, parameter}
-\defSub{a} {Beta prior lower bound of the range ,A, parameter}
-\defSub{b} {Beta prior upper bound of the range ,B, parameter}
-\par\textbf{\commandlabsubarg{estimate}{type}{lognormal}}\par
-\defSub{mu} {The lognormal prior mean ,mu, parameter}
-\defSub{cv} {The lognormal variance ,cv, parameter}
-\par\textbf{\commandlabsubarg{estimate}{type}{normal}}\par
-\defSub{mu} {The normal prior mean ,mu, parameter}
-\defSub{cv} {The normal variance ,standard devation, parameter}
-\par\textbf{\commandlabsubarg{estimate}{type}{normal\_by\_stdev}}\par
-\defSub{mu} {The normal prior mean ,mu, parameter}
-\defSub{sigma} {The normal variance ,sigma, parameter}
-\defSub{lognormal\_transfomration} {Add a Jacobian if the derived outcome of the estimate is assumed to be lognormal, e.g., used for rectuitment deviations in the recruitment process. See the User Manual for more information}
-\par\textbf{\commandlabsubarg{estimate}{type}{normal\_log}}\par
-\defSub{mu} {The normal-log prior mean ,mu, parameter}
-\defSub{sigma} {The normal-log prior variance ,standard deviation, parameter}
-\par\textbf{\commandlabsubarg{estimate}{type}{uniform}}\par
-\par\textbf{\commandlabsubarg{estimate}{type}{uniform\_log}}\par
 \defComLab{estimate\_transformation}{Define an object of type \emph{estimate\_transformation}}\par\par
 \defSub{label} {Label for the transformation block}
 \defSub{type} {The type of transformation}
 \defSub{transform\_with\_jacobian} {Apply Jacobian during transformation}
-\par\textbf{\commandlabsubarg{estimate\_\_transformation}{type}{average\_difference}}\par
-\defSub{theta2} {The label of the @estimate block relating to the $\theta_2$ parameter in the transformation. See the User Manual for more information}
-\defSub{theta1} {The label of @estimate block relating to the $\theta_1$ parameter in the transformation. See the User Manual for more information}
-\par\textbf{\commandlabsubarg{estimate\_\_transformation}{type}{inverse}}\par
-\defSub{estimate\_label} {The label of estimate block to apply transformation. Defined as $\theta_1$ in the documentation}
-\par\textbf{\commandlabsubarg{estimate\_\_transformation}{type}{log}}\par
-\defSub{estimate\_label} {Label of estimate block to apply transformation. Defined as $\theta_1$ in the documentation}
-\par\textbf{\commandlabsubarg{estimate\_\_transformation}{type}{log\_sum}}\par
-\defSub{theta2} {The label of the @estimate block relating to the $\theta_2$ parameter in the transformation. See the User Manual for more information}
-\defSub{theta1} {The label of @estimate block relating to the $\theta_1$ parameter in the transformation. See the User Manual for more information}
-\par\textbf{\commandlabsubarg{estimate\_\_transformation}{type}{orthogonal}}\par
-\defSub{theta2} {The label of the @estimate block relating to the $\theta_2$ parameter in the transformation. See the User Manual for more information}
-\defSub{theta1} {The label of @estimate block relating to the $\theta_1$ parameter in the transformation. See the User Manual for more information}
-\par\textbf{\commandlabsubarg{estimate\_\_transformation}{type}{simplex}}\par
-\defSub{lower\_bound} {The empirical lower bound for the simplex transformed. This should be -Inf but some of the minimisers do not allow that}
-\defSub{upper\_bound} {The empirical upper bound for the simplex transformed. This should be Inf but some of the minimisers do not allow that}
-\par\textbf{\commandlabsubarg{estimate\_\_transformation}{type}{square\_root}}\par
-\defSub{estimate\_label} {The label of the estimate block to apply transformation. Defined as $\theta_1$ in the documentation}
-\par\textbf{\commandlabsubarg{estimate\_\_transformation}{type}{sum\_to\_one}}\par
-\defSub{estimate\_labels} {The label for the estimates for the sum to one transformation}
-\defSub{upper\_bound} {The empirical upper bounds for the transformed parameters. There should be one less bound than parameters}
-\defSub{lower\_bound} {The empirical lower bound for the transformed parameters. There should be one less bound than parameters}
 \defComLab{initialisation\_phase}{Define an object of type \emph{initialisation\_phase}}\par\par
 \defSub{label} {The label of the initialisation phase}
 \defSub{type} {The type of initialisation}
@@ -172,84 +102,18 @@
 \defComLab{length\_weight}{Define an object of type \emph{length\_weight}}\par\par
 \defSub{label} {The label of the length-weight relationship}
 \defSub{type} {The type of the length-weight relationship}
-\par\textbf{\commandlabsubarg{length\_\_weight}{type}{basic}}\par
-\defSub{a} {The $a$ parameter ,$W = a L^b$,}
-\defSub{b} {The $b$ parameter ,$W = a L^b$,}
-\defSub{units} {The units of measure ,tonnes, kgs, grams,}
-\par\textbf{\commandlabsubarg{length\_\_weight}{type}{none}}\par
 \defComLab{likelihood}{Define an object of type \emph{likelihood}}\par\par
-\par\textbf{\commandlabsubarg{likelihood}{type}{binomial}}\par
-\par\textbf{\commandlabsubarg{likelihood}{type}{binomial\_approx}}\par
-\par\textbf{\commandlabsubarg{likelihood}{type}{dirichlet}}\par
-\par\textbf{\commandlabsubarg{likelihood}{type}{log\_normal}}\par
-\par\textbf{\commandlabsubarg{likelihood}{type}{log\_normal\_with\_q}}\par
-\par\textbf{\commandlabsubarg{likelihood}{type}{multinomial}}\par
-\par\textbf{\commandlabsubarg{likelihood}{type}{normal}}\par
-\par\textbf{\commandlabsubarg{likelihood}{type}{pseudo}}\par
 \defComLab{mcmc}{Define an object of type \emph{mcmc}}\par\par
 \defSub{label} {The label of the MCMC}
 \defSub{type} {The type of MCMC}
 \defSub{length} {The number of iterations in for the MCMC chain}
 \defSub{active} {Indicates if this is the active MCMC algorithm}
 \defSub{step\_size} {Initial stepsize ,as a multiplier of the approximate covariance matrix,}
-\par\textbf{\commandlabsubarg{mcmc}{type}{independence\_metropolis}}\par
-\defSub{start} {The covariance multiplier for the starting point of the MCMC}
-\defSub{keep} {The spacing between recorded values in the MCMC}
-\defSub{max\_correlation} {The maximum absolute correlation in the covariance matrix of the proposal distribution}
-\defSub{covariance\_adjustment\_method} {The method for adjusting small variances in the covariance proposal matrix}
-\defSub{correlation\_adjustment\_diff} {The minimum non-zero variance times the range of the bounds in the covariance matrix of the proposal distribution}
-\defSub{proposal\_distribution} {The shape of the proposal distribution ,either the t or the normal distribution,}
-\defSub{df} {The degrees of freedom of the multivariate t proposal distribution}
-\defSub{adapt\_stepsize\_at} {The iteration numbers in which to check and resize the MCMC stepsize}
-\defSub{adapt\_covariance\_matrix\_at} {The iteration numbers in which to adapt the covariance matrix}
-\defSub{adapt\_stepsize\_method} {The method to use to adapt the step size}
 \defComLab{minimiser}{Define an object of type \emph{minimiser}}\par\par
 \defSub{label} {The minimiser label}
 \defSub{type} {The type of minimiser to use}
 \defSub{active} {Indicates if this minimiser is active}
 \defSub{covariance} {Indicates if a covariance matrix should be generated}
-\par\textbf{\commandlabsubarg{minimiser}{type}{adolc}}\par
-\defSub{iterations} {The maximum number of iterations}
-\defSub{evaluations} {The maximum number of evaluations}
-\defSub{tolerance} {The tolerance of the gradient for convergence}
-\defSub{step\_size} {The minimum step size before minimisation fails}
-\par\textbf{\commandlabsubarg{minimiser}{type}{betadiff}}\par
-\defSub{iterations} {The maximum number of iterations}
-\defSub{evaluations} {The maximum number of evaluations}
-\defSub{tolerance} {The tolerance of the gradient for convergence}
-\par\textbf{\commandlabsubarg{minimiser}{type}{cppad}}\par
-\defSub{retape} {Retape?}
-\defSub{print\_level} {The level of debug to stdout}
-\defSub{sb} {String buffer output?}
-\defSub{pidi} {Print iteration diagnostic information?}
-\defSub{iterations} {The maximum number of iterations}
-\defSub{tolerance} {The tolerance for convergence}
-\defSub{acceptable\_tol} {The acceptable tolerance}
-\defSub{acceptable\_obj\_change\_tol} {}
-\defSub{derivative\_test} {How to test for derivatives}
-\defSub{point\_perturbation\_radius} {The point perturbation radius}
-\par\textbf{\commandlabsubarg{minimiser}{type}{de\_solver}}\par
-\defSub{population\_size} {The number of candidate solutions to have in the population}
-\defSub{crossover\_probability} {The minimiser's crossover probability}
-\defSub{difference\_scale} {The scale to apply to new solutions when comparing candidates}
-\defSub{max\_generations} {The maximum number of iterations to run}
-\defSub{tolerance} {The total variance between the population and best candidate before acceptance}
-\defSub{method} {The type of candidate generation method to use}
-\par\textbf{\commandlabsubarg{minimiser}{type}{d\_lib}}\par
-\defSub{minimisation\_type} {The type of minimisation to use}
-\defSub{search\_strategy} {The type of search strategy to use}
-\defSub{tolerance} {The tolerance of the gradient for convergence}
-\defSub{lbfgs\_max\_size} {The maximum size for the LBFGS search strategy}
-\defSub{bobyqa\_interpolation\_points} {BOBYQA interpolation points}
-\defSub{bobyqa\_initial\_trust\_radius} {BOBYQA initial trust radius}
-\defSub{bobyqa\_stopping\_trust\_radius} {BOBYQA stopping trust radius}
-\defSub{bobyqa\_max\_evaluations} {BOBYQA max objective evaluations}
-\defSub{verbose} {Print debug of objective function calls?}
-\par\textbf{\commandlabsubarg{minimiser}{type}{numerical\_differences}}\par
-\defSub{iterations} {The maximum number of iterations}
-\defSub{evaluations} {The maximum number of evaluations}
-\defSub{tolerance} {The tolerance of the gradient for convergence}
-\defSub{step\_size} {The minimum step size before minimisation fails}
 \defComLab{model}{Define an object of type \emph{model}}\par\par
 \defSub{start\_year} {The first year of the model, immediately following initialisation}
 \defSub{final\_year} {The final year of the model, excluding years in the projection period}
@@ -413,9 +277,6 @@
 \defComLab{penalty}{Define an object of type \emph{penalty}}\par\par
 \defSub{label} {The label of the penalty}
 \defSub{type} {The type of penalty}
-\par\textbf{\commandlabsubarg{penalty}{type}{process}}\par
-\defSub{multiplier} {The penalty multiplier}
-\defSub{log\_scale} {Indicates if the sums of squares is calculated on the log scale}
 \defComLab{process}{Define an object of type \emph{process}}\par\par
 \defSub{label} {The label of the process}
 \defSub{type} {The type of process}
@@ -592,29 +453,11 @@
 \defSub{years} {The years to recalculate the values}
 \defSub{parameter} {The parameter to project}
 \defSub{multiplier} {The multiplier applied to the projected value}
-\par\textbf{\commandlabsubarg{project}{type}{constant}}\par
-\defSub{values} {The values to assign to the addressable}
-\par\textbf{\commandlabsubarg{project}{type}{empirical\_sampling}}\par
-\defSub{start\_year} {The start year of sampling}
-\defSub{final\_year} {The final year of sampling}
-\par\textbf{\commandlabsubarg{project}{type}{log\_normal}}\par
-\defSub{mean} {The mean of the lognormal process}
-\defSub{sigma} {The standard deviation ,sigma, of the lognormal process}
-\par\textbf{\commandlabsubarg{project}{type}{log\_normal\_empirical}}\par
-\defSub{mean} {The mean of the Gaussian process}
-\defSub{start\_year} {The start year of sampling}
-\defSub{final\_year} {The final year of sampling}
-\par\textbf{\commandlabsubarg{project}{type}{user\_defined}}\par
-\defSub{equation} {The equation to do a test run of}
 \defComLab{report}{Define an object of type \emph{report}}\par\par
 \defSub{label} {The label for the report}
 \defSub{type} {The type of report}
 \defSub{file\_name} {The filename for this report to be in a separate file}
 \defSub{write\_mode} {The write mode}
-\par\textbf{\commandlabsubarg{report}{type}{addressable}}\par
-\defSub{parameter} {The parameter to print}
-\defSub{years} {The years to print the addressable for}
-\defSub{time\_step} {The time Step label}
 \par\textbf{\commandlabsubarg{report}{type}{age\_length}}\par
 \defSub{time\_step} {The time step label}
 \defSub{years} {The years for the report}
@@ -622,30 +465,7 @@
 \defSub{category} {The category label}
 \par\textbf{\commandlabsubarg{report}{type}{ageing\_error\_matrix}}\par
 \defSub{ageing\_error} {The ageing error label}
-\par\textbf{\commandlabsubarg{report}{type}{catchability}}\par
-\par\textbf{\commandlabsubarg{report}{type}{category\_info}}\par
-\par\textbf{\commandlabsubarg{report}{type}{category\_list}}\par
-\par\textbf{\commandlabsubarg{report}{type}{correlation\_matrix}}\par
-\par\textbf{\commandlabsubarg{report}{type}{covariance\_matrix}}\par
-\par\textbf{\commandlabsubarg{report}{type}{derived\_quantity}}\par
-\par\textbf{\commandlabsubarg{report}{type}{equation\_test}}\par
-\defSub{equation} {The equation to do a test run of}
-\par\textbf{\commandlabsubarg{report}{type}{estimate\_summary}}\par
-\par\textbf{\commandlabsubarg{report}{type}{estimate\_value}}\par
-\par\textbf{\commandlabsubarg{report}{type}{estimation\_result}}\par
-\par\textbf{\commandlabsubarg{report}{type}{hessian\_matrix}}\par
-\par\textbf{\commandlabsubarg{report}{type}{initialisation\_partition}}\par
 \par\textbf{\commandlabsubarg{report}{type}{initialisation\_partition\_mean\_weight}}\par
-\par\textbf{\commandlabsubarg{report}{type}{mcmc\_covariance}}\par
-\par\textbf{\commandlabsubarg{report}{type}{mcmc\_objective}}\par
-\par\textbf{\commandlabsubarg{report}{type}{mcmc\_sample}}\par
-\par\textbf{\commandlabsubarg{report}{type}{m\_p\_d}}\par
-\par\textbf{\commandlabsubarg{report}{type}{objective\_function}}\par
-\par\textbf{\commandlabsubarg{report}{type}{observation}}\par
-\defSub{observation} {The observation label}
-\defSub{normalised\_residuals} {Print Normalised Residuals?}
-\defSub{pearsons\_residuals} {Print Pearsons Residuals?}
-\par\textbf{\commandlabsubarg{report}{type}{output\_parameters}}\par
 \par\textbf{\commandlabsubarg{report}{type}{partition}}\par
 \defSub{time\_step} {The time step label}
 \defSub{years} {The years for the report}
@@ -659,17 +479,6 @@
 \defSub{time\_step} {The time step label}
 \defSub{years} {The years for the report}
 \par\textbf{\commandlabsubarg{report}{type}{partition\_year\_cross\_age\_matrix}}\par
-\par\textbf{\commandlabsubarg{report}{type}{process}}\par
-\defSub{process} {The process label that is reported}
-\par\textbf{\commandlabsubarg{report}{type}{project}}\par
-\defSub{project} {The project label that is reported}
-\par\textbf{\commandlabsubarg{report}{type}{random\_number\_seed}}\par
-\par\textbf{\commandlabsubarg{report}{type}{selectivity}}\par
-\defSub{selectivity} {The selectivity name}
-\par\textbf{\commandlabsubarg{report}{type}{simulated\_observation}}\par
-\defSub{observation} {The observation label}
-\par\textbf{\commandlabsubarg{report}{type}{standard\_header}}\par
-\par\textbf{\commandlabsubarg{report}{type}{time\_varying}}\par
 \defComLab{selectivity}{Define an object of type \emph{selectivity}}\par\par
 \defSub{label} {The label for this selectivity}
 \defSub{type} {The type of selectivity}
@@ -678,56 +487,11 @@
 \defSub{partition\_type} {The type of partition that this selectivity will support. Defaults to the same as the model}
 \defSub{values} {}
 \defSub{length\_values} {}
-\par\textbf{\commandlabsubarg{selectivity}{type}{all\_values}}\par
-\defSub{v} {The v parameter}
-\par\textbf{\commandlabsubarg{selectivity}{type}{all\_values\_bounded}}\par
-\defSub{l} {The low value ,L,}
-\defSub{h} {The high value ,H,}
-\defSub{v} {The v parameter}
-\par\textbf{\commandlabsubarg{selectivity}{type}{constant}}\par
-\defSub{c} {The constant value}
-\par\textbf{\commandlabsubarg{selectivity}{type}{double\_exponential}}\par
-\defSub{x0} {The X0 parameter}
-\defSub{x1} {The X1 parameter}
-\defSub{x2} {The X2 parameter}
-\defSub{y0} {The Y0 parameter}
-\defSub{y1} {The Y1 parameter}
-\defSub{y2} {The Y2 parameter}
-\defSub{alpha} {alpha}
-\par\textbf{\commandlabsubarg{selectivity}{type}{double\_normal}}\par
-\defSub{mu} {The mean ,mu,}
-\defSub{sigma\_l} {The sigma L parameter}
-\defSub{sigma\_r} {The sigma R parameter}
-\defSub{alpha} {alpha}
-\par\textbf{\commandlabsubarg{selectivity}{type}{increasing}}\par
-\defSub{l} {The low value ,L,}
-\defSub{h} {The high value ,H,}
-\defSub{v} {The v parameter}
-\defSub{alpha} {alpha}
-\par\textbf{\commandlabsubarg{selectivity}{type}{inverse\_logistic}}\par
-\defSub{a50} {a50}
-\defSub{ato95} {ato95}
-\defSub{alpha} {alpha}
-\par\textbf{\commandlabsubarg{selectivity}{type}{knife\_edge}}\par
-\defSub{e} {The edge value}
-\defSub{alpha} {alpha}
-\par\textbf{\commandlabsubarg{selectivity}{type}{logistic}}\par
-\defSub{a50} {a50}
-\defSub{ato95} {ato95}
-\defSub{alpha} {alpha}
-\par\textbf{\commandlabsubarg{selectivity}{type}{logistic\_producing}}\par
-\defSub{l} {The low value ,L,}
-\defSub{h} {The high value ,H,}
-\defSub{a50} {a50}
-\defSub{ato95} {ato95}
-\defSub{alpha} {alpha}
 \defComLab{simulate}{Define an object of type \emph{simulate}}\par\par
 \defSub{label} {Label}
 \defSub{type} {Type}
 \defSub{years} {Years to recalculate the values}
 \defSub{parameter} {Parameter to simulate}
-\par\textbf{\commandlabsubarg{simulate}{type}{constant}}\par
-\defSub{value} {The value to assign to the addressable}
 \defComLab{time\_step}{Define an object of type \emph{time\_step}}\par\par
 \defSub{label} {The label of the timestep}
 \defSub{processes} {The labels of the processes for this time step in the order that they occur}
@@ -736,28 +500,3 @@
 \defSub{type} {The time-varying type}
 \defSub{years} {The years in which to vary the values}
 \defSub{parameter} {The name of the parameter to time vary}
-\par\textbf{\commandlabsubarg{time\_\_varying}{type}{annual\_shift}}\par
-\defSub{values} {The values}
-\defSub{a} {Parameter A}
-\defSub{b} {Parmeter B}
-\defSub{c} {Parameter C}
-\defSub{scaling\_years} {The scaling years}
-\par\textbf{\commandlabsubarg{time\_\_varying}{type}{constant}}\par
-\defSub{values} {The value to assign to addressable}
-\par\textbf{\commandlabsubarg{time\_\_varying}{type}{exogenous}}\par
-\defSub{a} {The shift parameter}
-\defSub{exogeneous\_variable} {The values of exogeneous variable for each year}
-\par\textbf{\commandlabsubarg{time\_\_varying}{type}{linear}}\par
-\defSub{slope} {The slope of the linear trend ,additive unit per year,}
-\defSub{intercept} {The intercept of the linear trend value for the first year}
-\par\textbf{\commandlabsubarg{time\_\_varying}{type}{random\_draw}}\par
-\defSub{mean} {The mean ,mu,}
-\defSub{sigma} {The standard deviation ,sigma,}
-\defSub{distribution} {The distribution}
-\par\textbf{\commandlabsubarg{time\_\_varying}{type}{random\_walk}}\par
-\defSub{mean} {The mean ,mu,}
-\defSub{sigma} {The standard deviation ,sigma,}
-\defSub{upper\_bound} {The upper bound for the random walk}
-\defSub{upper\_bound} {The lower bound for the random walk}
-\defSub{rho} {The autocorrelation parameter ,rho,}
-\defSub{distribution} {The distribution}
