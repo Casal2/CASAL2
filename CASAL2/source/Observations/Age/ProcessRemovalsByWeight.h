@@ -48,9 +48,12 @@ protected:
   // Members
   vector<unsigned>              years_;
   vector<double>                length_bins_;
+  vector<double>                length_bins_plus_;
   vector<double>                length_bins_n_;
   vector<double>                weight_bins_;
+  vector<double>                weight_bins_plus_;
   bool                          length_plus_ = false;
+  bool                          weight_plus_ = false;
   unsigned                      number_length_bins_ = 0;
   unsigned                      number_weight_bins_ = 0;
   double                        length_weight_cv_ = 0.0;

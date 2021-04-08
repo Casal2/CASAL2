@@ -334,6 +334,16 @@ void ProcessRemovalsByWeight::DoBuild() {
   for (unsigned i = 0; i < number_length_bins_; ++i) {
     length_weight_cv_adj[i] = length_weight_cv_ / length_bins_n_[i];
   }
+
+  // set up length bins and weight bins with an extra value based on the last two bin values
+  // for use in distribution2() with the plus group flag set to false
+  length_plus_ = false;
+  length_bins_plus_ = length_bins_;
+  length_bins_plus_.push_back(length_bins_[number_length_bins_ - 1] + (length_bins_[number_length_bins_ - 1] - length_bins_[number_length_bins_ - 2]));
+
+  weight_plus_ = false;
+  weight_bins_plus_ = weight_bins_;
+  weight_bins_plus_.push_back(weight_bins_[number_weight_bins_ - 1] + (weight_bins_[number_weight_bins_ - 1] - weight_bins_[number_weight_bins_ - 2]));
 }
 
 /**
@@ -431,7 +441,7 @@ void ProcessRemovalsByWeight::Execute() {
         LOG_FINEST() << "Mean weight at length " << length_bins_[j] << " (CVs for age " << (*category_iter)->min_age_ << "): " << mean_weight;
 
         std_dev = length_weight_cv_adj[j] * mean_weight;
-        length_weight_matrix[j] = utilities::math::distribution2(weight_bins_, true, length_weight_distribution_, mean_weight, std_dev);
+        length_weight_matrix[j] = utilities::math::distribution2(weight_bins_plus_, weight_plus_, length_weight_distribution_, mean_weight, std_dev);
         LOG_FINE() << "Fraction of weight_bin[0] at length " << length_bins_[j] << " for age " << (*category_iter)->min_age_ << ": " << length_weight_matrix[j][0] << " size " << length_weight_matrix[j].size();
         for (unsigned k = 0; k < number_weight_bins_; ++k) {
           LOG_FINEST() << "length_weight_matrix: fraction of weight " << weight_bins_[k] << " at length " << length_bins_[j] << " (CVs for age " << (*category_iter)->min_age_ << "): " << length_weight_matrix[j][k];
@@ -454,7 +464,7 @@ void ProcessRemovalsByWeight::Execute() {
         LOG_FINEST() << "Mean length at age " << age << ": " << mean_length;
 
         std_dev = age_length->cv(year, time_step, age) * mean_length;
-        age_length_matrix[data_offset] = utilities::math::distribution2(length_bins_, true, age_length->distribution(), mean_length, std_dev);
+        age_length_matrix[data_offset] = utilities::math::distribution2(length_bins_plus_, length_plus_, age_length->distribution(), mean_length, std_dev);
         LOG_FINE() << "Fraction of length_bin[0] at age " << age << ": " << age_length_matrix[data_offset][0] << " size " << age_length_matrix[data_offset].size();
         for (unsigned j = 0; j < number_length_bins_; ++j) {
           LOG_FINEST() << "age_length_matrix: fraction of length " << length_bins_[j] << " at age " << age << ": " << age_length_matrix[data_offset][j];
