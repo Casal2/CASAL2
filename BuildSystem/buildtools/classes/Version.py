@@ -19,7 +19,7 @@ class Version:
 	def __init__(self):
 		print("--> Starting Version Class")
 
-	def create_version_header(self):
+	def create_version_header(self, display_output=False):
 		print("--> Creating Version.h from Git Information")
 		
 		# Build the Version.h file
@@ -48,6 +48,9 @@ class Version:
 		version += '#define SOURCE_CONTROL_TIME "' + utc_time.strftime('%H:%M:%S') + '"\n'
 		version += '#define SOURCE_CONTROL_VERSION "' + utc_time.strftime('%Y-%m-%d %H:%M:%S %Z') + ' (rev. ' + lines[1] + ')"\n'
 		version += '#endif\n'
+
+		if display_output:
+			print(version)
 
 		fo = open('../CASAL2/source/Version.h', 'w')
 		fo.write(version)

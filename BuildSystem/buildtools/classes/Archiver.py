@@ -49,7 +49,6 @@ class Archiver:
       print('-- Re-Entering the build system to build a release library')
       print('-- All output is being diverted to release_build.log')
       result = os.system(self.do_build_ + ' library release > release_build.log 2>&1')
-      print(f"Result was: {result}")
       if result != EX_OK:
         return Globals.PrintError('Failed to build release library. Please check release_build.log for the error')
       os.system('rm -rf release_build.log')

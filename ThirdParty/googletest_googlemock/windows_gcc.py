@@ -42,7 +42,7 @@ class Builder:
     # Build 
     print('-- Building - check ' + gmockFileName +'/make/casal2_build.log')
     os.chdir(gmockFileName + '/googlemock')
-    os.system('cmake -G "MinGW Makefiles"')
+    os.system('cmake -G "Unix Makefiles"')
     os.system("mingw32-make 1> casal2_build.log 2>&1")
         
     # Move our headers and libraries

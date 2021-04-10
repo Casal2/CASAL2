@@ -274,7 +274,7 @@ class SystemInfo:
     if Globals.compiler_ == "clang":
       Globals.cmake_compiler_ = '-DOUTPUT_PATH:STRING=windows_clang'
     elif Globals.compiler_ == "gcc" and Globals.operating_system_ == "windows":
-      Globals.cmake_compiler_ = '-G "MinGW Makefiles" -DOUTPUT_PATH:STRING=windows_gcc'
+      Globals.cmake_compiler_ = '-G "Unix Makefiles" -DOUTPUT_PATH:STRING=windows_gcc'
     elif Globals.compiler_ == "gcc" and Globals.operating_system_ == "linux":
       Globals.cmake_compiler_ = '-G "Unix Makefiles" -DOUTPUT_PATH:STRING=linux_gcc'
     elif Globals.compiler_ == "msvc":

@@ -27,7 +27,8 @@ threads_                  = 0 # This is taken from CASAL2_BUILD_THREADS environm
 
 allowed_build_targets_ = [ "debug", "release", "documentation", "thirdparty", "thirdpartylean",
                            "test", "archive", "all", "clean", "cleanall", "help", "library",
-                           "check", "modelrunner", "installer", "deb", "rlibrary", "frontend"]
+                           "check", "modelrunner", "installer", "deb", "rlibrary", "frontend",
+                           "version" ]
 allowed_build_types_ = [ "debug", "release", "test" ]
 allowed_build_parameters_ = [ "", "adolc", "betadiff", "cppad" ]
 allowed_library_parameters_ = [ "release", "test", "adolc", "betadiff", "cppad" ]

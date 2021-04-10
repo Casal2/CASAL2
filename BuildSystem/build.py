@@ -91,6 +91,11 @@ def start():
 			return Globals.PrintError('Building linux .deb under Windows is not supported')
 		deb_builder = DebBuilder()
 		return deb_builder.start(build_parameters)
+	
+	elif build_target == "version":
+		version = Version()
+		version.create_version_header(display_output=True)
+
 	return False # Default return from this, we didn't find a run mode
   
 """
