@@ -7,7 +7,7 @@
 
 #include "CorrelationMatrix.h"
 
-#include "Minimisers/Manager.h"
+#include "../../Minimisers/Manager.h"
 
 namespace niwa {
 namespace reports {
@@ -16,7 +16,7 @@ namespace ublas = boost::numeric::ublas;
 /**
  * Default constructor
  */
-CorrelationMatrix::CorrelationMatrix(Model* model) : Report(model) {
+CorrelationMatrix::CorrelationMatrix() {
   run_mode_    = (RunMode::Type)(RunMode::kEstimation | RunMode::kMCMC);
   model_state_ = State::kFinalise;
 }
@@ -24,12 +24,12 @@ CorrelationMatrix::CorrelationMatrix(Model* model) : Report(model) {
 /**
  * Execute the report
  */
-void CorrelationMatrix::DoExecute() {
+void CorrelationMatrix::DoExecute(shared_ptr<Model> model) {
   LOG_TRACE();
   /*
    * This reports the covariance, correlation and Hessian matrix
    */
-  auto minimiser_ = model_->managers().minimiser()->active_minimiser();
+  auto minimiser_ = model->managers()->minimiser()->active_minimiser();
   if (!minimiser_)
     return;
 
@@ -42,7 +42,6 @@ void CorrelationMatrix::DoExecute() {
       cache_ << correlation_matrix_(i, j) << " ";
     cache_ << "\n";
   }
-
   ready_for_writing_ = true;
 }
 

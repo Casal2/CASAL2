@@ -15,7 +15,7 @@
 #include "Categories/Categories.h"
 #include "Selectivities/Manager.h"
 #include "Penalties/Manager.h"
-#include "Utilities/DoubleCompare.h"
+#include "../../Utilities/Math.h"
 
 // namespaces
 namespace niwa {
@@ -25,7 +25,7 @@ namespace age {
 /**
  * Default constructor
  */
-TagByAge::TagByAge(Model* model)
+TagByAge::TagByAge(shared_ptr<Model> model)
   : Process(model),
     to_partition_(model),
     from_partition_(model) {
@@ -42,7 +42,7 @@ TagByAge::TagByAge(Model* model)
   parameters_.Bind<string>(PARAM_PENALTY, &penalty_label_, "The penalty label", "", "");
   parameters_.Bind<Double>(PARAM_U_MAX, &u_max_, "The maximum exploitation rate ($U_{max}$)", "", 0.99)->set_range(0.0, 1.0);
   parameters_.Bind<unsigned>(PARAM_YEARS, &years_, "The years to execute the transition in", "");
-  parameters_.Bind<double>(PARAM_INITIAL_MORTALITY, &initial_mortality_, "The initial mortality value", "", 0.0)->set_lower_bound(0.0);
+  parameters_.Bind<Double>(PARAM_INITIAL_MORTALITY, &initial_mortality_, "The initial mortality value", "", 0.0)->set_lower_bound(0.0);
   parameters_.Bind<string>(PARAM_INITIAL_MORTALITY_SELECTIVITY, &initial_mortality_selectivity_label_, "The initial mortality selectivity label", "", "");
   parameters_.Bind<Double>(PARAM_LOSS_RATE, &loss_rate_, "The loss rate", "");
   parameters_.Bind<string>(PARAM_LOSS_RATE_SELECTIVITIES, &loss_rate_selectivity_labels_, "The loss rate selectivity label", "", true);
@@ -89,10 +89,10 @@ void TagByAge::DoValidate() {
   if (loss_rate_.size() == 1) {
     auto val_l = loss_rate_[0];
     loss_rate_.assign(from_category_labels_.size(), val_l);
-    loss_rate_by_category_ = utilities::Map<Double>::create(from_category_labels_, loss_rate_);
+    loss_rate_by_category_ = utilities::Map::create(from_category_labels_, loss_rate_);
 
   } else if (loss_rate_.size() == from_category_labels_.size()) {
-    loss_rate_by_category_ = utilities::Map<Double>::create(from_category_labels_, loss_rate_);
+    loss_rate_by_category_ = utilities::Map::create(from_category_labels_, loss_rate_);
 
   } else {
     LOG_ERROR_P(PARAM_LOSS_RATE) << " the number provided (" << loss_rate_.size() << " does not match the number of " << PARAM_FROM << " categories ("
@@ -137,7 +137,7 @@ void TagByAge::DoValidate() {
         LOG_ERROR_P(PARAM_NUMBERS) << " value (" << iter[0] << ") could not be converted to an unsigned integer";
       for (unsigned i = 1; i < iter.size(); ++i) {
         if (!utilities::To<Double>(iter[i], n_value))
-          LOG_ERROR_P(PARAM_NUMBERS) << " value (" << iter[i] << ") could not be converted to a double";
+          LOG_ERROR_P(PARAM_NUMBERS) << " value (" << iter[i] << ") could not be converted to a Double";
         if (numbers_[year].size() == 0)
           numbers_[year].resize(age_spread, 0.0);
         numbers_[year][i - 1] = n_value;
@@ -176,7 +176,7 @@ void TagByAge::DoValidate() {
     else if (n_.size() != years_.size())
       LOG_ERROR_P(PARAM_N) << "The number of values provided (" << n_.size() << ") does not match the number of years (" << years_.size() << ")";
 
-    map<unsigned, Double> n_by_year = utilities::Map<Double>::create(years_, n_);
+    map<unsigned, Double> n_by_year = utilities::Map::create(years_, n_);
 
     // load our table data in to our map
     vector<vector<string>> data = proportions_table_->data();
@@ -188,13 +188,13 @@ void TagByAge::DoValidate() {
       Double total_proportion = 0.0;
       for (unsigned i = 1; i < iter.size(); ++i) {
         if (!utilities::To<Double>(iter[i], proportion))
-          LOG_ERROR_P(PARAM_PROPORTIONS) << " value (" << iter[i] << ") could not be converted to a double";
+          LOG_ERROR_P(PARAM_PROPORTIONS) << " value (" << iter[i] << ") could not be converted to a Double";
         if (numbers_[year].size() == 0)
           numbers_[year].resize(age_spread, 0.0);
         numbers_[year][i - 1] = n_by_year[year] * proportion;
         total_proportion += proportion;
       }
-      if (!utilities::doublecompare::IsOne(total_proportion))
+      if (!utilities::math::IsOne(total_proportion))
         LOG_ERROR_P(PARAM_PROPORTIONS) << " total proportion (" << total_proportion << ") is not 1.0 for year " << year;
     }
 
@@ -213,11 +213,11 @@ void TagByAge::DoBuild() {
   to_partition_.Init(to_category_labels_);
 
   if (penalty_label_ != "")
-    penalty_ = model_->managers().penalty()->GetPenalty(penalty_label_);
+    penalty_ = model_->managers()->penalty()->GetPenalty(penalty_label_);
   else
     LOG_WARNING() << location() << "No penalty has been specified. Exploitation above u_max will not affect the objective function";
 
-  selectivities::Manager& selectivity_manager = *model_->managers().selectivity();
+  selectivities::Manager& selectivity_manager = *model_->managers()->selectivity();
   for (unsigned i = 0; i < selectivity_labels_.size(); ++i) {
     Selectivity* selectivity = selectivity_manager.GetSelectivity(selectivity_labels_[i]);
     if (!selectivity)
@@ -317,7 +317,7 @@ void TagByAge::DoExecute() {
       Double current = numbers_[current_year][i] *
           ((*from_iter)->data_[offset] * selectivities_[category_label]->GetAgeResult(min_age_ + offset, (*from_iter)->age_length_) / total_stock_with_selectivities);
 
-      Double exploitation = current / utilities::doublecompare::ZeroFun((*from_iter)->data_[offset] * selectivities_[category_label]->GetAgeResult(min_age_ + offset, (*from_iter)->age_length_));
+      Double exploitation = current / utilities::math::ZeroFun((*from_iter)->data_[offset] * selectivities_[category_label]->GetAgeResult(min_age_ + offset, (*from_iter)->age_length_));
       if (exploitation > u_max_) {
         LOG_FINE() << "Exploitation(" << exploitation << ") triggered u_max(" << u_max_ << ") with current(" << current << ")";
 

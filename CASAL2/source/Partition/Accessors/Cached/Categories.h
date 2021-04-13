@@ -21,9 +21,9 @@
 #include <vector>
 #include <string>
 
-#include "Model/Model.h"
-#include "Partition/Partition.h"
-#include "Utilities/Types.h"
+#include "../../../Model/Model.h"
+#include "../../../Partition/Partition.h"
+#include "../../../Utilities/Types.h"
 
 // Namespaces
 namespace niwa {
@@ -46,8 +46,8 @@ public:
   typedef vector<partition::Category> DataType;
 
   // Methods
-  Categories() = delete;
-  explicit Categories(Model* model);
+  Categories() = default;
+  explicit Categories(shared_ptr<Model> model);
   virtual                     ~Categories() = default;
   void                        Init(const vector<string>& category_labels);
   void                        BuildCache();
@@ -57,7 +57,7 @@ public:
 
 private:
   // Members
-  Model*                      model_;
+  shared_ptr<Model>           model_;
   vector<string>              category_labels_;
   DataType                    data_;
 };

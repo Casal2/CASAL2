@@ -37,7 +37,7 @@ using partition::accessors::cached::CachedCombinedCategoriesPtr;
 class ProportionsMatureByAge : public niwa::Observation {
 public:
   // Methods
-  explicit ProportionsMatureByAge(Model* model);
+  explicit ProportionsMatureByAge(shared_ptr<Model> model);
   virtual                     ~ProportionsMatureByAge();
   void                        DoValidate() override final;
   void                        DoBuild() override final;
@@ -55,7 +55,7 @@ protected:
   bool                          plus_group_ = false;
   unsigned                      age_spread_ = 0;
   parameters::Table*            obs_table_ = nullptr;
-  double                        tolerance_ = 0.0;
+  Double                        tolerance_ = 0.0;
   vector<Double>                process_error_values_;
   map<unsigned, Double>         process_errors_by_year_;
   string                        ageing_error_label_;
@@ -65,7 +65,7 @@ protected:
   vector<string>                total_category_labels_;
   CachedCombinedCategoriesPtr   total_cached_partition_;
   CombinedCategoriesPtr         total_partition_;
-  double                        time_step_proportion_;
+  Double                        time_step_proportion_;
   AgeingError*                  ageing_error_ = nullptr;
   vector<Double>                age_results_;
   string                        time_step_label_ = "";

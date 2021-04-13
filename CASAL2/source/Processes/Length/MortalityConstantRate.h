@@ -5,7 +5,7 @@
  * @date 20/12/2012
  * @section LICENSE
  *
- * Copyright NIWA Science ©2012 - www.niwa.co.nz
+ * Copyright NIWA Science ï¿½2012 - www.niwa.co.nz
  *
  * @section DESCRIPTION
  *
@@ -18,9 +18,9 @@
 #define LENGTH_MORTALITYCONSTANTRATE_H_
 
 // Headers
-#include "Partition/Accessors/Categories.h"
-#include "Processes/Process.h"
-#include "Utilities/Types.h"
+#include "../../Partition/Accessors/Categories.h"
+#include "../../Processes/Process.h"
+#include "../../Utilities/Types.h"
 
 // namespaces
 namespace niwa {
@@ -35,7 +35,7 @@ using utilities::OrderedMap;
 class MortalityConstantRate : public niwa::Process {
 public:
   // Methods
-  MortalityConstantRate(Model* model);
+  MortalityConstantRate(shared_ptr<Model> model);
   virtual                     ~MortalityConstantRate() = default;
   void                        DoValidate() override final;
   void                        DoBuild() override final;
@@ -47,8 +47,8 @@ private:
   vector<string>              category_labels_;
   vector<Double>              m_input_;
   OrderedMap<string, Double>  m_;
-  vector<double>              ratios_;
-  map<unsigned, double>       time_step_ratios_;
+  vector<Double>              ratios_;
+  map<unsigned, Double>       time_step_ratios_;
   vector<vector<Double>>      mortality_rates_;
 //  vector<string>              selectivity_names_;
   accessor::Categories        partition_;

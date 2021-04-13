@@ -19,7 +19,7 @@
 #define AGE_REPORTS_PARTITION_YEARCROSSAGEMATRIX_H_
 
 // Headers
-#include "Reports/Report.h"
+#include "../../Reports/Report.h"
 
 // Namespaces
 namespace niwa {
@@ -31,14 +31,14 @@ namespace age {
  */
 class Partition_YearCrossAgeMatrix : public niwa::Report {
 public:
-  Partition_YearCrossAgeMatrix(Model* model);
+  Partition_YearCrossAgeMatrix();
   virtual                     ~Partition_YearCrossAgeMatrix() = default;
-  void                        DoValidate() override final;
-  void                        DoBuild() override final { };
-  void                        DoExecute() override final;
-  void                        DoExecuteTabular() override final { };
-  void                        DoPrepare();
-  void                        DoFinalise();
+  void                        DoValidate(shared_ptr<Model> model) final;
+  void                        DoBuild(shared_ptr<Model> model) final { };
+  void                        DoExecute(shared_ptr<Model> model) final;
+  void                        DoExecuteTabular(shared_ptr<Model> model) final { };
+  void                        DoPrepare(shared_ptr<Model> model) final;
+  void                        DoFinalise(shared_ptr<Model> model) final;
 };
 
 } /* namespace age */

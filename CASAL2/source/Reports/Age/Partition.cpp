@@ -5,7 +5,7 @@
  * @date 13/02/2013
  * @section LICENSE
  *
- * Copyright NIWA Science ©2013 - www.niwa.co.nz
+ * Copyright NIWA Science ï¿½2013 - www.niwa.co.nz
  *
  * $Date: 2008-03-04 16:33:32 +1300 (Tue, 04 Mar 2008) $
  */
@@ -16,8 +16,8 @@
 #include <iostream>
 #include <iomanip>
 
-#include "Model/Model.h"
-#include "Partition/Accessors/All.h"
+#include "../../Model/Model.h"
+#include "../../Partition/Accessors/All.h"
 
 // Namespaces
 namespace niwa {
@@ -27,46 +27,42 @@ namespace age {
 /**
  * Default constructor
  */
-Partition::Partition(Model* model) : Report(model) {
+Partition::Partition() {
   run_mode_    = (RunMode::Type)(RunMode::kBasic | RunMode::kProjection);
   model_state_ = State::kExecute;
 
-  parameters_.Bind<string>(PARAM_TIME_STEP, &time_step_, "The time step label", "", "");
-  parameters_.Bind<unsigned>(PARAM_YEARS, &years_, "The years for the report", "", true);
+  parameters_.Bind<string>(PARAM_TIME_STEP, &time_step_, "Time Step label", "", "");
+  parameters_.Bind<unsigned>(PARAM_YEARS, &years_, "Years", "", true);
 }
 
-/**
- * Validate
- */
-void Partition::DoValidate() {
+void Partition::DoValidate(shared_ptr<Model> model) {
  if (!parameters_.Get(PARAM_YEARS)->has_been_defined()) {
-   years_ = model_->years();
+   years_ = model->years();
  }
 }
-
 /**
  * Execute the report
  */
-void Partition::DoExecute() {
-  //cerr << "execute " << label_ << "\n";
+void Partition::DoExecute(shared_ptr<Model> model) {
+	LOG_TRACE();
   // First, figure out the lowest and highest ages/length
   unsigned lowest         = 9999;
   unsigned highest        = 0;
   unsigned longest_length = 0;
 
-  niwa::partition::accessors::All all_view(model_);
-  for (auto iterator = all_view.Begin(); iterator != all_view.End(); ++iterator) {
-    if (lowest > (*iterator)->min_age_)
-      lowest = (*iterator)->min_age_;
-    if (highest < (*iterator)->max_age_)
-      highest = (*iterator)->max_age_;
-    if (longest_length < (*iterator)->name_.length())
-      longest_length = (*iterator)->name_.length();
+  niwa::partition::accessors::All all_view(model);
+  for (auto iterator : all_view) {
+    if (lowest > iterator->min_age_)
+      lowest = iterator->min_age_;
+    if (highest < iterator->max_age_)
+      highest = iterator->max_age_;
+    if (longest_length < iterator->name_.length())
+      longest_length = iterator->name_.length();
   }
 
   // Print the header
   cache_ << "*"<< type_ << "[" << label_ << "]" << "\n";
-  cache_ << "year: " << model_->current_year() << "\n";
+  cache_ << "year: " << model->current_year() << "\n";
   cache_ << "time_step: " << time_step_ << "\n";
   cache_ << "values "<< REPORT_R_DATAFRAME_ROW_LABELS<<"\n";
   cache_ << "category";
@@ -74,19 +70,19 @@ void Partition::DoExecute() {
     cache_ << " " << i;
   cache_ << "\n";
 
-  for (auto iterator = all_view.Begin(); iterator != all_view.End(); ++iterator) {
-    cache_ << (*iterator)->name_;
-    unsigned age = (*iterator)->min_age_;
-    for (auto values = (*iterator)->data_.begin(); values != (*iterator)->data_.end(); ++values, age++) {
+  for (auto iterator : all_view) {
+    cache_ << iterator->name_;
+    unsigned age = iterator->min_age_;
+    for (auto value : iterator->data_) {
       if (age >= lowest && age <= highest) {
-        Double value = *values;
-        cache_ << " " << std::fixed << AS_VALUE(value);
+        cache_ << " " << std::fixed << AS_DOUBLE(value);
       } else
         cache_ << " " << "null";
+
+      ++age;
     }
     cache_ << "\n";
   }
-
   ready_for_writing_ = true;
 }
 

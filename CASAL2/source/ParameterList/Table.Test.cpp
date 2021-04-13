@@ -15,13 +15,13 @@
 
 #include <iostream>
 
-#include "Categories/Categories.h"
-#include "Model/Factory.h"
-#include "TimeSteps/Manager.h"
-#include "Partition/Partition.h"
-#include "TestResources/TestFixtures/BasicModel.h"
-#include "TestResources/MockClasses/Managers.h"
-#include "TestResources/MockClasses/Model.h"
+#include "../Categories/Categories.h"
+#include "../Model/Factory.h"
+#include "../TimeSteps/Manager.h"
+#include "../Partition/Partition.h"
+#include "../TestResources/TestFixtures/BasicModel.h"
+#include "../TestResources/MockClasses/Managers.h"
+#include "../TestResources/MockClasses/Model.h"
 
 // Namespaces
 namespace niwa {
@@ -36,7 +36,7 @@ using ::testing::NiceMock;
  */
 class MockCategories : public Categories {
 public:
-  MockCategories(Model* model) : Categories(model) {
+  MockCategories(shared_ptr<Model> model) : Categories(model) {
     vector<string> names;
     vector<string> sexes  = { "male", "female" };
     vector<string> stages = { "immature", "mature" };
@@ -62,13 +62,13 @@ public:
  * Check that we can create a partition table and add columns without error
  */
 TEST(Parameters, Table_Create) {
-  MockModel model;
+  shared_ptr<MockModel> model = shared_ptr<MockModel>(new MockModel());
 
   vector<string> columns = {"col1", "col2", "col3"};
 
   Table table("my_table");
   EXPECT_NO_THROW(table.AddColumns(columns));
-  EXPECT_NO_THROW(table.Populate(&model));
+  EXPECT_NO_THROW(table.Populate(model));
 }
 
 /**
@@ -89,14 +89,14 @@ TEST(Parameters, Table_Populate_Fail) {
  *
  */
 TEST(Parameters, Table_Populate_Categories) {
-  MockModel model;
-  MockCategories categories(&model);
+  shared_ptr<MockModel> model = shared_ptr<MockModel>(new MockModel());
+  MockCategories categories(model);
 
-  model.bind_calls();
+  model->bind_calls();
 
   ASSERT_NO_THROW(categories.Validate());
 
-  EXPECT_CALL(model, categories()).WillRepeatedly(Return(&categories));
+  EXPECT_CALL(*model, categories()).WillRepeatedly(Return(&categories));
 
   vector<string> columns = {"category", "col2", "col3"};
   vector<string> row1 = { "male.immature.notag", "x", "x" };
@@ -109,7 +109,7 @@ TEST(Parameters, Table_Populate_Categories) {
   EXPECT_NO_THROW(table.AddRow(row2));
   EXPECT_NO_THROW(table.AddRow(row3));
 
-  EXPECT_NO_THROW(table.Populate(&model));
+  EXPECT_NO_THROW(table.Populate(model));
 }
 
 /**
@@ -120,13 +120,13 @@ TEST(Parameters, Table_Populate_Categories) {
  * This method will detect the invalid category "male" and throw an exception
  */
 TEST(Parameters, Table_Populate_Categories_Fail) {
-  MockModel model;
-  MockCategories categories(&model);
+  shared_ptr<MockModel> model = shared_ptr<MockModel>(new MockModel());
+  MockCategories categories(model);
 
-  model.bind_calls();
+  model->bind_calls();
   ASSERT_NO_THROW(categories.Validate());
 
-  EXPECT_CALL(model, categories()).WillRepeatedly(Return(&categories));
+  EXPECT_CALL(*model, categories()).WillRepeatedly(Return(&categories));
 
   vector<string> columns = {"category", "col2", "col3"};
   vector<string> row1 = { "male.immature.notag", "x", "x" };
@@ -139,7 +139,7 @@ TEST(Parameters, Table_Populate_Categories_Fail) {
   EXPECT_NO_THROW(table.AddRow(row2));
   EXPECT_NO_THROW(table.AddRow(row3));
 
-  EXPECT_THROW(table.Populate(&model), std::string);
+  EXPECT_THROW(table.Populate(model), std::string);
 }
 
 /**
@@ -152,13 +152,13 @@ TEST(Parameters, Table_Populate_Categories_Fail) {
  * so the final table will have more rows with 1 category per row.
  */
 TEST(Parameters, Table_Populate_Shorthand_Categories) {
-  MockModel model;
-  MockCategories categories(&model);
+  shared_ptr<MockModel> model = shared_ptr<MockModel>(new MockModel());
+  MockCategories categories(model);
 
-  model.bind_calls();
+  model->bind_calls();
   ASSERT_NO_THROW(categories.Validate());
 
-  EXPECT_CALL(model, categories()).WillRepeatedly(Return(&categories));
+  EXPECT_CALL(*model, categories()).WillRepeatedly(Return(&categories));
 
   vector<string> columns = {"category", "col2", "col3"};
   vector<string> row1 = { "male.immature.notag", "x", "x" };
@@ -171,7 +171,7 @@ TEST(Parameters, Table_Populate_Shorthand_Categories) {
   EXPECT_NO_THROW(table.AddRow(row2));
   EXPECT_NO_THROW(table.AddRow(row3));
 
-  EXPECT_NO_THROW(table.Populate(&model));
+  EXPECT_NO_THROW(table.Populate(model));
   EXPECT_EQ(6u, table.row_count());
 }
 
@@ -189,13 +189,13 @@ TEST(Parameters, Table_Populate_Shorthand_Categories) {
  * not a valid category
  */
 TEST(Parameters, Table_Populate_Shorthand_Categories_Fail) {
-  MockModel model;
-  MockCategories categories(&model);
+  shared_ptr<MockModel> model = shared_ptr<MockModel>(new MockModel());
+  MockCategories categories(model);
 
-  model.bind_calls();
+  model->bind_calls();
   ASSERT_NO_THROW(categories.Validate());
 
-  EXPECT_CALL(model, categories()).WillRepeatedly(Return(&categories));
+  EXPECT_CALL(*model, categories()).WillRepeatedly(Return(&categories));
 
   vector<string> columns = {"category", "col2", "col3"};
   vector<string> row1 = { "male.immature.notag", "x", "x" };
@@ -208,7 +208,7 @@ TEST(Parameters, Table_Populate_Shorthand_Categories_Fail) {
   EXPECT_NO_THROW(table.AddRow(row2));
   EXPECT_NO_THROW(table.AddRow(row3));
 
-  EXPECT_THROW(table.Populate(&model), std::string);
+  EXPECT_THROW(table.Populate(model), std::string);
 }
 
 /**
@@ -216,13 +216,13 @@ TEST(Parameters, Table_Populate_Shorthand_Categories_Fail) {
  * provided are checked and passes.
  */
 TEST(Parameters, Table_Required_Columns) {
-  MockModel model;
-  MockCategories categories(&model);
+  shared_ptr<MockModel> model = shared_ptr<MockModel>(new MockModel());
+  MockCategories categories(model);
 
-  model.bind_calls();
+  model->bind_calls();
   ASSERT_NO_THROW(categories.Validate());
 
-  EXPECT_CALL(model, categories()).WillRepeatedly(Return(&categories));
+  EXPECT_CALL(*model, categories()).WillRepeatedly(Return(&categories));
 
   vector<string> columns = {"category", "col2", "col3"};
   vector<string> required_columns = {"category", "col2", "col3"};
@@ -237,7 +237,7 @@ TEST(Parameters, Table_Required_Columns) {
   EXPECT_NO_THROW(table.AddRow(row2));
   EXPECT_NO_THROW(table.AddRow(row3));
 
-  EXPECT_NO_THROW(table.Populate(&model));
+  EXPECT_NO_THROW(table.Populate(model));
 }
 
 /**
@@ -248,13 +248,13 @@ TEST(Parameters, Table_Required_Columns) {
  * columns in the table's header row
  */
 TEST(Parameters, Table_Required_Columns_Fail) {
-  MockModel model;
-  MockCategories categories(&model);
+  shared_ptr<MockModel> model = shared_ptr<MockModel>(new MockModel());
+  MockCategories categories(model);
 
-  model.bind_calls();
+  model->bind_calls();
   ASSERT_NO_THROW(categories.Validate());
 
-  EXPECT_CALL(model, categories()).WillRepeatedly(Return(&categories));
+  EXPECT_CALL(*model, categories()).WillRepeatedly(Return(&categories));
 
   vector<string> columns = { "category" };
   vector<string> required_columns = { "category", "col2", "col3" };
@@ -269,7 +269,7 @@ TEST(Parameters, Table_Required_Columns_Fail) {
   EXPECT_NO_THROW(table.AddRow(row2));
   EXPECT_NO_THROW(table.AddRow(row3));
 
-  EXPECT_THROW(table.Populate(&model), std::string);
+  EXPECT_THROW(table.Populate(model), std::string);
 }
 
 /**
@@ -278,13 +278,13 @@ TEST(Parameters, Table_Required_Columns_Fail) {
  *
  */
 TEST(Parameters, Table_Extra_Columns) {
-  MockModel model;
-  MockCategories categories(&model);
+  shared_ptr<MockModel> model = shared_ptr<MockModel>(new MockModel());
+  MockCategories categories(model);
 
-  model.bind_calls();
+  model->bind_calls();
   ASSERT_NO_THROW(categories.Validate());
 
-  EXPECT_CALL(model, categories()).WillRepeatedly(Return(&categories));
+  EXPECT_CALL(*model, categories()).WillRepeatedly(Return(&categories));
 
   vector<string> columns = {"category", "col2", "col3"};
   vector<string> required_columns = {"category", "col2", "col3", "col4", "col5"};
@@ -299,7 +299,7 @@ TEST(Parameters, Table_Extra_Columns) {
   EXPECT_NO_THROW(table.AddRow(row2));
   EXPECT_NO_THROW(table.AddRow(row3));
 
-  EXPECT_THROW(table.Populate(&model), std::string);
+  EXPECT_THROW(table.Populate(model), std::string);
 }
 
 /**
@@ -309,13 +309,13 @@ TEST(Parameters, Table_Extra_Columns) {
  *
  */
 TEST(Parameters, Table_Optional_Columns) {
-  MockModel model;
-  MockCategories categories(&model);
+  shared_ptr<MockModel> model = shared_ptr<MockModel>(new MockModel());
+  MockCategories categories(model);
 
-  model.bind_calls();
+  model->bind_calls();
   ASSERT_NO_THROW(categories.Validate());
 
-  EXPECT_CALL(model, categories()).WillRepeatedly(Return(&categories));
+  EXPECT_CALL(*model, categories()).WillRepeatedly(Return(&categories));
 
   vector<string> columns = {"category", "year", "values"};
   vector<string> required_columns = {"category", "year"};
@@ -332,7 +332,7 @@ TEST(Parameters, Table_Optional_Columns) {
   EXPECT_NO_THROW(table.AddRow(row2));
   EXPECT_NO_THROW(table.AddRow(row3));
 
-  EXPECT_NO_THROW(table.Populate(&model));
+  EXPECT_NO_THROW(table.Populate(model));
 }
 
 /**
@@ -344,13 +344,13 @@ TEST(Parameters, Table_Optional_Columns) {
  * or required columns list and we have allow_others as False.
  */
 TEST(Parameters, Table_Optional_Columns_Fail) {
-  MockModel model;
-  MockCategories categories(&model);
+  shared_ptr<MockModel> model = shared_ptr<MockModel>(new MockModel());
+  MockCategories categories(model);
 
-  model.bind_calls();
+  model->bind_calls();
   ASSERT_NO_THROW(categories.Validate());
 
-  EXPECT_CALL(model, categories()).WillRepeatedly(Return(&categories));
+  EXPECT_CALL(*model, categories()).WillRepeatedly(Return(&categories));
 
   vector<string> columns = {"category", "year", "values"};
   vector<string> required_columns = {"category", "year"};
@@ -367,20 +367,20 @@ TEST(Parameters, Table_Optional_Columns_Fail) {
   EXPECT_NO_THROW(table.AddRow(row2));
   EXPECT_NO_THROW(table.AddRow(row3));
 
-  EXPECT_THROW(table.Populate(&model), std::string);
+  EXPECT_THROW(table.Populate(model), std::string);
 }
 
 /**
  * Check adding some valid categories will work and they'll be detected.
  */
 TEST(Parameters, Table_CheckColumnType_Unsigned_And_Double) {
-  MockModel model;
-  MockCategories categories(&model);
+  shared_ptr<MockModel> model = shared_ptr<MockModel>(new MockModel());
+  MockCategories categories(model);
 
-  model.bind_calls();
+  model->bind_calls();
   ASSERT_NO_THROW(categories.Validate());
 
-  EXPECT_CALL(model, categories()).WillRepeatedly(Return(&categories));
+  EXPECT_CALL(*model, categories()).WillRepeatedly(Return(&categories));
 
   vector<string> columns = {"category", "year", "value" };
   vector<string> row1 = { "male.immature.notag", "1990", "1.0" };
@@ -393,7 +393,7 @@ TEST(Parameters, Table_CheckColumnType_Unsigned_And_Double) {
   EXPECT_NO_THROW(table.AddRow(row2));
   EXPECT_NO_THROW(table.AddRow(row3));
 
-  EXPECT_NO_THROW(table.Populate(&model));
+  EXPECT_NO_THROW(table.Populate(model));
 
   EXPECT_NO_THROW(table.CheckColumnValuesAreType<unsigned>("year"));
   EXPECT_NO_THROW(table.CheckColumnValuesAreType<double>("value"));
@@ -403,13 +403,13 @@ TEST(Parameters, Table_CheckColumnType_Unsigned_And_Double) {
  * Check adding some valid categories will work and they'll be detected.
  */
 TEST(Parameters, Table_CheckColumnType_Unsigned_Fail) {
-  MockModel model;
-  MockCategories categories(&model);
+  shared_ptr<MockModel> model = shared_ptr<MockModel>(new MockModel());
+  MockCategories categories(model);
 
-  model.bind_calls();
+  model->bind_calls();
   ASSERT_NO_THROW(categories.Validate());
 
-  EXPECT_CALL(model, categories()).WillRepeatedly(Return(&categories));
+  EXPECT_CALL(*model, categories()).WillRepeatedly(Return(&categories));
 
   vector<string> columns = {"category", "yearx", "value" }; // Cannot use year as it's reserved
   vector<string> row1 = { "male.immature.notag", "1990", "1.0" };
@@ -422,7 +422,7 @@ TEST(Parameters, Table_CheckColumnType_Unsigned_Fail) {
   EXPECT_NO_THROW(table.AddRow(row2));
   EXPECT_NO_THROW(table.AddRow(row3));
 
-  EXPECT_NO_THROW(table.Populate(&model));
+  EXPECT_NO_THROW(table.Populate(model));
 
   EXPECT_THROW(table.CheckColumnValuesAreType<unsigned>("yearx"), std::string);
   EXPECT_NO_THROW(table.CheckColumnValuesAreType<double>("value"));
@@ -432,13 +432,13 @@ TEST(Parameters, Table_CheckColumnType_Unsigned_Fail) {
  * Check adding some valid categories will work and they'll be detected.
  */
 TEST(Parameters, Table_CheckColumnType_Double_Fail) {
-  MockModel model;
-  MockCategories categories(&model);
+  shared_ptr<MockModel> model = shared_ptr<MockModel>(new MockModel());
+  MockCategories categories(model);
 
-  model.bind_calls();
+  model->bind_calls();
   ASSERT_NO_THROW(categories.Validate());
 
-  EXPECT_CALL(model, categories()).WillRepeatedly(Return(&categories));
+  EXPECT_CALL(*model, categories()).WillRepeatedly(Return(&categories));
 
   vector<string> columns = {"category", "year", "value" };
   vector<string> row1 = { "male.immature.notag", "1990", "1.0" };
@@ -451,7 +451,7 @@ TEST(Parameters, Table_CheckColumnType_Double_Fail) {
   EXPECT_NO_THROW(table.AddRow(row2));
   EXPECT_NO_THROW(table.AddRow(row3));
 
-  EXPECT_NO_THROW(table.Populate(&model));
+  EXPECT_NO_THROW(table.Populate(model));
 
   EXPECT_NO_THROW(table.CheckColumnValuesAreType<unsigned>("year"));
   EXPECT_THROW(table.CheckColumnValuesAreType<double>("value"), std::string);
@@ -461,13 +461,13 @@ TEST(Parameters, Table_CheckColumnType_Double_Fail) {
  * Check adding some valid categories will work and they'll be detected.
  */
 TEST(Parameters, Table_CheckColumnContains_Categories) {
-  MockModel model;
-  MockCategories categories(&model);
+  shared_ptr<MockModel> model = shared_ptr<MockModel>(new MockModel());
+  MockCategories categories(model);
 
-  model.bind_calls();
+  model->bind_calls();
   ASSERT_NO_THROW(categories.Validate());
 
-  EXPECT_CALL(model, categories()).WillRepeatedly(Return(&categories));
+  EXPECT_CALL(*model, categories()).WillRepeatedly(Return(&categories));
 
   vector<string> columns = {"category", "year", "value" };
   vector<string> row1 = { "male.immature.notag", "1990", "1.0" };
@@ -480,7 +480,7 @@ TEST(Parameters, Table_CheckColumnContains_Categories) {
   EXPECT_NO_THROW(table.AddRow(row2));
   EXPECT_NO_THROW(table.AddRow(row3));
 
-  EXPECT_NO_THROW(table.Populate(&model));
+  EXPECT_NO_THROW(table.Populate(model));
 
   vector<string> category_labels = categories.category_names();
   EXPECT_NO_THROW(table.CheckColumnValuesContain<string>("category", category_labels));
@@ -490,13 +490,13 @@ TEST(Parameters, Table_CheckColumnContains_Categories) {
  * Check adding some valid categories will work and they'll be detected.
  */
 TEST(Parameters, Table_CheckColumnContains_Year) {
-  MockModel model;
-  MockCategories categories(&model);
+  shared_ptr<MockModel> model = shared_ptr<MockModel>(new MockModel());
+  MockCategories categories(model);
 
-  model.bind_calls();
+  model->bind_calls();
   ASSERT_NO_THROW(categories.Validate());
 
-  EXPECT_CALL(model, categories()).WillRepeatedly(Return(&categories));
+  EXPECT_CALL(*model, categories()).WillRepeatedly(Return(&categories));
 
   vector<string> columns = {"category", "year", "value" };
   vector<string> row1 = { "male.immature.notag", "1990", "1.0" };
@@ -510,7 +510,7 @@ TEST(Parameters, Table_CheckColumnContains_Year) {
   EXPECT_NO_THROW(table.AddRow(row2));
   EXPECT_NO_THROW(table.AddRow(row3));
 
-  EXPECT_NO_THROW(table.Populate(&model));
+  EXPECT_NO_THROW(table.Populate(model));
 
   vector<string> category_labels = categories.category_names();
   EXPECT_NO_THROW(table.CheckColumnValuesContain<unsigned>("year", years));
@@ -520,15 +520,15 @@ TEST(Parameters, Table_CheckColumnContains_Year) {
  * Check adding some valid categories will work and they'll be detected.
  */
 TEST(Parameters, Table_CheckColumnContains_Projection_Year) {
-  MockModel model;
-  MockCategories categories(&model);
+  shared_ptr<MockModel> model = shared_ptr<MockModel>(new MockModel());
+  MockCategories categories(model);
 
-  model.set_projection_final_year(1995);
-  model.bind_calls();
+  model->set_projection_final_year(1995);
+  model->bind_calls();
 
   ASSERT_NO_THROW(categories.Validate());
 
-  EXPECT_CALL(model, categories()).WillRepeatedly(Return(&categories));
+  EXPECT_CALL(*model, categories()).WillRepeatedly(Return(&categories));
 
   vector<string> columns = {"category", "year", "value" };
   vector<string> row1 = { "male.immature.notag", "1990", "1.0" };
@@ -542,7 +542,7 @@ TEST(Parameters, Table_CheckColumnContains_Projection_Year) {
   EXPECT_NO_THROW(table.AddRow(row2));
   EXPECT_NO_THROW(table.AddRow(row3));
 
-  EXPECT_NO_THROW(table.Populate(&model));
+  EXPECT_NO_THROW(table.Populate(model));
 
   vector<string> category_labels = categories.category_names();
   EXPECT_NO_THROW(table.CheckColumnValuesContain<unsigned>("year", years));
@@ -552,13 +552,13 @@ TEST(Parameters, Table_CheckColumnContains_Projection_Year) {
  * Check adding some valid categories will work and they'll be detected.
  */
 TEST(Parameters, Table_CheckColumnContains_Year_Fail) {
-  MockModel model;
-  MockCategories categories(&model);
+  shared_ptr<MockModel> model = shared_ptr<MockModel>(new MockModel());
+  MockCategories categories(model);
 
-  model.bind_calls();
+  model->bind_calls();
   ASSERT_NO_THROW(categories.Validate());
 
-  EXPECT_CALL(model, categories()).WillRepeatedly(Return(&categories));
+  EXPECT_CALL(*model, categories()).WillRepeatedly(Return(&categories));
 
   vector<string> columns = {"category", "yearx", "value" }; // cannot use year cause it's auto-detected
   vector<string> row1 = { "male.immature.notag", "1990", "1.0" };
@@ -572,7 +572,7 @@ TEST(Parameters, Table_CheckColumnContains_Year_Fail) {
   EXPECT_NO_THROW(table.AddRow(row2));
   EXPECT_NO_THROW(table.AddRow(row3));
 
-  EXPECT_NO_THROW(table.Populate(&model));
+  EXPECT_NO_THROW(table.Populate(model));
 
   vector<string> category_labels = categories.category_names();
   EXPECT_THROW(table.CheckColumnValuesContain<unsigned>("yearx", years), std::string);
@@ -582,14 +582,14 @@ TEST(Parameters, Table_CheckColumnContains_Year_Fail) {
  * Check adding some valid categories will work and they'll be detected.
  */
 TEST(Parameters, Table_CheckColumnContains_Projection_Year_Fail) {
-  MockModel model;
-  MockCategories categories(&model);
+  shared_ptr<MockModel> model = shared_ptr<MockModel>(new MockModel());
+  MockCategories categories(model);
 
-  model.set_projection_final_year(1995);
-  model.bind_calls();
+  model->set_projection_final_year(1995);
+  model->bind_calls();
   ASSERT_NO_THROW(categories.Validate());
 
-  EXPECT_CALL(model, categories()).WillRepeatedly(Return(&categories));
+  EXPECT_CALL(*model, categories()).WillRepeatedly(Return(&categories));
 
   vector<string> columns = {"category", "yearx", "value" }; // cannot use year cause it's auto-detected
   vector<string> row1 = { "male.immature.notag", "1990", "1.0" };
@@ -603,7 +603,7 @@ TEST(Parameters, Table_CheckColumnContains_Projection_Year_Fail) {
   EXPECT_NO_THROW(table.AddRow(row2));
   EXPECT_NO_THROW(table.AddRow(row3));
 
-  EXPECT_NO_THROW(table.Populate(&model));
+  EXPECT_NO_THROW(table.Populate(model));
 
   vector<string> category_labels = categories.category_names();
   EXPECT_THROW(table.CheckColumnValuesContain<unsigned>("yearx", years), std::string);
@@ -613,13 +613,13 @@ TEST(Parameters, Table_CheckColumnContains_Projection_Year_Fail) {
  * Check adding some valid categories will work and they'll be detected.
  */
 TEST(Parameters, Table_GetColumnValuesAs_Unsigned_Double) {
-  MockModel model;
-  MockCategories categories(&model);
+  shared_ptr<MockModel> model = shared_ptr<MockModel>(new MockModel());
+  MockCategories categories(model);
 
-  model.bind_calls();
+  model->bind_calls();
   ASSERT_NO_THROW(categories.Validate());
 
-  EXPECT_CALL(model, categories()).WillRepeatedly(Return(&categories));
+  EXPECT_CALL(*model, categories()).WillRepeatedly(Return(&categories));
 
   vector<string> columns = {"category", "year", "value" };
   vector<string> row1 = { "male.immature.notag", "1990", "1.0" };
@@ -633,7 +633,7 @@ TEST(Parameters, Table_GetColumnValuesAs_Unsigned_Double) {
   EXPECT_NO_THROW(table.AddRow(row2));
   EXPECT_NO_THROW(table.AddRow(row3));
 
-  EXPECT_NO_THROW(table.Populate(&model));
+  EXPECT_NO_THROW(table.Populate(model));
 
   vector<string> category_labels = categories.category_names();
   vector<unsigned> x;

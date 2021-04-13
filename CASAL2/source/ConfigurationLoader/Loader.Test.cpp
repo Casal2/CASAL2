@@ -16,10 +16,10 @@
 
 #include <iostream>
 
-#include "Model/Model.h"
-#include "Processes/Manager.h"
-#include "TestResources/TestFixtures/InternalEmptyModel.h"
-#include "Utilities/String.h"
+#include "../Model/Model.h"
+#include "../Processes/Manager.h"
+#include "../TestResources/TestFixtures/InternalEmptyModel.h"
+#include "../Utilities/String.h"
 
 // Namespaces
 namespace niwa {
@@ -34,7 +34,7 @@ class LoaderTest {
 public:
   bool HandleOperators(vector<string> &line_values) {
     Model model;
-    Loader loader(model);
+    Loader loader;
     string error = "";
     if (!utilities::String::HandleOperators(line_values, error)) {
       cout << "ERROR: " << error << endl;

@@ -15,7 +15,7 @@
 #include <gmock/gmock.h>
 #include <gtest/gtest.h>
 
-#include "TestResources/MockClasses/Model.h"
+#include "../../TestResources/MockClasses/Model.h"
 
 // Namespaces
 namespace niwa {
@@ -27,13 +27,13 @@ using ::testing::ReturnRef;
  * Test the results of our KnifeEdge are correct
  */
 TEST(Selectivities, KnifeEdge_Age) {
-  MockModel model;
-  EXPECT_CALL(model, min_age()).WillRepeatedly(Return(10));
-  EXPECT_CALL(model, max_age()).WillRepeatedly(Return(20));
-  EXPECT_CALL(model, age_spread()).WillRepeatedly(Return(11));
-  EXPECT_CALL(model, partition_type()).WillRepeatedly(Return(PartitionType::kAge));
+  shared_ptr<MockModel> model = shared_ptr<MockModel>(new MockModel());
+  EXPECT_CALL(*model, min_age()).WillRepeatedly(Return(10));
+  EXPECT_CALL(*model, max_age()).WillRepeatedly(Return(20));
+  EXPECT_CALL(*model, age_spread()).WillRepeatedly(Return(11));
+  EXPECT_CALL(*model, partition_type()).WillRepeatedly(Return(PartitionType::kAge));
 
-  niwa::selectivities::KnifeEdge knife_edge(&model);
+  niwa::selectivities::KnifeEdge knife_edge(model);
   knife_edge.parameters().Add(PARAM_LABEL, "unit_test_knife_edge", __FILE__, __LINE__);
   knife_edge.parameters().Add(PARAM_TYPE, "not needed in test", __FILE__, __LINE__);
   knife_edge.parameters().Add(PARAM_E, "15", __FILE__, __LINE__);
@@ -56,15 +56,15 @@ TEST(Selectivities, KnifeEdge_Age) {
 }
 
 TEST(Selectivities, KnifeEdge_Length) {
-  MockModel model;
-  EXPECT_CALL(model, min_age()).WillRepeatedly(Return(10));
-  EXPECT_CALL(model, max_age()).WillRepeatedly(Return(20));
-  EXPECT_CALL(model, age_spread()).WillRepeatedly(Return(11));
+  shared_ptr<MockModel> model = shared_ptr<MockModel>(new MockModel());
+  EXPECT_CALL(*model, min_age()).WillRepeatedly(Return(10));
+  EXPECT_CALL(*model, max_age()).WillRepeatedly(Return(20));
+  EXPECT_CALL(*model, age_spread()).WillRepeatedly(Return(11));
   vector<double> lengths = {10, 20, 30, 40, 50, 60, 120};
-  EXPECT_CALL(model, length_bins()).WillRepeatedly(ReturnRef(lengths));
-  EXPECT_CALL(model, partition_type()).WillRepeatedly(Return(PartitionType::kLength));
+  EXPECT_CALL(*model, length_bins()).WillRepeatedly(ReturnRef(lengths));
+  EXPECT_CALL(*model, partition_type()).WillRepeatedly(Return(PartitionType::kLength));
 
-  niwa::selectivities::KnifeEdge knife_edge(&model);
+  niwa::selectivities::KnifeEdge knife_edge(model);
 
   vector<double> expected_values = {0, 0, 0, 1, 1, 1, 1};
 

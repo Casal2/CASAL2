@@ -96,7 +96,7 @@ class MortalityInstantaneousRetained : public Process {
 
 public:
   // methods
-  explicit MortalityInstantaneousRetained(Model* model);
+  explicit MortalityInstantaneousRetained(shared_ptr<Model> model);
   virtual                     ~MortalityInstantaneousRetained();
   void                        DoValidate() override final;
   void                        DoBuild() override final;
@@ -141,8 +141,8 @@ private:
   // members from natural mortality
   vector<Double>              m_input_;
   OrderedMap<string, Double>  m_;
-  vector<double>              time_step_ratios_temp_;
-  map<unsigned, double>       time_step_ratios_;
+  vector<Double>              time_step_ratios_temp_;
+  map<unsigned, Double>       time_step_ratios_;
   vector<string>              selectivity_labels_;
   vector<Selectivity*>        selectivities_;
   vector<string>              retained_selectivity_labels_;

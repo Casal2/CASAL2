@@ -9,9 +9,9 @@
  */
 
 // headers
-#include <Projects/Common/EmpiricalSampling.h>
-#include "Utilities/RandomNumberGenerator.h"
-#include "Utilities/To.h"
+#include "EmpiricalSampling.h"
+#include "../../Utilities/RandomNumberGenerator.h"
+#include "../../Utilities/To.h"
 
 // namespaces
 namespace niwa {
@@ -20,7 +20,7 @@ namespace projects {
 /**
  * Default constructor
  */
-EmpiricalSampling::EmpiricalSampling(Model* model) : Project(model) {
+EmpiricalSampling::EmpiricalSampling(shared_ptr<Model> model) : Project(model) {
   parameters_.Bind<unsigned>(PARAM_START_YEAR, &start_year_, "The start year of sampling", "", false);
   parameters_.Bind<unsigned>(PARAM_FINAL_YEAR, &final_year_, "The final year of sampling", "", false);
 }

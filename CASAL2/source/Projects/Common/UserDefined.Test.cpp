@@ -13,11 +13,11 @@
 
 #include <iostream>
 
-#include "ObjectiveFunction/ObjectiveFunction.h"
-#include "Projects/Manager.h"
-#include "DerivedQuantities/Manager.h"
-#include "Model/Model.h"
-#include "TestResources/TestFixtures/InternalEmptyModel.h"
+#include "../../ObjectiveFunction/ObjectiveFunction.h"
+#include "../../Projects/Manager.h"
+#include "../../DerivedQuantities/Manager.h"
+#include "../../Model/Models/Age.h"
+#include "../../TestResources/TestFixtures/InternalEmptyModel.h"
 
 // Namespaces
 namespace niwa {
@@ -34,7 +34,7 @@ using niwa::testfixtures::InternalEmptyModel;
 const std::string test_cases_mode_with_mortality_instantaneous =
 R"(
 @model
-start_year 1970
+start_year 1970 
 final_year 2012
 projection_final_year 2015
 min_age 1
@@ -47,25 +47,25 @@ time_steps step1 step2 step3
 @categories
 format stock
 names stock
-age_lengths age_size
+age_lengths age_size 
 
 @initialisation_phase iphase1
 type iterative
 years 100
 
-@time_step step1
+@time_step step1 
 processes Recruitment fishing
 
 @time_step step2
-processes M
+processes M 
 
 @time_step step3
-processes M Ageing
+processes M Ageing 
 
 @process Recruitment
 type recruitment_beverton_holt
 categories stock
-proportions 1
+proportions 1 
 r0 6065920
 ycs_years 1969:2011
 standardise_ycs_years 1969 1970 1971 1972 1973 1974 1975 1976 1977 1978 1979 1980 1981 1982 1983 1984 1985 1986 1987 1988 1989 1990 1991 1992 1993 1994 1995 1996 1997 1998 1999 2000 2001 2002 2003 2004 2005 2006 2007 2008 2009 2010 2011
@@ -135,7 +135,7 @@ length_weight size_weight3
 
 @length_weight size_weight3
 type basic
-units kgs
+units kgs 
 a 2.0e-6
 b 3.288
 
@@ -251,19 +251,19 @@ TEST_F(InternalEmptyModel, Projects_UserDefined_Catches) {
 	LoadConfiguration();
 	model_->Start(RunMode::kProjection);
 
-	Project* project_2015 = model_->managers().project()->GetProject("western_catch_2015");
+	Project* project_2015 = model_->managers()->project()->GetProject("western_catch_2015");
 	if(!project_2015)
 		LOG_FATAL() << "!project_2015";
 
-	Project* project_2014 = model_->managers().project()->GetProject("western_catch_2014");
+	Project* project_2014 = model_->managers()->project()->GetProject("western_catch_2014");
 	if(!project_2014)
 		LOG_FATAL() << "!project_2014";
 
-	Project* project_2013 = model_->managers().project()->GetProject("western_catch_2013");
+	Project* project_2013 = model_->managers()->project()->GetProject("western_catch_2013");
 	if(!project_2013)
 		LOG_FATAL() << "!project_2013";
 
-  DerivedQuantity* dq = model_->managers().derived_quantity()->GetDerivedQuantity("biomass_t1");
+  DerivedQuantity* dq = model_->managers()->derived_quantity()->GetDerivedQuantity("biomass_t1");
 	if(!dq)
 		LOG_FATAL() << "!dq";
 	// test the values have changed

@@ -18,8 +18,8 @@
 #include <typeinfo>
 #include <vector>
 
-#include "ParameterList/Parameter.h"
-#include "Utilities/Types.h"
+#include "../../ParameterList/Parameter.h"
+#include "../../Utilities/Types.h"
 
 // namespaces
 namespace niwa {
@@ -63,7 +63,7 @@ private:
   T*                          target_ = nullptr;
   T                           default_value_;
   vector<T>                   allowed_values_;
-  Range                       range_;
+  Range						            range_;
 };
 
 } /* namespace parameters */

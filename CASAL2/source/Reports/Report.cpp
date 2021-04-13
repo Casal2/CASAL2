@@ -17,10 +17,10 @@
 #include <iostream>
 #include <fstream>
 
-#include "Model/Model.h"
-#include "Model/Managers.h"
-#include "Reports/Manager.h"
-#include "TimeSteps/Manager.h"
+#include "../Model/Model.h"
+#include "../Model/Managers.h"
+#include "../Reports/Manager.h"
+#include "../TimeSteps/Manager.h"
 
 // Namespaces
 namespace niwa {
@@ -53,7 +53,7 @@ inline bool DoesFileExist(const string& file_name) {
 /**
  * Default constructor
  */
-Report::Report(Model* model) : model_(model) {
+Report::Report() {
   parameters_.Bind<string>(PARAM_LABEL, &label_, "The label for the report", "");
   parameters_.Bind<string>(PARAM_TYPE, &type_, "The type of report", "");
   parameters_.Bind<string>(PARAM_FILE_NAME, &file_name_, "The filename for this report to be in a separate file", "", "");
@@ -66,19 +66,23 @@ Report::Report(Model* model) : model_(model) {
  * things like time step and year are not specified
  * when the report is not running in the execute phase.
  */
-void Report::Validate() {
-  parameters_.Populate(model_);
-  DoValidate();
+void Report::Validate(shared_ptr<Model> model) {
+	Report::lock_.lock();
+  parameters_.Populate(model);
+  DoValidate(model);
+  Report::lock_.unlock();
 }
 
 /**
- * Build the Report
+ *
  */
-void Report::Build() {
-  if (time_step_ != "" && !model_->managers().time_step()->GetTimeStep(time_step_))
-    LOG_ERROR_P(PARAM_TIME_STEP) << ": " << time_step_ << " was not found.";
+void Report::Build(shared_ptr<Model> model) {
+	Report::lock_.lock();
+  if (time_step_ != "" && !model->managers()->time_step()->GetTimeStep(time_step_))
+    LOG_ERROR_P(PARAM_TIME_STEP) << ": " << time_step_ << " could not be found. Have you defined it?";
 
-  DoBuild();
+  DoBuild(model);
+  Report::lock_.unlock();
 }
 
 /**
@@ -98,36 +102,39 @@ bool Report::HasYear(unsigned year) {
  * post-build in the model and allows the report to check if
  * the file it wants to write to exists, etc.
  */
-void Report::Prepare() {
+void Report::Prepare(shared_ptr<Model> model) {
   LOG_FINEST() << "preparing report: " << label_;
   Report::lock_.lock();
   SetUpInternalStates();
-  DoPrepare();
+  DoPrepare(model);
   Report::lock_.unlock();
 };
 
 /**
  * Execute the report
  */
-void Report::Execute() {
+void Report::Execute(shared_ptr<Model> model) {
   Report::lock_.lock();
-  DoExecute();
+  if (model == nullptr)
+  	LOG_CODE_ERROR() << "(model == nullptr)";
+
+  DoExecute(model);
   Report::lock_.unlock();
 }
 
 /**
  * Finalise the report
  */
-void Report::Finalise() {
+void Report::Finalise(shared_ptr<Model> model) {
   Report::lock_.lock();
-  DoFinalise();
+  DoFinalise(model);
   Report::lock_.unlock();
 };
 
 /**
  * Prepare the report
  */
-void Report::PrepareTabular() {
+void Report::PrepareTabular(shared_ptr<Model> model) {
   LOG_FINEST() << "preparing tabular report: " << label_;
   // Put a header in
 
@@ -136,26 +143,28 @@ void Report::PrepareTabular() {
 
   // Put a header in each file. this is for R library compatibility more than anything.
   if (file_name_ != "" && write_mode_ == PARAM_OVERWRITE)
-    cache_ << model_->managers().report()->std_header() << "\n";
-  DoPrepareTabular();
+    cache_ << model->global_configuration().standard_header() << "\n";
+  DoPrepareTabular(model);
   Report::lock_.unlock();
+
+
 }
 
 /**
  * Execute the tabular report
  */
-void Report::ExecuteTabular() {
+void Report::ExecuteTabular(shared_ptr<Model> model) {
   Report::lock_.lock();
-  DoExecuteTabular();
+  DoExecuteTabular(model);
   Report::lock_.unlock();
 }
 
 /**
  * Finalise the tabular report
  */
-void Report::FinaliseTabular() {
+void Report::FinaliseTabular(shared_ptr<Model> model) {
   Report::lock_.lock();
-  DoFinaliseTabular();
+  DoFinaliseTabular(model);
   Report::lock_.unlock();
 }
 
@@ -188,6 +197,15 @@ void Report::SetUpInternalStates() {
 }
 
 /**
+ *
+ */
+void Report::set_suffix(string_view suffix) {
+	Report::lock_.lock();
+	suffix_ = suffix;
+	Report::lock_.unlock();
+}
+
+/**
  * Flush the contents of the cache to the file or stdout/stderr
  */
 void Report::FlushCache() {
@@ -197,14 +215,12 @@ void Report::FlushCache() {
    * Are we writing to a file?
    */
   if (file_name_ != "") {
-    string suffix = model_->managers().report()->report_suffix();
-
     bool overwrite = false;
-    if (first_write_ || suffix != last_suffix_)
+    if (first_write_ || suffix_ != last_suffix_)
       overwrite = overwrite_;
 
-    last_suffix_ = suffix;
-    string file_name = file_name_ + suffix;
+    last_suffix_ = suffix_;
+    string file_name = file_name_ + suffix_;
 
     ios_base::openmode mode = ios_base::out;
     if (!overwrite)

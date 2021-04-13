@@ -15,8 +15,8 @@
 #define ELEMENT_DIFFERENCE_H_
 
 // headers
-#include "AdditionalPriors/AdditionalPrior.h"
-#include "Estimates/Estimate.h"
+#include "../../AdditionalPriors/AdditionalPrior.h"
+#include "../../Estimates/Estimate.h"
 
 // namespaces
 namespace niwa {
@@ -28,14 +28,14 @@ namespace additionalpriors {
 class ElementDifference : public niwa::AdditionalPrior {
 public:
   // methods
-  ElementDifference(Model* model);
+  ElementDifference(shared_ptr<Model> model);
   virtual                     ~ElementDifference() = default;
-  Double                      GetScore() override final;
+  Double                      GetScore() final;
 
 protected:
   // methods
-  void                        DoValidate() override final;
-  void                        DoBuild() override final;
+  void                        DoValidate() final;
+  void                        DoBuild() final;
   // members
   string                      second_parameter_;
   Double*                     addressable_ = nullptr;
@@ -46,7 +46,7 @@ protected:
   map<unsigned, Double>*      second_addressable_map_ = nullptr;
   vector<Double>*             second_addressable_vector_ = nullptr;
   vector<Double*>*            second_addressable_ptr_vector_ = nullptr;
-  double                      multiplier_ = 0.0;
+  Double                      multiplier_ = 0.0;
 };
 
 } /* namespace additionalpriors */

@@ -9,13 +9,13 @@
 //============================================================================
 #ifndef USE_AUTODIFF
 // Local Headers
-#include <Minimisers/Common/GammaDiff.h>
+#include "GammaDiff.h"
 
-#include <Minimisers/Common/GammaDiff/Callback.h>
-#include <Minimisers/Common/GammaDiff/Engine.h>
+#include "../../Minimisers/Common/GammaDiff/Callback.h"
+#include "../../Minimisers/Common/GammaDiff/Engine.h"
 
-#include "Estimates/Manager.h"
-#include "EstimateTransformations/Manager.h"
+#include "../../Estimates/Manager.h"
+#include "../../EstimateTransformations/Manager.h"
 
 // namespaces
 namespace niwa {
@@ -24,7 +24,7 @@ namespace minimisers {
 /**
  * Default constructor
  */
-GammaDiff::GammaDiff(Model* model) : Minimiser(model) {
+GammaDiff::GammaDiff(shared_ptr<Model> model) : Minimiser(model) {
   parameters_.Bind<int>(PARAM_MAX_ITERATIONS, &max_iterations_, "The maximum number of iterations", "", 1000)->set_lower_bound(1);
   parameters_.Bind<int>(PARAM_MAX_EVALUATIONS, &max_evaluations_, "The maximum number of evaluations", "", 4000)->set_lower_bound(1);
   parameters_.Bind<double>(PARAM_TOLERANCE, &gradient_tolerance_, "The tolerance of the gradient for convergence", "", 0.02)->set_lower_bound(0.0, false);
@@ -40,14 +40,14 @@ void GammaDiff::Execute() {
   LOG_FINE() << "model_: " << model_;
 
   gammadiff::CallBack  call_back(model_);
-  estimates::Manager* estimate_manager = model_->managers().estimate();
+  estimates::Manager* estimate_manager = model_->managers()->estimate();
   LOG_FINE() << "estimate_manager: " << estimate_manager;
 
   vector<double>  lower_bounds;
   vector<double>  upper_bounds;
   vector<double>  start_values;
 
-  model_->managers().estimate_transformation()->TransformEstimates();
+  model_->managers()->estimate_transformation()->TransformEstimates();
   vector<Estimate*> estimates = estimate_manager->GetIsEstimated();
   LOG_FINE() << "estimates.size(): " << estimates.size();
   for (Estimate* estimate : estimates) {
@@ -79,7 +79,7 @@ void GammaDiff::Execute() {
       status, max_iterations_, max_evaluations_, gradient_tolerance_,
       hessian_,1,step_size_);
 
-  model_->managers().estimate_transformation()->RestoreEstimates();
+  model_->managers()->estimate_transformation()->RestoreEstimates();
 
   switch(status) {
     case -1:

@@ -9,27 +9,27 @@
  *
  */
 #ifndef USE_AUTODIFF
+#ifndef _MSC_VER
 
 // headers
 #include "DLib.h"
 
 #include <functional>
 
-#include "Estimates/Manager.h"
-#include "Minimisers/Common/DLib/CallBack.h"
-#include "Utilities/Math.h"
-#include "EstimateTransformations/Manager.h"
-#include "Model/Model.h"
-#include "ObjectiveFunction/ObjectiveFunction.h"
-#include "Utilities/DoubleCompare.h"
-#include "Utilities/Math.h"
+#include "../../Estimates/Manager.h"
+#include "../../Minimisers/Common/DLib/CallBack.h"
+#include "../../Utilities/Math.h"
+#include "../../EstimateTransformations/Manager.h"
+#include "../../Model/Model.h"
+#include "../../ObjectiveFunction/ObjectiveFunction.h"
+#include "../../Utilities/Math.h"
 
 // namespaces
 namespace niwa {
 namespace minimisers {
 
 using namespace dlib;
-namespace dc = utilities::doublecompare;
+namespace math = niwa::utilities::math;
 
 /**
  * Calculate the DLib gradient
@@ -40,7 +40,7 @@ const column_vector DLib::DLibCalculateGradient(const column_vector& estimate_or
   ::dlib::matrix<double, 0, 1> gradient_values(estimate_original_values.size());
 
   // Build scaled estimate values
-  vector<Estimate*> estimates = model_->managers().estimate()->GetIsEstimated();
+  vector<Estimate*> estimates = model_->managers()->estimate()->GetIsEstimated();
   vector<Double> estimate_values;
   Double penalty = 0.0;
   for (unsigned i = 0; i < estimates.size(); ++i) {
@@ -59,12 +59,12 @@ const column_vector DLib::DLibCalculateGradient(const column_vector& estimate_or
     estimates[j]->set_value(value);
   }
 
-  model_->managers().estimate_transformation()->RestoreEstimates();
+  model_->managers()->estimate_transformation()->RestoreEstimates();
   model_->FullIteration();
 
   objective.CalculateScore();
 
-  model_->managers().estimate_transformation()->TransformEstimates();
+  model_->managers()->estimate_transformation()->TransformEstimates();
   Double original_score = objective.score();
 //  cout << "os + p: " << objective.score() << " + " << penalty << endl;
 
@@ -72,7 +72,7 @@ const column_vector DLib::DLibCalculateGradient(const column_vector& estimate_or
   Double plus_eps = 0.0;
   Double original_estimate_value = 0.0;
   for (unsigned i = 0; i < estimates.size(); ++i) {
-    if (dc::IsEqual(estimates[i]->lower_bound(), estimates[i]->upper_bound())) {
+    if (math::IsEqual(estimates[i]->lower_bound(), estimates[i]->upper_bound())) {
       gradient_values(i) = 0.0;
 
     } else {
@@ -90,12 +90,12 @@ const column_vector DLib::DLibCalculateGradient(const column_vector& estimate_or
         estimates[j]->set_value(value);
       }
 
-      model_->managers().estimate_transformation()->RestoreEstimates();
+      model_->managers()->estimate_transformation()->RestoreEstimates();
       model_->FullIteration();
 
       objective.CalculateScore();
 
-      model_->managers().estimate_transformation()->TransformEstimates();
+      model_->managers()->estimate_transformation()->TransformEstimates();
       plus_eps = objective.score(); // + penalty;
 
       /**
@@ -115,7 +115,7 @@ const column_vector DLib::DLibCalculateGradient(const column_vector& estimate_or
 /**
  * Default constructor
  */
-DLib::DLib(Model* model) : Minimiser(model) {
+DLib::DLib(shared_ptr<Model> model) : Minimiser(model) {
 
   parameters_.Bind<string>(PARAM_MINIMISATION_TYPE, &minimisation_type_, "The type of minimisation to use", "", PARAM_MIN_USING_APPROX_DERIVATIVES)
       ->set_allowed_values({ PARAM_MIN_USING_APPROX_DERIVATIVES, PARAM_MINIMISATION, PARAM_MIN_BOX_CONSTRAINED, PARAM_MIN_TRUST_REGION, PARAM_MIN_BOBYQA, PARAM_MIN_GLOBAL });
@@ -131,7 +131,7 @@ DLib::DLib(Model* model) : Minimiser(model) {
 }
 
 /**
- * Execute
+ *
  */
 void DLib::Execute() {
   LOG_FINE() << "Executing DLib Minimiser";
@@ -140,14 +140,14 @@ void DLib::Execute() {
   // Variables
   dlib::Callback  call_back(model_);
 
-  estimates::Manager& estimate_manager = *model_->managers().estimate();
+  estimates::Manager& estimate_manager = *model_->managers()->estimate();
   vector<Estimate*> estimates = estimate_manager.GetIsEstimated();
 
   ::dlib::matrix<double, 0, 1> start_values(estimates.size());
   ::dlib::matrix<double, 0, 1> lower_bounds(estimates.size());
   ::dlib::matrix<double, 0, 1> upper_bounds(estimates.size());
 
-  model_->managers().estimate_transformation()->TransformEstimates();
+  model_->managers()->estimate_transformation()->TransformEstimates();
   unsigned i = 0;
   for (Estimate* estimate : estimates) {
     if (!estimate->estimated())
@@ -231,12 +231,14 @@ void DLib::Execute() {
     << "DLib Error: " << ex.what();
   }
 
-  model_->managers().estimate_transformation()->RestoreEstimates();
+  model_->managers()->estimate_transformation()->RestoreEstimates();
 
   result_ = MinimiserResult::kSuccess;
 }
 
+
 } /* namespace minimisers */
 } /* namespace niwa */
 
+#endif /* MSVS */
 #endif /* NOT USE_AUTODIFF */

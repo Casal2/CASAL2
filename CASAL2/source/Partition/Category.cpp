@@ -11,16 +11,17 @@
 // headers
 #include "Category.h"
 
-#include "AgeLengths/AgeLength.h"
-#include "LengthWeights/LengthWeight.h"
-#include "Categories/Categories.h"
-#include "Model/Model.h"
-#include "Partition/Partition.h"
-#include "TimeSteps/Manager.h"
-#include "Utilities/To.h"
-#include "Utilities/Types.h"
-#include "Utilities/Math.h"
 #include <functional>
+
+#include "../AgeLengths/AgeLength.h"
+#include "../Categories/Categories.h"
+#include "../LengthWeights/LengthWeight.h"
+#include "../Model/Model.h"
+#include "../Partition/Partition.h"
+#include "../TimeSteps/Manager.h"
+#include "../Utilities/Math.h"
+#include "../Utilities/To.h"
+#include "../Utilities/Types.h"
 
 // namespaces
 namespace niwa {
@@ -70,21 +71,20 @@ void Category::UpdateMeanLengthData() {
 /**
  * This method updates the mean weight values with the number of animals and weight per animal for use.
  */
+
 void Category::UpdateMeanWeightData() {
-  Categories* categories    = model_->categories();
+  Categories*    categories = model_->categories();
   vector<string> time_steps = model_->time_steps();
 
   if (model_->partition_type() == PartitionType::kAge) {
     AgeLength* age_length = categories->age_length(name_);
     if (age_length == nullptr) {
       for (unsigned step_iter = 0; step_iter < time_steps.size(); ++step_iter) {
-        for (unsigned age = min_age_; age <= max_age_; ++age)
-          mean_weight_by_time_step_age_[step_iter][age] = 1.0;
+        for (unsigned age = min_age_; age <= max_age_; ++age) mean_weight_by_time_step_age_[step_iter][age] = 1.0;
       }
     } else {
       for (unsigned step_iter = 0; step_iter < time_steps.size(); ++step_iter) {
-        for (unsigned age = min_age_; age <= max_age_; ++age)
-          mean_weight_by_time_step_age_[step_iter][age] = age_length->mean_weight(step_iter, age);
+        for (unsigned age = min_age_; age <= max_age_; ++age) mean_weight_by_time_step_age_[step_iter][age] = age_length->mean_weight(step_iter, age);
       }
     }
 
@@ -94,11 +94,11 @@ void Category::UpdateMeanWeightData() {
 
     // Only do this under two conditions. We are initialising, it has a time varying component
     if (model_->state() == State::kInitialise) {
-      vector<double> length_bins = model_->length_bins();
+      vector<Double> length_bins = model_->length_bins();
       for (unsigned step_iter = 0; step_iter < time_steps.size(); ++step_iter) {
         for (unsigned length_bin_index = 0; length_bin_index < length_bins.size(); ++length_bin_index) {
-          //Double size = 0;
-          //if (!niwa::utilities::To<Double>(length_bins[length_bin_index], size))
+          // Double size = 0;
+          // if (!niwa::utilities::To<Double>(length_bins[length_bin_index], size))
           //  LOG_FATAL() << " value (" << length_bins[length_bin_index] << ") could not be converted to a double";
 
           mean_weight_by_time_step_length_[step_iter][length_bin_index] = length_weight->mean_weight(length_bins[length_bin_index], Distribution::kNone, 0.0);
@@ -117,12 +117,11 @@ void Category::CollapseAgeLengthData() {
   data_.clear();
 
   unsigned year_index      = model_->current_year() - model_->start_year();
-  unsigned time_step_index = model_->managers().time_step()->current_time_step();
+  unsigned time_step_index = model_->managers()->time_step()->current_time_step();
 
   for (auto age_row : age_length_matrix_[year_index][time_step_index]) {
     Double total = 0;
-    for (Double length_data : age_row)
-      total += length_data;
+    for (Double length_data : age_row) total += length_data;
     data_.push_back(total);
   }
 }
@@ -146,13 +145,12 @@ void Category::PopulateAgeLengthMatrix(Selectivity* selectivity) {
   if (age_length_matrix_.size() == 0)
     LOG_CODE_ERROR() << "No memory has been allocated for the age_length_matrix for category " << name_;
 
-  auto& age_length_proportions = model_->partition().age_length_proportions(name_);
-  unsigned year_index          = model_->current_year() - model_->start_year();
-  vector<double> length_bins   = model_->length_bins();
-  unsigned time_step_index     = model_->managers().time_step()->current_time_step();
+  auto&          age_length_proportions = model_->partition().age_length_proportions(name_);
+  unsigned       year_index             = model_->current_year() - model_->start_year();
+  vector<Double> length_bins            = model_->length_bins();
+  unsigned       time_step_index        = model_->managers()->time_step()->current_time_step();
 
-  LOG_FINE() << "Year: " << model_->current_year() << "; year index: " << year_index << "; time_step: " << time_step_index
-    << "; length_bins: " << length_bins.size();
+  LOG_FINE() << "Year: " << model_->current_year() << "; year index: " << year_index << "; time_step: " << time_step_index << "; length_bins: " << length_bins.size();
   LOG_FINEST() << "Years in proportions: " << age_length_proportions.size();
   LOG_FINEST() << "Timesteps in current year: " << age_length_proportions[year_index].size();
 
@@ -161,14 +159,12 @@ void Category::PopulateAgeLengthMatrix(Selectivity* selectivity) {
   if (time_step_index > age_length_proportions[year_index].size())
     LOG_CODE_ERROR() << "time_step_index > age_length_proportions[year_index].size()";
   if (age_length_matrix_[year_index].size() == 0)
-    LOG_CODE_ERROR() << "No memory has been allocated for the age_length_matrix for year index " << year_index
-      << " in category " << name_;
+    LOG_CODE_ERROR() << "No memory has been allocated for the age_length_matrix for year index " << year_index << " in category " << name_;
   if (age_length_matrix_[year_index][time_step_index].size() == 0)
-    LOG_CODE_ERROR() << "No memory has been allocated for the age_length_matrix for year index " << year_index
-      << " and time step " << time_step_index << " in category " << name_;
+    LOG_CODE_ERROR() << "No memory has been allocated for the age_length_matrix for year index " << year_index << " and time step " << time_step_index << " in category " << name_;
 
   vector<vector<Double>>& proportions_for_now = age_length_proportions[year_index][time_step_index];
-  unsigned size = model_->length_plus() == true ? model_->length_bins().size() : model_->length_bins().size() - 1;
+  unsigned                size                = model_->length_plus() == true ? model_->length_bins().size() : model_->length_bins().size() - 1;
 
   LOG_FINE() << "Calculating age length data";
   for (unsigned age = min_age_; age <= max_age_; ++age) {
@@ -192,8 +188,7 @@ void Category::PopulateAgeLengthMatrix(Selectivity* selectivity) {
     }
   }
 
-  LOG_FINE() << "Finished populating the age-length matrix for category " << name_ << " in year " << model_->current_year()
-    << " and time step " << time_step_index;
+  LOG_FINE() << "Finished populating the age-length matrix for category " << name_ << " in year " << model_->current_year() << " and time step " << time_step_index;
 }
 
 /**
@@ -208,12 +203,11 @@ void Category::PopulateAgeLengthMatrix(Selectivity* selectivity) {
  * @parameter numbers_by_length_ vector that has allocated memory which stores the results
  * @parameter length_plus whether the last bin is a plus group
  */
-void Category::CalculateNumbersAtLength(Selectivity* selectivity, const vector<double>& length_bins,
-                                        vector<vector<Double>>& age_length_matrix, vector<Double>& numbers_by_length,
+void Category::CalculateNumbersAtLength(Selectivity* selectivity, const vector<Double>& length_bins, vector<vector<Double>>& age_length_matrix, vector<Double>& numbers_by_length,
                                         const bool& length_plus) {
   // Probably should do some checks and balances, but I want to remove this later on
-  unsigned size = length_plus == true ? length_bins.size() : length_bins.size() - 1;
-  Double std_dev = 0;
+  unsigned size    = length_plus == true ? length_bins.size() : length_bins.size() - 1;
+  Double   std_dev = 0;
 
   if (age_length_matrix.size() == 0)
     LOG_CODE_ERROR() << "if (age_length_matrix.size() == 0)";
@@ -227,9 +221,9 @@ void Category::CalculateNumbersAtLength(Selectivity* selectivity, const vector<d
   // Make sure all elements are zero
   std::fill(numbers_by_length.begin(), numbers_by_length.end(), 0.0);
 
-  auto& age_length_proportions = model_->partition().age_length_proportions(name_);
-  unsigned year_index          = model_->current_year() - model_->start_year();
-  unsigned time_step_index     = model_->managers().time_step()->current_time_step();
+  auto&    age_length_proportions = model_->partition().age_length_proportions(name_);
+  unsigned year_index             = model_->current_year() - model_->start_year();
+  unsigned time_step_index        = model_->managers()->time_step()->current_time_step();
 
   if (year_index > age_length_proportions.size())
     LOG_CODE_ERROR() << "year_index > age_length_proportions.size()";
@@ -240,7 +234,7 @@ void Category::CalculateNumbersAtLength(Selectivity* selectivity, const vector<d
   LOG_FINEST() << "Calculating age length data";
   for (unsigned age = min_age_; age <= max_age_; ++age) {
     unsigned i = age - min_age_;
-    std_dev = age_length_->cv(model_->current_year(), time_step_index, age) * mean_length_by_time_step_age_[year_index][time_step_index][i];
+    std_dev    = age_length_->cv(model_->current_year(), time_step_index, age) * mean_length_by_time_step_age_[year_index][time_step_index][i];
     if (i >= proportions_for_now.size())
       LOG_CODE_ERROR() << "i >= proportions_for_now.size()";
     if (i >= data_.size())
@@ -251,14 +245,16 @@ void Category::CalculateNumbersAtLength(Selectivity* selectivity, const vector<d
     // populate age_length matrix with proportions
     LOG_FINEST() << "calculating distribution for age " << age;
     if (age_length_->casal_normal_cdf()) {
-      age_length_matrix[i] = utilities::math::distribution(length_bins, length_plus, age_length_->distribution(), mean_length_by_time_step_age_[year_index][time_step_index][i], std_dev);
+      age_length_matrix[i] =
+          utilities::math::distribution(length_bins, length_plus, age_length_->distribution(), mean_length_by_time_step_age_[year_index][time_step_index][i], std_dev);
     } else {
-      age_length_matrix[i] = utilities::math::distribution2(length_bins, length_plus, age_length_->distribution(), mean_length_by_time_step_age_[year_index][time_step_index][i], std_dev);
+      age_length_matrix[i] =
+          utilities::math::distribution2(length_bins, length_plus, age_length_->distribution(), mean_length_by_time_step_age_[year_index][time_step_index][i], std_dev);
     }
 
     if (age_length_matrix[i].size() != numbers_by_length.size())
-      LOG_CODE_ERROR() << "if (age_length_matrix[i].size() != numbers_by_length.size()). Age length dims were "
-        << age_length_matrix[i].size() << ", expected " << numbers_by_length.size();
+      LOG_CODE_ERROR() << "if (age_length_matrix[i].size() != numbers_by_length.size()). Age length dims were " << age_length_matrix[i].size() << ", expected "
+                       << numbers_by_length.size();
 
     // Multiply by data_
     std::transform(age_length_matrix[i].begin(), age_length_matrix[i].end(), age_length_matrix[i].begin(), std::bind(std::multiplies<Double>(), std::placeholders::_1, data_[i]));
@@ -282,15 +278,15 @@ void Category::CollapseAgeLengthDataToLength() {
   if (age_length_matrix_.size() == 0)
     LOG_CODE_ERROR() << "if (age_length_matrix_.size() == 0)";
 
-  LOG_FINE() << "age_length_matrix_.size(): " << age_length_matrix_.size();             // years
-  LOG_FINE() << "age_length_matrix_[0].size(): " << age_length_matrix_[0].size();       // time steps
-  LOG_FINE() << "age_length_matrix_[0][0].size(): " << age_length_matrix_[0][0].size(); // ages
-  LOG_FINE() << "age_length_matrix_[0][0][0].size(): " << age_length_matrix_[0][0][0].size(); // length bins
+  LOG_FINE() << "age_length_matrix_.size(): " << age_length_matrix_.size();                    // years
+  LOG_FINE() << "age_length_matrix_[0].size(): " << age_length_matrix_[0].size();              // time steps
+  LOG_FINE() << "age_length_matrix_[0][0].size(): " << age_length_matrix_[0][0].size();        // ages
+  LOG_FINE() << "age_length_matrix_[0][0][0].size(): " << age_length_matrix_[0][0][0].size();  // length bins
 
   length_data_.assign(model_->length_bins().size(), 0.0);
 
   unsigned year_index      = model_->current_year() - model_->start_year();
-  unsigned time_step_index = model_->managers().time_step()->current_time_step();
+  unsigned time_step_index = model_->managers()->time_step()->current_time_step();
 
   for (unsigned i = 0; i < age_length_matrix_[year_index][time_step_index].size(); ++i) {
     for (unsigned j = 0; j < age_length_matrix_[year_index][time_step_index][i].size(); ++j) {
@@ -301,9 +297,8 @@ void Category::CollapseAgeLengthDataToLength() {
     }
   }
 
-  for (unsigned i = 0; i < length_data_.size(); ++i)
-    LOG_FINEST() << "length_data_[" << i << "]: " << length_data_[i];
+  for (unsigned i = 0; i < length_data_.size(); ++i) LOG_FINEST() << "length_data_[" << i << "]: " << length_data_[i];
 }
 
-} /* namespace partitions */
+}  // namespace partition
 } /* namespace niwa */

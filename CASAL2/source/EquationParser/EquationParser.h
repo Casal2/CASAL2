@@ -19,9 +19,10 @@
 
 // headers
 #include <string>
+#include <memory>
 
-#include "Utilities/NoCopy.h"
-#include "Utilities/Types.h"
+#include "../Utilities/NoCopy.h"
+#include "../Utilities/Types.h"
 
 #include <parser.h>
 
@@ -31,6 +32,7 @@ using niwa::utilities::Double;
 namespace niwa {
 class Model;
 using std::string;
+using std::shared_ptr;
 
 /**
  * Class definition
@@ -39,7 +41,7 @@ class EquationParser : public LookupObject<Double> {
 public:
   // methods
   EquationParser();
-  explicit EquationParser(Model* model);
+  explicit EquationParser(shared_ptr<Model> model);
   virtual                     ~EquationParser();
   Double                      Parse(string equation);
 
@@ -48,7 +50,7 @@ public:
 
 private:
     // members
-  Model*                      model_ = nullptr;
+  shared_ptr<Model>                      model_ = nullptr;
 #ifdef USE_ADOLC
   Parser<adouble, adub, const badouble&>* parser_ = nullptr;
 #elif USE_BETADIFF

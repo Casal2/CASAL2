@@ -4,17 +4,18 @@
  * @date 1/09/2014
  * @section LICENSE
  *
- * Copyright NIWA Science ©2014 - www.niwa.co.nz
+ * Copyright NIWA Science ï¿½2014 - www.niwa.co.nz
  *
  */
 
 // headers
-#include <Asserts/Common/ObjectiveFunction.h>
+#include "ObjectiveFunction.h"
+
 #include <iostream>     // std::cout, std::fixed
 #include <iomanip>      // std::setprecision
 
-#include "Model/Model.h"
-#include "ObjectiveFunction/ObjectiveFunction.h"
+#include "../../Model/Model.h"
+#include "../../ObjectiveFunction/ObjectiveFunction.h"
 
 // namespaces
 namespace niwa {
@@ -30,7 +31,7 @@ namespace asserts {
  *
  * Note: The constructor is parsed to generate LaTeX for the documentation.
  */
-ObjectiveFunction::ObjectiveFunction(Model* model) : Assert(model) {
+ObjectiveFunction::ObjectiveFunction(shared_ptr<Model> model) : Assert(model) {
   parameters_.Bind<Double>(PARAM_VALUE, &value_, "Expected value of the objective function", "");
 }
 
@@ -47,12 +48,12 @@ void ObjectiveFunction::DoBuild() {
  */
 void ObjectiveFunction::Execute() {
   niwa::ObjectiveFunction& obj = model_->objective_function();
-  if (fabs(AS_VALUE(value_) - AS_VALUE(obj.score())) > (tol_ * fabs(AS_VALUE(obj.score())) + tol_)) {
+  if (fabs(AS_DOUBLE(value_) - AS_DOUBLE(obj.score())) > (tol_ * fabs(AS_DOUBLE(obj.score())) + tol_)) {
     std::streamsize prec = std::cout.precision();
     std::cout.precision(9);
 
     LOG_ERROR() << "Assert Failure: Objective Function had actual value " << obj.score() << " when " << value_
-      << " values were expected with difference: " << fabs(AS_VALUE(value_) - AS_VALUE(obj.score()));
+      << " values were expected with difference: " << fabs(AS_DOUBLE(value_) - AS_DOUBLE(obj.score()));
 
     std::cout.precision(prec);
   }

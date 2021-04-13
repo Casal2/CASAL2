@@ -18,8 +18,8 @@
 #include "AgeingErrors/AgeingError.h"
 #include "AgeingErrors/Manager.h"
 #include "Partition/Accessors/All.h"
+#include "../../Partition/Accessors/Cached/CombinedCategories.h"
 #include "TimeSteps/Manager.h"
-#include "Utilities/DoubleCompare.h"
 #include "Utilities/Map.h"
 #include "Utilities/Math.h"
 #include "Utilities/To.h"
@@ -37,7 +37,7 @@ namespace age {
 /**
  * Default constructor
  */
-ProportionsMatureByAge::ProportionsMatureByAge(Model* model) : Observation(model) {
+ProportionsMatureByAge::ProportionsMatureByAge(shared_ptr<Model> model) : Observation(model) {
   obs_table_ = new parameters::Table(PARAM_OBS);
   error_values_table_ = new parameters::Table(PARAM_ERROR_VALUES);
 
@@ -51,7 +51,7 @@ ProportionsMatureByAge::ProportionsMatureByAge(Model* model) : Observation(model
   // TODO:  is tolerance missing?
   parameters_.BindTable(PARAM_ERROR_VALUES, error_values_table_, "The table of error values of the observed values (note the units depend on the likelihood)", "", false);
   parameters_.Bind<string>(PARAM_TOTAL_CATEGORIES, &total_category_labels_, "All category labels that were vulnerable to sampling at the time of this observation (not including the categories already given)", "", true);
-  parameters_.Bind<double>(PARAM_TIME_STEP_PROPORTION, &time_step_proportion_, "The proportion through the mortality block of the time step when the observation is evaluated", "", double(0.5))->set_range(0.0, 1.0);
+  parameters_.Bind<Double>(PARAM_TIME_STEP_PROPORTION, &time_step_proportion_, "The proportion through the mortality block of the time step when the observation is evaluated", "", Double(0.5))->set_range(0.0, 1.0);
 
   mean_proportion_method_ = false;
 
@@ -133,10 +133,10 @@ void ProportionsMatureByAge::DoValidate() {
       LOG_FATAL_P(PARAM_PROCESS_ERRORS) << "Supply a process error for each year. Values for " << process_error_values_.size()
         << " years were provided, but " << years_.size() << " years are required";
     }
-    process_errors_by_year_ = utilities::Map<Double>::create(years_, process_error_values_);
+    process_errors_by_year_ = utilities::Map::create(years_, process_error_values_);
   } else {
     Double process_val = 0.0;
-    process_errors_by_year_ = utilities::Map<Double>::create(years_, process_val);
+    process_errors_by_year_ = utilities::Map::create(years_, process_val);
   }
 
   if (delta_ < 0.0)
@@ -262,14 +262,14 @@ void ProportionsMatureByAge::DoBuild() {
 
   // Create a pointer to misclassification matrix
   if( ageing_error_label_ != "") {
-    ageing_error_ = model_->managers().ageing_error()->GetAgeingError(ageing_error_label_);
+    ageing_error_ = model_->managers()->ageing_error()->GetAgeingError(ageing_error_label_);
     if (!ageing_error_)
       LOG_ERROR_P(PARAM_AGEING_ERROR) << "Ageing error label (" << ageing_error_label_ << ") was not found.";
   }
 
   age_results_.resize(age_spread_ * category_labels_.size(), 0.0);
 
-  TimeStep* time_step = model_->managers().time_step()->GetTimeStep(time_step_label_);
+  TimeStep* time_step = model_->managers()->time_step()->GetTimeStep(time_step_label_);
   if (!time_step) {
     LOG_FATAL_P(PARAM_TIME_STEP) << "Time step label " << time_step_label_ << " was not found.";
   } else {

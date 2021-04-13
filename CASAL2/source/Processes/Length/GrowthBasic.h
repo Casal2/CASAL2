@@ -5,7 +5,7 @@
  * @date 27/07/2017
  * @section LICENSE
  *
- * Copyright NIWA Science ©2017 - www.niwa.co.nz
+ * Copyright NIWA Science ï¿½2017 - www.niwa.co.nz
  *
  * @section DESCRIPTION
  *
@@ -17,8 +17,8 @@
 #define LENGTH_GROWTH_BASIC_H_
 
 // Headers
-#include "Partition/Accessors/Categories.h"
-#include "Processes/Process.h"
+#include "../../Partition/Accessors/Categories.h"
+#include "../../Processes/Process.h"
 
 // Namespaces
 namespace niwa {
@@ -33,7 +33,7 @@ namespace accessor = niwa::partition::accessors;
 class GrowthBasic : public niwa::Process {
 public:
   // Methods
-  explicit GrowthBasic(Model* model);
+  explicit GrowthBasic(shared_ptr<Model> model);
   virtual                     ~GrowthBasic() = default;
   void                        DoValidate() override final;
   void                        DoBuild() override final;
@@ -45,8 +45,8 @@ private:
   accessor::Categories        partition_;
   vector<Double>              g_;
   vector<Double>              l_;
-  vector<double>              length_bin_mid_points_;
-  vector<double>              length_bins_;
+  vector<Double>              length_bin_mid_points_;
+  vector<Double>              length_bins_;
   vector<string>              category_labels_;
   Double                      cv_ = 0.0;
   vector<string>              growth_time_steps_;

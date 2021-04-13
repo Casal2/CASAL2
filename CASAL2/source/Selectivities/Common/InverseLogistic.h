@@ -17,7 +17,7 @@
 #define INVERSELOGISTIC_H_
 
 // Headers
-#include "Selectivities/Selectivity.h"
+#include "../../Selectivities/Selectivity.h"
 
 // Namespaces
 namespace niwa {
@@ -29,7 +29,7 @@ namespace selectivities {
 class InverseLogistic : public niwa::Selectivity {
 public:
   // Methods
-  explicit InverseLogistic(Model* model);
+  explicit InverseLogistic(shared_ptr<Model> model);
   virtual                     ~InverseLogistic() = default;
   void                        DoValidate() override final;
   void                        RebuildCache() override final;

@@ -15,20 +15,20 @@
 
 #include <algorithm>
 
-#include "Estimables/Estimables.h"
-#include "GlobalConfiguration/GlobalConfiguration.h"
-#include "Model/Model.h"
-#include "Model/Managers.h"
-#include "Reports/Manager.h"
-#include "Reports/Common/MPD.h"
-#include "Utilities/DoubleCompare.h"
+#include "../Estimables/Estimables.h"
+#include "../GlobalConfiguration/GlobalConfiguration.h"
+#include "../Model/Model.h"
+#include "../Model/Managers.h"
+#include "../Reports/Manager.h"
+#include "../Reports/Common/MPD.h"
+#include "../Utilities/Math.h"
 
 // Namespaces
 namespace niwa {
 namespace estimates {
 
 using std::set;
-namespace dc = utilities::doublecompare;
+namespace math = niwa::utilities::math;
 
 /**
  * Destructor
@@ -48,7 +48,7 @@ void Manager::Validate() {
 /**
  * Validate the objects
  */
-void Manager::Validate(Model* model) {
+void Manager::Validate(shared_ptr<Model> model) {
   LOG_TRACE();
   /**
    * Run over our creators and get them to build the actual
@@ -87,7 +87,7 @@ void Manager::Validate(Model* model) {
   unsigned count = objects_.size();
   objects_.erase(
       std::remove_if(objects_.begin(), objects_.end(),
-         [](Estimate* estimate) {return dc::IsEqual(estimate->lower_bound(), estimate->upper_bound()); }
+         [](Estimate* estimate) {return math::IsEqual(estimate->lower_bound(), estimate->upper_bound()); }
        ),
        objects_.end()
   );
@@ -100,24 +100,19 @@ void Manager::Validate(Model* model) {
    */
   GlobalConfiguration& global_config = model->global_configuration();
   if (global_config.estimable_value_file() != "") {
-    Estimables& estimables = *model->managers().estimables();
+    Estimables& estimables = *model->managers()->estimables();
     vector<string> estimable_labels = estimables.GetEstimables();
 
-    for_each(estimable_labels.begin(), estimable_labels.end(),
-    	[](const string& label) {
-
-  	});
     for (string label : estimable_labels) {
-
-      auto match = [](string label, vector<Estimate*> objects) -> bool {
-        for (Estimate* estimate : objects) {
-          if (estimate->label() == label)
-            return true;
-        }
-        return false;
-      };
-      if (!match(label, objects_))
-        LOG_ERROR() << "The estimable " << label << " was defined in the estimable value file, but has not been defined as an @estimate";
+//      auto match = [](string label, vector<Estimate*>& objects) -> bool {
+//        for (Estimate* estimate : objects) {
+//          if (estimate->label() == label)
+//            return true;
+//        }
+//        return false;
+//      };
+//      if (!match(label, objects_))
+//        LOG_ERROR() << "The estimable " << label << " was defined in the estimable value file, but has not been defined as an @estimate";
     }
   }
 }
@@ -132,25 +127,25 @@ void Manager::Build() {
 /**
  * Build the objects
  */
-void Manager::Build(Model* model) {
+void Manager::Build(shared_ptr<Model> model) {
   for (auto estimate : objects_) {
     estimate->Build();
   }
 
-  if (model->global_configuration().create_mpd_file()) {
-    model->managers().report()->Pause();
+  if (model->is_primary_thread_model() && model->global_configuration().create_mpd_file()) {
+    model->managers()->report()->Pause();
 
-    reports::MPD* report = new reports::MPD(model);
+    reports::MPD* report = new reports::MPD();
     report->set_block_type(PARAM_REPORT);
     report->set_defined_file_name(__FILE__);
     report->set_defined_line_number(__LINE__);
     report->parameters().Add(PARAM_LABEL, "mpd", __FILE__, __LINE__);
     report->parameters().Add(PARAM_TYPE, PARAM_MPD, __FILE__, __LINE__);
     report->parameters().Add(PARAM_FILE_NAME, "mpd.out", __FILE__, __LINE__);
-    report->Validate();
-    model->managers().report()->AddObject(report);
+    report->Validate(model->pointer());
+    model->managers()->report()->AddObject(report);
 
-    model->managers().report()->Resume();
+    model->managers()->report()->Resume();
   }
 }
 
@@ -283,7 +278,7 @@ Estimate* Manager::GetEstimate(const string& parameter) {
     if (estimate->parameter() == parameter)
       return estimate;
   }
-  return nullptr;
+  return nullptr;;
 }
 
 /**
@@ -366,7 +361,6 @@ unsigned Manager::GetNumberOfPhases() {
       LOG_FINE() << "storing phase = " << current_phase;
     }
   }
-
   // Now check that there is a consecutive sequence.
   unsigned max = *max_element(store_unique_phases.begin(), store_unique_phases.end());
   LOG_FINE() << "found max = " << max << " iterations";
@@ -378,6 +372,8 @@ unsigned Manager::GetNumberOfPhases() {
   }
   return max;
 }
+
+
 
 } /* namespace estimates */
 } /* namespace niwa */

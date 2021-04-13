@@ -13,13 +13,13 @@
 
 #include <iostream>
 
-#include "ObjectiveFunction/ObjectiveFunction.h"
-#include "Projects/Manager.h"
-#include "DerivedQuantities/Manager.h"
-#include "Model/Model.h"
-#include "TestResources/TestFixtures/InternalEmptyModel.h"
-#include "TestResources/Models/CasalComplex1.h"
-#include "Utilities/RandomNumberGenerator.h"
+#include "../../ObjectiveFunction/ObjectiveFunction.h"
+#include "../../Projects/Manager.h"
+#include "../../DerivedQuantities/Manager.h"
+#include "../../Model/Models/Age.h"
+#include "../../TestResources/TestFixtures/InternalEmptyModel.h"
+#include "../../TestResources/Models/CasalComplex1.h"
+#include "../../Utilities/RandomNumberGenerator.h"
 
 // Namespaces
 namespace niwa {
@@ -48,18 +48,15 @@ TEST_F(InternalEmptyModel, Projects_Empirical_Sampling_YCS) {
 	AddConfigurationLine(testresources::models::test_cases_models_casal_complex_1, "TestResources/Models/CasalComplex1.h", 28);
 	AddConfigurationLine(EmpiricalSampling_ycs, __FILE__, 35);
 	LoadConfiguration();
-
 	model_->Start(RunMode::kProjection);
 
-
-	Project* project = model_->managers().project()->GetProject("future_ycs");
+	Project* project = model_->managers()->project()->GetProject("future_ycs");
 	if(!project)
 		LOG_FATAL() << "!project";
 
-    DerivedQuantity* dq = model_->managers().derived_quantity()->GetDerivedQuantity("ssb");
+  DerivedQuantity* dq = model_->managers()->derived_quantity()->GetDerivedQuantity("ssb");
 	if(!dq)
 		LOG_FATAL() << "!dq";
-
 	// test the values have changed
 	map<unsigned,Double>& values = project->projected_parameters();
 	vector<double> expected = {1.014, 0.9450, 0.9340, 0.9450, 0.9340, 1.325, 1.0487, 0.3520, 1.345, 1.5434, 0.946, 1.0487};
@@ -74,6 +71,7 @@ TEST_F(InternalEmptyModel, Projects_Empirical_Sampling_YCS) {
       unsigned year = 2002 + i;
       EXPECT_NEAR(Expect[i], dq->GetValue(year), 1e-2);
     }
+
 }
 
 

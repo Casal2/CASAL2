@@ -15,9 +15,9 @@
 // Headers
 #include <typeinfo>
 
-#include "Utilities/To.h"
-#include "Utilities/Types.h"
-#include "Logging/Logging.h"
+#include "../Utilities/To.h"
+#include "../Utilities/Types.h"
+#include "../Logging/Logging.h"
 
 // Namespaces
 namespace niwa {

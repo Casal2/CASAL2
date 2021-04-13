@@ -5,7 +5,7 @@
  * @date 12/03/2013
  * @section LICENSE
  *
- * Copyright NIWA Science ©2013 - www.niwa.co.nz
+ * Copyright NIWA Science ï¿½2013 - www.niwa.co.nz
  *
  * $Date: 2008-03-04 16:33:32 +1300 (Tue, 04 Mar 2008) $
  */
@@ -28,7 +28,7 @@ namespace utils = niwa::utilities;
 /**
  * Default constructor
  */
-Abundance::Abundance(Model* model) : Observation(model) {
+Abundance::Abundance(shared_ptr<Model> model) : Observation(model) {
   obs_table_ = new parameters::Table(PARAM_OBS);
 
   parameters_.Bind<string>(PARAM_TIME_STEP, &time_step_label_, "The label of the time step that the observation occurs in", "");
@@ -67,7 +67,7 @@ void Abundance::DoValidate() {
   if (delta_ < 0.0)
     LOG_ERROR_P(PARAM_DELTA) << ": delta (" << delta_ << ") cannot be less than 0.0";
   if (process_error_value_ < 0.0)
-    LOG_ERROR_P(PARAM_PROCESS_ERROR) << ": process_error (" << AS_VALUE(process_error_value_) << ") cannot be less than 0.0";
+    LOG_ERROR_P(PARAM_PROCESS_ERROR) << ": process_error (" << AS_DOUBLE(process_error_value_) << ") cannot be less than 0.0";
 
 
   // Obs
@@ -116,7 +116,7 @@ void Abundance::DoValidate() {
 void Abundance::DoBuild() {
   LOG_TRACE();
 
-  catchability_ = model_->managers().catchability()->GetCatchability(catchability_label_);
+  catchability_ = model_->managers()->catchability()->GetCatchability(catchability_label_);
   if (!catchability_)
     LOG_ERROR_P(PARAM_CATCHABILITY) << ": catchability label " << catchability_label_ << " was not found.";
 
@@ -133,7 +133,7 @@ void Abundance::DoBuild() {
 
   // Build Selectivity pointers
   for(string label : selectivity_labels_) {
-    Selectivity* selectivity = model_->managers().selectivity()->GetSelectivity(label);
+    Selectivity* selectivity = model_->managers()->selectivity()->GetSelectivity(label);
     if (!selectivity)
       LOG_ERROR_P(PARAM_SELECTIVITIES) << ": Selectivity label " << label << " was not found.";
     selectivities_.push_back(selectivity);

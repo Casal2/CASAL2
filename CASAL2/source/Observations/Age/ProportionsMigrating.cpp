@@ -18,8 +18,8 @@
 #include "AgeingErrors/AgeingError.h"
 #include "AgeingErrors/Manager.h"
 #include "Partition/Accessors/All.h"
+#include "../../Partition/Accessors/Cached/CombinedCategories.h"
 #include "TimeSteps/Manager.h"
-#include "Utilities/DoubleCompare.h"
 #include "Utilities/Map.h"
 #include "Utilities/Math.h"
 #include "Utilities/To.h"
@@ -32,7 +32,7 @@ namespace age {
 /**
  * Default constructor
  */
-ProportionsMigrating::ProportionsMigrating(Model* model) : Observation(model) {
+ProportionsMigrating::ProportionsMigrating(shared_ptr<Model> model) : Observation(model) {
   obs_table_ = new parameters::Table(PARAM_OBS);
   error_values_table_ = new parameters::Table(PARAM_ERROR_VALUES);
 
@@ -97,10 +97,10 @@ void ProportionsMigrating::DoValidate() {
       LOG_FATAL_P(PARAM_PROCESS_ERRORS) << "Supply a process error for each year. Values for " << process_error_values_.size()
         << " years were supplied, but " << years_.size() << " years are required";
     }
-    process_errors_by_year_ = utilities::Map<Double>::create(years_, process_error_values_);
+    process_errors_by_year_ = utilities::Map::create(years_, process_error_values_);
   } else {
     Double process_val = 0.0;
-    process_errors_by_year_ = utilities::Map<Double>::create(years_, process_val);
+    process_errors_by_year_ = utilities::Map::create(years_, process_val);
   }
 
   if (delta_ < 0.0)
@@ -213,14 +213,14 @@ void ProportionsMigrating::DoBuild() {
 
 // Create a pointer to misclassification matrix
   if( ageing_error_label_ != "") {
-  ageing_error_ = model_->managers().ageing_error()->GetAgeingError(ageing_error_label_);
+  ageing_error_ = model_->managers()->ageing_error()->GetAgeingError(ageing_error_label_);
   if (!ageing_error_)
     LOG_ERROR_P(PARAM_AGEING_ERROR) << "Ageing error label (" << ageing_error_label_ << ") was not found.";
   }
 
   age_results_.resize(age_spread_ * category_labels_.size(), 0.0);
 
-  TimeStep* time_step = model_->managers().time_step()->GetTimeStep(time_step_label_);
+  TimeStep* time_step = model_->managers()->time_step()->GetTimeStep(time_step_label_);
   if (!time_step) {
     LOG_FATAL_P(PARAM_TIME_STEP) << "Time step label " << time_step_label_ << " was not found.";
   } else

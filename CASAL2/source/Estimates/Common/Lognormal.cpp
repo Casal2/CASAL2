@@ -13,7 +13,7 @@ namespace estimates {
 /**
  * Default constructor
  */
-Lognormal::Lognormal(Model* model) : Estimate(model) {
+Lognormal::Lognormal(shared_ptr<Model> model) : Estimate(model) {
   parameters_.Bind<Double>(PARAM_MU, &mu_, "The lognormal prior mean (mu) parameter", "")->set_lower_bound(0.0, false);
   parameters_.Bind<Double>(PARAM_CV, &cv_, "The lognormal variance (cv) parameter", "")->set_lower_bound(0.0, false);
 

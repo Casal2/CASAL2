@@ -14,7 +14,7 @@
 #define PROJECTS_CONSTANT_H_
 
 // headers
-#include "Projects/Project.h"
+#include "../../Projects/Project.h"
 
 // namespaces
 namespace niwa {
@@ -25,7 +25,7 @@ namespace projects {
  */
 class Constant : public niwa::Project {
 public:
-  explicit Constant(Model* model);
+  explicit Constant(shared_ptr<Model> model);
   virtual                     ~Constant() = default;
   void                        DoValidate() override final;
   void                        DoBuild() override final;

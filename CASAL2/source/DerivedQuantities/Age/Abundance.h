@@ -16,7 +16,7 @@
 #define DERIVEDQUANTITIES_AGE_ABUNDANCE_H_
 
 // headers
-#include "DerivedQuantities/DerivedQuantity.h"
+#include "../../DerivedQuantities/DerivedQuantity.h"
 
 // namespaces
 namespace niwa {
@@ -27,7 +27,7 @@ namespace age {
 class Abundance : public niwa::DerivedQuantity {
 public:
   // methods
-  explicit Abundance(Model* model) : DerivedQuantity(model) { }
+  explicit Abundance(shared_ptr<Model> model) : DerivedQuantity(model) { }
   virtual                     ~Abundance() = default;
   void                        PreExecute() override final;
   void                        Execute() override final;

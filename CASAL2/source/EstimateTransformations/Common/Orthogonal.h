@@ -4,7 +4,7 @@
  * @date 13/04/2017
  * @section LICENSE
  *
- * Copyright NIWA Science ©2017 - www.niwa.co.nz
+ * Copyright NIWA Science ï¿½2017 - www.niwa.co.nz
  *
  * @section DESCRIPTION
  *
@@ -14,7 +14,7 @@
 #define SOURCE_ESTIMATETRANSFORMATIONS_CHILDREN_ORTHOGONAL_H_
 
 // headers
-#include "EstimateTransformations/EstimateTransformation.h"
+#include "../../EstimateTransformations/EstimateTransformation.h"
 
 // namespaces
 namespace niwa {
@@ -27,7 +27,7 @@ namespace estimatetransformations {
 class Orthogonal : public EstimateTransformation {
 public:
   Orthogonal() = delete;
-  explicit Orthogonal(Model* model);
+  explicit Orthogonal(shared_ptr<Model> model);
   virtual ~Orthogonal() = default;
   void                        TransformForObjectiveFunction() override final { };
   void                        RestoreFromObjectiveFunction() override final { };
@@ -50,10 +50,10 @@ private:
   Double                      phi_2_ = 0.0;
   Double                      theta_1_ = 0.0;
   Double                      theta_2_ = 0.0;
-  double                      first_original_upper_bound_ = 0.0;
-  double                      first_original_lower_bound_ = 0.0;
-  double                      second_original_upper_bound_ = 0.0;
-  double                      second_original_lower_bound_ = 0.0;
+  Double                      first_original_upper_bound_ = 0.0;
+  Double                      first_original_lower_bound_ = 0.0;
+  Double                      second_original_upper_bound_ = 0.0;
+  Double                      second_original_lower_bound_ = 0.0;
 
 };
 

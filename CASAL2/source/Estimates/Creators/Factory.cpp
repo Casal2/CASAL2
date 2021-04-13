@@ -10,16 +10,16 @@
 // headers
 #include "Factory.h"
 
-#include "Model/Model.h"
-#include "Model/Managers.h"
-#include "Estimates/Manager.h"
-#include "Estimates/Creators/Common/Beta.h"
-#include "Estimates/Creators/Common/Lognormal.h"
-#include "Estimates/Creators/Common/Normal.h"
-#include "Estimates/Creators/Common/NormalByStdev.h"
-#include "Estimates/Creators/Common/NormalLog.h"
-#include "Estimates/Creators/Common/Uniform.h"
-#include "Estimates/Creators/Common/UniformLog.h"
+#include "../../Model/Model.h"
+#include "../../Model/Managers.h"
+#include "../../Estimates/Manager.h"
+#include "../../Estimates/Creators/Common/Beta.h"
+#include "../../Estimates/Creators/Common/Lognormal.h"
+#include "../../Estimates/Creators/Common/Normal.h"
+#include "../../Estimates/Creators/Common/NormalByStdev.h"
+#include "../../Estimates/Creators/Common/NormalLog.h"
+#include "../../Estimates/Creators/Common/Uniform.h"
+#include "../../Estimates/Creators/Common/UniformLog.h"
 
 // namespaces
 namespace niwa {
@@ -32,7 +32,7 @@ namespace creators {
  * @param object_type The major object type (@estimate)
  * @param sub_type The sub type of the object (e.g beta)
  */
-Creator* Factory::Create(Model* model, const string& object_type, const string& sub_type) {
+Creator* Factory::Create(shared_ptr<Model> model, const string& object_type, const string& sub_type) {
   Creator* object = nullptr;
 
   if (sub_type == PARAM_BETA)
@@ -51,7 +51,7 @@ Creator* Factory::Create(Model* model, const string& object_type, const string& 
     object = new UniformLog(model);
 
   if (object)
-    model->managers().estimate()->AddCreator(object);
+    model->managers()->estimate()->AddCreator(object);
 
   return object;
 }

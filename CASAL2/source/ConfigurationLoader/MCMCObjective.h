@@ -17,6 +17,7 @@
 
 // headers
 #include <string>
+#include <memory>
 
 // namespaces
 namespace niwa {
@@ -24,18 +25,19 @@ class Model;
 
 namespace configuration {
 using std::string;
+using std::shared_ptr;
 
 // classes
 class MCMCObjective {
 public:
   // methods
-  MCMCObjective(Model* model);
+  MCMCObjective(shared_ptr<Model> model);
   virtual                     ~MCMCObjective() = default;
   bool                        LoadFile(const string& file_name);
 
 private:
   // members
-  Model*                      model_;
+  shared_ptr<Model>                      model_;
 };
 
 } /* namespace configuration */

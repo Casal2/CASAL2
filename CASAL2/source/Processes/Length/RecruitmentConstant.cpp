@@ -5,16 +5,16 @@
  * @date 12/18/2017
  * @section LICENSE
  *
- * Copyright NIWA Science ©2017 - www.niwa.co.nz
+ * Copyright NIWA Science ï¿½2017 - www.niwa.co.nz
  *
  */
 
 // Headers
 #include "RecruitmentConstant.h"
 
-#include "Categories/Categories.h"
-#include "Utilities/DoubleCompare.h"
-#include "Logging/Logging.h"
+#include "../../Categories/Categories.h"
+#include "../../Logging/Logging.h"
+#include "../../Utilities/Math.h"
 
 // Namespaces
 namespace niwa {
@@ -24,12 +24,12 @@ namespace length {
 /**
  * Default constructor
  */
-RecruitmentConstant::RecruitmentConstant(Model* model)
+RecruitmentConstant::RecruitmentConstant(shared_ptr<Model> model)
   : Process(model),
     partition_(model) {
   parameters_.Bind<string>(PARAM_CATEGORIES, &category_labels_, "The categories", "");
   parameters_.Bind<Double>(PARAM_PROPORTIONS, &proportions_, "The proportions", "", true);
-  parameters_.Bind<double>(PARAM_LENGTH_BINS, &length_bins_, "The length bins that recruits are uniformly distributed over at the time of recruitment", "");
+  parameters_.Bind<Double>(PARAM_LENGTH_BINS, &length_bins_, "The length bins that recruits are uniformly distributed over at the time of recruitment", "");
   parameters_.Bind<Double>(PARAM_R0, &r0_, "R0", "")->set_lower_bound(0.0);
 
   RegisterAsAddressable(PARAM_R0, &r0_);
@@ -69,10 +69,11 @@ void RecruitmentConstant::DoValidate() {
     }
 
     Double proportion_total = 0.0;
+
     for (Double proportion : proportions_)
       proportion_total += proportion;
 
-    if (!utilities::doublecompare::IsOne(proportion_total)) {
+    if (!utilities::math::IsOne(proportion_total)) {
       LOG_WARNING() << parameters_.location(PARAM_PROPORTIONS)
         <<": the proportions do not sum to 1.0. The proportions sum to " << AS_DOUBLE(proportion_total) << ". Auto-scaling the proportions to sum to 1.0";
 
@@ -109,6 +110,7 @@ void RecruitmentConstant::DoExecute() {
   Double total_proportions = 0.0;
   for (auto category : partition_)
     total_proportions += proportions_categories_[category->name_];
+
 
   //Update our partition with new recruitment values
   for (auto category : partition_) {

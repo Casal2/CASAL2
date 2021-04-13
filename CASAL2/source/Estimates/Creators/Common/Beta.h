@@ -14,7 +14,7 @@
 #define ESTIMATES_CREATOR_BETA_H_
 
 // headers
-#include "Estimates/Creators/Creator.h"
+#include "../../../Estimates/Creators/Creator.h"
 
 // namespaces
 namespace niwa {
@@ -28,7 +28,7 @@ class Beta : public estimates::Creator {
 public:
   // methods
   Beta() = delete;
-  explicit Beta(Model* model);
+  explicit Beta(shared_ptr<Model> model);
   virtual                     ~Beta() = default;
   void                        DoCopyParameters(niwa::Estimate* estimate, unsigned index) override final;
 

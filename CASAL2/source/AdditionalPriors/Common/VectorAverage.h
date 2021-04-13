@@ -18,7 +18,7 @@
 #define PENALTIES_VECTORAVERAGE_H_
 
 // headers
-#include "AdditionalPriors/AdditionalPrior.h"
+#include "../../AdditionalPriors/AdditionalPrior.h"
 
 // namespaces
 namespace niwa {
@@ -30,20 +30,20 @@ namespace additionalpriors {
 class VectorAverage : public niwa::AdditionalPrior {
 public:
   // methods
-  VectorAverage(Model* model);
+  VectorAverage(shared_ptr<Model> model);
   virtual                     ~VectorAverage() = default;
   Double                      GetScore() override final;
 
 protected:
   // methods
-  void                        DoValidate() override final;
-  void                        DoBuild() override final;
+  void                        DoValidate() final {};
+  void                        DoBuild() final;
   // members
   string                      method_ = "";
   map<unsigned, Double>*      addressable_map_ = nullptr;
   vector<Double>*             addressable_vector_ = nullptr;
   vector<Double*>*            addressable_ptr_vector_ = nullptr;
-  double                      multiplier_ = 0.0;
+  Double                      multiplier_ = 0.0;
   Double                      k_;
 
 };

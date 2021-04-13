@@ -18,26 +18,29 @@
 #include <gmock/gmock.h>
 #include <gtest/gtest.h>
 #include <string>
+#include <memory>
+
+#include "../../Model/Model.h"
 
 // namespaces
 namespace niwa {
-class Model;
-
 namespace testfixtures {
+
+using std::shared_ptr;
 
 /**
  * Class definition
  */
 class Base : public ::testing::Test {
 public:
-  Base();
-  virtual                     ~Base();
+  Base() = default;
+  virtual                     ~Base() = default;
   virtual void                SetUp() override;
   virtual void                TearDown() override;
 
 protected:
   // members
-  Model*                      model_;
+  shared_ptr<Model>      			model_ = nullptr;
 };
 
 } /* namespace testfixtures */

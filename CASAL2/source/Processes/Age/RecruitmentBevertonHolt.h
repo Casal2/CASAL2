@@ -32,7 +32,7 @@ using utilities::OrderedMap;
 class RecruitmentBevertonHolt : public niwa::Process {
 public:
   // methods
-  RecruitmentBevertonHolt(Model* model);
+  RecruitmentBevertonHolt(shared_ptr<Model> model);
   virtual                     ~RecruitmentBevertonHolt() = default;
   void                        DoValidate() override final;
   void                        DoBuild() override final;

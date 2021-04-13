@@ -13,10 +13,10 @@
 
 #include <iomanip>
 
-#include "Estimates/Common/Uniform.h"
-#include "Model/Model.h"
-#include "Model/Objects.h"
-#include "Utilities/To.h"
+#include "../../Estimates/Common/Uniform.h"
+#include "../../Model/Model.h"
+#include "../../Model/Objects.h"
+#include "../../Utilities/To.h"
 
 // namespaces
 namespace niwa {
@@ -25,7 +25,7 @@ namespace reports {
 /**
  * Default constructor
  */
-Addressable::Addressable(Model* model) : Report(model) {
+Addressable::Addressable() {
   run_mode_    = (RunMode::Type)(RunMode::kBasic | RunMode::kEstimation | RunMode::kProjection | RunMode::kProfiling);
   model_state_ = State::kExecute;
 
@@ -35,16 +35,9 @@ Addressable::Addressable(Model* model) : Report(model) {
 }
 
 /**
- * Validate
+ *
  */
-void Addressable::DoValidate() {
-
-}
-
-/**
- * Build
- */
-void Addressable::DoBuild() {
+void Addressable::DoBuild(shared_ptr<Model> model) {
   string type       = "";
   string label      = "";
   string parameter  = "";
@@ -60,16 +53,15 @@ void Addressable::DoBuild() {
   }
 
   string error = "";
-  if (!model_->objects().VerfiyAddressableForUse(parameter_, addressable::kLookup, error)) {
+  if (!model->objects().VerfiyAddressableForUse(parameter_, addressable::kLookup, error)) {
     LOG_FATAL_P(PARAM_PARAMETER) << "could not be verified for use in assert.addressable. Error: " << error;
   }
-  target_ = model_->objects().GetAddressable(parameter_);
 }
 
 /**
  * Prepare the report
  */
-void Addressable::DoPrepare() {
+void Addressable::DoPrepare(shared_ptr<Model> model) {
   cache_ << "*"<< type_ << "[" << label_ << "]" << "\n";
   cache_ << "years: ";
   for (unsigned year : years_)
@@ -81,15 +73,18 @@ void Addressable::DoPrepare() {
 /**
  * Execute the report
  */
-void Addressable::DoExecute() {
+void Addressable::DoExecute(shared_ptr<Model> model) {
   LOG_TRACE();
+  target_ = model->objects().GetAddressable(parameter_);
+  if (target_ == nullptr)
+  	LOG_CODE_ERROR() << "(target_ == nullptr)";
   cache_ << std::left << std::setw(10) << *target_;
 }
 
 /**
  * Finalise the report
  */
-void Addressable::DoFinalise() {
+void Addressable::DoFinalise(shared_ptr<Model> model) {
   cache_ << "\n";
   ready_for_writing_ = true;
 }

@@ -5,7 +5,7 @@
  * @date Jan 8, 2016
  * @section LICENSE
  *
- * Copyright NIWA Science ©2016 - www.niwa.co.nz
+ * Copyright NIWA Science ï¿½2016 - www.niwa.co.nz
  *
  * @section This methods takes two @estimate blocks everides the original methods with an estimate mean and difference
  *
@@ -15,7 +15,7 @@
 #define SOURCE_ESTIMATETRANSFORMATIONS_CHILDREN_AVERAGEDIFFERENCE_H_
 
 // headers
-#include "EstimateTransformations/EstimateTransformation.h"
+#include "../../EstimateTransformations/EstimateTransformation.h"
 
 // namespaces
 namespace niwa {
@@ -25,7 +25,7 @@ namespace estimatetransformations {
 class AverageDifference : public EstimateTransformation {
 public:
   AverageDifference() = delete;
-  explicit AverageDifference(Model* model);
+  explicit AverageDifference(shared_ptr<Model> model);
   virtual ~AverageDifference() = default;
   void                        TransformForObjectiveFunction() override final;
   void                        RestoreFromObjectiveFunction() override final;
@@ -43,14 +43,14 @@ private:
   // members
   string                      difference_estimate_label_ = "";
   Estimate*                   difference_estimate_ = nullptr;
-  double                      average_original_upper_bound_;
-  double                      average_original_lower_bound_;
-  double                      difference_original_lower_bound_;
-  double                      difference_original_upper_bound_;
-  double                      average_upper_bound_;
-  double                      average_lower_bound_;
-  double                      difference_lower_bound_;
-  double                      difference_upper_bound_;
+  Double                      average_original_upper_bound_;
+  Double                      average_original_lower_bound_;
+  Double                      difference_original_lower_bound_;
+  Double                      difference_original_upper_bound_;
+  Double                      average_upper_bound_;
+  Double                      average_lower_bound_;
+  Double                      difference_lower_bound_;
+  Double                      difference_upper_bound_;
   Double                      x1_;
   Double                      y1_;
   Double                      y2_;

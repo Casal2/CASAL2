@@ -18,7 +18,7 @@
 #define MINIMISERS_GAMMADIFF_H_
 
 // headers
-#include "Minimisers/Minimiser.h"
+#include "../../Minimisers/Minimiser.h"
 
 // namespaces
 namespace niwa {
@@ -31,7 +31,7 @@ namespace minimisers {
 class GammaDiff :  public niwa::Minimiser  {
 public:
   // Methods
-  GammaDiff(Model* model);
+  GammaDiff(shared_ptr<Model> model);
   virtual                     ~GammaDiff() = default;
   void                        DoValidate() override final { };
   void                        DoBuild() override final { };

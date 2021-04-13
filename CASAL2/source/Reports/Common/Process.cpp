@@ -14,10 +14,10 @@
 
 #include <boost/algorithm/string/join.hpp>
 
-#include "Model/Managers.h"
-#include "Model/Model.h"
-#include "Processes/Manager.h"
-#include "Processes/Process.h"
+#include "../../Model/Managers.h"
+#include "../../Model/Model.h"
+#include "../../Processes/Manager.h"
+#include "../../Processes/Process.h"
 
 // namespaces
 namespace niwa {
@@ -25,8 +25,10 @@ namespace reports {
 
 /**
  * Default constructor
+ *
+ * @param model Pointer to the current model context
  */
-Process::Process(Model* model) : Report(model) {
+Process::Process() {
   model_state_ = State::kIterationComplete;
   run_mode_    = (RunMode::Type)(RunMode::kBasic | RunMode::kSimulation | RunMode::kEstimation | RunMode::kProjection | RunMode::kProfiling);
 
@@ -36,8 +38,8 @@ Process::Process(Model* model) : Report(model) {
 /**
  * Build the relationships between this object and other objects
  */
-void Process::DoBuild() {
-  process_ = model_->managers().process()->GetProcess(process_label_);
+void Process::DoBuild(shared_ptr<Model> model) {
+  process_ = model->managers()->process()->GetProcess(process_label_); // TODO: this will break shit
   if (!process_) {
     LOG_ERROR_P(PARAM_PROCESS) << "process " << process_label_ << " was not found.";
   }
@@ -46,10 +48,14 @@ void Process::DoBuild() {
 /**
  * Execute this report
  */
-void Process::DoExecute() {
-  LOG_FINE() <<"printing report " << label_ << " of type " << process_->type();
+void Process::DoExecute(shared_ptr<Model> model) {
+  process_ = model->managers()->process()->GetProcess(process_label_); // TODO: this will break shit
+  if (!process_)
+    LOG_CODE_ERROR() << "(!process): " << process_label_;
 
-  bool is_BH_recruitment = (process_->type() == PARAM_RECRUITMENT_BEVERTON_HOLT) || (process_->type() == PARAM_BEVERTON_HOLT);
+  LOG_FINE() <<" printing report " << label_ << " of type " << process_->type();
+
+  bool is_BH_recruitment = (process_->type() == PARAM_RECRUITMENT_BEVERTON_HOLT) | (process_->type() == PARAM_BEVERTON_HOLT);
   cache_ << "*"<< type_ << "[" << label_ << "]" << "\n";
 
   auto parameters = process_->parameters().parameters();
@@ -71,7 +77,7 @@ void Process::DoExecute() {
 /**
  * Execute this tabular report
  */
-void Process::DoExecuteTabular() {
+void Process::DoExecuteTabular(shared_ptr<Model> model) {
   if (first_run_) {
     first_run_ = false;
     cache_ << "*"<< type_ << "[" << label_ << "]" << "\n";
@@ -85,9 +91,8 @@ void Process::DoExecuteTabular() {
 /**
  *  Finalise the tabular report
  */
-void Process::DoFinaliseTabular() {
+void Process::DoFinaliseTabular(shared_ptr<Model> model) {
   ready_for_writing_ = true;
 }
-
 } /* namespace reports */
 } /* namespace niwa */

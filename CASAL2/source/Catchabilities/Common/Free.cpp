@@ -6,7 +6,6 @@
  * @section LICENSE
  *
  * Copyright NIWA Science ©2014 - www.niwa.co.nz
- *
  */
 
 // headers
@@ -26,7 +25,7 @@ namespace catchabilities {
  *
  * Note: The constructor is parsed to generate LaTeX for the documentation.
  */
-Free::Free(Model* model) : Catchability(model) {
+Free::Free(shared_ptr<Model> model) : Catchability(model) {
   parameters_.Bind<Double>(PARAM_Q, &q_, "The value of the catchability", "")->set_lower_bound(0.0);
 
   RegisterAsAddressable(PARAM_Q, &q_);

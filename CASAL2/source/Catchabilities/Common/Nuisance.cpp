@@ -12,15 +12,15 @@
 // headers
 #include "Nuisance.h"
 
-#include "AdditionalPriors/Manager.h"
-#include "Utilities/DoubleCompare.h"
-#include "Utilities/To.h"
+#include "../../AdditionalPriors/Manager.h"
+#include "../../Utilities/Math.h"
+#include "../../Utilities/To.h"
 
 // namespaces
 namespace niwa {
 namespace catchabilities {
 
-namespace dc = niwa::utilities::doublecompare;
+namespace math 	= niwa::utilities::math;
 namespace utils = niwa::utilities;
 
 /**
@@ -33,9 +33,9 @@ namespace utils = niwa::utilities;
  *
  * Note: The constructor is parsed to generate LaTeX for the documentation.
  */
-Nuisance::Nuisance(Model* model) : Catchability(model) {
-  parameters_.Bind<double>(PARAM_LOWER_BOUND, &lower_bound_, "The upper bound for nuisance catchability", "");
-  parameters_.Bind<double>(PARAM_UPPER_BOUND, &upper_bound_, "The lower bound for nuisance catchability", "");
+Nuisance::Nuisance(shared_ptr<Model> model) : Catchability(model) {
+  parameters_.Bind<Double>(PARAM_LOWER_BOUND, &lower_bound_, "The upper bound for nuisance catchability", "");
+  parameters_.Bind<Double>(PARAM_UPPER_BOUND, &upper_bound_, "The lower bound for nuisance catchability", "");
 
   RegisterAsAddressable(PARAM_Q, &q_, addressable::kLookup);
 }
@@ -43,13 +43,12 @@ Nuisance::Nuisance(Model* model) : Catchability(model) {
 /**
  * Validate the objects
  */
-void Nuisance::DoValidate() {
-}
+void Nuisance::DoBuild() {
+	// TODO: Fix this shit. Building dynamic parameter feels horrible.
 
 /**
  *  Build the objects
  */
-void Nuisance::DoBuild() {
   LOG_TRACE();
 
   //This was the first path that I went down, the second was going down an additional prior.
@@ -58,11 +57,11 @@ void Nuisance::DoBuild() {
   LOG_FINEST() << "Find an @additional_prior block for parameter " << parameter;
 
   bool has_prior;
-  has_prior = model_->managers().additional_prior()->HasAdditionalPrior(parameter);
+  has_prior = model_->managers()->additional_prior()->HasAdditionalPrior(parameter);
 
   if (has_prior) {
     // Obtain a pointer to the estimate
-    AdditionalPrior* additional_prior = model_->managers().additional_prior()->GetAdditionalPrior(parameter);
+  	AdditionalPrior* additional_prior = model_->managers()->additional_prior()->GetAdditionalPrior(parameter);
     if (!additional_prior)
       LOG_ERROR() << "Can not get additional_prior with the parameter label " << parameter;
     // Find out the prior type
@@ -78,17 +77,17 @@ void Nuisance::DoBuild() {
     map<string, Parameter*> parameters = additional_prior->parameters().parameters();
      for (auto iter = parameters.begin(); iter != parameters.end(); ++iter) {
        if (iter->first == PARAM_MU) {
-         double mu = 0.0;
+         Double mu = 0.0;
          for (string parameter_value : iter->second->values()) {
-           if (!utils::To<double>(parameter_value, mu))
+           if (!utils::To<Double>(parameter_value, mu))
              LOG_ERROR() << "parameter mu = " << parameter_value << " could not be converted to a double";
          }
          mu_ = mu;
        }
        if (iter->first == PARAM_CV) {
-         double cv = 0.0;
+         Double cv = 0.0;
          for (string parameter_value : iter->second->values()) {
-           if (!utils::To<double>(parameter_value, cv))
+           if (!utils::To<Double>(parameter_value, cv))
              LOG_ERROR() << "parameter cv = " << parameter_value << " could not be converted to a double";
          }
          cv_ = cv;
@@ -99,6 +98,8 @@ void Nuisance::DoBuild() {
     LOG_FINEST() << "solving for q in a maximum likelihood context, i.e., with no prior";
     q_ = 1.0;
   }
+
+
 }
 
 /**
@@ -106,9 +107,10 @@ void Nuisance::DoBuild() {
  *
  * @param Comparison this is the comparison object that observed, expected and errors are stored in the Observation class.
  * @param likelihood is a string indicating the type of likelihood
+ *
  * @return this function will solve for q given the comparison structure.
  */
-void Nuisance::CalculateQ(map<unsigned, vector<observations::Comparison> >& comparisons,const string& likelihood) {
+void Nuisance::CalculateQ(map<unsigned, vector<observations::Comparison> >& comparisons, string_view likelihood) {
   LOG_TRACE();
   LOG_FINEST() << "Converting nuisance q with prior = " << prior_type_ << " and likelihood = " << likelihood;
   if (likelihood != PARAM_NORMAL && likelihood != PARAM_LOGNORMAL) {
@@ -144,9 +146,9 @@ void Nuisance::CalculateQ(map<unsigned, vector<observations::Comparison> >& comp
   for (auto year_iterator = comparisons.begin(); year_iterator != comparisons.end(); ++year_iterator) {
     // Iterate over each category
     for (observations::Comparison& comparison : year_iterator->second) {
-      if (comparison.expected_ <= ZERO)
-        LOG_WARNING() << "The comparison expected less than " << ZERO;
-      comparison.expected_ = dc::ZeroFun(comparison.expected_,ZERO);
+      if (comparison.expected_ <= math::ZERO)
+        LOG_WARNING() << "The comparison expected less than " << math::ZERO;
+      comparison.expected_ = math::ZeroFun(comparison.expected_, math::ZERO);
         n++;
         Double cv = comparison.error_value_;
         if (comparison.error_value_ > 0.0 && comparison.process_error_ > 0.0)
@@ -167,7 +169,7 @@ void Nuisance::CalculateQ(map<unsigned, vector<observations::Comparison> >& comp
     for (auto year_iterator = comparisons.begin(); year_iterator != comparisons.end(); ++year_iterator) {
       // Iterate over each category
       for (observations::Comparison& comparison : year_iterator->second) {
-        comparison.expected_ = dc::ZeroFun(comparison.expected_,ZERO);
+        comparison.expected_ = math::ZeroFun(comparison.expected_, math::ZERO);
           n++;
           Double cv = comparison.error_value_;
           if (comparison.error_value_ > 0.0 && comparison.process_error_ > 0.0)
@@ -186,7 +188,7 @@ void Nuisance::CalculateQ(map<unsigned, vector<observations::Comparison> >& comp
     for (auto year_iterator = comparisons.begin(); year_iterator != comparisons.end(); ++year_iterator) {
       // Iterate over each category
       for (observations::Comparison& comparison : year_iterator->second) {
-        comparison.expected_ = dc::ZeroFun(comparison.expected_,ZERO);
+        comparison.expected_ = math::ZeroFun(comparison.expected_, math::ZERO);
           n++;
           Double cv = comparison.error_value_;
           if (comparison.error_value_ > 0.0 && comparison.process_error_ > 0.0)
@@ -209,7 +211,7 @@ void Nuisance::CalculateQ(map<unsigned, vector<observations::Comparison> >& comp
       for (auto year_iterator = comparisons.begin(); year_iterator != comparisons.end(); ++year_iterator) {
         // Iterate over each category
         for (observations::Comparison& comparison : year_iterator->second) {
-          comparison.expected_ = dc::ZeroFun(comparison.expected_,ZERO);
+          comparison.expected_ = math::ZeroFun(comparison.expected_, math::ZERO);
             n++;
             Double cv = comparison.error_value_;
             if (comparison.error_value_ > 0.0 && comparison.process_error_ > 0.0)
@@ -232,6 +234,7 @@ void Nuisance::CalculateQ(map<unsigned, vector<observations::Comparison> >& comp
 
   LOG_FINE() << "Analytical q = " << q_;
 
+
   if (q_ > upper_bound_) {
     q_ = upper_bound_;
     LOG_FINE() << "Nuisance q hit upper bound q set to upper bound = " << upper_bound_;
@@ -241,9 +244,11 @@ void Nuisance::CalculateQ(map<unsigned, vector<observations::Comparison> >& comp
     q_ = lower_bound_;
     LOG_FINE() << "Nuisance q hit upper bound q set to lower bound = " << lower_bound_;
   }
-
   LOG_FINEST() << "Setting q = " << q_;
+
 }
+
+
 
 } /* namespace catchabilities */
 } /* namespace niwa */

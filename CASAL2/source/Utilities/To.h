@@ -22,11 +22,10 @@
 #include <vector>
 #include <boost/lexical_cast.hpp>
 
-#include "Logging/Logging.h"
-#include "Utilities/Exception.h"
-#include "Utilities/PartitionType.h"
-#include "Utilities/Types.h"
-#include "Translations/Translations.h"
+#include "../Logging/Logging.h"
+#include "../Utilities/Exception.h"
+#include "../Utilities/PartitionType.h"
+#include "../Translations/Translations.h"
 
 // Namespaces
 namespace niwa {
@@ -71,7 +70,7 @@ inline void ToLowercase(vector<string> &values) {
  */
 template<typename Target>
 bool To(const ::std::string arg, Target &result) {
-  result = Target();
+  result = Target(); // TODO: Why did NIWA add this?
   try {
     result = boost::lexical_cast<Target>(arg);
   } catch (...) {
@@ -113,7 +112,7 @@ vector<string> To(const vector<string>& source, vector<Target>& result) {
  */
 template <>
 inline bool To(const ::std::string arg, unsigned &result) {
-  result = (unsigned)0;
+  result = (unsigned)0; // TODO: Why did NIWA add this?
   try {
     int temp = boost::lexical_cast<int>(arg);
     if (temp < 0)
@@ -181,9 +180,12 @@ inline bool To(const ::std::string arg, PartitionType &result) {
 //    result = PartitionType::kHybrid;
   else if (value == PARAM_MODEL)
     result = PartitionType::kModel;
+  else if (value == PARAM_MULTIVARIATE)
+  	result = PartitionType::kMultivariate;
+  else if (value == PARAM_PI_APPROX)
+  	result = PartitionType::kPiApprox;
 
   bool success = result != PartitionType::kInvalid;
-
   return success;
 }
 

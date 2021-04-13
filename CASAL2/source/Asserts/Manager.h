@@ -14,9 +14,9 @@
 #define ASSERTS_MANAGER_H_
 
 // Headers
-#include "BaseClasses/Manager.h"
-#include "Asserts/Assert.h"
-#include "Model/Managers.h"
+#include "../BaseClasses/Manager.h"
+#include "../Asserts/Assert.h"
+#include "../Model/Managers.h"
 
 // Namespaces
 namespace niwa {

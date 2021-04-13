@@ -4,7 +4,7 @@
  * @date 1/09/2014
  * @section LICENSE
  *
- * Copyright NIWA Science ©2014 - www.niwa.co.nz
+ * Copyright NIWA Science ï¿½2014 - www.niwa.co.nz
  *
  * @section DESCRIPTION
  *
@@ -14,7 +14,7 @@
 #define ASSERTS_OBJECTIVEFUNCTION_H_
 
 // headers
-#include "Asserts/Assert.h"
+#include "../../Asserts/Assert.h"
 
 // namespaces
 namespace niwa {
@@ -24,7 +24,7 @@ namespace asserts {
 class ObjectiveFunction : public niwa::Assert {
 public:
   // methods
-  ObjectiveFunction(Model* model);
+  ObjectiveFunction(shared_ptr<Model> model);
   virtual                     ~ObjectiveFunction() = default;
   void                        Execute() override final;
 
@@ -36,7 +36,7 @@ protected:
 private:
   // members
   Double                      value_;
-  double                      tol_ = 1.0e-6;
+  Double                      tol_ = 1.0e-6;
 };
 
 } /* namespace asserts */

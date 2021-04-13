@@ -15,7 +15,7 @@
 // Headers
 #include <string>
 
-#include "Processes/Process.h"
+#include "../Processes/Process.h"
 
 // Namespaces
 namespace niwa {
@@ -30,7 +30,7 @@ using std::string;
 class Factory {
 public:
   // methods
-  static Process* Create(Model* model, const string& object_type, const string& sub_type, PartitionType partition_type);
+  static Process* Create(shared_ptr<Model> model, const string& object_type, const string& sub_type, PartitionType partition_type);
 
 private:
   // methods

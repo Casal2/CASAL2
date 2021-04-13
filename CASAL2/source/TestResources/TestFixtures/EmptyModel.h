@@ -18,7 +18,7 @@
 #ifdef TESTMODE
 
 // Headers
-#include "TestResources/TestFixtures/Base.h"
+#include "../../TestResources/TestFixtures/Base.h"
 
 // Namespaces
 namespace niwa {

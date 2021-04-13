@@ -14,7 +14,7 @@
 #define ESTIMATES_CREATORS_UNIFORM_H_
 
 // headers
-#include "Estimates/Creators/Creator.h"
+#include "../../../Estimates/Creators/Creator.h"
 
 // namespaces
 namespace niwa {
@@ -28,7 +28,7 @@ class Uniform : public estimates::Creator {
 public:
   // methods
   Uniform() = delete;
-  explicit Uniform(Model* model);
+  explicit Uniform(shared_ptr<Model> model);
   virtual                     ~Uniform() = default;
   void                        DoCopyParameters(niwa::Estimate* estimate, unsigned index) override final { };
 };

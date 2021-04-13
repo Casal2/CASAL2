@@ -4,16 +4,16 @@
  * @date 15/02/2016
  * @section LICENSE
  *
- * Copyright NIWA Science ©2013 - www.niwa.co.nz
+ * Copyright NIWA Science ï¿½2013 - www.niwa.co.nz
  *
  */
 
 // headers
 #include "OutputParameters.h"
 
-#include "Estimates/Manager.h"
-#include "Model/Model.h"
-#include "Profiles/Manager.h"
+#include "../../Estimates/Manager.h"
+#include "../../Model/Model.h"
+#include "../../Profiles/Manager.h"
 
 // namespaces
 namespace niwa {
@@ -22,23 +22,17 @@ namespace reports {
 /**
  * Default constructor
  */
-OutputParameters::OutputParameters(Model* model) : Report(model) {
+OutputParameters::OutputParameters() {
   run_mode_     = (RunMode::Type)(RunMode::kBasic | RunMode::kEstimation | RunMode::kProfiling);
   model_state_  = State::kIterationComplete;
 }
 
 /**
- * Destructor
+ * Execute this report.
  */
-OutputParameters::~OutputParameters() noexcept(true) {
-}
-
-/**
- * Execute this report
- */
-void OutputParameters::DoExecute() {
-  vector<Estimate*> estimates = model_->managers().estimate()->objects();
-  vector<Profile*>  profiles  = model_->managers().profile()->objects();
+void OutputParameters::DoExecute(shared_ptr<Model> model) {
+  vector<Estimate*> estimates = model->managers()->estimate()->objects();
+  vector<Profile*>  profiles  = model->managers()->profile()->objects();
 
   /**
    * if this is the first run we print the report header etc
@@ -50,22 +44,22 @@ void OutputParameters::DoExecute() {
        cache_ << "values "<< REPORT_R_MATRIX << "\n";
      }
      for (Estimate* estimate : estimates)
-       cache_ << estimate->parameter() << " ";
+         cache_ << estimate->parameter() << " ";
 
-     if (model_->run_mode() == RunMode::kProfiling) {
+     if (model->run_mode() == RunMode::kProfiling) {
        for (auto profile : profiles)
          cache_ << profile->parameter() << " ";
      }
-
      cache_ << "\n";
+
    }
 
 
    for (Estimate* estimate : estimates)
-     cache_ << AS_VALUE(estimate->value()) << " ";
-   if (model_->run_mode() == RunMode::kProfiling) {
+     cache_ << AS_DOUBLE(estimate->value()) << " ";
+   if (model->run_mode() == RunMode::kProfiling) {
      for (Profile* profile : profiles)
-       cache_ << AS_VALUE(profile->value()) << " ";
+       cache_ << AS_DOUBLE(profile->value()) << " ";
    }
    cache_ << "\n";
 

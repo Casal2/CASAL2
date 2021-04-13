@@ -13,32 +13,32 @@
 // Headers
 #include "Factory.h"
 
-#include "Model/Model.h"
-#include "Model/Managers.h"
-#include "Processes/Manager.h"
-#include "Processes/Age/Ageing.h"
-#include "Processes/Age/Maturation.h"
-#include "Processes/Age/MortalityConstantRate.h"
-#include "Processes/Age/MortalityEvent.h"
-#include "Processes/Age/MortalityEventBiomass.h"
-#include "Processes/Age/MortalityInstantaneous.h"
-#include "Processes/Age/MortalityInitialisationEvent.h"
-#include "Processes/Age/MortalityInitialisationEventBiomass.h"
-#include "Processes/Age/MortalityPreySuitability.h"
-#include "Processes/Age/MortalityHollingRate.h"
-#include "Processes/Age/RecruitmentBevertonHolt.h"
-#include "Processes/Age/RecruitmentBevertonHoltWithDeviations.h"
-#include "Processes/Age/RecruitmentConstant.h"
-#include "Processes/Age/TagByAge.h"
-#include "Processes/Age/TagByLength.h"
-#include "Processes/Age/TagLoss.h"
-#include "Processes/Age/TransitionCategory.h"
-#include "Processes/Age/TransitionCategoryByAge.h"
-#include "Processes/Common/Nop.h"
-#include "Processes/Length/GrowthBasic.h"
-#include "Processes/Length/MortalityConstantRate.h"
-#include "Processes/Length/RecruitmentConstant.h"
-#include "Processes/Age/MortalityInstantaneousRetained.h"
+#include "../Model/Model.h"
+#include "../Model/Managers.h"
+#include "../Processes/Manager.h"
+#include "../Processes/Age/Ageing.h"
+#include "../Processes/Age/Maturation.h"
+#include "../Processes/Age/MortalityConstantRate.h"
+#include "../Processes/Age/MortalityEvent.h"
+#include "../Processes/Age/MortalityEventBiomass.h"
+#include "../Processes/Age/MortalityInstantaneous.h"
+#include "../Processes/Age/MortalityInitialisationEvent.h"
+#include "../Processes/Age/MortalityInitialisationEventBiomass.h"
+#include "../Processes/Age/MortalityPreySuitability.h"
+#include "../Processes/Age/MortalityHollingRate.h"
+#include "../Processes/Age/RecruitmentBevertonHolt.h"
+#include "../Processes/Age/RecruitmentBevertonHoltWithDeviations.h"
+#include "../Processes/Age/RecruitmentConstant.h"
+#include "../Processes/Age/TagByAge.h"
+#include "../Processes/Age/TagByLength.h"
+#include "../Processes/Age/TagLoss.h"
+#include "../Processes/Age/TransitionCategory.h"
+#include "../Processes/Age/TransitionCategoryByAge.h"
+#include "../Processes/Common/Nop.h"
+#include "../Processes/Length/GrowthBasic.h"
+#include "../Processes/Length/MortalityConstantRate.h"
+#include "../Processes/Length/RecruitmentConstant.h"
+#include "../Processes/Age/MortalityInstantaneousRetained.h"
 
 
 // Namespaces
@@ -53,7 +53,7 @@ namespace processes {
  * @param sub_type The child type of the object to create (e.g., ageing, schnute)
  * @return shared_ptr to the object
  */
-Process* Factory::Create(Model* model, const string& object_type, const string& sub_type, PartitionType partition_type) {
+Process* Factory::Create(shared_ptr<Model> model, const string& object_type, const string& sub_type, PartitionType partition_type) {
   Process* result = nullptr;
 
   string object = object_type;
@@ -119,9 +119,7 @@ Process* Factory::Create(Model* model, const string& object_type, const string& 
         else if (sub == PARAM_TRANSITION_CATEGORY_BY_AGE)
           result = new age::TransitionCategoryByAge(model);
       }
-
-  if (model->partition_type() == PartitionType::kLength ||
-      (partition_type == PartitionType::kModel && model->partition_type() == PartitionType::kLength)) {
+  if (model->partition_type() == PartitionType::kLength || (partition_type == PartitionType::kModel && model->partition_type() == PartitionType::kLength)) {
     if (object == PARAM_PROCESS || object == PARAM_PROCESSES) {
       if (sub == PARAM_GROWTH_BASIC)
         result = new length::GrowthBasic(model);
@@ -133,7 +131,7 @@ Process* Factory::Create(Model* model, const string& object_type, const string& 
   }
 
   if (result)
-    model->managers().process()->AddObject(result);
+    model->managers()->process()->AddObject(result);
 
   return result;
 }

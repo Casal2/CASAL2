@@ -15,9 +15,9 @@
 #define AGELENGTH_H_
 
 // headers
-#include "BaseClasses/Object.h"
-#include "Partition/Category.h"
-#include "Utilities/Distribution.h"
+#include "../BaseClasses/Object.h"
+#include "../Partition/Category.h"
+#include "../Utilities/Distribution.h"
 
 // namespaces
 namespace niwa {
@@ -32,47 +32,47 @@ public:
 
   // methods
   AgeLength() = delete;
-  explicit AgeLength(Model* model);
-  virtual                           ~AgeLength() { };
-  void                              Validate();
-  void                              Build();
-  void                              Reset();
-  virtual void                      RebuildCache();
-
-  // Methods
-  virtual Double                    mean_length(unsigned time_step, unsigned age) = 0;
-  virtual Double                    mean_weight(unsigned time_step, unsigned age) = 0;
-  virtual Double                    GetMeanLength(unsigned year, unsigned time_step, unsigned age) = 0;
+  explicit AgeLength(shared_ptr<Model> model);
+  virtual                     ~AgeLength() { };
+  void                        Validate();
+  void                        Build();
+  void                        Reset();
+  virtual void                RebuildCache();
 
   // accessors
-  virtual Double                    cv(unsigned year, unsigned time_step, unsigned age) { return cvs_[year][time_step][age]; };
-  virtual string                    distribution_label() { return distribution_label_; };
-  Distribution                      distribution() const { return distribution_; }
-  bool                              casal_normal_cdf() const { return casal_normal_cdf_; }
-  bool                              varies_by_years() const { return varies_by_year_; }
+  virtual Double              GetMeanLength(unsigned year, unsigned time_step, unsigned age) = 0;
+  virtual Double              cv(unsigned year, unsigned time_step, unsigned age) { return cvs_[year][time_step][age]; };
+  virtual string              distribution_label() { return distribution_label_; };
+  Distribution                distribution() const { return distribution_; }
+  bool                        casal_normal_cdf() const { return casal_normal_cdf_; }
+  bool                        varies_by_years() const { return varies_by_year_; }
+
+  // Methods
+  virtual Double              mean_weight(unsigned time_step, unsigned age) = 0;
+  virtual Double              mean_length(unsigned time_step, unsigned age) = 0;
+
 
 protected:
   // methods
 
-  virtual void                      DoValidate() = 0;
-  virtual void                      DoBuild() = 0;
-  virtual void                      DoReset() = 0;
-  virtual void                      DoRebuildCache() = 0;
+  virtual void                DoValidate() = 0;
+  virtual void                DoBuild() = 0;
+  virtual void                DoReset() = 0;
+  virtual void                DoRebuildCache() = 0;
 
-  void                              BuildCV();
-
+  void                        BuildCV();
   // members
-  Model*                            model_ = nullptr;
-  vector<double>                    time_step_proportions_;
-  Double                            cv_first_ = 0.0;
-  Double                            cv_last_;
-  bool                              by_length_;
-  string                            distribution_label_;
-  Distribution                      distribution_;
-  bool                              casal_normal_cdf_ = false;
-  bool                              varies_by_year_ = false;
+  shared_ptr<Model>           model_ = nullptr;
+  vector<Double>              time_step_proportions_;
+  Double                      cv_first_ = 0.0;
+  Double                      cv_last_;
+  bool                        by_length_;
+  string                      distribution_label_;
+  Distribution                distribution_;
+  bool                        casal_normal_cdf_ = false;
+  bool                        varies_by_year_ = false;
 
-  map<unsigned, map<unsigned, map<unsigned, Double>>>       cvs_;  // cvs[year][time_step][age]
+  map<unsigned, map<unsigned, map<unsigned, Double>>>       cvs_;  //cvs[year][time_step][age]
 };
 
 } /* namespace niwa */

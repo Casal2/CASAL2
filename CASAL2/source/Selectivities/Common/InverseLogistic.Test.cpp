@@ -18,7 +18,7 @@
 #include <gtest/gtest.h>
 #include <boost/lexical_cast.hpp>
 
-#include "TestResources/MockClasses/Model.h"
+#include "../../TestResources/MockClasses/Model.h"
 
 // Namespaces
 namespace niwa {
@@ -30,13 +30,13 @@ using ::testing::ReturnRef;
  * Test the results of our selectivity are correct
  */
 TEST(Selectivities, InverseLogistic_Age) {
-  MockModel model;
-  EXPECT_CALL(model, min_age()).WillRepeatedly(Return(10));
-  EXPECT_CALL(model, max_age()).WillRepeatedly(Return(20));
-  EXPECT_CALL(model, age_spread()).WillRepeatedly(Return(11));
-  EXPECT_CALL(model, partition_type()).WillRepeatedly(Return(PartitionType::kAge));
+  shared_ptr<MockModel> model = shared_ptr<MockModel>(new MockModel());
+  EXPECT_CALL(*model, min_age()).WillRepeatedly(Return(10));
+  EXPECT_CALL(*model, max_age()).WillRepeatedly(Return(20));
+  EXPECT_CALL(*model, age_spread()).WillRepeatedly(Return(11));
+  EXPECT_CALL(*model, partition_type()).WillRepeatedly(Return(PartitionType::kAge));
 
-  niwa::selectivities::InverseLogistic inverse_logistic(&model);
+  niwa::selectivities::InverseLogistic inverse_logistic(model);
 
   inverse_logistic.parameters().Add(PARAM_LABEL, "unit_test_inverse_logistic", __FILE__, __LINE__);
   inverse_logistic.parameters().Add(PARAM_TYPE, "not needed in test", __FILE__, __LINE__);
@@ -61,15 +61,15 @@ TEST(Selectivities, InverseLogistic_Age) {
 }
 
 TEST(Selectivities, InverseLogistic_Length) {
-  MockModel model;
-  EXPECT_CALL(model, min_age()).WillRepeatedly(Return(10));
-  EXPECT_CALL(model, max_age()).WillRepeatedly(Return(20));
-  EXPECT_CALL(model, age_spread()).WillRepeatedly(Return(11));
+  shared_ptr<MockModel> model = shared_ptr<MockModel>(new MockModel());
+  EXPECT_CALL(*model, min_age()).WillRepeatedly(Return(10));
+  EXPECT_CALL(*model, max_age()).WillRepeatedly(Return(20));
+  EXPECT_CALL(*model, age_spread()).WillRepeatedly(Return(11));
   vector<double> lengths = {10, 20, 30, 40, 50, 60, 120};
-  EXPECT_CALL(model, length_bins()).WillRepeatedly(ReturnRef(lengths));
-  EXPECT_CALL(model, partition_type()).WillRepeatedly(Return(PartitionType::kLength));
+  EXPECT_CALL(*model, length_bins()).WillRepeatedly(ReturnRef(lengths));
+  EXPECT_CALL(*model, partition_type()).WillRepeatedly(Return(PartitionType::kLength));
 
-  niwa::selectivities::InverseLogistic inverse_logistic(&model);
+  niwa::selectivities::InverseLogistic inverse_logistic(model);
 
   vector<double> expected_values = {0.64310991374259796, 0.50000000000000000, 0.35689008625740204, 0.23545238646229960, 0.14595776020489171, 0.08662554508809206, 0.0027624309392264568};
 

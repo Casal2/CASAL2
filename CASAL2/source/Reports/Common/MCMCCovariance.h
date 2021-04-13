@@ -15,7 +15,7 @@
 #define MCMCCOVARIANCE_H_
 
 // headers
-#include "Reports/Report.h"
+#include "../../Reports/Report.h"
 
 // namespaces
 namespace niwa {
@@ -23,12 +23,12 @@ namespace reports {
 
 class MCMCCovariance : public niwa::Report {
 public:
-  MCMCCovariance(Model* model);
+  MCMCCovariance();
   virtual                     ~MCMCCovariance() = default;
-  void                        DoValidate() override final { };
-  void                        DoBuild() override final { };
-  void                        DoExecute() override final;
-  void                        DoExecuteTabular() override final { };
+  void                        DoValidate(shared_ptr<Model> model) final { };
+  void                        DoBuild(shared_ptr<Model> model) final { };
+  void                        DoExecute(shared_ptr<Model> model) final;
+  void                        DoExecuteTabular(shared_ptr<Model> model) final { };
 };
 
 } /* namespace reports */

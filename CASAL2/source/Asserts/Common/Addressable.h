@@ -4,7 +4,7 @@
  * @date 1/09/2014
  * @section LICENSE
  *
- * Copyright NIWA Science ©2014 - www.niwa.co.nz
+ * Copyright NIWA Science ï¿½2014 - www.niwa.co.nz
  *
  * @section DESCRIPTION
  *
@@ -14,7 +14,7 @@
 #define ASSERT_ADDRESSABLE_H_
 
 // headers
-#include "Asserts/Assert.h"
+#include "../../Asserts/Assert.h"
 
 // namespaces
 namespace niwa {
@@ -24,7 +24,7 @@ namespace asserts {
 class Addressable : public niwa::Assert {
 public:
   // methods
-  Addressable(Model* model);
+  Addressable(shared_ptr<Model> model);
   virtual                     ~Addressable() = default;
   void                        Execute() override final;
 
@@ -39,7 +39,7 @@ private:
   vector<unsigned>            years_;
   string                      time_step_label_ = "";
   vector<unsigned>            values_;
-  map<unsigned, double>       year_values_;
+  map<unsigned, Double>       year_values_;
   Double*                     addressable_ = nullptr;
 };
 

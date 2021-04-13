@@ -13,13 +13,15 @@
 // Headers
 #include "ObjectiveFunction.h"
 
-#include "AdditionalPriors/Manager.h"
-#include "Estimates/Manager.h"
-#include "EstimateTransformations/Manager.h"
-#include "Model/Model.h"
-#include "Observations/Manager.h"
-#include "Penalties/Manager.h"
-#include "Utilities/To.h"
+#include <thread>
+
+#include "../AdditionalPriors/Manager.h"
+#include "../Estimates/Manager.h"
+#include "../EstimateTransformations/Manager.h"
+#include "../Model/Model.h"
+#include "../Observations/Manager.h"
+#include "../Penalties/Manager.h"
+#include "../Utilities/To.h"
 
 // Namespaces
 namespace niwa {
@@ -27,7 +29,7 @@ namespace niwa {
 /**
  * Default constructor
  */
-ObjectiveFunction::ObjectiveFunction(Model* model) : model_(model) {
+ObjectiveFunction::ObjectiveFunction(shared_ptr<Model> model) : model_(model) {
 }
 
 /**
@@ -48,13 +50,13 @@ void ObjectiveFunction::Clear() {
  * Calculate the score for all objects in the objective function
  */
 void ObjectiveFunction::CalculateScore() {
-  LOG_TRACE();
+	LOG_TRACE();
   Clear();
 
   /**
    * Get the scores from each of the observations/likelihoods
    */
-  vector<Observation*> observations = model_->managers().observation()->objects();
+  vector<Observation*> observations = model_->managers()->observation()->objects();
   likelihoods_ = 0.0;
   for(auto observation : observations) {
     const map<unsigned, Double>& scores = observation->scores();
@@ -77,7 +79,7 @@ void ObjectiveFunction::CalculateScore() {
    */
   penalties_ = 0.0;
 
-  for (auto penalty : model_->managers().penalty()->objects()) {
+  for (auto penalty : model_->managers()->penalty()->objects()) {
     if (penalty->has_score()) {
       objective::Score new_score;
 
@@ -93,7 +95,7 @@ void ObjectiveFunction::CalculateScore() {
   /**
    * Go through the flagged penalties
    */
-  const vector<penalties::Info>& penalties = model_->managers().penalty()->flagged_penalties();
+  const vector<penalties::Info>& penalties = model_->managers()->penalty()->flagged_penalties();
   for (penalties::Info penalty : penalties) {
     objective::Score new_score;
 
@@ -108,8 +110,8 @@ void ObjectiveFunction::CalculateScore() {
   /**
    * Get the scores from each of the estimate priors
    */
-  model_->managers().estimate_transformation()->TransformEstimatesForObjectiveFunction();
-  vector<Estimate*> estimates = model_->managers().estimate()->objects();
+  model_->managers()->estimate_transformation()->TransformEstimatesForObjectiveFunction();
+  vector<Estimate*> estimates = model_->managers()->estimate()->objects();
   priors_ = 0.0;
   for (Estimate* estimate : estimates) {
     if (!estimate->in_objective_function())
@@ -125,12 +127,12 @@ void ObjectiveFunction::CalculateScore() {
     score_ += new_score.score_;
     priors_ += AS_DOUBLE(new_score.score_);
   }
-  model_->managers().estimate_transformation()->RestoreEstimatesFromObjectiveFunction();
+  model_->managers()->estimate_transformation()->RestoreEstimatesFromObjectiveFunction();
 
   /**
    * Get the score from each additional prior
    */
-  vector<AdditionalPrior*> additional_priors = model_->managers().additional_prior()->objects();
+  vector<AdditionalPrior*> additional_priors = model_->managers()->additional_prior()->objects();
   additional_priors_ = 0.0;
   for (auto prior : additional_priors) {
     objective::Score new_score;
@@ -145,7 +147,7 @@ void ObjectiveFunction::CalculateScore() {
   /**
    * Get the Jacobian score from estimate_transformations
    */
-  auto jacobians = model_->managers().estimate_transformation()->objects();
+  auto jacobians = model_->managers()->estimate_transformation()->objects();
   jacobians_ = 0.0;
   for (auto jacobian : jacobians) {
     objective::Score new_score;

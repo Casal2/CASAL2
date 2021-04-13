@@ -5,23 +5,24 @@
  * @date 25/03/2013
  * @section LICENSE
  *
- * Copyright NIWA Science ©2013 - www.niwa.co.nz
+ * Copyright NIWA Science ï¿½2013 - www.niwa.co.nz
  *
  * $Date: 2008-03-04 16:33:32 +1300 (Tue, 04 Mar 2008) $
  */
 
 // Headers
-#include <Likelihoods/Common/LogNormalWithQ.h>
+#include "LogNormalWithQ.h"
+
 #include <cmath>
 
-#include "Utilities/DoubleCompare.h"
-#include "Utilities/RandomNumberGenerator.h"
+#include "../../Utilities/Math.h"
+#include "../../Utilities/RandomNumberGenerator.h"
 
 // Namespaces
 namespace niwa {
 namespace likelihoods {
 
-namespace dc = niwa::utilities::doublecompare;
+namespace math = niwa::utilities::math;
 
 /**
  * Adjust the error value based on the process error
@@ -37,6 +38,7 @@ Double LogNormalWithQ::AdjustErrorValue(const Double process_error, const Double
   return error_value;
 }
 
+
 /**
  * Calculate the scores
  *
@@ -48,7 +50,7 @@ void LogNormalWithQ::GetScores(map<unsigned, vector<observations::Comparison> >&
 
       Double error_value = AdjustErrorValue(comparison.process_error_, comparison.error_value_) * error_value_multiplier_;
       Double sigma = sqrt(log(1 + error_value * error_value));
-      Double score = log(comparison.observed_ / dc::ZeroFun(comparison.expected_, comparison.delta_)) / sigma + 0.5 * sigma;
+      Double score = log(comparison.observed_ / math::ZeroFun(comparison.expected_, comparison.delta_)) / sigma + 0.5 * sigma;
       score = log(sigma) + 0.5 * (score * score);
 
       comparison.adjusted_error_ = error_value;
@@ -75,7 +77,7 @@ void LogNormalWithQ::SimulateObserved(map<unsigned, vector<observations::Compari
       if (comparison.expected_ <= 0.0 || error_value <= 0.0)
         comparison.observed_ = comparison.delta_;
       else
-        comparison.observed_ = rng.lognormal(AS_VALUE(comparison.expected_), AS_VALUE(error_value));
+        comparison.observed_ = rng.lognormal(AS_DOUBLE(comparison.expected_), AS_DOUBLE(error_value));
 
       comparison.adjusted_error_ = error_value;
     }

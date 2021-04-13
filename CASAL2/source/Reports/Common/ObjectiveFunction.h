@@ -18,7 +18,7 @@
 #define REPORTS_OBJECTIVEFUNCTION_H_
 
 // Headers
-#include "Reports/Report.h"
+#include "../../Reports/Report.h"
 
 // Namespaces
 namespace niwa {
@@ -30,12 +30,12 @@ namespace reports {
 class ObjectiveFunction : public niwa::Report {
 public:
   // Methods
-  ObjectiveFunction(Model* model);
+  ObjectiveFunction();
   virtual                     ~ObjectiveFunction() = default;
-  void                        DoValidate() override final { };
-  void                        DoBuild() override final { };
-  void                        DoExecute() override final;
-  void                        DoExecuteTabular() override final { };
+  void                        DoValidate(shared_ptr<Model> model) final { };
+  void                        DoBuild(shared_ptr<Model> model) final { };
+  void                        DoExecute(shared_ptr<Model> model) final;
+  void                        DoExecuteTabular(shared_ptr<Model> model) final { };
 };
 
 } /* namespace reports */

@@ -16,7 +16,7 @@
 #define BASE_EXECUTOR_H_
 
 // headers
-#include "BaseClasses/Object.h"
+#include "../BaseClasses/Object.h"
 
 // namespaces
 namespace niwa {

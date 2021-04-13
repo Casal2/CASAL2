@@ -23,7 +23,7 @@
 #include <sstream>
 
 
-#include "Translations/Translations.h"
+#include "../Translations/Translations.h"
 
 // Namespaces
 namespace niwa {

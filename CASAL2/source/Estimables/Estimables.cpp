@@ -12,11 +12,11 @@
 // headers
 #include "Estimables.h"
 
-#include "Estimates/Manager.h"
-#include "GlobalConfiguration/GlobalConfiguration.h"
-#include "Model/Model.h"
-#include "Model/Objects.h"
-#include "Logging/Logging.h"
+#include "../Estimates/Manager.h"
+#include "../GlobalConfiguration/GlobalConfiguration.h"
+#include "../Model/Model.h"
+#include "../Model/Objects.h"
+#include "../Logging/Logging.h"
 
 // namespaces
 namespace niwa {
@@ -56,7 +56,6 @@ unsigned Estimables::GetValueCount() const {
   auto iter = estimable_values_.begin();
   return iter->second.size();
 }
-
 /**
  * Return a map of estimable values for a specified index
  *
@@ -94,7 +93,7 @@ void Estimables::LoadValues(unsigned index) {
      * Verify that we're only using @estimate parameters if this has been defined
      */
     if (model_->global_configuration().force_estimable_values_file()) {
-      vector<Estimate*> estimates = model_->managers().estimate()->GetIsEstimated();
+      vector<Estimate*> estimates = model_->managers()->estimate()->GetIsEstimated();
       for (auto estimate : estimates) {
         if (estimable_values_.find(estimate->parameter()) == estimable_values_.end())
           LOG_FATAL() << "The estimate " << estimate->parameter() << " has not been defined in the input file, even though force-estimates has been enabled";
@@ -110,10 +109,13 @@ void Estimables::LoadValues(unsigned index) {
       LOG_CODE_ERROR() << "index >= estimable_values_[iter.first].size()";
     (*estimables_[iter.first]) = estimable_values_[iter.first][index];
 
-    auto estimate = model_->managers().estimate()->GetEstimate(iter.first);
+    auto estimate = model_->managers()->estimate()->GetEstimate(iter.first);
     if (estimate != nullptr)
       estimate->set_value(estimable_values_[iter.first][index]);
   }
 }
+
+
+
 
 } /* namespace niwa */

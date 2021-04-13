@@ -20,7 +20,7 @@
 #include "AgeingErrors/AgeingError.h"
 #include "AgeingErrors/Manager.h"
 #include "Partition/Accessors/All.h"
-#include "Utilities/DoubleCompare.h"
+#include "../../Partition/Accessors/Cached/CombinedCategories.h"
 #include "Utilities/Map.h"
 #include "Utilities/Math.h"
 #include "Utilities/To.h"
@@ -33,7 +33,7 @@ namespace age {
 /**
  * Default constructor
  */
-ProportionsAtAge::ProportionsAtAge(Model* model) : Observation(model) {
+ProportionsAtAge::ProportionsAtAge(shared_ptr<Model> model) : Observation(model) {
   obs_table_ = new parameters::Table(PARAM_OBS);
   error_values_table_ = new parameters::Table(PARAM_ERROR_VALUES);
 
@@ -41,7 +41,7 @@ ProportionsAtAge::ProportionsAtAge(Model* model) : Observation(model) {
   parameters_.Bind<unsigned>(PARAM_MAX_AGE, &max_age_, "The maximum age", "");
   parameters_.Bind<bool>(PARAM_PLUS_GROUP, &plus_group_, "Is the maximum age the age plus group?", "", true);
   parameters_.Bind<string>(PARAM_TIME_STEP, &time_step_label_, "The label of the time step that the observation occurs in", "");
-  parameters_.Bind<double>(PARAM_TOLERANCE, &tolerance_, "The tolerance on the constraint that for each year the sum of proportions in each age must equal 1, e.g., if tolerance = 0.1 then 1 - Sum(Proportions) can be as great as 0.1 ", "", double(0.001))->set_range(0.0, 1.0, false, false);
+  parameters_.Bind<Double>(PARAM_TOLERANCE, &tolerance_, "The tolerance on the constraint that for each year the sum of proportions in each age must equal 1, e.g., if tolerance = 0.1 then 1 - Sum(Proportions) can be as great as 0.1 ", "", Double(0.001))->set_range(0.0, 1.0, false, false);
   parameters_.Bind<unsigned>(PARAM_YEARS, &years_, "The years of the observed values", "");
   parameters_.Bind<string>(PARAM_SELECTIVITIES, &selectivity_labels_, "The labels of the selectivities", "", true);
   parameters_.Bind<Double>(PARAM_PROCESS_ERRORS, &process_error_values_, "The process error", "", true);
@@ -105,10 +105,10 @@ void ProportionsAtAge::DoValidate() {
       LOG_FATAL_P(PARAM_PROCESS_ERRORS) << "Supply a process error for each year. Values for " << process_error_values_.size()
         << " years were supplied, but " << years_.size() << " years are required";
     }
-    process_errors_by_year_ = utilities::Map<Double>::create(years_, process_error_values_);
+    process_errors_by_year_ = utilities::Map::create(years_, process_error_values_);
   } else {
     Double process_val = 0.0;
-    process_errors_by_year_ = utilities::Map<Double>::create(years_, process_val);
+    process_errors_by_year_ = utilities::Map::create(years_, process_val);
   }
 
   if (delta_ < 0.0)
@@ -232,7 +232,7 @@ void ProportionsAtAge::DoBuild() {
   // Build Selectivity pointers
   for(string label : selectivity_labels_) {
     LOG_FINEST() << "label = " << label;
-    Selectivity* selectivity = model_->managers().selectivity()->GetSelectivity(label);
+    Selectivity* selectivity = model_->managers()->selectivity()->GetSelectivity(label);
     if (!selectivity)
       LOG_ERROR_P(PARAM_SELECTIVITIES) << ": Selectivity label " << label << " was not found.";
     selectivities_.push_back(selectivity);
@@ -245,7 +245,7 @@ void ProportionsAtAge::DoBuild() {
 
   // Create a pointer to Ageing error misclassification matrix
   if( ageing_error_label_ != "") {
-  ageing_error_ = model_->managers().ageing_error()->GetAgeingError(ageing_error_label_);
+  ageing_error_ = model_->managers()->ageing_error()->GetAgeingError(ageing_error_label_);
   if (!ageing_error_)
     LOG_ERROR_P(PARAM_AGEING_ERROR) << "Ageing error label (" << ageing_error_label_ << ") was not found.";
   }

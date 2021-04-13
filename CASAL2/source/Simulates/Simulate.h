@@ -14,8 +14,8 @@
 #define SIMULATE_H_
 
 // headers
-#include "BaseClasses/Object.h"
-#include "Model/Model.h"
+#include "../BaseClasses/Object.h"
+#include "../Model/Model.h"
 
 // namespaces
 namespace niwa {
@@ -29,7 +29,7 @@ public:
 
   // methods
   Simulate() = delete;
-  Simulate(Model* model);
+  Simulate(shared_ptr<Model> model);
   virtual                     ~Simulate() = default;
   void                        Validate();
   void                        Build();
@@ -53,7 +53,7 @@ protected:
   UpdateFunction              update_function_ = 0;
 
   // members
-  Model*                      model_;
+  shared_ptr<Model>                      model_;
   string                      type_ = "";
   vector<unsigned>            years_;
   string                      parameter_;

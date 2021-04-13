@@ -37,7 +37,7 @@ using utilities::OrderedMap;
 class TransitionCategory : public niwa::Process {
 public:
   // Methods
-  explicit TransitionCategory(Model* model);
+  explicit TransitionCategory(shared_ptr<Model> model);
   virtual                     ~TransitionCategory() = default;
   void                        DoValidate() override final;
   void                        DoBuild() override final;

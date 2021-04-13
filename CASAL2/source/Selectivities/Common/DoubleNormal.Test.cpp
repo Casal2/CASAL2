@@ -19,7 +19,7 @@
 #include <boost/lexical_cast.hpp>
 #include <string>
 
-#include "TestResources/MockClasses/Model.h"
+#include "../../TestResources/MockClasses/Model.h"
 
 // Namespaces
 namespace niwa {
@@ -31,13 +31,13 @@ using ::testing::ReturnRef;
  * Test the results of our selectivity are correct
  */
 TEST(Selectivities, DoubleNormal_Age) {
-  MockModel model;
-  EXPECT_CALL(model, min_age()).WillRepeatedly(Return(10));
-  EXPECT_CALL(model, max_age()).WillRepeatedly(Return(20));
-  EXPECT_CALL(model, age_spread()).WillRepeatedly(Return(11));
-  EXPECT_CALL(model, partition_type()).WillRepeatedly(Return(PartitionType::kAge));
+  shared_ptr<MockModel> model = shared_ptr<MockModel>(new MockModel());
+  EXPECT_CALL(*model, min_age()).WillRepeatedly(Return(10));
+  EXPECT_CALL(*model, max_age()).WillRepeatedly(Return(20));
+  EXPECT_CALL(*model, age_spread()).WillRepeatedly(Return(11));
+  EXPECT_CALL(*model, partition_type()).WillRepeatedly(Return(PartitionType::kAge));
 
-  niwa::selectivities::DoubleNormal double_normal(&model);
+  niwa::selectivities::DoubleNormal double_normal(model);
 
   double_normal.parameters().Add(PARAM_LABEL, "unit_test_double_normal", __FILE__, __LINE__);
   double_normal.parameters().Add(PARAM_TYPE, "not needed in test", __FILE__, __LINE__);
@@ -63,15 +63,15 @@ TEST(Selectivities, DoubleNormal_Age) {
 }
 
 TEST(Selectivities, DoubleNormal_Length) {
-  MockModel model;
+  shared_ptr<MockModel> model = shared_ptr<MockModel>(new MockModel());
   vector<double> lengths = {10, 20, 30, 40, 50, 60};
-  EXPECT_CALL(model, min_age()).WillRepeatedly(Return(10));
-  EXPECT_CALL(model, max_age()).WillRepeatedly(Return(20));
-  EXPECT_CALL(model, age_spread()).WillRepeatedly(Return(11));
-  EXPECT_CALL(model, length_bins()).WillRepeatedly(ReturnRef(lengths));
-  EXPECT_CALL(model, partition_type()).WillRepeatedly(Return(PartitionType::kLength));
+  EXPECT_CALL(*model, min_age()).WillRepeatedly(Return(10));
+  EXPECT_CALL(*model, max_age()).WillRepeatedly(Return(20));
+  EXPECT_CALL(*model, age_spread()).WillRepeatedly(Return(11));
+  EXPECT_CALL(*model, length_bins()).WillRepeatedly(ReturnRef(lengths));
+  EXPECT_CALL(*model, partition_type()).WillRepeatedly(Return(PartitionType::kLength));
 
-  niwa::selectivities::DoubleNormal double_normal(&model);
+  niwa::selectivities::DoubleNormal double_normal(model);
 
   vector<double> expected_values = {2.980232238769531e-08, 8.408964152537145e-01, 2.102241038134286e-01, 1.313900648833929e-02, 2.052969763803014e-04, 8.019413139855523e-07};
 

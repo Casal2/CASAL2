@@ -17,8 +17,8 @@
 #define BETADIFF_H_
 
 // headers
-#include "Minimisers/Minimiser.h"
-#include "Utilities/Types.h"
+#include "../../Minimisers/Minimiser.h"
+#include "../../Utilities/Types.h"
 
 // namespaces
 namespace niwa {
@@ -32,7 +32,7 @@ using niwa::utilities::Double;
 class BetaDiff : public niwa::Minimiser {
 public:
   // Methods
-  explicit BetaDiff(Model* model);
+  explicit BetaDiff(shared_ptr<Model> model);
   virtual                     ~BetaDiff() = default;
   void                        DoValidate() override final { };
   void                        DoBuild() override final { };

@@ -13,9 +13,9 @@
 // Headers
 #include "Manager.h"
 
-#include "DerivedQuantities/Manager.h"
-#include "Model/Model.h"
-#include "Reports/Manager.h"
+#include "../DerivedQuantities/Manager.h"
+#include "../Model/Model.h"
+#include "../Reports/Manager.h"
 
 // Namespaces
 namespace niwa {
@@ -85,7 +85,6 @@ bool Manager::CheckTimeStep(const string& time_step_label) const {
     if (ordered_time_steps_[index]->label() == time_step_label)
       time_step_exists = true;
   }
-
   return time_step_exists;
 }
 
@@ -121,7 +120,6 @@ vector<unsigned> Manager::GetTimeStepIndexesForProcess(const string& process_lab
     if (ordered_time_steps_[index]->HasProcess(process_label))
       result.push_back(index);
   }
-
   return result;
 }
 
@@ -163,6 +161,8 @@ unsigned Manager::GetProcessIndex(const string& process_label) const {
   return 0;
 }
 
+
+
 /**
  * Validate the time step objects - no model
  */
@@ -170,10 +170,7 @@ void Manager::Validate() {
   LOG_CODE_ERROR() << "This method is not supported";
 }
 
-/**
- * Validate the time step objects
- */
-void Manager::Validate(Model* model) {
+void Manager::Validate(shared_ptr<Model> model) {
   LOG_TRACE();
   base::Manager<niwa::timesteps::Manager, niwa::TimeStep>::Validate();
   model_ = model;
@@ -211,11 +208,12 @@ void Manager::Build() {
 void Manager::Execute(unsigned year) {
   LOG_TRACE();
 
-  reports::Manager& report_manager = *model_->managers().report();
+//  auto report_manager = model_->managers()->report();
   for (current_time_step_ = 0; current_time_step_ < ordered_time_steps_.size(); ++current_time_step_) {
     LOG_FINE() << "Current Time Step: " <<  current_time_step_;
     ordered_time_steps_[current_time_step_]->Execute(year);
-    report_manager.Execute(year, ordered_time_steps_[current_time_step_]->label());
+
+    model_->managers()->report()->Execute(model_, year, ordered_time_steps_[current_time_step_]->label());
   }
 
   // reset this for age sizes

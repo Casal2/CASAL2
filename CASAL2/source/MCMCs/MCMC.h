@@ -17,7 +17,7 @@
 // headers
 #include <boost/numeric/ublas/matrix.hpp>
 
-#include "BaseClasses/Object.h"
+#include "../BaseClasses/Object.h"
 
 // namespaces
 namespace niwa {
@@ -52,7 +52,7 @@ class MCMC : public niwa::base::Object {
 public:
   // Methods
   MCMC() = delete;
-  explicit MCMC(Model* model);
+  explicit MCMC(shared_ptr<Model> model);
   virtual                     ~MCMC() = default;
   void                        Validate();
   void                        Build();
@@ -76,8 +76,11 @@ protected:
   virtual void                DoBuild() = 0;
   virtual void                DoExecute() = 0;
 
+  // methods
+  void                        BuildCovarianceMatrix();
+
   // members
-  Model*                      model_;
+  shared_ptr<Model>           model_;
   unsigned                    length_ = 0;
   unsigned                    starting_iteration_ = 0;
   ublas::matrix<double>       covariance_matrix_;

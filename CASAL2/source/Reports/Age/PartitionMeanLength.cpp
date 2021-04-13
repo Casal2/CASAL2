@@ -4,7 +4,7 @@
  * @date 7/01/2014
  * @section LICENSE
  *
- * Copyright NIWA Science ©2013 - www.niwa.co.nz
+ * Copyright NIWA Science ï¿½2013 - www.niwa.co.nz
  *
  */
 
@@ -26,7 +26,7 @@ namespace age {
 /**
  * Default constructor
  */
-PartitionMeanLength::PartitionMeanLength(Model* model) : Report(model) {
+PartitionMeanLength::PartitionMeanLength() {
   run_mode_    = (RunMode::Type)(RunMode::kBasic | RunMode::kProjection | RunMode::kSimulation | RunMode::kEstimation | RunMode::kProfiling);
   model_state_ = (State::Type)(State::kIterationComplete);
 
@@ -37,21 +37,21 @@ PartitionMeanLength::PartitionMeanLength(Model* model) : Report(model) {
 /**
  * Build method
  */
-void PartitionMeanLength::DoBuild() {
+void PartitionMeanLength::DoBuild(shared_ptr<Model> model) {
   if (!parameters_.Get(PARAM_YEARS)->has_been_defined()) {
-    years_ = model_->years();
+    years_ = model->years();
   }
 }
 
 /**
  * Execute the report
  */
-void PartitionMeanLength::DoExecute() {
+void PartitionMeanLength::DoExecute(shared_ptr<Model> model) {
   LOG_TRACE();
 
   unsigned year_index      = 0;
-  unsigned time_step_index = model_->managers().time_step()->GetTimeStepIndex(time_step_);
-  niwa::partition::accessors::All all_view(model_);
+  unsigned time_step_index = model->managers()->time_step()->GetTimeStepIndex(time_step_);
+  niwa::partition::accessors::All all_view(model);
 
   cache_ << "*"<< type_ << "[" << label_ << "]" << "\n";
   cache_ << "time_step: " << time_step_ << "\n";
@@ -63,18 +63,18 @@ void PartitionMeanLength::DoExecute() {
 
     cache_ << "mean_lengths " << REPORT_R_DATAFRAME << "\n";
     cache_ << "year ";
-    for (unsigned i = model_->min_age(); i <= model_->max_age(); ++i)
+    for (unsigned i = model->min_age(); i <= model->max_age(); ++i)
       cache_ << i << " ";
     cache_ << "\n";
 
     for (auto year : years_) {
-      year_index = year - model_->start_year();
+      year_index = year - model->start_year();
       cache_ << year << " ";
 
       unsigned age_bins = (*iterator)->age_spread();
       for (unsigned age_index = 0; age_index < age_bins; ++age_index) {
         Double temp = (*iterator)->mean_length_by_time_step_age_[year_index][time_step_index][age_index];
-        cache_ << AS_VALUE(temp) << " ";
+        cache_ << AS_DOUBLE(temp) << " ";
       }
 
       cache_ << "\n";

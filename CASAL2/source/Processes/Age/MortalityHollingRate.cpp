@@ -24,7 +24,7 @@
 #include "Selectivities/Manager.h"
 #include "TimeSteps/TimeStep.h"
 #include "TimeSteps/Manager.h"
-#include "Utilities/DoubleCompare.h"
+#include "Utilities/math.h"
 #include "Utilities/To.h"
 
 
@@ -32,7 +32,7 @@
 namespace niwa {
 namespace processes {
 namespace age {
-namespace dc = niwa::utilities::doublecompare;
+namespace math = niwa::utilities::math;
 
 /**
  * Default constructor
@@ -44,7 +44,7 @@ namespace dc = niwa::utilities::doublecompare;
  *
  * Note: The constructor is parsed to generate LaTeX for the documentation.
  */
-MortalityHollingRate::MortalityHollingRate(Model* model)
+MortalityHollingRate::MortalityHollingRate(shared_ptr<Model> model)
   : Process(model),
     prey_partition_(model),
     predator_partition_(model) {
@@ -243,7 +243,7 @@ void MortalityHollingRate::DoBuild() {
   if (!prey_selectivity_by_year_supplied_) {
     unsigned category_offset = 0;
     for (string selectivity : prey_selectivity_labels_) {
-      prey_selectivities_.push_back(model_->managers().selectivity()->GetSelectivity(selectivity));
+      prey_selectivities_.push_back(model_->managers()->selectivity()->GetSelectivity(selectivity));
       if (!prey_selectivities_[category_offset])
         LOG_ERROR_P(PARAM_PREY_SELECTIVITIES) << "Prey selectivity " << selectivity << " was not found.";
       ++category_offset;
@@ -253,7 +253,7 @@ void MortalityHollingRate::DoBuild() {
   if (!predator_selectivity_by_year_supplied_) {
     category_offset = 0;
     for (string selectivity : predator_selectivity_labels_) {
-      predator_selectivities_.push_back(model_->managers().selectivity()->GetSelectivity(selectivity));
+      predator_selectivities_.push_back(model_->managers()->selectivity()->GetSelectivity(selectivity));
       if (!predator_selectivities_[category_offset])
         LOG_ERROR_P(PARAM_PREDATOR_SELECTIVITIES) << "Predator selectivity " << selectivity << " was not found.";
       ++category_offset;
@@ -261,7 +261,7 @@ void MortalityHollingRate::DoBuild() {
   }
 
   if (penalty_label_ != "none") {
-    penalty_ = model_->managers().penalty()->GetProcessPenalty(penalty_label_);
+    penalty_ = model_->managers()->penalty()->GetProcessPenalty(penalty_label_);
     if (!penalty_)
       LOG_ERROR_P(PARAM_PENALTY) << ": Penalty label " << penalty_label_ << " was not found.";
   }
@@ -278,7 +278,7 @@ void MortalityHollingRate::DoExecute() {
   LOG_TRACE();
   // Check if we are executing this process in current year
   if (std::find(years_.begin(), years_.end(), model_->current_year()) != years_.end()) {
-    unsigned time_step_index = model_->managers().time_step()->current_time_step();
+    unsigned time_step_index = model_->managers()->time_step()->current_time_step();
 
     /**
      * Loop for prey each category, calculate vulnerable abundance
@@ -343,7 +343,7 @@ void MortalityHollingRate::DoExecute() {
     Mortality = PredatorVulnerable * (a_ * pow(Vulnerable, (x_ - 1.0))) / (b_ + pow(Vulnerable, (x_ - 1.0)));
     prey_mortality_by_year_.push_back(Mortality);
     // Work out exploitation rate to remove (catch/vulnerable Abundance)
-    Double Exploitation = Mortality / dc::ZeroFun(Vulnerable, ZERO);
+    Double Exploitation = Mortality / math::ZeroFun(Vulnerable, math::ZERO);
 
     if (Exploitation > u_max_) {
       LOG_FINE() << "Exloitation rate larger than u_max = " << Exploitation << ", rescaled to u_max = " << u_max_;
@@ -388,15 +388,15 @@ void MortalityHollingRate::FillReportCache(ostringstream& cache) {
   // This one is niggly because we need to iterate over each year and time step to print the right information so we don't
   cache << "prey_vulnerability: ";
   for (auto prey_vulnerable : prey_vulnerability_by_year_)
-    cache << AS_VALUE(prey_vulnerable) << " ";
+    cache << AS_DOUBLE(prey_vulnerable) << " ";
   cache << "\n";
   cache << "predator_vulnerability: ";
   for (auto pred_vulnerable : predator_vulnerability_by_year_)
-    cache << AS_VALUE(pred_vulnerable) << " ";
+    cache << AS_DOUBLE(pred_vulnerable) << " ";
   cache << "\n";
   cache << "prey_mortality: ";
   for (auto prey_mort : prey_mortality_by_year_)
-    cache << AS_VALUE(prey_mort) << " ";
+    cache << AS_DOUBLE(prey_mort) << " ";
   cache << "\n";
 }
 

@@ -11,14 +11,14 @@
 // headers
 #include "Factory.h"
 
-#include "Model/Model.h"
-#include "Model/Managers.h"
-#include "AgeLengths/Manager.h"
-#include "AgeLengths/AgeLength.h"
-#include "AgeLengths/Age/Data.h"
-#include "AgeLengths/Age/None.h"
-#include "AgeLengths/Age/Schnute.h"
-#include "AgeLengths/Age/VonBertalanffy.h"
+#include "../Model/Model.h"
+#include "../Model/Managers.h"
+#include "../AgeLengths/Manager.h"
+#include "../AgeLengths/AgeLength.h"
+#include "../AgeLengths/Age/Data.h"
+#include "../AgeLengths/Age/None.h"
+#include "../AgeLengths/Age/Schnute.h"
+#include "../AgeLengths/Age/VonBertalanffy.h"
 
 // namespaces
 namespace niwa {
@@ -32,7 +32,7 @@ namespace agelengths {
  * @param sub_type The child type of the object to create (e.g., ageing, schnute)
  * @return shared_ptr to the object created
  */
-AgeLength* Factory::Create(Model* model, const string& object_type, const string& sub_type) {
+AgeLength* Factory::Create(shared_ptr<Model> model, const string& object_type, const string& sub_type) {
   AgeLength* result = nullptr;
 
   if (object_type == PARAM_AGE_LENGTH || object_type == PARAM_AGE_LENGTHS) {
@@ -46,7 +46,7 @@ AgeLength* Factory::Create(Model* model, const string& object_type, const string
       result = new VonBertalanffy(model);
 
     if (result)
-      model->managers().age_length()->AddObject(result);
+      model->managers()->age_length()->AddObject(result);
   }
 
   return result;

@@ -19,7 +19,7 @@ namespace creators {
 /**
  * Default constructor
  */
-NormalLog::NormalLog(Model* model) : Creator(model) {
+NormalLog::NormalLog(shared_ptr<Model> model) : Creator(model) {
   parameters_.Bind<Double>(PARAM_MU, &mu_, "The normal-log prior mean (mu) parameter", "");
   parameters_.Bind<Double>(PARAM_SIGMA, &sigma_, "The normal-log prior standard deviation (sigma) parameter", "");
 }

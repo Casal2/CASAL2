@@ -21,13 +21,14 @@
 // Headers
 #include <boost/numeric/ublas/matrix.hpp>
 
-#include "BaseClasses/Object.h"
+#include "../BaseClasses/Object.h"
 
 // Namespaces
 namespace niwa {
 namespace ublas = boost::numeric::ublas;
 
 class Model;
+class ThreadPool;
 
 namespace MinimiserResult {
 enum Type {
@@ -48,7 +49,7 @@ class Minimiser : public niwa::base::Object {
 public:
   // Methods
   Minimiser() = delete;
-  explicit Minimiser(Model* model);
+  explicit Minimiser(shared_ptr<Model> model);
   virtual                     ~Minimiser();
   void                        Validate();
   void                        Build();
@@ -60,6 +61,7 @@ public:
   virtual void                DoBuild() = 0;
   virtual void                DoReset() = 0;
   virtual void                Execute() = 0;
+  virtual void								ExecuteThreaded(shared_ptr<ThreadPool> thread_pool) { Execute(); }
 
   // Acessors
   bool                        active() const { return active_; }
@@ -72,7 +74,7 @@ public:
 
 protected:
   // Members
-  Model*                      model_ = nullptr;
+  shared_ptr<Model>                      model_ = nullptr;
   bool                        active_;
   double**                    hessian_ = nullptr;
   unsigned                    hessian_size_;

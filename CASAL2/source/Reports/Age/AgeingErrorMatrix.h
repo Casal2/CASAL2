@@ -9,7 +9,7 @@
 #define AGE_REPORTS_AGEINGERRORMATRIX_H_
 
 // headers
-#include "Reports/Report.h"
+#include "../../Reports/Report.h"
 
 // namespaces
 namespace niwa {
@@ -21,16 +21,15 @@ namespace age {
  */
 class AgeingErrorMatrix : public niwa::Report {
 public:
-  AgeingErrorMatrix(Model* model);
+  AgeingErrorMatrix();
   virtual                     ~AgeingErrorMatrix() = default;
-  void                        DoValidate() override final { };
-  void                        DoBuild() override final;
-  void                        DoExecute() override final;
-  void                        DoExecuteTabular() override final { };
+  void                        DoValidate(shared_ptr<Model> model) final { };
+  void                        DoBuild(shared_ptr<Model> model) final;
+  void                        DoExecute(shared_ptr<Model> model) final;
+  void                        DoExecuteTabular(shared_ptr<Model> model) final { };
 
 private:
-  string                      ageingerror_label_ = "";
-  AgeingError*                ageingerror_ = nullptr;
+  string                      ageing_error_label_ = "";
 };
 
 } /* namespace age */

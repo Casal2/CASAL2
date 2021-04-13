@@ -12,11 +12,11 @@
 // headers
 #include "SquareRoot.h"
 
-#include "Model/Model.h"
-#include "Model/Objects.h"
-#include "Model/Managers.h"
-#include "Estimates/Manager.h"
-#include "Estimates/Estimate.h"
+#include "../../Model/Model.h"
+#include "../../Model/Objects.h"
+#include "../../Model/Managers.h"
+#include "../../Estimates/Manager.h"
+#include "../../Estimates/Estimate.h"
 
 // namespaces
 namespace niwa {
@@ -25,7 +25,7 @@ namespace estimatetransformations {
 /**
  * Default constructor
  */
-SquareRoot::SquareRoot(Model* model) : EstimateTransformation(model) {
+SquareRoot::SquareRoot(shared_ptr<Model> model) : EstimateTransformation(model) {
   parameters_.Bind<string>(PARAM_ESTIMATE_LABEL, &estimate_label_, "The label of the estimate block to apply transformation. Defined as $\theta_1$ in the documentation", "");
 }
 
@@ -34,12 +34,11 @@ SquareRoot::SquareRoot(Model* model) : EstimateTransformation(model) {
  */
 void SquareRoot::DoBuild() {
   LOG_TRACE();
-  estimate_ = model_->managers().estimate()->GetEstimateByLabel(estimate_label_);
+  estimate_ = model_->managers()->estimate()->GetEstimateByLabel(estimate_label_);
   if (estimate_ == nullptr) {
     LOG_ERROR_P(PARAM_ESTIMATE) << "Estimate " << estimate_label_ << " was not found.";
     return;
   }
-
   // Initialise for -r runs
   current_untransformed_value_ = estimate_->value();
 
@@ -116,7 +115,7 @@ void SquareRoot::RestoreFromObjectiveFunction() {
 Double SquareRoot::GetScore() {
   if(transform_with_jacobian_) {
     jacobian_ = -0.5 * pow(current_untransformed_value_,-1.5);
-    LOG_MEDIUM() << "Jacobian: " << jacobian_;
+    LOG_MEDIUM() << "jacobian: " << jacobian_;
     return jacobian_;
   } else
     return 0.0;

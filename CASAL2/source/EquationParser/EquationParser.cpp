@@ -12,8 +12,8 @@
 // headers
 #include "EquationParser.h"
 
-#include "Model/Model.h"
-#include "Model/Objects.h"
+#include "../Model/Model.h"
+#include "../Model/Objects.h"
 
 // namespaces
 namespace niwa {
@@ -21,7 +21,7 @@ namespace niwa {
 /**
  * Default constructor
  */
-EquationParser::EquationParser(Model* model) : model_(model) {
+EquationParser::EquationParser(shared_ptr<Model> model) : model_(model) {
 #ifdef USE_ADOLC
   parser_ = new Parser<adouble, adub, const badouble&>(this);
 
@@ -131,6 +131,7 @@ Double& EquationParser::LookupValue(const std::string& name) {
   return *value;
 }
 
+
 /**
  * This method parses the equation string and evaluates it
  *
@@ -140,5 +141,6 @@ Double& EquationParser::LookupValue(const std::string& name) {
 Double EquationParser::Parse(string equation) {
   return parser_->Evaluate(equation);
 }
+
 
 } /* namespace niwa */

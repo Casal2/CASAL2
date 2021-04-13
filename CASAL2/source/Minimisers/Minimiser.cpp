@@ -22,23 +22,27 @@
 #include <boost/numeric/ublas/io.hpp>
 #include <boost/numeric/ublas/lu.hpp>
 
-#include "Reports/Manager.h"
-#include "Estimates/Manager.h"
-#include "Logging/Logging.h"
-#include "Model/Model.h"
-#include "Utilities/DoubleCompare.h"
-#include "Reports/Common/EstimationResult.h"
+#include "../Estimates/Manager.h"
+#include "../Logging/Logging.h"
+#include "../Model/Model.h"
+#include "../Model/Managers.h"
+#include "../Reports/Manager.h"
+#include "../Reports/Common/EstimationResult.h"
+#include "../Utilities/Math.h"
+
 
 // Namespaces
 namespace niwa {
 
-namespace dc = niwa::utilities::doublecompare;
+namespace math = niwa::utilities::math;
 namespace ublas = boost::numeric::ublas;
+
+
 
 /**
  * Default constructor
  */
-Minimiser::Minimiser(Model* model) : model_(model) {
+Minimiser::Minimiser(shared_ptr<Model> model) : model_(model) {
   parameters_.Bind<string>(PARAM_LABEL, &label_, "The minimiser label", "");
   parameters_.Bind<string>(PARAM_TYPE, &type_, "The type of minimiser to use", "");
   parameters_.Bind<bool>(PARAM_ACTIVE, &active_, "Indicates if this minimiser is active", "", false);
@@ -75,7 +79,7 @@ void Minimiser::Validate() {
 void Minimiser::Build() {
   LOG_TRACE();
 
-  hessian_size_ = model_->managers().estimate()->GetIsEstimatedCount();
+  hessian_size_ = model_->managers()->estimate()->GetIsEstimatedCount();
 
   hessian_ = new double*[hessian_size_];
   for (unsigned i = 0; i < hessian_size_; ++i) {
@@ -87,10 +91,11 @@ void Minimiser::Build() {
   // Check that there is a report for estimation result
   // TODO:  this section causes a segfault if a report of type 'estimate_value' is not specified. why???
   if (model_->run_mode() == RunMode::kEstimation || model_->run_mode() == RunMode::kMCMC || model_->run_mode() == RunMode::kProfiling) {
-    if (!model_->managers().report()->HasType(PARAM_ESTIMATION_RESULT)) {
+    if (!model_->managers()->report()->HasType(PARAM_ESTIMATION_RESULT)) {
+//      LOG_FATAL() << "This code will most likely crash because of threading";
       LOG_MEDIUM() << "Create default estimation summary report";
 
-      reports::EstimationResult* objective_report = new reports::EstimationResult(model_);
+      reports::EstimationResult* objective_report = new reports::EstimationResult();
       objective_report->set_block_type(PARAM_REPORT);
       objective_report->set_defined_file_name(__FILE__);
       objective_report->set_defined_line_number(__LINE__);
@@ -99,11 +104,11 @@ void Minimiser::Build() {
       objective_report->parameters().Add(PARAM_FILE_NAME, "minimiser_result.out", __FILE__, __LINE__);
       objective_report->parameters().Add(PARAM_WRITE_MODE, PARAM_OVERWRITE, __FILE__, __LINE__);
       objective_report->Validate();
-      model_->managers().report()->AddObject(objective_report);
+      model_->managers()->report()->AddObject(objective_report);
     } else {
       // Overwrite the current report
       LOG_MEDIUM() << "Overwrite existing estimation summary report";
-      auto report_ptr = model_->managers().report()->GetReport(PARAM_ESTIMATION_RESULT);
+      auto report_ptr = model_->managers()->report()->get(PARAM_ESTIMATION_RESULT);
       report_ptr->set_write_mode(PARAM_OVERWRITE);
     }
   }
@@ -128,7 +133,7 @@ void Minimiser::BuildCovarianceMatrix() {
     zero_row.push_back(1);
     for (unsigned j = 0; j < hessian_size_; ++j) {
       hessian_matrix(i,j) = hessian_[i][j];
-      if( !dc::IsZero( hessian_matrix(i,j) ) ) zero_row[i] = 0;
+      if( !math::IsZero( hessian_matrix(i,j) ) ) zero_row[i] = 0;
     }
     if( zero_row[i] ) hessian_matrix(i,i) = 1.0;
   }

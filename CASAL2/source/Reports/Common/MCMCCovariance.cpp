@@ -4,34 +4,33 @@
  * @date 15/05/2013
  * @section LICENSE
  *
- * Copyright NIWA Science ©2013 - www.niwa.co.nz
+ * Copyright NIWA Science ï¿½2013 - www.niwa.co.nz
  *
  */
 
 // headers
 #include "MCMCCovariance.h"
 
-#include "MCMCs/MCMC.h"
-#include "MCMCs/Manager.h"
+#include "../../MCMCs/MCMC.h"
+#include "../../MCMCs/Manager.h"
 
 // namespaces
 namespace niwa {
 namespace reports {
 namespace ublas = boost::numeric::ublas;
-
 /**
  * Default Constructor
  */
-MCMCCovariance::MCMCCovariance(Model* model) : Report(model) {
+MCMCCovariance::MCMCCovariance() {
   run_mode_ = RunMode::kMCMC;
   model_state_ = State::kFinalise;
 }
-
 /**
- * Execute the MCMCCovariance object
+ *
+ *
  */
-void MCMCCovariance::DoExecute() {
-  MCMC* mcmc = model_->managers().mcmc()->active_mcmc();
+void MCMCCovariance::DoExecute(shared_ptr<Model> model) {
+  MCMC* mcmc = model->managers()->mcmc()->active_mcmc();
   ublas::matrix<double>& covariance_matrix = mcmc->covariance_matrix();
 
   cache_ << "*"<< type_ << "[" << label_ << "]" << "\n";

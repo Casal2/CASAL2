@@ -11,7 +11,7 @@
 // headers
 #include "Manager.h"
 
-#include "Categories/Categories.h"
+#include "../Categories/Categories.h"
 
 // namespaces
 namespace niwa {

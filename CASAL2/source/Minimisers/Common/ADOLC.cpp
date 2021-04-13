@@ -14,19 +14,19 @@
 // headers
 #include "ADOLC.h"
 
-#include "ADOLC/Engine.h"
-#include "ADOLC/Callback.h"
+#include "../../ADOLC/Engine.h"
+#include "../../ADOLC/Callback.h"
 
-#include "Estimates/Manager.h"
-#include "EstimateTransformations/Manager.h"
+#include "../../Estimates/Manager.h"
+#include "../../EstimateTransformations/Manager.h"
 
 namespace niwa {
 namespace minimisers {
 
 /**
- * Default constructor
+ *
  */
-ADOLC::ADOLC(Model* model) : Minimiser(model) {
+ADOLC::ADOLC(shared_ptr<Model> model) : Minimiser(model) {
   parameters_.Bind<int>(PARAM_MAX_ITERATIONS, &max_iterations_, "The maximum number of iterations", "", 1000)->set_lower_bound(1);
   parameters_.Bind<int>(PARAM_MAX_EVALUATIONS, &max_evaluations_, "The maximum number of evaluations", "", 4000)->set_lower_bound(1);
   parameters_.Bind<double>(PARAM_TOLERANCE, &gradient_tolerance_, "The tolerance of the gradient for convergence", "", 0.02)->set_lower_bound(0.0, false);
@@ -41,13 +41,13 @@ void ADOLC::Execute() {
   // Variables
   adolc::CallBack  call_back(model_);
 
-  auto estimate_manager = model_->managers().estimate();
+  auto estimate_manager = model_->managers()->estimate();
 
   vector<double>  lower_bounds;
   vector<double>  upper_bounds;
   vector<Double>  start_values;
 
-  model_->managers().estimate_transformation()->TransformEstimates();
+  model_->managers()->estimate_transformation()->TransformEstimates();
   auto estimates = estimate_manager->GetIsEstimated();
   for (auto estimate : estimates) {
 
@@ -69,9 +69,9 @@ void ADOLC::Execute() {
   adolc.optimise(call_back,
       start_values, lower_bounds, upper_bounds,
       status, max_iterations_, max_evaluations_, gradient_tolerance_,
-      hessian_, 1, step_size_);
+      hessian_,1,step_size_);
 
-  model_->managers().estimate_transformation()->RestoreEstimates();
+  model_->managers()->estimate_transformation()->RestoreEstimates();
 
   switch (adolc.get_convergence_status()) {
     case -1:

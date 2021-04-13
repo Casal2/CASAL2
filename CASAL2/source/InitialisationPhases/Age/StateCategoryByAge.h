@@ -16,9 +16,9 @@
 #define SOURCE_INITIALISATIONPHASES_CHILDREN_STATECATEGORYBYAGE_H_
 
 // headers
-#include "InitialisationPhases/InitialisationPhase.h"
-#include "Partition/Accessors/Categories.h"
-#include "Partition/Accessors/Cached/Categories.h"
+#include "../../InitialisationPhases/InitialisationPhase.h"
+#include "../../Partition/Accessors/Categories.h"
+#include "../../Partition/Accessors/Cached/Categories.h"
 
 // namespaces
 namespace niwa {
@@ -32,7 +32,7 @@ namespace accessor = niwa::partition::accessors;
 class StateCategoryByAge : public niwa::InitialisationPhase {
 public:
   // methods
-  explicit StateCategoryByAge(Model* model);
+  explicit StateCategoryByAge(shared_ptr<Model> model);
   virtual                     ~StateCategoryByAge();
   virtual void                Execute() override final;
 

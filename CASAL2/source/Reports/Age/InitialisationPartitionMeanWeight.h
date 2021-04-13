@@ -14,7 +14,7 @@
 #define AGE_REPORTS_CHILDREN_INITIALISATIONPARTITION_MEANWEIGHT_H_
 
 // headers
-#include "Reports/Report.h"
+#include "../../Reports/Report.h"
 
 // namespaces
 namespace niwa {
@@ -24,12 +24,12 @@ namespace age {
 // classes
 class InitialisationPartitionMeanWeight : public niwa::Report {
 public:
-  InitialisationPartitionMeanWeight(Model* model);
+  InitialisationPartitionMeanWeight();
   virtual                     ~InitialisationPartitionMeanWeight() = default;
-  void                        DoValidate() override final { };
-  void                        DoBuild() override final { };
-  void                        DoExecute() override final;
-  void                        DoExecuteTabular() override final { };
+  void                        DoValidate(shared_ptr<Model> model) override final { };
+  void                        DoBuild(shared_ptr<Model> model) override final { };
+  void                        DoExecute(shared_ptr<Model> model) override final;
+  void                        DoExecuteTabular(shared_ptr<Model> model) override final { };
 };
 
 } /* namespace age */

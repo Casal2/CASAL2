@@ -16,16 +16,16 @@
 
 // Headers
 #include "Factory.h"
-#include "Estimates/Manager.h"
-#include "Estimates/Common/Beta.h"
-#include "Estimates/Common/Lognormal.h"
-#include "Estimates/Common/Normal.h"
-#include "Estimates/Common/NormalByStdev.h"
-#include "Estimates/Common/NormalLog.h"
-#include "Estimates/Common/Uniform.h"
-#include "Estimates/Common/UniformLog.h"
-#include "Model/Managers.h"
-#include "Model/Model.h"
+#include "../Estimates/Manager.h"
+#include "../Estimates/Common/Beta.h"
+#include "../Estimates/Common/Lognormal.h"
+#include "../Estimates/Common/Normal.h"
+#include "../Estimates/Common/NormalByStdev.h"
+#include "../Estimates/Common/NormalLog.h"
+#include "../Estimates/Common/Uniform.h"
+#include "../Estimates/Common/UniformLog.h"
+#include "../Model/Managers.h"
+#include "../Model/Model.h"
 
 // Namespaces
 namespace niwa {
@@ -39,7 +39,7 @@ namespace estimates {
  * @param sub_type The child type of the object to create (e.g., ageing, schnute)
  * @return shared_ptr to the object
  */
-Estimate* Factory::Create(Model* model, const string& object_type, const string& sub_type) {
+Estimate* Factory::Create(shared_ptr<Model> model, const string& object_type, const string& sub_type) {
   Estimate* result = nullptr;
 
   if (object_type == PARAM_ESTIMATE) {
@@ -59,7 +59,7 @@ Estimate* Factory::Create(Model* model, const string& object_type, const string&
       result = new UniformLog(model);
 
     if (result)
-      model->managers().estimate()->AddObject(result);
+      model->managers()->estimate()->AddObject(result);
   }
 
   return result;

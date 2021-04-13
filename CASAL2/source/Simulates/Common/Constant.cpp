@@ -9,7 +9,7 @@
  */
 
 // headers
-#include <Simulates/Common/Constant.h>
+#include "Constant.h"
 
 // namespaces
 namespace niwa {
@@ -18,7 +18,7 @@ namespace simulates {
 /**
  * Default constructor
  */
-Constant::Constant(Model* model) : Simulate(model) {
+Constant::Constant(shared_ptr<Model> model) : Simulate(model) {
   parameters_.Bind<Double>(PARAM_VALUE, &value_, "The value to assign to the addressable", "");
 }
 

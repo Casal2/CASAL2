@@ -15,7 +15,7 @@
 #define SOURCE_ESTIMATETRANSFORMATIONS_CHILDREN_INVERSE_H_
 
 // headers
-#include "EstimateTransformations/EstimateTransformation.h"
+#include "../../EstimateTransformations/EstimateTransformation.h"
 
 // namespaces
 namespace niwa {
@@ -25,7 +25,7 @@ namespace estimatetransformations {
 class Inverse : public EstimateTransformation {
 public:
   Inverse() = delete;
-  explicit Inverse(Model* model);
+  explicit Inverse(shared_ptr<Model> model);
   virtual ~Inverse() = default;
   void                        TransformForObjectiveFunction() override final;
   void                        RestoreFromObjectiveFunction() override final;

@@ -17,7 +17,7 @@
 #define MINIMISERS_ADOLC_H_
 
 // headers
-#include "Minimisers/Minimiser.h"
+#include "../../Minimisers/Minimiser.h"
 
 // namespaces
 namespace niwa {
@@ -29,7 +29,7 @@ namespace minimisers {
 class ADOLC  :  public niwa::Minimiser  {
 public:
   // methods
-  explicit ADOLC(Model* model);
+  explicit ADOLC(shared_ptr<Model> model);
   virtual                     ~ADOLC() = default;
   void                        DoValidate() override final { };
   void                        DoBuild() override final { };

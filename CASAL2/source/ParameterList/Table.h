@@ -23,7 +23,7 @@
 #include <map>
 #include <memory>
 
-#include "Utilities/Types.h"
+#include "../Utilities/Types.h"
 
 // Namespaces
 namespace niwa {
@@ -31,6 +31,7 @@ class Model;
 
 namespace parameters {
 
+using std::shared_ptr;
 using std::string;
 using std::vector;
 using std::map;
@@ -63,7 +64,7 @@ public:
   void                        AddRow(const vector<string> &row);
   bool                        HasColumns() { return columns_.size() != 0; }
   bool                        HasBeenDefined() const { return data_.size() != 0; }
-  void                        Populate(Model* model);
+  void                        Populate(shared_ptr<Model> model);
   template<typename T>
   void                        CheckColumnValuesAreType(const string& column);
   template<typename T>

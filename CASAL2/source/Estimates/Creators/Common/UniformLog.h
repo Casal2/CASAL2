@@ -14,7 +14,7 @@
 #define ESTIMATES_CREATORS_UNIFORMLOG_H_
 
 // headers
-#include "Estimates/Creators/Creator.h"
+#include "../../../Estimates/Creators/Creator.h"
 
 // namespaces
 namespace niwa {
@@ -27,7 +27,7 @@ namespace creators {
 class UniformLog : public estimates::Creator {
 public:
   UniformLog() = delete;
-  explicit UniformLog(Model* model);
+  explicit UniformLog(shared_ptr<Model> model);
   virtual                     ~UniformLog() = default;
   void                        DoCopyParameters(niwa::Estimate* estimate, unsigned index) override final { };
 };

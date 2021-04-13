@@ -17,11 +17,14 @@
 #define MINIMISERS_MANAGER_H_
 
 // Headers
-#include "BaseClasses/Manager.h"
-#include "Minimisers/Minimiser.h"
+#include <mutex>
+
+#include "../BaseClasses/Manager.h"
+#include "../Minimisers/Minimiser.h"
 
 // Namespaces
 namespace niwa {
+class Runner;
 namespace minimisers {
 
 /**
@@ -30,11 +33,13 @@ namespace minimisers {
 class Manager : public niwa::base::Manager<minimisers::Manager, niwa::Minimiser> {
   friend class niwa::base::Manager<minimisers::Manager, niwa::Minimiser>;
   friend class niwa::Managers;
+  friend class niwa::Runner;
 public:
   // Methods
   virtual                     ~Manager() noexcept(true);
   void                        Validate() override final;
-  void                        Validate(Model* model);
+  void                        Validate(shared_ptr<Model> model);
+  void												Build() final;
 
   // Accessors
   Minimiser*                  active_minimiser() { return active_minimiser_; }
@@ -45,7 +50,10 @@ protected:
 
 private:
   // members
-  Minimiser*                  active_minimiser_ = nullptr;
+  Minimiser*                  			active_minimiser_ = nullptr;
+  static std::mutex           			lock_;
+  bool															has_validated_ = false;
+  bool															has_built_ = false;
 };
 
 } /* namespace minimisers */

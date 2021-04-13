@@ -54,6 +54,8 @@ penalties::Process* Manager::GetProcessPenalty(const string& label) {
   return nullptr;
 }
 
+
+
 /**
  * Flag a penalty and store it for later retrieval
  *
@@ -62,9 +64,10 @@ penalties::Process* Manager::GetProcessPenalty(const string& label) {
  */
 void Manager::FlagPenalty(const string& label, Double value) {
   Info penalty;
-  penalty.label_ = label;
-  penalty.score_ = value;
+  penalty.label_  = label;
+  penalty.score_  = value;
 
+  LOG_MEDIUM() << "Flagging Penalty: " << label << " with value " << value << " adding to " << flagged_penalties_.size() << " existing penalties";
   flagged_penalties_.push_back(penalty);
 }
 

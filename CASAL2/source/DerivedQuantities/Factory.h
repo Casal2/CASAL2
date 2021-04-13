@@ -14,8 +14,8 @@
 #define DERIVEDQUANTITIES_FACTORY_H_
 
 // namespaces
-#include "DerivedQuantities/DerivedQuantity.h"
-#include "Utilities/PartitionType.h"
+#include "../DerivedQuantities/DerivedQuantity.h"
+#include "../Utilities/PartitionType.h"
 
 // namespaces
 namespace niwa {
@@ -27,7 +27,7 @@ namespace derivedquantities {
 class Factory {
 public:
   // methods
-  static DerivedQuantity*     Create(Model* model, const string& object_type, const string& sub_type, PartitionType partition_type);
+  static DerivedQuantity*     Create(shared_ptr<Model> model, const string& object_type, const string& sub_type, PartitionType partition_type);
 
 private:
   // methods

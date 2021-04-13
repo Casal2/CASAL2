@@ -23,8 +23,9 @@
 #include <string>
 #include <memory>
 
-#include "Partition/Category.h"
-#include "Utilities/Types.h"
+#include "../Partition/Category.h"
+#include "../Utilities/Types.h"
+#include "../Utilities/NoCopy.h"
 
 // Namespaces
 namespace niwa {
@@ -55,13 +56,14 @@ public:
 
 protected:
   // Methods
-  Partition(Model* model) : model_(model) { };
-
+  Partition(shared_ptr<Model> model) : model_(model) { };
 
   // Members
-  Model*                            model_ = nullptr;
+  shared_ptr<Model>                            model_ = nullptr;
   map<string, partition::Category*> partition_; // map<category label, partition::Category Struct>
   map<string, utilities::Vector4*>  age_length_proportions_; // map<category, vector<year, time_step, age, length, proportion>>;
+
+  DISALLOW_COPY_AND_ASSIGN(Partition);
 };
 
 } /* namespace niwa */

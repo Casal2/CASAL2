@@ -18,14 +18,16 @@
 
 // Headers
 #include <atomic>
+#include <thread>
+#include <mutex>
 
-#include "BaseClasses/Manager.h"
-#include "Reports/Report.h"
+#include "../BaseClasses/Manager.h"
+#include "../Reports/Report.h"
 
 // Namespaces
 namespace niwa {
 class Model;
-
+class Runner;
 namespace reports {
 
 /**
@@ -34,31 +36,31 @@ namespace reports {
 class Manager : public niwa::base::Manager<reports::Manager, niwa::Report> {
   friend class niwa::base::Manager<reports::Manager, niwa::Report>;
   friend class niwa::Managers;
+  friend class niwa::Runner;
 public:
   // methods
-  virtual                     ~Manager() noexcept(true);
-  void                        Build() override final;
-  void                        Execute(State::Type model_state);
-  void                        Execute(unsigned year, const string& time_step_label);
-  void                        Prepare();
-  void                        Finalise();
+  virtual                     ~Manager() noexcept(true) = default;
+  void												Validate() final;
+  void                        Validate(shared_ptr<Model> model);
+  void												Build() final;
+  void                        Build(shared_ptr<Model> model);
+  void                        Execute(shared_ptr<Model> model, State::Type model_state);
+  void                        Execute(shared_ptr<Model> model, unsigned year, const string& time_step_label);
+  void                        Prepare(shared_ptr<Model> model);
+  void                        Finalise(shared_ptr<Model> model);
   void                        FlushReports();
   void                        StopThread() { run_.clear(); }
   void                        Pause();
   void                        Resume() { pause_ = false; }
   void                        WaitForReportsToFinish();
-  Report*                     GetReport(const string& type);
 
   // accessors
-  void                        set_report_suffix(const string& suffix) { report_suffix_ = suffix; }
+  void                        set_report_suffix(const string& suffix);
   const string&               report_suffix() const { return report_suffix_; }
-  const string&               std_header() const { return std_header_; }
-  void                        set_std_header(const string& header) { std_header_ = header; }
 
 protected:
   // methods
-  Manager() = delete;
-  explicit Manager(Model* model);
+  Manager();
 
 private:
   // Members
@@ -69,8 +71,12 @@ private:
   std::atomic<bool>                 is_paused_;
   std::atomic_flag                  run_;
   std::atomic<bool>                 waiting_;
-  Model*                            model_;
   std::string                       std_header_ = "";
+  static std::mutex           			lock_;
+  bool															has_validated_ = false;
+  bool															has_built_ = false;
+  bool															has_prepared_ = false;
+  bool															has_finalised_ = false;
 };
 
 } /* namespace reports */

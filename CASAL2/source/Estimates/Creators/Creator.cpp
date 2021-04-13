@@ -16,12 +16,12 @@
 #include <boost/algorithm/string/split.hpp>
 #include <boost/algorithm/string/join.hpp>
 
-#include "Estimates/Manager.h"
-#include "Estimates/Factory.h"
-#include "Model/Model.h"
-#include "Model/Objects.h"
-#include "Utilities/String.h"
-#include "Utilities/To.h"
+#include "../../Estimates/Manager.h"
+#include "../../Estimates/Factory.h"
+#include "../../Model/Model.h"
+#include "../../Model/Objects.h"
+#include "../../Utilities/String.h"
+#include "../../Utilities/To.h"
 
 // namespaces
 namespace niwa {
@@ -30,9 +30,9 @@ namespace estimates {
 namespace utils = niwa::utilities;
 
 /**
- * Default constructor
+ *
  */
-Creator::Creator(Model* model) : model_(model) {
+Creator::Creator(shared_ptr<Model> model) : model_(model) {
   parameters_.Bind<string>(PARAM_LABEL, &label_, "TThe label of the estimate", "", "");
   parameters_.Bind<string>(PARAM_TYPE, &type_, "The prior type for the estimate", "");
   parameters_.Bind<string>(PARAM_PARAMETER, &parameter_, "The name of the variable to estimate in the model", "");
@@ -121,7 +121,6 @@ void Creator::CreateEstimates() {
       }
     }
     break;
-
     case addressable::kUnsignedMap:
     {
       bool create_missing = false;
@@ -141,7 +140,6 @@ void Creator::CreateEstimates() {
       }
     }
     break;
-
     case addressable::kStringMap:
     {
       utils::OrderedMap<string, Double>* targets = target->GetAddressableSMap(parameter);
@@ -155,7 +153,6 @@ void Creator::CreateEstimates() {
       }
     }
     break;
-
     default:
       LOG_CODE_ERROR() << "This type of addressable is not supported: " << (unsigned)target->GetAddressableType(parameter);
       break;
@@ -184,7 +181,6 @@ void Creator::CreateEstimates() {
 
       break;
     }
-
     case addressable::kUnsignedMap:
     {
       map<unsigned, Double>* targets = target->GetAddressableUMap(parameter);
@@ -195,7 +191,6 @@ void Creator::CreateEstimates() {
       }
       break;
     }
-
     case addressable::kStringMap:
     {
       utils::OrderedMap<string, Double>* targets = target->GetAddressableSMap(parameter);
@@ -206,7 +201,6 @@ void Creator::CreateEstimates() {
       }
       break;
     }
-
     default:
       LOG_CODE_ERROR() << "This type of addressable is not supported: " << (unsigned)target->GetAddressableType(parameter);
       break;
@@ -292,7 +286,6 @@ void Creator::HandleSameParameter() {
         }
       }
       break;
-
       case addressable::kUnsignedMap:
       {
         bool create_missing = false;
@@ -313,7 +306,6 @@ void Creator::HandleSameParameter() {
         }
       }
       break;
-
       case addressable::kStringMap:
       {
         utils::OrderedMap<string, Double>* temp = target->GetAddressableSMap(parameter);
@@ -328,7 +320,6 @@ void Creator::HandleSameParameter() {
         }
       }
       break;
-
       default:
         LOG_CODE_ERROR() << "This type of addressable is not supported: " << (unsigned)target->GetAddressableType(parameter);
         break;
@@ -350,7 +341,6 @@ void Creator::HandleSameParameter() {
 
         break;
       }
-
       case addressable::kUnsignedMap:
       {
         map<unsigned, Double>* temps = target->GetAddressableUMap(parameter);
@@ -362,7 +352,6 @@ void Creator::HandleSameParameter() {
         }
         break;
       }
-
       case addressable::kStringMap:
       {
         utils::OrderedMap<string, Double>* temps = target->GetAddressableSMap(parameter);
@@ -374,7 +363,6 @@ void Creator::HandleSameParameter() {
         }
         break;
       }
-
       default:
         LOG_CODE_ERROR() << "This type of addressable is not supported: " << (unsigned)target->GetAddressableType(parameter);
         break;
@@ -456,6 +444,6 @@ void Creator::CopyParameters(niwa::Estimate* estimate, unsigned index) {
 
   DoCopyParameters(estimate, index);
 }
-
 } /* namespace estimates */
 } /* namespace niwa */
+

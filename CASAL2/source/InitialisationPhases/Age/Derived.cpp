@@ -16,14 +16,14 @@
 #include <boost/algorithm/string/trim_all.hpp>
 #include <boost/algorithm/string/split.hpp>
 
-#include "Categories/Categories.h"
-#include "Model/Factory.h"
-#include "Model/Managers.h"
-#include "Model/Model.h"
-#include "Partition/Accessors/Categories.h"
-#include "TimeSteps/Manager.h"
-#include "Processes/Age/RecruitmentBevertonHolt.h"
-#include "Processes/Age/RecruitmentBevertonHoltWithDeviations.h"
+#include "../../Categories/Categories.h"
+#include "../../Model/Factory.h"
+#include "../../Model/Managers.h"
+#include "../../Model/Model.h"
+#include "../../Partition/Accessors/Categories.h"
+#include "../../TimeSteps/Manager.h"
+#include "../../Processes/Age/RecruitmentBevertonHolt.h"
+#include "../../Processes/Age/RecruitmentBevertonHoltWithDeviations.h"
 
 // namespaces
 namespace niwa {
@@ -33,15 +33,16 @@ namespace age {
 /**
  * Default constructor
  */
-Derived::Derived(Model* model) :
+Derived::Derived(shared_ptr<Model> model) :
     InitialisationPhase(model), cached_partition_(model), partition_(model) {
   parameters_.Bind<string>(PARAM_INSERT_PROCESSES, &insert_processes_, "Additional processes not defined in the annual cycle that are to be inserted into this initialisation phase", "", true);
   parameters_.Bind<string>(PARAM_EXCLUDE_PROCESSES, &exclude_processes_, "Processes in the annual cycle to be excluded from this initialisation phase", "", true);
   parameters_.Bind<bool>(PARAM_CASAL_INITIALISATION, &casal_initialisation_phase_, "Run an extra annual cycle to evalaute equilibrium SSBs. Warning - if true, this may not correctly evaluate the equilibrium state. Set to true if replicating a CASAL model", "", false);
 
+
 }
 
-/**
+/*
  * Validate the format of insert_processes if any are given
  */
 void Derived::DoValidate() {
@@ -54,11 +55,12 @@ void Derived::DoValidate() {
 
 }
 
-/**
+/*
  * Build any runtime relationships needed for execution
  */
+
 void Derived::DoBuild() {
-  time_steps_ = model_->managers().time_step()->ordered_time_steps();
+  time_steps_ = model_->managers()->time_step()->ordered_time_steps();
 
   // handle any new processes we want to insert
   for (string insert : insert_processes_) {
@@ -68,7 +70,7 @@ void Derived::DoBuild() {
     string target_process = pieces.size() == 3 ? pieces[1] : "";
     string new_process = pieces.size() == 3 ? pieces[2] : pieces[1];
 
-    auto time_step = model_->managers().time_step()->GetTimeStep(pieces[0]);
+    auto time_step = model_->managers()->time_step()->GetTimeStep(pieces[0]);
     vector < string > process_labels = time_step->initialisation_process_labels(label_);
 
     if (target_process == "")
@@ -101,6 +103,7 @@ void Derived::DoBuild() {
       LOG_ERROR_P(PARAM_EXCLUDE_PROCESSES) << " process " << exclude << " does not exist in any time steps to be excluded";
   }
 
+
   // Build our partition
   vector < string > categories = model_->categories()->category_names();
 
@@ -108,7 +111,7 @@ void Derived::DoBuild() {
   cached_partition_.Init(categories);
 
   // Find out the recruitment and ageing order
-  vector<ProcessType> process_types = model_->managers().time_step()->GetOrderedProcessTypes();
+  vector<ProcessType> process_types = model_->managers()->time_step()->GetOrderedProcessTypes();
   unsigned ageing_index = std::numeric_limits<unsigned>::max();
   unsigned recruitment_index = std::numeric_limits<unsigned>::max();
   for (unsigned i = 0; i < process_types.size(); ++i) {
@@ -123,9 +126,10 @@ void Derived::DoBuild() {
   if (recruitment_index < ageing_index)
     recruitment_ = true;
 
+
   // Find any BH_recruitment process in the annual cycle
   unsigned i = 0;
-  for (auto time_step : model_->managers().time_step()->ordered_time_steps()) {
+  for (auto time_step : model_->managers()->time_step()->ordered_time_steps()) {
     for (auto process : time_step->processes()) {
       if (process->process_type() == ProcessType::kRecruitment && process->type() == PARAM_RECRUITMENT_BEVERTON_HOLT) {
         LOG_FINEST() << "Found a BevertonHolt process";
@@ -142,6 +146,8 @@ void Derived::DoBuild() {
       }
     }
   }
+
+
 }
 
 /**
@@ -156,7 +162,7 @@ void Derived::Execute() {
   vector<string> categories = model_->categories()->category_names();
 
   LOG_FINEST() << "running intialisation for " << year_range << " years";
-  timesteps::Manager* time_step_manager = model_->managers().time_step();
+  timesteps::Manager* time_step_manager = model_->managers()->time_step();
   time_step_manager->ExecuteInitialisation(label_, year_range);
 
   // a shortcut to avoid running the model over more years to get the plus group right
@@ -229,7 +235,6 @@ void Derived::Execute() {
   LOG_FINEST() << "Number of Beverton-Holt recruitment processes in annual cycle = " << recruitment_process_.size();
 
   LOG_FINEST() << "Number of Beverton-Holt recruitment processes with deviations in annual cycle = " << recruitment_process_with_devs_.size();
-
   // We are at Equilibrium state here
   // Check if we have B0 initialised or R0 initialised recruitment
   bool B0_intial_recruitment = false;
@@ -240,7 +245,6 @@ void Derived::Execute() {
       B0_intial_recruitment = true;
     }
   }
-
   for (auto recruitment_process_with_devs : recruitment_process_with_devs_) {
     if (recruitment_process_with_devs->b0_initialised()) {
       LOG_FINEST() << PARAM_B0 << " has been defined for process labelled " << recruitment_process_with_devs->label();
@@ -248,13 +252,11 @@ void Derived::Execute() {
       B0_intial_recruitment = true;
     }
   }
-
   if (B0_intial_recruitment) {
     LOG_FINE() << "B0 initialised";
     // Calculate derived quanitities in the right space if we have a B0 initialised model
     time_step_manager->ExecuteInitialisation(label_, 1);
   }
-
   // Add a switch for to replicate CASAL output if this method does not reach an equilibrium State
   if (casal_initialisation_phase_) {
     LOG_FINEST() << "Legacy CASAL type initialisation has been executed";

@@ -12,14 +12,14 @@
 // Headers
 #include "Factory.h"
 
-#include "Model/Model.h"
-#include "Model/Managers.h"
-#include "InitialisationPhases/Manager.h"
-#include "InitialisationPhases/Age/Cinitial.h"
-#include "InitialisationPhases/Age/Derived.h"
-#include "InitialisationPhases/Age/Iterative.h"
-#include "InitialisationPhases/Age/StateCategoryByAge.h"
-#include "InitialisationPhases/Length/Iterative.h"
+#include "../Model/Model.h"
+#include "../Model/Managers.h"
+#include "../InitialisationPhases/Manager.h"
+#include "../InitialisationPhases/Age/Cinitial.h"
+#include "../InitialisationPhases/Age/Derived.h"
+#include "../InitialisationPhases/Age/Iterative.h"
+#include "../InitialisationPhases/Age/StateCategoryByAge.h"
+#include "../InitialisationPhases/Length/Iterative.h"
 
 // Namespaces
 namespace niwa {
@@ -33,8 +33,9 @@ namespace initialisationphases {
  * @param sub_type The child type of the object to create (e.g., ageing, schnute)
  * @return shared_ptr to the object
  */
-InitialisationPhase* Factory::Create(Model* model, const string& object_type, const string& sub_type) {
+InitialisationPhase* Factory::Create(shared_ptr<Model> model, const string& object_type, const string& sub_type) {
   InitialisationPhase* result = nullptr;
+
 
   if (model->partition_type() == PartitionType::kAge) {
     if (object_type == PARAM_INITIALISATION_PHASE) {
@@ -53,7 +54,7 @@ InitialisationPhase* Factory::Create(Model* model, const string& object_type, co
   }
 
   if (result)
-    model->managers().initialisation_phase()->AddObject(result);
+    model->managers()->initialisation_phase()->AddObject(result);
 
   return result;
 }

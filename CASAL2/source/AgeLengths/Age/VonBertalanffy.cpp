@@ -17,11 +17,11 @@
 
 #include <cmath>
 
-#include "Model/Managers.h"
-#include "LengthWeights/LengthWeight.h"
-#include "LengthWeights/Manager.h"
-#include "TimeSteps/Manager.h"
-#include "Estimates/Manager.h"
+#include "../../Model/Managers.h"
+#include "../../LengthWeights/LengthWeight.h"
+#include "../../LengthWeights/Manager.h"
+#include "../../TimeSteps/Manager.h"
+#include "../../Estimates/Manager.h"
 
 // namespaces
 namespace niwa {
@@ -37,7 +37,7 @@ namespace agelengths {
  *
  * Note: The constructor is parsed to generate LaTeX for the documentation.
  */
-VonBertalanffy::VonBertalanffy(Model* model) : AgeLength(model) {
+VonBertalanffy::VonBertalanffy(shared_ptr<Model> model) : AgeLength(model) {
   parameters_.Bind<Double>(PARAM_LINF, &linf_, "The $L_{infinity}$ parameter", "")->set_lower_bound(0.0);
   parameters_.Bind<Double>(PARAM_K, &k_, "The $k$ parameter", "")->set_lower_bound(0.0);
   parameters_.Bind<Double>(PARAM_T0, &t0_, "The $t_0$ parameter", "");
@@ -54,7 +54,7 @@ VonBertalanffy::VonBertalanffy(Model* model) : AgeLength(model) {
  * Obtain smart_pointers to any objects that will be used by this object.
  */
 void VonBertalanffy::DoBuild() {
-  length_weight_ = model_->managers().length_weight()->GetLengthWeight(length_weight_label_);
+  length_weight_ = model_->managers()->length_weight()->GetLengthWeight(length_weight_label_);
   if (!length_weight_)
     LOG_ERROR_P(PARAM_LENGTH_WEIGHT) << "Length-weight label '" << length_weight_label_ << "' was not found.";
 
@@ -70,7 +70,7 @@ void VonBertalanffy::DoBuild() {
  * @return The mean length for one member
  */
 Double VonBertalanffy::mean_length(unsigned time_step, unsigned age) {
-  double proportion = time_step_proportions_[time_step];
+  Double proportion = time_step_proportions_[time_step];
   if ((-k_ * ((age + proportion) - t0_)) > 10)
     LOG_ERROR_P(PARAM_K) << "-k*(age-t0) is larger than 10. Check the k and t0 parameters.";
 
@@ -91,9 +91,16 @@ Double VonBertalanffy::mean_length(unsigned time_step, unsigned age) {
 Double VonBertalanffy::mean_weight(unsigned time_step, unsigned age) {
   unsigned year = model_->current_year();
   Double size = mean_length_[time_step][age];
-  Double mean_weight = length_weight_->mean_weight(size, distribution_, cvs_[year][time_step][age]); // make a map [key = age]
-
+  Double mean_weight = 0.0; //
+  mean_weight = length_weight_->mean_weight(size, distribution_, cvs_[year][time_step][age]);// make a map [key = age]
   return mean_weight;
+}
+
+/**
+ * If time Varied we need to rebuild the cache
+ */
+void VonBertalanffy::DoReset() {
+
 }
 
 /**
@@ -106,13 +113,6 @@ Double VonBertalanffy::mean_weight(unsigned time_step, unsigned age) {
  */
 Double VonBertalanffy::GetMeanLength(unsigned year, unsigned time_step, unsigned age) {
   return mean_length_[time_step][age];
-}
-
-/**
- * Reset any objects
- */
-void VonBertalanffy::DoReset() {
-  DoRebuildCache();
 }
 
 /**

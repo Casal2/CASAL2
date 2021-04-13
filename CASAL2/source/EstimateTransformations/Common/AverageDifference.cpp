@@ -12,11 +12,11 @@
 // headers
 #include "AverageDifference.h"
 
-#include "Model/Model.h"
-#include "Model/Objects.h"
-#include "Model/Managers.h"
-#include "Estimates/Manager.h"
-#include "Estimates/Estimate.h"
+#include "../../Model/Model.h"
+#include "../../Model/Objects.h"
+#include "../../Model/Managers.h"
+#include "../../Estimates/Manager.h"
+#include "../../Estimates/Estimate.h"
 
 // namespaces
 namespace niwa {
@@ -25,10 +25,9 @@ namespace estimatetransformations {
 /**
  * Default constructor
  */
-AverageDifference::AverageDifference(Model* model) : EstimateTransformation(model) {
+AverageDifference::AverageDifference(shared_ptr<Model> model) : EstimateTransformation(model) {
   parameters_.Bind<string>(PARAM_THETA_TWO, &difference_estimate_label_, "The label of the @estimate block relating to the $\theta_2$ parameter in the transformation. See the User Manual for more information", "");
   parameters_.Bind<string>(PARAM_THETA_ONE, &estimate_label_, "The label of @estimate block relating to the $\theta_1$ parameter in the transformation. See the User Manual for more information", "");
-
   is_simple_ = false;
 }
 
@@ -39,6 +38,7 @@ void AverageDifference::DoValidate() {
   if (transform_with_jacobian_) {
     LOG_ERROR_P(PARAM_TRANSFORM_WITH_JACOBIAN) << "The Jacobian transformation has not been worked out (if it exists) for the average difference transformation.";
   }
+
 }
 
 /**
@@ -46,35 +46,30 @@ void AverageDifference::DoValidate() {
  */
 void AverageDifference::DoBuild() {
   LOG_TRACE();
-  estimate_ = model_->managers().estimate()->GetEstimateByLabel(estimate_label_);
+  estimate_ = model_->managers()->estimate()->GetEstimateByLabel(estimate_label_);
   if (estimate_ == nullptr) {
     LOG_ERROR_P(PARAM_THETA_ONE) << "Estimate " << estimate_label_ << " was not found.";
     return;
   }
-
   // Initialise for -r runs
   current_untransformed_value_ = estimate_->value();
 
   LOG_FINE() << "transform with objective = " << transform_with_jacobian_ << " estimate transform " << estimate_->transform_for_objective()
     << " together = " << !transform_with_jacobian_ && !estimate_->transform_for_objective();
-
   if (!transform_with_jacobian_ && !estimate_->transform_for_objective()) {
     LOG_ERROR_P(PARAM_TRANSFORM_WITH_JACOBIAN) << "A transformation that does not contribute to the Jacobian was specified,"
       << " and the prior parameters do not refer to the transformed estimate, in the @estimate" << estimate_label_
       << ". This is not advised, and may cause bias errors. Please check the User Manual for more info";
   }
-
   if (estimate_->transform_with_jacobian_is_defined()) {
     if (transform_with_jacobian_ != estimate_->transform_with_jacobian()) {
       LOG_ERROR_P(PARAM_TRANSFORM_WITH_JACOBIAN) << "This parameter is not consistent with the equivalent parameter in the @estimate block "
         << estimate_label_ << ". Both parameters should be true or false.";
     }
-  }
-
-  difference_estimate_ = model_->managers().estimate()->GetEstimateByLabel(difference_estimate_label_);
+  }  difference_estimate_ = model_->managers()->estimate()->GetEstimateByLabel(difference_estimate_label_);
 
   if (difference_estimate_ == nullptr) {
-    LOG_ERROR_P(PARAM_THETA_TWO) << "Estimate " << difference_estimate_label_ << " was not found.";
+    LOG_ERROR_P(PARAM_THETA_TWO) << "Estimate " << difference_estimate_label_ << " could not be found. Have you defined it?";
     return;
   }
 
@@ -129,6 +124,7 @@ void AverageDifference::DoTransform() {
     estimate_->set_value(y1_);
     difference_estimate_->set_value(y2_);
   }
+
 }
 
 /**
@@ -139,9 +135,9 @@ void AverageDifference::DoRestore() {
   y1_ = estimate_->value();
   y2_ = difference_estimate_->value();
 
-  x1_ = estimate_->value() + (difference_estimate_->value() / 2.0);
-  difference_estimate_->set_value(estimate_->value() - (difference_estimate_->value() / 2.0));
-  estimate_->set_value(x1_);
+	x1_ = estimate_->value() + (difference_estimate_->value() / 2.0);
+	difference_estimate_->set_value(estimate_->value() - (difference_estimate_->value() / 2.0));
+	estimate_->set_value(x1_);
 
   // Set the first estimate as the mean and the second as the difference
   LOG_MEDIUM() << "Restoring @estimate " << estimate_->label() << " to: " << estimate_->value();
@@ -155,6 +151,7 @@ void AverageDifference::DoRestore() {
  *
  * @return Set of addressable labels
  */
+
 std::set<string> AverageDifference::GetTargetEstimates() {
   set<string> result;
   result.insert(estimate_label_);

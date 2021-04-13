@@ -20,7 +20,7 @@
 // Headers
 #include <boost/random.hpp>
 
-#include "Utilities/Types.h"
+#include "../Utilities/Types.h"
 
 // Namespaces
 namespace niwa {

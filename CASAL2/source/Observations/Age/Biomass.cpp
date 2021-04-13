@@ -29,7 +29,7 @@ namespace utils = niwa::utilities;
 /**
  * Default constructor
  */
-Biomass::Biomass(Model* model) : Observation(model) {
+Biomass::Biomass(shared_ptr<Model> model) : Observation(model) {
   obs_table_ = new parameters::Table(PARAM_OBS);
 
   parameters_.Bind<string>(PARAM_TIME_STEP, &time_step_label_, "The label of the time step that the observation occurs in", "");
@@ -79,7 +79,7 @@ void Biomass::DoValidate() {
   if (delta_ < 0.0)
     LOG_ERROR_P(PARAM_DELTA) << ": delta (" << delta_ << ") cannot be less than 0.0";
   if (process_error_value_ < 0.0)
-    LOG_ERROR_P(PARAM_PROCESS_ERROR) << ": process_error (" << AS_VALUE(process_error_value_) << ") cannot be less than 0.0";
+    LOG_ERROR_P(PARAM_PROCESS_ERROR) << ": process_error (" << AS_DOUBLE(process_error_value_) << ") cannot be less than 0.0";
 
 
   // Obs
@@ -128,7 +128,7 @@ void Biomass::DoValidate() {
 void Biomass::DoBuild() {
   LOG_TRACE();
 
-  catchability_ = model_->managers().catchability()->GetCatchability(catchability_label_);
+  catchability_ = model_->managers()->catchability()->GetCatchability(catchability_label_);
   if (!catchability_)
     LOG_FATAL_P(PARAM_CATCHABILITY) << ": catchability label " << catchability_label_ << " was not found.";
 
@@ -145,7 +145,7 @@ void Biomass::DoBuild() {
 
   // Build Selectivity pointers
   for(string label : selectivity_labels_) {
-    Selectivity* selectivity = model_->managers().selectivity()->GetSelectivity(label);
+    Selectivity* selectivity = model_->managers()->selectivity()->GetSelectivity(label);
     if (!selectivity)
       LOG_ERROR_P(PARAM_SELECTIVITIES) << ": Selectivity label " << label << " was not found.";
     selectivities_.push_back(selectivity);
@@ -158,7 +158,7 @@ void Biomass::DoBuild() {
 
   if (parameters_.Get(PARAM_AGE_WEIGHT_LABELS)->has_been_defined()) {
     for (string label : age_weight_labels_) {
-      AgeWeight* age_weight = model_->managers().age_weight()->FindAgeWeight(label);
+      AgeWeight* age_weight = model_->managers()->age_weight()->FindAgeWeight(label);
       if (!age_weight)
         LOG_ERROR_P(PARAM_AGE_WEIGHT_LABELS) << ": age-weight label (" << label << ") was not found.";
       age_weights_.push_back(age_weight);
@@ -182,7 +182,7 @@ void Biomass::PreExecute() {
  */
 void Biomass::Execute() {
   LOG_FINEST() << "Entering observation " << label_;
-  unsigned time_step_index = model_->managers().time_step()->current_time_step();
+  unsigned time_step_index = model_->managers()->time_step()->current_time_step();
 
   Double expected_total = 0.0; // value in the model
   Double selectivity_result = 0.0;

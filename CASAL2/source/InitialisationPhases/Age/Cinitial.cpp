@@ -17,12 +17,12 @@
 #include <boost/algorithm/string/split.hpp>
 #include <boost/algorithm/string/join.hpp>
 
-#include "Categories/Categories.h"
-#include "Model/Managers.h"
-#include "Model/Model.h"
-#include "TimeSteps/Manager.h"
-#include "DerivedQuantities/Manager.h"
-#include "InitialisationPhases/Manager.h"
+#include "../../Categories/Categories.h"
+#include "../../Model/Managers.h"
+#include "../../Model/Model.h"
+#include "../../TimeSteps/Manager.h"
+#include "../../DerivedQuantities/Manager.h"
+#include "../../InitialisationPhases/Manager.h"
 
 // namesapces
 namespace niwa {
@@ -34,7 +34,7 @@ namespace age {
  *
  * @param model Pointer to our core model object
  */
-Cinitial::Cinitial(Model* model)
+Cinitial::Cinitial(shared_ptr<Model> model)
   : InitialisationPhase(model) {
 
   n_table_ = new parameters::Table(PARAM_N);
@@ -57,8 +57,8 @@ Cinitial::~Cinitial() {
  */
 void Cinitial::DoValidate() {
   LOG_TRACE();
-  min_age_ = model_->min_age();
-  max_age_ = model_->max_age();
+	min_age_ = model_->min_age();
+	max_age_ = model_->max_age();
 
   if (max_age_ < min_age_)
     LOG_ERROR_P(PARAM_MIN_AGE) << " The minimum age (" << min_age_ << ") cannot be greater than the maximum age (" << max_age_ << ")";
@@ -116,7 +116,7 @@ void Cinitial::DoValidate() {
  */
 void Cinitial::DoBuild() {
   LOG_TRACE();
-  time_steps_ = model_->managers().time_step()->ordered_time_steps();
+  time_steps_ = model_->managers()->time_step()->ordered_time_steps();
 
   // Create Category and cached category pointers
   partition_ = CombinedCategoriesPtr(new niwa::partition::accessors::CombinedCategories(model_, category_labels_));
@@ -125,7 +125,7 @@ void Cinitial::DoBuild() {
   unsigned i = 0;
   for (auto derived_quantities : derived_quanitity_) {
     if (derived_quantities != "") {
-      derived_ptr_.push_back(model_->managers().derived_quantity()->GetDerivedQuantity(derived_quantities));
+      derived_ptr_.push_back(model_->managers()->derived_quantity()->GetDerivedQuantity(derived_quantities));
       if (!derived_ptr_[i]) {
         LOG_ERROR() << "Cannot find derived quantity " << derived_quantities;
       }
@@ -143,7 +143,6 @@ void Cinitial::Execute() {
   auto partition_iter = partition_->Begin();
   for (unsigned category_offset = 0; category_offset < category_labels_.size(); ++category_offset, ++partition_iter) {
     category_by_age_total[category_labels_[category_offset]].assign((max_age_ - min_age_ + 1), 0.0);
-
     /**
      * Loop through the  combined categories building up the total abundance for each category label
      */
@@ -158,7 +157,6 @@ void Cinitial::Execute() {
       }
     }
   }
-
   LOG_TRACE();
   // loop through the category_labels and calculate the cinitial factor, which is the n_ / col_sums
   map<string, vector<Double>> category_by_age_factor;
@@ -175,7 +173,6 @@ void Cinitial::Execute() {
       }
     }
   }
-
   LOG_TRACE();
   // Now loop through the combined categories multiplying each category by the factory
   // from the combined group it belongs to
@@ -195,19 +192,18 @@ void Cinitial::Execute() {
       }
     }
   }
-
   // Build cache
   LOG_FINEST() << "finished calculating Cinitial";
   cached_partition_->BuildCache();
   // Execute the annual cycle for one year to calculate Cinitial
-  timesteps::Manager* time_step_manager = model_->managers().time_step();
+  timesteps::Manager* time_step_manager = model_->managers()->time_step();
   time_step_manager->ExecuteInitialisation(label_, 1);
 
   // Store that SSB value ssb_offset times in the Cintiial phase GetPhaseIndex
   LOG_FINE() << "derived_ptr_.size(): " << derived_ptr_.size();
   for (auto derived_quantities : derived_ptr_) {
     vector<vector<Double>>& initialisation_values = derived_quantities->initialisation_values();
-    unsigned cinit_phase_index = model_->managers().initialisation_phase()->GetPhaseIndex(label_);
+    unsigned cinit_phase_index = model_->managers()->initialisation_phase()->GetPhaseIndex(label_);
     LOG_FINE() << "initialisation_values size: " << initialisation_values.size();
     LOG_FINE() << "ssb_offset: " << ssb_offset_;
     LOG_FINE() << "cinit_phase_index: " << cinit_phase_index;
@@ -216,6 +212,7 @@ void Cinitial::Execute() {
     for(unsigned i = 0; i < ssb_offset_; ++i)
       initialisation_values[cinit_phase_index].push_back(*initialisation_values[cinit_phase_index].rbegin());
   }
+
 
   // set the partition back to Cinitial state
   auto cached_partition_iter  = cached_partition_->Begin();

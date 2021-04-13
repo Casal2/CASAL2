@@ -17,8 +17,8 @@
 #define DERIVEDQUANTITY_H_
 
 // headers
-#include "BaseClasses/Executor.h"
-#include "Partition/Accessors/Categories.h"
+#include "../BaseClasses/Executor.h"
+#include "../Partition/Accessors/Categories.h"
 
 // namespaces
 namespace niwa {
@@ -32,7 +32,7 @@ class DerivedQuantity : public niwa::base::Executor {
 public:
   // methods
   DerivedQuantity() = delete;
-  explicit DerivedQuantity(Model* model);
+  explicit DerivedQuantity(shared_ptr<Model> model);
   virtual                     ~DerivedQuantity() = default;
   void                        Validate();
   void                        Build();
@@ -52,7 +52,7 @@ public:
 
 protected:
   // Members
-  Model*                      model_ = nullptr;
+  shared_ptr<Model>                      model_ = nullptr;
   string                      time_step_label_ = "";
   unsigned                    current_initialisation_phase_ = 0;
   vector<vector<Double>>      initialisation_values_;
@@ -63,7 +63,7 @@ protected:
   vector<string>              category_labels_;
   accessor::Categories        partition_;
   string                      proportion_method_;
-  double                      time_step_proportion_;
+  Double                      time_step_proportion_;
   bool                        mean_proportion_method_;
 
 

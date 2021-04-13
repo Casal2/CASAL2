@@ -21,7 +21,7 @@
 #define MINIMISERS_DESOLVER_H_
 
 // Headers
-#include "Minimisers/Minimiser.h"
+#include "../../Minimisers/Minimiser.h"
 
 // Namespaces
 namespace niwa {
@@ -33,7 +33,7 @@ namespace minimisers {
 class DESolver : public niwa::Minimiser {
 public:
   // Methods
-  DESolver(Model* model);
+  DESolver(shared_ptr<Model> model);
   virtual                     ~DESolver() = default;
   void                        DoValidate() override final;
   void                        DoBuild() override final { };

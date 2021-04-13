@@ -18,7 +18,7 @@
 #define ASSERT_H_
 
 // headers
-#include "BaseClasses/Executor.h"
+#include "../BaseClasses/Executor.h"
 
 // namespaces
 namespace niwa {
@@ -29,7 +29,7 @@ class Assert : public niwa::base::Executor {
 public:
   // methods
   Assert() = delete;
-  explicit Assert(Model* model);
+  explicit Assert(shared_ptr<Model> model);
   virtual                     ~Assert() = default;
   void                        Validate();
   void                        Build() { DoBuild();};
@@ -42,7 +42,7 @@ protected:
   virtual void                DoBuild() = 0;
 
   // members
-  Model*                      model_ = nullptr;
+  shared_ptr<Model>                      model_ = nullptr;
 };
 } /* namespace niwa */
 

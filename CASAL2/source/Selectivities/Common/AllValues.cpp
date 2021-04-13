@@ -11,12 +11,13 @@
  */
 
 // Headers
+#include "AllValues.h"
+
 #include <boost/math/distributions/lognormal.hpp>
-#include <Selectivities/Common/AllValues.h>
 #include <cmath>
 
-#include "AgeLengths/AgeLength.h"
-#include "Model/Model.h"
+#include "../../AgeLengths/AgeLength.h"
+#include "../../Model/Model.h"
 
 // Namespaces
 namespace niwa {
@@ -25,13 +26,14 @@ namespace selectivities {
 /**
  * Default Constructor
  */
-AllValues::AllValues(Model* model)
+AllValues::AllValues(shared_ptr<Model> model)
 : Selectivity(model) {
 
   parameters_.Bind<Double>(PARAM_V, &v_, "The v parameter", "")->set_partition_type(PartitionType::kAge | PartitionType::kLength);
 
   RegisterAsAddressable(PARAM_V, &v_);
 }
+
 
 /**
  * Validate this selectivity. This will load the
@@ -85,6 +87,7 @@ void AllValues::RebuildCache() {
     }
   }
 }
+
 
 /**
  * GetLengthBasedResult function

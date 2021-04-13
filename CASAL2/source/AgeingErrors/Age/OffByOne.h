@@ -15,7 +15,7 @@
 #define AGEINGERRORS_OFFBYONE_H_
 
 // headers
-#include "AgeingErrors/AgeingError.h"
+#include "../../AgeingErrors/AgeingError.h"
 
 // namespaces
 namespace niwa {
@@ -25,7 +25,7 @@ namespace ageingerrors {
 class OffByOne : public niwa::AgeingError {
 public:
   // methods
-  OffByOne(Model* model);
+  OffByOne(shared_ptr<Model> model);
   virtual                   ~OffByOne() = default;
 
 protected:

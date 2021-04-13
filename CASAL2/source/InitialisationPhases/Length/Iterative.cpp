@@ -15,12 +15,12 @@
 #include <boost/algorithm/string/trim_all.hpp>
 #include <boost/algorithm/string/split.hpp>
 
-#include "Categories/Categories.h"
-#include "DerivedQuantities/Manager.h"
-#include "Partition/Accessors/Categories.h"
-#include "Processes/Manager.h"
-#include "TimeSteps/Factory.h"
-#include "TimeSteps/Manager.h"
+#include "../../Categories/Categories.h"
+#include "../../DerivedQuantities/Manager.h"
+#include "../../Partition/Accessors/Categories.h"
+#include "../../Processes/Manager.h"
+#include "../../TimeSteps/Factory.h"
+#include "../../TimeSteps/Manager.h"
 
 // namespaces
 namespace niwa {
@@ -33,7 +33,7 @@ namespace accessor = partition::accessors;
 /**
  * Default constructor
  */
-Iterative::Iterative(Model* model)
+Iterative::Iterative(shared_ptr<Model> model)
   : InitialisationPhase(model),
     cached_partition_(model),
     partition_(model) {
@@ -61,7 +61,7 @@ void Iterative::DoValidate() {
  */
 void Iterative::DoBuild() {
   LOG_TRACE();
-  time_steps_ = model_->managers().time_step()->ordered_time_steps();
+  time_steps_ = model_->managers()->time_step()->ordered_time_steps();
 
   // Set the default process labels for the time step for this phase
   for (auto time_step : time_steps_)
@@ -75,7 +75,7 @@ void Iterative::DoBuild() {
     string target_process   = pieces.size() == 3 ? pieces[1] : "";
     string new_process      = pieces.size() == 3 ? pieces[2] : pieces[1];
 
-    auto time_step = model_->managers().time_step()->GetTimeStep(pieces[0]);
+    auto time_step = model_->managers()->time_step()->GetTimeStep(pieces[0]);
     vector<string> process_labels = time_step->initialisation_process_labels(label_);
 
     if (target_process == "") {
@@ -120,7 +120,7 @@ void Iterative::DoBuild() {
 /*
   // Find any BH_recruitment process in the annual cycle
   unsigned i = 0;
-  for (auto time_step : model_->managers().time_step()->ordered_time_steps()) {
+  for (auto time_step : model_->managers()->time_step()->ordered_time_steps()) {
     for (auto process : time_step->processes()) {
       if (process->process_type() == ProcessType::kRecruitment && process->type() == PARAM_RECRUITMENT_BEVERTON_HOLT) {
         LOG_FINEST() << "Found a BH process!!!!";
@@ -146,13 +146,13 @@ void Iterative::DoBuild() {
  */
 void Iterative::Execute() {
   if (convergence_years_.size() == 0) {
-    timesteps::Manager& time_step_manager = *model_->managers().time_step();
+    timesteps::Manager& time_step_manager = *model_->managers()->time_step();
     time_step_manager.ExecuteInitialisation(label_, years_);
 
   } else {
     unsigned total_years = 0;
     for (unsigned years : convergence_years_) {
-      timesteps::Manager& time_step_manager = *model_->managers().time_step();
+      timesteps::Manager& time_step_manager = *model_->managers()->time_step();
       time_step_manager.ExecuteInitialisation(label_, years - (total_years + 1));
 
 
@@ -182,14 +182,14 @@ void Iterative::Execute() {
   // Check if we have B0 initialised or R0 initialised recruitment
   bool B0_intial_recruitment = false;
   for (auto recruitment_process : recruitment_process_) {
-    if (recruitment_process->b0_initialised()) {
+    if (recruitment_process->bo_initialised()) {
       LOG_FINEST() << PARAM_B0 << " has been defined for process labelled " << recruitment_process->label();
       recruitment_process->ScalePartition();
       B0_intial_recruitment = true;
     }
   }
   for (auto recruitment_process_with_devs : recruitment_process_with_devs_) {
-    if (recruitment_process_with_devs->b0_initialised()) {
+    if (recruitment_process_with_devs->bo_initialised()) {
       LOG_FINEST() << PARAM_B0 << " has been defined for process labelled " << recruitment_process_with_devs->label();
       recruitment_process_with_devs->ScalePartition();
       B0_intial_recruitment = true;
@@ -197,7 +197,7 @@ void Iterative::Execute() {
   }
   if (B0_intial_recruitment) {
     // Calculate derived quanitities in the right space if we have a B0 initialised model
-    timesteps::Manager& time_step_manager = *model_->managers().time_step();
+    timesteps::Manager& time_step_manager = *model_->managers()->time_step();
     time_step_manager.ExecuteInitialisation(label_, 1);
   }
 */
@@ -225,7 +225,7 @@ bool Iterative::CheckConvergence() {
       return false;
 
     for (unsigned i = 0; i < (*category)->length_data_.size(); ++i)
-      variance += fabs(cached_category->length_data_[i] - (*category)->length_data_[i]) / sum;
+      variance += fabs((*cached_category).length_data_[i] - (*category)->length_data_[i]) / sum;
   }
 
   if (variance < lambda_)
@@ -233,6 +233,7 @@ bool Iterative::CheckConvergence() {
 
   return false;
 }
+
 
 } /* namespace length */
 } /* namespace age */

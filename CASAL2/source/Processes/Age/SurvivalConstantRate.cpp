@@ -26,7 +26,7 @@ namespace age {
 /**
  * Default Constructor
  */
-SurvivalConstantRate::SurvivalConstantRate(Model* model)
+SurvivalConstantRate::SurvivalConstantRate(shared_ptr<Model> model)
   : Process(model),
     partition_(model) {
   LOG_TRACE();
@@ -35,7 +35,7 @@ SurvivalConstantRate::SurvivalConstantRate(Model* model)
 
   parameters_.Bind<string>(PARAM_CATEGORIES, &category_labels_, "The list of categories", "");
   parameters_.Bind<Double>(PARAM_S, &s_input_, "The survival rates", "")->set_range(0.0, 1.0);
-  parameters_.Bind<double>(PARAM_TIME_STEP_RATIO, &ratios_, "The time step ratios for S", "", true)->set_range(0.0, 1.0, false, true);
+  parameters_.Bind<Double>(PARAM_TIME_STEP_RATIO, &ratios_, "The time step ratios for S", "", true)->set_range(0.0, 1.0, false, true);
   parameters_.Bind<string>(PARAM_SELECTIVITIES, &selectivity_names_, "The selectivity label", "");
 
   RegisterAsAddressable(PARAM_S, &s_);
@@ -97,7 +97,7 @@ void SurvivalConstantRate::DoBuild() {
   partition_.Init(category_labels_);
 
   for (string label : selectivity_names_) {
-    Selectivity* selectivity = model_->managers().selectivity()->GetSelectivity(label);
+    Selectivity* selectivity = model_->managers()->selectivity()->GetSelectivity(label);
     if (!selectivity)
       LOG_ERROR_P(PARAM_SELECTIVITIES) << ": Selectivity label " << label << " was not found.";
 
@@ -109,7 +109,7 @@ void SurvivalConstantRate::DoBuild() {
    * apply a different ratio of S so here we want to verify
    * we have enough and re-scale them to 1.0
    */
-  vector<TimeStep*> time_steps = model_->managers().time_step()->ordered_time_steps();
+  vector<TimeStep*> time_steps = model_->managers()->time_step()->ordered_time_steps();
   LOG_FINEST() << "time_steps.size(): " << time_steps.size();
   vector<unsigned> active_time_steps;
   for (unsigned i = 0; i < time_steps.size(); ++i) {
@@ -142,10 +142,10 @@ void SurvivalConstantRate::DoExecute() {
   LOG_FINEST() << "year: " << model_->current_year();
 
   // get the ratio to apply first
-  unsigned time_step = model_->managers().time_step()->current_time_step();
+  unsigned time_step = model_->managers()->time_step()->current_time_step();
 
   LOG_FINEST() << "Ratios.size() " << time_step_ratios_.size() << " : time_step: " << time_step << "; ratio: " << time_step_ratios_[time_step];
-  double ratio = time_step_ratios_[time_step];
+  Double ratio = time_step_ratios_[time_step];
 
   //StoreForReport("year", model_->current_year());
 

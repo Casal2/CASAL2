@@ -14,7 +14,7 @@
 #define LENGTHWEIGHTS_BASIC_H_
 
 // headers
-#include "LengthWeights/LengthWeight.h"
+#include "../../LengthWeights/LengthWeight.h"
 
 // namespaces
 namespace niwa {
@@ -26,7 +26,7 @@ namespace lengthweights {
 class Basic : public niwa::LengthWeight {
 public:
   // methods
-  explicit                    Basic(Model* model);
+  explicit                    Basic(shared_ptr<Model> model);
   virtual                     ~Basic() = default;
   void                        DoValidate() override final;
   void                        DoBuild() override final;

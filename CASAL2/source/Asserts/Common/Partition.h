@@ -9,7 +9,7 @@
 #define SOURCE_ASSERTS_COMMON_PARTITION_H_
 
 // headers
-#include "Asserts/Assert.h"
+#include "../../Asserts/Assert.h"
 
 // namespaces
 namespace niwa {
@@ -20,7 +20,7 @@ namespace asserts {
 class Partition : public niwa::Assert {
 public:
   // methods
-  Partition(Model* model);
+  Partition(shared_ptr<Model> model);
   virtual                     ~Partition() = default;
   void                        Execute() override final;
 
@@ -32,7 +32,7 @@ protected:
 private:
   // members
   string                      category_label_ = "";
-  vector<double>              values_;
+  vector<Double>              values_;
 }; // class
 
 } /* namespace asserts */

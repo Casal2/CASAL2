@@ -50,7 +50,7 @@ namespace observations {
  * @param sub_type The child type of the object to create (e.g., ageing, schnute)
  * @return shared_ptr to the object
  */
-Observation* Factory::Create(Model* model, const string& object_type, const string& sub_type) {
+Observation* Factory::Create(shared_ptr<Model> model, const string& object_type, const string& sub_type) {
   Observation* result = nullptr;
 
   if (model->partition_type() == PartitionType::kAge) {
@@ -101,7 +101,7 @@ Observation* Factory::Create(Model* model, const string& object_type, const stri
   }
 */
   if (result)
-    model->managers().observation()->AddObject(result);
+    model->managers()->observation()->AddObject(result);
 
   return result;
 }

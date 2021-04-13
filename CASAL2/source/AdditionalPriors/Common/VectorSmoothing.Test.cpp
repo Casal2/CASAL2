@@ -15,8 +15,8 @@
 #include <gtest/gtest.h>
 #include <boost/lexical_cast.hpp>
 
-#include "Model/Model.h"
-#include "TestResources/MockClasses/Model.h"
+#include "../../Model/Model.h"
+#include "../../TestResources/MockClasses/Model.h"
 
 // Namespaces
 namespace niwa {
@@ -29,7 +29,7 @@ using::testing::Return;
  */
 class MockVectorSmoothing : public VectorSmoothing {
 public:
-  MockVectorSmoothing(Model* model, bool log_scale, unsigned lower_bound, unsigned upper_bound, unsigned r, double multiplier, vector<double>* parameter) : VectorSmoothing(model) {
+	MockVectorSmoothing(shared_ptr<Model> model, bool log_scale, unsigned lower_bound, unsigned upper_bound, unsigned r, double multiplier, vector<double>* parameter) : VectorSmoothing(model) {
     log_scale_ = log_scale;
     lower_ = lower_bound;
     upper_ = upper_bound;
@@ -51,18 +51,18 @@ TEST(AdditionalPriors, VectorSmoothing) {
   unsigned lower_bound = 1;
   unsigned r = 2;
 
-  Model model;
-  MockVectorSmoothing vector_smooth_log(&model, log_scale, lower_bound, upper_bound, r, multiplier, &example_ycs);
+	shared_ptr<Model> model = shared_ptr<Model>(new Model());
+  MockVectorSmoothing vector_smooth_log(model, log_scale, lower_bound, upper_bound, r, multiplier, &example_ycs);
   EXPECT_DOUBLE_EQ(107.71417585898443, vector_smooth_log.GetScore());
 
   // test log scale false
   log_scale = false;
-  MockVectorSmoothing vector_smooth(&model, log_scale, lower_bound, upper_bound, r, multiplier, &example_ycs);
+  MockVectorSmoothing vector_smooth(model, log_scale, lower_bound, upper_bound, r, multiplier, &example_ycs);
   EXPECT_DOUBLE_EQ(46.63045995209999, vector_smooth.GetScore());
   // test r = 1
   r = 1;
   lower_bound = 4;
-  MockVectorSmoothing vector_smooth_r(&model, log_scale, lower_bound, upper_bound, r, multiplier, &example_ycs);
+  MockVectorSmoothing vector_smooth_r(model, log_scale, lower_bound, upper_bound, r, multiplier, &example_ycs);
   EXPECT_DOUBLE_EQ(11.611002769499997, vector_smooth_r.GetScore());
 }
 

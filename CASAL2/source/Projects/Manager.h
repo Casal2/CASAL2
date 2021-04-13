@@ -14,8 +14,8 @@
 #define PROJECTS_MANAGER_H_
 
 // headers
-#include "BaseClasses/Manager.h"
-#include "Projects/Project.h"
+#include "../BaseClasses/Manager.h"
+#include "../Projects/Project.h"
 
 
 // namespaces
@@ -33,7 +33,7 @@ public:
   // methods
   virtual                      ~Manager() noexcept(true);
   void                          Build() override final;
-  void                          Build(Model* model);
+  void                          Build(shared_ptr<Model> model);
   void                          Update(unsigned current_year);
   void                          StoreValues(unsigned current_year);
   Project*                      GetProject(const string& label);

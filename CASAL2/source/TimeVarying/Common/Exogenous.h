@@ -15,7 +15,7 @@
 #define TIMEVARYING_EXOGENEOUS_H_
 
 // headers
-#include "TimeVarying/TimeVarying.h"
+#include "../../TimeVarying/TimeVarying.h"
 
 // namespaces
 namespace niwa {
@@ -26,7 +26,7 @@ namespace timevarying {
  */
 class Exogenous : public TimeVarying {
 public:
-  explicit Exogenous(Model* model);
+  explicit Exogenous(shared_ptr<Model> model);
   virtual                     ~Exogenous() = default;
   void                        DoValidate() override final;
   void                        DoBuild() override final;

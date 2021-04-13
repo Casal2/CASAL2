@@ -11,13 +11,14 @@
  * << Add Description >>
  */
 #ifndef USE_AUTODIFF
+#ifndef _MSC_VER
 #ifndef CALLBACK_H_
 #define CALLBACK_H_
 
 // headers
 #include <dlib/optimization.h>
 
-#include "Model/Model.h"
+#include "../../../Model/Model.h"
 
 // namespaces
 namespace niwa {
@@ -30,17 +31,18 @@ namespace dlib {
 class Callback {
 public:
   // methods
-  Callback(Model* model);
+  Callback(shared_ptr<Model> model);
   virtual                     ~Callback() = default;
   Double                      operator()(const ::dlib::matrix<double, 0, 1>& Parameters) const;
 
 private:
   // members
-  Model*                    model_;
+  shared_ptr<Model>                    model_;
 };
 
 } /* namespace dlib */
 } /* namespace minimisers */
 } /* namespace niwa */
 #endif /* CALLBACK_H_ */
+#endif
 #endif /* USE_AUTODIFF */

@@ -18,14 +18,12 @@
 #define ESTIMATESUMMARY_H_
 
 // Headers
-#include "Reports/Report.h"
-
 #include <boost/numeric/ublas/matrix.hpp>
+
+#include "../../Reports/Report.h"
 
 // Namespaces
 namespace niwa {
-class Minimiser;
-
 namespace reports {
 namespace ublas = boost::numeric::ublas;
 
@@ -35,13 +33,12 @@ namespace ublas = boost::numeric::ublas;
 class EstimateSummary : public niwa::Report {
 public:
   // Methods
-  EstimateSummary(Model* model);
-  virtual                     ~EstimateSummary() noexcept(true);
-  void                        DoValidate() override final { };
-  void                        DoBuild() override final { };
-  void                        DoExecute() override final;
-  void                        DoExecuteTabular() override final { };
-
+  EstimateSummary();
+  virtual                     ~EstimateSummary() noexcept(true) = default;
+  void                        DoValidate(shared_ptr<Model> model) final { };
+  void                        DoBuild(shared_ptr<Model> model) final { };
+  void                        DoExecute(shared_ptr<Model> model) final;
+  void                        DoExecuteTabular(shared_ptr<Model> model) final { };
 private:
   ublas::matrix<double>       covariance_matrix_;
 

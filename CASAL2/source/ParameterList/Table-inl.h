@@ -13,8 +13,8 @@
 
 #include <vector>
 
-#include "Utilities/To.h"
-#include "Utilities/Types.h"
+#include "../Utilities/To.h"
+#include "../Utilities/Types.h"
 
 // namespaces
 namespace niwa {
@@ -35,8 +35,7 @@ void Table::CheckColumnValuesAreType(const string& column) {
 
   for (const auto& row : data_) {
     if (!utilities::To<string, T>(row[index], value))
-      LOG_ERROR() << location() << "The value" << row[index] << " in column " << column << " could not be converted to type "
-        << utilities::demangle(typeid(value).name());
+      LOG_ERROR() << location() << "The value" << row[index] << " in column " << column << " could not be converted to type " << utilities::demangle(typeid(value).name());
   }
 }
 
@@ -57,8 +56,7 @@ void Table::CheckColumnValuesContain(const string& column, const vector<T>& valu
 
   for (const auto& row : data_) {
     if (!utilities::To<string, T>(row[index], value))
-      LOG_ERROR() << location() << "The value" << row[index] << " in column " << column << " could not be converted to type "
-        << utilities::demangle(typeid(value).name());
+      LOG_ERROR() << location() << "The value" << row[index] << " in column " << column << " could not be converted to type " << utilities::demangle(typeid(value).name());
 
     table_values.push_back(value);
   }
@@ -85,8 +83,7 @@ vector<T> Table::GetColumnValuesAs(const string& column) {
   unsigned index = column_index(column);
   for (const auto& row : data_) {
     if (!utilities::To<string, T>(row[index], value))
-      LOG_ERROR() << location() << "The value" << row[index] << " in column " << column << " could not be converted to type "
-        << utilities::demangle(typeid(value).name());
+      LOG_ERROR() << location() << "The value" << row[index] << " in column " << column << " could not be converted to type " << utilities::demangle(typeid(value).name());
 
     result.push_back(value);
   }

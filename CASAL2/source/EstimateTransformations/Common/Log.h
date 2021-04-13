@@ -15,7 +15,7 @@
 #define SOURCE_ESTIMATETRANSFORMATIONS_CHILDREN_LOG_H_
 
 // headers
-#include "EstimateTransformations/EstimateTransformation.h"
+#include "../../EstimateTransformations/EstimateTransformation.h"
 
 // namespaces
 namespace niwa {
@@ -28,7 +28,7 @@ namespace estimatetransformations {
 class Log : public EstimateTransformation {
 public:
   Log() = delete;
-  explicit Log(Model* model);
+  explicit Log(shared_ptr<Model> model);
   virtual ~Log() = default;
   void                        TransformForObjectiveFunction() override final;
   void                        RestoreFromObjectiveFunction() override final;

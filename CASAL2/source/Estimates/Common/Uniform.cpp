@@ -20,7 +20,7 @@ namespace estimates {
 /**
  * Default constructor
  */
-Uniform::Uniform(Model* model) : Estimate(model) {
+Uniform::Uniform(shared_ptr<Model> model) : Estimate(model) {
 }
 
 } /* namespace estimates */

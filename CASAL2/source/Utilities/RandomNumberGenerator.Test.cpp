@@ -20,9 +20,14 @@ using std::endl;
 /*
  * most of these will be robust as they come from the boost library, more testing if we change random number generator
  * in the future.
+ *
+ * Note: These are included as we've had issues with boost versions changing the random number sequence previously.
+ * These tests ensure model runs from previous Casal2 releases will match the current
  */
 TEST(RandomNumberGenerator, Reset) {
+
   RandomNumberGenerator& rng = RandomNumberGenerator::Instance();
+
   rng.Reset(2468);
   // This can stay to validate the seed going forward
   EXPECT_DOUBLE_EQ(0.45965513936243951, rng.uniform());

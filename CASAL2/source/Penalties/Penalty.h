@@ -20,8 +20,8 @@
 #define PENALTY_H_
 
 // Headers
-#include "BaseClasses/Object.h"
-#include "Utilities/Types.h"
+#include "../BaseClasses/Object.h"
+#include "../Utilities/Types.h"
 
 // Namespaces
 namespace niwa {
@@ -35,7 +35,7 @@ class Penalty : public niwa::base::Object {
 public:
   // Methods
   Penalty() = delete;
-  explicit Penalty(Model* model);
+  explicit Penalty(shared_ptr<Model> model);
   virtual                     ~Penalty() = default;
   void                        Validate();
   void                        Build() { DoBuild(); };
@@ -52,7 +52,7 @@ protected:
   virtual void                DoBuild() = 0;
 
   // members
-  Model*                      model_ = nullptr;
+  shared_ptr<Model>                      model_ = nullptr;
   bool                        has_score_ = true;
 };
 } /* namespace niwa */

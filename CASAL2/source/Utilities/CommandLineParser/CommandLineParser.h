@@ -21,8 +21,8 @@
 #include <string>
 #include <map>
 
-#include "Model/Model.h"
-#include "Utilities/RunParameters.h"
+#include "../../Model/Model.h"
+#include "../../Utilities/RunParameters.h"
 
 // Namespaces
 namespace niwa {

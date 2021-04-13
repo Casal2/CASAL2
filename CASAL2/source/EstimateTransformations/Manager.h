@@ -9,9 +9,9 @@
 #define SOURCE_ESTIMATETRANSFORMATIONS_MANAGER_H_
 
 // Headers
-#include "BaseClasses/Manager.h"
-#include "EstimateTransformations/EstimateTransformation.h"
-#include "Model/Managers.h"
+#include "../BaseClasses/Manager.h"
+#include "../EstimateTransformations/EstimateTransformation.h"
+#include "../Model/Managers.h"
 
 // Namespaces
 namespace niwa {

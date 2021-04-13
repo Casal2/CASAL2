@@ -21,13 +21,13 @@
 #include <boost/numeric/ublas/io.hpp>
 #include <boost/numeric/ublas/lu.hpp>
 
-#include "Estimates/Manager.h"
-#include "MCMCs/Manager.h"
-#include "Minimisers/Manager.h"
-#include "Model/Managers.h"
-#include "Model/Model.h"
-#include "Model/Objects.h"
-#include "Utilities/To.h"
+#include "../Estimates/Manager.h"
+#include "../MCMCs/Manager.h"
+#include "../Minimisers/Manager.h"
+#include "../Model/Managers.h"
+#include "../Model/Model.h"
+#include "../Model/Objects.h"
+#include "../Utilities/To.h"
 
 // namespaces
 namespace niwa {
@@ -44,7 +44,7 @@ using std::ios_base;
 /**
  * Default constructor
  */
-MCMCObjective::MCMCObjective(Model* model) : model_(model) {
+MCMCObjective::MCMCObjective(shared_ptr<Model> model) : model_(model) {
 }
 
 /**
@@ -80,10 +80,10 @@ bool MCMCObjective::LoadFile(const string& file_name) {
     return false;
   }
 
-  auto estimate_count = model_->managers().estimate()->GetIsEstimatedCount();
-  auto estimates      = model_->managers().estimate()->GetIsEstimated();
+  auto estimate_count = model_->managers()->estimate()->GetIsEstimatedCount();
+  auto estimates      = model_->managers()->estimate()->GetIsEstimated();
 
-  auto& covariance_matrix  = model_->managers().mcmc()->active_mcmc()->covariance_matrix();
+  auto& covariance_matrix  = model_->managers()->mcmc()->active_mcmc()->covariance_matrix();
   covariance_matrix.resize(estimate_count, estimate_count);
 
   // Check the order of parameters
@@ -191,11 +191,12 @@ bool MCMCObjective::LoadFile(const string& file_name) {
   }
   LOG_MEDIUM() << "step size = " << step_size;
 
-  model_->managers().mcmc()->active_mcmc()->set_starting_iteration(iteration_number);
-  model_->managers().mcmc()->active_mcmc()->set_successful_jumps(success_jump);
-  model_->managers().mcmc()->active_mcmc()->set_step_size(step_size);
-  model_->managers().mcmc()->active_mcmc()->set_acceptance_rate(AR);
-  model_->managers().mcmc()->active_mcmc()->set_acceptance_rate_from_last_adapt(AR_since_last_adapt);
+  model_->managers()->mcmc()->active_mcmc()->set_starting_iteration(iteration_number);
+  model_->managers()->mcmc()->active_mcmc()->set_successful_jumps(success_jump);
+  model_->managers()->mcmc()->active_mcmc()->set_step_size(step_size);
+  model_->managers()->mcmc()->active_mcmc()->set_acceptance_rate(AR);
+  model_->managers()->mcmc()->active_mcmc()->set_acceptance_rate_from_last_adapt(AR_since_last_adapt);
+
 
   file.close();
   LOG_MEDIUM() << "File close";

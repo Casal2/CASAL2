@@ -14,7 +14,7 @@
 #define REPORTS_SIMULATEDOBSERVATION_H_
 
 // headers
-#include "Reports/Report.h"
+#include "../../Reports/Report.h"
 
 // namespace
 namespace niwa {
@@ -27,17 +27,17 @@ namespace reports {
  */
 class SimulatedObservation: public Report {
 public:
-  SimulatedObservation(Model* model);
+  SimulatedObservation();
   virtual                     ~SimulatedObservation() = default;
-  void                        DoValidate() override final { };
-  void                        DoBuild() override final;
-  void                        DoExecute() override final;
-  void                        DoExecuteTabular() override final { };
+  void                        DoValidate(shared_ptr<Model> model) final { };
+  void                        DoBuild(shared_ptr<Model> model) final;
+  void                        DoExecute(shared_ptr<Model> model) final;
+  void                        DoExecuteTabular(shared_ptr<Model> model) final { };
 
 private:
   // members
-  string                      observation_label_;
-  Observation*                observation_;
+  string                      observation_label_ = "";
+  Observation*                observation_ = nullptr;
 };
 
 } /* namespace reports */

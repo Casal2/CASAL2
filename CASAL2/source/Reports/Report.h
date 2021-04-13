@@ -28,8 +28,8 @@
 #include <thread>
 #include <mutex>
 
-#include "BaseClasses/Object.h"
-#include "Model/Model.h"
+#include "../BaseClasses/Object.h"
+#include "../Model/Model.h"
 
 // Namespaces
 namespace niwa {
@@ -49,18 +49,19 @@ using std::ostringstream;
 class Report : public base::Object {
 public:
   // Methods
-  Report() = delete;
-  explicit Report(Model* model);
+  Report();
   virtual                     ~Report() = default;
-  void                        Validate();
-  void                        Build();
-  void                        Prepare();
+  void												Validate() { };
+  void												Build() { };
+  void                        Validate(shared_ptr<Model> model);
+  void                        Build(shared_ptr<Model> model);
+  void                        Prepare(shared_ptr<Model> model);
   void                        Reset() {};
-  void                        Execute();
-  void                        Finalise();
-  void                        PrepareTabular();
-  void                        ExecuteTabular();
-  void                        FinaliseTabular();
+  void                        Execute(shared_ptr<Model> model);
+  void                        Finalise(shared_ptr<Model> model);
+  void                        PrepareTabular(shared_ptr<Model> model);
+  void                        ExecuteTabular(shared_ptr<Model> model);
+  void                        FinaliseTabular(shared_ptr<Model> model);
   bool                        HasYear(unsigned year);
   void                        FlushCache();
 
@@ -70,26 +71,27 @@ public:
   const string&               time_step() const { return time_step_; }
   bool                        ready_for_writing() const { return ready_for_writing_; }
   void                        set_skip_tags(bool value) { skip_tags_ = value; }
-  void                        set_write_mode(string value) { write_mode_ = value; }
+  void												set_suffix(string_view suffix);
+  void                        set_write_mode(string_view write_mode) { write_mode_ = write_mode; }
 
 protected:
   // methods
   void                        SetUpInternalStates();
   // pure methods
-  virtual void                DoValidate() = 0;
-  virtual void                DoBuild() = 0;
-  virtual void                DoPrepare() { };
-  virtual void                DoExecute() = 0;
-  virtual void                DoFinalise() { };
-  virtual void                DoPrepareTabular() { };
-  virtual void                DoExecuteTabular() = 0;
-  virtual void                DoFinaliseTabular() { };
+  virtual void                DoValidate(shared_ptr<Model> model) = 0;
+  virtual void                DoBuild(shared_ptr<Model> model) = 0;
+  virtual void                DoPrepare(shared_ptr<Model> model) { };
+  virtual void                DoExecute(shared_ptr<Model> model) = 0;
+  virtual void                DoFinalise(shared_ptr<Model> model) { };
+  virtual void                DoPrepareTabular(shared_ptr<Model> model) { };
+  virtual void                DoExecuteTabular(shared_ptr<Model> model) = 0;
+  virtual void                DoFinaliseTabular(shared_ptr<Model> model) { };
 
   // Members
-  Model*                      model_;
+//  shared_ptr<Model>                      model_ = nullptr;
   RunMode::Type               run_mode_    = RunMode::kInvalid;
   State::Type                 model_state_ = State::kInitialise;
-  static std::mutex           lock_;
+  static std::mutex    				lock_;
   string                      time_step_   = "";
   string                      file_name_   = "";
   bool                        first_write_ = true;
@@ -100,6 +102,7 @@ protected:
   ostringstream               cache_;
   bool                        ready_for_writing_ = false;
   bool                        skip_tags_ = false;
+  string											suffix_ = "";
 };
 
 // Typedef

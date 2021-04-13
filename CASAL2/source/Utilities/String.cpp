@@ -19,8 +19,8 @@
 #include <boost/algorithm/string/split.hpp>
 #include <boost/algorithm/string/join.hpp>
 
-#include "Utilities/To.h"
-#include "Logging/Logging.h"
+#include "../Utilities/To.h"
+#include "../Logging/Logging.h"
 
 // Namespaces
 namespace niwa {
@@ -48,6 +48,10 @@ std::string String::find_invalid_characters(const std::string& test_string) {
   [&special_chars, &invalid](char c) { if (!std::isalpha(c) && !std::isdigit(c) && special_chars.find(c) == string::npos) invalid += c; }
 #endif
  );
+
+
+
+
 
  return invalid;
 }

@@ -19,12 +19,12 @@ namespace timevarying {
 class MockConstant : public timevarying::Constant {
 public:
   // methods
-  MockConstant(Model* model) : Constant(model) { };
+  MockConstant(shared_ptr<Model> model) : Constant(model) { };
   virtual ~MockConstant() = default;
 
   // setters
   void set_years(vector<unsigned> years) { years_ = years; }
-  void set_values(vector<double> values) { values_ = values; }
+  void set_values(vector<Double> values) { values_ = values; }
 };
 
 } /* namespace timevarying */

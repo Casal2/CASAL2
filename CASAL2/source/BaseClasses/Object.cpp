@@ -15,8 +15,8 @@
 
 #include <iostream>
 
-#include "Logging/Logging.h"
-#include "Utilities/To.h"
+#include "../Logging/Logging.h"
+#include "../Utilities/To.h"
 
 namespace niwa {
 namespace base {
@@ -24,11 +24,18 @@ namespace base {
 using std::cout;
 using std::endl;
 
+// Friend Operators
+bool inline operator== (const Object* o, string_view label)
+{
+    return label == o->label();
+}
+
 /**
- * This method checks if the addressable has been registered or not
+ * This method will check to see if the addressable has been registered
+ * or not
  *
- * @param label The label of the estimate to look for
- * @return true if found, false if not
+ * @param label of the estimate we are looking for
+ * @return True if found, false if not
  */
 bool Object::HasAddressable(const string& label) const {
   bool result = !(addressable_types_.find(label) == addressable_types_.end());
@@ -57,12 +64,10 @@ bool Object::HasAddressableUsage(const string& label, const addressable::Usage& 
       if (container->find(label) != container->end())
         return true; // by default, we allow all usage. Overrises will show up in the types_
     }
-
     LOG_CODE_ERROR() << "The addressable " << label << " has not been registered for the object " << block_type_ << ".type=" << type_;
   }
 
   addressable::Usage flags = addressable_usage_.find(label)->second;
-
   return (flags & flag) == flag;
 }
 
@@ -196,7 +201,6 @@ vector<Double*>* Object::GetAddressables(const string& absolute_label, const vec
   }
 
   LOG_FINE() << "Creating custom addressable vector " << absolute_label << " with " << indexes.size() << " values";
-
   return &addressable_custom_vectors_[absolute_label];
 }
 
@@ -227,7 +231,6 @@ map<unsigned, Double>* Object::GetAddressableUMap(const string& label, bool& cre
     LOG_CODE_ERROR() << "addressable_types_[" << label << "] != Addressable::kUnsignedMap";
 
   create_missing = create_missing_addressables_.find(label) != create_missing_addressables_.end();
-
   return addressable_u_maps_[label];
 }
 
@@ -249,7 +252,7 @@ OrderedMap<string, Double>* Object::GetAddressableSMap(const string& label) {
 /**
  * This method returns a pointer to a vector of addressables
  *
- * @param label The label of the addressable
+ * @param label The label of the addressable we want
  * @return vector pointer of addressables
  */
 vector<Double>* Object::GetAddressableVector(const string& label) {
@@ -263,10 +266,8 @@ vector<Double>* Object::GetAddressableVector(const string& label) {
         return &(*container)[label];
       }
     }
-
     LOG_CODE_ERROR() << "addressable_types_.find(" << label << ") == addressable_types_.end()";
   }
-
   if (addressable_types_[label] != addressable::kVector)
     LOG_CODE_ERROR() << "addressable_types_[" << label << "] != Addressable::kVector";
 
@@ -274,18 +275,17 @@ vector<Double>* Object::GetAddressableVector(const string& label) {
 }
 
 /**
- * Get the addressable type
  *
  * @param label The label of the addressable
  * @return the addressable type
  */
+
 addressable::Type Object::GetAddressableType(const string& label) const {
   if (addressable_types_.find(label) == addressable_types_.end()) {
     for (auto container : unnamed_addressable_s_map_vector_) {
       if (container->find(label) != container->end())
         return addressable::kVectorStringMap;
     }
-
     LOG_CODE_ERROR() << "Unable to find the addressable type with the label: " << label;
   }
 

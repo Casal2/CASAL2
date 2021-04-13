@@ -5,19 +5,20 @@
  * @date 14/01/2013
  * @section LICENSE
  *
- * Copyright NIWA Science ©2013 - www.niwa.co.nz
+ * Copyright NIWA Science ï¿½2013 - www.niwa.co.nz
  *
  * $Date: 2008-03-04 16:33:32 +1300 (Tue, 04 Mar 2008) $
  */
 
 // Headers
+#include "DoubleNormal.h"
+
 #include <boost/math/distributions/lognormal.hpp>
-#include <Selectivities/Common/DoubleNormal.h>
 #include <cmath>
 
-#include "AgeLengths/AgeLength.h"
-#include "Model/Model.h"
-#include "TimeSteps/Manager.h"
+#include "../../AgeLengths/AgeLength.h"
+#include "../../Model/Model.h"
+#include "../../TimeSteps/Manager.h"
 
 // Namespaces
 namespace niwa {
@@ -26,7 +27,7 @@ namespace selectivities {
 /**
  * Default constructor
  */
-DoubleNormal::DoubleNormal(Model* model)
+DoubleNormal::DoubleNormal(shared_ptr<Model> model)
 : Selectivity(model) {
 
   parameters_.Bind<Double>(PARAM_MU, &mu_, "The mean (mu)", "");
@@ -76,7 +77,7 @@ void DoubleNormal::RebuildCache() {
         values_[age - age_index_] = pow(2.0, -((temp - mu_) / sigma_r_ * (temp - mu_) / sigma_r_)) * alpha_;
     }
   } else if (model_->partition_type() == PartitionType::kLength) {
-    vector<double> length_bins = model_->length_bins();
+    vector<Double> length_bins = model_->length_bins();
     Double temp = 0.0;
     for (unsigned length_bin_index = 0; length_bin_index < length_bins.size(); ++length_bin_index) {
       temp = length_bins[length_bin_index];
@@ -98,10 +99,11 @@ void DoubleNormal::RebuildCache() {
  * @param time_step_index
  * @return Double selectivity for an age based on age length distribution_label
  */
+
 Double DoubleNormal::GetLengthBasedResult(unsigned age, AgeLength* age_length, unsigned year, int time_step_index) {
   LOG_TRACE();
   unsigned yearx = year == 0 ? model_->current_year() : year;
-  unsigned time_step = time_step_index == -1 ? model_->managers().time_step()->current_time_step() : (unsigned)time_step_index;
+  unsigned time_step = time_step_index == -1 ? model_->managers()->time_step()->current_time_step() : (unsigned)time_step_index;
   Double cv = age_length->cv(yearx, time_step, age);
   Double mean = age_length->mean_length(time_step, age);
   string dist = age_length->distribution_label();
@@ -135,10 +137,10 @@ Double DoubleNormal::GetLengthBasedResult(unsigned age, AgeLength* age_length, u
     Double mu = log(mean) - sigma * sigma * 0.5;
     Double size = 0.0;
     Double total = 0.0;
-    boost::math::lognormal dist{AS_VALUE(mu), AS_VALUE(sigma)};
+    boost::math::lognormal dist{AS_DOUBLE(mu), AS_DOUBLE(sigma)};
 
     for (unsigned j = 0; j < n_quant_; ++j) {
-      size = mu + sigma * quantile(dist, AS_VALUE(quantiles_[j]));
+      size = mu + sigma * quantile(dist, AS_DOUBLE(quantiles_[j]));
 
       if (size < mu_)
         total += pow(2.0, -((size - mu_) / sigma_l_ * (size - mu_) / sigma_l_)) * alpha_;

@@ -12,11 +12,12 @@
  * Implementation is designed around http://dlib.net/optimization_ex.cpp.html
  */
 #ifndef USE_AUTODIFF
+#ifndef _MSC_VER
 #ifndef MINIMISERS_DLIB_H_
 #define MINIMISERS_DLIB_H_
 
 // headers
-#include "Minimisers/Minimiser.h"
+#include "../../Minimisers/Minimiser.h"
 
 #include <dlib/optimization.h>
 
@@ -32,7 +33,7 @@ typedef ::dlib::matrix<double,0,1> column_vector;
 class DLib : public niwa::Minimiser {
 public:
   // methods
-  DLib(Model* model);
+  DLib(shared_ptr<Model> model);
   virtual                     ~DLib() = default;
   void                        DoValidate() override final { };
   void                        DoBuild() override final { };
@@ -58,3 +59,4 @@ private:
 } /* namespace niwa */
 #endif /* MINIMISERS_DLIB_H_ */
 #endif /* NOT USE_AUTODIFF */
+#endif

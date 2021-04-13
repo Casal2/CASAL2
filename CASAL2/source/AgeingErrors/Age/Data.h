@@ -16,7 +16,7 @@
 #define AGEINGERRORS_DATA_H_
 
 // headers
-#include "AgeingErrors/AgeingError.h"
+#include "../../AgeingErrors/AgeingError.h"
 
 // namespaces
 namespace niwa {
@@ -26,7 +26,7 @@ namespace ageingerrors {
 class Data : public niwa::AgeingError {
 public:
   // methods
-  Data(Model* model);
+  Data(shared_ptr<Model> model);
   virtual                   ~Data();
 
 protected:

@@ -11,7 +11,7 @@
 #define ESTIMATES_CREATORS_NORMALLOG_H_
 
 // headers
-#include "Estimates/Creators/Creator.h"
+#include "../../../Estimates/Creators/Creator.h"
 
 // namespaces
 namespace niwa {
@@ -24,7 +24,7 @@ namespace creators {
 class NormalLog : public estimates::Creator {
 public:
   NormalLog() = delete;
-  explicit NormalLog(Model* model);
+  explicit NormalLog(shared_ptr<Model> model);
   virtual                     ~NormalLog() = default;
   void                        DoCopyParameters(niwa::Estimate* estimate, unsigned index) override final;
 

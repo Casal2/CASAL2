@@ -9,35 +9,31 @@
  */
 
 // headers
-#include <Reports/Common/EstimationResult.h>
-#include "Minimisers/Manager.h"
-#include "Minimisers/Minimiser.h"
-#include "Model/Managers.h"
-#include "Model/Model.h"
+#include "EstimationResult.h"
+
+#include "../../Minimisers/Manager.h"
+#include "../../Minimisers/Minimiser.h"
+#include "../../Model/Managers.h"
+#include "../../Model/Model.h"
 
 // Namespaces
 namespace niwa {
 namespace reports {
 
 /**
- * Default constructor
+ * Default Constructor
  */
-EstimationResult::EstimationResult(Model* model) : Report(model) {
+EstimationResult::EstimationResult() {
   run_mode_    = RunMode::kEstimation;
-  model_state_ = State::kIterationComplete;
-}
-
-/**
- * Destructor
- */
-EstimationResult::~EstimationResult() noexcept(true) {
+  model_state_ = State::kFinalise;
 }
 
 /**
  * Execute the estimate summary report
  */
-void EstimationResult::DoExecute() {
-  auto minimiser = model_->managers().minimiser()->active_minimiser();
+void EstimationResult::DoExecute(shared_ptr<Model> model) {
+
+  auto minimiser = model->managers()->minimiser()->active_minimiser();
   if (minimiser == nullptr) {
     LOG_CODE_ERROR() << "minimiser == nullptr";
   }

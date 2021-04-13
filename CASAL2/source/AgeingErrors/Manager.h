@@ -17,9 +17,9 @@
 #define AGEINGERRORS_MANAGER_H_
 
 // Headers
-#include "AgeingErrors/AgeingError.h"
-#include "BaseClasses/Manager.h"
-#include "Model/Managers.h"
+#include "../AgeingErrors/AgeingError.h"
+#include "../BaseClasses/Manager.h"
+#include "../Model/Managers.h"
 
 // Namespaces
 namespace niwa {

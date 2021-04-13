@@ -17,7 +17,7 @@
 #define LIKELIHOODS_LOGNORMAL_H_
 
 // Headers
-#include "Likelihoods/Likelihood.h"
+#include "../../Likelihoods/Likelihood.h"
 
 // Namespaces
 namespace niwa {
@@ -29,7 +29,7 @@ namespace likelihoods {
 class LogNormal : public niwa::Likelihood {
 public:
   // Methods
-  LogNormal(Model* model) : Likelihood(model) { };
+  LogNormal(shared_ptr<Model> model) : Likelihood(model) { };
   virtual                     ~LogNormal() = default;
   void                        DoValidate() override final { };
   Double                      AdjustErrorValue(const Double process_error, const Double error_value) override final;

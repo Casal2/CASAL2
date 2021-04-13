@@ -11,9 +11,9 @@
 // headers
 #include <set>
 
-#include "BaseClasses/Object.h"
+#include "../BaseClasses/Object.h"
 
-#include "Model/Model.h"
+#include "../Model/Model.h"
 
 // namespaces
 namespace niwa {
@@ -26,7 +26,7 @@ class EstimateTransformation : public niwa::base::Object {
 public:
   // methods
   EstimateTransformation() = delete;
-  explicit EstimateTransformation(Model* model);
+  explicit EstimateTransformation(shared_ptr<Model> model);
   virtual                     ~EstimateTransformation() = default;
   void                        Validate();
   void                        Build();
@@ -50,15 +50,15 @@ protected:
   virtual void                DoRestore() = 0;
 
   // members
-  Model*                      model_ = nullptr;
+  shared_ptr<Model>                      model_ = nullptr;
   Estimate*                   estimate_ = nullptr;
   bool                        is_transformed_ = false;
   Double                      current_untransformed_value_ = 0.0;
   string                      estimate_label_;
-  double                      lower_bound_ = 0.0;
-  double                      upper_bound_ = 0.0;
-  double                      original_lower_bound_ = 0.0;
-  double                      original_upper_bound_ = 0.0;
+  Double                      lower_bound_ = 0.0;
+  Double                      upper_bound_ = 0.0;
+  Double                      original_lower_bound_ = 0.0;
+  Double                      original_upper_bound_ = 0.0;
   Double                      original_value_ = 0.0;
   Double                      jacobian_ = 0.0;
   bool                        is_simple_ = true;

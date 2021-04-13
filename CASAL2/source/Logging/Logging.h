@@ -19,8 +19,9 @@
 #include <iostream>
 #include <vector>
 #include <string>
+#include <mutex>
 
-#include "Logging/Record.h"
+#include "../Logging/Record.h"
 
 // namespaces
 namespace niwa {
@@ -48,6 +49,7 @@ public:
 
   // static members
   static logger::Severity     current_log_level_;
+  static std::mutex						lock_;
 
 private:
   // methods

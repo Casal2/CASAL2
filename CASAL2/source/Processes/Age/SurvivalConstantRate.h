@@ -5,7 +5,7 @@
  * @date 17/07/16
  * @section LICENSE
  *
- * Copyright NIWA Science ©2016 - www.niwa.co.nz
+ * Copyright NIWA Science ï¿½2016 - www.niwa.co.nz
  *
  * @section DESCRIPTION
  *
@@ -34,7 +34,7 @@ using utilities::OrderedMap;
 class SurvivalConstantRate : public niwa::Process {
 public:
   // Methods
-  SurvivalConstantRate(Model* model);
+  SurvivalConstantRate(shared_ptr<Model> model);
   virtual                     ~SurvivalConstantRate() = default;
   void                        DoValidate() override final;
   void                        DoBuild() override final;
@@ -47,8 +47,8 @@ private:
   vector<string>              category_labels_;
   vector<Double>              s_input_;
   OrderedMap<string, Double>  s_;
-  vector<double>              ratios_;
-  map<unsigned, double>       time_step_ratios_;
+  vector<Double>              ratios_;
+  map<unsigned, Double>       time_step_ratios_;
   vector<vector<Double>>      survival_rates_;
   vector<string>              selectivity_names_;
   accessor::Categories        partition_;

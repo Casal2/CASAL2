@@ -218,7 +218,7 @@ TEST_F(InternalEmptyModel, Observation_Proportions_Mature_By_Age) {
   ObjectiveFunction& obj_function = model_->objective_function();
   EXPECT_DOUBLE_EQ(130.88118489754032, obj_function.score());
 
-  Observation* observation = model_->managers().observation()->GetObservation("Mature_1994");
+  Observation* observation = model_->managers()->observation()->GetObservation("Mature_1994");
 
   map<unsigned, vector<obs::Comparison> >& comparisons = observation->comparisons();
   ASSERT_EQ(1u, comparisons.size());

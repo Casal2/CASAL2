@@ -17,7 +17,7 @@
 #define KNIFEEDGE_H_
 
 // Headers
-#include "Selectivities/Selectivity.h"
+#include "../../Selectivities/Selectivity.h"
 
 // Namespaces
 namespace niwa {
@@ -29,7 +29,7 @@ namespace selectivities {
 class KnifeEdge : public niwa::Selectivity {
 public:
   // Methods
-  explicit KnifeEdge(Model* model);
+  explicit KnifeEdge(shared_ptr<Model> model);
   virtual                     ~KnifeEdge() = default;
   void                        DoValidate() override final { };
   void                        RebuildCache() override final;

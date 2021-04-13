@@ -16,8 +16,8 @@
 #include <iostream>
 #include <iomanip>
 
-#include "Model/Model.h"
-#include "Partition/Accessors/All.h"
+#include "../../Model/Model.h"
+#include "../../Partition/Accessors/All.h"
 
 // Namespaces
 namespace niwa {
@@ -27,8 +27,7 @@ namespace age {
 /**
  * Default constructor
  */
-Partition_YearCrossAgeMatrix::Partition_YearCrossAgeMatrix(Model* model) :
-    Report(model) {
+Partition_YearCrossAgeMatrix::Partition_YearCrossAgeMatrix() {
   run_mode_ = (RunMode::Type) (RunMode::kBasic | RunMode::kProjection);
   model_state_ = State::kExecute;
 
@@ -36,38 +35,37 @@ Partition_YearCrossAgeMatrix::Partition_YearCrossAgeMatrix(Model* model) :
   parameters_.Bind<unsigned>(PARAM_YEARS, &years_, "The years for the report", "", true);
 }
 
-void Partition_YearCrossAgeMatrix::DoValidate() {
+/**
+ * Validate
+ */
+void Partition_YearCrossAgeMatrix::DoValidate(shared_ptr<Model> model) {
   if (!parameters_.Get(PARAM_YEARS)->has_been_defined()) {
-    years_ = model_->years();
+    years_ = model->years();
   }
 }
 
 /**
  * Prepare the report
  */
-void Partition_YearCrossAgeMatrix::DoPrepare() {
+void Partition_YearCrossAgeMatrix::DoPrepare(shared_ptr<Model> model) {
 
   unsigned lowest = 9999;
   unsigned highest = 0;
 
-  niwa::partition::accessors::All all_view(model_);
+  niwa::partition::accessors::All all_view(model);
 
-  for (auto iterator = all_view.Begin(); iterator != all_view.End();
-      ++iterator) {
-    if (lowest > (*iterator)->min_age_)
-      lowest = (*iterator)->min_age_;
-    if (highest < (*iterator)->max_age_)
-      highest = (*iterator)->max_age_;
-
+  for (auto iterator : all_view) {
+    if (lowest > iterator->min_age_)
+      lowest = iterator->min_age_;
+    if (highest < iterator->max_age_)
+      highest = iterator->max_age_;
   }
 
   // Print the header
   cache_ << "*" << type_ << "[" << label_ << "]" << "\n";
   cache_ << "time_step: " << time_step_ << "\n";
-  //cache_ << all_view.Begin().name_ << endl;
 
   // Print the age-groups
-
   const char separator = ' ';
   //const int nameWidth = 6;
   const int numWidth = 13;
@@ -81,57 +79,44 @@ void Partition_YearCrossAgeMatrix::DoPrepare() {
 /**
  * Execute the report
  */
-void Partition_YearCrossAgeMatrix::DoExecute() {
-  //cerr << "execute " << label_ << "\n";
+void Partition_YearCrossAgeMatrix::DoExecute(shared_ptr<Model> model) {
   // First, figure out the lowest and highest ages/length
   unsigned lowest = 9999;
   unsigned highest = 0;
   unsigned longest_length = 0;
 
-  niwa::partition::accessors::All all_view(model_);
+  niwa::partition::accessors::All all_view(model);
+  for (auto iterator : all_view) {
+    if (lowest > iterator->min_age_)
+      lowest = iterator->min_age_;
+    if (highest < iterator->max_age_)
+      highest = iterator->max_age_;
+    if (longest_length < iterator->name_.length())
+      longest_length = iterator->name_.length();
 
-  for (auto iterator = all_view.Begin(); iterator != all_view.End(); ++iterator) {
-    if (lowest > (*iterator)->min_age_)
-      lowest = (*iterator)->min_age_;
-    if (highest < (*iterator)->max_age_)
-      highest = (*iterator)->max_age_;
-    if (longest_length < (*iterator)->name_.length())
-      longest_length = (*iterator)->name_.length();
   }
 
   const char separator = ' ';
-  //const int nameWidth = 6;
   const int numWidth = 13;
 
-  //cache_ <<  std::setprecision(5);
-
-  for (auto iterator = all_view.Begin(); iterator != all_view.End();
-      ++iterator) {
-    //cache_ << (*iterator)->name_;
-    cache_ << std::left << std::setw(numWidth) << std::setfill(separator) << std::setprecision(1) << std::fixed << model_->current_year();
-    unsigned age = (*iterator)->min_age_;
-    //unsigned year = (*iterator)->year_;
-    //cout << "The year at this stage is " << year << endl;
-    for (auto values = (*iterator)->data_.begin();
-        values != (*iterator)->data_.end(); ++values, age++) {
+  for (auto iterator : all_view) {
+    cache_ << std::left << std::setw(numWidth) << std::setfill(separator) << std::setprecision(1) << std::fixed << model->current_year();
+    unsigned age = iterator->min_age_;
+    for (auto value : iterator->data_) {
       if (age >= lowest && age <= highest) {
-        Double value = *values;
-        //cache_ << "\t" << std::fixed << AS_VALUE(value);
-        cache_ << std::left << std::setw(numWidth) << std::setfill(separator) << std::setprecision(0) << std::fixed << AS_VALUE(value);
+        cache_ << std::left << std::setw(numWidth) << std::setfill(separator) << std::setprecision(0) << std::fixed << AS_DOUBLE(value);
       } else
         cache_ << " " << "null";
+      ++age;
     }
     cache_ << "\n";
   }
-
-  //  ready_for_writing_ = true;
-  ready_for_writing_ = false;
 }
 
 /**
- * Finalise the report
+ *
  */
-void Partition_YearCrossAgeMatrix::DoFinalise() {
+void Partition_YearCrossAgeMatrix::DoFinalise(shared_ptr<Model> model) {
   ready_for_writing_ = true;
 }
 

@@ -19,8 +19,8 @@
 #define AGEINGERROR_H_
 
 // headers
-#include "BaseClasses/Object.h"
-#include "Utilities/Types.h"
+#include "../BaseClasses/Object.h"
+#include "../Utilities/Types.h"
 
 // namespaces
 namespace niwa {
@@ -34,7 +34,7 @@ using niwa::utilities::Double;
 class AgeingError : public niwa::base::Object {
 public:
   // Methods
-  AgeingError(Model* model);
+  AgeingError(shared_ptr<Model> model);
   AgeingError() = delete;
   virtual                     ~AgeingError() = default;
   void                        Validate();
@@ -54,7 +54,7 @@ protected:
   virtual void                DoReset() = 0;
 
   // Members
-  Model*                      model_ = nullptr;
+  shared_ptr<Model>                      model_ = nullptr;
   unsigned                    min_age_ = 0;
   unsigned                    max_age_ = 0;
   bool                        plus_group_ = false;

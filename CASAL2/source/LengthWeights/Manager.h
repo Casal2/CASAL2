@@ -14,8 +14,8 @@
 #define LENGTHWEIGHTS_MANAGER_H_
 
 // headers
-#include "BaseClasses/Manager.h"
-#include "LengthWeights/LengthWeight.h"
+#include "../BaseClasses/Manager.h"
+#include "../LengthWeights/LengthWeight.h"
 
 // namespaces
 namespace niwa {

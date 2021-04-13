@@ -16,11 +16,11 @@
 #include <iostream>
 #include <iomanip>
 
-#include "Categories/Categories.h"
-#include "Partition/Partition.h"
-#include "Model/Model.h"
-#include "Logging/Logging.h"
-#include "Utilities/To.h"
+#include "../../Categories/Categories.h"
+#include "../../Partition/Partition.h"
+#include "../../Model/Model.h"
+#include "../../Logging/Logging.h"
+#include "../../Utilities/To.h"
 
 // Namespaces
 namespace niwa {
@@ -32,11 +32,11 @@ using std::endl;
 namespace util = niwa::utilities;
 
 /**
- * Default constructor
+ * Default constructor.
  *
  * Construction of this object involves building the category map
  */
-Category::Category(Model* model, const string& category_name)
+Category::Category(shared_ptr<Model> model, const string& category_name)
   : model_(model) {
   LOG_TRACE();
 
@@ -47,7 +47,7 @@ Category::Category(Model* model, const string& category_name)
   partition::Category& category = partition.category(category_name);
   for (unsigned year : years) {
     if (std::find(category.years_.begin(), category.years_.end(), year) == category.years_.end())
-      continue; // Not valid in this year
+            continue; // Not valid in this year
 
     data_[year] = &category.data_;
   }

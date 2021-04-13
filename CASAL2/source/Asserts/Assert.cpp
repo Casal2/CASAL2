@@ -22,16 +22,16 @@ namespace niwa {
  * Register any parameters that can be an estimated or utilised in other run modes (e.g., profiling, yields, projections, etc.)
  * Set some initial values
  *
- * Note: The constructor is parsed to generate LaTeX for the documentation.
+ * Note: The constructor is parsed to generate Latex for the documentation.
  */
-Assert::Assert(Model* model) : model_(model) {
+Assert::Assert(shared_ptr<Model> model) : model_(model) {
   parameters_.Bind<string>(PARAM_LABEL, &label_, "The label for the assert", "");
   parameters_.Bind<string>(PARAM_TYPE, &type_, "The type of the assert", "");
 }
 
 /**
  * Populate any parameters,
- * Validate values are within expected ranges when bind<>() overloads cannot be used
+ * Validate values are within expected ranges when we cannot use bind<>() overloads
  *
  * Note: all parameters are populated from configuration files
  */

@@ -21,7 +21,7 @@
 // Headers
 #include <vector>
 
-#include "Model/Model.h"
+#include "../../../Model/Model.h"
 
 // namespaces
 namespace niwa {
@@ -37,13 +37,13 @@ class CallBack {
 public:
   // methods
   CallBack() = delete;
-  explicit CallBack(Model* model);
+  explicit CallBack(shared_ptr<Model> model);
   virtual                     ~CallBack() = default;
   adouble                     operator()(const vector<adouble>& Parameters);
 
 private:
   // members
-  Model*                      model_;
+  shared_ptr<Model>                      model_;
 };
 
 } /* namespace gammadiff */

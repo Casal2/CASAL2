@@ -21,14 +21,15 @@
 
 // Headers
 #include <string>
+#include <string_view>
 #include <memory>
 
-#include "Logging/Logging.h"
-#include "ParameterList/ParameterList.h"
-#include "Translations/Translations.h"
-#include "Utilities/Map.h"
-#include "Utilities/NoCopy.h"
-#include "Utilities/Types.h"
+#include "../Logging/Logging.h"
+#include "../ParameterList/ParameterList.h"
+#include "../Translations/Translations.h"
+#include "../Utilities/Map.h"
+#include "../Utilities/NoCopy.h"
+#include "../Utilities/Types.h"
 
 using niwa::utilities::Double;
 
@@ -58,14 +59,16 @@ enum Usage {
   kTimeVarying  = 128,
   kAll          = 255
 };
-}
-
-namespace base {
+};
 
 using std::string;
-using utilities::OrderedMap;
 using std::vector;
 using std::map;
+using std::string_view;
+using utilities::OrderedMap;
+using std::shared_ptr;
+
+namespace base {
 
 // classes
 class Object {
@@ -77,7 +80,6 @@ public:
   bool                            HasAddressableUsage(const string& label, const addressable::Usage&) const;
   bool                            IsAddressableAVector(const string& label) const;
   unsigned                        GetAddressableSize(const string& label) const;
-
   Double*                         GetAddressable(const string& label);
   virtual Double*                 GetAddressable(const string& label, const string& index);
   vector<Double*>*                GetAddressables(const string& absolute_label, const vector<string> indexes);
@@ -85,7 +87,6 @@ public:
   map<unsigned, Double>*          GetAddressableUMap(const string& label, bool& create_missing);
   OrderedMap<string, Double>*     GetAddressableSMap(const string& label);
   vector<Double>*                 GetAddressableVector(const string& label);
-
   addressable::Type               GetAddressableType(const string& label) const;
   void                            PrintParameterQueryInfo();
   virtual void                    RebuildCache();
@@ -110,6 +111,9 @@ public:
   void                        set_time_varying(bool value) { is_time_varying_ = value;} // This should only be TimeVarying.cpp
   string                      block_type() const { return block_type_; }
 
+  // Operators
+	bool operator==(string_view label) const { return label == label_; }
+
 protected:
   // Methods
   void                        RegisterAsAddressable(const string& label, Double* variable, addressable::Usage usage = addressable::kAll);
@@ -117,7 +121,6 @@ protected:
   void                        RegisterAsAddressable(const string& label, OrderedMap<string, Double>* variables, addressable::Usage usage = addressable::kAll);
   void                        RegisterAsAddressable(const string& label, map<unsigned, Double>* variables, addressable::Usage usage = addressable::kAll);
   void                        RegisterAsAddressable(map<string, vector<Double>>* variables);
-
 
   // Members
   string                          block_type_           = "";
@@ -138,7 +141,7 @@ protected:
   map<string, OrderedMap<string, Double>* > addressable_s_maps_;
   vector<map<string, vector<Double>>* >     unnamed_addressable_s_map_vector_;
 
-  DISALLOW_COPY_AND_ASSIGN(Object);
+  DISALLOW_COPY_MOVE_AND_ASSIGN(Object);
 };
 
 } /* namespace base */

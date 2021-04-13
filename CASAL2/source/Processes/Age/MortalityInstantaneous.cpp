@@ -24,7 +24,6 @@
 #include "Selectivities/Manager.h"
 #include "TimeSteps/TimeStep.h"
 #include "TimeSteps/Manager.h"
-#include "Utilities/DoubleCompare.h"
 #include "Utilities/To.h"
 #include "Utilities/Math.h"
 #include "AgeWeights/Manager.h"
@@ -45,7 +44,7 @@ namespace math = niwa::utilities::math;
  *
  * Note: The constructor is parsed to generate LaTeX for the documentation.
  */
-MortalityInstantaneous::MortalityInstantaneous(Model* model)
+MortalityInstantaneous::MortalityInstantaneous(shared_ptr<Model> model)
   : Process(model),
     partition_(model) {
   process_type_ = ProcessType::kMortality;
@@ -60,7 +59,7 @@ MortalityInstantaneous::MortalityInstantaneous(Model* model)
   parameters_.BindTable(PARAM_CATCHES, catches_table_, "The table of removals (catch) data", "", true, false);
   parameters_.BindTable(PARAM_METHOD, method_table_, "The table of method of removal data", "", true, false);
   parameters_.Bind<Double>(PARAM_M, &m_input_, "The natural mortality rates for each category", "")->set_lower_bound(0.0);
-  parameters_.Bind<double>(PARAM_TIME_STEP_RATIO, &time_step_ratios_temp_, "The time step ratios for natural mortality", "", true)->set_range(0.0, 1.0);
+  parameters_.Bind<Double>(PARAM_TIME_STEP_RATIO, &time_step_ratios_temp_, "The time step ratios for natural mortality", "", true)->set_range(0.0, 1.0);
   parameters_.Bind<string>(PARAM_RELATIVE_M_BY_AGE, &selectivity_labels_, "The M-by-age ogives to apply on the categories for natural mortality", "");
 
   RegisterAsAddressable(PARAM_M, &m_);
@@ -313,7 +312,7 @@ void MortalityInstantaneous::DoBuild() {
    * apply a different ratio of M so here we want to verify
    * we have enough
    */
-  vector<TimeStep*> time_steps = model_->managers().time_step()->ordered_time_steps();
+  vector<TimeStep*> time_steps = model_->managers()->time_step()->ordered_time_steps();
   vector<unsigned> active_time_steps;
   for (unsigned i = 0; i < time_steps.size(); ++i) {
     if (time_steps[i]->HasProcess(label_))
@@ -328,7 +327,7 @@ void MortalityInstantaneous::DoBuild() {
       LOG_ERROR_P(PARAM_TIME_STEP_RATIO) << " The time step ratio length (" << time_step_ratios_temp_.size()
         << ") does not match the number of time steps this process has been assigned to (" << active_time_steps.size() << ")";
 
-    for (double value : time_step_ratios_temp_) {
+    for (Double value : time_step_ratios_temp_) {
       if (value < 0.0 || value > 1.0)
         LOG_ERROR_P(PARAM_TIME_STEP_RATIO) << "The time step ratio value (" << value << ") must be between 0.0 and 1.0 (inclusive)";
     }
@@ -341,7 +340,7 @@ void MortalityInstantaneous::DoBuild() {
    * Assign the selectivity, penalty and time step index to each fisher data object
    */
   for (auto& fishery_category : fishery_categories_) {
-    fishery_category.selectivity_ = model_->managers().selectivity()->GetSelectivity(fishery_category.selectivity_label_);
+    fishery_category.selectivity_ = model_->managers()->selectivity()->GetSelectivity(fishery_category.selectivity_label_);
     /**
      * Check the fishery categories are valid
      */
@@ -355,14 +354,14 @@ void MortalityInstantaneous::DoBuild() {
   for (auto& fishery_iter : fisheries_) {
     auto& fishery = fishery_iter.second;
     if (fishery.penalty_label_ != "none") {
-      fishery.penalty_ = model_->managers().penalty()->GetProcessPenalty(fishery.penalty_label_);
+      fishery.penalty_ = model_->managers()->penalty()->GetProcessPenalty(fishery.penalty_label_);
       if (!fishery.penalty_)
         LOG_ERROR_P(PARAM_METHOD) << ": Penalty label " << fishery.penalty_label_ << " was not found.";
     }
-    bool check_time_step = model_->managers().time_step()->CheckTimeStep(fishery.time_step_label_);
+    bool check_time_step = model_->managers()->time_step()->CheckTimeStep(fishery.time_step_label_);
     if (!check_time_step)
       LOG_FATAL_P(PARAM_METHOD) << "Time step label " << fishery.time_step_label_ << " was not found.";
-    fishery.time_step_index_ = model_->managers().time_step()->GetTimeStepIndex(fishery.time_step_label_);
+    fishery.time_step_index_ = model_->managers()->time_step()->GetTimeStepIndex(fishery.time_step_label_);
   }
 
   /**
@@ -378,7 +377,7 @@ void MortalityInstantaneous::DoBuild() {
    */
   for (auto& category : categories_) {
     // Selectivity
-    Selectivity* selectivity = model_->managers().selectivity()->GetSelectivity(category.selectivity_label_);
+    Selectivity* selectivity = model_->managers()->selectivity()->GetSelectivity(category.selectivity_label_);
     if (!selectivity)
       LOG_ERROR_P(PARAM_RELATIVE_M_BY_AGE) << "M-by-age ogive label " << category.selectivity_label_ << " was not found.";
     category.selectivity_ = selectivity;
@@ -392,7 +391,7 @@ void MortalityInstantaneous::DoBuild() {
       use_age_weight_ = false;
     } else {
       LOG_FINE() << "age weight found";
-      AgeWeight* age_weight = model_->managers().age_weight()->FindAgeWeight(category.age_weight_label_);
+      AgeWeight* age_weight = model_->managers()->age_weight()->FindAgeWeight(category.age_weight_label_);
       if (!age_weight)
         LOG_ERROR_P(PARAM_METHOD) << "age weight label " << category.age_weight_label_ << " was not found.";
       category.age_weight_ = age_weight;
@@ -405,7 +404,7 @@ void MortalityInstantaneous::DoBuild() {
    */
   vector<unsigned> instant_mort_time_step;
   unsigned i = 0;
-  for (auto time_step : model_->managers().time_step()->ordered_time_steps()) {
+  for (auto time_step : model_->managers()->time_step()->ordered_time_steps()) {
     for (auto process : time_step->processes()) {
       if (process->process_type() == ProcessType::kMortality && process->type() == PARAM_MORTALITY_INSTANTANEOUS) {
         LOG_FINEST() << "mortality_instantaneous process in time step " << i;
@@ -438,7 +437,7 @@ void MortalityInstantaneous::DoBuild() {
 
   LOG_FINE() << "years " << process_years_.size();
   // allocate memory for observation object
-  const vector<TimeStep*> ordered_time_steps = model_->managers().time_step()->ordered_time_steps();
+  const vector<TimeStep*> ordered_time_steps = model_->managers()->time_step()->ordered_time_steps();
   LOG_FINE() << "time steps = " << ordered_time_steps.size();
   LOG_FINE() << "partitions = " << partition_.size();
   for (auto year : process_years_) {
@@ -486,9 +485,9 @@ void MortalityInstantaneous::RebuildCache() {
 void MortalityInstantaneous::DoExecute() {
   LOG_TRACE();
 
-  unsigned time_step_index = model_->managers().time_step()->current_time_step();
+  unsigned time_step_index = model_->managers()->time_step()->current_time_step();
   unsigned year =  model_->current_year();
-  double ratio = time_step_ratios_[time_step_index];
+  Double ratio = time_step_ratios_[time_step_index];
   Double selectivity_value = 0.0;
 
   for (auto& category : categories_) {
@@ -574,7 +573,7 @@ void MortalityInstantaneous::DoExecute() {
 
       // If fishery occurs in this time step calculate exploitation rate
       if (fishery.time_step_index_ == time_step_index) {
-        exploitation = fishery.catches_[year] / utilities::doublecompare::ZeroFun(fishery.vulnerability_);
+        exploitation = fishery.catches_[year] / utilities::math::ZeroFun(fishery.vulnerability_);
 
         fishery.exploitation_ = exploitation;
         fishery.uobs_fishery_ = exploitation;
@@ -763,13 +762,13 @@ void MortalityInstantaneous::FillReportCache(ostringstream& cache) {
     auto& fishery = fishery_iter.second;
     cache << "\nfishing_pressure[" << fishery.label_ << "]: ";
     for (auto pressure : fishery.exploitation_by_year_)
-      cache << AS_VALUE(pressure.second) << " ";
+      cache << AS_DOUBLE(pressure.second) << " ";
     cache << "\ncatch[" << fishery.label_ << "]: ";
     for (auto catches : fishery.catches_)
-      cache << AS_VALUE(catches.second) << " ";
+      cache << AS_DOUBLE(catches.second) << " ";
     cache << "\nactual_catch[" << fishery.label_ << "]: ";
     for (auto actual_catches : fishery.actual_catches_)
-      cache << AS_VALUE(actual_catches.second) << " ";
+      cache << AS_DOUBLE(actual_catches.second) << " ";
   }
 
   cache << "\n";
@@ -821,11 +820,11 @@ void MortalityInstantaneous::FillTabularReportCache(ostringstream& cache, bool f
   for (auto& fishery_iter : fisheries_) {
     auto& fishery = fishery_iter.second;
     for (auto pressure : fishery.exploitation_by_year_)
-      cache << AS_VALUE(pressure.second) << " ";
+      cache << AS_DOUBLE(pressure.second) << " ";
     for (auto catches : fishery.catches_)
-      cache << AS_VALUE(catches.second) << " ";
+      cache << AS_DOUBLE(catches.second) << " ";
     for (auto actual_catches : fishery.actual_catches_)
-      cache << AS_VALUE(actual_catches.second) << " ";
+      cache << AS_DOUBLE(actual_catches.second) << " ";
   }
   cache << "\n";
 }

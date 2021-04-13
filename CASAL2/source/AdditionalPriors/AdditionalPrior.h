@@ -17,7 +17,7 @@
 #define ADDITIONALPRIOR_H_
 
 // headers
-#include "BaseClasses/Executor.h"
+#include "../BaseClasses/Executor.h"
 
 // namespaces
 namespace niwa {
@@ -31,7 +31,7 @@ typedef Double (AdditionalPrior::*ScoreFunction)();
 class AdditionalPrior : public base::Object {
 public:
   // methods
-  AdditionalPrior(Model* model);
+  AdditionalPrior(shared_ptr<Model> model);
   virtual                     ~AdditionalPrior() = default;
   virtual Double              GetScore() = 0;
   void                        Validate();
@@ -46,7 +46,7 @@ protected:
 
   // members
   string                      parameter_;
-  Model*                      model_;
+  shared_ptr<Model>           model_;
   ScoreFunction               score_function_ = 0;
 };
 

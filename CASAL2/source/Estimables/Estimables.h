@@ -21,9 +21,9 @@
 #include <string>
 #include <memory>
 
-#include "Model/Managers.h"
-#include "Utilities/Map.h"
-#include "Utilities/Types.h"
+#include "../Model/Managers.h"
+#include "../Utilities/Map.h"
+#include "../Utilities/Types.h"
 
 // namespaces
 namespace niwa {
@@ -51,7 +51,7 @@ enum class EstimableType {
 class Estimables {
 public:
   // methods
-  Estimables(Model* model) : model_(model) { };
+  Estimables(shared_ptr<Model> model) : model_(model) { };
   virtual                       ~Estimables() = default;
   void                          AddValue(const string& estimable_label, Double value);
   vector<string>                GetEstimables() const;
@@ -61,7 +61,7 @@ public:
 
 private:
   // members
-  Model*                        model_ = nullptr;
+  shared_ptr<Model>                        model_ = nullptr;
   map<string, vector<Double>>   estimable_values_;
   map<string, Double*>          estimables_;
 

@@ -14,7 +14,7 @@
 #define AGELENGTHS_NONE_H_
 
 // headers
-#include "AgeLengths/AgeLength.h"
+#include "../../AgeLengths/AgeLength.h"
 
 // namespaces
 namespace niwa {
@@ -26,7 +26,7 @@ namespace agelengths {
 class None : public niwa::AgeLength {
 public:
   // methods
-  explicit None(Model* model) : AgeLength(model) { };
+  explicit None(shared_ptr<Model> model) : AgeLength(model) { };
   virtual                     ~None() = default;
   void                        DoValidate() override final { };
   void                        DoBuild() override final { };
@@ -37,8 +37,8 @@ public:
   Double                      mean_length(unsigned year, unsigned age) override final { return 1.0; }
   Double                      mean_weight(unsigned year, unsigned age) override final { return 1.0; }
   Double                      GetMeanLength(unsigned year, unsigned time_step, unsigned age) override final { return 1.0; }
-
 };
+
 
 } /* namespace agelengths */
 } /* namespace niwa */

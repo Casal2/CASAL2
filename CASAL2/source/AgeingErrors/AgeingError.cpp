@@ -12,7 +12,7 @@
 // Headers
 #include "AgeingError.h"
 
-#include "Model/Model.h"
+#include "../Model/Model.h"
 
 // Namespaces
 namespace niwa {
@@ -27,7 +27,7 @@ namespace niwa {
  *
  * Note: The constructor is parsed to generate LaTeX for the documentation.
  */
-AgeingError::AgeingError(Model* model) : model_(model) {
+AgeingError::AgeingError(shared_ptr<Model> model) : model_(model) {
   parameters_.Bind<string>(PARAM_LABEL, &label_, "The label of the ageing error", "");
   parameters_.Bind<string>(PARAM_TYPE, &type_, "The type of ageing error", "");
 }
@@ -43,7 +43,7 @@ void AgeingError::Validate() {
 
   min_age_    = model_->min_age();
   max_age_    = model_->max_age();
-  plus_group_ = model_->age_plus();
+  plus_group_   = model_->age_plus();
   age_spread_ = model_->age_spread();
 
   DoValidate();

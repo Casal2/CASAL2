@@ -16,9 +16,9 @@
 #include <gtest/gtest.h>
 #include <gmock/gmock.h>
 
-#include "Categories/Categories.h"
-#include "Partition/Partition.h"
-#include "TestResources/MockClasses/Model.h"
+#include "../../Categories/Categories.h"
+#include "../../Partition/Partition.h"
+#include "../../TestResources/MockClasses/Model.h"
 
 // Namespaces
 namespace niwa {

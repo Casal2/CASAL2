@@ -19,7 +19,7 @@
 // headers
 #include <string>
 
-#include "Utilities/RunMode.h"
+#include "../Utilities/RunMode.h"
 
 // namespaces
 namespace niwa {

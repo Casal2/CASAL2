@@ -4,7 +4,7 @@
  * @date 12/07/2013
  * @section LICENSE
  *
- * Copyright NIWA Science ©2013 - www.niwa.co.nz
+ * Copyright NIWA Science ï¿½2013 - www.niwa.co.nz
  *
  */
 
@@ -19,7 +19,6 @@
 #include "InitialisationPhases/Manager.h"
 #include "Estimates/Manager.h"
 #include "TimeSteps/Manager.h"
-#include "Utilities/DoubleCompare.h"
 #include "Utilities/Math.h"
 #include "Utilities/To.h"
 
@@ -28,13 +27,12 @@ namespace niwa {
 namespace processes {
 namespace age {
 
-namespace dc = niwa::utilities::doublecompare;
 namespace math = niwa::utilities::math;
 
 /**
  * Default constructor
  */
-RecruitmentBevertonHolt::RecruitmentBevertonHolt(Model* model)
+RecruitmentBevertonHolt::RecruitmentBevertonHolt(shared_ptr<Model> model)
   : Process(model),
     partition_(model) {
   LOG_TRACE();
@@ -153,9 +151,9 @@ void RecruitmentBevertonHolt::DoBuild() {
     b0_initialised_ = true;
   }
   if (phase_b0_label_ != "")
-    phase_b0_ = model_->managers().initialisation_phase()->GetPhaseIndex(phase_b0_label_);
+    phase_b0_ = model_->managers()->initialisation_phase()->GetPhaseIndex(phase_b0_label_);
 
-  derived_quantity_ = model_->managers().derived_quantity()->GetDerivedQuantity(ssb_);
+  derived_quantity_ = model_->managers()->derived_quantity()->GetDerivedQuantity(ssb_);
   if (!derived_quantity_)
     LOG_ERROR_P(PARAM_SSB) << "Derived quantity SSB (" << ssb_ << ") was not found.";
 
@@ -163,14 +161,14 @@ void RecruitmentBevertonHolt::DoBuild() {
    * Calculate out SSB offset
    */
   unsigned temp_ssb_offset = 0;
-  const vector<TimeStep*> ordered_time_steps = model_->managers().time_step()->ordered_time_steps();
+  const vector<TimeStep*> ordered_time_steps = model_->managers()->time_step()->ordered_time_steps();
   unsigned time_step_index = 0;
   unsigned process_index = 0;
   unsigned ageing_processes = 0;
   unsigned ageing_index = std::numeric_limits<unsigned>::max();
   unsigned recruitment_index = std::numeric_limits<unsigned>::max();
   unsigned derived_quantity_index = std::numeric_limits<unsigned>::max();
-  unsigned derived_quantity_time_step_index = model_->managers().time_step()->GetTimeStepIndex(derived_quantity_->time_step());
+  unsigned derived_quantity_time_step_index = model_->managers()->time_step()->GetTimeStepIndex(derived_quantity_->time_step());
   bool mortailty_block = false;
 
   // loop through time steps
@@ -206,7 +204,7 @@ void RecruitmentBevertonHolt::DoBuild() {
     time_step_index++;
   }
 
-  recruitment_index = model_->managers().time_step()->GetProcessIndex(label_);
+  recruitment_index = model_->managers()->time_step()->GetProcessIndex(label_);
   if (ageing_processes > 1)
     LOG_ERROR_P(PARAM_LABEL) << "The Beverton-Holt recruitment 'ssb_offset' has been calculated on the basis of a single ageing process. "
       << ageing_processes << " ageing processes were specified. Manually set the ssb_offset or contact the development team";
@@ -254,8 +252,8 @@ void RecruitmentBevertonHolt::DoBuild() {
   string b0_param = "process[" + label_ + "].b0";
   string r0_param = "process[" + label_ + "].r0";
 
-  bool B0_estimate = model_->managers().estimate()->HasEstimate(b0_param);
-  bool R0_estimate = model_->managers().estimate()->HasEstimate(r0_param);
+  bool B0_estimate = model_->managers()->estimate()->HasEstimate(b0_param);
+  bool R0_estimate = model_->managers()->estimate()->HasEstimate(r0_param);
 
   LOG_FINEST() << "is B0 estimated = " << B0_estimate << " is R0 estimated " << R0_estimate;
   if(B0_estimate && R0_estimate) {
@@ -333,7 +331,7 @@ void RecruitmentBevertonHolt::DoExecute() {
 
   Double amount_per = 0.0;
   if (model_->state() == State::kInitialise) {
-    initialisationphases::Manager& init_phase_manager = *model_->managers().initialisation_phase();
+    initialisationphases::Manager& init_phase_manager = *model_->managers()->initialisation_phase();
     if ((init_phase_manager.last_executed_phase() <= phase_b0_) && (parameters_.Get(PARAM_R0)->has_been_defined())) {
       amount_per = r0_;
     } else if ((init_phase_manager.last_executed_phase() <= phase_b0_) && (parameters_.Get(PARAM_B0)->has_been_defined())) {
@@ -400,7 +398,7 @@ void RecruitmentBevertonHolt::DoExecute() {
     Double SSB;
     if (ssb_year < model_->start_year()) {
       // Model is in normal years but requires an SSB from the initialisation phase
-      initialisationphases::Manager& init_phase_manager = *model_->managers().initialisation_phase();
+      initialisationphases::Manager& init_phase_manager = *model_->managers()->initialisation_phase();
       LOG_FINE() << "Initialisation phase index SSB is being extracted from init phase " << init_phase_manager.last_executed_phase()
         << " SSB year = " << ssb_year;
       SSB = derived_quantity_->GetLastValueFromInitialisation(init_phase_manager.last_executed_phase());
@@ -473,19 +471,19 @@ void RecruitmentBevertonHolt::FillReportCache(ostringstream& cache) {
     cache << iter.first << " ";
   cache << "\nstandardised_ycs: ";
   for (auto iter : stand_ycs_value_by_year_)
-    cache << AS_VALUE(iter.second) << " ";
+    cache << AS_DOUBLE(iter.second) << " ";
   cache << "\nycs_values: ";
   for (auto iter : ycs_value_by_year_)
-    cache << AS_VALUE(iter.second) << " ";
+    cache << AS_DOUBLE(iter.second) << " ";
   cache << "\ntrue_ycs: ";
   for (auto iter : true_ycs_values_)
-    cache << AS_VALUE(iter) << " ";
+    cache << AS_DOUBLE(iter) << " ";
   cache << "\nRecruits: ";
   for (auto iter : recruitment_values_)
-    cache << AS_VALUE(iter) << " ";
+    cache << AS_DOUBLE(iter) << " ";
   cache << "\nSSB: ";
   for (auto iter : ssb_values_)
-    cache << AS_VALUE(iter) << " ";
+    cache << AS_DOUBLE(iter) << " ";
   cache << "\n";
 
 }
@@ -519,18 +517,18 @@ void RecruitmentBevertonHolt::FillTabularReportCache(ostringstream& cache, bool 
   }
 
   for (auto iter : stand_ycs_value_by_year_)
-    cache << AS_VALUE(iter.second) << " ";
+    cache << AS_DOUBLE(iter.second) << " ";
   for (auto iter : ycs_value_by_year_)
-    cache << AS_VALUE(iter.second) << " ";
+    cache << AS_DOUBLE(iter.second) << " ";
 
   for (auto value : true_ycs_values_)
-    cache << AS_VALUE(value) << " ";
+    cache << AS_DOUBLE(value) << " ";
   for (auto value : recruitment_values_)
-    cache << AS_VALUE(value) << " ";
+    cache << AS_DOUBLE(value) << " ";
   for (auto value : ssb_values_)
-    cache << AS_VALUE(value) << " ";
+    cache << AS_DOUBLE(value) << " ";
 
-  cache << AS_VALUE(r0_) << " " << AS_VALUE(b0_) << " " << AS_VALUE(steepness_) << " ";
+  cache << AS_DOUBLE(r0_) << " " << AS_DOUBLE(b0_) << " " << AS_DOUBLE(steepness_) << " ";
   cache << "\n";
 
 }

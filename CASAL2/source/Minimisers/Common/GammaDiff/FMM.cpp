@@ -10,11 +10,11 @@
  * $Date: 2008-03-04 16:33:32 +1300 (Tue, 04 Mar 2008) $
  */
 // Headers
-#include <Minimisers/Common/GammaDiff/FMM.h>
+#include "FMM.h"
 #include <iostream>
 #include <cmath>
 
-#include "Logging/Logging.h"
+#include "../../../Logging/Logging.h"
 
 // namespaces
 namespace niwa {

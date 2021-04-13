@@ -4,7 +4,7 @@
  * @date 28/03/2014
  * @section LICENSE
  *
- * Copyright NIWA Science ©2014 - www.niwa.co.nz
+ * Copyright NIWA Science ï¿½2014 - www.niwa.co.nz
  *
  * @section DESCRIPTION
  *
@@ -18,8 +18,8 @@
 #define PROFILE_H_
 
 // headers
-#include "BaseClasses/Object.h"
-#include "Estimates/Estimate.h"
+#include "../BaseClasses/Object.h"
+#include "../Estimates/Estimate.h"
 
 // namespaces
 namespace niwa {
@@ -32,7 +32,7 @@ class Profile : public niwa::base::Object {
 public:
   // methods
   Profile() = delete;
-  explicit Profile(Model* model);
+  explicit Profile(shared_ptr<Model> model);
   virtual                     ~Profile() = default;
   void                        Validate();
   void                        Build();
@@ -48,13 +48,13 @@ public:
 
 private:
   // members
-  Model*                      model_ = nullptr;
+  shared_ptr<Model>                      model_ = nullptr;
   unsigned                    steps_ = 0;
-  double                      lower_bound_ = 0;
-  double                      upper_bound_ = 0;
+  Double                      lower_bound_ = 0;
+  Double                      upper_bound_ = 0;
   string                      parameter_ = "";
   string                      same_parameter_ = "";
-  double                      step_size_ = 0;
+  Double                      step_size_ = 0;
   Double*                     target_ = nullptr;
   Double*                     same_target_ = nullptr;
   Double                      original_value_ = 0;

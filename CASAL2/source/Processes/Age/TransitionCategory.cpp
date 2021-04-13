@@ -24,7 +24,7 @@ namespace age {
 /**
  * Default constructor
  */
-TransitionCategory::TransitionCategory(Model* model)
+TransitionCategory::TransitionCategory(shared_ptr<Model> model)
   : Process(model),
     from_partition_(model),
     to_partition_(model) {
@@ -126,7 +126,7 @@ void TransitionCategory::DoBuild() {
   to_partition_.Init(to_category_names_);
 
   for(string label : selectivity_names_) {
-    Selectivity* selectivity = model_->managers().selectivity()->GetSelectivity(label);
+    Selectivity* selectivity = model_->managers()->selectivity()->GetSelectivity(label);
     if (!selectivity)
       LOG_ERROR_P(PARAM_SELECTIVITIES) << ": Selectivity label " << label << " was not found.";
     selectivities_.push_back(selectivity);

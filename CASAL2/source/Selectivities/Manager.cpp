@@ -20,6 +20,7 @@ namespace selectivities {
  * Default constructor
  */
 Manager::Manager() {
+
 }
 
 /**

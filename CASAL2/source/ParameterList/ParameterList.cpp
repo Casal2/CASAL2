@@ -23,12 +23,12 @@
 #include <boost/algorithm/string/split.hpp>
 #include <boost/algorithm/string/join.hpp>
 
-#include "Categories/Categories.h"
-#include "Model/Model.h"
-#include "Translations/Translations.h"
-#include "Logging/Logging.h"
-#include "Utilities/String.h"
-#include "Utilities/To.h"
+#include "../Categories/Categories.h"
+#include "../Model/Model.h"
+#include "../Translations/Translations.h"
+#include "../Logging/Logging.h"
+#include "../Utilities/String.h"
+#include "../Utilities/To.h"
 
 // Using
 namespace util = niwa::utilities;
@@ -48,7 +48,7 @@ ParameterList::~ParameterList() {
     if (parameter.second != nullptr)
       delete parameter.second;
   }
-  // DO NOT CLEAN UP TABLE MEMORY. IT IS HANDLE BY THE OWNER
+  // DO NOT CLEAN UP TABLE MEMORY. IT'S HANDLE BY THE OWNER
 }
 
 /**
@@ -98,32 +98,16 @@ bool ParameterList::Add(const string& label, const string& value, const string& 
  * @param line_number Line number where table definition finished
  * @return true on success, false on failure
  */
-//bool ParameterList::AddTable(const string& label, const vector<string>& columns, const vector<vector<string> >& data, const string& file_name, const unsigned& line_number) {
-//  if (tables_.find(label) == tables_.end())
-//    return false;
-//
-//  parameters::TablePtr table = tables_.find(label)->second;
-//  if (table->requires_comlums())
-//    table->AddColumns(columns);
-//  else
-//    table->AddRow(columns);
-//  for (vector<string> row : data)
-//    table->AddRow(row);
-//  table->set_file_name(file_name);
-//  table->set_line_number(line_number);
-//
-//  return true;
-//}
 
 /**
  * Populate the parameter list
  *
  * @param model The model
  */
-void ParameterList::Populate(Model* model) {
+void ParameterList::Populate(shared_ptr<Model> model) {
   LOG_TRACE();
   if (already_populated_) {
-    LOG_CODE_ERROR() << "  if (already_populated_)";
+    LOG_CODE_ERROR() << "  if (already_populated_): " << parent_block_type_;
   }
 
   already_populated_ = true;
@@ -144,15 +128,15 @@ void ParameterList::Populate(Model* model) {
   if (missing_parameters != "") {
     if (parameters_.find(PARAM_LABEL) == parameters_.end()) {
       LOG_ERROR() << "At line " << defined_line_number_ << " in " << defined_file_name_ << " the following required parameters for the block @"
-        << parent_block_type_ << " are required but have not been defined: " << missing_parameters;
+                  << parent_block_type_ << " are required but have not been defined: " << missing_parameters;
     } else {
       auto parameter = parameters_.find(PARAM_LABEL);
       if (parameter->second->values().size() == 0) {
         LOG_ERROR() << "At line " << defined_line_number_ << " in " << defined_file_name_ << " the following required parameters for the block @"
-          << parent_block_type_ << " are required but have not been defined: " << missing_parameters;
+            << parent_block_type_ << " are required but have not been defined: " << missing_parameters;
       } else {
         LOG_ERROR() << parameter->second->location() << " the following required parameters for the block @"
-          << parent_block_type_ << " are required but have not been defined: " << missing_parameters;
+            << parent_block_type_ << " are required but have not been defined: " << missing_parameters;
       }
     }
     return;
@@ -313,8 +297,7 @@ void ParameterList::CopyFrom(const ParameterList& source, string parameter_label
 
   vector<string> values;
   if (iter->second->values().size() <= value_index)
-    LOG_CODE_ERROR() << "iter->second->values().size(" << iter->second->values().size() << ") <= value_index(" << value_index
-      << "): " << parameter_label;
+    LOG_CODE_ERROR() << "iter->second->values().size(" << iter->second->values().size() << ") <= value_index(" << value_index << "): " << parameter_label;
 
   values.push_back(iter->second->values()[value_index]);
   Add(parameter_label, values, iter->second->file_name(), iter->second->line_number());
@@ -332,8 +315,9 @@ void ParameterList::Clear() {
   tables_.clear();
 }
 
+
 /**
- * Find the location string for one of the parameters.
+ * Find the location string for one of our parameters.
  *
  * @param label The label for the parameter
  * @return The location string for an error message
@@ -343,8 +327,8 @@ string ParameterList::location(const string& label) {
   auto table_iter = tables_.find(label);
   if (iter == parameters_.end() && table_iter == tables_.end()) {
     LOG_CODE_ERROR() << "Trying to find the configuration file location for the parameter " << label
-      << " failed because it has not been previously bound to this object. This is a developer"
-      << " error most likely caused by using mismatched PARAM_X values";
+        << " failed because it has not been previously bound to this object. This is a developer"
+        << " error most likely caused by using mismatched PARAM_X values";
   }
 
   if (iter != parameters_.end())
@@ -361,11 +345,11 @@ string ParameterList::location(const string& label) {
  * @param description Information used for documentation, ignored
  * @param values Information used for documentation, ignored
  */
-void ParameterList::BindTable(const string& label, parameters::Table* table, const string& description,
-                              const string& values, bool requires_columns, bool optional) {
+void ParameterList::BindTable(const string& label, parameters::Table* table, const string& description, const string& values, bool requires_columns, bool optional) {
   table->set_requires_columns(requires_columns);
   table->set_is_optional(optional);
   tables_[label] = table;
 }
+
 
 } /* namespace niwa */

@@ -17,7 +17,7 @@
 #define LOGISTICPRODUCING_H_
 
 // Headers
-#include "Selectivities/Selectivity.h"
+#include "../../Selectivities/Selectivity.h"
 
 // namespaces
 namespace niwa {
@@ -29,7 +29,7 @@ namespace selectivities {
 class LogisticProducing : public niwa::Selectivity {
 public:
   // Methods
-  explicit LogisticProducing(Model* model);
+  explicit LogisticProducing(shared_ptr<Model> model);
   virtual                     ~LogisticProducing() = default;
   void                        DoValidate() override final;
   void                        RebuildCache() override final;

@@ -5,7 +5,7 @@
  * @date 14/01/2013
  * @section LICENSE
  *
- * Copyright NIWA Science ©2013 - www.niwa.co.nz
+ * Copyright NIWA Science ï¿½2013 - www.niwa.co.nz
  *
  * @section DESCRIPTION
  *
@@ -23,8 +23,8 @@
 #define ESTIMATE_H_
 
 // Headers
-#include "BaseClasses/Object.h"
-#include "Utilities/Types.h"
+#include "../BaseClasses/Object.h"
+#include "../Utilities/Types.h"
 
 // Namespaces
 namespace niwa {
@@ -38,7 +38,7 @@ class Estimate : public niwa::base::Object {
 public:
   // Methods
   Estimate() = delete;
-  explicit Estimate(Model* model);
+  explicit Estimate(shared_ptr<Model> model);
   virtual                     ~Estimate() = default;
   void                        Validate();
   void                        Build() ;
@@ -54,10 +54,10 @@ public:
   void                        set_creator_parameter(const string& parameter) { creator_parameter_ = parameter; }
   string                      creator_parameter() const { return creator_parameter_; }
   string                      parameter() const { return parameter_; }
-  double                      lower_bound() const { return lower_bound_; }
-  void                        set_lower_bound(double new_value) { lower_bound_ = new_value; }
-  double                      upper_bound() const { return upper_bound_; }
-  void                        set_upper_bound(double new_value) { upper_bound_ = new_value; }
+  Double                      lower_bound() const { return lower_bound_; }
+  void                        set_lower_bound(Double new_value) { lower_bound_ = new_value; }
+  Double                      upper_bound() const { return upper_bound_; }
+  void                        set_upper_bound(Double new_value) { upper_bound_ = new_value; }
   bool                        estimated() const { return estimated_; }
   void                        set_estimated(bool new_value) { estimated_ = new_value; }
   Double                      value() { return *target_; }
@@ -75,12 +75,12 @@ public:
 
 protected:
   // Members
-  Model*                      model_ = nullptr;
+  shared_ptr<Model>                      model_ = nullptr;
   Double*                     target_ = nullptr;
   string                      parameter_;
   string                      creator_parameter_;
-  double                      lower_bound_;
-  double                      upper_bound_;
+  Double                      lower_bound_;
+  Double                      upper_bound_;
   bool                        mcmc_fixed_;
 //  string                      prior_label_;
   unsigned                    estimation_phase_ = 1;

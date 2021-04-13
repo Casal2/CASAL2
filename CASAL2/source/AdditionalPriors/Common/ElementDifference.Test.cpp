@@ -16,8 +16,8 @@
 #include <gtest/gtest.h>
 #include <boost/lexical_cast.hpp>
 
-#include "Model/Model.h"
-#include "TestResources/MockClasses/Model.h"
+#include "../../Model/Model.h"
+#include "../../TestResources/MockClasses/Model.h"
 
 // Namespaces
 namespace niwa {
@@ -30,7 +30,7 @@ using::testing::Return;
  */
 class MockElementDifference : public ElementDifference {
 public:
-  MockElementDifference(Model* model, double multipler, double* second_parameter,  double* parameter) : ElementDifference(model) {
+  MockElementDifference(shared_ptr<Model> model, double multipler, double* second_parameter,  double* parameter) : ElementDifference(model) {
     multiplier_ = multipler;
     addressable_ = parameter;
     second_addressable_ = second_parameter;
@@ -47,9 +47,9 @@ TEST(AdditionalPriors, ElementDifference) {
     {100, 3.4,7.44, 1632.1600000000008}
   };
 
-  Model model;
+  shared_ptr<Model> model = shared_ptr<Model>(new Model());
   for (auto line : values) {
-    MockElementDifference element_difference(&model, line[0], &line[1], &line[2]);
+    MockElementDifference element_difference(model, line[0], &line[1], &line[2]);
     EXPECT_DOUBLE_EQ(line[3], element_difference.GetScore());
   }
 }

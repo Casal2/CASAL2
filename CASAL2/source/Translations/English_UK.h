@@ -2,7 +2,7 @@
 // Name        : English.h
 // Author      : S.Rasmussen
 // Date        : 18/07/2008
-// Copyright   : Copyright NIWA Science Â©2008 - www.niwa.co.nz
+// Copyright   : Copyright NIWA Science ©2008 - www.niwa.co.nz
 // Description :
 // $Date: 2008-03-04 16:33:32 +1300 (Tue, 04 Mar 2008) $
 //============================================================================
@@ -137,6 +137,7 @@
 #define PARAM_AGEING_LABEL                        "ageing_label"
 #define PARAM_AGEING_ERROR                        "ageing_error"
 #define PARAM_AGEING_ERRORS                       "ageing_errors"
+#define PARAM_ALGORITHM														"algorithm"
 #define PARAM_ALL_VALUES_BOUNDED                  "all_values_bounded"
 #define PARAM_ALL_VALUES                          "all_values"
 #define PARAM_ALPHA                               "alpha"
@@ -172,6 +173,7 @@
 #define PARAM_BOBYQA_INTERPOLATION_POINTS         "bobyqa_interpolation_points"
 #define PARAM_BOBYQA_MAX_EVALUATIONS              "bobyqa_max_evaluations"
 #define PARAM_BOBYQA_STOPPING_TRUST_RADIUS        "bobyqa_stopping_trust_radius"
+#define PARAM_BURN_IN                             "burn_in"
 #define PARAM_BY_LENGTH                           "by_length"
 #define PARAM_C                                   "c"
 #define PARAM_CASAL_PENALTY                       "casal_penalty"
@@ -222,6 +224,7 @@
 #define PARAM_DE_SOLVER                           "de_solver"
 #define PARAM_DEBUG                               "debug"
 #define PARAM_DELTA                               "delta"
+#define PARAM_DELTADIFF                           "deltadiff"
 #define PARAM_DERIVATIVE_TEST                     "derivative_test"
 #define PARAM_DERIVED                             "derived"
 #define PARAM_DERIVED_QUANTITIES                  "derived_quantities"
@@ -428,6 +431,7 @@
 #define PARAM_MULTINOMIAL                         "multinomial"
 #define PARAM_MULTIPLICATIVE                      "multiplicative"
 #define PARAM_MULTIPLIER                          "multiplier"
+#define PARAM_MULTIVARIATE                        "multivariate"
 #define PARAM_N                                   "n"
 #define PARAM_NAMES                               "names"
 #define PARAM_NEGLOGLIKE                          "negloglike"
@@ -465,6 +469,7 @@
 #define PARAM_PARTITION_TYPE                      "partition_type"
 #define PARAM_PENALTY                             "penalty"
 #define PARAM_PEARSONS_RESIDUALS                  "pearsons_residuals"
+#define PARAM_PI_APPROX                           "pi_approx"
 #define PARAM_PIDI                                "pidi"
 #define PARAM_PLUS_GROUP                          "plus_group"
 #define PARAM_POINT_PERTUBATION_RADIUS            "point_perturbation_radius"
@@ -526,6 +531,7 @@
 #define PARAM_RANDOM_NUMBER_SEED                  "random_number_seed"
 #define PARAM_RANDOMDRAW                          "random_draw"
 #define PARAM_RANDOMWALK                          "random_walk"
+#define PARAM_RASMUSSEN_DUNN                      "rasmussen_dunn"
 #define PARAM_RATE                                "rate"
 #define PARAM_RATES                               "rates"
 #define PARAM_RATIO                               "ratio"
@@ -621,6 +627,7 @@
 #define PARAM_TARGET_CATEGORIES                   "categories2"
 #define PARAM_TARGET_SELECTIVITIES                "selectivities2"
 #define PARAM_TERMINAL_YEAR                       "terminal_year"
+#define PARAM_THREADS                             "threads"
 #define PARAM_THRESHOLD                           "threshold"
 #define PARAM_THRESHOLD_BIOMASS                   "threshold_biomass"
 #define PARAM_THETA_ONE                           "theta1"
@@ -656,6 +663,7 @@
 #define PARAM_UNIFORM                             "uniform"
 #define PARAM_UNIFORM_LOG                         "uniform_log"
 #define PARAM_UPPER_BOUND                         "upper_bound"
+#define PARAM_USE_RANDOM                          "use_random"
 #define PARAM_USER_DEFINED                        "user_defined"
 #define PARAM_V                                   "v"
 #define PARAM_VECTOR_AVERAGE                      "vector_average"

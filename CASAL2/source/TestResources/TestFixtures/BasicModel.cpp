@@ -14,12 +14,12 @@
 // Headers
 #include "BasicModel.h"
 
-#include "Model/Model.h"
-#include "Model/Factory.h"
-#include "Categories/Categories.h"
-#include "Logging/Logging.h"
-#include "Utilities/RandomNumberGenerator.h"
-#include "Utilities/To.h"
+#include "../../Model/Models/Age.h"
+#include "../../Model/Factory.h"
+#include "../../Categories/Categories.h"
+#include "../../Logging/Logging.h"
+#include "../../Utilities/RandomNumberGenerator.h"
+#include "../../Utilities/To.h"
 
 // Namespaces
 namespace niwa {

@@ -5,7 +5,7 @@
  * @date 20/04/2016
  * @section LICENSE
  *
- * Copyright NIWA Science ©2016 - www.niwa.co.nz
+ * Copyright NIWA Science ï¿½2016 - www.niwa.co.nz
  *
  * @section DESCRIPTION
  *
@@ -34,7 +34,7 @@ using utilities::OrderedMap;
 class TagLoss : public niwa::Process {
 public:
   // Methods
-  TagLoss(Model* model);
+  TagLoss(shared_ptr<Model> model);
   virtual                     ~TagLoss() = default;
   void                        DoValidate() override final;
   void                        DoBuild() override final;
@@ -46,11 +46,11 @@ public:
 private:
   // Members
   vector<string>              category_labels_;
-  vector<double>              tag_loss_input_;
+  vector<Double>              tag_loss_input_;
   OrderedMap<string, Double>  tag_loss_;
   string                      tag_loss_type_ = "single";
-  vector<double>              ratios_;
-  map<unsigned, double>       time_step_ratios_;
+  vector<Double>              ratios_;
+  map<unsigned, Double>       time_step_ratios_;
   vector<string>              selectivity_names_;
   accessor::Categories        partition_;
   vector<Selectivity*>        selectivities_;

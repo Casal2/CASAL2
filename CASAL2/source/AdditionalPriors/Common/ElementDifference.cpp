@@ -12,9 +12,9 @@
 // headers
 #include "ElementDifference.h"
 
-#include "Estimates/Manager.h"
-#include "Model/Model.h"
-#include "Model/Objects.h"
+#include "../../Estimates/Manager.h"
+#include "../../Model/Model.h"
+#include "../../Model/Objects.h"
 
 // namespaces
 namespace niwa {
@@ -23,9 +23,9 @@ namespace additionalpriors {
 /**
  * Default constructor
  */
-ElementDifference::ElementDifference(Model* model) : AdditionalPrior(model) {
+ElementDifference::ElementDifference(shared_ptr<Model> model) : AdditionalPrior(model) {
   parameters_.Bind<string>(PARAM_SECOND_PARAMETER, &second_parameter_, "The name of the second parameter for comparing", "");
-  parameters_.Bind<double>(PARAM_MULTIPLIER, &multiplier_, "Multiply the penalty by this factor", "", 1);
+  parameters_.Bind<Double>(PARAM_MULTIPLIER, &multiplier_, "Multiply the penalty by this factor", "", 1);
 }
 
 /**

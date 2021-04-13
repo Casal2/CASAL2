@@ -22,9 +22,9 @@
 #include <vector>
 #include <string>
 
-#include "Model/Model.h"
-#include "Partition/Partition.h"
-#include "Utilities/Types.h"
+#include "../../Model/Model.h"
+#include "../../Partition/Partition.h"
+#include "../../Utilities/Types.h"
 
 // Namespaces
 namespace niwa {
@@ -35,7 +35,7 @@ using std::map;
 using std::vector;
 using std::pair;
 using std::string;
-using niwa::utilities::Double;
+using ::niwa::utilities::Double;
 
 /**
  * Class Definition
@@ -47,16 +47,16 @@ public:
 
   // Methods
   Categories() = delete;
-  explicit Categories(Model* model);
+  explicit Categories(shared_ptr<Model> model);
   virtual                     ~Categories() = default;
   void                        Init(const vector<string>& category_labels);
-  DataType::iterator          begin();
-  DataType::iterator          end();
+  DataType::const_iterator    begin();
+  DataType::const_iterator    end();
   unsigned                    size();
 
 private:
   // Members
-  Model*                      model_;
+  shared_ptr<Model>                      model_;
   map<unsigned, DataType>     data_;
 };
 

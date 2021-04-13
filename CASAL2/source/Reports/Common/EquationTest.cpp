@@ -14,10 +14,10 @@
 
 #include <boost/algorithm/string/join.hpp>
 
-#include "EquationParser/EquationParser.h"
-#include "Model/Model.h"
-#include "Model/Objects.h"
-#include "Utilities/To.h"
+#include "../../EquationParser/EquationParser.h"
+#include "../../Model/Model.h"
+#include "../../Model/Objects.h"
+#include "../../Utilities/To.h"
 
 // namespaces
 namespace niwa {
@@ -26,7 +26,8 @@ namespace reports {
 /**
  * Default constructor
  */
-EquationTest::EquationTest(Model* model) : Report(model) {
+
+EquationTest::EquationTest() {
   run_mode_    = RunMode::kBasic;
   model_state_ = State::kFinalise;
 
@@ -36,19 +37,18 @@ EquationTest::EquationTest(Model* model) : Report(model) {
 /**
  * Execute the report
  */
-void EquationTest::DoExecute() {
+void EquationTest::DoExecute(shared_ptr<Model> model) {
   equation_ = boost::algorithm::join(equation_input_, " ");
 
   cache_ << "*"<< type_ << "[" << label_ << "]" << "\n";
   cache_ << "equation: " << equation_ << "\n";
   try {
-    cache_ << "result: " << model_->equation_parser().Parse(equation_) << "\n";
+    cache_ << "result: " << model->equation_parser().Parse(equation_) << "\n";
   } catch (std::runtime_error& ex) {
     cache_ << "result_exception: " << ex.what() << "\n";
   } catch (...) {
     cache_ << "result: equation failed\n";
   }
-
   ready_for_writing_ = true;
 }
 

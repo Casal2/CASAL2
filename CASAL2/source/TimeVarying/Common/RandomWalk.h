@@ -15,7 +15,7 @@
 #define TIMEVARYING_RANDOMWALK_H_
 
 // headers
-#include "TimeVarying/TimeVarying.h"
+#include "../../TimeVarying/TimeVarying.h"
 
 // namespaces
 namespace niwa {
@@ -27,7 +27,7 @@ namespace timevarying {
  */
 class RandomWalk : public TimeVarying {
 public:
-  explicit RandomWalk(Model* model);
+  explicit RandomWalk(shared_ptr<Model> model);
   virtual                     ~RandomWalk() = default;
   void                        DoValidate() override final;
   void                        DoBuild() override final;
@@ -43,8 +43,8 @@ private:
   string                      distribution_;
   map<unsigned, Double>       values_by_year_;
   bool                        has_at_estimate_;
-  double                      lower_bound_;
-  double                      upper_bound_;
+  Double                      lower_bound_;
+  Double                      upper_bound_;
 
 };
 

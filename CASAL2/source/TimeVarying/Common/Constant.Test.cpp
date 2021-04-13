@@ -19,11 +19,11 @@
 #include <gtest/gtest.h>
 #include <string>
 
-#include "BaseClasses/Object.h"
-#include "Model/Model.h"
-#include "Model/Objects.h"
-#include "Selectivities/Common/Constant.h"
-#include "TestResources/MockClasses/Model.h"
+#include "../../BaseClasses/Object.h"
+#include "../../Model/Model.h"
+#include "../../Model/Objects.h"
+#include "../../Selectivities/Common/Constant.h"
+#include "../../TestResources/MockClasses/Model.h"
 
 // Namespaces
 namespace niwa {
@@ -35,14 +35,14 @@ using ::testing::_;
 
 class MockSelectivity : public selectivities::Constant {
 public:
-  MockSelectivity(Model* model) : selectivities::Constant(model) { }
+  MockSelectivity(shared_ptr<Model> model) : selectivities::Constant(model) { }
   virtual ~MockSelectivity() = default;
   MOCK_CONST_METHOD2(GetAgeResult, double(unsigned age, AgeLength* age_length));
 };
 
 class MockObjects : public niwa::Objects {
 public:
-  MockObjects(Model* model) : niwa::Objects(model) { }
+  MockObjects(shared_ptr<Model> model) : niwa::Objects(model) { }
   virtual ~MockObjects() = default;
   MOCK_METHOD1(FindObject, base::Object*(const string& parameter_absolute_name));
 };
@@ -51,16 +51,16 @@ public:
  * Verify our Mock objects work as expected
  */
 TEST(TimeVarying, Constant_Check_Mock_Selectivity) {
-  MockModel model;
-  MockObjects mock_objects(&model);
-  MockSelectivity c(&model);
+  shared_ptr<MockModel> model = shared_ptr<MockModel>(new MockModel());
+  MockObjects mock_objects(model);
+  MockSelectivity c(model);
 
-  EXPECT_CALL(model, objects()).WillRepeatedly(ReturnRef(mock_objects));
+  EXPECT_CALL(*model, objects()).WillRepeatedly(ReturnRef(mock_objects));
   EXPECT_CALL(mock_objects, FindObject(_)).WillRepeatedly(Return(&c));
   EXPECT_CALL(c, GetAgeResult(_, nullptr)).WillRepeatedly(Return(10.0));
 
-  EXPECT_EQ(&mock_objects, &model.objects());
-  EXPECT_EQ(&c, model.objects().FindObject("X"));
+  EXPECT_EQ(&mock_objects, &model->objects());
+  EXPECT_EQ(&c, model->objects().FindObject("X"));
 
   EXPECT_EQ(10.0, c.GetAgeResult(0.0, nullptr));
   EXPECT_EQ(10.0, c.GetAgeResult(1.0, nullptr));
@@ -72,18 +72,18 @@ TEST(TimeVarying, Constant_Check_Mock_Selectivity) {
  * to see if it's working properly.
  */
 TEST(TimeVarying, Constant_Validate) {
-  MockModel model;
-  MockObjects mock_objects(&model);
-  MockSelectivity c(&model);
+  shared_ptr<MockModel> model = shared_ptr<MockModel>(new MockModel());
+  MockObjects mock_objects(model);
+  MockSelectivity c(model);
 
-  EXPECT_CALL(model, objects()).WillRepeatedly(ReturnRef(mock_objects));
+  EXPECT_CALL(*model, objects()).WillRepeatedly(ReturnRef(mock_objects));
   EXPECT_CALL(mock_objects, FindObject(_)).WillRepeatedly(Return(&c));
   EXPECT_CALL(c, GetAgeResult(_, nullptr)).WillRepeatedly(Return(10.0));
 
   vector<string> values = { "1.0", "2.0" };
   vector<string> years = { "1990", "1992" };
 
-  timevarying::Constant tv(&model);
+  timevarying::Constant tv(model);
   tv.parameters().Add(PARAM_VALUES, values, __FILE__, __LINE__);
   tv.parameters().Add(PARAM_LABEL, "C", __FILE__, __LINE__);
   tv.parameters().Add(PARAM_TYPE, PARAM_CONSTANT, __FILE__, __LINE__);
@@ -100,17 +100,17 @@ TEST(TimeVarying, Constant_Validate) {
  * to see if it's working properly.
  */
 TEST(TimeVarying, Constant_Validate_Fails) {
-  MockModel model;
-  MockObjects mock_objects(&model);
-  MockSelectivity c(&model);
+  shared_ptr<MockModel> model = shared_ptr<MockModel>(new MockModel());
+  MockObjects mock_objects(model);
+  MockSelectivity c(model);
 
-  EXPECT_CALL(model, objects()).WillRepeatedly(ReturnRef(mock_objects));
+  EXPECT_CALL(*model, objects()).WillRepeatedly(ReturnRef(mock_objects));
   EXPECT_CALL(mock_objects, FindObject(_)).WillRepeatedly(Return(&c));
   EXPECT_CALL(c, GetAgeResult(_, nullptr)).WillRepeatedly(Return(10.0));
 
   vector<string> years = { "1990", "1992" };
 
-  timevarying::Constant tv(&model);
+  timevarying::Constant tv(model);
   tv.parameters().Add(PARAM_VALUES, { "1.0", "2.0", "3.0" }, __FILE__, __LINE__);
   tv.parameters().Add(PARAM_LABEL, "C", __FILE__, __LINE__);
   tv.parameters().Add(PARAM_TYPE, PARAM_CONSTANT, __FILE__, __LINE__);

@@ -155,7 +155,7 @@ TEST_F(InternalEmptyModel, Observation_Process_Removals_By_Age_Retained) {
   EXPECT_NEAR(24.9387, obj_function.score(), 1e-4);
 
 
-  Observation* observation = model_->managers().observation()->GetObservation("potFishAFretained");
+  Observation* observation = model_->managers()->observation()->GetObservation("potFishAFretained");
 
   map<unsigned, vector<obs::Comparison> >& comparisons = observation->comparisons();
   ASSERT_EQ(1u, comparisons.size());
@@ -166,21 +166,21 @@ TEST_F(InternalEmptyModel, Observation_Process_Removals_By_Age_Retained) {
 
   // age 3
   EXPECT_EQ("male", comparisons[year][0].category_);
-  EXPECT_EQ(3, comparisons[year][0].age_);
+  EXPECT_EQ(3u, comparisons[year][0].age_);
   EXPECT_NEAR(1.650990e-10, comparisons[year][0].observed_, 1e-6);
   EXPECT_NEAR(4.63555e-006, comparisons[year][0].expected_, 1e-6);
   EXPECT_NEAR(1.258e-006, comparisons[year][0].score_, 1e-6);
 
   // age 6
   EXPECT_EQ("male", comparisons[year][3].category_);
-  EXPECT_EQ(6, comparisons[year][3].age_);
+  EXPECT_EQ(6u, comparisons[year][3].age_);
   EXPECT_NEAR(1.962050e-01, comparisons[year][3].observed_, 1e-6);
   EXPECT_NEAR(0.1982, comparisons[year][3].expected_, 1e-4);
   EXPECT_NEAR(701.819, comparisons[year][3].score_, 1e-3);
 
   // age 9
   EXPECT_EQ("male", comparisons[year][6].category_);
-  EXPECT_EQ(9, comparisons[year][6].age_);
+  EXPECT_EQ(9u, comparisons[year][6].age_);
   EXPECT_NEAR(1.609208e-01, comparisons[year][6].observed_, 1e-6);
   EXPECT_NEAR(0.158976, comparisons[year][6].expected_, 1e-6);
   EXPECT_NEAR(578.445, comparisons[year][6].score_, 1e-3);

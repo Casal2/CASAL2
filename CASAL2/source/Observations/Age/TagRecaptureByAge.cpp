@@ -5,7 +5,7 @@
  * @date 23/10/2015
  * @section LICENSE
  *
- * Copyright NIWA Science ©2015 - www.niwa.co.nz
+ * Copyright NIWA Science ï¿½2015 - www.niwa.co.nz
  *
  */
 
@@ -20,7 +20,6 @@
 #include "Partition/Accessors/All.h"
 #include "Selectivities/Manager.h"
 #include "TimeSteps/Manager.h"
-#include "Utilities/DoubleCompare.h"
 #include "Utilities/Map.h"
 #include "Utilities/Math.h"
 #include "Utilities/To.h"
@@ -33,7 +32,7 @@ namespace age {
 /**
  * Default constructor
  */
-TagRecaptureByAge::TagRecaptureByAge(Model* model) : Observation(model) {
+TagRecaptureByAge::TagRecaptureByAge(shared_ptr<Model> model) : Observation(model) {
   recaptures_table_ = new parameters::Table(PARAM_RECAPTURED);
   scanned_table_ = new parameters::Table(PARAM_SCANNED);
 
@@ -47,10 +46,10 @@ TagRecaptureByAge::TagRecaptureByAge(Model* model) : Observation(model) {
   parameters_.Bind<string>(PARAM_TARGET_SELECTIVITIES, &target_selectivity_labels_, "The categories of tagged individuals for the observation", "");
   // TODO:  is tolerance missing?
   parameters_.Bind<Double>(PARAM_PROCESS_ERRORS, &process_error_values_, "The process error", "", true);
-  parameters_.Bind<double>(PARAM_DETECTION_PARAMETER,  &detection_, "The probability of detecting a recaptured individual", "")->set_range(0.0, 1.0);
+  parameters_.Bind<Double>(PARAM_DETECTION_PARAMETER,  &detection_, "The probability of detecting a recaptured individual", "")->set_range(0.0, 1.0);
   parameters_.BindTable(PARAM_RECAPTURED, recaptures_table_, "The table of observed recaptured individuals in each age class", "", false);
   parameters_.BindTable(PARAM_SCANNED, scanned_table_, "The table of observed scanned individuals in each age class", "", false);
-  parameters_.Bind<double>(PARAM_TIME_STEP_PROPORTION, &time_step_proportion_, "The proportion through the mortality block of the time step when the observation is evaluated", "", double(0.5))->set_range(0.0, 1.0);
+  parameters_.Bind<Double>(PARAM_TIME_STEP_PROPORTION, &time_step_proportion_, "The proportion through the mortality block of the time step when the observation is evaluated", "", Double(0.5))->set_range(0.0, 1.0);
 
   mean_proportion_method_ = true;
 
@@ -229,7 +228,7 @@ void TagRecaptureByAge::DoBuild() {
 
   // Build Selectivity pointers
   for(string label : selectivity_labels_) {
-    Selectivity* selectivity = model_->managers().selectivity()->GetSelectivity(label);
+    Selectivity* selectivity = model_->managers()->selectivity()->GetSelectivity(label);
     if (!selectivity)
       LOG_ERROR_P(PARAM_SELECTIVITIES) << ": Selectivity label " << label << " does not exist.";
     selectivities_.push_back(selectivity);
@@ -241,7 +240,7 @@ void TagRecaptureByAge::DoBuild() {
   }
 
   for(string label : target_selectivity_labels_) {
-    auto selectivity = model_->managers().selectivity()->GetSelectivity(label);
+    auto selectivity = model_->managers()->selectivity()->GetSelectivity(label);
     if (!selectivity) {
       LOG_ERROR_P(PARAM_TARGET_SELECTIVITIES) << ": Selectivity label " << label << " does not exist.";
     } else
@@ -257,7 +256,7 @@ void TagRecaptureByAge::DoBuild() {
     LOG_ERROR_P(PARAM_TIME_STEP_PROPORTION) << ": time_step_proportion (" << time_step_proportion_ << ") must be between 0.0 and 1.0 inclusive";
   proportion_of_time_ = time_step_proportion_;
 
-  auto time_step = model_->managers().time_step()->GetTimeStep(time_step_label_);
+  auto time_step = model_->managers()->time_step()->GetTimeStep(time_step_label_);
   if (!time_step) {
     LOG_ERROR_P(PARAM_TIME_STEP) << "Time step label " << time_step_label_ << " was not found.";
   } else {

@@ -5,7 +5,7 @@
  * @date 11/01/2013
  * @section LICENSE
  *
- * Copyright NIWA Science ©2013 - www.niwa.co.nz
+ * Copyright NIWA Science ï¿½2013 - www.niwa.co.nz
  *
  * $Date: 2008-03-04 16:33:32 +1300 (Tue, 04 Mar 2008) $
  */
@@ -15,9 +15,9 @@
 
 #include <boost/math/distributions/normal.hpp>
 
-#include "AgeLengths/AgeLength.h"
-#include "Model/Model.h"
-#include "TimeSteps/Manager.h"
+#include "../AgeLengths/AgeLength.h"
+#include "../Model/Model.h"
+#include "../TimeSteps/Manager.h"
 
 // Namesapces
 namespace niwa {
@@ -25,7 +25,7 @@ namespace niwa {
 /**
  * Default Constructor
  */
-Selectivity::Selectivity(Model* model)
+Selectivity::Selectivity(shared_ptr<Model> model)
 : model_(model) {
 
   parameters_.Bind<string>(PARAM_LABEL, &label_, "The label for this selectivity", "");
@@ -64,7 +64,7 @@ void Selectivity::Validate() {
     for (unsigned i = 1; i <= n_quant_; ++i) {
       quantiles_.push_back((Double(i) - 0.5) / Double(n_quant_));
       LOG_FINEST() << ": Quantile value = " << quantiles_[i - 1];
-      quantiles_at_.push_back(quantile(dist, AS_VALUE(quantiles_[i - 1])));
+      quantiles_at_.push_back(quantile(dist, AS_DOUBLE(quantiles_[i - 1])));
       LOG_FINEST() << ": Normal quantile value = " << quantiles_at_[i - 1];
     }
   }
@@ -94,6 +94,7 @@ void Selectivity::Reset() {
  * @param time_step_index The time step to use for length based results
  * @return The value stored in the map or 0.0 as default
  */
+
 Double Selectivity::GetAgeResult(unsigned age, AgeLength* age_length) {
   if (!length_based_) {
     if (age - age_index_ >= values_.size())
@@ -116,6 +117,7 @@ Double Selectivity::GetLengthResult(unsigned length_bin_index) {
   return length_values_[length_bin_index];
 }
 
+
 /**
  * This method returns a pointer to a 4D vector object
  * containing age length cached values for the target age_length object.
@@ -126,7 +128,7 @@ Vector3* Selectivity::GetCache(AgeLength* age_length) {
   RebuildCache();
   // size varies for multi-dimensional vector
   unsigned year_count = model_->years().size();
-  unsigned time_step_count = model_->managers().time_step()->size();
+  unsigned time_step_count = model_->managers()->time_step()->size();
   unsigned age_count = model_->age_spread();
 
   if (!length_based_) {

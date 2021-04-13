@@ -19,11 +19,11 @@
 #include <string>
 #include <memory>
 
-#include "BaseClasses/Object.h"
-#include "Translations/Translations.h"
-#include "Utilities/Map.h"
-#include "Utilities/NoCopy.h"
-#include "Utilities/Types.h"
+#include "../BaseClasses/Object.h"
+#include "../Translations/Translations.h"
+#include "../Utilities/Map.h"
+#include "../Utilities/NoCopy.h"
+#include "../Utilities/Types.h"
 
 // namespaces
 namespace niwa {
@@ -56,14 +56,14 @@ public:
 protected:
   // methods
   Objects() = delete;
-  explicit Objects(Model* model);
+  explicit Objects(shared_ptr<Model> model);
   virtual base::Object*             FindObjectOrNull(const string& parameter_absolute_name);
   virtual void                      ExplodeString(const string& parameter_absolute_name, string &type, string& label, string& addressable, string& index);
   virtual void                      ImplodeString(const string& type, const string& label, const string& parameter, const string& index, string& target_parameter);
   virtual std::pair<string, string> ExplodeParameterAndIndex(const string& parameter_absolute_name);
 
   // members
-  Model*                      model_ = nullptr;
+  shared_ptr<Model>                      model_ = nullptr;
 };
 
 } /* namespace niwa */

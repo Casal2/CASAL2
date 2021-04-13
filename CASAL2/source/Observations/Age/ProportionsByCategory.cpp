@@ -18,8 +18,8 @@
 #include "Selectivities/Manager.h"
 #include "Model/Model.h"
 #include "Partition/Accessors/All.h"
+#include "../../Partition/Accessors/Cached/CombinedCategories.h"
 #include "Selectivities/Manager.h"
-#include "Utilities/DoubleCompare.h"
 #include "Utilities/Map.h"
 #include "Utilities/Math.h"
 #include "Utilities/To.h"
@@ -32,7 +32,7 @@ namespace age {
 /**
  * Default constructor
  */
-ProportionsByCategory::ProportionsByCategory(Model* model) : Observation(model) {
+ProportionsByCategory::ProportionsByCategory(shared_ptr<Model> model) : Observation(model) {
   obs_table_ = new parameters::Table(PARAM_OBS);
   error_values_table_ = new parameters::Table(PARAM_ERROR_VALUES);
 
@@ -104,10 +104,10 @@ void ProportionsByCategory::DoValidate() {
       LOG_FATAL_P(PARAM_PROCESS_ERRORS) << "Supply a process error for each year. Values for " << process_error_values_.size()
         << " years were provided, but " << years_.size() << " years are required";
     }
-    process_errors_by_year_ = utilities::Map<Double>::create(years_, process_error_values_);
+    process_errors_by_year_ = utilities::Map::create(years_, process_error_values_);
   } else {
     Double process_val = 0.0;
-    process_errors_by_year_ = utilities::Map<Double>::create(years_, process_val);
+    process_errors_by_year_ = utilities::Map::create(years_, process_val);
   }
 
   if (delta_ < 0.0)
@@ -254,7 +254,7 @@ void ProportionsByCategory::DoBuild() {
   age_results_.resize(age_spread_ * category_labels_.size(), 0.0);
 
   for(string label : selectivity_labels_) {
-    Selectivity* selectivity = model_->managers().selectivity()->GetSelectivity(label);
+    Selectivity* selectivity = model_->managers()->selectivity()->GetSelectivity(label);
     if (!selectivity)
       LOG_ERROR_P(PARAM_SELECTIVITIES) << ": Selectivity label " << label << " was not found.";
     selectivities_.push_back(selectivity);
@@ -266,7 +266,7 @@ void ProportionsByCategory::DoBuild() {
   }
 
   for(string label : target_selectivity_labels_) {
-    auto selectivity = model_->managers().selectivity()->GetSelectivity(label);
+    auto selectivity = model_->managers()->selectivity()->GetSelectivity(label);
     if (!selectivity) {
       LOG_ERROR_P(PARAM_TARGET_SELECTIVITIES) << ": Selectivity label " << label << " was not found.";
     } else

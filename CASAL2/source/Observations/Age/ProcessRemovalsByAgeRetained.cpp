@@ -22,7 +22,6 @@
 #include "AgeingErrors/Manager.h"
 #include "Categories/Categories.h"
 #include "Partition/Accessors/All.h"
-#include "Utilities/DoubleCompare.h"
 #include "Utilities/Map.h"
 #include "Utilities/Math.h"
 #include "Utilities/To.h"
@@ -35,7 +34,7 @@ namespace age {
 /**
  * Default constructor
  */
-ProcessRemovalsByAgeRetained::ProcessRemovalsByAgeRetained(Model* model) : Observation(model) {
+ProcessRemovalsByAgeRetained::ProcessRemovalsByAgeRetained(shared_ptr<Model> model) : Observation(model) {
   obs_table_ = new parameters::Table(PARAM_OBS);
   error_values_table_ = new parameters::Table(PARAM_ERROR_VALUES);
 
@@ -43,7 +42,7 @@ ProcessRemovalsByAgeRetained::ProcessRemovalsByAgeRetained(Model* model) : Obser
   parameters_.Bind<unsigned>(PARAM_MAX_AGE, &max_age_, "The maximum age", "");
   parameters_.Bind<bool>(PARAM_PLUS_GROUP, &plus_group_, "Is the maximum age the age plus group?", "", true);
   parameters_.Bind<string>(PARAM_TIME_STEP, &time_step_label_, "The label of the time step that the observation occurs in", "");
-  parameters_.Bind<double>(PARAM_TOLERANCE, &tolerance_, "The tolerance", "", double(0.001))->set_range(0.0, 1.0, false, false);
+  parameters_.Bind<Double>(PARAM_TOLERANCE, &tolerance_, "The tolerance", "", Double(0.001))->set_range(0.0, 1.0, false, false);
   parameters_.Bind<unsigned>(PARAM_YEARS, &years_, "The years for which there are observations", "");
   parameters_.Bind<Double>(PARAM_PROCESS_ERRORS, &process_error_values_, "The label of the process error to use", "", true);
   parameters_.Bind<string>(PARAM_AGEING_ERROR, &ageing_error_label_, "The label of the ageing error to use", "", "");
@@ -98,7 +97,7 @@ void ProcessRemovalsByAgeRetained::DoValidate() {
       LOG_ERROR_P(PARAM_PROCESS_ERRORS) << ": process_error (" << AS_DOUBLE(process_error) << ") cannot be less than 0.0";
   }
   if (process_error_values_.size() != 0)
-    process_errors_by_year_ = utilities::Map<Double>::create(years_, process_error_values_);
+    process_errors_by_year_ = utilities::Map::create(years_, process_error_values_);
   if (delta_ < 0.0)
     LOG_ERROR_P(PARAM_DELTA) << ": delta (" << delta_ << ") cannot be less than 0.0";
 
@@ -221,7 +220,7 @@ void ProcessRemovalsByAgeRetained::DoBuild() {
 
   // Create a pointer to misclassification matrix
     if( ageing_error_label_ != "") {
-      ageing_error_ = model_->managers().ageing_error()->GetAgeingError(ageing_error_label_);
+      ageing_error_ = model_->managers()->ageing_error()->GetAgeingError(ageing_error_label_);
       if (!ageing_error_)
         LOG_ERROR_P(PARAM_AGEING_ERROR) << "Ageing error label (" << ageing_error_label_ << ") was not found.";
     } else {
@@ -231,7 +230,7 @@ void ProcessRemovalsByAgeRetained::DoBuild() {
   age_results_.resize(age_spread_ * category_labels_.size(), 0.0);
 
   for (string time_label : time_step_label_) {
-    auto time_step = model_->managers().time_step()->GetTimeStep(time_label);
+    auto time_step = model_->managers()->time_step()->GetTimeStep(time_label);
     if (!time_step) {
       LOG_FATAL_P(PARAM_TIME_STEP) << "Time step label " << time_label << " was not found.";
     } else {
@@ -271,7 +270,7 @@ void ProcessRemovalsByAgeRetained::DoBuild() {
   // If this observation is made up of multiple methods lets find out the last one, because that is when we execute the process
   vector<unsigned> time_step_index;
   for (string label : time_step_label_)
-    time_step_index.push_back(model_->managers().time_step()->GetTimeStepIndex(label));
+    time_step_index.push_back(model_->managers()->time_step()->GetTimeStepIndex(label));
 
   unsigned last_method_time_step = 9999;
   if (time_step_index.size() > 1) {
@@ -308,7 +307,7 @@ void ProcessRemovalsByAgeRetained::Execute() {
   LOG_FINEST() << "Entering observation " << label_;
 
   // Check if we are in the final time_step so we have all the relevent information from the Mortaltiy process
-  unsigned current_time_step = model_->managers().time_step()->current_time_step();
+  unsigned current_time_step = model_->managers()->time_step()->current_time_step();
   if (time_step_to_execute_ == current_time_step) {
 
     unsigned year = model_->current_year();

@@ -28,7 +28,7 @@
 #include <map>
 #include <vector>
 
-#include "Utilities/Types.h"
+#include "../../../Utilities/Types.h"
 
 // Namespaces
 namespace niwa {

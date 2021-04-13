@@ -15,7 +15,7 @@
 #define ADDITIONALPRIORS_UNIFORM_LOG_H_
 
 // headers
-#include "AdditionalPriors/AdditionalPrior.h"
+#include "../../AdditionalPriors/AdditionalPrior.h"
 
 
 // namespaces
@@ -26,11 +26,11 @@ namespace additionalpriors {
 class UniformLog : public AdditionalPrior {
 public:
   // methods
-  UniformLog(Model* model);
+  UniformLog(shared_ptr<Model> model);
   virtual                     ~UniformLog() = default;
-  void                        DoValidate() override final;
-  void                        DoBuild() override final;
-  Double                      GetScore() override final;
+  void                        DoValidate() final {};
+  void                        DoBuild() final;
+  Double                      GetScore() final;
 
 protected:
   // members

@@ -30,7 +30,7 @@ namespace accessor = niwa::partition::accessors;
 class Maturation : public niwa::Process {
 public:
   // methods
-  explicit Maturation(Model* model);
+  explicit Maturation(shared_ptr<Model> model);
   virtual                     ~Maturation() = default;
   void                        DoValidate() override final;
   void                        DoBuild() override final;

@@ -23,6 +23,7 @@ using std::ostringstream;
 using std::cout;
 using std::endl;
 
+
 /**
  * This method returns false on the first call,
  * then true to ensure the log record is flushed after it
@@ -89,6 +90,7 @@ void Record::BuildMessage() {
     o << "\n";
     o << "********************************************************************************\n";
     o << "********                  USER CONFIGURATION ERROR                      ********\n";
+    o << "********              THE ERROR SHOULD BE DESCRIBED BELOW               ********\n";
     o << "********************************************************************************\n";
     o << "Source File: " << file_name_ << "(line: " << line_number_ << ")\n";
     o << "Source Method: " << function_ << "\n";
@@ -109,7 +111,8 @@ void Record::BuildMessage() {
     o << "\n";
     o << "Message:\n";
     o << stream_.str() << "\n";
-    o << "NOTE: This error is a bug in the software. Please contact the application developers at casal2@niwa.co.nz\n\n";
+    o << "NOTE: This error is a bug in the software and can be corrected by a developer\n";
+    o << "Please contact the application developers at casal2@niwa.co.nz to have this issue fixed\n\n";
 #endif
     break;
   }

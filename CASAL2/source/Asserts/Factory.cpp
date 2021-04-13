@@ -12,12 +12,12 @@
 // headers
 #include "Factory.h"
 
-#include "Model/Model.h"
-#include "Model/Managers.h"
-#include "Asserts/Manager.h"
-#include "Asserts/Common/Addressable.h"
-#include "Asserts/Common/ObjectiveFunction.h"
-#include "Asserts/Common/Partition.h"
+#include "../Model/Model.h"
+#include "../Model/Managers.h"
+#include "../Asserts/Manager.h"
+#include "../Asserts/Common/Addressable.h"
+#include "../Asserts/Common/ObjectiveFunction.h"
+#include "../Asserts/Common/Partition.h"
 
 // namespaces
 namespace niwa {
@@ -32,7 +32,7 @@ namespace asserts {
  * @param sub_type The child type of the object to create (e.g., ageing, schnute)
  * @return shared_ptr to the object created
  */
-Assert* Factory::Create(Model* model, const string& object_type, const string& sub_type) {
+Assert* Factory::Create(shared_ptr<Model> model, const string& object_type, const string& sub_type) {
   Assert* result = nullptr;
 
   if (object_type == PARAM_ASSERT) {
@@ -44,7 +44,7 @@ Assert* Factory::Create(Model* model, const string& object_type, const string& s
       result = new Partition(model);
 
     if (result)
-      model->managers().assertx()->AddObject(result);
+      model->managers()->assertx()->AddObject(result);
   }
 
   return result;

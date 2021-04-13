@@ -17,7 +17,7 @@
 #define SOURCE_REPORTS_COMMON_ESTIMATIONRESULT_H_
 
 // Headers
-#include "Reports/Report.h"
+#include "../../Reports/Report.h"
 
 // Namespaces
 namespace niwa {
@@ -29,12 +29,12 @@ namespace reports {
 class EstimationResult : public niwa::Report {
 public:
   // Methods
-  EstimationResult(Model* model);
-  virtual                     ~EstimationResult() noexcept(true);
-  void                        DoValidate() override final { };
-  void                        DoBuild() override final { };
-  void                        DoExecute() override final;
-  void                        DoExecuteTabular() override final { };
+  EstimationResult();
+  virtual                     ~EstimationResult() noexcept(true) = default;
+  void                        DoValidate(shared_ptr<Model> model) final { };
+  void                        DoBuild(shared_ptr<Model> model) final { };
+  void                        DoExecute(shared_ptr<Model> model) final;
+  void                        DoExecuteTabular(shared_ptr<Model> model) final { };
 };
 
 } /* namespace reports */

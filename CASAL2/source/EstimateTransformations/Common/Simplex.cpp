@@ -12,13 +12,13 @@
 // headers
 #include "Simplex.h"
 
-#include "Model/Model.h"
-#include "Model/Objects.h"
-#include "Model/Managers.h"
-#include "Model/Factory.h"
-#include "Estimates/Manager.h"
-#include "Estimates/Estimate.h"
-#include "Estimates/Common/Uniform.h"
+#include "../../Model/Model.h"
+#include "../../Model/Objects.h"
+#include "../../Model/Managers.h"
+#include "../../Model/Factory.h"
+#include "../../Estimates/Manager.h"
+#include "../../Estimates/Estimate.h"
+#include "../../Estimates/Common/Uniform.h"
 
 // namespaces
 namespace niwa {
@@ -27,11 +27,10 @@ namespace utils = niwa::utilities;
 /**
  * Default constructor
  */
-Simplex::Simplex(Model* model) : EstimateTransformation(model) {
+Simplex::Simplex(shared_ptr<Model> model) : EstimateTransformation(model) {
   //parameters_.Bind<string>(PARAM_ESTIMATE, &estimate_label_, "The label for the estimate label to use in the simplex transformation", "");
   parameters_.Bind<double>(PARAM_LOWER_BOUND, &lower_bound_, "The empirical lower bound for the simplex transformed. This should be -Inf but some of the minimisers do not allow that", "", true);
   parameters_.Bind<double>(PARAM_UPPER_BOUND, &upper_bound_, "The empirical upper bound for the simplex transformed. This should be Inf but some of the minimisers do not allow that", "", true);
-
   is_simple_ = false;
 }
 
@@ -47,12 +46,11 @@ void Simplex::DoValidate() {
  */
 void Simplex::DoBuild() {
   LOG_TRACE();
-  estimate_ = model_->managers().estimate()->GetEstimateByLabel(estimate_label_);
+  estimate_ = model_->managers()->estimate()->GetEstimateByLabel(estimate_label_);
   if (estimate_ == nullptr) {
     LOG_ERROR_P(PARAM_ESTIMATE) << "Estimate " << estimate_label_ << " was not found.";
     return;
   }
-
   // Initialise for -r runs
   current_untransformed_value_ = estimate_->value();
 
@@ -62,16 +60,14 @@ void Simplex::DoBuild() {
       << " and the prior parameters do not refer to the transformed estimate, in the @estimate" << estimate_label_
       << ". This is not advised, and may cause bias errors. Please check the User Manual for more info";
   }
-
   if (estimate_->transform_with_jacobian_is_defined()) {
     if (transform_with_jacobian_ != estimate_->transform_with_jacobian()) {
       LOG_ERROR_P(PARAM_TRANSFORM_WITH_JACOBIAN) << "This parameter is not consistent with the equivalent parameter in the @estimate block "
         << estimate_label_ << ". Both of these parameters should be true or false.";
     }
   }
-
+  LOG_WARNING() << "Simplex transforamtion works but is version 1.0 may need more work for calculating bounds";
   LOG_WARNING() << "Simplex transformation works but has not been robustly evaluated, and may need more work for addressing bounds";
-  estimates_ = model_->managers().estimate()->GetEstimatesByLabel(estimate_label_);
   if (estimates_.size() < 1) {
     LOG_ERROR_P(PARAM_ESTIMATE) << "Estimate " << estimate_label_ << " was not found.";
     return;
@@ -120,19 +116,16 @@ void Simplex::DoTransform() {
     if (i < (unit_vector_.size() - 1))
       sub_total_ += unit_vector_[i];
   }
-
   // generate zk
   for (unsigned i = 0; i < (unit_vector_.size() - 1); ++i) {
     zk_[i] = unit_vector_[i] / (1 - sub_total_);
   }
-
   // generate yk
   Double count = 1.0;
   for (unsigned i = 0; i < zk_.size(); ++i) {
     yk_[i] =log(zk_[i] / (1.0 - zk_[i])) - log(1.0 / ((Double)length_ - count));
     count += 1.0;
   }
-
   // Set estimates, turn off the last one.
   for (unsigned i = 0; i < estimates_.size(); ++i) {
     if (i < (unit_vector_.size() - 1)) {
@@ -143,8 +136,8 @@ void Simplex::DoTransform() {
       estimates_[i]->set_value(yk_[i]);
     }
   }
-}
 
+}
 /**
  * Restore
  * This method will restore values provided by the minimiser that need to be restored for use in the annual cycle
@@ -193,6 +186,5 @@ std::set<string> Simplex::GetTargetEstimates() {
   result.insert(estimate_label_);
   return result;
 }
-
 } /* namespace estimatetransformations */
 } /* namespace niwa */

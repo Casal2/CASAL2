@@ -5,7 +5,7 @@
  * @date 22/10/2012
  * @section LICENSE
  *
- * Copyright NIWA Science ©2012 - www.niwa.co.nz
+ * Copyright NIWA Science ï¿½2012 - www.niwa.co.nz
  *
  * @section DESCRIPTION
  *
@@ -19,7 +19,9 @@
 
 #include <cstdlib>
 #include <memory>
+#ifndef _MSC_VER
 #include <cxxabi.h>
+#endif
 #include <string>
 #include <vector>
 
@@ -59,25 +61,30 @@ namespace utilities {
 
 /**
  * double conditional depending on if we're using auto differentiation or not
+ * 
+ * The AS_DOUBLE macro is used to convert from the auto-differentation type
+ * to a standard double. This is used for two reasons.
+ * 1. To convert to a double for piping into a stream when an operator overload doesn't exist
+ * 2. To force break the chain to store the values for reporting out
+ * 
+ * We're not worried about performance penalties for either as most scenarios for
+ * doing this will be to debug and this isn't on by default.
  */
 #ifdef USE_ADOLC
 typedef adouble Double;
 #define AS_DOUBLE(x) x.value()
-#define AS_VALUE(x) AS_DOUBLE(x)
 #endif
 
 #ifdef USE_BETADIFF
 typedef adouble Double;
 #define AS_DOUBLE(x) x.toDouble()
-#define AS_VALUE(x) AS_DOUBLE(x)
 #endif
 
 #ifdef USE_CPPAD
 typedef CppAD::AD<double> Double;
 // per https://coin-or.github.io/CppAD/doc/ad_output.htm
 // use this (CppAD::AD<base> has '<<'' defined)
-#define AS_DOUBLE(x) x
-#define AS_VALUE(x) Value(x)
+#define AS_DOUBLE(x) Value(x)
 #endif
 
 #ifndef USE_AUTODIFF
@@ -86,7 +93,6 @@ typedef CppAD::AD<double> Double;
 #endif
 
 #define AS_DOUBLE(x) x
-#define AS_VALUE(x) AS_DOUBLE(x)
 typedef double Double;
 #endif
 
@@ -108,7 +114,8 @@ inline void allocate_vector3(Vector3* target, unsigned x_size, unsigned y_size, 
  * This code is used to demangle the typeid(x).name information
  */
 inline std::string demangle(const char* name) {
-  int status = -1; // some arbitrary value to eliminate the compiler warning
+#ifndef _MSC_VER
+	int status = -1; // some arbitrary value to eliminate the compiler warning
 
   char   *realname;
   std::string val = "";
@@ -121,6 +128,9 @@ inline std::string demangle(const char* name) {
   val = val == "std::vector<double, std::allocator<double> >" ? "vector<double>" : val;
   val = val == "std::vector<unsigned int, std::allocator<unsigned int> >" ? "vector<unsigned int>" : val;
   return (status==0) ? val : name ;
+#else
+	return name;
+#endif
 }
 
 

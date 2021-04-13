@@ -19,8 +19,8 @@
 #include <boost/lexical_cast.hpp>
 #include <string>
 
-#include "TestResources/MockClasses/Model.h"
-#include "Utilities/PartitionType.h"
+#include "../../TestResources/MockClasses/Model.h"
+#include "../../Utilities/PartitionType.h"
 
 // Namespaces
 namespace niwa {
@@ -32,13 +32,13 @@ using ::testing::ReturnRef;
  * Test the values of this selectivity when using an Age based model
  */
 TEST(Selectivities, AllValues_Age) {
-  MockModel model;
-  EXPECT_CALL(model, min_age()).WillRepeatedly(Return(10));
-  EXPECT_CALL(model, max_age()).WillRepeatedly(Return(20));
-  EXPECT_CALL(model, age_spread()).WillRepeatedly(Return(11));
-  EXPECT_CALL(model, partition_type()).WillRepeatedly(Return(PartitionType::kAge));
+  shared_ptr<MockModel> model = shared_ptr<MockModel>(new MockModel());
+  EXPECT_CALL(*model, min_age()).WillRepeatedly(Return(10));
+  EXPECT_CALL(*model, max_age()).WillRepeatedly(Return(20));
+  EXPECT_CALL(*model, age_spread()).WillRepeatedly(Return(11));
+  EXPECT_CALL(*model, partition_type()).WillRepeatedly(Return(PartitionType::kAge));
 
-  niwa::selectivities::AllValues all_values(&model);
+  niwa::selectivities::AllValues all_values(model);
 
   vector<string> v;
   for (unsigned i = 0; i < 11; ++i)
@@ -69,15 +69,15 @@ TEST(Selectivities, AllValues_Age) {
  * Test the values of this selectivity when using a Length based model
  */
 TEST(Selectivities, AllValues_Length) {
-  MockModel model;
+  shared_ptr<MockModel> model = shared_ptr<MockModel>(new MockModel());
   vector<double> lengths = {10, 20, 30, 40, 50, 60, 120};
-  EXPECT_CALL(model, min_age()).WillRepeatedly(Return(10));
-  EXPECT_CALL(model, max_age()).WillRepeatedly(Return(20));
-  EXPECT_CALL(model, age_spread()).WillRepeatedly(Return(11));
-  EXPECT_CALL(model, length_bins()).WillRepeatedly(ReturnRef(lengths));
-  EXPECT_CALL(model, partition_type()).WillRepeatedly(Return(PartitionType::kLength));
+  EXPECT_CALL(*model, min_age()).WillRepeatedly(Return(10));
+  EXPECT_CALL(*model, max_age()).WillRepeatedly(Return(20));
+  EXPECT_CALL(*model, age_spread()).WillRepeatedly(Return(11));
+  EXPECT_CALL(*model, length_bins()).WillRepeatedly(ReturnRef(lengths));
+  EXPECT_CALL(*model, partition_type()).WillRepeatedly(Return(PartitionType::kLength));
 
-  niwa::selectivities::AllValues all_values(&model);
+  niwa::selectivities::AllValues all_values(model);
 
   vector<string> v = {"0.0","0.1","0.2","0.3","0.1","0.5", "0.0325"};
   vector<double> values = { 0.0 ,0.1 , 0.2 , 0.3 , 0.1 , 0.5 , 0.0325};

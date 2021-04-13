@@ -11,9 +11,9 @@
 // headers
 #include "Addressable.h"
 
-#include "Model/Model.h"
-#include "Model/Objects.h"
-#include "TimeSteps/Manager.h"
+#include "../../Model/Model.h"
+#include "../../Model/Objects.h"
+#include "../../TimeSteps/Manager.h"
 
 // namespaces
 namespace niwa {
@@ -29,7 +29,7 @@ namespace asserts {
  *
  * Note: The constructor is parsed to generate LaTeX for the documentation.
  */
-Addressable::Addressable(Model* model) : Assert(model) {
+Addressable::Addressable(shared_ptr<Model> model) : Assert(model) {
   parameters_.Bind<string>(PARAM_PARAMETER, &parameter_, "The addressable to check", "", "");
   parameters_.Bind<unsigned>(PARAM_YEARS, &years_, "The years to check addressable", "");
   parameters_.Bind<string>(PARAM_TIME_STEP, &time_step_label_, "The time step to execute after", "");
@@ -67,7 +67,7 @@ void Addressable::DoBuild() {
   /**
    * subscribe this assert to the target time step in all years that were specified.
    */
-  TimeStep* time_step = model_->managers().time_step()->GetTimeStep(time_step_label_);
+  TimeStep* time_step = model_->managers()->time_step()->GetTimeStep(time_step_label_);
   if (!time_step)
     LOG_ERROR_P(PARAM_TIME_STEP) << "Time step label (" << time_step_label_ << ") was not found.";
   for (unsigned year : years_)

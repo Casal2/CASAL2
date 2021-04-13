@@ -35,7 +35,7 @@ using utilities::map2D;
 class MortalityHollingRate : public Process {
 public:
   // methods
-  explicit MortalityHollingRate(Model* model);
+  explicit MortalityHollingRate(shared_ptr<Model> model);
   virtual                     ~MortalityHollingRate() = default;
   void                        DoValidate() override final;
   void                        DoBuild() override final;

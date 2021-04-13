@@ -19,7 +19,7 @@
 #include "Model/Model.h"
 #include "Penalties/Manager.h"
 #include "Selectivities/Manager.h"
-#include "Utilities/DoubleCompare.h"
+#include "../../Utilities/Math.h"
 #include "Utilities/To.h"
 
 // namespaces
@@ -30,7 +30,7 @@ namespace age {
 /**
  * Default constructor
  */
-TransitionCategoryByAge::TransitionCategoryByAge(Model* model)
+TransitionCategoryByAge::TransitionCategoryByAge(shared_ptr<Model> model)
   : Process(model),
     to_partition_(model),
     from_partition_(model) {
@@ -100,7 +100,7 @@ void TransitionCategoryByAge::DoValidate() {
       LOG_ERROR_P(PARAM_N) << " value (" << iter[0] << ") could not be converted to an unsigned integer";
     for (unsigned i = 1; i < iter.size(); ++i) {
       if (!utilities::To<Double>(iter[i], n_value))
-        LOG_ERROR_P(PARAM_N) << " value (" << iter[i] << ") could not be converted to a double.";
+        LOG_ERROR_P(PARAM_N) << " value (" << iter[i] << ") could not be converted to a Double.";
       if (n_[year].size() == 0)
         n_[year].resize(age_spread, 0.0);
       n_[year][i - 1] = n_value;
@@ -116,9 +116,9 @@ void TransitionCategoryByAge::DoBuild() {
   to_partition_.Init(to_category_labels_);
 
   if (penalty_label_ != "")
-    penalty_ = model_->managers().penalty()->GetPenalty(penalty_label_);
+    penalty_ = model_->managers()->penalty()->GetPenalty(penalty_label_);
   if (selectivity_label_ != "")
-    selectivity_ = model_->managers().selectivity()->GetSelectivity(selectivity_label_);
+    selectivity_ = model_->managers()->selectivity()->GetSelectivity(selectivity_label_);
 }
 
 /**
@@ -153,7 +153,7 @@ void TransitionCategoryByAge::DoExecute() {
     }
     LOG_FINE() << "total_stock: " << total_stock << " at age " << min_age_ + i;
 
-    Double exploitation = n_[current_year][i] / utilities::doublecompare::ZeroFun(total_stock);
+    Double exploitation = n_[current_year][i] / utilities::math::ZeroFun(total_stock);
     LOG_FINE() << "exploitation: " << exploitation << "; n: " << n_[current_year][i];
     if (exploitation > u_max_) {
       exploitation = u_max_;

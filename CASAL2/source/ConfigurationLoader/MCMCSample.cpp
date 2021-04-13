@@ -20,13 +20,13 @@
 #include <boost/numeric/ublas/io.hpp>
 #include <boost/numeric/ublas/lu.hpp>
 
-#include "Estimates/Manager.h"
-#include "MCMCs/Manager.h"
-#include "Minimisers/Manager.h"
-#include "Model/Managers.h"
-#include "Model/Model.h"
-#include "Model/Objects.h"
-#include "Utilities/To.h"
+#include "../Estimates/Manager.h"
+#include "../MCMCs/Manager.h"
+#include "../Minimisers/Manager.h"
+#include "../Model/Managers.h"
+#include "../Model/Model.h"
+#include "../Model/Objects.h"
+#include "../Utilities/To.h"
 
 // namespaces
 namespace niwa {
@@ -43,7 +43,7 @@ using std::ios_base;
 /**
  * Default constructor
  */
-MCMCSample::MCMCSample(Model* model) : model_(model) {
+MCMCSample::MCMCSample(shared_ptr<Model> model) : model_(model) {
 }
 
 /**
@@ -105,8 +105,8 @@ bool MCMCSample::LoadFile(const string& file_name) {
   boost::trim_right(line);
 
   // Check the order of parameters
-  auto estimate_count      = model_->managers().estimate()->GetIsEstimatedCount();
-  auto estimates      = model_->managers().estimate()->GetIsEstimated();
+  auto estimate_count      = model_->managers()->estimate()->GetIsEstimatedCount();
+  auto estimates      = model_->managers()->estimate()->GetIsEstimated();
   LOG_MEDIUM() << "Check the order of parameters";
   vector<string> param_labels;
   boost::split(param_labels, line, boost::is_any_of(" "), boost::token_compress_on);

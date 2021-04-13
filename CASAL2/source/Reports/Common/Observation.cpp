@@ -4,30 +4,30 @@
  * @date 21/01/2014
  * @section LICENSE
  *
- * Copyright NIWA Science ©2013 - www.niwa.co.nz
+ * Copyright NIWA Science ï¿½2013 - www.niwa.co.nz
  *
  */
 
 // headers
 #include "Observation.h"
 
-#include "Observations/Manager.h"
-#include "Observations/Observation.h"
-#include "Utilities/DoubleCompare.h"
+#include "../../Observations/Manager.h"
+#include "../../Observations/Observation.h"
+#include "../../Utilities/Math.h"
 
 // namespaces
 namespace niwa {
 namespace reports {
 
 namespace obs = niwa::observations;
-namespace dc = niwa::utilities::doublecompare;
+namespace math = niwa::utilities::math;
 
 /**
- * Default constructor
+ *
  */
-Observation::Observation(Model* model) : Report(model) {
+Observation::Observation() {
   LOG_TRACE();
-  run_mode_    = (RunMode::Type)(RunMode::kBasic | RunMode::kProjection | RunMode::kSimulation | RunMode::kEstimation | RunMode::kProfiling);
+  run_mode_    = (RunMode::Type)(RunMode::kBasic | RunMode::kProjection | RunMode::kSimulation| RunMode::kEstimation | RunMode::kProfiling);
   model_state_ = (State::Type)(State::kIterationComplete);
 
   parameters_.Bind<string>(PARAM_OBSERVATION, &observation_label_, "The observation label", "");
@@ -36,16 +36,16 @@ Observation::Observation(Model* model) : Report(model) {
 }
 
 /**
- * Build
+ *
  */
-void Observation::DoBuild() {
+void Observation::DoBuild(shared_ptr<Model> model) {
   LOG_TRACE();
   vector<string> pearson_likelihoods = {PARAM_BINOMIAL, PARAM_MULTINOMIAL,PARAM_LOGNORMAL,PARAM_NORMAL,PARAM_BINOMIAL_APPROX};
   vector<string> normalised_likelihoods = {PARAM_LOGNORMAL,PARAM_NORMAL};
 
-  observation_ = model_->managers().observation()->GetObservation(observation_label_);
+  observation_ = model->managers()->observation()->GetObservation(observation_label_);
   if (!observation_) {
-    auto observations = model_->managers().observation()->objects();
+    auto observations = model->managers()->observation()->objects();
     for (auto observation : observations)
       cout << observation->label() << endl;
     LOG_ERROR_P(PARAM_OBSERVATION) << "The observation label (" << observation_label_ << ") was not found.";
@@ -69,7 +69,7 @@ void Observation::DoBuild() {
 /**
  *  Execute the report
  */
-void Observation::DoExecute() {
+void Observation::DoExecute(shared_ptr<Model> model) {
   cache_ << "*"<< type_ << "[" << label_ << "]" << "\n";
   cache_ << "observation_type: " << observation_->type() << "\n";
   cache_ << "likelihood: " << observation_->likelihood() << "\n";
@@ -83,9 +83,9 @@ void Observation::DoExecute() {
     for (auto iter = comparisons.begin(); iter != comparisons.end(); ++iter) {
       for (obs::Comparison comparison : iter->second) {
         if(observation_->likelihood() == PARAM_BINOMIAL){
-          resid =(comparison.observed_ - comparison.expected_) / sqrt((dc::ZeroFun(comparison.expected_, comparison.delta_) * (1 - dc::ZeroFun(comparison.expected_, comparison.delta_))) / comparison.adjusted_error_);
+          resid =(comparison.observed_ - comparison.expected_) / sqrt((math::ZeroFun(comparison.expected_, comparison.delta_) * (1 - math::ZeroFun(comparison.expected_, comparison.delta_))) / comparison.adjusted_error_);
         } else if (observation_->likelihood() == PARAM_MULTINOMIAL) {
-            resid = (comparison.observed_ - comparison.expected_) / sqrt((dc::ZeroFun(comparison.expected_, comparison.delta_) * (1 - dc::ZeroFun(comparison.expected_, comparison.delta_))) / comparison.adjusted_error_);
+            resid = (comparison.observed_ - comparison.expected_) / sqrt((math::ZeroFun(comparison.expected_, comparison.delta_) * (1 - math::ZeroFun(comparison.expected_, comparison.delta_))) / comparison.adjusted_error_);
         } else if (observation_->likelihood() == PARAM_BINOMIAL_APPROX) {
             resid = (comparison.observed_ - comparison.expected_) / sqrt(((comparison.expected_ + comparison.delta_) * (1 -comparison.expected_ + comparison.delta_)) / comparison.adjusted_error_);
         } else if (observation_->likelihood() == PARAM_LOGNORMAL) {
@@ -96,9 +96,9 @@ void Observation::DoExecute() {
           LOG_CODE_ERROR() << "Unknown coded likelihood type should be dealt with in DoBuild(). If the Pearsons residual is unknown"
             << " for this likelihood, set pearsons_residual to 'false'";
         }
-        cache_ << iter->first << " " << comparison.category_ << " " << comparison.age_ << " " << comparison.length_ << " " << AS_VALUE(comparison.observed_) << " " << AS_VALUE(comparison.expected_)
-          << " " << AS_VALUE(comparison.observed_) - AS_VALUE(comparison.expected_) << " " << comparison.error_value_ << " " << AS_VALUE(comparison.process_error_) << " "
-          << AS_VALUE(comparison.adjusted_error_) << " " << AS_VALUE(comparison.score_) << " " << AS_VALUE(resid) << "\n";
+        cache_ << iter->first << " " << comparison.category_ << " " << comparison.age_ << " " << comparison.length_ << " " << AS_DOUBLE(comparison.observed_) << " " << AS_DOUBLE(comparison.expected_)
+          << " " << AS_DOUBLE(comparison.observed_) - AS_DOUBLE(comparison.expected_) << " " << comparison.error_value_ << " " << AS_DOUBLE(comparison.process_error_) << " "
+          << AS_DOUBLE(comparison.adjusted_error_) << " " << AS_DOUBLE(comparison.score_) << " " << AS_DOUBLE(resid) << "\n";
       }
     }
   } else if (normalised_resids_ && !pearson_resids_) {
@@ -117,9 +117,9 @@ void Observation::DoExecute() {
           LOG_CODE_ERROR() << "Unknown coded likelihood type should be dealt with in DoBuild(). If the normalised residual is unknown"
             << " for this likelihood, set normalised_residual to 'false'";
         }
-        cache_ << iter->first << " " << comparison.category_ << " " << comparison.age_ << " " << comparison.length_ << " " << AS_VALUE(comparison.observed_) << " " << AS_VALUE(comparison.expected_)
-          << " " << AS_VALUE(comparison.observed_) - AS_VALUE(comparison.expected_) << " " << comparison.error_value_ << " " << AS_VALUE(comparison.process_error_) << " "
-          << AS_VALUE(comparison.adjusted_error_) << " " << AS_VALUE(comparison.score_) << " " << AS_VALUE(resid) << "\n";
+        cache_ << iter->first << " " << comparison.category_ << " " << comparison.age_ << " " << comparison.length_ << " " << AS_DOUBLE(comparison.observed_) << " " << AS_DOUBLE(comparison.expected_)
+          << " " << AS_DOUBLE(comparison.observed_) - AS_DOUBLE(comparison.expected_) << " " << comparison.error_value_ << " " << AS_DOUBLE(comparison.process_error_) << " "
+          << AS_DOUBLE(comparison.adjusted_error_) << " " << AS_DOUBLE(comparison.score_) << " " << AS_DOUBLE(resid) << "\n";
       }
     }
   } else if (normalised_resids_ && pearson_resids_){
@@ -140,9 +140,9 @@ void Observation::DoExecute() {
           LOG_CODE_ERROR() << "Unknown coded likelihood type should be dealt with in DoBuild(). If the normalised or Pearsons residual is unknown"
             << " for this likelihood, set normalised_residual to 'false' and pearsons_residual to 'false'";
         }
-        cache_ << iter->first << " " << comparison.category_ << " " << comparison.age_ << " " << comparison.length_ << " " << AS_VALUE(comparison.observed_) << " " << AS_VALUE(comparison.expected_)
-          << " " << AS_VALUE(comparison.observed_) - AS_VALUE(comparison.expected_) << " " << comparison.error_value_ << " " << AS_VALUE(comparison.process_error_)  << " "
-          << AS_VALUE(comparison.adjusted_error_) << " " << AS_VALUE(comparison.score_) << " " << AS_VALUE(pearson_resid) << " " << AS_VALUE(normalised_resid) << "\n";
+        cache_ << iter->first << " " << comparison.category_ << " " << comparison.age_ << " " << comparison.length_ << " " << AS_DOUBLE(comparison.observed_) << " " << AS_DOUBLE(comparison.expected_)
+          << " " << AS_DOUBLE(comparison.observed_) - AS_DOUBLE(comparison.expected_) << " " << comparison.error_value_ << " " << AS_DOUBLE(comparison.process_error_)  << " "
+          << AS_DOUBLE(comparison.adjusted_error_) << " " << AS_DOUBLE(comparison.score_) << " " << AS_DOUBLE(pearson_resid) << " " << AS_DOUBLE(normalised_resid) << "\n";
       }
     }
   } else {
@@ -150,20 +150,19 @@ void Observation::DoExecute() {
     cache_ << "year category age length observed expected residual error_value process_error adjusted_error neglogLike\n";
     for (auto iter = comparisons.begin(); iter != comparisons.end(); ++iter) {
       for (obs::Comparison comparison : iter->second) {
-        cache_ << iter->first << " " << comparison.category_ << " " << comparison.age_ << " " << comparison.length_ << " " << AS_VALUE(comparison.observed_) << " " << AS_VALUE(comparison.expected_)
-          << " " << AS_VALUE(comparison.observed_) - AS_VALUE(comparison.expected_) << " " << comparison.error_value_ << " " << AS_VALUE(comparison.process_error_)  << " "
-          << AS_VALUE(comparison.adjusted_error_) << " " << AS_VALUE(comparison.score_) << "\n";
+        cache_ << iter->first << " " << comparison.category_ << " " << comparison.age_ << " " << comparison.length_ << " " << AS_DOUBLE(comparison.observed_) << " " << AS_DOUBLE(comparison.expected_)
+          << " " << AS_DOUBLE(comparison.observed_) - AS_DOUBLE(comparison.expected_) << " " << comparison.error_value_ << " " << AS_DOUBLE(comparison.process_error_)  << " "
+          << AS_DOUBLE(comparison.adjusted_error_) << " " << AS_DOUBLE(comparison.score_) << "\n";
       }
     }
   }
-
   ready_for_writing_ = true;
 }
 
 /**
  *  Execute the tabular report
  */
-void Observation::DoExecuteTabular() {
+void Observation::DoExecuteTabular(shared_ptr<Model> model) {
   map<unsigned, vector<obs::Comparison>>& comparisons = observation_->comparisons();
   if (first_run_) {
     first_run_ = false;
@@ -172,7 +171,6 @@ void Observation::DoExecuteTabular() {
     cache_ << "likelihood: " << observation_->likelihood() << "\n";
     cache_ << "values " << REPORT_R_DATAFRAME << "\n";
     string bin,year,label;
-
     /**
      *  Generate header
      */
@@ -224,7 +222,6 @@ void Observation::DoExecuteTabular() {
         cache_ << label << " ";
       }
     }
-
     // Generate labels for the resids
     for (auto iter = comparisons.begin(); iter != comparisons.end(); ++iter) {
       if (!utilities::To<unsigned, string>(iter->first, year))
@@ -309,14 +306,14 @@ void Observation::DoExecuteTabular() {
   // Print fits
   for (auto iter = comparisons.begin(); iter != comparisons.end(); ++iter) {
     for (obs::Comparison comparison : iter->second) {
-      cache_ << AS_VALUE(comparison.expected_) << " ";
+      cache_ << AS_DOUBLE(comparison.expected_) << " ";
     }
   }
 
   // Print obs
   for (auto iter = comparisons.begin(); iter != comparisons.end(); ++iter) {
     for (obs::Comparison comparison : iter->second) {
-      cache_ << AS_VALUE(comparison.observed_) << " ";
+      cache_ << AS_DOUBLE(comparison.observed_) << " ";
     }
   }
 
@@ -325,7 +322,7 @@ void Observation::DoExecuteTabular() {
   for (auto iter = comparisons.begin(); iter != comparisons.end(); ++iter) {
     for (obs::Comparison comparison : iter->second) {
       resid = comparison.observed_ - comparison.expected_;
-      cache_ << AS_VALUE(resid) << " ";
+      cache_ << AS_DOUBLE(resid) << " ";
     }
   }
 
@@ -335,9 +332,9 @@ void Observation::DoExecuteTabular() {
     for (auto iter = comparisons.begin(); iter != comparisons.end(); ++iter) {
       for (obs::Comparison comparison : iter->second) {
         if(observation_->likelihood() == PARAM_BINOMIAL){
-          resid =(comparison.observed_ - comparison.expected_) / sqrt((dc::ZeroFun(comparison.expected_, comparison.delta_) * (1 - dc::ZeroFun(comparison.expected_, comparison.delta_))) / comparison.adjusted_error_);
+          resid =(comparison.observed_ - comparison.expected_) / sqrt((math::ZeroFun(comparison.expected_, comparison.delta_) * (1 - math::ZeroFun(comparison.expected_, comparison.delta_))) / comparison.adjusted_error_);
         } else if (observation_->likelihood() == PARAM_MULTINOMIAL) {
-            resid = (comparison.observed_ - comparison.expected_) / sqrt((dc::ZeroFun(comparison.expected_, comparison.delta_) * (1 - dc::ZeroFun(comparison.expected_, comparison.delta_))) / comparison.adjusted_error_);
+            resid = (comparison.observed_ - comparison.expected_) / sqrt((math::ZeroFun(comparison.expected_, comparison.delta_) * (1 - math::ZeroFun(comparison.expected_, comparison.delta_))) / comparison.adjusted_error_);
         } else if (observation_->likelihood() == PARAM_BINOMIAL_APPROX) {
             resid = (comparison.observed_ - comparison.expected_) / sqrt(((comparison.expected_ + comparison.delta_) * (1 -comparison.expected_ + comparison.delta_)) / comparison.adjusted_error_);
         } else if (observation_->likelihood() == PARAM_LOGNORMAL) {
@@ -348,7 +345,7 @@ void Observation::DoExecuteTabular() {
           LOG_CODE_ERROR() << "Unknown coded likelihood type should be dealt with in DoBuild(). If the Pearsons residual is unknown"
             << " for this likelihood, set pearsons_residual to 'false'";
         }
-        cache_ << AS_VALUE(resid) << " ";
+        cache_ << AS_DOUBLE(resid) << " ";
       }
     }
   }
@@ -367,10 +364,11 @@ void Observation::DoExecuteTabular() {
           LOG_CODE_ERROR() << "Unknown coded likelihood type should be dealt with in DoBuild(). If the normalised residual is unknown"
             << " for this likelihood, set normalised_residual to 'false'";
         }
-        cache_ << AS_VALUE(resid) << " ";
+        cache_ << AS_DOUBLE(resid) << " ";
       }
     }
   }
+  cache_ << "\n";
 
   cache_ << "\n";
 }
@@ -378,7 +376,7 @@ void Observation::DoExecuteTabular() {
 /**
  *  Finalise the tabular report
  */
-void Observation::DoFinaliseTabular() {
+void Observation::DoFinaliseTabular(shared_ptr<Model> model) {
   ready_for_writing_ = true;
 }
 

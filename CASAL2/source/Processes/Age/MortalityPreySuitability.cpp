@@ -23,7 +23,6 @@
 #include "Selectivities/Manager.h"
 #include "TimeSteps/TimeStep.h"
 #include "TimeSteps/Manager.h"
-#include "Utilities/DoubleCompare.h"
 #include "Utilities/To.h"
 
 
@@ -31,7 +30,8 @@
 namespace niwa {
 namespace processes {
 namespace age {
-namespace dc = niwa::utilities::doublecompare;
+
+namespace math = niwa::utilities::math;
 
 /**
  * Default constructor
@@ -43,7 +43,7 @@ namespace dc = niwa::utilities::doublecompare;
  *
  * Note: The constructor is parsed to generate LaTeX for the documentation.
  */
-MortalityPreySuitability::MortalityPreySuitability(Model* model)
+MortalityPreySuitability::MortalityPreySuitability(shared_ptr<Model> model)
   : Process(model) {
   process_type_ = ProcessType::kMortality;
   partition_structure_ = PartitionType::kAge;
@@ -98,7 +98,7 @@ void MortalityPreySuitability::DoBuild() {
    */
   unsigned category_offset = 0;
   for (string selectivity : prey_selectivity_labels_) {
-    prey_selectivities_.push_back(model_->managers().selectivity()->GetSelectivity(selectivity));
+    prey_selectivities_.push_back(model_->managers()->selectivity()->GetSelectivity(selectivity));
     if (!prey_selectivities_[category_offset])
       LOG_ERROR_P(PARAM_PREY_SELECTIVITIES) << "Prey selectivity " << selectivity << " was not found.";
     ++category_offset;
@@ -106,14 +106,14 @@ void MortalityPreySuitability::DoBuild() {
 
   category_offset = 0;
   for (string selectivity : predator_selectivity_labels_) {
-    predator_selectivities_.push_back(model_->managers().selectivity()->GetSelectivity(selectivity));
+    predator_selectivities_.push_back(model_->managers()->selectivity()->GetSelectivity(selectivity));
     if (!predator_selectivities_[category_offset])
       LOG_ERROR_P(PARAM_PREDATOR_SELECTIVITIES) << "Predator selectivity " << selectivity << " was not found.";
     ++category_offset;
   }
 
   if (penalty_label_ != "none") {
-    penalty_ = model_->managers().penalty()->GetProcessPenalty(penalty_label_);
+    penalty_ = model_->managers()->penalty()->GetProcessPenalty(penalty_label_);
     if (!penalty_)
       LOG_ERROR_P(PARAM_PENALTY) << ": Penalty label " << penalty_label_ << " was not found.";
   }
@@ -168,8 +168,8 @@ void MortalityPreySuitability::DoExecute() {
          << Vulnerable_by_Prey[prey_category_labels_[category_offset]];
     }
 
-    TotalPreyAvailability = dc::ZeroFun(TotalPreyAvailability, ZERO);
-    TotalPreyVulnerable   = dc::ZeroFun(TotalPreyVulnerable / TotalPreyAvailability, ZERO);
+    TotalPreyAvailability = math::ZeroFun(TotalPreyAvailability, math::ZERO);
+    TotalPreyVulnerable   = math::ZeroFun(TotalPreyVulnerable / TotalPreyAvailability, math::ZERO);
 
     /*
      * Loop through the predators calculating vulnerable predator abyundance

@@ -5,14 +5,15 @@
  * @date 21/02/2013
  * @section LICENSE
  *
- * Copyright NIWA Science ©2013 - www.niwa.co.nz
+ * Copyright NIWA Science ï¿½2013 - www.niwa.co.nz
  *
  * $Date: 2008-03-04 16:33:32 +1300 (Tue, 04 Mar 2008) $
  */
 
 // Headers
 #include "ObjectiveFunction.h"
-#include "ObjectiveFunction/ObjectiveFunction.h"
+
+#include "../../ObjectiveFunction/ObjectiveFunction.h"
 
 // Namespaces
 namespace niwa {
@@ -21,28 +22,38 @@ namespace reports {
 /**
  * Default constructor
  */
-ObjectiveFunction::ObjectiveFunction(Model* model) : Report(model) {
+ObjectiveFunction::ObjectiveFunction() {
   model_state_ = State::kIterationComplete;
-  run_mode_    = (RunMode::Type)(RunMode::kEstimation | RunMode::kBasic | RunMode::kProjection| RunMode::kProfiling);
+  run_mode_    = (RunMode::Type)(RunMode::kEstimation | RunMode::kBasic | RunMode::kProjection | RunMode::kProfiling);
 }
 
 /**
  * Execute the report
  */
-void ObjectiveFunction::DoExecute() {
+void ObjectiveFunction::DoExecute(shared_ptr<Model> model) {
+	LOG_MEDIUM() << "Boop";
+	if (!model->is_primary_thread_model() && model->run_mode() == RunMode::kBasic)
+		return;
+	if (!model->is_primary_thread_model() && model->run_mode() == RunMode::kEstimation)
+		return;
+
   cache_ << "*"<< type_ << "[" << label_ << "]" << "\n";
   cache_ <<"values " << REPORT_R_VECTOR <<"\n";
 
-  ::niwa::ObjectiveFunction& obj_function = model_->objective_function();
+  if (model == nullptr)
+  	LOG_CODE_ERROR() << "model_ == nullptr";
+  ::niwa::ObjectiveFunction& obj_function = model->objective_function();
 
   const vector<objective::Score>& score_list = obj_function.score_list();
   for (objective::Score score : score_list) {
-    cache_ << score.label_ << " " << AS_VALUE(score.score_) << "\n";
+    cache_ << score.label_ << " " << AS_DOUBLE(score.score_) << "\n";
   }
-  cache_ << PARAM_TOTAL_NEGLOGLIKE << " " << AS_VALUE(obj_function.score()) << "\n";
+  cache_ << PARAM_TOTAL_NEGLOGLIKE << " " << AS_DOUBLE(obj_function.score()) << "\n";
 
+  cache_ << PARAM_TOTAL_SCORE << " " << AS_DOUBLE(obj_function.score()) << "\n";
   ready_for_writing_ = true;
 }
+
 
 } /* namespace reports */
 } /* namespace niwa */

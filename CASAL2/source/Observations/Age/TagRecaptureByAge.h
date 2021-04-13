@@ -5,7 +5,7 @@
  * @date 23/10/2015
  * @section LICENSE
  *
- * Copyright NIWA Science ©2015 - www.niwa.co.nz
+ * Copyright NIWA Science ï¿½2015 - www.niwa.co.nz
  *
  * @section DESCRIPTION
  *
@@ -35,7 +35,7 @@ using partition::accessors::cached::CachedCombinedCategoriesPtr;
 class TagRecaptureByAge : public niwa::Observation {
 public:
   // methods
-  TagRecaptureByAge(Model* model);
+  TagRecaptureByAge(shared_ptr<Model> model);
   virtual                     ~TagRecaptureByAge() = default;
   void                        DoValidate() override final;
   void                        DoBuild() override final;
@@ -52,11 +52,11 @@ protected:
   unsigned                      max_age_ = 0;
   bool                          plus_group_ = false;
   unsigned                      age_spread_ = 0;
-  double                        detection_;
+  Double                        detection_;
   vector<string>                target_category_labels_;
   vector<string>                target_selectivity_labels_;
   parameters::Table*            recaptures_table_ = nullptr;
-  double                        tolerance_ = 0.0;
+  Double                        tolerance_ = 0.0;
   vector<Double>                process_error_values_;
   map<unsigned, Double>         process_errors_by_year_;
   string                        ageing_error_label_;
@@ -70,7 +70,7 @@ protected:
   vector<string>                selectivity_labels_;
   vector<Selectivity*>          selectivities_;
   string                        time_step_label_ = "";
-  double                        time_step_proportion_;
+  Double                        time_step_proportion_;
 
   map<unsigned, map<string, vector<Double>>> recaptures_;
   map<unsigned, map<string, vector<Double>>> scanned_;

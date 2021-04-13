@@ -15,7 +15,7 @@
 #define PROJECTS_LOGNORMAL_H_
 
 // headers
-#include "Projects/Project.h"
+#include "../../Projects/Project.h"
 
 // namespaces
 namespace niwa {
@@ -26,7 +26,7 @@ namespace projects {
  */
 class LogNormal : public niwa::Project {
 public:
-  explicit LogNormal(Model* model);
+  explicit LogNormal(shared_ptr<Model> model);
   virtual                     ~LogNormal() = default;
   void                        DoValidate() override final;
   void                        DoBuild() override final;

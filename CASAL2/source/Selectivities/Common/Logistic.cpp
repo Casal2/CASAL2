@@ -5,19 +5,20 @@
  * @date 15/01/2013
  * @section LICENSE
  *
- * Copyright NIWA Science ©2013 - www.niwa.co.nz
+ * Copyright NIWA Science ï¿½2013 - www.niwa.co.nz
  *
  * $Date: 2008-03-04 16:33:32 +1300 (Tue, 04 Mar 2008) $
  */
 
 // Headers
+#include "Logistic.h"
+
 #include <boost/math/distributions/lognormal.hpp>
-#include <Selectivities/Common/Logistic.h>
 #include <cmath>
 
-#include "AgeLengths/AgeLength.h"
-#include "Model/Model.h"
-#include "TimeSteps/Manager.h"
+#include "../../AgeLengths/AgeLength.h"
+#include "../../Model/Model.h"
+#include "../../TimeSteps/Manager.h"
 
 // Namespaces
 namespace niwa {
@@ -26,7 +27,7 @@ namespace selectivities {
 /**
  * Default Constructor
  */
-Logistic::Logistic(Model* model)
+Logistic::Logistic(shared_ptr<Model> model)
 : Selectivity(model) {
 
   parameters_.Bind<Double>(PARAM_A50, &a50_, "a50", "");
@@ -76,7 +77,7 @@ void Logistic::RebuildCache() {
         values_[age - age_index_] = alpha_ / (1.0 + pow(19.0, threshold));
     }
   } else if (model_->partition_type() == PartitionType::kLength) {
-    vector<double> length_bins = model_->length_bins();
+    vector<Double> length_bins = model_->length_bins();
     Double threshold = 0.0;
 
     for (unsigned length_bin_index = 0; length_bin_index < length_bins.size(); ++length_bin_index) {
@@ -101,10 +102,10 @@ void Logistic::RebuildCache() {
  * @param time_step_index
  * @return Double selectivity for an age based on age length distribution_label
  */
+
 Double Logistic::GetLengthBasedResult(unsigned age, AgeLength* age_length, unsigned year, int time_step_index) {
   unsigned yearx = year == 0 ? model_->current_year() : year;
-  unsigned time_step = time_step_index == -1 ? model_->managers().time_step()->current_time_step() : (unsigned)time_step_index;
-
+  unsigned time_step = time_step_index == -1 ? model_->managers()->time_step()->current_time_step() : (unsigned)time_step_index;
   Double cv   = age_length->cv(yearx, time_step, age);
   Double mean = age_length->mean_length(time_step, age);
   string dist = age_length->distribution_label();
@@ -148,10 +149,10 @@ Double Logistic::GetLengthBasedResult(unsigned age, AgeLength* age_length, unsig
     Double mu = log(mean) - sigma * sigma * 0.5;
     Double size = 0.0;
     Double total = 0.0;
-    boost::math::lognormal dist{AS_VALUE(mu), AS_VALUE(sigma)};
+    boost::math::lognormal dist{AS_DOUBLE(mu), AS_DOUBLE(sigma)};
 
     for (unsigned j = 0; j < n_quant_; ++j) {
-      size = mu + sigma * quantile(dist, AS_VALUE(quantiles_[j]));
+      size = mu + sigma * quantile(dist, AS_DOUBLE(quantiles_[j]));
 
       threshold = (a50_ - size) / ato95_;
 
@@ -164,7 +165,6 @@ Double Logistic::GetLengthBasedResult(unsigned age, AgeLength* age_length, unsig
     }
     return total / n_quant_;
   }
-
   LOG_CODE_ERROR() << "dist is invalid " << dist;
   return 0;
 }

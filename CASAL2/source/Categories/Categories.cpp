@@ -16,22 +16,22 @@
 #include <boost/algorithm/string/trim_all.hpp>
 #include <boost/algorithm/string/split.hpp>
 
-#include "AgeLengths/AgeLength.h"
-#include "AgeLengths/Factory.h"
-#include "AgeLengths/Manager.h"
-#include "AgeLengths/Age/None.h"
-#include "AgeWeights/AgeWeight.h"
-#include "AgeWeights/Factory.h"
-#include "AgeWeights/Manager.h"
-#include "AgeWeights/Age/None.h"
-#include "LengthWeights/LengthWeight.h"
-#include "LengthWeights/Factory.h"
-#include "LengthWeights/Manager.h"
-#include "LengthWeights/Common/None.h"
-#include "Model/Model.h"
-#include "Logging/Logging.h"
-#include "Utilities/String.h"
-#include "Utilities/To.h"
+#include "../AgeLengths/AgeLength.h"
+#include "../AgeLengths/Factory.h"
+#include "../AgeLengths/Manager.h"
+#include "../AgeLengths/Age/None.h"
+#include "../AgeWeights/AgeWeight.h"
+#include "../AgeWeights/Factory.h"
+#include "../AgeWeights/Manager.h"
+#include "../AgeWeights/Age/None.h"
+#include "../LengthWeights/LengthWeight.h"
+#include "../LengthWeights/Factory.h"
+#include "../LengthWeights/Manager.h"
+#include "../LengthWeights/Common/None.h"
+#include "../Model/Model.h"
+#include "../Logging/Logging.h"
+#include "../Utilities/String.h"
+#include "../Utilities/To.h"
 
 // Namespaces
 namespace niwa {
@@ -44,9 +44,9 @@ namespace niwa {
  * Register any parameters that can be an estimated or utilised in other run modes (e.g profiling, yields, projections etc)
  * Set some initial values
  *
- * Note: The constructor is parsed to generate LaTeX for the documentation.
+ * Note: The constructor is parsed to generate Latex for the documentation.
  */
-Categories::Categories(Model* model) : model_(model) {
+Categories::Categories(shared_ptr<Model> model) : model_(model) {
   parameters_.Bind<string>(PARAM_FORMAT, &format_, "The format that the category names use", "");
   parameters_.Bind<string>(PARAM_NAMES, &names_, "The names of the categories to be used in the model", "");
   parameters_.Bind<string>(PARAM_YEARS, &years_, "The years that individual categories will be active for. This overrides the model values", "", true);
@@ -63,6 +63,9 @@ Categories::Categories(Model* model) : model_(model) {
  * Note: all parameters are populated from configuration files
  */
 void Categories::Validate() {
+	if (model_->partition_type() == PartitionType::kPiApprox)
+		return;
+
   // Check that we actually had a categories block
   if (block_type_ == "")
     LOG_ERROR() << "The @categories block is missing from the configuration file. This block is required";
@@ -206,13 +209,14 @@ void Categories::Validate() {
  * Build any objects that will need to be utilised by this object.
  * Obtain smart_pointers to any objects that will be used by this object.
  */
+
 void Categories::Build() {
   if (model_->partition_type() == PartitionType::kAge) {
     /**
      * Get our age length objects if age based partition model
      */
     if (parameters_.Get(PARAM_AGE_LENGTHS)->has_been_defined()) {
-      agelengths::Manager* age_sizes_manager = model_->managers().age_length();
+      agelengths::Manager* age_sizes_manager = model_->managers()->age_length();
       auto iter = category_age_length_labels_.begin();
       for (; iter != category_age_length_labels_.end(); ++iter) {
         AgeLength* age_size = age_sizes_manager->FindAgeLength(iter->second);
@@ -222,7 +226,7 @@ void Categories::Build() {
         categories_[iter->first].age_length_ = age_size;
       }
     } else if (parameters_.Get(PARAM_AGE_WEIGHT)->has_been_defined()) {
-      ageweights::Manager* age_weight_manager = model_->managers().age_weight();
+      ageweights::Manager* age_weight_manager = model_->managers()->age_weight();
       auto iter = category_age_weight_labels_.begin();
       for (; iter != category_age_weight_labels_.end(); ++iter) {
         AgeWeight* age_weight = age_weight_manager->FindAgeWeight(iter->second);
@@ -233,7 +237,7 @@ void Categories::Build() {
       }
     }
   } else if (model_->partition_type() == PartitionType::kLength) {
-    lengthweights::Manager* length_weight_manager = model_->managers().length_weight();
+    lengthweights::Manager* length_weight_manager = model_->managers()->length_weight();
     auto iter = category_length_weight_labels_.begin();
     for (; iter != category_length_weight_labels_.end(); ++iter) {
       LengthWeight* length_weight = length_weight_manager->GetLengthWeight(iter->second);
@@ -496,6 +500,7 @@ map<string, string> Categories::GetCategoryLabelsAndValues(const string& lookup,
       LOG_ERROR() << parameter_location << " category " << category << " is being assigned a value more than once";
     }
 
+
     results[category] = pieces.size() == 2 ? pieces[1] : pieces[2];
   }
 
@@ -528,6 +533,7 @@ bool Categories::IsCombinedLabels(const string& label) const {
 /**
  * Get the number of categories that have been defined in the combined label
  * e.g., this will return 2 for male+female, 3 for male+female+unsexed, etc.
+ * 3 for male+female+unsexed etc
  *
  * @param The category label containing combined categories to check
  * @return The number of categories defined in the combined label
@@ -580,7 +586,6 @@ vector<unsigned> Categories::years(const string& category_name) {
 
 /**
  *  Return the corresponding age length pointer for this category
- *
  * @param category_name The name of the category
  * @return The AgeLength instance for the category
  */
@@ -639,5 +644,6 @@ void Categories::Clear() {
   length_weight_labels_.clear();
   category_length_weight_labels_.clear();
 }
+
 
 } /* namespace niwa */

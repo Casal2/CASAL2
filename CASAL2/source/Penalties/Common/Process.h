@@ -16,7 +16,7 @@
 #define PENALTIES_PROCESS_H_
 
 // headers
-#include "Penalties/Penalty.h"
+#include "../../Penalties/Penalty.h"
 
 // namespaces
 namespace niwa {
@@ -28,7 +28,7 @@ namespace penalties {
 class Process : public niwa::Penalty {
 public:
   // methods
-  Process(Model* model);
+  Process(shared_ptr<Model> model);
   virtual                     ~Process() = default;
   void                        Trigger(const string& source_label, Double value_1, Double value_2);
   Double                      GetScore() override final { return 0.0; }
@@ -39,7 +39,7 @@ protected:
 
 private:
   // members
-  double                      multiplier_;
+  Double                      multiplier_;
   bool                        log_scale_;
 };
 } /* namespace penalties */

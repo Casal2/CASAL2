@@ -15,28 +15,28 @@
 #include <boost/algorithm/string/trim_all.hpp>
 #include <boost/algorithm/string/split.hpp>
 
-#include "AgeLengths/Manager.h"
-#include "Catchabilities/Manager.h"
-#include "Categories/Categories.h"
-#include "DerivedQuantities/Manager.h"
-#include "Estimates/Manager.h"
-#include "GlobalConfiguration/GlobalConfiguration.h"
-#include "InitialisationPhases/Manager.h"
-#include "LengthWeights/Manager.h"
-#include "Minimisers/Manager.h"
-#include "Model/Model.h"
-#include "ObjectiveFunction/ObjectiveFunction.h"
-#include "Observations/Manager.h"
-#include "Partition/Accessors/Category.h"
-#include "Partition/Partition.h"
-#include "Penalties/Manager.h"
-#include "Processes/Manager.h"
-#include "Reports/Manager.h"
-#include "Selectivities/Manager.h"
-#include "TimeSteps/Manager.h"
-#include "Logging/Logging.h"
-#include "Utilities/RandomNumberGenerator.h"
-#include "Utilities/To.h"
+#include "../../AgeLengths/Manager.h"
+#include "../../Catchabilities/Manager.h"
+#include "../../Categories/Categories.h"
+#include "../../DerivedQuantities/Manager.h"
+#include "../../Estimates/Manager.h"
+#include "../../GlobalConfiguration/GlobalConfiguration.h"
+#include "../../InitialisationPhases/Manager.h"
+#include "../../LengthWeights/Manager.h"
+#include "../../Minimisers/Manager.h"
+#include "../../Model/Models/Age.h"
+#include "../../ObjectiveFunction/ObjectiveFunction.h"
+#include "../../Observations/Manager.h"
+#include "../../Partition/Accessors/Category.h"
+#include "../../Partition/Partition.h"
+#include "../../Penalties/Manager.h"
+#include "../../Processes/Manager.h"
+#include "../../Reports/Manager.h"
+#include "../../Selectivities/Manager.h"
+#include "../../TimeSteps/Manager.h"
+#include "../../Logging/Logging.h"
+#include "../../Utilities/RandomNumberGenerator.h"
+#include "../../Utilities/To.h"
 
 namespace niwa {
 namespace testfixtures {
@@ -51,6 +51,7 @@ void InternalEmptyModel::SetUp() {
 
   configuration_file_.clear();
   model_->global_configuration().flag_skip_config_file();
+  model_->flag_primary_thread_model();
 }
 
 /**
@@ -82,13 +83,16 @@ void InternalEmptyModel::AddConfigurationLine(const string& line, const string& 
  * configuration file for execution in the model
  */
 void InternalEmptyModel::LoadConfiguration() {
-  configuration::Loader loader(*model_);
+  configuration::Loader loader;
 
   for (config::FileLine file_line : configuration_file_)
     loader.AddFileLine(file_line);
 
-  loader.LoadConfigFile();
+  loader.LoadConfigFile(model_->global_configuration());
   loader.ParseFileLines();
+  vector<shared_ptr<Model>> model_list;
+  model_list.push_back(model_);
+  loader.Build(model_list);
 }
 
 } /* namespace sizeweights */

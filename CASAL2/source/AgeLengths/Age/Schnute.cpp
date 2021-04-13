@@ -14,10 +14,10 @@
 
 #include <cmath>
 
-#include "LengthWeights/Manager.h"
-#include "Model/Managers.h"
-#include "TimeSteps/Manager.h"
-#include "Estimates/Manager.h"
+#include "../../LengthWeights/Manager.h"
+#include "../../Model/Managers.h"
+#include "../../TimeSteps/Manager.h"
+#include "../../Estimates/Manager.h"
 
 // namespaces
 namespace niwa {
@@ -35,7 +35,7 @@ using std::pow;
  *
  * Note: The constructor is parsed to generate LaTeX for the documentation.
  */
-Schnute::Schnute(Model* model) : AgeLength(model) {
+Schnute::Schnute(shared_ptr<Model> model) : AgeLength(model) {
   parameters_.Bind<Double>(PARAM_Y1, &y1_, "The $y_1$ parameter", "");
   parameters_.Bind<Double>(PARAM_Y2, &y2_, "The $y_2$ parameter", "");
   parameters_.Bind<Double>(PARAM_TAU1, &tau1_, "The $\tau_1$ parameter", "");
@@ -57,7 +57,7 @@ Schnute::Schnute(Model* model) : AgeLength(model) {
  * Obtain smart_pointers to any objects that will be used by this object.
  */
 void Schnute::DoBuild() {
-  length_weight_ = model_->managers().length_weight()->GetLengthWeight(length_weight_label_);
+  length_weight_ = model_->managers()->length_weight()->GetLengthWeight(length_weight_label_);
   if (!length_weight_)
     LOG_ERROR_P(PARAM_LENGTH_WEIGHT) << "Length-weight label " << length_weight_label_ << " was not found.";
 
@@ -75,7 +75,7 @@ Double Schnute::mean_length(unsigned time_step,  unsigned age) {
   Double temp = 0.0;
   Double size = 0.0;
 
-  double proportion = time_step_proportions_[time_step];
+  Double proportion = time_step_proportions_[time_step];
 
   if (a_ != 0.0)
     temp = (1 - exp( -a_ * ((age + proportion) - tau1_))) / (1 - exp(-a_ * (tau2_ - tau1_)));
@@ -105,7 +105,6 @@ Double Schnute::mean_weight(unsigned time_step, unsigned age) {
   Double size = mean_length_[time_step][age];
   //LOG_FINE() << "year = " << year << " age " << age << " time step " << time_step << " cv = " <<  cvs_[year][age][time_step];
   Double mean_weight = length_weight_->mean_weight(size, distribution_, cvs_[year][time_step][age]);
-
   return mean_weight;
 }
 

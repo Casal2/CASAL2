@@ -18,11 +18,11 @@
 #include <boost/algorithm/string/split.hpp>
 #include <boost/algorithm/string/join.hpp>
 
-#include "Utilities/DoubleCompare.h"
 #include "Categories/Categories.h"
 #include "Likelihoods/Manager.h"
 #include "Model/Managers.h"
 #include "Model/Model.h"
+#include "../Utilities/Math.h"
 
 // Namespaces
 namespace niwa {
@@ -30,12 +30,12 @@ namespace niwa {
 /**
  * Default Constructor
  */
-Observation::Observation(Model* model) : model_(model) {
+Observation::Observation(shared_ptr<Model> model) : model_(model) {
   parameters_.Bind<string>(PARAM_LABEL, &label_, "The label of the observation", "");
   parameters_.Bind<string>(PARAM_TYPE, &type_, "The type of observation", "");
   parameters_.Bind<string>(PARAM_LIKELIHOOD, &likelihood_type_, "The type of likelihood to use", "");
   parameters_.Bind<string>(PARAM_CATEGORIES, &category_labels_, "The category labels to use", "", true);
-  parameters_.Bind<double>(PARAM_DELTA, &delta_, "The robustification value (delta) for the likelihood", "", DELTA)->set_lower_bound(0.0);
+  parameters_.Bind<Double>(PARAM_DELTA, &delta_, "The robustification value (delta) for the likelihood", "", utilities::math::DELTA)->set_lower_bound(0.0);
   parameters_.Bind<string>(PARAM_SIMULATION_LIKELIHOOD, &simulation_likelihood_label_, "The simulation likelihood to use", "", "");
   parameters_.Bind<Double>(PARAM_LIKELIHOOD_MULTIPLIER, &likelihood_multiplier_, "The likelihood score multiplier", "", Double(1.0))->set_lower_bound(0.0);
   parameters_.Bind<Double>(PARAM_ERROR_VALUE_MULTIPLIER, &error_value_multiplier_, "The error value multiplier for likelihood", "", Double(1.0))->set_lower_bound(0.0);
@@ -84,7 +84,7 @@ void Observation::Validate() {
 void Observation::Build() {
   LOG_TRACE();
 
-  likelihood_ = model_->managers().likelihood()->GetOrCreateLikelihood(model_, label_, likelihood_type_);
+  likelihood_ = model_->managers()->likelihood()->GetOrCreateLikelihood(model_, label_, likelihood_type_);
   if (!likelihood_) {
     LOG_FATAL_P(PARAM_LIKELIHOOD) << "(" << likelihood_type_ << ") was not found or could not be constructed.";
     return;
@@ -125,8 +125,8 @@ void Observation::Reset() {
  * @param delta The delta value passed in from the configuration file
  * @param score The amount of score for this comparison
  */
-void Observation::SaveComparison(string category, unsigned age, double length, Double expected, Double observed,
-                                 Double process_error, Double error_value, Double adjusted_error, double delta, Double score) {
+void Observation::SaveComparison(string category, unsigned age, Double length, Double expected, Double observed,
+                                 Double process_error, Double error_value, Double adjusted_error, Double delta, Double score) {
   observations::Comparison new_comparison;
   new_comparison.category_       = category;
   new_comparison.age_            = age;
@@ -155,7 +155,7 @@ void Observation::SaveComparison(string category, unsigned age, double length, D
  * @param score The amount of score for this comparison
  */
 void Observation::SaveComparison(string category, Double expected, Double observed,
-                                 Double process_error, Double error_value, Double adjusted_error, double delta, Double score) {
+                                 Double process_error, Double error_value, Double adjusted_error, Double delta, Double score) {
   SaveComparison(category, 0, 0, expected, observed, process_error, error_value, adjusted_error, delta, score);
 }
 

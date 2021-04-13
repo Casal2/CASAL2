@@ -5,7 +5,7 @@
  * @date 20/12/2012
  * @section LICENSE
  *
- * Copyright NIWA Science ©2012 - www.niwa.co.nz
+ * Copyright NIWA Science ï¿½2012 - www.niwa.co.nz
  *
  * $Date: 2008-03-04 16:33:32 +1300 (Tue, 04 Mar 2008) $
  */
@@ -28,7 +28,7 @@ namespace age {
 /**
  * Default Constructor
  */
-MortalityConstantRate::MortalityConstantRate(Model* model)
+MortalityConstantRate::MortalityConstantRate(shared_ptr<Model> model)
   : Process(model),
     partition_(model) {
   LOG_TRACE();
@@ -37,7 +37,7 @@ MortalityConstantRate::MortalityConstantRate(Model* model)
 
   parameters_.Bind<string>(PARAM_CATEGORIES, &category_labels_, "The list of category labels", "");
   parameters_.Bind<Double>(PARAM_M, &m_input_, "The mortality rates", "")->set_lower_bound(0.0);
-  parameters_.Bind<double>(PARAM_TIME_STEP_RATIO, &ratios_, "The time step ratios for the mortality rates", "", true)->set_range(0.0, 1.0);
+  parameters_.Bind<Double>(PARAM_TIME_STEP_RATIO, &ratios_, "The time step ratios for the mortality rates", "", true)->set_range(0.0, 1.0);
   parameters_.Bind<string>(PARAM_RELATIVE_M_BY_AGE, &selectivity_names_, "The list of M-by-age ogives for the categories", "");
 
   RegisterAsAddressable(PARAM_M, &m_);
@@ -81,7 +81,7 @@ void MortalityConstantRate::DoValidate() {
   // Validate our Ms are greater than or equal to 0.0
   for (Double m : m_input_) {
     if (m < 0.0)
-      LOG_ERROR_P(PARAM_M) << ": m value (" << AS_VALUE(m) << ") must be greater than or equal to 0.0";
+      LOG_ERROR_P(PARAM_M) << ": m value (" << AS_DOUBLE(m) << ") must be greater than or equal to 0.0";
   }
 
   for (unsigned i = 0; i < m_input_.size(); ++i)
@@ -99,7 +99,7 @@ void MortalityConstantRate::DoBuild() {
   partition_.Init(category_labels_);
 
   for (string label : selectivity_names_) {
-    Selectivity* selectivity = model_->managers().selectivity()->GetSelectivity(label);
+    Selectivity* selectivity = model_->managers()->selectivity()->GetSelectivity(label);
     if (!selectivity)
       LOG_ERROR_P(PARAM_RELATIVE_M_BY_AGE) << ": M-by-age ogive label " << label << " was not found.";
 
@@ -111,7 +111,7 @@ void MortalityConstantRate::DoBuild() {
    * apply a different ratio of M so here verify that
    * there are enough and re-scale them to 1.0
    */
-  vector<TimeStep*> time_steps = model_->managers().time_step()->ordered_time_steps();
+  vector<TimeStep*> time_steps = model_->managers()->time_step()->ordered_time_steps();
   LOG_FINEST() << "time_steps.size(): " << time_steps.size();
   vector<unsigned> active_time_steps;
   for (unsigned i = 0; i < time_steps.size(); ++i) {
@@ -127,7 +127,7 @@ void MortalityConstantRate::DoBuild() {
       LOG_ERROR_P(PARAM_TIME_STEP_RATIO) << " The number of time step ratios (" << ratios_.size()
         << ") does not match the number of time steps this process has been assigned to (" << active_time_steps.size() << ")";
 
-    for (double value : ratios_) {
+    for (Double value : ratios_) {
       if (value < 0.0 || value > 1.0)
         LOG_ERROR_P(PARAM_TIME_STEP_RATIO) << "Time step ratio value (" << value << ") must be between 0.0 and 1.0 (inclusive)";
     }
@@ -150,10 +150,10 @@ void MortalityConstantRate::DoExecute() {
   LOG_FINEST() << "year: " << model_->current_year();
 
   // get the ratio to apply first
-  unsigned time_step = model_->managers().time_step()->current_time_step();
+  unsigned time_step = model_->managers()->time_step()->current_time_step();
 
   LOG_FINEST() << "Ratios.size() " << time_step_ratios_.size() << " : time_step: " << time_step << "; ratio: " << time_step_ratios_[time_step];
-  double ratio = time_step_ratios_[time_step];
+  Double ratio = time_step_ratios_[time_step];
 
   unsigned i = 0;
   Double amount;
@@ -195,7 +195,7 @@ void MortalityConstantRate::FillReportCache(ostringstream& cache) {
     cache << year << " ";
   cache << "\ntotal_removals: ";
   for (auto removal : total_removals_by_year_)
-    cache << AS_VALUE(removal) << " ";
+    cache << AS_DOUBLE(removal) << " ";
   cache << "\n";
 }
 
@@ -216,7 +216,7 @@ void MortalityConstantRate::FillTabularReportCache(ostringstream& cache, bool fi
   }
 
   for (auto removal : total_removals_by_year_)
-    cache << AS_VALUE(removal) << " ";
+    cache << AS_DOUBLE(removal) << " ";
   cache << "\n";
 }
 

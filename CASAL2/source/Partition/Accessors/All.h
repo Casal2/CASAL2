@@ -25,8 +25,8 @@
 #include <vector>
 #include <string>
 
-#include "Partition/Partition.h"
-#include "Utilities/Types.h"
+#include "../../Partition/Partition.h"
+#include "../../Utilities/Types.h"
 
 // Namespaces
 namespace niwa {
@@ -50,15 +50,17 @@ public:
 
   // Methods
   All() = delete;
-  explicit All(Model* model);
+  explicit All(shared_ptr<Model> model);
   virtual                     ~All() = default;
-  DataType::iterator          Begin();
+  DataType::iterator          begin();
+  DataType::iterator          end();
+  DataType::iterator          Begin(); // TODO: Remove these
   DataType::iterator          End();
   unsigned                    Size();
 
 private:
   // Members
-  Model*                      model_;
+  shared_ptr<Model>           model_;
   All::DataType               data_;
 };
 

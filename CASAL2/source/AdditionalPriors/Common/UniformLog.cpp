@@ -12,8 +12,8 @@
 // headers
 #include "UniformLog.h"
 
-#include "Model/Model.h"
-#include "Model/Objects.h"
+#include "../../Model/Model.h"
+#include "../../Model/Objects.h"
 
 // namespaces
 namespace niwa {
@@ -29,19 +29,7 @@ namespace additionalpriors {
  *
  * Note: The constructor is parsed to generate LaTeX for the documentation.
  */
-UniformLog::UniformLog(Model* model) : AdditionalPrior(model) {
-
-}
-
-/**
- * Populate any parameters,
- * Validate that values are within expected ranges when bind<>() overloads cannot be used
- *
- * Note: all parameters are populated from configuration files
- */
-void UniformLog::DoValidate() {
-
-}
+UniformLog::UniformLog(shared_ptr<Model> model) : AdditionalPrior(model) { }
 
 /**
  * Build the object

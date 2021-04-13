@@ -14,7 +14,7 @@
 #define AGEWEIGHTS_NONE_H_
 
 // headers
-#include "AgeWeights/AgeWeight.h"
+#include "../../AgeWeights/AgeWeight.h"
 
 // namespaces
 namespace niwa {
@@ -26,7 +26,7 @@ namespace ageweights {
 class None : public niwa::AgeWeight {
 public:
   // methods
-  explicit None(Model* model) : AgeWeight(model) { };
+  explicit None(shared_ptr<Model> model) : AgeWeight(model) { };
   virtual                     ~None() = default;
   void                        DoValidate() override final { };
   void                        DoBuild() override final { };

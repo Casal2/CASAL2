@@ -15,7 +15,7 @@
 #define SOURCE_REPORTS_CHILDREN_MCMCOBJECTIVE_H_
 
 // headers
-#include "Reports/Report.h"
+#include "../../Reports/Report.h"
 
 // namespaces
 namespace niwa {
@@ -26,14 +26,14 @@ namespace reports {
 // class
 class MCMCObjective : public Report {
 public:
-  MCMCObjective(Model* model);
+  MCMCObjective();
   virtual                     ~MCMCObjective() = default;
-  void                        DoValidate() override final { };
-  void                        DoBuild() override final;
-  void                        DoPrepare() override final;
-  void                        DoExecute() override final;
-  void                        DoFinalise() override final;
-  void                        DoExecuteTabular() override final { };
+  void                        DoValidate(shared_ptr<Model> model) final { };
+  void                        DoBuild(shared_ptr<Model> model) final;
+  void                        DoPrepare(shared_ptr<Model> model) final;
+  void                        DoExecute(shared_ptr<Model> model) final;
+  void                        DoFinalise(shared_ptr<Model> model) final;
+  void                        DoExecuteTabular(shared_ptr<Model> model) final { };
 
 private:
   MCMC*                       mcmc_ = nullptr;

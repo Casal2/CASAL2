@@ -12,12 +12,12 @@
  */
 #ifndef USE_AUTODIFF
 // Headers
-#include <Minimisers/Common/DESolver/CallBack.h>
+#include "CallBack.h"
 
-#include "Estimates/Manager.h"
-#include "EstimateTransformations/Manager.h"
-#include "ObjectiveFunction/ObjectiveFunction.h"
-#include "Logging/Logging.h"
+#include "../../../Estimates/Manager.h"
+#include "../../../EstimateTransformations/Manager.h"
+#include "../../../ObjectiveFunction/ObjectiveFunction.h"
+#include "../../../Logging/Logging.h"
 
 // Namespaces
 namespace niwa {
@@ -27,7 +27,7 @@ namespace desolver {
 /**
  * Default constructor
  */
-CallBack::CallBack(Model* model, unsigned vector_size, unsigned population_size, double tolerance)
+CallBack::CallBack(shared_ptr<Model> model, unsigned vector_size, unsigned population_size, double tolerance)
   : niwa::minimisers::desolver::Engine(vector_size, population_size, tolerance),
   model_(model) {
 }
@@ -46,7 +46,7 @@ CallBack::~CallBack() {
  * @return The score from the energy function
  */
 double CallBack::EnergyFunction(vector<double> test_solution) {
-  vector<Estimate*> estimates = model_->managers().estimate()->GetIsEstimated();
+  vector<Estimate*> estimates = model_->managers()->estimate()->GetIsEstimated();
 
   if (test_solution.size() != estimates.size()) {
     LOG_CODE_ERROR() << "The number of enabled estimates does not match the number of test solution values";
@@ -55,13 +55,13 @@ double CallBack::EnergyFunction(vector<double> test_solution) {
   for (unsigned i = 0; i < test_solution.size(); ++i)
     estimates[i]->set_value(test_solution[i]);
 
-  model_->managers().estimate_transformation()->RestoreEstimates();
+  model_->managers()->estimate_transformation()->RestoreEstimates();
   model_->FullIteration();
 
   ObjectiveFunction& objective = model_->objective_function();
   objective.CalculateScore();
 
-  model_->managers().estimate_transformation()->TransformEstimates();
+  model_->managers()->estimate_transformation()->TransformEstimates();
   return objective.score();
 }
 

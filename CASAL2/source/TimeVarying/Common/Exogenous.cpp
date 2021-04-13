@@ -10,9 +10,10 @@
  */
 
 // headers
-#include <TimeVarying/Common/Exogenous.h>
-#include "Utilities/Map.h"
-#include "Model/Objects.h"
+#include "Exogenous.h"
+
+#include "../../Utilities/Map.h"
+#include "../../Model/Objects.h"
 
 // namespaces
 namespace niwa {
@@ -21,7 +22,7 @@ namespace timevarying {
 /**
  * Default constructor
  */
-Exogenous::Exogenous(Model* model) : TimeVarying(model) {
+Exogenous::Exogenous(shared_ptr<Model> model) : TimeVarying(model) {
   parameters_.Bind<Double>(PARAM_A, &a_, "The shift parameter", "");
   parameters_.Bind<Double>(PARAM_EXOGENOUS_VARIABLE, &exogenous_, "The values of exogeneous variable for each year", "");
 
@@ -34,6 +35,8 @@ Exogenous::Exogenous(Model* model) : TimeVarying(model) {
 void Exogenous::DoValidate() {
   if (years_.size() != exogenous_.size())
     LOG_ERROR_P(PARAM_YEARS) << " provided (" << years_.size() << ") does not match the number of values provided (" << exogenous_.size() << ")";
+
+
 }
 
 /**
@@ -52,7 +55,7 @@ void Exogenous::DoBuild() {
  */
 void Exogenous::DoReset() {
   // Add this to the Reset so that if a, is estimated the model can actually update the model.
-  values_by_year_ = utilities::Map<Double>::create(years_, exogenous_);
+  values_by_year_ = utilities::Map::create(years_, exogenous_);
   Double* value = model_->objects().GetAddressable(parameter_);
   LOG_FINEST() << "Parameter value = " << (*value);
   Double total = 0.0;

@@ -18,7 +18,7 @@
 #include <gtest/gtest.h>
 #include <boost/lexical_cast.hpp>
 
-#include "TestResources/MockClasses/Model.h"
+#include "../../TestResources/MockClasses/Model.h"
 
 // Namespaces
 namespace niwa {
@@ -30,13 +30,13 @@ using ::testing::ReturnRef;
  * Test the results of our selectivity are correct
  */
 TEST(Selectivities, AllValuesBounded_Age) {
-  MockModel model;
-  EXPECT_CALL(model, min_age()).WillRepeatedly(Return(10));
-  EXPECT_CALL(model, max_age()).WillRepeatedly(Return(20));
-  EXPECT_CALL(model, age_spread()).WillRepeatedly(Return(11));
-  EXPECT_CALL(model, partition_type()).WillRepeatedly(Return(PartitionType::kAge));
+  shared_ptr<MockModel> model = shared_ptr<MockModel>(new MockModel());
+  EXPECT_CALL(*model, min_age()).WillRepeatedly(Return(10));
+  EXPECT_CALL(*model, max_age()).WillRepeatedly(Return(20));
+  EXPECT_CALL(*model, age_spread()).WillRepeatedly(Return(11));
+  EXPECT_CALL(*model, partition_type()).WillRepeatedly(Return(PartitionType::kAge));
 
-  niwa::selectivities::AllValuesBounded all_values_bounded(&model);
+  niwa::selectivities::AllValuesBounded all_values_bounded(model);
 
   vector<string> v;
   for (unsigned i = 0; i < 6; ++i)
@@ -66,15 +66,15 @@ TEST(Selectivities, AllValuesBounded_Age) {
 }
 
 TEST(Selectivities, AllValuesBounded_Length) {
-  MockModel model;
+  shared_ptr<MockModel> model = shared_ptr<MockModel>(new MockModel());
   vector<double> lengths = {10, 20, 30, 40, 50, 60, 120};
-  EXPECT_CALL(model, min_age()).WillRepeatedly(Return(10));
-  EXPECT_CALL(model, max_age()).WillRepeatedly(Return(20));
-  EXPECT_CALL(model, age_spread()).WillRepeatedly(Return(11));
-  EXPECT_CALL(model, length_bins()).WillRepeatedly(ReturnRef(lengths));
-  EXPECT_CALL(model, partition_type()).WillRepeatedly(Return(PartitionType::kLength));
+  EXPECT_CALL(*model, min_age()).WillRepeatedly(Return(10));
+  EXPECT_CALL(*model, max_age()).WillRepeatedly(Return(20));
+  EXPECT_CALL(*model, age_spread()).WillRepeatedly(Return(11));
+  EXPECT_CALL(*model, length_bins()).WillRepeatedly(ReturnRef(lengths));
+  EXPECT_CALL(*model, partition_type()).WillRepeatedly(Return(PartitionType::kLength));
 
-  niwa::selectivities::AllValuesBounded all_values_bounded(&model);
+  niwa::selectivities::AllValuesBounded all_values_bounded(model);
 
   vector<string> v = {"0.1","0.2","0.3","0.5"};
   vector<double> values = { 0.1 , 0.2 , 0.3 , 0.5 };
@@ -96,13 +96,13 @@ TEST(Selectivities, AllValuesBounded_Length) {
 }
 
 //TEST(Selectivities, AllValuesBounded_Length_Throw_Exception) {
-//  MockModel model;
+//  shared_ptr<MockModel> model = shared_ptr<MockModel>(new MockModel());
 //  vector<unsigned> lengths = {10, 20, 30, 40, 50, 60, 120};
 //
-//  EXPECT_CALL(model, length_bins()).WillRepeatedly(ReturnRef(lengths));
-//  EXPECT_CALL(model, partition_type()).WillRepeatedly(Return(PartitionType::kLength));
+//  EXPECT_CALL(*model, length_bins()).WillRepeatedly(ReturnRef(lengths));
+//  EXPECT_CALL(*model, partition_type()).WillRepeatedly(Return(PartitionType::kLength));
 //
-//  niwa::selectivities::AllValuesBounded all_values_bounded(&model);
+//  niwa::selectivities::AllValuesBounded all_values_bounded(model);
 //
 //  vector<string> v = {"0.1","0.2","0.3","0.5","0.2"};
 //

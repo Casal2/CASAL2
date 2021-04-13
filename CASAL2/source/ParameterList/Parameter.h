@@ -24,8 +24,8 @@
 #include <initializer_list>
 #include <memory>
 
-#include "Utilities/PartitionType.h"
-#include "Utilities/RunMode.h"
+#include "../Utilities/PartitionType.h"
+#include "../Utilities/RunMode.h"
 
 // Namespaces
 namespace niwa {

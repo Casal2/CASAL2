@@ -10,7 +10,6 @@
 
 // headers
 #include "Basic.h"
-#include "TimeVarying/Manager.h"
 
 // namespaces
 namespace niwa {
@@ -19,13 +18,13 @@ namespace lengthweights {
 /**
  * Default constructor
  */
-Basic::Basic(Model* model) : LengthWeight(model) {
+Basic::Basic(shared_ptr<Model> model) : LengthWeight(model) {
   parameters_.Bind<Double>(PARAM_A, &a_, "The $a$ parameter ($W = a L^b$)", "")->set_lower_bound(0.0, false);
   parameters_.Bind<Double>(PARAM_B, &b_, "The $b$ parameter ($W = a L^b$)", "")->set_lower_bound(0.0, false);
   parameters_.Bind<string>(PARAM_UNITS, &units_, "The units of measure (tonnes, kgs, grams)", "")->set_allowed_values({PARAM_TONNES, PARAM_KGS, PARAM_GRAMS});
 
-  RegisterAsAddressable(PARAM_A, &a_);
   RegisterAsAddressable(PARAM_B, &b_);
+  RegisterAsAddressable(PARAM_A, &a_);
 
 }
 
@@ -77,7 +76,6 @@ Double Basic::mean_weight(Double size, Distribution distribution, Double cv) con
     weight = weight * pow(1.0 + cv * cv, b_ * (b_ - 1.0) / 2.0);  // Give an R example/proof of this theory
 
   weight *= unit_multipier_;
-
   return weight;
 }
 

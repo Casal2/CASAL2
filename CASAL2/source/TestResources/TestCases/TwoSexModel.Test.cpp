@@ -65,7 +65,7 @@ TEST_F(InternalEmptyModel, Model_TwoSex_Foward_Projection) {
   ObjectiveFunction& obj_function = model_->objective_function();
   EXPECT_DOUBLE_EQ(0.0, obj_function.score());
 
-  DerivedQuantity* dq = model_->managers().derived_quantity()->GetDerivedQuantity("abundance");
+  DerivedQuantity* dq = model_->managers()->derived_quantity()->GetDerivedQuantity("abundance");
   EXPECT_DOUBLE_EQ(1725780.7680744524, dq->GetValue(2010));
   EXPECT_DOUBLE_EQ(1746451.4919400334, dq->GetValue(2011));
   EXPECT_DOUBLE_EQ(1765234.8648326413, dq->GetValue(2012));

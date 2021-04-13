@@ -12,7 +12,7 @@
 #define ADDITIONAL_PRIORS_FACTORY_H_
 
 // headers
-#include "AdditionalPriors/AdditionalPrior.h"
+#include "../AdditionalPriors/AdditionalPrior.h"
 
 // namespaces
 namespace niwa {
@@ -24,7 +24,7 @@ namespace additionalpriors {
 class Factory {
 public:
   // methods
-  static AdditionalPrior*     Create(Model* model, const string& object_type, const string& sub_type);
+  static AdditionalPrior*     Create(shared_ptr<Model> model, const string& object_type, const string& sub_type);
 
 private:
   // methods

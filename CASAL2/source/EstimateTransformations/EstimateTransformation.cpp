@@ -7,8 +7,8 @@
 
 #include "EstimateTransformation.h"
 
-#include "Estimates/Manager.h"
-#include "Model/Managers.h"
+#include "../Estimates/Manager.h"
+#include "../Model/Managers.h"
 
 namespace niwa {
 
@@ -22,7 +22,7 @@ namespace niwa {
  *
  * Note: The constructor is parsed to generate LaTeX for the documentation.
  */
-EstimateTransformation::EstimateTransformation(Model* model) : model_(model) {
+EstimateTransformation::EstimateTransformation(shared_ptr<Model> model) : model_(model) {
   parameters_.Bind<string>(PARAM_LABEL, &label_, "Label for the transformation block", "");
   parameters_.Bind<string>(PARAM_TYPE, &type_, "The type of transformation", "");
   parameters_.Bind<bool>(PARAM_TRANSFORM_WITH_JACOBIAN, &transform_with_jacobian_, "Apply Jacobian during transformation", "", true);

@@ -19,7 +19,7 @@
 #include <boost/lexical_cast.hpp>
 #include <string>
 
-#include "TestResources/MockClasses/Model.h"
+#include "../../TestResources/MockClasses/Model.h"
 
 // Namespaces
 namespace niwa {
@@ -31,13 +31,13 @@ using ::testing::ReturnRef;
  * Test the results of our selectivity are correct
  */
 TEST(Selectivities, Increasing_Age) {
-  MockModel model;
-  EXPECT_CALL(model, min_age()).WillRepeatedly(Return(10));
-  EXPECT_CALL(model, max_age()).WillRepeatedly(Return(20));
-  EXPECT_CALL(model, age_spread()).WillRepeatedly(Return(11));
-  EXPECT_CALL(model, partition_type()).WillRepeatedly(Return(PartitionType::kAge));
+  shared_ptr<MockModel> model = shared_ptr<MockModel>(new MockModel());
+  EXPECT_CALL(*model, min_age()).WillRepeatedly(Return(10));
+  EXPECT_CALL(*model, max_age()).WillRepeatedly(Return(20));
+  EXPECT_CALL(*model, age_spread()).WillRepeatedly(Return(11));
+  EXPECT_CALL(*model, partition_type()).WillRepeatedly(Return(PartitionType::kAge));
 
-  niwa::selectivities::Increasing increasing(&model);
+  niwa::selectivities::Increasing increasing(model);
 
   vector<string> v;
   for (unsigned i = 12; i <= 18; ++i)
@@ -67,15 +67,15 @@ TEST(Selectivities, Increasing_Age) {
 }
 
 TEST(Selectivities, Increasing_Length) {
-  MockModel model;
+  shared_ptr<MockModel> model = shared_ptr<MockModel>(new MockModel());
   vector<double> lengths = {10, 20, 30, 40, 50, 60, 120};
-  EXPECT_CALL(model, min_age()).WillRepeatedly(Return(10));
-  EXPECT_CALL(model, max_age()).WillRepeatedly(Return(20));
-  EXPECT_CALL(model, age_spread()).WillRepeatedly(Return(11));
-  EXPECT_CALL(model, length_bins()).WillRepeatedly(ReturnRef(lengths));
-  EXPECT_CALL(model, partition_type()).WillRepeatedly(Return(PartitionType::kLength));
+  EXPECT_CALL(*model, min_age()).WillRepeatedly(Return(10));
+  EXPECT_CALL(*model, max_age()).WillRepeatedly(Return(20));
+  EXPECT_CALL(*model, age_spread()).WillRepeatedly(Return(11));
+  EXPECT_CALL(*model, length_bins()).WillRepeatedly(ReturnRef(lengths));
+  EXPECT_CALL(*model, partition_type()).WillRepeatedly(Return(PartitionType::kLength));
 
-  niwa::selectivities::Increasing increasing(&model);
+  niwa::selectivities::Increasing increasing(model);
 
   vector<string> v = {"0.05", "0.1", "0.2", "0.03"};
   vector<double> expected_values = {0, 0.05, 0.05, 0.145, 0.316, 0.03, 0.03};
@@ -95,13 +95,13 @@ TEST(Selectivities, Increasing_Length) {
 }
 
 //TEST(Selectivities, Increasing_Length_Throw_Exception) {
-//  MockModel model;
+//  shared_ptr<MockModel> model = shared_ptr<MockModel>(new MockModel());
 //  vector<unsigned> lengths = {10, 20, 30, 40, 50, 60, 120};
 //
-//  EXPECT_CALL(model, length_bins()).WillRepeatedly(ReturnRef(lengths));
-//  EXPECT_CALL(model, partition_type()).WillRepeatedly(Return(PartitionType::kLength));
+//  EXPECT_CALL(*model, length_bins()).WillRepeatedly(ReturnRef(lengths));
+//  EXPECT_CALL(*model, partition_type()).WillRepeatedly(Return(PartitionType::kLength));
 //
-//  niwa::selectivities::Increasing increasing(&model);
+//  niwa::selectivities::Increasing increasing(model);
 //
 //  vector<string> v = {"0.1","0.2","0.3","0.5","0.2"};
 //

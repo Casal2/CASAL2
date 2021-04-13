@@ -17,9 +17,9 @@
 #define LIKELIHOOD_H_
 
 // Headers
-#include "BaseClasses/Object.h"
-#include "Observations/Comparison.h"
-#include "Utilities/Types.h"
+#include "../BaseClasses/Object.h"
+#include "../Observations/Comparison.h"
+#include "../Utilities/Types.h"
 
 // Namespaces
 namespace niwa {
@@ -32,7 +32,7 @@ using niwa::utilities::Double;
 class Likelihood : public niwa::base::Object {
 public:
   // Methods
-  Likelihood(Model* model);
+  Likelihood(shared_ptr<Model> model);
   virtual                     ~Likelihood() = default;
   void                        Validate();
   void                        Build() { };
@@ -50,10 +50,9 @@ public:
 
 protected:
   // members
-  Model*                      model_ = nullptr;
+  shared_ptr<Model>                      model_ = nullptr;
   Double                      multiplier_ = 1.0;
   Double                      error_value_multiplier_ = 1.0;
 };
-
 } /* namespace niwa */
 #endif /* LIKELIHOOD_H_ */

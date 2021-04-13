@@ -12,7 +12,7 @@
 // headers
 #include "RandomNumberSeed.h"
 
-#include "GlobalConfiguration/GlobalConfiguration.h"
+#include "../../GlobalConfiguration/GlobalConfiguration.h"
 
 // namespaces
 namespace niwa {
@@ -21,7 +21,7 @@ namespace reports {
 /**
  * Default constructor
  */
-RandomNumberSeed::RandomNumberSeed(Model* model) : Report(model) {
+RandomNumberSeed::RandomNumberSeed() {
   model_state_ = State::kFinalise;
   run_mode_    = (RunMode::Type)(RunMode::kEstimation | RunMode::kBasic | RunMode::kProjection | RunMode::kSimulation);
 }
@@ -29,11 +29,11 @@ RandomNumberSeed::RandomNumberSeed(Model* model) : Report(model) {
 /**
  * Execute the report
  */
-void RandomNumberSeed::DoExecute() {
+void RandomNumberSeed::DoExecute(shared_ptr<Model> model) {
   // Header
   //cache_ << CONFIG_ARRAY_START << label_ << CONFIG_ARRAY_END << "\n";
   cache_ << "*"<< type_ << "[" << label_ << "]" << "\n";
-  cache_ << PARAM_RANDOM_NUMBER_SEED << ": " << model_->global_configuration().random_seed() << "\n";
+  cache_ << PARAM_RANDOM_NUMBER_SEED << ": " << model->global_configuration().random_seed() << "\n";
   ready_for_writing_ = true;
 }
 

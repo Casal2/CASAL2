@@ -16,8 +16,8 @@
 #include <gtest/gtest.h>
 #include <boost/lexical_cast.hpp>
 
-#include "Model/Model.h"
-#include "TestResources/MockClasses/Model.h"
+#include "../../Model/Model.h"
+#include "../../TestResources/MockClasses/Model.h"
 
 // Namespaces
 namespace niwa {
@@ -30,7 +30,7 @@ using::testing::Return;
  */
 class MockLogNormal : public LogNormal {
 public:
-  MockLogNormal(Model* model, double mu, double cv, double* parameter) : LogNormal(model) {
+  MockLogNormal(shared_ptr<Model> model, double mu, double cv, double* parameter) : LogNormal(model) {
     mu_ = mu;
     cv_ = cv;
     addressable_ = parameter;
@@ -47,9 +47,9 @@ TEST(AdditionalPriors, LogNormal) {
     { 2.3, 0.4, 6.24, 5.7044023501649734}
   };
 
-  Model model;
+  shared_ptr<Model> model = shared_ptr<Model>(new Model());
   for (auto line : values) {
-    MockLogNormal log_normal(&model, line[0], line[1], &line[2]);
+    MockLogNormal log_normal(model, line[0], line[1], &line[2]);
     EXPECT_DOUBLE_EQ(line[3], log_normal.GetScore());
   }
 }

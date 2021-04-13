@@ -5,18 +5,19 @@
  * @date 14/01/2013
  * @section LICENSE
  *
- * Copyright NIWA Science ©2013 - www.niwa.co.nz
+ * Copyright NIWA Science ï¿½2013 - www.niwa.co.nz
  *
  * $Date: 2008-03-04 16:33:32 +1300 (Tue, 04 Mar 2008) $
  */
 
 // Headers
+#include "Increasing.h"
+
 #include <boost/math/distributions/lognormal.hpp>
-#include <Selectivities/Common/Increasing.h>
 #include <cmath>
 
-#include "AgeLengths/AgeLength.h"
-#include "Model/Model.h"
+#include "../../AgeLengths/AgeLength.h"
+#include "../../Model/Model.h"
 
 // Namespaces
 namespace niwa {
@@ -25,7 +26,7 @@ namespace selectivities {
 /**
  * Default constructor
  */
-Increasing::Increasing(Model* model)
+Increasing::Increasing(shared_ptr<Model> model)
 : Selectivity(model) {
 
   parameters_.Bind<unsigned>(PARAM_L, &low_, "The low value (L)", "");
@@ -69,7 +70,7 @@ void Increasing::DoValidate() {
         << "Expected: " << (high_ - low_ + 1) << ", parsed " << v_.size();
     }
   }   else if (model_->partition_type() == PartitionType::kLength) {
-    vector<double> length_bins = model_->length_bins();
+    vector<Double> length_bins = model_->length_bins();
     if (low_ < length_bins[0] || low_ > length_bins[length_bins.size()-1])
       LOG_ERROR_P(PARAM_L) << ": 'l' (" << low_ << ") must be between the model min length (" << length_bins[0]
         << ") and max length (" << length_bins[length_bins.size()-1] << ")";
@@ -84,6 +85,9 @@ void Increasing::DoValidate() {
         << "Expected: " << bins << ", parsed: " << v_.size();
     }
   }
+
+
+
 
 }
 
@@ -116,17 +120,15 @@ void Increasing::RebuildCache() {
       }
     }
   } else if (model_->partition_type() == PartitionType::kLength) {
-    vector<double> length_bins = model_->length_bins();
+    vector<Double> length_bins = model_->length_bins();
     unsigned mark = 0;
     unsigned start_element = 0;
-
     while (mark == 0) {
       ++start_element;
       if (length_bins[start_element] >= low_) {
         ++mark;
       }
     }
-
     for (unsigned length_bin_index = 0; length_bin_index < length_bins.size(); ++length_bin_index) {
       Double temp = (Double)length_bins[length_bin_index];
       if (temp < low_) {
@@ -158,6 +160,7 @@ void Increasing::RebuildCache() {
  * @param time_step_index
  * @return Double selectivity for an age based on age length distribution
  */
+
 Double Increasing::GetLengthBasedResult(unsigned age, AgeLength* age_length, unsigned year, int time_step_index) {
   LOG_ERROR_P(PARAM_LENGTH_BASED) << ": This selectivity type has not been implemented for length-based selectivities ";
   return 0.0;

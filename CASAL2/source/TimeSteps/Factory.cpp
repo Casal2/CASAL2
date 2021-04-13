@@ -12,9 +12,9 @@
 // Headers
 #include "Factory.h"
 
-#include "Model/Model.h"
-#include "Model/Managers.h"
-#include "TimeSteps/Manager.h"
+#include "../Model/Model.h"
+#include "../Model/Managers.h"
+#include "../TimeSteps/Manager.h"
 
 // Namespaces
 namespace niwa {
@@ -28,14 +28,14 @@ namespace timesteps {
  * @param sub_type The child type of the object to create (e.g., ageing, schnute)
  * @return pointer to the object
  */
-TimeStep* Factory::Create(Model* model, const string& object_type, const string& sub_type) {
+TimeStep* Factory::Create(shared_ptr<Model> model, const string& object_type, const string& sub_type) {
   TimeStep* object = nullptr;
 
   if (object_type == PARAM_TIME_STEP || object_type == PARAM_TIME_STEPS) {
     object = new TimeStep(model);
 
     if (object)
-      model->managers().time_step()->AddObject(object);
+      model->managers()->time_step()->AddObject(object);
   }
 
   return object;

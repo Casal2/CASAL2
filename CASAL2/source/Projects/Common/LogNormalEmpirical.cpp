@@ -9,9 +9,10 @@
  */
 
 // headers
-#include <Projects/Common/LogNormalEmpirical.h>
-#include "Utilities/RandomNumberGenerator.h"
-#include "Model/Objects.h"
+#include "LogNormalEmpirical.h"
+
+#include "../../Utilities/RandomNumberGenerator.h"
+#include "../../Model/Objects.h"
 
 // namespaces
 namespace niwa {
@@ -21,7 +22,7 @@ namespace projects {
  * Default constructor
  */
 
-LogNormalEmpirical::LogNormalEmpirical(Model* model) : Project(model) {
+LogNormalEmpirical::LogNormalEmpirical(shared_ptr<Model> model) : Project(model) {
   parameters_.Bind<Double>(PARAM_MEAN, &mean_, "The mean of the Gaussian process", "",0.0);
   parameters_.Bind<unsigned>(PARAM_START_YEAR, &start_year_, "The start year of sampling", "", false);
   parameters_.Bind<unsigned>(PARAM_FINAL_YEAR, &final_year_, "The final year of sampling", "", false);
@@ -87,7 +88,7 @@ void LogNormalEmpirical::DoReset() {
     //if (parameters_.Get(PARAM_RHO)->has_been_defined()) {
     //  normal_draw_by_year_[project_year] = rng.normal(0.0, 1.0);
     //} else {
-    normal_draw_by_year_[project_year] = rng.normal(AS_VALUE(mean_), AS_VALUE(sigma_));
+    normal_draw_by_year_[project_year] = rng.normal(AS_DOUBLE(mean_), AS_DOUBLE(sigma_));
     //}
     LOG_FINEST() << "generated value = " << normal_draw_by_year_[project_year] << " to be applied in year " << project_year;
   }

@@ -11,9 +11,9 @@
 #define AGELENGTHS_MANAGER_H_
 
 // headers
-#include "AgeLengths/AgeLength.h"
-#include "BaseClasses/Manager.h"
-#include "Model/Managers.h"
+#include "../AgeLengths/AgeLength.h"
+#include "../BaseClasses/Manager.h"
+#include "../Model/Managers.h"
 
 // namespaces
 namespace niwa {

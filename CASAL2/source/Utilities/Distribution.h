@@ -15,8 +15,6 @@
 #ifndef UTILITIES_DISTRIBUTION_H_
 #define UTILITIES_DISTRIBUTION_H_
 
-#include <string>
-
 // Enumerated Types
 enum class Distribution {
   kNone = 0,
@@ -31,7 +29,6 @@ inline Distribution operator&(Distribution a, Distribution b) {
 inline Distribution operator|(Distribution a, Distribution b) {
   return static_cast<Distribution>(static_cast<int>(a) | static_cast<int>(b));
 }
-
 
 inline Distribution operator||(Distribution a, Distribution b) {
   return static_cast<Distribution>(static_cast<int>(a) || static_cast<int>(b));

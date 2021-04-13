@@ -15,12 +15,12 @@
 // Headers
 #include <iostream>
 
-#include "ObjectiveFunction/ObjectiveFunction.h"
-#include "Estimates/Manager.h"
-#include "Model/Model.h"
-#include "TestResources/TestFixtures/InternalEmptyModel.h"
-#include "TestResources/Models/TwoSexNoEstimates.h"
-#include "TestResources/Models/TwoSexNoEstimatesAllValuesMortality.h"
+#include "../ObjectiveFunction/ObjectiveFunction.h"
+#include "../Estimates/Manager.h"
+#include "../Model/Models/Age.h"
+#include "../TestResources/TestFixtures/InternalEmptyModel.h"
+#include "../TestResources/Models/TwoSexNoEstimates.h"
+#include "../TestResources/Models/TwoSexNoEstimatesAllValuesMortality.h"
 
 // Namespaces
 namespace niwa {
@@ -56,7 +56,7 @@ TEST_F(InternalEmptyModel, Estimates_Single_Target) {
   ObjectiveFunction& obj_function = model_->objective_function();
   EXPECT_DOUBLE_EQ(1726.6295023194364, obj_function.score());
 
-  Estimate* estimate = model_->managers().estimate()->GetEstimate("selectivity[FishingSel].a50");
+  Estimate* estimate = model_->managers()->estimate()->GetEstimate("selectivity[FishingSel].a50");
   if (!estimate)
     LOG_FATAL() << "!estimate";
   EXPECT_DOUBLE_EQ(estimate->value(), 7.2724038680087295);
@@ -101,7 +101,7 @@ TEST_F(InternalEmptyModel, Estimates_Single_Target_WithSame) {
   ObjectiveFunction& obj_function = model_->objective_function();
   EXPECT_DOUBLE_EQ(1726.6295023191037, obj_function.score());
 
-  Estimate* estimate = model_->managers().estimate()->GetEstimate("selectivity[FishingSel].a50");
+  Estimate* estimate = model_->managers()->estimate()->GetEstimate("selectivity[FishingSel].a50");
   if (!estimate)
     LOG_FATAL() << "!estimate";
   EXPECT_DOUBLE_EQ(estimate->value(), 7.2724038640113102);
@@ -152,13 +152,13 @@ TEST_F(InternalEmptyModel, Estimates_Multiple_Defined_Targets_Vector) {
   ObjectiveFunction& obj_function = model_->objective_function();
   EXPECT_DOUBLE_EQ(35172.181394884443, obj_function.score());
 
-  Estimate* estimate = model_->managers().estimate()->GetEstimate("selectivity[av].v{21}");
+  Estimate* estimate = model_->managers()->estimate()->GetEstimate("selectivity[av].v{21}");
   if (!estimate)
     LOG_FATAL() << "!estimate";
   EXPECT_DOUBLE_EQ(estimate->value(), 1.0049112161500742);
   EXPECT_DOUBLE_EQ(estimate->GetScore(), 0.023298844664202883);
 
-  estimate = model_->managers().estimate()->GetEstimate("selectivity[av].v{25}");
+  estimate = model_->managers()->estimate()->GetEstimate("selectivity[av].v{25}");
   if (!estimate)
     LOG_FATAL() << "!estimate";
   EXPECT_DOUBLE_EQ(estimate->value(), 1.0000003856277209);
@@ -190,7 +190,7 @@ TEST_F(InternalEmptyModel, Estimates_Multiple_Defined_Targets_Vector_WithSames) 
   ObjectiveFunction& obj_function = model_->objective_function();
   EXPECT_NEAR(19760.082616411706, obj_function.score(), 1e-4);
 
-  Estimate* estimate = model_->managers().estimate()->GetEstimate("selectivity[av].v{21}");
+  Estimate* estimate = model_->managers()->estimate()->GetEstimate("selectivity[av].v{21}");
   if (!estimate)
     LOG_FATAL() << "!estimate";
   EXPECT_NEAR(estimate->value(), 1.0000126386209927, 1e-4);
@@ -206,7 +206,7 @@ TEST_F(InternalEmptyModel, Estimates_Multiple_Defined_Targets_Vector_WithSames) 
   EXPECT_NEAR(*sames[0], 1.0000126386209927, 1e-4);
 
   //
-  estimate = model_->managers().estimate()->GetEstimate("selectivity[av].v{25}");
+  estimate = model_->managers()->estimate()->GetEstimate("selectivity[av].v{25}");
   if (!estimate)
     LOG_FATAL() << "!estimate";
   EXPECT_NEAR(estimate->value(), 1.0000000598154875, 1e-4);
@@ -240,19 +240,19 @@ TEST_F(InternalEmptyModel, Estimates_Multiple_Defined_Targets_Unsigned_Map) {
   ObjectiveFunction& obj_function = model_->objective_function();
   EXPECT_DOUBLE_EQ(2764.0521558776445, obj_function.score());
 
-  Estimate* estimate = model_->managers().estimate()->GetEstimate("process[Fishing].catches{2000}");
+  Estimate* estimate = model_->managers()->estimate()->GetEstimate("process[Fishing].catches{2000}");
   if (!estimate)
     LOG_FATAL() << "!estimate";
   EXPECT_DOUBLE_EQ(estimate->value(), 28323.203463000002);
   EXPECT_DOUBLE_EQ(estimate->GetScore(), 29.966307896614428);
 
-  estimate = model_->managers().estimate()->GetEstimate("process[Fishing].catches{2001}");
+  estimate = model_->managers()->estimate()->GetEstimate("process[Fishing].catches{2001}");
   if (!estimate)
     LOG_FATAL() << "!estimate";
   EXPECT_DOUBLE_EQ(estimate->value(), 24207.464203);
   EXPECT_DOUBLE_EQ(estimate->GetScore(), 24.757322431641612);
 
-  estimate = model_->managers().estimate()->GetEstimate("process[Fishing].catches{2002}");
+  estimate = model_->managers()->estimate()->GetEstimate("process[Fishing].catches{2002}");
   if (!estimate)
     LOG_FATAL() << "!estimate";
   EXPECT_DOUBLE_EQ(estimate->value(), 47279);
@@ -284,7 +284,7 @@ TEST_F(InternalEmptyModel, Estimates_Multiple_Defined_Targets_Unsigned_Map_WithS
   ObjectiveFunction& obj_function = model_->objective_function();
   EXPECT_DOUBLE_EQ(2750.3481036317216, obj_function.score());
 
-  Estimate* estimate = model_->managers().estimate()->GetEstimate("process[Fishing].catches{2000}");
+  Estimate* estimate = model_->managers()->estimate()->GetEstimate("process[Fishing].catches{2000}");
   if (!estimate)
     LOG_FATAL() << "!estimate";
   EXPECT_DOUBLE_EQ(estimate->value(), 28323.203463000002);
@@ -299,13 +299,13 @@ TEST_F(InternalEmptyModel, Estimates_Multiple_Defined_Targets_Unsigned_Map_WithS
   ASSERT_EQ(1u, sames.size());
   EXPECT_DOUBLE_EQ(*sames[0], 28323.203463000002);
 
-  estimate = model_->managers().estimate()->GetEstimate("process[Fishing].catches{2001}");
+  estimate = model_->managers()->estimate()->GetEstimate("process[Fishing].catches{2001}");
   if (!estimate)
     LOG_FATAL() << "!estimate";
   EXPECT_DOUBLE_EQ(estimate->value(), 24207.464203);
   EXPECT_DOUBLE_EQ(estimate->GetScore(), 24.757322431641612);
 
-  estimate = model_->managers().estimate()->GetEstimate("process[Fishing].catches{2002}");
+  estimate = model_->managers()->estimate()->GetEstimate("process[Fishing].catches{2002}");
   if (!estimate)
     LOG_FATAL() << "!estimate";
   EXPECT_DOUBLE_EQ(estimate->value(), 47279);
@@ -340,13 +340,13 @@ TEST_F(InternalEmptyModel, Estimates_Multiple_Defined_Targets_String_Map) {
   ObjectiveFunction& obj_function = model_->objective_function();
   EXPECT_DOUBLE_EQ(2682.979986309937, obj_function.score());
 
-  Estimate* estimate = model_->managers().estimate()->GetEstimate("process[Recruitment].proportions{immature.male}");
+  Estimate* estimate = model_->managers()->estimate()->GetEstimate("process[Recruitment].proportions{immature.male}");
   if (!estimate)
     LOG_FATAL() << "!estimate";
   EXPECT_DOUBLE_EQ(estimate->value(), 0.5);
   EXPECT_DOUBLE_EQ(estimate->GetScore(), -0.64756858783643167);
 
-  estimate = model_->managers().estimate()->GetEstimate("process[Recruitment].proportions{immature.female}");
+  estimate = model_->managers()->estimate()->GetEstimate("process[Recruitment].proportions{immature.female}");
   if (!estimate)
     LOG_FATAL() << "!estimate";
   EXPECT_DOUBLE_EQ(estimate->value(), 0.5);
@@ -380,13 +380,13 @@ TEST_F(InternalEmptyModel, Estimates_All_Targets_Vector) {
   ObjectiveFunction& obj_function = model_->objective_function();
   EXPECT_DOUBLE_EQ(39989.151448120341, obj_function.score());
 
-  Estimate* estimate = model_->managers().estimate()->GetEstimate("selectivity[av].v{10}");
+  Estimate* estimate = model_->managers()->estimate()->GetEstimate("selectivity[av].v{10}");
   if (!estimate)
     LOG_FATAL() << "!estimate";
   EXPECT_DOUBLE_EQ(estimate->value(), 5.0);
   EXPECT_DOUBLE_EQ(estimate->GetScore(), 2.2650530751015676);
 
-  estimate = model_->managers().estimate()->GetEstimate("selectivity[av].v{40}");
+  estimate = model_->managers()->estimate()->GetEstimate("selectivity[av].v{40}");
   if (!estimate)
     LOG_FATAL() << "!estimate";
   EXPECT_DOUBLE_EQ(estimate->value(), 20.0);
@@ -398,7 +398,7 @@ TEST_F(InternalEmptyModel, Estimates_All_Targets_Vector) {
  */
 const string estimate_all_targets_unsigned_map =
 R"(
-@estimate
+@estimate 
 parameter process[Fishing].catches
 type lognormal
 lower_bound 1800 14000 28000 24000 47000 58000 82000 115000 113000 119000
@@ -420,13 +420,13 @@ TEST_F(InternalEmptyModel, Estimates_All_Targets_Unsigned_Map) {
   ObjectiveFunction& obj_function = model_->objective_function();
   EXPECT_DOUBLE_EQ(2963.7305613725566, obj_function.score());
 
-  Estimate* estimate = model_->managers().estimate()->GetEstimate("process[Fishing].catches{1998}");
+  Estimate* estimate = model_->managers()->estimate()->GetEstimate("process[Fishing].catches{1998}");
   if (!estimate)
     LOG_FATAL() << "!estimate";
   EXPECT_DOUBLE_EQ(estimate->value(), 1849.153714);
   EXPECT_DOUBLE_EQ(estimate->GetScore(), 18.371135369472036);
 
-  estimate = model_->managers().estimate()->GetEstimate("process[Fishing].catches{2006}");
+  estimate = model_->managers()->estimate()->GetEstimate("process[Fishing].catches{2006}");
   if (!estimate)
     LOG_FATAL() << "!estimate";
   EXPECT_DOUBLE_EQ(estimate->value(), 113852.472257);
@@ -460,13 +460,13 @@ TEST_F(InternalEmptyModel, Estimates_All_Targets_String_Map) {
   ObjectiveFunction& obj_function = model_->objective_function();
   EXPECT_DOUBLE_EQ(2682.979986309937, obj_function.score());
 
-  Estimate* estimate = model_->managers().estimate()->GetEstimate("process[Recruitment].proportions{immature.male}");
+  Estimate* estimate = model_->managers()->estimate()->GetEstimate("process[Recruitment].proportions{immature.male}");
   if (!estimate)
     LOG_FATAL() << "!estimate";
   EXPECT_DOUBLE_EQ(estimate->value(), 0.5);
   EXPECT_DOUBLE_EQ(estimate->GetScore(), -0.64756858783643167);
 
-  estimate = model_->managers().estimate()->GetEstimate("process[Recruitment].proportions{immature.female}");
+  estimate = model_->managers()->estimate()->GetEstimate("process[Recruitment].proportions{immature.female}");
   if (!estimate)
     LOG_FATAL() << "!estimate";
   EXPECT_DOUBLE_EQ(estimate->value(), 0.5);

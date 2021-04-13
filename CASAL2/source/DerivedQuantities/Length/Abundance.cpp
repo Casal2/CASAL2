@@ -9,8 +9,8 @@
  */
 
 // headers
-#include "DerivedQuantities/Length/Abundance.h"
-#include "InitialisationPhases/Manager.h"
+#include "../../DerivedQuantities/Length/Abundance.h"
+#include "../../InitialisationPhases/Manager.h"
 
 // namespaces
 namespace niwa {
@@ -31,7 +31,6 @@ void Abundance::PreExecute() {
     }
   }
 }
-
 /**
  * Calculate the derived quantity value for the
  * state of the model.
@@ -39,7 +38,8 @@ void Abundance::PreExecute() {
  * This class will calculate a value that is the sum total
  * of the population in the model filtered by category and
  * multiplied by the selectivities.
-  */
+ *
+ */
 void Abundance::Execute() {
   Double value = 0.0;
 
@@ -53,7 +53,7 @@ void Abundance::Execute() {
       }
     }
 
-    unsigned initialisation_phase = model_->managers().initialisation_phase()->current_initialisation_phase();
+    unsigned initialisation_phase = model_->managers()->initialisation_phase()->current_initialisation_phase();
     if (initialisation_values_.size() <= initialisation_phase)
       initialisation_values_.resize(initialisation_phase + 1);
 

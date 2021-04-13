@@ -14,7 +14,7 @@
 #define PROJECTS_FACTORY_H_
 
 // headers
-#include "Projects/Project.h"
+#include "../Projects/Project.h"
 
 // namespaces
 namespace niwa {
@@ -28,7 +28,7 @@ namespace projects {
 class Factory {
 public:
   // methods
-  static Project* Create(Model* model, const string& object_type, const string& sub_type);
+  static Project* Create(shared_ptr<Model> model, const string& object_type, const string& sub_type);
 
 private:
   // methods

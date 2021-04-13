@@ -13,8 +13,8 @@
 #define SELECTIVITIES_FACTORY_H_
 
 // Headers
-#include "Selectivities/Selectivity.h"
-#include "Selectivities/Manager.h"
+#include "../Selectivities/Selectivity.h"
+#include "../Selectivities/Manager.h"
 
 // Namespaces
 namespace niwa {
@@ -28,7 +28,7 @@ namespace selectivities {
 class Factory {
 public:
   // methods
-  static Selectivity* Create(Model* model, const string& object_type, const string& sub_type);
+  static Selectivity* Create(shared_ptr<Model> model, const string& object_type, const string& sub_type);
 
 private:
   // methods

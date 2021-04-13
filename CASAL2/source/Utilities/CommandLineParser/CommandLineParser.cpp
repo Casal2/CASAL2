@@ -21,8 +21,8 @@
 #include <boost/algorithm/string/split.hpp>
 #include <boost/algorithm/string/join.hpp>
 
-#include "License.h"
-#include "Version.h"
+#include "../../License.h"
+#include "../../Version.h"
 
 // Namespaces
 namespace niwa {
@@ -100,7 +100,6 @@ void CommandLineParser::Parse(int argc, char* argv[], RunParameters& options) {
   }
 
   LOG_TRACE();
-
   if (parameters.count("debug"))
     options.debug_mode_ = true;
   if (parameters.count("config"))

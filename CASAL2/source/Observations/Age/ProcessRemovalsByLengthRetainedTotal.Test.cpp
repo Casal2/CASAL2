@@ -154,7 +154,7 @@ TEST_F(InternalEmptyModel, Observation_Process_Removals_By_Length_Retained_Total
   EXPECT_NEAR(48.1123, obj_function.score(), 1e-4);
 
 
-  Observation* observation = model_->managers().observation()->GetObservation("potFishLFtotal");
+  Observation* observation = model_->managers()->observation()->GetObservation("potFishLFtotal");
 
   map<unsigned, vector<obs::Comparison> >& comparisons = observation->comparisons();
   ASSERT_EQ(1u, comparisons.size());

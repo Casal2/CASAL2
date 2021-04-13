@@ -14,7 +14,7 @@
 #define LENGTHWEIGHTS_NONE_H_
 
 // headers
-#include "LengthWeights/LengthWeight.h"
+#include "../../LengthWeights/LengthWeight.h"
 
 // namespaces
 namespace niwa {
@@ -26,7 +26,7 @@ namespace lengthweights {
 class None : public niwa::LengthWeight {
 public:
   // methods
-  explicit None(Model* model) : LengthWeight(model) { };
+  explicit None(shared_ptr<Model> model) : LengthWeight(model) { };
   virtual                     ~None() = default;
   void                        DoValidate() override final { };
   void                        DoBuild() override final { };
@@ -34,7 +34,6 @@ public:
 
   // accessors
   Double                      mean_weight(Double size, Distribution distribution, Double cv) const override final { return 1.0; }
-
 };
 
 } /* namespace lengthweights */

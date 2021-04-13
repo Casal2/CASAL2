@@ -15,7 +15,7 @@
 #define ADDITIONALPRIORS_BETA_H_
 
 // headers
-#include "AdditionalPriors/AdditionalPrior.h"
+#include "../../AdditionalPriors/AdditionalPrior.h"
 
 
 // namespaces
@@ -26,7 +26,7 @@ namespace additionalpriors {
 class Beta : public AdditionalPrior {
 public:
   // methods
-  Beta(Model* model);
+  Beta(shared_ptr<Model> model);
   virtual                     ~Beta() = default;
   void                        DoValidate() override final;
   void                        DoBuild() override final;

@@ -16,7 +16,7 @@
 #define ADDITIONALPRIORS_LOGNORMAL_H_
 
 // headers
-#include "AdditionalPriors/AdditionalPrior.h"
+#include "../../AdditionalPriors/AdditionalPrior.h"
 
 
 // namespaces
@@ -27,11 +27,11 @@ namespace additionalpriors {
 class LogNormal : public AdditionalPrior {
 public:
   // methods
-  LogNormal(Model* model);
+	LogNormal(shared_ptr<Model> model);
   virtual                     ~LogNormal() = default;
-  void                        DoValidate() override final;
-  void                        DoBuild() override final;
-  Double                      GetScore() override final;
+  void                        DoValidate() final;
+  void                        DoBuild() final;
+  Double                      GetScore() final;
 
 protected:
   // members

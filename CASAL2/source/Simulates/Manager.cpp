@@ -32,10 +32,10 @@ Manager::~Manager() noexcept(true) {
  *
  * @param year The year
  */
-void Manager::Update(unsigned year) {
+void Manager::Update(unsigned current_year) {
 //  LOG_TRACE();
 //  for (ProjectPtr project : objects_)
-//    project->Update(year);
+//    project->Update(current_year);
 }
 
 } /* namespace simulates */

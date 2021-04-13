@@ -14,7 +14,7 @@
 #define SIMULATES_FACTORY_H_
 
 // headers
-#include "Simulates/Simulate.h"
+#include "../Simulates/Simulate.h"
 
 // namespaces
 namespace niwa {
@@ -28,7 +28,7 @@ namespace simulates {
 class Factory {
 public:
   // methods
-  static Simulate* Create(Model* model, const string& object_type, const string& sub_type);
+  static Simulate* Create(shared_ptr<Model> model, const string& object_type, const string& sub_type);
 
 private:
   // methods

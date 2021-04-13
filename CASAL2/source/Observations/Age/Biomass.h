@@ -38,7 +38,7 @@ using catchabilities::Nuisance;
 class Biomass : public niwa::Observation {
 public:
   // methods
-  Biomass(Model* model);
+  Biomass(shared_ptr<Model> model);
   virtual                     ~Biomass();
   void                        DoValidate() override final;
   virtual void                DoBuild() override;

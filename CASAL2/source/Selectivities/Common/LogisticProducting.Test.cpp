@@ -18,7 +18,7 @@
 #include <gtest/gtest.h>
 #include <boost/lexical_cast.hpp>
 
-#include "TestResources/MockClasses/Model.h"
+#include "../../TestResources/MockClasses/Model.h"
 
 // Namespaces
 namespace niwa {
@@ -30,13 +30,13 @@ using ::testing::ReturnRef;
  * Test the results of our selectivity are correct
  */
 TEST(Selectivities, LogisticProducing_Age) {
-  MockModel model;
-  EXPECT_CALL(model, min_age()).WillRepeatedly(Return(10));
-  EXPECT_CALL(model, max_age()).WillRepeatedly(Return(20));
-  EXPECT_CALL(model, age_spread()).WillRepeatedly(Return(11));
-  EXPECT_CALL(model, partition_type()).WillRepeatedly(Return(PartitionType::kAge));
+  shared_ptr<MockModel> model = shared_ptr<MockModel>(new MockModel());
+  EXPECT_CALL(*model, min_age()).WillRepeatedly(Return(10));
+  EXPECT_CALL(*model, max_age()).WillRepeatedly(Return(20));
+  EXPECT_CALL(*model, age_spread()).WillRepeatedly(Return(11));
+  EXPECT_CALL(*model, partition_type()).WillRepeatedly(Return(PartitionType::kAge));
 
-  niwa::selectivities::LogisticProducing logistic_producing(&model);
+  niwa::selectivities::LogisticProducing logistic_producing(model);
 
   logistic_producing.parameters().Add(PARAM_LABEL, "unit_test_logistic_producing", __FILE__, __LINE__);
   logistic_producing.parameters().Add(PARAM_TYPE, "not needed in test", __FILE__, __LINE__);
@@ -65,14 +65,14 @@ TEST(Selectivities, LogisticProducing_Age) {
 TEST(Selectivities, LogisticProducing_Length) {
   vector<double> lengths = {10, 20, 30, 40, 50, 60, 120};
 
-  MockModel model;
-  EXPECT_CALL(model, min_age()).WillRepeatedly(Return(10));
-  EXPECT_CALL(model, max_age()).WillRepeatedly(Return(20));
-  EXPECT_CALL(model, age_spread()).WillRepeatedly(Return(11));
-  EXPECT_CALL(model, length_bins()).WillRepeatedly(ReturnRef(lengths));
-  EXPECT_CALL(model, partition_type()).WillRepeatedly(Return(PartitionType::kLength));
+  shared_ptr<MockModel> model = shared_ptr<MockModel>(new MockModel());
+  EXPECT_CALL(*model, min_age()).WillRepeatedly(Return(10));
+  EXPECT_CALL(*model, max_age()).WillRepeatedly(Return(20));
+  EXPECT_CALL(*model, age_spread()).WillRepeatedly(Return(11));
+  EXPECT_CALL(*model, length_bins()).WillRepeatedly(ReturnRef(lengths));
+  EXPECT_CALL(*model, partition_type()).WillRepeatedly(Return(PartitionType::kLength));
 
-  niwa::selectivities::LogisticProducing logistic_producing(&model);
+  niwa::selectivities::LogisticProducing logistic_producing(model);
 
   vector<double> expected_values = {0, 0.0285941883861936946, 0.0367784120531689865, 0.0437232369834234524, 0.0488412893889367539, 0.0522344024617764913, 1};
 

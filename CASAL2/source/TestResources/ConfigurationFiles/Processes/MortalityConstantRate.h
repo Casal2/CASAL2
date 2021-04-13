@@ -17,7 +17,7 @@ const std::string processes_mortality_constant_rate_two_sex = R"(
 type constant_rate
 categories immature.male mature.male immature.female mature.female
 M 0.065 0.065 0.065 0.065
-relative_m_by_age One One One One
+selectivities One One One One
 )";
 
 const std::string processes_mortality_constant_rate_no_sex = R"(
@@ -25,7 +25,7 @@ const std::string processes_mortality_constant_rate_no_sex = R"(
 type constant_rate
 categories immature mature
 m 0.15 0.15
-relative_m_by_age one one
+selectivities one one
 )";
 
 #endif /* AGEING_H_ */

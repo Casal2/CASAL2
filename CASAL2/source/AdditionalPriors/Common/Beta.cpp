@@ -12,9 +12,9 @@
 // headers
 #include "Beta.h"
 
-#include "Estimates/Manager.h"
-#include "Model/Model.h"
-#include "Model/Objects.h"
+#include "../../Estimates/Manager.h"
+#include "../../Model/Model.h"
+#include "../../Model/Objects.h"
 
 // namespaces
 namespace niwa {
@@ -30,7 +30,7 @@ namespace additionalpriors {
  *
  * Note: The constructor is parsed to generate LaTeX for the documentation.
  */
-Beta::Beta(Model* model) : AdditionalPrior(model) {
+Beta::Beta(shared_ptr<Model> model) : AdditionalPrior(model) {
   parameters_.Bind<Double>(PARAM_MU, &mu_, "Beta distribution mean (mu) parameter", "");
   parameters_.Bind<Double>(PARAM_SIGMA, &sigma_, "Beta distribution variance (sigma) parameter", "")->set_lower_bound(0.0);
   parameters_.Bind<Double>(PARAM_A, &a_, "Beta distribution lower bound of the range (A) parameter", "");

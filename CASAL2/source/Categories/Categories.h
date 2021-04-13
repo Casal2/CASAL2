@@ -17,7 +17,7 @@
 #define CATEGORIES_H_
 
 // Headers
-#include "BaseClasses/Object.h"
+#include "../BaseClasses/Object.h"
 
 // Namespaces
 namespace niwa {
@@ -74,12 +74,12 @@ public:
 protected:
   // Methods
   Categories() = delete;
-  explicit Categories(Model* model);
+  explicit Categories(shared_ptr<Model> model);
 
   virtual map<string, string> GetCategoryLabelsAndValues(const string& lookup, const string& parameter_location);
 
   // Members
-  Model*                      model_ = nullptr;
+  shared_ptr<Model>                      model_ = nullptr;
   string                      format_;
   vector<string>              names_;
   vector<string>              years_;

@@ -38,7 +38,7 @@ using processes::age::MortalityInstantaneous;
 class ProcessRemovalsByAge : public niwa::Observation {
 public:
   // Methods
-  explicit ProcessRemovalsByAge(Model* model);
+  explicit ProcessRemovalsByAge(shared_ptr<Model> model);
   virtual                     ~ProcessRemovalsByAge();
   void                        DoValidate() override final;
   void                        DoBuild() override final;
@@ -56,7 +56,7 @@ protected:
   bool                          plus_group_ = false;
   unsigned                      age_spread_ = 0;
   parameters::Table*            obs_table_ = nullptr;
-  double                        tolerance_ = 0.0;
+  Double                        tolerance_ = 0.0;
   vector<Double>                process_error_values_;
   map<unsigned, Double>         process_errors_by_year_;
   string                        ageing_error_label_ = "";

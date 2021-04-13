@@ -15,8 +15,8 @@
 #define TIMEVARYING_MANAGER_H_
 
 // Headers
-#include "BaseClasses/Manager.h"
-#include "TimeVarying/TimeVarying.h"
+#include "../BaseClasses/Manager.h"
+#include "../TimeVarying/TimeVarying.h"
 
 // Namespaces
 namespace niwa {

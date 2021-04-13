@@ -14,7 +14,7 @@
 #define ESTIMATES_CREATORS_FACTORY_H_
 
 // headers
-#include "Estimates/Creators/Creator.h"
+#include "../../Estimates/Creators/Creator.h"
 
 // namespaces
 namespace niwa {
@@ -29,7 +29,7 @@ namespace creators {
 class Factory {
 public:
   // methods
-  static Creator*             Create(Model* model, const string& object_type, const string& sub_type);
+  static Creator*             Create(shared_ptr<Model> model, const string& object_type, const string& sub_type);
 
 private:
   // methods

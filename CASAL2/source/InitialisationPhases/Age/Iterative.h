@@ -15,11 +15,11 @@
 #define INITIALISATIONPHASES_ITERATIVE_H_
 
 // headers
-#include "Processes/Age/RecruitmentBevertonHolt.h"
-#include "Processes/Age/RecruitmentBevertonHoltWithDeviations.h"
-#include "InitialisationPhases/InitialisationPhase.h"
-#include "Partition/Accessors/Categories.h"
-#include "Partition/Accessors/Cached/Categories.h"
+#include "../../Processes/Age/RecruitmentBevertonHolt.h"
+#include "../../Processes/Age/RecruitmentBevertonHoltWithDeviations.h"
+#include "../../InitialisationPhases/InitialisationPhase.h"
+#include "../../Partition/Accessors/Categories.h"
+#include "../../Partition/Accessors/Cached/Categories.h"
 
 // namespaces
 namespace niwa {
@@ -36,7 +36,7 @@ using processes::age::RecruitmentBevertonHoltWithDeviations;
 class Iterative : public niwa::InitialisationPhase {
 public:
   // methods
-  explicit Iterative(Model* model);
+  explicit Iterative(shared_ptr<Model> model);
   virtual                     ~Iterative() = default;
   void                        Execute() override final;
 

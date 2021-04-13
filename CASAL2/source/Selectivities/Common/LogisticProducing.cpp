@@ -5,18 +5,18 @@
  * @date 15/01/2013
  * @section LICENSE
  *
- * Copyright NIWA Science ©2013 - www.niwa.co.nz
+ * Copyright NIWA Science ï¿½2013 - www.niwa.co.nz
  *
  * $Date: 2008-03-04 16:33:32 +1300 (Tue, 04 Mar 2008) $
  */
 
 // Headers
 #include <boost/math/distributions/lognormal.hpp>
-#include <Selectivities/Common/LogisticProducing.h>
+#include "LogisticProducing.h"
 #include <cmath>
 
-#include "AgeLengths/AgeLength.h"
-#include "Model/Model.h"
+#include "../../AgeLengths/AgeLength.h"
+#include "../../Model/Model.h"
 
 // namespaces
 namespace niwa {
@@ -25,7 +25,7 @@ namespace selectivities {
 /**
  * Default constructor
  */
-LogisticProducing::LogisticProducing(Model* model)
+LogisticProducing::LogisticProducing(shared_ptr<Model> model)
 : Selectivity(model) {
 
   parameters_.Bind<unsigned>(PARAM_L, &low_, "The low value (L)", "");
@@ -89,7 +89,7 @@ void LogisticProducing::RebuildCache() {
       }
     }
   } else if (model_->partition_type() == PartitionType::kLength) {
-    vector<double> length_bins = model_->length_bins();
+    vector<Double> length_bins = model_->length_bins();
     Double temp = 0.0;
 
     for (unsigned length_bin_index = 0; length_bin_index < length_bins.size(); ++length_bin_index) {
@@ -124,6 +124,7 @@ void LogisticProducing::RebuildCache() {
  * @param time_step_index
  * @return Double selectivity for an age based on age length distribution
  */
+
 Double LogisticProducing::GetLengthBasedResult(unsigned age, AgeLength* age_length, unsigned year, int time_step_index) {
   LOG_ERROR_P(PARAM_LENGTH_BASED) << ": This selectivity type has not been implemented for length-based selectivities ";
   return 0.0;

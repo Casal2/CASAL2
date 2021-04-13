@@ -5,7 +5,7 @@
  * @date 20/04/2016
  * @section LICENSE
  *
- * Copyright NIWA Science ©2012 - www.niwa.co.nz
+ * Copyright NIWA Science ï¿½2012 - www.niwa.co.nz
  *
  * $Date: 2008-03-04 16:33:32 +1300 (Tue, 04 Mar 2008) $
  */
@@ -28,7 +28,7 @@ namespace age {
 /**
  * Default Constructor
  */
-TagLoss::TagLoss(Model* model)
+TagLoss::TagLoss(shared_ptr<Model> model)
   : Process(model),
     partition_(model) {
   LOG_TRACE();
@@ -36,8 +36,8 @@ TagLoss::TagLoss(Model* model)
   partition_structure_ = PartitionType::kAge;
 
   parameters_.Bind<string>(PARAM_CATEGORIES, &category_labels_, "The list of categories", "");
-  parameters_.Bind<double>(PARAM_TAG_LOSS_RATE, &tag_loss_input_, "The tag loss rates", "")->set_range(0.0, 1.0);
-  parameters_.Bind<double>(PARAM_TIME_STEP_RATIO, &ratios_, "The time step ratios for tag loss", "", true)->set_range(0.0, 1.0);
+  parameters_.Bind<Double>(PARAM_TAG_LOSS_RATE, &tag_loss_input_, "The tag loss rates", "")->set_range(0.0, 1.0);
+  parameters_.Bind<Double>(PARAM_TIME_STEP_RATIO, &ratios_, "The time step ratios for tag loss", "", true)->set_range(0.0, 1.0);
   parameters_.Bind<string>(PARAM_TAG_LOSS_TYPE, &tag_loss_type_, "The type of tag loss", "");
   parameters_.Bind<string>(PARAM_SELECTIVITIES, &selectivity_names_, "The selectivities", "");
   parameters_.Bind<unsigned>(PARAM_YEAR, &year_, "The year the first tagging release process was executed", "");
@@ -88,7 +88,7 @@ void TagLoss::DoValidate() {
     LOG_ERROR() << PARAM_TAG_LOSS_TYPE << " " << PARAM_DOUBLE << " is not implemented";
 
   // Validate our Ms are between 1.0 and 0.0
-  for (double tag_loss : tag_loss_input_) {
+  for (Double tag_loss : tag_loss_input_) {
     if (tag_loss < 0.0 || tag_loss > 1.0)
       LOG_ERROR_P(PARAM_TAG_LOSS_RATE) << ": Tag loss rate " << tag_loss << " must be between 0.0 and 1.0 (inclusive)";
   }
@@ -107,7 +107,7 @@ void TagLoss::DoBuild() {
   partition_.Init(category_labels_);
 
   for (string label : selectivity_names_) {
-    Selectivity* selectivity = model_->managers().selectivity()->GetSelectivity(label);
+    Selectivity* selectivity = model_->managers()->selectivity()->GetSelectivity(label);
     if (!selectivity)
       LOG_ERROR_P(PARAM_SELECTIVITIES) << ": Selectivity label " << label << " was not found.";
 
@@ -119,7 +119,7 @@ void TagLoss::DoBuild() {
    * apply a different ratio of M so here we want to verify
    * we have enough and re-scale them to 1.0
    */
-  vector<TimeStep*> time_steps = model_->managers().time_step()->ordered_time_steps();
+  vector<TimeStep*> time_steps = model_->managers()->time_step()->ordered_time_steps();
   LOG_FINEST() << "time_steps.size(): " << time_steps.size();
   vector<unsigned> active_time_steps;
   for (unsigned i = 0; i < time_steps.size(); ++i) {
@@ -135,7 +135,7 @@ void TagLoss::DoBuild() {
       LOG_FATAL_P(PARAM_TIME_STEP_RATIO) << " length (" << ratios_.size()
           << ") does not match the number of time steps this process has been assigned to (" << active_time_steps.size() << ")";
 
-    for (double value : ratios_) {
+    for (Double value : ratios_) {
       if (value < 0.0 || value > 1.0)
         LOG_ERROR_P(PARAM_TIME_STEP_RATIO) << " Time step ratio (" << value << ") must be between 0.0 and 1.0 inclusive";
     }
@@ -154,10 +154,10 @@ void TagLoss::DoExecute() {
     LOG_FINEST() << "year: " << model_->current_year();
 
     // get the ratio to apply first
-    unsigned time_step = model_->managers().time_step()->current_time_step();
+    unsigned time_step = model_->managers()->time_step()->current_time_step();
 
     LOG_FINEST() << "Ratios.size() " << time_step_ratios_.size() << " : time_step: " << time_step << "; ratio: " << time_step_ratios_[time_step];
-    double ratio = time_step_ratios_[time_step];
+    Double ratio = time_step_ratios_[time_step];
 
     //StoreForReport("year", model_->current_year());
 

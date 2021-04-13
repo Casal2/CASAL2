@@ -26,7 +26,7 @@ namespace age {
 /**
  * Default constructor
  */
-Ageing::Ageing(Model* model)
+Ageing::Ageing(shared_ptr<Model> model)
   : Process(model),
     partition_(model) {
   process_type_ = ProcessType::kAgeing;

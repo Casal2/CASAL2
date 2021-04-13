@@ -14,7 +14,7 @@
 #define ESTIMATES_CREATORS_NORMALBYSTDEV_H_
 
 // headers
-#include "Estimates/Creators/Creator.h"
+#include "../../../Estimates/Creators/Creator.h"
 
 // namespaces
 namespace niwa {
@@ -28,7 +28,7 @@ class NormalByStdev : public estimates::Creator {
 public:
   // methods
   NormalByStdev() = delete;
-  explicit NormalByStdev(Model* model);
+  explicit NormalByStdev(shared_ptr<Model> model);
   virtual                     ~NormalByStdev() = default;
   void                        DoCopyParameters(niwa::Estimate* estimate, unsigned index) override final;
 

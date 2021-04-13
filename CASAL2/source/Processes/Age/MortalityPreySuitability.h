@@ -35,7 +35,7 @@ using partition::accessors::CombinedCategoriesPtr;
 class MortalityPreySuitability : public Process {
 public:
   // methods
-  explicit MortalityPreySuitability(Model* model);
+  explicit MortalityPreySuitability(shared_ptr<Model> model);
   virtual                     ~MortalityPreySuitability() = default;
   void                        DoValidate() override final;
   void                        DoBuild() override final;

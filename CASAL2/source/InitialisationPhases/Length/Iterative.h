@@ -15,9 +15,9 @@
 #define LENGTH_INITIALISATIONPHASES_ITERATIVE_H_
 
 // headers
-#include "InitialisationPhases/InitialisationPhase.h"
-#include "Partition/Accessors/Categories.h"
-#include "Partition/Accessors/Cached/Categories.h"
+#include "../../InitialisationPhases/InitialisationPhase.h"
+#include "../../Partition/Accessors/Categories.h"
+#include "../../Partition/Accessors/Cached/Categories.h"
 
 // namespaces
 namespace niwa {
@@ -33,7 +33,7 @@ namespace accessor = partition::accessors;
 class Iterative : public niwa::InitialisationPhase {
 public:
   // methods
-  explicit Iterative(Model* model);
+  explicit Iterative(shared_ptr<Model> model);
   virtual                     ~Iterative() = default;
   void                        Execute() override final;
 

@@ -88,7 +88,6 @@ private:
 /**
  * Namespace for our map methods
  */
-template<typename _Tp> // TODO: Remove this line later, not needed
 class Map {
 public:
   /**

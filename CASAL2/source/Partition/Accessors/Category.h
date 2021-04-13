@@ -22,8 +22,8 @@
 #include <vector>
 #include <string>
 
-#include "Model/Model.h"
-#include "Utilities/Types.h"
+#include "../../Model/Model.h"
+#include "../../Utilities/Types.h"
 
 // Namespaces
 namespace niwa {
@@ -46,14 +46,14 @@ public:
 
   // Methods
   Category() = delete;
-  Category(Model* model, const string& category_name);
+  Category(shared_ptr<Model> model, const string& category_name);
   virtual                     ~Category() = default;
 //  DataType::iterator          begin();
 //  DataType::iterator          end();
 
 private:
   // Members
-  Model*                    model_;
+  shared_ptr<Model>                    model_;
   map<unsigned, DataType >    data_;
 };
 

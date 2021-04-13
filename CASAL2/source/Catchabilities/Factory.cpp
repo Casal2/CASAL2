@@ -12,11 +12,11 @@
 // headers
 #include "Factory.h"
 
-#include "Model/Model.h"
-#include "Model/Managers.h"
-#include "Catchabilities/Manager.h"
-#include "Catchabilities/Common/Free.h"
-#include "Catchabilities/Common/Nuisance.h"
+#include "../Model/Model.h"
+#include "../Model/Managers.h"
+#include "../Catchabilities/Manager.h"
+#include "../Catchabilities/Common/Free.h"
+#include "../Catchabilities/Common/Nuisance.h"
 
 // namespaces
 namespace niwa {
@@ -29,7 +29,7 @@ namespace catchabilities {
  * @param sub_type The sub type (e.g beta)
  * @return ptr of an catchability
  */
-Catchability* Factory::Create(Model* model, const string& object_type, const string& sub_type) {
+Catchability* Factory::Create(shared_ptr<Model> model, const string& object_type, const string& sub_type) {
   Catchability* result = nullptr;
 
   if (object_type == PARAM_CATCHABILITY) {
@@ -39,7 +39,7 @@ Catchability* Factory::Create(Model* model, const string& object_type, const str
       result = new Nuisance(model);
 
     if (result)
-      model->managers().catchability()->AddObject(result);
+      model->managers()->catchability()->AddObject(result);
   }
 
   return result;

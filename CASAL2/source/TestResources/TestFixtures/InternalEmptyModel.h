@@ -20,12 +20,12 @@
 #include <string>
 #include <vector>
 
-#include "ConfigurationLoader/Loader.h"
-#include "TestResources/TestFixtures/Base.h"
+#include "../../ConfigurationLoader/Loader.h"
+#include "../../TestResources/TestFixtures/Base.h"
 
 // Namespaces
 namespace niwa {
-class Model;
+namespace model { class Age; }
 
 namespace testfixtures {
 using std::string;

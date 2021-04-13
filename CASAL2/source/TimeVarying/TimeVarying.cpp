@@ -12,8 +12,8 @@
 // headers
 #include "TimeVarying.h"
 
-#include "Model/Objects.h"
-#include "Utilities/To.h"
+#include "../Model/Objects.h"
+#include "../Utilities/To.h"
 
 // namespaces
 namespace niwa {
@@ -21,7 +21,7 @@ namespace niwa {
 /**
  * Default constructor
  */
-TimeVarying::TimeVarying(Model* model) : model_(model) {
+TimeVarying::TimeVarying(shared_ptr<Model> model) : model_(model) {
   parameters_.Bind<string>(PARAM_LABEL, &label_, "The time-varying label", "");
   parameters_.Bind<string>(PARAM_TYPE, &type_, "The time-varying type", "", "");
   parameters_.Bind<unsigned>(PARAM_YEARS, &years_, "The years in which to vary the values", "");

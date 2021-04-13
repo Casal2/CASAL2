@@ -11,7 +11,7 @@
 #define AGELENGTHS_FACTORY_H_
 
 // headers
-#include "AgeLengths/AgeLength.h"
+#include "../AgeLengths/AgeLength.h"
 
 // namespaces
 namespace niwa {
@@ -22,7 +22,7 @@ namespace agelengths {
 // classes
 class Factory {
 public:
-  static AgeLength*           Create(Model* model, const string& object_type, const string& sub_type);
+  static AgeLength*           Create(shared_ptr<Model> model, const string& object_type, const string& sub_type);
 
 private:
   Factory() = delete;

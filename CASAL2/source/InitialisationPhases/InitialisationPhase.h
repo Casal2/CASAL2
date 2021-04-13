@@ -17,7 +17,7 @@
 #define INITIALISATIONPHASE_H_
 
 // Headers
-#include "BaseClasses/Object.h"
+#include "../BaseClasses/Object.h"
 
 namespace niwa {
 class Model;
@@ -29,7 +29,7 @@ class InitialisationPhase : public niwa::base::Object {
 public:
   // Methods
   InitialisationPhase() = delete;
-  explicit InitialisationPhase(Model* model);
+  explicit InitialisationPhase(shared_ptr<Model> model);
   virtual                     ~InitialisationPhase() = default;
   void                        Validate();
   void                        Build();
@@ -42,7 +42,7 @@ protected:
   virtual void                DoBuild() = 0;
 
   // members
-  Model*                      model_ = nullptr;
+  shared_ptr<Model>                      model_ = nullptr;
 };
 } /* namespace niwa */
 #endif /* INITIALISATIONPHASE_H_ */

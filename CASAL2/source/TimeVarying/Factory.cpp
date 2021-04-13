@@ -12,15 +12,15 @@
 // headers
 #include "Factory.h"
 
-#include "Model/Model.h"
-#include "Model/Managers.h"
-#include "TimeVarying/Common/AnnualShift.h"
-#include "TimeVarying/Common/Constant.h"
-#include "TimeVarying/Common/Exogenous.h"
-#include "TimeVarying/Common/Linear.h"
-#include "TimeVarying/Common/RandomDraw.h"
-#include "TimeVarying/Common/RandomWalk.h"
-#include "TimeVarying/Manager.h"
+#include "../Model/Model.h"
+#include "../Model/Managers.h"
+#include "../TimeVarying/Common/AnnualShift.h"
+#include "../TimeVarying/Common/Constant.h"
+#include "../TimeVarying/Common/Exogenous.h"
+#include "../TimeVarying/Common/Linear.h"
+#include "../TimeVarying/Common/RandomDraw.h"
+#include "../TimeVarying/Common/RandomWalk.h"
+#include "../TimeVarying/Manager.h"
 
 // namespaces
 namespace niwa {
@@ -34,7 +34,7 @@ namespace timevarying {
  * @param sub_type The child type of the object to create (e.g., ageing, schnute)
  * @return shared_ptr to the object
  */
-TimeVarying* Factory::Create(Model* model, const string& object_type, const string& sub_type) {
+TimeVarying* Factory::Create(shared_ptr<Model> model, const string& object_type, const string& sub_type) {
   TimeVarying* result = nullptr;
 
   if (object_type == PARAM_TIME_VARYING) {
@@ -52,7 +52,7 @@ TimeVarying* Factory::Create(Model* model, const string& object_type, const stri
       result = new RandomDraw(model);
 
     if (result)
-      model->managers().time_varying()->AddObject(result);
+      model->managers()->time_varying()->AddObject(result);
   }
 
   return result;

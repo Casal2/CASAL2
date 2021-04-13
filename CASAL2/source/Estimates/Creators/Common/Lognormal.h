@@ -14,7 +14,7 @@
 #define ESTIMATES_CREATORS_LOGNORMAL_H_
 
 // headers
-#include "Estimates/Creators/Creator.h"
+#include "../../../Estimates/Creators/Creator.h"
 
 // namespaces
 namespace niwa {
@@ -28,7 +28,7 @@ class Lognormal : public estimates::Creator {
 public:
   // methods
   Lognormal() = delete;
-  explicit Lognormal(Model* model);
+  explicit Lognormal(shared_ptr<Model> model);
   virtual                     ~Lognormal() = default;
   void                        DoCopyParameters(niwa::Estimate* estimate, unsigned index) override final;
 

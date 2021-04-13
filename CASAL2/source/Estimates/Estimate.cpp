@@ -5,7 +5,7 @@
  * @date 8/03/2013
  * @section LICENSE
  *
- * Copyright NIWA Science ©2013 - www.niwa.co.nz
+ * Copyright NIWA Science ï¿½2013 - www.niwa.co.nz
  *
  * $Date: 2008-03-04 16:33:32 +1300 (Tue, 04 Mar 2008) $
  */
@@ -13,12 +13,12 @@
 // Headers
 #include "Estimate.h"
 
-#include "EstimateTransformations/EstimateTransformation.h"
-#include "EstimateTransformations/Factory.h"
-#include "Model/Factory.h"
-#include "Model/Model.h"
-#include "Utilities/DoubleCompare.h"
-#include "Utilities/To.h"
+#include "../EstimateTransformations/EstimateTransformation.h"
+#include "../EstimateTransformations/Factory.h"
+#include "../Model/Factory.h"
+#include "../Model/Model.h"
+#include "../Utilities/Math.h"
+#include "../Utilities/To.h"
 
 // Namespaces
 namespace niwa {
@@ -26,12 +26,12 @@ namespace niwa {
 /**
  * Default constructor
  */
-Estimate::Estimate(Model* model) : model_(model) {
+Estimate::Estimate(shared_ptr<Model> model) : model_(model) {
   parameters_.Bind<string>(PARAM_LABEL, &label_, "The label of the estimate", "", "");
   parameters_.Bind<string>(PARAM_TYPE, &type_, "The prior type for the estimate", "");
   parameters_.Bind<string>(PARAM_PARAMETER, &parameter_, "The name of the parameter to estimate in the model", "");
-  parameters_.Bind<double>(PARAM_LOWER_BOUND, &lower_bound_, "The lower bound for the parameter", "");
-  parameters_.Bind<double>(PARAM_UPPER_BOUND, &upper_bound_, "The upper bound for the parameter", "");
+  parameters_.Bind<Double>(PARAM_LOWER_BOUND, &lower_bound_, "The lower bound for the parameter", "");
+  parameters_.Bind<Double>(PARAM_UPPER_BOUND, &upper_bound_, "The upper bound for the parameter", "");
   parameters_.Bind<string>(PARAM_SAME, &same_labels_, "List of parameters that are constrained to have the same value as this parameter", "", "");
   parameters_.Bind<unsigned>(PARAM_ESTIMATION_PHASE, &estimation_phase_, "The first estimation phase to allow this to be estimated", "", 1);
   parameters_.Bind<bool>(PARAM_MCMC, &mcmc_fixed_, "Indicates if this parameter is estimated at the point estimate but fixed during MCMC estimation run", "", false);
@@ -43,6 +43,8 @@ Estimate::Estimate(Model* model) : model_(model) {
 /**
  * Validate the estimate. Some of the validation was done by the
  * estimates::Info object before the estimate was created so that can be skipped.
+ * estimates::Info object before the
+ * estimate was created so we can skip that.
  */
 void Estimate::Validate() {
   if (transform_with_jacobian_ && transform_for_objective_function_)
@@ -115,6 +117,7 @@ void Estimate::Build() {
   Reset();
 }
 
+
 /**
  * Reset the estimate
  */
@@ -123,7 +126,7 @@ void Estimate::Reset() {
    * Reset the value if the bounds are the same to ensure that all of the
    * "same" parameters are aligned
    */
-  if (utilities::doublecompare::IsEqual(lower_bound_, upper_bound_))
+  if (utilities::math::IsEqual(lower_bound_, upper_bound_))
     set_value(value());
 }
 

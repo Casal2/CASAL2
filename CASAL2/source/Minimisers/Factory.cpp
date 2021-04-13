@@ -13,26 +13,27 @@
 // Headers
 #include "Factory.h"
 
-#include "Model/Model.h"
-#include "Model/Managers.h"
-#include "Minimisers/Manager.h"
+#include "../Model/Model.h"
+#include "../Model/Managers.h"
+#include "../Minimisers/Manager.h"
 
 #ifdef USE_AUTODIFF
 #ifdef USE_ADOLC
-#include "Minimisers/Common/ADOLC.h"
+#include "../Minimisers/Common/ADOLC.h"
 #elif defined(USE_BETADIFF)
-#include "Minimisers/Common/BetaDiff.h"
+#include "../Minimisers/Common/BetaDiff.h"
 #elif defined(USE_CPPAD)
-#include "Minimisers/Common/CPPAD.h"
+#include "../Minimisers/Common/CPPAD.h"
 #endif
 #endif
 
-#include "Minimisers/Common/Dummy/Dummy.h"
+#include "../Minimisers/Common/Dummy/Dummy.h"
 
 #ifndef USE_AUTODIFF
-#include "Minimisers/Common/DESolver.h"
-#include "Minimisers/Common/DLib.h"
-#include "Minimisers/Common/GammaDiff.h"
+#include "../Minimisers/Common/DeltaDiff.h"
+#include "../Minimisers/Common/DESolver.h"
+#include "../Minimisers/Common/DLib.h"
+#include "../Minimisers/Common/GammaDiff.h"
 //#include "Minimisers/Common/STANBFGS.h"
 #endif
 
@@ -48,7 +49,7 @@ namespace minimisers {
  * @param sub_type The child type of the object to create (e.g., ageing, schnute)
  * @return shared_ptr to the object
  */
-Minimiser* Factory::Create(Model* model, const string& object_type, const string& sub_type) {
+Minimiser* Factory::Create(shared_ptr<Model> model, const string& object_type, const string& sub_type) {
   Minimiser* result = nullptr;
 
   if (object_type == PARAM_MINIMIZER) {
@@ -71,21 +72,24 @@ Minimiser* Factory::Create(Model* model, const string& object_type, const string
 #endif
 
 #ifndef USE_AUTODIFF
-    if (sub_type == PARAM_DE_SOLVER)
+    if (sub_type == PARAM_DELTADIFF)
+    	result = new DeltaDiff(model);
+    else if (sub_type == PARAM_DE_SOLVER)
       result = new DESolver(model);
+#ifndef _MSC_VER
     else if (sub_type == PARAM_DLIB)
       result = new DLib(model);
+#endif
     else if (sub_type == PARAM_GAMMADIFF)
       result = new GammaDiff(model);
 //    else if (sub_type == PARAM_STAN_BFGS)
 //      result = new STANBFGS(model);
     else if (sub_type == PARAM_BETADIFF || sub_type == PARAM_ADOLC || sub_type == PARAM_CPPAD)
-      result = new GammaDiff(model);    // REVISE - how to get frontend to work with Dummy(model)?
-//      result = new Dummy(model);
+      result = new Dummy(model);
 #endif
 
     if (result)
-      model->managers().minimiser()->AddObject(result);
+      model->managers()->minimiser()->AddObject(result);
   }
 
   return result;

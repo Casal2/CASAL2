@@ -38,7 +38,7 @@ using catchabilities::Nuisance;
 class Abundance : public niwa::Observation {
 public:
   // Methods
-  Abundance(Model* model);
+  Abundance(shared_ptr<Model> model);
   virtual                     ~Abundance();
   void                        DoValidate() override final;
   virtual void                DoBuild() override;
@@ -56,7 +56,7 @@ protected:
   Double                          process_error_value_ = 0;
   CachedCombinedCategoriesPtr     cached_partition_;
   CombinedCategoriesPtr           partition_;
-  double                          proportion_of_time_ = 0;
+  Double                          proportion_of_time_ = 0;
   parameters::Table*              obs_table_ = nullptr;
   vector<string>                  selectivity_labels_;
   vector<Selectivity*>            selectivities_;

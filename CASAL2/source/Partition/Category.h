@@ -21,8 +21,8 @@
 #include <vector>
 #include <string>
 
-#include "Utilities/Types.h"
-#include "Selectivities/Selectivity.h"
+#include "../Utilities/Types.h"
+#include "../Selectivities/Selectivity.h"
 
 // namespaces
 namespace niwa {
@@ -43,7 +43,7 @@ using niwa::utilities::Double;
 class Category {
 public:
   // methods
-  Category(Model* model) : model_(model) { };
+  Category(shared_ptr<Model> model) : model_(model) { };
   virtual                           ~Category() = default;
   void                              UpdateMeanLengthData();
   void                              UpdateMeanWeightData();
@@ -52,9 +52,10 @@ public:
   void                              CollapseAgeLengthDataToLength();
 
   void                              PopulateAgeLengthMatrix(Selectivity* selectivity);
-  void                              CalculateNumbersAtLength(Selectivity* selectivity, const vector<double>& length_bins,
+  void                              CalculateNumbersAtLength(Selectivity* selectivity, const vector<Double>& length_bins,
                                                              vector<vector<Double>>& age_length_matrix, vector<Double>& numbers_by_length,
                                                              const bool& length_plus);
+
 
   // accessors
   unsigned                          age_spread() const { return (max_age_ - min_age_) + 1; }
@@ -80,7 +81,10 @@ public:
 
 private:
   // members
-  Model*                      model_ = nullptr;
+  shared_ptr<Model>                      model_ = nullptr;
+
+  // TODO: Re-enable this when we have a single unified accessor
+  //DISALLOW_COPY_AND_ASSIGN(Category);
 };
 
 } /* namespace partitions */

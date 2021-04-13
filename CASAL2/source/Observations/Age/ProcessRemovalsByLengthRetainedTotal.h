@@ -37,7 +37,7 @@ using processes::age::MortalityInstantaneousRetained;
 class ProcessRemovalsByLengthRetainedTotal : public niwa::Observation {
 public:
   // Methods
-  explicit ProcessRemovalsByLengthRetainedTotal(Model* model);
+  explicit ProcessRemovalsByLengthRetainedTotal(shared_ptr<Model> model);
   virtual                     ~ProcessRemovalsByLengthRetainedTotal();
   void                        DoValidate() override final;
   void                        DoBuild() override final;
@@ -50,11 +50,11 @@ public:
 protected:
   // Members
   vector<unsigned>              years_;
-  vector<double>                length_bins_;
+  vector<Double>                length_bins_;
   bool                          length_plus_ = false;
   unsigned                      number_bins_ = 0;
   parameters::Table*            obs_table_ = nullptr;
-  double                        tolerance_ = 0.0;
+  Double                        tolerance_ = 0.0;
   vector<Double>                process_error_values_;
   map<unsigned, Double>         process_errors_by_year_;
   string                        method_;

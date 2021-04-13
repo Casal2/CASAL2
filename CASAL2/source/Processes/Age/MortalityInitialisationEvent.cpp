@@ -16,7 +16,7 @@
 #include "Categories/Categories.h"
 #include "Penalties/Manager.h"
 #include "Selectivities/Manager.h"
-#include "Utilities/DoubleCompare.h"
+#include "Utilities/Math.h"
 
 // Namespaces
 namespace niwa {
@@ -26,7 +26,7 @@ namespace age {
 /**
  * Default constructor
  */
-MortalityInitialisationEvent::MortalityInitialisationEvent(Model* model)
+MortalityInitialisationEvent::MortalityInitialisationEvent(shared_ptr<Model> model)
   : Process(model),
     partition_(model) {
   parameters_.Bind<string>(PARAM_CATEGORIES, &category_labels_, "The categories", "");
@@ -69,7 +69,7 @@ void MortalityInitialisationEvent::DoBuild() {
   partition_.Init(category_labels_);
 
   for (string label : selectivity_names_) {
-    Selectivity* selectivity = model_->managers().selectivity()->GetSelectivity(label);
+    Selectivity* selectivity = model_->managers()->selectivity()->GetSelectivity(label);
     if (!selectivity)
       LOG_ERROR_P(PARAM_SELECTIVITIES) << ": Selectivity label " << label << " was not found.";
 
@@ -77,7 +77,7 @@ void MortalityInitialisationEvent::DoBuild() {
   }
 
   if (penalty_name_ != "") {
-    penalty_ = model_->managers().penalty()->GetProcessPenalty(penalty_name_);
+    penalty_ = model_->managers()->penalty()->GetProcessPenalty(penalty_name_);
     if (!penalty_) {
       LOG_ERROR_P(PARAM_PENALTY) << ": Penalty label " << penalty_name_ << " was not found.";
     }
@@ -114,7 +114,7 @@ void MortalityInitialisationEvent::DoExecute() {
      */
     Double exploitation = 0;
     LOG_FINEST() << "vulnerable biomass = " << vulnerable << " catch = " << catch_;
-    exploitation = catch_ / utilities::doublecompare::ZeroFun(vulnerable);
+    exploitation = catch_ / utilities::math::ZeroFun(vulnerable);
     if (exploitation > u_max_) {
       exploitation = u_max_;
       if (penalty_)

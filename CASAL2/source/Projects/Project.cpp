@@ -11,8 +11,8 @@
 // headers
 #include "Project.h"
 
-#include "Model/Objects.h"
-#include "Utilities/To.h"
+#include "../Model/Objects.h"
+#include "../Utilities/To.h"
 
 // namespaces
 namespace niwa {
@@ -20,12 +20,12 @@ namespace niwa {
 /**
  * Default constructor
  */
-Project::Project(Model* model) : model_(model) {
-  parameters_.Bind<string>(PARAM_LABEL, &label_, "The projection label", "");
-  parameters_.Bind<string>(PARAM_TYPE, &type_, "The projection type", "", "");
-  parameters_.Bind<unsigned>(PARAM_YEARS, &years_, "The years to recalculate the values", "", true);
-  parameters_.Bind<string>(PARAM_PARAMETER, &parameter_, "The parameter to project", "");
-  parameters_.Bind<double>(PARAM_MULTIPLIER, &multiplier_, "The multiplier applied to the projected value", "", 1.0)->set_lower_bound(0.0, false);
+Project::Project(shared_ptr<Model> model) : model_(model) {
+  parameters_.Bind<string>(PARAM_LABEL, &label_, "Label", "");
+  parameters_.Bind<string>(PARAM_TYPE, &type_, "Type", "", "");
+  parameters_.Bind<unsigned>(PARAM_YEARS, &years_, "Years to recalculate the values", "", true);
+  parameters_.Bind<string>(PARAM_PARAMETER, &parameter_, "Parameter to project", "");
+  parameters_.Bind<Double>(PARAM_MULTIPLIER, &multiplier_, "Multiplier that is applied to the projected value", "", 1.0)->set_lower_bound(0, false);
 
   original_value_ = 0;
 }
@@ -95,7 +95,6 @@ void Project::Update(unsigned current_year) {
   LOG_TRACE();
   if (DoUpdateFunc_ == nullptr)
     LOG_CODE_ERROR() << "DoUpdateFunc_ == nullptr";
-
   if (std::find(years_.begin(), years_.end(), current_year) == years_.end()) {
     LOG_FINEST() << "Resetting parameter to original value as the year " << current_year << " is not in years";
     RestoreOriginalValue(current_year);
@@ -139,6 +138,7 @@ void Project::SetVectorValue(Double value) {
   addressable_vector_->push_back(value);
   projected_values_[model_->current_year()] = value;
   LOG_FINEST() << "size before adding a value of "<< value << " = " << addressable_vector_->size();
+
 }
 
 /**
@@ -157,20 +157,20 @@ void Project::SetMapValue(Double value) {
  *
  * @param year The year
  */
-void Project::StoreValue(unsigned year) {
+void Project::StoreValue(unsigned current_year) {
   if (addressable_ != nullptr)
-    stored_values_[year] = *addressable_;
+    stored_values_[current_year] = *addressable_;
   else if (addressable_map_ != nullptr)
-    stored_values_[year] = (*addressable_map_)[year];
+    stored_values_[current_year] = (*addressable_map_)[current_year];
   else if (addressable_vector_ != nullptr) {
-    unsigned index = year - model_->start_year();
+    unsigned index = current_year - model_->start_year();
     if (index >= addressable_vector_->size()) {
       LOG_CODE_ERROR() << "Could not store value for @project parameter " << parameter_ << " in year "
-      << year << " because index exceeded size of vector " << index << " : " << addressable_vector_->size();
+      << current_year << " because index exceeded size of vector " << index << " : " << addressable_vector_->size();
     }
-    stored_values_[year] = addressable_vector_->at(index);
+    stored_values_[current_year] = addressable_vector_->at(index);
   }
-  LOG_FINEST() << "Storing value = " << stored_values_[year];
+  LOG_FINEST() << "Storing value = " << stored_values_[current_year];
 }
 
 } /* namespace niwa */

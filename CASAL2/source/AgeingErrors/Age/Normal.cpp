@@ -5,7 +5,7 @@
  * @date 19/06/2015
  * @section LICENSE
  *
- * Copyright NIWA Science ©2015 - www.niwa.co.nz
+ * Copyright NIWA Science ï¿½2015 - www.niwa.co.nz
  *
  */
 
@@ -26,15 +26,17 @@ namespace ageingerrors {
  * @param sigma Sigma value
  * @return Normal CDF
  */
+
 Double NormalCDF(Double x, Double mu, Double sigma) {
   if (sigma <= 0.0 && x < mu)
     return 0;
   else if (sigma <= 0.0 && x >= mu)
     return 1;
 
-  boost::math::normal s(AS_VALUE(mu), AS_VALUE(sigma));
-  return cdf(s, AS_VALUE(x));
+  boost::math::normal s(AS_DOUBLE(mu), AS_DOUBLE(sigma));
+  return cdf(s, AS_DOUBLE(x));
 }
+
 
 /**
  * Default constructor
@@ -46,7 +48,7 @@ Double NormalCDF(Double x, Double mu, Double sigma) {
  *
  * Note: The constructor is parsed to generate LaTeX for the documentation.
  */
-Normal::Normal(Model* model) : AgeingError(model) {
+Normal::Normal(shared_ptr<Model> model) : AgeingError(model) {
   parameters_.Bind<Double>(PARAM_CV, &cv_, "CV of the misclassification matrix", "")->set_lower_bound(0.0, false);
   parameters_.Bind<unsigned>(PARAM_K, &k_, "k defines the minimum age of individuals which can be misclassified, i.e., individuals of age less than k have no ageing error", "", 0u)->set_lower_bound(0u);
 
@@ -61,7 +63,7 @@ Normal::Normal(Model* model) : AgeingError(model) {
  */
 void Normal::DoValidate() {
   if (cv_ <= 0.0)
-    LOG_ERROR_P(PARAM_CV) << "CV value (" << AS_VALUE(cv_) << ") cannot be less than or equal to 0.0";
+    LOG_ERROR_P(PARAM_CV) << "CV value (" << AS_DOUBLE(cv_) << ") cannot be less than or equal to 0.0";
 
   if (k_ > max_age_)
     LOG_ERROR_P(PARAM_K) << "K value (" << k_ << ") cannot be greater than the model's max age (" << max_age_ << ")";

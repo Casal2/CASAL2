@@ -11,14 +11,14 @@
 // headers
 #include "Factory.h"
 
-#include "Model/Model.h"
-#include "Model/Managers.h"
-#include "AgeingErrors/Manager.h"
-#include "AgeingErrors/AgeingError.h"
-#include "AgeingErrors/Age/Data.h"
-#include "AgeingErrors/Age/Normal.h"
-#include "AgeingErrors/Age/OffByOne.h"
-#include "AgeingErrors/Age/None.h"
+#include "../Model/Model.h"
+#include "../Model/Managers.h"
+#include "../AgeingErrors/Manager.h"
+#include "../AgeingErrors/AgeingError.h"
+#include "../AgeingErrors/Age/Data.h"
+#include "../AgeingErrors/Age/Normal.h"
+#include "../AgeingErrors/Age/OffByOne.h"
+#include "../AgeingErrors/Age/None.h"
 
 // namespaces
 namespace niwa {
@@ -32,7 +32,7 @@ namespace ageingerrors {
  * @param sub_type The child type of the object to create (e.g., ageing, schnute)
  * @return shared_ptr to the object created
  */
-AgeingError* Factory::Create(Model* model, const string& object_type, const string& sub_type) {
+AgeingError* Factory::Create(shared_ptr<Model> model, const string& object_type, const string& sub_type) {
   AgeingError* result = nullptr;
 
   if (object_type == PARAM_AGEING_ERROR || object_type == PARAM_AGEING_ERRORS) {
@@ -46,7 +46,7 @@ AgeingError* Factory::Create(Model* model, const string& object_type, const stri
       result = new None(model);
 
     if (result)
-      model->managers().ageing_error()->AddObject(result);
+      model->managers()->ageing_error()->AddObject(result);
   }
 
   return result;

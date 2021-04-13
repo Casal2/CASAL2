@@ -16,7 +16,7 @@
 #define SOURCE_AGE_REPORTS_AGE_AGELENGTH_H_
 
 // Headers
-#include "Reports/Report.h"
+#include "../../Reports/Report.h"
 
 namespace niwa {
 namespace reports {
@@ -25,12 +25,12 @@ namespace age {
 class AgeLength: public niwa::Report {
 public:
   // methods
-  AgeLength(Model* model);
+  AgeLength();
   virtual                     ~AgeLength() = default;
-  void                        DoValidate() override final;
-  void                        DoBuild() override final { };
-  void                        DoExecute() override final;
-  void                        DoExecuteTabular() override final { };
+  void                        DoValidate(shared_ptr<Model> model) override final;
+  void                        DoBuild(shared_ptr<Model> model) override final { };
+  void                        DoExecute(shared_ptr<Model> model) override final;
+  void                        DoExecuteTabular(shared_ptr<Model> model) override final { };
 
 private:
   string                      age_length_label_;

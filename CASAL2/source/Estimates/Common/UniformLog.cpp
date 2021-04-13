@@ -20,11 +20,12 @@ namespace estimates {
 /**
  * Default Constructor
  */
-UniformLog::UniformLog(Model* model) : Estimate(model) {
+UniformLog::UniformLog(shared_ptr<Model> model) : Estimate(model) {
 }
 
 /**
  * Calculate and return the score
+ *
  * @return Score as log(param)
  */
 Double UniformLog::GetScore() {

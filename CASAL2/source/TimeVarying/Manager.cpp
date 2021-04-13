@@ -12,7 +12,7 @@
 // headers
 #include "Manager.h"
 
-#include "Logging/Logging.h"
+#include "../Logging/Logging.h"
 
 // namespaces
 namespace niwa {
@@ -96,7 +96,7 @@ unsigned Manager::GetTimeVaryingCount() {
   unsigned count = 0;
 
   for (auto time_varying : objects_) {
-    if (time_varying->label() != "")
+    if (time_varying->label() != "") // TODO: Fix this
       count++;
   }
 

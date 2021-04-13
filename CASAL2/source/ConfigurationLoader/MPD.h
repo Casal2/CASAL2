@@ -17,8 +17,9 @@
 // headers
 #include <string>
 #include <map>
+#include <memory>
 
-#include "Utilities/Types.h"
+#include "../Utilities/Types.h"
 
 // namespaces
 namespace niwa {
@@ -27,18 +28,19 @@ namespace configuration {
 using std::string;
 using std::map;
 using niwa::utilities::Double;
+using std::shared_ptr;
 
 // classes
 class MPD {
 public:
   MPD() = delete;
-  explicit MPD(Model* model) : model_(model) { };
+  explicit MPD(shared_ptr<Model> model) : model_(model) { };
   virtual                     ~MPD() = default;
   bool                        LoadFile(const string& file_name);
 
 private:
   // members
-  Model*                    model_;
+  shared_ptr<Model>                    model_;
 };
 
 } /* namespace configuration */

@@ -23,9 +23,9 @@
 #include <vector>
 #include <string>
 
-#include "Model/Model.h"
-#include "Partition/Partition.h"
-#include "Utilities/Types.h"
+#include "../../Model/Model.h"
+#include "../../Partition/Partition.h"
+#include "../../Utilities/Types.h"
 
 // Namespaces
 namespace niwa {
@@ -48,7 +48,7 @@ public:
 
   // Methods
   CombinedCategories() = delete;
-  CombinedCategories(Model* model, const vector<string>& category_labels);
+  CombinedCategories(shared_ptr<Model> model, const vector<string>& category_labels);
   virtual                     ~CombinedCategories() = default;
   DataType::iterator          Begin();
   DataType::iterator          End();
@@ -57,7 +57,7 @@ public:
 
 private:
   // Members
-  Model*                      model_;
+  shared_ptr<Model>                      model_;
   map<unsigned, DataType>     data_;
   unsigned                    category_count_;
 };

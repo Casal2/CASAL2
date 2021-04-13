@@ -11,8 +11,8 @@
 #include <gmock/gmock.h>
 #include <gtest/gtest.h>
 
-#include "Observations/Comparison.h"
-#include "Utilities/RandomNumberGenerator.h"
+#include "../../Observations/Comparison.h"
+#include "../../Utilities/RandomNumberGenerator.h"
 
 // Namespaces
 namespace niwa {

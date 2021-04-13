@@ -33,7 +33,7 @@ namespace accessor = niwa::partition::accessors;
 class TransitionCategoryByAge : public niwa::Process {
 public:
   // methods
-  explicit TransitionCategoryByAge(Model* model);
+  explicit TransitionCategoryByAge(shared_ptr<Model> model);
   virtual                     ~TransitionCategoryByAge();
   void                        DoValidate() override final;
   void                        DoBuild() override final;

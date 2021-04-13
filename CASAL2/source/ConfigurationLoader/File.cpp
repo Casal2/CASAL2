@@ -15,10 +15,10 @@
 #include <boost/algorithm/string/trim_all.hpp>
 #include <boost/algorithm/string/split.hpp>
 
-#include "ConfigurationLoader/Loader.h"
-#include "Logging/Logging.h"
-#include "Utilities/String.h"
-#include "Utilities/To.h"
+#include "../ConfigurationLoader/Loader.h"
+#include "../Logging/Logging.h"
+#include "../Utilities/String.h"
+#include "../Utilities/To.h"
 
 // Namespaces
 namespace niwa {

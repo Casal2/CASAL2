@@ -13,7 +13,7 @@
 // Headers
 #include "RandomNumberGenerator.h"
 
-#include "Model/Model.h"
+#include "../Model/Model.h"
 
 // Namespaces
 namespace niwa {
@@ -33,7 +33,6 @@ RandomNumberGenerator::~RandomNumberGenerator() {
 
 /**
  * Singleton instance method
- *
  * @return reference to singleton object
  */
 RandomNumberGenerator& RandomNumberGenerator::Instance() {
@@ -131,8 +130,6 @@ double RandomNumberGenerator::chi_squared(unsigned df) {
 /*
 * Generate a gamma random number
 *
-* @param shape The shape parameter
-* @return random number
 */
 double RandomNumberGenerator::gamma(double shape) {
 

@@ -15,8 +15,8 @@
 #define TIMEVARYING_H_
 
 // headers
-#include "BaseClasses/Object.h"
-#include "Model/Model.h"
+#include "../BaseClasses/Object.h"
+#include "../Model/Model.h"
 
 // namespaces
 namespace niwa {
@@ -29,7 +29,7 @@ class TimeVarying : public niwa::base::Object {
 public:
   // methods
   TimeVarying() = delete;
-  explicit TimeVarying(Model* model);
+  explicit TimeVarying(shared_ptr<Model> model);
   virtual                     ~TimeVarying() = default;
   void                        Validate();
   void                        Build();
@@ -60,7 +60,7 @@ protected:
   UpdateFunction              update_function_ = 0;
 
   // members
-  Model*                      model_ = nullptr;
+  shared_ptr<Model>                      model_ = nullptr;
   base::Object*               target_object_ = nullptr;
   string                      type_ = "";
   vector<unsigned>            years_;

@@ -15,11 +15,11 @@
 
 #include <algorithm>
 
-#include "Categories/Categories.h"
-#include "Model/Model.h"
-#include "Utilities/String.h"
-#include "Utilities/To.h"
-#include "Translations/Translations.h"
+#include "../Categories/Categories.h"
+#include "../Model/Model.h"
+#include "../Utilities/String.h"
+#include "../Utilities/To.h"
+#include "../Translations/Translations.h"
 
 // Namespaces
 namespace niwa {
@@ -91,7 +91,7 @@ string Table::location() const {
 /**
  * The populate method works as a validate method and a data container
  */
-void Table::Populate(Model* model) {
+void Table::Populate(shared_ptr<Model> model) {
   if (model == nullptr)
     LOG_CODE_ERROR() << "model == nullptr";
 

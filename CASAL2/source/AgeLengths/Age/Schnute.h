@@ -14,7 +14,7 @@
 #define AGELENGTHS_SCHNUTE_H_
 
 // headers
-#include "AgeLengths/AgeLength.h"
+#include "../../AgeLengths/AgeLength.h"
 
 // namespaces
 namespace niwa {
@@ -26,18 +26,16 @@ namespace agelengths {
 class Schnute : public niwa::AgeLength {
 public:
   // methods
-  explicit Schnute(Model* model);
+  explicit Schnute(shared_ptr<Model> model);
   virtual                     ~Schnute() = default;
   void                        DoValidate() override final { };
   void                        DoBuild() override final;
   void                        DoReset() override final;
   void                        DoRebuildCache() override final;
-
   // accessors
   Double                      mean_length(unsigned time_step, unsigned age) override final;
   Double                      mean_weight(unsigned time_step, unsigned age) override final;
   Double                      GetMeanLength(unsigned year, unsigned time_step, unsigned age) override final;
-
 protected:
   // methods
 
@@ -50,7 +48,6 @@ protected:
   Double                      b_;
   string                      length_weight_label_;
   LengthWeight*               length_weight_ = nullptr;
-
   map<unsigned, map<unsigned, Double>> mean_length_;
 
 };

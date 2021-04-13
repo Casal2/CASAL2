@@ -28,12 +28,12 @@ namespace age {
 class TimeStepProportionsAtAge : public observations::age::ProportionsAtAge {
 public:
   // methods
-  TimeStepProportionsAtAge(Model* model);
+  TimeStepProportionsAtAge(shared_ptr<Model> model);
   virtual                     ~TimeStepProportionsAtAge() = default;
   void                        DoBuild() override final;
 
 private:
-  double                      time_step_proportion_;
+  Double                      time_step_proportion_;
 };
 
 } /* namespace age */

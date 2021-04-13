@@ -9,8 +9,8 @@
  */
 
 // headers
-#include "DerivedQuantities/Age/Abundance.h"
-#include "InitialisationPhases/Manager.h"
+#include "../../DerivedQuantities/Age/Abundance.h"
+#include "../../InitialisationPhases/Manager.h"
 
 // namespaces
 namespace niwa {
@@ -31,7 +31,6 @@ void Abundance::PreExecute() {
     }
   }
 }
-
 /**
  * Calculate the derived quantity value for the
  * state of the model.
@@ -54,7 +53,7 @@ void Abundance::Execute() {
       }
     }
 
-    unsigned initialisation_phase = model_->managers().initialisation_phase()->current_initialisation_phase();
+    unsigned initialisation_phase = model_->managers()->initialisation_phase()->current_initialisation_phase();
     if (initialisation_values_.size() <= initialisation_phase)
       initialisation_values_.resize(initialisation_phase + 1);
 

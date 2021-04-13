@@ -12,7 +12,7 @@
 // headers
 #include "Likelihood.h"
 
-#include "Model/Model.h"
+#include "../Model/Model.h"
 
 // namespaces
 namespace niwa {
@@ -20,7 +20,7 @@ namespace niwa {
 /**
  * Default constructor
  */
-Likelihood::Likelihood(Model* model) : model_(model) {
+Likelihood::Likelihood(shared_ptr<Model> model) : model_(model) {
 }
 
 /**

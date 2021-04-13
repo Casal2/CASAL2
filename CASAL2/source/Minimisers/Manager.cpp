@@ -12,10 +12,15 @@
 #include "Manager.h"
 
 #include <algorithm>
+#include <thread>
 
 // namespaces
 namespace niwa {
 namespace minimisers {
+
+using std::scoped_lock;
+
+std::mutex Manager::lock_;
 
 /**
  * Default constructor
@@ -38,7 +43,16 @@ void Manager::Validate() {
   LOG_CODE_ERROR() << "This method is not supported";
 }
 
-void Manager::Validate(Model* model) {
+/**
+ *
+ */
+void Manager::Validate(shared_ptr<Model> model) {
+	std::scoped_lock l(lock_);
+	if (model->partition_type() == PartitionType::kPiApprox)
+		return;
+  if (objects_.size() == 0 || has_validated_)
+		return;
+
   LOG_TRACE();
   for (auto minimiser : objects_)
     minimiser->Validate();
@@ -66,6 +80,22 @@ void Manager::Validate(Model* model) {
       LOG_FATAL() << "One active minimiser only per run is required. There are " << active_count << " of " << size() << " specified.";
     }
   }
+
+  has_validated_ = true;
+}
+
+/**
+ *
+ */
+void Manager::Build() {
+	LOG_TRACE();
+
+	std::scoped_lock l(lock_);
+  if (objects_.size() == 0 || has_built_ || !has_validated_)
+		return;
+
+  niwa::base::Manager<minimisers::Manager, niwa::Minimiser>::Build();
+	has_built_ = true;
 }
 
 } /* namespace minimisers */

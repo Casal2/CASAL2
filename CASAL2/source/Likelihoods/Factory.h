@@ -17,7 +17,7 @@
 #define LIKELIHOODS_FACTORY_H_
 
 // Headers
-#include "Likelihoods/Likelihood.h"
+#include "../Likelihoods/Likelihood.h"
 
 // Namespaces
 namespace niwa {
@@ -30,7 +30,7 @@ namespace likelihoods {
 class Factory {
 public:
   // methods
-  static Likelihood*          Create(Model* model, const string& object_type, const string& sub_type);
+  static Likelihood*          Create(shared_ptr<Model> model, const string& object_type, const string& sub_type);
 
 private:
   // Methods

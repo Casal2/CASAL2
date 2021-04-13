@@ -16,12 +16,12 @@
 #include <gtest/gtest.h>
 #include <boost/lexical_cast.hpp>
 
-#include "AgeLengths/Age/VonBertalanffy.h"
-#include "Categories/Categories.h"
-#include "Selectivities/Common/Logistic.h"
-#include "TimeSteps/Manager.h"
-#include "TestResources/MockClasses/Managers.h"
-#include "TestResources/MockClasses/Model.h"
+#include "../AgeLengths/Age/VonBertalanffy.h"
+#include "../Categories/Categories.h"
+#include "../Selectivities/Common/Logistic.h"
+#include "../TimeSteps/Manager.h"
+#include "../TestResources/MockClasses/Managers.h"
+#include "../TestResources/MockClasses/Model.h"
 
 // namespaces
 namespace niwa {
@@ -37,7 +37,7 @@ public:
 
 class MockCategories : public Categories {
 public:
-  MockCategories(Model* model) : Categories(model) {
+  MockCategories(shared_ptr<Model> model) : Categories(model) {
     vector<string> names;
     vector<string> sexes  = { "male", "female" };
     vector<string> stages = { "immature", "mature" };
@@ -67,8 +67,8 @@ public:
     distribution_ = distribution;
   }
 
-  MockVonBertalanffy(Model& model, Double linf, Double k, Double t0, bool by_length,
-      Double cv_first, Double cv_last, vector<double> time_step_proportions, bool casal_switch = false, Distribution distributuion = Distribution::kNormal) : VonBertalanffy(&model) {
+  MockVonBertalanffy(shared_ptr<Model> model, Double linf, Double k, Double t0, bool by_length,
+      Double cv_first, Double cv_last, vector<double> time_step_proportions, bool casal_switch = false, Distribution distributuion = Distribution::kNormal) : VonBertalanffy(model) {
     linf_ = linf;
     k_ = k;
     t0_ = t0;
@@ -96,7 +96,7 @@ public:
 
 class MockPartition : public niwa::Partition {
 public:
-  MockPartition(Model* model) : Partition(model) {
+  MockPartition(shared_ptr<Model> model) : Partition(model) {
   };
 };
 
@@ -108,14 +108,14 @@ public:
  * so we can setup some more tests.
  */
 TEST(Partition, ValidateAndBuild) {
-  MockModel model;
-  MockCategories mock_categories(&model);
-  MockPartition partition(&model);
+  shared_ptr<MockModel> model = shared_ptr<MockModel>(new MockModel());
+  MockCategories mock_categories(model);
+  MockPartition partition(model);
   MockTimeStepManager time_step_manager;
   time_step_manager.time_step_index_ = 0;
 
-  model.bind_calls();
-  EXPECT_CALL(model, categories()).WillRepeatedly(Return(&mock_categories));
+  model->bind_calls();
+  EXPECT_CALL(*model, categories()).WillRepeatedly(Return(&mock_categories));
 
   ASSERT_NO_THROW(mock_categories.Validate());
   ASSERT_EQ(4u, mock_categories.category_names().size());
@@ -140,14 +140,14 @@ TEST(Partition, ValidateAndBuild) {
  * This method will test the X method
  */
 TEST(Partition, BuildMeanLength) {
-  MockModel model;
-  MockCategories mock_categories(&model);
-  MockPartition partition(&model);
+  shared_ptr<MockModel> model = shared_ptr<MockModel>(new MockModel());
+  MockCategories mock_categories(model);
+  MockPartition partition(model);
   MockTimeStepManager time_step_manager;
   time_step_manager.time_step_index_ = 0;
 
-  model.bind_calls();
-  EXPECT_CALL(model, categories()).WillRepeatedly(Return(&mock_categories));
+  model->bind_calls();
+  EXPECT_CALL(*model, categories()).WillRepeatedly(Return(&mock_categories));
 
   ASSERT_NO_THROW(mock_categories.Validate());
 
@@ -203,16 +203,16 @@ TEST(Partition, BuildMeanLength) {
  * This method will test the X method
  */
 TEST(Partition, BuildAgeLengthProportions) {
-  MockModel model;
-  MockCategories mock_categories(&model);
-  MockPartition partition(&model);
+  shared_ptr<MockModel> model = shared_ptr<MockModel>(new MockModel());
+  MockCategories mock_categories(model);
+  MockPartition partition(model);
   MockTimeStepManager time_step_manager;
   time_step_manager.time_step_index_ = 0;
 
-  model.set_length_plus(true);
-  model.bind_calls();
+  model->set_length_plus(true);
+  model->bind_calls();
 
-  EXPECT_CALL(model, categories()).WillRepeatedly(Return(&mock_categories));
+  EXPECT_CALL(*model, categories()).WillRepeatedly(Return(&mock_categories));
 
   ASSERT_NO_THROW(mock_categories.Validate());
 
@@ -282,17 +282,17 @@ TEST(Partition, BuildAgeLengthProportions) {
  * This method will test the BuildAgeLengthProportions  method
  */
 TEST(Partition, BuildAgeLengthProportions_2) {
-  MockModel model;
-  MockCategories mock_categories(&model);
-  MockPartition partition(&model);
+  shared_ptr<MockModel> model = shared_ptr<MockModel>(new MockModel());
+  MockCategories mock_categories(model);
+  MockPartition partition(model);
   MockTimeStepManager time_step_manager;
   time_step_manager.time_step_index_ = 0;
 
-  model.set_length_plus(true);
-  model.set_length_bins({0, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31 ,32, 33, 34, 35, 36, 37, 38, 39, 40, 41, 42, 43, 44, 45, 46, 47});
-  model.bind_calls();
+  model->set_length_plus(true);
+  model->set_length_bins({0, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31 ,32, 33, 34, 35, 36, 37, 38, 39, 40, 41, 42, 43, 44, 45, 46, 47});
+  model->bind_calls();
 
-  EXPECT_CALL(model, categories()).WillRepeatedly(Return(&mock_categories));
+  EXPECT_CALL(*model, categories()).WillRepeatedly(Return(&mock_categories));
   ASSERT_NO_THROW(mock_categories.Validate());
 
   MockVonBertalanffy von_bertalanffy(model, 80, 0.064, 4, false, 0.2, 0.2, {1.0});
@@ -347,15 +347,15 @@ TEST(Partition, BuildAgeLengthProportions_2) {
  * This method will test the BuildAgeLengthProportions  method
  */
 TEST(Partition, BuildAgeLengthProportions_3) {
-  MockModel model;
-  MockCategories mock_categories(&model);
-  MockPartition partition(&model);
+  shared_ptr<MockModel> model = shared_ptr<MockModel>(new MockModel());
+  MockCategories mock_categories(model);
+  MockPartition partition(model);
   MockTimeStepManager time_step_manager;
   time_step_manager.time_step_index_ = 0;
 
-  model.set_length_bins({0, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31 ,32, 33, 34, 35, 36, 37, 38, 39, 40, 41, 42, 43, 44, 45, 46, 47});
-  model.bind_calls();
-  EXPECT_CALL(model, categories()).WillRepeatedly(Return(&mock_categories));
+  model->set_length_bins({0, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31 ,32, 33, 34, 35, 36, 37, 38, 39, 40, 41, 42, 43, 44, 45, 46, 47});
+  model->bind_calls();
+  EXPECT_CALL(*model, categories()).WillRepeatedly(Return(&mock_categories));
   ASSERT_NO_THROW(mock_categories.Validate());
 
   MockVonBertalanffy von_bertalanffy(model, 80, 0.064, 4, false, 0.2, 0.2, {1.0}, false, Distribution::kLogNormal);
@@ -410,15 +410,15 @@ TEST(Partition, BuildAgeLengthProportions_3) {
  * This method will test the BuildAgeLengthProportions  method
  */
 TEST(Partition, BuildAgeLengthProportions_4) {
-  MockModel model;
-  MockCategories mock_categories(&model);
-  MockPartition partition(&model);
+  shared_ptr<MockModel> model = shared_ptr<MockModel>(new MockModel());
+  MockCategories mock_categories(model);
+  MockPartition partition(model);
   MockTimeStepManager time_step_manager;
   time_step_manager.time_step_index_ = 0;
 
-  model.set_length_bins({0, 20, 40, 60 , 80, 110});
-  model.bind_calls();
-  EXPECT_CALL(model, categories()).WillRepeatedly(Return(&mock_categories));
+  model->set_length_bins({0, 20, 40, 60 , 80, 110});
+  model->bind_calls();
+  EXPECT_CALL(*model, categories()).WillRepeatedly(Return(&mock_categories));
   ASSERT_NO_THROW(mock_categories.Validate());
 
   MockVonBertalanffy von_bertalanffy(model, 80, 0.064, 4, false, 0.2, 0.2, {1.0});

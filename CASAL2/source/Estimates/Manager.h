@@ -15,10 +15,10 @@
 #define ESTIMATE_MANAGER_H_
 
 // headers
-#include "BaseClasses/Manager.h"
-#include "Estimates/Estimate.h"
-#include "Estimates/Creators/Creator.h"
-#include "Utilities/Map.h"
+#include "../BaseClasses/Manager.h"
+#include "../Estimates/Estimate.h"
+#include "../Estimates/Creators/Creator.h"
+#include "../Utilities/Map.h"
 
 // namespaces
 namespace niwa {
@@ -37,9 +37,9 @@ public:
   // methods
   virtual                     ~Manager();
   void                        Validate() override final;
-  void                        Validate(Model* model);
+  void                        Validate(shared_ptr<Model> model);
   void                        Build() override final;
-  void                        Build(Model* model);
+  void                        Build(shared_ptr<Model> model);
   unsigned                    GetIsEstimatedCount();
   vector<Estimate*>           GetIsEstimated();
   vector<Estimate*>           GetInObjectiveFunction();

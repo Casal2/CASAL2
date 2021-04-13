@@ -11,7 +11,7 @@
  */
 
 // Headers
-#include <Likelihoods/Common/Pseudo.h>
+#include "Pseudo.h"
 
 // Namespaces
 namespace niwa {

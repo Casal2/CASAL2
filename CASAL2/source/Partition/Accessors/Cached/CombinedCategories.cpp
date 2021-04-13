@@ -26,7 +26,7 @@ namespace cached {
 /**
  * Default constructor
  */
-CombinedCategories::CombinedCategories(Model* model, const vector<string>& category_labels)
+CombinedCategories::CombinedCategories(shared_ptr<Model> model, const vector<string>& category_labels)
   : model_(model) {
   LOG_FINEST() << "Categories: " << category_labels.size();
 
@@ -40,7 +40,7 @@ CombinedCategories::CombinedCategories(Model* model, const vector<string>& categ
 }
 
 /**
- * This method builds the cache. It is
+ * This method will build our cache. It's
  * essentially a copy of the partition for
  * specific categories at a specific time
  * so it can be used for interpolation later.
@@ -88,29 +88,16 @@ void CombinedCategories::BuildCache() {
   }
 }
 
-/**
- * Return an iterator to the first object in the container
- * @return Iterator to the first stored element
- */
 CombinedCategories::DataType::iterator CombinedCategories::Begin() {
   LOG_TRACE();
   LOG_FINEST() << data_.size();
   return data_.begin();
 }
 
-/**
- * Return an iterator to the end object in the container
- * @return End iterator for the stored elements
- */
 CombinedCategories::DataType::iterator CombinedCategories::End() {
   return data_.end();
 }
 
-/**
- * Return the size of the container for the current year. This
- * returns the number of active categories
- * @return The number of active categories
- */
 unsigned CombinedCategories::Size() {
   return data_.size();
 }

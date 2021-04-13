@@ -17,7 +17,7 @@
 #define ESTIMATES_NORMALBYSTDEV_H_
 
 // Headers
-#include "Estimates/Estimate.h"
+#include "../../Estimates/Estimate.h"
 
 // Namespaces
 namespace niwa {
@@ -30,7 +30,7 @@ class NormalByStdev : public niwa::Estimate {
 public:
   // Methods
   NormalByStdev() = delete;
-  explicit NormalByStdev(Model* model);
+  explicit NormalByStdev(shared_ptr<Model> model);
   virtual                     ~NormalByStdev() = default;
   void                        DoValidate() override final { };
   Double                      GetScore() override final;

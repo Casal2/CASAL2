@@ -22,7 +22,7 @@ namespace additionalpriors {
  * @param parameter The parameter the additional prior is targeting
  * @return True if found, false otherwise
  */
-bool Manager::HasAdditionalPrior(const string& parameter) {
+bool Manager::HasAdditionalPrior(string_view parameter) {
   for (AdditionalPrior* additional_prior : objects_) {
     if (additional_prior->parameter() == parameter)
       return true;
@@ -36,7 +36,7 @@ bool Manager::HasAdditionalPrior(const string& parameter) {
  * @param parameter The parameter string
  * @return An AdditionalPrior pointer
  */
-AdditionalPrior* Manager::GetAdditionalPrior(const string& parameter) {
+AdditionalPrior* Manager::GetAdditionalPrior(string_view parameter) {
   for (AdditionalPrior* additional_prior : objects_) {
     if (additional_prior->parameter() == parameter)
       return additional_prior;

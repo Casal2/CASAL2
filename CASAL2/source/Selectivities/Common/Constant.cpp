@@ -4,13 +4,13 @@
  *  Created on: 9/01/2013
  *      Author: Admin
  */
+#include "Constant.h"
 
 #include <boost/math/distributions/lognormal.hpp>
-#include <Selectivities/Common/Constant.h>
 #include <cmath>
 
-#include "AgeLengths/AgeLength.h"
-#include "Model/Model.h"
+#include "../../AgeLengths/AgeLength.h"
+#include "../../Model/Model.h"
 
 namespace niwa {
 namespace selectivities {
@@ -18,7 +18,7 @@ namespace selectivities {
 /**
  * Default constructor
  */
-Constant::Constant(Model* model)
+Constant::Constant(shared_ptr<Model> model)
 : Selectivity(model) {
 
   parameters_.Bind<Double>(PARAM_C, &c_, "The constant value", "");
@@ -58,6 +58,7 @@ Double Constant::GetAgeResult(unsigned age, AgeLength* age_length) {
  * @param time_step_index
  * @return the constant value
  */
+
 Double Constant::GetLengthBasedResult(unsigned age, AgeLength* age_length, unsigned year, int time_step_index) {
   return c_;
 }

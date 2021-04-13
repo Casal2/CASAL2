@@ -19,7 +19,7 @@ namespace creators {
 /**
  * Default constructor
  */
-Beta::Beta(Model* model) : Creator(model) {
+Beta::Beta(shared_ptr<Model> model) : Creator(model) {
   parameters_.Bind<Double>(PARAM_MU, &mu_, "The beta prior mean (mu) parameter", "");
   parameters_.Bind<Double>(PARAM_SIGMA, &sigma_, "The beta prior standard deviation (sigma) parameter", "");
   parameters_.Bind<Double>(PARAM_A, &a_, "The beta prior lower bound of the range (A) parameter", "");
@@ -35,6 +35,7 @@ void Beta::DoCopyParameters(niwa::Estimate* estimate, unsigned index) {
   estimate->parameters().CopyFrom(parameters_, PARAM_A, index);
   estimate->parameters().CopyFrom(parameters_, PARAM_B, index);
 }
+
 
 } /* namespace creators */
 } /* namespace estimates */

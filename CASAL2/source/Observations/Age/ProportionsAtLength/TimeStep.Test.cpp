@@ -212,7 +212,7 @@ TEST_F(InternalEmptyModel, Observation_Proportions_At_Length_Single) {
   ObjectiveFunction& obj_function = model_->objective_function();
   EXPECT_DOUBLE_EQ(312.92195125167586, obj_function.score());
 
-  Observation* observation = model_->managers().observation()->GetObservation("observation");
+  Observation* observation = model_->managers()->observation()->GetObservation("observation");
 
   map<unsigned, vector<obs::Comparison> >& comparisons = observation->comparisons();
   ASSERT_EQ(5u, comparisons.size());

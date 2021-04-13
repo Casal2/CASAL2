@@ -15,7 +15,7 @@
 #define SOURCE_ESTIMATETRANSFORMATIONS_CHILDREN_SIMPLEX_H_
 
 // headers
-#include "EstimateTransformations/EstimateTransformation.h"
+#include "../../EstimateTransformations/EstimateTransformation.h"
 
 // namespaces
 namespace niwa {
@@ -28,7 +28,7 @@ namespace estimatetransformations {
 class Simplex : public EstimateTransformation {
 public:
   Simplex() = delete;
-  explicit                    Simplex(Model* model);
+  explicit                    Simplex(shared_ptr<Model> model);
   virtual                     ~Simplex() = default;
   void                        TransformForObjectiveFunction() override final { };
   void                        RestoreFromObjectiveFunction() override final { };

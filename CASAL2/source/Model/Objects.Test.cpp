@@ -19,11 +19,11 @@
 #include <gmock/gmock.h>
 #include <gtest/gtest.h>
 
-#include "Model/Managers.h"
-#include "Processes/Manager.h"
-#include "Processes/Common/UnitTester.h"
-#include "Selectivities/Common/Constant.Mock.h"
-#include "TestResources/MockClasses/Model.h"
+#include "../Model/Managers.h"
+#include "../Processes/Manager.h"
+#include "../Processes/Common/UnitTester.h"
+#include "../Selectivities/Common/Constant.Mock.h"
+#include "../TestResources/MockClasses/Model.h"
 
 // Namespaces
 namespace niwa {
@@ -37,8 +37,8 @@ using ::testing::Invoke;
  * See if we can create a Model object and check the default values
  */
 TEST(Objects, Validate_Mock) {
-  MockModel model;
-  MockObjects objects(&model);
+  shared_ptr<MockModel> model = shared_ptr<MockModel>(new MockModel());
+  MockObjects objects(model);
   std::string error = "";
   double double_ = 10.0;
   double double2_ = 20.0;
@@ -83,7 +83,7 @@ TEST(Objects, Validate_Mock) {
   ASSERT_EQ(&vector_, objects.GetAddressableVector(""));
   EXPECT_EQ(3u, objects.GetAddressableVector("")->size());
 
-  selectivities::MockConstant constant_selectivity(&model);
+  selectivities::MockConstant constant_selectivity(model);
   EXPECT_CALL(objects, FindObject(_)).WillRepeatedly(Return(&constant_selectivity));
   ASSERT_EQ(&constant_selectivity, objects.FindObject(""));
 
@@ -129,9 +129,9 @@ TEST(Objects, Validate_Mock) {
  * virtual bool VerfiyAddressableForUse(const string& parameter_absolute_name, addressable::Usage usage, string& error);
  */
 TEST(Objects, VerifyAddressableForUse) {
-  Model model;
-  model.set_partition_type(PartitionType::kAge);
-  Objects& objects = model.objects();
+	shared_ptr<Model> model = shared_ptr<Model>(new Model());
+  model->set_partition_type(PartitionType::kAge);
+  Objects& objects = model->objects();
   ASSERT_NE(nullptr, &objects);
 
   string error = "";
@@ -146,11 +146,11 @@ TEST(Objects, VerifyAddressableForUse) {
   EXPECT_EQ("Parent object", error.substr(0, 13));
 
   // Now, we need to create an object and try to reference a non-existent addressable
-  processes::UnitTester* unit_tester = new processes::UnitTester(&model);
-  model.managers().process()->AddObject(unit_tester);
+  processes::UnitTester* unit_tester = new processes::UnitTester(model);
+  model->managers()->process()->AddObject(unit_tester);
   unit_tester->parameters().Add(PARAM_LABEL, "unit_tester", __FILE__, __LINE__);
   unit_tester->parameters().Add(PARAM_TYPE, PARAM_NOP, __FILE__, __LINE__);
-  model.managers().process()->Validate(&model);
+  model->managers()->process()->Validate(model);
 
   EXPECT_EQ(false, objects.VerfiyAddressableForUse("process[unit_tester].y", addressable::kSimulate, error));
   ASSERT_EQ(true, (error.length() > 16));
@@ -180,20 +180,20 @@ TEST(Objects, VerifyAddressableForUse) {
  * };
  */
 TEST(Objects, GetAddressableType) {
-  Model model;
-  model.set_partition_type(PartitionType::kAge);
-  Objects& objects = model.objects();
+	shared_ptr<Model> model = shared_ptr<Model>(new Model());
+  model->set_partition_type(PartitionType::kAge);
+  Objects& objects = model->objects();
   ASSERT_NE(nullptr, &objects);
 
   string error = "";
   string parameter = "";
 
   // Now, we need to create an object and try to reference addressables
-  processes::UnitTester* unit_tester = new processes::UnitTester(&model);
-  model.managers().process()->AddObject(unit_tester);
+  processes::UnitTester* unit_tester = new processes::UnitTester(model);
+  model->managers()->process()->AddObject(unit_tester);
   unit_tester->parameters().Add(PARAM_LABEL, "unit_tester", __FILE__, __LINE__);
   unit_tester->parameters().Add(PARAM_TYPE, PARAM_NOP, __FILE__, __LINE__);
-  model.managers().process()->Validate(&model);
+  model->managers()->process()->Validate(model);
 
   EXPECT_EQ(addressable::kSingle,       objects.GetAddressableType("process[unit_tester].a"));
   EXPECT_EQ(addressable::kVector,       objects.GetAddressableType("process[unit_tester].b"));
@@ -211,20 +211,20 @@ TEST(Objects, GetAddressableType) {
  * virtual Double* GetAddressable(const string& addressable_absolute_name);
  */
 TEST(Objects, GetAddressable) {
-  Model model;
-  model.set_partition_type(PartitionType::kAge);
-  Objects& objects = model.objects();
+	shared_ptr<Model> model = shared_ptr<Model>(new Model());
+  model->set_partition_type(PartitionType::kAge);
+  Objects& objects = model->objects();
   ASSERT_NE(nullptr, &objects);
 
   string error = "";
   string parameter = "";
 
   // Now, we need to create an object and try to reference addressables
-  processes::UnitTester* unit_tester = new processes::UnitTester(&model);
-  model.managers().process()->AddObject(unit_tester);
+  processes::UnitTester* unit_tester = new processes::UnitTester(model);
+  model->managers()->process()->AddObject(unit_tester);
   unit_tester->parameters().Add(PARAM_LABEL, "unit_tester", __FILE__, __LINE__);
   unit_tester->parameters().Add(PARAM_TYPE, PARAM_NOP, __FILE__, __LINE__);
-  model.managers().process()->Validate(&model);
+  model->managers()->process()->Validate(model);
 
   EXPECT_EQ(addressable::kSingle,       objects.GetAddressableType("process[unit_tester].a"));
   ASSERT_NE(nullptr, objects.GetAddressable("process[unit_tester].a"));
@@ -251,20 +251,20 @@ TEST(Objects, GetAddressable) {
  * virtual Double* GetAddressable(const string& addressable_absolute_name);
  */
 TEST(Objects, GetAddressable_Fail) {
-  Model model;
-  model.set_partition_type(PartitionType::kAge);
-  Objects& objects = model.objects();
+	shared_ptr<Model> model = shared_ptr<Model>(new Model());
+  model->set_partition_type(PartitionType::kAge);
+  Objects& objects = model->objects();
   ASSERT_NE(nullptr, &objects);
 
   string error = "";
   string parameter = "";
 
   // Now, we need to create an object and try to reference addressables
-  processes::UnitTester* unit_tester = new processes::UnitTester(&model);
-  model.managers().process()->AddObject(unit_tester);
+  processes::UnitTester* unit_tester = new processes::UnitTester(model);
+  model->managers()->process()->AddObject(unit_tester);
   unit_tester->parameters().Add(PARAM_LABEL, "unit_tester", __FILE__, __LINE__);
   unit_tester->parameters().Add(PARAM_TYPE, PARAM_NOP, __FILE__, __LINE__);
-  model.managers().process()->Validate(&model);
+  model->managers()->process()->Validate(model);
 
   EXPECT_THROW(objects.GetAddressable("bad[label].addressable"), std::string);
   EXPECT_THROW(objects.GetAddressable("process[bad_label].addressable"), std::string);
@@ -275,20 +275,20 @@ TEST(Objects, GetAddressable_Fail) {
  * virtual vector<Double*>* GetAddressables(const string& addressable_absolute_name);
  */
 TEST(Objects, GetAddressables) {
-  Model model;
-  model.set_partition_type(PartitionType::kAge);
-  Objects& objects = model.objects();
+	shared_ptr<Model> model = shared_ptr<Model>(new Model());
+  model->set_partition_type(PartitionType::kAge);
+  Objects& objects = model->objects();
   ASSERT_NE(nullptr, &objects);
 
   string error = "";
   string parameter = "";
 
   // Now, we need to create an object and try to reference addressables
-  processes::UnitTester* unit_tester = new processes::UnitTester(&model);
-  model.managers().process()->AddObject(unit_tester);
+  processes::UnitTester* unit_tester = new processes::UnitTester(model);
+  model->managers()->process()->AddObject(unit_tester);
   unit_tester->parameters().Add(PARAM_LABEL, "unit_tester", __FILE__, __LINE__);
   unit_tester->parameters().Add(PARAM_TYPE, PARAM_NOP, __FILE__, __LINE__);
-  model.managers().process()->Validate(&model);
+  model->managers()->process()->Validate(model);
 
   EXPECT_EQ(addressable::kMultiple,     objects.GetAddressableType("process[unit_tester].b{1,2}"));
   ASSERT_NE(nullptr, objects.GetAddressables("process[unit_tester].b{1,2}"));
@@ -310,20 +310,20 @@ TEST(Objects, GetAddressables) {
  * virtual map<unsigned, Double>* GetAddressableUMap(const string& addressable_absolute_name);
  */
 TEST(Objects, GetAddressableUMap) {
-  Model model;
-  model.set_partition_type(PartitionType::kAge);
-  Objects& objects = model.objects();
+	shared_ptr<Model> model = shared_ptr<Model>(new Model());
+  model->set_partition_type(PartitionType::kAge);
+  Objects& objects = model->objects();
   ASSERT_NE(nullptr, &objects);
 
   string error = "";
   string parameter = "";
 
   // Now, we need to create an object and try to reference addressables
-  processes::UnitTester* unit_tester = new processes::UnitTester(&model);
-  model.managers().process()->AddObject(unit_tester);
+  processes::UnitTester* unit_tester = new processes::UnitTester(model);
+  model->managers()->process()->AddObject(unit_tester);
   unit_tester->parameters().Add(PARAM_LABEL, "unit_tester", __FILE__, __LINE__);
   unit_tester->parameters().Add(PARAM_TYPE, PARAM_NOP, __FILE__, __LINE__);
-  model.managers().process()->Validate(&model);
+  model->managers()->process()->Validate(model);
 
   EXPECT_EQ(addressable::kUnsignedMap,  objects.GetAddressableType("process[unit_tester].c"));
   ASSERT_NE(nullptr, objects.GetAddressableUMap("process[unit_tester].c"));
@@ -338,20 +338,20 @@ TEST(Objects, GetAddressableUMap) {
  * virtual OrderedMap<string, Double>* GetAddressableSMap(const string& addressable_absolute_name);
  */
 TEST(Objects, GetAddressableSMap) {
-  Model model;
-  model.set_partition_type(PartitionType::kAge);
-  Objects& objects = model.objects();
+	shared_ptr<Model> model = shared_ptr<Model>(new Model());
+  model->set_partition_type(PartitionType::kAge);
+  Objects& objects = model->objects();
   ASSERT_NE(nullptr, &objects);
 
   string error = "";
   string parameter = "";
 
   // Now, we need to create an object and try to reference addressables
-  processes::UnitTester* unit_tester = new processes::UnitTester(&model);
-  model.managers().process()->AddObject(unit_tester);
+  processes::UnitTester* unit_tester = new processes::UnitTester(model);
+  model->managers()->process()->AddObject(unit_tester);
   unit_tester->parameters().Add(PARAM_LABEL, "unit_tester", __FILE__, __LINE__);
   unit_tester->parameters().Add(PARAM_TYPE, PARAM_NOP, __FILE__, __LINE__);
-  model.managers().process()->Validate(&model);
+  model->managers()->process()->Validate(model);
 
   EXPECT_EQ(addressable::kStringMap,    objects.GetAddressableType("process[unit_tester].d"));
   ASSERT_NE(nullptr, objects.GetAddressableSMap("process[unit_tester].d"));
@@ -366,20 +366,20 @@ TEST(Objects, GetAddressableSMap) {
  * virtual vector<Double>* GetAddressableVector(const string& addressable_absolute_name);
  */
 TEST(Objects, GetAddressableVector) {
-  Model model;
-  model.set_partition_type(PartitionType::kAge);
-  Objects& objects = model.objects();
+	shared_ptr<Model> model = shared_ptr<Model>(new Model());
+  model->set_partition_type(PartitionType::kAge);
+  Objects& objects = model->objects();
   ASSERT_NE(nullptr, &objects);
 
   string error = "";
   string parameter = "";
 
   // Now, we need to create an object and try to reference addressables
-  processes::UnitTester* unit_tester = new processes::UnitTester(&model);
-  model.managers().process()->AddObject(unit_tester);
+  processes::UnitTester* unit_tester = new processes::UnitTester(model);
+  model->managers()->process()->AddObject(unit_tester);
   unit_tester->parameters().Add(PARAM_LABEL, "unit_tester", __FILE__, __LINE__);
   unit_tester->parameters().Add(PARAM_TYPE, PARAM_NOP, __FILE__, __LINE__);
-  model.managers().process()->Validate(&model);
+  model->managers()->process()->Validate(model);
 
   EXPECT_EQ(addressable::kVector,  objects.GetAddressableType("process[unit_tester].b"));
   ASSERT_NE(nullptr, objects.GetAddressableVector("process[unit_tester].b"));
@@ -404,7 +404,7 @@ TEST(Objects, GetAddressableVector) {
  */
 class MockObjectsExplodeString : public niwa::Objects {
 public:
-  MockObjectsExplodeString(Model* model) : niwa::Objects(model) { };
+  MockObjectsExplodeString(shared_ptr<Model> model) : niwa::Objects(model) { };
   virtual ~MockObjectsExplodeString() = default;
   void MockExplodeString(const string& parameter_absolute_name, string &type, string& label, string& addressable, string& index) {
     this->ExplodeString(parameter_absolute_name, type, label, addressable, index);
@@ -412,9 +412,9 @@ public:
 };
 
 TEST(Objects, ExplodeString) {
-  Model model;
-  model.set_partition_type(PartitionType::kAge);
-  MockObjectsExplodeString objects(&model);
+	shared_ptr<Model> model = shared_ptr<Model>(new Model());
+  model->set_partition_type(PartitionType::kAge);
+  MockObjectsExplodeString objects(model);
 
   string type = "", label = "", addressable = "", index = "";
   string abs = "";
@@ -459,7 +459,7 @@ TEST(Objects, ExplodeString) {
  */
 class MockObjectsImplodeString : public niwa::Objects {
 public:
-  MockObjectsImplodeString(Model* model) : niwa::Objects(model) { };
+  MockObjectsImplodeString(shared_ptr<Model> model) : niwa::Objects(model) { };
   virtual ~MockObjectsImplodeString() = default;
   void MockImplodeString(const string& type, const string& label, const string& parameter, const string& index, string& target_parameter) {
     this->ImplodeString(type, label, parameter, index, target_parameter);
@@ -467,9 +467,9 @@ public:
 };
 
 TEST(Objects, ImplodeString) {
-  Model model;
-  model.set_partition_type(PartitionType::kAge);
-  MockObjectsImplodeString objects(&model);
+	shared_ptr<Model> model = shared_ptr<Model>(new Model());
+  model->set_partition_type(PartitionType::kAge);
+  MockObjectsImplodeString objects(model);
 
   string type = "", label = "", addressable = "", index = "";
   string result = "";
@@ -514,7 +514,7 @@ TEST(Objects, ImplodeString) {
  */
 class MockObjectsExplodeParameterAndIndex : public niwa::Objects {
 public:
-  MockObjectsExplodeParameterAndIndex(Model* model) : niwa::Objects(model) { };
+  MockObjectsExplodeParameterAndIndex(shared_ptr<Model> model) : niwa::Objects(model) { };
   virtual ~MockObjectsExplodeParameterAndIndex() = default;
   std::pair<string, string> MockExplodeParameterAndIndex(const string& parameter_absolute_name) {
     return this->ExplodeParameterAndIndex(parameter_absolute_name);
@@ -522,9 +522,9 @@ public:
 };
 
 TEST(Objects, ExplodeParameterAndIndex) {
-  Model model;
-  model.set_partition_type(PartitionType::kAge);
-  MockObjectsExplodeParameterAndIndex objects(&model);
+	shared_ptr<Model> model = shared_ptr<Model>(new Model());
+  model->set_partition_type(PartitionType::kAge);
+  MockObjectsExplodeParameterAndIndex objects(model);
 
   string abs = "";
   std::pair<string, string> result;
@@ -564,9 +564,9 @@ TEST(Objects, ExplodeParameterAndIndex) {
  * virtual base::Object*               FindObject(const string& parameter_absolute_name);
  */
 TEST(Objects, FindObject) {
-  Model model;
-  model.set_partition_type(PartitionType::kAge);
-  Objects& objects = model.objects();
+  shared_ptr<Model> model = shared_ptr<Model>(new Model());
+  model->set_partition_type(PartitionType::kAge);
+  Objects& objects = model->objects();
   ASSERT_NE(nullptr, &objects);
 
   string error = "";
@@ -576,14 +576,14 @@ TEST(Objects, FindObject) {
   vector<string> names = { "unit0", "unit01", "unit02", "unit03", "unit_04", "unit-05", "unit.06" };
   vector<processes::UnitTester*> objs;
   for (auto& name : names) {
-    processes::UnitTester* unit_tester = new processes::UnitTester(&model);
-    model.managers().process()->AddObject(unit_tester);
+    processes::UnitTester* unit_tester = new processes::UnitTester(model);
+    model->managers()->process()->AddObject(unit_tester);
     unit_tester->parameters().Add(PARAM_LABEL, name, __FILE__, __LINE__);
     unit_tester->parameters().Add(PARAM_TYPE, PARAM_NOP, __FILE__, __LINE__);
 
     objs.push_back(unit_tester);
   }
-  model.managers().process()->Validate(&model);
+  model->managers()->process()->Validate(model);
 
   ASSERT_EQ(objs[0], objects.FindObject("process[unit0].addressable"));
   ASSERT_EQ(objs[1], objects.FindObject("process[unit01].addressable"));
@@ -598,9 +598,9 @@ TEST(Objects, FindObject) {
  * virtual base::Object*               FindObject(const string& parameter_absolute_name);
  */
 TEST(Objects, FindObject_Fail) {
-  Model model;
-  model.set_partition_type(PartitionType::kAge);
-  Objects& objects = model.objects();
+	shared_ptr<Model> model = shared_ptr<Model>(new Model());
+  model->set_partition_type(PartitionType::kAge);
+  Objects& objects = model->objects();
   ASSERT_NE(nullptr, &objects);
 
   ASSERT_THROW(objects.FindObject("process"), std::string);

@@ -22,8 +22,8 @@
 #include "AgeLengths/AgeLength.h"
 #include "Categories/Categories.h"
 #include "Partition/Accessors/All.h"
+#include "../../Partition/Accessors/Cached/CombinedCategories.h"
 #include "TimeSteps/Manager.h"
-#include "Utilities/DoubleCompare.h"
 #include "Utilities/Map.h"
 #include "Utilities/Math.h"
 #include "Utilities/To.h"
@@ -36,18 +36,18 @@ namespace age {
 /**
  * Default constructor
  */
-ProcessRemovalsByLength::ProcessRemovalsByLength(Model* model) :
+ProcessRemovalsByLength::ProcessRemovalsByLength(shared_ptr<Model> model) :
     Observation(model) {
 
   obs_table_ = new parameters::Table(PARAM_OBS);
   error_values_table_ = new parameters::Table(PARAM_ERROR_VALUES);
 
   parameters_.Bind<string>(PARAM_TIME_STEP, &time_step_label_, "The time step to execute in", "");
-  parameters_.Bind<double>(PARAM_TOLERANCE, &tolerance_, "The tolerance for rescaling proportions", "", double(0.001))->set_range(0.0, 1.0, false, false);
+  parameters_.Bind<Double>(PARAM_TOLERANCE, &tolerance_, "The tolerance for rescaling proportions", "", Double(0.001))->set_range(0.0, 1.0, false, false);
   parameters_.Bind<unsigned>(PARAM_YEARS, &years_, "The years for which there are observations", "");
   parameters_.Bind<Double>(PARAM_PROCESS_ERRORS, &process_error_values_, "The process error", "", true);
   parameters_.Bind<string>(PARAM_METHOD_OF_REMOVAL, &method_, "The label of observed method of removals", "", "");
-  parameters_.Bind<double>(PARAM_LENGTH_BINS, &length_bins_, "The length bins", "");
+  parameters_.Bind<Double>(PARAM_LENGTH_BINS, &length_bins_, "The length bins", "");
   parameters_.Bind<bool>(PARAM_LENGTH_PLUS, &length_plus_, "Is the last length bin a plus group? (defaults to @model value)", "", model->length_plus()); // default to the model value
   parameters_.BindTable(PARAM_OBS, obs_table_, "Table of observed values", "", false);
   parameters_.BindTable(PARAM_ERROR_VALUES, error_values_table_, "The table of error values of the observed values (note that the units depend on the likelihood)", "", false);
@@ -89,7 +89,7 @@ void ProcessRemovalsByLength::DoValidate() {
    * Do some simple checks
    * e.g Validate that the length_bins are strictly increasing
    */
-  vector<double> model_length_bins = model_->length_bins();
+  vector<Double> model_length_bins = model_->length_bins();
   for (unsigned length = 0; length < length_bins_.size(); ++length) {
     if (length_bins_[length] < 0.0)
       LOG_ERROR_P(PARAM_LENGTH_BINS) << ": Length bin values must be positive: " << length_bins_[length] << " is less than 0.0";
@@ -132,10 +132,10 @@ void ProcessRemovalsByLength::DoValidate() {
       LOG_FATAL_P(PARAM_PROCESS_ERRORS) << "Supply a process error for each year. Values for " << process_error_values_.size()
         << " years were provided, but " << years_.size() << " years are required";
     }
-    process_errors_by_year_ = utilities::Map<Double>::create(years_, process_error_values_);
+    process_errors_by_year_ = utilities::Map::create(years_, process_error_values_);
   } else {
     Double process_val = 0.0;
-    process_errors_by_year_ = utilities::Map<Double>::create(years_, process_val);
+    process_errors_by_year_ = utilities::Map::create(years_, process_val);
   }
 
   if (delta_ < 0.0)
@@ -261,7 +261,7 @@ void ProcessRemovalsByLength::DoBuild() {
 
   length_results_.resize(number_bins_ * category_labels_.size(), 0.0);
 
-  auto time_step = model_->managers().time_step()->GetTimeStep(time_step_label_);
+  auto time_step = model_->managers()->time_step()->GetTimeStep(time_step_label_);
   if (!time_step) {
     LOG_FATAL_P(PARAM_TIME_STEP) << "Time step label " << time_step_label_ << " was not found.";
   } else {
@@ -335,7 +335,7 @@ void ProcessRemovalsByLength::Execute() {
 //  auto categories = model_->categories();
   unsigned year       = model_->current_year();
   unsigned year_index = year - model_->start_year();
-  unsigned time_step  = model_->managers().time_step()->current_time_step();
+  unsigned time_step  = model_->managers()->time_step()->current_time_step();
 
   auto cached_partition_iter = cached_partition_->Begin();
   auto partition_iter        = partition_->Begin(); // vector<vector<partition::Category> >

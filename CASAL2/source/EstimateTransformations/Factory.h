@@ -17,7 +17,7 @@
 // headers
 #include <string>
 
-#include "EstimateTransformations/EstimateTransformation.h"
+#include "../EstimateTransformations/EstimateTransformation.h"
 
 // namespaces
 namespace niwa {
@@ -26,7 +26,7 @@ namespace estimatetransformations {
 // classes
 class Factory {
 public:
-  static EstimateTransformation*  Create(Model* model, const string& object_type, const string& sub_type);
+  static EstimateTransformation*  Create(shared_ptr<Model> model, const string& object_type, const string& sub_type);
 private:
   Factory() = delete;
   virtual ~Factory() = delete;

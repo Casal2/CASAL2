@@ -38,7 +38,7 @@ class Observation : public niwa::base::Executor {
 public:
   // methods
   Observation() = delete;
-  explicit Observation(Model* model);
+  explicit Observation(shared_ptr<Model> model);
   virtual                     ~Observation() = default;
   void                        Validate();
   void                        Build();
@@ -59,24 +59,24 @@ public:
 
 protected:
   // methods
-  void                        SaveComparison(string category, unsigned age, double length,
+  void                        SaveComparison(string category, unsigned age, Double length,
                                              Double expected, Double observed,
                                              Double process_error, Double error_value,
-                                             Double adjusted_error, double delta, Double score);
+                                             Double adjusted_error, Double delta, Double score);
 
   void                        SaveComparison(string category,
                                              Double expected, Double observed,
                                              Double process_error, Double error_value,
-                                             Double adjusted_error, double delta, Double score);
+                                             Double adjusted_error, Double delta, Double score);
 
   // members
-  Model*                      model_ = nullptr;
+  shared_ptr<Model>           model_ = nullptr;
   map<unsigned, Double>       scores_;
-  double                      proportion_of_time_ = 0;
+  Double                      proportion_of_time_ = 0;
   bool                        mean_proportion_method_ = false;
   string                      likelihood_type_ = "";
   string                      simulation_likelihood_label_ = "";
-  double                      delta_ = 0;
+  Double                      delta_ = 0;
   bool                        run_in_simulation_mode_ = false;
   Likelihood*                 likelihood_ = nullptr;
   vector<string>              allowed_likelihood_types_;

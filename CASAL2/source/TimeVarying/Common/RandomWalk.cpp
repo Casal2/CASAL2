@@ -5,16 +5,17 @@
  * @date 2/02/2016
  * @section LICENSE
  *
- * Copyright NIWA Science ©2014 - www.niwa.co.nz
+ * Copyright NIWA Science ï¿½2014 - www.niwa.co.nz
  *
  */
 
 // headers
-#include <TimeVarying/Common/RandomWalk.h>
-#include "Utilities/Map.h"
-#include "Utilities/RandomNumberGenerator.h"
-#include "Model/Objects.h"
-#include "Estimates/Manager.h"
+#include "RandomWalk.h"
+
+#include "../../Utilities/Map.h"
+#include "../../Utilities/RandomNumberGenerator.h"
+#include "../../Model/Objects.h"
+#include "../../Estimates/Manager.h"
 
 
 // namespaces
@@ -24,11 +25,11 @@ namespace timevarying {
 /**
  * Default constructor
  */
-RandomWalk::RandomWalk(Model* model) : TimeVarying(model) {
+RandomWalk::RandomWalk(shared_ptr<Model> model) : TimeVarying(model) {
   parameters_.Bind<Double>(PARAM_MEAN, &mu_, "The mean (mu)", "", 0);
   parameters_.Bind<Double>(PARAM_SIGMA, &sigma_, "The standard deviation (sigma)", "", 1);
-  parameters_.Bind<double>(PARAM_UPPER_BOUND, &upper_bound_, "The upper bound for the random walk", "", 1);
-  parameters_.Bind<double>(PARAM_UPPER_BOUND, &lower_bound_, "The lower bound for the random walk", "", 1);
+  parameters_.Bind<Double>(PARAM_UPPER_BOUND, &upper_bound_, "The upper bound for the random walk", "", 1);
+  parameters_.Bind<Double>(PARAM_UPPER_BOUND, &lower_bound_, "The lower bound for the random walk", "", 1);
   parameters_.Bind<Double>(PARAM_RHO, &rho_, "The autocorrelation parameter (rho)", "", 1);
   parameters_.Bind<string>(PARAM_DISTRIBUTION, &distribution_, "The distribution", "", PARAM_NORMAL);
 
@@ -45,7 +46,7 @@ void RandomWalk::DoValidate() {
 }
 
 /**
- * Build
+ *
  */
 void RandomWalk::DoBuild() {
   // Warn users that they have a time-varying parameter in estimation mode.
@@ -65,7 +66,7 @@ void RandomWalk::DoUpdate() {
   LOG_FINEST() << "value = " << *addressable_;
   utilities::RandomNumberGenerator& rng = utilities::RandomNumberGenerator::Instance();
   Double value = *addressable_;
-  double deviate = rng.normal(AS_VALUE(mu_), AS_VALUE(sigma_));
+  double deviate = rng.normal(AS_DOUBLE(mu_), AS_DOUBLE(sigma_));
   value += value * rho_ + deviate;
 
 

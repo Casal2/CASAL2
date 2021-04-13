@@ -16,6 +16,11 @@
 #ifndef SOURCE_MODEL_MANAGERS_H_
 #define SOURCE_MODEL_MANAGERS_H_
 
+#include <memory>
+#include <mutex>
+
+using std::shared_ptr;
+
 // namespaces
 namespace niwa {
 
@@ -53,6 +58,9 @@ class Managers {
   friend class Model;
   friend class MockManagers;
 public:
+  Managers() = delete;
+  virtual                     ~Managers();
+
   // accessors
   virtual additionalpriors::Manager*      additional_prior() { return additional_prior_; }
   virtual ageingerrors::Manager*          ageing_error() { return ageing_error_; }
@@ -68,28 +76,30 @@ public:
   virtual lengthweights::Manager*         length_weight() { return length_weight_; }
   virtual likelihoods::Manager*           likelihood() { return likelihood_; }
   virtual mcmcs::Manager*                 mcmc() { return mcmc_; }
-  virtual minimisers::Manager*            minimiser() { return minimiser_; }
+  virtual shared_ptr<minimisers::Manager>	minimiser();
   virtual observations::Manager*          observation() { return observation_; }
   virtual penalties::Manager*             penalty() { return penalty_; }
   virtual processes::Manager*             process() { return process_; }
   virtual profiles::Manager*              profile() { return profile_; }
   virtual projects::Manager*              project() { return project_; }
-  virtual reports::Manager*               report() { return report_; }
+  virtual shared_ptr<reports::Manager>    report();
   virtual selectivities::Manager*         selectivity() { return selectivity_; }
   virtual simulates::Manager*             simulate() { return simulate_; }
   virtual timesteps::Manager*             time_step() { return time_step_; }
   virtual timevarying::Manager*           time_varying() { return time_varying_; }
 
+  void set_minimiser(shared_ptr<minimisers::Manager> manager) { minimiser_ = manager; }
+  void set_reports(shared_ptr<reports::Manager> manager) { report_ = manager; }
+
 protected:
   // methods
-  Managers(Model* model);
-  virtual                     ~Managers();
+  Managers(shared_ptr<Model> model);
   void                        Validate();
   void                        Build();
   void                        Reset();
 
   // members
-  Model*                              model_;
+  shared_ptr<Model>                   model_;
   additionalpriors::Manager*          additional_prior_;
   ageingerrors::Manager*              ageing_error_;
   agelengths::Manager*                age_length_;
@@ -104,17 +114,18 @@ protected:
   lengthweights::Manager*             length_weight_;
   likelihoods::Manager*               likelihood_;
   mcmcs::Manager*                     mcmc_;
-  minimisers::Manager*                minimiser_;
+  shared_ptr<minimisers::Manager>	    minimiser_;
   observations::Manager*              observation_;
   penalties::Manager*                 penalty_;
   processes::Manager*                 process_;
   profiles::Manager*                  profile_;
   projects::Manager*                  project_;
-  reports::Manager*                   report_;
+  shared_ptr<reports::Manager>        report_;
   selectivities::Manager*             selectivity_;
   simulates::Manager*                 simulate_;
   timesteps::Manager*                 time_step_;
   timevarying::Manager*               time_varying_;
+  static std::mutex										lock_;
 };
 
 } /* namespace niwa */

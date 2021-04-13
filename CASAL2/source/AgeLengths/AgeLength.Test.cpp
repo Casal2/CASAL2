@@ -15,9 +15,9 @@
 #include <gmock/gmock.h>
 #include <gtest/gtest.h>
 
-#include "TestResources/MockClasses/Managers.h"
-#include "TestResources/MockClasses/Model.h"
-#include "TimeSteps/Manager.h"
+#include "../TestResources/MockClasses/Managers.h"
+#include "../TestResources/MockClasses/Model.h"
+#include "../TimeSteps/Manager.h"
 
 // Namespaces
 namespace niwa {

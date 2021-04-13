@@ -18,12 +18,12 @@
 
 #include <cmath>
 
-#include "AgeLengths/AgeLength.h"
-#include "Categories/Categories.h"
-#include "Model/Model.h"
-#include "Logging/Logging.h"
+#include "../AgeLengths/AgeLength.h"
+#include "../Categories/Categories.h"
+#include "../Model/Model.h"
+#include "../Logging/Logging.h"
 
-#include "Utilities/Math.h"
+#include "../Utilities/Math.h"
 // Namespaces
 namespace niwa {
 
@@ -186,7 +186,7 @@ void Partition::BuildAgeLengthProportions() {
 
   vector<Double> cum(length_bin_count, 0.0);
   auto model_length_bins = model_->length_bins();
-  vector<double> length_bins(model_length_bins.size(), 0.0);
+  vector<Double> length_bins(model_length_bins.size(), 0.0);
 
   LOG_FINE() << "years: " << year_count << "; time_steps: " << time_step_count << "; length_bins: " << length_bin_count;
   unsigned matrix_length_bin_count = model_->length_plus() ? length_bin_count : length_bin_count - 1;
@@ -250,7 +250,7 @@ void Partition::BuildAgeLengthProportions() {
           cv = iter.second->age_length_->cv(year, time_step, age);
           sigma = cv * mu;
 
-//          LOG_FINEST() << "year: " << year << "; age: " << age << "; mu: " << mu << "; cv: " << cv << "; sigma: " << sigma;
+          LOG_FINEST() << "year: " << year << "; age: " << age << "; mu: " << mu << "; cv: " << cv << "; sigma: " << sigma;
           if (iter.second->age_length_->distribution() == Distribution::kLogNormal) {
             // Transform parameters in to log space
             cv_temp = sigma / mu;
@@ -258,6 +258,7 @@ void Partition::BuildAgeLengthProportions() {
             mu = log(mu) - Lvar / 2.0;
             sigma = sqrt(Lvar);
           }
+          LOG_FINEST() << "year: " << year << "; age: " << age << "; mu: " << mu << "; cv: " << cv << "; sigma: " << sigma;
 
           for (auto value : length_bins)
             LOG_FINEST() << "length_bin: " << value;
@@ -272,19 +273,24 @@ void Partition::BuildAgeLengthProportions() {
             // If we are using CASAL's Normal CDF function use this switch
             if (casal_normal_cdf) {
               tmp = utilities::math::pnorm(length_bins[j], mu, sigma);
+              LOG_FINE() << "casal_normal_cdf: " << tmp << " utilities::math::pnorm(" << length_bins[j] << ", " << mu << ", " << sigma;
             } else {
               tmp = utilities::math::pnorm2(length_bins[j], mu, sigma);
+              LOG_FINE() << "normal: " << tmp << " utilities::math::pnorm(" << length_bins[j] << ", " << mu << ", " << sigma;
             }
             cum[j] = tmp;
 
             if (j > 0) {
               prop_in_length[j - 1] = cum[j] - cum[j - 1];
               sum += prop_in_length[j - 1];
+              LOG_FINEST() << "prop_in_length[j - 1]: " << prop_in_length[j - 1] << ": " << cum[j] << ": " << cum[j - 1];
             }
           } // for (unsigned j = 0; j < length_bin_count; ++j)
 
-          if (model_->length_plus())
+          if (model_->length_plus()) {
             prop_in_length[length_bin_count - 1] = 1.0 - sum - cum[0];
+            LOG_FINEST() << "prop_in_length[length_bin_count - 1]: " << prop_in_length[length_bin_count - 1];
+          }
 
         } // for (unsigned age_index = 0; age_index < iter.second->age_spread(); ++age_index)
       } // for (unsigned time_step = 0; time_step < time_step_count; ++time_step)

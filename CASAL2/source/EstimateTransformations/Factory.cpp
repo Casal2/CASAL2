@@ -12,17 +12,17 @@
 // headers
 #include "Factory.h"
 
-#include "Model/Managers.h"
-#include "Model/Model.h"
-#include "EstimateTransformations/Manager.h"
-#include "EstimateTransformations/Common/AverageDifference.h"
-#include "EstimateTransformations/Common/Orthogonal.h"
-#include "EstimateTransformations/Common/Inverse.h"
-#include "EstimateTransformations/Common/Log.h"
-#include "EstimateTransformations/Common/LogSum.h"
-#include "EstimateTransformations/Common/SquareRoot.h"
-#include "EstimateTransformations/Common/SumToOne.h"
-#include "EstimateTransformations/Common/Simplex.h"
+#include "../Model/Managers.h"
+#include "../Model/Model.h"
+#include "../EstimateTransformations/Manager.h"
+#include "../EstimateTransformations/Common/AverageDifference.h"
+#include "../EstimateTransformations/Common/Orthogonal.h"
+#include "../EstimateTransformations/Common/Inverse.h"
+#include "../EstimateTransformations/Common/Log.h"
+#include "../EstimateTransformations/Common/LogSum.h"
+#include "../EstimateTransformations/Common/SquareRoot.h"
+#include "../EstimateTransformations/Common/SumToOne.h"
+#include "../EstimateTransformations/Common/Simplex.h"
 // namespaces
 namespace niwa {
 namespace estimatetransformations {
@@ -35,7 +35,7 @@ namespace estimatetransformations {
  * @param sub_type The child type of the object to create (e.g., ageing, schnute)
  * @return shared_ptr to the object
  */
-EstimateTransformation* Factory::Create(Model* model, const string& object_type, const string& sub_type) {
+EstimateTransformation* Factory::Create(shared_ptr<Model> model, const string& object_type, const string& sub_type) {
   EstimateTransformation* result = nullptr;
 
   if (object_type == PARAM_ESTIMATE_TRANSFORMATION) {
@@ -57,7 +57,7 @@ EstimateTransformation* Factory::Create(Model* model, const string& object_type,
       result = new SumToOne(model);
 
     if (result)
-      model->managers().estimate_transformation()->AddObject(result);
+      model->managers()->estimate_transformation()->AddObject(result);
   }
 
   return result;

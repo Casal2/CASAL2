@@ -11,10 +11,10 @@
 // headers
 #include "Manager.h"
 
-#include "Model/Model.h"
-#include "Model/Managers.h"
-#include "Processes/Manager.h"
-#include "Model/Objects.h"
+#include "../Model/Model.h"
+#include "../Model/Managers.h"
+#include "../Processes/Manager.h"
+#include "../Model/Objects.h"
 
 // namespaces
 namespace niwa {
@@ -42,7 +42,7 @@ void Manager::Build() {
 /**
  * Build the objects
  */
-void Manager::Build(Model* model) {
+void Manager::Build(shared_ptr<Model> model) {
   LOG_TRACE();
   if (model->run_mode() == RunMode::kProjection) {
     bool ycs_values_exist = false;
@@ -53,7 +53,7 @@ void Manager::Build(Model* model) {
         ycs_values_exist = true;
     }
     if (!ycs_values_exist) {
-      for (auto process : model->managers().process()->objects()) {
+      for (auto process : model->managers()->process()->objects()) {
         if (process->type() == PARAM_RECRUITMENT_BEVERTON_HOLT)
           LOG_ERROR() << process->location() << " process " << process->label()
             << " does not contain a @project for ycs_values, but this model is running in projection mode";
@@ -67,10 +67,10 @@ void Manager::Build(Model* model) {
  *
  * @param year The year
  */
-void Manager::Update(unsigned year) {
+void Manager::Update(unsigned current_year) {
   LOG_TRACE();
   for (auto project : objects_)
-    project->Update(year);
+    project->Update(current_year);
 }
 
 /**
@@ -79,11 +79,11 @@ void Manager::Update(unsigned year) {
  *
  * @param year The year
  */
-void Manager::StoreValues(unsigned year) {
+void Manager::StoreValues(unsigned current_year) {
   LOG_TRACE();
   // iterate over all @project blocks
   for (auto project : objects_) {
-    project->StoreValue(year);
+    project->StoreValue(current_year);
   }
 }
 

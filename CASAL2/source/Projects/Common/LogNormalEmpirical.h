@@ -15,7 +15,7 @@
 #define LOGNORMAL_EMPIRICAL_H_
 
 // headers
-#include "Projects/Project.h"
+#include "../../Projects/Project.h"
 
 // namespaces
 namespace niwa {
@@ -26,7 +26,7 @@ namespace projects {
  */
 class LogNormalEmpirical : public niwa::Project {
 public:
-  explicit LogNormalEmpirical(Model* model);
+  explicit LogNormalEmpirical(shared_ptr<Model> model);
   virtual                     ~LogNormalEmpirical() = default;
   void                        DoValidate() override final;
   void                        DoBuild() override final { };

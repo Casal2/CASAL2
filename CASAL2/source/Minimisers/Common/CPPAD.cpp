@@ -5,7 +5,7 @@
  * @date 21/11/2014
  * @section LICENSE
  *
- * Copyright NIWA Science ©2014 - www.niwa.co.nz
+ * Copyright NIWA Science ï¿½2014 - www.niwa.co.nz
  *
  *
  * CppAD Documentation for Solver options: https://www.coin-or.org/Ipopt/documentation/node40.html
@@ -20,11 +20,11 @@
 #include <limits>
 #include <cppad/ipopt/solve.hpp>
 
-#include "Estimates/Manager.h"
-#include "EstimateTransformations/Manager.h"
-#include "Model/Model.h"
-#include "ObjectiveFunction/ObjectiveFunction.h"
-#include "Utilities/To.h"
+#include "../../Estimates/Manager.h"
+#include "../../EstimateTransformations/Manager.h"
+#include "../../Model/Model.h"
+#include "../../ObjectiveFunction/ObjectiveFunction.h"
+#include "../../Utilities/To.h"
 
 // namespaces
 namespace niwa {
@@ -37,32 +37,31 @@ using CppAD::AD;
  */
 class MyObjective {
 public:
-  MyObjective(Model* model) : model_(model) { }
+  MyObjective(shared_ptr<Model> model) : model_(model) { }
 
   typedef CPPAD_TESTVECTOR( AD<double> ) ADvector;
 
   void operator()(ADvector& fg, const ADvector& candidates) {
-    auto estimates = model_->managers().estimate()->GetIsEstimated();
+    auto estimates = model_->managers()->estimate()->GetIsEstimated();
 
     for (unsigned i = 0; i < candidates.size(); ++i) {
       Double estimate = candidates[i];
       estimates[i]->set_value(candidates[i]);
     }
 
-    model_->managers().estimate_transformation()->RestoreEstimates();
+    model_->managers()->estimate_transformation()->RestoreEstimates();
     model_->FullIteration();
 
     ObjectiveFunction& objective = model_->objective_function();
     objective.CalculateScore();
     fg[0] = objective.score();
 
-    model_->managers().estimate_transformation()->TransformEstimates();
-
+    model_->managers()->estimate_transformation()->TransformEstimates();
     return;
   }
 
 private:
-  Model* model_;
+  shared_ptr<Model> model_;
 };
 
 /**
@@ -70,7 +69,7 @@ private:
  *
  * For information about these options see https://www.coin-or.org/CppAD/Doc/ipopt_solve.htm
  */
-CPPAD::CPPAD(Model* model) : Minimiser(model) {
+CPPAD::CPPAD(shared_ptr<Model> model) : Minimiser(model) {
   parameters_.Bind<string>(PARAM_RETAPE, &retape_, "Retape?", "", "true")->set_allowed_values({"true", "false"});
   parameters_.Bind<unsigned>(PARAM_PRINT_LEVEL, &print_level_, "The level of debug to stdout", "", 5u)->set_range(0u, 12u);
   parameters_.Bind<string>(PARAM_SB, &sb_, "String buffer output?", "", "yes")->set_allowed_values({"yes", "no"});
@@ -88,10 +87,9 @@ CPPAD::CPPAD(Model* model) : Minimiser(model) {
  * Execute
  */
 void CPPAD::Execute() {
-
   typedef CPPAD_TESTVECTOR( double ) Dvector;
 
-  auto estimate_manager = model_->managers().estimate();
+  auto estimate_manager = model_->managers()->estimate();
   auto estimates        = estimate_manager->GetIsEstimated();
   auto num_estimates    = estimates.size();
 
@@ -99,11 +97,11 @@ void CPPAD::Execute() {
   Dvector upper_bounds(num_estimates);
   Dvector start_values(num_estimates);
 
-  model_->managers().estimate_transformation()->TransformEstimates();
+  model_->managers()->estimate_transformation()->TransformEstimates();
   for (unsigned i = 0; i < num_estimates; ++i) {
     lower_bounds[i] = estimates[i]->lower_bound();
     upper_bounds[i] = estimates[i]->upper_bound();
-    start_values[i] = AS_VALUE(estimates[i]->value());
+    start_values[i] = AS_DOUBLE(estimates[i]->value());
   }
 
   MyObjective obj(model_);
@@ -160,8 +158,10 @@ void CPPAD::Execute() {
 
   LOG_MEDIUM() << "objective function value: value of f(x)";
   LOG_MEDIUM() << solution.obj_value;
-
   LOG_MEDIUM() << "status";
+  /*
+   *
+   */
   switch(solution.status)
   { // convert status from Ipopt enum to solve_result<Dvector> enum
     case solution.status_type::success:
@@ -245,7 +245,7 @@ void CPPAD::Execute() {
   //       hessian_[i][j] = hessian[num_params * j + i];
   // }
 
-  model_->managers().estimate_transformation()->RestoreEstimates();
+  model_->managers()->estimate_transformation()->RestoreEstimates();
 }
 
 } /* namespace minimisers */

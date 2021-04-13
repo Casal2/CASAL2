@@ -12,8 +12,8 @@
 // headers
 #include "Manager.h"
 
-#include "Likelihoods/Factory.h"
-#include "Model/Model.h"
+#include "../Likelihoods/Factory.h"
+#include "../Model/Model.h"
 
 // namespaces
 namespace niwa {
@@ -33,7 +33,7 @@ Manager::Manager() {
  * @param label
  * @return pointer to Likelihood
  */
-Likelihood* Manager::GetOrCreateLikelihood(Model* model, const string& observation_label, const string& label) {
+Likelihood* Manager::GetOrCreateLikelihood(shared_ptr<Model> model, const string& observation_label, const string& label) {
   LOG_FINEST() << observation_label << " + " << label;
   Likelihood* labelled = nullptr;
   Likelihood* factory  = nullptr;

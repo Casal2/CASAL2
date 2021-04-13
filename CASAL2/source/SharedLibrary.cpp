@@ -7,6 +7,7 @@
  *
  * Copyright NIWA Science �2016 - www.niwa.co.nz
  */
+#ifdef DISABLED
 #include "SharedLibrary.h"
 
 #include <iostream>
@@ -24,12 +25,13 @@
 #include "Model/Model.h"
 #include "Minimisers/Manager.h"
 #include "Reports/Manager.h"
-#include "Reports/Common/StandardHeader.h"
 #include "Translations/Translations.h"
 #include "Utilities/CommandLineParser/CommandLineParser.h"
 #include "Utilities/RandomNumberGenerator.h"
 #include "Utilities/RunParameters.h"
 #include "Logging/Logging.h"
+
+#include "Utilities/CommandLineParser/CommandLineParser.h"
 
 // Namespaces
 using namespace niwa;
@@ -48,36 +50,33 @@ int RunUnitTests(int argc, char * argv[]) {
   return result;
 }
 #else
-
 /**
- * This method runs the unit tests
+ *
  */
 int RunUnitTests(int argc, char * argv[]) {
-  cout << "The shared library was built without TESTMODE enabled but it is trying to run unit tests..." << endl;
+  cout << "DLL was built without TESTMODE enabled but it's trying to run unit tests..." << endl;
   return -1;
 }
 
 /**
- * This method loads the command-line arguments
  *
- * @return 0 if successful, -1 if not
  */
 int LoadOptions(int argc, char * argv[], niwa::utilities::RunParameters& options) {
   try {
     niwa::utilities::CommandLineParser parser;
     parser.Parse(argc, argv, options);
   } catch (const string &exception) {
-    cout << "## ERROR - Casal2 experienced a problem and has stopped execution." << endl;
+    cout << "## ERROR - CASAL2 experienced a problem and has stopped execution" << endl;
     cout << "Error: " << exception << endl;
     return -1;
   } catch (std::exception& e) {
-    cout << "## ERROR - Casal2 experienced a problem and has stopped execution." << endl;
+    cout << "## ERROR - CASAL2 experienced a problem and has stopped execution" << endl;
     cout << e.what() << endl;
     return -1;
   } catch(...) {
-    cout << "## ERROR - Casal2 experienced a problem and has stopped execution." << endl;
-    cout << "The exception was caught with the catch-all. The error type was unknown." << endl;
-    cout << "Please contact the Casal2 application developer." << endl;
+    cout << "## ERROR - CASAL2 experienced a problem and has stopped execution" << endl;
+    cout << "The exception was caught with the catch-all. The type was unknown" << endl;
+    cout << "Please contact the application developer" << endl;
     return -1;
   }
 
@@ -85,7 +84,7 @@ int LoadOptions(int argc, char * argv[], niwa::utilities::RunParameters& options
 }
 
 /**
- * This method is deprecated
+ *
  */
 int PreParseConfigFiles(niwa::utilities::RunParameters& options) {
   LOG_CODE_ERROR() << "Code Deprecated";
@@ -93,23 +92,23 @@ int PreParseConfigFiles(niwa::utilities::RunParameters& options) {
 }
 
 /**
- * This is the main run method for the shared libraries. It is a modified version of main();
+ * This is the main run method for our DLL. It's a modified version of main();
  */
 int Run(int argc, char * argv[], niwa::utilities::RunParameters& options) {
   int return_code = 0;
   bool model_start_return_success = true;
 
   try {
-
-    Model model;
-    reports::StandardHeader standard_report(&model);
-
-    model.global_configuration().set_run_parameters(options);
+    shared_ptr<Model> model;
+    model.reset(new Model());
+    model->global_configuration().set_run_parameters(options);
     RunMode::Type run_mode = options.run_mode_;
+
+//    reports::StandardHeader standard_report(model);
 
     vector<string> cmd_parameters;
     for (int i = 0; i < argc; ++i) cmd_parameters.push_back(argv[i]);
-    model.global_configuration().set_command_line_parameters(cmd_parameters);
+    model->global_configuration().set_command_line_parameters(cmd_parameters);
 
     /**
      * Check the run mode and call the handler.
@@ -127,20 +126,20 @@ int Run(int argc, char * argv[], niwa::utilities::RunParameters& options) {
 
     case RunMode::kQuery:
       {
-        string lookup = model.global_configuration().object_to_query();
+        string lookup = model->global_configuration().object_to_query();
         vector<string> parts;
         boost::split(parts, lookup, boost::is_any_of("."));
         if (parts.size() == 1)
           parts.push_back("");
         if (parts.size() == 2) {
-          model.set_partition_type(PartitionType::kAge);
-          base::Object* object = model.factory().CreateObject(parts[0], parts[1], PartitionType::kModel);
+          model->set_partition_type(PartitionType::kAge);
+          base::Object* object = model->factory().CreateObject(parts[0], parts[1], PartitionType::kModel);
           if (object) {
             cout << "Printing information for " << parts[0] << " with sub-type " << parts[1] << endl;
             object->PrintParameterQueryInfo();
           } else {
-            model.set_partition_type(PartitionType::kLength);
-            object = model.factory().CreateObject(parts[0], parts[1], PartitionType::kModel);
+            model->set_partition_type(PartitionType::kLength);
+            object = model->factory().CreateObject(parts[0], parts[1], PartitionType::kModel);
             if (object) {
               cout << "Printing information for " << parts[0] << " with sub-type " << parts[1] << endl;
               object->PrintParameterQueryInfo();
@@ -161,28 +160,22 @@ int Run(int argc, char * argv[], niwa::utilities::RunParameters& options) {
     case RunMode::kProfiling:
     case RunMode::kProjection:
     {
-
-      if (run_mode != RunMode::kTesting) {
-        // reset logging
-        utilities::CommandLineParser parser;
-        parser.Parse(argc, argv, options);
-      }
-
-      if (!model.global_configuration().debug_mode() && !model.global_configuration().disable_standard_report()) {
-        standard_report.Prepare();
-        model.managers().report()->set_std_header(standard_report.header());
-      }
+//      if (!model.global_configuration().debug_mode() && !model.global_configuration().disable_standard_report())
+//        standard_report.Prepare();
 
       // load our configuration file
-      configuration::Loader config_loader(model);
-      if (!config_loader.LoadConfigFile()) {
+      configuration::Loader config_loader;
+      if (!config_loader.LoadConfigFile(model->global_configuration())) {
         Logging::Instance().FlushErrors();
         return_code = -1;
         break;
       }
 
+      vector<shared_ptr<Model>> model_list;
+      model_list.push_back(model);
       Logging& logging = Logging::Instance();
       config_loader.ParseFileLines();
+      config_loader.Build(model_list);
       if (logging.errors().size() > 0) {
         logging.FlushErrors();
         return_code = -1;
@@ -190,15 +183,15 @@ int Run(int argc, char * argv[], niwa::utilities::RunParameters& options) {
       }
 
       // override any config file values from our command line
-      model.global_configuration().ParseOptions(&model);
-      utilities::RandomNumberGenerator::Instance().Reset(model.global_configuration().random_seed());
+      model->global_configuration().ParseOptions(model);
+      utilities::RandomNumberGenerator::Instance().Reset(model->global_configuration().random_seed());
 
       // Thread off the reports
-      reports::Manager* report_manager = model.managers().report();
-      std::thread report_thread([&report_manager]() { report_manager->FlushReports(); });
+      auto report_manager = model->managers()->report();
+      std::thread report_thread([report_manager]() { report_manager->FlushReports(); });
 
       // Run the model
-      model_start_return_success = model.Start(run_mode);
+      model_start_return_success = model->Start(run_mode);
 
       // finish report thread
       report_manager->StopThread();
@@ -210,30 +203,31 @@ int Run(int argc, char * argv[], niwa::utilities::RunParameters& options) {
       } else if (run_mode != RunMode::kTesting)
         logging.FlushWarnings();
 
-      if (!model.global_configuration().debug_mode() && !model.global_configuration().disable_standard_report())
-        standard_report.Finalise();
+//      if (!model.global_configuration().debug_mode() && !model.global_configuration().disable_standard_report())
+//        standard_report.Finalise();
     }
       break;
     } // switch(run_mode)
 
     if (run_mode == RunMode::kTesting) {
-      auto minimiser = model.managers().minimiser()->active_minimiser();
+      auto minimiser = model->managers()->minimiser()->active_minimiser();
       if (minimiser)
         options.minimiser_ = minimiser->type();
     }
 
+
   } catch (const string &exception) {
-    cout << "## ERROR - Casal2 experienced a problem and has stopped execution" << endl;
+    cout << "## ERROR - CASAL2 experienced a problem and has stopped execution" << endl;
     cout << "Error: " << exception << endl;
     return_code = -1;
 
   } catch (std::exception& e) {
-    cout << "## ERROR - Casal2 experienced a problem and has stopped execution" << endl;
+    cout << "## ERROR - CASAL2 experienced a problem and has stopped execution" << endl;
     cout << e.what() << endl;
     return_code = -1;
 
   } catch(...) {
-    cout << "## ERROR - Casal2 experienced a problem and has stopped execution" << endl;
+    cout << "## ERROR - CASAL2 experienced a problem and has stopped execution" << endl;
     cout << "The exception was caught with the catch-all. The type was unknown" << endl;
     cout << "Please contact the application developer" << endl;
     return_code = -1;
@@ -249,3 +243,4 @@ int Run(int argc, char * argv[], niwa::utilities::RunParameters& options) {
 }
 
 #endif
+#endif /* #ifdef DISABLED */

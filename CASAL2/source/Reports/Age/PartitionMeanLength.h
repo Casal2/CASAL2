@@ -28,12 +28,12 @@ namespace age {
 class PartitionMeanLength : public niwa::Report {
 public:
   // methods
-  PartitionMeanLength(Model* model);
+  PartitionMeanLength();
   virtual                     ~PartitionMeanLength() = default;
-  void                        DoValidate() override final { };
-  void                        DoBuild() override final;
-  void                        DoExecute() override final;
-  void                        DoExecuteTabular() override final { };
+  void                        DoValidate(shared_ptr<Model> model) override final { };
+  void                        DoBuild(shared_ptr<Model> model) override final;
+  void                        DoExecute(shared_ptr<Model> model) override final;
+  void                        DoExecuteTabular(shared_ptr<Model> model) override final { };
 };
 
 } /* namespace age */

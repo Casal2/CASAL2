@@ -13,11 +13,11 @@
 // Headers
 #include "GlobalConfiguration.h"
 
-#include "BaseClasses/Object.h"
-#include "Logging/Logging.h"
-#include "Model/Model.h"
-#include "Reports/Factory.h"
-#include "Utilities/To.h"
+#include "../BaseClasses/Object.h"
+#include "../Logging/Logging.h"
+#include "../Model/Model.h"
+#include "../Reports/Factory.h"
+#include "../Utilities/To.h"
 
 namespace niwa {
 namespace util = niwa::utilities;
@@ -40,7 +40,7 @@ void GlobalConfiguration::Clear() {
  *
  * Some of the extra options are parsed here and may create some objects
  */
-void GlobalConfiguration::ParseOptions(Model* model) {
+void GlobalConfiguration::ParseOptions(shared_ptr<Model> model) {
   LOG_TRACE();
 
   if (options_.override_random_number_seed_)

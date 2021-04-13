@@ -13,8 +13,8 @@
 // Headers
 #include "Parameter.h"
 
-#include "Logging/Logging.h"
-#include "Utilities/To.h"
+#include "../Logging/Logging.h"
+#include "../Utilities/To.h"
 
 // Namespaces
 namespace niwa {

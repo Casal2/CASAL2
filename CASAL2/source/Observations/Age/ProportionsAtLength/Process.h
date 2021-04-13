@@ -5,7 +5,7 @@
  * @date 14/08/15
  * @section LICENSE
  *
- * Copyright NIWA Science ©2014 - www.niwa.co.nz
+ * Copyright NIWA Science ï¿½2014 - www.niwa.co.nz
  *
  * @section DESCRIPTION
  *
@@ -27,14 +27,14 @@ namespace age {
  */
 class ProcessProportionsAtLength : public observations::age::ProportionsAtLength {
 public:
-  ProcessProportionsAtLength(Model* model);
+  ProcessProportionsAtLength(shared_ptr<Model> model);
   virtual                     ~ProcessProportionsAtLength() = default;
   void                        DoBuild() override final;
 
 private:
   // members
   string                      process_label_;
-  double                      process_proportion_;
+  Double                      process_proportion_;
 };
 
 } /* namespace age */

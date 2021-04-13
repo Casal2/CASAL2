@@ -17,7 +17,7 @@
 #define LOGISTIC_H_
 
 // Headers
-#include "Selectivities/Selectivity.h"
+#include "../../Selectivities/Selectivity.h"
 
 // Namespaces
 namespace niwa {
@@ -29,7 +29,7 @@ namespace selectivities {
 class Logistic : public niwa::Selectivity {
 public:
   // Methods
-  explicit Logistic(Model* model);
+  explicit Logistic(shared_ptr<Model> model);
   virtual                     ~Logistic() = default;
   void                        DoValidate() override final;
   void                        RebuildCache() override final;

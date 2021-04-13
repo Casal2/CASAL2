@@ -23,9 +23,10 @@
 #include <vector>
 #include <string>
 
-#include "BaseClasses/Object.h"
-#include "Model/Model.h"
-#include "ParameterList/Table.h"
+#include "../BaseClasses/Object.h"
+#include "../GlobalConfiguration/GlobalConfiguration.h"
+#include "../Model/Model.h"
+#include "../ParameterList/Table.h"
 
 // Namespaces
 namespace niwa {
@@ -48,27 +49,30 @@ class Loader {
   friend class LoaderTest;
 public:
   // Methods
-  Loader(Model& model) : model_(model) { };
+  Loader() = default;
   virtual                     ~Loader() = default;
-  bool                        LoadConfigFile(const string& override_file_name = "");
+  bool                        LoadConfigFile(GlobalConfiguration& global_config, const string& override_file_name = "");
   void                        ClearFileLines() { file_lines_.clear(); }
   void                        AddFileLine(FileLine line);
   void                        ParseFileLines();
+  void												Build(vector<shared_ptr<Model>>& model_list);
 
   // accessors
   vector<FileLine>&           file_lines() { return file_lines_; }
+  string											model_type() const { return model_type_; }
 
 private:
   // Methods
-  void                        ParseBlock(vector<FileLine> &block);
-  void                        HandleInlineDefinitions(FileLine& file_line, const string& parent_label);
+  void                        ParseBlock(shared_ptr<Model> model, vector<FileLine> &block);
+  void                        HandleInlineDefinitions(shared_ptr<Model> model, FileLine& file_line, const string& parent_label);
 
 
   // Members
-  Model&                      model_;
   vector<FileLine>            file_lines_;
+  vector<vector<FileLine>>		blocks_;
   parameters::Table*          current_table_ = nullptr;
   map<string, unsigned>       inline_count_;
+  string											model_type_ = "";
 };
 
 } /* namespace configuration */

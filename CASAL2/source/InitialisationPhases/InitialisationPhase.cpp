@@ -13,8 +13,8 @@
 // Headers
 #include "InitialisationPhase.h"
 
-#include "TimeSteps/Manager.h"
-#include "TimeSteps/TimeStep.h"
+#include "../TimeSteps/Manager.h"
+#include "../TimeSteps/TimeStep.h"
 
 // Namespaces
 namespace niwa {
@@ -22,7 +22,7 @@ namespace niwa {
 /**
  * Default constructor
  */
-InitialisationPhase::InitialisationPhase(Model* model) : model_(model) {
+InitialisationPhase::InitialisationPhase(shared_ptr<Model> model) : model_(model) {
   LOG_TRACE();
 
   parameters_.Bind<string>(PARAM_LABEL, &label_, "The label of the initialisation phase", "");
@@ -47,7 +47,7 @@ void InitialisationPhase::Validate() {
  */
 void InitialisationPhase::Build() {
   // Set the default process labels for the time step for this phase
-  auto time_steps = model_->managers().time_step()->ordered_time_steps();
+  auto time_steps = model_->managers()->time_step()->ordered_time_steps();
   for (auto time_step : time_steps)
     time_step->SetInitialisationProcessLabels(label_, time_step->process_labels());
 

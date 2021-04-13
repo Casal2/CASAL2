@@ -14,10 +14,10 @@
 #include <boost/algorithm/string/join.hpp>
 #include <vector>
 
-#include "Utilities/String.h"
-#include "Utilities/To.h"
-#include "Logging/Logging.h"
-#include "Utilities/Types.h"
+#include "../../Utilities/String.h"
+#include "../../Utilities/To.h"
+#include "../../Logging/Logging.h"
+#include "../../Utilities/Types.h"
 
 // namespaces
 namespace niwa {
@@ -53,12 +53,12 @@ void Bindable<T>::Bind() {
   if (values_.size() > 0) {
     if (!niwa::utilities::To<T>(values_[0], *target_)) {
       LOG_ERROR() << location() << ": " << label_ << " value " << values_[0] << " could not be converted to type "
-        << utilities::demangle(typeid(*target_).name());
+        << utilities::demangle(typeid(*target_).name()) << ". Please check you have defined it properly.";
     }
   } else if (is_optional_) {
     *target_ = default_value_;
   } else
-    LOG_CODE_ERROR() << location() << " The parameter " << label_ << " has not been defined";
+    LOG_CODE_ERROR() << location() << " The parameter " << label_ << " has not been defined or is missing";
 
   /**
    * Check if the value provided is within the ranges provided (if defined)
@@ -74,8 +74,7 @@ void Bindable<T>::Bind() {
   }
   if (allowed_values_.size() != 0) {
     if (std::find(allowed_values_.begin(), allowed_values_.end(), *target_) == allowed_values_.end())
-      LOG_ERROR() << location() << " value " << *target_ << " is not in the allowed values list: "
-        << utilities::String::join(allowed_values_, ", ");
+      LOG_ERROR() << location() << " value " << *target_ << " is not in the list of allowed values: " << utilities::String::join(allowed_values_, ", ");
   }
 }
 
@@ -154,9 +153,7 @@ void Bindable<T>::set_upper_bound(T upper_bound, bool inclusive) {
 template<typename T>
 vector<string> Bindable<T>::current_values() {
   vector<string> result;
-
   result.push_back(utilities::ToInline<T, string>(*target_));
-
   return result;
 }
 

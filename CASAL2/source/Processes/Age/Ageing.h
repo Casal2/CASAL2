@@ -34,7 +34,7 @@ namespace accessor = niwa::partition::accessors;
 class Ageing : public niwa::Process {
 public:
   // Methods
-  explicit Ageing(Model* model);
+  explicit Ageing(shared_ptr<Model> model);
   virtual                     ~Ageing() = default;
   void                        DoValidate() override final;
   void                        DoBuild() override final;

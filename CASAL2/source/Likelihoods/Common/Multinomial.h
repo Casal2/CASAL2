@@ -17,7 +17,7 @@
 #define LIKELIHOODS_MULTINOMIAL_H_
 
 // Headers
-#include "Likelihoods/Likelihood.h"
+#include "../../Likelihoods/Likelihood.h"
 
 // Namespaces
 namespace niwa {
@@ -29,7 +29,7 @@ namespace likelihoods {
 class Multinomial : public niwa::Likelihood {
 public:
   // Methods
-  Multinomial(Model* model) : Likelihood(model) { };
+  Multinomial(shared_ptr<Model> model) : Likelihood(model) { };
   virtual                     ~Multinomial() = default;
   void                        DoValidate() override final { };
   Double                      AdjustErrorValue(const Double process_error, const Double error_value) override final;

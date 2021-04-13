@@ -62,14 +62,15 @@
 #include <set>
 #include <memory>
 
-#include "Parameter.h"
-#include "Table.h"
-#include "Parameters/Bindable.h"
-#include "Parameters/BindableVector.h"
+#include "../ParameterList/Parameter.h"
+#include "../ParameterList/Table.h"
+#include "../ParameterList/Parameters/Bindable.h"
+#include "../ParameterList/Parameters/BindableVector.h"
 
 // Namespaces
 namespace niwa {
 
+using std::shared_ptr;
 using std::map;
 using std::vector;
 using std::string;
@@ -106,7 +107,7 @@ public:
 
   void                        BindTable(const string& label, parameters::Table* table, const string& description,
                                 const string& values, bool requires_columns = true, bool optional = false);
-  void                        Populate(Model* model);
+  void                        Populate(shared_ptr<Model> model);
 
   // accessors
   string                      location(const string& label);

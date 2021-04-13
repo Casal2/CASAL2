@@ -12,7 +12,7 @@
  */
 
 // headers
-#include <Minimisers/Common/Dummy/Dummy.h>
+#include "Dummy.h"
 
 // namespaces
 namespace niwa {
@@ -23,7 +23,7 @@ namespace minimisers {
  *
  * @param model Pointer to the model object
  */
-Dummy::Dummy(Model* model) : Minimiser(model) {
+Dummy::Dummy(shared_ptr<Model> model) : Minimiser(model) {
   /**
    * Setting this parameter will allow us to create
    * dummy minimisers for types not supported by the current library.

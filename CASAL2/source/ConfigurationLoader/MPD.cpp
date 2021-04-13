@@ -20,14 +20,14 @@
 #include <boost/algorithm/string/split.hpp>
 #include <boost/algorithm/string/join.hpp>
 
-#include "Estimables/Estimables.h"
-#include "Estimates/Manager.h"
-#include "Logging/Logging.h"
-#include "MCMCs/Manager.h"
-#include "Model/Managers.h"
-#include "Model/Model.h"
-#include "Utilities/To.h"
-#include "Utilities/Types.h"
+#include "../Estimables/Estimables.h"
+#include "../Estimates/Manager.h"
+#include "../Logging/Logging.h"
+#include "../MCMCs/Manager.h"
+#include "../Model/Managers.h"
+#include "../Model/Model.h"
+#include "../Utilities/To.h"
+#include "../Utilities/Types.h"
 
 // namespaces
 namespace niwa {
@@ -97,7 +97,7 @@ bool MPD::LoadFile(const string& file_name) {
     if (!utilities::To<double>(values[i], numeric))
       LOG_FATAL() << "In estimate_value file, could not convert the value " << values[i] << " to a double";
 
-    auto estimate = model_->managers().estimate()->GetEstimate(parameters[i]);
+    auto estimate = model_->managers()->estimate()->GetEstimate(parameters[i]);
     if (!estimate)
       LOG_FATAL() << "Estimate " << parameters[i] << " was defined in MPD file but was not found";
 
@@ -115,8 +115,8 @@ bool MPD::LoadFile(const string& file_name) {
     return false;
   }
 
-  auto estimate_count      = model_->managers().estimate()->GetIsEstimatedCount();
-  auto& covariance_matrix  = model_->managers().mcmc()->active_mcmc()->covariance_matrix();
+  auto estimate_count      = model_->managers()->estimate()->GetIsEstimatedCount();
+  auto& covariance_matrix  = model_->managers()->mcmc()->active_mcmc()->covariance_matrix();
   covariance_matrix.resize(estimate_count, estimate_count);
   for (unsigned i = 0; i < estimate_count; ++i) {
     if (!getline(file, line)) {

@@ -17,9 +17,9 @@
 #include <iostream>
 #include <exception>
 
-#include "ParameterList/Parameters/Bindable.h"
-#include "ParameterList/Parameters/BindableVector.h"
-#include "Utilities/Exception.h"
+#include "../ParameterList/Parameters/Bindable.h"
+#include "../ParameterList/Parameters/BindableVector.h"
+#include "../Utilities/Exception.h"
 
 // Using
 using std::cout;
@@ -80,9 +80,8 @@ Bindable<T>* ParameterList::Bind(const string& label, T* target, const string& d
  * @param optional Flag to indicate that the parameter is optional
  * @return the parameter
  */
-
 template<typename T>
-BindableVector<T>* ParameterList::Bind(const string& label, vector<T>* target, const string& description, const string& values, bool optional)  {
+BindableVector<T>* ParameterList::Bind(const string& label, vector<T>* target, const string& description, const string& values, bool optional) {
   if (parameters_.find(label) != parameters_.end()) {
     LOG_CODE_ERROR() << "The parameter " << label << " has already been bound with the description " << description;
   }

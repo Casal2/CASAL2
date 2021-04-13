@@ -12,8 +12,8 @@
 // headers
 #include "Partition.h"
 
-#include "Model/Model.h"
-#include "TestResources/TestFixtures/InternalEmptyModel.h"
+#include "../../Model/Models/Age.h"
+#include "../../TestResources/TestFixtures/InternalEmptyModel.h"
 
 // namespaces
 namespace niwa {
@@ -160,9 +160,7 @@ values 0.000000 0.000000 0.000000 0.000000 0.000000 12999.836714 28054.528897 54
 TEST_F(InternalEmptyModel, Asserts_Partition) {
   AddConfigurationLine(simple_model, __FILE__, 26);
   LoadConfiguration();
-
   EXPECT_NO_THROW(model_->Start(RunMode::kBasic));
-
 }
 
 /**

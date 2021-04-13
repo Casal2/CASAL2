@@ -5,35 +5,32 @@
  * @date Jan/11/2018
  * @section LICENSE
  *
- * Copyright NIWA Science ©2018 - www.niwa.co.nz
+ * Copyright NIWA Science ï¿½2018 - www.niwa.co.nz
  *
  */
 
 // headers
 #include "SumToOne.h"
 
-#include "Model/Model.h"
-#include "Model/Objects.h"
-#include "Model/Managers.h"
-#include "Model/Factory.h"
-#include "Estimates/Manager.h"
-#include "Estimates/Estimate.h"
-#include "Estimates/Common/Uniform.h"
+#include "../../Model/Model.h"
+#include "../../Model/Objects.h"
+#include "../../Model/Managers.h"
+#include "../../Model/Factory.h"
+#include "../../Estimates/Manager.h"
+#include "../../Estimates/Estimate.h"
+#include "../../Estimates/Common/Uniform.h"
 
 // namespaces
 namespace niwa {
 namespace estimatetransformations {
-
 namespace utils = niwa::utilities;
-
 /**
  * Default constructor
  */
-SumToOne::SumToOne(Model* model) : EstimateTransformation(model) {
+SumToOne::SumToOne(shared_ptr<Model> model) : EstimateTransformation(model) {
   parameters_.Bind<string>(PARAM_ESTIMATE_LABELS, &estimate_labels_, "The label for the estimates for the sum to one transformation", "");
-  parameters_.Bind<double>(PARAM_UPPER_BOUND, &upper_bounds_, "The empirical upper bounds for the transformed parameters. There should be one less bound than parameters", "", true);
-  parameters_.Bind<double>(PARAM_LOWER_BOUND, &lower_bounds_, "The empirical lower bound for the transformed parameters. There should be one less bound than parameters", "", true);
-
+  parameters_.Bind<Double>(PARAM_UPPER_BOUND, &upper_bounds_, "The empirical upper bounds for the transformed parameters. There should be one less bound than parameters", "", true);
+  parameters_.Bind<Double>(PARAM_LOWER_BOUND, &lower_bounds_, "The empirical lower bound for the transformed parameters. There should be one less bound than parameters", "", true);
   is_simple_ = false;
 }
 
@@ -62,7 +59,7 @@ void SumToOne::DoValidate() {
 void SumToOne::DoBuild() {
   LOG_TRACE();
   for (auto& estimate_label : estimate_labels_) {
-    Estimate* estimate = model_->managers().estimate()->GetEstimateByLabel(estimate_label);
+    Estimate* estimate = model_->managers()->estimate()->GetEstimateByLabel(estimate_label);
     if (estimate == nullptr) {
       LOG_ERROR_P(PARAM_ESTIMATE_LABELS) << "Estimate " << estimate_label << " was not found.";
       return;
@@ -75,17 +72,16 @@ void SumToOne::DoBuild() {
           << " do not refer to the transformed estimate for the @estimate "
           << estimate_label_ << ". This is not advised as it may cause bias errors. Please consult the User Manual.";
       }
-
       if (estimate->transform_with_jacobian_is_defined()) {
         if (transform_with_jacobian_ != estimate->transform_with_jacobian()) {
           LOG_ERROR_P(PARAM_LABEL) << "This parameter is not consistent with the equivalent parameter in the @estimate block "
             << estimate_label_ << ". Both parameters should be either true or false.";
         }
       }
-
       estimates_.push_back(estimate);
     }
   }
+
 
   // Validate that the parameters sum to one.
   Double total = 0.0;
@@ -94,13 +90,12 @@ void SumToOne::DoBuild() {
     LOG_FINEST() << "transformation value = " << estimate->value();
     total += estimate->value();
   }
-
   if (total != 1.0)
     LOG_ERROR_P(PARAM_ESTIMATE_LABELS) << "The parameter values do not sum to 1.0. They sum to " << total
       << ". Please check the initial values of these parameters.";
 
   // Check that the bounds are sensible
-  if (parameters_.Get(PARAM_UPPER_BOUND)->has_been_defined() && parameters_.Get(PARAM_LOWER_BOUND)->has_been_defined()) {
+  if (parameters_.Get(PARAM_UPPER_BOUND)->has_been_defined() & parameters_.Get(PARAM_LOWER_BOUND)->has_been_defined()) {
     for (unsigned i = 0; i < estimates_.size(); ++i) {
       if (estimates_[i]->lower_bound() < 0.0 || estimates_[i]->lower_bound() > 1.0)
         LOG_ERROR_P(PARAM_LOWER_BOUND) << "The lower bound must be between 0.0 and 1.0 inclusive.";
@@ -130,8 +125,8 @@ void SumToOne::DoTransform() {
       estimates_[i]->set_upper_bound(upper_bounds_[i]);
     }
   }
-}
 
+}
 /**
  * Restore
  * This method will restore values provided by the minimiser that need to be restored for use in the annual cycle
@@ -143,10 +138,10 @@ void SumToOne::DoRestore() {
   for (unsigned i = 0; i < (estimates_.size() - 1); ++i) {
     total += estimates_[i]-> value();
   }
-
   Double new_value = 1.0 - total;
   LOG_FINE() << "Setting value to " << new_value << " for parameter = " << estimates_[estimates_.size() - 1]->parameter();
   estimates_[estimates_.size() - 1]->set_value(new_value);
+
 }
 
 /**
@@ -172,9 +167,7 @@ std::set<string> SumToOne::GetTargetEstimates() {
   for (auto& estimate_label : estimate_labels_) {
     result.insert(estimate_label);
   }
-
   return result;
 }
-
 } /* namespace estimatetransformations */
 } /* namespace niwa */

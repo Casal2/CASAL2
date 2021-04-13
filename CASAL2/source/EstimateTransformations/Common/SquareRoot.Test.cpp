@@ -10,12 +10,12 @@
 #ifdef TESTMODE
 
 // headers
-#include "ObjectiveFunction/ObjectiveFunction.h"
-#include "Model/Model.h"
-#include "TestResources/TestFixtures/InternalEmptyModel.h"
-#include "TestResources/Models/TwoSex.h"
-#include "TestResources/Models/TwoSexWithDLib.h"
-#include "TestResources/Models/TwoSexWithDeSolver.h"
+#include "../../ObjectiveFunction/ObjectiveFunction.h"
+#include "../../Model/Models/Age.h"
+#include "../../TestResources/TestFixtures/InternalEmptyModel.h"
+#include "../../TestResources/Models/TwoSex.h"
+#include "../../TestResources/Models/TwoSexWithDLib.h"
+#include "../../TestResources/Models/TwoSexWithDeSolver.h"
 
 namespace niwa {
 namespace estimatetransformations {
@@ -40,7 +40,7 @@ TEST_F(InternalEmptyModel, EstimateTransformations_SquareRoot) {
   model_->Start(RunMode::kEstimation);
 
   ObjectiveFunction& obj_function = model_->objective_function();
-  EXPECT_NEAR(1977.894534729402, obj_function.score(), 0.0001); // For some reason linus minimised this to 1977.8957463948109
+  EXPECT_NEAR(1977.894534729402, obj_function.score(),0.0001); // For some reason linus minimised this to 1977.8957463948109
 }
 
 /**

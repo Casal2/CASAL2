@@ -15,7 +15,7 @@
 // Headers
 #include <string>
 
-#include "Reports/Report.h"
+#include "../Reports/Report.h"
 
 // Namespaces
 namespace niwa {
@@ -30,7 +30,7 @@ using std::string;
 class Factory {
 public:
   // methods
-  static Report* Create(Model* model, const string& object_type, const string& sub_type);
+  static Report* Create(shared_ptr<Model> model, const string& object_type, const string& sub_type);
 
 private:
   // methods

@@ -10,7 +10,7 @@
 // headers
 #include "CategoryList.h"
 
-#include "Categories/Categories.h"
+#include "../../Categories/Categories.h"
 
 // namespaces
 namespace niwa {
@@ -19,7 +19,7 @@ namespace reports {
 /**
  * Default constructor
  */
-CategoryList::CategoryList(Model* model) : Report(model) {
+CategoryList::CategoryList() {
   run_mode_    = RunMode::kBasic;
   model_state_ = State::kFinalise;
 }
@@ -27,9 +27,9 @@ CategoryList::CategoryList(Model* model) : Report(model) {
 /**
  * Execute the report
  */
-void CategoryList::DoExecute() {
+void CategoryList::DoExecute(shared_ptr<Model> model) {
   cache_ << "*"<< type_ << "[" << label_ << "]" << "\n";
-  auto categories = model_->categories();
+  auto categories = model->categories();
 
   vector<string> names = categories->category_names();
   for(string name : names) {

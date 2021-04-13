@@ -18,7 +18,7 @@
 #define ESTIMATE_FACTORY_H_
 
 // Headers
-#include "Estimates/Manager.h"
+#include "../Estimates/Manager.h"
 
 namespace niwa {
 class Model;
@@ -28,7 +28,7 @@ namespace estimates {
 class Factory {
 public:
   // methods
-  static Estimate* Create(Model* model, const string& object_type, const string& sub_type);
+  static Estimate* Create(shared_ptr<Model> model, const string& object_type, const string& sub_type);
 
 private:
   // methods

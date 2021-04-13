@@ -11,12 +11,12 @@
 #ifdef TESTMODE
 
 // headers
-#include "Partition/Partition.h"
-#include "Model/Model.h"
-#include "TestResources/TestFixtures/InternalEmptyModel.h"
-#include "DerivedQuantities/Manager.h"
+#include "../Partition/Partition.h"
+#include "../Model/Models/Age.h"
+#include "../TestResources/TestFixtures/InternalEmptyModel.h"
+#include "../DerivedQuantities/Manager.h"
 
-#include "Utilities/RandomNumberGenerator.h"
+#include "../Utilities/RandomNumberGenerator.h"
 
 namespace niwa {
 namespace projects {
@@ -38,23 +38,23 @@ base_weight_units tonnes
 initialisation_phases Equilibrium_state
 time_steps Sep_Feb Mar_May
 
-@categories
+@categories 
 format stock
-names HAK4
-age_lengths age_size
+names HAK4 
+age_lengths age_size 
 
 @initialisation_phase Equilibrium_state
 type derived
 
-@time_step Sep_Feb
+@time_step Sep_Feb 
 processes Recruitment Instantaneou_Mortality
-@time_step Mar_May
+@time_step Mar_May 
 processes Instantaneou_Mortality Ageing
 
 @process Recruitment
 type recruitment_beverton_holt
 categories HAK4
-proportions 1
+proportions 1 
 b0 44000
 standardise_ycs_years 2004 2005 2006
 ycs_values  1*13
@@ -74,8 +74,8 @@ time_step_ratio 0.42 0.58
 relative_m_by_age One
 categories HAK4
 table catches
-year FishingWest
-2000  1155
+year FishingWest 
+2000  1155  
 2001  1208
 2002  454
 2003  497
@@ -112,7 +112,7 @@ v 0.02  0.05  0.13  0.29  0.50  0.70  0.84  0.93  0.97  0.99  0.99  1.00
 @selectivity westFSel
 type double_normal
 mu 6
-sigma_l  3
+sigma_l  3  
 sigma_r 10
 alpha 1.0
 
@@ -123,7 +123,7 @@ sigma_l 3
 sigma_r 10
 alpha 1.0
 @selectivity One
-type constant
+type constant 
 c 1
 @age_length age_size
 type schnute
@@ -131,16 +131,16 @@ by_length true
 time_step_proportions 0.25 0.5
 y1 24.5
 y2 104.8
-tau1 1
-tau2 20
+tau1 1 
+tau2 20 
 a 0.131
 b 1.70
 cv_first 0.1
-length_weight Length_Weight
+length_weight Length_Weight 
 @length_weight Length_Weight
 type basic
-units kgs
-a 2.0e-6
+units kgs 
+a 2.0e-6 
 b 3.288
 
 @report DQs
@@ -191,9 +191,9 @@ R"(
  *  Test LogNormal @project for estimate of type map and
  */
 
-TEST_F(InternalEmptyModel,Projection_Run_lognormal) {
+TEST_F(InternalEmptyModel,Project_Run_lognormal) {
   utilities::RandomNumberGenerator::Instance().Reset(3445u);
-  AddConfigurationLine(simple_model, __FILE__, 31);
+  AddConfigurationLine(simple_model, __FILE__, 30);
   AddConfigurationLine(lognormal_project, __FILE__, 55);
   LoadConfiguration();
   model_->Start(RunMode::kProjection);
@@ -204,7 +204,7 @@ TEST_F(InternalEmptyModel,Projection_Run_lognormal) {
 
   // check the results
   vector<Double> expected = {39020.374395850878,39119.730338979163,39522.039125316616,39899.741050984972,40219.624154617522,40406.927858193463,40738.987611694509,41620.462926768043};
-  niwa::DerivedQuantity* dq = model_->managers().derived_quantity()->GetDerivedQuantity("SSB");
+  niwa::DerivedQuantity* dq = model_->managers()->derived_quantity()->GetDerivedQuantity("SSB");
   for (unsigned i = 0; i < 8; ++i) {
     unsigned year = 2012 + i;
     Double value = expected[i];

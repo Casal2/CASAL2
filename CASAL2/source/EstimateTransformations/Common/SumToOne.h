@@ -5,7 +5,7 @@
  * @date Jan/11/2018
  * @section LICENSE
  *
- * Copyright NIWA Science ©2018 - www.niwa.co.nz
+ * Copyright NIWA Science ï¿½2018 - www.niwa.co.nz
  *
  * @section DESCRIPTION
  *
@@ -15,17 +15,21 @@
 #define SOURCE_ESTIMATETRANSFORMATIONS_CHILDREN_SUM_TO_ONE_
 
 // headers
-#include "EstimateTransformations/EstimateTransformation.h"
+#include "../../EstimateTransformations/EstimateTransformation.h"
 
 // namespaces
 namespace niwa {
 class Estimate;
 namespace estimatetransformations {
 
+/**
+ *
+ */
+
 class SumToOne : public EstimateTransformation {
 public:
   SumToOne() = delete;
-  explicit                    SumToOne(Model* model);
+  explicit                    SumToOne(shared_ptr<Model> model);
   virtual                     ~SumToOne() = default;
   void                        TransformForObjectiveFunction() override final { };
   void                        RestoreFromObjectiveFunction() override final { };
@@ -45,8 +49,8 @@ private:
   vector<Double>              unit_vector_;
   vector<Double>              zk_;
   vector<Double>              yk_;
-  vector<double>              lower_bounds_;
-  vector<double>              upper_bounds_;
+  vector<Double>              lower_bounds_;
+  vector<Double>              upper_bounds_;
 
   vector<string>              estimate_labels_;
   vector<Estimate*>           estimates_;

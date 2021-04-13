@@ -16,8 +16,8 @@
 #define CATCHABILITY_H_
 
 // Headers
-#include "BaseClasses/Object.h"
-#include "Model/Model.h"
+#include "../BaseClasses/Object.h"
+#include "../Model/Model.h"
 
 // Namespaces
 namespace niwa {
@@ -27,20 +27,21 @@ class Catchability : public niwa::base::Object {
 public:
   // Methods
   Catchability() = delete;
-  explicit                    Catchability(Model* model);
-  virtual                     ~Catchability() { };
+  explicit                    Catchability(shared_ptr<Model> model);
+  virtual                     ~Catchability() = default;
   void                        Validate();
-  void                        Build() {DoBuild();};
-  void                        Reset() { };
+  void                        Build() { DoBuild(); };
+  void                        Reset() {};
   virtual void                DoValidate() = 0;
   virtual void                DoBuild() = 0;
 
-
   // Accessors
-  virtual Double              q() const = 0;
+  Double              				q() const { return q_; };
+
 protected:
   // members
-  Model*                      model_ = nullptr;
+  shared_ptr<Model>                      model_ = nullptr;
+  Double                      q_ = 0.0;
 };
 
 } /* namespace niwa */

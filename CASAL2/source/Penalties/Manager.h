@@ -17,10 +17,10 @@
 #define PENALTIES_MANAGER_H_
 
 // Headers
-#include "BaseClasses/Manager.h"
-#include "Penalties/Common/Process.h"
-#include "Penalties/Penalty.h"
-#include "Utilities/Types.h"
+#include "../BaseClasses/Manager.h"
+#include "../Penalties/Common/Process.h"
+#include "../Penalties/Penalty.h"
+#include "../Utilities/Types.h"
 
 // Namespaces
 namespace niwa {

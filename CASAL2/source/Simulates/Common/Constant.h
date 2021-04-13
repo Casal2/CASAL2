@@ -14,7 +14,7 @@
 #define SIMULATES_CONSTANT_H_
 
 // headers
-#include "Simulates/Simulate.h"
+#include "../../Simulates/Simulate.h"
 
 // namespaces
 namespace niwa {
@@ -25,7 +25,7 @@ namespace simulates {
  */
 class Constant : public niwa::Simulate {
 public:
-  Constant(Model* model);
+  Constant(shared_ptr<Model> model);
   virtual                     ~Constant() = default;
   void                        DoValidate() override final;
   void                        DoBuild() override final;

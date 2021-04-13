@@ -5,7 +5,7 @@
  * @date 25/03/2013
  * @section LICENSE
  *
- * Copyright NIWA Science 2013 - www.niwa.co.nz
+ * Copyright NIWA Science �2013 - www.niwa.co.nz
  *
  * @section DESCRIPTION
  *
@@ -16,56 +16,103 @@
 #ifndef UTILITIES_MATH_H_
 #define UTILITIES_MATH_H_
 
-
 // Headers
 #include <cmath>
+#include <map>
+#include <vector>
 
-#include "Utilities/DoubleCompare.h"
-#include "Utilities/Types.h"
-#include "Utilities/Distribution.h"
+#include "../Logging/Logging.h"
+#include "../Utilities/Distribution.h"
+#include "../Utilities/Types.h"
 
-#define PI 3.14159265358979323846264338327950288
 
 // Namespaces
 namespace niwa {
 namespace utilities {
 namespace math {
 
-namespace dc = niwa::utilities::doublecompare;
 using niwa::utilities::Double;
+using std::map;
+using std::vector;
+
+// Const Expressions
+constexpr double ONE       = 1.0;
+constexpr double TRUE_ZERO = 0.0;
+constexpr double ZERO      = 1e-15;
+constexpr double CLOSE     = 1e-5;
+constexpr double DELTA     = 1e-11;
+constexpr double PI        = 3.1415926535897932384626433832795028;
+
+inline bool IsZero(const Double& value) { return (value < ZERO && value > -ZERO); }
+
+// inline bool IsZero(const Double &value) { return (value < ZERO && value > -ZERO); }
+// inline bool IsInfinite(const Double &value) { return (isinf(value));}
+inline bool IsTrueZero(const Double& value) { return (value < TRUE_ZERO && value > -TRUE_ZERO); }
+inline bool IsOne(const Double& value) { return (((value - ONE) < ZERO) && ((value - ONE) > -ZERO)); }
+inline bool IsEqual(Double A, Double B) { return (((A - B) < ZERO) && ((A - B) > -ZERO)); }
+inline bool IsBasicallyEqual(Double A, Double B) { return (((A - B) < CLOSE) && ((A - B) > -CLOSE)); }
+
+inline niwa::utilities::Double ZeroFun(Double x) {
+  if (x >= ZERO)
+    return x;
+
+  return ZERO / (2.0 - (x / ZERO));
+}
+
+inline niwa::utilities::Double ZeroFun(Double x, Double delta) {
+  if (x >= delta)
+    return x;
+
+  return delta / (2.0 - (x / delta));
+}
+
+#ifdef USE_AUTODIFF
+
+inline double ZeroFun(double x, double delta) {
+  if (x >= delta)
+    return x;
+
+  return delta / (2.0 - (x / delta));
+}
+
+inline double ZeroFun(double x) {
+  if (x >= ZERO)
+    return x;
+
+  return ZERO / (2.0 - (x / ZERO));
+}
+#endif
 
 /**
  * LnGamma
  */
 inline Double LnGamma(Double t) {
   Double x, y, tmp, ser;
-  Double cof[6] = {76.18009172947146,-86.50532032941677,24.01409824083091,-1.231739572450155,0.1208650973866179e-2,-0.5395239384953e-5};
+  Double cof[6] = {76.18009172947146, -86.50532032941677, 24.01409824083091, -1.231739572450155, 0.1208650973866179e-2, -0.5395239384953e-5};
   y = x = t;
-  tmp = x + 5.5 - (x + 0.5) * log(x + 5.5);
-  ser = 1.000000000190015;
+  tmp   = x + 5.5 - (x + 0.5) * log(x + 5.5);
+  ser   = 1.000000000190015;
   for (unsigned j = 0; j <= 5; j++) {
     y = y + 1.0;
     ser += (cof[j] / y);
   }
-  return(log(2.5066282746310005 * ser / x) - tmp);
+  return (log(2.5066282746310005 * ser / x) - tmp);
 }
 
 /**
  * LnFactorial
  */
-inline Double LnFactorial(Double t) {
-  return niwa::utilities::math::LnGamma(t + 1.0);
-}
+inline Double LnFactorial(Double t) { return niwa::utilities::math::LnGamma(t + 1.0); }
 /*
  *
-*/
+ */
 
 /**
  * dnorm: return the pdf for the normal
  */
 inline Double dnorm(const Double& x, const Double& mu, const Double& sigma) {
-  Double z = 1.0 / (sigma * sqrt(2.0 * PI)) * exp( -((x - mu) * (x - mu)) / (2.0 * sigma * sigma) );
-  return(z);
+  Double z = 1.0 / (sigma * sqrt(2.0 * PI)) * exp(-((x - mu) * (x - mu)) / (2.0 * sigma * sigma));
+  return (z);
 }
 
 //************************************
@@ -80,7 +127,7 @@ inline Double dlognorm(const Double& x, const Double& mu = 0.0, const Double& si
   if (x <= 0)
     return 0.0;
   else
-    return dnorm(log(x),mu,sigma);
+    return dnorm(log(x), mu, sigma);
 }
 
 /**
@@ -91,11 +138,11 @@ inline Double pnorm(const Double& x, const Double& mu = 0.0, const Double& sigma
   // Equations: z = fabs((x-mu)/sigma);
   //            p = 1-0.5*pow((1+0.196854*z+0.115194*z*z+0.000344*z*z*z+0.019527*z*z*z*z),-4);
   //            if (x<mu) p=1-p;
-  Double z = fabs((x - mu)/sigma);
-  Double p = 1 - 0.5*pow((1+0.196854*z+0.115194*z*z+0.000344*z*z*z+0.019527*z*z*z*z),-4);
+  Double z = fabs((x - mu) / sigma);
+  Double p = 1 - 0.5 * pow((1 + 0.196854 * z + 0.115194 * z * z + 0.000344 * z * z * z + 0.019527 * z * z * z * z), -4);
   if (x < mu)
     p = 1 - p;
-  return(p);
+  return (p);
 }
 
 /**
@@ -104,24 +151,24 @@ inline Double pnorm(const Double& x, const Double& mu = 0.0, const Double& sigma
 inline Double pnorm2(const Double& x, const Double& mu = 0.0, const Double& sigma = 1.0) {
   // Ian Doonan's code, A better approximation of the normal CDF as there is no closed form
   Double norm, ttt, p;
-  Double z = fabs((x - mu)/sigma);
+  Double z  = fabs((x - mu) / sigma);
   Double tt = 1.0 / (1.0 + 0.2316419 * z);
-  norm = (1.0 / sqrt(2.0 * PI)) * exp(-0.5 * z * z);
-  ttt = tt;
-  p = 0.319381530 * ttt;
-  ttt = ttt * tt;
-  p = p - 0.356563782 * ttt;
-  ttt = ttt * tt;
-  p = p + 1.781477937 * ttt;
-  ttt = ttt * tt;
-  p = p - 1.821255978 * ttt;
-  ttt = ttt * tt;
-  p = p + 1.330274429 * ttt;
+  norm      = (1.0 / sqrt(2.0 * PI)) * exp(-0.5 * z * z);
+  ttt       = tt;
+  p         = 0.319381530 * ttt;
+  ttt       = ttt * tt;
+  p         = p - 0.356563782 * ttt;
+  ttt       = ttt * tt;
+  p         = p + 1.781477937 * ttt;
+  ttt       = ttt * tt;
+  p         = p - 1.821255978 * ttt;
+  ttt       = ttt * tt;
+  p         = p + 1.330274429 * ttt;
   p *= norm;
   p = 1 - p;
   if (x < mu)
     p = 1 - p;
-  return(p);
+  return (p);
 }
 
 /**
@@ -133,7 +180,7 @@ inline Double plognorm(const Double& x, const Double& mu, const Double& sigma) {
   if (x <= 0)
     return 0.0;
   else
-    return pnorm(log(x),mu,sigma);
+    return pnorm(log(x), mu, sigma);
 }
 
 /**
@@ -145,7 +192,7 @@ inline Double plognorm2(const Double& x, const Double& mu, const Double& sigma) 
   if (x <= 0)
     return 0.0;
   else
-    return pnorm2(log(x),mu,sigma);
+    return pnorm2(log(x), mu, sigma);
 }
 
 // Distribution: this is taken from CASAL, will be useful for Samik and his length structured stuff.
@@ -163,65 +210,64 @@ inline Double plognorm2(const Double& x, const Double& mu, const Double& sigma) 
 /**
  * distribution: uses the normal CDF functions from CASAL
  */
-inline vector<Double> distribution(const vector<double>& class_mins, bool plus_group = false,
-                                   const Distribution& dist = Distribution::kNormal,
-                                   const Double& mean = 0.0, const Double& stdev = 1.0) {
-  int n_bins = class_mins.size() - (plus_group ? 0 : 1);
+inline vector<Double> distribution(const vector<Double>& class_mins, bool plus_group = false, const Distribution& dist = Distribution::kNormal, const Double& mean = 0.0,
+                                   const Double& stdev = 1.0) {
+  int            n_bins = class_mins.size() - (plus_group ? 0 : 1);
   vector<Double> result(n_bins, 0.0);
-  Double so_far = 0;
-  Double mu = 0, sigma = 0;
+  Double         so_far = 0;
+  Double         mu = 0, sigma = 0;
   // Adjust mu and sigma for lognormal
-  if (dist == Distribution::kLogNormal){
-    sigma = sqrt(log(1+pow(stdev/mean,2)));
-    mu = log(mean) - sigma*sigma/2;
+  if (dist == Distribution::kLogNormal) {
+    sigma = sqrt(log(1 + pow(stdev / mean, 2)));
+    mu    = log(mean) - sigma * sigma / 2;
   }
   if (class_mins[0] < mean - 5 * stdev) {
     so_far = 0;
   } else {
-    if (dist == Distribution::kNormal){
-      so_far = pnorm(class_mins[0],mean,stdev);
-    } else if (dist == Distribution::kLogNormal){
-      so_far = plognorm(class_mins[0],mu,sigma);
+    if (dist == Distribution::kNormal) {
+      so_far = pnorm(class_mins[0], mean, stdev);
+    } else if (dist == Distribution::kLogNormal) {
+      so_far = plognorm(class_mins[0], mu, sigma);
     } else
-      LOG_CODE_ERROR() << "unknown distribution";
+      LOG_CODE_ERROR() << "unknown distribution supplies, this should be caught earlier '";
   }
 
   int c;
   for (c = 0; c < (n_bins - 1); c++) {
-    if (class_mins[c + 1] > mean + 5 * stdev){
-      result[c] = 1-so_far;
-      so_far = 1;
-    } else if (class_mins[c + 1] < mean - 5 * stdev){
+    if (class_mins[c + 1] > mean + 5 * stdev) {
+      result[c] = 1 - so_far;
+      so_far    = 1;
+    } else if (class_mins[c + 1] < mean - 5 * stdev) {
       result[c] = 0;
-      so_far = 0;
+      so_far    = 0;
     } else {
-      if (dist == Distribution::kNormal){
-        result[c] = pnorm(class_mins[c + 1], mean ,stdev) - so_far;
-      } else if (dist == Distribution::kLogNormal){
+      if (dist == Distribution::kNormal) {
+        result[c] = pnorm(class_mins[c + 1], mean, stdev) - so_far;
+      } else if (dist == Distribution::kLogNormal) {
         result[c] = plognorm(class_mins[c + 1], mu, sigma) - so_far;
       }
       so_far += result[c];
     }
-    if (result[c] < 0 || result[c]!=result[c]) {
+    if (result[c] < 0 || result[c] != result[c]) {
       LOG_CODE_ERROR() << "bad result in distribution, parsed " << result[c];
     }
   }
   LOG_TRACE();
 
   c = n_bins - 1;
-  if (plus_group){
+  if (plus_group) {
     result[c] = 1 - so_far;
   } else {
-    if (class_mins[c + 1] > mean + 5 * stdev){
+    if (class_mins[c + 1] > mean + 5 * stdev) {
       result[c] = 1 - so_far;
     } else {
-      if (dist == Distribution::kNormal){
+      if (dist == Distribution::kNormal) {
         result[c] = pnorm(class_mins[c + 1], mean, stdev) - so_far;
-      } else if (dist == Distribution::kLogNormal){
+      } else if (dist == Distribution::kLogNormal) {
         result[c] = plognorm(class_mins[c + 1], mu, sigma) - so_far;
       }
     }
-    if (result[c] < 0 || result[c] != result[c]){
+    if (result[c] < 0 || result[c] != result[c]) {
       LOG_CODE_ERROR() << "bad result in distribution, parsed " << result[c];
     }
   }
@@ -231,65 +277,64 @@ inline vector<Double> distribution(const vector<double>& class_mins, bool plus_g
 /**
  * distribution2: uses the updated/more accurate normal CDF functions
  */
-inline vector<Double> distribution2(const vector<double>& class_mins, bool plus_group = false,
-                                    const Distribution& dist = Distribution::kNormal,
-                                    const Double& mean = 0.0, const Double& stdev = 1.0) {
-  int n_bins = class_mins.size() - (plus_group ? 0 : 1);
+inline vector<Double> distribution2(const vector<Double>& class_mins, bool plus_group = false, const Distribution& dist = Distribution::kNormal, const Double& mean = 0.0,
+                                    const Double& stdev = 1.0) {
+  int            n_bins = class_mins.size() - (plus_group ? 0 : 1);
   vector<Double> result(n_bins, 0.0);
-  Double so_far = 0;
-  Double mu = 0, sigma = 0;
+  Double         so_far = 0;
+  Double         mu = 0, sigma = 0;
   // Adjust mu and sigma for lognormal
-  if (dist == Distribution::kLogNormal){
-    sigma = sqrt(log(1+pow(stdev/mean,2)));
-    mu = log(mean) - sigma*sigma/2;
+  if (dist == Distribution::kLogNormal) {
+    sigma = sqrt(log(1 + pow(stdev / mean, 2)));
+    mu    = log(mean) - sigma * sigma / 2;
   }
   if (class_mins[0] < mean - 5 * stdev) {
     so_far = 0;
   } else {
-    if (dist == Distribution::kNormal){
-      so_far = pnorm2(class_mins[0],mean,stdev);
-    } else if (dist == Distribution::kLogNormal){
-      so_far = plognorm2(class_mins[0],mu,sigma);
+    if (dist == Distribution::kNormal) {
+      so_far = pnorm2(class_mins[0], mean, stdev);
+    } else if (dist == Distribution::kLogNormal) {
+      so_far = plognorm2(class_mins[0], mu, sigma);
     } else
       LOG_CODE_ERROR() << "unknown distribution";
   }
 
   int c;
   for (c = 0; c < (n_bins - 1); c++) {
-    if (class_mins[c + 1] > mean + 5 * stdev){
-      result[c] = 1-so_far;
-      so_far = 1;
-    } else if (class_mins[c + 1] < mean - 5 * stdev){
+    if (class_mins[c + 1] > mean + 5 * stdev) {
+      result[c] = 1 - so_far;
+      so_far    = 1;
+    } else if (class_mins[c + 1] < mean - 5 * stdev) {
       result[c] = 0;
-      so_far = 0;
+      so_far    = 0;
     } else {
-      if (dist == Distribution::kNormal){
-        result[c] = pnorm2(class_mins[c + 1], mean ,stdev) - so_far;
-      } else if (dist == Distribution::kLogNormal){
+      if (dist == Distribution::kNormal) {
+        result[c] = pnorm2(class_mins[c + 1], mean, stdev) - so_far;
+      } else if (dist == Distribution::kLogNormal) {
         result[c] = plognorm2(class_mins[c + 1], mu, sigma) - so_far;
       }
       so_far += result[c];
     }
-    if (result[c] < 0 || result[c]!=result[c]) {
+    if (result[c] < 0 || result[c] != result[c]) {
       LOG_CODE_ERROR() << "bad result in distribution, parsed " << result[c];
     }
   }
   LOG_TRACE();
 
   c = n_bins - 1;
-  if (plus_group){
+  if (plus_group) {
     result[c] = 1 - so_far;
   } else {
-    if (class_mins[c + 1] > mean + 5 * stdev){
+    if (class_mins[c + 1] > mean + 5 * stdev) {
       result[c] = 1 - so_far;
     } else {
-      if (dist == Distribution::kNormal){
+      if (dist == Distribution::kNormal) {
         result[c] = pnorm2(class_mins[c + 1], mean, stdev) - so_far;
-      } else if (dist == Distribution::kLogNormal){
+      } else if (dist == Distribution::kLogNormal) {
         result[c] = plognorm2(class_mins[c + 1], mu, sigma) - so_far;
       }
     }
-    if (result[c] < 0 || result[c] != result[c]){
+    if (result[c] < 0 || result[c] != result[c]) {
       LOG_CODE_ERROR() << "bad result in distribution, parsed " << result[c];
     }
   }
@@ -299,33 +344,29 @@ inline vector<Double> distribution2(const vector<double>& class_mins, bool plus_
 /**
  * conditional assignment
  */
-inline void cond_assign(Double &res, const Double &cond, const Double &arg1, const Double &arg2) {
-  res = (cond) > 0 ? arg1 : arg2;
-}
+inline void cond_assign(Double& res, const Double& cond, const Double& arg1, const Double& arg2) { res = (cond) > 0 ? arg1 : arg2; }
 
 /**
  * conditional assignment
  */
-inline void cond_assign(Double &res, const Double &cond, const Double &arg) {
-  res = (cond) > 0 ? arg : res;
-}
+inline void cond_assign(Double& res, const Double& cond, const Double& arg) { res = (cond) > 0 ? arg : res; }
 
 /**
  * scale value
  */
 inline Double scale_value(Double value, double min, double max) {
-  if (dc::IsEqual(value, min))
+  if (math::IsEqual(value, min))
     return -1;
-  else if (dc::IsEqual(value, max))
+  else if (math::IsEqual(value, max))
     return 1;
 
   return asin(2 * (value - min) / (max - min) - 1) / 1.57079633;
 }
 
 /**
- * unscale value
+ *
  */
-inline Double unscale_value(const Double& value, Double& penalty, double min, double max) {
+inline Double unscale_value(const Double& value, Double& penalty, Double min, Double max) {
   // courtesy of AUTODIF - modified to correct error -
   // penalty on values outside [-1,1] multiplied by 100 as of 14/1/02.
   Double t = 0.0;
@@ -344,78 +385,73 @@ inline Double unscale_value(const Double& value, Double& penalty, double min, do
   return (t);
 }
 
-
 //**********************************************************************
 //    General math utilities
 //**********************************************************************
 // Return the mean for a vector
-inline Double mean(const vector<Double>& Values){
-  Double mu = 0.0;
+inline Double mean(const vector<Double>& Values) {
+  Double mu    = 0.0;
   Double total = 0.0;
-  for (const auto& value : Values)
-    total += value;
+  for (const auto& value : Values) total += value;
   Double n = Values.size();
-  mu = total / n;
+  mu       = total / n;
   return mu;
 }
 
 // Return the mean for an unsigned map
-inline Double mean(const map<unsigned, Double>& Values){
-  Double mu = 0.0;
+inline Double mean(const map<unsigned, Double>& Values) {
+  Double mu    = 0.0;
   Double total = 0.0;
-  for (const auto& value : Values)
-    total += value.second;
+  for (const auto& value : Values) total += value.second;
   Double n = Values.size();
-  mu = total / n;
+  mu       = total / n;
   return mu;
 }
 
 // Return the Variance for a vector
-inline Double Var(const vector<Double>& Values){
-  Double mean_ = math::mean(Values);
+inline Double Var(const vector<Double>& Values) {
+  Double mean_    = math::mean(Values);
   Double variance = 0;
-  for (const auto& value : Values)
-    variance += (value - mean_) * (value - mean_);
-  Double n = Values.size();
+  for (const auto& value : Values) variance += (value - mean_) * (value - mean_);
+  Double n   = Values.size();
   Double var = variance / (n - 1.0);
   return var;
 }
 
 // Return the Variance for an unsigned map
-inline Double Var(const map<unsigned, Double>& Values){
-  Double mean_ = math::mean(Values);
+inline Double Var(const map<unsigned, Double>& Values) {
+  Double mean_    = math::mean(Values);
   Double variance = 0;
-  for (const auto& value : Values)
-    variance += (value.second - mean_) * (value.second - mean_);
-  Double n = Values.size();
+  for (const auto& value : Values) variance += (value.second - mean_) * (value.second - mean_);
+  Double n   = Values.size();
   Double var = variance / (n - 1.0);
   return var;
 }
 
 // Return the Standard Deviation for a vector
-inline Double std_dev(const vector<Double>& Values){
+inline Double std_dev(const vector<Double>& Values) {
   Double sd;
   sd = sqrt(math::Var(Values));
   return sd;
 }
 
 // Return the Standard Deviation for an unsigned map
-inline Double std_dev(const map<unsigned, Double>& Values){
+inline Double std_dev(const map<unsigned, Double>& Values) {
   Double sd;
   sd = sqrt(math::Var(Values));
   return sd;
 }
 
 // Return the maximum value for a vector
-inline Double Max(const vector<Double>& Values){
-  Double max = 0.0;
+inline Double Max(const vector<Double>& Values) {
+  Double   max  = 0.0;
   unsigned iter = 1;
   for (auto value : Values) {
     if (iter == 1)
       max = value;
     else if (max < value)
       max = value;
-   ++iter;
+    ++iter;
   }
   return max;
 }

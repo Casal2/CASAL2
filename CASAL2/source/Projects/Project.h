@@ -4,7 +4,7 @@
  * @date 28/05/2014
  * @section LICENSE
  *
- * Copyright NIWA Science ©2014 - www.niwa.co.nz
+ * Copyright NIWA Science ï¿½2014 - www.niwa.co.nz
  *
  * @section DESCRIPTION
  *
@@ -12,7 +12,7 @@
  * dynamically through future models of the year.
  *
  * This object supports 3 different types of addressables
- * 1. A single double
+ * 1. A single Double
  * 2. A vector of doubles (where it will add a value to the end)
  * 3. A map indexed by unsigned (years)
  */
@@ -20,8 +20,8 @@
 #define PROJECT_H_
 
 // headers
-#include "BaseClasses/Object.h"
-#include "Model/Model.h"
+#include "../BaseClasses/Object.h"
+#include "../Model/Model.h"
 
 // namespaces
 namespace niwa {
@@ -34,7 +34,7 @@ class Project : public niwa::base::Object {
 public:
   // methods
   Project() = delete;
-  explicit Project(Model* model);
+  explicit Project(shared_ptr<Model> model);
   virtual                     ~Project() = default;
   void                        Validate();
   void                        Build();
@@ -63,8 +63,8 @@ protected:
   UpdateFunction              DoUpdateFunc_ = nullptr;
 
   // members
-  Model*                      model_;
-  double                      multiplier_;
+  shared_ptr<Model>                      model_;
+  Double                      multiplier_;
   string                      type_ = "";
   vector<unsigned>            years_;
   string                      parameter_;

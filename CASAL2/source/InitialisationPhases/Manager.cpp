@@ -13,8 +13,8 @@
 // Headers
 #include "Manager.h"
 
-#include "Model/Model.h"
-#include "TimeSteps/Manager.h"
+#include "../Model/Model.h"
+#include "../TimeSteps/Manager.h"
 
 // Namespaces
 namespace niwa {
@@ -56,7 +56,7 @@ void Manager::Validate() {
 /**
  * Build the objects
  */
-void Manager::Build(Model* model) {
+void Manager::Build(shared_ptr<Model> model) {
   LOG_TRACE();
 
   // Build our objects
@@ -77,7 +77,7 @@ void Manager::Build(Model* model) {
     }
   }
 
-  for (auto time_step : model->managers().time_step()->ordered_time_steps())
+  for (auto time_step : model->managers()->time_step()->ordered_time_steps())
     time_step->BuildInitialisationProcesses();
 }
 

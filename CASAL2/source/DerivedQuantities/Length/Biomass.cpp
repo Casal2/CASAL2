@@ -9,9 +9,9 @@
  */
 
 // headers
-#include "DerivedQuantities/Length/Biomass.h"
-#include "InitialisationPhases/Manager.h"
-#include "TimeSteps/Manager.h"
+#include "../../DerivedQuantities/Length/Biomass.h"
+#include "../../InitialisationPhases/Manager.h"
+#include "../../TimeSteps/Manager.h"
 
 // namespaces
 namespace niwa {
@@ -24,9 +24,9 @@ namespace length {
  */
 void Biomass::PreExecute() {
   cache_value_ = 0.0;
-  vector<double> length_bins = model_->length_bins();
+  vector<Double> length_bins = model_->length_bins();
   auto iterator = partition_.begin();
-  unsigned time_step_index = model_->managers().time_step()->current_time_step();
+  unsigned time_step_index = model_->managers()->time_step()->current_time_step();
   LOG_FINE() << "Time step for calculating biomass = " << time_step_index;
 
   // iterate over each category
@@ -54,8 +54,8 @@ void Biomass::PreExecute() {
 void Biomass::Execute() {
   LOG_TRACE();
   Double value = 0.0;
-  vector<double> length_bins = model_->length_bins();
-  unsigned time_step_index = model_->managers().time_step()->current_time_step();
+  vector<Double> length_bins = model_->length_bins();
+  unsigned time_step_index = model_->managers()->time_step()->current_time_step();
   LOG_FINE() << "Time step for calculating biomass = " << time_step_index;
   if (model_->state() == State::kInitialise) {
 
@@ -71,7 +71,7 @@ void Biomass::Execute() {
       }
     }
 
-    unsigned initialisation_phase = model_->managers().initialisation_phase()->current_initialisation_phase();
+    unsigned initialisation_phase = model_->managers()->initialisation_phase()->current_initialisation_phase();
     if (initialisation_values_.size() <= initialisation_phase)
       initialisation_values_.resize(initialisation_phase + 1);
 
@@ -93,7 +93,7 @@ void Biomass::Execute() {
 
     // Store b0 or binitial on the model depending on what initialisation phase we are using
     vector<string> init_label = model_->initialisation_phases();
-    InitialisationPhase* Init_phase = model_->managers().initialisation_phase()->GetInitPhase(init_label[initialisation_phase]);
+    InitialisationPhase* Init_phase = model_->managers()->initialisation_phase()->GetInitPhase(init_label[initialisation_phase]);
     string type = Init_phase->type();
     if (type == PARAM_DERIVED || type == PARAM_ITERATIVE)
       model_->set_b0(label_, b0_value);

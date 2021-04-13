@@ -12,11 +12,11 @@
 // headers
 #include "Log.h"
 
-#include "Model/Model.h"
-#include "Model/Objects.h"
-#include "Model/Managers.h"
-#include "Estimates/Manager.h"
-#include "Estimates/Estimate.h"
+#include "../../Model/Model.h"
+#include "../../Model/Objects.h"
+#include "../../Model/Managers.h"
+#include "../../Estimates/Manager.h"
+#include "../../Estimates/Estimate.h"
 
 // namespaces
 namespace niwa {
@@ -25,7 +25,7 @@ namespace estimatetransformations {
 /**
  * Default constructor
  */
-Log::Log(Model* model) : EstimateTransformation(model) {
+Log::Log(shared_ptr<Model> model) : EstimateTransformation(model) {
   parameters_.Bind<string>(PARAM_ESTIMATE_LABEL, &estimate_label_, "Label of estimate block to apply transformation. Defined as $\theta_1$ in the documentation", "");
 }
 
@@ -41,12 +41,11 @@ void Log::DoValidate() {
  */
 void Log::DoBuild() {
   LOG_FINEST() << "transformation on @estimate " << estimate_label_;
-  estimate_ = model_->managers().estimate()->GetEstimateByLabel(estimate_label_);
+  estimate_ = model_->managers()->estimate()->GetEstimateByLabel(estimate_label_);
   if (estimate_ == nullptr) {
     LOG_ERROR_P(PARAM_ESTIMATE) << "Estimate " << estimate_label_ << " was not found.";
     return;
   }
-
   // Initialise for -r runs
   current_untransformed_value_ = estimate_->value();
 
@@ -57,7 +56,6 @@ void Log::DoBuild() {
       << " and the prior parameters do not refer to the transformed estimate, in the @estimate" << estimate_label_
       << ". This is not advised, and may cause bias errors. Please check the User Manual for more info";
   }
-
   if (estimate_->transform_with_jacobian_is_defined()) {
     if (transform_with_jacobian_ != estimate_->transform_with_jacobian()) {
       LOG_ERROR_P(PARAM_TRANSFORM_WITH_JACOBIAN) << "This parameter is not consistent with the equivalent parameter in the @estimate block "
@@ -110,6 +108,7 @@ void Log::RestoreFromObjectiveFunction() {
     Restore();
 }
 
+
 /**
  * Get Score
  * @return Jacobian if transforming with Jacobian, otherwise 0.0
@@ -135,6 +134,5 @@ std::set<string> Log::GetTargetEstimates() {
   result.insert(estimate_label_);
   return result;
 }
-
 } /* namespace estimatetransformations */
 } /* namespace niwa */

@@ -14,10 +14,10 @@
 #define LENGTHWEIGHT_H_
 
 // headers
-#include "BaseClasses/Object.h"
-#include "Model/Model.h"
-#include "AgeLengths/AgeLength.h" // Check if we need this now that we have moved DIstribution out of AgeLenght
-#include "Utilities/Distribution.h"
+#include "../BaseClasses/Object.h"
+#include "../Model/Model.h"
+#include "../AgeLengths/AgeLength.h" // Check if we need this now that we have moved DIstribution out of AgeLenght
+#include "../Utilities/Distribution.h"
 
 // namespaces
 namespace niwa {
@@ -28,22 +28,20 @@ class LengthWeight : public niwa::base::Object {
 public:
   // methods
   LengthWeight() = delete;
-  explicit                          LengthWeight(Model* model);
-  virtual                           ~LengthWeight() { };
-  void                              Validate();
-  void                              Build() { DoBuild(); };
-  void                              Reset() { DoReset(); };
+  explicit                    LengthWeight(shared_ptr<Model> model);
+  virtual                     ~LengthWeight() { };
+  void                        Validate();
+  void                        Build() { DoBuild(); };
+  void                        Reset() { DoReset(); };
 
-  virtual void                      DoValidate() = 0;
-  virtual void                      DoBuild() = 0;
-  virtual void                      DoReset() = 0;
+  virtual void                DoValidate() = 0;
+  virtual void                DoBuild() = 0;
+  virtual void                DoReset() = 0;
 
   // accessors
-  virtual Double                    mean_weight(Double size, Distribution distribution, Double cv) const = 0;
-
+  virtual Double              mean_weight(Double size, Distribution distribution, Double cv) const = 0;
   // members
-  Model*                            model_ = nullptr;
-
+  shared_ptr<Model>                      model_ = nullptr;
 };
 } /* namespace niwa */
 #endif /* LENGTHWEIGHT_H_ */

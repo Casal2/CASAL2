@@ -5,7 +5,7 @@
  * @date 21/12/2012
  * @section LICENSE
  *
- * Copyright NIWA Science ©2012 - www.niwa.co.nz
+ * Copyright NIWA Science ï¿½2012 - www.niwa.co.nz
  *
  * $Date: 2008-03-04 16:33:32 +1300 (Tue, 04 Mar 2008) $
  */
@@ -13,10 +13,10 @@
 // Headers
 #include "MortalityEvent.h"
 
-#include "Categories/Categories.h"
-#include "Penalties/Manager.h"
-#include "Selectivities/Manager.h"
-#include "Utilities/DoubleCompare.h"
+#include "../../Categories/Categories.h"
+#include "../../Penalties/Manager.h"
+#include "../../Selectivities/Manager.h"
+#include "../../Utilities/Math.h"
 
 // Namespaces
 namespace niwa {
@@ -26,7 +26,7 @@ namespace age {
 /**
  * Default constructor
  */
-MortalityEvent::MortalityEvent(Model* model)
+MortalityEvent::MortalityEvent(shared_ptr<Model> model)
   : Process(model),
     partition_(model) {
   parameters_.Bind<string>(PARAM_CATEGORIES, &category_labels_, "The categories", "");
@@ -86,7 +86,7 @@ void MortalityEvent::DoBuild() {
   partition_.Init(category_labels_);
 
   for (string label : selectivity_names_) {
-    Selectivity* selectivity = model_->managers().selectivity()->GetSelectivity(label);
+    Selectivity* selectivity = model_->managers()->selectivity()->GetSelectivity(label);
     if (!selectivity)
       LOG_ERROR_P(PARAM_SELECTIVITIES) << ": Selectivity label " << label << " was not found.";
 
@@ -94,7 +94,7 @@ void MortalityEvent::DoBuild() {
   }
 
   if (penalty_name_ != "") {
-    penalty_ = model_->managers().penalty()->GetProcessPenalty(penalty_name_);
+    penalty_ = model_->managers()->penalty()->GetProcessPenalty(penalty_name_);
     if (!penalty_) {
       LOG_ERROR_P(PARAM_PENALTY) << ": Penalty label " << penalty_name_ << " was not found.";
     }
@@ -145,7 +145,7 @@ void MortalityEvent::DoExecute() {
      */
     Double exploitation = 0;
     LOG_FINEST() << "vulnerable biomass = " << vulnerable << " catch = " << catch_years_[current_year];
-    exploitation = catch_years_[current_year] / utilities::doublecompare::ZeroFun(vulnerable);
+    exploitation = catch_years_[current_year] / utilities::math::ZeroFun(vulnerable);
 
     if (exploitation > u_max_) {
       exploitation = u_max_;
@@ -192,10 +192,10 @@ void MortalityEvent::FillReportCache(ostringstream& cache) {
     cache << year << " ";
   cache << "\nactual_catches: ";
   for (auto removal : actual_catches_)
-    cache << AS_VALUE(removal) << " ";
+    cache << AS_DOUBLE(removal) << " ";
   cache << "\nexploitation_rate: ";
   for (auto exploit : exploitation_)
-    cache << AS_VALUE(exploit) << " ";
+    cache << AS_DOUBLE(exploit) << " ";
   cache << "\n";
 }
 
@@ -218,9 +218,9 @@ void MortalityEvent::FillTabularReportCache(ostringstream& cache, bool first_run
   }
 
   for (auto removal : actual_catches_)
-    cache << AS_VALUE(removal) << " ";
+    cache << AS_DOUBLE(removal) << " ";
   for (auto exploit : exploitation_)
-    cache << AS_VALUE(exploit) << " ";
+    cache << AS_DOUBLE(exploit) << " ";
   cache << "\n";
 }
 

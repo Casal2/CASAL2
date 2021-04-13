@@ -21,7 +21,7 @@
 #define SOURCE_MINIMISERS_CHILDREN_DUMMY_H_
 
 // headers
-#include "../../Minimiser.h"
+#include "../../../Minimisers/Minimiser.h"
 
 // namespaces
 namespace niwa {
@@ -29,7 +29,7 @@ namespace minimisers {
 
 class Dummy : public Minimiser {
 public:
-  Dummy(Model* model);
+  Dummy(shared_ptr<Model> model);
   virtual                     ~Dummy() = default;
   void                        DoValidate() override final { };
   void                        DoBuild() override final { };

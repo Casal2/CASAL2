@@ -13,13 +13,13 @@
 
 #include <iostream>
 
-#include "ObjectiveFunction/ObjectiveFunction.h"
-#include "Projects/Manager.h"
-#include "DerivedQuantities/Manager.h"
-#include "Model/Model.h"
-#include "TestResources/TestFixtures/InternalEmptyModel.h"
-#include "TestResources/Models/CasalComplex1.h"
-#include "Utilities/RandomNumberGenerator.h"
+#include "../../ObjectiveFunction/ObjectiveFunction.h"
+#include "../../Projects/Manager.h"
+#include "../../DerivedQuantities/Manager.h"
+#include "../../Model/Models/Age.h"
+#include "../../TestResources/TestFixtures/InternalEmptyModel.h"
+#include "../../TestResources/Models/CasalComplex1.h"
+#include "../../Utilities/RandomNumberGenerator.h"
 
 // Namespaces
 namespace niwa {
@@ -49,11 +49,11 @@ TEST_F(InternalEmptyModel, Projects_LogNormal_YCS) {
 	LoadConfiguration();
 	model_->Start(RunMode::kProjection);
 
-	Project* project = model_->managers().project()->GetProject("future_ycs");
+	Project* project = model_->managers()->project()->GetProject("future_ycs");
 	if(!project)
 		LOG_FATAL() << "!project";
 
-  DerivedQuantity* dq = model_->managers().derived_quantity()->GetDerivedQuantity("ssb");
+  DerivedQuantity* dq = model_->managers()->derived_quantity()->GetDerivedQuantity("ssb");
 	if(!dq)
 		LOG_FATAL() << "!dq";
 	// test the values have changed

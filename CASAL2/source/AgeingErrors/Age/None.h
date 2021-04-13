@@ -16,7 +16,7 @@
 #define AGEINGERRORS_NONE_H_
 
 // headers
-#include "AgeingErrors/AgeingError.h"
+#include "../../AgeingErrors/AgeingError.h"
 
 // namespaces
 namespace niwa {
@@ -26,7 +26,7 @@ namespace ageingerrors {
 class None : public niwa::AgeingError {
 public:
   // methods
-  None(Model* model);
+  None(shared_ptr<Model> model);
   virtual                   ~None();
 
 protected:

@@ -17,7 +17,7 @@
 #define DOUBLENORMAL_H_
 
 // Headers
-#include "Selectivities/Selectivity.h"
+#include "../../Selectivities/Selectivity.h"
 
 // Namespaces
 namespace niwa {
@@ -29,7 +29,7 @@ namespace selectivities {
 class DoubleNormal : public niwa::Selectivity {
 public:
   // Methods
-  explicit DoubleNormal(Model* model);
+  explicit DoubleNormal(shared_ptr<Model> model);
   virtual                     ~DoubleNormal() = default;
   void                        DoValidate() override final;
   void                        RebuildCache() override final;

@@ -11,9 +11,9 @@
 // headers
 #include "Process.h"
 
-#include "Model/Managers.h"
-#include "Model/Model.h"
-#include "Reports/Manager.h"
+#include "../Model/Managers.h"
+#include "../Model/Model.h"
+#include "../Reports/Manager.h"
 
 // namespaces
 namespace niwa {
@@ -21,7 +21,7 @@ namespace niwa {
 /**
  * Default constructor
  */
-Process::Process(Model* model) : model_(model) {
+Process::Process(shared_ptr<Model> model) : model_(model) {
   parameters_.Bind<string>(PARAM_LABEL, &label_, "The label of the process", "");
   parameters_.Bind<string>(PARAM_TYPE, &type_, "The type of process", "", "");
 
@@ -58,6 +58,7 @@ void Process::Validate() {
  * then call the child build method.
  */
 void Process::Build() {
+
   DoBuild();
 }
 
@@ -99,5 +100,7 @@ void Process::Execute(unsigned year, const string& time_step_label) {
 void Process::Subscribe(unsigned year, const string& time_step_label, Executor* executor) {
   executors_[year][time_step_label].push_back(executor);
 }
+
+
 
 } /* namespace Casal2 */

@@ -15,7 +15,7 @@
 #define SOURCE_ESTIMATETRANSFORMATIONS_CHILDREN_LOGSUM_H_
 
 // headers
-#include "EstimateTransformations/EstimateTransformation.h"
+#include "../../EstimateTransformations/EstimateTransformation.h"
 
 // namespaces
 namespace niwa {
@@ -25,7 +25,7 @@ namespace estimatetransformations {
 class LogSum : public EstimateTransformation {
 public:
   LogSum() = delete;
-  explicit LogSum(Model* model);
+  explicit LogSum(shared_ptr<Model> model);
   virtual ~LogSum() = default;
   void                        TransformForObjectiveFunction() override final;
   void                        RestoreFromObjectiveFunction() override final;
@@ -43,7 +43,7 @@ private:
   // members
   string                      second_estimate_label_ = "";
   Estimate*                   second_estimate_ = nullptr;
-  Double                      xt_;
+  Double 											xt_;
 };
 
 } /* namespace estimatetransformations */

@@ -33,7 +33,7 @@ namespace accessor = niwa::partition::accessors;
 class TagByLength : public Process {
 public:
   // method
-  explicit TagByLength(Model* model);
+  explicit TagByLength(shared_ptr<Model> model);
   virtual                     ~TagByLength();
   void                        DoValidate() override final;
   void                        DoBuild() override final;
@@ -54,7 +54,7 @@ private:
   string                        penalty_label_ = "";
   Penalty*                      penalty_ = nullptr;
   Double                        u_max_ = 0;
-  double                        initial_mortality_ = 0;
+  Double                        initial_mortality_ = 0;
   string                        initial_mortality_selectivity_label_ = "";
   Selectivity*                  initial_mortality_selectivity_ = nullptr;
   vector<Double>                n_;

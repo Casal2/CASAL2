@@ -7,8 +7,8 @@
 
 #include "Manager.h"
 
-#include "Model/Model.h"
-#include "Logging/Logging.h"
+#include "../Model/Model.h"
+#include "../Logging/Logging.h"
 
 namespace niwa {
 namespace processes {
@@ -36,11 +36,11 @@ void Manager::Validate() {
 /**
  * Validate the objects
  */
-void Manager::Validate(Model* model) {
+void Manager::Validate(shared_ptr<Model> model) {
   LOG_TRACE();
   base::Manager<niwa::processes::Manager, niwa::Process>::Validate();
 
-  if (objects_.size() == 0)
+  if (objects_.size() == 0 && model->partition_type() == PartitionType::kAge)
     LOG_ERROR() << "The configuration file requires that at least one type of process is specified, e.g., @recruitment, @mortality, @ageing";
 
   PartitionType partition_type = model->partition_type();

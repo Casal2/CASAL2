@@ -11,10 +11,10 @@
 
 #include "StateCategoryByAge.h"
 
-#include "Categories/Categories.h"
-#include "Model/Managers.h"
-#include "Model/Model.h"
-#include "TimeSteps/Manager.h"
+#include "../../Categories/Categories.h"
+#include "../../Model/Managers.h"
+#include "../../Model/Model.h"
+#include "../../TimeSteps/Manager.h"
 
 // namespaces
 namespace niwa {
@@ -26,7 +26,7 @@ namespace age {
  *
  * @param model A pointer to our core model object
  */
-StateCategoryByAge::StateCategoryByAge(Model* model)
+StateCategoryByAge::StateCategoryByAge(shared_ptr<Model> model)
   : InitialisationPhase(model),
     partition_(model),
     cached_partition_(model){
@@ -111,18 +111,17 @@ void StateCategoryByAge::Execute() {
       LOG_MEDIUM() << " to = " << iter->data_[index];
     }
   }
-
   // Build cache
   cached_partition_.BuildCache();
 
   // Execute the annual cycle for one year to calculate Quantities that might get used in year 1 of the annual cycle
-  timesteps::Manager* time_step_manager = model_->managers().time_step();
+  timesteps::Manager* time_step_manager = model_->managers()->time_step();
   time_step_manager->ExecuteInitialisation(label_, 1);
 
   auto cached_partition_iter  = cached_partition_.begin();
   auto partition_iter = partition_.begin();
   for (unsigned category_offset = 0; category_offset < category_labels_.size(); ++category_offset, ++partition_iter, ++cached_partition_iter) {
-    (*partition_iter)->data_ = cached_partition_iter->data_;
+    (*partition_iter)->data_ = (*cached_partition_iter).data_;
   }
   LOG_FINE() << "Finished executing statebycategory initialisation";
 }

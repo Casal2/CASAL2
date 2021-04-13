@@ -40,7 +40,7 @@ using processes::age::MortalityInstantaneous;
 class ProportionsAtAge : public niwa::Observation {
 public:
   // Methods
-  explicit ProportionsAtAge(Model* model);
+  explicit ProportionsAtAge(shared_ptr<Model> model);
   virtual                     ~ProportionsAtAge();
   void                        DoValidate() override final;
   virtual void                DoBuild() override;
@@ -58,7 +58,7 @@ protected:
   bool                          plus_group_ = false;
   unsigned                      age_spread_ = 0;
   parameters::Table*            obs_table_ = nullptr;
-  double                        tolerance_ = 0.0;
+  Double                        tolerance_ = 0.0;
   vector<Double>                process_error_values_;
   map<unsigned, Double>         process_errors_by_year_;
   string                        ageing_error_label_;

@@ -9,9 +9,9 @@
 #define INITIALISATIONPHASES_MANAGER_H_
 
 // Headers
-#include "BaseClasses/Manager.h"
-#include "InitialisationPhases/InitialisationPhase.h"
-#include "Model/Managers.h"
+#include "../BaseClasses/Manager.h"
+#include "../InitialisationPhases/InitialisationPhase.h"
+#include "../Model/Managers.h"
 
 // Namespaces
 namespace niwa {
@@ -30,7 +30,7 @@ public:
   virtual                     ~Manager() noexcept(true);
   void                        Validate() override final;
   void                        Build() override final;
-  void                        Build(Model* model);
+  void                        Build(shared_ptr<Model> model);
   void                        Execute();
   InitialisationPhase*        GetInitPhase(const string& label);
   bool                        IsPhaseDefined(const string& label) const;

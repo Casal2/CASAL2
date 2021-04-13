@@ -4,7 +4,7 @@
  * @date 22/09/2014
  * @section LICENSE
  *
- * Copyright NIWA Science ©2014 - www.niwa.co.nz
+ * Copyright NIWA Science ï¿½2014 - www.niwa.co.nz
  *
  * @section DESCRIPTION
  *
@@ -15,8 +15,8 @@
 #define ESTIMATES_CREATOR_H_
 
 // headers
-#include "BaseClasses/Object.h"
-#include "Estimates/Estimate.h"
+#include "../../BaseClasses/Object.h"
+#include "../../Estimates/Estimate.h"
 
 // namespaces
 namespace niwa {
@@ -32,7 +32,7 @@ class Creator : public niwa::base::Object {
 public:
   // methods
   Creator() = delete;
-  explicit Creator(Model* model);
+  explicit Creator(shared_ptr<Model> model);
   virtual                     ~Creator() = default;
   void                        CreateEstimates();
   void                        Reset() override final { };
@@ -48,7 +48,7 @@ protected:
   virtual void                DoCopyParameters(niwa::Estimate* estimate, unsigned index) = 0;
 
   // members
-  Model*                      model_ = nullptr;
+  shared_ptr<Model>                      model_ = nullptr;
   string                      parameter_;
   vector<double>              lower_bounds_;
   vector<double>              upper_bounds_;

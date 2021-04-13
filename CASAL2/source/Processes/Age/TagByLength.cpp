@@ -17,7 +17,6 @@
 #include "Selectivities/Manager.h"
 #include "Penalties/Manager.h"
 #include "TimeSteps/Manager.h"
-#include "Utilities/DoubleCompare.h"
 
 #include <boost/algorithm/string/replace.hpp>
 #include <boost/algorithm/string/trim_all.hpp>
@@ -32,7 +31,7 @@ namespace age {
 /**
  * Default constructor
  */
-TagByLength::TagByLength(Model* model)
+TagByLength::TagByLength(shared_ptr<Model> model)
   : Process(model),
     to_partition_(model),
     from_partition_(model) {
@@ -48,7 +47,7 @@ TagByLength::TagByLength(Model* model)
   parameters_.Bind<Double>(PARAM_U_MAX, &u_max_, "The maximum exploitation rate ($U_{max}$)", "", 0.99)->set_range(0.0, 1.0);
   // TODO:  is tolerance missing? the number '0.001' is hard-coded
   parameters_.Bind<unsigned>(PARAM_YEARS, &years_, "The years to execute the transition in", "");
-  parameters_.Bind<double>(PARAM_INITIAL_MORTALITY, &initial_mortality_, "", "", 0.0)->set_lower_bound(0.0);
+  parameters_.Bind<Double>(PARAM_INITIAL_MORTALITY, &initial_mortality_, "", "", 0.0)->set_lower_bound(0.0);
   parameters_.Bind<string>(PARAM_INITIAL_MORTALITY_SELECTIVITY, &initial_mortality_selectivity_label_, "", "", "");
   parameters_.Bind<string>(PARAM_SELECTIVITIES, &selectivity_labels_, "", "");
   parameters_.Bind<Double>(PARAM_N, &n_, "", "", true);
@@ -157,7 +156,7 @@ void TagByLength::DoValidate() {
         LOG_ERROR_P(PARAM_NUMBERS) << "The length bins for this observation are defined in the @model block. A column is required for each length bin '"
           << model_->length_bins().size() - 1 << "' supplied '"<< number_bins - 1  << "'.";
     }
-    n_by_year_ = utilities::Map<Double>::create(years_, 0.0);
+    n_by_year_ = utilities::Map::create(years_, 0.0);
     // load our table data in to our map
     vector<vector<string>> data = numbers_table_->data();
     unsigned year = 0;
@@ -168,7 +167,7 @@ void TagByLength::DoValidate() {
 
       for (unsigned i = 1; i < iter.size(); ++i) {
         if (!utilities::To<Double>(iter[i], n_value))
-          LOG_ERROR_P(PARAM_NUMBERS) << " value (" << iter[i] << ") could not be converted to a double";
+          LOG_ERROR_P(PARAM_NUMBERS) << " value (" << iter[i] << ") could not be converted to a Double";
         if (numbers_[year].size() == 0)
           numbers_[year].resize(number_bins, 0.0);
         n_by_year_[year] += n_value;
@@ -206,7 +205,7 @@ void TagByLength::DoValidate() {
     }
     else if (n_.size() != years_.size())
       LOG_ERROR_P(PARAM_N) << "The values provided (" << n_.size() << ") does not match the number of years (" << years_.size() << ")";
-    n_by_year_ = utilities::Map<Double>::create(years_, n_);
+    n_by_year_ = utilities::Map::create(years_, n_);
 
     // load our table data in to our map
     vector<vector<string>> data = proportions_table_->data();
@@ -218,7 +217,7 @@ void TagByLength::DoValidate() {
       Double total_proportion = 0.0;
       for (unsigned i = 1; i < iter.size(); ++i) {
         if (!utilities::To<Double>(iter[i], proportion))
-          LOG_ERROR_P(PARAM_PROPORTIONS) << "value (" << iter[i] << ") could not be converted to a double.";
+          LOG_ERROR_P(PARAM_PROPORTIONS) << "value (" << iter[i] << ") could not be converted to a Double.";
         if (numbers_[year].size() == 0)
           numbers_[year].resize(number_bins, 0.0);
         numbers_[year][i - 1] = n_by_year_[year] * proportion;
@@ -264,11 +263,11 @@ void TagByLength::DoBuild() {
   to_partition_.Init(to_category_labels_);
 
   if (penalty_label_ != "")
-    penalty_ = model_->managers().penalty()->GetPenalty(penalty_label_);
+    penalty_ = model_->managers()->penalty()->GetPenalty(penalty_label_);
   else
     LOG_WARNING() << location() << "No penalty has been specified. Exploitation above u_max will not affect the objective function";
 
-  selectivities::Manager& selectivity_manager = *model_->managers().selectivity();
+  selectivities::Manager& selectivity_manager = *model_->managers()->selectivity();
   for (unsigned i = 0; i < selectivity_labels_.size(); ++i) {
     Selectivity* selectivity = selectivity_manager.GetSelectivity(selectivity_labels_[i]);
     if (!selectivity)
@@ -323,7 +322,7 @@ void TagByLength::DoExecute() {
   }
 
   unsigned year_index      = model_->current_year() - model_->start_year();
-  unsigned time_step_index = model_->managers().time_step()->current_time_step();
+  unsigned time_step_index = model_->managers()->time_step()->current_time_step();
 
   // Calculate the exploitation rate by length bin
   for (unsigned i = 0; i < number_bins; ++i) {
@@ -429,7 +428,7 @@ void TagByLength::FillReportCache(ostringstream& cache) {
     for(unsigned year_ndx = 0; year_ndx < years_.size(); ++year_ndx) {
       cache << years_[year_ndx] << " ";
       for(unsigned age_ndx = 0; age_ndx < model_->age_spread(); ++age_ndx)
-        cache << AS_VALUE(actual_tagged_fish_from_[year_ndx][category_ndx][age_ndx]) << " ";
+        cache << AS_DOUBLE(actual_tagged_fish_from_[year_ndx][category_ndx][age_ndx]) << " ";
       cache << "\n";
     }
   }
@@ -443,7 +442,7 @@ void TagByLength::FillReportCache(ostringstream& cache) {
     for(unsigned year_ndx = 0; year_ndx < years_.size(); ++year_ndx) {
       cache << years_[year_ndx] << " ";
       for(unsigned age_ndx = 0; age_ndx < model_->age_spread(); ++age_ndx)
-        cache << AS_VALUE(actual_tagged_fish_to_[year_ndx][category_ndx][age_ndx]) << " ";
+        cache << AS_DOUBLE(actual_tagged_fish_to_[year_ndx][category_ndx][age_ndx]) << " ";
       cache << "\n";
     }
   }

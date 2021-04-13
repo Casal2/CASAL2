@@ -15,17 +15,17 @@
 #include <boost/algorithm/string.hpp>
 #include <boost/algorithm/string/split.hpp>
 
-#include "InitialisationPhases/Manager.h"
-#include "Model/Model.h"
-#include "Observations/Manager.h"
-#include "Processes/Manager.h"
+#include "../InitialisationPhases/Manager.h"
+#include "../Model/Model.h"
+#include "../Observations/Manager.h"
+#include "../Processes/Manager.h"
 
 namespace niwa {
 
 /**
  * Default Constructor
  */
-TimeStep::TimeStep(Model* model) : model_(model) {
+TimeStep::TimeStep(shared_ptr<Model> model) : model_(model) {
   LOG_TRACE();
 
   parameters_.Bind<string>(PARAM_LABEL, &label_, "The label of the timestep", "");
@@ -45,7 +45,7 @@ void TimeStep::Validate() {
 void TimeStep::Build() {
 
   // Get the pointers to our processes
-  processes::Manager& process_manager = *model_->managers().process();
+  processes::Manager& process_manager = *model_->managers()->process();
   for (string process_name : process_names_) {
     Process* process = process_manager.GetProcess(process_name);
     if (!process) {
@@ -223,7 +223,7 @@ void TimeStep::BuildInitialisationProcesses() {
   for (auto iter : initialisation_process_labels_) {
     for (string process_label : iter.second) {
       LOG_FINEST() << "Including " << process_label << " process in initialisation phase";
-      auto process = model_->managers().process()->GetProcess(process_label);
+      auto process = model_->managers()->process()->GetProcess(process_label);
       if (!process)
         return;
       initialisation_processes_[iter.first].push_back(process);
@@ -246,5 +246,4 @@ void TimeStep::BuildInitialisationProcesses() {
     initialisation_mortality_blocks_[iter.first].second = initialisation_mortality_blocks_[iter.first].first == processes_.size() ? initialisation_mortality_blocks_[iter.first].first : initialisation_mortality_blocks_[iter.first].second;
   }
 }
-
 } /* namespace niwa */

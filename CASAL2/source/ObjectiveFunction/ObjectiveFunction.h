@@ -25,8 +25,9 @@
 #include <string>
 #include <vector>
 #include <iostream>
+#include <memory>
 
-#include "Utilities/Types.h"
+#include "../Utilities/Types.h"
 
 // Namespaces
 namespace niwa {
@@ -35,6 +36,7 @@ using std::string;
 using std::pair;
 using std::vector;
 using niwa::utilities::Double;
+using std::shared_ptr;
 
 /**
  * Struct definition
@@ -68,10 +70,10 @@ public:
 
 private:
   // methods
-  ObjectiveFunction(Model* model);
+  ObjectiveFunction(shared_ptr<Model> model);
 
   // Members
-  Model*                      model_ = nullptr;
+  shared_ptr<Model>                      model_ = nullptr;
   Double                      score_        = 0.0;
   Double                      penalties_    = 0.0;
   Double                      priors_       = 0.0;

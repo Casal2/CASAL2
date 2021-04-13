@@ -17,7 +17,7 @@
 #define LIKELIHOODS_PSEUDO_H_
 
 // Headers
-#include "Likelihoods/Likelihood.h"
+#include "../../Likelihoods/Likelihood.h"
 
 // Namespaces
 namespace niwa {
@@ -29,7 +29,7 @@ namespace likelihoods {
 class Pseudo : public niwa::Likelihood {
 public:
   // Methods
-  Pseudo(Model* model) : Likelihood(model) { };
+  Pseudo(shared_ptr<Model> model) : Likelihood(model) { };
   virtual                     ~Pseudo() = default;
   void                        DoValidate() override final { };
   Double                      AdjustErrorValue(const Double process_error, const Double error_value) override final;

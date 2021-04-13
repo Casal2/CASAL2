@@ -17,7 +17,7 @@
 #define LIKELIHOODS_BINOMIAL_H_
 
 // Headers
-#include "Likelihoods/Likelihood.h"
+#include "../../Likelihoods/Likelihood.h"
 
 // Namespaces
 namespace niwa {
@@ -29,7 +29,7 @@ namespace likelihoods {
 class Binomial : public niwa::Likelihood {
 public:
   // Methods
-  Binomial(Model* model) : Likelihood(model) { };
+  Binomial(shared_ptr<Model> model) : Likelihood(model) { };
   virtual                     ~Binomial() = default;
   void                        DoValidate() override final { };
   Double                      AdjustErrorValue(const Double process_error, const Double error_value) override final;

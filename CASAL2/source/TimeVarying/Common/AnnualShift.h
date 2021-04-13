@@ -15,7 +15,7 @@
 #define TIMEVARYING_ANNUALSHIFT_H_
 
 // headers
-#include "TimeVarying/TimeVarying.h"
+#include "../../TimeVarying/TimeVarying.h"
 
 // namespaces
 namespace niwa {
@@ -26,7 +26,7 @@ namespace timevarying {
  */
 class AnnualShift : public TimeVarying {
 public:
-  explicit AnnualShift(Model* model);
+  explicit AnnualShift(shared_ptr<Model> model);
   virtual                     ~AnnualShift() = default;
   void                        DoValidate() override final;
   void                        DoBuild() override final;

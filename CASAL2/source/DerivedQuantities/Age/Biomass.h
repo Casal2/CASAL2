@@ -15,8 +15,8 @@
 #define DERIVEDQUANTITIES_AGE_BIOMASS_H_
 
 // headers
-#include "DerivedQuantities/DerivedQuantity.h"
-#include "AgeWeights/AgeWeight.h"
+#include "../../DerivedQuantities/DerivedQuantity.h"
+#include "../../AgeWeights/AgeWeight.h"
 
 // namespaces
 namespace niwa {
@@ -27,7 +27,7 @@ namespace age {
 class Biomass : public niwa::DerivedQuantity {
 public:
   // methods
-  explicit Biomass(Model* model);
+  explicit Biomass(shared_ptr<Model> model);
   virtual                     ~Biomass() = default;
   void                        PreExecute() override final;
   void                        Execute() override final;

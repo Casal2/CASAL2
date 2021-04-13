@@ -4,20 +4,20 @@
  * @date 7/01/2014
  * @section LICENSE
  *
- * Copyright NIWA Science ©2013 - www.niwa.co.nz
+ * Copyright NIWA Science ï¿½2013 - www.niwa.co.nz
  *
  */
 
 // headers
 #include "PartitionMeanWeight.h"
 
-#include "AgeLengths/Manager.h"
-#include "Categories/Categories.h"
-#include "Model/Model.h"
-#include "Partition/Partition.h"
-#include "Partition/Accessors/All.h"
-#include "LengthWeights/Manager.h"
-#include "TimeSteps/Manager.h"
+#include "../../AgeLengths/Manager.h"
+#include "../../Categories/Categories.h"
+#include "../../Model/Model.h"
+#include "../../Partition/Partition.h"
+#include "../../Partition/Accessors/All.h"
+#include "../../LengthWeights/Manager.h"
+#include "../../TimeSteps/Manager.h"
 
 // namespaces
 namespace niwa {
@@ -27,8 +27,8 @@ namespace age {
 /**
  * Default constructor
  */
-PartitionMeanWeight::PartitionMeanWeight(Model* model) : Report(model) {
-  run_mode_    = (RunMode::Type)(RunMode::kBasic | RunMode::kProjection | RunMode::kSimulation | RunMode::kEstimation | RunMode::kProfiling);
+PartitionMeanWeight::PartitionMeanWeight() {
+  run_mode_    = (RunMode::Type)(RunMode::kBasic | RunMode::kProjection | RunMode::kSimulation| RunMode::kEstimation | RunMode::kProfiling);
   model_state_ = (State::Type)(State::kIterationComplete);
 
   parameters_.Bind<string>(PARAM_TIME_STEP, &time_step_, "The time step label", "", "");
@@ -38,21 +38,21 @@ PartitionMeanWeight::PartitionMeanWeight(Model* model) : Report(model) {
 /**
  * Build method
  */
-void PartitionMeanWeight::DoBuild() {
+void PartitionMeanWeight::DoBuild(shared_ptr<Model> model) {
   if (!parameters_.Get(PARAM_YEARS)->has_been_defined()) {
-    years_ = model_->years();
+    years_ = model->years();
   }
 }
 
 /**
  * Execute the report
  */
-void PartitionMeanWeight::DoExecute() {
+void PartitionMeanWeight::DoExecute(shared_ptr<Model> model) {
   LOG_TRACE();
 
 //  unsigned year_index      = 0;
-  unsigned time_step_index = model_->managers().time_step()->GetTimeStepIndex(time_step_);
-  niwa::partition::accessors::All all_view(model_);
+  unsigned time_step_index = model->managers()->time_step()->GetTimeStepIndex(time_step_);
+  niwa::partition::accessors::All all_view(model);
 
   cache_ << "*"<< type_ << "[" << label_ << "]" << "\n";
   cache_ << "time_step: " << time_step_ << "\n";
@@ -64,7 +64,7 @@ void PartitionMeanWeight::DoExecute() {
 
     cache_ << "mean_weights " << REPORT_R_DATAFRAME << "\n";
     cache_ << "year ";
-    for (unsigned i = model_->min_age(); i <= model_->max_age(); ++i)
+    for (unsigned i = model->min_age(); i <= model->max_age(); ++i)
       cache_ << i << " ";
     cache_ << "\n";
 
@@ -74,7 +74,7 @@ void PartitionMeanWeight::DoExecute() {
 
       for (unsigned age = (*iterator)->min_age_; age <= (*iterator)->max_age_; ++age) {
         Double temp = (*iterator)->mean_weight_by_time_step_age_[time_step_index][age];
-        cache_ << AS_VALUE(temp) << " ";
+        cache_ << AS_DOUBLE(temp) << " ";
       }
 
       cache_ << "\n";

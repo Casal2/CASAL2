@@ -12,7 +12,7 @@
 #define MINIMISERS_GAMMADIFF_ENGINE_H_
 
 // Global Headers
-#include <Minimisers/Common/GammaDiff/Callback.h>
+#include "Callback.h"
 
 #include <vector>
 

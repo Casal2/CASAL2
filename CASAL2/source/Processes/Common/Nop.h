@@ -15,7 +15,7 @@
 #define SOURCE_PROCESSES_CHILDREN_NOP_H_
 
 // headers
-#include "Processes/Process.h"
+#include "../../Processes/Process.h"
 
 // namespaces
 namespace niwa {
@@ -27,7 +27,7 @@ namespace processes {
 class Nop : public Process{
 public:
   // methods
-  explicit Nop(Model* model);
+  explicit Nop(shared_ptr<Model> model);
   virtual                     ~Nop() = default;
   void                        DoValidate() override final { };
   void                        DoBuild() override final { };

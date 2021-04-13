@@ -13,17 +13,17 @@
 // Headers
 #include "Factory.h"
 
-#include "Model/Model.h"
-#include "Model/Managers.h"
-#include "Likelihoods/Manager.h"
-#include "Likelihoods/Common/Binomial.h"
-#include "Likelihoods/Common/BinomialApprox.h"
-#include "Likelihoods/Common/Dirichlet.h"
-#include "Likelihoods/Common/LogNormal.h"
-#include "Likelihoods/Common/LogNormalWithQ.h"
-#include "Likelihoods/Common/Multinomial.h"
-#include "Likelihoods/Common/Normal.h"
-#include "Likelihoods/Common/Pseudo.h"
+#include "../Model/Model.h"
+#include "../Model/Managers.h"
+#include "../Likelihoods/Manager.h"
+#include "../Likelihoods/Common/Binomial.h"
+#include "../Likelihoods/Common/BinomialApprox.h"
+#include "../Likelihoods/Common/Dirichlet.h"
+#include "../Likelihoods/Common/LogNormal.h"
+#include "../Likelihoods/Common/LogNormalWithQ.h"
+#include "../Likelihoods/Common/Multinomial.h"
+#include "../Likelihoods/Common/Normal.h"
+#include "../Likelihoods/Common/Pseudo.h"
 
 // Namespaces
 namespace niwa {
@@ -35,7 +35,7 @@ namespace likelihoods {
  * @param likelihood_type The type of likelihood to create
  * @return shared_ptr to the likelihood
  */
-Likelihood* Factory::Create(Model* model, const string& object_type, const string& sub_type) {
+Likelihood* Factory::Create(shared_ptr<Model> model, const string& object_type, const string& sub_type) {
   Likelihood* result = nullptr;
 
   if (sub_type == PARAM_BINOMIAL)
@@ -56,10 +56,11 @@ Likelihood* Factory::Create(Model* model, const string& object_type, const strin
     result = new Pseudo(model);
 
   if (result)
-    model->managers().likelihood()->AddObject(result);
+    model->managers()->likelihood()->AddObject(result);
 
   return result;
 }
+
 
 } /* namespace likelihoods */
 } /* namespace niwa */

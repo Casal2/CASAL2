@@ -14,8 +14,8 @@
 #define SIMULATES_MANAGER_H_
 
 // headers
-#include "BaseClasses/Manager.h"
-#include "Simulates/Simulate.h"
+#include "../BaseClasses/Manager.h"
+#include "../Simulates/Simulate.h"
 
 // namespaces
 namespace niwa {

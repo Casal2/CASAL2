@@ -19,9 +19,9 @@
 #include <adolc/taping.h>
 #include <adolc/drivers/drivers.h>
 
-#include "FMM.h"
-#include "Utilities/DoubleCompare.h"
-#include "Utilities/Math.h"
+#include "../../../FMM.h"
+#include "../../../Utilities/DoubleCompare.h"
+#include "../../../Utilities/Math.h"
 
 // namespaces
 namespace niwa {

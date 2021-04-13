@@ -28,7 +28,7 @@ using std::map;
  */
 class MockObjects : public niwa::Objects {
 public:
-  MockObjects(Model* model) : niwa::Objects(model) { };
+  MockObjects(shared_ptr<Model> model) : niwa::Objects(model) { };
   virtual ~MockObjects() = default;
 
   MOCK_METHOD3(VerfiyAddressableForUse, bool(const string&, addressable::Usage, string&));

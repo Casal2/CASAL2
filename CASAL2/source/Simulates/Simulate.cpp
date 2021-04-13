@@ -11,8 +11,8 @@
 // headers
 #include "Simulate.h"
 
-#include "Model/Objects.h"
-#include "Utilities/To.h"
+#include "../Model/Objects.h"
+#include "../Utilities/To.h"
 
 // namespaces
 namespace niwa {
@@ -20,7 +20,7 @@ namespace niwa {
 /**
  * Default constructor
  */
-Simulate::Simulate(Model* model) : model_(model) {
+Simulate::Simulate(shared_ptr<Model> model) : model_(model) {
   parameters_.Bind<string>(PARAM_LABEL, &label_, "Label", "");
   parameters_.Bind<string>(PARAM_TYPE, &type_, "Type", "", "");
   parameters_.Bind<unsigned>(PARAM_YEARS, &years_, "Years to recalculate the values", "", true);

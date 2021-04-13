@@ -16,7 +16,7 @@
 #define AGEINGERRORS_NORMAL_H_
 
 // headers
-#include "AgeingErrors/AgeingError.h"
+#include "../../AgeingErrors/AgeingError.h"
 
 // mamespaces
 namespace niwa {
@@ -26,7 +26,7 @@ namespace ageingerrors {
 class Normal : public niwa::AgeingError {
 public:
   // methods
-  Normal(Model* model);
+  Normal(shared_ptr<Model> model);
   virtual                     ~Normal() = default;
 
 protected:

@@ -17,19 +17,19 @@
 // Headers
 #include "Factory.h"
 
-#include "Model/Model.h"
-#include "Model/Managers.h"
-#include "Selectivities/Manager.h"
-#include "Selectivities/Common/AllValues.h"
-#include "Selectivities/Common/AllValuesBounded.h"
-#include "Selectivities/Common/Constant.h"
-#include "Selectivities/Common/DoubleExponential.h"
-#include "Selectivities/Common/DoubleNormal.h"
-#include "Selectivities/Common/Increasing.h"
-#include "Selectivities/Common/InverseLogistic.h"
-#include "Selectivities/Common/KnifeEdge.h"
-#include "Selectivities/Common/Logistic.h"
-#include "Selectivities/Common/LogisticProducing.h"
+#include "../Model/Model.h"
+#include "../Model/Managers.h"
+#include "../Selectivities/Manager.h"
+#include "../Selectivities/Common/AllValues.h"
+#include "../Selectivities/Common/AllValuesBounded.h"
+#include "../Selectivities/Common/Constant.h"
+#include "../Selectivities/Common/DoubleExponential.h"
+#include "../Selectivities/Common/DoubleNormal.h"
+#include "../Selectivities/Common/Increasing.h"
+#include "../Selectivities/Common/InverseLogistic.h"
+#include "../Selectivities/Common/KnifeEdge.h"
+#include "../Selectivities/Common/Logistic.h"
+#include "../Selectivities/Common/LogisticProducing.h"
 
 // Namespaces
 namespace niwa {
@@ -43,7 +43,7 @@ namespace selectivities {
  * @param sub_type The child type of the object to create (e.g., ageing, schnute)
  * @return shared_ptr to the object
  */
-Selectivity* Factory::Create(Model* model, const string& object_type, const string& sub_type) {
+Selectivity* Factory::Create(shared_ptr<Model> model, const string& object_type, const string& sub_type) {
   Selectivity* result = nullptr;
 
   if (object_type == PARAM_SELECTIVITY || object_type == PARAM_SELECTIVITIES || object_type == PARAM_RELATIVE_M_BY_AGE) {
@@ -69,7 +69,7 @@ Selectivity* Factory::Create(Model* model, const string& object_type, const stri
       result = new LogisticProducing(model);
 
     if (result)
-      model->managers().selectivity()->AddObject(result);
+      model->managers()->selectivity()->AddObject(result);
   }
 
   return result;

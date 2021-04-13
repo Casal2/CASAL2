@@ -9,8 +9,8 @@
 #define TIMESTEPS_MANAGER_H_
 
 // Headers
-#include "BaseClasses/Manager.h"
-#include "TimeSteps/TimeStep.h"
+#include "../BaseClasses/Manager.h"
+#include "../TimeSteps/TimeStep.h"
 
 // Namespaces
 namespace niwa {
@@ -28,7 +28,7 @@ public:
   // Methods
   virtual                     ~Manager() noexcept(true);
   void                        Validate() override final;
-  void                        Validate(Model* model);
+  void                        Validate(shared_ptr<Model> model);
   void                        Build() override final;
   void                        Execute(unsigned year);
   void                        ExecuteInitialisation(const string& phase_label, unsigned years);
@@ -52,7 +52,7 @@ protected:
   Manager();
 
   // Members
-  Model*                      model_;
+  shared_ptr<Model>                      model_;
   vector<TimeStep*>           ordered_time_steps_;
   vector<DerivedQuantity*>    derived_quantities_;
   unsigned                    current_time_step_ = 0;

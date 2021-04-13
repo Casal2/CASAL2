@@ -12,11 +12,11 @@
 // Headers
 #include <iostream>
 
-#include "ObjectiveFunction/ObjectiveFunction.h"
-#include "Estimates/Manager.h"
-#include "Model/Model.h"
-#include "TestResources/TestFixtures/InternalEmptyModel.h"
-#include "TestResources/Models/TwoSexNoEstimates.h"
+#include "../../ObjectiveFunction/ObjectiveFunction.h"
+#include "../../Estimates/Manager.h"
+#include "../../Model/Models/Age.h"
+#include "../../TestResources/TestFixtures/InternalEmptyModel.h"
+#include "../../TestResources/Models/TwoSexNoEstimates.h"
 
 // Namespaces
 namespace niwa {
@@ -50,7 +50,7 @@ TEST_F(InternalEmptyModel, Estimates_Lognormal) {
   ObjectiveFunction& obj_function = model_->objective_function();
   EXPECT_DOUBLE_EQ(2563.1357030901372, obj_function.score());
 
-  Estimate* estimate = model_->managers().estimate()->GetEstimate("selectivity[FishingSel].a50");
+  Estimate* estimate = model_->managers()->estimate()->GetEstimate("selectivity[FishingSel].a50");
   if (!estimate)
     LOG_FATAL() << "!estimate";
   EXPECT_DOUBLE_EQ(estimate->value(), 8.9817107756936174);

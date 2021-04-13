@@ -63,7 +63,7 @@ TEST_F(InternalEmptyModel, Model_CasalComplex1_Simulation) {
   ObjectiveFunction& obj_function = model_->objective_function();
   EXPECT_DOUBLE_EQ(0.0, obj_function.score());
 
-  Observation* observation = model_->managers().observation()->GetObservation("chatTANage");
+  Observation* observation = model_->managers()->observation()->GetObservation("chatTANage");
   if (!observation && observation->label() != "chatTANage")
     LOG_ERROR() << "Observation chatTANage could not be loaded for testing";
 

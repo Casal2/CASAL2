@@ -14,7 +14,7 @@
 // Headers
 #include <string>
 
-#include "InitialisationPhases/InitialisationPhase.h"
+#include "../InitialisationPhases/InitialisationPhase.h"
 
 // Namespaces
 namespace niwa {
@@ -29,7 +29,7 @@ using std::string;
 class Factory {
 public:
   // methods
-  static InitialisationPhase* Create(Model* model, const string& object_type, const string& sub_type);
+  static InitialisationPhase* Create(shared_ptr<Model> model, const string& object_type, const string& sub_type);
 
 private:
   // methods

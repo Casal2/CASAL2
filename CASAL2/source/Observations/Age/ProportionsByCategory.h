@@ -35,7 +35,7 @@ using partition::accessors::cached::CachedCombinedCategoriesPtr;
 class ProportionsByCategory : public niwa::Observation {
 public:
   // methods
-  ProportionsByCategory(Model* model);
+  ProportionsByCategory(shared_ptr<Model> model);
   virtual                     ~ProportionsByCategory();
   void                        DoValidate() override final;
   virtual void                DoBuild() override;
@@ -55,7 +55,7 @@ protected:
   vector<string>                target_category_labels_;
   vector<string>                target_selectivity_labels_;
   parameters::Table*            obs_table_ = nullptr;
-  double                        tolerance_ = 0.0;
+  Double                        tolerance_ = 0.0;
   vector<Double>                process_error_values_;
   map<unsigned, Double>         process_errors_by_year_;
   string                        ageing_error_label_;

@@ -5,18 +5,19 @@
  * @date 14/01/2013
  * @section LICENSE
  *
- * Copyright NIWA Science ©2013 - www.niwa.co.nz
+ * Copyright NIWA Science ï¿½2013 - www.niwa.co.nz
  *
  * $Date: 2008-03-04 16:33:32 +1300 (Tue, 04 Mar 2008) $
  */
 
 // Headers
+#include "AllValuesBounded.h"
+
 #include <boost/math/distributions/lognormal.hpp>
-#include <Selectivities/Common/AllValuesBounded.h>
 #include <cmath>
 
-#include "AgeLengths/AgeLength.h"
-#include "Model/Model.h"
+#include "../../AgeLengths/AgeLength.h"
+#include "../../Model/Model.h"
 
 // Namespaces
 namespace niwa {
@@ -25,7 +26,7 @@ namespace selectivities {
 /**
  * Default constructor
  */
-AllValuesBounded::AllValuesBounded(Model* model)
+AllValuesBounded::AllValuesBounded(shared_ptr<Model> model)
 : Selectivity(model) {
 
   parameters_.Bind<unsigned>(PARAM_L, &low_, "The low value (L)", "");
@@ -68,7 +69,7 @@ void AllValuesBounded::DoValidate() {
     }
 
   } else if (model_->partition_type() == PartitionType::kLength) {
-    vector<double> length_bins = model_->length_bins();
+    vector<Double> length_bins = model_->length_bins();
     unsigned bins = 0;
     for (unsigned i = 0; i < length_bins.size(); ++i) {
       if (length_bins[i] >= low_ && length_bins[i] <= high_)
@@ -78,6 +79,8 @@ void AllValuesBounded::DoValidate() {
       LOG_ERROR_P(PARAM_V) << ": Parameter 'v' has an incorrect number of elements n = low <= length_bins <= high, "
         << "Expected: " << bins << ", parsed: " << v_.size();
     }
+
+
   }
 
   if (low_ >= high_) {
@@ -105,23 +108,19 @@ void AllValuesBounded::RebuildCache() {
     unsigned min_age = model_->min_age();
     unsigned max_age = model_->max_age();
     unsigned age = min_age;
-
     for (; age < low_; ++age)
       values_[age - age_index_] = 0.0;
-
     for (unsigned i = 0; i < v_.size(); ++i, ++age) {
       if (v_[i] < 0.0)
         LOG_FATAL_P(PARAM_V) << "v cannot have values less than 0.0. value = " << v_[i] << " for age = " << age;
       values_[age - age_index_] = v_[i];
     }
-
     for (; age <= max_age; ++age)
       values_[age - age_index_] = *v_.rbegin();
 
   } else if (model_->partition_type() == PartitionType::kLength) {
-    vector<double> length_bins = model_->length_bins();
+    vector<Double> length_bins = model_->length_bins();
     unsigned v_index = 0;
-
     for (unsigned length_bin_index = 0; length_bin_index < length_bins.size(); ++length_bin_index)
       if (length_bins[length_bin_index] < low_)
         length_values_[length_bin_index] = 0.0;
@@ -143,6 +142,7 @@ void AllValuesBounded::RebuildCache() {
  * @param time_step_index
  * @return 0.0 - error
  */
+
 Double AllValuesBounded::GetLengthBasedResult(unsigned age, AgeLength* age_length, unsigned year, int time_step_index) {
   LOG_ERROR_P(PARAM_LENGTH_BASED) << ": This selectivity type has not been implemented for age length based selectivities ";
   return 0.0;

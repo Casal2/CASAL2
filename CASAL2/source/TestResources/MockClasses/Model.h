@@ -19,10 +19,11 @@
 // Headers
 #include <gmock/gmock.h>
 
-#include "Model/Model.h"
-#include "Model/Managers.h"
-#include "Model/Objects.h"
-#include "Utilities/PartitionType.h"
+#include "../../Model/Model.h"
+#include "../../Model/Models/Age.h"
+#include "../../Model/Managers.h"
+#include "../../Model/Objects.h"
+#include "../../Utilities/PartitionType.h"
 
 // Namespaces
 namespace niwa {
@@ -33,7 +34,7 @@ using ::testing::DoDefault;
 /**
  * Class Definition
  */
-class MockModel : public niwa::Model {
+class MockModel : public niwa::model::Age, public std::enable_shared_from_this<MockModel>  {
 public:
   // Constructor
   MockModel() {
@@ -69,7 +70,7 @@ public:
   MOCK_CONST_METHOD0(partition_type, PartitionType());
   MOCK_CONST_METHOD0(length_bins, vector<double>&());
   MOCK_CONST_METHOD0(length_plus, bool());
-  MOCK_METHOD0(managers, niwa::Managers&());
+  MOCK_METHOD0(managers, shared_ptr<Managers>());
   MOCK_METHOD0(categories, niwa::Categories*());
   MOCK_METHOD0(objects, niwa::Objects&());
 

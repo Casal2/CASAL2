@@ -13,43 +13,48 @@
 #include "Managers.h"
 
 #include <vector>
+#include <mutex>
+#include <thread>
 
-#include "Model/Model.h"
-#include "AdditionalPriors/Manager.h"
-#include "AgeingErrors/Manager.h"
-#include "AgeLengths/Manager.h"
-#include "AgeWeights/Manager.h"
-#include "Asserts/Manager.h"
-#include "Catchabilities/Manager.h"
-#include "Categories/Categories.h"
-#include "DerivedQuantities/Manager.h"
-#include "Estimables/Estimables.h"
-#include "Estimates/Manager.h"
-#include "EstimateTransformations/Manager.h"
-#include "InitialisationPhases/Manager.h"
-#include "LengthWeights/Manager.h"
-#include "Likelihoods/Manager.h"
-#include "MCMCs/Manager.h"
-#include "Minimisers/Manager.h"
-#include "Observations/Manager.h"
-#include "Penalties/Manager.h"
-#include "Processes/Manager.h"
-#include "Profiles/Manager.h"
-#include "Projects/Manager.h"
-#include "Reports/Manager.h"
-#include "Selectivities/Manager.h"
-#include "Simulates/Manager.h"
-#include "TimeSteps/Manager.h"
-#include "TimeVarying/Manager.h"
+#include "../Model/Model.h"
+#include "../AdditionalPriors/Manager.h"
+#include "../AgeingErrors/Manager.h"
+#include "../AgeLengths/Manager.h"
+#include "../AgeWeights/Manager.h"
+#include "../Asserts/Manager.h"
+#include "../Catchabilities/Manager.h"
+#include "../Categories/Categories.h"
+#include "../DerivedQuantities/Manager.h"
+#include "../Estimables/Estimables.h"
+#include "../Estimates/Manager.h"
+#include "../EstimateTransformations/Manager.h"
+#include "../InitialisationPhases/Manager.h"
+#include "../LengthWeights/Manager.h"
+#include "../Likelihoods/Manager.h"
+#include "../MCMCs/Manager.h"
+#include "../Minimisers/Manager.h"
+#include "../Observations/Manager.h"
+#include "../Penalties/Manager.h"
+#include "../Processes/Manager.h"
+#include "../Profiles/Manager.h"
+#include "../Projects/Manager.h"
+#include "../Reports/Manager.h"
+#include "../Selectivities/Manager.h"
+#include "../Simulates/Manager.h"
+#include "../TimeSteps/Manager.h"
+#include "../TimeVarying/Manager.h"
 
 // namespaces
 namespace niwa {
 using std::vector;
 
+using std::scoped_lock;
+std::mutex Managers::lock_;
+
 /**
  * Default constructor
  */
-Managers::Managers(Model* model) {
+Managers::Managers(shared_ptr<Model> model) {
   LOG_TRACE();
 
   model_ = model;
@@ -68,17 +73,20 @@ Managers::Managers(Model* model) {
   length_weight_          = new lengthweights::Manager();
   likelihood_             = new likelihoods::Manager();
   mcmc_                   = new mcmcs::Manager();
-  minimiser_              = new minimisers::Manager();
   observation_            = new observations::Manager();
   penalty_                = new penalties::Manager();
   process_                = new processes::Manager();
   profile_                = new profiles::Manager();
   project_                = new projects::Manager();
-  report_                 = new reports::Manager(model_);
   selectivity_            = new selectivities::Manager();
   simulate_               = new simulates::Manager();
   time_step_              = new timesteps::Manager();
   time_varying_           = new timevarying::Manager();
+
+#ifdef TESTMODE
+  minimiser_.reset(new minimisers::Manager());
+  report_.reset(new reports::Manager());
+#endif
 }
 
 /**
@@ -99,13 +107,11 @@ Managers::~Managers() {
   delete length_weight_;
   delete likelihood_;
   delete mcmc_;
-  delete minimiser_;
   delete observation_;
   delete penalty_;
   delete process_;
   delete profile_;
   delete project_;
-  delete report_;
   delete selectivity_;
   delete simulate_;
   delete time_step_;
@@ -113,9 +119,30 @@ Managers::~Managers() {
 }
 
 /**
- * Validate
+ *
  */
+shared_ptr<minimisers::Manager>	Managers::minimiser() {
+	std::scoped_lock l(lock_);
+	if (!minimiser_)
+		LOG_CODE_ERROR() << "(!minimiser_)";
+
+	return minimiser_;
+}
+
+/**
+ *
+ */
+shared_ptr<reports::Manager> Managers::report() {
+	std::scoped_lock l(lock_);
+	if (!report_)
+		LOG_CODE_ERROR() << "(!report_)";
+
+	return report_;
+}
+
+
 void Managers::Validate() {
+//	std::scoped_lock l(lock_);
   LOG_TRACE();
   time_step_->Validate(model_);
   initialisation_phase_->Validate();
@@ -132,23 +159,24 @@ void Managers::Validate() {
   length_weight_->Validate();
   likelihood_->Validate();
   mcmc_->Validate(model_);
-  minimiser_->Validate(model_);
+  minimiser_->Validate(model_->pointer());
   observation_->Validate();
   penalty_->Validate();
   profile_->Validate();
   project_->Validate();
-  report_->Validate();
+  LOG_FINE() << "Validating Reports";
+  report_->Validate(model_->pointer());
+  LOG_FINE() << "Validating Reports..Done";
   selectivity_->Validate();
   simulate_->Validate();
   time_varying_->Validate();
 
   estimate_->Validate(model_);
+  LOG_TRACE();
 }
 
-/**
- * Build
- */
 void Managers::Build() {
+//	std::scoped_lock l(lock_);
   LOG_TRACE();
   time_step_->Build();
   initialisation_phase_->Build(model_);
@@ -164,7 +192,8 @@ void Managers::Build() {
   length_weight_->Build();
   likelihood_->Build();
   mcmc_->Build();
-  minimiser_->Build();
+  if (minimiser_)
+  	minimiser_->Build();
   observation_->Build();
   penalty_->Build();
   profile_->Build();
@@ -173,16 +202,18 @@ void Managers::Build() {
   simulate_->Build();
   time_varying_->Build();
 
+  LOG_FINE() << "Building estimates and transformations...";
   estimate_->Build(model_);
   estimate_transformation_->Build();
+  LOG_FINE() << "Building estimates and transformations...Done";
 
-  report_->Build();
+  if (report_)
+  	report_->Build(model_->pointer());
+  LOG_TRACE();
 }
 
-/**
- * Reset
- */
 void Managers::Reset() {
+	std::scoped_lock l(lock_);
   LOG_TRACE();
   age_length_->Reset();
   age_weight_->Reset();
@@ -207,7 +238,7 @@ void Managers::Reset() {
   likelihood_->Reset();
   if (model_->run_mode() == RunMode::kMCMC || model_->run_mode() == RunMode::kEstimation || model_->run_mode() == RunMode::kProfiling) {
     mcmc_->Reset();
-    minimiser_->Reset();
+//    minimiser_->Reset();
   }
 
   observation_->Reset();
@@ -215,7 +246,7 @@ void Managers::Reset() {
   process_->Reset();
   profile_->Reset();
   project_->Reset();
-  report_->Reset();
+//  report_->Reset();
   simulate_->Reset();
   time_step_->Reset();
   time_varying_->Reset();

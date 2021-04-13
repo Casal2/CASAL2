@@ -12,13 +12,12 @@
  */
 #ifndef USE_AUTODIFF
 // headers
-#include <Minimisers/Common/GammaDiff/Engine.h>
+#include "Engine.h"
 
 #include <math.h>
 #include <iomanip>
 
-#include <Minimisers/Common/GammaDiff/FMM.h>
-#include "Utilities/DoubleCompare.h"
+#include "../../../Minimisers/Common/GammaDiff/FMM.h"
 
 // namespaces
 namespace niwa {
@@ -27,7 +26,7 @@ namespace gammadiff {
 
 // Namespace
 using namespace std;
-namespace dc = utilities::doublecompare;
+namespace math = niwa::utilities::math;
 
 //**********************************************************************
 // Engine::Engine()
@@ -80,9 +79,9 @@ double Engine::unScaleValue(const double& value, double min, double max) {
 // Boundary Pin
 //**********************************************************************
 double Engine::scaleValue(double value, double min, double max) {
-  if (dc::IsEqual(value, min))
+  if (math::IsEqual(value, min))
     return -1;
-  else if (dc::IsEqual(value, max))
+  else if (math::IsEqual(value, max))
     return 1;
 
   return asin(2 * (value - min) / (max - min) - 1) / 1.57079633;
@@ -102,7 +101,7 @@ void Engine::buildScaledValues() {
       throw string(GAMMADIFF_GREATER_START_UPPER_BOUND);
 
     // Boundary-Pinning
-    if (dc::IsEqual(vLowerBounds[i], vUpperBounds[i]))
+    if (math::IsEqual(vLowerBounds[i], vUpperBounds[i]))
       vScaledValues[i] = 0.0;
     else
       vScaledValues[i] = scaleValue(vStartValues[i], vLowerBounds[i], vUpperBounds[i]);
@@ -116,7 +115,7 @@ void Engine::buildScaledValues() {
 void Engine::buildCurrentValues() {
 
   for (int i = 0; i < (int)vStartValues.size(); ++i) {
-    if (dc::IsEqual(vLowerBounds[i], vUpperBounds[i]))
+    if (math::IsEqual(vLowerBounds[i], vUpperBounds[i]))
       vCurrentValues[i] = vLowerBounds[i];
     else
       vCurrentValues[i] = unScaleValue(vScaledValues[i], vLowerBounds[i], vUpperBounds[i]);
@@ -185,7 +184,7 @@ double Engine::optimise_finite_differences(gammadiff::CallBack& objective, vecto
       long double dScoreI;
 
       for (int i = 0; i < iVectorSize; ++i) {
-        if (dc::IsEqual(vLowerBounds[i], vUpperBounds[i])) {
+        if (math::IsEqual(vLowerBounds[i], vUpperBounds[i])) {
           vGradientValues[i] = 0.0;
 
         } else {
@@ -278,7 +277,7 @@ double Engine::optimise_finite_differences(gammadiff::CallBack& objective, vecto
       for (int i = 0; i < iVectorSize; ++i) {
         double dDiv   = ((vStartValues[i]-vLowerBounds[i]) / (vUpperBounds[i]-vLowerBounds[i]));
         double dProd  = (2 * dDiv - 1) * (2 * dDiv - 1);
-        double dSqrt  = sqrt(dc::ZeroFun(1-dProd));
+        double dSqrt  = sqrt(math::ZeroFun(1-dProd));
         double dProd2 = (vUpperBounds[i] - vLowerBounds[i]) * dSqrt;
         dGradBoundP[i] = (4/3.14159265)/dProd2;
       }

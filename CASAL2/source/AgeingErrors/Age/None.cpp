@@ -12,7 +12,7 @@
 // headers
 #include "None.h"
 
-#include "Utilities/To.h"
+#include "../../Utilities/To.h"
 
 // namespaces
 namespace niwa {
@@ -28,7 +28,7 @@ namespace ageingerrors {
  *
  * Note: The constructor is parsed to generate LaTeX for the documentation.
  */
-None::None(Model* model) : AgeingError(model) {
+None::None(shared_ptr<Model> model) : AgeingError(model) {
 
 }
 
@@ -46,6 +46,7 @@ void None::DoBuild() {
   // No ageing error so we create a misspecification matrix of 1's on the diagonal.
   for (unsigned i = 0; i < age_spread_; ++i, ++j)
     mis_matrix_[i][j] = 1.0;
+
 }
 
 } /* namespace ageingerrors */

@@ -14,7 +14,7 @@
 #define LENGTHWEIGHTS_FACTORY_H_
 
 // headers
-#include "LengthWeights/LengthWeight.h"
+#include "../LengthWeights/LengthWeight.h"
 
 // namespaces
 namespace niwa {
@@ -28,7 +28,7 @@ namespace lengthweights {
 class Factory {
 public:
   // methods
-  static LengthWeight*        Create(Model* model, const string& object_type, const string& sub_type);
+  static LengthWeight*        Create(shared_ptr<Model> model, const string& object_type, const string& sub_type);
 
 private:
   // methods

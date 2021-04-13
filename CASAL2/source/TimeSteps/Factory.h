@@ -13,7 +13,7 @@
 #define TIMESTEPS_FACTORY_H_
 
 // Headers
-#include "TimeSteps/TimeStep.h"
+#include "../TimeSteps/TimeStep.h"
 
 namespace niwa {
 namespace timesteps {
@@ -21,7 +21,7 @@ namespace timesteps {
 class Factory {
 public:
   // methods
-  static TimeStep* Create(Model* model, const string& object_type, const string& sub_type);
+  static TimeStep* Create(shared_ptr<Model> model, const string& object_type, const string& sub_type);
 
 private:
   // methods

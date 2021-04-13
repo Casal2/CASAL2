@@ -17,8 +17,8 @@
 #define CATCHABILITIES_NUISANCE_H_
 
 // headers
-#include "Catchabilities/Catchability.h"
-#include "Observations/Comparison.h"
+#include "../../Catchabilities/Catchability.h"
+#include "../../Observations/Comparison.h"
 
 // namespaces
 namespace niwa {
@@ -28,23 +28,24 @@ namespace catchabilities {
 // classes
 class Nuisance : public Catchability {
 public:
+	// members
   Nuisance() = delete;
-  explicit                    Nuisance(Model* model);
-  virtual                     ~Nuisance()  { };
-  Double                      q() const override final { return q_; }
-  void                        DoValidate() override final;
-  void                        DoBuild() override final;
-  void                        CalculateQ(map<unsigned, vector<observations::Comparison> >& comparisons, const string& likelihood);
-
+  explicit                    Nuisance(shared_ptr<Model> model);
+  virtual                     ~Nuisance() {};
+  void                        DoValidate() final {};
+  void                        DoBuild() final;
+  void                        CalculateQ(map<unsigned, vector<observations::Comparison> >& comparisons, string_view likelihood);
 
 private:
   // members
-  Double                      q_;
-  double                      lower_bound_ = 0.0;
-  double                      upper_bound_ = 100.0;
+  Double                      lower_bound_ = 0.0;
+  Double                      upper_bound_ = 100.0;
   string                      prior_type_ = PARAM_NONE;
   Double                      mu_ = 0.0;
   Double                      cv_ = 1.0;
+
+
+
 
 };
 

@@ -14,7 +14,7 @@
 #define AGELENGTHS_VONBERTALANFFY_H_
 
 // headers
-#include "AgeLengths/AgeLength.h"
+#include "../../AgeLengths/AgeLength.h"
 
 // namespaces
 namespace niwa {
@@ -27,7 +27,7 @@ class VonBertalanffy : public niwa::AgeLength {
   friend class MockVonBertalanffy;
 public:
   // methods
-  explicit VonBertalanffy(Model* model);
+  explicit VonBertalanffy(shared_ptr<Model> model);
   virtual                     ~VonBertalanffy() = default;
   void                        DoValidate() override final { };
   void                        DoBuild() override final;
@@ -48,7 +48,6 @@ protected:
   Double                      t0_;
   string                      length_weight_label_;
   LengthWeight*               length_weight_ = nullptr;
-
   map<unsigned, map<unsigned, Double>> mean_length_; // mean_length_[time_step][age]
 
 };

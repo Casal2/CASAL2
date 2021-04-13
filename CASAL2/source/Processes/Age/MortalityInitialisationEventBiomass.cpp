@@ -16,8 +16,8 @@
 #include "Categories/Categories.h"
 #include "Penalties/Manager.h"
 #include "Selectivities/Manager.h"
-#include "Utilities/DoubleCompare.h"
 #include "Utilities/To.h"
+#include "../../Utilities/Math.h"
 #include "TimeSteps/Manager.h"
 
 // Namespaces
@@ -28,7 +28,7 @@ namespace age {
 /**
  * Default constructor
  */
-MortalityInitialisationEventBiomass::MortalityInitialisationEventBiomass(Model* model)
+MortalityInitialisationEventBiomass::MortalityInitialisationEventBiomass(shared_ptr<Model> model)
   : Process(model),
     partition_(model) {
   parameters_.Bind<string>(PARAM_CATEGORIES, &category_labels_, "The categories", "");
@@ -71,7 +71,7 @@ void MortalityInitialisationEventBiomass::DoBuild() {
   partition_.Init(category_labels_);
 
   for (string label : selectivity_names_) {
-    Selectivity* selectivity = model_->managers().selectivity()->GetSelectivity(label);
+    Selectivity* selectivity = model_->managers()->selectivity()->GetSelectivity(label);
     if (!selectivity)
       LOG_ERROR_P(PARAM_SELECTIVITIES) << ": Selectivity label " << label << " was not found.";
 
@@ -79,7 +79,7 @@ void MortalityInitialisationEventBiomass::DoBuild() {
   }
 
   if (penalty_name_ != "") {
-    penalty_ = model_->managers().penalty()->GetProcessPenalty(penalty_name_);
+    penalty_ = model_->managers()->penalty()->GetProcessPenalty(penalty_name_);
     if (!penalty_) {
       LOG_ERROR_P(PARAM_PENALTY) << ": Penalty label " << penalty_name_ << " was not found.";
     }
@@ -91,7 +91,7 @@ void MortalityInitialisationEventBiomass::DoBuild() {
  */
 void MortalityInitialisationEventBiomass::DoExecute() {
   LOG_TRACE();
-  unsigned time_step_index = model_->managers().time_step()->current_time_step();
+  unsigned time_step_index = model_->managers()->time_step()->current_time_step();
 
   // only apply if initialisation phase
   if (model_->state() == State::kInitialise) {
@@ -116,7 +116,7 @@ void MortalityInitialisationEventBiomass::DoExecute() {
      */
     Double exploitation = 0;
     LOG_FINEST() << "vulnerable biomass = " << vulnerable << " catch = " << catch_;
-    exploitation = catch_ / utilities::doublecompare::ZeroFun(vulnerable);
+    exploitation = catch_ / utilities::math::ZeroFun(vulnerable);
     if (exploitation > u_max_) {
       exploitation = u_max_;
       if (penalty_)

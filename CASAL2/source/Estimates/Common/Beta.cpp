@@ -20,7 +20,7 @@ namespace estimates {
 /**
  * Default constructor
  */
-Beta::Beta(Model* model) : Estimate(model) {
+Beta::Beta(shared_ptr<Model> model) : Estimate(model) {
   parameters_.Bind<Double>(PARAM_MU, &mu_, "Beta prior  mean (mu) parameter", "");
   parameters_.Bind<Double>(PARAM_SIGMA, &sigma_, "Beta prior variance (sigma) parameter", "")->set_lower_bound(0.0, false);
   parameters_.Bind<Double>(PARAM_A, &a_, "Beta prior lower bound of the range (A) parameter", "");

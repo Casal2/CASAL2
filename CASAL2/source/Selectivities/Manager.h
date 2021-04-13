@@ -17,8 +17,8 @@
 #define SELECTIVITIES_MANAGER_H_
 
 // Headers
-#include "BaseClasses/Manager.h"
-#include "Selectivities/Selectivity.h"
+#include "../BaseClasses/Manager.h"
+#include "../Selectivities/Selectivity.h"
 
 // Namespaces
 namespace niwa {

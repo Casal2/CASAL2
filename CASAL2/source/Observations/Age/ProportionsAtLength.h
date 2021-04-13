@@ -37,7 +37,7 @@ using partition::accessors::cached::CachedCombinedCategoriesPtr;
 class ProportionsAtLength : public niwa::Observation {
 public:
   // Methods
-  explicit ProportionsAtLength(Model* model);
+  explicit ProportionsAtLength(shared_ptr<Model> model);
   virtual                     ~ProportionsAtLength();
   void                        DoValidate() override final;
   virtual void                DoBuild() override;
@@ -51,7 +51,7 @@ protected:
   // Members
   vector<unsigned>              years_;
   parameters::Table*            obs_table_ = nullptr;
-  double                        tolerance_ = 0.0;
+  Double                        tolerance_ = 0.0;
   vector<Double>                process_error_values_;
   map<unsigned, Double>         process_errors_by_year_;
   parameters::Table*            error_values_table_ = nullptr;
@@ -62,7 +62,7 @@ protected:
   vector<Selectivity*>          selectivities_;
   string                        time_step_label_ = "";
 
-  vector<double>                length_bins_;
+  vector<Double>                length_bins_;
   bool                          length_plus_ = false;
   unsigned                      number_bins_ = 0;
   unsigned                      mlb_index_first_ = 0; // index of model length bin for length_bins_[0]

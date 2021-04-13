@@ -12,9 +12,9 @@
 #define ADDITIONAL_PRIORS_MANAGER_H_
 
 // headers
-#include "AdditionalPriors/AdditionalPrior.h"
-#include "BaseClasses/Manager.h"
-#include "Model/Managers.h"
+#include "../AdditionalPriors/AdditionalPrior.h"
+#include "../BaseClasses/Manager.h"
+#include "../Model/Managers.h"
 
 // namespaces
 namespace niwa {
@@ -28,12 +28,12 @@ class Manager : public niwa::base::Manager<niwa::additionalpriors::Manager, niwa
 public:
   // methods
   virtual                     ~Manager() = default;
-  bool                         HasAdditionalPrior(const string& parameter);
-  AdditionalPrior*             GetAdditionalPrior(const string& parameter);
+  bool                         HasAdditionalPrior(string_view parameter);
+  AdditionalPrior*             GetAdditionalPrior(string_view parameter);
 
 protected:
   // methods
-  Manager() {};
+  Manager() = default;
 };
 
 } /* namespace additionalpriors */

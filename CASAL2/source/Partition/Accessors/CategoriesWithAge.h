@@ -21,8 +21,8 @@
 #include <vector>
 #include <string>
 
-#include "Model/Model.h"
-#include "Utilities/Types.h"
+#include "../../Model/Model.h"
+#include "../../Utilities/Types.h"
 
 // Namespaces
 namespace niwa {
@@ -45,15 +45,15 @@ public:
 
   // Methods
   CategoriesWithAge() = delete;
-  CategoriesWithAge(Model* model, const vector<string>& categories, const unsigned& age);
+  CategoriesWithAge(shared_ptr<Model> model, const vector<string>& categories, const unsigned& age);
   virtual                     ~CategoriesWithAge() = default;
   unsigned                    size();
-  DataType::iterator          begin();
-  DataType::iterator          end();
+  const DataType::iterator          begin();
+  const DataType::iterator          end();
 
 private:
   // Members
-  Model*                      model_;
+  shared_ptr<Model>                      model_;
   map<unsigned, DataType >    data_; // map<year, vector<pair<category, Double*> > >
 };
 

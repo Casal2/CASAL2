@@ -15,7 +15,7 @@
 #define SOURCE_REPORTS_CHILDREN_RANDOMNUMBERSEED_H_
 
 // headers
-#include "Reports/Report.h"
+#include "../../Reports/Report.h"
 
 // namespaces
 namespace niwa {
@@ -27,15 +27,15 @@ namespace reports {
 class RandomNumberSeed : public niwa::Report {
 public:
   // methods
-  RandomNumberSeed(Model* model);
+  RandomNumberSeed();
   virtual                     ~RandomNumberSeed() = default;
 
 protected:
   // pure methods
-  void                        DoValidate() override final { };
-  void                        DoBuild() override final { };
-  void                        DoExecute() override final;
-  void                        DoExecuteTabular() override final { };
+  void                        DoValidate(shared_ptr<Model> model) final { };
+  void                        DoBuild(shared_ptr<Model> model) final { };
+  void                        DoExecute(shared_ptr<Model> model) final;
+  void                        DoExecuteTabular(shared_ptr<Model> model) final { };
 };
 
 } /* namespace reports */

@@ -196,7 +196,7 @@ TEST_F(InternalEmptyModel, Observation_removals_by_length_for_fishery_Single) {
   ObjectiveFunction& obj_function = model_->objective_function();
   EXPECT_DOUBLE_EQ(313.66358689247426, obj_function.score());
 
-  Observation* observation = model_->managers().observation()->GetObservation("observation");
+  Observation* observation = model_->managers()->observation()->GetObservation("observation");
 
   map<unsigned, vector<obs::Comparison> >& comparisons = observation->comparisons();
   ASSERT_EQ(5u, comparisons.size());

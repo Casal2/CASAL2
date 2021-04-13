@@ -12,7 +12,7 @@
 // headers
 #include "AdditionalPrior.h"
 
-#include "Model/Model.h"
+#include "../Model/Model.h"
 
 // namespaces
 namespace niwa {
@@ -27,7 +27,7 @@ namespace niwa {
  *
  * Note: The constructor is parsed to generate LaTeX for the documentation.
  */
-AdditionalPrior::AdditionalPrior(Model* model) : model_(model) {
+AdditionalPrior::AdditionalPrior(shared_ptr<Model> model) : model_(model) {
   parameters_.Bind<string>(PARAM_PARAMETER, &parameter_, "The name of the parameter to generate additional prior on", "");
   parameters_.Bind<string>(PARAM_LABEL, &label_, "The label for the additional prior", "");
   parameters_.Bind<string>(PARAM_TYPE, &type_, "The type of additional prior", "");

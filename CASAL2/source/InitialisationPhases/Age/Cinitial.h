@@ -16,9 +16,9 @@
 #define SOURCE_INITIALISATIONPHASES_CHILDREN_CINITIAL_H_
 
 // headers
-#include "InitialisationPhases/InitialisationPhase.h"
-#include "Partition/Accessors/CombinedCategories.h"
-#include "Partition/Accessors/Cached/CombinedCategories.h"
+#include "../../InitialisationPhases/InitialisationPhase.h"
+#include "../../Partition/Accessors/CombinedCategories.h"
+#include "../../Partition/Accessors/Cached/CombinedCategories.h"
 
 // namespaces
 namespace niwa {
@@ -35,7 +35,7 @@ using partition::accessors::cached::CachedCombinedCategoriesPtr;
 class Cinitial : public niwa::InitialisationPhase {
 public:
   // methods
-  explicit Cinitial(Model* model);
+  explicit Cinitial(shared_ptr<Model> model);
   virtual                     ~Cinitial();
   virtual void                Execute() override final;
 

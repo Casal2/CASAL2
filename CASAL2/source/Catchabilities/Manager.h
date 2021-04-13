@@ -17,9 +17,9 @@
 #define CATCHABILITIES_MANAGER_H_
 
 // headers
-#include "BaseClasses/Manager.h"
-#include "Catchabilities/Catchability.h"
-#include "Model/Managers.h"
+#include "../BaseClasses/Manager.h"
+#include "../Catchabilities/Catchability.h"
+#include "../Model/Managers.h"
 
 // namespaces
 namespace niwa {

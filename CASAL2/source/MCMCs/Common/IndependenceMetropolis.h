@@ -5,7 +5,7 @@
  * @date 21/05/2015
  * @section LICENSE
  *
- * Copyright NIWA Science ©2015 - www.niwa.co.nz
+ * Copyright NIWA Science ï¿½2015 - www.niwa.co.nz
  *
  * @section DESCRIPTION
  *
@@ -15,8 +15,8 @@
 #define SOURCE_MCMCS_COMMON_INDEPENDENCEMETROPOLIS_H_
 
 // headers
-#include "MCMCs/MCMC.h"
-#include "Estimates/Estimate.h"
+#include "../../MCMCs/MCMC.h"
+#include "../../Estimates/Estimate.h"
 
 // namespaces
 namespace niwa {
@@ -27,7 +27,7 @@ namespace mcmcs {
 class IndependenceMetropolis : public MCMC {
 public:
   // methods
-  IndependenceMetropolis(Model* model);
+  IndependenceMetropolis(shared_ptr<Model> model);
   virtual                     ~IndependenceMetropolis() = default;
   void                        DoExecute() override final;
 
@@ -46,16 +46,16 @@ protected:
   bool                        WithinBounds();
 
   // members
-  double                      start_ = 0;
+  Double                      start_ = 0;
   unsigned                    keep_ = 0;
   unsigned                    estimate_count_ = 0;
   unsigned                    jumps_ = 0;
   unsigned                    jumps_since_adapt_ = 0;
   bool                        last_item_ = false;
   unsigned                    successful_jumps_since_adapt_ = 0;
-  double                      max_correlation_ = 0;
+  Double                      max_correlation_ = 0;
   string                      correlation_method_ = "";
-  double                      correlation_diff_ = 0;
+  Double                      correlation_diff_ = 0;
   string                      proposal_distribution_ = "";
   unsigned                    df_ = 0;
   ublas::matrix<double>       covariance_matrix_lt;

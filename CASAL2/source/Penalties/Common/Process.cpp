@@ -10,11 +10,11 @@
  */
 
 // headers
-#include <Penalties/Common/Process.h>
-#include "Model/Model.h"
-#include "Model/Managers.h"
-#include "Penalties/Manager.h"
-#include "Utilities/DoubleCompare.h"
+#include "Process.h"
+#include "../../Model/Model.h"
+#include "../../Model/Managers.h"
+#include "../../Penalties/Manager.h"
+#include "../../Utilities/Math.h"
 
 // namespaces
 namespace niwa {
@@ -23,8 +23,8 @@ namespace penalties {
 /**
  * Default constructor
  */
-Process::Process(Model* model) : Penalty(model) {
-  parameters_.Bind<double>(PARAM_MULTIPLIER, &multiplier_, "The penalty multiplier", "", 1.0)->set_lower_bound(0.0, false);
+Process::Process(shared_ptr<Model> model) : Penalty(model) {
+  parameters_.Bind<Double>(PARAM_MULTIPLIER, &multiplier_, "The penalty multiplier", "", 1.0);
   parameters_.Bind<bool>(PARAM_LOG_SCALE, &log_scale_, "Indicates if the sums of squares is calculated on the log scale", "", false);
 
   has_score_ = false;
@@ -42,13 +42,13 @@ Process::Process(Model* model) : Penalty(model) {
 void Process::Trigger(const string& source_label, Double value_1, Double value_2) {
 
   if (log_scale_) {
-    value_1 = log(utilities::doublecompare::ZeroFun(value_1));
-    value_2 = log(utilities::doublecompare::ZeroFun(value_2));
+    value_1 = log(utilities::math::ZeroFun(value_1));
+    value_2 = log(utilities::math::ZeroFun(value_2));
   }
 
-  string name  = label_ + "[" + source_label + "]";
+  string name  = label_ + "(" + source_label + ")";
   Double value = (value_1 - value_2) * (value_1 - value_2) * multiplier_;
-  model_->managers().penalty()->FlagPenalty(name, value);
+  model_->managers()->penalty()->FlagPenalty(name, value);
 }
 
 } /* namespace penalties */

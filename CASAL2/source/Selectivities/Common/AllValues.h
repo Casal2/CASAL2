@@ -17,7 +17,7 @@
 #define ALLVALUES_H_
 
 // Headers
-#include "Selectivities/Selectivity.h"
+#include "../../Selectivities/Selectivity.h"
 
 // Namespaces
 namespace niwa {
@@ -29,7 +29,7 @@ namespace selectivities {
 class AllValues : public niwa::Selectivity {
 public:
   // Methods
-  explicit AllValues(Model* model);
+  explicit AllValues(shared_ptr<Model> model);
   virtual                     ~AllValues() = default;
   void                        DoValidate() override final;
   void                        RebuildCache() override final;

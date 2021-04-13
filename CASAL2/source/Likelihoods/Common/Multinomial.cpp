@@ -5,26 +5,25 @@
  * @date 25/03/2013
  * @section LICENSE
  *
- * Copyright NIWA Science ©2013 - www.niwa.co.nz
+ * Copyright NIWA Science ï¿½2013 - www.niwa.co.nz
  *
  * $Date: 2008-03-04 16:33:32 +1300 (Tue, 04 Mar 2008) $
  */
 
 // Headers
-#include <Likelihoods/Common/Multinomial.h>
+#include "Multinomial.h"
+
 #include <cmath>
 #include <set>
 
-#include "Utilities/DoubleCompare.h"
-#include "Utilities/Math.h"
-#include "Utilities/RandomNumberGenerator.h"
+#include "../../Utilities/Math.h"
+#include "../../Utilities/RandomNumberGenerator.h"
 
 // Namespaces
 namespace niwa {
 namespace likelihoods {
 
 using std::set;
-namespace dc = niwa::utilities::doublecompare;
 namespace math = niwa::utilities::math;
 
 /**
@@ -52,10 +51,14 @@ void Multinomial::GetScores(map<unsigned, vector<observations::Comparison> >& co
       Double error_value = AdjustErrorValue(comparison.process_error_, comparison.error_value_) * error_value_multiplier_;
 
       Double score = math::LnFactorial(error_value * comparison.observed_)
-                      - error_value * comparison.observed_ * log(dc::ZeroFun(comparison.expected_, comparison.delta_));
+                      - error_value * comparison.observed_ * log(math::ZeroFun(comparison.expected_, comparison.delta_));
 
       comparison.adjusted_error_ = error_value;
       comparison.score_ = score * multiplier_;
+
+			if (isnan(AS_DOUBLE(comparison.score_))) {
+				LOG_CODE_ERROR() << "One of the comparison scores came back as NaN... memory bug somewhere";
+			}
     }
   }
 }
@@ -65,8 +68,10 @@ void Multinomial::GetScores(map<unsigned, vector<observations::Comparison> >& co
  *
  * @param comparisons A collection of comparisons passed by the observation
  */
+
 Double Multinomial::GetInitialScore(map<unsigned, vector<observations::Comparison> >& comparisons, unsigned year) {
   Double score = 0.0;
+
 
  // int stopper = 0;
   observations::Comparison& comparison = comparisons[year][0];
@@ -103,8 +108,9 @@ void Multinomial::SimulateObserved(map<unsigned, vector<observations::Comparison
         comparison.observed_ = 0.0;
       else {
         LOG_FINEST() << "Expected = " << comparison.expected_;
-        comparison.observed_ = rng.binomial(AS_VALUE(comparison.expected_), AS_VALUE(error_value));
+        comparison.observed_ = rng.binomial(AS_DOUBLE(comparison.expected_), AS_DOUBLE(error_value));
         LOG_FINEST() << "Simulated = " << comparison.observed_;
+
       }
 //      totals[comparison.category_] += comparison.observed_;
     }

@@ -15,9 +15,9 @@
 // headers
 #include "ObjectiveFunction.h"
 
-#include "Model/Model.h"
-#include "ObjectiveFunction/ObjectiveFunction.h"
-#include "TestResources/TestFixtures/InternalEmptyModel.h"
+#include "../../Model/Models/Age.h"
+#include "../../ObjectiveFunction/ObjectiveFunction.h"
+#include "../../TestResources/TestFixtures/InternalEmptyModel.h"
 
 // namespaces
 namespace niwa {

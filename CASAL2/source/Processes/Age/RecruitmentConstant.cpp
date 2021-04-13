@@ -14,8 +14,8 @@
 #include "RecruitmentConstant.h"
 
 #include "Categories/Categories.h"
-#include "Utilities/DoubleCompare.h"
 #include "Logging/Logging.h"
+#include "../../Utilities/Math.h"
 
 // Namespaces
 namespace niwa {
@@ -27,7 +27,7 @@ using niwa::partition::accessors::CategoriesWithAge;
 /**
  * Default Constructor
  */
-RecruitmentConstant::RecruitmentConstant(Model* model) : Process(model) {
+RecruitmentConstant::RecruitmentConstant(shared_ptr<Model> model) : Process(model) {
   parameters_.Bind<string>(PARAM_CATEGORIES, &category_labels_, "The categories", "");
   parameters_.Bind<Double>(PARAM_PROPORTIONS, &proportions_, "The proportion for each category", "", true);
   parameters_.Bind<unsigned>(PARAM_AGE, &age_, "The age", "");
@@ -73,7 +73,7 @@ void RecruitmentConstant::DoValidate() {
     for (Double proportion : proportions_)
       proportion_total += proportion;
 
-    if (!utilities::doublecompare::IsOne(proportion_total)) {
+    if (!utilities::math::IsOne(proportion_total)) {
       LOG_WARNING() << parameters_.location(PARAM_PROPORTIONS)
         <<": proportion does not sum to 1.0. Proportion sums to " << AS_DOUBLE(proportion_total) << ". Auto-scaling proportions to sum to 1.0";
 

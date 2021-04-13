@@ -22,10 +22,10 @@
 #include <vector>
 #include <string>
 
-#include "BaseClasses/Object.h"
-#include "Translations/Translations.h"
-#include "Utilities/RunParameters.h"
-#include "Utilities/To.h"
+#include "../BaseClasses/Object.h"
+#include "../Translations/Translations.h"
+#include "../Utilities/RunParameters.h"
+#include "../Utilities/To.h"
 
 // Namespaces
 using std::map;
@@ -46,7 +46,7 @@ public:
   GlobalConfiguration() = default;
   virtual                     ~GlobalConfiguration() = default;
   void                        Clear();
-  void                        ParseOptions(Model* model);
+  void                        ParseOptions(shared_ptr<Model> model);
 
   // Accessors and Mutators
   void                  set_command_line_parameters(vector<string> &parameters) { command_line_parameters_ = parameters; }
@@ -71,12 +71,15 @@ public:
   bool                  create_mpd_file() const { return options_.create_mpd_file_; }
   unsigned              estimation_phases() const { return options_.estimation_phases_; }
   bool                  skip_estimation() const { return options_.skip_estimation_; }
+  void									set_standard_header(const string& header) { standard_header_ = header; }
+  const string&					standard_header() const { return standard_header_; }
 
 private:
   // Members
   vector<string>              command_line_parameters_;
   utilities::RunParameters    options_;
-  bool                        skip_loading_config_file_;
+  bool                        skip_loading_config_file_ = false;
+  string											standard_header_ = "";
 };
 } /* namespace niwa */
 #endif /* GLOBALCONFIGURATION_H_ */

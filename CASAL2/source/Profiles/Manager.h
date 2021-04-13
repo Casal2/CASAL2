@@ -11,8 +11,8 @@
 #define PROFILES_MANAGER_H_
 
 // headers
-#include "BaseClasses/Manager.h"
-#include "Profiles/Profile.h"
+#include "../BaseClasses/Manager.h"
+#include "../Profiles/Profile.h"
 
 // namespaces
 namespace niwa {

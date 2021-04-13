@@ -9,10 +9,10 @@
  */
 
 // headers
-#include "DerivedQuantities/Age/Biomass.h"
-#include "InitialisationPhases/Manager.h"
-#include "TimeSteps/Manager.h"
-#include "AgeWeights/Manager.h"
+#include "../../DerivedQuantities/Age/Biomass.h"
+#include "../../InitialisationPhases/Manager.h"
+#include "../../TimeSteps/Manager.h"
+#include "../../AgeWeights/Manager.h"
 
 // namespaces
 namespace niwa {
@@ -22,7 +22,7 @@ namespace age {
 /**
  * Default constructor
  */
-Biomass::Biomass(Model* model) : DerivedQuantity(model) {
+Biomass::Biomass(shared_ptr<Model> model) : DerivedQuantity(model) {
   parameters_.Bind<string>(PARAM_AGE_WEIGHT_LABELS, &age_weight_labels_, "The labels for the @age_weight block which corresponds to each category, to use that weight calculation method for biomass calculations", "", "");
 
 }
@@ -39,6 +39,7 @@ void Biomass::DoValidate() {
   }
 }
 
+
 /**
  * Build pointers class
  */
@@ -48,7 +49,7 @@ void Biomass::DoBuild() {
     use_age_weights_ = true;
     LOG_FINE() << "Age weight has been defined";
     for (string label : age_weight_labels_) {
-      AgeWeight* age_weight = model_->managers().age_weight()->FindAgeWeight(label);
+      AgeWeight* age_weight = model_->managers()->age_weight()->FindAgeWeight(label);
       if (!age_weight)
         LOG_ERROR_P(PARAM_AGE_WEIGHT_LABELS) << "Age-weight label (" << label << ") was not found.";
       age_weights_.push_back(age_weight);
@@ -64,7 +65,7 @@ void Biomass::PreExecute() {
   cache_value_ = 0.0;
   unsigned year = model_->current_year();
   auto iterator = partition_.begin();
-  unsigned time_step_index = model_->managers().time_step()->current_time_step();
+  unsigned time_step_index = model_->managers()->time_step()->current_time_step();
   LOG_FINE() << "Time step for calculating biomass = " << time_step_index;
 
   // iterate over each category
@@ -102,12 +103,13 @@ void Biomass::PreExecute() {
  * This class will calculate a value that is the sum total
  * of the population in the model filtered by category and
  * multiplied by the selectivities.
-  */
+ *
+ */
 void Biomass::Execute() {
   LOG_TRACE();
   unsigned year = model_->current_year();
   Double value = 0.0;
-  unsigned time_step_index = model_->managers().time_step()->current_time_step();
+  unsigned time_step_index = model_->managers()->time_step()->current_time_step();
   LOG_FINE() << "Time step for calculating biomass = " << time_step_index;
   if (model_->state() == State::kInitialise) {
     auto iterator = partition_.begin();
@@ -137,7 +139,7 @@ void Biomass::Execute() {
       }
     }
 
-    unsigned initialisation_phase = model_->managers().initialisation_phase()->current_initialisation_phase();
+    unsigned initialisation_phase = model_->managers()->initialisation_phase()->current_initialisation_phase();
     if (initialisation_values_.size() <= initialisation_phase)
       initialisation_values_.resize(initialisation_phase + 1);
 
@@ -153,13 +155,13 @@ void Biomass::Execute() {
       b0_value = cache_value_ + ((value - cache_value_) * time_step_proportion_);
       initialisation_values_[initialisation_phase].push_back(b0_value);
     } else {
-      b0_value = pow(cache_value_, 1 - time_step_proportion_) * pow(value, time_step_proportion_);
+      b0_value = pow(cache_value_, 1 - time_step_proportion_) * pow(value ,time_step_proportion_);
       initialisation_values_[initialisation_phase].push_back(b0_value);
     }
 
     // Store b0 or binitial on the model depending on what initialisation phase we are using
     vector<string> init_label = model_->initialisation_phases();
-    InitialisationPhase* Init_phase = model_->managers().initialisation_phase()->GetInitPhase(init_label[initialisation_phase]);
+    InitialisationPhase* Init_phase = model_->managers()->initialisation_phase()->GetInitPhase(init_label[initialisation_phase]);
     string type = Init_phase->type();
     if (type == PARAM_DERIVED || type == PARAM_ITERATIVE)
       model_->set_b0(label_, b0_value);
@@ -188,14 +190,15 @@ void Biomass::Execute() {
       }
     }
 
+
     if (time_step_proportion_ == 0.0)
       values_[model_->current_year()] = cache_value_;
     else if (time_step_proportion_ == 1.0)
       values_[model_->current_year()] = value;
-    else if (mean_proportion_method_)
+    if (mean_proportion_method_)
       values_[model_->current_year()] = cache_value_ + ((value - cache_value_) * time_step_proportion_);
     else
-      values_[model_->current_year()] = pow(cache_value_, 1 - time_step_proportion_) * pow(value, time_step_proportion_);
+      values_[model_->current_year()] = pow(cache_value_, 1 - time_step_proportion_) * pow(value ,time_step_proportion_);
   }
   LOG_FINEST() << " Pre Exploitation value " <<  cache_value_ << " Post exploitation " << value
     << " Final value " << values_[model_->current_year()];

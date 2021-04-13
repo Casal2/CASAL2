@@ -13,8 +13,8 @@
 // Headers
 #include "All.h"
 
-#include "Categories/Categories.h"
-#include "Partition/Partition.h"
+#include "../../Categories/Categories.h"
+#include "../../Partition/Partition.h"
 
 // Namespaces
 namespace niwa {
@@ -24,7 +24,7 @@ namespace accessors {
 /**
  * Default constructor
  */
-All::All(Model* model) : model_(model) {
+All::All(shared_ptr<Model> model) : model_(model) {
 
   vector<string> category_names = model_->categories()->category_names();
   for (string category_name : category_names) {
@@ -50,11 +50,15 @@ All::DataType::iterator All::End() {
   return data_.end();
 }
 
-/**
- * Get the size for the current year
- *
- * @return The size for current year
- */
+All::DataType::iterator All::begin() {
+  return data_.begin();
+}
+
+All::DataType::iterator All::end() {
+  return data_.end();
+}
+
+
 unsigned All::Size() {
   return data_.size();
 }

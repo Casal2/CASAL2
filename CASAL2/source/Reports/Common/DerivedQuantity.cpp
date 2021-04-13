@@ -7,25 +7,27 @@
 
 #include "DerivedQuantity.h"
 
-#include "DerivedQuantities/Manager.h"
+#include "../../DerivedQuantities/Manager.h"
 
 namespace niwa {
 namespace reports {
 
+
 /**
- * Default constructor
+ *
  */
-DerivedQuantity::DerivedQuantity(Model* model) : Report(model) {
-  run_mode_    = (RunMode::Type)(RunMode::kBasic | RunMode::kProjection | RunMode::kSimulation | RunMode::kEstimation | RunMode::kProfiling);
+DerivedQuantity::DerivedQuantity() {
+  run_mode_    = (RunMode::Type)(RunMode::kBasic | RunMode::kProjection | RunMode::kSimulation| RunMode::kEstimation | RunMode::kProfiling);
   model_state_ = (State::Type)(State::kIterationComplete);
 }
 
+
 /**
- * Execute the report
+ *
  */
-void DerivedQuantity::DoExecute() {
+void DerivedQuantity::DoExecute(shared_ptr<Model> model) {
   LOG_TRACE();
-  derivedquantities::Manager& manager = *model_->managers().derived_quantity();
+  derivedquantities::Manager& manager = *model->managers()->derived_quantity();
   cache_ << "*"<< type_ << "[" << label_ << "]" << "\n";
 
   auto derived_quantities = manager.objects();
@@ -37,20 +39,21 @@ void DerivedQuantity::DoExecute() {
     for (unsigned i = 0; i < init_values.size(); ++i) {
       cache_ << "initialisation_phase["<< i + 1 << "]: ";
       Double value = init_values[i].back();
-      cache_ << AS_VALUE(value) << " ";
+      cache_ << AS_DOUBLE(value) << " ";
       cache_ << "\n";
     }
+
 
     const map<unsigned, Double> values = dq->values();
     cache_ << "values " << REPORT_R_VECTOR <<"\n";
     for (auto iter = values.begin(); iter != values.end(); ++iter) {
       Double weight = iter->second;
-      cache_ << iter->first << " " << AS_VALUE(weight) << "\n";
+      cache_ << iter->first << " " << AS_DOUBLE(weight) << "\n";
     }
     //cache_ <<"\n";
     cache_ << REPORT_R_LIST_END <<"\n";
-  }
 
+  }
   ready_for_writing_ = true;
 }
 
@@ -58,8 +61,9 @@ void DerivedQuantity::DoExecute() {
 /**
  * Execute the tabular report
  */
-void DerivedQuantity::DoExecuteTabular() {
-  derivedquantities::Manager& manager = *model_->managers().derived_quantity();
+
+void DerivedQuantity::DoExecuteTabular(shared_ptr<Model> model) {
+  derivedquantities::Manager& manager = *model->managers()->derived_quantity();
   auto derived_quantities = manager.objects();
 
   if (first_run_) {
@@ -84,11 +88,11 @@ void DerivedQuantity::DoExecuteTabular() {
     const vector<vector<Double>> init_values = dq->initialisation_values();
     for (unsigned i = 0; i < init_values.size(); ++i) {
       Double value = init_values[i].back();
-      cache_ << AS_VALUE(value) << " ";
+      cache_ << AS_DOUBLE(value) << " ";
     }
     for (auto iter = values.begin(); iter != values.end(); ++iter) {
       Double weight = iter->second;
-      cache_ << AS_VALUE(weight) << " ";
+      cache_ << AS_DOUBLE(weight) << " ";
     }
   }
   cache_ << "\n";
@@ -97,7 +101,7 @@ void DerivedQuantity::DoExecuteTabular() {
 /**
  * Finalise the tabular report
  */
-void DerivedQuantity::DoFinaliseTabular() {
+void DerivedQuantity::DoFinaliseTabular(shared_ptr<Model> model) {
   ready_for_writing_ = true;
 }
 

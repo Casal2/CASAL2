@@ -5,7 +5,7 @@
  * @date 10/03/2015
  * @section LICENSE
  *
- * Copyright NIWA Science ©2015 - www.niwa.co.nz
+ * Copyright NIWA Science ï¿½2015 - www.niwa.co.nz
  *
  * @section DESCRIPTION
  *
@@ -28,12 +28,12 @@ namespace age {
 class TimeStepProportionsByCategory : public observations::age::ProportionsByCategory {
 public:
   // methods
-  TimeStepProportionsByCategory(Model* model);
+  TimeStepProportionsByCategory(shared_ptr<Model> model);
   virtual                     ~TimeStepProportionsByCategory() = default;
   void                        DoBuild() override final;
 
 private:
-  double                      time_step_proportion_;
+  Double                      time_step_proportion_;
 };
 
 } /* namespace age */

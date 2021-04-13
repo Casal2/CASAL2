@@ -13,8 +13,8 @@
 // Headers
 #include "CategoriesWithAge.h"
 
-#include "Categories/Categories.h"
-#include "Partition/Partition.h"
+#include "../../Categories/Categories.h"
+#include "../../Partition/Partition.h"
 
 // Namespaces
 namespace niwa {
@@ -24,7 +24,7 @@ namespace accessors {
 /**
  * Default constructor
  */
-CategoriesWithAge::CategoriesWithAge(Model* model, const vector<string>& category_names, const unsigned& age)
+CategoriesWithAge::CategoriesWithAge(shared_ptr<Model> model, const vector<string>& category_names, const unsigned& age)
   : model_(model) {
   LOG_TRACE();
 
@@ -61,16 +61,19 @@ unsigned CategoriesWithAge::size() {
 }
 
 /**
- * Return an iterator to the first element for the current year.
+ * Return an iterator to the first element in our vector
+ * for the current year.
  */
-CategoriesWithAge::DataType::iterator CategoriesWithAge::begin() {
+const CategoriesWithAge::DataType::iterator CategoriesWithAge::begin() {
   return data_[model_->current_year()].begin();
 }
 
 /**
- * Return an iterator to the last element for the current year.
+ * Return the "end" value for our data type iterator so it can
+ * be compared to the begin iterator that was given to
+ * any process.
  */
-CategoriesWithAge::DataType::iterator CategoriesWithAge::end() {
+const CategoriesWithAge::DataType::iterator CategoriesWithAge::end() {
   return data_[model_->current_year()].end();
 }
 

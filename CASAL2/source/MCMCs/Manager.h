@@ -15,8 +15,8 @@
 #define SOURCE_MCMCS_MANAGER_H_
 
 // headers
-#include "BaseClasses/Manager.h"
-#include "MCMCs/MCMC.h"
+#include "../BaseClasses/Manager.h"
+#include "../MCMCs/MCMC.h"
 
 // namespaces
 namespace niwa {
@@ -33,7 +33,7 @@ public:
   Manager() = default;
   virtual                     ~Manager() = default;
   void                        Validate() override final;
-  void                        Validate(Model* model);
+  void                        Validate(shared_ptr<Model> model);
 
   // accessors
   MCMC*                       active_mcmc() const { return mcmc_; }

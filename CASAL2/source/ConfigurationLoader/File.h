@@ -21,7 +21,7 @@
 #include <iostream>
 #include <memory>
 
-#include "ConfigurationLoader/Loader.h"
+#include "../ConfigurationLoader/Loader.h"
 
 // namespaces
 namespace niwa {

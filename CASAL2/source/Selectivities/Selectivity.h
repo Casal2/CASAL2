@@ -11,10 +11,10 @@
 // Headers
 #include <map>
 
-#include "BaseClasses/Object.h"
-#include "Model/Model.h"
-#include "Utilities/PartitionType.h"
-#include "Utilities/Types.h"
+#include "../BaseClasses/Object.h"
+#include "../Model/Model.h"
+#include "../Utilities/PartitionType.h"
+#include "../Utilities/Types.h"
 
 // Namespaces
 namespace niwa {
@@ -32,7 +32,7 @@ class Selectivity : public niwa::base::Object {
 public:
   // Methods
   Selectivity() = delete;
-  explicit Selectivity(Model* model);
+  explicit Selectivity(shared_ptr<Model> model);
   virtual                     ~Selectivity() = default;
   void                        Validate();
   virtual void                Build() { RebuildCache(); };
@@ -49,7 +49,7 @@ protected:
   virtual Double              GetLengthBasedResult(unsigned age, AgeLength* age_length, unsigned year = 0, int time_step_index = -1) = 0;
   virtual void                DoValidate() = 0;
   // Members
-  Model*                      model_ = nullptr;
+  shared_ptr<Model>                      model_ = nullptr;
   unsigned                    n_quant_ = 5;
   vector<Double>              quantiles_;
   vector<Double>              quantiles_at_;

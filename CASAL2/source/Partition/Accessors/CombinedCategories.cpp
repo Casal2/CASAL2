@@ -27,14 +27,14 @@ namespace accessors {
  *
  * @param category_labels List of category labels to parse
  */
-CombinedCategories::CombinedCategories(Model* model, const vector<string>& category_labels)
+CombinedCategories::CombinedCategories(shared_ptr<Model> model, const vector<string>& category_labels)
   : model_(model) {
   LOG_TRACE();
 
   unsigned start_year = model_->start_year();
   unsigned final_year = model_->final_year();
   LOG_FINEST() << "Model details: start_year: " << start_year << "; final_year: " << final_year;
-  LOG_FINEST() << "Number of categories: " << category_labels.size();
+  LOG_FINEST() << "Categories: " << category_labels.size();
 
 
   Partition& partition = model_->partition();
@@ -67,16 +67,16 @@ CombinedCategories::CombinedCategories(Model* model, const vector<string>& categ
 }
 
 /**
- * Get the first element for the current model year
- *
- * @return iterator to beginning
+ * Get the first element from our collection
+ * for the current model year
  */
 CombinedCategories::DataType::iterator CombinedCategories::Begin() {
   return data_[model_->current_year()].begin();
 }
 
 /**
- * Get the last element for the current model year
+ * Get the end value for our collection
+ * for the current model year
  *
  * @return iterator to end
  */
@@ -85,7 +85,8 @@ CombinedCategories::DataType::iterator CombinedCategories::End() {
 }
 
 /**
- * Get the number of category collections for the current year
+ * Get the number of category collections
+ * for the current year
  *
  * @return number of category collections for current year
  */

@@ -16,8 +16,8 @@
 // headers
 #include <vector>
 
-#include "ParameterList/Parameter.h"
-#include "Utilities/Types.h"
+#include "../../ParameterList/Parameter.h"
+#include "../../Utilities/Types.h"
 
 // namespaces
 namespace niwa {

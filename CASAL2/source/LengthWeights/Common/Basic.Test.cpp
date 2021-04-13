@@ -16,9 +16,9 @@
 #include <gmock/gmock.h>
 #include <gtest/gtest.h>
 #include <boost/lexical_cast.hpp>
-#include "AgeLengths/AgeLength.h"
+#include "../../AgeLengths/AgeLength.h"
 
-#include "TestResources/MockClasses/Model.h"
+#include "../../TestResources/MockClasses/Model.h"
 
 // Namespaces
 namespace niwa {
@@ -30,8 +30,8 @@ using ::testing::Return;
  */
 TEST(LengthWeights, Basic) {
   // TODO: Add more unit tests
-  MockModel model;
-  niwa::lengthweights::Basic basic(&model);
+  shared_ptr<MockModel> model = shared_ptr<MockModel>(new MockModel());
+  niwa::lengthweights::Basic basic(model);
 
   basic.parameters().Add(PARAM_LABEL, "unit_test_basic", __FILE__, __LINE__);
   basic.parameters().Add(PARAM_TYPE, "any value is fine", __FILE__, __LINE__);
@@ -50,8 +50,8 @@ TEST(LengthWeights, Basic) {
 }
 
 TEST(LengthWeights, Basic2) {
-  MockModel model;
-  niwa::lengthweights::Basic basic(&model);
+  shared_ptr<MockModel> model = shared_ptr<MockModel>(new MockModel());
+  niwa::lengthweights::Basic basic(model);
   /**
    * Run some new parameters
    */
@@ -74,8 +74,8 @@ TEST(LengthWeights, Basic2) {
 
 
 TEST(LengthWeights, Basic3) {
-  MockModel model;
-  niwa::lengthweights::Basic basic(&model);
+  shared_ptr<MockModel> model = shared_ptr<MockModel>(new MockModel());
+  niwa::lengthweights::Basic basic(model);
   /**
    * Run some new parameters
    */

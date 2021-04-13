@@ -12,8 +12,9 @@
 // headers
 #include "Base.h"
 
-#include "Model/Model.h"
-#include "Model/Managers.h"
+#include "../../Model/Model.h"
+#include "../../Model/Models/Age.h"
+#include "../../Model/Managers.h"
 
 // namespaces
 namespace niwa {
@@ -22,25 +23,14 @@ namespace testfixtures {
 /**
  *
  */
-Base::Base() { }
-
-/**
- *
- */
-Base::~Base() { }
-
-/**
- *
- */
 void Base::SetUp() {
-  model_ = new Model();
+  model_.reset(new model::Age());
 }
 
 /**
  *
  */
 void Base::TearDown() {
-  delete model_;
 }
 
 } /* namespace testfixtures */

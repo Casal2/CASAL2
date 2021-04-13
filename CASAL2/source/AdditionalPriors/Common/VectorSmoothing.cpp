@@ -12,9 +12,9 @@
 // headers
 #include "VectorSmoothing.h"
 
-#include "Estimates/Manager.h"
-#include "Model/Model.h"
-#include "Model/Objects.h"
+#include "../../Estimates/Manager.h"
+#include "../../Model/Model.h"
+#include "../../Model/Objects.h"
 
 // namespaces
 namespace niwa {
@@ -23,18 +23,12 @@ namespace additionalpriors {
 /**
  * Default constructor
  */
-VectorSmoothing::VectorSmoothing(Model* model) : AdditionalPrior(model) {
+VectorSmoothing::VectorSmoothing(shared_ptr<Model> model) : AdditionalPrior(model) {
   parameters_.Bind<bool>(PARAM_LOG_SCALE, &log_scale_, "Should the sums of squares be calculated on the log scale?", "", false);
-  parameters_.Bind<double>(PARAM_MULTIPLIER, &multiplier_, "Multiply the penalty by this factor", "", 1);
+  parameters_.Bind<Double>(PARAM_MULTIPLIER, &multiplier_, "Multiply the penalty by this factor", "", 1);
   parameters_.Bind<unsigned>(PARAM_LOWER_BOUND, &lower_, "The first element to apply the penalty to in the vector", "", 0u);
   parameters_.Bind<unsigned>(PARAM_UPPER_BOUND, &upper_, "The last element to apply the penalty to in the vector", "", 0u);
   parameters_.Bind<unsigned>(PARAM_R, &r_, "Penalty applied to rth differences", "", 2u);
-}
-
-/**
- * Validate the parameters
- */
-void VectorSmoothing::DoValidate() {
 }
 
 /**

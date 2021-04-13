@@ -13,7 +13,6 @@
 #include "TimeStep.h"
 
 #include "TimeSteps/Manager.h"
-#include "Utilities/DoubleCompare.h"
 
 // namespaces
 namespace niwa {
@@ -23,9 +22,9 @@ namespace age {
 /**
  * Default constructor
  */
-TimeStepProportionsAtLength::TimeStepProportionsAtLength(Model* model)
+TimeStepProportionsAtLength::TimeStepProportionsAtLength(shared_ptr<Model> model)
    : observations::age::ProportionsAtLength(model) {
-  parameters_.Bind<double>(PARAM_TIME_STEP_PROPORTION, &time_step_proportion_, "The proportion through the mortality block of the time step when the observation is evaluated", "", double(0.5))->set_range(0.0, 1.0);
+  parameters_.Bind<Double>(PARAM_TIME_STEP_PROPORTION, &time_step_proportion_, "The proportion through the mortality block of the time step when the observation is evaluated", "", Double(0.5))->set_range(0.0, 1.0);
 
   mean_proportion_method_ = true;
 }
@@ -40,7 +39,7 @@ void TimeStepProportionsAtLength::DoBuild() {
     LOG_ERROR_P(PARAM_TIME_STEP_PROPORTION) << ": time_step_proportion (" << time_step_proportion_ << ") must be between 0.0 and 1.0 inclusive";
   proportion_of_time_ = time_step_proportion_;
 
-  auto time_step = model_->managers().time_step()->GetTimeStep(time_step_label_);
+  auto time_step = model_->managers()->time_step()->GetTimeStep(time_step_label_);
   if (!time_step) {
     LOG_ERROR_P(PARAM_TIME_STEP) << "Time step label " << time_step_label_ << " was not found.";
   } else {

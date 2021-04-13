@@ -17,7 +17,7 @@
 #define MINIMISERS_FACTORY_H_
 
 // Headers
-#include "Minimisers/Minimiser.h"
+#include "../Minimisers/Minimiser.h"
 
 // Namespaces
 namespace niwa {
@@ -31,7 +31,7 @@ namespace minimisers {
 class Factory {
 public:
   // Methods
-  static Minimiser*           Create(Model* model, const string& object_type, const string& sub_type);
+  static Minimiser*           Create(shared_ptr<Model> model, const string& object_type, const string& sub_type);
 
 private:
   // Methods

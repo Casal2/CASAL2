@@ -14,14 +14,12 @@
 #define ESTIMATEVALUE_H_
 
 // headers
-#include "Reports/Report.h"
+#include "../../Reports/Report.h"
 
 #include <boost/numeric/ublas/matrix.hpp>
 
 // namespaces
 namespace niwa {
-class Minimiser;
-
 namespace reports {
 namespace ublas = boost::numeric::ublas;
 
@@ -31,13 +29,13 @@ namespace ublas = boost::numeric::ublas;
 class EstimateValue : public niwa::Report {
 public:
   // Methods
-  EstimateValue(Model* model);
-  virtual                     ~EstimateValue() noexcept(true);
-  void                        DoValidate() override final { };
-  void                        DoBuild() override final { };
-  void                        DoExecute() override final;
-  void                        DoExecuteTabular() override final;
-  void                        DoFinaliseTabular() override final;
+  EstimateValue();
+  virtual                     ~EstimateValue() noexcept(true) = default;
+  void                        DoValidate(shared_ptr<Model> model) final { };
+  void                        DoBuild(shared_ptr<Model> model) final { };
+  void                        DoExecute(shared_ptr<Model> model) final;
+  void                        DoExecuteTabular(shared_ptr<Model> model) final;
+  void                        DoFinaliseTabular(shared_ptr<Model> model) final;
 
 private:
   // members

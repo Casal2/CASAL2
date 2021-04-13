@@ -38,7 +38,7 @@ namespace accessor = niwa::partition::accessors;
 class MortalityEvent : public niwa::Process {
 public:
   // Methods
-  explicit MortalityEvent(Model* model);
+  explicit MortalityEvent(shared_ptr<Model> model);
   virtual                     ~MortalityEvent() = default;
   void                        DoValidate() override final;
   void                        DoBuild() override final;

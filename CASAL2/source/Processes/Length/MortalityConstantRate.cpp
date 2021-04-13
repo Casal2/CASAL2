@@ -6,7 +6,7 @@
  * @section LICENSE
  * @description
  * This class applies an exponential mortality rate to all partition members defined by the user.
- * Copyright NIWA Science ©2017 - www.niwa.co.nz
+ * Copyright NIWA Science ï¿½2017 - www.niwa.co.nz
  *
  *
  */
@@ -16,8 +16,8 @@
 
 #include <numeric>
 
-#include "Categories/Categories.h"
-#include "TimeSteps/Manager.h"
+#include "../../Categories/Categories.h"
+#include "../../TimeSteps/Manager.h"
 
 // Namespaces
 namespace niwa {
@@ -27,7 +27,7 @@ namespace length {
 /**
  * Default constructor
  */
-MortalityConstantRate::MortalityConstantRate(Model* model)
+MortalityConstantRate::MortalityConstantRate(shared_ptr<Model> model)
   : Process(model),
     partition_(model) {
   LOG_TRACE();
@@ -36,7 +36,7 @@ MortalityConstantRate::MortalityConstantRate(Model* model)
 
   parameters_.Bind<string>(PARAM_CATEGORIES, &category_labels_, "The list of categories labels", "");
   parameters_.Bind<Double>(PARAM_M, &m_input_, "The mortality rates", "")->set_lower_bound(0.0);
-  parameters_.Bind<double>(PARAM_TIME_STEP_RATIO, &ratios_, "The time step ratios for the mortality rates", "", true)->set_range(0.0, 1.0);
+  parameters_.Bind<Double>(PARAM_TIME_STEP_RATIO, &ratios_, "The time step ratios for the mortality rates", "", true)->set_range(0.0, 1.0);
 //  parameters_.Bind<string>(PARAM_SELECTIVITIES, &selectivity_names_, "List of selectivities for the categories", "");
 
   RegisterAsAddressable(PARAM_M, &m_);
@@ -57,6 +57,8 @@ void MortalityConstantRate::DoValidate() {
     auto val_m = m_input_[0];
     m_input_.assign(category_labels_.size(), val_m);
   }
+//  if (selectivity_names_.size() == 1)
+//    selectivity_names_.assign(category_labels_.size(), selectivity_names_[0]);
 
 //  if (selectivity_names_.size() == 1) {
 //    auto val_s = selectivity_names_[0];
@@ -99,7 +101,7 @@ void MortalityConstantRate::DoBuild() {
 /*
 
   for (string label : selectivity_names_) {
-    Selectivity* selectivity = model_->managers().selectivity()->GetSelectivity(label);
+    Selectivity* selectivity = model_->managers()->selectivity()->GetSelectivity(label);
     if (!selectivity)
       LOG_ERROR_P(PARAM_SELECTIVITIES) << ": selectivity " << label << " was not found.";
 
@@ -112,7 +114,7 @@ void MortalityConstantRate::DoBuild() {
    * apply a different ratio of M so here we want to verify
    * we have enough and re-scale them to 1.0
    */
-  vector<TimeStep*> time_steps = model_->managers().time_step()->ordered_time_steps();
+  vector<TimeStep*> time_steps = model_->managers()->time_step()->ordered_time_steps();
   LOG_FINEST() << "time_steps.size(): " << time_steps.size();
   vector<unsigned> active_time_steps;
   for (unsigned i = 0; i < time_steps.size(); ++i) {
@@ -128,7 +130,7 @@ void MortalityConstantRate::DoBuild() {
       LOG_ERROR_P(PARAM_TIME_STEP_RATIO) << " length (" << ratios_.size()
         << ") does not match the number of time steps this process has been assigned to (" << active_time_steps.size() << ")";
 
-    for (double value : ratios_) {
+    for (Double value : ratios_) {
       if (value < 0.0 || value > 1.0)
         LOG_ERROR_P(PARAM_TIME_STEP_RATIO) << " value (" << value << ") must be between 0.0 and 1.0 inclusive";
     }
@@ -145,10 +147,10 @@ void MortalityConstantRate::DoExecute() {
   LOG_FINEST() << "year: " << model_->current_year();
 
   // get the ratio to apply first
-  unsigned time_step = model_->managers().time_step()->current_time_step();
+  unsigned time_step = model_->managers()->time_step()->current_time_step();
 
   LOG_FINEST() << "Ratios.size() " << time_step_ratios_.size() << " : time_step: " << time_step << "; ratio: " << time_step_ratios_[time_step];
-  double ratio = time_step_ratios_[time_step];
+  Double ratio = time_step_ratios_[time_step];
 
  // StoreForReport("year", model_->current_year());
 

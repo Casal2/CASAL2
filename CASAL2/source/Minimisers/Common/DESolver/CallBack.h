@@ -18,9 +18,9 @@
 #define MINIMISERS_DESOLVER_CALLBACK_H_
 
 // Headers
-#include "Minimisers/Common/DESolver/Engine.h"
-#include "Model/Model.h"
-#include "Utilities/Types.h"
+#include "../../../Minimisers/Common/DESolver/Engine.h"
+#include "../../../Model/Model.h"
+#include "../../../Utilities/Types.h"
 
 // Namespaces
 namespace niwa {
@@ -33,13 +33,13 @@ namespace desolver {
 class CallBack : public niwa::minimisers::desolver::Engine {
 public:
   // Methods
-  CallBack(Model* model, unsigned vector_size, unsigned population_size, double tolerance);
+  CallBack(shared_ptr<Model> model, unsigned vector_size, unsigned population_size, double tolerance);
   virtual                     ~CallBack();
   double                      EnergyFunction(vector<double> test_solution) override final;
 
 private:
   // Members
-  Model*                    model_;
+  shared_ptr<Model>                    model_;
 };
 
 } /* namespace desolver */

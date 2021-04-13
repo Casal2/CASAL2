@@ -12,7 +12,7 @@
 // headers
 #include "Data.h"
 
-#include "Utilities/To.h"
+#include "../../Utilities/To.h"
 
 // namespaces
 namespace niwa {
@@ -28,7 +28,7 @@ namespace ageingerrors {
  *
  * Note: The constructor is parsed to generate LaTeX for the documentation.
  */
-Data::Data(Model* model) : AgeingError(model) {
+Data::Data(shared_ptr<Model> model) : AgeingError(model) {
   data_table_ = new parameters::Table(PARAM_TABLE);
 
   parameters_.BindTable(PARAM_TABLE, data_table_, "The table of data specifying the ageing misclassification matrix", "", false);
@@ -50,7 +50,6 @@ void Data::DoBuild() {
     LOG_ERROR_P(PARAM_TABLE) << "The number of rows provided " << data.size() << " does not match the age spread " << age_spread_;
     return;
   }
-
   if (data[0].size() != age_spread_) {
     LOG_ERROR_P(PARAM_TABLE) << "The number of columns provided " << data.size() << " does not match the age spread " << age_spread_;
     return;

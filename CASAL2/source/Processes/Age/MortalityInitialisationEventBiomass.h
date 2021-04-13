@@ -37,7 +37,7 @@ namespace accessor = niwa::partition::accessors;
 class MortalityInitialisationEventBiomass : public niwa::Process {
 public:
   // Methods
-  explicit MortalityInitialisationEventBiomass(Model* model);
+  explicit MortalityInitialisationEventBiomass(shared_ptr<Model> model);
   virtual                     ~MortalityInitialisationEventBiomass() = default;
   void                        DoValidate() override final;
   void                        DoBuild() override final;

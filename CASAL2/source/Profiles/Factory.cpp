@@ -12,9 +12,9 @@
 // Headers
 #include "Factory.h"
 
-#include "Model/Model.h"
-#include "Model/Managers.h"
-#include "Profiles/Manager.h"
+#include "../Model/Model.h"
+#include "../Model/Managers.h"
+#include "../Profiles/Manager.h"
 
 // Namespaces
 namespace niwa {
@@ -28,14 +28,14 @@ namespace profiles {
  * @param sub_type The child type of the object to create (e.g., ageing, schnute)
  * @return pointer to the object
  */
-Profile* Factory::Create(Model* model, const string& object_type, const string& sub_type) {
+Profile* Factory::Create(shared_ptr<Model> model, const string& object_type, const string& sub_type) {
   Profile* object = nullptr;
 
   if (object_type == PARAM_PROFILE) {
     object = new Profile(model);
 
     if (object)
-      model->managers().profile()->AddObject(object);
+      model->managers()->profile()->AddObject(object);
   }
 
   return object;

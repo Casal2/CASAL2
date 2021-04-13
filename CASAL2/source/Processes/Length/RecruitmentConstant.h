@@ -5,7 +5,7 @@
  * @date 12/18/2017
  * @section LICENSE
  *
- * Copyright NIWA Science ©2017 - www.niwa.co.nz
+ * Copyright NIWA Science ï¿½2017 - www.niwa.co.nz
  *
  * @section DESCRIPTION
  *
@@ -18,9 +18,9 @@
 #define LENGTH_CONSTANTRECRUITMENT_H_
 
 // Headers
-#include "Partition/Accessors/Categories.h"
-#include "Processes/Process.h"
-#include "Utilities/Types.h"
+#include "../../Partition/Accessors/Categories.h"
+#include "../../Processes/Process.h"
+#include "../../Utilities/Types.h"
 
 // Namespaces
 namespace niwa {
@@ -37,7 +37,7 @@ using utilities::OrderedMap;
 class RecruitmentConstant : public niwa::Process {
 public:
   // Methods
-  explicit RecruitmentConstant(Model* model);
+  explicit RecruitmentConstant(shared_ptr<Model> model);
   virtual                     ~RecruitmentConstant() = default;
   void                        DoValidate() override final;
   void                        DoBuild() override final;
@@ -50,7 +50,7 @@ private:
   vector<Double>              proportions_;
   OrderedMap<string, Double>  proportions_categories_;
   Double                      r0_;
-  vector<double>              length_bins_;
+  vector<Double>              length_bins_;
   accessor::Categories        partition_;
   Double                      r0_by_length_bin_;
 };

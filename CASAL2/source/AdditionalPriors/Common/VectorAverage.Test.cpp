@@ -15,8 +15,8 @@
 #include <gtest/gtest.h>
 #include <boost/lexical_cast.hpp>
 
-#include "Model/Model.h"
-#include "TestResources/MockClasses/Model.h"
+#include "../../Model/Model.h"
+#include "../../TestResources/MockClasses/Model.h"
 
 // Namespaces
 namespace niwa {
@@ -29,8 +29,8 @@ using::testing::Return;
  */
 class MockVectorAverage : public VectorAverage {
 public:
-  MockVectorAverage(Model* model, string method, double k, double multiplier, vector<double>* parameter) : VectorAverage(model) {
-    method_ = method;
+	MockVectorAverage(shared_ptr<Model> model, string method, double k, double multiplier, vector<double>* parameter) : VectorAverage(model) {
+  	method_ = method;
     k_ = k;
     multiplier_ = multiplier;
     addressable_vector_ = parameter;
@@ -49,9 +49,9 @@ TEST(AdditionalPriors, VectorAverage) {
     {2, 200, 366.18007151842227}
   };
 
-  Model model;
+  shared_ptr<Model> model = shared_ptr<Model>(new Model());
   for (auto line : values) {
-    MockVectorAverage vector_average(&model, method, line[0], line[1], &example_ycs);
+  	MockVectorAverage vector_average(model, method, line[0], line[1], &example_ycs);
     EXPECT_DOUBLE_EQ(line[2], vector_average.GetScore());
   }
 }

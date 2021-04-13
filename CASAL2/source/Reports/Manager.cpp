@@ -9,15 +9,26 @@
  */
 #include "Manager.h"
 
-#include "Model/Model.h"
+#include <thread>
+
+#include "../Model/Model.h"
 
 namespace niwa {
 namespace reports {
 
+using std::scoped_lock;
+std::mutex Manager::lock_;
+
+#define LOCK_WAIT() static std::mutex io_mutex; \
+{ \
+    std::lock_guard<std::mutex> lk(io_mutex);\
+    std::cout << "Model [thread#" << model->id() << "] is waiting for a " << __FUNCTION__ << " lock" << std::endl;\
+}
+
 /**
  * Default Constructor
  */
-Manager::Manager(Model* model) : model_(model) {
+Manager::Manager() {
   run_.test_and_set();
   pause_ = false;
   is_paused_ = false;
@@ -25,27 +36,53 @@ Manager::Manager(Model* model) : model_(model) {
 }
 
 /**
- * Destructor
+ *
  */
-Manager::~Manager() noexcept(true) {
+void Manager::Validate() {
+	LOG_CODE_ERROR() << "Method not allowed";
 }
 
 /**
- * Build the reports then
- * organise the reports stored in the
- * object list into different containers
- * based on their type.
+ *
  */
 void Manager::Build() {
-  if (objects_.size() == 0)
-    LOG_WARNING() << "No reports have been specified";
+	LOG_CODE_ERROR() << "Method not allowed";
+}
+
+/**
+ *
+ */
+void Manager::Validate(shared_ptr<Model> model) {
+	std::scoped_lock l(lock_);
+  if (objects_.size() == 0 || has_validated_) {
+		return;
+	}
 
   LOG_FINEST() << "objects_.size(): " << objects_.size();
   for (auto report : objects_) {
-    report->Build();
+    report->Validate(model);
+  }
+
+  has_validated_ = true;
+}
+
+/**
+ * Build our reports then
+ * organise the reports stored in our
+ * object list into different containers
+ * based on their type.
+ */
+void Manager::Build(shared_ptr<Model> model) {
+	std::scoped_lock l(lock_);
+  if (objects_.size() == 0 || has_built_ || !has_validated_)
+		return;
+
+  LOG_FINEST() << "objects_.size(): " << objects_.size();
+  for (auto report : objects_) {
+    report->Build(model);
 
     if ((RunMode::Type)(report->run_mode() & RunMode::kInvalid) == RunMode::kInvalid)
-      LOG_CODE_ERROR() << "Report " << report->label() << " has not been properly configured to have a run mode";
+      LOG_CODE_ERROR() << "Report: " << report->label() << " has not been properly configured to have a run mode";
 
     if (report->model_state() != State::kExecute) {
       LOG_FINE() << "Adding report " << report->label() << " to state reports, with model->state() = " << report->model_state();
@@ -55,6 +92,8 @@ void Manager::Build() {
       time_step_reports_[report->time_step()].push_back(report);
     }
   }
+
+  has_built_ = true;
 }
 
 /**
@@ -63,20 +102,28 @@ void Manager::Build() {
  *
  * @param model_state The state the model has just finished
  */
-void Manager::Execute(State::Type model_state) {
-  LOG_TRACE();
-  RunMode::Type run_mode = model_->run_mode();
-  bool tabular = model_->global_configuration().print_tabular();
+void Manager::Execute(shared_ptr<Model> model, State::Type model_state) {
+	std::scoped_lock l(lock_);
+
+	LOG_TRACE();
+	LOG_FINE() << "Executing Models for state: " << (int)model_state;
+  if (model_state == State::kFinalise && !model->is_primary_thread_model()) {
+  	LOG_FINEST() << "Model is not the primary thread model";
+  	return;
+  }
+
+  RunMode::Type run_mode = model->run_mode();
+  bool tabular = model->global_configuration().print_tabular();
   LOG_FINE() << "Checking " << state_reports_[model_state].size() << " reports";
   for(auto report : state_reports_[model_state]) {
-      LOG_FINE() << "Checking report " << report->label();
+      LOG_FINE() << "Checking report: " << report->label();
       if ( (RunMode::Type)(report->run_mode() & run_mode) == run_mode) {
         if (tabular)
-          report->ExecuteTabular();
+          report->ExecuteTabular(model);
         else
-          report->Execute();
+          report->Execute(model);
       } else
-        LOG_FINE() << "Skipping report '" << report->label() << "' because run mode is incorrect";
+        LOG_MEDIUM() << "Skipping report: " << report->label() << " because run mode is incorrect";
   }
 }
 
@@ -88,79 +135,102 @@ void Manager::Execute(State::Type model_state) {
  * @param year The current year for the model
  * @param time_step_label The last time step to be completed
  */
-void Manager::Execute(unsigned year, const string& time_step_label) {
+void Manager::Execute(shared_ptr<Model> model, unsigned year, const string& time_step_label) {
+	std::scoped_lock l(lock_);
+
   LOG_TRACE();
   LOG_FINEST() << "year: " << year << "; time_step_label: " << time_step_label << "; reports: " << time_step_reports_[time_step_label].size();
 
-  RunMode::Type run_mode = model_->run_mode();
-  bool tabular = model_->global_configuration().print_tabular();
+  RunMode::Type run_mode = model->run_mode();
+  bool tabular = model->global_configuration().print_tabular();
   for(auto report : time_step_reports_[time_step_label]) {
-    LOG_FINE() << "Executing report " << report->label();
+    LOG_FINE() << "executing report " << report->label();
     if ( (RunMode::Type)(report->run_mode() & run_mode) != run_mode) {
-      LOG_FINE() << "Skipping report '" << report->label() << "' because run mode is incorrect";
+      LOG_FINEST() << "Skipping report: " << report->label() << " because run mode is not right";
       continue;
     }
     if (!report->HasYear(year)) {
-      LOG_FINE() << "Skipping report '" << report->label() << "' because it does not have year " << year;
+      LOG_FINEST() << "Skipping report: " << report->label() << " because it does not have year " << year;
       continue;
     }
 
     if (tabular)
-      report->ExecuteTabular();
+      report->ExecuteTabular(model);
     else
-      report->Execute();
+      report->Execute(model);
   }
   LOG_TRACE();
 }
 
 /**
- * Prepare the report objects
+ *
  */
-void Manager::Prepare() {
+void Manager::Prepare(shared_ptr<Model> model) {
+	std::scoped_lock l(lock_);
+
   LOG_TRACE();
-  RunMode::Type run_mode = model_->run_mode();
-  bool tabular = model_->global_configuration().print_tabular();
+  if (has_prepared_)
+		return;
+
+  RunMode::Type run_mode = model->run_mode();
+  bool tabular = model->global_configuration().print_tabular();
   for (auto report : objects_) {
     if ( (RunMode::Type)(report->run_mode() & run_mode) != run_mode) {
-      LOG_FINE() << "Skipping report '" << report->label() << "' because run mode is incorrect";
+      LOG_FINEST() << "Skipping report: " << report->label() << " because run mode is not right";
       continue;
     }
 
     if (tabular)
-      report->PrepareTabular();
+      report->PrepareTabular(model);
     else
-      report->Prepare();
+      report->Prepare(model);
   }
+
+  has_prepared_ = true;
 }
 
 /**
- * Finalise the report objects
+ *
  */
-void Manager::Finalise() {
-  LOG_TRACE();
-  RunMode::Type run_mode = model_->run_mode();
-  bool tabular = model_->global_configuration().print_tabular();
+void Manager::Finalise(shared_ptr<Model> model) {
+	LOG_TRACE();
+	std::scoped_lock l(lock_);
+
+	if (has_finalised_) {
+		return;
+	}
+
+  LOG_MEDIUM() << "finalise called from thread " << std::this_thread::get_id();
+  LOG_MEDIUM() << "reports.manager.size(): " << objects_.size();
+  for (auto report : objects_) {
+  	LOG_MEDIUM() << "report: " << report->label() << "." << report->type();
+  }
+
+  RunMode::Type run_mode = model->run_mode();
+  bool tabular = model->global_configuration().print_tabular();
   for (auto report : objects_) {
     if ( (RunMode::Type)(report->run_mode() & run_mode) != run_mode) {
-      LOG_FINE() << "Skipping report '" << report->label() << "' because run mode is incorrect";
+      LOG_MEDIUM() << "Skipping report: " << report->label() << " because run mode is not right (" << (int)report->run_mode() << " & " << (int)run_mode << ")";
       continue;
     }
 
     if (tabular)
-      report->FinaliseTabular();
+      report->FinaliseTabular(model);
     else
-      report->Finalise();
+      report->Finalise(model);
   }
 
   LOG_TRACE();
+  has_finalised_ = true;
 }
 
 /**
- * This method can be called from the main thread to
- * wait for all reports to finish
+ * This method can be called from the main thread to ensure
+ * we wait for all reports to finish
  */
 void Manager::WaitForReportsToFinish() {
 #ifndef TESTMODE
+	std::scoped_lock l(lock_);
   waiting_ = true;
   LOG_FINE() << "Waiting for reports";
   while(waiting_);
@@ -169,17 +239,17 @@ void Manager::WaitForReportsToFinish() {
 }
 
 /**
- * This method flushes all of the reports to stdout or a file depending on each
- * report when it has finished caching its output internally.
+ * This method will flush all of the reports to stdout or a file depending on each
+ * report when it has finished caching it's output internally.
  *
- * NOTE: This method is called in its own thread so that the model can continue
- * to run without having to wait for the reports to be ready.
+ * NOTE: This method is called in it's own thread so we can continue to run the model
+ * without having to wait for the reports to be ready.
  */
 void Manager::FlushReports() {
   // WARNING: DO NOT CALL THIS ANYWHERE. IT'S THREADED
-  bool do_break = run_.test_and_set();
-  waiting_ = false;
-  bool record_waiting = false;
+ bool do_break = run_.test_and_set();
+ waiting_ = false;
+ bool record_waiting = false;
   while(true) {
     while (pause_) {
       is_paused_ = true;
@@ -192,9 +262,12 @@ void Manager::FlushReports() {
       record_waiting = true;
 
     do_break = !run_.test_and_set();
-    for (auto report : objects_) {
-      if (report->ready_for_writing())
-        report->FlushCache();
+    {
+    	std::scoped_lock l(lock_);
+			for (auto report : objects_) {
+				if (report->ready_for_writing())
+					report->FlushCache();
+			}
     }
 
     if (record_waiting) {
@@ -208,30 +281,25 @@ void Manager::FlushReports() {
 }
 
 /**
- * Return the report object for a specific type
  *
- * @param type The type of report
- * @return a pointer to the Report
- */
-Report* Manager::GetReport(const string& type) {
-  for (auto report : objects_) {
-    if (report->type() == type)
-      return report;
-  }
-
-  LOG_MEDIUM() << "Report type '" << type << "' was not found.";
-
-  return nullptr;
-}
-
-/**
- * Pause the report manager
  */
 void Manager::Pause() {
 #ifndef TESTMODE
   pause_ = true;
-  while(!is_paused_) continue;
+  while(!is_paused_) {
+  	continue;
+  }
 #endif
+}
+
+/**
+ *
+ */
+void Manager::set_report_suffix(const string& suffix) {
+	std::scoped_lock l(lock_);
+	report_suffix_ = suffix;
+	for (auto report : objects_)
+		report->set_suffix(suffix);
 }
 
 } /* namespace reports */

@@ -4,7 +4,7 @@
  * @date 8/11/2013
  * @section LICENSE
  *
- * Copyright NIWA Science ©2013 - www.niwa.co.nz
+ * Copyright NIWA Science ï¿½2013 - www.niwa.co.nz
  *
  */
 
@@ -15,7 +15,7 @@
 #include "Model/Model.h"
 #include "Penalties/Manager.h"
 #include "Selectivities/Manager.h"
-#include "Utilities/DoubleCompare.h"
+#include "Utilities/Math.h"
 #include "TimeSteps/Manager.h"
 
 // namespaces
@@ -27,7 +27,7 @@ namespace math = niwa::utilities::math;
 /**
  * Default constructor
  */
-MortalityEventBiomass::MortalityEventBiomass(Model* model)
+MortalityEventBiomass::MortalityEventBiomass(shared_ptr<Model> model)
   : Process(model),
     partition_(model) {
 
@@ -84,7 +84,7 @@ void MortalityEventBiomass::DoBuild() {
   partition_.Init(category_labels_);
 
   for (string label : selectivity_labels_) {
-    Selectivity* selectivity = model_->managers().selectivity()->GetSelectivity(label);
+    Selectivity* selectivity = model_->managers()->selectivity()->GetSelectivity(label);
     if (!selectivity)
       LOG_ERROR_P(PARAM_SELECTIVITIES) << ": Selectivity label " << label << " was not found.";
 
@@ -92,7 +92,7 @@ void MortalityEventBiomass::DoBuild() {
   }
 
   if (penalty_label_ != "") {
-    penalty_ = model_->managers().penalty()->GetProcessPenalty(penalty_label_);
+    penalty_ = model_->managers()->penalty()->GetProcessPenalty(penalty_label_);
     if (!penalty_) {
       LOG_ERROR_P(PARAM_PENALTY) << ": Penalty label " << penalty_label_ << " was not found.";
     }
@@ -117,7 +117,7 @@ void MortalityEventBiomass::DoExecute() {
   if (catch_years_[model_->current_year()] == 0)
     return;
 
-  unsigned time_step_index = model_->managers().time_step()->current_time_step();
+  unsigned time_step_index = model_->managers()->time_step()->current_time_step();
   LOG_TRACE();
 
   /**
@@ -140,7 +140,7 @@ void MortalityEventBiomass::DoExecute() {
   /**
    * Work out the exploitation rate to remove (catch/vulnerable)
    */
-  Double exploitation = catch_years_[model_->current_year()] / utilities::doublecompare::ZeroFun(vulnerable);
+  Double exploitation = catch_years_[model_->current_year()] / utilities::math::ZeroFun(vulnerable);
   if (exploitation > u_max_) {
     exploitation = u_max_;
     actual_catches_.push_back(vulnerable * u_max_);
@@ -189,10 +189,10 @@ void MortalityEventBiomass::FillReportCache(ostringstream& cache) {
     cache << year << " ";
   cache << "\nactual_catches: ";
   for (auto removal : actual_catches_)
-    cache << AS_VALUE(removal) << " ";
+    cache << AS_DOUBLE(removal) << " ";
   cache << "\nexploitation_rate: ";
   for (auto exploit : exploitation_by_year_)
-    cache << AS_VALUE(exploit) << " ";
+    cache << AS_DOUBLE(exploit) << " ";
   cache << "\n";
 }
 
@@ -214,9 +214,9 @@ void MortalityEventBiomass::FillTabularReportCache(ostringstream& cache, bool fi
     cache << "\n";
   }
   for (auto removal : actual_catches_)
-    cache << AS_VALUE(removal) << " ";
+    cache << AS_DOUBLE(removal) << " ";
   for (auto exploit : exploitation_by_year_)
-    cache << AS_VALUE(exploit) << " ";
+    cache << AS_DOUBLE(exploit) << " ";
   cache << "\n";
 }
 
