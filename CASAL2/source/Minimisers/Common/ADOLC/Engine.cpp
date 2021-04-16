@@ -5,7 +5,7 @@
  * @date 17/11/2014
  * @section LICENSE
  *
- * Copyright NIWA Science ©2014 - www.niwa.co.nz
+ * Copyright NIWA Science ï¿½2014 - www.niwa.co.nz
  *
  */
 #ifdef USE_AUTODIFF
@@ -13,15 +13,15 @@
 // headers
 #include "Engine.h"
 
-#include <math.h>
-#include <iomanip>
 #include <adolc/adolc.h>
-#include <adolc/taping.h>
 #include <adolc/drivers/drivers.h>
+#include <adolc/taping.h>
+#include <math.h>
 
-#include "../../../FMM.h"
-#include "../../../Utilities/DoubleCompare.h"
+#include <iomanip>
+
 #include "../../../Utilities/Math.h"
+#include "FMM.h"
 
 // namespaces
 namespace niwa {
@@ -30,22 +30,19 @@ namespace adolc {
 
 // Namespace
 using namespace std;
-namespace dc = utilities::doublecompare;
 namespace math = utilities::math;
 
 //**********************************************************************
 // Engine::Engine()
 // Default Constructor
 //**********************************************************************
-Engine::Engine() {
-}
+Engine::Engine() {}
 
 //**********************************************************************
 // Engine::~Engine()
 // Default Destructor
 //**********************************************************************
-Engine::~Engine() {
-}
+Engine::~Engine() {}
 
 //**********************************************************************
 // double Engine::optimise_finite_differences(CGammaDiffCallback& objective, vector<double>& StartValues, vector<double>& LowerBounds,
@@ -53,21 +50,17 @@ Engine::~Engine() {
 //   double **pOPTIMIZEHessian, int untransformedHessians, double dStepSize)
 // OPTIMIZE our function
 //**********************************************************************
-Double Engine::optimise(adolc::CallBack& objective,
-    vector<Double>& start_values, vector<double>& lower_bounds,
-    vector<double>& upper_bounds, int& convergence, int& max_iterations,
-    int& max_evaluations, double gradient_tolerance, double **out_hessian,
-    int untransformed_hessians, double step_size) {
-
+Double Engine::optimise(adolc::CallBack& objective, vector<Double>& start_values, vector<double>& lower_bounds, vector<double>& upper_bounds, int& convergence, int& max_iterations,
+                        int& max_evaluations, double gradient_tolerance, double** out_hessian, int untransformed_hessians, double step_size) {
   // Variables
-  unsigned parameter_count = start_values.size();
-  double obj_score = 0.0;
-  adouble aobj_score = 0.0;
-  Double penalty = 0.0;
+  unsigned       parameter_count = start_values.size();
+  double         obj_score       = 0.0;
+  adouble        aobj_score      = 0.0;
+  Double         penalty         = 0.0;
   vector<double> scaled_candidate_values(parameter_count, 0.0);
   vector<double> gradient_values(parameter_count, 0.0);
 
-//  bool first_iteration = true;
+  //  bool first_iteration = true;
 
   /**
    * Validate our values, bounds etc
@@ -93,24 +86,22 @@ Double Engine::optimise(adolc::CallBack& objective,
     if (start_values[i] > upper_bounds[i])
       LOG_CODE_ERROR() << "start_values[i] > upper_bounds[i]";
 
-    if (dc::IsEqual(lower_bounds[i], upper_bounds[i]))
+    if (math::IsEqual(lower_bounds[i], upper_bounds[i]))
       scaled_candidates[i] = 0.0;
     else
       scaled_candidates[i] = math::scale_value(start_values[i], lower_bounds[i], upper_bounds[i]);
   }
-
 
   // Loop through our Minimiser now
   while (fmm.getResult() >= 0) {
     // Do we need to evaluate objective function again?
     if ((fmm.getResult() == 0) || (fmm.getResult() == 2)) {
       LOG_MEDIUM() << "About to trace the objective (model)" << endl;
-//      if (first_iteration) // only run once
-        trace_on(0);
+      //      if (first_iteration) // only run once
+      trace_on(0);
 
       // declare our dependent variables
-      for (unsigned i = 0; i < candidates.size(); ++i)
-        scaled_candidates[i] <<= scaled_candidates[i].value();
+      for (unsigned i = 0; i < candidates.size(); ++i) scaled_candidates[i] <<= scaled_candidates[i].value();
 
       // Reset Variables
       penalty = 0.0;
@@ -118,7 +109,7 @@ Double Engine::optimise(adolc::CallBack& objective,
       // unscale candidates
       LOG_MEDIUM() << "candidates (unscaled): ";
       for (unsigned i = 0; i < parameter_count; ++i) {
-        if (dc::IsEqual(lower_bounds[i], upper_bounds[i]))
+        if (math::IsEqual(lower_bounds[i], upper_bounds[i]))
           candidates[i] = lower_bounds[i];
         else
           candidates[i] = math::unscale_value(scaled_candidates[i], penalty, lower_bounds[i], upper_bounds[i]);
@@ -129,12 +120,12 @@ Double Engine::optimise(adolc::CallBack& objective,
       LOG_MEDIUM() << "Running Model: Start -->";
       aobj_score = objective(candidates);
       LOG_MEDIUM() << " End" << endl;
-      aobj_score += penalty; // penalty for breaking bounds
+      aobj_score += penalty;  // penalty for breaking bounds
       aobj_score >>= obj_score;
-//      if (first_iteration) { // only run once
-        trace_off();
-//        first_iteration = false;
-//      }
+      //      if (first_iteration) { // only run once
+      trace_off();
+      //        first_iteration = false;
+      //      }
       LOG_MEDIUM() << "Finished objective function call with score = " << obj_score << " (inc Penalty: " << penalty << ")" << endl;
     }
 
@@ -142,7 +133,7 @@ Double Engine::optimise(adolc::CallBack& objective,
     // This will loop through each variable changing it once
     // to see how the other variables change.
     // There-by generating our co-variance
-    if (fmm.getResult() >= 1) { // 1 = Gradient Required
+    if (fmm.getResult() >= 1) {  // 1 = Gradient Required
       LOG_MEDIUM() << "About to eval gradient" << endl;
 
       double* adolc_x = new double[parameter_count];
@@ -156,8 +147,8 @@ Double Engine::optimise(adolc::CallBack& objective,
       LOG_MEDIUM() << endl;
 
       int g_status = gradient(0, parameter_count, adolc_x, adolc_g);
-//      double one = 1.0;
-//      int g_status = fos_reverse(0, 1, parameter_count, &one, adolc_g);
+      //      double one = 1.0;
+      //      int g_status = fos_reverse(0, 1, parameter_count, &one, adolc_g);
       LOG_MEDIUM() << "Finished gradient call with status: " << g_status << endl;
 
       LOG_MEDIUM() << "gradient: ";
@@ -167,8 +158,8 @@ Double Engine::optimise(adolc::CallBack& objective,
       }
       LOG_MEDIUM() << endl;
 
-      delete [] adolc_x;
-      delete [] adolc_g;
+      delete[] adolc_x;
+      delete[] adolc_g;
       // Gradient Finished
     }
     /**
@@ -211,24 +202,24 @@ Double Engine::optimise(adolc::CallBack& objective,
   /**
    * Unscale our values
    */
-//  for (unsigned i = 0; i < candidates.size(); ++i)
-//    candidates[i] = math::unscale_value(candidates[i], penalty, lower_bounds[i], upper_bounds[i]).value();
+  //  for (unsigned i = 0; i < candidates.size(); ++i)
+  //    candidates[i] = math::unscale_value(candidates[i], penalty, lower_bounds[i], upper_bounds[i]).value();
 
   adouble final_score = objective(candidates);
 
   // Generate our Hessian
   if (out_hessian != 0) {
-    double **L = new double*[parameter_count];
-    double **LT = new double*[parameter_count];
+    double** L  = new double*[parameter_count];
+    double** LT = new double*[parameter_count];
 
     for (unsigned i = 0; i < parameter_count; ++i) {
-      L[i] = new double[parameter_count];
+      L[i]  = new double[parameter_count];
       LT[i] = new double[parameter_count];
     }
 
     for (unsigned i = 0; i < parameter_count; ++i) {
       for (unsigned j = 0; j < parameter_count; ++j) {
-        L[i][j] = 0.0;
+        L[i][j]  = 0.0;
         LT[i][j] = 0.0;
       }
     }
@@ -244,29 +235,26 @@ Double Engine::optimise(adolc::CallBack& objective,
         double dMulti = 0.0;
 
         // Loop Through
-        for (unsigned k = 0; k < parameter_count; ++k)
-          dMulti += (L[i][k] * LT[k][j]);
+        for (unsigned k = 0; k < parameter_count; ++k) dMulti += (L[i][k] * LT[k][j]);
 
         out_hessian[i][j] = dMulti;
       }
     }
 
     if (untransformed_hessians) {
-      double *dGradBoundP = new double[parameter_count];
-      for (unsigned i = 0; i < parameter_count; ++i)
-        dGradBoundP[i] = 0.0;
+      double* dGradBoundP = new double[parameter_count];
+      for (unsigned i = 0; i < parameter_count; ++i) dGradBoundP[i] = 0.0;
 
       for (unsigned i = 0; i < parameter_count; ++i) {
-        double dDiv = ((candidates[i].value() - lower_bounds[i])
-            / (upper_bounds[i] - lower_bounds[i]));
-        double dProd = (2 * dDiv - 1) * (2 * dDiv - 1);
-        double dSqrt = sqrt(dc::ZeroFun(1 - dProd));
-        double dProd2 = (upper_bounds[i] - lower_bounds[i]) * dSqrt;
+        double dDiv    = ((candidates[i].value() - lower_bounds[i]) / (upper_bounds[i] - lower_bounds[i]));
+        double dProd   = (2 * dDiv - 1) * (2 * dDiv - 1);
+        double dSqrt   = sqrt(math::ZeroFun(1 - dProd));
+        double dProd2  = (upper_bounds[i] - lower_bounds[i]) * dSqrt;
         dGradBoundP[i] = ((4 / 3.14159265) / dProd2);
       }
 
       for (unsigned i = 0; i < parameter_count; ++i) {
-        if (dGradBoundP[i] != dGradBoundP[i]) // NaN
+        if (dGradBoundP[i] != dGradBoundP[i])  // NaN
           dGradBoundP[i] = 0.0;
       }
 
@@ -293,11 +281,10 @@ Double Engine::optimise(adolc::CallBack& objective,
     LOG_MEDIUM() << candidates[i] << ", ";
   }
   LOG_MEDIUM() << endl;
-  for (adouble value : candidates)
-    final_candidates_.push_back(value);
+  for (adouble value : candidates) final_candidates_.push_back(value);
 
-  convergence_     = fmm.getResult() + 2;
-  iterations_used_ = fmm.getIters();
+  convergence_      = fmm.getResult() + 2;
+  iterations_used_  = fmm.getIters();
   evaluations_used_ = fmm.getEvals();
 
   return final_score;
@@ -305,6 +292,6 @@ Double Engine::optimise(adolc::CallBack& objective,
 
 } /* namespace adolc */
 } /* namespace minimisers */
-} /* namesapce niwa */
+}  // namespace niwa
 #endif /* USE_ADOLC */
 #endif /* USE_AUTODIFF */
