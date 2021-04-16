@@ -5,7 +5,7 @@
  * @date 21/11/2014
  * @section LICENSE
  *
- * Copyright NIWA Science �2014 - www.niwa.co.nz
+ * Copyright NIWA Science (c)2014 - www.niwa.co.nz
  *
  *
  * CppAD Documentation for Solver options: https://www.coin-or.org/Ipopt/documentation/node40.html
@@ -16,12 +16,12 @@
 // headers
 #include "CPPAD.h"
 
-#include <numeric>
-#include <limits>
 #include <cppad/ipopt/solve.hpp>
+#include <limits>
+#include <numeric>
 
-#include "../../Estimates/Manager.h"
 #include "../../EstimateTransformations/Manager.h"
+#include "../../Estimates/Manager.h"
 #include "../../Model/Model.h"
 #include "../../ObjectiveFunction/ObjectiveFunction.h"
 #include "../../Utilities/To.h"
@@ -37,9 +37,9 @@ using CppAD::AD;
  */
 class MyObjective {
 public:
-  MyObjective(shared_ptr<Model> model) : model_(model) { }
+  MyObjective(shared_ptr<Model> model) : model_(model) {}
 
-  typedef CPPAD_TESTVECTOR( AD<double> ) ADvector;
+  typedef CPPAD_TESTVECTOR(AD<double>) ADvector;
 
   void operator()(ADvector& fg, const ADvector& candidates) {
     auto estimates = model_->managers()->estimate()->GetIsEstimated();
@@ -87,7 +87,7 @@ CPPAD::CPPAD(shared_ptr<Model> model) : Minimiser(model) {
  * Execute
  */
 void CPPAD::Execute() {
-  typedef CPPAD_TESTVECTOR( double ) Dvector;
+  typedef CPPAD_TESTVECTOR(double) Dvector;
 
   auto estimate_manager = model_->managers()->estimate();
   auto estimates        = estimate_manager->GetIsEstimated();
@@ -99,8 +99,8 @@ void CPPAD::Execute() {
 
   model_->managers()->estimate_transformation()->TransformEstimates();
   for (unsigned i = 0; i < num_estimates; ++i) {
-    lower_bounds[i] = estimates[i]->lower_bound();
-    upper_bounds[i] = estimates[i]->upper_bound();
+    lower_bounds[i] = AS_DOUBLE(estimates[i]->lower_bound());
+    upper_bounds[i] = AS_DOUBLE(estimates[i]->upper_bound());
     start_values[i] = AS_DOUBLE(estimates[i]->value());
   }
 
@@ -109,7 +109,7 @@ void CPPAD::Execute() {
   // options
   // see https://coin-or.github.io/Ipopt/OPTIONS.html and https://coin-or.github.io/Ipopt/OUTPUT.html
   std::string options = "";
-  options += "Retape " + retape_ + "\n"; // retape operation sequence for each new x
+  options += "Retape " + retape_ + "\n";  // retape operation sequence for each new x
   options += "Integer print_level " + utilities::ToInline<unsigned, string>(print_level_) + "\n";
   options += "String sb " + sb_ + "\n";
   options += "String print_info_string " + pidi_ + "\n";
@@ -131,30 +131,24 @@ void CPPAD::Execute() {
   Dvector gu(1);
   gu[0] = std::numeric_limits<double>::max();
 
-  CppAD::ipopt::solve<Dvector, MyObjective>(
-      options, start_values, lower_bounds, upper_bounds, gl, gu, obj, solution
-    );
+  CppAD::ipopt::solve<Dvector, MyObjective>(options, start_values, lower_bounds, upper_bounds, gl, gu, obj, solution);
 
   Dvector x(solution.x.size());
 
   LOG_MEDIUM() << "x: the approximation solution";
-  for(unsigned i = 0; i < solution.x.size(); ++i) {
+  for (unsigned i = 0; i < solution.x.size(); ++i) {
     x[i] = solution.x[i];
     LOG_MEDIUM() << solution.x[i];
   }
   LOG_MEDIUM() << "zl: Lagrange multipliers corresponding to lower bounds on x";
-  for(unsigned i = 0; i < solution.zl.size(); ++i)
-    LOG_MEDIUM() << solution.zl[i];
+  for (unsigned i = 0; i < solution.zl.size(); ++i) LOG_MEDIUM() << solution.zl[i];
   LOG_MEDIUM() << "zu: Lagrange multipliers corresponding to upper bounds on x";
-  for(unsigned i = 0; i < solution.zu.size(); ++i)
-    LOG_MEDIUM() << solution.zu[i];
+  for (unsigned i = 0; i < solution.zu.size(); ++i) LOG_MEDIUM() << solution.zu[i];
 
   LOG_MEDIUM() << "g: value of g(x)";
-  for(unsigned i = 0; i < solution.g.size(); ++i)
-    LOG_MEDIUM() << solution.g[i];
+  for (unsigned i = 0; i < solution.g.size(); ++i) LOG_MEDIUM() << solution.g[i];
   LOG_MEDIUM() << "lambda: Lagrange multipliers corresponding to constraints on g(x)";
-  for(unsigned i = 0; i < solution.lambda.size(); ++i)
-    LOG_MEDIUM() << solution.lambda[i];
+  for (unsigned i = 0; i < solution.lambda.size(); ++i) LOG_MEDIUM() << solution.lambda[i];
 
   LOG_MEDIUM() << "objective function value: value of f(x)";
   LOG_MEDIUM() << solution.obj_value;
@@ -162,8 +156,7 @@ void CPPAD::Execute() {
   /*
    *
    */
-  switch(solution.status)
-  { // convert status from Ipopt enum to solve_result<Dvector> enum
+  switch (solution.status) {  // convert status from Ipopt enum to solve_result<Dvector> enum
     case solution.status_type::success:
       result_ = MinimiserResult::kSuccess;
       LOG_MEDIUM() << "success";
@@ -252,4 +245,3 @@ void CPPAD::Execute() {
 } /* namespace niwa */
 #endif /* USE_CPPAD */
 #endif /* USE_AUTODIFF */
-
