@@ -5,7 +5,7 @@
  * @date 21/11/2014
  * @section LICENSE
  *
- * Copyright NIWA Science ©2014 - www.niwa.co.nz
+ * Copyright NIWA Science ï¿½2014 - www.niwa.co.nz
  *
  * @section DESCRIPTION
  * see this webpage for more information about this solver https://www.coin-or.org/CppAD/Doc/ipopt_solve.htm
@@ -33,24 +33,24 @@ using niwa::utilities::Double;
 class CPPAD : public Minimiser {
 public:
   explicit CPPAD(shared_ptr<Model> model);
-  virtual                     ~CPPAD() = default;
-  void                        DoValidate() override final { };
-  void                        DoBuild() override final { };
-  void                        DoReset() override final { };
-  void                        Execute() override final;
+  virtual ~CPPAD() = default;
+  void DoValidate() override final{};
+  void DoBuild() override final{};
+  void DoReset() override final{};
+  void Execute() override final;
 
 private:
   // members
-  string                      retape_ = "";
-  unsigned                    print_level_ = 0;
-  string                      sb_ = "";
-  string                      pidi_ = "";
-  unsigned                    max_iter_ = 0;
-  double                      tol_ = 0.0;
-  double                      acceptable_tol_ = 0.0;
-  double                      acceptable_obj_change_tol_ = 0.0;
-  string                      derivative_test_ = "";
-  Double                      point_perturbation_radius_ = 0.0;
+  string   retape_                    = "";
+  unsigned print_level_               = 0;
+  string   sb_                        = "";
+  string   pidi_                      = "";
+  unsigned max_iter_                  = 0;
+  Double   tol_                       = 0.0;
+  Double   acceptable_tol_            = 0.0;
+  Double   acceptable_obj_change_tol_ = 0.0;
+  string   derivative_test_           = "";
+  Double   point_perturbation_radius_ = 0.0;
 };
 
 } /* namespace minimisers */

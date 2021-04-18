@@ -5,7 +5,7 @@
  * @date Jan 12, 2016
  * @section LICENSE
  *
- * Copyright NIWA Science ©2016 - www.niwa.co.nz
+ * Copyright NIWA Science ï¿½2016 - www.niwa.co.nz
  *
  * @section DESCRIPTION
  *
@@ -28,34 +28,35 @@ using std::string;
 
 // structs
 struct RunParameters {
-  RunMode::Type run_mode_ = RunMode::kInvalid;
-  string        config_file_ = "config.csl2";
-  bool          resume_mcmc_chain_ = false;
-  bool          skip_estimation_ = false;
-  string        mcmc_objective_file_ = "";
-  string        mcmc_sample_file_ = "";
-  unsigned      estimation_phases_ = 1;
+  RunMode::Type run_mode_                   = RunMode::kInvalid;
+  string        config_file_                = "config.csl2";
+  bool          resume_mcmc_chain_          = false;
+  bool          skip_estimation_            = false;
+  string        mcmc_objective_file_        = "";
+  string        mcmc_sample_file_           = "";
+  unsigned      estimation_phases_          = 1;
   string        estimable_value_input_file_ = "";
-  bool          force_estimables_as_named_ = false;
-  unsigned      random_number_seed_ = 123u;
-  string        query_object_ = "";
-  bool          debug_mode_ = false;
-  bool          no_std_report_ = false;
-  string        log_level_ = "warning";
-  string        output_ = "";
-  bool          single_step_model_ = false;
-  bool          tabular_reports_ = false;
-  unsigned      simulation_candidates_ = 1u;
-  unsigned      projection_candidates_ = 1u;
+  bool          force_estimables_as_named_  = false;
+  unsigned      random_number_seed_         = 123u;
+  string        query_object_               = "";
+  bool          debug_mode_                 = false;
+  bool          no_std_report_              = false;
+  string        log_level_                  = "warning";
+  string        output_                     = "";
+  bool          single_step_model_          = false;
+  bool          tabular_reports_            = false;
+  unsigned      simulation_candidates_      = 1u;
+  unsigned      projection_candidates_      = 1u;
 
-  bool          override_random_number_seed_ = false;
-  unsigned      override_rng_seed_value_ = 123u;
+  bool     override_random_number_seed_ = false;
+  unsigned override_rng_seed_value_     = 123u;
 
-  string        minimiser_ = "";
-  bool          create_mpd_file_ = true;
+  string model_type_      = "";
+  string minimiser_       = "";
+  bool   create_mpd_file_ = true;
 };
 
-} /* namespace niwa */
-} /* namespace utilities */
+}  // namespace utilities
+}  // namespace niwa
 
 #endif /* RUNPARAMETERS_H_ */

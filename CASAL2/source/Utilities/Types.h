@@ -51,7 +51,7 @@ adub tanh(const badouble&);
 #endif
 
 #ifdef USE_CPPAD
-# include <cppad/cppad.hpp>
+#include <cppad/cppad.hpp>
 #include <cppad/ipopt/solve.hpp>
 #endif
 
@@ -61,12 +61,12 @@ namespace utilities {
 
 /**
  * double conditional depending on if we're using auto differentiation or not
- * 
+ *
  * The AS_DOUBLE macro is used to convert from the auto-differentation type
  * to a standard double. This is used for two reasons.
  * 1. To convert to a double for piping into a stream when an operator overload doesn't exist
  * 2. To force break the chain to store the values for reporting out
- * 
+ *
  * We're not worried about performance penalties for either as most scenarios for
  * doing this will be to debug and this isn't on by default.
  */
@@ -96,17 +96,16 @@ typedef CppAD::AD<double> Double;
 typedef double Double;
 #endif
 
-typedef std::vector<Double> Vector1;
-typedef std::vector<std::vector<Double>> Vector2;
-typedef std::vector<std::vector<std::vector<Double>>> Vector3;
+typedef std::vector<Double>                                        Vector1;
+typedef std::vector<std::vector<Double>>                           Vector2;
+typedef std::vector<std::vector<std::vector<Double>>>              Vector3;
 typedef std::vector<std::vector<std::vector<std::vector<Double>>>> Vector4;
 
 inline void allocate_vector3(Vector3* target, unsigned x_size, unsigned y_size, unsigned z_size) {
   target->resize(x_size);
   for (unsigned i = 0; i < x_size; ++i) {
     (*target)[i].resize(y_size);
-    for (unsigned j = 0; j < y_size; ++j)
-      (*target)[i][j].resize(z_size);
+    for (unsigned j = 0; j < y_size; ++j) (*target)[i][j].resize(z_size);
   }
 }
 
@@ -115,28 +114,25 @@ inline void allocate_vector3(Vector3* target, unsigned x_size, unsigned y_size, 
  */
 inline std::string demangle(const char* name) {
 #ifndef _MSC_VER
-	int status = -1; // some arbitrary value to eliminate the compiler warning
+  int status = -1;  // some arbitrary value to eliminate the compiler warning
 
-  char   *realname;
+  char*       realname;
   std::string val = "";
-  realname = abi::__cxa_demangle(name, 0, 0, &status);
-  val = realname;
+  realname        = abi::__cxa_demangle(name, 0, 0, &status);
+  val             = realname;
   free(realname);
 
   val = val == "std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >" ? "string" : val;
   val = val.length() > 38 && val.substr(0, 38) == "std::vector<std::__cxx11::basic_string" ? "vector<string>" : val;
   val = val == "std::vector<double, std::allocator<double> >" ? "vector<double>" : val;
   val = val == "std::vector<unsigned int, std::allocator<unsigned int> >" ? "vector<unsigned int>" : val;
-  return (status==0) ? val : name ;
+  return (status == 0) ? val : name;
 #else
-	return name;
+  return name;
 #endif
 }
 
-
 } /* namespace utilities */
 } /* namespace niwa */
-
-
 
 #endif /* TYPES_H_ */

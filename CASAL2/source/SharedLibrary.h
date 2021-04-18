@@ -5,7 +5,7 @@
  * @date Jan 12, 2016
  * @section LICENSE
  *
- * Copyright NIWA Science �2016 - www.niwa.co.nz
+ * Copyright NIWA Science (c)2016 - www.niwa.co.nz
  *
  * @section DESCRIPTION
  *
@@ -26,10 +26,10 @@ extern "C" {
 #define EXPORT __attribute__((visibility("default")))
 #endif
 
-int EXPORT RunUnitTests(int argc, char * argv[]);
-int EXPORT LoadOptions(int argc, char * argv[], niwa::utilities::RunParameters& options);
+int EXPORT RunUnitTests(int argc, char* argv[]);
+int EXPORT LoadOptions(int argc, char* argv[], niwa::utilities::RunParameters& options);
 int EXPORT PreParseConfigFiles(niwa::utilities::RunParameters& options);
-int EXPORT Run(int argc, char * argv[], niwa::utilities::RunParameters& options);
+int EXPORT Run(int argc, char* argv[], niwa::utilities::RunParameters& options);
 
 #ifdef __cplusplus
 }

@@ -5,15 +5,15 @@
  * @date 16/11/2012
  * @section LICENSE
  *
- * Copyright NIWA Science ©2012 - www.niwa.co.nz
+ * Copyright NIWA Science ï¿½2012 - www.niwa.co.nz
  */
 
 // Headers
 #include "File.h"
 
 #include <boost/algorithm/string/replace.hpp>
-#include <boost/algorithm/string/trim_all.hpp>
 #include <boost/algorithm/string/split.hpp>
+#include <boost/algorithm/string/trim_all.hpp>
 
 #include "../ConfigurationLoader/Loader.h"
 #include "../Logging/Logging.h"
@@ -54,19 +54,20 @@ bool File::OpenFile(string file_name) {
 }
 
 /**
- * Parse the configuration file. Creating objects and loading
- * the parameter objects
+ * Load this file from disk and put the contents into memory.
+ *
+ * Comments will be stripped, but no operator handling is done
  */
-void File::Parse() {
+void File::LoadIntoMemory() {
   LOG_TRACE();
 
   if (file_.fail() || !file_.is_open())
-    LOG_CODE_ERROR() << "Unable to parse the configuration file because a previous error has not been reported.\nFile: " << file_name_;
+    LOG_CODE_ERROR() << "Unable to load the configuration file because a previous error has not been reported.\nFile: " << file_name_;
 
   /**
    * Iterate through our file parsing the contents
    */
-  string    current_line        = "";
+  string current_line = "";
   while (getline(file_, current_line)) {
     ++line_number_;
 
@@ -74,7 +75,7 @@ void File::Parse() {
       continue;
 
     // Handle comments
-    HandleComments(current_line);
+    StripComments(current_line);
 
     if (current_line.length() == 0)
       continue;
@@ -107,26 +108,24 @@ void File::Parse() {
           include_name = file_name_.substr(0, file_name_.find_last_of('/') + 1) + include_name;
 
         if (!include_file.OpenFile(include_name))
-          LOG_FATAL() << "At line: " << line_number_ << " of " << file_name_
-            << ": Include file '" << include_name << "' could not be opened.";
+          LOG_FATAL() << "At line: " << line_number_ << " of " << file_name_ << ": Include file '" << include_name << "' could not be opened.";
 
-        include_file.Parse();
+        include_file.LoadIntoMemory();
         continue;
       }
     }
-
 
     /**
      * At this point everything is standard. We have a simple line of text that we now need to parse. All
      * comments etc have been removed and we've gone through any include_file directives
      */
     FileLine current_file_line;
-    current_file_line.file_name_    = file_name_;
-    current_file_line.line_number_  = line_number_;
-    current_file_line.line_         = current_line;
+    current_file_line.file_name_   = file_name_;
+    current_file_line.line_number_ = line_number_;
+    current_file_line.line_        = current_line;
 
-    loader_.AddFileLine(current_file_line);
-  } // while(get_line())
+    loader_.StoreLine(current_file_line);
+  }  // while(get_line())
 }
 
 /**
@@ -135,8 +134,8 @@ void File::Parse() {
  *
  * @param current_line The current line to parse
  */
-void File::HandleComments(string& current_line) {
-  LOG_FINEST() << "HandleComments: " << current_line;
+void File::StripComments(string& current_line) {
+  LOG_FINEST() << "StripComments: " << current_line;
 
   /**
    * Trigger is flagged when we find a comment in the line. If a comment
@@ -152,7 +151,7 @@ void File::HandleComments(string& current_line) {
      * comments from the line.
      */
     if (!multi_line_comment_) {
-      size_t single_line_pos = current_line.find_first_of(CONFIG_SINGLE_COMMENT);
+      size_t single_line_pos     = current_line.find_first_of(CONFIG_SINGLE_COMMENT);
       size_t multi_comment_start = current_line.find(CONFIG_MULTI_COMMENT_START, 0);
 
       bool process_single_line = false;
@@ -163,7 +162,7 @@ void File::HandleComments(string& current_line) {
 
       if (process_single_line) {
         LOG_FINEST() << "Single line comment found: " << current_line;
-        trigger = true;
+        trigger      = true;
         current_line = current_line.substr(0, single_line_pos);
         continue;
       }
@@ -181,9 +180,9 @@ void File::HandleComments(string& current_line) {
       }
 
       multi_line_comment_ = false;
-      trigger = true;
+      trigger             = true;
       LOG_FINEST() << "Ending multi-line comment on line: " << current_line << " @ " << pos;
-      current_line = current_line.substr(pos + 2); //, current_line.length() - (pos-1));
+      current_line = current_line.substr(pos + 2);  //, current_line.length() - (pos-1));
     }
 
     /**
@@ -192,11 +191,11 @@ void File::HandleComments(string& current_line) {
      */
     size_t start_pos = current_line.find(CONFIG_MULTI_COMMENT_START, 0);
     if (start_pos != string::npos) {
-      size_t end_pos = current_line.find(CONFIG_MULTI_COMMENT_END, start_pos+2);
+      size_t end_pos = current_line.find(CONFIG_MULTI_COMMENT_END, start_pos + 2);
       if (end_pos != string::npos) {
         LOG_FINEST() << "Single-line multi-line comment on line: " << current_line << " @ " << start_pos << " & " << end_pos;
-        current_line = current_line.substr(0, start_pos) + current_line.substr(end_pos+2);
-        trigger = true;
+        current_line = current_line.substr(0, start_pos) + current_line.substr(end_pos + 2);
+        trigger      = true;
 
       } else {
         multi_line_comment_ = true;
@@ -209,22 +208,3 @@ void File::HandleComments(string& current_line) {
 
 } /* namespace configuration */
 } /* namespace niwa */
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

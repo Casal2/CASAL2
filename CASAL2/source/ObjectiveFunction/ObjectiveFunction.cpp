@@ -5,7 +5,7 @@
  * @date 21/02/2013
  * @section LICENSE
  *
- * Copyright NIWA Science ©2013 - www.niwa.co.nz
+ * Copyright NIWA Science ï¿½2013 - www.niwa.co.nz
  *
  * $Date: 2008-03-04 16:33:32 +1300 (Tue, 04 Mar 2008) $
  */
@@ -16,12 +16,13 @@
 #include <thread>
 
 #include "../AdditionalPriors/Manager.h"
-#include "../Estimates/Manager.h"
 #include "../EstimateTransformations/Manager.h"
+#include "../Estimates/Manager.h"
 #include "../Model/Model.h"
 #include "../Observations/Manager.h"
 #include "../Penalties/Manager.h"
 #include "../Utilities/To.h"
+
 
 // Namespaces
 namespace niwa {
@@ -29,19 +30,18 @@ namespace niwa {
 /**
  * Default constructor
  */
-ObjectiveFunction::ObjectiveFunction(shared_ptr<Model> model) : model_(model) {
-}
+ObjectiveFunction::ObjectiveFunction(shared_ptr<Model> model) : model_(model) {}
 
 /**
  * Clear the objective function so its values are not carried over
  */
 void ObjectiveFunction::Clear() {
-  score_        = 0.0;
-  penalties_    = 0.0;
-  priors_       = 0.0;
-  likelihoods_  = 0.0;
+  score_             = 0.0;
+  penalties_         = 0.0;
+  priors_            = 0.0;
+  likelihoods_       = 0.0;
   additional_priors_ = 0.0;
-  jacobians_ = 0.0;
+  jacobians_         = 0.0;
 
   score_list_.clear();
 }
@@ -50,18 +50,18 @@ void ObjectiveFunction::Clear() {
  * Calculate the score for all objects in the objective function
  */
 void ObjectiveFunction::CalculateScore() {
-	LOG_TRACE();
+  LOG_TRACE();
   Clear();
 
   /**
    * Get the scores from each of the observations/likelihoods
    */
   vector<Observation*> observations = model_->managers()->observation()->objects();
-  likelihoods_ = 0.0;
-  for(auto observation : observations) {
-    const map<unsigned, Double>& scores = observation->scores();
-    bool append_age = scores.size() > 1 ? true : false;
-    for(auto iter = scores.begin(); iter != scores.end(); ++iter) {
+  likelihoods_                      = 0.0;
+  for (auto observation : observations) {
+    const map<unsigned, Double>& scores     = observation->scores();
+    bool                         append_age = scores.size() > 1 ? true : false;
+    for (auto iter = scores.begin(); iter != scores.end(); ++iter) {
       objective::Score new_score;
       new_score.label_ = PARAM_OBSERVATION + string("->") + observation->label();
       if (append_age)
@@ -70,7 +70,7 @@ void ObjectiveFunction::CalculateScore() {
 
       score_list_.push_back(new_score);
       score_ += new_score.score_;
-      likelihoods_ += AS_DOUBLE(new_score.score_);
+      likelihoods_ += new_score.score_;
     }
   }
 
@@ -88,7 +88,7 @@ void ObjectiveFunction::CalculateScore() {
 
       score_list_.push_back(new_score);
       score_ += new_score.score_;
-      penalties_ += AS_DOUBLE(new_score.score_);
+      penalties_ += new_score.score_;
     }
   }
 
@@ -104,7 +104,7 @@ void ObjectiveFunction::CalculateScore() {
 
     score_list_.push_back(new_score);
     score_ += new_score.score_;
-    penalties_ += AS_DOUBLE(new_score.score_);
+    penalties_ += new_score.score_;
   }
 
   /**
@@ -112,7 +112,7 @@ void ObjectiveFunction::CalculateScore() {
    */
   model_->managers()->estimate_transformation()->TransformEstimatesForObjectiveFunction();
   vector<Estimate*> estimates = model_->managers()->estimate()->objects();
-  priors_ = 0.0;
+  priors_                     = 0.0;
   for (Estimate* estimate : estimates) {
     if (!estimate->in_objective_function())
       continue;
@@ -125,7 +125,7 @@ void ObjectiveFunction::CalculateScore() {
 
     score_list_.push_back(new_score);
     score_ += new_score.score_;
-    priors_ += AS_DOUBLE(new_score.score_);
+    priors_ += new_score.score_;
   }
   model_->managers()->estimate_transformation()->RestoreEstimatesFromObjectiveFunction();
 
@@ -133,7 +133,7 @@ void ObjectiveFunction::CalculateScore() {
    * Get the score from each additional prior
    */
   vector<AdditionalPrior*> additional_priors = model_->managers()->additional_prior()->objects();
-  additional_priors_ = 0.0;
+  additional_priors_                         = 0.0;
   for (auto prior : additional_priors) {
     objective::Score new_score;
     new_score.label_ = PARAM_ADDITIONAL_PRIOR + string("->") + prior->label();
@@ -141,14 +141,14 @@ void ObjectiveFunction::CalculateScore() {
 
     score_list_.push_back(new_score);
     score_ += new_score.score_;
-    additional_priors_ += AS_DOUBLE(new_score.score_);
+    additional_priors_ += new_score.score_;
   }
 
   /**
    * Get the Jacobian score from estimate_transformations
    */
   auto jacobians = model_->managers()->estimate_transformation()->objects();
-  jacobians_ = 0.0;
+  jacobians_     = 0.0;
   for (auto jacobian : jacobians) {
     objective::Score new_score;
     new_score.label_ = PARAM_JACOBIAN + string("->") + jacobian->label();
@@ -156,7 +156,7 @@ void ObjectiveFunction::CalculateScore() {
 
     score_list_.push_back(new_score);
     score_ += new_score.score_;
-    jacobians_ += AS_DOUBLE(new_score.score_);
+    jacobians_ += new_score.score_;
   }
 
   LOG_MEDIUM() << "objective.score: " << score_;

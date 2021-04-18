@@ -5,7 +5,7 @@
  * @date 16/11/2012
  * @section LICENSE
  *
- * Copyright NIWA Science ©2012 - www.niwa.co.nz
+ * Copyright NIWA Science ï¿½2012 - www.niwa.co.nz
  *
  * @section DESCRIPTION
  *
@@ -16,42 +16,43 @@
 #define CONFIGURATION_FILE_H_
 
 // headers
-#include <string>
 #include <fstream>
 #include <iostream>
 #include <memory>
+#include <string>
 
 #include "../ConfigurationLoader/Loader.h"
+
 
 // namespaces
 namespace niwa {
 namespace configuration {
 
-using std::ifstream;
 using std::cout;
 using std::endl;
+using std::ifstream;
 using std::string;
 
 // classes
 class File {
 public:
   // Methods
-  File(Loader& loader) : loader_(loader) { };
-  virtual                     ~File();
-  bool                        OpenFile(string file_name);
-  void                        Parse();
+  File(Loader& loader) : loader_(loader){};
+  virtual ~File();
+  bool OpenFile(string file_name);
+  void LoadIntoMemory();
 
 private:
   // Methods
-  void                        HandleComments(string& current_line);
+  void StripComments(string& current_line);
 
   // Members
-  Loader&                     loader_;
-  string                      file_name_            = "not specified";
-  ifstream                    file_;
-  unsigned                    line_number_          = 0;
-  bool                        multi_line_comment_   = false;
-  bool                        single_line_comment_  = false;
+  Loader&  loader_;
+  string   file_name_ = "not specified";
+  ifstream file_;
+  unsigned line_number_         = 0;
+  bool     multi_line_comment_  = false;
+  bool     single_line_comment_ = false;
 };
 
 } /* namespace configuration */

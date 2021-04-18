@@ -4,7 +4,7 @@
  * @date 20/08/2013
  * @section LICENSE
  *
- * Copyright NIWA Science ©2013 - www.niwa.co.nz
+ * Copyright NIWA Science ï¿½2013 - www.niwa.co.nz
  *
  */
 #ifdef TESTMODE
@@ -13,7 +13,6 @@
 
 #include <boost/algorithm/string/split.hpp>
 #include <boost/algorithm/string/trim_all.hpp>
-#include <boost/algorithm/string/split.hpp>
 
 #include "../../AgeLengths/Manager.h"
 #include "../../Catchabilities/Manager.h"
@@ -23,6 +22,7 @@
 #include "../../GlobalConfiguration/GlobalConfiguration.h"
 #include "../../InitialisationPhases/Manager.h"
 #include "../../LengthWeights/Manager.h"
+#include "../../Logging/Logging.h"
 #include "../../Minimisers/Manager.h"
 #include "../../Model/Models/Age.h"
 #include "../../ObjectiveFunction/ObjectiveFunction.h"
@@ -34,7 +34,6 @@
 #include "../../Reports/Manager.h"
 #include "../../Selectivities/Manager.h"
 #include "../../TimeSteps/Manager.h"
-#include "../../Logging/Logging.h"
 #include "../../Utilities/RandomNumberGenerator.h"
 #include "../../Utilities/To.h"
 
@@ -68,8 +67,8 @@ void InternalEmptyModel::AddConfigurationLine(const string& line, const string& 
   unsigned i = 0;
   for (string split_line : lines) {
     config::FileLine new_line;
-    new_line.line_ = split_line;
-    new_line.file_name_ = file_name;
+    new_line.line_        = split_line;
+    new_line.file_name_   = file_name;
     new_line.line_number_ = line_number + i;
 
     configuration_file_.push_back(new_line);
@@ -85,16 +84,14 @@ void InternalEmptyModel::AddConfigurationLine(const string& line, const string& 
 void InternalEmptyModel::LoadConfiguration() {
   configuration::Loader loader;
 
-  for (config::FileLine file_line : configuration_file_)
-    loader.AddFileLine(file_line);
+  for (config::FileLine file_line : configuration_file_) loader.StoreLine(file_line);
 
-  loader.LoadConfigFile(model_->global_configuration());
-  loader.ParseFileLines();
+  loader.LoadFromDiskToMemory(model_->global_configuration());
   vector<shared_ptr<Model>> model_list;
   model_list.push_back(model_);
   loader.Build(model_list);
 }
 
-} /* namespace sizeweights */
+}  // namespace testfixtures
 } /* namespace niwa */
 #endif /* TESTMODE */

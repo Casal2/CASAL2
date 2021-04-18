@@ -5,7 +5,7 @@
  * @date 17/04/2013
  * @section LICENSE
  *
- * Copyright NIWA Science ©2013 - www.niwa.co.nz
+ * Copyright NIWA Science ï¿½2013 - www.niwa.co.nz
  *
  * $Date: 2008-03-04 16:33:32 +1300 (Tue, 04 Mar 2008) $
  */
@@ -14,9 +14,10 @@
 // headers
 #include "Callback.h"
 
-#include "../../../Estimates/Manager.h"
 #include "../../../EstimateTransformations/Manager.h"
+#include "../../../Estimates/Manager.h"
 #include "../../../ObjectiveFunction/ObjectiveFunction.h"
+
 
 // namespaces
 namespace niwa {
@@ -26,14 +27,18 @@ namespace adolc {
 /**
  * Default Constructor
  */
-CallBack::CallBack(shared_ptr<Model> model) : model_(model) {
-}
+CallBack::CallBack(shared_ptr<Model> model) : model_(model) {}
 
 //**********************************************************************
 // double CGammaDiffCallback::operator()(const vector<double>& Parameters)
 // Operatior() for Minimiser CallBack
 //**********************************************************************
 adouble CallBack::operator()(const vector<adouble>& Parameters) {
+  cout << ".";
+  static int i = 0;
+  i++;
+  if (i % 20 == 0)
+    cout << endl;
 
   // Update our Components with the New Parameters
   auto estimates = model_->managers()->estimate()->GetIsEstimated();
@@ -42,8 +47,7 @@ adouble CallBack::operator()(const vector<adouble>& Parameters) {
     LOG_CODE_ERROR() << "The number of enabled estimates does not match the number of test solution values";
   }
 
-  for (unsigned i = 0; i < Parameters.size(); ++i)
-    estimates[i]->set_value(Parameters[i]);
+  for (unsigned i = 0; i < Parameters.size(); ++i) estimates[i]->set_value(Parameters[i]);
 
   model_->managers()->estimate_transformation()->RestoreEstimates();
   model_->FullIteration();
@@ -56,7 +60,7 @@ adouble CallBack::operator()(const vector<adouble>& Parameters) {
 }
 
 } /* namespace adolc */
-} /* namespace minimiser */
+}  // namespace minimisers
 } /* namespace niwa */
 #endif /* USE_ADOLC */
 #endif /* USE_AUTODIFF */

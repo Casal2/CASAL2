@@ -75,9 +75,9 @@ CPPAD::CPPAD(shared_ptr<Model> model) : Minimiser(model) {
   parameters_.Bind<string>(PARAM_SB, &sb_, "String buffer output?", "", "yes")->set_allowed_values({"yes", "no"});
   parameters_.Bind<string>(PARAM_PIDI, &pidi_, "Print iteration diagnostic information?", "", "yes")->set_allowed_values({"yes", "no"});
   parameters_.Bind<unsigned>(PARAM_MAX_ITERATIONS, &max_iter_, "The maximum number of iterations", "", 100)->set_lower_bound(1u);
-  parameters_.Bind<double>(PARAM_TOLERANCE, &tol_, "The tolerance for convergence", "", 1e-9)->set_lower_bound(0.0, false);
-  parameters_.Bind<double>(PARAM_ACCEPTABLE_TOL, &acceptable_tol_, "The acceptable tolerance", "", 1e-6)->set_lower_bound(0.0, false);
-  parameters_.Bind<double>(PARAM_ACCEPTABLE_OBJ_CHANGE_TOL, &acceptable_obj_change_tol_, "", "", 1e+20)->set_lower_bound(0.0, false);
+  parameters_.Bind<Double>(PARAM_TOLERANCE, &tol_, "The tolerance for convergence", "", 1e-9)->set_lower_bound(0.0, false);
+  parameters_.Bind<Double>(PARAM_ACCEPTABLE_TOL, &acceptable_tol_, "The acceptable tolerance", "", 1e-6)->set_lower_bound(0.0, false);
+  parameters_.Bind<Double>(PARAM_ACCEPTABLE_OBJ_CHANGE_TOL, &acceptable_obj_change_tol_, "", "", 1e+20)->set_lower_bound(0.0, false);
   parameters_.Bind<string>(PARAM_DERIVATIVE_TEST, &derivative_test_, "How to test for derivatives", "", "first-order")
       ->set_allowed_values({"none", "first-order", "second-order", "only-second-order"});
   parameters_.Bind<Double>(PARAM_POINT_PERTUBATION_RADIUS, &point_perturbation_radius_, "The point perturbation radius", "", 0.0)->set_lower_bound(0.0, true);
@@ -114,9 +114,9 @@ void CPPAD::Execute() {
   options += "String sb " + sb_ + "\n";
   options += "String print_info_string " + pidi_ + "\n";
   options += "Integer max_iter " + utilities::ToInline<unsigned, string>(max_iter_) + "\n";
-  options += "Numeric tol " + utilities::ToInline<double, string>(tol_) + "\n";
-  options += "Numeric acceptable_tol " + utilities::ToInline<double, string>(acceptable_tol_) + "\n";
-  options += "Numeric acceptable_obj_change_tol " + utilities::ToInline<double, string>(acceptable_obj_change_tol_) + "\n";
+  options += "Numeric tol " + utilities::ToInline<Double, string>(tol_) + "\n";
+  options += "Numeric acceptable_tol " + utilities::ToInline<Double, string>(acceptable_tol_) + "\n";
+  options += "Numeric acceptable_obj_change_tol " + utilities::ToInline<Double, string>(acceptable_obj_change_tol_) + "\n";
   options += "String derivative_test " + derivative_test_ + "\n";
   options += "String check_derivatives_for_naninf yes\n";
   options += "Numeric point_perturbation_radius " + utilities::ToInline<Double, string>(point_perturbation_radius_) + "\n";
