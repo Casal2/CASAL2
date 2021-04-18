@@ -93,6 +93,7 @@ int return_code_ = 0;
  */
 int main(int argc, char * argv[]) {
   niwa::utilities::RunParameters options;
+    
   /*
    * load our release library to parse the command line
    * parameters
@@ -195,7 +196,7 @@ void RunConfigurationFileValidation(int argc, char * argv[], niwa::utilities::Ru
   /**
    * Load the "LoadOptions" method and parse our options
    */
-  auto main_method = (RUNPROC)LoadLibraryFunction(release_library, "Run");
+  auto main_method = (PRELOADPROC)LoadLibraryFunction(release_library, "PreParseConfigFiles");
   if (main_method == nullptr) {
     cout << "Error: Failed to get the main method address" << endl;
     CloseLibrary(release_library);
@@ -209,7 +210,7 @@ void RunConfigurationFileValidation(int argc, char * argv[], niwa::utilities::Ru
   string log_level   = options.log_level_;
   options.log_level_ = "error";
 
-  return_code_ = (main_method)(argc, argv, options);
+  return_code_ = (main_method)(options);
 
   options.run_mode_      = temp;
   options.no_std_report_ = false;
@@ -252,7 +253,7 @@ void RunBasic(int argc, char * argv[], niwa::utilities::RunParameters &options) 
  * Do An estimation run of our model
  */
 void RunEstimation(int argc, char * argv[], niwa::utilities::RunParameters &options) {
-  string library_name = release_lib;
+  string library_name = release_lib;  
   if (options.minimiser_ == "cppad")
     library_name = cppad_lib;
   else if (options.minimiser_ == "adolc")
