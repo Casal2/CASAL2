@@ -42,10 +42,10 @@ ProportionsAtAge::ProportionsAtAge(shared_ptr<Model> model) : Observation(model)
   parameters_.Bind<bool>(PARAM_PLUS_GROUP, &plus_group_, "Is the maximum age the age plus group?", "", true);
   parameters_.Bind<string>(PARAM_TIME_STEP, &time_step_label_, "The label of the time step that the observation occurs in", "");
   parameters_
-      .Bind<Double>(PARAM_TOLERANCE, &tolerance_,
-                    "The tolerance on the constraint that for each year the sum of proportions in each age must equal 1, e.g., if tolerance = 0.1 then 1 - Sum(Proportions) can be "
-                    "as great as 0.1 ",
-                    "", Double(0.001))
+      .Bind<Double>(
+          PARAM_TOLERANCE, &tolerance_,
+          "The tolerance on the constraint that for each year the sum of proportions in each age must equal 1, e.g., if tolerance = 0.1 then 1 - Sum(Proportions) can be as great as 0.1 ",
+          "", Double(0.001))
       ->set_range(0.0, 1.0, false, false);
   parameters_.Bind<unsigned>(PARAM_YEARS, &years_, "The years of the observed values", "");
   parameters_.Bind<string>(PARAM_SELECTIVITIES, &selectivity_labels_, "The labels of the selectivities", "", true);
