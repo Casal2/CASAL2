@@ -5,7 +5,7 @@
  * @date 9/01/2013
  * @section LICENSE
  *
- * Copyright NIWA Science ©2013 - www.niwa.co.nz
+ * Copyright NIWA Science ï¿½2013 - www.niwa.co.nz
  *
  * @section DESCRIPTION
  *
@@ -18,11 +18,12 @@
 
 // Headers
 #include <atomic>
-#include <thread>
 #include <mutex>
+#include <thread>
 
 #include "../BaseClasses/Manager.h"
 #include "../Reports/Report.h"
+
 
 // Namespaces
 namespace niwa {
@@ -37,26 +38,28 @@ class Manager : public niwa::base::Manager<reports::Manager, niwa::Report> {
   friend class niwa::base::Manager<reports::Manager, niwa::Report>;
   friend class niwa::Managers;
   friend class niwa::Runner;
+
 public:
   // methods
-  virtual                     ~Manager() noexcept(true) = default;
-  void												Validate() final;
-  void                        Validate(shared_ptr<Model> model);
-  void												Build() final;
-  void                        Build(shared_ptr<Model> model);
-  void                        Execute(shared_ptr<Model> model, State::Type model_state);
-  void                        Execute(shared_ptr<Model> model, unsigned year, const string& time_step_label);
-  void                        Prepare(shared_ptr<Model> model);
-  void                        Finalise(shared_ptr<Model> model);
-  void                        FlushReports();
-  void                        StopThread() { run_.clear(); }
-  void                        Pause();
-  void                        Resume() { pause_ = false; }
-  void                        WaitForReportsToFinish();
+  virtual ~Manager() noexcept(true) = default;
+  void AddObject(niwa::Report* object) final;
+  void Validate() final;
+  void Validate(shared_ptr<Model> model);
+  void Build() final;
+  void Build(shared_ptr<Model> model);
+  void Execute(shared_ptr<Model> model, State::Type model_state);
+  void Execute(shared_ptr<Model> model, unsigned year, const string& time_step_label);
+  void Prepare(shared_ptr<Model> model);
+  void Finalise(shared_ptr<Model> model);
+  void FlushReports();
+  void StopThread() { run_.clear(); }
+  void Pause();
+  void Resume() { pause_ = false; }
+  void WaitForReportsToFinish();
 
   // accessors
-  void                        set_report_suffix(const string& suffix);
-  const string&               report_suffix() const { return report_suffix_; }
+  void          set_report_suffix(const string& suffix);
+  const string& report_suffix() const { return report_suffix_; }
 
 protected:
   // methods
@@ -72,11 +75,11 @@ private:
   std::atomic_flag                  run_;
   std::atomic<bool>                 waiting_;
   std::string                       std_header_ = "";
-  static std::mutex           			lock_;
-  bool															has_validated_ = false;
-  bool															has_built_ = false;
-  bool															has_prepared_ = false;
-  bool															has_finalised_ = false;
+  static std::mutex                 lock_;
+  bool                              has_validated_ = false;
+  bool                              has_built_     = false;
+  bool                              has_prepared_  = false;
+  bool                              has_finalised_ = false;
 };
 
 } /* namespace reports */

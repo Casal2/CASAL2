@@ -5,7 +5,7 @@
  * @date 22/10/2012
  * @section LICENSE
  *
- * Copyright NIWA Science ©2012 - www.niwa.co.nz
+ * Copyright NIWA Science ï¿½2012 - www.niwa.co.nz
  *
  * @section DESCRIPTION
  *
@@ -23,8 +23,9 @@
 #include <string_view>
 #include <vector>
 
-#include "../Utilities/NoCopy.h"
 #include "../Model/Managers.h"
+#include "../Utilities/NoCopy.h"
+
 
 // Namespaces
 namespace niwa {
@@ -32,29 +33,28 @@ class Model;
 using std::string_view;
 
 namespace base {
-using std::vector;
 using std::string;
+using std::vector;
 
 // classes
 template <class ClassType, class StoredType>
 class Manager {
 public:
   // Methods
-  virtual                     ~Manager() {
-    for (StoredType* object: objects_)
-      delete object;
+  virtual ~Manager() {
+    for (StoredType* object : objects_) delete object;
   }
-  virtual void                Validate();
-  virtual void                Build();
-  virtual void                Reset();
-  void                        AddObject(StoredType* object) { objects_.push_back(object); }
-  virtual void                Clear() { objects_.clear(); }
-  bool                        HasType(std::string_view type);
+  virtual void Validate();
+  virtual void Build();
+  virtual void Reset();
+  virtual void AddObject(StoredType* object) { objects_.push_back(object); }
+  virtual void Clear() { objects_.clear(); }
+  bool         HasType(std::string_view type);
 
   // Accessors/mutators
-  StoredType*									get(string_view label);
-  vector<StoredType*>         objects() { return objects_; }
-  unsigned                    size() { return objects_.size(); }
+  StoredType*         get(string_view label);
+  vector<StoredType*> objects() { return objects_; }
+  unsigned            size() { return objects_.size(); }
 
 protected:
   // Methods

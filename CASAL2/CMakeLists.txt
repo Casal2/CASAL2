@@ -43,6 +43,17 @@ ELSE (WIN32)
  	SET(thirdPartyLibraries ${thirdPartyLibraries} pthread rt)
 ENDIF ()
 
+IF (ASAN)
+	SET(COMPILE_OPTIONS "${COMPILE_OPTIONS} -static-libasan -fsanitize=address -fno-omit-frame-pointer")
+	SET(thirdPartyLibraries asan ${thirdPartyLibraries} 
+ELSEIF(TSAN)
+SET(COMPILE_OPTIONS "${COMPILE_OPTIONS} -static-libtsan -fsanitize=thread -fno-omit-frame-pointer")
+SET(thirdPartyLibraries tsan ${thirdPartyLibraries}
+ELSEIF(MSAN)
+SET(COMPILE_OPTIONS "${COMPILE_OPTIONS} -static-libmsan -fsanitize=memory -fno-omit-frame-pointer")
+SET(thirdPartyLibraries msan ${thirdPartyLibraries}
+ENDIF()
+
 MESSAGE("-- Compiler Options: ${COMPILE_OPTIONS}")
 
 INCLUDE_DIRECTORIES(SYSTEM "${BUILD_SYSTEM_DIRECTORY}/bin/${OUTPUT_PATH}/thirdparty/include")
