@@ -35,7 +35,7 @@ namespace math = niwa::utilities::math;
  */
 Double Multinomial::AdjustErrorValue(const Double process_error, const Double error_value) {
   if (process_error > 0.0 && error_value > 0.0)
-    return (1.0/(1.0/error_value + 1.0/process_error));
+    return (1.0 / (1.0 / error_value + 1.0 / process_error));
 
   return error_value;
 }
@@ -46,21 +46,22 @@ Double Multinomial::AdjustErrorValue(const Double process_error, const Double er
  * @param comparisons A collection of comparisons passed by the observation
  */
 void Multinomial::GetScores(map<unsigned, vector<observations::Comparison> >& comparisons) {
+  LOG_TRACE();
   for (auto year_iterator = comparisons.begin(); year_iterator != comparisons.end(); ++year_iterator) {
     for (observations::Comparison& comparison : year_iterator->second) {
       Double error_value = AdjustErrorValue(comparison.process_error_, comparison.error_value_) * error_value_multiplier_;
 
-      Double score = math::LnFactorial(error_value * comparison.observed_)
-                      - error_value * comparison.observed_ * log(math::ZeroFun(comparison.expected_, comparison.delta_));
+      Double score = math::LnFactorial(error_value * comparison.observed_) - error_value * comparison.observed_ * log(math::ZeroFun(comparison.expected_, comparison.delta_));
 
       comparison.adjusted_error_ = error_value;
-      comparison.score_ = score * multiplier_;
+      comparison.score_          = score * multiplier_;
 
-			if (isnan(AS_DOUBLE(comparison.score_))) {
-				LOG_CODE_ERROR() << "One of the comparison scores came back as NaN... memory bug somewhere";
-			}
+      // if (isnan(AS_DOUBLE(comparison.score_))) {
+      //   LOG_CODE_ERROR() << "One of the comparison scores came back as NaN... memory bug somewhere";
+      // }
     }
   }
+  LOG_TRACE();
 }
 
 /**
@@ -72,16 +73,15 @@ void Multinomial::GetScores(map<unsigned, vector<observations::Comparison> >& co
 Double Multinomial::GetInitialScore(map<unsigned, vector<observations::Comparison> >& comparisons, unsigned year) {
   Double score = 0.0;
 
-
- // int stopper = 0;
+  // int stopper = 0;
   observations::Comparison& comparison = comparisons[year][0];
-    //if (stopper == 1)
-    //  break;
-    Double temp_score = -math::LnFactorial(AdjustErrorValue(comparison.process_error_, comparison.error_value_)  * error_value_multiplier_);
-    LOG_FINEST() << "Adding: " << temp_score << " = LnFactorial(AdjustErrorValue(" << comparison.process_error_
-      << ", " << comparison.error_value_ << ")  * " << error_value_multiplier_ << ")";
-    score += temp_score;
-    //stopper += 1;
+  // if (stopper == 1)
+  //  break;
+  Double temp_score = -math::LnFactorial(AdjustErrorValue(comparison.process_error_, comparison.error_value_) * error_value_multiplier_);
+  LOG_FINEST() << "Adding: " << temp_score << " = LnFactorial(AdjustErrorValue(" << comparison.process_error_ << ", " << comparison.error_value_ << ")  * "
+               << error_value_multiplier_ << ")";
+  score += temp_score;
+  // stopper += 1;
   //}
 
   return score * multiplier_;
@@ -99,9 +99,9 @@ void Multinomial::SimulateObserved(map<unsigned, vector<observations::Comparison
   for (; iterator != comparisons.end(); ++iterator) {
     LOG_FINE() << "Simulating values for year: " << iterator->first;
 
-//    map<string, Double> totals;
+    //    map<string, Double> totals;
     for (observations::Comparison& comparison : iterator->second) {
-      Double error_value = AdjustErrorValue(comparison.process_error_, comparison.error_value_);
+      Double error_value         = AdjustErrorValue(comparison.process_error_, comparison.error_value_);
       comparison.adjusted_error_ = error_value;
 
       if (comparison.expected_ <= 0.0 || error_value <= 0.0)
@@ -110,13 +110,12 @@ void Multinomial::SimulateObserved(map<unsigned, vector<observations::Comparison
         LOG_FINEST() << "Expected = " << comparison.expected_;
         comparison.observed_ = rng.binomial(AS_DOUBLE(comparison.expected_), AS_DOUBLE(error_value));
         LOG_FINEST() << "Simulated = " << comparison.observed_;
-
       }
-//      totals[comparison.category_] += comparison.observed_;
+      //      totals[comparison.category_] += comparison.observed_;
     }
 
-//    for (observations::Comparison& comparison : iterator->second)
-//      comparison.observed_ /= totals[comparison.category_];
+    //    for (observations::Comparison& comparison : iterator->second)
+    //      comparison.observed_ /= totals[comparison.category_];
   }
 }
 
