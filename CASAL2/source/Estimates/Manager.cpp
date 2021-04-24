@@ -17,10 +17,10 @@
 
 #include "../Estimables/Estimables.h"
 #include "../GlobalConfiguration/GlobalConfiguration.h"
-#include "../Model/Model.h"
 #include "../Model/Managers.h"
-#include "../Reports/Manager.h"
+#include "../Model/Model.h"
 #include "../Reports/Common/MPD.h"
+#include "../Reports/Manager.h"
 #include "../Utilities/Math.h"
 
 // Namespaces
@@ -34,16 +34,13 @@ namespace math = niwa::utilities::math;
  * Destructor
  */
 Manager::~Manager() {
-  for (auto creator : creators_)
-    delete creator;
+  for (auto creator : creators_) delete creator;
 }
 
 /**
  * Validate the objects - no model
  */
-void Manager::Validate() {
-  LOG_CODE_ERROR() << "This method is not supported";
-}
+void Manager::Validate() { LOG_CODE_ERROR() << "This method is not supported"; }
 
 /**
  * Validate the objects
@@ -78,41 +75,35 @@ void Manager::Validate(shared_ptr<Model> model) {
   /**
    * Validate the actual estimates now
    */
-  for (auto estimate : objects_)
-    estimate->Validate();
+  for (auto estimate : objects_) estimate->Validate();
 
   /**
    * Remove any estimates where the bounds are the same.
    */
   unsigned count = objects_.size();
-  objects_.erase(
-      std::remove_if(objects_.begin(), objects_.end(),
-         [](Estimate* estimate) {return math::IsEqual(estimate->lower_bound(), estimate->upper_bound()); }
-       ),
-       objects_.end()
-  );
+  objects_.erase(std::remove_if(objects_.begin(), objects_.end(), [](Estimate* estimate) { return math::IsEqual(estimate->lower_bound(), estimate->upper_bound()); }),
+                 objects_.end());
   if (count != objects_.size())
-    LOG_WARNING() << "Estimates were removed because of matching lower and upper bounds. Originally had "
-      << count << " estimates, now have " << objects_.size();
+    LOG_WARNING() << "Estimates were removed because of matching lower and upper bounds. Originally had " << count << " estimates, now have " << objects_.size();
 
   /**
    * Load any estimate values that have been supplied
    */
   GlobalConfiguration& global_config = model->global_configuration();
   if (global_config.estimable_value_file() != "") {
-    Estimables& estimables = *model->managers()->estimables();
+    Estimables&    estimables       = *model->managers()->estimables();
     vector<string> estimable_labels = estimables.GetEstimables();
 
     for (string label : estimable_labels) {
-//      auto match = [](string label, vector<Estimate*>& objects) -> bool {
-//        for (Estimate* estimate : objects) {
-//          if (estimate->label() == label)
-//            return true;
-//        }
-//        return false;
-//      };
-//      if (!match(label, objects_))
-//        LOG_ERROR() << "The estimable " << label << " was defined in the estimable value file, but has not been defined as an @estimate";
+      //      auto match = [](string label, vector<Estimate*>& objects) -> bool {
+      //        for (Estimate* estimate : objects) {
+      //          if (estimate->label() == label)
+      //            return true;
+      //        }
+      //        return false;
+      //      };
+      //      if (!match(label, objects_))
+      //        LOG_ERROR() << "The estimable " << label << " was defined in the estimable value file, but has not been defined as an @estimate";
     }
   }
 }
@@ -120,21 +111,20 @@ void Manager::Validate(shared_ptr<Model> model) {
 /**
  * Build the objects - no model
  */
-void Manager::Build() {
-  LOG_CODE_ERROR() << "This method is not supported";
-}
+void Manager::Build() { LOG_CODE_ERROR() << "This method is not supported"; }
 
 /**
  * Build the objects
  */
 void Manager::Build(shared_ptr<Model> model) {
+  LOG_TRACE();
   for (auto estimate : objects_) {
     estimate->Build();
   }
 
+  LOG_FINEST() << "Finished building all estimates";
   if (model->is_primary_thread_model() && model->global_configuration().create_mpd_file()) {
     model->managers()->report()->Pause();
-
     reports::MPD* report = new reports::MPD();
     report->set_block_type(PARAM_REPORT);
     report->set_defined_file_name(__FILE__);
@@ -142,9 +132,8 @@ void Manager::Build(shared_ptr<Model> model) {
     report->parameters().Add(PARAM_LABEL, "mpd", __FILE__, __LINE__);
     report->parameters().Add(PARAM_TYPE, PARAM_MPD, __FILE__, __LINE__);
     report->parameters().Add(PARAM_FILE_NAME, "mpd.out", __FILE__, __LINE__);
-    report->Validate(model->pointer());
+    report->Validate(model);
     model->managers()->report()->AddObject(report);
-
     model->managers()->report()->Resume();
   }
 }
@@ -278,7 +267,7 @@ Estimate* Manager::GetEstimate(const string& parameter) {
     if (estimate->parameter() == parameter)
       return estimate;
   }
-  return nullptr;;
+  return nullptr;
 }
 
 /**
@@ -356,7 +345,7 @@ unsigned Manager::GetNumberOfPhases() {
   for (auto estimate : objects_) {
     unsigned current_phase = estimate->phase();
     // store unique phase numbers
-    if (std::find(store_unique_phases.begin(),store_unique_phases.end(),current_phase) == store_unique_phases.end()) {
+    if (std::find(store_unique_phases.begin(), store_unique_phases.end(), current_phase) == store_unique_phases.end()) {
       store_unique_phases.push_back(current_phase);
       LOG_FINE() << "storing phase = " << current_phase;
     }
@@ -364,16 +353,14 @@ unsigned Manager::GetNumberOfPhases() {
   // Now check that there is a consecutive sequence.
   unsigned max = *max_element(store_unique_phases.begin(), store_unique_phases.end());
   LOG_FINE() << "found max = " << max << " iterations";
-  for(unsigned i = 1; i <= max; ++i) {
-    if (std::find(store_unique_phases.begin(),store_unique_phases.end(),i) == store_unique_phases.end()) {
+  for (unsigned i = 1; i <= max; ++i) {
+    if (std::find(store_unique_phases.begin(), store_unique_phases.end(), i) == store_unique_phases.end()) {
       LOG_WARNING() << "Could not find estimation phase " << i << ", but found estimation phase " << max
-        << ". Specify consecutive phases, e.g., 1, 2, 3 and 4, not 1 and 4. Please check the specification of the estimation phases for the @estimates";
+                    << ". Specify consecutive phases, e.g., 1, 2, 3 and 4, not 1 and 4. Please check the specification of the estimation phases for the @estimates";
     }
   }
   return max;
 }
-
-
 
 } /* namespace estimates */
 } /* namespace niwa */

@@ -4,7 +4,7 @@
  * @date 28/10/2013
  * @section LICENSE
  *
- * Copyright NIWA Science ©2013 - www.niwa.co.nz
+ * Copyright NIWA Science ï¿½2013 - www.niwa.co.nz
  *
  */
 #ifndef PARAMETERS_BINDABLE_INL_H_
@@ -14,10 +14,11 @@
 #include <boost/algorithm/string/join.hpp>
 #include <vector>
 
+#include "../../Logging/Logging.h"
 #include "../../Utilities/String.h"
 #include "../../Utilities/To.h"
-#include "../../Logging/Logging.h"
 #include "../../Utilities/Types.h"
+
 
 // namespaces
 namespace niwa {
@@ -32,10 +33,8 @@ using std::vector;
  * @param target The target variable to bind to this parameter
  * @param description A description of the parameter for the help system
  */
-template<typename T>
-Bindable<T>::Bindable(const string& label, T* target, const string& description)
-: Parameter(label, description) {
-
+template <typename T>
+Bindable<T>::Bindable(const string& label, T* target, const string& description) : Parameter(label, description) {
   target_ = target;
 }
 
@@ -43,17 +42,16 @@ Bindable<T>::Bindable(const string& label, T* target, const string& description)
  * This method will bind the string values to the target value doing the proper
  * type checking, etc.
  */
-template<typename T>
+template <typename T>
 void Bindable<T>::Bind() {
   if (values_.size() > 1)
-    LOG_ERROR() << location() << ": " << label_ << " supports having a single value defined only. There are "
-      << values_.size() << " values defined.\n"
-      << "The values defined are: " << boost::algorithm::join(values_, " | ");
+    LOG_ERROR() << location() << ": " << label_ << " supports having a single value defined only. There are " << values_.size() << " values defined.\n"
+                << "The values defined are: " << boost::algorithm::join(values_, " | ");
 
   if (values_.size() > 0) {
     if (!niwa::utilities::To<T>(values_[0], *target_)) {
-      LOG_ERROR() << location() << ": " << label_ << " value " << values_[0] << " could not be converted to type "
-        << utilities::demangle(typeid(*target_).name()) << ". Please check you have defined it properly.";
+      LOG_ERROR() << location() << ": " << label_ << " value " << values_[0] << " could not be converted to type " << utilities::demangle(typeid(*target_).name())
+                  << ". Please check you have defined it properly.";
     }
   } else if (is_optional_) {
     *target_ = default_value_;
@@ -84,7 +82,7 @@ void Bindable<T>::Bind() {
  *
  * @param list A list of values that are valid for this parameter
  */
-template<typename T>
+template <typename T>
 void Bindable<T>::set_allowed_values(std::initializer_list<T> list) {
   allowed_values_.assign(list.begin(), list.end());
 }
@@ -103,12 +101,12 @@ void Bindable<T>::set_allowed_values(std::initializer_list<T> list) {
  * @param lower_inclusive Is the lower bound value inclusive (default true)
  * @param upper_inclusie Is the upper bound value inclusive (default true)
  */
-template<typename T>
+template <typename T>
 void Bindable<T>::set_range(T lower_bound, T upper_bound, bool lower_inclusive, bool upper_inclusive) {
-  range_.lower_flagged_ = true;
-  range_.upper_flagged_ = true;
-  range_.lower_bound_ = lower_bound;
-  range_.upper_bound_ = upper_bound;
+  range_.lower_flagged_   = true;
+  range_.upper_flagged_   = true;
+  range_.lower_bound_     = lower_bound;
+  range_.upper_bound_     = upper_bound;
   range_.lower_inclusive_ = lower_inclusive;
   range_.upper_inclusive_ = upper_inclusive;
 }
@@ -123,10 +121,10 @@ void Bindable<T>::set_range(T lower_bound, T upper_bound, bool lower_inclusive, 
  * @param lower_bound The lower bound to set for the parameter
  * @param inclusive Is the bound inclusive or exclusive (default true)
  */
-template<typename T>
+template <typename T>
 void Bindable<T>::set_lower_bound(T lower_bound, bool inclusive) {
-  range_.lower_flagged_ = true;
-  range_.lower_bound_ = lower_bound;
+  range_.lower_flagged_   = true;
+  range_.lower_bound_     = lower_bound;
   range_.lower_inclusive_ = inclusive;
 }
 
@@ -140,17 +138,17 @@ void Bindable<T>::set_lower_bound(T lower_bound, bool inclusive) {
  * @param upper_bound The upper bound to set for the parameter
  * @param inclusive Is the bound inclusive or exclusive (default true)
  */
-template<typename T>
+template <typename T>
 void Bindable<T>::set_upper_bound(T upper_bound, bool inclusive) {
-  range_.upper_flagged_ = true;
-  range_.upper_bound_ = upper_bound;
+  range_.upper_flagged_   = true;
+  range_.upper_bound_     = upper_bound;
   range_.upper_inclusive_ = inclusive;
 }
 
 /**
  * Build a vector of values for this parameter
  */
-template<typename T>
+template <typename T>
 vector<string> Bindable<T>::current_values() {
   vector<string> result;
   result.push_back(utilities::ToInline<T, string>(*target_));

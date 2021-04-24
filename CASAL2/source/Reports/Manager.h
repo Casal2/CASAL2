@@ -24,7 +24,6 @@
 #include "../BaseClasses/Manager.h"
 #include "../Reports/Report.h"
 
-
 // Namespaces
 namespace niwa {
 class Model;
@@ -66,6 +65,9 @@ protected:
   Manager();
 
 private:
+  // methods
+  void CreateDefaultReports();
+
   // Members
   map<State::Type, vector<Report*>> state_reports_;
   map<string, vector<Report*>>      time_step_reports_;

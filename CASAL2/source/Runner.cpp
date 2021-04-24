@@ -181,7 +181,6 @@ int Runner::Go() {
 
   thread_pool_.reset(new ThreadPool());
   thread_pool_->CreateThreads(model_list);
-
   //	thread_pool_->CheckThreads();
 
   /**
