@@ -13,8 +13,8 @@
 #include "MCMCObjective.h"
 
 #include "../../Estimates/Manager.h"
-#include "../../MCMCs/Manager.h"
 #include "../../MCMCs/MCMC.h"
+#include "../../MCMCs/Manager.h"
 #include "../../Model/Managers.h"
 
 // namespaces
@@ -25,9 +25,9 @@ namespace reports {
  * Default constructor
  */
 MCMCObjective::MCMCObjective() {
-  run_mode_     = RunMode::kMCMC;
-  model_state_  = State::kIterationComplete;
-  skip_tags_    = true;
+  run_mode_    = RunMode::kMCMC;
+  model_state_ = State::kIterationComplete;
+  skip_tags_   = true;
 }
 
 /**
@@ -43,8 +43,9 @@ void MCMCObjective::DoBuild(shared_ptr<Model> model) {
  * Prepare the MCMCObjective object
  */
 void MCMCObjective::DoPrepare(shared_ptr<Model> model) {
-  if (!model->global_configuration().resume()) {
-    cache_ << "*mcmc_objective[mcmc]" << "\n";
+  if (!model->global_configuration().resume_mcmc()) {
+    cache_ << "*mcmc_objective[mcmc]"
+           << "\n";
   }
 }
 
@@ -53,11 +54,13 @@ void MCMCObjective::DoPrepare(shared_ptr<Model> model) {
  */
 void MCMCObjective::DoExecute(shared_ptr<Model> model) {
   if (!mcmc_)
-    LOG_CODE_ERROR() << "if (!mcmc_)";
+    LOG_CODE_ERROR() << "!mcmc_";
+  if (!model)
+    LOG_CODE_ERROR() << "!model";
 
-  if (first_write_ && !model->global_configuration().resume()) {
-  	/// Up here!!!!!!!!!
-  	vector<Estimate*>  estimates = model->managers()->estimate()->GetIsEstimated();
+  if (first_write_ && !model->global_configuration().resume_mcmc()) {
+    /// Up here!!!!!!!!!
+    vector<Estimate*> estimates = model->managers()->estimate()->GetIsEstimated();
     cache_ << "starting_covariance_matrix {m}\n";
     auto covariance = mcmc_->covariance_matrix();
     if (estimates.size() != covariance.size1())
@@ -71,8 +74,7 @@ void MCMCObjective::DoExecute(shared_ptr<Model> model) {
 
     cache_ << "\n";
     for (unsigned i = 0; i < covariance.size1(); ++i) {
-      for (unsigned j = 0; j < covariance.size2() - 1; ++j)
-        cache_ << covariance(i,j) << " ";
+      for (unsigned j = 0; j < covariance.size2() - 1; ++j) cache_ << covariance(i, j) << " ";
       cache_ << covariance(i, covariance.size2() - 1) << "\n";
     }
 
@@ -82,17 +84,12 @@ void MCMCObjective::DoExecute(shared_ptr<Model> model) {
   }
 
   auto chain = mcmc_->chain();
-  unsigned element = chain.size() - 1;
-    cache_ << chain[element].iteration_ << " "
-      << AS_DOUBLE(chain[element].score_) << " "
-      << AS_DOUBLE(chain[element].prior_) << " "
-      << AS_DOUBLE(chain[element].likelihood_) << " "
-      << AS_DOUBLE(chain[element].penalty_) << " "
-      << AS_DOUBLE(chain[element].additional_priors_) << " "
-      << AS_DOUBLE(chain[element].jacobians_) << " "
-      << chain[element].step_size_ << " "
-      << chain[element].acceptance_rate_ << " "
-      << chain[element].acceptance_rate_since_adapt_ << "\n";
+  if (chain.size() >= 1) {
+    unsigned element = chain.size() - 1;
+    cache_ << chain[element].iteration_ << " " << chain[element].score_ << " " << chain[element].prior_ << " " << chain[element].likelihood_ << " " << chain[element].penalty_
+           << " " << chain[element].additional_priors_ << " " << chain[element].jacobians_ << " " << chain[element].step_size_ << " " << chain[element].acceptance_rate_ << " "
+           << chain[element].acceptance_rate_since_adapt_ << "\n";
+  }
 
   ready_for_writing_ = true;
 }
@@ -101,7 +98,7 @@ void MCMCObjective::DoExecute(shared_ptr<Model> model) {
  * Finalise the MCMCObjective report
  */
 void MCMCObjective::DoFinalise(shared_ptr<Model> model) {
-  //cache_ << CONFIG_END_REPORT << "\n";
+  // cache_ << CONFIG_END_REPORT << "\n";
   ready_for_writing_ = true;
 }
 

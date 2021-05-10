@@ -5,7 +5,7 @@
  * @date 5/11/2015
  * @section LICENSE
  *
- * Copyright NIWA Science ©2015 - www.niwa.co.nz
+ * Copyright NIWA Science ï¿½2015 - www.niwa.co.nz
  *
  */
 
@@ -13,8 +13,8 @@
 #include "MCMCSample.h"
 
 #include "../../Estimates/Manager.h"
-#include "../../MCMCs/Manager.h"
 #include "../../MCMCs/MCMC.h"
+#include "../../MCMCs/Manager.h"
 #include "../../Model/Managers.h"
 #include "../../Utilities/String.h"
 
@@ -26,9 +26,9 @@ namespace reports {
  * Default constructor
  */
 MCMCSample::MCMCSample() {
-  run_mode_ = RunMode::kMCMC;
+  run_mode_    = RunMode::kMCMC;
   model_state_ = State::kIterationComplete;
-  skip_tags_ = true;
+  skip_tags_   = true;
 }
 
 /**
@@ -44,11 +44,10 @@ void MCMCSample::DoBuild(shared_ptr<Model> model) {
  * Prepare the MCMCSample object
  */
 void MCMCSample::DoPrepare(shared_ptr<Model> model) {
-  if (!model->global_configuration().resume()) {
+  if (!model->global_configuration().resume_mcmc()) {
     cache_ << "*mcmc_sample[mcmc]\n";
     auto estimates = model->managers()->estimate()->GetIsEstimated();
-    for (unsigned i = 0; i < estimates.size() - 1; ++i)
-      cache_ << estimates[i]->parameter() << " ";
+    for (unsigned i = 0; i < estimates.size() - 1; ++i) cache_ << estimates[i]->parameter() << " ";
     cache_ << estimates[estimates.size() - 1]->parameter() << "\n";
   }
 }
@@ -58,11 +57,13 @@ void MCMCSample::DoPrepare(shared_ptr<Model> model) {
  */
 void MCMCSample::DoExecute(shared_ptr<Model> model) {
   if (!mcmc_)
-    LOG_CODE_ERROR() << "if (!mcmc_)";
+    LOG_CODE_ERROR() << "!mcmc_";
+  if (!model)
+    LOG_CODE_ERROR() << "!model";
 
-  auto chain = mcmc_->chain();
+  auto     chain   = mcmc_->chain();
   unsigned element = chain.size() - 1;
-  cache_ << utilities::String::join<Double>(chain[element].values_, " ") << "\n";
+  cache_ << utilities::String::join<double>(chain[element].values_, " ") << "\n";
 
   ready_for_writing_ = true;
 }
