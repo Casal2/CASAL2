@@ -5,7 +5,7 @@
  * @date 11/08/2015
  * @section LICENSE
  *
- * Copyright NIWA Science ©2015 - www.niwa.co.nz
+ * Copyright NIWA Science ï¿½2015 - www.niwa.co.nz
  *
  * @section DESCRIPTION
  *
@@ -25,15 +25,16 @@ using std::shared_ptr;
 namespace niwa {
 
 // forward decs
+// clang-format off
 namespace additionalpriors { class Manager; }
-namespace ageingerrors { class Manager; }
+namespace ageingerrors { class Manager;}
 namespace agelengths { class Manager; }
 namespace ageweights { class Manager; }
 namespace asserts { class Manager; }
 namespace catchabilities { class Manager; }
 namespace derivedquantities { class Manager; }
 namespace estimates { class Manager; }
-namespace estimatetransformations { class Manager; }
+namespace estimatetransformations { class Manager;}
 namespace initialisationphases { class Manager; }
 namespace lengthweights { class Manager; }
 namespace likelihoods { class Manager; }
@@ -49,6 +50,7 @@ namespace selectivities { class Manager; }
 namespace simulates { class Manager; }
 namespace timesteps { class Manager; }
 namespace timevarying { class Manager; }
+// clang-format on
 
 class Estimables;
 class Model;
@@ -57,75 +59,77 @@ class Model;
 class Managers {
   friend class Model;
   friend class MockManagers;
+
 public:
   Managers() = delete;
-  virtual                     ~Managers();
+  virtual ~Managers();
 
   // accessors
-  virtual additionalpriors::Manager*      additional_prior() { return additional_prior_; }
-  virtual ageingerrors::Manager*          ageing_error() { return ageing_error_; }
-  virtual agelengths::Manager*            age_length() { return age_length_; }
-  virtual ageweights::Manager*            age_weight() { return age_weight_; }
-  virtual asserts::Manager*               assertx() { return assert_; }
-  virtual catchabilities::Manager*        catchability() { return catchability_; }
-  virtual derivedquantities::Manager*     derived_quantity() { return derived_quantity_; }
-  virtual Estimables*                     estimables() { return estimables_; }
-  virtual estimates::Manager*             estimate() { return estimate_; }
+  virtual additionalpriors::Manager*        additional_prior() { return additional_prior_; }
+  virtual ageingerrors::Manager*            ageing_error() { return ageing_error_; }
+  virtual agelengths::Manager*              age_length() { return age_length_; }
+  virtual ageweights::Manager*              age_weight() { return age_weight_; }
+  virtual asserts::Manager*                 assertx() { return assert_; }
+  virtual catchabilities::Manager*          catchability() { return catchability_; }
+  virtual derivedquantities::Manager*       derived_quantity() { return derived_quantity_; }
+  virtual Estimables*                       estimables() { return estimables_; }
+  virtual estimates::Manager*               estimate() { return estimate_; }
   virtual estimatetransformations::Manager* estimate_transformation() { return estimate_transformation_; }
-  virtual initialisationphases::Manager*  initialisation_phase() { return initialisation_phase_; }
-  virtual lengthweights::Manager*         length_weight() { return length_weight_; }
-  virtual likelihoods::Manager*           likelihood() { return likelihood_; }
-  virtual mcmcs::Manager*                 mcmc() { return mcmc_; }
-  virtual shared_ptr<minimisers::Manager>	minimiser();
-  virtual observations::Manager*          observation() { return observation_; }
-  virtual penalties::Manager*             penalty() { return penalty_; }
-  virtual processes::Manager*             process() { return process_; }
-  virtual profiles::Manager*              profile() { return profile_; }
-  virtual projects::Manager*              project() { return project_; }
-  virtual shared_ptr<reports::Manager>    report();
-  virtual selectivities::Manager*         selectivity() { return selectivity_; }
-  virtual simulates::Manager*             simulate() { return simulate_; }
-  virtual timesteps::Manager*             time_step() { return time_step_; }
-  virtual timevarying::Manager*           time_varying() { return time_varying_; }
+  virtual initialisationphases::Manager*    initialisation_phase() { return initialisation_phase_; }
+  virtual lengthweights::Manager*           length_weight() { return length_weight_; }
+  virtual likelihoods::Manager*             likelihood() { return likelihood_; }
+  virtual shared_ptr<mcmcs::Manager>        mcmc();
+  virtual shared_ptr<minimisers::Manager>   minimiser();
+  virtual observations::Manager*            observation() { return observation_; }
+  virtual penalties::Manager*               penalty() { return penalty_; }
+  virtual processes::Manager*               process() { return process_; }
+  virtual profiles::Manager*                profile() { return profile_; }
+  virtual projects::Manager*                project() { return project_; }
+  virtual shared_ptr<reports::Manager>      report();
+  virtual selectivities::Manager*           selectivity() { return selectivity_; }
+  virtual simulates::Manager*               simulate() { return simulate_; }
+  virtual timesteps::Manager*               time_step() { return time_step_; }
+  virtual timevarying::Manager*             time_varying() { return time_varying_; }
 
   void set_minimiser(shared_ptr<minimisers::Manager> manager) { minimiser_ = manager; }
   void set_reports(shared_ptr<reports::Manager> manager) { report_ = manager; }
+  void set_mcmc(shared_ptr<mcmcs::Manager> manager) { mcmc_ = manager; }
 
 protected:
   // methods
   Managers(shared_ptr<Model> model);
-  void                        Validate();
-  void                        Build();
-  void                        Reset();
+  void Validate();
+  void Build();
+  void Reset();
 
   // members
-  shared_ptr<Model>                   model_;
-  additionalpriors::Manager*          additional_prior_;
-  ageingerrors::Manager*              ageing_error_;
-  agelengths::Manager*                age_length_;
-  ageweights::Manager*                age_weight_;
-  asserts::Manager*                   assert_;
-  catchabilities::Manager*            catchability_;
-  derivedquantities::Manager*         derived_quantity_;
-  Estimables*                         estimables_; // TODO: Move to Model
-  estimates::Manager*                 estimate_;
-  estimatetransformations::Manager*   estimate_transformation_;
-  initialisationphases::Manager*      initialisation_phase_;
-  lengthweights::Manager*             length_weight_;
-  likelihoods::Manager*               likelihood_;
-  mcmcs::Manager*                     mcmc_;
-  shared_ptr<minimisers::Manager>	    minimiser_;
-  observations::Manager*              observation_;
-  penalties::Manager*                 penalty_;
-  processes::Manager*                 process_;
-  profiles::Manager*                  profile_;
-  projects::Manager*                  project_;
-  shared_ptr<reports::Manager>        report_;
-  selectivities::Manager*             selectivity_;
-  simulates::Manager*                 simulate_;
-  timesteps::Manager*                 time_step_;
-  timevarying::Manager*               time_varying_;
-  static std::mutex										lock_;
+  shared_ptr<Model>                 model_;
+  additionalpriors::Manager*        additional_prior_;
+  ageingerrors::Manager*            ageing_error_;
+  agelengths::Manager*              age_length_;
+  ageweights::Manager*              age_weight_;
+  asserts::Manager*                 assert_;
+  catchabilities::Manager*          catchability_;
+  derivedquantities::Manager*       derived_quantity_;
+  Estimables*                       estimables_;  // TODO: Move to Model
+  estimates::Manager*               estimate_;
+  estimatetransformations::Manager* estimate_transformation_;
+  initialisationphases::Manager*    initialisation_phase_;
+  lengthweights::Manager*           length_weight_;
+  likelihoods::Manager*             likelihood_;
+  shared_ptr<mcmcs::Manager>        mcmc_;
+  shared_ptr<minimisers::Manager>   minimiser_;
+  observations::Manager*            observation_;
+  penalties::Manager*               penalty_;
+  processes::Manager*               process_;
+  profiles::Manager*                profile_;
+  projects::Manager*                project_;
+  shared_ptr<reports::Manager>      report_;
+  selectivities::Manager*           selectivity_;
+  simulates::Manager*               simulate_;
+  timesteps::Manager*               time_step_;
+  timevarying::Manager*             time_varying_;
+  static std::mutex                 lock_;
 };
 
 } /* namespace niwa */

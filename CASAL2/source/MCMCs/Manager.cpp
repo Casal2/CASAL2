@@ -5,7 +5,7 @@
  * @date 21/05/2015
  * @section LICENSE
  *
- * Copyright NIWA Science ©2015 - www.niwa.co.nz
+ * Copyright NIWA Science ï¿½2015 - www.niwa.co.nz
  *
  */
 
@@ -28,8 +28,7 @@ void Manager::Validate() {
  *
  */
 void Manager::Validate(shared_ptr<Model> model) {
-  for (auto mcmc : objects_)
-    mcmc->Validate();
+  for (auto mcmc : objects_) mcmc->Validate();
 
   if (objects_.size() == 1)
     mcmc_ = objects_[0];
@@ -41,15 +40,12 @@ void Manager::Validate(shared_ptr<Model> model) {
     }
     unsigned active_count = active_mcmcs.size();
 
-    RunMode::Type must_have_mcmc[] = { RunMode::kMCMC };
-    if (std::find(std::begin(must_have_mcmc), std::end(must_have_mcmc), model->run_mode()) != std::end(must_have_mcmc) && active_count != 1) {
+    if (model->run_mode() == RunMode::kMCMC && active_count != 1)
       LOG_FATAL() << "One active @mcmc is required, but " << active_mcmcs.size() << " are specified.";
-    }
-
-    RunMode::Type one_active_only[] = { RunMode::kTesting };
-    if (std::find(std::begin(one_active_only), std::end(one_active_only), model->run_mode()) != std::end(one_active_only) && active_count > 1) {
-      LOG_FATAL() << "One active @mcmc is required, but " << active_mcmcs.size() << " are specified.";
-    }
+    if (active_mcmcs.size() > 1)
+      LOG_FATAL() << "Only One active @mcmc is allowed, but " << active_mcmcs.size() << " are specified.";
+    if (active_mcmcs.size() == 1)
+      mcmc_ = active_mcmcs[0];
   }
 }
 

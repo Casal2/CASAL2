@@ -16,9 +16,10 @@
 
 // headers
 #include "../BaseClasses/Manager.h"
-#include "../Estimates/Estimate.h"
 #include "../Estimates/Creators/Creator.h"
+#include "../Estimates/Estimate.h"
 #include "../Utilities/Map.h"
+
 
 // namespaces
 namespace niwa {
@@ -33,35 +34,37 @@ namespace estimates {
 class Manager : public niwa::base::Manager<estimates::Manager, niwa::Estimate> {
   friend class niwa::base::Manager<estimates::Manager, niwa::Estimate>;
   friend class niwa::Managers;
+
 public:
   // methods
-  virtual                     ~Manager();
-  void                        Validate() override final;
-  void                        Validate(shared_ptr<Model> model);
-  void                        Build() override final;
-  void                        Build(shared_ptr<Model> model);
-  unsigned                    GetIsEstimatedCount();
-  vector<Estimate*>           GetIsEstimated();
-  vector<Estimate*>           GetInObjectiveFunction();
-  void                        Clear() override final;
-  bool                        HasEstimate(const string& parameter);
-  void                        FlagIsEstimated(const string& parameter);
-  void                        UnFlagIsEstimated(const string& parameter);
-  void                        FlagIsInObjective(const string& parameter);
-  void                        UnFlagIsInObjective(const string& parameter);
-  void                        AddCreator(Creator* creator) { creators_.push_back(creator); }
-  Estimate*                   GetEstimate(const string& parameter);
-  Estimate*                   GetEstimateByLabel(const string& label);
-  vector<Estimate*>           GetEstimatesByLabel(const string& label);
-  void                        SetActivePhase(unsigned phase);
-  unsigned                    GetNumberOfPhases();
+  virtual ~Manager();
+  void              Validate() override final;
+  void              Validate(shared_ptr<Model> model);
+  void              Build() override final;
+  void              Build(shared_ptr<Model> model);
+  unsigned          GetIsEstimatedCount();
+  vector<Estimate*> GetIsEstimated();
+  vector<Estimate*> GetInObjectiveFunction();
+  vector<Estimate*> GetIsMCMCd();
+  void              Clear() override final;
+  bool              HasEstimate(const string& parameter);
+  void              FlagIsEstimated(const string& parameter);
+  void              UnFlagIsEstimated(const string& parameter);
+  void              FlagIsInObjective(const string& parameter);
+  void              UnFlagIsInObjective(const string& parameter);
+  void              AddCreator(Creator* creator) { creators_.push_back(creator); }
+  Estimate*         GetEstimate(const string& parameter);
+  Estimate*         GetEstimateByLabel(const string& label);
+  vector<Estimate*> GetEstimatesByLabel(const string& label);
+  void              SetActivePhase(unsigned phase);
+  unsigned          GetNumberOfPhases();
 
 private:
   // methods
-  Manager() { };
+  Manager(){};
 
   // members
-  vector<Creator*>            creators_;
+  vector<Creator*> creators_;
 };
 
 } /* namespace estimates */

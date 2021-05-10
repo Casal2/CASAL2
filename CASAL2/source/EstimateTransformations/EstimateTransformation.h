@@ -1,10 +1,18 @@
-/*
- * EstimateTransformation.h
+/**
+ * @file EstimateTransformation.h
+ * @author Scott Rasmussen (scott@zaita.com)
+ * @brief As estimate transformation is a way to manipulate an estimate when it's used within the system.
+ * Estimates can be transformmed for two scenarios.
  *
- *  Created on: Dec 7, 2015
- *      Author: Zaita
+ *
+ *
+ * 1. The estimate is transformed for use within the objective function.
+ * @version 0.1
+ * @date 2015-12-07
+ *
+ * @copyright Copyright (c) 2021
+ *
  */
-
 #ifndef SOURCE_ESTIMATETRANSFORMATIONS_ESTIMATETRANSFORMATION_H_
 #define SOURCE_ESTIMATETRANSFORMATIONS_ESTIMATETRANSFORMATION_H_
 
@@ -12,7 +20,6 @@
 #include <set>
 
 #include "../BaseClasses/Object.h"
-
 #include "../Model/Model.h"
 
 // namespaces
@@ -27,43 +34,42 @@ public:
   // methods
   EstimateTransformation() = delete;
   explicit EstimateTransformation(shared_ptr<Model> model);
-  virtual                     ~EstimateTransformation() = default;
-  void                        Validate();
-  void                        Build();
-  void                        Reset() { };
-  void                        Transform();
-  void                        Restore();
+  virtual ~EstimateTransformation() = default;
+  void Validate();
+  void Build();
+  void Reset(){};
+  void Transform();
+  void Restore();
 
   // pure virtual
-  virtual void                TransformForObjectiveFunction() = 0;
-  virtual void                RestoreFromObjectiveFunction() = 0;
-  virtual std::set<string>    GetTargetEstimates() = 0;
-  virtual Double              GetScore() = 0;
+  virtual void             TransformForObjectiveFunction() = 0;
+  virtual void             RestoreFromObjectiveFunction()  = 0;
+  virtual std::set<string> GetTargetEstimates()            = 0;
+  virtual Double           GetScore()                      = 0;
 
-  bool                        is_simple() const { return is_simple_; }
+  bool is_simple() const { return is_simple_; }
 
 protected:
   // methods
-  virtual void                DoValidate() = 0;
-  virtual void                DoBuild() = 0;
-  virtual void                DoTransform() = 0;
-  virtual void                DoRestore() = 0;
+  virtual void DoValidate()  = 0;
+  virtual void DoBuild()     = 0;
+  virtual void DoTransform() = 0;
+  virtual void DoRestore()   = 0;
 
   // members
-  shared_ptr<Model>                      model_ = nullptr;
-  Estimate*                   estimate_ = nullptr;
-  bool                        is_transformed_ = false;
-  Double                      current_untransformed_value_ = 0.0;
-  string                      estimate_label_;
-  Double                      lower_bound_ = 0.0;
-  Double                      upper_bound_ = 0.0;
-  Double                      original_lower_bound_ = 0.0;
-  Double                      original_upper_bound_ = 0.0;
-  Double                      original_value_ = 0.0;
-  Double                      jacobian_ = 0.0;
-  bool                        is_simple_ = true;
-  bool                        transform_with_jacobian_ = true;
-
+  shared_ptr<Model> model_                       = nullptr;
+  Estimate*         estimate_                    = nullptr;
+  bool              is_transformed_              = false;
+  Double            current_untransformed_value_ = 0.0;
+  string            estimate_label_;
+  Double            lower_bound_             = 0.0;
+  Double            upper_bound_             = 0.0;
+  Double            original_lower_bound_    = 0.0;
+  Double            original_upper_bound_    = 0.0;
+  Double            original_value_          = 0.0;
+  Double            jacobian_                = 0.0;
+  bool              is_simple_               = true;
+  bool              transform_with_jacobian_ = true;
 };
 
 } /* namespace niwa */

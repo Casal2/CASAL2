@@ -68,20 +68,24 @@ Model::Model() {
                     "grams, kgs or tonnes", PARAM_TONNES)
       ->set_allowed_values({PARAM_GRAMS, PARAM_TONNES, PARAM_KGS});
   parameters_.Bind<unsigned>(PARAM_THREADS, &threads_, "The number of threads to use for this model", "", 1u)->set_lower_bound(1);
-
-  global_configuration_ = new GlobalConfiguration();
 }
 
 /**
  * Destructor
  */
 Model::~Model() {
-  delete global_configuration_;
   delete objects_;
   delete factory_;
   delete categories_;
   delete partition_;
   delete objective_function_;
+}
+
+GlobalConfiguration& Model::global_configuration() {
+  if (global_configuration_ == nullptr)
+    LOG_CODE_ERROR() << "global_configuration_ == nullptr";
+
+  return *global_configuration_;
 }
 
 /**
@@ -278,7 +282,8 @@ bool Model::Start(RunMode::Type run_mode) {
    * We're hacking this in for now because the unit tests do not know about
    * the runner and threading yet.
    */
-  PrepareForIterations();
+  if (state_ == State::kStartUp)
+    PrepareForIterations();
 #endif
 
   LOG_TRACE();
@@ -598,49 +603,50 @@ void Model::RunEstimation() {
  */
 
 bool Model::RunMCMC() {
-  LOG_FINE() << "Entering the MCMC Sub-System";
-  auto mcmc = managers_->mcmc()->active_mcmc();
+  LOG_CODE_ERROR() << "Deprecated";
+  // LOG_FINE() << "Entering the MCMC Sub-System";
+  // auto mcmc = managers_->mcmc()->active_mcmc();
 
-  Logging& logging = Logging::Instance();
-  if (logging.errors().size() > 0) {
-    logging.FlushErrors();
-    return false;
-  }
+  // Logging& logging = Logging::Instance();
+  // if (logging.errors().size() > 0) {
+  //   logging.FlushErrors();
+  //   return false;
+  // }
 
-  if (global_configuration_->resume()) {
-    configuration::MCMCObjective objective_loader(pointer());
-    if (!objective_loader.LoadFile(global_configuration_->mcmc_objective_file()))
-      return false;
+  // if (global_configuration_->resume_mcmc()) {
+  //   configuration::MCMCObjective objective_loader(pointer());
+  //   if (!objective_loader.LoadFile(global_configuration_->mcmc_objective_file()))
+  //     return false;
 
-    configuration::MCMCSample sample_loader(pointer());
-    if (!sample_loader.LoadFile(global_configuration_->mcmc_sample_file()))
-      return false;
+  //   configuration::MCMCSample sample_loader(pointer());
+  //   if (!sample_loader.LoadFile(global_configuration_->mcmc_sample_file()))
+  //     return false;
 
-    // reset RNG seed for resume
-    utilities::RandomNumberGenerator::Instance().Reset((unsigned int)time(NULL));
+  //   // reset RNG seed for resume
+  //   utilities::RandomNumberGenerator::Instance().Reset((unsigned int)time(NULL));
 
-  } else if (!global_configuration_->skip_estimation()) {
-    /**
-     * Note: This should only be called when running Casal2 in a standalone executable
-     * as it must use the same build profit (autodiff or not) as the MCMC. When
-     * using the front end application, skip_estimation will be flagged as true.
-     *
-     * This is because the front end handles the minimisation to generate the MPD file
-     * and Covariance matrix for use by the MCMC
-     */
-    LOG_FINE() << "Calling minimiser to find our minimum and covariance matrix";
-    auto minimiser = managers_->minimiser()->active_minimiser();
-    if ((minimiser->type() == PARAM_DE_SOLVER) | (minimiser->type() == PARAM_DLIB))
-      LOG_ERROR() << "The minimiser type " << PARAM_DE_SOLVER << ", " << PARAM_DE_SOLVER
-                  << " does not produce a covariance matrix and so will not be viable for an MCMC run, try one of the other minimisers.";
+  // } else if (!global_configuration_->skip_estimation()) {
+  //   /**
+  //    * Note: This should only be called when running Casal2 in a standalone executable
+  //    * as it must use the same build profit (autodiff or not) as the MCMC. When
+  //    * using the front end application, skip_estimation will be flagged as true.
+  //    *
+  //    * This is because the front end handles the minimisation to generate the MPD file
+  //    * and Covariance matrix for use by the MCMC
+  //    */
+  //   LOG_FINE() << "Calling minimiser to find our minimum and covariance matrix";
+  //   auto minimiser = managers_->minimiser()->active_minimiser();
+  //   if ((minimiser->type() == PARAM_DE_SOLVER) | (minimiser->type() == PARAM_DLIB))
+  //     LOG_ERROR() << "The minimiser type " << PARAM_DE_SOLVER << ", " << PARAM_DE_SOLVER
+  //                 << " does not produce a covariance matrix and so will not be viable for an MCMC run, try one of the other minimisers.";
 
-    minimiser->Execute();
-    LOG_FINE() << "Build covariance matrix";
-    minimiser->BuildCovarianceMatrix();
-    LOG_FINE() << "Minimisation complete. Starting MCMC";
-  }
-  LOG_FINE() << "Begin MCMC chain";
-  mcmc->Execute();
+  //   minimiser->Execute();
+  //   LOG_FINE() << "Build covariance matrix";
+  //   minimiser->BuildCovarianceMatrix();
+  //   LOG_FINE() << "Minimisation complete. Starting MCMC";
+  // }
+  // LOG_FINE() << "Begin MCMC chain";
+  // // mcmc->Execute();
   return true;
 }
 

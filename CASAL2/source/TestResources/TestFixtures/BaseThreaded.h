@@ -10,8 +10,8 @@
  *
  * << Add Description >>
  */
-#ifndef TESTFIXTURES_BASE_H_
-#define TESTFIXTURES_BASE_H_
+#ifndef TESTFIXTURES_BASETHREADED_H_
+#define TESTFIXTURES_BASETHREADED_H_
 #ifdef TESTMODE
 
 // headers
@@ -21,34 +21,39 @@
 #include <memory>
 #include <string>
 
-#include "../../GlobalConfiguration/GlobalConfiguration.h"
+#include "../../ConfigurationLoader/Loader.h"
 #include "../../Model/Model.h"
 #include "../../Runner.h"
-
+#include "../../TestResources/TestFixtures/Base.h"
 
 // namespaces
 namespace niwa {
 namespace testfixtures {
 
 using std::shared_ptr;
+using std::string;
+using std::vector;
+namespace config = niwa::configuration;
 
 /**
  * Class definition
  */
-class Base : public ::testing::Test {
+class BaseThreaded : public ::testing::Test {
 public:
-  Base()          = default;
-  virtual ~Base() = default;
+  BaseThreaded()          = default;
+  virtual ~BaseThreaded() = default;
   virtual void SetUp() override;
   virtual void TearDown() override;
+  void         AddConfigurationLine(const string& line, const string& file_name, unsigned line_number);
+  void         LoadConfiguration();
 
 protected:
   // members
-  shared_ptr<Model>   model_         = nullptr;
-  GlobalConfiguration global_config_ = GlobalConfiguration();
+  shared_ptr<Runner>       runner_ = nullptr;
+  vector<config::FileLine> configuration_file_;
 };
 
 } /* namespace testfixtures */
 } /* namespace niwa */
 #endif /* TESTMODE */
-#endif /* BASE_H_ */
+#endif /* TESTFIXTURES_BASETHREADED_H_ */

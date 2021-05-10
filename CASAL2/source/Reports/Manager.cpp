@@ -325,7 +325,7 @@ void Manager::CreateDefaultReports() {
    */
   // If this is a new mscmc chain (not resuming)
   // if (model_->run_mode() == RunMode::kMCMC) {
-  //   if (!model_->global_configuration().resume()) {
+  //   if (!model_->global_configuration().resume_mcmc()) {
   //     LOG_MEDIUM() << "Configure resume default MCMC reports";
   //     model_->managers()->report()->Pause();
 
@@ -354,7 +354,7 @@ void Manager::CreateDefaultReports() {
   //     model_->managers()->report()->AddObject(sample_report);
 
   //     model_->managers()->report()->Resume();
-  //   } else if (model_->global_configuration().resume()) {
+  //   } else if (model_->global_configuration().resume_mcmc()) {
   //     // This is resuming a MCMC
   //     LOG_MEDIUM() << "Resuming MCMC";
   //     model_->managers()->report()->Pause();

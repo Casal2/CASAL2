@@ -4,7 +4,7 @@
  * @date 20/08/2013
  * @section LICENSE
  *
- * Copyright NIWA Science ©2013 - www.niwa.co.nz
+ * Copyright NIWA Science ï¿½2013 - www.niwa.co.nz
  *
  * @section DESCRIPTION
  *
@@ -25,7 +25,9 @@
 
 // Namespaces
 namespace niwa {
-namespace model { class Age; }
+namespace model {
+class Age;
+}
 
 namespace testfixtures {
 using std::string;
@@ -38,15 +40,15 @@ namespace config = niwa::configuration;
 class InternalEmptyModel : public testfixtures::Base {
 public:
   // methods
-  InternalEmptyModel() = default;
-  virtual                     ~InternalEmptyModel() = default;
-  void                        SetUp() override final;
-  void                        AddConfigurationLine(const string& line, const string& file_name, unsigned line_number);
-  void                        LoadConfiguration();
+  InternalEmptyModel()          = default;
+  virtual ~InternalEmptyModel() = default;
+  void SetUp() override final;
+  void AddConfigurationLine(const string& line, const string& file_name, unsigned line_number);
+  void LoadConfiguration();
 
 protected:
   // members
-  vector<config::FileLine>    configuration_file_;
+  vector<config::FileLine> configuration_file_;
 };
 
 } /* namespace testfixtures */

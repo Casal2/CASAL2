@@ -57,28 +57,28 @@
 
 // Headers
 #include <map>
-#include <vector>
-#include <string>
-#include <set>
 #include <memory>
+#include <set>
+#include <string>
+#include <vector>
 
 #include "../ParameterList/Parameter.h"
-#include "../ParameterList/Table.h"
 #include "../ParameterList/Parameters/Bindable.h"
 #include "../ParameterList/Parameters/BindableVector.h"
+#include "../ParameterList/Table.h"
+#include "../Utilities/NoCopy.h"
 
 // Namespaces
 namespace niwa {
 
-using std::shared_ptr;
-using std::map;
-using std::vector;
-using std::string;
-using niwa::parameters::Table;
+using niwa::parameterlist::Parameter;
 using niwa::parameters::Bindable;
 using niwa::parameters::BindableVector;
-using niwa::parameterlist::Parameter;
-using niwa::parameterlist::Parameter;
+using niwa::parameters::Table;
+using std::map;
+using std::shared_ptr;
+using std::string;
+using std::vector;
 class Model;
 class Object;
 
@@ -89,53 +89,53 @@ class ParameterList {
 public:
   // Methods
   ParameterList() = default;
-  virtual                     ~ParameterList();
-  bool                        Add(const string& label, const string& value, const string& file_name, const unsigned& line_number);
-  bool                        Add(const string& label, const vector<string>& values, const string& file_name, const unsigned& line_number);
-  Parameter*                  Get(const string& label);
-  parameters::Table*          GetTable(const string& label);
-  void                        CopyFrom(const ParameterList& source, string parameter_label);
-  void                        CopyFrom(const ParameterList& source, string parameter_label, const unsigned &value_index);
-  void                        Clear();
+  virtual ~ParameterList();
+  bool               Add(const string& label, const string& value, const string& file_name, const unsigned& line_number);
+  bool               Add(const string& label, const vector<string>& values, const string& file_name, const unsigned& line_number);
+  Parameter*         Get(const string& label);
+  parameters::Table* GetTable(const string& label);
+  void               CopyFrom(const ParameterList& source, string parameter_label);
+  void               CopyFrom(const ParameterList& source, string parameter_label, const unsigned& value_index);
+  void               Clear();
 
-  template<typename T>
-  Bindable<T>*                Bind(const string& label, T* target, const string& description, const string& values);
-  template<typename T>
-  Bindable<T>*                Bind(const string& label, T* target, const string& description, const string& values, T default_value);
-  template<typename T>
-  BindableVector<T>*          Bind(const string& label, vector<T>* target, const string& description, const string& values, bool optional = false);
+  template <typename T>
+  Bindable<T>* Bind(const string& label, T* target, const string& description, const string& values);
+  template <typename T>
+  Bindable<T>* Bind(const string& label, T* target, const string& description, const string& values, T default_value);
+  template <typename T>
+  BindableVector<T>* Bind(const string& label, vector<T>* target, const string& description, const string& values, bool optional = false);
 
-  void                        BindTable(const string& label, parameters::Table* table, const string& description,
-                                const string& values, bool requires_columns = true, bool optional = false);
-  void                        Populate(shared_ptr<Model> model);
+  void BindTable(const string& label, parameters::Table* table, const string& description, const string& values, bool requires_columns = true, bool optional = false);
+  void Populate(shared_ptr<Model> model);
 
   // accessors
-  string                      location(const string& label);
-  void                        set_parent_block_type(const string& block_type) { parent_block_type_ = block_type; }
-  void                        set_defined_file_name(string value) { defined_file_name_ = value; }
-  string                      defined_file_name() const { return defined_file_name_; }
-  void                        set_defined_line_number(unsigned value) { defined_line_number_ = value; }
-  unsigned                    defined_line_number() const { return defined_line_number_; }
-  map<string, Parameter*>&    parameters() { return parameters_; }
-  void                        set_ignore_all_parameters() { ignore_all_parameters_ = true; }
-  bool                        ignore_all_parameters() { return ignore_all_parameters_; }
-  bool                        has_been_populated() const { return already_populated_; }
+  string                   location(const string& label);
+  void                     set_parent_block_type(const string& block_type) { parent_block_type_ = block_type; }
+  void                     set_defined_file_name(string value) { defined_file_name_ = value; }
+  string                   defined_file_name() const { return defined_file_name_; }
+  void                     set_defined_line_number(unsigned value) { defined_line_number_ = value; }
+  unsigned                 defined_line_number() const { return defined_line_number_; }
+  map<string, Parameter*>& parameters() { return parameters_; }
+  void                     set_ignore_all_parameters() { ignore_all_parameters_ = true; }
+  bool                     ignore_all_parameters() { return ignore_all_parameters_; }
+  bool                     has_been_populated() const { return already_populated_; }
 
 private:
   // members
-  bool                        already_populated_ = false;
-  string                      parent_block_type_    = "<unknown>";
-  string                      defined_file_name_    = "<unknown>";
-  unsigned                    defined_line_number_  = 0;
-  map<string, Parameter*>     parameters_;
-  map<string, Table*>         tables_;
-  bool                        ignore_all_parameters_ = false;
+  bool                    already_populated_   = false;
+  string                  parent_block_type_   = "<unknown>";
+  string                  defined_file_name_   = "<unknown>";
+  unsigned                defined_line_number_ = 0;
+  map<string, Parameter*> parameters_;
+  map<string, Table*>     tables_;
+  bool                    ignore_all_parameters_ = false;
+
+  DISALLOW_COPY_MOVE_AND_ASSIGN(ParameterList);
 };
 
 } /* namespace niwa */
 
 // Inline include for template methods
 #include "ParameterList-inl.h"
-
 
 #endif /* PARAMETER_LIST_H_ */

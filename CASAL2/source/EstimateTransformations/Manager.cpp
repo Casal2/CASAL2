@@ -5,7 +5,7 @@
  * @date Dec 7, 2015
  * @section LICENSE
  *
- * Copyright NIWA Science ©2015 - www.niwa.co.nz
+ * Copyright NIWA Science ï¿½2015 - www.niwa.co.nz
  *
  */
 
@@ -26,8 +26,7 @@ void Manager::Validate() {
     set<string> estimates = obj->GetTargetEstimates();
     for (auto estimate : estimates) {
       if (estimate_counts[estimate] != "") {
-        LOG_ERROR() << "Estimate " << estimate << " is referenced by both "
-          << estimate_counts[estimate] << " and " << obj->label() << " transformations";
+        LOG_ERROR() << "Estimate " << estimate << " is referenced by both " << estimate_counts[estimate] << " and " << obj->label() << " transformations";
       }
     }
   }
@@ -38,8 +37,7 @@ void Manager::Validate() {
  */
 void Manager::TransformEstimates() {
   LOG_TRACE();
-  for (auto obj : objects_)
-    obj->Transform();
+  for (auto obj : objects_) obj->Transform();
   LOG_FINEST() << "Transformations complete";
 }
 
@@ -48,8 +46,7 @@ void Manager::TransformEstimates() {
  */
 void Manager::RestoreEstimates() {
   LOG_TRACE();
-  for (auto obj : objects_)
-    obj->Restore();
+  for (auto obj : objects_) obj->Restore();
   LOG_FINEST() << "Restores complete";
 }
 
@@ -57,18 +54,16 @@ void Manager::RestoreEstimates() {
  * Transform the objects for the objective function
  */
 void Manager::TransformEstimatesForObjectiveFunction() {
-  LOG_MEDIUM() << "Transforming estimates for the objective function";
-  for (auto obj : objects_)
-    obj->TransformForObjectiveFunction();
+  LOG_FINE() << "Transforming estimates for the objective function";
+  for (auto obj : objects_) obj->TransformForObjectiveFunction();
 }
 
 /**
  * Restore the objects from the objective function
  */
 void Manager::RestoreEstimatesFromObjectiveFunction() {
-	LOG_FINE() << "Transforming estimates for the objective function";
-	for (auto obj : objects_)
-		obj->RestoreFromObjectiveFunction();
+  LOG_FINE() << "Transforming estimates for the objective function";
+  for (auto obj : objects_) obj->RestoreFromObjectiveFunction();
 }
 
 } /* namespace estimatetransformations */

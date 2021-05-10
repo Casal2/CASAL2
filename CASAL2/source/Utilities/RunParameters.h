@@ -51,9 +51,11 @@ struct RunParameters {
   bool     override_random_number_seed_ = false;
   unsigned override_rng_seed_value_     = 123u;
 
-  string model_type_      = "";
-  string minimiser_       = "";
-  bool   create_mpd_file_ = true;
+  string model_type_                = "";
+  string minimiser_                 = "";
+  bool   create_mpd_file_           = true;
+  string mpd_file_name_             = "mpd.out";
+  bool   skip_mpd_loading_for_mcmc_ = false;
 };
 
 }  // namespace utilities

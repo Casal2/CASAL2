@@ -5,7 +5,7 @@
  * @date 8/10/2015
  * @section LICENSE
  *
- * Copyright NIWA Science ©2015 - www.niwa.co.nz
+ * Copyright NIWA Science ï¿½2015 - www.niwa.co.nz
  *
  */
 
@@ -13,14 +13,14 @@
 #include "Factory.h"
 
 // Common Factories
-#include "../BaseClasses/Object.h"
 #include "../AdditionalPriors/Factory.h"
 #include "../Asserts/Factory.h"
+#include "../BaseClasses/Object.h"
 #include "../Catchabilities/Factory.h"
 #include "../Categories/Categories.h"
 #include "../DerivedQuantities/Factory.h"
-#include "../Estimates/Creators/Factory.h"
 #include "../EstimateTransformations/Factory.h"
+#include "../Estimates/Creators/Factory.h"
 #include "../InitialisationPhases/Factory.h"
 #include "../LengthWeights/Factory.h"
 #include "../Likelihoods/Factory.h"
@@ -42,10 +42,12 @@
 #include "../TimeVarying/Factory.h"
 #include "../Utilities/To.h"
 
+
 // Age Factories
-#include "../AgeingErrors/Factory.h"
 #include "../AgeLengths/Factory.h"
 #include "../AgeWeights/Factory.h"
+#include "../AgeingErrors/Factory.h"
+
 
 // Length Factories
 // namespaces
@@ -54,7 +56,7 @@ namespace niwa {
 /**
  * Default constructor
  */
-Factory::Factory(shared_ptr<Model> model) : model_(model) { }
+Factory::Factory(shared_ptr<Model> model) : model_(model) {}
 
 /**
  * Create an ObjectPtr for a specific class type in our system. This method
@@ -72,8 +74,8 @@ Factory::Factory(shared_ptr<Model> model) : model_(model) { }
  * @return A shared_ptr to the object we've created
  */
 base::Object* Factory::CreateObject(const string& object_type, const string& sub_type, PartitionType partition_type) {
-  string lwr_object_type    = utilities::ToLowercase(object_type);
-  string lwr_sub_type       = utilities::ToLowercase(sub_type);
+  string lwr_object_type = utilities::ToLowercase(object_type);
+  string lwr_sub_type    = utilities::ToLowercase(sub_type);
 
   if (lwr_object_type == PARAM_ADDITIONAL_PRIOR)
     return additionalpriors::Factory::Create(model_, lwr_object_type, lwr_sub_type);
@@ -119,7 +121,7 @@ base::Object* Factory::CreateObject(const string& object_type, const string& sub
     return projects::Factory::Create(model_, lwr_object_type, lwr_sub_type);
   else if (lwr_object_type == PARAM_AGEING || lwr_object_type == PARAM_MATURATION || lwr_object_type == PARAM_MORTALITY || lwr_object_type == PARAM_RECRUITMENT)
     return processes::Factory::Create(model_, lwr_object_type, lwr_sub_type, partition_type);
-  else if (lwr_object_type == PARAM_STATE || lwr_object_type == PARAM_TAG || lwr_object_type == PARAM_TRANSITION) // @process specialisation
+  else if (lwr_object_type == PARAM_STATE || lwr_object_type == PARAM_TAG || lwr_object_type == PARAM_TRANSITION)  // @process specialisation
     return processes::Factory::Create(model_, lwr_object_type, lwr_sub_type, partition_type);
   else if (lwr_object_type == PARAM_REPORT)
     return reports::Factory::Create(model_, lwr_object_type, lwr_sub_type);
@@ -138,28 +140,27 @@ base::Object* Factory::CreateObject(const string& object_type, const string& sub
  * Factory class to create different model types
  */
 shared_ptr<Model> Factory::Create(const string& object_type, const string& sub_type) {
+  shared_ptr<Model> result;
 
-	shared_ptr<Model> result;
-
-	if (object_type == PARAM_MODEL) {
-		if (sub_type == PARAM_AGE) {
-			result.reset(new model::Age());
-		} else if (sub_type == PARAM_LENGTH) {
-			result.reset(new model::Length());
+  if (object_type == PARAM_MODEL) {
+    if (sub_type == PARAM_AGE || sub_type == "") {
+      result.reset(new model::Age());
+    } else if (sub_type == PARAM_LENGTH) {
+      result.reset(new model::Length());
 #ifndef USE_AUTODIFF
-		} else if (sub_type == PARAM_MULTIVARIATE) {
-			result.reset(new model::Multivariate());
-		} else if (sub_type == PARAM_PI_APPROX) {
-			result.reset(new model::PiApproximation());
+    } else if (sub_type == PARAM_MULTIVARIATE) {
+      result.reset(new model::Multivariate());
+    } else if (sub_type == PARAM_PI_APPROX) {
+      result.reset(new model::PiApproximation());
 #endif
-	  }
-	}
+    }
+  }
 
-	if (result)
-		return result;
+  if (result)
+    return result;
 
-	LOG_CODE_ERROR() << object_type << "." << sub_type << " is not valid";
-	return nullptr;
+  LOG_CODE_ERROR() << object_type << "." << sub_type << " is not valid";
+  return nullptr;
 }
 
 } /* namespace niwa */

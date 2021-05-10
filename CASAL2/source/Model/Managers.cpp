@@ -12,27 +12,27 @@
 // headers
 #include "Managers.h"
 
-#include <vector>
 #include <mutex>
 #include <thread>
+#include <vector>
 
-#include "../Model/Model.h"
 #include "../AdditionalPriors/Manager.h"
-#include "../AgeingErrors/Manager.h"
 #include "../AgeLengths/Manager.h"
 #include "../AgeWeights/Manager.h"
+#include "../AgeingErrors/Manager.h"
 #include "../Asserts/Manager.h"
 #include "../Catchabilities/Manager.h"
 #include "../Categories/Categories.h"
 #include "../DerivedQuantities/Manager.h"
 #include "../Estimables/Estimables.h"
-#include "../Estimates/Manager.h"
 #include "../EstimateTransformations/Manager.h"
+#include "../Estimates/Manager.h"
 #include "../InitialisationPhases/Manager.h"
 #include "../LengthWeights/Manager.h"
 #include "../Likelihoods/Manager.h"
 #include "../MCMCs/Manager.h"
 #include "../Minimisers/Manager.h"
+#include "../Model/Model.h"
 #include "../Observations/Manager.h"
 #include "../Penalties/Manager.h"
 #include "../Processes/Manager.h"
@@ -59,33 +59,33 @@ Managers::Managers(shared_ptr<Model> model) {
 
   model_ = model;
 
-  additional_prior_       = new additionalpriors::Manager();
-  ageing_error_           = new ageingerrors::Manager();
-  age_length_             = new agelengths::Manager();
-  age_weight_             = new ageweights::Manager();
-  assert_                 = new asserts::Manager();
-  catchability_           = new catchabilities::Manager();
-  derived_quantity_       = new derivedquantities::Manager();
-  estimables_             = new Estimables(model_);
-  estimate_               = new estimates::Manager();
+  additional_prior_        = new additionalpriors::Manager();
+  ageing_error_            = new ageingerrors::Manager();
+  age_length_              = new agelengths::Manager();
+  age_weight_              = new ageweights::Manager();
+  assert_                  = new asserts::Manager();
+  catchability_            = new catchabilities::Manager();
+  derived_quantity_        = new derivedquantities::Manager();
+  estimables_              = new Estimables(model_);
+  estimate_                = new estimates::Manager();
   estimate_transformation_ = new estimatetransformations::Manager();
-  initialisation_phase_   = new initialisationphases::Manager();
-  length_weight_          = new lengthweights::Manager();
-  likelihood_             = new likelihoods::Manager();
-  mcmc_                   = new mcmcs::Manager();
-  observation_            = new observations::Manager();
-  penalty_                = new penalties::Manager();
-  process_                = new processes::Manager();
-  profile_                = new profiles::Manager();
-  project_                = new projects::Manager();
-  selectivity_            = new selectivities::Manager();
-  simulate_               = new simulates::Manager();
-  time_step_              = new timesteps::Manager();
-  time_varying_           = new timevarying::Manager();
+  initialisation_phase_    = new initialisationphases::Manager();
+  length_weight_           = new lengthweights::Manager();
+  likelihood_              = new likelihoods::Manager();
+  observation_             = new observations::Manager();
+  penalty_                 = new penalties::Manager();
+  process_                 = new processes::Manager();
+  profile_                 = new profiles::Manager();
+  project_                 = new projects::Manager();
+  selectivity_             = new selectivities::Manager();
+  simulate_                = new simulates::Manager();
+  time_step_               = new timesteps::Manager();
+  time_varying_            = new timevarying::Manager();
 
 #ifdef TESTMODE
   minimiser_.reset(new minimisers::Manager());
   report_.reset(new reports::Manager());
+  mcmc_.reset(new mcmcs::Manager());
 #endif
 }
 
@@ -106,7 +106,6 @@ Managers::~Managers() {
   delete initialisation_phase_;
   delete length_weight_;
   delete likelihood_;
-  delete mcmc_;
   delete observation_;
   delete penalty_;
   delete process_;
@@ -121,32 +120,42 @@ Managers::~Managers() {
 /**
  *
  */
-shared_ptr<minimisers::Manager>	Managers::minimiser() {
-	std::scoped_lock l(lock_);
-	if (!minimiser_)
-		LOG_CODE_ERROR() << "(!minimiser_)";
+shared_ptr<mcmcs::Manager> Managers::mcmc() {
+  std::scoped_lock l(lock_);
+  if (!mcmc_)
+    LOG_CODE_ERROR() << "(!mcmc_)";
 
-	return minimiser_;
+  return mcmc_;
+}
+
+/**
+ *
+ */
+shared_ptr<minimisers::Manager> Managers::minimiser() {
+  std::scoped_lock l(lock_);
+  if (!minimiser_)
+    LOG_CODE_ERROR() << "(!minimiser_)";
+
+  return minimiser_;
 }
 
 /**
  *
  */
 shared_ptr<reports::Manager> Managers::report() {
-	std::scoped_lock l(lock_);
-	if (!report_)
-		LOG_CODE_ERROR() << "(!report_)";
+  std::scoped_lock l(lock_);
+  if (!report_)
+    LOG_CODE_ERROR() << "(!report_)";
 
-	return report_;
+  return report_;
 }
 
-
 void Managers::Validate() {
-//	std::scoped_lock l(lock_);
+  //	std::scoped_lock l(lock_);
   LOG_TRACE();
   time_step_->Validate(model_);
   initialisation_phase_->Validate();
-  process_->Validate(model_); // Needs to go before estimate for the situation where there is an @estimate block
+  process_->Validate(model_);  // Needs to go before estimate for the situation where there is an @estimate block
 
   additional_prior_->Validate();
   ageing_error_->Validate();
@@ -159,13 +168,13 @@ void Managers::Validate() {
   length_weight_->Validate();
   likelihood_->Validate();
   mcmc_->Validate(model_);
-  minimiser_->Validate(model_->pointer());
+  minimiser_->Validate(model_);
   observation_->Validate();
   penalty_->Validate();
   profile_->Validate();
   project_->Validate();
   LOG_FINE() << "Validating Reports";
-  report_->Validate(model_->pointer());
+  report_->Validate(model_);
   LOG_FINE() << "Validating Reports..Done";
   selectivity_->Validate();
   simulate_->Validate();
@@ -176,11 +185,12 @@ void Managers::Validate() {
 }
 
 void Managers::Build() {
-//	std::scoped_lock l(lock_);
+  auto run_mode = model_->run_mode();
+  //	std::scoped_lock l(lock_);
   LOG_TRACE();
   time_step_->Build();
   initialisation_phase_->Build(model_);
-  process_->Build(); // To handle BH Recruitment having ssb_offset available
+  process_->Build();  // To handle BH Recruitment having ssb_offset available
 
   additional_prior_->Build();
   ageing_error_->Build();
@@ -191,9 +201,10 @@ void Managers::Build() {
   derived_quantity_->Build();
   length_weight_->Build();
   likelihood_->Build();
-  mcmc_->Build();
+  if (run_mode == RunMode::kMCMC || run_mode == RunMode::kTesting)
+    mcmc_->Build();
   if (minimiser_)
-  	minimiser_->Build();
+    minimiser_->Build();
   observation_->Build();
   penalty_->Build();
   profile_->Build();
@@ -208,12 +219,12 @@ void Managers::Build() {
   LOG_FINE() << "Building estimates and transformations...Done";
 
   if (report_)
-  	report_->Build(model_->pointer());
+    report_->Build(model_->pointer());
   LOG_TRACE();
 }
 
 void Managers::Reset() {
-	std::scoped_lock l(lock_);
+  std::scoped_lock l(lock_);
   LOG_TRACE();
   age_length_->Reset();
   age_weight_->Reset();
@@ -224,8 +235,7 @@ void Managers::Reset() {
    * Now. Update Age Lengths
    */
   vector<string> category_names = model_->categories()->category_names();
-  for (string category_name : category_names)
-    model_->partition().category(category_name).UpdateMeanLengthData();
+  for (string category_name : category_names) model_->partition().category(category_name).UpdateMeanLengthData();
 
   additional_prior_->Reset();
   ageing_error_->Reset();
@@ -236,17 +246,12 @@ void Managers::Reset() {
   estimate_transformation_->Reset();
   initialisation_phase_->Reset();
   likelihood_->Reset();
-  if (model_->run_mode() == RunMode::kMCMC || model_->run_mode() == RunMode::kEstimation || model_->run_mode() == RunMode::kProfiling) {
-    mcmc_->Reset();
-//    minimiser_->Reset();
-  }
-
   observation_->Reset();
   penalty_->Reset();
   process_->Reset();
   profile_->Reset();
   project_->Reset();
-//  report_->Reset();
+  //  report_->Reset();
   simulate_->Reset();
   time_step_->Reset();
   time_varying_->Reset();

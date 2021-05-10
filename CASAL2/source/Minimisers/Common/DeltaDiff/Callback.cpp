@@ -6,7 +6,7 @@
  * @date 17/04/2013
  * @section LICENSE
  *
- * Copyright NIWA Science ©2013 - www.niwa.co.nz
+ * Copyright NIWA Science ï¿½2013 - www.niwa.co.nz
  *
  * $Date: 2008-03-04 16:33:32 +1300 (Tue, 04 Mar 2008) $
  */
@@ -14,11 +14,12 @@
 // headers
 #include "Callback.h"
 
+#include "../../../EstimateTransformations/Manager.h"
 #include "../../../Estimates/Manager.h"
 #include "../../../ObjectiveFunction/ObjectiveFunction.h"
-#include "../../../EstimateTransformations/Manager.h"
 #include "../../../ThreadPool/Thread.h"
 #include "../../../ThreadPool/ThreadPool.h"
+
 
 // namespaces
 namespace niwa {
@@ -28,17 +29,16 @@ namespace deltadiff {
 /**
  * Default Constructor
  */
-CallBack::CallBack(shared_ptr<ThreadPool> thread_pool) : thread_pool_(thread_pool) {
-}
+CallBack::CallBack(shared_ptr<ThreadPool> thread_pool) : thread_pool_(thread_pool) {}
 
 //**********************************************************************
 // double CGammaDiffCallback::operator()(const vector<double>& Parameters)
 // Operatior() for Minimiser CallBack
 //**********************************************************************
 double CallBack::operator()(const vector<double>& Parameters) {
-	auto model_ = thread_pool_->Threads()[0]->model();
+  auto model_ = thread_pool_->threads()[0]->model();
 
-	// Update our Components with the New Parameters
+  // Update our Components with the New Parameters
   LOG_FINE() << "model_: " << model_;
   vector<Estimate*> estimates = model_->managers()->estimate()->GetIsEstimated();
 
@@ -46,8 +46,7 @@ double CallBack::operator()(const vector<double>& Parameters) {
     LOG_CODE_ERROR() << "The number of enabled estimates does not match the number of test solution values";
   }
 
-  for (unsigned i = 0; i < Parameters.size(); ++i)
-    estimates[i]->set_value(Parameters[i]);
+  for (unsigned i = 0; i < Parameters.size(); ++i) estimates[i]->set_value(Parameters[i]);
 
   model_->managers()->estimate_transformation()->RestoreEstimates();
   model_->FullIteration();
@@ -66,12 +65,12 @@ double CallBack::operator()(const vector<double>& Parameters) {
  *
  */
 void CallBack::operator()(const vector<vector<double>>& Parameters, vector<double>& scores) {
-	cout << "Count: " << count_ << endl;
-	count_ = 0;
-	thread_pool_->RunCandidates(Parameters, scores);
+  cout << "Count: " << count_ << endl;
+  count_ = 0;
+  thread_pool_->RunCandidates(Parameters, scores);
 }
 
 } /* namespace deltadiff */
-} /* namespace minimiser */
+}  // namespace minimisers
 } /* namespace niwa */
 #endif

@@ -5,7 +5,7 @@
  * @date 16/11/2012
  * @section LICENSE
  *
- * Copyright NIWA Science ©2012 - www.niwa.co.nz
+ * Copyright NIWA Science ï¿½2012 - www.niwa.co.nz
  *
  * @section DESCRIPTION
  *
@@ -18,11 +18,12 @@
 #define COMMANDLINEPARSER_H_
 
 // Headers
-#include <string>
 #include <map>
+#include <string>
 
 #include "../../Model/Model.h"
 #include "../../Utilities/RunParameters.h"
+
 
 // Namespaces
 namespace niwa {
@@ -36,15 +37,15 @@ using std::string;
 class CommandLineParser {
 public:
   // Methods
-  CommandLineParser() = default;
-  virtual                     ~CommandLineParser() = default;
-  void                        Parse(int argc, char* argv[], RunParameters& options);
+  CommandLineParser()          = default;
+  virtual ~CommandLineParser() = default;
+  void Parse(int argc, char* argv[], RunParameters& options);
   // Accessors
-  string                      command_line_usage() { return command_line_usage_; }
+  string command_line_usage() { return command_line_usage_; }
 
 private:
   // Members
-  string                      command_line_usage_   = "";
+  string command_line_usage_ = "";
 };
 
 } /* namespace utilities */

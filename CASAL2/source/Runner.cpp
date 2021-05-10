@@ -24,9 +24,11 @@
 #include <string>
 
 #include "BaseClasses/Object.h"
-#include "ConfigurationLoader/Loader.h"
+#include "ConfigurationLoader/MCMCObjective.h"
+#include "ConfigurationLoader/MCMCSample.h"
 #include "Estimables/Estimables.h"
 #include "Estimates/Manager.h"
+#include "MCMCs/Manager.h"
 #include "Minimisers/Manager.h"
 #include "Minimisers/Minimiser.h"
 #include "Model/Factory.h"
@@ -34,7 +36,6 @@
 #include "Model/Models/Age.h"
 #include "Reports/Manager.h"
 #include "Utilities/RandomNumberGenerator.h"
-#include "Utilities/StandardHeader.h"
 
 // namespaces
 namespace niwa {
@@ -44,89 +45,145 @@ using std::shared_ptr;
 using std::string;
 
 /**
- * Default constructor
+ * @brief The startup method is responsible for ensuring the command
+ * line parameters are parsed and loading the
+ * configuration files and initialising pointers to member
+ * objects that are shared across the system.
+ *
+ * @return true (continue)
+ * @return false (failure)
  */
-Runner::Runner() {}
+bool Runner::StartUp() {
+  // Stage 1 - Handle run modes that are not a model iteration
+  switch (run_mode_) {
+    case RunMode::kInvalid:
+      LOG_CODE_ERROR() << "The current run_mode is kInvalid, this is a bug";
+      break;
+    case RunMode::kUnitTest:
+      LOG_ERROR() << "The Unit Test run mode is not supported in this binary. Please ensure you're running it correctly";
+      return false;
+    case RunMode::kQuery:
+      return RunQuery();
+    default:
+      break;
+  }
+
+  // Stage 1 - Parse the command line parameters
+  // override any config file values from our command line parameters
+  global_configuration_.set_run_parameters(run_parameters_);
+
+  // Stage 2 - Load configuration file information
+  if (!config_loader_.LoadFromDiskToMemory(global_configuration_)) {
+    Logging::Instance().FlushErrors();
+    return false;
+  }
+  // Stage 3 - Parse the options loaded so we can ensure those
+  // loaded from the configuration file are set and then
+  // we override them from the command line
+  global_configuration_.ParseOptions();
+
+  // Reset RNG
+  utilities::RandomNumberGenerator::Instance().Reset(global_configuration_.random_seed());
+
+  // Stage 5 - Print the standard header to console (Casal2 version etc)
+  if (!global_configuration_.disable_standard_report())
+    standard_header.PrintTop(global_configuration_);
+
+  return true;
+}
+
+bool Runner::Validate() {
+  return true;
+}
+bool Runner::Build() {
+  return true;
+}
+bool Runner::Verify() {
+  return true;
+}
+bool Runner::Execute() {
+  return true;
+}
 
 /**
- * Destructor
+ * @brief Execution of the chosen run mode has finished. So this will
+ * clean up any assets we've created and shut down the threads
+ *
+ * @return true
+ * @return false
  */
-Runner::~Runner() {}
+bool Runner::Finalize() {
+  if (run_mode_ != RunMode::kTesting) {
+    // we're finished. Terminate our threads to cleanup memory
+    LOG_MEDIUM() << "Terminating threads (not in Test run mode: " << run_mode_ << ")";
+    thread_pool_->TerminateAll();
+  }
+  return true;
+}
 
 /**
- * This is the main entry point for our Casal2 system. This is called from the main() and shared library methods.
+ * This is a default override of the Go() method. We use this when we have already
+ * set the run mode via the run_parameters.
+ */
+int Runner::Go() {
+  RunMode::Type run_mode = run_parameters_.run_mode_;
+  return GoWithRunMode(run_mode);
+}
+
+/**
+ * @brief This is the main entry point for our Casal2 system. This is called from the main() and shared library methods.
  *
  * Note: We're not using a switch here because we want to have some logical separation of the
  * different run modes in our code.
+ *
+ * @param run_mode
+ * @return int
  */
-int Runner::Go() {
-  RunMode::Type run_mode    = run_parameters_.run_mode_;
-  int           return_code = 0;
+int Runner::GoWithRunMode(RunMode::Type run_mode) {
+  run_parameters_.run_mode_ = run_mode;
+  run_mode_                 = run_mode;
+  int return_code           = 0;
 
-  /**
-   * Handle the run modes where we want to quick exit
-   */
-  if (run_mode == RunMode::kInvalid) {
-    LOG_CODE_ERROR() << "The current run_mode is kInvalid, this is a bug";
-  }
-  if (run_mode == RunMode::kUnitTest) {
-    LOG_ERROR() << "The Unit Test run mode is not supported in this binary. Please ensure you're running it correctly";
-    return -1;
-  }
+  // These run modes are handled elsewhere. TODO: Move them here somewhere
   if (run_mode == RunMode::kVersion || run_mode == RunMode::kHelp || run_mode == RunMode::kLicense) {
     return 0;
   }
 
-  // Handle our Query run mode
-  if (run_mode == RunMode::kQuery) {
-    return RunQuery() ? 0 : -1;
-  }
+  if (!StartUp())
+    return -1;
 
   /**
    * Now we're getting into the different run modes that will execute the model
    * in some form.
    */
-  Logging &logging = Logging::Instance();
-
-  // print the start of our standard header
-  utilities::StandardHeader standard_header;
-  standard_header.PrintTop(global_configuration_);
+  Logging& logging = Logging::Instance();
 
   // load our configuration file
-  configuration::Loader config_loader;
-  if (!config_loader.LoadFromDiskToMemory(global_configuration_)) {
-    logging.FlushErrors();
-    return false;
-  }
+  // configuration::Loader config_loader;
 
-  // LOG_FATAL() << "Defined model type is: " << config_loader.model_type();
-  // LOG_FATAL() << "Active minimiser type is " << config_loader.minimiser_type();
-
-  master_model_ = Factory::Create(PARAM_MODEL, config_loader.model_type());
+  // Grab our model type as specified in the config file.
+  // create a new master model
+  string model_type = config_loader_.model_type();
+  master_model_     = Factory::Create(PARAM_MODEL, model_type);
   master_model_->flag_primary_thread_model();
+  master_model_->set_global_configuration(&global_configuration_);
+
   // Create the managers that are shared across threads
   auto reports_manager = shared_ptr<reports::Manager>(new reports::Manager());
   master_model_->managers()->set_reports(reports_manager);
   auto minimiser_manager = shared_ptr<minimisers::Manager>(new minimisers::Manager());
   master_model_->managers()->set_minimiser(minimiser_manager);
+  auto mcmc_manager = std::make_shared<mcmcs::Manager>();
+  master_model_->managers()->set_mcmc(mcmc_manager);
 
   master_model_->set_run_mode(run_mode);
-
-  // Grab our model type as specified in the config file.
-  // If it's not the type we created by default, create
-  // a new master model
-  string model_type = config_loader.model_type();
-  if (master_model_->type() != model_type) {
-    master_model_->factory().Create(PARAM_MODEL, model_type);
-    master_model_->flag_primary_thread_model();
-  }
 
   // Next we'll parse our configuration file into the master model
   // We do this separately to the others so we can grab the number of threads needed
   vector<shared_ptr<Model>> model_list;
   model_list.push_back(master_model_);
   master_model_->set_id(1);
-  config_loader.Build(model_list);
+  config_loader_.Build(model_list);
   model_list.clear();  // so we don't re-parse configuration file into it
   unsigned thread_count = master_model_->threads();
 
@@ -140,13 +197,14 @@ int Runner::Go() {
     model->set_id(i + 1);
     model->managers()->set_reports(reports_manager);
     model->managers()->set_minimiser(minimiser_manager);
+    model->set_global_configuration(&global_configuration_);
     model->set_run_mode(run_mode);
     model_list.push_back(model);
   }
 
   // If we're running +1 threads, build our new model_list
   if (model_list.size() > 0)
-    config_loader.Build(model_list);
+    config_loader_.Build(model_list);
 
   if (logging.errors().size() > 0) {
     logging.FlushErrors();
@@ -156,11 +214,6 @@ int Runner::Go() {
   // Put the master model back into the list at the start
   //	model_list[0]->flag_primary_thread_model();
   model_list.insert(model_list.begin(), master_model_);
-
-  // override any config file values from our command line parameters
-  master_model_->global_configuration().ParseOptions(master_model_);
-  master_model_->global_configuration().set_run_parameters(run_parameters_);  // TODO: Set global_configuration for models too from Runner
-  utilities::RandomNumberGenerator::Instance().Reset(master_model_->global_configuration().random_seed());
 
   // Thread off the reports
   // Must be done before we validate and build below
@@ -194,7 +247,8 @@ int Runner::Go() {
       return_code = RunEstimation() ? 0 : -1;
       break;
     case RunMode::kMCMC:
-      master_model_->Start(run_mode);
+      return_code = RunMCMC();
+      // master_model_->Start(run_mode);
       break;
     case RunMode::kSimulation:
       master_model_->Start(run_mode);
@@ -212,8 +266,7 @@ int Runner::Go() {
       break;
   }
 
-  // we're finished. Terminate our threads to cleanup memory
-  thread_pool_->TerminateAll();
+  Finalize();
 
   // finish report thread
   reports_manager->StopThread();
@@ -226,7 +279,8 @@ int Runner::Go() {
   } else
     logging.FlushWarnings();
 
-  standard_header.PrintBottom(global_configuration_);
+  if (!global_configuration_.disable_standard_report())
+    standard_header.PrintBottom(global_configuration_);
 
   return return_code;
 }
@@ -249,7 +303,7 @@ bool Runner::RunQuery() {
 
   if (parts.size() == 2) {
     master_model_->set_partition_type(PartitionType::kAge);
-    base::Object *object = master_model_->factory().CreateObject(parts[0], parts[1], PartitionType::kModel);
+    base::Object* object = master_model_->factory().CreateObject(parts[0], parts[1], PartitionType::kModel);
     if (object) {
       cout << "Printing information for " << parts[0] << " with sub-type " << parts[1] << endl;
       object->PrintParameterQueryInfo();
@@ -323,6 +377,73 @@ bool Runner::RunEstimation() {
   LOG_MEDIUM() << "Model: State change to Finalise";
   master_model_->Finalise();
   return true;
+}
+
+/**
+ * @brief Run the system through a markov-chain monte-carlo
+ *
+ * @return int Return code
+ */
+int Runner::RunMCMC() {
+  LOG_FINE() << "Entering the MCMC Sub-System";
+  auto mcmc = master_model_->managers()->mcmc()->active_mcmc();
+  if (!mcmc)
+    LOG_CODE_ERROR() << "!mcmc";
+
+  Logging& logging = Logging::Instance();
+  if (logging.errors().size() > 0) {
+    logging.FlushErrors();
+    return false;
+  }
+
+  // TODO: Replace with call to mcmc::Manager.Resume();
+  // TODO: Do we even need resuming of MCMC chain? This is likely never used
+  // and we should support chaining MCMC algorithms
+  if (global_configuration_.resume_mcmc()) {
+    configuration::MCMCObjective objective_loader(master_model_);
+    if (!objective_loader.LoadFile(global_configuration_.mcmc_objective_file()))
+      return false;
+
+    configuration::MCMCSample sample_loader(master_model_);
+    if (!sample_loader.LoadFile(global_configuration_.mcmc_sample_file()))
+      return false;
+
+    // reset RNG seed for resume
+    utilities::RandomNumberGenerator::Instance().Reset((unsigned int)time(NULL));
+
+  } else if (!global_configuration_.skip_estimation()) {
+    /**
+     * Note: This should only be called when running Casal2 in a standalone executable
+     * as it must use the same build profile (autodiff or not) as the MCMC. When
+     * using the front end application, skip_estimation will be flagged as true.
+     * This is because the front end handles the minimisation to generate the MPD file
+     * and Covariance matrix for use by the MCMC
+     */
+    LOG_FINE() << "Calling minimiser to find our minimum and covariance matrix";
+    auto minimiser = master_model_->managers()->minimiser()->active_minimiser();
+    if ((minimiser->type() == PARAM_DE_SOLVER) | (minimiser->type() == PARAM_DLIB))
+      LOG_ERROR() << "The minimiser type " << PARAM_DE_SOLVER << ", " << PARAM_DE_SOLVER
+                  << " does not produce a covariance matrix and so will not be viable for an MCMC run, try one of the other minimisers.";
+
+    minimiser->Execute();
+    LOG_FINE() << "Build covariance matrix";
+    minimiser->BuildCovarianceMatrix();
+    LOG_FINE() << "Minimisation complete. Starting MCMC";
+
+    // TODO: Implement a setter here
+    mcmc->covariance_matrix() = minimiser->covariance_matrix();
+    auto covariance_matrix_   = minimiser->covariance_matrix();
+    LOG_MEDIUM() << "Printing Covariance Matrix from Minimiser";
+    for (unsigned i = 0; i < covariance_matrix_.size1(); ++i) {
+      for (unsigned j = 0; j < covariance_matrix_.size2(); ++j) {
+        LOG_MEDIUM() << "row = " << i + 1 << " col = " << j + 1 << " value = " << covariance_matrix_(i, j);
+      }
+    }
+  }
+  LOG_FINE() << "Begin MCMC chain";
+  mcmc->Execute(thread_pool_);
+
+  return 0;
 }
 
 } /* namespace niwa */

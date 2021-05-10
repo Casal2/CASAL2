@@ -13,11 +13,13 @@
 #ifdef TESTMODE
 
 // headers
+#include <gmock/gmock.h>
+#include <gtest/gtest.h>
+
+#include <map>
+
 #include "Objects.h"
 
-#include <gtest/gtest.h>
-#include <gmock/gmock.h>
-#include <map>
 
 // namespaces
 namespace niwa {
@@ -28,22 +30,22 @@ using std::map;
  */
 class MockObjects : public niwa::Objects {
 public:
-  MockObjects(shared_ptr<Model> model) : niwa::Objects(model) { };
+  MockObjects(shared_ptr<Model> model) : niwa::Objects(model){};
   virtual ~MockObjects() = default;
 
   MOCK_METHOD3(VerfiyAddressableForUse, bool(const string&, addressable::Usage, string&));
   MOCK_METHOD1(GetAddressableType, addressable::Type(const string&));
   MOCK_METHOD1(GetAddressable, double*(const string&));
   MOCK_METHOD1(GetAddressables, vector<Double*>*(const string&));
-  MOCK_METHOD1(GetAddressableUMap, map<unsigned,double>*(const string&));
-  MOCK_METHOD1(GetAddressableSMap, OrderedMap<string,double>*(const string&));
+  MOCK_METHOD1(GetAddressableUMap, map<unsigned, double>*(const string&));
+  MOCK_METHOD1(GetAddressableSMap, OrderedMap<string, double>*(const string&));
   MOCK_METHOD1(GetAddressableVector, vector<Double>*(const string&));
   MOCK_METHOD1(FindObject, base::Object*(const string&));
 
   MOCK_METHOD1(FindObjectOrNull, base::Object*(const string&));
   MOCK_METHOD5(ExplodeString, void(const string&, string&, string&, string&, string&));
   MOCK_METHOD5(ImplodeString, void(const string&, const string&, const string&, const string&, string&));
-  MOCK_METHOD1(ExplodeParameterAndIndex, std::pair<string,string>(const string&));
+  MOCK_METHOD1(ExplodeParameterAndIndex, std::pair<string, string>(const string&));
 };
 
 } /* namespace niwa */

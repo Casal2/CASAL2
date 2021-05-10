@@ -4,7 +4,7 @@
  * @date 14/10/2019
  * @section LICENSE
  *
- * Copyright NIWA Science ©2019 - www.niwa.co.nz
+ * Copyright NIWA Science ï¿½2019 - www.niwa.co.nz
  *
  * @description
  * This class is our threadpool object. This is the class
@@ -17,42 +17,43 @@
 
 // headers
 #include <mutex>
-#include <vector>
 #include <string>
+#include <vector>
 
 #include "../ThreadPool/Thread.h"
 
 // namespaces
 namespace niwa {
 
+using std::mutex;
 using std::string;
 using std::vector;
-using std::mutex;
 
 // class declaration
 class ThreadPool {
 public:
-	// methods
-	ThreadPool() = default;
-	virtual ~ThreadPool() = default;
-	void												CreateThreads(vector<shared_ptr<Model>> models);
-	void												RunCandidates(const vector<vector<double>>& candidates, vector<double>& scores);
-	void												TerminateAll();
-	void												CheckThreads();
-	void												StressTest();
+  // methods
+  ThreadPool()          = default;
+  virtual ~ThreadPool() = default;
+  void CreateThreads(vector<shared_ptr<Model>> models);
+  void RunCandidates(const vector<vector<double>>& candidates, vector<double>& scores);
+  void TerminateAll();
+  void CheckThreads();
+  void StressTest();
 
-	vector<shared_ptr<Thread>>	Threads() { return threads_; }
+  vector<shared_ptr<Thread>> threads() { return threads_; }
 
 private:
-	// methods
-	void												Terminate();
-	void												JoinAll();
+  // methods
+  void Terminate();
+  void JoinAll();
 
-	// members
-	vector<shared_ptr<Thread>>	threads_;
-	double											scores_[100] = {0};
+  // members
+  vector<shared_ptr<Thread>> threads_;
+  double                     scores_[100] = {0};
+  bool                       is_ok_       = true;
 
-	DISALLOW_COPY_AND_ASSIGN(ThreadPool);
+  DISALLOW_COPY_AND_ASSIGN(ThreadPool);
 };
 
 } /* namespace niwa */

@@ -5,7 +5,7 @@
  * @date 18/09/2012
  * @section LICENSE
  *
- * Copyright NIWA Science ©2012 - www.niwa.co.nz
+ * Copyright NIWA Science ï¿½2012 - www.niwa.co.nz
  *
  * $Date: 2008-03-04 16:33:32 +1300 (Tue, 04 Mar 2008) $
  */
@@ -40,19 +40,21 @@ void GlobalConfiguration::Clear() {
  *
  * Some of the extra options are parsed here and may create some objects
  */
-void GlobalConfiguration::ParseOptions(shared_ptr<Model> model) {
+void GlobalConfiguration::ParseOptions() {
   LOG_TRACE();
 
-  if (options_.override_random_number_seed_)
+  if (options_.override_random_number_seed_) {
+    LOG_MEDIUM() << "Overriding random seed from " << options_.random_number_seed_ << " to " << options_.override_rng_seed_value_;
     options_.random_number_seed_ = options_.override_rng_seed_value_;
-
-  if (options_.output_ != "") {
-    auto report = reports::Factory::Create(model, PARAM_REPORT, PARAM_OUTPUT_PARAMETERS);
-    report->parameters().Add(PARAM_LABEL, "parameter_output", __FILE__, __LINE__);
-    report->parameters().Add(PARAM_TYPE, PARAM_OUTPUT_PARAMETERS, __FILE__, __LINE__);
-    report->parameters().Add(PARAM_FILE_NAME, options_.output_, __FILE__, __LINE__);
-    report->set_skip_tags(true);
   }
+
+  // if (options_.output_ != "") {
+  //   auto report = reports::Factory::Create(model, PARAM_REPORT, PARAM_OUTPUT_PARAMETERS);
+  //   report->parameters().Add(PARAM_LABEL, "parameter_output", __FILE__, __LINE__);
+  //   report->parameters().Add(PARAM_TYPE, PARAM_OUTPUT_PARAMETERS, __FILE__, __LINE__);
+  //   report->parameters().Add(PARAM_FILE_NAME, options_.output_, __FILE__, __LINE__);
+  //   report->set_skip_tags(true);
+  // }
 }
 
 } /* namespace niwa */

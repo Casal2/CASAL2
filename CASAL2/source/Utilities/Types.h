@@ -84,7 +84,7 @@ typedef adouble Double;
 typedef CppAD::AD<double> Double;
 // per https://coin-or.github.io/CppAD/doc/ad_output.htm
 // use this (CppAD::AD<base> has '<<'' defined)
-#define AS_DOUBLE(x) Value(x)
+#define AS_DOUBLE(x) CppAD::Value(x)
 #endif
 
 #ifndef USE_AUTODIFF
