@@ -39,7 +39,7 @@ namespace util = niwa::utilities;
 /**
  * Load the configuration files from disk to memory.
  */
-bool Loader::LoadFromDiskToMemory(GlobalConfiguration &global_config, const string &override_file_name) {
+bool Loader::LoadFromDiskToMemory(GlobalConfiguration& global_config, const string& override_file_name) {
   /**
    * Check if we want to skip loading the configuration files or not. This is utilised
    * by the unit testing suite to allow us to load values from memory
@@ -105,7 +105,7 @@ void Loader::StoreLine(FileLine line) {
  */
 void Loader::CreateBlocksFromInput() {
   LOG_TRACE();
-
+  blocks_.clear();
   vector<FileLine> block;
   bool             first_block = true;
   for (unsigned i = 0; i < file_lines_.size(); ++i) {
@@ -120,7 +120,7 @@ void Loader::CreateBlocksFromInput() {
             LOG_FATAL() << "The first block to be processed must be @model. Actual was " << block[0].line_;
 
           bool found_model_type = false;
-          for (auto &file_line : block) {
+          for (auto& file_line : block) {
             if (file_line.line_.length() > 4 && utilities::ToLowercase(file_line.line_.substr(0, 4)) == PARAM_TYPE) {
               found_model_type = true;
 
@@ -182,9 +182,9 @@ void Loader::CreateBlocksFromInput() {
 /**
  * This method will parse a single block from the loaded
  */
-void Loader::Build(vector<shared_ptr<Model>> &model_list) {
+void Loader::Build(vector<shared_ptr<Model>>& model_list) {
   for (auto model : model_list) {
-    for (auto &block : blocks_) {
+    for (auto& block : blocks_) {
       ParseBlock(model, block);
     }
   }
@@ -197,7 +197,7 @@ void Loader::Build(vector<shared_ptr<Model>> &model_list) {
  *
  * @param block Vector of block's line definitions
  */
-void Loader::ParseBlock(shared_ptr<Model> model, vector<FileLine> &block) {
+void Loader::ParseBlock(shared_ptr<Model> model, vector<FileLine>& block) {
   LOG_TRACE();
   if (block.size() == 0)
     LOG_CODE_ERROR() << "block.size() == 0";
@@ -221,6 +221,12 @@ void Loader::ParseBlock(shared_ptr<Model> model, vector<FileLine> &block) {
   block_type  = line_parts[0].substr(1);  // Skip the first char '@'
   block_label = line_parts.size() == 2 ? line_parts[1] : "";
 
+#ifdef USE_AUTODIFF
+  // We're using auto-diff. So we want to skip loading MCMCs
+  if (block_type == PARAM_MCMC)
+    return;
+#endif
+
   /**
    * Look for the object type and partition_type
    * e.g
@@ -231,7 +237,7 @@ void Loader::ParseBlock(shared_ptr<Model> model, vector<FileLine> &block) {
   PartitionType partition_type = PartitionType::kModel;
 
   for (FileLine file_line : block) {
-    string &line = file_line.line_;
+    string& line = file_line.line_;
 
     if (line.length() >= 5 && line.substr(0, 4) == PARAM_TYPE) {
       // Split the line into a vector
@@ -283,7 +289,7 @@ void Loader::ParseBlock(shared_ptr<Model> model, vector<FileLine> &block) {
     return;
   }
 
-  Object *object = model->factory().CreateObject(block_type, sub_type, partition_type);
+  Object* object = model->factory().CreateObject(block_type, sub_type, partition_type);
   if (!object)
     LOG_FATAL() << "At line " << block[0].line_number_ << " in " << block[0].file_name_ << ": Block object type or sub-type is invalid.\n"
                 << "Object Type: " << block_type << "\n"
@@ -404,7 +410,7 @@ void Loader::ParseBlock(shared_ptr<Model> model, vector<FileLine> &block) {
 
       // loading a normal parameter
       if (!object->parameters().ignore_all_parameters()) {
-        const Parameter *parameter = object->parameters().Get(parameter_type);
+        const Parameter* parameter = object->parameters().Get(parameter_type);
         if (!parameter) {
           LOG_ERROR() << "At line " << file_line.line_number_ << " in " << file_line.file_name_ << ": Parameter '" << parameter_type << "' is not supported";
         } else if (parameter->has_been_defined()) {
@@ -437,7 +443,7 @@ void Loader::ParseBlock(shared_ptr<Model> model, vector<FileLine> &block) {
  *
  * All labels created will be prefixed with <parent>.
  */
-void Loader::HandleInlineDefinitions(shared_ptr<Model> model, FileLine &file_line, const string &parent_label) {
+void Loader::HandleInlineDefinitions(shared_ptr<Model> model, FileLine& file_line, const string& parent_label) {
   vector<string> replacements = {"one", "two", "three", "four", "five", "six", "seven", "eight", "nine"};
 
   /**
@@ -521,7 +527,7 @@ void Loader::HandleInlineDefinitions(shared_ptr<Model> model, FileLine &file_lin
         block_line.line_        = "@" + block_type + " " + label;
         inline_block.push_back(block_line);
 
-        for (string &definition : definition_parts) {
+        for (string& definition : definition_parts) {
           boost::replace_all(definition, "=", " ");
           boost::trim_all(definition);
 
