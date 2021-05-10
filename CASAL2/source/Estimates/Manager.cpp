@@ -40,7 +40,9 @@ Manager::~Manager() {
 /**
  * Validate the objects - no model
  */
-void Manager::Validate() { LOG_CODE_ERROR() << "This method is not supported"; }
+void Manager::Validate() {
+  LOG_CODE_ERROR() << "This method is not supported";
+}
 
 /**
  * Validate the objects
@@ -111,7 +113,9 @@ void Manager::Validate(shared_ptr<Model> model) {
 /**
  * Build the objects - no model
  */
-void Manager::Build() { LOG_CODE_ERROR() << "This method is not supported"; }
+void Manager::Build() {
+  LOG_CODE_ERROR() << "This method is not supported";
+}
 
 /**
  * Build the objects
@@ -181,6 +185,26 @@ vector<Estimate*> Manager::GetInObjectiveFunction() {
 
   for (Estimate* estimate : objects_) {
     if (estimate->in_objective_function())
+      result.push_back(estimate);
+  }
+
+  return result;
+}
+
+/**
+ * @brief Get a vector of estimate pointers to estimates that
+ * will be used during an MCMC run.
+ *
+ * Any estimates that have flagged mcmc_fixed as true,
+ * or having matching lower and upper bounds will not be returned
+ *
+ * @return vector<Estimate*>
+ */
+vector<Estimate*> Manager::GetIsMCMCd() {
+  vector<Estimate*> result;
+
+  for (Estimate* estimate : objects_) {
+    if (estimate->estimated() && !estimate->mcmc_fixed() && !math::IsEqual(estimate->lower_bound(), estimate->upper_bound()))
       result.push_back(estimate);
   }
 
