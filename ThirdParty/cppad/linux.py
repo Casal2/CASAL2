@@ -41,6 +41,7 @@ class Builder:
       os.system('unzip ' + cppadFileName + '.zip 1> casal2_CppAD_unzip.log 2>&1')
 
     # Build
+    print('-- Building IpOPT Library for CppAD')
     os.chdir(ipOptFileName)      
     if os.system("./configure --enable-static --disable-shared --with-pic 1> casal2_configure.log 2>&1") != EX_OK:
       return Globals.PrintError("Failed to configure code base. Please see above for build error")
