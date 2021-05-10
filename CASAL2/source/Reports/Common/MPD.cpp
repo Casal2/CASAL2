@@ -12,9 +12,9 @@
 // headers
 #include "MPD.h"
 
-#include "../../Model/Managers.h"
 #include "../../Estimates/Manager.h"
 #include "../../Minimisers/Manager.h"
+#include "../../Model/Managers.h"
 #include "../../Utilities/To.h"
 
 // namespaces
@@ -27,7 +27,7 @@ namespace reports {
  * @param model A pointer to the model this report is linked to
  */
 MPD::MPD() {
-  run_mode_ = RunMode::kEstimation;
+  run_mode_    = RunMode::kEstimation;
   model_state_ = State::kFinalise;
 }
 
@@ -42,12 +42,10 @@ void MPD::DoExecute(shared_ptr<Model> model) {
    */
   cache_ << "estimate_values:\n";
   auto estimates = model->managers()->estimate()->GetIsEstimated();
-  for (auto estimate : estimates)
-    cache_ << estimate->parameter() << " ";
+  for (auto estimate : estimates) cache_ << estimate->parameter() << " ";
   cache_ << "\n";
 
-  for (auto estimate : estimates)
-    cache_ << AS_DOUBLE(estimate->value()) << " ";
+  for (auto estimate : estimates) cache_ << AS_DOUBLE(estimate->value()) << " ";
   cache_ << "\n";
 
   /**
@@ -56,8 +54,7 @@ void MPD::DoExecute(shared_ptr<Model> model) {
   cache_ << "covariance_matrix:\n";
   auto covariance_matrix = model->managers()->minimiser()->active_minimiser()->covariance_matrix();
   for (unsigned i = 0; i < covariance_matrix.size1(); ++i) {
-    for (unsigned j = 0; j < covariance_matrix.size2(); ++j)
-      cache_ << covariance_matrix(i,j) << " ";
+    for (unsigned j = 0; j < covariance_matrix.size2(); ++j) cache_ << covariance_matrix(i, j) << " ";
     cache_ << "\n";
   }
 

@@ -5,7 +5,7 @@
  * @date 15/01/2013
  * @section LICENSE
  *
- * Copyright NIWA Science ©2013 - www.niwa.co.nz
+ * Copyright NIWA Science ï¿½2013 - www.niwa.co.nz
  *
  * @section DESCRIPTION
  *
@@ -15,26 +15,28 @@
  */
 #ifndef MOCK_MODEL_H_
 #define MOCK_MODEL_H_
+#ifdef TESTMODE
 
 // Headers
 #include <gmock/gmock.h>
 
+#include "../../Model/Managers.h"
 #include "../../Model/Model.h"
 #include "../../Model/Models/Age.h"
-#include "../../Model/Managers.h"
 #include "../../Model/Objects.h"
 #include "../../Utilities/PartitionType.h"
 
+
 // Namespaces
 namespace niwa {
+using ::testing::DoDefault;
 using ::testing::Return;
 using ::testing::ReturnRef;
-using ::testing::DoDefault;
 
 /**
  * Class Definition
  */
-class MockModel : public niwa::model::Age, public std::enable_shared_from_this<MockModel>  {
+class MockModel : public niwa::model::Age, public std::enable_shared_from_this<MockModel> {
 public:
   // Constructor
   MockModel() {
@@ -44,9 +46,9 @@ public:
     set_final_year(1992);
     set_current_year(1991);
     set_age_plus(true);
-    set_time_steps({ "time_step_one", "time_step_two" });
+    set_time_steps({"time_step_one", "time_step_two"});
     set_partition_type(PartitionType::kAge);
-    set_length_bins({ 10, 20, 30, 40, 50 });
+    set_length_bins({10, 20, 30, 40, 50});
     set_length_plus(false);
   }
 
@@ -96,7 +98,7 @@ public:
    */
   vector<unsigned> mock_years() { return Model::years(); }
   vector<unsigned> mock_years_all() { return Model::years_all(); }
-  unsigned mock_age_spread() { return Model::age_spread(); }
+  unsigned         mock_age_spread() { return Model::age_spread(); }
 
   /**
    * Set our call with the values we've put on the base model class
@@ -151,5 +153,5 @@ public:
 };
 } /* namespace niwa */
 
-#endif /* MOCK_MODEL_H_ */
-
+#endif  // TESTMODE
+#endif  /* MOCK_MODEL_H_ */

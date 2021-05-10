@@ -5,7 +5,7 @@
  * @date 11/08/2015
  * @section LICENSE
  *
- * Copyright NIWA Science ©2015 - www.niwa.co.nz
+ * Copyright NIWA Science ï¿½2015 - www.niwa.co.nz
  *
  * @section DESCRIPTION
  *
@@ -13,6 +13,7 @@
  */
 #ifndef SOURCE_TESTRESOURCES_MOCKCLASSES_MANAGERS_H_
 #define SOURCE_TESTRESOURCES_MOCKCLASSES_MANAGERS_H_
+#ifdef TESTMODE
 
 // Headers
 #include "../../Model/Managers.h"
@@ -25,8 +26,8 @@ namespace niwa {
  */
 class MockManagers : public niwa::Managers {
 public:
-	MockManagers() = delete;
-  MockManagers(shared_ptr<Model> model) : Managers(model) { };
+  MockManagers() = delete;
+  MockManagers(shared_ptr<Model> model) : Managers(model){};
   MOCK_METHOD0(time_step, timesteps::Manager*());
   MOCK_METHOD0(length_weight, lengthweights::Manager*());
 };
@@ -35,4 +36,5 @@ typedef std::shared_ptr<MockManagers> MockManagersPtr;
 
 } /* namespace niwa */
 
-#endif /* SOURCE_TESTRESOURCES_MOCKCLASSES_MANAGERS_H_ */
+#endif  // TESTMODE
+#endif  /* SOURCE_TESTRESOURCES_MOCKCLASSES_MANAGERS_H_ */

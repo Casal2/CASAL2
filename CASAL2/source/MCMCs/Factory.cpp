@@ -13,6 +13,7 @@
 #include "Factory.h"
 
 #include "../MCMCs/Common/IndependenceMetropolis.h"
+#include "../MCMCs/Common/RandomWalkMetropolisHastings.h"
 #include "../MCMCs/Manager.h"
 #include "../Model/Managers.h"
 #include "../Model/Model.h"
@@ -26,15 +27,17 @@ namespace mcmcs {
  */
 MCMC* Factory::Create(shared_ptr<Model> model, const string& object_type, const string& sub_type) {
   MCMC* object = nullptr;
-
+#ifndef USE_AUTODIFF
   if (object_type == PARAM_MCMC) {
     if (sub_type == "" || sub_type == PARAM_INDEPENDENCE_METROPOLIS || sub_type == PARAM_METROPOLIS_HASTINGS)
       object = new IndependenceMetropolis(model);
+    else if (sub_type == PARAM_RANDOMWALK)
+      object = new RandomWalkMetropolisHastings(model);
   }
 
   if (object)
     model->managers()->mcmc()->AddObject(object);
-
+#endif  // USE_AUTODIFF
   return object;
 }
 

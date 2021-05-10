@@ -4,7 +4,7 @@
  * @date 23/01/2014
  * @section LICENSE
  *
- * Copyright NIWA Science ©2013 - www.niwa.co.nz
+ * Copyright NIWA Science ï¿½2013 - www.niwa.co.nz
  *
  * @section DESCRIPTION
  *
@@ -23,7 +23,7 @@ namespace testcases {
  *
  */
 const std::string test_cases_two_sex_model_population =
-R"(
+    R"(
 @model
 start_year 1994
 final_year 2008
@@ -116,9 +116,6 @@ evaluations 4000
 step_size 1e-7
 tolerance 0.002
 covariance true
-
-@mcmc x
-length 100
 
 @catchability CPUEq
 type free

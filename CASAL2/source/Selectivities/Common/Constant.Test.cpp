@@ -5,19 +5,19 @@
  * @date 15/01/2013
  * @section LICENSE
  *
- * Copyright NIWA Science ©2013 - www.niwa.co.nz
+ * Copyright NIWA Science ï¿½2013 - www.niwa.co.nz
  *
  * $Date: 2008-03-04 16:33:32 +1300 (Tue, 04 Mar 2008) $
  */
 #ifdef TESTMODE
 
 // Headers
-#include "Constant.h"
-
 #include <gmock/gmock.h>
 #include <gtest/gtest.h>
 
 #include "../../TestResources/MockClasses/Model.h"
+#include "Constant.h"
+
 
 namespace niwa {
 using ::testing::Return;
@@ -28,17 +28,12 @@ using ::testing::ReturnRef;
  * working properly.
  */
 TEST(Selectivities, Constant_age) {
-
-	cout << "A" << endl;
   shared_ptr<MockModel> model = shared_ptr<MockModel>(new MockModel());
-  cout << "B" << endl;
   EXPECT_CALL(*model, partition_type()).WillRepeatedly(Return(PartitionType::kAge));
   EXPECT_CALL(*model, min_age()).WillRepeatedly(Return(10));
   EXPECT_CALL(*model, max_age()).WillRepeatedly(Return(20));
   EXPECT_CALL(*model, age_spread()).WillRepeatedly(Return(11));
-  cout << "C" << endl;
   niwa::selectivities::Constant constant(model);
-  cout << "D" << endl;
   constant.parameters().Add(PARAM_LABEL, "unit_test_constant", __FILE__, __LINE__);
   constant.parameters().Add(PARAM_TYPE, "not needed in test", __FILE__, __LINE__);
   constant.parameters().Add(PARAM_C, "83", __FILE__, __LINE__);
@@ -53,8 +48,8 @@ TEST(Selectivities, Constant_age) {
 }
 
 TEST(Selectivities, Constant_Length) {
-  shared_ptr<MockModel> model = shared_ptr<MockModel>(new MockModel());
-  vector<double> lengths = {10, 20, 30, 40, 50, 60, 120};
+  shared_ptr<MockModel> model   = shared_ptr<MockModel>(new MockModel());
+  vector<double>        lengths = {10, 20, 30, 40, 50, 60, 120};
   EXPECT_CALL(*model, min_age()).WillRepeatedly(Return(10));
   EXPECT_CALL(*model, max_age()).WillRepeatedly(Return(20));
   EXPECT_CALL(*model, age_spread()).WillRepeatedly(Return(11));
@@ -67,11 +62,9 @@ TEST(Selectivities, Constant_Length) {
   constant.Validate();
   constant.Build();
 
-
   for (unsigned i = 0; i < lengths.size(); ++i) {
-    EXPECT_DOUBLE_EQ(22,  constant.GetLengthResult(i));
+    EXPECT_DOUBLE_EQ(22, constant.GetLengthResult(i));
   }
-
 }
 
 } /* namespace niwa */
