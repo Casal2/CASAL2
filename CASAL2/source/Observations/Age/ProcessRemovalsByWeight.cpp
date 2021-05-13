@@ -318,35 +318,6 @@ void ProcessRemovalsByWeight::DoBuild() {
       << ". Check that the years are compatible with this process";
 
 
-  auto data_size = model_->age_spread();
-  auto partition_iter = partition_->Begin(); // vector<vector<partition::Category> >
-  for (unsigned category_offset = 0; category_offset < category_labels_.size(); ++category_offset, ++partition_iter) {
-    LOG_FINE() << "category: " << category_labels_[category_offset];
-
-    auto category_iter = partition_iter->begin();
-    for (; category_iter != partition_iter->end(); ++category_iter) {
-
-      vector<vector<Double>> age_length_matrix;
-      vector<vector<Double>> length_weight_matrix;
-      vector<vector<Double>> age_weight_matrix;
-
-      age_length_matrix.resize(data_size);
-      age_weight_matrix.resize(data_size);
-      for (unsigned i = 0; i < data_size; ++i) {
-        age_length_matrix[i].resize(number_length_bins_);
-        age_weight_matrix[i].resize(number_weight_bins_);
-      }
-
-      length_weight_matrix.resize(number_length_bins_);
-      for (unsigned i = 0; i < number_length_bins_; ++i) {
-        length_weight_matrix[i].resize(number_weight_bins_);
-      }
-
-      map_age_length_matrix_[category_labels_[category_offset]][(*category_iter)->name_]    = age_length_matrix;
-      map_length_weight_matrix_[category_labels_[category_offset]][(*category_iter)->name_] = length_weight_matrix;
-      map_age_weight_matrix_[category_labels_[category_offset]][(*category_iter)->name_]    = age_weight_matrix;
-    }
-  }
 
   length_weight_cv_adj_.resize(number_length_bins_);
   for (unsigned i = 0; i < number_length_bins_; ++i) {
@@ -393,6 +364,7 @@ void ProcessRemovalsByWeight::Execute() {
 //  auto categories = model_->categories();
   unsigned year       = model_->current_year();
   unsigned time_step  = model_->managers().time_step()->current_time_step();
+  auto age_data_size  = model_->age_spread();
 
   auto cached_partition_iter = cached_partition_->Begin();
   auto partition_iter        = partition_->Begin(); // vector<vector<partition::Category> >
@@ -434,6 +406,21 @@ void ProcessRemovalsByWeight::Execute() {
       vector<vector<Double>>& age_length_matrix    = map_age_length_matrix_[category_labels_[category_offset]][(*category_iter)->name_];
       vector<vector<Double>>& length_weight_matrix = map_length_weight_matrix_[category_labels_[category_offset]][(*category_iter)->name_];
       vector<vector<Double>>& age_weight_matrix    = map_age_weight_matrix_[category_labels_[category_offset]][(*category_iter)->name_];
+
+      // this should go elsewhere; when are partitions initialised?
+      if (age_length_matrix.size() == 0) {
+        age_length_matrix.resize(age_data_size);
+        age_weight_matrix.resize(age_data_size);
+        for (unsigned i = 0; i < age_data_size; ++i) {
+          age_length_matrix[i].resize(number_length_bins_);
+          age_weight_matrix[i].resize(number_weight_bins_);
+        }
+
+        length_weight_matrix.resize(number_length_bins_);
+        for (unsigned i = 0; i < number_length_bins_; ++i) {
+          length_weight_matrix[i].resize(number_weight_bins_);
+        }
+      }
 
 
       AgeLength* age_length = (*category_iter)->age_length_;
