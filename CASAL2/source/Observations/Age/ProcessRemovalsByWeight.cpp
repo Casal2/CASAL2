@@ -317,22 +317,40 @@ void ProcessRemovalsByWeight::DoBuild() {
     LOG_ERROR_P(PARAM_YEARS) << "could not find catches in all years in the instantaneous_mortality process labeled " << process_label_
       << ". Check that the years are compatible with this process";
 
+
   auto data_size = model_->age_spread();
-  age_length_matrix.resize(data_size);
-  age_weight_matrix.resize(data_size);
-  for (unsigned i = 0; i < data_size; ++i) {
-    age_length_matrix[i].resize(number_length_bins_);
-    age_weight_matrix[i].resize(number_weight_bins_);
+  auto partition_iter = partition_->Begin(); // vector<vector<partition::Category> >
+  for (unsigned category_offset = 0; category_offset < category_labels_.size(); ++category_offset, ++partition_iter) {
+    LOG_FINE() << "category: " << category_labels_[category_offset];
+
+    auto category_iter = partition_iter->begin();
+    for (; category_iter != partition_iter->end(); ++category_iter) {
+
+      vector<vector<Double>> age_length_matrix;
+      vector<vector<Double>> length_weight_matrix;
+      vector<vector<Double>> age_weight_matrix;
+
+      age_length_matrix.resize(data_size);
+      age_weight_matrix.resize(data_size);
+      for (unsigned i = 0; i < data_size; ++i) {
+        age_length_matrix[i].resize(number_length_bins_);
+        age_weight_matrix[i].resize(number_weight_bins_);
+      }
+
+      length_weight_matrix.resize(number_length_bins_);
+      for (unsigned i = 0; i < number_length_bins_; ++i) {
+        length_weight_matrix[i].resize(number_weight_bins_);
+      }
+
+      map_age_length_matrix_[category_labels_[category_offset]][(*category_iter)->name_]    = age_length_matrix;
+      map_length_weight_matrix_[category_labels_[category_offset]][(*category_iter)->name_] = length_weight_matrix;
+      map_age_weight_matrix_[category_labels_[category_offset]][(*category_iter)->name_]    = age_weight_matrix;
+    }
   }
 
-  length_weight_matrix.resize(number_length_bins_);
+  length_weight_cv_adj_.resize(number_length_bins_);
   for (unsigned i = 0; i < number_length_bins_; ++i) {
-    length_weight_matrix[i].resize(number_weight_bins_);
-  }
-
-  length_weight_cv_adj.resize(number_length_bins_);
-  for (unsigned i = 0; i < number_length_bins_; ++i) {
-    length_weight_cv_adj[i] = length_weight_cv_ / length_bins_n_[i];
+    length_weight_cv_adj_[i] = length_weight_cv_ / length_bins_n_[i];
   }
 
   // set up length bins and weight bins with an extra value based on the last two bin values
@@ -413,6 +431,11 @@ void ProcessRemovalsByWeight::Execute() {
     auto cached_category_iter = cached_partition_iter->begin();
     for (; category_iter != partition_iter->end(); ++cached_category_iter, ++category_iter) {
 
+      vector<vector<Double>>& age_length_matrix    = map_age_length_matrix_[category_labels_[category_offset]][(*category_iter)->name_];
+      vector<vector<Double>>& length_weight_matrix = map_length_weight_matrix_[category_labels_[category_offset]][(*category_iter)->name_];
+      vector<vector<Double>>& age_weight_matrix    = map_age_weight_matrix_[category_labels_[category_offset]][(*category_iter)->name_];
+
+
       AgeLength* age_length = (*category_iter)->age_length_;
 
       weight_units    = age_length->weight_units();
@@ -440,8 +463,16 @@ void ProcessRemovalsByWeight::Execute() {
         mean_weight = unit_multiplier * age_length->GetMeanWeight(year, time_step, (*category_iter)->min_age_, length_bins_[j]);
         LOG_FINEST() << "Mean weight at length " << length_bins_[j] << " (CVs for age " << (*category_iter)->min_age_ << "): " << mean_weight;
 
-        std_dev = length_weight_cv_adj[j] * mean_weight;
-        length_weight_matrix[j] = utilities::math::distribution2(weight_bins_plus_, weight_plus_, length_weight_distribution_, mean_weight, std_dev);
+        std_dev = length_weight_cv_adj_[j] * mean_weight;
+        auto tmp_vec = utilities::math::distribution2(weight_bins_plus_, weight_plus_, length_weight_distribution_, mean_weight, std_dev);
+
+        // update the length-weight matrix only if necessary
+        if (utilities::math::Sum(tmp_vec) > 0 && utilities::math::Sum(length_weight_matrix[j]) == utilities::math::Sum(tmp_vec)) {
+          break;
+        }
+
+        length_weight_matrix[j] = tmp_vec;
+
         LOG_FINE() << "Fraction of weight_bin[0] at length " << length_bins_[j] << " for age " << (*category_iter)->min_age_ << ": " << length_weight_matrix[j][0] << " size " << length_weight_matrix[j].size();
         for (unsigned k = 0; k < number_weight_bins_; ++k) {
           LOG_FINEST() << "length_weight_matrix: fraction of weight " << weight_bins_[k] << " at length " << length_bins_[j] << " (CVs for age " << (*category_iter)->min_age_ << "): " << length_weight_matrix[j][k];
@@ -464,7 +495,15 @@ void ProcessRemovalsByWeight::Execute() {
         LOG_FINEST() << "Mean length at age " << age << ": " << mean_length;
 
         std_dev = age_length->cv(year, time_step, age) * mean_length;
-        age_length_matrix[data_offset] = utilities::math::distribution2(length_bins_plus_, length_plus_, age_length->distribution(), mean_length, std_dev);
+        auto tmp_vec = utilities::math::distribution2(length_bins_plus_, length_plus_, age_length->distribution(), mean_length, std_dev);
+
+        // update the age-length (and the age-weight) matrix only if necessary
+        if (utilities::math::Sum(tmp_vec) > 0 && utilities::math::Sum(age_length_matrix[data_offset]) == utilities::math::Sum(tmp_vec)) {
+          break;
+        }
+
+        age_length_matrix[data_offset] = tmp_vec;
+
         LOG_FINE() << "Fraction of length_bin[0] at age " << age << ": " << age_length_matrix[data_offset][0] << " size " << age_length_matrix[data_offset].size();
         for (unsigned j = 0; j < number_length_bins_; ++j) {
           LOG_FINEST() << "age_length_matrix: fraction of length " << length_bins_[j] << " at age " << age << ": " << age_length_matrix[data_offset][j];

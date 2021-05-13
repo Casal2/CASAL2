@@ -74,13 +74,12 @@ protected:
   MortalityInstantaneous*       mortality_instantaneous_ = nullptr;
   string                        time_step_label_ = "";
   string                        process_label_;
-  unsigned                      mlb_index_first_ = 0; // index of model length bin for length_bins_[0]
 
   // local; here so that it doesn't get reallocated in Execute()
-  vector<Double>                length_weight_cv_adj;
-  vector<vector<Double>>        age_length_matrix;
-  vector<vector<Double>>        length_weight_matrix;
-  vector<vector<Double>>        age_weight_matrix;
+  vector<Double>                                          length_weight_cv_adj_;
+  map<string, map<string, vector<vector<Double>>>>        map_age_length_matrix_;
+  map<string, map<string, vector<vector<Double>>>>        map_length_weight_matrix_;
+  map<string, map<string, vector<vector<Double>>>>        map_age_weight_matrix_;
 
   map<unsigned, map<string, vector<Double>>> proportions_;
   map<unsigned, map<string, vector<Double>>> error_values_;
