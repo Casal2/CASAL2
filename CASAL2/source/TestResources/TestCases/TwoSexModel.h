@@ -34,6 +34,7 @@ age_plus t
 base_weight_units kgs
 initialisation_phases iphase1 iphase2
 time_steps step_one step_two
+threads 1
 
 @categories
 format stage.sex
