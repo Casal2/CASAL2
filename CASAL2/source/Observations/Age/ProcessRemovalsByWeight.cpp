@@ -317,22 +317,11 @@ void ProcessRemovalsByWeight::DoBuild() {
     LOG_ERROR_P(PARAM_YEARS) << "could not find catches in all years in the instantaneous_mortality process labeled " << process_label_
       << ". Check that the years are compatible with this process";
 
-  auto data_size = model_->age_spread();
-  age_length_matrix.resize(data_size);
-  age_weight_matrix.resize(data_size);
-  for (unsigned i = 0; i < data_size; ++i) {
-    age_length_matrix[i].resize(number_length_bins_);
-    age_weight_matrix[i].resize(number_weight_bins_);
-  }
 
-  length_weight_matrix.resize(number_length_bins_);
-  for (unsigned i = 0; i < number_length_bins_; ++i) {
-    length_weight_matrix[i].resize(number_weight_bins_);
-  }
 
-  length_weight_cv_adj.resize(number_length_bins_);
+  length_weight_cv_adj_.resize(number_length_bins_);
   for (unsigned i = 0; i < number_length_bins_; ++i) {
-    length_weight_cv_adj[i] = length_weight_cv_ / length_bins_n_[i];
+    length_weight_cv_adj_[i] = length_weight_cv_ / length_bins_n_[i];
   }
 
   // set up length bins and weight bins with an extra value based on the last two bin values
@@ -362,6 +351,41 @@ void ProcessRemovalsByWeight::PreExecute() {
     LOG_CODE_ERROR()<< "cached_partition_->Size() != proportions_[model->current_year()].size()";
   if (partition_->Size() != proportions_[model_->current_year()].size())
     LOG_CODE_ERROR()<< "partition_->Size() != proportions_[model->current_year()].size()";
+
+
+  auto age_data_size  = model_->age_spread();
+
+  auto cached_partition_iter = cached_partition_->Begin();
+  auto partition_iter        = partition_->Begin(); // vector<vector<partition::Category> >
+
+  for (unsigned category_offset = 0; category_offset < category_labels_.size(); ++category_offset, ++partition_iter, ++cached_partition_iter) {
+    LOG_FINE() << "category: " << category_labels_[category_offset];
+
+    auto category_iter        = partition_iter->begin();
+    auto cached_category_iter = cached_partition_iter->begin();
+    for (; category_iter != partition_iter->end(); ++cached_category_iter, ++category_iter) {
+
+      auto category_name = (*category_iter)->name_;
+      LOG_FINE() << "category name: " << category_name;
+
+      // this should go elsewhere; when are partitions initialised?
+      if (map_age_weight_matrix_[category_labels_[category_offset]][category_name].size() == 0) {
+        LOG_FINE() << "initialising age-length-weight matrices";
+
+        map_age_length_matrix_[category_labels_[category_offset]][category_name].resize(age_data_size);
+        map_age_weight_matrix_[category_labels_[category_offset]][category_name].resize(age_data_size);
+        for (unsigned i = 0; i < age_data_size; ++i) {
+          map_age_length_matrix_[category_labels_[category_offset]][category_name][i].resize(number_length_bins_, 0.0);
+          map_age_weight_matrix_[category_labels_[category_offset]][category_name][i].resize(number_weight_bins_, 0.0);
+        }
+
+        map_length_weight_matrix_[category_labels_[category_offset]][category_name].resize(number_length_bins_);
+        for (unsigned i = 0; i < number_length_bins_; ++i) {
+          map_length_weight_matrix_[category_labels_[category_offset]][category_name][i].resize(number_weight_bins_, 0.0);
+        }
+      }
+    }
+  }
 }
 
 /**
@@ -413,6 +437,9 @@ void ProcessRemovalsByWeight::Execute() {
     auto cached_category_iter = cached_partition_iter->begin();
     for (; category_iter != partition_iter->end(); ++cached_category_iter, ++category_iter) {
 
+      auto category_name = (*category_iter)->name_;
+      LOG_FINE() << "category name: " << category_name;
+
       AgeLength* age_length = (*category_iter)->age_length_;
 
       weight_units    = age_length->weight_units();
@@ -432,19 +459,30 @@ void ProcessRemovalsByWeight::Execute() {
         unit_multiplier = 0.0001;
       else if (units_ == PARAM_TONNES && (weight_units == PARAM_GRAMS))
         unit_multiplier = 0.0000001;
-      LOG_FINE() << "category " << (*category_iter)->name_ << " unit multiplier " << unit_multiplier << " from " << weight_units << " to " << units_;
+      LOG_FINE() << "category " << category_name << " unit multiplier " << unit_multiplier << " from " << weight_units << " to " << units_;
 
+      bool no_length_weight_change = true;
 
       for (unsigned j = 0; j < number_length_bins_; ++j) {
         // NOTE: hardcoded for now with minimum age (used to get cv[year][time_step][age])
         mean_weight = unit_multiplier * age_length->GetMeanWeight(year, time_step, (*category_iter)->min_age_, length_bins_[j]);
         LOG_FINEST() << "Mean weight at length " << length_bins_[j] << " (CVs for age " << (*category_iter)->min_age_ << "): " << mean_weight;
 
-        std_dev = length_weight_cv_adj[j] * mean_weight;
-        length_weight_matrix[j] = utilities::math::distribution2(weight_bins_plus_, weight_plus_, length_weight_distribution_, mean_weight, std_dev);
-        LOG_FINE() << "Fraction of weight_bin[0] at length " << length_bins_[j] << " for age " << (*category_iter)->min_age_ << ": " << length_weight_matrix[j][0] << " size " << length_weight_matrix[j].size();
+        std_dev = length_weight_cv_adj_[j] * mean_weight;
+        auto tmp_vec = utilities::math::distribution2(weight_bins_plus_, weight_plus_, length_weight_distribution_, mean_weight, std_dev);
+
+        // update the length-weight matrix only if necessary
+        if (utilities::math::Sum(tmp_vec) > 0 && utilities::math::Sum(map_length_weight_matrix_[category_labels_[category_offset]][category_name][j]) == utilities::math::Sum(tmp_vec)) {
+          break;
+        }
+
+        no_length_weight_change = false;
+
+        map_length_weight_matrix_[category_labels_[category_offset]][category_name][j] = tmp_vec;
+
+        LOG_FINE() << "Fraction of weight_bin[0] at length " << length_bins_[j] << " for age " << (*category_iter)->min_age_ << ": " << map_length_weight_matrix_[category_labels_[category_offset]][category_name][j][0] << " size " << map_length_weight_matrix_[category_labels_[category_offset]][category_name][j].size();
         for (unsigned k = 0; k < number_weight_bins_; ++k) {
-          LOG_FINEST() << "length_weight_matrix: fraction of weight " << weight_bins_[k] << " at length " << length_bins_[j] << " (CVs for age " << (*category_iter)->min_age_ << "): " << length_weight_matrix[j][k];
+          LOG_FINEST() << "map_length_weight_matrix_[category_labels_[category_offset]][category_name]: fraction of weight " << weight_bins_[k] << " at length " << length_bins_[j] << " (CVs for age " << (*category_iter)->min_age_ << "): " << map_length_weight_matrix_[category_labels_[category_offset]][category_name][j][k];
         }
       }
 
@@ -452,53 +490,61 @@ void ProcessRemovalsByWeight::Execute() {
       LOG_FINE() << "number_length_bins_ " << number_length_bins_ << " number_weight_bins_ " << number_weight_bins_ << " age spread " << model_->age_spread();
       LOG_FINE() << "category data size (number of ages) " << (*category_iter)->data_.size();
 
-      Double total_number_at_age = utilities::math::Sum(Removals_at_age[year][method_][(*category_iter)->name_]);
+      Double total_number_at_age = utilities::math::Sum(Removals_at_age[year][method_][category_name]);
 
       for (unsigned data_offset = 0; data_offset < (*category_iter)->data_.size(); ++data_offset) {
         unsigned age = ((*category_iter)->min_age_ + data_offset);
         // Calculate the age structure removed from the fishing process
-        number_at_age = Removals_at_age[year][method_][(*category_iter)->name_][data_offset];
+        number_at_age = Removals_at_age[year][method_][category_name][data_offset];
         LOG_FINEST() << "Numbers at age " << age << ": " << number_at_age;
 
         mean_length = age_length->GetMeanLength(year, time_step, age);
         LOG_FINEST() << "Mean length at age " << age << ": " << mean_length;
 
         std_dev = age_length->cv(year, time_step, age) * mean_length;
-        age_length_matrix[data_offset] = utilities::math::distribution2(length_bins_plus_, length_plus_, age_length->distribution(), mean_length, std_dev);
-        LOG_FINE() << "Fraction of length_bin[0] at age " << age << ": " << age_length_matrix[data_offset][0] << " size " << age_length_matrix[data_offset].size();
+        auto tmp_vec = utilities::math::distribution2(length_bins_plus_, length_plus_, age_length->distribution(), mean_length, std_dev);
+
+        // update the age-length (and the age-weight) matrix only if necessary
+        if (no_length_weight_change && utilities::math::Sum(tmp_vec) > 0 && utilities::math::Sum(map_age_length_matrix_[category_labels_[category_offset]][category_name][data_offset]) == utilities::math::Sum(tmp_vec)) {
+          continue;
+        }
+
+        map_age_length_matrix_[category_labels_[category_offset]][category_name][data_offset] = tmp_vec;
+
+        LOG_FINE() << "Fraction of length_bin[0] at age " << age << ": " << map_age_length_matrix_[category_labels_[category_offset]][category_name][data_offset][0] << " size " << map_age_length_matrix_[category_labels_[category_offset]][category_name][data_offset].size();
         for (unsigned j = 0; j < number_length_bins_; ++j) {
-          LOG_FINEST() << "age_length_matrix: fraction of length " << length_bins_[j] << " at age " << age << ": " << age_length_matrix[data_offset][j];
+          LOG_FINEST() << "map_age_length_matrix_[category_labels_[category_offset]][category_name]: fraction of length " << length_bins_[j] << " at age " << age << ": " << map_age_length_matrix_[category_labels_[category_offset]][category_name][data_offset][j];
         }
 
         // Multiply by number_at_age
-        // std::transform(age_length_matrix[data_offset].begin(), age_length_matrix[data_offset].end(), age_length_matrix[data_offset].begin(), std::bind(std::multiplies<Double>(), std::placeholders::_1, number_at_age));
+        // std::transform(map_age_length_matrix_[category_labels_[category_offset]][category_name][data_offset].begin(), map_age_length_matrix_[category_labels_[category_offset]][category_name][data_offset].end(), map_age_length_matrix_[category_labels_[category_offset]][category_name][data_offset].begin(), std::bind(std::multiplies<Double>(), std::placeholders::_1, number_at_age));
         for (unsigned k = 0; k < number_weight_bins_; ++k) {
           Double tmp = 0.0;
           for (unsigned j = 0; j < number_length_bins_; ++j) {
-            tmp += age_length_matrix[data_offset][j] * length_weight_matrix[j][k];
+            tmp += map_age_length_matrix_[category_labels_[category_offset]][category_name][data_offset][j] * map_length_weight_matrix_[category_labels_[category_offset]][category_name][j][k];
           }
-          age_weight_matrix[data_offset][k] = tmp * number_at_age / total_number_at_age;
-          LOG_FINEST() << "age_weight_matrix[" << data_offset << "][" << k << "] = " << tmp << " * " << number_at_age << " / " << total_number_at_age;
+          map_age_weight_matrix_[category_labels_[category_offset]][category_name][data_offset][k] = tmp * number_at_age / total_number_at_age;
+          LOG_FINEST() << "map_age_weight_matrix_[category_labels_[category_offset]][category_name][" << data_offset << "][" << k << "] = " << tmp << " * " << number_at_age << " / " << total_number_at_age;
         }
-        LOG_FINE() << "Fraction of weight_bin[0] at age " << age << ": " << age_weight_matrix[data_offset][0] << " size " << age_weight_matrix[data_offset].size();
+        LOG_FINE() << "Fraction of weight_bin[0] at age " << age << ": " << map_age_weight_matrix_[category_labels_[category_offset]][category_name][data_offset][0] << " size " << map_age_weight_matrix_[category_labels_[category_offset]][category_name][data_offset].size();
       }
 
 
-      // if (age_length_matrix.size() == 0)
-      //   LOG_CODE_ERROR()<< "if (age_length_matrix_.size() == 0)";
+      // if (map_age_length_matrix_[category_labels_[category_offset]][category_name].size() == 0)
+      //   LOG_CODE_ERROR()<< "if (map_age_length_matrix_[category_labels_[category_offset]][category_name]_.size() == 0)";
 
-      // numbers_at_length.assign(age_length_matrix[0].size(), 0.0);
-      // for (unsigned i = 0; i < age_length_matrix.size(); ++i) {
-      //   for (unsigned j = 0; j < age_length_matrix[i].size(); ++j) {
-      //     numbers_at_length[j] += age_length_matrix[i][j];
+      // numbers_at_length.assign(map_age_length_matrix_[category_labels_[category_offset]][category_name][0].size(), 0.0);
+      // for (unsigned i = 0; i < map_age_length_matrix_[category_labels_[category_offset]][category_name].size(); ++i) {
+      //   for (unsigned j = 0; j < map_age_length_matrix_[category_labels_[category_offset]][category_name][i].size(); ++j) {
+      //     numbers_at_length[j] += map_age_length_matrix_[category_labels_[category_offset]][category_name][i][j];
       //   }
       // }
 
-      // numbers_at_weight.assign(age_weight_matrix[0].size(), 0.0);
+      // numbers_at_weight.assign(map_age_weight_matrix_[category_labels_[category_offset]][category_name][0].size(), 0.0);
       std::fill(numbers_at_weight.begin(), numbers_at_weight.end(), 0.0);
-      for (unsigned i = 0; i < age_weight_matrix.size(); ++i) {
-        for (unsigned j = 0; j < age_weight_matrix[i].size(); ++j) {
-          numbers_at_weight[j] += age_weight_matrix[i][j];
+      for (unsigned i = 0; i < map_age_weight_matrix_[category_labels_[category_offset]][category_name].size(); ++i) {
+        for (unsigned j = 0; j < map_age_weight_matrix_[category_labels_[category_offset]][category_name][i].size(); ++j) {
+          numbers_at_weight[j] += map_age_weight_matrix_[category_labels_[category_offset]][category_name][i][j];
         }
       }
 
@@ -508,7 +554,7 @@ void ProcessRemovalsByWeight::Execute() {
       //   expected_values_length[length_offset] += numbers_at_length[length_offset];
 
       //   LOG_FINE() << "----------";
-      //   LOG_FINE() << "Category: " << (*category_iter)->name_ << " at length " << length_bins_[length_offset];
+      //   LOG_FINE() << "Category: " << category_name << " at length " << length_bins_[length_offset];
       //   LOG_FINE() << "start_value: " << start_value << "; end_value: " << end_value << "; final_value: " << numbers_at_length[length_offset];
       //   LOG_FINE() << "expected_value becomes: " << expected_values_length[length_offset];
       // }
@@ -518,7 +564,7 @@ void ProcessRemovalsByWeight::Execute() {
         expected_values_weight[weight_offset] += numbers_at_weight[weight_offset];
 
         LOG_FINE() << "----------";
-        LOG_FINE() << "Category: " << (*category_iter)->name_ << " at weight " << weight_bins_[weight_offset];
+        LOG_FINE() << "Category: " << category_name << " at weight " << weight_bins_[weight_offset];
         LOG_FINE() << "start_value: " << start_value << "; end_value: " << end_value << "; final_value: " << numbers_at_weight[weight_offset];
         LOG_FINE() << "expected_value becomes: " << expected_values_weight[weight_offset];
       }
