@@ -59,9 +59,11 @@ void BaseThreaded::SetUp() {
   run_parameters.override_rng_seed_value_ = 2468;
   run_parameters.no_std_report_           = true;
   run_parameters.run_mode_                = RunMode::kTesting;
+  run_parameters.create_mpd_file_         = false;
 
   runner_->set_run_parameters(run_parameters);
   runner_->global_configuration().flag_skip_config_file();
+  runner_->global_configuration().create_mpd_file();
 }
 
 /**

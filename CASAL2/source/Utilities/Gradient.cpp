@@ -14,7 +14,9 @@
 
 #include <iomanip>
 #include <iostream>
+#include <limits>
 
+#include "../Logging/Logging.h"
 #include "../Model/Model.h"
 #include "../ThreadPool/ThreadPool.h"
 #include "Math.h"
@@ -28,6 +30,8 @@ namespace niwa::utilities::gradient {
 using std::cout;
 using std::endl;
 
+constexpr double PI = 3.1415926535897932384626433832795028;
+
 /**
  * @brief
  *
@@ -37,12 +41,9 @@ using std::endl;
  * @return double
  */
 double ScaleValue(double value, double min, double max) {
-  if (math::IsEqual(value, min))
-    return -1;
-  else if (math::IsEqual(value, max))
-    return 1;
-
-  return asin(2 * (value - min) / (max - min) - 1) / 1.57079633;
+  double scaled = tan(((value - min) / (max - min) - 0.5) * PI);
+  // cout << "Scaled " << value << " to " << scaled << endl;
+  return scaled;
 }
 
 /**
@@ -51,24 +52,11 @@ double ScaleValue(double value, double min, double max) {
  * @param value
  * @param min
  * @param max
- * @param penalty
  * @return double
  */
-double UnScaleValue(const double& value, double min, double max, double& penalty) {
-  double t = 0.0;
-  double y = 0.0;
-
-  t = min + (max - min) * (sin(value * 1.57079633) + 1) / 2;
-  COND_ASSIGN(y, -.9999 - value, (value + .9999) * (value + .9999), 0);
-  penalty += y;
-  COND_ASSIGN(y, value - .9999, (value - .9999) * (value - .9999), 0);
-  penalty += y;
-  COND_ASSIGN(y, -1 - value, 1e5 * (value + 1) * (value + 1), 0);
-  penalty += y;
-  COND_ASSIGN(y, value - 1, 1e5 * (value - 1) * (value - 1), 0);
-  penalty += y;
-
-  return t;
+double UnScaleValue(const double& value, double min, double max) {
+  double unscaled = ((atan(value) / PI) + 0.5) * (max - min) + min;
+  return unscaled;
 }
 
 /**
@@ -78,14 +66,16 @@ double UnScaleValue(const double& value, double min, double max, double& penalty
  * @param lower_bounds
  * @param upper_bounds
  */
-vector<double> BuildValuesForIteration(std::vector<double> scaled_values, std::vector<double> lower_bounds, std::vector<double> upper_bounds, double penalty) {
+vector<double> BuildValuesForIteration(std::vector<double> scaled_values, std::vector<double> lower_bounds, std::vector<double> upper_bounds) {
   vector<double> current_values = scaled_values;
 
   for (unsigned i = 0; i < scaled_values.size(); ++i) {
     if (math::IsEqual(lower_bounds[i], upper_bounds[i]))
       current_values[i] = lower_bounds[i];
-    else
-      current_values[i] = UnScaleValue(scaled_values[i], lower_bounds[i], upper_bounds[i], penalty);
+    else {
+      current_values[i] = UnScaleValue(scaled_values[i], lower_bounds[i], upper_bounds[i]);
+      // cout << "Unscaled " << scaled_values[i] << " to " << current_values[i] << endl;
+    }
   }
 
   return current_values;
@@ -104,7 +94,7 @@ vector<double> BuildValuesForIteration(std::vector<double> scaled_values, std::v
  * @return std::vector<double> list of gradient values for each parameter
  */
 std::vector<double> Calculate(std::shared_ptr<ThreadPool> thread_pool, std::vector<double> estimate_values, std::vector<double> lower_bounds, std::vector<double> upper_bounds,
-                              double step_size, double last_score) {
+                              double step_size, double last_score, bool values_are_scaled) {
   long double original_value;
   long double step_size_temp;
 
@@ -116,9 +106,18 @@ std::vector<double> Calculate(std::shared_ptr<ThreadPool> thread_pool, std::vect
 
   // Scale the estimate values between -1 and 1 so that we can move them equally
   // based on step size
-  for (unsigned i = 0; i < estimate_values.size(); ++i) {
-    scaled_values[i] = ScaleValue(estimate_values[i], lower_bounds[i], upper_bounds[i]);
+  if (!values_are_scaled) {
+    // cout << "Scaling values " << endl;
+    for (unsigned i = 0; i < estimate_values.size(); ++i) {
+      scaled_values[i] = ScaleValue(estimate_values[i], lower_bounds[i], upper_bounds[i]);
+      // cout << "scaled " << estimate_values[i] << " with bounds " << lower_bounds[i] << " & " << upper_bounds[i] << " to " << scaled_values[i] << endl;
+    }
+  } else {
+    scaled_values = estimate_values;
   }
+  LOG_MEDIUM() << "Calculating a gradient with previous score " << last_score;
+  // for (auto e : estimate_values) cout << "e: " << e << endl;
+
   for (unsigned i = 0; i < estimate_values.size(); ++i) {
     step_size_temp = step_size * ((scaled_values[i] > 0) ? 1 : -1);
 
@@ -129,7 +128,7 @@ std::vector<double> Calculate(std::shared_ptr<ThreadPool> thread_pool, std::vect
 
     // build the candidate parameters for this variable
     double         penalty    = 0.0;
-    vector<double> candidates = BuildValuesForIteration(scaled_values, lower_bounds, upper_bounds, penalty);
+    vector<double> candidates = BuildValuesForIteration(scaled_values, lower_bounds, upper_bounds);
     gradient_penalties.push_back(penalty);
     gradient_candidates.push_back(candidates);
 
@@ -146,14 +145,18 @@ std::vector<double> Calculate(std::shared_ptr<ThreadPool> thread_pool, std::vect
     original_value = scaled_values[i];
     scaled_values[i] += step_size_temp;
     step_size_temp = scaled_values[i] - original_value;
+    step_size_temp = step_size_temp == 0 ? step_size : step_size_temp;
 
     score = gradient_scores[i];
     score += gradient_penalties[i];
 
     // Populate Gradient, and Restore Orig Value
+    LOG_MEDIUM() << "Score: " << gradient_scores[i] << ", penalty: " << gradient_penalties[i];
     result_gradient[i] = (score - last_score) / step_size_temp;
-    scaled_values[i]   = original_value;
+    LOG_MEDIUM() << "Result gradient: " << result_gradient[i] << " = (" << score << " - " << last_score << ") / " << step_size_temp;
+    scaled_values[i] = original_value;
   }
+
   return result_gradient;
 }
 

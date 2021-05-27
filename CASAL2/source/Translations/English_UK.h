@@ -2,7 +2,7 @@
 // Name        : English.h
 // Author      : S.Rasmussen
 // Date        : 18/07/2008
-// Copyright   : Copyright NIWA Science ©2008 - www.niwa.co.nz
+// Copyright   : Copyright NIWA Science ï¿½2008 - www.niwa.co.nz
 // Description :
 // $Date: 2008-03-04 16:33:32 +1300 (Tue, 04 Mar 2008) $
 //============================================================================
@@ -17,6 +17,7 @@
 //
 //**********************************************************************
 // Configuration File Syntax Strings
+// clang-format off
 #define CONFIG_ARRAY_END                    "]"
 #define CONFIG_ARRAY_START                  "["
 #define CONFIG_CATEGORY_SEPARATOR           "."
@@ -303,6 +304,7 @@
 #define PARAM_FUNCTION                            "function"
 #define PARAM_GAMMADIFF                           "numerical_differences"
 #define PARAM_GRAMS                               "grams"
+#define PARAM_GRADIENT_STEP_SIZE                  "gradient_step_size"
 #define PARAM_GROWTH                              "growth"
 #define PARAM_GROWTH_BASED                        "growth_based"
 #define PARAM_GROWTH_BASIC                        "growth_basic"
@@ -310,6 +312,7 @@
 #define PARAM_GROWTH_TIME_STEPS                   "growth_time_steps"
 #define PARAM_H                                   "h"
 #define PARAM_DOUBLE_HALF                         "double_half"
+#define PARAM_HAMILTONIAN                         "hamiltonian"
 #define PARAM_HEADER                              "header"
 #define PARAM_HEIGHT                              "height"
 #define PARAM_HESSIAN_MATRIX                      "hessian_matrix"
@@ -353,6 +356,8 @@
 #define PARAM_LAYER_WIDTH                         "layer_width"
 #define PARAM_LAYERS                              "layers"
 #define PARAM_LBFGS_MAX_SIZE                      "lbfgs_max_size"
+#define PARAM_LEAPFROG_DELTA                      "leapfrog_delta"
+#define PARAM_LEAPFROG_STEPS                      "leapfrog_steps"
 #define PARAM_LENGTH                              "length"
 #define PARAM_LENGTH_BASED                        "length_based"
 #define PARAM_LENGTH_BINS                         "length_bins"
@@ -689,5 +694,5 @@
 #define PARAM_YEAR                                "year"
 #define PARAM_YEARS                               "years"
 #define PARAM_ZERO                                "0 (zero)"
-
+// clang-format on
 #endif /* ENGLISH_H_ */

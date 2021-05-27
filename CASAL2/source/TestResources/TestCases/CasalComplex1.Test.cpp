@@ -4,26 +4,28 @@
  * @date 14/03/2014
  * @section LICENSE
  *
- * Copyright NIWA Science ©2014 - www.niwa.co.nz
+ * Copyright NIWA Science ï¿½2014 - www.niwa.co.nz
  *
  */
 #ifdef TESTMODE
 
 #include "CasalComplex1.h"
-
 #include "Model/Model.h"
 #include "ObjectiveFunction/ObjectiveFunction.h"
 #include "Observations/Manager.h"
 #include "Observations/Observation.h"
+#include "TestResources/TestFixtures/BaseThreaded.h"
 #include "TestResources/TestFixtures/InternalEmptyModel.h"
 
 // Namespaces
 namespace niwa {
 namespace testcases {
 
+using niwa::testfixtures::InternalEmptyModel;
 using std::cout;
 using std::endl;
-using niwa::testfixtures::InternalEmptyModel;
+
+class CasalComplex1ThreadedModel : public testfixtures::BaseThreaded {};
 
 /**
  *
@@ -52,6 +54,21 @@ TEST_F(InternalEmptyModel, Model_CasalComplex1_Estimation) {
 }
 
 /**
+ * @brief Construct a new test f object
+ *
+ */
+TEST_F(CasalComplex1ThreadedModel, Model_CasalComplex1_Estimation) {
+  AddConfigurationLine(test_cases_casal_complex_1, "CasalComplex1.h", 31);
+  LoadConfiguration();
+
+  ASSERT_NO_THROW(runner_->GoWithRunMode(RunMode::kEstimation));
+  auto model = runner_->model();
+
+  ObjectiveFunction& obj_function = model->objective_function();
+  EXPECT_NEAR(464.40228291877639, obj_function.score(), 0.0000001);
+}
+
+/**
  *
  */
 TEST_F(InternalEmptyModel, Model_CasalComplex1_Simulation) {
@@ -73,25 +90,23 @@ TEST_F(InternalEmptyModel, Model_CasalComplex1_Simulation) {
 
   for (auto iterator : comparisons) {
     double sum = 0.0;
-    for (auto comparison : iterator.second)
-      sum += comparison.observed_;
+    for (auto comparison : iterator.second) sum += comparison.observed_;
     EXPECT_DOUBLE_EQ(1.0, sum) << " for year " << iterator.first;
   }
 
-  EXPECT_DOUBLE_EQ(0.006638103556223963,  comparisons[1992][0].observed_);
+  EXPECT_DOUBLE_EQ(0.006638103556223963, comparisons[1992][0].observed_);
   EXPECT_DOUBLE_EQ(0.0070833217720574059, comparisons[1992][1].observed_);
-  EXPECT_DOUBLE_EQ(0.0057998674412966418,  comparisons[1992][2].observed_);
-  EXPECT_DOUBLE_EQ(0.010907712496854032,  comparisons[1992][3].observed_);
-  EXPECT_DOUBLE_EQ(0.0272426302223562,   comparisons[1992][4].observed_);
-  EXPECT_DOUBLE_EQ(0.040261979056129514,  comparisons[1992][5].observed_);
-  EXPECT_DOUBLE_EQ(0.027889573104266423,   comparisons[1992][6].observed_);
-  EXPECT_DOUBLE_EQ(0.043455301456009891,   comparisons[1992][7].observed_);
-  EXPECT_DOUBLE_EQ(0.059710392025444203,   comparisons[1992][8].observed_);
-  EXPECT_DOUBLE_EQ(0.07112496583274136,  comparisons[1992][9].observed_);
+  EXPECT_DOUBLE_EQ(0.0057998674412966418, comparisons[1992][2].observed_);
+  EXPECT_DOUBLE_EQ(0.010907712496854032, comparisons[1992][3].observed_);
+  EXPECT_DOUBLE_EQ(0.0272426302223562, comparisons[1992][4].observed_);
+  EXPECT_DOUBLE_EQ(0.040261979056129514, comparisons[1992][5].observed_);
+  EXPECT_DOUBLE_EQ(0.027889573104266423, comparisons[1992][6].observed_);
+  EXPECT_DOUBLE_EQ(0.043455301456009891, comparisons[1992][7].observed_);
+  EXPECT_DOUBLE_EQ(0.059710392025444203, comparisons[1992][8].observed_);
+  EXPECT_DOUBLE_EQ(0.07112496583274136, comparisons[1992][9].observed_);
 }
 
 } /* namespace testcases */
 } /* namespace niwa */
-
 
 #endif

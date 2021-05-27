@@ -4,7 +4,7 @@
  * @date 14/03/2014
  * @section LICENSE
  *
- * Copyright NIWA Science ©2014 - www.niwa.co.nz
+ * Copyright NIWA Science ï¿½2014 - www.niwa.co.nz
  *
  * @section DESCRIPTION
  *
@@ -27,7 +27,7 @@ namespace testcases {
  *
  */
 const std::string test_cases_casal_complex_1 =
-R"(
+    R"(
 @model
 min_age 2
 max_age 25
@@ -37,6 +37,7 @@ start_year 1975
 final_year 2002
 initialisation_phases phase1
 time_steps one two three
+threads 1
 
 @categories
 format sex
@@ -130,7 +131,7 @@ type numerical_differences
 tolerance 0.000002
 iterations 1000
 step_size 1e-7
-covariance f
+covariance t
 active f
 
 @observation chatCPUE
@@ -308,15 +309,10 @@ type logistic
 a50 9
 ato95 4
 alpha 0.7
-
-@report DQ
-type derived_quantity
 )";
 
-}
-}
-
-
+}  // namespace testcases
+}  // namespace niwa
 
 #endif /* TESTMODE */
 #endif /* TESTCASES_CASALCOMPLEX1_H_ */

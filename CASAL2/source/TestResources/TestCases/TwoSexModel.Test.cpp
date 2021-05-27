@@ -4,7 +4,7 @@
  * @date 23/01/2014
  * @section LICENSE
  *
- * Copyright NIWA Science ©2013 - www.niwa.co.nz
+ * Copyright NIWA Science ï¿½2013 - www.niwa.co.nz
  *
  * @section DESCRIPTION
  *
@@ -12,20 +12,20 @@
  */
 #ifdef TESTMODE
 
-#include "TwoSexModel.h"
-
 #include "DerivedQuantities/Manager.h"
 #include "Model/Model.h"
 #include "ObjectiveFunction/ObjectiveFunction.h"
 #include "TestResources/TestFixtures/InternalEmptyModel.h"
+#include "TwoSexModel.h"
+
 
 // Namespaces
 namespace niwa {
 namespace testcases {
 
+using niwa::testfixtures::InternalEmptyModel;
 using std::cout;
 using std::endl;
-using niwa::testfixtures::InternalEmptyModel;
 
 /**
  *
@@ -73,6 +73,5 @@ TEST_F(InternalEmptyModel, Model_TwoSex_Foward_Projection) {
 
 } /* namespace testcases */
 } /* namespace niwa */
-
 
 #endif

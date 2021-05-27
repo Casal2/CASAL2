@@ -12,6 +12,7 @@
 // headers
 #include "Factory.h"
 
+#include "../MCMCs/Common/HamiltonianMonteCarlo.h"
 #include "../MCMCs/Common/IndependenceMetropolis.h"
 #include "../MCMCs/Common/RandomWalkMetropolisHastings.h"
 #include "../MCMCs/Manager.h"
@@ -31,6 +32,8 @@ MCMC* Factory::Create(shared_ptr<Model> model, const string& object_type, const 
   if (object_type == PARAM_MCMC) {
     if (sub_type == "" || sub_type == PARAM_INDEPENDENCE_METROPOLIS || sub_type == PARAM_METROPOLIS_HASTINGS)
       object = new IndependenceMetropolis(model);
+    else if (sub_type == PARAM_HAMILTONIAN)
+      object = new HamiltonianMonteCarlo(model);
     else if (sub_type == PARAM_RANDOMWALK)
       object = new RandomWalkMetropolisHastings(model);
   }

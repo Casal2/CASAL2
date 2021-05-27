@@ -5,7 +5,7 @@
  * @date 23/01/2013
  * @section LICENSE
  *
- * Copyright NIWA Science ©2013 - www.niwa.co.nz
+ * Copyright NIWA Science ï¿½2013 - www.niwa.co.nz
  *
  * @section DESCRIPTION
  *
@@ -17,9 +17,8 @@
 // Headers
 #include "Factory.h"
 
-#include "../Model/Model.h"
 #include "../Model/Managers.h"
-#include "../Selectivities/Manager.h"
+#include "../Model/Model.h"
 #include "../Selectivities/Common/AllValues.h"
 #include "../Selectivities/Common/AllValuesBounded.h"
 #include "../Selectivities/Common/Constant.h"
@@ -30,6 +29,8 @@
 #include "../Selectivities/Common/KnifeEdge.h"
 #include "../Selectivities/Common/Logistic.h"
 #include "../Selectivities/Common/LogisticProducing.h"
+#include "../Selectivities/Manager.h"
+
 
 // Namespaces
 namespace niwa {
@@ -46,7 +47,7 @@ namespace selectivities {
 Selectivity* Factory::Create(shared_ptr<Model> model, const string& object_type, const string& sub_type) {
   Selectivity* result = nullptr;
 
-  if (object_type == PARAM_SELECTIVITY || object_type == PARAM_SELECTIVITIES || object_type == PARAM_RELATIVE_M_BY_AGE) {
+  if (object_type == PARAM_SELECTIVITY || object_type == PARAM_SELECTIVITIES || object_type == PARAM_RELATIVE_M_BY_AGE || object_type == PARAM_LOSS_RATE_SELECTIVITIES) {
     if (sub_type == PARAM_ALL_VALUES)
       result = new AllValues(model);
     else if (sub_type == PARAM_ALL_VALUES_BOUNDED)

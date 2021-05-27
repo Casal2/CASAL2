@@ -5,7 +5,7 @@
  * @date 20/05/2015
  * @section LICENSE
  *
- * Copyright NIWA Science ©2015 - www.niwa.co.nz
+ * Copyright NIWA Science ï¿½2015 - www.niwa.co.nz
  *
  */
 #ifndef SOURCE_MCMCS_FACTORY_H_
@@ -32,7 +32,7 @@ public:
 
 private:
   // methods
-  Factory() = delete;
+  Factory()          = delete;
   virtual ~Factory() = delete;
 };
 

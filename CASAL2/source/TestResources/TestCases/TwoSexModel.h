@@ -181,7 +181,7 @@ table obs
 2007     85.7732931   0.2
 end_table
 
-@estimate
+@estimate CPUeQ
 parameter catchability[CPUEq].q
 lower_bound 1e-10
 upper_bound 1e-1
@@ -222,9 +222,6 @@ time_step_proportion 1.0
 categories *
 selectivities Maturation Maturation Maturation Maturation
 time_step step_one
-
-@report DQ
-type derived_quantity
 )";
 
 } /* namespace testcases */
