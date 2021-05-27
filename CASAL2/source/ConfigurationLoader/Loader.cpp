@@ -67,9 +67,14 @@ bool Loader::LoadFromDiskToMemory(GlobalConfiguration& global_config, const stri
   }
 
   // Create block objects in memory and find minimiser type
+  LOG_FINEST() << "Creating blocks from input";
   CreateBlocksFromInput();
+  LOG_FINEST() << "Handling inline declarations";
+  HandleInlineDefinitions();
+  LOG_FINEST() << "Finding active minimiser type";
   FindActiveMinimiserType();
 
+  LOG_FINEST() << "Finised loading configuration from disk to memory";
   return true;
 }
 
@@ -144,36 +149,7 @@ void Loader::CreateBlocksFromInput() {
       block.clear();
     }
 
-    if (file_lines_[i].line_.find(";") != string::npos) {
-      bool   inside_inline_declaration = false;
-      string line                      = "";
-      for (char c : file_lines_[i].line_) {
-        if (c == '[')
-          inside_inline_declaration = true;
-        if (c == ']')
-          inside_inline_declaration = false;
-
-        if (c == ';' && !inside_inline_declaration) {
-          FileLine new_line;
-          new_line.file_name_   = file_lines_[i].file_name_;
-          new_line.line_number_ = file_lines_[i].line_number_;
-          new_line.line_        = line;
-
-          block.push_back(new_line);
-          line = "";
-
-        } else
-          line += c;
-      }
-
-      FileLine new_line;
-      new_line.file_name_   = file_lines_[i].file_name_;
-      new_line.line_number_ = file_lines_[i].line_number_;
-      new_line.line_        = line;
-      block.push_back(new_line);
-
-    } else
-      block.push_back(file_lines_[i]);
+    block.push_back(file_lines_[i]);
   }
 
   blocks_.push_back(block);
@@ -328,9 +304,6 @@ void Loader::ParseBlock(shared_ptr<Model> model, vector<FileLine>& block) {
     if (file_line.line_[0] == '@')
       continue;  // Skip @block definition
 
-    string parent_label = block_label == "" ? block_type : block_label;
-    HandleInlineDefinitions(model, file_line, parent_label);
-
     current_line = file_line.line_;
 
     // Split the line
@@ -442,129 +415,191 @@ void Loader::ParseBlock(shared_ptr<Model> model, vector<FileLine>& block) {
  * to be used by the parent object
  *
  * All labels created will be prefixed with <parent>.
+ *
+ * Inline declarations can be either:
+ * label=[declaration] OR
+ * [declaration]
+ *
+ * e.g.
+ * time_steps step_one=[type=iterative; processes=recruitment ageing]
+ * time_steps [type=iterative; processes=recruitment ageing]
+ *
+ * Note: Every inline declaration is required to have a ; character
+ * at some point because at a minumum it needs to define type + one other parameter
+ *
  */
-void Loader::HandleInlineDefinitions(shared_ptr<Model> model, FileLine& file_line, const string& parent_label) {
-  vector<string> replacements = {"one", "two", "three", "four", "five", "six", "seven", "eight", "nine"};
+void Loader::HandleInlineDefinitions() {
+  vector<string>           replacements = {"one", "two", "three", "four", "five", "six", "seven", "eight", "nine"};
+  vector<string>           temp;  // temp to old outputs of splits we only want for a short period
+  vector<vector<FileLine>> new_blocks;
 
-  /**
-   * Check if this line contains an inline definition we need to process first
-   */
-  size_t first_inline_bracket  = file_line.line_.find("[");
-  size_t second_inline_bracket = file_line.line_.find("]");
+  for (auto& block : blocks_) {
+    string parent_label = "";
 
-  if (first_inline_bracket != string::npos && second_inline_bracket != string::npos) {
-    vector<std::pair<string, string>> replacement_strings;
-    string                            full_definition = "";
-
-    /**
-     * Loop through all inline definition blocks
-     */
-    while (first_inline_bracket != string::npos) {
-      if (first_inline_bracket >= second_inline_bracket)
-        LOG_CODE_ERROR() << "first_inline_bracket (" << first_inline_bracket << ") <= second_inline_bracket (" << second_inline_bracket << ")";
-      if (first_inline_bracket <= 1)
-        LOG_FATAL() << "At line " << file_line.line_number_ << " in " << file_line.file_name_ << ": You cannot start the line with an inline definition [ operator";
-
-      /**
-       * Work out the block type for use when defining it
-       */
-      size_t space_loc = file_line.line_.find(' ');
-      if (space_loc == string::npos)
-        LOG_FATAL() << "At line " << file_line.line_number_ << " in " << file_line.file_name_
-                    << ": This line contains no space characters so we cannot determine the label for the inline definition";
-
-      string block_type = file_line.line_.substr(0, space_loc);
-      // do some quick changes to handle weird parameter names
-      LOG_FINEST() << "block_type: " << block_type;
-      if (block_type.find(PARAM_SELECTIVITIES) != string::npos)
-        block_type = PARAM_SELECTIVITY;
-      LOG_FINEST() << "block_type: " << block_type;
-
-      /**
-       * Get the label. Either it's going to be the first part of the line
-       * e.g <label> x y z
-       * or it's going to be part of the inline definition
-       * e.g timestep label=[definition]
-       */
-      string label = "";
-
-      // This means we've got a label defined
-      if (file_line.line_[first_inline_bracket - 1] == '=') {
-        string start_string = file_line.line_.substr(0, first_inline_bracket - 1);
-        size_t space_loc    = start_string.find_last_of(' ');
-        if (space_loc == string::npos)
-          LOG_CODE_ERROR() << "space_loc == string::npos for line: " << start_string;
-
-        label           = parent_label + string(".") + start_string.substr(space_loc + 1);
-        full_definition = file_line.line_.substr(space_loc + 1, second_inline_bracket - space_loc);
-
-      } else {
-        unsigned index   = inline_count_[block_type + "." + parent_label];
-        string   s_index = index < replacements.size() ? replacements[index] : utilities::ToInline<unsigned, string>(++index);
-        ++inline_count_[block_type + "." + parent_label];
-
-        label           = parent_label + string(".") + s_index;
-        full_definition = file_line.line_.substr(first_inline_bracket, second_inline_bracket - first_inline_bracket + 1);
+    // Do a quick check to see if we have any inline declarations in this block
+    bool has_inline = false;
+    for (auto& file_line : block) {
+      if (file_line.line_.find(";") != string::npos || file_line.line_.find("=") != string::npos) {
+        LOG_FINEST() << "Found inline declaration on line " << file_line.line_;
+        has_inline = true;
+        break;
       }
+    }
+    if (!has_inline)
+      continue;
 
-      LOG_FINEST() << "Inline definition label: " << label << " | full definition: " << full_definition;
-      if (full_definition.find('=') != string::npos) {
-        replacement_strings.push_back(std::pair<string, string>(full_definition, label));
+    // From here on, we know we have an inline declaration in this block
+    LOG_FINEST() << "Inline declaration found";
+    for (auto& file_line : block) {
+      if (file_line.line_.length() == 0)
+        LOG_CODE_ERROR() << "if (file_line.line_.length() == 0)";
+
+      // Try to find parent name
+      LOG_FINEST() << "line: " << file_line.line_;
+      if (file_line.line_[0] == '@') {
+        if (file_line.line_ == "@model") {
+          parent_label = "model";
+        } else {
+          boost::split(temp, file_line.line_, boost::is_any_of(" "));
+          if (temp.size() == 1) {
+            LOG_FATAL() << "At line " << file_line.line_number_ << " in " << file_line.file_name_ << ": The @block must have a label because it has an inline declaration";
+          } else
+            parent_label = temp[1];  // handles @block label
+        }
+        continue;
+      }
+      LOG_FINEST() << "Parent label: " << parent_label;
+
+      // see if this line contains an inline
+      if (file_line.line_.find(";") == string::npos && file_line.line_.find("=") == string::npos)
+        continue;  // next line please
+      if (file_line.line_.length() > 9 && file_line.line_.substr(0, 9) == PARAM_PARAMETER)
+        continue;  // no inline declarations on parameter line
+
+      /**
+       * Check if this line contains an inline definition we need to process first
+       */
+      size_t first_inline_bracket  = file_line.line_.find("[");
+      size_t second_inline_bracket = file_line.line_.find("]");
+
+      if (first_inline_bracket != string::npos && second_inline_bracket != string::npos) {
+        LOG_FINEST() << "Found first pair of [ and ] braces";
+        vector<std::pair<string, string>> replacement_strings;
+        string                            full_definition = "";
 
         /**
-         * Now we have to split the string up between the definition block
+         * Loop through all inline definition blocks
          */
-        string definition = file_line.line_.substr(first_inline_bracket + 1, second_inline_bracket - first_inline_bracket - 1);
-        LOG_FINEST() << "Absolute definition: " << definition;
+        while (first_inline_bracket != string::npos) {
+          if (first_inline_bracket >= second_inline_bracket)
+            LOG_CODE_ERROR() << "first_inline_bracket (" << first_inline_bracket << ") <= second_inline_bracket (" << second_inline_bracket << ")";
+          if (first_inline_bracket <= 1)
+            LOG_FATAL() << "At line " << file_line.line_number_ << " in " << file_line.file_name_ << ": Do not start the line with an inline definition '[' operator";
 
-        vector<string> definition_parts;
-        boost::split(definition_parts, definition, boost::is_any_of(";"));
+          /**
+           * Work out the block type for use when defining it
+           */
+          size_t space_loc = file_line.line_.find(' ');
+          if (space_loc == string::npos)
+            LOG_FATAL() << "At line " << file_line.line_number_ << " in " << file_line.file_name_
+                        << ": This line contains no space characters so the label for the inline definition cannot be determined";
 
-        vector<FileLine> inline_block;
-        FileLine         block_line;
-        block_line.file_name_   = file_line.file_name_;
-        block_line.line_number_ = file_line.line_number_;
-        block_line.line_        = "@" + block_type + " " + label;
-        inline_block.push_back(block_line);
+          string block_type = file_line.line_.substr(0, space_loc);
+          LOG_FINEST() << "block_type: " << block_type;
+          if (block_type == PARAM_SELECTIVITIES || block_type == PARAM_LOSS_RATE_SELECTIVITIES)
+            block_type = PARAM_SELECTIVITY;
+          LOG_FINEST() << "confirmed block_type: " << block_type;
 
-        for (string& definition : definition_parts) {
-          boost::replace_all(definition, "=", " ");
-          boost::trim_all(definition);
+          /**
+           * Get the label. Either it's going to be the first part of the line
+           * e.g <label> x y z
+           * or it's going to be part of the inline definition
+           * e.g timestep label=[definition]
+           */
+          string label = "";
 
-          FileLine new_line;
-          new_line.file_name_   = file_line.file_name_;
-          new_line.line_number_ = file_line.line_number_;
-          new_line.line_        = definition;
-          inline_block.push_back(new_line);
-        }
+          // This means we've got a label defined
+          if (file_line.line_[first_inline_bracket - 1] == '=') {
+            string start_string = file_line.line_.substr(0, first_inline_bracket - 1);
+            size_t space_loc    = start_string.find_last_of(' ');
+            if (space_loc == string::npos)
+              LOG_CODE_ERROR() << "space_loc == string::npos for line: " << start_string;
 
-        ParseBlock(model, inline_block);
-      }
-      LOG_FINEST() << "first_inline_bracket: " << first_inline_bracket << "; second_inline_bracket: " << second_inline_bracket;
+            label           = parent_label + string(".") + start_string.substr(space_loc + 1);
+            full_definition = file_line.line_.substr(space_loc + 1, second_inline_bracket - space_loc);
 
-      first_inline_bracket  = file_line.line_.find("[", second_inline_bracket);
-      second_inline_bracket = file_line.line_.find("]", second_inline_bracket + 1);
+          } else {
+            unsigned index   = inline_count_[block_type + "." + parent_label];
+            string   s_index = index < replacements.size() ? replacements[index] : utilities::ToInline<unsigned, string>(++index);
+            ++inline_count_[block_type + "." + parent_label];
 
-      LOG_FINEST() << "first_inline_bracket: " << first_inline_bracket << "; second_inline_bracket: " << second_inline_bracket;
-      // Check to ensure rest of the line has been defined properly.
-      if ((first_inline_bracket != string::npos && second_inline_bracket == string::npos) || (first_inline_bracket == string::npos && second_inline_bracket != string::npos)) {
+            label           = parent_label + string(".") + s_index;
+            full_definition = file_line.line_.substr(first_inline_bracket, second_inline_bracket - first_inline_bracket + 1);
+          }
+
+          LOG_FINEST() << "Inline definition label: " << label << " | full definition: " << full_definition;
+          if (full_definition.find('=') != string::npos) {
+            replacement_strings.push_back(std::pair<string, string>(full_definition, label));
+
+            /**
+             * Now we have to split the string up between the definition block
+             */
+            string definition = file_line.line_.substr(first_inline_bracket + 1, second_inline_bracket - first_inline_bracket - 1);
+            LOG_FINEST() << "Absolute definition: " << definition;
+
+            vector<string> definition_parts;
+            boost::split(definition_parts, definition, boost::is_any_of(";"));
+
+            vector<FileLine> inline_block;
+            FileLine         block_line;
+            block_line.file_name_   = file_line.file_name_;
+            block_line.line_number_ = file_line.line_number_;
+            block_line.line_        = "@" + block_type + " " + label;
+            inline_block.push_back(block_line);
+
+            for (string& definition : definition_parts) {
+              boost::replace_all(definition, "=", " ");
+              boost::trim_all(definition);
+
+              FileLine new_line;
+              new_line.file_name_   = file_line.file_name_;
+              new_line.line_number_ = file_line.line_number_;
+              new_line.line_        = definition;
+              inline_block.push_back(new_line);
+            }
+
+            new_blocks.push_back(inline_block);
+          }
+          LOG_FINEST() << "first_inline_bracket: " << first_inline_bracket << "; second_inline_bracket: " << second_inline_bracket;
+
+          first_inline_bracket  = file_line.line_.find("[", second_inline_bracket);
+          second_inline_bracket = file_line.line_.find("]", second_inline_bracket + 1);
+
+          LOG_FINEST() << "first_inline_bracket: " << first_inline_bracket << "; second_inline_bracket: " << second_inline_bracket;
+          // Check to ensure rest of the line has been defined properly.
+          if ((first_inline_bracket != string::npos && second_inline_bracket == string::npos) || (first_inline_bracket == string::npos && second_inline_bracket != string::npos)) {
+            LOG_FATAL() << "At line " << file_line.line_number_ << " in " << file_line.file_name_
+                        << ": This line contains either a '[' or a ']' but not both. This line is not in a valid format";
+          }
+        }  // while (first_inline_bracket != string::npos)
+
+        /**
+         * Now we have to replace the original line with the inline definitions
+         * with the labels for the new objects we've created.
+         */
+        for (std::pair<string, string> replacement : replacement_strings) boost::replace_first(file_line.line_, replacement.first, replacement.second);
+        LOG_FINEST() << "Finished line replacement for inline definitions. New line: " << file_line.line_;
+
+      } else if (first_inline_bracket != string::npos || second_inline_bracket != string::npos) {
+        // Only one brace was present.
         LOG_FATAL() << "At line " << file_line.line_number_ << " in " << file_line.file_name_
-                    << ": This line contains either a [ or a ] but not both. This line is not in a valid format";
+                    << ": This line contains either a '[' or a ']' but not both. This line is not in a valid format";
       }
-    }  // while (first_inline_bracket != string::npos)
+    }  // for (auto& file_line : file_lines_) {
+  }    // for (auto& block : blocks_) {
 
-    /**
-     * Now we have to replace the original line with the inline definitions
-     * with the labels for the new objects we've created.
-     */
-    for (std::pair<string, string> replacement : replacement_strings) boost::replace_first(file_line.line_, replacement.first, replacement.second);
-    LOG_FINEST() << "Finished line replacement for inline definitions. New line: " << file_line.line_;
-
-  } else if (first_inline_bracket != string::npos || second_inline_bracket != string::npos) {
-    // Only one brace was present.
-    LOG_FATAL() << "At line " << file_line.line_number_ << " in " << file_line.file_name_
-                << ": This line contains either a [ or a ] but not both. This line is not in a valid format";
-  }
+  // add new inline blocks to the object
+  for (auto block : new_blocks) blocks_.push_back(block);
 
   return;  // no braces so no inline
 }

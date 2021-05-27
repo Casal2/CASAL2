@@ -70,15 +70,17 @@ public:
   void Build(vector<shared_ptr<Model>>& model_list);
 
   // accessors
-  vector<FileLine>& file_lines() { return file_lines_; }
-  string            model_type() const { return model_type_; }
-  string            minimiser_type() const { return minimiser_type_; }
+  vector<FileLine>&         file_lines() { return file_lines_; }
+  vector<vector<FileLine>>& blocks() { return blocks_; }
+  string                    model_type() const { return model_type_; }
+  string                    minimiser_type() const { return minimiser_type_; }
 
-private:
+protected:
   // Methods
+  void HandleInlineDefinitions();
   void CreateBlocksFromInput();
   void ParseBlock(shared_ptr<Model> model, vector<FileLine>& block);
-  void HandleInlineDefinitions(shared_ptr<Model> model, FileLine& file_line, const string& parent_label);
+  // void HandleInlineDefinitions(shared_ptr<Model> model, FileLine& file_line, const string& parent_label);
   void FindActiveMinimiserType();
 
   // Members
