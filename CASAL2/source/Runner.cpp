@@ -38,7 +38,6 @@
 #include "Reports/Manager.h"
 #include "Utilities/RandomNumberGenerator.h"
 
-
 // namespaces
 namespace niwa {
 using std::cout;
@@ -143,6 +142,7 @@ int Runner::Go() {
  * @return int
  */
 int Runner::GoWithRunMode(RunMode::Type run_mode) {
+  LOG_TRACE();
   run_parameters_.run_mode_ = run_mode;
   run_mode_                 = run_mode;
   int return_code           = 0;
@@ -154,6 +154,8 @@ int Runner::GoWithRunMode(RunMode::Type run_mode) {
 
   if (!StartUp())
     return -1;
+  if (run_mode == RunMode::kQuery)
+    return 0;
 
   /**
    * Now we're getting into the different run modes that will execute the model
@@ -297,6 +299,11 @@ int Runner::GoWithRunMode(RunMode::Type run_mode) {
  * @return true on success, false on failure
  */
 bool Runner::RunQuery() {
+  LOG_TRACE();
+  // Print the standard header to console (Casal2 version etc)
+  if (!global_configuration_.disable_standard_report())
+    standard_header.PrintTop(global_configuration_);
+
   string         lookup = global_configuration_.object_to_query();
   vector<string> parts;
   boost::split(parts, lookup, boost::is_any_of("."));
@@ -305,14 +312,14 @@ bool Runner::RunQuery() {
     parts.push_back("");
 
   if (parts.size() == 2) {
-    master_model_->set_partition_type(PartitionType::kAge);
+    master_model_        = Factory::Create(PARAM_MODEL, PARAM_AGE);
     base::Object* object = master_model_->factory().CreateObject(parts[0], parts[1], PartitionType::kModel);
     if (object) {
       cout << "Printing information for " << parts[0] << " with sub-type " << parts[1] << endl;
       object->PrintParameterQueryInfo();
     } else {
-      master_model_->set_partition_type(PartitionType::kLength);
-      object = master_model_->factory().CreateObject(parts[0], parts[1], PartitionType::kModel);
+      master_model_ = Factory::Create(PARAM_MODEL, PARAM_LENGTH);
+      object        = master_model_->factory().CreateObject(parts[0], parts[1], PartitionType::kModel);
       if (object) {
         cout << "Printing information for " << parts[0] << " with sub-type " << parts[1] << endl;
         object->PrintParameterQueryInfo();
