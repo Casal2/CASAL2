@@ -22,6 +22,7 @@
 #ifndef _MSC_VER
 #include <cxxabi.h>
 #endif
+#include <iostream>
 #include <string>
 #include <vector>
 
@@ -46,6 +47,19 @@ adub tan(const badouble&);
 adub tanh(const badouble&);
 #endif
 
+/**
+ * @brief Attempted to integrate with the Advanced Template Library
+ * https://github.com/msupernaw/ATL
+ *
+ * Problem is that it doesn't have explicit type conversion or operator
+ * overloading for streams (<< and >>) so it's not compatible with Boost et al.
+ *
+ * things like return asin(atl_double - 1) will fail because no int to double conversion
+ */
+// #ifdef USE_ATL
+// #include <ATL/ATL.hpp>
+// #endif
+
 #ifdef USE_BETADIFF
 #include <ADOLC18/SRC/adolc.h>
 #endif
@@ -58,6 +72,9 @@ adub tanh(const badouble&);
 // Namespaces
 namespace niwa {
 namespace utilities {
+
+// using std::istream;
+// using std::ostream;
 
 /**
  * double conditional depending on if we're using auto differentiation or not
@@ -86,6 +103,22 @@ typedef CppAD::AD<double> Double;
 // use this (CppAD::AD<base> has '<<'' defined)
 #define AS_DOUBLE(x) CppAD::Value(x)
 #endif
+
+// #ifdef USE_ATL
+// typedef atl::Variable<double> Double;
+// #define AS_DOUBLE(x) ((double)x)
+
+// ostream& operator<<(ostream& out, const atl::Variable<double>& c) {
+//   out << (double)c;
+//   return out;
+// }
+
+// istream& operator>>(istream& in, atl::Variable<double>& c) {
+//   double d = (double)c;
+//   in >> d;
+//   return in;
+// }
+// #endif
 
 #ifndef USE_AUTODIFF
 #ifdef Double

@@ -25,7 +25,6 @@
 #include "../Utilities/Distribution.h"
 #include "../Utilities/Types.h"
 
-
 // Namespaces
 namespace niwa {
 namespace utilities {
@@ -43,14 +42,24 @@ constexpr double CLOSE     = 1e-5;
 constexpr double DELTA     = 1e-11;
 constexpr double PI        = 3.1415926535897932384626433832795028;
 
-inline bool IsZero(const Double& value) { return (value < ZERO && value > -ZERO); }
+inline bool IsZero(const Double& value) {
+  return (value < ZERO && value > -ZERO);
+}
 
 // inline bool IsZero(const Double &value) { return (value < ZERO && value > -ZERO); }
 // inline bool IsInfinite(const Double &value) { return (isinf(value));}
-inline bool IsTrueZero(const Double& value) { return (value < TRUE_ZERO && value > -TRUE_ZERO); }
-inline bool IsOne(const Double& value) { return (((value - ONE) < ZERO) && ((value - ONE) > -ZERO)); }
-inline bool IsEqual(Double A, Double B) { return (((A - B) < ZERO) && ((A - B) > -ZERO)); }
-inline bool IsBasicallyEqual(Double A, Double B) { return (((A - B) < CLOSE) && ((A - B) > -CLOSE)); }
+inline bool IsTrueZero(const Double& value) {
+  return (value < TRUE_ZERO && value > -TRUE_ZERO);
+}
+inline bool IsOne(const Double& value) {
+  return (((value - ONE) < ZERO) && ((value - ONE) > -ZERO));
+}
+inline bool IsEqual(Double A, Double B) {
+  return (((A - B) < ZERO) && ((A - B) > -ZERO));
+}
+inline bool IsBasicallyEqual(Double A, Double B) {
+  return (((A - B) < CLOSE) && ((A - B) > -CLOSE));
+}
 
 inline niwa::utilities::Double ZeroFun(Double x) {
   if (x >= ZERO)
@@ -102,7 +111,9 @@ inline Double LnGamma(Double t) {
 /**
  * LnFactorial
  */
-inline Double LnFactorial(Double t) { return niwa::utilities::math::LnGamma(t + 1.0); }
+inline Double LnFactorial(Double t) {
+  return niwa::utilities::math::LnGamma(t + 1.0);
+}
 /*
  *
  */
@@ -342,47 +353,51 @@ inline vector<Double> distribution2(const vector<Double>& class_mins, bool plus_
 }
 
 /**
- * conditional assignment
+ * @brief Scale a value using an tan transformation
+ *
+ * @param value value to scale
+ * @param min lower bound
+ * @param max upper bound
+ * @return double
  */
-inline void cond_assign(Double& res, const Double& cond, const Double& arg1, const Double& arg2) { res = (cond) > 0 ? arg1 : arg2; }
-
-/**
- * conditional assignment
- */
-inline void cond_assign(Double& res, const Double& cond, const Double& arg) { res = (cond) > 0 ? arg : res; }
-
-/**
- * scale value
- */
-inline Double scale_value(Double value, double min, double max) {
-  if (math::IsEqual(value, min))
-    return -1;
-  else if (math::IsEqual(value, max))
-    return 1;
-
-  return asin(2 * (value - min) / (max - min) - 1) / 1.57079633;
+inline double scale(double value, double min, double max) {
+  double scaled = tan(((value - min) / (max - min) - 0.5) * PI);
+  return scaled;
 }
 
 /**
+ * @brief Unscale all values in the vector inplace
  *
+ * @param target
  */
-inline Double unscale_value(const Double& value, Double& penalty, Double min, Double max) {
-  // courtesy of AUTODIF - modified to correct error -
-  // penalty on values outside [-1,1] multiplied by 100 as of 14/1/02.
-  Double t = 0.0;
-  Double y = 0.0;
+inline void scale_vector(vector<double>& target, const vector<double>& lower_bounds, const vector<double>& upper_bounds) {
+  for (unsigned i = 0; i < target.size(); ++i) {
+    target[i] = scale(target[i], lower_bounds[i], upper_bounds[i]);
+  }
+}
 
-  t = min + (max - min) * (sin(value * 1.57079633) + 1) / 2;
-  cond_assign(y, -.9999 - value, (value + .9999) * (value + .9999), 0);
-  penalty += y;
-  cond_assign(y, value - .9999, (value - .9999) * (value - .9999), 0);
-  penalty += y;
-  cond_assign(y, -1 - value, 1e5 * (value + 1) * (value + 1), 0);
-  penalty += y;
-  cond_assign(y, value - 1, 1e5 * (value - 1) * (value - 1), 0);
-  penalty += y;
+/**
+ * @brief Unscale value back from tan to natural space
+ *
+ * @param value
+ * @param min
+ * @param max
+ * @return double
+ */
+inline double unscale(double value, double min, double max) {
+  double unscaled = ((atan(value) / PI) + 0.5) * (max - min) + min;
+  return unscaled;
+}
 
-  return (t);
+/**
+ * @brief Unscale all values in the vector inplace
+ *
+ * @param target
+ */
+inline void unscale_vector(vector<double>& target, const vector<double>& lower_bounds, const vector<double>& upper_bounds) {
+  for (unsigned i = 0; i < target.size(); ++i) {
+    target[i] = unscale(target[i], lower_bounds[i], upper_bounds[i]);
+  }
 }
 
 //**********************************************************************
