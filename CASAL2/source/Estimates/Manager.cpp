@@ -143,6 +143,28 @@ void Manager::Build(shared_ptr<Model> model) {
 }
 
 /**
+ * @brief
+ *
+ * @return vector<double>
+ */
+vector<double> Manager::lower_bounds() {
+  vector<double> result;
+  for (auto* e : objects_) result.push_back(e->lower_bound());
+  return result;
+}
+
+/**
+ * @brief
+ *
+ * @return vector<double>
+ */
+vector<double> Manager::upper_bounds() {
+  vector<double> result;
+  for (auto* e : objects_) result.push_back(e->upper_bound());
+  return result;
+}
+
+/**
  * Count how many of the estimates are enabled
  * and return the count
  *

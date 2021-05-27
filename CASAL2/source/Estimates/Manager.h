@@ -20,7 +20,6 @@
 #include "../Estimates/Estimate.h"
 #include "../Utilities/Map.h"
 
-
 // namespaces
 namespace niwa {
 class Managers;
@@ -58,6 +57,8 @@ public:
   vector<Estimate*> GetEstimatesByLabel(const string& label);
   void              SetActivePhase(unsigned phase);
   unsigned          GetNumberOfPhases();
+  vector<double>    lower_bounds();
+  vector<double>    upper_bounds();
 
 private:
   // methods
