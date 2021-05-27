@@ -360,8 +360,8 @@ inline vector<Double> distribution2(const vector<Double>& class_mins, bool plus_
  * @param max upper bound
  * @return double
  */
-inline double scale(double value, double min, double max) {
-  double scaled = tan(((value - min) / (max - min) - 0.5) * PI);
+inline Double scale(Double value, Double min, Double max) {
+  Double scaled = tan(((value - min) / (max - min) - 0.5) * PI);
   return scaled;
 }
 
@@ -370,7 +370,7 @@ inline double scale(double value, double min, double max) {
  *
  * @param target
  */
-inline void scale_vector(vector<double>& target, const vector<double>& lower_bounds, const vector<double>& upper_bounds) {
+inline void scale_vector(vector<Double>& target, const vector<Double>& lower_bounds, const vector<Double>& upper_bounds) {
   for (unsigned i = 0; i < target.size(); ++i) {
     target[i] = scale(target[i], lower_bounds[i], upper_bounds[i]);
   }
@@ -384,8 +384,8 @@ inline void scale_vector(vector<double>& target, const vector<double>& lower_bou
  * @param max
  * @return double
  */
-inline double unscale(double value, double min, double max) {
-  double unscaled = ((atan(value) / PI) + 0.5) * (max - min) + min;
+inline Double unscale(Double value, Double min, Double max) {
+  Double unscaled = ((atan(value) / PI) + 0.5) * (max - min) + min;
   return unscaled;
 }
 
@@ -394,7 +394,7 @@ inline double unscale(double value, double min, double max) {
  *
  * @param target
  */
-inline void unscale_vector(vector<double>& target, const vector<double>& lower_bounds, const vector<double>& upper_bounds) {
+inline void unscale_vector(vector<Double>& target, const vector<Double>& lower_bounds, const vector<Double>& upper_bounds) {
   for (unsigned i = 0; i < target.size(); ++i) {
     target[i] = unscale(target[i], lower_bounds[i], upper_bounds[i]);
   }

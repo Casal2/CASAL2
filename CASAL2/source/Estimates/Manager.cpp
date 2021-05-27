@@ -147,8 +147,8 @@ void Manager::Build(shared_ptr<Model> model) {
  *
  * @return vector<double>
  */
-vector<double> Manager::lower_bounds() {
-  vector<double> result;
+vector<Double> Manager::lower_bounds() {
+  vector<Double> result;
   for (auto* e : objects_) result.push_back(e->lower_bound());
   return result;
 }
@@ -158,8 +158,8 @@ vector<double> Manager::lower_bounds() {
  *
  * @return vector<double>
  */
-vector<double> Manager::upper_bounds() {
-  vector<double> result;
+vector<Double> Manager::upper_bounds() {
+  vector<Double> result;
   for (auto* e : objects_) result.push_back(e->upper_bound());
   return result;
 }

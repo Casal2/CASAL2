@@ -89,7 +89,7 @@ Double Engine::optimise(adolc::CallBack& objective, vector<Double>& start_values
     if (math::IsEqual(lower_bounds[i], upper_bounds[i]))
       scaled_candidates[i] = 0.0;
     else
-      scaled_candidates[i] = math::scale_value(start_values[i], lower_bounds[i], upper_bounds[i]);
+      scaled_candidates[i] = math::scale(start_values[i], lower_bounds[i], upper_bounds[i]);
   }
 
   // Loop through our Minimiser now
@@ -112,7 +112,7 @@ Double Engine::optimise(adolc::CallBack& objective, vector<Double>& start_values
         if (math::IsEqual(lower_bounds[i], upper_bounds[i]))
           candidates[i] = lower_bounds[i];
         else
-          candidates[i] = math::unscale_value(scaled_candidates[i], penalty, lower_bounds[i], upper_bounds[i]);
+          candidates[i] = math::unscale(scaled_candidates[i], lower_bounds[i], upper_bounds[i]);
         LOG_MEDIUM() << candidates[i] << ", ";
       }
       LOG_MEDIUM() << "";

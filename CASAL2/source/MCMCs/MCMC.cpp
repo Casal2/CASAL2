@@ -67,7 +67,7 @@ MCMC::MCMC(shared_ptr<Model> model) : model_(model) {
  */
 void MCMC::Validate() {}
 void MCMC::Build() {}
-void MCMC::Execute() {}
+void MCMC::Execute(shared_ptr<ThreadPool> thread_pool) {}
 
 void MCMC::ResumeChain() {}
 void MCMC::GenerateRandomStart() {}
