@@ -5,7 +5,7 @@
  * @date 14/03/2014
  * @section LICENSE
  *
- * Copyright NIWA Science ©2014 - www.niwa.co.nz
+ * Copyright NIWA Science ï¿½2014 - www.niwa.co.nz
  *
  */
 #ifndef USE_AUTODIFF
@@ -14,8 +14,8 @@
 // headers
 #include "CallBack.h"
 
-#include "../../../Estimates/Manager.h"
 #include "../../../EstimateTransformations/Manager.h"
+#include "../../../Estimates/Manager.h"
 #include "../../../ObjectiveFunction/ObjectiveFunction.h"
 #include "../../../Utilities/Math.h"
 
@@ -27,8 +27,7 @@ namespace dlib {
 /**
  * Default constructor
  */
-Callback::Callback(shared_ptr<Model> model) : model_(model) {
-}
+Callback::Callback(shared_ptr<Model> model) : model_(model) {}
 
 /**
  * Operator ()
@@ -45,7 +44,7 @@ Double Callback::operator()(const ::dlib::matrix<double, 0, 1>& Parameters) cons
   for (int i = 0; i < Parameters.size(); ++i) {
     // Note, we unscale here because DLib doesn't have concept of bounds. This allows us to
     // add a penalty if the values exceed the bounds.
-    Double value = utilities::math::unscale_value(Parameters(i), penalty, estimates[i]->lower_bound(), estimates[i]->upper_bound());
+    Double value = utilities::math::unscale(Parameters(i), estimates[i]->lower_bound(), estimates[i]->upper_bound());
     estimates[i]->set_value(value);
   }
 

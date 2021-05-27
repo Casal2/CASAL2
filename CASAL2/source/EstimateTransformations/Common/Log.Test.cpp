@@ -5,24 +5,24 @@
  * @date Jan 11, 2016
  * @section LICENSE
  *
- * Copyright NIWA Science ©2016 - www.niwa.co.nz
+ * Copyright NIWA Science ï¿½2016 - www.niwa.co.nz
  */
 #ifdef TESTMODE
 
 // headers
-#include "../../ObjectiveFunction/ObjectiveFunction.h"
 #include "../../Model/Models/Age.h"
-#include "../../TestResources/TestFixtures/InternalEmptyModel.h"
+#include "../../ObjectiveFunction/ObjectiveFunction.h"
 #include "../../TestResources/Models/TwoSex.h"
 #include "../../TestResources/Models/TwoSexWithDLib.h"
 #include "../../TestResources/Models/TwoSexWithDeSolver.h"
+#include "../../TestResources/TestFixtures/InternalEmptyModel.h"
 
 namespace niwa {
 namespace estimatetransformations {
 using niwa::testfixtures::InternalEmptyModel;
 
 const string estimate_transformation_log =
-R"(
+    R"(
 @estimate_transformation log_r0
 type log
 estimate_label recruitment.r0
@@ -46,7 +46,7 @@ TEST_F(InternalEmptyModel, EstimateTransformations_Log) {
  *
  */
 const string estimate_transformation_log_no_bounds =
-R"(
+    R"(
 @estimate_transformation log_r0
 type log
 estimate_label recruitment.r0
@@ -77,7 +77,7 @@ TEST_F(InternalEmptyModel, EstimateTransformations_Log_With_DLib_Minimiser) {
   model_->Start(RunMode::kEstimation);
 
   ObjectiveFunction& obj_function = model_->objective_function();
-  EXPECT_NEAR(1977.6906102869461, obj_function.score(), 1e-5);
+  EXPECT_NEAR(1977.7622484316014, obj_function.score(), 1e-5);
 }
 
 /**

@@ -5,7 +5,7 @@
  * @date Jan 8, 2016
  * @section LICENSE
  *
- * Copyright NIWA Science ©2016 - www.niwa.co.nz
+ * Copyright NIWA Science ï¿½2016 - www.niwa.co.nz
  *
  * @section DESCRIPTION
  *
@@ -30,17 +30,18 @@ public:
   Log() = delete;
   explicit Log(shared_ptr<Model> model);
   virtual ~Log() = default;
-  void                        TransformForObjectiveFunction() override final;
-  void                        RestoreFromObjectiveFunction() override final;
-  std::set<string>            GetTargetEstimates() override final;
-  Double                      GetScore() override final;
+  void             TransformForObjectiveFunction() override final;
+  void             RestoreFromObjectiveFunction() override final;
+  std::set<string> GetTargetEstimates() override final;
+  Double           GetScore() override final;
+  void             RestoreEstimateBounds() final;
 
 protected:
   // methods
-  void                        DoValidate() override final;
-  void                        DoBuild() override final;
-  void                        DoTransform() override final;
-  void                        DoRestore() override final;
+  void DoValidate() override final;
+  void DoBuild() override final;
+  void DoTransform() override final;
+  void DoRestore() override final;
 };
 
 } /* namespace estimatetransformations */
