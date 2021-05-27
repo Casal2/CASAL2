@@ -42,12 +42,10 @@
 #include "../TimeVarying/Factory.h"
 #include "../Utilities/To.h"
 
-
 // Age Factories
 #include "../AgeLengths/Factory.h"
 #include "../AgeWeights/Factory.h"
 #include "../AgeingErrors/Factory.h"
-
 
 // Length Factories
 // namespaces
@@ -125,7 +123,9 @@ base::Object* Factory::CreateObject(const string& object_type, const string& sub
     return processes::Factory::Create(model_, lwr_object_type, lwr_sub_type, partition_type);
   else if (lwr_object_type == PARAM_REPORT)
     return reports::Factory::Create(model_, lwr_object_type, lwr_sub_type);
-  else if (lwr_object_type == PARAM_SELECTIVITY || lwr_object_type == PARAM_SELECTIVITIES || lwr_object_type == PARAM_RELATIVE_M_BY_AGE)
+  else if (lwr_object_type == PARAM_SELECTIVITY || lwr_object_type == PARAM_SELECTIVITIES)
+    return selectivities::Factory::Create(model_, lwr_object_type, lwr_sub_type);
+  else if (lwr_object_type == PARAM_LOSS_RATE_SELECTIVITIES || lwr_object_type == PARAM_RELATIVE_M_BY_AGE)
     return selectivities::Factory::Create(model_, lwr_object_type, lwr_sub_type);
   else if (lwr_object_type == PARAM_TIME_STEP || lwr_object_type == PARAM_TIME_STEPS)
     return timesteps::Factory::Create(model_, lwr_object_type, lwr_sub_type);
