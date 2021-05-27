@@ -35,11 +35,12 @@ public:
   EstimateTransformation() = delete;
   explicit EstimateTransformation(shared_ptr<Model> model);
   virtual ~EstimateTransformation() = default;
-  void Validate();
-  void Build();
-  void Reset(){};
-  void Transform();
-  void Restore();
+  void         Validate();
+  void         Build();
+  void         Reset(){};
+  void         Transform();
+  void         Restore();
+  virtual void RestoreEstimateBounds(){};
 
   // pure virtual
   virtual void             TransformForObjectiveFunction() = 0;
