@@ -14,6 +14,7 @@
 
 #include "../../ConfigurationLoader/MPD.Mock.h"
 #include "../../DerivedQuantities/Manager.h"
+#include "../../Estimates/Manager.h"
 #include "../../MCMCs/MCMC.h"
 #include "../../MCMCs/Manager.h"
 #include "../../Model/Managers.h"
@@ -46,6 +47,13 @@ TEST_F(GammaDiffModel, Minimise_TwoSex) {
   LoadConfiguration();
 
   model_->Start(RunMode::kEstimation);
+
+  auto estimates = model_->managers()->estimate()->GetIsEstimated();
+  ASSERT_EQ(4u, estimates.size());
+  EXPECT_DOUBLE_EQ(1.1069300534419012e-05, estimates[0]->value());
+  EXPECT_DOUBLE_EQ(2372190.8435692932, estimates[1]->value());
+  EXPECT_DOUBLE_EQ(10.188652722538006, estimates[2]->value());
+  EXPECT_DOUBLE_EQ(4.8909677429617107, estimates[3]->value());
 
   auto minimiser = model_->managers()->minimiser()->active_minimiser();
   auto cov       = minimiser->covariance_matrix();

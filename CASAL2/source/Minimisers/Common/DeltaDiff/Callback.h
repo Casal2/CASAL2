@@ -5,7 +5,7 @@
  * @date 17/04/2013
  * @section LICENSE
  *
- * Copyright NIWA Science ©2013 - www.niwa.co.nz
+ * Copyright NIWA Science ï¿½2013 - www.niwa.co.nz
  *
  * @section DESCRIPTION
  *
@@ -35,17 +35,19 @@ using std::vector;
 class CallBack {
 public:
   CallBack(shared_ptr<ThreadPool> thread_pool);
-  virtual                     ~CallBack() = default;
-  double                      operator()(const vector<double>& Parameters);
-  void												operator()(const vector<vector<double>>& Parameters, vector<double>& scores);
+  virtual ~CallBack() = default;
+  double operator()(const vector<double>& Parameters);
+  void   operator()(const vector<vector<double>>& Parameters, vector<double>& scores);
+
+  shared_ptr<ThreadPool> thread_pool() { return thread_pool_; }
 
 private:
-  shared_ptr<ThreadPool>      thread_pool_;
-  unsigned                    count_ = 0;
+  shared_ptr<ThreadPool> thread_pool_;
+  unsigned               count_ = 0;
 };
 
 } /* namespace deltadiff */
-} /* namespace minimiser */
+}  // namespace minimisers
 } /* namespace niwa */
 
 #endif /* MINIMISERS_DELTADIFF_CALLBACK_H_ */

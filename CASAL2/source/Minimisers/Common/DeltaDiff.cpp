@@ -3,7 +3,7 @@
 // Name        : DeltaDiff.cpp
 // Author      : S.Rasmussen
 // Date        : 8/09/2008
-// Copyright   : Copyright NIWA Science ©2008 - www.niwa.co.nz
+// Copyright   : Copyright NIWA Science ï¿½2008 - www.niwa.co.nz
 // Description :
 // $Date: 2008-03-04 16:33:32 +1300 (Tue, 04 Mar 2008) $
 //============================================================================
@@ -11,11 +11,11 @@
 // Local Headers
 #include "DeltaDiff.h"
 
+#include "../../EstimateTransformations/Manager.h"
+#include "../../Estimates/Manager.h"
 #include "../../Minimisers/Common/DeltaDiff/Callback.h"
 #include "../../Minimisers/Common/DeltaDiff/Engine.h"
 
-#include "../../Estimates/Manager.h"
-#include "../../EstimateTransformations/Manager.h"
 
 // namespaces
 namespace niwa {
@@ -37,51 +37,49 @@ DeltaDiff::DeltaDiff(shared_ptr<Model> model) : Minimiser(model) {
 void DeltaDiff::ExecuteThreaded(shared_ptr<ThreadPool> thread_pool) {
   LOG_TRACE();
 
-  deltadiff::CallBack  call_back(thread_pool);
+  deltadiff::CallBack call_back(thread_pool);
 
-	auto model = thread_pool->Threads()[0]->model();
-	estimates::Manager* estimate_manager = model->managers()->estimate();
-	LOG_FINE() << "estimate_manager: " << estimate_manager;
+  auto                model            = thread_pool->threads()[0]->model();
+  estimates::Manager* estimate_manager = model->managers()->estimate();
+  LOG_FINE() << "estimate_manager: " << estimate_manager;
 
-	vector<double>  lower_bounds;
-	vector<double>  upper_bounds;
-	vector<double>  start_values;
+  vector<double> lower_bounds;
+  vector<double> upper_bounds;
+  vector<double> start_values;
 
-	model->managers()->estimate_transformation()->TransformEstimates();
-	vector<Estimate*> estimates = estimate_manager->GetIsEstimated();
-	LOG_FINE() << "estimates.size(): " << estimates.size();
-	for (Estimate* estimate : estimates) {
-		if (!estimate->estimated())
-			continue;
+  model->managers()->estimate_transformation()->TransformEstimates();
+  vector<Estimate*> estimates = estimate_manager->GetIsEstimated();
+  LOG_FINE() << "estimates.size(): " << estimates.size();
+  for (Estimate* estimate : estimates) {
+    if (!estimate->estimated())
+      continue;
 
-		LOG_FINE() << "Estimate: " << estimate;
-		LOG_FINE() << "transformed value: " << estimate->value();
-		LOG_FINE() << "Parameter: " << estimate->parameter();
+    LOG_FINE() << "Estimate: " << estimate;
+    LOG_FINE() << "transformed value: " << estimate->value();
+    LOG_FINE() << "Parameter: " << estimate->parameter();
 
-		lower_bounds.push_back((double)estimate->lower_bound());
-		upper_bounds.push_back((double)estimate->upper_bound());
-		start_values.push_back((double)estimate->value());
+    lower_bounds.push_back((double)estimate->lower_bound());
+    upper_bounds.push_back((double)estimate->upper_bound());
+    start_values.push_back((double)estimate->value());
 
-		if (estimate->value() < estimate->lower_bound()) {
-			LOG_FATAL() << "When starting the GammDiff numerical_differences minimiser the starting value (" << estimate->value() << ") for estimate "
-					<< estimate->parameter() << " was less than the lower bound (" << estimate->lower_bound() << ")";
-		} else if (estimate->value() > estimate->upper_bound()) {
-			LOG_FATAL() << "When starting the GammDiff numerical_differences minimiser the starting value (" << estimate->value() << ") for estimate "
-					<< estimate->parameter() << " was greater than the upper bound (" << estimate->upper_bound() << ")";
-		}
-	}
+    if (estimate->value() < estimate->lower_bound()) {
+      LOG_FATAL() << "When starting the GammDiff numerical_differences minimiser the starting value (" << estimate->value() << ") for estimate " << estimate->parameter()
+                  << " was less than the lower bound (" << estimate->lower_bound() << ")";
+    } else if (estimate->value() > estimate->upper_bound()) {
+      LOG_FATAL() << "When starting the GammDiff numerical_differences minimiser the starting value (" << estimate->value() << ") for estimate " << estimate->parameter()
+                  << " was greater than the upper bound (" << estimate->upper_bound() << ")";
+    }
+  }
 
   LOG_FINE() << "Launching minimiser";
-  int status = 0;
+  int               status = 0;
   deltadiff::Engine clDeltaDiff;
-  clDeltaDiff.optimise_finite_differences(call_back,
-      start_values, lower_bounds, upper_bounds,
-      status, max_iterations_, max_evaluations_, gradient_tolerance_,
-      hessian_,1,step_size_);
+  clDeltaDiff.optimise_finite_differences(call_back, start_values, lower_bounds, upper_bounds, status, max_iterations_, max_evaluations_, gradient_tolerance_, hessian_, 1,
+                                          step_size_);
 
   model_->managers()->estimate_transformation()->RestoreEstimates();
 
-  switch(status) {
+  switch (status) {
     case -1:
       result_ = MinimiserResult::kError;
       break;
