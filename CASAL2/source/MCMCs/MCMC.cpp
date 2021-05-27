@@ -131,6 +131,8 @@ void MCMC::Build() {
       LOG_FATAL() << "Failed to load MPD Data from " << mpd_file_name << " file";
   }
 
+  // TODO: Check if Minimiser is being used and if so it has a covariance matrix enabled.
+
   DoBuild();
 }
 
@@ -374,6 +376,8 @@ void MCMC::BuildCovarianceMatrix() {
   ublas::matrix<double> original_covariance(covariance_matrix_);
 
   LOG_MEDIUM() << "Beginning correlation adjustment. rows = " << original_covariance.size1() << " cols = " << original_covariance.size2();
+  if (original_covariance.size1() == 0 || original_covariance.size2() == 0)
+    LOG_FATAL() << "No covariance matrix has been provided to the MCMC algorithm";
   // Q: is this section supposed to adjust the full matrix (except for the diagonal) or not? see pg. 67 (79) of User Manual (item #3)
   for (unsigned i = 0; i < (covariance_matrix_.size1() - 1); ++i) {
     for (unsigned j = i + 1; j < covariance_matrix_.size2(); ++j) {

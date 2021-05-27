@@ -13,10 +13,11 @@
  */
 #ifndef SOURCE_MCMCS_COMMON_INDEPENDENCEMETROPOLIS_H_
 #define SOURCE_MCMCS_COMMON_INDEPENDENCEMETROPOLIS_H_
+#ifndef USE_AUTODIFF
 
 // headers
-#include "../../MCMCs/MCMC.h"
 #include "../../Estimates/Estimate.h"
+#include "../../MCMCs/MCMC.h"
 
 // namespaces
 namespace niwa {
@@ -28,47 +29,19 @@ class IndependenceMetropolis : public MCMC {
 public:
   // methods
   IndependenceMetropolis(shared_ptr<Model> model);
-  virtual                     ~IndependenceMetropolis() = default;
-  void                        DoExecute() override final;
+  virtual ~IndependenceMetropolis() = default;
+  void DoExecute(shared_ptr<ThreadPool> thread_pool) override final;
 
 protected:
   // methods
-  void                        DoValidate() override final;
-  void                        DoBuild() override final;
-  void                        BuildCovarianceMatrix();
-  bool                        DoCholeskyDecmposition();
-  void                        GenerateRandomStart();
-  void                        FillMultivariateNormal(double step_size);
-  void                        FillMultivariateT(double step_size);
-  void                        UpdateStepSize();
-  void                        UpdateCovarianceMatrix();
-  void                        GenerateNewCandidates();
-  bool                        WithinBounds();
+  void DoValidate() final{};
+  void DoBuild() final{};
 
   // members
-  Double                      start_ = 0;
-  unsigned                    keep_ = 0;
-  unsigned                    estimate_count_ = 0;
-  unsigned                    jumps_ = 0;
-  unsigned                    jumps_since_adapt_ = 0;
-  bool                        last_item_ = false;
-  unsigned                    successful_jumps_since_adapt_ = 0;
-  Double                      max_correlation_ = 0;
-  string                      correlation_method_ = "";
-  Double                      correlation_diff_ = 0;
-  string                      proposal_distribution_ = "";
-  unsigned                    df_ = 0;
-  ublas::matrix<double>       covariance_matrix_lt;
-  vector<Double>              candidates_;
-  vector<bool>                is_enabled_estimate_;
-  vector<unsigned>            adapt_step_size_;
-  vector<unsigned>            adapt_covariance_matrix_;
-  vector<string>              estimate_labels_;
-  string                      adapt_stepsize_method_;
-  vector<Estimate*>           estimates_;
 };
 
 } /* namespace mcmcs */
 } /* namespace niwa */
 
-#endif /* SOURCE_MCMCS_COMMON_INDEPENDENCEMETROPOLIS_H_ */
+#endif  // USE_AUTODIFF
+#endif  /* SOURCE_MCMCS_COMMON_INDEPENDENCEMETROPOLIS_H_ */

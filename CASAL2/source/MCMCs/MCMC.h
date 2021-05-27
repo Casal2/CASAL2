@@ -44,6 +44,7 @@ struct ChainLink {
   double         acceptance_rate_since_adapt_ = 0.0;
   double         step_size_                   = 0.0;
   vector<double> values_;
+  vector<double> scaled_values_;
 };
 }  // namespace mcmc
 
