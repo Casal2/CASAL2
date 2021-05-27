@@ -66,5 +66,9 @@ void Manager::RestoreEstimatesFromObjectiveFunction() {
   for (auto obj : objects_) obj->RestoreFromObjectiveFunction();
 }
 
+void Manager::RestoreEstimateBounds() {
+  for (auto obj : objects_) obj->RestoreEstimateBounds();
+}
+
 } /* namespace estimatetransformations */
 } /* namespace niwa */

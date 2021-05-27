@@ -23,13 +23,15 @@ namespace estimatetransformations {
 class Manager : public niwa::base::Manager<niwa::estimatetransformations::Manager, niwa::EstimateTransformation> {
   friend class niwa::base::Manager<niwa::estimatetransformations::Manager, niwa::EstimateTransformation>;
   friend class niwa::Managers;
+
 public:
-  virtual                     ~Manager() = default;
-  void                        Validate() override final;
-  void                        TransformEstimates();
-  void                        RestoreEstimates();
-  void                        TransformEstimatesForObjectiveFunction();
-  void                        RestoreEstimatesFromObjectiveFunction();
+  virtual ~Manager() = default;
+  void Validate() override final;
+  void TransformEstimates();
+  void RestoreEstimates();
+  void TransformEstimatesForObjectiveFunction();
+  void RestoreEstimatesFromObjectiveFunction();
+  void RestoreEstimateBounds();
 
 protected:
   // methods
