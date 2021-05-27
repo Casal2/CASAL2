@@ -27,6 +27,7 @@
 #include "ConfigurationLoader/MCMCObjective.h"
 #include "ConfigurationLoader/MCMCSample.h"
 #include "Estimables/Estimables.h"
+#include "EstimateTransformations/Manager.h"
 #include "Estimates/Manager.h"
 #include "MCMCs/Manager.h"
 #include "Minimisers/Manager.h"
@@ -36,6 +37,7 @@
 #include "Model/Models/Age.h"
 #include "Reports/Manager.h"
 #include "Utilities/RandomNumberGenerator.h"
+
 
 // namespaces
 namespace niwa {
@@ -77,6 +79,7 @@ bool Runner::StartUp() {
     Logging::Instance().FlushErrors();
     return false;
   }
+
   // Stage 3 - Parse the options loaded so we can ensure those
   // loaded from the configuration file are set and then
   // we override them from the command line
@@ -425,10 +428,12 @@ int Runner::RunMCMC() {
       LOG_ERROR() << "The minimiser type " << PARAM_DE_SOLVER << ", " << PARAM_DE_SOLVER
                   << " does not produce a covariance matrix and so will not be viable for an MCMC run, try one of the other minimisers.";
 
-    minimiser->Execute();
+    minimiser->ExecuteThreaded(thread_pool_);
     LOG_FINE() << "Build covariance matrix";
     minimiser->BuildCovarianceMatrix();
     LOG_FINE() << "Minimisation complete. Starting MCMC";
+
+    master_model_->managers()->estimate_transformation()->RestoreEstimateBounds();
 
     // TODO: Implement a setter here
     mcmc->covariance_matrix() = minimiser->covariance_matrix();
