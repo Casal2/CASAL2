@@ -20,7 +20,6 @@
 #include "../../../ThreadPool/Thread.h"
 #include "../../../ThreadPool/ThreadPool.h"
 
-
 // namespaces
 namespace niwa {
 namespace minimisers {
@@ -65,7 +64,7 @@ double CallBack::operator()(const vector<double>& Parameters) {
  *
  */
 void CallBack::operator()(const vector<vector<double>>& Parameters, vector<double>& scores) {
-  cout << "Count: " << count_ << endl;
+  LOG_MEDIUM() << "Calls since last gradient: " << count_;
   count_ = 0;
   thread_pool_->RunCandidates(Parameters, scores);
 }
