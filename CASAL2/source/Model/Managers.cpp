@@ -152,6 +152,7 @@ shared_ptr<reports::Manager> Managers::report() {
 
 void Managers::Validate() {
   //	std::scoped_lock l(lock_);
+  auto run_mode = model_->run_mode();
   LOG_TRACE();
   time_step_->Validate(model_);
   initialisation_phase_->Validate();
@@ -167,8 +168,10 @@ void Managers::Validate() {
   estimate_transformation_->Validate();
   length_weight_->Validate();
   likelihood_->Validate();
-  mcmc_->Validate(model_);
-  minimiser_->Validate(model_);
+  if (run_mode == RunMode::kMCMC || run_mode == RunMode::kTesting)
+    mcmc_->Validate(model_);
+  if (minimiser_)
+    minimiser_->Validate(model_);
   observation_->Validate();
   penalty_->Validate();
   profile_->Validate();

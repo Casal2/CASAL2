@@ -5,7 +5,7 @@
  * @date 18/09/2012
  * @section LICENSE
  *
- * Copyright NIWA Science ©2012 - www.niwa.co.nz
+ * Copyright NIWA Science ï¿½2012 - www.niwa.co.nz
  *
  * $Date: 2008-03-04 16:33:32 +1300 (Tue, 04 Mar 2008) $
  */
@@ -13,24 +13,24 @@
 // Headers
 #include "Report.h"
 
-#include <string>
-#include <iostream>
 #include <fstream>
+#include <iostream>
+#include <string>
 
-#include "../Model/Model.h"
 #include "../Model/Managers.h"
+#include "../Model/Model.h"
 #include "../Reports/Manager.h"
 #include "../TimeSteps/Manager.h"
 
 // Namespaces
 namespace niwa {
 
-using std::streambuf;
-using std::ofstream;
-using std::ifstream;
 using std::cout;
 using std::endl;
+using std::ifstream;
 using std::ios_base;
+using std::ofstream;
+using std::streambuf;
 
 std::mutex Report::lock_;
 
@@ -42,7 +42,7 @@ std::mutex Report::lock_;
  */
 inline bool DoesFileExist(const string& file_name) {
   LOG_FINEST() << "Checking if file exists: " << file_name;
-  ifstream  file(file_name.c_str());
+  ifstream file(file_name.c_str());
   if (file.fail() || !file.is_open())
     return false;
 
@@ -57,8 +57,7 @@ Report::Report() {
   parameters_.Bind<string>(PARAM_LABEL, &label_, "The label for the report", "");
   parameters_.Bind<string>(PARAM_TYPE, &type_, "The type of report", "");
   parameters_.Bind<string>(PARAM_FILE_NAME, &file_name_, "The filename for this report to be in a separate file", "", "");
-  parameters_.Bind<string>(PARAM_WRITE_MODE, &write_mode_, "The write mode", "", PARAM_OVERWRITE)
-      ->set_allowed_values({ PARAM_OVERWRITE, PARAM_APPEND, PARAM_INCREMENTAL_SUFFIX });
+  parameters_.Bind<string>(PARAM_WRITE_MODE, &write_mode_, "The write mode", "", PARAM_OVERWRITE)->set_allowed_values({PARAM_OVERWRITE, PARAM_APPEND, PARAM_INCREMENTAL_SUFFIX});
 }
 
 /**
@@ -67,7 +66,7 @@ Report::Report() {
  * when the report is not running in the execute phase.
  */
 void Report::Validate(shared_ptr<Model> model) {
-	Report::lock_.lock();
+  Report::lock_.lock();
   parameters_.Populate(model);
   DoValidate(model);
   Report::lock_.unlock();
@@ -77,7 +76,7 @@ void Report::Validate(shared_ptr<Model> model) {
  *
  */
 void Report::Build(shared_ptr<Model> model) {
-	Report::lock_.lock();
+  Report::lock_.lock();
   if (time_step_ != "" && !model->managers()->time_step()->GetTimeStep(time_step_))
     LOG_ERROR_P(PARAM_TIME_STEP) << ": " << time_step_ << " could not be found. Have you defined it?";
 
@@ -116,7 +115,7 @@ void Report::Prepare(shared_ptr<Model> model) {
 void Report::Execute(shared_ptr<Model> model) {
   Report::lock_.lock();
   if (model == nullptr)
-  	LOG_CODE_ERROR() << "(model == nullptr)";
+    LOG_CODE_ERROR() << "(model == nullptr)";
 
   DoExecute(model);
   Report::lock_.unlock();
@@ -146,8 +145,6 @@ void Report::PrepareTabular(shared_ptr<Model> model) {
     cache_ << model->global_configuration().standard_header() << "\n";
   DoPrepareTabular(model);
   Report::lock_.unlock();
-
-
 }
 
 /**
@@ -179,7 +176,7 @@ void Report::SetUpInternalStates() {
   if (file_name_ != "" && write_mode_ == PARAM_INCREMENTAL_SUFFIX) {
     LOG_FINEST() << "Finding incremental suffix for file: " << label_;
     if (DoesFileExist(file_name_)) {
-      for (unsigned i = 0; i < 1000; ++i) {
+      for (unsigned i = 0; i < 10000000; ++i) {
         string trial_name = file_name_ + "." + util::ToInline<unsigned, string>(i);
         if (!DoesFileExist(trial_name)) {
           LOG_FINE() << "File name has been changed to " << trial_name << " to match incremental_suffix";
@@ -200,9 +197,9 @@ void Report::SetUpInternalStates() {
  *
  */
 void Report::set_suffix(string_view suffix) {
-	Report::lock_.lock();
-	suffix_ = suffix;
-	Report::lock_.unlock();
+  Report::lock_.lock();
+  suffix_ = suffix;
+  Report::lock_.unlock();
 }
 
 /**
@@ -219,7 +216,7 @@ void Report::FlushCache() {
     if (first_write_ || suffix_ != last_suffix_)
       overwrite = overwrite_;
 
-    last_suffix_ = suffix_;
+    last_suffix_     = suffix_;
     string file_name = file_name_ + suffix_;
 
     ios_base::openmode mode = ios_base::out;
@@ -235,7 +232,7 @@ void Report::FlushCache() {
     LOG_MEDIUM() << "skip tags = " << skip_tags_;
     if (!skip_tags_) {
       cache_ << CONFIG_END_REPORT << "\n";
-      //cerr << "end report\n";
+      // cerr << "end report\n";
     }
     file << cache_.str();
     file.close();
@@ -261,4 +258,3 @@ void Report::FlushCache() {
 }
 
 } /* namespace niwa */
-

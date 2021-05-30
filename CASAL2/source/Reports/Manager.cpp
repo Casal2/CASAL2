@@ -84,8 +84,10 @@ void Manager::Build(shared_ptr<Model> model) {
     return;
 
   LOG_FINEST() << "objects_.size(): " << objects_.size();
+  RunMode::Type run_mode = model->run_mode();
   for (auto report : objects_) {
-    report->Build(model);
+    if ((RunMode::Type)(report->run_mode() & run_mode) == run_mode)
+      report->Build(model);
 
     if ((RunMode::Type)(report->run_mode() & RunMode::kInvalid) == RunMode::kInvalid)
       LOG_CODE_ERROR() << "Report: " << report->label() << " has not been properly configured to have a run mode";

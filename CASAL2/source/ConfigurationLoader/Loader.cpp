@@ -18,6 +18,7 @@
 #include <boost/algorithm/string/trim_all.hpp>
 #include <fstream>
 #include <iostream>
+#include <regex>
 
 #include "../ConfigurationLoader/File.h"
 #include "../Logging/Logging.h"
@@ -264,6 +265,11 @@ void Loader::ParseBlock(shared_ptr<Model> model, vector<FileLine>& block) {
     LOG_MEDIUM() << "skipping minimiser." << sub_type << " because current model is not the primary thread model";
     return;
   }
+  // We don't create MCMC on threads, only the primary model
+  if (block_type == PARAM_MCMC && !model->is_primary_thread_model()) {
+    LOG_MEDIUM() << "skipping MCMC." << sub_type << " because current model is not the primary thread model";
+    return;
+  }
 
   Object* object = model->factory().CreateObject(block_type, sub_type, partition_type);
   if (!object)
@@ -439,7 +445,8 @@ void Loader::HandleInlineDefinitions() {
     // Do a quick check to see if we have any inline declarations in this block
     bool has_inline = false;
     for (auto& file_line : block) {
-      if (file_line.line_.find(";") != string::npos || file_line.line_.find("=") != string::npos) {
+      std::regex e(".*[\\[].*=.*[\\]].*");
+      if (std::regex_match(file_line.line_, e)) {
         LOG_FINEST() << "Found inline declaration on line " << file_line.line_;
         has_inline = true;
         break;
