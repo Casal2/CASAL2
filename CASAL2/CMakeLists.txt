@@ -36,9 +36,10 @@ IF (WIN32)
 	ELSE(MSVC)
 		SET(COMPILE_OPTIONS "${COMPILE_OPTIONS} -D__MINGW32__ -D__GNUDOS__ -std=c++17")
  		SET(thirdPartyLibraries ${thirdPartyLibraries} pthread ws2_32 gdi32 comctl32 user32 winmm ws2_32 imm32)
-	ENDIF () 
+	ENDIF ()
 ELSE (WIN32)
 	MESSAGE("--> Building on Linux")
+
  	SET(COMPILE_OPTIONS "${COMPILE_OPTIONS} -fPIC -std=c++17")
  	SET(thirdPartyLibraries ${thirdPartyLibraries} pthread rt)
 ENDIF ()
@@ -71,34 +72,34 @@ ELSEIF(BETADIFF)
  SET(COMPILE_OPTIONS "${COMPILE_OPTIONS} -iquote${BUILD_SYSTEM_DIRECTORY}/bin/${OUTPUT_PATH}/thirdparty/include/ADOLC18/SRC/DRIVERS")
  SET(COMPILE_OPTIONS "${COMPILE_OPTIONS} -iquote${BUILD_SYSTEM_DIRECTORY}/bin/${OUTPUT_PATH}/thirdparty/include/ADOLC18/SRC/SPARSE")
  SET(COMPILE_OPTIONS "${COMPILE_OPTIONS} -iquote${BUILD_SYSTEM_DIRECTORY}/bin/${OUTPUT_PATH}/thirdparty/include/ADOLC18/SRC/TAPEDOC")
- SET(specialLibraries "-l:libbetadiff.a") 
+ SET(specialLibraries "-l:libbetadiff.a")
 ELSEIF(CPPAD)
  SET(COMPILE_OPTIONS "${COMPILE_OPTIONS} -DUSE_AUTODIFF -DUSE_CPPAD")
  IF (WIN32)
   SET(specialLibraries
-   "ipopt"   
+   "ipopt"
    "coinmumps"
    "coinmetis"
    "m"
-   "gfortran"   
+   "gfortran"
    "quadmath"
-   "msvcrt"   
+   "msvcrt"
    "coinlapack"
-   "coinblas"   
+   "coinblas"
   )
  ELSE (WIN32)
-  SET(specialLibraries   
+  SET(specialLibraries
    "quadmath"
    "dl"
    "ipopt"
    "coinmumps"
    "coinlapack"
-   "coinblas"   
+   "coinblas"
    "coinmetis"
    "m"
-   "gfortran"   
+   "gfortran"
    "dl"
-  ) 
+  )
  ENDIF ()
 ENDIF ()
 MESSAGE("SPECIAL_LIBRARIES: ${specialLibraries}")
@@ -128,7 +129,7 @@ IF (MSVC)
 	FOREACH(library ${thirdPartyLibrariesRaw})
   		STRING(REPLACE ${thirdPartyFolderAbs} "" shortLibrary ${library})
   		SET(thirdPartyLibraries " ") #${thirdPartyLibraries} ${shortLibrary})
-	ENDFOREACH()	
+	ENDFOREACH()
 	SET(thirdPartyLibraries " ")
 ELSE(MSVC)
 	MESSAGE("-- Loading third party libraries")
@@ -161,8 +162,8 @@ ELSE(LIBRARY)
 			MESSAGE("Building ICON")
 			ADD_CUSTOM_TARGET(icon ALL COMMAND windres --output "${BUILD_SYSTEM_DIRECTORY}/icon.o" --input "${BUILD_SYSTEM_DIRECTORY}/casal2.rc")
 			MESSAGE("Icon Built")
-			#SET(LINK_OPTIONS "-static-libgcc -static-libstdc++ -static ${CMAKE_HOME_DIRECTORY}/../BuildSystem/icon.o")  
-			SET(LINK_OPTIONS "-static ${BUILD_SYSTEM_DIRECTORY}/icon.o")  
+			#SET(LINK_OPTIONS "-static-libgcc -static-libstdc++ -static ${CMAKE_HOME_DIRECTORY}/../BuildSystem/icon.o")
+			SET(LINK_OPTIONS "-static ${BUILD_SYSTEM_DIRECTORY}/icon.o")
 			ENDIF(WIN32)
 		ELSE()
 			SET(LINK_OPTIONS " ")

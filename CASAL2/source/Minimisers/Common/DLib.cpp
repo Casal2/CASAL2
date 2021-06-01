@@ -41,7 +41,7 @@ const column_vector DLib::DLibCalculateGradient(const column_vector& estimate_or
   // Build scaled estimate values
   vector<Estimate*> estimates = model_->managers()->estimate()->GetIsEstimated();
   vector<Double>    estimate_values;
-  Double            penalty = 0.0;
+  // Double            penalty = 0.0;
   for (unsigned i = 0; i < estimates.size(); ++i) {
     estimate_values.push_back(utilities::math::scale(estimates[i]->value(), estimates[i]->lower_bound(), estimates[i]->upper_bound()));
     utilities::math::unscale(estimate_original_values(i), estimates[i]->lower_bound(), estimates[i]->upper_bound());
@@ -52,7 +52,7 @@ const column_vector DLib::DLibCalculateGradient(const column_vector& estimate_or
    */
   ObjectiveFunction& objective = model_->objective_function();
 
-  penalty = 0.0;
+  // penalty = 0.0;
   for (unsigned j = 0; j < estimates.size(); ++j) {
     Double value = utilities::math::unscale(estimate_original_values(j), estimates[j]->lower_bound(), estimates[j]->upper_bound());
     estimates[j]->set_value(value);
@@ -82,7 +82,7 @@ const column_vector DLib::DLibCalculateGradient(const column_vector& estimate_or
       /**
        * Run Model with plus eps
        */
-      penalty            = 0.0;
+      // penalty            = 0.0;
       estimate_values[i] = original_estimate_value + step_sizeI;
       for (unsigned j = 0; j < estimates.size(); ++j) {
         Double value = utilities::math::unscale(estimate_values[j], estimates[j]->lower_bound(), estimates[j]->upper_bound());
