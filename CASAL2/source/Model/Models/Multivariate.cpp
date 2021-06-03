@@ -10,7 +10,7 @@
 // headers
 #include "Multivariate.h"
 
-#include <Eigen/Eigen>
+// #include <Eigen/Eigen>
 
 #include "../../Estimates/Manager.h"
 #include "../../MCMCs/MCMC.h"
