@@ -8,7 +8,7 @@ trigger:
 
 # https://github.com/actions/virtual-environments/blob/main/images/linux/Ubuntu1804-README.md
 pool:
-  vmImage: 'ubuntu-18.04'
+  vmImage: 'ubuntu-16.04'
 
 steps:
 - script: |
