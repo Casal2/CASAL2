@@ -89,14 +89,14 @@ void Multivariate::DoValidate() {}
  * @param x
  * @return double
  */
-double Multivariate::pdf(const Eigen::VectorXd& x) const {
-  double n        = x.rows();
-  double sqrt2pi  = std::sqrt(2 * math::PI);
-  double quadform = (x - mean_).transpose() * sigma_.inverse() * (x - mean_);
-  double norm     = std::pow(sqrt2pi, -n) * std::pow(sigma_.determinant(), -0.5);
+// double Multivariate::pdf(const Eigen::VectorXd& x) const {
+//   double n        = x.rows();
+//   double sqrt2pi  = std::sqrt(2 * math::PI);
+//   double quadform = (x - mean_).transpose() * sigma_.inverse() * (x - mean_);
+//   double norm     = std::pow(sqrt2pi, -n) * std::pow(sigma_.determinant(), -0.5);
 
-  return norm * exp(-0.5 * quadform);
-}
+//   return norm * exp(-0.5 * quadform);
+// }
 
 /**
  * @brief

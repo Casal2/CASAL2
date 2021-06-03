@@ -11,7 +11,7 @@
 #define SOURCE_MODEL_MODELS_MULTIVARIATE_H_
 
 // headers
-#include <Eigen/Eigen>
+// #include <Eigen/Eigen>
 
 #include "../../Model/Model.h"
 
@@ -30,13 +30,13 @@ public:
 
 private:
   // methods
-  double pdf(const Eigen::VectorXd& x) const;
+  // double pdf(const Eigen::VectorXd& x) const;
 
   // members
-  bool            use_random_      = false;
-  double          objective_score_ = 0.0;
-  Eigen::VectorXd mean_;
-  Eigen::MatrixXd sigma_;
+  bool   use_random_      = false;
+  double objective_score_ = 0.0;
+  // Eigen::VectorXd mean_;
+  // Eigen::MatrixXd sigma_;
 };
 
 } /* namespace model */
