@@ -52,7 +52,9 @@ void Thread::Launch() {
   std::scoped_lock l(lock_);
 
   std::function<void()> new_thread([this]() {
+#ifdef __MINGW32__
     _fpreset();  // MingW Bug - Need to reset floatpoint prec
+#endif
     this->Loop();
   });
 
