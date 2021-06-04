@@ -43,7 +43,7 @@ class Builder:
     # Build
     print('-- Building IpOPT Library for CppAD')
     os.chdir(ipOptFileName)      
-    if os.system("./configure --enable-static --disable-shared --with-pic 1> casal2_configure.log 2>&1") != EX_OK:
+    if os.system('./configure --enable-static --disable-shared --with-pic CXXFLAGS="-DHAVE_CCTYPE -DHAVE_CSTDIO -DHAVE_CSTDLIB -DHAVE_CSTRING" 1> casal2_configure.log 2>&1') != EX_OK:
       return Globals.PrintError("Failed to configure code base. Please see above for build error")
     if os.system('make install 1> casal2_make_install.log 2>&1') != EX_OK:
       return Globals.PrintError("Failed to install code base. Please see above for build error")
