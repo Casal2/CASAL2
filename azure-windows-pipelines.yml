@@ -1,0 +1,23 @@
+# Starter pipeline
+# Start with a minimal pipeline that you can customize to build and deploy your code.
+# Add steps that build, run tests, deploy, and more:
+# https://aka.ms/yaml
+
+trigger:
+- master
+
+# https://github.com/actions/virtual-environments/blob/main/images/linux/Ubuntu1804-README.md
+pool:
+  vmImage: 'windows-latest'
+
+steps:
+- script: |
+    sudo pip3 install pytz
+  displayName: 'Installing Python3 build environment'
+
+- script: |
+    cd BuildSystem
+    doBuild.bat check
+  displayName: 'Build third-party libraries'
+
+
