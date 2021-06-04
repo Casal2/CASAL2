@@ -8,7 +8,8 @@ trigger:
 
 # https://github.com/actions/virtual-environments/blob/main/images/linux/Ubuntu1804-README.md
 pool: 
-  name: 'ZaitaOpenSuSe'
+  name: 'SelfHosted'
+  vmImage: 'ZaitaOpenSuSe'
 
 steps:
 - script: |
