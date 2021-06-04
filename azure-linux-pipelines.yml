@@ -14,8 +14,38 @@ pool:
 steps:
 - script: |
     cd BuildSystem
-    ./doBuild.sh thirdparty
-  displayName: 'Build third-party libraries'
+    ./doBuild.sh thirdparty adolc
+  displayName: 'Build third-party library - adolc'
+
+- script: |
+    cd BuildSystem
+    ./doBuild.sh thirdparty betadiff
+  displayName: 'Build third-party library - betadiff'
+
+- script: |
+    cd BuildSystem
+    ./doBuild.sh thirdparty boost
+  displayName: 'Build third-party libraries - boost'
+
+- script: |
+    cd BuildSystem
+    ./doBuild.sh thirdparty cppad
+  displayName: 'Build third-party libraries - cppad'
+
+- script: |
+    cd BuildSystem
+    ./doBuild.sh thirdparty dlib
+  displayName: 'Build third-party libraries - dlib'
+
+- script: |
+    cd BuildSystem
+    ./doBuild.sh thirdparty googletest_googlemock
+  displayName: 'Build third-party libraries - google test and mock'
+
+- script: |
+    cd BuildSystem
+    ./doBuild.sh thirdparty parser
+  displayName: 'Build third-party libraries - parser'
 
 - script: |
     cd BuildSystem
