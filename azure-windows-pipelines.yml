@@ -17,8 +17,38 @@ steps:
 
 - script: |
     cd BuildSystem
-    doBuild.bat thirdparty
-  displayName: 'Build third-party libraries'
+    doBuild.bat thirdparty adolc
+  displayName: 'Build third-party library - adolc'
+
+- script: |
+    cd BuildSystem
+    doBuild.bat thirdparty betadiff
+  displayName: 'Build third-party library - betadiff'
+
+- script: |
+    cd BuildSystem
+    doBuild.bat thirdparty boost
+  displayName: 'Build third-party libraries - boost'
+
+- script: |
+    cd BuildSystem
+    doBuild.bat thirdparty cppad
+  displayName: 'Build third-party libraries - cppad'
+
+- script: |
+    cd BuildSystem
+    doBuild.bat thirdparty dlib
+  displayName: 'Build third-party libraries - dlib'
+
+- script: |
+    cd BuildSystem
+    doBuild.bat thirdparty googletest_googlemock
+  displayName: 'Build third-party libraries - google test and mock'
+
+- script: |
+    cd BuildSystem
+    doBuild.bat thirdparty parser
+  displayName: 'Build third-party libraries - parser'
 
 - script: |
     cd BuildSystem
