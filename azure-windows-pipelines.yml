@@ -10,14 +10,23 @@ trigger:
 pool:
   vmImage: 'windows-latest'
 
-steps:
 - script: |
-    sudo pip3 install pytz
+    pip install pytz
   displayName: 'Installing Python3 build environment'
 
 - script: |
     cd BuildSystem
-    doBuild.bat check
+    doBuild.bat thirdparty
   displayName: 'Build third-party libraries'
+
+- script: |
+    cd BuildSystem
+    doBuild.bat debug
+  displayName: 'Build "Debug" standalone binary'
+
+- script: |
+    cd BuildSystem
+    doBuild.bat test
+  displayName: 'Build "Unit Test" standalone binary'
 
 
