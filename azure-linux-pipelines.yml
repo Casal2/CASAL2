@@ -13,25 +13,6 @@ pool:
 
 steps:
 - script: |
-    sudo apt-get update
-    sudo apt-get -y install gfortran-7
-  displayName: 'Installing gfortran-7' 
-
-- script: |
-    sudo update-alternatives --remove-all gcc
-    sudo update-alternatives --remove-all g++
-    sudo update-alternatives --remove-all gfortran
-    sudo update-alternatives --install /usr/bin/gcc gcc /usr/bin/gcc-7 10
-    sudo update-alternatives --install /usr/bin/g++ g++ /usr/bin/g++-7 10
-    sudo update-alternatives --install /usr/bin/gfortran gfortran /usr/bin/gfortran-7 10
-  displayName: 'Changing gcc, g++ and gfotran aliases' 
-
-- script: |
-    sudo apt -y install python3 python3-pip
-    sudo pip3 install pytz
-  displayName: 'Installing Python3 build environment'
-
-- script: |
     cd BuildSystem
     ./doBuild.sh thirdparty
   displayName: 'Build third-party libraries'
