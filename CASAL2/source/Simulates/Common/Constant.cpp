@@ -25,24 +25,24 @@ Constant::Constant(shared_ptr<Model> model) : Simulate(model) {
 /**
  * Validate
  */
-void Constant::DoValidate() { }
+void Constant::DoValidate() {}
 
 /**
  * Build
  */
-void Constant::DoBuild() { }
+void Constant::DoBuild() {}
 
 /**
  * Reset
  */
-void Constant::DoReset() { }
+void Constant::DoReset() {}
 
 /**
  * Update
  */
 void Constant::DoUpdate() {
   LOG_FINE() << "Setting Value to: " << value_ << " (Currently Disabled)";
-//  estimable_->SetValueForCurrentYear(value_);
+  //  estimable_->SetValueForCurrentYear(value_);
 }
 
 } /* namespace simulates */

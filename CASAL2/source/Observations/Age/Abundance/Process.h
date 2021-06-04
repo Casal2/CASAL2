@@ -29,17 +29,17 @@ class ProcessAbundance : public observations::age::Abundance {
 public:
   // methods
   explicit ProcessAbundance(shared_ptr<Model> model);
-  virtual                     ~ProcessAbundance() = default;
-  void                        DoBuild() override final;
+  virtual ~ProcessAbundance() = default;
+  void DoBuild() override final;
 
 private:
   // members
-  string                      process_label_;
-  Double                      process_proportion_;
+  string process_label_;
+  Double process_proportion_;
 };
 
 } /* namespace age */
-} /* namespace niwa */
-} /* namespace observations */
+}  // namespace observations
+}  // namespace niwa
 
 #endif /* AGE_OBSERVATIONS_PROCESSABUNDANCE_H_ */

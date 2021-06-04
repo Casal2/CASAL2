@@ -38,10 +38,10 @@ Addressable::Addressable() {
  *
  */
 void Addressable::DoBuild(shared_ptr<Model> model) {
-  string type       = "";
-  string label      = "";
-  string parameter  = "";
-  string index      = "";
+  string type      = "";
+  string label     = "";
+  string parameter = "";
+  string index     = "";
 
   /**
    * Explode the parameter string so we can get the addressable
@@ -62,10 +62,10 @@ void Addressable::DoBuild(shared_ptr<Model> model) {
  * Prepare the report
  */
 void Addressable::DoPrepare(shared_ptr<Model> model) {
-  cache_ << "*"<< type_ << "[" << label_ << "]" << "\n";
+  cache_ << "*" << type_ << "[" << label_ << "]"
+         << "\n";
   cache_ << "years: ";
-  for (unsigned year : years_)
-    cache_ << std::left << std::setw(10) << year;
+  for (unsigned year : years_) cache_ << std::left << std::setw(10) << year;
   cache_ << "\n";
   cache_ << "value: ";
 }
@@ -77,7 +77,7 @@ void Addressable::DoExecute(shared_ptr<Model> model) {
   LOG_TRACE();
   target_ = model->objects().GetAddressable(parameter_);
   if (target_ == nullptr)
-  	LOG_CODE_ERROR() << "(target_ == nullptr)";
+    LOG_CODE_ERROR() << "(target_ == nullptr)";
   cache_ << std::left << std::setw(10) << *target_;
 }
 

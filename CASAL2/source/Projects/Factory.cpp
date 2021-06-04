@@ -11,8 +11,8 @@
 // headers
 #include "Factory.h"
 
-#include "../Model/Model.h"
 #include "../Model/Managers.h"
+#include "../Model/Model.h"
 #include "../Projects/Common/Constant.h"
 #include "../Projects/Common/EmpiricalSampling.h"
 #include "../Projects/Common/LogNormal.h"
@@ -46,7 +46,6 @@ Project* Factory::Create(shared_ptr<Model> model, const string& object_type, con
       result = new EmpiricalSampling(model);
     else if (sub_type == PARAM_USER_DEFINED)
       result = new UserDefined(model);
-
 
     if (result)
       model->managers()->project()->AddObject(result);

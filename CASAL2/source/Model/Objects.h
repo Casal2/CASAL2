@@ -16,8 +16,8 @@
 #ifndef SOURCE_MODEL_OBJECTS_H_
 #define SOURCE_MODEL_OBJECTS_H_
 
-#include <string>
 #include <memory>
+#include <string>
 
 #include "../BaseClasses/Object.h"
 #include "../Translations/Translations.h"
@@ -30,7 +30,9 @@ namespace niwa {
 
 class Model;
 class TimeVarying;
-namespace estimates { class Creator; }
+namespace estimates {
+class Creator;
+}
 using niwa::utilities::Double;
 using std::string;
 using utilities::OrderedMap;
@@ -41,9 +43,10 @@ class Objects {
   friend class Model;
   friend class estimates::Creator;
   friend class TimeVarying;
+
 public:
   // methods
-  virtual                             ~Objects() = default;
+  virtual ~Objects() = default;
   virtual bool                        VerfiyAddressableForUse(const string& parameter_absolute_name, addressable::Usage usage, string& error);
   virtual addressable::Type           GetAddressableType(const string& parameter_absolute_name);
   virtual Double*                     GetAddressable(const string& addressable_absolute_name);
@@ -58,12 +61,12 @@ protected:
   Objects() = delete;
   explicit Objects(shared_ptr<Model> model);
   virtual base::Object*             FindObjectOrNull(const string& parameter_absolute_name);
-  virtual void                      ExplodeString(const string& parameter_absolute_name, string &type, string& label, string& addressable, string& index);
+  virtual void                      ExplodeString(const string& parameter_absolute_name, string& type, string& label, string& addressable, string& index);
   virtual void                      ImplodeString(const string& type, const string& label, const string& parameter, const string& index, string& target_parameter);
   virtual std::pair<string, string> ExplodeParameterAndIndex(const string& parameter_absolute_name);
 
   // members
-  shared_ptr<Model>                      model_ = nullptr;
+  shared_ptr<Model> model_ = nullptr;
 };
 
 } /* namespace niwa */

@@ -14,9 +14,9 @@
 
 #include "../Estimates/Manager.h"
 #include "../GlobalConfiguration/GlobalConfiguration.h"
+#include "../Logging/Logging.h"
 #include "../Model/Model.h"
 #include "../Model/Objects.h"
-#include "../Logging/Logging.h"
 
 // namespaces
 namespace niwa {
@@ -38,8 +38,7 @@ void Estimables::AddValue(const string& estimable_label, Double value) {
  */
 vector<string> Estimables::GetEstimables() const {
   vector<string> result;
-  for (auto iter : estimable_values_)
-    result.push_back(iter.first);
+  for (auto iter : estimable_values_) result.push_back(iter.first);
 
   return result;
 }
@@ -64,8 +63,7 @@ unsigned Estimables::GetValueCount() const {
  */
 map<string, Double> Estimables::GetValues(unsigned index) const {
   map<string, Double> result;
-  for (auto iter : estimable_values_)
-    result[iter.first] = iter.second[index];
+  for (auto iter : estimable_values_) result[iter.first] = iter.second[index];
 
   return result;
 }
@@ -85,7 +83,7 @@ void Estimables::LoadValues(unsigned index) {
       if (!model_->objects().VerfiyAddressableForUse(iter.first, addressable::kInputRun, error)) {
         LOG_FATAL() << "The addressable " << iter.first << " could not be verified for use in -i run. Error: " << error;
       }
-      Double* ptr = model_->objects().GetAddressable(iter.first);
+      Double* ptr             = model_->objects().GetAddressable(iter.first);
       estimables_[iter.first] = ptr;
     }
 
@@ -114,8 +112,5 @@ void Estimables::LoadValues(unsigned index) {
       estimate->set_value(estimable_values_[iter.first][index]);
   }
 }
-
-
-
 
 } /* namespace niwa */

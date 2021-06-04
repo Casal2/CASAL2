@@ -12,14 +12,14 @@
 #ifdef TESTMODE
 
 // Headers
-#include "DoubleNormal.h"
-
 #include <gmock/gmock.h>
 #include <gtest/gtest.h>
+
 #include <boost/lexical_cast.hpp>
 #include <string>
 
 #include "../../TestResources/MockClasses/Model.h"
+#include "DoubleNormal.h"
 
 // Namespaces
 namespace niwa {
@@ -41,30 +41,30 @@ TEST(Selectivities, DoubleNormal_Age) {
 
   double_normal.parameters().Add(PARAM_LABEL, "unit_test_double_normal", __FILE__, __LINE__);
   double_normal.parameters().Add(PARAM_TYPE, "not needed in test", __FILE__, __LINE__);
-  double_normal.parameters().Add(PARAM_MU, "15",  __FILE__, __LINE__);
-  double_normal.parameters().Add(PARAM_SIGMA_L, "1",  __FILE__, __LINE__);
-  double_normal.parameters().Add(PARAM_SIGMA_R, "10",  __FILE__, __LINE__);
+  double_normal.parameters().Add(PARAM_MU, "15", __FILE__, __LINE__);
+  double_normal.parameters().Add(PARAM_SIGMA_L, "1", __FILE__, __LINE__);
+  double_normal.parameters().Add(PARAM_SIGMA_R, "10", __FILE__, __LINE__);
   double_normal.Validate();
   double_normal.Build();
 
-  ASSERT_THROW(double_normal.GetAgeResult(9, nullptr), std::string); // Below model->min_age()
-  EXPECT_DOUBLE_EQ(2.9802322387695312e-008,   double_normal.GetAgeResult(10, nullptr)); // At model->min_age()
-  EXPECT_DOUBLE_EQ(1.52587890625e-005,        double_normal.GetAgeResult(11, nullptr));
-  EXPECT_DOUBLE_EQ(0.001953125,               double_normal.GetAgeResult(12, nullptr));
-  EXPECT_DOUBLE_EQ(0.0625,                    double_normal.GetAgeResult(13, nullptr));
-  EXPECT_DOUBLE_EQ(0.5,                       double_normal.GetAgeResult(14, nullptr));
-  EXPECT_DOUBLE_EQ(1.0,                       double_normal.GetAgeResult(15, nullptr));
-  EXPECT_DOUBLE_EQ(0.99309249543703593,       double_normal.GetAgeResult(16, nullptr));
-  EXPECT_DOUBLE_EQ(0.97265494741228553,       double_normal.GetAgeResult(17, nullptr));
-  EXPECT_DOUBLE_EQ(0.9395227492140118,        double_normal.GetAgeResult(18, nullptr));
-  EXPECT_DOUBLE_EQ(0.89502507092797245,       double_normal.GetAgeResult(19, nullptr));
-  EXPECT_DOUBLE_EQ(0.8408964152537145,        double_normal.GetAgeResult(20, nullptr)); // At model->max_age()
-  ASSERT_THROW(double_normal.GetAgeResult(21, nullptr), std::string); // This is above model->max_age()
+  ASSERT_THROW(double_normal.GetAgeResult(9, nullptr), std::string);                   // Below model->min_age()
+  EXPECT_DOUBLE_EQ(2.9802322387695312e-008, double_normal.GetAgeResult(10, nullptr));  // At model->min_age()
+  EXPECT_DOUBLE_EQ(1.52587890625e-005, double_normal.GetAgeResult(11, nullptr));
+  EXPECT_DOUBLE_EQ(0.001953125, double_normal.GetAgeResult(12, nullptr));
+  EXPECT_DOUBLE_EQ(0.0625, double_normal.GetAgeResult(13, nullptr));
+  EXPECT_DOUBLE_EQ(0.5, double_normal.GetAgeResult(14, nullptr));
+  EXPECT_DOUBLE_EQ(1.0, double_normal.GetAgeResult(15, nullptr));
+  EXPECT_DOUBLE_EQ(0.99309249543703593, double_normal.GetAgeResult(16, nullptr));
+  EXPECT_DOUBLE_EQ(0.97265494741228553, double_normal.GetAgeResult(17, nullptr));
+  EXPECT_DOUBLE_EQ(0.9395227492140118, double_normal.GetAgeResult(18, nullptr));
+  EXPECT_DOUBLE_EQ(0.89502507092797245, double_normal.GetAgeResult(19, nullptr));
+  EXPECT_DOUBLE_EQ(0.8408964152537145, double_normal.GetAgeResult(20, nullptr));  // At model->max_age()
+  ASSERT_THROW(double_normal.GetAgeResult(21, nullptr), std::string);             // This is above model->max_age()
 }
 
 TEST(Selectivities, DoubleNormal_Length) {
-  shared_ptr<MockModel> model = shared_ptr<MockModel>(new MockModel());
-  vector<double> lengths = {10, 20, 30, 40, 50, 60};
+  shared_ptr<MockModel> model   = shared_ptr<MockModel>(new MockModel());
+  vector<double>        lengths = {10, 20, 30, 40, 50, 60};
   EXPECT_CALL(*model, min_age()).WillRepeatedly(Return(10));
   EXPECT_CALL(*model, max_age()).WillRepeatedly(Return(20));
   EXPECT_CALL(*model, age_spread()).WillRepeatedly(Return(11));
@@ -77,18 +77,17 @@ TEST(Selectivities, DoubleNormal_Length) {
 
   double_normal.parameters().Add(PARAM_LABEL, "unit_test_double_normal", __FILE__, __LINE__);
   double_normal.parameters().Add(PARAM_TYPE, "not needed in test", __FILE__, __LINE__);
-  double_normal.parameters().Add(PARAM_MU, "15",  __FILE__, __LINE__);
-  double_normal.parameters().Add(PARAM_SIGMA_L, "1",  __FILE__, __LINE__);
-  double_normal.parameters().Add(PARAM_SIGMA_R, "10",  __FILE__, __LINE__);
+  double_normal.parameters().Add(PARAM_MU, "15", __FILE__, __LINE__);
+  double_normal.parameters().Add(PARAM_SIGMA_L, "1", __FILE__, __LINE__);
+  double_normal.parameters().Add(PARAM_SIGMA_R, "10", __FILE__, __LINE__);
   double_normal.Validate();
   double_normal.Build();
 
   for (unsigned i = 0; i < lengths.size(); ++i) {
-    EXPECT_DOUBLE_EQ(expected_values[i],  double_normal.GetLengthResult(i));
+    EXPECT_DOUBLE_EQ(expected_values[i], double_normal.GetLengthResult(i));
   }
-
 }
 
-}
+}  // namespace niwa
 
 #endif /* ifdef TESTMODE */

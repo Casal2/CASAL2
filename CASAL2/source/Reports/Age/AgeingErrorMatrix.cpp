@@ -28,7 +28,7 @@ AgeingErrorMatrix::AgeingErrorMatrix() {
  * @param model Any shared_ptr<Model> from the threaded list that can be queried
  */
 void AgeingErrorMatrix::DoBuild(shared_ptr<Model> model) {
-	auto ageingerror = model->managers()->ageing_error()->get(ageing_error_label_);
+  auto ageingerror = model->managers()->ageing_error()->get(ageing_error_label_);
   if (!ageingerror)
     LOG_ERROR_P(PARAM_AGEING_ERROR) << "Ageing error label (" << ageing_error_label_ << ") was not found.";
 }
@@ -43,13 +43,14 @@ void AgeingErrorMatrix::DoExecute(shared_ptr<Model> model) {
     LOG_CODE_ERROR() << "!ageingerror: " << ageing_error_label_;
   vector<vector<Double>>& mis_matrix = ageingerror->mis_matrix();
 
-  cache_ << "*"<< type_ << "[" << label_ << "]" << "\n";
-  cache_ << "values "<< REPORT_R_MATRIX<<"\n";
+  cache_ << "*" << type_ << "[" << label_ << "]"
+         << "\n";
+  cache_ << "values " << REPORT_R_MATRIX << "\n";
 
   for (unsigned i = 0; i < mis_matrix.size(); ++i) {
     for (unsigned j = 0; j < mis_matrix[i].size(); ++j) {
-      cache_ << AS_DOUBLE(mis_matrix [i][j]) << " ";
-      if ( j == (mis_matrix[i].size() - 1))
+      cache_ << AS_DOUBLE(mis_matrix[i][j]) << " ";
+      if (j == (mis_matrix[i].size() - 1))
         cache_ << "\n";
     }
   }

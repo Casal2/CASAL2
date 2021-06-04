@@ -31,14 +31,14 @@ public:
   // Methods
   Normal() = delete;
   explicit Normal(shared_ptr<Model> model);
-  virtual                     ~Normal() = default;
-  void                        DoValidate() override final { };
-  Double                      GetScore() override final;
+  virtual ~Normal() = default;
+  void   DoValidate() override final{};
+  Double GetScore() override final;
 
 private:
   // Members
-  Double                      mu_;
-  Double                      cv_;
+  Double mu_;
+  Double cv_;
 };
 
 } /* namespace estimates */

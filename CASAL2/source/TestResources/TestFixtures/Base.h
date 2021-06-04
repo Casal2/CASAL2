@@ -25,7 +25,6 @@
 #include "../../Model/Model.h"
 #include "../../Runner.h"
 
-
 // namespaces
 namespace niwa {
 namespace testfixtures {

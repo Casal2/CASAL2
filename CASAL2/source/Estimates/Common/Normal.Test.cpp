@@ -12,22 +12,22 @@
 // Headers
 #include <iostream>
 
-#include "../../ObjectiveFunction/ObjectiveFunction.h"
 #include "../../Estimates/Manager.h"
 #include "../../Model/Models/Age.h"
-#include "../../TestResources/TestFixtures/InternalEmptyModel.h"
+#include "../../ObjectiveFunction/ObjectiveFunction.h"
 #include "../../TestResources/Models/TwoSexNoEstimates.h"
+#include "../../TestResources/TestFixtures/InternalEmptyModel.h"
 
 // Namespaces
 namespace niwa {
 namespace estimates {
 
+using niwa::testfixtures::InternalEmptyModel;
 using std::cout;
 using std::endl;
-using niwa::testfixtures::InternalEmptyModel;
 
 const string estimate_normal =
-R"(
+    R"(
 @estimate e1
 parameter selectivity[FishingSel].a50
 lower_bound 1

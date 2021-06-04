@@ -25,18 +25,17 @@ namespace niwa {
 namespace reports {
 namespace length {
 
-
 /**
  *
  */
 class Partition : public niwa::Report {
 public:
   Partition();
-  virtual                     ~Partition() = default;
-  void                        DoValidate(shared_ptr<Model> model) final;
-  void                        DoBuild(shared_ptr<Model> model) final { };
-  void                        DoExecute(shared_ptr<Model> model) final;
-  void                        DoExecuteTabular(shared_ptr<Model> model) final { };
+  virtual ~Partition() = default;
+  void DoValidate(shared_ptr<Model> model) final;
+  void DoBuild(shared_ptr<Model> model) final{};
+  void DoExecute(shared_ptr<Model> model) final;
+  void DoExecuteTabular(shared_ptr<Model> model) final{};
 };
 
 } /* namespace length */

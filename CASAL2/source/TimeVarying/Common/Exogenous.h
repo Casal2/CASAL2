@@ -27,17 +27,17 @@ namespace timevarying {
 class Exogenous : public TimeVarying {
 public:
   explicit Exogenous(shared_ptr<Model> model);
-  virtual                     ~Exogenous() = default;
-  void                        DoValidate() override final;
-  void                        DoBuild() override final;
-  void                        DoReset() override final;
-  void                        DoUpdate() override final;
+  virtual ~Exogenous() = default;
+  void DoValidate() override final;
+  void DoBuild() override final;
+  void DoReset() override final;
+  void DoUpdate() override final;
 
 private:
   // members
-  vector<Double>              exogenous_;
-  Double                      a_;
-  map<unsigned, Double>       values_by_year_;
+  vector<Double>        exogenous_;
+  Double                a_;
+  map<unsigned, Double> values_by_year_;
 };
 
 } /* namespace timevarying */

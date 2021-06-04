@@ -28,14 +28,14 @@ class RandomNumberSeed : public niwa::Report {
 public:
   // methods
   RandomNumberSeed();
-  virtual                     ~RandomNumberSeed() = default;
+  virtual ~RandomNumberSeed() = default;
 
 protected:
   // pure methods
-  void                        DoValidate(shared_ptr<Model> model) final { };
-  void                        DoBuild(shared_ptr<Model> model) final { };
-  void                        DoExecute(shared_ptr<Model> model) final;
-  void                        DoExecuteTabular(shared_ptr<Model> model) final { };
+  void DoValidate(shared_ptr<Model> model) final{};
+  void DoBuild(shared_ptr<Model> model) final{};
+  void DoExecute(shared_ptr<Model> model) final;
+  void DoExecuteTabular(shared_ptr<Model> model) final{};
 };
 
 } /* namespace reports */

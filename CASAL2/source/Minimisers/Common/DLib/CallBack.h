@@ -32,12 +32,12 @@ class Callback {
 public:
   // methods
   Callback(shared_ptr<Model> model);
-  virtual                     ~Callback() = default;
-  Double                      operator()(const ::dlib::matrix<double, 0, 1>& Parameters) const;
+  virtual ~Callback() = default;
+  Double operator()(const ::dlib::matrix<double, 0, 1>& Parameters) const;
 
 private:
   // members
-  shared_ptr<Model>                    model_;
+  shared_ptr<Model> model_;
 };
 
 } /* namespace dlib */

@@ -29,32 +29,31 @@ namespace estimatetransformations {
 class SumToOne : public EstimateTransformation {
 public:
   SumToOne() = delete;
-  explicit                    SumToOne(shared_ptr<Model> model);
-  virtual                     ~SumToOne() = default;
-  void                        TransformForObjectiveFunction() override final { };
-  void                        RestoreFromObjectiveFunction() override final { };
-  std::set<string>            GetTargetEstimates() override final;
-  Double                      GetScore() override final;
+  explicit SumToOne(shared_ptr<Model> model);
+  virtual ~SumToOne() = default;
+  void             TransformForObjectiveFunction() override final{};
+  void             RestoreFromObjectiveFunction() override final{};
+  std::set<string> GetTargetEstimates() override final;
+  Double           GetScore() override final;
 
 protected:
   // methods
-  void                        DoValidate() override final;
-  void                        DoBuild() override final;
-  void                        DoTransform() override final;
-  void                        DoRestore() override final;
+  void DoValidate() override final;
+  void DoBuild() override final;
+  void DoTransform() override final;
+  void DoRestore() override final;
 
 private:
   // members
-  bool                        unit_ = false; // whether this is a unit vector or an average 1 vector.
-  vector<Double>              unit_vector_;
-  vector<Double>              zk_;
-  vector<Double>              yk_;
-  vector<Double>              lower_bounds_;
-  vector<Double>              upper_bounds_;
+  bool           unit_ = false;  // whether this is a unit vector or an average 1 vector.
+  vector<Double> unit_vector_;
+  vector<Double> zk_;
+  vector<Double> yk_;
+  vector<Double> lower_bounds_;
+  vector<Double> upper_bounds_;
 
-  vector<string>              estimate_labels_;
-  vector<Estimate*>           estimates_;
-
+  vector<string>    estimate_labels_;
+  vector<Estimate*> estimates_;
 };
 
 } /* namespace estimatetransformations */

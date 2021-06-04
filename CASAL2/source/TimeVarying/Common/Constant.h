@@ -28,15 +28,15 @@ class Constant : public niwa::TimeVarying {
 public:
   // methods
   explicit Constant(shared_ptr<Model> model);
-  virtual                     ~Constant() = default;
-  void                        DoValidate() override final;
-  void                        DoBuild() override final;
-  void                        DoReset() override final;
-  void                        DoUpdate() override final;
+  virtual ~Constant() = default;
+  void DoValidate() override final;
+  void DoBuild() override final;
+  void DoReset() override final;
+  void DoUpdate() override final;
 
 protected:
   // members
-  vector<Double>              values_;
+  vector<Double> values_;
 };
 
 } /* namespace timevarying */

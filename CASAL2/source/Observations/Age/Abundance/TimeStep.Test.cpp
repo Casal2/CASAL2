@@ -12,28 +12,26 @@
 #ifdef TESTMODE
 
 // Headers
-#include "TimeStep.h"
-
 #include <iostream>
 
 #include "Model/Factory.h"
 #include "Observations/Manager.h"
 #include "Partition/Partition.h"
 #include "TestResources/TestFixtures/InternalEmptyModel.h"
+#include "TimeStep.h"
 #include "TimeSteps/Manager.h"
 
 // Namespaces
 namespace niwa {
 namespace age {
 
+using niwa::testfixtures::InternalEmptyModel;
 using std::cout;
 using std::endl;
-using niwa::testfixtures::InternalEmptyModel;
-
 
 // from TestResources/TestFixtures/BasicModel.cpp
 const std::string test_cases_observation_abundance =
-R"(
+    R"(
 @model
 min_age 1
 max_age 20
@@ -183,8 +181,7 @@ TEST_F(InternalEmptyModel, Observation_Abundance) {
   EXPECT_DOUBLE_EQ(31.002921785658106, comparisons[1].score_);
 }
 
-} /* namespace processes */
+}  // namespace age
 } /* namespace niwa */
-
 
 #endif /* TESTMODE */

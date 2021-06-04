@@ -11,19 +11,19 @@
 #ifdef TESTMODE
 
 // headers
-#include "../../ObjectiveFunction/ObjectiveFunction.h"
 #include "../../Model/Models/Age.h"
-#include "../../TestResources/TestFixtures/InternalEmptyModel.h"
+#include "../../ObjectiveFunction/ObjectiveFunction.h"
 #include "../../TestResources/Models/TwoSex.h"
 #include "../../TestResources/Models/TwoSexWithDLib.h"
 #include "../../TestResources/Models/TwoSexWithDeSolver.h"
+#include "../../TestResources/TestFixtures/InternalEmptyModel.h"
 
 namespace niwa {
 namespace estimatetransformations {
 using niwa::testfixtures::InternalEmptyModel;
 
 const string estimate_transformation_inverse =
-R"(
+    R"(
 @estimate_transformation x
 type inverse
 estimate_label recruitment.r0
@@ -49,7 +49,7 @@ TEST_F(InternalEmptyModel, EstimateTransformations_Inverse) {
  *
  */
 const string estimate_transformation_inverse_no_bounds =
-R"(
+    R"(
 @estimate_transformation x
 type inverse
 estimate_label recruitment.r0

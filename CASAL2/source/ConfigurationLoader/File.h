@@ -23,7 +23,6 @@
 
 #include "../ConfigurationLoader/Loader.h"
 
-
 // namespaces
 namespace niwa {
 namespace configuration {

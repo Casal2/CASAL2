@@ -11,13 +11,13 @@
 // headers
 #include "Creator.h"
 
-#include <boost/algorithm/string/replace.hpp>
-#include <boost/algorithm/string/trim_all.hpp>
-#include <boost/algorithm/string/split.hpp>
 #include <boost/algorithm/string/join.hpp>
+#include <boost/algorithm/string/replace.hpp>
+#include <boost/algorithm/string/split.hpp>
+#include <boost/algorithm/string/trim_all.hpp>
 
-#include "../../Estimates/Manager.h"
 #include "../../Estimates/Factory.h"
+#include "../../Estimates/Manager.h"
 #include "../../Model/Model.h"
 #include "../../Model/Objects.h"
 #include "../../Utilities/String.h"
@@ -38,7 +38,7 @@ Creator::Creator(shared_ptr<Model> model) : model_(model) {
   parameters_.Bind<string>(PARAM_PARAMETER, &parameter_, "The name of the variable to estimate in the model", "");
   parameters_.Bind<double>(PARAM_LOWER_BOUND, &lower_bounds_, "The lower bound for the parameter", "");
   parameters_.Bind<double>(PARAM_UPPER_BOUND, &upper_bounds_, "The upper bound for the parameter", "");
-//  parameters_.Bind<string>(PARAM_PRIOR, &prior_label_, "TBA", "", "");
+  //  parameters_.Bind<string>(PARAM_PRIOR, &prior_label_, "TBA", "", "");
   parameters_.Bind<string>(PARAM_SAME, &same_labels_, "The list of parameters that are constrained to have the same value as this parameter", "", "");
   parameters_.Bind<string>(PARAM_ESTIMATION_PHASE, &estimation_phase_, "The estimation phase", "", "");
   parameters_.Bind<string>(PARAM_MCMC, &mcmc_, "Indicates if this parameter is fixed at the point estimate during an MCMC run", "", "");
@@ -62,16 +62,16 @@ void Creator::CreateEstimates() {
     LOG_FATAL_P(PARAM_PARAMETER) << " could not be verified for use in an @estimate block. Error: " << error;
   }
 
-  string new_parameter = parameter_;
-  auto pair = model_->objects().ExplodeParameterAndIndex(parameter_);
-  string parameter = pair.first;
-  string index = pair.second;
+  string         new_parameter = parameter_;
+  auto           pair          = model_->objects().ExplodeParameterAndIndex(parameter_);
+  string         parameter     = pair.first;
+  string         index         = pair.second;
   vector<string> indexes;
   if (index != "") {
     indexes = utilities::String::explode(index);
     if (index != "" && indexes.size() == 0) {
       LOG_FATAL_P(PARAM_PARAMETER) << " could not be split up to search for indexes because the format was invalid. "
-        << "Check the indices. Only the operators ',' and ':' (range) are supported";
+                                   << "Check the indices. Only the operators ',' and ':' (range) are supported";
     }
 
     new_parameter = new_parameter.substr(0, new_parameter.find('{'));
@@ -97,65 +97,57 @@ void Creator::CreateEstimates() {
      * and create new estimates for each of these.
      */
     if (lower_bounds_.size() != indexes.size())
-      LOG_FATAL_P(PARAM_LOWER_BOUND) << "values specified (" << lower_bounds_.size()
-        << " must match number of target addressables (" << indexes.size() << ")";
+      LOG_FATAL_P(PARAM_LOWER_BOUND) << "values specified (" << lower_bounds_.size() << " must match number of target addressables (" << indexes.size() << ")";
     if (upper_bounds_.size() != indexes.size())
-      LOG_FATAL_P(PARAM_UPPER_BOUND) << "values specified (" << upper_bounds_.size()
-        << " must match number of target addressables (" << indexes.size() << ")";
+      LOG_FATAL_P(PARAM_UPPER_BOUND) << "values specified (" << upper_bounds_.size() << " must match number of target addressables (" << indexes.size() << ")";
 
-    switch(target->GetAddressableType(parameter)) {
-    case addressable::kVector:
-    {
-      vector<Double>* targets = target->GetAddressableVector(parameter);
+    switch (target->GetAddressableType(parameter)) {
+      case addressable::kVector: {
+        vector<Double>* targets = target->GetAddressableVector(parameter);
 
-      unsigned offset = 0;
-      for (string string_index : indexes) {
-        unsigned u_index = 0;
-        if (!utils::To<string, unsigned>(string_index, u_index))
-          LOG_FATAL_P(PARAM_PARAMETER) << "index " << string_index << " could not be converted to an unsigned integer";
-        if (u_index <= 0 || u_index > targets->size())
-          LOG_FATAL_P(PARAM_PARAMETER) << "index " << string_index << " is out of range 1-" << targets->size();
+        unsigned offset = 0;
+        for (string string_index : indexes) {
+          unsigned u_index = 0;
+          if (!utils::To<string, unsigned>(string_index, u_index))
+            LOG_FATAL_P(PARAM_PARAMETER) << "index " << string_index << " could not be converted to an unsigned integer";
+          if (u_index <= 0 || u_index > targets->size())
+            LOG_FATAL_P(PARAM_PARAMETER) << "index " << string_index << " is out of range 1-" << targets->size();
 
-        CreateEstimate(new_parameter + "{" + string_index + "}", offset, &(*targets)[u_index-1]);
-        offset++;
-      }
-    }
-    break;
-    case addressable::kUnsignedMap:
-    {
-      bool create_missing = false;
-      map<unsigned, Double>* targets = target->GetAddressableUMap(parameter, create_missing);
-      unsigned offset = 0;
-      for (string string_index : indexes) {
-        unsigned u_index = 0;
-        if (!utils::To<string, unsigned>(string_index, u_index))
-          LOG_FATAL_P(PARAM_PARAMETER) << "index " << string_index << " could not be converted to an unsigned integer";
-        if (targets->find(u_index) == targets->end() && !create_missing)
-          LOG_FATAL_P(PARAM_PARAMETER) << "value " << string_index << " was not found in the objects registered";
-        if (targets->find(u_index) == targets->end() && create_missing)
-          (*targets)[u_index] = lower_bounds_[offset];
+          CreateEstimate(new_parameter + "{" + string_index + "}", offset, &(*targets)[u_index - 1]);
+          offset++;
+        }
+      } break;
+      case addressable::kUnsignedMap: {
+        bool                   create_missing = false;
+        map<unsigned, Double>* targets        = target->GetAddressableUMap(parameter, create_missing);
+        unsigned               offset         = 0;
+        for (string string_index : indexes) {
+          unsigned u_index = 0;
+          if (!utils::To<string, unsigned>(string_index, u_index))
+            LOG_FATAL_P(PARAM_PARAMETER) << "index " << string_index << " could not be converted to an unsigned integer";
+          if (targets->find(u_index) == targets->end() && !create_missing)
+            LOG_FATAL_P(PARAM_PARAMETER) << "value " << string_index << " was not found in the objects registered";
+          if (targets->find(u_index) == targets->end() && create_missing)
+            (*targets)[u_index] = lower_bounds_[offset];
 
-        CreateEstimate(new_parameter + "{" + string_index + "}", offset, &(*targets)[u_index]);
-        offset++;
-      }
-    }
-    break;
-    case addressable::kStringMap:
-    {
-      utils::OrderedMap<string, Double>* targets = target->GetAddressableSMap(parameter);
-      unsigned offset = 0;
-      for (string index : indexes) {
-        if (targets->find(index) == targets->end())
-          LOG_FATAL_P(PARAM_PARAMETER) << "value " << index << " was not found in the objects registered";
+          CreateEstimate(new_parameter + "{" + string_index + "}", offset, &(*targets)[u_index]);
+          offset++;
+        }
+      } break;
+      case addressable::kStringMap: {
+        utils::OrderedMap<string, Double>* targets = target->GetAddressableSMap(parameter);
+        unsigned                           offset  = 0;
+        for (string index : indexes) {
+          if (targets->find(index) == targets->end())
+            LOG_FATAL_P(PARAM_PARAMETER) << "value " << index << " was not found in the objects registered";
 
-        CreateEstimate(new_parameter + "{" + index + "}", offset, &(*targets)[index]);
-        offset++;
-      }
-    }
-    break;
-    default:
-      LOG_CODE_ERROR() << "This type of addressable is not supported: " << (unsigned)target->GetAddressableType(parameter);
-      break;
+          CreateEstimate(new_parameter + "{" + index + "}", offset, &(*targets)[index]);
+          offset++;
+        }
+      } break;
+      default:
+        LOG_CODE_ERROR() << "This type of addressable is not supported: " << (unsigned)target->GetAddressableType(parameter);
+        break;
     }
   } else {
     /**
@@ -171,39 +163,35 @@ void Creator::CreateEstimates() {
     if (upper_bounds_.size() != n)
       LOG_FATAL_P(PARAM_UPPER_BOUND) << "values specified (" << upper_bounds_.size() << " must match number of target addressables (" << n << ")";
 
-    switch(target->GetAddressableType(parameter)) {
-    case addressable::kVector:
-    case addressable::kVectorStringMap:
-    {
-      vector<Double>* targets = target->GetAddressableVector(parameter);
-      for (unsigned i = 0; i < targets->size(); ++i)
-        CreateEstimate(new_parameter + "{" + utilities::ToInline<unsigned, string>(i + 1) + "}", i, &(*targets)[i]);
+    switch (target->GetAddressableType(parameter)) {
+      case addressable::kVector:
+      case addressable::kVectorStringMap: {
+        vector<Double>* targets = target->GetAddressableVector(parameter);
+        for (unsigned i = 0; i < targets->size(); ++i) CreateEstimate(new_parameter + "{" + utilities::ToInline<unsigned, string>(i + 1) + "}", i, &(*targets)[i]);
 
-      break;
-    }
-    case addressable::kUnsignedMap:
-    {
-      map<unsigned, Double>* targets = target->GetAddressableUMap(parameter);
-      unsigned offset = 0;
-      for (auto iter : (*targets)) {
-        CreateEstimate(new_parameter + "{" + utilities::ToInline<unsigned, string>(iter.first) + "}", offset, &(*targets)[iter.first]);
-        offset++;
+        break;
       }
-      break;
-    }
-    case addressable::kStringMap:
-    {
-      utils::OrderedMap<string, Double>* targets = target->GetAddressableSMap(parameter);
-      unsigned offset = 0;
-      for (auto iter : (*targets)) {
-        CreateEstimate(new_parameter + "{" + iter.first + "}", offset, &(*targets)[iter.first]);
-        offset++;
+      case addressable::kUnsignedMap: {
+        map<unsigned, Double>* targets = target->GetAddressableUMap(parameter);
+        unsigned               offset  = 0;
+        for (auto iter : (*targets)) {
+          CreateEstimate(new_parameter + "{" + utilities::ToInline<unsigned, string>(iter.first) + "}", offset, &(*targets)[iter.first]);
+          offset++;
+        }
+        break;
       }
-      break;
-    }
-    default:
-      LOG_CODE_ERROR() << "This type of addressable is not supported: " << (unsigned)target->GetAddressableType(parameter);
-      break;
+      case addressable::kStringMap: {
+        utils::OrderedMap<string, Double>* targets = target->GetAddressableSMap(parameter);
+        unsigned                           offset  = 0;
+        for (auto iter : (*targets)) {
+          CreateEstimate(new_parameter + "{" + iter.first + "}", offset, &(*targets)[iter.first]);
+          offset++;
+        }
+        break;
+      }
+      default:
+        LOG_CODE_ERROR() << "This type of addressable is not supported: " << (unsigned)target->GetAddressableType(parameter);
+        break;
     }
   }
 
@@ -224,8 +212,8 @@ void Creator::HandleSameParameter() {
   if (!parameters_.Get(PARAM_SAME)->has_been_defined())
     return;
 
-  vector<string> labels;
-  vector<Double*> targets;
+  vector<string>        labels;
+  vector<Double*>       targets;
   map<string, unsigned> same_count;
 
   auto sames = parameters_.Get(PARAM_SAME)->values();
@@ -239,9 +227,9 @@ void Creator::HandleSameParameter() {
     }
 
     string new_parameter = same;
-    auto pair = model_->objects().ExplodeParameterAndIndex(same);
-    string parameter = pair.first;
-    string index = pair.second;
+    auto   pair          = model_->objects().ExplodeParameterAndIndex(same);
+    string parameter     = pair.first;
+    string index         = pair.second;
     LOG_FINEST() << "same: " << same << "; new_parameter: " << new_parameter;
 
     vector<string> indexes;
@@ -249,7 +237,7 @@ void Creator::HandleSameParameter() {
       indexes = utilities::String::explode(index);
       if (index != "" && indexes.size() == 0) {
         LOG_FATAL_P(PARAM_SAME) << " could not be split up to search for indexes because the format was invalid. "
-          << "Check the indices. Only the operators ',' and ':' (range) are supported";
+                                << "Check the indices. Only the operators ',' and ':' (range) are supported";
       }
 
       new_parameter = new_parameter.substr(0, new_parameter.find('{'));
@@ -268,104 +256,95 @@ void Creator::HandleSameParameter() {
       /**
        * Handle sames that are using index values
        */
-      switch(target->GetAddressableType(parameter)) {
-      case addressable::kVector:
-      {
-        vector<Double>* temp = target->GetAddressableVector(parameter);
-        unsigned offset = 0;
-        for (string string_index : indexes) {
-          unsigned u_index = 0;
-          if (!utils::To<string, unsigned>(string_index, u_index))
-            LOG_FATAL_P(PARAM_SAME) << "index " << string_index << " could not be converted to an unsigned integer";
-          if (u_index <= 0 || u_index > temp->size())
-            LOG_FATAL_P(PARAM_SAME) << "index " << string_index << " is out of range 1-" << temp->size();
+      switch (target->GetAddressableType(parameter)) {
+        case addressable::kVector: {
+          vector<Double>* temp   = target->GetAddressableVector(parameter);
+          unsigned        offset = 0;
+          for (string string_index : indexes) {
+            unsigned u_index = 0;
+            if (!utils::To<string, unsigned>(string_index, u_index))
+              LOG_FATAL_P(PARAM_SAME) << "index " << string_index << " could not be converted to an unsigned integer";
+            if (u_index <= 0 || u_index > temp->size())
+              LOG_FATAL_P(PARAM_SAME) << "index " << string_index << " is out of range 1-" << temp->size();
 
-          labels.push_back(new_parameter + "{" + string_index + "}");
-          targets.push_back(&(*temp)[u_index-1]);
-          offset++;
-        }
-      }
-      break;
-      case addressable::kUnsignedMap:
-      {
-        bool create_missing = false;
-        map<unsigned, Double>* temps = target->GetAddressableUMap(parameter, create_missing);
-        unsigned offset = 0;
-        for (string string_index : indexes) {
-          unsigned u_index = 0;
-          if (!utils::To<string, unsigned>(string_index, u_index))
-            LOG_FATAL_P(PARAM_PARAMETER) << "index " << string_index << " could not be converted to an unsigned integer";
-          if (temps->find(u_index) == temps->end() && !create_missing)
-            LOG_FATAL_P(PARAM_PARAMETER) << "value " << string_index << " was not found in the objects registered";
-          if (temps->find(u_index) == temps->end() && create_missing)
-            (*temps)[u_index] = lower_bounds_[offset];
+            labels.push_back(new_parameter + "{" + string_index + "}");
+            targets.push_back(&(*temp)[u_index - 1]);
+            offset++;
+          }
+        } break;
+        case addressable::kUnsignedMap: {
+          bool                   create_missing = false;
+          map<unsigned, Double>* temps          = target->GetAddressableUMap(parameter, create_missing);
+          unsigned               offset         = 0;
+          for (string string_index : indexes) {
+            unsigned u_index = 0;
+            if (!utils::To<string, unsigned>(string_index, u_index))
+              LOG_FATAL_P(PARAM_PARAMETER) << "index " << string_index << " could not be converted to an unsigned integer";
+            if (temps->find(u_index) == temps->end() && !create_missing)
+              LOG_FATAL_P(PARAM_PARAMETER) << "value " << string_index << " was not found in the objects registered";
+            if (temps->find(u_index) == temps->end() && create_missing)
+              (*temps)[u_index] = lower_bounds_[offset];
 
-          labels.push_back(new_parameter + "{" + string_index + "}");
-          targets.push_back(&(*temps)[u_index]);
-          offset++;
-        }
-      }
-      break;
-      case addressable::kStringMap:
-      {
-        utils::OrderedMap<string, Double>* temp = target->GetAddressableSMap(parameter);
-        unsigned offset = 0;
-        for (string index : indexes) {
-          if (temp->find(index) == temp->end())
-            LOG_FATAL_P(PARAM_PARAMETER) << "value " << index << " was not found in the objects registered";
+            labels.push_back(new_parameter + "{" + string_index + "}");
+            targets.push_back(&(*temps)[u_index]);
+            offset++;
+          }
+        } break;
+        case addressable::kStringMap: {
+          utils::OrderedMap<string, Double>* temp   = target->GetAddressableSMap(parameter);
+          unsigned                           offset = 0;
+          for (string index : indexes) {
+            if (temp->find(index) == temp->end())
+              LOG_FATAL_P(PARAM_PARAMETER) << "value " << index << " was not found in the objects registered";
 
-          labels.push_back(new_parameter + "{" + index + "}");
-          targets.push_back(&(*temp)[index]);
-          offset++;
-        }
-      }
-      break;
-      default:
-        LOG_CODE_ERROR() << "This type of addressable is not supported: " << (unsigned)target->GetAddressableType(parameter);
-        break;
+            labels.push_back(new_parameter + "{" + index + "}");
+            targets.push_back(&(*temp)[index]);
+            offset++;
+          }
+        } break;
+        default:
+          LOG_CODE_ERROR() << "This type of addressable is not supported: " << (unsigned)target->GetAddressableType(parameter);
+          break;
       }
     } else {
       /**
        * Here we need to handle when a user defines an entire container as the target for a same.
        * We'll same every element separately.
        */
-      switch(target->GetAddressableType(parameter)) {
-      case addressable::kVector:
-      case addressable::kVectorStringMap:
-      {
-        vector<Double>* temps = target->GetAddressableVector(parameter);
-        for (unsigned i = 0; i < temps->size(); ++i) {
-          labels.push_back(new_parameter + "{" + utilities::ToInline<unsigned, string>(i + 1) + "}");
-          targets.push_back(&(*temps)[i]);
-        }
+      switch (target->GetAddressableType(parameter)) {
+        case addressable::kVector:
+        case addressable::kVectorStringMap: {
+          vector<Double>* temps = target->GetAddressableVector(parameter);
+          for (unsigned i = 0; i < temps->size(); ++i) {
+            labels.push_back(new_parameter + "{" + utilities::ToInline<unsigned, string>(i + 1) + "}");
+            targets.push_back(&(*temps)[i]);
+          }
 
-        break;
-      }
-      case addressable::kUnsignedMap:
-      {
-        map<unsigned, Double>* temps = target->GetAddressableUMap(parameter);
-        unsigned offset = 0;
-        for (auto iter : (*temps)) {
-          labels.push_back(new_parameter + "{" + utilities::ToInline<unsigned, string>(iter.first) + "}");
-          targets.push_back(&(*temps)[iter.first]);
-          offset++;
+          break;
         }
-        break;
-      }
-      case addressable::kStringMap:
-      {
-        utils::OrderedMap<string, Double>* temps = target->GetAddressableSMap(parameter);
-        unsigned offset = 0;
-        for (auto iter : (*temps)) {
-          labels.push_back(new_parameter + "{" + iter.first + "}");
-          targets.push_back(&(*temps)[iter.first]);
-          offset++;
+        case addressable::kUnsignedMap: {
+          map<unsigned, Double>* temps  = target->GetAddressableUMap(parameter);
+          unsigned               offset = 0;
+          for (auto iter : (*temps)) {
+            labels.push_back(new_parameter + "{" + utilities::ToInline<unsigned, string>(iter.first) + "}");
+            targets.push_back(&(*temps)[iter.first]);
+            offset++;
+          }
+          break;
         }
-        break;
-      }
-      default:
-        LOG_CODE_ERROR() << "This type of addressable is not supported: " << (unsigned)target->GetAddressableType(parameter);
-        break;
+        case addressable::kStringMap: {
+          utils::OrderedMap<string, Double>* temps  = target->GetAddressableSMap(parameter);
+          unsigned                           offset = 0;
+          for (auto iter : (*temps)) {
+            labels.push_back(new_parameter + "{" + iter.first + "}");
+            targets.push_back(&(*temps)[iter.first]);
+            offset++;
+          }
+          break;
+        }
+        default:
+          LOG_CODE_ERROR() << "This type of addressable is not supported: " << (unsigned)target->GetAddressableType(parameter);
+          break;
       }
     }
   }
@@ -382,7 +361,7 @@ void Creator::HandleSameParameter() {
   /**
    * Check for Duplicates
    */
-  for(string same : labels) {
+  for (string same : labels) {
     same_count[same]++;
     if (same_count[same] > 1) {
       LOG_ERROR_P(PARAM_SAME) << ": same parameter '" << same << "' is a duplicate.";
@@ -432,7 +411,7 @@ void Creator::CopyParameters(niwa::Estimate* estimate, unsigned index) {
   estimate->parameters().CopyFrom(parameters_, PARAM_LABEL);
   estimate->parameters().CopyFrom(parameters_, PARAM_TYPE);
   estimate->parameters().CopyFrom(parameters_, PARAM_PARAMETER);
-//  estimate->parameters().CopyFrom(parameters_, PARAM_PRIOR);
+  //  estimate->parameters().CopyFrom(parameters_, PARAM_PRIOR);
   estimate->parameters().CopyFrom(parameters_, PARAM_ESTIMATION_PHASE);
   estimate->parameters().CopyFrom(parameters_, PARAM_MCMC);
   estimate->parameters().CopyFrom(parameters_, PARAM_PRIOR_APPLIES_TO_TRANSFORM);
@@ -446,4 +425,3 @@ void Creator::CopyParameters(niwa::Estimate* estimate, unsigned index) {
 }
 } /* namespace estimates */
 } /* namespace niwa */
-

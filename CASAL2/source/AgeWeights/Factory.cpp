@@ -12,12 +12,12 @@
 // headers
 #include "Factory.h"
 
-#include "../Model/Model.h"
-#include "../Model/Managers.h"
-#include "../AgeWeights/Manager.h"
-#include "../AgeWeights/AgeWeight.h"
 #include "../AgeWeights/Age/Data.h"
 #include "../AgeWeights/Age/None.h"
+#include "../AgeWeights/AgeWeight.h"
+#include "../AgeWeights/Manager.h"
+#include "../Model/Managers.h"
+#include "../Model/Model.h"
 
 // namespaces
 namespace niwa {
@@ -40,10 +40,8 @@ AgeWeight* Factory::Create(shared_ptr<Model> model, const string& object_type, c
     else if (sub_type == PARAM_DATA)
       result = new None(model);
 
-
     if (result)
       model->managers()->age_weight()->AddObject(result);
-
   }
   return result;
 }

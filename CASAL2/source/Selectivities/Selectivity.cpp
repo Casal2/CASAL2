@@ -25,14 +25,13 @@ namespace niwa {
 /**
  * Default Constructor
  */
-Selectivity::Selectivity(shared_ptr<Model> model)
-: model_(model) {
-
+Selectivity::Selectivity(shared_ptr<Model> model) : model_(model) {
   parameters_.Bind<string>(PARAM_LABEL, &label_, "The label for this selectivity", "");
   parameters_.Bind<string>(PARAM_TYPE, &type_, "The type of selectivity", "");
   parameters_.Bind<bool>(PARAM_LENGTH_BASED, &length_based_, "Is the selectivity length based?", "", false);
   parameters_.Bind<unsigned>(PARAM_INTERVALS, &n_quant_, "The number of quantiles to evaluate a length-based selectivity over the age-length distribution", "", 5);
-  parameters_.Bind<string>(PARAM_PARTITION_TYPE, &partition_type_label_, "The type of partition that this selectivity will support. Defaults to the same as the model", "", PARAM_MODEL)
+  parameters_
+      .Bind<string>(PARAM_PARTITION_TYPE, &partition_type_label_, "The type of partition that this selectivity will support. Defaults to the same as the model", "", PARAM_MODEL)
       ->set_allowed_values({PARAM_MODEL, PARAM_AGE, PARAM_LENGTH, PARAM_HYBRID});
 
   RegisterAsAddressable(PARAM_VALUES, &values_, addressable::kLookup);
@@ -59,7 +58,7 @@ void Selectivity::Validate() {
   DoValidate();
 
   if (length_based_) {
-    boost::math::normal dist{ };
+    boost::math::normal dist{};
 
     for (unsigned i = 1; i <= n_quant_; ++i) {
       quantiles_.push_back((Double(i) - 0.5) / Double(n_quant_));
@@ -75,7 +74,6 @@ void Selectivity::Validate() {
     length_values_.assign(model_->length_bins().size(), 0.0);
   }
 }
-
 
 /**
  * Reset the objects
@@ -117,7 +115,6 @@ Double Selectivity::GetLengthResult(unsigned length_bin_index) {
   return length_values_[length_bin_index];
 }
 
-
 /**
  * This method returns a pointer to a 4D vector object
  * containing age length cached values for the target age_length object.
@@ -127,27 +124,25 @@ Double Selectivity::GetLengthResult(unsigned length_bin_index) {
 Vector3* Selectivity::GetCache(AgeLength* age_length) {
   RebuildCache();
   // size varies for multi-dimensional vector
-  unsigned year_count = model_->years().size();
+  unsigned year_count      = model_->years().size();
   unsigned time_step_count = model_->managers()->time_step()->size();
-  unsigned age_count = model_->age_spread();
+  unsigned age_count       = model_->age_spread();
 
   if (!length_based_) {
     Vector3* new_vector = &cached_age_length_values_[PARAM_NONE];
     utilities::allocate_vector3(new_vector, year_count, time_step_count, age_count);
 
-//    cout << "v: " << label_ << " | ";
-//    for (unsigned i = 0; i < values_.size(); ++i)
-//      cout << values_[i] << ", ";
-//    cout << endl;
+    //    cout << "v: " << label_ << " | ";
+    //    for (unsigned i = 0; i < values_.size(); ++i)
+    //      cout << values_[i] << ", ";
+    //    cout << endl;
 
     for (unsigned i = 0; i < year_count; ++i)
       for (unsigned j = 0; j < time_step_count; ++j) {
-        for (unsigned k = 0; k < age_count; ++k)
-        (*new_vector)[i][j].assign(values_.begin(), values_.end());
+        for (unsigned k = 0; k < age_count; ++k) (*new_vector)[i][j].assign(values_.begin(), values_.end());
       }
 
     return new_vector;
-
   }
 
   // This is age length code now.
@@ -167,7 +162,7 @@ Vector3* Selectivity::GetCache(AgeLength* age_length) {
     unsigned year = model_->start_year() + i;
     for (unsigned j = 0; j < time_step_count; ++j) {
       for (unsigned k = 0; k < age_count; ++k) {
-        unsigned age = model_->min_age() + k;
+        unsigned age           = model_->min_age() + k;
         (*new_vector)[i][j][k] = this->GetLengthBasedResult(age, age_length, year, j);
       }
     }

@@ -13,19 +13,19 @@
 // Headers
 #include "Factory.h"
 
-#include "../Model/Model.h"
 #include "../Model/Managers.h"
-#include "../Processes/Manager.h"
+#include "../Model/Model.h"
 #include "../Processes/Age/Ageing.h"
 #include "../Processes/Age/Maturation.h"
 #include "../Processes/Age/MortalityConstantRate.h"
 #include "../Processes/Age/MortalityEvent.h"
 #include "../Processes/Age/MortalityEventBiomass.h"
-#include "../Processes/Age/MortalityInstantaneous.h"
+#include "../Processes/Age/MortalityHollingRate.h"
 #include "../Processes/Age/MortalityInitialisationEvent.h"
 #include "../Processes/Age/MortalityInitialisationEventBiomass.h"
+#include "../Processes/Age/MortalityInstantaneous.h"
+#include "../Processes/Age/MortalityInstantaneousRetained.h"
 #include "../Processes/Age/MortalityPreySuitability.h"
-#include "../Processes/Age/MortalityHollingRate.h"
 #include "../Processes/Age/RecruitmentBevertonHolt.h"
 #include "../Processes/Age/RecruitmentBevertonHoltWithDeviations.h"
 #include "../Processes/Age/RecruitmentConstant.h"
@@ -38,8 +38,7 @@
 #include "../Processes/Length/GrowthBasic.h"
 #include "../Processes/Length/MortalityConstantRate.h"
 #include "../Processes/Length/RecruitmentConstant.h"
-#include "../Processes/Age/MortalityInstantaneousRetained.h"
-
+#include "../Processes/Manager.h"
 
 // Namespaces
 namespace niwa {
@@ -78,47 +77,47 @@ Process* Factory::Create(shared_ptr<Model> model, const string& object_type, con
 
   if (model->partition_type() == PartitionType::kAge || (partition_type == PartitionType::kModel && model->partition_type() == PartitionType::kAge))
     if (object == PARAM_PROCESS || object == PARAM_PROCESSES) {
-        if (sub == PARAM_AGEING)
-          result = new age::Ageing(model);
-        else if (sub == PARAM_RECRUITMENT_BEVERTON_HOLT)
-          result = new age::RecruitmentBevertonHolt(model);
-        else if (sub == PARAM_RECRUITMENT_BEVERTON_HOLT_WITH_DEVIATIONS)
-          result = new age::RecruitmentBevertonHoltWithDeviations(model);
-        else if (sub == PARAM_RECRUITMENT_CONSTANT)
-          result = new age::RecruitmentConstant(model);
-        else if (sub == PARAM_MATURATION)
-          result = new age::Maturation(model);
-        else if (sub == PARAM_MORTALITY_CONSTANT_RATE)
-          result = new age::MortalityConstantRate(model);
-        else if (sub == PARAM_MORTALITY_INITIALISATION_EVENT)
-          result = new age::MortalityInitialisationEvent(model);
-        else if (sub == PARAM_MORTALITY_INITIALISATION_EVENT_BIOMSS)
-          result = new age::MortalityInitialisationEventBiomass(model);
-        else if (sub == PARAM_MORTALITY_EVENT)
-          result = new age::MortalityEvent(model);
-        else if (sub == PARAM_MORTALITY_EVENT_BIOMASS)
-          result = new age::MortalityEventBiomass(model);
-        else if (sub == PARAM_MORTALITY_INSTANTANEOUS)
-          result = new age::MortalityInstantaneous(model);
-        else if (sub == PARAM_MORTALITY_INSTANTANEOUS_RETAINED)
-          result = new age::MortalityInstantaneousRetained(model);
-        else if (sub == PARAM_MORTALITY_HOLLING_RATE)
-          result = new age::MortalityHollingRate(model);
-        else if (sub == PARAM_PREY_SUITABILITY_PREDATION)
-          result = new age::MortalityPreySuitability(model);
-        else if (sub == PARAM_NOP)
-          result = new processes::Nop(model);
-        else if (sub == PARAM_TAG_BY_AGE)
-          result = new age::TagByAge(model);
-        else if (sub == PARAM_TAG_BY_LENGTH)
-          result = new age::TagByLength(model);
-        else if (sub == PARAM_TAG_LOSS)
-          result = new age::TagLoss(model);
-        else if (sub == PARAM_TRANSITION_CATEGORY)
-          result = new age::TransitionCategory(model);
-        else if (sub == PARAM_TRANSITION_CATEGORY_BY_AGE)
-          result = new age::TransitionCategoryByAge(model);
-      }
+      if (sub == PARAM_AGEING)
+        result = new age::Ageing(model);
+      else if (sub == PARAM_RECRUITMENT_BEVERTON_HOLT)
+        result = new age::RecruitmentBevertonHolt(model);
+      else if (sub == PARAM_RECRUITMENT_BEVERTON_HOLT_WITH_DEVIATIONS)
+        result = new age::RecruitmentBevertonHoltWithDeviations(model);
+      else if (sub == PARAM_RECRUITMENT_CONSTANT)
+        result = new age::RecruitmentConstant(model);
+      else if (sub == PARAM_MATURATION)
+        result = new age::Maturation(model);
+      else if (sub == PARAM_MORTALITY_CONSTANT_RATE)
+        result = new age::MortalityConstantRate(model);
+      else if (sub == PARAM_MORTALITY_INITIALISATION_EVENT)
+        result = new age::MortalityInitialisationEvent(model);
+      else if (sub == PARAM_MORTALITY_INITIALISATION_EVENT_BIOMSS)
+        result = new age::MortalityInitialisationEventBiomass(model);
+      else if (sub == PARAM_MORTALITY_EVENT)
+        result = new age::MortalityEvent(model);
+      else if (sub == PARAM_MORTALITY_EVENT_BIOMASS)
+        result = new age::MortalityEventBiomass(model);
+      else if (sub == PARAM_MORTALITY_INSTANTANEOUS)
+        result = new age::MortalityInstantaneous(model);
+      else if (sub == PARAM_MORTALITY_INSTANTANEOUS_RETAINED)
+        result = new age::MortalityInstantaneousRetained(model);
+      else if (sub == PARAM_MORTALITY_HOLLING_RATE)
+        result = new age::MortalityHollingRate(model);
+      else if (sub == PARAM_PREY_SUITABILITY_PREDATION)
+        result = new age::MortalityPreySuitability(model);
+      else if (sub == PARAM_NOP)
+        result = new processes::Nop(model);
+      else if (sub == PARAM_TAG_BY_AGE)
+        result = new age::TagByAge(model);
+      else if (sub == PARAM_TAG_BY_LENGTH)
+        result = new age::TagByLength(model);
+      else if (sub == PARAM_TAG_LOSS)
+        result = new age::TagLoss(model);
+      else if (sub == PARAM_TRANSITION_CATEGORY)
+        result = new age::TransitionCategory(model);
+      else if (sub == PARAM_TRANSITION_CATEGORY_BY_AGE)
+        result = new age::TransitionCategoryByAge(model);
+    }
   if (model->partition_type() == PartitionType::kLength || (partition_type == PartitionType::kModel && model->partition_type() == PartitionType::kLength)) {
     if (object == PARAM_PROCESS || object == PARAM_PROCESSES) {
       if (sub == PARAM_GROWTH_BASIC)

@@ -26,19 +26,19 @@ class OffByOne : public niwa::AgeingError {
 public:
   // methods
   OffByOne(shared_ptr<Model> model);
-  virtual                   ~OffByOne() = default;
+  virtual ~OffByOne() = default;
 
 protected:
   // methods
-  void                        DoValidate() override final;
-  void                        DoBuild() override final;
-  void                        DoReset() override final;
+  void DoValidate() override final;
+  void DoBuild() override final;
+  void DoReset() override final;
 
 private:
   // members
-  Double                      p1_ = 0.0;
-  Double                      p2_ = 0.0;
-  unsigned                    k_;
+  Double   p1_ = 0.0;
+  Double   p2_ = 0.0;
+  unsigned k_;
 };
 
 } /* namespace ageingerrors */

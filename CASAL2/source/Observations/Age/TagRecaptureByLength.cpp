@@ -27,7 +27,6 @@
 #include "Utilities/Math.h"
 #include "Utilities/To.h"
 
-
 // namespaces
 namespace niwa {
 namespace observations {
@@ -520,8 +519,8 @@ void TagRecaptureByLength::Execute() {
     for (; category_iter != partition_iter->end(); ++cached_category_iter, ++category_iter) {
       // Update/Populate Numbers At Length container for each category
       LOG_FINEST() << "Populating age length matrix for: " << cached_category_iter->name_;
-      if (find(tagged_category_split_labels_[category_offset].begin(), tagged_category_split_labels_[category_offset].end(), (*category_iter)->name_) !=
-          tagged_category_split_labels_[category_offset].end()) {
+      if (find(tagged_category_split_labels_[category_offset].begin(), tagged_category_split_labels_[category_offset].end(), (*category_iter)->name_)
+          != tagged_category_split_labels_[category_offset].end()) {
         LOG_FINE() << "This calculation was done in the loop above so skip this, category = " << (*category_iter)->name_;
         continue;
       }

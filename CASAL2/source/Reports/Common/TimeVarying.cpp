@@ -15,7 +15,6 @@
 namespace niwa {
 namespace reports {
 
-
 /**
  * Default constructor
  */
@@ -29,18 +28,20 @@ TimeVarying::TimeVarying() {
  */
 void TimeVarying::DoExecute(shared_ptr<Model> model) {
   LOG_TRACE();
-  auto manager = model->managers()->time_varying();
+  auto manager      = model->managers()->time_varying();
   auto time_varying = manager->objects();
   if (manager->size() > 0 && time_varying.size() > 0) {
-    cache_ << "*"<< type_ << "[" << label_ << "]" << "\n";
+    cache_ << "*" << type_ << "[" << label_ << "]"
+           << "\n";
 
     for (auto time_var : time_varying) {
-      string label =  time_var->label();
+      string label = time_var->label();
       LOG_FINEST() << "Reporting for @time_varying block " << label;
       cache_ << label << " " << REPORT_R_DATAFRAME << "\n";
 
       map<unsigned, Double>& parameter_by_year = time_var->get_parameter_by_year();
-      cache_ << "year" << " Value \n";
+      cache_ << "year"
+             << " Value \n";
       for (auto param : parameter_by_year) {
         cache_ << param.first << "  " << AS_DOUBLE(param.second) << "\n";
       }
@@ -49,17 +50,15 @@ void TimeVarying::DoExecute(shared_ptr<Model> model) {
   }
 }
 
-
 /**
  * Execute Tabular report
  */
-void TimeVarying::DoExecuteTabular(shared_ptr<Model> model) { }
+void TimeVarying::DoExecuteTabular(shared_ptr<Model> model) {}
 
 /**
  *
  */
-void TimeVarying::DoFinaliseTabular(shared_ptr<Model> model) {
-}
+void TimeVarying::DoFinaliseTabular(shared_ptr<Model> model) {}
 
 } /* namespace reports */
 } /* namespace niwa */

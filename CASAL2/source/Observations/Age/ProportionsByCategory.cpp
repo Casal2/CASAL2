@@ -14,11 +14,10 @@
 
 #include <algorithm>
 
+#include "../../Partition/Accessors/Cached/CombinedCategories.h"
 #include "Categories/Categories.h"
-#include "Selectivities/Manager.h"
 #include "Model/Model.h"
 #include "Partition/Accessors/All.h"
-#include "../../Partition/Accessors/Cached/CombinedCategories.h"
 #include "Selectivities/Manager.h"
 #include "Utilities/Map.h"
 #include "Utilities/Math.h"
@@ -33,7 +32,7 @@ namespace age {
  * Default constructor
  */
 ProportionsByCategory::ProportionsByCategory(shared_ptr<Model> model) : Observation(model) {
-  obs_table_ = new parameters::Table(PARAM_OBS);
+  obs_table_          = new parameters::Table(PARAM_OBS);
   error_values_table_ = new parameters::Table(PARAM_ERROR_VALUES);
 
   parameters_.Bind<unsigned>(PARAM_MIN_AGE, &min_age_, "The minimum age", "");
@@ -66,18 +65,17 @@ ProportionsByCategory::~ProportionsByCategory() {
  */
 void ProportionsByCategory::DoValidate() {
   unsigned expected_selectivity_count = 0;
-  auto categories = model_->categories();
-  for (const string& category_label : category_labels_)
-    expected_selectivity_count += categories->GetNumberOfCategoriesDefined(category_label);
+  auto     categories                 = model_->categories();
+  for (const string& category_label : category_labels_) expected_selectivity_count += categories->GetNumberOfCategoriesDefined(category_label);
 
   if (category_labels_.size() != target_category_labels_.size())
-    LOG_ERROR_P(PARAM_CATEGORIES) << ": Number of categories(" << category_labels_.size() << ") does not match the number of "
-    PARAM_TARGET_CATEGORIES << "(" << target_category_labels_.size() << ")";
+    LOG_ERROR_P(PARAM_CATEGORIES) << ": Number of categories(" << category_labels_.size() << ") does not match the number of " PARAM_TARGET_CATEGORIES << "("
+                                  << target_category_labels_.size() << ")";
 
   if (target_category_labels_.size() != target_selectivity_labels_.size() && expected_selectivity_count != target_selectivity_labels_.size())
     LOG_ERROR_P(PARAM_TARGET_SELECTIVITIES) << ": Number of selectivities provided (" << target_selectivity_labels_.size()
-      << ") is not valid. Specify either the number of category collections (" << target_category_labels_.size() << ") or "
-      << "the number of total categories (" << expected_selectivity_count << ")";
+                                            << ") is not valid. Specify either the number of category collections (" << target_category_labels_.size() << ") or "
+                                            << "the number of total categories (" << expected_selectivity_count << ")";
 
   age_spread_ = (max_age_ - min_age_) + 1;
 
@@ -92,8 +90,8 @@ void ProportionsByCategory::DoValidate() {
   if (max_age_ > model_->max_age())
     LOG_ERROR_P(PARAM_MAX_AGE) << ": max_age (" << max_age_ << ") is greater than the model's max_age (" << model_->max_age() << ")";
   if (process_error_values_.size() != 0 && process_error_values_.size() != years_.size()) {
-    LOG_ERROR_P(PARAM_PROCESS_ERRORS) << " number of values provided (" << process_error_values_.size()
-      << ") does not match the number of years provided (" << years_.size() << ")";
+    LOG_ERROR_P(PARAM_PROCESS_ERRORS) << " number of values provided (" << process_error_values_.size() << ") does not match the number of years provided (" << years_.size()
+                                      << ")";
   }
   for (Double process_error : process_error_values_) {
     if (process_error < 0.0)
@@ -101,12 +99,12 @@ void ProportionsByCategory::DoValidate() {
   }
   if (process_error_values_.size() != 0) {
     if (process_error_values_.size() != years_.size()) {
-      LOG_FATAL_P(PARAM_PROCESS_ERRORS) << "Supply a process error for each year. Values for " << process_error_values_.size()
-        << " years were provided, but " << years_.size() << " years are required";
+      LOG_FATAL_P(PARAM_PROCESS_ERRORS) << "Supply a process error for each year. Values for " << process_error_values_.size() << " years were provided, but " << years_.size()
+                                        << " years are required";
     }
     process_errors_by_year_ = utilities::Map::create(years_, process_error_values_);
   } else {
-    Double process_val = 0.0;
+    Double process_val      = 0.0;
     process_errors_by_year_ = utilities::Map::create(years_, process_val);
   }
 
@@ -115,26 +113,24 @@ void ProportionsByCategory::DoValidate() {
 
   if (category_labels_.size() != selectivity_labels_.size() && expected_selectivity_count_ != selectivity_labels_.size())
     LOG_ERROR_P(PARAM_SELECTIVITIES) << ": Number of selectivities provided (" << selectivity_labels_.size()
-      << ") is not valid. Specify either the number of category collections (" << category_labels_.size() << ") or "
-      << "the number of total categories (" << expected_selectivity_count_ << ")";
+                                     << ") is not valid. Specify either the number of category collections (" << category_labels_.size() << ") or "
+                                     << "the number of total categories (" << expected_selectivity_count_ << ")";
   /**
    * Validate the number of obs provided matches age spread * category_labels * years
    * This is because we'll have 1 set of obs per category collection provided.
    * categories male+female male = 2 collections
    */
-  unsigned obs_expected = age_spread_ * category_labels_.size() + 1;
-  vector<vector<string>>& obs_data = obs_table_->data();
+  unsigned                obs_expected = age_spread_ * category_labels_.size() + 1;
+  vector<vector<string>>& obs_data     = obs_table_->data();
   if (obs_data.size() != years_.size()) {
-    LOG_ERROR_P(PARAM_OBS) << " has " << obs_data.size() << " rows defined, but " << years_.size()
-      << " should match the number of years provided";
+    LOG_ERROR_P(PARAM_OBS) << " has " << obs_data.size() << " rows defined, but " << years_.size() << " should match the number of years provided";
   }
 
   for (vector<string>& obs_data_line : obs_data) {
     unsigned year = 0;
 
     if (obs_data_line.size() != obs_expected) {
-      LOG_ERROR_P(PARAM_OBS) << " has " << obs_data_line.size() << " values defined, but " << obs_expected
-        << " should match the age spread * categories + 1 (for year)";
+      LOG_ERROR_P(PARAM_OBS) << " has " << obs_data_line.size() << " values defined, but " << obs_expected << " should match the age spread * categories + 1 (for year)";
       return;
     }
 
@@ -156,18 +152,15 @@ void ProportionsByCategory::DoValidate() {
       obs_by_year[year].push_back(value);
     }
     if (obs_by_year[year].size() != obs_expected - 1)
-      LOG_CODE_ERROR() << "obs_by_year_[year].size() (" << obs_by_year[year].size() << ") != obs_expected - 1 (" << obs_expected -1 << ")";
-
+      LOG_CODE_ERROR() << "obs_by_year_[year].size() (" << obs_by_year[year].size() << ") != obs_expected - 1 (" << obs_expected - 1 << ")";
   }
-
 
   /**
    * Build our error value map
    */
   vector<vector<string>>& error_values_data = error_values_table_->data();
   if (error_values_data.size() != years_.size()) {
-    LOG_ERROR_P(PARAM_ERROR_VALUES) << " has " << error_values_data.size() << " rows defined, but " << years_.size()
-      << " should match the number of years provided";
+    LOG_ERROR_P(PARAM_ERROR_VALUES) << " has " << error_values_data.size() << " rows defined, but " << years_.size() << " should match the number of years provided";
   }
 
   for (vector<string>& error_values_data_line : error_values_data) {
@@ -175,7 +168,7 @@ void ProportionsByCategory::DoValidate() {
 
     if (error_values_data_line.size() != 2 && error_values_data_line.size() != obs_expected) {
       LOG_ERROR_P(PARAM_ERROR_VALUES) << " has " << error_values_data_line.size() << " values defined, but " << obs_expected
-        << " should match the age spread * categories + 1 (for year)";
+                                      << " should match the age spread * categories + 1 (for year)";
     } else if (!utilities::To<unsigned>(error_values_data_line[0], year)) {
       LOG_ERROR_P(PARAM_ERROR_VALUES) << " value " << error_values_data_line[0] << " could not be converted to an unsigned integer. It should be the year for this line";
     } else if (std::find(years_.begin(), years_.end(), year) == years_.end()) {
@@ -200,8 +193,7 @@ void ProportionsByCategory::DoValidate() {
       }
 
       if (error_values_by_year[year].size() != obs_expected - 1) {
-        LOG_CODE_ERROR() << "error_values_by_year_[year].size() (" << error_values_by_year[year].size()
-          << ") != obs_expected - 1 (" << obs_expected -1 << ")";
+        LOG_CODE_ERROR() << "error_values_by_year_[year].size() (" << error_values_by_year[year].size() << ") != obs_expected - 1 (" << obs_expected - 1 << ")";
       }
     }
   }
@@ -220,12 +212,10 @@ void ProportionsByCategory::DoValidate() {
         unsigned obs_index = i * age_spread_ + j;
 
         if (!utilities::To<Double>(iter->second[obs_index], value))
-          LOG_ERROR_P(PARAM_OBS) << ": obs_ value (" << iter->second[obs_index] << ") at index " << obs_index + 1
-            << " in the definition could not be converted to a Double";
+          LOG_ERROR_P(PARAM_OBS) << ": obs_ value (" << iter->second[obs_index] << ") at index " << obs_index + 1 << " in the definition could not be converted to a Double";
 
         auto e_f = error_values_by_year.find(iter->first);
-        if (e_f != error_values_by_year.end())
-        {
+        if (e_f != error_values_by_year.end()) {
           error_values_[iter->first][category_labels_[i]].push_back(e_f->second[obs_index]);
           proportions_[iter->first][category_labels_[i]].push_back(value);
           total += value;
@@ -233,9 +223,9 @@ void ProportionsByCategory::DoValidate() {
       }
     }
 
-//    if (fabs(1.0 - total) > tolerance_) {
-//      LOG_ERROR_P(PARAM_OBS) << ": obs sum total (" << total << ") for year (" << iter->first << ") exceeds tolerance (" << tolerance_ << ") from 1.0";
-//    }
+    //    if (fabs(1.0 - total) > tolerance_) {
+    //      LOG_ERROR_P(PARAM_OBS) << ": obs sum total (" << total << ") for year (" << iter->first << ") exceeds tolerance (" << tolerance_ << ") from 1.0";
+    //    }
   }
 }
 
@@ -243,9 +233,9 @@ void ProportionsByCategory::DoValidate() {
  * Build any runtime relationships and ensure that the labels for other objects are valid.
  */
 void ProportionsByCategory::DoBuild() {
-  partition_ = CombinedCategoriesPtr(new niwa::partition::accessors::CombinedCategories(model_, category_labels_));
-  cached_partition_ = CachedCombinedCategoriesPtr(new niwa::partition::accessors::cached::CombinedCategories(model_, category_labels_));
-  target_partition_ = CombinedCategoriesPtr(new niwa::partition::accessors::CombinedCategories(model_, target_category_labels_));
+  partition_               = CombinedCategoriesPtr(new niwa::partition::accessors::CombinedCategories(model_, category_labels_));
+  cached_partition_        = CachedCombinedCategoriesPtr(new niwa::partition::accessors::cached::CombinedCategories(model_, category_labels_));
+  target_partition_        = CombinedCategoriesPtr(new niwa::partition::accessors::CombinedCategories(model_, target_category_labels_));
   target_cached_partition_ = CachedCombinedCategoriesPtr(new niwa::partition::accessors::cached::CombinedCategories(model_, target_category_labels_));
 
   if (ageing_error_label_ != "")
@@ -253,7 +243,7 @@ void ProportionsByCategory::DoBuild() {
 
   age_results_.resize(age_spread_ * category_labels_.size(), 0.0);
 
-  for(string label : selectivity_labels_) {
+  for (string label : selectivity_labels_) {
     Selectivity* selectivity = model_->managers()->selectivity()->GetSelectivity(label);
     if (!selectivity)
       LOG_ERROR_P(PARAM_SELECTIVITIES) << ": Selectivity label " << label << " was not found.";
@@ -265,7 +255,7 @@ void ProportionsByCategory::DoBuild() {
     selectivities_.assign(category_labels_.size(), val_sel);
   }
 
-  for(string label : target_selectivity_labels_) {
+  for (string label : target_selectivity_labels_) {
     auto selectivity = model_->managers()->selectivity()->GetSelectivity(label);
     if (!selectivity) {
       LOG_ERROR_P(PARAM_TARGET_SELECTIVITIES) << ": Selectivity label " << label << " was not found.";
@@ -306,10 +296,10 @@ void ProportionsByCategory::Execute() {
   /**
    * Verify our cached partition and partition sizes are correct
    */
-  auto cached_partition_iter  = cached_partition_->Begin();
-  auto partition_iter         = partition_->Begin(); // vector<vector<partition::Category> >
-  auto target_cached_partition_iter  = target_cached_partition_->Begin();
-  auto target_partition_iter         = target_partition_->Begin(); // vector<vector<partition::Category> >
+  auto cached_partition_iter        = cached_partition_->Begin();
+  auto partition_iter               = partition_->Begin();  // vector<vector<partition::Category> >
+  auto target_cached_partition_iter = target_cached_partition_->Begin();
+  auto target_partition_iter        = target_partition_->Begin();  // vector<vector<partition::Category> >
 
   /**
    * Loop through the provided categories. Each provided category (combination) will have a list of observations
@@ -317,10 +307,10 @@ void ProportionsByCategory::Execute() {
    * compare it to the observations.
    */
   for (unsigned category_offset = 0; category_offset < category_labels_.size(); ++category_offset, ++partition_iter, ++cached_partition_iter) {
-    Double      selectivity_result = 0.0;
-    Double      start_value        = 0.0;
-    Double      end_value          = 0.0;
-    Double      final_value        = 0.0;
+    Double selectivity_result = 0.0;
+    Double start_value        = 0.0;
+    Double end_value          = 0.0;
+    Double final_value        = 0.0;
 
     vector<Double> age_results(age_spread_, 0.0);
     vector<Double> target_age_results(age_spread_, 0.0);
@@ -329,7 +319,7 @@ void ProportionsByCategory::Execute() {
      * Loop through the 2 combined categories building up the
      * age results proportions values.
      */
-    auto category_iter = partition_iter->begin();
+    auto category_iter        = partition_iter->begin();
     auto cached_category_iter = cached_partition_iter->begin();
     for (; category_iter != partition_iter->end(); ++cached_category_iter, ++category_iter) {
       for (unsigned data_offset = 0; data_offset < (*category_iter)->data_.size(); ++data_offset) {
@@ -339,8 +329,8 @@ void ProportionsByCategory::Execute() {
         if ((*category_iter)->min_age_ + data_offset > max_age_ && !plus_group_)
           break;
 
-        unsigned age_offset = ( (*category_iter)->min_age_ + data_offset) - min_age_;
-        unsigned age        = ( (*category_iter)->min_age_ + data_offset);
+        unsigned age_offset = ((*category_iter)->min_age_ + data_offset) - min_age_;
+        unsigned age        = ((*category_iter)->min_age_ + data_offset);
 
         if (age < min_age_)
           continue;
@@ -353,9 +343,9 @@ void ProportionsByCategory::Execute() {
         LOG_FINE() << "---------------";
         LOG_FINE() << "age: " << age;
         selectivity_result = selectivities_[category_offset]->GetAgeResult(age, (*category_iter)->age_length_);
-        start_value   = (*cached_category_iter).data_[data_offset];
-        end_value     = (*category_iter)->data_[data_offset];
-        final_value   = 0.0;
+        start_value        = (*cached_category_iter).data_[data_offset];
+        end_value          = (*category_iter)->data_[data_offset];
+        final_value        = 0.0;
 
         if (mean_proportion_method_)
           final_value = start_value + ((end_value - start_value) * proportion_of_time_);
@@ -377,7 +367,7 @@ void ProportionsByCategory::Execute() {
      * Loop through the target combined categories building up the
      * target age results
      */
-    auto target_category_iter = target_partition_iter->begin();
+    auto target_category_iter        = target_partition_iter->begin();
     auto target_cached_category_iter = target_cached_partition_iter->begin();
     for (; target_category_iter != target_partition_iter->end(); ++target_cached_category_iter, ++target_category_iter) {
       for (unsigned data_offset = 0; data_offset < (*target_category_iter)->data_.size(); ++data_offset) {
@@ -387,8 +377,8 @@ void ProportionsByCategory::Execute() {
         if ((*target_category_iter)->min_age_ + data_offset > max_age_ && !plus_group_)
           break;
 
-        unsigned age_offset = ( (*target_category_iter)->min_age_ + data_offset) - min_age_;
-        unsigned age        = ( (*target_category_iter)->min_age_ + data_offset);
+        unsigned age_offset = ((*target_category_iter)->min_age_ + data_offset) - min_age_;
+        unsigned age        = ((*target_category_iter)->min_age_ + data_offset);
         if (min_age_ + age_offset > max_age_)
           age_offset = age_spread_ - 1;
         if (age < min_age_)
@@ -397,9 +387,9 @@ void ProportionsByCategory::Execute() {
           break;
 
         selectivity_result = target_selectivities_[category_offset]->GetAgeResult(age, (*target_category_iter)->age_length_);
-        start_value   = (*target_cached_category_iter).data_[data_offset];
-        end_value     = (*target_category_iter)->data_[data_offset];
-        final_value   = 0.0;
+        start_value        = (*target_cached_category_iter).data_[data_offset];
+        end_value          = (*target_category_iter)->data_[data_offset];
+        final_value        = 0.0;
 
         if (mean_proportion_method_)
           final_value = start_value + ((end_value - start_value) * proportion_of_time_);
@@ -419,7 +409,7 @@ void ProportionsByCategory::Execute() {
 
     if (age_results.size() != proportions_[model_->current_year()][category_labels_[category_offset]].size())
       LOG_CODE_ERROR() << "expected_values.size(" << age_results.size() << ") != proportions_[category_offset].size("
-        << proportions_[model_->current_year()][category_labels_[category_offset]].size() << ")";
+                       << proportions_[model_->current_year()][category_labels_[category_offset]].size() << ")";
 
     /**
      * save our comparisons so we can use them to generate the score from the likelihoods later
@@ -430,7 +420,7 @@ void ProportionsByCategory::Execute() {
         expected = target_age_results[i] / age_results[i];
 
       SaveComparison(category_labels_[category_offset], min_age_ + i, 0, expected, proportions_[model_->current_year()][category_labels_[category_offset]][i],
-          process_errors_by_year_[model_->current_year()], error_values_[model_->current_year()][category_labels_[category_offset]][i], 0.0, delta_, 0.0);
+                     process_errors_by_year_[model_->current_year()], error_values_[model_->current_year()][category_labels_[category_offset]][i], 0.0, delta_, 0.0);
     }
   }
 }
@@ -453,16 +443,16 @@ void ProportionsByCategory::CalculateScore() {
      * Convert the expected_values in to a proportion
      */
     for (unsigned year : years_) {
-//      Double running_total = 0.0;
-//      for (obs::Comparison comparison : comparisons_[year]) {
-//        running_total += comparison.expected_;
-//      }
-//      for (obs::Comparison& comparison : comparisons_[year]) {
-//        if (running_total != 0.0)
-//          comparison.expected_  = comparison.expected_ / running_total;
-//        else
-//          comparison.expected_  = 0.0;
-//      }
+      //      Double running_total = 0.0;
+      //      for (obs::Comparison comparison : comparisons_[year]) {
+      //        running_total += comparison.expected_;
+      //      }
+      //      for (obs::Comparison& comparison : comparisons_[year]) {
+      //        if (running_total != 0.0)
+      //          comparison.expected_  = comparison.expected_ / running_total;
+      //        else
+      //          comparison.expected_  = 0.0;
+      //      }
 
       scores_[year] = likelihood_->GetInitialScore(comparisons_, year);
       likelihood_->GetScores(comparisons_);

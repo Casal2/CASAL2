@@ -12,21 +12,21 @@
 // headers
 #include "Objects.h"
 
-#include <boost/tokenizer.hpp>
 #include <boost/lexical_cast.hpp>
+#include <boost/tokenizer.hpp>
 
 #include "../AgeLengths/Manager.h"
 #include "../Catchabilities/Manager.h"
 #include "../DerivedQuantities/Manager.h"
 #include "../Estimates/Manager.h"
-#include "../Model/Model.h"
+#include "../InitialisationPhases/Manager.h"
+#include "../LengthWeights/Manager.h"
 #include "../Model/Managers.h"
+#include "../Model/Model.h"
+#include "../Observations/Manager.h"
 #include "../Processes/Manager.h"
 #include "../Selectivities/Manager.h"
-#include "../LengthWeights/Manager.h"
-#include "../InitialisationPhases/Manager.h"
 #include "../TimeVarying/Manager.h"
-#include "../Observations/Manager.h"
 #include "../Utilities/String.h"
 #include "../Utilities/To.h"
 
@@ -38,8 +38,7 @@ namespace util = niwa::utilities;
 /**
  * Default constructor
  */
-Objects::Objects(shared_ptr<Model> model) : model_(model) {
-}
+Objects::Objects(shared_ptr<Model> model) : model_(model) {}
 
 /**
  * This method verifies the existence of the addressable and its usage flag. This check is done
@@ -52,11 +51,11 @@ Objects::Objects(shared_ptr<Model> model) : model_(model) {
  */
 bool Objects::VerfiyAddressableForUse(const string& parameter_absolute_name, addressable::Usage usage, string& error) {
   LOG_TRACE();
-  string type       = "";
-  string label      = "";
-  string parameter  = "";
-  string index      = "";
-  error = "";
+  string type      = "";
+  string label     = "";
+  string parameter = "";
+  string index     = "";
+  error            = "";
 
   ostringstream str;
 
@@ -87,7 +86,6 @@ bool Objects::VerfiyAddressableForUse(const string& parameter_absolute_name, add
   return true;
 }
 
-
 /**
  * This method finds the type of addressable in the system defined by the absolute
  * parameter name.
@@ -105,7 +103,7 @@ addressable::Type Objects::GetAddressableType(const string& parameter_absolute_n
       return addressable::kMultiple;
   }
 
-  base::Object* target = FindObjectOrNull(parameter_absolute_name); // TODO: Mock FIndObject() so we can unit test this.
+  base::Object* target = FindObjectOrNull(parameter_absolute_name);  // TODO: Mock FIndObject() so we can unit test this.
   if (target == nullptr)
     LOG_CODE_ERROR() << "target == nullptr: " << parameter_absolute_name;
   return target->GetAddressableType(parameter_index.first);
@@ -119,7 +117,7 @@ addressable::Type Objects::GetAddressableType(const string& parameter_absolute_n
  * @return Pointer to the addressable
  */
 Double* Objects::GetAddressable(const string& addressable_absolute_name) {
-  base::Object* target = FindObject(addressable_absolute_name);
+  base::Object*             target          = FindObject(addressable_absolute_name);
   std::pair<string, string> parameter_index = ExplodeParameterAndIndex(addressable_absolute_name);
   if (parameter_index.second != "")
     return target->GetAddressable(parameter_index.first, parameter_index.second);
@@ -139,8 +137,8 @@ vector<Double*>* Objects::GetAddressables(const string& addressable_absolute_nam
     LOG_CODE_ERROR() << addressable_absolute_name << " is not a multiple type of addressable lookup";
   }
 
-  string absolute_parameter = parameter_index.first + "{" + parameter_index.second + "}";
-  vector<string> indexes = utilities::String::explode(parameter_index.second);
+  string         absolute_parameter = parameter_index.first + "{" + parameter_index.second + "}";
+  vector<string> indexes            = utilities::String::explode(parameter_index.second);
 
   base::Object* target = FindObject(addressable_absolute_name);
   return target->GetAddressables(absolute_parameter, indexes);
@@ -155,7 +153,7 @@ vector<Double*>* Objects::GetAddressables(const string& addressable_absolute_nam
  * @return Pointer to the addressable or nullptr if none exists
  */
 map<unsigned, Double>* Objects::GetAddressableUMap(const string& parameter_absolute_name) {
-  base::Object* target = FindObject(parameter_absolute_name);
+  base::Object*             target          = FindObject(parameter_absolute_name);
   std::pair<string, string> parameter_index = ExplodeParameterAndIndex(parameter_absolute_name);
   return target->GetAddressableUMap(parameter_index.first);
 }
@@ -168,7 +166,7 @@ map<unsigned, Double>* Objects::GetAddressableUMap(const string& parameter_absol
  * @return Pointer to the addressable
  */
 OrderedMap<string, Double>* Objects::GetAddressableSMap(const string& parameter_absolute_name) {
-  base::Object* target = FindObject(parameter_absolute_name);
+  base::Object*             target          = FindObject(parameter_absolute_name);
   std::pair<string, string> parameter_index = ExplodeParameterAndIndex(parameter_absolute_name);
   return target->GetAddressableSMap(parameter_index.first);
 }
@@ -181,7 +179,7 @@ OrderedMap<string, Double>* Objects::GetAddressableSMap(const string& parameter_
  * @return Pointer to the addressable
  */
 vector<Double>* Objects::GetAddressableVector(const string& parameter_absolute_name) {
-  base::Object* target = FindObject(parameter_absolute_name);
+  base::Object*             target          = FindObject(parameter_absolute_name);
   std::pair<string, string> parameter_index = ExplodeParameterAndIndex(parameter_absolute_name);
   return target->GetAddressableVector(parameter_index.first);
 }
@@ -196,10 +194,10 @@ base::Object* Objects::FindObjectOrNull(const string& parameter_absolute_name) {
   LOG_FINE() << "Looking for object: " << parameter_absolute_name;
   base::Object* result = nullptr;
 
-  string type         = "";
-  string label        = "";
-  string parameter    = "";
-  string index        = "";
+  string type      = "";
+  string label     = "";
+  string parameter = "";
+  string index     = "";
 
   ExplodeString(parameter_absolute_name, type, label, parameter, index);
   LOG_FINEST() << "FindObject; type: " << type << "; label: " << label << "; parameter: " << parameter << "; index: " << index;
@@ -238,8 +236,8 @@ base::Object* Objects::FindObjectOrNull(const string& parameter_absolute_name) {
 
   } else {
     LOG_FATAL() << "Currently the type " << type << " is not registered for addressable finding, first please check you have spelt it correctly, if you are "
-        << "confident you have it may not be coded to find addressable, please add it the class to FindObject() "
-        << "in Model/Objects.cpp by contacting the development team";
+                << "confident you have it may not be coded to find addressable, please add it the class to FindObject() "
+                << "in Model/Objects.cpp by contacting the development team";
   }
 
   return result;
@@ -256,7 +254,7 @@ base::Object* Objects::FindObject(const string& parameter_absolute_name) {
 
   if (!result) {
     LOG_CODE_ERROR() << "Parameter absolute " << parameter_absolute_name << " was not found. "
-      << "Please check that VerfiyAddressableForUse() was called prior to any model_.objects() methods";
+                     << "Please check that VerfiyAddressableForUse() was called prior to any model_.objects() methods";
   }
 
   return result;
@@ -274,7 +272,7 @@ base::Object* Objects::FindObject(const string& parameter_absolute_name) {
  *
  */
 std::pair<string, string> Objects::ExplodeParameterAndIndex(const string& parameter_absolute_name) {
-  string blank        = "";
+  string                    blank = "";
   std::pair<string, string> result;
 
   ExplodeString(parameter_absolute_name, blank, blank, result.first, result.second);
@@ -291,47 +289,45 @@ std::pair<string, string> Objects::ExplodeParameterAndIndex(const string& parame
  * @parameter addressable The addressable parameter
  * @parameter index The index into the object. This could be multiple values in one string.
  */
-void Objects::ExplodeString(const string& parameter_absolute_name, string &type, string& label, string& addressable, string& index) {
+void Objects::ExplodeString(const string& parameter_absolute_name, string& type, string& label, string& addressable, string& index) {
   LOG_TRACE();
 
-  type       = "";
-  label      = "";
-  addressable  = "";
-  index      = "";
-   /**
-     * This snippet of code will split the parameter from
-     * objectType[ObjectName].ObjectParam(Index)
-     */
-   vector<string> token_list;
+  type        = "";
+  label       = "";
+  addressable = "";
+  index       = "";
+  /**
+   * This snippet of code will split the parameter from
+   * objectType[ObjectName].ObjectParam(Index)
+   */
+  vector<string> token_list;
 
-   typedef boost::tokenizer<boost::char_separator<char> > tokenizer;
-   boost::char_separator<char> seperator("[]");
-   tokenizer tokens(parameter_absolute_name, seperator);
+  typedef boost::tokenizer<boost::char_separator<char> > tokenizer;
+  boost::char_separator<char>                            seperator("[]");
+  tokenizer                                              tokens(parameter_absolute_name, seperator);
 
-   for (tokenizer::iterator tok_iter = tokens.begin(); tok_iter != tokens.end(); ++tok_iter)
-     token_list.push_back(*tok_iter);
+  for (tokenizer::iterator tok_iter = tokens.begin(); tok_iter != tokens.end(); ++tok_iter) token_list.push_back(*tok_iter);
 
-   if (token_list.size() != 3)
-     return;
+  if (token_list.size() != 3)
+    return;
 
-   type = utilities::ToLowercase(token_list[0]);
-   label      = token_list[1];
-   addressable  = utilities::ToLowercase(token_list[2].substr(1));
+  type        = utilities::ToLowercase(token_list[0]);
+  label       = token_list[1];
+  addressable = utilities::ToLowercase(token_list[2].substr(1));
 
-   /**
-    * Now check for index
-    */
-   boost::char_separator<char> seperator2("{}");
-   tokenizer tokens2(addressable, seperator2);
+  /**
+   * Now check for index
+   */
+  boost::char_separator<char> seperator2("{}");
+  tokenizer                   tokens2(addressable, seperator2);
 
-   token_list.clear();
-   for (tokenizer::iterator tok_iter = tokens2.begin(); tok_iter != tokens2.end(); ++tok_iter)
-     token_list.push_back(*tok_iter);
+  token_list.clear();
+  for (tokenizer::iterator tok_iter = tokens2.begin(); tok_iter != tokens2.end(); ++tok_iter) token_list.push_back(*tok_iter);
 
-   if (token_list.size() == 2) {
-     addressable  = utilities::ToLowercase(token_list[0]);
-     index      = token_list[1];
-   }
+  if (token_list.size() == 2) {
+    addressable = utilities::ToLowercase(token_list[0]);
+    index       = token_list[1];
+  }
 }
 
 /**

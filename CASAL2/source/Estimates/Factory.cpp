@@ -16,7 +16,7 @@
 
 // Headers
 #include "Factory.h"
-#include "../Estimates/Manager.h"
+
 #include "../Estimates/Common/Beta.h"
 #include "../Estimates/Common/Lognormal.h"
 #include "../Estimates/Common/Normal.h"
@@ -24,6 +24,7 @@
 #include "../Estimates/Common/NormalLog.h"
 #include "../Estimates/Common/Uniform.h"
 #include "../Estimates/Common/UniformLog.h"
+#include "../Estimates/Manager.h"
 #include "../Model/Managers.h"
 #include "../Model/Model.h"
 

@@ -28,11 +28,9 @@ namespace age {
 /**
  * Default Constructor
  */
-MortalityConstantRate::MortalityConstantRate(shared_ptr<Model> model)
-  : Process(model),
-    partition_(model) {
+MortalityConstantRate::MortalityConstantRate(shared_ptr<Model> model) : Process(model), partition_(model) {
   LOG_TRACE();
-  process_type_ = ProcessType::kMortality;
+  process_type_        = ProcessType::kMortality;
   partition_structure_ = PartitionType::kAge;
 
   parameters_.Bind<string>(PARAM_CATEGORIES, &category_labels_, "The list of category labels", "");
@@ -54,7 +52,7 @@ MortalityConstantRate::MortalityConstantRate(shared_ptr<Model> model)
  * - Check the categories are real
  */
 void MortalityConstantRate::DoValidate() {
-//  category_labels_ = model_->categories()->ExpandLabels(category_labels_, parameters_.Get(PARAM_CATEGORIES));
+  //  category_labels_ = model_->categories()->ExpandLabels(category_labels_, parameters_.Get(PARAM_CATEGORIES));
 
   if (m_input_.size() == 1) {
     auto val_m = m_input_[0];
@@ -67,15 +65,12 @@ void MortalityConstantRate::DoValidate() {
   }
 
   if (m_input_.size() != category_labels_.size()) {
-    LOG_ERROR_P(PARAM_M)
-      << ": The number of Ms provided (" << m_input_.size() << ") does not match the number of categories provided ("
-      << category_labels_.size() << ").";
+    LOG_ERROR_P(PARAM_M) << ": The number of Ms provided (" << m_input_.size() << ") does not match the number of categories provided (" << category_labels_.size() << ").";
   }
 
   if (selectivity_names_.size() != category_labels_.size()) {
-    LOG_ERROR_P(PARAM_RELATIVE_M_BY_AGE)
-      << ": The number of M-by-age ogives provided (" << selectivity_names_.size() << ") does not match the number of categories provided ("
-      << category_labels_.size() << ").";
+    LOG_ERROR_P(PARAM_RELATIVE_M_BY_AGE) << ": The number of M-by-age ogives provided (" << selectivity_names_.size() << ") does not match the number of categories provided ("
+                                         << category_labels_.size() << ").";
   }
 
   // Validate our Ms are greater than or equal to 0.0
@@ -84,8 +79,7 @@ void MortalityConstantRate::DoValidate() {
       LOG_ERROR_P(PARAM_M) << ": m value (" << AS_DOUBLE(m) << ") must be greater than or equal to 0.0";
   }
 
-  for (unsigned i = 0; i < m_input_.size(); ++i)
-    m_[category_labels_[i]] = m_input_[i];
+  for (unsigned i = 0; i < m_input_.size(); ++i) m_[category_labels_[i]] = m_input_[i];
 }
 
 /**
@@ -120,27 +114,24 @@ void MortalityConstantRate::DoBuild() {
   }
 
   if (ratios_.size() == 0) {
-    for (unsigned i : active_time_steps)
-      time_step_ratios_[i] = 1.0;
+    for (unsigned i : active_time_steps) time_step_ratios_[i] = 1.0;
   } else {
     if (ratios_.size() != active_time_steps.size())
-      LOG_ERROR_P(PARAM_TIME_STEP_RATIO) << " The number of time step ratios (" << ratios_.size()
-        << ") does not match the number of time steps this process has been assigned to (" << active_time_steps.size() << ")";
+      LOG_ERROR_P(PARAM_TIME_STEP_RATIO) << " The number of time step ratios (" << ratios_.size() << ") does not match the number of time steps this process has been assigned to ("
+                                         << active_time_steps.size() << ")";
 
     for (Double value : ratios_) {
       if (value < 0.0 || value > 1.0)
         LOG_ERROR_P(PARAM_TIME_STEP_RATIO) << "Time step ratio value (" << value << ") must be between 0.0 and 1.0 (inclusive)";
     }
 
-    for (unsigned i = 0; i < ratios_.size(); ++i)
-      time_step_ratios_[active_time_steps[i]] = ratios_[i];
+    for (unsigned i = 0; i < ratios_.size(); ++i) time_step_ratios_[active_time_steps[i]] = ratios_[i];
   }
 
   // Pre allocate memory to reporting containers, this process is run every year so the beauty of this is we can push back and it wont be
   // dealing with memory allocation during the execute
   unsigned n_years = model_->years().size();
   total_removals_by_year_.reserve(n_years);
-
 }
 
 /**
@@ -156,8 +147,8 @@ void MortalityConstantRate::DoExecute() {
   Double ratio = time_step_ratios_[time_step];
 
   unsigned i = 0;
-  Double amount;
-  Double total_amount = 0.0;
+  Double   amount;
+  Double   total_amount = 0.0;
   for (auto category : partition_) {
     Double m = m_[category->name_];
 
@@ -165,7 +156,7 @@ void MortalityConstantRate::DoExecute() {
 
     LOG_FINEST() << "category " << category->name_ << "; min_age: " << category->min_age_ << "; ratio: " << ratio;
     for (Double& data : category->data_) {
-      amount = data * (1-exp(-selectivities_[i]->GetAgeResult(category->min_age_ + j, category->age_length_) * (m * ratio)));
+      amount = data * (1 - exp(-selectivities_[i]->GetAgeResult(category->min_age_ + j, category->age_length_) * (m * ratio)));
       data -= amount;
       total_amount += amount;
       ++j;
@@ -173,7 +164,6 @@ void MortalityConstantRate::DoExecute() {
     ++i;
   }
   total_removals_by_year_.push_back(total_amount);
-
 }
 
 /**
@@ -191,11 +181,9 @@ void MortalityConstantRate::DoReset() {
  */
 void MortalityConstantRate::FillReportCache(ostringstream& cache) {
   cache << "years: ";
-  for (auto year : model_->years())
-    cache << year << " ";
+  for (auto year : model_->years()) cache << year << " ";
   cache << "\ntotal_removals: ";
-  for (auto removal : total_removals_by_year_)
-    cache << AS_DOUBLE(removal) << " ";
+  for (auto removal : total_removals_by_year_) cache << AS_DOUBLE(removal) << " ";
   cache << "\n";
 }
 
@@ -215,8 +203,7 @@ void MortalityConstantRate::FillTabularReportCache(ostringstream& cache, bool fi
     cache << "\n";
   }
 
-  for (auto removal : total_removals_by_year_)
-    cache << AS_DOUBLE(removal) << " ";
+  for (auto removal : total_removals_by_year_) cache << AS_DOUBLE(removal) << " ";
   cache << "\n";
 }
 

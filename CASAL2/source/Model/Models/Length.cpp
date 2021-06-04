@@ -15,11 +15,11 @@ namespace niwa {
 namespace model {
 
 Length::Length() {
-	partition_type_ = PartitionType::kLength;
+  partition_type_ = PartitionType::kLength;
 }
 
 Length::~Length() {
-	// TODO Auto-generated destructor stub
+  // TODO Auto-generated destructor stub
 }
 
 } /* namespace model */

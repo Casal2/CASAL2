@@ -12,6 +12,7 @@
 #include <thread>
 
 #include "../Model/Model.h"
+#include "Factory.h"
 
 namespace niwa {
 namespace reports {
@@ -60,9 +61,10 @@ void Manager::Build() {
  */
 void Manager::Validate(shared_ptr<Model> model) {
   std::scoped_lock l(lock_);
-  if (objects_.size() == 0 || has_validated_) {
+  if (objects_.size() == 0 || has_validated_)
     return;
-  }
+  if (model->global_configuration().disable_all_reports())
+    return;
 
   LOG_FINEST() << "objects_.size(): " << objects_.size();
   for (auto report : objects_) {
@@ -81,6 +83,8 @@ void Manager::Validate(shared_ptr<Model> model) {
 void Manager::Build(shared_ptr<Model> model) {
   std::scoped_lock l(lock_);
   if (objects_.size() == 0 || has_built_ || !has_validated_)
+    return;
+  if (model->global_configuration().disable_all_reports())
     return;
 
   LOG_FINEST() << "objects_.size(): " << objects_.size();
@@ -112,8 +116,10 @@ void Manager::Build(shared_ptr<Model> model) {
  */
 void Manager::Execute(shared_ptr<Model> model, State::Type model_state) {
   std::scoped_lock l(lock_);
-
   LOG_TRACE();
+  if (model->global_configuration().disable_all_reports())
+    return;
+
   LOG_FINE() << "Executing Models for state: " << (int)model_state;
   if (model_state == State::kFinalise && !model->is_primary_thread_model()) {
     LOG_FINEST() << "Model is not the primary thread model";
@@ -145,8 +151,10 @@ void Manager::Execute(shared_ptr<Model> model, State::Type model_state) {
  */
 void Manager::Execute(shared_ptr<Model> model, unsigned year, const string& time_step_label) {
   std::scoped_lock l(lock_);
-
   LOG_TRACE();
+
+  if (model->global_configuration().disable_all_reports())
+    return;
   LOG_FINEST() << "year: " << year << "; time_step_label: " << time_step_label << "; reports: " << time_step_reports_[time_step_label].size();
 
   RunMode::Type run_mode = model->run_mode();
@@ -175,9 +183,10 @@ void Manager::Execute(shared_ptr<Model> model, unsigned year, const string& time
  */
 void Manager::Prepare(shared_ptr<Model> model) {
   std::scoped_lock l(lock_);
-
   LOG_TRACE();
   if (has_prepared_)
+    return;
+  if (model->global_configuration().disable_all_reports())
     return;
 
   RunMode::Type run_mode = model->run_mode();
@@ -204,9 +213,10 @@ void Manager::Finalise(shared_ptr<Model> model) {
   LOG_TRACE();
   std::scoped_lock l(lock_);
 
-  if (has_finalised_) {
+  if (has_finalised_)
     return;
-  }
+  if (model->global_configuration().disable_all_reports())
+    return;
 
   LOG_FINE() << "finalise called from thread " << std::this_thread::get_id();
   LOG_FINE() << "reports.manager.size(): " << objects_.size();

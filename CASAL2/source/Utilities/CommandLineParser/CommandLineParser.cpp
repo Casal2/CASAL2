@@ -5,21 +5,21 @@
  * @date 16/11/2012
  * @section LICENSE
  *
- * Copyright NIWA Science ©2012 - www.niwa.co.nz
+ * Copyright NIWA Science ï¿½2012 - www.niwa.co.nz
  *
  * $Date: 2008-03-04 16:33:32 +1300 (Tue, 04 Mar 2008) $
  */
 
- // Headers
+// Headers
 #include "CommandLineParser.h"
 
+#include <boost/algorithm/string/join.hpp>
+#include <boost/algorithm/string/replace.hpp>
+#include <boost/algorithm/string/split.hpp>
+#include <boost/algorithm/string/trim_all.hpp>
+#include <boost/program_options.hpp>
 #include <iostream>
 #include <sstream>
-#include <boost/program_options.hpp>
-#include <boost/algorithm/string/replace.hpp>
-#include <boost/algorithm/string/trim_all.hpp>
-#include <boost/algorithm/string/split.hpp>
-#include <boost/algorithm/string/join.hpp>
 
 #include "../../License.h"
 #include "../../Version.h"
@@ -45,6 +45,7 @@ using std::ostringstream;
  */
 void CommandLineParser::Parse(int argc, char* argv[], RunParameters& options) {
   // Build Options menu
+  // clang-format off
   options_description oDesc("Usage");
   oDesc.add_options()
     ("help,h", "Print help")
@@ -53,11 +54,14 @@ void CommandLineParser::Parse(int argc, char* argv[], RunParameters& options) {
     ("config,c", value<string>(), "Configuration file")
     ("run,r", "Basic model run mode")
     ("estimate,e", "Point estimation run mode")
-    ("mcmc,m", "Markov chain Monte Carlo run mode (arg = continue, default: false)")
-    ("skip-estimation", "Skip estimation before running the MCMC, load existing MPD from file")
+    // mcmc options
+    ("mcmc,m", "Markov chain Monte Carlo run mode")
+    ("estimate-before-mcmc", "Estimate the model before we start the MCMC, this will generate the covariance")
+    ("mcmc-mpd-file-name", value<string>(), "Load the specified mpd file for the MCMC run. When creating, this will overwrite")
     ("resume", "Resume the MCMC chain")
     ("objective-file", value<string>(), "Objective file for resuming the MCMC chain")
     ("sample-file", value<string>(), "Sample file for resuming the MCMC chain")
+    // other
     ("profiling,p", "Profiling run mode")
     ("simulation,s", value<unsigned>(), "Simulation mode (arg = number of candidates)")
     ("projection,f", value<unsigned>(), "Projection mode (arg = number of projections per set of input values)")
@@ -73,7 +77,7 @@ void CommandLineParser::Parse(int argc, char* argv[], RunParameters& options) {
     ("tabular", "Print reports in Tabular mode")
     ("unittest", "Run the unit tests for Casal2")
     ("no-mpd", "Do not create an MPD file");
-
+  // clang-format on
 
   ostringstream o;
   o << oDesc;
@@ -86,7 +90,7 @@ void CommandLineParser::Parse(int argc, char* argv[], RunParameters& options) {
     boost::program_options::store(boost::program_options::parse_command_line(argc, argv, oDesc), parameters);
     notify(parameters);
 
-  } catch (boost::program_options::unknown_option &ex) {
+  } catch (boost::program_options::unknown_option& ex) {
     cout << "An error occurred while processing the command line. " << ex.what() << endl;
   }
 
@@ -120,33 +124,31 @@ void CommandLineParser::Parse(int argc, char* argv[], RunParameters& options) {
     options.estimation_phases_ = parameters["phases"].as<unsigned>();
   if (parameters.count("no-mpd"))
     options.create_mpd_file_ = false;
-  if (parameters.count("skip-estimation"))
-    options.skip_estimation_ = true;
+  if (parameters.count("estimate-before-mcmc"))
+    options.estimate_before_mcmc_ = true;
+  if (parameters.count("mcmc-mpd-file-name"))
+    options.mcmc_mpd_file_name_ = parameters["mcmc-mpd-file-name"].as<string>();
 
   /**
    * Determine what run mode we should be in. If we're
    * in help, version or license then we don't need to continue.
    */
-  if ( (parameters.count("help")) || (parameters.size() == 0) ) {
+  if ((parameters.count("help")) || (parameters.size() == 0)) {
     options.run_mode_ = RunMode::kHelp;
     cout << command_line_usage_ << endl;
     return;
-
   } else if (parameters.count("version")) {
     options.run_mode_ = RunMode::kVersion;
     cout << SOURCE_CONTROL_VERSION << endl;
     return;
-
   } else if (parameters.count("license")) {
     options.run_mode_ = RunMode::kLicense;
     cout << license << endl;
     return;
-
   } else if (parameters.count("query")) {
     options.query_object_ = parameters["query"].as<string>();
-    options.run_mode_ = RunMode::kQuery;
+    options.run_mode_     = RunMode::kQuery;
     return;
-
   } else if (parameters.count("unittest")) {
     options.run_mode_ = RunMode::kUnitTest;
     return;
@@ -188,13 +190,19 @@ void CommandLineParser::Parse(int argc, char* argv[], RunParameters& options) {
       options.mcmc_sample_file_    = parameters["sample-file"].as<string>();
       options.resume_mcmc_chain_   = true;
     }
+
+    if (options.estimate_before_mcmc_ == false && options.mcmc_mpd_file_name_ == "")
+      LOG_ERROR() << "Cannot start a MCMC run without an estimation if there is no mcmc-mpd-file-name specified";
+    if (options.estimate_before_mcmc_ && options.mcmc_mpd_file_name_ != "")
+      LOG_ERROR() << "Cannot specify the --mcmc-mpd-file-name and --estimate-before-mcmc together";
+
   } else if (parameters.count("profiling"))
     options.run_mode_ = RunMode::kProfiling;
   else if (parameters.count("simulation")) {
-    options.run_mode_ = RunMode::kSimulation;
+    options.run_mode_              = RunMode::kSimulation;
     options.simulation_candidates_ = parameters["simulation"].as<unsigned>();
   } else if (parameters.count("projection")) {
-    options.run_mode_ = RunMode::kProjection;
+    options.run_mode_              = RunMode::kProjection;
     options.projection_candidates_ = parameters["projection"].as<unsigned>();
   } else {
     LOG_ERROR() << "An invalid or unknown run mode has been specified.";
@@ -204,18 +212,10 @@ void CommandLineParser::Parse(int argc, char* argv[], RunParameters& options) {
    * Now we store any variables we want to use to override global defaults.
    */
   if (parameters.count("seed")) {
-    options.override_rng_seed_value_ = parameters["seed"].as<unsigned>();
+    options.override_rng_seed_value_     = parameters["seed"].as<unsigned>();
     options.override_random_number_seed_ = true;
   }
 }
 
 } /* namespace utilities */
 } /* namespace niwa */
-
-
-
-
-
-
-
-

@@ -29,15 +29,14 @@ public:
   // methods
   NormalByStdev() = delete;
   explicit NormalByStdev(shared_ptr<Model> model);
-  virtual                     ~NormalByStdev() = default;
-  void                        DoCopyParameters(niwa::Estimate* estimate, unsigned index) override final;
+  virtual ~NormalByStdev() = default;
+  void DoCopyParameters(niwa::Estimate* estimate, unsigned index) override final;
 
 private:
   // members
-  vector<Double>              mu_;
-  vector<Double>              sigma_;
-  bool                        assume_lognormal_ = false;
-
+  vector<Double> mu_;
+  vector<Double> sigma_;
+  bool           assume_lognormal_ = false;
 };
 
 } /* namespace creators */

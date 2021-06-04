@@ -29,11 +29,11 @@ class TimeStepAbundance : public observations::age::Abundance {
 public:
   // methods
   TimeStepAbundance(shared_ptr<Model> model);
-  virtual                     ~TimeStepAbundance() = default;
-  void                        DoBuild() override final;
+  virtual ~TimeStepAbundance() = default;
+  void DoBuild() override final;
 
 private:
-  Double                      time_step_proportion_;
+  Double time_step_proportion_;
 };
 
 } /* namespace age */

@@ -13,7 +13,5 @@
 
 // namespaces
 namespace niwa {
-namespace agelengths {
-
-} /* namespace agelengths */
+namespace agelengths {} /* namespace agelengths */
 } /* namespace niwa */

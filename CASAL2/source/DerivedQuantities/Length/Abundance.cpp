@@ -10,6 +10,7 @@
 
 // headers
 #include "../../DerivedQuantities/Length/Abundance.h"
+
 #include "../../InitialisationPhases/Manager.h"
 
 // namespaces

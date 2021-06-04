@@ -30,20 +30,20 @@ class DoubleNormal : public niwa::Selectivity {
 public:
   // Methods
   explicit DoubleNormal(shared_ptr<Model> model);
-  virtual                     ~DoubleNormal() = default;
-  void                        DoValidate() override final;
-  void                        RebuildCache() override final;
+  virtual ~DoubleNormal() = default;
+  void DoValidate() override final;
+  void RebuildCache() override final;
 
 protected:
-  //Methods
-  Double                      GetLengthBasedResult(unsigned age, AgeLength* age_length, unsigned year = 0, int time_step_index = -1) override final;
+  // Methods
+  Double GetLengthBasedResult(unsigned age, AgeLength* age_length, unsigned year = 0, int time_step_index = -1) override final;
 
 private:
   // Members
-  Double                      mu_;
-  Double                      sigma_l_;
-  Double                      sigma_r_;
-  Double                      alpha_;
+  Double mu_;
+  Double sigma_l_;
+  Double sigma_r_;
+  Double alpha_;
 };
 
 } /* namespace selectivities */

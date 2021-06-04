@@ -9,9 +9,9 @@
 #define REPORTS_COVARIANCERMATRIX_H_
 
 // headers
-#include "../../Reports/Report.h"
-
 #include <boost/numeric/ublas/matrix.hpp>
+
+#include "../../Reports/Report.h"
 
 // namespaces
 namespace niwa {
@@ -26,14 +26,14 @@ namespace ublas = boost::numeric::ublas;
 class CovarianceMatrix : public niwa::Report {
 public:
   CovarianceMatrix();
-  virtual                     ~CovarianceMatrix() = default;
-  void                        DoValidate(shared_ptr<Model> model) final { };
-  void                        DoBuild(shared_ptr<Model> model) final { };
-  void                        DoExecute(shared_ptr<Model> model) final;
-  void                        DoExecuteTabular(shared_ptr<Model> model) final { };
+  virtual ~CovarianceMatrix() = default;
+  void DoValidate(shared_ptr<Model> model) final{};
+  void DoBuild(shared_ptr<Model> model) final{};
+  void DoExecute(shared_ptr<Model> model) final;
+  void DoExecuteTabular(shared_ptr<Model> model) final{};
 
 private:
-  ublas::matrix<double>       covariance_matrix_;
+  ublas::matrix<double> covariance_matrix_;
 };
 
 } /* namespace reports */

@@ -12,8 +12,8 @@
 // headers
 #include "Exogenous.h"
 
-#include "../../Utilities/Map.h"
 #include "../../Model/Objects.h"
+#include "../../Utilities/Map.h"
 
 // namespaces
 namespace niwa {
@@ -35,8 +35,6 @@ Exogenous::Exogenous(shared_ptr<Model> model) : TimeVarying(model) {
 void Exogenous::DoValidate() {
   if (years_.size() != exogenous_.size())
     LOG_ERROR_P(PARAM_YEARS) << " provided (" << years_.size() << ") does not match the number of values provided (" << exogenous_.size() << ")";
-
-
 }
 
 /**
@@ -56,18 +54,15 @@ void Exogenous::DoBuild() {
 void Exogenous::DoReset() {
   // Add this to the Reset so that if a, is estimated the model can actually update the model.
   values_by_year_ = utilities::Map::create(years_, exogenous_);
-  Double* value = model_->objects().GetAddressable(parameter_);
+  Double* value   = model_->objects().GetAddressable(parameter_);
   LOG_FINEST() << "Parameter value = " << (*value);
   Double total = 0.0;
 
-  for (Double value : exogenous_)
-    total += value;
+  for (Double value : exogenous_) total += value;
 
   Double mean = total / exogenous_.size();
 
-  for (unsigned year : years_)
-    parameter_by_year_[year] = (*value) + (a_ * (values_by_year_[year] - mean));
-
+  for (unsigned year : years_) parameter_by_year_[year] = (*value) + (a_ * (values_by_year_[year] - mean));
 }
 
 /**

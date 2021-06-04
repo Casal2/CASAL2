@@ -24,8 +24,7 @@ namespace accessors {
 /**
  * Default constructor
  */
-CategoriesWithAge::CategoriesWithAge(shared_ptr<Model> model, const vector<string>& category_names, const unsigned& age)
-  : model_(model) {
+CategoriesWithAge::CategoriesWithAge(shared_ptr<Model> model, const vector<string>& category_names, const unsigned& age) : model_(model) {
   LOG_TRACE();
 
   // Variables
@@ -43,7 +42,7 @@ CategoriesWithAge::CategoriesWithAge(shared_ptr<Model> model, const vector<strin
 
     for (unsigned year = start_year; year <= final_year; ++year) {
       if (std::find(category.years_.begin(), category.years_.end(), year) == category.years_.end())
-        continue; // Not valid in this year
+        continue;  // Not valid in this year
 
       std::pair<string, Double*> target;
       target.first  = category_name;

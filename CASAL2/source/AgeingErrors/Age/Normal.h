@@ -27,18 +27,18 @@ class Normal : public niwa::AgeingError {
 public:
   // methods
   Normal(shared_ptr<Model> model);
-  virtual                     ~Normal() = default;
+  virtual ~Normal() = default;
 
 protected:
   // methods
-  void                        DoValidate() override final;
-  void                        DoBuild() override final;
-  void                        DoReset() override final;
+  void DoValidate() override final;
+  void DoBuild() override final;
+  void DoReset() override final;
 
 private:
   // members
-  Double                      cv_ = 0.0;
-  unsigned                    k_;
+  Double   cv_ = 0.0;
+  unsigned k_;
 };
 
 } /* namespace ageingerrors */

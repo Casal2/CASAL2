@@ -42,7 +42,7 @@ void VectorSmoothing::DoBuild() {
 
   addressable::Type addressable_type = model_->objects().GetAddressableType(parameter_);
   LOG_FINEST() << "addressable type = " << addressable_type;
-  switch(addressable_type) {
+  switch (addressable_type) {
     case addressable::kInvalid:
       LOG_CODE_ERROR() << "Invalid addressable type: " << parameter_;
       break;
@@ -53,8 +53,7 @@ void VectorSmoothing::DoBuild() {
       addressable_map_ = model_->objects().GetAddressableUMap(parameter_);
       break;
     default:
-      LOG_ERROR() << "The addressable provided for use in additional priors '" << parameter_
-        << "' has a type that is not supported for vector smoothing additional priors";
+      LOG_ERROR() << "The addressable provided for use in additional priors '" << parameter_ << "' has a type that is not supported for vector smoothing additional priors";
       break;
   }
 }
@@ -68,17 +67,16 @@ Double VectorSmoothing::GetScore() {
   if (addressable_vector_ != nullptr)
     values.assign((*addressable_vector_).begin(), (*addressable_vector_).end());
   else if (addressable_map_ != nullptr) {
-    for (auto iter : (*addressable_map_))
-      values.push_back(iter.second);
+    for (auto iter : (*addressable_map_)) values.push_back(iter.second);
   } else
     LOG_CODE_ERROR() << "(addressable_map_ != 0) && (addressable_vector_ != 0)";
 
-  if(upper_ == lower_ && upper_ == 0u) {
+  if (upper_ == lower_ && upper_ == 0u) {
     upper_ = values.size();
     lower_ = 1;
   }
 
-  if(upper_ == lower_)
+  if (upper_ == lower_)
     LOG_FATAL_P(PARAM_UPPER_BOUND) << "The lower and upper bounds cannot be the same";
   if (upper_ > values.size())
     LOG_FATAL_P(PARAM_UPPER_BOUND) << "The last element cannot be greater than size of the vector";
@@ -86,23 +84,21 @@ Double VectorSmoothing::GetScore() {
     LOG_FATAL_P(PARAM_LOWER_BOUND) << "The first element cannot be less than 1";
 
   if (r_ >= (upper_ - lower_))
-  LOG_FATAL_P(PARAM_R) << PARAM_R << " R cannot be greater than or equal to the size of vector - 1";
+    LOG_FATAL_P(PARAM_R) << PARAM_R << " R cannot be greater than or equal to the size of vector - 1";
 
   Double score = 0.0;
   if (log_scale_) {
-    for (Double& value : values)
-      value = log(value);
+    for (Double& value : values) value = log(value);
   }
 
   for (unsigned i = 1; i <= r_; ++i) {
-    for(unsigned j = (lower_ - 1); j <= ((upper_ - 1) - i); ++j) {
+    for (unsigned j = (lower_ - 1); j <= ((upper_ - 1) - i); ++j) {
       values[j] = values[j + 1] - values[j];
     }
     values[(upper_ - 1) - i + 1] = 0;
   }
 
-  for (unsigned k = (lower_ - 1); k <= (upper_ - 1); ++k)
-    score += values[k] * values[k];
+  for (unsigned k = (lower_ - 1); k <= (upper_ - 1); ++k) score += values[k] * values[k];
 
   return score * multiplier_;
 }

@@ -30,23 +30,23 @@ class DoubleExponential : public niwa::Selectivity {
 public:
   // Methods
   explicit DoubleExponential(shared_ptr<Model> model);
-  virtual                     ~DoubleExponential() = default;
-  void                        DoValidate() override final;
-  void                        RebuildCache() override final;
+  virtual ~DoubleExponential() = default;
+  void DoValidate() override final;
+  void RebuildCache() override final;
 
 protected:
-  //Methods
-  Double                      GetLengthBasedResult(unsigned age, AgeLength* age_length, unsigned year = 0, int time_step_index = -1) override final;
+  // Methods
+  Double GetLengthBasedResult(unsigned age, AgeLength* age_length, unsigned year = 0, int time_step_index = -1) override final;
 
 private:
   // Members
-  Double                      x0_;
-  Double                      x1_;
-  Double                      x2_;
-  Double                      y0_;
-  Double                      y1_;
-  Double                      y2_;
-  Double                      alpha_;
+  Double x0_;
+  Double x1_;
+  Double x2_;
+  Double y0_;
+  Double y1_;
+  Double y2_;
+  Double alpha_;
 };
 
 } /* namespace selectivities */

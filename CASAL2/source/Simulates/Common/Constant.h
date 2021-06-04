@@ -26,15 +26,15 @@ namespace simulates {
 class Constant : public niwa::Simulate {
 public:
   Constant(shared_ptr<Model> model);
-  virtual                     ~Constant() = default;
-  void                        DoValidate() override final;
-  void                        DoBuild() override final;
-  void                        DoReset() override final;
-  void                        DoUpdate() override final;
+  virtual ~Constant() = default;
+  void DoValidate() override final;
+  void DoBuild() override final;
+  void DoReset() override final;
+  void DoUpdate() override final;
 
 private:
   // members
-  Double                      value_;
+  Double value_;
 };
 
 } /* namespace simulates */

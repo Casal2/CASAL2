@@ -28,23 +28,22 @@ namespace timevarying {
 class RandomDraw : public TimeVarying {
 public:
   explicit RandomDraw(shared_ptr<Model> model);
-  virtual                     ~RandomDraw() = default;
-  void                        DoValidate() override final;
-  void                        DoBuild() override final;
-  void                        DoReset() override final;
-  void                        DoUpdate() override final;
+  virtual ~RandomDraw() = default;
+  void DoValidate() override final;
+  void DoBuild() override final;
+  void DoReset() override final;
+  void DoUpdate() override final;
 
 private:
   // members
-  Double                      mu_;
-  Double                      sigma_;
-  Double                      intercept_;
-  bool                        has_at_estimate_ = false;
-  string                      distribution_;
-  Double*                     value_;
-  Double                      lower_bound_;
-  Double                      upper_bound_;
-
+  Double  mu_;
+  Double  sigma_;
+  Double  intercept_;
+  bool    has_at_estimate_ = false;
+  string  distribution_;
+  Double* value_;
+  Double  lower_bound_;
+  Double  upper_bound_;
 };
 
 } /* namespace timevarying */

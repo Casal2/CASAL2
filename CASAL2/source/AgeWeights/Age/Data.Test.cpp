@@ -14,22 +14,22 @@
 #include <iostream>
 
 #include "../../AgeWeights/Manager.h"
-#include "../../ObjectiveFunction/ObjectiveFunction.h"
 #include "../../Estimates/Manager.h"
 #include "../../Model/Models/Age.h"
-#include "../../TestResources/TestFixtures/InternalEmptyModel.h"
+#include "../../ObjectiveFunction/ObjectiveFunction.h"
 #include "../../TestResources/Models/TwoSexHalfAges.h"
+#include "../../TestResources/TestFixtures/InternalEmptyModel.h"
 
 // Namespaces
 namespace niwa {
 namespace estimates {
 
+using niwa::testfixtures::InternalEmptyModel;
 using std::cout;
 using std::endl;
-using niwa::testfixtures::InternalEmptyModel;
 
 const string age_weight =
-R"(
+    R"(
 @model
 start_year 1986 
 final_year 2005

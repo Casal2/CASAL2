@@ -12,11 +12,10 @@
 // headers
 #include "RandomWalk.h"
 
+#include "../../Estimates/Manager.h"
+#include "../../Model/Objects.h"
 #include "../../Utilities/Map.h"
 #include "../../Utilities/RandomNumberGenerator.h"
-#include "../../Model/Objects.h"
-#include "../../Estimates/Manager.h"
-
 
 // namespaces
 namespace niwa {
@@ -52,11 +51,10 @@ void RandomWalk::DoBuild() {
   // Warn users that they have a time-varying parameter in estimation mode.
   if (model_->run_mode() == RunMode::kEstimation) {
     LOG_WARNING() << "Time varying of type " << type_
-      << " during estimation, Not the correct implementation of a random effect. Its purpose is for simulating/projecting adding variaion.";
+                  << " during estimation, Not the correct implementation of a random effect. Its purpose is for simulating/projecting adding variaion.";
   }
-  if(model_->objects().GetAddressableType(parameter_) != addressable::kSingle)
-    LOG_ERROR_P(PARAM_TYPE) << "@time_varying blocks of type " << PARAM_RANDOMWALK
-      << " can be used only with parameters that are scalars or single values";
+  if (model_->objects().GetAddressableType(parameter_) != addressable::kSingle)
+    LOG_ERROR_P(PARAM_TYPE) << "@time_varying blocks of type " << PARAM_RANDOMWALK << " can be used only with parameters that are scalars or single values";
 }
 
 /**
@@ -64,11 +62,10 @@ void RandomWalk::DoBuild() {
  */
 void RandomWalk::DoUpdate() {
   LOG_FINEST() << "value = " << *addressable_;
-  utilities::RandomNumberGenerator& rng = utilities::RandomNumberGenerator::Instance();
-  Double value = *addressable_;
-  double deviate = rng.normal(AS_DOUBLE(mu_), AS_DOUBLE(sigma_));
+  utilities::RandomNumberGenerator& rng     = utilities::RandomNumberGenerator::Instance();
+  Double                            value   = *addressable_;
+  double                            deviate = rng.normal(AS_DOUBLE(mu_), AS_DOUBLE(sigma_));
   value += value * rho_ + deviate;
-
 
   if (value < lower_bound_) {
     LOG_FINEST() << "@estimate at lower bound, changing value from " << value << " to " << lower_bound_;

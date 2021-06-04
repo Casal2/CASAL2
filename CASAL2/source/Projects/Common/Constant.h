@@ -26,17 +26,17 @@ namespace projects {
 class Constant : public niwa::Project {
 public:
   explicit Constant(shared_ptr<Model> model);
-  virtual                     ~Constant() = default;
-  void                        DoValidate() override final;
-  void                        DoBuild() override final;
-  void                        DoReset() override final;
-  void                        DoUpdate() override final;
+  virtual ~Constant() = default;
+  void DoValidate() override final;
+  void DoBuild() override final;
+  void DoReset() override final;
+  void DoUpdate() override final;
 
 protected:
   // members
-  vector<Double>              values_;
-  Double                      value_;
-  map<unsigned, Double>       year_values_;
+  vector<Double>        values_;
+  Double                value_;
+  map<unsigned, Double> year_values_;
 };
 
 } /* namespace projects */

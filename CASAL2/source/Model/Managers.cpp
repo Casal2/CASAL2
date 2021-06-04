@@ -206,7 +206,7 @@ void Managers::Build() {
   likelihood_->Build();
   if (run_mode == RunMode::kMCMC || run_mode == RunMode::kTesting)
     mcmc_->Build();
-  if (minimiser_)
+  if (run_mode == RunMode::kEstimation || run_mode == RunMode::kMCMC || run_mode == RunMode::kTesting)
     minimiser_->Build();
   observation_->Build();
   penalty_->Build();

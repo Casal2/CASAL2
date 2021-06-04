@@ -26,11 +26,9 @@ namespace age {
 /**
  * Default Constructor
  */
-SurvivalConstantRate::SurvivalConstantRate(shared_ptr<Model> model)
-  : Process(model),
-    partition_(model) {
+SurvivalConstantRate::SurvivalConstantRate(shared_ptr<Model> model) : Process(model), partition_(model) {
   LOG_TRACE();
-  process_type_ = ProcessType::kMortality;
+  process_type_        = ProcessType::kMortality;
   partition_structure_ = PartitionType::kAge;
 
   parameters_.Bind<string>(PARAM_CATEGORIES, &category_labels_, "The list of categories", "");
@@ -64,17 +62,15 @@ void SurvivalConstantRate::DoValidate() {
     selectivity_names_.assign(category_labels_.size(), val_sel);
   }
 
-  //Check we have equal category labels as survival rates
+  // Check we have equal category labels as survival rates
   if (s_input_.size() != category_labels_.size()) {
-    LOG_ERROR_P(PARAM_S)
-      << ": the number of Ms provided is not the same as the number of categories provided. Categories: "
-      << category_labels_.size()<< ", input size " << s_input_.size();
+    LOG_ERROR_P(PARAM_S) << ": the number of Ms provided is not the same as the number of categories provided. Categories: " << category_labels_.size() << ", input size "
+                         << s_input_.size();
   }
-  //Check we have equal category labels to selectivity labels
+  // Check we have equal category labels to selectivity labels
   if (selectivity_names_.size() != category_labels_.size()) {
-    LOG_ERROR_P(PARAM_SELECTIVITIES)
-      << ": the number of selectivities provided is not the same as the number of categories provided. Categories: "
-      << category_labels_.size()<< ", selectivities size " << selectivity_names_.size();
+    LOG_ERROR_P(PARAM_SELECTIVITIES) << ": the number of selectivities provided is not the same as the number of categories provided. Categories: " << category_labels_.size()
+                                     << ", selectivities size " << selectivity_names_.size();
   }
 
   // Validate our S's are between 1.0 and 0.0
@@ -83,8 +79,7 @@ void SurvivalConstantRate::DoValidate() {
       LOG_ERROR_P(PARAM_S) << ": s value " << AS_DOUBLE(s) << " must be between 0.0 and 1.0 (inclusive)";
   }
   // Assign survival rates to a map s_
-  for (unsigned i = 0; i < s_input_.size(); ++i)
-    s_[category_labels_[i]] = s_input_[i];
+  for (unsigned i = 0; i < s_input_.size(); ++i) s_[category_labels_[i]] = s_input_[i];
 }
 
 /**
@@ -118,20 +113,18 @@ void SurvivalConstantRate::DoBuild() {
   }
 
   if (ratios_.size() == 0) {
-    for (unsigned i : active_time_steps)
-      time_step_ratios_[i] = 1.0;
+    for (unsigned i : active_time_steps) time_step_ratios_[i] = 1.0;
   } else {
     if (ratios_.size() != active_time_steps.size())
-      LOG_ERROR_P(PARAM_TIME_STEP_RATIO) << " length (" << ratios_.size()
-        << ") does not match the number of time steps this process has been assigned to (" << active_time_steps.size() << ")";
+      LOG_ERROR_P(PARAM_TIME_STEP_RATIO) << " length (" << ratios_.size() << ") does not match the number of time steps this process has been assigned to ("
+                                         << active_time_steps.size() << ")";
 
     for (auto value : ratios_) {
       if (value <= 0.0 || value > 1.0)
         LOG_ERROR_P(PARAM_TIME_STEP_RATIO) << " value (" << value << ") must be between 0.0 (exclusive) and 1.0 (inclusive)";
     }
 
-    for (unsigned i = 0; i < ratios_.size(); ++i)
-      time_step_ratios_[active_time_steps[i]] = ratios_[i];
+    for (unsigned i = 0; i < ratios_.size(); ++i) time_step_ratios_[active_time_steps[i]] = ratios_[i];
   }
 }
 
@@ -147,7 +140,7 @@ void SurvivalConstantRate::DoExecute() {
   LOG_FINEST() << "Ratios.size() " << time_step_ratios_.size() << " : time_step: " << time_step << "; ratio: " << time_step_ratios_[time_step];
   Double ratio = time_step_ratios_[time_step];
 
-  //StoreForReport("year", model_->current_year());
+  // StoreForReport("year", model_->current_year());
 
   unsigned i = 0;
   for (auto category : partition_) {
@@ -155,7 +148,7 @@ void SurvivalConstantRate::DoExecute() {
 
     unsigned j = 0;
     LOG_FINEST() << "category " << category->name_ << "; min_age: " << category->min_age_ << "; ratio: " << ratio;
-    //StoreForReport(category->name_ + " ratio", ratio);
+    // StoreForReport(category->name_ + " ratio", ratio);
     for (Double& data : category->data_) {
       data -= data * (1.0 - exp(-selectivities_[i]->GetAgeResult(category->min_age_ + j, category->age_length_) * ((1.0 - s) * ratio)));
       ++j;

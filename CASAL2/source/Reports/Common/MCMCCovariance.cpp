@@ -22,7 +22,7 @@ namespace ublas = boost::numeric::ublas;
  * Default Constructor
  */
 MCMCCovariance::MCMCCovariance() {
-  run_mode_ = RunMode::kMCMC;
+  run_mode_    = RunMode::kMCMC;
   model_state_ = State::kFinalise;
 }
 /**
@@ -30,17 +30,18 @@ MCMCCovariance::MCMCCovariance() {
  *
  */
 void MCMCCovariance::DoExecute(shared_ptr<Model> model) {
-  MCMC* mcmc = model->managers()->mcmc()->active_mcmc();
+  MCMC*                  mcmc              = model->managers()->mcmc()->active_mcmc();
   ublas::matrix<double>& covariance_matrix = mcmc->covariance_matrix();
 
-  cache_ << "*"<< type_ << "[" << label_ << "]" << "\n";
-  cache_ << "MCMC_covariance" << REPORT_R_MATRIX <<"\n";
+  cache_ << "*" << type_ << "[" << label_ << "]"
+         << "\n";
+  cache_ << "MCMC_covariance" << REPORT_R_MATRIX << "\n";
   for (unsigned i = 0; i < covariance_matrix.size1(); ++i) {
-     for (unsigned j = 0; j < covariance_matrix.size2(); ++j) {
-       cache_ << covariance_matrix(i,j) << " ";
-       if ( j == (covariance_matrix.size1() - 1))
-         cache_ << "\n";
-     }
+    for (unsigned j = 0; j < covariance_matrix.size2(); ++j) {
+      cache_ << covariance_matrix(i, j) << " ";
+      if (j == (covariance_matrix.size1() - 1))
+        cache_ << "\n";
+    }
   }
 
   ready_for_writing_ = true;

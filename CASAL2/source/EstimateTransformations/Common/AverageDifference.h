@@ -27,34 +27,34 @@ public:
   AverageDifference() = delete;
   explicit AverageDifference(shared_ptr<Model> model);
   virtual ~AverageDifference() = default;
-  void                        TransformForObjectiveFunction() override final;
-  void                        RestoreFromObjectiveFunction() override final;
-  std::set<string>            GetTargetEstimates() override final;
-  Double                      GetScore() override final {return jacobian_;};
+  void             TransformForObjectiveFunction() override final;
+  void             RestoreFromObjectiveFunction() override final;
+  std::set<string> GetTargetEstimates() override final;
+  Double           GetScore() override final { return jacobian_; };
 
 protected:
   // methods
-  void                        DoValidate() override final;
-  void                        DoBuild() override final;
-  void                        DoTransform() override final;
-  void                        DoRestore() override final;
+  void DoValidate() override final;
+  void DoBuild() override final;
+  void DoTransform() override final;
+  void DoRestore() override final;
 
 private:
   // members
-  string                      difference_estimate_label_ = "";
-  Estimate*                   difference_estimate_ = nullptr;
-  Double                      average_original_upper_bound_;
-  Double                      average_original_lower_bound_;
-  Double                      difference_original_lower_bound_;
-  Double                      difference_original_upper_bound_;
-  Double                      average_upper_bound_;
-  Double                      average_lower_bound_;
-  Double                      difference_lower_bound_;
-  Double                      difference_upper_bound_;
-  Double                      x1_;
-  Double                      y1_;
-  Double                      y2_;
-  bool                        first_time_transform_ = true;
+  string    difference_estimate_label_ = "";
+  Estimate* difference_estimate_       = nullptr;
+  Double    average_original_upper_bound_;
+  Double    average_original_lower_bound_;
+  Double    difference_original_lower_bound_;
+  Double    difference_original_upper_bound_;
+  Double    average_upper_bound_;
+  Double    average_lower_bound_;
+  Double    difference_lower_bound_;
+  Double    difference_upper_bound_;
+  Double    x1_;
+  Double    y1_;
+  Double    y2_;
+  bool      first_time_transform_ = true;
 };
 
 } /* namespace estimatetransformations */

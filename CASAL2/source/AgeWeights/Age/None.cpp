@@ -13,7 +13,5 @@
 
 // namespaces
 namespace niwa {
-namespace ageweightss {
-
-} /* namespace ageweightss */
+namespace ageweightss {} /* namespace ageweightss */
 } /* namespace niwa */

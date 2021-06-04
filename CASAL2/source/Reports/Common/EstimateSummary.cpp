@@ -32,23 +32,21 @@ EstimateSummary::EstimateSummary() {
  * Execute the estimate summary report
  */
 void EstimateSummary::DoExecute(shared_ptr<Model> model) {
-
   // Print the estimates
   vector<Estimate*> estimates = model->managers()->estimate()->objects();
 
-  auto minimiser_ = model->managers()->minimiser()->active_minimiser();
+  auto           minimiser_ = model->managers()->minimiser()->active_minimiser();
   vector<Double> est_std_dev(estimates.size(), 0.0);
   if (minimiser_) {
     covariance_matrix_ = minimiser_->covariance_matrix();
     if (model->run_mode() == RunMode::kEstimation && estimates.size() != covariance_matrix_.size1())
-      LOG_WARNING() << "The number of estimated parameters " << estimates.size() << " does not match the dimension of the covariance matrix "
-        << covariance_matrix_.size1();
+      LOG_WARNING() << "The number of estimated parameters " << estimates.size() << " does not match the dimension of the covariance matrix " << covariance_matrix_.size1();
     if (covariance_matrix_.size1() > 0)
-      for (unsigned i = 0; i < covariance_matrix_.size1(); ++i)
-        est_std_dev[i] = sqrt(covariance_matrix_(i, i));
+      for (unsigned i = 0; i < covariance_matrix_.size1(); ++i) est_std_dev[i] = sqrt(covariance_matrix_(i, i));
   }
 
-  cache_ << "*"<< type_ << "[" << label_ << "]" << "\n";
+  cache_ << "*" << type_ << "[" << label_ << "]"
+         << "\n";
   unsigned est_idx = 0;
   for (Estimate* estimate : estimates) {
     cache_ << estimate->parameter() << " " << REPORT_R_LIST << "\n";
@@ -62,8 +60,7 @@ void EstimateSummary::DoExecute(shared_ptr<Model> model) {
     map<string, Parameter*> parameters = estimate->parameters().parameters();
     for (auto iter = parameters.begin(); iter != parameters.end(); ++iter) {
       cache_ << iter->first << ": ";
-      for (string parameter_value : iter->second->values())
-        cache_ << parameter_value << " ";
+      for (string parameter_value : iter->second->values()) cache_ << parameter_value << " ";
       cache_ << "\n";
     }
     cache_ << REPORT_R_LIST_END << "\n\n";

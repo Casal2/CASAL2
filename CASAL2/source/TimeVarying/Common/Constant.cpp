@@ -40,12 +40,12 @@ void Constant::DoValidate() {
 /**
  * Build
  */
-void Constant::DoBuild() { }
+void Constant::DoBuild() {}
 
 /**
  * Reset
  */
-void Constant::DoReset() { }
+void Constant::DoReset() {}
 
 /**
  * Update

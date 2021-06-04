@@ -12,11 +12,11 @@
 // headers
 #include "Factory.h"
 
-#include "../Model/Model.h"
-#include "../Model/Managers.h"
-#include "../Catchabilities/Manager.h"
 #include "../Catchabilities/Common/Free.h"
 #include "../Catchabilities/Common/Nuisance.h"
+#include "../Catchabilities/Manager.h"
+#include "../Model/Managers.h"
+#include "../Model/Model.h"
 
 // namespaces
 namespace niwa {
@@ -45,5 +45,5 @@ Catchability* Factory::Create(shared_ptr<Model> model, const string& object_type
   return result;
 }
 
-} /* catchabilities */
-} /* niwa */
+}  // namespace catchabilities
+}  // namespace niwa

@@ -42,7 +42,6 @@ void Project::DoBuild(shared_ptr<Model> model) {
   if (!project_) {
     LOG_ERROR_P(PARAM_PROJECT) << "project " << project_label_ << " was not found.";
   }
-
 }
 
 /**
@@ -54,12 +53,13 @@ void Project::DoExecute(shared_ptr<Model> model) {
     LOG_CODE_ERROR() << "!project: " << project_label_;
   }
 
-  LOG_FINE() <<" printing report " << label_ << " of type " << project_->type();
-  map<unsigned,Double>& values = project_->projected_parameters();
-  cache_ << "*"<< type_ << "[" << label_ << "]" << "\n";
+  LOG_FINE() << " printing report " << label_ << " of type " << project_->type();
+  map<unsigned, Double>& values = project_->projected_parameters();
+  cache_ << "*" << type_ << "[" << label_ << "]"
+         << "\n";
   cache_ << "project: " << project_label_ << "\n";
-  cache_ << "values " << REPORT_R_VECTOR <<"\n";
-  for(auto value : values) {
+  cache_ << "values " << REPORT_R_VECTOR << "\n";
+  for (auto value : values) {
     cache_ << value.first << " " << AS_DOUBLE(value.second) << "\n";
   }
 

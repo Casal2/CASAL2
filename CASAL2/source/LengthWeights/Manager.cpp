@@ -18,8 +18,7 @@ namespace lengthweights {
 /**
  * Default constructor
  */
-Manager::Manager() {
-}
+Manager::Manager() {}
 
 /**
  * Return the LengthWeight pointer

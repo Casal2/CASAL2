@@ -24,16 +24,15 @@ namespace reports {
 class TimeVarying : public niwa::Report {
 public:
   TimeVarying();
-  virtual                     ~TimeVarying() = default;
-  void                        DoValidate(shared_ptr<Model> model) final { };
-  void                        DoBuild(shared_ptr<Model> model) final { };
-  void                        DoExecute(shared_ptr<Model> model) final;
-  void                        DoExecuteTabular(shared_ptr<Model> model) final;
-  void                        DoFinaliseTabular(shared_ptr<Model> model) final;
-
+  virtual ~TimeVarying() = default;
+  void DoValidate(shared_ptr<Model> model) final{};
+  void DoBuild(shared_ptr<Model> model) final{};
+  void DoExecute(shared_ptr<Model> model) final;
+  void DoExecuteTabular(shared_ptr<Model> model) final;
+  void DoFinaliseTabular(shared_ptr<Model> model) final;
 
 private:
-  bool                        first_run_ = true;
+  bool first_run_ = true;
 };
 
 } /* namespace reports */

@@ -30,19 +30,19 @@ class Constant : public niwa::Selectivity {
 public:
   // Methods
   explicit Constant(shared_ptr<Model> model);
-  virtual                     ~Constant() = default;
-  void                        DoValidate() override final { };
-  Double                      GetAgeResult(unsigned age, AgeLength* age_length) override final;
-  Double                      GetLengthResult(unsigned length_bin) override final;
-  void                        RebuildCache() override final;
+  virtual ~Constant() = default;
+  void   DoValidate() override final{};
+  Double GetAgeResult(unsigned age, AgeLength* age_length) override final;
+  Double GetLengthResult(unsigned length_bin) override final;
+  void   RebuildCache() override final;
 
 protected:
-  //Methods
-  Double                      GetLengthBasedResult(unsigned age, AgeLength* age_length, unsigned year = 0, int time_step_index = -1) override final;
+  // Methods
+  Double GetLengthBasedResult(unsigned age, AgeLength* age_length, unsigned year = 0, int time_step_index = -1) override final;
 
 private:
   // Members
-  Double                      c_;
+  Double c_;
 };
 
 } /* namespace selectivities */

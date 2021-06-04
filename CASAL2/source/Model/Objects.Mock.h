@@ -20,7 +20,6 @@
 
 #include "Objects.h"
 
-
 // namespaces
 namespace niwa {
 using std::map;

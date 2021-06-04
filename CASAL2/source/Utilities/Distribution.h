@@ -17,8 +17,8 @@
 
 // Enumerated Types
 enum class Distribution {
-  kNone = 0,
-  kNormal = 1,
+  kNone      = 0,
+  kNormal    = 1,
   kLogNormal = 2,
 };
 

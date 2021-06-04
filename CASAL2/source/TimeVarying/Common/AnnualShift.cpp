@@ -11,6 +11,7 @@
 
 // headers
 #include "AnnualShift.h"
+
 #include "../../Utilities/Map.h"
 
 // namespaces
@@ -25,8 +26,7 @@ AnnualShift::AnnualShift(shared_ptr<Model> model) : TimeVarying(model) {
   parameters_.Bind<Double>(PARAM_A, &a_, "Parameter A", "");
   parameters_.Bind<Double>(PARAM_B, &b_, "Parmeter B", "");
   parameters_.Bind<Double>(PARAM_C, &c_, "Parameter C", "");
-  parameters_.Bind<unsigned>(PARAM_SCALING_YEARS, &scaling_years_, "The scaling years" ,"", true);
-
+  parameters_.Bind<unsigned>(PARAM_SCALING_YEARS, &scaling_years_, "The scaling years", "", true);
 }
 
 /**
@@ -57,7 +57,7 @@ void AnnualShift::DoBuild() {
   }
 
   for (unsigned year : years_) {
-    Double scaled_value = values[year] - (total / scaling_years_.size());
+    Double scaled_value   = values[year] - (total / scaling_years_.size());
     values_by_year_[year] = a_ * scaled_value + b_ * pow(scaled_value, 2) + c_ * pow(scaled_value, 3);
   }
 }
@@ -65,9 +65,7 @@ void AnnualShift::DoBuild() {
 /**
  * Reset
  */
-void AnnualShift::DoReset() {
-
-}
+void AnnualShift::DoReset() {}
 
 /**
  * Update

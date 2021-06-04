@@ -7,8 +7,8 @@
 
 #include "PartitionBiomass.h"
 
-#include <iostream>
 #include <iomanip>
+#include <iostream>
 
 #include "../../Model/Model.h"
 #include "../../Partition/Accessors/All.h"
@@ -45,19 +45,19 @@ void PartitionBiomass::DoValidate(shared_ptr<Model> model) {
  */
 void PartitionBiomass::DoExecute(shared_ptr<Model> model) {
   // First, figure out the lowest and highest ages/length
-  unsigned time_step_index = model->managers()->time_step()->current_time_step();
-  vector<Double> length_bins = model->length_bins();
+  unsigned       time_step_index = model->managers()->time_step()->current_time_step();
+  vector<Double> length_bins     = model->length_bins();
 
   niwa::partition::accessors::All all_view(model);
 
-  cache_ << "*"<< type_ << "[" << label_ << "]" << "\n";
+  cache_ << "*" << type_ << "[" << label_ << "]"
+         << "\n";
   cache_ << "year: " << model->current_year() << "\n";
   cache_ << "time_step: " << time_step_ << "\n";
   cache_ << "values " << REPORT_R_DATAFRAME << "\n";
 
   cache_ << "category";
-  for (auto length_bin : length_bins)
-    cache_ << " " << length_bin;
+  for (auto length_bin : length_bins) cache_ << " " << length_bin;
   cache_ << "\n";
 
   cache_.precision(1);
@@ -66,7 +66,7 @@ void PartitionBiomass::DoExecute(shared_ptr<Model> model) {
   for (auto iterator : all_view) {
     cache_ << iterator->name_;
     for (unsigned i = 0; i < iterator->data_.size(); ++i) {
-        cache_ << " " << std::fixed << std::setprecision(5) << AS_DOUBLE((iterator->data_[i] * iterator->mean_weight_by_time_step_length_[time_step_index][i]));
+      cache_ << " " << std::fixed << std::setprecision(5) << AS_DOUBLE((iterator->data_[i] * iterator->mean_weight_by_time_step_length_[time_step_index][i]));
     }
     cache_ << "\n";
   }

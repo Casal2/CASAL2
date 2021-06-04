@@ -18,8 +18,8 @@
 
 // Headers
 #include <map>
-#include <vector>
 #include <string>
+#include <vector>
 
 #include "../../../Model/Model.h"
 #include "../../../Partition/Partition.h"
@@ -31,11 +31,11 @@ namespace partition {
 namespace accessors {
 namespace cached {
 
+using niwa::utilities::Double;
 using std::map;
-using std::vector;
 using std::pair;
 using std::string;
-using niwa::utilities::Double;
+using std::vector;
 
 /**
  * Class Definition
@@ -48,18 +48,18 @@ public:
   // Methods
   Categories() = default;
   explicit Categories(shared_ptr<Model> model);
-  virtual                     ~Categories() = default;
-  void                        Init(const vector<string>& category_labels);
-  void                        BuildCache();
-  DataType::iterator          begin();
-  DataType::iterator          end();
-  unsigned                    size();
+  virtual ~Categories() = default;
+  void               Init(const vector<string>& category_labels);
+  void               BuildCache();
+  DataType::iterator begin();
+  DataType::iterator end();
+  unsigned           size();
 
 private:
   // Members
-  shared_ptr<Model>           model_;
-  vector<string>              category_labels_;
-  DataType                    data_;
+  shared_ptr<Model> model_;
+  vector<string>    category_labels_;
+  DataType          data_;
 };
 
 // Typedef

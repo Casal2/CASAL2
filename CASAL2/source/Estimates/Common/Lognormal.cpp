@@ -26,7 +26,7 @@ Lognormal::Lognormal(shared_ptr<Model> model) : Estimate(model) {
  * @return The score
  */
 Double Lognormal::GetScore() {
-  sigma_ = sqrt(log( 1 + cv_ * cv_));
+  sigma_        = sqrt(log(1 + cv_ * cv_));
   Double score_ = log(value()) + 0.5 * pow(log(value() / mu_) / sigma_ + sigma_ * 0.5, 2);
   return score_;
 }

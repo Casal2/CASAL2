@@ -10,7 +10,7 @@
 #include <string>
 
 const std::string license =
-R"(
+    R"(
 CASAL2. Copyright (C) 2017 NIWA
 
 This program is free software: you can redistribute it and/or modify
@@ -29,6 +29,5 @@ For more information see http://www.niwa.co.nz, or contact the development
 team at casal2@niwa.co.nz
 
 )";
-
 
 #endif /* SOURCE_LICENSE_H_ */

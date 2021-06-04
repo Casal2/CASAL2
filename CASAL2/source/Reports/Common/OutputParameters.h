@@ -30,14 +30,15 @@ class OutputParameters : public niwa::Report {
 public:
   // Methods
   OutputParameters();
-  virtual                     ~OutputParameters() noexcept(true) = default;
-  void                        DoValidate(shared_ptr<Model> model) final { };
-  void                        DoBuild(shared_ptr<Model> model) final { };
-  void                        DoExecute(shared_ptr<Model> model) final;
-  void                        DoExecuteTabular(shared_ptr<Model> model) final { };
+  virtual ~OutputParameters() noexcept(true) = default;
+  void DoValidate(shared_ptr<Model> model) final{};
+  void DoBuild(shared_ptr<Model> model) final{};
+  void DoExecute(shared_ptr<Model> model) final;
+  void DoExecuteTabular(shared_ptr<Model> model) final{};
+
 private:
   // members
-  bool                        first_run_ = true;
+  bool first_run_ = true;
 };
 
 } /* namespace reports */

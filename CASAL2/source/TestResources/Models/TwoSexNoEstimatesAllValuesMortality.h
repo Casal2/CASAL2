@@ -24,7 +24,7 @@ namespace models {
  *
  */
 const std::string two_sex_no_estimates_all_values_mortality =
-R"(
+    R"(
 @model
 start_year 1994
 final_year 2008

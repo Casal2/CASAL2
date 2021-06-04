@@ -28,8 +28,8 @@ namespace niwa {
 namespace processes {
 namespace age {
 
-using niwa::utilities::Double;
 using niwa::partition::accessors::CategoriesWithAgePtr;
+using niwa::utilities::Double;
 using utilities::OrderedMap;
 
 /**
@@ -39,21 +39,22 @@ class RecruitmentConstant : public niwa::Process {
 public:
   // Methods
   explicit RecruitmentConstant(shared_ptr<Model> model);
-  virtual                     ~RecruitmentConstant() = default;
-  void                        DoValidate() override final;
-  void                        DoBuild() override final;
-  void                        DoReset() override final { };
-  void                        DoExecute() override final;
-  void                        FillReportCache(ostringstream& cache) override final;
-  void                        FillTabularReportCache(ostringstream& cache, bool first_run) override final;
+  virtual ~RecruitmentConstant() = default;
+  void DoValidate() override final;
+  void DoBuild() override final;
+  void DoReset() override final{};
+  void DoExecute() override final;
+  void FillReportCache(ostringstream& cache) override final;
+  void FillTabularReportCache(ostringstream& cache, bool first_run) override final;
+
 private:
   // Members
-  vector<string>              category_labels_;
-  vector<Double>              proportions_;
-  OrderedMap<string, Double>  proportions_categories_;
-  Double                      r0_;
-  unsigned                    age_;
-  CategoriesWithAgePtr        partition_;
+  vector<string>             category_labels_;
+  vector<Double>             proportions_;
+  OrderedMap<string, Double> proportions_categories_;
+  Double                     r0_;
+  unsigned                   age_;
+  CategoriesWithAgePtr       partition_;
 };
 
 } /* namespace age */

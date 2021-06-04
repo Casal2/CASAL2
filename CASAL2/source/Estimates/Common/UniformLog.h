@@ -31,9 +31,9 @@ public:
   // Methods
   UniformLog() = delete;
   explicit UniformLog(shared_ptr<Model> model);
-  virtual                     ~UniformLog() = default;
-  void                        DoValidate() override final { };
-  Double                      GetScore() override final;
+  virtual ~UniformLog() = default;
+  void   DoValidate() override final{};
+  Double GetScore() override final;
 };
 
 } /* namespace estimates */

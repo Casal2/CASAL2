@@ -17,23 +17,22 @@
 // namespaces
 namespace niwa {
 
-using std::vector;
-using std::string;
 using std::scoped_lock;
+using std::string;
+using std::vector;
 
 std::mutex Logging::lock_;
 
 #ifdef TESTMODE
-logger::Severity  Logging::current_log_level_ = logger::Severity::kWarning;
+logger::Severity Logging::current_log_level_ = logger::Severity::kWarning;
 #else
-logger::Severity  Logging::current_log_level_ = logger::Severity::kWarning;
+logger::Severity Logging::current_log_level_ = logger::Severity::kWarning;
 #endif
 
 /**
  * Default constructor
  */
-Logging::Logging() {
-}
+Logging::Logging() {}
 
 /**
  * Singleton Instance method
@@ -41,8 +40,8 @@ Logging::Logging() {
  * @return static instance of the logging class
  */
 Logging& Logging::Instance() {
-	std::scoped_lock l(lock_);
-  static Logging logging;
+  std::scoped_lock l(lock_);
+  static Logging   logging;
   return logging;
 }
 
@@ -50,7 +49,7 @@ Logging& Logging::Instance() {
  * This method sets the log level
  */
 void Logging::SetLogLevel(const std::string& log_level) {
-	std::scoped_lock l(lock_);
+  std::scoped_lock l(lock_);
 
   if (log_level == PARAM_TRACE)
     Logging::current_log_level_ = logger::Severity::kTrace;
@@ -73,10 +72,10 @@ void Logging::SetLogLevel(const std::string& log_level) {
 void Logging::Flush(niwa::logger::Record& record) {
   record.BuildMessage();
 
-  if (record.severity() == logger::Severity::kWarning || record.severity() == logger::Severity::kError ||
-      record.severity() == logger::Severity::kFatal || record.severity() == logger::Severity::kCodeError) {
-  	cout << "Unit Test has encountered a problem that will cause test failure, unless it's expected\n";
-  	cout << "record.severity(): " << (int)record.severity() << "\n";
+  if (record.severity() == logger::Severity::kWarning || record.severity() == logger::Severity::kError || record.severity() == logger::Severity::kFatal
+      || record.severity() == logger::Severity::kCodeError) {
+    cout << "Unit Test has encountered a problem that will cause test failure, unless it's expected\n";
+    cout << "record.severity(): " << (int)record.severity() << "\n";
     cout << "failure because of: " << record.message();
     cout.flush();
     throw std::string(record.message());
@@ -88,8 +87,8 @@ void Logging::Flush(niwa::logger::Record& record) {
   }
 }
 #else
-void Logging::Flush(niwa::logger::Record& record) {
-	std::scoped_lock l(lock_);
+void             Logging::Flush(niwa::logger::Record& record) {
+  std::scoped_lock l(lock_);
 
   record.BuildMessage();
 
@@ -117,7 +116,7 @@ void Logging::Flush(niwa::logger::Record& record) {
  * This method summarises the errors and flushes the standard output
  */
 void Logging::FlushErrors() {
-	std::scoped_lock l(lock_);
+  std::scoped_lock l(lock_);
   if (errors_.size() == 0) {
     return;
   }
@@ -132,7 +131,7 @@ void Logging::FlushErrors() {
   cout << "\n";
 
   for (unsigned i = 0; i < to_print; ++i) {
-    cout << "#" << i+1 << ": " << errors_[i] << "\n";
+    cout << "#" << i + 1 << ": " << errors_[i] << "\n";
   }
 
   cout << "\n";
@@ -145,18 +144,18 @@ void Logging::FlushErrors() {
  * A warning report that is compatable with the Casal2 R package
  */
 void Logging::FlushWarnings() {
-	std::scoped_lock l(lock_);
+  std::scoped_lock l(lock_);
   if (warnings_.size() == 0) {
     return;
   }
 
-  //unsigned to_print = warnings_.size() > 10 ? 10 : warnings_.size();
+  // unsigned to_print = warnings_.size() > 10 ? 10 : warnings_.size();
 
   cout << "*warnings[warnings_encounted]\n";
   cout << "warnings_found: " << warnings_.size() << "\n";
 
   for (unsigned i = 0; i < warnings_.size(); ++i) {
-    cout << "warning_" << i << " " << REPORT_R_STRING_VECTOR <<"\n";
+    cout << "warning_" << i << " " << REPORT_R_STRING_VECTOR << "\n";
     cout << warnings_[i] << "\n";
   }
 

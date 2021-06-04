@@ -25,11 +25,11 @@ namespace length {
 class InitialisationPartitionMeanWeight : public niwa::Report {
 public:
   InitialisationPartitionMeanWeight();
-  virtual                     ~InitialisationPartitionMeanWeight() = default;
-  void                        DoValidate(shared_ptr<Model> model) final { };
-  void                        DoBuild(shared_ptr<Model> model) final { };
-  void                        DoExecute(shared_ptr<Model> model) final;
-  void                        DoExecuteTabular(shared_ptr<Model> model) final { };
+  virtual ~InitialisationPartitionMeanWeight() = default;
+  void DoValidate(shared_ptr<Model> model) final{};
+  void DoBuild(shared_ptr<Model> model) final{};
+  void DoExecute(shared_ptr<Model> model) final;
+  void DoExecuteTabular(shared_ptr<Model> model) final{};
 };
 
 } /* namespace length */

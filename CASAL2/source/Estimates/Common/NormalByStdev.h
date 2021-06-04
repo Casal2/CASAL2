@@ -31,16 +31,15 @@ public:
   // Methods
   NormalByStdev() = delete;
   explicit NormalByStdev(shared_ptr<Model> model);
-  virtual                     ~NormalByStdev() = default;
-  void                        DoValidate() override final { };
-  Double                      GetScore() override final;
+  virtual ~NormalByStdev() = default;
+  void   DoValidate() override final{};
+  Double GetScore() override final;
 
 private:
   // Members
-  Double                      mu_;
-  Double                      sigma_;
-  bool                        assume_lognormal_ = false;
-
+  Double mu_;
+  Double sigma_;
+  bool   assume_lognormal_ = false;
 };
 
 } /* namespace estimates */

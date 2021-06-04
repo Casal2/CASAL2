@@ -31,14 +31,15 @@ namespace ageingerrors {
 class Manager : public niwa::base::Manager<niwa::ageingerrors::Manager, niwa::AgeingError> {
   friend class niwa::base::Manager<niwa::ageingerrors::Manager, niwa::AgeingError>;
   friend class niwa::Managers;
+
 public:
   // methods
-  virtual                     ~Manager() = default;
-  AgeingError*                GetAgeingError(const string& label);
+  virtual ~Manager() = default;
+  AgeingError* GetAgeingError(const string& label);
 
 protected:
   // methods
-  Manager() {};
+  Manager(){};
 };
 
 } /* namespace ageingerrors */

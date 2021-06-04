@@ -10,8 +10,8 @@
 
 #include <betadiff.h>
 
-#include "../../Estimates/Manager.h"
 #include "../../EstimateTransformations/Manager.h"
+#include "../../Estimates/Manager.h"
 #include "../../Model/Model.h"
 #include "../../ObjectiveFunction/ObjectiveFunction.h"
 
@@ -24,7 +24,7 @@ namespace minimisers {
 class MyModel {};
 class MyObjective {
 public:
-  MyObjective(shared_ptr<Model> model) : model_(model) { }
+  MyObjective(shared_ptr<Model> model) : model_(model) {}
 
   Double operator()(const MyModel& model, const dvv& x_unbounded) {
     auto estimates = model_->managers()->estimate()->GetIsEstimated();
@@ -34,7 +34,6 @@ public:
       estimates[i]->set_value(estimate.x);
       LOG_MEDIUM() << estimates[i]->value() << " ";
     }
-
 
     model_->managers()->estimate_transformation()->RestoreEstimates();
     model_->FullIteration();
@@ -50,7 +49,6 @@ private:
   shared_ptr<Model> model_;
 };
 
-
 /**
  * Default constructor
  */
@@ -65,7 +63,7 @@ BetaDiff::BetaDiff(shared_ptr<Model> model) : Minimiser(model) {
  */
 void BetaDiff::Execute() {
   auto estimate_manager = model_->managers()->estimate();
-  auto estimates = estimate_manager->GetIsEstimated();
+  auto estimates        = estimate_manager->GetIsEstimated();
   model_->managers()->estimate_transformation()->TransformEstimates();
 
   dvector lower_bounds((int)estimates.size());
@@ -79,33 +77,33 @@ void BetaDiff::Execute() {
     upper_bounds[i] = AS_DOUBLE(estimate->upper_bound());
     start_values[i] = AS_DOUBLE(estimate->value());
 
-//    if (estimate->value() < estimate->lower_bound()) {
-//      LOG_ERROR_P("When starting the DESolver minimiser the starting value (" << estimate->value() << ") for estimate "
-//          << estimate->parameter() << " was less than the lower bound (" << estimate->lower_bound() << ")");
-//    } else if (estimate->value() > estimate->upper_bound()) {
-//      LOG_ERROR_P("When starting the DESolver minimiser the starting value (" << estimate->value() << ") for estimate "
-//          << estimate->parameter() << " was greater than the upper bound (" << estimate->upper_bound() << ")");
-//    }
+    //    if (estimate->value() < estimate->lower_bound()) {
+    //      LOG_ERROR_P("When starting the DESolver minimiser the starting value (" << estimate->value() << ") for estimate "
+    //          << estimate->parameter() << " was less than the lower bound (" << estimate->lower_bound() << ")");
+    //    } else if (estimate->value() > estimate->upper_bound()) {
+    //      LOG_ERROR_P("When starting the DESolver minimiser the starting value (" << estimate->value() << ") for estimate "
+    //          << estimate->parameter() << " was greater than the upper bound (" << estimate->upper_bound() << ")");
+    //    }
   }
 
-  MyModel my_model;
+  MyModel     my_model;
   MyObjective my_objective(model_);
 
   dmatrix betadiff_hessian(estimates.size(), estimates.size());
-//  dmatrix adolc_hessian(estimates.size(), estimates.size());
-  int convergence = 0;
-  double score = optimise<MyModel, MyObjective>(my_model, my_objective, start_values, lower_bounds, upper_bounds, convergence, 0,
-      max_iterations_, max_evaluations_, gradient_tolerance_, 0, &betadiff_hessian, 0, 1);
+  //  dmatrix adolc_hessian(estimates.size(), estimates.size());
+  int    convergence = 0;
+  double score       = optimise<MyModel, MyObjective>(my_model, my_objective, start_values, lower_bounds, upper_bounds, convergence, 0, max_iterations_, max_evaluations_,
+                                                gradient_tolerance_, 0, &betadiff_hessian, 0, 1);
 
   for (int row = 0; row < (int)estimates.size(); ++row) {
     for (int col = 0; col < (int)estimates.size(); ++col) {
-      hessian_[row][col] = betadiff_hessian[row+1][col+1];
+      hessian_[row][col] = betadiff_hessian[row + 1][col + 1];
     }
   }
-  
+
   model_->managers()->estimate_transformation()->RestoreEstimates();
 
-  switch(convergence) {
+  switch (convergence) {
     case -1:
       result_ = MinimiserResult::kError;
       break;
@@ -120,7 +118,7 @@ void BetaDiff::Execute() {
   }
 }
 
-} /* namespace reports */
+}  // namespace minimisers
 } /* namespace niwa */
 #endif /* USE_BETADIFF */
 #endif /* USE_AUTODIFF */

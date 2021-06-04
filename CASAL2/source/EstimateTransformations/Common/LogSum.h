@@ -27,23 +27,23 @@ public:
   LogSum() = delete;
   explicit LogSum(shared_ptr<Model> model);
   virtual ~LogSum() = default;
-  void                        TransformForObjectiveFunction() override final;
-  void                        RestoreFromObjectiveFunction() override final;
-  std::set<string>            GetTargetEstimates() override final;
-  Double                      GetScore() override final {return jacobian_;};
+  void             TransformForObjectiveFunction() override final;
+  void             RestoreFromObjectiveFunction() override final;
+  std::set<string> GetTargetEstimates() override final;
+  Double           GetScore() override final { return jacobian_; };
 
 protected:
   // methods
-  void                        DoValidate() override final;
-  void                        DoBuild() override final;
-  void                        DoTransform() override final;
-  void                        DoRestore() override final;
+  void DoValidate() override final;
+  void DoBuild() override final;
+  void DoTransform() override final;
+  void DoRestore() override final;
 
 private:
   // members
-  string                      second_estimate_label_ = "";
-  Estimate*                   second_estimate_ = nullptr;
-  Double 											xt_;
+  string    second_estimate_label_ = "";
+  Estimate* second_estimate_       = nullptr;
+  Double    xt_;
 };
 
 } /* namespace estimatetransformations */

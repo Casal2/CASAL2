@@ -26,13 +26,13 @@ namespace length {
 class Biomass : public niwa::DerivedQuantity {
 public:
   // methods
-  explicit Biomass(shared_ptr<Model> model) : DerivedQuantity(model) { }
-  virtual                     ~Biomass() = default;
-  void                        PreExecute() override final;
-  void                        Execute() override final;
+  explicit Biomass(shared_ptr<Model> model) : DerivedQuantity(model) {}
+  virtual ~Biomass() = default;
+  void PreExecute() override final;
+  void Execute() override final;
 
-  void                        DoValidate() override final { };
-  void                        DoBuild() override final { };
+  void DoValidate() override final{};
+  void DoBuild() override final{};
 };
 
 } /* namespace length */

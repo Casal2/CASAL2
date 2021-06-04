@@ -34,27 +34,26 @@ class GrowthBasic : public niwa::Process {
 public:
   // Methods
   explicit GrowthBasic(shared_ptr<Model> model);
-  virtual                     ~GrowthBasic() = default;
-  void                        DoValidate() override final;
-  void                        DoBuild() override final;
-  void                        DoReset() override final;
-  void                        DoExecute() override final;
+  virtual ~GrowthBasic() = default;
+  void DoValidate() override final;
+  void DoBuild() override final;
+  void DoReset() override final;
+  void DoExecute() override final;
 
 private:
   // Members
-  accessor::Categories        partition_;
-  vector<Double>              g_;
-  vector<Double>              l_;
-  vector<Double>              length_bin_mid_points_;
-  vector<Double>              length_bins_;
-  vector<string>              category_labels_;
-  Double                      cv_ = 0.0;
-  vector<string>              growth_time_steps_;
-  Double                      min_sigma_ = 0.0;
-  unsigned                    n_growth_episodes_ = 1;
-  vector<vector<Double>>      transition_matrix_; // explains how each length bin moves to others.
-  vector<vector<Double>>      numbers_transitioning_matrix_; // explains how each length bin moves to others.
-
+  accessor::Categories   partition_;
+  vector<Double>         g_;
+  vector<Double>         l_;
+  vector<Double>         length_bin_mid_points_;
+  vector<Double>         length_bins_;
+  vector<string>         category_labels_;
+  Double                 cv_ = 0.0;
+  vector<string>         growth_time_steps_;
+  Double                 min_sigma_         = 0.0;
+  unsigned               n_growth_episodes_ = 1;
+  vector<vector<Double>> transition_matrix_;             // explains how each length bin moves to others.
+  vector<vector<Double>> numbers_transitioning_matrix_;  // explains how each length bin moves to others.
 };
 
 } /* namespace length */

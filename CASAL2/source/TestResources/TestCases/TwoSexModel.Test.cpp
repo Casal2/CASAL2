@@ -18,7 +18,6 @@
 #include "TestResources/TestFixtures/InternalEmptyModel.h"
 #include "TwoSexModel.h"
 
-
 // Namespaces
 namespace niwa {
 namespace testcases {

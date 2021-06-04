@@ -26,11 +26,7 @@ namespace age {
  *
  * @param model A pointer to our core model object
  */
-StateCategoryByAge::StateCategoryByAge(shared_ptr<Model> model)
-  : InitialisationPhase(model),
-    partition_(model),
-    cached_partition_(model){
-
+StateCategoryByAge::StateCategoryByAge(shared_ptr<Model> model) : InitialisationPhase(model), partition_(model), cached_partition_(model) {
   n_table_ = new parameters::Table(PARAM_N);
 
   parameters_.Bind<string>(PARAM_CATEGORIES, &category_labels_, "The list of categories for the category state initialisation", "");
@@ -68,8 +64,8 @@ void StateCategoryByAge::DoValidate() {
   /**
    * Convert the string values to doubles and load them in to a table.
    */
-  vector<vector<string>>& data = n_table_->data();
-  unsigned row_number = 1;
+  vector<vector<string>>& data       = n_table_->data();
+  unsigned                row_number = 1;
   for (auto row : data) {
     if (row.size() != column_count_)
       LOG_ERROR_P(PARAM_N) << "row " << row_number << " has " << row.size() << " values but " << column_count_ << " column values are expected";
@@ -103,10 +99,10 @@ void StateCategoryByAge::DoBuild() {
 void StateCategoryByAge::Execute() {
   for (auto iter : partition_) {
     unsigned i = 0;
-    for (unsigned index = min_age_ - iter->min_age_; index <= max_age_ - iter->min_age_; ++index, ++i)  {
+    for (unsigned index = min_age_ - iter->min_age_; index <= max_age_ - iter->min_age_; ++index, ++i) {
       if (index < 0)
         LOG_FATAL_P(PARAM_MIN_AGE) << " Cannot be less than category or model min_age which is " << iter->min_age_;
-      LOG_MEDIUM() << ": the partition changes from " <<  iter->data_[index];
+      LOG_MEDIUM() << ": the partition changes from " << iter->data_[index];
       iter->data_[index] = n_[iter->name_][i];
       LOG_MEDIUM() << " to = " << iter->data_[index];
     }
@@ -118,8 +114,8 @@ void StateCategoryByAge::Execute() {
   timesteps::Manager* time_step_manager = model_->managers()->time_step();
   time_step_manager->ExecuteInitialisation(label_, 1);
 
-  auto cached_partition_iter  = cached_partition_.begin();
-  auto partition_iter = partition_.begin();
+  auto cached_partition_iter = cached_partition_.begin();
+  auto partition_iter        = partition_.begin();
   for (unsigned category_offset = 0; category_offset < category_labels_.size(); ++category_offset, ++partition_iter, ++cached_partition_iter) {
     (*partition_iter)->data_ = (*cached_partition_iter).data_;
   }

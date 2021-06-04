@@ -33,21 +33,21 @@ class VectorSmoothing : public niwa::AdditionalPrior {
 public:
   // methods
   VectorSmoothing(shared_ptr<Model> model);
-  virtual                     ~VectorSmoothing() = default;
-  Double                      GetScore() final;
+  virtual ~VectorSmoothing() = default;
+  Double GetScore() final;
 
 protected:
   // methods
-  void                        DoValidate() final {};
-  void                        DoBuild() final;
+  void DoValidate() final{};
+  void DoBuild() final;
   // members
-  map<unsigned, Double>*      addressable_map_ = nullptr;
-  vector<Double>*             addressable_vector_ = nullptr;
-  bool                        log_scale_ = false;
-  Double                      multiplier_ = 0.0;
-  unsigned                    r_ = 0;
-  unsigned                    upper_ = 0;
-  unsigned                    lower_ = 0;
+  map<unsigned, Double>* addressable_map_    = nullptr;
+  vector<Double>*        addressable_vector_ = nullptr;
+  bool                   log_scale_          = false;
+  Double                 multiplier_         = 0.0;
+  unsigned               r_                  = 0;
+  unsigned               upper_              = 0;
+  unsigned               lower_              = 0;
 };
 
 } /* namespace additionalpriors */

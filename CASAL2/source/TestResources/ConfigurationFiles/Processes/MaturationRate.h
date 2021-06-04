@@ -21,5 +21,4 @@ proportions 1.0
 selectivities maturation
 )";
 
-
 #endif /* MATURATIONRATE_H_ */

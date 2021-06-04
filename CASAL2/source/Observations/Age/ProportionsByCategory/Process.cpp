@@ -22,10 +22,12 @@ namespace age {
 /**
  * Default constructor
  */
-ProcessProportionsByCategory::ProcessProportionsByCategory(shared_ptr<Model> model)
-   : observations::age::ProportionsByCategory(model) {
+ProcessProportionsByCategory::ProcessProportionsByCategory(shared_ptr<Model> model) : observations::age::ProportionsByCategory(model) {
   parameters_.Bind<string>(PARAM_PROCESS, &process_label_, "The label of the process for the observation", "");
-  parameters_.Bind<Double>(PARAM_PROCESS_PROPORTION, &process_proportion_, "The proportion through the mortality block of the time step when the observation is evaluated", "", Double(0.5))->set_range(0.0, 1.0);
+  parameters_
+      .Bind<Double>(PARAM_PROCESS_PROPORTION, &process_proportion_, "The proportion through the mortality block of the time step when the observation is evaluated", "",
+                    Double(0.5))
+      ->set_range(0.0, 1.0);
 
   mean_proportion_method_ = false;
 }
@@ -44,8 +46,7 @@ void ProcessProportionsByCategory::DoBuild() {
   if (!time_step) {
     LOG_FATAL_P(PARAM_TIME_STEP) << "Time step label " << time_step_label_ << " was not found.";
   } else {
-    for (unsigned year : years_)
-      time_step->SubscribeToProcess(this, year, process_label_);
+    for (unsigned year : years_) time_step->SubscribeToProcess(this, year, process_label_);
   }
 }
 

@@ -33,10 +33,10 @@ public:
 
 private:
   // methods
-  Factory() = delete;
+  Factory()          = delete;
   virtual ~Factory() = delete;
 };
 
-} /* namespace processes */
+}  // namespace initialisationphases
 } /* namespace niwa */
 #endif /* INITIALISATIONPHASE_FACTORY_H_ */

@@ -27,21 +27,21 @@ namespace projects {
 class LogNormal : public niwa::Project {
 public:
   explicit LogNormal(shared_ptr<Model> model);
-  virtual                     ~LogNormal() = default;
-  void                        DoValidate() override final;
-  void                        DoBuild() override final;
-  void                        DoReset() override final;
-  void                        DoUpdate() override final;
+  virtual ~LogNormal() = default;
+  void DoValidate() override final;
+  void DoBuild() override final;
+  void DoReset() override final;
+  void DoUpdate() override final;
 
 private:
   // members
-  Double                      mean_ = 0.0;
-  Double                      sigma_;
-//  Double                      alpha_;
-//  Double                      rho_ = 0.0;
-  Double                      value_;
-  Double                      last_value_;
-  map<unsigned,Double>        normal_draw_by_year_;
+  Double mean_ = 0.0;
+  Double sigma_;
+  //  Double                      alpha_;
+  //  Double                      rho_ = 0.0;
+  Double                value_;
+  Double                last_value_;
+  map<unsigned, Double> normal_draw_by_year_;
 };
 
 } /* namespace projects */

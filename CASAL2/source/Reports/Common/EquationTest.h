@@ -24,17 +24,17 @@ namespace reports {
 // class
 class EquationTest : public niwa::Report {
 public:
-	EquationTest();
-  virtual                     ~EquationTest() = default;
-  void                        DoValidate(shared_ptr<Model> model) final { };
-  void                        DoBuild(shared_ptr<Model> model) final { };
-  void                        DoExecute(shared_ptr<Model> model) final;
-  void                        DoExecuteTabular(shared_ptr<Model> model) final { };
+  EquationTest();
+  virtual ~EquationTest() = default;
+  void DoValidate(shared_ptr<Model> model) final{};
+  void DoBuild(shared_ptr<Model> model) final{};
+  void DoExecute(shared_ptr<Model> model) final;
+  void DoExecuteTabular(shared_ptr<Model> model) final{};
 
 private:
   // members
-  vector<string>              equation_input_;
-  string                      equation_ = "";
+  vector<string> equation_input_;
+  string         equation_ = "";
 };
 
 } /* namespace reports */

@@ -28,25 +28,21 @@ namespace catchabilities {
 // classes
 class Nuisance : public Catchability {
 public:
-	// members
+  // members
   Nuisance() = delete;
-  explicit                    Nuisance(shared_ptr<Model> model);
-  virtual                     ~Nuisance() {};
-  void                        DoValidate() final {};
-  void                        DoBuild() final;
-  void                        CalculateQ(map<unsigned, vector<observations::Comparison> >& comparisons, string_view likelihood);
+  explicit Nuisance(shared_ptr<Model> model);
+  virtual ~Nuisance(){};
+  void DoValidate() final{};
+  void DoBuild() final;
+  void CalculateQ(map<unsigned, vector<observations::Comparison> >& comparisons, string_view likelihood);
 
 private:
   // members
-  Double                      lower_bound_ = 0.0;
-  Double                      upper_bound_ = 100.0;
-  string                      prior_type_ = PARAM_NONE;
-  Double                      mu_ = 0.0;
-  Double                      cv_ = 1.0;
-
-
-
-
+  Double lower_bound_ = 0.0;
+  Double upper_bound_ = 100.0;
+  string prior_type_  = PARAM_NONE;
+  Double mu_          = 0.0;
+  Double cv_          = 1.0;
 };
 
 } /* namespace catchabilities */

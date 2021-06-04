@@ -19,9 +19,7 @@ namespace selectivities {
 /**
  * Default constructor
  */
-Manager::Manager() {
-
-}
+Manager::Manager() {}
 
 /**
  * Return a pointer to the selectivity object
@@ -30,7 +28,7 @@ Manager::Manager() {
  * @return a pointer to the Selectivity
  */
 Selectivity* Manager::GetSelectivity(const string& label) {
-  for(auto selectivity : objects_) {
+  for (auto selectivity : objects_) {
     if (selectivity->label() == label) {
       return selectivity;
     }

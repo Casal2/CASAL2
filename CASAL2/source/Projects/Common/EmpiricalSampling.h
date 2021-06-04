@@ -27,18 +27,18 @@ namespace projects {
 class EmpiricalSampling : public niwa::Project {
 public:
   explicit EmpiricalSampling(shared_ptr<Model> model);
-  virtual                     ~EmpiricalSampling() = default;
-  void                        DoValidate() override final;
-  void                        DoBuild() override final;
-  void                        DoReset() override final;
-  void                        DoUpdate() override final;
+  virtual ~EmpiricalSampling() = default;
+  void DoValidate() override final;
+  void DoBuild() override final;
+  void DoReset() override final;
+  void DoUpdate() override final;
 
 private:
   // members
-  unsigned                    start_year_;
-  unsigned                    final_year_;
-  Double                      value_;
-  map<unsigned,unsigned>      resampled_years_;
+  unsigned                start_year_;
+  unsigned                final_year_;
+  Double                  value_;
+  map<unsigned, unsigned> resampled_years_;
 };
 
 } /* namespace projects */

@@ -32,11 +32,11 @@ class CategoryInfo : public niwa::Report {
 public:
   // Methods
   CategoryInfo();
-  virtual                     ~CategoryInfo() = default;
-  void                        DoValidate(shared_ptr<Model> model) final { };
-  void                        DoBuild(shared_ptr<Model> model) final { };
-  void                        DoExecute(shared_ptr<Model> model) final;
-  void                        DoExecuteTabular(shared_ptr<Model> model) final { };
+  virtual ~CategoryInfo() = default;
+  void DoValidate(shared_ptr<Model> model) final{};
+  void DoBuild(shared_ptr<Model> model) final{};
+  void DoExecute(shared_ptr<Model> model) final;
+  void DoExecuteTabular(shared_ptr<Model> model) final{};
 };
 
 } /* namespace reports */

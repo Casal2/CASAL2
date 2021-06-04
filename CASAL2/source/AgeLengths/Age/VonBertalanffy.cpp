@@ -17,11 +17,11 @@
 
 #include <cmath>
 
-#include "../../Model/Managers.h"
+#include "../../Estimates/Manager.h"
 #include "../../LengthWeights/LengthWeight.h"
 #include "../../LengthWeights/Manager.h"
+#include "../../Model/Managers.h"
 #include "../../TimeSteps/Manager.h"
-#include "../../Estimates/Manager.h"
 
 // namespaces
 namespace niwa {
@@ -42,7 +42,8 @@ VonBertalanffy::VonBertalanffy(shared_ptr<Model> model) : AgeLength(model) {
   parameters_.Bind<Double>(PARAM_K, &k_, "The $k$ parameter", "")->set_lower_bound(0.0);
   parameters_.Bind<Double>(PARAM_T0, &t0_, "The $t_0$ parameter", "");
   parameters_.Bind<string>(PARAM_LENGTH_WEIGHT, &length_weight_label_, "The label of the associated length-weight relationship", "");
-//  parameters_.Bind<bool>(PARAM_BY_LENGTH, &by_length_, "Specifies if the linear interpolation of CV's is a linear function of mean length at age. Default is just by age", "", true);
+  //  parameters_.Bind<bool>(PARAM_BY_LENGTH, &by_length_, "Specifies if the linear interpolation of CV's is a linear function of mean length at age. Default is just by age", "",
+  //  true);
 
   RegisterAsAddressable(PARAM_LINF, &linf_);
   RegisterAsAddressable(PARAM_K, &k_);
@@ -89,19 +90,17 @@ Double VonBertalanffy::mean_length(unsigned time_step, unsigned age) {
  * @return mean weight for one member
  */
 Double VonBertalanffy::mean_weight(unsigned time_step, unsigned age) {
-  unsigned year = model_->current_year();
-  Double size = mean_length_[time_step][age];
-  Double mean_weight = 0.0; //
-  mean_weight = length_weight_->mean_weight(size, distribution_, cvs_[year][time_step][age]);// make a map [key = age]
+  unsigned year        = model_->current_year();
+  Double   size        = mean_length_[time_step][age];
+  Double   mean_weight = 0.0;                                                                           //
+  mean_weight          = length_weight_->mean_weight(size, distribution_, cvs_[year][time_step][age]);  // make a map [key = age]
   return mean_weight;
 }
 
 /**
  * If time Varied we need to rebuild the cache
  */
-void VonBertalanffy::DoReset() {
-
-}
+void VonBertalanffy::DoReset() {}
 
 /**
  * Return the mean length for an time_step and age
@@ -120,8 +119,8 @@ Double VonBertalanffy::GetMeanLength(unsigned year, unsigned time_step, unsigned
  */
 void VonBertalanffy::DoRebuildCache() {
   // Re Build up our mean_length_ container.
-  unsigned min_age = model_->min_age();
-  unsigned max_age = model_->max_age();
+  unsigned min_age         = model_->min_age();
+  unsigned max_age         = model_->max_age();
   unsigned time_step_count = model_->time_steps().size();
   for (unsigned step_iter = 0; step_iter < time_step_count; ++step_iter) {
     for (unsigned age_iter = min_age; age_iter <= max_age; ++age_iter) {

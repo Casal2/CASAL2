@@ -11,13 +11,12 @@
 #ifdef TESTMODE
 
 // Headers
-#include "Model.h"
-
 #include <iostream>
 
-#include "../TestResources/TestFixtures/BasicModel.h"
 #include "../TestResources/MockClasses/Managers.h"
 #include "../TestResources/MockClasses/Model.h"
+#include "../TestResources/TestFixtures/BasicModel.h"
+#include "Model.h"
 
 // Namespaces
 namespace niwa {
@@ -30,7 +29,7 @@ using ::testing::NiceMock;
  * See if we can create a Model object and check the default values
  */
 TEST(Model, Validate_Defaults) {
-	shared_ptr<Model> model = shared_ptr<Model>(new Model());
+  shared_ptr<Model> model = shared_ptr<Model>(new Model());
 
   EXPECT_EQ(RunMode::kInvalid, model->run_mode());
   EXPECT_EQ(State::kStartUp, model->state());
@@ -47,11 +46,11 @@ TEST(Model, Validate_Defaults) {
   EXPECT_EQ(true, model->length_plus());
   EXPECT_EQ(0u, model->length_plus_group());
   EXPECT_EQ(PartitionType::kInvalid, model->partition_type());
-//  EXPECT_NE(nullptr, model->managers());
-//  EXPECT_NE(nullptr, model->objects());
-//  EXPECT_NE(nullptr, model->global_configuration());
-//  EXPECT_NE(nullptr, model->categories());
-//  EXPECT_NE(nullptr, model->factory());
+  //  EXPECT_NE(nullptr, model->managers());
+  //  EXPECT_NE(nullptr, model->objects());
+  //  EXPECT_NE(nullptr, model->global_configuration());
+  //  EXPECT_NE(nullptr, model->categories());
+  //  EXPECT_NE(nullptr, model->factory());
 }
 
 /**
@@ -127,6 +126,5 @@ TEST(Model, Validate_Mock_With_Init_01) {
 }
 
 } /* namespace niwa */
-
 
 #endif /* TESTMODE */

@@ -55,8 +55,7 @@ void Addressable::DoValidate() {
       LOG_ERROR_P(PARAM_YEARS) << "year (" << year << ") is not a valid year in the model.";
   }
 
-  for (unsigned i = 0; i < years_.size(); ++i)
-    year_values_[years_[i]] = values_[i];
+  for (unsigned i = 0; i < years_.size(); ++i) year_values_[years_[i]] = values_[i];
 }
 
 /**
@@ -70,8 +69,7 @@ void Addressable::DoBuild() {
   TimeStep* time_step = model_->managers()->time_step()->GetTimeStep(time_step_label_);
   if (!time_step)
     LOG_ERROR_P(PARAM_TIME_STEP) << "Time step label (" << time_step_label_ << ") was not found.";
-  for (unsigned year : years_)
-    time_step->Subscribe(this, year);
+  for (unsigned year : years_) time_step->Subscribe(this, year);
 
   string error = "";
   if (!model_->objects().VerfiyAddressableForUse(parameter_, addressable::kLookup, error)) {

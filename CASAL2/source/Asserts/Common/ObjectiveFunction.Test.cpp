@@ -13,11 +13,10 @@
 #ifdef TESTMODE
 
 // headers
-#include "ObjectiveFunction.h"
-
 #include "../../Model/Models/Age.h"
 #include "../../ObjectiveFunction/ObjectiveFunction.h"
 #include "../../TestResources/TestFixtures/InternalEmptyModel.h"
+#include "ObjectiveFunction.h"
 
 // namespaces
 namespace niwa {
@@ -26,7 +25,7 @@ namespace asserts {
 using niwa::testfixtures::InternalEmptyModel;
 
 const std::string simple_model =
-R"(
+    R"(
 @model
 start_year 1994
 final_year 2008
@@ -163,7 +162,7 @@ TEST_F(InternalEmptyModel, Asserts_ObjectiveFunction) {
 }
 
 const std::string simple_model_throws_exception =
-R"(
+    R"(
 @model
 start_year 1994
 final_year 2008
@@ -296,8 +295,7 @@ TEST_F(InternalEmptyModel, Asserts_ObjectiveFunction_Throws_Exception) {
   EXPECT_THROW(model_->Start(RunMode::kBasic), std::string);
 }
 
-}
-}
-
+}  // namespace asserts
+}  // namespace niwa
 
 #endif

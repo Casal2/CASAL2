@@ -13,9 +13,6 @@
 // Headers
 #include "Factory.h"
 
-#include "../Model/Model.h"
-#include "../Model/Managers.h"
-#include "../Likelihoods/Manager.h"
 #include "../Likelihoods/Common/Binomial.h"
 #include "../Likelihoods/Common/BinomialApprox.h"
 #include "../Likelihoods/Common/Dirichlet.h"
@@ -24,6 +21,9 @@
 #include "../Likelihoods/Common/Multinomial.h"
 #include "../Likelihoods/Common/Normal.h"
 #include "../Likelihoods/Common/Pseudo.h"
+#include "../Likelihoods/Manager.h"
+#include "../Model/Managers.h"
+#include "../Model/Model.h"
 
 // Namespaces
 namespace niwa {
@@ -60,7 +60,6 @@ Likelihood* Factory::Create(shared_ptr<Model> model, const string& object_type, 
 
   return result;
 }
-
 
 } /* namespace likelihoods */
 } /* namespace niwa */

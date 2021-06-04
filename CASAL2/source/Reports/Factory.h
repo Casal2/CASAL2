@@ -5,7 +5,7 @@
  * @date 13/12/2012
  * @section LICENSE
  *
- * Copyright NIWA Science ©2012 - www.niwa.co.nz
+ * Copyright NIWA Science ï¿½2012 - www.niwa.co.nz
  *
  * $Date: 2008-03-04 16:33:32 +1300 (Tue, 04 Mar 2008) $
  */
@@ -30,11 +30,11 @@ using std::string;
 class Factory {
 public:
   // methods
-  static Report* Create(shared_ptr<Model> model, const string& object_type, const string& sub_type);
+  static Report* Create(shared_ptr<Model> model, const string& object_type, const string& sub_type, bool add_to_manager = true);
 
 private:
   // methods
-  Factory() = delete;
+  Factory()          = delete;
   virtual ~Factory() = delete;
 };
 

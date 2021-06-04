@@ -21,6 +21,4 @@ a50 3
 ato95 3
 )";
 
-
-
 #endif /* LOGISTICPRODUCING_H_ */

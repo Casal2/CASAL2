@@ -27,13 +27,12 @@ Constant::Constant(shared_ptr<Model> model) : Project(model) {
  */
 void Constant::DoValidate() {
   if (values_.size() != 1 && values_.size() != years_.size()) {
-    LOG_ERROR_P(PARAM_VALUES) << "length (" << values_.size() << ") must match the number of years provided (" << years_.size()
-      << "), or use a single value for all years";
+    LOG_ERROR_P(PARAM_VALUES) << "length (" << values_.size() << ") must match the number of years provided (" << years_.size() << "), or use a single value for all years";
     return;
   }
 
   if (values_.size() == 1) {
-  	Double value = values_[0];
+    Double value = values_[0];
     values_.assign(years_.size(), value);
     LOG_FINEST() << "number of values converted from 1 to " << values_.size();
   }
@@ -46,18 +45,18 @@ void Constant::DoValidate() {
 /**
  * Build
  */
-void Constant::DoBuild() { }
+void Constant::DoBuild() {}
 
 /**
  * Reset
  */
-void Constant::DoReset() { }
+void Constant::DoReset() {}
 
 /**
  * Update
  */
 void Constant::DoUpdate() {
-  value_= year_values_[model_->current_year()] * multiplier_;
+  value_ = year_values_[model_->current_year()] * multiplier_;
   LOG_FINE() << "Setting Value to: " << value_;
   (this->*DoUpdateFunc_)(value_);
 }

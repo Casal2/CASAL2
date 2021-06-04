@@ -14,10 +14,10 @@
 #ifdef TESTMODE
 
 // headers
-#include "Object.h"
-
 #include <gmock/gmock.h>
 #include <gtest/gtest.h>
+
+#include "Object.h"
 
 // namespaces
 namespace niwa {
@@ -29,13 +29,11 @@ namespace base {
  */
 class TestObject1 : public Object {
 public:
-  void Reset() override final { };
+  void Reset() override final{};
 
-  TestObject1() {
-    RegisterAsAddressable("lemon", &addressable);
-  }
+  TestObject1() { RegisterAsAddressable("lemon", &addressable); }
 
-  double  addressable = 0.0;
+  double addressable = 0.0;
 };
 
 TEST(Object, Standard_Double_Addressable) {
@@ -53,7 +51,7 @@ TEST(Object, Standard_Double_Addressable) {
  */
 class TestObject2 : public Object {
 public:
-  void Reset() override final { };
+  void Reset() override final{};
 
   TestObject2() {
     RegisterAsAddressable("lemon", &addressables_);
@@ -63,7 +61,7 @@ public:
     addressables_.push_back(9.0);
   }
 
-  vector<double>  addressables_;
+  vector<double> addressables_;
 };
 
 TEST(Object, Vector_Double_Addressable) {
@@ -84,16 +82,16 @@ TEST(Object, Vector_Double_Addressable) {
  */
 class TestObject3 : public Object {
 public:
-  void Reset() override final { };
+  void Reset() override final{};
 
   TestObject3() {
     RegisterAsAddressable("lemon", &addressables_);
 
-    addressables_["male"] = 1.0;
+    addressables_["male"]   = 1.0;
     addressables_["female"] = 1.0;
   }
 
-  OrderedMap<string, double>  addressables_;
+  OrderedMap<string, double> addressables_;
 };
 
 TEST(Object, StringMap_Double_Addressable) {
@@ -115,7 +113,7 @@ TEST(Object, StringMap_Double_Addressable) {
  */
 class TestObject4 : public Object {
 public:
-  void Reset() override final { };
+  void Reset() override final{};
 
   TestObject4() {
     RegisterAsAddressable("lemon", &addressables_);
@@ -124,7 +122,7 @@ public:
     addressables_[101] = 1.0;
   }
 
-  map<unsigned, double>  addressables_;
+  map<unsigned, double> addressables_;
 };
 
 TEST(Object, UnsignedMap_Double_Addressable) {
@@ -146,7 +144,7 @@ TEST(Object, UnsignedMap_Double_Addressable) {
  */
 class TestObject5 : public Object {
 public:
-  void Reset() override final { };
+  void Reset() override final{};
 
   TestObject5() {
     RegisterAsAddressable(&addressables_);
@@ -154,7 +152,7 @@ public:
     addressables_["lemon"].push_back(1.0);
   }
 
-  map<string, vector<double> >  addressables_;
+  map<string, vector<double> > addressables_;
 };
 
 TEST(Object, UnnamedVectorMap_Double_Addressable) {
@@ -174,7 +172,7 @@ TEST(Object, UnnamedVectorMap_Double_Addressable) {
  */
 class TestObject6 : public Object {
 public:
-  void Reset() override final { };
+  void Reset() override final{};
 
   TestObject6() {
     RegisterAsAddressable(&addressables_);
@@ -182,7 +180,7 @@ public:
     addressables_["lemon+apple"].push_back(1.0);
   }
 
-  map<string, vector<double> >  addressables_;
+  map<string, vector<double> > addressables_;
 };
 
 TEST(Object, UnnamedVectorMap_Double_Addressable_with_plus) {

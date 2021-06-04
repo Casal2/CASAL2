@@ -25,11 +25,11 @@ namespace age {
 class InitialisationPartitionMeanWeight : public niwa::Report {
 public:
   InitialisationPartitionMeanWeight();
-  virtual                     ~InitialisationPartitionMeanWeight() = default;
-  void                        DoValidate(shared_ptr<Model> model) override final { };
-  void                        DoBuild(shared_ptr<Model> model) override final { };
-  void                        DoExecute(shared_ptr<Model> model) override final;
-  void                        DoExecuteTabular(shared_ptr<Model> model) override final { };
+  virtual ~InitialisationPartitionMeanWeight() = default;
+  void DoValidate(shared_ptr<Model> model) override final{};
+  void DoBuild(shared_ptr<Model> model) override final{};
+  void DoExecute(shared_ptr<Model> model) override final;
+  void DoExecuteTabular(shared_ptr<Model> model) override final{};
 };
 
 } /* namespace age */

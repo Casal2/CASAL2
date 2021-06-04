@@ -18,8 +18,7 @@ namespace profiles {
 /**
  * Default constructor
  */
-Manager::Manager() {
-}
+Manager::Manager() {}
 
 } /* namespace profiles */
 } /* namespace niwa */

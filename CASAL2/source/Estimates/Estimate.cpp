@@ -37,7 +37,8 @@ Estimate::Estimate(shared_ptr<Model> model) : model_(model) {
   parameters_.Bind<bool>(PARAM_MCMC, &mcmc_fixed_, "Indicates if this parameter is estimated at the point estimate but fixed during MCMC estimation run", "", false);
   parameters_.Bind<string>(PARAM_TRANSFORMATION, &transformation_type_, "Type of simple transformation to apply to estimate", "", "");
   parameters_.Bind<bool>(PARAM_TRANSFORM_WITH_JACOBIAN, &transform_with_jacobian_, "Apply jacobian during transformation", "", false);
-  parameters_.Bind<bool>(PARAM_PRIOR_APPLIES_TO_TRANSFORM, &transform_for_objective_function_, "Does the prior apply to the transformed parameter? a legacy switch, see Manual for more information", "", false);
+  parameters_.Bind<bool>(PARAM_PRIOR_APPLIES_TO_TRANSFORM, &transform_for_objective_function_,
+                         "Does the prior apply to the transformed parameter? a legacy switch, see Manual for more information", "", false);
 }
 
 /**
@@ -49,7 +50,7 @@ Estimate::Estimate(shared_ptr<Model> model) : model_(model) {
 void Estimate::Validate() {
   if (transform_with_jacobian_ && transform_for_objective_function_)
     LOG_ERROR_P(PARAM_TRANSFORM_WITH_JACOBIAN) << "Do not specify both an estimate that has a Jacobian contributing to the objective function and"
-      << " define the prior for the transformed variable together. See the User Manual for more info";
+                                               << " define the prior for the transformed variable together. See the User Manual for more info";
   DoValidate();
 }
 
@@ -59,16 +60,16 @@ void Estimate::Validate() {
 void Estimate::Build() {
   if (transform_with_jacobian_ && transform_for_objective_function_)
     LOG_ERROR_P(PARAM_TRANSFORM_WITH_JACOBIAN) << "Both " << PARAM_TRANSFORM_WITH_JACOBIAN << " and " << PARAM_PRIOR_APPLIES_TO_TRANSFORM
-      << " cannot be set to 'true'. Please see the User Manual for more info";
+                                               << " cannot be set to 'true'. Please see the User Manual for more info";
 
   if (!transform_for_objective_function_) {
     // only check bounds if prior on untransformed variable.
     if (*target_ < lower_bound_)
-      LOG_ERROR() << location() <<  "the initial value (" << AS_DOUBLE((*target_)) << ") for the parameter " << parameter_
-        << " is less than the lower_bound(" << lower_bound_ << ")";
+      LOG_ERROR() << location() << "the initial value (" << AS_DOUBLE((*target_)) << ") for the parameter " << parameter_ << " is less than the lower_bound(" << lower_bound_
+                  << ")";
     if (*target_ > upper_bound_)
-      LOG_ERROR() << location() << "the initial value (" << AS_DOUBLE((*target_)) << ") for the parameter " << parameter_
-        << " is greater than the upper_bound (" << upper_bound_ << ")";
+      LOG_ERROR() << location() << "the initial value (" << AS_DOUBLE((*target_)) << ") for the parameter " << parameter_ << " is greater than the upper_bound (" << upper_bound_
+                  << ")";
   }
 
   transform_with_jacobian_is_defined_ = parameters_.Get(PARAM_PRIOR_APPLIES_TO_TRANSFORM)->has_been_defined();
@@ -83,16 +84,16 @@ void Estimate::Build() {
   if (transformation_type_ != "") {
     // Check to see if it is a simple transformation
 
-    LOG_FINEST() << "Applying transformaton to @estimate: " << label_ << ", label of estimate transformation = "
-      <<  transformation_type_ + "_" + label_ << ", transformation type = " << transformation_type_;
-    string boolean_value = "";
-    boolean_value = utilities::ToInline<bool, string>(transform_with_jacobian_);
+    LOG_FINEST() << "Applying transformaton to @estimate: " << label_ << ", label of estimate transformation = " << transformation_type_ + "_" + label_
+                 << ", transformation type = " << transformation_type_;
+    string boolean_value                   = "";
+    boolean_value                          = utilities::ToInline<bool, string>(transform_with_jacobian_);
     EstimateTransformation* transformation = estimatetransformations::Factory::Create(model_, PARAM_ESTIMATE_TRANSFORMATION, transformation_type_);
-    if(!transformation)
+    if (!transformation)
       LOG_ERROR_P(PARAM_TRANSFORMATION) << "Invalid transformation type. Check the User Manual for available types.";
     if (!transformation->is_simple())
       LOG_FATAL_P(PARAM_TRANSFORMATION) << "Transformation type is not simple, only univariate (is_simple) transformations can be applied"
-        << " with this functionality. See the User Manual for information on applying more complex transformations";
+                                        << " with this functionality. See the User Manual for information on applying more complex transformations";
 
     transformation->parameters().Add(PARAM_LABEL, transformation_type_ + "_" + label_, __FILE__, __LINE__);
     transformation->parameters().Add(PARAM_TYPE, transformation_type_, __FILE__, __LINE__);
@@ -105,18 +106,17 @@ void Estimate::Build() {
       // if prior on transformed varible check to see if the bounds make sense once the transformation has occured.
       transformation->Transform();
       if (*target_ < lower_bound_)
-        LOG_ERROR() << location() << "the initial value (" << AS_DOUBLE((*target_)) << ") for the parameter " << parameter_
-          << " is less than the lower_bound (" << lower_bound_ << ")";
+        LOG_ERROR() << location() << "the initial value (" << AS_DOUBLE((*target_)) << ") for the parameter " << parameter_ << " is less than the lower_bound (" << lower_bound_
+                    << ")";
       if (*target_ > upper_bound_)
-        LOG_ERROR() << location() << "the initial value (" << AS_DOUBLE((*target_)) << ") for the parameter " << parameter_
-          << " is greater than the upper_bound (" << upper_bound_ << ")";
+        LOG_ERROR() << location() << "the initial value (" << AS_DOUBLE((*target_)) << ") for the parameter " << parameter_ << " is greater than the upper_bound (" << upper_bound_
+                    << ")";
       transformation->Restore();
     }
   }
 
   Reset();
 }
-
 
 /**
  * Reset the estimate
@@ -152,10 +152,7 @@ void Estimate::AddSame(const string& label, Double* target) {
  */
 void Estimate::set_value(Double new_value) {
   *target_ = new_value;
-  for (Double* same : sames_)
-    *same = new_value;
+  for (Double* same : sames_) *same = new_value;
 }
 
-
 } /* namespace niwa */
-

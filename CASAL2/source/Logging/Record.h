@@ -28,42 +28,31 @@ namespace logger {
 using std::string;
 
 // enums
-enum class Severity {
-  kInvalid,
-  kTrace,
-  kFinest,
-  kFine,
-  kMedium,
-  kWarning,
-  kError,
-  kFatal,
-  kCodeError
-};
+enum class Severity { kInvalid, kTrace, kFinest, kFine, kMedium, kWarning, kError, kFatal, kCodeError };
 
 /**
  * Class definition
  */
 class Record {
 public:
-  Record(Severity s, string file, string func, unsigned line)
-    : log_severity_(s), file_name_(file), function_(func), line_number_(line) { };
-  virtual                     ~Record() = default;
-  void                        BuildMessage();
-  bool                        Flush();
+  Record(Severity s, string file, string func, unsigned line) : log_severity_(s), file_name_(file), function_(func), line_number_(line){};
+  virtual ~Record() = default;
+  void BuildMessage();
+  bool Flush();
 
   // accessors
-  std::ostringstream&         stream() { return stream_; }
-  const std::string&          message() const { return message_; }
-  Severity                    severity() const { return log_severity_; }
+  std::ostringstream& stream() { return stream_; }
+  const std::string&  message() const { return message_; }
+  Severity            severity() const { return log_severity_; }
 
 private:
-  bool                        flush_ = false;
-  string                      message_;
-  Severity                    log_severity_;
-  string                      file_name_;
-  string                      function_;
-  unsigned                    line_number_;
-  std::ostringstream          stream_;
+  bool               flush_ = false;
+  string             message_;
+  Severity           log_severity_;
+  string             file_name_;
+  string             function_;
+  unsigned           line_number_;
+  std::ostringstream stream_;
 };
 
 } /* namespace logger */

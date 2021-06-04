@@ -28,13 +28,13 @@ namespace age {
 class ProcessProportionsAtAge : public observations::age::ProportionsAtAge {
 public:
   ProcessProportionsAtAge(shared_ptr<Model> model);
-  virtual                     ~ProcessProportionsAtAge() = default;
-  void                        DoBuild() override final;
+  virtual ~ProcessProportionsAtAge() = default;
+  void DoBuild() override final;
 
 private:
   // members
-  string                      process_label_;
-  Double                      process_proportion_;
+  string process_label_;
+  Double process_proportion_;
 };
 
 } /* namespace age */

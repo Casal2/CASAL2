@@ -668,11 +668,13 @@ void Loader::FindActiveMinimiserType() {
           }
         }
       }
-
-      // add new definition to lise
-      minimisers.push_back(new_definition);
     }  // for (auto file_line : block_vector)
-  }    // for (auto block_vector : blocks_)
+
+    // add new definition to lise
+    if (new_definition.active_)
+      minimisers.push_back(new_definition);
+
+  }  // for (auto block_vector : blocks_)
 
   /**
    * @brief Iterate over the defined minimisers
@@ -681,10 +683,14 @@ void Loader::FindActiveMinimiserType() {
    *
    * Note: We only care about first one, error handling is done elsewhere
    */
-  for (auto minimiser : minimisers) {
-    if (minimiser.active_) {
-      minimiser_type_ = minimiser.type_;
-      break;
+  if (minimisers.size() == 1) {
+    minimiser_type_ = minimisers[0].type_;
+  } else {
+    for (auto minimiser : minimisers) {
+      if (minimiser.active_) {
+        minimiser_type_ = minimiser.type_;
+        break;
+      }
     }
   }
 }

@@ -26,9 +26,7 @@ namespace selectivities {
 /**
  * Default constructor
  */
-AllValuesBounded::AllValuesBounded(shared_ptr<Model> model)
-: Selectivity(model) {
-
+AllValuesBounded::AllValuesBounded(shared_ptr<Model> model) : Selectivity(model) {
   parameters_.Bind<unsigned>(PARAM_L, &low_, "The low value (L)", "");
   parameters_.Bind<unsigned>(PARAM_H, &high_, "The high value (H)", "");
   parameters_.Bind<Double>(PARAM_V, &v_, "The v parameter", "");
@@ -53,41 +51,38 @@ void AllValuesBounded::DoValidate() {
     // Param: L
     if (low_ < min_age) {
       LOG_ERROR_P(PARAM_L) << ": Parameter 'l' is less than the 'min_age'\n"
-        << "Model 'min_age' is " << min_age << " and 'l' is " << low_;
+                           << "Model 'min_age' is " << min_age << " and 'l' is " << low_;
     }
 
     // Param: H
     if (high_ > max_age) {
       LOG_ERROR_P(PARAM_H) << ": Parameter 'h' is greater than the 'max_age'\n"
-        << "Model 'max_age' is " << max_age << " and 'h' is " << high_;
+                           << "Model 'max_age' is " << max_age << " and 'h' is " << high_;
     }
 
     // Param: V
     if (v_.size() != (high_ - low_) + 1) {
       LOG_ERROR_P(PARAM_V) << ": Parameter 'v' has an incorrect number of elements n = h - l\n"
-        << "Expected: " << (high_ - low_) + 1 << ", parsed: " << v_.size();
+                           << "Expected: " << (high_ - low_) + 1 << ", parsed: " << v_.size();
     }
 
   } else if (model_->partition_type() == PartitionType::kLength) {
     vector<Double> length_bins = model_->length_bins();
-    unsigned bins = 0;
+    unsigned       bins        = 0;
     for (unsigned i = 0; i < length_bins.size(); ++i) {
       if (length_bins[i] >= low_ && length_bins[i] <= high_)
         ++bins;
     }
     if (bins != v_.size()) {
       LOG_ERROR_P(PARAM_V) << ": Parameter 'v' has an incorrect number of elements n = low <= length_bins <= high, "
-        << "Expected: " << bins << ", parsed: " << v_.size();
+                           << "Expected: " << bins << ", parsed: " << v_.size();
     }
-
-
   }
 
   if (low_ >= high_) {
     LOG_ERROR_P(PARAM_L) << ": Parameter 'l' is greater than or equal to parameter 'h'\n"
-      << "'l' = " << low_ << " and 'h' = " << high_;
+                         << "'l' = " << low_ << " and 'h' = " << high_;
   }
-
 }
 
 /**
@@ -107,20 +102,18 @@ void AllValuesBounded::RebuildCache() {
   if (model_->partition_type() == PartitionType::kAge) {
     unsigned min_age = model_->min_age();
     unsigned max_age = model_->max_age();
-    unsigned age = min_age;
-    for (; age < low_; ++age)
-      values_[age - age_index_] = 0.0;
+    unsigned age     = min_age;
+    for (; age < low_; ++age) values_[age - age_index_] = 0.0;
     for (unsigned i = 0; i < v_.size(); ++i, ++age) {
       if (v_[i] < 0.0)
         LOG_FATAL_P(PARAM_V) << "v cannot have values less than 0.0. value = " << v_[i] << " for age = " << age;
       values_[age - age_index_] = v_[i];
     }
-    for (; age <= max_age; ++age)
-      values_[age - age_index_] = *v_.rbegin();
+    for (; age <= max_age; ++age) values_[age - age_index_] = *v_.rbegin();
 
   } else if (model_->partition_type() == PartitionType::kLength) {
     vector<Double> length_bins = model_->length_bins();
-    unsigned v_index = 0;
+    unsigned       v_index     = 0;
     for (unsigned length_bin_index = 0; length_bin_index < length_bins.size(); ++length_bin_index)
       if (length_bins[length_bin_index] < low_)
         length_values_[length_bin_index] = 0.0;

@@ -5,7 +5,7 @@
  * @date 28/02/2013
  * @section LICENSE
  *
- * Copyright NIWA Science ©2013 - www.niwa.co.nz
+ * Copyright NIWA Science ï¿½2013 - www.niwa.co.nz
  *
  * @section DESCRIPTION
  *
@@ -34,20 +34,21 @@ class DESolver : public niwa::Minimiser {
 public:
   // Methods
   DESolver(shared_ptr<Model> model);
-  virtual                     ~DESolver() = default;
-  void                        DoValidate() override final;
-  void                        DoBuild() override final { };
-  void                        DoReset() override final { };
-  void                        Execute() override final;
+  virtual ~DESolver() = default;
+  void DoValidate() override final;
+  void DoBuild() override final{};
+  void DoReset() override final{};
+  void Execute() override final;
+  bool will_provide_covariance_matrix() const final { return false; }
 
 private:
   // Members
-  unsigned                    population_size_;
-  double                      crossover_probability_;
-  double                      difference_scale_;
-  unsigned                    max_generations_;
-  double                      tolerance_;
-  string                      method_;
+  unsigned population_size_;
+  double   crossover_probability_;
+  double   difference_scale_;
+  unsigned max_generations_;
+  double   tolerance_;
+  string   method_;
 };
 
 } /* namespace minimisers */

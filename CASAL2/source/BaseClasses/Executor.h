@@ -26,11 +26,11 @@ namespace base {
 class Executor : public niwa::base::Object {
 public:
   // methods
-  Executor() = default;
+  Executor()          = default;
   virtual ~Executor() = default;
 
-  virtual void                PreExecute()  = 0;
-  virtual void                Execute()     = 0;
+  virtual void PreExecute() = 0;
+  virtual void Execute()    = 0;
 };
 
 } /* namespace base */

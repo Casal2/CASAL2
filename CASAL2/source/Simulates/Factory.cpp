@@ -11,8 +11,8 @@
 // headers
 #include "Factory.h"
 
-#include "../Model/Model.h"
 #include "../Model/Managers.h"
+#include "../Model/Model.h"
 #include "../Simulates/Common/Constant.h"
 #include "../Simulates/Manager.h"
 

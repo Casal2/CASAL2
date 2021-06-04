@@ -19,8 +19,8 @@
 
 // Headers
 #include <map>
-#include <vector>
 #include <string>
+#include <vector>
 
 #include "../../Model/Model.h"
 #include "../../Utilities/Types.h"
@@ -30,11 +30,11 @@ namespace niwa {
 namespace partition {
 namespace accessors {
 
+using niwa::utilities::Double;
 using std::map;
-using std::vector;
 using std::pair;
 using std::string;
-using niwa::utilities::Double;
+using std::vector;
 
 /**
  *
@@ -47,17 +47,17 @@ public:
   // Methods
   Category() = delete;
   Category(shared_ptr<Model> model, const string& category_name);
-  virtual                     ~Category() = default;
-//  DataType::iterator          begin();
-//  DataType::iterator          end();
+  virtual ~Category() = default;
+  //  DataType::iterator          begin();
+  //  DataType::iterator          end();
 
 private:
   // Members
-  shared_ptr<Model>                    model_;
-  map<unsigned, DataType >    data_;
+  shared_ptr<Model>       model_;
+  map<unsigned, DataType> data_;
 };
 
-}/* namespace accessors */
-}/* namespace partition */
+} /* namespace accessors */
+} /* namespace partition */
 } /* namespace niwa */
 #endif /* PARTITION_ACCESSORS_CATEGORY_H_ */

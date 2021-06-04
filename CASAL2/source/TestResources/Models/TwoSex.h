@@ -23,7 +23,7 @@ namespace models {
  *
  */
 const std::string two_sex =
-R"(
+    R"(
 @model
 start_year 1994
 final_year 2008
@@ -228,9 +228,9 @@ time_step step_one
 type derived_quantity
 )";
 
-} /* */
-} /* testresources */
-} /* niwa */
+}  // namespace models
+}  // namespace testresources
+}  // namespace niwa
 
 #endif /* TESTMODE */
 #endif /* TESTCASES_MODELS_TWOSEX_H_ */

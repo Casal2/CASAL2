@@ -34,31 +34,30 @@ class MortalityEventBiomass : public niwa::Process {
 public:
   // methods
   explicit MortalityEventBiomass(shared_ptr<Model> model);
-  virtual                     ~MortalityEventBiomass() = default;
-  void                        DoValidate() override final;
-  void                        DoBuild() override final;
-  void                        DoReset() override final;
-  void                        DoExecute() override final;
-  void                        FillReportCache(ostringstream& cache) override final;
-  void                        FillTabularReportCache(ostringstream& cache, bool first_run) override final;
+  virtual ~MortalityEventBiomass() = default;
+  void DoValidate() override final;
+  void DoBuild() override final;
+  void DoReset() override final;
+  void DoExecute() override final;
+  void FillReportCache(ostringstream& cache) override final;
+  void FillTabularReportCache(ostringstream& cache, bool first_run) override final;
 
 private:
   // members
-  accessor::Categories        partition_;
-  vector<string>              category_labels_;
-  vector<string>              selectivity_labels_;
-  vector<Selectivity*>        selectivities_;
-  Double                      u_max_ = 0;
-  vector<Double>              catches_;
-  vector<Double>              exploitation_by_year_;
-  vector<Double>              actual_catches_;
-  map<unsigned, Double>       catch_years_;
-  Double                      exploitation_ = 0;
-  vector<unsigned>            years_;
-  string                      penalty_label_ = "";
-  penalties::Process*         penalty_ = nullptr;
-  string                      unit_;
-
+  accessor::Categories  partition_;
+  vector<string>        category_labels_;
+  vector<string>        selectivity_labels_;
+  vector<Selectivity*>  selectivities_;
+  Double                u_max_ = 0;
+  vector<Double>        catches_;
+  vector<Double>        exploitation_by_year_;
+  vector<Double>        actual_catches_;
+  map<unsigned, Double> catch_years_;
+  Double                exploitation_ = 0;
+  vector<unsigned>      years_;
+  string                penalty_label_ = "";
+  penalties::Process*   penalty_       = nullptr;
+  string                unit_;
 };
 
 } /* namespace age */

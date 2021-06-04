@@ -17,7 +17,6 @@
 #include "../BaseClasses/Manager.h"
 #include "../Projects/Project.h"
 
-
 // namespaces
 namespace niwa {
 class Model;
@@ -29,19 +28,19 @@ namespace projects {
 class Manager : public niwa::base::Manager<niwa::projects::Manager, niwa::Project> {
   friend class niwa::base::Manager<niwa::projects::Manager, niwa::Project>;
   friend class niwa::Managers;
+
 public:
   // methods
-  virtual                      ~Manager() noexcept(true);
-  void                          Build() override final;
-  void                          Build(shared_ptr<Model> model);
-  void                          Update(unsigned current_year);
-  void                          StoreValues(unsigned current_year);
-  Project*                      GetProject(const string& label);
+  virtual ~Manager() noexcept(true);
+  void     Build() override final;
+  void     Build(shared_ptr<Model> model);
+  void     Update(unsigned current_year);
+  void     StoreValues(unsigned current_year);
+  Project* GetProject(const string& label);
 
 protected:
   // methods
   Manager();
-
 };
 
 } /* namespace projects */

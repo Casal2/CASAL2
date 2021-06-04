@@ -14,10 +14,10 @@
 // Headers
 #include "CallBack.h"
 
-#include "../../../Estimates/Manager.h"
 #include "../../../EstimateTransformations/Manager.h"
-#include "../../../ObjectiveFunction/ObjectiveFunction.h"
+#include "../../../Estimates/Manager.h"
 #include "../../../Logging/Logging.h"
+#include "../../../ObjectiveFunction/ObjectiveFunction.h"
 
 // Namespaces
 namespace niwa {
@@ -27,16 +27,13 @@ namespace desolver {
 /**
  * Default constructor
  */
-CallBack::CallBack(shared_ptr<Model> model, unsigned vector_size, unsigned population_size, double tolerance)
-  : niwa::minimisers::desolver::Engine(vector_size, population_size, tolerance),
-  model_(model) {
-}
+CallBack::CallBack(shared_ptr<Model> model, unsigned vector_size, unsigned population_size, double tolerance) :
+    niwa::minimisers::desolver::Engine(vector_size, population_size, tolerance), model_(model) {}
 
 /**
  * Destructor
  */
-CallBack::~CallBack() {
-}
+CallBack::~CallBack() {}
 
 /**
  * The energy function used to test the solution against
@@ -52,8 +49,7 @@ double CallBack::EnergyFunction(vector<double> test_solution) {
     LOG_CODE_ERROR() << "The number of enabled estimates does not match the number of test solution values";
   }
 
-  for (unsigned i = 0; i < test_solution.size(); ++i)
-    estimates[i]->set_value(test_solution[i]);
+  for (unsigned i = 0; i < test_solution.size(); ++i) estimates[i]->set_value(test_solution[i]);
 
   model_->managers()->estimate_transformation()->RestoreEstimates();
   model_->FullIteration();

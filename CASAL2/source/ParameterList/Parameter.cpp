@@ -27,10 +27,7 @@ namespace parameterlist {
  * @param type The type of values this parameter should be accepting
  * @param descriptiong A description of this parameter
  */
-Parameter::Parameter(const string& label, const string& description)
-: label_(label), description_(description) {
-
-}
+Parameter::Parameter(const string& label, const string& description) : label_(label), description_(description) {}
 
 /**
  * Return a string that shows the location this parameter was defined
@@ -43,7 +40,6 @@ string Parameter::location() const {
   if (file_name_ == "")
     return string("<<UNKNOWN LOCATION>>");
   return string("At line " + line_number + " in " + file_name_);
-
 }
 
 /**

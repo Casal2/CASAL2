@@ -31,21 +31,20 @@ class VectorAverage : public niwa::AdditionalPrior {
 public:
   // methods
   VectorAverage(shared_ptr<Model> model);
-  virtual                     ~VectorAverage() = default;
-  Double                      GetScore() override final;
+  virtual ~VectorAverage() = default;
+  Double GetScore() override final;
 
 protected:
   // methods
-  void                        DoValidate() final {};
-  void                        DoBuild() final;
+  void DoValidate() final{};
+  void DoBuild() final;
   // members
-  string                      method_ = "";
-  map<unsigned, Double>*      addressable_map_ = nullptr;
-  vector<Double>*             addressable_vector_ = nullptr;
-  vector<Double*>*            addressable_ptr_vector_ = nullptr;
-  Double                      multiplier_ = 0.0;
-  Double                      k_;
-
+  string                 method_                 = "";
+  map<unsigned, Double>* addressable_map_        = nullptr;
+  vector<Double>*        addressable_vector_     = nullptr;
+  vector<Double*>*       addressable_ptr_vector_ = nullptr;
+  Double                 multiplier_             = 0.0;
+  Double                 k_;
 };
 
 } /* namespace additionalpriors */

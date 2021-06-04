@@ -19,8 +19,8 @@
 #define PROCESS_H_
 
 // Headers
-#include "../BaseClasses/Object.h"
 #include "../BaseClasses/Executor.h"
+#include "../BaseClasses/Object.h"
 #include "../Model/Model.h"
 
 namespace niwa {
@@ -32,7 +32,7 @@ enum class ProcessType {
   kMortality,
   kRecruitment,
   kTransition,
-  kNullProcess, // Special process type for the process child nop
+  kNullProcess,  // Special process type for the process child nop
 };
 
 /**
@@ -43,29 +43,29 @@ public:
   // methods
   Process() = delete;
   explicit Process(shared_ptr<Model> model);
-  virtual                     ~Process() = default;
-  void                        Validate();
-  void                        Build();
-  void                        Reset();
-  void                        Execute(unsigned year, const string& time_step_label);
-  void                        Subscribe(unsigned year, const string& time_step_label, Executor* executor);
+  virtual ~Process() = default;
+  void Validate();
+  void Build();
+  void Reset();
+  void Execute(unsigned year, const string& time_step_label);
+  void Subscribe(unsigned year, const string& time_step_label, Executor* executor);
 
-  virtual void                DoValidate() = 0;
-  virtual void                DoBuild() = 0;
-  virtual void                DoReset() = 0;
-  virtual void                DoExecute() = 0;
-  virtual void                FillReportCache(ostringstream& cache) { };
-  virtual void                FillTabularReportCache(ostringstream& cache, bool first_run) { };
+  virtual void DoValidate() = 0;
+  virtual void DoBuild()    = 0;
+  virtual void DoReset()    = 0;
+  virtual void DoExecute()  = 0;
+  virtual void FillReportCache(ostringstream& cache){};
+  virtual void FillTabularReportCache(ostringstream& cache, bool first_run){};
 
   // accessors
-  PartitionType               partition_structure() const { return partition_structure_; }
-  ProcessType                 process_type() const { return process_type_; }
+  PartitionType partition_structure() const { return partition_structure_; }
+  ProcessType   process_type() const { return process_type_; }
 
 protected:
   // members
-  shared_ptr<Model>                      model_ = nullptr;
-  ProcessType                 process_type_ = ProcessType::kUnknown;
-  PartitionType               partition_structure_ = PartitionType::kInvalid;
+  shared_ptr<Model>                             model_               = nullptr;
+  ProcessType                                   process_type_        = ProcessType::kUnknown;
+  PartitionType                                 partition_structure_ = PartitionType::kInvalid;
   map<unsigned, map<string, vector<Executor*>>> executors_;
 };
 } /* namespace niwa */

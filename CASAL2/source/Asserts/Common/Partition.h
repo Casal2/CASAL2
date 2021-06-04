@@ -21,19 +21,19 @@ class Partition : public niwa::Assert {
 public:
   // methods
   Partition(shared_ptr<Model> model);
-  virtual                     ~Partition() = default;
-  void                        Execute() override final;
+  virtual ~Partition() = default;
+  void Execute() override final;
 
 protected:
   // methods
-  void                        DoValidate() override final;
-  void                        DoBuild() override final;
+  void DoValidate() override final;
+  void DoBuild() override final;
 
 private:
   // members
-  string                      category_label_ = "";
-  vector<Double>              values_;
-}; // class
+  string         category_label_ = "";
+  vector<Double> values_;
+};  // class
 
 } /* namespace asserts */
 } /* namespace niwa */

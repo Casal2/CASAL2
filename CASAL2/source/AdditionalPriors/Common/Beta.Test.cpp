@@ -10,20 +10,20 @@
 #ifdef TESTMODE
 
 // Headers
-#include "Beta.h"
-
 #include <gmock/gmock.h>
 #include <gtest/gtest.h>
+
 #include <boost/lexical_cast.hpp>
 
 #include "../../Model/Model.h"
 #include "../../TestResources/MockClasses/Model.h"
+#include "Beta.h"
 
 // Namespaces
 namespace niwa {
 namespace additionalpriors {
 
-using::testing::Return;
+using ::testing::Return;
 
 /*
  * Mock class to make testing easier
@@ -31,10 +31,10 @@ using::testing::Return;
 class MockBeta : public Beta {
 public:
   MockBeta(shared_ptr<Model> model, double mu, double sigma, double a, double b, double* parameter) : Beta(model) {
-    mu_ = mu;
-    sigma_ = sigma;
-    a_ = a;
-    b_ = b;
+    mu_          = mu;
+    sigma_       = sigma;
+    a_           = a;
+    b_           = b;
     addressable_ = parameter;
   }
 };
@@ -44,10 +44,7 @@ public:
  */
 TEST(AdditionalPriors, Beta) {
   // layout is mu, sigma, a, b, expected_score
-  vector<vector<double>> values = {
-    { 4, 2, 2, 7, 5, 1.3640928573264497},
-    { 4, 2, 2, 7, 6, 1.1090354888959124}
-  };
+  vector<vector<double>> values = {{4, 2, 2, 7, 5, 1.3640928573264497}, {4, 2, 2, 7, 6, 1.1090354888959124}};
 
   shared_ptr<Model> model = shared_ptr<Model>(new Model());
   for (auto line : values) {

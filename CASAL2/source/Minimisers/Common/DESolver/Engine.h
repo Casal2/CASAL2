@@ -39,16 +39,16 @@ using std::map;
 using std::vector;
 
 // Defines
-#define kBest1Exp         0
-#define kRand1Exp         1
-#define kRandToBest1Exp   2
-#define kBest2Exp         3
-#define kRand2Exp         4
-#define kBest1Bin         5
-#define kRand1Bin         6
-#define kRandToBest1Bin   7
-#define kBest2Bin         8
-#define kRand2Bin         9
+#define kBest1Exp 0
+#define kRand1Exp 1
+#define kRandToBest1Exp 2
+#define kBest2Exp 3
+#define kRand2Exp 4
+#define kBest1Bin 5
+#define kRand1Bin 6
+#define kRandToBest1Bin 7
+#define kBest2Bin 8
+#define kRand2Bin 9
 
 class Engine;
 typedef void (minimisers::desolver::Engine::*StrategyFunction)(unsigned);
@@ -59,60 +59,58 @@ typedef void (minimisers::desolver::Engine::*StrategyFunction)(unsigned);
 class Engine {
 public:
   Engine(unsigned vector_size, unsigned population_size, double tolerance);
-  virtual                     ~Engine();
-  void                        Setup(vector<double> start_values, vector<double> lower_bounds,
-                                  vector<double> upper_bounds, int de_strategy, double diff_scale,
-                                  double crossover_prob);
-  virtual bool                Solve(unsigned max_generations);
-  virtual double              EnergyFunction(vector<double> test_solution) = 0;
+  virtual ~Engine();
+  void           Setup(vector<double> start_values, vector<double> lower_bounds, vector<double> upper_bounds, int de_strategy, double diff_scale, double crossover_prob);
+  virtual bool   Solve(unsigned max_generations);
+  virtual double EnergyFunction(vector<double> test_solution) = 0;
 
 private:
   // Methods
-  void                        SelectSamples(unsigned candidate);
-  bool                        GenerateGradient();
-  void                        ScaleValues();
-  void                        UnScaleValues();
-  double                      ScaleValue(double value, double min, double max);
-  double                      UnScaleValue(const double& value, double min, double max);
-  void                        CondAssign(double &res, const double &cond, const double &arg1, const double &arg2);
-  void                        CondAssign(double &res, const double &cond, const double &arg);
-  void                        Best1Exp(unsigned candidate);
-  void                        Rand1Exp(unsigned candidate);
-  void                        RandToBest1Exp(unsigned candidate);
-  void                        Best2Exp(unsigned candidate);
-  void                        Rand2Exp(unsigned candidate);
-  void                        Best1Bin(unsigned candidate);
-  void                        Rand1Bin(unsigned candidate);
-  void                        RandToBest1Bin(unsigned candidate);
-  void                        Best2Bin(unsigned candidate);
-  void                        Rand2Bin(unsigned candidate);
+  void   SelectSamples(unsigned candidate);
+  bool   GenerateGradient();
+  void   ScaleValues();
+  void   UnScaleValues();
+  double ScaleValue(double value, double min, double max);
+  double UnScaleValue(const double& value, double min, double max);
+  void   CondAssign(double& res, const double& cond, const double& arg1, const double& arg2);
+  void   CondAssign(double& res, const double& cond, const double& arg);
+  void   Best1Exp(unsigned candidate);
+  void   Rand1Exp(unsigned candidate);
+  void   RandToBest1Exp(unsigned candidate);
+  void   Best2Exp(unsigned candidate);
+  void   Rand2Exp(unsigned candidate);
+  void   Best1Bin(unsigned candidate);
+  void   Rand1Bin(unsigned candidate);
+  void   RandToBest1Bin(unsigned candidate);
+  void   Best2Bin(unsigned candidate);
+  void   Rand2Bin(unsigned candidate);
 
   // Members
-  unsigned                    vector_size_;
-  vector<double>              current_values_;
-  vector<double>              scaled_values_;
-  vector<double>              lower_bounds_;
-  vector<double>              upper_bounds_;
+  unsigned                       vector_size_;
+  vector<double>                 current_values_;
+  vector<double>                 scaled_values_;
+  vector<double>                 lower_bounds_;
+  vector<double>                 upper_bounds_;
   map<unsigned, vector<double> > population_;
-  vector<double>              population_energy_;
-  vector<double>              best_solution_;
-  vector<double>              gradient_values_;
-  unsigned                    population_size_;
-  unsigned                    number_of_parents_;
-  unsigned                    generations_;
-  double                      scale_;
-  double                      probability_;
-  double                      best_energy_;
-  double                      trial_energy_;
-  StrategyFunction            calculate_solution_;
-  unsigned                    r1_;
-  unsigned                    r2_;
-  unsigned                    r3_;
-  unsigned                    r4_;
-  unsigned                    r5_;
-  double                      step_size_;
-  double                      penalty_;
-  double                      tolerance_;
+  vector<double>                 population_energy_;
+  vector<double>                 best_solution_;
+  vector<double>                 gradient_values_;
+  unsigned                       population_size_;
+  unsigned                       number_of_parents_;
+  unsigned                       generations_;
+  double                         scale_;
+  double                         probability_;
+  double                         best_energy_;
+  double                         trial_energy_;
+  StrategyFunction               calculate_solution_;
+  unsigned                       r1_;
+  unsigned                       r2_;
+  unsigned                       r3_;
+  unsigned                       r4_;
+  unsigned                       r5_;
+  double                         step_size_;
+  double                         penalty_;
+  double                         tolerance_;
 };
 
 } /* namespace desolver */

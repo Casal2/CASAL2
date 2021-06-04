@@ -36,44 +36,41 @@ class MortalityHollingRate : public Process {
 public:
   // methods
   explicit MortalityHollingRate(shared_ptr<Model> model);
-  virtual                     ~MortalityHollingRate() = default;
-  void                        DoValidate() override final;
-  void                        DoBuild() override final;
-  void                        DoReset() override final { };
-  void                        DoExecute() override final;
-  void                        FillReportCache(ostringstream& cache) override final;
-  void                        FillTabularReportCache(ostringstream& cache, bool first_run) override final;
-
+  virtual ~MortalityHollingRate() = default;
+  void DoValidate() override final;
+  void DoBuild() override final;
+  void DoReset() override final{};
+  void DoExecute() override final;
+  void FillReportCache(ostringstream& cache) override final;
+  void FillTabularReportCache(ostringstream& cache, bool first_run) override final;
 
 private:
-  vector<unsigned>            years_;
-  string                      penalty_label_ = "";
-  penalties::Process*         penalty_ = nullptr;
-  Double                      u_max_;
-  bool                        is_abundance_ = true;
-  vector<string>              prey_category_labels_;
-  vector<string>              predator_category_labels_;
-  Double                      a_;
-  Double                      b_;
-  Double                      x_;
-  vector<string>              prey_selectivity_labels_;
-  vector<string>              predator_selectivity_labels_;
-  vector<Selectivity*>        prey_selectivities_;
-  vector<Selectivity*>        predator_selectivities_;
-  accessor::Categories        prey_partition_;
-  accessor::Categories        predator_partition_;
-  vector<Double>              prey_vulnerability_by_year_;
-  vector<Double>              prey_mortality_by_year_;
-  vector<Double>              predator_vulnerability_by_year_;
+  vector<unsigned>     years_;
+  string               penalty_label_ = "";
+  penalties::Process*  penalty_       = nullptr;
+  Double               u_max_;
+  bool                 is_abundance_ = true;
+  vector<string>       prey_category_labels_;
+  vector<string>       predator_category_labels_;
+  Double               a_;
+  Double               b_;
+  Double               x_;
+  vector<string>       prey_selectivity_labels_;
+  vector<string>       predator_selectivity_labels_;
+  vector<Selectivity*> prey_selectivities_;
+  vector<Selectivity*> predator_selectivities_;
+  accessor::Categories prey_partition_;
+  accessor::Categories predator_partition_;
+  vector<Double>       prey_vulnerability_by_year_;
+  vector<Double>       prey_mortality_by_year_;
+  vector<Double>       predator_vulnerability_by_year_;
 
-  parameters::Table*          predator_selectivities_table_ = nullptr;
-  parameters::Table*          prey_selectivities_table_ = nullptr;
-  map<unsigned,vector<Double>> prey_selectivity_by_year_;
-  map<unsigned,vector<Double>> predator_selectivity_by_year_;
-  bool                        prey_selectivity_by_year_supplied_ = false;
-  bool                        predator_selectivity_by_year_supplied_ = false;
-
-
+  parameters::Table*            predator_selectivities_table_ = nullptr;
+  parameters::Table*            prey_selectivities_table_     = nullptr;
+  map<unsigned, vector<Double>> prey_selectivity_by_year_;
+  map<unsigned, vector<Double>> predator_selectivity_by_year_;
+  bool                          prey_selectivity_by_year_supplied_     = false;
+  bool                          predator_selectivity_by_year_supplied_ = false;
 };
 
 } /* namespace age */

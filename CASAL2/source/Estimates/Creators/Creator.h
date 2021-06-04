@@ -33,35 +33,34 @@ public:
   // methods
   Creator() = delete;
   explicit Creator(shared_ptr<Model> model);
-  virtual                     ~Creator() = default;
-  void                        CreateEstimates();
-  void                        Reset() override final { };
+  virtual ~Creator() = default;
+  void CreateEstimates();
+  void Reset() override final{};
 
   // accessors
-  string                      parameter() const { return parameter_; }
+  string parameter() const { return parameter_; }
 
 protected:
   // methods
-  niwa::Estimate*             CreateEstimate(string parameter, unsigned index, Double* target);
-  void                        HandleSameParameter();
-  void                        CopyParameters(niwa::Estimate* estimate, unsigned index);
-  virtual void                DoCopyParameters(niwa::Estimate* estimate, unsigned index) = 0;
+  niwa::Estimate* CreateEstimate(string parameter, unsigned index, Double* target);
+  void            HandleSameParameter();
+  void            CopyParameters(niwa::Estimate* estimate, unsigned index);
+  virtual void    DoCopyParameters(niwa::Estimate* estimate, unsigned index) = 0;
 
   // members
-  shared_ptr<Model>                      model_ = nullptr;
-  string                      parameter_;
-  vector<double>              lower_bounds_;
-  vector<double>              upper_bounds_;
-  string                      prior_label_;
-  vector<string>              same_labels_;
-  string                      estimation_phase_;
-  string                      mcmc_;
-  bool                        transform_for_objective_function_;
-  vector<string>              transformation_details_;
-  vector<bool>                transform_with_jacobian_;
-  vector<niwa::Estimate*>     estimates_;
+  shared_ptr<Model>       model_ = nullptr;
+  string                  parameter_;
+  vector<double>          lower_bounds_;
+  vector<double>          upper_bounds_;
+  string                  prior_label_;
+  vector<string>          same_labels_;
+  string                  estimation_phase_;
+  string                  mcmc_;
+  bool                    transform_for_objective_function_;
+  vector<string>          transformation_details_;
+  vector<bool>            transform_with_jacobian_;
+  vector<niwa::Estimate*> estimates_;
 };
-
 
 } /* namespace estimates */
 } /* namespace niwa */

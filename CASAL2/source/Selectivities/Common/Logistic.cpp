@@ -27,9 +27,7 @@ namespace selectivities {
 /**
  * Default Constructor
  */
-Logistic::Logistic(shared_ptr<Model> model)
-: Selectivity(model) {
-
+Logistic::Logistic(shared_ptr<Model> model) : Selectivity(model) {
   parameters_.Bind<Double>(PARAM_A50, &a50_, "a50", "");
   parameters_.Bind<Double>(PARAM_ATO95, &ato95_, "ato95", "")->set_lower_bound(0.0, false);
   parameters_.Bind<Double>(PARAM_ALPHA, &alpha_, "alpha", "", 1.0)->set_lower_bound(0.0, false);
@@ -78,7 +76,7 @@ void Logistic::RebuildCache() {
     }
   } else if (model_->partition_type() == PartitionType::kLength) {
     vector<Double> length_bins = model_->length_bins();
-    Double threshold = 0.0;
+    Double         threshold   = 0.0;
 
     for (unsigned length_bin_index = 0; length_bin_index < length_bins.size(); ++length_bin_index) {
       threshold = (a50_ - length_bins[length_bin_index]) / ato95_;
@@ -104,11 +102,11 @@ void Logistic::RebuildCache() {
  */
 
 Double Logistic::GetLengthBasedResult(unsigned age, AgeLength* age_length, unsigned year, int time_step_index) {
-  unsigned yearx = year == 0 ? model_->current_year() : year;
+  unsigned yearx     = year == 0 ? model_->current_year() : year;
   unsigned time_step = time_step_index == -1 ? model_->managers()->time_step()->current_time_step() : (unsigned)time_step_index;
-  Double cv   = age_length->cv(yearx, time_step, age);
-  Double mean = age_length->mean_length(time_step, age);
-  string dist = age_length->distribution_label();
+  Double   cv        = age_length->cv(yearx, time_step, age);
+  Double   mean      = age_length->mean_length(time_step, age);
+  string   dist      = age_length->distribution_label();
 
   Double threshold = 0.0;
 
@@ -124,9 +122,8 @@ Double Logistic::GetLengthBasedResult(unsigned age, AgeLength* age_length, unsig
       return alpha_ / (1.0 + pow(19.0, threshold));
 
   } else if (dist == PARAM_NORMAL) {
-
     Double sigma = cv * mean;
-    Double size = 0.0;
+    Double size  = 0.0;
     Double total = 0.0;
 
     for (unsigned j = 0; j < n_quant_; ++j) {
@@ -145,10 +142,10 @@ Double Logistic::GetLengthBasedResult(unsigned age, AgeLength* age_length, unsig
 
   } else if (dist == PARAM_LOGNORMAL) {
     // convert paramters to log space
-    Double sigma = sqrt(log(1 + cv * cv));
-    Double mu = log(mean) - sigma * sigma * 0.5;
-    Double size = 0.0;
-    Double total = 0.0;
+    Double                 sigma = sqrt(log(1 + cv * cv));
+    Double                 mu    = log(mean) - sigma * sigma * 0.5;
+    Double                 size  = 0.0;
+    Double                 total = 0.0;
     boost::math::lognormal dist{AS_DOUBLE(mu), AS_DOUBLE(sigma)};
 
     for (unsigned j = 0; j < n_quant_; ++j) {

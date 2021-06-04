@@ -11,11 +11,10 @@
 // Local Headers
 #include "GammaDiff.h"
 
+#include "../../EstimateTransformations/Manager.h"
+#include "../../Estimates/Manager.h"
 #include "../../Minimisers/Common/GammaDiff/Callback.h"
 #include "../../Minimisers/Common/GammaDiff/Engine.h"
-
-#include "../../Estimates/Manager.h"
-#include "../../EstimateTransformations/Manager.h"
 
 // namespaces
 namespace niwa {
@@ -39,13 +38,13 @@ void GammaDiff::Execute() {
   // Variables
   LOG_FINE() << "model_: " << model_;
 
-  gammadiff::CallBack  call_back(model_);
+  gammadiff::CallBack call_back(model_);
   estimates::Manager* estimate_manager = model_->managers()->estimate();
   LOG_FINE() << "estimate_manager: " << estimate_manager;
 
-  vector<double>  lower_bounds;
-  vector<double>  upper_bounds;
-  vector<double>  start_values;
+  vector<double> lower_bounds;
+  vector<double> upper_bounds;
+  vector<double> start_values;
 
   model_->managers()->estimate_transformation()->TransformEstimates();
   vector<Estimate*> estimates = estimate_manager->GetIsEstimated();
@@ -63,25 +62,23 @@ void GammaDiff::Execute() {
     start_values.push_back((double)estimate->value());
 
     if (estimate->value() < estimate->lower_bound()) {
-      LOG_FATAL() << "When starting the GammDiff numerical_differences minimiser the starting value (" << estimate->value() << ") for estimate "
-          << estimate->parameter() << " was less than the lower bound (" << estimate->lower_bound() << ")";
+      LOG_FATAL() << "When starting the GammDiff numerical_differences minimiser the starting value (" << estimate->value() << ") for estimate " << estimate->parameter()
+                  << " was less than the lower bound (" << estimate->lower_bound() << ")";
     } else if (estimate->value() > estimate->upper_bound()) {
-      LOG_FATAL() << "When starting the GammDiff numerical_differences minimiser the starting value (" << estimate->value() << ") for estimate "
-          << estimate->parameter() << " was greater than the upper bound (" << estimate->upper_bound() << ")";
+      LOG_FATAL() << "When starting the GammDiff numerical_differences minimiser the starting value (" << estimate->value() << ") for estimate " << estimate->parameter()
+                  << " was greater than the upper bound (" << estimate->upper_bound() << ")";
     }
   }
 
   LOG_FINE() << "Launching minimiser";
-  int status = 0;
+  int               status = 0;
   gammadiff::Engine clGammaDiff;
-  clGammaDiff.optimise_finite_differences(call_back,
-      start_values, lower_bounds, upper_bounds,
-      status, max_iterations_, max_evaluations_, gradient_tolerance_,
-      hessian_,1,step_size_);
+  clGammaDiff.optimise_finite_differences(call_back, start_values, lower_bounds, upper_bounds, status, max_iterations_, max_evaluations_, gradient_tolerance_, hessian_, 1,
+                                          step_size_);
 
   model_->managers()->estimate_transformation()->RestoreEstimates();
 
-  switch(status) {
+  switch (status) {
     case -1:
       result_ = MinimiserResult::kError;
       break;

@@ -38,16 +38,16 @@ public:
   // methods
   CallBack() = delete;
   explicit CallBack(shared_ptr<Model> model);
-  virtual                     ~CallBack() = default;
-  adouble                     operator()(const vector<adouble>& Parameters);
+  virtual ~CallBack() = default;
+  adouble operator()(const vector<adouble>& Parameters);
 
 private:
   // members
-  shared_ptr<Model>                      model_;
+  shared_ptr<Model> model_;
 };
 
-} /* namespace gammadiff */
-} /* namespace minimiser */
+}  // namespace adolc
+}  // namespace minimisers
 } /* namespace niwa */
 
 #endif /* MINIMISERS_ADOLC_CALLBACK_H_ */

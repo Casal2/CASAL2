@@ -40,9 +40,15 @@ using std::endl;
 #ifdef TESTMODE
 #include <gtest/gtest.h>
 
-int LoadOptions(int argc, char* argv[], niwa::utilities::RunParameters& options) { return -1; };
-int PreParseConfigFiles(niwa::utilities::RunParameters& options) { return -1; };
-int Run(int argc, char* argv[], niwa::utilities::RunParameters& options) { return -1; }
+int LoadOptions(int argc, char* argv[], niwa::utilities::RunParameters& options) {
+  return -1;
+};
+int PreParseConfigFiles(niwa::utilities::RunParameters& options) {
+  return -1;
+};
+int Run(int argc, char* argv[], niwa::utilities::RunParameters& options) {
+  return -1;
+}
 int RunUnitTests(int argc, char* argv[]) {
   ::testing::InitGoogleTest(&argc, argv);
   int result = RUN_ALL_TESTS();
@@ -65,8 +71,14 @@ int RunUnitTests(int argc, char* argv[]) {
  */
 int LoadOptions(int argc, char* argv[], niwa::utilities::RunParameters& options) {
   try {
+    Logging&                           logging = Logging::Instance();
     niwa::utilities::CommandLineParser parser;
     parser.Parse(argc, argv, options);
+    if (logging.errors().size() > 0) {
+      logging.FlushErrors();
+      return -1;
+    }
+
   } catch (const string& exception) {
     cout << "## ERROR - Casal2 experienced a problem and has stopped execution." << endl;
     cout << "Error: " << exception << endl;
@@ -128,23 +140,36 @@ int PreParseConfigFiles(niwa::utilities::RunParameters& options) {
  */
 int Run(int argc, char* argv[], niwa::utilities::RunParameters& options) {
   int return_code = 0;
-  // feenableexcept(FE_INVALID | FE_OVERFLOW);
 
   try {
     Runner runner;
-
-    utilities::RunParameters     parameters;
-    utilities::CommandLineParser parser;
-    parser.Parse(argc, argv, parameters);
-    runner.global_configuration().set_run_parameters(parameters);
-    runner.set_run_parameters(parameters);
+    runner.global_configuration().set_run_parameters(options);
+    runner.set_run_parameters(options);
 
     // Store the command line parameters so they can be reported on.
     vector<string> cmd_parameters;
     for (int i = 0; i < argc; ++i) cmd_parameters.push_back(argv[i]);
     runner.global_configuration().set_command_line_parameters(cmd_parameters);
 
-    return_code = runner.Go();
+    // Print our standard report header
+    if (!options.no_std_report_ && options.print_std_report_header_) {
+      utilities::StandardHeader std_report;
+      std_report.PrintTop(runner.global_configuration());
+      options.std_report_time_ = std_report.start_time();
+    }
+
+    return_code = runner.GoWithRunMode(options.run_mode_);
+
+    // pull back the options from the runner incase we've changed any
+    // or loaded the MPD data
+    options = runner.run_parameters();
+
+    // See if we need to print the end of the standard header footer report
+    if (!options.no_std_report_ && options.print_std_report_footer_) {
+      utilities::StandardHeader std_report;
+      std_report.set_start_time(options.std_report_time_);
+      std_report.PrintBottom(runner.global_configuration());
+    }
 
   } catch (const string& exception) {
     cout << "## ERROR - CASAL2 experienced a problem and has stopped execution" << endl;

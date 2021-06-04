@@ -13,19 +13,19 @@
 #define PARAMETERLIST_INL_H_
 
 // Headers
-#include <memory>
-#include <iostream>
 #include <exception>
+#include <iostream>
+#include <memory>
 
 #include "../ParameterList/Parameters/Bindable.h"
 #include "../ParameterList/Parameters/BindableVector.h"
 #include "../Utilities/Exception.h"
 
 // Using
-using std::cout;
-using std::endl;
 using niwa::parameters::Bindable;
 using niwa::parameters::BindableVector;
+using std::cout;
+using std::endl;
 
 namespace niwa {
 
@@ -38,13 +38,13 @@ namespace niwa {
  * @param values The string of parameter value(s)
  * @return the parameter
  */
-template<typename T>
+template <typename T>
 Bindable<T>* ParameterList::Bind(const string& label, T* target, const string& description, const string& values) {
   if (parameters_.find(label) != parameters_.end()) {
     LOG_CODE_ERROR() << "The parameter " << label << " has already been bound with the description " << description;
   }
   Bindable<T>* parameter = new Bindable<T>(label, target, description);
-  parameters_[label] = parameter;
+  parameters_[label]     = parameter;
   return parameter;
 }
 
@@ -58,7 +58,7 @@ Bindable<T>* ParameterList::Bind(const string& label, T* target, const string& d
  * @param default_value The default value of the parameter
  * @return the parameter
  */
-template<typename T>
+template <typename T>
 Bindable<T>* ParameterList::Bind(const string& label, T* target, const string& description, const string& values, T default_value) {
   if (parameters_.find(label) != parameters_.end()) {
     LOG_CODE_ERROR() << "The parameter " << label << " has already been bound with the description " << description;
@@ -80,7 +80,7 @@ Bindable<T>* ParameterList::Bind(const string& label, T* target, const string& d
  * @param optional Flag to indicate that the parameter is optional
  * @return the parameter
  */
-template<typename T>
+template <typename T>
 BindableVector<T>* ParameterList::Bind(const string& label, vector<T>* target, const string& description, const string& values, bool optional) {
   if (parameters_.find(label) != parameters_.end()) {
     LOG_CODE_ERROR() << "The parameter " << label << " has already been bound with the description " << description;

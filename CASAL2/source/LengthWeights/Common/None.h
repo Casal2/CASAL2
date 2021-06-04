@@ -26,14 +26,14 @@ namespace lengthweights {
 class None : public niwa::LengthWeight {
 public:
   // methods
-  explicit None(shared_ptr<Model> model) : LengthWeight(model) { };
-  virtual                     ~None() = default;
-  void                        DoValidate() override final { };
-  void                        DoBuild() override final { };
-  void                        DoReset() override final { };
+  explicit None(shared_ptr<Model> model) : LengthWeight(model){};
+  virtual ~None() = default;
+  void DoValidate() override final{};
+  void DoBuild() override final{};
+  void DoReset() override final{};
 
   // accessors
-  Double                      mean_weight(Double size, Distribution distribution, Double cv) const override final { return 1.0; }
+  Double mean_weight(Double size, Distribution distribution, Double cv) const override final { return 1.0; }
 };
 
 } /* namespace lengthweights */

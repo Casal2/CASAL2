@@ -11,13 +11,13 @@
 // headers
 #include "EstimableValuesLoader.h"
 
+#include <boost/algorithm/string/join.hpp>
+#include <boost/algorithm/string/replace.hpp>
+#include <boost/algorithm/string/split.hpp>
+#include <boost/algorithm/string/trim_all.hpp>
 #include <fstream>
 #include <iostream>
 #include <vector>
-#include <boost/algorithm/string/replace.hpp>
-#include <boost/algorithm/string/trim_all.hpp>
-#include <boost/algorithm/string/split.hpp>
-#include <boost/algorithm/string/join.hpp>
 
 #include "../Estimables/Estimables.h"
 #include "../Logging/Logging.h"
@@ -29,11 +29,11 @@
 namespace niwa {
 namespace configuration {
 
-using std::ifstream;
+using niwa::utilities::Double;
 using std::cout;
 using std::endl;
+using std::ifstream;
 using std::vector;
-using niwa::utilities::Double;
 
 /**
  * Load the values of the estimate parameters from the file provided
@@ -50,14 +50,14 @@ void EstimableValuesLoader::LoadValues(const string& file_name) {
   /**
    * Get the first line which should contain a list of parameters
    */
-  string    current_line        = "";
+  string         current_line = "";
   vector<string> parameters;
-  unsigned line_number = 0;
+  unsigned       line_number = 0;
   if (!getline(file_, current_line) || current_line == "")
     LOG_FATAL() << "estimable value file appears to be empty, or the first line is blank. File: " << file_name;
 
   // Make an exception for MCMC_samples outputs that users will want to feed back into Casal2 using the -i functionality
-  if(current_line == "*mcmc_sample[mcmc]") {
+  if (current_line == "*mcmc_sample[mcmc]") {
     LOG_FINEST() << "skipping line as it is an input from an MCMC report " << current_line;
     getline(file_, current_line);
     ++line_number;
@@ -74,7 +74,7 @@ void EstimableValuesLoader::LoadValues(const string& file_name) {
    */
 
   vector<string> values;
-  Estimables& estimables = *model_->managers()->estimables();
+  Estimables&    estimables = *model_->managers()->estimables();
   ++line_number;
   while (getline(file_, current_line)) {
     ++line_number;
@@ -85,8 +85,7 @@ void EstimableValuesLoader::LoadValues(const string& file_name) {
 
     boost::split(values, current_line, boost::is_any_of(" "));
     if (values.size() != parameters.size())
-      LOG_FATAL() << "In estimate_value file, line " << line_number << " has " << values.size()
-        << " values when the number of parameters is " << parameters.size();
+      LOG_FATAL() << "In estimate_value file, line " << line_number << " has " << values.size() << " values when the number of parameters is " << parameters.size();
 
     double numeric = 0.0;
     for (unsigned i = 0; i < values.size(); ++i) {

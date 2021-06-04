@@ -18,9 +18,8 @@
 
 // Headers
 #include "Observations/Observation.h"
-
-#include "Partition/Accessors/CombinedCategories.h"
 #include "Partition/Accessors/Cached/CombinedCategories.h"
+#include "Partition/Accessors/CombinedCategories.h"
 
 // Namespace
 namespace niwa {
@@ -38,34 +37,34 @@ class ProportionsAtLength : public niwa::Observation {
 public:
   // Methods
   explicit ProportionsAtLength(shared_ptr<Model> model);
-  virtual                     ~ProportionsAtLength();
-  void                        DoValidate() override final;
-  virtual void                DoBuild() override;
-  void                        DoReset() override final { };
-  void                        PreExecute() override final;
-  void                        Execute() override final;
-  void                        CalculateScore() override final;
-  bool                        HasYear(unsigned year) const override final { return std::find(years_.begin(), years_.end(), year) != years_.end(); }
+  virtual ~ProportionsAtLength();
+  void         DoValidate() override final;
+  virtual void DoBuild() override;
+  void         DoReset() override final{};
+  void         PreExecute() override final;
+  void         Execute() override final;
+  void         CalculateScore() override final;
+  bool         HasYear(unsigned year) const override final { return std::find(years_.begin(), years_.end(), year) != years_.end(); }
 
 protected:
   // Members
-  vector<unsigned>              years_;
-  parameters::Table*            obs_table_ = nullptr;
-  Double                        tolerance_ = 0.0;
-  vector<Double>                process_error_values_;
-  map<unsigned, Double>         process_errors_by_year_;
-  parameters::Table*            error_values_table_ = nullptr;
-  CachedCombinedCategoriesPtr   cached_partition_;
-  CombinedCategoriesPtr         partition_;
-  vector<Double>                length_results_;
-  vector<string>                selectivity_labels_;
-  vector<Selectivity*>          selectivities_;
-  string                        time_step_label_ = "";
+  vector<unsigned>            years_;
+  parameters::Table*          obs_table_ = nullptr;
+  Double                      tolerance_ = 0.0;
+  vector<Double>              process_error_values_;
+  map<unsigned, Double>       process_errors_by_year_;
+  parameters::Table*          error_values_table_ = nullptr;
+  CachedCombinedCategoriesPtr cached_partition_;
+  CombinedCategoriesPtr       partition_;
+  vector<Double>              length_results_;
+  vector<string>              selectivity_labels_;
+  vector<Selectivity*>        selectivities_;
+  string                      time_step_label_ = "";
 
-  vector<Double>                length_bins_;
-  bool                          length_plus_ = false;
-  unsigned                      number_bins_ = 0;
-  unsigned                      mlb_index_first_ = 0; // index of model length bin for length_bins_[0]
+  vector<Double> length_bins_;
+  bool           length_plus_     = false;
+  unsigned       number_bins_     = 0;
+  unsigned       mlb_index_first_ = 0;  // index of model length bin for length_bins_[0]
 
   map<unsigned, map<string, vector<Double>>> proportions_;
   map<unsigned, map<string, vector<Double>>> error_values_;

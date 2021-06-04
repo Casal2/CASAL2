@@ -22,19 +22,19 @@ namespace niwa {
 namespace reports {
 namespace age {
 
-class AgeLength: public niwa::Report {
+class AgeLength : public niwa::Report {
 public:
   // methods
   AgeLength();
-  virtual                     ~AgeLength() = default;
-  void                        DoValidate(shared_ptr<Model> model) override final;
-  void                        DoBuild(shared_ptr<Model> model) override final { };
-  void                        DoExecute(shared_ptr<Model> model) override final;
-  void                        DoExecuteTabular(shared_ptr<Model> model) override final { };
+  virtual ~AgeLength() = default;
+  void DoValidate(shared_ptr<Model> model) override final;
+  void DoBuild(shared_ptr<Model> model) override final{};
+  void DoExecute(shared_ptr<Model> model) override final;
+  void DoExecuteTabular(shared_ptr<Model> model) override final{};
 
 private:
-  string                      age_length_label_;
-  string                      category_;
+  string age_length_label_;
+  string category_;
 };
 
 } /* namespace age */

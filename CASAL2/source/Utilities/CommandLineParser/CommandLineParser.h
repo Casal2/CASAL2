@@ -24,7 +24,6 @@
 #include "../../Model/Model.h"
 #include "../../Utilities/RunParameters.h"
 
-
 // Namespaces
 namespace niwa {
 namespace utilities {

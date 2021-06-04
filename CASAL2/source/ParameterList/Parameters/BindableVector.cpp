@@ -8,7 +8,5 @@
 #include "BindableVector.h"
 
 namespace niwa {
-namespace parameters {
-
-} /* namespace parameters */
+namespace parameters {} /* namespace parameters */
 } /* namespace niwa */

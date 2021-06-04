@@ -18,8 +18,8 @@
 
 // Headers
 #include "Observations/Observation.h"
-#include "Partition/Accessors/CombinedCategories.h"
 #include "Partition/Accessors/Cached/CombinedCategories.h"
+#include "Partition/Accessors/CombinedCategories.h"
 #include "Processes/Age/MortalityInstantaneous.h"
 
 // Namespace
@@ -38,36 +38,36 @@ class ProcessRemovalsByLength : public niwa::Observation {
 public:
   // Methods
   explicit ProcessRemovalsByLength(shared_ptr<Model> model);
-  virtual                     ~ProcessRemovalsByLength();
-  void                        DoValidate() override final;
-  void                        DoBuild() override final;
-  void                        DoReset() override final { };
-  void                        PreExecute() override final;
-  void                        Execute() override final;
-  void                        CalculateScore() override final;
-  bool                        HasYear(unsigned year) const override final { return std::find(years_.begin(), years_.end(), year) != years_.end(); }
+  virtual ~ProcessRemovalsByLength();
+  void DoValidate() override final;
+  void DoBuild() override final;
+  void DoReset() override final{};
+  void PreExecute() override final;
+  void Execute() override final;
+  void CalculateScore() override final;
+  bool HasYear(unsigned year) const override final { return std::find(years_.begin(), years_.end(), year) != years_.end(); }
 
 protected:
   // Members
-  vector<unsigned>              years_;
-  vector<Double>                length_bins_;
-  bool                          length_plus_ = false;
-  unsigned                      number_bins_ = 0;
-  parameters::Table*            obs_table_ = nullptr;
-  Double                        tolerance_ = 0.0;
-  vector<Double>                process_error_values_;
-  map<unsigned, Double>         process_errors_by_year_;
-  string                        method_;
-  parameters::Table*            error_values_table_ = nullptr;
-  CachedCombinedCategoriesPtr   cached_partition_;
-  CombinedCategoriesPtr         partition_;
-  vector<Double>                length_results_;
-  MortalityInstantaneous*       mortality_instantaneous_ = nullptr;
-  string                        time_step_label_ = "";
-  string                        process_label_;
-  unsigned                      mlb_index_first_ = 0; // index of model length bin for length_bins_[0]
+  vector<unsigned>            years_;
+  vector<Double>              length_bins_;
+  bool                        length_plus_ = false;
+  unsigned                    number_bins_ = 0;
+  parameters::Table*          obs_table_   = nullptr;
+  Double                      tolerance_   = 0.0;
+  vector<Double>              process_error_values_;
+  map<unsigned, Double>       process_errors_by_year_;
+  string                      method_;
+  parameters::Table*          error_values_table_ = nullptr;
+  CachedCombinedCategoriesPtr cached_partition_;
+  CombinedCategoriesPtr       partition_;
+  vector<Double>              length_results_;
+  MortalityInstantaneous*     mortality_instantaneous_ = nullptr;
+  string                      time_step_label_         = "";
+  string                      process_label_;
+  unsigned                    mlb_index_first_ = 0;  // index of model length bin for length_bins_[0]
 
-  vector<vector<Double>>        age_length_matrix;  // local; here so that it doesn't get reallocated in Execute()
+  vector<vector<Double>> age_length_matrix;  // local; here so that it doesn't get reallocated in Execute()
 
   map<unsigned, map<string, vector<Double>>> proportions_;
   map<unsigned, map<string, vector<Double>>> error_values_;

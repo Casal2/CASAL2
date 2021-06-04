@@ -27,14 +27,13 @@ class None : public niwa::AgeingError {
 public:
   // methods
   None(shared_ptr<Model> model);
-  virtual                   ~None();
+  virtual ~None();
 
 protected:
   // methods
-  void                        DoValidate() override final { };
-  void                        DoBuild() override final;
-  void                        DoReset() override final { };
-
+  void DoValidate() override final{};
+  void DoBuild() override final;
+  void DoReset() override final{};
 };
 
 } /* namespace ageingerrors */

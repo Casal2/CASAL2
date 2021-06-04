@@ -8,9 +8,5 @@
 #include "Bindable.h"
 
 namespace niwa {
-namespace parameters {
-
-
-
-} /* namespace parameters */
+namespace parameters {} /* namespace parameters */
 } /* namespace niwa */

@@ -12,14 +12,14 @@
 // Headers
 #include "Factory.h"
 
-#include "../Model/Model.h"
-#include "../Model/Managers.h"
-#include "../InitialisationPhases/Manager.h"
 #include "../InitialisationPhases/Age/Cinitial.h"
 #include "../InitialisationPhases/Age/Derived.h"
 #include "../InitialisationPhases/Age/Iterative.h"
 #include "../InitialisationPhases/Age/StateCategoryByAge.h"
 #include "../InitialisationPhases/Length/Iterative.h"
+#include "../InitialisationPhases/Manager.h"
+#include "../Model/Managers.h"
+#include "../Model/Model.h"
 
 // Namespaces
 namespace niwa {
@@ -36,7 +36,6 @@ namespace initialisationphases {
 InitialisationPhase* Factory::Create(shared_ptr<Model> model, const string& object_type, const string& sub_type) {
   InitialisationPhase* result = nullptr;
 
-
   if (model->partition_type() == PartitionType::kAge) {
     if (object_type == PARAM_INITIALISATION_PHASE) {
       if (sub_type == PARAM_DERIVED)
@@ -47,10 +46,10 @@ InitialisationPhase* Factory::Create(shared_ptr<Model> model, const string& obje
         result = new age::StateCategoryByAge(model);
       else if (sub_type == PARAM_CINITIAL)
         result = new age::Cinitial(model);
-     }
+    }
   } else if (model->partition_type() == PartitionType::kLength) {
     if (sub_type == "" || sub_type == PARAM_ITERATIVE)
-          result = new length::Iterative(model);
+      result = new length::Iterative(model);
   }
 
   if (result)
@@ -59,5 +58,5 @@ InitialisationPhase* Factory::Create(shared_ptr<Model> model, const string& obje
   return result;
 }
 
-} /* namespace processes */
+}  // namespace initialisationphases
 } /* namespace niwa */

@@ -26,9 +26,10 @@ namespace estimatetransformations {
 // classes
 class Factory {
 public:
-  static EstimateTransformation*  Create(shared_ptr<Model> model, const string& object_type, const string& sub_type);
+  static EstimateTransformation* Create(shared_ptr<Model> model, const string& object_type, const string& sub_type);
+
 private:
-  Factory() = delete;
+  Factory()          = delete;
   virtual ~Factory() = delete;
 };
 

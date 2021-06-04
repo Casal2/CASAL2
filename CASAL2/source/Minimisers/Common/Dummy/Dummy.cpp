@@ -41,7 +41,7 @@ Dummy::Dummy(shared_ptr<Model> model) : Minimiser(model) {
  */
 void Dummy::Execute() {
   LOG_CODE_ERROR() << "The Dummy minimiser has been executed. This is bad.\n"
-      << "This may have happened because of using an autodiff minimiser from the release shared library";
+                   << "This may have happened because of using an autodiff minimiser from the release shared library";
 };
 
 } /* namespace minimisers */

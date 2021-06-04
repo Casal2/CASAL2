@@ -10,12 +10,11 @@
  * $Date: 2008-03-04 16:33:32 +1300 (Tue, 04 Mar 2008) $
  */
 #ifdef TESTMODE
-#include "KnifeEdge.h"
-
 #include <gmock/gmock.h>
 #include <gtest/gtest.h>
 
 #include "../../TestResources/MockClasses/Model.h"
+#include "KnifeEdge.h"
 
 // Namespaces
 namespace niwa {
@@ -40,8 +39,8 @@ TEST(Selectivities, KnifeEdge_Age) {
   knife_edge.Validate();
   knife_edge.Build();
 
-  ASSERT_THROW(knife_edge.GetAgeResult(9, nullptr), std::string); // Below model->min_age()
-  EXPECT_DOUBLE_EQ(0.0, knife_edge.GetAgeResult(10, nullptr)); // At model->min_age()
+  ASSERT_THROW(knife_edge.GetAgeResult(9, nullptr), std::string);  // Below model->min_age()
+  EXPECT_DOUBLE_EQ(0.0, knife_edge.GetAgeResult(10, nullptr));     // At model->min_age()
   EXPECT_DOUBLE_EQ(0.0, knife_edge.GetAgeResult(11, nullptr));
   EXPECT_DOUBLE_EQ(0.0, knife_edge.GetAgeResult(12, nullptr));
   EXPECT_DOUBLE_EQ(0.0, knife_edge.GetAgeResult(13, nullptr));
@@ -51,8 +50,8 @@ TEST(Selectivities, KnifeEdge_Age) {
   EXPECT_DOUBLE_EQ(1.0, knife_edge.GetAgeResult(17, nullptr));
   EXPECT_DOUBLE_EQ(1.0, knife_edge.GetAgeResult(18, nullptr));
   EXPECT_DOUBLE_EQ(1.0, knife_edge.GetAgeResult(19, nullptr));
-  EXPECT_DOUBLE_EQ(1.0, knife_edge.GetAgeResult(20, nullptr)); // At model->max_age()
-  ASSERT_THROW(knife_edge.GetAgeResult(21, nullptr), std::string); // This is above model->max_age()
+  EXPECT_DOUBLE_EQ(1.0, knife_edge.GetAgeResult(20, nullptr));      // At model->max_age()
+  ASSERT_THROW(knife_edge.GetAgeResult(21, nullptr), std::string);  // This is above model->max_age()
 }
 
 TEST(Selectivities, KnifeEdge_Length) {
@@ -75,9 +74,8 @@ TEST(Selectivities, KnifeEdge_Length) {
   knife_edge.Build();
 
   for (unsigned i = 0; i < lengths.size(); ++i) {
-    EXPECT_DOUBLE_EQ(expected_values[i],  knife_edge.GetLengthResult(i));
+    EXPECT_DOUBLE_EQ(expected_values[i], knife_edge.GetLengthResult(i));
   }
-
 }
 
 } /* namespace niwa */

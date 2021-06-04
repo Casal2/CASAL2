@@ -14,10 +14,10 @@
 // Headers
 #include "BasicModel.h"
 
-#include "../../Model/Models/Age.h"
-#include "../../Model/Factory.h"
 #include "../../Categories/Categories.h"
 #include "../../Logging/Logging.h"
+#include "../../Model/Factory.h"
+#include "../../Model/Models/Age.h"
 #include "../../Utilities/RandomNumberGenerator.h"
 #include "../../Utilities/To.h"
 
@@ -51,7 +51,7 @@ void BasicModel::SetUp() {
   base::Object* categories = model_->categories();
   categories->set_block_type(PARAM_CATEGORIES);
   categories->parameters().Add(PARAM_FORMAT, "stage.sex", __FILE__, __LINE__);
-  categories->parameters().Add(PARAM_NAMES, { "immature.male", "mature.male", "immature.female", "mature.female" }, __FILE__, __LINE__);
+  categories->parameters().Add(PARAM_NAMES, {"immature.male", "mature.male", "immature.female", "mature.female"}, __FILE__, __LINE__);
 
   base::Object* object = model_->factory().CreateObject(PARAM_SELECTIVITY, PARAM_CONSTANT);
   object->parameters().Add(PARAM_LABEL, "constant_one", __FILE__, __LINE__);

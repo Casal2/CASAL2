@@ -23,7 +23,6 @@
 #include "../Penalties/Manager.h"
 #include "../Utilities/To.h"
 
-
 // Namespaces
 namespace niwa {
 

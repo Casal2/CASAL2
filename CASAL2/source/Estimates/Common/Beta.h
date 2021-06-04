@@ -31,20 +31,20 @@ public:
   // Methods
   Beta() = delete;
   explicit Beta(shared_ptr<Model> model);
-  virtual                     ~Beta() = default;
-  void                        DoValidate() override final;
-  Double                      GetScore() override final;
+  virtual ~Beta() = default;
+  void   DoValidate() override final;
+  Double GetScore() override final;
 
 private:
   // Members
-  Double                      mu_ = 0.0;
-  Double                      sigma_ = 0.0;
-  Double                      a_ = 0.0;
-  Double                      b_ = 0.0;
-  Double                      v_ = 0.0;
-  Double                      t_ = 0.0;
-  Double                      m_ = 0.0;
-  Double                      n_ = 0.0;
+  Double mu_    = 0.0;
+  Double sigma_ = 0.0;
+  Double a_     = 0.0;
+  Double b_     = 0.0;
+  Double v_     = 0.0;
+  Double t_     = 0.0;
+  Double m_     = 0.0;
+  Double n_     = 0.0;
 };
 
 } /* namespace estimates */

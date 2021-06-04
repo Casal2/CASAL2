@@ -19,8 +19,7 @@ namespace creators {
 /**
  * Default constructor
  */
-UniformLog::UniformLog(shared_ptr<Model> model) : Creator(model) {
-}
+UniformLog::UniformLog(shared_ptr<Model> model) : Creator(model) {}
 
 } /* namespace creators */
 } /* namespace estimates */

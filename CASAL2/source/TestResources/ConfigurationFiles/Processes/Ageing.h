@@ -27,7 +27,4 @@ const std::string processes_ageing_two_sex = R"(
 categories immature.male immature.female mature.male mature.female
 )";
 
-
-
-
 #endif /* AGEING_H_ */

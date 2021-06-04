@@ -13,10 +13,10 @@
 // Headers
 #include "Ageing.h"
 
-#include "Utilities/To.h"
 #include "Categories/Categories.h"
 #include "TimeSteps/Manager.h"
 #include "Utilities/Map.h"
+#include "Utilities/To.h"
 
 // Namespaces
 namespace niwa {
@@ -26,10 +26,8 @@ namespace age {
 /**
  * Default constructor
  */
-Ageing::Ageing(shared_ptr<Model> model)
-  : Process(model),
-    partition_(model) {
-  process_type_ = ProcessType::kAgeing;
+Ageing::Ageing(shared_ptr<Model> model) : Process(model), partition_(model) {
+  process_type_        = ProcessType::kAgeing;
   partition_structure_ = PartitionType::kAge;
 
   parameters_.Bind<string>(PARAM_CATEGORIES, &category_labels_, "The labels of the categories", "");
@@ -42,8 +40,7 @@ Ageing::Ageing(shared_ptr<Model> model)
  * 2. Assign the label from the parameters
  * 3. Assign any remaining parameters
  */
-void Ageing::DoValidate() {
-}
+void Ageing::DoValidate() {}
 
 /**
  * Build objects that are needed by this object during the execution phase. This
@@ -63,7 +60,7 @@ void Ageing::DoBuild() {
 void Ageing::DoExecute() {
   LOG_TRACE();
   Double amount_to_move = 0.0;
-  Double moved_fish = 0.0;
+  Double moved_fish     = 0.0;
 
   // TODO:  check this. what is this supposed to be doing?
   for (auto category : partition_) {
@@ -77,7 +74,7 @@ void Ageing::DoExecute() {
     }
 
     if (model_->age_plus())
-      (* category->data_.rbegin() ) += moved_fish;
+      (*category->data_.rbegin()) += moved_fish;
   }
 }
 

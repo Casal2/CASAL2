@@ -11,8 +11,8 @@
 // headers
 #include "LogNormalEmpirical.h"
 
-#include "../../Utilities/RandomNumberGenerator.h"
 #include "../../Model/Objects.h"
+#include "../../Utilities/RandomNumberGenerator.h"
 
 // namespaces
 namespace niwa {
@@ -23,7 +23,7 @@ namespace projects {
  */
 
 LogNormalEmpirical::LogNormalEmpirical(shared_ptr<Model> model) : Project(model) {
-  parameters_.Bind<Double>(PARAM_MEAN, &mean_, "The mean of the Gaussian process", "",0.0);
+  parameters_.Bind<Double>(PARAM_MEAN, &mean_, "The mean of the Gaussian process", "", 0.0);
   parameters_.Bind<unsigned>(PARAM_START_YEAR, &start_year_, "The start year of sampling", "", false);
   parameters_.Bind<unsigned>(PARAM_FINAL_YEAR, &final_year_, "The final year of sampling", "", false);
 }
@@ -53,11 +53,11 @@ void LogNormalEmpirical::DoValidate() {
 void LogNormalEmpirical::DoReset() {
   utilities::RandomNumberGenerator& rng = utilities::RandomNumberGenerator::Instance();
   // Empirically calculate the years to sample from
-  Double Random_draw = 0.0;
-  unsigned year = 0;
+  Double   Random_draw = 0.0;
+  unsigned year        = 0;
   for (unsigned project_year : years_) {
     Random_draw = floor(rng.uniform((double)start_year_, ((double)final_year_ + 0.99999)));
-    year = 0;
+    year        = 0;
     if (!utilities::To<Double>(Random_draw, year))
       LOG_ERROR() << " Random draw " << Random_draw << " could not be converted to Double";
     resampled_years_[project_year] = year;
@@ -65,16 +65,16 @@ void LogNormalEmpirical::DoReset() {
   }
   // Empirically calculate sigma R from the resampled years
   vector<Double> values;
-  Double Total = 0;
-  Double Total_sq = 0;
-  //m=sqrt((norm2(d)-sum(d)*sum(d)/n)/(n-1)); // this is CASAL's std-dev function
-  for(auto resampled_years : resampled_years_) {
+  Double         Total    = 0;
+  Double         Total_sq = 0;
+  // m=sqrt((norm2(d)-sum(d)*sum(d)/n)/(n-1)); // this is CASAL's std-dev function
+  for (auto resampled_years : resampled_years_) {
     values.push_back(log(stored_values_[resampled_years.second]));
 
     Total += log(stored_values_[resampled_years.second]);
     Total_sq += log(stored_values_[resampled_years.second]) * log(stored_values_[resampled_years.second]);
-    LOG_FINEST() << "using value " << stored_values_[resampled_years.second] << " sampled from year "
-      << resampled_years.second << " to be applied in year " << resampled_years.first;
+    LOG_FINEST() << "using value " << stored_values_[resampled_years.second] << " sampled from year " << resampled_years.second << " to be applied in year "
+                 << resampled_years.first;
   }
   LOG_FINEST() << "Total = " << Total;
 
@@ -82,10 +82,10 @@ void LogNormalEmpirical::DoReset() {
   Double Var = Total_sq - Total * Total / values.size();
   Var /= (values.size() - 1);
   sigma_ = sqrt(Var);
-  LOG_FINEST() << "sigma = " << sigma_ << " mean = " << mean_ << " variance = " << Var ;//<< " rho = " << rho_;
+  LOG_FINEST() << "sigma = " << sigma_ << " mean = " << mean_ << " variance = " << Var;  //<< " rho = " << rho_;
 
   for (unsigned project_year : years_) {
-    //if (parameters_.Get(PARAM_RHO)->has_been_defined()) {
+    // if (parameters_.Get(PARAM_RHO)->has_been_defined()) {
     //  normal_draw_by_year_[project_year] = rng.normal(0.0, 1.0);
     //} else {
     normal_draw_by_year_[project_year] = rng.normal(AS_DOUBLE(mean_), AS_DOUBLE(sigma_));

@@ -18,7 +18,6 @@
 #include "../../TestResources/MockClasses/Model.h"
 #include "Constant.h"
 
-
 namespace niwa {
 using ::testing::Return;
 using ::testing::ReturnRef;

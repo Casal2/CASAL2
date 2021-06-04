@@ -12,14 +12,14 @@
 // headers
 #include "TransitionCategoryByAge.h"
 
-#include <numeric>
 #include <limits>
+#include <numeric>
 
+#include "../../Utilities/Math.h"
 #include "Categories/Categories.h"
 #include "Model/Model.h"
 #include "Penalties/Manager.h"
 #include "Selectivities/Manager.h"
-#include "../../Utilities/Math.h"
 #include "Utilities/To.h"
 
 // namespaces
@@ -30,11 +30,8 @@ namespace age {
 /**
  * Default constructor
  */
-TransitionCategoryByAge::TransitionCategoryByAge(shared_ptr<Model> model)
-  : Process(model),
-    to_partition_(model),
-    from_partition_(model) {
-  process_type_ = ProcessType::kTransition;
+TransitionCategoryByAge::TransitionCategoryByAge(shared_ptr<Model> model) : Process(model), to_partition_(model), from_partition_(model) {
+  process_type_        = ProcessType::kTransition;
   partition_structure_ = PartitionType::kAge;
 
   n_table_ = new parameters::Table(PARAM_N);
@@ -61,8 +58,8 @@ TransitionCategoryByAge::~TransitionCategoryByAge() {
  */
 void TransitionCategoryByAge::DoValidate() {
   if (from_category_labels_.size() != to_category_labels_.size()) {
-    LOG_ERROR_P(PARAM_TO) << " the number of 'to' categories (" << to_category_labels_.size()
-      << ") does not match the number of 'from' categories (" << from_category_labels_.size() << ")";
+    LOG_ERROR_P(PARAM_TO) << " the number of 'to' categories (" << to_category_labels_.size() << ") does not match the number of 'from' categories ("
+                          << from_category_labels_.size() << ")";
   }
   if (u_max_ <= 0.0 || u_max_ > 1.0)
     LOG_ERROR_P(PARAM_U_MAX) << " (" << u_max_ << ") must be greater than 0.0 and less than or equal to 1.0";
@@ -78,8 +75,7 @@ void TransitionCategoryByAge::DoValidate() {
    */
   vector<string> columns = n_table_->columns();
   if (columns.size() != age_spread + 1)
-    LOG_ERROR_P(PARAM_N) << "the number of columns provided (" << columns.size() << ") does not match the model's age spread + 1 ("
-      << (age_spread + 1) << ")";
+    LOG_ERROR_P(PARAM_N) << "the number of columns provided (" << columns.size() << ") does not match the model's age spread + 1 (" << (age_spread + 1) << ")";
   if (columns[0] != PARAM_YEAR)
     LOG_ERROR_P(PARAM_N) << "the first column label (" << columns[0] << ") provided must be 'year'";
 
@@ -92,9 +88,9 @@ void TransitionCategoryByAge::DoValidate() {
   }
 
   // load our table data in to our map
-  vector<vector<string>> data = n_table_->data();
-  unsigned year = 0;
-  Double n_value = 0.0;
+  vector<vector<string>> data    = n_table_->data();
+  unsigned               year    = 0;
+  Double                 n_value = 0.0;
   for (auto iter : data) {
     if (!utilities::To<unsigned>(iter[0], year))
       LOG_ERROR_P(PARAM_N) << " value (" << iter[0] << ") could not be converted to an unsigned integer";
@@ -131,10 +127,9 @@ void TransitionCategoryByAge::DoExecute() {
 
   LOG_FINEST() << "n_.size(): " << n_.size();
   LOG_FINEST() << "n_[current_year].size()" << n_[current_year].size();
-  for (unsigned i = 0; i < n_[current_year].size(); ++i)
-    LOG_FINEST() << "n_[current_year][" << i << "]: " << n_[current_year][i];
+  for (unsigned i = 0; i < n_[current_year].size(); ++i) LOG_FINEST() << "n_[current_year][" << i << "]: " << n_[current_year][i];
 
-  Double total_stock;
+  Double   total_stock;
   unsigned age_spread = (max_age_ = min_age_) + 1;
   LOG_FINEST() << "age_spread: " << age_spread << " in year " << current_year;
 
@@ -168,8 +163,8 @@ void TransitionCategoryByAge::DoExecute() {
     from_iter = from_partition_.begin();
     to_iter   = to_partition_.begin();
     for (; from_iter != from_partition_.end(); from_iter++, to_iter++) {
-      unsigned offset = (min_age_ - (*from_iter)->min_age_) + i;
-      Double current = (*from_iter)->data_[offset] * exploitation;
+      unsigned offset  = (min_age_ - (*from_iter)->min_age_) + i;
+      Double   current = (*from_iter)->data_[offset] * exploitation;
       LOG_FINE() << "current: " << current << "; exploitation: " << exploitation;
       if (current <= 0.0)
         continue;

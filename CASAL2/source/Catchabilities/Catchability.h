@@ -27,21 +27,21 @@ class Catchability : public niwa::base::Object {
 public:
   // Methods
   Catchability() = delete;
-  explicit                    Catchability(shared_ptr<Model> model);
-  virtual                     ~Catchability() = default;
-  void                        Validate();
-  void                        Build() { DoBuild(); };
-  void                        Reset() {};
-  virtual void                DoValidate() = 0;
-  virtual void                DoBuild() = 0;
+  explicit Catchability(shared_ptr<Model> model);
+  virtual ~Catchability() = default;
+  void         Validate();
+  void         Build() { DoBuild(); };
+  void         Reset(){};
+  virtual void DoValidate() = 0;
+  virtual void DoBuild()    = 0;
 
   // Accessors
-  Double              				q() const { return q_; };
+  Double q() const { return q_; };
 
 protected:
   // members
-  shared_ptr<Model>                      model_ = nullptr;
-  Double                      q_ = 0.0;
+  shared_ptr<Model> model_ = nullptr;
+  Double            q_     = 0.0;
 };
 
 } /* namespace niwa */

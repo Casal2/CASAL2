@@ -12,8 +12,8 @@
 // headers
 #include "Factory.h"
 
-#include "../Model/Model.h"
 #include "../Model/Managers.h"
+#include "../Model/Model.h"
 #include "../TimeVarying/Common/AnnualShift.h"
 #include "../TimeVarying/Common/Constant.h"
 #include "../TimeVarying/Common/Exogenous.h"
@@ -58,5 +58,5 @@ TimeVarying* Factory::Create(shared_ptr<Model> model, const string& object_type,
   return result;
 }
 
-} /* namespace projects */
+}  // namespace timevarying
 } /* namespace niwa */

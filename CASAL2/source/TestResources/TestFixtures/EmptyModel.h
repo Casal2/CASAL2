@@ -33,8 +33,8 @@ class EmptyModel : public testfixtures::Base {
 public:
   // Methods
   EmptyModel();
-  virtual                     ~EmptyModel();
-  void                        SetUp() override final;
+  virtual ~EmptyModel();
+  void SetUp() override final;
 };
 
 } /* namespace testfixtures */

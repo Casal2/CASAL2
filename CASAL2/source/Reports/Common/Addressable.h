@@ -29,18 +29,18 @@ class Addressable : public niwa::Report {
 public:
   // methods
   Addressable();
-  virtual                     ~Addressable() = default;
-  void                        DoValidate(shared_ptr<Model> model) final { };
-  void                        DoBuild(shared_ptr<Model> model) final;
-  void                        DoPrepare(shared_ptr<Model> model) final;
-  void                        DoExecute(shared_ptr<Model> model) final;
-  void                        DoFinalise(shared_ptr<Model> model) final;
-  void                        DoExecuteTabular(shared_ptr<Model> model) final { };
+  virtual ~Addressable() = default;
+  void DoValidate(shared_ptr<Model> model) final{};
+  void DoBuild(shared_ptr<Model> model) final;
+  void DoPrepare(shared_ptr<Model> model) final;
+  void DoExecute(shared_ptr<Model> model) final;
+  void DoFinalise(shared_ptr<Model> model) final;
+  void DoExecuteTabular(shared_ptr<Model> model) final{};
 
 private:
   // members
-  string                      parameter_ = "";
-  Double*                     target_ = 0;
+  string  parameter_ = "";
+  Double* target_    = 0;
 };
 
 } /* namespace reports */

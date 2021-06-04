@@ -37,7 +37,6 @@ Double NormalCDF(Double x, Double mu, Double sigma) {
   return cdf(s, AS_DOUBLE(x));
 }
 
-
 /**
  * Default constructor
  *
@@ -50,7 +49,9 @@ Double NormalCDF(Double x, Double mu, Double sigma) {
  */
 Normal::Normal(shared_ptr<Model> model) : AgeingError(model) {
   parameters_.Bind<Double>(PARAM_CV, &cv_, "CV of the misclassification matrix", "")->set_lower_bound(0.0, false);
-  parameters_.Bind<unsigned>(PARAM_K, &k_, "k defines the minimum age of individuals which can be misclassified, i.e., individuals of age less than k have no ageing error", "", 0u)->set_lower_bound(0u);
+  parameters_
+      .Bind<unsigned>(PARAM_K, &k_, "k defines the minimum age of individuals which can be misclassified, i.e., individuals of age less than k have no ageing error", "", 0u)
+      ->set_lower_bound(0u);
 
   RegisterAsAddressable(PARAM_CV, &cv_);
 }
@@ -81,7 +82,7 @@ void Normal::DoBuild() {
  * changes from any addressable modifications
  */
 void Normal::DoReset() {
-  Double age = 0.0;
+  Double age           = 0.0;
   Double min_age_class = 0.0;
 
   for (unsigned i = 0; i < age_spread_; ++i) {
@@ -108,6 +109,56 @@ void Normal::DoReset() {
     }
   }
 }
+
+/*
+TODO: Do this.
+ # Normal ageing error
+Expected<-c(10,20,30,20,15,5)
+mMisMatrix<-Normal(min.age=3,max.age=8,dCV=0.1,iK=0,bAgePlusGroup=T)
+round(mMisMatrix,5)
+#        [,1]    [,2]    [,3]    [,4]    [,5]    [,6]
+#[1,] 0.95221 0.04779 0.00000 0.00000 0.00000 0.00000
+#[2,] 0.10565 0.78870 0.10556 0.00009 0.00000 0.00000
+#[3,] 0.00135 0.15731 0.68269 0.15731 0.00135 0.00000
+#[4,] 0.00002 0.00619 0.19612 0.59534 0.19612 0.00621
+#[5,] 0.00000 0.00018 0.01588 0.22146 0.52495 0.23753
+#[6,] 0.00000 0.00001 0.00088 0.02951 0.23559 0.73401
+execute(Expected,mMisMatrix)
+#11.675902 21.097643 26.756975 20.097275 13.015051  7.357153
+mMisMatrix<-Normal(min.age=3,max.age=8,dCV=0.1,iK=4,bAgePlusGroup=T)
+round(mMisMatrix,5)
+#        [,1]    [,2]    [,3]    [,4]    [,5]    [,6]
+#[1,] 1.00000 0.00000 0.00000 0.00000 0.00000 0.00000
+#[2,] 0.10565 0.78870 0.10556 0.00009 0.00000 0.00000
+#[3,] 0.00135 0.15731 0.68269 0.15731 0.00135 0.00000
+#[4,] 0.00002 0.00619 0.19612 0.59534 0.19612 0.00621
+#[5,] 0.00000 0.00018 0.01588 0.22146 0.52495 0.23753
+#[6,] 0.00000 0.00001 0.00088 0.02951 0.23559 0.73401
+execute(Expected,mMisMatrix)
+#[1] 12.153806 20.619743 26.756972 20.097275 13.015051  7.357153
+mMisMatrix<-Normal(min.age=3,max.age=8,dCV=0.1,iK=0,bAgePlusGroup=F)
+round(mMisMatrix,5)
+#        [,1]    [,2]    [,3]    [,4]    [,5]    [,6]
+#[1,] 0.95221 0.04779 0.00000 0.00000 0.00000 0.00000
+#[2,] 0.10565 0.78870 0.10556 0.00009 0.00000 0.00000
+#[3,] 0.00135 0.15731 0.68269 0.15731 0.00135 0.00000
+#[4,] 0.00002 0.00619 0.19612 0.59534 0.19612 0.00619
+#[5,] 0.00000 0.00018 0.01588 0.22146 0.52495 0.22146
+#[6,] 0.00000 0.00001 0.00088 0.02951 0.23559 0.46803
+execute(Expected,mMisMatrix)
+#[1] 11.675902 21.097643 26.756975 20.097275 13.015051  5.785982
+mMisMatrix<-Normal(min.age=3,max.age=8,dCV=0.1,iK=4,bAgePlusGroup=F)
+round(mMisMatrix,5)
+#        [,1]    [,2]    [,3]    [,4]    [,5]    [,6]
+#[1,] 1.00000 0.00000 0.00000 0.00000 0.00000 0.00000
+#[2,] 0.10565 0.78870 0.10556 0.00009 0.00000 0.00000
+#[3,] 0.00135 0.15731 0.68269 0.15731 0.00135 0.00000
+#[4,] 0.00002 0.00619 0.19612 0.59534 0.19612 0.00619
+#[5,] 0.00000 0.00018 0.01588 0.22146 0.52495 0.22146
+#[6,] 0.00000 0.00001 0.00088 0.02951 0.23559 0.46803
+execute(Expected,mMisMatrix)
+#[1] 12.153806 20.619743 26.756972 20.097275 13.015051  5.785982
+*/
 
 } /* namespace ageingerrors */
 } /* namespace niwa */

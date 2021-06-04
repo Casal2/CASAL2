@@ -33,32 +33,32 @@ public:
   // methods
   Profile() = delete;
   explicit Profile(shared_ptr<Model> model);
-  virtual                     ~Profile() = default;
-  void                        Validate();
-  void                        Build();
-  void                        Reset() { };
-  void                        FirstStep();
-  void                        NextStep();
-  void                        RestoreOriginalValue();
+  virtual ~Profile() = default;
+  void Validate();
+  void Build();
+  void Reset(){};
+  void FirstStep();
+  void NextStep();
+  void RestoreOriginalValue();
 
   // accessors
-  string                      parameter() const { return parameter_; }
-  unsigned                    steps() const { return steps_; }
-  Double                      value() const { return *target_; }
+  string   parameter() const { return parameter_; }
+  unsigned steps() const { return steps_; }
+  Double   value() const { return *target_; }
 
 private:
   // members
-  shared_ptr<Model>                      model_ = nullptr;
-  unsigned                    steps_ = 0;
-  Double                      lower_bound_ = 0;
-  Double                      upper_bound_ = 0;
-  string                      parameter_ = "";
-  string                      same_parameter_ = "";
-  Double                      step_size_ = 0;
-  Double*                     target_ = nullptr;
-  Double*                     same_target_ = nullptr;
-  Double                      original_value_ = 0;
-  Double                      same_original_value_ = 0;
+  shared_ptr<Model> model_               = nullptr;
+  unsigned          steps_               = 0;
+  Double            lower_bound_         = 0;
+  Double            upper_bound_         = 0;
+  string            parameter_           = "";
+  string            same_parameter_      = "";
+  Double            step_size_           = 0;
+  Double*           target_              = nullptr;
+  Double*           same_target_         = nullptr;
+  Double            original_value_      = 0;
+  Double            same_original_value_ = 0;
 };
 } /* namespace niwa */
 #endif /* PROFILE_H_ */

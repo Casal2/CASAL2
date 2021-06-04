@@ -14,22 +14,22 @@
 #include <iostream>
 
 #include "../../AgeLengths/Manager.h"
-#include "../../ObjectiveFunction/ObjectiveFunction.h"
 #include "../../Estimates/Manager.h"
 #include "../../Model/Models/Age.h"
-#include "../../TestResources/TestFixtures/InternalEmptyModel.h"
+#include "../../ObjectiveFunction/ObjectiveFunction.h"
 #include "../../TestResources/Models/TwoSexHalfAges.h"
+#include "../../TestResources/TestFixtures/InternalEmptyModel.h"
 
 // Namespaces
 namespace niwa {
 namespace estimates {
 
+using niwa::testfixtures::InternalEmptyModel;
 using std::cout;
 using std::endl;
-using niwa::testfixtures::InternalEmptyModel;
 
 const string age_length_data_external_mean_internal_mean =
-R"(
+    R"(
 @model
 min_age 2
 max_age 25

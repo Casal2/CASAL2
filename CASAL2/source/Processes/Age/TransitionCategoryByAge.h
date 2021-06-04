@@ -34,11 +34,11 @@ class TransitionCategoryByAge : public niwa::Process {
 public:
   // methods
   explicit TransitionCategoryByAge(shared_ptr<Model> model);
-  virtual                     ~TransitionCategoryByAge();
-  void                        DoValidate() override final;
-  void                        DoBuild() override final;
-  void                        DoReset() override final { };
-  void                        DoExecute() override final;
+  virtual ~TransitionCategoryByAge();
+  void DoValidate() override final;
+  void DoBuild() override final;
+  void DoReset() override final{};
+  void DoExecute() override final;
 
 private:
   // members

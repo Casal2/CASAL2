@@ -29,12 +29,12 @@ namespace likelihoods {
 class Binomial : public niwa::Likelihood {
 public:
   // Methods
-  Binomial(shared_ptr<Model> model) : Likelihood(model) { };
-  virtual                     ~Binomial() = default;
-  void                        DoValidate() override final { };
-  Double                      AdjustErrorValue(const Double process_error, const Double error_value) override final;
-  void                        SimulateObserved(map<unsigned, vector<observations::Comparison> >& comparisons) override final;
-  void                        GetScores(map<unsigned, vector<observations::Comparison> >& comparisons) override final;
+  Binomial(shared_ptr<Model> model) : Likelihood(model){};
+  virtual ~Binomial() = default;
+  void   DoValidate() override final{};
+  Double AdjustErrorValue(const Double process_error, const Double error_value) override final;
+  void   SimulateObserved(map<unsigned, vector<observations::Comparison> >& comparisons) override final;
+  void   GetScores(map<unsigned, vector<observations::Comparison> >& comparisons) override final;
 };
 
 } /* namespace likelihoods */

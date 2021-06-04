@@ -29,10 +29,11 @@ namespace catchabilities {
 class Manager : public niwa::base::Manager<niwa::catchabilities::Manager, niwa::Catchability> {
   friend class niwa::base::Manager<niwa::catchabilities::Manager, niwa::Catchability>;
   friend class niwa::Managers;
+
 public:
   // Methods
-  virtual                     ~Manager() = default;
-  Catchability*               GetCatchability(const string& label);
+  virtual ~Manager() = default;
+  Catchability* GetCatchability(const string& label);
 
 protected:
   // methods

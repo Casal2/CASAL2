@@ -12,18 +12,17 @@
  */
 #ifdef TESTMODE
 
-#include "RossSeaComplex.h"
-
 #include "Model/Model.h"
+#include "RossSeaComplex.h"
 #include "TestResources/TestFixtures/InternalEmptyModel.h"
 
 // Namespaces
 namespace niwa {
 namespace testcases {
 
+using niwa::testfixtures::InternalEmptyModel;
 using std::cout;
 using std::endl;
-using niwa::testfixtures::InternalEmptyModel;
 
 /**
  *
@@ -37,6 +36,5 @@ TEST_F(InternalEmptyModel, Model_RossSea_BasicRun) {
 
 } /* namespace testcases */
 } /* namespace niwa */
-
 
 #endif

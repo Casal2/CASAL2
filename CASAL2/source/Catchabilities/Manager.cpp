@@ -23,7 +23,7 @@ namespace catchabilities {
  * @return Catchability pointer
  */
 Catchability* Manager::GetCatchability(const string& label) {
-  for(auto catchability : objects_) {
+  for (auto catchability : objects_) {
     if (catchability->label() == label)
       return catchability;
   }

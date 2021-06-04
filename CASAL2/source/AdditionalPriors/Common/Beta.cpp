@@ -48,8 +48,8 @@ void Beta::DoValidate() {
     LOG_ERROR_P(PARAM_B) << "value b (" << AS_DOUBLE(b_) << ") cannot be less than or equal to a (" << AS_DOUBLE(a_) << ")";
   Double max_sigma = ((((mu_ - a_) * (b_ - mu_)) / (sigma_ * sigma_)) - 1);
   if (max_sigma <= 0.0)
-    LOG_ERROR_P(PARAM_SIGMA) << "value (" << AS_DOUBLE(sigma_) << ") is invalid. (" << mu_ << " - " << a_ << ") * ("
-      << b_ << " - " << mu_ << ") / (" << sigma_ << " * " << sigma_ << ") - 1.0 == " << max_sigma << " <= 0.0";
+    LOG_ERROR_P(PARAM_SIGMA) << "value (" << AS_DOUBLE(sigma_) << ") is invalid. (" << mu_ << " - " << a_ << ") * (" << b_ << " - " << mu_ << ") / (" << sigma_ << " * " << sigma_
+                             << ") - 1.0 == " << max_sigma << " <= 0.0";
 }
 
 /**
@@ -63,7 +63,7 @@ void Beta::DoBuild() {
 
   addressable::Type addressable_type = model_->objects().GetAddressableType(parameter_);
   LOG_FINEST() << "type = " << addressable_type;
-  switch(addressable_type) {
+  switch (addressable_type) {
     case addressable::kInvalid:
       LOG_CODE_ERROR() << "Invalid addressable type: " << parameter_;
       break;
@@ -71,8 +71,7 @@ void Beta::DoBuild() {
       addressable_ = model_->objects().GetAddressable(parameter_);
       break;
     default:
-      LOG_ERROR() << "The addressable provided for use in additional priors '"
-        << parameter_ << "' has a type that is not supported for Beta additional priors";
+      LOG_ERROR() << "The addressable provided for use in additional priors '" << parameter_ << "' has a type that is not supported for Beta additional priors";
       break;
   }
 }
@@ -84,16 +83,15 @@ void Beta::DoBuild() {
 Double Beta::GetScore() {
   Double value = (*addressable_);
   if (b_ < value || a_ > value) {
-    LOG_FATAL_P(PARAM_B) << "parameter b cannot be less than the target parameter ("
-      << value << "), and parameter a cannot be greater than the target parameter";
+    LOG_FATAL_P(PARAM_B) << "parameter b cannot be less than the target parameter (" << value << "), and parameter a cannot be greater than the target parameter";
   }
 
   Double score_ = 0.0;
-  v_ = (mu_ - a_) / (b_ - a_);
-  t_ = (((mu_ - a_) * (b_ - mu_)) / (sigma_ * sigma_)) - 1.0;
-  m_ = t_ * v_;
-  n_ = t_ * (1.0 - v_);
-  score_ = ((1.0 - m_) * log(value - a_)) + ((1.0 - n_) * log(b_ - value));
+  v_            = (mu_ - a_) / (b_ - a_);
+  t_            = (((mu_ - a_) * (b_ - mu_)) / (sigma_ * sigma_)) - 1.0;
+  m_            = t_ * v_;
+  n_            = t_ * (1.0 - v_);
+  score_        = ((1.0 - m_) * log(value - a_)) + ((1.0 - n_) * log(b_ - value));
   LOG_FINEST() << "score = " << score_ << " value = " << value << " t = " << t_ << " m_ = " << m_;
 
   return score_;

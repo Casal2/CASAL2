@@ -14,13 +14,13 @@
 // Headers
 #include "Engine.h"
 
-#include <memory>
-#include <iostream>
 #include <cmath>
+#include <iostream>
+#include <memory>
 
+#include "../../../Logging/Logging.h"
 #include "../../../Utilities/Math.h"
 #include "../../../Utilities/RandomNumberGenerator.h"
-#include "../../../Logging/Logging.h"
 
 // Namespaces
 namespace niwa {
@@ -37,15 +37,15 @@ namespace math = niwa::utilities::math;
  * @param tolerance The tolerance threshold before convergance
  */
 Engine::Engine(unsigned vector_size, unsigned population_size, double tolerance) {
-  vector_size_      = vector_size;
-  population_size_  = population_size;
-  generations_      = 0;
-  scale_            = 0.7;
-  probability_      = 0.5;
-  best_energy_      = 1e20;
-  step_size_        = 1e-6;
-  tolerance_        = tolerance;
-  penalty_          = 0.0;
+  vector_size_     = vector_size;
+  population_size_ = population_size;
+  generations_     = 0;
+  scale_           = 0.7;
+  probability_     = 0.5;
+  best_energy_     = 1e20;
+  step_size_       = 1e-6;
+  tolerance_       = tolerance;
+  penalty_         = 0.0;
 
   // Resize vectors
   current_values_.resize(vector_size_);
@@ -58,15 +58,13 @@ Engine::Engine(unsigned vector_size, unsigned population_size, double tolerance)
 
   best_solution_.assign(vector_size_, 0.0);
 
-  for (unsigned i = 0; i < population_size_; ++i)
-    population_[i].resize(vector_size_);
+  for (unsigned i = 0; i < population_size_; ++i) population_[i].resize(vector_size_);
 }
 
 /**
  * Destructor
  */
-Engine::~Engine() {
-}
+Engine::~Engine() {}
 
 /**
  * Set up the variables for the DE Solver engine
@@ -78,9 +76,7 @@ Engine::~Engine() {
  * @param diff_scale The difference scale to use when stepping
  * @param crossover_prob The crossover probability
  */
-void Engine::Setup(vector<double> start_values, vector<double> lower_bounds,
-                                vector<double> upper_bounds, int de_strategy, double diff_scale,
-                                double crossover_prob) {
+void Engine::Setup(vector<double> start_values, vector<double> lower_bounds, vector<double> upper_bounds, int de_strategy, double diff_scale, double crossover_prob) {
   switch (de_strategy) {
     case kBest1Exp:
       calculate_solution_ = &Engine::Best1Exp;
@@ -115,7 +111,7 @@ void Engine::Setup(vector<double> start_values, vector<double> lower_bounds,
     case kRand1Bin:
       calculate_solution_ = &Engine::Rand1Bin;
       number_of_parents_  = 3;
-    break;
+      break;
 
     case kRandToBest1Bin:
       calculate_solution_ = &Engine::RandToBest1Bin;
@@ -136,14 +132,13 @@ void Engine::Setup(vector<double> start_values, vector<double> lower_bounds,
       break;
   }
 
-  scale_        = diff_scale;
-  probability_  = crossover_prob;
+  scale_       = diff_scale;
+  probability_ = crossover_prob;
 
   utilities::RandomNumberGenerator& rng = utilities::RandomNumberGenerator::Instance();
 
   for (unsigned i = 0; i < population_size_; ++i) {
-    for (unsigned j = 0; j < vector_size_; ++j)
-      population_[i][j] = rng.uniform(lower_bounds[j], upper_bounds[j]);
+    for (unsigned j = 0; j < vector_size_; ++j) population_[i][j] = rng.uniform(lower_bounds[j], upper_bounds[j]);
 
     population_energy_[i] = 1e20;
   }
@@ -161,7 +156,7 @@ void Engine::Setup(vector<double> start_values, vector<double> lower_bounds,
  * @return True if we solve, false otherwise
  */
 bool Engine::Solve(unsigned max_generations) {
-  bool new_best_energy  = false;
+  bool new_best_energy = false;
 
   trial_energy_ = EnergyFunction(current_values_);
   LOG_MEDIUM() << "First Trial Energy: " << trial_energy_;
@@ -169,18 +164,17 @@ bool Engine::Solve(unsigned max_generations) {
     new_best_energy = true;
 
     // Copy the solution to our best.
-    best_energy_    = trial_energy_;
-    best_solution_  = current_values_;
+    best_energy_   = trial_energy_;
+    best_solution_ = current_values_;
 
     LOG_MEDIUM() << "Current estimates: ";
-    for (unsigned i = 0; i < best_solution_.size(); ++i)
-      LOG_MEDIUM() << best_solution_[i] << " ";
+    for (unsigned i = 0; i < best_solution_.size(); ++i) LOG_MEDIUM() << best_solution_[i] << " ";
     LOG_MEDIUM();
     LOG_MEDIUM() << "Objective function value: " << trial_energy_;
   }
 
   for (unsigned i = 0; i < max_generations; ++i) {
-    LOG_MEDIUM() << "DESolver: current generation: " << (i+1) << "\n";
+    LOG_MEDIUM() << "DESolver: current generation: " << (i + 1) << "\n";
     for (unsigned j = 0; j < population_size_; ++j) {
       // Build our Trial Solution
       (this->*calculate_solution_)(j);
@@ -198,33 +192,31 @@ bool Engine::Solve(unsigned max_generations) {
           best_energy_ = trial_energy_;
           best_solution_.assign(current_values_.begin(), current_values_.end());
 
-
           LOG_MEDIUM() << "Objective function value: " << trial_energy_;
 
-//          if(!(pConfig->getQuietMode())) {
-//            LOG_MEDIUM() << "Current estimates: ";
-//            for (int k = 0; k < (int)vBestSolution.size(); ++k)
-//              LOG_MEDIUM() << vBestSolution[k] << " ";
-//            LOG_MEDIUM();
-//            LOG_MEDIUM() << "Objective function value: " << dTrialEnergy << "\n";
-//          }
+          //          if(!(pConfig->getQuietMode())) {
+          //            LOG_MEDIUM() << "Current estimates: ";
+          //            for (int k = 0; k < (int)vBestSolution.size(); ++k)
+          //              LOG_MEDIUM() << vBestSolution[k] << " ";
+          //            LOG_MEDIUM();
+          //            LOG_MEDIUM() << "Objective function value: " << dTrialEnergy << "\n";
+          //          }
         }
       }
-    } // end for()
+    }  // end for()
 
     // If we have a new Best, lets generate a gradient.
     if (new_best_energy)
       if (GenerateGradient()) {
         generations_ = i;
-        return true; // Convergence!
+        return true;  // Convergence!
       }
 
     new_best_energy = false;
   }
 
   LOG_MEDIUM() << "Best Solution: ";
-  for (unsigned i = 0; i < best_solution_.size(); ++i)
-    LOG_MEDIUM() << best_solution_[i] << " ";
+  for (unsigned i = 0; i < best_solution_.size(); ++i) LOG_MEDIUM() << best_solution_[i] << " ";
   LOG_MEDIUM() << "= " << best_energy_;
 
   LOG_MEDIUM() << "Population:";
@@ -243,7 +235,6 @@ bool Engine::Solve(unsigned max_generations) {
  *
  */
 bool Engine::GenerateGradient() {
-
   double convergence_check = 0;
   for (unsigned i = 0; i < vector_size_; ++i) {
     // Create Vars
@@ -261,15 +252,14 @@ bool Engine::GenerateGradient() {
 
     convergence_check = max - min;
 
-
     if (convergence_check > tolerance_) {
       LOG_MEDIUM() << "DESolver: (no convergence) convergence_check: " << convergence_check << "; tolerance: " << tolerance_;
-      return false; // No Convergence
+      return false;  // No Convergence
     }
   }
 
   LOG_MEDIUM() << "DESolver: (convergence) convergence_check: " << convergence_check << "; tolerance: " << tolerance_;
-  return true; // Convergence
+  return true;  // Convergence
 }
 
 /**
@@ -345,14 +335,14 @@ double Engine::UnScaleValue(const double& value, double min, double max) {
 /**
  * Conditional Assignment
  */
-void Engine::CondAssign(double &res, const double &cond, const double &arg1, const double &arg2) {
+void Engine::CondAssign(double& res, const double& cond, const double& arg1, const double& arg2) {
   res = (cond) > 0 ? arg1 : arg2;
 }
 
 /**
  * Conditional Assignment
  */
-void Engine::CondAssign(double &res, const double &cond, const double &arg) {
+void Engine::CondAssign(double& res, const double& cond, const double& arg) {
   res = (cond) > 0 ? arg : res;
 }
 
@@ -375,7 +365,7 @@ void Engine::SelectSamples(unsigned candidate) {
   // Build Second Sample
   if (number_of_parents_ >= 2) {
     do {
-      r2_ = (int) rng.uniform(0.0, population_size);
+      r2_ = (int)rng.uniform(0.0, population_size);
     } while ((r2_ == candidate) || (r2_ == r1_));
   } else
     return;

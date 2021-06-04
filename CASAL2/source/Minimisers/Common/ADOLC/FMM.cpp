@@ -14,8 +14,8 @@
 // Headers
 #include "FMM.h"
 
-#include <iostream>
 #include <cmath>
+#include <iostream>
 
 #include "../../../Logging/Logging.h"
 
@@ -29,7 +29,6 @@ namespace adolc {
 // Default Constructor
 //**********************************************************************
 FMM::FMM(int vectorSize, int maxFunc, int maxQuasiSteps, double gradTol) {
-
   // Assign the Variables
   iVectorSize             = vectorSize;
   iMaxFunc                = maxFunc;
@@ -41,7 +40,7 @@ FMM::FMM(int vectorSize, int maxFunc, int maxQuasiSteps, double gradTol) {
   dPreviousScore          = 0.0;
   iIters                  = 0;
   iEvals                  = 1;
-  iRet                    = 2; // Not called yet
+  iRet                    = 2;  // Not called yet
   dNewtonStepLength       = 0.0;
   dAlpha                  = 0.0001;
   dLambda                 = 0.0;
@@ -59,9 +58,8 @@ FMM::FMM(int vectorSize, int maxFunc, int maxQuasiSteps, double gradTol) {
   pTemp                   = new long double[iVectorSize];
 
   // Build the Hessian Construct Matrix
-  pHessianConstruct       = new long double*[iVectorSize];
-  for (int i = 0; i < iVectorSize; ++i)
-    pHessianConstruct[i] = new long double[iVectorSize];
+  pHessianConstruct = new long double*[iVectorSize];
+  for (int i = 0; i < iVectorSize; ++i) pHessianConstruct[i] = new long double[iVectorSize];
 
   // Calculate the machine Epsilon
   dEpsilon = 1.0;
@@ -70,8 +68,8 @@ FMM::FMM(int vectorSize, int maxFunc, int maxQuasiSteps, double gradTol) {
   } while ((1 + dEpsilon) != 1);
 
   // Set more variables
-  dEpsilon          = 2 * dEpsilon;
-  dStepTol          = pow((double)dEpsilon, 2. / 3.);
+  dEpsilon = 2 * dEpsilon;
+  dStepTol = pow((double)dEpsilon, 2. / 3.);
 }
 
 //**********************************************************************
@@ -91,14 +89,14 @@ void FMM::jacrotate(int i, long double a, long double b, long double** M) {
     }
   } else {
     den = sqrt(a * a + b * b);
-    c = a / den;
-    s = b / den;
+    c   = a / den;
+    s   = b / den;
   }
 
   for (int j = i; j < iVectorSize; ++j) {
-    y = M[i][j];
-    w = M[i + 1][j];
-    M[i][j] = c * y - s * w;
+    y           = M[i][j];
+    w           = M[i + 1][j];
+    M[i][j]     = c * y - s * w;
     M[i + 1][j] = s * y + c * w;
   }
 }
@@ -112,13 +110,10 @@ void FMM::qrupdate(long double* u, long double* v, long double** M) {
   // note qrupdate is called with u=t, v=u...!
   int k;
 
-  for (int i = 1; i < iVectorSize; ++i)
-    M[i][i-1] = 0;
-
+  for (int i = 1; i < iVectorSize; ++i) M[i][i - 1] = 0;
 
   k = iVectorSize - 1;
-  while (u[k] == 0 && k > 0)
-    k--;
+  while (u[k] == 0 && k > 0) k--;
 
   for (int i = k - 1; i >= 0; i--) {
     jacrotate(i, u[i], -u[i + 1], M);
@@ -134,28 +129,26 @@ void FMM::qrupdate(long double* u, long double* v, long double** M) {
     M[0][i] += u[0] * v[i];
   }
 
-  for (int i = 0; i < k; ++i)
-    jacrotate(i, M[i][i], -M[i + 1][i], M);
-
+  for (int i = 0; i < k; ++i) jacrotate(i, M[i][i], -M[i + 1][i], M);
 }
 
 //**********************************************************************
 //
 // bfgsfac(nvar, x, xlast, g, glast, eps, eps, L);
 //**********************************************************************
-void FMM::bfgsfac(long double* x, long double* xlast, long double* g, long double* glast, long double **pHessianConstruct) {
+void FMM::bfgsfac(long double* x, long double* xlast, long double* g, long double* glast, long double** pHessianConstruct) {
   // Used by the fmm minimiser.
   // only the lower triangle of L comes out correct; the upper triangle is used for storage. Makes
   // me a bit uncomfortable but I don't think the upper triangle gets used by any of my other functions.
 
-  long double nu = dEpsilon;
-  long double eps = dEpsilon;
+  long double  nu  = dEpsilon;
+  long double  eps = dEpsilon;
   long double *s, *y, *t, *u;
   s = new long double[iVectorSize];
   y = new long double[iVectorSize];
   t = new long double[iVectorSize];
   u = new long double[iVectorSize];
-  int skipupdate;
+  int         skipupdate;
   long double temp1, temp2, temp3, alpha;
 
   temp1 = 0;
@@ -179,20 +172,18 @@ void FMM::bfgsfac(long double* x, long double* xlast, long double* g, long doubl
     for (int i = 0; i < iVectorSize; ++i) {
       t[i] = 0.0;
 
-      for (int j = i; j < iVectorSize; ++j)
-        t[i] += pHessianConstruct[j][i] * s[j];
+      for (int j = i; j < iVectorSize; ++j) t[i] += pHessianConstruct[j][i] * s[j];
 
       temp2 += t[i] * t[i];
     }
 
-    alpha = sqrt((temp1 / temp2));
+    alpha      = sqrt((temp1 / temp2));
     skipupdate = 1;
 
     for (int i = 0; i < iVectorSize; ++i) {
       temp3 = 0;
 
-      for (int j = 0; j <= i; ++j)
-        temp3 += pHessianConstruct[i][j] * t[j];
+      for (int j = 0; j <= i; ++j) temp3 += pHessianConstruct[i][j] * t[j];
 
       if (fabs(y[i] - temp3) >= (nu * fmax(fabs(g[i]), fabs(glast[i])))) {
         skipupdate = 0;
@@ -200,26 +191,20 @@ void FMM::bfgsfac(long double* x, long double* xlast, long double* g, long doubl
       u[i] = y[i] - alpha * temp3;
     }
 
-
-
     if (!skipupdate) {
       temp3 = 1 / sqrt(temp1 * temp2);
 
-      for (int i = 0; i < iVectorSize; ++i)
-        t[i] *= temp3;
+      for (int i = 0; i < iVectorSize; ++i) t[i] *= temp3;
 
       for (int i = 1; i < iVectorSize; ++i) {
-        for (int j = 0; j < i; ++j)
-          pHessianConstruct[j][i] = pHessianConstruct[i][j];
+        for (int j = 0; j < i; ++j) pHessianConstruct[j][i] = pHessianConstruct[i][j];
       }
 
       qrupdate(t, u, pHessianConstruct);
 
       for (int i = 1; i < iVectorSize; ++i) {
-        for (int j = 0; j < i; ++j)
-          pHessianConstruct[i][j] = pHessianConstruct[j][i];
+        for (int j = 0; j < i; ++j) pHessianConstruct[i][j] = pHessianConstruct[j][i];
       }
-
     }
   }
 
@@ -234,8 +219,8 @@ void FMM::bfgsfac(long double* x, long double* xlast, long double* g, long doubl
 // http://en.wikipedia.org/wiki/Cholesky_decomposition
 //**********************************************************************
 void FMM::CholeskyDecomposition(long double* Gradient, long double** LowerTriangle, long double* CholeskyVector) {
-  long double *y = new long double[iVectorSize];
-  long double temp = 0.0;
+  long double* y    = new long double[iVectorSize];
+  long double  temp = 0.0;
 
   y[0] = Gradient[0] / LowerTriangle[0][0];
   for (int i = 1; i < iVectorSize; ++i) {
@@ -264,8 +249,7 @@ void FMM::CholeskyDecomposition(long double* Gradient, long double** LowerTriang
 //
 //**********************************************************************
 void FMM::fMin(vector<double>& Candidates, double& Score, vector<double>& Gradient) {
-
-  if (iRet == 0) { // bringing a function call for the linear search
+  if (iRet == 0) {  // bringing a function call for the linear search
 
     iEvals++;
 
@@ -274,8 +258,7 @@ void FMM::fMin(vector<double>& Candidates, double& Score, vector<double>& Gradie
       iRet = -2;
       LOG_MEDIUM() << "FMM: Too many function evaluations (" << iEvals << ")";
 
-      for (int i = 0; i < iVectorSize; ++i)
-        Candidates[i] = pPreviousCandidates[i];
+      for (int i = 0; i < iVectorSize; ++i) Candidates[i] = pPreviousCandidates[i];
 
       return;
     }
@@ -286,8 +269,7 @@ void FMM::fMin(vector<double>& Candidates, double& Score, vector<double>& Gradie
       LOG_MEDIUM() << "FMM: Too many loops in linear search (" << iLinearSearchIters << ")";
 
       // Go back to last accepted candidates
-      for (int i = 0; i < iVectorSize; ++i)
-        Candidates[i] = pPreviousCandidates[i];
+      for (int i = 0; i < iVectorSize; ++i) Candidates[i] = pPreviousCandidates[i];
 
       return;
     }
@@ -298,8 +280,7 @@ void FMM::fMin(vector<double>& Candidates, double& Score, vector<double>& Gradie
     // Is this point acceptable?
     if (dPreviousScore <= (dPreviousScore2 + dAlpha * dLambda * dSlope)) {
       // Proceed with Linear Step
-      for (int i = 0; i < iVectorSize; i++)
-        pLastPreviousCandidates[i] = pPreviousCandidates[i]; // Populate LastPrevious
+      for (int i = 0; i < iVectorSize; i++) pLastPreviousCandidates[i] = pPreviousCandidates[i];  // Populate LastPrevious
 
       // Have we taken Max Step?
       if ((dLambda >= 1) && (dNewtonStepLength > (0.99 * dMaxStep)))
@@ -320,22 +301,20 @@ void FMM::fMin(vector<double>& Candidates, double& Score, vector<double>& Gradie
     if (dLambda == 1) {
       dLambdaTemp = -dSlope / (2 * (dPreviousScore - dPreviousScore2 - dSlope));
     } else {
-      dParamA = (1 / (dLambda - dPreviousLambda)) * ((1 / (pow(dLambda, 2))) *
-          (dPreviousScore - dPreviousScore2 - dLambda * dSlope) + (-1 / pow(dPreviousLambda, 2)) *
-          (dLastPreviousScore - dPreviousScore2 - dPreviousLambda * dSlope));
+      dParamA = (1 / (dLambda - dPreviousLambda))
+                * ((1 / (pow(dLambda, 2))) * (dPreviousScore - dPreviousScore2 - dLambda * dSlope)
+                   + (-1 / pow(dPreviousLambda, 2)) * (dLastPreviousScore - dPreviousScore2 - dPreviousLambda * dSlope));
 
-      dParamB = (1 / (dLambda - dPreviousLambda)) * ( (-dPreviousLambda/ (pow(dLambda,2)) ) *
-          (dPreviousScore - dPreviousScore2 - dLambda * dSlope) +
-          (dLambda/pow(dPreviousLambda,2)) *
-          (dLastPreviousScore - dPreviousScore2 - dPreviousLambda * dSlope) );
+      dParamB = (1 / (dLambda - dPreviousLambda))
+                * ((-dPreviousLambda / (pow(dLambda, 2))) * (dPreviousScore - dPreviousScore2 - dLambda * dSlope)
+                   + (dLambda / pow(dPreviousLambda, 2)) * (dLastPreviousScore - dPreviousScore2 - dPreviousLambda * dSlope));
 
       dDisc = dParamB * dParamB - 3 * dParamA * dSlope;
 
       if (dParamA == 0)
         dLambdaTemp = -dSlope / (2 * dParamB);
       else
-       dLambdaTemp = (-dParamB + sqrt(dDisc)) / (3 * dParamA);
-
+        dLambdaTemp = (-dParamB + sqrt(dDisc)) / (3 * dParamA);
     }
 
     dPreviousLambda    = dLambda;
@@ -344,29 +323,27 @@ void FMM::fMin(vector<double>& Candidates, double& Score, vector<double>& Gradie
 
     for (int i = 0; i < iVectorSize; ++i) {
       pTrialValues[i] = pPreviousCandidates[i] + dLambda * pCholeskyVector[i];
-      Candidates[i]   = pTrialValues[i]; // copy back to calling program
+      Candidates[i]   = pTrialValues[i];  // copy back to calling program
     }
     return;
   }
 
-  if (iRet >= 1) { // bringing a gradient for the quasi-Newton step
+  if (iRet >= 1) {  // bringing a gradient for the quasi-Newton step
     iIters++;
 
     if (iIters == 1) {
       // Clear Grid and Fill with Approximation.
       for (int i = 0; i < iVectorSize; ++i) {
-        for (int j = 0; j < iVectorSize; ++j)
-          pHessianConstruct[i][j] = 0.0;
+        for (int j = 0; j < iVectorSize; ++j) pHessianConstruct[i][j] = 0.0;
 
         if (Score > 1 || Score < -1)
           pHessianConstruct[i][i] = sqrt(fabs(Score));
         else
           pHessianConstruct[i][i] = 1;
-
       }
     }
 
-    if (iIters > iMaxQuasiSteps) { // have exceeded maximum no. of iterations
+    if (iIters > iMaxQuasiSteps) {  // have exceeded maximum no. of iterations
       iRet = -2;
       LOG_MEDIUM() << "FMM: Too many quasi newton iterations  (" << iIters << ")";
       return;
@@ -374,9 +351,9 @@ void FMM::fMin(vector<double>& Candidates, double& Score, vector<double>& Gradie
 
     // Load our Previous Candidates, Last Gradient, and Gradient
     for (int i = 0; i < iVectorSize; i++) {
-      pPreviousCandidates[i]  = Candidates[i];
-      pLastGradient[i]        = pGradient[i];
-      pGradient[i]            = Gradient[i];
+      pPreviousCandidates[i] = Candidates[i];
+      pLastGradient[i]       = pGradient[i];
+      pGradient[i]           = Gradient[i];
     }
 
     dPreviousScore2 = Score;
@@ -400,25 +377,25 @@ void FMM::fMin(vector<double>& Candidates, double& Score, vector<double>& Gradie
       dCurrentTolerance = fmax(dCurrentTolerance, fabs(pGradient[i]) * fmax(1, fabs(pPreviousCandidates[i])) / fabs(dPreviousScore2));
     }
 
-//    if(!(pConfig->getQuietMode())) {
-//      LOG_MEDIUM() << FMM_CONVERGENCE_CHECK << (double)dCurrentTolerance << "\n";
-//      LOG_MEDIUM() << FMM_CONVERGENCE_THRESHOLD << (double)dGradTol << "\n";
-//    }
+    //    if(!(pConfig->getQuietMode())) {
+    //      LOG_MEDIUM() << FMM_CONVERGENCE_CHECK << (double)dCurrentTolerance << "\n";
+    //      LOG_MEDIUM() << FMM_CONVERGENCE_THRESHOLD << (double)dGradTol << "\n";
+    //    }
 
     if (dCurrentTolerance <= dGradTol) {
-      iRet = -1; // convergence!
-      //LOG_MEDIUM() << FMM_CONVERGENCE << dCurrentTolerance;
-      //LOG_MEDIUM() << FMM_FUNCTION_SCORE << dPreviousScore2;
+      iRet = -1;  // convergence!
+      // LOG_MEDIUM() << FMM_CONVERGENCE << dCurrentTolerance;
+      // LOG_MEDIUM() << FMM_FUNCTION_SCORE << dPreviousScore2;
 
-      //LOG_MEDIUM() << FMM_CURRENT_PARAMETER_ESTIMATES;
-      //for (int i = 0; i < iVectorSize; i++)
+      // LOG_MEDIUM() << FMM_CURRENT_PARAMETER_ESTIMATES;
+      // for (int i = 0; i < iVectorSize; i++)
       //  LOG_MEDIUM() << pPreviousCandidates[i] << " ";
-      //LOG_MEDIUM();
+      // LOG_MEDIUM();
 
-      //LOG_MEDIUM() << FMM_GRADIENT_VALUE;
-      //for (int i = 0; i < iVectorSize; i++)
+      // LOG_MEDIUM() << FMM_GRADIENT_VALUE;
+      // for (int i = 0; i < iVectorSize; i++)
       //  LOG_MEDIUM() << pGradient[i] << " ";
-      //LOG_MEDIUM();
+      // LOG_MEDIUM();
 
       return;
     }
@@ -442,42 +419,38 @@ void FMM::fMin(vector<double>& Candidates, double& Score, vector<double>& Gradie
 
     // work out descent direction (using D&S's cholsolve) and put in p
     CholeskyDecomposition(pGradient, pHessianConstruct, pCholeskyVector);
-    for (int i = 0; i < iVectorSize; ++i)
-      pCholeskyVector[i] = -pCholeskyVector[i];
+    for (int i = 0; i < iVectorSize; ++i) pCholeskyVector[i] = -pCholeskyVector[i];
 
     // Reset Some Variables
-    iRet                = 0;
-    iLinearSearchIters  = 0;
-    bMaxStepTaken       = false;
-    dNewtonStepLength   = 0.0;
+    iRet               = 0;
+    iLinearSearchIters = 0;
+    bMaxStepTaken      = false;
+    dNewtonStepLength  = 0.0;
 
-    for (int i = 0; i < iVectorSize; ++i)
-      dNewtonStepLength += pCholeskyVector[i] * pCholeskyVector[i];
+    for (int i = 0; i < iVectorSize; ++i) dNewtonStepLength += pCholeskyVector[i] * pCholeskyVector[i];
     dNewtonStepLength = sqrt(dNewtonStepLength);
 
     if (dNewtonStepLength > dMaxStep) {
-      for (int i = 0; i < iVectorSize; i++)
-        pCholeskyVector[i] *= dMaxStep / dNewtonStepLength;
+      for (int i = 0; i < iVectorSize; i++) pCholeskyVector[i] *= dMaxStep / dNewtonStepLength;
 
       dNewtonStepLength = (int)dMaxStep;
     }
 
     dSlope = 0;
-    for (int i = 0; i < iVectorSize; i++)
-      dSlope += pGradient[i] * pCholeskyVector[i];
+    for (int i = 0; i < iVectorSize; i++) dSlope += pGradient[i] * pCholeskyVector[i];
 
     dRelLength = 0.0;
     for (int i = 0; i < iVectorSize; i++) {
-      pTemp[i]    = fabs(pCholeskyVector[i]) / fmax(fabs(pPreviousCandidates[i]), 1);
-      dRelLength  = fmax(dRelLength, pTemp[i]);
+      pTemp[i]   = fabs(pCholeskyVector[i]) / fmax(fabs(pPreviousCandidates[i]), 1);
+      dRelLength = fmax(dRelLength, pTemp[i]);
     }
 
-    dLambdaMin  = dStepTol * dRelLength;
-    dLambda     = 1.0;
+    dLambdaMin = dStepTol * dRelLength;
+    dLambda    = 1.0;
 
     for (int i = 0; i < iVectorSize; i++) {
       pTrialValues[i] = pPreviousCandidates[i] + dLambda * pCholeskyVector[i];
-      Candidates[i] = pTrialValues[i]; // pass back to calling program
+      Candidates[i]   = pTrialValues[i];  // pass back to calling program
     }
 
     return;
@@ -489,24 +462,22 @@ void FMM::fMin(vector<double>& Candidates, double& Score, vector<double>& Gradie
 // Destructor
 //**********************************************************************
 FMM::~FMM() {
-
   // Clean up our dynamic memory
-  delete [] pPreviousCandidates;
-  delete [] pLastPreviousCandidates;
-  delete [] pTrialValues;
-  delete [] pCholeskyVector;
-  delete [] pGradient;
-  delete [] pLastGradient;
-  delete [] pTemp;
+  delete[] pPreviousCandidates;
+  delete[] pLastPreviousCandidates;
+  delete[] pTrialValues;
+  delete[] pCholeskyVector;
+  delete[] pGradient;
+  delete[] pLastGradient;
+  delete[] pTemp;
 
   // Clean the hessian construct memory
-  for (int i = 0; i < iVectorSize; ++i)
-    delete [] pHessianConstruct[i];
-  delete [] pHessianConstruct;
+  for (int i = 0; i < iVectorSize; ++i) delete[] pHessianConstruct[i];
+  delete[] pHessianConstruct;
 }
 
 } /* namespace adolc */
 } /* namespace minimisers */
-} /* namesapce niwa */
+}  // namespace niwa
 #endif /* USE_ADOLC */
 #endif /* USE_AUTODIFF */

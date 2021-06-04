@@ -38,24 +38,24 @@ class MortalityInitialisationEventBiomass : public niwa::Process {
 public:
   // Methods
   explicit MortalityInitialisationEventBiomass(shared_ptr<Model> model);
-  virtual                     ~MortalityInitialisationEventBiomass() = default;
-  void                        DoValidate() override final;
-  void                        DoBuild() override final;
-  void                        DoReset() override final { };
-  void                        DoExecute() override final;
+  virtual ~MortalityInitialisationEventBiomass() = default;
+  void DoValidate() override final;
+  void DoBuild() override final;
+  void DoReset() override final{};
+  void DoExecute() override final;
 
 private:
   // Members
-  vector<string>              category_labels_;
-  Double                      catch_;
-  Double                      u_max_;
-  vector<string>              selectivity_names_;
-  string                      penalty_name_;
-  accessor::Categories        partition_;
-  vector<Selectivity*>        selectivities_;
+  vector<string>                      category_labels_;
+  Double                              catch_;
+  Double                              u_max_;
+  vector<string>                      selectivity_names_;
+  string                              penalty_name_;
+  accessor::Categories                partition_;
+  vector<Selectivity*>                selectivities_;
   map<string, map<unsigned, Double> > vulnerable_;
-  penalties::Process*         penalty_ = nullptr;
-  unsigned                    init_iteration_ = 1; // counter for reporting
+  penalties::Process*                 penalty_        = nullptr;
+  unsigned                            init_iteration_ = 1;  // counter for reporting
 };
 
 } /* namespace age */

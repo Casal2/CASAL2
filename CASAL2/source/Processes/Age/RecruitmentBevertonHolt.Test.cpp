@@ -12,10 +12,10 @@
 // Headers
 #include <iostream>
 
-#include "ObjectiveFunction/ObjectiveFunction.h"
-#include "Processes/Manager.h"
 #include "Model/Model.h"
+#include "ObjectiveFunction/ObjectiveFunction.h"
 #include "Partition/Partition.h"
+#include "Processes/Manager.h"
 #include "TestResources/TestFixtures/InternalEmptyModel.h"
 
 // Namespaces
@@ -23,15 +23,15 @@ namespace niwa {
 namespace processes {
 namespace age {
 
+using niwa::testfixtures::InternalEmptyModel;
 using std::cout;
 using std::endl;
-using niwa::testfixtures::InternalEmptyModel;
 
 /**
  *
  */
 const std::string test_cases_process_recruitment_bh =
-R"(
+    R"(
 @model
 start_year 1994
 final_year 2012
@@ -95,11 +95,11 @@ TEST_F(InternalEmptyModel, Processes_BevertonHolt_Recruitment_AutoSSBOffset) {
 
   model_->Start(RunMode::kBasic);
 
-  partition::Category& male   = model_->partition().category("immature.male");
+  partition::Category& male = model_->partition().category("immature.male");
   EXPECT_DOUBLE_EQ(0.0, male.data_[0]);
   EXPECT_DOUBLE_EQ(808729.94416124187, male.data_[1]);
   EXPECT_DOUBLE_EQ(808432.22560777736, male.data_[2]);
-  EXPECT_DOUBLE_EQ(808131.97955769731,  male.data_[3]);
+  EXPECT_DOUBLE_EQ(808131.97955769731, male.data_[3]);
   EXPECT_DOUBLE_EQ(807829.17489105463, male.data_[4]);
   EXPECT_DOUBLE_EQ(807523.7799964858, male.data_[5]);
   EXPECT_DOUBLE_EQ(807215.76276109123, male.data_[6]);
@@ -109,7 +109,7 @@ TEST_F(InternalEmptyModel, Processes_BevertonHolt_Recruitment_AutoSSBOffset) {
   EXPECT_DOUBLE_EQ(0.0, female.data_[0]);
   EXPECT_DOUBLE_EQ(808729.94416124187, female.data_[1]);
   EXPECT_DOUBLE_EQ(808432.22560777736, female.data_[2]);
-  EXPECT_DOUBLE_EQ(808131.97955769731,  female.data_[3]);
+  EXPECT_DOUBLE_EQ(808131.97955769731, female.data_[3]);
   EXPECT_DOUBLE_EQ(807829.17489105463, female.data_[4]);
   EXPECT_DOUBLE_EQ(807523.7799964858, female.data_[5]);
   EXPECT_DOUBLE_EQ(807215.76276109123, female.data_[6]);
@@ -120,7 +120,7 @@ TEST_F(InternalEmptyModel, Processes_BevertonHolt_Recruitment_AutoSSBOffset) {
  *  Test B0 initialsied models
  */
 const std::string test_cases_process_recruitment_bh_b0 =
-R"(
+    R"(
 @model
 start_year 1975
 final_year 2012
@@ -293,21 +293,19 @@ TEST_F(InternalEmptyModel, Processes_BevertonHolt_Recruitment_B0_initialised) {
 
   model_->Start(RunMode::kBasic);
 
-  partition::Category& stock   = model_->partition().category("stock");
+  partition::Category& stock = model_->partition().category("stock");
   EXPECT_DOUBLE_EQ(0.0, stock.data_[0]);
   EXPECT_DOUBLE_EQ(37853202.461915314, stock.data_[1]);
   EXPECT_DOUBLE_EQ(31283397.351866711, stock.data_[2]);
-  EXPECT_DOUBLE_EQ(25848294.516795192,  stock.data_[3]);
+  EXPECT_DOUBLE_EQ(25848294.516795192, stock.data_[3]);
   EXPECT_DOUBLE_EQ(21342118.067770876, stock.data_[4]);
   EXPECT_DOUBLE_EQ(17614842.936839949, stock.data_[5]);
   EXPECT_DOUBLE_EQ(14534863.966055876, stock.data_[6]);
   EXPECT_DOUBLE_EQ(11994661.788456632, stock.data_[7]);
 }
 
-
 } /* namespace age */
 } /* namespace processes */
 } /* namespace niwa */
-
 
 #endif /* TESTMODE */

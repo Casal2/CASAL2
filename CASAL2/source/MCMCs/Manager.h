@@ -5,7 +5,7 @@
  * @date 21/05/2015
  * @section LICENSE
  *
- * Copyright NIWA Science ©2015 - www.niwa.co.nz
+ * Copyright NIWA Science ï¿½2015 - www.niwa.co.nz
  *
  * @section DESCRIPTION
  *
@@ -28,19 +28,21 @@ namespace mcmcs {
 class Manager : public niwa::base::Manager<niwa::mcmcs::Manager, niwa::MCMC> {
   friend class niwa::base::Manager<niwa::mcmcs::Manager, niwa::MCMC>;
   friend class niwa::Managers;
+
 public:
   // methods
-  Manager() = default;
-  virtual                     ~Manager() = default;
-  void                        Validate() override final;
-  void                        Validate(shared_ptr<Model> model);
+  Manager()          = default;
+  virtual ~Manager() = default;
+  void Validate() override final;
+  void Validate(shared_ptr<Model> model);
 
   // accessors
-  MCMC*                       active_mcmc() const { return mcmc_; }
+  MCMC* active_mcmc() const { return mcmc_; }
 
 private:
   // members
-  MCMC*                       mcmc_ = nullptr;
+  MCMC* mcmc_          = nullptr;
+  bool  has_validated_ = false;
 };
 
 } /* namespace mcmcs */

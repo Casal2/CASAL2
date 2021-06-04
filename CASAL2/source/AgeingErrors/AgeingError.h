@@ -35,31 +35,31 @@ class AgeingError : public niwa::base::Object {
 public:
   // Methods
   AgeingError(shared_ptr<Model> model);
-  AgeingError() = delete;
-  virtual                     ~AgeingError() = default;
-  void                        Validate();
-  void                        Build();
-  void                        Reset() { DoReset(); }
+  AgeingError()          = delete;
+  virtual ~AgeingError() = default;
+  void Validate();
+  void Build();
+  void Reset() { DoReset(); }
 
   // Accessors
-  unsigned                    min_age() const { return min_age_; }
-  unsigned                    max_age() const { return max_age_; }
-  bool                        plus_group() const { return plus_group_; }
-  vector<vector<Double> >&    mis_matrix() { return mis_matrix_; }
+  unsigned                 min_age() const { return min_age_; }
+  unsigned                 max_age() const { return max_age_; }
+  bool                     plus_group() const { return plus_group_; }
+  vector<vector<Double> >& mis_matrix() { return mis_matrix_; }
 
 protected:
   // Methods
-  virtual void                DoValidate() = 0;
-  virtual void                DoBuild() = 0;
-  virtual void                DoReset() = 0;
+  virtual void DoValidate() = 0;
+  virtual void DoBuild()    = 0;
+  virtual void DoReset()    = 0;
 
   // Members
-  shared_ptr<Model>                      model_ = nullptr;
-  unsigned                    min_age_ = 0;
-  unsigned                    max_age_ = 0;
-  bool                        plus_group_ = false;
-  unsigned                    age_spread_ = 0;
-  vector<vector<Double> >     mis_matrix_;
+  shared_ptr<Model>       model_      = nullptr;
+  unsigned                min_age_    = 0;
+  unsigned                max_age_    = 0;
+  bool                    plus_group_ = false;
+  unsigned                age_spread_ = 0;
+  vector<vector<Double> > mis_matrix_;
 };
 
 } /* namespace niwa */

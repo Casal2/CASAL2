@@ -25,7 +25,7 @@ namespace cached {
 /**
  * Default Constructor
  */
-Categories::Categories(shared_ptr<Model> model) : model_(model) { }
+Categories::Categories(shared_ptr<Model> model) : model_(model) {}
 
 /**
  * Init
@@ -42,14 +42,14 @@ void Categories::Init(const vector<string>& category_labels) {
 void Categories::BuildCache() {
   data_.clear();
 
-  unsigned year = model_->current_year();
+  unsigned   year      = model_->current_year();
   Partition& partition = model_->partition();
-  for(string category_label : category_labels_) {
+  for (string category_label : category_labels_) {
     partition::Category& category = partition.category(category_label);
     LOG_FINEST() << "Category: " << category_label << " has " << category.years_.size() << " years loaded";
 
     if (std::find(category.years_.begin(), category.years_.end(), year) == category.years_.end())
-      continue; // Not valid in this year
+      continue;  // Not valid in this year
 
     data_.push_back(category);
   }

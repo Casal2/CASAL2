@@ -14,13 +14,13 @@
 #include "String.h"
 
 #include <algorithm>
-#include <boost/algorithm/string/replace.hpp>
-#include <boost/algorithm/string/trim_all.hpp>
-#include <boost/algorithm/string/split.hpp>
 #include <boost/algorithm/string/join.hpp>
+#include <boost/algorithm/string/replace.hpp>
+#include <boost/algorithm/string/split.hpp>
+#include <boost/algorithm/string/trim_all.hpp>
 
-#include "../Utilities/To.h"
 #include "../Logging/Logging.h"
+#include "../Utilities/To.h"
 
 // Namespaces
 namespace niwa {
@@ -35,25 +35,24 @@ namespace util = niwa::utilities;
  * @return string of invalid characters
  */
 std::string String::find_invalid_characters(const std::string& test_string) {
- if (test_string.length() == 0)
-   return "";
+  if (test_string.length() == 0)
+    return "";
 
- std::string special_chars = ".-_";
+  std::string special_chars = ".-_";
 
- std::string invalid = "";
- std::for_each(test_string.begin(), test_string.end(),
+  std::string invalid = "";
+  std::for_each(test_string.begin(), test_string.end(),
 #ifdef _MSC_VER
-  [&special_chars, &invalid](char c) { if (!isalpha(c) && !isdigit(c) && special_chars.find(c) == string::npos) invalid += c; }
+                [&special_chars, &invalid](char c) {
+                  if (!isalpha(c) && !isdigit(c) && special_chars.find(c) == string::npos)
+                    invalid += c;
+                }
 #else
   [&special_chars, &invalid](char c) { if (!std::isalpha(c) && !std::isdigit(c) && special_chars.find(c) == string::npos) invalid += c; }
 #endif
- );
+  );
 
-
-
-
-
- return invalid;
+  return invalid;
 }
 
 /**
@@ -75,7 +74,7 @@ vector<std::string> String::explode(const std::string& source) {
       if (pieces.size() != 2)
         return vector<string>();
 
-      unsigned first = 0;
+      unsigned first  = 0;
       unsigned second = 0;
 
       if (!utilities::To<std::string, unsigned>(pieces[0], first))
@@ -84,19 +83,16 @@ vector<std::string> String::explode(const std::string& source) {
         return vector<string>();
 
       if (first < second) {
-        for (unsigned i = first; i <= second; ++i)
-          result.push_back(utilities::ToInline<unsigned, std::string>(i));
+        for (unsigned i = first; i <= second; ++i) result.push_back(utilities::ToInline<unsigned, std::string>(i));
       } else {
-        for (unsigned i = first; i >= second; --i)
-          result.push_back(utilities::ToInline<unsigned, std::string>(i));
+        for (unsigned i = first; i >= second; --i) result.push_back(utilities::ToInline<unsigned, std::string>(i));
       }
 
     } else
       result.push_back(index);
   }
 
-  for (auto& str_value: result)
-    boost::trim(str_value);
+  for (auto& str_value : result) boost::trim(str_value);
 
   return result;
 }
@@ -145,7 +141,7 @@ bool String::TrimOperators(vector<string>& line_values) {
  * @param line_values The vector containing the split parts we want to modify
  * @return true on success, false on failure
  */
-bool String::HandleOperators(vector<string>& line_values, string &error) {
+bool String::HandleOperators(vector<string>& line_values, string& error) {
   TrimOperators(line_values);
 
   string line = boost::algorithm::join(line_values, " ");
@@ -159,7 +155,6 @@ bool String::HandleOperators(vector<string>& line_values, string &error) {
   vector<string> temp_line_values;
   boost::split(temp_line_values, line, boost::is_any_of(" "));
   for (string line_value : temp_line_values) {
-
     if (line_value.find("=") != string::npos) {
       // handle the assignment format
       string output_line = "";
@@ -182,11 +177,10 @@ bool String::HandleOperators(vector<string>& line_values, string &error) {
         boost::split(segment_chunks, line_value_segments[i], boost::is_any_of(","));
         for (string chunk : segment_chunks) {
           if (chunk.find(":") != string::npos) {
-            string split_chunk = RangeSplit(chunk);
+            string         split_chunk = RangeSplit(chunk);
             vector<string> split_chunk_pieces;
             boost::split(split_chunk_pieces, split_chunk, boost::is_any_of(","));
-            for (auto c : split_chunk_pieces)
-              chunks[i].push_back(c);
+            for (auto c : split_chunk_pieces) chunks[i].push_back(c);
 
           } else if (chunk.find("*") != string::npos && chunk != "*" && chunk != "*+") {
             /**
@@ -207,11 +201,10 @@ bool String::HandleOperators(vector<string>& line_values, string &error) {
               return false;
             }
 
-            for (unsigned index = 0; index < multiplier; ++index)
-              chunks[i].push_back(temp[0]);
+            for (unsigned index = 0; index < multiplier; ++index) chunks[i].push_back(temp[0]);
           } else
             chunks[i].push_back(chunk);
-            // default is to do nothing
+          // default is to do nothing
         }
       }
 
@@ -230,10 +223,9 @@ bool String::HandleOperators(vector<string>& line_values, string &error) {
         }
       }
 
-      for (string combination : combinations)
-        line_values.push_back(combination);
+      for (string combination : combinations) line_values.push_back(combination);
     }
-  }// for line_value
+  }  // for line_value
 
   return true;
 }
@@ -264,22 +256,20 @@ string String::RangeSplit(const string& range_value) {
     LOG_FATAL() << "line " << range_value << " could not be split into two pieces for a range";
   }
 
-  int start_value;
-  int end_value;
+  int            start_value;
+  int            end_value;
   vector<string> range;
   if (util::To<int>(numerics[0], start_value) && util::To<int>(numerics[1], end_value)) {
     LOG_FINEST() << "Ranging values: " << start_value << " to " << end_value;
     if (start_value < end_value) {
-      for (int value = start_value; value <= end_value; ++value)
-        range.push_back(util::ToInline<int, string>(value));
+      for (int value = start_value; value <= end_value; ++value) range.push_back(util::ToInline<int, string>(value));
     } else {
-      for (int value = start_value; value >= end_value; --value)
-        range.push_back(util::ToInline<int, string>(value));
+      for (int value = start_value; value >= end_value; --value) range.push_back(util::ToInline<int, string>(value));
     }
 
     result = boost::algorithm::join(range, ",");
 
-  }  else {
+  } else {
     LOG_FINE() << "Could not convert either " << numerics[0] << " or " << numerics[1] << " to an integer";
     result = range_value;
   }
@@ -292,40 +282,39 @@ string String::RangeSplit(const string& range_value) {
  * are doing assignments to a category
  */
 void String::HandleAssignment(const string& input_line, string& output_line) {
+  /**
+   * We need to split based on the = operator now so we can
+   * process each chunk individually.
+   */
+  vector<string> equals_split_pieces;
+  boost::split(equals_split_pieces, input_line, boost::is_any_of("="));
+  vector<vector<string>> new_equals_split_pieces(equals_split_pieces.size());
 
-    /**
-     * We need to split based on the = operator now so we can
-     * process each chunk individually.
-     */
-    vector<string> equals_split_pieces;
-    boost::split(equals_split_pieces, input_line, boost::is_any_of("="));
-    vector<vector<string>> new_equals_split_pieces(equals_split_pieces.size());
+  for (unsigned i = 0; i < equals_split_pieces.size(); ++i) {
+    string equals_split_chunk = equals_split_pieces[i];
+    LOG_FINEST() << "equals_split_chunk: " << equals_split_chunk;
 
-    for (unsigned i = 0; i < equals_split_pieces.size(); ++i) {
-      string equals_split_chunk = equals_split_pieces[i];
-      LOG_FINEST() << "equals_split_chunk: " << equals_split_chunk;
+    vector<string> comma_split_pieces;
+    boost::split(comma_split_pieces, equals_split_chunk, boost::is_any_of(","));
+    for (auto comma_split_piece : comma_split_pieces) {
+      LOG_FINEST() << "comma_split_piece: " << comma_split_piece;
 
-      vector<string> comma_split_pieces;
-      boost::split(comma_split_pieces, equals_split_chunk, boost::is_any_of(","));
-      for (auto comma_split_piece : comma_split_pieces) {
-        LOG_FINEST() << "comma_split_piece: " << comma_split_piece;
-
-        if (comma_split_piece.find(":") != string::npos) {
-          string range = RangeSplit(comma_split_piece);
-          new_equals_split_pieces[i].push_back(range);
-        } else {
-          new_equals_split_pieces[i].push_back(comma_split_piece);
-        }
+      if (comma_split_piece.find(":") != string::npos) {
+        string range = RangeSplit(comma_split_piece);
+        new_equals_split_pieces[i].push_back(range);
+      } else {
+        new_equals_split_pieces[i].push_back(comma_split_piece);
       }
     }
+  }
 
-    vector<string> equals_bits;
-    for (auto vec : new_equals_split_pieces) {
-      string line = boost::algorithm::join(vec, ",");
-      equals_bits.push_back(line);
-    }
+  vector<string> equals_bits;
+  for (auto vec : new_equals_split_pieces) {
+    string line = boost::algorithm::join(vec, ",");
+    equals_bits.push_back(line);
+  }
 
-    output_line = boost::algorithm::join(equals_bits, "=");
+  output_line = boost::algorithm::join(equals_bits, "=");
 }
 
 } /* namespace utilities */

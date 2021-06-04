@@ -35,26 +35,26 @@ class TagLoss : public niwa::Process {
 public:
   // Methods
   TagLoss(shared_ptr<Model> model);
-  virtual                     ~TagLoss() = default;
-  void                        DoValidate() override final;
-  void                        DoBuild() override final;
-  void                        DoReset() override final;
-  void                        DoExecute() override final;
-  void                        FillReportCache(ostringstream& cache) override final { };
-  void                        FillTabularReportCache(ostringstream& cache, bool first_run) override final { };
+  virtual ~TagLoss() = default;
+  void DoValidate() override final;
+  void DoBuild() override final;
+  void DoReset() override final;
+  void DoExecute() override final;
+  void FillReportCache(ostringstream& cache) override final{};
+  void FillTabularReportCache(ostringstream& cache, bool first_run) override final{};
 
 private:
   // Members
-  vector<string>              category_labels_;
-  vector<Double>              tag_loss_input_;
-  OrderedMap<string, Double>  tag_loss_;
-  string                      tag_loss_type_ = "single";
-  vector<Double>              ratios_;
-  map<unsigned, Double>       time_step_ratios_;
-  vector<string>              selectivity_names_;
-  accessor::Categories        partition_;
-  vector<Selectivity*>        selectivities_;
-  unsigned                    year_;
+  vector<string>             category_labels_;
+  vector<Double>             tag_loss_input_;
+  OrderedMap<string, Double> tag_loss_;
+  string                     tag_loss_type_ = "single";
+  vector<Double>             ratios_;
+  map<unsigned, Double>      time_step_ratios_;
+  vector<string>             selectivity_names_;
+  accessor::Categories       partition_;
+  vector<Selectivity*>       selectivities_;
+  unsigned                   year_;
 };
 
 } /* namespace age */

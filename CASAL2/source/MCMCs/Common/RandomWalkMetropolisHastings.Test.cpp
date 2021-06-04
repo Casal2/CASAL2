@@ -14,10 +14,10 @@
 // Headers
 #include <iostream>
 
-#include "../../ConfigurationLoader/MPD.Mock.h"
 #include "../../DerivedQuantities/Manager.h"
 #include "../../MCMCs/MCMC.h"
 #include "../../MCMCs/Manager.h"
+#include "../../MPD/MPD.Mock.h"
 #include "../../Model/Managers.h"
 #include "../../Model/Model.h"
 #include "../../ObjectiveFunction/ObjectiveFunction.h"
@@ -32,7 +32,7 @@
 // Namespaces
 namespace niwa {
 
-using niwa::configuration::MockMPD;
+using niwa::MockMPD;
 using std::cout;
 using std::endl;
 using ::testing::NiceMock;

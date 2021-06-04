@@ -11,8 +11,8 @@
 // headers
 #include "ObjectiveFunction.h"
 
-#include <iostream>     // std::cout, std::fixed
-#include <iomanip>      // std::setprecision
+#include <iomanip>   // std::setprecision
+#include <iostream>  // std::cout, std::fixed
 
 #include "../../Model/Model.h"
 #include "../../ObjectiveFunction/ObjectiveFunction.h"
@@ -53,7 +53,7 @@ void ObjectiveFunction::Execute() {
     std::cout.precision(9);
 
     LOG_ERROR() << "Assert Failure: Objective Function had actual value " << obj.score() << " when " << value_
-      << " values were expected with difference: " << fabs(AS_DOUBLE(value_) - AS_DOUBLE(obj.score()));
+                << " values were expected with difference: " << fabs(AS_DOUBLE(value_) - AS_DOUBLE(obj.score()));
 
     std::cout.precision(prec);
   }

@@ -16,28 +16,28 @@
 #define SOURCE_CONFIGURATIONLOADER_MCMCOBJECTIVE_H_
 
 // headers
-#include <string>
 #include <memory>
+#include <string>
 
 // namespaces
 namespace niwa {
 class Model;
 
 namespace configuration {
-using std::string;
 using std::shared_ptr;
+using std::string;
 
 // classes
 class MCMCObjective {
 public:
   // methods
   MCMCObjective(shared_ptr<Model> model);
-  virtual                     ~MCMCObjective() = default;
-  bool                        LoadFile(const string& file_name);
+  virtual ~MCMCObjective() = default;
+  bool LoadFile(const string& file_name);
 
 private:
   // members
-  shared_ptr<Model>                      model_;
+  shared_ptr<Model> model_;
 };
 
 } /* namespace configuration */

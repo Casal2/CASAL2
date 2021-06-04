@@ -24,7 +24,7 @@ namespace accessors {
 /**
  * Default Constructor
  */
-Categories::Categories(shared_ptr<Model> model) : model_(model) { }
+Categories::Categories(shared_ptr<Model> model) : model_(model) {}
 
 /**
  *
@@ -42,11 +42,11 @@ void Categories::Init(const vector<string>& category_labels) {
 
   Partition& partition = model_->partition();
 
-  for(string category_label : category_labels) {
+  for (string category_label : category_labels) {
     partition::Category& category = partition.category(category_label);
     for (unsigned year = start_year; year <= final_year; ++year) {
       if (std::find(category.years_.begin(), category.years_.end(), year) == category.years_.end())
-              continue; // Not valid in this year
+        continue;  // Not valid in this year
 
       data_[year].push_back(&category);
     }

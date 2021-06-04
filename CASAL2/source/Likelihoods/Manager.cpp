@@ -22,8 +22,7 @@ namespace likelihoods {
 /**
  * class definition
  */
-Manager::Manager() {
-}
+Manager::Manager() {}
 
 /**
  * This method returns the existing likelihood or creates and returns the likelihood

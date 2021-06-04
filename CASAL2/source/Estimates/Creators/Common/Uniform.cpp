@@ -19,8 +19,7 @@ namespace creators {
 /**
  * Default constructor
  */
-Uniform::Uniform(shared_ptr<Model> model) : Creator(model) {
-}
+Uniform::Uniform(shared_ptr<Model> model) : Creator(model) {}
 
 } /* namespace creators */
 } /* namespace estimates */

@@ -26,7 +26,6 @@
 #include "../../Model/Objects.h"
 #include "../../Utilities/PartitionType.h"
 
-
 // Namespaces
 namespace niwa {
 using ::testing::DoDefault;

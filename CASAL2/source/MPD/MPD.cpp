@@ -19,12 +19,15 @@
 #include <fstream>
 #include <functional>
 #include <iostream>
+#include <ostream>
 #include <vector>
 
 #include "../Estimables/Estimables.h"
 #include "../Estimates/Manager.h"
 #include "../Logging/Logging.h"
 #include "../MCMCs/Manager.h"
+#include "../Minimisers/Manager.h"
+#include "../Minimisers/Minimiser.h"
 #include "../Model/Managers.h"
 #include "../Model/Model.h"
 #include "../Utilities/To.h"
@@ -32,21 +35,42 @@
 
 // namespaces
 namespace niwa {
-namespace configuration {
 using niwa::utilities::Double;
 using std::cout;
 using std::endl;
 using std::ifstream;
+using std::ostringstream;
 using std::vector;
 
 /**
- * Load the MPD file
+ * @brief Load an MPD block from a string into a proper
+ * MPD that can be used by the system.
+ * We just split the string based on new-lines and add
+ * it to the same vector we would if we're loading it from disk
+ *
+ * @param mpd_block
+ */
+void MPD::ParseString(const string& mpd_block) {
+  vector<string> lines;
+  boost::split(lines, mpd_block, boost::is_any_of("\n"));
+  for (string line : lines) file_lines_.push_back(line);
+
+  ParseFile();
+}
+
+/**
+ * @brief
+ *
+ * @param file_name
+ * @return true
+ * @return false
  */
 bool MPD::LoadFromDiskToMemory(const string& file_name) {
   ifstream file;
   file.open(file_name.c_str());
-  if (file.fail() || !file.is_open())
-    LOG_FATAL() << "Unable to open the estimate_value file: " << file_name;
+  if (file.fail() || !file.is_open()) {
+    LOG_FATAL() << "Casal2 failed to open the MPD file " << file_name << ". Have you forgotten to specify --estimate-before-mcmc to create this file if it doesn't exist?";
+  }
 
   string line = "";
   while (getline(file, line)) file_lines_.push_back(line);
@@ -162,5 +186,44 @@ void MPD::ParseFile() {
     LOG_FATAL() << "The last line of MPD data must be '*end' in " << file_name_;
 }
 
-} /* namespace configuration */
+/**
+ * @brief Create a MPD in this object and store it in value_
+ * from the master model parameter
+ *
+ * @param master_model The master model with current minimiser
+ */
+void MPD::CreateMPD(shared_ptr<Model> master_model) {
+  auto minimiser_manager = master_model->managers()->minimiser();
+  auto minimiser         = minimiser_manager->active_minimiser();
+  if (!minimiser)
+    LOG_CODE_ERROR() << "!minimiser";
+
+  ostringstream cache;
+  cache << "* MPD\n";
+
+  /**
+   * Print our Estimate Values
+   */
+  cache << "estimate_values:\n";
+  auto estimates = master_model->managers()->estimate()->GetIsEstimated();
+  for (auto estimate : estimates) cache << estimate->parameter() << " ";
+  cache << "\n";
+
+  for (auto estimate : estimates) cache << AS_DOUBLE(estimate->value()) << " ";
+  cache << "\n";
+
+  /**
+   * Print our covariance matrix
+   */
+  cache << "covariance_matrix:\n";
+  auto covariance_matrix = master_model->managers()->minimiser()->active_minimiser()->covariance_matrix();
+  for (unsigned i = 0; i < covariance_matrix.size1(); ++i) {
+    for (unsigned j = 0; j < covariance_matrix.size2(); ++j) cache << covariance_matrix(i, j) << " ";
+    cache << "\n";
+  }
+  cache << "*end\n";
+
+  value_ = cache.str();
+}
+
 } /* namespace niwa */

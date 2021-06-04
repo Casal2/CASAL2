@@ -31,11 +31,11 @@ namespace age {
 class Partition : public niwa::Report {
 public:
   Partition();
-  virtual                     ~Partition() = default;
-  void                        DoValidate(shared_ptr<Model> model) override final;
-  void                        DoBuild(shared_ptr<Model> model) override final { };
-  void                        DoExecute(shared_ptr<Model> model) override final;
-  void                        DoExecuteTabular(shared_ptr<Model> model) override final { };
+  virtual ~Partition() = default;
+  void DoValidate(shared_ptr<Model> model) override final;
+  void DoBuild(shared_ptr<Model> model) override final{};
+  void DoExecute(shared_ptr<Model> model) override final;
+  void DoExecuteTabular(shared_ptr<Model> model) override final{};
 };
 
 } /* namespace age */

@@ -18,9 +18,7 @@ namespace selectivities {
 /**
  * Default constructor
  */
-Constant::Constant(shared_ptr<Model> model)
-: Selectivity(model) {
-
+Constant::Constant(shared_ptr<Model> model) : Selectivity(model) {
   parameters_.Bind<Double>(PARAM_C, &c_, "The constant value", "");
 
   RegisterAsAddressable(PARAM_C, &c_);

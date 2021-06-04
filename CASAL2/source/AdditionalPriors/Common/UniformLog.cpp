@@ -29,7 +29,7 @@ namespace additionalpriors {
  *
  * Note: The constructor is parsed to generate LaTeX for the documentation.
  */
-UniformLog::UniformLog(shared_ptr<Model> model) : AdditionalPrior(model) { }
+UniformLog::UniformLog(shared_ptr<Model> model) : AdditionalPrior(model) {}
 
 /**
  * Build the object
@@ -42,7 +42,7 @@ void UniformLog::DoBuild() {
 
   addressable::Type addressable_type = model_->objects().GetAddressableType(parameter_);
   LOG_FINEST() << "type = " << addressable_type;
-  switch(addressable_type) {
+  switch (addressable_type) {
     case addressable::kInvalid:
       LOG_CODE_ERROR() << "Invalid addressable type: " << parameter_;
       break;
@@ -50,20 +50,19 @@ void UniformLog::DoBuild() {
       addressable_ = model_->objects().GetAddressable(parameter_);
       break;
     default:
-      LOG_ERROR() << "The addressable provided for use in additional priors '" << parameter_
-        << "' has a type that is not supported for uniform_log additional priors";
+      LOG_ERROR() << "The addressable provided for use in additional priors '" << parameter_ << "' has a type that is not supported for uniform_log additional priors";
       break;
   }
 }
 
 /**
  * Get the score
-  * @return The score
+ * @return The score
  */
 Double UniformLog::GetScore() {
   Double value = (*addressable_);
-  score_ = log(value);
-  LOG_FINEST() << "score = " << score_ << " value = " << value ;
+  score_       = log(value);
+  LOG_FINEST() << "score = " << score_ << " value = " << value;
   return score_;
 }
 

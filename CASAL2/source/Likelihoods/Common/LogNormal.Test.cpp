@@ -10,23 +10,23 @@
 #ifdef TESTMODE
 
 // headers
-#include "LogNormal.h"
-
-#include <iostream>
 #include <gmock/gmock.h>
 #include <gtest/gtest.h>
+
+#include <iostream>
 
 #include "../../Likelihoods/Factory.h"
 #include "../../Observations/Comparison.h"
 #include "../../Utilities/RandomNumberGenerator.h"
+#include "LogNormal.h"
 
 // namespaces
 namespace niwa {
 namespace likelihoods {
 
+using observations::Comparison;
 using std::cout;
 using std::endl;
-using observations::Comparison;
 
 TEST(Likelihood, LogNormal) {
   utilities::RandomNumberGenerator::Instance().Reset(31373u);
@@ -38,25 +38,25 @@ TEST(Likelihood, LogNormal) {
   // Test case 1
   for (unsigned i = 0; i < 4; ++i) {
     Comparison comparison;
-    comparison.age_             = 0;
-    comparison.category_        = "A";
-    comparison.expected_        = 0.25;
-    comparison.observed_        = 0.25;
-    comparison.error_value_     = 0.0001;
-    comparison.process_error_   = 0.0;
-    comparison.delta_           = 1e-5;
+    comparison.age_           = 0;
+    comparison.category_      = "A";
+    comparison.expected_      = 0.25;
+    comparison.observed_      = 0.25;
+    comparison.error_value_   = 0.0001;
+    comparison.process_error_ = 0.0;
+    comparison.delta_         = 1e-5;
     comparison_list[0].push_back(comparison);
   }
 
   for (unsigned i = 0; i < 4; ++i) {
     Comparison comparison;
-    comparison.age_             = 0;
-    comparison.category_        = "B";
-    comparison.expected_        = 0.25;
-    comparison.observed_        = 0.25;
-    comparison.error_value_     = 0.5;
-    comparison.process_error_   = 0.0;
-    comparison.delta_           = 1e-5;
+    comparison.age_           = 0;
+    comparison.category_      = "B";
+    comparison.expected_      = 0.25;
+    comparison.observed_      = 0.25;
+    comparison.error_value_   = 0.5;
+    comparison.process_error_ = 0.0;
+    comparison.delta_         = 1e-5;
     comparison_list[0].push_back(comparison);
   }
 
@@ -65,10 +65,10 @@ TEST(Likelihood, LogNormal) {
 
   // Check scores
   likelihood.GetScores(comparison_list);
-  EXPECT_DOUBLE_EQ(-9.2103403762649183,  comparison_list[0][0].score_);
-  EXPECT_DOUBLE_EQ(-9.2103403762649183,  comparison_list[0][1].score_);
-  EXPECT_DOUBLE_EQ(-9.2103403762649183,  comparison_list[0][2].score_);
-  EXPECT_DOUBLE_EQ(-9.2103403762649183,  comparison_list[0][3].score_);
+  EXPECT_DOUBLE_EQ(-9.2103403762649183, comparison_list[0][0].score_);
+  EXPECT_DOUBLE_EQ(-9.2103403762649183, comparison_list[0][1].score_);
+  EXPECT_DOUBLE_EQ(-9.2103403762649183, comparison_list[0][2].score_);
+  EXPECT_DOUBLE_EQ(-9.2103403762649183, comparison_list[0][3].score_);
   EXPECT_DOUBLE_EQ(-0.72207704946548157, comparison_list[0][4].score_);
   EXPECT_DOUBLE_EQ(-0.72207704946548157, comparison_list[0][5].score_);
   EXPECT_DOUBLE_EQ(-0.72207704946548157, comparison_list[0][6].score_);
@@ -76,8 +76,8 @@ TEST(Likelihood, LogNormal) {
 
   // check simulations
   likelihood.SimulateObserved(comparison_list);
-  EXPECT_DOUBLE_EQ(0.25001151803908866,   comparison_list[0][0].observed_);
-  EXPECT_DOUBLE_EQ(0.25007450179597446,  comparison_list[0][1].observed_);
+  EXPECT_DOUBLE_EQ(0.25001151803908866, comparison_list[0][0].observed_);
+  EXPECT_DOUBLE_EQ(0.25007450179597446, comparison_list[0][1].observed_);
   EXPECT_DOUBLE_EQ(0.24998621490767847, comparison_list[0][2].observed_);
   EXPECT_DOUBLE_EQ(0.24998315947676214, comparison_list[0][3].observed_);
   EXPECT_DOUBLE_EQ(0.077455283489012747, comparison_list[0][4].observed_);

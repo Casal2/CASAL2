@@ -20,8 +20,7 @@ namespace estimates {
 /**
  * Default Constructor
  */
-UniformLog::UniformLog(shared_ptr<Model> model) : Estimate(model) {
-}
+UniformLog::UniformLog(shared_ptr<Model> model) : Estimate(model) {}
 
 /**
  * Calculate and return the score

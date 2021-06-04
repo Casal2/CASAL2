@@ -25,9 +25,8 @@ using std::cout;
 using std::endl;
 
 // Friend Operators
-bool inline operator== (const Object* o, string_view label)
-{
-    return label == o->label();
+bool inline operator==(const Object* o, string_view label) {
+  return label == o->label();
 }
 
 /**
@@ -62,7 +61,7 @@ bool Object::HasAddressableUsage(const string& label, const addressable::Usage& 
   if (addressable_types_.find(label) == addressable_types_.end()) {
     for (auto container : unnamed_addressable_s_map_vector_) {
       if (container->find(label) != container->end())
-        return true; // by default, we allow all usage. Overrises will show up in the types_
+        return true;  // by default, we allow all usage. Overrises will show up in the types_
     }
     LOG_CODE_ERROR() << "The addressable " << label << " has not been registered for the object " << block_type_ << ".type=" << type_;
   }
@@ -103,7 +102,7 @@ unsigned Object::GetAddressableSize(const string& label) const {
   if (addressable_vectors_.find(label) != addressable_vectors_.end())
     return addressable_vectors_.find(label)->second->size();
   if (addressable_u_maps_.find(label) != addressable_u_maps_.end())
-      return addressable_u_maps_.find(label)->second->size();
+    return addressable_u_maps_.find(label)->second->size();
   if (addressable_s_maps_.find(label) != addressable_s_maps_.end())
     return addressable_s_maps_.find(label)->second->size();
   for (auto unnamed : unnamed_addressable_s_map_vector_) {
@@ -125,8 +124,7 @@ unsigned Object::GetAddressableSize(const string& label) const {
  * @return A pointer to the addressable to be used by the Estimate object
  */
 Double* Object::GetAddressable(const string& label) {
-  for(auto addressables : addressable_types_)
-    LOG_FINEST() << addressables.first;
+  for (auto addressables : addressable_types_) LOG_FINEST() << addressables.first;
 
   if (addressable_types_.find(label) == addressable_types_.end())
     LOG_CODE_ERROR() << "addressable_types_.find(" << label << ") == addressable_types_.end()";
@@ -152,8 +150,8 @@ Double* Object::GetAddressable(const string& label, const string& index) {
     return &(*addressable_s_maps_[label])[index];
 
   } else if (addressable_types_[label] == addressable::kUnsignedMap) {
-    unsigned value = 0;
-    bool success = utilities::To<unsigned>(index, value);
+    unsigned value   = 0;
+    bool     success = utilities::To<unsigned>(index, value);
     if (!success)
       LOG_CODE_ERROR() << "bool success = util::To<unsigned>(" << index << ", value);";
 
@@ -165,8 +163,8 @@ Double* Object::GetAddressable(const string& label, const string& index) {
     return &(*addressable_u_maps_[label])[value];
 
   } else if (addressable_types_[label] == addressable::kVector) {
-    unsigned value = 0;
-    bool success = utilities::To<unsigned>(index, value);
+    unsigned value   = 0;
+    bool     success = utilities::To<unsigned>(index, value);
     if (!success)
       LOG_CODE_ERROR() << "bool success = util::To<unsigned>(" << index << ", value);";
 
@@ -213,7 +211,7 @@ vector<Double*>* Object::GetAddressables(const string& absolute_label, const vec
  * @return a pointer to the map to use
  */
 map<unsigned, Double>* Object::GetAddressableUMap(const string& label) {
-  bool dummy =  false;
+  bool dummy = false;
   return GetAddressableUMap(label, dummy);
 }
 
@@ -398,8 +396,7 @@ void Object::PrintParameterQueryInfo() {
  * for all subscribers so that a cascading cache rebuild will
  * take effect when something like a time-varying parameter is rebuilt.
  */
-void Object::RebuildCache() {
-}
+void Object::RebuildCache() {}
 
 /**
  * This method allows one object to subscribe to the RebuildCache of another. This is used with things like
@@ -416,8 +413,7 @@ void Object::SubscribeToRebuildCache(Object* subscriber) {
  * This method notifies subscribers of a cache rebuild event
  */
 void Object::NotifySubscribers() {
-  for (auto subscriber : rebuild_cache_subscribers_)
-    subscriber->RebuildCache();
+  for (auto subscriber : rebuild_cache_subscribers_) subscriber->RebuildCache();
 }
 
 } /* namespace base */

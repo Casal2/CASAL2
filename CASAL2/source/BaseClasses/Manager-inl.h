@@ -23,12 +23,11 @@ template <class ClassType, class StoredType>
 void Manager<ClassType, StoredType>::Validate() {
   map<string, StoredType*> duplicates;
 
-  for(auto stored_object : objects_) {
+  for (auto stored_object : objects_) {
     stored_object->Validate();
     if (stored_object->label() != "" && duplicates.find(stored_object->label()) != duplicates.end()) {
-      LOG_FATAL() << "Two " << stored_object->block_type() << " objects with the same label "
-          << stored_object->label() << " have been declared. At "
-          << stored_object->location() << "and " << duplicates[stored_object->label()]->location();
+      LOG_FATAL() << "Two " << stored_object->block_type() << " objects with the same label " << stored_object->label() << " have been declared. At " << stored_object->location()
+                  << "and " << duplicates[stored_object->label()]->location();
     }
     duplicates[stored_object->label()] = stored_object;
   }
@@ -40,7 +39,7 @@ void Manager<ClassType, StoredType>::Validate() {
 template <class ClassType, class StoredType>
 void Manager<ClassType, StoredType>::Build() {
   LOG_FINEST() << "Starting Build... with " << objects_.size() << " objects";
-  for(auto stored_object : objects_) {
+  for (auto stored_object : objects_) {
     stored_object->Build();
   }
 
@@ -53,7 +52,7 @@ void Manager<ClassType, StoredType>::Build() {
  */
 template <class ClassType, class StoredType>
 void Manager<ClassType, StoredType>::Reset() {
-  for(auto stored_object : objects_) {
+  for (auto stored_object : objects_) {
     stored_object->Reset();
   }
 }
@@ -65,7 +64,7 @@ void Manager<ClassType, StoredType>::Reset() {
  */
 template <class ClassType, class StoredType>
 bool Manager<ClassType, StoredType>::HasType(const std::string_view type) {
-  for(auto stored_object : objects_) {
+  for (auto stored_object : objects_) {
     if (stored_object->type() == type)
       return true;
   }
@@ -78,15 +77,14 @@ bool Manager<ClassType, StoredType>::HasType(const std::string_view type) {
  */
 template <class ClassType, class StoredType>
 StoredType* Manager<ClassType, StoredType>::get(string_view label) {
-	for(auto stored_object : objects_) {
-		if (label == stored_object->label())
-			return stored_object;
-	}
+  for (auto stored_object : objects_) {
+    if (label == stored_object->label())
+      return stored_object;
+  }
 
-	LOG_FATAL() << "Object " << label << " could not be found in it's manager";
-	return nullptr;
+  LOG_FATAL() << "Object " << label << " could not be found in it's manager";
+  return nullptr;
 }
 
-
-} /* namespae base */
+}  // namespace base
 } /* namespace niwa */

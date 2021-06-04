@@ -12,24 +12,23 @@
 #ifdef TESTMODE
 
 // Headers
-#include "ProportionsMatureByAge.h"
-
 #include <iostream>
 
 #include "ObjectiveFunction/ObjectiveFunction.h"
 #include "Observations/Manager.h"
+#include "ProportionsMatureByAge.h"
 #include "TestResources/TestFixtures/InternalEmptyModel.h"
 
 // Namespaces
 namespace niwa {
 namespace age {
 
+using niwa::testfixtures::InternalEmptyModel;
 using std::cout;
 using std::endl;
-using niwa::testfixtures::InternalEmptyModel;
 
 const std::string test_cases_observation_proportions_mature_by_age_age_single =
-R"(
+    R"(
 @model
 start_year 1990
 final_year 1994
@@ -226,39 +225,38 @@ TEST_F(InternalEmptyModel, Observation_Proportions_Mature_By_Age) {
   unsigned year = 1994;
   ASSERT_FALSE(comparisons.find(year) == comparisons.end());
   ASSERT_EQ(80u, comparisons[year].size());
-  EXPECT_EQ("spawn",                      comparisons[year][0].category_);
-  EXPECT_DOUBLE_EQ(0,                     comparisons[year][0].error_value_);
-  EXPECT_DOUBLE_EQ(2.5188981847961234e-08,comparisons[year][0].expected_);
-  EXPECT_DOUBLE_EQ(0,                     comparisons[year][0].observed_);
-  EXPECT_DOUBLE_EQ(0,                     comparisons[year][0].score_);
+  EXPECT_EQ("spawn", comparisons[year][0].category_);
+  EXPECT_DOUBLE_EQ(0, comparisons[year][0].error_value_);
+  EXPECT_DOUBLE_EQ(2.5188981847961234e-08, comparisons[year][0].expected_);
+  EXPECT_DOUBLE_EQ(0, comparisons[year][0].observed_);
+  EXPECT_DOUBLE_EQ(0, comparisons[year][0].score_);
 
-  EXPECT_EQ("spawn",                      comparisons[year][10].category_);
-  EXPECT_DOUBLE_EQ(5,                     comparisons[year][10].error_value_);
-  EXPECT_DOUBLE_EQ(1.3608041126984184e-05,comparisons[year][10].expected_);
-  EXPECT_DOUBLE_EQ(0,                     comparisons[year][10].observed_);
-  EXPECT_DOUBLE_EQ(6.8040668585825584e-05,comparisons[year][10].score_);
+  EXPECT_EQ("spawn", comparisons[year][10].category_);
+  EXPECT_DOUBLE_EQ(5, comparisons[year][10].error_value_);
+  EXPECT_DOUBLE_EQ(1.3608041126984184e-05, comparisons[year][10].expected_);
+  EXPECT_DOUBLE_EQ(0, comparisons[year][10].observed_);
+  EXPECT_DOUBLE_EQ(6.8040668585825584e-05, comparisons[year][10].score_);
 
-  EXPECT_EQ("spawn",                      comparisons[year][20].category_);
-  EXPECT_DOUBLE_EQ(9,                     comparisons[year][20].error_value_);
+  EXPECT_EQ("spawn", comparisons[year][20].category_);
+  EXPECT_DOUBLE_EQ(9, comparisons[year][20].error_value_);
   EXPECT_DOUBLE_EQ(0.0085862448951208748, comparisons[year][20].expected_);
-  EXPECT_DOUBLE_EQ(0.1111111,             comparisons[year][20].observed_);
-  EXPECT_DOUBLE_EQ(2.6293554590655543,    comparisons[year][20].score_);
+  EXPECT_DOUBLE_EQ(0.1111111, comparisons[year][20].observed_);
+  EXPECT_DOUBLE_EQ(2.6293554590655543, comparisons[year][20].score_);
 
-  EXPECT_EQ("spawn",                      comparisons[year][30].category_);
-  EXPECT_DOUBLE_EQ(5,                     comparisons[year][30].error_value_);
-  EXPECT_DOUBLE_EQ(0.80328300093838867,   comparisons[year][30].expected_);
-  EXPECT_DOUBLE_EQ(0.80000000000000004,   comparisons[year][30].observed_);
-  EXPECT_DOUBLE_EQ(0.89274401387613067,   comparisons[year][30].score_);
+  EXPECT_EQ("spawn", comparisons[year][30].category_);
+  EXPECT_DOUBLE_EQ(5, comparisons[year][30].error_value_);
+  EXPECT_DOUBLE_EQ(0.80328300093838867, comparisons[year][30].expected_);
+  EXPECT_DOUBLE_EQ(0.80000000000000004, comparisons[year][30].observed_);
+  EXPECT_DOUBLE_EQ(0.89274401387613067, comparisons[year][30].score_);
 
-  EXPECT_EQ("spawn",                      comparisons[year][70].category_);
-  EXPECT_DOUBLE_EQ(0,                     comparisons[year][70].error_value_);
-  EXPECT_DOUBLE_EQ(1,                     comparisons[year][70].expected_);
-  EXPECT_DOUBLE_EQ(0,                     comparisons[year][70].observed_);
-  EXPECT_DOUBLE_EQ(0,                     comparisons[year][70].score_);
+  EXPECT_EQ("spawn", comparisons[year][70].category_);
+  EXPECT_DOUBLE_EQ(0, comparisons[year][70].error_value_);
+  EXPECT_DOUBLE_EQ(1, comparisons[year][70].expected_);
+  EXPECT_DOUBLE_EQ(0, comparisons[year][70].observed_);
+  EXPECT_DOUBLE_EQ(0, comparisons[year][70].score_);
 }
 
-} /* namespace processes */
+}  // namespace age
 } /* namespace niwa */
-
 
 #endif /* TESTMODE */

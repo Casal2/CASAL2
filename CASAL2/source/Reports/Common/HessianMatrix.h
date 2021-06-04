@@ -9,9 +9,9 @@
 #define REPORTS_HESSIANMATRIX_H_
 
 // headers
-#include "../../Reports/Report.h"
-
 #include <boost/numeric/ublas/matrix.hpp>
+
+#include "../../Reports/Report.h"
 
 // namespaces
 namespace niwa {
@@ -25,16 +25,15 @@ namespace ublas = boost::numeric::ublas;
 class HessianMatrix : public niwa::Report {
 public:
   HessianMatrix();
-  virtual                     ~HessianMatrix() = default;
-  void                        DoValidate(shared_ptr<Model> model) final { };
-  void                        DoBuild(shared_ptr<Model> model) final { };
-  void                        DoExecute(shared_ptr<Model> model) final;
-  void                        DoExecuteTabular(shared_ptr<Model> model) final { };
+  virtual ~HessianMatrix() = default;
+  void DoValidate(shared_ptr<Model> model) final{};
+  void DoBuild(shared_ptr<Model> model) final{};
+  void DoExecute(shared_ptr<Model> model) final;
+  void DoExecuteTabular(shared_ptr<Model> model) final{};
 
 private:
-  Minimiser*                  minimiser_ = nullptr;
-  double**                    hessian_ = nullptr;
-
+  Minimiser* minimiser_ = nullptr;
+  double**   hessian_   = nullptr;
 };
 
 } /* namespace reports */

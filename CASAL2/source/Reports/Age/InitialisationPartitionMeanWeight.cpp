@@ -11,8 +11,8 @@
 // headers
 #include "InitialisationPartitionMeanWeight.h"
 
-#include <iostream>
 #include <iomanip>
+#include <iostream>
 
 #include "../../Model/Model.h"
 #include "../../Partition/Accessors/All.h"
@@ -33,7 +33,6 @@ InitialisationPartitionMeanWeight::InitialisationPartitionMeanWeight() {
   model_state_ = State::kInitialise;
 }
 
-
 /**
  * Execute the report
  */
@@ -41,34 +40,33 @@ void InitialisationPartitionMeanWeight::DoExecute(shared_ptr<Model> model) {
   LOG_TRACE();
   //  auto categories = Categories::Instance();
   niwa::partition::accessors::All all_view(model);
-  unsigned time_step_index = model->managers()->time_step()->current_time_step();
+  unsigned                        time_step_index = model->managers()->time_step()->current_time_step();
 
-  cache_ << "*" << label_ << " " << "("<< type_ << ")"<<"\n";
+  cache_ << "*" << label_ << " "
+         << "(" << type_ << ")"
+         << "\n";
   for (auto iterator : all_view) {
-
     string category = iterator->name_;
     cache_ << category << " " << REPORT_R_LIST << "\n";
 
     cache_ << "mean_weights " << REPORT_R_LIST << "\n";
     cache_ << "values: ";
 
-    for (unsigned age = iterator->min_age_; age <= iterator->max_age_; ++age)
-      cache_ << AS_DOUBLE(iterator->mean_weight_by_time_step_age_[time_step_index][age]) << " ";
-    cache_<<"\n";
+    for (unsigned age = iterator->min_age_; age <= iterator->max_age_; ++age) cache_ << AS_DOUBLE(iterator->mean_weight_by_time_step_age_[time_step_index][age]) << " ";
+    cache_ << "\n";
 
-    cache_ << REPORT_R_LIST_END <<"\n";
+    cache_ << REPORT_R_LIST_END << "\n";
 
     cache_ << "age_lengths " << REPORT_R_LIST << "\n";
     cache_ << "values: ";
 
     unsigned age_bins = iterator->age_spread();
-    for (unsigned age_index = 0; age_index < age_bins; ++age_index)
-      cache_ << AS_DOUBLE(iterator->mean_length_by_time_step_age_[0][time_step_index][age_index]) << " ";
-    cache_<<"\n";
+    for (unsigned age_index = 0; age_index < age_bins; ++age_index) cache_ << AS_DOUBLE(iterator->mean_length_by_time_step_age_[0][time_step_index][age_index]) << " ";
+    cache_ << "\n";
 
-    cache_ << REPORT_R_LIST_END <<"\n";
+    cache_ << REPORT_R_LIST_END << "\n";
 
-    cache_ << REPORT_R_LIST_END <<"\n";
+    cache_ << REPORT_R_LIST_END << "\n";
   }
 
   ready_for_writing_ = true;

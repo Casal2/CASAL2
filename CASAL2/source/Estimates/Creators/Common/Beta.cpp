@@ -36,7 +36,6 @@ void Beta::DoCopyParameters(niwa::Estimate* estimate, unsigned index) {
   estimate->parameters().CopyFrom(parameters_, PARAM_B, index);
 }
 
-
 } /* namespace creators */
 } /* namespace estimates */
 } /* namespace niwa */

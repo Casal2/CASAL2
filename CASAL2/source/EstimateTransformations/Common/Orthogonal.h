@@ -29,32 +29,31 @@ public:
   Orthogonal() = delete;
   explicit Orthogonal(shared_ptr<Model> model);
   virtual ~Orthogonal() = default;
-  void                        TransformForObjectiveFunction() override final { };
-  void                        RestoreFromObjectiveFunction() override final { };
-  std::set<string>            GetTargetEstimates() override final;
-  Double                      GetScore() override final;
+  void             TransformForObjectiveFunction() override final{};
+  void             RestoreFromObjectiveFunction() override final{};
+  std::set<string> GetTargetEstimates() override final;
+  Double           GetScore() override final;
 
 protected:
   // methods
-  void                        DoValidate() override final;
-  void                        DoBuild() override final;
-  void                        DoTransform() override final;
-  void                        DoRestore() override final;
+  void DoValidate() override final;
+  void DoBuild() override final;
+  void DoTransform() override final;
+  void DoRestore() override final;
 
 private:
   // members
-  string                      second_estimate_label_ = "";
-  Estimate*                   first_estimate_ = nullptr;
-  Estimate*                   second_estimate_ = nullptr;
-  Double                      phi_1_ = 0.0;
-  Double                      phi_2_ = 0.0;
-  Double                      theta_1_ = 0.0;
-  Double                      theta_2_ = 0.0;
-  Double                      first_original_upper_bound_ = 0.0;
-  Double                      first_original_lower_bound_ = 0.0;
-  Double                      second_original_upper_bound_ = 0.0;
-  Double                      second_original_lower_bound_ = 0.0;
-
+  string    second_estimate_label_       = "";
+  Estimate* first_estimate_              = nullptr;
+  Estimate* second_estimate_             = nullptr;
+  Double    phi_1_                       = 0.0;
+  Double    phi_2_                       = 0.0;
+  Double    theta_1_                     = 0.0;
+  Double    theta_2_                     = 0.0;
+  Double    first_original_upper_bound_  = 0.0;
+  Double    first_original_lower_bound_  = 0.0;
+  Double    second_original_upper_bound_ = 0.0;
+  Double    second_original_lower_bound_ = 0.0;
 };
 
 } /* namespace estimatetransformations */

@@ -16,10 +16,10 @@
 // Headers
 #include <iostream>
 
-#include "ObjectiveFunction/ObjectiveFunction.h"
-#include "Processes/Manager.h"
 #include "Model/Model.h"
+#include "ObjectiveFunction/ObjectiveFunction.h"
 #include "Partition/Partition.h"
+#include "Processes/Manager.h"
 #include "TestResources/TestFixtures/InternalEmptyModel.h"
 
 // Namespaces
@@ -27,14 +27,12 @@ namespace niwa {
 namespace processes {
 namespace age {
 
-
+using niwa::testfixtures::InternalEmptyModel;
 using std::cout;
 using std::endl;
-using niwa::testfixtures::InternalEmptyModel;
-
 
 const std::string test_cases_process_transition_category_by_age =
-R"(
+    R"(
 @model
 start_year 1994
 final_year 2008
@@ -120,25 +118,25 @@ TEST_F(InternalEmptyModel, Processes_Transition_Category_By_Age) {
 
   model_->Start(RunMode::kBasic);
 
-  partition::Category& male   = model_->partition().category("mature.male");
-  EXPECT_DOUBLE_EQ(0.0,         male.data_[0]);
-  EXPECT_DOUBLE_EQ(0.0,         male.data_[1]);
-  EXPECT_DOUBLE_EQ(0.0,         male.data_[2]);
-  EXPECT_DOUBLE_EQ(470.03594823542818,  male.data_[3]);
-  EXPECT_DOUBLE_EQ(920.17023088886867,  male.data_[4]);
-  EXPECT_DOUBLE_EQ(1350.4980080625662,  male.data_[5]);
-  EXPECT_DOUBLE_EQ(1761.1454029312279,  male.data_[6]);
-  EXPECT_DOUBLE_EQ(0.0,                 male.data_[7]);
+  partition::Category& male = model_->partition().category("mature.male");
+  EXPECT_DOUBLE_EQ(0.0, male.data_[0]);
+  EXPECT_DOUBLE_EQ(0.0, male.data_[1]);
+  EXPECT_DOUBLE_EQ(0.0, male.data_[2]);
+  EXPECT_DOUBLE_EQ(470.03594823542818, male.data_[3]);
+  EXPECT_DOUBLE_EQ(920.17023088886867, male.data_[4]);
+  EXPECT_DOUBLE_EQ(1350.4980080625662, male.data_[5]);
+  EXPECT_DOUBLE_EQ(1761.1454029312279, male.data_[6]);
+  EXPECT_DOUBLE_EQ(0.0, male.data_[7]);
 
   partition::Category& female = model_->partition().category("mature.female");
-  EXPECT_DOUBLE_EQ(0.0,         female.data_[0]);
-  EXPECT_DOUBLE_EQ(0.0,         female.data_[1]);
-  EXPECT_DOUBLE_EQ(0.0,         female.data_[2]);
-  EXPECT_DOUBLE_EQ(529.96405176457176,  female.data_[3]);
-  EXPECT_DOUBLE_EQ(1079.8297691111316,  female.data_[4]);
-  EXPECT_DOUBLE_EQ(1649.501991937434,   female.data_[5]);
-  EXPECT_DOUBLE_EQ(2238.8545970687719,  female.data_[6]);
-  EXPECT_DOUBLE_EQ(0.0,                 female.data_[7]);
+  EXPECT_DOUBLE_EQ(0.0, female.data_[0]);
+  EXPECT_DOUBLE_EQ(0.0, female.data_[1]);
+  EXPECT_DOUBLE_EQ(0.0, female.data_[2]);
+  EXPECT_DOUBLE_EQ(529.96405176457176, female.data_[3]);
+  EXPECT_DOUBLE_EQ(1079.8297691111316, female.data_[4]);
+  EXPECT_DOUBLE_EQ(1649.501991937434, female.data_[5]);
+  EXPECT_DOUBLE_EQ(2238.8545970687719, female.data_[6]);
+  EXPECT_DOUBLE_EQ(0.0, female.data_[7]);
 }
 
 } /* namespace age */

@@ -11,25 +11,23 @@
 #ifdef TESTMODE
 
 // Headers
-#include "Process.h"
-
 #include <iostream>
 
 #include "ObjectiveFunction/ObjectiveFunction.h"
 #include "Observations/Manager.h"
+#include "Process.h"
 #include "TestResources/TestFixtures/InternalEmptyModel.h"
 
 // Namespaces
 namespace niwa {
 namespace age {
 
+using niwa::testfixtures::InternalEmptyModel;
 using std::cout;
 using std::endl;
-using niwa::testfixtures::InternalEmptyModel;
-
 
 const std::string test_cases_observation_process_biomass =
-R"(
+    R"(
 @model
 min_age 2
 max_age 25
@@ -175,51 +173,50 @@ TEST_F(InternalEmptyModel, Observation_Process_Biomass) {
   unsigned year = 1992;
   ASSERT_FALSE(comparisons.find(year) == comparisons.end());
   ASSERT_EQ(1u, comparisons[year].size());
-  EXPECT_EQ("male+female",              comparisons[year][0].category_);
-  EXPECT_DOUBLE_EQ(0.35,                comparisons[year][0].error_value_);
-  EXPECT_DOUBLE_EQ(-22.276816208066737,  comparisons[year][0].expected_);
-  EXPECT_DOUBLE_EQ(1.50,                comparisons[year][0].observed_);
-  EXPECT_DOUBLE_EQ(10651.526433300138,  comparisons[year][0].score_);
+  EXPECT_EQ("male+female", comparisons[year][0].category_);
+  EXPECT_DOUBLE_EQ(0.35, comparisons[year][0].error_value_);
+  EXPECT_DOUBLE_EQ(-22.276816208066737, comparisons[year][0].expected_);
+  EXPECT_DOUBLE_EQ(1.50, comparisons[year][0].observed_);
+  EXPECT_DOUBLE_EQ(10651.526433300138, comparisons[year][0].score_);
 
   year = 1993;
   ASSERT_FALSE(comparisons.find(year) == comparisons.end());
   ASSERT_EQ(1u, comparisons[year].size());
-  EXPECT_EQ("male+female",              comparisons[year][0].category_);
-  EXPECT_DOUBLE_EQ(0.35,                comparisons[year][0].error_value_);
-  EXPECT_DOUBLE_EQ(-22.273330558515898,  comparisons[year][0].expected_);
-  EXPECT_DOUBLE_EQ(1.1000000000000001,  comparisons[year][0].observed_);
-  EXPECT_DOUBLE_EQ(10518.701422461665,  comparisons[year][0].score_);
+  EXPECT_EQ("male+female", comparisons[year][0].category_);
+  EXPECT_DOUBLE_EQ(0.35, comparisons[year][0].error_value_);
+  EXPECT_DOUBLE_EQ(-22.273330558515898, comparisons[year][0].expected_);
+  EXPECT_DOUBLE_EQ(1.1000000000000001, comparisons[year][0].observed_);
+  EXPECT_DOUBLE_EQ(10518.701422461665, comparisons[year][0].score_);
 
   year = 1996;
   ASSERT_FALSE(comparisons.find(year) == comparisons.end());
   ASSERT_EQ(1u, comparisons[year].size());
-  EXPECT_EQ("male+female",              comparisons[year][0].category_);
-  EXPECT_DOUBLE_EQ(0.35,                comparisons[year][0].error_value_);
-  EXPECT_DOUBLE_EQ(-22.260979027504177,  comparisons[year][0].expected_);
-  EXPECT_DOUBLE_EQ(1.53,                comparisons[year][0].observed_);
-  EXPECT_DOUBLE_EQ(10659.725504899203,  comparisons[year][0].score_);
+  EXPECT_EQ("male+female", comparisons[year][0].category_);
+  EXPECT_DOUBLE_EQ(0.35, comparisons[year][0].error_value_);
+  EXPECT_DOUBLE_EQ(-22.260979027504177, comparisons[year][0].expected_);
+  EXPECT_DOUBLE_EQ(1.53, comparisons[year][0].observed_);
+  EXPECT_DOUBLE_EQ(10659.725504899203, comparisons[year][0].score_);
 
   year = 1998;
   ASSERT_FALSE(comparisons.find(year) == comparisons.end());
   ASSERT_EQ(1u, comparisons[year].size());
-  EXPECT_EQ("male+female",              comparisons[year][0].category_);
-  EXPECT_DOUBLE_EQ(0.35,                comparisons[year][0].error_value_);
-  EXPECT_DOUBLE_EQ(-22.253873471029078,  comparisons[year][0].expected_);
+  EXPECT_EQ("male+female", comparisons[year][0].category_);
+  EXPECT_DOUBLE_EQ(0.35, comparisons[year][0].error_value_);
+  EXPECT_DOUBLE_EQ(-22.253873471029078, comparisons[year][0].expected_);
   EXPECT_DOUBLE_EQ(0.68000000000000005, comparisons[year][0].observed_);
-  EXPECT_DOUBLE_EQ(10314.104407769524,  comparisons[year][0].score_);
+  EXPECT_DOUBLE_EQ(10314.104407769524, comparisons[year][0].score_);
 
   year = 2001;
   ASSERT_FALSE(comparisons.find(year) == comparisons.end());
   ASSERT_EQ(1u, comparisons[year].size());
-  EXPECT_EQ("male+female",              comparisons[year][0].category_);
-  EXPECT_DOUBLE_EQ(0.35,                comparisons[year][0].error_value_);
-  EXPECT_DOUBLE_EQ(-22.24770655278946,  comparisons[year][0].expected_);
-  EXPECT_DOUBLE_EQ(1.23,                comparisons[year][0].observed_);
-  EXPECT_DOUBLE_EQ(10565.926685658847,  comparisons[year][0].score_);
+  EXPECT_EQ("male+female", comparisons[year][0].category_);
+  EXPECT_DOUBLE_EQ(0.35, comparisons[year][0].error_value_);
+  EXPECT_DOUBLE_EQ(-22.24770655278946, comparisons[year][0].expected_);
+  EXPECT_DOUBLE_EQ(1.23, comparisons[year][0].observed_);
+  EXPECT_DOUBLE_EQ(10565.926685658847, comparisons[year][0].score_);
 }
 
-} /* namespace processes */
+}  // namespace age
 } /* namespace niwa */
-
 
 #endif /* TESTMODE */

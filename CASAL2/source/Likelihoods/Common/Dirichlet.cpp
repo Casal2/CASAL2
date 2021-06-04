@@ -8,6 +8,7 @@
 
 // Global headers
 #include "Dirichlet.h"
+
 #include <cmath>
 
 // Local headers
@@ -16,7 +17,6 @@
 
 #include "../../Utilities/Math.h"
 #include "../../Utilities/RandomNumberGenerator.h"
-
 
 // Namespaces
 namespace niwa {
@@ -39,27 +39,24 @@ Double Dirichlet::AdjustErrorValue(const Double process_error, const Double erro
   return error_value;
 }
 
-
-
 /*
-* Calculate the scores
-*
-* @param comparisons A collection of comparisons passed by the observation
-*/
+ * Calculate the scores
+ *
+ * @param comparisons A collection of comparisons passed by the observation
+ */
 
 void Dirichlet::GetScores(map<unsigned, vector<observations::Comparison> >& comparisons) {
   for (auto year_iterator = comparisons.begin(); year_iterator != comparisons.end(); ++year_iterator) {
     for (observations::Comparison& comparison : year_iterator->second) {
       Double error_value = AdjustErrorValue(comparison.process_error_, comparison.error_value_) * error_value_multiplier_;
-      Double alpha = math::ZeroFun(comparison.expected_,comparison.delta_) * error_value;
-      Double a2_a3 = math::LnGamma(alpha) - ((alpha - 1.0) * log(math::ZeroFun(comparison.observed_,comparison.delta_)));
+      Double alpha       = math::ZeroFun(comparison.expected_, comparison.delta_) * error_value;
+      Double a2_a3       = math::LnGamma(alpha) - ((alpha - 1.0) * log(math::ZeroFun(comparison.observed_, comparison.delta_)));
 
       comparison.adjusted_error_ = error_value;
-      comparison.score_ = a2_a3 * multiplier_;
+      comparison.score_          = a2_a3 * multiplier_;
     }
   }
 }
-
 
 /**
  * Simulate observed values
@@ -70,7 +67,7 @@ void Dirichlet::GetScores(map<unsigned, vector<observations::Comparison> >& comp
 void Dirichlet::SimulateObserved(map<unsigned, vector<observations::Comparison> >& comparisons) {
   // instance the random number generator
   utilities::RandomNumberGenerator& rng = utilities::RandomNumberGenerator::Instance();
-  map<string, Double> totals;
+  map<string, Double>               totals;
 
   auto iterator = comparisons.begin();
   for (; iterator != comparisons.end(); ++iterator) {
@@ -86,8 +83,7 @@ void Dirichlet::SimulateObserved(map<unsigned, vector<observations::Comparison> 
       comparison.adjusted_error_ = error_value;
     }
 
-    for (observations::Comparison& comparison : iterator->second)
-      comparison.observed_ /= totals[comparison.category_];
+    for (observations::Comparison& comparison : iterator->second) comparison.observed_ /= totals[comparison.category_];
   }
 }
 
@@ -97,9 +93,9 @@ void Dirichlet::SimulateObserved(map<unsigned, vector<observations::Comparison> 
  * @param comparisons A collection of comparisons passed by the observation
  */
 
-Double Dirichlet::GetInitialScore(map<unsigned, vector<observations::Comparison> >& comparisons,unsigned year) {
+Double Dirichlet::GetInitialScore(map<unsigned, vector<observations::Comparison> >& comparisons, unsigned year) {
   Double score = 0.0;
-  Double a1 = 0.0;
+  Double a1    = 0.0;
 
   for (observations::Comparison& comparison : comparisons[year]) {
     // Calculate score
@@ -108,7 +104,7 @@ Double Dirichlet::GetInitialScore(map<unsigned, vector<observations::Comparison>
     a1 += math::ZeroFun(comparison.expected_, comparison.delta_) * temp_score;
   }
 
-  score  = -math::LnGamma(a1);
+  score = -math::LnGamma(a1);
   return score * multiplier_;
 }
 

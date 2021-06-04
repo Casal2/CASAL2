@@ -26,18 +26,16 @@ namespace ageweights {
 class None : public niwa::AgeWeight {
 public:
   // methods
-  explicit None(shared_ptr<Model> model) : AgeWeight(model) { };
-  virtual                     ~None() = default;
-  void                        DoValidate() override final { };
-  void                        DoBuild() override final { };
-  void                        DoReset() override final { };
-  void                        DoRebuildCache() override final { };
+  explicit None(shared_ptr<Model> model) : AgeWeight(model){};
+  virtual ~None() = default;
+  void DoValidate() override final{};
+  void DoBuild() override final{};
+  void DoReset() override final{};
+  void DoRebuildCache() override final{};
 
   // accessors
-  Double                      mean_weight_at_age_by_year(unsigned year, unsigned age) override final { return 1.0; }
-
+  Double mean_weight_at_age_by_year(unsigned year, unsigned age) override final { return 1.0; }
 };
-
 
 } /* namespace ageweights */
 } /* namespace niwa */

@@ -6,7 +6,7 @@
  * @date 28/02/2013
  * @section LICENSE
  *
- * Copyright NIWA Science ©2013 - www.niwa.co.nz
+ * Copyright NIWA Science ï¿½2013 - www.niwa.co.nz
  *
  * $Date: 2008-03-04 16:33:32 +1300 (Tue, 04 Mar 2008) $
  */
@@ -14,9 +14,9 @@
 // Headers
 #include "DESolver.h"
 
+#include "../../EstimateTransformations/Manager.h"
 #include "../../Estimates/Manager.h"
 #include "../../Minimisers/Common/DESolver/CallBack.h"
-#include "../../EstimateTransformations/Manager.h"
 
 // Namespaces
 namespace niwa {
@@ -42,6 +42,9 @@ void DESolver::DoValidate() {
   if (crossover_probability_ > 1.0 || crossover_probability_ < 0.0) {
     LOG_ERROR_P(PARAM_CROSSOVER_PROBABILITY) << ": crossover_probability (" << crossover_probability_ << ") must be between 0.0 and 1.0 inclusive.";
   }
+  if (build_covariance_) {
+    LOG_ERROR_P(PARAM_COVARIANCE) << ": cannot be specified as true for DESolver. This minimiser does not support generating a covariance matrix";
+  }
 }
 
 /**
@@ -50,9 +53,9 @@ void DESolver::DoValidate() {
 void DESolver::Execute() {
   estimates::Manager& estimate_manager = *model_->managers()->estimate();
 
-  vector<double>  lower_bounds;
-  vector<double>  upper_bounds;
-  vector<double>  start_values;
+  vector<double> lower_bounds;
+  vector<double> upper_bounds;
+  vector<double> start_values;
 
   model_->managers()->estimate_transformation()->TransformEstimates();
   vector<Estimate*> estimates = estimate_manager.GetIsEstimated();
@@ -65,11 +68,11 @@ void DESolver::Execute() {
     start_values.push_back(estimate->value());
 
     if (estimate->value() < estimate->lower_bound()) {
-      LOG_FATAL() << "When starting the DESolver minimiser the starting value (" << estimate->value() << ") for estimate "
-          << estimate->parameter() << " was less than the lower bound (" << estimate->lower_bound() << ")";
+      LOG_FATAL() << "When starting the DESolver minimiser the starting value (" << estimate->value() << ") for estimate " << estimate->parameter()
+                  << " was less than the lower bound (" << estimate->lower_bound() << ")";
     } else if (estimate->value() > estimate->upper_bound()) {
-      LOG_FATAL() << "When starting the DESolver minimiser the starting value (" << estimate->value() << ") for estimate "
-          << estimate->parameter() << " was greater than the upper bound (" << estimate->upper_bound() << ")";
+      LOG_FATAL() << "When starting the DESolver minimiser the starting value (" << estimate->value() << ") for estimate " << estimate->parameter()
+                  << " was greater than the upper bound (" << estimate->upper_bound() << ")";
     }
   }
 
@@ -87,7 +90,6 @@ void DESolver::Execute() {
   }
 
   model_->managers()->estimate_transformation()->RestoreEstimates();
-
 }
 
 } /* namespace minimisers */

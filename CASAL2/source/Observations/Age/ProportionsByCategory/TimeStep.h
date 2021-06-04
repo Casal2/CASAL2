@@ -29,11 +29,11 @@ class TimeStepProportionsByCategory : public observations::age::ProportionsByCat
 public:
   // methods
   TimeStepProportionsByCategory(shared_ptr<Model> model);
-  virtual                     ~TimeStepProportionsByCategory() = default;
-  void                        DoBuild() override final;
+  virtual ~TimeStepProportionsByCategory() = default;
+  void DoBuild() override final;
 
 private:
-  Double                      time_step_proportion_;
+  Double time_step_proportion_;
 };
 
 } /* namespace age */

@@ -12,15 +12,15 @@
 
 #include <string>
 
-const std::string model_no_init_phases =
-"@model\n"
-"type age\n"
-"start_year 1994\n"
-"final_year 2008\n"
-"min_age 1\n"
-"max_age 50\n"
-"age_plus t\n"
-"time_steps time_step_one\n";
+const std::string model_no_init_phases
+    = "@model\n"
+      "type age\n"
+      "start_year 1994\n"
+      "final_year 2008\n"
+      "min_age 1\n"
+      "max_age 50\n"
+      "age_plus t\n"
+      "time_steps time_step_one\n";
 
 const std::string model_one_init_phase = R"(
 @model

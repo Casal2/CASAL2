@@ -27,20 +27,20 @@ namespace timevarying {
 class AnnualShift : public TimeVarying {
 public:
   explicit AnnualShift(shared_ptr<Model> model);
-  virtual                     ~AnnualShift() = default;
-  void                        DoValidate() override final;
-  void                        DoBuild() override final;
-  void                        DoReset() override final;
-  void                        DoUpdate() override final;
+  virtual ~AnnualShift() = default;
+  void DoValidate() override final;
+  void DoBuild() override final;
+  void DoReset() override final;
+  void DoUpdate() override final;
 
 private:
   // members
-  vector<Double>              values_;
-  Double                      a_;
-  Double                      b_;
-  Double                      c_;
-  vector<unsigned>            scaling_years_;
-  map<unsigned, Double>       values_by_year_;
+  vector<Double>        values_;
+  Double                a_;
+  Double                b_;
+  Double                c_;
+  vector<unsigned>      scaling_years_;
+  map<unsigned, Double> values_by_year_;
 };
 
 } /* namespace timevarying */

@@ -12,8 +12,8 @@
 // headers
 #include "InitialisationPartition.h"
 
-#include <iostream>
 #include <iomanip>
+#include <iostream>
 
 #include "../../Model/Model.h"
 #include "../../Partition/Accessors/All.h"
@@ -54,11 +54,11 @@ void InitialisationPartition::DoExecute(shared_ptr<Model> model) {
   LOG_FINEST() << "min age = " << lowest << ", max age = " << highest << ", longest_length = " << longest_length;
 
   // Print the header
-  cache_ << "*"<< type_ << "[" << label_ << "]" << "\n";
-  cache_ << "values "<< REPORT_R_DATAFRAME<<"\n";
+  cache_ << "*" << type_ << "[" << label_ << "]"
+         << "\n";
+  cache_ << "values " << REPORT_R_DATAFRAME << "\n";
   cache_ << "category";
-  for (unsigned i = lowest; i <= highest; ++i)
-    cache_ << " " << i;
+  for (unsigned i = lowest; i <= highest; ++i) cache_ << " " << i;
   cache_ << "\n";
 
   for (auto iterator : all_view) {
@@ -66,10 +66,11 @@ void InitialisationPartition::DoExecute(shared_ptr<Model> model) {
     unsigned age = iterator->min_age_;
     for (auto value : iterator->data_) {
       if (age >= lowest && age <= highest) {
-//        Double value = *value;
+        //        Double value = *value;
         cache_ << " " << std::fixed << AS_DOUBLE(value);
       } else
-        cache_ << " " << "null";
+        cache_ << " "
+               << "null";
       ++age;
     }
     cache_ << "\n";

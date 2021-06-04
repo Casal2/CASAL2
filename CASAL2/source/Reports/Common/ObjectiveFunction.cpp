@@ -31,17 +31,18 @@ ObjectiveFunction::ObjectiveFunction() {
  * Execute the report
  */
 void ObjectiveFunction::DoExecute(shared_ptr<Model> model) {
-	LOG_MEDIUM() << "Boop";
-	if (!model->is_primary_thread_model() && model->run_mode() == RunMode::kBasic)
-		return;
-	if (!model->is_primary_thread_model() && model->run_mode() == RunMode::kEstimation)
-		return;
+  LOG_MEDIUM() << "Boop";
+  if (!model->is_primary_thread_model() && model->run_mode() == RunMode::kBasic)
+    return;
+  if (!model->is_primary_thread_model() && model->run_mode() == RunMode::kEstimation)
+    return;
 
-  cache_ << "*"<< type_ << "[" << label_ << "]" << "\n";
-  cache_ <<"values " << REPORT_R_VECTOR <<"\n";
+  cache_ << "*" << type_ << "[" << label_ << "]"
+         << "\n";
+  cache_ << "values " << REPORT_R_VECTOR << "\n";
 
   if (model == nullptr)
-  	LOG_CODE_ERROR() << "model_ == nullptr";
+    LOG_CODE_ERROR() << "model_ == nullptr";
   ::niwa::ObjectiveFunction& obj_function = model->objective_function();
 
   const vector<objective::Score>& score_list = obj_function.score_list();
@@ -53,7 +54,6 @@ void ObjectiveFunction::DoExecute(shared_ptr<Model> model) {
   cache_ << PARAM_TOTAL_SCORE << " " << AS_DOUBLE(obj_function.score()) << "\n";
   ready_for_writing_ = true;
 }
-
 
 } /* namespace reports */
 } /* namespace niwa */

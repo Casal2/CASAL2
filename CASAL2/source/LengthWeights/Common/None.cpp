@@ -13,8 +13,5 @@
 
 // namespaces
 namespace niwa {
-namespace lengthweights {
-
-
-} /* namespace lengthweights */
+namespace lengthweights {} /* namespace lengthweights */
 } /* namespace niwa */

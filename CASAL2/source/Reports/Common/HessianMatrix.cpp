@@ -32,10 +32,11 @@ void HessianMatrix::DoExecute(shared_ptr<Model> model) {
   if (!minimiser_)
     return;
 
-  hessian_ = minimiser_->hessian_matrix();
+  hessian_              = minimiser_->hessian_matrix();
   unsigned hessian_size = minimiser_->hessian_size();
 
-  cache_ << "*"<< type_ << "[" << label_ << "]" << "\n";
+  cache_ << "*" << type_ << "[" << label_ << "]"
+         << "\n";
   cache_ << "hessian_matrix " << REPORT_R_MATRIX << "\n";
   for (unsigned i = 0; i < hessian_size; ++i) {
     for (unsigned j = 0; j < hessian_size; ++j) {

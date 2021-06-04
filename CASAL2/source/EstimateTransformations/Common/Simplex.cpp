@@ -12,13 +12,13 @@
 // headers
 #include "Simplex.h"
 
+#include "../../Estimates/Common/Uniform.h"
+#include "../../Estimates/Estimate.h"
+#include "../../Estimates/Manager.h"
+#include "../../Model/Factory.h"
+#include "../../Model/Managers.h"
 #include "../../Model/Model.h"
 #include "../../Model/Objects.h"
-#include "../../Model/Managers.h"
-#include "../../Model/Factory.h"
-#include "../../Estimates/Manager.h"
-#include "../../Estimates/Estimate.h"
-#include "../../Estimates/Common/Uniform.h"
 
 // namespaces
 namespace niwa {
@@ -28,18 +28,18 @@ namespace utils = niwa::utilities;
  * Default constructor
  */
 Simplex::Simplex(shared_ptr<Model> model) : EstimateTransformation(model) {
-  //parameters_.Bind<string>(PARAM_ESTIMATE, &estimate_label_, "The label for the estimate label to use in the simplex transformation", "");
-  parameters_.Bind<double>(PARAM_LOWER_BOUND, &lower_bound_, "The empirical lower bound for the simplex transformed. This should be -Inf but some of the minimisers do not allow that", "", true);
-  parameters_.Bind<double>(PARAM_UPPER_BOUND, &upper_bound_, "The empirical upper bound for the simplex transformed. This should be Inf but some of the minimisers do not allow that", "", true);
+  // parameters_.Bind<string>(PARAM_ESTIMATE, &estimate_label_, "The label for the estimate label to use in the simplex transformation", "");
+  parameters_.Bind<double>(PARAM_LOWER_BOUND, &lower_bound_,
+                           "The empirical lower bound for the simplex transformed. This should be -Inf but some of the minimisers do not allow that", "", true);
+  parameters_.Bind<double>(PARAM_UPPER_BOUND, &upper_bound_,
+                           "The empirical upper bound for the simplex transformed. This should be Inf but some of the minimisers do not allow that", "", true);
   is_simple_ = false;
 }
 
 /**
  * Validate
  */
-void Simplex::DoValidate() {
-
-}
+void Simplex::DoValidate() {}
 
 /**
  * Build
@@ -54,16 +54,18 @@ void Simplex::DoBuild() {
   // Initialise for -r runs
   current_untransformed_value_ = estimate_->value();
 
-  LOG_FINE() << "transform with objective = " << transform_with_jacobian_ << " estimeate transform " << estimate_->transform_for_objective() << " together = " << !transform_with_jacobian_ && !estimate_->transform_for_objective();
+  LOG_FINE() << "transform with objective = " << transform_with_jacobian_ << " estimeate transform " << estimate_->transform_for_objective()
+             << " together = " << !transform_with_jacobian_
+      && !estimate_->transform_for_objective();
   if (!transform_with_jacobian_ && !estimate_->transform_for_objective()) {
     LOG_ERROR_P(PARAM_TRANSFORM_WITH_JACOBIAN) << "A transformation that does not contribute to the Jacobian was specified,"
-      << " and the prior parameters do not refer to the transformed estimate, in the @estimate" << estimate_label_
-      << ". This is not advised, and may cause bias errors. Please check the User Manual for more info";
+                                               << " and the prior parameters do not refer to the transformed estimate, in the @estimate" << estimate_label_
+                                               << ". This is not advised, and may cause bias errors. Please check the User Manual for more info";
   }
   if (estimate_->transform_with_jacobian_is_defined()) {
     if (transform_with_jacobian_ != estimate_->transform_with_jacobian()) {
-      LOG_ERROR_P(PARAM_TRANSFORM_WITH_JACOBIAN) << "This parameter is not consistent with the equivalent parameter in the @estimate block "
-        << estimate_label_ << ". Both of these parameters should be true or false.";
+      LOG_ERROR_P(PARAM_TRANSFORM_WITH_JACOBIAN) << "This parameter is not consistent with the equivalent parameter in the @estimate block " << estimate_label_
+                                                 << ". Both of these parameters should be true or false.";
     }
   }
   LOG_WARNING() << "Simplex transforamtion works but is version 1.0 may need more work for calculating bounds";
@@ -84,23 +86,21 @@ void Simplex::DoBuild() {
     total_ += estimates_[i]->value();
     estimates_[i]->set_lower_bound(lower_bound_);
     estimates_[i]->set_upper_bound(upper_bound_);
-
   }
   LOG_MEDIUM() << "total = " << total_ << " length " << length_;
 
   // Do a validation if vector doesn't sum to 1 of length (number of elements) error can't use this method
   if (fabs(1.0 - total_) > 0.0001 && (total_ - (length_)) > 0.0001)
-   LOG_ERROR_P(PARAM_ESTIMATE) << "This transformation can be used only with parameters that have a mean = 1.0 or sum = 1.0";
+    LOG_ERROR_P(PARAM_ESTIMATE) << "This transformation can be used only with parameters that have a mean = 1.0 or sum = 1.0";
 
   for (unsigned i = 0; i < unit_vector_.size(); ++i) {
-    unit_vector_[i] = estimates_[i]->value() / total_ ;
+    unit_vector_[i] = estimates_[i]->value() / total_;
   }
 
   LOG_MEDIUM() << "sub_total = " << sub_total_;
   // is it a true simplex or an average simplex. They differ in how many post transformation we need to do before the model can have the parameters back.
   if (fabs(1.0 - total_) < 0.0001)
     unit_ = true;
-
 }
 
 /**
@@ -110,7 +110,7 @@ void Simplex::DoTransform() {
   LOG_TRACE();
   for (unsigned i = 0; i < unit_vector_.size(); ++i) {
     if (!unit_)
-      unit_vector_[i] = estimates_[i]->value() / total_ ;
+      unit_vector_[i] = estimates_[i]->value() / total_;
     else
       unit_vector_[i] = estimates_[i]->value();
     if (i < (unit_vector_.size() - 1))
@@ -123,7 +123,7 @@ void Simplex::DoTransform() {
   // generate yk
   Double count = 1.0;
   for (unsigned i = 0; i < zk_.size(); ++i) {
-    yk_[i] =log(zk_[i] / (1.0 - zk_[i])) - log(1.0 / ((Double)length_ - count));
+    yk_[i] = log(zk_[i] / (1.0 - zk_[i])) - log(1.0 / ((Double)length_ - count));
     count += 1.0;
   }
   // Set estimates, turn off the last one.
@@ -136,7 +136,6 @@ void Simplex::DoTransform() {
       estimates_[i]->set_value(yk_[i]);
     }
   }
-
 }
 /**
  * Restore
@@ -155,7 +154,6 @@ void Simplex::DoRestore() {
     ////////////////////////////// Up to here //////////////////////////////
     unit_vector_[i] = 0.0;
   }
-
 }
 
 /**
@@ -163,10 +161,10 @@ void Simplex::DoRestore() {
  */
 Double Simplex::GetScore() {
   jacobian_ = unit_vector_[0] * (1 - unit_vector_[0]);
-  if (unit_vector_.size() > 1 ) {
-  for (unsigned i = 1; i < unit_vector_.size(); ++i) {
-    LOG_MEDIUM() << "val = " << unit_vector_[i];
-    jacobian_ *= unit_vector_[i] * (1 - unit_vector_[i]);
+  if (unit_vector_.size() > 1) {
+    for (unsigned i = 1; i < unit_vector_.size(); ++i) {
+      LOG_MEDIUM() << "val = " << unit_vector_[i];
+      jacobian_ *= unit_vector_[i] * (1 - unit_vector_[i]);
     }
   }
   jacobian_ *= (total_ - sub_total_);

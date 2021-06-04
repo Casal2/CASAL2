@@ -29,8 +29,8 @@ public:
   // methods
   Uniform() = delete;
   explicit Uniform(shared_ptr<Model> model);
-  virtual                     ~Uniform() = default;
-  void                        DoCopyParameters(niwa::Estimate* estimate, unsigned index) override final { };
+  virtual ~Uniform() = default;
+  void DoCopyParameters(niwa::Estimate* estimate, unsigned index) override final{};
 };
 
 } /* namespace creators */

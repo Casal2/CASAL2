@@ -17,7 +17,6 @@
 #include <boost/algorithm/string/replace.hpp>
 #include <iostream>
 
-#include "../ConfigurationLoader/MPD.Mock.h"
 #include "../DerivedQuantities/Manager.h"
 #include "../MCMCs/MCMC.h"
 #include "../MCMCs/Manager.h"

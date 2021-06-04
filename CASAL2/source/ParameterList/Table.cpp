@@ -17,9 +17,9 @@
 
 #include "../Categories/Categories.h"
 #include "../Model/Model.h"
+#include "../Translations/Translations.h"
 #include "../Utilities/String.h"
 #include "../Utilities/To.h"
-#include "../Translations/Translations.h"
 
 // Namespaces
 namespace niwa {
@@ -28,16 +28,14 @@ namespace parameters {
 /**
  * Default constructor
  */
-Table::Table(const string &label)
-: label_(label) {
-}
+Table::Table(const string& label) : label_(label) {}
 
 /**
  * Add columns to the table
  *
  * @param columns A list of columns for this table
  */
-void Table::AddColumns(const vector<string> &columns) {
+void Table::AddColumns(const vector<string>& columns) {
   columns_.assign(columns.begin(), columns.end());
 }
 
@@ -46,7 +44,7 @@ void Table::AddColumns(const vector<string> &columns) {
  *
  * @param row The row of data to add
  */
-void Table::AddRow(const vector<string> &row) {
+void Table::AddRow(const vector<string>& row) {
   data_.push_back(row);
 }
 
@@ -73,7 +71,7 @@ unsigned Table::column_index(const string& label, bool throw_error) const {
  * to validate the columns exist and the table structure is as expected.
  */
 void Table::set_required_columns(const vector<string>& columns, bool allow_others) {
-  required_columns_ = columns;
+  required_columns_    = columns;
   allow_other_columns_ = allow_others;
 }
 
@@ -123,7 +121,7 @@ void Table::Populate(shared_ptr<Model> model) {
 
   // get the index for PARAM_CATEGORY or PARAM_CATEGORIES if it exists
   unsigned category_index = column_index(PARAM_CATEGORY, false);
-  category_index = category_index == columns_.size() ? column_index(PARAM_CATEGORIES, false) : category_index;
+  category_index          = category_index == columns_.size() ? column_index(PARAM_CATEGORIES, false) : category_index;
   if (category_index != columns_.size()) {
     // Make a copy of our data object so we can manipulate the container
     vector<vector<string>> data_copy = data_;
@@ -135,10 +133,10 @@ void Table::Populate(shared_ptr<Model> model) {
      * This code should probably be handled elsewhere?
      */
     vector<string> category_labels;
-    string error = "";
+    string         error = "";
     for (auto row : data_copy) {
       string category_lookup = row[category_index];
-      category_labels = model->categories()->GetCategoryLabelsV(category_lookup, location());
+      category_labels        = model->categories()->GetCategoryLabelsV(category_lookup, location());
       if (!utilities::String::HandleOperators(category_labels, error))
         LOG_FATAL() << location() << error;
       LOG_FINE() << "category_labels: " << boost::join(category_labels, " ");
@@ -153,14 +151,14 @@ void Table::Populate(shared_ptr<Model> model) {
         data_.push_back(row);
       }
     }
-  } // if (category_index != columns_.size()) {
+  }  // if (category_index != columns_.size()) {
 
   /**
    * This code will check for any columns called year or years and if one is found
    * it'll check that any values in this column fall within the years for this model
    */
   unsigned year_index = column_index(PARAM_YEAR, false);
-  year_index = year_index == columns_.size() ? column_index(PARAM_YEARS, false) : year_index;
+  year_index          = year_index == columns_.size() ? column_index(PARAM_YEARS, false) : year_index;
   if (year_index != columns_.size()) {
     vector<unsigned> years = model->years_all();
 
@@ -168,8 +166,7 @@ void Table::Populate(shared_ptr<Model> model) {
       CheckColumnValuesContain<unsigned>(PARAM_YEAR, years);
     else
       CheckColumnValuesContain<unsigned>(PARAM_YEARS, years);
-  } // if (year_index != columns_.size()) {
-
+  }  // if (year_index != columns_.size()) {
 }
 
 } /* namespace parameters */

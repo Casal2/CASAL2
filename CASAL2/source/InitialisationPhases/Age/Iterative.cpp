@@ -12,14 +12,14 @@
 #include "Iterative.h"
 
 #include <algorithm>
-#include <boost/algorithm/string/trim_all.hpp>
 #include <boost/algorithm/string/split.hpp>
+#include <boost/algorithm/string/trim_all.hpp>
 
-#include "../../Processes/Age/RecruitmentBevertonHolt.h"
-#include "../../Processes/Age/RecruitmentBevertonHoltWithDeviations.h"
 #include "../../Categories/Categories.h"
 #include "../../DerivedQuantities/Manager.h"
 #include "../../Partition/Accessors/Categories.h"
+#include "../../Processes/Age/RecruitmentBevertonHolt.h"
+#include "../../Processes/Age/RecruitmentBevertonHoltWithDeviations.h"
 #include "../../Processes/Manager.h"
 #include "../../TimeSteps/Factory.h"
 #include "../../TimeSteps/Manager.h"
@@ -35,15 +35,14 @@ namespace accessor = partition::accessors;
 /**
  * Default constructor
  */
-Iterative::Iterative(shared_ptr<Model> model)
-  : InitialisationPhase(model),
-    cached_partition_(model),
-    partition_(model) {
+Iterative::Iterative(shared_ptr<Model> model) : InitialisationPhase(model), cached_partition_(model), partition_(model) {
   parameters_.Bind<unsigned>(PARAM_YEARS, &years_, "The number of iterations (years) over which to execute this initialisation phase", "");
   parameters_.Bind<string>(PARAM_INSERT_PROCESSES, &insert_processes_, "The processes in the annual cycle to be include in this initialisation phase", "", true);
   parameters_.Bind<string>(PARAM_EXCLUDE_PROCESSES, &exclude_processes_, "The processes in the annual cycle to be excluded from this initialisation phase", "", true);
   parameters_.Bind<unsigned>(PARAM_CONVERGENCE_YEARS, &convergence_years_, "The iteration (year) when the test for converegence (lambda) is evaluated", "", true);
-  parameters_.Bind<Double>(PARAM_LAMBDA, &lambda_, "The maximum value of the absolute sum of differences (lambda) between the partition at year-1 and year that indicates successful convergence", "", Double(0.0));
+  parameters_.Bind<Double>(PARAM_LAMBDA, &lambda_,
+                           "The maximum value of the absolute sum of differences (lambda) between the partition at year-1 and year that indicates successful convergence", "",
+                           Double(0.0));
 }
 
 /**
@@ -70,10 +69,10 @@ void Iterative::DoBuild() {
     vector<string> pieces;
     boost::split(pieces, insert, boost::is_any_of("()="), boost::token_compress_on);
 
-    string target_process   = pieces.size() == 3 ? pieces[1] : "";
-    string new_process      = pieces.size() == 3 ? pieces[2] : pieces[1];
+    string target_process = pieces.size() == 3 ? pieces[1] : "";
+    string new_process    = pieces.size() == 3 ? pieces[2] : pieces[1];
 
-    auto time_step = model_->managers()->time_step()->GetTimeStep(pieces[0]);
+    auto           time_step      = model_->managers()->time_step()->GetTimeStep(pieces[0]);
     vector<string> process_labels = time_step->initialisation_process_labels(label_);
 
     if (target_process == "") {
@@ -93,7 +92,7 @@ void Iterative::DoBuild() {
     unsigned count = 0;
     for (auto time_step : time_steps_) {
       vector<string> process_labels = time_step->initialisation_process_labels(label_);
-      unsigned size_before = process_labels.size();
+      unsigned       size_before    = process_labels.size();
       process_labels.erase(std::remove_if(process_labels.begin(), process_labels.end(), [exclude](string& ex) { return exclude == ex; }), process_labels.end());
       unsigned diff = size_before - process_labels.size();
 
@@ -151,7 +150,6 @@ void Iterative::Execute() {
       timesteps::Manager& time_step_manager = *model_->managers()->time_step();
       time_step_manager.ExecuteInitialisation(label_, years - (total_years + 1));
 
-
       total_years += years - (total_years + 1);
       if ((total_years + 1) >= years_) {
         time_step_manager.ExecuteInitialisation(label_, 1);
@@ -208,17 +206,15 @@ bool Iterative::CheckConvergence() {
   Double variance = 0.0;
 
   auto cached_category = cached_partition_.begin();
-  auto category = partition_.begin();
+  auto category        = partition_.begin();
 
   for (; category != partition_.end(); ++cached_category, ++category) {
     Double sum = 0.0;
-    for (Double value : (*category)->data_)
-      sum += value; // Can't use std::accum because of AutoDiff
+    for (Double value : (*category)->data_) sum += value;  // Can't use std::accum because of AutoDiff
     if (sum == 0.0)
       return false;
 
-    for (unsigned i = 0; i < (*category)->data_.size(); ++i)
-      variance += fabs((*cached_category).data_[i] - (*category)->data_[i]) / sum;
+    for (unsigned i = 0; i < (*category)->data_.size(); ++i) variance += fabs((*cached_category).data_[i] - (*category)->data_[i]) / sum;
   }
 
   if (variance < lambda_)
@@ -226,7 +222,6 @@ bool Iterative::CheckConvergence() {
 
   return false;
 }
-
 
 } /* namespace age */
 } /* namespace initialisationphases */

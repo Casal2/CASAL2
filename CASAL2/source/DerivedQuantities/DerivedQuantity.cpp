@@ -30,17 +30,17 @@ namespace niwa {
  *
  * Note: The constructor is parsed to generate LaTeX for the documentation.
  */
-DerivedQuantity::DerivedQuantity(shared_ptr<Model> model)
-  : model_(model),
-    partition_(model) {
+DerivedQuantity::DerivedQuantity(shared_ptr<Model> model) : model_(model), partition_(model) {
   parameters_.Bind<string>(PARAM_LABEL, &label_, "The label of the derived quantity", "");
   parameters_.Bind<string>(PARAM_TYPE, &type_, "The type of derived quantity", "");
   parameters_.Bind<string>(PARAM_TIME_STEP, &time_step_label_, "The time step in which to calculate the derived quantity after", "");
   parameters_.Bind<string>(PARAM_CATEGORIES, &category_labels_, "The list of categories to use when calculating the derived quantity", "");
   parameters_.Bind<string>(PARAM_SELECTIVITIES, &selectivity_labels_, "A list of one selectivity", "");
-  parameters_.Bind<Double>(PARAM_TIME_STEP_PROPORTION, &time_step_proportion_, "The proportion through the mortality block of the time step when calculated", "", 0.5)->set_range(0.0, 1.0);
-  parameters_.Bind<string>(PARAM_TIME_STEP_PROPORTION_METHOD, &proportion_method_, "The method for interpolating for the proportion through the mortality block", "", PARAM_WEIGHTED_SUM)
-      ->set_allowed_values({ PARAM_WEIGHTED_SUM, PARAM_WEIGHTED_PRODUCT });
+  parameters_.Bind<Double>(PARAM_TIME_STEP_PROPORTION, &time_step_proportion_, "The proportion through the mortality block of the time step when calculated", "", 0.5)
+      ->set_range(0.0, 1.0);
+  parameters_
+      .Bind<string>(PARAM_TIME_STEP_PROPORTION_METHOD, &proportion_method_, "The method for interpolating for the proportion through the mortality block", "", PARAM_WEIGHTED_SUM)
+      ->set_allowed_values({PARAM_WEIGHTED_SUM, PARAM_WEIGHTED_PRODUCT});
 
   RegisterAsAddressable(PARAM_VALUES, &values_, addressable::kLookup);
 
@@ -61,7 +61,7 @@ void DerivedQuantity::Validate() {
 
   if (category_labels_.size() != selectivity_labels_.size())
     LOG_ERROR_P(PARAM_SELECTIVITIES) << "selectivities count (" << selectivity_labels_.size() << ") "
-      << " is not the same as the categories count (" << category_labels_.size() << ")";
+                                     << " is not the same as the categories count (" << category_labels_.size() << ")";
   DoValidate();
 }
 
@@ -102,8 +102,7 @@ void DerivedQuantity::Reset() {
   initialisation_values_.clear();
 
   // initialise the values variable
-  for (unsigned year : model_->years())
-    values_[year] = 0.0;
+  for (unsigned year : model_->years()) values_[year] = 0.0;
 }
 
 /**
@@ -138,9 +137,9 @@ Double DerivedQuantity::GetValue(unsigned year) {
   } else if (initialisation_values_.rbegin()->size() > years_to_go_back) {
     result = initialisation_values_.rbegin()->at(initialisation_values_.rbegin()->size() - years_to_go_back);
   } else if (initialisation_values_.size() == 1) {
-    result = (*initialisation_values_.rbegin()->begin()); // first value of last init phase
+    result = (*initialisation_values_.rbegin()->begin());  // first value of last init phase
   } else {
-    result = (*(initialisation_values_.rbegin() + 1)->begin()); // first value of last init phase
+    result = (*(initialisation_values_.rbegin() + 1)->begin());  // first value of last init phase
   }
 
   // Make an exception for intialisation phases such as derived which only requires to go back one year
@@ -148,11 +147,8 @@ Double DerivedQuantity::GetValue(unsigned year) {
     result = (*initialisation_values_.rbegin()->rbegin());
   }
 
-  LOG_FINEST() << "years_to_go_back: " << years_to_go_back
-      << "; year: " << year
-      << "; result: " << result
-      << "; .begin(): " << (*initialisation_values_.rbegin()->rbegin())
-      << ": .size(): " << initialisation_values_.rbegin()->size();
+  LOG_FINEST() << "years_to_go_back: " << years_to_go_back << "; year: " << year << "; result: " << result << "; .begin(): " << (*initialisation_values_.rbegin()->rbegin())
+               << ": .size(): " << initialisation_values_.rbegin()->size();
 
   return result;
 }

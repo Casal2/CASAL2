@@ -27,7 +27,7 @@ namespace testcases {
  *
  */
 const std::string test_cases_casal_complex_3 =
-R"(
+    R"(
 @model
 min_age 2
 max_age 25

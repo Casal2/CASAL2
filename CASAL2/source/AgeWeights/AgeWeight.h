@@ -27,25 +27,24 @@ public:
   // methods
   AgeWeight() = delete;
   explicit AgeWeight(shared_ptr<Model> model);
-  virtual                     ~AgeWeight() { };
-  void                        Validate();
-  void                        Build();
-  void                        Reset();
-  virtual void                 RebuildCache();
+  virtual ~AgeWeight(){};
+  void         Validate();
+  void         Build();
+  void         Reset();
+  virtual void RebuildCache();
 
   // accessor
-  virtual Double              mean_weight_at_age_by_year(unsigned year,  unsigned age) = 0;
-
+  virtual Double mean_weight_at_age_by_year(unsigned year, unsigned age) = 0;
 
 protected:
   // methods
 
-  virtual void                DoValidate() = 0;
-  virtual void                DoBuild() = 0;
-  virtual void                DoReset() = 0;
-  virtual void                DoRebuildCache() = 0;
+  virtual void DoValidate()     = 0;
+  virtual void DoBuild()        = 0;
+  virtual void DoReset()        = 0;
+  virtual void DoRebuildCache() = 0;
   // members
-  shared_ptr<Model>                      model_ = nullptr;
+  shared_ptr<Model> model_ = nullptr;
 };
 
 } /* namespace niwa */

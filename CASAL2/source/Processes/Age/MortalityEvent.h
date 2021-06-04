@@ -39,30 +39,30 @@ class MortalityEvent : public niwa::Process {
 public:
   // Methods
   explicit MortalityEvent(shared_ptr<Model> model);
-  virtual                     ~MortalityEvent() = default;
-  void                        DoValidate() override final;
-  void                        DoBuild() override final;
-  void                        DoReset() override final;
-  void                        DoExecute() override final;
-  void                        FillReportCache(ostringstream& cache) override final;
-  void                        FillTabularReportCache(ostringstream& cache, bool first_run) override final;
+  virtual ~MortalityEvent() = default;
+  void DoValidate() override final;
+  void DoBuild() override final;
+  void DoReset() override final;
+  void DoExecute() override final;
+  void FillReportCache(ostringstream& cache) override final;
+  void FillTabularReportCache(ostringstream& cache, bool first_run) override final;
 
 private:
   // Members
-  vector<string>              category_labels_;
-  vector<unsigned>            years_;
-  vector<Double>              catches_;
-  vector<Double>              exploitation_;
-  vector<Double>              actual_catches_;
+  vector<string>   category_labels_;
+  vector<unsigned> years_;
+  vector<Double>   catches_;
+  vector<Double>   exploitation_;
+  vector<Double>   actual_catches_;
 
-  map<unsigned, Double>       catch_years_;
-  Double                      u_max_;
-  vector<string>              selectivity_names_;
-  string                      penalty_name_;
-  accessor::Categories        partition_;
-  vector<Selectivity*>        selectivities_;
+  map<unsigned, Double>               catch_years_;
+  Double                              u_max_;
+  vector<string>                      selectivity_names_;
+  string                              penalty_name_;
+  accessor::Categories                partition_;
+  vector<Selectivity*>                selectivities_;
   map<string, map<unsigned, Double> > vulnerable_;
-  penalties::Process*         penalty_ = nullptr;
+  penalties::Process*                 penalty_ = nullptr;
 };
 
 } /* namespace age */

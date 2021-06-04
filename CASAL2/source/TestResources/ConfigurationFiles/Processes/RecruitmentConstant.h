@@ -21,7 +21,6 @@ R0 997386
 age 1
 )";
 
-
 const std::string recruitment_constant_two_sex = R"(
 @recruitment recruitment_constant
 type constant

@@ -32,13 +32,13 @@ EstimationResult::EstimationResult() {
  * Execute the estimate summary report
  */
 void EstimationResult::DoExecute(shared_ptr<Model> model) {
-
   auto minimiser = model->managers()->minimiser()->active_minimiser();
   if (minimiser == nullptr) {
     LOG_CODE_ERROR() << "minimiser == nullptr";
   }
 
-  cache_ << "*"<< type_ << "[" << label_ << "]" << "\n";
+  cache_ << "*" << type_ << "[" << label_ << "]"
+         << "\n";
   cache_ << PARAM_MINIMIZER << ": " << minimiser->label() << "\n";
   cache_ << PARAM_TYPE << ": " << minimiser->type() << "\n";
   cache_ << "Result " << REPORT_R_STRING_VECTOR << "\n";

@@ -12,24 +12,23 @@
 #ifdef TESTMODE
 
 // Headers
-#include "StateCategoryByAge.h"
-
 #include <iostream>
 
+#include "../../DerivedQuantities/Manager.h"
 #include "../../Model/Models/Age.h"
 #include "../../TestResources/TestFixtures/InternalEmptyModel.h"
-#include "../../DerivedQuantities/Manager.h"
+#include "StateCategoryByAge.h"
 
 // Namespaces
 namespace niwa {
 namespace observations {
 
+using niwa::testfixtures::InternalEmptyModel;
 using std::cout;
 using std::endl;
-using niwa::testfixtures::InternalEmptyModel;
 
 const std::string test_cases_simple_model =
-R"(
+    R"(
 @model
 start_year 1990
 final_year 2000
@@ -113,18 +112,16 @@ TEST_F(InternalEmptyModel, Initialisation_StateCategoryByAge) {
   LoadConfiguration();
 
   model_->Start(RunMode::kBasic);
-  niwa::DerivedQuantity* dq = model_->managers()->derived_quantity()->GetDerivedQuantity("SSB");
-  vector<double> expect = {33.51281314437621,  44.084583149802228, 62.038992626827039, 82.775717533653165, 102.9638431530089, 120.79049356072068, 135.57009890088847,  147.29749698571644, 156.30911917665628, 163.06745196537008, 168.04083651251662};
+  niwa::DerivedQuantity* dq     = model_->managers()->derived_quantity()->GetDerivedQuantity("SSB");
+  vector<double>         expect = {33.51281314437621,  44.084583149802228, 62.038992626827039, 82.775717533653165, 102.9638431530089, 120.79049356072068,
+                           135.57009890088847, 147.29749698571644, 156.30911917665628, 163.06745196537008, 168.04083651251662};
   for (unsigned i = 0; i < expect.size(); ++i) {
     unsigned year = 1990 + i;
     EXPECT_DOUBLE_EQ(expect[i], dq->GetValue(year)) << " for year " << year << " and value " << expect[i];
   }
-
-
 }
 
-} /* namespace processes */
+}  // namespace observations
 } /* namespace niwa */
-
 
 #endif /* TESTMODE */

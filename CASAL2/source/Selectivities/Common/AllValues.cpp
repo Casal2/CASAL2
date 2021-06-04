@@ -26,14 +26,11 @@ namespace selectivities {
 /**
  * Default Constructor
  */
-AllValues::AllValues(shared_ptr<Model> model)
-: Selectivity(model) {
-
+AllValues::AllValues(shared_ptr<Model> model) : Selectivity(model) {
   parameters_.Bind<Double>(PARAM_V, &v_, "The v parameter", "")->set_partition_type(PartitionType::kAge | PartitionType::kLength);
 
   RegisterAsAddressable(PARAM_V, &v_);
 }
-
 
 /**
  * Validate this selectivity. This will load the
@@ -45,24 +42,24 @@ AllValues::AllValues(shared_ptr<Model> model)
  * rules for the model.
  */
 void AllValues::DoValidate() {
-  switch(model_->partition_type()) {
-  case PartitionType::kAge:
-    if (v_.size() != model_->age_spread()) {
-      LOG_ERROR_P(PARAM_V) << ": Number of 'v' values supplied is not the same as the model age spread.\n"
-          << "Expected: " << model_->age_spread() << ", parsed: " << v_.size();
-    }
-    break;
+  switch (model_->partition_type()) {
+    case PartitionType::kAge:
+      if (v_.size() != model_->age_spread()) {
+        LOG_ERROR_P(PARAM_V) << ": Number of 'v' values supplied is not the same as the model age spread.\n"
+                             << "Expected: " << model_->age_spread() << ", parsed: " << v_.size();
+      }
+      break;
 
-  case PartitionType::kLength:
-    if (v_.size() != model_->length_bins().size()) {
-      LOG_ERROR_P(PARAM_V) << ": Number of 'v' values supplied is not the same as the model length bin count.\n"
-          << "Expected: " << model_->length_bins().size() << ", parsed: " << v_.size();
-    }
-    break;
+    case PartitionType::kLength:
+      if (v_.size() != model_->length_bins().size()) {
+        LOG_ERROR_P(PARAM_V) << ": Number of 'v' values supplied is not the same as the model length bin count.\n"
+                             << "Expected: " << model_->length_bins().size() << ", parsed: " << v_.size();
+      }
+      break;
 
-  default:
-    LOG_CODE_ERROR() << "Unknown partition_type";
-    break;
+    default:
+      LOG_CODE_ERROR() << "Unknown partition_type";
+      break;
   }
 }
 
@@ -88,7 +85,6 @@ void AllValues::RebuildCache() {
   }
 }
 
-
 /**
  * GetLengthBasedResult function
  *
@@ -98,8 +94,7 @@ void AllValues::RebuildCache() {
  * @param time_step_index
  * @return 0.0 - error
  */
-[[maybe_unused]]
-Double AllValues::GetLengthBasedResult(unsigned age, AgeLength* age_length, unsigned year, int time_step_index) {
+[[maybe_unused]] Double AllValues::GetLengthBasedResult(unsigned age, AgeLength* age_length, unsigned year, int time_step_index) {
   LOG_ERROR_P(PARAM_LENGTH_BASED) << ": This selectivity type has not been implemented for age length based selectivities ";
   return 0.0;
 }

@@ -18,21 +18,21 @@
 #define TO_H_
 
 // Headers
+#include <boost/lexical_cast.hpp>
 #include <string>
 #include <vector>
-#include <boost/lexical_cast.hpp>
 
 #include "../Logging/Logging.h"
+#include "../Translations/Translations.h"
 #include "../Utilities/Exception.h"
 #include "../Utilities/PartitionType.h"
-#include "../Translations/Translations.h"
 
 // Namespaces
 namespace niwa {
 namespace utilities {
 
-using std::vector;
 using std::string;
+using std::vector;
 
 /**
  * This method converts a string into a lowercase version of it
@@ -42,8 +42,7 @@ using std::string;
  */
 inline string ToLowercase(const ::std::string arg) {
   string value = arg;
-  for (char &c : value)
-    c = tolower(c);
+  for (char& c : value) c = tolower(c);
 
   return value;
 };
@@ -53,8 +52,7 @@ inline string ToLowercase(const ::std::string arg) {
  *
  * @param values The string vector to convert
  */
-inline void ToLowercase(vector<string> &values) {
-
+inline void ToLowercase(vector<string>& values) {
   for (unsigned i = 0; i < values.size(); ++i) {
     values[i] = niwa::utilities::ToLowercase(values[i]);
   }
@@ -68,9 +66,9 @@ inline void ToLowercase(vector<string> &values) {
  * @param result The variable to store the conversion
  * @return true (for conversion successful) or false
  */
-template<typename Target>
-bool To(const ::std::string arg, Target &result) {
-  result = Target(); // TODO: Why did NIWA add this?
+template <typename Target>
+bool To(const ::std::string arg, Target& result) {
+  result = Target();  // TODO: Why did NIWA add this?
   try {
     result = boost::lexical_cast<Target>(arg);
   } catch (...) {
@@ -88,7 +86,7 @@ bool To(const ::std::string arg, Target &result) {
  * @param result The vector variable to store the conversions
  * @return string vector of invalid strings
  */
-template<typename Target>
+template <typename Target>
 vector<string> To(const vector<string>& source, vector<Target>& result) {
   vector<string> invalids;
 
@@ -111,8 +109,8 @@ vector<string> To(const vector<string>& source, vector<Target>& result) {
  * @return true (for successful conversion) or false
  */
 template <>
-inline bool To(const ::std::string arg, unsigned &result) {
-  result = (unsigned)0; // TODO: Why did NIWA add this?
+inline bool To(const ::std::string arg, unsigned& result) {
+  result = (unsigned)0;  // TODO: Why did NIWA add this?
   try {
     int temp = boost::lexical_cast<int>(arg);
     if (temp < 0)
@@ -133,16 +131,16 @@ inline bool To(const ::std::string arg, unsigned &result) {
  * @param result The variable to store the conversion
  * @return true/false. Exception on failure
  */
-template<>
-inline bool To(const ::std::string arg, bool &result) {
+template <>
+inline bool To(const ::std::string arg, bool& result) {
   result = false;
   try {
     result = boost::lexical_cast<bool>(arg);
     return true;
 
   } catch (...) {
-    vector<string> true_values  = { "t", "true", "yes", "y" };
-    vector<string> false_values = { "f", "false", "no", "n" };
+    vector<string> true_values  = {"t", "true", "yes", "y"};
+    vector<string> false_values = {"f", "false", "no", "n"};
 
     string value = ToLowercase(arg);
 
@@ -167,23 +165,23 @@ inline bool To(const ::std::string arg, bool &result) {
  * @param result The variable to store the conversion
  * @return true/false. Exception on failure
  */
-template<>
-inline bool To(const ::std::string arg, PartitionType &result) {
-  result = PartitionType::kInvalid;
+template <>
+inline bool To(const ::std::string arg, PartitionType& result) {
+  result       = PartitionType::kInvalid;
   string value = ToLowercase(arg);
 
   if (value == PARAM_AGE)
     result = PartitionType::kAge;
   else if (value == PARAM_LENGTH)
     result = PartitionType::kLength;
-//  else if (value == PARAM_HYBRID)
-//    result = PartitionType::kHybrid;
+  //  else if (value == PARAM_HYBRID)
+  //    result = PartitionType::kHybrid;
   else if (value == PARAM_MODEL)
     result = PartitionType::kModel;
   else if (value == PARAM_MULTIVARIATE)
-  	result = PartitionType::kMultivariate;
+    result = PartitionType::kMultivariate;
   else if (value == PARAM_PI_APPROX)
-  	result = PartitionType::kPiApprox;
+    result = PartitionType::kPiApprox;
 
   bool success = result != PartitionType::kInvalid;
   return success;
@@ -197,7 +195,7 @@ inline bool To(const ::std::string arg, PartitionType &result) {
  * @result true (for successful conversion) or false
  */
 template <typename Source>
-inline bool To(const Source& arg, unsigned &result) {
+inline bool To(const Source& arg, unsigned& result) {
   result = (unsigned)0;
   try {
     int temp = boost::lexical_cast<int>(arg);
@@ -218,7 +216,7 @@ inline bool To(const Source& arg, unsigned &result) {
  * @param result The variable to store the conversion
  * @result true (for successful conversion) or false
  */
-template<typename Source, typename Target>
+template <typename Source, typename Target>
 bool To(const Source& arg, Target& result) {
   result = Target();
   try {
@@ -235,7 +233,7 @@ bool To(const Source& arg, Target& result) {
  * @param arg The variable to convert
  * @return The converted variable. Exception on failure
  */
-template<typename Source, typename Target>
+template <typename Source, typename Target>
 Target ToInline(const Source arg) {
   Target result = Target();
   try {
@@ -249,6 +247,5 @@ Target ToInline(const Source arg) {
 
 } /* namespace utilities */
 } /* namespace niwa */
-
 
 #endif /* TO_H_ */

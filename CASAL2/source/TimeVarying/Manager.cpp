@@ -21,9 +21,7 @@ namespace timevarying {
 /**
  * Default constructor
  */
-Manager::Manager() {
-
-}
+Manager::Manager() {}
 
 /**
  * Update all time-varying objects for a specific year
@@ -96,12 +94,12 @@ unsigned Manager::GetTimeVaryingCount() {
   unsigned count = 0;
 
   for (auto time_varying : objects_) {
-    if (time_varying->label() != "") // TODO: Fix this
+    if (time_varying->label() != "")  // TODO: Fix this
       count++;
   }
 
   return count;
 }
 
-} /* namespace processes */
+}  // namespace timevarying
 } /* namespace niwa */

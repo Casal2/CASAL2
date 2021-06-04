@@ -28,23 +28,23 @@ namespace minimisers {
 //
 //
 //**********************************************************************
-class DeltaDiff :  public niwa::Minimiser  {
+class DeltaDiff : public niwa::Minimiser {
 public:
   // Methods
   DeltaDiff(shared_ptr<Model> model);
-  virtual                     ~DeltaDiff() = default;
-  void                        DoValidate() final { };
-  void                        DoBuild() final { };
-  void                        DoReset() final { };
-  void                        Execute() final { LOG_CODE_ERROR() << "Execute is bad"; }
-  void												ExecuteThreaded(shared_ptr<ThreadPool> thread_pool) final;
+  virtual ~DeltaDiff() = default;
+  void DoValidate() final{};
+  void DoBuild() final{};
+  void DoReset() final{};
+  void Execute() final { LOG_CODE_ERROR() << "Execute is bad"; }
+  void ExecuteThreaded(shared_ptr<ThreadPool> thread_pool) final;
 
 private:
   // Members
-  int                         max_iterations_;
-  int                         max_evaluations_;
-  double                      gradient_tolerance_;
-  double                      step_size_;
+  int    max_iterations_;
+  int    max_evaluations_;
+  double gradient_tolerance_;
+  double step_size_;
 };
 
 } /* namespace minimisers */

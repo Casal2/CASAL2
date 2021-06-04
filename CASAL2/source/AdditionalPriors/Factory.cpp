@@ -12,15 +12,15 @@
 // headers
 #include "Factory.h"
 
-#include "../Model/Model.h"
-#include "../Model/Managers.h"
-#include "../AdditionalPriors/Manager.h"
 #include "../AdditionalPriors/Common/Beta.h"
 #include "../AdditionalPriors/Common/ElementDifference.h"
 #include "../AdditionalPriors/Common/LogNormal.h"
 #include "../AdditionalPriors/Common/UniformLog.h"
 #include "../AdditionalPriors/Common/VectorAverage.h"
 #include "../AdditionalPriors/Common/VectorSmoothing.h"
+#include "../AdditionalPriors/Manager.h"
+#include "../Model/Managers.h"
+#include "../Model/Model.h"
 
 // namespaces
 namespace niwa {

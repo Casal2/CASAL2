@@ -17,8 +17,8 @@
 
 // headers
 #include "../../InitialisationPhases/InitialisationPhase.h"
-#include "../../Partition/Accessors/CombinedCategories.h"
 #include "../../Partition/Accessors/Cached/CombinedCategories.h"
+#include "../../Partition/Accessors/CombinedCategories.h"
 
 // namespaces
 namespace niwa {
@@ -36,23 +36,23 @@ class Cinitial : public niwa::InitialisationPhase {
 public:
   // methods
   explicit Cinitial(shared_ptr<Model> model);
-  virtual                     ~Cinitial();
-  virtual void                Execute() override final;
+  virtual ~Cinitial();
+  virtual void Execute() override final;
 
 protected:
   // methods
-  virtual void                DoValidate() override final;
-  virtual void                DoBuild() override final;
+  virtual void DoValidate() override final;
+  virtual void DoBuild() override final;
 
 private:
   // members
   CombinedCategoriesPtr       partition_;
   CachedCombinedCategoriesPtr cached_partition_;
   vector<string>              category_labels_;
-  unsigned                    min_age_ = 0;
-  unsigned                    max_age_ = 0;
+  unsigned                    min_age_      = 0;
+  unsigned                    max_age_      = 0;
   unsigned                    column_count_ = 0;
-  parameters::Table*          n_table_ = nullptr;
+  parameters::Table*          n_table_      = nullptr;
   map<string, vector<Double>> n_;
   vector<Double>              binitial_;
   vector<Double>              rinitial_;

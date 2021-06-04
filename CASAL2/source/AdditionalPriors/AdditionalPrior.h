@@ -32,22 +32,22 @@ class AdditionalPrior : public base::Object {
 public:
   // methods
   AdditionalPrior(shared_ptr<Model> model);
-  virtual                     ~AdditionalPrior() = default;
-  virtual Double              GetScore() = 0;
-  void                        Validate();
-  void                        Build();
-  void                        Reset() { };
-  string                      parameter() const { return parameter_; }
+  virtual ~AdditionalPrior() = default;
+  virtual Double GetScore()  = 0;
+  void           Validate();
+  void           Build();
+  void           Reset(){};
+  string         parameter() const { return parameter_; }
 
 protected:
   // pure virtual methods
-  virtual void                DoValidate() = 0;
-  virtual void                DoBuild() = 0;
+  virtual void DoValidate() = 0;
+  virtual void DoBuild()    = 0;
 
   // members
-  string                      parameter_;
-  shared_ptr<Model>           model_;
-  ScoreFunction               score_function_ = 0;
+  string            parameter_;
+  shared_ptr<Model> model_;
+  ScoreFunction     score_function_ = 0;
 };
 
 } /* namespace niwa */

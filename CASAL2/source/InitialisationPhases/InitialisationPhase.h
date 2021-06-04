@@ -30,19 +30,19 @@ public:
   // Methods
   InitialisationPhase() = delete;
   explicit InitialisationPhase(shared_ptr<Model> model);
-  virtual                     ~InitialisationPhase() = default;
-  void                        Validate();
-  void                        Build();
-  void                        Reset() { };
-  virtual void                Execute() = 0;
+  virtual ~InitialisationPhase() = default;
+  void         Validate();
+  void         Build();
+  void         Reset(){};
+  virtual void Execute() = 0;
 
 protected:
   // methods
-  virtual void                DoValidate() = 0;
-  virtual void                DoBuild() = 0;
+  virtual void DoValidate() = 0;
+  virtual void DoBuild()    = 0;
 
   // members
-  shared_ptr<Model>                      model_ = nullptr;
+  shared_ptr<Model> model_ = nullptr;
 };
 } /* namespace niwa */
 #endif /* INITIALISATIONPHASE_H_ */

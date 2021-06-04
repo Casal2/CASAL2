@@ -29,12 +29,12 @@ class TimeStepBiomass : public observations::age::Biomass {
 public:
   // methods
   TimeStepBiomass(shared_ptr<Model> model);
-  virtual                     ~TimeStepBiomass() = default;
-  void                        DoBuild() override final;
+  virtual ~TimeStepBiomass() = default;
+  void DoBuild() override final;
 
 private:
   // members
-  Double                      time_step_proportion_;
+  Double time_step_proportion_;
 };
 
 } /* namespace age */

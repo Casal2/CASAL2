@@ -13,12 +13,12 @@
 // Headers
 #include "MortalityInitialisationEventBiomass.h"
 
+#include "../../Utilities/Math.h"
 #include "Categories/Categories.h"
 #include "Penalties/Manager.h"
 #include "Selectivities/Manager.h"
-#include "Utilities/To.h"
-#include "../../Utilities/Math.h"
 #include "TimeSteps/Manager.h"
+#include "Utilities/To.h"
 
 // Namespaces
 namespace niwa {
@@ -28,9 +28,7 @@ namespace age {
 /**
  * Default constructor
  */
-MortalityInitialisationEventBiomass::MortalityInitialisationEventBiomass(shared_ptr<Model> model)
-  : Process(model),
-    partition_(model) {
+MortalityInitialisationEventBiomass::MortalityInitialisationEventBiomass(shared_ptr<Model> model) : Process(model), partition_(model) {
   parameters_.Bind<string>(PARAM_CATEGORIES, &category_labels_, "The categories", "");
   parameters_.Bind<Double>(PARAM_CATCH, &catch_, "The number of removals (catches) to apply for each year", "");
   parameters_.Bind<Double>(PARAM_U_MAX, &u_max_, "The maximum exploitation rate ($U_{max}$)", "", 0.99)->set_range(0.0, 1.0);
@@ -40,7 +38,7 @@ MortalityInitialisationEventBiomass::MortalityInitialisationEventBiomass(shared_
   RegisterAsAddressable(PARAM_U_MAX, &u_max_);
   RegisterAsAddressable(PARAM_CATCH, &catch_);
 
-  process_type_ = ProcessType::kMortality;
+  process_type_        = ProcessType::kMortality;
   partition_structure_ = PartitionType::kAge;
 }
 
@@ -53,9 +51,8 @@ MortalityInitialisationEventBiomass::MortalityInitialisationEventBiomass(shared_
 void MortalityInitialisationEventBiomass::DoValidate() {
   // Validate that the number of selectivities is the same as the number of categories
   if (category_labels_.size() != selectivity_names_.size()) {
-    LOG_ERROR_P(PARAM_SELECTIVITIES)
-      << " The number of selectivities provided does not match the number of categories provided."
-      << " Categories: " << category_labels_.size() << ", Selectivities: " << selectivity_names_.size();
+    LOG_ERROR_P(PARAM_SELECTIVITIES) << " The number of selectivities provided does not match the number of categories provided."
+                                     << " Categories: " << category_labels_.size() << ", Selectivities: " << selectivity_names_.size();
   }
 
   // Validate u_max
@@ -98,11 +95,11 @@ void MortalityInitialisationEventBiomass::DoExecute() {
     /**
      * Work our how much of the stock is available or vulnerable to exploit
      */
-    Double vulnerable = 0.0;
-    unsigned i = 0;
+    Double   vulnerable = 0.0;
+    unsigned i          = 0;
     for (auto categories : partition_) {
       unsigned j = 0;
-      //categories->UpdateMeanWeightData();
+      // categories->UpdateMeanWeightData();
       for (Double& data : categories->data_) {
         Double temp = data * selectivities_[i]->GetAgeResult(categories->min_age_ + j, categories->age_length_);
         vulnerable += temp * categories->mean_weight_by_time_step_age_[time_step_index][categories->min_age_ + j];
@@ -120,7 +117,7 @@ void MortalityInitialisationEventBiomass::DoExecute() {
     if (exploitation > u_max_) {
       exploitation = u_max_;
       if (penalty_)
-        penalty_->Trigger(label_, catch_, vulnerable*u_max_);
+        penalty_->Trigger(label_, catch_, vulnerable * u_max_);
 
     } else if (exploitation < 0.0) {
       exploitation = 0.0;
@@ -132,18 +129,18 @@ void MortalityInitialisationEventBiomass::DoExecute() {
      * vulnerable * exploitation
      */
     // Report catches and exploitation rates for each category for each iteration
-/*
-    StoreForReport("initialisation_iteration: ", init_iteration_);
-    StoreForReport("Exploitation: ", AS_DOUBLE(exploitation));
-    StoreForReport("Catch: ", AS_DOUBLE(catch_));
-*/
+    /*
+        StoreForReport("initialisation_iteration: ", init_iteration_);
+        StoreForReport("Exploitation: ", AS_DOUBLE(exploitation));
+        StoreForReport("Catch: ", AS_DOUBLE(catch_));
+    */
     Double removals = 0;
     for (auto categories : partition_) {
       unsigned offset = 0;
       for (Double& data : categories->data_) {
         // report
         removals = vulnerable_[categories->name_][categories->min_age_ + offset] * exploitation;
-        //StoreForReport(categories->name_ + "_Removals: ", AS_DOUBLE(removals));
+        // StoreForReport(categories->name_ + "_Removals: ", AS_DOUBLE(removals));
         data -= removals;
         offset++;
       }

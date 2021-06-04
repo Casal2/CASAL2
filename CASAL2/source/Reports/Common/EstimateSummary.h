@@ -34,14 +34,14 @@ class EstimateSummary : public niwa::Report {
 public:
   // Methods
   EstimateSummary();
-  virtual                     ~EstimateSummary() noexcept(true) = default;
-  void                        DoValidate(shared_ptr<Model> model) final { };
-  void                        DoBuild(shared_ptr<Model> model) final { };
-  void                        DoExecute(shared_ptr<Model> model) final;
-  void                        DoExecuteTabular(shared_ptr<Model> model) final { };
-private:
-  ublas::matrix<double>       covariance_matrix_;
+  virtual ~EstimateSummary() noexcept(true) = default;
+  void DoValidate(shared_ptr<Model> model) final{};
+  void DoBuild(shared_ptr<Model> model) final{};
+  void DoExecute(shared_ptr<Model> model) final;
+  void DoExecuteTabular(shared_ptr<Model> model) final{};
 
+private:
+  ublas::matrix<double> covariance_matrix_;
 };
 
 } /* namespace reports */

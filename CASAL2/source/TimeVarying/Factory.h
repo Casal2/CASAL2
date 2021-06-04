@@ -33,8 +33,8 @@ public:
 
 private:
   // methods
-  Factory() = delete;
-  virtual                     ~Factory() = delete;
+  Factory()          = delete;
+  virtual ~Factory() = delete;
 };
 
 } /* namespace timevarying */

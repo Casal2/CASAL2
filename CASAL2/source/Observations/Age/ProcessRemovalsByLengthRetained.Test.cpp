@@ -11,24 +11,23 @@
 #ifdef TESTMODE
 
 // Headers
-#include "ProcessRemovalsByLengthRetained.h"
-
 #include <iostream>
 
 #include "ObjectiveFunction/ObjectiveFunction.h"
 #include "Observations/Manager.h"
+#include "ProcessRemovalsByLengthRetained.h"
 #include "TestResources/TestFixtures/InternalEmptyModel.h"
 
 // Namespaces
 namespace niwa {
 namespace age {
 
+using niwa::testfixtures::InternalEmptyModel;
 using std::cout;
 using std::endl;
-using niwa::testfixtures::InternalEmptyModel;
 
 const std::string test_cases_observation_process_removals_by_length_retained =
-R"(
+    R"(
 @model
 start_year 2001
 final_year 2005
@@ -148,11 +147,10 @@ TEST_F(InternalEmptyModel, Observation_Process_Removals_By_Length_Retained) {
   AddConfigurationLine(test_cases_observation_process_removals_by_length_retained, __FILE__, 31);
   LoadConfiguration();
 
-  model_->Start(RunMode::kBasic); // kEstimation instead of kBasic
+  model_->Start(RunMode::kBasic);  // kEstimation instead of kBasic
 
   ObjectiveFunction& obj_function = model_->objective_function();
   EXPECT_NEAR(39.887, obj_function.score(), 1e-3);
-
 
   Observation* observation = model_->managers()->observation()->GetObservation("potFishLFretained");
 
@@ -183,11 +181,9 @@ TEST_F(InternalEmptyModel, Observation_Process_Removals_By_Length_Retained) {
   EXPECT_NEAR(0.07832640, comparisons[year][10].observed_, 1e-6);
   EXPECT_NEAR(0.0770304, comparisons[year][10].expected_, 1e-6);
   EXPECT_NEAR(283.089, comparisons[year][10].score_, 1e-3);
-
 }
 
-} /* namespace processes */
+}  // namespace age
 } /* namespace niwa */
-
 
 #endif /* TESTMODE */

@@ -31,7 +31,7 @@ class UnitTester : public Process {
 public:
   // methods
   explicit UnitTester(shared_ptr<Model> model) : Process(model) {
-    process_type_ = ProcessType::kNullProcess;
+    process_type_        = ProcessType::kNullProcess;
     partition_structure_ = PartitionType::kAge | PartitionType::kLength;
 
     RegisterAsAddressable(PARAM_A, &addressable_, addressable::kEstimate);
@@ -51,19 +51,19 @@ public:
     addressable_sm_["b"] = 1.5;
     addressable_sm_["c"] = 2.0;
   }
-  virtual                     ~UnitTester() = default;
-  void                        DoValidate() override final { };
-  void                        DoBuild() override final { };
-  void                        DoReset() override final { };
-  void                        DoExecute() override final { };
+  virtual ~UnitTester() = default;
+  void DoValidate() override final{};
+  void DoBuild() override final{};
+  void DoReset() override final{};
+  void DoExecute() override final{};
 
 public:
   // These addressables are used for unit testing
   // They can be addressed in a model, but will do nothing
-  Double                      addressable_ = 1.0;
-  vector<Double>              addressable_v_;
-  map<unsigned, Double>       addressable_um_;
-  OrderedMap<string, Double>  addressable_sm_;
+  Double                     addressable_ = 1.0;
+  vector<Double>             addressable_v_;
+  map<unsigned, Double>      addressable_um_;
+  OrderedMap<string, Double> addressable_sm_;
 };
 
 } /* namespace processes */

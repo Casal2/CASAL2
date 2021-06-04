@@ -10,18 +10,18 @@
 #ifdef TESTMODE
 
 // Headers
-#include "Category.h"
-
 #include <gmock/gmock.h>
 #include <gtest/gtest.h>
+
 #include <boost/lexical_cast.hpp>
 
 #include "../AgeLengths/Age/VonBertalanffy.h"
 #include "../Categories/Categories.h"
 #include "../Selectivities/Common/Logistic.h"
-#include "../TimeSteps/Manager.h"
 #include "../TestResources/MockClasses/Managers.h"
 #include "../TestResources/MockClasses/Model.h"
+#include "../TimeSteps/Manager.h"
+#include "Category.h"
 
 // namespaces
 namespace niwa {
@@ -39,19 +39,18 @@ class MockCategories : public Categories {
 public:
   MockCategories(shared_ptr<Model> model) : Categories(model) {
     vector<string> names;
-    vector<string> sexes  = { "male", "female" };
-    vector<string> stages = { "immature", "mature" };
+    vector<string> sexes  = {"male", "female"};
+    vector<string> stages = {"immature", "mature"};
 
     for (string sex : sexes)
-      for (string stage : stages)
-        names.push_back(sex + "." + stage);
+      for (string stage : stages) names.push_back(sex + "." + stage);
 
     set_block_type(PARAM_CATEGORIES);
     parameters().Add(PARAM_FORMAT, "sex.stage", __FILE__, __LINE__);
     parameters().Add(PARAM_NAMES, names, __FILE__, __LINE__);
   };
 
-  map<string, string> GetCategoryLabelsAndValues(const string& lookup, const string& parameter_location) override final{
+  map<string, string> GetCategoryLabelsAndValues(const string& lookup, const string& parameter_location) override final {
     return Categories::GetCategoryLabelsAndValues(lookup, parameter_location);
   }
 
@@ -61,31 +60,24 @@ public:
 
 class MockVonBertalanffy : public agelengths::VonBertalanffy {
 public:
-  MockVonBertalanffy(Distribution distribution = Distribution::kNormal)
-  : VonBertalanffy(nullptr) {
-    distribution_ = distribution;
-  }
+  MockVonBertalanffy(Distribution distribution = Distribution::kNormal) : VonBertalanffy(nullptr) { distribution_ = distribution; }
 
-  MockVonBertalanffy(shared_ptr<Model> model, Double linf, Double k, Double t0, bool by_length,
-      Double cv_first, Double cv_last, vector<double> time_step_proportions, bool casal_switch = false, Distribution distributuion = Distribution::kNormal) : VonBertalanffy(model) {
-    linf_ = linf;
-    k_ = k;
-    t0_ = t0;
-    by_length_ = by_length;
-    cv_first_ = cv_first;
-    cv_last_ = cv_last;
+  MockVonBertalanffy(shared_ptr<Model> model, Double linf, Double k, Double t0, bool by_length, Double cv_first, Double cv_last, vector<double> time_step_proportions,
+                     bool casal_switch = false, Distribution distributuion = Distribution::kNormal) :
+      VonBertalanffy(model) {
+    linf_                  = linf;
+    k_                     = k;
+    t0_                    = t0;
+    by_length_             = by_length;
+    cv_first_              = cv_first;
+    cv_last_               = cv_last;
     time_step_proportions_ = time_step_proportions;
-    casal_normal_cdf_ = casal_switch;
-    distribution_ = distributuion;
+    casal_normal_cdf_      = casal_switch;
+    distribution_          = distributuion;
   }
 
-  void MockBuildCV() {
-    this->BuildCV();
-  }
+  void MockBuildCV() { this->BuildCV(); }
 };
 
 } /* namespace niwa */
 #endif
-
-
-

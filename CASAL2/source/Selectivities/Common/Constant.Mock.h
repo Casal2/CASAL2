@@ -12,11 +12,10 @@
 #ifndef SOURCE_SELECTIVITIES_COMMON_CONSTANT_MOCK_H_
 #define SOURCE_SELECTIVITIES_COMMON_CONSTANT_MOCK_H_
 
-
 // headers
-#include "Constant.h"
-
 #include <gmock/gmock.h>
+
+#include "Constant.h"
 
 // namespaces
 namespace niwa {
@@ -25,7 +24,7 @@ namespace selectivities {
 // class definition
 class MockConstant : public selectivities::Constant {
 public:
-  MockConstant(shared_ptr<Model> model) : selectivities::Constant(model) { }
+  MockConstant(shared_ptr<Model> model) : selectivities::Constant(model) {}
   virtual ~MockConstant() = default;
   MOCK_CONST_METHOD2(GetAgeResult, double(unsigned age, AgeLength* age_length));
 };

@@ -19,20 +19,20 @@
 
 // Headers
 #include <map>
-#include <vector>
-#include <string>
 #include <memory>
+#include <string>
+#include <vector>
 
 #include "../Partition/Category.h"
-#include "../Utilities/Types.h"
 #include "../Utilities/NoCopy.h"
+#include "../Utilities/Types.h"
 
 // Namespaces
 namespace niwa {
 class Model;
 
-using std::string;
 using std::map;
+using std::string;
 using std::vector;
 
 /**
@@ -40,28 +40,29 @@ using std::vector;
  */
 class Partition {
   friend class Model;
+
 public:
   // Methods
-  virtual                     ~Partition();
-  void                        Validate();
-  void                        Build();
-  void                        Reset();
-  void                        Clear() { partition_.clear(); }
-  void                        BuildMeanLengthData();
-  void                        BuildAgeLengthProportions();
+  virtual ~Partition();
+  void Validate();
+  void Build();
+  void Reset();
+  void Clear() { partition_.clear(); }
+  void BuildMeanLengthData();
+  void BuildAgeLengthProportions();
 
   // Accessors
-  partition::Category&        category(const string& category_label);
-  utilities::Vector4&         age_length_proportions(const string& category_label);
+  partition::Category& category(const string& category_label);
+  utilities::Vector4&  age_length_proportions(const string& category_label);
 
 protected:
   // Methods
-  Partition(shared_ptr<Model> model) : model_(model) { };
+  Partition(shared_ptr<Model> model) : model_(model){};
 
   // Members
-  shared_ptr<Model>                            model_ = nullptr;
-  map<string, partition::Category*> partition_; // map<category label, partition::Category Struct>
-  map<string, utilities::Vector4*>  age_length_proportions_; // map<category, vector<year, time_step, age, length, proportion>>;
+  shared_ptr<Model>                 model_ = nullptr;
+  map<string, partition::Category*> partition_;               // map<category label, partition::Category Struct>
+  map<string, utilities::Vector4*>  age_length_proportions_;  // map<category, vector<year, time_step, age, length, proportion>>;
 
   DISALLOW_COPY_AND_ASSIGN(Partition);
 };

@@ -14,9 +14,9 @@
 #define ESTIMATEVALUE_H_
 
 // headers
-#include "../../Reports/Report.h"
-
 #include <boost/numeric/ublas/matrix.hpp>
+
+#include "../../Reports/Report.h"
 
 // namespaces
 namespace niwa {
@@ -30,17 +30,17 @@ class EstimateValue : public niwa::Report {
 public:
   // Methods
   EstimateValue();
-  virtual                     ~EstimateValue() noexcept(true) = default;
-  void                        DoValidate(shared_ptr<Model> model) final { };
-  void                        DoBuild(shared_ptr<Model> model) final { };
-  void                        DoExecute(shared_ptr<Model> model) final;
-  void                        DoExecuteTabular(shared_ptr<Model> model) final;
-  void                        DoFinaliseTabular(shared_ptr<Model> model) final;
+  virtual ~EstimateValue() noexcept(true) = default;
+  void DoValidate(shared_ptr<Model> model) final{};
+  void DoBuild(shared_ptr<Model> model) final{};
+  void DoExecute(shared_ptr<Model> model) final;
+  void DoExecuteTabular(shared_ptr<Model> model) final;
+  void DoFinaliseTabular(shared_ptr<Model> model) final;
 
 private:
   // members
-  bool                        first_run_ = true;
-  ublas::matrix<double>       covariance_matrix_;
+  bool                  first_run_ = true;
+  ublas::matrix<double> covariance_matrix_;
 };
 
 } /* namespace reports */

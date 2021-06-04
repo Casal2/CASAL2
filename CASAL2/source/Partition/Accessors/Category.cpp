@@ -13,13 +13,13 @@
 // Headers
 #include "Category.h"
 
-#include <iostream>
 #include <iomanip>
+#include <iostream>
 
 #include "../../Categories/Categories.h"
-#include "../../Partition/Partition.h"
-#include "../../Model/Model.h"
 #include "../../Logging/Logging.h"
+#include "../../Model/Model.h"
+#include "../../Partition/Partition.h"
 #include "../../Utilities/To.h"
 
 // Namespaces
@@ -36,8 +36,7 @@ namespace util = niwa::utilities;
  *
  * Construction of this object involves building the category map
  */
-Category::Category(shared_ptr<Model> model, const string& category_name)
-  : model_(model) {
+Category::Category(shared_ptr<Model> model, const string& category_name) : model_(model) {
   LOG_TRACE();
 
   vector<unsigned> years = model_->years();
@@ -47,7 +46,7 @@ Category::Category(shared_ptr<Model> model, const string& category_name)
   partition::Category& category = partition.category(category_name);
   for (unsigned year : years) {
     if (std::find(category.years_.begin(), category.years_.end(), year) == category.years_.end())
-            continue; // Not valid in this year
+      continue;  // Not valid in this year
 
     data_[year] = &category.data_;
   }

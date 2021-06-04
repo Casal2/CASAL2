@@ -28,19 +28,18 @@ namespace timevarying {
 class Linear : public TimeVarying {
 public:
   explicit Linear(shared_ptr<Model> model);
-  virtual                     ~Linear() = default;
-  void                        DoValidate() override final;
-  void                        DoBuild() override final;
-  void                        DoReset() override final;
-  void                        DoUpdate() override final;
+  virtual ~Linear() = default;
+  void DoValidate() override final;
+  void DoBuild() override final;
+  void DoReset() override final;
+  void DoUpdate() override final;
 
 private:
   // members
-  Double                      slope_;
-  Double                      intercept_;
-  Double*                     value_;
-  map<unsigned, Double>       values_by_year_;
-
+  Double                slope_;
+  Double                intercept_;
+  Double*               value_;
+  map<unsigned, Double> values_by_year_;
 };
 
 } /* namespace timevarying */

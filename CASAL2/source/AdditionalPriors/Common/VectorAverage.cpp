@@ -39,7 +39,7 @@ void VectorAverage::DoBuild() {
 
   addressable::Type addressable_type = model_->objects().GetAddressableType(parameter_);
   LOG_FINEST() << "type = " << addressable_type;
-  switch(addressable_type) {
+  switch (addressable_type) {
     case addressable::kInvalid:
       LOG_CODE_ERROR() << "Invalid addressable type: " << parameter_;
       break;
@@ -53,8 +53,7 @@ void VectorAverage::DoBuild() {
       addressable_map_ = model_->objects().GetAddressableUMap(parameter_);
       break;
     default:
-      LOG_ERROR() << "The addressable provided for use in additional priors '" << parameter_
-        << "' has a type that is not supported for vector average additional priors";
+      LOG_ERROR() << "The addressable provided for use in additional priors '" << parameter_ << "' has a type that is not supported for vector average additional priors";
       break;
   }
 }
@@ -68,33 +67,28 @@ Double VectorAverage::GetScore() {
   if (addressable_vector_ != 0)
     values.assign((*addressable_vector_).begin(), (*addressable_vector_).end());
   else if (addressable_map_ != 0) {
-    for (auto iter : (*addressable_map_))
-      values.push_back(iter.second);
+    for (auto iter : (*addressable_map_)) values.push_back(iter.second);
   } else if (addressable_ptr_vector_ != nullptr) {
-    for (auto ptr : (*addressable_ptr_vector_))
-      values.push_back((*ptr));
+    for (auto ptr : (*addressable_ptr_vector_)) values.push_back((*ptr));
   } else
     LOG_CODE_ERROR() << "(addressable_vector_ != 0) && (addressable_map_ != 0)";
 
   Double score = 0.0;
 
   if (method_ == PARAM_K) {
-    for (Double value : values)
-      score += value;
+    for (Double value : values) score += value;
     score = score / values.size();
 
     score = (score - k_) * (score - k_);
 
   } else if (method_ == PARAM_L) {
-    for (Double value : values)
-      score += log(value);
+    for (Double value : values) score += log(value);
     score = score / values.size();
 
     score = (score - k_) * (score - k_);
 
   } else if (method_ == PARAM_M) {
-    for (Double value : values)
-      score += value;
+    for (Double value : values) score += value;
     score = log(score / values.size());
 
     score = (score - k_) * (score - k_);

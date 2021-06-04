@@ -25,18 +25,18 @@ class ObjectiveFunction : public niwa::Assert {
 public:
   // methods
   ObjectiveFunction(shared_ptr<Model> model);
-  virtual                     ~ObjectiveFunction() = default;
-  void                        Execute() override final;
+  virtual ~ObjectiveFunction() = default;
+  void Execute() override final;
 
 protected:
   // methods
-  void                        DoValidate() { };
-  void                        DoBuild() override final;
+  void DoValidate(){};
+  void DoBuild() override final;
 
 private:
   // members
-  Double                      value_;
-  Double                      tol_ = 1.0e-6;
+  Double value_;
+  Double tol_ = 1.0e-6;
 };
 
 } /* namespace asserts */

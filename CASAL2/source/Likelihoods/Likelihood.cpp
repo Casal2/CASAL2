@@ -20,8 +20,7 @@ namespace niwa {
 /**
  * Default constructor
  */
-Likelihood::Likelihood(shared_ptr<Model> model) : model_(model) {
-}
+Likelihood::Likelihood(shared_ptr<Model> model) : model_(model) {}
 
 /**
  * Validate the parameters
@@ -33,4 +32,3 @@ void Likelihood::Validate() {
 }
 
 } /* namespace niwa */
-

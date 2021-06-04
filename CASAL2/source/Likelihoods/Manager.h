@@ -29,10 +29,11 @@ namespace likelihoods {
 class Manager : public niwa::base::Manager<niwa::likelihoods::Manager, niwa::Likelihood> {
   friend class niwa::base::Manager<niwa::likelihoods::Manager, niwa::Likelihood>;
   friend class niwa::Managers;
+
 public:
   // methods
-  virtual                     ~Manager() noexcept(true) { };
-  Likelihood*                 GetOrCreateLikelihood(shared_ptr<Model> model, const string& observation_label, const string& label);
+  virtual ~Manager() noexcept(true){};
+  Likelihood* GetOrCreateLikelihood(shared_ptr<Model> model, const string& observation_label, const string& label);
 
 protected:
   // methods

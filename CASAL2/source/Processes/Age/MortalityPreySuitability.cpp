@@ -11,20 +11,18 @@
 // headers
 #include "MortalityPreySuitability.h"
 
-#include <boost/algorithm/string/split.hpp>
-#include <boost/algorithm/string/replace.hpp>
-#include <boost/algorithm/string/trim_all.hpp>
-#include <boost/algorithm/string/split.hpp>
 #include <boost/algorithm/string/join.hpp>
+#include <boost/algorithm/string/replace.hpp>
+#include <boost/algorithm/string/split.hpp>
+#include <boost/algorithm/string/trim_all.hpp>
 
 #include "Categories/Categories.h"
 #include "Model/Managers.h"
 #include "Penalties/Manager.h"
 #include "Selectivities/Manager.h"
-#include "TimeSteps/TimeStep.h"
 #include "TimeSteps/Manager.h"
+#include "TimeSteps/TimeStep.h"
 #include "Utilities/To.h"
-
 
 // namespaces
 namespace niwa {
@@ -43,9 +41,8 @@ namespace math = niwa::utilities::math;
  *
  * Note: The constructor is parsed to generate LaTeX for the documentation.
  */
-MortalityPreySuitability::MortalityPreySuitability(shared_ptr<Model> model)
-  : Process(model) {
-  process_type_ = ProcessType::kMortality;
+MortalityPreySuitability::MortalityPreySuitability(shared_ptr<Model> model) : Process(model) {
+  process_type_        = ProcessType::kMortality;
   partition_structure_ = PartitionType::kAge;
 
   parameters_.Bind<string>(PARAM_PREY_CATEGORIES, &prey_category_labels_, "The prey categories labels", "");
@@ -55,12 +52,11 @@ MortalityPreySuitability::MortalityPreySuitability(shared_ptr<Model> model)
   parameters_.Bind<Double>(PARAM_U_MAX, &u_max_, "The maximum exploitation rate ($U_{max}$)", "", 0.99)->set_range(0.0, 1.0);
   parameters_.Bind<string>(PARAM_PREY_SELECTIVITIES, &prey_selectivity_labels_, "The selectivities for prey categories", "");
   parameters_.Bind<string>(PARAM_PREDATOR_SELECTIVITIES, &predator_selectivity_labels_, "The selectivities for predator categories", "");
-  parameters_.Bind<string>(PARAM_PENALTY, &  penalty_label_, "The label of the penalty", "","");
+  parameters_.Bind<string>(PARAM_PENALTY, &penalty_label_, "The label of the penalty", "", "");
   parameters_.Bind<unsigned>(PARAM_YEARS, &years_, "The year that process occurs", "");
 
   RegisterAsAddressable(PARAM_CONSUMPTION_RATE, &consumption_rate_);
   RegisterAsAddressable(PARAM_ELECTIVITIES, &electivities_);
-
 }
 
 /**
@@ -72,16 +68,16 @@ MortalityPreySuitability::MortalityPreySuitability(shared_ptr<Model> model)
 void MortalityPreySuitability::DoValidate() {
   // Check length of categories are the same as selectivities
   if (prey_category_labels_.size() != prey_selectivity_labels_.size())
-    LOG_ERROR_P(PARAM_PREY_CATEGORIES) << ": There are " << prey_selectivity_labels_.size() << " prey selectivities but there are "
-      << prey_category_labels_.size() << " prey categories";
+    LOG_ERROR_P(PARAM_PREY_CATEGORIES) << ": There are " << prey_selectivity_labels_.size() << " prey selectivities but there are " << prey_category_labels_.size()
+                                       << " prey categories";
 
   if (predator_category_labels_.size() != predator_selectivity_labels_.size())
-    LOG_ERROR_P(PARAM_PREY_CATEGORIES) << ": There are " << predator_selectivity_labels_.size() << " predator selectivities but there are "
-      << predator_category_labels_.size() << " predator categories";
+    LOG_ERROR_P(PARAM_PREY_CATEGORIES) << ": There are " << predator_selectivity_labels_.size() << " predator selectivities but there are " << predator_category_labels_.size()
+                                       << " predator categories";
 
   if (prey_category_labels_.size() != electivities_.size())
-    LOG_ERROR_P(PARAM_ELECTIVITIES) << ": There are " << prey_category_labels_.size() << " prey categories but there are "
-      << electivities_.size() << " prey electivities. These must be the same length.";
+    LOG_ERROR_P(PARAM_ELECTIVITIES) << ": There are " << prey_category_labels_.size() << " prey categories but there are " << electivities_.size()
+                                    << " prey electivities. These must be the same length.";
 }
 
 /**
@@ -118,54 +114,52 @@ void MortalityPreySuitability::DoBuild() {
       LOG_ERROR_P(PARAM_PENALTY) << ": Penalty label " << penalty_label_ << " was not found.";
   }
 
-/*  *
-   * Check All the categories are valid
+  /*  *
+     * Check All the categories are valid
 
-  for (const string& label : prey_category_labels_) {
-    if (!model_->categories()->IsValid(label))
-      LOG_ERROR_P(PARAM_PREY_CATEGORIES) << ": category " << label << " was not found.";
-  }
-  for (const string& label : predator_category_labels_) {
-    if (!model_->categories()->IsValid(label))
-      LOG_ERROR_P(PARAM_PREDATOR_CATEGORIES) << ": category " << label << " was not found.";
-  }*/
+    for (const string& label : prey_category_labels_) {
+      if (!model_->categories()->IsValid(label))
+        LOG_ERROR_P(PARAM_PREY_CATEGORIES) << ": category " << label << " was not found.";
+    }
+    for (const string& label : predator_category_labels_) {
+      if (!model_->categories()->IsValid(label))
+        LOG_ERROR_P(PARAM_PREDATOR_CATEGORIES) << ": category " << label << " was not found.";
+    }*/
 }
 
 /**
  * Execute this process
  */
 void MortalityPreySuitability::DoExecute() {
-
   // Check if we are executing this process in current year
   if (std::find(years_.begin(), years_.end(), model_->current_year()) != years_.end()) {
-
-    Double TotalPreyVulnerable = 0;
-    Double TotalPreyAvailability = 0;
+    Double TotalPreyVulnerable     = 0;
+    Double TotalPreyAvailability   = 0;
     Double TotalPredatorVulnerable = 0;
-    Double SumMortality = 0.0;
+    Double SumMortality            = 0.0;
 
     map<string, Double> Vulnerable_by_Prey;
     map<string, Double> Exploitation_by_Prey;
 
-    auto partition_iter = prey_partition_->Begin(); // vector<vector<partition::Category> >
+    auto partition_iter = prey_partition_->Begin();  // vector<vector<partition::Category> >
 
     for (unsigned category_offset = 0; category_offset < prey_category_labels_.size(); ++category_offset, ++partition_iter) {
       /**
-        * Loop through the  combined categories building up the prey abundance for each prey category label
-        */
-       auto category_iter = partition_iter->begin();
-       for (; category_iter != partition_iter->end(); ++category_iter) {
-         for (unsigned data_offset = 0; data_offset < (*category_iter)->data_.size(); ++data_offset) {
-           Double vulnerable = (*category_iter)->data_[data_offset] * prey_selectivities_[category_offset]->GetAgeResult((*category_iter)->min_age_ + data_offset, (*category_iter)->age_length_);
-           if (vulnerable <= 0.0)
-             vulnerable = 0.0;
-           Vulnerable_by_Prey[prey_category_labels_[category_offset]] += vulnerable;
-           TotalPreyVulnerable += vulnerable * electivities_[category_offset];
-           TotalPreyAvailability += vulnerable;
-         }
-       }
-       LOG_FINEST() << ": Vulnerable abundance for prey category " << prey_category_labels_[category_offset] << " = "
-         << Vulnerable_by_Prey[prey_category_labels_[category_offset]];
+       * Loop through the  combined categories building up the prey abundance for each prey category label
+       */
+      auto category_iter = partition_iter->begin();
+      for (; category_iter != partition_iter->end(); ++category_iter) {
+        for (unsigned data_offset = 0; data_offset < (*category_iter)->data_.size(); ++data_offset) {
+          Double vulnerable
+              = (*category_iter)->data_[data_offset] * prey_selectivities_[category_offset]->GetAgeResult((*category_iter)->min_age_ + data_offset, (*category_iter)->age_length_);
+          if (vulnerable <= 0.0)
+            vulnerable = 0.0;
+          Vulnerable_by_Prey[prey_category_labels_[category_offset]] += vulnerable;
+          TotalPreyVulnerable += vulnerable * electivities_[category_offset];
+          TotalPreyAvailability += vulnerable;
+        }
+      }
+      LOG_FINEST() << ": Vulnerable abundance for prey category " << prey_category_labels_[category_offset] << " = " << Vulnerable_by_Prey[prey_category_labels_[category_offset]];
     }
 
     TotalPreyAvailability = math::ZeroFun(TotalPreyAvailability, math::ZERO);
@@ -176,15 +170,14 @@ void MortalityPreySuitability::DoExecute() {
      */
     auto predator_partition_iter = predator_partition_->Begin();
     for (unsigned category_offset = 0; category_offset < predator_category_labels_.size(); ++category_offset, ++predator_partition_iter) {
-
       /*
        * Loop through the  combined categories building up the predator abundance for each prey category label
        */
       auto category_iter = predator_partition_iter->begin();
       for (; category_iter != predator_partition_iter->end(); ++category_iter) {
         for (unsigned data_offset = 0; data_offset < (*category_iter)->data_.size(); ++data_offset) {
-
-          Double predator_vulnerable = (*category_iter)->data_[data_offset] * predator_selectivities_[category_offset]->GetAgeResult((*category_iter)->min_age_ + data_offset, (*category_iter)->age_length_);
+          Double predator_vulnerable = (*category_iter)->data_[data_offset]
+                                       * predator_selectivities_[category_offset]->GetAgeResult((*category_iter)->min_age_ + data_offset, (*category_iter)->age_length_);
           if (predator_vulnerable <= 0.0)
             predator_vulnerable = 0.0;
 
@@ -198,47 +191,44 @@ void MortalityPreySuitability::DoExecute() {
      * Work out exploitation rate for each prey category
      */
     for (unsigned category_offset = 0; category_offset < prey_category_labels_.size(); ++category_offset) {
-      Double Exploitation = TotalPredatorVulnerable * consumption_rate_ * ((Vulnerable_by_Prey[prey_category_labels_[category_offset]] / TotalPreyAvailability) * electivities_[category_offset])
-          / TotalPreyVulnerable;
+      Double Exploitation = TotalPredatorVulnerable * consumption_rate_
+                            * ((Vulnerable_by_Prey[prey_category_labels_[category_offset]] / TotalPreyAvailability) * electivities_[category_offset]) / TotalPreyVulnerable;
 
       if (Exploitation > u_max_) {
         Exploitation = u_max_;
 
-        if (penalty_) // Throw Penalty
+        if (penalty_)  // Throw Penalty
           penalty_->Trigger(penalty_label_, Exploitation, (Vulnerable_by_Prey[prey_category_labels_[category_offset]] * u_max_));
 
       } else if (Exploitation < 0.0)
         Exploitation = 0.0;
 
       Exploitation_by_Prey[prey_category_labels_[category_offset]] = Exploitation;
-      LOG_FINEST() << ": Exploitation rate for prey category " << prey_category_labels_[category_offset] << " = "
-        << Exploitation_by_Prey[prey_category_labels_[category_offset]];
-
+      LOG_FINEST() << ": Exploitation rate for prey category " << prey_category_labels_[category_offset] << " = " << Exploitation_by_Prey[prey_category_labels_[category_offset]];
     }
 
     // removal of prey components using the exploitation rate.
     partition_iter = prey_partition_->Begin();
 
     for (unsigned category_offset = 0; category_offset < prey_category_labels_.size(); ++category_offset, ++partition_iter) {
+      auto category_iter = partition_iter->begin();
+      for (; category_iter != partition_iter->end(); ++category_iter) {
+        for (unsigned data_offset = 0; data_offset < (*category_iter)->data_.size(); ++data_offset) {
+          Double Current = (*category_iter)->data_.size()
+                           * prey_selectivities_[category_offset]->GetAgeResult((*category_iter)->min_age_ + data_offset, (*category_iter)->age_length_)
+                           * Exploitation_by_Prey[prey_category_labels_[category_offset]];
+          if (Current <= 0.0) {
+            LOG_WARNING() << ": Negative partition created";
+            continue;
+          }
 
-       auto category_iter = partition_iter->begin();
-       for (; category_iter != partition_iter->end(); ++category_iter) {
-         for (unsigned data_offset = 0; data_offset < (*category_iter)->data_.size(); ++data_offset) {
-
-           Double Current = (*category_iter)->data_.size() * prey_selectivities_[category_offset]->GetAgeResult((*category_iter)->min_age_ + data_offset, (*category_iter)->age_length_)
-               * Exploitation_by_Prey[prey_category_labels_[category_offset]];
-           if (Current <= 0.0) {
-             LOG_WARNING() << ": Negative partition created";
-             continue;
-           }
-
-           // remove abundance
-           (*category_iter)->data_[data_offset] -= Current;
-           SumMortality += Current;
+          // remove abundance
+          (*category_iter)->data_[data_offset] -= Current;
+          SumMortality += Current;
         }
       }
     }
-  } // if (std::find(years_.begin(), years_.end(), model_->current_year()) != years_.end()) {
+  }  // if (std::find(years_.begin(), years_.end(), model_->current_year()) != years_.end()) {
 }
 
 /**
@@ -246,9 +236,7 @@ void MortalityPreySuitability::DoExecute() {
  * @description A method for reporting process information
  * @param cache a cache object to print to
  */
-void MortalityPreySuitability::FillReportCache(ostringstream& cache) {
-
-}
+void MortalityPreySuitability::FillReportCache(ostringstream& cache) {}
 
 /**
  * Fill the tabular report cache
@@ -257,10 +245,7 @@ void MortalityPreySuitability::FillReportCache(ostringstream& cache) {
  * @param first_run whether to print the header
  *
  */
-void MortalityPreySuitability::FillTabularReportCache(ostringstream& cache, bool first_run) {
-
-}
-
+void MortalityPreySuitability::FillTabularReportCache(ostringstream& cache, bool first_run) {}
 
 } /* namespace age */
 } /* namespace processes */

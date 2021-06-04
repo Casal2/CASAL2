@@ -27,9 +27,7 @@ namespace selectivities {
 /**
  * Explicit Constructor
  */
-DoubleExponential::DoubleExponential(shared_ptr<Model> model)
-: Selectivity(model) {
-
+DoubleExponential::DoubleExponential(shared_ptr<Model> model) : Selectivity(model) {
   parameters_.Bind<Double>(PARAM_X0, &x0_, "The X0 parameter", "");
   parameters_.Bind<Double>(PARAM_X1, &x1_, "The X1 parameter", "");
   parameters_.Bind<Double>(PARAM_X2, &x2_, "The X2 parameter", "");
@@ -85,22 +83,22 @@ void DoubleExponential::RebuildCache() {
     for (unsigned age = model_->min_age(); age <= model_->max_age(); ++age) {
       temp = age;
       if (temp <= x0_) {
-        values_[age - age_index_] = alpha_ * y0_ * pow((y1_ / y0_), (temp - x0_)/(x1_ - x0_));
+        values_[age - age_index_] = alpha_ * y0_ * pow((y1_ / y0_), (temp - x0_) / (x1_ - x0_));
       } else if (temp > x0_ && temp <= x2_) {
-        values_[age - age_index_] = alpha_ * y0_ * pow((y2_ / y0_), (temp - x0_)/(x2_ - x0_));
+        values_[age - age_index_] = alpha_ * y0_ * pow((y2_ / y0_), (temp - x0_) / (x2_ - x0_));
       } else {
         values_[age - age_index_] = y2_;
       }
     }
   } else if (model_->partition_type() == PartitionType::kLength) {
     vector<Double> length_bins = model_->length_bins();
-    Double temp = 0.0;
+    Double         temp        = 0.0;
     for (unsigned length_bin_index = 0; length_bin_index < length_bins.size(); ++length_bin_index) {
       temp = length_bins[length_bin_index];
       if (temp <= x0_) {
-        length_values_[length_bin_index] = alpha_ * y0_ * pow((y1_ / y0_), (temp - x0_)/(x1_ - x0_));
+        length_values_[length_bin_index] = alpha_ * y0_ * pow((y1_ / y0_), (temp - x0_) / (x1_ - x0_));
       } else if (temp > x0_ && temp <= x2_) {
-        length_values_[length_bin_index] = alpha_ * y0_ * pow((y2_ / y0_), (temp - x0_)/(x2_ - x0_));
+        length_values_[length_bin_index] = alpha_ * y0_ * pow((y2_ / y0_), (temp - x0_) / (x2_ - x0_));
       } else {
         length_values_[length_bin_index] = y2_;
       }
@@ -118,9 +116,9 @@ void DoubleExponential::RebuildCache() {
  * @return Double selectivity for an age based on age length distribution_label
  */
 Double DoubleExponential::GetLengthBasedResult(unsigned age, AgeLength* age_length, unsigned year, int time_step_index) {
-  unsigned yearx = year == 0 ? model_->current_year() : year;
+  unsigned yearx     = year == 0 ? model_->current_year() : year;
   unsigned time_step = model_->managers()->time_step()->current_time_step();
-  Double cv = age_length->cv(yearx, time_step, age);
+  Double   cv        = age_length->cv(yearx, time_step, age);
 
   Double mean = age_length->mean_length(time_step, age);
   string dist = age_length->distribution_label();
@@ -129,42 +127,41 @@ Double DoubleExponential::GetLengthBasedResult(unsigned age, AgeLength* age_leng
     // no distribution_label just use the mu from age_length
     Double val;
     if (mean <= x0_)
-      val = alpha_ * y0_ * pow((y1_ / y0_), (mean - x0_)/(x1_ - x0_));
+      val = alpha_ * y0_ * pow((y1_ / y0_), (mean - x0_) / (x1_ - x0_));
     else
-      val = alpha_ * y0_ * pow((y2_ / y0_), (mean - x0_)/(x2_ - x0_));
+      val = alpha_ * y0_ * pow((y2_ / y0_), (mean - x0_) / (x2_ - x0_));
     return val;
 
   } else if (dist == PARAM_NORMAL) {
-
     Double sigma = cv * mean;
-    Double size = 0.0;
+    Double size  = 0.0;
     Double total = 0.0;
 
     for (unsigned j = 0; j < n_quant_; ++j) {
       size = mean + sigma * quantiles_at_[j];
 
       if (size <= x0_)
-        total += alpha_ * y0_ * pow((y1_ / y0_), (size - x0_)/(x1_ - x0_));
+        total += alpha_ * y0_ * pow((y1_ / y0_), (size - x0_) / (x1_ - x0_));
       else
-        total += alpha_ * y0_ * pow((y2_ / y0_), (size - x0_)/(x2_ - x0_));
+        total += alpha_ * y0_ * pow((y2_ / y0_), (size - x0_) / (x2_ - x0_));
     }
     return total / n_quant_;
 
   } else if (dist == PARAM_LOGNORMAL) {
     // convert paramters to log space
-    Double sigma = sqrt(log(1 + cv * cv));
-    Double mu = log(mean) - sigma * sigma * 0.5;
-    Double size = 0.0;
-    Double total = 0.0;
+    Double                 sigma = sqrt(log(1 + cv * cv));
+    Double                 mu    = log(mean) - sigma * sigma * 0.5;
+    Double                 size  = 0.0;
+    Double                 total = 0.0;
     boost::math::lognormal dist{AS_DOUBLE(mu), AS_DOUBLE(sigma)};
 
     for (unsigned j = 0; j < n_quant_; ++j) {
       size = mu + sigma * quantile(dist, AS_DOUBLE(quantiles_[j]));
 
       if (size <= x0_)
-        total += alpha_ * y0_ * pow((y1_ / y0_), (size - x0_)/(x1_ - x0_));
+        total += alpha_ * y0_ * pow((y1_ / y0_), (size - x0_) / (x1_ - x0_));
       else
-        total += alpha_ * y0_ * pow((y2_ / y0_), (size - x0_)/(x2_ - x0_));
+        total += alpha_ * y0_ * pow((y2_ / y0_), (size - x0_) / (x2_ - x0_));
     }
     return total / n_quant_;
   }

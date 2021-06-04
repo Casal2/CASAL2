@@ -13,17 +13,17 @@
 #include "Derived.h"
 
 #include <algorithm>
-#include <boost/algorithm/string/trim_all.hpp>
 #include <boost/algorithm/string/split.hpp>
+#include <boost/algorithm/string/trim_all.hpp>
 
 #include "../../Categories/Categories.h"
 #include "../../Model/Factory.h"
 #include "../../Model/Managers.h"
 #include "../../Model/Model.h"
 #include "../../Partition/Accessors/Categories.h"
-#include "../../TimeSteps/Manager.h"
 #include "../../Processes/Age/RecruitmentBevertonHolt.h"
 #include "../../Processes/Age/RecruitmentBevertonHoltWithDeviations.h"
+#include "../../TimeSteps/Manager.h"
 
 // namespaces
 namespace niwa {
@@ -33,13 +33,14 @@ namespace age {
 /**
  * Default constructor
  */
-Derived::Derived(shared_ptr<Model> model) :
-    InitialisationPhase(model), cached_partition_(model), partition_(model) {
-  parameters_.Bind<string>(PARAM_INSERT_PROCESSES, &insert_processes_, "Additional processes not defined in the annual cycle that are to be inserted into this initialisation phase", "", true);
+Derived::Derived(shared_ptr<Model> model) : InitialisationPhase(model), cached_partition_(model), partition_(model) {
+  parameters_.Bind<string>(PARAM_INSERT_PROCESSES, &insert_processes_,
+                           "Additional processes not defined in the annual cycle that are to be inserted into this initialisation phase", "", true);
   parameters_.Bind<string>(PARAM_EXCLUDE_PROCESSES, &exclude_processes_, "Processes in the annual cycle to be excluded from this initialisation phase", "", true);
-  parameters_.Bind<bool>(PARAM_CASAL_INITIALISATION, &casal_initialisation_phase_, "Run an extra annual cycle to evalaute equilibrium SSBs. Warning - if true, this may not correctly evaluate the equilibrium state. Set to true if replicating a CASAL model", "", false);
-
-
+  parameters_.Bind<bool>(
+      PARAM_CASAL_INITIALISATION, &casal_initialisation_phase_,
+      "Run an extra annual cycle to evalaute equilibrium SSBs. Warning - if true, this may not correctly evaluate the equilibrium state. Set to true if replicating a CASAL model",
+      "", false);
 }
 
 /*
@@ -52,7 +53,6 @@ void Derived::DoValidate() {
     if (pieces.size() != 2 && pieces.size() != 3)
       LOG_ERROR_P(PARAM_INSERT_PROCESSES) << " value " << insert << " does not match the format time_step(process)=new_process = " << pieces.size();
   }
-
 }
 
 /*
@@ -64,14 +64,14 @@ void Derived::DoBuild() {
 
   // handle any new processes we want to insert
   for (string insert : insert_processes_) {
-    vector < string > pieces;
+    vector<string> pieces;
     boost::split(pieces, insert, boost::is_any_of("()="), boost::token_compress_on);
 
     string target_process = pieces.size() == 3 ? pieces[1] : "";
-    string new_process = pieces.size() == 3 ? pieces[2] : pieces[1];
+    string new_process    = pieces.size() == 3 ? pieces[2] : pieces[1];
 
-    auto time_step = model_->managers()->time_step()->GetTimeStep(pieces[0]);
-    vector < string > process_labels = time_step->initialisation_process_labels(label_);
+    auto           time_step      = model_->managers()->time_step()->GetTimeStep(pieces[0]);
+    vector<string> process_labels = time_step->initialisation_process_labels(label_);
 
     if (target_process == "")
       process_labels.push_back(new_process);
@@ -89,10 +89,9 @@ void Derived::DoBuild() {
   for (string exclude : exclude_processes_) {
     unsigned count = 0;
     for (auto time_step : time_steps_) {
-      vector < string > process_labels = time_step->initialisation_process_labels(label_);
-      unsigned size_before = process_labels.size();
-      process_labels.erase(std::remove_if(process_labels.begin(), process_labels.end(), [exclude](string& ex) {return exclude == ex;}),
-          process_labels.end());
+      vector<string> process_labels = time_step->initialisation_process_labels(label_);
+      unsigned       size_before    = process_labels.size();
+      process_labels.erase(std::remove_if(process_labels.begin(), process_labels.end(), [exclude](string& ex) { return exclude == ex; }), process_labels.end());
       unsigned diff = size_before - process_labels.size();
 
       time_step->SetInitialisationProcessLabels(label_, process_labels);
@@ -103,17 +102,16 @@ void Derived::DoBuild() {
       LOG_ERROR_P(PARAM_EXCLUDE_PROCESSES) << " process " << exclude << " does not exist in any time steps to be excluded";
   }
 
-
   // Build our partition
-  vector < string > categories = model_->categories()->category_names();
+  vector<string> categories = model_->categories()->category_names();
 
   partition_.Init(categories);
   cached_partition_.Init(categories);
 
   // Find out the recruitment and ageing order
-  vector<ProcessType> process_types = model_->managers()->time_step()->GetOrderedProcessTypes();
-  unsigned ageing_index = std::numeric_limits<unsigned>::max();
-  unsigned recruitment_index = std::numeric_limits<unsigned>::max();
+  vector<ProcessType> process_types     = model_->managers()->time_step()->GetOrderedProcessTypes();
+  unsigned            ageing_index      = std::numeric_limits<unsigned>::max();
+  unsigned            recruitment_index = std::numeric_limits<unsigned>::max();
   for (unsigned i = 0; i < process_types.size(); ++i) {
     if (process_types[i] == ProcessType::kAgeing) {
       ageing_index = i;
@@ -125,7 +123,6 @@ void Derived::DoBuild() {
     LOG_ERROR() << location() << "Unable to calculate the recruitment index because there is no ageing process";
   if (recruitment_index < ageing_index)
     recruitment_ = true;
-
 
   // Find any BH_recruitment process in the annual cycle
   unsigned i = 0;
@@ -146,8 +143,6 @@ void Derived::DoBuild() {
       }
     }
   }
-
-
 }
 
 /**
@@ -172,17 +167,17 @@ void Derived::Execute() {
     // Run the model for an extra year
     time_step_manager->ExecuteInitialisation(label_, 1);
     Double c;
-    auto cached_category = cached_partition_.begin();
-    auto category = partition_.begin();
+    auto   cached_category = cached_partition_.begin();
+    auto   category        = partition_.begin();
     for (; category != partition_.end(); ++cached_category, ++category) {
       // find the element in the data container (numbers at age) that contains the plus group for each category
       // We are assuming it is the last element, If categories can have different age ranges, this will have to change.
       unsigned plus_index = (*category)->data_.size() - 1;
 
       LOG_FINEST() << "Cached plus group " << cached_category->data_[plus_index] << " 1 year plus group " << (*category)->data_[plus_index];
-      //if (the plus group has been populated)
+      // if (the plus group has been populated)
       if (cached_category->data_[plus_index] > 0) {
-        c = (*category)->data_[plus_index] / cached_category->data_[plus_index] - 1; //zero fun
+        c = (*category)->data_[plus_index] / cached_category->data_[plus_index] - 1;  // zero fun
         LOG_FINEST() << "The value of c = " << c;
         if (c > 0.99) {
           c = 0.99;
@@ -201,15 +196,15 @@ void Derived::Execute() {
     }
   }
 
-  Double max_rel_diff = 1e18;
+  Double         max_rel_diff = 1e18;
   vector<Double> plus_group(categories.size(), 1);
   vector<Double> old_plus_group(categories.size(), 1);
 
-  auto category = partition_.begin();
-  unsigned iter = 0;
+  auto     category = partition_.begin();
+  unsigned iter     = 0;
   for (; category != partition_.end(); ++category, ++iter) {
     if (iter >= old_plus_group.size()) {
-      LOG_CODE_ERROR()<< "if (iter >= old_plus_group.size())";
+      LOG_CODE_ERROR() << "if (iter >= old_plus_group.size())";
     }
     old_plus_group[iter] = (*category)->data_[(*category)->data_.size() - 1];
   }
@@ -218,7 +213,7 @@ void Derived::Execute() {
   while (max_rel_diff > 0.005) {
     time_step_manager->ExecuteInitialisation(label_, 1);
     max_rel_diff = 0;
-    category = partition_.begin();
+    category     = partition_.begin();
 
     for (unsigned iter = 0; category != partition_.end(); ++category, ++iter) {
       plus_group[iter] = (*category)->data_[(*category)->data_.size() - 1];
@@ -265,9 +260,9 @@ void Derived::Execute() {
     time_step_manager->ExecuteInitialisation(label_, 1);
 
     auto cached_category = cached_partition_.begin();
-    auto category = partition_.begin();
+    auto category        = partition_.begin();
     for (; category != partition_.end(); ++category, ++cached_category) {
-      for(unsigned n_age = 0; n_age <  (*category)->data_.size(); ++n_age)
+      for (unsigned n_age = 0; n_age < (*category)->data_.size(); ++n_age)
         LOG_FINEST() << "new part = " << (*category)->data_[n_age] << " old part = " << cached_category->data_[n_age];
       (*category)->data_ = cached_category->data_;
     }

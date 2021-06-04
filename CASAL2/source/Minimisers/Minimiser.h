@@ -5,7 +5,7 @@
  * @date 28/02/2013
  * @section LICENSE
  *
- * Copyright NIWA Science ©2013 - www.niwa.co.nz
+ * Copyright NIWA Science ï¿½2013 - www.niwa.co.nz
  *
  * @section DESCRIPTION
  *
@@ -50,39 +50,40 @@ public:
   // Methods
   Minimiser() = delete;
   explicit Minimiser(shared_ptr<Model> model);
-  virtual                     ~Minimiser();
-  void                        Validate();
-  void                        Build();
-  void                        Reset() { DoReset(); };
-  void                        BuildCovarianceMatrix();
+  virtual ~Minimiser();
+  void Validate();
+  void Build();
+  void Reset() { DoReset(); };
+  void BuildCovarianceMatrix();
 
   // pure methods
-  virtual void                DoValidate() = 0;
-  virtual void                DoBuild() = 0;
-  virtual void                DoReset() = 0;
-  virtual void                Execute() = 0;
-  virtual void								ExecuteThreaded(shared_ptr<ThreadPool> thread_pool) { Execute(); }
+  virtual void DoValidate() = 0;
+  virtual void DoBuild()    = 0;
+  virtual void DoReset()    = 0;
+  virtual void Execute()    = 0;
+  virtual void ExecuteThreaded(shared_ptr<ThreadPool> thread_pool) { Execute(); }
 
   // Acessors
-  bool                        active() const { return active_; }
-  void                        set_active(bool new_value) { active_ = new_value; }
-  ublas::matrix<double>&      covariance_matrix() { return covariance_matrix_; }
-  ublas::matrix<double>&      correlation_matrix() { return correlation_matrix_; }
-  double**                    hessian_matrix() const { return hessian_; }
-  unsigned                    hessian_size() const { return hessian_size_; }
-  MinimiserResult::Type       result() const { return result_; }
+  bool                   active() const { return active_; }
+  void                   set_active(bool new_value) { active_ = new_value; }
+  ublas::matrix<double>& covariance_matrix() { return covariance_matrix_; }
+  ublas::matrix<double>& correlation_matrix() { return correlation_matrix_; }
+  double**               hessian_matrix() const { return hessian_; }
+  unsigned               hessian_size() const { return hessian_size_; }
+  MinimiserResult::Type  result() const { return result_; }
+  virtual bool           will_provide_covariance_matrix() const { return build_covariance_; }
 
 protected:
   // Members
-  shared_ptr<Model>                      model_ = nullptr;
-  bool                        active_;
-  double**                    hessian_ = nullptr;
-  unsigned                    hessian_size_;
-  bool                        build_covariance_;
-  ublas::matrix<double>       covariance_matrix_;
-  ublas::matrix<double>       correlation_matrix_;
-  MinimiserResult::Type       result_ = MinimiserResult::kInvalid;
-  vector<Double>              gradient_;
+  shared_ptr<Model>     model_ = nullptr;
+  bool                  active_;
+  double**              hessian_ = nullptr;
+  unsigned              hessian_size_;
+  bool                  build_covariance_;
+  ublas::matrix<double> covariance_matrix_;
+  ublas::matrix<double> correlation_matrix_;
+  MinimiserResult::Type result_ = MinimiserResult::kInvalid;
+  vector<Double>        gradient_;
 };
 } /* namespace niwa */
 #endif /* MINIMISER_H_ */

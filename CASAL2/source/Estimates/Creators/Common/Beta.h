@@ -29,15 +29,15 @@ public:
   // methods
   Beta() = delete;
   explicit Beta(shared_ptr<Model> model);
-  virtual                     ~Beta() = default;
-  void                        DoCopyParameters(niwa::Estimate* estimate, unsigned index) override final;
+  virtual ~Beta() = default;
+  void DoCopyParameters(niwa::Estimate* estimate, unsigned index) override final;
 
 private:
   // members
-  vector<Double>              mu_;
-  vector<Double>              sigma_;
-  vector<Double>              a_;
-  vector<Double>              b_;
+  vector<Double> mu_;
+  vector<Double> sigma_;
+  vector<Double> a_;
+  vector<Double> b_;
 };
 
 } /* namespace creators */

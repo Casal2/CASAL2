@@ -23,9 +23,9 @@ namespace processes {
  * Empty constructor
  */
 Nop::Nop(shared_ptr<Model> model) : Process(model) {
-  process_type_ = ProcessType::kNullProcess;
+  process_type_        = ProcessType::kNullProcess;
   partition_structure_ = PartitionType::kAge | PartitionType::kLength;
 }
 
-}
-}
+}  // namespace processes
+}  // namespace niwa

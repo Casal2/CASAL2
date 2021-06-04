@@ -26,13 +26,14 @@ namespace observations {
 class Manager : public niwa::base::Manager<observations::Manager, niwa::Observation> {
   friend class niwa::base::Manager<observations::Manager, niwa::Observation>;
   friend class niwa::Managers;
+
 public:
   // methods
-  virtual                     ~Manager() noexcept(true);
-//  void                        PreExecute(unsigned year, const string& time_step);
-//  void                        Execute(unsigned year, const string& time_step);
-  Observation*                GetObservation(const string& label);
-  void                        CalculateScores();
+  virtual ~Manager() noexcept(true);
+  //  void                        PreExecute(unsigned year, const string& time_step);
+  //  void                        Execute(unsigned year, const string& time_step);
+  Observation* GetObservation(const string& label);
+  void         CalculateScores();
 
 protected:
   // methods

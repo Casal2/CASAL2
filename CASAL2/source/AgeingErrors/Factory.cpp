@@ -11,14 +11,14 @@
 // headers
 #include "Factory.h"
 
-#include "../Model/Model.h"
-#include "../Model/Managers.h"
-#include "../AgeingErrors/Manager.h"
-#include "../AgeingErrors/AgeingError.h"
 #include "../AgeingErrors/Age/Data.h"
+#include "../AgeingErrors/Age/None.h"
 #include "../AgeingErrors/Age/Normal.h"
 #include "../AgeingErrors/Age/OffByOne.h"
-#include "../AgeingErrors/Age/None.h"
+#include "../AgeingErrors/AgeingError.h"
+#include "../AgeingErrors/Manager.h"
+#include "../Model/Managers.h"
+#include "../Model/Model.h"
 
 // namespaces
 namespace niwa {
@@ -52,5 +52,5 @@ AgeingError* Factory::Create(shared_ptr<Model> model, const string& object_type,
   return result;
 }
 
-} /* namespace AgeingErrors */
+}  // namespace ageingerrors
 } /* namespace niwa */

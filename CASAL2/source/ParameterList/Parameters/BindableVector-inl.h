@@ -13,9 +13,9 @@
 // headers
 #include <vector>
 
+#include "../../Logging/Logging.h"
 #include "../../Utilities/String.h"
 #include "../../Utilities/To.h"
-#include "../../Logging/Logging.h"
 
 // namespaces
 namespace niwa {
@@ -30,10 +30,8 @@ using std::vector;
  * @param target The target variable to bind to this parameter
  * @param description A description of the parameter for the help system
  */
-template<typename T>
-BindableVector<T>::BindableVector(const string& label, vector<T>* target, const string& description)
-: Parameter(label, description) {
-
+template <typename T>
+BindableVector<T>::BindableVector(const string& label, vector<T>* target, const string& description) : Parameter(label, description) {
   target_ = target;
 }
 
@@ -41,15 +39,15 @@ BindableVector<T>::BindableVector(const string& label, vector<T>* target, const 
  * This method will bind the string values to the target value doing the proper
  * type checking, etc.
  */
-template<typename T>
+template <typename T>
 void BindableVector<T>::Bind() {
   T value = T();
   for (unsigned i = 0; i < values_.size(); ++i) {
     if (!niwa::utilities::To<T>(values_[i], value))
-      LOG_ERROR() << location() << ": " << label_ << " value " << values_[i] << " could not be converted to type "
-        << utilities::demangle(typeid(value).name()) << ". Please check you have defined it properly.";
+      LOG_ERROR() << location() << ": " << label_ << " value " << values_[i] << " could not be converted to type " << utilities::demangle(typeid(value).name())
+                  << ". Please check you have defined it properly.";
 
-      target_->push_back(value);
+    target_->push_back(value);
   }
 
   /**
@@ -59,8 +57,7 @@ void BindableVector<T>::Bind() {
   if (allowed_values_.size() > 0) {
     for (T value : *target_) {
       if (std::find(allowed_values_.begin(), allowed_values_.end(), value) == allowed_values_.end())
-        LOG_ERROR() << location() << " value " << value << " is not in the allowed values list: "
-            << utilities::String::join<T>(allowed_values_, ", ");
+        LOG_ERROR() << location() << " value " << value << " is not in the allowed values list: " << utilities::String::join<T>(allowed_values_, ", ");
     }
   }
 
@@ -78,8 +75,7 @@ void BindableVector<T>::Bind() {
   if (allowed_values_.size() != 0) {
     for (T value : *target_) {
       if (std::find(allowed_values_.begin(), allowed_values_.end(), value) == allowed_values_.end())
-        LOG_ERROR() << location() << " value " << value << " is not in the allowed values list: "
-          << utilities::String::join(allowed_values_, ", ");
+        LOG_ERROR() << location() << " value " << value << " is not in the allowed values list: " << utilities::String::join(allowed_values_, ", ");
     }
   }
 }
@@ -90,7 +86,7 @@ void BindableVector<T>::Bind() {
  *
  * @param list A list of values that are valid for this parameter
  */
-template<typename T>
+template <typename T>
 void BindableVector<T>::set_allowed_values(std::initializer_list<T> list) {
   allowed_values_.assign(list.begin(), list.end());
 }
@@ -99,8 +95,8 @@ void BindableVector<T>::set_allowed_values(std::initializer_list<T> list) {
  * Override set_range() with std::string and throw an error because we do not allow range based
  * checks to be done on strings.
  */
-//template<>
-//void BindableVector<string>::set_range(string lower_bound, string upper_bound, bool lower_inclusive, bool upper_inclusive) {
+// template<>
+// void BindableVector<string>::set_range(string lower_bound, string upper_bound, bool lower_inclusive, bool upper_inclusive) {
 //  LOG_CODE_ERROR(location() << " cannot call set_range() with a string defined parameter");
 //}
 
@@ -118,12 +114,12 @@ void BindableVector<T>::set_allowed_values(std::initializer_list<T> list) {
  * @param lower_inclusive Is the lower bound value inclusive (default true)
  * @param upper_inclusie Is the upper bound value inclusive (default true)
  */
-template<typename T>
+template <typename T>
 void BindableVector<T>::set_range(T lower_bound, T upper_bound, bool lower_inclusive, bool upper_inclusive) {
-  range_.lower_flagged_ = true;
-  range_.upper_flagged_ = true;
-  range_.lower_bound_ = lower_bound;
-  range_.upper_bound_ = upper_bound;
+  range_.lower_flagged_   = true;
+  range_.upper_flagged_   = true;
+  range_.lower_bound_     = lower_bound;
+  range_.upper_bound_     = upper_bound;
   range_.lower_inclusive_ = lower_inclusive;
   range_.upper_inclusive_ = upper_inclusive;
 }
@@ -138,10 +134,10 @@ void BindableVector<T>::set_range(T lower_bound, T upper_bound, bool lower_inclu
  * @param lower_bound The lower bound to set for the parameter
  * @param inclusive Is the lower bound inclusive or exclusive
  */
-template<typename T>
+template <typename T>
 void BindableVector<T>::set_lower_bound(T lower_bound, bool inclusive) {
-  range_.lower_flagged_ = true;
-  range_.lower_bound_ = lower_bound;
+  range_.lower_flagged_   = true;
+  range_.lower_bound_     = lower_bound;
   range_.lower_inclusive_ = inclusive;
 }
 
@@ -155,22 +151,21 @@ void BindableVector<T>::set_lower_bound(T lower_bound, bool inclusive) {
  * @param upper_bound The upper bound to set for the parameter
  * @param inclusive Is the upper bound inclusive or exclusive
  */
-template<typename T>
+template <typename T>
 void BindableVector<T>::set_upper_bound(T upper_bound, bool inclusive) {
-  range_.upper_flagged_ = true;
-  range_.upper_bound_ = upper_bound;
+  range_.upper_flagged_   = true;
+  range_.upper_bound_     = upper_bound;
   range_.upper_inclusive_ = inclusive;
 }
 
 /**
  * Build a vector of values for this parameter
  */
-template<typename T>
+template <typename T>
 vector<string> BindableVector<T>::current_values() {
   vector<string> result;
 
-  for (T value : (*target_))
-    result.push_back(utilities::ToInline<T, string>(value));
+  for (T value : (*target_)) result.push_back(utilities::ToInline<T, string>(value));
 
   return result;
 }

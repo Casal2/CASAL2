@@ -13,9 +13,9 @@
 // Headers
 #include "Factory.h"
 
-#include "../Model/Model.h"
-#include "../Model/Managers.h"
 #include "../Minimisers/Manager.h"
+#include "../Model/Managers.h"
+#include "../Model/Model.h"
 
 #ifdef USE_AUTODIFF
 #ifdef USE_ADOLC
@@ -30,9 +30,9 @@
 #include "../Minimisers/Common/Dummy/Dummy.h"
 
 #ifndef USE_AUTODIFF
-#include "../Minimisers/Common/DeltaDiff.h"
 #include "../Minimisers/Common/DESolver.h"
 #include "../Minimisers/Common/DLib.h"
+#include "../Minimisers/Common/DeltaDiff.h"
 #include "../Minimisers/Common/GammaDiff.h"
 //#include "Minimisers/Common/STANBFGS.h"
 #endif
@@ -73,7 +73,7 @@ Minimiser* Factory::Create(shared_ptr<Model> model, const string& object_type, c
 
 #ifndef USE_AUTODIFF
     if (sub_type == PARAM_DELTADIFF)
-    	result = new DeltaDiff(model);
+      result = new DeltaDiff(model);
     else if (sub_type == PARAM_DE_SOLVER)
       result = new DESolver(model);
 #ifndef _MSC_VER
@@ -82,8 +82,8 @@ Minimiser* Factory::Create(shared_ptr<Model> model, const string& object_type, c
 #endif
     else if (sub_type == PARAM_GAMMADIFF)
       result = new GammaDiff(model);
-//    else if (sub_type == PARAM_STAN_BFGS)
-//      result = new STANBFGS(model);
+    //    else if (sub_type == PARAM_STAN_BFGS)
+    //      result = new STANBFGS(model);
     else if (sub_type == PARAM_BETADIFF || sub_type == PARAM_ADOLC || sub_type == PARAM_CPPAD)
       result = new Dummy(model);
 #endif

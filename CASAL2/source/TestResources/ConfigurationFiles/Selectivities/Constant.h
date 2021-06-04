@@ -18,7 +18,4 @@ type constant
 c 1
 )";
 
-
-
-
 #endif /* CONSTANT_H_ */

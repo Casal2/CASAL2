@@ -27,17 +27,17 @@ public:
   Inverse() = delete;
   explicit Inverse(shared_ptr<Model> model);
   virtual ~Inverse() = default;
-  void                        TransformForObjectiveFunction() override final;
-  void                        RestoreFromObjectiveFunction() override final;
-  std::set<string>            GetTargetEstimates() override final;
-  Double                      GetScore() override final;
+  void             TransformForObjectiveFunction() override final;
+  void             RestoreFromObjectiveFunction() override final;
+  std::set<string> GetTargetEstimates() override final;
+  Double           GetScore() override final;
 
 protected:
   // methods
-  void                        DoValidate() override final;
-  void                        DoBuild() override final;
-  void                        DoTransform() override final;
-  void                        DoRestore() override final;
+  void DoValidate() override final;
+  void DoBuild() override final;
+  void DoTransform() override final;
+  void DoRestore() override final;
 };
 
 } /* namespace estimatetransformations */

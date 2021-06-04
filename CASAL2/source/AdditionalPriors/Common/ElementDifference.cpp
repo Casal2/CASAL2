@@ -31,9 +31,7 @@ ElementDifference::ElementDifference(shared_ptr<Model> model) : AdditionalPrior(
 /**
  * Validate the parameters
  */
-void ElementDifference::DoValidate() {
-
-}
+void ElementDifference::DoValidate() {}
 
 /**
  * Build the parameters
@@ -52,7 +50,7 @@ void ElementDifference::DoBuild() {
   // first parameter
   addressable::Type addressable_type = model_->objects().GetAddressableType(parameter_);
   LOG_FINEST() << "addressable type = " << addressable_type;
-  switch(addressable_type) {
+  switch (addressable_type) {
     case addressable::kInvalid:
       LOG_CODE_ERROR() << "Invalid addressable type: " << parameter_;
       break;
@@ -69,15 +67,14 @@ void ElementDifference::DoBuild() {
       addressable_ = model_->objects().GetAddressable(parameter_);
       break;
     default:
-      LOG_ERROR() << "The addressable provided for use in additional priors '" << parameter_
-        << "' has a type that is not supported for vector smoothing additional priors";
+      LOG_ERROR() << "The addressable provided for use in additional priors '" << parameter_ << "' has a type that is not supported for vector smoothing additional priors";
       break;
   }
 
   // Get second parameter estimates
   addressable_type = model_->objects().GetAddressableType(second_parameter_);
   LOG_FINEST() << "addressable type = " << addressable_type;
-  switch(addressable_type) {
+  switch (addressable_type) {
     case addressable::kInvalid:
       LOG_CODE_ERROR() << "Invalid addressable type: " << second_parameter_;
       break;
@@ -94,8 +91,7 @@ void ElementDifference::DoBuild() {
       second_addressable_ = model_->objects().GetAddressable(second_parameter_);
       break;
     default:
-      LOG_ERROR() << "The addressable provided for use in additional priors '" << second_parameter_
-        << "' has a type that is not supported for ElementDifference additional priors";
+      LOG_ERROR() << "The addressable provided for use in additional priors '" << second_parameter_ << "' has a type that is not supported for ElementDifference additional priors";
       break;
   }
 
@@ -107,11 +103,9 @@ void ElementDifference::DoBuild() {
   if (addressable_vector_ != nullptr)
     values.assign((*addressable_vector_).begin(), (*addressable_vector_).end());
   else if (addressable_ptr_vector_ != nullptr) {
-    for (auto ptr : (*addressable_ptr_vector_))
-      values.push_back((*ptr));
+    for (auto ptr : (*addressable_ptr_vector_)) values.push_back((*ptr));
   } else if (addressable_map_ != nullptr) {
-    for (auto iter : (*addressable_map_))
-      values.push_back(iter.second);
+    for (auto iter : (*addressable_map_)) values.push_back(iter.second);
   } else if (addressable_ != nullptr) {
     values.push_back((*addressable_));
   } else {
@@ -122,21 +116,18 @@ void ElementDifference::DoBuild() {
   if (second_addressable_vector_ != nullptr)
     second_values.assign((*second_addressable_vector_).begin(), (*second_addressable_vector_).end());
   else if (second_addressable_ptr_vector_ != nullptr) {
-    for (auto ptr : (*second_addressable_ptr_vector_))
-      second_values.push_back((*ptr));
+    for (auto ptr : (*second_addressable_ptr_vector_)) second_values.push_back((*ptr));
   } else if (second_addressable_map_ != nullptr) {
-    for (auto iter : (*second_addressable_map_))
-      second_values.push_back(iter.second);
+    for (auto iter : (*second_addressable_map_)) second_values.push_back(iter.second);
   } else if (second_addressable_ != nullptr) {
     second_values.push_back((*second_addressable_));
   } else {
     LOG_CODE_ERROR() << "(second_addressable_map_ != 0) && (second_addressable_vector_ != 0) && (second_addressable_ != 0)";
   }
 
-  if(second_values.size() != values.size())
-    LOG_ERROR_P(PARAM_SECOND_PARAMETER) << "The parameters are not the same length. The second parameter has "
-      << second_values.size() << " elements and the first parameter has " << values.size() << " elements";
-
+  if (second_values.size() != values.size())
+    LOG_ERROR_P(PARAM_SECOND_PARAMETER) << "The parameters are not the same length. The second parameter has " << second_values.size() << " elements and the first parameter has "
+                                        << values.size() << " elements";
 }
 
 /**
@@ -152,11 +143,9 @@ Double ElementDifference::GetScore() {
   if (addressable_vector_ != nullptr)
     values.assign((*addressable_vector_).begin(), (*addressable_vector_).end());
   else if (addressable_ptr_vector_ != nullptr) {
-    for (auto ptr : (*addressable_ptr_vector_))
-      values.push_back((*ptr));
+    for (auto ptr : (*addressable_ptr_vector_)) values.push_back((*ptr));
   } else if (addressable_map_ != nullptr) {
-    for (auto iter : (*addressable_map_))
-      values.push_back(iter.second);
+    for (auto iter : (*addressable_map_)) values.push_back(iter.second);
   } else if (addressable_ != nullptr) {
     values.push_back((*addressable_));
   } else {
@@ -167,21 +156,18 @@ Double ElementDifference::GetScore() {
   if (second_addressable_vector_ != nullptr)
     second_values.assign((*second_addressable_vector_).begin(), (*second_addressable_vector_).end());
   else if (second_addressable_ptr_vector_ != nullptr) {
-    for (auto ptr : (*second_addressable_ptr_vector_))
-      second_values.push_back((*ptr));
+    for (auto ptr : (*second_addressable_ptr_vector_)) second_values.push_back((*ptr));
   } else if (second_addressable_map_ != nullptr) {
-    for (auto iter : (*second_addressable_map_))
-      second_values.push_back(iter.second);
+    for (auto iter : (*second_addressable_map_)) second_values.push_back(iter.second);
   } else if (second_addressable_ != nullptr) {
-      second_values.push_back((*second_addressable_));
+    second_values.push_back((*second_addressable_));
   } else {
     LOG_CODE_ERROR() << "(second_addressable_map_ != 0) && (second_addressable_vector_ != 0)";
   }
 
   Double score = 0.0;
   LOG_FINEST() << "size of first vector = " << values.size() << " size of second vector = " << second_values.size();
-  for(unsigned i = 0; i < values.size(); ++i)
-    score += pow(values[i] - second_values[i], 2);
+  for (unsigned i = 0; i < values.size(); ++i) score += pow(values[i] - second_values[i], 2);
 
   return score * multiplier_;
 }

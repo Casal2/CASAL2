@@ -11,8 +11,9 @@
  */
 
 // Headers
-#include <boost/math/distributions/lognormal.hpp>
 #include "LogisticProducing.h"
+
+#include <boost/math/distributions/lognormal.hpp>
 #include <cmath>
 
 #include "../../AgeLengths/AgeLength.h"
@@ -25,9 +26,7 @@ namespace selectivities {
 /**
  * Default constructor
  */
-LogisticProducing::LogisticProducing(shared_ptr<Model> model)
-: Selectivity(model) {
-
+LogisticProducing::LogisticProducing(shared_ptr<Model> model) : Selectivity(model) {
   parameters_.Bind<unsigned>(PARAM_L, &low_, "The low value (L)", "");
   parameters_.Bind<unsigned>(PARAM_H, &high_, "The high value (H)", "");
   parameters_.Bind<Double>(PARAM_A50, &a50_, "a50", "");
@@ -78,19 +77,19 @@ void LogisticProducing::RebuildCache() {
       else if (age == low_)
         values_[age - age_index_] = alpha_ / (1.0 + pow(19.0, (a50_ - temp) / ato95_));
       else {
-        Double lambda2 = 1.0 / (1.0 + pow(19.0, (a50_- (temp - 1)) / ato95_));
+        Double lambda2 = 1.0 / (1.0 + pow(19.0, (a50_ - (temp - 1)) / ato95_));
         if (lambda2 > 0.99999) {
           values_[age - age_index_] = alpha_;
         } else {
-          Double lambda1 = 1.0 / (1.0 + pow(19.0, (a50_ - temp) / ato95_));
+          Double lambda1            = 1.0 / (1.0 + pow(19.0, (a50_ - temp) / ato95_));
           values_[age - age_index_] = (lambda1 - lambda2) / (1.0 - lambda2) * alpha_;
-          LOG_FINEST() << "age = " << age << " lambda1 = " << lambda1 << " lambda2 = " << lambda2 << " value = " <<  values_[age - age_index_];
+          LOG_FINEST() << "age = " << age << " lambda1 = " << lambda1 << " lambda2 = " << lambda2 << " value = " << values_[age - age_index_];
         }
       }
     }
   } else if (model_->partition_type() == PartitionType::kLength) {
     vector<Double> length_bins = model_->length_bins();
-    Double temp = 0.0;
+    Double         temp        = 0.0;
 
     for (unsigned length_bin_index = 0; length_bin_index < length_bins.size(); ++length_bin_index) {
       temp = length_bins[length_bin_index];
@@ -101,14 +100,13 @@ void LogisticProducing::RebuildCache() {
       else if (temp == low_)
         length_values_[length_bin_index] = alpha_ / (1.0 + pow(19.0, (a50_ - temp) / ato95_));
       else {
-        Double lambda2 = 1.0 / (1.0 + pow(19.0, (a50_- (temp - 1)) / ato95_));
+        Double lambda2 = 1.0 / (1.0 + pow(19.0, (a50_ - (temp - 1)) / ato95_));
         if (lambda2 > 0.99999) {
           length_values_[length_bin_index] = alpha_;
         } else {
-          Double lambda1 = 1.0 / (1.0 + pow(19.0, (a50_ - temp) / ato95_));
+          Double lambda1                   = 1.0 / (1.0 + pow(19.0, (a50_ - temp) / ato95_));
           length_values_[length_bin_index] = (lambda1 - lambda2) / (1.0 - lambda2) * alpha_;
-          LOG_FINEST() << "length = " << temp << " lambda1 = " << lambda1 << " lambda2 = " << lambda2
-            << " value = " <<  length_values_[length_bin_index];
+          LOG_FINEST() << "length = " << temp << " lambda1 = " << lambda1 << " lambda2 = " << lambda2 << " value = " << length_values_[length_bin_index];
         }
       }
     }

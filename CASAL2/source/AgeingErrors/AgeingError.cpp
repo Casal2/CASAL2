@@ -43,7 +43,7 @@ void AgeingError::Validate() {
 
   min_age_    = model_->min_age();
   max_age_    = model_->max_age();
-  plus_group_   = model_->age_plus();
+  plus_group_ = model_->age_plus();
   age_spread_ = model_->age_spread();
 
   DoValidate();
@@ -54,8 +54,7 @@ void AgeingError::Validate() {
  */
 void AgeingError::Build() {
   mis_matrix_.resize(age_spread_);
-  for (unsigned i = 0; i < age_spread_; ++i)
-    mis_matrix_[i].resize(age_spread_, 0);
+  for (unsigned i = 0; i < age_spread_; ++i) mis_matrix_[i].resize(age_spread_, 0);
 
   DoBuild();
 }

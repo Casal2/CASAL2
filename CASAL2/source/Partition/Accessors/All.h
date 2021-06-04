@@ -22,8 +22,8 @@
 
 // Headers
 #include <map>
-#include <vector>
 #include <string>
+#include <vector>
 
 #include "../../Partition/Partition.h"
 #include "../../Utilities/Types.h"
@@ -34,11 +34,11 @@ class Model;
 
 namespace partition {
 namespace accessors {
+using niwa::utilities::Double;
 using std::map;
-using std::vector;
 using std::pair;
 using std::string;
-using niwa::utilities::Double;
+using std::vector;
 
 /**
  * Class Definition
@@ -51,17 +51,17 @@ public:
   // Methods
   All() = delete;
   explicit All(shared_ptr<Model> model);
-  virtual                     ~All() = default;
-  DataType::iterator          begin();
-  DataType::iterator          end();
-  DataType::iterator          Begin(); // TODO: Remove these
-  DataType::iterator          End();
-  unsigned                    Size();
+  virtual ~All() = default;
+  DataType::iterator begin();
+  DataType::iterator end();
+  DataType::iterator Begin();  // TODO: Remove these
+  DataType::iterator End();
+  unsigned           Size();
 
 private:
   // Members
-  shared_ptr<Model>           model_;
-  All::DataType               data_;
+  shared_ptr<Model> model_;
+  All::DataType     data_;
 };
 
 typedef std::shared_ptr<niwa::partition::accessors::All> AllPtr;

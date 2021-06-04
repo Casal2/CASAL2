@@ -8,10 +8,10 @@
 #ifndef SOURCE_TIMEVARYING_COMMON_CONSTANT_MOCK_H_
 #define SOURCE_TIMEVARYING_COMMON_CONSTANT_MOCK_H_
 
-#include "Constant.h"
-
-#include <gtest/gtest.h>
 #include <gmock/gmock.h>
+#include <gtest/gtest.h>
+
+#include "Constant.h"
 
 namespace niwa {
 namespace timevarying {
@@ -19,7 +19,7 @@ namespace timevarying {
 class MockConstant : public timevarying::Constant {
 public:
   // methods
-  MockConstant(shared_ptr<Model> model) : Constant(model) { };
+  MockConstant(shared_ptr<Model> model) : Constant(model){};
   virtual ~MockConstant() = default;
 
   // setters

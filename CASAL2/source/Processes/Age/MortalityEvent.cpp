@@ -26,9 +26,7 @@ namespace age {
 /**
  * Default constructor
  */
-MortalityEvent::MortalityEvent(shared_ptr<Model> model)
-  : Process(model),
-    partition_(model) {
+MortalityEvent::MortalityEvent(shared_ptr<Model> model) : Process(model), partition_(model) {
   parameters_.Bind<string>(PARAM_CATEGORIES, &category_labels_, "The categories", "");
   parameters_.Bind<unsigned>(PARAM_YEARS, &years_, "The years in which to apply the mortality process", "");
   parameters_.Bind<Double>(PARAM_CATCHES, &catches_, "The number of removals (catches) to apply for each year", "");
@@ -39,7 +37,7 @@ MortalityEvent::MortalityEvent(shared_ptr<Model> model)
   RegisterAsAddressable(PARAM_U_MAX, &u_max_);
   RegisterAsAddressable(PARAM_CATCHES, &catch_years_);
 
-  process_type_ = ProcessType::kMortality;
+  process_type_        = ProcessType::kMortality;
   partition_structure_ = PartitionType::kAge;
 }
 
@@ -52,20 +50,17 @@ MortalityEvent::MortalityEvent(shared_ptr<Model> model)
 void MortalityEvent::DoValidate() {
   // Validate that our number of years_ and catches_ vectors are the same size
   if (years_.size() != catches_.size()) {
-    LOG_ERROR_P(PARAM_CATCHES)
-      << ": The number of catches provided (" << catches_.size()
-      << ") does not match the number of years provided (" << years_.size() << " ).";
+    LOG_ERROR_P(PARAM_CATCHES) << ": The number of catches provided (" << catches_.size() << ") does not match the number of years provided (" << years_.size() << " ).";
   }
 
   // Validate that the number of selectivities is the same as the number of categories
   if (category_labels_.size() != selectivity_names_.size()) {
-    LOG_ERROR_P(PARAM_SELECTIVITIES)
-      << " The number of selectivities provided (" << selectivity_names_.size()
-      << ") does not match the number of categories provided (" << category_labels_.size() << ").";
+    LOG_ERROR_P(PARAM_SELECTIVITIES) << " The number of selectivities provided (" << selectivity_names_.size() << ") does not match the number of categories provided ("
+                                     << category_labels_.size() << ").";
   }
 
   // Validate: catches_ and years_
-  for(unsigned i = 0; i < years_.size(); ++i) {
+  for (unsigned i = 0; i < years_.size(); ++i) {
     if (catch_years_.find(years_[i]) != catch_years_.end()) {
       LOG_ERROR_P(PARAM_YEARS) << " year '" << years_[i] << "' has already been specified";
     }
@@ -126,8 +121,8 @@ void MortalityEvent::DoExecute() {
     /**
      * Work our how much of the stock is vulnerable
      */
-    Double vulnerable = 0.0;
-    unsigned i = 0;
+    Double   vulnerable = 0.0;
+    unsigned i          = 0;
     for (auto categories : partition_) {
       unsigned j = 0;
       for (Double& data : categories->data_) {
@@ -188,14 +183,11 @@ void MortalityEvent::DoExecute() {
  */
 void MortalityEvent::FillReportCache(ostringstream& cache) {
   cache << "years: ";
-  for (auto year : years_)
-    cache << year << " ";
+  for (auto year : years_) cache << year << " ";
   cache << "\nactual_catches: ";
-  for (auto removal : actual_catches_)
-    cache << AS_DOUBLE(removal) << " ";
+  for (auto removal : actual_catches_) cache << AS_DOUBLE(removal) << " ";
   cache << "\nexploitation_rate: ";
-  for (auto exploit : exploitation_)
-    cache << AS_DOUBLE(exploit) << " ";
+  for (auto exploit : exploitation_) cache << AS_DOUBLE(exploit) << " ";
   cache << "\n";
 }
 
@@ -217,10 +209,8 @@ void MortalityEvent::FillTabularReportCache(ostringstream& cache, bool first_run
     cache << "\n";
   }
 
-  for (auto removal : actual_catches_)
-    cache << AS_DOUBLE(removal) << " ";
-  for (auto exploit : exploitation_)
-    cache << AS_DOUBLE(exploit) << " ";
+  for (auto removal : actual_catches_) cache << AS_DOUBLE(removal) << " ";
+  for (auto exploit : exploitation_) cache << AS_DOUBLE(exploit) << " ";
   cache << "\n";
 }
 

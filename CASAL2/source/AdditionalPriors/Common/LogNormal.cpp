@@ -40,9 +40,7 @@ LogNormal::LogNormal(shared_ptr<Model> model) : AdditionalPrior(model) {
  *
  * Note: all parameters are populated from configuration files
  */
-void LogNormal::DoValidate() {
-
-}
+void LogNormal::DoValidate() {}
 
 /**
  * Build the object
@@ -55,7 +53,7 @@ void LogNormal::DoBuild() {
 
   addressable::Type addressable_type = model_->objects().GetAddressableType(parameter_);
   LOG_FINEST() << "type = " << addressable_type;
-  switch(addressable_type) {
+  switch (addressable_type) {
     case addressable::kInvalid:
       LOG_CODE_ERROR() << "Invalid addressable type: " << parameter_;
       break;
@@ -72,8 +70,7 @@ void LogNormal::DoBuild() {
       addressable_ = model_->objects().GetAddressable(parameter_);
       break;
     default:
-      LOG_ERROR() << "The addressable provided for use in additional priors '" << parameter_
-        << "' has a type that is not supported for LogNormal additional priors";
+      LOG_ERROR() << "The addressable provided for use in additional priors '" << parameter_ << "' has a type that is not supported for LogNormal additional priors";
       break;
   }
 }
@@ -90,20 +87,17 @@ Double LogNormal::GetScore() {
   if (addressable_vector_ != nullptr)
     values.assign((*addressable_vector_).begin(), (*addressable_vector_).end());
   else if (addressable_ptr_vector_ != nullptr) {
-    for (auto ptr : (*addressable_ptr_vector_))
-      values.push_back((*ptr));
+    for (auto ptr : (*addressable_ptr_vector_)) values.push_back((*ptr));
   } else if (addressable_map_ != nullptr) {
-    for (auto iter : (*addressable_map_))
-      values.push_back(iter.second);
+    for (auto iter : (*addressable_map_)) values.push_back(iter.second);
   } else if (addressable_ != nullptr) {
     values.push_back((*addressable_));
   } else {
     LOG_CODE_ERROR() << "(addressable_map_ != 0) && (addressable_vector_ != 0)";
   }
 
-  sigma_ = sqrt(log( 1 + cv_ * cv_));
-  for(auto value : values)
-    score_ += log(value) + 0.5 * pow(log(value / mu_) / sigma_ + sigma_ * 0.5, 2);
+  sigma_ = sqrt(log(1 + cv_ * cv_));
+  for (auto value : values) score_ += log(value) + 0.5 * pow(log(value / mu_) / sigma_ + sigma_ * 0.5, 2);
 
   return score_;
 }

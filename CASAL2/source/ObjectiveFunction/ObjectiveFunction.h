@@ -22,21 +22,21 @@
 #define OBJECTIVEFUNCTION_H_
 
 // Headers
-#include <string>
-#include <vector>
 #include <iostream>
 #include <memory>
+#include <string>
+#include <vector>
 
 #include "../Utilities/Types.h"
 
 // Namespaces
 namespace niwa {
 class Model;
-using std::string;
-using std::pair;
-using std::vector;
 using niwa::utilities::Double;
+using std::pair;
 using std::shared_ptr;
+using std::string;
+using std::vector;
 
 /**
  * Struct definition
@@ -46,18 +46,19 @@ struct Score {
   string label_;
   Double score_;
 };
-}
+}  // namespace objective
 
 /**
  * Class definition
  */
 class ObjectiveFunction {
   friend class Model;
+
 public:
   // Methods
-  virtual                     ~ObjectiveFunction() = default;
-  void                        CalculateScore();
-  void                        Clear();
+  virtual ~ObjectiveFunction() = default;
+  void CalculateScore();
+  void Clear();
 
   // Accessors
   const vector<objective::Score>& score_list() const { return score_list_; }
@@ -73,14 +74,14 @@ private:
   ObjectiveFunction(shared_ptr<Model> model);
 
   // Members
-  shared_ptr<Model>                      model_ = nullptr;
-  Double                      score_        = 0.0;
-  Double                      penalties_    = 0.0;
-  Double                      priors_       = 0.0;
-  Double                      likelihoods_  = 0.0;
-  Double                      additional_priors_ = 0.0;
-  Double                      jacobians_ = 0.0;
-  vector<objective::Score>    score_list_;
+  shared_ptr<Model>        model_             = nullptr;
+  Double                   score_             = 0.0;
+  Double                   penalties_         = 0.0;
+  Double                   priors_            = 0.0;
+  Double                   likelihoods_       = 0.0;
+  Double                   additional_priors_ = 0.0;
+  Double                   jacobians_         = 0.0;
+  vector<objective::Score> score_list_;
 };
 
 } /* namespace niwa */

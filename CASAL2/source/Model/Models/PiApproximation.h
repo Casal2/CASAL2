@@ -20,19 +20,18 @@ namespace model {
 // class declaration
 class PiApproximation : public Model {
 public:
-	PiApproximation();
-	virtual 										~PiApproximation();
-	bool                				Start(RunMode::Type run_mode) override;
-	void												DoValidate() override;
-	void												FullIteration() override;
-
+  PiApproximation();
+  virtual ~PiApproximation();
+  bool Start(RunMode::Type run_mode) override;
+  void DoValidate() override;
+  void FullIteration() override;
 
 private:
-	bool												use_random_ = false;
-	double											objective_score_ = 0.0;
-	unsigned										inside_ = 0;
-	unsigned										outside_ = 0;
-	double											size_ = 0;
+  bool     use_random_      = false;
+  double   objective_score_ = 0.0;
+  unsigned inside_          = 0;
+  unsigned outside_         = 0;
+  double   size_            = 0;
 };
 
 } /* namespace model */

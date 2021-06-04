@@ -30,19 +30,19 @@ class InverseLogistic : public niwa::Selectivity {
 public:
   // Methods
   explicit InverseLogistic(shared_ptr<Model> model);
-  virtual                     ~InverseLogistic() = default;
-  void                        DoValidate() override final;
-  void                        RebuildCache() override final;
+  virtual ~InverseLogistic() = default;
+  void DoValidate() override final;
+  void RebuildCache() override final;
 
 protected:
-  //Methods
-  Double                      GetLengthBasedResult(unsigned age, AgeLength* age_length, unsigned year = 0, int time_step_index = -1) override final;
+  // Methods
+  Double GetLengthBasedResult(unsigned age, AgeLength* age_length, unsigned year = 0, int time_step_index = -1) override final;
 
 private:
   // Members
-  Double                      a50_;
-  Double                      ato95_;
-  Double                      alpha_;
+  Double a50_;
+  Double ato95_;
+  Double alpha_;
 };
 
 } /* namespace selectivities */

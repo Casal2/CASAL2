@@ -26,7 +26,6 @@
 #include "../Model/Managers.h"
 #include "../Utilities/NoCopy.h"
 
-
 // Namespaces
 namespace niwa {
 class Model;

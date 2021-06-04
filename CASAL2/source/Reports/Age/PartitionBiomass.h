@@ -28,14 +28,14 @@ namespace age {
 class PartitionBiomass : public Report {
 public:
   PartitionBiomass();
-  virtual                     ~PartitionBiomass() = default;
-  void                        DoValidate(shared_ptr<Model> model) final;
-  void                        DoBuild(shared_ptr<Model> model) final { };
-  void                        DoExecute(shared_ptr<Model> model) final;
-  void                        DoExecuteTabular(shared_ptr<Model> model) final { };
+  virtual ~PartitionBiomass() = default;
+  void DoValidate(shared_ptr<Model> model) final;
+  void DoBuild(shared_ptr<Model> model) final{};
+  void DoExecute(shared_ptr<Model> model) final;
+  void DoExecuteTabular(shared_ptr<Model> model) final{};
 
 private:
-  string                      units_;
+  string units_;
 };
 
 } /* namespace age */

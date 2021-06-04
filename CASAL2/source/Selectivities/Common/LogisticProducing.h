@@ -30,21 +30,21 @@ class LogisticProducing : public niwa::Selectivity {
 public:
   // Methods
   explicit LogisticProducing(shared_ptr<Model> model);
-  virtual                     ~LogisticProducing() = default;
-  void                        DoValidate() override final;
-  void                        RebuildCache() override final;
+  virtual ~LogisticProducing() = default;
+  void DoValidate() override final;
+  void RebuildCache() override final;
 
 protected:
-  //Methods
-  Double                      GetLengthBasedResult(unsigned age, AgeLength* age_length, unsigned year = 0, int time_step_index = -1) override final;
+  // Methods
+  Double GetLengthBasedResult(unsigned age, AgeLength* age_length, unsigned year = 0, int time_step_index = -1) override final;
 
 private:
   // Members
-  unsigned                    low_;
-  unsigned                    high_;
-  Double                      a50_;
-  Double                      ato95_;
-  Double                      alpha_;
+  unsigned low_;
+  unsigned high_;
+  Double   a50_;
+  Double   ato95_;
+  Double   alpha_;
 };
 
 } /* namespace selectivities */

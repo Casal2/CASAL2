@@ -18,14 +18,12 @@ namespace simulates {
 /**
  * Default constructor
  */
-Manager::Manager() {
-}
+Manager::Manager() {}
 
 /**
  * Destructor
  */
-Manager::~Manager() noexcept(true) {
-}
+Manager::~Manager() noexcept(true) {}
 
 /**
  * Update the objects for a specific year
@@ -33,9 +31,9 @@ Manager::~Manager() noexcept(true) {
  * @param year The year
  */
 void Manager::Update(unsigned current_year) {
-//  LOG_TRACE();
-//  for (ProjectPtr project : objects_)
-//    project->Update(current_year);
+  //  LOG_TRACE();
+  //  for (ProjectPtr project : objects_)
+  //    project->Update(current_year);
 }
 
 } /* namespace simulates */

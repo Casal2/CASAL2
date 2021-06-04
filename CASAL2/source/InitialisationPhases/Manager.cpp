@@ -23,14 +23,12 @@ namespace initialisationphases {
 /**
  * Default constructor
  */
-Manager::Manager() {
-}
+Manager::Manager() {}
 
 /**
  * Destructor
  */
-Manager::~Manager() noexcept(true) {
-}
+Manager::~Manager() noexcept(true) {}
 
 /**
  * Build the objects - no model
@@ -60,16 +58,15 @@ void Manager::Build(shared_ptr<Model> model) {
   LOG_TRACE();
 
   // Build our objects
-  for(auto phase : objects_)
-    phase->Build();
+  for (auto phase : objects_) phase->Build();
 
   // Order our time steps based on the parameter given to the model
   ordered_initialisation_phases_.clear();
 
   LOG_FINE() << "Ordering initialisation phases";
   vector<string> phases = model->initialisation_phases();
-  for(string label : phases) {
-    for(auto phase : objects_) {
+  for (string label : phases) {
+    for (auto phase : objects_) {
       if (phase->label() == label) {
         ordered_initialisation_phases_.push_back(phase);
         break;
@@ -77,8 +74,7 @@ void Manager::Build(shared_ptr<Model> model) {
     }
   }
 
-  for (auto time_step : model->managers()->time_step()->ordered_time_steps())
-    time_step->BuildInitialisationProcesses();
+  for (auto time_step : model->managers()->time_step()->ordered_time_steps()) time_step->BuildInitialisationProcesses();
 }
 
 /**
@@ -101,7 +97,7 @@ void Manager::Execute() {
  * @return true if yes, false otherwise
  */
 bool Manager::IsPhaseDefined(const string& label) const {
-  for(auto phase : objects_)
+  for (auto phase : objects_)
     if (phase->label() == label)
       return true;
 
@@ -123,7 +119,6 @@ unsigned Manager::GetPhaseIndex(const string& label) const {
   LOG_ERROR() << "The initialisation phase " << label << " has not been defined in the active list of initialisation phases";
   return 0;
 }
-
 
 /**
  * Return the InitialisationPhase with the name passed in as a parameter.

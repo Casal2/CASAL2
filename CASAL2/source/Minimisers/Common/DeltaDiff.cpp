@@ -16,7 +16,6 @@
 #include "../../Minimisers/Common/DeltaDiff/Callback.h"
 #include "../../Minimisers/Common/DeltaDiff/Engine.h"
 
-
 // namespaces
 namespace niwa {
 namespace minimisers {

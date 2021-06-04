@@ -12,8 +12,8 @@
 // Headers
 #include "Factory.h"
 
-#include "../Model/Model.h"
 #include "../Model/Managers.h"
+#include "../Model/Model.h"
 #include "../Profiles/Manager.h"
 
 // Namespaces

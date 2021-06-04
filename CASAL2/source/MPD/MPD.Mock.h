@@ -1,6 +1,6 @@
 #ifdef TESTMODE
-#ifndef SOURCE_CONFIGURATIONLOADER_MPDMOCK_H_
-#define SOURCE_CONFIGURATIONLOADER_MPDMOCK_H_
+#ifndef SOURCE_MPD_MPDMOCK_H_
+#define SOURCE_MPD_MPDMOCK_H_
 
 // headers
 #include <boost/algorithm/string/join.hpp>
@@ -15,7 +15,7 @@
 #include "MPD.h"
 
 // Namespaces
-namespace niwa::configuration {
+namespace niwa {
 
 const string TwoSex_MPD =
     R"(* MPD
@@ -49,7 +49,7 @@ public:
   void ParseFile() { MPD::ParseFile(); }
 };
 
-}  // namespace niwa::configuration
+}  // namespace niwa
 
 #endif  // TESTMODE
-#endif  // SOURCE_CONFIGURATIONLOADER_MPDMOCK_H_
+#endif  // SOURCE_MPD_MPDMOCK_H_

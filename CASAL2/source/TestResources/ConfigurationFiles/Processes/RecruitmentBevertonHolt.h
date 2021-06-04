@@ -28,7 +28,5 @@ ycs_values 1.0 0.5 0.6 0.4 1.1 1.2 1.2 1.2 1.2 1.2 1.2 1.2 1.0 1.0 1.0
 steepness 0.75
 )";
 
-
-
 #endif /* BEVERTONHOLT_H_ */
 #endif /* TESTMODE */

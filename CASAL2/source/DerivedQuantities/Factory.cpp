@@ -11,13 +11,13 @@
 // headers
 #include "Factory.h"
 
-#include "../Model/Model.h"
-#include "../Model/Managers.h"
-#include "../DerivedQuantities/Manager.h"
 #include "../DerivedQuantities/Age/Abundance.h"
 #include "../DerivedQuantities/Age/Biomass.h"
 #include "../DerivedQuantities/Length/Abundance.h"
 #include "../DerivedQuantities/Length/Biomass.h"
+#include "../DerivedQuantities/Manager.h"
+#include "../Model/Managers.h"
+#include "../Model/Model.h"
 
 // namespaces
 namespace niwa {
@@ -35,13 +35,13 @@ DerivedQuantity* Factory::Create(shared_ptr<Model> model, const string& object_t
   DerivedQuantity* result = nullptr;
 
   if (partition_type == PartitionType::kAge || model->partition_type() == PartitionType::kAge) {
-	  if (object_type == PARAM_DERIVED_QUANTITY || object_type == PARAM_DERIVED_QUANTITIES) {
+    if (object_type == PARAM_DERIVED_QUANTITY || object_type == PARAM_DERIVED_QUANTITIES) {
       if (sub_type == PARAM_ABUNDANCE)
         result = new age::Abundance(model);
       else if (sub_type == PARAM_BIOMASS)
         result = new age::Biomass(model);
     }
-  }  else if (partition_type == PartitionType::kLength || model->partition_type() == PartitionType::kLength) {
+  } else if (partition_type == PartitionType::kLength || model->partition_type() == PartitionType::kLength) {
     if (object_type == PARAM_DERIVED_QUANTITY || object_type == PARAM_DERIVED_QUANTITIES) {
       if (sub_type == PARAM_ABUNDANCE)
         result = new length::Abundance(model);
@@ -55,7 +55,6 @@ DerivedQuantity* Factory::Create(shared_ptr<Model> model, const string& object_t
 
   return result;
 }
-
 
 } /* namespace derivedquantities */
 } /* namespace niwa */

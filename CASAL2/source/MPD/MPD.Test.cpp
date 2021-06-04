@@ -34,7 +34,6 @@
 
 // Namespaces
 namespace niwa {
-namespace configuration {
 
 using niwa::testfixtures::InternalEmptyModel;
 using std::cout;
@@ -56,11 +55,11 @@ TEST_F(InternalEmptyModel, MPDLoader_TwoSex_MPD) {
   AddConfigurationLine(mcmc_definition, __FILE__, 71);
   LoadConfiguration();
 
-  model_->global_configuration().set_skip_mpd_loading_for_mcmc(true);
+  model_->global_configuration().set_estimate_before_mcmc(true);
   model_->Start(RunMode::kTesting);
 
   MockMPD mpd(model_);
-  mpd.add_string_to_file_lines(TwoSex_MPD);
+  mpd.ParseString(TwoSex_MPD);
   mpd.ParseFile();
 
   // Validate the Estimate values now
@@ -107,7 +106,6 @@ TEST_F(InternalEmptyModel, MPDLoader_TwoSex_MPD) {
   EXPECT_DOUBLE_EQ(covariance(3, 3), 0.0129463);
 }
 
-} /* namespace configuration */
 } /* namespace niwa */
 
 #endif /* TESTMODE */

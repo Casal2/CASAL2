@@ -17,17 +17,17 @@
 #define EXCEPTION_
 
 // Headers
-#include <string>
-#include <sstream>
-#include <iostream>
 #include <exception>
+#include <iostream>
+#include <sstream>
+#include <string>
 
 // Namespaces
-using std::string;
-using std::ostringstream;
-using std::stringstream;
 using std::cout;
 using std::endl;
+using std::ostringstream;
+using std::string;
+using std::stringstream;
 
 namespace niwa {
 namespace utilities {
@@ -37,6 +37,5 @@ namespace utilities {
 
 } /* namespace utilities */
 } /* namespace niwa */
-
 
 #endif /* EXCEPTION_ */

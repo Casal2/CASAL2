@@ -56,17 +56,17 @@ void TimeVarying::Build() {
 
   // bind our function pointer for the update function, original value and addressible pointer
   addressable::Type addressable_type = model_->objects().GetAddressableType(parameter_);
-  switch(addressable_type) {
+  switch (addressable_type) {
     case addressable::kInvalid:
       LOG_ERROR_P(PARAM_PARAMETER) << error;
       break;
     case addressable::kSingle:
       update_function_ = &TimeVarying::set_single_value;
-      addressable_    = model_->objects().GetAddressable(parameter_);
-      original_value_ = *addressable_;
+      addressable_     = model_->objects().GetAddressable(parameter_);
+      original_value_  = *addressable_;
       break;
     case addressable::kVector:
-      update_function_ = &TimeVarying::set_vector_value;
+      update_function_    = &TimeVarying::set_vector_value;
       addressable_vector_ = model_->objects().GetAddressableVector(parameter_);
       break;
     case addressable::kUnsignedMap:

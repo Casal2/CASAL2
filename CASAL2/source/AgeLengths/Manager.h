@@ -23,14 +23,15 @@ namespace agelengths {
 class Manager : public niwa::base::Manager<niwa::agelengths::Manager, niwa::AgeLength> {
   friend class niwa::base::Manager<niwa::agelengths::Manager, niwa::AgeLength>;
   friend class niwa::Managers;
+
 public:
   // methods
-  virtual                     ~Manager() noexcept(true) { };
-  AgeLength*                  FindAgeLength(const string& label);
+  virtual ~Manager() noexcept(true){};
+  AgeLength* FindAgeLength(const string& label);
 
 protected:
   // methods
-  Manager() { };
+  Manager(){};
 };
 
 } /* namespace agelengths */

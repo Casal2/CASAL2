@@ -23,16 +23,17 @@ namespace ageweights {
 class Manager : public niwa::base::Manager<niwa::ageweights::Manager, niwa::AgeWeight> {
   friend class niwa::base::Manager<niwa::ageweights::Manager, niwa::AgeWeight>;
   friend class niwa::Managers;
+
 public:
   // methods
-  virtual                     ~Manager() noexcept(true) { };
-  AgeWeight*                  FindAgeWeight(const string& label);
+  virtual ~Manager() noexcept(true){};
+  AgeWeight* FindAgeWeight(const string& label);
 
 protected:
   // methods
-  Manager() { };
+  Manager(){};
 };
 
-} /* namespace agelengths */
+}  // namespace ageweights
 } /* namespace niwa */
 #endif /* AGEWEIGHTS_MANAGER_H_ */

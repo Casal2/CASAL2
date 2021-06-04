@@ -26,9 +26,7 @@ namespace age {
 /**
  * Default constructor
  */
-MortalityInitialisationEvent::MortalityInitialisationEvent(shared_ptr<Model> model)
-  : Process(model),
-    partition_(model) {
+MortalityInitialisationEvent::MortalityInitialisationEvent(shared_ptr<Model> model) : Process(model), partition_(model) {
   parameters_.Bind<string>(PARAM_CATEGORIES, &category_labels_, "The categories", "");
   parameters_.Bind<Double>(PARAM_CATCH, &catch_, "The number of removals (catches) to apply for each year", "");
   parameters_.Bind<Double>(PARAM_U_MAX, &u_max_, "The maximum exploitation rate ($U_{max}$)", "", 0.99)->set_range(0.0, 1.0);
@@ -38,7 +36,7 @@ MortalityInitialisationEvent::MortalityInitialisationEvent(shared_ptr<Model> mod
   RegisterAsAddressable(PARAM_U_MAX, &u_max_);
   RegisterAsAddressable(PARAM_CATCH, &catch_);
 
-  process_type_ = ProcessType::kMortality;
+  process_type_        = ProcessType::kMortality;
   partition_structure_ = PartitionType::kAge;
 }
 
@@ -51,9 +49,8 @@ MortalityInitialisationEvent::MortalityInitialisationEvent(shared_ptr<Model> mod
 void MortalityInitialisationEvent::DoValidate() {
   // Validate that the number of selectivities is the same as the number of categories
   if (category_labels_.size() != selectivity_names_.size()) {
-    LOG_ERROR_P(PARAM_SELECTIVITIES)
-      << " The number of selectivities provided does not match the number of categories provided."
-      << " Categories: " << category_labels_.size() << ", Selectivities: " << selectivity_names_.size();
+    LOG_ERROR_P(PARAM_SELECTIVITIES) << " The number of selectivities provided does not match the number of categories provided."
+                                     << " Categories: " << category_labels_.size() << ", Selectivities: " << selectivity_names_.size();
   }
 
   // Validate u_max
@@ -95,8 +92,8 @@ void MortalityInitialisationEvent::DoExecute() {
     /**
      * Work our how much of the stock is vulnerable
      */
-    Double vulnerable = 0.0;
-    unsigned i = 0;
+    Double   vulnerable = 0.0;
+    unsigned i          = 0;
     for (auto categories : partition_) {
       unsigned j = 0;
       for (Double& data : categories->data_) {
@@ -118,7 +115,7 @@ void MortalityInitialisationEvent::DoExecute() {
     if (exploitation > u_max_) {
       exploitation = u_max_;
       if (penalty_)
-        penalty_->Trigger(label_, catch_, vulnerable*u_max_);
+        penalty_->Trigger(label_, catch_, vulnerable * u_max_);
 
     } else if (exploitation < 0.0) {
       exploitation = 0.0;
@@ -130,15 +127,16 @@ void MortalityInitialisationEvent::DoExecute() {
      * vulnerable * exploitation
      */
     // Report catches and exploitation rates for each category for each iteration
- /*   StoreForReport("initialisation_iteration: ", init_iteration_);
-    StoreForReport("Exploitation: ", AS_DOUBLE(exploitation));
-    StoreForReport("Catch: ", AS_DOUBLE(catch_));
-*/    Double removals = 0;
+    /*   StoreForReport("initialisation_iteration: ", init_iteration_);
+       StoreForReport("Exploitation: ", AS_DOUBLE(exploitation));
+       StoreForReport("Catch: ", AS_DOUBLE(catch_));
+   */
+    Double removals = 0;
     for (auto categories : partition_) {
       unsigned offset = 0;
       for (Double& data : categories->data_) {
         removals = vulnerable_[categories->name_][categories->min_age_ + offset] * exploitation;
-        //StoreForReport(categories->name_ + "_Removals: ",AS_DOUBLE(removals));
+        // StoreForReport(categories->name_ + "_Removals: ",AS_DOUBLE(removals));
         data -= removals;
         offset++;
       }

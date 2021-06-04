@@ -24,15 +24,15 @@ namespace processes {
 /**
  * Class definition
  */
-class Nop : public Process{
+class Nop : public Process {
 public:
   // methods
   explicit Nop(shared_ptr<Model> model);
-  virtual                     ~Nop() = default;
-  void                        DoValidate() override final { };
-  void                        DoBuild() override final { };
-  void                        DoReset() override final { };
-  void                        DoExecute() override final { };
+  virtual ~Nop() = default;
+  void DoValidate() override final{};
+  void DoBuild() override final{};
+  void DoReset() override final{};
+  void DoExecute() override final{};
 };
 
 } /* namespace processes */

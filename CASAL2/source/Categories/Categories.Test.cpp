@@ -10,21 +10,20 @@
 #ifdef TESTMODE
 
 // Headers
-#include "Categories.h"
-
 #include <gmock/gmock.h>
 #include <gtest/gtest.h>
 
 #include "../TestResources/MockClasses/Model.h"
 #include "../TestResources/TestFixtures/InternalEmptyModel.h"
+#include "Categories.h"
 
 // Namespaces
 namespace niwa {
 namespace categories {
 
+using niwa::testfixtures::InternalEmptyModel;
 using std::cout;
 using std::endl;
-using niwa::testfixtures::InternalEmptyModel;
 using ::testing::Return;
 using ::testing::ReturnRef;
 
@@ -35,21 +34,20 @@ class MockCategories : public Categories {
 public:
   MockCategories(shared_ptr<Model> model) : Categories(model) {
     vector<string> names;
-    vector<string> sexes  = { "male", "female" };
-    vector<string> stages = { "immature", "mature" };
-    vector<string> tags   = { "notag", "2000", "2001", "2002" };
+    vector<string> sexes  = {"male", "female"};
+    vector<string> stages = {"immature", "mature"};
+    vector<string> tags   = {"notag", "2000", "2001", "2002"};
 
     for (string sex : sexes)
       for (string stage : stages)
-        for (string tag : tags)
-          names.push_back(sex + "." + stage + "." + tag);
+        for (string tag : tags) names.push_back(sex + "." + stage + "." + tag);
 
     set_block_type(PARAM_CATEGORIES);
     parameters().Add(PARAM_FORMAT, "sex.stage.tag", __FILE__, __LINE__);
     parameters().Add(PARAM_NAMES, names, __FILE__, __LINE__);
   };
 
-  map<string, string> GetCategoryLabelsAndValues(const string& lookup, const string& parameter_location) override final{
+  map<string, string> GetCategoryLabelsAndValues(const string& lookup, const string& parameter_location) override final {
     return Categories::GetCategoryLabelsAndValues(lookup, parameter_location);
   }
 };
@@ -59,7 +57,7 @@ public:
  */
 TEST_F(InternalEmptyModel, Categories_AssignSpecificYearsPerCategory_1) {
   shared_ptr<MockModel> model = shared_ptr<MockModel>(new MockModel());
-  vector<unsigned> model_years { 2000u, 2001u, 2002u, 2003u, 2004u };
+  vector<unsigned>      model_years{2000u, 2001u, 2002u, 2003u, 2004u};
   EXPECT_CALL(*model, years()).WillRepeatedly(Return(model_years));
   EXPECT_CALL(*model, min_age()).WillRepeatedly(Return(10));
   EXPECT_CALL(*model, max_age()).WillRepeatedly(Return(20));
@@ -86,7 +84,7 @@ TEST_F(InternalEmptyModel, Categories_AssignSpecificYearsPerCategory_1) {
  */
 TEST_F(InternalEmptyModel, Categories_AssignSpecificYearsPerCategory_2_ExpectError) {
   shared_ptr<MockModel> model = shared_ptr<MockModel>(new MockModel());
-  vector<unsigned> model_years { 2000u, 2001u, 2002u, 2003u };
+  vector<unsigned>      model_years{2000u, 2001u, 2002u, 2003u};
   EXPECT_CALL(*model, years()).WillRepeatedly(Return(model_years));
   EXPECT_CALL(*model, min_age()).WillRepeatedly(Return(10));
   EXPECT_CALL(*model, max_age()).WillRepeatedly(Return(20));
@@ -106,7 +104,7 @@ TEST_F(InternalEmptyModel, Categories_AssignSpecificYearsPerCategory_2_ExpectErr
  */
 TEST_F(InternalEmptyModel, Categories_AssignSpecificYearsPerCategory_3) {
   shared_ptr<MockModel> model = shared_ptr<MockModel>(new MockModel());
-  vector<unsigned> model_years { 2000u, 2001u, 2002u, 2003u };
+  vector<unsigned>      model_years{2000u, 2001u, 2002u, 2003u};
   EXPECT_CALL(*model, years()).WillRepeatedly(Return(model_years));
   EXPECT_CALL(*model, min_age()).WillRepeatedly(Return(10));
   EXPECT_CALL(*model, max_age()).WillRepeatedly(Return(20));
@@ -125,13 +123,12 @@ TEST_F(InternalEmptyModel, Categories_AssignSpecificYearsPerCategory_3) {
   EXPECT_EQ(2002u, years[0]);
 }
 
-
 /**
  * Check that we can specify just a category
  */
 TEST_F(InternalEmptyModel, Categories_AssignSpecificYearsPerCategory_4) {
   shared_ptr<MockModel> model = shared_ptr<MockModel>(new MockModel());
-  vector<unsigned> model_years { 2000u, 2001u, 2002u, 2003u };
+  vector<unsigned>      model_years{2000u, 2001u, 2002u, 2003u};
   EXPECT_CALL(*model, years()).WillRepeatedly(Return(model_years));
   EXPECT_CALL(*model, min_age()).WillRepeatedly(Return(10));
   EXPECT_CALL(*model, max_age()).WillRepeatedly(Return(20));
@@ -155,7 +152,7 @@ TEST_F(InternalEmptyModel, Categories_AssignSpecificYearsPerCategory_4) {
  */
 TEST_F(InternalEmptyModel, Categories_AssignSpecificYearsPerCategory) {
   shared_ptr<MockModel> model = shared_ptr<MockModel>(new MockModel());
-  vector<unsigned> model_years { 2000u, 2001u, 2002u, 2003u };
+  vector<unsigned>      model_years{2000u, 2001u, 2002u, 2003u};
   EXPECT_CALL(*model, years()).WillRepeatedly(Return(model_years));
   EXPECT_CALL(*model, min_age()).WillRepeatedly(Return(10));
   EXPECT_CALL(*model, max_age()).WillRepeatedly(Return(20));
@@ -169,8 +166,8 @@ TEST_F(InternalEmptyModel, Categories_AssignSpecificYearsPerCategory) {
   /**
    * Check 1: Assigning a value to all categories
    */
-  string lookup = "*=2000,2001";
-  auto results = categories.GetCategoryLabelsAndValues(lookup, categories.parameters().Get(PARAM_NAMES)->location());
+  string lookup  = "*=2000,2001";
+  auto   results = categories.GetCategoryLabelsAndValues(lookup, categories.parameters().Get(PARAM_NAMES)->location());
   EXPECT_EQ(16u, results.size());
   EXPECT_EQ("2000,2001", results["female.mature.notag"]);
   EXPECT_EQ("2000,2001", results["male.immature.notag"]);
@@ -179,7 +176,7 @@ TEST_F(InternalEmptyModel, Categories_AssignSpecificYearsPerCategory) {
    * Check 2:
    * format=male.*.*
    */
-  lookup = "format=male.*.*=2000,2003,2005";
+  lookup  = "format=male.*.*=2000,2003,2005";
   results = categories.GetCategoryLabelsAndValues(lookup, categories.parameters().Get(PARAM_NAMES)->location());
   EXPECT_EQ(8u, results.size());
   EXPECT_EQ("2000,2003,2005", results["male.immature.notag"]);
@@ -189,7 +186,7 @@ TEST_F(InternalEmptyModel, Categories_AssignSpecificYearsPerCategory) {
    * Check 3:
    * format=female.*.*
    */
-  lookup = "format=female.*.*=2000,2003,2005";
+  lookup  = "format=female.*.*=2000,2003,2005";
   results = categories.GetCategoryLabelsAndValues(lookup, categories.parameters().Get(PARAM_NAMES)->location());
   EXPECT_EQ(8u, results.size());
   EXPECT_EQ("2000,2003,2005", results["female.immature.notag"]);
@@ -199,7 +196,7 @@ TEST_F(InternalEmptyModel, Categories_AssignSpecificYearsPerCategory) {
    * Check 4:
    * format=male.immature.*
    */
-  lookup = "format=male.immature.*=2000";
+  lookup  = "format=male.immature.*=2000";
   results = categories.GetCategoryLabelsAndValues(lookup, categories.parameters().Get(PARAM_NAMES)->location());
   EXPECT_EQ(4u, results.size());
   EXPECT_EQ("2000", results["male.immature.notag"]);
@@ -209,7 +206,7 @@ TEST_F(InternalEmptyModel, Categories_AssignSpecificYearsPerCategory) {
    * Check 5
    * format=male.*.notag
    */
-  lookup = "format=male.*.notag=2000,2002,2004";
+  lookup  = "format=male.*.notag=2000,2002,2004";
   results = categories.GetCategoryLabelsAndValues(lookup, categories.parameters().Get(PARAM_NAMES)->location());
   EXPECT_EQ(2u, results.size());
   EXPECT_EQ("2000,2002,2004", results["male.immature.notag"]);
@@ -219,7 +216,7 @@ TEST_F(InternalEmptyModel, Categories_AssignSpecificYearsPerCategory) {
    * Check 6
    * format=male.immaure.2000,2001
    */
-  lookup = "format=male.immature.2000,2001=2002,2003";
+  lookup  = "format=male.immature.2000,2001=2002,2003";
   results = categories.GetCategoryLabelsAndValues(lookup, categories.parameters().Get(PARAM_NAMES)->location());
   EXPECT_EQ(2u, results.size());
   EXPECT_EQ("2002,2003", results["male.immature.2000"]);
@@ -229,7 +226,7 @@ TEST_F(InternalEmptyModel, Categories_AssignSpecificYearsPerCategory) {
    * Check 7
    * sex=male
    */
-  lookup = "sex=male=2005";
+  lookup  = "sex=male=2005";
   results = categories.GetCategoryLabelsAndValues(lookup, categories.parameters().Get(PARAM_NAMES)->location());
   EXPECT_EQ(8u, results.size());
   EXPECT_EQ("2005", results["male.immature.2000"]);
@@ -239,7 +236,7 @@ TEST_F(InternalEmptyModel, Categories_AssignSpecificYearsPerCategory) {
    * Check 8
    * tag=notag
    */
-  lookup = "tag=notag=2007";
+  lookup  = "tag=notag=2007";
   results = categories.GetCategoryLabelsAndValues(lookup, categories.parameters().Get(PARAM_NAMES)->location());
   EXPECT_EQ(4u, results.size());
   EXPECT_EQ("2007", results["male.immature.notag"]);
@@ -249,7 +246,7 @@ TEST_F(InternalEmptyModel, Categories_AssignSpecificYearsPerCategory) {
    * Check 9
    * tag=notag,2001
    */
-  lookup = "tag=notag,2001=2009";
+  lookup  = "tag=notag,2001=2009";
   results = categories.GetCategoryLabelsAndValues(lookup, categories.parameters().Get(PARAM_NAMES)->location());
   EXPECT_EQ(8u, results.size());
   EXPECT_EQ("2009", results["male.immature.notag"]);
@@ -266,14 +263,13 @@ TEST_F(InternalEmptyModel, Categories_GetCategoryLabels) {
   model_->set_partition_type(PartitionType::kAge);
   vector<string> names;
 
-  vector<string> sexes  = { "male", "female" };
-  vector<string> stages = { "immature", "mature" };
-  vector<string> tags   = { "notag", "2000", "2001", "2002" };
+  vector<string> sexes  = {"male", "female"};
+  vector<string> stages = {"immature", "mature"};
+  vector<string> tags   = {"notag", "2000", "2001", "2002"};
 
   for (string sex : sexes)
     for (string stage : stages)
-      for (string tag : tags)
-        names.push_back(sex + "." + stage + "." + tag);
+      for (string tag : tags) names.push_back(sex + "." + stage + "." + tag);
 
   categories->set_block_type(PARAM_CATEGORIES);
   categories->parameters().Add(PARAM_FORMAT, "sex.stage.tag", __FILE__, __LINE__);
@@ -281,7 +277,8 @@ TEST_F(InternalEmptyModel, Categories_GetCategoryLabels) {
   categories->Validate();
 
   /**
-   * male.immature.notag male.immature.2000 male.immature.2001 male.immature.2002 male.mature.notag male.mature.2000 male.mature.2001 male.mature.2002 female.immature.notag female.immature.2000 female.immature.2001 female.immature.2002 female.mature.notag female.mature.2000 female.mature.2001 female.mature.2002
+   * male.immature.notag male.immature.2000 male.immature.2001 male.immature.2002 male.mature.notag male.mature.2000 male.mature.2001 male.mature.2002 female.immature.notag
+   * female.immature.2000 female.immature.2001 female.immature.2002 female.mature.notag female.mature.2000 female.mature.2001 female.mature.2002
    * male.immature.notag+male.immature.2000+male.immature.2001+male.immature.2002+male.mature.notag+male.mature.2000+male.mature.2001+male.mature.2002+female.immature.notag+female.immature.2000+female.immature.2001+female.immature.2002+female.mature.notag+female.mature.2000+female.mature.2001+female.mature.2002
    */
 
@@ -289,9 +286,10 @@ TEST_F(InternalEmptyModel, Categories_GetCategoryLabels) {
    * Check 1:
    * *
    */
-  string result = "";
+  string result        = "";
   string lookup_string = "*";
-  string expected = "male.immature.notag male.immature.2000 male.immature.2001 male.immature.2002 male.mature.notag male.mature.2000 male.mature.2001 male.mature.2002 female.immature.notag female.immature.2000 female.immature.2001 female.immature.2002 female.mature.notag female.mature.2000 female.mature.2001 female.mature.2002";
+  string expected
+      = "male.immature.notag male.immature.2000 male.immature.2001 male.immature.2002 male.mature.notag male.mature.2000 male.mature.2001 male.mature.2002 female.immature.notag female.immature.2000 female.immature.2001 female.immature.2002 female.mature.notag female.mature.2000 female.mature.2001 female.mature.2002";
 
   result = categories->GetCategoryLabels(lookup_string, categories->parameters().Get(PARAM_NAMES)->location());
   EXPECT_EQ(expected, result);
@@ -301,7 +299,8 @@ TEST_F(InternalEmptyModel, Categories_GetCategoryLabels) {
    * *+
    */
   lookup_string = "*+";
-  expected = "male.immature.notag+male.immature.2000+male.immature.2001+male.immature.2002+male.mature.notag+male.mature.2000+male.mature.2001+male.mature.2002+female.immature.notag+female.immature.2000+female.immature.2001+female.immature.2002+female.mature.notag+female.mature.2000+female.mature.2001+female.mature.2002";
+  expected
+      = "male.immature.notag+male.immature.2000+male.immature.2001+male.immature.2002+male.mature.notag+male.mature.2000+male.mature.2001+male.mature.2002+female.immature.notag+female.immature.2000+female.immature.2001+female.immature.2002+female.mature.notag+female.mature.2000+female.mature.2001+female.mature.2002";
 
   result = categories->GetCategoryLabels(lookup_string, categories->parameters().Get(PARAM_NAMES)->location());
   EXPECT_EQ(expected, result);
@@ -311,7 +310,7 @@ TEST_F(InternalEmptyModel, Categories_GetCategoryLabels) {
    * format=male.*.*
    */
   lookup_string = "format=male.*.*";
-  expected = "male.immature.notag male.immature.2000 male.immature.2001 male.immature.2002 male.mature.notag male.mature.2000 male.mature.2001 male.mature.2002";
+  expected      = "male.immature.notag male.immature.2000 male.immature.2001 male.immature.2002 male.mature.notag male.mature.2000 male.mature.2001 male.mature.2002";
 
   result = categories->GetCategoryLabels(lookup_string, categories->parameters().Get(PARAM_NAMES)->location());
   EXPECT_EQ(expected, result);
@@ -331,7 +330,7 @@ TEST_F(InternalEmptyModel, Categories_GetCategoryLabels) {
    * format=male.*.*+
    */
   lookup_string = "format=male.*.*+";
-  expected = "male.immature.notag+male.immature.2000+male.immature.2001+male.immature.2002+male.mature.notag+male.mature.2000+male.mature.2001+male.mature.2002";
+  expected      = "male.immature.notag+male.immature.2000+male.immature.2001+male.immature.2002+male.mature.notag+male.mature.2000+male.mature.2001+male.mature.2002";
 
   result = categories->GetCategoryLabels(lookup_string, categories->parameters().Get(PARAM_NAMES)->location());
   EXPECT_EQ(expected, result);
@@ -341,7 +340,7 @@ TEST_F(InternalEmptyModel, Categories_GetCategoryLabels) {
    * format=male.immature.*
    */
   lookup_string = "format=male.immature.*+";
-  expected = "male.immature.notag+male.immature.2000+male.immature.2001+male.immature.2002";
+  expected      = "male.immature.notag+male.immature.2000+male.immature.2001+male.immature.2002";
 
   result = categories->GetCategoryLabels(lookup_string, categories->parameters().Get(PARAM_NAMES)->location());
   EXPECT_EQ(expected, result);
@@ -361,7 +360,7 @@ TEST_F(InternalEmptyModel, Categories_GetCategoryLabels) {
    * format=male.*.notag+
    */
   lookup_string = "format=male.*.notag+";
-  expected = "male.immature.notag+male.mature.notag";
+  expected      = "male.immature.notag+male.mature.notag";
 
   result = categories->GetCategoryLabels(lookup_string, categories->parameters().Get(PARAM_NAMES)->location());
   EXPECT_EQ(expected, result);
@@ -371,7 +370,7 @@ TEST_F(InternalEmptyModel, Categories_GetCategoryLabels) {
    * format=male.immaure.2000,2001
    */
   lookup_string = "format=male.immature.2000,2001";
-  expected = "male.immature.2000 male.immature.2001";
+  expected      = "male.immature.2000 male.immature.2001";
 
   result = categories->GetCategoryLabels(lookup_string, categories->parameters().Get(PARAM_NAMES)->location());
   EXPECT_EQ(expected, result);
@@ -381,7 +380,7 @@ TEST_F(InternalEmptyModel, Categories_GetCategoryLabels) {
    * format=male,female.*.2001,2002
    */
   lookup_string = "format=male,female.*.2001,2002";
-  expected = "male.immature.2001 male.immature.2002 male.mature.2001 male.mature.2002 female.immature.2001 female.immature.2002 female.mature.2001 female.mature.2002";
+  expected      = "male.immature.2001 male.immature.2002 male.mature.2001 male.mature.2002 female.immature.2001 female.immature.2002 female.mature.2001 female.mature.2002";
 
   result = categories->GetCategoryLabels(lookup_string, categories->parameters().Get(PARAM_NAMES)->location());
   EXPECT_EQ(expected, result);
@@ -391,7 +390,7 @@ TEST_F(InternalEmptyModel, Categories_GetCategoryLabels) {
    * format=male . * . notag
    */
   lookup_string = "format=male . * . notag";
-  expected = "male.immature.notag male.mature.notag";
+  expected      = "male.immature.notag male.mature.notag";
 
   result = categories->GetCategoryLabels(lookup_string, categories->parameters().Get(PARAM_NAMES)->location());
   EXPECT_EQ(expected, result);
@@ -401,7 +400,7 @@ TEST_F(InternalEmptyModel, Categories_GetCategoryLabels) {
    * sex=male
    */
   lookup_string = "sex=male";
-  expected = "male.immature.notag male.immature.2000 male.immature.2001 male.immature.2002 male.mature.notag male.mature.2000 male.mature.2001 male.mature.2002";
+  expected      = "male.immature.notag male.immature.2000 male.immature.2001 male.immature.2002 male.mature.notag male.mature.2000 male.mature.2001 male.mature.2002";
 
   result = categories->GetCategoryLabels(lookup_string, categories->parameters().Get(PARAM_NAMES)->location());
   EXPECT_EQ(expected, result);
@@ -411,7 +410,7 @@ TEST_F(InternalEmptyModel, Categories_GetCategoryLabels) {
    * tag=notag
    */
   lookup_string = "tag=notag";
-  expected = "male.immature.notag male.mature.notag female.immature.notag female.mature.notag";
+  expected      = "male.immature.notag male.mature.notag female.immature.notag female.mature.notag";
 
   result = categories->GetCategoryLabels(lookup_string, categories->parameters().Get(PARAM_NAMES)->location());
   EXPECT_EQ(expected, result);
@@ -421,7 +420,7 @@ TEST_F(InternalEmptyModel, Categories_GetCategoryLabels) {
    * tag=notag,2001
    */
   lookup_string = "tag=notag,2001";
-  expected = "male.immature.notag male.immature.2001 male.mature.notag male.mature.2001 female.immature.notag female.immature.2001 female.mature.notag female.mature.2001";
+  expected      = "male.immature.notag male.immature.2001 male.mature.notag male.mature.2001 female.immature.notag female.immature.2001 female.mature.notag female.mature.2001";
 
   result = categories->GetCategoryLabels(lookup_string, categories->parameters().Get(PARAM_NAMES)->location());
   EXPECT_EQ(expected, result);
@@ -431,13 +430,13 @@ TEST_F(InternalEmptyModel, Categories_GetCategoryLabels) {
    * tag=notag,2001+
    */
   lookup_string = "tag=notag,2001+";
-  expected = "male.immature.notag+male.immature.2001+male.mature.notag+male.mature.2001+female.immature.notag+female.immature.2001+female.mature.notag+female.mature.2001";
+  expected      = "male.immature.notag+male.immature.2001+male.mature.notag+male.mature.2001+female.immature.notag+female.immature.2001+female.mature.notag+female.mature.2001";
 
   result = categories->GetCategoryLabels(lookup_string, categories->parameters().Get(PARAM_NAMES)->location());
   EXPECT_EQ(expected, result);
 }
 
-} /* namespace derivedquantities */
+}  // namespace categories
 } /* namespace niwa */
 
 #endif

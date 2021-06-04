@@ -24,7 +24,6 @@ namespace niwa {
 Process::Process(shared_ptr<Model> model) : model_(model) {
   parameters_.Bind<string>(PARAM_LABEL, &label_, "The label of the process", "");
   parameters_.Bind<string>(PARAM_TYPE, &type_, "The type of process", "", "");
-
 }
 
 /**
@@ -58,7 +57,6 @@ void Process::Validate() {
  * then call the child build method.
  */
 void Process::Build() {
-
   DoBuild();
 }
 
@@ -66,7 +64,7 @@ void Process::Build() {
  * Flush the print_values_ that are created in the StoreForReport() method.
  * To ensure when Casal2 is in an iterative state the reports do not keep appending information
  */
-void Process::Reset(){
+void Process::Reset() {
   LOG_TRACE();
   DoReset();
 }
@@ -79,15 +77,13 @@ void Process::Reset(){
  */
 void Process::Execute(unsigned year, const string& time_step_label) {
   LOG_FINEST() << label_;
-  for (auto executor : executors_[year][time_step_label])
-    executor->PreExecute();
+  for (auto executor : executors_[year][time_step_label]) executor->PreExecute();
 
   LOG_TRACE();
   DoExecute();
   LOG_TRACE();
 
-  for (auto executor : executors_[year][time_step_label])
-    executor->Execute();
+  for (auto executor : executors_[year][time_step_label]) executor->Execute();
 }
 
 /**
@@ -101,6 +97,4 @@ void Process::Subscribe(unsigned year, const string& time_step_label, Executor* 
   executors_[year][time_step_label].push_back(executor);
 }
 
-
-
-} /* namespace Casal2 */
+}  // namespace niwa

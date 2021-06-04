@@ -31,12 +31,13 @@ namespace processes {
 class Manager : public niwa::base::Manager<niwa::processes::Manager, niwa::Process> {
   friend class niwa::base::Manager<niwa::processes::Manager, niwa::Process>;
   friend class niwa::Managers;
+
 public:
   // methods
-  virtual                     ~Manager() noexcept(true);
-  void                        Validate() override final;
-  void                        Validate(shared_ptr<Model> model);
-  Process*                    GetProcess(const string& label);
+  virtual ~Manager() noexcept(true);
+  void     Validate() override final;
+  void     Validate(shared_ptr<Model> model);
+  Process* GetProcess(const string& label);
 
 protected:
   // methods

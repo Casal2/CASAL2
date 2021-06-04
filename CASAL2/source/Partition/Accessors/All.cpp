@@ -25,7 +25,6 @@ namespace accessors {
  * Default constructor
  */
 All::All(shared_ptr<Model> model) : model_(model) {
-
   vector<string> category_names = model_->categories()->category_names();
   for (string category_name : category_names) {
     data_.push_back(&model_->partition().category(category_name));
@@ -57,7 +56,6 @@ All::DataType::iterator All::begin() {
 All::DataType::iterator All::end() {
   return data_.end();
 }
-
 
 unsigned All::Size() {
   return data_.size();

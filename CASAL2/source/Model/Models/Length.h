@@ -19,8 +19,8 @@ namespace model {
 // class declaration
 class Length : public Model {
 public:
-	Length();
-	virtual ~Length();
+  Length();
+  virtual ~Length();
 };
 
 } /* namespace model */

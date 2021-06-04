@@ -28,10 +28,10 @@ using std::vector;
  *
  * @param column The column header to check data for
  */
-template<typename T>
+template <typename T>
 void Table::CheckColumnValuesAreType(const string& column) {
   unsigned index = column_index(column);
-  T value;
+  T        value;
 
   for (const auto& row : data_) {
     if (!utilities::To<string, T>(row[index], value))
@@ -47,9 +47,9 @@ void Table::CheckColumnValuesAreType(const string& column) {
  * @param column The label for the column to process
  * @param values A vector of values to check each column value against
  */
-template<typename T>
+template <typename T>
 void Table::CheckColumnValuesContain(const string& column, const vector<T>& values) {
-  unsigned index = column_index(column);
+  unsigned  index = column_index(column);
   vector<T> table_values;
   table_values.reserve(data_.size());
   T value;
@@ -74,7 +74,7 @@ void Table::CheckColumnValuesContain(const string& column, const vector<T>& valu
  *
  * @param column The column label to prcess
  */
-template<typename T>
+template <typename T>
 vector<T> Table::GetColumnValuesAs(const string& column) {
   vector<T> result;
   result.reserve(data_.size());
@@ -91,7 +91,7 @@ vector<T> Table::GetColumnValuesAs(const string& column) {
   return result;
 }
 
-template<>
+template <>
 inline vector<string> Table::GetColumnValuesAs(const string& column) {
   vector<string> result;
 

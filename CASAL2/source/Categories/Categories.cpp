@@ -13,23 +13,23 @@
 #include "Categories.h"
 
 #include <boost/algorithm/string/replace.hpp>
-#include <boost/algorithm/string/trim_all.hpp>
 #include <boost/algorithm/string/split.hpp>
+#include <boost/algorithm/string/trim_all.hpp>
 
+#include "../AgeLengths/Age/None.h"
 #include "../AgeLengths/AgeLength.h"
 #include "../AgeLengths/Factory.h"
 #include "../AgeLengths/Manager.h"
-#include "../AgeLengths/Age/None.h"
+#include "../AgeWeights/Age/None.h"
 #include "../AgeWeights/AgeWeight.h"
 #include "../AgeWeights/Factory.h"
 #include "../AgeWeights/Manager.h"
-#include "../AgeWeights/Age/None.h"
-#include "../LengthWeights/LengthWeight.h"
-#include "../LengthWeights/Factory.h"
-#include "../LengthWeights/Manager.h"
 #include "../LengthWeights/Common/None.h"
-#include "../Model/Model.h"
+#include "../LengthWeights/Factory.h"
+#include "../LengthWeights/LengthWeight.h"
+#include "../LengthWeights/Manager.h"
 #include "../Logging/Logging.h"
+#include "../Model/Model.h"
 #include "../Utilities/String.h"
 #include "../Utilities/To.h"
 
@@ -50,10 +50,12 @@ Categories::Categories(shared_ptr<Model> model) : model_(model) {
   parameters_.Bind<string>(PARAM_FORMAT, &format_, "The format that the category names use", "");
   parameters_.Bind<string>(PARAM_NAMES, &names_, "The names of the categories to be used in the model", "");
   parameters_.Bind<string>(PARAM_YEARS, &years_, "The years that individual categories will be active for. This overrides the model values", "", true);
-  parameters_.Bind<string>(PARAM_AGE_LENGTHS, &age_length_labels_, R"(The labels of age\_length objects that are assigned to categories)", "", true)->set_partition_type(PartitionType::kAge);
-  parameters_.Bind<string>(PARAM_LENGTH_WEIGHT, &length_weight_labels_, R"(The labels of the length\_weight objects that are assigned to categories)", "", true)->set_partition_type(PartitionType::kLength);
-  parameters_.Bind<string>(PARAM_AGE_WEIGHT, &age_weight_labels_, R"(The labels of the age\_weight objects that are assigned to categories)", "", true)->set_partition_type(PartitionType::kAge);
-
+  parameters_.Bind<string>(PARAM_AGE_LENGTHS, &age_length_labels_, R"(The labels of age\_length objects that are assigned to categories)", "", true)
+      ->set_partition_type(PartitionType::kAge);
+  parameters_.Bind<string>(PARAM_LENGTH_WEIGHT, &length_weight_labels_, R"(The labels of the length\_weight objects that are assigned to categories)", "", true)
+      ->set_partition_type(PartitionType::kLength);
+  parameters_.Bind<string>(PARAM_AGE_WEIGHT, &age_weight_labels_, R"(The labels of the age\_weight objects that are assigned to categories)", "", true)
+      ->set_partition_type(PartitionType::kAge);
 }
 
 /**
@@ -63,8 +65,8 @@ Categories::Categories(shared_ptr<Model> model) : model_(model) {
  * Note: all parameters are populated from configuration files
  */
 void Categories::Validate() {
-	if (model_->partition_type() == PartitionType::kPiApprox)
-		return;
+  if (model_->partition_type() == PartitionType::kPiApprox)
+    return;
 
   // Check that we actually had a categories block
   if (block_type_ == "")
@@ -83,23 +85,22 @@ void Categories::Validate() {
   // Parameter: Names
   // build the default years
   vector<unsigned> default_years;
-  for (auto year : model_->years())
-    default_years.push_back(year);
+  for (auto year : model_->years()) default_years.push_back(year);
 
   if (model_->partition_type() == PartitionType::kAge) {
     // Check the user hasn't specified both age_length and age_weight subcommands
     if (parameters_.Get(PARAM_AGE_WEIGHT)->has_been_defined() && parameters_.Get(PARAM_AGE_LENGTHS)->has_been_defined())
       LOG_FATAL_P(PARAM_AGE_WEIGHT) << "Both age_lengths and age_weights cannot be specified in the @categories block. Specify either one or the other.";
     if (parameters_.Get(PARAM_AGE_WEIGHT)->has_been_defined()) {
-      if(age_weight_labels_.size() != names_.size())
+      if (age_weight_labels_.size() != names_.size())
         LOG_ERROR_P(PARAM_AGE_WEIGHT) << " number age-weight defined (" << age_weight_labels_.size() << ") must be the same as the number "
-          << " of categories defined (" << names_.size() << ")";
+                                      << " of categories defined (" << names_.size() << ")";
     }
     // get the age sizes
     if (parameters_.Get(PARAM_AGE_LENGTHS)->has_been_defined()) {
       if (age_length_labels_.size() != names_.size())
         LOG_ERROR_P(PARAM_AGE_LENGTHS) << " number of age-lengths defined (" << age_length_labels_.size() << ") must be the same as the number "
-          << " of categories defined (" << names_.size() << ")";
+                                       << " of categories defined (" << names_.size() << ")";
     }
     vector<string> format_chunks;
     boost::split(format_chunks, format_, boost::is_any_of("."), boost::token_compress_on);
@@ -122,11 +123,11 @@ void Categories::Validate() {
 
       // Create a new CategoryInfo object
       CategoryInfo new_category_info;
-      new_category_info.name_     = names_[i];
-      new_category_info.min_age_  = model_->min_age();
-      new_category_info.max_age_  = model_->max_age();
-      new_category_info.years_    = default_years;
-      categories_[names_[i]] = new_category_info;
+      new_category_info.name_    = names_[i];
+      new_category_info.min_age_ = model_->min_age();
+      new_category_info.max_age_ = model_->max_age();
+      new_category_info.years_   = default_years;
+      categories_[names_[i]]     = new_category_info;
 
       category_names_.push_back(names_[i]);
     }
@@ -134,7 +135,7 @@ void Categories::Validate() {
     // get the age sizes
     if (length_weight_labels_.size() > 0 && length_weight_labels_.size() != names_.size())
       LOG_ERROR_P(PARAM_LENGTH_WEIGHT) << " number defined (" << length_weight_labels_.size() << ") must be the same as the number "
-        << " of categories defined (" << names_.size() << ")";
+                                       << " of categories defined (" << names_.size() << ")";
 
     vector<string> format_chunks;
     boost::split(format_chunks, format_, boost::is_any_of("."), boost::token_compress_on);
@@ -151,11 +152,11 @@ void Categories::Validate() {
 
       // Create a new CategoryInfo object
       CategoryInfo new_category_info;
-      new_category_info.name_     = names_[i];
-      new_category_info.min_age_  = model_->min_age();
-      new_category_info.max_age_  = model_->max_age();
-      new_category_info.years_    = default_years;
-      categories_[names_[i]] = new_category_info;
+      new_category_info.name_    = names_[i];
+      new_category_info.min_age_ = model_->min_age();
+      new_category_info.max_age_ = model_->max_age();
+      new_category_info.years_   = default_years;
+      categories_[names_[i]]     = new_category_info;
 
       category_names_.push_back(names_[i]);
     }
@@ -173,8 +174,8 @@ void Categories::Validate() {
    * Handle individual years for a category
    */
   map<string, string> category_values;
-  vector<string> years_split;
-  auto model_years = model_->years();
+  vector<string>      years_split;
+  auto                model_years = model_->years();
   for (auto year_lookup : years_) {
     category_values = GetCategoryLabelsAndValues(year_lookup, parameters_.Get(PARAM_YEARS)->location());
     for (auto iter : category_values) {
@@ -190,10 +191,9 @@ void Categories::Validate() {
           LOG_FATAL_P(PARAM_YEARS) << "year " << year << " could not be converted to an unsigned integer";
         }
 
-        if (std::find(categories_[iter.first].years_.begin(),
-            categories_[iter.first].years_.end(),
-            actual_value) != categories_[iter.first].years_.end()) {
-          LOG_ERROR_P(PARAM_YEARS) << "value " << actual_value << " has already been defined for " << "the category " << iter.first;
+        if (std::find(categories_[iter.first].years_.begin(), categories_[iter.first].years_.end(), actual_value) != categories_[iter.first].years_.end()) {
+          LOG_ERROR_P(PARAM_YEARS) << "value " << actual_value << " has already been defined for "
+                                   << "the category " << iter.first;
         }
 
         if (std::find(model_years.begin(), model_years.end(), actual_value) == model_years.end()) {
@@ -217,7 +217,7 @@ void Categories::Build() {
      */
     if (parameters_.Get(PARAM_AGE_LENGTHS)->has_been_defined()) {
       agelengths::Manager* age_sizes_manager = model_->managers()->age_length();
-      auto iter = category_age_length_labels_.begin();
+      auto                 iter              = category_age_length_labels_.begin();
       for (; iter != category_age_length_labels_.end(); ++iter) {
         AgeLength* age_size = age_sizes_manager->FindAgeLength(iter->second);
         if (!age_size)
@@ -227,7 +227,7 @@ void Categories::Build() {
       }
     } else if (parameters_.Get(PARAM_AGE_WEIGHT)->has_been_defined()) {
       ageweights::Manager* age_weight_manager = model_->managers()->age_weight();
-      auto iter = category_age_weight_labels_.begin();
+      auto                 iter               = category_age_weight_labels_.begin();
       for (; iter != category_age_weight_labels_.end(); ++iter) {
         AgeWeight* age_weight = age_weight_manager->FindAgeWeight(iter->second);
         if (!age_weight)
@@ -238,7 +238,7 @@ void Categories::Build() {
     }
   } else if (model_->partition_type() == PartitionType::kLength) {
     lengthweights::Manager* length_weight_manager = model_->managers()->length_weight();
-    auto iter = category_length_weight_labels_.begin();
+    auto                    iter                  = category_length_weight_labels_.begin();
     for (; iter != category_length_weight_labels_.end(); ++iter) {
       LengthWeight* length_weight = length_weight_manager->GetLengthWeight(iter->second);
       if (!length_weight)
@@ -259,7 +259,7 @@ void Categories::Build() {
  * @param parameter_location The location string for the parameter to print incase of error
  * @return a singular vector with each category as it's own element
  */
-vector<string> Categories::ExpandLabels(const vector<string> &category_labels, const string& parameter_location) {
+vector<string> Categories::ExpandLabels(const vector<string>& category_labels, const string& parameter_location) {
   vector<string> result;
 
   vector<string> temp;
@@ -302,15 +302,13 @@ string Categories::GetCategoryLabels(const string& lookup_string, const string& 
    */
   if (lookup_string == "*+") {
     string all = category_names_[0];
-    for (unsigned i = 1; i < category_names_.size(); ++i)
-      all += "+" + category_names_[i];
+    for (unsigned i = 1; i < category_names_.size(); ++i) all += "+" + category_names_[i];
 
     return all;
 
   } else if (lookup_string == "*") {
     string all = category_names_[0];
-    for (unsigned i = 1; i < category_names_.size(); ++i)
-      all += " " + category_names_[i];
+    for (unsigned i = 1; i < category_names_.size(); ++i) all += " " + category_names_[i];
 
     return all;
   }
@@ -335,8 +333,7 @@ string Categories::GetCategoryLabels(const string& lookup_string, const string& 
   boost::split(pieces, lookup_string, boost::is_any_of("="), boost::token_compress_on);
 
   if (pieces.size() != 2) {
-    LOG_ERROR() << parameter_location << " short-hand category string (" << lookup_string
-      << ") is not in the correct format, e.g., <format_chunk>=<lookup_chunk>";
+    LOG_ERROR() << parameter_location << " short-hand category string (" << lookup_string << ") is not in the correct format, e.g., <format_chunk>=<lookup_chunk>";
   }
 
   boost::replace_all(pieces[0], " ", "");
@@ -373,9 +370,8 @@ string Categories::GetCategoryLabels(const string& lookup_string, const string& 
     boost::split(pieces, lookup, boost::is_any_of("."));
 
     if (pieces.size() != format_pieces) {
-      LOG_ERROR() << parameter_location << " short-hand category string ( " << lookup_string
-        << ") does not have the correct number of sections. Expected " << format_pieces << " but parsed " << pieces.size()
-        << ". Pieces are chunks of the string separated with a '.' character";
+      LOG_ERROR() << parameter_location << " short-hand category string ( " << lookup_string << ") does not have the correct number of sections. Expected " << format_pieces
+                  << " but parsed " << pieces.size() << ". Pieces are chunks of the string separated with a '.' character";
     }
 
     for (unsigned i = 0; i < pieces.size(); ++i) {
@@ -386,15 +382,13 @@ string Categories::GetCategoryLabels(const string& lookup_string, const string& 
       boost::split(comma_separated_pieces, pieces[i], boost::is_any_of(","));
       matched_categories.erase(
           std::remove_if(matched_categories.begin(), matched_categories.end(),
-          [&i, &category_pieces, &comma_separated_pieces](string& category) {
+                         [&i, &category_pieces, &comma_separated_pieces](string& category) {
+                           if (std::find(comma_separated_pieces.begin(), comma_separated_pieces.end(), category_pieces[category][i]) == comma_separated_pieces.end())
+                             return true;
 
-            if (std::find(comma_separated_pieces.begin(), comma_separated_pieces.end(), category_pieces[category][i]) == comma_separated_pieces.end())
-              return true;
-
-            return false;
-          }),
-          matched_categories.end()
-      );
+                           return false;
+                         }),
+          matched_categories.end());
     }
 
     LOG_FINEST() << "Full format parse of categories returned " << matched_categories.size() << " results";
@@ -406,9 +400,8 @@ string Categories::GetCategoryLabels(const string& lookup_string, const string& 
      * sex=male
      */
     if (lookup.find(".") != string::npos) {
-      LOG_ERROR() << parameter_location << " short-hand category string (" << lookup_string
-        << ") is not in the correct format. The lookup component (" << lookup
-        << ") cannot contain any '.' characters";
+      LOG_ERROR() << parameter_location << " short-hand category string (" << lookup_string << ") is not in the correct format. The lookup component (" << lookup
+                  << ") cannot contain any '.' characters";
     }
 
     // Verify we've actually got a good part of the format here.
@@ -421,31 +414,28 @@ string Categories::GetCategoryLabels(const string& lookup_string, const string& 
       }
     }
     if (format_offset == pieces.size()) {
-      LOG_ERROR() << parameter_location << " short-hand category syntax (" << lookup_string
-        << ") is using an invalid format chunk (" << format << ") for its lookup. "
-        << "Valid format chunks must be taken from the format (" << format_ << ")";
+      LOG_ERROR() << parameter_location << " short-hand category syntax (" << lookup_string << ") is using an invalid format chunk (" << format << ") for its lookup. "
+                  << "Valid format chunks must be taken from the format (" << format_ << ")";
     }
 
     if (lookup != "*") {
-      matched_categories.erase(
-          std::remove_if(matched_categories.begin(), matched_categories.end(),
-              // lambda start
-          [&format_offset, &parameter_location, &lookup, &lookup_string](string& category) {
-            vector<string> chunks;
-            boost::split(chunks, category, boost::is_any_of("."));
-            if (chunks.size() <= format_offset) {
-              LOG_ERROR() << parameter_location << " short-hand category syntax (" << lookup_string
-                << ") could not be compared to category (" << category << ") because the category was malformed";
-            }
+      matched_categories.erase(std::remove_if(matched_categories.begin(), matched_categories.end(),
+                                              // lambda start
+                                              [&format_offset, &parameter_location, &lookup, &lookup_string](string& category) {
+                                                vector<string> chunks;
+                                                boost::split(chunks, category, boost::is_any_of("."));
+                                                if (chunks.size() <= format_offset) {
+                                                  LOG_ERROR() << parameter_location << " short-hand category syntax (" << lookup_string << ") could not be compared to category ("
+                                                              << category << ") because the category was malformed";
+                                                }
 
-            vector<string> comma_separated_pieces;
-            boost::split(comma_separated_pieces, lookup, boost::is_any_of(","));
-            if (std::find(comma_separated_pieces.begin(), comma_separated_pieces.end(), chunks[format_offset]) == comma_separated_pieces.end())
-              return true;
-            return false;
-          }),
-          matched_categories.end()
-      ); // End of .erase();
+                                                vector<string> comma_separated_pieces;
+                                                boost::split(comma_separated_pieces, lookup, boost::is_any_of(","));
+                                                if (std::find(comma_separated_pieces.begin(), comma_separated_pieces.end(), chunks[format_offset]) == comma_separated_pieces.end())
+                                                  return true;
+                                                return false;
+                                              }),
+                               matched_categories.end());  // End of .erase();
     }
 
     LOG_FINEST() << "Short format parse of categories returned " << matched_categories.size() << " results";
@@ -487,8 +477,7 @@ map<string, string> Categories::GetCategoryLabelsAndValues(const string& lookup,
   vector<string> pieces;
   boost::split(pieces, lookup, boost::is_any_of("="), boost::token_compress_on);
   if (pieces.size() != 2 && pieces.size() != 3) {
-    LOG_FATAL() << parameter_location << " short-hand category string (" << lookup
-      << ") is not in the correct format, e.g., <format_chunk>=<lookup_chunk>=values";
+    LOG_FATAL() << parameter_location << " short-hand category string (" << lookup << ") is not in the correct format, e.g., <format_chunk>=<lookup_chunk>=values";
   }
 
   string temp_lookup = pieces[0];
@@ -499,7 +488,6 @@ map<string, string> Categories::GetCategoryLabelsAndValues(const string& lookup,
     if (results.find(category) != results.end()) {
       LOG_ERROR() << parameter_location << " category " << category << " is being assigned a value more than once";
     }
-
 
     results[category] = pieces.size() == 2 ? pieces[1] : pieces[2];
   }
@@ -644,6 +632,5 @@ void Categories::Clear() {
   length_weight_labels_.clear();
   category_length_weight_labels_.clear();
 }
-
 
 } /* namespace niwa */

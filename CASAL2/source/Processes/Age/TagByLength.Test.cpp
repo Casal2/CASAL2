@@ -16,10 +16,10 @@
 // Headers
 #include <iostream>
 
-#include "ObjectiveFunction/ObjectiveFunction.h"
-#include "Processes/Manager.h"
 #include "Model/Model.h"
+#include "ObjectiveFunction/ObjectiveFunction.h"
 #include "Partition/Partition.h"
+#include "Processes/Manager.h"
 #include "TestResources/TestFixtures/InternalEmptyModel.h"
 
 // Namespaces
@@ -27,13 +27,12 @@ namespace niwa {
 namespace processes {
 namespace age {
 
+using niwa::testfixtures::InternalEmptyModel;
 using std::cout;
 using std::endl;
-using niwa::testfixtures::InternalEmptyModel;
-
 
 const std::string test_model_block_process_tag_by_length =
-R"(
+    R"(
 @model
 start_year 2001
 final_year 2005
@@ -49,9 +48,9 @@ time_steps step1 step2
 /*
  * Simple model excluding tag process that I will use to generate test cases.
  * Load this after the model block other wise you will get an error
-*/
+ */
 const std::string test_remaining_model_process_tag_by_length =
-R"(
+    R"(
 
 @categories
 format tag
@@ -103,9 +102,9 @@ b 2.793
 
 /*
  * A simple tag by length process
-*/
+ */
 const std::string simple_tag =
-R"(
+    R"(
 @tag Tagging
 type by_length
 years 2002:2004
@@ -134,8 +133,11 @@ TEST_F(InternalEmptyModel, Processes_Tag_By_Length_simple) {
   model_->Start(RunMode::kBasic);
 
   // Expected numbers at age at the end of model run.
-  vector<Double> untagged_expected = {867085.732971, 753807.994709, 655277.229156, 569237.308067, 494049.061594, 428626.174948, 372014.938201, 323184.560923, 280977.392035, 244376.735365, 212570.785159, 184904.138748, 160829.930046, 139880.873234, 121652.711560, 105793.838396, 91997.852883, 79997.632633, 69560.332829, 463061.395153};
-  vector<Double> tagged_expected = {0.000000, 0.128047, 52.070272, 478.615289, 1238.168213, 1955.857172, 2315.097438, 2242.338317, 1935.162839, 1575.624113, 1249.924069, 982.655718, 772.285575, 609.343775, 483.615589, 386.383453, 310.797418, 251.652705, 205.044264, 1193.702034};
+  vector<Double> untagged_expected
+      = {867085.732971, 753807.994709, 655277.229156, 569237.308067, 494049.061594, 428626.174948, 372014.938201, 323184.560923, 280977.392035, 244376.735365,
+         212570.785159, 184904.138748, 160829.930046, 139880.873234, 121652.711560, 105793.838396, 91997.852883,  79997.632633,  69560.332829,  463061.395153};
+  vector<Double> tagged_expected = {0.000000,    0.128047,   52.070272,  478.615289, 1238.168213, 1955.857172, 2315.097438, 2242.338317, 1935.162839, 1575.624113,
+                                    1249.924069, 982.655718, 772.285575, 609.343775, 483.615589,  386.383453,  310.797418,  251.652705,  205.044264,  1193.702034};
 
   partition::Category& tagged   = model_->partition().category("tagged");
   partition::Category& untagged = model_->partition().category("untagged");
@@ -144,15 +146,13 @@ TEST_F(InternalEmptyModel, Processes_Tag_By_Length_simple) {
     EXPECT_NEAR(tagged_expected[i], tagged.data_[i], 0.0001) << " with i = " << i;
     EXPECT_NEAR(untagged_expected[i], untagged.data_[i], 0.0001) << " with i = " << i;
   }
-
 }
-
 
 /*
  * Test catch when extra length bin is expected
-*/
+ */
 const std::string test_model_block_plus_group =
-R"(
+    R"(
 @model
 start_year 2001
 final_year 2005
@@ -165,7 +165,6 @@ initialisation_phases Equilibrium_state
 time_steps step1 step2
 )";
 
-
 TEST_F(InternalEmptyModel, Processes_Tag_By_Length_validate_length_inputs) {
   AddConfigurationLine(test_model_block_plus_group, __FILE__, 2);
   AddConfigurationLine(test_remaining_model_process_tag_by_length, __FILE__, 36);
@@ -174,12 +173,8 @@ TEST_F(InternalEmptyModel, Processes_Tag_By_Length_validate_length_inputs) {
   EXPECT_THROW(model_->Start(RunMode::kBasic), std::string);
 }
 
-
-
-
 } /* namespace age */
 } /* namespace processes */
 } /* namespace niwa */
-
 
 #endif /* TESTMODE */

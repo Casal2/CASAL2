@@ -245,11 +245,11 @@ void Category::CalculateNumbersAtLength(Selectivity* selectivity, const vector<D
     // populate age_length matrix with proportions
     LOG_FINEST() << "calculating distribution for age " << age;
     if (age_length_->casal_normal_cdf()) {
-      age_length_matrix[i] =
-          utilities::math::distribution(length_bins, length_plus, age_length_->distribution(), mean_length_by_time_step_age_[year_index][time_step_index][i], std_dev);
+      age_length_matrix[i]
+          = utilities::math::distribution(length_bins, length_plus, age_length_->distribution(), mean_length_by_time_step_age_[year_index][time_step_index][i], std_dev);
     } else {
-      age_length_matrix[i] =
-          utilities::math::distribution2(length_bins, length_plus, age_length_->distribution(), mean_length_by_time_step_age_[year_index][time_step_index][i], std_dev);
+      age_length_matrix[i]
+          = utilities::math::distribution2(length_bins, length_plus, age_length_->distribution(), mean_length_by_time_step_age_[year_index][time_step_index][i], std_dev);
     }
 
     if (age_length_matrix[i].size() != numbers_by_length.size())
@@ -298,6 +298,20 @@ void Category::CollapseAgeLengthDataToLength() {
   }
 
   for (unsigned i = 0; i < length_data_.size(); ++i) LOG_FINEST() << "length_data_[" << i << "]: " << length_data_[i];
+}
+
+/**
+ * @brief
+ *
+ */
+void Category::Cache() {
+  if (cached_data_.size() != data_.size())
+    cached_data_ = data_;
+  else {
+    for (unsigned i = 0; i < data_.size(); ++i) {
+      cached_data_[i] = data_[i];
+    }
+  }
 }
 
 }  // namespace partition

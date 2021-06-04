@@ -286,12 +286,12 @@ void MortalityHollingRate::DoExecute() {
       if (!is_abundance_) {
         if (prey_selectivity_by_year_supplied_) {
           for (unsigned i = 0; i < prey_categories->data_.size(); ++i)
-            Vulnerable += prey_categories->data_[i] * prey_selectivity_by_year_[current_year][i] *
-                          prey_categories->mean_weight_by_time_step_age_[time_step_index][prey_categories->min_age_ + i];
+            Vulnerable += prey_categories->data_[i] * prey_selectivity_by_year_[current_year][i]
+                          * prey_categories->mean_weight_by_time_step_age_[time_step_index][prey_categories->min_age_ + i];
         } else {
           for (unsigned i = 0; i < prey_categories->data_.size(); ++i)
-            Vulnerable += prey_categories->data_[i] * prey_selectivities_[prey_offset]->GetAgeResult(prey_categories->min_age_ + i, prey_categories->age_length_) *
-                          prey_categories->mean_weight_by_time_step_age_[time_step_index][prey_categories->min_age_ + i];
+            Vulnerable += prey_categories->data_[i] * prey_selectivities_[prey_offset]->GetAgeResult(prey_categories->min_age_ + i, prey_categories->age_length_)
+                          * prey_categories->mean_weight_by_time_step_age_[time_step_index][prey_categories->min_age_ + i];
         }
       } else {
         if (prey_selectivity_by_year_supplied_) {
@@ -313,21 +313,21 @@ void MortalityHollingRate::DoExecute() {
       if (!is_abundance_) {
         if (predator_selectivity_by_year_supplied_) {
           for (unsigned i = 0; i < predator_categories->data_.size(); ++i)
-            PredatorVulnerable += predator_categories->data_[i] * predator_selectivity_by_year_[current_year][i] *
-                                  predator_categories->mean_weight_by_time_step_age_[time_step_index][predator_categories->min_age_ + i];
+            PredatorVulnerable += predator_categories->data_[i] * predator_selectivity_by_year_[current_year][i]
+                                  * predator_categories->mean_weight_by_time_step_age_[time_step_index][predator_categories->min_age_ + i];
         } else {
           for (unsigned i = 0; i < predator_categories->data_.size(); ++i)
-            PredatorVulnerable += predator_categories->data_[i] *
-                                  predator_selectivities_[predator_offset]->GetAgeResult(predator_categories->min_age_ + i, predator_categories->age_length_) *
-                                  predator_categories->mean_weight_by_time_step_age_[time_step_index][predator_categories->min_age_ + i];
+            PredatorVulnerable += predator_categories->data_[i]
+                                  * predator_selectivities_[predator_offset]->GetAgeResult(predator_categories->min_age_ + i, predator_categories->age_length_)
+                                  * predator_categories->mean_weight_by_time_step_age_[time_step_index][predator_categories->min_age_ + i];
         }
       } else {
         if (predator_selectivity_by_year_supplied_) {
           for (unsigned i = 0; i < predator_categories->data_.size(); ++i) PredatorVulnerable += predator_categories->data_[i] * predator_selectivity_by_year_[current_year][i];
         } else {
           for (unsigned i = 0; i < predator_categories->data_.size(); ++i)
-            PredatorVulnerable +=
-                predator_categories->data_[i] * predator_selectivities_[predator_offset]->GetAgeResult(predator_categories->min_age_ + i, predator_categories->age_length_);
+            PredatorVulnerable
+                += predator_categories->data_[i] * predator_selectivities_[predator_offset]->GetAgeResult(predator_categories->min_age_ + i, predator_categories->age_length_);
         }
       }
       ++predator_offset;

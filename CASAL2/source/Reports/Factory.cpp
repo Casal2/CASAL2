@@ -5,7 +5,7 @@
  * @date 13/12/2012
  * @section LICENSE
  *
- * Copyright NIWA Science ©2012 - www.niwa.co.nz
+ * Copyright NIWA Science ï¿½2012 - www.niwa.co.nz
  *
  * $Date: 2008-03-04 16:33:32 +1300 (Tue, 04 Mar 2008) $
  */
@@ -14,47 +14,47 @@
 
 #include "Factory.h"
 
-#include "../Model/Model.h"
 #include "../Model/Managers.h"
-#include "../Reports/Manager.h"
-#include "../Reports/Age/AgeingErrorMatrix.h"
+#include "../Model/Model.h"
 #include "../Reports/Age/AgeLength.h"
+#include "../Reports/Age/AgeingErrorMatrix.h"
 #include "../Reports/Age/InitialisationPartitionMeanWeight.h"
+#include "../Reports/Age/Partition.h"
+#include "../Reports/Age/PartitionBiomass.h"
 #include "../Reports/Age/PartitionMeanLength.h"
 #include "../Reports/Age/PartitionMeanWeight.h"
-#include "../Reports/Age/PartitionBiomass.h"
-#include "../Reports/Age/Partition.h"
 #include "../Reports/Age/PartitionYearCrossAgeMatrix.h"
 #include "../Reports/Common/Addressable.h"
-#include "../Reports/Common/CategoryInfo.h"
 #include "../Reports/Common/Catchability.h"
+#include "../Reports/Common/CategoryInfo.h"
 #include "../Reports/Common/CategoryList.h"
-#include "../Reports/Common/CovarianceMatrix.h"
 #include "../Reports/Common/CorrelationMatrix.h"
+#include "../Reports/Common/CovarianceMatrix.h"
 #include "../Reports/Common/DerivedQuantity.h"
 #include "../Reports/Common/EquationTest.h"
 #include "../Reports/Common/EstimateSummary.h"
 #include "../Reports/Common/EstimateValue.h"
 #include "../Reports/Common/EstimationResult.h"
 #include "../Reports/Common/HessianMatrix.h"
+#include "../Reports/Common/InitialisationPartition.h"
 #include "../Reports/Common/MCMCCovariance.h"
 #include "../Reports/Common/MCMCObjective.h"
 #include "../Reports/Common/MCMCSample.h"
 #include "../Reports/Common/MPD.h"
 #include "../Reports/Common/ObjectiveFunction.h"
 #include "../Reports/Common/Observation.h"
-#include "../Reports/Common/InitialisationPartition.h"
+#include "../Reports/Common/OutputParameters.h"
 #include "../Reports/Common/Process.h"
 #include "../Reports/Common/Project.h"
 #include "../Reports/Common/RandomNumberSeed.h"
-#include "../Reports/Common/OutputParameters.h"
-#include "../Reports/Common/SimulatedObservation.h"
 #include "../Reports/Common/Selectivity.h"
+#include "../Reports/Common/SimulatedObservation.h"
 #include "../Reports/Common/TimeVarying.h"
 #include "../Reports/Length/InitialisationPartitionMeanWeight.h"
-#include "../Reports/Length/PartitionMeanWeight.h"
-#include "../Reports/Length/PartitionBiomass.h"
 #include "../Reports/Length/Partition.h"
+#include "../Reports/Length/PartitionBiomass.h"
+#include "../Reports/Length/PartitionMeanWeight.h"
+#include "../Reports/Manager.h"
 
 // Namespaces
 namespace niwa {
@@ -68,7 +68,7 @@ namespace reports {
  * @param sub_type The child type of the object to create (e.g ageing, schnute)
  * @return shared_ptr to the object we've created
  */
-Report* Factory::Create(shared_ptr<Model> model, const string& object_type, const string& sub_type) {
+Report* Factory::Create(shared_ptr<Model> model, const string& object_type, const string& sub_type, bool add_to_manager) {
   Report* result = nullptr;
 
   if (object_type == PARAM_REPORT) {
@@ -140,9 +140,9 @@ Report* Factory::Create(shared_ptr<Model> model, const string& object_type, cons
           result = new age::InitialisationPartitionMeanWeight();
         else if (sub_type == PARAM_PARTITION)
           result = new age::Partition();
-         else if (sub_type == PARAM_REPORT_PARTITION_YEARCROSSAGEMATRIX)
+        else if (sub_type == PARAM_REPORT_PARTITION_YEARCROSSAGEMATRIX)
           result = new age::Partition_YearCrossAgeMatrix();
-       }
+      }
     } else if (model->partition_type() == PartitionType::kLength) {
       if (sub_type == PARAM_INITIALISATION_PARTITION_MEAN_WEIGHT)
         result = new age::InitialisationPartitionMeanWeight();
@@ -154,7 +154,7 @@ Report* Factory::Create(shared_ptr<Model> model, const string& object_type, cons
         result = new age::Partition();
     }
 
-    if (result)
+    if (result && add_to_manager)
       model->managers()->report()->AddObject(result);
   }
 

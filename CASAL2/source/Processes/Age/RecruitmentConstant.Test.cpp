@@ -12,28 +12,26 @@
 #ifdef TESTMODE
 
 // Headers
-#include "RecruitmentConstant.h"
-
 #include <iostream>
 
 #include "Model/Factory.h"
-#include "TimeSteps/Manager.h"
 #include "Partition/Partition.h"
+#include "RecruitmentConstant.h"
 #include "TestResources/TestFixtures/BasicModel.h"
+#include "TimeSteps/Manager.h"
 
 // Namespaces
 namespace niwa {
 namespace processes {
 namespace age {
 
+using niwa::testfixtures::BasicModel;
 using std::cout;
 using std::endl;
-using niwa::testfixtures::BasicModel;
 
 TEST_F(BasicModel, Processes_Constant_Recruitment) {
-
-  vector<string> categories   = { "immature.male", "immature.female" };
-  vector<string> proportions  = { "0.6", "0.4" };
+  vector<string> categories  = {"immature.male", "immature.female"};
+  vector<string> proportions = {"0.6", "0.4"};
 
   base::Object* process = model_->factory().CreateObject(PARAM_RECRUITMENT, PARAM_CONSTANT);
   process->parameters().Add(PARAM_LABEL, "recruitment", __FILE__, __LINE__);
@@ -49,7 +47,7 @@ TEST_F(BasicModel, Processes_Constant_Recruitment) {
   report->parameters().Add(PARAM_LABEL, "DQ", __FILE__, __LINE__);
   report->parameters().Add(PARAM_TYPE, "derived_quantity", __FILE__, __LINE__);
 
-  base::Object* time_step =  model_->factory().CreateObject(PARAM_TIME_STEP, "");
+  base::Object* time_step = model_->factory().CreateObject(PARAM_TIME_STEP, "");
   time_step->parameters().Add(PARAM_LABEL, "step_one", __FILE__, __LINE__);
   time_step->parameters().Add(PARAM_PROCESSES, "recruitment", __FILE__, __LINE__);
 
@@ -59,11 +57,8 @@ TEST_F(BasicModel, Processes_Constant_Recruitment) {
   partition::Category& immature_female = model_->partition().category("immature.female");
 
   // Verify blank partition
-  for (unsigned i = 0; i < immature_male.data_.size(); ++i)
-    EXPECT_DOUBLE_EQ(0.0, immature_male.data_[i]) << " where i = " << i << "; age = " << i + immature_male.min_age_;
-  for (unsigned i = 0; i < immature_female.data_.size(); ++i)
-    EXPECT_DOUBLE_EQ(0.0, immature_female.data_[i]) << " where i = " << i << "; age = " << i + immature_female.min_age_;
-
+  for (unsigned i = 0; i < immature_male.data_.size(); ++i) EXPECT_DOUBLE_EQ(0.0, immature_male.data_[i]) << " where i = " << i << "; age = " << i + immature_male.min_age_;
+  for (unsigned i = 0; i < immature_female.data_.size(); ++i) EXPECT_DOUBLE_EQ(0.0, immature_female.data_[i]) << " where i = " << i << "; age = " << i + immature_female.min_age_;
 
   /**
    * Do 1 iteration of the model then check the categories to see if
@@ -74,15 +69,12 @@ TEST_F(BasicModel, Processes_Constant_Recruitment) {
   EXPECT_DOUBLE_EQ(900000, immature_male.data_[0]);
   EXPECT_DOUBLE_EQ(600000, immature_female.data_[0]);
 
-  for (unsigned i = 1; i < immature_male.data_.size(); ++i)
-    EXPECT_DOUBLE_EQ(0.0, immature_male.data_[i]) << " where i = " << i << "; age = " << i + immature_male.min_age_;
-  for (unsigned i = 1; i < immature_female.data_.size(); ++i)
-    EXPECT_DOUBLE_EQ(0.0, immature_female.data_[i]) << " where i = " << i << "; age = " << i + immature_female.min_age_;
+  for (unsigned i = 1; i < immature_male.data_.size(); ++i) EXPECT_DOUBLE_EQ(0.0, immature_male.data_[i]) << " where i = " << i << "; age = " << i + immature_male.min_age_;
+  for (unsigned i = 1; i < immature_female.data_.size(); ++i) EXPECT_DOUBLE_EQ(0.0, immature_female.data_[i]) << " where i = " << i << "; age = " << i + immature_female.min_age_;
 }
 
 } /* namespace age */
 } /* namespace processes */
 } /* namespace niwa */
-
 
 #endif /* TESTMODE */

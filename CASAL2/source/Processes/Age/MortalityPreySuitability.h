@@ -30,36 +30,34 @@ namespace age {
 
 using partition::accessors::CombinedCategoriesPtr;
 
-
 // classes
 class MortalityPreySuitability : public Process {
 public:
   // methods
   explicit MortalityPreySuitability(shared_ptr<Model> model);
-  virtual                     ~MortalityPreySuitability() = default;
-  void                        DoValidate() override final;
-  void                        DoBuild() override final;
-  void                        DoReset() override final { };
-  void                        DoExecute() override final;
-  void                        FillReportCache(ostringstream& cache) override final;
-  void                        FillTabularReportCache(ostringstream& cache, bool first_run) override final;
+  virtual ~MortalityPreySuitability() = default;
+  void DoValidate() override final;
+  void DoBuild() override final;
+  void DoReset() override final{};
+  void DoExecute() override final;
+  void FillReportCache(ostringstream& cache) override final;
+  void FillTabularReportCache(ostringstream& cache, bool first_run) override final;
 
 private:
-  vector<unsigned>            years_;
-  string                      penalty_label_ = "";
-  penalties::Process*         penalty_ = nullptr;
-  Double                      u_max_;
-  vector<string>              prey_category_labels_;
-  vector<string>              predator_category_labels_;
-  Double                      consumption_rate_;
-  vector<Double>              electivities_;
-  vector<string>              prey_selectivity_labels_;
-  vector<string>              predator_selectivity_labels_;
-  vector<Selectivity*>        prey_selectivities_;
-  vector<Selectivity*>        predator_selectivities_;
-  CombinedCategoriesPtr       prey_partition_;
-  CombinedCategoriesPtr       predator_partition_;
-
+  vector<unsigned>      years_;
+  string                penalty_label_ = "";
+  penalties::Process*   penalty_       = nullptr;
+  Double                u_max_;
+  vector<string>        prey_category_labels_;
+  vector<string>        predator_category_labels_;
+  Double                consumption_rate_;
+  vector<Double>        electivities_;
+  vector<string>        prey_selectivity_labels_;
+  vector<string>        predator_selectivity_labels_;
+  vector<Selectivity*>  prey_selectivities_;
+  vector<Selectivity*>  predator_selectivities_;
+  CombinedCategoriesPtr prey_partition_;
+  CombinedCategoriesPtr predator_partition_;
 };
 
 } /* namespace age */

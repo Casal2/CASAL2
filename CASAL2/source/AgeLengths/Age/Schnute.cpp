@@ -14,10 +14,10 @@
 
 #include <cmath>
 
+#include "../../Estimates/Manager.h"
 #include "../../LengthWeights/Manager.h"
 #include "../../Model/Managers.h"
 #include "../../TimeSteps/Manager.h"
-#include "../../Estimates/Manager.h"
 
 // namespaces
 namespace niwa {
@@ -71,14 +71,14 @@ void Schnute::DoBuild() {
  * @param age The age of the population
  * @return The mean length for one member
  */
-Double Schnute::mean_length(unsigned time_step,  unsigned age) {
+Double Schnute::mean_length(unsigned time_step, unsigned age) {
   Double temp = 0.0;
   Double size = 0.0;
 
   Double proportion = time_step_proportions_[time_step];
 
   if (a_ != 0.0)
-    temp = (1 - exp( -a_ * ((age + proportion) - tau1_))) / (1 - exp(-a_ * (tau2_ - tau1_)));
+    temp = (1 - exp(-a_ * ((age + proportion) - tau1_))) / (1 - exp(-a_ * (tau2_ - tau1_)));
   else
     temp = (age - tau1_) / (tau2_ - tau1_);
 
@@ -102,8 +102,8 @@ Double Schnute::mean_length(unsigned time_step,  unsigned age) {
  */
 Double Schnute::mean_weight(unsigned time_step, unsigned age) {
   unsigned year = model_->current_year();
-  Double size = mean_length_[time_step][age];
-  //LOG_FINE() << "year = " << year << " age " << age << " time step " << time_step << " cv = " <<  cvs_[year][age][time_step];
+  Double   size = mean_length_[time_step][age];
+  // LOG_FINE() << "year = " << year << " age " << age << " time step " << time_step << " cv = " <<  cvs_[year][age][time_step];
   Double mean_weight = length_weight_->mean_weight(size, distribution_, cvs_[year][time_step][age]);
   return mean_weight;
 }
@@ -132,8 +132,8 @@ void Schnute::DoReset() {
  */
 void Schnute::DoRebuildCache() {
   // Re Build up our mean_length_ container.
-  unsigned min_age = model_->min_age();
-  unsigned max_age = model_->max_age();
+  unsigned min_age         = model_->min_age();
+  unsigned max_age         = model_->max_age();
   unsigned time_step_count = model_->time_steps().size();
   for (unsigned step_iter = 0; step_iter < time_step_count; ++step_iter) {
     for (unsigned age_iter = min_age; age_iter <= max_age; ++age_iter) {

@@ -28,11 +28,12 @@ CategoryList::CategoryList() {
  * Execute the report
  */
 void CategoryList::DoExecute(shared_ptr<Model> model) {
-  cache_ << "*"<< type_ << "[" << label_ << "]" << "\n";
+  cache_ << "*" << type_ << "[" << label_ << "]"
+         << "\n";
   auto categories = model->categories();
 
   vector<string> names = categories->category_names();
-  for(string name : names) {
+  for (string name : names) {
     cache_ << name << "\n";
   }
   ready_for_writing_ = true;

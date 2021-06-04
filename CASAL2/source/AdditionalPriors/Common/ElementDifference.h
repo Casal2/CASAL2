@@ -29,24 +29,24 @@ class ElementDifference : public niwa::AdditionalPrior {
 public:
   // methods
   ElementDifference(shared_ptr<Model> model);
-  virtual                     ~ElementDifference() = default;
-  Double                      GetScore() final;
+  virtual ~ElementDifference() = default;
+  Double GetScore() final;
 
 protected:
   // methods
-  void                        DoValidate() final;
-  void                        DoBuild() final;
+  void DoValidate() final;
+  void DoBuild() final;
   // members
-  string                      second_parameter_;
-  Double*                     addressable_ = nullptr;
-  map<unsigned, Double>*      addressable_map_ = nullptr;
-  vector<Double>*             addressable_vector_ = nullptr;
-  vector<Double*>*            addressable_ptr_vector_ = nullptr;
-  Double*                     second_addressable_ = nullptr;
-  map<unsigned, Double>*      second_addressable_map_ = nullptr;
-  vector<Double>*             second_addressable_vector_ = nullptr;
-  vector<Double*>*            second_addressable_ptr_vector_ = nullptr;
-  Double                      multiplier_ = 0.0;
+  string                 second_parameter_;
+  Double*                addressable_                   = nullptr;
+  map<unsigned, Double>* addressable_map_               = nullptr;
+  vector<Double>*        addressable_vector_            = nullptr;
+  vector<Double*>*       addressable_ptr_vector_        = nullptr;
+  Double*                second_addressable_            = nullptr;
+  map<unsigned, Double>* second_addressable_map_        = nullptr;
+  vector<Double>*        second_addressable_vector_     = nullptr;
+  vector<Double*>*       second_addressable_ptr_vector_ = nullptr;
+  Double                 multiplier_                    = 0.0;
 };
 
 } /* namespace additionalpriors */

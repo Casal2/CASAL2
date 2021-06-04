@@ -16,11 +16,10 @@
 
 #include <cmath>
 
+#include "../Estimates/Manager.h"
 #include "../Model/Managers.h"
 #include "../TimeSteps/Manager.h"
 #include "../Utilities/Map.h"
-#include "../Estimates/Manager.h"
-
 
 // namespaces
 namespace niwa {
@@ -38,7 +37,6 @@ namespace niwa {
 AgeWeight::AgeWeight(shared_ptr<Model> model) : model_(model) {
   parameters_.Bind<string>(PARAM_LABEL, &label_, "Label of the age weight relationship", "");
   parameters_.Bind<string>(PARAM_TYPE, &type_, "The type of age weight class", "");
-
 }
 
 /**
@@ -51,7 +49,6 @@ void AgeWeight::Validate() {
   LOG_TRACE();
   parameters_.Populate(model_);
   DoValidate();
-
 }
 
 /**
@@ -76,7 +73,6 @@ void AgeWeight::Reset() {
  */
 void AgeWeight::RebuildCache() {
   LOG_TRACE();
-
 }
 
 } /* namespace niwa */

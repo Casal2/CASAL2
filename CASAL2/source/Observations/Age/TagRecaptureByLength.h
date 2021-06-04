@@ -19,7 +19,6 @@
 #include "Partition/Accessors/Cached/CombinedCategories.h"
 #include "Partition/Accessors/CombinedCategories.h"
 
-
 // Namespace
 namespace niwa {
 class Selectivity;
@@ -33,7 +32,7 @@ using partition::accessors::cached::CachedCombinedCategoriesPtr;
  * Class definition
  */
 class TagRecaptureByLength : public niwa::Observation {
- public:
+public:
   // methods
   TagRecaptureByLength(shared_ptr<Model> model);
   virtual ~TagRecaptureByLength() = default;
@@ -45,7 +44,7 @@ class TagRecaptureByLength : public niwa::Observation {
   void         CalculateScore() override final;
   bool         HasYear(unsigned year) const override final { return std::find(years_.begin(), years_.end(), year) != years_.end(); }
 
- protected:
+protected:
   // Members
   vector<unsigned>      years_;
   string                time_step_label_ = "";

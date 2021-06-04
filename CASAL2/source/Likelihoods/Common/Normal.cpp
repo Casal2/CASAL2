@@ -44,13 +44,12 @@ Double Normal::AdjustErrorValue(const Double process_error, const Double error_v
 void Normal::GetScores(map<unsigned, vector<observations::Comparison> >& comparisons) {
   for (auto year_iterator = comparisons.begin(); year_iterator != comparisons.end(); ++year_iterator) {
     for (observations::Comparison& comparison : year_iterator->second) {
-
-      Double error_value = AdjustErrorValue(comparison.process_error_, comparison.error_value_) * error_value_multiplier_;
+      Double error_value         = AdjustErrorValue(comparison.process_error_, comparison.error_value_) * error_value_multiplier_;
       comparison.adjusted_error_ = error_value;
 
-      Double sigma = error_value * comparison.expected_;
-      Double score = (comparison.observed_ - comparison.expected_) / math::ZeroFun(error_value * comparison.expected_, comparison.delta_);
-      score = log(sigma) + 0.5 * (score * score);
+      Double sigma      = error_value * comparison.expected_;
+      Double score      = (comparison.observed_ - comparison.expected_) / math::ZeroFun(error_value * comparison.expected_, comparison.delta_);
+      score             = log(sigma) + 0.5 * (score * score);
       comparison.score_ = score * multiplier_;
     }
   }
@@ -65,11 +64,11 @@ void Normal::SimulateObserved(map<unsigned, vector<observations::Comparison> >& 
   utilities::RandomNumberGenerator& rng = utilities::RandomNumberGenerator::Instance();
 
   Double error_value = 0.0;
-  auto iterator = comparisons.begin();
+  auto   iterator    = comparisons.begin();
   for (; iterator != comparisons.end(); ++iterator) {
     LOG_FINE() << "Simulating values for year: " << iterator->first;
     for (observations::Comparison& comparison : iterator->second) {
-      error_value = AdjustErrorValue(comparison.process_error_, comparison.error_value_);
+      error_value                = AdjustErrorValue(comparison.process_error_, comparison.error_value_);
       comparison.adjusted_error_ = error_value;
 
       if (comparison.expected_ <= 0.0 || error_value <= 0.0)

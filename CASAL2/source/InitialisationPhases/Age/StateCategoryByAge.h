@@ -17,8 +17,8 @@
 
 // headers
 #include "../../InitialisationPhases/InitialisationPhase.h"
-#include "../../Partition/Accessors/Categories.h"
 #include "../../Partition/Accessors/Cached/Categories.h"
+#include "../../Partition/Accessors/Categories.h"
 
 // namespaces
 namespace niwa {
@@ -33,24 +33,24 @@ class StateCategoryByAge : public niwa::InitialisationPhase {
 public:
   // methods
   explicit StateCategoryByAge(shared_ptr<Model> model);
-  virtual                     ~StateCategoryByAge();
-  virtual void                Execute() override final;
+  virtual ~StateCategoryByAge();
+  virtual void Execute() override final;
 
 protected:
   // methods
-  virtual void                DoValidate() override final;
-  virtual void                DoBuild() override final;
+  virtual void DoValidate() override final;
+  virtual void DoBuild() override final;
 
 private:
   // members
-  accessor::Categories        partition_;
-  accessor::cached::Categories  cached_partition_;
-  vector<string>              category_labels_;
-  unsigned                    min_age_ = 0;
-  unsigned                    max_age_ = 0;
-  unsigned                    column_count_ = 0;
-  parameters::Table*          n_table_ = nullptr;
-  map<string, vector<Double>> n_;
+  accessor::Categories         partition_;
+  accessor::cached::Categories cached_partition_;
+  vector<string>               category_labels_;
+  unsigned                     min_age_      = 0;
+  unsigned                     max_age_      = 0;
+  unsigned                     column_count_ = 0;
+  parameters::Table*           n_table_      = nullptr;
+  map<string, vector<Double>>  n_;
 };
 
 } /* namespace age */

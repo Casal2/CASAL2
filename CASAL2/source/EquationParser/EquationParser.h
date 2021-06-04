@@ -18,21 +18,21 @@
 #define SOURCE_EQUATIONPARSER_EQUATIONPARSER_H_
 
 // headers
-#include <string>
+#include <parser.h>
+
 #include <memory>
+#include <string>
 
 #include "../Utilities/NoCopy.h"
 #include "../Utilities/Types.h"
-
-#include <parser.h>
 
 using niwa::utilities::Double;
 
 // namespaces
 namespace niwa {
 class Model;
-using std::string;
 using std::shared_ptr;
+using std::string;
 
 /**
  * Class definition
@@ -42,15 +42,15 @@ public:
   // methods
   EquationParser();
   explicit EquationParser(shared_ptr<Model> model);
-  virtual                     ~EquationParser();
-  Double                      Parse(string equation);
+  virtual ~EquationParser();
+  Double Parse(string equation);
 
   // Callback method for the equation parser to lookup addressables
-  Double&                     LookupValue(const std::string& name);
+  Double& LookupValue(const std::string& name);
 
 private:
-    // members
-  shared_ptr<Model>                      model_ = nullptr;
+  // members
+  shared_ptr<Model> model_ = nullptr;
 #ifdef USE_ADOLC
   Parser<adouble, adub, const badouble&>* parser_ = nullptr;
 #elif USE_BETADIFF

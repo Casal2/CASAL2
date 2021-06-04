@@ -87,10 +87,6 @@ bool Runner::StartUp() {
   // Reset RNG
   utilities::RandomNumberGenerator::Instance().Reset(global_configuration_.random_seed());
 
-  // Stage 5 - Print the standard header to console (Casal2 version etc)
-  if (!global_configuration_.disable_standard_report())
-    standard_header.PrintTop(global_configuration_);
-
   return true;
 }
 
@@ -147,6 +143,16 @@ int Runner::GoWithRunMode(RunMode::Type run_mode) {
   run_mode_                 = run_mode;
   int return_code           = 0;
 
+  /**
+   * @brief TODO: REMOVE STD HEADER FROM RUNNER TO SHARED LIBRARY SO IT CAN
+   * BE DISABLED N SHIT
+   *
+   */
+
+  // Override global configuration run_mode. We do this if we're loading from
+  // a shared library to bounce between run modes (e.g. estimation before mcmc)
+  // global_configuration_.set_run_mode(run_mode);
+
   // These run modes are handled elsewhere. TODO: Move them here somewhere
   if (run_mode == RunMode::kVersion || run_mode == RunMode::kHelp || run_mode == RunMode::kLicense) {
     return 0;
@@ -180,6 +186,7 @@ int Runner::GoWithRunMode(RunMode::Type run_mode) {
   master_model_->managers()->set_minimiser(minimiser_manager);
   auto mcmc_manager = std::make_shared<mcmcs::Manager>();
   master_model_->managers()->set_mcmc(mcmc_manager);
+  mpd_ = std::make_shared<niwa::MPD>(master_model_);
 
   master_model_->set_run_mode(run_mode);
 
@@ -253,7 +260,6 @@ int Runner::GoWithRunMode(RunMode::Type run_mode) {
       break;
     case RunMode::kMCMC:
       return_code = RunMCMC();
-      // master_model_->Start(run_mode);
       break;
     case RunMode::kSimulation:
       master_model_->Start(run_mode);
@@ -284,9 +290,6 @@ int Runner::GoWithRunMode(RunMode::Type run_mode) {
   } else
     logging.FlushWarnings();
 
-  if (!global_configuration_.disable_standard_report())
-    standard_header.PrintBottom(global_configuration_);
-
   return return_code;
 }
 
@@ -300,10 +303,6 @@ int Runner::GoWithRunMode(RunMode::Type run_mode) {
  */
 bool Runner::RunQuery() {
   LOG_TRACE();
-  // Print the standard header to console (Casal2 version etc)
-  if (!global_configuration_.disable_standard_report())
-    standard_header.PrintTop(global_configuration_);
-
   string         lookup = global_configuration_.object_to_query();
   vector<string> parts;
   boost::split(parts, lookup, boost::is_any_of("."));
@@ -384,6 +383,12 @@ bool Runner::RunEstimation() {
     managers->report()->Execute(master_model_, State::kIterationComplete);
   }
 
+  // Create and store our MPD so it can go back via the SharedLibrary
+  if (global_configuration_.estimation_is_for_mcmc()) {
+    mpd_->CreateMPD(master_model_);
+    run_parameters_.mpd_data_ = mpd_->value();
+  }
+
   LOG_MEDIUM() << "Model: State change to Finalise";
   master_model_->Finalise();
   return true;
@@ -406,6 +411,30 @@ int Runner::RunMCMC() {
     return false;
   }
 
+  /**
+   * @brief Load our MPD file if one exists so that we can
+   * set the estimate and covariance matrix to right values
+   * But don't do this if we're not resuming
+   *
+   * If covariance size has already been set, we've obviously
+   * loaded it from somewhere else (e.g. unit test)
+   */
+  auto config = global_configuration();
+  if (run_parameters_.mpd_data_ != "") {
+    mpd_->ParseString(run_parameters_.mpd_data_);
+
+  } else if (config.resume_mcmc() || config.mcmc_mpd_file_name() != "" || !config.estimate_before_mcmc()) {
+    string mpd_file_name = config.mcmc_mpd_file_name();
+
+    if (mpd_file_name == "") {
+      LOG_FATAL() << "You must specify --mcmc-mpd-file-name=<filename> if you're resuming an MCMC chain or skipping the pre-mcmc estimation";
+    }
+
+    if (!mpd_->LoadFromDiskToMemory(mpd_file_name)) {
+      LOG_FATAL() << "Failed to load MPD Data from " << mpd_file_name << " file";
+    }
+  }
+
   // TODO: Replace with call to mcmc::Manager.Resume();
   // TODO: Do we even need resuming of MCMC chain? This is likely never used
   // and we should support chaining MCMC algorithms
@@ -421,20 +450,24 @@ int Runner::RunMCMC() {
     // reset RNG seed for resume
     utilities::RandomNumberGenerator::Instance().Reset((unsigned int)time(NULL));
 
-  } else if (!global_configuration_.skip_estimation()) {
+  } else if (global_configuration_.estimate_before_mcmc()) {
     /**
      * Note: This should only be called when running Casal2 in a standalone executable
      * as it must use the same build profile (autodiff or not) as the MCMC. When
-     * using the front end application, skip_estimation will be flagged as true.
+     * using the front end application, estimate_before_mcmc will be flagged as true.
      * This is because the front end handles the minimisation to generate the MPD file
      * and Covariance matrix for use by the MCMC
      */
     LOG_FINE() << "Calling minimiser to find our minimum and covariance matrix";
     auto minimiser = master_model_->managers()->minimiser()->active_minimiser();
+    if (!minimiser) {
+      LOG_CODE_ERROR() << "!minimiser";
+    }
     if ((minimiser->type() == PARAM_DE_SOLVER) | (minimiser->type() == PARAM_DLIB))
-      LOG_ERROR() << "The minimiser type " << PARAM_DE_SOLVER << ", " << PARAM_DE_SOLVER
+      LOG_ERROR() << "The minimiser type " << PARAM_DE_SOLVER
                   << " does not produce a covariance matrix and so will not be viable for an MCMC run, try one of the other minimisers.";
 
+    LOG_FINE() << "Calling Minimiser with thread_pool";
     minimiser->ExecuteThreaded(thread_pool_);
     LOG_FINE() << "Build covariance matrix";
     minimiser->BuildCovarianceMatrix();
@@ -451,7 +484,8 @@ int Runner::RunMCMC() {
         LOG_MEDIUM() << "row = " << i + 1 << " col = " << j + 1 << " value = " << covariance_matrix_(i, j);
       }
     }
-  }
+  }  // else if (global_configuration_.estimate_before_mcmc())
+
   LOG_FINE() << "Begin MCMC chain";
   mcmc->Execute(thread_pool_);
 

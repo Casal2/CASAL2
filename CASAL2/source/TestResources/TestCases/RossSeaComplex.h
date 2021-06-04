@@ -25,7 +25,7 @@ namespace testcases {
  *
  */
 const std::string test_cases_models_casal_ross_sea_complex_with_partition_asserts =
-R"(
+    R"(
 @model
 min_age    1
 max_age   50

@@ -26,22 +26,22 @@ namespace minimisers {
 /**
  * Class definition
  */
-class ADOLC  :  public niwa::Minimiser  {
+class ADOLC : public niwa::Minimiser {
 public:
   // methods
   explicit ADOLC(shared_ptr<Model> model);
-  virtual                     ~ADOLC() = default;
-  void                        DoValidate() override final { };
-  void                        DoBuild() override final { };
-  void                        DoReset() override final { };
-  void                        Execute() override final;
+  virtual ~ADOLC() = default;
+  void DoValidate() override final{};
+  void DoBuild() override final{};
+  void DoReset() override final{};
+  void Execute() override final;
 
 private:
   // Members
-  int                         max_iterations_;
-  int                         max_evaluations_;
-  double                      gradient_tolerance_;
-  double                      step_size_;
+  int    max_iterations_;
+  int    max_evaluations_;
+  double gradient_tolerance_;
+  double step_size_;
 };
 
 } /* namespace minimisers */

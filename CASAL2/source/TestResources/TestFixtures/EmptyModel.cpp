@@ -21,8 +21,7 @@
 namespace niwa {
 namespace testfixtures {
 
-
-EmptyModel::EmptyModel() { }
+EmptyModel::EmptyModel() {}
 EmptyModel::~EmptyModel() {}
 
 /**
@@ -34,7 +33,6 @@ void EmptyModel::SetUp() {
   utilities::RandomNumberGenerator& rng = utilities::RandomNumberGenerator::Instance();
   rng.Reset(2468);
 }
-
 
 } /* namespace testfixtures */
 } /* namespace niwa */

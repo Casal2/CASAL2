@@ -34,15 +34,16 @@ class Manager : public niwa::base::Manager<minimisers::Manager, niwa::Minimiser>
   friend class niwa::base::Manager<minimisers::Manager, niwa::Minimiser>;
   friend class niwa::Managers;
   friend class niwa::Runner;
+
 public:
   // Methods
-  virtual                     ~Manager() noexcept(true);
-  void                        Validate() override final;
-  void                        Validate(shared_ptr<Model> model);
-  void												Build() final;
+  virtual ~Manager() noexcept(true);
+  void Validate() override final;
+  void Validate(shared_ptr<Model> model);
+  void Build() final;
 
   // Accessors
-  Minimiser*                  active_minimiser() { return active_minimiser_; }
+  Minimiser* active_minimiser() { return active_minimiser_; }
 
 protected:
   // methods
@@ -50,10 +51,10 @@ protected:
 
 private:
   // members
-  Minimiser*                  			active_minimiser_ = nullptr;
-  static std::mutex           			lock_;
-  bool															has_validated_ = false;
-  bool															has_built_ = false;
+  Minimiser*        active_minimiser_ = nullptr;
+  static std::mutex lock_;
+  bool              has_validated_ = false;
+  bool              has_built_     = false;
 };
 
 } /* namespace minimisers */

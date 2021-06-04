@@ -11,14 +11,14 @@
 #ifdef TESTMODE
 
 // Headers
-#include "Basic.h"
-
 #include <gmock/gmock.h>
 #include <gtest/gtest.h>
-#include <boost/lexical_cast.hpp>
-#include "../../AgeLengths/AgeLength.h"
 
+#include <boost/lexical_cast.hpp>
+
+#include "../../AgeLengths/AgeLength.h"
 #include "../../TestResources/MockClasses/Model.h"
+#include "Basic.h"
 
 // Namespaces
 namespace niwa {
@@ -30,7 +30,7 @@ using ::testing::Return;
  */
 TEST(LengthWeights, Basic) {
   // TODO: Add more unit tests
-  shared_ptr<MockModel> model = shared_ptr<MockModel>(new MockModel());
+  shared_ptr<MockModel>      model = shared_ptr<MockModel>(new MockModel());
   niwa::lengthweights::Basic basic(model);
 
   basic.parameters().Add(PARAM_LABEL, "unit_test_basic", __FILE__, __LINE__);
@@ -50,7 +50,7 @@ TEST(LengthWeights, Basic) {
 }
 
 TEST(LengthWeights, Basic2) {
-  shared_ptr<MockModel> model = shared_ptr<MockModel>(new MockModel());
+  shared_ptr<MockModel>      model = shared_ptr<MockModel>(new MockModel());
   niwa::lengthweights::Basic basic(model);
   /**
    * Run some new parameters
@@ -72,9 +72,8 @@ TEST(LengthWeights, Basic2) {
   EXPECT_DOUBLE_EQ(50, basic.mean_weight(5.0, Distribution::kNone, 1.0));
 }
 
-
 TEST(LengthWeights, Basic3) {
-  shared_ptr<MockModel> model = shared_ptr<MockModel>(new MockModel());
+  shared_ptr<MockModel>      model = shared_ptr<MockModel>(new MockModel());
   niwa::lengthweights::Basic basic(model);
   /**
    * Run some new parameters
@@ -96,7 +95,6 @@ TEST(LengthWeights, Basic3) {
   EXPECT_DOUBLE_EQ(250, basic.mean_weight(5.0, Distribution::kNone, 1.0));
 }
 
-}
-
+}  // namespace niwa
 
 #endif

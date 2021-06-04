@@ -12,9 +12,9 @@
 #define MINIMISERS_GAMMADIFF_ENGINE_H_
 
 // Global Headers
-#include "Callback.h"
-
 #include <vector>
+
+#include "Callback.h"
 
 // namespaces
 namespace niwa {
@@ -29,33 +29,32 @@ using std::vector;
 class Engine {
 public:
   Engine();
-  virtual                     ~Engine();
-  double optimise_finite_differences(gammadiff::CallBack& objective, vector<double>& StartValues, vector<double>& LowerBounds,
-      vector<double>& UpperBounds, int& convergence, int& iMaxIter, int& iMaxFunc, double dGradTol,
-      double **pOptimiseHessian, int untransformedHessians, double dStepSize);
+  virtual ~Engine();
+  double optimise_finite_differences(gammadiff::CallBack& objective, vector<double>& StartValues, vector<double>& LowerBounds, vector<double>& UpperBounds, int& convergence,
+                                     int& iMaxIter, int& iMaxFunc, double dGradTol, double** pOptimiseHessian, int untransformedHessians, double dStepSize);
 
 private:
   // Variables
-  vector<double>              vStartValues;
-  vector<double>              vLowerBounds;
-  vector<double>              vUpperBounds;
-  vector<double>              vScaledValues;
-  vector<double>              vCurrentValues;
-  vector<double>              vGradientValues;
-  double                      dPenalty;
+  vector<double> vStartValues;
+  vector<double> vLowerBounds;
+  vector<double> vUpperBounds;
+  vector<double> vScaledValues;
+  vector<double> vCurrentValues;
+  vector<double> vGradientValues;
+  double         dPenalty;
 
   // Functions
-  void                        buildScaledValues();
-  void                        buildCurrentValues();
-  double                      scaleValue(double value, double min, double max);
-  double                      unScaleValue(const double& value, double min, double max);
-  void                        condAssign(double &res, const double &cond, const double &arg1, const double &arg2);
-  void                        condAssign(double &res, const double &cond, const double &arg);
+  void   buildScaledValues();
+  void   buildCurrentValues();
+  double scaleValue(double value, double min, double max);
+  double unScaleValue(const double& value, double min, double max);
+  void   condAssign(double& res, const double& cond, const double& arg1, const double& arg2);
+  void   condAssign(double& res, const double& cond, const double& arg);
 };
 
 } /* namespace gammadiff */
 } /* namespace minimisers */
-} /* namesapce niwa */
+}  // namespace niwa
 
 #endif /* MINIMISERS_GAMMADIFF_ENGINE_H_ */
 #endif

@@ -23,8 +23,8 @@ namespace reports {
  * Default constructor
  */
 EstimateValue::EstimateValue() {
-  run_mode_     = (RunMode::Type)(RunMode::kBasic | RunMode::kEstimation | RunMode::kProfiling | RunMode::kProjection);
-  model_state_  = State::kIterationComplete;
+  run_mode_    = (RunMode::Type)(RunMode::kBasic | RunMode::kEstimation | RunMode::kProfiling | RunMode::kProjection);
+  model_state_ = State::kIterationComplete;
 }
 
 /**
@@ -32,7 +32,7 @@ EstimateValue::EstimateValue() {
  */
 void EstimateValue::DoExecute(shared_ptr<Model> model) {
   vector<Estimate*> estimates = model->managers()->estimate()->objects();
-  vector<Profile*> profiles = model->managers()->profile()->objects();
+  vector<Profile*>  profiles  = model->managers()->profile()->objects();
   LOG_TRACE();
   // Check if estiamtes are close to bounds. flag a warning.
   for (Estimate* estimate : estimates) {
@@ -44,13 +44,12 @@ void EstimateValue::DoExecute(shared_ptr<Model> model) {
   }
 
   if (estimates.size() > 0) {
-    cache_ << "*"<< type_ << "[" << label_ << "]" << "\n";
+    cache_ << "*" << type_ << "[" << label_ << "]"
+           << "\n";
     cache_ << "values " << REPORT_R_DATAFRAME << "\n";
-    for (Estimate* estimate : estimates)
-      cache_ << estimate->parameter() << " ";
+    for (Estimate* estimate : estimates) cache_ << estimate->parameter() << " ";
     cache_ << "\n";
-    for (Estimate* estimate : estimates)
-      cache_ << AS_DOUBLE(estimate->value()) << " ";
+    for (Estimate* estimate : estimates) cache_ << AS_DOUBLE(estimate->value()) << " ";
     cache_ << "\n";
 
     /**auto minimiser_ = model->managers()->minimiser()->active_minimiser();
@@ -89,34 +88,33 @@ void EstimateValue::DoExecuteTabular(shared_ptr<Model> model) {
    */
   if (first_run_) {
     first_run_ = false;
-    cache_ << "*"<< type_ << "[" << label_ << "]" << "\n";
+    cache_ << "*" << type_ << "[" << label_ << "]"
+           << "\n";
     cache_ << "values " << REPORT_R_DATAFRAME << "\n";
-    for (Estimate* estimate : estimates)
-      cache_ << estimate->parameter() << " ";
+    for (Estimate* estimate : estimates) cache_ << estimate->parameter() << " ";
     cache_ << "\n";
   }
 
-  for (Estimate* estimate : estimates)
-    cache_ << AS_DOUBLE(estimate->value()) << " ";
-  cache_ <<"\n" ;
+  for (Estimate* estimate : estimates) cache_ << AS_DOUBLE(estimate->value()) << " ";
+  cache_ << "\n";
 
   if (estimates.size() > 0) {
-//    auto minimiser_ = model->managers()->minimiser()->active_minimiser();
-//    if (minimiser_) {
-//      covariance_matrix_ = minimiser_->covariance_matrix();
-//      if (model->run_mode() == RunMode::kEstimation && estimates.size() != covariance_matrix_.size1())
-//        LOG_WARNING() << "The number of estimated parameters " << estimates.size() << " does not match the dimension of the covariance matrix "
-//          << covariance_matrix_.size1();
-//      if (covariance_matrix_.size1() > 0) {
-//        vector<Double> est_std_dev(covariance_matrix_.size1(), 0.0);
-//        for (unsigned i = 0; i < covariance_matrix_.size1(); ++i)
-//          est_std_dev[i] = sqrt(covariance_matrix_(i, i));
-//
-//        for (auto sd: est_std_dev)
-//          cache_ << sd << " ";
-//        cache_ << "\n";
-//      }
-//    }
+    //    auto minimiser_ = model->managers()->minimiser()->active_minimiser();
+    //    if (minimiser_) {
+    //      covariance_matrix_ = minimiser_->covariance_matrix();
+    //      if (model->run_mode() == RunMode::kEstimation && estimates.size() != covariance_matrix_.size1())
+    //        LOG_WARNING() << "The number of estimated parameters " << estimates.size() << " does not match the dimension of the covariance matrix "
+    //          << covariance_matrix_.size1();
+    //      if (covariance_matrix_.size1() > 0) {
+    //        vector<Double> est_std_dev(covariance_matrix_.size1(), 0.0);
+    //        for (unsigned i = 0; i < covariance_matrix_.size1(); ++i)
+    //          est_std_dev[i] = sqrt(covariance_matrix_(i, i));
+    //
+    //        for (auto sd: est_std_dev)
+    //          cache_ << sd << " ";
+    //        cache_ << "\n";
+    //      }
+    //    }
     // TODO: FIx this
   }
 }

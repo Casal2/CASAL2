@@ -43,7 +43,6 @@ void TimeStep::Validate() {
  * Build the time step
  */
 void TimeStep::Build() {
-
   // Get the pointers to our processes
   processes::Manager& process_manager = *model_->managers()->process();
   for (string process_name : process_names_) {
@@ -60,12 +59,12 @@ void TimeStep::Build() {
    * first continuous collection of mortality processes within the time
    * step.
    */
-  mortality_block_.first  = processes_.size();
-  mortality_block_.second = processes_.size() - 1;
+  mortality_block_.first        = processes_.size();
+  mortality_block_.second       = processes_.size() - 1;
   bool finished_mortality_block = false;
   for (unsigned i = 0; i < processes_.size(); ++i) {
     if (processes_[i]->process_type() == ProcessType::kMortality && !finished_mortality_block) {
-      mortality_block_.first = mortality_block_.first == processes_.size() ? i : mortality_block_.first;
+      mortality_block_.first  = mortality_block_.first == processes_.size() ? i : mortality_block_.first;
       mortality_block_.second = i;
     } else if (processes_[i]->process_type() == ProcessType::kMortality && finished_mortality_block) {
       LOG_FATAL() << "Mortality processes within a time step need to be consecutive (i.e., a single mortality block)";
@@ -100,10 +99,10 @@ void TimeStep::ExecuteForInitialisation(const string& phase_label) {
   }
 
   if (initialisation_mortality_blocks_[phase_label].first == processes_.size()) {
-     for (auto executor : initialisation_block_executors_) {
-       executor->PreExecute();
-       executor->Execute();
-     }
+    for (auto executor : initialisation_block_executors_) {
+      executor->PreExecute();
+      executor->Execute();
+    }
   }
 }
 
@@ -113,38 +112,32 @@ void TimeStep::ExecuteForInitialisation(const string& phase_label) {
 void TimeStep::Execute(unsigned year) {
   LOG_TRACE();
 
-  for (auto executor : executors_[year])
-      executor->PreExecute();
+  for (auto executor : executors_[year]) executor->PreExecute();
 
   for (unsigned index = 0; index < processes_.size(); ++index) {
     if (index == mortality_block_.first) {
-      for (auto executor : block_executors_[year])
-        executor->PreExecute();
+      for (auto executor : block_executors_[year]) executor->PreExecute();
     }
 
-    for(auto executor : process_executors_[year][index])
-      executor->PreExecute();
+    for (auto executor : process_executors_[year][index]) executor->PreExecute();
 
     LOG_FINEST() << "Executing process: " << processes_[index]->label();
     processes_[index]->Execute(year, label_);
 
-    for(auto executor : process_executors_[year][index])
-      executor->Execute();
+    for (auto executor : process_executors_[year][index]) executor->Execute();
 
     if (index == mortality_block_.second) {
-      for (auto executor : block_executors_[year])
-        executor->Execute();
+      for (auto executor : block_executors_[year]) executor->Execute();
     }
   }
-  if (mortality_block_.first == processes_.size()){
+  if (mortality_block_.first == processes_.size()) {
     for (auto executor : block_executors_[year]) {
       executor->PreExecute();
       executor->Execute();
     }
   }
 
-  for (auto executor : executors_[year])
-    executor->Execute();
+  for (auto executor : executors_[year]) executor->Execute();
 }
 
 /**
@@ -154,8 +147,7 @@ void TimeStep::Execute(unsigned year) {
  */
 void TimeStep::SubscribeToBlock(Executor* executor) {
   vector<unsigned> years = model_->years();
-  for (unsigned year : years)
-    block_executors_[year].push_back(executor);
+  for (unsigned year : years) block_executors_[year].push_back(executor);
 }
 
 /**
@@ -193,8 +185,7 @@ Process* TimeStep::SubscribeToProcess(Executor* executor, const vector<unsigned>
 
   for (unsigned i = 0; i < processes_.size(); ++i) {
     if (processes_[i]->label() == process_label) {
-      for (unsigned year : years)
-        process_executors_[year][i].push_back(executor);
+      for (unsigned year : years) process_executors_[year][i].push_back(executor);
       return processes_[i];
     }
   }
@@ -231,10 +222,11 @@ void TimeStep::BuildInitialisationProcesses() {
 
     initialisation_mortality_blocks_[iter.first].first  = processes_.size();
     initialisation_mortality_blocks_[iter.first].second = processes_.size() - 1;
-    bool finished_mortality_block = false;
+    bool finished_mortality_block                       = false;
     for (unsigned i = 0; i < initialisation_processes_[iter.first].size(); ++i) {
       if (initialisation_processes_[iter.first][i]->process_type() == ProcessType::kMortality && !finished_mortality_block) {
-        initialisation_mortality_blocks_[iter.first].first = initialisation_mortality_blocks_[iter.first].first == processes_.size() ? i : initialisation_mortality_blocks_[iter.first].first;
+        initialisation_mortality_blocks_[iter.first].first
+            = initialisation_mortality_blocks_[iter.first].first == processes_.size() ? i : initialisation_mortality_blocks_[iter.first].first;
         initialisation_mortality_blocks_[iter.first].second = i;
       } else if (initialisation_processes_[iter.first][i]->process_type() == ProcessType::kMortality && finished_mortality_block) {
         LOG_FATAL() << "Mortality processes within a time step need to be consecutive (i.e., a single mortality block)";
@@ -243,7 +235,9 @@ void TimeStep::BuildInitialisationProcesses() {
     }
     mortality_block_.second = mortality_block_.first == processes_.size() ? mortality_block_.first : mortality_block_.second;
 
-    initialisation_mortality_blocks_[iter.first].second = initialisation_mortality_blocks_[iter.first].first == processes_.size() ? initialisation_mortality_blocks_[iter.first].first : initialisation_mortality_blocks_[iter.first].second;
+    initialisation_mortality_blocks_[iter.first].second = initialisation_mortality_blocks_[iter.first].first == processes_.size()
+                                                              ? initialisation_mortality_blocks_[iter.first].first
+                                                              : initialisation_mortality_blocks_[iter.first].second;
   }
 }
 } /* namespace niwa */

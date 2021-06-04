@@ -31,8 +31,7 @@ Manager::Manager() {
 /**
  * Destructor
  */
-Manager::~Manager() noexcept(true) {
-}
+Manager::~Manager() noexcept(true) {}
 
 /**
  * Get the time step
@@ -161,8 +160,6 @@ unsigned Manager::GetProcessIndex(const string& process_label) const {
   return 0;
 }
 
-
-
 /**
  * Validate the time step objects - no model
  */
@@ -177,8 +174,8 @@ void Manager::Validate(shared_ptr<Model> model) {
 
   // Order our time steps based on the parameter given to the model
   vector<string> time_steps = model->time_steps();
-  for(string time_step_label : time_steps) {
-    for(auto time_step : objects_) {
+  for (string time_step_label : time_steps) {
+    for (auto time_step : objects_) {
       if (time_step->label() == time_step_label) {
         ordered_time_steps_.push_back(time_step);
         break;
@@ -196,8 +193,7 @@ void Manager::Validate(shared_ptr<Model> model) {
  */
 void Manager::Build() {
   // Build our objects
-  for(auto time_step : objects_)
-    time_step->Build();
+  for (auto time_step : objects_) time_step->Build();
 }
 
 /**
@@ -208,9 +204,9 @@ void Manager::Build() {
 void Manager::Execute(unsigned year) {
   LOG_TRACE();
 
-//  auto report_manager = model_->managers()->report();
+  //  auto report_manager = model_->managers()->report();
   for (current_time_step_ = 0; current_time_step_ < ordered_time_steps_.size(); ++current_time_step_) {
-    LOG_FINE() << "Current Time Step: " <<  current_time_step_;
+    LOG_FINE() << "Current Time Step: " << current_time_step_;
     ordered_time_steps_[current_time_step_]->Execute(year);
 
     model_->managers()->report()->Execute(model_, year, ordered_time_steps_[current_time_step_]->label());

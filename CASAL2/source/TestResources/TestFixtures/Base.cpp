@@ -16,7 +16,6 @@
 #include "../../Model/Model.h"
 #include "../../Model/Models/Age.h"
 
-
 // namespaces
 namespace niwa {
 namespace testfixtures {

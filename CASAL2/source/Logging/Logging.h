@@ -17,17 +17,17 @@
 
 // headers
 #include <iostream>
-#include <vector>
-#include <string>
 #include <mutex>
+#include <string>
+#include <vector>
 
 #include "../Logging/Record.h"
 
 // namespaces
 namespace niwa {
 
-using std::cout;
 using std::cerr;
+using std::cout;
 using std::endl;
 
 /**
@@ -36,28 +36,28 @@ using std::endl;
 class Logging {
 public:
   // methods
-  virtual                     ~Logging() = default;
-  static Logging&             Instance();
-  void                        SetLogLevel(const std::string& log_level);
-  void                        Flush(niwa::logger::Record& record);
-  void                        FlushErrors();
-  void                        FlushWarnings();
+  virtual ~Logging() = default;
+  static Logging& Instance();
+  void            SetLogLevel(const std::string& log_level);
+  void            Flush(niwa::logger::Record& record);
+  void            FlushErrors();
+  void            FlushWarnings();
 
   // accessors
-  std::vector<std::string>&  warnings() { return warnings_; }
-  std::vector<std::string>&  errors() { return errors_; }
+  std::vector<std::string>& warnings() { return warnings_; }
+  std::vector<std::string>& errors() { return errors_; }
 
   // static members
-  static logger::Severity     current_log_level_;
-  static std::mutex						lock_;
+  static logger::Severity current_log_level_;
+  static std::mutex       lock_;
 
 private:
   // methods
   Logging();
 
   // members
-  std::vector<std::string>    warnings_;
-  std::vector<std::string>    errors_;
+  std::vector<std::string> warnings_;
+  std::vector<std::string> errors_;
 };
 
 } /* namespace niwa */
@@ -71,7 +71,7 @@ private:
  * will throw an exception
  */
 #define LOG_IF(level) if (level >= Logging::current_log_level_)
-#define LOG_FOR(level) for(logger::Record r(level, __FILE__, __FUNCTION__, __LINE__); !r.Flush(); Logging::Instance().Flush(r))
+#define LOG_FOR(level) for (logger::Record r(level, __FILE__, __FUNCTION__, __LINE__); !r.Flush(); Logging::Instance().Flush(r))
 #define LOG_IF_FOR(level) LOG_IF(level) LOG_FOR(level)
 #define LOG_IF_FOR_STREAM(level) LOG_IF_FOR(level) r.stream()
 //
@@ -92,9 +92,10 @@ private:
 //#define LOG_MEDIUM() for(logger::Record r(logger::Severity::kMedium, __FILE__, __FUNCTION__, __LINE__); !r.Flush(); Logging::Instance().Flush(r)) r.stream()
 //#define LOG_WARNING() for(logger::Record r(logger::Severity::kWarning, __FILE__, __FUNCTION__, __LINE__); !r.Flush(); Logging::Instance().Flush(r)) r.stream()
 //#define LOG_ERROR() for(logger::Record r(logger::Severity::kError, __FILE__, __FUNCTION__, __LINE__); !r.Flush(); Logging::Instance().Flush(r)) r.stream()
-//#define LOG_ERROR_P(parameter) for(logger::Record r(logger::Severity::kError, __FILE__, __FUNCTION__, __LINE__); !r.Flush(); Logging::Instance().Flush(r)) r.stream() << this->parameters_.location(parameter)
-//#define LOG_FATAL() for(logger::Record r(logger::Severity::kFatal, __FILE__, __FUNCTION__, __LINE__); !r.Flush(); Logging::Instance().Flush(r)) r.stream()
-//#define LOG_FATAL_P(parameter) for(logger::Record r(logger::Severity::kFatal, __FILE__, __FUNCTION__, __LINE__); !r.Flush(); Logging::Instance().Flush(r)) r.stream() << this->parameters_.location(parameter)
-//#define LOG_CODE_ERROR() for(logger::Record r(logger::Severity::kCodeError, __FILE__, __FUNCTION__, __LINE__); !r.Flush(); Logging::Instance().Flush(r)) r.stream()
+//#define LOG_ERROR_P(parameter) for(logger::Record r(logger::Severity::kError, __FILE__, __FUNCTION__, __LINE__); !r.Flush(); Logging::Instance().Flush(r)) r.stream() <<
+//this->parameters_.location(parameter) #define LOG_FATAL() for(logger::Record r(logger::Severity::kFatal, __FILE__, __FUNCTION__, __LINE__); !r.Flush();
+//Logging::Instance().Flush(r)) r.stream() #define LOG_FATAL_P(parameter) for(logger::Record r(logger::Severity::kFatal, __FILE__, __FUNCTION__, __LINE__); !r.Flush();
+//Logging::Instance().Flush(r)) r.stream() << this->parameters_.location(parameter) #define LOG_CODE_ERROR() for(logger::Record r(logger::Severity::kCodeError, __FILE__,
+//__FUNCTION__, __LINE__); !r.Flush(); Logging::Instance().Flush(r)) r.stream()
 
 #endif /* SOURCE_LOGGING_LOGGING_H_ */

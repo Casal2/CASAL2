@@ -30,19 +30,19 @@ public:
   // methods
   Assert() = delete;
   explicit Assert(shared_ptr<Model> model);
-  virtual                     ~Assert() = default;
-  void                        Validate();
-  void                        Build() { DoBuild();};
-  void                        Reset() { };
-  void                        PreExecute() override final { };
+  virtual ~Assert() = default;
+  void Validate();
+  void Build() { DoBuild(); };
+  void Reset(){};
+  void PreExecute() override final{};
 
 protected:
   // methods
-  virtual void                DoValidate() = 0;
-  virtual void                DoBuild() = 0;
+  virtual void DoValidate() = 0;
+  virtual void DoBuild()    = 0;
 
   // members
-  shared_ptr<Model>                      model_ = nullptr;
+  shared_ptr<Model> model_ = nullptr;
 };
 } /* namespace niwa */
 

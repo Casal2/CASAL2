@@ -29,13 +29,13 @@ class ProcessProportionsByCategory : public observations::age::ProportionsByCate
 public:
   // methods
   ProcessProportionsByCategory(shared_ptr<Model> model);
-  virtual                     ~ProcessProportionsByCategory() = default;
-  void                        DoBuild() override final;
+  virtual ~ProcessProportionsByCategory() = default;
+  void DoBuild() override final;
 
 private:
   // members
-  string                      process_label_;
-  Double                      process_proportion_;
+  string process_label_;
+  Double process_proportion_;
 };
 
 } /* namespace age */

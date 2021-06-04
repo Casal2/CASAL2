@@ -22,7 +22,6 @@
 #include "../../Utilities/Math.h"
 #include "../../Utilities/RandomNumberGenerator.h"
 
-
 // namespaces
 namespace niwa {
 namespace model {

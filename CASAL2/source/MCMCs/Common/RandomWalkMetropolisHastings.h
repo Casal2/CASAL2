@@ -31,6 +31,9 @@ protected:
   // methods
   void DoValidate() final{};
   void DoBuild() final{};
+
+  // members
+  unsigned iteration_counter_ = 0;
 };  // class RandomWalkMetropolisHastings
 }  // namespace niwa::mcmcs
 

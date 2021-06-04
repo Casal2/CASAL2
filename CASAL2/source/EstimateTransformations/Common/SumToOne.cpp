@@ -12,13 +12,13 @@
 // headers
 #include "SumToOne.h"
 
+#include "../../Estimates/Common/Uniform.h"
+#include "../../Estimates/Estimate.h"
+#include "../../Estimates/Manager.h"
+#include "../../Model/Factory.h"
+#include "../../Model/Managers.h"
 #include "../../Model/Model.h"
 #include "../../Model/Objects.h"
-#include "../../Model/Managers.h"
-#include "../../Model/Factory.h"
-#include "../../Estimates/Manager.h"
-#include "../../Estimates/Estimate.h"
-#include "../../Estimates/Common/Uniform.h"
 
 // namespaces
 namespace niwa {
@@ -29,7 +29,8 @@ namespace utils = niwa::utilities;
  */
 SumToOne::SumToOne(shared_ptr<Model> model) : EstimateTransformation(model) {
   parameters_.Bind<string>(PARAM_ESTIMATE_LABELS, &estimate_labels_, "The label for the estimates for the sum to one transformation", "");
-  parameters_.Bind<Double>(PARAM_UPPER_BOUND, &upper_bounds_, "The empirical upper bounds for the transformed parameters. There should be one less bound than parameters", "", true);
+  parameters_.Bind<Double>(PARAM_UPPER_BOUND, &upper_bounds_, "The empirical upper bounds for the transformed parameters. There should be one less bound than parameters", "",
+                           true);
   parameters_.Bind<Double>(PARAM_LOWER_BOUND, &lower_bounds_, "The empirical lower bound for the transformed parameters. There should be one less bound than parameters", "", true);
   is_simple_ = false;
 }
@@ -44,12 +45,12 @@ void SumToOne::DoValidate() {
       LOG_WARNING() << "This transformation was defined with two parameters. Be cautious using this transformation with more than two parameters.";
 
     if (upper_bounds_.size() != lower_bounds_.size())
-      LOG_ERROR_P(PARAM_LOWER_BOUND) << "Supply the same number of upper and lower bounds. '" << estimate_labels_.size() << "' estimate labels and '"
-        << lower_bounds_.size() << "' bound values were parsed.";
+      LOG_ERROR_P(PARAM_LOWER_BOUND) << "Supply the same number of upper and lower bounds. '" << estimate_labels_.size() << "' estimate labels and '" << lower_bounds_.size()
+                                     << "' bound values were parsed.";
 
     if ((estimate_labels_.size() - 1) != lower_bounds_.size())
-      LOG_ERROR_P(PARAM_ESTIMATE_LABELS) << "Supply one less bound than estimate labels. '" << upper_bounds_.size() << "' upper bound values and '"
-        << lower_bounds_.size() << "' lower bound values were parsed.";
+      LOG_ERROR_P(PARAM_ESTIMATE_LABELS) << "Supply one less bound than estimate labels. '" << upper_bounds_.size() << "' upper bound values and '" << lower_bounds_.size()
+                                         << "' lower bound values were parsed.";
   }
 }
 
@@ -65,23 +66,23 @@ void SumToOne::DoBuild() {
       return;
     } else {
       LOG_FINE() << "transform with objective = " << transform_with_jacobian_ << " estimate transform " << estimate->transform_for_objective()
-        << " together = " << !transform_with_jacobian_ && !estimate->transform_for_objective();
+                 << " together = " << !transform_with_jacobian_
+          && !estimate->transform_for_objective();
 
       if (!transform_with_jacobian_ && !estimate->transform_for_objective()) {
         LOG_ERROR_P(PARAM_LABEL) << "The specified transformation does not contribute to the Jacobian matrix and the prior parameters"
-          << " do not refer to the transformed estimate for the @estimate "
-          << estimate_label_ << ". This is not advised as it may cause bias errors. Please consult the User Manual.";
+                                 << " do not refer to the transformed estimate for the @estimate " << estimate_label_
+                                 << ". This is not advised as it may cause bias errors. Please consult the User Manual.";
       }
       if (estimate->transform_with_jacobian_is_defined()) {
         if (transform_with_jacobian_ != estimate->transform_with_jacobian()) {
-          LOG_ERROR_P(PARAM_LABEL) << "This parameter is not consistent with the equivalent parameter in the @estimate block "
-            << estimate_label_ << ". Both parameters should be either true or false.";
+          LOG_ERROR_P(PARAM_LABEL) << "This parameter is not consistent with the equivalent parameter in the @estimate block " << estimate_label_
+                                   << ". Both parameters should be either true or false.";
         }
       }
       estimates_.push_back(estimate);
     }
   }
-
 
   // Validate that the parameters sum to one.
   Double total = 0.0;
@@ -91,8 +92,7 @@ void SumToOne::DoBuild() {
     total += estimate->value();
   }
   if (total != 1.0)
-    LOG_ERROR_P(PARAM_ESTIMATE_LABELS) << "The parameter values do not sum to 1.0. They sum to " << total
-      << ". Please check the initial values of these parameters.";
+    LOG_ERROR_P(PARAM_ESTIMATE_LABELS) << "The parameter values do not sum to 1.0. They sum to " << total << ". Please check the initial values of these parameters.";
 
   // Check that the bounds are sensible
   if (parameters_.Get(PARAM_UPPER_BOUND)->has_been_defined() & parameters_.Get(PARAM_LOWER_BOUND)->has_been_defined()) {
@@ -106,8 +106,8 @@ void SumToOne::DoBuild() {
   LOG_MEDIUM() << "total = " << total;
 
   // Turn off the last estimate
-  LOG_FINE() << "Turning off parameter. This parameter will not be estimated and is a function of other parameters "
-    << estimates_[estimates_.size() - 1]->parameter() << " in the estimation";
+  LOG_FINE() << "Turning off parameter. This parameter will not be estimated and is a function of other parameters " << estimates_[estimates_.size() - 1]->parameter()
+             << " in the estimation";
   estimates_[estimates_.size() - 1]->set_estimated(false);
   LOG_MEDIUM() << "flagged estimated = " << estimates_[estimates_.size() - 1]->estimated();
 }
@@ -125,7 +125,6 @@ void SumToOne::DoTransform() {
       estimates_[i]->set_upper_bound(upper_bounds_[i]);
     }
   }
-
 }
 /**
  * Restore
@@ -136,12 +135,11 @@ void SumToOne::DoRestore() {
   // Create zk
   Double total = 0.0;
   for (unsigned i = 0; i < (estimates_.size() - 1); ++i) {
-    total += estimates_[i]-> value();
+    total += estimates_[i]->value();
   }
   Double new_value = 1.0 - total;
   LOG_FINE() << "Setting value to " << new_value << " for parameter = " << estimates_[estimates_.size() - 1]->parameter();
   estimates_[estimates_.size() - 1]->set_value(new_value);
-
 }
 
 /**

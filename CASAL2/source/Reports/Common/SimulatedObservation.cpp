@@ -43,9 +43,9 @@ void SimulatedObservation::DoBuild(shared_ptr<Model> model) {
  */
 void SimulatedObservation::DoExecute(shared_ptr<Model> model) {
   cache_ << CONFIG_SECTION_SYMBOL << PARAM_OBSERVATION << " " << label_ << "\n";
-  bool biomass_abundance_obs = false;
-  ParameterList& parameter_list = observation_->parameters();
-  const map<string, Parameter*>& parameters = parameter_list.parameters();
+  bool                           biomass_abundance_obs = false;
+  ParameterList&                 parameter_list        = observation_->parameters();
+  const map<string, Parameter*>& parameters            = parameter_list.parameters();
   for (auto iter = parameters.begin(); iter != parameters.end(); ++iter) {
     if (iter->first == PARAM_LIKELIHOOD) {
       if (iter->second->values()[0] == PARAM_PSEUDO)
@@ -81,8 +81,7 @@ void SimulatedObservation::DoExecute(shared_ptr<Model> model) {
     // biomass obs
     cache_ << PARAM_OBS << " ";
     for (auto iter = comparison.begin(); iter != comparison.end(); ++iter) {
-      for (obs::Comparison comparison : iter->second)
-        cache_ << comparison.observed_ << " ";
+      for (obs::Comparison comparison : iter->second) cache_ << comparison.observed_ << " ";
     }
     cache_ << "\n";
   } else {
@@ -98,15 +97,12 @@ void SimulatedObservation::DoExecute(shared_ptr<Model> model) {
     cache_ << PARAM_END_TABLE << "\n";
   }
 
-
-
   // Print Error values
   if (biomass_abundance_obs) {
     // biomass error
     cache_ << PARAM_ERROR_VALUE << " ";
     for (auto iter = comparison.begin(); iter != comparison.end(); ++iter) {
-      for (obs::Comparison comparison : iter->second)
-        cache_ << comparison.error_value_ << " ";
+      for (obs::Comparison comparison : iter->second) cache_ << comparison.error_value_ << " ";
     }
     cache_ << "\n";
   } else {

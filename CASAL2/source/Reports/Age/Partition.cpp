@@ -13,8 +13,8 @@
 // Headers
 #include "Partition.h"
 
-#include <iostream>
 #include <iomanip>
+#include <iostream>
 
 #include "../../Model/Model.h"
 #include "../../Partition/Accessors/All.h"
@@ -36,15 +36,15 @@ Partition::Partition() {
 }
 
 void Partition::DoValidate(shared_ptr<Model> model) {
- if (!parameters_.Get(PARAM_YEARS)->has_been_defined()) {
-   years_ = model->years();
- }
+  if (!parameters_.Get(PARAM_YEARS)->has_been_defined()) {
+    years_ = model->years();
+  }
 }
 /**
  * Execute the report
  */
 void Partition::DoExecute(shared_ptr<Model> model) {
-	LOG_TRACE();
+  LOG_TRACE();
   // First, figure out the lowest and highest ages/length
   unsigned lowest         = 9999;
   unsigned highest        = 0;
@@ -61,13 +61,13 @@ void Partition::DoExecute(shared_ptr<Model> model) {
   }
 
   // Print the header
-  cache_ << "*"<< type_ << "[" << label_ << "]" << "\n";
+  cache_ << "*" << type_ << "[" << label_ << "]"
+         << "\n";
   cache_ << "year: " << model->current_year() << "\n";
   cache_ << "time_step: " << time_step_ << "\n";
-  cache_ << "values "<< REPORT_R_DATAFRAME_ROW_LABELS<<"\n";
+  cache_ << "values " << REPORT_R_DATAFRAME_ROW_LABELS << "\n";
   cache_ << "category";
-  for (unsigned i = lowest; i <= highest; ++i)
-    cache_ << " " << i;
+  for (unsigned i = lowest; i <= highest; ++i) cache_ << " " << i;
   cache_ << "\n";
 
   for (auto iterator : all_view) {
@@ -77,7 +77,8 @@ void Partition::DoExecute(shared_ptr<Model> model) {
       if (age >= lowest && age <= highest) {
         cache_ << " " << std::fixed << AS_DOUBLE(value);
       } else
-        cache_ << " " << "null";
+        cache_ << " "
+               << "null";
 
       ++age;
     }

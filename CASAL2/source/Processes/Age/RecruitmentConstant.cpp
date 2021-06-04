@@ -13,9 +13,9 @@
 // Headers
 #include "RecruitmentConstant.h"
 
+#include "../../Utilities/Math.h"
 #include "Categories/Categories.h"
 #include "Logging/Logging.h"
-#include "../../Utilities/Math.h"
 
 // Namespaces
 namespace niwa {
@@ -36,7 +36,7 @@ RecruitmentConstant::RecruitmentConstant(shared_ptr<Model> model) : Process(mode
   RegisterAsAddressable(PARAM_R0, &r0_);
   RegisterAsAddressable(PARAM_PROPORTIONS, &proportions_categories_);
 
-  process_type_ = ProcessType::kRecruitment;
+  process_type_        = ProcessType::kRecruitment;
   partition_structure_ = PartitionType::kAge;
 }
 
@@ -63,22 +63,19 @@ void RecruitmentConstant::DoValidate() {
    */
   if (proportions_.size() > 0) {
     if (proportions_.size() != category_labels_.size()) {
-      LOG_ERROR_P(PARAM_PROPORTIONS)
-        << ": The number of proportions provided is not the same as the number of categories provided. Categories: "
-        << category_labels_.size() << ", proportions size " << proportions_.size();
+      LOG_ERROR_P(PARAM_PROPORTIONS) << ": The number of proportions provided is not the same as the number of categories provided. Categories: " << category_labels_.size()
+                                     << ", proportions size " << proportions_.size();
     }
 
     Double proportion_total = 0.0;
 
-    for (Double proportion : proportions_)
-      proportion_total += proportion;
+    for (Double proportion : proportions_) proportion_total += proportion;
 
     if (!utilities::math::IsOne(proportion_total)) {
-      LOG_WARNING() << parameters_.location(PARAM_PROPORTIONS)
-        <<": proportion does not sum to 1.0. Proportion sums to " << AS_DOUBLE(proportion_total) << ". Auto-scaling proportions to sum to 1.0";
+      LOG_WARNING() << parameters_.location(PARAM_PROPORTIONS) << ": proportion does not sum to 1.0. Proportion sums to " << AS_DOUBLE(proportion_total)
+                    << ". Auto-scaling proportions to sum to 1.0";
 
-      for (Double& proportion : proportions_)
-        proportion /= proportion_total;
+      for (Double& proportion : proportions_) proportion /= proportion_total;
     }
 
     for (unsigned i = 0; i < category_labels_.size(); ++i) {
@@ -88,8 +85,7 @@ void RecruitmentConstant::DoValidate() {
   } else {
     // Assign equal proportions to every category
     Double proportion = category_labels_.size() / 1.0;
-    for (string category : category_labels_)
-      proportions_categories_[category] = proportion;
+    for (string category : category_labels_) proportions_categories_[category] = proportion;
   }
 }
 
@@ -107,27 +103,25 @@ void RecruitmentConstant::DoExecute() {
   /**
    * Calculate new proportion totals to account for dynamic categories
    */
- Double total_proportions = 0.0;
- for (auto iterator = partition_->begin(); iterator != partition_->end(); ++iterator) {
+  Double total_proportions = 0.0;
+  for (auto iterator = partition_->begin(); iterator != partition_->end(); ++iterator) {
     total_proportions += proportions_categories_[iterator->first];
- }
+  }
 
- /**
-  * Update our partition with new recruitment values
-  */
- for (auto iterator = partition_->begin(); iterator != partition_->end(); ++iterator) {
-   *iterator->second += (proportions_categories_[iterator->first] / total_proportions) * r0_;
- }
+  /**
+   * Update our partition with new recruitment values
+   */
+  for (auto iterator = partition_->begin(); iterator != partition_->end(); ++iterator) {
+    *iterator->second += (proportions_categories_[iterator->first] / total_proportions) * r0_;
+  }
 }
 
 /**
  * Fill the report cache
  * @description A method for reporting process information
  * @param cache a cache object to print to
-*/
-void RecruitmentConstant::FillReportCache(ostringstream& cache) {
-
-}
+ */
+void RecruitmentConstant::FillReportCache(ostringstream& cache) {}
 
 /**
  * Fill the tabular report cache
@@ -135,10 +129,8 @@ void RecruitmentConstant::FillReportCache(ostringstream& cache) {
  * @param cache a cache object to print to
  * @param first_run whether to print the header
  *
-*/
-void RecruitmentConstant::FillTabularReportCache(ostringstream& cache, bool first_run) {
-
-}
+ */
+void RecruitmentConstant::FillTabularReportCache(ostringstream& cache, bool first_run) {}
 
 } /* namespace age */
 } /* namespace processes */

@@ -19,8 +19,7 @@ namespace partition {
 /**
  * Default constructor
  */
-Accessor::Accessor(shared_ptr<Model> model) : model_(model) {
-}
+Accessor::Accessor(shared_ptr<Model> model) : model_(model) {}
 
 /**
  * Init our accessor
@@ -38,11 +37,11 @@ void Accessor::Init(const vector<string>& category_labels) {
   LOG_FINEST() << "Categories: " << category_labels.size();
 
   Partition& partition = model_->partition();
-  for(string category_label : category_labels) {
+  for (string category_label : category_labels) {
     partition::Category& category = partition.category(category_label);
     for (unsigned year = start_year; year <= final_year; ++year) {
       if (std::find(category.years_.begin(), category.years_.end(), year) == category.years_.end())
-              continue; // Not valid in this year
+        continue;  // Not valid in this year
 
       categories_[year].push_back(PartitionIterable(&category, category.data_));
     }
@@ -51,12 +50,12 @@ void Accessor::Init(const vector<string>& category_labels) {
 
 //
 Accessor::DataType::iterator Accessor::begin() {
-	return categories_[model_->current_year()].begin();
+  return categories_[model_->current_year()].begin();
 }
 
 Accessor::DataType::iterator Accessor::end() {
-	return categories_[model_->current_year()].end();
+  return categories_[model_->current_year()].end();
 }
 
-} /* namespace niwa::partition */
-}
+}  // namespace partition
+}  // namespace niwa

@@ -26,10 +26,11 @@ namespace derivedquantities {
 class Manager : public niwa::base::Manager<derivedquantities::Manager, niwa::DerivedQuantity> {
   friend class niwa::base::Manager<derivedquantities::Manager, niwa::DerivedQuantity>;
   friend class niwa::Managers;
+
 public:
   // methods
-  virtual                     ~Manager() noexcept(true) { };
-  DerivedQuantity*            GetDerivedQuantity(const string& label);
+  virtual ~Manager() noexcept(true){};
+  DerivedQuantity* GetDerivedQuantity(const string& label);
 };
 
 } /* namespace derivedquantities */

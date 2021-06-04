@@ -10,6 +10,7 @@
 
 // headers
 #include "EmpiricalSampling.h"
+
 #include "../../Utilities/RandomNumberGenerator.h"
 #include "../../Utilities/To.h"
 
@@ -47,21 +48,19 @@ void EmpiricalSampling::DoValidate() {
 /**
  * Build
  */
-void EmpiricalSampling::DoBuild() {
-
-}
+void EmpiricalSampling::DoBuild() {}
 
 /**
  * Reset
  */
 void EmpiricalSampling::DoReset() {
   // Build a vector of years that have been resampled with replacement between start_year and end_year
-  utilities::RandomNumberGenerator& rng = utilities::RandomNumberGenerator::Instance();
-  Double Random_draw = 0.0;
-  unsigned year = 0;
+  utilities::RandomNumberGenerator& rng         = utilities::RandomNumberGenerator::Instance();
+  Double                            Random_draw = 0.0;
+  unsigned                          year        = 0;
   for (unsigned project_year : years_) {
     Random_draw = floor(rng.uniform((double)start_year_, ((double)final_year_ + 0.99999)));
-    year = 0;
+    year        = 0;
     // if (!utilities::To<Double, unsigned>(Random_draw, year))
     if (!utilities::To<Double>(Random_draw, year))
       LOG_ERROR() << " Random draw " << Random_draw << " could not be converted to Double";
@@ -75,8 +74,7 @@ void EmpiricalSampling::DoReset() {
  */
 void EmpiricalSampling::DoUpdate() {
   value_ = stored_values_[resampled_years_[model_->current_year()]] * multiplier_;
-  LOG_FINE() << "In year: " << model_->current_year() << " setting value to: " << value_ << " drawn from year: "
-    << resampled_years_[model_->current_year()];
+  LOG_FINE() << "In year: " << model_->current_year() << " setting value to: " << value_ << " drawn from year: " << resampled_years_[model_->current_year()];
   (this->*DoUpdateFunc_)(value_);
 }
 

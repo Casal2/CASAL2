@@ -35,16 +35,16 @@ class Ageing : public niwa::Process {
 public:
   // Methods
   explicit Ageing(shared_ptr<Model> model);
-  virtual                     ~Ageing() = default;
-  void                        DoValidate() override final;
-  void                        DoBuild() override final;
-  void                        DoReset() override final { };
-  void                        DoExecute() override final;
+  virtual ~Ageing() = default;
+  void DoValidate() override final;
+  void DoBuild() override final;
+  void DoReset() override final{};
+  void DoExecute() override final;
 
 private:
   // Members
-  accessor::Categories        partition_;
-  vector<string>              category_labels_;
+  accessor::Categories partition_;
+  vector<string>       category_labels_;
 };
 
 } /* namespace age */

@@ -5,7 +5,7 @@
  * @date 12/04/2013
  * @section LICENSE
  *
- * Copyright NIWA Science ©2013 - www.niwa.co.nz
+ * Copyright NIWA Science ï¿½2013 - www.niwa.co.nz
  *
  * @section DESCRIPTION
  *
@@ -18,8 +18,8 @@
 
 // Headers
 #include <map>
-#include <vector>
 #include <string>
+#include <vector>
 
 #include "../../../Model/Model.h"
 #include "../../../Partition/Partition.h"
@@ -31,11 +31,11 @@ namespace partition {
 namespace accessors {
 namespace cached {
 
+using niwa::utilities::Double;
 using std::map;
-using std::vector;
 using std::pair;
 using std::string;
-using niwa::utilities::Double;
+using std::vector;
 
 /**
  *
@@ -48,20 +48,20 @@ public:
   // Methods
   CombinedCategories() = delete;
   CombinedCategories(shared_ptr<Model> model, const vector<string>& category_labels);
-  virtual                     ~CombinedCategories() = default;
-  void                        BuildCache();
-  DataType::iterator          Begin();
-  DataType::iterator          End();
-  unsigned                    Size();
+  virtual ~CombinedCategories() = default;
+  void               BuildCache();
+  DataType::iterator Begin();
+  DataType::iterator End();
+  unsigned           Size();
 
-  bool                        needs_rebuild() const { return need_rebuild_; }
+  bool needs_rebuild() const { return need_rebuild_; }
 
 private:
   // Members
-  vector<vector<string> >     category_labels_;
-  shared_ptr<Model>           model_;
-  DataType                    data_;
-  bool                        need_rebuild_ = true;
+  vector<vector<string> > category_labels_;
+  shared_ptr<Model>       model_;
+  DataType                data_;
+  bool                    need_rebuild_ = true;
 };
 
 // Typedef

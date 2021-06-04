@@ -49,9 +49,9 @@ void Profile::Build() {
     LOG_FATAL_P(PARAM_PARAMETER) << "could not be verified for use in a @profile block. Error: " << error;
   }
 
-  target_ = model_->objects().GetAddressable(parameter_);
+  target_         = model_->objects().GetAddressable(parameter_);
   original_value_ = *target_;
-  step_size_ = (upper_bound_ - lower_bound_) / (steps_ + 1);
+  step_size_      = (upper_bound_ - lower_bound_) / (steps_ + 1);
   LOG_MEDIUM() << "start_value for parameter: " << original_value_;
 
   /**
@@ -62,7 +62,7 @@ void Profile::Build() {
       LOG_FATAL_P(PARAM_SAME) << "could not be verified for use in a @profile block. Error: " << error;
     }
 
-    same_target_ = model_->objects().GetAddressable(same_parameter_);
+    same_target_         = model_->objects().GetAddressable(same_parameter_);
     same_original_value_ = *same_target_;
     LOG_MEDIUM() << "start_value for same parameter: " << same_original_value_;
   }
@@ -75,7 +75,7 @@ void Profile::FirstStep() {
   *target_ = lower_bound_;
   if (parameters_.Get(PARAM_SAME)->has_been_defined()) {
     *same_target_ = lower_bound_;
-    LOG_MEDIUM() << "Profiling with profile parameter = " <<  *target_  << " and same parameter = " << *same_target_;
+    LOG_MEDIUM() << "Profiling with profile parameter = " << *target_ << " and same parameter = " << *same_target_;
   }
 }
 /**
@@ -85,7 +85,7 @@ void Profile::NextStep() {
   *target_ += step_size_;
   if (parameters_.Get(PARAM_SAME)->has_been_defined()) {
     *same_target_ += step_size_;
-    LOG_MEDIUM() << "Profiling with profile parameter = " <<  *target_  << " and same parameter = " << *same_target_;
+    LOG_MEDIUM() << "Profiling with profile parameter = " << *target_ << " and same parameter = " << *same_target_;
   }
 }
 
@@ -96,7 +96,7 @@ void Profile::RestoreOriginalValue() {
   *target_ = original_value_;
   if (parameters_.Get(PARAM_SAME)->has_been_defined()) {
     *same_target_ = original_value_;
-    LOG_MEDIUM() << "Profiling with profile parameter = " <<  *target_  << " and same parameter = " << *same_target_;
+    LOG_MEDIUM() << "Profiling with profile parameter = " << *target_ << " and same parameter = " << *same_target_;
   }
 }
 

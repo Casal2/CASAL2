@@ -15,8 +15,8 @@
 #define SOURCE_CONFIGURATIONLOADER_MCMCSAMPLE_H_
 
 // headers
-#include <string>
 #include <memory>
+#include <string>
 
 // namespaces
 namespace niwa {
@@ -32,12 +32,12 @@ class MCMCSample {
 public:
   // methods
   MCMCSample(shared_ptr<Model> model);
-  virtual                     ~MCMCSample() = default;
-  bool                        LoadFile(const string& file_name);
+  virtual ~MCMCSample() = default;
+  bool LoadFile(const string& file_name);
 
 private:
   // members
-  shared_ptr<Model>                      model_;
+  shared_ptr<Model> model_;
 };
 
 } /* namespace configuration */

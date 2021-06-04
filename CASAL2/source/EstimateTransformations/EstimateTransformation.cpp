@@ -43,7 +43,7 @@ void EstimateTransformation::Validate() {
  * Build relationships
  */
 void EstimateTransformation::Build() {
- DoBuild();
+  DoBuild();
 }
 
 /**
@@ -73,5 +73,5 @@ void EstimateTransformation::Restore() {
   }
 }
 
-}
+}  // namespace niwa
 /* namespace niwa */

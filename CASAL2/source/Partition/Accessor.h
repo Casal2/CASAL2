@@ -22,8 +22,8 @@
 // headers
 #include <vector>
 
-#include "Partition.h"
 #include "../Utilities/Types.h"
+#include "Partition.h"
 
 // namespaces
 namespace niwa {
@@ -41,18 +41,17 @@ using niwa::utilities::Double;
  *  Double y = category.cached_data_;
  * }
  */
-class PartitionIterable  {
+class PartitionIterable {
 public:
-	PartitionIterable() = delete;
-	virtual ~PartitionIterable() = default;
-	// have override constructor so we can build the data_ reference nicely
-	// avoids pointer semantics and a deference on every access
-	PartitionIterable(partition::Category* category, vector<Double>& category_data) :
-		category_(category), data_(category_data) { }
+  PartitionIterable()          = delete;
+  virtual ~PartitionIterable() = default;
+  // have override constructor so we can build the data_ reference nicely
+  // avoids pointer semantics and a deference on every access
+  PartitionIterable(partition::Category* category, vector<Double>& category_data) : category_(category), data_(category_data) {}
 
-	partition::Category* category_;
-	vector<Double>& data_;
-	vector<Double>  cached_data_;
+  partition::Category* category_;
+  vector<Double>&      data_;
+  vector<Double>       cached_data_;
 };
 
 /**
@@ -61,23 +60,22 @@ public:
  */
 class Accessor {
 public:
-	// Typedefs
-	typedef vector<PartitionIterable> DataType;
+  // Typedefs
+  typedef vector<PartitionIterable> DataType;
 
-	// methods
-	explicit Accessor(shared_ptr<Model> model);
-	virtual ~Accessor() = default;
-	void													Init(const vector<string>& category_labels);
-	Accessor::DataType::iterator  begin();
-	Accessor::DataType::iterator  end();
+  // methods
+  explicit Accessor(shared_ptr<Model> model);
+  virtual ~Accessor() = default;
+  void                         Init(const vector<string>& category_labels);
+  Accessor::DataType::iterator begin();
+  Accessor::DataType::iterator end();
 
 protected:
   // members
-  shared_ptr<Model>									model_;
-  map<unsigned, Accessor::DataType>	categories_;
+  shared_ptr<Model>                 model_;
+  map<unsigned, Accessor::DataType> categories_;
 };
 
-
-} /* namespace niwa::partition */
-}
+}  // namespace partition
+}  // namespace niwa
 #endif /* SOURCE_PARTITION_AACCESSOR_H_ */

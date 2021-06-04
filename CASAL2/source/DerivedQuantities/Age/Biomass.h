@@ -15,8 +15,8 @@
 #define DERIVEDQUANTITIES_AGE_BIOMASS_H_
 
 // headers
-#include "../../DerivedQuantities/DerivedQuantity.h"
 #include "../../AgeWeights/AgeWeight.h"
+#include "../../DerivedQuantities/DerivedQuantity.h"
 
 // namespaces
 namespace niwa {
@@ -28,16 +28,16 @@ class Biomass : public niwa::DerivedQuantity {
 public:
   // methods
   explicit Biomass(shared_ptr<Model> model);
-  virtual                     ~Biomass() = default;
-  void                        PreExecute() override final;
-  void                        Execute() override final;
-  void                        DoValidate() override final;
-  void                        DoBuild() override final;
+  virtual ~Biomass() = default;
+  void PreExecute() override final;
+  void Execute() override final;
+  void DoValidate() override final;
+  void DoBuild() override final;
 
 protected:
-  vector<string>              age_weight_labels_;
-  vector<AgeWeight*>          age_weights_;
-  bool                        use_age_weights_ = false;
+  vector<string>     age_weight_labels_;
+  vector<AgeWeight*> age_weights_;
+  bool               use_age_weights_ = false;
 };
 
 } /* namespace age */

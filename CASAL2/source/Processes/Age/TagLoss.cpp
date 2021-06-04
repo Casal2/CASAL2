@@ -28,11 +28,9 @@ namespace age {
 /**
  * Default Constructor
  */
-TagLoss::TagLoss(shared_ptr<Model> model)
-  : Process(model),
-    partition_(model) {
+TagLoss::TagLoss(shared_ptr<Model> model) : Process(model), partition_(model) {
   LOG_TRACE();
-  process_type_ = ProcessType::kTransition;
+  process_type_        = ProcessType::kTransition;
   partition_structure_ = PartitionType::kAge;
 
   parameters_.Bind<string>(PARAM_CATEGORIES, &category_labels_, "The list of categories", "");
@@ -69,15 +67,13 @@ void TagLoss::DoValidate() {
   }
 
   if (tag_loss_input_.size() != category_labels_.size()) {
-    LOG_ERROR_P(PARAM_TAG_LOSS_RATE)
-        << ": the number of tag loss values provided is not the same as the number of categories provided. Categories: "
-        << category_labels_.size() << ", tag loss size " << tag_loss_input_.size();
+    LOG_ERROR_P(PARAM_TAG_LOSS_RATE) << ": the number of tag loss values provided is not the same as the number of categories provided. Categories: " << category_labels_.size()
+                                     << ", tag loss size " << tag_loss_input_.size();
   }
 
   if (selectivity_names_.size() != category_labels_.size()) {
-    LOG_ERROR_P(PARAM_SELECTIVITIES)
-        << ": the number of selectivities provided is not the same as the number of categories provided. Categories: "
-        << category_labels_.size() << ", selectivities size " << selectivity_names_.size();
+    LOG_ERROR_P(PARAM_SELECTIVITIES) << ": the number of selectivities provided is not the same as the number of categories provided. Categories: " << category_labels_.size()
+                                     << ", selectivities size " << selectivity_names_.size();
   }
 
   // Validate type of tag loss
@@ -93,8 +89,7 @@ void TagLoss::DoValidate() {
       LOG_ERROR_P(PARAM_TAG_LOSS_RATE) << ": Tag loss rate " << tag_loss << " must be between 0.0 and 1.0 (inclusive)";
   }
 
-  for (unsigned i = 0; i < tag_loss_input_.size(); ++i)
-    tag_loss_[category_labels_[i]] = tag_loss_input_[i];
+  for (unsigned i = 0; i < tag_loss_input_.size(); ++i) tag_loss_[category_labels_[i]] = tag_loss_input_[i];
 }
 
 /**
@@ -128,20 +123,18 @@ void TagLoss::DoBuild() {
   }
 
   if (ratios_.size() == 0) {
-    for (unsigned i : active_time_steps)
-      time_step_ratios_[i] = 1.0;
+    for (unsigned i : active_time_steps) time_step_ratios_[i] = 1.0;
   } else {
     if (ratios_.size() != active_time_steps.size())
-      LOG_FATAL_P(PARAM_TIME_STEP_RATIO) << " length (" << ratios_.size()
-          << ") does not match the number of time steps this process has been assigned to (" << active_time_steps.size() << ")";
+      LOG_FATAL_P(PARAM_TIME_STEP_RATIO) << " length (" << ratios_.size() << ") does not match the number of time steps this process has been assigned to ("
+                                         << active_time_steps.size() << ")";
 
     for (Double value : ratios_) {
       if (value < 0.0 || value > 1.0)
         LOG_ERROR_P(PARAM_TIME_STEP_RATIO) << " Time step ratio (" << value << ") must be between 0.0 and 1.0 inclusive";
     }
 
-    for (unsigned i = 0; i < ratios_.size(); ++i)
-      time_step_ratios_[active_time_steps[i]] = ratios_[i];
+    for (unsigned i = 0; i < ratios_.size(); ++i) time_step_ratios_[active_time_steps[i]] = ratios_[i];
   }
 }
 
@@ -159,7 +152,7 @@ void TagLoss::DoExecute() {
     LOG_FINEST() << "Ratios.size() " << time_step_ratios_.size() << " : time_step: " << time_step << "; ratio: " << time_step_ratios_[time_step];
     Double ratio = time_step_ratios_[time_step];
 
-    //StoreForReport("year", model_->current_year());
+    // StoreForReport("year", model_->current_year());
 
     unsigned i = 0;
     for (auto category : partition_) {
@@ -167,11 +160,11 @@ void TagLoss::DoExecute() {
 
       unsigned j = 0;
       LOG_FINEST() << "category " << category->name_ << "; min_age: " << category->min_age_ << "; ratio: " << ratio;
-      //StoreForReport(category->name_ + " ratio", ratio);
+      // StoreForReport(category->name_ + " ratio", ratio);
       for (Double& data : category->data_) {
         // Deleting this partition. In future we may have a target category to migrate to.
         Double amount = data * (1 - exp(-selectivities_[i]->GetAgeResult(category->min_age_ + j, category->age_length_) * tag_loss * ratio));
-        LOG_FINEST() << "Category " << category->name_  << " numbers at age: " << category->min_age_ + j << " = " << data << " removing " << amount;
+        LOG_FINEST() << "Category " << category->name_ << " numbers at age: " << category->min_age_ + j << " = " << data << " removing " << amount;
         data -= amount;
         ++j;
       }
@@ -184,8 +177,7 @@ void TagLoss::DoExecute() {
 /**
  * Reset the tag loss process
  */
-void TagLoss::DoReset() {
-}
+void TagLoss::DoReset() {}
 
 } /* namespace age */
 } /* namespace processes */

@@ -25,20 +25,21 @@ namespace initialisationphases {
 class Manager : public base::Manager<niwa::initialisationphases::Manager, niwa::InitialisationPhase> {
   friend class base::Manager<niwa::initialisationphases::Manager, niwa::InitialisationPhase>;
   friend class niwa::Managers;
+
 public:
   // methods
-  virtual                     ~Manager() noexcept(true);
-  void                        Validate() override final;
-  void                        Build() override final;
-  void                        Build(shared_ptr<Model> model);
-  void                        Execute();
-  InitialisationPhase*        GetInitPhase(const string& label);
-  bool                        IsPhaseDefined(const string& label) const;
-  unsigned                    GetPhaseIndex(const string& label) const;
+  virtual ~Manager() noexcept(true);
+  void                 Validate() override final;
+  void                 Build() override final;
+  void                 Build(shared_ptr<Model> model);
+  void                 Execute();
+  InitialisationPhase* GetInitPhase(const string& label);
+  bool                 IsPhaseDefined(const string& label) const;
+  unsigned             GetPhaseIndex(const string& label) const;
 
   // accessors
-  unsigned                    last_executed_phase() const { return last_executed_phase_; }
-  unsigned                    current_initialisation_phase() const { return current_initialisation_phase_; }
+  unsigned last_executed_phase() const { return last_executed_phase_; }
+  unsigned current_initialisation_phase() const { return current_initialisation_phase_; }
 
 protected:
   // methods
@@ -46,10 +47,9 @@ protected:
 
 private:
   // members
-  unsigned                      current_initialisation_phase_ = 0;
-  unsigned                      last_executed_phase_ = 0;
-  vector<InitialisationPhase*>  ordered_initialisation_phases_;
-
+  unsigned                     current_initialisation_phase_ = 0;
+  unsigned                     last_executed_phase_          = 0;
+  vector<InitialisationPhase*> ordered_initialisation_phases_;
 };
 
 } /* namespace initialisationphases */

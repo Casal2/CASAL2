@@ -11,8 +11,9 @@
 
 // headers
 #include "Process.h"
-#include "../../Model/Model.h"
+
 #include "../../Model/Managers.h"
+#include "../../Model/Model.h"
 #include "../../Penalties/Manager.h"
 #include "../../Utilities/Math.h"
 
@@ -40,7 +41,6 @@ Process::Process(shared_ptr<Model> model) : Penalty(model) {
  * @param value_2 The second valud to use in equation
  */
 void Process::Trigger(const string& source_label, Double value_1, Double value_2) {
-
   if (log_scale_) {
     value_1 = log(utilities::math::ZeroFun(value_1));
     value_2 = log(utilities::math::ZeroFun(value_2));

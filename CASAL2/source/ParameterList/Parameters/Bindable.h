@@ -30,40 +30,40 @@ using std::vector;
 /**
  * class definition
  */
-template<typename T>
+template <typename T>
 class Bindable : public niwa::parameterlist::Parameter {
 public:
   // methods
   Bindable() = delete;
   Bindable(const string& label, T* target, const string& description);
-  virtual                     ~Bindable() = default;
-  void                        Bind() override final;
+  virtual ~Bindable() = default;
+  void Bind() override final;
 
   // acessors
-  void                        set_default_value(T value) { default_value_ = value; }
-  string                      stored_type() const override final { return utilities::demangle(typeid(*target_).name()); }
-  vector<string>              current_values() override final;
-  void                        set_allowed_values(std::initializer_list<T> list);
-  void                        set_range(T lower_bound, T upper_bound, bool lower_inclusive = true, bool upper_inclusive = true);
-  void                        set_lower_bound(T lower_bound, bool inclusive = true);
-  void                        set_upper_bound(T upper_bound, bool inclusive = true);
+  void           set_default_value(T value) { default_value_ = value; }
+  string         stored_type() const override final { return utilities::demangle(typeid(*target_).name()); }
+  vector<string> current_values() override final;
+  void           set_allowed_values(std::initializer_list<T> list);
+  void           set_range(T lower_bound, T upper_bound, bool lower_inclusive = true, bool upper_inclusive = true);
+  void           set_lower_bound(T lower_bound, bool inclusive = true);
+  void           set_upper_bound(T upper_bound, bool inclusive = true);
 
 private:
   // class
   struct Range {
     bool lower_flagged_ = false;
     bool upper_flagged_ = false;
-    T lower_bound_;
-    T upper_bound_;
+    T    lower_bound_;
+    T    upper_bound_;
     bool lower_inclusive_;
     bool upper_inclusive_;
   };
 
   // members
-  T*                          target_ = nullptr;
-  T                           default_value_;
-  vector<T>                   allowed_values_;
-  Range						            range_;
+  T*        target_ = nullptr;
+  T         default_value_;
+  vector<T> allowed_values_;
+  Range     range_;
 };
 
 } /* namespace parameters */

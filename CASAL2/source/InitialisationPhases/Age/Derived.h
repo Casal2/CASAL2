@@ -14,11 +14,11 @@
 #define INITIALISATIONPHASES_DERIVED_H_
 
 // headers
-#include "../../Processes/Age/RecruitmentBevertonHolt.h"
-#include "../../Processes/Age/RecruitmentBevertonHoltWithDeviations.h"
 #include "../../InitialisationPhases/InitialisationPhase.h"
 #include "../../Partition/Accessors/Cached/Categories.h"
 #include "../../Partition/Accessors/Categories.h"
+#include "../../Processes/Age/RecruitmentBevertonHolt.h"
+#include "../../Processes/Age/RecruitmentBevertonHoltWithDeviations.h"
 
 // namespaces
 namespace niwa {
@@ -35,25 +35,25 @@ class Derived : public niwa::InitialisationPhase {
 public:
   // methods
   explicit Derived(shared_ptr<Model> model);
-  virtual                     ~Derived() = default;
-  void                        Execute() override final;
+  virtual ~Derived() = default;
+  void Execute() override final;
 
 protected:
   // methods
-  void                        DoValidate() override final;
-  void                        DoBuild() override final;
+  void DoValidate() override final;
+  void DoBuild() override final;
 
   // members
-  unsigned                    years_;
-  vector<string>              insert_processes_;
-  bool                        recruitment_ = false;
-  vector<string>              exclude_processes_;
-  vector<TimeStep*>           time_steps_;
-  cached::Categories          cached_partition_;
-  accessor::Categories        partition_;
-  vector<RecruitmentBevertonHolt*> recruitment_process_;
+  unsigned                                       years_;
+  vector<string>                                 insert_processes_;
+  bool                                           recruitment_ = false;
+  vector<string>                                 exclude_processes_;
+  vector<TimeStep*>                              time_steps_;
+  cached::Categories                             cached_partition_;
+  accessor::Categories                           partition_;
+  vector<RecruitmentBevertonHolt*>               recruitment_process_;
   vector<RecruitmentBevertonHoltWithDeviations*> recruitment_process_with_devs_;
-  bool                        casal_initialisation_phase_ = false;
+  bool                                           casal_initialisation_phase_ = false;
 };
 
 } /* namespace age */

@@ -35,15 +35,15 @@ using std::vector;
 class CallBack {
 public:
   CallBack(shared_ptr<Model> model);
-  virtual                     ~CallBack() = default;
-  double                      operator()(const vector<double>& Parameters);
+  virtual ~CallBack() = default;
+  double operator()(const vector<double>& Parameters);
 
 private:
-  shared_ptr<Model>                    model_;
+  shared_ptr<Model> model_;
 };
 
 } /* namespace gammadiff */
-} /* namespace minimiser */
+}  // namespace minimisers
 } /* namespace niwa */
 
 #endif /* MINIMISERS_GAMMADIFF_CALLBACK_H_ */

@@ -9,8 +9,9 @@
  */
 
 // headers
-#include <boost/algorithm/string/join.hpp>
 #include "UserDefined.h"
+
+#include <boost/algorithm/string/join.hpp>
 
 #include "../../EquationParser/EquationParser.h"
 #include "../../Model/Model.h"

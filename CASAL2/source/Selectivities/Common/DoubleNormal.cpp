@@ -27,9 +27,7 @@ namespace selectivities {
 /**
  * Default constructor
  */
-DoubleNormal::DoubleNormal(shared_ptr<Model> model)
-: Selectivity(model) {
-
+DoubleNormal::DoubleNormal(shared_ptr<Model> model) : Selectivity(model) {
   parameters_.Bind<Double>(PARAM_MU, &mu_, "The mean (mu)", "");
   parameters_.Bind<Double>(PARAM_SIGMA_L, &sigma_l_, "The sigma L parameter", "")->set_lower_bound(0.0, false);
   parameters_.Bind<Double>(PARAM_SIGMA_R, &sigma_r_, "The sigma R parameter", "")->set_lower_bound(0.0, false);
@@ -78,7 +76,7 @@ void DoubleNormal::RebuildCache() {
     }
   } else if (model_->partition_type() == PartitionType::kLength) {
     vector<Double> length_bins = model_->length_bins();
-    Double temp = 0.0;
+    Double         temp        = 0.0;
     for (unsigned length_bin_index = 0; length_bin_index < length_bins.size(); ++length_bin_index) {
       temp = length_bins[length_bin_index];
 
@@ -102,23 +100,21 @@ void DoubleNormal::RebuildCache() {
 
 Double DoubleNormal::GetLengthBasedResult(unsigned age, AgeLength* age_length, unsigned year, int time_step_index) {
   LOG_TRACE();
-  unsigned yearx = year == 0 ? model_->current_year() : year;
+  unsigned yearx     = year == 0 ? model_->current_year() : year;
   unsigned time_step = time_step_index == -1 ? model_->managers()->time_step()->current_time_step() : (unsigned)time_step_index;
-  Double cv = age_length->cv(yearx, time_step, age);
-  Double mean = age_length->mean_length(time_step, age);
-  string dist = age_length->distribution_label();
+  Double   cv        = age_length->cv(yearx, time_step, age);
+  Double   mean      = age_length->mean_length(time_step, age);
+  string   dist      = age_length->distribution_label();
 
   if (dist == PARAM_NONE || n_quant_ <= 1) {
-
     if (mean < mu_)
       return pow(2.0, -((mean - mu_) / sigma_l_ * (mean - mu_) / sigma_l_)) * alpha_;
     else
       return pow(2.0, -((mean - mu_) / sigma_r_ * (mean - mu_) / sigma_r_)) * alpha_;
 
   } else if (dist == PARAM_NORMAL) {
-
     Double sigma = cv * mean;
-    Double size = 0.0;
+    Double size  = 0.0;
     Double total = 0.0;
 
     for (unsigned j = 0; j < n_quant_; ++j) {
@@ -133,10 +129,10 @@ Double DoubleNormal::GetLengthBasedResult(unsigned age, AgeLength* age_length, u
 
   } else if (dist == PARAM_LOGNORMAL) {
     // convert paramters to log space
-    Double sigma = sqrt(log(1 + cv * cv));
-    Double mu = log(mean) - sigma * sigma * 0.5;
-    Double size = 0.0;
-    Double total = 0.0;
+    Double                 sigma = sqrt(log(1 + cv * cv));
+    Double                 mu    = log(mean) - sigma * sigma * 0.5;
+    Double                 size  = 0.0;
+    Double                 total = 0.0;
     boost::math::lognormal dist{AS_DOUBLE(mu), AS_DOUBLE(sigma)};
 
     for (unsigned j = 0; j < n_quant_; ++j) {

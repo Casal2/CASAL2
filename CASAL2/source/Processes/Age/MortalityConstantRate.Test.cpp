@@ -12,34 +12,33 @@
 #ifdef TESTMODE
 
 // Headers
-#include "MortalityConstantRate.h"
-
 #include <iostream>
 
 #include "Model/Factory.h"
 #include "Model/Managers.h"
 #include "Model/Model.h"
-#include "TimeSteps/Manager.h"
+#include "MortalityConstantRate.h"
 #include "Partition/Partition.h"
 #include "TestResources/TestFixtures/BasicModel.h"
+#include "TimeSteps/Manager.h"
 
 // Namespaces
 namespace niwa {
 namespace processes {
 namespace age {
 
+using niwa::testfixtures::BasicModel;
 using std::cout;
 using std::endl;
-using niwa::testfixtures::BasicModel;
 
 /**
  *
  */
 TEST_F(BasicModel, Processes_Mortality_Constant_Rate) {
   // Recruitment process
-  vector<string> recruitment_categories   = { "immature.male", "immature.female" };
-  vector<string> proportions  = { "0.6", "0.4" };
-  base::Object* process = model_->factory().CreateObject(PARAM_RECRUITMENT, PARAM_CONSTANT);
+  vector<string> recruitment_categories = {"immature.male", "immature.female"};
+  vector<string> proportions            = {"0.6", "0.4"};
+  base::Object*  process                = model_->factory().CreateObject(PARAM_RECRUITMENT, PARAM_CONSTANT);
   process->parameters().Add(PARAM_LABEL, "recruitment", __FILE__, __LINE__);
   process->parameters().Add(PARAM_TYPE, "constant", __FILE__, __LINE__);
   process->parameters().Add(PARAM_CATEGORIES, recruitment_categories, __FILE__, __LINE__);
@@ -54,8 +53,8 @@ TEST_F(BasicModel, Processes_Mortality_Constant_Rate) {
   report->parameters().Add(PARAM_TYPE, "derived_quantity", __FILE__, __LINE__);
 
   // Mortality process
-  vector<string> mortality_categories   = { "immature.male", "immature.female", "mature.male", "mature.female" };
-  process = model_->factory().CreateObject(PARAM_MORTALITY, PARAM_CONSTANT_RATE);
+  vector<string> mortality_categories = {"immature.male", "immature.female", "mature.male", "mature.female"};
+  process                             = model_->factory().CreateObject(PARAM_MORTALITY, PARAM_CONSTANT_RATE);
   process->parameters().Add(PARAM_LABEL, "mortality", __FILE__, __LINE__);
   process->parameters().Add(PARAM_TYPE, "constant_rate", __FILE__, __LINE__);
   process->parameters().Add(PARAM_CATEGORIES, mortality_categories, __FILE__, __LINE__);
@@ -63,14 +62,14 @@ TEST_F(BasicModel, Processes_Mortality_Constant_Rate) {
   process->parameters().Add(PARAM_RELATIVE_M_BY_AGE, "constant_one", __FILE__, __LINE__);
 
   // Ageing process
-  vector<string> ageing_categories   = { "immature.male", "immature.female" };
-  process = model_->factory().CreateObject(PARAM_AGEING, "");
+  vector<string> ageing_categories = {"immature.male", "immature.female"};
+  process                          = model_->factory().CreateObject(PARAM_AGEING, "");
   process->parameters().Add(PARAM_LABEL, "ageing", __FILE__, __LINE__);
   process->parameters().Add(PARAM_CATEGORIES, ageing_categories, __FILE__, __LINE__);
 
   // Timestep
-  base::Object* time_step = model_->factory().CreateObject(PARAM_TIME_STEP, "");
-  vector<string> processes    = { "ageing", "recruitment", "mortality" };
+  base::Object*  time_step = model_->factory().CreateObject(PARAM_TIME_STEP, "");
+  vector<string> processes = {"ageing", "recruitment", "mortality"};
   time_step->parameters().Add(PARAM_LABEL, "step_one", __FILE__, __LINE__);
   time_step->parameters().Add(PARAM_PROCESSES, processes, __FILE__, __LINE__);
 
@@ -82,26 +81,22 @@ TEST_F(BasicModel, Processes_Mortality_Constant_Rate) {
   partition::Category& mature_female   = model_->partition().category("mature.female");
 
   // Verify blank partition
-  for (unsigned i = 0; i < immature_male.data_.size(); ++i)
-    EXPECT_DOUBLE_EQ(0.0, immature_male.data_[i]) << " where i = " << i << "; age = " << i + immature_male.min_age_;
-  for (unsigned i = 0; i < immature_female.data_.size(); ++i)
-    EXPECT_DOUBLE_EQ(0.0, immature_female.data_[i]) << " where i = " << i << "; age = " << i + immature_female.min_age_;
-  for (unsigned i = 0; i < mature_male.data_.size(); ++i)
-    EXPECT_DOUBLE_EQ(0.0, mature_male.data_[i]) << " where i = " << i << "; age = " << i + mature_male.min_age_;
-  for (unsigned i = 0; i < mature_female.data_.size(); ++i)
-    EXPECT_DOUBLE_EQ(0.0, mature_female.data_[i]) << " where i = " << i << "; age = " << i + mature_female.min_age_;
+  for (unsigned i = 0; i < immature_male.data_.size(); ++i) EXPECT_DOUBLE_EQ(0.0, immature_male.data_[i]) << " where i = " << i << "; age = " << i + immature_male.min_age_;
+  for (unsigned i = 0; i < immature_female.data_.size(); ++i) EXPECT_DOUBLE_EQ(0.0, immature_female.data_[i]) << " where i = " << i << "; age = " << i + immature_female.min_age_;
+  for (unsigned i = 0; i < mature_male.data_.size(); ++i) EXPECT_DOUBLE_EQ(0.0, mature_male.data_[i]) << " where i = " << i << "; age = " << i + mature_male.min_age_;
+  for (unsigned i = 0; i < mature_female.data_.size(); ++i) EXPECT_DOUBLE_EQ(0.0, mature_female.data_[i]) << " where i = " << i << "; age = " << i + mature_female.min_age_;
 
   /**
    * Do 1 iteration of the model then check the categories to see if
    * the maturation was successful
    */
- model_->FullIteration();
+  model_->FullIteration();
 
   // 1-exp(-(selectivities_[i]->GetResult(min_age + offset) * m));
-  double immature_male_value    = 60000;
-  double immature_female_value  = 40000;
+  double immature_male_value   = 60000;
+  double immature_female_value = 40000;
   for (unsigned i = 0; i < immature_male.data_.size() && i < 15; ++i) {
-    immature_male_value   -= (1 - exp(-0.065)) * immature_male_value;
+    immature_male_value -= (1 - exp(-0.065)) * immature_male_value;
     immature_female_value -= (1 - exp(-0.065)) * immature_female_value;
 
     EXPECT_DOUBLE_EQ(immature_male_value, immature_male.data_[i]) << " where i = " << i << "; age = " << i + immature_male.min_age_;
@@ -109,15 +104,12 @@ TEST_F(BasicModel, Processes_Mortality_Constant_Rate) {
   }
 
   // Mature should still be 0 because we had no maturation
-  for (unsigned i = 0; i < mature_male.data_.size(); ++i)
-    EXPECT_DOUBLE_EQ(0.0, mature_male.data_[i]) << " where i = " << i << "; age = " << i + mature_male.min_age_;
-  for (unsigned i = 0; i < mature_female.data_.size(); ++i)
-    EXPECT_DOUBLE_EQ(0.0, mature_female.data_[i]) << " where i = " << i << "; age = " << i + mature_female.min_age_;
+  for (unsigned i = 0; i < mature_male.data_.size(); ++i) EXPECT_DOUBLE_EQ(0.0, mature_male.data_[i]) << " where i = " << i << "; age = " << i + mature_male.min_age_;
+  for (unsigned i = 0; i < mature_female.data_.size(); ++i) EXPECT_DOUBLE_EQ(0.0, mature_female.data_[i]) << " where i = " << i << "; age = " << i + mature_female.min_age_;
 }
 
 } /* namespace age */
 } /* namespace processes */
 } /* namespace niwa */
-
 
 #endif /* TESTMODE */

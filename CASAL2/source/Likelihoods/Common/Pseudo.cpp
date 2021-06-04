@@ -43,6 +43,5 @@ void Pseudo::SimulateObserved(map<unsigned, vector<observations::Comparison> >& 
   }
 }
 
-
 } /* namespace likelihoods */
 } /* namespace niwa */

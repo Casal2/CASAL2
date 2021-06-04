@@ -46,14 +46,13 @@ Double LogNormal::AdjustErrorValue(const Double process_error, const Double erro
 void LogNormal::GetScores(map<unsigned, vector<observations::Comparison> >& comparisons) {
   for (auto year_iterator = comparisons.begin(); year_iterator != comparisons.end(); ++year_iterator) {
     for (observations::Comparison& comparison : year_iterator->second) {
-
       Double error_value = AdjustErrorValue(comparison.process_error_, comparison.error_value_) * error_value_multiplier_;
-      Double sigma = sqrt(log(1 + error_value * error_value));
-      Double score = log(comparison.observed_ / math::ZeroFun(comparison.expected_, comparison.delta_)) / sigma + 0.5 * sigma;
+      Double sigma       = sqrt(log(1 + error_value * error_value));
+      Double score       = log(comparison.observed_ / math::ZeroFun(comparison.expected_, comparison.delta_)) / sigma + 0.5 * sigma;
       Double final_score = log(sigma) + 0.5 * (score * score);
 
       comparison.adjusted_error_ = error_value;
-      comparison.score_ = final_score * multiplier_;
+      comparison.score_          = final_score * multiplier_;
     }
   }
 }
@@ -78,7 +77,6 @@ void LogNormal::SimulateObserved(map<unsigned, vector<observations::Comparison> 
         LOG_FINEST() << "Expected = " << comparison.expected_;
         comparison.observed_ = rng.lognormal(AS_DOUBLE(comparison.expected_), AS_DOUBLE(error_value));
         LOG_FINEST() << "Simulated = " << comparison.observed_;
-
       }
       comparison.adjusted_error_ = error_value;
     }

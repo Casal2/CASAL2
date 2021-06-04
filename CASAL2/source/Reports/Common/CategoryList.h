@@ -21,15 +21,15 @@ namespace niwa {
 namespace reports {
 
 // classes
-class CategoryList : public niwa::Report  {
+class CategoryList : public niwa::Report {
 public:
   // methods
-	CategoryList();
-	virtual                     ~CategoryList() = default;
-  void                        DoValidate(shared_ptr<Model> model) final { };
-  void                        DoBuild(shared_ptr<Model> model) final { };
-  void                        DoExecute(shared_ptr<Model> model) final;
-  void                        DoExecuteTabular(shared_ptr<Model> model) final { };
+  CategoryList();
+  virtual ~CategoryList() = default;
+  void DoValidate(shared_ptr<Model> model) final{};
+  void DoBuild(shared_ptr<Model> model) final{};
+  void DoExecute(shared_ptr<Model> model) final;
+  void DoExecuteTabular(shared_ptr<Model> model) final{};
 };
 
 } /* namespace reports */

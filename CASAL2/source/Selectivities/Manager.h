@@ -30,10 +30,11 @@ namespace selectivities {
 class Manager : public niwa::base::Manager<niwa::selectivities::Manager, niwa::Selectivity> {
   friend class niwa::base::Manager<niwa::selectivities::Manager, niwa::Selectivity>;
   friend class niwa::Managers;
+
 public:
   // methods
-  virtual                     ~Manager() noexcept(true) {};
-  Selectivity*                GetSelectivity(const string& label);
+  virtual ~Manager() noexcept(true){};
+  Selectivity* GetSelectivity(const string& label);
 
 protected:
   // methods

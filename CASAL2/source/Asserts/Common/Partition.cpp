@@ -11,9 +11,9 @@
 // headers
 #include "Partition.h"
 
+#include "../../Categories/Categories.h"
 #include "../../Model/Model.h"
 #include "../../Model/Objects.h"
-#include "../../Categories/Categories.h"
 #include "../../Partition/Category.h"
 #include "../../Partition/Partition.h"
 #include "../../Utilities/Math.h"
@@ -75,8 +75,8 @@ void Partition::Execute() {
       std::cout.precision(9);
 
       Double diff = values_[i] - data[i];
-      LOG_ERROR() << "Assert Failure: Partition.Category: " << category_label_ << " had value " << data[i] << " when " << values_[i]
-        << " values are expected for age " << (category->min_age_ + i) << ". The difference is " << diff << ".";
+      LOG_ERROR() << "Assert Failure: Partition.Category: " << category_label_ << " had value " << data[i] << " when " << values_[i] << " values are expected for age "
+                  << (category->min_age_ + i) << ". The difference is " << diff << ".";
 
       std::cout.precision(prec);
     }

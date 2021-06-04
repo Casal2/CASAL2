@@ -11,17 +11,16 @@
 #ifdef TESTMODE
 
 // Headers
-#include "Table.h"
-
 #include <iostream>
 
 #include "../Categories/Categories.h"
 #include "../Model/Factory.h"
-#include "../TimeSteps/Manager.h"
 #include "../Partition/Partition.h"
-#include "../TestResources/TestFixtures/BasicModel.h"
 #include "../TestResources/MockClasses/Managers.h"
 #include "../TestResources/MockClasses/Model.h"
+#include "../TestResources/TestFixtures/BasicModel.h"
+#include "../TimeSteps/Manager.h"
+#include "Table.h"
 
 // Namespaces
 namespace niwa {
@@ -38,25 +37,23 @@ class MockCategories : public Categories {
 public:
   MockCategories(shared_ptr<Model> model) : Categories(model) {
     vector<string> names;
-    vector<string> sexes  = { "male", "female" };
-    vector<string> stages = { "immature", "mature" };
-    vector<string> tags   = { "notag", "2000", "2001", "2002" };
+    vector<string> sexes  = {"male", "female"};
+    vector<string> stages = {"immature", "mature"};
+    vector<string> tags   = {"notag", "2000", "2001", "2002"};
 
     for (string sex : sexes)
       for (string stage : stages)
-        for (string tag : tags)
-          names.push_back(sex + "." + stage + "." + tag);
+        for (string tag : tags) names.push_back(sex + "." + stage + "." + tag);
 
     set_block_type(PARAM_CATEGORIES);
     parameters().Add(PARAM_FORMAT, "sex.stage.tag", __FILE__, __LINE__);
     parameters().Add(PARAM_NAMES, names, __FILE__, __LINE__);
   };
 
-  map<string, string> GetCategoryLabelsAndValues(const string& lookup, const string& parameter_location) override final{
+  map<string, string> GetCategoryLabelsAndValues(const string& lookup, const string& parameter_location) override final {
     return Categories::GetCategoryLabelsAndValues(lookup, parameter_location);
   }
 };
-
 
 /**
  * Check that we can create a partition table and add columns without error
@@ -90,7 +87,7 @@ TEST(Parameters, Table_Populate_Fail) {
  */
 TEST(Parameters, Table_Populate_Categories) {
   shared_ptr<MockModel> model = shared_ptr<MockModel>(new MockModel());
-  MockCategories categories(model);
+  MockCategories        categories(model);
 
   model->bind_calls();
 
@@ -99,9 +96,9 @@ TEST(Parameters, Table_Populate_Categories) {
   EXPECT_CALL(*model, categories()).WillRepeatedly(Return(&categories));
 
   vector<string> columns = {"category", "col2", "col3"};
-  vector<string> row1 = { "male.immature.notag", "x", "x" };
-  vector<string> row2 = { "female.immature.notag", "x", "x" };
-  vector<string> row3 = { "male.mature.2001", "x", "x" };
+  vector<string> row1    = {"male.immature.notag", "x", "x"};
+  vector<string> row2    = {"female.immature.notag", "x", "x"};
+  vector<string> row3    = {"male.mature.2001", "x", "x"};
 
   Table table("my_table");
   EXPECT_NO_THROW(table.AddColumns(columns));
@@ -121,7 +118,7 @@ TEST(Parameters, Table_Populate_Categories) {
  */
 TEST(Parameters, Table_Populate_Categories_Fail) {
   shared_ptr<MockModel> model = shared_ptr<MockModel>(new MockModel());
-  MockCategories categories(model);
+  MockCategories        categories(model);
 
   model->bind_calls();
   ASSERT_NO_THROW(categories.Validate());
@@ -129,9 +126,9 @@ TEST(Parameters, Table_Populate_Categories_Fail) {
   EXPECT_CALL(*model, categories()).WillRepeatedly(Return(&categories));
 
   vector<string> columns = {"category", "col2", "col3"};
-  vector<string> row1 = { "male.immature.notag", "x", "x" };
-  vector<string> row2 = { "female.immature.notag", "x", "x" };
-  vector<string> row3 = { "male", "x", "x" };
+  vector<string> row1    = {"male.immature.notag", "x", "x"};
+  vector<string> row2    = {"female.immature.notag", "x", "x"};
+  vector<string> row3    = {"male", "x", "x"};
 
   Table table("my_table");
   EXPECT_NO_THROW(table.AddColumns(columns));
@@ -153,7 +150,7 @@ TEST(Parameters, Table_Populate_Categories_Fail) {
  */
 TEST(Parameters, Table_Populate_Shorthand_Categories) {
   shared_ptr<MockModel> model = shared_ptr<MockModel>(new MockModel());
-  MockCategories categories(model);
+  MockCategories        categories(model);
 
   model->bind_calls();
   ASSERT_NO_THROW(categories.Validate());
@@ -161,9 +158,9 @@ TEST(Parameters, Table_Populate_Shorthand_Categories) {
   EXPECT_CALL(*model, categories()).WillRepeatedly(Return(&categories));
 
   vector<string> columns = {"category", "col2", "col3"};
-  vector<string> row1 = { "male.immature.notag", "x", "x" };
-  vector<string> row2 = { "female.immature.notag", "x", "x" };
-  vector<string> row3 = { "male,female.mature.2001:2002", "y", "z" };
+  vector<string> row1    = {"male.immature.notag", "x", "x"};
+  vector<string> row2    = {"female.immature.notag", "x", "x"};
+  vector<string> row3    = {"male,female.mature.2001:2002", "y", "z"};
 
   Table table("my_table");
   EXPECT_NO_THROW(table.AddColumns(columns));
@@ -190,7 +187,7 @@ TEST(Parameters, Table_Populate_Shorthand_Categories) {
  */
 TEST(Parameters, Table_Populate_Shorthand_Categories_Fail) {
   shared_ptr<MockModel> model = shared_ptr<MockModel>(new MockModel());
-  MockCategories categories(model);
+  MockCategories        categories(model);
 
   model->bind_calls();
   ASSERT_NO_THROW(categories.Validate());
@@ -198,9 +195,9 @@ TEST(Parameters, Table_Populate_Shorthand_Categories_Fail) {
   EXPECT_CALL(*model, categories()).WillRepeatedly(Return(&categories));
 
   vector<string> columns = {"category", "col2", "col3"};
-  vector<string> row1 = { "male.immature.notag", "x", "x" };
-  vector<string> row2 = { "male,female.mature.2001:2002", "x", "x" };
-  vector<string> row3 = { "male.mature.2001,female", "y", "z" };
+  vector<string> row1    = {"male.immature.notag", "x", "x"};
+  vector<string> row2    = {"male,female.mature.2001:2002", "x", "x"};
+  vector<string> row3    = {"male.mature.2001,female", "y", "z"};
 
   Table table("my_table");
   EXPECT_NO_THROW(table.AddColumns(columns));
@@ -217,18 +214,18 @@ TEST(Parameters, Table_Populate_Shorthand_Categories_Fail) {
  */
 TEST(Parameters, Table_Required_Columns) {
   shared_ptr<MockModel> model = shared_ptr<MockModel>(new MockModel());
-  MockCategories categories(model);
+  MockCategories        categories(model);
 
   model->bind_calls();
   ASSERT_NO_THROW(categories.Validate());
 
   EXPECT_CALL(*model, categories()).WillRepeatedly(Return(&categories));
 
-  vector<string> columns = {"category", "col2", "col3"};
+  vector<string> columns          = {"category", "col2", "col3"};
   vector<string> required_columns = {"category", "col2", "col3"};
-  vector<string> row1 = { "male.immature.notag", "x", "x" };
-  vector<string> row2 = { "male,female.mature.2001:2002", "x", "x" };
-  vector<string> row3 = { "male.mature.2001", "y", "z" };
+  vector<string> row1             = {"male.immature.notag", "x", "x"};
+  vector<string> row2             = {"male,female.mature.2001:2002", "x", "x"};
+  vector<string> row3             = {"male.mature.2001", "y", "z"};
 
   Table table("my_table");
   EXPECT_NO_THROW(table.set_required_columns(required_columns, false));
@@ -249,18 +246,18 @@ TEST(Parameters, Table_Required_Columns) {
  */
 TEST(Parameters, Table_Required_Columns_Fail) {
   shared_ptr<MockModel> model = shared_ptr<MockModel>(new MockModel());
-  MockCategories categories(model);
+  MockCategories        categories(model);
 
   model->bind_calls();
   ASSERT_NO_THROW(categories.Validate());
 
   EXPECT_CALL(*model, categories()).WillRepeatedly(Return(&categories));
 
-  vector<string> columns = { "category" };
-  vector<string> required_columns = { "category", "col2", "col3" };
-  vector<string> row1 = { "male.immature.notag", "x", "x" };
-  vector<string> row2 = { "male,female.mature.2001:2002", "x", "x" };
-  vector<string> row3 = { "male.mature.2001", "y", "z" };
+  vector<string> columns          = {"category"};
+  vector<string> required_columns = {"category", "col2", "col3"};
+  vector<string> row1             = {"male.immature.notag", "x", "x"};
+  vector<string> row2             = {"male,female.mature.2001:2002", "x", "x"};
+  vector<string> row3             = {"male.mature.2001", "y", "z"};
 
   Table table("my_table");
   EXPECT_NO_THROW(table.set_required_columns(required_columns, false));
@@ -279,18 +276,18 @@ TEST(Parameters, Table_Required_Columns_Fail) {
  */
 TEST(Parameters, Table_Extra_Columns) {
   shared_ptr<MockModel> model = shared_ptr<MockModel>(new MockModel());
-  MockCategories categories(model);
+  MockCategories        categories(model);
 
   model->bind_calls();
   ASSERT_NO_THROW(categories.Validate());
 
   EXPECT_CALL(*model, categories()).WillRepeatedly(Return(&categories));
 
-  vector<string> columns = {"category", "col2", "col3"};
+  vector<string> columns          = {"category", "col2", "col3"};
   vector<string> required_columns = {"category", "col2", "col3", "col4", "col5"};
-  vector<string> row1 = { "male.immature.notag", "x", "x" };
-  vector<string> row2 = { "male,female.mature.2001:2002", "x", "x" };
-  vector<string> row3 = { "male.mature.2001", "y", "z" };
+  vector<string> row1             = {"male.immature.notag", "x", "x"};
+  vector<string> row2             = {"male,female.mature.2001:2002", "x", "x"};
+  vector<string> row3             = {"male.mature.2001", "y", "z"};
 
   Table table("my_table");
   EXPECT_NO_THROW(table.set_required_columns(required_columns, true));
@@ -310,19 +307,19 @@ TEST(Parameters, Table_Extra_Columns) {
  */
 TEST(Parameters, Table_Optional_Columns) {
   shared_ptr<MockModel> model = shared_ptr<MockModel>(new MockModel());
-  MockCategories categories(model);
+  MockCategories        categories(model);
 
   model->bind_calls();
   ASSERT_NO_THROW(categories.Validate());
 
   EXPECT_CALL(*model, categories()).WillRepeatedly(Return(&categories));
 
-  vector<string> columns = {"category", "year", "values"};
+  vector<string> columns          = {"category", "year", "values"};
   vector<string> required_columns = {"category", "year"};
-  vector<string> optional_columns = { "values" };
-  vector<string> row1 = { "male.immature.notag", "1990", "x" };
-  vector<string> row2 = { "male,female.mature.2001:2002", "1990", "x" };
-  vector<string> row3 = { "male.mature.2001", "1991", "z" };
+  vector<string> optional_columns = {"values"};
+  vector<string> row1             = {"male.immature.notag", "1990", "x"};
+  vector<string> row2             = {"male,female.mature.2001:2002", "1990", "x"};
+  vector<string> row3             = {"male.mature.2001", "1991", "z"};
 
   Table table("my_table");
   EXPECT_NO_THROW(table.set_required_columns(required_columns, false));
@@ -345,19 +342,19 @@ TEST(Parameters, Table_Optional_Columns) {
  */
 TEST(Parameters, Table_Optional_Columns_Fail) {
   shared_ptr<MockModel> model = shared_ptr<MockModel>(new MockModel());
-  MockCategories categories(model);
+  MockCategories        categories(model);
 
   model->bind_calls();
   ASSERT_NO_THROW(categories.Validate());
 
   EXPECT_CALL(*model, categories()).WillRepeatedly(Return(&categories));
 
-  vector<string> columns = {"category", "year", "values"};
+  vector<string> columns          = {"category", "year", "values"};
   vector<string> required_columns = {"category", "year"};
-  vector<string> optional_columns = { "labels" };
-  vector<string> row1 = { "male.immature.notag", "x", "x" };
-  vector<string> row2 = { "male,female.mature.2001:2002", "x", "x" };
-  vector<string> row3 = { "male.mature.2001", "y", "z" };
+  vector<string> optional_columns = {"labels"};
+  vector<string> row1             = {"male.immature.notag", "x", "x"};
+  vector<string> row2             = {"male,female.mature.2001:2002", "x", "x"};
+  vector<string> row3             = {"male.mature.2001", "y", "z"};
 
   Table table("my_table");
   EXPECT_NO_THROW(table.set_required_columns(required_columns, false));
@@ -375,17 +372,17 @@ TEST(Parameters, Table_Optional_Columns_Fail) {
  */
 TEST(Parameters, Table_CheckColumnType_Unsigned_And_Double) {
   shared_ptr<MockModel> model = shared_ptr<MockModel>(new MockModel());
-  MockCategories categories(model);
+  MockCategories        categories(model);
 
   model->bind_calls();
   ASSERT_NO_THROW(categories.Validate());
 
   EXPECT_CALL(*model, categories()).WillRepeatedly(Return(&categories));
 
-  vector<string> columns = {"category", "year", "value" };
-  vector<string> row1 = { "male.immature.notag", "1990", "1.0" };
-  vector<string> row2 = { "female.mature.2001",  "1991", "2.5" };
-  vector<string> row3 = { "male.mature.2001",    "1992", "3.9" };
+  vector<string> columns = {"category", "year", "value"};
+  vector<string> row1    = {"male.immature.notag", "1990", "1.0"};
+  vector<string> row2    = {"female.mature.2001", "1991", "2.5"};
+  vector<string> row3    = {"male.mature.2001", "1992", "3.9"};
 
   Table table("my_table");
   EXPECT_NO_THROW(table.AddColumns(columns));
@@ -404,17 +401,17 @@ TEST(Parameters, Table_CheckColumnType_Unsigned_And_Double) {
  */
 TEST(Parameters, Table_CheckColumnType_Unsigned_Fail) {
   shared_ptr<MockModel> model = shared_ptr<MockModel>(new MockModel());
-  MockCategories categories(model);
+  MockCategories        categories(model);
 
   model->bind_calls();
   ASSERT_NO_THROW(categories.Validate());
 
   EXPECT_CALL(*model, categories()).WillRepeatedly(Return(&categories));
 
-  vector<string> columns = {"category", "yearx", "value" }; // Cannot use year as it's reserved
-  vector<string> row1 = { "male.immature.notag", "1990", "1.0" };
-  vector<string> row2 = { "female.mature.2001",  "hello", "2.5" };
-  vector<string> row3 = { "male.mature.2001",    "1992", "3.9" };
+  vector<string> columns = {"category", "yearx", "value"};  // Cannot use year as it's reserved
+  vector<string> row1    = {"male.immature.notag", "1990", "1.0"};
+  vector<string> row2    = {"female.mature.2001", "hello", "2.5"};
+  vector<string> row3    = {"male.mature.2001", "1992", "3.9"};
 
   Table table("my_table");
   EXPECT_NO_THROW(table.AddColumns(columns));
@@ -433,17 +430,17 @@ TEST(Parameters, Table_CheckColumnType_Unsigned_Fail) {
  */
 TEST(Parameters, Table_CheckColumnType_Double_Fail) {
   shared_ptr<MockModel> model = shared_ptr<MockModel>(new MockModel());
-  MockCategories categories(model);
+  MockCategories        categories(model);
 
   model->bind_calls();
   ASSERT_NO_THROW(categories.Validate());
 
   EXPECT_CALL(*model, categories()).WillRepeatedly(Return(&categories));
 
-  vector<string> columns = {"category", "year", "value" };
-  vector<string> row1 = { "male.immature.notag", "1990", "1.0" };
-  vector<string> row2 = { "female.mature.2001",  "1991", "2.5" };
-  vector<string> row3 = { "male.mature.2001",    "1992", "lemon" };
+  vector<string> columns = {"category", "year", "value"};
+  vector<string> row1    = {"male.immature.notag", "1990", "1.0"};
+  vector<string> row2    = {"female.mature.2001", "1991", "2.5"};
+  vector<string> row3    = {"male.mature.2001", "1992", "lemon"};
 
   Table table("my_table");
   EXPECT_NO_THROW(table.AddColumns(columns));
@@ -462,17 +459,17 @@ TEST(Parameters, Table_CheckColumnType_Double_Fail) {
  */
 TEST(Parameters, Table_CheckColumnContains_Categories) {
   shared_ptr<MockModel> model = shared_ptr<MockModel>(new MockModel());
-  MockCategories categories(model);
+  MockCategories        categories(model);
 
   model->bind_calls();
   ASSERT_NO_THROW(categories.Validate());
 
   EXPECT_CALL(*model, categories()).WillRepeatedly(Return(&categories));
 
-  vector<string> columns = {"category", "year", "value" };
-  vector<string> row1 = { "male.immature.notag", "1990", "1.0" };
-  vector<string> row2 = { "female.mature.2001",  "1991", "2.5" };
-  vector<string> row3 = { "male.mature.2001",    "1992", "3.0" };
+  vector<string> columns = {"category", "year", "value"};
+  vector<string> row1    = {"male.immature.notag", "1990", "1.0"};
+  vector<string> row2    = {"female.mature.2001", "1991", "2.5"};
+  vector<string> row3    = {"male.mature.2001", "1992", "3.0"};
 
   Table table("my_table");
   EXPECT_NO_THROW(table.AddColumns(columns));
@@ -491,18 +488,18 @@ TEST(Parameters, Table_CheckColumnContains_Categories) {
  */
 TEST(Parameters, Table_CheckColumnContains_Year) {
   shared_ptr<MockModel> model = shared_ptr<MockModel>(new MockModel());
-  MockCategories categories(model);
+  MockCategories        categories(model);
 
   model->bind_calls();
   ASSERT_NO_THROW(categories.Validate());
 
   EXPECT_CALL(*model, categories()).WillRepeatedly(Return(&categories));
 
-  vector<string> columns = {"category", "year", "value" };
-  vector<string> row1 = { "male.immature.notag", "1990", "1.0" };
-  vector<string> row2 = { "female.mature.2001",  "1991", "2.5" };
-  vector<string> row3 = { "male.mature.2001",    "1992", "3.0" };
-  vector<unsigned> years = { 1990, 1991, 1992, 1993, 1994, 1995 };
+  vector<string>   columns = {"category", "year", "value"};
+  vector<string>   row1    = {"male.immature.notag", "1990", "1.0"};
+  vector<string>   row2    = {"female.mature.2001", "1991", "2.5"};
+  vector<string>   row3    = {"male.mature.2001", "1992", "3.0"};
+  vector<unsigned> years   = {1990, 1991, 1992, 1993, 1994, 1995};
 
   Table table("my_table");
   EXPECT_NO_THROW(table.AddColumns(columns));
@@ -521,7 +518,7 @@ TEST(Parameters, Table_CheckColumnContains_Year) {
  */
 TEST(Parameters, Table_CheckColumnContains_Projection_Year) {
   shared_ptr<MockModel> model = shared_ptr<MockModel>(new MockModel());
-  MockCategories categories(model);
+  MockCategories        categories(model);
 
   model->set_projection_final_year(1995);
   model->bind_calls();
@@ -530,11 +527,11 @@ TEST(Parameters, Table_CheckColumnContains_Projection_Year) {
 
   EXPECT_CALL(*model, categories()).WillRepeatedly(Return(&categories));
 
-  vector<string> columns = {"category", "year", "value" };
-  vector<string> row1 = { "male.immature.notag", "1990", "1.0" };
-  vector<string> row2 = { "female.mature.2001",  "1991", "2.5" };
-  vector<string> row3 = { "male.mature.2001",    "1994", "3.0" };
-  vector<unsigned> years = { 1990, 1991, 1992, 1993, 1994, 1995 };
+  vector<string>   columns = {"category", "year", "value"};
+  vector<string>   row1    = {"male.immature.notag", "1990", "1.0"};
+  vector<string>   row2    = {"female.mature.2001", "1991", "2.5"};
+  vector<string>   row3    = {"male.mature.2001", "1994", "3.0"};
+  vector<unsigned> years   = {1990, 1991, 1992, 1993, 1994, 1995};
 
   Table table("my_table");
   EXPECT_NO_THROW(table.AddColumns(columns));
@@ -553,18 +550,18 @@ TEST(Parameters, Table_CheckColumnContains_Projection_Year) {
  */
 TEST(Parameters, Table_CheckColumnContains_Year_Fail) {
   shared_ptr<MockModel> model = shared_ptr<MockModel>(new MockModel());
-  MockCategories categories(model);
+  MockCategories        categories(model);
 
   model->bind_calls();
   ASSERT_NO_THROW(categories.Validate());
 
   EXPECT_CALL(*model, categories()).WillRepeatedly(Return(&categories));
 
-  vector<string> columns = {"category", "yearx", "value" }; // cannot use year cause it's auto-detected
-  vector<string> row1 = { "male.immature.notag", "1990", "1.0" };
-  vector<string> row2 = { "female.mature.2001",  "1991", "2.5" };
-  vector<string> row3 = { "male.mature.2001",    "1999", "3.0" };
-  vector<unsigned> years = { 1990, 1991, 1992, 1993, 1994, 1995 };
+  vector<string>   columns = {"category", "yearx", "value"};  // cannot use year cause it's auto-detected
+  vector<string>   row1    = {"male.immature.notag", "1990", "1.0"};
+  vector<string>   row2    = {"female.mature.2001", "1991", "2.5"};
+  vector<string>   row3    = {"male.mature.2001", "1999", "3.0"};
+  vector<unsigned> years   = {1990, 1991, 1992, 1993, 1994, 1995};
 
   Table table("my_table");
   EXPECT_NO_THROW(table.AddColumns(columns));
@@ -583,7 +580,7 @@ TEST(Parameters, Table_CheckColumnContains_Year_Fail) {
  */
 TEST(Parameters, Table_CheckColumnContains_Projection_Year_Fail) {
   shared_ptr<MockModel> model = shared_ptr<MockModel>(new MockModel());
-  MockCategories categories(model);
+  MockCategories        categories(model);
 
   model->set_projection_final_year(1995);
   model->bind_calls();
@@ -591,11 +588,11 @@ TEST(Parameters, Table_CheckColumnContains_Projection_Year_Fail) {
 
   EXPECT_CALL(*model, categories()).WillRepeatedly(Return(&categories));
 
-  vector<string> columns = {"category", "yearx", "value" }; // cannot use year cause it's auto-detected
-  vector<string> row1 = { "male.immature.notag", "1990", "1.0" };
-  vector<string> row2 = { "female.mature.2001",  "1991", "2.5" };
-  vector<string> row3 = { "male.mature.2001",    "1999", "3.0" };
-  vector<unsigned> years = { 1990, 1991, 1992, 1993, 1994, 1995 };
+  vector<string>   columns = {"category", "yearx", "value"};  // cannot use year cause it's auto-detected
+  vector<string>   row1    = {"male.immature.notag", "1990", "1.0"};
+  vector<string>   row2    = {"female.mature.2001", "1991", "2.5"};
+  vector<string>   row3    = {"male.mature.2001", "1999", "3.0"};
+  vector<unsigned> years   = {1990, 1991, 1992, 1993, 1994, 1995};
 
   Table table("my_table");
   EXPECT_NO_THROW(table.AddColumns(columns));
@@ -614,18 +611,18 @@ TEST(Parameters, Table_CheckColumnContains_Projection_Year_Fail) {
  */
 TEST(Parameters, Table_GetColumnValuesAs_Unsigned_Double) {
   shared_ptr<MockModel> model = shared_ptr<MockModel>(new MockModel());
-  MockCategories categories(model);
+  MockCategories        categories(model);
 
   model->bind_calls();
   ASSERT_NO_THROW(categories.Validate());
 
   EXPECT_CALL(*model, categories()).WillRepeatedly(Return(&categories));
 
-  vector<string> columns = {"category", "year", "value" };
-  vector<string> row1 = { "male.immature.notag", "1990", "1.0" };
-  vector<string> row2 = { "female.mature.2001",  "1991", "2.5" };
-  vector<string> row3 = { "male.mature.2001",    "1992", "3.0" };
-  vector<unsigned> years = { 1990, 1991, 1992, 1993, 1994, 1995 };
+  vector<string>   columns = {"category", "year", "value"};
+  vector<string>   row1    = {"male.immature.notag", "1990", "1.0"};
+  vector<string>   row2    = {"female.mature.2001", "1991", "2.5"};
+  vector<string>   row3    = {"male.mature.2001", "1992", "3.0"};
+  vector<unsigned> years   = {1990, 1991, 1992, 1993, 1994, 1995};
 
   Table table("my_table");
   EXPECT_NO_THROW(table.AddColumns(columns));
@@ -635,7 +632,7 @@ TEST(Parameters, Table_GetColumnValuesAs_Unsigned_Double) {
 
   EXPECT_NO_THROW(table.Populate(model));
 
-  vector<string> category_labels = categories.category_names();
+  vector<string>   category_labels = categories.category_names();
   vector<unsigned> x;
   EXPECT_NO_THROW(x = table.GetColumnValuesAs<unsigned>("year"));
   EXPECT_EQ(3u, x.size());
@@ -649,6 +646,5 @@ TEST(Parameters, Table_GetColumnValuesAs_Unsigned_Double) {
 
 } /* namespace parameters */
 } /* namespace niwa */
-
 
 #endif /* TESTMODE */

@@ -25,22 +25,22 @@ class Addressable : public niwa::Assert {
 public:
   // methods
   Addressable(shared_ptr<Model> model);
-  virtual                     ~Addressable() = default;
-  void                        Execute() override final;
+  virtual ~Addressable() = default;
+  void Execute() override final;
 
 protected:
   // methods
-  void                        DoValidate() override final;
-  void                        DoBuild() override final;
+  void DoValidate() override final;
+  void DoBuild() override final;
 
 private:
   // members
-  string                      parameter_ = "";
-  vector<unsigned>            years_;
-  string                      time_step_label_ = "";
-  vector<unsigned>            values_;
-  map<unsigned, Double>       year_values_;
-  Double*                     addressable_ = nullptr;
+  string                parameter_ = "";
+  vector<unsigned>      years_;
+  string                time_step_label_ = "";
+  vector<unsigned>      values_;
+  map<unsigned, Double> year_values_;
+  Double*               addressable_ = nullptr;
 };
 
 } /* namespace asserts */

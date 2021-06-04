@@ -13,8 +13,8 @@
 // Headers
 #include "PartitionYearCrossAgeMatrix.h"
 
-#include <iostream>
 #include <iomanip>
+#include <iostream>
 
 #include "../../Model/Model.h"
 #include "../../Partition/Accessors/All.h"
@@ -28,7 +28,7 @@ namespace age {
  * Default constructor
  */
 Partition_YearCrossAgeMatrix::Partition_YearCrossAgeMatrix() {
-  run_mode_ = (RunMode::Type) (RunMode::kBasic | RunMode::kProjection);
+  run_mode_    = (RunMode::Type)(RunMode::kBasic | RunMode::kProjection);
   model_state_ = State::kExecute;
 
   parameters_.Bind<string>(PARAM_TIME_STEP, &time_step_, "The time step label", "", "");
@@ -48,8 +48,7 @@ void Partition_YearCrossAgeMatrix::DoValidate(shared_ptr<Model> model) {
  * Prepare the report
  */
 void Partition_YearCrossAgeMatrix::DoPrepare(shared_ptr<Model> model) {
-
-  unsigned lowest = 9999;
+  unsigned lowest  = 9999;
   unsigned highest = 0;
 
   niwa::partition::accessors::All all_view(model);
@@ -62,17 +61,17 @@ void Partition_YearCrossAgeMatrix::DoPrepare(shared_ptr<Model> model) {
   }
 
   // Print the header
-  cache_ << "*" << type_ << "[" << label_ << "]" << "\n";
+  cache_ << "*" << type_ << "[" << label_ << "]"
+         << "\n";
   cache_ << "time_step: " << time_step_ << "\n";
 
   // Print the age-groups
   const char separator = ' ';
-  //const int nameWidth = 6;
+  // const int nameWidth = 6;
   const int numWidth = 13;
-  cache_ << "values "<< REPORT_R_DATAFRAME << "\n";
-  cache_ << std::left << std::setw(numWidth) << std::setfill(separator) << "year"; // leave an empty space in the years's column
-  for (unsigned i = lowest; i <= highest; ++i)
-    cache_ << std::left << std::setw(numWidth) << std::setfill(separator) << "AG" + std::to_string(i);
+  cache_ << "values " << REPORT_R_DATAFRAME << "\n";
+  cache_ << std::left << std::setw(numWidth) << std::setfill(separator) << "year";  // leave an empty space in the years's column
+  for (unsigned i = lowest; i <= highest; ++i) cache_ << std::left << std::setw(numWidth) << std::setfill(separator) << "AG" + std::to_string(i);
   cache_ << "\n";
 }
 
@@ -81,8 +80,8 @@ void Partition_YearCrossAgeMatrix::DoPrepare(shared_ptr<Model> model) {
  */
 void Partition_YearCrossAgeMatrix::DoExecute(shared_ptr<Model> model) {
   // First, figure out the lowest and highest ages/length
-  unsigned lowest = 9999;
-  unsigned highest = 0;
+  unsigned lowest         = 9999;
+  unsigned highest        = 0;
   unsigned longest_length = 0;
 
   niwa::partition::accessors::All all_view(model);
@@ -93,11 +92,10 @@ void Partition_YearCrossAgeMatrix::DoExecute(shared_ptr<Model> model) {
       highest = iterator->max_age_;
     if (longest_length < iterator->name_.length())
       longest_length = iterator->name_.length();
-
   }
 
   const char separator = ' ';
-  const int numWidth = 13;
+  const int  numWidth  = 13;
 
   for (auto iterator : all_view) {
     cache_ << std::left << std::setw(numWidth) << std::setfill(separator) << std::setprecision(1) << std::fixed << model->current_year();
@@ -106,7 +104,8 @@ void Partition_YearCrossAgeMatrix::DoExecute(shared_ptr<Model> model) {
       if (age >= lowest && age <= highest) {
         cache_ << std::left << std::setw(numWidth) << std::setfill(separator) << std::setprecision(0) << std::fixed << AS_DOUBLE(value);
       } else
-        cache_ << " " << "null";
+        cache_ << " "
+               << "null";
       ++age;
     }
     cache_ << "\n";

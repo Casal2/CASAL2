@@ -26,15 +26,15 @@ namespace reports {
 class Project : public Report {
 public:
   Project();
-  virtual                     ~Project() = default;
-  void                        DoValidate(shared_ptr<Model> model) override final { };
-  void                        DoBuild(shared_ptr<Model> model) override final;
-  void                        DoExecute(shared_ptr<Model> model) override final;
-  void                        DoExecuteTabular(shared_ptr<Model> model) override final { };
+  virtual ~Project() = default;
+  void DoValidate(shared_ptr<Model> model) override final{};
+  void DoBuild(shared_ptr<Model> model) override final;
+  void DoExecute(shared_ptr<Model> model) override final;
+  void DoExecuteTabular(shared_ptr<Model> model) override final{};
 
 private:
-  string                      project_label_ = "";
-  niwa::Project*              project_ = nullptr;
+  string         project_label_ = "";
+  niwa::Project* project_       = nullptr;
 };
 
 } /* namespace reports */

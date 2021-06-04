@@ -18,7 +18,6 @@
 #include "../../Utilities/Math.h"
 #include "../../Utilities/RandomNumberGenerator.h"
 
-
 // Namespaces
 namespace niwa {
 namespace likelihoods {
@@ -49,10 +48,9 @@ void BinomialApprox::GetScores(map<unsigned, vector<observations::Comparison> >&
     for (observations::Comparison& comparison : year_iterator->second) {
       Double error_value = AdjustErrorValue(comparison.process_error_, comparison.error_value_) * error_value_multiplier_;
 
-      Double std_error = sqrt((math::ZeroFun(comparison.expected_, comparison.delta_)
-                          * math::ZeroFun(1.0 - comparison.expected_, comparison.delta_)) / error_value);
+      Double std_error = sqrt((math::ZeroFun(comparison.expected_, comparison.delta_) * math::ZeroFun(1.0 - comparison.expected_, comparison.delta_)) / error_value);
 
-      Double score = log(std_error) + 0.5 * pow((comparison.observed_ - comparison.expected_) / std_error, 2.0);
+      Double score               = log(std_error) + 0.5 * pow((comparison.observed_ - comparison.expected_) / std_error, 2.0);
       comparison.adjusted_error_ = error_value;
 
       comparison.score_ = score * multiplier_;
@@ -69,7 +67,7 @@ void BinomialApprox::SimulateObserved(map<unsigned, vector<observations::Compari
   utilities::RandomNumberGenerator& rng = utilities::RandomNumberGenerator::Instance();
 
   double error_value = 0.0;
-  auto iterator = comparisons.begin();
+  auto   iterator    = comparisons.begin();
   for (; iterator != comparisons.end(); ++iterator) {
     LOG_FINE() << "Simulating values for year: " << iterator->first;
     for (observations::Comparison& comparison : iterator->second) {

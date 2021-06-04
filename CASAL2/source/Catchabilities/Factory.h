@@ -27,7 +27,7 @@ public:
   static Catchability* Create(shared_ptr<Model> model, const string& object_type, const string& sub_type);
 
 private:
-  Factory() = delete;
+  Factory()  = delete;
   ~Factory() = delete;
 };
 

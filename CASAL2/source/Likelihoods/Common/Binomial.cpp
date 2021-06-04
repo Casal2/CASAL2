@@ -31,7 +31,7 @@ namespace math = niwa::utilities::math;
  */
 Double Binomial::AdjustErrorValue(const Double process_error, const Double error_value) {
   if (error_value > 0.0 && process_error > 0.0)
-    return (1.0 /  (1.0 / error_value + 1.0 / process_error));
+    return (1.0 / (1.0 / error_value + 1.0 / process_error));
   return error_value;
 }
 
@@ -47,16 +47,14 @@ void Binomial::GetScores(map<unsigned, vector<observations::Comparison> >& compa
       Double error_value = AdjustErrorValue(comparison.process_error_, comparison.error_value_) * error_value_multiplier_;
       if (error_value == 0.0) {
         comparison.adjusted_error_ = error_value;
-        comparison.score_ = 0.0;
+        comparison.score_          = 0.0;
       } else {
-        Double score = math::LnFactorial(error_value)
-                        - math::LnFactorial(error_value * (1.0 - comparison.observed_))
-                        - math::LnFactorial(error_value * comparison.observed_)
-                        + error_value * comparison.observed_ * log(math::ZeroFun(comparison.expected_, comparison.delta_))
-                        + error_value * (1.0 - comparison.observed_) * log(math::ZeroFun(1.0 - comparison.expected_, comparison.delta_));
+        Double score = math::LnFactorial(error_value) - math::LnFactorial(error_value * (1.0 - comparison.observed_)) - math::LnFactorial(error_value * comparison.observed_)
+                       + error_value * comparison.observed_ * log(math::ZeroFun(comparison.expected_, comparison.delta_))
+                       + error_value * (1.0 - comparison.observed_) * log(math::ZeroFun(1.0 - comparison.expected_, comparison.delta_));
 
         comparison.adjusted_error_ = error_value;
-        comparison.score_ = -score * multiplier_;
+        comparison.score_          = -score * multiplier_;
       }
     }
   }
@@ -71,7 +69,7 @@ void Binomial::SimulateObserved(map<unsigned, vector<observations::Comparison> >
   utilities::RandomNumberGenerator& rng = utilities::RandomNumberGenerator::Instance();
 
   double error_value = 0.0;
-  auto iterator = comparisons.begin();
+  auto   iterator    = comparisons.begin();
   for (; iterator != comparisons.end(); ++iterator) {
     LOG_FINE() << "Simulating values for year: " << iterator->first;
     for (observations::Comparison& comparison : iterator->second) {

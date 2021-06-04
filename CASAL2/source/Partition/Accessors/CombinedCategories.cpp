@@ -14,8 +14,8 @@
 #include "CombinedCategories.h"
 
 #include <boost/algorithm/string/replace.hpp>
-#include <boost/algorithm/string/trim_all.hpp>
 #include <boost/algorithm/string/split.hpp>
+#include <boost/algorithm/string/trim_all.hpp>
 
 // namespaces
 namespace niwa {
@@ -27,8 +27,7 @@ namespace accessors {
  *
  * @param category_labels List of category labels to parse
  */
-CombinedCategories::CombinedCategories(shared_ptr<Model> model, const vector<string>& category_labels)
-  : model_(model) {
+CombinedCategories::CombinedCategories(shared_ptr<Model> model, const vector<string>& category_labels) : model_(model) {
   LOG_TRACE();
 
   unsigned start_year = model_->start_year();
@@ -36,12 +35,10 @@ CombinedCategories::CombinedCategories(shared_ptr<Model> model, const vector<str
   LOG_FINEST() << "Model details: start_year: " << start_year << "; final_year: " << final_year;
   LOG_FINEST() << "Categories: " << category_labels.size();
 
-
-  Partition& partition = model_->partition();
+  Partition&     partition = model_->partition();
   vector<string> split_category_labels;
 
-  for (unsigned year = start_year; year <= final_year; ++year)
-    data_[year].resize(category_labels.size());
+  for (unsigned year = start_year; year <= final_year; ++year) data_[year].resize(category_labels.size());
 
   /**
    * Loop through the category labels
@@ -52,13 +49,13 @@ CombinedCategories::CombinedCategories(shared_ptr<Model> model, const vector<str
     boost::split(split_category_labels, category_labels[i], boost::is_any_of("+"));
 
     // Loop through our split categories now and put them into the data object
-    for(string category_label : split_category_labels) {
+    for (string category_label : split_category_labels) {
       partition::Category& category = partition.category(category_label);
 
       ++category_count_;
       for (unsigned year = start_year; year <= final_year; ++year) {
         if (std::find(category.years_.begin(), category.years_.end(), year) == category.years_.end())
-                continue; // Not valid in this year
+          continue;  // Not valid in this year
 
         data_[year][i].push_back(&category);
       }

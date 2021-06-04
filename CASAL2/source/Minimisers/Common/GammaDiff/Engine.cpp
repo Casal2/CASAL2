@@ -15,6 +15,7 @@
 #include "Engine.h"
 
 #include <math.h>
+
 #include <iomanip>
 
 #include "../../../Minimisers/Common/GammaDiff/FMM.h"
@@ -32,14 +33,13 @@ namespace math = niwa::utilities::math;
 // Engine::Engine()
 // Default Constructor
 //**********************************************************************
-Engine::Engine() {
-}
+Engine::Engine() {}
 
 //**********************************************************************
 // void Engine::condassign( double &res, const double &cond, const double &arg1, const double &arg2 ) {
 // Conditional Assignment
 //**********************************************************************
-void Engine::condAssign(double &res, const double &cond, const double &arg1, const double &arg2) {
+void Engine::condAssign(double& res, const double& cond, const double& arg1, const double& arg2) {
   res = (cond) > 0 ? arg1 : arg2;
 }
 
@@ -47,7 +47,7 @@ void Engine::condAssign(double &res, const double &cond, const double &arg1, con
 // void Engine::condassign( double &res, const double &cond, const double &arg)
 // Conditional Assignment
 //**********************************************************************
-void Engine::condAssign(double &res, const double &cond, const double &arg) {
+void Engine::condAssign(double& res, const double& cond, const double& arg) {
   res = (cond) > 0 ? arg : res;
 }
 
@@ -92,7 +92,6 @@ double Engine::scaleValue(double value, double min, double max) {
 // Build our scaled values in relation to our bounds
 //**********************************************************************
 void Engine::buildScaledValues() {
-
   for (int i = 0; i < (int)vStartValues.size(); ++i) {
     // Check
     if (vStartValues[i] < vLowerBounds[i])
@@ -113,7 +112,6 @@ void Engine::buildScaledValues() {
 // Build the current test values from our scaled values
 //**********************************************************************
 void Engine::buildCurrentValues() {
-
   for (int i = 0; i < (int)vStartValues.size(); ++i) {
     if (math::IsEqual(vLowerBounds[i], vUpperBounds[i]))
       vCurrentValues[i] = vLowerBounds[i];
@@ -128,13 +126,11 @@ void Engine::buildCurrentValues() {
 //   double **pOPTIMIZEHessian, int untransformedHessians, double dStepSize)
 // OPTIMIZE our function
 //**********************************************************************
-double Engine::optimise_finite_differences(gammadiff::CallBack& objective, vector<double>& StartValues, vector<double>& LowerBounds,
-    vector<double>& UpperBounds, int& convergence, int& iMaxIter, int& iMaxFunc, double dGradTol,
-    double **pOptimiseHessian, int untransformedHessians, double dStepSize) {
-
+double Engine::optimise_finite_differences(gammadiff::CallBack& objective, vector<double>& StartValues, vector<double>& LowerBounds, vector<double>& UpperBounds, int& convergence,
+                                           int& iMaxIter, int& iMaxFunc, double dGradTol, double** pOptimiseHessian, int untransformedHessians, double dStepSize) {
   // Variables
-  int       iVectorSize   = (int)StartValues.size();
-  double    dScore        = 0.0;
+  int    iVectorSize = (int)StartValues.size();
+  double dScore      = 0.0;
 
   // Assign Our Vectors
   vStartValues.assign(StartValues.begin(), StartValues.end());
@@ -171,14 +167,14 @@ double Engine::optimise_finite_differences(gammadiff::CallBack& objective, vecto
         LOG_MEDIUM() << vCurrentValues[i] << " ";
       }
       LOG_MEDIUM() << "Objective function value: " << dScore;
-      dScore += dPenalty; // Bound penalty
+      dScore += dPenalty;  // Bound penalty
     }
 
     // Gradient Required
     // This will loop through each variable changing it once
     // to see how the other variables change.
     // There-by generating our co-variance
-    if (clMinimiser.getResult() >= 1) { // 1 = Gradient Required
+    if (clMinimiser.getResult() >= 1) {  // 1 = Gradient Required
       long double dOrigValue;
       long double dStepSizeI;
       long double dScoreI;
@@ -189,12 +185,12 @@ double Engine::optimise_finite_differences(gammadiff::CallBack& objective, vecto
 
         } else {
           // Workout how much to change the variable by
-          dStepSizeI  = dStepSize * ((vScaledValues[i] > 0) ? 1 : -1);
+          dStepSizeI = dStepSize * ((vScaledValues[i] > 0) ? 1 : -1);
 
           // Backup Orig Value, and Assign New Var
-          dOrigValue        = vScaledValues[i];
-          vScaledValues[i]  += dStepSizeI;
-          dStepSizeI        = vScaledValues[i] - dOrigValue;
+          dOrigValue = vScaledValues[i];
+          vScaledValues[i] += dStepSizeI;
+          dStepSizeI = vScaledValues[i] - dOrigValue;
 
           dPenalty = 0.0;
           buildCurrentValues();
@@ -203,8 +199,8 @@ double Engine::optimise_finite_differences(gammadiff::CallBack& objective, vecto
           dScoreI += dPenalty;
 
           // Populate Gradient, and Restore Orig Value
-          vGradientValues[i]  = (dScoreI - dScore) / dStepSizeI;
-          vScaledValues[i]    = dOrigValue;
+          vGradientValues[i] = (dScoreI - dScore) / dStepSizeI;
+          vScaledValues[i]   = dOrigValue;
         }
       }
       // Gradient Finished
@@ -229,15 +225,15 @@ double Engine::optimise_finite_differences(gammadiff::CallBack& objective, vecto
 
   for (int i = 0; i < iVectorSize; ++i) {
     vStartValues[i] = vCurrentValues[i];
-    StartValues[i] = vCurrentValues[i];
+    StartValues[i]  = vCurrentValues[i];
   }
 
   dScore = objective(vCurrentValues);
 
   // Generate our Hessian
   if (pOptimiseHessian != 0) {
-    double **L              = new double*[iVectorSize];
-    double **LT             = new double*[iVectorSize];
+    double** L  = new double*[iVectorSize];
+    double** LT = new double*[iVectorSize];
 
     for (int i = 0; i < iVectorSize; ++i) {
       L[i]  = new double[iVectorSize];
@@ -246,7 +242,7 @@ double Engine::optimise_finite_differences(gammadiff::CallBack& objective, vecto
 
     for (int i = 0; i < iVectorSize; ++i) {
       for (int j = 0; j < iVectorSize; ++j) {
-        L[i][j] = 0.0;
+        L[i][j]  = 0.0;
         LT[i][j] = 0.0;
       }
     }
@@ -262,28 +258,26 @@ double Engine::optimise_finite_differences(gammadiff::CallBack& objective, vecto
         double dMulti = 0.0;
 
         // Loop Through
-        for (int k = 0; k < iVectorSize; ++k)
-          dMulti += (L[i][k] * LT[k][j]);
+        for (int k = 0; k < iVectorSize; ++k) dMulti += (L[i][k] * LT[k][j]);
 
         pOptimiseHessian[i][j] = dMulti;
       }
     }
 
     if (untransformedHessians) {
-      double *dGradBoundP = new double[iVectorSize];
-      for (int i = 0; i < iVectorSize; ++i)
-        dGradBoundP[i] = 0.0;
+      double* dGradBoundP = new double[iVectorSize];
+      for (int i = 0; i < iVectorSize; ++i) dGradBoundP[i] = 0.0;
 
       for (int i = 0; i < iVectorSize; ++i) {
-        double dDiv   = ((vStartValues[i]-vLowerBounds[i]) / (vUpperBounds[i]-vLowerBounds[i]));
-        double dProd  = (2 * dDiv - 1) * (2 * dDiv - 1);
-        double dSqrt  = sqrt(math::ZeroFun(1-dProd));
-        double dProd2 = (vUpperBounds[i] - vLowerBounds[i]) * dSqrt;
-        dGradBoundP[i] = (4/3.14159265)/dProd2;
+        double dDiv    = ((vStartValues[i] - vLowerBounds[i]) / (vUpperBounds[i] - vLowerBounds[i]));
+        double dProd   = (2 * dDiv - 1) * (2 * dDiv - 1);
+        double dSqrt   = sqrt(math::ZeroFun(1 - dProd));
+        double dProd2  = (vUpperBounds[i] - vLowerBounds[i]) * dSqrt;
+        dGradBoundP[i] = (4 / 3.14159265) / dProd2;
       }
 
       for (int i = 0; i < iVectorSize; ++i) {
-        if (dGradBoundP[i] != dGradBoundP[i]) // NaN
+        if (dGradBoundP[i] != dGradBoundP[i])  // NaN
           dGradBoundP[i] = 0.0;
       }
 
@@ -293,16 +287,16 @@ double Engine::optimise_finite_differences(gammadiff::CallBack& objective, vecto
           pOptimiseHessian[j][i] *= dGradBoundP[i];
         }
 
-      delete [] dGradBoundP;
+      delete[] dGradBoundP;
     }
 
     for (int i = 0; i < iVectorSize; ++i) {
-      delete [] L[i];
-      delete [] LT[i];
+      delete[] L[i];
+      delete[] LT[i];
     }
 
-    delete [] L;
-    delete [] LT;
+    delete[] L;
+    delete[] LT;
   }
 
   convergence = clMinimiser.getResult() + 2;
@@ -316,10 +310,9 @@ double Engine::optimise_finite_differences(gammadiff::CallBack& objective, vecto
 // Engine::~Engine()
 // Default Destructor
 //**********************************************************************
-Engine::~Engine() {
-}
+Engine::~Engine() {}
 
 } /* namespace gammadiff */
 } /* namespace minimisers */
-} /* namesapce niwa */
+}  // namespace niwa
 #endif

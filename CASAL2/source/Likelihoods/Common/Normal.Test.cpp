@@ -10,23 +10,23 @@
 #ifdef TESTMODE
 
 // headers
-#include "Normal.h"
-
-#include <iostream>
 #include <gmock/gmock.h>
 #include <gtest/gtest.h>
+
+#include <iostream>
 
 #include "../../Likelihoods/Factory.h"
 #include "../../Observations/Comparison.h"
 #include "../../Utilities/RandomNumberGenerator.h"
+#include "Normal.h"
 
 // namespaces
 namespace niwa {
 namespace likelihoods {
 
+using observations::Comparison;
 using std::cout;
 using std::endl;
-using observations::Comparison;
 
 TEST(Likelihood, Normal) {
   utilities::RandomNumberGenerator::Instance().Reset(31373u);
@@ -37,37 +37,37 @@ TEST(Likelihood, Normal) {
 
   // Test case 1
   Comparison comparison;
-  comparison.age_             = 0;
-  comparison.category_        = "A";
-  comparison.expected_        = 500;
-  comparison.observed_        = 1000;
-  comparison.error_value_     = 0.25;
-  comparison.process_error_   = 0.0;
-  comparison.delta_           = 1e-11;
+  comparison.age_           = 0;
+  comparison.category_      = "A";
+  comparison.expected_      = 500;
+  comparison.observed_      = 1000;
+  comparison.error_value_   = 0.25;
+  comparison.process_error_ = 0.0;
+  comparison.delta_         = 1e-11;
   comparison_list[0].push_back(comparison);
 
   // Test case 2
-  comparison.category_        = "B";
-  comparison.expected_        = 500;
-  comparison.observed_        = 1000;
-  comparison.error_value_     = 0.25;
-  comparison.process_error_   = 0.20;
+  comparison.category_      = "B";
+  comparison.expected_      = 500;
+  comparison.observed_      = 1000;
+  comparison.error_value_   = 0.25;
+  comparison.process_error_ = 0.20;
   comparison_list[0].push_back(comparison);
 
   // Test case 3
-  comparison.category_        = "C";
-  comparison.expected_        = 500;
-  comparison.observed_        = 500;
-  comparison.error_value_     = 0.25;
-  comparison.process_error_   = 0.0;
+  comparison.category_      = "C";
+  comparison.expected_      = 500;
+  comparison.observed_      = 500;
+  comparison.error_value_   = 0.25;
+  comparison.process_error_ = 0.0;
   comparison_list[0].push_back(comparison);
 
   // Test case 4
-  comparison.category_        = "D";
-  comparison.expected_        = 500;
-  comparison.observed_        = 500;
-  comparison.error_value_     = 0.25;
-  comparison.process_error_   = 0.20;
+  comparison.category_      = "D";
+  comparison.expected_      = 500;
+  comparison.observed_      = 500;
+  comparison.error_value_   = 0.25;
+  comparison.process_error_ = 0.20;
   comparison_list[0].push_back(comparison);
 
   // Check initial score
@@ -75,10 +75,10 @@ TEST(Likelihood, Normal) {
 
   // Check scores
   likelihood.GetScores(comparison_list);
-  EXPECT_DOUBLE_EQ(12.828313737302302,   comparison_list[0][0].score_);
-  EXPECT_DOUBLE_EQ( 9.9537106387081593,  comparison_list[0][1].score_);
-  EXPECT_DOUBLE_EQ( 4.8283137373023015,  comparison_list[0][2].score_);
-  EXPECT_DOUBLE_EQ( 5.0756618582203545,  comparison_list[0][3].score_);
+  EXPECT_DOUBLE_EQ(12.828313737302302, comparison_list[0][0].score_);
+  EXPECT_DOUBLE_EQ(9.9537106387081593, comparison_list[0][1].score_);
+  EXPECT_DOUBLE_EQ(4.8283137373023015, comparison_list[0][2].score_);
+  EXPECT_DOUBLE_EQ(5.0756618582203545, comparison_list[0][3].score_);
 
   // check simulations
   likelihood.SimulateObserved(comparison_list);

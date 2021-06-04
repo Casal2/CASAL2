@@ -28,7 +28,6 @@ using ::testing::Return;
  * Test the results of our selectivity are correct
  */
 TEST(Utilities, String) {
-
   string test = "good_label";
   EXPECT_EQ("", String::find_invalid_characters(test));
 
@@ -41,7 +40,6 @@ TEST(Utilities, String) {
   test = "bad%la^bel!";
   EXPECT_EQ("%^!", String::find_invalid_characters(test));
 }
-
 
 } /* namespace utilities */
 } /* namespace niwa */

@@ -27,22 +27,22 @@ namespace projects {
 class LogNormalEmpirical : public niwa::Project {
 public:
   explicit LogNormalEmpirical(shared_ptr<Model> model);
-  virtual                     ~LogNormalEmpirical() = default;
-  void                        DoValidate() override final;
-  void                        DoBuild() override final { };
-  void                        DoReset() override final;
-  void                        DoUpdate() override final;
+  virtual ~LogNormalEmpirical() = default;
+  void DoValidate() override final;
+  void DoBuild() override final{};
+  void DoReset() override final;
+  void DoUpdate() override final;
 
 private:
   // members
-  unsigned                    start_year_;
-  unsigned                    final_year_;
-  map<unsigned,unsigned>      resampled_years_;
-  Double                      mean_ = 0.0;
-  Double                      sigma_ = 0.0;
-  Double                      value_;
-  Double                      last_value_;
-  map<unsigned,Double>        normal_draw_by_year_;
+  unsigned                start_year_;
+  unsigned                final_year_;
+  map<unsigned, unsigned> resampled_years_;
+  Double                  mean_  = 0.0;
+  Double                  sigma_ = 0.0;
+  Double                  value_;
+  Double                  last_value_;
+  map<unsigned, Double>   normal_draw_by_year_;
 };
 
 } /* namespace projects */

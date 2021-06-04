@@ -28,7 +28,7 @@ namespace models {
  *
  */
 const std::string test_cases_models_casal_complex_1 =
-R"(
+    R"(
 @model
 min_age 2
 max_age 25
@@ -155,8 +155,8 @@ alpha 0.7
 type derived_quantity
 )";
 
-}
-}
-}
+}  // namespace models
+}  // namespace testresources
+}  // namespace niwa
 #endif /* TESTMODE */
 #endif /* TESTCASES_MODELS_CASALCOMPLEX1_H_ */

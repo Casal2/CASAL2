@@ -32,7 +32,7 @@ public:
 
 private:
   // methods
-  Factory() = delete;
+  Factory()  = delete;
   ~Factory() = delete;
 };
 

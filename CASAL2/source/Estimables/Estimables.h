@@ -18,8 +18,8 @@
 
 // headers
 #include <map>
-#include <string>
 #include <memory>
+#include <string>
 
 #include "../Model/Managers.h"
 #include "../Utilities/Map.h"
@@ -28,22 +28,15 @@
 // namespaces
 namespace niwa {
 
+using std::map;
 using std::shared_ptr;
-using utilities::Double;
 using std::string;
 using std::vector;
-using std::map;
+using utilities::Double;
 class Model;
 
 // Enumerated Types
-enum class EstimableType {
-  kInvalid      = 0,
-  kSingle       = 1,
-  kVector       = 2,
-  kStringMap    = 3,
-  kUnsignedMap  = 4
-};
-
+enum class EstimableType { kInvalid = 0, kSingle = 1, kVector = 2, kStringMap = 3, kUnsignedMap = 4 };
 
 /**
  * Class definition
@@ -51,20 +44,19 @@ enum class EstimableType {
 class Estimables {
 public:
   // methods
-  Estimables(shared_ptr<Model> model) : model_(model) { };
-  virtual                       ~Estimables() = default;
-  void                          AddValue(const string& estimable_label, Double value);
-  vector<string>                GetEstimables() const;
-  unsigned                      GetValueCount() const;
-  map<string, Double>           GetValues(unsigned index) const;
-  void                          LoadValues(unsigned index);
+  Estimables(shared_ptr<Model> model) : model_(model){};
+  virtual ~Estimables() = default;
+  void                AddValue(const string& estimable_label, Double value);
+  vector<string>      GetEstimables() const;
+  unsigned            GetValueCount() const;
+  map<string, Double> GetValues(unsigned index) const;
+  void                LoadValues(unsigned index);
 
 private:
   // members
-  shared_ptr<Model>                        model_ = nullptr;
-  map<string, vector<Double>>   estimable_values_;
-  map<string, Double*>          estimables_;
-
+  shared_ptr<Model>           model_ = nullptr;
+  map<string, vector<Double>> estimable_values_;
+  map<string, Double*>        estimables_;
 };
 } /* namespace niwa */
 

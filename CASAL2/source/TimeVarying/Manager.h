@@ -28,14 +28,15 @@ namespace timevarying {
 class Manager : public niwa::base::Manager<niwa::timevarying::Manager, niwa::TimeVarying> {
   friend class niwa::base::Manager<niwa::timevarying::Manager, niwa::TimeVarying>;
   friend class niwa::Managers;
+
 public:
   // methods
-  virtual                     ~Manager() = default;
-  void                        Update(unsigned current_year);
-  bool                        IsTimeVarying(const string& label);
-  bool                        IsTimeVaryingTarget(const string& label);
-  TimeVarying*                GetTimeVarying(const string& label);
-  unsigned                    GetTimeVaryingCount();
+  virtual ~Manager() = default;
+  void         Update(unsigned current_year);
+  bool         IsTimeVarying(const string& label);
+  bool         IsTimeVaryingTarget(const string& label);
+  TimeVarying* GetTimeVarying(const string& label);
+  unsigned     GetTimeVaryingCount();
 
 protected:
   // methods

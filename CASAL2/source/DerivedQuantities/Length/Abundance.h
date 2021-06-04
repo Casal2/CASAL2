@@ -27,12 +27,12 @@ namespace length {
 class Abundance : public niwa::DerivedQuantity {
 public:
   // methods
-  explicit Abundance(shared_ptr<Model> model) : DerivedQuantity(model) { }
-  virtual                     ~Abundance() = default;
-  void                        PreExecute() override final;
-  void                        Execute() override final;
-  void                        DoValidate() override final { };
-  void                        DoBuild() override final { };
+  explicit Abundance(shared_ptr<Model> model) : DerivedQuantity(model) {}
+  virtual ~Abundance() = default;
+  void PreExecute() override final;
+  void Execute() override final;
+  void DoValidate() override final{};
+  void DoBuild() override final{};
 };
 
 } /* namespace length */

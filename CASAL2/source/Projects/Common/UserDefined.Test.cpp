@@ -9,30 +9,28 @@
 #ifdef TESTMODE
 
 // Headers
-#include "UserDefined.h"
-
 #include <iostream>
 
-#include "../../ObjectiveFunction/ObjectiveFunction.h"
-#include "../../Projects/Manager.h"
 #include "../../DerivedQuantities/Manager.h"
 #include "../../Model/Models/Age.h"
+#include "../../ObjectiveFunction/ObjectiveFunction.h"
+#include "../../Projects/Manager.h"
 #include "../../TestResources/TestFixtures/InternalEmptyModel.h"
+#include "UserDefined.h"
 
 // Namespaces
 namespace niwa {
 namespace projects {
 
+using niwa::testfixtures::InternalEmptyModel;
 using std::cout;
 using std::endl;
-using niwa::testfixtures::InternalEmptyModel;
-
 
 /*
  * Model
-*/
+ */
 const std::string test_cases_mode_with_mortality_instantaneous =
-R"(
+    R"(
 @model
 start_year 1970 
 final_year 2012
@@ -200,9 +198,9 @@ type derived_quantity
 
 /*
  * YCS projection block
-*/
+ */
 const string constant_ycs =
-R"(
+    R"(
 @project future_ycs
 type constant
 parameter process[Recruitment].ycs_values
@@ -211,7 +209,7 @@ values 0.478482 0.640663 0.640091
 )";
 
 const string Catches_2013 =
-R"(
+    R"(
 	@project western_catch_2013
 	type user_defined
 	parameter process[fishing].method_FishingWest
@@ -220,7 +218,7 @@ R"(
 )";
 
 const string Catches_2014 =
-R"(
+    R"(
 	@project western_catch_2014
 	type user_defined
 	parameter process[fishing].method_FishingWest
@@ -229,7 +227,7 @@ R"(
 )";
 
 const string Catches_2015 =
-R"(
+    R"(
 	@project western_catch_2015
 	type user_defined
 	parameter process[fishing].method_FishingWest
@@ -241,47 +239,45 @@ R"(
  *
  */
 TEST_F(InternalEmptyModel, Projects_UserDefined_Catches) {
+  AddConfigurationLine(test_cases_mode_with_mortality_instantaneous, __FILE__, 358);
+  AddConfigurationLine(constant_ycs, __FILE__, 35);
+  AddConfigurationLine(Catches_2013, __FILE__, 65);
+  AddConfigurationLine(Catches_2014, __FILE__, 34);
+  AddConfigurationLine(Catches_2015, __FILE__, 90);
 
-	AddConfigurationLine(test_cases_mode_with_mortality_instantaneous, __FILE__, 358);
-	AddConfigurationLine(constant_ycs, __FILE__, 35);
-	AddConfigurationLine(Catches_2013, __FILE__, 65);
-	AddConfigurationLine(Catches_2014, __FILE__, 34);
-	AddConfigurationLine(Catches_2015, __FILE__, 90);
+  LoadConfiguration();
+  model_->Start(RunMode::kProjection);
 
-	LoadConfiguration();
-	model_->Start(RunMode::kProjection);
+  Project* project_2015 = model_->managers()->project()->GetProject("western_catch_2015");
+  if (!project_2015)
+    LOG_FATAL() << "!project_2015";
 
-	Project* project_2015 = model_->managers()->project()->GetProject("western_catch_2015");
-	if(!project_2015)
-		LOG_FATAL() << "!project_2015";
+  Project* project_2014 = model_->managers()->project()->GetProject("western_catch_2014");
+  if (!project_2014)
+    LOG_FATAL() << "!project_2014";
 
-	Project* project_2014 = model_->managers()->project()->GetProject("western_catch_2014");
-	if(!project_2014)
-		LOG_FATAL() << "!project_2014";
-
-	Project* project_2013 = model_->managers()->project()->GetProject("western_catch_2013");
-	if(!project_2013)
-		LOG_FATAL() << "!project_2013";
+  Project* project_2013 = model_->managers()->project()->GetProject("western_catch_2013");
+  if (!project_2013)
+    LOG_FATAL() << "!project_2013";
 
   DerivedQuantity* dq = model_->managers()->derived_quantity()->GetDerivedQuantity("biomass_t1");
-	if(!dq)
-		LOG_FATAL() << "!dq";
-	// test the values have changed
-	map<unsigned,Double>& values_15 = project_2015->projected_parameters();
-	map<unsigned,Double>& values_14 = project_2014->projected_parameters();
-	map<unsigned,Double>& values_13 = project_2013->projected_parameters();
+  if (!dq)
+    LOG_FATAL() << "!dq";
+  // test the values have changed
+  map<unsigned, Double>& values_15 = project_2015->projected_parameters();
+  map<unsigned, Double>& values_14 = project_2014->projected_parameters();
+  map<unsigned, Double>& values_13 = project_2013->projected_parameters();
 
-	EXPECT_DOUBLE_EQ(6287849.7554903105, values_15[2015]);
-	EXPECT_DOUBLE_EQ(6985248.6047034459, values_14[2014]);
-	EXPECT_DOUBLE_EQ(7674997.1589622563, values_13[2013]);
+  EXPECT_DOUBLE_EQ(6287849.7554903105, values_15[2015]);
+  EXPECT_DOUBLE_EQ(6985248.6047034459, values_14[2014]);
+  EXPECT_DOUBLE_EQ(7674997.1589622563, values_13[2013]);
 
-  vector<double> Expect = {34926243.023517229,31439248.777451552,28200217.436245844};
-	for (unsigned i = 0; i < 3; ++i) {
+  vector<double> Expect = {34926243.023517229, 31439248.777451552, 28200217.436245844};
+  for (unsigned i = 0; i < 3; ++i) {
     unsigned year = 2013 + i;
     EXPECT_DOUBLE_EQ(Expect[i], dq->GetValue(year)) << " for year " << year << " and value " << Expect[i];
   }
 }
-
 
 } /* namespace projects */
 } /* namespace niwa */

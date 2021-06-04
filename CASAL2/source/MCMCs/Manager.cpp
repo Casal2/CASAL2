@@ -28,6 +28,9 @@ void Manager::Validate() {
  *
  */
 void Manager::Validate(shared_ptr<Model> model) {
+  if (objects_.size() == 0 || has_validated_)
+    return;
+
   for (auto mcmc : objects_) mcmc->Validate();
 
   if (objects_.size() == 1)
@@ -41,12 +44,14 @@ void Manager::Validate(shared_ptr<Model> model) {
     unsigned active_count = active_mcmcs.size();
 
     if (model->run_mode() == RunMode::kMCMC && active_count != 1)
-      LOG_FATAL() << "One active @mcmc is required, but " << active_mcmcs.size() << " are specified.";
+      LOG_FATAL() << "One active @mcmc is required, but " << active_mcmcs.size() << " of " << objects_.size() << " are specified.";
     if (active_mcmcs.size() > 1)
-      LOG_FATAL() << "Only One active @mcmc is allowed, but " << active_mcmcs.size() << " are specified.";
+      LOG_FATAL() << "Only One active @mcmc is allowed, but " << active_mcmcs.size() << " of " << objects_.size() << " are specified.";
     if (active_mcmcs.size() == 1)
       mcmc_ = active_mcmcs[0];
   }
+
+  has_validated_ = true;
 }
 
 } /* namespace mcmcs */

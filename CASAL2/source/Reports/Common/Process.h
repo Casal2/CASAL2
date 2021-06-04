@@ -27,18 +27,17 @@ namespace reports {
 class Process : public Report {
 public:
   Process();
-  virtual                     ~Process() = default;
-  void                        DoValidate(shared_ptr<Model> model) final { };
-  void                        DoBuild(shared_ptr<Model> model) final;
-  void                        DoExecute(shared_ptr<Model> model) final;
-  void                        DoExecuteTabular(shared_ptr<Model> model) final;
-  void                        DoFinaliseTabular(shared_ptr<Model> model) final;
+  virtual ~Process() = default;
+  void DoValidate(shared_ptr<Model> model) final{};
+  void DoBuild(shared_ptr<Model> model) final;
+  void DoExecute(shared_ptr<Model> model) final;
+  void DoExecuteTabular(shared_ptr<Model> model) final;
+  void DoFinaliseTabular(shared_ptr<Model> model) final;
 
 private:
-  string                      process_label_ = "";
-  niwa::Process*              process_ = nullptr;
-  bool                        first_run_ = true;
-
+  string         process_label_ = "";
+  niwa::Process* process_       = nullptr;
+  bool           first_run_     = true;
 };
 
 } /* namespace reports */

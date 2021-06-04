@@ -25,19 +25,19 @@ namespace reports {
 /**
  * class definition
  */
-class SimulatedObservation: public Report {
+class SimulatedObservation : public Report {
 public:
   SimulatedObservation();
-  virtual                     ~SimulatedObservation() = default;
-  void                        DoValidate(shared_ptr<Model> model) final { };
-  void                        DoBuild(shared_ptr<Model> model) final;
-  void                        DoExecute(shared_ptr<Model> model) final;
-  void                        DoExecuteTabular(shared_ptr<Model> model) final { };
+  virtual ~SimulatedObservation() = default;
+  void DoValidate(shared_ptr<Model> model) final{};
+  void DoBuild(shared_ptr<Model> model) final;
+  void DoExecute(shared_ptr<Model> model) final;
+  void DoExecuteTabular(shared_ptr<Model> model) final{};
 
 private:
   // members
-  string                      observation_label_ = "";
-  Observation*                observation_ = nullptr;
+  string       observation_label_ = "";
+  Observation* observation_       = nullptr;
 };
 
 } /* namespace reports */

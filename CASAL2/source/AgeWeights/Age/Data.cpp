@@ -33,9 +33,10 @@ Data::Data(shared_ptr<Model> model) : AgeWeight(model) {
   data_table_ = new parameters::Table(PARAM_DATA);
 
   parameters_.BindTable(PARAM_DATA, data_table_, "", "");
-  parameters_.Bind<string>(PARAM_EQUILIBRIUM_METHOD, &equilibrium_method_, "If used in an SSB calculation, what is the method to calculate equilibrium SSB", "",PARAM_TERMINAL_YEAR)->set_allowed_values({PARAM_MEAN, PARAM_FIRST_YEAR, PARAM_TERMINAL_YEAR});
-  parameters_.Bind<string>(PARAM_UNITS, &units_, "The units of the tonnes", "", PARAM_KGS)->set_allowed_values({PARAM_KGS,PARAM_GRAMS,PARAM_TONNES});
-
+  parameters_
+      .Bind<string>(PARAM_EQUILIBRIUM_METHOD, &equilibrium_method_, "If used in an SSB calculation, what is the method to calculate equilibrium SSB", "", PARAM_TERMINAL_YEAR)
+      ->set_allowed_values({PARAM_MEAN, PARAM_FIRST_YEAR, PARAM_TERMINAL_YEAR});
+  parameters_.Bind<string>(PARAM_UNITS, &units_, "The units of the tonnes", "", PARAM_KGS)->set_allowed_values({PARAM_KGS, PARAM_GRAMS, PARAM_TONNES});
 }
 
 /**
@@ -70,7 +71,6 @@ void Data::DoBuild() {
   else if (units_ == PARAM_TONNES && (model_->base_weight_units() == PARAM_GRAMS))
     unit_multipier_ = 1000000;
 
-
   if (!data_table_)
     LOG_FATAL_P(PARAM_DATA) << "could not find data table";
   if (model_->run_mode() == RunMode::kProjection)
@@ -86,24 +86,24 @@ void Data::DoBuild() {
     LOG_FATAL_P(PARAM_DATA) << "first column label must be 'year'. First column label was '" << columns[0] << "'";
 
   /*
-     * Build our data_by_year map so we can fill the gaps
-     * and use it in the model
-  */
+   * Build our data_by_year map so we can fill the gaps
+   * and use it in the model
+   */
 
   for (unsigned i = 1; i < columns.size(); ++i) {
     age_.push_back(utilities::ToInline<string, unsigned>(columns[i]));
   }
 
   vector<vector<string>>& data = data_table_->data();
-  vector<Double> total_weight(model_->age_spread(), 0.0);
-  Double number_of_years = 0.0;
+  vector<Double>          total_weight(model_->age_spread(), 0.0);
+  Double                  number_of_years = 0.0;
   for (vector<string> row : data) {
     if (row.size() != columns.size())
       LOG_CODE_ERROR() << "row.size() != columns.size()";
     number_of_years += 1;
     if ((columns.size() - 1) != model_->age_spread())
-      LOG_FATAL_P(PARAM_DATA) << "An age must be specified for every age in the model. " << columns.size() - 1
-        << " ages were specified, and there are " << model_->age_spread() << " ages";
+      LOG_FATAL_P(PARAM_DATA) << "An age must be specified for every age in the model. " << columns.size() - 1 << " ages were specified, and there are " << model_->age_spread()
+                              << " ages";
 
     unsigned year = utilities::ToInline<string, unsigned>(row[0]);
     // Check year is valid
@@ -119,23 +119,20 @@ void Data::DoBuild() {
     }
   }
 
-
   // Check there are equal years as in the model
   if (model_->years().size() != years_.size())
-    LOG_ERROR_P(PARAM_DATA) << "Specify the same number of years as the model has. " << years_.size()
-      << " years were supplied, but there are " << model_->years().size() << " years";
+    LOG_ERROR_P(PARAM_DATA) << "Specify the same number of years as the model has. " << years_.size() << " years were supplied, but there are " << model_->years().size()
+                            << " years";
 
   LOG_FINEST() << "ages";
-  for (auto age : age_)
-    LOG_FINEST() << age;
+  for (auto age : age_) LOG_FINEST() << age;
   // Do some checks on the model age.
 
   // Build Equilibrium state
   if (equilibrium_method_ == PARAM_MEAN) {
     for (unsigned i = 0; i < model_->age_spread(); ++i) {
       Double total = 0.0;
-      for (auto iter = data_by_year_.begin(); iter != data_by_year_.end();  ++iter)
-        total += iter->second[i];
+      for (auto iter = data_by_year_.begin(); iter != data_by_year_.end(); ++iter) total += iter->second[i];
       initial_[age_[i]] = total / data_by_year_.size() * unit_multipier_;
     }
   } else if (equilibrium_method_ == PARAM_FIRST_YEAR) {
@@ -150,9 +147,7 @@ void Data::DoBuild() {
     }
   }
   LOG_FINEST() << "initial weight at age";
-  for (auto init : initial_)
-    LOG_FINEST() << init.second;
-
+  for (auto init : initial_) LOG_FINEST() << init.second;
 }
 
 /**
@@ -167,7 +162,6 @@ Double Data::mean_weight_at_age_by_year(unsigned year, unsigned age) {
     return initial_[age];
 
   return mean_data_by_year_and_age_[year][age];
-
 }
 
 } /* namespace ageweights */

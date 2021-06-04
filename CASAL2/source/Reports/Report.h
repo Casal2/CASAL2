@@ -5,7 +5,7 @@
  * @date 18/09/2012
  * @section LICENSE
  *
- * Copyright NIWA Science ©2012 - www.niwa.co.nz
+ * Copyright NIWA Science ï¿½2012 - www.niwa.co.nz
  *
  * @section DESCRIPTION
  *
@@ -21,12 +21,12 @@
 #endif
 
 // Headers
-#include <string>
-#include <iostream>
 #include <fstream>
-#include <ostream>
-#include <thread>
+#include <iostream>
 #include <mutex>
+#include <ostream>
+#include <string>
+#include <thread>
 
 #include "../BaseClasses/Object.h"
 #include "../Model/Model.h"
@@ -34,14 +34,13 @@
 // Namespaces
 namespace niwa {
 class Model;
-using std::streambuf;
-using std::ofstream;
 using std::cout;
 using std::endl;
 using std::ios_base;
 using std::iostream;
+using std::ofstream;
 using std::ostringstream;
-
+using std::streambuf;
 
 /**
  * Class definition
@@ -50,59 +49,59 @@ class Report : public base::Object {
 public:
   // Methods
   Report();
-  virtual                     ~Report() = default;
-  void												Validate() { };
-  void												Build() { };
-  void                        Validate(shared_ptr<Model> model);
-  void                        Build(shared_ptr<Model> model);
-  void                        Prepare(shared_ptr<Model> model);
-  void                        Reset() {};
-  void                        Execute(shared_ptr<Model> model);
-  void                        Finalise(shared_ptr<Model> model);
-  void                        PrepareTabular(shared_ptr<Model> model);
-  void                        ExecuteTabular(shared_ptr<Model> model);
-  void                        FinaliseTabular(shared_ptr<Model> model);
-  bool                        HasYear(unsigned year);
-  void                        FlushCache();
+  virtual ~Report() = default;
+  void Validate(){};
+  void Build(){};
+  void Validate(shared_ptr<Model> model);
+  void Build(shared_ptr<Model> model);
+  void Prepare(shared_ptr<Model> model);
+  void Reset(){};
+  void Execute(shared_ptr<Model> model);
+  void Finalise(shared_ptr<Model> model);
+  void PrepareTabular(shared_ptr<Model> model);
+  void ExecuteTabular(shared_ptr<Model> model);
+  void FinaliseTabular(shared_ptr<Model> model);
+  bool HasYear(unsigned year);
+  void FlushCache();
 
   // Accessors
-  RunMode::Type               run_mode() const { return run_mode_; }
-  State::Type                 model_state() const { return model_state_; }
-  const string&               time_step() const { return time_step_; }
-  bool                        ready_for_writing() const { return ready_for_writing_; }
-  void                        set_skip_tags(bool value) { skip_tags_ = value; }
-  void												set_suffix(string_view suffix);
-  void                        set_write_mode(string_view write_mode) { write_mode_ = write_mode; }
+  RunMode::Type run_mode() const { return run_mode_; }
+  State::Type   model_state() const { return model_state_; }
+  const string& time_step() const { return time_step_; }
+  bool          ready_for_writing() const { return ready_for_writing_; }
+  void          set_skip_tags(bool value) { skip_tags_ = value; }
+  void          set_suffix(string_view suffix);
+  void          set_write_mode(string_view write_mode) { write_mode_ = write_mode; }
 
 protected:
   // methods
-  void                        SetUpInternalStates();
+  void SetUpInternalStates();
   // pure methods
-  virtual void                DoValidate(shared_ptr<Model> model) = 0;
-  virtual void                DoBuild(shared_ptr<Model> model) = 0;
-  virtual void                DoPrepare(shared_ptr<Model> model) { };
-  virtual void                DoExecute(shared_ptr<Model> model) = 0;
-  virtual void                DoFinalise(shared_ptr<Model> model) { };
-  virtual void                DoPrepareTabular(shared_ptr<Model> model) { };
-  virtual void                DoExecuteTabular(shared_ptr<Model> model) = 0;
-  virtual void                DoFinaliseTabular(shared_ptr<Model> model) { };
+  virtual void DoValidate(shared_ptr<Model> model) = 0;
+  virtual void DoBuild(shared_ptr<Model> model)    = 0;
+  virtual void DoPrepare(shared_ptr<Model> model){};
+  virtual void DoExecute(shared_ptr<Model> model) = 0;
+  virtual void DoFinalise(shared_ptr<Model> model){};
+  virtual void DoPrepareTabular(shared_ptr<Model> model){};
+  virtual void DoExecuteTabular(shared_ptr<Model> model) = 0;
+  virtual void DoFinaliseTabular(shared_ptr<Model> model){};
 
   // Members
-//  shared_ptr<Model>                      model_ = nullptr;
-  RunMode::Type               run_mode_    = RunMode::kInvalid;
-  State::Type                 model_state_ = State::kInitialise;
-  static std::mutex    				lock_;
-  string                      time_step_   = "";
-  string                      file_name_   = "";
-  bool                        first_write_ = true;
-  bool                        overwrite_   = true;
-  string                      last_suffix_ = "";
-  string                      write_mode_ = PARAM_OVERWRITE;
-  vector<unsigned>            years_;
-  ostringstream               cache_;
-  bool                        ready_for_writing_ = false;
-  bool                        skip_tags_ = false;
-  string											suffix_ = "";
+  //  shared_ptr<Model>                      model_ = nullptr;
+  RunMode::Type     run_mode_    = RunMode::kInvalid;
+  State::Type       model_state_ = State::kInitialise;
+  static std::mutex lock_;
+  string            time_step_   = "";
+  string            file_name_   = "";
+  bool              first_write_ = true;
+  bool              overwrite_   = true;
+  string            last_suffix_ = "";
+  string            write_mode_  = PARAM_OVERWRITE;
+  vector<unsigned>  years_;
+  ostringstream     cache_;
+  bool              ready_for_writing_ = false;
+  bool              skip_tags_         = false;
+  string            suffix_            = "";
 };
 
 // Typedef

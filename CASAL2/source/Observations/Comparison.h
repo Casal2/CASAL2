@@ -26,16 +26,16 @@ using std::string;
 using utilities::Double;
 
 struct Comparison {
-  string    category_ = "";
-  unsigned  age_ = 0;
-  Double    length_ = 0;
-  Double    expected_ = 0;
-  Double    observed_ = 0;
-  Double    process_error_ = 0;
-  Double    error_value_ = 0;
-  Double    adjusted_error_ = 0;
-  Double    delta_ = 0;
-  Double    score_ = 0;
+  string   category_       = "";
+  unsigned age_            = 0;
+  Double   length_         = 0;
+  Double   expected_       = 0;
+  Double   observed_       = 0;
+  Double   process_error_  = 0;
+  Double   error_value_    = 0;
+  Double   adjusted_error_ = 0;
+  Double   delta_          = 0;
+  Double   score_          = 0;
 };
 
 } /* namespace observations */

@@ -13,11 +13,11 @@
 #include <boost/algorithm/string/replace.hpp>
 #include <iostream>
 
-#include "../../ConfigurationLoader/MPD.Mock.h"
 #include "../../DerivedQuantities/Manager.h"
 #include "../../Estimates/Manager.h"
 #include "../../MCMCs/MCMC.h"
 #include "../../MCMCs/Manager.h"
+#include "../../MPD/MPD.Mock.h"
 #include "../../Model/Managers.h"
 #include "../../Model/Model.h"
 #include "../../ObjectiveFunction/ObjectiveFunction.h"

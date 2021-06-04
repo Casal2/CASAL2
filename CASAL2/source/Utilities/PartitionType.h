@@ -19,13 +19,13 @@
 
 // Enumerated Types
 enum class PartitionType {
-  kAge      = 1,
-  kLength   = 2,
-//  kHybrid   = 4,
-  kModel    = 4,
-	kPiApprox = 5,
-	kMultivariate = 6,
-	kInvalid  = 4096
+  kAge    = 1,
+  kLength = 2,
+  //  kHybrid   = 4,
+  kModel        = 4,
+  kPiApprox     = 5,
+  kMultivariate = 6,
+  kInvalid      = 4096
 };
 
 inline PartitionType operator&(PartitionType a, PartitionType b) {

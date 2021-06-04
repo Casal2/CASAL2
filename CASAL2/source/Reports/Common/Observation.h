@@ -29,19 +29,20 @@ class Observation : public niwa::Report {
 public:
   // methods
   Observation();
-  virtual                     ~Observation() = default;
-  void                        DoValidate(shared_ptr<Model> model) final { };
-  void                        DoBuild(shared_ptr<Model> model) final;
-  void                        DoExecute(shared_ptr<Model> model) final;
-  void                        DoExecuteTabular(shared_ptr<Model> model) final;
-  void                        DoFinaliseTabular(shared_ptr<Model> model) final;
+  virtual ~Observation() = default;
+  void DoValidate(shared_ptr<Model> model) final{};
+  void DoBuild(shared_ptr<Model> model) final;
+  void DoExecute(shared_ptr<Model> model) final;
+  void DoExecuteTabular(shared_ptr<Model> model) final;
+  void DoFinaliseTabular(shared_ptr<Model> model) final;
+
 private:
   // members
-  string              observation_label_ = "";
-  niwa::Observation*  observation_ = nullptr;
-  bool                normalised_resids_ = false;
-  bool                pearson_resids_ = false;
-  bool                first_run_ = true;
+  string             observation_label_ = "";
+  niwa::Observation* observation_       = nullptr;
+  bool               normalised_resids_ = false;
+  bool               pearson_resids_    = false;
+  bool               first_run_         = true;
 };
 
 } /* namespace reports */

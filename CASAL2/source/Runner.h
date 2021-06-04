@@ -12,9 +12,9 @@
 // headers
 #include "ConfigurationLoader/Loader.h"
 #include "GlobalConfiguration/GlobalConfiguration.h"
+#include "MPD/MPD.h"
 #include "Model/Model.h"
 #include "ThreadPool/ThreadPool.h"
-#include "Utilities/StandardHeader.h"
 
 // namespaces
 namespace niwa {
@@ -34,13 +34,15 @@ public:
   bool Execute();
   bool Finalize();
 
-  int                    Go();
-  int                    GoWithRunMode(RunMode::Type run_mode);
-  void                   set_run_parameters(utilities::RunParameters& options) { run_parameters_ = options; }
-  GlobalConfiguration&   global_configuration() { return global_configuration_; }
-  configuration::Loader& config_loader() { return config_loader_; }
-  shared_ptr<Model>      model() { return master_model_; }
-  shared_ptr<ThreadPool> thread_pool() { return thread_pool_; }
+  int                      Go();
+  int                      GoWithRunMode(RunMode::Type run_mode);
+  void                     set_run_parameters(utilities::RunParameters& options) { run_parameters_ = options; }
+  utilities::RunParameters run_parameters() const { return run_parameters_; }
+  GlobalConfiguration&     global_configuration() { return global_configuration_; }
+  configuration::Loader&   config_loader() { return config_loader_; }
+  shared_ptr<Model>        model() { return master_model_; }
+  shared_ptr<ThreadPool>   thread_pool() { return thread_pool_; }
+  shared_ptr<MPD>          mpd() { return mpd_; }
 
 private:
   // methods
@@ -49,13 +51,13 @@ private:
   int  RunMCMC();
 
   // members
-  RunMode::Type             run_mode_ = RunMode::kInvalid;
-  GlobalConfiguration       global_configuration_;
-  utilities::RunParameters  run_parameters_;
-  configuration::Loader     config_loader_;
-  shared_ptr<Model>         master_model_;
-  shared_ptr<ThreadPool>    thread_pool_;
-  utilities::StandardHeader standard_header;
+  RunMode::Type            run_mode_ = RunMode::kInvalid;
+  GlobalConfiguration      global_configuration_;
+  utilities::RunParameters run_parameters_;
+  configuration::Loader    config_loader_;
+  shared_ptr<Model>        master_model_;
+  shared_ptr<ThreadPool>   thread_pool_;
+  shared_ptr<MPD>          mpd_;
 };
 
 } /* namespace niwa */

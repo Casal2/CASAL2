@@ -26,23 +26,22 @@ namespace lengthweights {
 class Basic : public niwa::LengthWeight {
 public:
   // methods
-  explicit                    Basic(shared_ptr<Model> model);
-  virtual                     ~Basic() = default;
-  void                        DoValidate() override final;
-  void                        DoBuild() override final;
-  void                        DoReset() override final { };
+  explicit Basic(shared_ptr<Model> model);
+  virtual ~Basic() = default;
+  void DoValidate() override final;
+  void DoBuild() override final;
+  void DoReset() override final{};
 
   // accessors
-  Double                      mean_weight(Double size, Distribution distribution, Double cv) const override final;
+  Double mean_weight(Double size, Distribution distribution, Double cv) const override final;
 
 private:
   // members
-  Double                      a_ = 0;
-  Double                      b_ = 0;
-  Double                      cv_ = 0;
-  Double                      unit_multipier_ = 1.0;
-  string                      units_;
-
+  Double a_              = 0;
+  Double b_              = 0;
+  Double cv_             = 0;
+  Double unit_multipier_ = 1.0;
+  string units_;
 };
 
 } /* namespace lengthweights */

@@ -22,13 +22,13 @@ namespace agelengths {
 // classes
 class Factory {
 public:
-  static AgeLength*           Create(shared_ptr<Model> model, const string& object_type, const string& sub_type);
+  static AgeLength* Create(shared_ptr<Model> model, const string& object_type, const string& sub_type);
 
 private:
-  Factory() = delete;
+  Factory()          = delete;
   virtual ~Factory() = delete;
 };
 
-} /* namespace agesizes */
+}  // namespace agelengths
 } /* namespace niwa */
 #endif /* AGELENGTHS_FACTORY_H_ */

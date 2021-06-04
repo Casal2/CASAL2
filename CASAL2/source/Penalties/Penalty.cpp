@@ -24,7 +24,6 @@ namespace niwa {
 Penalty::Penalty(shared_ptr<Model> model) : model_(model) {
   parameters_.Bind<string>(PARAM_LABEL, &label_, "The label of the penalty", "");
   parameters_.Bind<string>(PARAM_TYPE, &type_, "The type of penalty", "");
-
 }
 
 /**

@@ -31,53 +31,54 @@ namespace niwa {
  */
 class Project : public niwa::base::Object {
   typedef void (Project::*UpdateFunction)(Double);
+
 public:
   // methods
   Project() = delete;
   explicit Project(shared_ptr<Model> model);
-  virtual                     ~Project() = default;
-  void                        Validate();
-  void                        Build();
-  void                        Reset();
-  void                        Update(unsigned current_year);
-  void                        StoreValue(unsigned current_year);
+  virtual ~Project() = default;
+  void Validate();
+  void Build();
+  void Reset();
+  void Update(unsigned current_year);
+  void StoreValue(unsigned current_year);
 
   // accessors
-  string                      parameter() { return parameter_; };
-  map<unsigned,Double>&       projected_parameters() { return projected_values_; };
+  string                 parameter() { return parameter_; };
+  map<unsigned, Double>& projected_parameters() { return projected_values_; };
 
 protected:
   // methods
-  void                        RestoreOriginalValue(unsigned year);
-  void                        SetSingleValue(Double value);
-  void                        SetVectorValue(Double value);
-  void                        SetMapValue(Double value);
+  void RestoreOriginalValue(unsigned year);
+  void SetSingleValue(Double value);
+  void SetVectorValue(Double value);
+  void SetMapValue(Double value);
 
   // pure virtual methods
-  virtual void                DoValidate() = 0;
-  virtual void                DoBuild() = 0;
-  virtual void                DoReset() = 0;
-  virtual void                DoUpdate() = 0;
+  virtual void DoValidate() = 0;
+  virtual void DoBuild()    = 0;
+  virtual void DoReset()    = 0;
+  virtual void DoUpdate()   = 0;
 
   // function pointers
-  UpdateFunction              DoUpdateFunc_ = nullptr;
+  UpdateFunction DoUpdateFunc_ = nullptr;
 
   // members
-  shared_ptr<Model>                      model_;
-  Double                      multiplier_;
-  string                      type_ = "";
-  vector<unsigned>            years_;
-  string                      parameter_;
-  Double                      original_value_ = 0;
-  Double*                     addressable_ = nullptr;
-  map<unsigned, Double>*      addressable_map_ = nullptr;
-  vector<Double>*             addressable_vector_ = nullptr;
-  map<unsigned, Double>       projected_values_;
-  map<unsigned, Double>       stored_values_;
-  bool                        final_phase_ = false;
+  shared_ptr<Model>      model_;
+  Double                 multiplier_;
+  string                 type_ = "";
+  vector<unsigned>       years_;
+  string                 parameter_;
+  Double                 original_value_     = 0;
+  Double*                addressable_        = nullptr;
+  map<unsigned, Double>* addressable_map_    = nullptr;
+  vector<Double>*        addressable_vector_ = nullptr;
+  map<unsigned, Double>  projected_values_;
+  map<unsigned, Double>  stored_values_;
+  bool                   final_phase_ = false;
 
 private:
-  bool                        ycs_value_check_;
+  bool ycs_value_check_;
 };
 } /* namespace niwa */
 

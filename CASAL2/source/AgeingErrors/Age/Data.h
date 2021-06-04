@@ -27,17 +27,17 @@ class Data : public niwa::AgeingError {
 public:
   // methods
   Data(shared_ptr<Model> model);
-  virtual                   ~Data();
+  virtual ~Data();
 
 protected:
   // methods
-  void                        DoValidate() override final { };
-  void                        DoBuild() override final;
-  void                        DoReset() override final { };
+  void DoValidate() override final{};
+  void DoBuild() override final;
+  void DoReset() override final{};
 
 private:
   // members
-  parameters::Table*          data_table_ = nullptr;
+  parameters::Table* data_table_ = nullptr;
 };
 
 } /* namespace ageingerrors */

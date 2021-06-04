@@ -11,22 +11,19 @@
 #ifdef TESTMODE
 
 // headers
-#include "../Partition/Partition.h"
-#include "../Model/Models/Age.h"
-#include "../TestResources/TestFixtures/InternalEmptyModel.h"
 #include "../DerivedQuantities/Manager.h"
-
+#include "../Model/Models/Age.h"
+#include "../Partition/Partition.h"
+#include "../TestResources/TestFixtures/InternalEmptyModel.h"
 #include "../Utilities/RandomNumberGenerator.h"
 
 namespace niwa {
 namespace projects {
 
-
 using niwa::testfixtures::InternalEmptyModel;
 
-
 const string simple_model =
-R"(
+    R"(
 @model
 start_year 2000
 final_year 2012
@@ -151,7 +148,7 @@ type derived_quantity
  * LogNormal_test
  */
 const string lognormal_project =
-R"(
+    R"(
  @project future_ycs
  type lognormal
  parameter process[Recruitment].ycs_values
@@ -165,7 +162,7 @@ R"(
  * Empirical_test
  */
 const string empirical_project =
-R"(
+    R"(
  @project future_ycs
  type lognormal
  parameter process[Recruitment].ycs_values
@@ -178,7 +175,7 @@ R"(
  * LogNormal-Empirical_test
  */
 const string lognormal_empirical_project =
-R"(
+    R"(
  @project future_ycs
  type lognormal
  parameter process[Recruitment].ycs_values
@@ -191,27 +188,27 @@ R"(
  *  Test LogNormal @project for estimate of type map and
  */
 
-TEST_F(InternalEmptyModel,Project_Run_lognormal) {
+TEST_F(InternalEmptyModel, Project_Run_lognormal) {
   utilities::RandomNumberGenerator::Instance().Reset(3445u);
   AddConfigurationLine(simple_model, __FILE__, 30);
   AddConfigurationLine(lognormal_project, __FILE__, 55);
   LoadConfiguration();
   model_->Start(RunMode::kProjection);
-//  string error_message = "";
-//  base::Object*  ycs_param = model_->objects().FindObject("process[Recruitment].ycs_values",error_message);
-//  if (!ycs_param)
-//    LOG_FATAL() << "!ycs_param" << error_message;
+  //  string error_message = "";
+  //  base::Object*  ycs_param = model_->objects().FindObject("process[Recruitment].ycs_values",error_message);
+  //  if (!ycs_param)
+  //    LOG_FATAL() << "!ycs_param" << error_message;
 
   // check the results
-  vector<Double> expected = {39020.374395850878,39119.730338979163,39522.039125316616,39899.741050984972,40219.624154617522,40406.927858193463,40738.987611694509,41620.462926768043};
+  vector<Double> expected
+      = {39020.374395850878, 39119.730338979163, 39522.039125316616, 39899.741050984972, 40219.624154617522, 40406.927858193463, 40738.987611694509, 41620.462926768043};
   niwa::DerivedQuantity* dq = model_->managers()->derived_quantity()->GetDerivedQuantity("SSB");
   for (unsigned i = 0; i < 8; ++i) {
-    unsigned year = 2012 + i;
-    Double value = expected[i];
+    unsigned year  = 2012 + i;
+    Double   value = expected[i];
     EXPECT_DOUBLE_EQ(value, dq->GetValue(year)) << " for year " << year << " and value " << value;
   }
 }
-
 
 } /* namespace projects */
 } /* namespace niwa */

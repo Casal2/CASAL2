@@ -22,9 +22,9 @@ namespace age {
 /**
  * Default constructor
  */
-TimeStepProportionsByCategory::TimeStepProportionsByCategory(shared_ptr<Model> model)
-   : observations::age::ProportionsByCategory(model) {
-  parameters_.Bind<Double>(PARAM_TIME_STEP_PROPORTION, &time_step_proportion_, "The proportion through the time step to analyse the partition from", "", Double(0.5))->set_range(0.0, 1.0);
+TimeStepProportionsByCategory::TimeStepProportionsByCategory(shared_ptr<Model> model) : observations::age::ProportionsByCategory(model) {
+  parameters_.Bind<Double>(PARAM_TIME_STEP_PROPORTION, &time_step_proportion_, "The proportion through the time step to analyse the partition from", "", Double(0.5))
+      ->set_range(0.0, 1.0);
 
   mean_proportion_method_ = true;
 }
@@ -43,8 +43,7 @@ void TimeStepProportionsByCategory::DoBuild() {
   if (!time_step) {
     LOG_ERROR_P(PARAM_TIME_STEP) << "Time step label " << time_step_label_ << " was not found.";
   } else {
-      for (unsigned year : years_)
-        time_step->SubscribeToBlock(this, year);
+    for (unsigned year : years_) time_step->SubscribeToBlock(this, year);
   }
 }
 

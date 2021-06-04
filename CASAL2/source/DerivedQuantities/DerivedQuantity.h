@@ -33,40 +33,38 @@ public:
   // methods
   DerivedQuantity() = delete;
   explicit DerivedQuantity(shared_ptr<Model> model);
-  virtual                     ~DerivedQuantity() = default;
-  void                        Validate();
-  void                        Build();
-  void                        Reset();
-  Double                      GetValue(unsigned year);
-  Double                      GetInitialisationValue(unsigned phase = 0, unsigned index = 0);
-  Double                      GetLastValueFromInitialisation(unsigned phase);
+  virtual ~DerivedQuantity() = default;
+  void   Validate();
+  void   Build();
+  void   Reset();
+  Double GetValue(unsigned year);
+  Double GetInitialisationValue(unsigned phase = 0, unsigned index = 0);
+  Double GetLastValueFromInitialisation(unsigned phase);
 
   // pure methods
-  virtual void                DoValidate() = 0;
-  virtual void                DoBuild() = 0;
+  virtual void DoValidate() = 0;
+  virtual void DoBuild()    = 0;
 
   // accessors
-  const string&               time_step() { return time_step_label_; }
-  vector<vector<Double> >&    initialisation_values() { return initialisation_values_; }
+  const string&                time_step() { return time_step_label_; }
+  vector<vector<Double>>&      initialisation_values() { return initialisation_values_; }
   const map<unsigned, Double>& values() { return values_; }
 
 protected:
   // Members
-  shared_ptr<Model>                      model_ = nullptr;
-  string                      time_step_label_ = "";
-  unsigned                    current_initialisation_phase_ = 0;
-  vector<vector<Double>>      initialisation_values_;
-  map<unsigned, Double>       values_;
-  Double                      cache_value_;
-  vector<string>              selectivity_labels_;
-  vector<Selectivity*>        selectivities_;
-  vector<string>              category_labels_;
-  accessor::Categories        partition_;
-  string                      proportion_method_;
-  Double                      time_step_proportion_;
-  bool                        mean_proportion_method_;
-
-
+  shared_ptr<Model>      model_                        = nullptr;
+  string                 time_step_label_              = "";
+  unsigned               current_initialisation_phase_ = 0;
+  vector<vector<Double>> initialisation_values_;
+  map<unsigned, Double>  values_;
+  Double                 cache_value_;
+  vector<string>         selectivity_labels_;
+  vector<Selectivity*>   selectivities_;
+  vector<string>         category_labels_;
+  accessor::Categories   partition_;
+  string                 proportion_method_;
+  Double                 time_step_proportion_;
+  bool                   mean_proportion_method_;
 };
 } /* namespace niwa */
 #endif /* DERIVEDQUANTITY_H_ */

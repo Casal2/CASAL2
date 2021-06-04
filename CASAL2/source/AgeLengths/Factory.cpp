@@ -11,14 +11,14 @@
 // headers
 #include "Factory.h"
 
-#include "../Model/Model.h"
-#include "../Model/Managers.h"
-#include "../AgeLengths/Manager.h"
-#include "../AgeLengths/AgeLength.h"
 #include "../AgeLengths/Age/Data.h"
 #include "../AgeLengths/Age/None.h"
 #include "../AgeLengths/Age/Schnute.h"
 #include "../AgeLengths/Age/VonBertalanffy.h"
+#include "../AgeLengths/AgeLength.h"
+#include "../AgeLengths/Manager.h"
+#include "../Model/Managers.h"
+#include "../Model/Model.h"
 
 // namespaces
 namespace niwa {

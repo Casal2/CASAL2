@@ -11,24 +11,23 @@
 #ifdef TESTMODE
 
 // Headers
-#include "ProcessRemovalsByAgeRetainedTotal.h"
-
 #include <iostream>
 
 #include "ObjectiveFunction/ObjectiveFunction.h"
 #include "Observations/Manager.h"
+#include "ProcessRemovalsByAgeRetainedTotal.h"
 #include "TestResources/TestFixtures/InternalEmptyModel.h"
 
 // Namespaces
 namespace niwa {
 namespace age {
 
+using niwa::testfixtures::InternalEmptyModel;
 using std::cout;
 using std::endl;
-using niwa::testfixtures::InternalEmptyModel;
 
 const std::string test_cases_observation_process_removals_by_age_retained_total =
-R"(
+    R"(
 @model
 start_year 2001
 final_year 2005
@@ -149,7 +148,7 @@ TEST_F(InternalEmptyModel, Observation_Process_Removals_By_Age_Retained_Total) {
   AddConfigurationLine(test_cases_observation_process_removals_by_age_retained_total, __FILE__, 31);
   LoadConfiguration();
 
-  model_->Start(RunMode::kBasic); // kEstimation instead of kBasic
+  model_->Start(RunMode::kBasic);  // kEstimation instead of kBasic
 
   ObjectiveFunction& obj_function = model_->objective_function();
   EXPECT_NEAR(125.511, obj_function.score(), 1e-3);
@@ -183,11 +182,9 @@ TEST_F(InternalEmptyModel, Observation_Process_Removals_By_Age_Retained_Total) {
   EXPECT_NEAR(0.1107930285, comparisons[year][6].observed_, 1e-6);
   EXPECT_NEAR(0.0813485, comparisons[year][6].expected_, 1e-6);
   EXPECT_NEAR(420.485, comparisons[year][6].score_, 1e-3);
-
 }
 
-} /* namespace processes */
+}  // namespace age
 } /* namespace niwa */
-
 
 #endif /* TESTMODE */

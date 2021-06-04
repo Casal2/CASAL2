@@ -10,33 +10,32 @@
 #ifdef TESTMODE
 
 // Headers
-#include "Abundance.h"
-
 #include <iostream>
 
 #include "../../DerivedQuantities/Manager.h"
 #include "../../Model/Factory.h"
 #include "../../Model/Models/Age.h"
-#include "../../TimeSteps/Manager.h"
 #include "../../Partition/Partition.h"
-#include "../../TestResources/TestFixtures/InternalEmptyModel.h"
 #include "../../TestResources/ConfigurationFiles/AgeSizes.h"
 #include "../../TestResources/ConfigurationFiles/Categories.h"
 #include "../../TestResources/ConfigurationFiles/Model.h"
-#include "../../TestResources/ConfigurationFiles/SizeWeights.h"
 #include "../../TestResources/ConfigurationFiles/Processes/Ageing.h"
 #include "../../TestResources/ConfigurationFiles/Processes/MortalityConstantRate.h"
 #include "../../TestResources/ConfigurationFiles/Processes/RecruitmentConstant.h"
 #include "../../TestResources/ConfigurationFiles/Selectivities/Constant.h"
+#include "../../TestResources/ConfigurationFiles/SizeWeights.h"
+#include "../../TestResources/TestFixtures/InternalEmptyModel.h"
+#include "../../TimeSteps/Manager.h"
+#include "Abundance.h"
 
 // Namespaces
 namespace niwa {
 namespace age {
 namespace derivedquantities {
 
+using niwa::testfixtures::InternalEmptyModel;
 using std::cout;
 using std::endl;
-using niwa::testfixtures::InternalEmptyModel;
 
 /**
  *
@@ -56,9 +55,9 @@ TEST_F(InternalEmptyModel, DerivedQuantities_Abundance) {
   LoadConfiguration();
 
   // build our derived quantity
-  vector<string> categories = { "immature", "mature", "spawning" };
-  vector<string> selectivities = { "one", "one", "one" };
-  base::Object* object = model_->factory().CreateObject(PARAM_DERIVED_QUANTITY, PARAM_ABUNDANCE);
+  vector<string> categories    = {"immature", "mature", "spawning"};
+  vector<string> selectivities = {"one", "one", "one"};
+  base::Object*  object        = model_->factory().CreateObject(PARAM_DERIVED_QUANTITY, PARAM_ABUNDANCE);
   object->parameters().Add(PARAM_LABEL, "derived_quantity_biomass", __FILE__, __LINE__);
   object->parameters().Add(PARAM_TYPE, PARAM_ABUNDANCE, __FILE__, __LINE__);
   object->parameters().Add(PARAM_TIME_STEP, "time_step_one", __FILE__, __LINE__);
@@ -77,12 +76,11 @@ TEST_F(InternalEmptyModel, DerivedQuantities_Abundance) {
   // check the results
   niwa::DerivedQuantity* dq = model_->managers()->derived_quantity()->GetDerivedQuantity("derived_quantity_biomass");
   for (unsigned i = 0; i < 15; ++i) {
-    unsigned year = 1994 + i;
-    double value = (i + 1) * 997386.0;
+    unsigned year  = 1994 + i;
+    double   value = (i + 1) * 997386.0;
 
     EXPECT_DOUBLE_EQ(value, dq->GetValue(year)) << " for year " << year << " and value " << value;
   }
-
 }
 
 } /* namespace derivedquantities */

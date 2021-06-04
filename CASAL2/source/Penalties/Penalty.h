@@ -36,24 +36,24 @@ public:
   // Methods
   Penalty() = delete;
   explicit Penalty(shared_ptr<Model> model);
-  virtual                     ~Penalty() = default;
-  void                        Validate();
-  void                        Build() { DoBuild(); };
-  void                        Reset() {};
-  virtual Double              GetScore() = 0;
-  virtual void                Trigger(const string& source_label, Double value_1, Double value_2) { };
+  virtual ~Penalty() = default;
+  void           Validate();
+  void           Build() { DoBuild(); };
+  void           Reset(){};
+  virtual Double GetScore() = 0;
+  virtual void   Trigger(const string& source_label, Double value_1, Double value_2){};
 
   // accessors
-  bool                        has_score() const { return has_score_; }
+  bool has_score() const { return has_score_; }
 
 protected:
   // methods
-  virtual void                DoValidate() = 0;
-  virtual void                DoBuild() = 0;
+  virtual void DoValidate() = 0;
+  virtual void DoBuild()    = 0;
 
   // members
-  shared_ptr<Model>                      model_ = nullptr;
-  bool                        has_score_ = true;
+  shared_ptr<Model> model_     = nullptr;
+  bool              has_score_ = true;
 };
 } /* namespace niwa */
 #endif /* PENALTY_H_ */

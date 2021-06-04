@@ -30,19 +30,18 @@ class KnifeEdge : public niwa::Selectivity {
 public:
   // Methods
   explicit KnifeEdge(shared_ptr<Model> model);
-  virtual                     ~KnifeEdge() = default;
-  void                        DoValidate() override final { };
-  void                        RebuildCache() override final;
+  virtual ~KnifeEdge() = default;
+  void DoValidate() override final{};
+  void RebuildCache() override final;
 
 protected:
-  //Methods
-  Double                      GetLengthBasedResult(unsigned age, AgeLength* age_length, unsigned year = 0, int time_step_index = -1) override final;
+  // Methods
+  Double GetLengthBasedResult(unsigned age, AgeLength* age_length, unsigned year = 0, int time_step_index = -1) override final;
 
 private:
   // Members
-  Double                      edge_;
-  Double                      alpha_;
-
+  Double edge_;
+  Double alpha_;
 };
 
 } /* namespace selectivities */

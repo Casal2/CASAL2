@@ -7,8 +7,8 @@
 
 #include "PartitionBiomass.h"
 
-#include <iostream>
 #include <iomanip>
+#include <iostream>
 
 #include "../../Model/Model.h"
 #include "../../Partition/Accessors/All.h"
@@ -35,7 +35,6 @@ void PartitionBiomass::DoValidate(shared_ptr<Model> model) {
     if (std::find(model_years.begin(), model_years.end(), year) == model_years.end())
       LOG_ERROR_P(PARAM_YEARS) << " value " << year << " is not a valid year in the model";
   }
-
 }
 
 /**
@@ -43,9 +42,9 @@ void PartitionBiomass::DoValidate(shared_ptr<Model> model) {
  */
 void PartitionBiomass::DoExecute(shared_ptr<Model> model) {
   // First, figure out the lowest and highest ages/length
-  unsigned lowest         = 9999;
-  unsigned highest        = 0;
-  unsigned longest_length = 0;
+  unsigned lowest          = 9999;
+  unsigned highest         = 0;
+  unsigned longest_length  = 0;
   unsigned time_step_index = model->managers()->time_step()->current_time_step();
 
   niwa::partition::accessors::All all_view(model);
@@ -57,17 +56,17 @@ void PartitionBiomass::DoExecute(shared_ptr<Model> model) {
     if (longest_length < iterator->name_.length())
       longest_length = iterator->name_.length();
   }
-  cache_ << "*"<< type_ << "[" << label_ << "]" << "\n";
+  cache_ << "*" << type_ << "[" << label_ << "]"
+         << "\n";
   cache_ << "year: " << model->current_year() << "\n";
   cache_ << "time_step: " << time_step_ << "\n";
   cache_ << "values " << REPORT_R_DATAFRAME << "\n";
 
   cache_ << "category";
-  for (unsigned i = lowest; i <= highest; ++i)
-    cache_ << " " << i;
+  for (unsigned i = lowest; i <= highest; ++i) cache_ << " " << i;
   cache_ << "\n";
 
-  cache_.precision(1); // TODO: Validate why this is here?
+  cache_.precision(1);  // TODO: Validate why this is here?
   cache_ << std::fixed;
 
   for (auto iterator : all_view) {
@@ -77,7 +76,8 @@ void PartitionBiomass::DoExecute(shared_ptr<Model> model) {
       if (age >= lowest && age <= highest)
         cache_ << " " << std::fixed << std::setprecision(5) << AS_DOUBLE((iterator->data_[i] * iterator->mean_weight_by_time_step_age_[time_step_index][age]));
       else
-        cache_ << " " << "null";
+        cache_ << " "
+               << "null";
     }
     cache_ << "\n";
   }

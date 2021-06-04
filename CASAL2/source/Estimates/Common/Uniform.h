@@ -31,9 +31,9 @@ public:
   // Methods
   Uniform() = delete;
   explicit Uniform(shared_ptr<Model> model);
-  virtual                     ~Uniform() = default;
-  void                        DoValidate() override final { };
-  Double                      GetScore() override final { return 0; }
+  virtual ~Uniform() = default;
+  void   DoValidate() override final{};
+  Double GetScore() override final { return 0; }
 };
 
 } /* namespace estimates */

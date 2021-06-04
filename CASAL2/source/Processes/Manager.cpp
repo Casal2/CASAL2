@@ -7,8 +7,8 @@
 
 #include "Manager.h"
 
-#include "../Model/Model.h"
 #include "../Logging/Logging.h"
+#include "../Model/Model.h"
 
 namespace niwa {
 namespace processes {
@@ -16,14 +16,12 @@ namespace processes {
 /**
  * Default constructor
  */
-Manager::Manager() {
-}
+Manager::Manager() {}
 
 /**
  * Destructor
  */
-Manager::~Manager() noexcept(true) {
-}
+Manager::~Manager() noexcept(true) {}
 
 /**
  * Validate the objects - no model
@@ -51,7 +49,7 @@ void Manager::Validate(shared_ptr<Model> model) {
       LOG_CODE_ERROR() << "Process: " << process->label() << " has not been properly configured to have a partition structure";
 
     if ((PartitionType)(process->partition_structure() & partition_type) != partition_type) {
-      string label = "unknown";
+      string     label = "unknown";
       Parameter* param = process->parameters().Get(PARAM_LABEL);
       if (param)
         label = param->values()[0];

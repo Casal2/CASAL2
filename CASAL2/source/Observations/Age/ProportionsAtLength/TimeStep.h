@@ -29,11 +29,11 @@ class TimeStepProportionsAtLength : public observations::age::ProportionsAtLengt
 public:
   // methods
   TimeStepProportionsAtLength(shared_ptr<Model> model);
-  virtual                     ~TimeStepProportionsAtLength() = default;
-  void                        DoBuild() override final;
+  virtual ~TimeStepProportionsAtLength() = default;
+  void DoBuild() override final;
 
 private:
-  Double                      time_step_proportion_;
+  Double time_step_proportion_;
 };
 
 } /* namespace age */

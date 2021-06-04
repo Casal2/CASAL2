@@ -18,8 +18,8 @@
 
 // Headers
 #include <map>
-#include <vector>
 #include <string>
+#include <vector>
 
 #include "../../Model/Model.h"
 #include "../../Utilities/Types.h"
@@ -29,11 +29,11 @@ namespace niwa {
 namespace partition {
 namespace accessors {
 
+using niwa::utilities::Double;
 using std::map;
-using std::vector;
 using std::pair;
 using std::string;
-using niwa::utilities::Double;
+using std::vector;
 
 /**
  * Class definition
@@ -46,15 +46,15 @@ public:
   // Methods
   CategoriesWithAge() = delete;
   CategoriesWithAge(shared_ptr<Model> model, const vector<string>& categories, const unsigned& age);
-  virtual                     ~CategoriesWithAge() = default;
-  unsigned                    size();
-  const DataType::iterator          begin();
-  const DataType::iterator          end();
+  virtual ~CategoriesWithAge() = default;
+  unsigned                 size();
+  const DataType::iterator begin();
+  const DataType::iterator end();
 
 private:
   // Members
-  shared_ptr<Model>                      model_;
-  map<unsigned, DataType >    data_; // map<year, vector<pair<category, Double*> > >
+  shared_ptr<Model>       model_;
+  map<unsigned, DataType> data_;  // map<year, vector<pair<category, Double*> > >
 };
 
 // Typedef

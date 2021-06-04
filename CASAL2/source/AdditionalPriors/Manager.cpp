@@ -44,10 +44,5 @@ AdditionalPrior* Manager::GetAdditionalPrior(string_view parameter) {
   return nullptr;
 }
 
-
 } /* namespace additionalpriors */
 } /* namespace niwa */
-
-
-
-

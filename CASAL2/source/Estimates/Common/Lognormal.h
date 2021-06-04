@@ -31,14 +31,14 @@ public:
   // Methods
   Lognormal() = delete;
   explicit Lognormal(shared_ptr<Model> model);
-  virtual                     ~Lognormal() = default;
-  void                        DoValidate() override final { };
-  Double                      GetScore() override final;
+  virtual ~Lognormal() = default;
+  void   DoValidate() override final{};
+  Double GetScore() override final;
 
 private:
-  Double                      mu_ = 0;
-  Double                      cv_ = 0;
-  Double                      sigma_ = 0;
+  Double mu_    = 0;
+  Double cv_    = 0;
+  Double sigma_ = 0;
 };
 
 } /* namespace estimates */

@@ -14,18 +14,18 @@
 #define UTILITIES_MAP_H_
 
 // headers
-#include <vector>
 #include <map>
 #include <set>
 #include <string>
+#include <vector>
 
 #include "../Utilities/Types.h"
 
 // namespaces
 namespace niwa {
 namespace utilities {
-using std::vector;
 using std::pair;
+using std::vector;
 
 /**
  * This class is responsible for providing us with a specialised container that allows
@@ -35,54 +35,54 @@ using std::pair;
  * retrieved in the same order.
  *
  */
-template<typename _Key, typename _Tp>
+template <typename _Key, typename _Tp>
 class OrderedMap {
 public:
-	OrderedMap() = default;
-	~OrderedMap() = default;
+  OrderedMap()  = default;
+  ~OrderedMap() = default;
 
-	/**
-	 * This behaves like the operator on the std::map.
-	 * If the object exists we return it, if not we create
-	 * a default entry for it.
-	 */
-	_Tp& operator[] (const _Key& search_key) {
-		for (auto& [ key, value ] : storage_)
-			if (key == search_key)
-				return value;
+  /**
+   * This behaves like the operator on the std::map.
+   * If the object exists we return it, if not we create
+   * a default entry for it.
+   */
+  _Tp& operator[](const _Key& search_key) {
+    for (auto& [key, value] : storage_)
+      if (key == search_key)
+        return value;
 
-		std::pair<_Key, _Tp> new_value = std::pair<_Key, _Tp>(search_key, _Tp());
-		storage_.push_back(new_value);
-		return storage_[storage_.size() - 1].second;
-	}
+    std::pair<_Key, _Tp> new_value = std::pair<_Key, _Tp>(search_key, _Tp());
+    storage_.push_back(new_value);
+    return storage_[storage_.size() - 1].second;
+  }
 
-	/**
-	 * This behaves like the std::map->find() method
-	 * in that it's a const search that does not
-	 * add a value to the storage_
-	 */
-	const auto find(const _Key& search_key) const {
-		for (auto iter = storage_.begin(); iter != storage_.end(); ++iter)
-			if (iter->first == search_key)
-				return iter;
+  /**
+   * This behaves like the std::map->find() method
+   * in that it's a const search that does not
+   * add a value to the storage_
+   */
+  const auto find(const _Key& search_key) const {
+    for (auto iter = storage_.begin(); iter != storage_.end(); ++iter)
+      if (iter->first == search_key)
+        return iter;
 
-		return storage_.end();
-	}
+    return storage_.end();
+  }
 
-	/**
-	 * Return size
-	 */
-	auto size() const { return storage_.size(); }
+  /**
+   * Return size
+   */
+  auto size() const { return storage_.size(); }
 
-	/**
-	 * Handlers for begin() and end() so that we can use range
-	 * based for loops
-	 */
-	auto begin() { return storage_.begin(); }
-	auto end() { return storage_.end(); }
+  /**
+   * Handlers for begin() and end() so that we can use range
+   * based for loops
+   */
+  auto begin() { return storage_.begin(); }
+  auto end() { return storage_.end(); }
 
 private:
-	vector<std::pair<_Key, _Tp>> storage_;
+  vector<std::pair<_Key, _Tp>> storage_;
 };
 
 /**
@@ -101,8 +101,7 @@ public:
   static std::map<unsigned, Double> create(const std::vector<unsigned>& key, const std::vector<Double>& value) {
     std::map<unsigned, Double> result;
 
-    for (unsigned i = 0; i < key.size(); ++i)
-      result[key[i]] = value[i];
+    for (unsigned i = 0; i < key.size(); ++i) result[key[i]] = value[i];
 
     return result;
   }
@@ -118,8 +117,7 @@ public:
   static std::map<std::string, Double> create(const std::vector<std::string>& key, const std::vector<Double>& value) {
     std::map<std::string, Double> result;
 
-    for (unsigned i = 0; i < key.size(); ++i)
-      result[key[i]] = value[i];
+    for (unsigned i = 0; i < key.size(); ++i) result[key[i]] = value[i];
 
     return result;
   }
@@ -135,19 +133,18 @@ public:
   static std::map<unsigned, Double> create(const std::vector<unsigned>& key, const Double& value) {
     std::map<unsigned, Double> result;
 
-    for (unsigned i = 0; i < key.size(); ++i)
-      result[key[i]] = value;
+    for (unsigned i = 0; i < key.size(); ++i) result[key[i]] = value;
 
     return result;
   }
 
-}; // class
+};  // class
 
-template<class A, class B, class C>
-using map2D = std::map<A, std::map<B, C> >;
+template <class A, class B, class C>
+using map2D = std::map<A, std::map<B, C>>;
 
-template<class A, class B, class C, class D>
-using map3D = std::map<A, std::map<B, std::map<C, D> > >;
+template <class A, class B, class C, class D>
+using map3D = std::map<A, std::map<B, std::map<C, D>>>;
 
 } /* namespace utilities */
 } /* namespace niwa */

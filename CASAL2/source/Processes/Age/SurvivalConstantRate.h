@@ -23,7 +23,7 @@
 
 // namespaces
 namespace niwa {
-class Selectivity; // Forward declare Selectivity class
+class Selectivity;  // Forward declare Selectivity class
 namespace processes {
 namespace age {
 namespace accessor = niwa::partition::accessors;
@@ -35,24 +35,25 @@ class SurvivalConstantRate : public niwa::Process {
 public:
   // Methods
   SurvivalConstantRate(shared_ptr<Model> model);
-  virtual                     ~SurvivalConstantRate() = default;
-  void                        DoValidate() override final;
-  void                        DoBuild() override final;
-  void                        DoReset() override final;
-  void                        DoExecute() override final;
-  void                        FillReportCache(ostringstream& cache) override final { };
-  void                        FillTabularReportCache(ostringstream& cache, bool first_run) override final { };
+  virtual ~SurvivalConstantRate() = default;
+  void DoValidate() override final;
+  void DoBuild() override final;
+  void DoReset() override final;
+  void DoExecute() override final;
+  void FillReportCache(ostringstream& cache) override final{};
+  void FillTabularReportCache(ostringstream& cache, bool first_run) override final{};
+
 private:
   // Members
-  vector<string>              category_labels_;
-  vector<Double>              s_input_;
-  OrderedMap<string, Double>  s_;
-  vector<Double>              ratios_;
-  map<unsigned, Double>       time_step_ratios_;
-  vector<vector<Double>>      survival_rates_;
-  vector<string>              selectivity_names_;
-  accessor::Categories        partition_;
-  vector<Selectivity*>        selectivities_;
+  vector<string>             category_labels_;
+  vector<Double>             s_input_;
+  OrderedMap<string, Double> s_;
+  vector<Double>             ratios_;
+  map<unsigned, Double>      time_step_ratios_;
+  vector<vector<Double>>     survival_rates_;
+  vector<string>             selectivity_names_;
+  accessor::Categories       partition_;
+  vector<Selectivity*>       selectivities_;
 };
 
 } /* namespace age */

@@ -11,7 +11,6 @@
 // headers
 #include "MCMC.h"
 
-#include "../ConfigurationLoader/MPD.h"
 #include "../EstimateTransformations/Manager.h"
 #include "../Estimates/Manager.h"
 #include "../GlobalConfiguration/GlobalConfiguration.h"
@@ -115,22 +114,6 @@ void MCMC::Build() {
   estimate_count_ = estimates_.size();
   candidates_.assign(estimate_count_, 0.0);
 
-  /**
-   * @brief Load our MPD file if one exists so that we can
-   * set the estimate and covariance matrix to right values
-   * But don't do this if we're not resuming
-   *
-   * If covariance size has already been set, we've obviously
-   * loaded it from somewhere else (e.g. unit test)
-   */
-  auto config = model_->global_configuration();
-  if (!config.skip_mpd_loading_for_mcmc() && !config.resume_mcmc() && config.skip_estimation()) {
-    configuration::MPD mpd_loader(model_);
-    string             mpd_file_name = model_->global_configuration().mpd_file_name();
-    if (!mpd_loader.LoadFromDiskToMemory(mpd_file_name))
-      LOG_FATAL() << "Failed to load MPD Data from " << mpd_file_name << " file";
-  }
-
   // TODO: Check if Minimiser is being used and if so it has a covariance matrix enabled.
 
   DoBuild();
@@ -140,6 +123,7 @@ void MCMC::Build() {
  * Execute the MCMC
  */
 void MCMC::Execute(shared_ptr<ThreadPool> thread_pool) {
+  cout << "Starting MCMC " << type_ << endl;
   utilities::RandomNumberGenerator& rng = utilities::RandomNumberGenerator::Instance();
   rng.Reset(model_->global_configuration().random_seed());
   LOG_MEDIUM() << "Resetting RNG with Seed: " << model_->global_configuration().random_seed();
@@ -212,6 +196,7 @@ void MCMC::Execute(shared_ptr<ThreadPool> thread_pool) {
     return;
 
   DoExecute(thread_pool);
+  cout << "MCMC execution complete" << endl;
 }
 
 /**

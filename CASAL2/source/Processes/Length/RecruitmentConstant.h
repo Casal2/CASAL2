@@ -38,24 +38,24 @@ class RecruitmentConstant : public niwa::Process {
 public:
   // Methods
   explicit RecruitmentConstant(shared_ptr<Model> model);
-  virtual                     ~RecruitmentConstant() = default;
-  void                        DoValidate() override final;
-  void                        DoBuild() override final;
-  void                        DoReset() override final { };
-  void                        DoExecute() override final;
+  virtual ~RecruitmentConstant() = default;
+  void DoValidate() override final;
+  void DoBuild() override final;
+  void DoReset() override final{};
+  void DoExecute() override final;
 
 private:
   // Members
-  vector<string>              category_labels_;
-  vector<Double>              proportions_;
-  OrderedMap<string, Double>  proportions_categories_;
-  Double                      r0_;
-  vector<Double>              length_bins_;
-  accessor::Categories        partition_;
-  Double                      r0_by_length_bin_;
+  vector<string>             category_labels_;
+  vector<Double>             proportions_;
+  OrderedMap<string, Double> proportions_categories_;
+  Double                     r0_;
+  vector<Double>             length_bins_;
+  accessor::Categories       partition_;
+  Double                     r0_by_length_bin_;
 };
 
 } /* namespace length */
-} /* namespace age */
+}  // namespace processes
 } /* namespace niwa */
 #endif /* LENGTH_CONSTANTRECRUITMENT_H_ */

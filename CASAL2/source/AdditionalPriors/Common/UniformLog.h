@@ -17,7 +17,6 @@
 // headers
 #include "../../AdditionalPriors/AdditionalPrior.h"
 
-
 // namespaces
 namespace niwa {
 namespace additionalpriors {
@@ -27,15 +26,15 @@ class UniformLog : public AdditionalPrior {
 public:
   // methods
   UniformLog(shared_ptr<Model> model);
-  virtual                     ~UniformLog() = default;
-  void                        DoValidate() final {};
-  void                        DoBuild() final;
-  Double                      GetScore() final;
+  virtual ~UniformLog() = default;
+  void   DoValidate() final{};
+  void   DoBuild() final;
+  Double GetScore() final;
 
 protected:
   // members
-  Double*                     addressable_ = nullptr;
-  Double                      score_ = 0.0;
+  Double* addressable_ = nullptr;
+  Double  score_       = 0.0;
 };
 
 } /* namespace additionalpriors */

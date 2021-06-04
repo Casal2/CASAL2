@@ -22,13 +22,13 @@ namespace ageingerrors {
 // classes
 class Factory {
 public:
-  static AgeingError*         Create(shared_ptr<Model> model, const string& object_type, const string& sub_type);
+  static AgeingError* Create(shared_ptr<Model> model, const string& object_type, const string& sub_type);
 
 private:
-  Factory() = delete;
+  Factory()          = delete;
   virtual ~Factory() = delete;
 };
 
-} /* namespace agesizes */
+}  // namespace ageingerrors
 } /* namespace niwa */
 #endif /* AGEINGERRORS_FACTORY_H_ */

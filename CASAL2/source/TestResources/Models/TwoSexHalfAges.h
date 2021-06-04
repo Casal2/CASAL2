@@ -20,7 +20,7 @@ namespace models {
  *
  */
 const std::string two_sex_half_ages =
-R"(
+    R"(
 @model
 min_age 2
 max_age 25
@@ -307,9 +307,9 @@ alpha 0.7
 type derived_quantity
 )";
 
-} /* */
-} /* testresources */
-} /* niwa */
+}  // namespace models
+}  // namespace testresources
+}  // namespace niwa
 
 #endif /* TESTMODE */
 #endif /* TWOSEXHALFAGES_H_ */

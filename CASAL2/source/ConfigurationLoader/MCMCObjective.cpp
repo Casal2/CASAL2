@@ -12,14 +12,14 @@
 // headers
 #include "MCMCObjective.h"
 
-#include <string>
-#include <iostream>
-#include <fstream>
 #include <boost/algorithm/string/split.hpp>
 #include <boost/algorithm/string/trim_all.hpp>
-#include <boost/numeric/ublas/triangular.hpp>
 #include <boost/numeric/ublas/io.hpp>
 #include <boost/numeric/ublas/lu.hpp>
+#include <boost/numeric/ublas/triangular.hpp>
+#include <fstream>
+#include <iostream>
+#include <string>
 
 #include "../Estimates/Manager.h"
 #include "../MCMCs/Manager.h"
@@ -34,18 +34,17 @@ namespace niwa {
 namespace configuration {
 namespace ublas = boost::numeric::ublas;
 
-using std::streambuf;
-using std::ofstream;
-using std::ifstream;
 using std::cout;
 using std::endl;
+using std::ifstream;
 using std::ios_base;
+using std::ofstream;
+using std::streambuf;
 
 /**
  * Default constructor
  */
-MCMCObjective::MCMCObjective(shared_ptr<Model> model) : model_(model) {
-}
+MCMCObjective::MCMCObjective(shared_ptr<Model> model) : model_(model) {}
 
 /**
  * This method loads the 'mcmc_objective' file
@@ -56,9 +55,9 @@ MCMCObjective::MCMCObjective(shared_ptr<Model> model) : model_(model) {
 bool MCMCObjective::LoadFile(const string& file_name) {
   LOG_MEDIUM() << "LoadFile()";
   // open file
-  ifstream  file(file_name.c_str());
+  ifstream file(file_name.c_str());
   if (file.fail() || !file.is_open()) {
-    LOG_ERROR() << "File " << file_name  << " does not exist or could not be opened";
+    LOG_ERROR() << "File " << file_name << " does not exist or could not be opened";
     return false;
   }
 
@@ -83,7 +82,7 @@ bool MCMCObjective::LoadFile(const string& file_name) {
   auto estimate_count = model_->managers()->estimate()->GetIsEstimatedCount();
   auto estimates      = model_->managers()->estimate()->GetIsEstimated();
 
-  auto& covariance_matrix  = model_->managers()->mcmc()->active_mcmc()->covariance_matrix();
+  auto& covariance_matrix = model_->managers()->mcmc()->active_mcmc()->covariance_matrix();
   covariance_matrix.resize(estimate_count, estimate_count);
 
   // Check the order of parameters
@@ -93,8 +92,7 @@ bool MCMCObjective::LoadFile(const string& file_name) {
   vector<string> param_labels;
   boost::split(param_labels, line, boost::is_any_of(" "), boost::token_compress_on);
   if (estimate_count != param_labels.size()) {
-    LOG_ERROR() << "The covariance parameter header labels had " << param_labels.size()
-      << " values when the number of estimated parameters is " << estimate_count;
+    LOG_ERROR() << "The covariance parameter header labels had " << param_labels.size() << " values when the number of estimated parameters is " << estimate_count;
     return false;
   }
 
@@ -109,7 +107,7 @@ bool MCMCObjective::LoadFile(const string& file_name) {
     LOG_MEDIUM() << "row = " << i + 1;
 
     if (!getline(file, line)) {
-      LOG_ERROR() << "Failed to load line " << i+1 << " of the covariance matrix from the file " << file_name;
+      LOG_ERROR() << "Failed to load line " << i + 1 << " of the covariance matrix from the file " << file_name;
     }
     boost::trim_right(line);
 
@@ -118,8 +116,7 @@ bool MCMCObjective::LoadFile(const string& file_name) {
     boost::split(addressable_values, line, boost::is_any_of(" "), boost::token_compress_on);
 
     if (estimate_count != addressable_values.size()) {
-      LOG_ERROR() << "Line " << i+1 << " of the covariance matrix had " << addressable_values.size()
-        << " values when the number of estimated parameters is " << estimate_count;
+      LOG_ERROR() << "Line " << i + 1 << " of the covariance matrix had " << addressable_values.size() << " values when the number of estimated parameters is " << estimate_count;
       return false;
     }
 
@@ -128,7 +125,7 @@ bool MCMCObjective::LoadFile(const string& file_name) {
       LOG_FINEST() << "i: " << i << ", j: " << j << ", value: " << addressable_values[j];
       if (!utilities::To<string, double>(addressable_values[j], value)) {
         LOG_ERROR() << "MCMC Objective file " << file_name << " is not in the correct format."
-          << " Value " << addressable_values[j] << " could not be converted to a double";
+                    << " Value " << addressable_values[j] << " could not be converted to a double";
         return false;
       }
 
@@ -140,7 +137,7 @@ bool MCMCObjective::LoadFile(const string& file_name) {
    * Find the last line of the file to find the iteration number
    */
   string last_line = "";
-  while(getline(file, line)) {
+  while (getline(file, line)) {
     boost::trim_right(line);
     last_line = line;
   }
@@ -170,18 +167,18 @@ bool MCMCObjective::LoadFile(const string& file_name) {
   unsigned success_jump = (unsigned)succesful_jumps;
   LOG_MEDIUM() << "Successful jump = " << success_jump;
 
-/*
-  if (!utilities::To<double, unsigned>(succesful_jumps, success_jump)) {
-    LOG_ERROR() << "Could not convert " << succesful_jumps << " to an unsigned integer";
-    return false;
-  }*/
+  /*
+    if (!utilities::To<double, unsigned>(succesful_jumps, success_jump)) {
+      LOG_ERROR() << "Could not convert " << succesful_jumps << " to an unsigned integer";
+      return false;
+    }*/
   // Acceptance rate since last adapt
-   double AR_since_last_adapt = 0;
-   if (!utilities::To<string, double>(Chain_info[9], AR_since_last_adapt)) {
-     LOG_ERROR() << "Could not convert " << Chain_info[9] << " to a double";
-     return false;
-   }
-   LOG_MEDIUM() << "Acceptance rate since last adapt = " << AR_since_last_adapt;
+  double AR_since_last_adapt = 0;
+  if (!utilities::To<string, double>(Chain_info[9], AR_since_last_adapt)) {
+    LOG_ERROR() << "Could not convert " << Chain_info[9] << " to a double";
+    return false;
+  }
+  LOG_MEDIUM() << "Acceptance rate since last adapt = " << AR_since_last_adapt;
 
   // step size
   double step_size = 0;
@@ -196,7 +193,6 @@ bool MCMCObjective::LoadFile(const string& file_name) {
   model_->managers()->mcmc()->active_mcmc()->set_step_size(step_size);
   model_->managers()->mcmc()->active_mcmc()->set_acceptance_rate(AR);
   model_->managers()->mcmc()->active_mcmc()->set_acceptance_rate_from_last_adapt(AR_since_last_adapt);
-
 
   file.close();
   LOG_MEDIUM() << "File close";

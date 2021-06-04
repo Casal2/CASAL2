@@ -31,7 +31,6 @@
 #include "../Selectivities/Common/LogisticProducing.h"
 #include "../Selectivities/Manager.h"
 
-
 // Namespaces
 namespace niwa {
 namespace selectivities {

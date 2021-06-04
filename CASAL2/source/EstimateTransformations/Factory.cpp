@@ -12,17 +12,17 @@
 // headers
 #include "Factory.h"
 
-#include "../Model/Managers.h"
-#include "../Model/Model.h"
-#include "../EstimateTransformations/Manager.h"
 #include "../EstimateTransformations/Common/AverageDifference.h"
-#include "../EstimateTransformations/Common/Orthogonal.h"
 #include "../EstimateTransformations/Common/Inverse.h"
 #include "../EstimateTransformations/Common/Log.h"
 #include "../EstimateTransformations/Common/LogSum.h"
+#include "../EstimateTransformations/Common/Orthogonal.h"
+#include "../EstimateTransformations/Common/Simplex.h"
 #include "../EstimateTransformations/Common/SquareRoot.h"
 #include "../EstimateTransformations/Common/SumToOne.h"
-#include "../EstimateTransformations/Common/Simplex.h"
+#include "../EstimateTransformations/Manager.h"
+#include "../Model/Managers.h"
+#include "../Model/Model.h"
 // namespaces
 namespace niwa {
 namespace estimatetransformations {

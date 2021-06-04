@@ -10,10 +10,9 @@
 #ifdef TESTMODE
 
 // headers
-#include "Partition.h"
-
 #include "../../Model/Models/Age.h"
 #include "../../TestResources/TestFixtures/InternalEmptyModel.h"
+#include "Partition.h"
 
 // namespaces
 namespace niwa {
@@ -22,7 +21,7 @@ namespace asserts {
 using niwa::testfixtures::InternalEmptyModel;
 
 const std::string simple_model =
-R"(
+    R"(
 @model
 start_year 1994
 final_year 2008
@@ -167,7 +166,7 @@ TEST_F(InternalEmptyModel, Asserts_Partition) {
  *
  */
 const std::string simple_model_fail =
-R"(
+    R"(
 @model
 start_year 1994
 final_year 2008
@@ -309,8 +308,7 @@ TEST_F(InternalEmptyModel, Asserts_Partition_Throws_Exception) {
   EXPECT_THROW(model_->Start(RunMode::kBasic), std::string);
 }
 
-}
-}
-
+}  // namespace asserts
+}  // namespace niwa
 
 #endif

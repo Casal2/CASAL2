@@ -27,9 +27,7 @@ namespace selectivities {
 /**
  * Default Constructor
  */
-KnifeEdge::KnifeEdge(shared_ptr<Model> model)
-: Selectivity(model) {
-
+KnifeEdge::KnifeEdge(shared_ptr<Model> model) : Selectivity(model) {
   parameters_.Bind<Double>(PARAM_E, &edge_, "The edge value", "");
   parameters_.Bind<Double>(PARAM_ALPHA, &alpha_, "alpha", "", 1.0);
 
@@ -77,11 +75,11 @@ void KnifeEdge::RebuildCache() {
  */
 
 Double KnifeEdge::GetLengthBasedResult(unsigned age, AgeLength* age_length, unsigned year, int time_step_index) {
-  unsigned yearx = year == 0 ? model_->current_year() : year;
+  unsigned yearx     = year == 0 ? model_->current_year() : year;
   unsigned time_step = model_->managers()->time_step()->current_time_step();
-  Double cv = age_length->cv(yearx, time_step, age);
-  Double mean = age_length->mean_length(time_step, age);
-  string dist = age_length->distribution_label();
+  Double   cv        = age_length->cv(yearx, time_step, age);
+  Double   mean      = age_length->mean_length(time_step, age);
+  string   dist      = age_length->distribution_label();
 
   if (dist == PARAM_NONE || n_quant_ <= 1) {
     // no distribution_label just use the mu from age_length
@@ -91,9 +89,8 @@ Double KnifeEdge::GetLengthBasedResult(unsigned age, AgeLength* age_length, unsi
       return 0.0;
 
   } else if (dist == PARAM_NORMAL) {
-
     Double sigma = cv * mean;
-    Double size = 0.0;
+    Double size  = 0.0;
     Double total = 0.0;
 
     for (unsigned j = 0; j < n_quant_; ++j) {
@@ -108,10 +105,10 @@ Double KnifeEdge::GetLengthBasedResult(unsigned age, AgeLength* age_length, unsi
 
   } else if (dist == PARAM_LOGNORMAL) {
     // convert paramters to log space
-    Double sigma = sqrt(log(1 + cv * cv));
-    Double mu = log(mean) - sigma * sigma * 0.5;
-    Double size = 0.0;
-    Double total = 0.0;
+    Double                 sigma = sqrt(log(1 + cv * cv));
+    Double                 mu    = log(mean) - sigma * sigma * 0.5;
+    Double                 size  = 0.0;
+    Double                 total = 0.0;
     boost::math::lognormal dist{AS_DOUBLE(mu), AS_DOUBLE(sigma)};
 
     for (unsigned j = 0; j < n_quant_; ++j) {
@@ -127,7 +124,6 @@ Double KnifeEdge::GetLengthBasedResult(unsigned age, AgeLength* age_length, unsi
   LOG_CODE_ERROR() << "dist is invalid " << dist;
   return 0;
 }
-
 
 } /* namespace selectivities */
 } /* namespace niwa */

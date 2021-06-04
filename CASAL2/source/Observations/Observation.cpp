@@ -13,16 +13,16 @@
 // Headers
 #include "Observation.h"
 
-#include <boost/algorithm/string/replace.hpp>
-#include <boost/algorithm/string/trim_all.hpp>
-#include <boost/algorithm/string/split.hpp>
 #include <boost/algorithm/string/join.hpp>
+#include <boost/algorithm/string/replace.hpp>
+#include <boost/algorithm/string/split.hpp>
+#include <boost/algorithm/string/trim_all.hpp>
 
+#include "../Utilities/Math.h"
 #include "Categories/Categories.h"
 #include "Likelihoods/Manager.h"
 #include "Model/Managers.h"
 #include "Model/Model.h"
-#include "../Utilities/Math.h"
 
 // Namespaces
 namespace niwa {
@@ -69,9 +69,8 @@ void Observation::Validate() {
    * or the number of defined collections
    */
   expected_selectivity_count_ = 0;
-  Categories* categories = model_->categories();
-  for (const string& category_label : category_labels_)
-    expected_selectivity_count_ += categories->GetNumberOfCategoriesDefined(category_label);
+  Categories* categories      = model_->categories();
+  for (const string& category_label : category_labels_) expected_selectivity_count_ += categories->GetNumberOfCategoriesDefined(category_label);
 
   LOG_FINEST() << "Expected Selectivity count = " << expected_selectivity_count_;
   DoValidate();
@@ -94,7 +93,7 @@ void Observation::Build() {
   if (std::find(allowed_likelihood_types_.begin(), allowed_likelihood_types_.end(), likelihood_->type()) == allowed_likelihood_types_.end()) {
     string allowed = boost::algorithm::join(allowed_likelihood_types_, ", ");
     LOG_FATAL_P(PARAM_LIKELIHOOD) << ": likelihood " << likelihood_->type() << " is not supported by the " << type_ << " observation."
-        << " Allowed types are: " << allowed;
+                                  << " Allowed types are: " << allowed;
   }
 
   DoBuild();
@@ -125,8 +124,8 @@ void Observation::Reset() {
  * @param delta The delta value passed in from the configuration file
  * @param score The amount of score for this comparison
  */
-void Observation::SaveComparison(string category, unsigned age, Double length, Double expected, Double observed,
-                                 Double process_error, Double error_value, Double adjusted_error, Double delta, Double score) {
+void Observation::SaveComparison(string category, unsigned age, Double length, Double expected, Double observed, Double process_error, Double error_value, Double adjusted_error,
+                                 Double delta, Double score) {
   observations::Comparison new_comparison;
   new_comparison.category_       = category;
   new_comparison.age_            = age;
@@ -154,8 +153,7 @@ void Observation::SaveComparison(string category, unsigned age, Double length, D
  * @param delta The delta value passed in from the configuration file
  * @param score The amount of score for this comparison
  */
-void Observation::SaveComparison(string category, Double expected, Double observed,
-                                 Double process_error, Double error_value, Double adjusted_error, Double delta, Double score) {
+void Observation::SaveComparison(string category, Double expected, Double observed, Double process_error, Double error_value, Double adjusted_error, Double delta, Double score) {
   SaveComparison(category, 0, 0, expected, observed, process_error, error_value, adjusted_error, delta, score);
 }
 

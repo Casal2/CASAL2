@@ -15,23 +15,23 @@
 // Headers
 #include <iostream>
 
-#include "../ObjectiveFunction/ObjectiveFunction.h"
 #include "../Estimates/Manager.h"
 #include "../Model/Models/Age.h"
-#include "../TestResources/TestFixtures/InternalEmptyModel.h"
+#include "../ObjectiveFunction/ObjectiveFunction.h"
 #include "../TestResources/Models/TwoSexNoEstimates.h"
 #include "../TestResources/Models/TwoSexNoEstimatesAllValuesMortality.h"
+#include "../TestResources/TestFixtures/InternalEmptyModel.h"
 
 // Namespaces
 namespace niwa {
 namespace estimates {
 
+using niwa::testfixtures::InternalEmptyModel;
 using std::cout;
 using std::endl;
-using niwa::testfixtures::InternalEmptyModel;
 
 const string estimate_single_target =
-R"(
+    R"(
 @estimate e1
 parameter selectivity[FishingSel].a50
 lower_bound 1
@@ -78,7 +78,7 @@ TEST_F(InternalEmptyModel, Estimates_Single_Target) {
  *
  */
 const string estimate_single_target_with_same =
-R"(
+    R"(
 @estimate e1
 parameter selectivity[FishingSel].a50
 lower_bound 1
@@ -132,7 +132,7 @@ TEST_F(InternalEmptyModel, Estimates_Single_Target_WithSame) {
  *
  */
 const string estimate_multiple_defined_targets_vector =
-R"(
+    R"(
 @estimate e1
 parameter selectivity[av].v{21:25}
 lower_bound 1 1 1 1 1
@@ -169,7 +169,7 @@ TEST_F(InternalEmptyModel, Estimates_Multiple_Defined_Targets_Vector) {
  *
  */
 const string estimate_multiple_defined_targets_vector_with_same =
-R"(
+    R"(
 @estimate e1
 parameter selectivity[av].v{21:25}
 lower_bound 1 1 1 1 1
@@ -194,7 +194,7 @@ TEST_F(InternalEmptyModel, Estimates_Multiple_Defined_Targets_Vector_WithSames) 
   if (!estimate)
     LOG_FATAL() << "!estimate";
   EXPECT_NEAR(estimate->value(), 1.0000126386209927, 1e-4);
-  EXPECT_NEAR(estimate->GetScore(),0.017859594223192582, 1e-4);
+  EXPECT_NEAR(estimate->GetScore(), 0.017859594223192582, 1e-4);
 
   // Validate the sames
   auto same_labels = estimate->same_labels();
@@ -217,7 +217,7 @@ TEST_F(InternalEmptyModel, Estimates_Multiple_Defined_Targets_Vector_WithSames) 
  *
  */
 const string estimate_multiple_defined_targets_unsigned_map =
-R"(
+    R"(
 @estimate
 parameter process[Fishing].catches{2000:2002}
 type lognormal
@@ -263,7 +263,7 @@ TEST_F(InternalEmptyModel, Estimates_Multiple_Defined_Targets_Unsigned_Map) {
  *
  */
 const string estimate_multiple_defined_targets_unsigned_map_with_same =
-R"(
+    R"(
 @estimate
 parameter process[Fishing].catches{2000:2002}
 type lognormal
@@ -310,14 +310,13 @@ TEST_F(InternalEmptyModel, Estimates_Multiple_Defined_Targets_Unsigned_Map_WithS
     LOG_FATAL() << "!estimate";
   EXPECT_DOUBLE_EQ(estimate->value(), 47279);
   EXPECT_DOUBLE_EQ(estimate->GetScore(), 25.007985625485446);
-
 }
 
 /**
  *
  */
 const string estimate_multiple_defined_targets_string_map =
-R"(
+    R"(
 @estimate recruitment.proportions
 type lognormal
 parameter process[Recruitment].proportions{immature.male,immature.female}
@@ -357,7 +356,7 @@ TEST_F(InternalEmptyModel, Estimates_Multiple_Defined_Targets_String_Map) {
  *
  */
 const string estimate_all_targets_vector =
-R"(
+    R"(
 @estimate e3
 parameter selectivity[av].v
 lower_bound 1 1 2 2 3 3 4 4 5 5 6 6 7 7 8 8 9 9 10 10 11 11 12 12 13 13 14 14 15 15 16 16 17 17 18 18 19 19 20 20 21 21 22 22 23 23 24 24 25 25
@@ -397,7 +396,7 @@ TEST_F(InternalEmptyModel, Estimates_All_Targets_Vector) {
  *
  */
 const string estimate_all_targets_unsigned_map =
-R"(
+    R"(
 @estimate 
 parameter process[Fishing].catches
 type lognormal
@@ -437,7 +436,7 @@ TEST_F(InternalEmptyModel, Estimates_All_Targets_Unsigned_Map) {
  *
  */
 const string estimate_all_targets_string_map =
-R"(
+    R"(
 @estimate recruitment.proportions
 type lognormal
 parameter process[Recruitment].proportions
@@ -472,8 +471,6 @@ TEST_F(InternalEmptyModel, Estimates_All_Targets_String_Map) {
   EXPECT_DOUBLE_EQ(estimate->value(), 0.5);
   EXPECT_DOUBLE_EQ(estimate->GetScore(), -0.69298502612944257);
 }
-
-
 
 } /* namespace estimates */
 } /* namespace niwa */

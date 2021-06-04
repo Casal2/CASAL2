@@ -11,10 +11,10 @@
 // headers
 #include "Manager.h"
 
-#include "../Model/Model.h"
 #include "../Model/Managers.h"
-#include "../Processes/Manager.h"
+#include "../Model/Model.h"
 #include "../Model/Objects.h"
+#include "../Processes/Manager.h"
 
 // namespaces
 namespace niwa {
@@ -23,14 +23,12 @@ namespace projects {
 /**
  * Default constructor
  */
-Manager::Manager() {
-}
+Manager::Manager() {}
 
 /**
  * Destructor
  */
-Manager::~Manager() noexcept(true) {
-}
+Manager::~Manager() noexcept(true) {}
 
 /**
  * Build the objects - no model
@@ -55,8 +53,7 @@ void Manager::Build(shared_ptr<Model> model) {
     if (!ycs_values_exist) {
       for (auto process : model->managers()->process()->objects()) {
         if (process->type() == PARAM_RECRUITMENT_BEVERTON_HOLT)
-          LOG_ERROR() << process->location() << " process " << process->label()
-            << " does not contain a @project for ycs_values, but this model is running in projection mode";
+          LOG_ERROR() << process->location() << " process " << process->label() << " does not contain a @project for ycs_values, but this model is running in projection mode";
       }
     }
   }
@@ -69,8 +66,7 @@ void Manager::Build(shared_ptr<Model> model) {
  */
 void Manager::Update(unsigned current_year) {
   LOG_TRACE();
-  for (auto project : objects_)
-    project->Update(current_year);
+  for (auto project : objects_) project->Update(current_year);
 }
 
 /**

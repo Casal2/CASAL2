@@ -30,20 +30,20 @@ class Increasing : public niwa::Selectivity {
 public:
   // Methods
   explicit Increasing(shared_ptr<Model> model);
-  virtual                     ~Increasing() = default;
-  void                        DoValidate() override final;
-  void                        RebuildCache() override final;
+  virtual ~Increasing() = default;
+  void DoValidate() override final;
+  void RebuildCache() override final;
 
 protected:
-  //Methods
-  Double                      GetLengthBasedResult(unsigned age, AgeLength* age_length, unsigned year = 0, int time_step_index = -1) override final;
+  // Methods
+  Double GetLengthBasedResult(unsigned age, AgeLength* age_length, unsigned year = 0, int time_step_index = -1) override final;
 
 private:
   // Members
-  unsigned                    low_;
-  unsigned                    high_;
-  vector<Double>              v_;
-  Double                      alpha_;
+  unsigned       low_;
+  unsigned       high_;
+  vector<Double> v_;
+  Double         alpha_;
 };
 
 } /* namespace selectivities */

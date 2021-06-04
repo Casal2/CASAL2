@@ -13,30 +13,30 @@
 // Headers
 #include "ParameterList.h"
 
-#include <map>
-#include <vector>
-#include <string>
-#include <iostream>
 #include <algorithm>
-#include <boost/algorithm/string/replace.hpp>
-#include <boost/algorithm/string/trim_all.hpp>
-#include <boost/algorithm/string/split.hpp>
 #include <boost/algorithm/string/join.hpp>
+#include <boost/algorithm/string/replace.hpp>
+#include <boost/algorithm/string/split.hpp>
+#include <boost/algorithm/string/trim_all.hpp>
+#include <iostream>
+#include <map>
+#include <string>
+#include <vector>
 
 #include "../Categories/Categories.h"
+#include "../Logging/Logging.h"
 #include "../Model/Model.h"
 #include "../Translations/Translations.h"
-#include "../Logging/Logging.h"
 #include "../Utilities/String.h"
 #include "../Utilities/To.h"
 
 // Using
 namespace util = niwa::utilities;
-using std::map;
-using std::vector;
-using std::string;
 using std::cout;
 using std::endl;
+using std::map;
+using std::string;
+using std::vector;
 
 namespace niwa {
 
@@ -109,6 +109,8 @@ void ParameterList::Populate(shared_ptr<Model> model) {
   if (already_populated_) {
     LOG_CODE_ERROR() << "  if (already_populated_): " << parent_block_type_;
   }
+  if (ignore_all_parameters_)
+    return;
 
   already_populated_ = true;
   /**
@@ -116,8 +118,8 @@ void ParameterList::Populate(shared_ptr<Model> model) {
    */
   string missing_parameters = "";
   for (auto iter = parameters_.begin(); iter != parameters_.end(); ++iter) {
-    if ((iter->second->values().size() == 0 && !iter->second->is_optional())  &&
-        (iter->second->partition_type() == PartitionType::kModel || iter->second->partition_type() == model->partition_type()))
+    if ((iter->second->values().size() == 0 && !iter->second->is_optional())
+        && (iter->second->partition_type() == PartitionType::kModel || iter->second->partition_type() == model->partition_type()))
       missing_parameters += iter->first + " ";
   }
   for (auto iter = tables_.begin(); iter != tables_.end(); ++iter) {
@@ -127,16 +129,16 @@ void ParameterList::Populate(shared_ptr<Model> model) {
 
   if (missing_parameters != "") {
     if (parameters_.find(PARAM_LABEL) == parameters_.end()) {
-      LOG_ERROR() << "At line " << defined_line_number_ << " in " << defined_file_name_ << " the following required parameters for the block @"
-                  << parent_block_type_ << " are required but have not been defined: " << missing_parameters;
+      LOG_ERROR() << "At line " << defined_line_number_ << " in " << defined_file_name_ << " the following required parameters for the block @" << parent_block_type_
+                  << " are required but have not been defined: " << missing_parameters;
     } else {
       auto parameter = parameters_.find(PARAM_LABEL);
       if (parameter->second->values().size() == 0) {
-        LOG_ERROR() << "At line " << defined_line_number_ << " in " << defined_file_name_ << " the following required parameters for the block @"
-            << parent_block_type_ << " are required but have not been defined: " << missing_parameters;
+        LOG_ERROR() << "At line " << defined_line_number_ << " in " << defined_file_name_ << " the following required parameters for the block @" << parent_block_type_
+                    << " are required but have not been defined: " << missing_parameters;
       } else {
-        LOG_ERROR() << parameter->second->location() << " the following required parameters for the block @"
-            << parent_block_type_ << " are required but have not been defined: " << missing_parameters;
+        LOG_ERROR() << parameter->second->location() << " the following required parameters for the block @" << parent_block_type_
+                    << " are required but have not been defined: " << missing_parameters;
       }
     }
     return;
@@ -147,7 +149,7 @@ void ParameterList::Populate(shared_ptr<Model> model) {
    * e.g. male,female.immature,mature would be:
    * male.immature male.mature female.immature female.mature
    */
-  for(auto iter : parameters_) {
+  for (auto iter : parameters_) {
     string label = iter.first;
     if (label == PARAM_CATEGORIES || label == PARAM_FROM || label == PARAM_TO || label == PARAM_PREY_CATEGORIES || label == PARAM_PREDATOR_CATEGORIES) {
       LOG_FINE() << "Expanding category name values for " << label << " at " << iter.second->location();
@@ -160,7 +162,7 @@ void ParameterList::Populate(shared_ptr<Model> model) {
        * Check to see if each category is value. Handle + syntax by breaking it up
        * e.g. male+female would be checked as male, then female to function.
        */
-      for(const string& category_groups : iter.second->values()) {
+      for (const string& category_groups : iter.second->values()) {
         vector<string> plus_split_categories;
         boost::split(plus_split_categories, category_groups, boost::is_any_of("+"));
         for (string& single_category : plus_split_categories) {
@@ -186,13 +188,13 @@ void ParameterList::Populate(shared_ptr<Model> model) {
   if (parameters_.find(PARAM_PARTITION_TYPE) != parameters_.end()) {
     Parameter* param = parameters_[PARAM_PARTITION_TYPE];
     if (param->values().size() != 0) {
-      string temp = parameters_.find(PARAM_PARTITION_TYPE)->second->values()[0];
+      string        temp           = parameters_.find(PARAM_PARTITION_TYPE)->second->values()[0];
       PartitionType partition_type = PartitionType::kInvalid;
       if (!utilities::To<PartitionType>(temp, partition_type))
         LOG_FATAL() << "X";
       bool using_model_partition_type = partition_type == PartitionType::kModel;
 
-      for(auto& iter : parameters_) {
+      for (auto& iter : parameters_) {
         if (iter.second->partition_type() != partition_type) {
           if (using_model_partition_type) {
             LOG_ERROR() << iter.second->location() << " cannot be defined with the current model partition type defined at " << model->location();
@@ -214,8 +216,7 @@ void ParameterList::Populate(shared_ptr<Model> model) {
   }
 
   LOG_FINEST() << "Populating Tables";
-  for (auto table : tables_)
-    table.second->Populate(model);
+  for (auto table : tables_) table.second->Populate(model);
 
   LOG_FINEST() << "Populate complete";
 }
@@ -265,9 +266,9 @@ parameters::Table* ParameterList::GetTable(const string& label) {
  */
 void ParameterList::CopyFrom(const ParameterList& source, string parameter_label) {
   LOG_TRACE();
-  this->defined_file_name_    = source.defined_file_name_;
-  this->defined_line_number_  = source.defined_line_number_;
-  this->parent_block_type_    = source.parent_block_type_;
+  this->defined_file_name_   = source.defined_file_name_;
+  this->defined_line_number_ = source.defined_line_number_;
+  this->parent_block_type_   = source.parent_block_type_;
 
   auto iter = source.parameters_.find(parameter_label);
   if (iter == source.parameters_.end()) {
@@ -287,7 +288,7 @@ void ParameterList::CopyFrom(const ParameterList& source, string parameter_label
  * @param parameter_label The parameter to copy over
  * @param value_index
  */
-void ParameterList::CopyFrom(const ParameterList& source, string parameter_label, const unsigned &value_index) {
+void ParameterList::CopyFrom(const ParameterList& source, string parameter_label, const unsigned& value_index) {
   LOG_TRACE();
   auto iter = source.parameters_.find(parameter_label);
   if (iter == source.parameters_.end())
@@ -315,7 +316,6 @@ void ParameterList::Clear() {
   tables_.clear();
 }
 
-
 /**
  * Find the location string for one of our parameters.
  *
@@ -323,12 +323,12 @@ void ParameterList::Clear() {
  * @return The location string for an error message
  */
 string ParameterList::location(const string& label) {
-  map<string, Parameter*>::iterator iter = parameters_.find(label);
-  auto table_iter = tables_.find(label);
+  map<string, Parameter*>::iterator iter       = parameters_.find(label);
+  auto                              table_iter = tables_.find(label);
   if (iter == parameters_.end() && table_iter == tables_.end()) {
     LOG_CODE_ERROR() << "Trying to find the configuration file location for the parameter " << label
-        << " failed because it has not been previously bound to this object. This is a developer"
-        << " error most likely caused by using mismatched PARAM_X values";
+                     << " failed because it has not been previously bound to this object. This is a developer"
+                     << " error most likely caused by using mismatched PARAM_X values";
   }
 
   if (iter != parameters_.end())
@@ -350,6 +350,5 @@ void ParameterList::BindTable(const string& label, parameters::Table* table, con
   table->set_is_optional(optional);
   tables_[label] = table;
 }
-
 
 } /* namespace niwa */

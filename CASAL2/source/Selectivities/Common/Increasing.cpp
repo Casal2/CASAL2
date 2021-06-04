@@ -26,9 +26,7 @@ namespace selectivities {
 /**
  * Default constructor
  */
-Increasing::Increasing(shared_ptr<Model> model)
-: Selectivity(model) {
-
+Increasing::Increasing(shared_ptr<Model> model) : Selectivity(model) {
   parameters_.Bind<unsigned>(PARAM_L, &low_, "The low value (L)", "");
   parameters_.Bind<unsigned>(PARAM_H, &high_, "The high value (H)", "");
   parameters_.Bind<Double>(PARAM_V, &v_, "The v parameter", "");
@@ -47,7 +45,6 @@ Increasing::Increasing(shared_ptr<Model> model)
  * rules for the model.
  */
 void Increasing::DoValidate() {
-
   if (alpha_ <= 0.0)
     LOG_ERROR_P(PARAM_ALPHA) << ": alpha (" << AS_DOUBLE(alpha_) << ") cannot be less than or equal to 0.0";
 
@@ -62,18 +59,17 @@ void Increasing::DoValidate() {
 
   if (model_->partition_type() == PartitionType::kAge) {
     if (low_ < model_->min_age() || low_ > model_->max_age())
-      LOG_ERROR_P(PARAM_L) << ": 'l' (" << low_ << ") must be between the model min_age (" << model_->min_age()
-        << ") and max_age (" << model_->max_age() << ")";
+      LOG_ERROR_P(PARAM_L) << ": 'l' (" << low_ << ") must be between the model min_age (" << model_->min_age() << ") and max_age (" << model_->max_age() << ")";
 
     if (v_.size() != (high_ - low_ + 1)) {
       LOG_ERROR_P(PARAM_V) << " 'v' has an incorrect number of elements\n"
-        << "Expected: " << (high_ - low_ + 1) << ", parsed " << v_.size();
+                           << "Expected: " << (high_ - low_ + 1) << ", parsed " << v_.size();
     }
-  }   else if (model_->partition_type() == PartitionType::kLength) {
+  } else if (model_->partition_type() == PartitionType::kLength) {
     vector<Double> length_bins = model_->length_bins();
-    if (low_ < length_bins[0] || low_ > length_bins[length_bins.size()-1])
-      LOG_ERROR_P(PARAM_L) << ": 'l' (" << low_ << ") must be between the model min length (" << length_bins[0]
-        << ") and max length (" << length_bins[length_bins.size()-1] << ")";
+    if (low_ < length_bins[0] || low_ > length_bins[length_bins.size() - 1])
+      LOG_ERROR_P(PARAM_L) << ": 'l' (" << low_ << ") must be between the model min length (" << length_bins[0] << ") and max length (" << length_bins[length_bins.size() - 1]
+                           << ")";
 
     unsigned bins = 0;
     for (unsigned i = 0; i < length_bins.size(); ++i) {
@@ -82,13 +78,9 @@ void Increasing::DoValidate() {
     }
     if (bins != v_.size()) {
       LOG_ERROR_P(PARAM_V) << ": Parameter 'v' has an incorrect number of elements n = low <= length_bins <= high, "
-        << "Expected: " << bins << ", parsed: " << v_.size();
+                           << "Expected: " << bins << ", parsed: " << v_.size();
     }
   }
-
-
-
-
 }
 
 /**
@@ -101,7 +93,6 @@ void Increasing::DoValidate() {
 void Increasing::RebuildCache() {
   if (model_->partition_type() == PartitionType::kAge) {
     for (unsigned age = model_->min_age(); age <= model_->max_age(); ++age) {
-
       if (age < low_) {
         values_[age - age_index_] = 0.0;
 
@@ -120,9 +111,9 @@ void Increasing::RebuildCache() {
       }
     }
   } else if (model_->partition_type() == PartitionType::kLength) {
-    vector<Double> length_bins = model_->length_bins();
-    unsigned mark = 0;
-    unsigned start_element = 0;
+    vector<Double> length_bins   = model_->length_bins();
+    unsigned       mark          = 0;
+    unsigned       start_element = 0;
     while (mark == 0) {
       ++start_element;
       if (length_bins[start_element] >= low_) {

@@ -10,14 +10,13 @@
 #ifdef TESTMODE
 
 // Headers
-#include "AgeLength.h"
-
 #include <gmock/gmock.h>
 #include <gtest/gtest.h>
 
 #include "../TestResources/MockClasses/Managers.h"
 #include "../TestResources/MockClasses/Model.h"
 #include "../TimeSteps/Manager.h"
+#include "AgeLength.h"
 
 // Namespaces
 namespace niwa {
@@ -28,14 +27,12 @@ using ::testing::ReturnRef;
 // classes
 class MockTimeStepManager : public timesteps::Manager {
 public:
-  MockTimeStepManager() = default;
+  MockTimeStepManager()     = default;
   unsigned time_step_index_ = 0;
   unsigned current_time_step() const override final { return time_step_index_; }
 };
 
-
 } /* namespace agelengths */
 } /* namespace niwa */
-
 
 #endif

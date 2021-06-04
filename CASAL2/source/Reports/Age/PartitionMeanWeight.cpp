@@ -13,10 +13,10 @@
 
 #include "../../AgeLengths/Manager.h"
 #include "../../Categories/Categories.h"
-#include "../../Model/Model.h"
-#include "../../Partition/Partition.h"
-#include "../../Partition/Accessors/All.h"
 #include "../../LengthWeights/Manager.h"
+#include "../../Model/Model.h"
+#include "../../Partition/Accessors/All.h"
+#include "../../Partition/Partition.h"
 #include "../../TimeSteps/Manager.h"
 
 // namespaces
@@ -28,7 +28,7 @@ namespace age {
  * Default constructor
  */
 PartitionMeanWeight::PartitionMeanWeight() {
-  run_mode_    = (RunMode::Type)(RunMode::kBasic | RunMode::kProjection | RunMode::kSimulation| RunMode::kEstimation | RunMode::kProfiling);
+  run_mode_    = (RunMode::Type)(RunMode::kBasic | RunMode::kProjection | RunMode::kSimulation | RunMode::kEstimation | RunMode::kProfiling);
   model_state_ = (State::Type)(State::kIterationComplete);
 
   parameters_.Bind<string>(PARAM_TIME_STEP, &time_step_, "The time step label", "", "");
@@ -50,11 +50,12 @@ void PartitionMeanWeight::DoBuild(shared_ptr<Model> model) {
 void PartitionMeanWeight::DoExecute(shared_ptr<Model> model) {
   LOG_TRACE();
 
-//  unsigned year_index      = 0;
-  unsigned time_step_index = model->managers()->time_step()->GetTimeStepIndex(time_step_);
+  //  unsigned year_index      = 0;
+  unsigned                        time_step_index = model->managers()->time_step()->GetTimeStepIndex(time_step_);
   niwa::partition::accessors::All all_view(model);
 
-  cache_ << "*"<< type_ << "[" << label_ << "]" << "\n";
+  cache_ << "*" << type_ << "[" << label_ << "]"
+         << "\n";
   cache_ << "time_step: " << time_step_ << "\n";
 
   for (auto iterator = all_view.Begin(); iterator != all_view.End(); ++iterator) {
@@ -64,12 +65,11 @@ void PartitionMeanWeight::DoExecute(shared_ptr<Model> model) {
 
     cache_ << "mean_weights " << REPORT_R_DATAFRAME << "\n";
     cache_ << "year ";
-    for (unsigned i = model->min_age(); i <= model->max_age(); ++i)
-      cache_ << i << " ";
+    for (unsigned i = model->min_age(); i <= model->max_age(); ++i) cache_ << i << " ";
     cache_ << "\n";
 
     for (auto year : years_) {
-//      year_index = year > model_->start_year() ? year - model_->start_year() : 0;
+      //      year_index = year > model_->start_year() ? year - model_->start_year() : 0;
       cache_ << year << " ";
 
       for (unsigned age = (*iterator)->min_age_; age <= (*iterator)->max_age_; ++age) {

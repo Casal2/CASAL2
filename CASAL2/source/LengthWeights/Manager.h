@@ -27,10 +27,11 @@ namespace lengthweights {
 class Manager : public niwa::base::Manager<niwa::lengthweights::Manager, niwa::LengthWeight> {
   friend class niwa::base::Manager<niwa::lengthweights::Manager, niwa::LengthWeight>;
   friend class niwa::Managers;
+
 public:
   // methods
-  virtual                     ~Manager() noexcept(true) { };
-  LengthWeight*               GetLengthWeight(const string& label) const;
+  virtual ~Manager() noexcept(true){};
+  LengthWeight* GetLengthWeight(const string& label) const;
 
 protected:
   // methods

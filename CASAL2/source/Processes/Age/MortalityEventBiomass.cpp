@@ -15,8 +15,8 @@
 #include "Model/Model.h"
 #include "Penalties/Manager.h"
 #include "Selectivities/Manager.h"
-#include "Utilities/Math.h"
 #include "TimeSteps/Manager.h"
+#include "Utilities/Math.h"
 
 // namespaces
 namespace niwa {
@@ -27,10 +27,7 @@ namespace math = niwa::utilities::math;
 /**
  * Default constructor
  */
-MortalityEventBiomass::MortalityEventBiomass(shared_ptr<Model> model)
-  : Process(model),
-    partition_(model) {
-
+MortalityEventBiomass::MortalityEventBiomass(shared_ptr<Model> model) : Process(model), partition_(model) {
   parameters_.Bind<string>(PARAM_CATEGORIES, &category_labels_, "The category labels", "");
   parameters_.Bind<string>(PARAM_SELECTIVITIES, &selectivity_labels_, "The labels of the selectivities for each of the categories", "");
   parameters_.Bind<unsigned>(PARAM_YEARS, &years_, "The years in which to apply the mortality process", "");
@@ -38,11 +35,10 @@ MortalityEventBiomass::MortalityEventBiomass(shared_ptr<Model> model)
   parameters_.Bind<Double>(PARAM_U_MAX, &u_max_, "The maximum exploitation rate ($U_{max}$)", "", 0.99)->set_range(0.0, 1.0);
   parameters_.Bind<string>(PARAM_PENALTY, &penalty_label_, "The label of the penalty to apply if the total biomass of removals cannot be taken", "", "");
 
-
   RegisterAsAddressable(PARAM_U_MAX, &u_max_);
   RegisterAsAddressable(PARAM_CATCHES, &catch_years_);
 
-  process_type_ = ProcessType::kMortality;
+  process_type_        = ProcessType::kMortality;
   partition_structure_ = PartitionType::kAge;
 }
 
@@ -55,14 +51,13 @@ void MortalityEventBiomass::DoValidate() {
 
   if (category_labels_.size() != selectivity_labels_.size())
     LOG_ERROR_P(PARAM_SELECTIVITIES) << " The number of selectivities provided (" << selectivity_labels_.size() << ") must match the number of "
-      << "categories provided (" << category_labels_.size() << ")";
+                                     << "categories provided (" << category_labels_.size() << ")";
   if (years_.size() != catches_.size())
     LOG_ERROR_P(PARAM_CATCHES) << " The number of catches provided (" << catches_.size() << ") must match the number of "
-      << "years provided (" << years_.size() << ")";
-
+                               << "years provided (" << years_.size() << ")";
 
   // Validate: catches_ and years_
-  for(unsigned i = 0; i < years_.size(); ++i) {
+  for (unsigned i = 0; i < years_.size(); ++i) {
     if (catch_years_.find(years_[i]) != catch_years_.end()) {
       LOG_ERROR_P(PARAM_YEARS) << " year '" << years_[i] << "' has already been specified.";
     }
@@ -99,7 +94,6 @@ void MortalityEventBiomass::DoBuild() {
   }
   exploitation_by_year_.reserve(years_.size());
   actual_catches_.reserve(years_.size());
-
 }
 
 /**
@@ -123,10 +117,10 @@ void MortalityEventBiomass::DoExecute() {
   /**
    * Work our how much of the stock is vulnerable
    */
-  Double vulnerable = 0.0;
-  unsigned i = 0;
+  Double   vulnerable = 0.0;
+  unsigned i          = 0;
   for (auto categories : partition_) {
-    //categories->UpdateMeanWeightData();
+    // categories->UpdateMeanWeightData();
     unsigned offset = 0;
     for (Double& data : categories->data_) {
       Double temp = data * selectivities_[i]->GetAgeResult(categories->min_age_ + offset, categories->age_length_);
@@ -150,7 +144,6 @@ void MortalityEventBiomass::DoExecute() {
   } else {
     exploitation_by_year_.push_back(exploitation);
     actual_catches_.push_back(catch_years_[model_->current_year()]);
-
   }
 
   if (exploitation < 0.0) {
@@ -163,13 +156,13 @@ void MortalityEventBiomass::DoExecute() {
    * Remove the stock now. The amount to remove is
    * vulnerable * exploitation and store for report
    */
-  i = 0;
+  i               = 0;
   Double removals = 0;
   for (auto categories : partition_) {
     unsigned offset = 0;
     for (Double& data : categories->data_) {
       removals = data * selectivities_[i]->GetAgeResult(categories->min_age_ + offset, categories->age_length_) * exploitation;
-      //StoreForReport(categories->name_ + "_Removals: ",AS_DOUBLE(removals));
+      // StoreForReport(categories->name_ + "_Removals: ",AS_DOUBLE(removals));
       data -= removals;
       ++offset;
     }
@@ -185,14 +178,11 @@ void MortalityEventBiomass::DoExecute() {
  */
 void MortalityEventBiomass::FillReportCache(ostringstream& cache) {
   cache << "years: ";
-  for (auto year : years_)
-    cache << year << " ";
+  for (auto year : years_) cache << year << " ";
   cache << "\nactual_catches: ";
-  for (auto removal : actual_catches_)
-    cache << AS_DOUBLE(removal) << " ";
+  for (auto removal : actual_catches_) cache << AS_DOUBLE(removal) << " ";
   cache << "\nexploitation_rate: ";
-  for (auto exploit : exploitation_by_year_)
-    cache << AS_DOUBLE(exploit) << " ";
+  for (auto exploit : exploitation_by_year_) cache << AS_DOUBLE(exploit) << " ";
   cache << "\n";
 }
 
@@ -213,14 +203,11 @@ void MortalityEventBiomass::FillTabularReportCache(ostringstream& cache, bool fi
     }
     cache << "\n";
   }
-  for (auto removal : actual_catches_)
-    cache << AS_DOUBLE(removal) << " ";
-  for (auto exploit : exploitation_by_year_)
-    cache << AS_DOUBLE(exploit) << " ";
+  for (auto removal : actual_catches_) cache << AS_DOUBLE(removal) << " ";
+  for (auto exploit : exploitation_by_year_) cache << AS_DOUBLE(exploit) << " ";
   cache << "\n";
 }
 
 } /* namespace age */
 } /* namespace processes */
 } /* namespace niwa */
-

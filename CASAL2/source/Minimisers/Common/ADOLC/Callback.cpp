@@ -18,7 +18,6 @@
 #include "../../../Estimates/Manager.h"
 #include "../../../ObjectiveFunction/ObjectiveFunction.h"
 
-
 // namespaces
 namespace niwa {
 namespace minimisers {

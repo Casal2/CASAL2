@@ -27,16 +27,16 @@ namespace reports {
 class MCMCSample : public niwa::Report {
 public:
   MCMCSample();
-  virtual                     ~MCMCSample() = default;
-  void                        DoValidate(shared_ptr<Model> model) final { };
-  void                        DoBuild(shared_ptr<Model> model) final;
-  void                        DoPrepare(shared_ptr<Model> model) final;
-  void                        DoExecute(shared_ptr<Model> model) final;
-  void                        DoFinalise(shared_ptr<Model> model) final;
-  void                        DoExecuteTabular(shared_ptr<Model> model) final { };
+  virtual ~MCMCSample() = default;
+  void DoValidate(shared_ptr<Model> model) final{};
+  void DoBuild(shared_ptr<Model> model) final;
+  void DoPrepare(shared_ptr<Model> model) final;
+  void DoExecute(shared_ptr<Model> model) final;
+  void DoFinalise(shared_ptr<Model> model) final;
+  void DoExecuteTabular(shared_ptr<Model> model) final{};
 
 private:
-  MCMC*                       mcmc_ = nullptr;
+  MCMC* mcmc_ = nullptr;
 };
 
 } /* namespace reports */

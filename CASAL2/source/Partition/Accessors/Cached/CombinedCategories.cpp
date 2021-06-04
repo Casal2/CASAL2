@@ -14,8 +14,8 @@
 #include "CombinedCategories.h"
 
 #include <boost/algorithm/string/replace.hpp>
-#include <boost/algorithm/string/trim_all.hpp>
 #include <boost/algorithm/string/split.hpp>
+#include <boost/algorithm/string/trim_all.hpp>
 
 // namespaces
 namespace niwa {
@@ -26,8 +26,7 @@ namespace cached {
 /**
  * Default constructor
  */
-CombinedCategories::CombinedCategories(shared_ptr<Model> model, const vector<string>& category_labels)
-  : model_(model) {
+CombinedCategories::CombinedCategories(shared_ptr<Model> model, const vector<string>& category_labels) : model_(model) {
   LOG_FINEST() << "Categories: " << category_labels.size();
 
   vector<string> split_category_labels;
@@ -50,10 +49,10 @@ void CombinedCategories::BuildCache() {
 
   if (!need_rebuild_) {
     // just re-populate
-    for (auto& iter : data_) { // vector<vector<partition::Category> >
+    for (auto& iter : data_) {  // vector<vector<partition::Category> >
       for (auto& category : iter) {
         partition::Category& part_cat = partition.category(category.name_);
-        category.data_ = part_cat.data_;
+        category.data_                = part_cat.data_;
       }
     }
     return;
@@ -67,17 +66,16 @@ void CombinedCategories::BuildCache() {
   unsigned year = model_->current_year();
   for (unsigned i = 0; i < category_labels_.size(); ++i) {
     for (auto cat_iter = category_labels_[i].begin(); cat_iter != category_labels_[i].end(); ++cat_iter) {
-
       partition::Category& category = partition.category(*cat_iter);
       if (std::find(category.years_.begin(), category.years_.end(), year) == category.years_.end())
-        continue; // Not valid in this year
+        continue;  // Not valid in this year
 
       data_[i].push_back(category);
     }
   }
 
   // Flag off
-  need_rebuild_ = false;
+  need_rebuild_       = false;
   unsigned year_count = model_->years().size();
   for (auto category_collection : category_labels_) {
     for (auto category : category_collection)

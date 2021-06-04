@@ -19,8 +19,8 @@
 #define TRANSITIONCATEGORY_H_
 
 // Headers
-#include "Processes/Process.h"
 #include "Partition/Accessors/Categories.h"
+#include "Processes/Process.h"
 #include "Selectivities/Selectivity.h"
 
 // Namespaces
@@ -38,24 +38,23 @@ class TransitionCategory : public niwa::Process {
 public:
   // Methods
   explicit TransitionCategory(shared_ptr<Model> model);
-  virtual                     ~TransitionCategory() = default;
-  void                        DoValidate() override final;
-  void                        DoBuild() override final;
-  void                        DoReset() override final;
-  void                        DoExecute() override final;
+  virtual ~TransitionCategory() = default;
+  void DoValidate() override final;
+  void DoBuild() override final;
+  void DoReset() override final;
+  void DoExecute() override final;
 
 private:
   // Members
-  vector<string>              from_category_names_;
-  vector<string>              to_category_names_;
-  vector<Double>              proportions_;
-  OrderedMap<string, Double>  proportions_by_category_;
-  vector<string>              selectivity_names_;
-  accessor::Categories        from_partition_;
-  accessor::Categories        to_partition_;
-  vector<Selectivity*>        selectivities_;
-  vector<vector<Double> >     transition_rates_;
-
+  vector<string>             from_category_names_;
+  vector<string>             to_category_names_;
+  vector<Double>             proportions_;
+  OrderedMap<string, Double> proportions_by_category_;
+  vector<string>             selectivity_names_;
+  accessor::Categories       from_partition_;
+  accessor::Categories       to_partition_;
+  vector<Selectivity*>       selectivities_;
+  vector<vector<Double> >    transition_rates_;
 };
 
 } /* namespace age */

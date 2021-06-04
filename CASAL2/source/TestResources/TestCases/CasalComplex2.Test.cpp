@@ -10,7 +10,6 @@
 #ifdef TESTMODE
 
 #include "CasalComplex2.h"
-
 #include "Model/Model.h"
 #include "ObjectiveFunction/ObjectiveFunction.h"
 #include "TestResources/TestFixtures/InternalEmptyModel.h"
@@ -19,9 +18,9 @@
 namespace niwa {
 namespace testcases {
 
+using niwa::testfixtures::InternalEmptyModel;
 using std::cout;
 using std::endl;
-using niwa::testfixtures::InternalEmptyModel;
 
 /**
  *
@@ -51,6 +50,5 @@ TEST_F(InternalEmptyModel, Model_CasalComplex2_Estimation) {
 
 } /* namespace testcases */
 } /* namespace niwa */
-
 
 #endif

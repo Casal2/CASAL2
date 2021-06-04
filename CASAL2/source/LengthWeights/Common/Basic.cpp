@@ -25,7 +25,6 @@ Basic::Basic(shared_ptr<Model> model) : LengthWeight(model) {
 
   RegisterAsAddressable(PARAM_B, &b_);
   RegisterAsAddressable(PARAM_A, &a_);
-
 }
 
 /**

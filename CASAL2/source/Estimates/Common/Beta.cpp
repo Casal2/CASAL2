@@ -36,7 +36,7 @@ Beta::Beta(shared_ptr<Model> model) : Estimate(model) {
 void Beta::DoValidate() {
   if (a_ >= b_)
     LOG_ERROR_P(PARAM_B) << "b (" << AS_DOUBLE(b_) << ") cannot be less than or equal to a (" << AS_DOUBLE(a_) << ")";
-  if ( ((((mu_ - a_) * (b_ - mu_)) / (sigma_ * sigma_)) - 1) <= 0.0)
+  if (((((mu_ - a_) * (b_ - mu_)) / (sigma_ * sigma_)) - 1) <= 0.0)
     LOG_ERROR_P(PARAM_SIGMA) << " (" << AS_DOUBLE(sigma_) << ") is too large";
 }
 
@@ -46,11 +46,11 @@ void Beta::DoValidate() {
  */
 Double Beta::GetScore() {
   Double score_ = 0.0;
-  v_ = (mu_ - a_) / (b_ - a_);
-  t_ = (((mu_ - a_) * (b_ - mu_)) / (sigma_ * sigma_)) - 1.0;
-  m_ = t_ * v_;
-  n_ = t_ * (1.0 - v_);
-  score_ = ((1.0 - m_) * log(value() - a_)) + ((1.0 - n_) * log(b_ - value()));
+  v_            = (mu_ - a_) / (b_ - a_);
+  t_            = (((mu_ - a_) * (b_ - mu_)) / (sigma_ * sigma_)) - 1.0;
+  m_            = t_ * v_;
+  n_            = t_ * (1.0 - v_);
+  score_        = ((1.0 - m_) * log(value() - a_)) + ((1.0 - n_) * log(b_ - value()));
 
   return score_;
 }

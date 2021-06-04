@@ -18,10 +18,9 @@
 #define UTILITIES_STRING_H_
 
 // Headers
+#include <sstream>
 #include <string>
 #include <vector>
-#include <sstream>
-
 
 #include "../Translations/Translations.h"
 
@@ -37,25 +36,23 @@ using std::vector;
  */
 class String {
 public:
-  static std::string find_invalid_characters(const std::string& test_string);
+  static std::string         find_invalid_characters(const std::string& test_string);
   static vector<std::string> explode(const std::string& source);
 
-  template<typename T>
+  template <typename T>
   static std::string join(const std::vector<T>& source, const string separator = ", ") {
-
     std::ostringstream result;
-    for (unsigned i = 0; i < source.size() - 1; ++i)
-      result  << source[i] << separator;
+    for (unsigned i = 0; i < source.size() - 1; ++i) result << source[i] << separator;
     result << source[source.size() - 1];
 
     return result.str();
   }
 
   // Generic methods for manipulating vectors of strings
-  static bool                        TrimOperators(vector<string>& values);
-  static bool                        HandleOperators(vector<string>& values, string &error);
-  static string                      RangeSplit(const string& range_value);
-  static void                        HandleAssignment(const string& input_line, string& output_line);
+  static bool   TrimOperators(vector<string>& values);
+  static bool   HandleOperators(vector<string>& values, string& error);
+  static string RangeSplit(const string& range_value);
+  static void   HandleAssignment(const string& input_line, string& output_line);
 
 }; /* class */
 

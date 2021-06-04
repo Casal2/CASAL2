@@ -34,9 +34,9 @@ using std::string;
 class BasicModel : public testfixtures::Base {
 public:
   // Setup and TearDown Methods
-  BasicModel() { };
-  virtual                     ~BasicModel() { };
-  void                        SetUp() override final;
+  BasicModel(){};
+  virtual ~BasicModel(){};
+  void SetUp() override final;
 };
 
 } /* namespace testfixtures */

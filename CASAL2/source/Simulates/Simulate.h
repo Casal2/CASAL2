@@ -30,37 +30,37 @@ public:
   // methods
   Simulate() = delete;
   Simulate(shared_ptr<Model> model);
-  virtual                     ~Simulate() = default;
-  void                        Validate();
-  void                        Build();
-  void                        Reset() { DoReset(); };
-  void                        Update(unsigned current_year);
+  virtual ~Simulate() = default;
+  void Validate();
+  void Build();
+  void Reset() { DoReset(); };
+  void Update(unsigned current_year);
 
 protected:
   // methods
-  void                        RestoreOriginalValue();
-  void                        set_single_value(Double value);
-  void                        set_vector_value(Double value);
-  void                        set_map_value(Double value);
+  void RestoreOriginalValue();
+  void set_single_value(Double value);
+  void set_vector_value(Double value);
+  void set_map_value(Double value);
 
   // pure virtual methods
-  virtual void                DoValidate() = 0;
-  virtual void                DoBuild() = 0;
-  virtual void                DoReset() = 0;
-  virtual void                DoUpdate() = 0;
+  virtual void DoValidate() = 0;
+  virtual void DoBuild()    = 0;
+  virtual void DoReset()    = 0;
+  virtual void DoUpdate()   = 0;
 
   // function pointers
-  UpdateFunction              update_function_ = 0;
+  UpdateFunction update_function_ = 0;
 
   // members
-  shared_ptr<Model>                      model_;
-  string                      type_ = "";
-  vector<unsigned>            years_;
-  string                      parameter_;
-  Double                      original_value_ = 0;
-  map<unsigned, Double>*      addressable_map_ = 0;
-  vector<Double>*             addressable_vector_ = 0;
-  Double*                     addressable_ = 0;
+  shared_ptr<Model>      model_;
+  string                 type_ = "";
+  vector<unsigned>       years_;
+  string                 parameter_;
+  Double                 original_value_     = 0;
+  map<unsigned, Double>* addressable_map_    = 0;
+  vector<Double>*        addressable_vector_ = 0;
+  Double*                addressable_        = 0;
 };
 } /* namespace niwa */
 

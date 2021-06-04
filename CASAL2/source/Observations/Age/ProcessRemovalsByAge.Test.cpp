@@ -11,24 +11,23 @@
 #ifdef TESTMODE
 
 // Headers
-#include "ProcessRemovalsByAge.h"
-
 #include <iostream>
 
 #include "ObjectiveFunction/ObjectiveFunction.h"
 #include "Observations/Manager.h"
+#include "ProcessRemovalsByAge.h"
 #include "TestResources/TestFixtures/InternalEmptyModel.h"
 
 // Namespaces
 namespace niwa {
 namespace age {
 
+using niwa::testfixtures::InternalEmptyModel;
 using std::cout;
 using std::endl;
-using niwa::testfixtures::InternalEmptyModel;
 
 const std::string test_cases_observation_process_removals_by_age_single =
-R"(
+    R"(
 @model
 start_year 1990
 final_year 2012
@@ -234,39 +233,38 @@ TEST_F(InternalEmptyModel, Observation_Process_Removals_By_Age_for_fishery_Singl
   unsigned year = 1997;
   ASSERT_FALSE(comparisons.find(year) == comparisons.end());
   ASSERT_EQ(18u, comparisons[year].size());
-  EXPECT_EQ("stock",                      comparisons[year][0].category_);
-  EXPECT_DOUBLE_EQ(15,                    comparisons[year][0].error_value_);
-  EXPECT_DOUBLE_EQ(0.19433803070960703,   comparisons[year][0].expected_);
-  EXPECT_DOUBLE_EQ(0.129,                 comparisons[year][0].observed_);
-  EXPECT_DOUBLE_EQ(3.8038399067647219,    comparisons[year][0].score_);
+  EXPECT_EQ("stock", comparisons[year][0].category_);
+  EXPECT_DOUBLE_EQ(15, comparisons[year][0].error_value_);
+  EXPECT_DOUBLE_EQ(0.19433803070960703, comparisons[year][0].expected_);
+  EXPECT_DOUBLE_EQ(0.129, comparisons[year][0].observed_);
+  EXPECT_DOUBLE_EQ(3.8038399067647219, comparisons[year][0].score_);
 
-  EXPECT_EQ("stock",                      comparisons[year][1].category_);
-  EXPECT_DOUBLE_EQ(15,                    comparisons[year][1].error_value_);
-  EXPECT_DOUBLE_EQ(0.18541336567128372,   comparisons[year][1].expected_);
-  EXPECT_DOUBLE_EQ(0.1608,                comparisons[year][1].observed_);
-  EXPECT_DOUBLE_EQ(5.1698115319248554,    comparisons[year][1].score_);
+  EXPECT_EQ("stock", comparisons[year][1].category_);
+  EXPECT_DOUBLE_EQ(15, comparisons[year][1].error_value_);
+  EXPECT_DOUBLE_EQ(0.18541336567128372, comparisons[year][1].expected_);
+  EXPECT_DOUBLE_EQ(0.1608, comparisons[year][1].observed_);
+  EXPECT_DOUBLE_EQ(5.1698115319248554, comparisons[year][1].score_);
 
-  EXPECT_EQ("stock",                      comparisons[year][2].category_);
-  EXPECT_DOUBLE_EQ(15,                    comparisons[year][2].error_value_);
-  EXPECT_DOUBLE_EQ(0.14955362757708424,   comparisons[year][2].expected_);
-  EXPECT_DOUBLE_EQ(0.13189999999999999,   comparisons[year][2].observed_);
-  EXPECT_DOUBLE_EQ(4.4327471728877041,    comparisons[year][2].score_);
+  EXPECT_EQ("stock", comparisons[year][2].category_);
+  EXPECT_DOUBLE_EQ(15, comparisons[year][2].error_value_);
+  EXPECT_DOUBLE_EQ(0.14955362757708424, comparisons[year][2].expected_);
+  EXPECT_DOUBLE_EQ(0.13189999999999999, comparisons[year][2].observed_);
+  EXPECT_DOUBLE_EQ(4.4327471728877041, comparisons[year][2].score_);
 
-  EXPECT_EQ("stock",                      comparisons[year][3].category_);
-  EXPECT_DOUBLE_EQ(15,                    comparisons[year][3].error_value_);
-  EXPECT_DOUBLE_EQ(0.1120841753156267,   comparisons[year][3].expected_);
-  EXPECT_DOUBLE_EQ(0.074999999999999997,  comparisons[year][3].observed_);
-  EXPECT_DOUBLE_EQ(2.519828116764669,     comparisons[year][3].score_);
+  EXPECT_EQ("stock", comparisons[year][3].category_);
+  EXPECT_DOUBLE_EQ(15, comparisons[year][3].error_value_);
+  EXPECT_DOUBLE_EQ(0.1120841753156267, comparisons[year][3].expected_);
+  EXPECT_DOUBLE_EQ(0.074999999999999997, comparisons[year][3].observed_);
+  EXPECT_DOUBLE_EQ(2.519828116764669, comparisons[year][3].score_);
 
-  EXPECT_EQ("stock",                      comparisons[year][4].category_);
-  EXPECT_DOUBLE_EQ(15,                    comparisons[year][4].error_value_);
-  EXPECT_DOUBLE_EQ(0.084672698040351033,  comparisons[year][4].expected_);
-  EXPECT_DOUBLE_EQ(0.151,                 comparisons[year][4].observed_);
-  EXPECT_DOUBLE_EQ(6.5432962807430544,    comparisons[year][4].score_);
+  EXPECT_EQ("stock", comparisons[year][4].category_);
+  EXPECT_DOUBLE_EQ(15, comparisons[year][4].error_value_);
+  EXPECT_DOUBLE_EQ(0.084672698040351033, comparisons[year][4].expected_);
+  EXPECT_DOUBLE_EQ(0.151, comparisons[year][4].observed_);
+  EXPECT_DOUBLE_EQ(6.5432962807430544, comparisons[year][4].score_);
 }
 
-} /* namespace processes */
+}  // namespace age
 } /* namespace niwa */
-
 
 #endif /* TESTMODE */

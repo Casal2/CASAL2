@@ -14,9 +14,9 @@
 // headers
 #include "Callback.h"
 
+#include "../../../EstimateTransformations/Manager.h"
 #include "../../../Estimates/Manager.h"
 #include "../../../ObjectiveFunction/ObjectiveFunction.h"
-#include "../../../EstimateTransformations/Manager.h"
 
 // namespaces
 namespace niwa {
@@ -26,15 +26,13 @@ namespace gammadiff {
 /**
  * Default Constructor
  */
-CallBack::CallBack(shared_ptr<Model> model) : model_(model) {
-}
+CallBack::CallBack(shared_ptr<Model> model) : model_(model) {}
 
 //**********************************************************************
 // double CGammaDiffCallback::operator()(const vector<double>& Parameters)
 // Operatior() for Minimiser CallBack
 //**********************************************************************
 double CallBack::operator()(const vector<double>& Parameters) {
-
   // Update our Components with the New Parameters
   LOG_FINE() << "model_: " << model_;
   vector<Estimate*> estimates = model_->managers()->estimate()->GetIsEstimated();
@@ -43,8 +41,7 @@ double CallBack::operator()(const vector<double>& Parameters) {
     LOG_CODE_ERROR() << "The number of enabled estimates does not match the number of test solution values";
   }
 
-  for (unsigned i = 0; i < Parameters.size(); ++i)
-    estimates[i]->set_value(Parameters[i]);
+  for (unsigned i = 0; i < Parameters.size(); ++i) estimates[i]->set_value(Parameters[i]);
 
   model_->managers()->estimate_transformation()->RestoreEstimates();
   model_->FullIteration();
@@ -57,6 +54,6 @@ double CallBack::operator()(const vector<double>& Parameters) {
 }
 
 } /* namespace gammadiff */
-} /* namespace minimiser */
+}  // namespace minimisers
 } /* namespace niwa */
 #endif

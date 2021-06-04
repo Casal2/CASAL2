@@ -27,10 +27,11 @@ namespace simulates {
 class Manager : public niwa::base::Manager<niwa::simulates::Manager, niwa::Simulate> {
   friend class niwa::base::Manager<niwa::simulates::Manager, niwa::Simulate>;
   friend class niwa::Managers;
+
 public:
   // methods
-  virtual                     ~Manager() noexcept(true);
-  void                        Update(unsigned current_year);
+  virtual ~Manager() noexcept(true);
+  void Update(unsigned current_year);
 
 protected:
   // methods

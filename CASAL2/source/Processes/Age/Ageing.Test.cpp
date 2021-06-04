@@ -12,33 +12,32 @@
 #ifdef TESTMODE
 
 // Headers
-#include "Ageing.h"
-
 #include <iostream>
 
-#include "Model/Model.h"
+#include "Ageing.h"
 #include "Model/Factory.h"
-#include "TimeSteps/Manager.h"
+#include "Model/Model.h"
 #include "Partition/Partition.h"
 #include "TestResources/TestFixtures/BasicModel.h"
+#include "TimeSteps/Manager.h"
 
 // Namespaces
 namespace niwa {
 namespace processes {
 namespace age {
 
+using niwa::testfixtures::BasicModel;
 using std::cout;
 using std::endl;
-using niwa::testfixtures::BasicModel;
 
 /**
  *
  */
 TEST_F(BasicModel, Processes_Ageing) {
-  vector<string> categories   = { "immature.male", "immature.female" };
+  vector<string> categories = {"immature.male", "immature.female"};
 
-  base::Object* process = model_->factory().CreateObject(PARAM_RECRUITMENT, PARAM_CONSTANT);
-  vector<string> proportions  = { "0.6", "0.4" };
+  base::Object*  process     = model_->factory().CreateObject(PARAM_RECRUITMENT, PARAM_CONSTANT);
+  vector<string> proportions = {"0.6", "0.4"};
   process->parameters().Add(PARAM_LABEL, "recruitment", __FILE__, __LINE__);
   process->parameters().Add(PARAM_TYPE, "constant", __FILE__, __LINE__);
   process->parameters().Add(PARAM_CATEGORIES, categories, __FILE__, __LINE__);
@@ -56,9 +55,8 @@ TEST_F(BasicModel, Processes_Ageing) {
   report->parameters().Add(PARAM_LABEL, "DQ", __FILE__, __LINE__);
   report->parameters().Add(PARAM_TYPE, "derived_quantity", __FILE__, __LINE__);
 
-
-  base::Object* time_step = model_->factory().CreateObject(PARAM_TIME_STEP, "");
-  vector<string> processes    = { "recruitment", "ageing" };
+  base::Object*  time_step = model_->factory().CreateObject(PARAM_TIME_STEP, "");
+  vector<string> processes = {"recruitment", "ageing"};
   time_step->parameters().Add(PARAM_LABEL, "step_one", __FILE__, __LINE__);
   time_step->parameters().Add(PARAM_PROCESSES, processes, __FILE__, __LINE__);
 
@@ -68,10 +66,8 @@ TEST_F(BasicModel, Processes_Ageing) {
   partition::Category& immature_female = model_->partition().category("immature.female");
 
   // Verify blank partition
-  for (unsigned i = 0; i < immature_male.data_.size(); ++i)
-    EXPECT_DOUBLE_EQ(0.0, immature_male.data_[i]) << " where i = " << i << "; age = " << i + immature_male.min_age_;
-  for (unsigned i = 0; i < immature_female.data_.size(); ++i)
-    EXPECT_DOUBLE_EQ(0.0, immature_female.data_[i]) << " where i = " << i << "; age = " << i + immature_female.min_age_;
+  for (unsigned i = 0; i < immature_male.data_.size(); ++i) EXPECT_DOUBLE_EQ(0.0, immature_male.data_[i]) << " where i = " << i << "; age = " << i + immature_male.min_age_;
+  for (unsigned i = 0; i < immature_female.data_.size(); ++i) EXPECT_DOUBLE_EQ(0.0, immature_female.data_[i]) << " where i = " << i << "; age = " << i + immature_female.min_age_;
 
   /**
    * Do 1 iteration of the model then check the categories to see if
@@ -88,15 +84,12 @@ TEST_F(BasicModel, Processes_Ageing) {
   for (unsigned i = 1; i < immature_female.data_.size() && i < 16; ++i)
     EXPECT_DOUBLE_EQ(40000.0, immature_female.data_[i]) << " where i = " << i << "; age = " << i + immature_female.min_age_;
   // Check from i = 16
-  for (unsigned i = 16; i < immature_male.data_.size(); ++i)
-    EXPECT_DOUBLE_EQ(0.0, immature_male.data_[i]) << " where i = " << i << "; age = " << i + immature_male.min_age_;
-  for (unsigned i = 16; i < immature_female.data_.size(); ++i)
-    EXPECT_DOUBLE_EQ(0.0, immature_female.data_[i]) << " where i = " << i << "; age = " << i + immature_female.min_age_;
+  for (unsigned i = 16; i < immature_male.data_.size(); ++i) EXPECT_DOUBLE_EQ(0.0, immature_male.data_[i]) << " where i = " << i << "; age = " << i + immature_male.min_age_;
+  for (unsigned i = 16; i < immature_female.data_.size(); ++i) EXPECT_DOUBLE_EQ(0.0, immature_female.data_[i]) << " where i = " << i << "; age = " << i + immature_female.min_age_;
 }
 
 } /* namespace age */
 } /* namespace processes */
 } /* namespace niwa */
-
 
 #endif /* TESTMODE */

@@ -10,14 +10,13 @@
 #ifdef TESTMODE
 
 // Headers
-#include "Schnute.h"
-
 #include <gmock/gmock.h>
 #include <gtest/gtest.h>
 
 #include "../../TestResources/MockClasses/Managers.h"
 #include "../../TestResources/MockClasses/Model.h"
 #include "../../TimeSteps/Manager.h"
+#include "Schnute.h"
 
 // Namespaces
 namespace niwa {
@@ -28,43 +27,41 @@ using ::testing::ReturnRef;
 // classes
 class MockTimeStepManager : public timesteps::Manager {
 public:
-  MockTimeStepManager() = default;
+  MockTimeStepManager()     = default;
   unsigned time_step_index_ = 0;
   unsigned current_time_step() const override final { return time_step_index_; }
 };
 
 class MockSchnute : public Schnute {
 public:
-  MockSchnute(shared_ptr<Model> model, Double y1, Double y2, Double tau1, Double tau2, Double a, Double b, bool by_length,
-      Double cv_first, Double cv_last, vector<Double> time_step_proportions) : Schnute(model) {
-    y1_ = y1;
-    y2_ = y2;
-    tau1_ = tau1;
-    tau2_ = tau2;
-    a_ = a;
-    b_ = b;
-    by_length_ = by_length;
-    cv_first_ = cv_first;
-    cv_last_ = cv_last;
+  MockSchnute(shared_ptr<Model> model, Double y1, Double y2, Double tau1, Double tau2, Double a, Double b, bool by_length, Double cv_first, Double cv_last,
+              vector<Double> time_step_proportions) :
+      Schnute(model) {
+    y1_                    = y1;
+    y2_                    = y2;
+    tau1_                  = tau1;
+    tau2_                  = tau2;
+    a_                     = a;
+    b_                     = b;
+    by_length_             = by_length;
+    cv_first_              = cv_first;
+    cv_last_               = cv_last;
     time_step_proportions_ = time_step_proportions;
   };
 
-
-  void MockBuildCV() {
-    this->BuildCV();
-  }
+  void MockBuildCV() { this->BuildCV(); }
 };
 
 /**
  * Test the results of our Schnute are correct
  */
 TEST(AgeLengths, Schnute) {
-  shared_ptr<MockModel> model = shared_ptr<MockModel>(new MockModel());
-  MockManagersPtr mock_managers = MockManagersPtr(new MockManagers(model));
-  MockTimeStepManager time_step_manager;
+  shared_ptr<MockModel> model         = shared_ptr<MockModel>(new MockModel());
+  MockManagersPtr       mock_managers = MockManagersPtr(new MockManagers(model));
+  MockTimeStepManager   time_step_manager;
   time_step_manager.time_step_index_ = 0;
-  vector<string> time_steps = {"0", "1", "2"};
-  vector<unsigned> years = { 1990, 1991, 1992, 1993, 1994, 1995, 1996, 1997, 1998, 1999 };
+  vector<string>   time_steps        = {"0", "1", "2"};
+  vector<unsigned> years             = {1990, 1991, 1992, 1993, 1994, 1995, 1996, 1997, 1998, 1999};
 
   EXPECT_CALL(*model, min_age()).WillRepeatedly(Return(5));
   EXPECT_CALL(*model, max_age()).WillRepeatedly(Return(10));
@@ -101,13 +98,13 @@ TEST(AgeLengths, Schnute) {
  *
  */
 TEST(AgeLengths, Schnute_BuildCV_ByLength_Proportion) {
-  shared_ptr<MockModel> model = shared_ptr<MockModel>(new MockModel());
-  MockManagersPtr mock_managers = MockManagersPtr(new MockManagers(model));
-  MockTimeStepManager time_step_manager;
+  shared_ptr<MockModel> model         = shared_ptr<MockModel>(new MockModel());
+  MockManagersPtr       mock_managers = MockManagersPtr(new MockManagers(model));
+  MockTimeStepManager   time_step_manager;
   time_step_manager.time_step_index_ = 0;
   EXPECT_CALL(*mock_managers, time_step()).WillRepeatedly(Return(&time_step_manager));
-  vector<string> time_steps = {"0", "1", "2"};
-  vector<unsigned> years = { 1990, 1991, 1992, 1993, 1994, 1995, 1996, 1997, 1998, 1999 };
+  vector<string>   time_steps = {"0", "1", "2"};
+  vector<unsigned> years      = {1990, 1991, 1992, 1993, 1994, 1995, 1996, 1997, 1998, 1999};
 
   EXPECT_CALL(*model, min_age()).WillRepeatedly(Return(5));
   EXPECT_CALL(*model, max_age()).WillRepeatedly(Return(10));
@@ -121,16 +118,16 @@ TEST(AgeLengths, Schnute_BuildCV_ByLength_Proportion) {
 
   ASSERT_NO_THROW(schnute.MockBuildCV());
 
-  EXPECT_DOUBLE_EQ(0.0,                 schnute.cv(1990, 0, 4));
-  EXPECT_DOUBLE_EQ(1.5,                 schnute.cv(1990, 0, 5));
-  EXPECT_DOUBLE_EQ(1.5,                 schnute.cv(1990, 0, 6));
-  EXPECT_DOUBLE_EQ(1.5,                 schnute.cv(1990, 0, 7));
-  EXPECT_DOUBLE_EQ(1.5,                 schnute.cv(1990, 0, 8));
-  EXPECT_DOUBLE_EQ(1.5,                 schnute.cv(1990, 0, 9));
-  EXPECT_DOUBLE_EQ(1.5,                 schnute.cv(1990, 0, 10));
-  EXPECT_DOUBLE_EQ(0.0,                 schnute.cv(1990, 0, 11));
+  EXPECT_DOUBLE_EQ(0.0, schnute.cv(1990, 0, 4));
+  EXPECT_DOUBLE_EQ(1.5, schnute.cv(1990, 0, 5));
+  EXPECT_DOUBLE_EQ(1.5, schnute.cv(1990, 0, 6));
+  EXPECT_DOUBLE_EQ(1.5, schnute.cv(1990, 0, 7));
+  EXPECT_DOUBLE_EQ(1.5, schnute.cv(1990, 0, 8));
+  EXPECT_DOUBLE_EQ(1.5, schnute.cv(1990, 0, 9));
+  EXPECT_DOUBLE_EQ(1.5, schnute.cv(1990, 0, 10));
+  EXPECT_DOUBLE_EQ(0.0, schnute.cv(1990, 0, 11));
 
-  EXPECT_DOUBLE_EQ(70.88858658180817,  schnute.mean_length(0, 5));
+  EXPECT_DOUBLE_EQ(70.88858658180817, schnute.mean_length(0, 5));
   EXPECT_DOUBLE_EQ(76.396278285380305, schnute.mean_length(0, 6));
   EXPECT_DOUBLE_EQ(81.008050505923777, schnute.mean_length(0, 7));
   EXPECT_DOUBLE_EQ(84.907129213795571, schnute.mean_length(0, 8));
@@ -141,18 +138,16 @@ TEST(AgeLengths, Schnute_BuildCV_ByLength_Proportion) {
   EXPECT_TRUE(testing::Mock::VerifyAndClearExpectations(model.get()));
 }
 
-
-
 /**
  *
  */
 TEST(AgeLengths, Schnute_BuildCV_ByLength_ProportionAndTimeStep) {
-  shared_ptr<MockModel> model = shared_ptr<MockModel>(new MockModel());
-  MockManagersPtr mock_managers = MockManagersPtr(new MockManagers(model));
-  MockTimeStepManager time_step_manager;
+  shared_ptr<MockModel> model         = shared_ptr<MockModel>(new MockModel());
+  MockManagersPtr       mock_managers = MockManagersPtr(new MockManagers(model));
+  MockTimeStepManager   time_step_manager;
   time_step_manager.time_step_index_ = 1;
-  vector<string> time_steps = {"0", "1", "2"};
-  vector<unsigned> years = { 1990, 1991, 1992, 1993, 1994, 1995, 1996, 1997, 1998, 1999 };
+  vector<string>   time_steps        = {"0", "1", "2"};
+  vector<unsigned> years             = {1990, 1991, 1992, 1993, 1994, 1995, 1996, 1997, 1998, 1999};
 
   EXPECT_CALL(*mock_managers, time_step()).WillRepeatedly(Return(&time_step_manager));
 
@@ -166,14 +161,14 @@ TEST(AgeLengths, Schnute_BuildCV_ByLength_ProportionAndTimeStep) {
 
   MockSchnute schnute(model, 24.5, 104.8, 1, 20, 0.131, 1.70, true, 0.2, 0.9, {0.25, 0.5});
   ASSERT_NO_THROW(schnute.MockBuildCV());
-  EXPECT_DOUBLE_EQ(0.0,                 schnute.cv(1990, 1, 4));
+  EXPECT_DOUBLE_EQ(0.0, schnute.cv(1990, 1, 4));
   EXPECT_DOUBLE_EQ(0.20000000000000001, schnute.cv(1990, 1, 5));
   EXPECT_DOUBLE_EQ(0.20000000000000001, schnute.cv(1990, 1, 6));
   EXPECT_DOUBLE_EQ(0.20000000000000001, schnute.cv(1990, 1, 7));
   EXPECT_DOUBLE_EQ(0.20000000000000001, schnute.cv(1990, 1, 8));
   EXPECT_DOUBLE_EQ(0.20000000000000001, schnute.cv(1990, 1, 9));
   EXPECT_DOUBLE_EQ(0.20000000000000001, schnute.cv(1990, 1, 10));
-  EXPECT_DOUBLE_EQ(0.0,                 schnute.cv(1990, 1, 11));
+  EXPECT_DOUBLE_EQ(0.0, schnute.cv(1990, 1, 11));
 
   EXPECT_TRUE(testing::Mock::VerifyAndClearExpectations(mock_managers.get()));
   EXPECT_TRUE(testing::Mock::VerifyAndClearExpectations(model.get()));
@@ -184,12 +179,12 @@ TEST(AgeLengths, Schnute_BuildCV_ByLength_ProportionAndTimeStep) {
  *  This component will be tested elsewhere-> TestModels/ORH has cv_last and cv_first by_length. So if that passe the test I am happy that this funcitonality works
  */
 TEST(AgeLengths, Schnute_BuildCV_LinearInterpolation) {
-  shared_ptr<MockModel> model = shared_ptr<MockModel>(new MockModel());
-  MockManagersPtr mock_managers = MockManagersPtr(new MockManagers(model));
-  MockTimeStepManager time_step_manager;
+  shared_ptr<MockModel> model         = shared_ptr<MockModel>(new MockModel());
+  MockManagersPtr       mock_managers = MockManagersPtr(new MockManagers(model));
+  MockTimeStepManager   time_step_manager;
   time_step_manager.time_step_index_ = 0;
-  vector<string> time_steps = {"0", "1", "2"};
-  vector<unsigned> years = { 1990, 1991, 1992, 1993, 1994, 1995, 1996, 1997, 1998, 1999 };
+  vector<string>   time_steps        = {"0", "1", "2"};
+  vector<unsigned> years             = {1990, 1991, 1992, 1993, 1994, 1995, 1996, 1997, 1998, 1999};
 
   EXPECT_CALL(*mock_managers, time_step()).WillRepeatedly(Return(&time_step_manager));
 
@@ -203,15 +198,14 @@ TEST(AgeLengths, Schnute_BuildCV_LinearInterpolation) {
 
   MockSchnute schnute(model, 24.5, 104.8, 1, 20, 0.131, 1.70, false, 0.1, 0.9, {1.0});
   ASSERT_NO_THROW(schnute.MockBuildCV());
-  EXPECT_DOUBLE_EQ(0.0,                 schnute.cv(1990, 0, 4));
+  EXPECT_DOUBLE_EQ(0.0, schnute.cv(1990, 0, 4));
   EXPECT_DOUBLE_EQ(0.10000000000000001, schnute.cv(1990, 0, 5));
   EXPECT_DOUBLE_EQ(0.10000000000000001, schnute.cv(1990, 0, 6));
   EXPECT_DOUBLE_EQ(0.10000000000000001, schnute.cv(1990, 0, 7));
   EXPECT_DOUBLE_EQ(0.10000000000000001, schnute.cv(1990, 0, 8));
   EXPECT_DOUBLE_EQ(0.10000000000000001, schnute.cv(1990, 0, 9));
   EXPECT_DOUBLE_EQ(0.10000000000000001, schnute.cv(1990, 0, 10));
-  EXPECT_DOUBLE_EQ(0.0,                 schnute.cv(1990, 0, 11));
-
+  EXPECT_DOUBLE_EQ(0.0, schnute.cv(1990, 0, 11));
 
   EXPECT_TRUE(testing::Mock::VerifyAndClearExpectations(mock_managers.get()));
   EXPECT_TRUE(testing::Mock::VerifyAndClearExpectations(model.get()));
@@ -219,6 +213,5 @@ TEST(AgeLengths, Schnute_BuildCV_LinearInterpolation) {
 
 } /* namespace agelengths */
 } /* namespace niwa */
-
 
 #endif

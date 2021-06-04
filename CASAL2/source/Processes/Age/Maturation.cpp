@@ -23,11 +23,7 @@ namespace age {
 /**
  * Default constructor
  */
-Maturation::Maturation(shared_ptr<Model> model)
-  : Process(model),
-    from_partition_(model),
-    to_partition_(model) {
-
+Maturation::Maturation(shared_ptr<Model> model) : Process(model), from_partition_(model), to_partition_(model) {
   parameters_.Bind<string>(PARAM_FROM, &from_category_names_, "The list of categories to mature from", "");
   parameters_.Bind<string>(PARAM_TO, &to_category_names_, "The list of categories to mature to", "");
   parameters_.Bind<string>(PARAM_SELECTIVITIES, &selectivity_names_, "The list of selectivities to use for maturation", "");
@@ -36,7 +32,7 @@ Maturation::Maturation(shared_ptr<Model> model)
 
   RegisterAsAddressable(PARAM_RATES, &rates_by_years_);
 
-  process_type_ = ProcessType::kMaturation;
+  process_type_        = ProcessType::kMaturation;
   partition_structure_ = PartitionType::kAge;
 }
 
@@ -49,35 +45,32 @@ void Maturation::DoValidate() {
     selectivity_names_.assign(from_category_names_.size(), val_sel);
   }
 
-//  // Validate Categories
+  //  // Validate Categories
   niwa::Categories* categories = model_->categories();
 
   // Validate the from and to vectors are the same size
   if (from_category_names_.size() != to_category_names_.size()) {
-    LOG_ERROR_P(PARAM_TO)
-      << ": Number of 'to' categories provided (" << to_category_names_.size()
-      << ") does not match the number of 'from' categories provided (" << from_category_names_.size() << ").";
+    LOG_ERROR_P(PARAM_TO) << ": Number of 'to' categories provided (" << to_category_names_.size() << ") does not match the number of 'from' categories provided ("
+                          << from_category_names_.size() << ").";
   }
 
   // Validate that each from and to category have the same age range.
   for (unsigned i = 0; i < from_category_names_.size(); ++i) {
     if (categories->min_age(from_category_names_[i]) != categories->min_age(to_category_names_[i])) {
       LOG_ERROR_P(PARAM_FROM) << ": 'from' category " << from_category_names_[i] << " does not"
-        << " have the same age range as the 'to' category " << to_category_names_[i];
+                              << " have the same age range as the 'to' category " << to_category_names_[i];
     }
 
     if (categories->max_age(from_category_names_[i]) != categories->max_age(to_category_names_[i])) {
       LOG_ERROR_P(PARAM_FROM) << ": 'from' category " << from_category_names_[i] << " does not"
-        << " have the same age range as the 'to' category " << to_category_names_[i];
+                              << " have the same age range as the 'to' category " << to_category_names_[i];
     }
   }
 
   // Validate rates and years are the same length
   if (rates_.size() != years_.size())
     LOG_ERROR_P(PARAM_RATES) << ": The number of rates (" << rates_.size() << ") does not match the number of years (" << years_.size() << ").";
-  for (unsigned i = 0; i < years_.size(); ++i)
-    rates_by_years_[years_[i]] = rates_[i];
-
+  for (unsigned i = 0; i < years_.size(); ++i) rates_by_years_[years_[i]] = rates_[i];
 }
 
 /**
@@ -92,7 +85,7 @@ void Maturation::DoBuild() {
   from_partition_.Init(from_category_names_);
   to_partition_.Init(to_category_names_);
 
-  for(string label : selectivity_names_) {
+  for (string label : selectivity_names_) {
     Selectivity* selectivity = model_->managers()->selectivity()->GetSelectivity(label);
     if (!selectivity)
       LOG_ERROR_P(PARAM_SELECTIVITIES) << ": Selectivity label " << label << " was not found.";
@@ -104,12 +97,12 @@ void Maturation::DoBuild() {
  * Execute the maturation rate process
  */
 void Maturation::DoExecute() {
-  auto from_iter     = from_partition_.begin();
-  auto to_iter       = to_partition_.begin();
-  Double amount      = 0.0;
+  auto   from_iter = from_partition_.begin();
+  auto   to_iter   = to_partition_.begin();
+  Double amount    = 0.0;
 
   unsigned current_year = model_->current_year();
-  Double rate = rates_by_years_[current_year];
+  Double   rate         = rates_by_years_[current_year];
   // if year is missing for projection then we grab the last one
   if (rates_by_years_.find(current_year) == rates_by_years_.end())
     rate = rates_by_years_.rbegin()->second;
@@ -120,7 +113,7 @@ void Maturation::DoExecute() {
     for (unsigned offset = 0; offset < (*from_iter)->data_.size(); ++offset) {
       amount = rate * selectivities_[i]->GetAgeResult(min_age + offset, (*from_iter)->age_length_) * (*from_iter)->data_[offset];
       (*from_iter)->data_[offset] -= amount;
-      (*to_iter)->data_[offset]   += amount;
+      (*to_iter)->data_[offset] += amount;
     }
   }
 }
@@ -130,9 +123,7 @@ void Maturation::DoExecute() {
  * @description A method for reporting process information
  * @param cache a cache object to print to
  */
-void Maturation::FillReportCache(ostringstream& cache) {
-
-}
+void Maturation::FillReportCache(ostringstream& cache) {}
 
 /**
  * @Fill the tabular report cache
@@ -140,9 +131,7 @@ void Maturation::FillReportCache(ostringstream& cache) {
  * @param cache a cache object to print to
  * @param first_run whether to print the header
  */
-void Maturation::FillTabularReportCache(ostringstream& cache, bool first_run) {
-
-}
+void Maturation::FillTabularReportCache(ostringstream& cache, bool first_run) {}
 
 } /* namespace age */
 } /* namespace processes */
