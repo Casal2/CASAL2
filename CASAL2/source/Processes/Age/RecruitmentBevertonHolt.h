@@ -4,7 +4,7 @@
  * @date 12/07/2013
  * @section LICENSE
  *
- * Copyright NIWA Science ©2013 - www.niwa.co.nz
+ * Copyright NIWA Science ï¿½2013 - www.niwa.co.nz
  *
  * @section DESCRIPTION
  *
@@ -14,9 +14,9 @@
 #define PROCESSES_RECRUITMENTBEVERTONHOLT_H_
 
 // headers
-#include "DerivedQuantities/DerivedQuantity.h"
-#include "Partition/Accessors/Categories.h"
-#include "Processes/Process.h"
+#include "../../DerivedQuantities/DerivedQuantity.h"
+#include "../../Partition/Accessors/Categories.h"
+#include "../Process.h"
 
 // namespaces
 namespace niwa {

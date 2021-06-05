@@ -5,7 +5,7 @@
  * @date 17/10/2014
  * @section LICENSE
  *
- * Copyright NIWA Science ©2014 - www.niwa.co.nz
+ * Copyright NIWA Science ï¿½2014 - www.niwa.co.nz
  *
  * @section DESCRIPTION
  *
@@ -15,11 +15,12 @@
 #define AGE_OBSERVATIONS_ABUNDANCE_H_
 
 // Headers
-#include "Catchabilities/Catchability.h"
-#include "Catchabilities/Common/Nuisance.h"
-#include "Observations/Observation.h"
-#include "Partition/Accessors/Cached/CombinedCategories.h"
-#include "Partition/Accessors/CombinedCategories.h"
+#include "../../Catchabilities/Catchability.h"
+#include "../../Catchabilities/Common/Nuisance.h"
+#include "../../Partition/Accessors/Cached/CombinedCategories.h"
+#include "../../Partition/Accessors/CombinedCategories.h"
+#include "../Observation.h"
+
 
 // Namespaces
 namespace niwa {

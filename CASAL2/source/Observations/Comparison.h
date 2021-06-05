@@ -4,7 +4,7 @@
  * @date 4/02/2014
  * @section LICENSE
  *
- * Copyright NIWA Science ©2013 - www.niwa.co.nz
+ * Copyright NIWA Science ï¿½2013 - www.niwa.co.nz
  *
  * @section DESCRIPTION
  *
@@ -16,7 +16,7 @@
 // headers
 #include <string>
 
-#include "Utilities/Types.h"
+#include "../Utilities/Types.h"
 
 // namespaces
 namespace niwa {

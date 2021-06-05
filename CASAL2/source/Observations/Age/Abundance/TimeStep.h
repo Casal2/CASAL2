@@ -5,7 +5,7 @@
  * @date 17/10/2014
  * @section LICENSE
  *
- * Copyright NIWA Science ©2014 - www.niwa.co.nz
+ * Copyright NIWA Science ï¿½2014 - www.niwa.co.nz
  *
  * @section DESCRIPTION
  *
@@ -15,7 +15,7 @@
 #define AGE_OBSERVASTIONS_TIMESTEPABUNDANCE_H_
 
 // headers
-#include "Observations/Age/Abundance.h"
+#include "../Abundance.h"
 
 // namespaces
 namespace niwa {
