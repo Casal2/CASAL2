@@ -28,11 +28,15 @@ MESSAGE("-- Output Path: ${OUTPUT_PATH}")
 
 # Build some path variables so we can easily find our third party libraries and code
 SET(PROJECT_HOME_DIRECTORY ${CMAKE_HOME_DIRECTORY})
-STRING(REPLACE "/CASAL2/CASAL2" "/CASAL2/BuildSystem/" BUILD_SYSTEM_DIRECTORY ${CMAKE_HOME_DIRECTORY})
+STRING(LENGTH ${CMAKE_HOME_DIRECTORY} CMAKE_HOME_LENGTH)
+MATH(EXPR CMAKE_HOME_LENGTH "${CMAKE_HOME_LENGTH} - 6")
+STRING(SUBSTRING ${CMAKE_HOME_DIRECTORY} 0 ${CMAKE_HOME_LENGTH} BUILD_SYSTEM_DIRECTORY)
+STRING(APPEND BUILD_SYSTEM_DIRECTORY "BuildSystem" )
+
 MESSAGE("-- Source Root Folder: ${CMAKE_HOME_DIRECTORY}")
 MESSAGE("-- BuildSystem Folder: ${BUILD_SYSTEM_DIRECTORY}")
 
-SET(THIRD_PARTY_PATH "${BUILD_SYSTEM_DIRECTORY}bin/${OUTPUT_PATH}/thirdparty")
+SET(THIRD_PARTY_PATH "${BUILD_SYSTEM_DIRECTORY}/bin/${OUTPUT_PATH}/thirdparty")
 MESSAGE("-- Thirdparty Library Path ${THIRD_PARTY_PATH}")
 
 # Set the third party include folder as an include
@@ -124,7 +128,7 @@ ELSEIF (CPPAD)
   )
  ENDIF ()
 ENDIF ()
-MESSAGE("SPECIAL_LIBRARIES: ${specialLibraries}")
+MESSAGE("-- Auto-Diff Libraries: ${specialLibraries}")
 
 # This snippet of code will find all of our source and test files
 # and auto-populate variables with them for the build
@@ -141,7 +145,7 @@ IF (RELEASE)
 ELSE (RELEASE)
 	SET(THIRD_PARTY_LIB_PATH "${THIRD_PARTY_PATH}/lib/debug")
 ENDIF ()
-MESSAGE("Third Party Library Path: ${THIRD_PARTY_LIB_PATH}")
+MESSAGE("-- Third Party Library Path: ${THIRD_PARTY_LIB_PATH}")
 LINK_DIRECTORIES("${THIRD_PARTY_LIB_PATH}")
 LINK_DIRECTORIES("${THIRD_PARTY_PATH}/lib/special/")
 
@@ -183,9 +187,9 @@ ELSE(LIBRARY)
 	IF(NOT TESTMODE)
 		IF (NOT MSVC)
 			IF(WIN32)
-			MESSAGE("Building ICON")
+			MESSAGE("-- Building ICON")
 			ADD_CUSTOM_TARGET(icon ALL COMMAND windres --output "${BUILD_SYSTEM_DIRECTORY}/icon.o" --input "${BUILD_SYSTEM_DIRECTORY}/casal2.rc")
-			MESSAGE("Icon Built")
+			MESSAGE("-- Icon Built")
 			#SET(LINK_OPTIONS "-static-libgcc -static-libstdc++ -static ${CMAKE_HOME_DIRECTORY}/../BuildSystem/icon.o")
 			SET(LINK_OPTIONS "-static ${BUILD_SYSTEM_DIRECTORY}/icon.o")
 			ENDIF(WIN32)
