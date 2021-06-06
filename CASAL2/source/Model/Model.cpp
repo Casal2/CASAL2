@@ -391,7 +391,7 @@ void Model::Validate() {
   }
 
   timesteps::Manager& time_step_mngr = *managers_->time_step();
-  for (const string time_step : time_steps_) {
+  for (const string& time_step : time_steps_) {
     if (!time_step_mngr.GetTimeStep(time_step))
       LOG_ERROR_P(PARAM_TIME_STEPS) << "(" << time_step << ") has not been defined. Please ensure you have defined it";
   }
