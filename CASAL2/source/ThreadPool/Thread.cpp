@@ -19,12 +19,6 @@
 // headers
 #include "Thread.h"
 
-#ifdef __MINGW32__
-#undef __STRICT_ANSI__
-#include <float.h>  // needed for _fpreset(); for MinGW bug
-#define __STRICT_ANSI__
-#endif  // MINGW32
-
 #include "../Logging/Logging.h"
 #include "../Model/Model.h"
 
@@ -51,12 +45,7 @@ Thread::Thread(shared_ptr<Model> model) : model_(model) {}
 void Thread::Launch() {
   std::scoped_lock l(lock_);
 
-  std::function<void()> new_thread([this]() {
-#ifdef __MINGW32__
-    _fpreset();  // MingW Bug - Need to reset floatpoint prec
-#endif
-    this->Loop();
-  });
+  std::function<void()> new_thread([this]() { this->Loop(); });
 
   thread_.reset(new std::thread(new_thread));
 }
