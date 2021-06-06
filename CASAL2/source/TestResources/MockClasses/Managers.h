@@ -16,6 +16,8 @@
 #ifdef TESTMODE
 
 // Headers
+#include <gmock/gmock.h>
+
 #include "../../Model/Managers.h"
 
 // Namespaces
