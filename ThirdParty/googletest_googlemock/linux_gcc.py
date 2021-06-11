@@ -42,7 +42,7 @@ class Builder:
     # configure linux specific stuff
     os.chdir(gmockFileName + '/googlemock')
     os.system('cmake -G "Unix Makefiles"')
-    os.system('cmake -D CMAKE_CXX_FLAGS="-Wno-maybe-uninitialized"')
+    os.system('cmake -DCMAKE_CXX_FLAGS="-Wno-maybe-uninitialized"')
    
     # Build 
     print('-- Building - check ' + gmockFileName +'/make/casal2_build.log')
