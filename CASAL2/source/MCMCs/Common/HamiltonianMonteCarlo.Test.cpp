@@ -42,7 +42,26 @@ using ::testing::NiceMock;
 class HamiltonianMonteCarloThreadedModel : public testfixtures::BaseThreaded {};
 
 /**
- * @brief Construct a new test f object
+ * Notes for these unit tests.
+ *
+ * Because we're using an arctan transformation in the deltadiff minimiser we end up with quite
+ * different values between Operating Systems. Each of these unit tests will #ifdef the Operating
+ * System so we can check the values between them.
+ *
+ * Arguably, all answers are correct. The difference starts off <1e-16 but when we use this to inform
+ * the gradient it does change the direction of the leap frog slightly. After some jumps we end up
+ * in a place that will fail a unit test, even though it's arguably correct.
+ *
+ * Second note:
+ *  The code I use to print the results
+ */
+//  {
+//   cout << std::setprecision(16);
+//   for (unsigned i = 0; i < chain.size(); i += 10) cout << "EXPECT_DOUBLE_EQ(chain[" << i << "].score_, " << chain[i].score_ << ");" << endl;
+// }
+
+/**
+ * @brief Test the HMC MCMC algorithm with the TwoSex model doing Five Iterations
  *
  */
 TEST_F(HamiltonianMonteCarloThreadedModel, Five_Iteration_With_TwoSex) {
@@ -70,11 +89,19 @@ TEST_F(HamiltonianMonteCarloThreadedModel, Five_Iteration_With_TwoSex) {
   auto chain = mcmc->chain();
   ASSERT_EQ(5u, chain.size());
 
+#ifdef _WIN64
   EXPECT_DOUBLE_EQ(chain[0].score_, 1978.518998268854);
   EXPECT_DOUBLE_EQ(chain[1].score_, 1978.519054583444);
   EXPECT_DOUBLE_EQ(chain[2].score_, 1978.519228249186);
   EXPECT_DOUBLE_EQ(chain[3].score_, 1978.519264474865);
   EXPECT_DOUBLE_EQ(chain[4].score_, 1978.519379675362);
+#elif __linux__
+  EXPECT_DOUBLE_EQ(chain[0].score_, 1979.31910941548);
+  EXPECT_DOUBLE_EQ(chain[1].score_, 1979.318837290028);
+  EXPECT_DOUBLE_EQ(chain[2].score_, 1979.318332128152);
+  EXPECT_DOUBLE_EQ(chain[3].score_, 1979.318110301643);
+  EXPECT_DOUBLE_EQ(chain[4].score_, 1979.317733207503);
+#endif
 }
 
 /**
@@ -107,6 +134,7 @@ TEST_F(HamiltonianMonteCarloThreadedModel, TwentyFive_Iteration_With_TwoSex) {
   auto chain = mcmc->chain();
   ASSERT_EQ(25u, chain.size());
 
+#ifdef _WIN64
   EXPECT_DOUBLE_EQ(chain[0].score_, 1978.518998268854);
   EXPECT_DOUBLE_EQ(chain[1].score_, 1978.518998817745);
   EXPECT_DOUBLE_EQ(chain[2].score_, 1978.51900038332);
@@ -132,6 +160,33 @@ TEST_F(HamiltonianMonteCarloThreadedModel, TwentyFive_Iteration_With_TwoSex) {
   EXPECT_DOUBLE_EQ(chain[22].score_, 1978.518997167277);
   EXPECT_DOUBLE_EQ(chain[23].score_, 1978.518999663646);
   EXPECT_DOUBLE_EQ(chain[24].score_, 1978.518999787179);
+#elif __linux__
+  EXPECT_DOUBLE_EQ(chain[0].score_, 1979.31910941548);
+  EXPECT_DOUBLE_EQ(chain[1].score_, 1979.31910667998);
+  EXPECT_DOUBLE_EQ(chain[2].score_, 1979.319101457041);
+  EXPECT_DOUBLE_EQ(chain[3].score_, 1979.319099189367);
+  EXPECT_DOUBLE_EQ(chain[4].score_, 1979.319095221592);
+  EXPECT_DOUBLE_EQ(chain[5].score_, 1979.319093918872);
+  EXPECT_DOUBLE_EQ(chain[6].score_, 1979.319090717183);
+  EXPECT_DOUBLE_EQ(chain[7].score_, 1979.319102191839);
+  EXPECT_DOUBLE_EQ(chain[8].score_, 1979.319099816649);
+  EXPECT_DOUBLE_EQ(chain[9].score_, 1979.319095325929);
+  EXPECT_DOUBLE_EQ(chain[10].score_, 1979.31909364716);
+  EXPECT_DOUBLE_EQ(chain[11].score_, 1979.319090029647);
+  EXPECT_DOUBLE_EQ(chain[12].score_, 1979.319090616388);
+  EXPECT_DOUBLE_EQ(chain[13].score_, 1979.319087741061);
+  EXPECT_DOUBLE_EQ(chain[14].score_, 1979.319081412415);
+  EXPECT_DOUBLE_EQ(chain[15].score_, 1979.319078851855);
+  EXPECT_DOUBLE_EQ(chain[16].score_, 1979.319074174167);
+  EXPECT_DOUBLE_EQ(chain[17].score_, 1979.319072148373);
+  EXPECT_DOUBLE_EQ(chain[18].score_, 1979.319068518474);
+  EXPECT_DOUBLE_EQ(chain[19].score_, 1979.319068194253);
+  EXPECT_DOUBLE_EQ(chain[20].score_, 1979.319065299487);
+  EXPECT_DOUBLE_EQ(chain[21].score_, 1979.319054702343);
+  EXPECT_DOUBLE_EQ(chain[22].score_, 1979.319051302415);
+  EXPECT_DOUBLE_EQ(chain[23].score_, 1979.319052394097);
+  EXPECT_DOUBLE_EQ(chain[24].score_, 1979.319049773885);
+#endif
 }
 
 /**
@@ -164,6 +219,7 @@ TEST_F(HamiltonianMonteCarloThreadedModel, OneHundred_Iteration_With_TwoSex) {
   auto chain = mcmc->chain();
   ASSERT_EQ(100u, chain.size());
 
+#ifdef _WIN64
   EXPECT_DOUBLE_EQ(chain[0].score_, 1978.518998268854);
   EXPECT_DOUBLE_EQ(chain[5].score_, 1978.519001523487);
   EXPECT_DOUBLE_EQ(chain[10].score_, 1978.518995646324);
@@ -184,6 +240,28 @@ TEST_F(HamiltonianMonteCarloThreadedModel, OneHundred_Iteration_With_TwoSex) {
   EXPECT_DOUBLE_EQ(chain[85].score_, 1978.519112390293);
   EXPECT_DOUBLE_EQ(chain[90].score_, 1978.519110547037);
   EXPECT_DOUBLE_EQ(chain[95].score_, 1978.519109207944);
+#elif __linux__
+  EXPECT_DOUBLE_EQ(chain[0].score_, 1979.31910941548);
+  EXPECT_DOUBLE_EQ(chain[5].score_, 1979.319093918872);
+  EXPECT_DOUBLE_EQ(chain[10].score_, 1979.31909364716);
+  EXPECT_DOUBLE_EQ(chain[15].score_, 1979.319078851855);
+  EXPECT_DOUBLE_EQ(chain[20].score_, 1979.319065299487);
+  EXPECT_DOUBLE_EQ(chain[25].score_, 1979.319044239775);
+  EXPECT_DOUBLE_EQ(chain[30].score_, 1979.319036663157);
+  EXPECT_DOUBLE_EQ(chain[35].score_, 1979.319034464879);
+  EXPECT_DOUBLE_EQ(chain[40].score_, 1979.318998175371);
+  EXPECT_DOUBLE_EQ(chain[45].score_, 1979.318943928067);
+  EXPECT_DOUBLE_EQ(chain[50].score_, 1979.318915751307);
+  EXPECT_DOUBLE_EQ(chain[55].score_, 1979.318904315214);
+  EXPECT_DOUBLE_EQ(chain[60].score_, 1979.318878531083);
+  EXPECT_DOUBLE_EQ(chain[65].score_, 1979.318864756771);
+  EXPECT_DOUBLE_EQ(chain[70].score_, 1979.318853744845);
+  EXPECT_DOUBLE_EQ(chain[75].score_, 1979.318836001205);
+  EXPECT_DOUBLE_EQ(chain[80].score_, 1979.31882112822);
+  EXPECT_DOUBLE_EQ(chain[85].score_, 1979.318808247617);
+  EXPECT_DOUBLE_EQ(chain[90].score_, 1979.318785268916);
+  EXPECT_DOUBLE_EQ(chain[95].score_, 1979.318774377177);
+#endif
 }
 
 /**
@@ -216,11 +294,19 @@ TEST_F(HamiltonianMonteCarloThreadedModel, Five_Iteration_With_CasalComplexOne) 
   auto chain = mcmc->chain();
   ASSERT_EQ(5u, chain.size());
 
+#ifdef _WIN64
   EXPECT_DOUBLE_EQ(chain[0].score_, 487.5206389722261);
   EXPECT_DOUBLE_EQ(chain[1].score_, 487.5352753193411);
   EXPECT_DOUBLE_EQ(chain[2].score_, 487.599099544303);
   EXPECT_DOUBLE_EQ(chain[3].score_, 487.6008751998088);
   EXPECT_DOUBLE_EQ(chain[4].score_, 487.6008751998088);
+#elif __linux__
+  EXPECT_DOUBLE_EQ(chain[0].score_, 487.520638972034);
+  EXPECT_DOUBLE_EQ(chain[1].score_, 487.5352752521567);
+  EXPECT_DOUBLE_EQ(chain[2].score_, 487.6219696273498);
+  EXPECT_DOUBLE_EQ(chain[3].score_, 487.6233820105855);
+  EXPECT_DOUBLE_EQ(chain[4].score_, 487.6233820105855);
+#endif
 }
 
 /**
@@ -253,11 +339,19 @@ TEST_F(HamiltonianMonteCarloThreadedModel, Five_Iteration_With_CasalComplexOne_L
   auto chain = mcmc->chain();
   ASSERT_EQ(5u, chain.size());
 
+#ifdef _WIN64
   EXPECT_DOUBLE_EQ(chain[0].score_, 487.5206389722261);
   EXPECT_DOUBLE_EQ(chain[1].score_, 487.5396500365894);
   EXPECT_DOUBLE_EQ(chain[2].score_, 487.6088597505599);
   EXPECT_DOUBLE_EQ(chain[3].score_, 487.6156285077633);
   EXPECT_DOUBLE_EQ(chain[4].score_, 487.6156285077633);
+#elif __linux__
+  EXPECT_DOUBLE_EQ(chain[0].score_, 487.520638972034);
+  EXPECT_DOUBLE_EQ(chain[1].score_, 487.5396497473042);
+  EXPECT_DOUBLE_EQ(chain[2].score_, 487.6318753298668);
+  EXPECT_DOUBLE_EQ(chain[3].score_, 487.6383538202512);
+  EXPECT_DOUBLE_EQ(chain[4].score_, 487.6383538202512);
+#endif
 }
 
 /**
@@ -290,11 +384,19 @@ TEST_F(HamiltonianMonteCarloThreadedModel, Five_Iteration_With_CasalComplexOne_L
   auto chain = mcmc->chain();
   ASSERT_EQ(5u, chain.size());
 
+#ifdef _WIN64
   EXPECT_DOUBLE_EQ(chain[0].score_, 487.5206389722261);
   EXPECT_DOUBLE_EQ(chain[1].score_, 487.5208286195056);
   EXPECT_DOUBLE_EQ(chain[2].score_, 487.520890677574);
   EXPECT_DOUBLE_EQ(chain[3].score_, 487.5209464835007);
   EXPECT_DOUBLE_EQ(chain[4].score_, 487.5210030419244);
+#elif __linux__
+  EXPECT_DOUBLE_EQ(chain[0].score_, 487.520638972034);
+  EXPECT_DOUBLE_EQ(chain[1].score_, 487.5208286193689);
+  EXPECT_DOUBLE_EQ(chain[2].score_, 487.5208929731917);
+  EXPECT_DOUBLE_EQ(chain[3].score_, 487.5209487497292);
+  EXPECT_DOUBLE_EQ(chain[4].score_, 487.5210056161228);
+#endif
 }
 
 /**
@@ -327,11 +429,19 @@ TEST_F(HamiltonianMonteCarloThreadedModel, Five_Iteration_With_CasalComplexOne_L
   auto chain = mcmc->chain();
   ASSERT_EQ(5u, chain.size());
 
+#ifdef _WIN64
   EXPECT_DOUBLE_EQ(chain[0].score_, 12179.97032733484);
   EXPECT_DOUBLE_EQ(chain[1].score_, 12179.97032733484);
   EXPECT_DOUBLE_EQ(chain[2].score_, 12179.97032733484);
   EXPECT_DOUBLE_EQ(chain[3].score_, 12179.97032733484);
   EXPECT_DOUBLE_EQ(chain[4].score_, 12179.97032733484);
+#elif __linux__
+  EXPECT_DOUBLE_EQ(chain[0].score_, 11622.04009177895);
+  EXPECT_DOUBLE_EQ(chain[1].score_, 11622.04009177895);
+  EXPECT_DOUBLE_EQ(chain[2].score_, 11622.04009177895);
+  EXPECT_DOUBLE_EQ(chain[3].score_, 11622.04009177895);
+  EXPECT_DOUBLE_EQ(chain[4].score_, 11622.04009177895);
+#endif
 }
 
 /**
@@ -364,11 +474,19 @@ TEST_F(HamiltonianMonteCarloThreadedModel, Five_Iteration_With_TwoSex_CustomGrad
   auto chain = mcmc->chain();
   ASSERT_EQ(5u, chain.size());
 
+#ifdef _WIN64
   EXPECT_DOUBLE_EQ(chain[0].score_, 1978.518998268854);
   EXPECT_DOUBLE_EQ(chain[1].score_, 1978.519054583445);
   EXPECT_DOUBLE_EQ(chain[2].score_, 1978.519228249186);
   EXPECT_DOUBLE_EQ(chain[3].score_, 1978.519264474865);
   EXPECT_DOUBLE_EQ(chain[4].score_, 1978.519379675368);
+#elif __linux__
+  EXPECT_DOUBLE_EQ(chain[0].score_, 1979.31910941548);
+  EXPECT_DOUBLE_EQ(chain[1].score_, 1979.318837290026);
+  EXPECT_DOUBLE_EQ(chain[2].score_, 1979.318332128151);
+  EXPECT_DOUBLE_EQ(chain[3].score_, 1979.318110301642);
+  EXPECT_DOUBLE_EQ(chain[4].score_, 1979.317733207502);
+#endif
 }
 
 /**
@@ -401,6 +519,7 @@ TEST_F(HamiltonianMonteCarloThreadedModel, TwentyFive_Iteration_With_TwoSex_Rand
   auto chain = mcmc->chain();
   ASSERT_EQ(25u, chain.size());
 
+#ifdef _WIN64
   EXPECT_DOUBLE_EQ(chain[0].score_, 29585.64866161223);
   EXPECT_DOUBLE_EQ(chain[1].score_, 29583.01830473165);
   EXPECT_DOUBLE_EQ(chain[2].score_, 29580.3292307786);
@@ -426,6 +545,33 @@ TEST_F(HamiltonianMonteCarloThreadedModel, TwentyFive_Iteration_With_TwoSex_Rand
   EXPECT_DOUBLE_EQ(chain[22].score_, 29473.7079144983);
   EXPECT_DOUBLE_EQ(chain[23].score_, 29291.7513114489);
   EXPECT_DOUBLE_EQ(chain[24].score_, 29384.39532536846);
+#elif __linux__
+  EXPECT_DOUBLE_EQ(chain[0].score_, 36389.07677669402);
+  EXPECT_DOUBLE_EQ(chain[1].score_, 36389.07677669402);
+  EXPECT_DOUBLE_EQ(chain[2].score_, 36388.361465831);
+  EXPECT_DOUBLE_EQ(chain[3].score_, 36388.361465831);
+  EXPECT_DOUBLE_EQ(chain[4].score_, 36388.361465831);
+  EXPECT_DOUBLE_EQ(chain[5].score_, 36388.8173073483);
+  EXPECT_DOUBLE_EQ(chain[6].score_, 36388.8173073483);
+  EXPECT_DOUBLE_EQ(chain[7].score_, 36388.8173073483);
+  EXPECT_DOUBLE_EQ(chain[8].score_, 36388.8173073483);
+  EXPECT_DOUBLE_EQ(chain[9].score_, 36388.8173073483);
+  EXPECT_DOUBLE_EQ(chain[10].score_, 36388.8173073483);
+  EXPECT_DOUBLE_EQ(chain[11].score_, 36388.50090547473);
+  EXPECT_DOUBLE_EQ(chain[12].score_, 36374.96143373416);
+  EXPECT_DOUBLE_EQ(chain[13].score_, 36365.27657489545);
+  EXPECT_DOUBLE_EQ(chain[14].score_, 36322.78711909857);
+  EXPECT_DOUBLE_EQ(chain[15].score_, 36322.48103413592);
+  EXPECT_DOUBLE_EQ(chain[16].score_, 36322.90573281318);
+  EXPECT_DOUBLE_EQ(chain[17].score_, 36324.69622726875);
+  EXPECT_DOUBLE_EQ(chain[18].score_, 36322.25413765675);
+  EXPECT_DOUBLE_EQ(chain[19].score_, 36323.19781703433);
+  EXPECT_DOUBLE_EQ(chain[20].score_, 36312.8207311583);
+  EXPECT_DOUBLE_EQ(chain[21].score_, 36315.46101229153);
+  EXPECT_DOUBLE_EQ(chain[22].score_, 36311.54510717453);
+  EXPECT_DOUBLE_EQ(chain[23].score_, 36326.95904361141);
+  EXPECT_DOUBLE_EQ(chain[24].score_, 36320.59445996349);
+#endif
 }
 
 /**
@@ -458,6 +604,7 @@ TEST_F(HamiltonianMonteCarloThreadedModel, TwentyFive_Iteration_With_CasalComple
   auto chain = mcmc->chain();
   ASSERT_EQ(25u, chain.size());
 
+#ifdef _WIN64
   EXPECT_DOUBLE_EQ(chain[0].score_, 12179.97032733484);
   EXPECT_DOUBLE_EQ(chain[1].score_, 12177.92540373069);
   EXPECT_DOUBLE_EQ(chain[2].score_, 12176.66255928856);
@@ -483,6 +630,33 @@ TEST_F(HamiltonianMonteCarloThreadedModel, TwentyFive_Iteration_With_CasalComple
   EXPECT_DOUBLE_EQ(chain[22].score_, 12130.92975201858);
   EXPECT_DOUBLE_EQ(chain[23].score_, 12104.14897393031);
   EXPECT_DOUBLE_EQ(chain[24].score_, 12096.81609686514);
+#elif __linux__
+  EXPECT_DOUBLE_EQ(chain[0].score_, 11622.04009177895);
+  EXPECT_DOUBLE_EQ(chain[1].score_, 11620.01985703409);
+  EXPECT_DOUBLE_EQ(chain[2].score_, 11618.73341844001);
+  EXPECT_DOUBLE_EQ(chain[3].score_, 11618.21271520679);
+  EXPECT_DOUBLE_EQ(chain[4].score_, 11618.21271520679);
+  EXPECT_DOUBLE_EQ(chain[5].score_, 11600.91618645375);
+  EXPECT_DOUBLE_EQ(chain[6].score_, 11591.3493038226);
+  EXPECT_DOUBLE_EQ(chain[7].score_, 11600.90538041638);
+  EXPECT_DOUBLE_EQ(chain[8].score_, 11600.90538041638);
+  EXPECT_DOUBLE_EQ(chain[9].score_, 11601.31245975959);
+  EXPECT_DOUBLE_EQ(chain[10].score_, 11589.56936167276);
+  EXPECT_DOUBLE_EQ(chain[11].score_, 11594.77573869354);
+  EXPECT_DOUBLE_EQ(chain[12].score_, 11582.39226485891);
+  EXPECT_DOUBLE_EQ(chain[13].score_, 11582.72638786315);
+  EXPECT_DOUBLE_EQ(chain[14].score_, 11576.40774277365);
+  EXPECT_DOUBLE_EQ(chain[15].score_, 11581.47904821901);
+  EXPECT_DOUBLE_EQ(chain[16].score_, 11591.86020479118);
+  EXPECT_DOUBLE_EQ(chain[17].score_, 11586.80098401977);
+  EXPECT_DOUBLE_EQ(chain[18].score_, 11588.94000961911);
+  EXPECT_DOUBLE_EQ(chain[19].score_, 11588.94000961911);
+  EXPECT_DOUBLE_EQ(chain[20].score_, 11584.2109864414);
+  EXPECT_DOUBLE_EQ(chain[21].score_, 11577.90015058309);
+  EXPECT_DOUBLE_EQ(chain[22].score_, 11577.90015058309);
+  EXPECT_DOUBLE_EQ(chain[23].score_, 11563.32968127872);
+  EXPECT_DOUBLE_EQ(chain[24].score_, 11556.61019993286);
+#endif
 }
 
 /**
@@ -515,6 +689,7 @@ TEST_F(HamiltonianMonteCarloThreadedModel, TwentyFive_Iteration_With_CasalComple
   auto chain = mcmc->chain();
   ASSERT_EQ(25u, chain.size());
 
+#ifdef _WIN64
   EXPECT_DOUBLE_EQ(chain[0].score_, 12179.97032733484);
   EXPECT_DOUBLE_EQ(chain[1].score_, 12174.87274154569);
   EXPECT_DOUBLE_EQ(chain[2].score_, 12170.55080165687);
@@ -540,53 +715,33 @@ TEST_F(HamiltonianMonteCarloThreadedModel, TwentyFive_Iteration_With_CasalComple
   EXPECT_DOUBLE_EQ(chain[22].score_, 12103.1699895665);
   EXPECT_DOUBLE_EQ(chain[23].score_, 12073.54432225372);
   EXPECT_DOUBLE_EQ(chain[24].score_, 12063.21039403586);
-}
-
-/**
- * @brief Construct a new test f object
- *
- */
-TEST_F(HamiltonianMonteCarloThreadedModel, OneHundred_Iteration_With_CasalComplexOne_RandomStart_OneEFourStepSize_LeapFrogs_Ten) {
-  string ammended_definition = testcases::test_cases_casal_complex_1;
-  boost::replace_all(ammended_definition, "threads 1", "threads 16");
-  boost::replace_all(ammended_definition, "numerical_differences", "deltadiff");
-  AddConfigurationLine(ammended_definition, __FILE__, 76);
-
-  string mcmc_definition = R"(
-    @mcmc my_mcmc
-    type hamiltonian
-    length 100
-    start 1
-    keep 1
-    leapfrog_delta 1e-4
-    leapfrog_steps 10
-  )";
-  AddConfigurationLine(mcmc_definition, __FILE__, 70);
-  LoadConfiguration();
-
-  ASSERT_NO_THROW(runner_->GoWithRunMode(RunMode::kMCMC));
-  auto model = runner_->model();
-  auto mcmc  = model->managers()->mcmc()->active_mcmc();
-  ASSERT_TRUE(mcmc != nullptr);
-
-  auto chain = mcmc->chain();
-  ASSERT_EQ(100u, chain.size());
-
-  // {
-  //   cout << std::setprecision(16);
-  //   for (unsigned i = 0; i < chain.size(); i += 10) cout << "EXPECT_DOUBLE_EQ(chain[" << i << "].score_, " << chain[i].score_ << ");" << endl;
-  // }
-
-  EXPECT_DOUBLE_EQ(chain[0].score_, 12179.97032733484);
-  EXPECT_DOUBLE_EQ(chain[10].score_, 12144.19279304693);
-  EXPECT_DOUBLE_EQ(chain[20].score_, 12131.02483954309);
-  EXPECT_DOUBLE_EQ(chain[30].score_, 12052.2572662629);
-  EXPECT_DOUBLE_EQ(chain[40].score_, 12022.88065427561);
-  EXPECT_DOUBLE_EQ(chain[50].score_, 11933.03808419933);
-  EXPECT_DOUBLE_EQ(chain[60].score_, 11893.56589301748);
-  EXPECT_DOUBLE_EQ(chain[70].score_, 11822.49082378147);
-  EXPECT_DOUBLE_EQ(chain[80].score_, 11748.11135254011);
-  EXPECT_DOUBLE_EQ(chain[90].score_, 11645.16527931475);
+#elif __linux__
+  EXPECT_DOUBLE_EQ(chain[0].score_, 11622.04009177895);
+  EXPECT_DOUBLE_EQ(chain[1].score_, 11616.98912320913);
+  EXPECT_DOUBLE_EQ(chain[2].score_, 11612.66679924271);
+  EXPECT_DOUBLE_EQ(chain[3].score_, 11609.11006547069);
+  EXPECT_DOUBLE_EQ(chain[4].score_, 11609.11006547069);
+  EXPECT_DOUBLE_EQ(chain[5].score_, 11588.81821244274);
+  EXPECT_DOUBLE_EQ(chain[6].score_, 11576.18072649907);
+  EXPECT_DOUBLE_EQ(chain[7].score_, 11582.66232534397);
+  EXPECT_DOUBLE_EQ(chain[8].score_, 11602.24104623353);
+  EXPECT_DOUBLE_EQ(chain[9].score_, 11599.60566906656);
+  EXPECT_DOUBLE_EQ(chain[10].score_, 11584.84484506599);
+  EXPECT_DOUBLE_EQ(chain[11].score_, 11587.00651477895);
+  EXPECT_DOUBLE_EQ(chain[12].score_, 11571.63800588351);
+  EXPECT_DOUBLE_EQ(chain[13].score_, 11568.92469216468);
+  EXPECT_DOUBLE_EQ(chain[14].score_, 11559.61656781061);
+  EXPECT_DOUBLE_EQ(chain[15].score_, 11561.62636514807);
+  EXPECT_DOUBLE_EQ(chain[16].score_, 11568.94428881099);
+  EXPECT_DOUBLE_EQ(chain[17].score_, 11560.86209234402);
+  EXPECT_DOUBLE_EQ(chain[18].score_, 11559.94823220482);
+  EXPECT_DOUBLE_EQ(chain[19].score_, 11622.22043635682);
+  EXPECT_DOUBLE_EQ(chain[20].score_, 11614.3868750975);
+  EXPECT_DOUBLE_EQ(chain[21].score_, 11604.94834979492);
+  EXPECT_DOUBLE_EQ(chain[22].score_, 11604.94834979492);
+  EXPECT_DOUBLE_EQ(chain[23].score_, 11587.16841312723);
+  EXPECT_DOUBLE_EQ(chain[24].score_, 11577.35793797639);
+#endif
 }
 
 }  // namespace niwa
