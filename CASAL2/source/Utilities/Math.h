@@ -21,6 +21,10 @@
 #include <map>
 #include <vector>
 
+// C Headers for quick double to string n back conversion
+#include <stdio.h>  /* printf, NULL */
+#include <stdlib.h> /* strtod */
+
 #include "../Logging/Logging.h"
 #include "../Utilities/Distribution.h"
 #include "../Utilities/Types.h"
@@ -384,8 +388,13 @@ inline void scale_vector(vector<Double>& target, const vector<Double>& lower_bou
  * @param max
  * @return double
  */
-inline Double unscale(Double value, Double min, Double max) {
+inline Double unscale(Double value, Double min, Double max, bool truncate_value = false) {
   Double unscaled = ((atan(value) / PI) + 0.5) * (max - min) + min;
+  if (truncate_value) {
+    char s1[128] = {0};
+    snprintf(s1, 128, "%.14f", unscaled);
+    unscaled = strtod(s1, NULL);
+  }
   return unscaled;
 }
 
@@ -394,9 +403,9 @@ inline Double unscale(Double value, Double min, Double max) {
  *
  * @param target
  */
-inline void unscale_vector(vector<Double>& target, const vector<Double>& lower_bounds, const vector<Double>& upper_bounds) {
+inline void unscale_vector(vector<Double>& target, const vector<Double>& lower_bounds, const vector<Double>& upper_bounds, bool truncate_values = false) {
   for (unsigned i = 0; i < target.size(); ++i) {
-    target[i] = unscale(target[i], lower_bounds[i], upper_bounds[i]);
+    target[i] = unscale(target[i], lower_bounds[i], upper_bounds[i], truncate_values);
   }
 }
 
