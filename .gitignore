@@ -200,3 +200,6 @@ BuildSystem/buildtools/classes/__pycache__/Archiver.cpython-38.pyc
 /Documentation/UserManual/Report.aux
 /Documentation/UserManual/RunningCASAL2.aux
 /Documentation/UserManual/Troubleshooting.aux
+/FrontEnd/build
+/FrontEnd/.vscode
+/ThirdParty/.vscode
