@@ -77,7 +77,11 @@ TEST_F(InternalEmptyModel, EstimateTransformations_Log_With_DLib_Minimiser) {
   model_->Start(RunMode::kEstimation);
 
   ObjectiveFunction& obj_function = model_->objective_function();
+#ifdef _WIN64
   EXPECT_NEAR(1977.7622484316014, obj_function.score(), 1e-5);
+#elif __linux__
+  EXPECT_NEAR(1978.2547162255839, obj_function.score(), 1e-5);
+#endif
 }
 
 /**

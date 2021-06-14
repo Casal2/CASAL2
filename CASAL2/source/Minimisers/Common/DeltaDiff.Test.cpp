@@ -53,11 +53,19 @@ TEST_F(DeltaDiffModel, Minimise_TwoSex_OneThread) {
 
   auto estimates = model->managers()->estimate()->GetIsEstimated();
   ASSERT_EQ(4u, estimates.size());
+#ifdef _WIN64
   EXPECT_DOUBLE_EQ(1.8286998651090195e-06, estimates[0]->value());
   EXPECT_DOUBLE_EQ(14990296.223743757, estimates[1]->value());
   EXPECT_DOUBLE_EQ(10.136449899380597, estimates[2]->value());
   EXPECT_DOUBLE_EQ(4.8738161211935749, estimates[3]->value());
+#elif __linux__
+  EXPECT_DOUBLE_EQ(2.5062542677147851e-06, estimates[0]->value());
+  EXPECT_DOUBLE_EQ(11295955.569032623, estimates[1]->value());
+  EXPECT_DOUBLE_EQ(10.140710759352372, estimates[2]->value());
+  EXPECT_DOUBLE_EQ(4.8763693792257161, estimates[3]->value());
+#endif
 
+#ifdef __WIN64
   auto minimiser = model->managers()->minimiser()->active_minimiser();
   auto cov       = minimiser->covariance_matrix();
 
@@ -76,6 +84,9 @@ TEST_F(DeltaDiffModel, Minimise_TwoSex_OneThread) {
       EXPECT_DOUBLE_EQ(cov_expected[(i * 4) + j], cov(i, j));
     }
   }
+#elif __linux__
+  EXPECT_DOUBLE_EQ(1979.3191094154802, model->objective_function().score());
+#endif
 }
 
 /**
@@ -94,14 +105,21 @@ TEST_F(DeltaDiffModel, Minimise_TwoSex_FourThreads) {
 
   auto estimates = model->managers()->estimate()->GetIsEstimated();
   ASSERT_EQ(4u, estimates.size());
+#ifdef _WIN64
   EXPECT_DOUBLE_EQ(1.8286998651090195e-06, estimates[0]->value());
   EXPECT_DOUBLE_EQ(14990296.223743757, estimates[1]->value());
   EXPECT_DOUBLE_EQ(10.136449899380597, estimates[2]->value());
   EXPECT_DOUBLE_EQ(4.8738161211935749, estimates[3]->value());
+#elif __linux__
+  EXPECT_DOUBLE_EQ(2.5062542677147851e-06, estimates[0]->value());
+  EXPECT_DOUBLE_EQ(11295955.569032623, estimates[1]->value());
+  EXPECT_DOUBLE_EQ(10.140710759352372, estimates[2]->value());
+  EXPECT_DOUBLE_EQ(4.8763693792257161, estimates[3]->value());
+#endif
 
+#ifdef __WIN64
   auto minimiser = model->managers()->minimiser()->active_minimiser();
   auto cov       = minimiser->covariance_matrix();
-
   EXPECT_DOUBLE_EQ(1978.5189982688541, model->objective_function().score());
 
   ASSERT_EQ(4u, cov.size1());
@@ -117,6 +135,9 @@ TEST_F(DeltaDiffModel, Minimise_TwoSex_FourThreads) {
       EXPECT_DOUBLE_EQ(cov_expected[(i * 4) + j], cov(i, j));
     }
   }
+#elif __linux__
+  EXPECT_DOUBLE_EQ(1979.3191094154802, model->objective_function().score());
+#endif
 }
 
 }  // namespace niwa::minimisers

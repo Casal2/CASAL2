@@ -78,7 +78,11 @@ TEST_F(InternalEmptyModel, EstimateTransformations_SquareRoot_With_DLib_Minimise
   model_->Start(RunMode::kEstimation);
 
   ObjectiveFunction& obj_function = model_->objective_function();
+#ifdef __WIN64
   EXPECT_NEAR(5868.7479347197414, obj_function.score(), 1e-5);
+#elif __linux__
+  EXPECT_NEAR(5678.5896603583651, obj_function.score(), 1e-5);
+#endif
 }
 
 /**
