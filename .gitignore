@@ -204,3 +204,5 @@ BuildSystem/buildtools/classes/__pycache__/Archiver.cpython-38.pyc
 /FrontEnd/.vscode
 /ThirdParty/.vscode
 /BuildSystem/.vscode
+/CASAL2/.vscode
+casal2.code-workspace
