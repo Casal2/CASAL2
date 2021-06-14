@@ -29,10 +29,10 @@ using std::endl;
 using std::string;
 
 #ifdef __MINGW32__
-typedef int(__cdecl *RUNTESTSPROC)(int, char**);
-typedef int(__cdecl *RUNPROC)(int, char**, niwa::utilities::RunParameters&);
-typedef int(__cdecl *PRELOADPROC)(niwa::utilities::RunParameters&);
-typedef int(__cdecl *LOADOPTIONSPROC)(int, char**, niwa::utilities::RunParameters&);
+typedef int(__cdecl* RUNTESTSPROC)(int, char**);
+typedef int(__cdecl* RUNPROC)(int, char**, niwa::utilities::RunParameters&);
+typedef int(__cdecl* PRELOADPROC)(niwa::utilities::RunParameters&);
+typedef int(__cdecl* LOADOPTIONSPROC)(int, char**, niwa::utilities::RunParameters&);
 
 const string release_lib  = "casal2_release.dll";
 const string adolc_lib    = "casal2_adolc.dll";
@@ -40,10 +40,10 @@ const string betadiff_lib = "casal2_betadiff.dll";
 const string cppad_lib    = "casal2_cppad.dll";
 const string test_lib     = "casal2_test.dll";
 #else
-typedef int(*RUNTESTSPROC)(int, char**);
-typedef int(*RUNPROC)(int, char**, niwa::utilities::RunParameters&);
-typedef int(*PRELOADPROC)(niwa::utilities::RunParameters&);
-typedef int(*LOADOPTIONSPROC)(int, char**, niwa::utilities::RunParameters&);
+typedef int (*RUNTESTSPROC)(int, char**);
+typedef int (*RUNPROC)(int, char**, niwa::utilities::RunParameters&);
+typedef int (*PRELOADPROC)(niwa::utilities::RunParameters&);
+typedef int (*LOADOPTIONSPROC)(int, char**, niwa::utilities::RunParameters&);
 
 string release_lib  = "/usr/local/lib/casal2_release.so";
 string adolc_lib    = "/usr/local/lib/casal2_adolc.so";
@@ -58,7 +58,7 @@ HMODULE LoadSharedLibrary(const string& name) {
 }
 
 FARPROC LoadLibraryFunction(HMODULE library, string method) {
- return GetProcAddress(library, method.c_str());
+  return GetProcAddress(library, method.c_str());
 }
 
 void CloseLibrary(HMODULE library) {
@@ -66,12 +66,12 @@ void CloseLibrary(HMODULE library) {
 }
 
 #else
-void* LoadSharedLibrary(const string& name) {
+void*  LoadSharedLibrary(const string& name) {
   return dlopen(name.c_str(), RTLD_LAZY);
 }
 
 void* LoadLibraryFunction(void* library, string method) {
- return dlsym(library, method.c_str());
+  return dlsym(library, method.c_str());
 }
 
 void CloseLibrary(void* library) {
@@ -80,20 +80,20 @@ void CloseLibrary(void* library) {
 #endif
 
 // Function Prototypes
-void RunConfigurationFileValidation(int argc, char * argv[], niwa::utilities::RunParameters &options);
-void RunBasic(int argc, char * argv[], niwa::utilities::RunParameters &options);
-void RunEstimation(int argc, char * argv[], niwa::utilities::RunParameters &options);
-void RunMCMC(int argc, char * argv[], niwa::utilities::RunParameters &options);
-void RunUnitTests(int argc, char * argv[], niwa::utilities::RunParameters &options);
+void RunConfigurationFileValidation(int argc, char* argv[], niwa::utilities::RunParameters& options);
+void RunBasic(int argc, char* argv[], niwa::utilities::RunParameters& options);
+void RunEstimation(int argc, char* argv[], niwa::utilities::RunParameters& options);
+void RunMCMC(int argc, char* argv[], niwa::utilities::RunParameters& options);
+void RunUnitTests(int argc, char* argv[], niwa::utilities::RunParameters& options);
 
 // Local Variables
 int return_code_ = 0;
 /**
  *
  */
-int main(int argc, char * argv[]) {
+int main(int argc, char* argv[]) {
   niwa::utilities::RunParameters options;
-    
+
   /*
    * load our release library to parse the command line
    * parameters
@@ -124,19 +124,19 @@ int main(int argc, char * argv[]) {
     return return_code_;
   }
 
-  switch(options.run_mode_) {
-  case RunMode::kLicense:
-  case RunMode::kVersion:
-  case RunMode::kHelp:
-    return 0;
-  case RunMode::kUnitTest:
-    RunUnitTests(argc, argv, options);
-    return return_code_;
-  case RunMode::kQuery:
-    RunBasic(argc, argv, options);
-    return return_code_;
-  default:
-    break;
+  switch (options.run_mode_) {
+    case RunMode::kLicense:
+    case RunMode::kVersion:
+    case RunMode::kHelp:
+      return 0;
+    case RunMode::kUnitTest:
+      RunUnitTests(argc, argv, options);
+      return return_code_;
+    case RunMode::kQuery:
+      RunBasic(argc, argv, options);
+      return return_code_;
+    default:
+      break;
   }
 
   /**
@@ -149,31 +149,31 @@ int main(int argc, char * argv[]) {
     return return_code_;
 
   // go go go
-  switch(options.run_mode_) {
-  case RunMode::kLicense:
-  case RunMode::kVersion:
-  case RunMode::kHelp:
-  case RunMode::kBasic:
-  case RunMode::kSimulation:
-  case RunMode::kProfiling:
-  case RunMode::kProjection:
-  //case RunMode::kQuery:
-  case RunMode::kTesting:
-    RunBasic(argc, argv, options);
-    break;
-  case RunMode::kEstimation:
-    RunEstimation(argc, argv, options);
-    break;
-  case RunMode::kMCMC:
-    RunMCMC(argc, argv, options);
-    break;
-  default:
-    cout << "ERROR: Invalid RunMode:" << options.run_mode_ << endl;
-    break;
+  switch (options.run_mode_) {
+    case RunMode::kLicense:
+    case RunMode::kVersion:
+    case RunMode::kHelp:
+    case RunMode::kBasic:
+    case RunMode::kSimulation:
+    case RunMode::kProfiling:
+    case RunMode::kProjection:
+    // case RunMode::kQuery:
+    case RunMode::kTesting:
+      RunBasic(argc, argv, options);
+      break;
+    case RunMode::kEstimation:
+      RunEstimation(argc, argv, options);
+      break;
+    case RunMode::kMCMC:
+      RunMCMC(argc, argv, options);
+      break;
+    default:
+      cout << "ERROR: Invalid RunMode:" << options.run_mode_ << endl;
+      break;
   }
 
   CloseLibrary(release_library);
-    return return_code_;
+  return return_code_;
 }
 
 /**
@@ -181,7 +181,7 @@ int main(int argc, char * argv[]) {
  * validation errors. We also use this to figure out what minimisers or MCMC objects we want
  * to use so we can load proper files in the future.
  */
-void RunConfigurationFileValidation(int argc, char * argv[], niwa::utilities::RunParameters &options) {
+void RunConfigurationFileValidation(int argc, char* argv[], niwa::utilities::RunParameters& options) {
   /*
    * load our release library to parse the command line
    * parameters
@@ -204,11 +204,11 @@ void RunConfigurationFileValidation(int argc, char * argv[], niwa::utilities::Ru
     return;
   }
 
-  RunMode::Type temp = options.run_mode_;
-  options.run_mode_  = RunMode::kTesting;
+  RunMode::Type temp     = options.run_mode_;
+  options.run_mode_      = RunMode::kTesting;
   options.no_std_report_ = true;
-  string log_level   = options.log_level_;
-  options.log_level_ = "error";
+  string log_level       = options.log_level_;
+  options.log_level_     = "error";
 
   return_code_ = (main_method)(options);
 
@@ -223,7 +223,7 @@ void RunConfigurationFileValidation(int argc, char * argv[], niwa::utilities::Ru
  * Do a basic run of our system using the release
  * library
  */
-void RunBasic(int argc, char * argv[], niwa::utilities::RunParameters &options) {
+void RunBasic(int argc, char* argv[], niwa::utilities::RunParameters& options) {
   /*
    * load our release library to parse the command line
    * parameters
@@ -252,8 +252,8 @@ void RunBasic(int argc, char * argv[], niwa::utilities::RunParameters &options) 
 /**
  * Do An estimation run of our model
  */
-void RunEstimation(int argc, char * argv[], niwa::utilities::RunParameters &options) {
-  string library_name = release_lib;  
+void RunEstimation(int argc, char* argv[], niwa::utilities::RunParameters& options) {
+  string library_name = release_lib;
   if (options.minimiser_ == "cppad")
     library_name = cppad_lib;
   else if (options.minimiser_ == "adolc")
@@ -268,8 +268,8 @@ void RunEstimation(int argc, char * argv[], niwa::utilities::RunParameters &opti
     return;
   }
 
-  auto proc = (RUNPROC)LoadLibraryFunction(minimiser_library, "Run");
-  return_code_ =  (proc)(argc, argv, options);
+  auto proc    = (RUNPROC)LoadLibraryFunction(minimiser_library, "Run");
+  return_code_ = (proc)(argc, argv, options);
   CloseLibrary(minimiser_library);
 }
 
@@ -282,25 +282,32 @@ void RunEstimation(int argc, char * argv[], niwa::utilities::RunParameters &opti
  * minimisers, then swap back to the release.dll/.so for MCMC so it's not hideously
  * slow.
  */
-void RunMCMC(int argc, char * argv[], niwa::utilities::RunParameters &options) {
-  if (!options.skip_estimation_) {
-    options.create_mpd_file_ = true; // used by MCMC to load covariance matrix
-    options.no_std_report_   = true; // otherwise, we get the report twice
-    options.run_mode_        = RunMode::kEstimation;
+void RunMCMC(int argc, char* argv[], niwa::utilities::RunParameters& options) {
+  bool printed_header = false;
+  if (options.estimate_before_mcmc_) {
+    options.disable_all_reports_     = true;   // otherwise they print at end of execution
+    options.estimation_is_for_mcmc_  = true;   // we can validate we'll have an MPD
+    options.print_std_report_header_ = true;   // Print start of Casal2 Std header
+    options.print_std_report_footer_ = false;  // Don't do the time calculation and print that
+    options.run_mode_                = RunMode::kEstimation;
+    printed_header                   = true;
     RunEstimation(argc, argv, options);
     if (return_code_ != 0)
       return;
   }
 
-  options.skip_estimation_ = true; // Stop the model from re-estimating
-  options.run_mode_        = RunMode::kMCMC;
+  options.disable_all_reports_     = false;
+  options.print_std_report_header_ = !printed_header;  // Don't print Casal2 std header to console
+  options.print_std_report_footer_ = true;             // Do the time calculation and print that
+  options.estimate_before_mcmc_    = false;            // Stop the model from re-estimating
+  options.run_mode_                = RunMode::kMCMC;
   RunBasic(argc, argv, options);
 }
 
 /**
  *
  */
-void RunUnitTests(int argc, char * argv[], niwa::utilities::RunParameters &options) {
+void RunUnitTests(int argc, char* argv[], niwa::utilities::RunParameters& options) {
   auto unit_test_library = LoadSharedLibrary(test_lib.c_str());
   if (unit_test_library == nullptr) {
     cout << "Error: Failed to load Casal2 Unit Test Library: " << test_lib << endl;
@@ -308,7 +315,7 @@ void RunUnitTests(int argc, char * argv[], niwa::utilities::RunParameters &optio
     return;
   }
 
-  auto unit_test_main_method =  (RUNTESTSPROC)LoadLibraryFunction(unit_test_library, "RunUnitTests");
+  auto unit_test_main_method = (RUNTESTSPROC)LoadLibraryFunction(unit_test_library, "RunUnitTests");
   if (unit_test_main_method == nullptr) {
     cout << "Error: Failed to get the main method address" << endl;
     return_code_ = -1;
