@@ -29,7 +29,7 @@ namespace niwa::utilities::gradient {
 
 // function declarations
 std::vector<double> Calculate(std::shared_ptr<ThreadPool> thread_pool, std::vector<double> estimate_values, std::vector<double> lower_bounds, std::vector<double> upper_bounds,
-                              double step_size, double last_score, bool values_are_scaled = false);
+                              double step_size, double last_score, bool values_are_scaled = false, bool truncate_values_when_scaling = false);
 
 // Utility Functions
 double UnScaleValue(const double& value, double min, double max);

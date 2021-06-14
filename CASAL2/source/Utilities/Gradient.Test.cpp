@@ -39,29 +39,6 @@ using std::endl;
 class GradientThreadedModel : public testfixtures::BaseThreaded {};
 
 /**
- * @brief Construct a new test f object
- *
- */
-TEST(Gradient, Test_UnScale_Penalties) {
-  vector<double> scaled_values  = {-2875.635616544374443, -1400.8799037281319215, -0.051525859021434361473, -3.1571786457745338872};
-  vector<double> lower_bounds   = {1.0000000000000000364e-10, 100000, 1, 0.010000000000000000208};
-  vector<double> upper_bounds   = {0.10000000000000000555, 10000000000, 20, 50};
-  double         unscaled_value = 0;
-
-  ASSERT_NO_THROW(unscaled_value = UnScaleValue(scaled_values[0], lower_bounds[0], upper_bounds[0]));
-  EXPECT_DOUBLE_EQ(1.1069300534419012e-05, unscaled_value);
-
-  ASSERT_NO_THROW(unscaled_value = UnScaleValue(scaled_values[1], lower_bounds[1], upper_bounds[1]));
-  EXPECT_DOUBLE_EQ(2372190.8435692932, unscaled_value);
-
-  ASSERT_NO_THROW(unscaled_value = UnScaleValue(scaled_values[2], lower_bounds[2], upper_bounds[2]));
-  EXPECT_DOUBLE_EQ(10.188652722538006, unscaled_value);
-
-  ASSERT_NO_THROW(unscaled_value = UnScaleValue(scaled_values[3], lower_bounds[3], upper_bounds[3]));
-  EXPECT_DOUBLE_EQ(4.8909677429617107, unscaled_value);
-}
-
-/**
  *
  */
 TEST_F(GradientThreadedModel, Calc_With_1_ModelThread) {
@@ -89,12 +66,12 @@ TEST_F(GradientThreadedModel, Calc_With_1_ModelThread) {
   step_size       = 1e-7;
   estimate_values = {1.106930053441901161e-05, 2372190.8435692931525, 10.18865272253800569, 4.890967742961707998};
 
-  ASSERT_NO_THROW(gradient_values = gradient::Calculate(runner_->thread_pool(), estimate_values, lower_bounds, upper_bounds, step_size, last_score));
+  ASSERT_NO_THROW(gradient_values = gradient::Calculate(runner_->thread_pool(), estimate_values, lower_bounds, upper_bounds, step_size, last_score, false, true));
   ASSERT_EQ(4u, gradient_values.size());
-  EXPECT_DOUBLE_EQ(-0.0062050367891151514063, gradient_values[0]);
-  EXPECT_DOUBLE_EQ(-0.026270733620581847301, gradient_values[1]);
-  EXPECT_DOUBLE_EQ(0.041659404813511033416, gradient_values[2]);
-  EXPECT_DOUBLE_EQ(-0.0053182702773209664798, gradient_values[3]);
+  EXPECT_DOUBLE_EQ(-0.071609171358150453, gradient_values[0]);
+  EXPECT_DOUBLE_EQ(-0.097900205773013046, gradient_values[1]);
+  EXPECT_DOUBLE_EQ(-0.029963302949047504, gradient_values[2]);
+  EXPECT_DOUBLE_EQ(-0.076936430685638962, gradient_values[3]);
 }
 
 /**
@@ -127,12 +104,12 @@ TEST_F(GradientThreadedModel, Calc_With_6_ModelThreads) {
   step_size       = 1e-7;
   estimate_values = {1.106930053441901161e-05, 2372190.8435692931525, 10.18865272253800569, 4.890967742961707998};
 
-  ASSERT_NO_THROW(gradient_values = gradient::Calculate(runner_->thread_pool(), estimate_values, lower_bounds, upper_bounds, step_size, last_score));
+  ASSERT_NO_THROW(gradient_values = gradient::Calculate(runner_->thread_pool(), estimate_values, lower_bounds, upper_bounds, step_size, last_score, false, true));
   ASSERT_EQ(4u, gradient_values.size());
-  EXPECT_DOUBLE_EQ(-0.0062050367891151514063, gradient_values[0]);
-  EXPECT_DOUBLE_EQ(-0.026270733620581847301, gradient_values[1]);
-  EXPECT_DOUBLE_EQ(0.041659404813511033416, gradient_values[2]);
-  EXPECT_DOUBLE_EQ(-0.0053182702773209664798, gradient_values[3]);
+  EXPECT_DOUBLE_EQ(-0.071609171358150453, gradient_values[0]);
+  EXPECT_DOUBLE_EQ(-0.097900205773013046, gradient_values[1]);
+  EXPECT_DOUBLE_EQ(-0.029963302949047504, gradient_values[2]);
+  EXPECT_DOUBLE_EQ(-0.076936430685638962, gradient_values[3]);
 }
 
 /**
@@ -164,12 +141,12 @@ TEST_F(GradientThreadedModel, Calc_With_Scaled_Values) {
   step_size       = 1e-7;
   estimate_values = {1.106930053441901161e-05, 2372190.8435692931525, 10.18865272253800569, 4.890967742961707998};
 
-  ASSERT_NO_THROW(gradient_values = gradient::Calculate(runner_->thread_pool(), estimate_values, lower_bounds, upper_bounds, step_size, last_score));
+  ASSERT_NO_THROW(gradient_values = gradient::Calculate(runner_->thread_pool(), estimate_values, lower_bounds, upper_bounds, step_size, last_score, false, true));
   ASSERT_EQ(4u, gradient_values.size());
-  EXPECT_DOUBLE_EQ(-0.0062050367891151514063, gradient_values[0]);
-  EXPECT_DOUBLE_EQ(-0.026270733620581847301, gradient_values[1]);
-  EXPECT_DOUBLE_EQ(0.041659404813511033416, gradient_values[2]);
-  EXPECT_DOUBLE_EQ(-0.0053182702773209664798, gradient_values[3]);
+  EXPECT_DOUBLE_EQ(-0.071609171358150453, gradient_values[0]);
+  EXPECT_DOUBLE_EQ(-0.097900205773013046, gradient_values[1]);
+  EXPECT_DOUBLE_EQ(-0.029963302949047504, gradient_values[2]);
+  EXPECT_DOUBLE_EQ(-0.076936430685638962, gradient_values[3]);
 }
 
 }  // namespace niwa::utilities::gradient
