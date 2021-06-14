@@ -203,3 +203,4 @@ BuildSystem/buildtools/classes/__pycache__/Archiver.cpython-38.pyc
 /FrontEnd/build
 /FrontEnd/.vscode
 /ThirdParty/.vscode
+/BuildSystem/.vscode
