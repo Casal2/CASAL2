@@ -1,7 +1,7 @@
 ---
 Language:        Cpp
 # BasedOnStyle:  Google
-AccessModifierOffset: -1
+AccessModifierOffset: -2
 AlignAfterOpenBracket: Align
 AlignConsecutiveMacros: false
 AlignConsecutiveAssignments: true
@@ -16,7 +16,7 @@ AllowAllParametersOfDeclarationOnNextLine: true
 AllowShortEnumsOnASingleLine: true
 AllowShortBlocksOnASingleLine: Never
 AllowShortCaseLabelsOnASingleLine: false
-AllowShortFunctionsOnASingleLine: All
+AllowShortFunctionsOnASingleLine: Inline
 AllowShortLambdasOnASingleLine: All
 AllowShortIfStatementsOnASingleLine: Never
 AllowShortLoopsOnASingleLine: true
@@ -45,15 +45,15 @@ BraceWrapping:
   SplitEmptyFunction: true
   SplitEmptyRecord: true
   SplitEmptyNamespace: true
-BreakBeforeBinaryOperators: None
+BreakBeforeBinaryOperators: All
 BreakBeforeBraces: Attach
 BreakBeforeInheritanceComma: false
-BreakInheritanceList: BeforeColon
+BreakInheritanceList: AfterColon
 BreakBeforeTernaryOperators: true
 BreakConstructorInitializersBeforeComma: false
-BreakConstructorInitializers: BeforeColon
+BreakConstructorInitializers: AfterColon
 BreakAfterJavaFieldAnnotations: false
-BreakStringLiterals: true
+BreakStringLiterals: false
 ColumnLimit:     180
 CommentPragmas:  '^ IWYU pragma:'
 CompactNamespaces: false
@@ -62,7 +62,7 @@ ConstructorInitializerIndentWidth: 4
 ContinuationIndentWidth: 4
 Cpp11BracedListStyle: true
 DeriveLineEnding: true
-DerivePointerAlignment: true
+DerivePointerAlignment: false
 DisableFormat:   false
 ExperimentalAutoDetectBinPacking: false
 FixNamespaceComments: true
