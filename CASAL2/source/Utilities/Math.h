@@ -392,7 +392,7 @@ inline Double unscale(Double value, Double min, Double max, bool truncate_value 
   Double unscaled = ((atan(value) / PI) + 0.5) * (max - min) + min;
   if (truncate_value) {
     char s1[128] = {0};
-    snprintf(s1, 128, "%.14f", unscaled);
+    snprintf(s1, 128, "%.14f", AS_DOUBLE(unscaled));
     unscaled = strtod(s1, NULL);
   }
   return unscaled;
