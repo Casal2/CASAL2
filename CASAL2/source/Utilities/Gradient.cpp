@@ -8,6 +8,7 @@
  * @copyright Copyright (c) 2021
  *
  */
+#ifndef USE_AUTODIFF
 
 // headers
 #include "Gradient.h"
@@ -24,47 +25,10 @@
 #include "../ThreadPool/ThreadPool.h"
 #include "Math.h"
 
-// macros
-#define COND_ASSIGN(res, cond, arg1, arg2) res = (cond) > 0 ? arg1 : arg2
-
 // namespaces
 namespace niwa::utilities::gradient {
-
 using std::cout;
 using std::endl;
-
-// constexpr double PI = 3.1415926535897932384626433832795028;
-
-/**
- * @brief
- *
- * @param value
- * @param min
- * @param max
- * @return double
- */
-// double ScaleValue(double value, double min, double max) {
-//   double scaled = tan(((value - min) / (max - min) - 0.5) * PI);
-//   return scaled;
-// }
-
-/**
- * @brief
- *
- * @param value
- * @param min
- * @param max
- * @return double
- */
-// double UnScaleValue(const double& value, double min, double max, bool truncate_values = false) {
-//   double unscaled = ((atan(value) / PI) + 0.5) * (max - min) + min;
-//   if (truncate_values) {
-//     char s1[128] = {0};
-//     snprintf(s1, 128, "%.14f", unscaled);
-//     unscaled = strtod(s1, NULL);
-//   }
-//   return unscaled;
-// }
 
 /**
  * @brief
@@ -174,3 +138,4 @@ std::vector<double> Calculate(std::shared_ptr<ThreadPool> thread_pool, std::vect
 }
 
 }  // namespace niwa::utilities::gradient
+#endif
