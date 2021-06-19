@@ -52,17 +52,24 @@ jobs:
 
   - script: |
       cd BuildSystem
+      set CASAL2_BUILD_THREADS=16
       ./doBuild.sh debug
     displayName: 'Build "Debug" standalone binary'
 
   - script: |
       cd BuildSystem
+      set CASAL2_BUILD_THREADS=16
+      ./doBuild.sh debug betadiff
+    displayName: 'Build "Debug" standalone binary'
+
+  - script: |
+      cd BuildSystem
+      set CASAL2_BUILD_THREADS=16
       ./doBuild.sh test
     displayName: 'Build "Unit Test" standalone binary'
 
-# Disabling until I can figure out why the Intel CPU gives different results to AMD
-#  - script: |
-#      cd BuildSystem/bin/linux_gcc/test/
-#      ./casal2
-#    displayName: 'Run Unit Tests standalone binary'
+  - script: |
+      cd BuildSystem/bin/linux_gcc/test/
+      ./casal2
+    displayName: 'Run Unit Tests standalone binary'
 
