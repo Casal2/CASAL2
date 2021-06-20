@@ -52,19 +52,19 @@ jobs:
 
   - script: |
       cd BuildSystem
-      set CASAL2_BUILD_THREADS=16
+      export CASAL2_BUILD_THREADS=16
       ./doBuild.sh debug
     displayName: 'Build "Debug" standalone binary'
 
   - script: |
       cd BuildSystem
-      set CASAL2_BUILD_THREADS=16
+      export CASAL2_BUILD_THREADS=16
       ./doBuild.sh debug betadiff
-    displayName: 'Build "Debug" standalone binary'
+    displayName: 'Build "Betadiff" standalone binary'
 
   - script: |
       cd BuildSystem
-      set CASAL2_BUILD_THREADS=16
+      export CASAL2_BUILD_THREADS=16
       ./doBuild.sh test
     displayName: 'Build "Unit Test" standalone binary'
 
