@@ -73,8 +73,8 @@ void Category::UpdateMeanLengthData() {
  */
 
 void Category::UpdateMeanWeightData() {
-  Categories*    categories = model_->categories();
-  vector<string> time_steps = model_->time_steps();
+  Categories*           categories = model_->categories();
+  const vector<string>& time_steps = model_->time_steps();
 
   if (model_->partition_type() == PartitionType::kAge) {
     AgeLength* age_length = categories->age_length(name_);
@@ -94,7 +94,7 @@ void Category::UpdateMeanWeightData() {
 
     // Only do this under two conditions. We are initialising, it has a time varying component
     if (model_->state() == State::kInitialise) {
-      vector<Double> length_bins = model_->length_bins();
+      const vector<Double>& length_bins = model_->length_bins();
       for (unsigned step_iter = 0; step_iter < time_steps.size(); ++step_iter) {
         for (unsigned length_bin_index = 0; length_bin_index < length_bins.size(); ++length_bin_index) {
           // Double size = 0;

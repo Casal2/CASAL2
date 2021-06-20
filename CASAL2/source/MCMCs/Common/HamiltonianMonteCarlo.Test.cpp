@@ -301,11 +301,11 @@ TEST_F(HamiltonianMonteCarloThreadedModel, Five_Iteration_With_CasalComplexOne) 
   EXPECT_DOUBLE_EQ(chain[3].score_, 487.6008751998088);
   EXPECT_DOUBLE_EQ(chain[4].score_, 487.6008751998088);
 #elif __linux__
-  EXPECT_DOUBLE_EQ(chain[0].score_, 487.520638972034);
-  EXPECT_DOUBLE_EQ(chain[1].score_, 487.5352752521567);
-  EXPECT_DOUBLE_EQ(chain[2].score_, 487.6219696273498);
-  EXPECT_DOUBLE_EQ(chain[3].score_, 487.6233820105855);
-  EXPECT_DOUBLE_EQ(chain[4].score_, 487.6233820105855);
+  EXPECT_NEAR(chain[0].score_, 487.520638972034, 1e-7);
+  EXPECT_NEAR(chain[1].score_, 487.5352752521567, 1e-7);
+  EXPECT_NEAR(chain[2].score_, 487.6219696273498, 1e-7);
+  EXPECT_NEAR(chain[3].score_, 487.6233820105855, 1e-7);
+  EXPECT_NEAR(chain[4].score_, 487.6233820105855, 1e-7);
 #endif
 }
 
@@ -346,11 +346,11 @@ TEST_F(HamiltonianMonteCarloThreadedModel, Five_Iteration_With_CasalComplexOne_L
   EXPECT_DOUBLE_EQ(chain[3].score_, 487.6156285077633);
   EXPECT_DOUBLE_EQ(chain[4].score_, 487.6156285077633);
 #elif __linux__
-  EXPECT_DOUBLE_EQ(chain[0].score_, 487.520638972034);
-  EXPECT_DOUBLE_EQ(chain[1].score_, 487.5396497473042);
-  EXPECT_DOUBLE_EQ(chain[2].score_, 487.6318753298668);
-  EXPECT_DOUBLE_EQ(chain[3].score_, 487.6383538202512);
-  EXPECT_DOUBLE_EQ(chain[4].score_, 487.6383538202512);
+  EXPECT_NEAR(chain[0].score_, 487.520638972034, 1e-5);
+  EXPECT_NEAR(chain[1].score_, 487.5396497473042, 1e-5);
+  EXPECT_NEAR(chain[2].score_, 487.6318753298668, 1e-5);
+  EXPECT_NEAR(chain[3].score_, 487.6383538202512, 1e-5);
+  EXPECT_NEAR(chain[4].score_, 487.6383538202512, 1e-5);
 #endif
 }
 
@@ -391,11 +391,11 @@ TEST_F(HamiltonianMonteCarloThreadedModel, Five_Iteration_With_CasalComplexOne_L
   EXPECT_DOUBLE_EQ(chain[3].score_, 487.5209464835007);
   EXPECT_DOUBLE_EQ(chain[4].score_, 487.5210030419244);
 #elif __linux__
-  EXPECT_DOUBLE_EQ(chain[0].score_, 487.520638972034);
-  EXPECT_DOUBLE_EQ(chain[1].score_, 487.5208286193689);
-  EXPECT_DOUBLE_EQ(chain[2].score_, 487.5208929731917);
-  EXPECT_DOUBLE_EQ(chain[3].score_, 487.5209487497292);
-  EXPECT_DOUBLE_EQ(chain[4].score_, 487.5210056161228);
+  EXPECT_NEAR(chain[0].score_, 487.520638972034, 1e-5);
+  EXPECT_NEAR(chain[1].score_, 487.5208286193689, 1e-5);
+  EXPECT_NEAR(chain[2].score_, 487.5208929731917, 1e-5);
+  EXPECT_NEAR(chain[3].score_, 487.5209487497292, 1e-5);
+  EXPECT_NEAR(chain[4].score_, 487.5210056161228, 1e-5);
 #endif
 }
 
@@ -436,11 +436,11 @@ TEST_F(HamiltonianMonteCarloThreadedModel, Five_Iteration_With_CasalComplexOne_L
   EXPECT_DOUBLE_EQ(chain[3].score_, 12179.97032733484);
   EXPECT_DOUBLE_EQ(chain[4].score_, 12179.97032733484);
 #elif __linux__
-  EXPECT_DOUBLE_EQ(chain[0].score_, 11622.04009177895);
-  EXPECT_DOUBLE_EQ(chain[1].score_, 11622.04009177895);
-  EXPECT_DOUBLE_EQ(chain[2].score_, 11622.04009177895);
-  EXPECT_DOUBLE_EQ(chain[3].score_, 11622.04009177895);
-  EXPECT_DOUBLE_EQ(chain[4].score_, 11622.04009177895);
+  EXPECT_NEAR(chain[0].score_, 11622.04009177895, 1e-5);
+  EXPECT_NEAR(chain[1].score_, 11622.04009177895, 1e-5);
+  EXPECT_NEAR(chain[2].score_, 11622.04009177895, 1e-5);
+  EXPECT_NEAR(chain[3].score_, 11622.04009177895, 1e-5);
+  EXPECT_NEAR(chain[4].score_, 11622.04009177895, 1e-5);
 #endif
 }
 
@@ -481,11 +481,11 @@ TEST_F(HamiltonianMonteCarloThreadedModel, Five_Iteration_With_TwoSex_CustomGrad
   EXPECT_DOUBLE_EQ(chain[3].score_, 1978.519264474865);
   EXPECT_DOUBLE_EQ(chain[4].score_, 1978.519379675368);
 #elif __linux__
-  EXPECT_DOUBLE_EQ(chain[0].score_, 1979.31910941548);
-  EXPECT_DOUBLE_EQ(chain[1].score_, 1979.318837290026);
-  EXPECT_DOUBLE_EQ(chain[2].score_, 1979.318332128151);
-  EXPECT_DOUBLE_EQ(chain[3].score_, 1979.318110301642);
-  EXPECT_DOUBLE_EQ(chain[4].score_, 1979.317733207502);
+  EXPECT_NEAR(chain[0].score_, 1979.31910941548, 1e-5);
+  EXPECT_NEAR(chain[1].score_, 1979.318837290026, 1e-5);
+  EXPECT_NEAR(chain[2].score_, 1979.318332128151, 1e-5);
+  EXPECT_NEAR(chain[3].score_, 1979.318110301642, 1e-5);
+  EXPECT_NEAR(chain[4].score_, 1979.317733207502, 1e-5);
 #endif
 }
 
@@ -546,31 +546,31 @@ TEST_F(HamiltonianMonteCarloThreadedModel, TwentyFive_Iteration_With_TwoSex_Rand
   EXPECT_DOUBLE_EQ(chain[23].score_, 29291.7513114489);
   EXPECT_DOUBLE_EQ(chain[24].score_, 29384.39532536846);
 #elif __linux__
-  EXPECT_DOUBLE_EQ(chain[0].score_, 36389.07677669402);
-  EXPECT_DOUBLE_EQ(chain[1].score_, 36389.07677669402);
-  EXPECT_DOUBLE_EQ(chain[2].score_, 36388.361465831);
-  EXPECT_DOUBLE_EQ(chain[3].score_, 36388.361465831);
-  EXPECT_DOUBLE_EQ(chain[4].score_, 36388.361465831);
-  EXPECT_DOUBLE_EQ(chain[5].score_, 36388.8173073483);
-  EXPECT_DOUBLE_EQ(chain[6].score_, 36388.8173073483);
-  EXPECT_DOUBLE_EQ(chain[7].score_, 36388.8173073483);
-  EXPECT_DOUBLE_EQ(chain[8].score_, 36388.8173073483);
-  EXPECT_DOUBLE_EQ(chain[9].score_, 36388.8173073483);
-  EXPECT_DOUBLE_EQ(chain[10].score_, 36388.8173073483);
-  EXPECT_DOUBLE_EQ(chain[11].score_, 36388.50090547473);
-  EXPECT_DOUBLE_EQ(chain[12].score_, 36374.96143373416);
-  EXPECT_DOUBLE_EQ(chain[13].score_, 36365.27657489545);
-  EXPECT_DOUBLE_EQ(chain[14].score_, 36322.78711909857);
-  EXPECT_DOUBLE_EQ(chain[15].score_, 36322.48103413592);
-  EXPECT_DOUBLE_EQ(chain[16].score_, 36322.90573281318);
-  EXPECT_DOUBLE_EQ(chain[17].score_, 36324.69622726875);
-  EXPECT_DOUBLE_EQ(chain[18].score_, 36322.25413765675);
-  EXPECT_DOUBLE_EQ(chain[19].score_, 36323.19781703433);
-  EXPECT_DOUBLE_EQ(chain[20].score_, 36312.8207311583);
-  EXPECT_DOUBLE_EQ(chain[21].score_, 36315.46101229153);
-  EXPECT_DOUBLE_EQ(chain[22].score_, 36311.54510717453);
-  EXPECT_DOUBLE_EQ(chain[23].score_, 36326.95904361141);
-  EXPECT_DOUBLE_EQ(chain[24].score_, 36320.59445996349);
+  EXPECT_NEAR(chain[0].score_, 36389.07677669402, 1e-5);
+  EXPECT_NEAR(chain[1].score_, 36389.07677669402, 1e-5);
+  EXPECT_NEAR(chain[2].score_, 36388.361465831, 1e-5);
+  EXPECT_NEAR(chain[3].score_, 36388.361465831, 1e-5);
+  EXPECT_NEAR(chain[4].score_, 36388.361465831, 1e-5);
+  EXPECT_NEAR(chain[5].score_, 36388.8173073483, 1e-5);
+  EXPECT_NEAR(chain[6].score_, 36388.8173073483, 1e-5);
+  EXPECT_NEAR(chain[7].score_, 36388.8173073483, 1e-5);
+  EXPECT_NEAR(chain[8].score_, 36388.8173073483, 1e-5);
+  EXPECT_NEAR(chain[9].score_, 36388.8173073483, 1e-5);
+  EXPECT_NEAR(chain[10].score_, 36388.8173073483, 1e-5);
+  EXPECT_NEAR(chain[11].score_, 36388.50090547473, 1e-5);
+  EXPECT_NEAR(chain[12].score_, 36374.96143373416, 1e-5);
+  EXPECT_NEAR(chain[13].score_, 36365.27657489545, 1e-5);
+  EXPECT_NEAR(chain[14].score_, 36322.78711909857, 1e-5);
+  EXPECT_NEAR(chain[15].score_, 36322.48103413592, 1e-5);
+  EXPECT_NEAR(chain[16].score_, 36322.90573281318, 1e-5);
+  EXPECT_NEAR(chain[17].score_, 36324.69622726875, 1e-5);
+  EXPECT_NEAR(chain[18].score_, 36322.25413765675, 1e-5);
+  EXPECT_NEAR(chain[19].score_, 36323.19781703433, 1e-5);
+  EXPECT_NEAR(chain[20].score_, 36312.8207311583, 1e-5);
+  EXPECT_NEAR(chain[21].score_, 36315.46101229153, 1e-5);
+  EXPECT_NEAR(chain[22].score_, 36311.54510717453, 1e-5);
+  EXPECT_NEAR(chain[23].score_, 36326.95904361141, 1e-5);
+  EXPECT_NEAR(chain[24].score_, 36320.59445996349, 1e-5);
 #endif
 }
 
@@ -631,31 +631,31 @@ TEST_F(HamiltonianMonteCarloThreadedModel, TwentyFive_Iteration_With_CasalComple
   EXPECT_DOUBLE_EQ(chain[23].score_, 12104.14897393031);
   EXPECT_DOUBLE_EQ(chain[24].score_, 12096.81609686514);
 #elif __linux__
-  EXPECT_DOUBLE_EQ(chain[0].score_, 11622.04009177895);
-  EXPECT_DOUBLE_EQ(chain[1].score_, 11620.01985703409);
-  EXPECT_DOUBLE_EQ(chain[2].score_, 11618.73341844001);
-  EXPECT_DOUBLE_EQ(chain[3].score_, 11618.21271520679);
-  EXPECT_DOUBLE_EQ(chain[4].score_, 11618.21271520679);
-  EXPECT_DOUBLE_EQ(chain[5].score_, 11600.91618645375);
-  EXPECT_DOUBLE_EQ(chain[6].score_, 11591.3493038226);
-  EXPECT_DOUBLE_EQ(chain[7].score_, 11600.90538041638);
-  EXPECT_DOUBLE_EQ(chain[8].score_, 11600.90538041638);
-  EXPECT_DOUBLE_EQ(chain[9].score_, 11601.31245975959);
-  EXPECT_DOUBLE_EQ(chain[10].score_, 11589.56936167276);
-  EXPECT_DOUBLE_EQ(chain[11].score_, 11594.77573869354);
-  EXPECT_DOUBLE_EQ(chain[12].score_, 11582.39226485891);
-  EXPECT_DOUBLE_EQ(chain[13].score_, 11582.72638786315);
-  EXPECT_DOUBLE_EQ(chain[14].score_, 11576.40774277365);
-  EXPECT_DOUBLE_EQ(chain[15].score_, 11581.47904821901);
-  EXPECT_DOUBLE_EQ(chain[16].score_, 11591.86020479118);
-  EXPECT_DOUBLE_EQ(chain[17].score_, 11586.80098401977);
-  EXPECT_DOUBLE_EQ(chain[18].score_, 11588.94000961911);
-  EXPECT_DOUBLE_EQ(chain[19].score_, 11588.94000961911);
-  EXPECT_DOUBLE_EQ(chain[20].score_, 11584.2109864414);
-  EXPECT_DOUBLE_EQ(chain[21].score_, 11577.90015058309);
-  EXPECT_DOUBLE_EQ(chain[22].score_, 11577.90015058309);
-  EXPECT_DOUBLE_EQ(chain[23].score_, 11563.32968127872);
-  EXPECT_DOUBLE_EQ(chain[24].score_, 11556.61019993286);
+  EXPECT_NEAR(chain[0].score_, 11622.04009177895, 1e-5);
+  EXPECT_NEAR(chain[1].score_, 11620.01985703409, 1e-5);
+  EXPECT_NEAR(chain[2].score_, 11618.73341844001, 1e-5);
+  EXPECT_NEAR(chain[3].score_, 11618.21271520679, 1e-5);
+  EXPECT_NEAR(chain[4].score_, 11618.21271520679, 1e-5);
+  EXPECT_NEAR(chain[5].score_, 11600.91618645375, 1e-5);
+  EXPECT_NEAR(chain[6].score_, 11591.3493038226, 1e-5);
+  EXPECT_NEAR(chain[7].score_, 11600.90538041638, 1e-5);
+  EXPECT_NEAR(chain[8].score_, 11600.90538041638, 1e-5);
+  EXPECT_NEAR(chain[9].score_, 11601.31245975959, 1e-5);
+  EXPECT_NEAR(chain[10].score_, 11589.56936167276, 1e-5);
+  EXPECT_NEAR(chain[11].score_, 11594.77573869354, 1e-5);
+  EXPECT_NEAR(chain[12].score_, 11582.39226485891, 1e-5);
+  EXPECT_NEAR(chain[13].score_, 11582.72638786315, 1e-5);
+  EXPECT_NEAR(chain[14].score_, 11576.40774277365, 1e-5);
+  EXPECT_NEAR(chain[15].score_, 11581.47904821901, 1e-5);
+  EXPECT_NEAR(chain[16].score_, 11591.86020479118, 1e-5);
+  EXPECT_NEAR(chain[17].score_, 11586.80098401977, 1e-5);
+  EXPECT_NEAR(chain[18].score_, 11588.94000961911, 1e-5);
+  EXPECT_NEAR(chain[19].score_, 11588.94000961911, 1e-5);
+  EXPECT_NEAR(chain[20].score_, 11584.2109864414, 1e-5);
+  EXPECT_NEAR(chain[21].score_, 11577.90015058309, 1e-5);
+  EXPECT_NEAR(chain[22].score_, 11577.90015058309, 1e-5);
+  EXPECT_NEAR(chain[23].score_, 11563.32968127872, 1e-5);
+  EXPECT_NEAR(chain[24].score_, 11556.61019993286, 1e-5);
 #endif
 }
 
@@ -716,31 +716,31 @@ TEST_F(HamiltonianMonteCarloThreadedModel, TwentyFive_Iteration_With_CasalComple
   EXPECT_DOUBLE_EQ(chain[23].score_, 12073.54432225372);
   EXPECT_DOUBLE_EQ(chain[24].score_, 12063.21039403586);
 #elif __linux__
-  EXPECT_DOUBLE_EQ(chain[0].score_, 11622.04009177895);
-  EXPECT_DOUBLE_EQ(chain[1].score_, 11616.98912320913);
-  EXPECT_DOUBLE_EQ(chain[2].score_, 11612.66679924271);
-  EXPECT_DOUBLE_EQ(chain[3].score_, 11609.11006547069);
-  EXPECT_DOUBLE_EQ(chain[4].score_, 11609.11006547069);
-  EXPECT_DOUBLE_EQ(chain[5].score_, 11588.81821244274);
-  EXPECT_DOUBLE_EQ(chain[6].score_, 11576.18072649907);
-  EXPECT_DOUBLE_EQ(chain[7].score_, 11582.66232534397);
-  EXPECT_DOUBLE_EQ(chain[8].score_, 11602.24104623353);
-  EXPECT_DOUBLE_EQ(chain[9].score_, 11599.60566906656);
-  EXPECT_DOUBLE_EQ(chain[10].score_, 11584.84484506599);
-  EXPECT_DOUBLE_EQ(chain[11].score_, 11587.00651477895);
-  EXPECT_DOUBLE_EQ(chain[12].score_, 11571.63800588351);
-  EXPECT_DOUBLE_EQ(chain[13].score_, 11568.92469216468);
-  EXPECT_DOUBLE_EQ(chain[14].score_, 11559.61656781061);
-  EXPECT_DOUBLE_EQ(chain[15].score_, 11561.62636514807);
-  EXPECT_DOUBLE_EQ(chain[16].score_, 11568.94428881099);
-  EXPECT_DOUBLE_EQ(chain[17].score_, 11560.86209234402);
-  EXPECT_DOUBLE_EQ(chain[18].score_, 11559.94823220482);
-  EXPECT_DOUBLE_EQ(chain[19].score_, 11622.22043635682);
-  EXPECT_DOUBLE_EQ(chain[20].score_, 11614.3868750975);
-  EXPECT_DOUBLE_EQ(chain[21].score_, 11604.94834979492);
-  EXPECT_DOUBLE_EQ(chain[22].score_, 11604.94834979492);
-  EXPECT_DOUBLE_EQ(chain[23].score_, 11587.16841312723);
-  EXPECT_DOUBLE_EQ(chain[24].score_, 11577.35793797639);
+  EXPECT_NEAR(chain[0].score_, 11622.04009177895, 1e-5);
+  EXPECT_NEAR(chain[1].score_, 11616.98912320913, 1e-5);
+  EXPECT_NEAR(chain[2].score_, 11612.66679924271, 1e-5);
+  EXPECT_NEAR(chain[3].score_, 11609.11006547069, 1e-5);
+  EXPECT_NEAR(chain[4].score_, 11609.11006547069, 1e-5);
+  EXPECT_NEAR(chain[5].score_, 11588.81821244274, 1e-5);
+  EXPECT_NEAR(chain[6].score_, 11576.18072649907, 1e-5);
+  EXPECT_NEAR(chain[7].score_, 11582.66232534397, 1e-5);
+  EXPECT_NEAR(chain[8].score_, 11602.24104623353, 1e-5);
+  EXPECT_NEAR(chain[9].score_, 11599.60566906656, 1e-5);
+  EXPECT_NEAR(chain[10].score_, 11584.84484506599, 1e-5);
+  EXPECT_NEAR(chain[11].score_, 11587.00651477895, 1e-5);
+  EXPECT_NEAR(chain[12].score_, 11571.63800588351, 1e-5);
+  EXPECT_NEAR(chain[13].score_, 11568.92469216468, 1e-5);
+  EXPECT_NEAR(chain[14].score_, 11559.61656781061, 1e-5);
+  EXPECT_NEAR(chain[15].score_, 11561.62636514807, 1e-5);
+  EXPECT_NEAR(chain[16].score_, 11568.94428881099, 1e-5);
+  EXPECT_NEAR(chain[17].score_, 11560.86209234402, 1e-5);
+  EXPECT_NEAR(chain[18].score_, 11559.94823220482, 1e-5);
+  EXPECT_NEAR(chain[19].score_, 11622.22043635682, 1e-5);
+  EXPECT_NEAR(chain[20].score_, 11614.3868750975, 1e-5);
+  EXPECT_NEAR(chain[21].score_, 11604.94834979492, 1e-5);
+  EXPECT_NEAR(chain[22].score_, 11604.94834979492, 1e-5);
+  EXPECT_NEAR(chain[23].score_, 11587.16841312723, 1e-5);
+  EXPECT_NEAR(chain[24].score_, 11577.35793797639, 1e-5);
 #endif
 }
 
