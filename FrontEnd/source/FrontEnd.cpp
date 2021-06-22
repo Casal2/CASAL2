@@ -37,8 +37,8 @@ typedef int(__cdecl* LOADOPTIONSPROC)(int, char**, niwa::utilities::RunParameter
 const string release_lib  = "casal2_release.dll";
 const string adolc_lib    = "casal2_adolc.dll";
 const string betadiff_lib = "casal2_betadiff.dll";
-const string cppad_lib    = "casal2_cppad.dll";
-const string test_lib     = "casal2_test.dll";
+// const string cppad_lib    = "casal2_cppad.dll";
+const string test_lib = "casal2_test.dll";
 #else
 typedef int (*RUNTESTSPROC)(int, char**);
 typedef int (*RUNPROC)(int, char**, niwa::utilities::RunParameters&);
@@ -48,8 +48,8 @@ typedef int (*LOADOPTIONSPROC)(int, char**, niwa::utilities::RunParameters&);
 string release_lib  = "/usr/local/lib/casal2_release.so";
 string adolc_lib    = "/usr/local/lib/casal2_adolc.so";
 string betadiff_lib = "/usr/local/lib/casal2_betadiff.so";
-string cppad_lib    = "/usr/local/lib/casal2_cppad.so";
-string test_lib     = "/usr/local/lib/casal2_test.so";
+// string cppad_lib    = "/usr/local/lib/casal2_cppad.so";
+string test_lib = "/usr/local/lib/casal2_test.so";
 #endif
 
 #ifdef __MINGW32__
@@ -254,9 +254,9 @@ void RunBasic(int argc, char* argv[], niwa::utilities::RunParameters& options) {
  */
 void RunEstimation(int argc, char* argv[], niwa::utilities::RunParameters& options) {
   string library_name = release_lib;
-  if (options.minimiser_ == "cppad")
-    library_name = cppad_lib;
-  else if (options.minimiser_ == "adolc")
+  // if (options.minimiser_ == "cppad")
+  // library_name = cppad_lib;
+  if (options.minimiser_ == "adolc")
     library_name = adolc_lib;
   else if (options.minimiser_ == "betadiff")
     library_name = betadiff_lib;

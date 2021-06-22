@@ -67,13 +67,6 @@ class Archiver:
         return Globals.PrintError('Failed to build release library. Please check release_betadiff_build.log for the error')
       os.system('rm -rf release_betadiff_build.log')
 
-      print('--> Building release version of CppAD CASAL2')
-      print('-- Re-Entering the build system to build a cppad release library')
-      print('-- All output is being diverted to release_cppad_build.log')
-      if os.system(self.do_build_ + ' library cppad > release_cppad_build.log 2>&1') != EX_OK:
-        return Globals.PrintError('Failed to build release library. Please check release_cppad_build.log for the error')
-      os.system('rm -rf release_cppad_build.log')
-
       print('--> Building documentation')
       print('-- Re-Entering the build system to build the documentation')
       print('-- All output is being diverted to documentation_build.log')
@@ -117,7 +110,6 @@ class Archiver:
     os.system('cp ' + binary_path + '/library_release/' + library_name + ' Casal2/casal2_release' + extension)
     os.system('cp ' + binary_path + '/library_adolc/' + library_name + ' Casal2/casal2_adolc' + extension)
     os.system('cp ' + binary_path + '/library_betadiff/' + library_name + ' Casal2/casal2_betadiff' + extension)
-    os.system('cp ' + binary_path + '/library_cppad/' + library_name + ' Casal2/casal2_cppad' + extension)
     os.system('cp ' + binary_path + '/library_test/' + library_name + ' Casal2/casal2_test' + extension)
     os.system('cp ../Documentation/UserManual/CASAL2.pdf Casal2/"Casal2 User Manual.pdf"')
     print("-- Manual copied")

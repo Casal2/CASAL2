@@ -30,8 +30,8 @@ allowed_build_targets_ = [ "debug", "release", "documentation", "thirdparty", "t
                            "check", "modelrunner", "installer", "deb", "rlibrary", "frontend",
                            "version" ]
 allowed_build_types_ = [ "debug", "release", "test" ]
-allowed_build_parameters_ = [ "", "adolc", "betadiff", "cppad" ]
-allowed_library_parameters_ = [ "release", "test", "adolc", "betadiff", "cppad" ]
+allowed_build_parameters_ = [ "", "adolc", "betadiff" ]
+allowed_library_parameters_ = [ "release", "test", "adolc", "betadiff" ]
 
 EX_OK = getattr(os, "EX_OK", 0)
 

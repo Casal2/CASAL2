@@ -5,7 +5,7 @@
  * @date 28/02/2013
  * @section LICENSE
  *
- * Copyright NIWA Science ©2013 - www.niwa.co.nz
+ * Copyright NIWA Science ï¿½2013 - www.niwa.co.nz
  *
  * $Date: 2008-03-04 16:33:32 +1300 (Tue, 04 Mar 2008) $
  */
@@ -22,8 +22,6 @@
 #include "../Minimisers/Common/ADOLC.h"
 #elif defined(USE_BETADIFF)
 #include "../Minimisers/Common/BetaDiff.h"
-#elif defined(USE_CPPAD)
-#include "../Minimisers/Common/CPPAD.h"
 #endif
 #endif
 
@@ -31,7 +29,6 @@
 
 #ifndef USE_AUTODIFF
 #include "../Minimisers/Common/DESolver.h"
-#include "../Minimisers/Common/DLib.h"
 #include "../Minimisers/Common/DeltaDiff.h"
 #include "../Minimisers/Common/GammaDiff.h"
 //#include "Minimisers/Common/STANBFGS.h"
@@ -62,12 +59,8 @@ Minimiser* Factory::Create(shared_ptr<Model> model, const string& object_type, c
     if (sub_type == PARAM_ADOLC) {
       result = new ADOLC(model);
     }
-#elif defined(USE_CPPAD)
-    if (sub_type == PARAM_CPPAD) {
-      result = new CPPAD(model);
-    }
 #endif
-    else if (sub_type == PARAM_DE_SOLVER || sub_type == PARAM_DLIB || sub_type == PARAM_GAMMADIFF)
+    else if (sub_type == PARAM_DE_SOLVER || sub_type == PARAM_GAMMADIFF)
       result = new Dummy(model);
 #endif
 
@@ -76,15 +69,9 @@ Minimiser* Factory::Create(shared_ptr<Model> model, const string& object_type, c
       result = new DeltaDiff(model);
     else if (sub_type == PARAM_DE_SOLVER)
       result = new DESolver(model);
-#ifndef _MSC_VER
-    else if (sub_type == PARAM_DLIB)
-      result = new DLib(model);
-#endif
     else if (sub_type == PARAM_GAMMADIFF)
       result = new GammaDiff(model);
-    //    else if (sub_type == PARAM_STAN_BFGS)
-    //      result = new STANBFGS(model);
-    else if (sub_type == PARAM_BETADIFF || sub_type == PARAM_ADOLC || sub_type == PARAM_CPPAD)
+    else if (sub_type == PARAM_BETADIFF || sub_type == PARAM_ADOLC)
       result = new Dummy(model);
 #endif
 
