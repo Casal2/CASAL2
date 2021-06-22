@@ -5,16 +5,16 @@ from distutils import dir_util
 import Globals
 
 class Builder:
-  version_ = 2.52
-  
-  def start(self):     
+  version_ = 2.72
+
+  def start(self):
     # Variables
-    fileName         = 'ADOL-C-2.5.2'    
+    fileName         = 'ADOL-C-2.7.2'
     operatingSystem  = Globals.operating_system_
-    
+
     headers  = 'adolc'
     library = 'libadolc.a'
-    
+
     # Clean our any existing files if they already exist
     print('-- Cleaning files'  )
     if os.path.exists(fileName):
@@ -24,7 +24,7 @@ class Builder:
     print('-- Removing previously built headers and libraries')
     os.system('rm -rf ' + Globals.target_include_path_ + headers)
     os.system('rm -rf ' + Globals.target_special_lib_path_ + library)
-    
+
     # Decompress our archive
     print('-- Decompressing - check casal2_unzip.log')
     if os.path.exists(fileName + '.zip'):
@@ -44,4 +44,4 @@ class Builder:
     shutil.copy('.libs/' + library, Globals.target_special_lib_path_)
 
     return True
-    
+
