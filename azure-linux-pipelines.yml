@@ -32,16 +32,6 @@ jobs:
 
   - script: |
       cd BuildSystem
-      ./doBuild.sh thirdparty cppad
-    displayName: 'Build third-party libraries - cppad'
-
-  - script: |
-      cd BuildSystem
-      ./doBuild.sh thirdparty dlib
-    displayName: 'Build third-party libraries - dlib'
-
-  - script: |
-      cd BuildSystem
       ./doBuild.sh thirdparty googletest_googlemock
     displayName: 'Build third-party libraries - google test and mock'
 
@@ -49,12 +39,6 @@ jobs:
       cd BuildSystem
       ./doBuild.sh thirdparty parser
     displayName: 'Build third-party libraries - parser'
-
-  - script: |
-      cd BuildSystem
-      export CASAL2_BUILD_THREADS=16
-      ./doBuild.sh debug
-    displayName: 'Build "Debug" standalone binary'
 
   - script: |
       cd BuildSystem
