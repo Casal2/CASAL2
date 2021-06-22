@@ -5,7 +5,7 @@
  * @date 3/11/2014
  * @section LICENSE
  *
- * Copyright NIWA Science ©2014 - www.niwa.co.nz
+ * Copyright NIWA Science ï¿½2014 - www.niwa.co.nz
  *
  */
 #ifdef TESTMODE
@@ -121,9 +121,6 @@ tolerance 0.000002
 iterations 1000
 step_size 1e-7
 covariance f
-
-@minimiser dlib
-type dlib
 active true
 
 @observation chatCPUE
