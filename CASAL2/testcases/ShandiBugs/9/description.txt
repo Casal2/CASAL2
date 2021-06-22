@@ -1,1 +1,0 @@
-line 155 of estimation.txt -obs causes nan

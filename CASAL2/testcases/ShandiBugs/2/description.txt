@@ -1,1 +1,0 @@
-R0 is 61 which is greater then maximum age!!!

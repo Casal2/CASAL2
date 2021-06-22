@@ -1,7 +1,0 @@
-@report partition
-type partition
-years 1995 2008
-time_step step_two
-
-@report objective_function
-type objective_function
