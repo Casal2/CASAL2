@@ -69,24 +69,6 @@ TEST_F(InternalEmptyModel, EstimateTransformations_Log_NoBounds) {
 /**
  *
  */
-TEST_F(InternalEmptyModel, EstimateTransformations_Log_With_DLib_Minimiser) {
-  AddConfigurationLine(testresources::models::two_sex_with_dlib, "TestResources/Models/TwoSexWithDLib.h", 28);
-  AddConfigurationLine(estimate_transformation_log_no_bounds, __FILE__, 22);
-  LoadConfiguration();
-
-  model_->Start(RunMode::kEstimation);
-
-  ObjectiveFunction& obj_function = model_->objective_function();
-#ifdef _WIN64
-  EXPECT_NEAR(1977.7622484316014, obj_function.score(), 1e-5);
-#elif __linux__
-  EXPECT_NEAR(1978.2547162255839, obj_function.score(), 1e-5);
-#endif
-}
-
-/**
- *
- */
 TEST_F(InternalEmptyModel, EstimateTransformations_Log_With_DeSolver_Minimiser) {
   AddConfigurationLine(testresources::models::two_sex_with_de_solver, "TestResources/Models/TwoSexWithDeSolver.h", 28);
   AddConfigurationLine(estimate_transformation_log_no_bounds, __FILE__, 22);
