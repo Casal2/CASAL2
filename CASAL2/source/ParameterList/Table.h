@@ -5,7 +5,7 @@
  * @date 16/11/2012
  * @section LICENSE
  *
- * Copyright NIWA Science ©2012 - www.niwa.co.nz
+ * Copyright NIWA Science ï¿½2012 - www.niwa.co.nz
  *
  * @section DESCRIPTION
  *
@@ -84,7 +84,7 @@ public:
   void                    set_is_optional(bool is_optional) { is_optional_ = is_optional; }
   bool                    is_optional() const { return is_optional_; }
   void                    set_requires_columns(bool requires_columns) { requires_columns_ = requires_columns; }
-  bool                    requires_comlums() const { return requires_columns_; }
+  bool                    requires_columns() const { return requires_columns_; }
   void                    set_required_columns(const vector<string>& columns, bool allow_others = false);
   void                    set_optional_columns(const vector<string>& columns) {
     optional_columns_    = columns;

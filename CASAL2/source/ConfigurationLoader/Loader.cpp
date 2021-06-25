@@ -348,7 +348,7 @@ void Loader::ParseBlock(shared_ptr<Model> model, vector<FileLine>& block) {
       if (!current_table_)
         LOG_CODE_ERROR() << "!current_table";
 
-      if (current_table_->requires_comlums())
+      if (current_table_->requires_columns())
         current_table_->AddColumns(values);
       else
         current_table_->AddRow(values);
@@ -361,7 +361,7 @@ void Loader::ParseBlock(shared_ptr<Model> model, vector<FileLine>& block) {
       vector<string> values(line_parts.begin(), line_parts.end());
 
       // We're loading a standard row of data for the table
-      if (current_table_->requires_comlums() && values.size() != current_table_->column_count()) {
+      if (current_table_->requires_columns() && values.size() != current_table_->column_count()) {
         LOG_FATAL() << "At line " << file_line.line_number_ << " in " << file_line.file_name_ << ": Table data does not contain the correct number of columns. Expected ("
                     << current_table_->column_count() << ") : Actual (" << values.size() << ")\n"
                     << boost::join(values, ", ");

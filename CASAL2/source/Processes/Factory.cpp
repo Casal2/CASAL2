@@ -5,7 +5,7 @@
  * @date 13/12/2012
  * @section LICENSE
  *
- * Copyright NIWA Science ©2012 - www.niwa.co.nz
+ * Copyright NIWA Science ï¿½2012 - www.niwa.co.nz
  *
  * $Date: 2008-03-04 16:33:32 +1300 (Tue, 04 Mar 2008) $
  */
@@ -34,6 +34,7 @@
 #include "../Processes/Age/TagLoss.h"
 #include "../Processes/Age/TransitionCategory.h"
 #include "../Processes/Age/TransitionCategoryByAge.h"
+#include "../Processes/Common/LoadPartition.h"
 #include "../Processes/Common/Nop.h"
 #include "../Processes/Length/GrowthBasic.h"
 #include "../Processes/Length/MortalityConstantRate.h"
@@ -41,8 +42,7 @@
 #include "../Processes/Manager.h"
 
 // Namespaces
-namespace niwa {
-namespace processes {
+namespace niwa::processes {
 
 /**
  * Create the instance of the object as defined by the two parameters
@@ -79,6 +79,8 @@ Process* Factory::Create(shared_ptr<Model> model, const string& object_type, con
     if (object == PARAM_PROCESS || object == PARAM_PROCESSES) {
       if (sub == PARAM_AGEING)
         result = new age::Ageing(model);
+      else if (sub == PARAM_LOAD_PARTITON)
+        result = new processes::LoadPartition(model);
       else if (sub == PARAM_RECRUITMENT_BEVERTON_HOLT)
         result = new age::RecruitmentBevertonHolt(model);
       else if (sub == PARAM_RECRUITMENT_BEVERTON_HOLT_WITH_DEVIATIONS)
@@ -135,5 +137,4 @@ Process* Factory::Create(shared_ptr<Model> model, const string& object_type, con
   return result;
 }
 
-} /* namespace processes */
-} /* namespace niwa */
+}  // namespace niwa::processes
