@@ -5,7 +5,7 @@
  * @date 12/04/2013
  * @section LICENSE
  *
- * Copyright NIWA Science ©2013 - www.niwa.co.nz
+ * Copyright NIWA Science ï¿½2013 - www.niwa.co.nz
  *
  * $Date: 2008-03-04 16:33:32 +1300 (Tue, 04 Mar 2008) $
  */
@@ -83,30 +83,24 @@ TEST_F(BasicModel, Accessors_Cached_CombinedCategories) {
   vector<string>              accessor_category_labels = {"immature.male+immature.female", "immature.male", "immature.female"};
   CachedCombinedCategoriesPtr accessor                 = CachedCombinedCategoriesPtr(new CombinedCategories(model_, accessor_category_labels));
 
-  EXPECT_EQ(true, accessor->needs_rebuild());
   accessor->BuildCache();
   ASSERT_EQ(3u, accessor->Size());
 
-  EXPECT_EQ(false, accessor->needs_rebuild());
-  accessor->BuildCache();
-  ASSERT_EQ(3u, accessor->Size());
-
-  EXPECT_EQ(false, accessor->needs_rebuild());
   accessor->BuildCache();
   ASSERT_EQ(3u, accessor->Size());
 
   auto cache_iter = accessor->Begin();
   ASSERT_EQ(cache_iter->size(), 2u);
-  EXPECT_EQ((*cache_iter)[0].name_, "immature.male");
-  EXPECT_EQ((*cache_iter)[1].name_, "immature.female");
+  EXPECT_EQ((*cache_iter)[0]->name_, "immature.male");
+  EXPECT_EQ((*cache_iter)[1]->name_, "immature.female");
 
   ++cache_iter;
   ASSERT_EQ(cache_iter->size(), 1u);
-  EXPECT_EQ((*cache_iter)[0].name_, "immature.male");
+  EXPECT_EQ((*cache_iter)[0]->name_, "immature.male");
 
   ++cache_iter;
   ASSERT_EQ(cache_iter->size(), 1u);
-  EXPECT_EQ((*cache_iter)[0].name_, "immature.female");
+  EXPECT_EQ((*cache_iter)[0]->name_, "immature.female");
 }
 
 } /* namespace cached */

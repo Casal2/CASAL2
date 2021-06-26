@@ -5,7 +5,7 @@
  * @date 12/04/2013
  * @section LICENSE
  *
- * Copyright NIWA Science ©2013 - www.niwa.co.nz
+ * Copyright NIWA Science ï¿½2013 - www.niwa.co.nz
  *
  * $Date: 2008-03-04 16:33:32 +1300 (Tue, 04 Mar 2008) $
  */
@@ -27,14 +27,38 @@ namespace cached {
  * Default constructor
  */
 CombinedCategories::CombinedCategories(shared_ptr<Model> model, const vector<string>& category_labels) : model_(model) {
+  LOG_TRACE();
+
+  unsigned start_year = model_->start_year();
+  unsigned final_year = model_->final_year();
+  LOG_FINEST() << "Model details: start_year: " << start_year << "; final_year: " << final_year;
   LOG_FINEST() << "Categories: " << category_labels.size();
 
+  Partition&     partition = model_->partition();
   vector<string> split_category_labels;
-  category_labels_.resize(category_labels.size());
 
+  for (unsigned year = start_year; year <= final_year; ++year) data_[year].resize(category_labels.size());
+
+  /**
+   * Loop through the category labels
+   */
+  category_count_ = 0;
   for (unsigned i = 0; i < category_labels.size(); ++i) {
+    // Split the labels in to the individual labels
     boost::split(split_category_labels, category_labels[i], boost::is_any_of("+"));
-    category_labels_[i] = split_category_labels;
+
+    // Loop through our split categories now and put them into the data object
+    for (string category_label : split_category_labels) {
+      partition::Category& category = partition.category(category_label);
+
+      ++category_count_;
+      for (unsigned year = start_year; year <= final_year; ++year) {
+        if (std::find(category.years_.begin(), category.years_.end(), year) == category.years_.end())
+          continue;  // Not valid in this year
+
+        data_[year][i].push_back(&category);
+      }
+    }
   }
 }
 
@@ -45,59 +69,23 @@ CombinedCategories::CombinedCategories(shared_ptr<Model> model, const vector<str
  * so it can be used for interpolation later.
  */
 void CombinedCategories::BuildCache() {
-  Partition& partition = model_->partition();
-
-  if (!need_rebuild_) {
-    // just re-populate
-    for (auto& iter : data_) {  // vector<vector<partition::Category> >
-      for (auto& category : iter) {
-        partition::Category& part_cat = partition.category(category.name_);
-        category.data_                = part_cat.data_;
-      }
+  for (auto& category_vector : data_[model_->current_year()]) {
+    for (auto* category : category_vector) {
+      category->cached_data_ = category->data_;
     }
-    return;
-  }
-
-  // We need to actually build our container, or
-  // the number of categories has changed.
-  // This could definitely be improved, but it works for now
-  data_.clear();
-  data_.resize(category_labels_.size());
-  unsigned year = model_->current_year();
-  for (unsigned i = 0; i < category_labels_.size(); ++i) {
-    for (auto cat_iter = category_labels_[i].begin(); cat_iter != category_labels_[i].end(); ++cat_iter) {
-      partition::Category& category = partition.category(*cat_iter);
-      if (std::find(category.years_.begin(), category.years_.end(), year) == category.years_.end())
-        continue;  // Not valid in this year
-
-      data_[i].push_back(category);
-    }
-  }
-
-  // Flag off
-  need_rebuild_       = false;
-  unsigned year_count = model_->years().size();
-  for (auto category_collection : category_labels_) {
-    for (auto category : category_collection)
-      if (partition.category(category).years_.size() != year_count) {
-        need_rebuild_ = true;
-        break;
-      }
   }
 }
 
 CombinedCategories::DataType::iterator CombinedCategories::Begin() {
-  LOG_TRACE();
-  LOG_FINEST() << data_.size();
-  return data_.begin();
+  return data_[model_->current_year()].begin();
 }
 
 CombinedCategories::DataType::iterator CombinedCategories::End() {
-  return data_.end();
+  return data_[model_->current_year()].end();
 }
 
 unsigned CombinedCategories::Size() {
-  return data_.size();
+  return data_[model_->current_year()].size();
 }
 
 } /* namespace cached */

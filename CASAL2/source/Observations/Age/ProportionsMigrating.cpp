@@ -285,7 +285,7 @@ void ProportionsMigrating::Execute() {
         // for ages older than max_age_ that could be classified as an individual within the observation range
         unsigned age = ((*category_iter)->min_age_ + data_offset);
 
-        start_value = (*cached_category_iter).data_[data_offset];
+        start_value = (*cached_category_iter)->cached_data_[data_offset];
         end_value   = (*category_iter)->data_[data_offset];
 
         numbers_age_before_[data_offset] += start_value;

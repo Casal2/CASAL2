@@ -215,7 +215,7 @@ void Cinitial::Execute() {
     auto category_iter        = partition_iter->begin();
     auto cached_category_iter = cached_partition_iter->begin();
     for (; category_iter != partition_iter->end(); ++cached_category_iter, ++category_iter) {
-      (*category_iter)->data_ = (*cached_category_iter).data_;
+      (*category_iter)->data_ = (*cached_category_iter)->cached_data_;
     }
   }
 }

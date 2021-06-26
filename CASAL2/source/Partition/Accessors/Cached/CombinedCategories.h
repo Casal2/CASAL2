@@ -43,7 +43,7 @@ using std::vector;
 class CombinedCategories {
 public:
   // Typedef
-  typedef vector<vector<partition::Category> > DataType;
+  typedef vector<vector<partition::Category*> > DataType;
 
   // Methods
   CombinedCategories() = delete;
@@ -58,10 +58,10 @@ public:
 
 private:
   // Members
-  vector<vector<string> > category_labels_;
   shared_ptr<Model>       model_;
-  DataType                data_;
+  map<unsigned, DataType> data_;
   bool                    need_rebuild_ = true;
+  unsigned                category_count_;
 };
 
 // Typedef

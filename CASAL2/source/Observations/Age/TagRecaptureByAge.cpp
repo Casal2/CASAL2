@@ -337,7 +337,7 @@ void TagRecaptureByAge::Execute() {
         LOG_FINE() << "---------------";
         LOG_FINE() << "age: " << age;
         selectivity_result = selectivities_[category_offset]->GetAgeResult(age, (*category_iter)->age_length_);
-        start_value        = (*cached_category_iter).data_[data_offset];
+        start_value        = (*cached_category_iter)->cached_data_[data_offset];
         end_value          = (*category_iter)->data_[data_offset];
         final_value        = 0.0;
 
@@ -382,7 +382,7 @@ void TagRecaptureByAge::Execute() {
           break;
 
         selectivity_result = target_selectivities_[category_offset]->GetAgeResult(age, (*target_category_iter)->age_length_);
-        start_value        = (*target_cached_category_iter).data_[data_offset];
+        start_value        = (*target_cached_category_iter)->cached_data_[data_offset];
         end_value          = (*target_category_iter)->data_[data_offset];
         final_value        = 0.0;
 

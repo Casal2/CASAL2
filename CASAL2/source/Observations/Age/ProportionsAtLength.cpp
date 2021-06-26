@@ -327,14 +327,15 @@ void ProportionsAtLength::Execute() {
     for (; category_iter != partition_iter->end(); ++cached_category_iter, ++category_iter) {
       LOG_FINEST() << "Selectivity for " << category_labels_[category_offset] << " selectivity " << selectivities_[category_offset]->label();
 
-      cached_category_iter->PopulateAgeLengthMatrix(selectivities_[category_offset]);
       (*category_iter)->PopulateAgeLengthMatrix(selectivities_[category_offset]);
-      (*cached_category_iter).CollapseAgeLengthDataToLength();
       (*category_iter)->CollapseAgeLengthDataToLength();
+
+      (*cached_category_iter)->PopulateCachedAgeLengthMatrix(selectivities_[category_offset]);
+      (*cached_category_iter)->CollapseCachedAgeLengthDataToLength();
 
       for (unsigned length_offset = 0; length_offset < number_bins_; ++length_offset) {
         // now for each column (length bin) in age_length_matrix sum up all the rows (ages) for both cached and current matricies
-        start_value = (*cached_category_iter).length_data_[mlb_index_first_ + length_offset];
+        start_value = (*cached_category_iter)->cached_length_data_[mlb_index_first_ + length_offset];
         end_value   = (*category_iter)->length_data_[mlb_index_first_ + length_offset];
 
         if (mean_proportion_method_)
@@ -353,9 +354,9 @@ void ProportionsAtLength::Execute() {
 
       // add the values for the larger lengths to expected_values[(number_bins_ - 1)]
       unsigned last_obs_bin = mlb_index_first_ + number_bins_ - 1;
-      if (length_plus_ && (*cached_category_iter).length_data_.size() > last_obs_bin && (*category_iter)->length_data_.size() > last_obs_bin) {
-        for (unsigned length_idx = (last_obs_bin + 1); length_idx < (*cached_category_iter).length_data_.size(); ++length_idx) {
-          start_value = (*cached_category_iter).length_data_[length_idx];
+      if (length_plus_ && (*cached_category_iter)->cached_length_data_.size() > last_obs_bin && (*category_iter)->length_data_.size() > last_obs_bin) {
+        for (unsigned length_idx = (last_obs_bin + 1); length_idx < (*cached_category_iter)->cached_length_data_.size(); ++length_idx) {
+          start_value = (*cached_category_iter)->cached_length_data_[length_idx];
           end_value   = (*category_iter)->length_data_[length_idx];
 
           if (mean_proportion_method_)

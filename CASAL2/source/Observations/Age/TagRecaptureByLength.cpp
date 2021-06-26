@@ -454,9 +454,10 @@ void TagRecaptureByLength::Execute() {
       // if (find((*tagged_category_iter)->name_, )
       LOG_FINEST() << "Selectivity for " << tagged_category_labels_[category_offset] << " " << tagged_selectivities_[category_offset]->label();
       if (use_model_length_bins_) {
-        tagged_cached_category_iter->PopulateAgeLengthMatrix(selectivities_[category_offset]);
+        (*tagged_cached_category_iter)->PopulateCachedAgeLengthMatrix(selectivities_[category_offset]);
+        (*tagged_cached_category_iter)->CollapseCachedAgeLengthDataToLength();
+
         (*tagged_category_iter)->PopulateAgeLengthMatrix(selectivities_[category_offset]);
-        (*tagged_cached_category_iter).CollapseAgeLengthDataToLength();
         (*tagged_category_iter)->CollapseAgeLengthDataToLength();
 
         //      if ((*tagged_category_iter)->length_data_.size() != tagged_length_results_.size())
@@ -464,7 +465,7 @@ void TagRecaptureByLength::Execute() {
 
         for (unsigned length_offset = 0; length_offset < tagged_length_results_.size(); ++length_offset) {
           // now for each column (length bin) in age_length_matrix sum up all the rows (ages) for both cached and current matricies
-          start_value = (*tagged_cached_category_iter).length_data_[length_offset];
+          start_value = (*tagged_cached_category_iter)->cached_length_data_[length_offset];
           end_value   = (*tagged_category_iter)->length_data_[length_offset];
           final_value = 0.0;
 
@@ -485,7 +486,7 @@ void TagRecaptureByLength::Execute() {
         std::fill(numbers_at_length_.begin(), numbers_at_length_.end(), 0.0);
         std::fill(cached_numbers_at_length_.begin(), cached_numbers_at_length_.end(), 0.0);
 
-        tagged_cached_category_iter->CalculateNumbersAtLength(selectivities_[category_offset], length_bins_, age_length_matrix_, numbers_at_length_, length_plus_);
+        (*tagged_cached_category_iter)->CalculateNumbersAtLength(selectivities_[category_offset], length_bins_, age_length_matrix_, numbers_at_length_, length_plus_);
         (*tagged_category_iter)->CalculateNumbersAtLength(selectivities_[category_offset], length_bins_, cached_age_length_matrix_, cached_numbers_at_length_, length_plus_);
 
         for (unsigned length_offset = 0; length_offset < numbers_at_length_.size(); ++length_offset) {
@@ -518,7 +519,7 @@ void TagRecaptureByLength::Execute() {
     auto cached_category_iter = cached_partition_iter->begin();
     for (; category_iter != partition_iter->end(); ++cached_category_iter, ++category_iter) {
       // Update/Populate Numbers At Length container for each category
-      LOG_FINEST() << "Populating age length matrix for: " << cached_category_iter->name_;
+      LOG_FINEST() << "Populating age length matrix for: " << (*cached_category_iter)->name_;
       if (find(tagged_category_split_labels_[category_offset].begin(), tagged_category_split_labels_[category_offset].end(), (*category_iter)->name_)
           != tagged_category_split_labels_[category_offset].end()) {
         LOG_FINE() << "This calculation was done in the loop above so skip this, category = " << (*category_iter)->name_;
@@ -526,14 +527,16 @@ void TagRecaptureByLength::Execute() {
       }
 
       if (use_model_length_bins_) {
-        cached_category_iter->PopulateAgeLengthMatrix(selectivities_[category_offset]);
+        LOG_TRACE();
+        (*cached_category_iter)->PopulateCachedAgeLengthMatrix(selectivities_[category_offset]);
+        (*cached_category_iter)->CollapseCachedAgeLengthDataToLength();
+
         (*category_iter)->PopulateAgeLengthMatrix(selectivities_[category_offset]);
-        (*cached_category_iter).CollapseAgeLengthDataToLength();
         (*category_iter)->CollapseAgeLengthDataToLength();
 
         for (unsigned length_offset = 0; length_offset < length_results_.size(); ++length_offset) {
           // now for each column (length bin) in age_length_matrix sum up all the rows (ages) for both cached and current matricies
-          start_value = (*cached_category_iter).length_data_[length_offset];
+          start_value = (*cached_category_iter)->cached_length_data_[length_offset];
           end_value   = (*category_iter)->length_data_[length_offset];
           final_value = 0.0;
 
@@ -551,7 +554,7 @@ void TagRecaptureByLength::Execute() {
           LOG_FINE() << "expected_value becomes: " << length_results_[length_offset];
         }
       } else {
-        cached_category_iter->CalculateNumbersAtLength(selectivities_[category_offset], length_bins_, age_length_matrix_, numbers_at_length_, length_plus_);
+        (*cached_category_iter)->CalculateNumbersAtLength(selectivities_[category_offset], length_bins_, age_length_matrix_, numbers_at_length_, length_plus_);
         (*category_iter)->CalculateNumbersAtLength(selectivities_[category_offset], length_bins_, cached_age_length_matrix_, cached_numbers_at_length_, length_plus_);
 
         for (unsigned length_offset = 0; length_offset < numbers_at_length_.size(); ++length_offset) {
