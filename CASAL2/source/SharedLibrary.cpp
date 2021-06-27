@@ -90,7 +90,7 @@ int LoadOptions(int argc, char* argv[], niwa::utilities::RunParameters& options)
   } catch (...) {
     cout << "## ERROR - Casal2 experienced a problem and has stopped execution." << endl;
     cout << "The exception was caught with the catch-all. The error type was unknown." << endl;
-    cout << "Please contact the Casal2 development team and submit a bug report." << endl;
+    cout << "Please contact the Casal2 application developer." << endl;
     return -1;
   }
 
@@ -128,7 +128,7 @@ int PreParseConfigFiles(niwa::utilities::RunParameters& options) {
   } catch (...) {
     cout << "## ERROR - Casal2 experienced a problem and has stopped execution." << endl;
     cout << "The exception was caught with the catch-all. The error type was unknown." << endl;
-    cout << "Please contact the Casal2 development team and submit a bug report." << endl;
+    cout << "Please contact the Casal2 application developer and submit a bug report." << endl;
     return -1;
   }
 
@@ -172,19 +172,19 @@ int Run(int argc, char* argv[], niwa::utilities::RunParameters& options) {
     }
 
   } catch (const string& exception) {
-    cout << "## ERROR - Casal2 experienced a problem and has stopped execution" << endl;
+    cout << "## ERROR - CASAL2 experienced a problem and has stopped execution" << endl;
     cout << "Error: " << exception << endl;
     return_code = -1;
 
   } catch (std::exception& e) {
-    cout << "## ERROR - Casal2 experienced a problem and has stopped execution" << endl;
+    cout << "## ERROR - CASAL2 experienced a problem and has stopped execution" << endl;
     cout << e.what() << endl;
     return_code = -1;
 
   } catch (...) {
-    cout << "## ERROR - Casal2 experienced a problem and has stopped execution" << endl;
+    cout << "## ERROR - CASAL2 experienced a problem and has stopped execution" << endl;
     cout << "The exception was caught with the catch-all. The type was unknown" << endl;
-    cout << "Please contact the Casal2 development team and submit a bug report." << endl;
+    cout << "Please contact the application developer and submit a bug report." << endl;
     return_code = -1;
   }
 
