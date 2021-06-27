@@ -5,7 +5,7 @@
  * @date 29/09/2015
  * @section LICENSE
  *
- * Copyright NIWA Science ©2014 - www.niwa.co.nz
+ * Copyright NIWA Science ï¿½2014 - www.niwa.co.nz
  *
  */
 
@@ -24,7 +24,7 @@ namespace timevarying {
  */
 Exogenous::Exogenous(shared_ptr<Model> model) : TimeVarying(model) {
   parameters_.Bind<Double>(PARAM_A, &a_, "The shift parameter", "");
-  parameters_.Bind<Double>(PARAM_EXOGENOUS_VARIABLE, &exogenous_, "The values of exogeneous variable for each year", "");
+  parameters_.Bind<Double>(PARAM_EXOGENOUS_VARIABLE, &exogenous_, "The values of exogenous variable for each year", "");
 
   RegisterAsAddressable(PARAM_A, &a_);
 }

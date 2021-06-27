@@ -95,10 +95,10 @@
 // DESOLVER
 //
 //**********************************************************************
-#define DESOLVER_CURRENT_GENERATION               "DE_Solver: Current generation = "
-#define DESOLVERCONVERGENCE_CHECK                 "DE_Solver: Convergence check value = "
-#define DESOLVERCONVERGENCE_THRESHOLD             "DE_Solver: Convergence tolerance = "
-#define DESOLVERCONVERGENCE                       "DE_Solver: Convergence = "
+#define DESOLVER_CURRENT_GENERATION               "DESolver: Current generation = "
+#define DESOLVERCONVERGENCE_CHECK                 "DESolver: Convergence check value = "
+#define DESOLVERCONVERGENCE_THRESHOLD             "DESolver: Convergence tolerance = "
+#define DESOLVERCONVERGENCE                       "DESolver: Convergence = "
 
 //**********************************************************************
 // PARAMETERS
@@ -138,7 +138,7 @@
 #define PARAM_AGEING_LABEL                        "ageing_label"
 #define PARAM_AGEING_ERROR                        "ageing_error"
 #define PARAM_AGEING_ERRORS                       "ageing_errors"
-#define PARAM_ALGORITHM														"algorithm"
+#define PARAM_ALGORITHM							  "algorithm"
 #define PARAM_ALL_VALUES_BOUNDED                  "all_values_bounded"
 #define PARAM_ALL_VALUES                          "all_values"
 #define PARAM_ALPHA                               "alpha"
@@ -277,8 +277,8 @@
 #define PARAM_EXCLUDE_PROCESSES                   "exclude_processes"
 #define PARAM_EXPECTED_VALUE                      "expected_value"
 #define PARAM_EXPONENTIAL                         "exponential"
-#define PARAM_EXOGENOUS_VARIABLE                  "exogeneous_variable"
-#define PARAM_EXOGENOUS                           "exogeneous"
+#define PARAM_EXOGENOUS_VARIABLE                  "exogenous_variable"
+#define PARAM_EXOGENOUS                           "exogenous"
 #define PARAM_EXTERNAL_GAPS                       "external_gaps"
 #define PARAM_FADBAD                              "fadbad"
 #define PARAM_FILE_NAME                           "file_name"
@@ -387,7 +387,7 @@
 #define PARAM_LOGISTIC_PRODUCING                  "logistic_producing"
 #define PARAM_LOGNORMAL                           "lognormal"
 #define PARAM_LOGNORMAL_EMPIRICAL                 "lognormal_empirical"
-#define PARAM_LOGNORMAL_TRANSFORMATION            "lognormal_transfomration"
+#define PARAM_LOGNORMAL_TRANSFORMATION            "lognormal_transformation"
 #define PARAM_LOGNORMAL_WITH_Q                    "lognormal_with_q"
 #define PARAM_LOSS_RATE                           "loss_rate"
 #define PARAM_LOSS_RATE_SELECTIVITIES             "loss_rate_selectivities"
@@ -448,7 +448,7 @@
 #define PARAM_NCOLS                               "ncols"
 #define PARAM_NEAREST_NEIGHBOUR                   "nearest_neighbour"
 #define PARAM_NONE                                "none"
-#define PARAM_NOP                                 "nop"
+#define PARAM_NOP                                 "null_process"
 #define PARAM_NORMAL                              "normal"
 #define PARAM_NORMALISED_RESIDUALS                "normalised_residuals"
 #define PARAM_NORMAL_BY_STDEV                     "normal_by_stdev"

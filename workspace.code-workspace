@@ -1,0 +1,37 @@
+{
+	"folders": [
+		{
+			"path": "."
+		}
+	],
+	"settings": {
+		"cSpell.words": [
+			"BEVERTON",
+			"CASAL",
+			"Initialisation",
+			"MCMC",
+			"Mersenne",
+			"NIWA's",
+			"admb",
+			"adolc",
+			"arma",
+			"bertalanffy",
+			"bfgs",
+			"bobyqa",
+			"cinitial",
+			"cppad",
+			"electivities",
+			"estimables",
+			"hoki",
+			"lbfgs",
+			"linf",
+			"mcmcs",
+			"niwa",
+			"schnute",
+			"selectivities",
+			"texttt"
+		],
+		"AREPL.max_string_length": 119,
+		"cSpell.language": "en-GB"
+	}
+}

@@ -71,7 +71,7 @@ int main(int argc, char* argv[]) {
   } catch (...) {
     cout << "## ERROR - CASAL2 experienced a problem and has stopped execution" << endl;
     cout << "The exception was caught with the catch-all. The type was unknown" << endl;
-    cout << "Please contact the application developer" << endl;
+    cout << "Please contact the application developer and submit a bug report." << endl;
     return_code = -1;
   }
 

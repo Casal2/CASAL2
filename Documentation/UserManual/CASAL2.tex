@@ -1,15 +1,15 @@
 \documentclass[a4paper,11pt,twoside,pdftex]{article}
 
-% Caption package for formating figure and label captions
+% Caption package for formatting figure and label captions
 \usepackage[font=bf,format=hang,labelsep=colon,justification=justified,singlelinecheck=false,compatibility=false]{caption}
 
 % Misc packages
-\usepackage{ifthen} % for conditional expressions
-\usepackage{float} % for floating tables and graphics
+\usepackage{ifthen}   % for conditional expressions
+\usepackage{float}    % for floating tables and graphics
 \usepackage{setspace} % for defining spacing between lines
-\usepackage{cmap} % allow searching in pdf documents
+\usepackage{cmap}     % allow searching in pdf documents
 \usepackage{tabulary} % better tables
-\usepackage{comment} % block comments
+\usepackage{comment}  % block comments
 \usepackage{multicol}
 \usepackage[toc,page]{appendix}
 \usepackage[usenames, dvipsnames]{xcolor} % Highlighting text for editing
@@ -20,7 +20,7 @@
 \usepackage[bookmarks=true,bookmarksopen=false,bookmarksnumbered=true,
             pdfpagelayout=TwoPageRight,
             pdftitle={Casal2 User Manual},
-            pdfauthor={I. Doonan, A. Dunn, K. Large, C. Marsh, S. Rasmussen, S. Datta} %authors
+            pdfauthor={I. Doonan, A. Dunn, K. Large, C. Marsh, S. Rasmussen, S. Datta, T. A'Mar} %authors
             pdfsubject={Casal2, User manual},
             pdftex]{hyperref}
 \hypersetup{
@@ -43,12 +43,12 @@
 basicstyle=\ttfamily\footnotesize,
 breaklines=true,
 columns=fullflexible,
-showspaces=false,               % show spaces adding particular underscores
-showstringspaces=false,         % underline spaces within strings
-showtabs=false,                 % show tabs within strings adding particular underscores
+showspaces=false,           % show spaces adding particular underscores
+showstringspaces=false,     % underline spaces within strings
+showtabs=false,             % show tabs within strings adding particular underscores
 tabsize=2,			            % sets default tabsize to 2 spaces
-breakatwhitespace=false,	    % sets if automatic breaks should only happen at whitespace
-escapeinside={\%*}{*)}          % if you want to add a comment within your code
+breakatwhitespace=false,	  % sets if automatic breaks should only happen at whitespace
+escapeinside={\%*}{*)}      % if you want to add a comment within your code
 }
 
 % highlighting package for editing
@@ -59,10 +59,10 @@ escapeinside={\%*}{*)}          % if you want to add a comment within your code
 \definecolor{darkgray}{gray}{0.20}
 \definecolor{lightgray}{gray}{0.95}
 
-% Geometery for A4 layout like MS-Word defaults
+% Geometry for A4 layout like MS-Word defaults
 \usepackage[left=2.54cm,top=2.54cm,bottom=3.17cm,right=3.17cm]{geometry}
 
-% Natlib to better cite references (round brackets, commas between refs, and sorted)
+% Natlib to better cite references (round brackets, commas between references, and sorted)
 \usepackage[round,comma,sort]{natbib}
 
 % Making the index
@@ -131,7 +131,7 @@ escapeinside={\%*}{*)}          % if you want to add a comment within your code
 \tolerance=1000
 
 % Compact titles
-%\usepackage[small,compact]{titlesec}
+\usepackage[small,compact]{titlesec}
 
 % New commands to define macros and other aids to text and layout
 \newcommand{\config}{input configuration file}
@@ -177,6 +177,7 @@ escapeinside={\%*}{*)}          % if you want to add a comment within your code
 \newcommand{\defCondition}[1]{\defText{Condition:}{#1}}
 \newcommand{\defValue}[1]{\defText{Value:}{#1}}
 \newcommand{\defNote}[1]{\defText{Note:}{#1}}
+\newcommand{\defRef}[1]{See Section \ref{#1} for more information.}
 \newcommand{\defExample}[1]{\defText{Example:}{#1}}
 \newcommand{\defLowerBound}[1]{\defText{Lower Bound:}{#1}}
 \newcommand{\defUpperBound}[1]{\defText{Upper Bound:}{#1}}
@@ -209,8 +210,8 @@ escapeinside={\%*}{*)}          % if you want to add a comment within your code
   {\pagestyle{empty}\origdoublepage}%
 }
 %% Commands for the license section taken from http://www.gnu.org/licenses/lgpl-3.0.tex
-\renewcommand{\labelenumii}{\alph{enumii})}
-\renewcommand{\labelenumiii}{\arabic{enumiii})}
+\renewcommand{\labelenumii}{\alph{enumii}}
+\renewcommand{\labelenumiii}{\arabic{enumiii}}
 
 % Load package to count the number of pages in document
 % For getting number of pages in document (NOT the last page number printed), use \ref{TotPages}
@@ -221,7 +222,7 @@ escapeinside={\%*}{*)}          % if you want to add a comment within your code
 
 %Begin the document
 \begin{document}
-\hbadness=10000 % to deal with underfull hbox warnings
+\hbadness=10000 % to deal with under-full hbox warnings
 \sloppy % use sloppy paras
 
 

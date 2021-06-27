@@ -76,7 +76,7 @@ void IndependenceMetropolis::DoExecute(shared_ptr<ThreadPool> thread_pool) {
   }
 
   LOG_MEDIUM() << "Applying Cholesky decomposition";
-  if (!DoCholeskyDecmposition())
+  if (!DoCholeskyDecomposition())
     LOG_FATAL() << "Cholesky decomposition failed. Cannot continue MCMC";
 
   if (start_ > 0.0) {
@@ -238,7 +238,7 @@ void IndependenceMetropolis::DoExecute(shared_ptr<ThreadPool> thread_pool) {
     }
 
     if (jumps_ % keep_ == 0) {
-      // Record the score, and its compontent parts if the successful jump divided by keep has no remainder
+      // Record the score, and its component parts if the successful jump divided by keep has no remainder
       // i.e this proposed candidate is a 'keep' iteration
       mcmc::ChainLink new_link;
 

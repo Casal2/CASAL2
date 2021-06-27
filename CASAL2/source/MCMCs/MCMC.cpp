@@ -35,10 +35,10 @@ namespace math = niwa::utilities::math;
  */
 MCMC::MCMC(shared_ptr<Model> model) : model_(model) {
   parameters_.Bind<string>(PARAM_LABEL, &label_, "The label of the MCMC", "");
-  parameters_.Bind<string>(PARAM_TYPE, &type_, "The type of MCMC", "", "");
-  parameters_.Bind<unsigned>(PARAM_LENGTH, &length_, "The number of iterations in for the MCMC chain", "");
+  parameters_.Bind<string>(PARAM_TYPE, &type_, "The MCMC method", "", "")->set_allowed_values({PARAM_INDEPENDENCE_METROPOLIS, PARAM_HAMILTONIAN, PARAM_RANDOMWALK});
+  parameters_.Bind<unsigned>(PARAM_LENGTH, &length_, "The number of iterations in for the MCMC chain", "")->set_lower_bound(1);
   parameters_.Bind<bool>(PARAM_ACTIVE, &active_, "Indicates if this is the active MCMC algorithm", "", true);
-  parameters_.Bind<double>(PARAM_STEP_SIZE, &step_size_, "Initial stepsize (as a multiplier of the approximate covariance matrix)", "", 0.02)->set_lower_bound(0);
+  parameters_.Bind<double>(PARAM_STEP_SIZE, &step_size_, "Initial step-size (as a multiplier of the approximate covariance matrix)", "", 0.02)->set_lower_bound(0);
   parameters_.Bind<double>(PARAM_START, &start_, "The covariance multiplier for the starting point of the MCMC", "", 0.0)->set_lower_bound(0.0);
   parameters_.Bind<unsigned>(PARAM_KEEP, &keep_, "The spacing between recorded values in the MCMC", "", 1u)->set_lower_bound(1u);
   parameters_.Bind<double>(PARAM_MAX_CORRELATION, &max_correlation_, "The maximum absolute correlation in the covariance matrix of the proposal distribution", "", 0.8)
@@ -144,7 +144,7 @@ void MCMC::Execute(shared_ptr<ThreadPool> thread_pool) {
   } else
     ResumeChain();
 
-  if (!DoCholeskyDecmposition())
+  if (!DoCholeskyDecomposition())
     LOG_FATAL() << "Cholesky decomposition failed. Cannot continue MCMC";
 
   if (start_ > 0.0)
@@ -429,7 +429,7 @@ void MCMC::BuildCovarianceMatrix() {
  *
  * @return true on success, false on failure
  */
-bool MCMC::DoCholeskyDecmposition() {
+bool MCMC::DoCholeskyDecomposition() {
   LOG_TRACE();
   if (covariance_matrix_.size1() != covariance_matrix_.size2())
     LOG_FATAL() << "Invalid covariance matrix (rows != columns). It must be a square matrix";
@@ -535,7 +535,7 @@ void MCMC::UpdateCovarianceMatrix() {
 
     recalculate_covariance_ = true;
     LOG_MEDIUM() << "Recalculating the covariance matrix after " << chain_.size() << " iterations";
-    // modify the covaraince matrix this algorithm is stolen from CASAL, maybe not the best place to take it from
+    // modify the covariance matrix this algorithm is taken from CASAL, maybe not the best place to take it from
 
     // number of parameters
     int n_params = chain_[0].values_.size();
@@ -586,11 +586,11 @@ void MCMC::UpdateCovarianceMatrix() {
 
     covariance_matrix_lt = temp_covariance;
 
-    // Adjust covariance based on maximum correlations and apply Cholesky decompositon
+    // Adjust covariance based on maximum correlations and apply Cholesky decomposition
     BuildCovarianceMatrix();
 
     LOG_MEDIUM() << "Applying Cholesky decomposition";
-    if (!DoCholeskyDecmposition())
+    if (!DoCholeskyDecomposition())
       LOG_FATAL() << "Cholesky decomposition failed. Cannot continue MCMC";
 
     // continue chain

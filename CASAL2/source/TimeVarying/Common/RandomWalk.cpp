@@ -25,15 +25,16 @@ namespace timevarying {
  * Default constructor
  */
 RandomWalk::RandomWalk(shared_ptr<Model> model) : TimeVarying(model) {
-  parameters_.Bind<Double>(PARAM_MEAN, &mu_, "The mean (mu)", "", 0);
-  parameters_.Bind<Double>(PARAM_SIGMA, &sigma_, "The standard deviation (sigma)", "", 1);
+  parameters_.Bind<Double>(PARAM_MEAN, &mu_, "The mean ($\\mu$) of the random walk distribution", "", 0);
+  parameters_.Bind<Double>(PARAM_SIGMA, &sigma_, "The standard deviation ($\\sigma$)  of the random walk distribution", "", 1);
   parameters_.Bind<Double>(PARAM_UPPER_BOUND, &upper_bound_, "The upper bound for the random walk", "", 1);
   parameters_.Bind<Double>(PARAM_UPPER_BOUND, &lower_bound_, "The lower bound for the random walk", "", 1);
-  parameters_.Bind<Double>(PARAM_RHO, &rho_, "The autocorrelation parameter (rho)", "", 1);
-  parameters_.Bind<string>(PARAM_DISTRIBUTION, &distribution_, "The distribution", "", PARAM_NORMAL);
+  parameters_.Bind<Double>(PARAM_RHO, &rho_, "The autocorrelation parameter ($\\rho$)  of the random walk distribution", "", 1);
+  parameters_.Bind<string>(PARAM_DISTRIBUTION, &distribution_, "The distribution type", "", PARAM_NORMAL)->set_allowed_values({PARAM_NORMAL});
 
   RegisterAsAddressable(PARAM_MEAN, &mu_);
   RegisterAsAddressable(PARAM_SIGMA, &sigma_);
+  RegisterAsAddressable(PARAM_SIGMA, &rho_);
 }
 
 /**
@@ -48,10 +49,10 @@ void RandomWalk::DoValidate() {
  *
  */
 void RandomWalk::DoBuild() {
-  // Warn users that they have a time-varying parameter in estimation mode.
+  // Warn users that they have a time-varying parameter in estimation mode.  //TODO: Figure out why this is here
   if (model_->run_mode() == RunMode::kEstimation) {
     LOG_WARNING() << "Time varying of type " << type_
-                  << " during estimation, Not the correct implementation of a random effect. Its purpose is for simulating/projecting adding variaion.";
+                  << " during estimation, Not the correct implementation of a random effect. Its purpose is for simulating/projecting adding variation.";
   }
   if (model_->objects().GetAddressableType(parameter_) != addressable::kSingle)
     LOG_ERROR_P(PARAM_TYPE) << "@time_varying blocks of type " << PARAM_RANDOMWALK << " can be used only with parameters that are scalars or single values";

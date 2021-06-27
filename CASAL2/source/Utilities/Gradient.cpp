@@ -45,7 +45,6 @@ vector<double> BuildValuesForIteration(std::vector<double> scaled_values, std::v
       current_values[i] = lower_bounds[i];
     else {
       current_values[i] = math::unscale(scaled_values[i], lower_bounds[i], upper_bounds[i], truncate_values);
-      // cout << "Unscaled " << scaled_values[i] << " to " << current_values[i] << endl;
     }
   }
 

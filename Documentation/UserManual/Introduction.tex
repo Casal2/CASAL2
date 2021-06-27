@@ -58,15 +58,23 @@ TODO review with the Project Manager and Project Lead
 
 \CNAME\ is distributed as unsupported software. Please notify the \CNAME\ Development Team of any issues with or errors in \CNAME. Please contact the \emaillink. See Section \ref{sec:reporting-errors} for the template for reporting issues.
 
-\subsection{Technical details\index{Technical specifications}}\label{sec:tech}
+\subsection{Technical details\index{Technical specifications}}\label{sec:TechnicalDetails}
 
 \CNAME\ was compiled on Linux using \texttt{gcc} (\url{http://gcc.gnu.org}), the C/C++ compiler developed by the GNU Project (\url{http://gcc.gnu.org}). The 64-bit Linux \index{Linux} version was compiled using \texttt{gcc} version 4.8.5 20150623 on CentOS 7.7 Linux (\url{http://www.ubuntu.com/}).
 
 The Microsoft Windows (\url{http://www.microsoft.com})\index{Microsoft Windows} version was compiled using MingW (\url{http://www.mingw.org})\index{Mingw} \texttt{gcc} 8.1.0 (\url{http://gcc.gnu.org})\index{gcc}. The Microsoft Windows(\url{http://www.microsoft.com}) installer was built using the Inno Setup 5 (\url{http://www.jrsoftware.org/isdl.php}).
 
-\CNAME\ includes number of different minimisers; different minimisers may perform better for some models than others. The first three minimisers are non-automatic differentiation minimisers: the first is closely based on the main algorithm of \cite{779}, and uses finite difference gradients\index{Finite differences minimiser}; the second is an implementation of the differential evolution solver\index{Differential evolution minimiser} \citep{1442}, based on code by \href{mailto:<godwin@pushcorp.com>}{Lester E. Godwin} of \href{http://www.pushcorp.com}{PushCorp, Inc.}; and the third is Dlib \citep{dlib09}.
+\CNAME\ includes number of different minimisers; different minimisers may perform better for some models than others. Some of the minimisers are non-automatic differentiation minimisers, and will usually work form most problems, albeit more slowly than auto-differentiation based minimisers. The non auto-differentiation minimisers are 
+\begin{enumerate}
+\item Numerical differences: GammaDiff, a minimiser that is closely based on the main algorithm of \cite{779}, that uses finite difference gradients\index{Finite differences minimiser}
+\item DESolver: The differential evolution solver\index{Differential evolution minimiser} \citep{1442}, based on code by \href{mailto:<godwin@pushcorp.com>}{Lester E. Godwin} of \href{http://www.pushcorp.com}{PushCorp, Inc.}
+\end{enumerate}
 
-The three automatic differentiation minimisers are: ADOL-C, an auto differentiation minimiser \citep{walther1996adolc}; CppAD, an auto differentiation minimiser similar to ADOL-C \citep{wachter2006cppad}; and the third is a modified version of an older version of ADOL-C (v1.8.4) that was used as the automatic differentiation minimiser in the first version of CASAL \citep{1388}.
+There are two auto-differentiation minimisers, based on ADOL-C. These are the
+\begin{enumerate}
+\item Betadiff: A minimiser from an older version of ADOL-C (v1.8.4) that was used as the automatic differentiation minimiser in the first version of CASAL \citep{1388}, with a similar minimising algorithm as used for the finite differences minimiser above, but based on the gradient from the auto-differentiation chain
+\item ADOL-C: A minimiser from version of ADOL-C (v2.5.1) \citep{walther1996adolc};, with a similar minimising algorithm as used for the finite differences (GammaDiff) minimiser above, but based on the gradient from the auto-differentiation chain
+\end{enumerate}
 
 The random number generator\index{Random number generator} used in \CNAME\ uses an implementation of the Mersenne twister random number generator \citep{796}. This functionality, the command line functionality, matrix operations, and a number of other functions use the \href{http://www.boost.org/}{Boost} C++ library (Version 1.58.0)\index{Boost C++ library}.
 

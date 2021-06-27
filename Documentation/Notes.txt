@@ -1,0 +1,9 @@
+Documentation
+
+How to do time varying
+
+How to change growth over time - proportions by category in bh_recruitmetn
+
+Scotts outline of the model process (text file)
+
+

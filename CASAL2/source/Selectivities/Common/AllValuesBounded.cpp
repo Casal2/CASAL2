@@ -106,7 +106,7 @@ void AllValuesBounded::RebuildCache() {
     for (; age < low_; ++age) values_[age - age_index_] = 0.0;
     for (unsigned i = 0; i < v_.size(); ++i, ++age) {
       if (v_[i] < 0.0)
-        LOG_FATAL_P(PARAM_V) << "v cannot have values less than 0.0. value = " << v_[i] << " for age = " << age;
+        LOG_FATAL_P(PARAM_V) << "v cannot have values less than zero (0). The value for v was " << v_[i] << " for age " << age;
       values_[age - age_index_] = v_[i];
     }
     for (; age <= max_age; ++age) values_[age - age_index_] = *v_.rbegin();
@@ -137,7 +137,7 @@ void AllValuesBounded::RebuildCache() {
  */
 
 Double AllValuesBounded::GetLengthBasedResult(unsigned age, AgeLength* age_length, unsigned year, int time_step_index) {
-  LOG_ERROR_P(PARAM_LENGTH_BASED) << ": This selectivity type has not been implemented for age length based selectivities ";
+  LOG_ERROR_P(PARAM_LENGTH_BASED) << ": This selectivity type has not been implemented for length-based selectivities in an age-based model";
   return 0.0;
 }
 

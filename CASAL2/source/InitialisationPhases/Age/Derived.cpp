@@ -5,7 +5,7 @@
  * @date 20/10/2015
  * @section LICENSE
  *
- * Copyright NIWA Science ©2015 - www.niwa.co.nz
+ * Copyright NIWA Science ï¿½2015 - www.niwa.co.nz
  *
  */
 
@@ -39,7 +39,7 @@ Derived::Derived(shared_ptr<Model> model) : InitialisationPhase(model), cached_p
   parameters_.Bind<string>(PARAM_EXCLUDE_PROCESSES, &exclude_processes_, "Processes in the annual cycle to be excluded from this initialisation phase", "", true);
   parameters_.Bind<bool>(
       PARAM_CASAL_INITIALISATION, &casal_initialisation_phase_,
-      "Run an extra annual cycle to evalaute equilibrium SSBs. Warning - if true, this may not correctly evaluate the equilibrium state. Set to true if replicating a CASAL model",
+      "Run an extra annual cycle to evaluate equilibrium SSBs. Warning - if true, this may not correctly evaluate the equilibrium state. Set to true if replicating a CASAL model",
       "", false);
 }
 

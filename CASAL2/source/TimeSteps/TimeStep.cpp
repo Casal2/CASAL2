@@ -28,8 +28,8 @@ namespace niwa {
 TimeStep::TimeStep(shared_ptr<Model> model) : model_(model) {
   LOG_TRACE();
 
-  parameters_.Bind<string>(PARAM_LABEL, &label_, "The label of the timestep", "");
-  parameters_.Bind<string>(PARAM_PROCESSES, &process_names_, "The labels of the processes for this time step in the order that they occur", "");
+  parameters_.Bind<string>(PARAM_LABEL, &label_, "The label of the time step", "");
+  parameters_.Bind<string>(PARAM_PROCESSES, &process_names_, "The labels of the processes for this time step, and given in the order that they occur within the time step", "");
 }
 
 /**
@@ -67,7 +67,7 @@ void TimeStep::Build() {
       mortality_block_.first  = mortality_block_.first == processes_.size() ? i : mortality_block_.first;
       mortality_block_.second = i;
     } else if (processes_[i]->process_type() == ProcessType::kMortality && finished_mortality_block) {
-      LOG_FATAL() << "Mortality processes within a time step need to be consecutive (i.e., a single mortality block)";
+      LOG_FATAL() << "Mortality processes within a time step need to be consecutive (there can be one mortality block within each time step)";
     } else if (mortality_block_.first != processes_.size())
       finished_mortality_block = true;
   }
@@ -229,7 +229,7 @@ void TimeStep::BuildInitialisationProcesses() {
             = initialisation_mortality_blocks_[iter.first].first == processes_.size() ? i : initialisation_mortality_blocks_[iter.first].first;
         initialisation_mortality_blocks_[iter.first].second = i;
       } else if (initialisation_processes_[iter.first][i]->process_type() == ProcessType::kMortality && finished_mortality_block) {
-        LOG_FATAL() << "Mortality processes within a time step need to be consecutive (i.e., a single mortality block)";
+        LOG_FATAL() << "Mortality processes within a time step need to be consecutive (there can be one mortality block within each time step)";
       } else if (initialisation_mortality_blocks_[iter.first].first != processes_.size())
         finished_mortality_block = true;
     }

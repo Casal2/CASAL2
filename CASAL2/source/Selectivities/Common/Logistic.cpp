@@ -162,6 +162,7 @@ Double Logistic::GetLengthBasedResult(unsigned age, AgeLength* age_length, unsig
     }
     return total / n_quant_;
   }
+  // TODO: Update the error message
   LOG_CODE_ERROR() << "dist is invalid " << dist;
   return 0;
 }

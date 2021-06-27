@@ -128,7 +128,7 @@ int PreParseConfigFiles(niwa::utilities::RunParameters& options) {
   } catch (...) {
     cout << "## ERROR - Casal2 experienced a problem and has stopped execution." << endl;
     cout << "The exception was caught with the catch-all. The error type was unknown." << endl;
-    cout << "Please contact the Casal2 application developer." << endl;
+    cout << "Please contact the Casal2 application developer and submit a bug report." << endl;
     return -1;
   }
 
@@ -160,7 +160,7 @@ int Run(int argc, char* argv[], niwa::utilities::RunParameters& options) {
 
     return_code = runner.GoWithRunMode(options.run_mode_);
 
-    // pull back the options from the runner incase we've changed any
+    // pull back the options from the runner in case we've changed any
     // or loaded the MPD data
     options = runner.run_parameters();
 
@@ -184,7 +184,7 @@ int Run(int argc, char* argv[], niwa::utilities::RunParameters& options) {
   } catch (...) {
     cout << "## ERROR - CASAL2 experienced a problem and has stopped execution" << endl;
     cout << "The exception was caught with the catch-all. The type was unknown" << endl;
-    cout << "Please contact the application developer" << endl;
+    cout << "Please contact the application developer and submit a bug report." << endl;
     return_code = -1;
   }
 

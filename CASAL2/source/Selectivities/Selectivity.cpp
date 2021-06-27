@@ -26,8 +26,8 @@ namespace niwa {
  * Default Constructor
  */
 Selectivity::Selectivity(shared_ptr<Model> model) : model_(model) {
-  parameters_.Bind<string>(PARAM_LABEL, &label_, "The label for this selectivity", "");
-  parameters_.Bind<string>(PARAM_TYPE, &type_, "The type of selectivity", "");
+  parameters_.Bind<string>(PARAM_LABEL, &label_, "The label for the selectivity", "");
+  parameters_.Bind<string>(PARAM_TYPE, &type_, "The type of selectivity", "")->set_allowed_values({});
   parameters_.Bind<bool>(PARAM_LENGTH_BASED, &length_based_, "Is the selectivity length based?", "", false);
   parameters_.Bind<unsigned>(PARAM_INTERVALS, &n_quant_, "The number of quantiles to evaluate a length-based selectivity over the age-length distribution", "", 5);
   parameters_
@@ -51,7 +51,7 @@ void Selectivity::Validate() {
   else if (partition_type_label_ == PARAM_LENGTH)
     partition_type_ = PartitionType::kLength;
   else {
-    LOG_CODE_ERROR() << "The current partition_type is not recognized for this selectivity. It is not length or age";
+    LOG_CODE_ERROR() << "The current partition_type is not recognized for this selectivity. It is not availabe fro a length or age";
   }
   age_index_ = model_->min_age();
 

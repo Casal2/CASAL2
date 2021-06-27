@@ -49,7 +49,7 @@ See Section \ref{sec:parameter-names} for information on how to specify the para
 
 All parameters are estimated within the specified bounds\index{Bounds}. For each parameter estimated, the lower and upper bounds and the prior\index{Priors} (\texttt{type}) (Section \ref{sec:priors}) must be specified. The bounds and the prior should be chosen carefully as they affect the values over which the minimisers search. Some minimisers convert the lower and upper bounds into a minimisation space (for example -1,1 space for the numerical differences algorithm). If estimating only some elements of a vector, either define each element of the vector to be estimated (see \ref{sec:parameter-names}) or fix the others by setting the the lower and upper bounds to the same value as the initial value.
 
-\subsection{\I{Point estimation}\label{sec:estimate-MPD}}
+\subsection{\I{Point estimation}\label{sec:estimate-MPD}}\label{methods:Minimiser}
 
 Point estimation is invoked with \texttt{\cname\ -e}, which attempts to find a minimum of the objective function\index{Objective function}. \CNAME\ has multiple minimisation algorithms. There are three automatic differentiation (AD) minimisers: ADOL-C, CppAD, and BetaDiff (the minimiser used in CASAL). There are also three non-automatic differentiation minimisers: numerical differences, differential evolution minimiser (\subcommand{de\_solver}), and the dlib minimiser (see Section \ref{sec:tech}). AD minimisers are recommended for more complex models as they are on average much faster and tend to find a more robust minimum when exploring a complex objective surface.
 
@@ -57,7 +57,9 @@ An important input parameter for most minimisers is the \subcommand{tolerance} p
 
 Start with the default \subcommand{tolerance} parameter value of 0.002 and decrease it while developing a model. For a given model, the parameter estimates when minimising with tolerance value 0.0000002 may be quite different from those with the default tolerance value. This is not robust model behaviour and more investigative and diagnostic work may be required to determine what parameters are causing this behaviour. \texttt{Note:} this issue will also affect the covariance matrix. When a different tolerance value and/or minimiser is used, a different approximate Hessian matrix which is inverted to solve for the covariance matrix may be produced. The effect that this behaviour has on MCMC samples is not well-determined.
 
-\subsubsection{\I{The numerical differences minimiser}}
+\subsubsection{\I{The numerical differences minimiser}}\label{methods:Minimiser-GammaDiff}
+
+See Section \ref{syntax:Minimiser-GammaDiff} for the command syntax.
 
 The minimiser has three kinds of (non-error) exit status, depending on the minimiser:
 
@@ -90,7 +92,7 @@ iterations 2500
 evaluations 4000
 \end{verbatim}}}
 
-\subsubsection{\I{The differential evolution minimiser}}
+\subsubsection{\I{The differential evolution minimiser}}\label{methods:Minimiser-DESolver}
 
 The differential evolution minimiser is a simple population-based, stochastic function minimizer, but is claimed to be quite powerful in solving minimisation problems. It is a method of mathematical optimization of multidimensional functions and belongs to the class of evolution strategy optimizers (TODO reference?).
 
@@ -108,7 +110,7 @@ There is no proof of convergence for the differential evolution solver, but seve
 		evaluations 4000
 \end{verbatim}}}
 
-\subsubsection{\I{The BetaDiff minimiser}}
+\subsubsection{\I{The BetaDiff minimiser}}\label{methods:Minimiser-BetaDiff}
 
 An automatic differentiation minimiser for non-linear models, This is the minimiser from the original CASAL package, based on ADOL-C.
 
@@ -120,7 +122,7 @@ An automatic differentiation minimiser for non-linear models, This is the minimi
 		evaluations 4000
 \end{verbatim}}}
 
-\subsubsection{\I{The ADOL-C minimiser}}
+\subsubsection{\I{The ADOL-C minimiser}}\label{methods:Minimiser-ADOLC}
 
 An automatic differentiation minimiser for non-linear models. See \url{https://projects.coin-or.org/ADOL-C} for more information.
 
@@ -133,32 +135,7 @@ An automatic differentiation minimiser for non-linear models. See \url{https://p
 		tolerance 1e-6
 \end{verbatim}}}
 
-\subsubsection{\I{The CppAD minimiser}}
-
-An automatic differentiation minimiser for non-linear models using the MUMPS solver. See \url{https://coin-or.github.io/CppAD/doc/cppad.htm} and \url{https://www.coin-or.org/CppAD/Doc/ipopt_solve.htm} for more information.
-
-{\small{\begin{verbatim}
-		@minimiser CPPAD
-		type cppad
-\end{verbatim}}}
-
-CppAD has an implicit tolerance value of 1e-9.
-
-Some results suggest that this solver may be one of the quickest solvers for models that have a reasonably well-defined solution, i.e., the data are informative with respect to determining the estimated parameters.
-
-\subsubsection{\I{The Dlib minimiser}}
-
-Non-automatic differentiation minimiser. See \url{http://dlib.net/} for more information.
-
-{\small{\begin{verbatim}
-		@minimiser Dlib
-		type dlib
-		tolerance 1e-6
-		iterations 2500
-		evaluations 4000
-\end{verbatim}}}
-
-\subsection{\I{Posterior profiles}\label{sec:estimate-profiles}}
+\subsection{\I{Posterior profiles}\label{sec:estimate-profiles}}\label{methods:Profile}
 
 If profiles are run using the command \texttt{\cname\ -p}, \CNAME\ will first calculate a point estimate. For each scalar parameter or, in the case of vectors or selectivities, the element of the parameter to be profiled, \CNAME\ will fix its value at a sequence of $n$ evenly spaced numbers ($step$) between the specified lower and upper bounds $l$ and $u$, and calculate a point estimate at each value.
 

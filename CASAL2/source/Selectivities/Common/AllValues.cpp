@@ -5,7 +5,7 @@
  * @date 14/01/2013
  * @section LICENSE
  *
- * Copyright NIWA Science ©2013 - www.niwa.co.nz
+ * Copyright NIWA Science ï¿½2013 - www.niwa.co.nz
  *
  * $Date: 2008-03-04 16:33:32 +1300 (Tue, 04 Mar 2008) $
  */
@@ -45,14 +45,14 @@ void AllValues::DoValidate() {
   switch (model_->partition_type()) {
     case PartitionType::kAge:
       if (v_.size() != model_->age_spread()) {
-        LOG_ERROR_P(PARAM_V) << ": Number of 'v' values supplied is not the same as the model age spread.\n"
+        LOG_ERROR_P(PARAM_V) << ": Number of 'v' values supplied is not the same as the number of ages classes that were defined for the model.\n"
                              << "Expected: " << model_->age_spread() << ", parsed: " << v_.size();
       }
       break;
 
     case PartitionType::kLength:
       if (v_.size() != model_->length_bins().size()) {
-        LOG_ERROR_P(PARAM_V) << ": Number of 'v' values supplied is not the same as the model length bin count.\n"
+        LOG_ERROR_P(PARAM_V) << ": Number of 'v' values supplied is not the same as the number of length bins that were defined for the model.\n"
                              << "Expected: " << model_->length_bins().size() << ", parsed: " << v_.size();
       }
       break;
@@ -75,7 +75,7 @@ void AllValues::RebuildCache() {
     unsigned min_age = model_->min_age();
     for (unsigned i = 0; i < v_.size(); ++i) {
       if (v_[i] < 0.0)
-        LOG_FATAL_P(PARAM_V) << "v cannot have values less than 0.0. value = " << v_[i] << " for age = " << min_age + i;
+        LOG_FATAL_P(PARAM_V) << "v cannot have values less than zero (0). The value for v was " << v_[i] << " for age " << min_age + i;
       values_[i] = v_[i];
     }
   } else if (model_->partition_type() == PartitionType::kLength) {
@@ -95,7 +95,7 @@ void AllValues::RebuildCache() {
  * @return 0.0 - error
  */
 [[maybe_unused]] Double AllValues::GetLengthBasedResult(unsigned age, AgeLength* age_length, unsigned year, int time_step_index) {
-  LOG_ERROR_P(PARAM_LENGTH_BASED) << ": This selectivity type has not been implemented for age length based selectivities ";
+  LOG_ERROR_P(PARAM_LENGTH_BASED) << ": This selectivity type has not been implemented for length-based selectivities in an age-based model";
   return 0.0;
 }
 

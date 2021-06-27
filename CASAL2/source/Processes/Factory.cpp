@@ -108,7 +108,7 @@ Process* Factory::Create(shared_ptr<Model> model, const string& object_type, con
       else if (sub == PARAM_PREY_SUITABILITY_PREDATION)
         result = new age::MortalityPreySuitability(model);
       else if (sub == PARAM_NOP)
-        result = new processes::Nop(model);
+        result = new processes::NullProcess(model);
       else if (sub == PARAM_TAG_BY_AGE)
         result = new age::TagByAge(model);
       else if (sub == PARAM_TAG_BY_LENGTH)
