@@ -6,7 +6,7 @@
 /**/__pycache__/
 /.vscode/
 /BuildSystem/.project
-/BuildSystem/Casal2/
+/BuildSystem/Casal2/R-Libraries
 /BuildSystem/Doxygen
 /BuildSystem/bin
 /BuildSystem/config.iss
@@ -20,6 +20,7 @@
 /Documentation/**/*.log
 /Documentation/**/*.out
 /Documentation/**/*.toc
+/Documentation/**/*.tps
 /Documentation/**/Version.tex
 /Documentation/**/syntax_errors.txt
 /Documentation/UserManual/Syntax/
@@ -32,12 +33,9 @@
 /ThirdParty/adolc/msys/
 /ThirdParty/betadiff/*.log
 /ThirdParty/boost/*.log
-/ThirdParty/boost/boost_1_71_0/
-/ThirdParty/boost/casal2_unzip.log
+/ThirdParty/boost/boost_1_71_0
+/ThirdParty/boost/boost_1_71_0/*
 /ThirdParty/googletest_googlemock/*.log
 /ThirdParty/googletest_googlemock/googletest-release-1.8.1/
 /ThirdParty/parser/*.log
-/ThirdParty/test-adolc
-/ThirdParty/test-betadiff
-/ThirdParty/test-boost
-R-libraries/Casal2.Rcheck/
+casal2.code-workspace
