@@ -536,57 +536,36 @@ class Printer:
 
         print('-- Printing to file ' + self.current_output_file_)
         file = open(self.current_output_file_ + '.tex', 'w')
-        file.write('\defComLab{' + parent_class_.name_ + '}{Define an object of type \emph{' + parent_class_.name_ + '}}')
-        file.write(' (See Section \\ref{methods:' + parent_class_.name_.replace('\_', '') + '} for more information).' +
-                   '\\label{syntax:' + parent_class_.name_.replace('\_', '') + '}\n')
-        file.write('\n')
+        file.write('\defComLab{' + parent_class_.name_ + '}{Define an object of type \emph{' + parent_class_.name_ + '}}. ')
+        file.write('\\defRef{methods:' + parent_class_.name_.replace('\_', '') + '}\n')
+        file.write('\\label{syntax:' + parent_class_.name_.replace('\_', '') + '}\n\n')
         self.PrintClass(file, parent_class_)
 
         parent_class_.child_classes_ = collections.OrderedDict(
             sorted(parent_class_.child_classes_.items()))
         for child_class_name, child_class in parent_class_.child_classes_.items():
-            if len(child_class.child_classes_) > 0:
-                child_class.child_classes_ = collections.OrderedDict(sorted(child_class.child_classes_.items()))
-                for third_class_name, third_class in child_class.child_classes_.items():
-                    # this is an exception to remove time_step in front of mortality block observations
-                    first_val = third_class.name_[0:8]
-                    if parent_class_.name_ == 'Observation' and first_val == 'TimeStep':
-                        third_class.name_ = third_class.name_[8:len(third_class.name_)]
-                    object_name = re.sub(reReplaceUnderscores, '\_', third_class.name_.replace('_', '\_').replace('\\\\', '\\'))
-                    class_name = re.sub(reReplaceUnderscores, '\_', third_class.name_.replace('_', '\_').replace('\\\\', '\\'))
-                    parent_class = re.sub(reReplaceUnderscores, '\_', parent_class_.name_.replace('_', '\_').replace('\\\\', '\\'))
-                    # Exception corrections
-                    class_name = class_name.replace('GammaDiff', 'Numerical\_Differences')
-                    # write file
-                    file.write('\\subsubsection{' + parent_class + ' of type ' + object_name + '}\n')
-                    file.write('\\label{syntax:' + parent_class.replace('\_', '') + '-' + class_name.replace('\_', '') + '}\n')
-                    file.write('\nSyntax for \\commandlabsubarg{' + parent_class + '}{type}{' + class_name + '}.\n\n')
-                    self.PrintClass(file, third_class)
-                    file.write('\defRef{methods:' + parent_class.replace('\_', '') + '-' + class_name.replace('\_', '') + '}\n\n')
-            else:
-                object_name = re.sub(reReplaceUnderscores, '\_', child_class.name_.replace('_', '\_').replace('\\\\', '\\'))
-                class_name = re.sub(reReplaceUnderscores, '\_', child_class.name_.replace('_', '\_').replace('\\\\', '\\'))
-                parent_class = re.sub(reReplaceUnderscores, '\_', parent_class_.name_.replace('_', '\_').replace('\\\\', '\\'))
-                # Exception corrections
-                class_name = class_name.replace('GammaDiff', 'Numerical\_Differences')
-                # write file
-                file.write('\subsubsection{' + parent_class + ' of type ' + object_name + '}\n')
-                file.write('\\label{syntax:' + parent_class.replace('\_', '') + '-' + class_name.replace('\_', '') + '}\n\n')
-                file.write('Syntax for \\commandlabsubarg{' + parent_class + '}{type}{' + class_name + '}\n\n')
-                self.PrintClass(file, child_class)
-                # if(len(child_class) > 0):
-                #    self.PrintClass(file, child_class)
-                # else:
-                #    file.write('This type has no additional subcommands\n')
-                file.write('\\defRef{methods:' + parent_class.replace('\_', '') + '-' +
-                           class_name.replace('\_', '') + '}\n')
+            object_name = re.sub(reReplaceUnderscores, '\_', child_class.name_.replace('_', '\_').replace('\\\\', '\\'))
+            class_name = re.sub(reReplaceUnderscores, '\_', child_class.name_.replace('_', '\_').replace('\\\\', '\\'))
+            parent_class = re.sub(reReplaceUnderscores, '\_', parent_class_.name_.replace('_', '\_').replace('\\\\', '\\'))
+            # Exception corrections
+            class_name = class_name.replace('GammaDiff', 'Numerical\_Differences')
+            # write file
+            file.write('\subsubsection{' + parent_class + ' of type ' + object_name + '}\n')
+            file.write('\\commandlabsubarg{' + parent_class + '}{type}{' + class_name + '}. ')
+            file.write('\\defRef{methods:' + parent_class.replace('\_', '') + '-' + class_name.replace('\_', '') + '}\n')
+            file.write('\\label{syntax:' + parent_class.replace('\_', '') + '-' + class_name.replace('\_', '') + '}\n\n')
+            CommandCount = self.PrintClass(file, child_class)
+            if(CommandCount == 0):
+                file.write('The ' + class_name + ' type has no additional subcommands.\n')
         file.close()
         return True
 
     def PrintClass(self, file_, class_):
+        CommandCount = 0
         class_.estimables_ = collections.OrderedDict(
             sorted(class_.estimables_.items()))
         for key in class_.variable_order_:
+            CommandCount = CommandCount + 1
             print(key)
             variable = class_.variables_[(key)]
             if variable.name_ == '':
@@ -609,10 +588,10 @@ class Printer:
                     file_.write('\\defType{Addressable}\n')
             else:
                 file_.write('\\defType{' + type_aliases_[variable.type_] + '}\n')
-            if variable.default_.startswith('PARAM_'):
-                file_.write('\\defDefault{' + translations_[variable.default_] + '}\n')
+            if variable.default_.replace('\_','_').startswith('PARAM_'):
+                file_.write('\\defDefault{' + translations_[variable.default_.replace('\_','_')] + '}\n')
             else:
-                file_.write('\\defDefault{' + variable.default_ + '}\n')
+                file_.write('\\defDefault{' + variable.default_.replace('""','No default') + '}\n')
             if variable.value_ != '':
                 file_.write('\\defValue{' + variable.value_ + '}\n')
             if variable.lower_bound_ != '':
@@ -622,11 +601,12 @@ class Printer:
             if variable.allowed_values_ != '':
                 file_.write('\\defAllowedValues{' + variable.allowed_values_ + '}\n')
             file_.write('\n')
+        return CommandCount
 
 
 class Latex:
     def Build(self):
-        print('-- Building latex documentation and pdf')
+        print('-- Building User Manual documentation')
         cwd = os.path.normpath(os.getcwd())
         os.chdir('../Documentation/UserManual/')
         print('-- Building CASAL.syn')
@@ -671,7 +651,7 @@ class Latex:
             file_output.write(version)
             file_output.close()
 
-        for i in range(0, 3):
+        for i in range(0, 1): #for i in range(0, 3):
             if Globals.operating_system_ != "windows":
                 # Create CASAL2.aux
                 if os.system('pdflatex --interaction=nonstopmode CASAL2') != EX_OK:
@@ -696,37 +676,5 @@ class Latex:
                 if os.system('makeindex.exe CASAL2') != EX_OK:
                     return Globals.PrintError('makeindex failed')
         print('-- Built the Casal2 usermanual')
-
-        os.chdir('../GettingStartedGuide/')
-        for i in range(0, 3):
-            if Globals.operating_system_ != "windows":
-                if os.system('pdflatex --interaction=nonstopmode GettingStartedGuide') != EX_OK:
-                    return False
-                if os.system('bibtex GettingStartedGuide') != EX_OK:
-                    return False
-                if os.system('pdflatex --halt-on-error --interaction=nonstopmode GettingStartedGuide') != EX_OK:
-                    return False
-                if os.system('makeindex GettingStartedGuide') != EX_OK:
-                    return False
-                if not os.path.exists('GettingStartedGuide.pdf'):
-                    return False
-            else:
-                if os.system('bibtex.exe GettingStartedGuide') != EX_OK:
-                    return Globals.PrintError('bibtex failed')
-                if os.system('pdflatex.exe --halt-on-error --enable-installer GettingStartedGuide') != EX_OK:
-                    return Globals.PrintError('pdflatex failed')
-                if os.system('makeindex.exe GettingStartedGuide') != EX_OK:
-                    return Globals.PrintError('makeindex failed')
-
-        print('-- Built the GettingStartedGuide')
-        os.chdir('../ContributorsManual/')
-        for i in range(0, 3):
-            if Globals.operating_system_ != "windows":
-                if os.system('pdflatex --halt-on-error --interaction=nonstopmode ContributorsGuide') != EX_OK:
-                    return False
-            else:
-                if os.system('pdflatex.exe --halt-on-error --enable-installer ContributorsGuide') != EX_OK:
-                    return Globals.PrintError('pdflatex failed')
-        print('-- Built the ContributorsGuide')
 
         return True
