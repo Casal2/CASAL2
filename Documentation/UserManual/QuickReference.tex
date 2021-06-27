@@ -1,5 +1,5 @@
 \section{Quick reference\label{sec:quick-reference}}
-\defComLab{Additional\_Prior}{Define an object of type \emph{Additional\_Prior}} (See Section \ref{methods:AdditionalPrior} for more information).}\par
+\defComLab{Additional\_Prior}{Define an object of type \emph{Additional\_Prior}}. \defRef{methods:AdditionalPrior}\par
 \defSub{parameter} {The name of the parameter to generate additional prior on}
 \defSub{label} {The label for the additional prior}
 \defSub{type} {The type of additional prior}
@@ -25,7 +25,7 @@
 \defSub{lower\_bound} {The first element to apply the penalty to in the vector}
 \defSub{upper\_bound} {The last element to apply the penalty to in the vector}
 \defSub{r} {Penalty applied to rth differences}
-\defComLab{Ageing\_Error}{Define an object of type \emph{Ageing\_Error}} (See Section \ref{methods:AgeingError} for more information).}\par\par
+\defComLab{Ageing\_Error}{Define an object of type \emph{Ageing\_Error}}. \defRef{methods:AgeingError}\par\par
 \defSub{label} {The label of the ageing error}
 \defSub{type} {The type of ageing error}
 \par\textbf\subsubsection{Ageing\_Error of type Data}\par
@@ -37,7 +37,7 @@
 \defSub{p1} {The proportion misclassified as one year younger, e.g., the proportion of age 3 individuals that were misclassified as age 2}
 \defSub{p2} {The proportion misclassified as one year older, e.g., the proportion of age 3 individuals that were misclassified as age 4}
 \defSub{k} {The minimum age of animals which can be misclassified, i.e., animals of age less than k are assumed to be correctly classified}
-\defComLab{Age\_Length}{Define an object of type \emph{Age\_Length}} (See Section \ref{methods:AgeLength} for more information).}\par\par
+\defComLab{Age\_Length}{Define an object of type \emph{Age\_Length}}. \defRef{methods:AgeLength}\par\par
 \defSub{label} {The label of the age length relationship}
 \defSub{type} {The type of age length relationship}
 \defSub{time\_step\_proportions} {The fraction of the year applied in each time step that is added to the age for the purposes of evaluating the length, i.e., a value of 0.5 for a time step will evaluate the length of individuals at age+0.5 in that time step}
@@ -65,7 +65,7 @@
 \defSub{k} {The $k$ parameter}
 \defSub{t0} {The $t\_0$ parameter}
 \defSub{length\_weight} {The label of the associated length-weight relationship}
-\defComLab{Catchability}{Define an object of type \emph{Catchability}} (See Section \ref{methods:Catchability} for more information).}\par\par
+\defComLab{Catchability}{Define an object of type \emph{Catchability}}. \defRef{methods:Catchability}\par\par
 \defSub{label} {Label of the catchability}
 \defSub{type} {The type of catchability}
 \par\textbf\subsubsection{Catchability of type Free}\par
@@ -74,14 +74,14 @@
 \defSub{lower\_bound} {The upper bound for nuisance catchability}
 \defSub{upper\_bound} {The lower bound for nuisance catchability}
 \defSub{q} {}
-\defComLab{Categories}{Define an object of type \emph{Categories}} (See Section \ref{methods:Categories} for more information).}\par\par
+\defComLab{Categories}{Define an object of type \emph{Categories}}. \defRef{methods:Categories}\par\par
 \defSub{format} {The format that the category names use}
 \defSub{names} {The names of the categories to be used in the model}
 \defSub{years} {The years that individual categories will be active for. This overrides the model values}
 \defSub{age\_lengths} {R(The labels of age\_length objects that are assigned to categories)}
 \defSub{length\_weight} {R(The labels of the length\_weight objects that are assigned to categories)}
 \defSub{age\_weight} {R(The labels of the age\_weight objects that are assigned to categories)}
-\defComLab{Derived\_Quantity}{Define an object of type \emph{Derived\_Quantity}} (See Section \ref{methods:DerivedQuantity} for more information).}\par\par
+\defComLab{Derived\_Quantity}{Define an object of type \emph{Derived\_Quantity}}. \defRef{methods:DerivedQuantity}\par\par
 \defSub{label} {The label of the derived quantity}
 \defSub{type} {The type of derived quantity}
 \defSub{time\_step} {The time step in which to calculate the derived quantity after}
@@ -93,7 +93,7 @@
 \par\textbf\subsubsection{Derived\_Quantity of type Abundance}\par
 \par\textbf\subsubsection{Derived\_Quantity of type Biomass}\par
 \defSub{age\_weight\_labels} {The labels for the @age\_weight block which corresponds to each category, to use that weight calculation method for biomass calculations}
-\defComLab{Estimate}{Define an object of type \emph{Estimate}} (See Section \ref{methods:Estimate} for more information).}\par\par
+\defComLab{Estimate}{Define an object of type \emph{Estimate}}. \defRef{methods:Estimate}\par\par
 \defSub{label} {The label of the estimate}
 \defSub{type} {The prior type for the estimate}
 \defSub{parameter} {The name of the parameter to estimate in the model}
@@ -125,7 +125,7 @@
 \defSub{sigma} {The normal-log prior variance (standard deviation) parameter}
 \par\textbf\subsubsection{Estimate of type Uniform}\par
 \par\textbf\subsubsection{Estimate of type Uniform\_Log}\par
-\defComLab{Estimate\_Transformation}{Define an object of type \emph{Estimate\_Transformation}} (See Section \ref{methods:EstimateTransformation} for more information).}\par\par
+\defComLab{Estimate\_Transformation}{Define an object of type \emph{Estimate\_Transformation}}. \defRef{methods:EstimateTransformation}\par\par
 \defSub{label} {Label for the transformation block}
 \defSub{type} {The type of transformation}
 \defSub{transform\_with\_jacobian} {Apply Jacobian during transformation}
@@ -151,7 +151,7 @@
 \defSub{estimate\_labels} {The label for the estimates for the sum to one transformation}
 \defSub{upper\_bound} {The empirical upper bounds for the transformed parameters. There should be one less bound than parameters}
 \defSub{lower\_bound} {The empirical lower bound for the transformed parameters. There should be one less bound than parameters}
-\defComLab{Initialisation\_Phase}{Define an object of type \emph{Initialisation\_Phase}} (See Section \ref{methods:InitialisationPhase} for more information).}\par\par
+\defComLab{Initialisation\_Phase}{Define an object of type \emph{Initialisation\_Phase}}. \defRef{methods:InitialisationPhase}\par\par
 \defSub{label} {The label of the initialisation phase}
 \defSub{type} {The type of initialisation}
 \par\textbf\subsubsection{Initialisation\_Phase of type Cinitial}\par
@@ -170,7 +170,7 @@
 \defSub{categories} {The list of categories for the category state initialisation}
 \defSub{min\_age} {The minimum age of values supplied in the definition of the category state}
 \defSub{max\_age} {The maximum age of values supplied in the definition of the category state}
-\defComLab{Length\_Weight}{Define an object of type \emph{Length\_Weight}} (See Section \ref{methods:LengthWeight} for more information).}\par\par
+\defComLab{Length\_Weight}{Define an object of type \emph{Length\_Weight}}. \defRef{methods:LengthWeight}\par\par
 \defSub{label} {The label of the length-weight relationship}
 \defSub{type} {The type of the length-weight relationship}
 \par\textbf\subsubsection{Length\_Weight of type Basic}\par
@@ -178,7 +178,7 @@
 \defSub{b} {The $b$ parameter ($W = a L^b$)}
 \defSub{units} {The units of measure (tonnes, kgs, grams)}
 \par\textbf\subsubsection{Length\_Weight of type None}\par
-\defComLab{Likelihood}{Define an object of type \emph{Likelihood}} (See Section \ref{methods:Likelihood} for more information).}\par\par
+\defComLab{Likelihood}{Define an object of type \emph{Likelihood}}. \defRef{methods:Likelihood}\par\par
 \par\textbf\subsubsection{Likelihood of type Binomial}\par
 \par\textbf\subsubsection{Likelihood of type Binomial\_Approx}\par
 \par\textbf\subsubsection{Likelihood of type Dirichlet}\par
@@ -187,7 +187,7 @@
 \par\textbf\subsubsection{Likelihood of type Multinomial}\par
 \par\textbf\subsubsection{Likelihood of type Normal}\par
 \par\textbf\subsubsection{Likelihood of type Pseudo}\par
-\defComLab{MCMC}{Define an object of type \emph{MCMC}} (See Section \ref{methods:MCMC} for more information).}\par\par
+\defComLab{MCMC}{Define an object of type \emph{MCMC}}. \defRef{methods:MCMC}\par\par
 \defSub{label} {The label of the MCMC}
 \defSub{type} {The MCMC method}
 \defSub{length} {The number of iterations in for the MCMC chain}
@@ -209,7 +209,7 @@
 \defSub{gradient\_step\_size} {Step size to use when calculating gradient}
 \par\textbf\subsubsection{MCMC of type Independence\_Metropolis}\par
 \par\textbf\subsubsection{MCMC of type Random\_Walk\_Metropolis\_Hastings}\par
-\defComLab{Minimiser}{Define an object of type \emph{Minimiser}} (See Section \ref{methods:Minimiser} for more information).}\par\par
+\defComLab{Minimiser}{Define an object of type \emph{Minimiser}}. \defRef{methods:Minimiser}\par\par
 \defSub{label} {The minimiser label}
 \defSub{type} {The type of minimiser to use}
 \defSub{active} {Indicates if this minimiser is active}
@@ -240,7 +240,7 @@
 \defSub{evaluations} {The maximum number of evaluations}
 \defSub{tolerance} {The tolerance of the gradient for convergence}
 \defSub{step\_size} {The minimum step size before minimisation fails}
-\defComLab{Model}{Define an object of type \emph{Model}} (See Section \ref{methods:Model} for more information).}\par\par
+\defComLab{Model}{Define an object of type \emph{Model}}. \defRef{methods:Model}\par\par
 \defSub{base\_weight\_units} {Define the units for the base weight. This will be the default unit of any weight input parameters}
 \defSub{threads} {The number of threads to use for this model}
 \par\textbf\subsubsection{Model of type Age}\par
@@ -260,7 +260,7 @@
 \defSub{use\_random} {Use random numbers for points, not the defined MCMC algorithm}
 \par\textbf\subsubsection{Model of type Pi\_Approximation}\par
 \defSub{use\_random} {Use random numbers for points, not the defined MCMC algorithm}
-\defComLab{Observation}{Define an object of type \emph{Observation}} (See Section \ref{methods:Observation} for more information).}\par\par
+\defComLab{Observation}{Define an object of type \emph{Observation}}. \defRef{methods:Observation}\par\par
 \defSub{label} {The label of the observation}
 \defSub{type} {The type of observation}
 \defSub{likelihood} {The type of likelihood to use}
@@ -406,13 +406,13 @@
 \defSub{detection} {The probability of detecting a recaptured individual}
 \defSub{dispersion} {The overdispersion parameter (phi)}
 \defSub{time\_step\_proportion} {The proportion through the mortality block of the time step when the observation is evaluated}
-\defComLab{Penalty}{Define an object of type \emph{Penalty}} (See Section \ref{methods:Penalty} for more information).}\par\par
+\defComLab{Penalty}{Define an object of type \emph{Penalty}}. \defRef{methods:Penalty}\par\par
 \defSub{label} {The label of the penalty}
 \defSub{type} {The type of penalty}
 \par\textbf\subsubsection{Penalty of type Process}\par
 \defSub{multiplier} {The penalty multiplier}
 \defSub{log\_scale} {Indicates if the sums of squares is calculated on the log scale}
-\defComLab{Process}{Define an object of type \emph{Process}} (See Section \ref{methods:Process} for more information).}\par\par
+\defComLab{Process}{Define an object of type \emph{Process}}. \defRef{methods:Process}\par\par
 \defSub{label} {The label of the process}
 \defSub{type} {The type of process}
 \par\textbf\subsubsection{Process of type Ageing}\par
@@ -573,14 +573,14 @@
 \defSub{u\_max} {The maximum exploitation rate ($U\_{max}$)}
 \defSub{years} {The years to execute the transition in}
 \par\textbf\subsubsection{Process of type Unit\_Tester}\par
-\defComLab{Profile}{Define an object of type \emph{Profile}} (See Section \ref{methods:Profile} for more information).}\par\par
+\defComLab{Profile}{Define an object of type \emph{Profile}}. \defRef{methods:Profile}\par\par
 \defSub{label} {The label of the profile}
 \defSub{steps} {The number of steps between the lower and upper bound}
 \defSub{lower\_bound} {The lower bounds}
 \defSub{upper\_bound} {The upper bounds}
 \defSub{parameter} {The system parameter to profile}
 \defSub{same} {A parameter that is constrained to have the same value as the parameter being profiled}
-\defComLab{Project}{Define an object of type \emph{Project}} (See Section \ref{methods:Project} for more information).}\par\par
+\defComLab{Project}{Define an object of type \emph{Project}}. \defRef{methods:Project}\par\par
 \defSub{label} {Label}
 \defSub{type} {Type}
 \defSub{years} {Years to recalculate the values}
@@ -600,7 +600,7 @@
 \defSub{final\_year} {The final year of sampling}
 \par\textbf\subsubsection{Project of type User\_Defined}\par
 \defSub{equation} {The equation to do a test run of}
-\defComLab{Report}{Define an object of type \emph{Report}} (See Section \ref{methods:Report} for more information).}\par\par
+\defComLab{Report}{Define an object of type \emph{Report}}. \defRef{methods:Report}\par\par
 \defSub{label} {The label for the report}
 \defSub{type} {The type of report}
 \defSub{file\_name} {The filename for this report to be in a separate file}
@@ -663,7 +663,7 @@
 \par\textbf\subsubsection{Report of type Simulated\_Observation}\par
 \defSub{observation} {The observation label}
 \par\textbf\subsubsection{Report of type Time\_Varying}\par
-\defComLab{Selectivity}{Define an object of type \emph{Selectivity}} (See Section \ref{methods:Selectivity} for more information).}\par\par
+\defComLab{Selectivity}{Define an object of type \emph{Selectivity}}. \defRef{methods:Selectivity}\par\par
 \defSub{label} {The label for the selectivity}
 \defSub{type} {The type of selectivity}
 \defSub{length\_based} {Is the selectivity length based?}
@@ -715,17 +715,17 @@
 \defSub{a50} {a50}
 \defSub{ato95} {ato95}
 \defSub{alpha} {alpha}
-\defComLab{Simulate}{Define an object of type \emph{Simulate}} (See Section \ref{methods:Simulate} for more information).}\par\par
+\defComLab{Simulate}{Define an object of type \emph{Simulate}}. \defRef{methods:Simulate}\par\par
 \defSub{label} {The label for the simulation command block}
 \defSub{type} {The type of simulation}
 \defSub{years} {The years to simulate values for}
 \defSub{parameter} {The parameter to generate simulated values for}
 \par\textbf\subsubsection{Simulate of type Constant}\par
 \defSub{value} {The value to assign to the parameter in the simulations}
-\defComLab{Time\_Step}{Define an object of type \emph{Time\_Step}} (See Section \ref{methods:TimeStep} for more information).}\par\par
+\defComLab{Time\_Step}{Define an object of type \emph{Time\_Step}}. \defRef{methods:TimeStep}\par\par
 \defSub{label} {The label of the time step}
 \defSub{processes} {The labels of the processes for this time step, and given in the order that they occur within the time step}
-\defComLab{Time\_Varying}{Define an object of type \emph{Time\_Varying}} (See Section \ref{methods:TimeVarying} for more information).}\par\par
+\defComLab{Time\_Varying}{Define an object of type \emph{Time\_Varying}}. \defRef{methods:TimeVarying}\par\par
 \defSub{label} {The label of the time-varying object}
 \defSub{type} {The type of the time-varying object}
 \defSub{parameter} {The name of the parameter to vary in each year}
