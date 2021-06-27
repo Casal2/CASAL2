@@ -6,12 +6,11 @@
 /**/__pycache__/
 /.vscode/
 /BuildSystem/.project
-/BuildSystem/Casal2/
+/BuildSystem/Casal2/R-Libraries
 /BuildSystem/Doxygen
 /BuildSystem/bin
 /BuildSystem/config.iss
 /BuildSystem/icon.o
-R-libraries/Casal2.Rcheck/
 /Documentation/**/*.aux
 /Documentation/**/*.bbl
 /Documentation/**/*.blg

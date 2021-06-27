@@ -8,8 +8,6 @@
 		"cSpell.words": [
 			"BEVERTON",
 			"CASAL",
-			"CPUE",
-			"Doonan",
 			"Initialisation",
 			"MCMC",
 			"Mersenne",
@@ -20,7 +18,6 @@
 			"bertalanffy",
 			"bfgs",
 			"bobyqa",
-			"catchability",
 			"cinitial",
 			"cppad",
 			"electivities",

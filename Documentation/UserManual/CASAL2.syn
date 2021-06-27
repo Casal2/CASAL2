@@ -1,4 +1,4 @@
-; TextPad syntax definitions for CASAL2; This is auto generated from the QuickReference.py script do not edit
+; TextPad syntax definitions for CASAL2; This is auto generated from the quickreference.py script do not edit
 ; ===================================================================================
 ;
 ;
@@ -35,7 +35,6 @@ CharEsc = \
 @Additional_Prior
 @Age_Length
 @Ageing_Error
-@Assert
 @Catchability
 @Categories
 @Derived_Quantity
@@ -59,157 +58,6 @@ CharEsc = \
 @Time_Varying
 
 [Keywords 2]
-ADOLC
-Abundance
-Addressable
-Age
-Age_Length
-Ageing
-Ageing_Error_Matrix
-All_Values
-All_Values_Bounded
-Annual_Shift
-Average_Difference
-Basic
-Beta
-Beta_Diff
-Binomial
-Binomial_Approx
-Biomass
-Catchability
-Category_Info
-Category_List
-Cinitial
-Constant
-ConstantMock
-Correlation_Matrix
-Covariance_Matrix
-DESolver
-Data
-Delta_Diff
-Derived
-Derived_Quantity
-Dirichlet
-Double_Exponential
-Double_Normal
-Element_Difference
-Empirical_Sampling
-Equation_Test
-Estimate_Summary
-Estimate_Value
-Estimation_Result
-Exogenous
-Free
-Gamma_Diff
-Hamiltonian_Monte_Carlo
-Hessian_Matrix
-Increasing
-Independence_Metropolis
-Initialisation_Partition
-Initialisation_Partition_Mean_Weight
-Inverse
-Inverse_Logistic
-Iterative
-Knife_Edge
-Linear
-Load_Partition
-Log
-Log_Normal
-Log_Normal_Empirical
-Log_Normal_With_Q
-Log_Sum
-Logistic
-Logistic_Producing
-Lognormal
-MCMCCovariance
-MCMCObjective
-MCMCSample
-MPD
-Maturation
-Mortality_Constant_Rate
-Mortality_Event
-Mortality_Event_Biomass
-Mortality_Holling_Rate
-Mortality_Initialisation_Event
-Mortality_Initialisation_Event_Biomass
-Mortality_Instantaneous
-Mortality_Instantaneous_Retained
-Mortality_Prey_Suitability
-Multinomial
-None
-Nop
-Normal
-Normal_By_Stdev
-Normal_Log
-Nuisance
-Objective_Function
-Observation
-Off_By_One
-Orthogonal
-Output_Parameters
-Partition
-Partition_Biomass
-Partition_Mean_Length
-Partition_Mean_Weight
-Partition_Year_Cross_Age_Matrix
-Process
-Process_Removals_By_Age
-Process_Removals_By_Age_Retained
-Process_Removals_By_Age_Retained_Total
-Process_Removals_By_Length
-Process_Removals_By_Length_Retained
-Process_Removals_By_Length_Retained_Total
-Process_Removals_By_Weight
-Project
-Proportions_At_Age
-Proportions_At_Length
-Proportions_By_Category
-Proportions_Mature_By_Age
-Proportions_Migrating
-Pseudo
-Random_Draw
-Random_Number_Seed
-Random_Walk
-Random_Walk_Metropolis_Hastings
-Recruitment_Beverton_Holt
-Recruitment_Beverton_Holt_With_Deviations
-Recruitment_Constant
-Schnute
-Selectivity
-Simplex
-Simulated_Observation
-Square_Root
-State_Category_By_Age
-Sum_To_One
-Survival_Constant_Rate
-Tag_By_Age
-Tag_By_Length
-Tag_Loss
-Tag_Recapture_By_Age
-Tag_Recapture_By_Length
-Time_Varying
-Transition_Category
-Transition_Category_By_Age
-Uniform
-Uniform_Log
-Unit_Tester
-User_Defined
-Vector_Average
-Vector_Smoothing
-Von_Bertalanffy
-
-[Keywords 3]
-F
-False
-T
-True
-f
-false
-t
-true
-
-
-[Keywords 4]
 a
 a50
 active
@@ -272,7 +120,6 @@ file_name
 final_year
 first_recent_year_with_no_bias
 first_year_with_bias
-fishbox_weight
 format
 from
 gradient_step_size
@@ -298,13 +145,10 @@ leapfrog_steps
 length
 length_based
 length_bins
-length_bins_n
 length_plus
 length_plus_group
 length_values
 length_weight
-length_weight_cv
-length_weight_distribution
 likelihood
 likelihood_multiplier
 linf
@@ -401,10 +245,10 @@ type
 u_max
 units
 upper_bound
+use_random
 v
 value
 values
-weight_bins
 write_mode
 x
 x0
@@ -417,6 +261,175 @@ ycs_values
 ycs_years
 year
 years
+
+[Keywords 3]
+F
+False
+T
+True
+f
+false
+t
+true
+
+
+[Keywords 4]
+Additional_Prior of type Bet
+Additional_Prior of type Element_Differenc
+Additional_Prior of type Log_Norma
+Additional_Prior of type Uniform_Lo
+Additional_Prior of type Vector_Averag
+Additional_Prior of type Vector_Smoothin
+Age_Length of type Dat
+Age_Length of type Non
+Age_Length of type Schnut
+Age_Length of type Von_Bertalanff
+Ageing_Error of type Dat
+Ageing_Error of type Non
+Ageing_Error of type Norma
+Ageing_Error of type Off_By_On
+Catchability of type Fre
+Catchability of type Nuisanc
+Derived_Quantity of type Abundanc
+Derived_Quantity of type Biomas
+Estimate of type Bet
+Estimate of type Lognorma
+Estimate of type Norma
+Estimate of type Normal_By_Stde
+Estimate of type Normal_Lo
+Estimate of type Unifor
+Estimate of type Uniform_Lo
+Estimate_Transformation of type Average_Differenc
+Estimate_Transformation of type Invers
+Estimate_Transformation of type Lo
+Estimate_Transformation of type Log_Su
+Estimate_Transformation of type Orthogona
+Estimate_Transformation of type Simple
+Estimate_Transformation of type Square_Roo
+Estimate_Transformation of type Sum_To_On
+Initialisation_Phase of type Cinitia
+Initialisation_Phase of type Derive
+Initialisation_Phase of type Iterativ
+Initialisation_Phase of type State_Category_By_Ag
+Length_Weight of type Basi
+Length_Weight of type Non
+Likelihood of type Binomia
+Likelihood of type Binomial_Appro
+Likelihood of type Dirichle
+Likelihood of type Log_Norma
+Likelihood of type Log_Normal_With_
+Likelihood of type Multinomia
+Likelihood of type Norma
+Likelihood of type Pseud
+MCMC of type Hamiltonian_Monte_Carl
+MCMC of type Independence_Metropoli
+MCMC of type Random_Walk_Metropolis_Hasting
+Minimiser of type ADOL
+Minimiser of type Beta_Dif
+Minimiser of type DESolve
+Minimiser of type Delta_Dif
+Minimiser of type Gamma_Dif
+Model of type Ag
+Model of type Lengt
+Model of type Multivariat
+Model of type Pi_Approximatio
+Observation of type Abundanc
+Observation of type Biomas
+Observation of type Process_Removals_By_Ag
+Observation of type Process_Removals_By_Age_Retaine
+Observation of type Process_Removals_By_Age_Retained_Tota
+Observation of type Process_Removals_By_Lengt
+Observation of type Process_Removals_By_Length_Retaine
+Observation of type Process_Removals_By_Length_Retained_Tota
+Observation of type Proportions_At_Ag
+Observation of type Proportions_At_Lengt
+Observation of type Proportions_By_Categor
+Observation of type Proportions_Mature_By_Ag
+Observation of type Proportions_Migratin
+Observation of type Tag_Recapture_By_Ag
+Observation of type Tag_Recapture_By_Lengt
+Penalty of type Proces
+Process of type Agein
+Process of type Load_Partitio
+Process of type Maturatio
+Process of type Mortality_Constant_Rat
+Process of type Mortality_Even
+Process of type Mortality_Event_Biomas
+Process of type Mortality_Holling_Rat
+Process of type Mortality_Initialisation_Even
+Process of type Mortality_Initialisation_Event_Biomas
+Process of type Mortality_Instantaneou
+Process of type Mortality_Instantaneous_Retaine
+Process of type Mortality_Prey_Suitabilit
+Process of type No
+Process of type Recruitment_Beverton_Hol
+Process of type Recruitment_Beverton_Holt_With_Deviation
+Process of type Recruitment_Constan
+Process of type Survival_Constant_Rat
+Process of type Tag_By_Ag
+Process of type Tag_By_Lengt
+Process of type Tag_Los
+Process of type Transition_Categor
+Process of type Transition_Category_By_Ag
+Process of type Unit_Teste
+Project of type Constan
+Project of type Empirical_Samplin
+Project of type Log_Norma
+Project of type Log_Normal_Empirica
+Project of type User_Define
+Report of type Addressabl
+Report of type Age_Lengt
+Report of type Ageing_Error_Matri
+Report of type Catchabilit
+Report of type Category_Inf
+Report of type Category_Lis
+Report of type Correlation_Matri
+Report of type Covariance_Matri
+Report of type Derived_Quantit
+Report of type Equation_Tes
+Report of type Estimate_Summar
+Report of type Estimate_Valu
+Report of type Estimation_Resul
+Report of type Hessian_Matri
+Report of type Initialisation_Partitio
+Report of type Initialisation_Partition_Mean_Weigh
+Report of type MCMCCovarianc
+Report of type MCMCObjectiv
+Report of type MCMCSampl
+Report of type MP
+Report of type Objective_Functio
+Report of type Observatio
+Report of type Output_Parameter
+Report of type Partitio
+Report of type Partition_Biomas
+Report of type Partition_Mean_Lengt
+Report of type Partition_Mean_Weigh
+Report of type Partition_Year_Cross_Age_Matri
+Report of type Proces
+Report of type Projec
+Report of type Random_Number_See
+Report of type Selectivit
+Report of type Simulated_Observatio
+Report of type Time_Varyin
+Selectivity of type All_Value
+Selectivity of type All_Values_Bounde
+Selectivity of type Constan
+Selectivity of type Constant.Moc
+Selectivity of type Double_Exponentia
+Selectivity of type Double_Norma
+Selectivity of type Increasin
+Selectivity of type Inverse_Logisti
+Selectivity of type Knife_Edg
+Selectivity of type Logisti
+Selectivity of type Logistic_Producin
+Simulate of type Constan
+Time_Varying of type Annual_Shif
+Time_Varying of type Constan
+Time_Varying of type Constant.Moc
+Time_Varying of type Exogenou
+Time_Varying of type Linea
+Time_Varying of type Random_Dra
+Time_Varying of type Random_Wal
 
 [Keywords 5]
 
