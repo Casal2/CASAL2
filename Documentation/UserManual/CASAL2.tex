@@ -1,3 +1,4 @@
+% Standard A4 2-sided layout
 \documentclass[a4paper,11pt,twoside,pdftex]{article}
 
 % Caption package for formatting figure and label captions
@@ -10,54 +11,48 @@
 \usepackage{cmap}     % allow searching in pdf documents
 \usepackage{tabulary} % better tables
 \usepackage{comment}  % block comments
-\usepackage{multicol}
 \usepackage[toc,page]{appendix}
-\usepackage[usenames, dvipsnames]{xcolor} % Highlighting text for editing
-\usepackage[T1]{fontenc} % for searching for terms with underscores
 
 % hyperref for HTML links within pdf
-%% EXAMPLE: \href{http://www.niwa.co.nz}{NIWA}
+% EXAMPLE: \href{https://www.niwa.co.nz}{NIWA}
 \usepackage[bookmarks=true,bookmarksopen=false,bookmarksnumbered=true,
             pdfpagelayout=TwoPageRight,
             pdftitle={Casal2 User Manual},
-            pdfauthor={I. Doonan, A. Dunn, K. Large, C. Marsh, S. Rasmussen, S. Datta, T. A'Mar} %authors
-            pdfsubject={Casal2, User manual},
+            pdfauthor={Casal2 Development Team} %authors
+            pdfsubject={Casal2 User Manual, NIWA Technical Report},
             pdftex]{hyperref}
 \hypersetup{
   breaklinks=true,      % allow line breaks in URLs
   colorlinks=true,      % use colour to define links
-  linkcolor=blue,       % colour of internal links
-  citecolor=teal,       % colour of links to bibliography
+  linkcolor=black,      % colour of internal links
+  citecolor=black,      % colour of links to bibliography
   filecolor=black,      % colour of file links
   urlcolor=darkgray     % colour of external links
 }
 \pdfadjustspacing=1
 
-% Use AMS Maths
+% Use AMS Maths 
 \usepackage[fleqn]{amsmath}
-\newcommand\AddVspace{\\[0 pt]} % artificial method of adding vertical space within equations
+% artificial method of adding vertical space within equations
+\newcommand\AddVspace{\\[0 pt]} 
 
 % Package for including and pretty printing of external config files and program code
-\usepackage{listings}
-\lstset{ %
-basicstyle=\ttfamily\footnotesize,
-breaklines=true,
-columns=fullflexible,
-showspaces=false,           % show spaces adding particular underscores
-showstringspaces=false,     % underline spaces within strings
-showtabs=false,             % show tabs within strings adding particular underscores
-tabsize=2,			            % sets default tabsize to 2 spaces
-breakatwhitespace=false,	  % sets if automatic breaks should only happen at whitespace
-escapeinside={\%*}{*)}      % if you want to add a comment within your code
+\usepackage{listings} 
+\lstset{ 
+  basicstyle=\ttfamily\footnotesize,
+  breaklines=true,
+  columns=fullflexible,
+  showspaces=false,               % show spaces adding particular underscores
+  showstringspaces=false,         % underline spaces within strings
+  showtabs=false,                 % show tabs within strings adding particular underscores
+  tabsize=2,			                % sets default tabsize to 2 spaces
+  breakatwhitespace=false,	      % sets if automatic breaks should only happen at whitespace
+  escapeinside={\%*}{*)}          % if you want to add a comment within your code
 }
-
-% highlighting package for editing
-\usepackage{color,soul}
 
 % Allow colour for HTML links
 \usepackage{color}
 \definecolor{darkgray}{gray}{0.20}
-\definecolor{lightgray}{gray}{0.95}
 
 % Geometry for A4 layout like MS-Word defaults
 \usepackage[left=2.54cm,top=2.54cm,bottom=3.17cm,right=3.17cm]{geometry}
@@ -76,18 +71,11 @@ escapeinside={\%*}{*)}      % if you want to add a comment within your code
 
 % Section header fonts
 \usepackage{sectsty}
-\allsectionsfont{\sffamily\large} % Normal sized arial style section headings
+% Normal sized arial style section headings
+\allsectionsfont{\sffamily\large} 
 % Add a dot after section headings
 \makeatletter
- \def\@seccntformat#1{\csname the#1\endcsname.\quad}
- \renewcommand\paragraph{\@startsection{paragraph}{4}{\z@}%
-             {-2.5ex\@plus -1ex \@minus -.25ex}%
-             {1.25ex \@plus .25ex}%
-             {\normalfont\normalsize\bfseries}}
 \makeatother
-
-\setcounter{secnumdepth}{4} % how many sectioning levels to assign numbers to
-\setcounter{tocdepth}{4}    % how many sectioning levels to show in ToC
 
 % Page style
 \usepackage{fancyhdr}
@@ -99,7 +87,7 @@ escapeinside={\%*}{*)}      % if you want to add a comment within your code
 \renewcommand{\footrulewidth}{0pt}
 \setlength{\parindent}{0pt} % No indentation at start of paragraph
 \setlength{\baselineskip}{1ex plus 0.2ex minus 0.1ex}
-\setlength{\parskip}{1.1ex} % Gap between paragraphs
+\setlength{\parskip}{1.05ex} % Gap between paragraphs
 \raggedbottom % prefer space at the bottom of page
 
 % Make equation numbers be section number then equation number
@@ -112,12 +100,12 @@ escapeinside={\%*}{*)}      % if you want to add a comment within your code
 \def\theequation{\thesection.\@arabic\c@equation}
 \makeatother
 
-%% stop figures from going onto a page by themselves
+% stop figures from going onto a page by themselves
 \renewcommand{\topfraction}{0.85}
 \renewcommand{\textfraction}{0.1}
 \renewcommand{\floatpagefraction}{0.75}
 
-%% make list gaps small
+% make list gaps small
 \usepackage{tweaklist} % (a local style) for tweaking spacing between list elements
 \renewcommand{\enumhook}{\setlength{\topsep}{0.5ex}%
   \setlength{\itemsep}{0.1ex}}
@@ -149,16 +137,16 @@ escapeinside={\%*}{*)}      % if you want to add a comment within your code
 
 \newcommand{\textlow}[1]{\raisebox{-.4ex}{\scriptsize #1}}
 
-% command shortcuts:
+% Command shortcuts:
 \newcommand{\Rzero}{\emph{R}$_0$}
 \newcommand{\Bzero}{\emph{B}$_0$}
 \newcommand{\R}{\textbf{R}}
 \newcommand{\SSBoff}{$SSB_{\text{offset}}$}
 
-%quick index:
+% Quick index:
 \newcommand{\I}[1]{#1\index{#1}}
 
-% New commands to template syntax definitions: copied from SPM, setup needs defining
+% New commands to template syntax definitions: setup needs defining
 % Define a command without a label
 \newcommand{\defCom}[2]{\texttt{\textbf{@#1}\index{Command ! #1}} \hspace{0.5cm} {#2}}
 % Define a command with a label
@@ -169,38 +157,35 @@ escapeinside={\%*}{*)}      % if you want to add a comment within your code
 % Define a Command\index{Command} argument
 \newcommand{\defArg}[2]{\emph{\texttt{#1}} \hspace{0.5cm} #2 \\*}
 
-% Generic definition for subcommand syntax: copied from SPM, setup needs defining
-\newcommand{\defText}[2]{\hangindent=0.3cm \small{#1\ #2}\normalsize \\*}
+% Generic definition for subcommand syntax: setup needs defining
+\newcommand{\defText}[2]{\hangindent=0.3cm \small{#1\ #2}\normalsize \noindent \\*}
 % Define subcommand syntax for Type / Default / Condition / Value / Note / Example / Lower Bound / Upper Bound
 \newcommand{\defType}[1]{\defText{Type:}{#1}}
 \newcommand{\defDefault}[1]{\defText{Default:}{#1}}
-\newcommand{\defCondition}[1]{\defText{Condition:}{#1}}
 \newcommand{\defValue}[1]{\defText{Value:}{#1}}
-\newcommand{\defNote}[1]{\defText{Note:}{#1}}
-\newcommand{\defRef}[1]{See Section \ref{#1} for more information.}
-\newcommand{\defExample}[1]{\defText{Example:}{#1}}
 \newcommand{\defLowerBound}[1]{\defText{Lower Bound:}{#1}}
 \newcommand{\defUpperBound}[1]{\defText{Upper Bound:}{#1}}
-\newcommand{\defAllowedValues}[1]{\defText{Allowed Values:}{#1}}
+\newcommand{\defNote}[1]{\defText{Note:}{#1}}
+\newcommand{\defRef}[1]{See Section \ref{#1} for more information.}
 
-% Input CASAL2 version definitions
+% Input Casal2 version definitions
 \input{Version.tex}
 \newcommand{\DocYear}{\SourceControlYearDoc}
 \newcommand{\DocMonth}{\SourceControlMonthDoc}
 \newcommand{\DocDate}{\SourceControlMonthDoc\ \SourceControlYearDoc}
 \newcommand{\DocVer}{\SourceControlDateDoc}
 
-%New commands to automate document dates, manual titles, document reference, etc.
-\newcommand{\VER}{v\SourceControlShortVersionDoc} %% CASAL2 program version
+% New commands to automate document dates, manual titles, document reference, etc.
+\newcommand{\VER}{v\SourceControlShortVersionDoc} % Casal2 program version
 \newcommand{\CNAME}{\textsc{Casal2}}
-\newcommand{\cname}{\texttt{casal2}} % casal2 binary name
-\newcommand{\authors}{\CNAME~Development Team}
-%hyper ref for Development Team email
+\newcommand{\cname}{\texttt{casal2}} % Casal2 binary name
+\newcommand{\authors}{\CNAME\ Development Team}
+% hyper ref for Development Team email
 \newcommand{\emaillink}{\href{mailto:"Casal2 Development Team"<casal2@niwa.co.nz>?subject=Casal2:}{\texttt{Casal2 Development Team}}}
 \newcommand{\github}{\url{https://github.com/NIWAFisheriesModelling/CASAL2}}
 \newcommand{\authorlink}{\href{mailto:"Casal2 Development Team"<casal2@niwa.co.nz>?subject=Casal2:}{authors}}
-%hyper ref for email
-\newcommand{\Organisation}{National Institute of Water \& Atmospheric Research Ltd.} %%NIWA
+% hyper ref for email
+\newcommand{\Organisation}{National Institute of Water \& Atmospheric Research Ltd.} %NIWA
 \newcommand{\ManualRef}{\authors\ (\DocYear). \CNAME\ User Manual, \VER. \Organisation\ \emph{NIWA Technical Report 139}. \ref{TotPages} p.} % full document reference
 
 % Define \clearemptydoublepage so-as to have truly blank pages between sections
@@ -209,7 +194,8 @@ escapeinside={\%*}{*)}      % if you want to add a comment within your code
   \clearpage
   {\pagestyle{empty}\origdoublepage}%
 }
-%% Commands for the license section taken from http://www.gnu.org/licenses/lgpl-3.0.tex
+
+% Commands for the license section taken from https://www.gnu.org/licenses/lgpl-3.0.tex
 \renewcommand{\labelenumii}{\alph{enumii}}
 \renewcommand{\labelenumiii}{\arabic{enumiii}}
 
@@ -217,14 +203,12 @@ escapeinside={\%*}{*)}      % if you want to add a comment within your code
 % For getting number of pages in document (NOT the last page number printed), use \ref{TotPages}
 % Load this last to ensure its macros are not overwritten
 \usepackage{totpages}
-
 \makeatother
 
-%Begin the document
+% Begin the document
 \begin{document}
 \hbadness=10000 % to deal with under-full hbox warnings
 \sloppy % use sloppy paras
-
 
 % Title page
 \pdfbookmark[1]{CASAL2 User Manual}{title}
@@ -234,30 +218,29 @@ escapeinside={\%*}{*)}      % if you want to add a comment within your code
   \thispagestyle{empty} % no header/footer/page number on this page
 	\begin{center}
 
-		\vspace{1cm}
-		\begin{figure}[htp]
-			%\begin{left}
-			 \includegraphics[height=2.5cm]{Figures/CASAL2.png}
-			%\end{left}
-		\end{figure}
-
 		\vspace*{2.5cm}
 		\Huge \CNAME\ User Manual \\
 
 		\vspace{2.0cm}
-		%\huge \authors %Document authors
+		\huge \authors % Document authors
+
+		\vspace{2cm}
+		\begin{figure}[htp]
+			\begin{center}
+			 \includegraphics[height=7cm,width=7cm]{Figures/CASAL2.png}
+			\end{center}
+		\end{figure}
 
 		~\vfill
-		\Large NIWA Technical Report 139 \\%Document Date
-		\Large ISSN 1174-2631 \\%Document Date
-		\Large \DocYear \\%Document Date
+		\Large NIWA Technical Report 139 \\% Document Date
+		\Large ISSN 1174-2631 \\% Document Date
+		\Large \DocYear \\% Document Date
 
 		\vspace{1.0cm}
 		\CNAME\ User Manual (modified \DocVer) for use with \cname\texttt{-\VER}
 
 	\end{center}
 \end{titlepage}
-
 
 % Citation page
 \cleardoublepage{}
@@ -273,12 +256,11 @@ Citation: \ManualRef
 % Table of contents
 \clearemptydoublepage{}
 \pdfbookmark[1]{Contents}{contents}
-
 \begin{spacing}{0.8} % Reduce space between lines in contents list
 \tableofcontents
 \end{spacing}
 
-% Table of figures
+% Table of figures (if required)
 %\clearemptydoublepage{}
 %\pdfbookmark[1]{List of figures}{figures}
 %\begin{spacing}{0.8} % Reduce space between lines in contents list
@@ -286,7 +268,7 @@ Citation: \ManualRef
 %\listoffigures
 %\end{spacing}
 
-% Table of tables
+% Table of tables (if required)
 %\clearemptydoublepage{}
 %\pdfbookmark[1]{List of tables}{tables}
 %\begin{spacing}{0.8} % Reduce space between lines in contents list
@@ -301,8 +283,6 @@ Citation: \ManualRef
 \fancyhead[LE]{\slshape \nouppercase \leftmark}  % Section headings at top of page (header, even pages)
 \pagenumbering{arabic} % Page numbers a arabic numerals
 
-%\include{equations}
-
 \include{Introduction}
 
 \clearemptydoublepage{}
@@ -310,6 +290,9 @@ Citation: \ManualRef
 
 \clearemptydoublepage{}
 \include{RunningCASAL2}
+
+\clearemptydoublepage{}
+\include{ModelStructure}
 
 \clearemptydoublepage{}
 \include{Population}
@@ -355,16 +338,20 @@ Citation: \ManualRef
 
 \clearemptydoublepage{}
 
+\clearemptydoublepage{}
+\include{QuickReference}
+
 \let\stdsection\section % Force index to be a numbered section
 \def\section*#1{\stdsection{#1}}
 \printindex % Insert index
 \let\section\stdsection
 
-\clearemptydoublepage{}
-\include{QuickReference}
+% Appendices
+%\clearemptydoublepage{}
+%\include{Appendix1}
 
-% Appendix
-%\include{Appendix}
+%\clearemptydoublepage{}
+%\include{Appendix2}
 
 \end{document}
 %End
