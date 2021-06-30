@@ -29,7 +29,7 @@ Topics covered are:
    \item Derived quantities, e.g., mature biomass, to include in density-dependent processes such as the spawner-recruit relationship
 \end{itemize}
 
-\subsection{\I{Model scope and structure}}\label{sec:PopulationModel}
+\subsection{\I{Model scope and structure}}\label{sec:Population-Model}
 
 The model needs scoping for ages and year covered. This is done in the \emph{@model} command block. 
 
@@ -68,15 +68,15 @@ This model runs for 20 years, starting in 1981, and will do a projection over 10
 
 Whist \CNAME\ generally uses generic formulation, it does have some specific population concepts, in this case, growth which can vary for each category. Additionally, there is a  length-weight concept which is specified in the age-length blocks, here blocks starting with \texttt{@age\_size male\_growth} and \texttt{@age\_size female\_growth} that are placed elsewhere in the input files (not shown). 
  
-CNAME\ allows categories of the partition to exist for a subset of years of a model. This feature enables more efficient computations when models contain categories that do not persist over all model years. A model may define one-off processes that transition individuals from one category into another in a subset of the model initialisation phases or years (e.g., tagging events). Excluding categories for certain years can be more efficient as \CNAME\ will not initialise these categories or apply processes to categories in years or time steps in which they do not exist.
+\CNAME~allows categories of the partition to exist for a subset of years of a model. This feature enables more efficient computations when models contain categories that do not persist over all model years. A model may define one-off processes that transition individuals from one category into another in a subset of the model initialisation phases or years (e.g., tagging events). Excluding categories for certain years can be more efficient as \CNAME\ will not initialise these categories or apply processes to categories in years or time steps in which they do not exist.
 
-The structure of the partition is defined in a configuration block with the \command{categories} block (Section \ref{sec:PopulationModel}).
+The structure of the partition is defined in a configuration block with the \command{categories} block (Section \ref{sec:Population-Model}).
 
-Derived quantities are another important component of the state object. An example of a derived quantity is spawning stock biomass (SSB; the biomass of [female] spawning fish calculated at the mid point of the spawning season). CNAME\ calculates derived quantities using the command \command{derived\_quantity}, which may be required for some processes. In fisheries stock assessment models, a recruitment process which includes a stock-recruitment relationship requires the definition of a derived quantity that specifies the mid-season spawning stock biomass (\ref{sec:derived-quantities}, p. \pageref{sec:derived-quantities}). 
+Derived quantities are another important component of the state object. An example of a derived quantity is spawning stock biomass (SSB; the biomass of [female] spawning fish calculated at the mid point of the spawning season). \CNAME~calculates derived quantities using the command \command{derived\_quantity}, which may be required for some processes. In fisheries stock assessment models, a recruitment process which includes a stock-recruitment relationship requires the definition of a derived quantity that specifies the mid-season spawning stock biomass (\ref{sec:derived-quantities}, p. \pageref{sec:derived-quantities}). 
 
 [TODO: SHIFT SOMEWHERE] For this example four time steps are defined and labelled 1 through 4: \texttt{step1} for the non-spawning fishery period, \texttt{step2} for the migration to the spawning area, \texttt{step3} for the spawning fishery period, and \texttt{step4} for recruitment and migration back to the non-spawning area. The default order of processes within a time step has migrations occurring before fisheries (TODO: check this CASAL concept), so that the processes in steps 2 and 3 could have occurred in one time step. Other details that describe the population structure are also linked to time steps, such as proportion of natural mortality occurring in each time step and in which time step the observations occur.
 
-\subsubsection{\I{The implicit annual cycle}}\label{AnnualCycle}
+\subsubsection{\I{The implicit annual cycle}}
 
 There is an implicit annual cycle that orders the sequence of processes within the year, but there is no command block as such. The implementation is by ordering processes within the time-steps. This sequence is repeated for every year. Time steps are used to break the year into separate components and allow observations to be associated with specific time periods and processes. Any number of processes can occur within each time step, in any order, although there are restrictions for mortality-based processes (see Section~\ref{sec:mortality_block}); processes can occur multiple times within each time step. Time steps are not implemented during the initialisation phases (effectively there is only one initialisation time step), and the annual cycle in the initialisation phases can be different from the annual cycle specified for the model years (\ref{methods:Initialisation}). 
 
@@ -115,7 +115,7 @@ Although \emph{Spawn} represents a biological process, spawning, for the usual m
 
 To calculate the SSB a \texttt{@derived\_quantity} command block is needed in which the "timing" of the SSB calculation in terms of which time-step and the proportion of natural mortality within it is specified (\ref{sec:derived-quantities}).
 
-\subsubsection{\I{The initialisation phases}}\label{sec:InitialisationPhase}
+\subsubsection{\I{The initialisation phases}}\label{methods:InitialisationPhase}
 
 Initialisation is the process of determining the model starting state at the start of the first year (\texttt{Start\_year}. The initial state can be equilibrium/steady state or some other initial state for the model (e.g., exploited), prior to the start year of the model. 
 
@@ -184,11 +184,11 @@ The \emph{first} initialisation phase is always initialised with each age and ca
 
 Multi-phase iterations\index{Multi-phase iteration} can also be used to determine if an initialisation has converged. A second initialisation phase can be added for 1 year, with the same processes applied as in the first phase. The state at the end of the first and second phase is then output. If these states are identical, then it is likely that the initialisation has converged to an equilibrium state.
 
-\paragraph{\I{Iterative Initialisation}}\label{sec:InitialisationPhase-Iterative}
+\paragraph{\I{Iterative Initialisation}}\label{methods:InitialisationPhase-Iterative}
 
 The \texttt{iterative} initialisation is a general solution for initialising the model, but can be slow to converge, depending on the model.Its value is that it can work on complex structured models that may be difficult or impossible to implement using analytic approximations.
 
-The number of iterations in the iterative initialisation can increase the model output, and the number of iterations should be chosen to be large enough to allow the population state to fully converge. A period of about two times the maximum age is recommended to ensure convergence. CNAME\ can be configured to report convergence statistics that can assist in determining convergence properties.
+The number of iterations in the iterative initialisation can increase the model output, and the number of iterations should be chosen to be large enough to allow the population state to fully converge. A period of about two times the maximum age is recommended to ensure convergence. \CNAME~can be configured to report convergence statistics that can assist in determining convergence properties.
 
 In addition, the iterative initialisation phase can optionally be stopped early if user-defined convergence criteria is met. For a list of supplied years in the initialisation phase, the convergence criteria is met if the proportional absolute summed difference between the state in year $t-1$ and the state in year $t$ ($\widehat{\lambda}$) is less than the user-defined value of $\lambda$, where
 
@@ -336,9 +336,9 @@ In the recruitment processes, a number of individuals are added to a single age 
 
 Recruitment can differ between a spawning event or the creation of a cohort/year class. One view for fisheries is that recruitment usually refers to individuals "recruiting" to a fishery. This definition is used because there is usually not a lot of information on younger age classes between the time of spawning and being vulnerable to a survey or fishery for data collection. However, here, recruitment is to a fixed age class for one or more categories. 
 
-The offset between spawning and recruitment is parameterised either by the recruitment subcommand \texttt{age}, or \texttt{min\_age}, which is the default value for the \texttt{age} subcommand in the recruitment process. The CNAME\ parameter \texttt{age} is the same as the CASAL parameter \texttt{y\_enter}.[IS IT????] Notice that the minimum age is usually different from zero and so there is usually  a one or more year's delay between spawning and recruitment into the partition. There is also a complication from when spawning occurs in the annual cycle and when recruitment occurs.
+The offset between spawning and recruitment is parameterised either by the recruitment subcommand \texttt{age}, or \texttt{min\_age}, which is the default value for the \texttt{age} subcommand in the recruitment process. The \CNAME~parameter \texttt{age} is the same as the CASAL parameter \texttt{y\_enter}.[IS IT????] Notice that the minimum age is usually different from zero and so there is usually  a one or more year's delay between spawning and recruitment into the partition. There is also a complication from when spawning occurs in the annual cycle and when recruitment occurs.
 
-CNAME\ has two  recruitment processes, constant recruitment\index{Recruitment ! Constant} and the \I{Beverton-Holt stock-recruitment relationship}\index{Recruitment ! Beverton-Holt} \citep{1203}. The  number of individuals following recruitment in year $y$ is
+\CNAME~has two  recruitment processes, constant recruitment\index{Recruitment ! Constant} and the \I{Beverton-Holt stock-recruitment relationship}\index{Recruitment ! Beverton-Holt} \citep{1203}. The  number of individuals following recruitment in year $y$ is
 
 \begin{equation}
 N_{y,a,j} \leftarrow N_{y,a - 1,j} + p_j(R_y)
@@ -412,7 +412,7 @@ An example of the specification of a Beverton-Holt recruitment process, where in
 	
 \end{verbatim}}}
 
-The property \texttt{ssb\_offset} should not be manually specified; CNAME\ determines \texttt{ssb\_offset} by the order of ageing, recruitment, spawning, and the recruitment parameter \texttt{age}
+The property \texttt{ssb\_offset} should not be manually specified; \CNAME~determines \texttt{ssb\_offset} by the order of ageing, recruitment, spawning, and the recruitment parameter \texttt{age}
 
 \begin{itemize}
 	\item if the annual time step order is recruitment, ageing, spawning, then \texttt{ssb\_offset} should equal \texttt{age} + 1, or
@@ -420,7 +420,7 @@ The property \texttt{ssb\_offset} should not be manually specified; CNAME\ deter
 	\item \texttt{ssb\_offset} = \texttt{age}
 \end{itemize}
 
-There may be scenarios where the user will input these values, e.g., if there are multiple ageing processes in the annual cycle. CNAME\ does not have functionality to accommodate this situation, so in this case \texttt{ssb\_offset} would be manually defined.
+There may be scenarios where the user will input these values, e.g., if there are multiple ageing processes in the annual cycle. \CNAME~does not have functionality to accommodate this situation, so in this case \texttt{ssb\_offset} would be manually defined.
 
 There are two variants of this process and they refer to how the stock recruitment residuals or $YCS_{ycs\_year}$ are parametrised. This parametrisation can either be in natural space as year class strength ($YCS$) multipliers, or in log space as recruitment deviations. Due to the difference in terminology, these variants are implemented in two separate processes, \subcommand{type recruitment\_beverton\_holt} and \subcommand{type recruitment\_beverton\_holt\_with\_deviations}, respectively.
 
@@ -428,7 +428,7 @@ There are two variants of this process and they refer to how the stock recruitme
 
 The $YCS$ parameter (\texttt{ycs\_years}) is defined in Equation~\eqref{eq:year_class}. The parameter \texttt{ycs\_values} is referenced by the \texttt{ycs\_years} parameter and is important to note when defining \command{estimate}, \command{project}, and \command{time\_varying} blocks for the parameter \texttt{ycs\_values}. An example is at the end of the section.
 
-A common practice when estimating $YCS$ is to standardise using the Haist parametrisation, which was described by V. Haist. CNAME\ will standardise $YCS$ only if subccommand \subcommand{standardise\_ycs\_years} is defined. The model parameter \texttt{ycs\_values} is a vector \textbf{Y}, covering the years from \texttt{start\_year} - \texttt{ssb\_offset} to \texttt{final\_year} - \texttt{ssb\_offset}, as defined by the parameter \texttt{ycs\_years}. The resulting year class strengths are calculated by $YCS_i=Y_i/\bar{\textbf{Y}}$, where the mean is calculated over the user-specified years \texttt{standardise\_ycs\_years}.
+A common practice when estimating $YCS$ is to standardise using the Haist parametrisation, which was described by V. Haist. \CNAME~will standardise $YCS$ only if subccommand \subcommand{standardise\_ycs\_years} is defined. The model parameter \texttt{ycs\_values} is a vector \textbf{Y}, covering the years from \texttt{start\_year} - \texttt{ssb\_offset} to \texttt{final\_year} - \texttt{ssb\_offset}, as defined by the parameter \texttt{ycs\_years}. The resulting year class strengths are calculated by $YCS_i=Y_i/\bar{\textbf{Y}}$, where the mean is calculated over the user-specified years \texttt{standardise\_ycs\_years}.
 
 \[
 YCS_i =
@@ -568,7 +568,7 @@ For example, to apply ageing to the categories \texttt{immature} and \texttt{mat
 	categories immature mature
 	\end{verbatim}}}
 
-\textbf{Note:} the ageing process is \emph{NOT} applied by CNAME\ by default. As with other processes, CNAME\ will not apply a process unless it is defined and specified as a process within the annual cycle. Hence, it is possible to specify a model where a category is not aged. \emph{CNAME\ will NOT check or otherwise warn if there is a category defined where ageing is not applied.}\textbf{You have been warned.}
+\textbf{Note:} the ageing process is \emph{NOT} applied by \CNAME~by default. As with other processes, \CNAME~will not apply a process unless it is defined and specified as a process within the annual cycle. Hence, it is possible to specify a model where a category is not aged. \emph{\CNAME~will NOT check or otherwise warn if there is a category defined where ageing is not applied.}\textbf{You have been warned.}
 
 \subsubsection{\I{Mortality}\label{sec:mortality}}
 
@@ -585,7 +585,7 @@ There are 8 types of mortality processes available in \CNAME:
 	\item a density-dependent relationship based on prey suitability.
 \end{itemize}
 
-These processes remove individuals from the partition, either as a rate, as a total number (abundance), as a biomass of individuals or, as a combination of these. CNAME\ does not (yet) implement the Baranov catch equation. However, instantaneous mortality is considered an approximation to the Baranov catch equation.
+These processes remove individuals from the partition, either as a rate, as a total number (abundance), as a biomass of individuals or, as a combination of these. \CNAME~does not (yet) implement the Baranov catch equation. However, instantaneous mortality is considered an approximation to the Baranov catch equation.
 
 To apply both natural and biomass-event mortality, the mortality type \texttt{mortality\_instantaneous} can be specified. Or, you can use \texttt{mortality\_instantaneous\_retained}, where discards are allowed. Mortality blocks are special because they allow both natural mortality and fishing mortality at the same time. Note that all mortality processes occur within the mortality block of a time step. See Section~\ref{sec:mortality_block} for more information and definitions on mortality blocks.
 
@@ -598,7 +598,7 @@ Observations (see Section~\ref{sec:observation-section})  and derived quantities
 
 There can be one or more mortality processes specified within a time-step, but these must  be grouped sequentially, i.e., there cannot be a non-mortality process between any two mortality processes within any one time step. The sequence of mortality processes is called a \textit{timing evaluation interval}.  If no mortality processes occurs in a time step, then the \textit{timing evaluation interval} is defined to occur at the end of the time step, i.e., it is a virtual, unspecified,  process. Thus  each time step has one \textit{timing evaluation interval}. 
 
-CNAME\ will output an error if more than one \textit{timing evaluation interval} occurs in a single time step. 
+\CNAME~will output an error if more than one \textit{timing evaluation interval} occurs in a single time step. 
 
 The "time" for an observation or derived quantity is based on the proportion of mortality that has occurred within the \textit{timing evaluation interval}. The starting and ending partition are saved so that a partition can be estimated by  interpolation between the start and end partitions.
 
@@ -685,7 +685,7 @@ WHEN NOT DOING M and FISHING AT THE SAME TIME
 
 The event mortality\index{Event mortality} and biomass-event mortality\index{Biomass-event mortality} processes are applied in a similar manner, except that they remove a specified abundance (number of individuals) or biomass, respectively. These mortality processes can be used to define mortality events where the numbers of removals are known, e.g., fishing, rather than applying mortality as a rate.
 
-In these cases, the abundance or biomass removed is also constrained by a maximum exploitation rate. CNAME\ removes as many individuals or as much biomass as possible,  while not exceeding the maximum exploitation rate.
+In these cases, the abundance or biomass removed is also constrained by a maximum exploitation rate. \CNAME~removes as many individuals or as much biomass as possible,  while not exceeding the maximum exploitation rate.
 
 Event mortality processes require a penalty to avoid estimating parameter values that will not allow the defined number of individuals to be removed. The model penalises those parameter estimates that result in an too low a number of individuals in the defined categories (after applying selectivities) to allow for removals at the maximum exploitation rate, with a similar penalty for biomass. See Section \ref{sec:penalties} for more information on how to specify penalties.
 
@@ -1154,7 +1154,7 @@ Tagging processes can be age- or length-based processes, whereby numbers of indi
 
 Age-based tag release events move a known number of individuals tagged for each age to a tagged category, along with applying additional mortality. Individuals are removed from the non-tagged categories and added to tagged categories. Often the ages of tagged individuals are not known, so length-based tag release events are more commonly used.
 
-Length-based tag release processes are more complicated, as the age-length matrix is calculated and the exploitation for each length bin to then move the correct numbers-at-age based on the known lengths of release. CNAME\ also allows for initial tag loss.
+Length-based tag release processes are more complicated, as the age-length matrix is calculated and the exploitation for each length bin to then move the correct numbers-at-age based on the known lengths of release. \CNAME~also allows for initial tag loss.
 
 The tag-release process:
 
@@ -1302,7 +1302,7 @@ The von Bertalanffy relationship has parameters $L_\infty$, $k$, and $t_0$. The 
 
 \paragraph{Data: \argument{data}}\index{Age-length relationship!Data}
 
-There is an option to input empirical length at age by year, which is an alternative to using an age-length growth model such as the von Bertalanffy and Schnute model. CNAME\ will interpolate values for missing years across time steps. The calculations of length-at-age throughout the model years occur in the same time step.
+There is an option to input empirical length at age by year, which is an alternative to using an age-length growth model such as the von Bertalanffy and Schnute model. \CNAME~will interpolate values for missing years across time steps. The calculations of length-at-age throughout the model years occur in the same time step.
 
 {\small{\begin{verbatim}
 	@age_length   male_AL
@@ -1350,7 +1350,7 @@ where $\hat{l}_a$ is the mean length at age $a$. If a distribution of length-at-
 
 where the $cv$ is the coefficient of variation (CV) of the length-at-age relationship. This adjustment is exact for lognormal distributions, and an approximation for normal distributions if the CV is not large \citep{1388}.
 
-For comparing CASAL with CNAME\ results, there is a small difference between the two programs. CASAL adjusted the CVs \subcommand{by\_length} only when CVs are used in distribution calculations (length-based selectivities, length-based processes, and [length-based?] observations), and is not done in the above correction.
+For comparing CASAL with \CNAME~results, there is a small difference between the two programs. CASAL adjusted the CVs \subcommand{by\_length} only when CVs are used in distribution calculations (length-based selectivities, length-based processes, and [length-based?] observations), and is not done in the above correction.
 
 \textbf{Note:}  the scale of $a$ can be specified incorrectly. If the catch is in tonnes and the growth curve is in centimetres, then $a$ should convert a length in centimetres to a weight in tonnes. There are reports available that can be used to help check that the units specified are plausible (see Section \ref{sec:report-section}).
 
@@ -1404,7 +1404,7 @@ To model abundance (i.e., to model the population in numbers and not convert to 
 	length_weight none
 	\end{verbatim}}}
 
-In this case any "biomass" generated by CNAME\ will actually be abundance, and care should be taken with interpretation of the output.
+In this case any "biomass" generated by \CNAME~will actually be abundance, and care should be taken with interpretation of the output.
 
 \subsection{\I{Maturity, in models without maturing in the partition}\label{sec:maturity-notinpartition}}
 
@@ -1414,7 +1414,7 @@ This selectivity is specified in the block that requires mature fish, the most c
 
 \subsection{\I{Selectivities}\label{sec:selectivities}}
 
-Selectivity is a term used in CNAME\  to mean an ogive that is a function of age. They can be used to specify the selection curve for a fishery or observation  (Section \ref{sec:estimation-section}) or to modify the effects of processes on each age class, e.g., migration rates by age (Section \ref{sec:population-section}). The curves can use length rather than age, in which case they operate on the length distribution for each age (use the subcommand "\textit{by\_length true}", \textit{false} is the default). Do not expect too much from length selectivities because in the next time-step or year, the length distribution for each age reverts to being as defined in the \textit{age\_length} blocks, e.g., normal, rather than being partially truncated because, e.g., larger fish in an age class have been preferentially caught.
+Selectivity is a term used in \CNAME~ to mean an ogive that is a function of age. They can be used to specify the selection curve for a fishery or observation  (Section \ref{sec:estimation-section}) or to modify the effects of processes on each age class, e.g., migration rates by age (Section \ref{sec:population-section}). The curves can use length rather than age, in which case they operate on the length distribution for each age (use the subcommand "\textit{by\_length true}", \textit{false} is the default). Do not expect too much from length selectivities because in the next time-step or year, the length distribution for each age reverts to being as defined in the \textit{age\_length} blocks, e.g., normal, rather than being partially truncated because, e.g., larger fish in an age class have been preferentially caught.
 
 There are a number of different parametric forms as options, including logistic and double normal curves. Selectivities are defined in command block \command{selectivity <label>}, where the unique label of the selectivity is used by observations and processes to identify which selectivity to apply.
 
@@ -1430,7 +1430,7 @@ ato95     1.5            # interval (yr) from a50 to the age at 95% selection
 #at_length true          #if used, then a50 & ato95 refer to length
 \end{verbatim}}}
 
-For some selectivities, the function values for some choices of parameters can result in numeric overflow or underflow errors (i.e., the number calculated from parameter values is either too large or too small to be well represented). CNAME\ implements range checks on some parameters to test for these errors before calculating function values.
+For some selectivities, the function values for some choices of parameters can result in numeric overflow or underflow errors (i.e., the number calculated from parameter values is either too large or too small to be well represented). \CNAME~implements range checks on some parameters to test for these errors before calculating function values.
 
 For example, the logistic selectivity is implemented such that if $(a_{50}-x)/a_{to95} > 5$ then the value of the selectivity at $x=0$, i.e., for $a_{50}=5$, $a_{to95}=0.1$, then the value of the selectivity at $x=1$, without range checking would be $7.1 \times 10^{-52}$. With range checking, that value is $0$ (as $(a_{50}-x)/a_{to95}=40 > 5$).
 
@@ -1636,7 +1636,7 @@ y2    0.8  # selection at x2
 \end{figure}
 
 
-\subsection{\I{Time-varying Parameters UNTESTED}\label{methods:TimeVarying}}
+\subsection{\I{Time-varying Parameters UNTESTED}\label{sec:time_var}}
 
 Any parameter can be varied annually for blocks of years or in specific years within the model run (not in initialisation phases??). For years that are not specified, the parameter will default to the input, or if in an iterative state such as estimation mode, the value being trialled at that iteration.
 
@@ -1709,7 +1709,7 @@ If the \texttt{parameter} specified in the \command{time\_varying} block is asso
 
 \textbf{WARNING:} if the parameter does not have an associated \command{estimate} block then there is no safeguard against the application of a random deviate resulting in parameter values which cause the model to fail, i.e., generates NA or INF values. To avoid this, specify an \command{estimate} block even though the parameter is not actually being estimated; see the example syntax below.
 
-A constraint whilst using this functionality is that a parameter cannot be less than 0.0. If it is then CNAME\ sets it equal to 0.01.
+A constraint whilst using this functionality is that a parameter cannot be less than 0.0. If it is then \CNAME~sets it equal to 0.01.
 
 {\small{\begin{verbatim}
 		@estimate survey_q_est
@@ -1750,7 +1750,7 @@ where $\delta_y$ is the shift or deviation in parameter $\theta_y$ in year $y$ t
 
 \subsection{\I{Equation Parser UNTESTED}\label{sec:eq_parser}}
 
-CNAME\ has an equation parser, which is currently implemented in Projections (section~\ref{sec:projections}), Derived quantities (section~\ref{sec:derived-quantities}), and Reports (section~\ref{sec:report-section}).
+\CNAME~has an equation parser, which is currently implemented in Projections (section~\ref{sec:projections}), Derived quantities (section~\ref{sec:derived-quantities}), and Reports (section~\ref{sec:report-section}).
 
 Examples of syntax for implementing the equation parser are below. For more information on the parser, see \url{https://github.com/nickgammon/parser/blob/master/parser.cpp}
 
@@ -1827,7 +1827,7 @@ multiplier 1
 
 The subcommands \subcommand{years} and \subcommand{parameter} are common to all projection methods. Subcommand \subcommand{years} specifies the years to apply the new values to for the parameter in \subcommand{parameter}. Note that the years can be before the \textit{finial\_year}, e.g., it is normal to vary the last few YCS in a projection run because they are usually poorly estimated or they have been set to 1.  The argument \argument{multiplier} is a constant which is multiplied with the projected value after it has been generated. The \subcommand{type} subcommand gives the method to use to generate new parameter values.
 
-CNAME\ allows any estimable parameter to be specified in a \command{project} block and then varied from the estimated value in a projection. The available projection types for these parameters include:
+\CNAME~allows any estimable parameter to be specified in a \command{project} block and then varied from the estimated value in a projection. The available projection types for these parameters include:
 
 \begin{itemize}
 	\item constant
@@ -1837,7 +1837,7 @@ CNAME\ allows any estimable parameter to be specified in a \command{project} blo
 	\item user-defined
 \end{itemize}
 
-CNAME\ has no default projection properties for parameters that are specified by year, e.g., year class strength parameters, time-varying parameters, and as a special case, future catches). For these, projections  must have a \command{project} command block. For example, CNAME\ will produce errors if run in projection mode without a \command{project} block for the \subcommand{ycs\_values} parameter being specified.
+\CNAME~has no default projection properties for parameters that are specified by year, e.g., year class strength parameters, time-varying parameters, and as a special case, future catches). For these, projections  must have a \command{project} command block. For example, \CNAME~will produce errors if run in projection mode without a \command{project} block for the \subcommand{ycs\_values} parameter being specified.
 
 \textbf{Note for the year class parameters:} the definition of year applies to the \argument{ycs\_years}, not the model years. As defined in Section~\ref{submethods:IH-recruitment}, \argument{ycs\_years} are offset between the time of spawning and when individuals are added to the partition.
 
@@ -1847,7 +1847,7 @@ Future catches are also specified in a \textit{@project} block, one for each fis
  
 For a process called \textit{Fishing} that has three fisheries defined, it would be \textit{process[Fishing].method\_pot} to specify the fishery labeled \textit{pot}.
  
-The CNAME\ command to run the model in projection mode is \texttt{Casal2 -f 1}. []TODO: review; NOT IN MANUAL OR ELSEWHERE] This functionality allows for the exploration of many scenarios with a single set of parameters. The number of projections should be greater than 1 only if applying a projection type that is stochastic.
+The \CNAME~command to run the model in projection mode is \texttt{Casal2 -f 1}. []TODO: review; NOT IN MANUAL OR ELSEWHERE] This functionality allows for the exploration of many scenarios with a single set of parameters. The number of projections should be greater than 1 only if applying a projection type that is stochastic.
 
 The \texttt{-{}-tabular} flag should be used when running projections after a Bayesian analysis. This option will output a tabular report (see Section~\ref{sub:tabular}) which can then be analysed in \R.
 
@@ -1857,7 +1857,7 @@ An example of the command line evocation is
 
 where \textit{mcmc.txt} is output from a MCMC run, one parameter set per row, which will give one projection per row, and \textit{projection.out.txt} will contain one row for each MCMC run in each of the reports specified in (usually) the \textit{Report.csv2} file (quantities as specified in the \textit{report.csl2} file).
 
-For a projection run in \CNAME, the model is initialised and run through the model years from \argument{start\_year} to \argument{final\_year}. During this run mode CNAME\ stores all parameter values so that projection classes can allow parameters before \subcommand{final\_year} to be projected. The model then is re-run from \argument{start\_year} to \argument{projection\_final\_year}, where any parameter can either be fixed or drawn from a stochastic distribution or process.
+For a projection run in \CNAME, the model is initialised and run through the model years from \argument{start\_year} to \argument{final\_year}. During this run mode \CNAME~stores all parameter values so that projection classes can allow parameters before \subcommand{final\_year} to be projected. The model then is re-run from \argument{start\_year} to \argument{projection\_final\_year}, where any parameter can either be fixed or drawn from a stochastic distribution or process.
 
 
 \subsubsection{\I{Projection methods}\label{sec:projections}}
