@@ -1,28 +1,28 @@
-\section{Running \CNAME\label{sec:running}\index{Running \CNAME}}
+\section{Running \CNAME\label{sec:RunningCasal2}\index{Running \CNAME}}
 
-\CNAME~is run from a console window (i.e., the command line) on \I{Microsoft Windows} or from a terminal window on \I{Linux}. \CNAME~uses information from input data files -{}- the \emph{\config\index{Input configuration file}}\ being the input file that is supplied to \CNAME.
+\CNAME\ is run from a console window (i.e., the command line) on \I{Microsoft Windows} or from a terminal window on \I{Linux}. \CNAME\ uses information from input data files -{}- the \emph{\config\index{Input configuration file}}\ being the input file that is supplied to \CNAME.
 
-The \config~ is required and defines the model structure, processes, observations, parameters (both the fixed parameters and the parameters to be estimated)\index{Estimable parameters}, and the  requested reports (outputs).
+The \config\ is required and defines the model structure, processes, observations, parameters (both the fixed parameters and the parameters to be estimated)\index{Estimable parameters}, and the requested reports (outputs).
 
-By convention, the name of the \config~ ends with the suffix \texttt{.csl2}. However, any suffix is acceptable. The default name for the \config~ is \emph{config.csl2} and if used it does not have to be specified to \CNAME. Note that the \config~ can include other separate files so the specification can be split into digestible parts. 
+By convention, the name of the \config~ ends with the suffix \texttt{.csl2}. However, any suffix is acceptable. The default name for the \config~ is \emph{config.csl2} and if used it does not have to be specified as one of the command line arguments to to \CNAME. Note that the \config\ can include other separate files so the specification can be split into digestible parts. 
 
-Command line arguments\index{Command line arguments} are used to specify the actions or \emph{tasks}\index{Tasks} of \CNAME, e.g., to run a model with a set of parameter values, to estimate parameter values (either point estimates or MCMC), to project quantities, or to simulate observations.For example, \texttt{-r} is the \emph{run} mode, \texttt{-e} is the \emph{estimation} mode, and \texttt{-m} is the \emph{MCMC} mode. The \emph{command line arguments} are described in Section \ref{sec:command-line-arguments}.
+Command line arguments\index{Command line arguments} are used to specify the actions or \emph{tasks}\index{Tasks} of \CNAME, e.g., to run a model with a set of parameter values, to estimate parameter values (either point estimates or MCMC), to project quantities, or to simulate observations.For example, \texttt{-r} is the \emph{run} mode, \texttt{-e} is the \emph{estimation} mode, and \texttt{-m} is the \emph{MCMC} mode. The \emph{command line arguments} are described in Section \ref{sec:CommandLineArguments}.
 
 \subsection{\I{Using \CNAME}}
 
-To use \CNAME, open a console window (i.e. the command prompt) window on Microsoft Windows or a terminal window on Linux. Navigate to the directory where the model \config s are located. Then enter \cname~with arguments for a specific mode to start the \CNAME~mode running; see Section \ref{sec:command-line-arguments} for the list of possible arguments. \CNAME~will print output to the screen.
+To use \CNAME, open a console window (i.e. the command prompt) window on Microsoft Windows or a terminal window on Linux. Navigate to the directory where the model \config s are located. Then enter \cname~with arguments for a specific mode to start the \CNAME mode running; see Section \ref{sec:CommandLineArguments} for the list of possible arguments. \CNAME\ will print output to the screen.
 
-The \CNAME~executable and shared libraries (files with extension \texttt{.dll} or \texttt{.so}) must either be in the same directory as the \config s or in one of the directories in your operating system's \texttt{PATH} environment variable. The \CNAME~installer will update \texttt{PATH}; see your operating system documentation for help displaying or modifying \texttt{PATH}.
+For both 64-bit Linux and Microsoft Windows, we recommend using the install package available on \github\ for Microsoft Windows or the Debian package (.deb) for Linux. Running \CNAME\ on a system requires the main binary (casal2.exe on Windows, or casa2 on Linux) and the associated dynamically linked libraries (DLL) for Windows or shared objects (.so) for Linux to be installed into appropriate directories, and cannot be (easily) run by copying the binary to a working directory. \CNAME\ is not available for 32-bit operating systems or macOS.
 
-\subsection{\I{Redirecting standard output}\label{sec:redirecting-stdout}}
+\subsection{\I{Redirecting standard output}\label{sec:RedirectingStandardOut}}
 
-\CNAME~uses the \texttt{standard output}\index{standard output} stream to display runtime information. The \I{standard error} stream is used by \CNAME~to output the program exit status and runtime errors. We suggest redirecting both the standard output and standard error into files\index{Redirecting standard out}\index{Redirecting standard error}.
+\CNAME\ uses the \texttt{standard output}\index{standard output} stream to display runtime information. The \I{standard error} stream is used by \CNAME\ to output the program exit status and runtime errors. We suggest redirecting both the standard output and standard error into an appropriate file or files\index{Redirecting standard out}\index{Redirecting standard error}.
 
 With the bash shell (on Linux systems), you can do this using the command structure
 
 \begin{verbatim} (casal2 [arguments] > run.out) >& run.err &\end{verbatim}
 
-It may be useful to redirect the standard input, especially if you're using \CNAME~inside a batch job, i.e.
+It may be useful to redirect the standard input, especially if you're using \CNAME\ inside a batch job, i.e.
 
 \begin{verbatim} (casal2 [arguments] > run.out < /dev/null) >& run.err &\end{verbatim}
 
@@ -34,7 +34,7 @@ And, on some Microsoft Windows systems (e.g., Windows 10), you can redirect to b
 
 \begin{verbatim} casal2 [arguments] > run.out 2> run.err\end{verbatim}
 
-\CNAME~outputs header information to the output (Figure~\ref{fig:log_file_1}). The header\index{Output header information} consists of the program name and version, the arguments passed to \CNAME~from the command line, the date and time that the program was called (derived from the system time), the user name, and the machine name (including the operating system and the process identification number). This information can be used to track outputs as well as identifying the version of \CNAME~used to run the model.
+\CNAME\ outputs header information to the output (Figure~\ref{fig:log_file_1}). The header\index{Output header information} consists of the program name and version, the arguments passed to \CNAME\ from the command line, the date and time that the program was called (derived from the system time), the user name, and the machine name (including the operating system and the process identification number). This information can be used to track outputs as well as identifying the version of \CNAME\ used to run the model.
 
 \begin{figure}[htp]
 	\includegraphics[scale=1]{Figures/eglog.png}
@@ -52,7 +52,7 @@ And, on some Microsoft Windows systems (e.g., Windows 10), you can redirect to b
 where
 
 \begin{description}
-  \item [\texttt{-c \emph{config\_file}}] Define the \config~for \CNAME~(if this argument is omitted, the default \config~is \texttt{config.csl2})
+  \item [\texttt{-c \emph{config\_file}}] Define the \config~for \CNAME\ (if this argument is omitted, the default \config~is \texttt{config.csl2})
 \end{description}
 
 and where \emph{task} must be one of the following (\textbf{[]} indicates a secondary label to call the task, e.g. \textbf{\texttt{-h}} will execute the same task as \textbf{\texttt{-{}-help}}),
@@ -64,11 +64,11 @@ and where \emph{task} must be one of the following (\textbf{[]} indicates a seco
 
 \item [\texttt{-r [-{}-run]}] \emph{Run} the model once using the parameter values in the \config, or optionally with the parameter values from the file specified with argument \texttt{-i \emph{filename}}
 
-\item [\texttt{-e [-{}-estimate]}] Do a point \emph{estimate} using the values in the \config~as the starting point for the parameters to be estimated, or optionally with the starting parameter values from the file specified with the argument \texttt{-i \emph{filename}}. By default, it generates the file \texttt{mpd.out} with the estimated parameters and the covariance matrix; use \texttt{ [-{}-no-mpd]} to stop creating this file
+\item [\texttt{-e [-{}-estimate]}] Do a point \emph{estimate} using the values in the \config~as the starting point for the parameters to be estimated, or optionally with the starting parameter values from the file specified with the argument \texttt{-i \emph{filename}}.
 
 \item [ \texttt{[-{p}-profiling]}] Do a likelihood \emph{profile} using the parameter values in the \config~as the starting point, or optionally with the starting parameter values from the file specified with the argument \texttt{-i \emph{filename}}
 
-\item [\texttt{-m [-{}-mcmc]}] Do an \emph{MCMC} chain. The the co-variance matrix is first estimated using the values in the \config~as the starting point for the parameters to be estimated, or optionally with the starting parameter values from the file specified with the argument \texttt{-i \emph{filename}}. Use \texttt{--skip-estimation} to skip estimating the co-variance matrix and to read it in from mpd.out.
+\item [\texttt{-m [-{}-mcmc]}] Do an \emph{MCMC} chain. The the co-variance matrix is first estimated using the values in the \config~as the starting point for the parameters to be estimated, or optionally with the starting parameter values from the file specified with the argument \texttt{-i \emph{filename}}. Use \texttt{--skip-estimation} to skip estimating the co-variance matrix and to read it in from a file.
 
 \item [\texttt{-f [-{}-projection]}] \emph{arg}. Project the model \emph{forward} in time using the parameter values in the \config~as the starting point for the estimation, or optionally with the parameter values from the file specified with the argument \texttt{-i \emph{filename}}. Repeat each parameter set \emph{arg} times (default 1). Normally, the MCMC sample are used via \texttt{-i}
 
@@ -84,7 +84,7 @@ and where the following optional arguments\index{Optional command line arguments
 
 \item [\texttt{-g [-{}-seed]\emph{seed}}] Initialise the random number \emph{generator} with \texttt{\emph{seed}}, a positive (long) integer value (note, if \texttt{-g} is not specified, then \CNAME~will  generate a random number seed based on the computer clock time)
 
-\item [\texttt{-{}-loglevel}] arg = \{trace, finest, fine, medium\} (see Section \ref{sec:report-section})
+\item [\texttt{-{}-loglevel}] arg = \{trace, finest, fine, medium\} (see Section \ref{sec:Report})
 
 \item [\texttt{-{}-tabular}] Run with \texttt{-r} or \texttt{-f}  command to print \command{report} in tabular format (see Section \ref{sec:report-section})
 
@@ -186,28 +186,28 @@ The command block is a basic continuous unit within the input file(s). It begin 
 
 Within the command block, any subcommands needed and their arguments are presented,
 
-\begin{multicols}{3}
-	\begin{description}
-		\item \command{command}
-		\item \subcommand{subcommand} \subcommand{argument}
-		\item \subcommand{subcommand} \subcommand{argument}
-		\item .
-		\item .
-		\item etc.
-		\item \command{command} \subcommand{argument}
-		\item \subcommand{subcommand} \subcommand{argument}
-		\item \subcommand{subcommand} \subcommand{argument}
-		\item .
-		\item .
-		\item etc.
-		\item \command{command} \subcommand{\emph{label}}
-		\item \subcommand{subcommand} \subcommand{argument}
-		\item \subcommand{subcommand} \subcommand{argument}
-		\item .
-		\item .
-		\item etc.
-		\end{description}
-\end{multicols}
+%\begin{multicols}{3}
+%	\begin{description}
+%		\item \command{command}
+%		\item \subcommand{subcommand} \subcommand{argument}
+%		\item \subcommand{subcommand} \subcommand{argument}
+%		\item .
+%		\item .
+%		\item etc.
+%		\item \command{command} \subcommand{argument}
+%		\item \subcommand{subcommand} \subcommand{argument}
+%		\item \subcommand{subcommand} \subcommand{argument}
+%		\item .
+%		\item .
+%		\item etc.
+%		\item \command{command} \subcommand{\emph{label}}
+%		\item \subcommand{subcommand} \subcommand{argument}
+%		\item \subcommand{subcommand} \subcommand{argument}
+%		\item .
+%		\item .
+%		\item etc.
+%		\end{description}
+%\end{multicols}
 
 Subcommands can be in any order within the command block. Command blocks can be in any order within the input files, except \texttt{\command{}model} which must be the first command block encountered by \CNAME~since this scopes the basic model dimensions (but excluding the \texttt{!include} command).
 	
@@ -329,7 +329,7 @@ There are section detailing the equations involve and a separate syntax section 
 
 Note that the syntax sections are auto-generated from the code base (from the class constructors) so they give the definitive set of subcommands and their names. 
 
-\subsection{\I{Single-stepping \CNAME~}\label{sec:singlestepping}}\index{Single\_stepping}\index{single\_stepping section}
+\subsection{\I{Single-stepping \CNAME~}\label{sec:SingleStepping}}\index{Single\_stepping}\index{single\_stepping section}
 
 TODO: move this section to somewhere else
 
