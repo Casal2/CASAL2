@@ -5,7 +5,7 @@
 Enabling CASAL2 syntax highlighting in Notepad (https://notepad-plus-plus.org/)
 
 Syntax definition files contain the information Notepad++ uses to highlight 
-keywords in different colors. The file CASAL2.xml provides syntax 
+keywords in different colours. The file CASAL2.xml provides syntax 
 highlighting for CASAL2 input parameter files in Notepad++.
 
 Note you can edit or otherwise modify the syntax highlighting by editing 
@@ -18,7 +18,7 @@ There are two main ways to do import the CASAL.xml user defined languiage
 1. Copy CASAL.xml into the appropriate userDefineLangs subfolder. Exit all 
    instances of Notepad++ and reload, then the new UDL will be available.
 
-2. Use the Import… button, navigate to the source XML, and the UDL will be 
+2. Use the Importï¿½ button, navigate to the source XML, and the UDL will be 
    immediately available.
 
 Full instructions on importing UDLs into Notepad++ can be found at
