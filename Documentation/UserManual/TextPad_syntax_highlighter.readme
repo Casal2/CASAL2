@@ -24,10 +24,10 @@ folder on your system.
 
 Then, to enable syntax highlighting for CASAL2 '.csl2' files:
 
-1. Open Textpad, and select "Configure" and then "New Document Class"
-2. In "Document class name" enter 'CASAL2' then select "Next"
-3. In "Class members" enter '*.csl2' then select "Next"
-4. Tick the box "Enable syntax highlighting"
-5. Select "CASAL2.syn" from the available syntax files in the drop down box
-6. Select "Finish"
+1. Open Textpad, and select Configure | New Document Class
+2. In �Document class name� enter CASAL2 then select �Next�
+3. In �Class members� enter *.csl2 then select �Next�
+4. Tick the box �Enable syntax highlighting�
+5. Select elect CASAL2.syn from the available syntax files in the drop down box. 
+6. Select �Finish�
 

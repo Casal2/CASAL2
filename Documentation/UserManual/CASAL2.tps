@@ -11,14 +11,14 @@ MaxPos.x=-1
 MaxPos.y=-1
 NormalPos.left=4
 NormalPos.top=32
-NormalPos.right=1562
-NormalPos.bottom=577
+NormalPos.right=1367
+NormalPos.bottom=468
 Class=LaTeXView
-Document=Troubleshooting.tex
+Document=CASAL2.tex
 
 [Frame0_View0,0]
-TopLine=36
-Cursor=3621
+TopLine=223
+Cursor=9048
 
 [Frame1]
 Flags=0
@@ -29,14 +29,14 @@ MaxPos.x=-1
 MaxPos.y=-1
 NormalPos.left=4
 NormalPos.top=32
-NormalPos.right=1562
-NormalPos.bottom=577
+NormalPos.right=1367
+NormalPos.bottom=468
 Class=LaTeXView
-Document=RunningCASAL2.tex
+Document=Introduction.tex
 
 [Frame1_View0,0]
-TopLine=15
-Cursor=1910
+TopLine=23
+Cursor=3485
 
 [Frame2]
 Flags=0
@@ -47,14 +47,14 @@ MaxPos.x=-1
 MaxPos.y=-1
 NormalPos.left=4
 NormalPos.top=32
-NormalPos.right=1562
-NormalPos.bottom=577
+NormalPos.right=1367
+NormalPos.bottom=468
 Class=LaTeXView
-Document=Introduction.tex
+Document=RunningCASAL2.tex
 
 [Frame2_View0,0]
-TopLine=56
-Cursor=5718
+TopLine=153
+Cursor=10716
 
 [Frame3]
 Flags=0
@@ -65,14 +65,14 @@ MaxPos.x=-1
 MaxPos.y=-1
 NormalPos.left=4
 NormalPos.top=32
-NormalPos.right=1562
-NormalPos.bottom=577
+NormalPos.right=1367
+NormalPos.bottom=468
 Class=LaTeXView
-Document=Estimation.tex
+Document=Population.tex
 
 [Frame3_View0,0]
-TopLine=0
-Cursor=0
+TopLine=242
+Cursor=16217
 
 [Frame4]
 Flags=0
@@ -83,14 +83,14 @@ MaxPos.x=-1
 MaxPos.y=-1
 NormalPos.left=4
 NormalPos.top=32
-NormalPos.right=1562
-NormalPos.bottom=577
+NormalPos.right=1367
+NormalPos.bottom=468
 Class=LaTeXView
-Document=Observation.tex
+Document=Syntax\Likelihood.tex
 
 [Frame4_View0,0]
 TopLine=0
-Cursor=1557
+Cursor=0
 
 [Frame5]
 Flags=0
@@ -101,14 +101,14 @@ MaxPos.x=-1
 MaxPos.y=-1
 NormalPos.left=4
 NormalPos.top=32
-NormalPos.right=1562
-NormalPos.bottom=577
+NormalPos.right=1367
+NormalPos.bottom=468
 Class=LaTeXView
-Document=Overview.tex
+Document=Syntax.tex
 
 [Frame5_View0,0]
-TopLine=0
-Cursor=1758
+TopLine=127
+Cursor=635
 
 [Frame6]
 Flags=0
@@ -119,88 +119,16 @@ MaxPos.x=-1
 MaxPos.y=-1
 NormalPos.left=4
 NormalPos.top=32
-NormalPos.right=1562
-NormalPos.bottom=577
+NormalPos.right=1367
+NormalPos.bottom=468
 Class=LaTeXView
-Document=Population.tex
+Document=Observation.tex
 
 [Frame6_View0,0]
-TopLine=0
-Cursor=0
-
-[Frame7]
-Flags=0
-ShowCmd=1
-MinPos.x=-1
-MinPos.y=-1
-MaxPos.x=-1
-MaxPos.y=-1
-NormalPos.left=4
-NormalPos.top=32
-NormalPos.right=1562
-NormalPos.bottom=577
-Class=LaTeXView
-Document=CASAL2.tex
-
-[Frame7_View0,0]
-TopLine=146
-Cursor=5813
-
-[Frame8]
-Flags=0
-ShowCmd=1
-MinPos.x=-1
-MinPos.y=-1
-MaxPos.x=-1
-MaxPos.y=-1
-NormalPos.left=4
-NormalPos.top=32
-NormalPos.right=1562
-NormalPos.bottom=577
-Class=LaTeXView
-Document=Report.tex
-
-[Frame8_View0,0]
-TopLine=0
-Cursor=0
-
-[Frame9]
-Flags=0
-ShowCmd=1
-MinPos.x=-1
-MinPos.y=-1
-MaxPos.x=-1
-MaxPos.y=-1
-NormalPos.left=4
-NormalPos.top=32
-NormalPos.right=1562
-NormalPos.bottom=577
-Class=LaTeXView
-Document=Syntax.tex
-
-[Frame9_View0,0]
-TopLine=69
-Cursor=2714
-
-[Frame10]
-Flags=0
-ShowCmd=1
-MinPos.x=-1
-MinPos.y=-1
-MaxPos.x=-1
-MaxPos.y=-1
-NormalPos.left=4
-NormalPos.top=32
-NormalPos.right=1562
-NormalPos.bottom=577
-Class=LaTeXView
-Document=Examples.tex
-
-[Frame10_View0,0]
-TopLine=0
-Cursor=2
+TopLine=793
+Cursor=38080
 
 [SessionInfo]
-FrameCount=11
-ActiveFrame=4
+FrameCount=7
+ActiveFrame=6
 
