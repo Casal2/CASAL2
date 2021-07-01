@@ -49,7 +49,7 @@ parent_class_ = Class()  # Hold our top most parent class (e.g niwa::Process)
 # Regular Expressions used later
 reCapitalLetters = '(,|>|\(|\)|{|\}|;)(?=([^\"]*\"[^\"]*\")*[^\"]*$)'
 reReplaceUnderscores = '(?<=[a-z])(?=[A-Z])'
-reRemoveU = '^\d{1,}u$'
+reRemoveU = '(?:^d+)*u$'
 
 
 ###########################################################################
@@ -121,7 +121,6 @@ class Documentation:
             translations_[lookup] = value
 
         print('    Loaded ' + str(len(translations_)) + ' translation values')
-        print(translations_)
         return True
 
 
@@ -597,6 +596,7 @@ class Printer:
             if variable.default_.replace('\_', '_').startswith('PARAM_'):
                 file_.write('\\defDefault{' + translations_[variable.default_.replace('\_', '_')] + '}\n')
             else:
+                variable.default_ = re.sub(reRemoveU, '', variable.default_)
                 file_.write('\\defDefault{' + variable.default_.replace('""', 'No default') + '}\n')
             if variable.value_ != '':
                 if variable.allowed_values_ != '':
@@ -604,8 +604,10 @@ class Printer:
                 else:
                     file_.write('\\defValue{' + variable.value_ + '}\n')
             if variable.lower_bound_ != '':
+                variable.lower_bound_ = re.sub(reRemoveU, '', variable.lower_bound_)
                 file_.write('\\defLowerBound{' + variable.lower_bound_ + '}\n')
             if variable.upper_bound_ != '':
+                variable.upper_bound_ = re.sub(reRemoveU, '', variable.upper_bound_)
                 file_.write('\\defUpperBound{' + variable.upper_bound_ + '}\n')
             if variable.note_ != '':
                 file_.write('\\defNote{' + variable.note_ + '}\n')
@@ -661,7 +663,7 @@ class Latex:
             file_output.write(version)
             file_output.close()
 
-        for i in range(0, 1):  # for i in range(0, 3):
+        for i in range(0, 3):
             if Globals.operating_system_ != "windows":
                 # Create CASAL2.aux
                 if os.system('pdflatex --interaction=nonstopmode CASAL2') != EX_OK:
@@ -685,6 +687,6 @@ class Latex:
                     return Globals.PrintError('pdflatex failed')
                 if os.system('makeindex.exe CASAL2') != EX_OK:
                     return Globals.PrintError('makeindex failed')
-        print('-- Built the Casal2 usermanual')
+        print('-- Built the Casal2 User Manual')
 
         return True
