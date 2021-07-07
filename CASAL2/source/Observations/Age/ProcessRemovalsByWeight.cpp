@@ -442,15 +442,24 @@ void ProcessRemovalsByWeight::Execute() {
 
       AgeLength* age_length = (*category_iter)->age_length_;
 
-      weight_units    = age_length->weight_units();
+      weight_units    = model_->base_weight_units();
       unit_multiplier = 1.0;
       // what value to multiply weight_units by to get units_
-      if (units_ == PARAM_TONNES)
-        unit_multiplier = 1.0;
-      else if (units_ == PARAM_KGS)
-        unit_multiplier = 1000.0;
-      else if (units_ == PARAM_GRAMS)
-        unit_multiplier = 1000000.0;
+      if ((units_ == PARAM_TONNES) && (weight_units == PARAM_KGS))
+        unit_multiplier = 0.001;
+      else if (units_ == PARAM_GRAMS && (weight_units == PARAM_KGS))
+        unit_multiplier = 1000;
+
+      if ((units_ == PARAM_KGS) && (weight_units == PARAM_TONNES))
+        unit_multiplier = 1000;
+      else if (units_ == PARAM_GRAMS && (weight_units == PARAM_TONNES))
+        unit_multiplier = 1000000;
+
+      if ((units_ == PARAM_KGS) && (weight_units == PARAM_GRAMS))
+        unit_multiplier = 0.0001;
+      else if (units_ == PARAM_TONNES && (weight_units == PARAM_GRAMS))
+        unit_multiplier = 0.0000001;
+
       LOG_FINE() << "category " << category_name << " unit multiplier " << unit_multiplier << " from " << weight_units << " to " << units_;
 
       bool no_length_weight_change = true;
@@ -459,7 +468,7 @@ void ProcessRemovalsByWeight::Execute() {
         // NOTE: hardcoded for now with minimum age (used to get cv[year][time_step][age])
         // NOTE: age_length->GetMeanWeight() returns mean weight in tonnes (per Craig Marsh, 2021-07-06)
         mean_weight = unit_multiplier * age_length->GetMeanWeight(year, time_step, (*category_iter)->min_age_, length_bins_[j]);
-        LOG_FINEST() << "Mean weight at length " << length_bins_[j] << " (CVs for age " << (*category_iter)->min_age_ << "): " << mean_weight;
+        LOG_FINEST() << "Mean weight at length " << length_bins_[j] << " (CVs for age " << (*category_iter)->min_age_ << "): " << mean_weight << " mean weight = " << age_length->GetMeanWeight(year, time_step, (*category_iter)->min_age_, length_bins_[j]) << " multiplier = " << unit_multiplier;
 
         std_dev = length_weight_cv_adj_[j] * mean_weight;
         auto tmp_vec = utilities::math::distribution2(weight_bins_plus_, weight_plus_, length_weight_distribution_, mean_weight, std_dev);

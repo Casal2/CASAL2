@@ -130,7 +130,7 @@ end_table
 
 @length_weight Length_Weight
 type basic
-units tonnes
+units kgs
 a  9.63e-06
 b  3.173
 
@@ -167,10 +167,6 @@ end_table
 
 @ageing_error no_error
 type none
-
-@report commWF
-type observation
-observation commWF
 
 )";
 
