@@ -1,13 +1,21 @@
 # print(paste('pandoc installed?', rmarkdown::pandoc_available()))
 # print(paste('pandoc version:', rmarkdown::pandoc_version()))
 
-require(ggmcmc)
+require(devtools)
+
+# for tables
+require(plyr)
+require(dplyr)
+require(huxtable)
+
+# for figures
+require(rlist)
 require(coda)
 require(gridExtra)
+require(ggplot2)
+require(ggmcmc)
 require(ggthemes)
-require(rlist)
 
-require(devtools)
 
 # the CASAL and Casal2 R libraries are installed in the TestCases subdirectory
 .libPaths(c('../..', .libPaths()))
