@@ -466,7 +466,6 @@ void ProcessRemovalsByWeight::Execute() {
 
       for (unsigned j = 0; j < number_length_bins_; ++j) {
         // NOTE: hardcoded for now with minimum age (used to get cv[year][time_step][age])
-        // NOTE: age_length->GetMeanWeight() returns mean weight in tonnes (per Craig Marsh, 2021-07-06)
         mean_weight = unit_multiplier * age_length->GetMeanWeight(year, time_step, (*category_iter)->min_age_, length_bins_[j]);
         LOG_FINEST() << "Mean weight at length " << length_bins_[j] << " (CVs for age " << (*category_iter)->min_age_ << "): " << mean_weight << " mean weight = " << age_length->GetMeanWeight(year, time_step, (*category_iter)->min_age_, length_bins_[j]) << " multiplier = " << unit_multiplier;
 
