@@ -8,7 +8,7 @@ The Dockerfile currently defines the development environment:
 To start the docker container and keep it running in background:
 `docker-compose up -d`
 
-To get into the running container and test further developerment:
+To get into the running container and test further development:
 `docker-compose exec r bash`
 
 To stop the running container and start again:

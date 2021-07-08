@@ -76,7 +76,7 @@ upper_bound 1
 #######
 ## B0's
 #######
-## this includes your funnny transformation see the manual for how Casal2 applies transformations
+## this includes your funny transformation see the manual for how Casal2 applies transformations
 @estimate B0_E_with_total_log_b0_prior
 type uniform
 parameter process[recruit_E].b0
