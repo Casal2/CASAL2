@@ -862,7 +862,7 @@ void Model::RunProjection() {
 
 /**
  * This method will do a single iteration of the model. During
- * a basic run it'll only run once, but during the other run modes i.e. estiamtion and MCMC
+ * a basic run it'll only run once, but during the other run modes i.e. estimation and MCMC
  * it'll run multiple times.
  */
 void Model::Iterate() {
@@ -904,7 +904,7 @@ void Model::Iterate() {
  *
  */
 void Model::FullIteration() {
-  // TODO: Add calulation of the objective score here and estimate transformations
+  // TODO: Add calculation of the objective score here and estimate transformations
   Reset();
   Iterate();
 }

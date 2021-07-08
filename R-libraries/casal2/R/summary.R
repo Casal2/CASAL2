@@ -7,9 +7,9 @@
 #' @return \code{NULL}
 #' @rdname summary
 #' @export summary
- "summary.default"<-
-function(model){
-  UseMethod("summary",model)
+"summary.default" <-
+function(model) {
+  UseMethod("summary", model)
 }
 
 #' summary casal2MPD
@@ -25,30 +25,30 @@ function(model){
   ## iterate through each report and ndx which reports we can summarise
   allowed_report_types = c("estimate_value", "estimate_summary", "process", "warnings_encounted")
   ## maybe think about prioritising some of this summary later, like put the warning at the end as that is likely where users will see it.
-  for(i in names(model)) {
-      this_report = get(i, model)
-      # to account for the differences between run output and estimation output
-      if (names(this_report)[1] == "1") {
-        this_report = this_report[[1]]
-      }
-      report_type = this_report$type
-      if (report_type %in% allowed_report_types) {
-        if (report_type == "estimate_value") {
-          summarise_estimate_values(this_report)
-        } else if (report_type == "estimate_summary") {
-            summarise_estimate_summary(this_report)
-        } else if (report_type == "process") {
-          if(this_report$sub_type %in% c("recruitment_beverton_holt", "mortality_instantaneous")) {
-            cat(Paste("Summarising process ", i,"\n"))
-            summarise_process(this_report)
-          } else if (this_report$sub_type %in% c("mortality_instantaneous_retained")) {
-            cat(Paste("Summarising retained process ", i,"\n"))
-            summarise_process_retained(this_report)
-          }
-        } else if (report_type == "warnings_encounted") {
-          summarise_warnings_encounted(this_report)
+  for (i in names(model)) {
+    this_report = get(i, model)
+    # to account for the differences between run output and estimation output
+    if (names(this_report)[1] == "1") {
+      this_report = this_report[[1]]
+    }
+    report_type = this_report$type
+    if (report_type %in% allowed_report_types) {
+      if (report_type == "estimate_value") {
+        summarise_estimate_values(this_report)
+      } else if (report_type == "estimate_summary") {
+        summarise_estimate_summary(this_report)
+      } else if (report_type == "process") {
+        if (this_report$sub_type %in% c("recruitment_beverton_holt", "mortality_instantaneous")) {
+          cat(paste0("Summarising process ", i, "\n"))
+          summarise_process(this_report)
+        } else if (this_report$sub_type %in% c("mortality_instantaneous_retained")) {
+          cat(paste0("Summarising retained process ", i, "\n"))
+          summarise_process_retained(this_report)
         }
+      } else if (report_type == "warnings_encounted") {
+        summarise_warnings_encounted(this_report)
       }
+    }
   }
 }
 
@@ -67,7 +67,7 @@ function(model){
   ##############
   ## Trace Plot
   #############
-  plot(model$"sample"/1000, model$"objective_score", xlab = "Iteration (000's)", ylab = "Objective Score", main = "Trace Plot", type = "l")
+  plot(model$"sample" / 1000, model$"objective_score", xlab = "Iteration (000's)", ylab = "Objective Score", main = "Trace Plot", type = "l")
 
 }
 

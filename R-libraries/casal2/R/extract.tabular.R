@@ -13,30 +13,30 @@
 #'
 #'
 "extract.tabular" <-
-function (file, path = "",fileEncoding = "") {
-  set.class <- function(object,new.class){
+function(file, path = "", fileEncoding = "") {
+  set.class <- function(object, new.class) {
     # use in the form
     #  object <- set.class(object,"new class")
-    attributes(object)$class <- c(new.class,attributes(object)$class[attributes(object)$class!=new.class])
+    attributes(object)$class <- c(new.class, attributes(object)$class[attributes(object)$class != new.class])
     object
   }
 
   filename = make.filename(path = path, file = file)
-  file = convert.to.lines(filename,fileEncoding = fileEncoding)
+  file = convert.to.lines(filename, fileEncoding = fileEncoding)
   original_file = file;
   end_file_locations = which("*end" == file);
 
   ## Check this isn't a tabular report by looking at the Call:
   if (!grepl(pattern = "--tabular", x = file[2]))
-   stop("This model was NOT run with the command '--tabular', please use the extract.mpd() function to import model runs without --tabular")  
-  
-  temp = get.lines(file, starts.with = "\\*",fixed=F)
+    stop("This model was NOT run with the command '--tabular', please use the extract.mpd() function to import model runs without --tabular")
+
+  temp = get.lines(file, starts.with = "\\*", fixed = F)
   if (length(temp) != 0) {
-    if(!is.even(length(temp))) {
+    if (!is.even(length(temp))) {
       ## find the report which doesn't have a *end
       nd_element = seq(2, length(temp), by = 2)
       ndx = which(temp[nd_element] != "*end")[1]
-      stop (Paste("Each report section must begin with '*' and end with '* end'. The report beginning with ", temp[ndx], " did not have a trailing *end"))
+      stop(paste0("Each report section must begin with '*' and end with '* end'. The report beginning with ", temp[ndx], " did not have a trailing *end"))
     }
     temp = temp[is.odd(1:length(temp))]
     counter = length(temp)
@@ -47,8 +47,8 @@ function (file, path = "",fileEncoding = "") {
       label = header[1]
       type = header[2]
       report = get.lines(file, clip.to = temp[i])
-      report = get.lines(report,clip.from = "*end")
-      print(Paste("loading report '" ,label,"'"))
+      report = get.lines(report, clip.from = "*end")
+      print(paste0("loading report '", label, "'"))
       if (type == "warnings_encounted") {
         warning("Found a warning in your report. I am skipping that report, just letting you know =)")
         next;
@@ -63,31 +63,27 @@ function (file, path = "",fileEncoding = "") {
         report_label = get.line.label(current_line)
 
         if (report_type == "L_E") {
-          temp_result[[report_label]]= make.list_element(current_line)
+          temp_result[[report_label]] = make.list_element(current_line)
           line_no = line_no + 1
           start_ndx = start_ndx + 1;
         } else if (report_type == "d") {
           header = string.to.vector.of.words(original_file[start_ndx + 1])
           ##header1 = read.table(file = filename, skip = (start_ndx + 1 + (i - 1)), nrows = 1, stringsAsFactors = FALSE,  sep = " ", header = F,strip.white=FALSE, fill = FALSE)
-          Data = read.table(file = filename, skip = (start_ndx + 2 + (i - 1)), nrows = (end_file_locations[i] - start_ndx - 3) , stringsAsFactors = FALSE,  sep = " ", header = F,strip.white=FALSE, fill = FALSE, fileEncoding = fileEncoding)
-          Data = Data[, -ncol(Data)]
+          Data = read.table(file = filename, skip = (start_ndx + 2 + (i - 1)), nrows = (end_file_locations[i] - start_ndx - 3), stringsAsFactors = FALSE, sep = " ", header = F, strip.white = FALSE, fill = FALSE, fileEncoding = fileEncoding)
+          Data = Data[, - ncol(Data)]
           colnames(Data) = header
           temp_result$values = Data
           line_no = length(report) + 1
         } else {
-          warning(Paste("Haven't written code to deal with tabular report of type '", report_type, "'"))
+          warning(paste0("Haven't written code to deal with tabular report of type '", report_type, "'"))
         }
-      } 
-
+      }
       temp_result$type = type
-
       result[[label]] = temp_result
-
       file = get.lines(file, clip.to = "*end")
-
-    } 
-    result<-set.class(result,"casal2TAB")
-    result
+    }
+    result <- set.class(result, "casal2TAB")
+    return(result)
   } else {
     warning("File is empty, no reports found")
   }

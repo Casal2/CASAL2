@@ -1,4 +1,4 @@
-# Validate Dataweighting methods
+# Validate DataWeighting methods
 #
 source("Init.R")
 
@@ -34,7 +34,7 @@ w_tan - w_tan2
 
 
 #################
-## Mulitple Observations
+## Multiple Observations
 ################
 w  <- DataWeighting::Method.TA1.8(fit = list(age_comp_west, age_comp_tan, age_comp_east), plotit = F, multiple = T)
 w2 <- Method.TA1.8(model = csl_mpd, observation_labels = c("westF_at_age", "tan_at_age", "eastF_at_age"), plot.it = F)

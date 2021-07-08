@@ -113,10 +113,13 @@ class Archiver:
     os.system('cp ' + binary_path + '/library_test/' + library_name + ' Casal2/casal2_test' + extension)
     os.system('cp ../Documentation/UserManual/CASAL2.pdf Casal2/"Casal2 User Manual.pdf"')
     print("-- Manual copied")
-    os.system('cp ../Documentation/GettingStartedGuide/GettingStartedGuide.pdf Casal2/GettingStartedGuide.pdf')
-    print("-- Starters' guide copied")
-    os.system('cp ../Documentation/ContributorsManual/ContributorsGuide.pdf Casal2/ContributorsGuide.pdf')    
-    print("-- Contributors' guide copied")
+    #os.system('cp ../Documentation/GettingStartedGuide/GettingStartedGuide.pdf Casal2/GettingStartedGuide.pdf')
+    #print("-- Starters' guide copied")
+    #os.system('cp ../Documentation/ContributorsManual/ContributorsGuide.pdf Casal2/ContributorsGuide.pdf')    
+    #print("-- Contributors' guide copied")
+    # Syntax files
+    os.system('cp ../Documentation/UserManual/CASAL2.xml Casal2/CASAL2.xml')    
+    os.system('cp ../Documentation/UserManual/Notepad++_syntax_highlighter.readme Casal2/Notepad++_syntax_highlighter.readme')        
     os.system('cp ../Documentation/UserManual/CASAL2.syn Casal2/CASAL2.syn')    
     os.system('cp ../Documentation/UserManual/TextPad_syntax_highlighter.readme Casal2/TextPad_syntax_highlighter.readme')        
     os.system('cp -r ../Examples Casal2/Examples')
@@ -125,6 +128,7 @@ class Archiver:
     ## deal with R libraries
     if Globals.operating_system_ == "windows":
       os.system('cp ../R-libraries/casal2_1.0.zip Casal2/R-Libraries/casal2.zip')
+      os.system('cp ../R-libraries/casal2_1.0.zip Casal2/R-Libraries/casal2.tar.gz')
     else: 
       os.system('cp ../R-libraries/casal2_1.0.tar.gz Casal2/R-Libraries/casal2.tar.gz')
       

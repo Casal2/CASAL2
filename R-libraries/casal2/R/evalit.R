@@ -3,5 +3,7 @@
 #' @author Craig Marsh
 #' @keywords internal
 #'
-evalit = function(x) {eval(parse(text = x))}
-
+evalit <- function(x) {
+  result <- eval(parse(text = x))
+  return(result)
+}

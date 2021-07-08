@@ -431,7 +431,7 @@ void Loader::ParseBlock(shared_ptr<Model> model, vector<FileLine>& block) {
  * time_steps [type=iterative; processes=recruitment ageing]
  *
  * Note: Every inline declaration is required to have a ; character
- * at some point because at a minumum it needs to define type + one other parameter
+ * at some point because at a minimum it needs to define type + one other parameter
  *
  */
 void Loader::HandleInlineDefinitions() {
@@ -635,7 +635,7 @@ void Loader::FindActiveMinimiserType() {
     if (block_vector[0].line_.substr(1, 9) != PARAM_MINIMIZER)
       continue;  // skip non @minimiser
 
-    LOG_FINEST() << "Found @minimiser definiton @ line " << block_vector[0].line_number_ << " of file " << block_vector[0].file_name_;
+    LOG_FINEST() << "Found @minimiser definition @ line " << block_vector[0].line_number_ << " of file " << block_vector[0].file_name_;
     // This is working through definition of a single @minimiser block
     MinimiserDefinition new_definition;
     for (auto file_line : block_vector) {

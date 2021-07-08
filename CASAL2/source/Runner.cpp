@@ -8,7 +8,7 @@
  *
  * @description
  * This class is the class that is spawned from main() and holds pointers to everything. It's the class
- * that creates the models and hands them off to the different objects for running (minimisers, mcmcs etc)
+ * that creates the models and hands them off to the different objects for running (minimisers, MCMCs etc.)
  *
  */
 

@@ -1,0 +1,12 @@
+Package: DataWeighting
+Title: Data Weighting package
+Version: 1.0
+Date: 2015-04-15
+Author: R.I.C.C. Francis
+Description: A set of R functions for evaluating and calculating data weights for CASAL.
+Maintainer: A Dunn <a.dunn@niwa.co.nz>
+License: See the CASAL manual, or use 'casal -l' at the command line to
+        view the CASAL license.
+URL: http://www.niwa.co.nz
+Copyright: National Institute of Water & Atmospheric Research (NIWA).
+Built: R 3.1.1; ; 2015-04-15 23:49:24 UTC; windows

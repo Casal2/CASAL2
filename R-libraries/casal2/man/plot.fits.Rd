@@ -79,6 +79,7 @@ A plot of derived quantities over time if plot.it = TRUE, if plot.it = FALSE it 
 A plotting function to fits to Casal2 observations from a model run.
 }
 \examples{
+\donttest{
 library(casal2)
 # plotting Standard Output
 data <- extract.mpd(file = system.file("extdata", "estimate.out", package="casal2"))
@@ -88,6 +89,7 @@ plot.fits(model = data, report_label = "westF_at_age")
 plot.fits(model = data, report_label = "eastF_at_age")
 # to create a user-specified plot, use plot.it = FALSE.
 Tangaroa_fits <- plot.fits(model = data, report_label = "eastF_at_age", plot.it = FALSE)
+}
 }
 \author{
 Craig Marsh

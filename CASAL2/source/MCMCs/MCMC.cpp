@@ -76,7 +76,7 @@ void MCMC::FillMultivariateT(double step_size) {}
 void MCMC::UpdateStepSize() {}
 void MCMC::BuildCovarianceMatrix() {}
 void MCMC::UpdateCovarianceMatrix() {}
-bool MCMC::DoCholeskyDecmposition() {
+bool MCMC::DoCholeskyDecomposition() {
   return true;
 }
 bool MCMC::WithinBounds() {

@@ -35,17 +35,17 @@ class Installer:
     print '-- Loading version information from GIT'
     p = subprocess.Popen(['git', '--no-pager', 'log', '-n', '1', '--pretty=format:%H%n%h%n%ci' ], stdout=subprocess.PIPE, stderr=subprocess.PIPE)
     out, err = p.communicate()
-    lines = out.split('\n')
+    lines = out.decode('utf-8').split('\n')
     if len(lines) != 3:
-      return Globals.PrintError('Format printed by GIT did not meet expectations. Expected 3 lines but got ' + str(len(lines)))
+        return Globals.PrintError('Format printed by GIT did not meet expectations. Expected 3 lines but got ' + str(len(lines)))
 
     time_pieces = lines[2].split(' ')
-    del time_pieces[-1];
     temp = ' '.join(time_pieces)
-    local_time = datetime.strptime(temp, '%Y-%m-%d %H:%M:%S')
-    utc_time   = local_time.replace(tzinfo=tz.tzlocal()).astimezone(tz.tzutc())
+    local_time = datetime.strptime(temp, '%Y-%m-%d %H:%M:%S %z')
+    utc_time   = local_time.astimezone(pytz.utc)
 
-    version = utc_time.strftime('%Y%m%d') + '.' + lines[1]
+    version = Globals.Casal2_version_number + ' (' + utc_time.strftime('%Y-%m-%d') + ')\n'
+
     file.write('AppVersion=' + version + '\n')
     file.write('AppId = CASAL2_001\n')    
     file.write('AppPublisher=NIWA\n')
@@ -75,16 +75,15 @@ class Installer:
     file.write('Source: "Casal2\\casal2.exe"; DestDir: "{app}"; Flags: ignoreversion\n')
     file.write('Source: "Casal2\\casal2_adolc.dll"; DestDir: "{app}"; Flags: ignoreversion\n')
     file.write('Source: "Casal2\\casal2_betadiff.dll"; DestDir: "{app}"; Flags: ignoreversion\n')
-    file.write('Source: "Casal2\\casal2_release.dll"; DestDir: "{app}"; Flags: ignoreversion\n')
     file.write('Source: "Casal2\\casal2_test.dll"; DestDir: "{app}"; Flags: ignoreversion\n')
-    file.write('Source: "Casal2\\UserManual.pdf"; DestDir: "{app}"; Flags: ignoreversion\n')
+    file.write('Source: "Casal2\\Casal2.pdf"; DestDir: "{app}"; Flags: ignoreversion\n')
     file.write('Source: "Casal2\\R-Libraries\\*"; DestDir: "{app}\R-Libraries"; Flags: replacesameversion recursesubdirs\n')
     file.write('Source: "Casal2\\Examples\\*"; DestDir: "{app}\Examples"; Flags: replacesameversion recursesubdirs\n')
     file.write('Source: "Casal2\\README.txt"; DestDir: "{app}"; Flags: ignoreversion\n')
-    file.write('Source: "Casal2\\GettingStartedGuide.pdf"; DestDir: "{app}"; Flags: ignoreversion\n')
-    file.write('Source: "Casal2\\ContributorsGuide.pdf"; DestDir: "{app}"; Flags: ignoreversion\n') 
     file.write('Source: "Casal2\\CASAL2.syn"; DestDir: "{app}"; Flags: ignoreversion\n') 
     file.write('Source: "Casal2\\TextPad_syntax_highlighter.readme"; DestDir: "{app}"; Flags: ignoreversion\n')            
+    file.write('Source: "Casal2\\CASAL2.xml"; DestDir: "{app}"; Flags: ignoreversion\n') 
+    file.write('Source: "Casal2\\Notepad++_syntax_highlighter.readme"; DestDir: "{app}"; Flags: ignoreversion\n')            
     file.write('[Registry]\n')
     file.write('Root: HKLM; Subkey: "SYSTEM\\CurrentControlSet\\Control\\Session Manager\\Environment"; ValueType: expandsz; ValueName: "Path"; ValueData: "{olddata};{app}"; \\\n')
     file.write('     Check: NeedsAddPath(\'{app}\')\n')
@@ -95,7 +94,7 @@ class Installer:
     file.write('[Icons]\n')
     file.write('Name: "{group}\\run casal2"; Filename: "{app}\\run Casal2.lnk"; WorkingDir: {app}; Tasks:quicklaunchicon\n')
     file.write('Name: "{group}\\Readme"; Filename: "{app}\README.txt"; WorkingDir: {app}\n')
-    file.write('Name: "{group}\\CASAL2 user manual"; Filename: "{app}\UserManual.pdf"; WorkingDir: {app}\n')
+    file.write('Name: "{group}\\CASAL2 user manual"; Filename: "{app}\Casal2.pdf"; WorkingDir: {app}\n')
     file.write('Name: "{group}\\Getting started guide"; Filename: "{app}\GettingStartedGuide.pdf"; WorkingDir: {app}\n')
     file.write('Name: "{group}\\Uninstall CASAL2"; Filename: "{uninstallexe}"\n')
     file.write('Name: "{commondesktop}\\run casal2"; Filename: "{app}\\run casal2.lnk"; WorkingDir: "{app}"; Tasks: desktopicon\n')

@@ -37,10 +37,6 @@ class MainCode:
         if not os.path.exists(third_party_dir):
             return Globals.PrintError("Third party libraries have not been built. Please build these first with thirdparty argument")
 
-        # Build Version.h
-        version = Version()
-        version.create_version_header()
-
         self.output_directory_ = f"bin/{Globals.operating_system_}_{Globals.compiler_}/{Globals.build_target_}"
         if Globals.build_parameters_ != "":
             self.output_directory_ += f"_{Globals.build_parameters_}"

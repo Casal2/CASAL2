@@ -95,6 +95,31 @@ void CommandLineParser::Parse(int argc, char* argv[], RunParameters& options) {
   }
 
   /**
+   * Determine what run mode we should be in. If we're
+   * in help, version or license then we don't need to continue.
+   */
+  if ((parameters.count("help")) || (parameters.size() == 0)) {
+    options.run_mode_ = RunMode::kHelp;
+    cout << command_line_usage_ << endl;
+    return;
+  } else if (parameters.count("version")) {
+    options.run_mode_ = RunMode::kVersion;
+    cout << SOURCE_CONTROL_VERSION << endl;
+    return;
+  } else if (parameters.count("license")) {
+    options.run_mode_ = RunMode::kLicense;
+    cout << license << endl;
+    return;
+  } else if (parameters.count("query")) {
+    options.query_object_ = parameters["query"].as<string>();
+    options.run_mode_     = RunMode::kQuery;
+    return;
+  } else if (parameters.count("unittest")) {
+    options.run_mode_ = RunMode::kUnitTest;
+    return;
+  }
+
+  /**
    * Load any variables into the global config that need to be available
    * immediately
    */
@@ -128,31 +153,6 @@ void CommandLineParser::Parse(int argc, char* argv[], RunParameters& options) {
     options.estimate_before_mcmc_ = true;
   if (parameters.count("mcmc-mpd-file-name"))
     options.mcmc_mpd_file_name_ = parameters["mcmc-mpd-file-name"].as<string>();
-
-  /**
-   * Determine what run mode we should be in. If we're
-   * in help, version or license then we don't need to continue.
-   */
-  if ((parameters.count("help")) || (parameters.size() == 0)) {
-    options.run_mode_ = RunMode::kHelp;
-    cout << command_line_usage_ << endl;
-    return;
-  } else if (parameters.count("version")) {
-    options.run_mode_ = RunMode::kVersion;
-    cout << SOURCE_CONTROL_VERSION << endl;
-    return;
-  } else if (parameters.count("license")) {
-    options.run_mode_ = RunMode::kLicense;
-    cout << license << endl;
-    return;
-  } else if (parameters.count("query")) {
-    options.query_object_ = parameters["query"].as<string>();
-    options.run_mode_     = RunMode::kQuery;
-    return;
-  } else if (parameters.count("unittest")) {
-    options.run_mode_ = RunMode::kUnitTest;
-    return;
-  }
 
   /**
    * At this point we know we've been asked to do an actual model
