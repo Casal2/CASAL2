@@ -124,6 +124,8 @@ class Archiver:
     os.system('cp -r ../README.txt Casal2/README.txt')
     os.system('cp -r ../README.md Casal2/README.md')
     print("-- Readme copied")
+    os.system('cp -r ../LICENSE Casal2/LICENSE')
+    print("-- license copied")
     ## deal with R libraries
     os.system('cp ../R-libraries/casal2_' + Globals.Casal2_version_number + '.tar.gz Casal2/R-Libraries/casal2.tar.gz')
     print("-- R libraries copied")
