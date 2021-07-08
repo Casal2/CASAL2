@@ -12,13 +12,13 @@ Note you can edit or otherwise modify the syntax highlighting by editing
 the CASAL2.xml syntax definition file. See the Notepad++ help for more 
 information.
 
-There are two main ways to do import the CASAL.xml user defined language 
+There are two main ways to do import the CASAL.xml user defined languiage 
 (UDL) into Notepad++:
 
 1. Copy CASAL.xml into the appropriate userDefineLangs subfolder. Exit all 
    instances of Notepad++ and reload, then the new UDL will be available.
 
-2. Use the "Import" button, navigate to the source XML, and the UDL will be 
+2. Use the Import� button, navigate to the source XML, and the UDL will be 
    immediately available.
 
 Full instructions on importing UDLs into Notepad++ can be found at

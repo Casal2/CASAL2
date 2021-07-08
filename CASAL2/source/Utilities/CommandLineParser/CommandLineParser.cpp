@@ -49,18 +49,18 @@ void CommandLineParser::Parse(int argc, char* argv[], RunParameters& options) {
   options_description oDesc("Usage");
   oDesc.add_options()
     ("help,h", "Print help")
-    ("license,l", "Display the Casal2 license")
-    ("version,v", "Display the Casal2 version")
+    ("license,l", "Display Casal2 license")
+    ("version,v", "Display version information")
     ("config,c", value<string>(), "Configuration file")
     ("run,r", "Basic model run mode")
     ("estimate,e", "Point estimation run mode")
     // mcmc options
     ("mcmc,m", "Markov chain Monte Carlo run mode")
-    ("estimate-before-mcmc", "Estimate the model before starting an MCMC")
-    ("mcmc-mpd-file-name", value<string>(), "Load the specified MPD file for the MCMC run. When creating, this will overwrite")
+    ("estimate-before-mcmc", "Estimate the model before we start the MCMC, this will generate the covariance")
+    ("mcmc-mpd-file-name", value<string>(), "Load the specified mpd file for the MCMC run. When creating, this will overwrite")
     ("resume", "Resume the MCMC chain")
-    ("objective-file", value<string>(), "Objectives file for resuming the MCMC chain")
-    ("sample-file", value<string>(), "Samples file for resuming the MCMC chain")
+    ("objective-file", value<string>(), "Objective file for resuming the MCMC chain")
+    ("sample-file", value<string>(), "Sample file for resuming the MCMC chain")
     // other
     ("profiling,p", "Profiling run mode")
     ("simulation,s", value<unsigned>(), "Simulation mode (arg = number of candidates)")
@@ -104,9 +104,7 @@ void CommandLineParser::Parse(int argc, char* argv[], RunParameters& options) {
     return;
   } else if (parameters.count("version")) {
     options.run_mode_ = RunMode::kVersion;
-    cout << "Casal2 Version: v" << VERSION << endl;
-    cout << "Release ID: v" << VERSION_MUMBER << " " << SOURCE_CONTROL_VERSION << "" << endl;
-    cout << "Copyright (c) 2017-" << SOURCE_CONTROL_YEAR << ", NIWA (www.niwa.co.nz)" << endl;
+    cout << SOURCE_CONTROL_VERSION << endl;
     return;
   } else if (parameters.count("license")) {
     options.run_mode_ = RunMode::kLicense;
