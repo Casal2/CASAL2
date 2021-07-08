@@ -55,7 +55,7 @@ class MainCode:
         build_string = 'cmake ' + self.cmake_compiler_ + ' -D' + Globals.build_target_.upper() + '=1'
         if Globals.build_parameters_ != "":
             build_string += ' -D' + Globals.build_parameters_.upper() + '=1'
-        build_string += ' ../../../../CASAL2/'
+        build_string += ' ../../../../Casal2/'
 
         print("--> CMake command: " + build_string)
         if os.system(build_string) != EX_OK:
