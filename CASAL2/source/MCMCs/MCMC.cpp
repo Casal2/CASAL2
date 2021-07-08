@@ -344,7 +344,7 @@ void MCMC::BuildCovarianceMatrix() {
   // original_correlation = minimiser->correlation_matrix();
 
   // This is already built by MPD.cpp at line 137. in the frontend the minimiser is dropped out before
-  // the MCMC state kicks in, so this will return a rubbish covariance matrix
+  // the MCMC state kicks in, so this will return an incorrect covariance matrix
 
   if (correlation_method_ == PARAM_NONE)
     return;

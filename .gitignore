@@ -11,7 +11,6 @@
 /BuildSystem/bin
 /BuildSystem/config.iss
 /BuildSystem/icon.o
-R-libraries/Casal2.Rcheck/
 /Documentation/**/*.aux
 /Documentation/**/*.bbl
 /Documentation/**/*.blg
@@ -41,3 +40,4 @@ R-libraries/Casal2.Rcheck/
 /ThirdParty/test-adolc
 /ThirdParty/test-betadiff
 /ThirdParty/test-boost
+R-libraries/Casal2.Rcheck/

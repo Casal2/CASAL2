@@ -55,7 +55,7 @@ class MainCode:
         build_string = 'cmake ' + self.cmake_compiler_ + ' -D' + Globals.build_target_.upper() + '=1'
         if Globals.build_parameters_ != "":
             build_string += ' -D' + Globals.build_parameters_.upper() + '=1'
-        build_string += ' ../../../../CASAL2/'
+        build_string += ' ../../../../Casal2/'
 
         print("--> CMake command: " + build_string)
         if os.system(build_string) != EX_OK:
@@ -252,7 +252,7 @@ This class is responsible for cleaning the build folders
 """
 class Cleaner:
     def clean(self):
-        print('--> Starting clean of CASAL2 build files only (not cleaning third party)')
+        print('--> Starting clean of Casal2 build files only (not cleaning third party)')
         for build_type in Globals.allowed_build_types_:
             for param in Globals.allowed_build_parameters_:
                 build_directory = os.path.normpath(os.getcwd()) + f"/bin/{Globals.operating_system_}_{Globals.compiler_}/{build_type}"
@@ -269,7 +269,7 @@ class Cleaner:
         print("--> ##### NOT YET IMPLEMENTED #####")
 
     def clean_all(self):
-        print('--> Starting clean of all CASAL2 build files (including third party)')
+        print('--> Starting clean of all Casal2 build files (including third party)')
         build_directory = os.path.normpath(
             os.getcwd()) + "../BuildSystem/bin/" + Globals.operating_system_
         print(f"-- Build Directories: {build_directory}") 

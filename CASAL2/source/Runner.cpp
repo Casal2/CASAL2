@@ -145,7 +145,7 @@ int Runner::GoWithRunMode(RunMode::Type run_mode) {
 
   /**
    * @brief TODO: REMOVE STD HEADER FROM RUNNER TO SHARED LIBRARY SO IT CAN
-   * BE DISABLED N SHIT
+   * BE DISABLED
    *
    */
 

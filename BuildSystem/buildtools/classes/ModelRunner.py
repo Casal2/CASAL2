@@ -22,8 +22,8 @@ class ModelRunner:
     exe_path = f"bin/{Globals.operating_system_}_{Globals.compiler_}/release_betadiff/{binary_name}"
     if not os.path.exists(exe_path):
       print(f"Looking for {exe_path}")
-      print('CASAL2 binary was not found. Can not continue')
-      print('Please complete a release betadiff binary build before running the models')
+      print('The Casal2 binary (' + binary_name + ') was not found. Cannot continue')
+      print('Please build a release betadiff binary build before running the models')
       return False
   
 

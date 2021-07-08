@@ -39,7 +39,7 @@ Process::Process() {
  * Build the relationships between this object and other objects
  */
 void Process::DoBuild(shared_ptr<Model> model) {
-  process_ = model->managers()->process()->GetProcess(process_label_);  // TODO: this will break shit
+  process_ = model->managers()->process()->GetProcess(process_label_);  // TODO: this will break stuff .. needs fixing
   if (!process_) {
     LOG_ERROR_P(PARAM_PROCESS) << "process " << process_label_ << " was not found.";
   }
@@ -49,7 +49,7 @@ void Process::DoBuild(shared_ptr<Model> model) {
  * Execute this report
  */
 void Process::DoExecute(shared_ptr<Model> model) {
-  process_ = model->managers()->process()->GetProcess(process_label_);  // TODO: this will break shit
+  process_ = model->managers()->process()->GetProcess(process_label_);  // TODO: this will break stuff .. needs fixing
   if (!process_)
     LOG_CODE_ERROR() << "(!process): " << process_label_;
 
@@ -62,15 +62,15 @@ void Process::DoExecute(shared_ptr<Model> model) {
   auto parameters = process_->parameters().parameters();
   for (auto parameter : parameters) {
     if (!(is_BH_recruitment && ((parameter.first == PARAM_YCS_YEARS || parameter.first == PARAM_YCS_VALUES)))) {
-      // if this process is a beverton holt process don't print the parameters ycs_years or ycs_values. The reason is, this is printed in the storeForReport Function within the
+      // if this process is a Beverton Holt process don't print the parameters ycs_years or ycs_values. The reason is, this is printed in the storeForReport Function within the
       // process The reason this was done was, we can't update the input parameters to include future years in projection mode, specifically we push back on a vector and becomes a
-      // non-sensical vector (when doing multiple projections), thus we went down the store for report method.
+      // nonsensical vector (when doing multiple projections), thus we went down the store for report method.
       cache_ << parameter.first << ": ";
       string line = boost::algorithm::join(parameter.second->current_values(), " ");
       cache_ << line << "\n";
     }
   }
-  // Fill the rest of the process specific crap
+  // Fill the rest of the process specific stuff
   process_->FillReportCache(cache_);
   ready_for_writing_ = true;
 }

@@ -56,15 +56,15 @@ bool Loader::LoadFromDiskToMemory(GlobalConfiguration& global_config, const stri
 
     File file(*this);
     if (!file.OpenFile(config_file))
-      LOG_FATAL() << "Failed to open the first configuration file: " << config_file << ". Does this file exist? Is it in the right path?";
+      LOG_FATAL() << "Failed to open the input configuration file: " << config_file << ". Please check that the file exists and has been correctly identified";
 
     file.LoadIntoMemory();
 
     LOG_FINE() << "file_lines_.size() == " << file_lines_.size();
     if (file_lines_.size() == 0)
-      LOG_FATAL() << "The configuration file " << config_file << " is empty. Please specify a valid configuration file";
+      LOG_FATAL() << "The configuration file " << config_file << " is empty. Please specify a valid input configuration file";
   } else {
-    LOG_FINEST() << "Skipping the load file for configuration file: " << global_config.config_file();
+    LOG_FINEST() << "Skipping the load file for input configuration file: " << global_config.config_file();
   }
 
   // Create block objects in memory and find minimiser type

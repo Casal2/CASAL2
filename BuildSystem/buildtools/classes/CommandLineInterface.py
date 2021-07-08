@@ -11,7 +11,7 @@ class CommandLineInterface:
     def print_usage(self):
         #os.system( [ 'clear', 'cls' ][ os.name == 'nt' ] )
         print('###############################################################################')
-        print('# CASAL2 Build System Usage                                                   #')
+        print('# Casal2 Build System Usage                                                   #')
         print('###############################################################################')
         print('Usage: doBuild <build_target> <option>')
         print('')
