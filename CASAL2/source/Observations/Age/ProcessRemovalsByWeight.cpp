@@ -442,7 +442,9 @@ void ProcessRemovalsByWeight::Execute() {
 
       AgeLength* age_length = (*category_iter)->age_length_;
 
-      weight_units    = model_->base_weight_units();
+      // get the units specified in the age-length relationship (returns length_weight_->weight_units())
+      // weight_units    = age_length->weight_units();
+      weight_units    = model_->base_weight_units();    // since age_length->GetMeanWeight() returns the model weight units, per Craig Marsh 2021-07-07
       unit_multiplier = 1.0;
       // what value to multiply weight_units by to get units_
       if ((units_ == PARAM_TONNES) && (weight_units == PARAM_KGS))

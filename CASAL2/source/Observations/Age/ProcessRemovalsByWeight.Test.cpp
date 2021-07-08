@@ -154,7 +154,7 @@ length_weight_cv 0.1
 length_weight_distribution normal
 
 length_bins     30  31  32  33  34  35  36  37  38  39  40  41  42  43  44  45  46  47  48  49  50  51  52  53  54  55  56  57  58  59  60  61  62  63  64  65  66  67  68  69  70  71  72  73  74  75
-length_bins_n   29  27  25  23  21  19  17  15  13  11  10  9   8   8   7   7   7   6   6   6   5   5   4   4   4   4   4   4   4   4   3   3   3   3   3   2   2   2   2   2   2   2   2   2   2   2
+length_bins_n   1*46
 weight_bins 0.6 0.7 0.8 0.9 1   1.1 1.2 1.3 1.4 1.5 1.6 1.7 1.8 1.9 2   2.1 2.2 2.3 2.4 2.5 2.6 2.7 2.8 2.9 3   3.1 3.2 3.3 3.4 3.5 3.6 3.7 3.8 3.9 4   4.1 4.2 4.3 4.4 4.5 4.6 4.7 4.8 4.9 5   5.1 5.2 5.3 5.4 5.5 5.6 5.7 5.8 5.9 6   6.1 6.2 6.3 6.4 6.5 6.6 6.7 6.8 6.9 7   7.1 7.2 7.3 7.4 7.5 7.6 7.7 7.8 7.9 8   8.1 8.2 8.3 8.4 8.5 8.6 8.7 8.8 8.9 9   9.1 9.2 9.3 9.4 9.5 9.6 9.7 9.8 9.9 10  10.1    10.2    10.3    10.4    10.5    10.6    10.7    10.8    10.9    11  11.1    11.2    11.3    11.4    11.5    11.6    11.7    11.8    11.9    12  12.1    12.2    12.3    12.4    12.5    12.6    12.7    12.8    12.9    13  13.1    13.2    13.3    13.4    13.5    13.6    13.7    13.8    13.9    14  14.1    14.2    14.3    14.4    14.5    14.6    14.7    14.8    14.9    15  15.1    15.2    15.3    15.4    15.5    15.6    15.7    15.8    15.9    16  16.1    16.2    16.3    16.4    16.5    16.6    16.7    16.8    16.9    17  17.1    17.2    17.3    17.4    17.5    17.6    17.7    17.8    17.9    18  18.1    18.2    18.3    18.4    18.5    18.6    18.7    18.8    18.9    19  19.1    19.2    19.3    19.4    19.5    19.6    19.7    19.8    19.9
 
 table obs
@@ -181,7 +181,7 @@ TEST_F(InternalEmptyModel, Observation_Process_Removals_By_Weight) {
 
   ObjectiveFunction& obj_function = model_->objective_function();
   // EXPECT_NEAR(-364.2906, obj_function.score(), 1e-3);  //constant part not included<<<<<<<<<<<<
-  EXPECT_NEAR(2276.3745, obj_function.score(), 1e-3);
+  EXPECT_NEAR(2819.67571, obj_function.score(), 1e-3);
 
   Observation* observation = model_->managers().observation()->GetObservation("commWF");
 
@@ -198,7 +198,7 @@ TEST_F(InternalEmptyModel, Observation_Process_Removals_By_Weight) {
   EXPECT_EQ("male+female", comparisons[year][7].category_);
   EXPECT_EQ(1.3, comparisons[year][7].length_);		// Is weight_ right? = lower bin weight
   EXPECT_NEAR(0.00119949, comparisons[year][7].observed_, 1e-6);
-  EXPECT_NEAR(0.00119949, comparisons[year][7].expected_, 1e-4);	// simulated value so has some error
+  EXPECT_NEAR(0.00119949, comparisons[year][7].expected_, 3e-4);	// simulated value so has some error
   //EXPECT_NEAR(88.3886, comparisons[year][7].score_, 1e-4);
 
   // wgt bin 34th = index 33 = 3.9 kg
@@ -207,7 +207,7 @@ TEST_F(InternalEmptyModel, Observation_Process_Removals_By_Weight) {
   EXPECT_EQ("male+female", comparisons[year][33].category_);
   EXPECT_EQ(3.9, comparisons[year][33].length_);
   EXPECT_NEAR(2.455872e-02 , comparisons[year][33].observed_, 1e-6);
-  EXPECT_NEAR(2.455872e-02 , comparisons[year][33].expected_, 1e-4);
+  EXPECT_NEAR(2.455872e-02 , comparisons[year][33].expected_, 2e-4);
  // EXPECT_NEAR(294.428, comparisons[year][33].score_, 1e-3);
 
   // wgt bin 43th = index 42 = 4.8 kg
@@ -216,7 +216,7 @@ TEST_F(InternalEmptyModel, Observation_Process_Removals_By_Weight) {
   EXPECT_EQ("male+female", comparisons[year][42].category_);
   EXPECT_EQ(4.8, comparisons[year][42].length_);
   EXPECT_NEAR(1.324190e-02, comparisons[year][42].observed_, 1e-6);
-  EXPECT_NEAR(1.324190e-02, comparisons[year][42].expected_, 1e-4);
+  EXPECT_NEAR(1.324190e-02, comparisons[year][42].expected_, 2e-4);
  // EXPECT_NEAR(283.089, comparisons[year][42].score_, 1e-3);
 
 }
