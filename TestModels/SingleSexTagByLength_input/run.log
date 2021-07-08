@@ -1,49 +1,12 @@
 Casal2
 Call: C:\Projects\Software\CASAL2\BuildSystem/bin/windows_gcc/release_betadiff/casal2.exe -r -i pars.out 
-Version: v1.2 (2021-08-06)
+Version: v1.1.0 (2021-07-08)
 Copyright (c) 2017-2021, NIWA (www.niwa.co.nz)
-Environment: machine:HP1040, user:alist, os:Windows_NT, pid:18272
+Environment: machine:DELL-9020, user:alist, os:Windows_NT, pid:18696
 
 resizing from 40000 to 44000
 resizing from 44000 to 48400
 [WARNING] C:/Projects/Software/CASAL2/CASAL2/source/Estimates/Manager.cpp(line: 89): Estimates were removed because of matching lower and upper bounds. Originally had 33 estimates, now have 16
-*derived_quantity[SSB]
-SSB {L} 
-type: biomass 
-initialisation_phase[1]: 76728.7 
-values {v}
-1995 76728.7
-1996 76728.7
-1997 76728.7
-1998 76699.4
-1999 76486.6
-2000 75948.6
-2001 75505.5
-2002 74458.9
-2003 73008.9
-2004 71531.8
-2005 69354.3
-2006 67419.1
-2007 65392.8
-2008 64113.8
-2009 62780.7
-2010 61273.5
-2011 59903.9
-2012 58284.8
-2013 56791.3
-2014 55571.6
-2015 54477.7
-end {L}
-*end
-
-*warnings[warnings_encounted]
-warnings_found: 1
-warning_0 {s}
-Estimates were removed because of matching lower and upper bounds. Originally had 33 estimates, now have 16
-*end
-
-Total elapsed time: 5 seconds
-Completed
 resizing from 48400 to 53240
 resizing from 53240 to 58564
 resizing from 58564 to 64420
@@ -94,3 +57,14 @@ resizing from 3880442 to 4268486
 resizing from 4268486 to 4695334
 resizing from 4695334 to 5164867
 resizing from 5164867 to 5681353
+[ERROR] C:/Projects/Software/CASAL2/CASAL2/source/Asserts/Common/ObjectiveFunction.cpp(line: 55): Assert Failure: Objective Function had actual value 927.57 when 927.616 values were expected with difference: 0.0456124
+
+********************************************************************************
+********                     SUMMARY OF ERRORS                          ********
+********************************************************************************
+Printing 1 of 1 errors
+
+#1: Assert Failure: Objective Function had actual value 927.57 when 927.616 values were expected with difference: 0.0456124
+
+Total elapsed time: 2 seconds
+Completed
