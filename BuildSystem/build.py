@@ -18,8 +18,6 @@ from ModelRunner import *
 from DebBuilder import *
 from CommandLineInterface import *
 from rlibrary import *
-from Installer import *
-from Version import *
 
 """
 Get the build information from the user
