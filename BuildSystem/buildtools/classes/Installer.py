@@ -47,7 +47,7 @@ class Installer:
 
     version = Globals.Casal2_version_number + ' (' + utc_time.strftime('%Y-%m-%d') + ')\n'
 
-    file.write('AppVersion=' + version + '\n')
+    file.write('AppVersion=v' + version + '\n')
     file.write('AppId = Casal2_001\n')    
     file.write('AppPublisher=NIWA\n')
     file.write('AppPublisherURL=http://www.niwa.co.nz\n')
@@ -83,6 +83,7 @@ class Installer:
     file.write('Source: "Casal2\\Casal2.pdf"; DestDir: "{app}"; Flags: ignoreversion\n')
     file.write('Source: "Casal2\\R-Libraries\\*"; DestDir: "{app}\R-Libraries"; Flags: replacesameversion recursesubdirs\n')
     file.write('Source: "Casal2\\Examples\\*"; DestDir: "{app}\Examples"; Flags: replacesameversion recursesubdirs\n')
+    file.write('Source: "Casal2\\LICENSE"; DestDir: "{app}"; Flags: ignoreversion\n')
     file.write('Source: "Casal2\\README.txt"; DestDir: "{app}"; Flags: ignoreversion\n')
     file.write('Source: "Casal2\\CASAL2.syn"; DestDir: "{app}"; Flags: ignoreversion\n') 
     file.write('Source: "Casal2\\TextPad_syntax_highlighter.readme"; DestDir: "{app}"; Flags: ignoreversion\n')            
