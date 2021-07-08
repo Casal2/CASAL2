@@ -60,3 +60,17 @@ observation chatOBSwst
 @report age_error
 type ageing_error
 ageing_error Normal_ageing
+
+
+@report Hess
+type hessian_matrix
+
+@report Covar
+type covariance_matrix
+
+@report Corr
+type correlation_matrix
+
+@report mcmc_covariance
+type mcmc_covariance
+

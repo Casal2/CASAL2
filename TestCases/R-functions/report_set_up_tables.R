@@ -1,8 +1,3 @@
-require(plyr)
-require(dplyr)
-require(huxtable)
-
-
 rotate_and_label_cols <- function(df_1, labels)
 {
     loc_df <- t(df_1)
