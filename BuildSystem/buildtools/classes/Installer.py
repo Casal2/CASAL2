@@ -137,7 +137,7 @@ class Installer:
     file.write('      sUnInstallString := GetUninstallString();\n') 
     file.write('      sUnInstallString :=  RemoveQuotes(sUnInstallString);\n') 
     file.write('      if Exec(ExpandConstant(sUnInstallString), \'\', \'\', SW_SHOW, ewWaitUntilTerminated, iResultCode) then \n') 
-    file.write('      begin')
+    file.write('      begin\n')
     file.write('        Result := True; //if you want to proceed after uninstall\n') 
     file.write('      end\n') 
     file.write('      else begin\n') 
