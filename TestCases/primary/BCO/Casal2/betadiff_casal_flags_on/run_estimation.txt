@@ -1,11 +1,11 @@
 Casal2
 Call: ..\..\..\..\..\BuildSystem\bin\windows\release_betadiff\casal2 -e -o params_est.out 
-Date: Wed Jul 29 06:38:43 2020
-Version: 2020-07-28 08:18:28 UTC (rev. 258dfb65)
-Copyright (c) 2020 - 2020, NIWA (www.niwa.co.nz)
-Environment: machine:niwa-computer, user:niwauser, os:Windows_NT, pid:8496
+Date: Thu Jul 15 09:32:57 2021
+Version: 2021-07-09 00:52:40 UTC (rev. a99e4839)
+Copyright (c) 2020 - 2021, NIWA (www.niwa.co.nz)
+Environment: machine:CISLAVE03P, user:zjenkins, os:Windows_NT, pid:72932
 
-[WARNING] C:\workspace\casal2-windows-rlibrary\CASAL2\source\Estimates\Manager.cpp(line: 95): Estimates were removed because of matching lower and upper bounds. Originally had 127 estimates, now have 42
+[WARNING] C:\apps\swarm\workspace\workspace\casal2-windows-rlibrary\CASAL2\source\Estimates\Manager.cpp(line: 95): Estimates were removed because of matching lower and upper bounds. Originally had 127 estimates, now have 42
 resizing from 40000 to 44000
 resizing from 44000 to 48400
 resizing from 48400 to 53240
@@ -1489,6 +1489,11 @@ discards[Recreation]: 0 3.16604 3.25275 3.32844 3.42107 3.50279 3.58727 3.68842 
 discards_dead[Recreation]: 0 3.16604 3.25275 3.32844 3.42107 3.50279 3.58727 3.68842 3.77811 3.88454 3.97933 4.07663 4.10393 4.16187 4.2069 4.26829 4.31651 4.38132 4.43275 4.50104 4.55575 4.64323 4.73298 4.82508 4.91962 5.01671 5.11645 5.20243 5.29091 5.36513 5.45874 5.5552 5.70702 5.86306 6.04836 6.26001 6.37973 6.33278 6.22485 6.107 5.99283 5.86358 5.7366 5.62579 5.53575 5.47992 5.47731 5.65507 5.88443 6.14717 6.41842 6.71188 6.93793 7.14207 7.26838 7.33823 7.37475 7.5759 7.80524 8.04091 8.24723 8.51748 8.69898 8.91811 9.1158 9.28862 9.37735 9.36573 9.36075 9.38827 9.38273 9.41 9.39286 9.35131 9.35399 9.38972 9.36781 9.29582 9.20066 9.09813 8.9708 8.91503 8.85888 8.72951 8.10692 6.92144 5.8711 5.19971 4.97393 5.20281 5.95835 7.68354 11.1438 16.4818 22.3252 24.5348 21.8546 19.0949 17.6652 17.9038 18.3312 17.06 15.39 13.9749 12.9576 12.536 12.2018 12.8574 14.532 14.9443 14.7205 15.3865 15.811 15.6376 16.3341 17.8966 17.4229 16.2124 14.8673 13.9424 
 *end
 
+*catchability[Qs]
+potSurveyq: 1.15695e-05 
+potCPUEq: 0.000240494 
+*end
+
 *partition_mean_length[growth_length_at_age]
 time_step: 1
 male {L}
@@ -2559,16 +2564,11 @@ correlation_matrix {m}
 0.357569 -0.178553 0.0918526 -0.00850807 -0.00781599 0.150894 0.202875 0.0529948 0.055707 0.0578626 0.0589343 0.0612798 0.0635479 0.0403832 0.0913486 0.0395504 0.0666346 -0.0194711 0.0447952 0.0549415 0.0523855 0.0210156 0.0140904 0.0555074 0.0488692 0.0662118 0.0191248 0.0444328 0.0725137 0.0670809 0.0427216 0.0471043 0.0708838 0.189063 0.098193 0.0883978 0.114838 0.220607 0.170904 0.227362 0.213257 1 
 *end
 
-*catchability[Qs]
-potSurveyq: 1.15695e-05 
-potCPUEq: 0.000240494 
-*end
-
 *warnings[warnings_encounted]
 warnings_found: 1
 warning_0 {s}
 Estimates were removed because of matching lower and upper bounds. Originally had 127 estimates, now have 42
 *end
 
-Total elapsed time: 3.1 minutes
+Total elapsed time: 6.667 minutes
 Completed

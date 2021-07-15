@@ -1,0 +1,8 @@
+*estimation_result[minimiser_result]
+minimiser: cppad
+type: cppad
+Result {s}
+Failed
+Message {s}
+Too many iterations
+*end
