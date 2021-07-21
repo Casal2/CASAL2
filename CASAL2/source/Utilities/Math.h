@@ -44,7 +44,7 @@ constexpr double TRUE_ZERO = 0.0;
 constexpr double ZERO      = 1e-15;
 constexpr double CLOSE     = 1e-5;
 constexpr double DELTA     = 1e-11;
-constexpr double PI        = 3.1415926535897932384626433832795028;
+constexpr double PI        = 3.14159265358979323846264338327950288;
 
 inline bool IsZero(const Double& value) {
   return (value < ZERO && value > -ZERO);
@@ -412,11 +412,24 @@ inline void unscale_vector(vector<Double>& target, const vector<Double>& lower_b
 //**********************************************************************
 //    General math utilities
 //**********************************************************************
+// Return the sum for a vector
+inline Double Sum(const vector<Double>& Values){
+  Double total = 0.0;
+  for (const auto& value : Values) total += value;
+  return total;
+}
+
+// Return the sum for an unsigned map
+inline Double Sum(const map<unsigned, Double>& Values){
+  Double total = 0.0;
+  for (const auto& value : Values) total += value.second;
+  return total;
+}
+
 // Return the mean for a vector
 inline Double mean(const vector<Double>& Values) {
   Double mu    = 0.0;
-  Double total = 0.0;
-  for (const auto& value : Values) total += value;
+  Double total = math::Sum(Values);
   Double n = Values.size();
   mu       = total / n;
   return mu;
@@ -425,8 +438,7 @@ inline Double mean(const vector<Double>& Values) {
 // Return the mean for an unsigned map
 inline Double mean(const map<unsigned, Double>& Values) {
   Double mu    = 0.0;
-  Double total = 0.0;
-  for (const auto& value : Values) total += value.second;
+  Double total = math::Sum(Values);
   Double n = Values.size();
   mu       = total / n;
   return mu;

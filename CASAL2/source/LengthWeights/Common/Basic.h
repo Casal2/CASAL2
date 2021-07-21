@@ -34,6 +34,7 @@ public:
 
   // accessors
   Double mean_weight(Double size, Distribution distribution, Double cv) const override final;
+  string weight_units() const override final { return units_; };
 
 private:
   // members

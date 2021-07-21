@@ -25,6 +25,7 @@
 #include "Observations/Age/ProcessRemovalsByLength.h"
 #include "Observations/Age/ProcessRemovalsByLengthRetained.h"
 #include "Observations/Age/ProcessRemovalsByLengthRetainedTotal.h"
+#include "Observations/Age/ProcessRemovalsByWeight.h"
 #include "Observations/Age/ProportionsAtAge/Process.h"
 #include "Observations/Age/ProportionsAtAge/TimeStep.h"
 #include "Observations/Age/ProportionsAtLength/Process.h"
@@ -84,6 +85,8 @@ Observation* Factory::Create(shared_ptr<Model> model, const string& object_type,
         result = new age::ProcessRemovalsByLengthRetained(model);
       else if (sub_type == PARAM_PROCESS_REMOVALS_BY_LENGTH_RETAINED_TOTAL)
         result = new age::ProcessRemovalsByLengthRetainedTotal(model);
+      else if (sub_type == PARAM_PROCESS_REMOVALS_BY_WEIGHT)
+        result = new age::ProcessRemovalsByWeight(model);
       else if (sub_type == PARAM_PROCESS_PROPORTIONS_MIGRATING)
         result = new age::ProportionsMigrating(model);
       else if (sub_type == PARAM_PROCESS_PROPORTIONS_BY_CATEGORY)

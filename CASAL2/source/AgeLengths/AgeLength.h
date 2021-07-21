@@ -40,6 +40,9 @@ public:
 
   // accessors
   virtual Double GetMeanLength(unsigned year, unsigned time_step, unsigned age) = 0;
+  virtual Double GetMeanWeight(unsigned year, unsigned time_step, unsigned age, Double length) = 0;
+  virtual string weight_units() = 0;
+
   virtual Double cv(unsigned year, unsigned time_step, unsigned age) { return cvs_[year][time_step][age]; };
   virtual string distribution_label() { return distribution_label_; };
   Distribution   distribution() const { return distribution_; }
