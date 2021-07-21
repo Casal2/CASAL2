@@ -1,8 +1,8 @@
 Casal2
 Call: C:\Projects\Software\CASAL2\BuildSystem/bin/windows_gcc/release_betadiff/casal2.exe -e -g 20 
-Version: v1.1.0 (2021-07-08)
+Version: v1.1.0 (2021-07-09)
 Copyright (c) 2017-2021, NIWA (www.niwa.co.nz)
-Environment: machine:DELL-9020, user:alist, os:Windows_NT, pid:6088
+Environment: machine:HP1040, user:alist, os:Windows_NT, pid:7296
 
 resizing from 40000 to 44000
 resizing from 44000 to 48400
@@ -4229,5 +4229,5 @@ warning_0 {s}
 estimated parameter 'selectivity[chatTANSel_m].sigma_r' was within 0.001 of upper bound 200
 *end
 
-Total elapsed time: 15 seconds
+Total elapsed time: 27 seconds
 Completed

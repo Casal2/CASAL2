@@ -1,0 +1,81 @@
+% Include the sections required for the Contributors Guide appendix
+
+\subsection{Introduction\label{AppendixA:Introduction}}
+
+This Appendix provides an overview for thiose who wish to access and contribute to \CNAME\ and includes instructions for compiling \CNAME. 
+
+\CNAME\ is open source and the \CNAME\ development team encourages those who wish to contribute any suggestions, bug fixes, or enhancements to use this guide. 
+
+The source code for \CNAME\ is hosted on GitHub and can be found at \url{https://github.com/NIWAFisheriesModelling/CASAL2}.
+
+Release versions of \CNAME\ (including the required binaries, user manual, simple examples and other utilities) is also available on the GitHub site.
+
+If you have any questions or require more information, please gwet in touch with the \CNAME\ development team at \email.
+
+\subsection{Getting started\label{AppendixA:GettingStarted}}
+
+\subsubsection{Required Software}
+
+\CNAME\ requires a range of software to successfully compile and buid the various components. While most of the source code for \CNAME\ uses C++, other software including Git, Python 3, LaTeX, 7-Zip, Inno Setup, and \R are also required to build \CNAME.
+
+\textbf{C++ and Fortran Compiler}
+
+Source: tdm-gcc (MingW64) from \url{http://www.tdm-gcc.tdragon.net/}
+
+\CNAME\ will compile using GCC on Microsoft Windows and Linux. While it may be possible to compile using alternative compilers, the \CNAME\ Development Team cannot provide any assistance or recommendations. We recommend using 64-bit TDM-GCC version 10.3.0. Ensure you select both the "fortran" and "openmp" options when installing TDM-GCC. 
+
+\textbf{GIT Version Control}
+
+Source: Command line GIT from \url{https://www.git-scm.com/}
+
+\CNAME\ automatically adds a version number that is based on the latest commit identification date and tag on the GitHub repository. The command line version of GIT is used to extract this information. The resuting version identifyer is then used for the compiled binaries, R libraries, and user manual.
+
+\textbf(Python 3}
+
+Source: Python 3 from \url{https://www.python.org/}
+
+The \CNAME\ code and documentation build scripts use Python 3.
+
+\textbf{MiKTeX TeX package}
+
+Source: MikTeX LaTeX from \url{http://www.miktex.org/}.
+
+The documentation for \CNAME\ is generated using LaTeX. 
+
+\textbf{7-Zip}
+
+Source: 7-Zip from \url{http://www.7-zip.org/download.html}.
+
+The BuildSystem calls 7zip.exe to unzip files in the build system, and to create a zipped archive of key files. we advise having 7zip available in the system path.
+
+\textbf{Inno Setup Installer}
+
+Source: Inno Setup 6 from \url{http://www.jrsoftware.org/isdl.php}
+
+The building of the Microsoft Windows compatible install package requires Inno Setup 6. The installation path must be \path{C:\Program Files (x86)\Inno Setup 6\} in order for the build scripts to find and use Inno Setup.
+
+\textbf{R}
+
+Source: R from \url{http://www.jrsoftware.org/isdl.php}
+
+The building of \CNAME\ \R\ libraries requires \R.
+
+
+
+
+
+
+
+
+
+
+
+
+\include{LocalRepo} 
+\include{MaintainRepo}
+\include{BuildEnvironment}
+\include{BuildRules}
+\include{Example}
+\include{PullRequest}
+\include{ModeratingPullRequest}
+\include{AddingReports}

@@ -1,0 +1,39 @@
+\section{Merging changes form a forked repository to a master repository\label{sec:pull_requests}}
+
+\textbf{Before you consider this} you need to make sure the following has been checked otherwise, you will waste developers time and patience. In brief summary you have to check that the your new code doesn't break any of the auto-differentiation code, so you need to build all of those. You must check that you have not broken any unit-tests and that all the model runner models have passed.
+
+\begin{enumerate}
+\item \texttt{doBuild archive} this will build all the autodiff librarys.
+\item \texttt{doBuild release betadiff}
+\item \texttt{doBuild modelrunner}
+\item \texttt{doBuild test} 
+\item Enter the directory where this executable lives (e.g. \texttt{BuildSystem\textbackslash bin\textbackslash windows\textbackslash test}), and run the \CNAME\ executable (\texttt{casal2 -r}, or simply \texttt{casal2}) to check all the unit-tests pass.
+			
+\end{enumerate}
+
+
+\textbf{only once the above is done, should you consider the remaining section}. This section describes how to merge changes from a forked repository to the master repository. This is under the assumptions that the contributor has followed the rules laid out in Section~\ref{sec:build_rules}. The aim of the forked repository is to maintain code integrity. So we only want contributors who have tested their documented code to be included into the master. This section is the opposite to Section~\ref{sec:maintain_repo} (where we pulled changes from the master repository into our forked repository). Here we are merging changes from a forked repository into the master, which will be incorporated into the next publicly available compiled version of \CNAME. From this example we can see from Figure~\ref{fig:fork_merge} that our forked repository has three commits (underlined in blue) that we want to incorporate into the master repository.
+
+\begin{figure}[!ht]
+	\includegraphics[scale=0.6]{Figures/Pull_request0.png}
+	\caption{}\label{fig:fork_merge}
+\end{figure}
+
+To incorporate these changes into the master you need to click on the "pull request" button circled in red. This will prompt a comparison of the changes that you are submitting for inclusion into the master, see Figure~\ref{fig:fork_merge1}
+\clearpage
+\begin{figure}[!ht]
+	\includegraphics[scale=0.6]{Figures/Pull_request.png}
+	\caption{}\label{fig:fork_merge1}
+\end{figure}
+
+We can see that there are 10 files changed over three commits. A the top left corner there is a green button with "create pull request" click that button. This will open a pull request on the master repository as shown in Figure~\ref{fig:fork_merge2}
+\begin{figure}[!ht]
+	\includegraphics[scale=0.6]{Figures/Pull_request1.png}
+	\caption{}\label{fig:fork_merge2}
+\end{figure}
+
+This will notify the maintainers of the master repository that a contributor is requesting a merge of the forked code into the master. Maintainers are able to look through the proposed code changed and have conversations with the contributors if they need clarification. But at this point we are just waiting for the maintainers to accept the changes which then get incorporated into \CNAME\ which then makes you a legend.
+
+If you make it this far, we thank you for your development and contributions of this tool and we hope that you get great use out of it =)
+
+
