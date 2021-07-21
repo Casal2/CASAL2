@@ -11,9 +11,9 @@ NOTE: Other linear solvers might be more efficient (see Ipopt documentation).
 
 Starting derivative checker for first derivatives.
 
- grad_f[         38] = -7.0703062461749937e+00    ~ -7.0693204179406166e+00  [ 1.395e-04]
- grad_f[         49] =  3.1647852465778947e+00    ~  3.1654053600504994e+00  [ 1.959e-04]
- grad_f[         50] =  1.6171384502403419e+00    ~  1.6178091755136847e+00  [ 4.146e-04]
+* grad_f[         38] = -7.0703062461749937e+00    ~ -7.0693204179406166e+00  [ 1.395e-04]
+* grad_f[         49] =  3.1647852465778947e+00    ~  3.1654053600504994e+00  [ 1.959e-04]
+* grad_f[         50] =  1.6171384502403419e+00    ~  1.6178091755136847e+00  [ 4.146e-04]
 
 Derivative checker detected 3 error(s).
 
