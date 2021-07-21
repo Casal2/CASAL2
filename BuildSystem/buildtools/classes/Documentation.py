@@ -596,7 +596,7 @@ class Printer:
                 file_.write('\\defDefault{' + variable.default_.replace('""', 'No default') + '}\n')
             if variable.value_ != '':
                 if variable.allowed_values_ != '':
-                    file_.write('\\defValue{' + variable.value_ + '(' + variable.allowed_values_ + ')}\n')
+                    file_.write('\\defValue{' + variable.value_ + ' (' + variable.allowed_values_ + ')}\n')
                 else:
                     file_.write('\\defValue{' + variable.value_ + '}\n')
             if variable.lower_bound_ != '':
