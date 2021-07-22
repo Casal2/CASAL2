@@ -2,7 +2,7 @@
 
 Dividing the population into different categories is fundamental to modelling the dynamics of a fish stock. CASAL had a fixed set of hard-wired categories (e.g., factors like sex, area, or stock) and each category type had a predefined set of allowed processes (or transitions in CASAL-speak), e.g., immature fish moving into mature category \citep{1388}. This made sense when CASAL was coded, but now it is seen as a limitation, e.g., changing sex was not allowed and there can only be male and female sexes, not an unknown sex that sometimes occurs in data. [TODO: shift to intro or drop?]
 
-In \CNAME~, the concept of user defined categories was introduced to allow more flexibility in dividing up the population. Note that \CNAME~does not know about sex or area and their properties; these are explicitly built up by the user by specifying processes that act on the categories in the input files. The cost is that users need to follow good practice to achieve clarity and readability of the input files, i.e., poor specifications can result in obscure input files.
+In \CNAME\, the concept of user defined categories was introduced to allow more flexibility in dividing up the population. Note that \CNAME\does not know about sex or area and their properties; these are explicitly built up by the user by specifying processes that act on the categories in the input files. The cost is that users need to follow good practice to achieve clarity and readability of the input files, i.e., poor specifications can result in obscure input files.
 
 \subsection{Specifying the partition using categories}
 
@@ -14,7 +14,7 @@ A key element of the model is the partition which holds the current state of the
 		\caption{A visual representation of a partition.}\label{Fig:part}
 \end{figure}
 
-The categories can include combinations of levels from one or more factors such as sex, maturity state, area, or even species. \CNAME~has no predefined categories; \emph{all} categories are defined by the user. Note that the partition only has the current state of the model; past states are not kept (\textit{See} the section on derived quantities about saving past summaries from the partition, p. \pageref{sec:derived-quantities}).
+The categories can include combinations of levels from one or more factors such as sex, maturity state, area, or even species. \CNAME\has no predefined categories; \emph{all} categories are defined by the user. Note that the partition only has the current state of the model; past states are not kept (\textit{See} the section on derived quantities about saving past summaries from the partition, p. \pageref{sec:derived-quantities}).
 
 To illustrate categories, consider a model of a fish population with two fisheries, one on spawning fish at the spawning grounds and another on the non-spawning population in the rest of the stock area. The mature fish will migrate to the spawning area, where the spawning fishery occurs. At the end of spawning, these fish, along with the recruits from the previous year, migrate back to the non-spawning area. The fish population can be represented  by factors sex (levels \textit{male} and \textit{female}), maturity (levels \textit{immature} and \textit{mature}), and area (levels \textit{spawning} and \textit{non-spawning} ). So the partition has 8 rows of numbers-at-age, from 2 sexes $\times$ 2 maturity levels $\times$ 2 areas.
 
@@ -254,7 +254,7 @@ Note that the algorithm goes from left to right over the factors in the \textit{
 
 TODO: has ref been done above?? shift? or new sction?
 
-To build relationships between command blocks, \CNAME~ uses  a referencing system so that blocks and parameters within blocks can be accessed. In its simplest form, command blocks are referenced by their label. To access specified parameters within a command block, the syntax used is:
+To build relationships between command blocks, \CNAME\ uses  a referencing system so that blocks and parameters within blocks can be accessed. In its simplest form, command blocks are referenced by their label. To access specified parameters within a command block, the syntax used is:
 
 {\small{\begin{verbatim}
 <syntactic element>     #<>  enclosing a description of the element
@@ -316,7 +316,7 @@ Next, to estimate only one \textit{q} value for the time block, pick one element
 		upper_bound  10  
 \end{verbatim}}}
 
-Keys are restricted in \CNAME~ to years and categories. An example using categories as a key in a map:
+Keys are restricted in \CNAME\ to years and categories. An example using categories as a key in a map:
 
 {\small{\begin{verbatim}
 @category

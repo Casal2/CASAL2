@@ -3,7 +3,7 @@ This module contains the list of global variables we're going to be
 using throughout the build system
 """
 import os
-Casal2_version_number = "1.2.0" # This defines the VERSION of Casal2 throughout all code. 
+Casal2_version_number = "1.2" # This defines the VERSION of Casal2 throughout all code. 
 operating_system_     = ""
 path_                 = ""
 compiler_path_        = ""
