@@ -17,8 +17,10 @@ namespace model {
 Age::Age() {
   partition_type_ = PartitionType::kAge;
 
-  parameters_.Bind<unsigned>(PARAM_START_YEAR, &start_year_, "Define the first year of the model, immediately following initialisation",
-                             R"(Defines the first year of the model, $\ge 1$, e.g. 1990)");
+  parameters_
+      .Bind<unsigned>(PARAM_START_YEAR, &start_year_, "Define the first year of the model, immediately following initialisation",
+                      R"(Defines the first year of the model, $\ge 1$, e.g. 1990)")
+      ->set_lower_bound(1000, false);
   parameters_.Bind<unsigned>(PARAM_FINAL_YEAR, &final_year_, "Define the final year of the model, excluding years in the projection period",
                              "Defines the last year of the model, i.e., the model is run from start_year to final_year");
   parameters_.Bind<unsigned>(PARAM_MIN_AGE, &min_age_, "Minimum age of individuals in the population", R"($0 \le$ age\textlow{min} $\le$ age\textlow{max})", 0);
@@ -48,14 +50,8 @@ void Age::DoValidate() {
     LOG_ERROR_P(PARAM_MIN_AGE) << " (" << min_age_ << ") has been defined as greater than max_age (" << max_age_ << ")";
 
   if (run_mode_ == RunMode::kProjection) {
-    if (projection_final_year_ <= 0) {
-      LOG_ERROR_P(PARAM_PROJECTION_FINAL_YEAR) << "(" << projection_final_year_ << ") cannot be less than or equal to zero";
-    } else if (projection_final_year_ < start_year_) {
-      projection_final_year_ = final_year_ + projection_final_year_;
-    } else if (projection_final_year_ < final_year_) {
-      LOG_ERROR_P(PARAM_PROJECTION_FINAL_YEAR)
-          << "(" << projection_final_year_
-          << ") must either be less than start_year (in which case the years to project over are from final_year+1 to final_year+projection_year), or greater than final_year (in which case the years to project over are from final_year+1 to projection_year)";
+    if (projection_final_year_ <= start_year_ || projection_final_year_ <= final_year_) {
+      LOG_ERROR_P(PARAM_PROJECTION_FINAL_YEAR) << "(" << projection_final_year_ << ") must be greater than final_year (" << final_year_ << ")";
     }
   }
 }
