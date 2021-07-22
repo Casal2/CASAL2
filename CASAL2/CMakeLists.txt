@@ -70,7 +70,7 @@ IF (WIN32)
 ELSEIF (UNIX)
 	MESSAGE("--> Building on Linux")
  	SET(COMPILE_OPTIONS "${COMPILE_OPTIONS} -fPIC -std=c++17")
- 	SET(thirdPartyLibraries ${thirdPartyLibraries} gsl gslcblas pthread rt)
+ 	SET(thirdPartyLibraries ${thirdPartyLibraries} pthread rt)
 ENDIF ()
 
 # Set compiler options for using saniizers
