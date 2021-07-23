@@ -5,11 +5,11 @@ from distutils import dir_util
 import Globals
 
 class Builder:
-  version_ = 2.52
+  version_ = 2.72
 
   def start(self):
     # Variables
-    fileName         = 'ADOL-C-2.5.2'
+    fileName         = 'ADOL-C-2.7.2'
     operatingSystem  = Globals.operating_system_
 
     headers  = 'adolc'
@@ -33,7 +33,7 @@ class Builder:
     # Build
     os.chdir(fileName)
     print('-- Configuring - check casal2_configure.log')
-    os.system("./configure 1> casal2_configure.log 2>&1")
+    os.system("./configure --disable-shared --enable-static 1> casal2_configure.log 2>&1")
     print('-- Building - check casal2_build.log')
     os.system("make 1> casal2_build.log 2>&1")
 
