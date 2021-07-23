@@ -100,7 +100,7 @@ void ProcessRemovalsByWeight::DoValidate() {
    * e.g., validate that the length and weight bins are strictly increasing
    */
 
-  vector<double> model_length_bins = model_->length_bins();
+  vector<Double> model_length_bins = model_->length_bins();
   if (length_bins_[0] < model_length_bins[0])
     LOG_ERROR_P(PARAM_LENGTH_BINS) << ": Length bin value " << length_bins_[0] << " is smaller than the smallest model length bin " << model_length_bins[0];
   if (length_bins_[(number_length_bins_ - 1)] > model_length_bins[(model_length_bins.size() - 1)])
