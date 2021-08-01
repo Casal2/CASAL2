@@ -7,9 +7,8 @@ trigger:
 - master
 
 # https://github.com/actions/virtual-environments/blob/main/images/linux/Ubuntu1804-README.md
-pool: 
-  name: 'SelfHosted'
-  vmImage: 'ZaitaOpenSuSe'
+pool:
+  vmImage: 'ubuntu-latest'
 
 jobs:
 - job: "Compile_Casal2"
