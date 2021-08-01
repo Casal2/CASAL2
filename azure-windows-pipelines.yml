@@ -32,16 +32,6 @@ steps:
 
 - script: |
     cd BuildSystem
-    doBuild.bat thirdparty cppad
-  displayName: 'Build third-party libraries - cppad'
-
-- script: |
-    cd BuildSystem
-    doBuild.bat thirdparty dlib
-  displayName: 'Build third-party libraries - dlib'
-
-- script: |
-    cd BuildSystem
     doBuild.bat thirdparty googletest_googlemock
   displayName: 'Build third-party libraries - google test and mock'
 
