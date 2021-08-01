@@ -47,7 +47,7 @@ jobs:
   - script: |
       cd BuildSystem
       export CASAL2_BUILD_THREADS=16
-      ./doBuild.sh debug betadiff
+      ./doBuild.sh release betadiff
     displayName: 'Build "Betadiff" standalone binary'
 
   - script: |
@@ -61,3 +61,7 @@ jobs:
       ./casal2
     displayName: 'Run Unit Tests standalone binary'
 
+  - script: |
+      cd BuildSystem
+      ./doBuild.sh modelrunner
+    displayName: 'Run Unit Tests standalone binary' 
