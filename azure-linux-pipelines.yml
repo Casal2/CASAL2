@@ -64,4 +64,4 @@ jobs:
   - script: |
       cd BuildSystem
       ./doBuild.sh modelrunner
-    displayName: 'Run Unit Tests standalone binary' 
+    displayName: 'Run model runner' 
