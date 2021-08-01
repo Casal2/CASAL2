@@ -54,7 +54,7 @@ jobs:
     displayName: 'Build "Unit Test" standalone binary'
 
   - script: |
-      BuildSystem/bin/windows_gcc/test/casal2.exe
+      BuildSystem\\bin\\windows_gcc\\test\\casal2.exe
     displayName: 'Run "Unit Test" standalone binary'
 
   - script: |
