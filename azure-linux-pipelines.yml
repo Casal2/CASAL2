@@ -15,6 +15,11 @@ jobs:
   timeoutInMinutes: 0
   steps:
   - script: |
+      sudo apt install python3-pip
+      pip3 install pytz
+    displayName: 'Installing Python3 build environment'    
+
+  - script: |
       cd BuildSystem
       ./doBuild.sh thirdparty adolc
     displayName: 'Build third-party library - adolc'
