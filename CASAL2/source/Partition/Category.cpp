@@ -254,7 +254,7 @@ void Category::PopulateCachedAgeLengthMatrix(Selectivity* selectivity) {
       if (bin >= ages_at_length.size())
         LOG_CODE_ERROR() << "bin >= ages_at_length.size()";
 
-      cached_age_length_matrix_[year_index][time_step_index][i][bin] = selectivity->GetAgeResult(age, age_length_) * data_[i] * ages_at_length[bin];
+      cached_age_length_matrix_[year_index][time_step_index][i][bin] = selectivity->GetAgeResult(age, age_length_) * cached_data_[i] * ages_at_length[bin];
     }
   }
 
@@ -329,6 +329,78 @@ void Category::CalculateNumbersAtLength(Selectivity* selectivity, const vector<D
 
     // Multiply by data_
     std::transform(age_length_matrix[i].begin(), age_length_matrix[i].end(), age_length_matrix[i].begin(), std::bind(std::multiplies<Double>(), std::placeholders::_1, data_[i]));
+  }
+
+  // Now collapse down to number at length
+  for (unsigned bin = 0; bin < size; ++bin) {
+    for (unsigned age = min_age_; age <= max_age_; ++age) {
+      unsigned i = age - min_age_;
+      numbers_by_length[bin] += age_length_matrix[i][bin];
+    }
+  }
+}
+
+/**
+ * @brief
+ *
+ */
+void Category::CalculateCachedNumbersAtLength(Selectivity* selectivity, const vector<Double>& length_bins, vector<vector<Double>>& age_length_matrix,
+                                              vector<Double>& numbers_by_length, const bool& length_plus) {
+  LOG_TRACE();
+  // Probably should do some checks and balances, but I want to remove this later on
+  unsigned size    = length_plus == true ? length_bins.size() : length_bins.size() - 1;
+  Double   std_dev = 0;
+
+  if (age_length_matrix.size() == 0)
+    LOG_CODE_ERROR() << "if (age_length_matrix.size() == 0)";
+  if (age_length_matrix.size() != model_->age_spread())
+    LOG_CODE_ERROR() << "if (age_length_matrix.size() != model_->age_spread())";
+  if (age_length_matrix[0].size() == 0)
+    LOG_CODE_ERROR() << "if (age_length_matrix[0].size() == 0)";
+  if (age_length_matrix[0].size() != numbers_by_length.size())
+    LOG_CODE_ERROR() << "if (age_length_matrix[0].size() != numbers_by_length.size())";
+
+  // Make sure all elements are zero
+  std::fill(numbers_by_length.begin(), numbers_by_length.end(), 0.0);
+
+  auto&    age_length_proportions = model_->partition().age_length_proportions(name_);
+  unsigned year_index             = model_->current_year() - model_->start_year();
+  unsigned time_step_index        = model_->managers()->time_step()->current_time_step();
+
+  if (year_index > age_length_proportions.size())
+    LOG_CODE_ERROR() << "year_index > age_length_proportions.size()";
+  if (time_step_index > age_length_proportions[year_index].size())
+    LOG_CODE_ERROR() << "time_step_index > age_length_proportions[year_index].size()";
+  vector<vector<Double>>& proportions_for_now = age_length_proportions[year_index][time_step_index];
+
+  LOG_FINEST() << "Calculating age length data";
+  for (unsigned age = min_age_; age <= max_age_; ++age) {
+    unsigned i = age - min_age_;
+    std_dev    = age_length_->cv(model_->current_year(), time_step_index, age) * mean_length_by_time_step_age_[year_index][time_step_index][i];
+    if (i >= proportions_for_now.size())
+      LOG_CODE_ERROR() << "i >= proportions_for_now.size()";
+    if (i >= data_.size())
+      LOG_CODE_ERROR() << "i >= data_.size()";
+    if (i >= age_length_matrix.size())
+      LOG_CODE_ERROR() << "(i >= age_length_matrix.size())";
+
+    // populate age_length matrix with proportions
+    LOG_FINEST() << "calculating distribution for age " << age;
+    if (age_length_->casal_normal_cdf()) {
+      age_length_matrix[i]
+          = utilities::math::distribution(length_bins, length_plus, age_length_->distribution(), mean_length_by_time_step_age_[year_index][time_step_index][i], std_dev);
+    } else {
+      age_length_matrix[i]
+          = utilities::math::distribution2(length_bins, length_plus, age_length_->distribution(), mean_length_by_time_step_age_[year_index][time_step_index][i], std_dev);
+    }
+
+    if (age_length_matrix[i].size() != numbers_by_length.size())
+      LOG_CODE_ERROR() << "if (age_length_matrix[i].size() != numbers_by_length.size()). Age length dims were " << age_length_matrix[i].size() << ", expected "
+                       << numbers_by_length.size();
+
+    // Multiply by data_
+    std::transform(age_length_matrix[i].begin(), age_length_matrix[i].end(), age_length_matrix[i].begin(),
+                   std::bind(std::multiplies<Double>(), std::placeholders::_1, cached_data_[i]));
   }
 
   // Now collapse down to number at length
