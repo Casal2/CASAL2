@@ -75,7 +75,6 @@ class Installer:
     file.write('Source: "Casal2\\casal2.exe"; DestDir: "{app}"; Flags: ignoreversion\n')
     file.write('Source: "Casal2\\casal2_adolc.dll"; DestDir: "{app}"; Flags: ignoreversion\n')
     file.write('Source: "Casal2\\casal2_betadiff.dll"; DestDir: "{app}"; Flags: ignoreversion\n')
-    file.write('Source: "Casal2\\casal2_cppad.dll"; DestDir: "{app}"; Flags: ignoreversion\n')
     file.write('Source: "Casal2\\casal2_release.dll"; DestDir: "{app}"; Flags: ignoreversion\n')
     file.write('Source: "Casal2\\casal2_test.dll"; DestDir: "{app}"; Flags: ignoreversion\n')
     file.write('Source: "Casal2\\UserManual.pdf"; DestDir: "{app}"; Flags: ignoreversion\n')

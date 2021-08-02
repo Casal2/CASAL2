@@ -43,7 +43,6 @@ class DebBuilder:
     os.system('cp Casal2/casal2 ' + folder + '/usr/local/bin')
     os.system('cp Casal2/casal2_adolc.so ' + folder + '/usr/local/lib')
     os.system('cp Casal2/casal2_betadiff.so ' + folder + '/usr/local/lib')
-    os.system('cp Casal2/casal2_cppad.so ' + folder + '/usr/local/lib')
     os.system('cp Casal2/casal2_release.so ' + folder + '/usr/local/lib')
     os.system('cp Casal2/casal2_test.so ' + folder + '/usr/local/lib')
     os.makedirs(folder + '/usr/local/share/doc/casal2')
