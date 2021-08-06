@@ -36,7 +36,7 @@ class DebBuilder:
     if not os.path.exists('bin/linux/deb'):
       os.mkdir('bin/linux/deb')
     print(lines[1])
-    folder = 'bin/linux/deb/Casal2'   
+    folder = 'bin/linux/deb/Casal2'
     os.system('rm -rf ' + folder)
     os.makedirs(folder + '/usr/local/bin')
     os.makedirs(folder + '/usr/local/lib')

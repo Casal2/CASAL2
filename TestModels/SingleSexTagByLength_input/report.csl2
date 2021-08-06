@@ -1,3 +1,7 @@
 @assert obj
 type objective_function
 value 927.615796123
+
+@report SSB
+type derived_quantity
+

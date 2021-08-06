@@ -1,8 +1,8 @@
 Casal2
 Call: C:\Projects\Software\CASAL2\BuildSystem/bin/windows_gcc/release_betadiff/casal2.exe -r -i pars.out 
-Version: v1.1.0 (2021-07-09)
+Version: v1.2 (2021-08-06)
 Copyright (c) 2017-2021, NIWA (www.niwa.co.nz)
-Environment: machine:HP1040, user:alist, os:Windows_NT, pid:9764
+Environment: machine:HP1040, user:alist, os:Windows_NT, pid:700
 
 [WARNING] C:/Projects/Software/CASAL2/CASAL2/source/Estimates/Manager.cpp(line: 89): Estimates were removed because of matching lower and upper bounds. Originally had 152 estimates, now have 151
 resizing from 40000 to 44000
@@ -447,5 +447,5 @@ warning_13 {s}
 estimated parameter 'selectivity[SAsl].sigma_r' was within 0.001 of upper bound 44
 *end
 
-Total elapsed time: 1 second
+Total elapsed time: 2 seconds
 Completed

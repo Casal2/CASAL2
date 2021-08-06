@@ -1,8 +1,8 @@
 Casal2
 Call: C:\Projects\Software\CASAL2\BuildSystem/bin/windows_gcc/release_betadiff/casal2.exe -e -g 20 
-Version: v1.1.0 (2021-07-09)
+Version: v1.2 (2021-08-06)
 Copyright (c) 2017-2021, NIWA (www.niwa.co.nz)
-Environment: machine:HP1040, user:alist, os:Windows_NT, pid:2972
+Environment: machine:HP1040, user:alist, os:Windows_NT, pid:612
 
 [WARNING] C:/Projects/Software/CASAL2/CASAL2/source/Estimates/Manager.cpp(line: 89): Estimates were removed because of matching lower and upper bounds. Originally had 70 estimates, now have 68
 
@@ -5406,5 +5406,5 @@ warning_4 {s}
 estimated parameter 'observation[TangaroaAcousticImmature].process_error' was within 0.001 of lower bound 0.0001
 *end
 
-Total elapsed time: 2.333 minutes
+Total elapsed time: 3.383 minutes
 Completed
