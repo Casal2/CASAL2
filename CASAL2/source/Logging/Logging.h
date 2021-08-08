@@ -80,12 +80,17 @@ private:
 #define LOG_FINE() LOG_IF_FOR_STREAM(logger::Severity::kFine)
 #define LOG_MEDIUM() LOG_IF_FOR_STREAM(logger::Severity::kMedium)
 #define LOG_COARSE() LOG_IF_FOR_STREAM(logger::Severity::kCoarse)
+// Information messages (not an error)
 #define LOG_INFO() LOG_IF_FOR_STREAM(logger::Severity::kInfo)
+// Warning messages (not an error)
 #define LOG_WARNING() LOG_IF_FOR_STREAM(logger::Severity::kWarning)
+// Errors that do not cause an immediate stop, but are logged and reported all at once
 #define LOG_ERROR() LOG_IF_FOR_STREAM(logger::Severity::kError)
 #define LOG_ERROR_P(parameter) LOG_IF_FOR_STREAM(logger::Severity::kError) << this->parameters_.location(parameter)
+// Errors that do cause an immediate stop and exit of the program
 #define LOG_FATAL() LOG_FOR(logger::Severity::kFatal) r.stream()
 #define LOG_FATAL_P(parameter) LOG_FOR(logger::Severity::kFatal) r.stream() << this->parameters_.location(parameter)
+// Code errors tha require a developer to fix
 #define LOG_CODE_ERROR() LOG_FOR(logger::Severity::kCodeError) r.stream()
 
 //#define LOG_TRACE() for(logger::Record r(logger::Severity::kTrace, __FILE__, __FUNCTION__, __LINE__); !r.Flush(); Logging::Instance().Flush(r));

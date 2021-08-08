@@ -1,8 +1,8 @@
 Casal2
 Call: C:\Projects\Software\CASAL2\BuildSystem/bin/windows_gcc/release_betadiff/casal2.exe -e -g 20 
-Version: v1.2 (2021-08-06)
+Version: v1.2 (2021-08-08)
 Copyright (c) 2017-2021, NIWA (www.niwa.co.nz)
-Environment: machine:HP1040, user:alist, os:Windows_NT, pid:19340
+Environment: machine:HP1040, user:alist, os:Windows_NT, pid:9904
 
 resizing from 40000 to 44000
 resizing from 44000 to 48400

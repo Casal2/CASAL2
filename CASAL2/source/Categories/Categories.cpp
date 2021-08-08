@@ -52,8 +52,6 @@ Categories::Categories(shared_ptr<Model> model) : model_(model) {
   parameters_.Bind<string>(PARAM_YEARS, &years_, "The years that individual categories will be active for. This overrides the model values", "", true);
   parameters_.Bind<string>(PARAM_AGE_LENGTHS, &age_length_labels_, R"(The labels of age\_length objects that are assigned to categories)", "", true)
       ->set_partition_type(PartitionType::kAge);
-  parameters_.Bind<string>(PARAM_AGE_WEIGHT, &age_weight_labels_, R"(The labels of the age\_weight objects that are assigned to categories)", "", true)
-      ->set_partition_type(PartitionType::kAge);
 }
 
 /**
@@ -68,7 +66,7 @@ void Categories::Validate() {
 
   // Check that we actually had a categories block
   if (block_type_ == "")
-    LOG_ERROR() << "The @categories block is missing from the configuration file. This block is required";
+    LOG_ERROR() << "The @categories block is missing from the input configuration file. This block is required";
 
   parameters_.Populate(model_);
 
@@ -88,7 +86,7 @@ void Categories::Validate() {
   if (model_->partition_type() == PartitionType::kAge) {
     // Check the user hasn't specified both age_length and age_weight subcommands
     if (parameters_.Get(PARAM_AGE_WEIGHT)->has_been_defined() && parameters_.Get(PARAM_AGE_LENGTHS)->has_been_defined())
-      LOG_FATAL_P(PARAM_AGE_WEIGHT) << "Both age_lengths and age_weights cannot be specified in the @categories block. Specify either one or the other.";
+      LOG_ERROR_P(PARAM_AGE_WEIGHT) << "Both age_lengths and age_weights cannot be specified in the @categories block. Specify either one or the other.";
     if (parameters_.Get(PARAM_AGE_WEIGHT)->has_been_defined()) {
       if (age_weight_labels_.size() != names_.size())
         LOG_ERROR_P(PARAM_AGE_WEIGHT) << " number age-weight defined (" << age_weight_labels_.size() << ") must be the same as the number "

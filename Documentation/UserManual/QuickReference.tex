@@ -143,8 +143,6 @@
 \defSub{names}{The names of the categories to be used in the model}
 \defSub{years}{The years that individual categories will be active for. This overrides the model values}
 \defSub{age\_lengths}{The labels of age\_length objects that are assigned to categories)}
-\defSub{length\_weight}{The labels of the length\_weight objects that are assigned to categories)}
-\defSub{age\_weight}{The labels of the age\_weight objects that are assigned to categories)}
 
 \defComLab{Derived\_Quantity}{Define an object of type \emph{Derived\_Quantity}}
 
@@ -267,8 +265,8 @@
 
 \commandlabsubarg{Initialisation\_Phase}{type}{Derived}
 
-\defSub{insert\_processes}{Additional processes not defined in the annual cycle that are to be inserted into this initialisation phase}
-\defSub{exclude\_processes}{Processes in the annual cycle to be excluded from this initialisation phase}
+\defSub{insert\_processes}{Specifies the additional processes that are not in the annual cycle to be inserted into this initialisation phase}
+\defSub{exclude\_processes}{Specifies the Processes in the annual cycle to be excluded from this initialisation phase}
 \defSub{casal\_initialisation\_switch}{Run an extra annual cycle to evaluate equilibrium SSBs. Warning - if true, this may not correctly evaluate the equilibrium state. Set to true if replicating a CASAL model}
 
 \commandlabsubarg{Initialisation\_Phase}{type}{Iterative}
@@ -874,16 +872,16 @@
 
 \defComLab{Report}{Define an object of type \emph{Report}}
 
-\defSub{label}{The label for the report}
-\defSub{type}{The type of report}
-\defSub{file\_name}{The filename for this report to be in a separate file}
-\defSub{write\_mode}{The write mode}
+\defSub{label}{The report label}
+\defSub{type}{The report type}
+\defSub{file\_name}{The file name. If not supplied, then output is directed to the standard out}
+\defSub{write\_mode}{Specify if any previous file with the same name should be overwritten, appended to, or is generated using a sequential suffix}
 
 \commandlabsubarg{Report}{type}{Addressable}
 
-\defSub{parameter}{The parameter to print}
-\defSub{years}{The years to print the addressable for}
-\defSub{time\_step}{The time Step label}
+\defSub{parameter}{The addressable parameter name}
+\defSub{years}{Define the years that the report is generated for}
+\defSub{time\_step}{Defines the time-step that the report applies to}
 
 \commandlabsubarg{Report}{type}{Age\_Length}
 

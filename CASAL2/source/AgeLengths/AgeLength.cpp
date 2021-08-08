@@ -46,7 +46,7 @@ AgeLength::AgeLength(shared_ptr<Model> model) : model_(model) {
       ->set_range(0.0, 1.0);
   parameters_.Bind<string>(PARAM_DISTRIBUTION, &distribution_label_, "The assumed distribution for the growth curve", "", PARAM_NORMAL);
   parameters_.Bind<Double>(PARAM_CV_FIRST, &cv_first_, "The CV for the first age class", "", Double(0.0))->set_lower_bound(0.0);
-  parameters_.Bind<Double>(PARAM_CV_LAST, &cv_last_, "The CV for last age class", "", Double(0.0))->set_lower_bound(0.0);
+  parameters_.Bind<Double>(PARAM_CV_LAST, &cv_last_, "The CV for last age class", "", Double(cv_first_))->set_lower_bound(0.0);
   parameters_.Bind<bool>(PARAM_CASAL_SWITCH, &casal_normal_cdf_,
                          "If true, use the (less accurate) equation for the cumulative normal function as was used in the legacy version of CASAL.", "", false);
   parameters_.Bind<bool>(PARAM_BY_LENGTH, &by_length_, "Specifies if the linear interpolation of CVs is a linear function of mean length at age. Default is by age only", "", true);
@@ -72,7 +72,7 @@ void AgeLength::Validate() {
   else if (distribution_label_ == PARAM_NONE)
     distribution_ = Distribution::kNone;
   else
-    LOG_CODE_ERROR() << "The age-length distribution '" << distribution_label_ << "' is not valid.";
+    LOG_ERROR() << "The age-length distribution '" << distribution_label_ << "' is not valid.";
 
   DoValidate();
 }
@@ -86,7 +86,7 @@ void AgeLength::Build() {
   if (time_step_proportions_.size() == 0) {
     time_step_proportions_.assign(time_step_count, 0.0);
   } else if (time_step_count != time_step_proportions_.size()) {
-    LOG_FATAL_P(PARAM_TIME_STEP_PROPORTIONS) << "size (" << time_step_proportions_.size() << ") must match the number "
+    LOG_ERROR_P(PARAM_TIME_STEP_PROPORTIONS) << "size (" << time_step_proportions_.size() << ") must match the number "
                                              << "of defined time steps for this process (" << time_step_count << ")";
   }
 
