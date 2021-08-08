@@ -45,7 +45,7 @@ And, on some Microsoft Windows systems (e.g., Windows 10), you can redirect to b
 
 \subsection{\I{Command line arguments}\label{sec:command-line-arguments}}
 
-\CNAME\is called using:
+\CNAME\ is called using:
 
 \texttt{\cname [-c \emph{config\_file}] [\emph{task}] [\emph{options}]}
 
@@ -60,7 +60,7 @@ and where \emph{task} must be one of the following (\textbf{[]} indicates a seco
 \begin{description}
 \item [\texttt{-h [-{}-help]}] Display help (this page)
 \item [\texttt{-l [-{}-licence]}] Display the reference for the software license (GPL v2)
-\item [\texttt{-v [-{}-version]}] Display the \CNAME\version number
+\item [\texttt{-v [-{}-version]}] Display the \CNAME\ version number
 
 \item [\texttt{-r [-{}-run]}] \emph{Run} the model once using the parameter values in the \config, or optionally with the parameter values from the file specified with argument \texttt{-i \emph{filename}}
 
@@ -82,7 +82,7 @@ and where the following optional arguments\index{Optional command line arguments
 
 \item [\texttt{-o [-{}-output]\emph{filename}}] \emph{Output} a report of the free (estimated) parameter values in a format suitable for \texttt{-i \emph{filename}} (see Section \ref{sec:report-syntax} for details about the format of \texttt{\emph{filename}})
 
-\item [\texttt{-g [-{}-seed]\emph{seed}}] Initialise the random number \emph{generator} with \texttt{\emph{seed}}, a positive (long) integer value (note, if \texttt{-g} is not specified, then \CNAME\will  generate a random number seed based on the computer clock time)
+\item [\texttt{-g [-{}-seed]\emph{seed}}] Initialise the random number \emph{generator} with \texttt{\emph{seed}}, a positive (long) integer value (note, if \texttt{-g} is not specified, then \CNAME\ will  generate a random number seed based on the computer clock time)
 
 \item [\texttt{-{}-loglevel}] arg = \{trace, finest, fine, medium\} (see Section \ref{sec:Report})
 
@@ -112,7 +112,7 @@ By convention, the \config\ is a stub that names four other files that cover fou
 	\item the description of the population structure, dynamics, and parameters (\texttt{population.csl2},Section \ref{sec:population-section}),
 	\item the estimation methods and estimated variables (\texttt{estimation.csl2}, Section \ref{sec:estimation-section}),
 	\item the observations and their associated properties and likelihoods (\texttt{observation.csl2, Section \ref{sec:observation-section}}), and
-	\item the results that \CNAME\will output (\texttt{reports.csl2}, Section \ref{sec:report-section}).
+	\item the results that \CNAME\ will output (\texttt{reports.csl2}, Section \ref{sec:report-section}).
 \end{itemize}
 
 The way to do the above is to use the command \texttt{!include "\emph{filename}"} (Figure~\ref{fig:config_file_1}). This command specifies that another file, \argument{filename}, be read and processed, exactly as if its contents had been inserted into the main \config~at that point\index{Including external files}. The file name must be the complete file name with extension, and can use either the relative or absolute path as part of its name. Included files can also contain \texttt{!include} commands. See Section \ref{sec:general-syntax} for more detail.
@@ -129,7 +129,7 @@ The command and subcommand syntax to be used in each of these configuration sect
 
 \subsubsection{Commands}\index{Commands}
 
-\CNAME\has a range of commands that define the model structure, processes, parameters, observations, and how tasks are carried out. There are three types of commands
+\CNAME\ has a range of commands that define the model structure, processes, parameters, observations, and how tasks are carried out. There are three types of commands
 
 \begin{itemize}
 \item Commands that have an argument and do not have subcommands (for example, \texttt{!include}\ \argument{\emph{filename}})
@@ -149,9 +149,9 @@ or
 
 \subsubsection{Subcommands}\index{Commands ! Subcommands}
 
-\CNAME\subcommands define options and parameter values related to a particular command. Subcommands always take an argument which is one of a specific \emph{type}. The argument \emph{types} acceptable for each subcommand are defined in Section \ref{sec:syntax}, and are summarised below.
+\CNAME\ subcommands define options and parameter values related to a particular command. Subcommands always take an argument which is one of a specific \emph{type}. The argument \emph{types} acceptable for each subcommand are defined in Section \ref{sec:syntax}, and are summarised below.
 
-Like commands (\command{command}), subcommands and their arguments are not order specific, except that that all subcommands of a given command must appear before the next \command{command} block. \CNAME\may report an error if they are not supplied in this way. However, in some circumstances a different order may result in a valid, but unintended, set of actions, leading to possible errors in the expected results.
+Like commands (\command{command}), subcommands and their arguments are not order specific, except that that all subcommands of a given command must appear before the next \command{command} block. \CNAME\ may report an error if they are not supplied in this way. However, in some circumstances a different order may result in a valid, but unintended, set of actions, leading to possible errors in the expected results.
 
 The argument type for a subcommand can be\index{Subcommand argument type}:
 
@@ -209,7 +209,7 @@ Within the command block, any subcommands needed and their arguments are present
 %		\end{description}
 %\end{multicols}
 
-Subcommands can be in any order within the command block. Command blocks can be in any order within the input files, except \texttt{\command{}model} which must be the first command block encountered by \CNAME\since this scopes the basic model dimensions (but excluding the \texttt{!include} command).
+Subcommands can be in any order within the command block. Command blocks can be in any order within the input files, except \texttt{\command{}model} which must be the first command block encountered by \CNAME\ since this scopes the basic model dimensions (but excluding the \texttt{!include} command).
 	
 Blank lines are ignored, as is extra whitespace (tabs and spaces) between arguments. However, to start command block the \command{} character must be the first character on the line and must not be preceded by any whitespace. Each input file must end with a carriage return.
 
@@ -237,7 +237,7 @@ Alternatively, to comment out an entire block or section, use \commentstart\ at 
 
 Parameters need an unique name so it can be referenced in other command blocks, e.g., specifying it to be estimated, to apply a penalty, specifying values to use in projections, making it time varying, or profiling. 
 
-When \CNAME\processes the \config~it translates each command block and each subcommand block into a \CNAME\object, each with a unique parameter name. For commands, this parameter name is simply the command label. For subcommands, the parameter name format is one of the following:
+When \CNAME\ processes the \config\ it translates each command block and each subcommand block into a \CNAME\ object, each with a unique parameter name. For commands, this parameter name is simply the command label. For subcommands, the parameter name format is one of the following:
 
 \begin{description}
 \item \texttt{command[label].subcommand} if the command has a label, or
@@ -337,7 +337,7 @@ Single-stepping means \CNAME\ can 'pause' after each year in the annual cycle du
 
 This enables \CNAME\ to implement models for management simulations or scenarios that require feedback and can be used, for example, in operational management procedures (OMPs). The single-stepping process can be automated using \R, so that \CNAME\ may be used with \R\ to update input harvest values (e.g., catches from a fishery in a fisheries model) to evaluate a particular harvest control rule.
 
-\subsection{\CNAME\exit status values\index{Exit status value}}
+\subsection{\CNAME\ exit status values\index{Exit status value}}
 
 When \CNAME\ is run, it will complete its task successfully or output errors. \CNAME\ will return a single exit status value 'completed' to the standard output. Error messages will be printed to the console. When input file configuration errors are found, \CNAME\ will print error messages, along with the associated filename(s) and line number(s) where the errors were identified, for example,
 

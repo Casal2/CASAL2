@@ -5,7 +5,7 @@
  * @date 11/12/2012
  * @section LICENSE
  *
- * Copyright NIWA Science ©2012 - www.niwa.co.nz
+ * Copyright NIWA Science ï¿½2012 - www.niwa.co.nz
  *
  */
 
@@ -52,8 +52,6 @@ Categories::Categories(shared_ptr<Model> model) : model_(model) {
   parameters_.Bind<string>(PARAM_YEARS, &years_, "The years that individual categories will be active for. This overrides the model values", "", true);
   parameters_.Bind<string>(PARAM_AGE_LENGTHS, &age_length_labels_, R"(The labels of age\_length objects that are assigned to categories)", "", true)
       ->set_partition_type(PartitionType::kAge);
-  parameters_.Bind<string>(PARAM_LENGTH_WEIGHT, &length_weight_labels_, R"(The labels of the length\_weight objects that are assigned to categories)", "", true)
-      ->set_partition_type(PartitionType::kLength);
   parameters_.Bind<string>(PARAM_AGE_WEIGHT, &age_weight_labels_, R"(The labels of the age\_weight objects that are assigned to categories)", "", true)
       ->set_partition_type(PartitionType::kAge);
 }
@@ -256,7 +254,7 @@ void Categories::Build() {
  * e.g., male.immature sex=female == male.immature female.immature female.mature == 3 elements
  *
  * @param category_labels A vector of category definitions to iterate over and expand
- * @param parameter_location The location string for the parameter to print incase of error
+ * @param parameter_location The location string for the parameter to print in case of error
  * @return a singular vector with each category as it's own element
  */
 vector<string> Categories::ExpandLabels(const vector<string>& category_labels, const string& parameter_location) {

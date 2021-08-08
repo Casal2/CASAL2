@@ -5,7 +5,7 @@
  * @date 23/02/2015
  * @section LICENSE
  *
- * Copyright NIWA Science ©2015 - www.niwa.co.nz
+ * Copyright NIWA Science ï¿½2015 - www.niwa.co.nz
  *
  */
 

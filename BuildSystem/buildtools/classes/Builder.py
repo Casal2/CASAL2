@@ -252,7 +252,7 @@ This class is responsible for cleaning the build folders
 """
 class Cleaner:
     def clean(self):
-        print('--> Starting clean of Casal2 build files only (not cleaning third party)')
+        print('--> Starting clean of Casal2 build files only (not third party)')
         for build_type in Globals.allowed_build_types_:
             for param in Globals.allowed_build_parameters_:
                 build_directory = os.path.normpath(os.getcwd()) + f"/bin/{Globals.operating_system_}_{Globals.compiler_}/{build_type}"
@@ -262,6 +262,8 @@ class Cleaner:
                 if (os.path.exists(build_directory)):
                     print('--> Deleting folder: ' + build_directory)
                     shutil.rmtree(build_directory)
+                else:
+                    print('--> Folder doesn\'t exist: ' + build_directory)
         return True
 
     def clean_cache(self):
@@ -270,8 +272,11 @@ class Cleaner:
 
     def clean_all(self):
         print('--> Starting clean of all Casal2 build files (including third party)')
-        build_directory = os.path.normpath(
-            os.getcwd()) + "../BuildSystem/bin/" + Globals.operating_system_
+        build_directory = os.path.normpath(os.getcwd()) + f"/bin/{Globals.operating_system_}_{Globals.compiler_}"
+        print(f"-- Build Directories: {build_directory}") 
+        if (os.path.exists(build_directory)):
+            shutil.rmtree(build_directory)
+        build_directory = os.path.normpath(os.getcwd()) + f"../BuildSystem/bin/{Globals.operating_system_}"
         print(f"-- Build Directories: {build_directory}") 
         if (os.path.exists(build_directory)):
             shutil.rmtree(build_directory)

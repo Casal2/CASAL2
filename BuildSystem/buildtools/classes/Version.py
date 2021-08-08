@@ -76,7 +76,7 @@ class Version:
 		version += '#ifndef VERSION_H_\n'
 		version += '#define VERSION_H_\n'
 		version += '#define VERSION "' + Globals.Casal2_version_number + ' (' + utc_time.strftime('%Y-%m-%d') + ')"\n'
-		version += '#define VERSION_MUMBER "' + Globals.Casal2_version_number + '"\n'
+		version += '#define VERSION_NUMBER "' + Globals.Casal2_version_number + '"\n'
 		version += '#define SOURCE_CONTROL_REVISION ' + lines[0] + '\n'
 		version += '#define SOURCE_CONTROL_DATE "' + utc_time.strftime('%Y-%m-%d') + '"\n'
 		version += '#define SOURCE_CONTROL_YEAR "' + utc_time.strftime('%Y') + '"\n'

@@ -56,13 +56,13 @@ bool Loader::LoadFromDiskToMemory(GlobalConfiguration& global_config, const stri
 
     File file(*this);
     if (!file.OpenFile(config_file))
-      LOG_FATAL() << "Failed to open the input configuration file: " << config_file << ". Please check that the file exists and has been correctly identified";
+      LOG_FATAL() << "Failed to open the input configuration file: " << config_file << ". Please check that the file exists";
 
     file.LoadIntoMemory();
 
     LOG_FINE() << "file_lines_.size() == " << file_lines_.size();
     if (file_lines_.size() == 0)
-      LOG_FATAL() << "The configuration file " << config_file << " is empty. Please specify a valid input configuration file";
+      LOG_FATAL() << "The inpout configuration file " << config_file << " is empty. Please check the file";
   } else {
     LOG_FINEST() << "Skipping the load file for input configuration file: " << global_config.config_file();
   }
@@ -75,7 +75,7 @@ bool Loader::LoadFromDiskToMemory(GlobalConfiguration& global_config, const stri
   LOG_FINEST() << "Finding active minimiser type";
   FindActiveMinimiserType();
 
-  LOG_FINEST() << "Finised loading configuration from disk to memory";
+  LOG_FINEST() << "Completed loading the input configuration files from disk to memory";
   return true;
 }
 
@@ -123,7 +123,7 @@ void Loader::CreateBlocksFromInput() {
       if (block.size() > 0) {
         if (first_block) {
           if (utilities::ToLowercase(block[0].line_) != "@model")
-            LOG_FATAL() << "The first block to be processed must be @model. Actual was " << block[0].line_;
+            LOG_FATAL() << "The first block to be processed must be @model. The block found was " << block[0].line_;
 
           bool found_model_type = false;
           for (auto& file_line : block) {
@@ -133,7 +133,7 @@ void Loader::CreateBlocksFromInput() {
               vector<string> line_parts;
               boost::split(line_parts, file_line.line_, boost::is_any_of(" "));
               if (line_parts.size() != 2)
-                LOG_FATAL() << "@model type must be either age, length or pi_approx";
+                LOG_FATAL() << "@model type must be either age, length, or pi_approx";
               model_type_ = line_parts[1];
             }
           }
@@ -190,10 +190,10 @@ void Loader::ParseBlock(shared_ptr<Model> model, vector<FileLine>& block) {
   LOG_FINEST() << "Block[0].line_: " << block[0].line_;
   boost::split(line_parts, block[0].line_, boost::is_any_of(" "));
   if (line_parts.size() == 0)
-    LOG_FATAL() << "At line " << block[0].line_number_ << " in " << block[0].file_name_ << ": Could not successfully split the line into an array. Line is incorrectly formatted";
+    LOG_FATAL() << "At line " << block[0].line_number_ << " in " << block[0].file_name_ << ": Could not split the line into an vector. The line is incorrectly formatted.";
   if (line_parts.size() > 2)
     LOG_FATAL() << "At line " << block[0].line_number_ << " in " << block[0].file_name_
-                << ": The block's label cannot have a space or tab in it. Please use alphanumeric characters and underscores only";
+                << ": The block's label cannot have a space or tab in it. Labels can only contain alphanumeric characters or underscores";
 
   block_type  = line_parts[0].substr(1);  // Skip the first char '@'
   block_label = line_parts.size() == 2 ? line_parts[1] : "";
@@ -221,7 +221,7 @@ void Loader::ParseBlock(shared_ptr<Model> model, vector<FileLine>& block) {
       boost::split(line_parts, file_line.line_, boost::is_any_of(" "));
       if (line_parts.size() == 0)
         LOG_FATAL() << "At line " << file_line.line_number_ << " in " << file_line.file_name_
-                    << ": Could not successfully split the line into an array. Line is incorrectly formatted";
+                    << ": Could not successfully split the line into an vector. Line is incorrectly formatted";
 
       if (line_parts.size() != 2)
         LOG_FATAL() << "At line " << file_line.line_number_ << " in " << file_line.file_name_ << ": No valid value was specified as the type";
@@ -234,7 +234,7 @@ void Loader::ParseBlock(shared_ptr<Model> model, vector<FileLine>& block) {
       boost::split(line_parts, file_line.line_, boost::is_any_of(" "));
       if (line_parts.size() == 0)
         LOG_FATAL() << "At line " << file_line.line_number_ << " in " << file_line.file_name_
-                    << ": Could not successfully split the line into an array. Line is incorrectly formatted";
+                    << ": Could not successfully split the line into an vector. Line is incorrectly formatted";
 
       if (line_parts.size() != 2)
         LOG_FATAL() << "At line " << file_line.line_number_ << " in " << file_line.file_name_ << ": No valid value was specified as the partition_type";

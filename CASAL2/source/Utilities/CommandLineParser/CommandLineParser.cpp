@@ -41,7 +41,7 @@ using std::ostringstream;
  *
  * @param argc The number of arguments that have been provided
  * @param argv Pointer to an array containing the arguments
- * @param options The options object to fille with the values
+ * @param options The options object to file with the values
  */
 void CommandLineParser::Parse(int argc, char* argv[], RunParameters& options) {
   // Build Options menu
@@ -65,14 +65,15 @@ void CommandLineParser::Parse(int argc, char* argv[], RunParameters& options) {
     ("profiling,p", "Profiling run mode")
     ("simulation,s", value<unsigned>(), "Simulation mode (arg = number of candidates)")
     ("projection,f", value<unsigned>(), "Projection mode (arg = number of projections per set of input values)")
-    ("input,i", value<string>(), "Load free parameter values from file")
-    ("fi", "Force the input file to allow @estimate parameters only (basic run mode only)")
+    ("input,i", value<string>(), "Load free parameter values from [file]")
+    ("fi", "Force the input file to allow additional addressable parameters from [file] (basic run mode only)")
     ("seed,g", value<unsigned>(), "Random number seed")
     ("query,q", value<string>(), "Query an object type to see its description and parameters. Argument object_type.sub_type, e.g., process.recruitment_constant")
     ("debug,d", "Run in debug mode (with debug output)")
     ("nostd", "Do not print the standard header report")
-    ("loglevel", value<string>(), "Set log level: medium, fine, finest, trace, none (default)")
-    ("output,o", value<string>(), "Create estimate value report directed to [file]")
+    ("loglevel", value<string>(), "Set log level: coarse, medium, fine, finest, trace, or none (default)")
+    ("output,o", value<string>(), "Create estimate value report to [file]")
+    //("Output,O", value<string>(), "Append estimate value report to [file]")
     ("single-step", "Single step the model each year with new estimable values")
     ("tabular", "Print reports in Tabular mode")
     ("unittest", "Run the unit tests for Casal2")
@@ -105,7 +106,7 @@ void CommandLineParser::Parse(int argc, char* argv[], RunParameters& options) {
   } else if (parameters.count("version")) {
     options.run_mode_ = RunMode::kVersion;
     cout << "Casal2 Version: v" << VERSION << endl;
-    cout << "Release ID: v" << VERSION_MUMBER << " " << SOURCE_CONTROL_VERSION << "" << endl;
+    cout << "Release ID: v" << VERSION_NUMBER << " " << SOURCE_CONTROL_VERSION << "" << endl;
     cout << "Copyright (c) 2017-" << SOURCE_CONTROL_YEAR << ", NIWA (www.niwa.co.nz)" << endl;
     return;
   } else if (parameters.count("license")) {
@@ -135,9 +136,9 @@ void CommandLineParser::Parse(int argc, char* argv[], RunParameters& options) {
     options.debug_mode_ = true;
   if (parameters.count("config"))
     options.config_file_ = parameters["config"].as<string>();
-  if (parameters.count("input"))
-    options.estimable_value_input_file_ = parameters["input"].as<string>();
   if (parameters.count("fi"))
+    options.estimable_value_input_file_ = parameters["input"].as<string>();
+  if (parameters.count("input"))
     options.force_estimables_as_named_ = true;
   if (parameters.count("nostd"))
     options.no_std_report_ = true;

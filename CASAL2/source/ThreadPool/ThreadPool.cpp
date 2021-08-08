@@ -51,14 +51,14 @@ void ThreadPool::RunCandidates(const vector<vector<double>>& candidates, vector<
     LOG_CODE_ERROR() << "!is_ok_";
   vector<int> thread_ids(candidates.size(), -1);  // Track which thread is doing the work for each candidate
   using namespace std::chrono_literals;
-  LOG_MEDIUM() << "Running a collection of " << candidates.size() << " candidates";
+  LOG_FINE() << "Running a collection of " << candidates.size() << " candidates";
   //	cout << "candidates.size(): " << candidates.size() << endl;
   //	std::this_thread::sleep_for(5s);
   // loop over our candidates, then find a thread for each one to be run in
   unsigned last_thread = 0;
   for (unsigned i = 0; i < candidates.size(); ++i) {
     bool found_thread = false;
-    LOG_MEDIUM() << "Looking for thread for candidate set " << i + 1;
+    LOG_FINEST() << "Looking for thread for candidate set " << i + 1;
     while (!found_thread) {
       if (last_thread >= threads_.size())
         last_thread = 0;
@@ -67,8 +67,8 @@ void ThreadPool::RunCandidates(const vector<vector<double>>& candidates, vector<
         // is this thread available?
         if (thread->is_finished()) {
           //					cout << "Found thread " << thread_idx << " for candidate set " << i << endl;
-          LOG_MEDIUM() << "Found thread " << thread_idx << " for candidate set " << i;
-          LOG_MEDIUM() << "candidates[i].size(): " << candidates[i].size();
+          LOG_FINEST() << "Found thread " << thread_idx << " for candidate set " << i;
+          LOG_FINEST() << "candidates[i].size(): " << candidates[i].size();
 
           //					std::this_thread::sleep_for(5s);
           found_thread = true;
@@ -81,7 +81,7 @@ void ThreadPool::RunCandidates(const vector<vector<double>>& candidates, vector<
     }
   }
 
-  LOG_MEDIUM() << "All candidates assigned to threads";
+  LOG_FINEST() << "All candidates assigned to threads";
   // We've assigned each candidate to a thread, now we'll wait until they're all finished
   for (unsigned i = 0; i < candidates.size(); ++i) {
     auto& thread = threads_[thread_ids[i]];
@@ -90,7 +90,7 @@ void ThreadPool::RunCandidates(const vector<vector<double>>& candidates, vector<
 
     scores[i] = thread->objective_score();
 
-    LOG_MEDIUM() << "Thread " << thread_ids[i] << " has returned score " << scores[i];
+    LOG_FINEST() << "Thread " << thread_ids[i] << " has returned score " << scores[i];
   }
 
   return;

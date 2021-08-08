@@ -1,13 +1,31 @@
 cd BuildSystem
-doBuild cleanall
-doBuild version
-doBuild thirdparty
-doBuild library release
-doBuild library betadiff
-doBuild library adolc
-doBuild library test
-doBuild documentation
-doBuild rlibrary
-doBuild archive
-doBuild deb
+
+#doBuild.sh clean_all
+call doBuild.sh version
+
+#doBuild.sh thirdparty boost
+doBuild.sh thirdparty betadiff
+doBuild.sh thirdparty adolc
+doBuild.sh thirdparty parser
+
+doBuild.sh version
+
+doBuild.sh release
+doBuild.sh release betadiff
+doBuild.sh release adolc
+
+doBuild.sh library release
+doBuild.sh library betadiff
+doBuild.sh library adolc
+doBuild.sh library test
+
+doBuild.sh frontend
+
+doBuild.sh documentation
+doBuild.sh rlibrary
+doBuild.sh archive
+doBuild.sh installer
+
+doBuild.sh modelrunner
+
 cd ..

@@ -518,6 +518,22 @@
 \defSub{length\_plus}{Is the last length bin a plus group? (defaults to @model value)}
 \defSub{mortality\_instantaneous\_process}{The label of the mortality instantaneous process for the observation}
 
+\commandlabsubarg{Observation}{type}{Process\_Removals\_By\_Weight}
+
+\defSub{mortality\_instantaneous\_process}{The label of the mortality instantaneous process for the observation}
+\defSub{method\_of\_removal}{The label of observed method of removals}
+\defSub{time\_step}{The time step to execute in}
+\defSub{tolerance}{The tolerance for rescaling proportions}
+\defSub{years}{The years for which there are observations}
+\defSub{process\_errors}{The process error}
+\defSub{length\_weight\_cv}{The CV for the length-weight relationship}
+\defSub{length\_weight\_distribution}{The distribution of the length-weight relationship}
+\defSub{length\_bins}{The length bins}
+\defSub{length\_bins\_n}{The average number in each length bin}
+\defSub{units}{The units for the weight bins}
+\defSub{fishbox\_weight}{The target weight of each box}
+\defSub{weight\_bins}{The weight bins}
+
 \commandlabsubarg{Observation}{type}{Proportions\_At\_Age}
 
 \defSub{min\_age}{The minimum age}
@@ -995,7 +1011,6 @@
 \defSub{type}{The type of selectivity}
 \defSub{length\_based}{Is the selectivity length based?}
 \defSub{intervals}{The number of quantiles to evaluate a length-based selectivity over the age-length distribution}
-\defSub{partition\_type}{The type of partition that this selectivity will support. Defaults to the same as the model}
 \defSub{values}{}
 \defSub{length\_values}{}
 

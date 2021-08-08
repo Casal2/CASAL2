@@ -69,13 +69,19 @@
 #define FMM_FUNCTION_VALUE                        "Numerical_differences: Function value = "
 #define FMM_CURRENT_PARAMETER_ESTIMATES           "Numerical_differences: Current parameter estimates = "
 #define FMM_MAX_NEWTON_STEP_FIVE                  "Numerical_differences: The max newton step has been taken 5 times, see D&S p 348"
-#define FMM_CONVERGENCE_CHECK                     "Numerical_differences: Convergence check value = "
-#define FMM_CONVERGENCE_THRESHOLD                 "Numerical_differences: Convergence tolerance   = "
 #define FMM_CONVERGENCE                           "Numerical_differences: Convergence = "
 #define FMM_FUNCTION_SCORE                        "Numerical_differences: Function score = "
 #define FMM_GRADIENT_VALUE                        "Numerical_differences: Gradient value = "
 #define FMM_SMALL_STEP_SIZE_CONVERGENCE           "Numerical_differences: Step size too small. Indicates successful convergence, but this is not a textbook ideal convergence"
 #define FMM_CONVERGENCE_NOT_TEXTBOOK              "Numerical_differences: "
+
+//**********************************************************************
+// CONVERGENCE
+//
+//**********************************************************************
+#define CONVERGENCE_CHECK                     "Convergence check value = "
+#define CONVERGENCE_THRESHOLD                 "Convergence tolerance   = "
+#define CONVERGENCE                           "Convergence = "
 
 //**********************************************************************
 // GAMMADIFF
@@ -85,7 +91,6 @@
 #define GAMMADIFF_SIZE_UPPER_BOUND_START_VALUE    "Upper bound vector is not same size as start value"
 #define GAMMADIFF_CONVERGENCE_UNCLEAR             "Unclear convergence, maybe local minimum"
 #define GAMMADIFF_EVALUATIONS_MAX                 "Maximum evaluations/iterations with no convergence"
-#define GAMMADIFF_CONVERGENCE                     "Convergence was successful"
 #define GAMMADIFF_CONVERGENCE_SUCCESSFUL          "Convergence was successful"
 #define GAMMADIFF_RETURN_VALUE_UNKNOWN            "Fatal error, unknown return value = "
 #define GAMMADIFF_LESS_START_LOWER_BOUND          "Start value is less than lower bound"
@@ -96,9 +101,6 @@
 //
 //**********************************************************************
 #define DESOLVER_CURRENT_GENERATION               "DESolver: Current generation = "
-#define DESOLVERCONVERGENCE_CHECK                 "DESolver: Convergence check value = "
-#define DESOLVERCONVERGENCE_THRESHOLD             "DESolver: Convergence tolerance = "
-#define DESOLVERCONVERGENCE                       "DESolver: Convergence = "
 
 //**********************************************************************
 // PARAMETERS
@@ -197,6 +199,7 @@
 #define PARAM_CINITIAL                            "cinitial"
 #define PARAM_CELL_LENGTH                         "cell_length"
 #define PARAM_CLASS_MINIMUMS                      "class_minimums"
+#define PARAM_COARSE                              "coarse"
 #define PARAM_COLUMN                              "column"
 #define PARAM_COLUMN_INDEX                        "column_index"
 #define PARAM_CONFIG_FILE                         "config_file"
@@ -224,6 +227,7 @@
 #define PARAM_DATA_WEIGHT_VALUE                   "data_weight_value"
 #define PARAM_DE_SOLVER                           "de_solver"
 #define PARAM_DEBUG                               "debug"
+#define PARAM_DEFAULT                             "default"
 #define PARAM_DELTA                               "delta"
 #define PARAM_DELTADIFF                           "deltadiff"
 #define PARAM_DERIVATIVE_TEST                     "derivative_test"
@@ -683,6 +687,7 @@
 #define PARAM_VALUE                               "value"
 #define PARAM_VALUES                              "values"
 #define PARAM_VERBOSE                             "verbose"
+#define PARAM_WARNING                             "warning"
 #define PARAM_WIDTH                               "width"
 #define PARAM_WEIGHT_BINS                         "weight_bins"
 #define PARAM_WEIGHTS                             "weights"

@@ -5,7 +5,7 @@
  * @date 17/04/2013
  * @section LICENSE
  *
- * Copyright NIWA Science ©2013 - www.niwa.co.nz
+ * Copyright NIWA Science ï¿½2013 - www.niwa.co.nz
  *
  * $Date: 2008-03-04 16:33:32 +1300 (Tue, 04 Mar 2008) $
  */
@@ -16,6 +16,7 @@
 #include <iostream>
 
 #include "../../../Logging/Logging.h"
+#include "../../../Translations/Translations.h"
 
 // namespaces
 namespace niwa {
@@ -254,7 +255,7 @@ void FMM::fMin(vector<double>& Candidates, double& Score, vector<double>& Gradie
     // have exceeded maximum no. of function evaluations
     if (iEvals > iMaxFunc) {
       iRet = -2;
-      LOG_MEDIUM() << "FMM: Too many function evaluations (" << iEvals << ")";
+      LOG_WARNING() << "FMM: Too many function evaluations (" << iEvals << ")";
 
       for (int i = 0; i < iVectorSize; ++i) Candidates[i] = pPreviousCandidates[i];
 
@@ -264,7 +265,7 @@ void FMM::fMin(vector<double>& Candidates, double& Score, vector<double>& Gradie
     iLinearSearchIters++;
     if (iLinearSearchIters > iMaxSteps) {
       iRet = -3;
-      LOG_MEDIUM() << "FMM: Too many loops in linear search (" << iLinearSearchIters << ")";
+      LOG_WARNING() << "FMM: Too many loops in linear search (" << iLinearSearchIters << ")";
 
       // Go back to last accepted candidates
       for (int i = 0; i < iVectorSize; ++i) Candidates[i] = pPreviousCandidates[i];
@@ -291,7 +292,7 @@ void FMM::fMin(vector<double>& Candidates, double& Score, vector<double>& Gradie
     // Is StepSize too Small?
     if (dLambda < dLambdaMin) {
       iRet = -3;
-      LOG_MEDIUM() << "FMM Linear step size too small (" << (double)dLambda << ")";
+      LOG_WARNING() << "FMM Linear step size too small (" << (double)dLambda << ")";
       return;
     }
 
@@ -343,7 +344,7 @@ void FMM::fMin(vector<double>& Candidates, double& Score, vector<double>& Gradie
 
     if (iIters > iMaxQuasiSteps) {  // have exceeded maximum no. of iterations
       iRet = -2;
-      LOG_MEDIUM() << "FMM: Too many quasi newton iterations  (" << iIters << ")";
+      LOG_WARNING() << "FMM: Too many quasi newton iterations  (" << iIters << ")";
       return;
     }
 
@@ -361,7 +362,7 @@ void FMM::fMin(vector<double>& Candidates, double& Score, vector<double>& Gradie
       iConsecutiveMaxSteps++;
 
       if (iConsecutiveMaxSteps == 5) {
-        LOG_MEDIUM() << "FMM: Max newton steps (5)";
+        LOG_WARNING() << "FMM: Max newton steps (5)";
         iRet = -3;
         return;
       }
@@ -375,10 +376,10 @@ void FMM::fMin(vector<double>& Candidates, double& Score, vector<double>& Gradie
       dCurrentTolerance = fmax(dCurrentTolerance, fabs(pGradient[i]) * fmax(1, fabs(pPreviousCandidates[i])) / fabs(dPreviousScore2));
     }
 
-    //    if(!(pConfig->getQuietMode())) {
-    //      LOG_MEDIUM() << FMM_CONVERGENCE_CHECK << (double)dCurrentTolerance << "\n";
-    //      LOG_MEDIUM() << FMM_CONVERGENCE_THRESHOLD << (double)dGradTol << "\n";
-    //    }
+    // if (!(pConfig->getQuietMode())) {
+    std::cerr << CONVERGENCE_CHECK << (double)dCurrentTolerance << "\n";
+    std::cerr << CONVERGENCE_THRESHOLD << (double)dGradTol << "\n" << std::endl;
+    //}
 
     if (dCurrentTolerance <= dGradTol) {
       iRet = -1;  // convergence!
@@ -406,7 +407,7 @@ void FMM::fMin(vector<double>& Candidates, double& Score, vector<double>& Gradie
       }
 
       if (dCurrentTolerance <= dStepTol) {
-        LOG_MEDIUM() << "FMM: Small step size convergence";
+        LOG_WARNING() << "FMM: Small step size convergence";
         iRet = -1;
         return;
       }

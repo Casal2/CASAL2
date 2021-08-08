@@ -26,7 +26,7 @@ target_special_lib_path_  = ""
 threads_                  = 0 # This is taken from CASAL2_BUILD_THREADS environment variable
 
 allowed_build_targets_ = [ "debug", "release", "documentation", "thirdparty", "thirdpartylean",
-                           "test", "archive", "all", "clean", "cleanall", "help", "library",
+                           "test", "archive", "all", "clean", "clean_cache", "clean_all", "help", "library",
                            "check", "modelrunner", "installer", "deb", "rlibrary", "frontend",
                            "version" ]
 allowed_build_types_ = [ "debug", "release", "test" ]

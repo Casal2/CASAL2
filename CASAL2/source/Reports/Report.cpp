@@ -54,10 +54,13 @@ inline bool DoesFileExist(const string& file_name) {
  * Default constructor
  */
 Report::Report() {
-  parameters_.Bind<string>(PARAM_LABEL, &label_, "The label for the report", "");
-  parameters_.Bind<string>(PARAM_TYPE, &type_, "The type of report", "");
-  parameters_.Bind<string>(PARAM_FILE_NAME, &file_name_, "The filename for this report to be in a separate file", "", "");
-  parameters_.Bind<string>(PARAM_WRITE_MODE, &write_mode_, "The write mode", "", PARAM_OVERWRITE)->set_allowed_values({PARAM_OVERWRITE, PARAM_APPEND, PARAM_INCREMENTAL_SUFFIX});
+  parameters_.Bind<string>(PARAM_LABEL, &label_, "The report label", "");
+  parameters_.Bind<string>(PARAM_TYPE, &type_, "The report type", "");
+  parameters_.Bind<string>(PARAM_FILE_NAME, &file_name_, "The file name. If not supplied, then output is directed to the standard out", "", "");
+  parameters_
+      .Bind<string>(PARAM_WRITE_MODE, &write_mode_, "Specify if any previous file with the same name should be overwritten, appended to, or is generated using a sequential suffix",
+                    "", PARAM_OVERWRITE)
+      ->set_allowed_values({PARAM_OVERWRITE, PARAM_APPEND, PARAM_INCREMENTAL_SUFFIX});
 }
 
 /**

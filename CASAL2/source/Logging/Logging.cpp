@@ -24,9 +24,9 @@ using std::vector;
 std::mutex Logging::lock_;
 
 #ifdef TESTMODE
-logger::Severity Logging::current_log_level_ = logger::Severity::kWarning;
+logger::Severity Logging::current_log_level_ = logger::Severity::kInfo;
 #else
-logger::Severity Logging::current_log_level_ = logger::Severity::kWarning;
+logger::Severity Logging::current_log_level_ = logger::Severity::kInfo;
 #endif
 
 /**
@@ -59,6 +59,10 @@ void Logging::SetLogLevel(const std::string& log_level) {
     Logging::current_log_level_ = logger::Severity::kFine;
   else if (log_level == PARAM_MEDIUM)
     Logging::current_log_level_ = logger::Severity::kMedium;
+  else if (log_level == PARAM_COARSE)
+    Logging::current_log_level_ = logger::Severity::kCoarse;
+  else if (log_level == PARAM_WARNING)
+    Logging::current_log_level_ = logger::Severity::kWarning;
   else if (log_level != PARAM_NONE) {
     cout << "The log level provided is an invalid log level. " << log_level << " is not supported" << endl;
     exit(-1);
@@ -124,10 +128,7 @@ void Logging::FlushErrors() {
   unsigned to_print = errors_.size() > 10 ? 10 : errors_.size();
 
   cout << "\n";
-  cout << "********************************************************************************\n";
-  cout << "********                     SUMMARY OF ERRORS                          ********\n";
-  cout << "********************************************************************************\n";
-  cout << "Printing " << to_print << " of " << errors_.size() << " errors\n";
+  cout << "ERROR: Printing " << to_print << " of " << errors_.size() << " errors\n";
   cout << "\n";
 
   for (unsigned i = 0; i < to_print; ++i) {

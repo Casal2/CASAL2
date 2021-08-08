@@ -58,7 +58,7 @@ bool Runner::StartUp() {
   // Stage 1 - Handle run modes that are not a model iteration
   switch (run_mode_) {
     case RunMode::kInvalid:
-      LOG_CODE_ERROR() << "The current run_mode is kInvalid, this is a bug";
+      LOG_CODE_ERROR() << "The current run_mode is kInvalid, this is a bug. Please report this error to the Casal2 Development Team";
       break;
     case RunMode::kUnitTest:
       LOG_ERROR() << "The Unit Test run mode is not supported in this binary. Please ensure you're running it correctly";

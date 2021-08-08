@@ -79,6 +79,8 @@ private:
 #define LOG_FINEST() LOG_IF_FOR_STREAM(logger::Severity::kFinest)
 #define LOG_FINE() LOG_IF_FOR_STREAM(logger::Severity::kFine)
 #define LOG_MEDIUM() LOG_IF_FOR_STREAM(logger::Severity::kMedium)
+#define LOG_COARSE() LOG_IF_FOR_STREAM(logger::Severity::kCoarse)
+#define LOG_INFO() LOG_IF_FOR_STREAM(logger::Severity::kInfo)
 #define LOG_WARNING() LOG_IF_FOR_STREAM(logger::Severity::kWarning)
 #define LOG_ERROR() LOG_IF_FOR_STREAM(logger::Severity::kError)
 #define LOG_ERROR_P(parameter) LOG_IF_FOR_STREAM(logger::Severity::kError) << this->parameters_.location(parameter)
@@ -93,9 +95,9 @@ private:
 //#define LOG_WARNING() for(logger::Record r(logger::Severity::kWarning, __FILE__, __FUNCTION__, __LINE__); !r.Flush(); Logging::Instance().Flush(r)) r.stream()
 //#define LOG_ERROR() for(logger::Record r(logger::Severity::kError, __FILE__, __FUNCTION__, __LINE__); !r.Flush(); Logging::Instance().Flush(r)) r.stream()
 //#define LOG_ERROR_P(parameter) for(logger::Record r(logger::Severity::kError, __FILE__, __FUNCTION__, __LINE__); !r.Flush(); Logging::Instance().Flush(r)) r.stream() <<
-//this->parameters_.location(parameter) #define LOG_FATAL() for(logger::Record r(logger::Severity::kFatal, __FILE__, __FUNCTION__, __LINE__); !r.Flush();
-//Logging::Instance().Flush(r)) r.stream() #define LOG_FATAL_P(parameter) for(logger::Record r(logger::Severity::kFatal, __FILE__, __FUNCTION__, __LINE__); !r.Flush();
-//Logging::Instance().Flush(r)) r.stream() << this->parameters_.location(parameter) #define LOG_CODE_ERROR() for(logger::Record r(logger::Severity::kCodeError, __FILE__,
+// this->parameters_.location(parameter) #define LOG_FATAL() for(logger::Record r(logger::Severity::kFatal, __FILE__, __FUNCTION__, __LINE__); !r.Flush();
+// Logging::Instance().Flush(r)) r.stream() #define LOG_FATAL_P(parameter) for(logger::Record r(logger::Severity::kFatal, __FILE__, __FUNCTION__, __LINE__); !r.Flush();
+// Logging::Instance().Flush(r)) r.stream() << this->parameters_.location(parameter) #define LOG_CODE_ERROR() for(logger::Record r(logger::Severity::kCodeError, __FILE__,
 //__FUNCTION__, __LINE__); !r.Flush(); Logging::Instance().Flush(r)) r.stream()
 
 #endif /* SOURCE_LOGGING_LOGGING_H_ */
