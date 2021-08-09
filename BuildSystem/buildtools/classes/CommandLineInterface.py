@@ -34,6 +34,7 @@ class CommandLineInterface:
         print('                <option> Optionally specify the target third party library to')
         print('                         build, either adolc or betadiff (default is none)')
         print('  test        - Build stand-alone unit tests executable')
+        print('  unittests   - Run the unit tests')
         print('  modelrunner - Run the test suite (requires "test" to have been built)')
         print('')
         print('Build the Casal2 end-user application')

@@ -68,6 +68,9 @@ def start():
 	elif build_target == "modelrunner":
 		model_runner = ModelRunner()
 		return model_runner.start()
+	elif build_target == "unittests":
+		unit_tests = UnitTests()
+		return unit_tests.start()	
 	elif build_target == "clean":
 		cleaner = Cleaner()
 		return cleaner.clean()	

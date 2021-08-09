@@ -35,7 +35,7 @@ namespace math = niwa::utilities::math;
  */
 MCMC::MCMC(shared_ptr<Model> model) : model_(model) {
   parameters_.Bind<string>(PARAM_LABEL, &label_, "The label of the MCMC", "");
-  parameters_.Bind<string>(PARAM_TYPE, &type_, "The MCMC method", "", "")->set_allowed_values({PARAM_INDEPENDENCE_METROPOLIS, PARAM_HAMILTONIAN, PARAM_RANDOMWALK});
+  parameters_.Bind<string>(PARAM_TYPE, &type_, "The MCMC method", "", "");  //->set_allowed_values({PARAM_INDEPENDENCE_METROPOLIS, PARAM_HAMILTONIAN, PARAM_RANDOMWALK});
   parameters_.Bind<unsigned>(PARAM_LENGTH, &length_, "The number of iterations in for the MCMC chain", "")->set_lower_bound(1);
   parameters_.Bind<bool>(PARAM_ACTIVE, &active_, "Indicates if this is the active MCMC algorithm", "", true);
   parameters_.Bind<double>(PARAM_STEP_SIZE, &step_size_, "Initial step-size (as a multiplier of the approximate covariance matrix)", "", 0.02)->set_lower_bound(0);

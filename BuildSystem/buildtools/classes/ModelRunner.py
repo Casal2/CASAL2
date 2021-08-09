@@ -93,3 +93,35 @@ class ModelRunner:
       print('Please check the run.log or estimate.log file in each of the failed model directories')
       return False
     return True
+
+class UnitTests:
+  def start(self):
+    binary_name = 'casal2'
+    if Globals.operating_system_ == 'windows':
+      binary_name += '.exe'
+
+    exe_path = f"bin/{Globals.operating_system_}_{Globals.compiler_}/test/{binary_name}"
+    cwd = os.path.normpath(os.getcwd())  
+    exe_path = f"{cwd}/{exe_path}"
+
+    print(exe_path)
+    if not os.path.exists(exe_path):
+      print(f"Looking for {exe_path}")
+      print('CASAL2 binary was not found. Can not continue')
+      print('Please complete a release test binary build before running the models')
+      return False
+  
+    print('')
+    start = time.time()
+      
+    if os.system(f"{exe_path} > run.log 2>&1") != EX_OK:
+    #if os.system(f"{exe_path}") != EX_OK:
+      elapsed = time.time() - start
+      print('[FAILED] in ' + str(round(elapsed, 2)) + ' seconds')
+    else:
+      elapsed = time.time() - start
+      print('[COMPLETED] in ' + str(round(elapsed, 2)) + ' seconds')
+    
+    os.chdir(cwd)
+    return True
+    
