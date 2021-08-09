@@ -57,7 +57,7 @@ protected:
   //  map<unsigned, Double>       values_;
   vector<Double>       values_;
   vector<Double>       length_values_;
-  string               partition_type_label_ = PARAM_MODEL;
+  string               partition_type_label_ = "";
   PartitionType        partition_type_       = PartitionType::kInvalid;
   unsigned             age_index_;
   map<string, Vector3> cached_age_length_values_;  // map<age_length_label, cache(year x time_step x age)>

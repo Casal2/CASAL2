@@ -144,6 +144,7 @@ Report* Factory::Create(shared_ptr<Model> model, const string& object_type, cons
           result = new age::Partition_YearCrossAgeMatrix();
       }
     } else if (model->partition_type() == PartitionType::kLength) {
+      LOG_FATAL() << "Length based models are mot yet implemented";
       if (sub_type == PARAM_INITIALISATION_PARTITION_MEAN_WEIGHT)
         result = new age::InitialisationPartitionMeanWeight();
       else if (sub_type == PARAM_PARTITION_MEAN_WEIGHT)

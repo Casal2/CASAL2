@@ -112,15 +112,18 @@
 \defSub{years}{The years to check addressable}
 \defSub{time\_step}{The time step to execute after}
 \defSub{values}{The values to check against the addressable}
+\defSub{error\_type}{Report assert failures as either an error or warning}
 
 \commandlabsubarg{Assert}{type}{Objective\_Function}
 
 \defSub{value}{Expected value of the objective function}
+\defSub{error\_type}{Report assert failures as either an error or warning}
 
 \commandlabsubarg{Assert}{type}{Partition}
 
 \defSub{category}{Category to check population values for}
 \defSub{values}{Values expected in the partition}
+\defSub{error\_type}{Report assert failures as either an error or warning}
 
 \defComLab{Catchability}{Define an object of type \emph{Catchability}}
 
@@ -140,9 +143,10 @@
 \defComLab{Categories}{Define an object of type \emph{Categories}}
 
 \defSub{format}{The format that the category names use}
-\defSub{names}{The names of the categories to be used in the model}
-\defSub{years}{The years that individual categories will be active for. This overrides the model values}
-\defSub{age\_lengths}{The labels of age\_length objects that are assigned to categories)}
+\defSub{names}{The names of the categories}
+\defSub{years}{The years that individual categories will be activated (if different from the model for these categories)}
+\defSub{age\_lengths}{The age-length relationship labels for each category}
+\defSub{age\_weight}{The age-weight relationships labelsfor each category}
 
 \defComLab{Derived\_Quantity}{Define an object of type \emph{Derived\_Quantity}}
 
@@ -1066,9 +1070,9 @@
 
 \commandlabsubarg{Selectivity}{type}{Logistic}
 
-\defSub{a50}{a50}
-\defSub{ato95}{ato95}
-\defSub{alpha}{alpha}
+\defSub{a50}{The a50 parameter}
+\defSub{ato95}{The ato95 parameter}
+\defSub{alpha}{The alpha (maximum value of the selectivity) parameter}
 
 \commandlabsubarg{Selectivity}{type}{Logistic\_Producing}
 
@@ -1130,16 +1134,16 @@
 
 \defSub{mean}{The mean ($\mu$) of the random draw distribution}
 \defSub{sigma}{The standard deviation ($\sigma$)  of the random draw distribution}
+\defSub{lower\_bound}{The lower bound for the random draw}
 \defSub{upper\_bound}{The upper bound for the random draw}
-\defSub{upper\_bound}{The lower bound for the random draw}
 \defSub{distribution}{The distribution type}
 
 \commandlabsubarg{Time\_Varying}{type}{Random\_Walk}
 
 \defSub{mean}{The mean ($\mu$) of the random walk distribution}
 \defSub{sigma}{The standard deviation ($\sigma$)  of the random walk distribution}
+\defSub{lower\_bound}{The lower bound for the random walk}
 \defSub{upper\_bound}{The upper bound for the random walk}
-\defSub{upper\_bound}{The lower bound for the random walk}
 \defSub{rho}{The autocorrelation parameter ($\rho$)  of the random walk distribution}
 \defSub{distribution}{The distribution type}
 

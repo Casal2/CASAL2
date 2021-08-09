@@ -287,8 +287,10 @@ int Runner::GoWithRunMode(RunMode::Type run_mode) {
   if (logging.errors().size() > 0) {
     logging.FlushErrors();
     return_code = -1;
-  } else
+  } else {
     logging.FlushWarnings();
+    logging.FlushInfo();
+  }
 
   return return_code;
 }

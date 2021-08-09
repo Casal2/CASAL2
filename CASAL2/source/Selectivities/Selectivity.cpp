@@ -34,6 +34,9 @@ Selectivity::Selectivity(shared_ptr<Model> model) : model_(model) {
   // PARAM_MODEL)->set_allowed_values({PARAM_MODEL, PARAM_AGE, PARAM_LENGTH, PARAM_HYBRID});
   RegisterAsAddressable(PARAM_VALUES, &values_, addressable::kLookup);
   RegisterAsAddressable(PARAM_LENGTH_VALUES, &length_values_, addressable::kLookup);
+
+  // Default to type model. Remove this line once additional partition types are implemented
+  partition_type_label_ = PARAM_MODEL;
 }
 
 /**

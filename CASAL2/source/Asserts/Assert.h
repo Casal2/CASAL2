@@ -4,7 +4,7 @@
  * @date 19/08/2014
  * @section LICENSE
  *
- * Copyright NIWA Science ©2014 - www.niwa.co.nz
+ * Copyright NIWA Science ï¿½2014 - www.niwa.co.nz
  *
  * @section DESCRIPTION
  *
@@ -19,6 +19,7 @@
 
 // headers
 #include "../BaseClasses/Executor.h"
+#include "../Translations/Translations.h"
 
 // namespaces
 namespace niwa {
@@ -43,6 +44,7 @@ protected:
 
   // members
   shared_ptr<Model> model_ = nullptr;
+  string            error_type_;
 };
 } /* namespace niwa */
 

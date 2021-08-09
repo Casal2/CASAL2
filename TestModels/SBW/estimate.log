@@ -2,7 +2,7 @@ Casal2
 Call: C:\Projects\Software\CASAL2\BuildSystem/bin/windows_gcc/release_betadiff/casal2.exe -e -g 20 
 Version: v1.2 (2021-08-08)
 Copyright (c) 2017-2021, NIWA (www.niwa.co.nz)
-Environment: machine:HP1040, user:alist, os:Windows_NT, pid:10888
+Environment: machine:HP1040, user:alist, os:Windows_NT, pid:228
 
 [WARNING] C:/Projects/Software/CASAL2/CASAL2/source/Estimates/Manager.cpp(line: 89): Estimates were removed because of matching lower and upper bounds. Originally had 70 estimates, now have 68
 
@@ -5392,17 +5392,17 @@ Convergence
 
 *warnings[warnings_encounted]
 warnings_found: 5
-warning_0 {s}
-Estimates were removed because of matching lower and upper bounds. Originally had 70 estimates, now have 68
 warning_1 {s}
-estimated parameter 'selectivity[MaturationSel_female].v{4}' was within 0.001 of upper bound 0.999
+Estimates were removed because of matching lower and upper bounds. Originally had 70 estimates, now have 68
 warning_2 {s}
-estimated parameter 'process[Instantaneous_Mortality].m{female.nonspawn}' was within 0.001 of upper bound 0.05
+estimated parameter 'selectivity[MaturationSel_female].v{4}' was within 0.001 of upper bound 0.999
 warning_3 {s}
-estimated parameter 'observation[TangaroaAcousticMature].process_error' was within 0.001 of lower bound 0.0001
+estimated parameter 'process[Instantaneous_Mortality].m{female.nonspawn}' was within 0.001 of upper bound 0.05
 warning_4 {s}
+estimated parameter 'observation[TangaroaAcousticMature].process_error' was within 0.001 of lower bound 0.0001
+warning_5 {s}
 estimated parameter 'observation[TangaroaAcousticImmature].process_error' was within 0.001 of lower bound 0.0001
 *end
 
-Total elapsed time: 1.217 minutes
+Total elapsed time: 1.317 minutes
 Completed

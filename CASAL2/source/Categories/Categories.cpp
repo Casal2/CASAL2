@@ -48,10 +48,12 @@ namespace niwa {
  */
 Categories::Categories(shared_ptr<Model> model) : model_(model) {
   parameters_.Bind<string>(PARAM_FORMAT, &format_, "The format that the category names use", "");
-  parameters_.Bind<string>(PARAM_NAMES, &names_, "The names of the categories to be used in the model", "");
-  parameters_.Bind<string>(PARAM_YEARS, &years_, "The years that individual categories will be active for. This overrides the model values", "", true);
-  parameters_.Bind<string>(PARAM_AGE_LENGTHS, &age_length_labels_, R"(The labels of age\_length objects that are assigned to categories)", "", true)
-      ->set_partition_type(PartitionType::kAge);
+  parameters_.Bind<string>(PARAM_NAMES, &names_, "The names of the categories", "");
+  parameters_.Bind<string>(PARAM_YEARS, &years_, "The years that individual categories will be activated (if different from the model for these categories)", "", true);
+  parameters_.Bind<string>(PARAM_AGE_LENGTHS, &age_length_labels_, "The age-length relationship labels for each category", "", true)->set_partition_type(PartitionType::kAge);
+  parameters_.Bind<string>(PARAM_AGE_WEIGHT, &age_weight_labels_, "The age-weight relationships labelsfor each category", "", true)->set_partition_type(PartitionType::kAge);
+  // parameters_.Bind<string>(PARAM_LENGTH_WEIGHT, &length_weight_labels_, R"(The labels of the length\_weight objects that are assigned to categories)", "",
+  // true)->set_partition_type(PartitionType::kLength);
 }
 
 /**
@@ -66,7 +68,7 @@ void Categories::Validate() {
 
   // Check that we actually had a categories block
   if (block_type_ == "")
-    LOG_ERROR() << "The @categories block is missing from the input configuration file. This block is required";
+    LOG_ERROR() << "The @categories command is missing from the input configuration file. This is required";
 
   parameters_.Populate(model_);
 
@@ -86,17 +88,17 @@ void Categories::Validate() {
   if (model_->partition_type() == PartitionType::kAge) {
     // Check the user hasn't specified both age_length and age_weight subcommands
     if (parameters_.Get(PARAM_AGE_WEIGHT)->has_been_defined() && parameters_.Get(PARAM_AGE_LENGTHS)->has_been_defined())
-      LOG_ERROR_P(PARAM_AGE_WEIGHT) << "Both age_lengths and age_weights cannot be specified in the @categories block. Specify either one or the other.";
+      LOG_ERROR_P(PARAM_AGE_WEIGHT) << "Both age_lengths and age_weights cannot be specified at the same time in @categories. Specify either one or the other.";
     if (parameters_.Get(PARAM_AGE_WEIGHT)->has_been_defined()) {
       if (age_weight_labels_.size() != names_.size())
-        LOG_ERROR_P(PARAM_AGE_WEIGHT) << " number age-weight defined (" << age_weight_labels_.size() << ") must be the same as the number "
-                                      << " of categories defined (" << names_.size() << ")";
+        LOG_ERROR_P(PARAM_AGE_WEIGHT) << " number of age-weight labels (" << age_weight_labels_.size() << " were specified) must be the same as the number of categories ("
+                                      << names_.size() << ")";
     }
     // get the age sizes
     if (parameters_.Get(PARAM_AGE_LENGTHS)->has_been_defined()) {
       if (age_length_labels_.size() != names_.size())
-        LOG_ERROR_P(PARAM_AGE_LENGTHS) << " number of age-lengths defined (" << age_length_labels_.size() << ") must be the same as the number "
-                                       << " of categories defined (" << names_.size() << ")";
+        LOG_ERROR_P(PARAM_AGE_LENGTHS) << " number of age-length labels (" << age_length_labels_.size() << " were specified) must be the same as the number of categories ("
+                                       << names_.size() << ")";
     }
     vector<string> format_chunks;
     boost::split(format_chunks, format_, boost::is_any_of("."), boost::token_compress_on);
@@ -115,7 +117,7 @@ void Categories::Validate() {
       vector<string> category_chunks;
       boost::split(category_chunks, names_[i], boost::is_any_of("."), boost::token_compress_on);
       if (category_chunks.size() != category_chunks.size())
-        LOG_ERROR_P(PARAM_NAMES) << "Category " << names_[i] << " does not match the format " << format_;
+        LOG_ERROR_P(PARAM_NAMES) << "The category named " << names_[i] << " does not match the format " << format_;
 
       // Create a new CategoryInfo object
       CategoryInfo new_category_info;
@@ -128,10 +130,11 @@ void Categories::Validate() {
       category_names_.push_back(names_[i]);
     }
   } else if (model_->partition_type() == PartitionType::kLength) {
+    LOG_FATAL() << "Length-based partition models have not yet been implemented";
     // get the age sizes
     if (length_weight_labels_.size() > 0 && length_weight_labels_.size() != names_.size())
-      LOG_ERROR_P(PARAM_LENGTH_WEIGHT) << " number defined (" << length_weight_labels_.size() << ") must be the same as the number "
-                                       << " of categories defined (" << names_.size() << ")";
+      LOG_ERROR_P(PARAM_LENGTH_WEIGHT) << " number of length-weight labels (" << length_weight_labels_.size() << " were specified) must be the same as the number of categories ("
+                                       << names_.size() << ")";
 
     vector<string> format_chunks;
     boost::split(format_chunks, format_, boost::is_any_of("."), boost::token_compress_on);
@@ -144,7 +147,7 @@ void Categories::Validate() {
       vector<string> category_chunks;
       boost::split(category_chunks, names_[i], boost::is_any_of("."), boost::token_compress_on);
       if (category_chunks.size() != category_chunks.size())
-        LOG_ERROR_P(PARAM_NAMES) << "Category " << names_[i] << " does not match the format " << format_;
+        LOG_ERROR_P(PARAM_NAMES) << "The category named " << names_[i] << " does not match the format " << format_;
 
       // Create a new CategoryInfo object
       CategoryInfo new_category_info;
@@ -157,7 +160,7 @@ void Categories::Validate() {
       category_names_.push_back(names_[i]);
     }
   } else {
-    LOG_FATAL() << "There is no functionality for partition structures that are not age or length";
+    LOG_FATAL() << "There is no functionality for model types that are not age or length";
   }
 
   for (string label : category_names_) {

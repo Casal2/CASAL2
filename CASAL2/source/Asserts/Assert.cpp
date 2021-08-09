@@ -4,7 +4,7 @@
  * @date 19/08/2014
  * @section LICENSE
  *
- * Copyright NIWA Science ©2014 - www.niwa.co.nz
+ * Copyright NIWA Science ï¿½2014 - www.niwa.co.nz
  *
  */
 
@@ -26,7 +26,7 @@ namespace niwa {
  */
 Assert::Assert(shared_ptr<Model> model) : model_(model) {
   parameters_.Bind<string>(PARAM_LABEL, &label_, "The label for the assert", "");
-  parameters_.Bind<string>(PARAM_TYPE, &type_, "The type of the assert", "");
+  parameters_.Bind<string>(PARAM_TYPE, &type_, "The type of the assert", "")->set_allowed_values({PARAM_ADDRESSABLE, PARAM_OBJECTIVE_FUNCTION, PARAM_PARTITION});
 }
 
 /**

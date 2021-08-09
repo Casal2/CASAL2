@@ -121,7 +121,7 @@ Double KnifeEdge::GetLengthBasedResult(unsigned age, AgeLength* age_length, unsi
     }
     return total / n_quant_;
   }
-  LOG_CODE_ERROR() << "dist is invalid " << dist;
+  LOG_CODE_ERROR() << "The specified distribution is not a valid distribution: " << dist;
   return 0;
 }
 

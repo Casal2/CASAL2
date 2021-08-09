@@ -121,6 +121,7 @@ Process* Factory::Create(shared_ptr<Model> model, const string& object_type, con
         result = new age::TransitionCategoryByAge(model);
     }
   if (model->partition_type() == PartitionType::kLength || (partition_type == PartitionType::kModel && model->partition_type() == PartitionType::kLength)) {
+    LOG_FATAL() << "Length based models are mot yet implemented";
     if (object == PARAM_PROCESS || object == PARAM_PROCESSES) {
       if (sub == PARAM_GROWTH_BASIC)
         result = new length::GrowthBasic(model);

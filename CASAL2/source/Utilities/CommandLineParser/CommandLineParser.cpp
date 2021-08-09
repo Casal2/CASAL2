@@ -66,7 +66,7 @@ void CommandLineParser::Parse(int argc, char* argv[], RunParameters& options) {
     ("simulation,s", value<unsigned>(), "Simulation mode (arg = number of candidates)")
     ("projection,f", value<unsigned>(), "Projection mode (arg = number of projections per set of input values)")
     ("input,i", value<string>(), "Load free parameter values from [file]")
-    ("fi", "Force the input file to allow additional addressable parameters from [file] (basic run mode only)")
+    ("force", "Force the input file to allow (when using -i) additional addressable parameters (basic run mode only)")
     ("seed,g", value<unsigned>(), "Random number seed")
     ("query,q", value<string>(), "Query an object type to see its description and parameters. Argument object_type.sub_type, e.g., process.recruitment_constant")
     ("debug,d", "Run in debug mode (with debug output)")
@@ -136,9 +136,22 @@ void CommandLineParser::Parse(int argc, char* argv[], RunParameters& options) {
     options.debug_mode_ = true;
   if (parameters.count("config"))
     options.config_file_ = parameters["config"].as<string>();
-  if (parameters.count("fi"))
-    options.estimable_value_input_file_ = parameters["input"].as<string>();
   if (parameters.count("input"))
+    options.estimable_value_input_file_ = parameters["input"].as<string>();
+  if (parameters.count("force")) {
+    if (parameters.count("input")) {
+      options.force_estimables_as_named_ = true;
+    } else {
+      cerr << "\n";
+      cerr << "An error occurred while processing the command line.\n";
+      cerr << "  Using --force can only be used when loading free parameter values from a file with --input";
+      cerr << "\n\n";
+      exit(-1);
+    }
+  }
+  if (parameters.count("input"))
+    options.estimable_value_input_file_ = parameters["input"].as<string>();
+  if (parameters.count("force"))
     options.force_estimables_as_named_ = true;
   if (parameters.count("nostd"))
     options.no_std_report_ = true;

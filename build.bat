@@ -4,9 +4,9 @@ rem call doBuild.bat clean_all
 call doBuild.bat version
 
 rem call doBuild.bat thirdparty boost
-call doBuild.bat thirdparty adolc
-call doBuild.bat thirdparty betadiff
-call doBuild.bat thirdparty parser
+rem doBuild.bat thirdparty adolc
+rem doBuild.bat thirdparty betadiff
+rem doBuild.bat thirdparty parser
 
 call doBuild.bat version
 

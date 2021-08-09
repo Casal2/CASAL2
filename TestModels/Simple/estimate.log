@@ -2,7 +2,7 @@ Casal2
 Call: C:\Projects\Software\CASAL2\BuildSystem/bin/windows_gcc/release_betadiff/casal2.exe -e -g 20 
 Version: v1.2 (2021-08-08)
 Copyright (c) 2017-2021, NIWA (www.niwa.co.nz)
-Environment: machine:HP1040, user:alist, os:Windows_NT, pid:18732
+Environment: machine:HP1040, user:alist, os:Windows_NT, pid:8732
 
 about to evaluate function with x = 52583 0.0575073 9.51995 5.53388 10.8664 10.8129 3.50265 6.86988 6.44798 3.00327 7.88331 1.02472 1.04658 1.06324 1.07299 1.07458 1.06541 1.04328 1.01815 1.00285 0.426938 0.476756 0.520428 0.382199 0.527158 0.445187 0.67427 1.00397 0.761247 0.653433 0.592745 0.488619 0.321246 0.303421 0.221372 0.33299 0.219917 0.328752 0.925172 0.525766 0.434871 0.18722 0.307342 0.259689 0.230941 0.260211 3 3 
 finished objective call: f = 682.978
@@ -359,11 +359,11 @@ Convergence
 
 *warnings[warnings_encounted]
 warnings_found: 2
-warning_0 {s}
-estimated parameter 'process[Recruitment].ycs_values{2010}' was within 0.001 of upper bound 3
 warning_1 {s}
+estimated parameter 'process[Recruitment].ycs_values{2010}' was within 0.001 of upper bound 3
+warning_2 {s}
 estimated parameter 'process[Recruitment].ycs_values{2011}' was within 0.001 of upper bound 3
 *end
 
-Total elapsed time: 2 seconds
+Total elapsed time: 3 seconds
 Completed

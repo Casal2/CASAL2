@@ -220,6 +220,7 @@ age
 age_length
 age_lengths
 age_plus
+age_weight
 age_weight_labels
 ageing_error
 alpha
@@ -259,6 +260,7 @@ distribution
 e
 electivities
 equation
+error_type
 error_value_multiplier
 estimate_label
 estimate_labels

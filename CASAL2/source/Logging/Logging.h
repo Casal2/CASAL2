@@ -42,8 +42,10 @@ public:
   void            Flush(niwa::logger::Record& record);
   void            FlushErrors();
   void            FlushWarnings();
+  void            FlushInfo();
 
   // accessors
+  std::vector<std::string>& info() { return info_; }
   std::vector<std::string>& warnings() { return warnings_; }
   std::vector<std::string>& errors() { return errors_; }
 
@@ -56,6 +58,7 @@ private:
   Logging();
 
   // members
+  std::vector<std::string> info_;
   std::vector<std::string> warnings_;
   std::vector<std::string> errors_;
 };
@@ -74,12 +77,11 @@ private:
 #define LOG_FOR(level) for (logger::Record r(level, __FILE__, __FUNCTION__, __LINE__); !r.Flush(); Logging::Instance().Flush(r))
 #define LOG_IF_FOR(level) LOG_IF(level) LOG_FOR(level)
 #define LOG_IF_FOR_STREAM(level) LOG_IF_FOR(level) r.stream()
-//
+// Various levels of log level reporting
 #define LOG_TRACE() LOG_IF_FOR(logger::Severity::kTrace);
 #define LOG_FINEST() LOG_IF_FOR_STREAM(logger::Severity::kFinest)
 #define LOG_FINE() LOG_IF_FOR_STREAM(logger::Severity::kFine)
 #define LOG_MEDIUM() LOG_IF_FOR_STREAM(logger::Severity::kMedium)
-#define LOG_COARSE() LOG_IF_FOR_STREAM(logger::Severity::kCoarse)
 // Information messages (not an error)
 #define LOG_INFO() LOG_IF_FOR_STREAM(logger::Severity::kInfo)
 // Warning messages (not an error)
@@ -92,17 +94,5 @@ private:
 #define LOG_FATAL_P(parameter) LOG_FOR(logger::Severity::kFatal) r.stream() << this->parameters_.location(parameter)
 // Code errors tha require a developer to fix
 #define LOG_CODE_ERROR() LOG_FOR(logger::Severity::kCodeError) r.stream()
-
-//#define LOG_TRACE() for(logger::Record r(logger::Severity::kTrace, __FILE__, __FUNCTION__, __LINE__); !r.Flush(); Logging::Instance().Flush(r));
-//#define LOG_FINEST() for(logger::Record r(logger::Severity::kFinest, __FILE__, __FUNCTION__, __LINE__); !r.Flush(); Logging::Instance().Flush(r)) r.stream()
-//#define LOG_FINE() for(logger::Record r(logger::Severity::kFine, __FILE__, __FUNCTION__, __LINE__); !r.Flush(); Logging::Instance().Flush(r)) r.stream()
-//#define LOG_MEDIUM() for(logger::Record r(logger::Severity::kMedium, __FILE__, __FUNCTION__, __LINE__); !r.Flush(); Logging::Instance().Flush(r)) r.stream()
-//#define LOG_WARNING() for(logger::Record r(logger::Severity::kWarning, __FILE__, __FUNCTION__, __LINE__); !r.Flush(); Logging::Instance().Flush(r)) r.stream()
-//#define LOG_ERROR() for(logger::Record r(logger::Severity::kError, __FILE__, __FUNCTION__, __LINE__); !r.Flush(); Logging::Instance().Flush(r)) r.stream()
-//#define LOG_ERROR_P(parameter) for(logger::Record r(logger::Severity::kError, __FILE__, __FUNCTION__, __LINE__); !r.Flush(); Logging::Instance().Flush(r)) r.stream() <<
-// this->parameters_.location(parameter) #define LOG_FATAL() for(logger::Record r(logger::Severity::kFatal, __FILE__, __FUNCTION__, __LINE__); !r.Flush();
-// Logging::Instance().Flush(r)) r.stream() #define LOG_FATAL_P(parameter) for(logger::Record r(logger::Severity::kFatal, __FILE__, __FUNCTION__, __LINE__); !r.Flush();
-// Logging::Instance().Flush(r)) r.stream() << this->parameters_.location(parameter) #define LOG_CODE_ERROR() for(logger::Record r(logger::Severity::kCodeError, __FILE__,
-//__FUNCTION__, __LINE__); !r.Flush(); Logging::Instance().Flush(r)) r.stream()
 
 #endif /* SOURCE_LOGGING_LOGGING_H_ */
