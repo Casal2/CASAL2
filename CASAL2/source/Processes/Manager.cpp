@@ -39,7 +39,7 @@ void Manager::Validate(shared_ptr<Model> model) {
   base::Manager<niwa::processes::Manager, niwa::Process>::Validate();
 
   if (objects_.size() == 0 && model->partition_type() == PartitionType::kAge)
-    LOG_ERROR() << "The configuration file requires that at least one process has been specified, e.g., @recruitment, @mortality, @ageing";
+    LOG_ERROR() << "Casal2 requires that at least one process has been specified in the input configuration file, e.g., @recruitment, @mortality, @ageing";
 
   PartitionType partition_type = model->partition_type();
 
