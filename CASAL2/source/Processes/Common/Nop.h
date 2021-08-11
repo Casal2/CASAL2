@@ -9,7 +9,7 @@
  *
  * @section DESCRIPTION
  *
- * This process does nothing. It's used for debugging time steps
+ * This process does nothing. It's mostly used for debugging time steps
  */
 #ifndef SOURCE_PROCESSES_CHILDREN_NOP_H_
 #define SOURCE_PROCESSES_CHILDREN_NOP_H_

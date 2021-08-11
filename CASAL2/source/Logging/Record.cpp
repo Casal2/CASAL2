@@ -55,6 +55,7 @@ void Record::BuildMessage() {
       o << "Message:\n";
       o << stream_.str() << "\n";
       break;
+
     case Severity::kTrace:
       o << "[TRACE] " << file_name_ << "(line: " << line_number_ << ") - Method: " << function_ << "\n";
       break;
@@ -68,38 +69,50 @@ void Record::BuildMessage() {
       o << "[MEDIUM] " << file_name_ << "(line: " << line_number_ << "): " << stream_.str() << "\n";
       break;
     case Severity::kInfo:
+#ifdef DEBUG
       o << "[MESSAGE] " << file_name_ << "(line: " << line_number_ << "): " << stream_.str() << "\n";
+      o << " Source File: " << file_name_ << "(line: " << line_number_ << ")\n";
+      o << " Source Method: " << function_ << "\n";
+#endif
+      o << "\nCasal2 has found information messages:\n\n";
+      o << stream_.str() << endl;
       break;
     case Severity::kWarning:
+#ifdef DEBUG
       o << "[WARNING] " << file_name_ << "(line: " << line_number_ << "): " << stream_.str() << "\n";
+      o << " Source File: " << file_name_ << "(line: " << line_number_ << ")\n";
+      o << " Source Method: " << function_ << "\n";
+#endif
+      o << "\nCasal2 has found warnings:\n\n";
+      o << stream_.str() << endl;
       break;
     case Severity::kError:
+#ifdef DEBUG
       o << "[ERROR] " << file_name_ << "(line: " << line_number_ << "): " << stream_.str() << "\n";
+      o << " Source File: " << file_name_ << "(line: " << line_number_ << ")\n";
+      o << " Source Method: " << function_ << "\n";
+#endif
+      o << "\nCasal2 has found errors:\n\n";
+      o << stream_.str() << endl;
       break;
     case Severity::kFatal:
-#ifdef TESTMODE
+#ifdef DEBUG
       o << "[FATAL] " << file_name_ << "(line: " << line_number_ << "): " << stream_.str() << "\n";
-      o << "Source File: " << file_name_ << "(line: " << line_number_ << ")\n";
-      o << "Source Method: " << function_ << "\n";
-#else
-      o << "\n";
-      o << "Casal2 has found syntax errors in the input configuration file:\n";
+      o << " Source File: " << file_name_ << "(line: " << line_number_ << ")\n";
+      o << " Source Method: " << function_ << "\n";
 #endif
-      o << stream_.str() << "\n\n";
+      o << "\nCasal2 has found fatal errors:\n\n";
+      o << stream_.str() << endl;
       break;
     case Severity::kCodeError:
-#ifdef TESTMODE
+#ifdef DEBUG
       o << "[CODE_ERROR] " << file_name_ << "(line: " << line_number_ << "): " << stream_.str() << "\n";
-      o << "Source File: " << file_name_ << "(line: " << line_number_ << ")\n";
-      o << "Source Method: " << function_ << "\n";
-      o << stream_.str() << "\n";
-#else
-      o << "\n";
-      o << "CODE ERROR: A critical error has occurred:\n";
-      o << stream_.str() << "\n";
-      o << "This is a critical error in the source code.\n";
-      o << "Please contact the Casal2 Development Team at casal2@niwa.co.nz to report this error\n\n";
+      o << " Source File: " << file_name_ << "(line: " << line_number_ << ")\n";
+      o << " Source Method: " << function_ << "\n";
 #endif
+      o << "[CODE_ERROR] A critical error has occurred in the Casal2 source code.\n";
+      o << " Please contact the Casal2 Development Team and report this error\n\n";
+      o << stream_.str() << endl;
       break;
   }
 

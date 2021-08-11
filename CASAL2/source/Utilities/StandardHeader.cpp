@@ -84,7 +84,7 @@ void StandardHeader::PrintTop(GlobalConfiguration& global_config) {
   header << "-- Process Id: " << getpid() << endl;
 #endif
 
-  if (!global_config.debug_mode() && !global_config.disable_standard_report())
+  if (!global_config.disable_standard_report())
     cout << header.str() << endl;
 
   global_config.set_standard_header(header.str());
@@ -94,7 +94,7 @@ void StandardHeader::PrintTop(GlobalConfiguration& global_config) {
  *
  */
 void StandardHeader::PrintBottom(GlobalConfiguration& global_config) {
-  if (global_config.debug_mode() || global_config.disable_standard_report())
+  if (global_config.disable_standard_report())
     return;
 
 #if !defined(__MINGW32__) && !defined(_MSC_VER)

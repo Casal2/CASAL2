@@ -235,7 +235,6 @@ void Report::FlushCache() {
     LOG_MEDIUM() << "skip tags = " << skip_tags_;
     if (!skip_tags_) {
       cache_ << CONFIG_END_REPORT << "\n";
-      // cerr << "end report\n";
     }
     file << cache_.str();
     file.close();

@@ -69,11 +69,10 @@ void CommandLineParser::Parse(int argc, char* argv[], RunParameters& options) {
     ("force", "Force the input file to allow (when using -i) additional addressable parameters (basic run mode only)")
     ("seed,g", value<unsigned>(), "Random number seed")
     ("query,q", value<string>(), "Query an object type to see its description and parameters. Argument object_type.sub_type, e.g., process.recruitment_constant")
-    ("debug,d", "Run in debug mode (with debug output)")
     ("nostd", "Do not print the standard header report")
     ("loglevel", value<string>(), "Set log level: coarse, medium, fine, finest, trace, or none (default)")
     ("output,o", value<string>(), "Create estimate value report to [file]")
-    //("Output,O", value<string>(), "Append estimate value report to [file]")
+    ("Output,O", value<string>(), "Append estimate value report to [file]")
     ("single-step", "Single step the model each year with new estimable values")
     ("tabular", "Print reports in Tabular mode")
     ("unittest", "Run the unit tests for Casal2")
@@ -92,7 +91,7 @@ void CommandLineParser::Parse(int argc, char* argv[], RunParameters& options) {
     notify(parameters);
 
   } catch (boost::program_options::unknown_option& ex) {
-    cout << "An error occurred while processing the command line. " << ex.what() << endl;
+    LOG_FATAL() << "Command line error: An error occurred while processing the command line. There was an " << ex.what();
   }
 
   /**
@@ -132,8 +131,6 @@ void CommandLineParser::Parse(int argc, char* argv[], RunParameters& options) {
   }
 
   LOG_TRACE();
-  if (parameters.count("debug"))
-    options.debug_mode_ = true;
   if (parameters.count("config"))
     options.config_file_ = parameters["config"].as<string>();
   if (parameters.count("input"))
@@ -142,17 +139,9 @@ void CommandLineParser::Parse(int argc, char* argv[], RunParameters& options) {
     if (parameters.count("input")) {
       options.force_estimables_as_named_ = true;
     } else {
-      cerr << "\n";
-      cerr << "An error occurred while processing the command line.\n";
-      cerr << "  Using --force can only be used when loading free parameter values from a file with --input";
-      cerr << "\n\n";
-      exit(-1);
+      LOG_FATAL() << "Command line error: Using --force can only be used when loading free parameter values from a file with --input";
     }
   }
-  if (parameters.count("input"))
-    options.estimable_value_input_file_ = parameters["input"].as<string>();
-  if (parameters.count("force"))
-    options.force_estimables_as_named_ = true;
   if (parameters.count("nostd"))
     options.no_std_report_ = true;
   if (parameters.count("output"))
@@ -186,9 +175,9 @@ void CommandLineParser::Parse(int argc, char* argv[], RunParameters& options) {
   run_mode_count += parameters.count("unittest");
 
   if (run_mode_count == 0)
-    LOG_ERROR() << "No valid run mode has been specified. Please specify a valid run mode (e.g., '-r')";
+    LOG_FATAL() << "Command line error: No valid run mode has been specified on the command line. Please specify a valid run mode (e.g., '-r')";
   if (run_mode_count > 1)
-    LOG_ERROR() << "Multiple run modes have been specified. Please specify one run mode only";
+    LOG_FATAL() << "Command line error: Multiple run modes have been specified on the command line. Please specify one run mode only";
 
   if (parameters.count("run"))
     options.run_mode_ = RunMode::kBasic;
@@ -198,8 +187,7 @@ void CommandLineParser::Parse(int argc, char* argv[], RunParameters& options) {
     options.run_mode_ = RunMode::kMCMC;
     if (parameters.count("resume")) {
       if (!parameters.count("objective-file") || !parameters.count("sample-file")) {
-        LOG_ERROR() << "Resuming an MCMC chain requires the objective-file and sample-file parameters";
-        return;
+        LOG_FATAL() << "Command line error: Resuming an MCMC chain requires the objective-file and sample-file parameters";
       }
 
       options.mcmc_objective_file_ = parameters["objective-file"].as<string>();
@@ -208,9 +196,9 @@ void CommandLineParser::Parse(int argc, char* argv[], RunParameters& options) {
     }
 
     if (options.estimate_before_mcmc_ == false && options.mcmc_mpd_file_name_ == "")
-      LOG_ERROR() << "Cannot start a MCMC run without an estimation if there is no mcmc-mpd-file-name specified";
+      LOG_FATAL() << "Command line error: Cannot start a MCMC run without an estimation if there is no mcmc-mpd-file-name specified";
     if (options.estimate_before_mcmc_ && options.mcmc_mpd_file_name_ != "")
-      LOG_ERROR() << "Cannot specify the --mcmc-mpd-file-name and --estimate-before-mcmc together";
+      LOG_FATAL() << "Command line error: Cannot specify the --mcmc-mpd-file-name and --estimate-before-mcmc together";
 
   } else if (parameters.count("profiling"))
     options.run_mode_ = RunMode::kProfiling;
@@ -221,7 +209,7 @@ void CommandLineParser::Parse(int argc, char* argv[], RunParameters& options) {
     options.run_mode_              = RunMode::kProjection;
     options.projection_candidates_ = parameters["projection"].as<unsigned>();
   } else {
-    LOG_ERROR() << "An invalid or unknown run mode has been specified.";
+    LOG_FATAL() << "Command line error: An invalid or unknown run mode has been specified";
   }
 
   /**
