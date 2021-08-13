@@ -5,7 +5,7 @@
  * @date 19/11/2015
  * @section LICENSE
  *
- * Copyright NIWA Science ©2015 - www.niwa.co.nz
+ * Copyright NIWA Science ï¿½2015 - www.niwa.co.nz
  *
  */
 
@@ -39,7 +39,7 @@ Process::Process() {
  * Build the relationships between this object and other objects
  */
 void Process::DoBuild(shared_ptr<Model> model) {
-  process_ = model->managers()->process()->GetProcess(process_label_);  // TODO: this will break stuff .. needs fixing
+  process_ = model->managers()->process()->GetProcess(process_label_);
   if (!process_) {
     LOG_ERROR_P(PARAM_PROCESS) << "process " << process_label_ << " was not found.";
   }
@@ -49,7 +49,7 @@ void Process::DoBuild(shared_ptr<Model> model) {
  * Execute this report
  */
 void Process::DoExecute(shared_ptr<Model> model) {
-  process_ = model->managers()->process()->GetProcess(process_label_);  // TODO: this will break stuff .. needs fixing
+  process_ = model->managers()->process()->GetProcess(process_label_);
   if (!process_)
     LOG_CODE_ERROR() << "(!process): " << process_label_;
 
