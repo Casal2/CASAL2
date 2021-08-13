@@ -4,8 +4,7 @@
 #' @keywords internal
 #'
 "pos" <-
-function(vector, x)
-{
+function(vector, x) {
   min((1:length(vector))[vector == x])
 }
 

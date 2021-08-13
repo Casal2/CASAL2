@@ -4,7 +4,7 @@
  * @date 18/07/2013
  * @section LICENSE
  *
- * Copyright NIWA Science ©2013 - www.niwa.co.nz
+ * Copyright NIWA Science ï¿½2013 - www.niwa.co.nz
  *
  */
 
@@ -25,7 +25,7 @@ namespace age {
  */
 Biomass::Biomass(shared_ptr<Model> model) : DerivedQuantity(model) {
   parameters_.Bind<string>(PARAM_AGE_WEIGHT_LABELS, &age_weight_labels_,
-                           "The labels for the @age_weight block which corresponds to each category, to use that weight calculation method for biomass calculations", "", "");
+                           "The labels for the @age\\_weight block which corresponds to each category, to use that weight calculation method for biomass calculations", "", "");
 }
 
 /**

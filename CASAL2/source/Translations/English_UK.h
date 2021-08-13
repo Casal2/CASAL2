@@ -69,13 +69,19 @@
 #define FMM_FUNCTION_VALUE                        "Numerical_differences: Function value = "
 #define FMM_CURRENT_PARAMETER_ESTIMATES           "Numerical_differences: Current parameter estimates = "
 #define FMM_MAX_NEWTON_STEP_FIVE                  "Numerical_differences: The max newton step has been taken 5 times, see D&S p 348"
-#define FMM_CONVERGENCE_CHECK                     "Numerical_differences: Convergence check value = "
-#define FMM_CONVERGENCE_THRESHOLD                 "Numerical_differences: Convergence tolerance   = "
 #define FMM_CONVERGENCE                           "Numerical_differences: Convergence = "
 #define FMM_FUNCTION_SCORE                        "Numerical_differences: Function score = "
 #define FMM_GRADIENT_VALUE                        "Numerical_differences: Gradient value = "
 #define FMM_SMALL_STEP_SIZE_CONVERGENCE           "Numerical_differences: Step size too small. Indicates successful convergence, but this is not a textbook ideal convergence"
 #define FMM_CONVERGENCE_NOT_TEXTBOOK              "Numerical_differences: "
+
+//**********************************************************************
+// CONVERGENCE
+//
+//**********************************************************************
+#define CONVERGENCE_CHECK                     "Convergence check value = "
+#define CONVERGENCE_THRESHOLD                 "Convergence tolerance   = "
+#define CONVERGENCE                           "Convergence = "
 
 //**********************************************************************
 // GAMMADIFF
@@ -85,7 +91,6 @@
 #define GAMMADIFF_SIZE_UPPER_BOUND_START_VALUE    "Upper bound vector is not same size as start value"
 #define GAMMADIFF_CONVERGENCE_UNCLEAR             "Unclear convergence, maybe local minimum"
 #define GAMMADIFF_EVALUATIONS_MAX                 "Maximum evaluations/iterations with no convergence"
-#define GAMMADIFF_CONVERGENCE                     "Convergence was successful"
 #define GAMMADIFF_CONVERGENCE_SUCCESSFUL          "Convergence was successful"
 #define GAMMADIFF_RETURN_VALUE_UNKNOWN            "Fatal error, unknown return value = "
 #define GAMMADIFF_LESS_START_LOWER_BOUND          "Start value is less than lower bound"
@@ -95,10 +100,7 @@
 // DESOLVER
 //
 //**********************************************************************
-#define DESOLVER_CURRENT_GENERATION               "DE_Solver: Current generation = "
-#define DESOLVERCONVERGENCE_CHECK                 "DE_Solver: Convergence check value = "
-#define DESOLVERCONVERGENCE_THRESHOLD             "DE_Solver: Convergence tolerance = "
-#define DESOLVERCONVERGENCE                       "DE_Solver: Convergence = "
+#define DESOLVER_CURRENT_GENERATION               "DESolver: Current generation = "
 
 //**********************************************************************
 // PARAMETERS
@@ -138,7 +140,7 @@
 #define PARAM_AGEING_LABEL                        "ageing_label"
 #define PARAM_AGEING_ERROR                        "ageing_error"
 #define PARAM_AGEING_ERRORS                       "ageing_errors"
-#define PARAM_ALGORITHM														"algorithm"
+#define PARAM_ALGORITHM							  "algorithm"
 #define PARAM_ALL_VALUES_BOUNDED                  "all_values_bounded"
 #define PARAM_ALL_VALUES                          "all_values"
 #define PARAM_ALPHA                               "alpha"
@@ -197,6 +199,7 @@
 #define PARAM_CINITIAL                            "cinitial"
 #define PARAM_CELL_LENGTH                         "cell_length"
 #define PARAM_CLASS_MINIMUMS                      "class_minimums"
+#define PARAM_COARSE                              "coarse"
 #define PARAM_COLUMN                              "column"
 #define PARAM_COLUMN_INDEX                        "column_index"
 #define PARAM_CONFIG_FILE                         "config_file"
@@ -224,6 +227,7 @@
 #define PARAM_DATA_WEIGHT_VALUE                   "data_weight_value"
 #define PARAM_DE_SOLVER                           "de_solver"
 #define PARAM_DEBUG                               "debug"
+#define PARAM_DEFAULT                             "default"
 #define PARAM_DELTA                               "delta"
 #define PARAM_DELTADIFF                           "deltadiff"
 #define PARAM_DERIVATIVE_TEST                     "derivative_test"
@@ -257,6 +261,8 @@
 #define PARAM_END_TABLE                           "end_table"
 #define PARAM_EQUATION                            "equation"
 #define PARAM_EQUILIBRIUM_METHOD                  "equilibrium_method"
+#define PARAM_ERROR                               "error"
+#define PARAM_ERROR_TYPE                          "error_type"
 #define PARAM_ERROR_VALUE                         "error_value"
 #define PARAM_ERROR_VALUES                        "error_values"
 #define PARAM_ERROR_VALUE_MULTIPLIER              "error_value_multiplier"
@@ -277,8 +283,8 @@
 #define PARAM_EXCLUDE_PROCESSES                   "exclude_processes"
 #define PARAM_EXPECTED_VALUE                      "expected_value"
 #define PARAM_EXPONENTIAL                         "exponential"
-#define PARAM_EXOGENOUS_VARIABLE                  "exogeneous_variable"
-#define PARAM_EXOGENOUS                           "exogeneous"
+#define PARAM_EXOGENOUS_VARIABLE                  "exogenous_variable"
+#define PARAM_EXOGENOUS                           "exogenous"
 #define PARAM_EXTERNAL_GAPS                       "external_gaps"
 #define PARAM_FADBAD                              "fadbad"
 #define PARAM_FILE_NAME                           "file_name"
@@ -323,6 +329,7 @@
 #define PARAM_INCREMENTAL_SUFFIX                  "incremental_suffix"
 #define PARAM_INDEPENDENCE_METROPOLIS             "independence_metropolis"
 #define PARAM_INDEX                               "index"
+#define PARAM_INFO                                "information"
 #define PARAM_INITIAL_MORTALITY                   "initial_mortality"
 #define PARAM_INITIAL_MORTALITY_SELECTIVITY       "initial_mortality_selectivity"
 #define PARAM_INITIAL_YEAR                        "initial_year"
@@ -387,7 +394,7 @@
 #define PARAM_LOGISTIC_PRODUCING                  "logistic_producing"
 #define PARAM_LOGNORMAL                           "lognormal"
 #define PARAM_LOGNORMAL_EMPIRICAL                 "lognormal_empirical"
-#define PARAM_LOGNORMAL_TRANSFORMATION            "lognormal_transfomration"
+#define PARAM_LOGNORMAL_TRANSFORMATION            "lognormal_transformation"
 #define PARAM_LOGNORMAL_WITH_Q                    "lognormal_with_q"
 #define PARAM_LOSS_RATE                           "loss_rate"
 #define PARAM_LOSS_RATE_SELECTIVITIES             "loss_rate_selectivities"
@@ -448,7 +455,7 @@
 #define PARAM_NCOLS                               "ncols"
 #define PARAM_NEAREST_NEIGHBOUR                   "nearest_neighbour"
 #define PARAM_NONE                                "none"
-#define PARAM_NOP                                 "nop"
+#define PARAM_NOP                                 "null_process"
 #define PARAM_NORMAL                              "normal"
 #define PARAM_NORMALISED_RESIDUALS                "normalised_residuals"
 #define PARAM_NORMAL_BY_STDEV                     "normal_by_stdev"
@@ -683,6 +690,7 @@
 #define PARAM_VALUE                               "value"
 #define PARAM_VALUES                              "values"
 #define PARAM_VERBOSE                             "verbose"
+#define PARAM_WARNING                             "warning"
 #define PARAM_WIDTH                               "width"
 #define PARAM_WEIGHT_BINS                         "weight_bins"
 #define PARAM_WEIGHTS                             "weights"

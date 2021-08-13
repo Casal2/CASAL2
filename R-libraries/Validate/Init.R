@@ -7,7 +7,7 @@ for(i in 1:length(funs)) {
   source(file.path("..","casal2","R",funs[i]))
 }
 
-## load Chis Francis's Dataweighting package.
+## load Chis Francis's DataWeighting package.
 packages_required <- c("DataWeighting")
 for(i in 1:length(packages_required)) {
   print(i)

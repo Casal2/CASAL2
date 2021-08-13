@@ -41,7 +41,7 @@ using std::vector;
  * This class represents the rows from our table.
  * We use this so we can convert value types easier
  * and report on errors without having to know
- * a bunch of crap
+ * a bunch of things
  */
 class Rows {
   typedef vector<string> DataType;  // A single row

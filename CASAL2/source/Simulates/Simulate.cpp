@@ -4,7 +4,7 @@
  * @date 28/05/2014
  * @section LICENSE
  *
- * Copyright NIWA Science ©2014 - www.niwa.co.nz
+ * Copyright NIWA Science ï¿½2014 - www.niwa.co.nz
  *
  */
 
@@ -21,10 +21,10 @@ namespace niwa {
  * Default constructor
  */
 Simulate::Simulate(shared_ptr<Model> model) : model_(model) {
-  parameters_.Bind<string>(PARAM_LABEL, &label_, "Label", "");
-  parameters_.Bind<string>(PARAM_TYPE, &type_, "Type", "", "");
-  parameters_.Bind<unsigned>(PARAM_YEARS, &years_, "Years to recalculate the values", "", true);
-  parameters_.Bind<string>(PARAM_PARAMETER, &parameter_, "Parameter to simulate", "");
+  parameters_.Bind<string>(PARAM_LABEL, &label_, "The label for the simulation command block", "");
+  parameters_.Bind<string>(PARAM_TYPE, &type_, "The type of simulation", "", "");
+  parameters_.Bind<unsigned>(PARAM_YEARS, &years_, "The years to simulate values for", "", true);
+  parameters_.Bind<string>(PARAM_PARAMETER, &parameter_, "The parameter to generate simulated values for", "");
 
   original_value_ = 0;
 }
@@ -48,7 +48,7 @@ void Simulate::Build() {
 
   string error = "";
   if (!model_->objects().VerfiyAddressableForUse(parameter_, addressable::kSimulate, error)) {
-    LOG_FATAL_P(PARAM_PARAMETER) << "could not be verified for use in additional_prior.vector_smoothing. Error: " << error;
+    LOG_FATAL_P(PARAM_PARAMETER) << "could not be verified for use in a simulation. Error: " << error;
   }
 
   addressable::Type addressable_type = model_->objects().GetAddressableType(parameter_);
@@ -70,7 +70,7 @@ void Simulate::Build() {
       addressable_map_ = model_->objects().GetAddressableUMap(parameter_);
       break;
     default:
-      LOG_ERROR() << "The addressable provided for use in a time varying: " << parameter_ << " is not a type that is supported";
+      LOG_ERROR() << "The addressable provided for use in a simulation (paramter = " << parameter_ << ") is not a type that is supported in simulations";
       break;
   }
   if (error != "")

@@ -8,7 +8,7 @@
  *
  * @description
  * This class is the class that is spawned from main() and holds pointers to everything. It's the class
- * that creates the models and hands them off to the different objects for running (minimisers, mcmcs etc)
+ * that creates the models and hands them off to the different objects for running (minimisers, MCMCs etc.)
  *
  */
 
@@ -58,7 +58,7 @@ bool Runner::StartUp() {
   // Stage 1 - Handle run modes that are not a model iteration
   switch (run_mode_) {
     case RunMode::kInvalid:
-      LOG_CODE_ERROR() << "The current run_mode is kInvalid, this is a bug";
+      LOG_CODE_ERROR() << "The current run_mode is kInvalid, this is a bug. Please report this error to the Casal2 Development Team";
       break;
     case RunMode::kUnitTest:
       LOG_ERROR() << "The Unit Test run mode is not supported in this binary. Please ensure you're running it correctly";
@@ -145,7 +145,7 @@ int Runner::GoWithRunMode(RunMode::Type run_mode) {
 
   /**
    * @brief TODO: REMOVE STD HEADER FROM RUNNER TO SHARED LIBRARY SO IT CAN
-   * BE DISABLED N SHIT
+   * BE DISABLED
    *
    */
 
@@ -287,8 +287,10 @@ int Runner::GoWithRunMode(RunMode::Type run_mode) {
   if (logging.errors().size() > 0) {
     logging.FlushErrors();
     return_code = -1;
-  } else
+  } else {
     logging.FlushWarnings();
+    logging.FlushInfo();
+  }
 
   return return_code;
 }

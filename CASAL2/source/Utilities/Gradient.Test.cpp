@@ -78,9 +78,9 @@ TEST_F(GradientThreadedModel, Calc_With_1_ModelThread) {
  *
  */
 TEST_F(GradientThreadedModel, Calc_With_6_ModelThreads) {
-  string ammended_definition = testcases::test_cases_two_sex_model_population;
-  boost::replace_all(ammended_definition, "threads 1", "threads 6");
-  AddConfigurationLine(ammended_definition, __FILE__, 84);
+  string amended_definition = testcases::test_cases_two_sex_model_population;
+  boost::replace_all(amended_definition, "threads 1", "threads 6");
+  AddConfigurationLine(amended_definition, __FILE__, 84);
   LoadConfiguration();
 
   ASSERT_NO_THROW(runner_->GoWithRunMode(RunMode::kTesting));

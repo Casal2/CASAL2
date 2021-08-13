@@ -4,8 +4,7 @@
 #' @keywords internal
 #'
 "string.to.vector.of.words" <-
-function(string)
-{
+function(string) {
   temp <- unpaste(string, sep = " ")
   return(temp[temp != ""])
 }

@@ -5,7 +5,7 @@
  * @date 21/10/2014
  * @section LICENSE
  *
- * Copyright NIWA Science ©2014 - www.niwa.co.nz
+ * Copyright NIWA Science ï¿½2014 - www.niwa.co.nz
  *
  */
 
@@ -31,10 +31,10 @@ namespace additionalpriors {
  * Note: The constructor is parsed to generate LaTeX for the documentation.
  */
 Beta::Beta(shared_ptr<Model> model) : AdditionalPrior(model) {
-  parameters_.Bind<Double>(PARAM_MU, &mu_, "Beta distribution mean (mu) parameter", "");
-  parameters_.Bind<Double>(PARAM_SIGMA, &sigma_, "Beta distribution variance (sigma) parameter", "")->set_lower_bound(0.0);
-  parameters_.Bind<Double>(PARAM_A, &a_, "Beta distribution lower bound of the range (A) parameter", "");
-  parameters_.Bind<Double>(PARAM_B, &b_, "Beta distribution upper bound of the range (B) parameter", "");
+  parameters_.Bind<Double>(PARAM_MU, &mu_, "Beta distribution mean $\\mu$ parameter", "");
+  parameters_.Bind<Double>(PARAM_SIGMA, &sigma_, "Beta distribution variance $\\sigma$ parameter", "")->set_lower_bound(0.0);
+  parameters_.Bind<Double>(PARAM_A, &a_, "Beta distribution lower bound, of the range $A$ parameter", "");
+  parameters_.Bind<Double>(PARAM_B, &b_, "Beta distribution upper bound of the range $B$ parameter", "");
 }
 
 /**

@@ -46,7 +46,7 @@ void StandardHeader::PrintTop(GlobalConfiguration& global_config) {
 #endif
 
   ostringstream header;
-  header << "CASAL2" << endl;
+  header << "Casal2" << endl;
 
   /**
    * Build the Command line
@@ -59,8 +59,8 @@ void StandardHeader::PrintTop(GlobalConfiguration& global_config) {
   /**
    * Version information
    */
-  header << "Version: " << SOURCE_CONTROL_VERSION << endl;
-  header << "Copyright (c) 2018 - " << SOURCE_CONTROL_YEAR << ", NIWA (www.niwa.co.nz)" << endl;
+  header << "Version: v" << VERSION << endl;
+  header << "Copyright (c) 2017-" << SOURCE_CONTROL_YEAR << ", NIWA (www.niwa.co.nz)" << endl;
 
   /**
    * User and Computer Information
@@ -84,7 +84,7 @@ void StandardHeader::PrintTop(GlobalConfiguration& global_config) {
   header << "-- Process Id: " << getpid() << endl;
 #endif
 
-  if (!global_config.debug_mode() && !global_config.disable_standard_report())
+  if (!global_config.disable_standard_report())
     cout << header.str() << endl;
 
   global_config.set_standard_header(header.str());
@@ -94,7 +94,7 @@ void StandardHeader::PrintTop(GlobalConfiguration& global_config) {
  *
  */
 void StandardHeader::PrintBottom(GlobalConfiguration& global_config) {
-  if (global_config.debug_mode() || global_config.disable_standard_report())
+  if (global_config.disable_standard_report())
     return;
 
 #if !defined(__MINGW32__) && !defined(_MSC_VER)
@@ -112,7 +112,7 @@ void StandardHeader::PrintBottom(GlobalConfiguration& global_config) {
   double elapsed_time = static_cast<double>(time(NULL) - start_time_);
   if (elapsed_time < 60) {
     int P = (int)floor(log10(elapsed_time)) + 4;
-    cout << "Total elapsed time: " << std::setprecision(P) << fmax(1, elapsed_time) << (elapsed_time <= 1 ? " second" : " seconds") << endl;
+    cout << "Total elapsed time: " << std::setprecision(P) << fmax(1, elapsed_time) << (elapsed_time == 1 ? " second" : " seconds") << endl;
   } else if ((elapsed_time / 60.0) < 60) {
     elapsed_time /= 60.0;
     int P = (int)floor(log10(elapsed_time)) + 4;

@@ -1,53 +1,41 @@
-\section{Troubleshooting\label{sec:trouble-shooting}}
+\section{Troubleshooting\label{sec:TroubleShooting}}
 
-This section is to aid users in debugging models. If you cannot resolve an issue using these guidelines then please contact the development team. To report an issue please follow the format described in Section~\ref{sec:error-guidelines}.
+\CNAME\ can implement complex models that provide many opportunities for error --- either because the parameter files do not correctly specify the model, or because the model specified does not appear to work as expected. When in doubt, ask an experienced user. Debugging versions of \CNAME\ are available that can help to track down cryptic errors.
 
-Most user errors should be well documented and \CNAME\ should produce informative error messages. There are runtime options that users can enable to attempt to resolve or at least isolate an error or bug, including different levels of logging.
+If you cannot resolve an issue using these guidelines then please contact the development team. To report an issue please follow the guidelines described in Section~\ref{sec:ErrorGuidelines}.
+
+For most issues, \CNAME\ attempts to produce informative error messages. There are optional command line arguments that will give more verbose reporting, and should enable additional information to help resolve a problem. However, when \CNAME\ generates an error and the error message does not make sense, please let the Development Team know. Even if you manage to fix the problem yourself, we may be able to implement a more helpful error message or modify the user manual, and make life easier for the next person to encounter the problem. You can do this by submitting an issue in the GitHub repository at \url{https://github.com/NIWAFisheriesModelling/CASAL2/issues}.
 
 \subsection{Logging}
 
-\CNAME's internal logging system can be invoked at the command line with argument  \argument{--loglevel} followed by one of these options: \argument{trace}, \argument{finest}, \argument{fine}, \argument{medium}.
+\CNAME's internal logging system can be invoked at the command line with argument  \argument{--loglevel} followed by one of the options: \argument{trace}, \argument{finest}, \argument{fine}, \argument{medium}. 
 
-An example of logging with trace level output:
+The optimal level of logging will depend on what run mode you are using and the granularity of information that you would like to see. The ordering for the options is that \argument{medium} is the most coarse, and \argument{trace} being the finest level, with \argument{fine} and \argument{finest} in-between. We suggest that if you are running \CNAME\ in an iterative state such as for estimation (\argument{casal2 -e}) or MCMC you use \argument{medium} level. This is because the logging can print a lot of information for a single model run, so an estimation which could comprise thousands of model runs can produce very large text files with the finer logging option specified. For a single iteration run such as \argument{casal2 -r} each of the logging options can be useful during different phases of model development.
+
+For example, to enable logging with trace level output:
 
 \begin{itemize}
 	\item On Windows: \argument{casal2 -r --loglevel trace > output.log 2> log.out}
 	\item On Linux: \argument{casal2 -r --loglevel trace > output.log 2\&> log.out}
 \end{itemize}
 
-This argument will output \CNAME's reports to the file "output.log", and the "\argument{2>}" or "\argument{2\&>}" syntax will print the error logged information to the file "log.out". You should be able to see where \CNAME\ is exiting by going to the end of the "log.out" file. 
-
-The optimal level of logging will depend on what run mode you are using and the granularity of information that you would like to see. There is an ordering in the options, with \argument{medium} being the most coarse, and \argument{trace} being the finest level, with \argument{fine} and \argument{finest} in between. We suggest that if you are running \CNAME\ in an iterative state such as for estimation (\argument{casal2 -e}) or MCMC you use \argument{medium} level. This is because the logging can print a lot of information for a single model run, so an estimation which could comprise thousands of model runs can produce very large text files with the finer logging option specified. For a single iteration run such as \argument{casal2 -r} each of the logging options can be useful during different phases of model development.
-
-You can see how \CNAME\ creates these reports by looking in the ".cpp" files in the Observation or Processes source code subdirectories and see code such as in \texttt{Model/Model.cpp},
-
-\argument{LOG\_FINE() << "Model: State change to Execute";}
-
+This argument will output \CNAME's reports to the file "output.log", and the "\argument{2>}" or "\argument{2\&>}" syntax will print the error logged information to the file "log.out". You should be able to see where \CNAME\ failed, and is exited by going to the end of the "log.out" file and looking at the last few messages. 
 
 \subsection{Reporting errors\label{sec:reporting-errors}}
 
 If you find a bug or error in \CNAME, please submit an issue in the GitHub repository at \url{https://github.com/NIWAFisheriesModelling/CASAL2/issues}.
 
-Please follow the guidelines below so that the bug or error can be reproduced. It is helpful to be as detailed and specific as possible when describing the observed behavior as well as the expected behaviour.
+Please follow the guidelines below so that the bug or error can be reproduced. It is helpful to be as detailed and specific as possible when describing the observed behaviour as well as the expected behaviour. If possible, try to reduce the \config\ to demonstrate the error with a reduced set of commands and model structure, and aim to have as little else going on in the model as possible. This will make it faster to isolate the problem and provide a solution or fix.
 
-\subsubsection{Guidelines for reporting an error with \CNAME\label{sec:error-guidelines}}
+\subsubsection{Guidelines for reporting an error with \CNAME\label{sec:ErrorGuidelines}}
 
 \begin{enumerate}
-
 \item Ensure you are using the most recent version of \CNAME, as the bug or error you are having may have already been resolved. 
-
 \item Provide the version of \CNAME\ you are using, e.g., "\CNAME\ \VER". The version is output by \CNAME\ with the command \argument{casal2 -v}.
-
-\item Provide the operating system you are using, e.g., "IBM-PC Intel CPU with Microsoft Windows 10 Enterprise".
-
+\item Provide the system  you are using, e.g., "x64 Intel CPU with Microsoft Windows 10".
 \item Provide a brief description of the problem, e.g., "a segmentation fault was produced".
-
 \item If the problem is reproducible, please describe in detail the steps required to cause it, and include the \CNAME\ configuration files, other input files, and any output files generated. Specify the \emph{exact} command line arguments that were used, e.g., "Using the command \texttt{casal2 -e -q} produced a segmentation fault. The \config s are attached."
-
 \item If the problem is not reproducible (it happened only once, or occasionally for no apparent reason), please describe in detail the circumstances in which it occurred and the behaviour observed, e.g., "\CNAME\ crashed, but I have not been able to reproduce the issue. It seemed to be related to a local network crash but I cannot be sure."
-
 \item If the problem produced any error messages, please give the \emph{exact} text displayed, e.g., "\texttt{segmentation fault (core dumped)}".
-
 \item Attach all relevant input and output files so that the problem can be reproduced; these files can be compressed into a single file e.g., a zip file, and uploaded to GitHub.
-
 \end{enumerate}

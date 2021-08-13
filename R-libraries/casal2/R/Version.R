@@ -1,4 +1,4 @@
-"Version"<-
+"Version" <-
 function() {
-return("2020-06-30")
+  return("1.2")
 }

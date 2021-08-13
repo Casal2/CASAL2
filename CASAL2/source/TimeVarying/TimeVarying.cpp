@@ -22,10 +22,10 @@ namespace niwa {
  * Default constructor
  */
 TimeVarying::TimeVarying(shared_ptr<Model> model) : model_(model) {
-  parameters_.Bind<string>(PARAM_LABEL, &label_, "The time-varying label", "");
-  parameters_.Bind<string>(PARAM_TYPE, &type_, "The time-varying type", "", "");
-  parameters_.Bind<unsigned>(PARAM_YEARS, &years_, "The years in which to vary the values", "");
-  parameters_.Bind<string>(PARAM_PARAMETER, &parameter_, "The name of the parameter to time vary", "");
+  parameters_.Bind<string>(PARAM_LABEL, &label_, "The label of the time-varying object", "");
+  parameters_.Bind<string>(PARAM_TYPE, &type_, "The type of the time-varying object", "", "")->set_allowed_values({PARAM_ANNUAL_SHIFT,PARAM_CONSTANT,PARAM_EXOGENOUS,PARAM_LINEAR,PARAM_RANDOMWALK,PARAM_RANDOMDRAW});
+  parameters_.Bind<string>(PARAM_PARAMETER, &parameter_, "The name of the parameter to vary in each year", "");
+  parameters_.Bind<unsigned>(PARAM_YEARS, &years_, "The years in which to vary the paramter", "");
 }
 
 /**
@@ -51,7 +51,7 @@ void TimeVarying::Build() {
   // Verify our addressable is allowed to be used for TimeVarying
   string error = "";
   if (!model_->objects().VerfiyAddressableForUse(parameter_, addressable::kTimeVarying, error)) {
-    LOG_FATAL_P(PARAM_PARAMETER) << "could not be verified for use in a time_varying block. Error: " << error;
+    LOG_FATAL_P(PARAM_PARAMETER) << "could not be verified for use in an @time_varying block. Error: " << error;
   }
 
   // bind our function pointer for the update function, original value and addressible pointer
@@ -74,7 +74,7 @@ void TimeVarying::Build() {
       addressable_map_ = model_->objects().GetAddressableUMap(parameter_);
       break;
     default:
-      LOG_ERROR() << "The addressable provided for use in a time varying: " << parameter_ << " is not a type that is supported";
+      LOG_ERROR() << "The addressable provided for use in the @time_varying block: " << parameter_ << " is not a parameter of a type that is supported";
       break;
   }
 

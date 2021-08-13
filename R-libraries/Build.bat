@@ -1,16 +1,21 @@
+rem Build R library and version
 R --vanilla < run-roxygen.R
 R --vanilla < CASAL2_make_version.R
 
-R CMD build --force casal
-R CMD INSTALL --build casal
-R CMD check casal
+rem Build CASAL library
+rem R CMD build --force casal
+rem R CMD INSTALL --build casal
+rem R CMD check casal
 
+rem Build Casal2 R Library
 R CMD build --force casal2
-R CMD INSTALL --build casal2
-R CMD check CASAL2
+rem R CMD INSTALL --build casal2
+R CMD check Casal2
 
-del CASAL2.html
-
+rem Build DataWeighting Library
+R CMD build --force DataWeighting
+rem R CMD INSTALL --build DataWeighting
+R CMD check DataWeighting
 
 
 

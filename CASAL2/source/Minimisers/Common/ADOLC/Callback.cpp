@@ -33,7 +33,7 @@ CallBack::CallBack(shared_ptr<Model> model) : model_(model) {}
 // Operatior() for Minimiser CallBack
 //**********************************************************************
 adouble CallBack::operator()(const vector<adouble>& Parameters) {
-  cout << ".";
+  // cout << ".";
   static int i = 0;
   i++;
   if (i % 20 == 0)

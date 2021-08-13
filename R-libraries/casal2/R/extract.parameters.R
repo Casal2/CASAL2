@@ -9,12 +9,11 @@
 #' @return Data <"data.frame"> of parameters that are from a -i format.
 #' @export
 #'
-"extract.parameters" = function (file, path = "", fileEncoding = "") {
-  filename = make.filename(path = path, file = file);
-  file = convert.to.lines(filename, fileEncoding = fileEncoding);
+"extract.parameters" <- function(file, path = "", fileEncoding = "") {
+  filename <- make.filename(path = path, file = file)
+  file <- convert.to.lines(filename, fileEncoding = fileEncoding)
   ## remove tabs from header
-  file[1] = gsub(pattern = "\t", replacement = " ", x = file[1], fixed = TRUE)
-  Data = make.data.frame(file);
-  return(Data);
+  file[1] <- gsub(pattern = "\t", replacement = " ", x = file[1], fixed = TRUE)
+  Data <- make.data.frame(file)
+  return(Data)
 }
-

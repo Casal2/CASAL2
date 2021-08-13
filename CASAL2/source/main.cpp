@@ -28,7 +28,7 @@ using namespace niwa;
 /**
  * Application entry point.
  * This code tries to match the FrontEnd binary as much as possible so that we can have
- * the same process for entering Casal2 whether it's standalone or not.
+ * the same process for entering Casal2 whether it's stand alone or not.
  */
 int main(int argc, char* argv[]) {
   int return_code = 0;
@@ -39,7 +39,7 @@ int main(int argc, char* argv[]) {
     LoadOptions(argc, argv, options);
 
     // Step 2 - Pre-parse our configuration file
-    // This isn't strictly necessary in standalone, but it ensures
+    // This isn't strictly necessary in stand alone, but it ensures
     // the configuration state is identical if we do it.
     RunMode::Type temp     = options.run_mode_;
     options.run_mode_      = RunMode::kTesting;
@@ -71,7 +71,7 @@ int main(int argc, char* argv[]) {
   } catch (...) {
     cout << "## ERROR - CASAL2 experienced a problem and has stopped execution" << endl;
     cout << "The exception was caught with the catch-all. The type was unknown" << endl;
-    cout << "Please contact the application developer" << endl;
+    cout << "Please contact the Casal2 Development Team and submit a bug report." << endl;
     return_code = -1;
   }
 

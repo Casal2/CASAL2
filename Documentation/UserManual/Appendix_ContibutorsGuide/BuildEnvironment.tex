@@ -1,0 +1,223 @@
+\section{Setting up \CNAME\ BuildSystem\label{sec:build_environment}}
+
+This section describes how to set up the environment on your local machine that will allow you to build and compile \CNAME. The build environment can be on either Microsoft Windows or Linux systems. At present the \CNAME\ build system supports Microsoft Windows 7+ and Linux (with GCC/G++ 4.9.0+). Apple OSX or other platforms are not currently supported.
+
+\subsection{Overview}
+
+The build system is made up of a collection of python scripts that do various tasks. These are located in \path{CASAL2/BuildSystem/buildtools/classes/}. Each python script has it's own set of functionality and undertakes one set of actions.
+
+The top level of the build system can be found at \path{CASAL2/BuildSystem/}. In this directory you can run \texttt{doBuild.bat help} from a command terminal in Microsoft Windows systems or \texttt{./doBuild.sh help} from a terminal in Linux systems.
+ - this doesn't make sense. (Craig: What doesn't make sense about it? please give more information if we are to enhance it)
+The script will take one or two parameters depending on what style of build you'd like to achieve. These commands allow the building of various stand-alone binaries, shared libraries, and the documentation. Note that you will need additional software installed on your system in order to build \CNAME . These requirements are described later.
+
+A summary of all of the doBuild arguments can be found using the command \texttt{doBuild help} in the BuildSystem directory.
+
+The current arguments to doBuild are:
+
+\begin{itemize}
+  \item \texttt{debug}:  Build standalone debug executable
+  \item \texttt{release}: Build standalone release executable
+  \item \texttt{test}: Build standalone unit tests executable
+  \item \texttt{documentation}: Build the user manual
+  \item \texttt{thirdparty}: Build all required third party libraries
+  \item \texttt{thirdpartylean}: Build minimal third party libraries
+  \item \texttt{clean}: Remove any previous debug/release build information
+  \item \texttt{cleanall}: Remove all previous build information
+  \item \texttt{archive}: Build a zipped archive of the application. The application is built using shared libraries so a single \CNAME executable is created.
+  \item \texttt{check}: Do a check of the build system
+  \item \texttt{modelrunner}: Run the test suite of models
+  \item \texttt{installer}: Build an installer package
+  \item \texttt{deb}: Create Linux .deb installer
+  \item \texttt{library}: Build shared library for use by front end application
+  \item \texttt{frontend}: Build single \CNAME executable with all minimisers and unit tests
+\end{itemize}
+
+Valid Build Parameters: (thirdparty only)
+\begin{itemize}
+  \item \texttt{<libary name>}: Target third party library to build or rebuild
+\end{itemize}
+
+Valid Build parameters: (debug/release only) e.g. \texttt{doBuild.bat release betadiff}
+\begin{itemize}
+  \item \texttt{betadiff}: Use BetaDiff auto-differentiation (from CASAL)
+  \item \texttt{cppad}: Use CppAD auto-differentiation
+  \item \texttt{adolc}: Use ADOLC auto-differentiation in compiled executable
+\end{itemize}
+
+Valid Build parameters: (library only)
+\begin{itemize}
+  \item \texttt{adolc}: Build ADOLC auto-differentiation library
+  \item \texttt{betadiff}: Build BetaDiff auto-differentiation library (from CASAL)
+  \item \texttt{cppad}: Build CppAD auto-differentiation library
+  \item \texttt{test}: Build Unit Tests library
+  \item \texttt{release}: Build release library
+\end{itemize}
+
+The outputs from the build system commands will be placed in sub-folders of \path{CASAL2/BuildSystem/bin/<operating system>/<build_type>}
+
+For example:
+
+\path{CASAL2/BuildSystem/windows/debug}
+
+\path{CASAL2/BuildSystem/windows/library_release}
+
+\path{CASAL2/BuildSystem/windows/thirdparty/}
+
+\path{CASAL2/BuildSystem/linux/library_release}
+
+\subsection{Building on Windows}
+
+\subsubsection{Prerequisite Software}
+
+The building of \CNAME\ requires additional build tools and software, including git version control, GCC compiler, LaTeX compiler, and an Windows package builder. \CNAME\ requires specific implementations and versions in order to build.
+
+\textbf{C++ and Fortran Compiler}
+
+Source: tdm-gcc (MingW64) from \url{http://www.tdm-gcc.tdragon.net/}.
+
+\CNAME\ is designed to compile under GCC on Microsoft Windows and Linux  platforms. While it may be possible to build the package using different compilers, the \CNAME\ Development Team does provide any assistance or recommendations. We recommend using 64-bit TDM-GCC version 5.1.0. Ensure you have the "fortran" and "openmp" options installed as a part of the "gcc" dropdown tickboxes otherwise \CNAME\ will not compile.. \textbf{Note}: A common error that can be made is having a different GCC compiler in your path when attempting to compile. For example, rtools includes a version of the GCC compiler. We recommend removing these from your path prior to compiling.
+
+
+\textbf{GIT Version Control}
+
+Source: Command line GIT from \url{https://www.git-scm.com/downloads}.
+
+\CNAME\ automatically adds a version number based on the GIT version of the latest commit to its repository. The command line version of GIT is used  to generate a version number for the compiled binaries, R libraries, and the manuals.
+
+\textbf{MiKTeX Latex Processor}
+
+Source: Portable version from \url{http://www.miktex.org/portable}.
+
+The main user documentation for \CNAME\ is a PDF manual generated from LaTeX. The LaTeX syntax sections of the documentation are generated, in part, directly from the code. In order to regenerate the user documentation, you will need the MiKTeX LaTeX compiler.
+
+\textbf{7-Zip}
+
+Source: 7-Zip from \url{http://www.7-zip.org/download.html}.
+
+The BuildSystem calls 7zip.exe to unzip files in the build system; it is advised to have this in the path.
+
+\textbf{Inno Setup Installer Builder (optional)}
+
+Source: Inno Setup 5 from \url{http://www.jrsoftware.org/isdl.php}
+
+If you wish to build a Microsoft Windows compatible Installer for \CNAME\ then you will need the Inno Setup 5 application installed on the machine. The installation path must be \path{C:\Program Files (x86)\Inno Setup 5\} in order for the build scripts to fins and use it.
+
+\subsubsection{Pre-Build Requirements}
+
+Prior to building \CNAME\ you will need to ensure you have both G++ and GIT in your path. You can check both of these by typing:
+
+\texttt{g++ --version}
+
+\texttt{git --version}
+
+This also allows you to check that there are no alternative versions of a GCC compiler that may confuse the \CNAME\ build.
+
+It’s worth checking to ensure GFortran has been installed with the G++ compiler by typing:
+
+\texttt{gfortran --version}
+
+If you wish to build the documentation bibtex will also need to be in the path:
+
+\texttt{bibtex -version}
+
+\subsubsection{Building \CNAME}
+
+The build process is relatively straightforward. You can run \texttt{doBuild check} to see if your build environment is ready.
+
+\begin{enumerate}
+  \item Get a copy (clone) of the forked code on your local machine, mentioned in Section~\ref{sec:local_repo}:
+  \item Navigate to the BuildSystem folder in \path{CASAL2/BuildSystem}
+  \item You need to build the third party libraries with:
+  \begin{itemize}
+    \item \texttt{doBuild thirdparty}
+  \end{itemize}
+  \item You need to build the binary you want to use:
+  \begin{itemize}
+    \item \texttt{doBuild release}
+  \end{itemize}
+  \item You can build the documentation if you want:
+  \begin{itemize}
+    \item \texttt{doBuild documentation}
+  \end{itemize}
+\end{enumerate}
+
+\subsection{Building on Linux}
+
+This guide has been written against a fresh install of Ubuntu 15.10. With Ubuntu we use apt-get to install new packages. You’ll need to be familiar with the package manager for your distribution to correctly install the required prerequisite software.
+
+\subsubsection{Prerequisite Software}
+
+\textbf{Compiler G++}
+
+Ubuntu 15.10 comes with G++ 15.10, gfortran is not installed though so we can install it with: \texttt{sudo apt-get install gfortran}.
+
+\textbf{GIT Version Control}
+
+Git isn't installed by default but we can install it with \texttt{sudo apt-get install git}
+
+\CNAME\ automatically adds a version number based on the GIT version of the latest commit to its repository. The command line version of GIT is used  to generate a version number for the compiled binaries, R libraries, and the manuals.
+
+\textbf{CMake}
+
+CMake is required to build multiple third-party libraries and the main code base. You can do this with \texttt{sudo apt-get install cmake}
+
+\textbf{Python2 Modules}
+
+There are a couple of Python2 modules that are required to build \CNAME. These can be installed with \texttt{sudo apt-get install python-dateutil}
+
+You may also need to install \textbf{datetime}, re and \textbf{distutils}. \textbf{Texlive} Latex Processor. No supported latex processors are installed with Ubuntu by default. You can install a suitable latex process with:
+
+\texttt{sudo apt-get install texlive-binaries}
+\texttt{sudo apt-get install texlive-latex-base}
+\texttt{sudo apt-get install texlive-latex-recommended}
+\texttt{sudo apt-get install texlive-latex-extra}
+
+Alternatively you can install the complete package:
+\texttt{sudo apt-get install texlive-full}
+
+\subsubsection{Building \CNAME}
+
+The build process is relatively straightforward. You can run \texttt{./doBuild.sh check} to see if your build environment is ready.
+
+\begin{enumerate}
+	\item Get a copy (clone) of the forked code on your local machine, mentioned in Section~\ref{sec:local_repo}:
+	\item Navigate to the BuildSystem folder in \path{CASAL2/BuildSystem}
+	\item You need to build the third party libraries with:
+	\begin{itemize}
+	    \item \texttt{./doBuild.sh thirdparty}
+	\end{itemize}
+	\item You need to build the binary you want to use:
+	\begin{itemize}
+		\item \texttt{./doBuild.sh release}
+	\end{itemize}
+	\item You can build the documentation if you want:
+	\begin{itemize}
+		\item \texttt{./doBuild.sh documentation}
+	\end{itemize}
+\end{enumerate}
+
+\subsection{Troubleshooting}
+
+\subsubsection{Third-party Libraries}
+
+It's possible that there will be build errors or issues building the third-party libraries. If you encounter an error, then it’s worth checking the log files. Each third-party build system stores a log of everything it’s doing. The files will be named
+
+\begin{itemize}
+	\item casal2\_unzip.log
+	\item casal2\_configure.log
+	\item casal2\_make.log
+	\item casal2\_build.log
+	\item \dots etc,.
+\end{itemize}
+
+Some of the third-party libraries require very specialised environments for compiling under GCC on Windows. These libraries are packaged with MSYS (MinGW Linux style shell system). The log files for these will be found in \path{ThirdParty/<library name>/msys/1.0/<library name>/}
+
+e.g: \path{ThirdParty/adolc/msys/1.0/adolc/ADOL-C-2.5.2/casal2_make.log}\\
+e.g: \path{ThirdParty/boost/boost_1_58_0/casal2_build.log}
+
+\subsubsection{Main Code Base}
+
+If the unmodified code base does not compile, the most likely cause is an issue with the third-party libraries not being built. Ensure they have been built correctly. As they are outside the control of the Development Team, problems can arise that may require the developers of the third party libraries to resolve first. Contact the \CNAME\ development team at \texttt{casal2@niwa.co.nz} for help.
+
+
+

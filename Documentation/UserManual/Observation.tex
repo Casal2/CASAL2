@@ -1,16 +1,18 @@
-\section{The observation section\label{sec:observation-section}}
+\section{The observation section: observations and their likelihoods\label{sec:Observations}}
 
-\subsection{\I{Observations}\label{sec:Observations}\index{Observations}}
+The command and subcommand syntax for the estimation section is given in Section \ref{syntax:Observations}.
+
+\subsection{\I{Observations}\index{Observations}}
 
 The objective function calculates the goodness-of-fit of the model to the observation data. Observations are typically supplied at an instance in time, over a group of aggregated categories. Most observations are sampled over time, i.e., data which were recorded for one or more years, in the same format each year. Examples of time series data types include relative abundance indices, commercial catch length frequencies, and survey numbers-at-age.
 
 Definitions for each type of observation are described below, including how the observed values should be formatted, how \CNAME\ calculates the expected values, and the likelihoods that are available for each type of observation.
 
-There are two main types of observations available in \CNAME. The first type is observations that are associated with a \hyperref[sec:mortality_block]{\textbf{mortality block}}. The second type is observations that are associated with a specific process. These observations use the \subcommand{type} subcommand.
+There are two main types of observations available in \CNAME. The first type is observations that are associated with a process, and the second are associated with a mortality block (See Section \ref{sec:MortalityBlock}. 
 
-If an observation begins with \texttt{process} it is an observation that is associated with a process. If an observation does \textbf{not} begin with \texttt{process} it is associated with the mortality block of the defined time step. For example, the observation type \texttt{process\_abundance} is a process-based observation, whereas \texttt{process\_abundance} \texttt{abundance} is an observation that is associated with a mortality block.
+Observations for a process are indicated by their type --- these use the word process as a part of the type name, e,.g., \defComArg{observation}{type}{abundance} is an observation of relative abundance that occurs during a mortality block within a time step, and \defComArg{observation}{type}{process\_abundance} is a observation  of relative abundance that occurs during a process within a time step. 
 
-There are two types of process observations. \textbf{Specific process observations} are observations that are associated with a specific process (e.g., \texttt{process\_proportions\_migrating}), and \textbf{general process observations} are observations that can be associated with any process (e.g., \texttt{process\_proportions\_at\_age}). The observation types are described in different sections.
+There are two types of process observations. \emph{process observations} are observations that are associated with a specific process (e.g., \texttt{process\_proportions\_migrating}), and \textbf{general process observations} are observations that can be associated with any process (e.g., \texttt{process\_proportions\_at\_age}). The observation types are described in different sections.
 
 \subsubsection{\I{Mortality block associated observations}}
 
@@ -656,7 +658,7 @@ Z \left(\theta,\delta \right) = \begin{cases}
 
 The default value of $\delta$ is $1 \times 10^{-11}$.
 
-\subsubsection*{The Dirichlet likelihood\index{Dirichlet likelihood}}
+\subsubsection*{The Dirichlet likelihood\index{Dirichlet likelihood}}\label{sec:Likelihood-Dirichlet}
 
 For the observed proportions at age $O_i$ for age classes $i$, with sample size $N$, and the expected proportions at the same age classes $E_i$, the negative log-likelihood is:
 

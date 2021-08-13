@@ -4,8 +4,7 @@
 #' @keywords internal
 #'
 "unpaste" <-
-function(string, sep)
-{
-    return(unlist(strsplit(string, split = sep)))
+function(string, sep) {
+  return(unlist(strsplit(string, split = sep)))
 
 }

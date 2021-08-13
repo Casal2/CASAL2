@@ -3,4 +3,4 @@
 #' @author Craig Marsh
 #' @keywords internal
 #'
-pow = function(x,exponent) {return(x^exponent)}
+pow = function(x, exponent) { return(x ^ exponent) }

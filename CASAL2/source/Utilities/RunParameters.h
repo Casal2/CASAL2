@@ -33,12 +33,11 @@ using std::string;
 
 // structs
 struct RunParameters {
-  // top level and debug options
+  // top level options
   RunMode::Type run_mode_    = RunMode::kInvalid;
   string        model_type_  = "";
   string        config_file_ = "config.csl2";
   string        log_level_   = "warning";
-  bool          debug_mode_  = false;
 
   // basic run mode options
   bool single_step_model_ = false;

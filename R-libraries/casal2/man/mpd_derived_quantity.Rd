@@ -11,5 +11,5 @@ Utility function for summary
 }
 \author{
 C Marsh
-This is a utiltiy function that will summarise a derived quantity report for a Casal2MPD class
+This is a utility function that will summarise a derived quantity report for a Casal2MPD class
 }

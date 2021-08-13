@@ -16,6 +16,7 @@
 #include <iostream>
 
 #include "../../../Logging/Logging.h"
+#include "../../../Translations/Translations.h"
 
 // namespaces
 namespace niwa {
@@ -378,8 +379,8 @@ void FMM::fMin(vector<double>& Candidates, double& Score, vector<double>& Gradie
     }
 
     //    if(!(pConfig->getQuietMode())) {
-    //      LOG_MEDIUM() << FMM_CONVERGENCE_CHECK << (double)dCurrentTolerance << "\n";
-    //      LOG_MEDIUM() << FMM_CONVERGENCE_THRESHOLD << (double)dGradTol << "\n";
+    std::cerr << CONVERGENCE_CHECK << (double)dCurrentTolerance << "\n";
+    std::cerr << CONVERGENCE_THRESHOLD << (double)dGradTol << "\n" << std::endl;
     //    }
 
     if (dCurrentTolerance <= dGradTol) {

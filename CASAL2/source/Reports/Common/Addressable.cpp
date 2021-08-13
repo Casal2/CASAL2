@@ -4,7 +4,7 @@
  * @date 20/06/2014
  * @section LICENSE
  *
- * Copyright NIWA Science ©2014 - www.niwa.co.nz
+ * Copyright NIWA Science ï¿½2014 - www.niwa.co.nz
  *
  */
 
@@ -29,9 +29,9 @@ Addressable::Addressable() {
   run_mode_    = (RunMode::Type)(RunMode::kBasic | RunMode::kEstimation | RunMode::kProjection | RunMode::kProfiling);
   model_state_ = State::kExecute;
 
-  parameters_.Bind<string>(PARAM_PARAMETER, &parameter_, "The parameter to print", "");
-  parameters_.Bind<unsigned>(PARAM_YEARS, &years_, "The years to print the addressable for", "");
-  parameters_.Bind<string>(PARAM_TIME_STEP, &time_step_, "The time Step label", "", "");
+  parameters_.Bind<string>(PARAM_PARAMETER, &parameter_, "The addressable parameter name", "");
+  parameters_.Bind<unsigned>(PARAM_YEARS, &years_, "Define the years that the report is generated for", "");
+  parameters_.Bind<string>(PARAM_TIME_STEP, &time_step_, "Defines the time-step that the report applies to", "", "");
 }
 
 /**

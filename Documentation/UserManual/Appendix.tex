@@ -3,7 +3,7 @@
 \section{Investigating two options for YCS prior distribution
 	formulations}\label{investigating-two-options-for-ycs-prior-distribution-formulations}
 
-There are two common ways of parameterising the lognormal prior
+There are two common ways of parameterising the log-normal prior
 distribution of year class strength (YCS) when fitting models.
 
 Let \(YCS_y\) represent the YCS for year \(y\). The two
@@ -21,7 +21,7 @@ determine, in each case the density function of \(YCS_y\) on the
 log-scale.
 
 Note that, in general, if \(Y \sim LN(\mu, \sigma^2_R)\) (i.e., random
-variable \(Y\) has a lognormal distribution with parameters \(\mu\)
+variable \(Y\) has a log-normal distribution with parameters \(\mu\)
 and \(\sigma^2_R\)), then the expectation, \(E(Y)\), and variance,
 \(Var(Y)\), of \(Y\) are given by
 
@@ -29,7 +29,7 @@ and \(\sigma^2_R\)), then the expectation, \(E(Y)\), and variance,
 
 \[Var(Y) = \left[e^{\sigma^2_R}-1\right]e^{2\mu + \sigma^2_R}.\]
 
-The lognormal distribution can be expressed on the log scale:
+The log-normal distribution can be expressed on the log scale:
 
 \[\log\, Y \sim \,\, \text{Normal}(\mu, \sigma^2_R).\]
 
@@ -86,7 +86,7 @@ Therefore
 
 Therefore, the two parameterisations result in exactly the same distribution for \(YCS_y\) values and should give the same results \textbf{if expressed correctly} in MCMC algorithms.
 
-To illustrate that these two distributions are exactly the same, we first use simulations to show that we get the same \(YCS_y\) values when generating sequences from these two formulations. One is generated directly from the lognormal distribution, while the other is obtained by transforming a normal random variable.
+To illustrate that these two distributions are exactly the same, we first use simulations to show that we get the same \(YCS_y\) values when generating sequences from these two formulations. One is generated directly from the log-normal distribution, while the other is obtained by transforming a normal random variable.
 
 \section*{Investigating prior
 	specification}\label{investigating-prior-specification}
@@ -95,7 +95,7 @@ Given the two different representations, the question is, how should their prior
 
 \subsection*{Prior based on Option 1}\label{prior-based-on-option-1}
 
-For Option 1, this is straight-forward. The \(YCS\)s are generated from a lognormal distribution, so the contribution to the log posterior is based on the lognormal density function. That is, if we let \(Y=YCS_y\), then the density function of \(Y\) is given by
+For Option 1, this is straight-forward. The \(YCS\)s are generated from a log-normal distribution, so the contribution to the log posterior is based on the log-normal density function. That is, if we let \(Y=YCS_y\), then the density function of \(Y\) is given by
 
 \[f(y)= \frac{1}{y\sigma_R\sqrt{2\pi}}e^{-\frac{1}{2\sigma_R^2}(\log y -\mu)^2}.\]
 
@@ -166,7 +166,7 @@ g(y) &= \frac{1}{\sigma_R\sqrt{2\pi}}e^{-\frac{1}{2\sigma_R^2}\left[\log y + \fr
 \label{gy}
 \end{align}
 
-This is the density function of a lognormal distribution with parameters
+This is the density function of a log-normal distribution with parameters
 \(\mu= -\frac{1}{2}\sigma^2_R\) and \(\sigma^2_R\),
 
 that is,

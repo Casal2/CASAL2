@@ -20,8 +20,8 @@ The function either plots the CPUE, together with a lowess line fitted to it, an
 }
 \description{
 This function is useful for deciding on a c.v. to be used with a CPUE series in a stock assessment model.
-Originally written in Chris Francis's DataWeighting Package, this has been copied over and modified so that users can use this 
-functionality with Casal2 models/output.
+Originally written in Chris Francis's DataWeighting Package, this has been copied over and modified so that users can 
+use this functionality with Casal2 models/output.
 }
 \note{
 The idea is to fit a lowess line of "appropriate" smoothness to the CPUE data, and use the c.v. of the residuals from that fit in the stock assessment model. 

@@ -1,10 +1,10 @@
-Package: casal2
-Title: casal2 extract package
-Version: 1.0
-Date: 2020-06-30
-Author: D. Fu and C. Marsh
-Description: A set of R functions for extracting and plotting from Casal2 output files.
-Maintainer: Casal2 development team <casal2@niwa.co.nz>
+Package: Casal2
+Title: Casal2 extract package
+Version: 1.2
+Date: 2021-08-08
+Author: Casal2 Development Team
+Description: A set of R functions for extracting and plotting from Casal2 configuration input files, reports, and other associated files.
+Maintainer: Casal2 Development Team <casal2@niwa.co.nz>
 License: GPL-2
 URL: https://www.niwa.co.nz
 Copyright: National Institute of Water & Atmospheric Research, Ltd. (NIWA), New Zealand Ministry for Primary Industries

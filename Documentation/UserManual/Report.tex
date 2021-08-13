@@ -1,4 +1,6 @@
-\section{\I{The report section}\label{sec:report-section}}\index{Reports}\index{Reports section}
+\section{\I{The report section: output and reports}\label{sec:Report}}\index{Reports}\index{Reports section}
+
+The command and subcommand syntax for the estimation section is given in Section \ref{syntax:Report}.
 
 The report section specifies the printouts and other output from the model. \CNAME\ does not, in general, produce any output unless specified by a valid \command{report} block.
 
@@ -8,14 +10,14 @@ Reports from \CNAME\ can be defined to print partition and states objects at a p
 
 \begin{verbatim}
 		@report observation_age ## label of report
-		type observation		## Type of report
-		observation age_1990	## label corresponding to an @observation report, shown below
+		type observation		    ## Type of report
+		observation age_1990	 ## label corresponding to an @observation report, shown below
 
 		@observation age_1990
 		type proportion_at_age
 		year 1990
 		plus_group
-		etc ...
+		etc., ...
 \end{verbatim}
 
 \subsection{Report block output format}

@@ -57,6 +57,8 @@ void Logging::SetLogLevel(const std::string& log_level) {
     Logging::current_log_level_ = logger::Severity::kFinest;
   else if (log_level == PARAM_FINE)
     Logging::current_log_level_ = logger::Severity::kFine;
+  else if (log_level == PARAM_INFO)
+    Logging::current_log_level_ = logger::Severity::kInfo;
   else if (log_level == PARAM_MEDIUM)
     Logging::current_log_level_ = logger::Severity::kMedium;
   else if (log_level != PARAM_NONE) {
@@ -92,14 +94,16 @@ void             Logging::Flush(niwa::logger::Record& record) {
 
   record.BuildMessage();
 
-  if (record.severity() == logger::Severity::kWarning)
+  if (record.severity() == logger::Severity::kInfo)
+    info_.push_back(record.stream().str());
+  else if (record.severity() == logger::Severity::kWarning)
     warnings_.push_back(record.stream().str());
   else if (record.severity() == logger::Severity::kError)
     errors_.push_back(record.stream().str());
   else if (record.severity() == logger::Severity::kFatal || record.severity() == logger::Severity::kCodeError) {
     cerr << record.message();
     if (errors_.size() > 0)
-      cerr << "NOTE: " << errors_.size() << " other errors have been logged above\n";
+      cerr << "NOTE: " << errors_.size() << " non-fatal errors were also recorded\n";
 
     cerr.flush();
     exit(-1);
@@ -124,10 +128,7 @@ void Logging::FlushErrors() {
   unsigned to_print = errors_.size() > 10 ? 10 : errors_.size();
 
   cout << "\n";
-  cout << "********************************************************************************\n";
-  cout << "********                     SUMMARY OF ERRORS                          ********\n";
-  cout << "********************************************************************************\n";
-  cout << "Printing " << to_print << " of " << errors_.size() << " errors\n";
+  cout << "ERROR: Printing " << to_print << " of " << errors_.size() << " errors\n";
   cout << "\n";
 
   for (unsigned i = 0; i < to_print; ++i) {
@@ -155,7 +156,7 @@ void Logging::FlushWarnings() {
   cout << "warnings_found: " << warnings_.size() << "\n";
 
   for (unsigned i = 0; i < warnings_.size(); ++i) {
-    cout << "warning_" << i << " " << REPORT_R_STRING_VECTOR << "\n";
+    cout << "warning_" << i + 1 << " " << REPORT_R_STRING_VECTOR << "\n";
     cout << warnings_[i] << "\n";
   }
 
@@ -163,6 +164,29 @@ void Logging::FlushWarnings() {
   cout.flush();
 
   warnings_.clear();
+}
+
+/**
+ * A info report that is compatable with the Casal2 R package
+ */
+void Logging::FlushInfo() {
+  std::scoped_lock l(lock_);
+  if (info_.size() == 0) {
+    return;
+  }
+
+  cout << "*messages[messages_encounted]\n";
+  cout << "messages_found: " << info_.size() << "\n";
+
+  for (unsigned i = 0; i < info_.size(); ++i) {
+    cout << "info_" << i + 1 << " " << REPORT_R_STRING_VECTOR << "\n";
+    cout << info_[i] << "\n";
+  }
+
+  cout << "*end\n\n";
+  cout.flush();
+
+  info_.clear();
 }
 
 } /* namespace niwa */

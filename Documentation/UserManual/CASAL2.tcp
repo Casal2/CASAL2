@@ -6,7 +6,7 @@ Version=4
 MainFile=CASAL2.tex
 UseBibTeX=1
 UseMakeIndex=1
-ActiveProfile=LuaLaTeX ⇨ PDF
+ActiveProfile=LaTeX ⇨ PDF
 ProjectLanguage=en
 ProjectDialect=GB
 

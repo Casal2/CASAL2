@@ -5,7 +5,7 @@
  * @date 14/04/2015
  * @section LICENSE
  *
- * Copyright NIWA Science ©2015 - www.niwa.co.nz
+ * Copyright NIWA Science ï¿½2015 - www.niwa.co.nz
  *
  */
 
@@ -55,6 +55,7 @@ void Record::BuildMessage() {
       o << "Message:\n";
       o << stream_.str() << "\n";
       break;
+
     case Severity::kTrace:
       o << "[TRACE] " << file_name_ << "(line: " << line_number_ << ") - Method: " << function_ << "\n";
       break;
@@ -67,51 +68,51 @@ void Record::BuildMessage() {
     case Severity::kMedium:
       o << "[MEDIUM] " << file_name_ << "(line: " << line_number_ << "): " << stream_.str() << "\n";
       break;
+    case Severity::kInfo:
+#ifdef DEBUG
+      o << "[MESSAGE] " << file_name_ << "(line: " << line_number_ << "): " << stream_.str() << "\n";
+      o << " Source File: " << file_name_ << "(line: " << line_number_ << ")\n";
+      o << " Source Method: " << function_ << "\n";
+#endif
+      o << "\nCasal2 has found information messages:\n\n";
+      o << stream_.str() << endl;
+      break;
     case Severity::kWarning:
+#ifdef DEBUG
       o << "[WARNING] " << file_name_ << "(line: " << line_number_ << "): " << stream_.str() << "\n";
+      o << " Source File: " << file_name_ << "(line: " << line_number_ << ")\n";
+      o << " Source Method: " << function_ << "\n";
+#endif
+      o << "\nCasal2 has found warnings:\n\n";
+      o << stream_.str() << endl;
       break;
     case Severity::kError:
+#ifdef DEBUG
       o << "[ERROR] " << file_name_ << "(line: " << line_number_ << "): " << stream_.str() << "\n";
-      //    o << "********************************************************************************\n";
-      //    o << "********                         ERROR                                  ********\n";
-      //    o << "********************************************************************************\n";
-      //    o << "Source File: " << file_name_ << "(line: " << line_number_ << ")\n";
-      //    o << "Source Method: " << function_ << "\n";
-      //    o << "\n";
-      //    o << "Message:\n";
-      //    o << stream_.str() << "\n\n";
+      o << " Source File: " << file_name_ << "(line: " << line_number_ << ")\n";
+      o << " Source Method: " << function_ << "\n";
+#endif
+      o << "\nCasal2 has found errors:\n\n";
+      o << stream_.str() << endl;
       break;
     case Severity::kFatal:
-#ifdef TESTMODE
+#ifdef DEBUG
       o << "[FATAL] " << file_name_ << "(line: " << line_number_ << "): " << stream_.str() << "\n";
-#else
-      o << "\n";
-      o << "********************************************************************************\n";
-      o << "********                  USER CONFIGURATION ERROR                      ********\n";
-      o << "********              THE ERROR SHOULD BE DESCRIBED BELOW               ********\n";
-      o << "********************************************************************************\n";
-      o << "Source File: " << file_name_ << "(line: " << line_number_ << ")\n";
-      o << "Source Method: " << function_ << "\n";
-      o << "Message:\n";
-      o << stream_.str() << "\n\n";
+      o << " Source File: " << file_name_ << "(line: " << line_number_ << ")\n";
+      o << " Source Method: " << function_ << "\n";
 #endif
+      o << "\nCasal2 has found fatal errors:\n\n";
+      o << stream_.str() << endl;
       break;
     case Severity::kCodeError:
-#ifdef TESTMODE
+#ifdef DEBUG
       o << "[CODE_ERROR] " << file_name_ << "(line: " << line_number_ << "): " << stream_.str() << "\n";
-#else
-      o << "\n";
-      o << "********************************************************************************\n";
-      o << "********                CODE ERROR - CASAL2 is FORCE QUITTING           ********\n";
-      o << "********************************************************************************\n";
-      o << "Source File: " << file_name_ << "(line: " << line_number_ << ")\n";
-      o << "Source Method: " << function_ << "\n";
-      o << "\n";
-      o << "Message:\n";
-      o << stream_.str() << "\n";
-      o << "NOTE: This error is a bug in the software and can be corrected by a developer\n";
-      o << "Please contact the application developers at casal2@niwa.co.nz to have this issue fixed\n\n";
+      o << " Source File: " << file_name_ << "(line: " << line_number_ << ")\n";
+      o << " Source Method: " << function_ << "\n";
 #endif
+      o << "[CODE_ERROR] A critical error has occurred in the Casal2 source code.\n";
+      o << " Please contact the Casal2 Development Team and report this error\n\n";
+      o << stream_.str() << endl;
       break;
   }
 

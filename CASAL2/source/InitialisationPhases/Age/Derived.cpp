@@ -5,7 +5,7 @@
  * @date 20/10/2015
  * @section LICENSE
  *
- * Copyright NIWA Science ©2015 - www.niwa.co.nz
+ * Copyright NIWA Science ï¿½2015 - www.niwa.co.nz
  *
  */
 
@@ -35,11 +35,11 @@ namespace age {
  */
 Derived::Derived(shared_ptr<Model> model) : InitialisationPhase(model), cached_partition_(model), partition_(model) {
   parameters_.Bind<string>(PARAM_INSERT_PROCESSES, &insert_processes_,
-                           "Additional processes not defined in the annual cycle that are to be inserted into this initialisation phase", "", true);
-  parameters_.Bind<string>(PARAM_EXCLUDE_PROCESSES, &exclude_processes_, "Processes in the annual cycle to be excluded from this initialisation phase", "", true);
+                           "Specifies the additional processes that are not in the annual cycle to be inserted into this initialisation phase", "", true);
+  parameters_.Bind<string>(PARAM_EXCLUDE_PROCESSES, &exclude_processes_, "Specifies the Processes in the annual cycle to be excluded from this initialisation phase", "", true);
   parameters_.Bind<bool>(
       PARAM_CASAL_INITIALISATION, &casal_initialisation_phase_,
-      "Run an extra annual cycle to evalaute equilibrium SSBs. Warning - if true, this may not correctly evaluate the equilibrium state. Set to true if replicating a CASAL model",
+      "Run an extra annual cycle to evaluate equilibrium SSBs. Warning - if true, this may not correctly evaluate the equilibrium state. Set to true if replicating a CASAL model",
       "", false);
 }
 
@@ -232,24 +232,24 @@ void Derived::Execute() {
   LOG_FINEST() << "Number of Beverton-Holt recruitment processes with deviations in annual cycle = " << recruitment_process_with_devs_.size();
   // We are at Equilibrium state here
   // Check if we have B0 initialised or R0 initialised recruitment
-  bool B0_intial_recruitment = false;
+  bool B0_initial_recruitment = false;
   for (auto recruitment_process : recruitment_process_) {
     if (recruitment_process->b0_initialised()) {
       LOG_FINEST() << PARAM_B0 << " has been defined for process labelled " << recruitment_process->label();
       recruitment_process->ScalePartition();
-      B0_intial_recruitment = true;
+      B0_initial_recruitment = true;
     }
   }
   for (auto recruitment_process_with_devs : recruitment_process_with_devs_) {
     if (recruitment_process_with_devs->b0_initialised()) {
       LOG_FINEST() << PARAM_B0 << " has been defined for process labelled " << recruitment_process_with_devs->label();
       recruitment_process_with_devs->ScalePartition();
-      B0_intial_recruitment = true;
+      B0_initial_recruitment = true;
     }
   }
-  if (B0_intial_recruitment) {
+  if (B0_initial_recruitment) {
     LOG_FINE() << "B0 initialised";
-    // Calculate derived quanitities in the right space if we have a B0 initialised model
+    // Calculate derived quantities in the right space if we have a B0 initialised model
     time_step_manager->ExecuteInitialisation(label_, 1);
   }
   // Add a switch for to replicate CASAL output if this method does not reach an equilibrium State

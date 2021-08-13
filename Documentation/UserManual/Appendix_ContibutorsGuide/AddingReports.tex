@@ -1,0 +1,11 @@
+\section{Adding Reports\label{sec:reports}}
+This section gives some points when adding report classes to \CNAME. There are two variables that you must define when describing a report class, these are \subcommand{model\_state\_} and \subcommand{run\_mode\_}. I will try and explain what values you should give your report, but another avenue is to look at example report classes. The \subcommand{model\_state\_} parameters tells the model when to print the report \subcommand{State::kExecute} will call the \texttt{DoExecute} after each year and \subcommand{State::kIterationComplete} will print the report once the model has run. So obviously if the report prints annual information or doesn't cache information you will want to use \subcommand{State::kExecute} e.g. \subcommand{Partition} else use \subcommand{State::kIterationComplete}. \textbf{Important note} if you add a new report that has \subcommand{model\_state\_} \subcommand{State::kExecute} you will need to tweak the R-library function \subcommand{extract.mpd()}. At line 50 of the of \texttt{extract.mpd.R} there is the following line of code.   
+
+\begin{lstlisting}[language=R]
+multi_year_reports = c("partition", "PartitionBiomass", "PartitionMeanWeight")
+\end{lstlisting}
+
+you will need to add the report label type to this vector so that R will process the report correctly.
+
+
+The other command \subcommand{run\_mode\_} just tells \CNAME\ what run-mode should the report be generated in.

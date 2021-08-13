@@ -4,7 +4,7 @@
  * @date 20/09/2019
  * @section LICENSE
  *
- * Copyright NIWA Science ©2019 - www.niwa.co.nz
+ * Copyright NIWA Science ï¿½2019 - www.niwa.co.nz
  */
 
 // headers
@@ -28,10 +28,8 @@ Age::Age() {
                            R"(A list of valid labels defined by \texttt{@initialisation_phase})", true);
   parameters_.Bind<string>(PARAM_TIME_STEPS, &time_steps_, "Define the labels of the time steps, in the order that they are applied, to form the annual cycle",
                            R"(A list of valid labels defined by \texttt{@time_step})");
-  parameters_.Bind<unsigned>(
-      PARAM_PROJECTION_FINAL_YEAR, &projection_final_year_, "Define the final year of the model in projection mode",
-      R"(Defines the last year of the projection period, i.e., the projection period runs from \texttt{final_year}$+1$ to \texttt{projection_final_year}. For the default, $0$, no projections are run.)",
-      0);
+  parameters_.Bind<unsigned>(PARAM_PROJECTION_FINAL_YEAR, &projection_final_year_, "Define the final year of the model when running projections", "A value greater than final_year",
+                             0);
   parameters_.Bind<Double>(PARAM_LENGTH_BINS, &length_bins_, "The minimum length in each length bin", R"($0 \le$ length\textlow{min} $\le$ length\textlow{max})", true);
   parameters_.Bind<bool>(PARAM_LENGTH_PLUS, &length_plus_, "Specify whether there is a length plus group or not", "true, false", true);
   parameters_.Bind<Double>(PARAM_LENGTH_PLUS_GROUP, &length_plus_group_, "Mean length of length plus group", R"(length\textlow{max} $<$ length_plus_group)", 0);
@@ -50,12 +48,10 @@ void Age::DoValidate() {
     LOG_ERROR_P(PARAM_MIN_AGE) << " (" << min_age_ << ") has been defined as greater than max_age (" << max_age_ << ")";
 
   if (run_mode_ == RunMode::kProjection) {
-    if (projection_final_year_ <= start_year_ || projection_final_year_ <= final_year_) {
-      LOG_ERROR_P(PARAM_PROJECTION_FINAL_YEAR) << "(" << projection_final_year_ << ") cannot be less than or equal to start_year (" << start_year_ << ") or final_year ("
-                                               << final_year_ << ")";
+    if (projection_final_year_ <= final_year_) {
+      LOG_ERROR_P(PARAM_PROJECTION_FINAL_YEAR) << "(" << projection_final_year_ << ") cannot be less than or equal to final_year (" << final_year_ << ")";
     }
   }
 }
-
 } /* namespace model */
 } /* namespace niwa */

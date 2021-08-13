@@ -5,7 +5,7 @@
  * @date 14/04/2015
  * @section LICENSE
  *
- * Copyright NIWA Science ©2015 - www.niwa.co.nz
+ * Copyright NIWA Science ï¿½2015 - www.niwa.co.nz
  *
  * @section DESCRIPTION
  *
@@ -28,7 +28,7 @@ namespace logger {
 using std::string;
 
 // enums
-enum class Severity { kInvalid, kTrace, kFinest, kFine, kMedium, kWarning, kError, kFatal, kCodeError };
+enum class Severity { kInvalid, kTrace, kFinest, kFine, kMedium, kInfo, kWarning, kError, kFatal, kCodeError };
 
 /**
  * Class definition

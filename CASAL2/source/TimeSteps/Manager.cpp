@@ -5,7 +5,7 @@
  * @date 13/02/2013
  * @section LICENSE
  *
- * Copyright NIWA Science ©2013 - www.niwa.co.nz
+ * Copyright NIWA Science ï¿½2013 - www.niwa.co.nz
  *
  * $Date: 2008-03-04 16:33:32 +1300 (Tue, 04 Mar 2008) $
  */
@@ -156,7 +156,7 @@ unsigned Manager::GetProcessIndex(const string& process_label) const {
     }
   }
 
-  LOG_ERROR() << "Process with the label " << process_label << " was not found in the annual cycle";
+  LOG_ERROR() << "The process with the label " << process_label << " was not found in the annual cycle";
   return 0;
 }
 

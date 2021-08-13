@@ -9,28 +9,19 @@
 #' @return a 'casal2TAB' object which has been manipulated.
 #' @export
 #'
-#' @examples
-#' library(casal2)
-#' # plotting Standard Output
-#' tab <- extract.tabular(file = system.file("extdata", "tabular.out", package="casal2"))
-#' burn_in_tab = burn.in.tabular(tab_object = tab, Row = 5);
-#'
-"burn.in.tabular" <-
-function (tab_object, Row) {
+"burn.in.tabular" <- function(tab_object, Row) {
   if (class(tab_object) != "casal2TAB") {
-    stop(Paste("The tab_object must be class 'casal2TAB', but the parsed object is class '", class(tab_object), "'"))
+    stop(paste0("The tab_object must be class 'casal2TAB', but the parsed object is class '", class(tab_object), "'"))
   }
-
   for (i in 1:length(names(tab_object))) {
-    this_list = get(names(tab_object)[i], tab_object)
+    this_list <- get(names(tab_object)[i], tab_object)
     if (Row >= nrow(this_list$values)) {
-      stop(Paste("Row = ", Row, ", which is larger than the number of rows in the casl2TAB object('", nrow(this_list$values), "). The Row value is the ith sample after Casal2 has thinned the sample"))
+      stop(paste0("Row = ", Row, ", which is larger than the number of rows in the casl2TAB object('", nrow(this_list$values), "). The Row value is the ith sample after Casal2 has thinned the sample"))
     }
-    this_list$values = this_list$values[Row:nrow(this_list$values),]
-    print(Paste("rows remaining after burn-in = " ,nrow(this_list$values)))
+    this_list$values <- this_list$values[Row:nrow(this_list$values),]
+    print(paste0("rows remaining after burn-in = ", nrow(this_list$values)))
     ## try and store it back in to the original object.
-    tab_object[[i]]$values = this_list$values
+    tab_object[[i]]$values <- this_list$values
   }
-  return(tab_object);
+  return(tab_object)
 }
-

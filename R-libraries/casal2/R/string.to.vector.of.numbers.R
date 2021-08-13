@@ -4,8 +4,7 @@
 #' @keywords internal
 #'
 "string.to.vector.of.numbers" <-
-function(string)
-{
+function(string) {
   as.numeric(string.to.vector.of.words(string))
 }
 

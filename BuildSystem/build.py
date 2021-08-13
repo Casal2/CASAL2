@@ -17,6 +17,9 @@ from Archiver import *
 from ModelRunner import *
 from DebBuilder import *
 from CommandLineInterface import *
+from rlibrary import *
+from Installer import *
+from Version import *
 
 """
 Get the build information from the user
@@ -32,7 +35,15 @@ def start():
 	print(f"--> Starting {Globals.build_target_} Build")
 	build_target = Globals.build_target_
 	build_parameters = Globals.build_parameters_
-	if build_target in Globals.allowed_build_types_:
+
+	# Build Version
+	version = Version()
+	version.create_version_header()
+
+	if build_target == "version":
+		version = Version()
+		version.create_version_header(display_output=True)
+	elif build_target in Globals.allowed_build_types_:
 		code_builder = MainCode()
 		return code_builder.start()
 	elif build_target == "library":
@@ -57,6 +68,9 @@ def start():
 	elif build_target == "modelrunner":
 		model_runner = ModelRunner()
 		return model_runner.start()
+	elif build_target == "unittests":
+		unit_tests = UnitTests()
+		return unit_tests.start()	
 	elif build_target == "clean":
 		cleaner = Cleaner()
 		return cleaner.clean()	
@@ -67,17 +81,6 @@ def start():
 		cleaner = Cleaner()
 		return cleaner.clean_all()
 	elif build_target == "rlibrary":
-		"""
-			r_path = '' 
-			if Globals.operating_system_ == 'windows':
-			print( "find windows R")
-			r_path = system_info.find_exe_path('R.exe') 
-			else:
-			r_path = system_info.find_exe_path('R')  
-			print( "R path = " + r_path  )
-			if r_path == '':
-			return Globals.PrintError("R is not in the current path please add R to your path.")  
-		"""
 		rlibrary = Rlibrary()
 		return rlibrary.start()
 	elif build_target == "installer":
@@ -85,22 +88,16 @@ def start():
 			return Globals.PrintError('Building Windows installer under linux is not supported')		
 		installer = Installer()
 		return installer.start()
-
 	elif build_target == "deb":
 		if Globals.operating_system_ == 'windows':
 			return Globals.PrintError('Building linux .deb under Windows is not supported')
 		deb_builder = DebBuilder()
 		return deb_builder.start(build_parameters)
-	
-	elif build_target == "version":
-		version = Version()
-		version.create_version_header(display_output=True)
-
 	return False # Default return from this, we didn't find a run mode
   
-"""
-This is the entry point in to our build system
-"""
+###
+# This is the entry point in to our build system
+###
 system_info = SystemInfo()
 if not system_info.set_required_tools_paths():
   system_info.reset_original_path()

@@ -4,17 +4,18 @@
  * @date 21/08/2015
  * @section LICENSE
  *
- * Copyright NIWA Science ©2014 - www.niwa.co.nz
+ * Copyright NIWA Science ï¿½2014 - www.niwa.co.nz
  *
  */
 #ifdef TESTMODE
 
 // Headers
+#include "ProcessRemovalsByLength.h"
+
 #include <iostream>
 
 #include "ObjectiveFunction/ObjectiveFunction.h"
 #include "Observations/Manager.h"
-#include "ProcessRemovalsByLength.h"
 #include "TestResources/TestFixtures/InternalEmptyModel.h"
 
 // Namespaces
@@ -49,7 +50,7 @@ type iterative
 years 100
 
 @time_step init
-processes [type=nop]
+processes [type=null_process]
 
 @time_step step1
 processes Recruitment instant_mort

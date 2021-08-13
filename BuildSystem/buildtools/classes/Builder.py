@@ -37,10 +37,6 @@ class MainCode:
         if not os.path.exists(third_party_dir):
             return Globals.PrintError("Third party libraries have not been built. Please build these first with thirdparty argument")
 
-        # Build Version.h
-        version = Version()
-        version.create_version_header()
-
         self.output_directory_ = f"bin/{Globals.operating_system_}_{Globals.compiler_}/{Globals.build_target_}"
         if Globals.build_parameters_ != "":
             self.output_directory_ += f"_{Globals.build_parameters_}"
@@ -256,7 +252,7 @@ This class is responsible for cleaning the build folders
 """
 class Cleaner:
     def clean(self):
-        print('--> Starting clean of CASAL2 build files only (not cleaning third party)')
+        print('--> Starting clean of Casal2 build files only (not third party)')
         for build_type in Globals.allowed_build_types_:
             for param in Globals.allowed_build_parameters_:
                 build_directory = os.path.normpath(os.getcwd()) + f"/bin/{Globals.operating_system_}_{Globals.compiler_}/{build_type}"
@@ -266,6 +262,8 @@ class Cleaner:
                 if (os.path.exists(build_directory)):
                     print('--> Deleting folder: ' + build_directory)
                     shutil.rmtree(build_directory)
+                else:
+                    print('--> Folder doesn\'t exist: ' + build_directory)
         return True
 
     def clean_cache(self):
@@ -273,9 +271,12 @@ class Cleaner:
         print("--> ##### NOT YET IMPLEMENTED #####")
 
     def clean_all(self):
-        print('--> Starting clean of all CASAL2 build files (including third party)')
-        build_directory = os.path.normpath(
-            os.getcwd()) + "../BuildSystem/bin/" + Globals.operating_system_
+        print('--> Starting clean of all Casal2 build files (including third party)')
+        build_directory = os.path.normpath(os.getcwd()) + f"/bin/{Globals.operating_system_}_{Globals.compiler_}"
+        print(f"-- Build Directories: {build_directory}") 
+        if (os.path.exists(build_directory)):
+            shutil.rmtree(build_directory)
+        build_directory = os.path.normpath(os.getcwd()) + f"../BuildSystem/bin/{Globals.operating_system_}"
         print(f"-- Build Directories: {build_directory}") 
         if (os.path.exists(build_directory)):
             shutil.rmtree(build_directory)

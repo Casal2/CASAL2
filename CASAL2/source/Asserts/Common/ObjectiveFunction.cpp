@@ -33,6 +33,8 @@ namespace asserts {
  */
 ObjectiveFunction::ObjectiveFunction(shared_ptr<Model> model) : Assert(model) {
   parameters_.Bind<Double>(PARAM_VALUE, &value_, "Expected value of the objective function", "");
+  parameters_.Bind<string>(PARAM_ERROR_TYPE, &error_type_, "Report assert failures as either an error or warning", "", PARAM_ERROR)
+      ->set_allowed_values({PARAM_ERROR, PARAM_WARNING});
 }
 
 /**
@@ -51,9 +53,14 @@ void ObjectiveFunction::Execute() {
   if (fabs(AS_DOUBLE(value_) - AS_DOUBLE(obj.score())) > (tol_ * fabs(AS_DOUBLE(obj.score())) + tol_)) {
     std::streamsize prec = std::cout.precision();
     std::cout.precision(9);
-
-    LOG_ERROR() << "Assert Failure: Objective Function had actual value " << obj.score() << " when " << value_
-                << " values were expected with difference: " << fabs(AS_DOUBLE(value_) - AS_DOUBLE(obj.score()));
+    LOG_INFO() << "An information message";
+    if (error_type_ == PARAM_ERROR) {
+      LOG_ERROR() << "Assert Failure: The Objective Function had value " << obj.score() << ", when " << value_ << " was expected. The difference was "
+                  << fabs(AS_DOUBLE(value_) - AS_DOUBLE(obj.score()));
+    } else {
+      LOG_WARNING() << "Assert Failure: The Objective Function had value " << obj.score() << ", when " << value_ << " was expected. The difference was "
+                    << fabs(AS_DOUBLE(value_) - AS_DOUBLE(obj.score()));
+    }
 
     std::cout.precision(prec);
   }

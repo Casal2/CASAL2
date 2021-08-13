@@ -1,9 +1,8 @@
 Casal2
-Call: D:\Workspaces\NIWAFisheriesModelling\CASAL2\BuildSystem/bin/windows_gcc/release_betadiff/casal2.exe -e -g 20 
-Date: Fri Mar 26 11:10:41 2021
-Version: 2020-11-16 03:31:27 UTC (rev. 134403ca)
-Copyright (c) 2020 - 2020, NIWA (www.niwa.co.nz)
-Environment: machine:ANUBIS, user:Zaita, os:Windows_NT, pid:30556
+Call: C:\Projects\Software\CASAL2\BuildSystem/bin/windows_gcc/release_betadiff/casal2.exe -e -g 20 
+Version: v1.2 (2021-08-08)
+Copyright (c) 2017-2021, NIWA (www.niwa.co.nz)
+Environment: machine:HP1040, user:alist, os:Windows_NT, pid:8732
 
 about to evaluate function with x = 52583 0.0575073 9.51995 5.53388 10.8664 10.8129 3.50265 6.86988 6.44798 3.00327 7.88331 1.02472 1.04658 1.06324 1.07299 1.07458 1.06541 1.04328 1.01815 1.00285 0.426938 0.476756 0.520428 0.382199 0.527158 0.445187 0.67427 1.00397 0.761247 0.653433 0.592745 0.488619 0.321246 0.303421 0.221372 0.33299 0.219917 0.328752 0.925172 0.525766 0.434871 0.18722 0.307342 0.259689 0.230941 0.260211 3 3 
 finished objective call: f = 682.978
@@ -217,8 +216,8 @@ done fmin call
 ireturn = -1
 finished main minimiser loop
 Successful convergence in optimise
-[WARNING] D:\Workspaces\NIWAFisheriesModelling\CASAL2\CASAL2\source\Reports\Common\EstimateValue.cpp(line: 50): estimated parameter 'process[Recruitment].ycs_values{2010}' was within 0.001 of upper bound 3
-[WARNING] D:\Workspaces\NIWAFisheriesModelling\CASAL2\CASAL2\source\Reports\Common\EstimateValue.cpp(line: 50): estimated parameter 'process[Recruitment].ycs_values{2011}' was within 0.001 of upper bound 3
+[WARNING] C:/Projects/Software/CASAL2/CASAL2/source/Reports/Common/EstimateValue.cpp(line: 42): estimated parameter 'process[Recruitment].ycs_values{2010}' was within 0.001 of upper bound 3
+[WARNING] C:/Projects/Software/CASAL2/CASAL2/source/Reports/Common/EstimateValue.cpp(line: 42): estimated parameter 'process[Recruitment].ycs_values{2011}' was within 0.001 of upper bound 3
 *objective_function[obj]
 values {v}
 observation->chatTANbiomass-1992 -1.03889
@@ -340,24 +339,31 @@ prior->YCS->process[Recruitment].ycs_values{2011} 2.50805
 additional_prior->YCS_average_1 6.6189
 additional_prior->smooth_YCS 0.271436
 total_negloglike 682.978
+total_score 682.978
 *end
 
 *estimate_value[estimate_value]
 values {d}
 process[Recruitment].b0 catchability[chatTANq].q selectivity[chatTANSel].mu selectivity[chatTANSel].sigma_l selectivity[chatTANSel].sigma_r selectivity[eastFSel].mu selectivity[eastFSel].sigma_l selectivity[eastFSel].sigma_r selectivity[westFSel].mu selectivity[westFSel].sigma_l selectivity[westFSel].sigma_r process[Recruitment].ycs_values{1975} process[Recruitment].ycs_values{1976} process[Recruitment].ycs_values{1977} process[Recruitment].ycs_values{1978} process[Recruitment].ycs_values{1979} process[Recruitment].ycs_values{1980} process[Recruitment].ycs_values{1981} process[Recruitment].ycs_values{1982} process[Recruitment].ycs_values{1983} process[Recruitment].ycs_values{1984} process[Recruitment].ycs_values{1985} process[Recruitment].ycs_values{1986} process[Recruitment].ycs_values{1987} process[Recruitment].ycs_values{1988} process[Recruitment].ycs_values{1989} process[Recruitment].ycs_values{1990} process[Recruitment].ycs_values{1991} process[Recruitment].ycs_values{1992} process[Recruitment].ycs_values{1993} process[Recruitment].ycs_values{1994} process[Recruitment].ycs_values{1995} process[Recruitment].ycs_values{1996} process[Recruitment].ycs_values{1997} process[Recruitment].ycs_values{1998} process[Recruitment].ycs_values{1999} process[Recruitment].ycs_values{2000} process[Recruitment].ycs_values{2001} process[Recruitment].ycs_values{2002} process[Recruitment].ycs_values{2003} process[Recruitment].ycs_values{2004} process[Recruitment].ycs_values{2005} process[Recruitment].ycs_values{2006} process[Recruitment].ycs_values{2007} process[Recruitment].ycs_values{2008} process[Recruitment].ycs_values{2009} process[Recruitment].ycs_values{2010} process[Recruitment].ycs_values{2011} 
 52583 0.0575073 9.51995 5.53388 10.8664 10.8129 3.50263 6.86989 6.44798 3.00327 7.88329 1.02472 1.04659 1.06325 1.07299 1.07458 1.06541 1.04328 1.01815 1.00286 0.426938 0.476757 0.520428 0.382199 0.527158 0.445186 0.674269 1.00397 0.761246 0.653432 0.592745 0.488618 0.321245 0.30342 0.221371 0.33299 0.219917 0.328752 0.925174 0.525767 0.434871 0.187221 0.307342 0.259688 0.23094 0.26021 3 3 
-std_dev {d}
-process[Recruitment].b0 catchability[chatTANq].q selectivity[chatTANSel].mu selectivity[chatTANSel].sigma_l selectivity[chatTANSel].sigma_r selectivity[eastFSel].mu selectivity[eastFSel].sigma_l selectivity[eastFSel].sigma_r selectivity[westFSel].mu selectivity[westFSel].sigma_l selectivity[westFSel].sigma_r process[Recruitment].ycs_values{1975} process[Recruitment].ycs_values{1976} process[Recruitment].ycs_values{1977} process[Recruitment].ycs_values{1978} process[Recruitment].ycs_values{1979} process[Recruitment].ycs_values{1980} process[Recruitment].ycs_values{1981} process[Recruitment].ycs_values{1982} process[Recruitment].ycs_values{1983} process[Recruitment].ycs_values{1984} process[Recruitment].ycs_values{1985} process[Recruitment].ycs_values{1986} process[Recruitment].ycs_values{1987} process[Recruitment].ycs_values{1988} process[Recruitment].ycs_values{1989} process[Recruitment].ycs_values{1990} process[Recruitment].ycs_values{1991} process[Recruitment].ycs_values{1992} process[Recruitment].ycs_values{1993} process[Recruitment].ycs_values{1994} process[Recruitment].ycs_values{1995} process[Recruitment].ycs_values{1996} process[Recruitment].ycs_values{1997} process[Recruitment].ycs_values{1998} process[Recruitment].ycs_values{1999} process[Recruitment].ycs_values{2000} process[Recruitment].ycs_values{2001} process[Recruitment].ycs_values{2002} process[Recruitment].ycs_values{2003} process[Recruitment].ycs_values{2004} process[Recruitment].ycs_values{2005} process[Recruitment].ycs_values{2006} process[Recruitment].ycs_values{2007} process[Recruitment].ycs_values{2008} process[Recruitment].ycs_values{2009} process[Recruitment].ycs_values{2010} process[Recruitment].ycs_values{2011} 
-5436.16 0.00764162 0.690426 0.85356 2.59054 0.592559 0.460864 2.00455 0.601542 0.580527 2.20316 0.291159 0.397244 0.343571 0.32942 0.327806 0.270362 0.286284 0.352869 0.374082 0.387925 0.409265 0.428812 0.366105 0.428739 0.393219 0.482702 0.583526 0.508986 0.473071 0.456677 0.41567 0.333109 0.320516 0.273991 0.336648 0.274146 0.3377 0.586948 0.438481 0.390949 0.253826 0.327203 0.300445 0.283712 0.300796 1.7452e-08 1.7452e-08 
+*end
+
+*[]
+minimiser: gammadiff
+type: betadiff
+Result {s}
+Success
+Message {s}
+Convergence
 *end
 
 *warnings[warnings_encounted]
 warnings_found: 2
-warning_0 {s}
-estimated parameter 'process[Recruitment].ycs_values{2010}' was within 0.001 of upper bound 3
 warning_1 {s}
+estimated parameter 'process[Recruitment].ycs_values{2010}' was within 0.001 of upper bound 3
+warning_2 {s}
 estimated parameter 'process[Recruitment].ycs_values{2011}' was within 0.001 of upper bound 3
 *end
 
-Total elapsed time: 1 second
+Total elapsed time: 3 seconds
 Completed

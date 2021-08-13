@@ -4,8 +4,7 @@
 #' @keywords internal
 #'
 "Regexpr" <-
-function(x, y,fixed=T)
-{
-    return(regexpr(x, y, fixed=fixed))
+function(x, y, fixed = T) {
+  return(regexpr(x, y, fixed = fixed))
 }
 

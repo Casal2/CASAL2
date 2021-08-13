@@ -5,7 +5,7 @@
  * @date Feb 9, 2016
  * @section LICENSE
  *
- * Copyright NIWA Science ©2016 - www.niwa.co.nz
+ * Copyright NIWA Science ï¿½2016 - www.niwa.co.nz
  *
  * @section DESCRIPTION
  *
@@ -40,8 +40,8 @@ Dummy::Dummy(shared_ptr<Model> model) : Minimiser(model) {
  * Execute
  */
 void Dummy::Execute() {
-  LOG_CODE_ERROR() << "The Dummy minimiser has been executed. This is bad.\n"
-                   << "This may have happened because of using an autodiff minimiser from the release shared library";
+  LOG_CODE_ERROR() << "No minimiser has been instanciated.\n"
+                   << "This may have happened because you are attempting to use an autodiff minimiser with the release shared library";
 };
 
 } /* namespace minimisers */

@@ -88,7 +88,7 @@ protected:
   void UpdateStepSize();
   void BuildCovarianceMatrix();
   void UpdateCovarianceMatrix();
-  bool DoCholeskyDecmposition();
+  bool DoCholeskyDecomposition();
   bool WithinBounds();
 
   // members

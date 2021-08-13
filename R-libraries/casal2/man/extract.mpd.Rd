@@ -21,9 +21,11 @@ An extract function that reads Casal2 output that are produced from a '-r' or '-
 also create a 'casal2.mpd' class which can be used in plotting and summary functions. See the casal2 manual for more information.
 }
 \examples{
+\donttest{
 library(casal2)
 data <- extract.mpd(file = system.file("extdata", "MPD.log", package="casal2"))
 class(data)
+}
 }
 \author{
 Dan Fu

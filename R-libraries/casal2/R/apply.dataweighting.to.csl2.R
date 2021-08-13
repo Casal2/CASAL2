@@ -14,21 +14,26 @@
 #' @export
 #'
 
-'apply.dataweighting.to.csl2' = function(Path = "",weighting_factor, Observation_csl2_file = "Observations.csl2",Observation_label = "", Observation_out_filename = "Observation.csl2.0", fileEncoding = "") {
-  observation_config = extract.csl2.file(file = Observation_csl2_file, path = Path);
+'apply.dataweighting.to.csl2' = function(Path = "", weighting_factor, Observation_csl2_file = "Observations.csl2", Observation_label = "", Observation_out_filename = "Observation.csl2.0", fileEncoding = "") {
+
+  observation_config <- extract.csl2.file(file = Observation_csl2_file, path = Path);
+
   ## pull out the estimates only, they are the only components interested in at the moment
-  observation_ndx = grepl(pattern = "observation\\[", x = names(observation_config))  
+  observation_ndx <- grepl(pattern = "observation\\[", x = names(observation_config))
   observation_block_labels = names(observation_config)[observation_ndx]
+
   ## Check Observation_label exists
   if (!any(grepl(pattern = Observation_label, x = observation_block_labels))) {
-    stop(Paste("could not find the @observation block labelled ",Observation_label, " the observations found are ", paste(observation_block_labels, collapse = ", ")))
+    stop(paste0("could not find the @observation block labelled ", Observation_label, " the observations found are ", paste(observation_block_labels, collapse = ", ")))
   }
-  this_obs = observation_config[observation_block_labels][grepl(pattern = Observation_label, x = observation_block_labels)][[1]]
-  error_labels = names(this_obs$Table$error_values)
-  this_obs$Table$error_values = as.character(round(as.numeric(this_obs$Table$error_values) * weighting_factor,3))
-  names(this_obs$Table$error_values) = error_labels
+  this_obs <- observation_config[observation_block_labels][grepl(pattern = Observation_label, x = observation_block_labels)][[1]]
+  error_labels <- names(this_obs$Table$error_values)
+  this_obs$Table$error_values <- as.character(round(as.numeric(this_obs$Table$error_values) * weighting_factor, 3))
+  names(this_obs$Table$error_values) <- error_labels
+
   ## now save it back
-  observation_config[observation_block_labels][grepl(pattern = Observation_label, x = observation_block_labels)][[1]] = this_obs
+  observation_config[observation_block_labels][grepl(pattern = Observation_label, x = observation_block_labels)][[1]] <- this_obs
+
   ## Write the new Observation.csl2
   write.csl2.file(object = observation_config, path = Path, file = Observation_out_filename)
 }

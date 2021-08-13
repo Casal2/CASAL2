@@ -1,0 +1,14 @@
+CV.for.CPUE             Calculate the CV for a CPUE time series
+Method.TA1.10           Calculate the data weights of at-age or
+                        at-length data sets with lognormal errors
+Method.TA1.8            Calculate the data weights of at-age or
+                        at-length data sets with multinomial errors
+Neff.obs                Calculates the multinomial effective sample
+                        size for at-age or at-length data
+Reweight.tags           Calculate the data weights of tag-recapture
+                        observations
+WeightCompsBySex        Calculate the data weights of sex-at-age or
+                        sex-at-length data sets with multinomial errors
+plot.cvs                Find the best degree of lowess smoothing based
+                        on the maximum allowed population rate of
+                        increase

@@ -8,28 +8,41 @@ modelling package that allows a great deal of flexibility in
 specifying the population dynamics, parameter estimation, 
 and model outputs. 
 
-See the Casal2 User Manual for more information.
+See the Casal2 user manual for more information.
 
 Casal2 is an open source development and contributions to 
 the package are encouraged. 
 
 The source code for Casal2 is available at 
-https://github.com/NIWAFisheriesModelling/CASAL2. 
+https://github.com/NIWAFisheriesModelling/CASAL2
 
 
 License
 =======
 
-See the Casal2 User Manual for a copy of the software license.
+This program is free software: you can redistribute it and/or 
+modify it under the terms of version 2 of the GNU General 
+Public License, published by the Free Software Foundation.
+
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the 
+Casal2  user manual and the GNU General Public License for 
+more details.
+
+You should have received a copy of the GNU General Public 
+License along with this program.  
+
+If not, see <http://www.gnu.org/licenses/>.
 
 
-Installation
-============
+Microsoft Windows Installation
+==============================
 
 You can either
 
-Use the Microsoft Windows installer for Casal2. This copies 
-the progam files to the install directory, creates icons in 
+A. Use the Microsoft Windows installer for Casal2. This copies 
+the program files to the install directory, creates icons in 
 your start menu, and modifies the system registry to,
 (i)   Add to the the Casal2 install directory to the systems 
       PATH
@@ -43,15 +56,11 @@ reboot after installing to re-initialise the system PATH.
 
 Or
 
-Manually copy the Casal2 executable and associated dll files 
-to a location of your choice.
+B. Unzip the archive, and manually copy the Casal2 executable 
+and associated *.dll files to a location of your choice. 
 
-Note that Casal2 is a console program, and can only be used 
-from the command line.
-
-
-Removing Casal2
-===============
+Note that you do need Casal2.exe and all of the *.dll files 
+to successfully run Casal2.
 
 To uninstall, use the uninstaller. This will remove any 
 installed files and registry entries automatically. To 
@@ -64,23 +73,22 @@ the program) and any program links in your Start menu.
 Contributing to Casal2
 ======================
 
-For users who are interested in contributing to Casal2 please see
-ContributorsGuide.pdf which will show you how to get access to the 
-source code, build Casal2 on your local machine and ultimately add 
-functionality to the publically available program.
+For those who are interested in contributing to Casal2 please see
+the Casal2 user manual. 
 
 
 Contact
 =======
 
-For more information about Casal2, please read the Casal2
-User Manual. You can contact the Casal2 Developement Team 
+For more information about Casal2, please see the Casal2
+user manual. You can contact the Casal2 development team 
 at casal2@niwa.co.nz
 
 
-Textpad syntax highlighter
-==========================
+Textpad & Notepad++ syntax highlighting
+=======================================
 
 To embed the syntax highlighter recommended for viewing .csl2 files, see
-TextPad_syntax_highlighter.readme for steps on how to do this.
+TextPad_syntax_highlighter.readme or NotePad++_syntax_highlighter.readme
+for how to do this.
 

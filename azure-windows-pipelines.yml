@@ -16,6 +16,7 @@ jobs:
   steps:
   - script: |
       pip install pytz
+      pip3 install python-dateutil
     displayName: 'Installing Python3 build environment'
 
   - script: |

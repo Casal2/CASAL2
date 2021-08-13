@@ -5,7 +5,7 @@
  * @date 13/12/2012
  * @section LICENSE
  *
- * Copyright NIWA Science ©2017 - www.niwa.co.nz
+ * Copyright NIWA Science ï¿½2017 - www.niwa.co.nz
  *
  */
 
@@ -48,6 +48,7 @@ InitialisationPhase* Factory::Create(shared_ptr<Model> model, const string& obje
         result = new age::Cinitial(model);
     }
   } else if (model->partition_type() == PartitionType::kLength) {
+    LOG_FATAL() << "Length based models are mot yet implemented";
     if (sub_type == "" || sub_type == PARAM_ITERATIVE)
       result = new length::Iterative(model);
   }

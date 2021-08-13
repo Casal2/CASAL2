@@ -17,6 +17,7 @@ jobs:
   - script: |
       sudo apt install python3-pip
       pip3 install pytz
+      pip3 install python-dateutil
     displayName: 'Installing Python3 build environment'    
 
   - script: |

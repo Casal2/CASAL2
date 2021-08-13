@@ -44,7 +44,7 @@ Nuisance::Nuisance(shared_ptr<Model> model) : Catchability(model) {
  * Validate the objects
  */
 void Nuisance::DoBuild() {
-  // TODO: Fix this shit. Building dynamic parameter feels horrible.
+  // TODO: Fix this. Building dynamic parameter feels horrible.
 
   /**
    *  Build the objects

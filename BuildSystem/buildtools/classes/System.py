@@ -64,7 +64,7 @@ class SystemInfo:
       if self.find_exe_path('unzip') == '':
         return Globals.PrintError('unzip is not in the current path. Please ensure it has been installed')
       if self.find_exe_path('cmake') == '':
-        return Globals.PrintError('cmake is not in the current path. Please ensure it has been intalled')    
+        return Globals.PrintError('cmake is not in the current path. Please ensure it has been installed')    
 
     self.set_new_path()
 
@@ -208,7 +208,7 @@ class SystemInfo:
   Find the version of the Clang++ compiler we're using
   """
   def find_clang_version(self):
-    print("--> Searching for clang compiler verstion in '" + Globals.compiler_path_ + "'")
+    print("--> Searching for clang compiler version in '" + Globals.compiler_path_ + "'")
     p = subprocess.Popen([Globals.compiler_path_, "-v"], stdout=subprocess.PIPE, stderr=subprocess.PIPE)
     out, err = p.communicate()
     if (p.wait() != 0):
@@ -228,7 +228,7 @@ class SystemInfo:
   This method will find the GCC Version
   """
   def find_gcc_version(self):
-    print("--> Searching for g++ compiler verstion in '" + Globals.compiler_path_ + "'")
+    print("--> Searching for g++ compiler version in '" + Globals.compiler_path_ + "'")
     p = subprocess.Popen([Globals.compiler_path_, "-v"], stdout=subprocess.PIPE, stderr=subprocess.PIPE)
     out, err = p.communicate()
     err_lines = re.split('version', str(err))
@@ -251,7 +251,7 @@ class SystemInfo:
   Find the version of the Microsoft Visual Studio Compiler
   """
   def find_msvc_version(self):
-    print("--> Searching for msvc compiler verstion in '" + Globals.compiler_path_ + "'")
+    print("--> Searching for msvc compiler version in '" + Globals.compiler_path_ + "'")
     p = subprocess.Popen([Globals.compiler_path_, "/?"], stdout=subprocess.PIPE, stderr=subprocess.PIPE)
     out, err = p.communicate()
     if (p.wait() != 0):

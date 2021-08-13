@@ -5,7 +5,7 @@
  * @date 2/02/2015
  * @section LICENSE
  *
- * Copyright NIWA Science ©2014 - www.niwa.co.nz
+ * Copyright NIWA Science ï¿½2014 - www.niwa.co.nz
  *
  */
 
@@ -22,11 +22,11 @@ namespace timevarying {
  * Default constructor
  */
 AnnualShift::AnnualShift(shared_ptr<Model> model) : TimeVarying(model) {
-  parameters_.Bind<Double>(PARAM_VALUES, &values_, "The values", "");
   parameters_.Bind<Double>(PARAM_A, &a_, "Parameter A", "");
   parameters_.Bind<Double>(PARAM_B, &b_, "Parmeter B", "");
   parameters_.Bind<Double>(PARAM_C, &c_, "Parameter C", "");
   parameters_.Bind<unsigned>(PARAM_SCALING_YEARS, &scaling_years_, "The scaling years", "", true);
+  parameters_.Bind<Double>(PARAM_VALUES, &values_, "The values", "");
 }
 
 /**

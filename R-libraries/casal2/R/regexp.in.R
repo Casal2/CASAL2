@@ -4,9 +4,8 @@
 #' @keywords internal
 #'
 "regexp.in" <-
-function(vector, regexp)
-{
-  if(length(vector) == 0)
+function(vector, regexp) {
+  if (length(vector) == 0)
     return(F)
   any(Regexpr(regexp, vector) > 0)
 }
