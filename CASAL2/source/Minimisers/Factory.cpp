@@ -80,7 +80,7 @@ Minimiser* Factory::Create(shared_ptr<Model> model, const string& object_type, c
       result = new GammaDiff(model);
     else if (sub_type == PARAM_BETADIFF || sub_type == PARAM_ADOLC)
       result = new Dummy(model);
-#endif
+#endif  // not USE_AUTODIFF
 
     if (result)
       model->managers()->minimiser()->AddObject(result);
