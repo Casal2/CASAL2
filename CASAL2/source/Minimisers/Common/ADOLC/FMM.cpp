@@ -294,7 +294,7 @@ void FMM::fMin(vector<double>& Candidates, double& Score, vector<double>& Gradie
     // Is StepSize too Small?
     if (dLambda < dLambdaMin) {
       iRet = -3;
-      LOG_WARNING() << "FMM Linear step size too small (" << (double)dLambda << ")";
+      LOG_IMPORTANT() << "FMM Linear step size too small (" << (double)dLambda << ")";
       return;
     }
 
@@ -346,7 +346,7 @@ void FMM::fMin(vector<double>& Candidates, double& Score, vector<double>& Gradie
 
     if (iIters > iMaxQuasiSteps) {  // have exceeded maximum no. of iterations
       iRet = -2;
-      LOG_WARNING() << "FMM: Too many quasi newton iterations  (" << iIters << ")";
+      LOG_IMPORTANT() << "FMM: Too many quasi newton iterations  (" << iIters << ")";
       return;
     }
 

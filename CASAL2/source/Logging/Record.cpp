@@ -68,6 +68,15 @@ void Record::BuildMessage() {
     case Severity::kMedium:
       o << "[MEDIUM] " << file_name_ << "(line: " << line_number_ << "): " << stream_.str() << "\n";
       break;
+    case Severity::kImportant:
+#ifdef DEBUG
+      o << "[IMPORTANT] " << file_name_ << "(line: " << line_number_ << "): " << stream_.str() << "\n";
+      o << " Source File: " << file_name_ << "(line: " << line_number_ << ")\n";
+      o << " Source Method: " << function_ << "\n";
+#endif
+      o << "\nCasal2 has found important messages:\n\n";
+      o << stream_.str() << endl;
+      break;
     case Severity::kInfo:
 #ifdef DEBUG
       o << "[MESSAGE] " << file_name_ << "(line: " << line_number_ << "): " << stream_.str() << "\n";

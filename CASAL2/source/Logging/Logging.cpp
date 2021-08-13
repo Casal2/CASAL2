@@ -57,10 +57,12 @@ void Logging::SetLogLevel(const std::string& log_level) {
     Logging::current_log_level_ = logger::Severity::kFinest;
   else if (log_level == PARAM_FINE)
     Logging::current_log_level_ = logger::Severity::kFine;
-  else if (log_level == PARAM_INFO)
-    Logging::current_log_level_ = logger::Severity::kInfo;
   else if (log_level == PARAM_MEDIUM)
     Logging::current_log_level_ = logger::Severity::kMedium;
+  else if (log_level == PARAM_INFO)
+    Logging::current_log_level_ = logger::Severity::kInfo;
+  else if (log_level == PARAM_IMPORTANT)
+    Logging::current_log_level_ = logger::Severity::kImportant;
   else if (log_level != PARAM_NONE) {
     cout << "The log level provided is an invalid log level. " << log_level << " is not supported" << endl;
     exit(-1);
@@ -89,7 +91,8 @@ void Logging::Flush(niwa::logger::Record& record) {
   }
 }
 #else
-void             Logging::Flush(niwa::logger::Record& record) {
+
+void Logging::Flush(niwa::logger::Record& record) {
   std::scoped_lock l(lock_);
 
   record.BuildMessage();

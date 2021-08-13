@@ -325,6 +325,7 @@
 #define PARAM_HESSIAN_MATRIX                      "hessian_matrix"
 #define PARAM_HOKI_PRIOR                          "hoki_prior"
 #define PARAM_HYBRID                              "hybrid"
+#define PARAM_IMPORTANT                           "important"
 #define PARAM_INCREASING                          "increasing"
 #define PARAM_INCREMENTAL_SUFFIX                  "incremental_suffix"
 #define PARAM_INDEPENDENCE_METROPOLIS             "independence_metropolis"

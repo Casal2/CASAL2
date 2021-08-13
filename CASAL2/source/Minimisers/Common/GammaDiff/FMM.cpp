@@ -255,7 +255,7 @@ void FMM::fMin(vector<double>& Candidates, double& Score, vector<double>& Gradie
     // have exceeded maximum no. of function evaluations
     if (iEvals > iMaxFunc) {
       iRet = -2;
-      LOG_WARNING() << "FMM: Too many function evaluations (" << iEvals << ")";
+      LOG_IMPORTANT() << "FMM: Too many function evaluations (" << iEvals << ")";
 
       for (int i = 0; i < iVectorSize; ++i) Candidates[i] = pPreviousCandidates[i];
 
@@ -265,7 +265,7 @@ void FMM::fMin(vector<double>& Candidates, double& Score, vector<double>& Gradie
     iLinearSearchIters++;
     if (iLinearSearchIters > iMaxSteps) {
       iRet = -3;
-      LOG_WARNING() << "FMM: Too many loops in linear search (" << iLinearSearchIters << ")";
+      LOG_IMPORTANT() << "FMM: Too many loops in linear search (" << iLinearSearchIters << ")";
 
       // Go back to last accepted candidates
       for (int i = 0; i < iVectorSize; ++i) Candidates[i] = pPreviousCandidates[i];
@@ -292,7 +292,7 @@ void FMM::fMin(vector<double>& Candidates, double& Score, vector<double>& Gradie
     // Is StepSize too Small?
     if (dLambda < dLambdaMin) {
       iRet = -3;
-      LOG_WARNING() << "FMM Linear step size too small (" << (double)dLambda << ")";
+      LOG_IMPORTANT() << "FMM Linear step size too small (" << (double)dLambda << ")";
       return;
     }
 
@@ -344,7 +344,7 @@ void FMM::fMin(vector<double>& Candidates, double& Score, vector<double>& Gradie
 
     if (iIters > iMaxQuasiSteps) {  // have exceeded maximum no. of iterations
       iRet = -2;
-      LOG_WARNING() << "FMM: Too many quasi newton iterations  (" << iIters << ")";
+      LOG_IMPORTANT() << "FMM: Too many quasi newton iterations  (" << iIters << ")";
       return;
     }
 
@@ -362,7 +362,7 @@ void FMM::fMin(vector<double>& Candidates, double& Score, vector<double>& Gradie
       iConsecutiveMaxSteps++;
 
       if (iConsecutiveMaxSteps == 5) {
-        LOG_WARNING() << "FMM: Max newton steps (5)";
+        LOG_IMPORTANT() << "FMM: Max newton steps (5)";
         iRet = -3;
         return;
       }
@@ -407,7 +407,7 @@ void FMM::fMin(vector<double>& Candidates, double& Score, vector<double>& Gradie
       }
 
       if (dCurrentTolerance <= dStepTol) {
-        LOG_WARNING() << "FMM: Small step size convergence";
+        LOG_IMPORTANT() << "FMM: Small step size convergence";
         iRet = -1;
         return;
       }

@@ -82,9 +82,11 @@ private:
 #define LOG_FINEST() LOG_IF_FOR_STREAM(logger::Severity::kFinest)
 #define LOG_FINE() LOG_IF_FOR_STREAM(logger::Severity::kFine)
 #define LOG_MEDIUM() LOG_IF_FOR_STREAM(logger::Severity::kMedium)
+// Important messages (not an error)
+#define LOG_IMPORTANT() LOG_IF_FOR_STREAM(logger::Severity::kImportant)
 // Information messages (not an error)
 #define LOG_INFO() LOG_IF_FOR_STREAM(logger::Severity::kInfo)
-// Warning messages (not an error)
+// Warning messages (not an error, except during test)
 #define LOG_WARNING() LOG_IF_FOR_STREAM(logger::Severity::kWarning)
 // Errors that do not cause an immediate stop, but are logged and reported all at once
 #define LOG_ERROR() LOG_IF_FOR_STREAM(logger::Severity::kError)
