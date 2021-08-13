@@ -31,7 +31,6 @@
 #include "../Minimisers/Common/DESolver.h"
 #include "../Minimisers/Common/DeltaDiff.h"
 #include "../Minimisers/Common/GammaDiff.h"
-//#include "Minimisers/Common/STANBFGS.h"
 #endif
 
 // Namespaces
@@ -60,7 +59,7 @@ Minimiser* Factory::Create(shared_ptr<Model> model, const string& object_type, c
       result = new ADOLC(model);
     }
 #endif
-    else if (sub_type == PARAM_DE_SOLVER || sub_type == PARAM_GAMMADIFF)
+    else if (sub_type == PARAM_DE_SOLVER || sub_type == PARAM_GAMMADIFF || sub_type == PARAM_NUMERICAL_DIFFERENCES)
       result = new Dummy(model);
 #endif
 
@@ -69,7 +68,7 @@ Minimiser* Factory::Create(shared_ptr<Model> model, const string& object_type, c
       result = new DeltaDiff(model);
     else if (sub_type == PARAM_DE_SOLVER)
       result = new DESolver(model);
-    else if (sub_type == PARAM_GAMMADIFF)
+    else if (sub_type == PARAM_GAMMADIFF || sub_type == PARAM_NUMERICAL_DIFFERENCES)
       result = new GammaDiff(model);
     else if (sub_type == PARAM_BETADIFF || sub_type == PARAM_ADOLC)
       result = new Dummy(model);
