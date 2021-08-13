@@ -61,7 +61,15 @@ Minimiser* Factory::Create(shared_ptr<Model> model, const string& object_type, c
 #endif
     else if (sub_type == PARAM_DE_SOLVER || sub_type == PARAM_GAMMADIFF || sub_type == PARAM_NUMERICAL_DIFFERENCES)
       result = new Dummy(model);
-#endif
+    else if (sub_type == PARAM_BETADIFF || sub_type == PARAM_ADOLC)
+      result = new Dummy(model);
+      /**
+       * @brief We will also do a check for Betadiff and ADOLC. This is because the user may have a non-active
+       * betadiff minimiser specified in an adolc model or vice versa, so we'll load it as a dummy
+       * instead of throwing an error.
+       *
+       */
+#endif  // USE_AUTODIFF
 
 #ifndef USE_AUTODIFF
     if (sub_type == PARAM_DELTADIFF)
