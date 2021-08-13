@@ -40,3 +40,5 @@ R-libraries/Casal2.Rcheck/
 /ThirdParty/googletest_googlemock/googletest-release-1.8.1/
 /ThirdParty/parser/*.log
 casal2.code-workspace
+/CASAL2/.cproject
+/CASAL2/.project

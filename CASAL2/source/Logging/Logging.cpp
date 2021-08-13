@@ -26,7 +26,7 @@ std::mutex Logging::lock_;
 #ifdef TESTMODE
 logger::Severity Logging::current_log_level_ = logger::Severity::kWarning;
 #else
-logger::Severity Logging::current_log_level_ = logger::Severity::kWarning;
+logger::Severity Logging::current_log_level_ = logger::Severity::kInfo;
 #endif
 
 /**

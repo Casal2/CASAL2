@@ -625,9 +625,11 @@ void Loader::FindActiveMinimiserType() {
 
   // Hold information about each minimiser
   typedef struct {
-    string name_   = "<<unknown>>";
-    string type_   = "";
-    bool   active_ = true;
+    string   name_        = "<<unknown>>";
+    string   type_        = "";
+    bool     active_      = true;
+    string   file_name_   = "";
+    unsigned line_number_ = 0;
   } MinimiserDefinition;
   vector<MinimiserDefinition> minimisers;
 
@@ -643,8 +645,11 @@ void Loader::FindActiveMinimiserType() {
       if (file_line.line_.substr(1, 9) == PARAM_MINIMIZER) {
         LOG_FINEST() << "Minimiser name block: " << file_line.line_;
         boost::split(split_string, file_line.line_, boost::is_any_of(" "));
-        if (split_string.size() == 2)
-          new_definition.name_ = split_string[1];
+        if (split_string.size() == 2) {
+          new_definition.name_        = split_string[1];
+          new_definition.file_name_   = file_line.file_name_;
+          new_definition.line_number_ = file_line.line_number_;
+        }
 
         continue;
       }
@@ -652,13 +657,16 @@ void Loader::FindActiveMinimiserType() {
       if (file_line.line_.substr(0, 4) == PARAM_TYPE) {
         LOG_FINEST() << "Minimiser type block: " << file_line.line_;
         boost::split(split_string, file_line.line_, boost::is_any_of(" "));
-        if (split_string.size() == 2)
-          new_definition.type_ = split_string[1];
+        if (split_string.size() == 2) {
+          new_definition.type_        = split_string[1];
+          new_definition.file_name_   = file_line.file_name_;
+          new_definition.line_number_ = file_line.line_number_;
+        }
 
         continue;
       }
 
-      // Try and extra if minimiser is active or not
+      // Try and extract if minimiser is active or not
       if (file_line.line_.substr(0, 6) == PARAM_ACTIVE) {
         boost::split(split_string, file_line.line_, boost::is_any_of(" "));
         if (split_string.size() == 2) {
@@ -681,16 +689,23 @@ void Loader::FindActiveMinimiserType() {
    * and store the type of the minimiser that is
    * going to be used during any estimations
    *
-   * Note: We only care about first one, error handling is done elsewhere
    */
   if (minimisers.size() == 1) {
     minimiser_type_ = minimisers[0].type_;
   } else {
+    vector<string> active_minimisers;
+
     for (auto minimiser : minimisers) {
       if (minimiser.active_) {
         minimiser_type_ = minimiser.type_;
-        break;
+        active_minimisers.push_back(minimiser.name_);
       }
+    }
+
+    if (active_minimisers.size() > 1) {
+      string list = utilities::String::join(active_minimisers);
+      LOG_FATAL() << "Too many active minimiser definitions. Only one active minimiser is supported. Found the following active minimisers: " << list << " in file "
+                  << minimisers[0].file_name_ << " from line " << minimisers[0].line_number_;
     }
   }
 }
