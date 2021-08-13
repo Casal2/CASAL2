@@ -237,10 +237,8 @@ int Runner::GoWithRunMode(RunMode::Type run_mode) {
    */
   for (auto model : model_list) {
     if (!model->PrepareForIterations()) {
-      if (logging.errors().size() > 0) {
-        logging.FlushErrors();
-        return -1;
-      }
+      logging.FlushErrors();
+      return -1;
     }
   }
 
