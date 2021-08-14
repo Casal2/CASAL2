@@ -172,7 +172,7 @@ linf 169.07
 cv_first    0.102
 by_length T
 distribution normal
-casal_switch true
+compatibility_option casal
 
 @length_weight length_weight
 type basic

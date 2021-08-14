@@ -4,12 +4,14 @@
  * @date 07/03/2018
  * @section LICENSE
  *
- * Copyright NIWA Science ©2018 - www.niwa.co.nz
+ * Copyright NIWA Science ï¿½2018 - www.niwa.co.nz
  *
  */
 #ifdef TESTMODE
 
 // Headers
+#include "Category.h"
+
 #include <gmock/gmock.h>
 #include <gtest/gtest.h>
 
@@ -21,7 +23,6 @@
 #include "../TestResources/MockClasses/Managers.h"
 #include "../TestResources/MockClasses/Model.h"
 #include "../TimeSteps/Manager.h"
-#include "Category.h"
 
 // namespaces
 namespace niwa {
@@ -63,7 +64,7 @@ public:
   MockVonBertalanffy(Distribution distribution = Distribution::kNormal) : VonBertalanffy(nullptr) { distribution_ = distribution; }
 
   MockVonBertalanffy(shared_ptr<Model> model, Double linf, Double k, Double t0, bool by_length, Double cv_first, Double cv_last, vector<double> time_step_proportions,
-                     bool casal_switch = false, Distribution distributuion = Distribution::kNormal) :
+                     string compatibility = PARAM_CASAL2, Distribution distribution = Distribution::kNormal) :
       VonBertalanffy(model) {
     linf_                  = linf;
     k_                     = k;
@@ -72,8 +73,8 @@ public:
     cv_first_              = cv_first;
     cv_last_               = cv_last;
     time_step_proportions_ = time_step_proportions;
-    casal_normal_cdf_      = casal_switch;
-    distribution_          = distributuion;
+    compatibility_         = compatibility;
+    distribution_          = distribution;
   }
 
   void MockBuildCV() { this->BuildCV(); }

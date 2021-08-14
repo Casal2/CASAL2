@@ -5,7 +5,7 @@
  * @date 23/02/2015
  * @section LICENSE
  *
- * Copyright NIWA Science ©2015 - www.niwa.co.nz
+ * Copyright NIWA Science ï¿½2015 - www.niwa.co.nz
  *
  * @section DESCRIPTION
  *
@@ -39,14 +39,14 @@ public:
   virtual void RebuildCache();
 
   // accessors
-  virtual Double GetMeanLength(unsigned year, unsigned time_step, unsigned age) = 0;
+  virtual Double GetMeanLength(unsigned year, unsigned time_step, unsigned age)                = 0;
   virtual Double GetMeanWeight(unsigned year, unsigned time_step, unsigned age, Double length) = 0;
-  virtual string weight_units() = 0;
+  virtual string weight_units()                                                                = 0;
 
   virtual Double cv(unsigned year, unsigned time_step, unsigned age) { return cvs_[year][time_step][age]; };
   virtual string distribution_label() { return distribution_label_; };
   Distribution   distribution() const { return distribution_; }
-  bool           casal_normal_cdf() const { return casal_normal_cdf_; }
+  string         compatibility() const { return compatibility_; }
   bool           varies_by_years() const { return varies_by_year_; }
 
   // Methods
@@ -70,8 +70,8 @@ protected:
   bool              by_length_;
   string            distribution_label_;
   Distribution      distribution_;
-  bool              casal_normal_cdf_ = false;
-  bool              varies_by_year_   = false;
+  string            compatibility_  = "";
+  bool              varies_by_year_ = false;
 
   map<unsigned, map<unsigned, map<unsigned, Double>>> cvs_;  // cvs[year][time_step][age]
 };

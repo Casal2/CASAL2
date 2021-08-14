@@ -236,7 +236,7 @@ void Partition::BuildAgeLengthProportions() {
 
     LOG_FINEST() << "Memory allocation done";
 
-    bool casal_normal_cdf = iter.second->age_length_->casal_normal_cdf();
+    bool casal_normal_cdf = (iter.second->age_length_->compatibility() == PARAM_CASAL);
     for (unsigned year_iter = 0; year_iter < year_count; ++year_iter) {
       year = year_iter + model_->start_year();
 

@@ -29,7 +29,7 @@ public:
   // methods
   explicit NullProcess(shared_ptr<Model> model);
   virtual ~NullProcess() = default;
-  void DoValidate();
+  void DoValidate() override final{};
   void DoBuild() override final{};
   void DoReset() override final{};
   void DoExecute() override final{};

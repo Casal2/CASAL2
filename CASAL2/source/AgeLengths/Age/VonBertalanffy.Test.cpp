@@ -4,12 +4,14 @@
  * @date 19/08/2013
  * @section LICENSE
  *
- * Copyright NIWA Science ©2013 - www.niwa.co.nz
+ * Copyright NIWA Science ï¿½2013 - www.niwa.co.nz
  *
  */
 #ifdef TESTMODE
 
 // Headers
+#include "VonBertalanffy.h"
+
 #include <gmock/gmock.h>
 #include <gtest/gtest.h>
 
@@ -21,7 +23,6 @@
 #include "../../TestResources/MockClasses/Model.h"
 #include "../../TimeSteps/Manager.h"
 #include "../../Utilities/Distribution.h"
-#include "VonBertalanffy.h"
 // namespaces
 namespace niwa {
 namespace agelengths {
@@ -40,7 +41,7 @@ public:
   MockVonBertalanffy(Distribution distribution = Distribution::kNormal) : VonBertalanffy(nullptr) { distribution_ = distribution; }
 
   MockVonBertalanffy(shared_ptr<Model> model, Double linf, Double k, Double t0, bool by_length, Double cv_first, Double cv_last, vector<Double> time_step_proportions,
-                     bool casal_switch = false, Distribution distributuion = Distribution::kNormal) :
+                     string compatibility = PARAM_CASAL2, Distribution distribution = Distribution::kNormal) :
       VonBertalanffy(model) {
     linf_                  = linf;
     k_                     = k;
@@ -49,8 +50,8 @@ public:
     cv_first_              = cv_first;
     cv_last_               = cv_last;
     time_step_proportions_ = time_step_proportions;
-    casal_normal_cdf_      = casal_switch;
-    distribution_          = distributuion;
+    compatibility_         = compatibility;
+    distribution_          = distribution;
   }
 
   void MockBuildCV() { this->BuildCV(); }
@@ -79,7 +80,7 @@ TEST(AgeLengths, VonBertalanffy_MeanLength_2) {
   shared_ptr<MockModel> model = shared_ptr<MockModel>(new MockModel());
   model->bind_calls();
 
-  MockVonBertalanffy von_bertalanffy(model, 80, 0.064, 4, false, 0.2, 0.2, {1.0}, false, Distribution::kLogNormal);
+  MockVonBertalanffy von_bertalanffy(model, 80, 0.064, 4, false, 0.2, 0.2, {1.0}, PARAM_CASAL2, Distribution::kLogNormal);
   ASSERT_NO_THROW(von_bertalanffy.MockBuildCV());
 
   EXPECT_DOUBLE_EQ(0.0, von_bertalanffy.mean_length(0, 1));
@@ -121,7 +122,7 @@ TEST(AgeLengths, VonBertalanffy_CV_2) {
   shared_ptr<MockModel> model = shared_ptr<MockModel>(new MockModel());
   model->bind_calls();
 
-  MockVonBertalanffy von_bertalanffy(model, 169.07, 0.093, -0.256, true, 0.102, 0.0, {0.0, 0.0}, true);
+  MockVonBertalanffy von_bertalanffy(model, 169.07, 0.093, -0.256, true, 0.102, 0.0, {0.0, 0.0}, PARAM_CASAL);
   ASSERT_NO_THROW(von_bertalanffy.MockBuildCV());
 
   EXPECT_DOUBLE_EQ(0.10199999999999999, von_bertalanffy.cv(1990, 0, 1));
@@ -138,7 +139,7 @@ TEST(AgeLengths, VonBertalanffy_CV_2) {
 // * Test the cumulative normal function that calculates probability of a being in a length bin at a known age
 // * This test is for the normal distribution
 // */
-// TEST(AgeLengths, VonBertalanffy_CummulativeNormal) {
+// TEST(AgeLengths, VonBertalanffy_CumulativeNormal) {
 //  Double mu = 35.49858;
 //  Double cv = 0.1;
 //  vector<Double> length_bins = {0, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31 ,32, 33, 34, 35, 36, 37, 38, 39, 40, 41, 42, 43, 44, 45, 46, 47};
@@ -146,7 +147,7 @@ TEST(AgeLengths, VonBertalanffy_CV_2) {
 //  bool plus_grp = 1;
 //
 //  MockVonBertalanffy von_bertalanffy;
-//  von_bertalanffy.MockCummulativeNormal(mu, cv, vprop_in_length, length_bins, plus_grp);
+//  von_bertalanffy.MockCumulativeNormal(mu, cv, vprop_in_length, length_bins, plus_grp);
 //
 //  vector<Double> expected = {3.8713535710499514e-009, 1.5960216925847703e-008, 7.422358561104403e-008, 3.1901955588331532e-007, 1.2672619864595447e-006, 4.6525401673491729e-006,
 //      1.5786604316003761e-005, 4.9506445653380027e-005,0.00014348551812060073, 0.00038434913282614502,0.00095150900849361175, 0.0021770396325317964, 0.0046034492460040877,
@@ -163,7 +164,7 @@ TEST(AgeLengths, VonBertalanffy_CV_2) {
 ///**
 // * Test the Cumulative normal function when the distribution is specified as "lognormal" with no plus group
 // */
-// TEST(AgeLengths, VonBertalanffy_CummulativeNormal_2) {
+// TEST(AgeLengths, VonBertalanffy_CumulativeNormal_2) {
 //  Double mu = 35.49858;
 //  Double cv = 0.1;
 //  vector<Double> length_bins = {0, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31 ,32, 33, 34, 35, 36, 37, 38, 39, 40, 41, 42, 43, 44, 45, 46, 47};
@@ -171,7 +172,7 @@ TEST(AgeLengths, VonBertalanffy_CV_2) {
 //  bool plus_grp = 0;
 //
 //  MockVonBertalanffy von_bertalanffy(AgeLength::Distribution::kLogNormal);
-//  von_bertalanffy.MockCummulativeNormal(mu, cv, vprop_in_length, length_bins, plus_grp);
+//  von_bertalanffy.MockCumulativeNormal(mu, cv, vprop_in_length, length_bins, plus_grp);
 //
 //  vector<Double> expected =
 //  {0, 9.9920072216264089e-016,1.1390888232654106e-013, 6.907807659217724e-012, 2.4863089365112501e-010, 5.6808661108576075e-009, 8.7191919018181352e-008,
@@ -187,7 +188,7 @@ TEST(AgeLengths, VonBertalanffy_CV_2) {
 //}
 //
 //
-// TEST(AgeLengths, VonBertalanffy_CummulativeNormal_3) {
+// TEST(AgeLengths, VonBertalanffy_CumulativeNormal_3) {
 //  Double mu = 40.081628;
 //  Double cv = 0.1;
 //  vector<Double> length_bins = {0, 20, 40, 60 , 80, 110};
@@ -195,7 +196,7 @@ TEST(AgeLengths, VonBertalanffy_CV_2) {
 //  bool plus_grp = 0;
 //
 //  MockVonBertalanffy von_bertalanffy;
-//  von_bertalanffy.MockCummulativeNormal(mu, cv, vprop_in_length, length_bins, plus_grp);
+//  von_bertalanffy.MockCumulativeNormal(mu, cv, vprop_in_length, length_bins, plus_grp);
 //
 //  vector<Double> expected = {2.7232626398365767e-007, 0.49187561267029634, 0.50812377877585069, 3.3622758899287675e-007,0};
 //

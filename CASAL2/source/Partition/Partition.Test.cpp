@@ -4,12 +4,14 @@
  * @date 01/03/2018
  * @section LICENSE
  *
- * Copyright NIWA Science ©2018 - www.niwa.co.nz
+ * Copyright NIWA Science ï¿½2018 - www.niwa.co.nz
  *
  */
 #ifdef TESTMODE
 
 // Headers
+#include "Partition.h"
+
 #include <gmock/gmock.h>
 #include <gtest/gtest.h>
 
@@ -21,7 +23,6 @@
 #include "../TestResources/MockClasses/Managers.h"
 #include "../TestResources/MockClasses/Model.h"
 #include "../TimeSteps/Manager.h"
-#include "Partition.h"
 
 // namespaces
 namespace niwa {
@@ -64,7 +65,7 @@ public:
   MockVonBertalanffy(Distribution distribution = Distribution::kNormal) : VonBertalanffy(nullptr) { distribution_ = distribution; }
 
   MockVonBertalanffy(shared_ptr<Model> model, Double linf, Double k, Double t0, bool by_length, Double cv_first, Double cv_last, vector<double> time_step_proportions,
-                     bool casal_switch = false, Distribution distributuion = Distribution::kNormal) :
+                     string compatibility = PARAM_CASAL2, Distribution distribution = Distribution::kNormal) :
       VonBertalanffy(model) {
     linf_                  = linf;
     k_                     = k;
@@ -73,8 +74,8 @@ public:
     cv_first_              = cv_first;
     cv_last_               = cv_last;
     time_step_proportions_ = time_step_proportions;
-    casal_normal_cdf_      = casal_switch;
-    distribution_          = distributuion;
+    compatibility_         = compatibility;
+    distribution_          = distribution;
   }
 
   void MockBuildCV() { this->BuildCV(); }
@@ -167,7 +168,7 @@ TEST(Partition, BuildMeanLength) {
   ASSERT_EQ(2u, male_mature.mean_length_by_time_step_age_[0].size());
   ASSERT_EQ(10u, male_mature.mean_length_by_time_step_age_[0][0].size());
 
-  // Check our Von Bert age length is returnining the right answers
+  // Check our Von Bert age length is returning the right answers
   // note the second parameter is the age, not the index to the vector
   EXPECT_DOUBLE_EQ(0.0, von_bertalanffy.mean_length(0, 1));
   EXPECT_DOUBLE_EQ(0.0, von_bertalanffy.mean_length(0, 2));
@@ -352,7 +353,7 @@ TEST(Partition, BuildAgeLengthProportions_3) {
   EXPECT_CALL(*model, categories()).WillRepeatedly(Return(&mock_categories));
   ASSERT_NO_THROW(mock_categories.Validate());
 
-  MockVonBertalanffy von_bertalanffy(model, 80, 0.064, 4, false, 0.2, 0.2, {1.0}, false, Distribution::kLogNormal);
+  MockVonBertalanffy von_bertalanffy(model, 80, 0.064, 4, false, 0.2, 0.2, {1.0}, PARAM_CASAL2, Distribution::kLogNormal);
   ASSERT_NO_THROW(von_bertalanffy.MockBuildCV());
   ASSERT_NO_THROW(von_bertalanffy.RebuildCache());
   mock_categories.age_length_ = &von_bertalanffy;

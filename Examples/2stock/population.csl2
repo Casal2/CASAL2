@@ -312,7 +312,7 @@ c 0.5
 ## Age length - Length Weight relationships
 @age_length age_size_W_male
 type von_bertalanffy
-casal_switch F
+compatibility_option casal2
 length_weight Length_weight
 k 0.261
 t0 -0.50
@@ -321,7 +321,7 @@ time_step_proportions 0.25 0.6 0.9 0.9 0.0
 
 @age_length age_size_W_female
 type von_bertalanffy
-casal_switch F
+compatibility_option casal2
 length_weight Length_weight
 k 0.213
 t0 -0.60
@@ -330,7 +330,7 @@ time_step_proportions 0.25 0.6 0.9 0.9 0.0
 
 @age_length age_size_E_male
 type von_bertalanffy
-casal_switch F
+compatibility_option casal2
 length_weight Length_weight
 k 0.232
 t0 -1.23
@@ -339,7 +339,7 @@ time_step_proportions 0.25 0.6 0.9 0.9 0.0
 
 @age_length age_size_E_female
 type von_bertalanffy
-casal_switch F
+compatibility_option casal2
 length_weight Length_weight
 k 0.161
 t0 -2.18

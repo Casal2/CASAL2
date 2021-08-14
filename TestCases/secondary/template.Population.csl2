@@ -116,7 +116,7 @@ c 1.0
 # SIZE AT AGE
 @age_length age_len_label
 type von_bertalanffy
-casal_switch false
+compatibility_option casal2
 time_step_proportions 0.0
 k 0.18
 t0 -1.36

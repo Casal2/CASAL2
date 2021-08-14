@@ -27,11 +27,11 @@ NullProcess::NullProcess(shared_ptr<Model> model) : Process(model) {
   partition_structure_ = PartitionType::kAge | PartitionType::kLength;
 }
 
-void NullProcess::Validate() {
-  LOG_TRACE();
-  LOG_FINEST() << "Validating process " << label_;
-  LOG_WARNING() << "Found a Process with type=null_process, with label " << label();
-}
+// void NullProcess::DoValidate() {
+//  LOG_TRACE();
+//  LOG_FINEST() << "Validating process " << label_;
+//  LOG_WARNING() << "Found a process of type=null_process, with label " << label();
+//}
 
 }  // namespace processes
 }  // namespace niwa

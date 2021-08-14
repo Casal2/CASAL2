@@ -171,7 +171,7 @@ time_step_proportions 0.0 0.0
 length_weight wgt_male
 distribution normal
 cv_first 0.1
-casal_switch true
+compatibility_option casal
 time_step_measurements_were_made step2
 internal_gaps mean
 table data
@@ -228,7 +228,7 @@ length_weight wgt_female
 distribution normal
 time_step_measurements_were_made step2
 cv_first 0.1
-casal_switch true
+compatibility_option casal
 table data
 year   2     3    4     5     6    7     8      9    10    11    12    13    14    15
 1979 31.21 36.85 40.58 42.49 43.64 44.64 45.67 45.87 45.96 45.82 46.06 45.87 46.22 46.89

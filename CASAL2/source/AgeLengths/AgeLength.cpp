@@ -47,8 +47,10 @@ AgeLength::AgeLength(shared_ptr<Model> model) : model_(model) {
   parameters_.Bind<string>(PARAM_DISTRIBUTION, &distribution_label_, "The assumed distribution for the growth curve", "", PARAM_NORMAL);
   parameters_.Bind<Double>(PARAM_CV_FIRST, &cv_first_, "The CV for the first age class", "", Double(0.0))->set_lower_bound(0.0);
   parameters_.Bind<Double>(PARAM_CV_LAST, &cv_last_, "The CV for last age class", "", Double(cv_first_))->set_lower_bound(0.0);
-  parameters_.Bind<bool>(PARAM_CASAL_SWITCH, &casal_normal_cdf_,
-                         "If true, use the (less accurate) equation for the cumulative normal function as was used in the legacy version of CASAL.", "", false);
+  parameters_
+      .Bind<string>(PARAM_COMPATIBILITY, &compatibility_,
+                    "Backwards compatibility option: either casal2 (the default) or casal to use the (less accurate) cumulative normal function from CASAL", "", PARAM_CASAL2)
+      ->set_allowed_values({PARAM_CASAL, PARAM_CASAL2});
   parameters_.Bind<bool>(PARAM_BY_LENGTH, &by_length_, "Specifies if the linear interpolation of CVs is a linear function of mean length at age. Default is by age only", "", true);
 
   RegisterAsAddressable(PARAM_CV_FIRST, &cv_first_);

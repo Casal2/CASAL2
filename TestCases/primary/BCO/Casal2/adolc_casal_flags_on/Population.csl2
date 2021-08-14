@@ -373,7 +373,7 @@ t0		-0.51
 cv_first 0.1  #
 cv_last   0.10 #0.15
 length_weight Length_Weight
-casal_switch true #replicate CASAL cum dist code
+compatibility_option casal #replicate CASAL cum dist code
 
 
 @age_length asFm0  #female medium growth
@@ -386,7 +386,7 @@ t0		-0.62
 cv_first 0.10  #
 cv_last   0.10
 length_weight Length_Weight
-casal_switch true
+compatibility_option casal
 
 
 #################

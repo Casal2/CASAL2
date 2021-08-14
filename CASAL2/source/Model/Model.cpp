@@ -61,16 +61,14 @@ using std::endl;
 Model::Model() {
   LOG_TRACE();
 
-  parameters_.Bind<string>(PARAM_TYPE, &type_, "The type of model (the partition structure). Currently only type=age is implemented", "", PARAM_AGE)
-      ->set_allowed_values({PARAM_AGE, PARAM_PI_APPROX}); 
-      // was: ->set_allowed_values({PARAM_AGE, PARAM_LENGTH, PARAM_HYBRID, PARAM_PI_APPROX});
+  parameters_.Bind<string>(PARAM_TYPE, &type_, "Type of model (only type=age is currently implemented)", "", PARAM_AGE)->set_allowed_values({PARAM_AGE, PARAM_PI_APPROX});
+  // was: ->set_allowed_values({PARAM_AGE, PARAM_LENGTH, PARAM_HYBRID, PARAM_MULTIVARIATE, PARAM_PI_APPROX});
   parameters_
-      .Bind<string>(PARAM_BASE_UNITS, &base_weight_units_, "Define the units for the base weight measurement unit (grams, kilograms (kgs), or tonnes). This will be the default unit of any weight input parameters ",
-                    "", PARAM_TONNES)
+      .Bind<string>(PARAM_BASE_UNITS, &base_weight_units_,
+                    "Define the units for the base weight measurement unit (grams, kilograms (kgs), or tonnes). This will be the default unit of any weight input values ", "",
+                    PARAM_TONNES)
       ->set_allowed_values({PARAM_GRAMS, PARAM_TONNES, PARAM_KILOGRAMS, PARAM_KGS});
   parameters_.Bind<unsigned>(PARAM_THREADS, &threads_, "The number of threads to use for this model", "", 1u)->set_lower_bound(1);
-
-
 }
 
 /**

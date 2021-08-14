@@ -5,7 +5,7 @@
  * @date 26/07/2019
  * @section LICENSE
  *
- * Copyright NIWA Science ©2019 - www.niwa.co.nz
+ * Copyright NIWA Science ï¿½2019 - www.niwa.co.nz
  *
  * @section DESCRIPTION
  *
@@ -85,7 +85,7 @@ relative_m_by_age [type=constant; c=1] [type=constant; c=1]
 
 @age_length age_size
 type von_bertalanffy
-casal_switch F
+compatibility_option casal2
 length_weight Length_weight
 k 0.07690298
 t0 -2.17092542

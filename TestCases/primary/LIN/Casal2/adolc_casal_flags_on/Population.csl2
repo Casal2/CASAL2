@@ -225,7 +225,7 @@ alpha 1.0
 # SIZE AT AGE
 @age_length vb_male
 type von_bertalanffy
-casal_switch true
+compatibility_option casal
 by_length true
 time_step_proportions 0.4 0.0
 k 0.188
@@ -238,7 +238,7 @@ length_weight wgt_male
 
 @age_length vb_female
 type von_bertalanffy
-casal_switch true
+compatibility_option casal
 by_length true
 time_step_proportions 0.4 0.0
 k 0.124
