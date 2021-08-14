@@ -21,8 +21,8 @@ class Rlibrary:
     ## Run the oxygen
     os.system("R --vanilla < run-roxygen.R")   
     ## Build Namespace
-    os.system("R --vanilla < Casal2_make_version.R")
+    os.system("R --vanilla < CASAL2_make_version.R")
     ## build package
-    os.system("R CMD build --force Casal2")
-    os.system("R CMD check Casal2")
+    os.system("R CMD build --force casal2")
+    os.system("R CMD check casal2")
     return True
