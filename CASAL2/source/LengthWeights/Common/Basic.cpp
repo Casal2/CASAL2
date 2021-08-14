@@ -4,7 +4,7 @@
  * @date 24/07/2013
  * @section LICENSE
  *
- * Copyright NIWA Science ©2013 - www.niwa.co.nz
+ * Copyright NIWA Science ï¿½2013 - www.niwa.co.nz
  *
  */
 
@@ -21,7 +21,7 @@ namespace lengthweights {
 Basic::Basic(shared_ptr<Model> model) : LengthWeight(model) {
   parameters_.Bind<Double>(PARAM_A, &a_, "The $a$ parameter ($W = a L^b$)", "")->set_lower_bound(0.0, false);
   parameters_.Bind<Double>(PARAM_B, &b_, "The $b$ parameter ($W = a L^b$)", "")->set_lower_bound(0.0, false);
-  parameters_.Bind<string>(PARAM_UNITS, &units_, "The units of measure (tonnes, kgs, grams)", "")->set_allowed_values({PARAM_TONNES, PARAM_KGS, PARAM_GRAMS});
+  parameters_.Bind<string>(PARAM_UNITS, &units_, "The units for weights (grams, kilograms (kgs), or tonnes)", "")->set_allowed_values({PARAM_TONNES, PARAM_KGS, PARAM_KILOGRAMS, PARAM_GRAMS});
 
   RegisterAsAddressable(PARAM_B, &b_);
   RegisterAsAddressable(PARAM_A, &a_);
@@ -43,19 +43,19 @@ void Basic::DoValidate() {
  * Build
  */
 void Basic::DoBuild() {
-  if ((units_ == PARAM_TONNES) && (model_->base_weight_units() == PARAM_KGS))
+  if ((units_ == PARAM_TONNES) && (model_->base_weight_units() == PARAM_KGS || model_->base_weight_units() == PARAM_KILOGRAMS))
     unit_multipier_ = 1000;
-  else if (units_ == PARAM_GRAMS && (model_->base_weight_units() == PARAM_KGS))
+  else if (units_ == PARAM_GRAMS && (model_->base_weight_units() == PARAM_KGS || model_->base_weight_units() == PARAM_KILOGRAMS))
     unit_multipier_ = 0.001;
 
   // Deal with base weight as tonnes
-  if ((units_ == PARAM_KGS) && (model_->base_weight_units() == PARAM_TONNES))
+  if ((units_ == PARAM_KGS || units_ == PARAM_KILOGRAMS) && (model_->base_weight_units() == PARAM_TONNES))
     unit_multipier_ = 0.001;
   else if (units_ == PARAM_GRAMS && (model_->base_weight_units() == PARAM_TONNES))
     unit_multipier_ = 0.000001;
 
   // Deal with base weight as grams
-  if ((units_ == PARAM_KGS) && (model_->base_weight_units() == PARAM_GRAMS))
+  if ((units_ == PARAM_KGS || units_ == PARAM_KILOGRAMS) && (model_->base_weight_units() == PARAM_GRAMS))
     unit_multipier_ = 1000;
   else if (units_ == PARAM_TONNES && (model_->base_weight_units() == PARAM_GRAMS))
     unit_multipier_ = 1000000;

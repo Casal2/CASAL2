@@ -36,7 +36,7 @@ Data::Data(shared_ptr<Model> model) : AgeWeight(model) {
   parameters_
       .Bind<string>(PARAM_EQUILIBRIUM_METHOD, &equilibrium_method_, "If used in an SSB calculation, what is the method to calculate equilibrium SSB", "", PARAM_TERMINAL_YEAR)
       ->set_allowed_values({PARAM_MEAN, PARAM_FIRST_YEAR, PARAM_TERMINAL_YEAR});
-  parameters_.Bind<string>(PARAM_UNITS, &units_, "The units of the tonnes", "", PARAM_KGS)->set_allowed_values({PARAM_KGS, PARAM_GRAMS, PARAM_TONNES});
+  parameters_.Bind<string>(PARAM_UNITS, &units_, "The units of measure (grams, kilograms (kgs), or tonnes)", "", PARAM_KGS)->set_allowed_values({PARAM_KGS, PARAM_KILOGRAMS, PARAM_GRAMS, PARAM_TONNES});
 }
 
 /**
@@ -54,19 +54,19 @@ Data::~Data() {
 void Data::DoBuild() {
   LOG_FINE() << "Building age weight block " << label_;
 
-  if ((units_ == PARAM_TONNES) && (model_->base_weight_units() == PARAM_KGS))
+  if ((units_ == PARAM_TONNES) && (model_->base_weight_units() == PARAM_KGS || model_->base_weight_units() == PARAM_KILOGRAMS))
     unit_multipier_ = 1000;
-  else if (units_ == PARAM_GRAMS && (model_->base_weight_units() == PARAM_KGS))
+  else if (units_ == PARAM_GRAMS && (model_->base_weight_units() == PARAM_KGS || model_->base_weight_units() == PARAM_KILOGRAMS))
     unit_multipier_ = 0.001;
 
   // Deal with base weight as tonnes
-  if ((units_ == PARAM_KGS) && (model_->base_weight_units() == PARAM_TONNES))
+  if ((units_ == PARAM_KGS || units_ == PARAM_KILOGRAMS) && (model_->base_weight_units() == PARAM_TONNES))
     unit_multipier_ = 0.001;
   else if (units_ == PARAM_GRAMS && (model_->base_weight_units() == PARAM_TONNES))
     unit_multipier_ = 0.000001;
 
   // Deal with base weight as grams
-  if ((units_ == PARAM_KGS) && (model_->base_weight_units() == PARAM_GRAMS))
+  if ((units_ == PARAM_KGS  || units_ == PARAM_KILOGRAMS) && (model_->base_weight_units() == PARAM_GRAMS))
     unit_multipier_ = 1000;
   else if (units_ == PARAM_TONNES && (model_->base_weight_units() == PARAM_GRAMS))
     unit_multipier_ = 1000000;

@@ -49,7 +49,7 @@ ProcessRemovalsByWeight::ProcessRemovalsByWeight(shared_ptr<Model> model) : Obse
       ->set_allowed_values({PARAM_NORMAL, PARAM_LOGNORMAL});
   parameters_.Bind<Double>(PARAM_LENGTH_BINS, &length_bins_, "The length bins", "");
   parameters_.Bind<Double>(PARAM_LENGTH_BINS_N, &length_bins_n_, "The average number in each length bin", "");
-  parameters_.Bind<string>(PARAM_UNITS, &units_, "The units for the weight bins", "grams, kgs or tonnes", PARAM_KGS)->set_allowed_values({PARAM_GRAMS, PARAM_TONNES, PARAM_KGS});
+  parameters_.Bind<string>(PARAM_UNITS, &units_, "The units for the weight bins (grams, kilograms (kgs), or tonnes)", "", PARAM_KGS)->set_allowed_values({PARAM_GRAMS, PARAM_TONNES, PARAM_KGS, PARAM_KILOGRAMS});
   parameters_.Bind<Double>(PARAM_FISHBOX_WEIGHT, &fishbox_weight_, "The target weight of each box", "", double(20.0))->set_lower_bound(0.0, false);
   parameters_.Bind<Double>(PARAM_WEIGHT_BINS, &weight_bins_, "The weight bins", "");
   parameters_.BindTable(PARAM_OBS, obs_table_, "Table of observed values", "", false);
@@ -432,17 +432,17 @@ void ProcessRemovalsByWeight::Execute() {
       weight_units    = model_->base_weight_units();  // since age_length->GetMeanWeight() returns the model weight units, per Craig Marsh 2021-07-07
       unit_multiplier = 1.0;
       // what value to multiply weight_units by to get units_
-      if ((units_ == PARAM_TONNES) && (weight_units == PARAM_KGS))
+      if ((units_ == PARAM_TONNES) && (weight_units == PARAM_KGS || weight_units == PARAM_KILOGRAMS))
         unit_multiplier = 0.001;
-      else if (units_ == PARAM_GRAMS && (weight_units == PARAM_KGS))
+      else if (units_ == PARAM_GRAMS && (weight_units == PARAM_KGS || weight_units == PARAM_KILOGRAMS))
         unit_multiplier = 1000;
 
-      if ((units_ == PARAM_KGS) && (weight_units == PARAM_TONNES))
+      if ((units_ == PARAM_KGS || units_ == PARAM_KILOGRAMS) && (weight_units == PARAM_TONNES))
         unit_multiplier = 1000;
       else if (units_ == PARAM_GRAMS && (weight_units == PARAM_TONNES))
         unit_multiplier = 1000000;
 
-      if ((units_ == PARAM_KGS) && (weight_units == PARAM_GRAMS))
+      if ((units_ == PARAM_KGS || units_ == PARAM_KILOGRAMS) && (weight_units == PARAM_GRAMS))
         unit_multiplier = 0.0001;
       else if (units_ == PARAM_TONNES && (weight_units == PARAM_GRAMS))
         unit_multiplier = 0.0000001;
