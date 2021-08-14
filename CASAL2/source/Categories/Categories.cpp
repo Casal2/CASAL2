@@ -49,11 +49,10 @@ namespace niwa {
 Categories::Categories(shared_ptr<Model> model) : model_(model) {
   parameters_.Bind<string>(PARAM_FORMAT, &format_, "The format that the category names use", "");
   parameters_.Bind<string>(PARAM_NAMES, &names_, "The names of the categories", "");
-  parameters_.Bind<string>(PARAM_YEARS, &years_, "The years that individual categories will be activated (if different from the model for these categories)", "", true);
+  // Years commented out due to GitHub Issue: https://github.com/NIWAFisheriesModelling/CASAL2/issues/367
+  // parameters_.Bind<string>(PARAM_YEARS, &years_, "The years that individual categories will be activated (if different from the model for these categories)", "", true);
   parameters_.Bind<string>(PARAM_AGE_LENGTHS, &age_length_labels_, "The age-length relationship labels for each category", "", true)->set_partition_type(PartitionType::kAge);
   parameters_.Bind<string>(PARAM_AGE_WEIGHT, &age_weight_labels_, "The age-weight relationships labelsfor each category", "", true)->set_partition_type(PartitionType::kAge);
-  // parameters_.Bind<string>(PARAM_LENGTH_WEIGHT, &length_weight_labels_, R"(The labels of the length\_weight objects that are assigned to categories)", "",
-  // true)->set_partition_type(PartitionType::kLength);
 }
 
 /**

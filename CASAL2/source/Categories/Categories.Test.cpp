@@ -55,205 +55,205 @@ public:
 /**
  * Test validating the categories with a couple of year values to ensure it works.
  */
-TEST_F(InternalEmptyModel, Categories_AssignSpecificYearsPerCategory_1) {
-  shared_ptr<MockModel> model = shared_ptr<MockModel>(new MockModel());
-  vector<unsigned>      model_years{2000u, 2001u, 2002u, 2003u, 2004u};
-  EXPECT_CALL(*model, years()).WillRepeatedly(Return(model_years));
-  EXPECT_CALL(*model, min_age()).WillRepeatedly(Return(10));
-  EXPECT_CALL(*model, max_age()).WillRepeatedly(Return(20));
-  EXPECT_CALL(*model, start_year()).WillRepeatedly(Return(2000));
-  EXPECT_CALL(*model, final_year()).WillRepeatedly(Return(2010));
-  EXPECT_CALL(*model, partition_type()).WillRepeatedly(Return(PartitionType::kAge));
+// TEST_F(InternalEmptyModel, Categories_AssignSpecificYearsPerCategory_1) {
+//   shared_ptr<MockModel> model = shared_ptr<MockModel>(new MockModel());
+//   vector<unsigned>      model_years{2000u, 2001u, 2002u, 2003u, 2004u};
+//   EXPECT_CALL(*model, years()).WillRepeatedly(Return(model_years));
+//   EXPECT_CALL(*model, min_age()).WillRepeatedly(Return(10));
+//   EXPECT_CALL(*model, max_age()).WillRepeatedly(Return(20));
+//   EXPECT_CALL(*model, start_year()).WillRepeatedly(Return(2000));
+//   EXPECT_CALL(*model, final_year()).WillRepeatedly(Return(2010));
+//   EXPECT_CALL(*model, partition_type()).WillRepeatedly(Return(PartitionType::kAge));
 
-  MockCategories categories(model);
+//   MockCategories categories(model);
 
-  vector<string> years_lookup = {"sex=male=2000,2002,2004"};
-  categories.parameters().Add(PARAM_YEARS, years_lookup, __FILE__, __LINE__);
-  ASSERT_NO_THROW(categories.Validate());
+//   vector<string> years_lookup = {"sex=male=2000,2002,2004"};
+//   categories.parameters().Add(PARAM_YEARS, years_lookup, __FILE__, __LINE__);
+//   ASSERT_NO_THROW(categories.Validate());
 
-  auto years = categories.years("male.immature.notag");
-  ASSERT_EQ(3u, years.size());
-  EXPECT_EQ(2000u, years[0]);
-  EXPECT_EQ(2002u, years[1]);
-  EXPECT_EQ(2004u, years[2]);
-}
+//   auto years = categories.years("male.immature.notag");
+//   ASSERT_EQ(3u, years.size());
+//   EXPECT_EQ(2000u, years[0]);
+//   EXPECT_EQ(2002u, years[1]);
+//   EXPECT_EQ(2004u, years[2]);
+// }
 
 /**
  * Check that we get an appropriate error when we re-define a year
  * more than once
  */
-TEST_F(InternalEmptyModel, Categories_AssignSpecificYearsPerCategory_2_ExpectError) {
-  shared_ptr<MockModel> model = shared_ptr<MockModel>(new MockModel());
-  vector<unsigned>      model_years{2000u, 2001u, 2002u, 2003u};
-  EXPECT_CALL(*model, years()).WillRepeatedly(Return(model_years));
-  EXPECT_CALL(*model, min_age()).WillRepeatedly(Return(10));
-  EXPECT_CALL(*model, max_age()).WillRepeatedly(Return(20));
-  EXPECT_CALL(*model, start_year()).WillRepeatedly(Return(2000));
-  EXPECT_CALL(*model, final_year()).WillRepeatedly(Return(2010));
-  EXPECT_CALL(*model, partition_type()).WillRepeatedly(Return(PartitionType::kAge));
+// TEST_F(InternalEmptyModel, Categories_AssignSpecificYearsPerCategory_2_ExpectError) {
+//   shared_ptr<MockModel> model = shared_ptr<MockModel>(new MockModel());
+//   vector<unsigned>      model_years{2000u, 2001u, 2002u, 2003u};
+//   EXPECT_CALL(*model, years()).WillRepeatedly(Return(model_years));
+//   EXPECT_CALL(*model, min_age()).WillRepeatedly(Return(10));
+//   EXPECT_CALL(*model, max_age()).WillRepeatedly(Return(20));
+//   EXPECT_CALL(*model, start_year()).WillRepeatedly(Return(2000));
+//   EXPECT_CALL(*model, final_year()).WillRepeatedly(Return(2010));
+//   EXPECT_CALL(*model, partition_type()).WillRepeatedly(Return(PartitionType::kAge));
 
-  MockCategories categories(model);
+//   MockCategories categories(model);
 
-  vector<string> years_lookup = {"sex=male=2000,2000,2002"};
-  categories.parameters().Add(PARAM_YEARS, years_lookup, __FILE__, __LINE__);
-  ASSERT_THROW(categories.Validate(), std::string);
-}
+//   vector<string> years_lookup = {"sex=male=2000,2000,2002"};
+//   categories.parameters().Add(PARAM_YEARS, years_lookup, __FILE__, __LINE__);
+//   ASSERT_THROW(categories.Validate(), std::string);
+// }
 
 /**
  * Check that we can use a wildcard lookup
  */
-TEST_F(InternalEmptyModel, Categories_AssignSpecificYearsPerCategory_3) {
-  shared_ptr<MockModel> model = shared_ptr<MockModel>(new MockModel());
-  vector<unsigned>      model_years{2000u, 2001u, 2002u, 2003u};
-  EXPECT_CALL(*model, years()).WillRepeatedly(Return(model_years));
-  EXPECT_CALL(*model, min_age()).WillRepeatedly(Return(10));
-  EXPECT_CALL(*model, max_age()).WillRepeatedly(Return(20));
-  EXPECT_CALL(*model, start_year()).WillRepeatedly(Return(2000));
-  EXPECT_CALL(*model, final_year()).WillRepeatedly(Return(2010));
-  EXPECT_CALL(*model, partition_type()).WillRepeatedly(Return(PartitionType::kAge));
+// TEST_F(InternalEmptyModel, Categories_AssignSpecificYearsPerCategory_3) {
+//   shared_ptr<MockModel> model = shared_ptr<MockModel>(new MockModel());
+//   vector<unsigned>      model_years{2000u, 2001u, 2002u, 2003u};
+//   EXPECT_CALL(*model, years()).WillRepeatedly(Return(model_years));
+//   EXPECT_CALL(*model, min_age()).WillRepeatedly(Return(10));
+//   EXPECT_CALL(*model, max_age()).WillRepeatedly(Return(20));
+//   EXPECT_CALL(*model, start_year()).WillRepeatedly(Return(2000));
+//   EXPECT_CALL(*model, final_year()).WillRepeatedly(Return(2010));
+//   EXPECT_CALL(*model, partition_type()).WillRepeatedly(Return(PartitionType::kAge));
 
-  MockCategories categories(model);
+//   MockCategories categories(model);
 
-  vector<string> years_lookup = {"tag=*=2002"};
-  categories.parameters().Add(PARAM_YEARS, years_lookup, __FILE__, __LINE__);
-  ASSERT_NO_THROW(categories.Validate());
+//   vector<string> years_lookup = {"tag=*=2002"};
+//   categories.parameters().Add(PARAM_YEARS, years_lookup, __FILE__, __LINE__);
+//   ASSERT_NO_THROW(categories.Validate());
 
-  auto years = categories.years("male.immature.notag");
-  ASSERT_EQ(1u, years.size());
-  EXPECT_EQ(2002u, years[0]);
-}
+//   auto years = categories.years("male.immature.notag");
+//   ASSERT_EQ(1u, years.size());
+//   EXPECT_EQ(2002u, years[0]);
+// }
 
 /**
  * Check that we can specify just a category
  */
-TEST_F(InternalEmptyModel, Categories_AssignSpecificYearsPerCategory_4) {
-  shared_ptr<MockModel> model = shared_ptr<MockModel>(new MockModel());
-  vector<unsigned>      model_years{2000u, 2001u, 2002u, 2003u};
-  EXPECT_CALL(*model, years()).WillRepeatedly(Return(model_years));
-  EXPECT_CALL(*model, min_age()).WillRepeatedly(Return(10));
-  EXPECT_CALL(*model, max_age()).WillRepeatedly(Return(20));
-  EXPECT_CALL(*model, start_year()).WillRepeatedly(Return(2000));
-  EXPECT_CALL(*model, final_year()).WillRepeatedly(Return(2010));
-  EXPECT_CALL(*model, partition_type()).WillRepeatedly(Return(PartitionType::kAge));
+// TEST_F(InternalEmptyModel, Categories_AssignSpecificYearsPerCategory_4) {
+//   shared_ptr<MockModel> model = shared_ptr<MockModel>(new MockModel());
+//   vector<unsigned>      model_years{2000u, 2001u, 2002u, 2003u};
+//   EXPECT_CALL(*model, years()).WillRepeatedly(Return(model_years));
+//   EXPECT_CALL(*model, min_age()).WillRepeatedly(Return(10));
+//   EXPECT_CALL(*model, max_age()).WillRepeatedly(Return(20));
+//   EXPECT_CALL(*model, start_year()).WillRepeatedly(Return(2000));
+//   EXPECT_CALL(*model, final_year()).WillRepeatedly(Return(2010));
+//   EXPECT_CALL(*model, partition_type()).WillRepeatedly(Return(PartitionType::kAge));
 
-  MockCategories categories(model);
+//   MockCategories categories(model);
 
-  vector<string> years_lookup = {"male.immature.notag=2002"};
-  categories.parameters().Add(PARAM_YEARS, years_lookup, __FILE__, __LINE__);
-  ASSERT_NO_THROW(categories.Validate());
+//   vector<string> years_lookup = {"male.immature.notag=2002"};
+//   categories.parameters().Add(PARAM_YEARS, years_lookup, __FILE__, __LINE__);
+//   ASSERT_NO_THROW(categories.Validate());
 
-  auto years = categories.years("male.immature.notag");
-  ASSERT_EQ(1u, years.size());
-  EXPECT_EQ(2002u, years[0]);
-}
+//   auto years = categories.years("male.immature.notag");
+//   ASSERT_EQ(1u, years.size());
+//   EXPECT_EQ(2002u, years[0]);
+// }
 
 /**
  * This test will assign different years to different categories
  */
-TEST_F(InternalEmptyModel, Categories_AssignSpecificYearsPerCategory) {
-  shared_ptr<MockModel> model = shared_ptr<MockModel>(new MockModel());
-  vector<unsigned>      model_years{2000u, 2001u, 2002u, 2003u};
-  EXPECT_CALL(*model, years()).WillRepeatedly(Return(model_years));
-  EXPECT_CALL(*model, min_age()).WillRepeatedly(Return(10));
-  EXPECT_CALL(*model, max_age()).WillRepeatedly(Return(20));
-  EXPECT_CALL(*model, start_year()).WillRepeatedly(Return(2000));
-  EXPECT_CALL(*model, final_year()).WillRepeatedly(Return(2010));
-  EXPECT_CALL(*model, partition_type()).WillRepeatedly(Return(PartitionType::kAge));
+// TEST_F(InternalEmptyModel, Categories_AssignSpecificYearsPerCategory) {
+//   shared_ptr<MockModel> model = shared_ptr<MockModel>(new MockModel());
+//   vector<unsigned>      model_years{2000u, 2001u, 2002u, 2003u};
+//   EXPECT_CALL(*model, years()).WillRepeatedly(Return(model_years));
+//   EXPECT_CALL(*model, min_age()).WillRepeatedly(Return(10));
+//   EXPECT_CALL(*model, max_age()).WillRepeatedly(Return(20));
+//   EXPECT_CALL(*model, start_year()).WillRepeatedly(Return(2000));
+//   EXPECT_CALL(*model, final_year()).WillRepeatedly(Return(2010));
+//   EXPECT_CALL(*model, partition_type()).WillRepeatedly(Return(PartitionType::kAge));
 
-  MockCategories categories(model);
-  categories.Validate();
+//   MockCategories categories(model);
+//   categories.Validate();
 
-  /**
-   * Check 1: Assigning a value to all categories
-   */
-  string lookup  = "*=2000,2001";
-  auto   results = categories.GetCategoryLabelsAndValues(lookup, categories.parameters().Get(PARAM_NAMES)->location());
-  EXPECT_EQ(16u, results.size());
-  EXPECT_EQ("2000,2001", results["female.mature.notag"]);
-  EXPECT_EQ("2000,2001", results["male.immature.notag"]);
+//   /**
+//    * Check 1: Assigning a value to all categories
+//    */
+//   string lookup  = "*=2000,2001";
+//   auto   results = categories.GetCategoryLabelsAndValues(lookup, categories.parameters().Get(PARAM_NAMES)->location());
+//   EXPECT_EQ(16u, results.size());
+//   EXPECT_EQ("2000,2001", results["female.mature.notag"]);
+//   EXPECT_EQ("2000,2001", results["male.immature.notag"]);
 
-  /**
-   * Check 2:
-   * format=male.*.*
-   */
-  lookup  = "format=male.*.*=2000,2003,2005";
-  results = categories.GetCategoryLabelsAndValues(lookup, categories.parameters().Get(PARAM_NAMES)->location());
-  EXPECT_EQ(8u, results.size());
-  EXPECT_EQ("2000,2003,2005", results["male.immature.notag"]);
-  EXPECT_EQ("2000,2003,2005", results["male.immature.2000"]);
+//   /**
+//    * Check 2:
+//    * format=male.*.*
+//    */
+//   lookup  = "format=male.*.*=2000,2003,2005";
+//   results = categories.GetCategoryLabelsAndValues(lookup, categories.parameters().Get(PARAM_NAMES)->location());
+//   EXPECT_EQ(8u, results.size());
+//   EXPECT_EQ("2000,2003,2005", results["male.immature.notag"]);
+//   EXPECT_EQ("2000,2003,2005", results["male.immature.2000"]);
 
-  /**
-   * Check 3:
-   * format=female.*.*
-   */
-  lookup  = "format=female.*.*=2000,2003,2005";
-  results = categories.GetCategoryLabelsAndValues(lookup, categories.parameters().Get(PARAM_NAMES)->location());
-  EXPECT_EQ(8u, results.size());
-  EXPECT_EQ("2000,2003,2005", results["female.immature.notag"]);
-  EXPECT_EQ("2000,2003,2005", results["female.immature.2000"]);
+//   /**
+//    * Check 3:
+//    * format=female.*.*
+//    */
+//   lookup  = "format=female.*.*=2000,2003,2005";
+//   results = categories.GetCategoryLabelsAndValues(lookup, categories.parameters().Get(PARAM_NAMES)->location());
+//   EXPECT_EQ(8u, results.size());
+//   EXPECT_EQ("2000,2003,2005", results["female.immature.notag"]);
+//   EXPECT_EQ("2000,2003,2005", results["female.immature.2000"]);
 
-  /**
-   * Check 4:
-   * format=male.immature.*
-   */
-  lookup  = "format=male.immature.*=2000";
-  results = categories.GetCategoryLabelsAndValues(lookup, categories.parameters().Get(PARAM_NAMES)->location());
-  EXPECT_EQ(4u, results.size());
-  EXPECT_EQ("2000", results["male.immature.notag"]);
-  EXPECT_EQ("2000", results["male.immature.2000"]);
+//   /**
+//    * Check 4:
+//    * format=male.immature.*
+//    */
+//   lookup  = "format=male.immature.*=2000";
+//   results = categories.GetCategoryLabelsAndValues(lookup, categories.parameters().Get(PARAM_NAMES)->location());
+//   EXPECT_EQ(4u, results.size());
+//   EXPECT_EQ("2000", results["male.immature.notag"]);
+//   EXPECT_EQ("2000", results["male.immature.2000"]);
 
-  /**
-   * Check 5
-   * format=male.*.notag
-   */
-  lookup  = "format=male.*.notag=2000,2002,2004";
-  results = categories.GetCategoryLabelsAndValues(lookup, categories.parameters().Get(PARAM_NAMES)->location());
-  EXPECT_EQ(2u, results.size());
-  EXPECT_EQ("2000,2002,2004", results["male.immature.notag"]);
-  EXPECT_EQ("2000,2002,2004", results["male.mature.notag"]);
+//   /**
+//    * Check 5
+//    * format=male.*.notag
+//    */
+//   lookup  = "format=male.*.notag=2000,2002,2004";
+//   results = categories.GetCategoryLabelsAndValues(lookup, categories.parameters().Get(PARAM_NAMES)->location());
+//   EXPECT_EQ(2u, results.size());
+//   EXPECT_EQ("2000,2002,2004", results["male.immature.notag"]);
+//   EXPECT_EQ("2000,2002,2004", results["male.mature.notag"]);
 
-  /**
-   * Check 6
-   * format=male.immaure.2000,2001
-   */
-  lookup  = "format=male.immature.2000,2001=2002,2003";
-  results = categories.GetCategoryLabelsAndValues(lookup, categories.parameters().Get(PARAM_NAMES)->location());
-  EXPECT_EQ(2u, results.size());
-  EXPECT_EQ("2002,2003", results["male.immature.2000"]);
-  EXPECT_EQ("2002,2003", results["male.immature.2001"]);
+//   /**
+//    * Check 6
+//    * format=male.immaure.2000,2001
+//    */
+//   lookup  = "format=male.immature.2000,2001=2002,2003";
+//   results = categories.GetCategoryLabelsAndValues(lookup, categories.parameters().Get(PARAM_NAMES)->location());
+//   EXPECT_EQ(2u, results.size());
+//   EXPECT_EQ("2002,2003", results["male.immature.2000"]);
+//   EXPECT_EQ("2002,2003", results["male.immature.2001"]);
 
-  /**
-   * Check 7
-   * sex=male
-   */
-  lookup  = "sex=male=2005";
-  results = categories.GetCategoryLabelsAndValues(lookup, categories.parameters().Get(PARAM_NAMES)->location());
-  EXPECT_EQ(8u, results.size());
-  EXPECT_EQ("2005", results["male.immature.2000"]);
-  EXPECT_EQ("2005", results["male.mature.2001"]);
+//   /**
+//    * Check 7
+//    * sex=male
+//    */
+//   lookup  = "sex=male=2005";
+//   results = categories.GetCategoryLabelsAndValues(lookup, categories.parameters().Get(PARAM_NAMES)->location());
+//   EXPECT_EQ(8u, results.size());
+//   EXPECT_EQ("2005", results["male.immature.2000"]);
+//   EXPECT_EQ("2005", results["male.mature.2001"]);
 
-  /**
-   * Check 8
-   * tag=notag
-   */
-  lookup  = "tag=notag=2007";
-  results = categories.GetCategoryLabelsAndValues(lookup, categories.parameters().Get(PARAM_NAMES)->location());
-  EXPECT_EQ(4u, results.size());
-  EXPECT_EQ("2007", results["male.immature.notag"]);
-  EXPECT_EQ("2007", results["male.mature.notag"]);
+//   /**
+//    * Check 8
+//    * tag=notag
+//    */
+//   lookup  = "tag=notag=2007";
+//   results = categories.GetCategoryLabelsAndValues(lookup, categories.parameters().Get(PARAM_NAMES)->location());
+//   EXPECT_EQ(4u, results.size());
+//   EXPECT_EQ("2007", results["male.immature.notag"]);
+//   EXPECT_EQ("2007", results["male.mature.notag"]);
 
-  /**
-   * Check 9
-   * tag=notag,2001
-   */
-  lookup  = "tag=notag,2001=2009";
-  results = categories.GetCategoryLabelsAndValues(lookup, categories.parameters().Get(PARAM_NAMES)->location());
-  EXPECT_EQ(8u, results.size());
-  EXPECT_EQ("2009", results["male.immature.notag"]);
-  EXPECT_EQ("2009", results["male.mature.notag"]);
-  EXPECT_EQ("2009", results["male.immature.2001"]);
-  EXPECT_EQ("2009", results["male.mature.2001"]);
-}
+//   /**
+//    * Check 9
+//    * tag=notag,2001
+//    */
+//   lookup  = "tag=notag,2001=2009";
+//   results = categories.GetCategoryLabelsAndValues(lookup, categories.parameters().Get(PARAM_NAMES)->location());
+//   EXPECT_EQ(8u, results.size());
+//   EXPECT_EQ("2009", results["male.immature.notag"]);
+//   EXPECT_EQ("2009", results["male.mature.notag"]);
+//   EXPECT_EQ("2009", results["male.immature.2001"]);
+//   EXPECT_EQ("2009", results["male.mature.2001"]);
+// }
 
 /**
  *
