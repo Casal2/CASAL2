@@ -8,7 +8,7 @@
  *
  * @section
  *
- * This is testing a Complex CASAL2 model with instant mortality
+ * This is testing a Complex Casal2 model with instant mortality
  */
 #ifndef SOURCE_TESTRESOURCES_MODELS_ROSSSEACOMPLEX_H_
 #define SOURCE_TESTRESOURCES_MODELS_ROSSSEACOMPLEX_H_

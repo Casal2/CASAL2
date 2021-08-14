@@ -59,17 +59,17 @@ int main(int argc, char* argv[]) {
     return_code = Run(argc, argv, options);
 
   } catch (const string& exception) {
-    cout << "## ERROR - CASAL2 experienced a problem and has stopped execution" << endl;
+    cout << "## ERROR - Casal2 experienced a problem and has stopped execution" << endl;
     cout << "Error: " << exception << endl;
     return_code = -1;
 
   } catch (std::exception& e) {
-    cout << "## ERROR - CASAL2 experienced a problem and has stopped execution" << endl;
+    cout << "## ERROR - Casal2 experienced a problem and has stopped execution" << endl;
     cout << e.what() << endl;
     return_code = -1;
 
   } catch (...) {
-    cout << "## ERROR - CASAL2 experienced a problem and has stopped execution" << endl;
+    cout << "## ERROR - Casal2 experienced a problem and has stopped execution" << endl;
     cout << "The exception was caught with the catch-all. The type was unknown" << endl;
     cout << "Please contact the Casal2 Development Team and submit a bug report." << endl;
     return_code = -1;

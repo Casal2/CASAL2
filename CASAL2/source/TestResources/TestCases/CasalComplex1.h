@@ -8,9 +8,9 @@
  *
  * @section DESCRIPTION
  *
- * This is testing CASAL2 vs CASAL-Complex-1 test case
+ * This is testing Casal2 vs CASAL-Complex-1 test case
  * developed by Alistair Dunn to ensure consistency between
- * CASAL2, CASAL and SPM.
+ * Casal2, CASAL and SPM.
  */
 #ifndef TESTCASES_CASALCOMPLEX1_H_
 #define TESTCASES_CASALCOMPLEX1_H_

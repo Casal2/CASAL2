@@ -10,7 +10,7 @@
  * @section DESCRIPTION
  *
  * This file contains the struct definition for the object we will
- * pass in to the CASAL2 DLL holding all of the optional information
+ * pass in to the Casal2 DLL holding all of the optional information
  * we need to give it.
  *
  * If we need to keep information between the run modes/dll/shared object

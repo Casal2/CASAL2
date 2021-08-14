@@ -9,7 +9,7 @@
  *
  * @section DESCRIPTION
  *
- * This file contains conditional types that we'll use in CASAL2 instead
+ * This file contains conditional types that we'll use in Casal2 instead
  * of the default types to give us more flexibility.
  *
  * $Date: 2008-03-04 16:33:32 +1300 (Tue, 04 Mar 2008) $

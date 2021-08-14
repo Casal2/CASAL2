@@ -8,7 +8,7 @@
  *
  * @section DESCRIPTION
  *
- * This file contains the CASAL2 version of the two-sex model.
+ * This file contains the Casal2 version of the two-sex model.
  */
 #ifdef TESTMODE
 
