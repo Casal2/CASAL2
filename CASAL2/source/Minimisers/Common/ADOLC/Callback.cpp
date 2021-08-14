@@ -33,12 +33,7 @@ CallBack::CallBack(shared_ptr<Model> model) : model_(model) {}
 // Operatior() for Minimiser CallBack
 //**********************************************************************
 adouble CallBack::operator()(const vector<adouble>& Parameters) {
-  // cout << ".";
-  static int i = 0;
-  i++;
-  if (i % 20 == 0)
-    cout << endl;
-
+  LOG_INFO() << "ADOL-C Casal2 Callback Called";
   // Update our Components with the New Parameters
   auto estimates = model_->managers()->estimate()->GetIsEstimated();
 

@@ -151,11 +151,11 @@ double Engine::optimise_finite_differences(deltadiff::CallBack& objective, vecto
 
       buildCurrentValues();
       dScore = objective(vCurrentValues);
-      std::cerr << "Current estimates: ";
-      for (int i = 0; i < iVectorSize; ++i) {
-        std::cerr << vCurrentValues[i] << " ";
-      }
-      std::cerr << "\nObjective function value: " << dScore << "\n";
+      // std::cerr << "Current estimates: ";
+      // for (int i = 0; i < iVectorSize; ++i) {
+      // std::cerr << vCurrentValues[i] << " ";
+      // }
+      // std::cerr << "\nObjective function value: " << dScore << "\n";
       dScore += dPenalty;  // Bound penalty
     }
 

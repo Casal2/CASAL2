@@ -120,19 +120,17 @@ void RandomWalkMetropolisHastings::DoExecute(shared_ptr<ThreadPool> thread_pool)
       }
 
       // print out a . for every iteration so we get some feedback to console
-      ++iteration_counter_;
-      cout << ".";
-      if (iteration_counter_ % 100 == 0) {
-        iteration_counter_ = 0;
-        cout << endl;
-      }
+      // ++iteration_counter_;
+      // cout << ".";
+      // if (iteration_counter_ % 100 == 0) {
+      //   iteration_counter_ = 0;
+      //   cout << endl;
+      // }
 
       // LOG_MEDIUM() << "Storing: Successful Jumps " << successful_jumps_ << " Jumps : " << jumps_;
       model_->managers()->report()->Execute(model_, State::kIterationComplete);
     }
   } while (jumps_ < length_);
-
-  cout << endl;  // print out that extra newline after the progress periods.
 }
 
 }  // namespace niwa::mcmcs

@@ -123,7 +123,7 @@ void MCMC::Build() {
  * Execute the MCMC
  */
 void MCMC::Execute(shared_ptr<ThreadPool> thread_pool) {
-  cout << "Starting MCMC " << type_ << endl;
+  LOG_INFO() << "Starting MCMC " << type_;
   utilities::RandomNumberGenerator& rng = utilities::RandomNumberGenerator::Instance();
   rng.Reset(model_->global_configuration().random_seed());
   LOG_MEDIUM() << "Resetting RNG with Seed: " << model_->global_configuration().random_seed();
@@ -196,7 +196,7 @@ void MCMC::Execute(shared_ptr<ThreadPool> thread_pool) {
     return;
 
   DoExecute(thread_pool);
-  cout << "MCMC execution complete" << endl;
+  LOG_INFO() << "MCMC execution complete";
 }
 
 /**

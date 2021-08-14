@@ -377,8 +377,8 @@ void FMM::fMin(vector<double>& Candidates, double& Score, vector<double>& Gradie
     }
 
     // if (!(pConfig->getQuietMode())) {
-    std::cerr << CONVERGENCE_CHECK << (double)dCurrentTolerance << "\n";
-    std::cerr << CONVERGENCE_THRESHOLD << (double)dGradTol << "\n" << std::endl;
+    LOG_INFO() << CONVERGENCE_CHECK << (double)dCurrentTolerance;
+    LOG_INFO() << CONVERGENCE_THRESHOLD << (double)dGradTol;
     //}
 
     if (dCurrentTolerance <= dGradTol) {
