@@ -59,13 +59,13 @@ Or
 B. Unzip the archive, and manually copy the Casal2 executable 
 and associated *.dll files to a location of your choice. 
 
-Note that you do need Casal2.exe and all of the *.dll files 
-to successfully run Casal2.
+Note that need Casal2.exe and all of the *.dll files to 
+successfully run Casal2.
 
 To uninstall, use the uninstaller. This will remove any 
 installed files and registry entries automatically. To 
 uninstall manually, delete the files from your computer 
-(typically stored in c:\Program Files\CASAL2, but this 
+(e.g., c:\Program Files\CASAL2, but this 
 depends on your choices when you installed 
 the program) and any program links in your Start menu.
 
@@ -91,4 +91,3 @@ Textpad & Notepad++ syntax highlighting
 To embed the syntax highlighter recommended for viewing .csl2 files, see
 TextPad_syntax_highlighter.readme or NotePad++_syntax_highlighter.readme
 for how to do this.
-
