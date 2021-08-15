@@ -46,7 +46,7 @@ AgeLength::AgeLength(shared_ptr<Model> model) : model_(model) {
       ->set_range(0.0, 1.0);
   parameters_.Bind<string>(PARAM_DISTRIBUTION, &distribution_label_, "The assumed distribution for the growth curve", "", PARAM_NORMAL);
   parameters_.Bind<Double>(PARAM_CV_FIRST, &cv_first_, "The CV for the first age class", "", Double(0.0))->set_lower_bound(0.0);
-  parameters_.Bind<Double>(PARAM_CV_LAST, &cv_last_, "The CV for last age class", "", Double(cv_first_))->set_lower_bound(0.0);
+  parameters_.Bind<Double>(PARAM_CV_LAST, &cv_last_, "The CV for last age class", "", Double(0.0))->set_lower_bound(0.0);
   parameters_
       .Bind<string>(PARAM_COMPATIBILITY, &compatibility_,
                     "Backwards compatibility option: either casal2 (the default) or casal to use the (less accurate) cumulative normal function from CASAL", "", PARAM_CASAL2)
@@ -119,11 +119,14 @@ void AgeLength::BuildCV() {
 
   for (unsigned year : years) {
     for (unsigned step_iter = 0; step_iter < time_steps.size(); ++step_iter) {
-      if (!parameters_.Get(PARAM_CV_LAST)->has_been_defined()) {  // TODO: Fix this #this test is robust but not compatible with testing framework, blah
+      if (!parameters_.Get(PARAM_CV_LAST)->has_been_defined()) {
+        // TODO: Fix this #this test is robust but not compatible with testing framework, blah
         // If cv_last_ is not defined in the input then assume cv_first_ represents the cv for all age classes i.e constant cv
+        LOG_FINEST() << "No cv_last defined";
         for (unsigned age = min_age; age <= max_age; ++age) cvs_[year][step_iter][age] = (cv_first_);
 
       } else if (by_length_) {  // if passed the first test we have a min and max CV. So ask if this is linear interpolated by length at age
+        LOG_FINEST() << "cv_last defined with by_length = true";
         for (unsigned age = min_age; age <= max_age; ++age) {
           cvs_[year][step_iter][age] = ((this->mean_length(step_iter, age) - this->mean_length(step_iter, min_age)) * (cv_last_ - cv_first_)
                                             / (this->mean_length(step_iter, max_age) - this->mean_length(step_iter, min_age))
@@ -131,6 +134,7 @@ void AgeLength::BuildCV() {
         }
       } else {
         // else Do linear interpolation between cv_first_ and cv_last_ based on age class
+        LOG_FINEST() << "cv_last defined with by_length = false";
         for (unsigned age = min_age; age <= max_age; ++age) cvs_[year][step_iter][age] = (cv_first_ + (cv_last_ - cv_first_) * (age - min_age) / (max_age - min_age));
 
       }  // if (!parameters_.Get(PARAM_CV_LAST)->has_been_defined()) {

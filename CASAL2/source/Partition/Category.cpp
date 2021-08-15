@@ -100,7 +100,6 @@ void Category::UpdateMeanWeightData() {
           // Double size = 0;
           // if (!niwa::utilities::To<Double>(length_bins[length_bin_index], size))
           //  LOG_FATAL() << " value (" << length_bins[length_bin_index] << ") could not be converted to a double";
-
           mean_weight_by_time_step_length_[step_iter][length_bin_index] = length_weight->mean_weight(length_bins[length_bin_index], Distribution::kNone, 0.0);
         }
       }
@@ -318,19 +317,16 @@ void Category::CalculateNumbersAtLength(Selectivity* selectivity, const vector<D
     if (age_length_->compatibility() == PARAM_CASAL) {
       age_length_matrix[i]
           = utilities::math::distribution(length_bins, length_plus, age_length_->distribution(), mean_length_by_time_step_age_[year_index][time_step_index][i], std_dev);
-      if (age_length_matrix[i].size() != numbers_by_length.size())
-        LOG_CODE_ERROR() << "if (age_length_matrix[i].size() != numbers_by_length.size()). Age length dims were " << age_length_matrix[i].size() << ", expected "
-                         << numbers_by_length.size();
     } else if (age_length_->compatibility() == PARAM_CASAL2) {
       age_length_matrix[i]
           = utilities::math::distribution2(length_bins, length_plus, age_length_->distribution(), mean_length_by_time_step_age_[year_index][time_step_index][i], std_dev);
-      if (age_length_matrix[i].size() != numbers_by_length.size())
-        LOG_CODE_ERROR() << "if (age_length_matrix[i].size() != numbers_by_length.size()). Age length dims were " << age_length_matrix[i].size() << ", expected "
-                         << numbers_by_length.size();
     } else {
       LOG_CODE_ERROR() << "Unknown compatibility option in the calculation of the distribution of age_length";
     }
 
+    if (age_length_matrix[i].size() != numbers_by_length.size())
+      LOG_CODE_ERROR() << "if (age_length_matrix[i].size() != numbers_by_length.size()). Age length dims were " << age_length_matrix[i].size() << ", expected "
+                       << numbers_by_length.size();
     // Multiply by data_
     std::transform(age_length_matrix[i].begin(), age_length_matrix[i].end(), age_length_matrix[i].begin(), std::bind(std::multiplies<Double>(), std::placeholders::_1, data_[i]));
   }

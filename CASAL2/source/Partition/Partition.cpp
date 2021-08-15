@@ -236,7 +236,7 @@ void Partition::BuildAgeLengthProportions() {
 
     LOG_FINEST() << "Memory allocation done";
 
-    bool casal_normal_cdf = (iter.second->age_length_->compatibility() == PARAM_CASAL);
+    string casal_normal_cdf = iter.second->age_length_->compatibility();
     for (unsigned year_iter = 0; year_iter < year_count; ++year_iter) {
       year = year_iter + model_->start_year();
 
@@ -267,12 +267,14 @@ void Partition::BuildAgeLengthProportions() {
           for (unsigned j = 0; j < length_bin_count; ++j) {
             LOG_FINEST() << "calculating pnorm for length " << length_bins[j];
             // If we are using CASAL's Normal CDF function use this switch
-            if (casal_normal_cdf) {
+            if (casal_normal_cdf == PARAM_CASAL) {
               tmp = utilities::math::pnorm(length_bins[j], mu, sigma);
               LOG_FINE() << "casal_normal_cdf: " << tmp << " utilities::math::pnorm(" << length_bins[j] << ", " << mu << ", " << sigma;
-            } else {
+            } else if (casal_normal_cdf == PARAM_CASAL2) {
               tmp = utilities::math::pnorm2(length_bins[j], mu, sigma);
               LOG_FINE() << "normal: " << tmp << " utilities::math::pnorm(" << length_bins[j] << ", " << mu << ", " << sigma;
+            } else {
+              LOG_CODE_ERROR() << "Unknown compatibility option in the calculation of the distribution of age_length";
             }
             cum[j] = tmp;
 
