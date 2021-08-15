@@ -1,11 +1,10 @@
 cd BuildSystem
 
-#doBuild.sh clean_all
-call doBuild.sh version
+doBuild.sh version
 
-#doBuild.sh thirdparty boost
-doBuild.sh thirdparty betadiff
+doBuild.sh thirdparty boost
 doBuild.sh thirdparty adolc
+doBuild.sh thirdparty betadiff
 doBuild.sh thirdparty parser
 
 doBuild.sh version
@@ -27,5 +26,6 @@ doBuild.sh archive
 doBuild.sh installer
 
 doBuild.sh modelrunner
+doBuild.sh unittests
 
 cd ..
