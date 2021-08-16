@@ -272,11 +272,12 @@ class Cleaner:
 
     def clean_all(self):
         print('--> Starting clean of all Casal2 build files (including third party)')
-        build_directory = os.path.normpath(os.getcwd()) + f"/bin/{Globals.operating_system_}_{Globals.compiler_}"
+        print('--> This removes ALL binary files and ALL pre-built Casal2 files')
+        build_directory = os.path.normpath(os.getcwd()) + f"/bin/"
         print(f"-- Build Directories: {build_directory}") 
         if (os.path.exists(build_directory)):
             shutil.rmtree(build_directory)
-        build_directory = os.path.normpath(os.getcwd()) + f"../BuildSystem/bin/{Globals.operating_system_}"
+        build_directory = os.path.normpath(os.getcwd()) + f"/Casal2/"
         print(f"-- Build Directories: {build_directory}") 
         if (os.path.exists(build_directory)):
             shutil.rmtree(build_directory)

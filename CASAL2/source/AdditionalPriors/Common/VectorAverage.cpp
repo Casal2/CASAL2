@@ -5,7 +5,7 @@
  * @date 28/10/2014
  * @section LICENSE
  *
- * Copyright NIWA Science ©2014 - www.niwa.co.nz
+ * Copyright NIWA Science ï¿½2014 - www.niwa.co.nz
  *
  */
 
@@ -34,7 +34,7 @@ VectorAverage::VectorAverage(shared_ptr<Model> model) : AdditionalPrior(model) {
 void VectorAverage::DoBuild() {
   string error = "";
   if (!model_->objects().VerfiyAddressableForUse(parameter_, addressable::kLookup, error)) {
-    LOG_FATAL_P(PARAM_PARAMETER) << "could not be verified for use in additional_prior.vector_average. Error: " << error;
+    LOG_FATAL_P(PARAM_PARAMETER) << "could not be found. Error: " << error;
   }
 
   addressable::Type addressable_type = model_->objects().GetAddressableType(parameter_);
@@ -53,7 +53,7 @@ void VectorAverage::DoBuild() {
       addressable_map_ = model_->objects().GetAddressableUMap(parameter_);
       break;
     default:
-      LOG_ERROR() << "The addressable provided for use in additional priors '" << parameter_ << "' has a type that is not supported for vector average additional priors";
+      LOG_ERROR() << "The addressable provided '" << parameter_ << "' has a type that is not supported for vector average additional priors";
       break;
   }
 }

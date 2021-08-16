@@ -24,8 +24,7 @@ namespace age {
  * Default constructor
  */
 Biomass::Biomass(shared_ptr<Model> model) : DerivedQuantity(model) {
-  parameters_.Bind<string>(PARAM_AGE_WEIGHT_LABELS, &age_weight_labels_,
-                           "The labels for the @age\\_weight block which corresponds to each category, to use that weight calculation method for biomass calculations", "", "");
+  parameters_.Bind<string>(PARAM_AGE_WEIGHT_LABELS, &age_weight_labels_, "The labels for the age-weights that correspond to each category for the biomass calculation", "", "");
 }
 
 /**
@@ -36,7 +35,7 @@ void Biomass::DoValidate() {
     // Do some house keeping if this parameter has been defined
     if (age_weight_labels_.size() != category_labels_.size())
       LOG_ERROR_P(PARAM_AGE_WEIGHT_LABELS) << "If age_weight_labels are used, one is required for each category. There are " << age_weight_labels_.size()
-                                           << " age weight labels, but there are " << category_labels_.size() << " category labels";
+                                           << " age_weight_labels, but there are " << category_labels_.size() << " category_labels";
   }
 }
 
@@ -47,7 +46,7 @@ void Biomass::DoBuild() {
   // Build age weight pointers if users have define it
   if (parameters_.Get(PARAM_AGE_WEIGHT_LABELS)->has_been_defined()) {
     use_age_weights_ = true;
-    LOG_FINE() << "Age weight has been defined";
+    LOG_FINE() << "Age-weight has been defined";
     for (string label : age_weight_labels_) {
       AgeWeight* age_weight = model_->managers()->age_weight()->FindAgeWeight(label);
       if (!age_weight)
@@ -66,7 +65,7 @@ void Biomass::PreExecute() {
   unsigned year            = model_->current_year();
   auto     iterator        = partition_.begin();
   unsigned time_step_index = model_->managers()->time_step()->current_time_step();
-  LOG_FINE() << "Time step for calculating biomass = " << time_step_index;
+  LOG_FINE() << "The time-step when calculating biomass = " << time_step_index;
 
   // iterate over each category
   if (!use_age_weights_) {

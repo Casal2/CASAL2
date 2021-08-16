@@ -6,7 +6,7 @@
  * @date 28/02/2013
  * @section LICENSE
  *
- * Copyright NIWA Science ©2013 - www.niwa.co.nz
+ * Copyright NIWA Science ï¿½2013 - www.niwa.co.nz
  *
  * $Date: 2008-03-04 16:33:32 +1300 (Tue, 04 Mar 2008) $
  */
@@ -159,7 +159,7 @@ bool Engine::Solve(unsigned max_generations) {
   bool new_best_energy = false;
 
   trial_energy_ = EnergyFunction(current_values_);
-  LOG_MEDIUM() << "First Trial Energy: " << trial_energy_;
+  LOG_INFO() << "First Trial Energy: " << trial_energy_;
   if (trial_energy_ < best_energy_) {
     new_best_energy = true;
 
@@ -169,8 +169,7 @@ bool Engine::Solve(unsigned max_generations) {
 
     LOG_MEDIUM() << "Current estimates: ";
     for (unsigned i = 0; i < best_solution_.size(); ++i) LOG_MEDIUM() << best_solution_[i] << " ";
-    LOG_MEDIUM();
-    LOG_MEDIUM() << "Objective function value: " << trial_energy_;
+    LOG_INFO() << "Objective function value: " << trial_energy_;
   }
 
   for (unsigned i = 0; i < max_generations; ++i) {
@@ -192,7 +191,7 @@ bool Engine::Solve(unsigned max_generations) {
           best_energy_ = trial_energy_;
           best_solution_.assign(current_values_.begin(), current_values_.end());
 
-          LOG_MEDIUM() << "Objective function value: " << trial_energy_;
+          LOG_INFO() << "Objective function value: " << trial_energy_;
 
           //          if(!(pConfig->getQuietMode())) {
           //            LOG_MEDIUM() << "Current estimates: ";
@@ -215,9 +214,9 @@ bool Engine::Solve(unsigned max_generations) {
     new_best_energy = false;
   }
 
-  LOG_MEDIUM() << "Best Solution: ";
+  LOG_INFO() << "Best Solution: ";
   for (unsigned i = 0; i < best_solution_.size(); ++i) LOG_MEDIUM() << best_solution_[i] << " ";
-  LOG_MEDIUM() << "= " << best_energy_;
+  LOG_INFO() << "= " << best_energy_;
 
   LOG_MEDIUM() << "Population:";
   for (unsigned i = 0; i < population_size_; ++i) {

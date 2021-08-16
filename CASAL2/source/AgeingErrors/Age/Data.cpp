@@ -47,11 +47,11 @@ Data::~Data() {
 void Data::DoBuild() {
   auto data = data_table_->data();
   if (data.size() != age_spread_) {
-    LOG_ERROR_P(PARAM_TABLE) << "The number of rows provided " << data.size() << " does not match the age spread " << age_spread_;
+    LOG_ERROR_P(PARAM_TABLE) << "The number of rows provided " << data.size() << " does not match the age range of the model " << age_spread_;
     return;
   }
   if (data[0].size() != age_spread_) {
-    LOG_ERROR_P(PARAM_TABLE) << "The number of columns provided " << data.size() << " does not match the age spread " << age_spread_;
+    LOG_ERROR_P(PARAM_TABLE) << "The number of columns provided " << data.size() << " does not match the age range of the model " << age_spread_;
     return;
   }
 

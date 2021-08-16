@@ -5,7 +5,7 @@
  * @date 3/7/2017
  * @section LICENSE
  *
- * Copyright NIWA Science ©2014 - www.niwa.co.nz
+ * Copyright NIWA Science ï¿½2014 - www.niwa.co.nz
  *
  */
 
@@ -31,7 +31,7 @@ namespace additionalpriors {
  */
 LogNormal::LogNormal(shared_ptr<Model> model) : AdditionalPrior(model) {
   parameters_.Bind<Double>(PARAM_MU, &mu_, "The lognormal prior mean (mu) parameter", "")->set_lower_bound(0.0, false);
-  parameters_.Bind<Double>(PARAM_CV, &cv_, "The lognormal variance (cv) parameter", "")->set_lower_bound(0.0, false);
+  parameters_.Bind<Double>(PARAM_CV, &cv_, "The lognormal CV parameter", "")->set_lower_bound(0.0, false);
 }
 
 /**
@@ -48,7 +48,7 @@ void LogNormal::DoValidate() {}
 void LogNormal::DoBuild() {
   string error = "";
   if (!model_->objects().VerfiyAddressableForUse(parameter_, addressable::kLookup, error)) {
-    LOG_FATAL_P(PARAM_PARAMETER) << "could not be verified for use in additional_prior.log_normal. Error: " << error;
+    LOG_FATAL_P(PARAM_PARAMETER) << "could not be found. Error: " << error;
   }
 
   addressable::Type addressable_type = model_->objects().GetAddressableType(parameter_);
@@ -70,7 +70,7 @@ void LogNormal::DoBuild() {
       addressable_ = model_->objects().GetAddressable(parameter_);
       break;
     default:
-      LOG_ERROR() << "The addressable provided for use in additional priors '" << parameter_ << "' has a type that is not supported for LogNormal additional priors";
+      LOG_ERROR() << "The addressable provided '" << parameter_ << "' has a type that is not supported for lognormal additional priors";
       break;
   }
 }

@@ -67,7 +67,7 @@ void Normal::DoValidate() {
     LOG_ERROR_P(PARAM_CV) << "CV value (" << AS_DOUBLE(cv_) << ") cannot be less than or equal to 0.0";
 
   if (k_ > max_age_)
-    LOG_ERROR_P(PARAM_K) << "K value (" << k_ << ") cannot be greater than the model's max age (" << max_age_ << ")";
+    LOG_ERROR_P(PARAM_K) << "K value (" << k_ << ") cannot be greater than the maximum age in the model (" << max_age_ << ")";
 }
 
 /**

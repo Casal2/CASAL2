@@ -251,24 +251,31 @@ int Runner::GoWithRunMode(RunMode::Type run_mode) {
    */
   switch (run_mode) {
     case RunMode::kBasic:
+      LOG_INFO() << "Initiating basic run mode";
       master_model_->Start(run_mode);
       break;
     case RunMode::kEstimation:
+      LOG_INFO() << "Initiating point estimate run mode";
       return_code = RunEstimation() ? 0 : -1;
       break;
     case RunMode::kMCMC:
+      LOG_INFO() << "Initiating MCMC run mode";
       return_code = RunMCMC();
       break;
     case RunMode::kSimulation:
+      LOG_INFO() << "Initiating simulation run mode";
       master_model_->Start(run_mode);
       break;
     case RunMode::kProfiling:
+      LOG_INFO() << "Initiating profiling run mode";
       master_model_->Start(run_mode);
       break;
     case RunMode::kProjection:
+      LOG_INFO() << "Initiating projection run mode";
       master_model_->Start(run_mode);
       break;
     case RunMode::kTesting:
+      LOG_INFO() << "Initiating test mode";
       master_model_->Start(run_mode);
       break;
     default:
@@ -439,6 +446,7 @@ int Runner::RunMCMC() {
   // TODO: Do we even need resuming of MCMC chain? This is likely never used
   // and we should support chaining MCMC algorithms
   if (global_configuration_.resume_mcmc()) {
+    LOG_INFO() << "Resuming MCMC";
     configuration::MCMCObjective objective_loader(master_model_);
     if (!objective_loader.LoadFile(global_configuration_.mcmc_objective_file()))
       return false;
@@ -486,7 +494,7 @@ int Runner::RunMCMC() {
     }
   }  // else if (global_configuration_.estimate_before_mcmc())
 
-  LOG_FINE() << "Begin MCMC chain";
+  LOG_INFO() << "Beginning MCMC iterations";
   mcmc->Execute(thread_pool_);
 
   return 0;

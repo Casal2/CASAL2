@@ -4,7 +4,7 @@
  * @date 16/11/2017
  * @section LICENSE
  *
- * Copyright NIWA Science ©2017 - www.niwa.co.nz
+ * Copyright NIWA Science ï¿½2017 - www.niwa.co.nz
  *
  */
 
@@ -36,7 +36,7 @@ namespace niwa {
  */
 AgeWeight::AgeWeight(shared_ptr<Model> model) : model_(model) {
   parameters_.Bind<string>(PARAM_LABEL, &label_, "Label of the age weight relationship", "");
-  parameters_.Bind<string>(PARAM_TYPE, &type_, "The type of age weight class", "");
+  parameters_.Bind<string>(PARAM_TYPE, &type_, "The type of age weight", "");
 }
 
 /**

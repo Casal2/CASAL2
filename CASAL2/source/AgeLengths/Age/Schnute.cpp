@@ -59,7 +59,7 @@ Schnute::Schnute(shared_ptr<Model> model) : AgeLength(model) {
 void Schnute::DoBuild() {
   length_weight_ = model_->managers()->length_weight()->GetLengthWeight(length_weight_label_);
   if (!length_weight_)
-    LOG_ERROR_P(PARAM_LENGTH_WEIGHT) << "Length-weight label " << length_weight_label_ << " was not found.";
+    LOG_ERROR_P(PARAM_LENGTH_WEIGHT) << "Length-weight label " << length_weight_label_ << " was not found";
 
   DoRebuildCache();
 }
@@ -137,7 +137,7 @@ Double Schnute::GetMeanWeight(unsigned year, unsigned time_step, unsigned age, D
  * Return the units for the length-weight relationship
  */
 string Schnute::weight_units() {
-    return length_weight_->weight_units();
+  return length_weight_->weight_units();
 }
 
 /**

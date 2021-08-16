@@ -257,7 +257,7 @@ void FMM::fMin(vector<double>& Candidates, double& Score, vector<double>& Gradie
     // have exceeded maximum no. of function evaluations
     if (iEvals > iMaxFunc) {
       iRet = -2;
-      LOG_MEDIUM() << "FMM: Too many function evaluations (" << iEvals << ")";
+      LOG_IMPORTANT() << "FMM: Too many function evaluations (" << iEvals << ")";
 
       for (int i = 0; i < iVectorSize; ++i) Candidates[i] = pPreviousCandidates[i];
 
@@ -267,7 +267,7 @@ void FMM::fMin(vector<double>& Candidates, double& Score, vector<double>& Gradie
     iLinearSearchIters++;
     if (iLinearSearchIters > iMaxSteps) {
       iRet = -3;
-      LOG_MEDIUM() << "FMM: Too many loops in linear search (" << iLinearSearchIters << ")";
+      LOG_IMPORTANT() << "FMM: Too many loops in linear search (" << iLinearSearchIters << ")";
 
       // Go back to last accepted candidates
       for (int i = 0; i < iVectorSize; ++i) Candidates[i] = pPreviousCandidates[i];
@@ -364,7 +364,7 @@ void FMM::fMin(vector<double>& Candidates, double& Score, vector<double>& Gradie
       iConsecutiveMaxSteps++;
 
       if (iConsecutiveMaxSteps == 5) {
-        LOG_MEDIUM() << "FMM: Max newton steps (5)";
+        LOG_IMPORTANT() << "FMM: Max newton steps (5)";
         iRet = -3;
         return;
       }
@@ -379,24 +379,23 @@ void FMM::fMin(vector<double>& Candidates, double& Score, vector<double>& Gradie
     }
 
     //    if(!(pConfig->getQuietMode())) {
-    LOG_INFO() << CONVERGENCE_CHECK << (double)dCurrentTolerance;
-    LOG_INFO() << CONVERGENCE_THRESHOLD << (double)dGradTol;
+    LOG_INFO() << CONVERGENCE_CHECK << (double)dCurrentTolerance << ". " << CONVERGENCE_THRESHOLD << (double)dGradTol;
     //    }
 
     if (dCurrentTolerance <= dGradTol) {
       iRet = -1;  // convergence!
-      // LOG_MEDIUM() << FMM_CONVERGENCE << dCurrentTolerance;
-      // LOG_MEDIUM() << FMM_FUNCTION_SCORE << dPreviousScore2;
+      // LOG_IMPORTANT() << FMM_CONVERGENCE << dCurrentTolerance;
+      // LOG_IMPORTANT() << FMM_FUNCTION_SCORE << dPreviousScore2;
 
-      // LOG_MEDIUM() << FMM_CURRENT_PARAMETER_ESTIMATES;
+      // LOG_IMPORTANT() << FMM_CURRENT_PARAMETER_ESTIMATES;
       // for (int i = 0; i < iVectorSize; i++)
-      //  LOG_MEDIUM() << pPreviousCandidates[i] << " ";
-      // LOG_MEDIUM();
+      //  LOG_IMPORTANT() << pPreviousCandidates[i] << " ";
+      // LOG_IMPORTANT();
 
-      // LOG_MEDIUM() << FMM_GRADIENT_VALUE;
+      // LOG_IMPORTANT() << FMM_GRADIENT_VALUE;
       // for (int i = 0; i < iVectorSize; i++)
-      //  LOG_MEDIUM() << pGradient[i] << " ";
-      // LOG_MEDIUM();
+      //  LOG_IMPORTANT() << pGradient[i] << " ";
+      // LOG_IMPORTANT();
 
       return;
     }
@@ -409,7 +408,7 @@ void FMM::fMin(vector<double>& Candidates, double& Score, vector<double>& Gradie
       }
 
       if (dCurrentTolerance <= dStepTol) {
-        LOG_MEDIUM() << "FMM: Small step size convergence";
+        LOG_IMPORTANT() << "FMM: Small step size convergence";
         iRet = -1;
         return;
       }

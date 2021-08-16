@@ -64,10 +64,10 @@ adub tanh(const badouble&);
 #include <ADOLC18/SRC/adolc.h>
 #endif
 
-#ifdef USE_CPPAD
-#include <cppad/cppad.hpp>
-#include <cppad/ipopt/solve.hpp>
-#endif
+// #ifdef USE_CPPAD
+// #include <cppad/cppad.hpp>
+// #include <cppad/ipopt/solve.hpp>
+// #endif
 
 // Namespaces
 namespace niwa {
@@ -97,12 +97,12 @@ typedef adouble Double;
 #define AS_DOUBLE(x) x.toDouble()
 #endif
 
-#ifdef USE_CPPAD
-typedef CppAD::AD<double> Double;
+//#ifdef USE_CPPAD
+//typedef CppAD::AD<double> Double;
 // per https://coin-or.github.io/CppAD/doc/ad_output.htm
 // use this (CppAD::AD<base> has '<<'' defined)
-#define AS_DOUBLE(x) CppAD::Value(x)
-#endif
+//#define AS_DOUBLE(x) CppAD::Value(x)
+//#endif
 
 // #ifdef USE_ATL
 // typedef atl::Variable<double> Double;

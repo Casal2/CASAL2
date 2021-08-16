@@ -18,7 +18,7 @@ class CommandLineInterface:
         print('  help        - Print out the doBuild help (this output)')
         print('  check       - Do a check of the build system')
         print('  clean       - Remove debug/release build files')
-        print('  clean_all   - Remove all build files')
+        print('  clean_all   - Remove ALL build files and ALL prebuilt binaries')
         print('  version     - Build the current version files for C++, R, and LaTeX')
         print('')
         print('Build required libraries (DLLs/shared objects for Casal2)')

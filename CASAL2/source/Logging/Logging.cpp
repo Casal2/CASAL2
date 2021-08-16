@@ -99,6 +99,8 @@ void Logging::Flush(niwa::logger::Record& record) {
 
   if (record.severity() == logger::Severity::kInfo)
     info_.push_back(record.stream().str());
+  if (record.severity() == logger::Severity::kImportant)
+    important_.push_back(record.stream().str());
   else if (record.severity() == logger::Severity::kWarning)
     warnings_.push_back(record.stream().str());
   else if (record.severity() == logger::Severity::kError)
@@ -155,8 +157,8 @@ void Logging::FlushWarnings() {
 
   // unsigned to_print = warnings_.size() > 10 ? 10 : warnings_.size();
 
-  cout << "*warnings[warnings_encounted]\n";
-  cout << "warnings_found: " << warnings_.size() << "\n";
+  cout << "*warnings[messages_encounted]\n";
+  cout << "messages_found: " << warnings_.size() << "\n";
 
   for (unsigned i = 0; i < warnings_.size(); ++i) {
     cout << "warning_" << i + 1 << " " << REPORT_R_STRING_VECTOR << "\n";
@@ -178,7 +180,7 @@ void Logging::FlushInfo() {
     return;
   }
 
-  cout << "*messages[messages_encounted]\n";
+  cout << "*info[messages_encounted]\n";
   cout << "messages_found: " << info_.size() << "\n";
 
   for (unsigned i = 0; i < info_.size(); ++i) {
@@ -190,6 +192,29 @@ void Logging::FlushInfo() {
   cout.flush();
 
   info_.clear();
+}
+
+/**
+ * A Important report that is compatable with the Casal2 R package
+ */
+void Logging::FlushImportant() {
+  std::scoped_lock l(lock_);
+  if (important_.size() == 0) {
+    return;
+  }
+
+  cout << "*important[messages_encounted]\n";
+  cout << "messages_found: " << important_.size() << "\n";
+
+  for (unsigned i = 0; i < important_.size(); ++i) {
+    cout << "important_" << i + 1 << " " << REPORT_R_STRING_VECTOR << "\n";
+    cout << important_[i] << "\n";
+  }
+
+  cout << "*end\n\n";
+  cout.flush();
+
+  important_.clear();
 }
 
 } /* namespace niwa */

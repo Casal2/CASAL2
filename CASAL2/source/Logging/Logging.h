@@ -43,9 +43,11 @@ public:
   void            FlushErrors();
   void            FlushWarnings();
   void            FlushInfo();
+  void            FlushImportant();
 
   // accessors
   std::vector<std::string>& info() { return info_; }
+  std::vector<std::string>& important() { return important_; }
   std::vector<std::string>& warnings() { return warnings_; }
   std::vector<std::string>& errors() { return errors_; }
 
@@ -59,6 +61,7 @@ private:
 
   // members
   std::vector<std::string> info_;
+  std::vector<std::string> important_;
   std::vector<std::string> warnings_;
   std::vector<std::string> errors_;
 };

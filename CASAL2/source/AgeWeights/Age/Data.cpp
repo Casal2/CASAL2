@@ -36,7 +36,8 @@ Data::Data(shared_ptr<Model> model) : AgeWeight(model) {
   parameters_
       .Bind<string>(PARAM_EQUILIBRIUM_METHOD, &equilibrium_method_, "If used in an SSB calculation, what is the method to calculate equilibrium SSB", "", PARAM_TERMINAL_YEAR)
       ->set_allowed_values({PARAM_MEAN, PARAM_FIRST_YEAR, PARAM_TERMINAL_YEAR});
-  parameters_.Bind<string>(PARAM_UNITS, &units_, "The units of measure (grams, kilograms (kgs), or tonnes)", "", PARAM_KGS)->set_allowed_values({PARAM_KGS, PARAM_KILOGRAMS, PARAM_GRAMS, PARAM_TONNES});
+  parameters_.Bind<string>(PARAM_UNITS, &units_, "The units of measure (grams, kilograms (kgs), or tonnes)", "", PARAM_KGS)
+      ->set_allowed_values({PARAM_KGS, PARAM_KILOGRAMS, PARAM_GRAMS, PARAM_TONNES});
 }
 
 /**
@@ -66,7 +67,7 @@ void Data::DoBuild() {
     unit_multipier_ = 0.000001;
 
   // Deal with base weight as grams
-  if ((units_ == PARAM_KGS  || units_ == PARAM_KILOGRAMS) && (model_->base_weight_units() == PARAM_GRAMS))
+  if ((units_ == PARAM_KGS || units_ == PARAM_KILOGRAMS) && (model_->base_weight_units() == PARAM_GRAMS))
     unit_multipier_ = 1000;
   else if (units_ == PARAM_TONNES && (model_->base_weight_units() == PARAM_GRAMS))
     unit_multipier_ = 1000000;
@@ -108,7 +109,7 @@ void Data::DoBuild() {
     unsigned year = utilities::ToInline<string, unsigned>(row[0]);
     // Check year is valid
     if (find(model_->years().begin(), model_->years().end(), year) == model_->years().end())
-      LOG_WARNING() << "year " << year << " is not included in the model run years, so this age weight will not be used.";
+      LOG_WARNING() << "year " << year << " is not included in the model run years, so this age weight will not be used";
 
     LOG_FINE() << "Loading years = " << year;
     years_.push_back(year);

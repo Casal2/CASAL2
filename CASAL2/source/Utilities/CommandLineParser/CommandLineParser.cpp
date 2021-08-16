@@ -66,15 +66,15 @@ void CommandLineParser::Parse(int argc, char* argv[], RunParameters& options) {
     ("simulation,s", value<unsigned>(), "Simulation mode (arg = number of candidates)")
     ("projection,f", value<unsigned>(), "Projection mode (arg = number of projections per set of input values)")
     ("input,i", value<string>(), "Load free parameter values from [file]")
-    ("force", "Force the input file to allow (when using -i) additional addressable parameters (basic run mode only)")
+    ("input-force,I",  value<string>(), "Load parameters from [file], forcing overwriting of non-estimated addressable parameters (basic run mode only)")
     ("seed,g", value<unsigned>(), "Random number seed")
     ("query,q", value<string>(), "Query an object type to see its description and parameters. Argument object_type.sub_type, e.g., process.recruitment_constant")
     ("nostd", "Do not print the standard header report")
     ("loglevel", value<string>(), "Set log level: coarse, medium, fine, finest, trace, or none (default)")
     ("output,o", value<string>(), "Create estimate value report to [file]")
-    ("Output,O", value<string>(), "Append estimate value report to [file]")
+  //  ("Output,O", value<string>(), "Append estimate value report to [file]")
     ("single-step", "Single step the model each year with new estimable values")
-    ("tabular", "Print reports in Tabular mode")
+    ("tabular,t", "Print reports using the Tabular format")
     ("unittest", "Run the unit tests for Casal2")
     ("no-mpd", "Do not create an MPD file");
   // clang-format on
@@ -133,14 +133,17 @@ void CommandLineParser::Parse(int argc, char* argv[], RunParameters& options) {
   LOG_TRACE();
   if (parameters.count("config"))
     options.config_file_ = parameters["config"].as<string>();
-  if (parameters.count("input"))
+  if (parameters.count("input")) {
+    if (parameters.count("input-force"))
+      LOG_FATAL() << "Do not specify both -i (input file) and -I (input-force file) at the same time";
     options.estimable_value_input_file_ = parameters["input"].as<string>();
-  if (parameters.count("force")) {
-    if (parameters.count("input")) {
-      options.force_estimables_as_named_ = true;
-    } else {
-      LOG_FATAL() << "Command line error: Using --force can only be used when loading free parameter values from a file with --input";
-    }
+    options.force_estimables_as_named_  = true;
+  }
+  if (parameters.count("input-force")) {
+    if (parameters.count("input"))
+      LOG_FATAL() << "Do not specify both -i (input file) and -I (input-force file) at the same time";
+    options.estimable_value_input_file_ = parameters["input-force"].as<string>();
+    options.force_estimables_as_named_  = false;
   }
   if (parameters.count("nostd"))
     options.no_std_report_ = true;

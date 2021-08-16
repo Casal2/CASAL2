@@ -52,7 +52,7 @@ Categories::Categories(shared_ptr<Model> model) : model_(model) {
   // Years commented out due to GitHub Issue: https://github.com/NIWAFisheriesModelling/CASAL2/issues/367
   // parameters_.Bind<string>(PARAM_YEARS, &years_, "The years that individual categories will be activated (if different from the model for these categories)", "", true);
   parameters_.Bind<string>(PARAM_AGE_LENGTHS, &age_length_labels_, "The age-length relationship labels for each category", "", true)->set_partition_type(PartitionType::kAge);
-  parameters_.Bind<string>(PARAM_AGE_WEIGHT, &age_weight_labels_, "The age-weight relationships labelsfor each category", "", true)->set_partition_type(PartitionType::kAge);
+  parameters_.Bind<string>(PARAM_AGE_WEIGHT, &age_weight_labels_, "The age-weight relationships labels for each category", "", true)->set_partition_type(PartitionType::kAge);
 }
 
 /**
@@ -87,7 +87,7 @@ void Categories::Validate() {
   if (model_->partition_type() == PartitionType::kAge) {
     // Check the user hasn't specified both age_length and age_weight subcommands
     if (parameters_.Get(PARAM_AGE_WEIGHT)->has_been_defined() && parameters_.Get(PARAM_AGE_LENGTHS)->has_been_defined())
-      LOG_ERROR_P(PARAM_AGE_WEIGHT) << "Both age_lengths and age_weights cannot be specified at the same time in @categories. Specify either one or the other.";
+      LOG_ERROR_P(PARAM_AGE_WEIGHT) << "Both age-length and age-weight cannot be specified at the same time in @categories. Specify either one or the other.";
     if (parameters_.Get(PARAM_AGE_WEIGHT)->has_been_defined()) {
       if (age_weight_labels_.size() != names_.size())
         LOG_ERROR_P(PARAM_AGE_WEIGHT) << " number of age-weight labels (" << age_weight_labels_.size() << " were specified) must be the same as the number of categories ("
@@ -440,7 +440,7 @@ string Categories::GetCategoryLabels(const string& lookup_string, const string& 
   }
 
   if (matched_categories.size() == 0) {
-    LOG_ERROR() << parameter_location << " short-hand format string (" << lookup_string << ") did not match any of the categories.";
+    LOG_ERROR() << parameter_location << " short hand format string (" << lookup_string << ") did not match any of the categories.";
   }
 
   result = matched_categories[0];
@@ -475,7 +475,7 @@ map<string, string> Categories::GetCategoryLabelsAndValues(const string& lookup,
   vector<string> pieces;
   boost::split(pieces, lookup, boost::is_any_of("="), boost::token_compress_on);
   if (pieces.size() != 2 && pieces.size() != 3) {
-    LOG_FATAL() << parameter_location << " short-hand category string (" << lookup << ") is not in the correct format, e.g., <format_chunk>=<lookup_chunk>=values";
+    LOG_FATAL() << parameter_location << " short hand category string (" << lookup << ") is not in the correct format, e.g., <format_chunk>=<lookup_chunk>=values";
   }
 
   string temp_lookup = pieces[0];

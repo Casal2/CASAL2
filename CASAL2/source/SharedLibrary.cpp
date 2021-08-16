@@ -60,7 +60,7 @@ int RunUnitTests(int argc, char* argv[]) {
  * This method runs the unit tests
  */
 int RunUnitTests(int argc, char* argv[]) {
-  cout << "The shared library was built without TESTMODE enabled but it is trying to run unit tests..." << endl;
+  LOG_FATAL() << "The shared library was built without TESTMODE enabled but it is trying to run unit tests..." << endl;
   return -1;
 }
 
@@ -80,17 +80,15 @@ int LoadOptions(int argc, char* argv[], niwa::utilities::RunParameters& options)
     }
 
   } catch (const string& exception) {
-    cout << "## ERROR - Casal2 experienced a problem and has stopped execution." << endl;
-    cout << "Error: " << exception << endl;
+    LOG_FATAL() << "Casal2 experienced a problem and has stopped execution\n" << exception << endl;
     return -1;
   } catch (std::exception& e) {
-    cout << "## ERROR - Casal2 experienced a problem and has stopped execution." << endl;
-    cout << e.what() << endl;
+    LOG_FATAL() << "Casal2 experienced a problem and has stopped execution\n" << e.what() << endl;
     return -1;
   } catch (...) {
-    cout << "## ERROR - Casal2 experienced a problem and has stopped execution." << endl;
-    cout << "The exception was caught with the catch-all. The error type was unknown." << endl;
-    cout << "Please contact the Casal2 Development Team and submit a bug report." << endl;
+    LOG_FATAL() << "Casal2 experienced a problem and has stopped execution\n"
+                << "The exception was caught with the catch-all. The type was unknown\n"
+                << "Please contact the Casal2 Development Team and submit a bug report." << endl;
     return -1;
   }
 
@@ -118,17 +116,15 @@ int PreParseConfigFiles(niwa::utilities::RunParameters& options) {
     options.model_type_ = config_loader.model_type();
 
   } catch (const string& exception) {
-    cout << "## ERROR - Casal2 experienced a problem and has stopped execution." << endl;
-    cout << "Error: " << exception << endl;
+    LOG_FATAL() << "Casal2 experienced a problem and has stopped execution\n" << exception << endl;
     return -1;
   } catch (std::exception& e) {
-    cout << "## ERROR - Casal2 experienced a problem and has stopped execution." << endl;
-    cout << e.what() << endl;
+    LOG_FATAL() << "Casal2 experienced a problem and has stopped execution\n" << e.what() << endl;
     return -1;
   } catch (...) {
-    cout << "## ERROR - Casal2 experienced a problem and has stopped execution." << endl;
-    cout << "The exception was caught with the catch-all. The error type was unknown." << endl;
-    cout << "Please contact the Casal2 Development Team and submit a bug report." << endl;
+    LOG_FATAL() << "Casal2 experienced a problem and has stopped execution\n"
+                << "The exception was caught with the catch-all. The type was unknown\n"
+                << "Please contact the Casal2 Development Team and submit a bug report." << endl;
     return -1;
   }
 
@@ -182,19 +178,17 @@ int Run(int argc, char* argv[], niwa::utilities::RunParameters& options) {
     }
 
   } catch (const string& exception) {
-    cout << "## ERROR - Casal2 experienced a problem and has stopped execution" << endl;
-    cout << "Error: " << exception << endl;
+    LOG_FATAL() << "Casal2 experienced a problem and has stopped execution\n" << exception << endl;
     return_code = -1;
 
   } catch (std::exception& e) {
-    cout << "## ERROR - Casal2 experienced a problem and has stopped execution" << endl;
-    cout << e.what() << endl;
+    LOG_FATAL() << "Casal2 experienced a problem and has stopped execution\n" << e.what() << endl;
     return_code = -1;
 
   } catch (...) {
-    cout << "## ERROR - Casal2 experienced a problem and has stopped execution" << endl;
-    cout << "The exception was caught with the catch-all. The type was unknown" << endl;
-    cout << "Please contact the Casal2 Development Team and submit a bug report." << endl;
+    LOG_FATAL() << "Casal2 experienced a problem and has stopped execution\n"
+                << "The exception was caught with the catch-all. The type was unknown\n"
+                << "Please contact the Casal2 Development Team and submit a bug report." << endl;
     return_code = -1;
   }
 

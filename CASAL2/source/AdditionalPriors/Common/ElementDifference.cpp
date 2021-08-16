@@ -5,7 +5,7 @@
  * @date 5/7/2017
  * @section LICENSE
  *
- * Copyright NIWA Science ©2017 - www.niwa.co.nz
+ * Copyright NIWA Science ï¿½2017 - www.niwa.co.nz
  *
  */
 
@@ -40,11 +40,11 @@ void ElementDifference::DoBuild() {
   LOG_TRACE();
   string error = "";
   if (!model_->objects().VerfiyAddressableForUse(second_parameter_, addressable::kLookup, error)) {
-    LOG_FATAL_P(PARAM_SECOND_PARAMETER) << "could not be verified for use in additional_prior.element_difference. Error: " << error;
+    LOG_FATAL_P(PARAM_SECOND_PARAMETER) << "could not be found. Error: " << error;
   }
   error = "";
   if (!model_->objects().VerfiyAddressableForUse(parameter_, addressable::kLookup, error)) {
-    LOG_FATAL_P(PARAM_PARAMETER) << "could not be verified for use in additional_prior.element_difference. Error: " << error;
+    LOG_FATAL_P(PARAM_PARAMETER) << "could not be found. Error: " << error;
   }
 
   // first parameter
@@ -67,7 +67,7 @@ void ElementDifference::DoBuild() {
       addressable_ = model_->objects().GetAddressable(parameter_);
       break;
     default:
-      LOG_ERROR() << "The addressable provided for use in additional priors '" << parameter_ << "' has a type that is not supported for vector smoothing additional priors";
+      LOG_ERROR() << "The addressable provided '" << parameter_ << "' has a type that is not supported for element difference additional priors";
       break;
   }
 
@@ -91,7 +91,7 @@ void ElementDifference::DoBuild() {
       second_addressable_ = model_->objects().GetAddressable(second_parameter_);
       break;
     default:
-      LOG_ERROR() << "The addressable provided for use in additional priors '" << second_parameter_ << "' has a type that is not supported for ElementDifference additional priors";
+      LOG_ERROR() << "The addressable provided '" << second_parameter_ << "' has a type that is not supported for element difference additional priors";
       break;
   }
 

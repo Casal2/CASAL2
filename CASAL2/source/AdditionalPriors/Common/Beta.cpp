@@ -32,7 +32,7 @@ namespace additionalpriors {
  */
 Beta::Beta(shared_ptr<Model> model) : AdditionalPrior(model) {
   parameters_.Bind<Double>(PARAM_MU, &mu_, "Beta distribution mean $\\mu$ parameter", "");
-  parameters_.Bind<Double>(PARAM_SIGMA, &sigma_, "Beta distribution variance $\\sigma$ parameter", "")->set_lower_bound(0.0);
+  parameters_.Bind<Double>(PARAM_SIGMA, &sigma_, "Beta distribution variance $\\sigma$ parameter", "")->set_lower_bound(0.0, false);
   parameters_.Bind<Double>(PARAM_A, &a_, "Beta distribution lower bound, of the range $A$ parameter", "");
   parameters_.Bind<Double>(PARAM_B, &b_, "Beta distribution upper bound of the range $B$ parameter", "");
 }
@@ -45,7 +45,7 @@ Beta::Beta(shared_ptr<Model> model) : AdditionalPrior(model) {
  */
 void Beta::DoValidate() {
   if (a_ >= b_)
-    LOG_ERROR_P(PARAM_B) << "value b (" << AS_DOUBLE(b_) << ") cannot be less than or equal to a (" << AS_DOUBLE(a_) << ")";
+    LOG_ERROR_P(PARAM_B) << "value B (" << AS_DOUBLE(b_) << ") cannot be less than or equal to A (" << AS_DOUBLE(a_) << ")";
   Double max_sigma = ((((mu_ - a_) * (b_ - mu_)) / (sigma_ * sigma_)) - 1);
   if (max_sigma <= 0.0)
     LOG_ERROR_P(PARAM_SIGMA) << "value (" << AS_DOUBLE(sigma_) << ") is invalid. (" << mu_ << " - " << a_ << ") * (" << b_ << " - " << mu_ << ") / (" << sigma_ << " * " << sigma_
@@ -58,7 +58,7 @@ void Beta::DoValidate() {
 void Beta::DoBuild() {
   string error = "";
   if (!model_->objects().VerfiyAddressableForUse(parameter_, addressable::kLookup, error)) {
-    LOG_FATAL_P(PARAM_PARAMETER) << "could not be verified for use in additional_prior.vector_average. Error: " << error;
+    LOG_FATAL_P(PARAM_PARAMETER) << "could not be found. Error: " << error;
   }
 
   addressable::Type addressable_type = model_->objects().GetAddressableType(parameter_);
@@ -83,7 +83,7 @@ void Beta::DoBuild() {
 Double Beta::GetScore() {
   Double value = (*addressable_);
   if (b_ < value || a_ > value) {
-    LOG_FATAL_P(PARAM_B) << "parameter b cannot be less than the target parameter (" << value << "), and parameter a cannot be greater than the target parameter";
+    LOG_FATAL_P(PARAM_B) << "parameter B cannot be less than the target parameter (" << value << "), and parameter A cannot be greater than the target parameter";
   }
 
   Double score_ = 0.0;

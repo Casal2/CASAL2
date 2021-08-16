@@ -62,7 +62,7 @@ bool Loader::LoadFromDiskToMemory(GlobalConfiguration& global_config, const stri
 
     LOG_FINE() << "file_lines_.size() == " << file_lines_.size();
     if (file_lines_.size() == 0)
-      LOG_FATAL() << "The inpout configuration file " << config_file << " is empty. Please check the file";
+      LOG_FATAL() << "The input configuration file " << config_file << " is empty. Please check the file";
   } else {
     LOG_FINEST() << "Skipping the load file for input configuration file: " << global_config.config_file();
   }
@@ -123,7 +123,7 @@ void Loader::CreateBlocksFromInput() {
       if (block.size() > 0) {
         if (first_block) {
           if (utilities::ToLowercase(block[0].line_) != "@model")
-            LOG_FATAL() << "The first block to be processed must be @model. The block found was " << block[0].line_;
+            LOG_FATAL() << "The first command in the input configuration file must be @model. The command found was " << block[0].line_;
 
           bool found_model_type = false;
           for (auto& file_line : block) {
@@ -133,13 +133,13 @@ void Loader::CreateBlocksFromInput() {
               vector<string> line_parts;
               boost::split(line_parts, file_line.line_, boost::is_any_of(" "));
               if (line_parts.size() != 2)
-                LOG_FATAL() << "@model type must be either age, length, or pi_approx";
+                LOG_FATAL() << "The @model type can only be of type=age";
               model_type_ = line_parts[1];
             }
           }
 
           if (!found_model_type) {
-            LOG_FINEST() << "@model.type is not specified. Using the default " << PARAM_AGE;
+            LOG_FINEST() << "The @model type was not specified. Using the default " << PARAM_AGE;
             model_type_ = PARAM_AGE;
           }
         }  // if (first_block)
@@ -273,12 +273,10 @@ void Loader::ParseBlock(shared_ptr<Model> model, vector<FileLine>& block) {
 
   Object* object = model->factory().CreateObject(block_type, sub_type, partition_type);
   if (!object)
-    LOG_FATAL() << "At line " << block[0].line_number_ << " in " << block[0].file_name_ << ": Block object type or sub-type is invalid.\n"
-                << "Object Type: " << block_type << "\n"
-                << "Sub-Type: " << sub_type;
+    LOG_FATAL() << "At line " << block[0].line_number_ << " in " << block[0].file_name_ << ": The specified type (" << sub_type << ") is invalid for the command @" << block_type;
 
   if (block_label != "" && !object->parameters().Add(PARAM_LABEL, block_label, block[0].file_name_, block[0].line_number_))
-    LOG_FATAL() << "At line " << block[0].line_number_ << " in " << block[0].file_name_ << ": The block @" << block_type << " does not support having a label";
+    LOG_FATAL() << "At line " << block[0].line_number_ << " in " << block[0].file_name_ << ": The command @" << block_type << " does not support having a label";
 
   // Store where this object was defined for use in printing errors later
   object->set_block_type(block_type);
@@ -336,7 +334,7 @@ void Loader::ParseBlock(shared_ptr<Model> model, vector<FileLine>& block) {
       table_label    = util::ToLowercase(line_parts[1]);
       current_table_ = object->parameters().GetTable(table_label);
       if (!current_table_)
-        LOG_FATAL() << "At line " << file_line.line_number_ << " in " << file_line.file_name_ << ": table " << table_label << " is not a supported table label.";
+        LOG_FATAL() << "At line " << file_line.line_number_ << " in " << file_line.file_name_ << ": table " << table_label << " is not a supported table label";
       current_table_->set_file_name(file_line.file_name_);
       current_table_->set_line_number(file_line.line_number_);
 
@@ -469,7 +467,7 @@ void Loader::HandleInlineDefinitions() {
         } else {
           boost::split(temp, file_line.line_, boost::is_any_of(" "));
           if (temp.size() == 1) {
-            LOG_FATAL() << "At line " << file_line.line_number_ << " in " << file_line.file_name_ << ": The @block must have a label because it has an inline declaration";
+            LOG_FATAL() << "At line " << file_line.line_number_ << " in " << file_line.file_name_ << ": The command must have a label because it has an inline declaration";
           } else
             parent_label = temp[1];  // handles @block label
         }

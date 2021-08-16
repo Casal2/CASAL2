@@ -77,7 +77,7 @@ def start():
 	elif build_target == "cleancache":
 		cleaner = Cleaner()
 		return cleaner.clean_cache()
-	elif build_target == "cleanall":
+	elif build_target == "clean_all":
 		cleaner = Cleaner()
 		return cleaner.clean_all()
 	elif build_target == "rlibrary":

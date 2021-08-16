@@ -105,7 +105,7 @@ void Thread::Loop() {
           is_finished_ = true;
         }
       } catch (...) {
-        cout << "Something went wrong" << endl;
+        LOG_FATAL() << "Something went wrong in Thread::Loop" << endl;
       }
 
       is_finished_ = true;

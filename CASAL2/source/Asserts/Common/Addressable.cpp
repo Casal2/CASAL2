@@ -54,7 +54,7 @@ void Addressable::DoValidate() {
   vector<unsigned> model_years = model_->years();
   for (unsigned year : years_) {
     if (std::find(model_years.begin(), model_years.end(), year) == model_years.end())
-      LOG_ERROR_P(PARAM_YEARS) << "year (" << year << ") is not a valid year in the model.";
+      LOG_ERROR_P(PARAM_YEARS) << "year (" << year << ") is not a valid year in the model";
   }
 
   for (unsigned i = 0; i < years_.size(); ++i) year_values_[years_[i]] = values_[i];
@@ -70,12 +70,12 @@ void Addressable::DoBuild() {
    */
   TimeStep* time_step = model_->managers()->time_step()->GetTimeStep(time_step_label_);
   if (!time_step)
-    LOG_ERROR_P(PARAM_TIME_STEP) << "Time step label (" << time_step_label_ << ") was not found.";
+    LOG_ERROR_P(PARAM_TIME_STEP) << "Time step label (" << time_step_label_ << ") was not found";
   for (unsigned year : years_) time_step->Subscribe(this, year);
 
   string error = "";
   if (!model_->objects().VerfiyAddressableForUse(parameter_, addressable::kLookup, error)) {
-    LOG_FATAL_P(PARAM_PARAMETER) << " could not be verified for use in assert.addressable. Error: " << error;
+    LOG_FATAL_P(PARAM_PARAMETER) << " could not be found. Error: " << error;
   }
 
   addressable_ = model_->objects().GetAddressable(parameter_);

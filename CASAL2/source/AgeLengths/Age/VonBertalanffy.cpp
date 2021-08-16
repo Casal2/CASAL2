@@ -5,7 +5,7 @@
  * @date 14/08/2013
  * @section LICENSE
  *
- * Copyright NIWA Science ©2013 - www.niwa.co.nz
+ * Copyright NIWA Science ï¿½2013 - www.niwa.co.nz
  *
  */
 
@@ -57,7 +57,7 @@ VonBertalanffy::VonBertalanffy(shared_ptr<Model> model) : AgeLength(model) {
 void VonBertalanffy::DoBuild() {
   length_weight_ = model_->managers()->length_weight()->GetLengthWeight(length_weight_label_);
   if (!length_weight_)
-    LOG_ERROR_P(PARAM_LENGTH_WEIGHT) << "Length-weight label '" << length_weight_label_ << "' was not found.";
+    LOG_ERROR_P(PARAM_LENGTH_WEIGHT) << "Length-weight label '" << length_weight_label_ << "' was not found";
 
   // Build up our mean_length_ container.
   DoRebuildCache();
@@ -73,7 +73,7 @@ void VonBertalanffy::DoBuild() {
 Double VonBertalanffy::mean_length(unsigned time_step, unsigned age) {
   Double proportion = time_step_proportions_[time_step];
   if ((-k_ * ((age + proportion) - t0_)) > 10)
-    LOG_ERROR_P(PARAM_K) << "-k*(age-t0) is larger than 10. Check the k and t0 parameters.";
+    LOG_ERROR_P(PARAM_K) << "-k*(age-t0) is larger than 10. Please check the k and t0 parameters are sensible";
 
   Double size = linf_ * (1 - exp(-k_ * ((age + proportion) - t0_)));
   if (size < 0.0)
@@ -114,7 +114,7 @@ Double VonBertalanffy::GetMeanWeight(unsigned year, unsigned time_step, unsigned
  * Return the units for the length-weight relationship
  */
 string VonBertalanffy::weight_units() {
-    return length_weight_->weight_units();
+  return length_weight_->weight_units();
 }
 
 /**

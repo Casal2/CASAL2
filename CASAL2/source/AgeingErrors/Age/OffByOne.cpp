@@ -5,7 +5,7 @@
  * @date 01/09/2015
  * @section LICENSE
  *
- * Copyright NIWA Science ©2015 - www.niwa.co.nz
+ * Copyright NIWA Science ï¿½2015 - www.niwa.co.nz
  *
  */
 
@@ -18,9 +18,9 @@ namespace ageingerrors {
 
 // Constructor
 OffByOne::OffByOne(shared_ptr<Model> model) : AgeingError(model) {
-  parameters_.Bind<Double>(PARAM_P1, &p1_, "The proportion misclassified as one year younger, e.g., the proportion of age 3 individuals that were misclassified as age 2", "")
+  parameters_.Bind<Double>(PARAM_P1, &p1_, "The proportion misclassified as one year younger, e.g., the proportion of age k individuals that were misclassified as age (k-1)", "")
       ->set_range(0.0, 1.0);
-  parameters_.Bind<Double>(PARAM_P2, &p2_, "The proportion misclassified as one year older, e.g., the proportion of age 3 individuals that were misclassified as age 4", "")
+  parameters_.Bind<Double>(PARAM_P2, &p2_, "The proportion misclassified as one year older, e.g., the proportion of age k individuals that were misclassified as age (k+1))", "")
       ->set_range(0.0, 1.0);
   parameters_
       .Bind<unsigned>(PARAM_K, &k_, "The minimum age of animals which can be misclassified, i.e., animals of age less than k are assumed to be correctly classified", "", 0u)
@@ -37,7 +37,7 @@ OffByOne::OffByOne(shared_ptr<Model> model) : AgeingError(model) {
  */
 void OffByOne::DoValidate() {
   if (k_ > max_age_)
-    LOG_ERROR_P(PARAM_K) << "value (" << k_ << ") cannot be greater than the model's max age (" << max_age_ << ")";
+    LOG_ERROR_P(PARAM_K) << "value (" << k_ << ") cannot be greater than the maximum age in the model (" << max_age_ << ")";
 }
 
 /**

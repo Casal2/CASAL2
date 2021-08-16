@@ -84,8 +84,10 @@ void StandardHeader::PrintTop(GlobalConfiguration& global_config) {
   header << "-- Process Id: " << getpid() << endl;
 #endif
 
-  if (!global_config.disable_standard_report())
-    cout << header.str() << endl;
+  if (!global_config.disable_standard_report()) {
+    cout << header.str() << endl << endl;
+    cerr << "\n";
+  }
 
   global_config.set_standard_header(header.str());
 }
@@ -110,6 +112,7 @@ void StandardHeader::PrintBottom(GlobalConfiguration& global_config) {
 #endif
 
   double elapsed_time = static_cast<double>(time(NULL) - start_time_);
+
   if (elapsed_time < 60) {
     int P = (int)floor(log10(elapsed_time)) + 4;
     cout << "Total elapsed time: " << std::setprecision(P) << fmax(1, elapsed_time) << (elapsed_time == 1 ? " second" : " seconds") << endl;
@@ -122,7 +125,7 @@ void StandardHeader::PrintBottom(GlobalConfiguration& global_config) {
     int P = (int)floor(log10(elapsed_time)) + 4;
     cout << "Total elapsed time: " << std::setprecision(P) << elapsed_time << (elapsed_time == 1 ? " hour" : " hours") << endl;
   }
-  cout << "Completed" << endl;
+  cout << "Completed" << endl << endl;
 }
 
 } /* namespace utilities */

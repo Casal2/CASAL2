@@ -182,7 +182,7 @@ void MCMC::Execute(shared_ptr<ThreadPool> thread_pool) {
     jumps_since_adapt_++;
     chain_.push_back(new_link);
   } else {
-    LOG_MEDIUM() << "Resuming MCMC chain with iteration " << jumps_;
+    LOG_INFO() << "Resuming MCMC chain with iteration " << jumps_;
     new_link.iteration_                   = jumps_;
     new_link.acceptance_rate_             = acceptance_rate_;
     new_link.acceptance_rate_since_adapt_ = acceptance_rate_since_last_adapt_;

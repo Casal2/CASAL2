@@ -83,10 +83,10 @@ void DESolver::Execute() {
   // Solver
   if (solver.Solve(max_generations_)) {
     result_ = MinimiserResult::kSuccess;
-    LOG_FINE() << "DE Solver has successfully converged";
+    LOG_IMPORTANT() << "DE Solver has successfully converged";
   } else {
     result_ = MinimiserResult::kError;
-    LOG_FINE() << "DE Solver has failed to converge";
+    LOG_IMPORTANT() << "DE Solver has failed to converge";
   }
 
   model_->managers()->estimate_transformation()->RestoreEstimates();

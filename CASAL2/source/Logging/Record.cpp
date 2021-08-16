@@ -74,8 +74,7 @@ void Record::BuildMessage() {
       o << " Source File: " << file_name_ << "(line: " << line_number_ << ")\n";
       o << " Source Method: " << function_ << "\n";
 #endif
-      o << "\nCasal2 has found important messages:\n\n";
-      o << stream_.str() << endl;
+      o << "[IMPORTANT] " << stream_.str() << endl;
       break;
     case Severity::kInfo:
 #ifdef DEBUG
@@ -83,8 +82,7 @@ void Record::BuildMessage() {
       o << " Source File: " << file_name_ << "(line: " << line_number_ << ")\n";
       o << " Source Method: " << function_ << "\n";
 #endif
-      o << "\nCasal2 has found information messages:\n\n";
-      o << stream_.str() << endl;
+      o << "[INFO] " << stream_.str() << endl;
       break;
     case Severity::kWarning:
 #ifdef DEBUG
@@ -92,8 +90,7 @@ void Record::BuildMessage() {
       o << " Source File: " << file_name_ << "(line: " << line_number_ << ")\n";
       o << " Source Method: " << function_ << "\n";
 #endif
-      o << "\nCasal2 has found warnings:\n\n";
-      o << stream_.str() << endl;
+      o << "[WARNING] " << stream_.str() << endl;
       break;
     case Severity::kError:
 #ifdef DEBUG
@@ -101,8 +98,7 @@ void Record::BuildMessage() {
       o << " Source File: " << file_name_ << "(line: " << line_number_ << ")\n";
       o << " Source Method: " << function_ << "\n";
 #endif
-      o << "\nCasal2 has found errors:\n\n";
-      o << stream_.str() << endl;
+      o << "[ERROR] " << stream_.str() << endl;
       break;
     case Severity::kFatal:
 #ifdef DEBUG
@@ -110,8 +106,7 @@ void Record::BuildMessage() {
       o << " Source File: " << file_name_ << "(line: " << line_number_ << ")\n";
       o << " Source Method: " << function_ << "\n";
 #endif
-      o << "\nCasal2 has found fatal errors:\n\n";
-      o << stream_.str() << endl;
+      o << "[FATAL_ERROR] " << stream_.str() << endl;
       break;
     case Severity::kCodeError:
 #ifdef DEBUG
@@ -119,8 +114,8 @@ void Record::BuildMessage() {
       o << " Source File: " << file_name_ << "(line: " << line_number_ << ")\n";
       o << " Source Method: " << function_ << "\n";
 #endif
-      o << "[CODE_ERROR] A critical error has occurred in the Casal2 source code.\n";
-      o << " Please contact the Casal2 Development Team and report this error\n\n";
+      o << "[CODE_ERROR] A critical error has occurred in the Casal2 source code. ";
+      o << "Please contact the Casal2 Development Team and report this event\n\n";
       o << stream_.str() << endl;
       break;
   }

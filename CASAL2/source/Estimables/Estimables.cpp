@@ -5,7 +5,7 @@
  * @date 20/01/2015
  * @section LICENSE
  *
- * Copyright NIWA Science ©2014 - www.niwa.co.nz
+ * Copyright NIWA Science ï¿½2014 - www.niwa.co.nz
  *
  */
 
@@ -90,15 +90,23 @@ void Estimables::LoadValues(unsigned index) {
     /**
      * Verify that we're only using @estimate parameters if this has been defined
      */
-    if (model_->global_configuration().force_estimable_values_file()) {
+    if (!model_->global_configuration().force_estimable_values_file()) {
       vector<Estimate*> estimates = model_->managers()->estimate()->GetIsEstimated();
       for (auto estimate : estimates) {
         if (estimable_values_.find(estimate->parameter()) == estimable_values_.end())
-          LOG_FATAL() << "The estimate " << estimate->parameter() << " has not been defined in the input file, even though force-estimates has been enabled";
+          LOG_FATAL() << "The estimate " << estimate->parameter() << " has not been found in the input configuration file";
       }
 
       if (estimates.size() != estimable_values_.size())
         LOG_FATAL() << "The estimate value file does not have the correct number of estimables defined. Expected " << estimates.size() << ", parsed " << estimable_values_.size();
+    } else {
+      vector<Estimate*> estimates = model_->managers()->estimate()->GetIsEstimated();
+      vector<string>    AdditionalAddressables;
+      for (auto estimate : estimates) {
+        if (estimable_values_.find(estimate->parameter()) == estimable_values_.end())
+          AdditionalAddressables.push_back(estimate->parameter());
+      }
+      LOG_INFO() << AdditionalAddressables.size() << " additional non-estimated addressable parameters found";
     }
   }
 

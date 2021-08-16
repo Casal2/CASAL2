@@ -4,7 +4,7 @@
  * @date 4/07/2013
  * @section LICENSE
  *
- * Copyright NIWA Science ©2013 - www.niwa.co.nz
+ * Copyright NIWA Science ï¿½2013 - www.niwa.co.nz
  *
  */
 
@@ -33,10 +33,12 @@ namespace niwa {
 DerivedQuantity::DerivedQuantity(shared_ptr<Model> model) : model_(model), partition_(model) {
   parameters_.Bind<string>(PARAM_LABEL, &label_, "The label of the derived quantity", "");
   parameters_.Bind<string>(PARAM_TYPE, &type_, "The type of derived quantity", "");
-  parameters_.Bind<string>(PARAM_TIME_STEP, &time_step_label_, "The time step in which to calculate the derived quantity after", "");
+  parameters_.Bind<string>(PARAM_TIME_STEP, &time_step_label_, "The time step in which to calculate the derived quantity", "");
   parameters_.Bind<string>(PARAM_CATEGORIES, &category_labels_, "The list of categories to use when calculating the derived quantity", "");
-  parameters_.Bind<string>(PARAM_SELECTIVITIES, &selectivity_labels_, "A list of one selectivity", "");
-  parameters_.Bind<Double>(PARAM_TIME_STEP_PROPORTION, &time_step_proportion_, "The proportion through the mortality block of the time step when calculated", "", 0.5)
+  parameters_.Bind<string>(PARAM_SELECTIVITIES, &selectivity_labels_, "The list of selectivities to use when calculating the derived quantity", "");
+  parameters_
+      .Bind<Double>(PARAM_TIME_STEP_PROPORTION, &time_step_proportion_, "The proportion through the mortality block of the time step when the derived quantity is calculated", "",
+                    0.5)
       ->set_range(0.0, 1.0);
   parameters_
       .Bind<string>(PARAM_TIME_STEP_PROPORTION_METHOD, &proportion_method_, "The method for interpolating for the proportion through the mortality block", "", PARAM_WEIGHTED_SUM)
@@ -78,7 +80,7 @@ void DerivedQuantity::Build() {
   for (string label : selectivity_labels_) {
     Selectivity* selectivity = selectivity_manager.GetSelectivity(label);
     if (!selectivity)
-      LOG_ERROR_P(PARAM_SELECTIVITIES) << "Selectivity label (" << label << ") was not found.";
+      LOG_ERROR_P(PARAM_SELECTIVITIES) << "Selectivity label (" << label << ") was not found";
 
     selectivities_.push_back(selectivity);
   }
@@ -88,7 +90,7 @@ void DerivedQuantity::Build() {
    */
   TimeStep* time_step = model_->managers()->time_step()->GetTimeStep(time_step_label_);
   if (!time_step)
-    LOG_FATAL_P(PARAM_TIME_STEP) << "Time step label (" << time_step_label_ << ") was not found.";
+    LOG_FATAL_P(PARAM_TIME_STEP) << "Time step label (" << time_step_label_ << ") was not found";
 
   time_step->SubscribeToBlock(this);
   time_step->SubscribeToInitialisationBlock(this);
@@ -132,7 +134,7 @@ Double DerivedQuantity::GetValue(unsigned year) {
 
   Double result = 0.0;
   if (years_to_go_back == 0) {
-    LOG_WARNING() << "Years to go back is 0 in derived quantity " << label_ << " which is invalid.";
+    LOG_WARNING() << "Years to go back is 0 in derived quantity " << label_ << " which is invalid";
     result = (*initialisation_values_.rbegin()->rbegin());
   } else if (initialisation_values_.rbegin()->size() > years_to_go_back) {
     result = initialisation_values_.rbegin()->at(initialisation_values_.rbegin()->size() - years_to_go_back);
