@@ -53,7 +53,7 @@ void Addressable::DoBuild(shared_ptr<Model> model) {
   }
 
   string error = "";
-  if (!model->objects().VerfiyAddressableForUse(parameter_, addressable::kLookup, error)) {
+  if (!model->objects().VerifyAddressableForUse(parameter_, addressable::kLookup, error)) {
     LOG_FATAL_P(PARAM_PARAMETER) << "could not be verified for use in assert.addressable. Error: " << error;
   }
 }

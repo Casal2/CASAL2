@@ -80,34 +80,25 @@ void Estimables::LoadValues(unsigned index) {
   if (estimables_.size() == 0) {
     string error = "";
     for (auto iter : estimable_values_) {
-      if (!model_->objects().VerfiyAddressableForUse(iter.first, addressable::kInputRun, error)) {
+      if (!model_->objects().VerifyAddressableForUse(iter.first, addressable::kInputRun, error)) {
         LOG_FATAL() << "The addressable " << iter.first << " could not be verified for use in -i run. Error: " << error;
       }
       Double* ptr             = model_->objects().GetAddressable(iter.first);
       estimables_[iter.first] = ptr;
     }
+  }
 
-    /**
-     * Verify that we're only using @estimate parameters if this has been defined
-     */
-    if (!model_->global_configuration().force_estimable_values_file()) {
-      vector<Estimate*> estimates = model_->managers()->estimate()->GetIsEstimated();
-      for (auto estimate : estimates) {
-        if (estimable_values_.find(estimate->parameter()) == estimable_values_.end())
-          LOG_FATAL() << "The estimate " << estimate->parameter() << " has not been found in the input configuration file";
-      }
-
-      if (estimates.size() != estimable_values_.size())
-        LOG_FATAL() << "The estimate value file does not have the correct number of estimables defined. Expected " << estimates.size() << ", parsed " << estimable_values_.size();
-    } else {
-      vector<Estimate*> estimates = model_->managers()->estimate()->GetIsEstimated();
-      vector<string>    AdditionalAddressables;
-      for (auto estimate : estimates) {
-        if (estimable_values_.find(estimate->parameter()) == estimable_values_.end())
-          AdditionalAddressables.push_back(estimate->parameter());
-      }
-      LOG_INFO() << AdditionalAddressables.size() << " additional non-estimated addressable parameters found";
+  /**
+   * Verify that we're only using @estimate parameters if this has been defined
+   */
+  if (!model_->global_configuration().force_overwrite_of_addressables()) {
+    vector<Estimate*> estimates = model_->managers()->estimate()->GetIsEstimated();
+    for (auto estimate : estimates) {
+      if (estimable_values_.find(estimate->parameter()) == estimable_values_.end())
+        LOG_FATAL() << "The estimate " << estimate->parameter() << " has not been found in the input configuration file";
     }
+    if (estimates.size() != estimable_values_.size())
+      LOG_FATAL() << "The estimate value file does not have the correct number of estimables defined. Expected " << estimates.size() << ", parsed " << estimable_values_.size();
   }
 
   for (auto iter : estimables_) {
@@ -119,6 +110,12 @@ void Estimables::LoadValues(unsigned index) {
     if (estimate != nullptr)
       estimate->set_value(estimable_values_[iter.first][index]);
   }
+  if (model_->global_configuration().force_overwrite_of_addressables()) {
+    int AdditionalAddressables = estimable_values_.size() - (model_->managers()->estimate()->GetIsEstimated()).size();
+    LOG_INFO() << AdditionalAddressables
+               << " additional non-estimated addressable parameters were found in the free parameter file: " << model_->global_configuration().estimable_value_file();
+  }
+  LOG_INFO() << "Estimable parameters were loaded from the free parameter file: " << model_->global_configuration().estimable_value_file();
 }
 
 } /* namespace niwa */

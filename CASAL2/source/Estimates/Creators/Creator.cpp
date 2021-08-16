@@ -4,7 +4,7 @@
  * @date 22/09/2014
  * @section LICENSE
  *
- * Copyright NIWA Science ©2014 - www.niwa.co.nz
+ * Copyright NIWA Science ï¿½2014 - www.niwa.co.nz
  *
  */
 
@@ -58,7 +58,7 @@ void Creator::CreateEstimates() {
    * At this point we need to determine if we need to split this estimate in to multiple estimates.
    */
   string error = "";
-  if (!model_->objects().VerfiyAddressableForUse(parameter_, addressable::kEstimate, error)) {
+  if (!model_->objects().VerifyAddressableForUse(parameter_, addressable::kEstimate, error)) {
     LOG_FATAL_P(PARAM_PARAMETER) << " could not be verified for use in an @estimate block. Error: " << error;
   }
 
@@ -222,7 +222,7 @@ void Creator::HandleSameParameter() {
      * At this point we need to determine if we need to split this estimate in to multiple estimates.
      */
     string error = "";
-    if (!model_->objects().VerfiyAddressableForUse(same, addressable::kEstimate, error)) {
+    if (!model_->objects().VerifyAddressableForUse(same, addressable::kEstimate, error)) {
       LOG_FATAL_P(PARAM_SAME) << "could not be verified for use in an @estimate.same block. Error: " << error;
     }
 

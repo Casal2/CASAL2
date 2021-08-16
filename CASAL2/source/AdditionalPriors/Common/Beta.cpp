@@ -57,7 +57,7 @@ void Beta::DoValidate() {
  */
 void Beta::DoBuild() {
   string error = "";
-  if (!model_->objects().VerfiyAddressableForUse(parameter_, addressable::kLookup, error)) {
+  if (!model_->objects().VerifyAddressableForUse(parameter_, addressable::kLookup, error)) {
     LOG_FATAL_P(PARAM_PARAMETER) << "could not be found. Error: " << error;
   }
 

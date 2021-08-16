@@ -45,7 +45,7 @@ void Profile::Validate() {
  */
 void Profile::Build() {
   string error = "";
-  if (!model_->objects().VerfiyAddressableForUse(parameter_, addressable::kProfile, error)) {
+  if (!model_->objects().VerifyAddressableForUse(parameter_, addressable::kProfile, error)) {
     LOG_FATAL_P(PARAM_PARAMETER) << "could not be verified for use in a @profile block. Error: " << error;
   }
 
@@ -58,7 +58,7 @@ void Profile::Build() {
    * Deal with the same parameter
    */
   if (same_parameter_ != "") {
-    if (!model_->objects().VerfiyAddressableForUse(same_parameter_, addressable::kProfile, error)) {
+    if (!model_->objects().VerifyAddressableForUse(same_parameter_, addressable::kProfile, error)) {
       LOG_FATAL_P(PARAM_SAME) << "could not be verified for use in a @profile block. Error: " << error;
     }
 

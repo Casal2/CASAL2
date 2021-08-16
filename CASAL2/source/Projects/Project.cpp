@@ -4,7 +4,7 @@
  * @date 28/05/2014
  * @section LICENSE
  *
- * Copyright NIWA Science ©2014 - www.niwa.co.nz
+ * Copyright NIWA Science ï¿½2014 - www.niwa.co.nz
  *
  */
 
@@ -43,7 +43,7 @@ void Project::Validate() {
  */
 void Project::Build() {
   string error = "";
-  if (!model_->objects().VerfiyAddressableForUse(parameter_, addressable::kProject, error)) {
+  if (!model_->objects().VerifyAddressableForUse(parameter_, addressable::kProject, error)) {
     LOG_FATAL_P(PARAM_PARAMETER) << "could not be verified for use in a @project block. Error: " << error;
   }
 

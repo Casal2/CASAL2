@@ -47,7 +47,7 @@ void Simulate::Build() {
   }
 
   string error = "";
-  if (!model_->objects().VerfiyAddressableForUse(parameter_, addressable::kSimulate, error)) {
+  if (!model_->objects().VerifyAddressableForUse(parameter_, addressable::kSimulate, error)) {
     LOG_FATAL_P(PARAM_PARAMETER) << "could not be verified for use in a simulation. Error: " << error;
   }
 

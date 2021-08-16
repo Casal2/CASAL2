@@ -74,7 +74,7 @@ public:
   void     set_mpd_file_name(const string& value) { options_.mpd_file_name_ = value; }
   string   mpd_file_name() const { return options_.mpd_file_name_; }
   string   estimable_value_file() const { return options_.estimable_value_input_file_; }
-  bool     force_estimable_values_file() { return options_.force_estimables_as_named_; }
+  bool     force_overwrite_of_addressables() { return options_.force_overwrite_of_addressables_; }
 
   // MCMC options
   bool   resume_mcmc() const { return options_.resume_mcmc_chain_; }

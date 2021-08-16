@@ -51,11 +51,11 @@ struct RunParameters {
   string mpd_data_             = "";  // String to hold MPD record from estimation for the MCMC
 
   // estimation configuraton options
-  string   minimiser_                  = "";
-  unsigned estimation_phases_          = 1;
-  string   estimable_value_input_file_ = "";
-  bool     force_estimables_as_named_  = false;
-  bool     estimation_is_for_mcmc_     = false;  // are we running in estimation run mode before a MCMC
+  string   minimiser_                       = "";
+  unsigned estimation_phases_               = 1;
+  string   estimable_value_input_file_      = "";
+  bool     force_overwrite_of_addressables_ = false;
+  bool     estimation_is_for_mcmc_          = false;  // are we running in estimation run mode before a MCMC
 
   // query run mode options
   string query_object_ = "";  // name of the Casal2 object to query

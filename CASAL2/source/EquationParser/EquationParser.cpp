@@ -122,7 +122,7 @@ Double& EquationParser::LookupValue(const std::string& name) {
   LOG_FINEST() << "Equation lookup on value: " << name;
 
   string error = "";
-  if (!model_->objects().VerfiyAddressableForUse(name, addressable::kLookup, error)) {
+  if (!model_->objects().VerifyAddressableForUse(name, addressable::kLookup, error)) {
     LOG_FATAL() << "addressable " << name << " could not be verified for use in equation_parser. Error: " << error;
   }
 

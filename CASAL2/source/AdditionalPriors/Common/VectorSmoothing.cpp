@@ -5,7 +5,7 @@
  * @date 28/10/2014
  * @section LICENSE
  *
- * Copyright NIWA Science ©2014 - www.niwa.co.nz
+ * Copyright NIWA Science ï¿½2014 - www.niwa.co.nz
  *
  */
 
@@ -36,7 +36,7 @@ VectorSmoothing::VectorSmoothing(shared_ptr<Model> model) : AdditionalPrior(mode
  */
 void VectorSmoothing::DoBuild() {
   string error = "";
-  if (!model_->objects().VerfiyAddressableForUse(parameter_, addressable::kLookup, error)) {
+  if (!model_->objects().VerifyAddressableForUse(parameter_, addressable::kLookup, error)) {
     LOG_FATAL_P(PARAM_PARAMETER) << "could not be verified for use in additional_prior.vector_smoothing. Error: " << error;
   }
 

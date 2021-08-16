@@ -49,7 +49,7 @@ Objects::Objects(shared_ptr<Model> model) : model_(model) {}
  * @param error A string to hold any returning errors in
  * @return True if the verification was successful, false otherwise
  */
-bool Objects::VerfiyAddressableForUse(const string& parameter_absolute_name, addressable::Usage usage, string& error) {
+bool Objects::VerifyAddressableForUse(const string& parameter_absolute_name, addressable::Usage usage, string& error) {
   LOG_TRACE();
   string type      = "";
   string label     = "";

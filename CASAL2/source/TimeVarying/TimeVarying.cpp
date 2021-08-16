@@ -23,7 +23,8 @@ namespace niwa {
  */
 TimeVarying::TimeVarying(shared_ptr<Model> model) : model_(model) {
   parameters_.Bind<string>(PARAM_LABEL, &label_, "The label of the time-varying object", "");
-  parameters_.Bind<string>(PARAM_TYPE, &type_, "The type of the time-varying object", "", "")->set_allowed_values({PARAM_ANNUAL_SHIFT,PARAM_CONSTANT,PARAM_EXOGENOUS,PARAM_LINEAR,PARAM_RANDOMWALK,PARAM_RANDOMDRAW});
+  parameters_.Bind<string>(PARAM_TYPE, &type_, "The type of the time-varying object", "", "")
+      ->set_allowed_values({PARAM_ANNUAL_SHIFT, PARAM_CONSTANT, PARAM_EXOGENOUS, PARAM_LINEAR, PARAM_RANDOMWALK, PARAM_RANDOMDRAW});
   parameters_.Bind<string>(PARAM_PARAMETER, &parameter_, "The name of the parameter to vary in each year", "");
   parameters_.Bind<unsigned>(PARAM_YEARS, &years_, "The years in which to vary the paramter", "");
 }
@@ -50,7 +51,7 @@ void TimeVarying::Validate() {
 void TimeVarying::Build() {
   // Verify our addressable is allowed to be used for TimeVarying
   string error = "";
-  if (!model_->objects().VerfiyAddressableForUse(parameter_, addressable::kTimeVarying, error)) {
+  if (!model_->objects().VerifyAddressableForUse(parameter_, addressable::kTimeVarying, error)) {
     LOG_FATAL_P(PARAM_PARAMETER) << "could not be verified for use in an @time_varying block. Error: " << error;
   }
 

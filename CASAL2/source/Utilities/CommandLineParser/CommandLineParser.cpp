@@ -136,14 +136,14 @@ void CommandLineParser::Parse(int argc, char* argv[], RunParameters& options) {
   if (parameters.count("input")) {
     if (parameters.count("input-force"))
       LOG_FATAL() << "Do not specify both -i (input file) and -I (input-force file) at the same time";
-    options.estimable_value_input_file_ = parameters["input"].as<string>();
-    options.force_estimables_as_named_  = true;
+    options.estimable_value_input_file_      = parameters["input"].as<string>();
+    options.force_overwrite_of_addressables_ = false;
   }
   if (parameters.count("input-force")) {
     if (parameters.count("input"))
       LOG_FATAL() << "Do not specify both -i (input file) and -I (input-force file) at the same time";
-    options.estimable_value_input_file_ = parameters["input-force"].as<string>();
-    options.force_estimables_as_named_  = false;
+    options.estimable_value_input_file_      = parameters["input-force"].as<string>();
+    options.force_overwrite_of_addressables_ = true;
   }
   if (parameters.count("nostd"))
     options.no_std_report_ = true;

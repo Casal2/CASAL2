@@ -39,11 +39,11 @@ void ElementDifference::DoValidate() {}
 void ElementDifference::DoBuild() {
   LOG_TRACE();
   string error = "";
-  if (!model_->objects().VerfiyAddressableForUse(second_parameter_, addressable::kLookup, error)) {
+  if (!model_->objects().VerifyAddressableForUse(second_parameter_, addressable::kLookup, error)) {
     LOG_FATAL_P(PARAM_SECOND_PARAMETER) << "could not be found. Error: " << error;
   }
   error = "";
-  if (!model_->objects().VerfiyAddressableForUse(parameter_, addressable::kLookup, error)) {
+  if (!model_->objects().VerifyAddressableForUse(parameter_, addressable::kLookup, error)) {
     LOG_FATAL_P(PARAM_PARAMETER) << "could not be found. Error: " << error;
   }
 

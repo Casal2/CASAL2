@@ -494,7 +494,7 @@ void Model::RunBasic() {
       managers_->report()->Resume();
       boost::split(single_step_addressables, line, boost::is_any_of(" "));
       for (string addressable : single_step_addressables) {
-        if (!objects().VerfiyAddressableForUse(addressable, addressable::kSingleStep, error)) {
+        if (!objects().VerifyAddressableForUse(addressable, addressable::kSingleStep, error)) {
           LOG_FATAL() << "The addressable " << addressable << " could not be verified for use in a single-step basic run. Error was " << error;
         }
         Double* target = objects().GetAddressable(addressable);
