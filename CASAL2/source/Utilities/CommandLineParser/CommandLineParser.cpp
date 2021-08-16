@@ -66,7 +66,7 @@ void CommandLineParser::Parse(int argc, char* argv[], RunParameters& options) {
     ("simulation,s", value<unsigned>(), "Simulation mode (arg = number of candidates)")
     ("projection,f", value<unsigned>(), "Projection mode (arg = number of projections per set of input values)")
     ("input,i", value<string>(), "Load free parameter values from [file]")
-    ("input-force,I",  value<string>(), "Load parameters from [file], forcing overwriting of non-estimated addressable parameters (basic run mode only)")
+    ("input-force,I",  value<string>(), "Load parameters from [file], and force overwriting of non-estimated addressable parameters")
     ("seed,g", value<unsigned>(), "Random number seed")
     ("query,q", value<string>(), "Query an object type to see its description and parameters. Argument object_type.sub_type, e.g., process.recruitment_constant")
     ("nostd", "Do not print the standard header report")

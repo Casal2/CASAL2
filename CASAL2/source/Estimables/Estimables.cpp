@@ -110,12 +110,14 @@ void Estimables::LoadValues(unsigned index) {
     if (estimate != nullptr)
       estimate->set_value(estimable_values_[iter.first][index]);
   }
+
+  LOG_INFO() << "Estimable parameters were loaded from the free parameter file: " << model_->global_configuration().estimable_value_file();
+
   if (model_->global_configuration().force_overwrite_of_addressables()) {
     int AdditionalAddressables = estimable_values_.size() - (model_->managers()->estimate()->GetIsEstimated()).size();
-    LOG_INFO() << AdditionalAddressables
-               << " additional non-estimated addressable parameters were found in the free parameter file: " << model_->global_configuration().estimable_value_file();
+    LOG_IMPORTANT() << AdditionalAddressables
+                    << " additional non-estimated addressable parameters were found in the free parameter file: " << model_->global_configuration().estimable_value_file();
   }
-  LOG_INFO() << "Estimable parameters were loaded from the free parameter file: " << model_->global_configuration().estimable_value_file();
 }
 
 } /* namespace niwa */

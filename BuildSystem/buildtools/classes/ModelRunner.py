@@ -31,7 +31,8 @@ class ModelRunner:
     success_count = 0
     fail_count = 0
     estimation_dir_list = {"Simple", "TwoSex", "SBW"}
-    dash_i_dir_list = {"Complex_input","TwoSex_input","SingleSexTagByLength_input"}
+    dash_i_dir_list = {"Complex_input","TwoSex_input"}
+    dash_I_dir_list = {"SingleSexTagByLength_input"}
     dir_list = os.listdir("../TestModels/")
     cwd = os.path.normpath(os.getcwd())  
 
@@ -42,6 +43,8 @@ class ModelRunner:
       if folder in estimation_dir_list:
       	continue
       if folder in dash_i_dir_list:
+        continue
+      if folder in dash_I_dir_list:
         continue
       if folder.startswith("."):
         continue
@@ -71,6 +74,18 @@ class ModelRunner:
       else:
         elapsed = time.time() - start
         print('[OK] - ' + folder + ' -i run in ' + str(round(elapsed, 2)) + ' seconds')
+        success_count += 1
+      os.chdir(cwd) 
+    # test -I functionality 
+    for folder in dash_I_dir_list:
+      os.chdir("../TestModels/" + folder)
+      if os.system(f"{exe_path} -r -I pars.out > run.log 2>&1") != EX_OK:
+        elapsed = time.time() - start
+        print('[FAILED] - ' + folder + ' -I run in ' + str(round(elapsed, 2)) + ' seconds')
+        fail_count += 1
+      else:
+        elapsed = time.time() - start
+        print('[OK] - ' + folder + ' -I run in ' + str(round(elapsed, 2)) + ' seconds')
         success_count += 1
       os.chdir(cwd) 
     # test -e functionality

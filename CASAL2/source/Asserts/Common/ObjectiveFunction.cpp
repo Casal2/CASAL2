@@ -53,7 +53,6 @@ void ObjectiveFunction::Execute() {
   if (fabs(AS_DOUBLE(value_) - AS_DOUBLE(obj.score())) > (tol_ * fabs(AS_DOUBLE(obj.score())) + tol_)) {
     std::streamsize prec = std::cout.precision();
     std::cout.precision(9);
-    LOG_INFO() << "An information message";
     if (error_type_ == PARAM_ERROR) {
       LOG_ERROR() << "Assert Failure: The Objective Function had value " << obj.score() << ", when " << value_ << " was expected. The difference was "
                   << fabs(AS_DOUBLE(value_) - AS_DOUBLE(obj.score()));

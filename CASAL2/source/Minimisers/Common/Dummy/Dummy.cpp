@@ -40,7 +40,7 @@ Dummy::Dummy(shared_ptr<Model> model) : Minimiser(model) {
  * Execute
  */
 void Dummy::Execute() {
-  LOG_CODE_ERROR() << "No minimiser has been instanciated.\n"
+  LOG_CODE_ERROR() << "No minimiser has been instantiated.\n"
                    << "This may have happened because you are attempting to use an autodiff minimiser with the release shared library";
 };
 
