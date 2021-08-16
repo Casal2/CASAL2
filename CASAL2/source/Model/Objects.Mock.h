@@ -32,7 +32,7 @@ public:
   MockObjects(shared_ptr<Model> model) : niwa::Objects(model){};
   virtual ~MockObjects() = default;
 
-  MOCK_METHOD3(VerfiyAddressableForUse, bool(const string&, addressable::Usage, string&));
+  MOCK_METHOD3(VerifyAddressableForUse, bool(const string&, addressable::Usage, string&));
   MOCK_METHOD1(GetAddressableType, addressable::Type(const string&));
   MOCK_METHOD1(GetAddressable, double*(const string&));
   MOCK_METHOD1(GetAddressables, vector<Double*>*(const string&));
