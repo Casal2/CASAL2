@@ -43,11 +43,11 @@ TEST(Objects, Validate_Mock) {
   double                double_  = 10.0;
   double                double2_ = 20.0;
 
-  EXPECT_CALL(objects, VerfiyAddressableForUse(_, _, _)).WillRepeatedly(Return(true));
-  EXPECT_EQ(true, objects.VerfiyAddressableForUse("", addressable::kTimeVarying, error));
+  EXPECT_CALL(objects, VerifyAddressableForUse(_, _, _)).WillRepeatedly(Return(true));
+  EXPECT_EQ(true, objects.VerifyAddressableForUse("", addressable::kTimeVarying, error));
 
-  EXPECT_CALL(objects, VerfiyAddressableForUse(_, _, _)).WillRepeatedly(Return(false));
-  EXPECT_EQ(false, objects.VerfiyAddressableForUse("", addressable::kTimeVarying, error));
+  EXPECT_CALL(objects, VerifyAddressableForUse(_, _, _)).WillRepeatedly(Return(false));
+  EXPECT_EQ(false, objects.VerifyAddressableForUse("", addressable::kTimeVarying, error));
 
   EXPECT_CALL(objects, GetAddressable(_)).WillRepeatedly(Return(&double_));
   EXPECT_EQ(&double_, objects.GetAddressable(""));
@@ -121,7 +121,7 @@ TEST(Objects, Validate_Mock) {
 }
 
 /**
- * virtual bool VerfiyAddressableForUse(const string& parameter_absolute_name, addressable::Usage usage, string& error);
+ * virtual bool VerifyAddressableForUse(const string& parameter_absolute_name, addressable::Usage usage, string& error);
  */
 TEST(Objects, VerifyAddressableForUse) {
   shared_ptr<Model> model = shared_ptr<Model>(new Model());
@@ -132,11 +132,11 @@ TEST(Objects, VerifyAddressableForUse) {
   string error     = "";
   string parameter = "";
 
-  EXPECT_EQ(false, objects.VerfiyAddressableForUse("bad parameter", addressable::kSimulate, error));
+  EXPECT_EQ(false, objects.VerifyAddressableForUse("bad parameter", addressable::kSimulate, error));
   ASSERT_EQ(true, (error.length() > 10));
   EXPECT_EQ("The syntax", error.substr(0, 10));
 
-  EXPECT_EQ(false, objects.VerfiyAddressableForUse("process[recruitment].b0", addressable::kSimulate, error));
+  EXPECT_EQ(false, objects.VerifyAddressableForUse("process[recruitment].b0", addressable::kSimulate, error));
   ASSERT_EQ(true, (error.length() > 13));
   EXPECT_EQ("Parent object", error.substr(0, 13));
 
@@ -147,18 +147,18 @@ TEST(Objects, VerifyAddressableForUse) {
   unit_tester->parameters().Add(PARAM_TYPE, PARAM_NOP, __FILE__, __LINE__);
   model->managers()->process()->Validate(model);
 
-  EXPECT_EQ(false, objects.VerfiyAddressableForUse("process[unit_tester].y", addressable::kSimulate, error));
+  EXPECT_EQ(false, objects.VerifyAddressableForUse("process[unit_tester].y", addressable::kSimulate, error));
   ASSERT_EQ(true, (error.length() > 16));
   EXPECT_EQ("y is not a valid", error.substr(0, 16));
 
   // Find addressable, but it's not allowed to be used for simulation
-  EXPECT_EQ(false, objects.VerfiyAddressableForUse("process[unit_tester].a", addressable::kSimulate, error));
+  EXPECT_EQ(false, objects.VerifyAddressableForUse("process[unit_tester].a", addressable::kSimulate, error));
   ASSERT_EQ(true, (error.length() > 16));
   EXPECT_EQ("a on process.uni", error.substr(0, 16));
 
   // Working query
   // Find addressable, but it's not allowed to be used for simulation
-  EXPECT_EQ(true, objects.VerfiyAddressableForUse("process[unit_tester].a", addressable::kEstimate, error));
+  EXPECT_EQ(true, objects.VerifyAddressableForUse("process[unit_tester].a", addressable::kEstimate, error));
   ASSERT_EQ(true, (error.length() == 0));
 }
 
