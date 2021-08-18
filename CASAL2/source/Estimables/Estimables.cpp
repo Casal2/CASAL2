@@ -101,20 +101,25 @@ void Estimables::LoadValues(unsigned index) {
       LOG_FATAL() << "The estimate value file does not have the correct number of estimables defined. Expected " << estimates.size() << ", parsed " << estimable_values_.size();
   }
 
+  unsigned estimate_count = 0;
   for (auto iter : estimables_) {
     if (index >= estimable_values_[iter.first].size())
       LOG_CODE_ERROR() << "index >= estimable_values_[iter.first].size()";
-    (*estimables_[iter.first]) = estimable_values_[iter.first][index];
+    *iter.second = estimable_values_[iter.first][index];
 
+    // Update estimate with new value if it exists
+    // so that we can automatically update the 'same' targets
     auto estimate = model_->managers()->estimate()->GetEstimate(iter.first);
-    if (estimate != nullptr)
-      estimate->set_value(estimable_values_[iter.first][index]);
+    if (estimate != nullptr) {
+      estimate->set_value(*iter.second);
+      ++estimate_count;
+    }
   }
 
   LOG_INFO() << "Estimable parameters were loaded from the free parameter file: " << model_->global_configuration().estimable_value_file();
 
   if (model_->global_configuration().force_overwrite_of_addressables()) {
-    int AdditionalAddressables = estimable_values_.size() - (model_->managers()->estimate()->GetIsEstimated()).size();
+    int AdditionalAddressables = estimable_values_.size() - estimate_count;
     LOG_IMPORTANT() << AdditionalAddressables
                     << " additional non-estimated addressable parameters were found in the free parameter file: " << model_->global_configuration().estimable_value_file();
   }

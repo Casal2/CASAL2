@@ -76,6 +76,7 @@ private:
  * If we're building with TEST defined then we'll blank all of them except LOG_ERROR which
  * will throw an exception
  */
+
 #define LOG_IF(level) if (level >= Logging::current_log_level_)
 #define LOG_FOR(level) for (logger::Record r(level, __FILE__, __FUNCTION__, __LINE__); !r.Flush(); Logging::Instance().Flush(r))
 #define LOG_IF_FOR(level) LOG_IF(level) LOG_FOR(level)
@@ -85,10 +86,10 @@ private:
 #define LOG_FINEST() LOG_IF_FOR_STREAM(logger::Severity::kFinest)
 #define LOG_FINE() LOG_IF_FOR_STREAM(logger::Severity::kFine)
 #define LOG_MEDIUM() LOG_IF_FOR_STREAM(logger::Severity::kMedium)
-// Important messages (not an error)
-#define LOG_IMPORTANT() LOG_IF_FOR_STREAM(logger::Severity::kImportant)
 // Information messages (not an error)
 #define LOG_INFO() LOG_IF_FOR_STREAM(logger::Severity::kInfo)
+// Important messages (not an error)
+#define LOG_IMPORTANT() LOG_IF_FOR_STREAM(logger::Severity::kImportant)
 // Warning messages (not an error, except during test)
 #define LOG_WARNING() LOG_IF_FOR_STREAM(logger::Severity::kWarning)
 // Errors that do not cause an immediate stop, but are logged and reported all at once
