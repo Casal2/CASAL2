@@ -69,7 +69,7 @@ bool MPD::LoadFromDiskToMemory(const string& file_name) {
   ifstream file;
   file.open(file_name.c_str());
   if (file.fail() || !file.is_open()) {
-    LOG_FATAL() << "Casal2 failed to open the MPD file " << file_name << ". Have you forgotten to specify --estimate-before-mcmc to create this file if it doesn't exist?";
+    LOG_FATAL() << "Failed to find the MPD file " << file_name;
   }
 
   string line = "";
@@ -78,7 +78,7 @@ bool MPD::LoadFromDiskToMemory(const string& file_name) {
   if (file_lines_.size() == 0)
     LOG_FATAL() << "File " << file_name << " was empty. Could not load any MPD data";
   if (file_lines_[0].substr(0, 5) != "* MPD")
-    LOG_FATAL() << "File " << file_name << " must start with '* MPD' to be a valid MPD file";
+    LOG_FATAL() << "The file " << file_name << " is not a valid MPD file. It should start with '* MPD' and contain the MPD point estimates and the covariance matrix";
 
   file_name_ = file_name;
   file.close();
@@ -98,7 +98,7 @@ void MPD::ParseFile() {
   // Lambda to get the next line from our vector easily
   auto get_next_line = [&idx, this]() {
     if (idx >= this->file_lines_.size())
-      LOG_FATAL() << "Could not get line " << idx + 1 << " from file " << this->file_name_;
+      LOG_FATAL() << "Could not get line " << idx + 1 << " from the MPD file " << this->file_name_;
 
     string s = this->file_lines_[idx];
     boost::replace_all(s, "\t", " ");
@@ -109,11 +109,11 @@ void MPD::ParseFile() {
 
   string line = get_next_line();
   if (line != "* MPD")
-    LOG_FATAL() << "The first line of MPD data must be '* MPD* in " << file_name_ << ", instead we got" << line;
+    LOG_FATAL() << "The file " << file_name_ << " is not a valid MPD file. It should start with '* MPD' and contain the MPD point estimates and the covariance matrix";
 
   line = get_next_line();
   if (line != "estimate_values:")
-    LOG_FATAL() << "The second line of MPD data must be 'estimate_values:' in " << file_name_;
+    LOG_FATAL() << "The file " << file_name_ << " is not a valid MPD file. The second line must be 'estimate_values:'";
 
   // third line should contain list of addressables
   line = get_next_line();
@@ -121,14 +121,15 @@ void MPD::ParseFile() {
   boost::split(parameters, line, boost::is_any_of(" "));
 
   if (parameters.size() == 0)
-    LOG_FATAL() << "Unable to load parameters from MPD data. Parameters must be space separated on line 3 of " << file_name_;
+    LOG_FATAL() << "The file " << file_name_ << " is not a valid MPD file. Parameters must be space separated on line 3";
 
   // fourth line is the value for each addressable
   line = get_next_line();
   vector<string> values;
   boost::split(values, line, boost::is_any_of(" "));
   if (values.size() != parameters.size())
-    LOG_FATAL() << "In MPD file, The number of values specified was " << values.size() << " when " << parameters.size() << " were expected";
+    LOG_FATAL() << "The file " << file_name_ << " is not a valid MPD file. The number of values supplied was " << values.size() << " when " << parameters.size()
+                << " were expected";
 
   for (unsigned i = 0; i < values.size(); ++i) {
     boost::trim_all(parameters[i]);
@@ -136,11 +137,11 @@ void MPD::ParseFile() {
 
     double numeric = 0.0;
     if (!utilities::To<double>(values[i], numeric))
-      LOG_FATAL() << "In MPD file, could not convert the value " << values[i] << " to a double";
+      LOG_FATAL() << "The file " << file_name_ << " is not a valid MPD file. Could not convert the value " << values[i] << " to a double";
 
     auto estimate = model_->managers()->estimate()->GetEstimate(parameters[i]);
     if (!estimate)
-      LOG_FATAL() << "Estimate " << parameters[i] << " was defined in MPD file but was not found";
+      LOG_FATAL() << "The file " << file_name_ << " is not a valid MPD file. Estimate " << parameters[i] << " was defined in MPD file but was not found";
 
     estimate->set_value(numeric);
   }
@@ -148,7 +149,7 @@ void MPD::ParseFile() {
   // fifth line should be 'covariance_matrix:'
   line = get_next_line();
   if (line != "covariance_matrix:")
-    LOG_FATAL() << "The second line of MPD data must be 'covariance_matrix:' in " << file_name_;
+    LOG_FATAL() << "The file " << file_name_ << " is not a valid MPD file. The second line of MPD data must be 'covariance_matrix:'";
 
   // now we load the covariance matrix data
   auto estimate_count = model_->managers()->estimate()->GetIsEstimatedCount();
@@ -160,30 +161,28 @@ void MPD::ParseFile() {
   for (unsigned i = 0; i < estimate_count; ++i) {
     line = get_next_line();
     if (line == "")
-      LOG_FATAL() << "Failed to load line " << i + 1 << " of the covariance matrix from MPD file: " << file_name_;
+      LOG_FATAL() << "The file " << file_name_ << " is not a valid MPD file. Failed to load line " << i + 1 << " of the covariance matrix";
 
     // split the line
     vector<string> estimable_values;
     boost::trim_all(line);
     boost::split(estimable_values, line, boost::is_any_of(" "), boost::token_compress_on);
     if (estimate_count != estimable_values.size()) {
-      LOG_FATAL() << "Line " << i + 1 << " of the covariance matrix had " << estimable_values.size() << " values when the number " << estimate_count
-                  << " was expected, to match number of estimates";
+      LOG_FATAL() << "The file " << file_name_ << " is not a valid MPD file. Line " << i + 1 << " of the covariance matrix had " << estimable_values.size() << " values when "
+                  << estimate_count << " were expected";
     }
 
     double value = 0;
     for (unsigned j = 0; j < estimate_count; ++j) {
       if (!utilities::To<string, double>(estimable_values[j], value))
-        LOG_FATAL() << "MPD file " << file_name_ << " is not in the correct format."
-                    << " Value " << estimable_values[j] << " could not be converted to a double";
-
+        LOG_FATAL() << "The file " << file_name_ << " is not a valid MPD file. The value " << estimable_values[j] << " could not be converted to a double";
       covariance_matrix(i, j) = value;
     }
   }
 
   line = get_next_line();
   if (line != "*end")
-    LOG_FATAL() << "The last line of MPD data must be '*end' in " << file_name_;
+    LOG_FATAL() << "The file " << file_name_ << " is not a valid MPD file. The last line must be '*end'";
 }
 
 /**
@@ -196,7 +195,7 @@ void MPD::CreateMPD(shared_ptr<Model> master_model) {
   auto minimiser_manager = master_model->managers()->minimiser();
   auto minimiser         = minimiser_manager->active_minimiser();
   if (!minimiser)
-    LOG_CODE_ERROR() << "!minimiser";
+    LOG_CODE_ERROR() << "No active minimiser found";
 
   ostringstream cache;
   cache << "* MPD\n";

@@ -45,16 +45,14 @@
 //**********************************************************************
 // Report output Syntax Strings
 #define REPORT_END                           "*end"
-#define REPORT_R_COMPLETE_VECTOR             "{c}"    // not sure if this is used
-#define REPORT_R_DATAFRAME                   "{d}"    // R library will add a header to the data frame, so if you don't add one to the report R will put row 1 as the header
-#define REPORT_R_DATAFRAME_ROW_LABELS        "{d_r}"  // R-library will add a header and assign the first column as rowlabels
-#define REPORT_R_MATRIX                      "{m}"    // No header's
-#define REPORT_R_NAMED_COMPLETE_VECTOR       "{C}"    // not sure if this is used
-#define REPORT_R_LIST                        "{L}"
-#define REPORT_R_LIST_END                    "end {L}"
+#define REPORT_R_DATAFRAME                   "{dataframe}"   // Dataframe: R library will add a header to the data frame, so if you don't add one to the report R will put row 1 as the header
+#define REPORT_R_DATAFRAME_ROW_LABELS        "{dataframe_with_rows}"   // Data:frame R-library will add a header and assign the first column as rowlabels
+#define REPORT_R_MATRIX                      "{matrix}"      // A matrix: No header's
+#define REPORT_R_LIST                        "{list}"        // A list of objects
+#define REPORT_R_LIST_END                    "{end_list}"    
 #define REPORT_R_LIST_ELEMENT_SEPARATOR      ":"
-#define REPORT_R_VECTOR                      "{v}"
-#define REPORT_R_STRING_VECTOR               "{s}"    // This will not split a vector: used to read in warnings, see Logging.cpp warnings section
+#define REPORT_R_VECTOR                      "{vector}"      // A vector of names or numbers on a row
+#define REPORT_R_STRING_VECTOR               "{string}"      // This will not split a vector: used to read in warnings, see Logging.cpp warnings section
 
 
 //**********************************************************************

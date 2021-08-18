@@ -21,7 +21,7 @@ namespace niwa {
 
 // class declaration
 class Runner {
-  friend class BaseThreaed;  // Unit test base model
+  friend class BaseThread;  // Unit test base model
 public:
   // methods
   Runner()          = default;

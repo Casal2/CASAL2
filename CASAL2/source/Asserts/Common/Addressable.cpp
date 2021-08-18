@@ -70,7 +70,7 @@ void Addressable::DoBuild() {
    */
   TimeStep* time_step = model_->managers()->time_step()->GetTimeStep(time_step_label_);
   if (!time_step)
-    LOG_ERROR_P(PARAM_TIME_STEP) << "Time step label (" << time_step_label_ << ") was not found";
+    LOG_ERROR_P(PARAM_TIME_STEP) << "time step label (" << time_step_label_ << ") was not found";
   for (unsigned year : years_) time_step->Subscribe(this, year);
 
   string error = "";

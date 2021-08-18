@@ -147,31 +147,6 @@ void Logging::FlushErrors() {
 }
 
 /**
- * A warning report that is compatable with the Casal2 R package
- */
-void Logging::FlushWarnings() {
-  std::scoped_lock l(lock_);
-  if (warnings_.size() == 0) {
-    return;
-  }
-
-  // unsigned to_print = warnings_.size() > 10 ? 10 : warnings_.size();
-
-  cout << "*warnings[messages_encounted]\n";
-  cout << "messages_found: " << warnings_.size() << "\n";
-
-  for (unsigned i = 0; i < warnings_.size(); ++i) {
-    cout << "warning_" << i + 1 << " " << REPORT_R_STRING_VECTOR << "\n";
-    cout << warnings_[i] << "\n";
-  }
-
-  cout << "*end\n\n";
-  cout.flush();
-
-  warnings_.clear();
-}
-
-/**
  * A info report that is compatable with the Casal2 R package
  */
 void Logging::FlushInfo() {
@@ -180,14 +155,9 @@ void Logging::FlushInfo() {
     return;
   }
 
-  cout << "*info[messages_encounted]\n";
-  cout << "messages_found: " << info_.size() << "\n";
-
-  for (unsigned i = 0; i < info_.size(); ++i) {
-    cout << "info_" << i + 1 << " " << REPORT_R_STRING_VECTOR << "\n";
-    cout << info_[i] << "\n";
-  }
-
+  cout << "*info[messages_encountered]\n";
+  cout << REPORT_R_STRING_VECTOR << "\n";
+  for (unsigned i = 0; i < info_.size(); ++i) cout << info_[i] << "\n";
   cout << "*end\n\n";
   cout.flush();
 
@@ -203,18 +173,33 @@ void Logging::FlushImportant() {
     return;
   }
 
-  cout << "*important[messages_encounted]\n";
-  cout << "messages_found: " << important_.size() << "\n";
-
-  for (unsigned i = 0; i < important_.size(); ++i) {
-    cout << "important_" << i + 1 << " " << REPORT_R_STRING_VECTOR << "\n";
-    cout << important_[i] << "\n";
-  }
-
+  cout << "*important[messages_encountered]\n";
+  cout << REPORT_R_STRING_VECTOR << "\n";
+  for (unsigned i = 0; i < important_.size(); ++i) cout << important_[i] << "\n";
   cout << "*end\n\n";
   cout.flush();
 
   important_.clear();
+}
+
+/**
+ * A warning report that is compatable with the Casal2 R package
+ */
+void Logging::FlushWarnings() {
+  std::scoped_lock l(lock_);
+  if (warnings_.size() == 0) {
+    return;
+  }
+
+  // unsigned to_print = warnings_.size() > 10 ? 10 : warnings_.size();
+
+  cout << "*warnings[messages_encountered]\n";
+  cout << REPORT_R_STRING_VECTOR << "\n";
+  for (unsigned i = 0; i < warnings_.size(); ++i) cout << warnings_[i] << "\n";
+  cout << "*end\n\n";
+  cout.flush();
+
+  warnings_.clear();
 }
 
 } /* namespace niwa */

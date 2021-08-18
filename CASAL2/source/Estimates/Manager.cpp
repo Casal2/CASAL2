@@ -128,6 +128,8 @@ void Manager::Build(shared_ptr<Model> model) {
 
   LOG_FINEST() << "Finished building all estimates";
   if (model->is_primary_thread_model() && model->global_configuration().create_mpd_file()) {
+    string mpd_file_name = model->global_configuration().get_mpd_file_name();
+    LOG_IMPORTANT() << "Loading MPD and covariance from file " << mpd_file_name;
     model->managers()->report()->Pause();
     reports::MPD* report = new reports::MPD();
     report->set_block_type(PARAM_REPORT);
@@ -135,7 +137,7 @@ void Manager::Build(shared_ptr<Model> model) {
     report->set_defined_line_number(__LINE__);
     report->parameters().Add(PARAM_LABEL, "mpd", __FILE__, __LINE__);
     report->parameters().Add(PARAM_TYPE, PARAM_MPD, __FILE__, __LINE__);
-    report->parameters().Add(PARAM_FILE_NAME, "mpd.out", __FILE__, __LINE__);
+    report->parameters().Add(PARAM_FILE_NAME, mpd_file_name, __FILE__, __LINE__);
     report->Validate(model);
     model->managers()->report()->AddObject(report);
     model->managers()->report()->Resume();

@@ -70,9 +70,10 @@ public:
 
   // Estimation options
   bool     create_mpd_file() const { return options_.create_mpd_file_; }
-  unsigned estimation_phases() const { return options_.estimation_phases_; }
+  string   append_mpd_file() const { return options_.mpd_output_append_; }
+  string   get_mpd_file_name() const { return options_.mpd_file_name_; }
   void     set_mpd_file_name(const string& value) { options_.mpd_file_name_ = value; }
-  string   mpd_file_name() const { return options_.mpd_file_name_; }
+  unsigned estimation_phases() const { return options_.estimation_phases_; }
   string   estimable_value_file() const { return options_.estimable_value_input_file_; }
   bool     force_overwrite_of_addressables() { return options_.force_overwrite_of_addressables_; }
 

@@ -229,7 +229,7 @@ void MCMC::ResumeChain() {
  *
  */
 void MCMC::GenerateRandomStart() {
-  LOG_MEDIUM() << "Generating random start for MCMC";
+  LOG_INFO() << "Generating random start values for MCMC";
   vector<double>    original_candidates = candidates_;
   vector<Estimate*> estimates           = model_->managers()->estimate()->GetIsEstimated();
 
@@ -246,7 +246,7 @@ void MCMC::GenerateRandomStart() {
     candidates_pass = true;
     attempts++;
     if (attempts > 1000)
-      LOG_FATAL() << "Failed to generate random start after 1000 attempts";
+      LOG_FATAL() << "Failed to generate random start values after 1000 attempts";
 
     candidates_ = original_candidates;
     FillMultivariateNormal(start_);
@@ -493,7 +493,7 @@ void MCMC::UpdateStepSize() {
   if (jumps_since_adapt_ > 0 && successful_jumps_since_adapt_ > 0) {
     if (std::find(adapt_step_size_.begin(), adapt_step_size_.end(), jumps_) == adapt_step_size_.end())
       return;
-
+    double old_step_size = step_size_;
     if (adapt_stepsize_method_ == PARAM_RATIO) {
       // modify the stepsize so that AcceptanceRate = 0.24
       step_size_ *= ((double)successful_jumps_since_adapt_ / (double)jumps_since_adapt_) * 4.166667;
@@ -516,6 +516,7 @@ void MCMC::UpdateStepSize() {
       LOG_MEDIUM() << "new step_size = " << step_size_;
     }
 
+    LOG_INFO() << "Adapting step_size from " << old_step_size << " to " << step_size_ << " after " << chain_.size() - 1 << " iterations";
     jumps_since_adapt_            = 0;
     successful_jumps_since_adapt_ = 0;
     return;
@@ -529,12 +530,12 @@ void MCMC::UpdateStepSize() {
  * 2. Modify the covariance matrix
  */
 void MCMC::UpdateCovarianceMatrix() {
-  if (jumps_since_adapt_ > 1000) {
-    if (adapt_covariance_matrix_ != jumps_)
-      return;
+  if (adapt_covariance_matrix_ != jumps_)
+    return;
 
+  if (jumps_since_adapt_ > 1000) {
     recalculate_covariance_ = true;
-    LOG_MEDIUM() << "Recalculating the covariance matrix after " << chain_.size() << " iterations";
+    LOG_INFO() << "Recalculating the covariance matrix after " << chain_.size() - 1 << " iterations";
     // modify the covariance matrix this algorithm is taken from CASAL, maybe not the best place to take it from
 
     // number of parameters

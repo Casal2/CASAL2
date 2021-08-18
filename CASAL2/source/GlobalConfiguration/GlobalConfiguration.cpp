@@ -46,15 +46,18 @@ void GlobalConfiguration::ParseOptions() {
   if (options_.override_random_number_seed_) {
     LOG_MEDIUM() << "Overriding random seed from " << options_.random_number_seed_ << " to " << options_.override_rng_seed_value_;
     options_.random_number_seed_ = options_.override_rng_seed_value_;
+    LOG_INFO() << "Setting the random number seed to " << options_.random_number_seed_;
   }
 
-  // if (options_.output_ != "") {
-  //   auto report = reports::Factory::Create(model, PARAM_REPORT, PARAM_OUTPUT_PARAMETERS);
-  //   report->parameters().Add(PARAM_LABEL, "parameter_output", __FILE__, __LINE__);
-  //   report->parameters().Add(PARAM_TYPE, PARAM_OUTPUT_PARAMETERS, __FILE__, __LINE__);
-  //   report->parameters().Add(PARAM_FILE_NAME, options_.output_, __FILE__, __LINE__);
-  //   report->set_skip_tags(true);
-  // }
+  if (options_.output_ != "") {
+    //   auto model = model();
+    //   auto report = reports::Factory::Create(model, PARAM_REPORT, PARAM_OUTPUT_PARAMETERS);
+    //   report->parameters().Add(PARAM_LABEL, "parameter_output", __FILE__, __LINE__);
+    //   report->parameters().Add(PARAM_TYPE, PARAM_OUTPUT_PARAMETERS, __FILE__, __LINE__);
+    //   report->parameters().Add(PARAM_FILE_NAME, options_.output_, __FILE__, __LINE__);
+    //   report->parameters().Add(PARAM_FILE_NAME, options_.mpd_output_append_, __FILE__, __LINE__);
+    //   report->set_skip_tags(true);
+  }
 }
 
 } /* namespace niwa */

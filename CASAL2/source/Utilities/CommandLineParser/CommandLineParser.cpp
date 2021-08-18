@@ -48,35 +48,33 @@ void CommandLineParser::Parse(int argc, char* argv[], RunParameters& options) {
   // clang-format off
   options_description oDesc("Usage");
   oDesc.add_options()
-    ("help,h", "Print help")
-    ("license,l", "Display the Casal2 license")
+    ("help,h", "Display help")
+    ("license,l", "Display the reference for the Casal2 license")
     ("version,v", "Display the Casal2 version")
     ("config,c", value<string>(), "Configuration file")
-    ("run,r", "Basic model run mode")
-    ("estimate,e", "Point estimation run mode")
-    // mcmc options
-    ("mcmc,m", "Markov chain Monte Carlo run mode")
-    ("estimate-before-mcmc", "Estimate the model before starting an MCMC")
-    ("mcmc-mpd-file-name", value<string>(), "Load the specified MPD file for the MCMC run. When creating, this will overwrite")
-    ("resume", "Resume the MCMC chain")
+    ("run,r", "Do a model run (without estimation)")
+    ("estimate,e", "Estimate the MPD")
+    ("Estimate,E", value<string>(), "Estimate the MPD and create a file containing the MPD and covariance for use in an MCMC")
+    ("mcmc,m", "Estimate the MPD and then do an MCMC")
+    ("mcmc-from-estimate,M", value<string>(), "Do an MCMC using a previously estimated MPD (from -E)")
+    ("resume,R", "Resume a previously interrupted MCMC chain")
     ("objective-file", value<string>(), "Objectives file for resuming the MCMC chain")
     ("sample-file", value<string>(), "Samples file for resuming the MCMC chain")
     // other
-    ("profiling,p", "Profiling run mode")
-    ("simulation,s", value<unsigned>(), "Simulation mode (arg = number of candidates)")
-    ("projection,f", value<unsigned>(), "Projection mode (arg = number of projections per set of input values)")
+    ("profiling,p", "Do likelihood profiles")
+    ("simulation,s", value<unsigned>(), "Do a simulation (arg = number of candidates)")
+    ("projection,f", value<unsigned>(), "Do projections (arg = number of projections per set of input values)")
     ("input,i", value<string>(), "Load free parameter values from [file]")
     ("input-force,I",  value<string>(), "Load parameters from [file], and force overwriting of non-estimated addressable parameters")
-    ("seed,g", value<unsigned>(), "Random number seed")
-    ("query,q", value<string>(), "Query an object type to see its description and parameters. Argument object_type.sub_type, e.g., process.recruitment_constant")
+    ("output,o", value<string>(), "Create an estimate value report and write to [file]")
+    ("Output,O", value<string>(), "Append an estimate value report to the [file]")
+    ("seed,g", value<unsigned>(), "Set the random number seed")
+    ("query,q", value<string>(), "Query an object type to view its syntax description. Argument object_type.sub_type, e.g., process.recruitment_constant")
     ("nostd", "Do not print the standard header report")
-    ("loglevel", value<string>(), "Set log level: coarse, medium, fine, finest, trace, or none (default)")
-    ("output,o", value<string>(), "Create estimate value report to [file]")
-  //  ("Output,O", value<string>(), "Append estimate value report to [file]")
+    ("loglevel", value<string>(), "Set message log level. Defaults to 'information'. See the Manual for further options")
     ("single-step", "Single step the model each year with new estimable values")
     ("tabular,t", "Print reports using the Tabular format")
-    ("unittest", "Run the unit tests for Casal2")
-    ("no-mpd", "Do not create an MPD file");
+    ("unittest", "Run the unit tests for Casal2");
   // clang-format on
 
   ostringstream o;
@@ -147,20 +145,30 @@ void CommandLineParser::Parse(int argc, char* argv[], RunParameters& options) {
   }
   if (parameters.count("nostd"))
     options.no_std_report_ = true;
-  if (parameters.count("output"))
-    options.output_ = parameters["output"].as<string>();
+  if (parameters.count("output")) {
+    options.output_            = parameters["output"].as<string>();
+    options.mpd_output_append_ = PARAM_OVERWRITE;
+  }
+  if (parameters.count("Output")) {
+    options.output_            = parameters["output"].as<string>();
+    options.mpd_output_append_ = PARAM_APPEND;
+  }
   if (parameters.count("single-step"))
     options.single_step_model_ = true;
   if (parameters.count("tabular"))
     options.tabular_reports_ = true;
   if (parameters.count("phases"))
     options.estimation_phases_ = parameters["phases"].as<unsigned>();
-  if (parameters.count("no-mpd"))
-    options.create_mpd_file_ = false;
-  if (parameters.count("estimate-before-mcmc"))
+  if (parameters.count("Estimate")) {
+    options.create_mpd_file_ = true;
+    options.mpd_file_name_   = parameters["Estimate"].as<string>();
+  }
+  if (parameters.count("mcmc"))
     options.estimate_before_mcmc_ = true;
-  if (parameters.count("mcmc-mpd-file-name"))
-    options.mcmc_mpd_file_name_ = parameters["mcmc-mpd-file-name"].as<string>();
+  if (parameters.count("mcmc-from-estimate")) {
+    options.estimate_before_mcmc_ = false;
+    options.mcmc_mpd_file_name_   = parameters["mcmc-from-estimate"].as<string>();
+  }
 
   /**
    * At this point we know we've been asked to do an actual model
@@ -170,7 +178,10 @@ void CommandLineParser::Parse(int argc, char* argv[], RunParameters& options) {
   unsigned run_mode_count = 0;
   run_mode_count += parameters.count("run");
   run_mode_count += parameters.count("estimate");
+  run_mode_count += parameters.count("Estimate");
   run_mode_count += parameters.count("mcmc");
+  run_mode_count += parameters.count("mcmc-from-estimate");
+  run_mode_count += parameters.count("resume");
   run_mode_count += parameters.count("profiling");
   run_mode_count += parameters.count("simulation");
   run_mode_count += parameters.count("projection");
@@ -184,24 +195,23 @@ void CommandLineParser::Parse(int argc, char* argv[], RunParameters& options) {
 
   if (parameters.count("run"))
     options.run_mode_ = RunMode::kBasic;
-  else if (parameters.count("estimate"))
+  else if (parameters.count("estimate") || parameters.count("Estimate"))
     options.run_mode_ = RunMode::kEstimation;
-  else if (parameters.count("mcmc")) {
+  else if (parameters.count("mcmc") || parameters.count("mcmc-from-estimate") || parameters.count("resume")) {
     options.run_mode_ = RunMode::kMCMC;
     if (parameters.count("resume")) {
       if (!parameters.count("objective-file") || !parameters.count("sample-file")) {
         LOG_FATAL() << "Command line error: Resuming an MCMC chain requires the objective-file and sample-file parameters";
       }
-
       options.mcmc_objective_file_ = parameters["objective-file"].as<string>();
       options.mcmc_sample_file_    = parameters["sample-file"].as<string>();
       options.resume_mcmc_chain_   = true;
     }
 
     if (options.estimate_before_mcmc_ == false && options.mcmc_mpd_file_name_ == "")
-      LOG_FATAL() << "Command line error: Cannot start a MCMC run without an estimation if there is no mcmc-mpd-file-name specified";
+      LOG_FATAL() << "Command line error: Cannot start a MCMC run without an estimation if there is no MPD file name specified";
     if (options.estimate_before_mcmc_ && options.mcmc_mpd_file_name_ != "")
-      LOG_FATAL() << "Command line error: Cannot specify the --mcmc-mpd-file-name and --estimate-before-mcmc together";
+      LOG_FATAL() << "Command line error: Cannot specify the --mcmc-from-estimate and --resume at the same time";
 
   } else if (parameters.count("profiling"))
     options.run_mode_ = RunMode::kProfiling;

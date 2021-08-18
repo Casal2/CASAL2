@@ -178,20 +178,23 @@ void Report::SetUpInternalStates() {
    */
   if (file_name_ != "" && write_mode_ == PARAM_INCREMENTAL_SUFFIX) {
     LOG_FINEST() << "Finding incremental suffix for file: " << label_;
-    if (DoesFileExist(file_name_)) {
-      for (unsigned i = 0; i < 10000000; ++i) {
-        string trial_name = file_name_ + "." + util::ToInline<unsigned, string>(i);
+    string trial_name = file_name_ + "." + util::ToInline<unsigned, string>(1);
+    if (DoesFileExist(trial_name)) {
+      for (unsigned i = 1; i < 9999999; ++i) {
+        if (i >= 9999999)
+          LOG_FATAL() << "The filename for the report '" << label_ << "' requires an incremental_suffix that is out of range (>= 10000000)";
+        trial_name = file_name_ + "." + util::ToInline<unsigned, string>(i + 1);
         if (!DoesFileExist(trial_name)) {
-          LOG_FINE() << "File name has been changed to " << trial_name << " to match incremental_suffix";
-          file_name_ = trial_name;
           break;
         }
       }
     }
+    file_name_ = trial_name;
+    LOG_INFO() << "The filename for the report '" << label_ << "' has been modified to " << file_name_ << " as the write_mode is incremental_suffix";
   }
 
   if (write_mode_ == PARAM_APPEND) {
-    LOG_FINEST() << "File write mode is append for file: " << label_;
+    LOG_FINEST() << "File write mode is set to 'append' for the file: " << label_;
     overwrite_ = false;
   }
 }

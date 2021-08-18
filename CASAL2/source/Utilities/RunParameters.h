@@ -50,7 +50,7 @@ struct RunParameters {
   string mcmc_sample_file_     = "";
   string mpd_data_             = "";  // String to hold MPD record from estimation for the MCMC
 
-  // estimation configuraton options
+  // estimation configuration options
   string   minimiser_                       = "";
   unsigned estimation_phases_               = 1;
   string   estimable_value_input_file_      = "";
@@ -80,9 +80,10 @@ struct RunParameters {
   std::time_t std_report_time_         = time(0);
 
   // unknown options
-  string output_          = "";
-  bool   create_mpd_file_ = true;
-  string mpd_file_name_   = "mpd.out";
+  string output_            = "";
+  bool   create_mpd_file_   = false;
+  string mpd_output_append_ = "";
+  string mpd_file_name_     = "";
 };
 
 }  // namespace utilities

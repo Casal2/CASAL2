@@ -83,7 +83,7 @@ protected:
   virtual void DoExecute(shared_ptr<Model> model) = 0;
   virtual void DoFinalise(shared_ptr<Model> model){};
   virtual void DoPrepareTabular(shared_ptr<Model> model){};
-  virtual void DoExecuteTabular(shared_ptr<Model> model) = 0;
+  virtual void DoExecuteTabular(shared_ptr<Model> model){};
   virtual void DoFinaliseTabular(shared_ptr<Model> model){};
 
   // Members
