@@ -107,7 +107,7 @@ void MCMC::Build() {
 
   estimates_ = model_->managers()->estimate()->GetIsMCMCd();
   if (estimates_.size() == 0)
-    LOG_FATAL() << "No estimates are available for use in the MCMC. Either none have been defined, or they have all been marked as " << PARAM_MCMC_FIXED;
+    LOG_FATAL() << "No estimates are available for use in the MCMC. Either none have been defined, or they have all been set as " << PARAM_MCMC_FIXED;
   if (step_size_ == 0.0)
     step_size_ = 2.4 * pow((double)estimate_count_, -0.5);
 
@@ -516,7 +516,7 @@ void MCMC::UpdateStepSize() {
       LOG_MEDIUM() << "new step_size = " << step_size_;
     }
 
-    LOG_INFO() << "Adapting step_size from " << old_step_size << " to " << step_size_ << " after " << chain_.size() - 1 << " iterations";
+    LOG_INFO() << "Adapting step_size from " << old_step_size << " to " << step_size_ << " after " << jumps_ << " iterations";
     jumps_since_adapt_            = 0;
     successful_jumps_since_adapt_ = 0;
     return;
@@ -535,7 +535,7 @@ void MCMC::UpdateCovarianceMatrix() {
 
   if (jumps_since_adapt_ > 1000) {
     recalculate_covariance_ = true;
-    LOG_INFO() << "Recalculating the covariance matrix after " << chain_.size() - 1 << " iterations";
+    LOG_INFO() << "Recalculating the covariance matrix after " << jumps_ << " iterations";
     // modify the covariance matrix this algorithm is taken from CASAL, maybe not the best place to take it from
 
     // number of parameters
