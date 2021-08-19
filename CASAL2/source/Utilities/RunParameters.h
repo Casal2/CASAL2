@@ -37,7 +37,7 @@ struct RunParameters {
   RunMode::Type run_mode_    = RunMode::kInvalid;
   string        model_type_  = "";
   string        config_file_ = "config.csl2";
-  string        log_level_   = "warning";
+  string        log_level_   = "information";
 
   // basic run mode options
   bool single_step_model_ = false;

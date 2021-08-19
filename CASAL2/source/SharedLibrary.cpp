@@ -140,13 +140,8 @@ int Run(int argc, char* argv[], niwa::utilities::RunParameters& options) {
   try {
     // We need to re-parse command line to handle auto-diff libraries that
     // may not yet have things like the log level set.
-    Logging&                           logging = Logging::Instance();
-    niwa::utilities::CommandLineParser parser;
-    parser.Parse(argc, argv, options);
-    if (logging.errors().size() > 0) {
-      logging.FlushErrors();
-      return -1;
-    }
+    Logging& logging = Logging::Instance();
+    logging.SetLogLevel(options.log_level_);
 
     Runner runner;
     runner.global_configuration().set_run_parameters(options);

@@ -63,6 +63,8 @@ void Logging::SetLogLevel(const std::string& log_level) {
     Logging::current_log_level_ = logger::Severity::kInfo;
   else if (log_level == PARAM_IMPORTANT)
     Logging::current_log_level_ = logger::Severity::kImportant;
+  else if (log_level == PARAM_WARNING)
+    Logging::current_log_level_ = logger::Severity::kWarning;
   else if (log_level != PARAM_NONE) {
     cout << "The log level provided is an invalid log level. " << log_level << " is not supported" << endl;
     exit(-1);
