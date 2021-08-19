@@ -108,12 +108,8 @@ TEST(Partition, ValidateAndBuild) {
   MockTimeStepManager   time_step_manager;
   time_step_manager.time_step_index_ = 0;
 
-  shared_ptr<MockManagers> mock_manager = shared_ptr<MockManagers>(new MockManagers(model));
-  EXPECT_CALL(*mock_manager, time_step()).WillRepeatedly(Return(&time_step_manager));
-
   model->bind_calls();
   EXPECT_CALL(*model, categories()).WillRepeatedly(Return(&mock_categories));
-  EXPECT_CALL(*model, managers()).WillRepeatedly(Return(mock_manager));
 
   ASSERT_NO_THROW(mock_categories.Validate());
   ASSERT_EQ(4u, mock_categories.category_names().size());
