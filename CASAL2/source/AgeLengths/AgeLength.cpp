@@ -89,7 +89,7 @@ void AgeLength::Build() {
     time_step_proportions_.assign(time_step_count, 0.0);
 
   } else if (time_step_proportions_.size() == 1 && time_step_proportions_.size() != time_step_count) {
-    double temp = time_step_proportions_[0];
+    Double temp = time_step_proportions_[0];
     time_step_proportions_.assign(time_step_count, temp);
 
   } else if (time_step_count != time_step_proportions_.size()) {
