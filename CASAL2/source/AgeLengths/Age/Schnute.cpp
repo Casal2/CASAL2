@@ -72,6 +72,9 @@ void Schnute::DoBuild() {
  * @return The mean length for one member
  */
 Double Schnute::mean_length(unsigned time_step, unsigned age) {
+  if (time_step >= time_step_proportions_.size())
+    LOG_CODE_ERROR() << "time_step >= time_step_proportions_.size() || " << time_step << " >= " << time_step_proportions_.size();
+
   Double temp = 0.0;
   Double size = 0.0;
 

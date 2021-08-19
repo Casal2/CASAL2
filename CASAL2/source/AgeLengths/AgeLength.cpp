@@ -87,6 +87,11 @@ void AgeLength::Build() {
   unsigned time_step_count = model_->managers()->time_step()->ordered_time_steps().size();
   if (time_step_proportions_.size() == 0) {
     time_step_proportions_.assign(time_step_count, 0.0);
+
+  } else if (time_step_proportions_.size() == 1 && time_step_proportions_.size() != time_step_count) {
+    double temp = time_step_proportions_[0];
+    time_step_proportions_.assign(time_step_count, temp);
+
   } else if (time_step_count != time_step_proportions_.size()) {
     LOG_ERROR_P(PARAM_TIME_STEP_PROPORTIONS) << "size (" << time_step_proportions_.size() << ") must match the number "
                                              << "of defined time steps for this process (" << time_step_count << ")";

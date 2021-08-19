@@ -10,8 +10,6 @@
 #ifdef TESTMODE
 
 // Headers
-#include "Partition.h"
-
 #include <gmock/gmock.h>
 #include <gtest/gtest.h>
 
@@ -23,6 +21,7 @@
 #include "../TestResources/MockClasses/Managers.h"
 #include "../TestResources/MockClasses/Model.h"
 #include "../TimeSteps/Manager.h"
+#include "Partition.h"
 
 // namespaces
 namespace niwa {
@@ -109,8 +108,12 @@ TEST(Partition, ValidateAndBuild) {
   MockTimeStepManager   time_step_manager;
   time_step_manager.time_step_index_ = 0;
 
+  shared_ptr<MockManagers> mock_manager = shared_ptr<MockManagers>(new MockManagers(model));
+  EXPECT_CALL(*mock_manager, time_step()).WillRepeatedly(Return(&time_step_manager));
+
   model->bind_calls();
   EXPECT_CALL(*model, categories()).WillRepeatedly(Return(&mock_categories));
+  EXPECT_CALL(*model, managers()).WillRepeatedly(Return(mock_manager));
 
   ASSERT_NO_THROW(mock_categories.Validate());
   ASSERT_EQ(4u, mock_categories.category_names().size());
@@ -143,10 +146,9 @@ TEST(Partition, BuildMeanLength) {
 
   model->bind_calls();
   EXPECT_CALL(*model, categories()).WillRepeatedly(Return(&mock_categories));
-
   ASSERT_NO_THROW(mock_categories.Validate());
 
-  MockVonBertalanffy von_bertalanffy(model, 80, 0.064, 4, false, 0.2, 0.2, {1.0});
+  MockVonBertalanffy von_bertalanffy(model, 80, 0.064, 4, false, 0.2, 0.2, {1.0, 1.0});
   ASSERT_NO_THROW(von_bertalanffy.MockBuildCV());
   ASSERT_NO_THROW(von_bertalanffy.RebuildCache());
   mock_categories.age_length_ = &von_bertalanffy;
@@ -211,7 +213,7 @@ TEST(Partition, BuildAgeLengthProportions) {
 
   ASSERT_NO_THROW(mock_categories.Validate());
 
-  MockVonBertalanffy von_bertalanffy(model, 80, 0.064, 4, false, 0.2, 0.2, {1.0});
+  MockVonBertalanffy von_bertalanffy(model, 80, 0.064, 4, false, 0.2, 0.2, {1.0, 1.0});
   ASSERT_NO_THROW(von_bertalanffy.MockBuildCV());
   ASSERT_NO_THROW(von_bertalanffy.RebuildCache());
   mock_categories.age_length_ = &von_bertalanffy;
@@ -290,7 +292,7 @@ TEST(Partition, BuildAgeLengthProportions_2) {
   EXPECT_CALL(*model, categories()).WillRepeatedly(Return(&mock_categories));
   ASSERT_NO_THROW(mock_categories.Validate());
 
-  MockVonBertalanffy von_bertalanffy(model, 80, 0.064, 4, false, 0.2, 0.2, {1.0});
+  MockVonBertalanffy von_bertalanffy(model, 80, 0.064, 4, false, 0.2, 0.2, {1.0, 1.0});
   ASSERT_NO_THROW(von_bertalanffy.MockBuildCV());
   ASSERT_NO_THROW(von_bertalanffy.RebuildCache());
   mock_categories.age_length_ = &von_bertalanffy;
@@ -353,7 +355,7 @@ TEST(Partition, BuildAgeLengthProportions_3) {
   EXPECT_CALL(*model, categories()).WillRepeatedly(Return(&mock_categories));
   ASSERT_NO_THROW(mock_categories.Validate());
 
-  MockVonBertalanffy von_bertalanffy(model, 80, 0.064, 4, false, 0.2, 0.2, {1.0}, PARAM_CASAL2, Distribution::kLogNormal);
+  MockVonBertalanffy von_bertalanffy(model, 80, 0.064, 4, false, 0.2, 0.2, {1.0, 1.0}, PARAM_CASAL2, Distribution::kLogNormal);
   ASSERT_NO_THROW(von_bertalanffy.MockBuildCV());
   ASSERT_NO_THROW(von_bertalanffy.RebuildCache());
   mock_categories.age_length_ = &von_bertalanffy;
@@ -443,7 +445,7 @@ TEST(Partition, BuildAgeLengthProportions_4) {
   EXPECT_CALL(*model, categories()).WillRepeatedly(Return(&mock_categories));
   ASSERT_NO_THROW(mock_categories.Validate());
 
-  MockVonBertalanffy von_bertalanffy(model, 80, 0.064, 4, false, 0.2, 0.2, {1.0});
+  MockVonBertalanffy von_bertalanffy(model, 80, 0.064, 4, false, 0.2, 0.2, {1.0, 1.0});
   ASSERT_NO_THROW(von_bertalanffy.MockBuildCV());
   ASSERT_NO_THROW(von_bertalanffy.RebuildCache());
   mock_categories.age_length_ = &von_bertalanffy;

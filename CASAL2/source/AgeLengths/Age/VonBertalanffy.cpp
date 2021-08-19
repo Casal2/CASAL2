@@ -71,6 +71,9 @@ void VonBertalanffy::DoBuild() {
  * @return The mean length for one member
  */
 Double VonBertalanffy::mean_length(unsigned time_step, unsigned age) {
+  if (time_step >= time_step_proportions_.size())
+    LOG_CODE_ERROR() << "time_step >= time_step_proportions_.size() || " << time_step << " >= " << time_step_proportions_.size();
+
   Double proportion = time_step_proportions_[time_step];
   if ((-k_ * ((age + proportion) - t0_)) > 10)
     LOG_ERROR_P(PARAM_K) << "-k*(age-t0) is larger than 10. Please check the k and t0 parameters are sensible";
