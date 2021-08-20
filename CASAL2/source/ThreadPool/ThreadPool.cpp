@@ -111,7 +111,10 @@ void ThreadPool::TerminateAll() {
  * Terminate all threads
  */
 void ThreadPool::Terminate() {
-  for (auto& thread : threads_) thread->flag_terminate();
+  for (auto& thread : threads_) {
+    if (thread)
+      thread->flag_terminate();
+  }
 }
 
 /**
@@ -120,7 +123,10 @@ void ThreadPool::Terminate() {
  * have finished/terminated
  */
 void ThreadPool::JoinAll() {
-  for (auto& thread : threads_) thread->Join();
+  for (auto& thread : threads_) {
+    if (thread)
+      thread->Join();
+  }
 }
 
 void ThreadPool::CheckThreads() {

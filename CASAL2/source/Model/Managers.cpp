@@ -82,11 +82,13 @@ Managers::Managers(shared_ptr<Model> model) {
   time_step_               = new timesteps::Manager();
   time_varying_            = new timevarying::Manager();
 
+  LOG_TRACE();
 #ifdef TESTMODE
   minimiser_.reset(new minimisers::Manager());
   report_.reset(new reports::Manager());
   mcmc_.reset(new mcmcs::Manager());
 #endif
+  LOG_TRACE();
 }
 
 /**

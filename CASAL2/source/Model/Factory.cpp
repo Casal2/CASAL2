@@ -75,6 +75,7 @@ base::Object* Factory::CreateObject(const string& object_type, const string& sub
   string lwr_object_type = utilities::ToLowercase(object_type);
   string lwr_sub_type    = utilities::ToLowercase(sub_type);
 
+  LOG_FINEST() << "Factory call for " << lwr_object_type << "." << lwr_sub_type;
   if (lwr_object_type == PARAM_ADDITIONAL_PRIOR)
     return additionalpriors::Factory::Create(model_, lwr_object_type, lwr_sub_type);
   else if (lwr_object_type == PARAM_AGEING_ERROR || lwr_object_type == PARAM_AGEING_ERRORS)

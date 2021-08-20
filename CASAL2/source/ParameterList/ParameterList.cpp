@@ -82,10 +82,9 @@ bool ParameterList::Add(const string& label, const vector<string>& values, const
  * @return true on success, false on failure
  */
 bool ParameterList::Add(const string& label, const string& value, const string& file_name, const unsigned& line_number) {
-  vector<string> new_values;
-  new_values.push_back(value);
-
-  return this->Add(label, new_values, file_name, line_number);
+  LOG_FINEST() << "Adding " << label << ", " << value << ", " << file_name << ", " << line_number;
+  vector<string> values = {value};
+  return this->Add(label, values, file_name, line_number);
 }
 
 /**

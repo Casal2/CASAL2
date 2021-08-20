@@ -197,7 +197,7 @@ void Loader::ParseBlock(shared_ptr<Model> model, vector<FileLine>& block) {
 
   block_type  = line_parts[0].substr(1);  // Skip the first char '@'
   block_label = line_parts.size() == 2 ? line_parts[1] : "";
-
+  LOG_FINEST() << "block_type: " << block_type << ", block_label: " << block_label;
 #ifdef USE_AUTODIFF
   // We're using auto-diff. So we want to skip loading MCMCs
   if (block_type == PARAM_MCMC)
@@ -214,6 +214,7 @@ void Loader::ParseBlock(shared_ptr<Model> model, vector<FileLine>& block) {
   PartitionType partition_type = PartitionType::kModel;
 
   for (FileLine file_line : block) {
+    LOG_FINEST() << "Processing line " << file_line.line_;
     string& line = file_line.line_;
 
     if (line.length() >= 5 && line.substr(0, 4) == PARAM_TYPE) {
@@ -254,6 +255,7 @@ void Loader::ParseBlock(shared_ptr<Model> model, vector<FileLine>& block) {
    */
   block_type = utilities::ToLowercase(block_type);
   sub_type   = utilities::ToLowercase(sub_type);
+  LOG_FINEST() << "Will create object " << block_type << "." << sub_type;
 
   // We don't create reports on threads, only primary
   if (block_type == PARAM_REPORT && !model->is_primary_thread_model()) {
@@ -272,13 +274,17 @@ void Loader::ParseBlock(shared_ptr<Model> model, vector<FileLine>& block) {
   }
 
   Object* object = model->factory().CreateObject(block_type, sub_type, partition_type);
+  LOG_FINEST() << "Object created";
   if (!object)
     LOG_FATAL() << "At line " << block[0].line_number_ << " in " << block[0].file_name_ << ": The specified type (" << sub_type << ") is invalid for the command @" << block_type;
 
+  LOG_TRACE();
   if (block_label != "" && !object->parameters().Add(PARAM_LABEL, block_label, block[0].file_name_, block[0].line_number_))
     LOG_FATAL() << "At line " << block[0].line_number_ << " in " << block[0].file_name_ << ": The command @" << block_type << " does not support having a label";
-
+  LOG_TRACE();
+  
   // Store where this object was defined for use in printing errors later
+  LOG_FINEST() << "Setting configuration source files on new object";
   object->set_block_type(block_type);
   object->set_defined_file_name(block[0].file_name_);
   object->set_defined_line_number(block[0].line_number_);
@@ -296,6 +302,7 @@ void Loader::ParseBlock(shared_ptr<Model> model, vector<FileLine>& block) {
   /**
    * Load the parameters into our new object
    */
+  LOG_TRACE();
   string current_line    = "";
   bool   loading_table   = false;
   bool   loading_columns = false;

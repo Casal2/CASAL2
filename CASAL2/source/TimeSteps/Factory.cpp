@@ -5,7 +5,7 @@
  * @date 9/10/2015
  * @section LICENSE
  *
- * Copyright NIWA Science ©2015 - www.niwa.co.nz
+ * Copyright NIWA Science ï¿½2015 - www.niwa.co.nz
  *
  */
 
@@ -29,13 +29,17 @@ namespace timesteps {
  * @return pointer to the object
  */
 TimeStep* Factory::Create(shared_ptr<Model> model, const string& object_type, const string& sub_type) {
+  LOG_TRACE();
   TimeStep* object = nullptr;
-
   if (object_type == PARAM_TIME_STEP || object_type == PARAM_TIME_STEPS) {
     object = new TimeStep(model);
 
-    if (object)
-      model->managers()->time_step()->AddObject(object);
+    if (object) {
+      auto time_step_manager = model->managers()->time_step();
+      if (!time_step_manager)
+        LOG_CODE_ERROR() << "!time_step_manager";
+      time_step_manager->AddObject(object);
+    }
   }
 
   return object;

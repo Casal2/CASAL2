@@ -73,7 +73,8 @@ void BaseThreaded::TearDown() {
   // Stop any threads that have been spawned.
   // We do this hear instead of in the runner to make
   // sure it's done cleanly
-  runner_->thread_pool()->TerminateAll();
+  if (runner_->thread_pool())
+    runner_->thread_pool()->TerminateAll();
 }
 
 /**
