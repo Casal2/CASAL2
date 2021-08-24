@@ -42,3 +42,5 @@ R-libraries/Casal2.Rcheck/
 casal2.code-workspace
 /CASAL2/.cproject
 /CASAL2/.project
+BuildSystem/*.log
+BuildSystem/CMakeCache.txt
