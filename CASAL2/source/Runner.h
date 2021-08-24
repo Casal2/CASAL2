@@ -40,9 +40,9 @@ public:
   utilities::RunParameters run_parameters() const { return run_parameters_; }
   GlobalConfiguration&     global_configuration() { return global_configuration_; }
   configuration::Loader&   config_loader() { return config_loader_; }
-  shared_ptr<Model>        model() { return master_model_; }
-  shared_ptr<ThreadPool>   thread_pool() { return thread_pool_; }
-  shared_ptr<MPD>          mpd() { return mpd_; }
+  shared_ptr<Model>        model();
+  shared_ptr<ThreadPool>   thread_pool();
+  shared_ptr<MPD>          mpd();
 
 private:
   // methods

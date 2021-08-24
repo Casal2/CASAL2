@@ -138,14 +138,16 @@ Double Engine::optimise(adolc::CallBack& objective, vector<Double>& start_values
 
       double* adolc_x = new double[parameter_count];
       double* adolc_g = new double[parameter_count];
+      memset(adolc_x, 0.0, parameter_count * sizeof(double));
+      memset(adolc_g, 0.0, parameter_count * sizeof(double));
 
       LOG_MEDIUM() << "adolc_x: ";
       for (unsigned i = 0; i < parameter_count; ++i) {
         adolc_x[i] = scaled_candidates[i].value();
-        LOG_MEDIUM() << adolc_x[i] << ", ";
+        LOG_MEDIUM() << adolc_x[i];
       }
-      LOG_MEDIUM() << endl;
-
+      LOG_MEDIUM() << "End of parameter list";
+      LOG_MEDIUM() << "Caldulating Gradient, parameter_count: " << parameter_count;
       int g_status = gradient(0, parameter_count, adolc_x, adolc_g);
       //      double one = 1.0;
       //      int g_status = fos_reverse(0, 1, parameter_count, &one, adolc_g);

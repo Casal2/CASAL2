@@ -11,9 +11,12 @@
 #include "Age.h"
 
 // namespaces
-namespace niwa {
-namespace model {
+namespace niwa::model {
 
+/**
+ * @brief Construct a new Age:: Age object
+ *
+ */
 Age::Age() {
   partition_type_ = PartitionType::kAge;
 
@@ -35,10 +38,10 @@ Age::Age() {
   parameters_.Bind<Double>(PARAM_LENGTH_PLUS_GROUP, &length_plus_group_, "Mean length of length plus group", R"(length\textlow{max} $<$ length_plus_group)", 0);
 }
 
-Age::~Age() {
-  // TODO Auto-generated destructor stub
-}
-
+/**
+ * @brief Validate our AgeModel
+ *
+ */
 void Age::DoValidate() {
   if (start_year_ < 1000)
     LOG_ERROR_P(PARAM_START_YEAR) << " (" << start_year_ << ") cannot be less than 1000";
@@ -53,5 +56,5 @@ void Age::DoValidate() {
     }
   }
 }
-} /* namespace model */
-} /* namespace niwa */
+
+}  // namespace niwa::model

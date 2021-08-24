@@ -5,7 +5,7 @@
  * @date 2/04/2013
  * @section LICENSE
  *
- * Copyright NIWA Science ©2013 - www.niwa.co.nz
+ * Copyright NIWA Science ï¿½2013 - www.niwa.co.nz
  *
  * $Date: 2008-03-04 16:33:32 +1300 (Tue, 04 Mar 2008) $
  */
@@ -37,6 +37,8 @@ void BasicModel::SetUp() {
   /**
    * Add Model Parameters
    */
+  if (!model_)
+    LOG_CODE_ERROR() << "!model";
   model_->set_block_type(PARAM_MODEL);
   model_->parameters().Add(PARAM_TYPE, PARAM_AGE, __FILE__, __LINE__);
   model_->parameters().Add(PARAM_START_YEAR, "1994", __FILE__, __LINE__);
@@ -49,11 +51,15 @@ void BasicModel::SetUp() {
   model_->PopulateParameters();
 
   base::Object* categories = model_->categories();
+  if (categories == nullptr)
+    LOG_CODE_ERROR() << "categories == nullptr";
   categories->set_block_type(PARAM_CATEGORIES);
   categories->parameters().Add(PARAM_FORMAT, "stage.sex", __FILE__, __LINE__);
   categories->parameters().Add(PARAM_NAMES, {"immature.male", "mature.male", "immature.female", "mature.female"}, __FILE__, __LINE__);
 
   base::Object* object = model_->factory().CreateObject(PARAM_SELECTIVITY, PARAM_CONSTANT);
+  if (object == nullptr)
+    LOG_CODE_ERROR() << "object == nullptr";
   object->parameters().Add(PARAM_LABEL, "constant_one", __FILE__, __LINE__);
   object->parameters().Add(PARAM_TYPE, "constant", __FILE__, __LINE__);
   object->parameters().Add(PARAM_C, "1", __FILE__, __LINE__);

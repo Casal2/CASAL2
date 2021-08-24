@@ -40,9 +40,7 @@ template <class ClassType, class StoredType>
 class Manager {
 public:
   // Methods
-  virtual ~Manager() {
-    for (StoredType* object : objects_) delete object;
-  }
+  virtual ~Manager();
   virtual void Validate();
   virtual void Build();
   virtual void Reset();

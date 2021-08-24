@@ -5,7 +5,7 @@
  * @date 18/09/2012
  * @section LICENSE
  *
- * Copyright NIWA Science ©2012 - www.niwa.co.nz
+ * Copyright NIWA Science ï¿½2012 - www.niwa.co.nz
  *
  * $Date: 2008-03-04 16:33:32 +1300 (Tue, 04 Mar 2008) $
  */
@@ -26,6 +26,8 @@ using std::endl;
 
 // Friend Operators
 bool inline operator==(const Object* o, string_view label) {
+  if (o == nullptr)
+    LOG_CODE_ERROR() << "o == nullptr";
   return label == o->label();
 }
 

@@ -23,12 +23,11 @@
 #include "../../Utilities/RandomNumberGenerator.h"
 
 // namespaces
-namespace niwa {
-namespace model {
-
+namespace niwa::model {
 namespace math = niwa::utilities::math;
 
 /**
+ * @brief Construct a new Pi Approximation:: Pi Approximation object
  *
  */
 PiApproximation::PiApproximation() {
@@ -39,12 +38,11 @@ PiApproximation::PiApproximation() {
 }
 
 /**
+ * @brief Start our Pi Appoximation model
  *
- */
-PiApproximation::~PiApproximation() {}
-
-/**
- *
+ * @param run_mode
+ * @return true
+ * @return false
  */
 bool PiApproximation::Start(RunMode::Type run_mode) {
   run_mode_ = run_mode;
@@ -121,6 +119,5 @@ void PiApproximation::FullIteration() {
        << "inside_ / outside_: " << inside_ << " : " << outside_ << "; new_x/new_y: " << new_x << "/" << new_y << endl;
 }
 
-} /* namespace model */
-} /* namespace niwa */
+}  // namespace niwa::model
 #endif

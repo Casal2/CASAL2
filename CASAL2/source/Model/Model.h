@@ -141,16 +141,16 @@ protected:
   // Members
   unsigned             id_                      = 0;
   bool                 is_primary_thread_model_ = false;
-  unsigned             threads_;
-  RunMode::Type        run_mode_              = RunMode::kInvalid;
-  State::Type          state_                 = State::kStartUp;
-  unsigned             start_year_            = 0;
-  unsigned             final_year_            = 0;
-  unsigned             projection_final_year_ = 0;
-  unsigned             current_year_          = 0;
-  unsigned             min_age_               = 0;
-  unsigned             max_age_               = 0;
-  string               base_weight_units_     = "";
+  unsigned             threads_                 = 1;
+  RunMode::Type        run_mode_                = RunMode::kInvalid;
+  State::Type          state_                   = State::kStartUp;
+  unsigned             start_year_              = 0;
+  unsigned             final_year_              = 0;
+  unsigned             projection_final_year_   = 0;
+  unsigned             current_year_            = 0;
+  unsigned             min_age_                 = 0;
+  unsigned             max_age_                 = 0;
+  string               base_weight_units_       = "";
   map<string, Double>  b0_;
   map<string, Double>  binitial_;
   map<string, bool>    b0_initialised_;

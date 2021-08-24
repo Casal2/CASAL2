@@ -25,7 +25,7 @@ public:
   Multivariate();
   virtual ~Multivariate() = default;
   bool Start(RunMode::Type run_mode) final;
-  void DoValidate() final;
+  void DoValidate() final{};
   void FullIteration() final;
 
 private:

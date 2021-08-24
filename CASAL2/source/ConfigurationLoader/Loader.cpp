@@ -198,7 +198,7 @@ void Loader::ParseBlock(shared_ptr<Model> model, vector<FileLine>& block) {
   block_type  = line_parts[0].substr(1);  // Skip the first char '@'
   block_label = line_parts.size() == 2 ? line_parts[1] : "";
   LOG_FINEST() << "block_type: " << block_type << ", block_label: " << block_label;
-  if (block_label.substr(0, 2) == std::string("__")) {
+  if (block_label.length() >= 2 && block_label.substr(0, 2) == std::string("__")) {
     LOG_FATAL() << "Labels of commands cannot start with a double underscore (i.e., '__'). Found in " << block[0].line_ << " on line " << block[0].line_number_ << " in "
                 << block[0].file_name_;
   }

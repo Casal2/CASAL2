@@ -149,8 +149,8 @@ shared_ptr<Model> Factory::Create(const string& object_type, const string& sub_t
     } else if (sub_type == PARAM_LENGTH) {
       result.reset(new model::Length());
 #ifndef USE_AUTODIFF
-    } else if (sub_type == PARAM_MULTIVARIATE) {
-      result.reset(new model::Multivariate());
+      // } else if (sub_type == PARAM_MULTIVARIATE) {
+      // result.reset(new model::Multivariate());
     } else if (sub_type == PARAM_PI_APPROX) {
       result.reset(new model::PiApproximation());
 #endif

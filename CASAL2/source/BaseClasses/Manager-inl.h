@@ -13,8 +13,22 @@
 #include "../Model/Model.h"
 
 // Namespaces
-namespace niwa {
-namespace base {
+namespace niwa::base {
+
+/**
+ * @brief
+ *
+ * @tparam ClassType
+ * @tparam StoredType
+ */
+template <class ClassType, class StoredType>
+Manager<ClassType, StoredType>::~Manager() {
+  for (StoredType* object : objects_) {
+    if (object != nullptr)
+      delete object;
+    object = nullptr;
+  }
+}
 
 /**
  * Validate the objects stored in the manager
@@ -78,6 +92,8 @@ bool Manager<ClassType, StoredType>::HasType(const std::string_view type) {
 template <class ClassType, class StoredType>
 StoredType* Manager<ClassType, StoredType>::get(string_view label) {
   for (auto stored_object : objects_) {
+    if (stored_object == nullptr)
+      LOG_CODE_ERROR() << "stored_object == nullptr when looking for" << label;
     if (label == stored_object->label())
       return stored_object;
   }
@@ -86,5 +102,4 @@ StoredType* Manager<ClassType, StoredType>::get(string_view label) {
   return nullptr;
 }
 
-}  // namespace base
-} /* namespace niwa */
+}  // namespace niwa::base

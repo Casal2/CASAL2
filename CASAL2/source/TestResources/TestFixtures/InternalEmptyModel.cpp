@@ -49,6 +49,8 @@ void InternalEmptyModel::SetUp() {
   rng.Reset(2468);
 
   configuration_file_.clear();
+  if (!model_)
+    LOG_CODE_ERROR() << "!model";
   model_->global_configuration().set_skip_config_file(true);
   model_->flag_primary_thread_model();
 }

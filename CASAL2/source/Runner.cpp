@@ -502,4 +502,37 @@ int Runner::RunMCMC() {
   return 0;
 }
 
+/**
+ * @brief
+ *
+ * @return shared_ptr<Model>
+ */
+shared_ptr<Model> Runner::model() {
+  if (!master_model_)
+    LOG_CODE_ERROR() << "!master_model_";
+  return master_model_;
+}
+
+/**
+ * @brief
+ *
+ * @return shared_ptr<ThreadPool>
+ */
+shared_ptr<ThreadPool> Runner::thread_pool() {
+  if (!thread_pool_)
+    LOG_CODE_ERROR() << "!thread_pool_";
+  return thread_pool_;
+}
+
+/**
+ * @brief
+ *
+ * @return shared_ptr<MPD>
+ */
+shared_ptr<MPD> Runner::mpd() {
+  if (!mpd_)
+    LOG_CODE_ERROR() << "!mpd_";
+  return mpd_;
+}
+
 } /* namespace niwa */

@@ -87,10 +87,12 @@ void Manager::Build(shared_ptr<Model> model) {
   if (model->global_configuration().disable_all_reports())
     return;
 
-  RunMode::Type run_mode              = model->run_mode();
-  bool          exists_MCMC_sample    = false;
-  bool          exists_MCMC_objective = false;
-  bool          exists_estimate_value = false;
+  RunMode::Type run_mode = model->run_mode();
+
+#ifndef TESTMODE
+  bool exists_MCMC_sample    = false;
+  bool exists_MCMC_objective = false;
+  bool exists_estimate_value = false;
 
   for (auto report : objects_) {
     // Check that important reports exist
@@ -101,12 +103,14 @@ void Manager::Build(shared_ptr<Model> model) {
     if (util::ToLowercase(report->type()) == PARAM_ESTIMATE_VALUE)
       exists_estimate_value = true;
   }
+
   if (run_mode == RunMode::Type::kMCMC && !exists_MCMC_sample)
     LOG_WARNING() << "You are running an MCMC but there was no " << PARAM_MCMC_SAMPLE << " report specified. This is probably an error";
   if (run_mode == RunMode::Type::kMCMC && !exists_MCMC_objective)
     LOG_WARNING() << "You are running an MCMC but there was no " << PARAM_MCMC_OBJECTIVE << " report specified. This is probably an error";
   if (run_mode == RunMode::Type::kEstimation && !exists_estimate_value)
     LOG_WARNING() << "You are running an estimation but there was no " << PARAM_ESTIMATE_VALUE << " report specified. This is probably an error";
+#endif
 
   std::map<std::string, int> count_file_names;
   std::map<std::string, int> count_labels;
@@ -136,7 +140,6 @@ void Manager::Build(shared_ptr<Model> model) {
   }
 
   LOG_FINEST() << "objects_.size(): " << objects_.size();
-
   for (auto report : objects_) {
     if ((RunMode::Type)(report->run_mode() & run_mode) == run_mode)
       report->Build(model);

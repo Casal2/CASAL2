@@ -73,7 +73,7 @@ void BaseThreaded::TearDown() {
   // Stop any threads that have been spawned.
   // We do this hear instead of in the runner to make
   // sure it's done cleanly
-  if (runner_->thread_pool())
+  if (runner_ != nullptr && runner_->thread_pool())
     runner_->thread_pool()->TerminateAll();
 }
 
@@ -107,7 +107,6 @@ void BaseThreaded::AddConfigurationLine(const string& line, const string& file_n
  */
 void BaseThreaded::LoadConfiguration() {
   auto& loader = runner_->config_loader();
-
   for (config::FileLine file_line : configuration_file_) {
     loader.StoreLine(file_line);
   }

@@ -81,58 +81,8 @@ bool Multivariate::Start(RunMode::Type run_mode) {
  * @brief
  *
  */
-void Multivariate::DoValidate() {}
-
-/**
- * @brief
- *
- * @param x
- * @return double
- */
-// double Multivariate::pdf(const Eigen::VectorXd& x) const {
-//   double n        = x.rows();
-//   double sqrt2pi  = std::sqrt(2 * math::PI);
-//   double quadform = (x - mean_).transpose() * sigma_.inverse() * (x - mean_);
-//   double norm     = std::pow(sqrt2pi, -n) * std::pow(sigma_.determinant(), -0.5);
-
-//   return norm * exp(-0.5 * quadform);
-// }
-
-/**
- * @brief
- *
- */
 void Multivariate::FullIteration() {
-  Reset();
-
-  // // Define the covariance matrix and the mean
-  // //	Eigen::MatrixXd sigma(2, 2);
-  // sigma_ = Eigen::MatrixXd(2, 2);
-  // sigma_ << 1, 0.1, 0.1, 1;
-  // mean_ = Eigen::VectorXd(2);
-  // mean_ << 0, 0;
-
-  // sigma_.sol
-
-  //     double new_x
-  //     = 0.0;
-  // double new_y = 0.0;
-
-  // if (use_random_) {
-  //   new_x = utilities::RandomNumberGenerator::Instance().uniform(-1.0, 1.0);
-  //   //		new_y = utilities::RandomNumberGenerator::Instance().uniform(-1.0, 1.0);
-  // } else {
-  //   new_x = managers()->selectivity()->GetSelectivity("X")->GetAgeResult(5, nullptr);
-  //   //		new_y = managers()->selectivity()->GetSelectivity("Y")->GetAgeResult(5, nullptr);
-  // }
-
-  // Eigen::VectorXd test(2);
-  // test << new_x, new_y;
-  // objective_score_ = exp(-new_x);  // 1.0 - mvn.pdf(test);
-
-  // managers()->penalty()->FlagPenalty("PI_Approximation", objective_score_);
-  // cout << "Objective Score: " << objective_score_ << "; new_x/new_y: " << new_x << endl;  //<< "/" << new_y << endl;
-  // // LOG_FATAL() << "Multivariate Model type has not yet been implemented";
+  LOG_CODE_ERROR() << "The multivariate model has not yet been implemented";
 }
 
 } /* namespace model */

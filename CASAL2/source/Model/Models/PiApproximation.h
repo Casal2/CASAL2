@@ -4,7 +4,7 @@
  * @date 20/09/2019
  * @section LICENSE
  *
- * Copyright NIWA Science ©2019 - www.niwa.co.nz
+ * Copyright NIWA Science ï¿½2019 - www.niwa.co.nz
  */
 #ifndef USE_AUTODIFF
 #ifndef SOURCE_MODEL_MODELS_PIAPPROXIMATION_H_
@@ -14,14 +14,13 @@
 #include "../../Model/Model.h"
 
 // namespaces
-namespace niwa {
-namespace model {
+namespace niwa::model {
 
 // class declaration
 class PiApproximation : public Model {
 public:
   PiApproximation();
-  virtual ~PiApproximation();
+  virtual ~PiApproximation() = default;
   bool Start(RunMode::Type run_mode) override;
   void DoValidate() override;
   void FullIteration() override;
@@ -34,8 +33,7 @@ private:
   double   size_            = 0;
 };
 
-} /* namespace model */
-} /* namespace niwa */
+}  // namespace niwa::model
 
 #endif /* SOURCE_MODEL_MODELS_PIAPPROXIMATION_H_ */
 #endif
