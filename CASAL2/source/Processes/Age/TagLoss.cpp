@@ -34,7 +34,7 @@ TagLoss::TagLoss(shared_ptr<Model> model) : Process(model), partition_(model) {
   partition_structure_ = PartitionType::kAge;
 
   parameters_.Bind<string>(PARAM_CATEGORIES, &category_labels_, "The list of categories", "");
-  parameters_.Bind<Double>(PARAM_TAG_LOSS_RATE, &tag_loss_input_, "The tag loss rates", "")->set_range(0.0, 1.0);
+  parameters_.Bind<Double>(PARAM_TAG_LOSS_RATE, &tag_loss_input_, "The tag loss rates", "")->set_lower_bound(0.0, true);
   parameters_.Bind<Double>(PARAM_TIME_STEP_RATIO, &ratios_, "The time step ratios for tag loss", "", true)->set_range(0.0, 1.0);
   parameters_.Bind<string>(PARAM_TAG_LOSS_TYPE, &tag_loss_type_, "The type of tag loss", "");
   parameters_.Bind<string>(PARAM_SELECTIVITIES, &selectivity_names_, "The selectivities", "");
@@ -85,8 +85,8 @@ void TagLoss::DoValidate() {
 
   // Validate our Ms are between 1.0 and 0.0
   for (Double tag_loss : tag_loss_input_) {
-    if (tag_loss < 0.0 || tag_loss > 1.0)
-      LOG_ERROR_P(PARAM_TAG_LOSS_RATE) << ": Tag loss rate " << tag_loss << " must be between 0.0 and 1.0 (inclusive)";
+    if (tag_loss < 0.0)
+      LOG_ERROR_P(PARAM_TAG_LOSS_RATE) << ": Tag loss rate " << tag_loss << " must be greater or equal to 0.0";
   }
 
   for (unsigned i = 0; i < tag_loss_input_.size(); ++i) tag_loss_[category_labels_[i]] = tag_loss_input_[i];

@@ -46,6 +46,8 @@ void ADOLC::Execute() {
   vector<double> upper_bounds;
   vector<Double> start_values;
 
+  LOG_INFO() << "Estimation with the " << PARAM_ADOLC << " minimiser";
+
   model_->managers()->estimate_transformation()->TransformEstimates();
   auto estimates = estimate_manager->GetIsEstimated();
   for (auto estimate : estimates) {

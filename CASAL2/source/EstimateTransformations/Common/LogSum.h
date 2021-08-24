@@ -5,7 +5,7 @@
  * @date Jul 8, 2017
  * @section LICENSE
  *
- * Copyright NIWA Science ©2017 - www.niwa.co.nz
+ * Copyright NIWA Science ï¿½2017 - www.niwa.co.nz
  *
  * @section
  * This transformation takes two parameters (x1 and x2) and estimates y1 = log(x1 + x2) and p1 where x1 = exp(y1)*p1 and x2 = exp(y1)* (1 - p1)
@@ -30,7 +30,7 @@ public:
   void             TransformForObjectiveFunction() override final;
   void             RestoreFromObjectiveFunction() override final;
   std::set<string> GetTargetEstimates() override final;
-  Double           GetScore() override final { return jacobian_; };
+  Double           GetScore() override final;
 
 protected:
   // methods

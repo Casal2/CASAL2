@@ -42,33 +42,28 @@ void InitialisationPartitionMeanWeight::DoExecute(shared_ptr<Model> model) {
   niwa::partition::accessors::All all_view(model);
   unsigned                        time_step_index = model->managers()->time_step()->current_time_step();
 
-  cache_ << "*" << label_ << " "
-         << "(" << type_ << ")"
-         << "\n";
+  cache_ << ReportHeader(type_, label_);
   for (auto iterator : all_view) {
     string category = iterator->name_;
-    cache_ << category << " " << REPORT_R_LIST << "\n";
+    cache_ << category << " " << REPORT_R_LIST << REPORT_EOL;
 
-    cache_ << "mean_weights " << REPORT_R_LIST << "\n";
+    cache_ << "mean_weights " << REPORT_R_LIST << REPORT_EOL;
     cache_ << "values: ";
 
     for (unsigned age = iterator->min_age_; age <= iterator->max_age_; ++age) cache_ << AS_DOUBLE(iterator->mean_weight_by_time_step_age_[time_step_index][age]) << " ";
-    cache_ << "\n";
+    cache_ << REPORT_EOL;
 
-    cache_ << REPORT_R_LIST_END << "\n";
+    cache_ << REPORT_R_LIST_END << REPORT_EOL;
 
-    cache_ << "age_lengths " << REPORT_R_LIST << "\n";
+    cache_ << "age_lengths " << REPORT_R_LIST << REPORT_EOL;
     cache_ << "values: ";
 
     unsigned age_bins = iterator->age_spread();
     for (unsigned age_index = 0; age_index < age_bins; ++age_index) cache_ << AS_DOUBLE(iterator->mean_length_by_time_step_age_[0][time_step_index][age_index]) << " ";
-    cache_ << "\n";
-
-    cache_ << REPORT_R_LIST_END << "\n";
-
-    cache_ << REPORT_R_LIST_END << "\n";
+    cache_ << REPORT_EOL;
+    cache_ << REPORT_R_LIST_END << REPORT_EOL;
+    cache_ << REPORT_R_LIST_END << REPORT_EOL;
   }
-
   ready_for_writing_ = true;
 }
 

@@ -31,15 +31,14 @@ ObjectiveFunction::ObjectiveFunction() {
  * Execute the report
  */
 void ObjectiveFunction::DoExecute(shared_ptr<Model> model) {
-  LOG_MEDIUM() << "Boop";
+  LOG_MEDIUM() << "Objective function report DoExecute";
   if (!model->is_primary_thread_model() && model->run_mode() == RunMode::kBasic)
     return;
   if (!model->is_primary_thread_model() && model->run_mode() == RunMode::kEstimation)
     return;
 
-  cache_ << "*" << type_ << "[" << label_ << "]"
-         << "\n";
-  cache_ << "values " << REPORT_R_VECTOR << "\n";
+  cache_ << ReportHeader(type_, label_);
+  cache_ << "values " << REPORT_R_VECTOR << REPORT_EOL;
 
   if (model == nullptr)
     LOG_CODE_ERROR() << "model_ == nullptr";
@@ -47,11 +46,10 @@ void ObjectiveFunction::DoExecute(shared_ptr<Model> model) {
 
   const vector<objective::Score>& score_list = obj_function.score_list();
   for (objective::Score score : score_list) {
-    cache_ << score.label_ << " " << AS_DOUBLE(score.score_) << "\n";
+    cache_ << score.label_ << " " << AS_DOUBLE(score.score_) << REPORT_EOL;
   }
-  cache_ << PARAM_TOTAL_NEGLOGLIKE << " " << AS_DOUBLE(obj_function.score()) << "\n";
-
-  cache_ << PARAM_TOTAL_SCORE << " " << AS_DOUBLE(obj_function.score()) << "\n";
+  cache_ << PARAM_TOTAL_NEGLOGLIKE << " " << AS_DOUBLE(obj_function.score()) << REPORT_EOL;
+  cache_ << PARAM_TOTAL_SCORE << " " << AS_DOUBLE(obj_function.score()) << REPORT_EOL;
   ready_for_writing_ = true;
 }
 

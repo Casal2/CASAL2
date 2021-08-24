@@ -5,7 +5,7 @@
  * @date 5/11/2015
  * @section LICENSE
  *
- * Copyright NIWA Science ©2015 - www.niwa.co.nz
+ * Copyright NIWA Science ï¿½2015 - www.niwa.co.nz
  *
  */
 
@@ -80,15 +80,15 @@ bool MCMCSample::LoadFile(const string& file_name) {
 
   /*
   // Skip the next line which is needed for reading into R
-  while (line != "values {d}") {
+  while (line != ("values " + (string)REPORT_R_MATRIX) {
     if (!getline(file, line)) {
-      LOG_ERROR() << "Failed to read a line from the MCMC Sample file when looking for 'values {d}'";
+      LOG_ERROR() << "Failed to read a line from the MCMC Sample file when looking for 'values '" << REPORT_R_MATRIX << "'";
       return false;
     }
   }
 
-  if (line != "values {d}") {
-     LOG_ERROR() << "Could not read 'values {d}' string in MCMC Sample file " << file_name;
+  if (line != ("values " + (string)REPORT_R_MATRIX)) {
+     LOG_ERROR() << "Could not read 'values '" << REPORT_R_MATRIX << "' string in MCMC Sample file " << file_name;
      return false;
    }
 
@@ -131,8 +131,8 @@ bool MCMCSample::LoadFile(const string& file_name) {
     last_line = line;
   }
 
-  if (last_line == "*end") {
-    LOG_ERROR() << "MCMC sample file " << file_name << " found '*end'. Returning 'false'";
+  if (last_line == REPORT_END) {
+    LOG_ERROR() << "MCMC sample file " << file_name << " found '" << REPORT_END << "'. Returning 'false'";
     return false;
   }
 

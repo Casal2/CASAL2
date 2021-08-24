@@ -183,7 +183,7 @@ void MortalityEventBiomass::FillReportCache(ostringstream& cache) {
   for (auto removal : actual_catches_) cache << AS_DOUBLE(removal) << " ";
   cache << "\nexploitation_rate: ";
   for (auto exploit : exploitation_by_year_) cache << AS_DOUBLE(exploit) << " ";
-  cache << "\n";
+  cache << REPORT_EOL;
 }
 
 /**
@@ -201,11 +201,11 @@ void MortalityEventBiomass::FillTabularReportCache(ostringstream& cache, bool fi
     for (auto year : years_) {
       cache << "exploitation[" << label_ << "][" << year << "] ";
     }
-    cache << "\n";
+    cache << REPORT_EOL;
   }
   for (auto removal : actual_catches_) cache << AS_DOUBLE(removal) << " ";
   for (auto exploit : exploitation_by_year_) cache << AS_DOUBLE(exploit) << " ";
-  cache << "\n";
+  cache << REPORT_EOL;
 }
 
 } /* namespace age */

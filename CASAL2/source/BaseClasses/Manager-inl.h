@@ -26,8 +26,8 @@ void Manager<ClassType, StoredType>::Validate() {
   for (auto stored_object : objects_) {
     stored_object->Validate();
     if (stored_object->label() != "" && duplicates.find(stored_object->label()) != duplicates.end()) {
-      LOG_FATAL() << "Two " << stored_object->block_type() << " objects with the same label " << stored_object->label() << " have been declared. At " << stored_object->location()
-                  << "and " << duplicates[stored_object->label()]->location();
+      LOG_FATAL() << "Two " << stored_object->block_type() << " objects with the same label " << stored_object->label() << " have been declared. Found at "
+                  << stored_object->location() << "and " << duplicates[stored_object->label()]->location();
     }
     duplicates[stored_object->label()] = stored_object;
   }
@@ -82,7 +82,7 @@ StoredType* Manager<ClassType, StoredType>::get(string_view label) {
       return stored_object;
   }
 
-  LOG_FATAL() << "Object " << label << " could not be found in it's manager";
+  LOG_FATAL() << "Object " << label << " could not be found. Please check it has been defined correctly";
   return nullptr;
 }
 

@@ -126,8 +126,8 @@ void ElementDifference::DoBuild() {
   }
 
   if (second_values.size() != values.size())
-    LOG_ERROR_P(PARAM_SECOND_PARAMETER) << "The parameters are not the same length. The second parameter has " << second_values.size() << " elements and the first parameter has "
-                                        << values.size() << " elements";
+    LOG_ERROR_P(PARAM_SECOND_PARAMETER) << "is not the same length as '" << PARAM_PARAMETER << "'. These should be the same length. The second parameter has "
+                                        << second_values.size() << " elements and the first parameter has " << values.size() << " elements";
 }
 
 /**

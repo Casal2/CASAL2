@@ -5,7 +5,7 @@
  * @date 13/04/2015
  * @section LICENSE
  *
- * Copyright NIWA Science ©2015 - www.niwa.co.nz
+ * Copyright NIWA Science ï¿½2015 - www.niwa.co.nz
  *
  */
 
@@ -32,9 +32,8 @@ RandomNumberSeed::RandomNumberSeed() {
 void RandomNumberSeed::DoExecute(shared_ptr<Model> model) {
   // Header
   // cache_ << CONFIG_ARRAY_START << label_ << CONFIG_ARRAY_END << "\n";
-  cache_ << "*" << type_ << "[" << label_ << "]"
-         << "\n";
-  cache_ << PARAM_RANDOM_NUMBER_SEED << ": " << model->global_configuration().random_seed() << "\n";
+  cache_ << ReportHeader(type_, label_);
+  cache_ << PARAM_RANDOM_NUMBER_SEED << ": " << model->global_configuration().random_seed() << REPORT_EOL;
   ready_for_writing_ = true;
 }
 

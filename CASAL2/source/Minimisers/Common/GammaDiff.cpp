@@ -3,7 +3,7 @@
 // Name        : GammaDiff.cpp
 // Author      : S.Rasmussen
 // Date        : 8/09/2008
-// Copyright   : Copyright NIWA Science ©2008 - www.niwa.co.nz
+// Copyright   : Copyright NIWA Science ï¿½2008 - www.niwa.co.nz
 // Description :
 // $Date: 2008-03-04 16:33:32 +1300 (Tue, 04 Mar 2008) $
 //============================================================================
@@ -37,6 +37,8 @@ void GammaDiff::Execute() {
   LOG_TRACE();
   // Variables
   LOG_FINE() << "model_: " << model_;
+
+  LOG_INFO() << "Estimation with the " << PARAM_GAMMADIFF << " minimiser";
 
   gammadiff::CallBack call_back(model_);
   estimates::Manager* estimate_manager = model_->managers()->estimate();

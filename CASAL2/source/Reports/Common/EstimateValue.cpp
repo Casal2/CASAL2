@@ -23,6 +23,8 @@ namespace reports {
  * Default constructor
  */
 EstimateValue::EstimateValue() {
+  LOG_TRACE();
+
   run_mode_    = (RunMode::Type)(RunMode::kBasic | RunMode::kEstimation | RunMode::kProfiling | RunMode::kProjection);
   model_state_ = State::kIterationComplete;
 }
@@ -34,7 +36,7 @@ void EstimateValue::DoExecute(shared_ptr<Model> model) {
   vector<Estimate*> estimates = model->managers()->estimate()->objects();
   vector<Profile*>  profiles  = model->managers()->profile()->objects();
   LOG_TRACE();
-  // Check if estiamtes are close to bounds. flag a warning.
+  // Check if estimates are close to bounds. flag a warning.
   for (Estimate* estimate : estimates) {
     if ((estimate->value() - estimate->lower_bound()) < 0.001) {
       LOG_WARNING() << "estimated parameter '" << estimate->parameter() << "' was within 0.001 of lower bound " << estimate->lower_bound();
@@ -44,13 +46,24 @@ void EstimateValue::DoExecute(shared_ptr<Model> model) {
   }
 
   if (estimates.size() > 0) {
-    cache_ << "*" << type_ << "[" << label_ << "]"
-           << "\n";
-    cache_ << "values " << REPORT_R_DATAFRAME << "\n";
-    for (Estimate* estimate : estimates) cache_ << estimate->parameter() << " ";
-    cache_ << "\n";
-    for (Estimate* estimate : estimates) cache_ << AS_DOUBLE(estimate->value()) << " ";
-    cache_ << "\n";
+    if (format_ == PARAM_R) {
+      cache_ << "*" << type_ << "[" << label_ << "]" << REPORT_EOL;
+      cache_ << "values " << REPORT_R_DATAFRAME << REPORT_EOL;
+      for (Estimate* estimate : estimates) cache_ << estimate->parameter() << " ";
+      cache_ << REPORT_EOL;
+      for (Estimate* estimate : estimates) cache_ << AS_DOUBLE(estimate->value()) << " ";
+      cache_ << REPORT_EOL;
+    } else if (format_ == PARAM_NONE) {
+      skip_tags_ = true;
+      if (first_run_) {
+        for (Estimate* estimate : estimates) cache_ << estimate->parameter() << " ";
+        cache_ << REPORT_EOL;
+        first_run_ = false;
+      }
+      for (Estimate* estimate : estimates) cache_ << AS_DOUBLE(estimate->value()) << " ";
+      cache_ << REPORT_EOL;
+    } else
+      LOG_FATAL() << "Report format type (" << format_ << ") not known";
 
     /**auto minimiser_ = model->managers()->minimiser()->active_minimiser();
     if (minimiser_) {
@@ -88,15 +101,14 @@ void EstimateValue::DoExecuteTabular(shared_ptr<Model> model) {
    */
   if (first_run_) {
     first_run_ = false;
-    cache_ << "*" << type_ << "[" << label_ << "]"
-           << "\n";
-    cache_ << "values " << REPORT_R_DATAFRAME << "\n";
+    cache_ << ReportHeader(type_, label_);
+    cache_ << "values " << REPORT_R_DATAFRAME << REPORT_EOL;
     for (Estimate* estimate : estimates) cache_ << estimate->parameter() << " ";
-    cache_ << "\n";
+    cache_ << REPORT_EOL;
   }
 
   for (Estimate* estimate : estimates) cache_ << AS_DOUBLE(estimate->value()) << " ";
-  cache_ << "\n";
+  cache_ << REPORT_EOL;
 
   if (estimates.size() > 0) {
     //    auto minimiser_ = model->managers()->minimiser()->active_minimiser();

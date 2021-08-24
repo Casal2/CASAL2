@@ -63,6 +63,14 @@ void StandardHeader::PrintTop(GlobalConfiguration& global_config) {
   header << "Copyright (c) 2017-" << SOURCE_CONTROL_YEAR << ", NIWA (www.niwa.co.nz)" << endl;
 
   /**
+   *  Print the date and time
+   * */
+  header << "Date: ";
+  time_t t;
+  t = time(NULL);
+  header << ctime(&t) << endl;
+
+  /**
    * User and Computer Information
    */
 
@@ -99,6 +107,8 @@ void StandardHeader::PrintBottom(GlobalConfiguration& global_config) {
   if (global_config.disable_standard_report())
     return;
 
+  LOG_INFO() << "Completed";
+
 #if !defined(__MINGW32__) && !defined(_MSC_VER)
   times(&cpu_stop);
   double cpu_time
@@ -108,24 +118,23 @@ void StandardHeader::PrintBottom(GlobalConfiguration& global_config) {
   // Turn into hours
   cpu_time = cpu_time / 3600.0;
   int P    = (int)floor(log10(cpu_time)) + 4;
-  cout << "Total CPU time: " << std::setprecision(P) << cpu_time << (cpu_time == 1 ? " hour" : " hours") << ".\n";
+  LOG_INFO() << "Total CPU time: " << std::setprecision(P) << cpu_time << (cpu_time == 1 ? " hour" : " hours");
 #endif
 
   double elapsed_time = static_cast<double>(time(NULL) - start_time_);
 
   if (elapsed_time < 60) {
     int P = (int)floor(log10(elapsed_time)) + 4;
-    cout << "Total elapsed time: " << std::setprecision(P) << fmax(1, elapsed_time) << (elapsed_time == 1 ? " second" : " seconds") << endl;
+    LOG_INFO() << "Total elapsed time: " << std::setprecision(P) << fmax(1, elapsed_time) << (elapsed_time == 1 ? " second" : " seconds");
   } else if ((elapsed_time / 60.0) < 60) {
     elapsed_time /= 60.0;
     int P = (int)floor(log10(elapsed_time)) + 4;
-    cout << "Total elapsed time: " << std::setprecision(P) << elapsed_time << (elapsed_time == 1 ? " minute" : " minutes") << endl;
+    LOG_INFO() << "Total elapsed time: " << std::setprecision(P) << elapsed_time << (elapsed_time == 1 ? " minute" : " minutes");
   } else {
     elapsed_time /= 3600.0;
     int P = (int)floor(log10(elapsed_time)) + 4;
-    cout << "Total elapsed time: " << std::setprecision(P) << elapsed_time << (elapsed_time == 1 ? " hour" : " hours") << endl;
+    LOG_INFO() << "Total elapsed time: " << std::setprecision(P) << elapsed_time << (elapsed_time == 1 ? " hour" : " hours");
   }
-  cout << "Completed" << endl << endl;
 }
 
 } /* namespace utilities */

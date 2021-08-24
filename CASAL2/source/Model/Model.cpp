@@ -225,10 +225,10 @@ bool Model::PrepareForIterations() {
   LOG_FINEST() << "Going into startup";
   if (state_ != State::kStartUp)
     LOG_CODE_ERROR() << "Model state should always be startup when entering the start method, not " << state_;
-  if (global_configuration_->estimable_value_file() != "") {
-    LOG_MEDIUM() << "estimable_value_file(): " << global_configuration_->estimable_value_file();
+  if (global_configuration_->get_free_parameter_input_file() != "") {
+    LOG_MEDIUM() << "get_free_parameter_input_file(): " << global_configuration_->get_free_parameter_input_file();
     configuration::EstimableValuesLoader loader(pointer());
-    loader.LoadValues(global_configuration_->estimable_value_file());
+    loader.LoadValues(global_configuration_->get_free_parameter_input_file());
   }
 
   managers_->report()->Execute(pointer(), State::kStartUp);
@@ -413,8 +413,8 @@ void Model::Build() {
 
   Estimables& estimables = *managers_->estimables();
   if (estimables.GetValueCount() > 0) {
-    addressable_values_file_ = true;
-    adressable_values_count_ = estimables.GetValueCount();
+    addressable_values_file_  = true;
+    addressable_values_count_ = estimables.GetValueCount();
   }
 
   if (categories()->HasAgeLengths()) {
@@ -459,7 +459,7 @@ void Model::RunBasic() {
   niwa::partition::accessors::All all_view(pointer());
 
   // Model is about to run
-  for (unsigned i = 0; i < adressable_values_count_; ++i) {
+  for (unsigned i = 0; i < addressable_values_count_; ++i) {
     if (addressable_values_file_) {
       estimables.LoadValues(i);
       Reset();
@@ -570,8 +570,8 @@ void Model::RunEstimation() {
 
   Estimables*         estimables = managers_->estimables();
   map<string, Double> estimable_values;
-  LOG_FINE() << "estimable values count: " << adressable_values_count_;
-  for (unsigned i = 0; i < adressable_values_count_; ++i) {
+  LOG_FINE() << "estimable values count: " << addressable_values_count_;
+  for (unsigned i = 0; i < addressable_values_count_; ++i) {
     if (addressable_values_file_) {
       estimables->LoadValues(i);
       Reset();
@@ -658,7 +658,7 @@ void Model::RunProfiling() {
   Estimables& estimables = *managers_->estimables();
 
   map<string, Double> estimable_values;
-  for (unsigned i = 0; i < adressable_values_count_; ++i) {
+  for (unsigned i = 0; i < addressable_values_count_; ++i) {
     if (addressable_values_file_) {
       estimables.LoadValues(i);
       Reset();
@@ -673,15 +673,18 @@ void Model::RunProfiling() {
     if (!minimiser)
       LOG_FATAL() << "couldn't get an active minimiser to estimate for the profile";
     vector<Profile*> profiles = managers_->profile()->objects();
-    LOG_FINE() << "Working with " << profiles.size() << " profiles";
+    LOG_INFO() << "Profiling with " << profiles.size() << " parameter(s)";
     for (auto profile : profiles) {
+      LOG_INFO() << "Profiling parameter " << profile->parameter();
       LOG_FINE() << "Disabling estimate: " << profile->parameter();
       estimate_manager.UnFlagIsEstimated(profile->parameter());
 
       LOG_FINE() << "First-Stepping profile";
       profile->FirstStep();
-      for (unsigned i = 0; i < profile->steps() + 2; ++i) {
+      for (unsigned i = 0; i < profile->steps(); ++i) {
         LOG_FINE() << "Calling minimiser to begin the estimation (profiling)";
+        LOG_INFO() << "Profiling with parameter at step " << i + 1 << " of " << profile->steps() << " steps";
+
         minimiser->Execute();
         LOG_FINE() << "Finished estimation from " << i + 1 << " steps";
         run_mode_ = RunMode::kBasic;
@@ -707,8 +710,8 @@ void Model::RunSimulation() {
   LOG_FINE() << "Entering the Simulation Sub-System";
 
   Estimables* estimables = managers_->estimables();
-  LOG_FINE() << "estimable values count: " << adressable_values_count_;
-  if (adressable_values_count_ > 1)
+  LOG_FINE() << "estimable values count: " << addressable_values_count_;
+  if (addressable_values_count_ > 1)
     LOG_FATAL() << "Simulation mode only allows a -i file with one set of parameters.";
 
   if (addressable_values_file_) {
@@ -784,7 +787,7 @@ void Model::RunProjection() {
   niwa::partition::accessors::All all_view(pointer());
 
   // Model is about to run
-  for (unsigned i = 0; i < adressable_values_count_; ++i) {
+  for (unsigned i = 0; i < addressable_values_count_; ++i) {
     for (int j = 0; j < projection_candidates; ++j) {
       LOG_FINE() << "Beginning initial model run for projections";
       projection_final_phase_ = false;

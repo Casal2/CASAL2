@@ -41,7 +41,7 @@ Process::Process() {
 void Process::DoBuild(shared_ptr<Model> model) {
   process_ = model->managers()->process()->GetProcess(process_label_);
   if (!process_) {
-    LOG_ERROR_P(PARAM_PROCESS) << "process " << process_label_ << " was not found.";
+    LOG_ERROR_P(PARAM_PROCESS) << "with label '" << process_label_ << "' was not found.";
   }
 }
 
@@ -56,8 +56,7 @@ void Process::DoExecute(shared_ptr<Model> model) {
   LOG_FINE() << " printing report " << label_ << " of type " << process_->type();
 
   bool is_BH_recruitment = (process_->type() == PARAM_RECRUITMENT_BEVERTON_HOLT) | (process_->type() == PARAM_BEVERTON_HOLT);
-  cache_ << "*" << type_ << "[" << label_ << "]"
-         << "\n";
+  cache_ << ReportHeader(type_, label_);
 
   auto parameters = process_->parameters().parameters();
   for (auto parameter : parameters) {
@@ -67,7 +66,7 @@ void Process::DoExecute(shared_ptr<Model> model) {
       // nonsensical vector (when doing multiple projections), thus we went down the store for report method.
       cache_ << parameter.first << ": ";
       string line = boost::algorithm::join(parameter.second->current_values(), " ");
-      cache_ << line << "\n";
+      cache_ << line << REPORT_EOL;
     }
   }
   // Fill the rest of the process specific stuff
@@ -81,10 +80,9 @@ void Process::DoExecute(shared_ptr<Model> model) {
 void Process::DoExecuteTabular(shared_ptr<Model> model) {
   if (first_run_) {
     first_run_ = false;
-    cache_ << "*" << type_ << "[" << label_ << "]"
-           << "\n";
-    cache_ << "type: " << process_->type() << "\n";
-    cache_ << "values " << REPORT_R_DATAFRAME << "\n";
+    cache_ << "*" << type_ << "[" << label_ << "]" << REPORT_EOL;
+    cache_ << "type: " << process_->type() << REPORT_EOL;
+    cache_ << "values " << REPORT_R_DATAFRAME << REPORT_EOL;
     process_->FillTabularReportCache(cache_, true);
   } else
     process_->FillTabularReportCache(cache_, false);

@@ -68,6 +68,7 @@ public:
   RunMode::Type run_mode() const { return run_mode_; }
   State::Type   model_state() const { return model_state_; }
   const string& time_step() const { return time_step_; }
+  const string& file_name() const { return file_name_; }
   bool          ready_for_writing() const { return ready_for_writing_; }
   void          set_skip_tags(bool value) { skip_tags_ = value; }
   void          set_suffix(string_view suffix);
@@ -85,6 +86,7 @@ protected:
   virtual void DoPrepareTabular(shared_ptr<Model> model){};
   virtual void DoExecuteTabular(shared_ptr<Model> model){};
   virtual void DoFinaliseTabular(shared_ptr<Model> model){};
+  string       ReportHeader(string type, string label);
 
   // Members
   //  shared_ptr<Model>                      model_ = nullptr;
@@ -102,6 +104,7 @@ protected:
   bool              ready_for_writing_ = false;
   bool              skip_tags_         = false;
   string            suffix_            = "";
+  string            format_            = PARAM_R;
 };
 
 // Typedef

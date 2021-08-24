@@ -4,7 +4,7 @@
  * @date 7/07/2015
  * @section LICENSE
  *
- * Copyright NIWA Science ©2015 - www.niwa.co.nz
+ * Copyright NIWA Science ï¿½2015 - www.niwa.co.nz
  */
 
 // headers
@@ -28,13 +28,12 @@ CategoryList::CategoryList() {
  * Execute the report
  */
 void CategoryList::DoExecute(shared_ptr<Model> model) {
-  cache_ << "*" << type_ << "[" << label_ << "]"
-         << "\n";
+  cache_ << ReportHeader(type_, label_);
   auto categories = model->categories();
 
   vector<string> names = categories->category_names();
   for (string name : names) {
-    cache_ << name << "\n";
+    cache_ << name << REPORT_EOL;
   }
   ready_for_writing_ = true;
 }

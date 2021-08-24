@@ -53,7 +53,7 @@ void Log::DoBuild() {
   if (!transform_with_jacobian_ && !estimate_->transform_for_objective()) {
     LOG_ERROR_P(PARAM_TRANSFORM_WITH_JACOBIAN) << "A transformation that does not contribute to the Jacobian was specified,"
                                                << " and the prior parameters do not refer to the transformed estimate, in the @estimate" << estimate_label_
-                                               << ". This is not advised, and may cause bias errors. Please check the User Manual for more info";
+                                               << ". This is not permitted";
   }
   if (estimate_->transform_with_jacobian_is_defined()) {
     if (transform_with_jacobian_ != estimate_->transform_with_jacobian()) {
@@ -117,12 +117,13 @@ void Log::RestoreFromObjectiveFunction() {
  * @return Jacobian if transforming with Jacobian, otherwise 0.0
  */
 Double Log::GetScore() {
+  LOG_TRACE()
   if (transform_with_jacobian_) {
-    jacobian_ = 1.0 / current_untransformed_value_;
-    LOG_MEDIUM() << "Jacobian: " << jacobian_;
-    return jacobian_;
+    jacobian_ = -log(1.0 / current_untransformed_value_);
+    LOG_MEDIUM() << "Jacobian: " << jacobian_ << " current value " << current_untransformed_value_;
   } else
-    return 0.0;
+    jacobian_ = 0.0;
+  return jacobian_;
 }
 
 /**

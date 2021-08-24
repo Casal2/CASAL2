@@ -198,6 +198,11 @@ void Loader::ParseBlock(shared_ptr<Model> model, vector<FileLine>& block) {
   block_type  = line_parts[0].substr(1);  // Skip the first char '@'
   block_label = line_parts.size() == 2 ? line_parts[1] : "";
   LOG_FINEST() << "block_type: " << block_type << ", block_label: " << block_label;
+  if (block_label.substr(0, 2) == std::string("__")) {
+    LOG_FATAL() << "Labels of commands cannot start with a double underscore (i.e., '__'). Found in " << block[0].line_ << " on line " << block[0].line_number_ << " in "
+                << block[0].file_name_;
+  }
+
 #ifdef USE_AUTODIFF
   // We're using auto-diff. So we want to skip loading MCMCs
   if (block_type == PARAM_MCMC)
@@ -275,6 +280,7 @@ void Loader::ParseBlock(shared_ptr<Model> model, vector<FileLine>& block) {
 
   Object* object = model->factory().CreateObject(block_type, sub_type, partition_type);
   LOG_FINEST() << "Object created";
+
   if (!object)
     LOG_FATAL() << "At line " << block[0].line_number_ << " in " << block[0].file_name_ << ": The specified type (" << sub_type << ") is invalid for the command @" << block_type;
 
@@ -282,7 +288,7 @@ void Loader::ParseBlock(shared_ptr<Model> model, vector<FileLine>& block) {
   if (block_label != "" && !object->parameters().Add(PARAM_LABEL, block_label, block[0].file_name_, block[0].line_number_))
     LOG_FATAL() << "At line " << block[0].line_number_ << " in " << block[0].file_name_ << ": The command @" << block_type << " does not support having a label";
   LOG_TRACE();
-  
+
   // Store where this object was defined for use in printing errors later
   LOG_FINEST() << "Setting configuration source files on new object";
   object->set_block_type(block_type);

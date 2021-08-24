@@ -44,8 +44,7 @@ void MCMCObjective::DoBuild(shared_ptr<Model> model) {
  */
 void MCMCObjective::DoPrepare(shared_ptr<Model> model) {
   if (!model->global_configuration().resume_mcmc()) {
-    cache_ << "*mcmc_objective[mcmc]"
-           << "\n";
+    cache_ << ReportHeader(type_, label_);
   }
 }
 
@@ -61,7 +60,7 @@ void MCMCObjective::DoExecute(shared_ptr<Model> model) {
   if (first_write_ && !model->global_configuration().resume_mcmc()) {
     /// Up here!!!!!!!!!
     vector<Estimate*> estimates = model->managers()->estimate()->GetIsEstimated();
-    cache_ << "starting_covariance_matrix {m}\n";
+    cache_ << "starting_covariance_matrix " << REPORT_R_MATRIX << REPORT_EOL;
     auto covariance = mcmc_->covariance_matrix();
     if (estimates.size() != covariance.size1())
       LOG_CODE_ERROR() << "different number of estimates to what is in the covariance matrix. estimates.size() != covariance.size1()";
@@ -72,14 +71,14 @@ void MCMCObjective::DoExecute(shared_ptr<Model> model) {
       cache_ << " " << estimates[i]->parameter();
     }
 
-    cache_ << "\n";
+    cache_ << REPORT_EOL;
     for (unsigned i = 0; i < covariance.size1(); ++i) {
       for (unsigned j = 0; j < covariance.size2() - 1; ++j) cache_ << covariance(i, j) << " ";
-      cache_ << covariance(i, covariance.size2() - 1) << "\n";
+      cache_ << covariance(i, covariance.size2() - 1) << REPORT_EOL;
     }
 
-    cache_ << "samples {d} \n";
-    cache_ << "sample objective_score prior likelihood penalties additional_priors jacobians step_size acceptance_rate acceptance_rate_since_adapt\n";
+    cache_ << "samples " << REPORT_R_DATAFRAME << REPORT_EOL;
+    cache_ << "sample objective_score prior likelihood penalties additional_priors jacobians step_size acceptance_rate acceptance_rate_since_adapt" << REPORT_EOL;
     first_write_ = false;
   }
 
@@ -88,7 +87,7 @@ void MCMCObjective::DoExecute(shared_ptr<Model> model) {
     unsigned element = chain.size() - 1;
     cache_ << chain[element].iteration_ << " " << chain[element].score_ << " " << chain[element].prior_ << " " << chain[element].likelihood_ << " " << chain[element].penalty_
            << " " << chain[element].additional_priors_ << " " << chain[element].jacobians_ << " " << chain[element].step_size_ << " " << chain[element].acceptance_rate_ << " "
-           << chain[element].acceptance_rate_since_adapt_ << "\n";
+           << chain[element].acceptance_rate_since_adapt_ << REPORT_EOL;
   }
 
   ready_for_writing_ = true;
@@ -98,7 +97,7 @@ void MCMCObjective::DoExecute(shared_ptr<Model> model) {
  * Finalise the MCMCObjective report
  */
 void MCMCObjective::DoFinalise(shared_ptr<Model> model) {
-  // cache_ << CONFIG_END_REPORT << "\n";
+  // cache_ << REPORT_END << "\n";
   ready_for_writing_ = true;
 }
 

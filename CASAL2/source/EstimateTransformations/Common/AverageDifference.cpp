@@ -5,7 +5,7 @@
  * @date Jan 8, 2016
  * @section LICENSE
  *
- * Copyright NIWA Science ©2016 - www.niwa.co.nz
+ * Copyright NIWA Science ï¿½2016 - www.niwa.co.nz
  *
  */
 
@@ -38,7 +38,7 @@ AverageDifference::AverageDifference(shared_ptr<Model> model) : EstimateTransfor
  */
 void AverageDifference::DoValidate() {
   if (transform_with_jacobian_) {
-    LOG_ERROR_P(PARAM_TRANSFORM_WITH_JACOBIAN) << "The Jacobian transformation has not been worked out (if it exists) for the average difference transformation.";
+    LOG_ERROR_P(PARAM_TRANSFORM_WITH_JACOBIAN) << "The Jacobian transformation is not available for the average difference transformation.";
   }
 }
 
@@ -72,7 +72,7 @@ void AverageDifference::DoBuild() {
   difference_estimate_ = model_->managers()->estimate()->GetEstimateByLabel(difference_estimate_label_);
 
   if (difference_estimate_ == nullptr) {
-    LOG_ERROR_P(PARAM_THETA_TWO) << "Estimate " << difference_estimate_label_ << " could not be found. Have you defined it?";
+    LOG_ERROR_P(PARAM_THETA_TWO) << "Estimate " << difference_estimate_label_ << " could not be found. Please check it has been defined";
     return;
   }
 
@@ -178,6 +178,19 @@ void AverageDifference::TransformForObjectiveFunction() {
 void AverageDifference::RestoreFromObjectiveFunction() {
   if (estimate_->transform_for_objective())
     Restore();
+}
+
+/**
+ * GetScore
+ * @return Jacobian if transformed with Jacobian, otherwise 0.0
+ */
+Double AverageDifference::GetScore() {
+  LOG_TRACE()
+  if (transform_with_jacobian_) {
+    LOG_FATAL() << "Jacobian is not available for the average difference transformation";
+  } else
+    jacobian_ = 0.0;
+  return jacobian_;
 }
 
 } /* namespace estimatetransformations */

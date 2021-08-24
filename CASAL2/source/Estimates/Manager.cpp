@@ -19,6 +19,7 @@
 #include "../GlobalConfiguration/GlobalConfiguration.h"
 #include "../Model/Managers.h"
 #include "../Model/Model.h"
+#include "../Reports/Common/EstimateValue.h"
 #include "../Reports/Common/MPD.h"
 #include "../Reports/Manager.h"
 #include "../Utilities/Math.h"
@@ -92,7 +93,7 @@ void Manager::Validate(shared_ptr<Model> model) {
    * Load any estimate values that have been supplied
    */
   GlobalConfiguration& global_config = model->global_configuration();
-  if (global_config.estimable_value_file() != "") {
+  if (global_config.get_free_parameter_input_file() != "") {
     Estimables&    estimables       = *model->managers()->estimables();
     vector<string> estimable_labels = estimables.GetEstimables();
 
@@ -127,17 +128,38 @@ void Manager::Build(shared_ptr<Model> model) {
   }
 
   LOG_FINEST() << "Finished building all estimates";
-  if (model->is_primary_thread_model() && model->global_configuration().create_mpd_file()) {
-    string mpd_file_name = model->global_configuration().get_mpd_file_name();
-    LOG_IMPORTANT() << "Loading MPD and covariance from file " << mpd_file_name;
+  if (model->is_primary_thread_model() && model->global_configuration().create_mpd_output_file()) {
+    string mpd_file_name  = model->global_configuration().get_mpd_output_file();
+    string mpd_write_mode = model->global_configuration().mpd_write_mode();
+    LOG_IMPORTANT() << "Setting '" << mpd_file_name << "' as the output file for the MPD (i.e., free parameters and covariance)";
     model->managers()->report()->Pause();
     reports::MPD* report = new reports::MPD();
     report->set_block_type(PARAM_REPORT);
     report->set_defined_file_name(__FILE__);
     report->set_defined_line_number(__LINE__);
-    report->parameters().Add(PARAM_LABEL, "mpd", __FILE__, __LINE__);
+    report->parameters().Add(PARAM_LABEL, "__mpd__", __FILE__, __LINE__);
     report->parameters().Add(PARAM_TYPE, PARAM_MPD, __FILE__, __LINE__);
     report->parameters().Add(PARAM_FILE_NAME, mpd_file_name, __FILE__, __LINE__);
+    report->parameters().Add(PARAM_WRITE_MODE, mpd_write_mode, __FILE__, __LINE__);
+    report->Validate(model);
+    model->managers()->report()->AddObject(report);
+    model->managers()->report()->Resume();
+  }
+
+  if (model->is_primary_thread_model() && model->global_configuration().create_free_parameter_output_file()) {
+    string free_parameter_file_name  = model->global_configuration().get_free_parameter_output_file();
+    string free_parameter_write_mode = model->global_configuration().free_parameter_write_mode();
+    LOG_IMPORTANT() << "Setting '" << free_parameter_file_name << "' as the output file for the free parameters";
+    model->managers()->report()->Pause();
+    reports::EstimateValue* report = new reports::EstimateValue();
+    report->set_block_type(PARAM_REPORT);
+    report->set_defined_file_name(__FILE__);
+    report->set_defined_line_number(__LINE__);
+    report->parameters().Add(PARAM_LABEL, "__free_parameters__", __FILE__, __LINE__);
+    report->parameters().Add(PARAM_TYPE, PARAM_ESTIMATE_VALUE, __FILE__, __LINE__);
+    report->parameters().Add(PARAM_FILE_NAME, free_parameter_file_name, __FILE__, __LINE__);
+    report->parameters().Add(PARAM_WRITE_MODE, free_parameter_write_mode, __FILE__, __LINE__);
+    report->parameters().Add(PARAM_FORMAT, PARAM_NONE, __FILE__, __LINE__);
     report->Validate(model);
     model->managers()->report()->AddObject(report);
     model->managers()->report()->Resume();
@@ -360,7 +382,7 @@ vector<Estimate*> Manager::GetEstimatesByLabel(const string& label) {
   }
 
   if (count > 1)
-    LOG_FINEST() << "There were " << count << " parameters retrieved in the @estimate block labeled " << label;
+    LOG_FINEST() << "There were " << count << " parameters retrieved in the @estimate with label " << label;
 
   return result;
 }
@@ -374,10 +396,10 @@ void Manager::SetActivePhase(unsigned phase) {
   for (auto estimate : objects_) {
     if (estimate->phase() <= phase) {
       estimate->set_estimated(true);
-      LOG_FINEST() << "estimate " << estimate->label() << " is enabled for phase " << phase;
+      LOG_FINEST() << "@estimate " << estimate->label() << " is enabled for phase " << phase;
     } else {
       estimate->set_estimated(false);
-      LOG_FINEST() << "estimate " << estimate->label() << " is disabled for phase " << phase;
+      LOG_FINEST() << "@estimate " << estimate->label() << " is disabled for phase " << phase;
     }
   }
 }

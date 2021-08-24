@@ -41,15 +41,15 @@ TagByLength::TagByLength(shared_ptr<Model> model) : Process(model), to_partition
   parameters_.Bind<string>(PARAM_FROM, &from_category_labels_, "The categories to transition from", "");
   parameters_.Bind<string>(PARAM_TO, &to_category_labels_, "The categories to transition to", "");
   parameters_.Bind<string>(PARAM_PENALTY, &penalty_label_, "The penalty label", "", "");
-  parameters_.Bind<Double>(PARAM_U_MAX, &u_max_, "The maximum exploitation rate ($U_{max}$)", "", 0.99)->set_range(0.0, 1.0);
-  // TODO:  is tolerance missing? the number '0.001' is hard-coded
+  parameters_.Bind<Double>(PARAM_U_MAX, &u_max_, "The maximum exploitation rate ($U_{max}$)", "", 0.99)->set_range(0.0, 1.0, true, false);
   parameters_.Bind<unsigned>(PARAM_YEARS, &years_, "The years to execute the transition in", "");
-  parameters_.Bind<Double>(PARAM_INITIAL_MORTALITY, &initial_mortality_, "", "", 0.0)->set_lower_bound(0.0);
+  parameters_.Bind<Double>(PARAM_INITIAL_MORTALITY, &initial_mortality_, "", "", 0.0)->set_range(0.0, 1.0, true, true);
   parameters_.Bind<string>(PARAM_INITIAL_MORTALITY_SELECTIVITY, &initial_mortality_selectivity_label_, "", "", "");
   parameters_.Bind<string>(PARAM_SELECTIVITIES, &selectivity_labels_, "", "");
   parameters_.Bind<Double>(PARAM_N, &n_, "", "", true);
   parameters_.BindTable(PARAM_NUMBERS, numbers_table_, "The table of N data", "", true, true);
   parameters_.BindTable(PARAM_PROPORTIONS, proportions_table_, "The table of proportions to move", "", true, true);
+  parameters_.Bind<Double>(PARAM_TOLERANCE, &tolerance_, "Tolerance for checking the proportions to move in each year", "", 1e-5)->set_range(0, 1.0);
 }
 
 /**
@@ -217,8 +217,8 @@ void TagByLength::DoValidate() {
         numbers_[year][i - 1] = n_by_year_[year] * proportion;
         total_proportion += proportion;
       }
-      if (fabs(1.0 - total_proportion) > 0.001)
-        LOG_ERROR_P(PARAM_PROPORTIONS) << " total (" << total_proportion << ") is not 1.0 (+- 0.001) for year " << year;
+      if (fabs(1.0 - total_proportion) > tolerance_)
+        LOG_ERROR_P(PARAM_PROPORTIONS) << " total (" << total_proportion << ") do not sum to 1.0 for year " << year;
     }
     // Check years allign
     for (auto iter : numbers_) {
@@ -228,9 +228,6 @@ void TagByLength::DoValidate() {
   }
 
   // Check value for initial mortality
-  if (initial_mortality_ < 0)
-    LOG_ERROR_P(PARAM_INITIAL_MORTALITY) << ": must be 0.0 or larger";
-
   if (model_->length_bins().size() == 0)
     LOG_ERROR_P(PARAM_TYPE) << ": No length bins have been specified in @model for this process";
 
@@ -413,11 +410,11 @@ void TagByLength::FillReportCache(ostringstream& cache) {
     cache << "from-" << from_category_labels_[category_ndx] << " " << REPORT_R_DATAFRAME_ROW_LABELS << "\n";
     cache << "year ";
     for (unsigned age = model_->min_age(); age <= model_->max_age(); ++age) cache << age << " ";
-    cache << "\n";
+    cache << REPORT_EOL;
     for (unsigned year_ndx = 0; year_ndx < years_.size(); ++year_ndx) {
       cache << years_[year_ndx] << " ";
       for (unsigned age_ndx = 0; age_ndx < model_->age_spread(); ++age_ndx) cache << AS_DOUBLE(actual_tagged_fish_from_[year_ndx][category_ndx][age_ndx]) << " ";
-      cache << "\n";
+      cache << REPORT_EOL;
     }
   }
 
@@ -425,11 +422,11 @@ void TagByLength::FillReportCache(ostringstream& cache) {
     cache << "to-" << from_category_labels_[category_ndx] << " " << REPORT_R_DATAFRAME_ROW_LABELS << "\n";
     cache << "year ";
     for (unsigned age = model_->min_age(); age <= model_->max_age(); ++age) cache << age << " ";
-    cache << "\n";
+    cache << REPORT_EOL;
     for (unsigned year_ndx = 0; year_ndx < years_.size(); ++year_ndx) {
       cache << years_[year_ndx] << " ";
       for (unsigned age_ndx = 0; age_ndx < model_->age_spread(); ++age_ndx) cache << AS_DOUBLE(actual_tagged_fish_to_[year_ndx][category_ndx][age_ndx]) << " ";
-      cache << "\n";
+      cache << REPORT_EOL;
     }
   }
 }

@@ -32,7 +32,7 @@ CallBack::CallBack(shared_ptr<ThreadPool> thread_pool) : thread_pool_(thread_poo
 
 //**********************************************************************
 // double CGammaDiffCallback::operator()(const vector<double>& Parameters)
-// Operatior() for Minimiser CallBack
+// Operator() for Minimiser CallBack
 //**********************************************************************
 double CallBack::operator()(const vector<double>& Parameters) {
   auto model_ = thread_pool_->threads()[0]->model();

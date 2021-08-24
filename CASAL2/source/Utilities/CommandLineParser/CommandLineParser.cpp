@@ -51,27 +51,27 @@ void CommandLineParser::Parse(int argc, char* argv[], RunParameters& options) {
     ("help,h", "Display help")
     ("license,l", "Display the reference for the Casal2 license")
     ("version,v", "Display the Casal2 version")
-    ("config,c", value<string>(), "Configuration file")
+    ("config,c", value<string>(), "Configuration [file]")
     ("run,r", "Do a model run (without estimation)")
     ("estimate,e", "Estimate the MPD")
-    ("Estimate,E", value<string>(), "Estimate the MPD and create a file containing the MPD and covariance for use in an MCMC")
+    ("Estimate,E", value<string>(), "Estimate the MPD and create an MPD [file] containing the MPD and covariance for use in an MCMC")
     ("mcmc,m", "Estimate the MPD and then do an MCMC")
-    ("mcmc-from-estimate,M", value<string>(), "Do an MCMC using a previously estimated MPD (from -E)")
-    ("resume,R", "Resume a previously interrupted MCMC chain")
-    ("objective-file", value<string>(), "Objectives file for resuming the MCMC chain")
-    ("sample-file", value<string>(), "Samples file for resuming the MCMC chain")
+    ("mcmc-from-estimate,M", value<string>(), "Do an MCMC using a previously estimated MPD using [file] (from -E)")
+    ("resume,R", value<string>(), "Resume a previously interrupted MCMC using the MPD [file], and sample and objective files")
+    ("objective-file", value<string>(), "Objectives [file] for resuming the MCMC")
+    ("sample-file", value<string>(), "Samples [file] for resuming the MCMC")
     // other
-    ("profiling,p", "Do likelihood profiles")
-    ("simulation,s", value<unsigned>(), "Do a simulation (arg = number of candidates)")
-    ("projection,f", value<unsigned>(), "Do projections (arg = number of projections per set of input values)")
+    ("profile,p", "Do a likelihood profile")
+    ("simulation,s", value<unsigned>(), "Do a simulation [n] = number of candidates)")
+    ("projection,f", value<unsigned>(), "Do projections [n] = number of projections per set of input values)")
     ("input,i", value<string>(), "Load free parameter values from [file]")
-    ("input-force,I",  value<string>(), "Load parameters from [file], and force overwriting of non-estimated addressable parameters")
-    ("output,o", value<string>(), "Create an estimate value report and write to [file]")
-    ("Output,O", value<string>(), "Append an estimate value report to the [file]")
-    ("seed,g", value<unsigned>(), "Set the random number seed")
-    ("query,q", value<string>(), "Query an object type to view its syntax description. Argument object_type.sub_type, e.g., process.recruitment_constant")
+    ("input-force,I",  value<string>(), "Load free parameters from [file], and force overwriting of non-estimated addressable parameters")
+    ("output,o", value<string>(), "Create a free parameter report and write to [file]")
+   // ("Output,O", value<string>(), "Append a free parameter report to the [file]")
+    ("seed,g", value<unsigned>(), "Set the random number seed [n]")
+    ("query", value<string>(), "Query an object type to view its syntax description. Argument = [object_type.sub_type, e.g., process.recruitment_constant]")
     ("nostd", "Do not print the standard header report")
-    ("loglevel", value<string>(), "Set message log level. Defaults to 'information'. See the Manual for further options")
+    ("loglevel", value<string>(), "Set message log level. Defaults to [info]. See the Manual for further options")
     ("single-step", "Single step the model each year with new estimable values")
     ("tabular,t", "Print reports using the Tabular format")
     ("unittest", "Run the unit tests for Casal2");
@@ -105,6 +105,10 @@ void CommandLineParser::Parse(int argc, char* argv[], RunParameters& options) {
     cout << "Casal2 Version: v" << VERSION << endl;
     cout << "Release ID: v" << VERSION_NUMBER << " " << SOURCE_CONTROL_VERSION << "" << endl;
     cout << "Copyright (c) 2017-" << SOURCE_CONTROL_YEAR << ", NIWA (www.niwa.co.nz)" << endl;
+    cout << "Date: ";
+    time_t t;
+    t = time(NULL);
+    cout << ctime(&t) << endl;
     return;
   } else if (parameters.count("license")) {
     options.run_mode_ = RunMode::kLicense;
@@ -134,25 +138,27 @@ void CommandLineParser::Parse(int argc, char* argv[], RunParameters& options) {
   if (parameters.count("input")) {
     if (parameters.count("input-force"))
       LOG_FATAL() << "Do not specify both -i (input file) and -I (input-force file) at the same time";
-    options.estimable_value_input_file_      = parameters["input"].as<string>();
+    options.free_parameter_input_file_       = parameters["input"].as<string>();
     options.force_overwrite_of_addressables_ = false;
   }
   if (parameters.count("input-force")) {
     if (parameters.count("input"))
       LOG_FATAL() << "Do not specify both -i (input file) and -I (input-force file) at the same time";
-    options.estimable_value_input_file_      = parameters["input-force"].as<string>();
+    options.free_parameter_input_file_       = parameters["input-force"].as<string>();
     options.force_overwrite_of_addressables_ = true;
   }
   if (parameters.count("nostd"))
     options.no_std_report_ = true;
   if (parameters.count("output")) {
-    options.output_            = parameters["output"].as<string>();
-    options.mpd_output_append_ = PARAM_OVERWRITE;
+    options.create_free_parameter_output_file_ = true;
+    options.free_parameter_output_file_        = parameters["output"].as<string>();
+    options.free_parameter_write_mode_         = PARAM_OVERWRITE;
   }
-  if (parameters.count("Output")) {
-    options.output_            = parameters["output"].as<string>();
-    options.mpd_output_append_ = PARAM_APPEND;
-  }
+  //  if (parameters.count("Output")) {
+  //    options.create_free_parameter_output_file_ = true;
+  //    options.free_parameter_output_file_        = parameters["output"].as<string>();
+  //    options.free_parameter_write_mode_         = PARAM_APPEND;
+  //  }
   if (parameters.count("single-step"))
     options.single_step_model_ = true;
   if (parameters.count("tabular"))
@@ -160,14 +166,14 @@ void CommandLineParser::Parse(int argc, char* argv[], RunParameters& options) {
   if (parameters.count("phases"))
     options.estimation_phases_ = parameters["phases"].as<unsigned>();
   if (parameters.count("Estimate")) {
-    options.create_mpd_file_ = true;
-    options.mpd_file_name_   = parameters["Estimate"].as<string>();
+    options.create_mpd_output_file_ = true;
+    options.mpd_output_file_        = parameters["Estimate"].as<string>();
   }
   if (parameters.count("mcmc"))
     options.estimate_before_mcmc_ = true;
   if (parameters.count("mcmc-from-estimate")) {
     options.estimate_before_mcmc_ = false;
-    options.mcmc_mpd_file_name_   = parameters["mcmc-from-estimate"].as<string>();
+    options.mpd_input_file_       = parameters["mcmc-from-estimate"].as<string>();
   }
 
   /**
@@ -182,7 +188,7 @@ void CommandLineParser::Parse(int argc, char* argv[], RunParameters& options) {
   run_mode_count += parameters.count("mcmc");
   run_mode_count += parameters.count("mcmc-from-estimate");
   run_mode_count += parameters.count("resume");
-  run_mode_count += parameters.count("profiling");
+  run_mode_count += parameters.count("profile");
   run_mode_count += parameters.count("simulation");
   run_mode_count += parameters.count("projection");
   run_mode_count += parameters.count("query");
@@ -193,14 +199,16 @@ void CommandLineParser::Parse(int argc, char* argv[], RunParameters& options) {
   if (run_mode_count > 1)
     LOG_FATAL() << "Command line error: Multiple run modes have been specified on the command line. Please specify one run mode only";
 
-  if (parameters.count("run"))
+  if (parameters.count("run")) {
     options.run_mode_ = RunMode::kBasic;
-  else if (parameters.count("estimate") || parameters.count("Estimate"))
+  } else if (parameters.count("estimate") || parameters.count("Estimate")) {
     options.run_mode_ = RunMode::kEstimation;
-  else if (parameters.count("mcmc") || parameters.count("mcmc-from-estimate") || parameters.count("resume")) {
+  } else if (parameters.count("mcmc") || parameters.count("mcmc-from-estimate") || parameters.count("resume")) {
     options.run_mode_ = RunMode::kMCMC;
     if (parameters.count("resume")) {
-      if (!parameters.count("objective-file") || !parameters.count("sample-file")) {
+      options.estimate_before_mcmc_ = false;
+      options.mpd_input_file_       = parameters["resume"].as<string>();
+      if (!(parameters.count("objective-file") && parameters.count("sample-file"))) {
         LOG_FATAL() << "Command line error: Resuming an MCMC chain requires the objective-file and sample-file parameters";
       }
       options.mcmc_objective_file_ = parameters["objective-file"].as<string>();
@@ -208,17 +216,26 @@ void CommandLineParser::Parse(int argc, char* argv[], RunParameters& options) {
       options.resume_mcmc_chain_   = true;
     }
 
-    if (options.estimate_before_mcmc_ == false && options.mcmc_mpd_file_name_ == "")
+    if (!options.estimate_before_mcmc_ && options.mpd_input_file_ == "")
       LOG_FATAL() << "Command line error: Cannot start a MCMC run without an estimation if there is no MPD file name specified";
-    if (options.estimate_before_mcmc_ && options.mcmc_mpd_file_name_ != "")
+    if (options.estimate_before_mcmc_ && options.mpd_input_file_ != "")
       LOG_FATAL() << "Command line error: Cannot specify the --mcmc-from-estimate and --resume at the same time";
 
-  } else if (parameters.count("profiling"))
+    if (options.create_free_parameter_output_file_)
+      LOG_FATAL() << "Command line error: Cannot specify an MCMC and a free parameter output file with --output at the same time";
+
+  } else if (parameters.count("profile")) {
+    if (!(parameters.count("input") || parameters.count("Input")))
+      LOG_FATAL() << "A free parameter file must be supplied (using -i/-I) for profiles";
     options.run_mode_ = RunMode::kProfiling;
-  else if (parameters.count("simulation")) {
+  } else if (parameters.count("simulation")) {
+    if (!(parameters.count("input") || parameters.count("Input")))
+      LOG_FATAL() << "A free parameter file must be supplied (using -i/-I) for simulations";
     options.run_mode_              = RunMode::kSimulation;
     options.simulation_candidates_ = parameters["simulation"].as<unsigned>();
   } else if (parameters.count("projection")) {
+    if (!(parameters.count("input") || parameters.count("Input")))
+      LOG_FATAL() << "A free parameter file must be supplied (using -i/-I) for projections";
     options.run_mode_              = RunMode::kProjection;
     options.projection_candidates_ = parameters["projection"].as<unsigned>();
   } else {

@@ -384,13 +384,13 @@ void MortalityHollingRate::FillReportCache(ostringstream& cache) {
   // This one is niggly because we need to iterate over each year and time step to print the right information so we don't
   cache << "prey_vulnerability: ";
   for (auto prey_vulnerable : prey_vulnerability_by_year_) cache << AS_DOUBLE(prey_vulnerable) << " ";
-  cache << "\n";
+  cache << REPORT_EOL;
   cache << "predator_vulnerability: ";
   for (auto pred_vulnerable : predator_vulnerability_by_year_) cache << AS_DOUBLE(pred_vulnerable) << " ";
-  cache << "\n";
+  cache << REPORT_EOL;
   cache << "prey_mortality: ";
   for (auto prey_mort : prey_mortality_by_year_) cache << AS_DOUBLE(prey_mort) << " ";
-  cache << "\n";
+  cache << REPORT_EOL;
 }
 
 /**
@@ -412,7 +412,7 @@ void MortalityHollingRate::FillTabularReportCache(ostringstream& cache, bool fir
         for (auto actual_catches : fishery.actual_catches_)
           cache << "actual_catches[" << fishery.label_ << "][" << actual_catches.first << "] ";
       }
-      cache << "\n";
+      cache << REPORT_EOL;
     }
     for (auto& fishery_iter : fisheries_) {
       auto& fishery = fishery_iter.second;

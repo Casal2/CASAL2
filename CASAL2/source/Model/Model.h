@@ -158,11 +158,11 @@ protected:
   vector<string>       initialisation_phases_;
   vector<string>       time_steps_;
   vector<Double>       length_bins_;
-  bool                 length_plus_             = true;
-  Double               length_plus_group_       = 0;
-  bool                 addressable_values_file_ = false;
-  unsigned             adressable_values_count_ = 1;
-  PartitionType        partition_type_          = PartitionType::kInvalid;
+  bool                 length_plus_              = true;
+  Double               length_plus_group_        = 0;
+  bool                 addressable_values_file_  = false;
+  unsigned             addressable_values_count_ = 1;
+  PartitionType        partition_type_           = PartitionType::kInvalid;
   shared_ptr<Managers> managers_;
   Objects*             objects_                = nullptr;
   GlobalConfiguration* global_configuration_   = nullptr;

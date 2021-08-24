@@ -5,7 +5,7 @@
  * @date 21/11/2014
  * @section LICENSE
  *
- * Copyright NIWA Science ©2017 - www.niwa.co.nz
+ * Copyright NIWA Science ï¿½2017 - www.niwa.co.nz
  *
  */
 
@@ -40,15 +40,14 @@ EquationTest::EquationTest() {
 void EquationTest::DoExecute(shared_ptr<Model> model) {
   equation_ = boost::algorithm::join(equation_input_, " ");
 
-  cache_ << "*" << type_ << "[" << label_ << "]"
-         << "\n";
-  cache_ << "equation: " << equation_ << "\n";
+  cache_ << ReportHeader(type_, label_);
+  cache_ << "equation: " << equation_ << REPORT_EOL;
   try {
-    cache_ << "result: " << model->equation_parser().Parse(equation_) << "\n";
+    cache_ << "result: " << model->equation_parser().Parse(equation_) << REPORT_EOL;
   } catch (std::runtime_error& ex) {
-    cache_ << "result_exception: " << ex.what() << "\n";
+    cache_ << "result_exception: " << ex.what() << REPORT_EOL;
   } catch (...) {
-    cache_ << "result: equation failed\n";
+    cache_ << "result: equation failed" << REPORT_EOL;
   }
   ready_for_writing_ = true;
 }

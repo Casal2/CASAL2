@@ -47,13 +47,13 @@ void Observation::DoBuild(shared_ptr<Model> model) {
   if (!observation_) {
     auto observations = model->managers()->observation()->objects();
     for (auto observation : observations) cout << observation->label() << endl;
-    LOG_ERROR_P(PARAM_OBSERVATION) << "The observation label (" << observation_label_ << ") was not found.";
+    LOG_ERROR_P(PARAM_OBSERVATION) << "with label '" << observation_label_ << "' was not found.";
   }
 
   if (pearson_resids_) {
     if (std::find(pearson_likelihoods.begin(), pearson_likelihoods.end(), observation_->likelihood()) == pearson_likelihoods.end()) {
       LOG_ERROR_P(PARAM_PEARSONS_RESIDUALS) << "The likelihood associated with this observation is " << observation_->likelihood()
-                                            << ". Pearsons residuals can be calculated only for the likelihoods binomial, multinomial, lognormal, normal, binomal_approx";
+                                            << ". Pearsons residuals can be calculated only for the likelihoods binomial, multinomial, lognormal, normal, binomial_approx";
     }
   }
   if (normalised_resids_) {
@@ -68,16 +68,15 @@ void Observation::DoBuild(shared_ptr<Model> model) {
  *  Execute the report
  */
 void Observation::DoExecute(shared_ptr<Model> model) {
-  cache_ << "*" << type_ << "[" << label_ << "]"
-         << "\n";
-  cache_ << "observation_type: " << observation_->type() << "\n";
-  cache_ << "likelihood: " << observation_->likelihood() << "\n";
-  cache_ << "Values " << REPORT_R_DATAFRAME << "\n";
+  cache_ << ReportHeader(type_, label_);
+  cache_ << "observation_type: " << observation_->type() << REPORT_EOL;
+  cache_ << "likelihood: " << observation_->likelihood() << REPORT_EOL;
+  cache_ << "Values " << REPORT_R_DATAFRAME << REPORT_EOL;
   map<unsigned, vector<obs::Comparison>>& comparisons = observation_->comparisons();
   if (pearson_resids_ && !normalised_resids_) {
     LOG_FINEST() << "calculating Pearsons residuals for observation " << label_ << " with likelihood type " << observation_->likelihood();
     // reporting pearsons residuals
-    cache_ << "year category age length observed expected residual error_value process_error adjusted_error neglogLike pearsons_residuals\n";
+    cache_ << "year category age length observed expected residual error_value process_error adjusted_error neglogLike pearsons_residuals" << REPORT_EOL;
     Double resid;
     for (auto iter = comparisons.begin(); iter != comparisons.end(); ++iter) {
       for (obs::Comparison comparison : iter->second) {
@@ -100,7 +99,8 @@ void Observation::DoExecute(shared_ptr<Model> model) {
         }
         cache_ << iter->first << " " << comparison.category_ << " " << comparison.age_ << " " << comparison.length_ << " " << AS_DOUBLE(comparison.observed_) << " "
                << AS_DOUBLE(comparison.expected_) << " " << AS_DOUBLE(comparison.observed_) - AS_DOUBLE(comparison.expected_) << " " << comparison.error_value_ << " "
-               << AS_DOUBLE(comparison.process_error_) << " " << AS_DOUBLE(comparison.adjusted_error_) << " " << AS_DOUBLE(comparison.score_) << " " << AS_DOUBLE(resid) << "\n";
+               << AS_DOUBLE(comparison.process_error_) << " " << AS_DOUBLE(comparison.adjusted_error_) << " " << AS_DOUBLE(comparison.score_) << " " << AS_DOUBLE(resid)
+               << REPORT_EOL;
       }
     }
   } else if (normalised_resids_ && !pearson_resids_) {
@@ -121,7 +121,8 @@ void Observation::DoExecute(shared_ptr<Model> model) {
         }
         cache_ << iter->first << " " << comparison.category_ << " " << comparison.age_ << " " << comparison.length_ << " " << AS_DOUBLE(comparison.observed_) << " "
                << AS_DOUBLE(comparison.expected_) << " " << AS_DOUBLE(comparison.observed_) - AS_DOUBLE(comparison.expected_) << " " << comparison.error_value_ << " "
-               << AS_DOUBLE(comparison.process_error_) << " " << AS_DOUBLE(comparison.adjusted_error_) << " " << AS_DOUBLE(comparison.score_) << " " << AS_DOUBLE(resid) << "\n";
+               << AS_DOUBLE(comparison.process_error_) << " " << AS_DOUBLE(comparison.adjusted_error_) << " " << AS_DOUBLE(comparison.score_) << " " << AS_DOUBLE(resid)
+               << REPORT_EOL;
       }
     }
   } else if (normalised_resids_ && pearson_resids_) {
@@ -145,7 +146,7 @@ void Observation::DoExecute(shared_ptr<Model> model) {
         cache_ << iter->first << " " << comparison.category_ << " " << comparison.age_ << " " << comparison.length_ << " " << AS_DOUBLE(comparison.observed_) << " "
                << AS_DOUBLE(comparison.expected_) << " " << AS_DOUBLE(comparison.observed_) - AS_DOUBLE(comparison.expected_) << " " << comparison.error_value_ << " "
                << AS_DOUBLE(comparison.process_error_) << " " << AS_DOUBLE(comparison.adjusted_error_) << " " << AS_DOUBLE(comparison.score_) << " " << AS_DOUBLE(pearson_resid)
-               << " " << AS_DOUBLE(normalised_resid) << "\n";
+               << " " << AS_DOUBLE(normalised_resid) << REPORT_EOL;
       }
     }
   } else {
@@ -155,7 +156,7 @@ void Observation::DoExecute(shared_ptr<Model> model) {
       for (obs::Comparison comparison : iter->second) {
         cache_ << iter->first << " " << comparison.category_ << " " << comparison.age_ << " " << comparison.length_ << " " << AS_DOUBLE(comparison.observed_) << " "
                << AS_DOUBLE(comparison.expected_) << " " << AS_DOUBLE(comparison.observed_) - AS_DOUBLE(comparison.expected_) << " " << comparison.error_value_ << " "
-               << AS_DOUBLE(comparison.process_error_) << " " << AS_DOUBLE(comparison.adjusted_error_) << " " << AS_DOUBLE(comparison.score_) << "\n";
+               << AS_DOUBLE(comparison.process_error_) << " " << AS_DOUBLE(comparison.adjusted_error_) << " " << AS_DOUBLE(comparison.score_) << REPORT_EOL;
       }
     }
   }
@@ -169,11 +170,10 @@ void Observation::DoExecuteTabular(shared_ptr<Model> model) {
   map<unsigned, vector<obs::Comparison>>& comparisons = observation_->comparisons();
   if (first_run_) {
     first_run_ = false;
-    cache_ << "*" << type_ << "[" << label_ << "]"
-           << "\n";
-    cache_ << "observation_type: " << observation_->type() << "\n";
-    cache_ << "likelihood: " << observation_->likelihood() << "\n";
-    cache_ << "values " << REPORT_R_DATAFRAME << "\n";
+    cache_ << "*" << type_ << "[" << label_ << "]" << REPORT_EOL;
+    cache_ << "observation_type: " << observation_->type() << REPORT_EOL;
+    cache_ << "likelihood: " << observation_->likelihood() << REPORT_EOL;
+    cache_ << "values " << REPORT_R_DATAFRAME << REPORT_EOL;
     string bin, year, label;
     /**
      *  Generate header
@@ -296,7 +296,7 @@ void Observation::DoExecuteTabular(shared_ptr<Model> model) {
         }
       }
     }
-    cache_ << "\n";
+    cache_ << REPORT_EOL;
   }
 
   /**
@@ -370,9 +370,7 @@ void Observation::DoExecuteTabular(shared_ptr<Model> model) {
       }
     }
   }
-  cache_ << "\n";
-
-  cache_ << "\n";
+  cache_ << REPORT_EOL;
 }
 
 /**

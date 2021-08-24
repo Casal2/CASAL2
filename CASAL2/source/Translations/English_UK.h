@@ -21,7 +21,6 @@
 #define CONFIG_ARRAY_END                    "]"
 #define CONFIG_ARRAY_START                  "["
 #define CONFIG_CATEGORY_SEPARATOR           "."
-#define CONFIG_END_REPORT                   "*end"
 #define CONFIG_FALSE                        "false"
 #define CONFIG_FALSE_SHORT                  "f"
 #define CONFIG_INCLUDE                      "!include"
@@ -44,16 +43,16 @@
 //
 //**********************************************************************
 // Report output Syntax Strings
+#define REPORT_START                         "*"
 #define REPORT_END                           "*end"
-#define REPORT_R_DATAFRAME                   "{dataframe}"   // Dataframe: R library will add a header to the data frame, so if you don't add one to the report R will put row 1 as the header
-#define REPORT_R_DATAFRAME_ROW_LABELS        "{dataframe_with_rows}"   // Data:frame R-library will add a header and assign the first column as rowlabels
-#define REPORT_R_MATRIX                      "{matrix}"      // A matrix: No header's
-#define REPORT_R_LIST                        "{list}"        // A list of objects
-#define REPORT_R_LIST_END                    "{end_list}"    
-#define REPORT_R_LIST_ELEMENT_SEPARATOR      ":"
-#define REPORT_R_VECTOR                      "{vector}"      // A vector of names or numbers on a row
-#define REPORT_R_STRING_VECTOR               "{string}"      // This will not split a vector: used to read in warnings, see Logging.cpp warnings section
-
+#define REPORT_EOL                           "\n"
+#define REPORT_R_DATAFRAME                   "{dataframe}" // Dataframe: R library will add a header to the data frame, so if you don't add one to the report R will put row 1 as the header
+#define REPORT_R_DATAFRAME_ROW_LABELS        "{dataframe_with_row_labels}"  // Data:frame R-library will add a header and assign the first column as row labels
+#define REPORT_R_MATRIX                      "{matrix}"  // A matrix: No header's
+#define REPORT_R_LIST                        "{list}" // A list of objects
+#define REPORT_R_LIST_END                    "{end_list}" // Denote the end of a list   
+#define REPORT_R_VECTOR                      "{vector}" // A vector of names or numbers on a row
+#define REPORT_R_STRING_VECTOR               "{string}" // each line is a single string
 
 //**********************************************************************
 // FMM
@@ -247,7 +246,6 @@
 #define PARAM_DISTANCE                            "distance"
 #define PARAM_DISTRIBUTION                        "distribution"
 #define PARAM_DIRICHLET                           "dirichlet"
-#define PARAM_DLIB                                "dlib"
 #define PARAM_DOUBLE                              "numeric"
 #define PARAM_DOUBLE_EXPONENTIAL                  "double_exponential"
 #define PARAM_DOUBLE_NORMAL                       "double_normal"
@@ -265,7 +263,6 @@
 #define PARAM_ERROR_VALUES                        "error_values"
 #define PARAM_ERROR_VALUE_MULTIPLIER              "error_value_multiplier"
 #define PARAM_ESTIMABLE                           "estimable"
-#define PARAM_ESTIMABLE_VALUE_FILE                "estimable_value_file"
 #define PARAM_ESTIMATE                            "estimate"
 #define PARAM_ESTIMATE_LABEL                      "estimate_label"
 #define PARAM_ESTIMATE_LABELS                     "estimate_labels"
@@ -284,7 +281,6 @@
 #define PARAM_EXOGENOUS_VARIABLE                  "exogenous_variable"
 #define PARAM_EXOGENOUS                           "exogenous"
 #define PARAM_EXTERNAL_GAPS                       "external_gaps"
-#define PARAM_FADBAD                              "fadbad"
 #define PARAM_FILE_NAME                           "file_name"
 #define PARAM_FIRST_ESTIMATE                      "first_estimate"
 #define PARAM_FIRST_YEAR                          "first_year"
@@ -478,7 +474,7 @@
 #define PARAM_P1                                  "p1"
 #define PARAM_P2                                  "p2"
 #define PARAM_PARAMETER                           "parameter"
-#define PARAM_REPORT_PARTITION_YEARCROSSAGEMATRIX "year_age_matrix"
+#define PARAM_REPORT_PARTITION_YEARAGEMATRIX      "year_age_matrix"
 #define PARAM_PARTITION                           "partition"
 #define PARAM_PARTITION_BIOMASS                   "partition_biomass"
 #define PARAM_PARTITION_MEAN_LENGTH               "partition_mean_length"
@@ -487,9 +483,7 @@
 #define PARAM_PENALTY                             "penalty"
 #define PARAM_PEARSONS_RESIDUALS                  "pearsons_residuals"
 #define PARAM_PI_APPROX                           "pi_approx"
-#define PARAM_PIDI                                "pidi"
 #define PARAM_PLUS_GROUP                          "plus_group"
-#define PARAM_POINT_PERTUBATION_RADIUS            "point_perturbation_radius"
 #define PARAM_POPULATION_SIZE                     "population_size"
 #define PARAM_PREY_CATEGORIES                     "prey_categories"
 #define PARAM_PREY_SUITABILITY_PREDATION          "prey_suitability_predation"

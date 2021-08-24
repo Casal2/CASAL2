@@ -31,19 +31,18 @@ void TimeVarying::DoExecute(shared_ptr<Model> model) {
   auto manager      = model->managers()->time_varying();
   auto time_varying = manager->objects();
   if (manager->size() > 0 && time_varying.size() > 0) {
-    cache_ << "*" << type_ << "[" << label_ << "]"
-           << "\n";
+    cache_ << ReportHeader(type_, label_);
 
     for (auto time_var : time_varying) {
       string label = time_var->label();
       LOG_FINEST() << "Reporting for @time_varying block " << label;
-      cache_ << label << " " << REPORT_R_DATAFRAME << "\n";
+      cache_ << label << " " << REPORT_R_DATAFRAME << REPORT_EOL;
 
       map<unsigned, Double>& parameter_by_year = time_var->get_parameter_by_year();
       cache_ << "year"
-             << " Value \n";
+             << " Value" << REPORT_EOL;
       for (auto param : parameter_by_year) {
-        cache_ << param.first << "  " << AS_DOUBLE(param.second) << "\n";
+        cache_ << param.first << "  " << AS_DOUBLE(param.second) << REPORT_EOL;
       }
     }
     ready_for_writing_ = true;

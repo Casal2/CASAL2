@@ -56,7 +56,7 @@ void Orthogonal::DoBuild() {
   if (!transform_with_jacobian_ && !estimate_->transform_for_objective()) {
     LOG_ERROR_P(PARAM_TRANSFORM_WITH_JACOBIAN) << "A transformation that does not contribute to the Jacobian was specified,"
                                                << " and the prior parameters do not refer to the transformed estimate, in the @estimate" << estimate_label_
-                                               << ". This is not advised, and may cause bias errors. Please check the User Manual for more info";
+                                               << ". This is not permitted";
   }
   if (estimate_->transform_with_jacobian_is_defined()) {
     if (transform_with_jacobian_ != estimate_->transform_with_jacobian()) {
@@ -131,8 +131,11 @@ void Orthogonal::DoRestore() {
  */
 Double Orthogonal::GetScore() {
   LOG_TRACE();
-  jacobian_ = theta_2_ / (2 * theta_1_);
-  LOG_MEDIUM() << "Jacobian contribution = " << jacobian_;
+  if (transform_with_jacobian_) {
+    jacobian_ = -log(theta_2_ / (2 * theta_1_));
+    LOG_MEDIUM() << "Jacobian: " << jacobian_ << " current value " << current_untransformed_value_;
+  } else
+    jacobian_ = 0.0;
   return jacobian_;
 }
 

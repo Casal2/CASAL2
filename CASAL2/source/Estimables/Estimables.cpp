@@ -95,10 +95,10 @@ void Estimables::LoadValues(unsigned index) {
     vector<Estimate*> estimates = model_->managers()->estimate()->GetIsEstimated();
     for (auto estimate : estimates) {
       if (estimable_values_.find(estimate->parameter()) == estimable_values_.end())
-        LOG_FATAL() << "The estimate " << estimate->parameter() << " has not been found in the input configuration file";
+        LOG_FATAL() << "The estimate " << estimate->parameter() << " was not found in the input configuration file";
     }
     if (estimates.size() != estimable_values_.size())
-      LOG_FATAL() << "The estimate value file does not have the correct number of estimables defined. Expected " << estimates.size() << ", parsed " << estimable_values_.size();
+      LOG_FATAL() << "The free parameters file does not have the correct number of estimables defined. Expected " << estimates.size() << ", parsed " << estimable_values_.size();
   }
 
   unsigned estimate_count = 0;
@@ -116,12 +116,12 @@ void Estimables::LoadValues(unsigned index) {
     }
   }
 
-  LOG_INFO() << "Estimable parameters were loaded from the free parameter file: " << model_->global_configuration().estimable_value_file();
+  LOG_INFO() << "Estimable parameters were loaded from the free parameter file: " << model_->global_configuration().get_free_parameter_input_file();
 
   if (model_->global_configuration().force_overwrite_of_addressables()) {
     int AdditionalAddressables = estimable_values_.size() - estimate_count;
     LOG_IMPORTANT() << AdditionalAddressables
-                    << " additional non-estimated addressable parameters were found in the free parameter file: " << model_->global_configuration().estimable_value_file();
+                    << " additional non-estimated addressable parameters were found in the free parameter file: " << model_->global_configuration().get_free_parameter_input_file();
   }
 }
 

@@ -35,18 +35,17 @@ MPD::MPD() {
  * Execute this report
  */
 void MPD::DoExecute(shared_ptr<Model> model) {
-  cache_ << "* MPD\n";
-
+  cache_ << ReportHeader(type_, label_);
   /**
    * Print our Estimate Values
    */
   cache_ << "estimate_values:\n";
   auto estimates = model->managers()->estimate()->GetIsEstimated();
   for (auto estimate : estimates) cache_ << estimate->parameter() << " ";
-  cache_ << "\n";
+  cache_ << REPORT_EOL;
 
   for (auto estimate : estimates) cache_ << AS_DOUBLE(estimate->value()) << " ";
-  cache_ << "\n";
+  cache_ << REPORT_EOL;
 
   /**
    * Print our covariance matrix
@@ -55,7 +54,7 @@ void MPD::DoExecute(shared_ptr<Model> model) {
   auto covariance_matrix = model->managers()->minimiser()->active_minimiser()->covariance_matrix();
   for (unsigned i = 0; i < covariance_matrix.size1(); ++i) {
     for (unsigned j = 0; j < covariance_matrix.size2(); ++j) cache_ << covariance_matrix(i, j) << " ";
-    cache_ << "\n";
+    cache_ << REPORT_EOL;
   }
 
   ready_for_writing_ = true;

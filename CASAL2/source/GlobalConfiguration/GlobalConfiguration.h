@@ -69,19 +69,29 @@ public:
   string object_to_query() const { return options_.query_object_; }
 
   // Estimation options
-  bool     create_mpd_file() const { return options_.create_mpd_file_; }
-  string   append_mpd_file() const { return options_.mpd_output_append_; }
-  string   get_mpd_file_name() const { return options_.mpd_file_name_; }
-  void     set_mpd_file_name(const string& value) { options_.mpd_file_name_ = value; }
+  bool   create_mpd_output_file() const { return options_.create_mpd_output_file_; }
+  string get_mpd_output_file() const { return options_.mpd_output_file_; }
+  void   set_mpd_output_file(const string& value) { options_.mpd_output_file_ = value; }
+  string mpd_write_mode() const { return options_.mpd_write_mode_; }
+
+  string get_mpd_input_file() const { return options_.mpd_input_file_; }
+  void   set_mpd_input_file(const string& value) { options_.mpd_input_file_ = value; }
+  bool   force_overwrite_of_addressables() { return options_.force_overwrite_of_addressables_; }
+
+  bool   create_free_parameter_output_file() const { return options_.create_free_parameter_output_file_; }
+  string get_free_parameter_output_file() const { return options_.free_parameter_output_file_; }
+  void   set_free_parameter_output_file(const string& value) { options_.free_parameter_output_file_ = value; }
+  string free_parameter_write_mode() const { return options_.free_parameter_write_mode_; }
+
+  string get_free_parameter_input_file() const { return options_.free_parameter_input_file_; }
+  void   set_free_parameter_input_file(const string& value) { options_.free_parameter_input_file_ = value; }
+
   unsigned estimation_phases() const { return options_.estimation_phases_; }
-  string   estimable_value_file() const { return options_.estimable_value_input_file_; }
-  bool     force_overwrite_of_addressables() { return options_.force_overwrite_of_addressables_; }
 
   // MCMC options
   bool   resume_mcmc() const { return options_.resume_mcmc_chain_; }
   void   set_estimate_before_mcmc(bool value) { options_.estimate_before_mcmc_ = value; }
   bool   estimate_before_mcmc() const { return options_.estimate_before_mcmc_; }
-  string mcmc_mpd_file_name() const { return options_.mcmc_mpd_file_name_; }
   string mcmc_sample_file() const { return options_.mcmc_sample_file_; }
   string mcmc_objective_file() const { return options_.mcmc_objective_file_; }
   bool   estimation_is_for_mcmc() const { return options_.estimation_is_for_mcmc_; }

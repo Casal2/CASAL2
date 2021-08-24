@@ -18,7 +18,7 @@
 namespace niwa {
 
 const string TwoSex_MPD =
-    R"(* MPD
+    R"(*mpd[__mpd__]
 estimate_values:
 catchability[CPUEq].q process[Recruitment].R0 selectivity[FishingSel].a50 selectivity[FishingSel].ato95 
 1.10693e-05 2.37219e+06 10.1887 4.89097 

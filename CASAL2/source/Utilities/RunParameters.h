@@ -24,6 +24,7 @@
 #include <ctime>
 #include <string>
 
+#include "../Translations/Translations.h"
 #include "../Utilities/RunMode.h"
 
 // namespaces
@@ -44,7 +45,6 @@ struct RunParameters {
 
   // mcmc configuration options
   bool   estimate_before_mcmc_ = false;
-  string mcmc_mpd_file_name_   = "";
   bool   resume_mcmc_chain_    = false;
   string mcmc_objective_file_  = "";
   string mcmc_sample_file_     = "";
@@ -53,7 +53,6 @@ struct RunParameters {
   // estimation configuration options
   string   minimiser_                       = "";
   unsigned estimation_phases_               = 1;
-  string   estimable_value_input_file_      = "";
   bool     force_overwrite_of_addressables_ = false;
   bool     estimation_is_for_mcmc_          = false;  // are we running in estimation run mode before a MCMC
 
@@ -79,11 +78,16 @@ struct RunParameters {
   bool        print_std_report_footer_ = true;   // print bottom part of std header
   std::time_t std_report_time_         = time(0);
 
-  // unknown options
-  string output_            = "";
-  bool   create_mpd_file_   = false;
-  string mpd_output_append_ = "";
-  string mpd_file_name_     = "";
+  // MPD and free parameter file options
+  string mpd_input_file_         = "";
+  string mpd_output_file_        = "";
+  bool   create_mpd_output_file_ = false;
+  string mpd_write_mode_         = PARAM_OVERWRITE;
+
+  string free_parameter_input_file_         = "";
+  string free_parameter_output_file_        = "";
+  bool   create_free_parameter_output_file_ = false;
+  string free_parameter_write_mode_         = PARAM_OVERWRITE;
 };
 
 }  // namespace utilities

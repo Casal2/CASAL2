@@ -5,7 +5,7 @@
  * @date 25/08/2015
  * @section LICENSE
  *
- * Copyright NIWA Science ©2015 - www.niwa.co.nz
+ * Copyright NIWA Science ï¿½2015 - www.niwa.co.nz
  *
  */
 
@@ -54,12 +54,11 @@ void InitialisationPartition::DoExecute(shared_ptr<Model> model) {
   LOG_FINEST() << "min age = " << lowest << ", max age = " << highest << ", longest_length = " << longest_length;
 
   // Print the header
-  cache_ << "*" << type_ << "[" << label_ << "]"
-         << "\n";
-  cache_ << "values " << REPORT_R_DATAFRAME << "\n";
+  cache_ << ReportHeader(type_, label_);
+  cache_ << "values " << REPORT_R_DATAFRAME << REPORT_EOL;
   cache_ << "category";
   for (unsigned i = lowest; i <= highest; ++i) cache_ << " " << i;
-  cache_ << "\n";
+  cache_ << REPORT_EOL;
 
   for (auto iterator : all_view) {
     cache_ << iterator->name_;
@@ -73,7 +72,7 @@ void InitialisationPartition::DoExecute(shared_ptr<Model> model) {
                << "null";
       ++age;
     }
-    cache_ << "\n";
+    cache_ << REPORT_EOL;
   }
   ready_for_writing_ = true;
 }

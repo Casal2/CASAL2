@@ -53,7 +53,7 @@ void Manager::Build(shared_ptr<Model> model) {
     if (!ycs_values_exist) {
       for (auto process : model->managers()->process()->objects()) {
         if (process->type() == PARAM_RECRUITMENT_BEVERTON_HOLT)
-          LOG_ERROR() << process->location() << " process " << process->label() << " does not contain a @project for ycs_values, but this model is running in projection mode";
+          LOG_ERROR() << process->location() << " does not have a @project command for ycs_values";
       }
     }
   }

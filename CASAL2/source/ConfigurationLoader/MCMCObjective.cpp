@@ -5,7 +5,7 @@
  * @date 5/11/2015
  * @section LICENSE
  *
- * Copyright NIWA Science ©2015 - www.niwa.co.nz
+ * Copyright NIWA Science ï¿½2015 - www.niwa.co.nz
  *
  */
 
@@ -27,6 +27,7 @@
 #include "../Model/Managers.h"
 #include "../Model/Model.h"
 #include "../Model/Objects.h"
+#include "../Translations/Translations.h"
 #include "../Utilities/To.h"
 
 // namespaces
@@ -66,7 +67,7 @@ bool MCMCObjective::LoadFile(const string& file_name) {
    * as this is the expected line before our variance matrix
    */
   string line = "";
-  while (line != "starting_covariance_matrix {m}") {
+  while (line != ("starting_covariance_matrix " + (string)REPORT_R_MATRIX)) {
     if (!std::getline(file, line)) {
       LOG_ERROR() << "Failed to read a line from the MCMC Objective file when looking for 'covariance_matrix:'";
       return false;
@@ -74,8 +75,8 @@ bool MCMCObjective::LoadFile(const string& file_name) {
     boost::trim_right(line);
   }
 
-  if (line != "starting_covariance_matrix {m}") {
-    LOG_ERROR() << "Could not find 'starting_covariance_matrix {m}' string in MCMC objective file " << file_name;
+  if (line != ("starting_covariance_matrix " + (string)REPORT_R_MATRIX)) {
+    LOG_ERROR() << "Could not find 'starting_covariance_matrix '" << REPORT_R_MATRIX << "' string in MCMC objective file " << file_name;
     return false;
   }
 

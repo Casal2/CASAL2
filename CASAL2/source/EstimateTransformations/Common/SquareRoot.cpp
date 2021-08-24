@@ -5,7 +5,7 @@
  * @date Dec 7, 2015
  * @section LICENSE
  *
- * Copyright NIWA Science ©2015 - www.niwa.co.nz
+ * Copyright NIWA Science ï¿½2015 - www.niwa.co.nz
  *
  */
 
@@ -48,7 +48,7 @@ void SquareRoot::DoBuild() {
   if (!transform_with_jacobian_ && !estimate_->transform_for_objective()) {
     LOG_ERROR_P(PARAM_TRANSFORM_WITH_JACOBIAN) << "A transformation that does not contribute to the Jacobian was specified,"
                                                << " and the prior parameters do not refer to the transformed estimate, in the @estimate " << estimate_label_
-                                               << ". This is not advised, and may cause bias errors. Please check the User Manual for more info";
+                                               << ". This is not permitted";
   }
   if (estimate_->transform_with_jacobian_is_defined()) {
     if (transform_with_jacobian_ != estimate_->transform_with_jacobian()) {
@@ -112,12 +112,13 @@ void SquareRoot::RestoreFromObjectiveFunction() {
  * @return the Jacobian if transformed, otherwise 0.0
  */
 Double SquareRoot::GetScore() {
+  LOG_TRACE();
   if (transform_with_jacobian_) {
-    jacobian_ = -0.5 * pow(current_untransformed_value_, -1.5);
-    LOG_MEDIUM() << "jacobian: " << jacobian_;
-    return jacobian_;
+    jacobian_ = -log(-0.5 * pow(current_untransformed_value_, -1.5));
+    LOG_MEDIUM() << "Jacobian: " << jacobian_ << " current value " << current_untransformed_value_;
   } else
-    return 0.0;
+    jacobian_ = 0.0;
+  return jacobian_;
 }
 
 /**

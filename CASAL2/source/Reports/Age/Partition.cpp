@@ -61,14 +61,13 @@ void Partition::DoExecute(shared_ptr<Model> model) {
   }
 
   // Print the header
-  cache_ << "*" << type_ << "[" << label_ << "]"
-         << "\n";
-  cache_ << "year: " << model->current_year() << "\n";
-  cache_ << "time_step: " << time_step_ << "\n";
-  cache_ << "values " << REPORT_R_DATAFRAME_ROW_LABELS << "\n";
+  cache_ << ReportHeader(type_, label_);
+  cache_ << "year: " << model->current_year() << REPORT_EOL;
+  cache_ << "time_step: " << time_step_ << REPORT_EOL;
+  cache_ << "values " << REPORT_R_DATAFRAME_ROW_LABELS << REPORT_EOL;
   cache_ << "category";
   for (unsigned i = lowest; i <= highest; ++i) cache_ << " " << i;
-  cache_ << "\n";
+  cache_ << REPORT_EOL;
 
   for (auto iterator : all_view) {
     cache_ << iterator->name_;
@@ -82,7 +81,7 @@ void Partition::DoExecute(shared_ptr<Model> model) {
 
       ++age;
     }
-    cache_ << "\n";
+    cache_ << REPORT_EOL;
   }
   ready_for_writing_ = true;
 }

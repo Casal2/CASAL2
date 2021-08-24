@@ -36,6 +36,8 @@ DeltaDiff::DeltaDiff(shared_ptr<Model> model) : Minimiser(model) {
 void DeltaDiff::ExecuteThreaded(shared_ptr<ThreadPool> thread_pool) {
   LOG_TRACE();
 
+  LOG_INFO() << "Estimation with the " << PARAM_DELTADIFF << " minimiser";
+
   deltadiff::CallBack call_back(thread_pool);
 
   auto                model            = thread_pool->threads()[0]->model();

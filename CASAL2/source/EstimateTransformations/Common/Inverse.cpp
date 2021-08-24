@@ -5,7 +5,7 @@
  * @date Jan 8, 2016
  * @section LICENSE
  *
- * Copyright NIWA Science ©2016 - www.niwa.co.nz
+ * Copyright NIWA Science ï¿½2016 - www.niwa.co.nz
  *
  */
 
@@ -53,7 +53,7 @@ void Inverse::DoBuild() {
   if (!transform_with_jacobian_ && !estimate_->transform_for_objective()) {
     LOG_ERROR_P(PARAM_TRANSFORM_WITH_JACOBIAN) << "A transformation that does not contribute to the Jacobian was specified,"
                                                << " and the prior parameters do not refer to the transformed estimate, in the @estimate" << estimate_label_
-                                               << ". This is not advised, and may cause bias errors. Please check the User Manual for more info";
+                                               << ". This is not permitted";
   }
   if (estimate_->transform_with_jacobian_is_defined()) {
     if (transform_with_jacobian_ != estimate_->transform_with_jacobian()) {
@@ -113,13 +113,13 @@ void Inverse::RestoreFromObjectiveFunction() {
  * @return Jacobian if transformed with Jacobian, otherwise 0.0
  */
 Double Inverse::GetScore() {
-  //
+  LOG_TRACE()
   if (transform_with_jacobian_) {
-    jacobian_ = -1.0 * pow(current_untransformed_value_, -2);
+    jacobian_ = -log(-1.0 * pow(current_untransformed_value_, -2));
     LOG_MEDIUM() << "Jacobian: " << jacobian_ << " current value " << current_untransformed_value_;
-    return jacobian_;
   } else
-    return 0.0;
+    jacobian_ = 0.0;
+  return jacobian_;
 }
 
 /**

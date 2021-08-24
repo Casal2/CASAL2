@@ -50,15 +50,14 @@ void PartitionBiomass::DoExecute(shared_ptr<Model> model) {
 
   niwa::partition::accessors::All all_view(model);
 
-  cache_ << "*" << type_ << "[" << label_ << "]"
-         << "\n";
-  cache_ << "year: " << model->current_year() << "\n";
-  cache_ << "time_step: " << time_step_ << "\n";
-  cache_ << "values " << REPORT_R_DATAFRAME << "\n";
+  cache_ << ReportHeader(type_, label_);
+  cache_ << "year: " << model->current_year() << REPORT_EOL;
+  cache_ << "time_step: " << time_step_ << REPORT_EOL;
+  cache_ << "values " << REPORT_R_DATAFRAME << REPORT_EOL;
 
   cache_ << "category";
   for (auto length_bin : length_bins) cache_ << " " << length_bin;
-  cache_ << "\n";
+  cache_ << REPORT_EOL;
 
   cache_.precision(1);
   cache_ << std::fixed;
@@ -68,7 +67,7 @@ void PartitionBiomass::DoExecute(shared_ptr<Model> model) {
     for (unsigned i = 0; i < iterator->data_.size(); ++i) {
       cache_ << " " << std::fixed << std::setprecision(5) << AS_DOUBLE((iterator->data_[i] * iterator->mean_weight_by_time_step_length_[time_step_index][i]));
     }
-    cache_ << "\n";
+    cache_ << REPORT_EOL;
   }
 
   ready_for_writing_ = true;

@@ -746,7 +746,7 @@ void MortalityInstantaneous::FillReportCache(ostringstream& cache) {
     for (auto actual_catches : fishery.actual_catches_) cache << AS_DOUBLE(actual_catches.second) << " ";
   }
 
-  cache << "\n";
+  cache << REPORT_EOL;
 
   /*
     cache << "removals " << REPORT_R_DATAFRAME << "\n";
@@ -756,7 +756,7 @@ void MortalityInstantaneous::FillReportCache(ostringstream& cache) {
       cache << " " << age ;
       ++age;
     }
-    cache << "\n";
+    cache << REPORT_EOL;
 
     for (auto& removals : removals_by_year_category_age_) {
       LOG_FINE() << "printing year = " << removals.first;
@@ -765,7 +765,7 @@ void MortalityInstantaneous::FillReportCache(ostringstream& cache) {
         for (unsigned age_ndx = 0; age_ndx < removals.second[category_ndx].size(); ++age_ndx) {
           cache << " " << removals.second[category_ndx][age_ndx];
         }
-        cache << "\n";
+        cache << REPORT_EOL;
       }
     }
   */
@@ -786,7 +786,7 @@ void MortalityInstantaneous::FillTabularReportCache(ostringstream& cache, bool f
       for (auto catches : fishery.catches_) cache << "catch[" << fishery.label_ << "][" << catches.first << "] ";
       for (auto actual_catches : fishery.actual_catches_) cache << "actual_catches[" << fishery.label_ << "][" << actual_catches.first << "] ";
     }
-    cache << "\n";
+    cache << REPORT_EOL;
   }
 
   for (auto& fishery_iter : fisheries_) {
@@ -795,7 +795,7 @@ void MortalityInstantaneous::FillTabularReportCache(ostringstream& cache, bool f
     for (auto catches : fishery.catches_) cache << AS_DOUBLE(catches.second) << " ";
     for (auto actual_catches : fishery.actual_catches_) cache << AS_DOUBLE(actual_catches.second) << " ";
   }
-  cache << "\n";
+  cache << REPORT_EOL;
 }
 
 /**

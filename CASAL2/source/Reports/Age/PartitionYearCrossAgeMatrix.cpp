@@ -5,7 +5,7 @@
  * @date 26/08/2018
  * @section LICENSE
  *
- * Copyright NIWA Science ©2013 - www.niwa.co.nz
+ * Copyright NIWA Science ï¿½2013 - www.niwa.co.nz
  *
  * $Date: Sunday 26 August  08:19:08 NZST 2018 $
  */
@@ -61,18 +61,17 @@ void Partition_YearCrossAgeMatrix::DoPrepare(shared_ptr<Model> model) {
   }
 
   // Print the header
-  cache_ << "*" << type_ << "[" << label_ << "]"
-         << "\n";
-  cache_ << "time_step: " << time_step_ << "\n";
+  cache_ << ReportHeader(type_, label_);
+  cache_ << "time_step: " << time_step_ << REPORT_EOL;
 
   // Print the age-groups
   const char separator = ' ';
   // const int nameWidth = 6;
   const int numWidth = 13;
-  cache_ << "values " << REPORT_R_DATAFRAME << "\n";
+  cache_ << "values " << REPORT_R_DATAFRAME << REPORT_EOL;
   cache_ << std::left << std::setw(numWidth) << std::setfill(separator) << "year";  // leave an empty space in the years's column
   for (unsigned i = lowest; i <= highest; ++i) cache_ << std::left << std::setw(numWidth) << std::setfill(separator) << "AG" + std::to_string(i);
-  cache_ << "\n";
+  cache_ << REPORT_EOL;
 }
 
 /**
@@ -108,7 +107,7 @@ void Partition_YearCrossAgeMatrix::DoExecute(shared_ptr<Model> model) {
                << "null";
       ++age;
     }
-    cache_ << "\n";
+    cache_ << REPORT_EOL;
   }
 }
 

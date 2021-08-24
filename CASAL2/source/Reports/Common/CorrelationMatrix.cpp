@@ -35,12 +35,11 @@ void CorrelationMatrix::DoExecute(shared_ptr<Model> model) {
 
   correlation_matrix_ = minimiser_->correlation_matrix();
 
-  cache_ << "*" << type_ << "[" << label_ << "]"
-         << "\n";
-  cache_ << "correlation_matrix " << REPORT_R_MATRIX << "\n";
+  cache_ << ReportHeader(type_, label_);
+  cache_ << "correlation_matrix " << REPORT_R_MATRIX << REPORT_EOL;
   for (unsigned i = 0; i < correlation_matrix_.size1(); ++i) {
     for (unsigned j = 0; j < correlation_matrix_.size2(); ++j) cache_ << correlation_matrix_(i, j) << " ";
-    cache_ << "\n";
+    cache_ << REPORT_EOL;
   }
   ready_for_writing_ = true;
 }

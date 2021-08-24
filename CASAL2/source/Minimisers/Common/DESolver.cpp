@@ -57,6 +57,8 @@ void DESolver::Execute() {
   vector<double> upper_bounds;
   vector<double> start_values;
 
+  LOG_INFO() << "Estimation with the " << PARAM_DE_SOLVER << " minimiser";
+
   model_->managers()->estimate_transformation()->TransformEstimates();
   vector<Estimate*> estimates = estimate_manager.GetIsEstimated();
   for (Estimate* estimate : estimates) {

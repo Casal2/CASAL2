@@ -5,7 +5,7 @@
  * @date 03/01/2019
  * @section LICENSE
  *
- * Copyright NIWA Science ©2019 - www.niwa.co.nz
+ * Copyright NIWA Science ï¿½2019 - www.niwa.co.nz
  */
 
 // headers
@@ -37,51 +37,50 @@ void EstimationResult::DoExecute(shared_ptr<Model> model) {
     LOG_CODE_ERROR() << "minimiser == nullptr";
   }
 
-  cache_ << "*" << type_ << "[" << label_ << "]"
-         << "\n";
-  cache_ << PARAM_MINIMIZER << ": " << minimiser->label() << "\n";
-  cache_ << PARAM_TYPE << ": " << minimiser->type() << "\n";
-  cache_ << "Result " << REPORT_R_STRING_VECTOR << "\n";
+  cache_ << ReportHeader(type_, label_);
+  cache_ << PARAM_MINIMIZER << ": " << minimiser->label() << REPORT_EOL;
+  cache_ << PARAM_TYPE << ": " << minimiser->type() << REPORT_EOL;
+  cache_ << "Result " << REPORT_R_STRING_VECTOR << REPORT_EOL;
   switch (minimiser->result()) {
     case MinimiserResult::kInvalid:
-      cache_ << "Failed\n";
-      cache_ << "Message " << REPORT_R_STRING_VECTOR << "\n";
-      cache_ << "Invalid/No/Result/Code Error\n";
+      cache_ << "Failed" << REPORT_EOL;
+      cache_ << "Message " << REPORT_R_STRING_VECTOR << REPORT_EOL;
+      cache_ << "Invalid/No/Result/Code Error" << REPORT_EOL;
       break;
     case MinimiserResult::kSuccess:
-      cache_ << "Success\n";
-      cache_ << "Message " << REPORT_R_STRING_VECTOR << "\n";
-      cache_ << "Convergence\n";
+      cache_ << "Success" << REPORT_EOL;
+      cache_ << "Message " << REPORT_R_STRING_VECTOR << REPORT_EOL;
+      cache_ << "Convergence" << REPORT_EOL;
       break;
     case MinimiserResult::kStepSizeTooSmallSuccess:
-      cache_ << "Success\n";
-      cache_ << "Message " << REPORT_R_STRING_VECTOR << "\n";
-      cache_ << "Convergence, Step size too small\n";
+      cache_ << "Success" << REPORT_EOL;
+      cache_ << "Message " << REPORT_R_STRING_VECTOR << REPORT_EOL;
+      cache_ << "Convergence, Step size too small" << REPORT_EOL;
       break;
     case MinimiserResult::kError:
-      cache_ << "Failed\n";
-      cache_ << "Message " << REPORT_R_STRING_VECTOR << "\n";
-      cache_ << "Error\n";
+      cache_ << "Failed" << REPORT_EOL;
+      cache_ << "Message " << REPORT_R_STRING_VECTOR << REPORT_EOL;
+      cache_ << "Error" << REPORT_EOL;
       break;
     case MinimiserResult::kTooManyIterations:
-      cache_ << "Failed\n";
-      cache_ << "Message " << REPORT_R_STRING_VECTOR << "\n";
-      cache_ << "Too many iterations\n";
+      cache_ << "Failed" << REPORT_EOL;
+      cache_ << "Message " << REPORT_R_STRING_VECTOR << REPORT_EOL;
+      cache_ << "Too many iterations" << REPORT_EOL;
       break;
     case MinimiserResult::kTooManyEvaluations:
-      cache_ << "Failed\n";
-      cache_ << "Message " << REPORT_R_STRING_VECTOR << "\n";
-      cache_ << "Too many objective function evaluations\n";
+      cache_ << "Failed" << REPORT_EOL;
+      cache_ << "Message " << REPORT_R_STRING_VECTOR << REPORT_EOL;
+      cache_ << "Too many objective function evaluations" << REPORT_EOL;
       break;
     case MinimiserResult::kStepSizeTooSmall:
-      cache_ << "Failed\n";
-      cache_ << "Message " << REPORT_R_STRING_VECTOR << "\n";
-      cache_ << "Step size too small, no convergence\n";
+      cache_ << "Failed" << REPORT_EOL;
+      cache_ << "Message " << REPORT_R_STRING_VECTOR << REPORT_EOL;
+      cache_ << "Step size too small, no convergence" << REPORT_EOL;
       break;
     default:
-      cache_ << "Failed\n";
-      cache_ << "Message " << REPORT_R_STRING_VECTOR << "\n";
-      cache_ << "Unknown Error\n";
+      cache_ << "Failed" << REPORT_EOL;
+      cache_ << "Message " << REPORT_R_STRING_VECTOR << REPORT_EOL;
+      cache_ << "Unknown Error" << REPORT_EOL;
       break;
   }
 

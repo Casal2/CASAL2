@@ -140,7 +140,7 @@ Report* Factory::Create(shared_ptr<Model> model, const string& object_type, cons
           result = new age::InitialisationPartitionMeanWeight();
         else if (sub_type == PARAM_PARTITION)
           result = new age::Partition();
-        else if (sub_type == PARAM_REPORT_PARTITION_YEARCROSSAGEMATRIX)
+        else if (sub_type == PARAM_REPORT_PARTITION_YEARAGEMATRIX)
           result = new age::Partition_YearCrossAgeMatrix();
       }
     } else if (model->partition_type() == PartitionType::kLength) {

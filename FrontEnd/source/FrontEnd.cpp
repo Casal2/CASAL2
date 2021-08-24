@@ -37,7 +37,7 @@ typedef int(__cdecl* LOADOPTIONSPROC)(int, char**, niwa::utilities::RunParameter
 const string release_lib  = "casal2_release.dll";
 const string adolc_lib    = "casal2_adolc.dll";
 const string betadiff_lib = "casal2_betadiff.dll";
-const string test_lib = "casal2_test.dll";
+const string test_lib     = "casal2_test.dll";
 #else
 typedef int (*RUNTESTSPROC)(int, char**);
 typedef int (*RUNPROC)(int, char**, niwa::utilities::RunParameters&);
@@ -47,7 +47,7 @@ typedef int (*LOADOPTIONSPROC)(int, char**, niwa::utilities::RunParameters&);
 string release_lib  = "/usr/local/lib/casal2_release.so";
 string adolc_lib    = "/usr/local/lib/casal2_adolc.so";
 string betadiff_lib = "/usr/local/lib/casal2_betadiff.so";
-string test_lib = "/usr/local/lib/casal2_test.so";
+string test_lib     = "/usr/local/lib/casal2_test.so";
 #endif
 
 #ifdef __MINGW32__
@@ -98,7 +98,7 @@ int main(int argc, char* argv[]) {
    */
   auto release_library = LoadSharedLibrary(release_lib.c_str());
   if (release_library == nullptr) {
-    cout << "Error: Failed to load the Casal2 release Library: " << release_lib << endl;
+    cout << "[FATAL_ERROR] Failed to load the Casal2 release Library: " << release_lib << endl;
     return -1;
   }
 
@@ -108,7 +108,7 @@ int main(int argc, char* argv[]) {
   auto load_options = (LOADOPTIONSPROC)LoadLibraryFunction(release_library, "LoadOptions");
   if (load_options == nullptr) {
     CloseLibrary(release_library);
-    cout << "Failed to get the LoadOptions method address" << endl;
+    cout << "[FATAL_ERROR] Failed to get the LoadOptions method address" << endl;
     return -1;
   }
 
@@ -166,7 +166,7 @@ int main(int argc, char* argv[]) {
       RunMCMC(argc, argv, options);
       break;
     default:
-      cout << "ERROR: Invalid RunMode:" << options.run_mode_ << endl;
+      cout << "[FATAL_ERROR] Invalid RunMode:" << options.run_mode_ << endl;
       break;
   }
 
@@ -186,7 +186,7 @@ void RunConfigurationFileValidation(int argc, char* argv[], niwa::utilities::Run
    */
   auto release_library = LoadSharedLibrary(release_lib.c_str());
   if (release_library == nullptr) {
-    cout << "Error: Failed to load Casal2 release Library: " << release_lib << endl;
+    cout << "[FATAL_ERROR] Failed to load Casal2 release Library: " << release_lib << endl;
     return_code_ = -1;
     return;
   }
@@ -196,7 +196,7 @@ void RunConfigurationFileValidation(int argc, char* argv[], niwa::utilities::Run
    */
   auto main_method = (PRELOADPROC)LoadLibraryFunction(release_library, "PreParseConfigFiles");
   if (main_method == nullptr) {
-    cout << "Error: Failed to get the main method address" << endl;
+    cout << "[FATAL_ERROR] Failed to get the main method address" << endl;
     CloseLibrary(release_library);
     return_code_ = -1;
     return;
@@ -228,7 +228,7 @@ void RunBasic(int argc, char* argv[], niwa::utilities::RunParameters& options) {
    */
   auto release_library = LoadSharedLibrary(release_lib.c_str());
   if (release_library == nullptr) {
-    cout << "Error: Failed to load Casal2 release Library: " << release_lib << endl;
+    cout << "[FATAL_ERROR] Failed to load Casal2 release Library: " << release_lib << endl;
     return_code_ = -1;
     return;
   }
@@ -238,7 +238,7 @@ void RunBasic(int argc, char* argv[], niwa::utilities::RunParameters& options) {
    */
   auto main_method = (RUNPROC)LoadLibraryFunction(release_library, "Run");
   if (main_method == nullptr) {
-    cout << "Error: Failed to get the main method address" << endl;
+    cout << "[FATAL_ERROR] Failed to get the main method address" << endl;
     CloseLibrary(release_library);
     return_code_ = -1;
     return;
@@ -261,7 +261,7 @@ void RunEstimation(int argc, char* argv[], niwa::utilities::RunParameters& optio
 
   auto minimiser_library = LoadSharedLibrary(library_name);
   if (minimiser_library == nullptr) {
-    cout << "Error: Failed to load Casal2 Library: " << library_name << endl;
+    cout << "[FATAL_ERROR] Failed to load Casal2 Library: " << library_name << endl;
     return_code_ = -1;
     return;
   }
@@ -308,14 +308,14 @@ void RunMCMC(int argc, char* argv[], niwa::utilities::RunParameters& options) {
 void RunUnitTests(int argc, char* argv[], niwa::utilities::RunParameters& options) {
   auto unit_test_library = LoadSharedLibrary(test_lib.c_str());
   if (unit_test_library == nullptr) {
-    cout << "Error: Failed to load Casal2 Unit Test Library: " << test_lib << endl;
+    cout << "[FATAL_ERROR] Failed to load Casal2 Unit Test Library: " << test_lib << endl;
     return_code_ = -1;
     return;
   }
 
   auto unit_test_main_method = (RUNTESTSPROC)LoadLibraryFunction(unit_test_library, "RunUnitTests");
   if (unit_test_main_method == nullptr) {
-    cout << "Error: Failed to get the main method address" << endl;
+    cout << "[FATAL_ERROR] Failed to get the main method address" << endl;
     return_code_ = -1;
     CloseLibrary(unit_test_library);
     return;

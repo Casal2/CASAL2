@@ -71,8 +71,7 @@ void SumToOne::DoBuild() {
 
       if (!transform_with_jacobian_ && !estimate->transform_for_objective()) {
         LOG_ERROR_P(PARAM_LABEL) << "The specified transformation does not contribute to the Jacobian matrix and the prior parameters"
-                                 << " do not refer to the transformed estimate for the @estimate " << estimate_label_
-                                 << ". This is not advised as it may cause bias errors. Please consult the User Manual.";
+                                 << " do not refer to the transformed estimate for the @estimate " << estimate_label_ << ". This is not permitted";
       }
       if (estimate->transform_with_jacobian_is_defined()) {
         if (transform_with_jacobian_ != estimate->transform_with_jacobian()) {
@@ -147,9 +146,11 @@ void SumToOne::DoRestore() {
  * Calculate the Jacobian, to offset the bias of the transformation that enters the objective function
  */
 Double SumToOne::GetScore() {
-  LOG_TRACE();
-  jacobian_ = 0.0;
-  LOG_MEDIUM() << "Jacobian: " << jacobian_;
+  LOG_TRACE()
+  if (transform_with_jacobian_) {
+    LOG_FATAL() << "Jacobian is not available for the sum to one transformation";
+  } else
+    jacobian_ = 0.0;
   return jacobian_;
 }
 

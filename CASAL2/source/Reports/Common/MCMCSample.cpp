@@ -45,10 +45,10 @@ void MCMCSample::DoBuild(shared_ptr<Model> model) {
  */
 void MCMCSample::DoPrepare(shared_ptr<Model> model) {
   if (!model->global_configuration().resume_mcmc()) {
-    cache_ << "*mcmc_sample[mcmc]\n";
+    cache_ << ReportHeader(type_, label_);
     auto estimates = model->managers()->estimate()->GetIsEstimated();
     for (unsigned i = 0; i < estimates.size() - 1; ++i) cache_ << estimates[i]->parameter() << " ";
-    cache_ << estimates[estimates.size() - 1]->parameter() << "\n";
+    cache_ << estimates[estimates.size() - 1]->parameter() << REPORT_EOL;
   }
 }
 
@@ -63,7 +63,7 @@ void MCMCSample::DoExecute(shared_ptr<Model> model) {
 
   auto     chain   = mcmc_->chain();
   unsigned element = chain.size() - 1;
-  cache_ << utilities::String::join<double>(chain[element].values_, " ") << "\n";
+  cache_ << utilities::String::join<double>(chain[element].values_, " ") << REPORT_EOL;
 
   ready_for_writing_ = true;
 }

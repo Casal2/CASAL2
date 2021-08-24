@@ -55,12 +55,11 @@ void Project::DoExecute(shared_ptr<Model> model) {
 
   LOG_FINE() << " printing report " << label_ << " of type " << project_->type();
   map<unsigned, Double>& values = project_->projected_parameters();
-  cache_ << "*" << type_ << "[" << label_ << "]"
-         << "\n";
-  cache_ << "project: " << project_label_ << "\n";
-  cache_ << "values " << REPORT_R_VECTOR << "\n";
+  cache_ << ReportHeader(type_, label_);
+  cache_ << "project: " << project_label_ << REPORT_EOL;
+  cache_ << "values " << REPORT_R_VECTOR << REPORT_EOL;
   for (auto value : values) {
-    cache_ << value.first << " " << AS_DOUBLE(value.second) << "\n";
+    cache_ << value.first << " " << AS_DOUBLE(value.second) << REPORT_EOL;
   }
 
   ready_for_writing_ = true;

@@ -4,7 +4,7 @@
  * @date 8/05/2014
  * @section LICENSE
  *
- * Copyright NIWA Science ©2014 - www.niwa.co.nz
+ * Copyright NIWA Science ï¿½2014 - www.niwa.co.nz
  *
  */
 
@@ -42,16 +42,16 @@ void SimulatedObservation::DoBuild(shared_ptr<Model> model) {
  * Execute method
  */
 void SimulatedObservation::DoExecute(shared_ptr<Model> model) {
-  cache_ << CONFIG_SECTION_SYMBOL << PARAM_OBSERVATION << " " << label_ << "\n";
+  cache_ << CONFIG_SECTION_SYMBOL << PARAM_OBSERVATION << " " << label_ << REPORT_EOL;
   bool                           biomass_abundance_obs = false;
   ParameterList&                 parameter_list        = observation_->parameters();
   const map<string, Parameter*>& parameters            = parameter_list.parameters();
   for (auto iter = parameters.begin(); iter != parameters.end(); ++iter) {
     if (iter->first == PARAM_LIKELIHOOD) {
       if (iter->second->values()[0] == PARAM_PSEUDO)
-        cache_ << PARAM_LIKELIHOOD << " " << parameter_list.Get(PARAM_SIMULATED_OBSERVATION)->values()[0] << "\n";
+        cache_ << PARAM_LIKELIHOOD << " " << parameter_list.Get(PARAM_SIMULATED_OBSERVATION)->values()[0] << REPORT_EOL;
       else
-        cache_ << PARAM_LIKELIHOOD << " " << iter->second->values()[0] << "\n";
+        cache_ << PARAM_LIKELIHOOD << " " << iter->second->values()[0] << REPORT_EOL;
 
       continue;
     }
@@ -70,7 +70,7 @@ void SimulatedObservation::DoExecute(shared_ptr<Model> model) {
         }
         cache_ << value << " ";
       }
-      cache_ << "\n";
+      cache_ << REPORT_EOL;
     }
   }
 
@@ -83,18 +83,18 @@ void SimulatedObservation::DoExecute(shared_ptr<Model> model) {
     for (auto iter = comparison.begin(); iter != comparison.end(); ++iter) {
       for (obs::Comparison comparison : iter->second) cache_ << comparison.observed_ << " ";
     }
-    cache_ << "\n";
+    cache_ << REPORT_EOL;
   } else {
     // proportion at age obs
-    cache_ << PARAM_TABLE << " " << PARAM_OBS << "\n";
+    cache_ << PARAM_TABLE << " " << PARAM_OBS << REPORT_EOL;
     for (auto iter = comparison.begin(); iter != comparison.end(); ++iter) {
       cache_ << iter->first << " ";
       for (obs::Comparison comparison : iter->second) {
         cache_ << comparison.observed_ << " ";
       }
-      cache_ << "\n";
+      cache_ << REPORT_EOL;
     }
-    cache_ << PARAM_END_TABLE << "\n";
+    cache_ << PARAM_END_TABLE << REPORT_EOL;
   }
 
   // Print Error values
@@ -104,20 +104,20 @@ void SimulatedObservation::DoExecute(shared_ptr<Model> model) {
     for (auto iter = comparison.begin(); iter != comparison.end(); ++iter) {
       for (obs::Comparison comparison : iter->second) cache_ << comparison.error_value_ << " ";
     }
-    cache_ << "\n";
+    cache_ << REPORT_EOL;
   } else {
     // proportion at age obs
-    cache_ << PARAM_TABLE << " " << PARAM_ERROR_VALUES << "\n";
+    cache_ << PARAM_TABLE << " " << PARAM_ERROR_VALUES << REPORT_EOL;
     for (auto iter = comparison.begin(); iter != comparison.end(); ++iter) {
       cache_ << iter->first << " ";
       for (obs::Comparison comparison : iter->second) {
         cache_ << comparison.error_value_ << " ";
       }
-      cache_ << "\n";
+      cache_ << REPORT_EOL;
     }
-    cache_ << PARAM_END_TABLE << "\n";
+    cache_ << PARAM_END_TABLE << REPORT_EOL;
   }
-  cache_ << "\n";
+  cache_ << REPORT_EOL;
   ready_for_writing_ = true;
 }
 

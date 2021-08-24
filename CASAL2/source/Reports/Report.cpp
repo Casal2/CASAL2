@@ -61,6 +61,7 @@ Report::Report() {
       .Bind<string>(PARAM_WRITE_MODE, &write_mode_, "Specify if any previous file with the same name should be overwritten, appended to, or is generated using a sequential suffix",
                     "", PARAM_OVERWRITE)
       ->set_allowed_values({PARAM_OVERWRITE, PARAM_APPEND, PARAM_INCREMENTAL_SUFFIX});
+  parameters_.Bind<string>(PARAM_FORMAT, &format_, "Report output format", "", PARAM_R)->set_allowed_values({PARAM_R, PARAM_NONE});
 }
 
 /**
@@ -81,7 +82,7 @@ void Report::Validate(shared_ptr<Model> model) {
 void Report::Build(shared_ptr<Model> model) {
   Report::lock_.lock();
   if (time_step_ != "" && !model->managers()->time_step()->GetTimeStep(time_step_))
-    LOG_ERROR_P(PARAM_TIME_STEP) << ": " << time_step_ << " could not be found. Have you defined it?";
+    LOG_ERROR_P(PARAM_TIME_STEP) << " labelled '" << time_step_ << "' could not be found. Please check it has been defined correctly";
 
   DoBuild(model);
   Report::lock_.unlock();
@@ -131,6 +132,15 @@ void Report::Finalise(shared_ptr<Model> model) {
   Report::lock_.lock();
   DoFinalise(model);
   Report::lock_.unlock();
+};
+
+/**
+ * Standard Report Header
+ */
+string Report::ReportHeader(string type, string label) {
+  string header;
+  header = string(REPORT_START) + type + string("[") + label + string("]") + (string)REPORT_EOL;
+  return (header);
 };
 
 /**
@@ -237,7 +247,7 @@ void Report::FlushCache() {
 
     LOG_MEDIUM() << "skip tags = " << skip_tags_;
     if (!skip_tags_) {
-      cache_ << CONFIG_END_REPORT << "\n";
+      cache_ << REPORT_END << "\n";
     }
     file << cache_.str();
     file.close();
@@ -247,7 +257,7 @@ void Report::FlushCache() {
   } else {
     cout << cache_.str();
     if (!skip_tags_) {
-      cout << CONFIG_END_REPORT << "\n";
+      cout << REPORT_END << "\n";
     }
 
     cout << endl;

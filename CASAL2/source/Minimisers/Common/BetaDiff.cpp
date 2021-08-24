@@ -70,6 +70,8 @@ void BetaDiff::Execute() {
   dvector upper_bounds((int)estimates.size());
   dvector start_values((int)estimates.size());
 
+  LOG_INFO() << "Estimation with the " << PARAM_BETADIFF << " minimiser";
+
   int i = 0;
   for (auto estimate : estimates) {
     ++i;

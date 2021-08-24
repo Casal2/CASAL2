@@ -30,10 +30,10 @@ CallBack::CallBack(shared_ptr<Model> model) : model_(model) {}
 
 //**********************************************************************
 // double CGammaDiffCallback::operator()(const vector<double>& Parameters)
-// Operatior() for Minimiser CallBack
+// Operator() for Minimiser CallBack
 //**********************************************************************
 adouble CallBack::operator()(const vector<adouble>& Parameters) {
-  LOG_INFO() << "ADOL-C Casal2 Callback Called";
+  LOG_MEDIUM() << "ADOL-C Casal2 Callback Called";
   // Update our Components with the New Parameters
   auto estimates = model_->managers()->estimate()->GetIsEstimated();
 

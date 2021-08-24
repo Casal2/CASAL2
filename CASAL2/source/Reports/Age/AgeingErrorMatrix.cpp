@@ -43,18 +43,16 @@ void AgeingErrorMatrix::DoExecute(shared_ptr<Model> model) {
     LOG_CODE_ERROR() << "!ageingerror: " << ageing_error_label_;
   vector<vector<Double>>& mis_matrix = ageingerror->mis_matrix();
 
-  cache_ << "*" << type_ << "[" << label_ << "]"
-         << "\n";
-  cache_ << "values " << REPORT_R_MATRIX << "\n";
+  cache_ << ReportHeader(type_, label_);
+  cache_ << "values " << REPORT_R_MATRIX << REPORT_EOL;
 
   for (unsigned i = 0; i < mis_matrix.size(); ++i) {
     for (unsigned j = 0; j < mis_matrix[i].size(); ++j) {
       cache_ << AS_DOUBLE(mis_matrix[i][j]) << " ";
       if (j == (mis_matrix[i].size() - 1))
-        cache_ << "\n";
+        cache_ << REPORT_EOL;
     }
   }
-
   ready_for_writing_ = true;
 }
 

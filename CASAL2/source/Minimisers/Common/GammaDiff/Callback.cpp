@@ -6,7 +6,7 @@
  * @date 17/04/2013
  * @section LICENSE
  *
- * Copyright NIWA Science ©2013 - www.niwa.co.nz
+ * Copyright NIWA Science ï¿½2013 - www.niwa.co.nz
  *
  * $Date: 2008-03-04 16:33:32 +1300 (Tue, 04 Mar 2008) $
  */
@@ -30,7 +30,7 @@ CallBack::CallBack(shared_ptr<Model> model) : model_(model) {}
 
 //**********************************************************************
 // double CGammaDiffCallback::operator()(const vector<double>& Parameters)
-// Operatior() for Minimiser CallBack
+// Operator() for Minimiser CallBack
 //**********************************************************************
 double CallBack::operator()(const vector<double>& Parameters) {
   // Update our Components with the New Parameters

@@ -53,19 +53,18 @@ void PartitionMeanLength::DoExecute(shared_ptr<Model> model) {
   unsigned                        time_step_index = model->managers()->time_step()->GetTimeStepIndex(time_step_);
   niwa::partition::accessors::All all_view(model);
 
-  cache_ << "*" << type_ << "[" << label_ << "]"
-         << "\n";
-  cache_ << "time_step: " << time_step_ << "\n";
+  cache_ << ReportHeader(type_, label_);
+  cache_ << "time_step: " << time_step_ << REPORT_EOL;
 
   for (auto iterator = all_view.Begin(); iterator != all_view.End(); ++iterator) {
     string category = (*iterator)->name_;
     LOG_FINEST() << "printing mean length-at-age for category " << category;
-    cache_ << category << " " << REPORT_R_LIST << "\n";
+    cache_ << category << " " << REPORT_R_LIST << REPORT_EOL;
 
-    cache_ << "mean_lengths " << REPORT_R_DATAFRAME << "\n";
+    cache_ << "mean_lengths " << REPORT_R_DATAFRAME << REPORT_EOL;
     cache_ << "year ";
     for (unsigned i = model->min_age(); i <= model->max_age(); ++i) cache_ << i << " ";
-    cache_ << "\n";
+    cache_ << REPORT_EOL;
 
     for (auto year : years_) {
       year_index = year - model->start_year();
@@ -77,13 +76,12 @@ void PartitionMeanLength::DoExecute(shared_ptr<Model> model) {
         cache_ << AS_DOUBLE(temp) << " ";
       }
 
-      cache_ << "\n";
+      cache_ << REPORT_EOL;
       LOG_FINEST() << "cached mean length";
     }
 
-    cache_ << REPORT_R_LIST_END << "\n";
+    cache_ << REPORT_R_LIST_END << REPORT_EOL;
   }
-
   ready_for_writing_ = true;
 }
 

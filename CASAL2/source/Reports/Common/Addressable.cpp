@@ -62,11 +62,10 @@ void Addressable::DoBuild(shared_ptr<Model> model) {
  * Prepare the report
  */
 void Addressable::DoPrepare(shared_ptr<Model> model) {
-  cache_ << "*" << type_ << "[" << label_ << "]"
-         << "\n";
+  cache_ << ReportHeader(type_, label_);
   cache_ << "years: ";
   for (unsigned year : years_) cache_ << std::left << std::setw(10) << year;
-  cache_ << "\n";
+  cache_ << REPORT_EOL;
   cache_ << "value: ";
 }
 
@@ -85,7 +84,7 @@ void Addressable::DoExecute(shared_ptr<Model> model) {
  * Finalise the report
  */
 void Addressable::DoFinalise(shared_ptr<Model> model) {
-  cache_ << "\n";
+  cache_ << REPORT_EOL;
   ready_for_writing_ = true;
 }
 

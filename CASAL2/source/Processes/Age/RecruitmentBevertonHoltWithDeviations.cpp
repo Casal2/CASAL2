@@ -463,7 +463,7 @@ void RecruitmentBevertonHoltWithDeviations::FillReportCache(ostringstream& cache
   for (auto iter : recruitment_values_) cache << AS_DOUBLE(iter) << " ";
   cache << "\nSSB: ";
   for (auto iter : ssb_values_) cache << AS_DOUBLE(iter) << " ";
-  cache << "\n";
+  cache << REPORT_EOL;
 }
 
 /**
@@ -492,7 +492,7 @@ void RecruitmentBevertonHoltWithDeviations::FillTabularReportCache(ostringstream
       cache << "SSB[" << ssb_year << "] ";
     }
     cache << "R0 B0 steepness ";
-    cache << "\n";
+    cache << REPORT_EOL;
   }
 
   for (auto value : ycs_values_) cache << AS_DOUBLE(value) << " ";
@@ -500,7 +500,7 @@ void RecruitmentBevertonHoltWithDeviations::FillTabularReportCache(ostringstream
   for (auto value : recruitment_values_) cache << AS_DOUBLE(value) << " ";
   for (auto value : ssb_values_) cache << AS_DOUBLE(value) << " ";
   cache << AS_DOUBLE(r0_) << " " << AS_DOUBLE(b0_) << " " << AS_DOUBLE(steepness_) << " ";
-  cache << "\n";
+  cache << REPORT_EOL;
 }
 
 } /* namespace age */

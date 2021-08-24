@@ -50,21 +50,20 @@ void Partition::DoExecute(shared_ptr<Model> model) {
   niwa::partition::accessors::All all_view(model);
   vector<Double>                  length_bins = model->length_bins();
   // Print the header
-  cache_ << "*" << type_ << "[" << label_ << "]"
-         << "\n";
-  cache_ << "year: " << model->current_year() << "\n";
-  cache_ << "time_step: " << time_step_ << "\n";
-  cache_ << "values " << REPORT_R_DATAFRAME << "\n";
+  cache_ << ReportHeader(type_, label_);
+  cache_ << "year: " << model->current_year() << REPORT_EOL;
+  cache_ << "time_step: " << time_step_ << REPORT_EOL;
+  cache_ << "values " << REPORT_R_DATAFRAME << REPORT_EOL;
   cache_ << "category";
   for (auto length_bin : length_bins) cache_ << " " << length_bin;
-  cache_ << "\n";
+  cache_ << REPORT_EOL;
 
   for (auto iterator : all_view) {
     cache_ << iterator->name_;
     for (auto value : iterator->data_) {
       cache_ << " " << std::fixed << AS_DOUBLE(value);
     }
-    cache_ << "\n";
+    cache_ << REPORT_EOL;
   }
   ready_for_writing_ = true;
 }

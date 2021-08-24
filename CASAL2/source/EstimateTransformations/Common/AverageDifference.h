@@ -30,7 +30,7 @@ public:
   void             TransformForObjectiveFunction() override final;
   void             RestoreFromObjectiveFunction() override final;
   std::set<string> GetTargetEstimates() override final;
-  Double           GetScore() override final { return jacobian_; };
+  Double           GetScore() override final;
 
 protected:
   // methods

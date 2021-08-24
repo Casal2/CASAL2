@@ -45,15 +45,14 @@ void EstimateSummary::DoExecute(shared_ptr<Model> model) {
       for (unsigned i = 0; i < covariance_matrix_.size1(); ++i) est_std_dev[i] = sqrt(covariance_matrix_(i, i));
   }
 
-  cache_ << "*" << type_ << "[" << label_ << "]"
-         << "\n";
+  cache_ << ReportHeader(type_, label_);
   unsigned est_idx = 0;
   for (Estimate* estimate : estimates) {
-    cache_ << estimate->parameter() << " " << REPORT_R_LIST << "\n";
-    cache_ << "value: " << AS_DOUBLE(estimate->value()) << "\n";
+    cache_ << estimate->parameter() << " " << REPORT_R_LIST << REPORT_EOL;
+    cache_ << "value: " << AS_DOUBLE(estimate->value()) << REPORT_EOL;
     // NOTE: this assumes that the estimated parameters and the covariance matrix are in the same order
     if (model->run_mode() == RunMode::kEstimation && minimiser_)
-      cache_ << "std_dev: " << est_std_dev[est_idx] << "\n";
+      cache_ << "std_dev: " << est_std_dev[est_idx] << REPORT_EOL;
     est_idx++;
 
     // also output label, lower_bound, upper_bound, etc.
@@ -61,9 +60,9 @@ void EstimateSummary::DoExecute(shared_ptr<Model> model) {
     for (auto iter = parameters.begin(); iter != parameters.end(); ++iter) {
       cache_ << iter->first << ": ";
       for (string parameter_value : iter->second->values()) cache_ << parameter_value << " ";
-      cache_ << "\n";
+      cache_ << REPORT_EOL;
     }
-    cache_ << REPORT_R_LIST_END << "\n\n";
+    cache_ << REPORT_R_LIST_END << REPORT_EOL << REPORT_EOL;
   }
 
   ready_for_writing_ = true;

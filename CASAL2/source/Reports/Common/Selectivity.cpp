@@ -41,8 +41,7 @@ void Selectivity::DoExecute(shared_ptr<Model> model) {
   LOG_TRACE();
   if (!selectivity_->IsSelectivityLengthBased()) {
     LOG_FINEST() << "Printing age-based selectivity";
-    cache_ << "*" << type_ << "[" << label_ << "]"
-           << "\n";
+    cache_ << ReportHeader(type_, label_);
     const map<string, Parameter*> parameters = selectivity_->parameters().parameters();
 
     for (auto iter : parameters) {
@@ -51,10 +50,10 @@ void Selectivity::DoExecute(shared_ptr<Model> model) {
 
       vector<string> values = x->current_values();
       for (string value : values) cache_ << value << " ";
-      cache_ << "\n";
+      cache_ << REPORT_EOL;
     }
 
-    cache_ << "Values " << REPORT_R_VECTOR << "\n";
+    cache_ << "Values " << REPORT_R_VECTOR << REPORT_EOL;
     for (unsigned i = model->min_age(); i <= model->max_age(); ++i) cache_ << i << " " << AS_DOUBLE(selectivity_->GetAgeResult(i, nullptr)) << "\n";
     ready_for_writing_ = true;
   }
@@ -64,9 +63,8 @@ void Selectivity::DoExecuteTabular(shared_ptr<Model> model) {
   if (!selectivity_->IsSelectivityLengthBased()) {
     if (first_run_) {
       first_run_ = false;
-      cache_ << "*" << type_ << "[" << label_ << "]"
-             << "\n";
-      cache_ << "values " << REPORT_R_DATAFRAME << "\n";
+      cache_ << "*" << type_ << "[" << label_ << "]" << REPORT_EOL;
+      cache_ << "values " << REPORT_R_DATAFRAME << REPORT_EOL;
       string age, selectivity_by_age_label;
 
       for (unsigned i = model->min_age(); i <= model->max_age(); ++i) {
@@ -75,12 +73,12 @@ void Selectivity::DoExecuteTabular(shared_ptr<Model> model) {
         selectivity_by_age_label = "selectivity[" + selectivity_->label() + "]." + age;
         cache_ << selectivity_by_age_label << " ";
       }
-      cache_ << "\n";
+      cache_ << REPORT_EOL;
     }
     for (unsigned i = model->min_age(); i <= model->max_age(); ++i) {
       cache_ << AS_DOUBLE(selectivity_->GetAgeResult(i, nullptr)) << " ";
     }
-    cache_ << "\n";
+    cache_ << REPORT_EOL;
   }
 }
 

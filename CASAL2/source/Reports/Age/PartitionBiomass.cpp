@@ -56,15 +56,14 @@ void PartitionBiomass::DoExecute(shared_ptr<Model> model) {
     if (longest_length < iterator->name_.length())
       longest_length = iterator->name_.length();
   }
-  cache_ << "*" << type_ << "[" << label_ << "]"
-         << "\n";
-  cache_ << "year: " << model->current_year() << "\n";
-  cache_ << "time_step: " << time_step_ << "\n";
-  cache_ << "values " << REPORT_R_DATAFRAME << "\n";
+  cache_ << ReportHeader(type_, label_);
+  cache_ << "year: " << model->current_year() << REPORT_EOL;
+  cache_ << "time_step: " << time_step_ << REPORT_EOL;
+  cache_ << "values " << REPORT_R_DATAFRAME << REPORT_EOL;
 
   cache_ << "category";
   for (unsigned i = lowest; i <= highest; ++i) cache_ << " " << i;
-  cache_ << "\n";
+  cache_ << REPORT_EOL;
 
   cache_.precision(1);  // TODO: Validate why this is here?
   cache_ << std::fixed;
@@ -79,7 +78,7 @@ void PartitionBiomass::DoExecute(shared_ptr<Model> model) {
         cache_ << " "
                << "null";
     }
-    cache_ << "\n";
+    cache_ << REPORT_EOL;
   }
 
   ready_for_writing_ = true;

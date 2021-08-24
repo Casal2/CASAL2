@@ -51,7 +51,7 @@ void Profile::Build() {
 
   target_         = model_->objects().GetAddressable(parameter_);
   original_value_ = *target_;
-  step_size_      = (upper_bound_ - lower_bound_) / (steps_ + 1);
+  step_size_      = (upper_bound_ - lower_bound_) / (steps_ - 1);
   LOG_MEDIUM() << "start_value for parameter: " << original_value_;
 
   /**
@@ -59,7 +59,7 @@ void Profile::Build() {
    */
   if (same_parameter_ != "") {
     if (!model_->objects().VerifyAddressableForUse(same_parameter_, addressable::kProfile, error)) {
-      LOG_FATAL_P(PARAM_SAME) << "could not be verified for use in a @profile block. Error: " << error;
+      LOG_FATAL_P(PARAM_SAME) << "could not be verified for use in the @profile block. Error: " << error;
     }
 
     same_target_         = model_->objects().GetAddressable(same_parameter_);

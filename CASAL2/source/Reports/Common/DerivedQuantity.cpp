@@ -26,30 +26,29 @@ DerivedQuantity::DerivedQuantity() {
 void DerivedQuantity::DoExecute(shared_ptr<Model> model) {
   LOG_TRACE();
   derivedquantities::Manager& manager = *model->managers()->derived_quantity();
-  cache_ << "*" << type_ << "[" << label_ << "]"
-         << "\n";
+  cache_ << ReportHeader(type_, label_);
 
   auto derived_quantities = manager.objects();
   for (auto dq : derived_quantities) {
     string label = dq->label();
-    cache_ << label << " " << REPORT_R_LIST << " \n";
-    cache_ << "type: " << dq->type() << " \n";
+    cache_ << label << " " << REPORT_R_LIST << REPORT_EOL;
+    cache_ << "type: " << dq->type() << REPORT_EOL;
     const vector<vector<Double>> init_values = dq->initialisation_values();
     for (unsigned i = 0; i < init_values.size(); ++i) {
       cache_ << "initialisation_phase[" << i + 1 << "]: ";
       Double value = init_values[i].back();
       cache_ << AS_DOUBLE(value) << " ";
-      cache_ << "\n";
+      cache_ << REPORT_EOL;
     }
 
     const map<unsigned, Double> values = dq->values();
     cache_ << "values " << REPORT_R_VECTOR << "\n";
     for (auto iter = values.begin(); iter != values.end(); ++iter) {
       Double weight = iter->second;
-      cache_ << iter->first << " " << AS_DOUBLE(weight) << "\n";
+      cache_ << iter->first << " " << AS_DOUBLE(weight) << REPORT_EOL;
     }
     // cache_ <<"\n";
-    cache_ << REPORT_R_LIST_END << "\n";
+    cache_ << REPORT_R_LIST_END << REPORT_EOL;
   }
   ready_for_writing_ = true;
 }
@@ -64,9 +63,8 @@ void DerivedQuantity::DoExecuteTabular(shared_ptr<Model> model) {
 
   if (first_run_) {
     first_run_ = false;
-    cache_ << "*" << type_ << "[" << label_ << "]"
-           << "\n";
-    cache_ << "values " << REPORT_R_DATAFRAME << "\n";
+    cache_ << "*" << type_ << "[" << label_ << "]" << REPORT_EOL;
+    cache_ << "values " << REPORT_R_DATAFRAME << REPORT_EOL;
     for (auto dq : derived_quantities) {
       const vector<vector<Double>> init_values  = dq->initialisation_values();
       const map<unsigned, Double>  values       = dq->values();
@@ -76,7 +74,7 @@ void DerivedQuantity::DoExecuteTabular(shared_ptr<Model> model) {
       }
       for (auto iter = values.begin(); iter != values.end(); ++iter) cache_ << derived_type << "[" << dq->label() << "][" << iter->first << "] ";
     }
-    cache_ << "\n";
+    cache_ << REPORT_EOL;
   }
   for (auto dq : derived_quantities) {
     string                       derived_type = dq->type();
@@ -91,7 +89,7 @@ void DerivedQuantity::DoExecuteTabular(shared_ptr<Model> model) {
       cache_ << AS_DOUBLE(weight) << " ";
     }
   }
-  cache_ << "\n";
+  cache_ << REPORT_EOL;
 }
 
 /**

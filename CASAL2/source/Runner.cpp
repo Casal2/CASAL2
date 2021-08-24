@@ -267,7 +267,7 @@ int Runner::GoWithRunMode(RunMode::Type run_mode) {
       master_model_->Start(run_mode);
       break;
     case RunMode::kProfiling:
-      LOG_INFO() << "Initiating profiling run mode";
+      LOG_INFO() << "Initiating profile run mode";
       master_model_->Start(run_mode);
       break;
     case RunMode::kProjection:
@@ -430,21 +430,23 @@ int Runner::RunMCMC() {
   if (run_parameters_.mpd_data_ != "") {
     mpd_->ParseString(run_parameters_.mpd_data_);
 
-  } else if (config.resume_mcmc() || config.mcmc_mpd_file_name() != "" || !config.estimate_before_mcmc()) {
-    string mpd_file_name = config.mcmc_mpd_file_name();
+  } else if (config.resume_mcmc() || config.get_mpd_input_file() != "" || !config.estimate_before_mcmc()) {
+    if (config.estimate_before_mcmc())
+      LOG_INFO() << "Initiating point estimate run mode before MCMC";
+
+    string mpd_file_name = config.get_mpd_input_file();
 
     if (mpd_file_name == "") {
-      LOG_FATAL() << "You must specify --mcmc-mpd-file-name=<filename> if you're resuming an MCMC chain or skipping the pre-mcmc estimation";
+      LOG_FATAL() << "You must specify the MPD file if you're resuming an MCMC or skipping the pre-MCMC estimation";
     }
 
     if (!mpd_->LoadFromDiskToMemory(mpd_file_name)) {
-      LOG_FATAL() << "Failed to load MPD Data from " << mpd_file_name << " file";
+      LOG_FATAL() << "Failed to load MPD values and covariance from " << mpd_file_name << " file";
     }
   }
 
   // TODO: Replace with call to mcmc::Manager.Resume();
-  // TODO: Do we even need resuming of MCMC chain? This is likely never used
-  // and we should support chaining MCMC algorithms
+  // TODO: Support chaining MCMC algorithms?
   if (global_configuration_.resume_mcmc()) {
     LOG_INFO() << "Resuming MCMC";
     configuration::MCMCObjective objective_loader(master_model_);
@@ -471,7 +473,7 @@ int Runner::RunMCMC() {
     if (!minimiser) {
       LOG_CODE_ERROR() << "!minimiser";
     }
-    if ((minimiser->type() == PARAM_DE_SOLVER) | (minimiser->type() == PARAM_DLIB))
+    if (minimiser->type() == PARAM_DE_SOLVER)
       LOG_ERROR() << "The minimiser type " << PARAM_DE_SOLVER
                   << " does not produce a covariance matrix and so will not be viable for an MCMC run, try one of the other minimisers.";
 

@@ -16,18 +16,16 @@
 namespace niwa {
 namespace ageingerrors {
 
+// clang-format off
 // Constructor
 OffByOne::OffByOne(shared_ptr<Model> model) : AgeingError(model) {
-  parameters_.Bind<Double>(PARAM_P1, &p1_, "The proportion misclassified as one year younger, e.g., the proportion of age k individuals that were misclassified as age (k-1)", "")
-      ->set_range(0.0, 1.0);
-  parameters_.Bind<Double>(PARAM_P2, &p2_, "The proportion misclassified as one year older, e.g., the proportion of age k individuals that were misclassified as age (k+1))", "")
-      ->set_range(0.0, 1.0);
-  parameters_
-      .Bind<unsigned>(PARAM_K, &k_, "The minimum age of animals which can be misclassified, i.e., animals of age less than k are assumed to be correctly classified", "", 0u)
-      ->set_range(0.0, 1.0);
+  parameters_.Bind<Double>(PARAM_P1, &p1_, "The proportion misclassified as one year younger, e.g., the proportion of age k individuals that were misclassified as age (k-1)", "")->set_range(0.0, 1.0, true, true);
+  parameters_.Bind<Double>(PARAM_P2, &p2_, "The proportion misclassified as one year older, e.g., the proportion of age k individuals that were misclassified as age (k+1))", "")->set_range(0.0, 1.0, true, true);
+  parameters_.Bind<unsigned>(PARAM_K, &k_, "The minimum age of animals which can be misclassified, i.e., animals of age less than k are assumed to be correctly classified", "", 0u)->set_lower_bound(0u, true);
   RegisterAsAddressable(PARAM_P1, &p1_);
   RegisterAsAddressable(PARAM_P2, &p2_);
 }
+// clang-format on
 
 /**
  * Populate any parameters,

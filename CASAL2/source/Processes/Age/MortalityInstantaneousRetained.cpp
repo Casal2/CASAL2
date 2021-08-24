@@ -873,14 +873,14 @@ void MortalityInstantaneousRetained::FillReportCache(ostringstream& cache) {
     for (auto disc_dead : fishery.discards_dead_) cache << AS_DOUBLE(disc_dead.second) << " ";
   }
 
-  cache << "\n";
+  cache << REPORT_EOL;
 
   //  // Print discard info
   //  for (auto& fishery_category : fishery_categories_) {
   //    cache << "total_discard_age_freq_" << fishery_category.fishery_label_ << "-" << fishery_category.category_label_ << " " << REPORT_R_DATAFRAME << "\nyear ";
   //    for (unsigned age = model_->min_age(); age <= model_->max_age(); ++age)
   //      cache << age << " ";
-  //    cache << "\n";
+  //    cache << REPORT_EOL;
   //    for (auto& year_values : total_discards_by_year_fishery_category_) {
   //      for (auto& fishery_values : year_values.second) {
   //        for (auto& category_values : fishery_values.second) {
@@ -892,7 +892,7 @@ void MortalityInstantaneousRetained::FillReportCache(ostringstream& cache) {
   //          }
   //        }
   //      }
-  //      cache << "\n";
+  //      cache << REPORT_EOL;
   //    }
   //  }
   //
@@ -901,7 +901,7 @@ void MortalityInstantaneousRetained::FillReportCache(ostringstream& cache) {
   //    cache << "surviving_discard_age_freq_" << fishery_category.fishery_label_ << "-" << fishery_category.category_label_ << " " << REPORT_R_DATAFRAME << "\nyear ";
   //    for (unsigned age = model_->min_age(); age <= model_->max_age(); ++age)
   //      cache << age << " ";
-  //    cache << "\n";
+  //    cache << REPORT_EOL;
   //    for (auto& year_values : surviving_discards_by_year_fishery_category_) {
   //      for (auto& fishery_values : year_values.second) {
   //        for (auto& category_values : fishery_values.second) {
@@ -913,7 +913,7 @@ void MortalityInstantaneousRetained::FillReportCache(ostringstream& cache) {
   //          }
   //        }
   //      }
-  //      cache << "\n";
+  //      cache << REPORT_EOL;
   //    }
   //  }
   //
@@ -923,7 +923,7 @@ void MortalityInstantaneousRetained::FillReportCache(ostringstream& cache) {
   //    cache << "retained_age_freq_" << fishery_category.fishery_label_ << "-" << fishery_category.category_label_ << " " << REPORT_R_DATAFRAME << "\nyear ";
   //    for (unsigned age = model_->min_age(); age <= model_->max_age(); ++age)
   //      cache << age << " ";
-  //    cache << "\n";
+  //    cache << REPORT_EOL;
   //    for (auto& year_values : removals_by_year_fishery_category_) {
   //      for (auto& fishery_values : year_values.second) {
   //        for (auto& category_values : fishery_values.second) {
@@ -935,10 +935,10 @@ void MortalityInstantaneousRetained::FillReportCache(ostringstream& cache) {
   //          }
   //        }
   //      }
-  //      cache << "\n";
+  //      cache << REPORT_EOL;
   //    }
   //  }
-  //  cache << "\n";
+  //  cache << REPORT_EOL;
 
   /*
     cache << "removals " << REPORT_R_DATAFRAME << "\n";
@@ -948,7 +948,7 @@ void MortalityInstantaneousRetained::FillReportCache(ostringstream& cache) {
       cache << " " << age ;
       ++age;
     }
-    cache << "\n";
+    cache << REPORT_EOL;
 
     for (auto& removals : removals_by_year_category_age_) {
       LOG_FINE() << "printing year = " << removals.first;
@@ -957,7 +957,7 @@ void MortalityInstantaneousRetained::FillReportCache(ostringstream& cache) {
         for (unsigned age_ndx = 0; age_ndx < removals.second[category_ndx].size(); ++age_ndx) {
           cache << " " << removals.second[category_ndx][age_ndx];
         }
-        cache << "\n";
+        cache << REPORT_EOL;
       }
     }
   */
@@ -983,7 +983,7 @@ void MortalityInstantaneousRetained::FillTabularReportCache(ostringstream& cache
       for (auto discards : fishery.discards_) cache << "\ndiscards[" << fishery.label_ << "][" << discards.first << "] ";
       for (auto disc_dead : fishery.discards_dead_) cache << "\ndiscards_dead[" << fishery.label_ << "][" << disc_dead.first << "] ";
     }
-    cache << "\n";
+    cache << REPORT_EOL;
   }
 
   for (auto& fishery_iter : fisheries_) {
@@ -997,7 +997,7 @@ void MortalityInstantaneousRetained::FillTabularReportCache(ostringstream& cache
     for (auto discards : fishery.discards_) cache << AS_DOUBLE(discards.second) << " ";
     for (auto disc_dead : fishery.discards_dead_) cache << AS_DOUBLE(disc_dead.second) << " ";
   }
-  cache << "\n";
+  cache << REPORT_EOL;
 }
 
 /**

@@ -5,7 +5,7 @@
  * @date 12/02/2013
  * @section LICENSE
  *
- * Copyright NIWA Science ©2013 - www.niwa.co.nz
+ * Copyright NIWA Science ï¿½2013 - www.niwa.co.nz
  *
  * $Date: 2008-03-04 16:33:32 +1300 (Tue, 04 Mar 2008) $
  */
@@ -34,19 +34,17 @@ void CategoryInfo::DoExecute(shared_ptr<Model> model) {
   auto           categories = model->categories();
   vector<string> names      = categories->category_names();
 
-  cache_ << "*" << label_ << " "
-         << "(" << type_ << ")"
-         << "\n";
+  cache_ << ReportHeader(type_, label_);
   for (string name : names) {
-    cache_ << name << " " << REPORT_R_LIST << "\n";
-    cache_ << "min_age: " << categories->min_age(name) << "\n";
-    cache_ << "max_age: " << categories->max_age(name) << "\n";
+    cache_ << name << " " << REPORT_R_LIST << REPORT_EOL;
+    cache_ << "min_age: " << categories->min_age(name) << REPORT_EOL;
+    cache_ << "max_age: " << categories->max_age(name) << REPORT_EOL;
 
     vector<unsigned> years = categories->years(name);
     cache_ << "years: ";
     for (unsigned year : years) cache_ << year << " ";
-    cache_ << "\n";
-    cache_ << REPORT_R_LIST_END << "\n";
+    cache_ << REPORT_EOL;
+    cache_ << REPORT_R_LIST_END << REPORT_EOL;
   }
 
   ready_for_writing_ = true;

@@ -77,13 +77,14 @@ bool MPD::LoadFromDiskToMemory(const string& file_name) {
 
   if (file_lines_.size() == 0)
     LOG_FATAL() << "File " << file_name << " was empty. Could not load any MPD data";
-  if (file_lines_[0].substr(0, 5) != "* MPD")
-    LOG_FATAL() << "The file " << file_name << " is not a valid MPD file. It should start with '* MPD' and contain the MPD point estimates and the covariance matrix";
+  if (file_lines_[0].substr(0, 4) != "*mpd")
+    LOG_FATAL() << "The file " << file_name << " is not a valid MPD file. It should start with '*mpd' and contain the MPD point estimates and the covariance matrix";
 
   file_name_ = file_name;
   file.close();
 
   ParseFile();
+  LOG_INFO() << "Loading MPD from file " << file_name;
   return true;
 }
 
@@ -108,8 +109,8 @@ void MPD::ParseFile() {
   };
 
   string line = get_next_line();
-  if (line != "* MPD")
-    LOG_FATAL() << "The file " << file_name_ << " is not a valid MPD file. It should start with '* MPD' and contain the MPD point estimates and the covariance matrix";
+  if (line.substr(0, 4) != "*mpd")
+    LOG_FATAL() << "The file " << file_name_ << " is not a valid MPD file. It should start with '*mpd' and contain the MPD point estimates and the covariance matrix";
 
   line = get_next_line();
   if (line != "estimate_values:")
@@ -181,8 +182,8 @@ void MPD::ParseFile() {
   }
 
   line = get_next_line();
-  if (line != "*end")
-    LOG_FATAL() << "The file " << file_name_ << " is not a valid MPD file. The last line must be '*end'";
+  if (line != REPORT_END)
+    LOG_FATAL() << "The file " << file_name_ << " is not a valid MPD file. The last line must be '" << REPORT_END << "'";
 }
 
 /**
@@ -198,7 +199,7 @@ void MPD::CreateMPD(shared_ptr<Model> master_model) {
     LOG_CODE_ERROR() << "No active minimiser found";
 
   ostringstream cache;
-  cache << "* MPD\n";
+  cache << "*mpd\n";
 
   /**
    * Print our Estimate Values
@@ -206,10 +207,10 @@ void MPD::CreateMPD(shared_ptr<Model> master_model) {
   cache << "estimate_values:\n";
   auto estimates = master_model->managers()->estimate()->GetIsEstimated();
   for (auto estimate : estimates) cache << estimate->parameter() << " ";
-  cache << "\n";
+  cache << REPORT_EOL;
 
   for (auto estimate : estimates) cache << AS_DOUBLE(estimate->value()) << " ";
-  cache << "\n";
+  cache << REPORT_EOL;
 
   /**
    * Print our covariance matrix
@@ -218,9 +219,9 @@ void MPD::CreateMPD(shared_ptr<Model> master_model) {
   auto covariance_matrix = master_model->managers()->minimiser()->active_minimiser()->covariance_matrix();
   for (unsigned i = 0; i < covariance_matrix.size1(); ++i) {
     for (unsigned j = 0; j < covariance_matrix.size2(); ++j) cache << covariance_matrix(i, j) << " ";
-    cache << "\n";
+    cache << REPORT_EOL;
   }
-  cache << "*end\n";
+  cache << REPORT_END << "\n";
 
   value_ = cache.str();
 }

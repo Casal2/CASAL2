@@ -87,8 +87,56 @@ void Manager::Build(shared_ptr<Model> model) {
   if (model->global_configuration().disable_all_reports())
     return;
 
+  RunMode::Type run_mode              = model->run_mode();
+  bool          exists_MCMC_sample    = false;
+  bool          exists_MCMC_objective = false;
+  bool          exists_estimate_value = false;
+
+  for (auto report : objects_) {
+    // Check that important reports exist
+    if (util::ToLowercase(report->type()) == PARAM_MCMC_SAMPLE)
+      exists_MCMC_sample = true;
+    if (util::ToLowercase(report->type()) == PARAM_MCMC_OBJECTIVE)
+      exists_MCMC_objective = true;
+    if (util::ToLowercase(report->type()) == PARAM_ESTIMATE_VALUE)
+      exists_estimate_value = true;
+  }
+  if (run_mode == RunMode::Type::kMCMC && !exists_MCMC_sample)
+    LOG_WARNING() << "You are running an MCMC but there was no " << PARAM_MCMC_SAMPLE << " report specified. This is probably an error";
+  if (run_mode == RunMode::Type::kMCMC && !exists_MCMC_objective)
+    LOG_WARNING() << "You are running an MCMC but there was no " << PARAM_MCMC_OBJECTIVE << " report specified. This is probably an error";
+  if (run_mode == RunMode::Type::kEstimation && !exists_estimate_value)
+    LOG_WARNING() << "You are running an estimation but there was no " << PARAM_ESTIMATE_VALUE << " report specified. This is probably an error";
+
+  std::map<std::string, int> count_file_names;
+  std::map<std::string, int> count_labels;
+  for (auto report : objects_) {
+    // Count duplicate file names
+    auto file_result = count_file_names.insert(std::pair<std::string, int>(report->file_name(), 1));
+    if (file_result.second == false)
+      file_result.first->second++;
+    // Count duplicate labels
+    auto label_result = count_labels.insert(std::pair<std::string, int>(report->label(), 1));
+    if (label_result.second == false)
+      label_result.first->second++;
+  }
+  // Count duplicate file names
+  for (auto& file_result : count_file_names) {
+    if (file_result.first != "" && file_result.second > 1) {
+      LOG_ERROR() << "The file name " << file_result.first << " occurs twice in the requested reports. File names can only be used once";
+      exit(-1);
+    }
+  }
+  // Count duplicate labels
+  for (auto& label_result : count_labels) {
+    if (label_result.first != "" && label_result.second > 1) {
+      LOG_ERROR() << "The label " << label_result.first << " occurs twice in the requested reports. Labels can only be used once";
+      exit(-1);
+    }
+  }
+
   LOG_FINEST() << "objects_.size(): " << objects_.size();
-  RunMode::Type run_mode = model->run_mode();
+
   for (auto report : objects_) {
     if ((RunMode::Type)(report->run_mode() & run_mode) == run_mode)
       report->Build(model);
@@ -104,7 +152,6 @@ void Manager::Build(shared_ptr<Model> model) {
       time_step_reports_[report->time_step()].push_back(report);
     }
   }
-
   has_built_ = true;
 }
 
@@ -335,7 +382,7 @@ void Manager::CreateDefaultReports() {
    * and it's running in a different thread we need to pause
    * and resume the manager thread or we'll get weird crashes.
    */
-  // If this is a new mscmc chain (not resuming)
+  // If this is a new mcmc chain (not resuming)
   // if (model_->run_mode() == RunMode::kMCMC) {
   //   if (!model_->global_configuration().resume_mcmc()) {
   //     LOG_MEDIUM() << "Configure resume default MCMC reports";
@@ -346,7 +393,7 @@ void Manager::CreateDefaultReports() {
   //     objective_report->set_block_type(PARAM_REPORT);
   //     objective_report->set_defined_file_name(__FILE__);
   //     objective_report->set_defined_line_number(__LINE__);
-  //     objective_report->parameters().Add(PARAM_LABEL, "mcmc_objective", __FILE__, __LINE__);
+  //     objective_report->parameters().Add(PARAM_LABEL, "__objective", __FILE__, __LINE__);
   //     objective_report->parameters().Add(PARAM_TYPE, PARAM_MCMC_OBJECTIVE, __FILE__, __LINE__);
   //     objective_report->parameters().Add(PARAM_FILE_NAME, "mcmc_objectives.out", __FILE__, __LINE__);
   //     objective_report->parameters().Add(PARAM_WRITE_MODE, PARAM_INCREMENTAL_SUFFIX, __FILE__, __LINE__);
@@ -358,7 +405,7 @@ void Manager::CreateDefaultReports() {
   //     sample_report->set_block_type(PARAM_REPORT);
   //     sample_report->set_defined_file_name(__FILE__);
   //     sample_report->set_defined_line_number(__LINE__);
-  //     sample_report->parameters().Add(PARAM_LABEL, "mcmc_sample", __FILE__, __LINE__);
+  //     sample_report->parameters().Add(PARAM_LABEL, "__sample", __FILE__, __LINE__);
   //     sample_report->parameters().Add(PARAM_TYPE, PARAM_MCMC_SAMPLE, __FILE__, __LINE__);
   //     sample_report->parameters().Add(PARAM_FILE_NAME, "mcmc_samples.out", __FILE__, __LINE__);
   //     sample_report->parameters().Add(PARAM_WRITE_MODE, PARAM_INCREMENTAL_SUFFIX, __FILE__, __LINE__);

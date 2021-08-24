@@ -47,27 +47,26 @@ void AgeLength::DoExecute(shared_ptr<Model> model) {
   unsigned time_steps = model->time_steps().size();
 
   // Print the header
-  cache_ << "*" << type_ << "[" << label_ << "]"
-         << "\n";
-  cache_ << "year: " << model->current_year() << "\n";
-  cache_ << "time_step: " << time_step_ << "\n";
+  cache_ << ReportHeader(type_, label_);
+  cache_ << "year: " << model->current_year() << REPORT_EOL;
+  cache_ << "time_step: " << time_step_ << REPORT_EOL;
 
   cache_ << "year time_step ";
   for (unsigned age = min_age; age <= max_age; ++age) cache_ << age << " ";
-  cache_ << "\n";
+  cache_ << REPORT_EOL;
 
   for (unsigned time_step = 0; time_step < time_steps; ++time_step) {
     cache_ << year << " " << time_step << " ";
     for (unsigned age = min_age; age <= max_age; ++age) cache_ << AS_DOUBLE(age_length->cv(year, time_step, age)) << " ";
-    cache_ << "\n";
+    cache_ << REPORT_EOL;
   }
 
-  cache_ << "\n\n";
+  cache_ << REPORT_EOL << REPORT_EOL;
 
   cache_ << "year time_step ";
   cache_ << "age  ";
   for (auto length : model->length_bins()) cache_ << "L(" << length << ") ";
-  cache_ << "\n";
+  cache_ << REPORT_EOL;
 
   unsigned start_year  = model->start_year();
   auto     age_lengths = model->partition().age_length_proportions(category_);  // map<category, vector<year, time_step, age, length, proportion>>;
@@ -79,12 +78,11 @@ void AgeLength::DoExecute(shared_ptr<Model> model) {
           for (unsigned l = 0; l < age_lengths[i][j][k].size(); ++l) {
             cache_ << AS_DOUBLE(age_lengths[i][j][k][l]) << " ";
           }
-          cache_ << "\n";
+          cache_ << REPORT_EOL;
         }
       }
     }
   }
-
   ready_for_writing_ = true;
 }
 

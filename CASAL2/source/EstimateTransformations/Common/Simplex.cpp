@@ -5,7 +5,7 @@
  * @date Jan 8, 2016
  * @section LICENSE
  *
- * Copyright NIWA Science ©2016 - www.niwa.co.nz
+ * Copyright NIWA Science ï¿½2016 - www.niwa.co.nz
  *
  */
 
@@ -60,7 +60,7 @@ void Simplex::DoBuild() {
   if (!transform_with_jacobian_ && !estimate_->transform_for_objective()) {
     LOG_ERROR_P(PARAM_TRANSFORM_WITH_JACOBIAN) << "A transformation that does not contribute to the Jacobian was specified,"
                                                << " and the prior parameters do not refer to the transformed estimate, in the @estimate" << estimate_label_
-                                               << ". This is not advised, and may cause bias errors. Please check the User Manual for more info";
+                                               << ". This is not permitted";
   }
   if (estimate_->transform_with_jacobian_is_defined()) {
     if (transform_with_jacobian_ != estimate_->transform_with_jacobian()) {
@@ -160,15 +160,20 @@ void Simplex::DoRestore() {
  *  Calculate the Jacobian, to offset the bias of the transformation that enters the objective function
  */
 Double Simplex::GetScore() {
-  jacobian_ = unit_vector_[0] * (1 - unit_vector_[0]);
-  if (unit_vector_.size() > 1) {
-    for (unsigned i = 1; i < unit_vector_.size(); ++i) {
-      LOG_MEDIUM() << "val = " << unit_vector_[i];
-      jacobian_ *= unit_vector_[i] * (1 - unit_vector_[i]);
+  LOG_TRACE();
+  if (transform_with_jacobian_) {
+    jacobian_ = unit_vector_[0] * (1 - unit_vector_[0]);
+    if (unit_vector_.size() > 1) {
+      for (unsigned i = 1; i < unit_vector_.size(); ++i) {
+        LOG_MEDIUM() << "val = " << unit_vector_[i];
+        jacobian_ *= unit_vector_[i] * (1 - unit_vector_[i]);
+      }
     }
-  }
-  jacobian_ *= (total_ - sub_total_);
-  LOG_MEDIUM() << "Jacobian: " << jacobian_;
+    jacobian_ *= (total_ - sub_total_);
+    LOG_MEDIUM() << "Jacobian: " << jacobian_ << " current value " << current_untransformed_value_;
+    jacobian_ = -log(jacobian_);
+  } else
+    jacobian_ = 0.0;
   return jacobian_;
 }
 
