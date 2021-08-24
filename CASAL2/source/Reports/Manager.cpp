@@ -101,12 +101,15 @@ void Manager::Build(shared_ptr<Model> model) {
     if (util::ToLowercase(report->type()) == PARAM_ESTIMATE_VALUE)
       exists_estimate_value = true;
   }
+
+#ifndef TESTMODE
   if (run_mode == RunMode::Type::kMCMC && !exists_MCMC_sample)
     LOG_WARNING() << "You are running an MCMC but there was no " << PARAM_MCMC_SAMPLE << " report specified. This is probably an error";
   if (run_mode == RunMode::Type::kMCMC && !exists_MCMC_objective)
     LOG_WARNING() << "You are running an MCMC but there was no " << PARAM_MCMC_OBJECTIVE << " report specified. This is probably an error";
   if (run_mode == RunMode::Type::kEstimation && !exists_estimate_value)
     LOG_WARNING() << "You are running an estimation but there was no " << PARAM_ESTIMATE_VALUE << " report specified. This is probably an error";
+#endif
 
   std::map<std::string, int> count_file_names;
   std::map<std::string, int> count_labels;
