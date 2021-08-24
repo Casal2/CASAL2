@@ -1,7 +1,0 @@
-[
-{
-  "directory": "D:/Workspaces/NIWAFisheriesModelling/CASAL2/FrontEnd/build",
-  "command": "D:\\Programming\\TDM-GCC-64\\bin\\x86_64-w64-mingw32-g++.exe  @CMakeFiles/casal2.dir/includes_CXX.rsp -g -O2 -g0 -Wall -Werror -fmessage-length=0 -Wno-unused-local-typedefs -D__GNUDOS__ -std=c++11 -o CMakeFiles\\casal2.dir\\source\\FrontEnd.cpp.obj -c D:\\Workspaces\\NIWAFisheriesModelling\\CASAL2\\FrontEnd\\source\\FrontEnd.cpp",
-  "file": "D:/Workspaces/NIWAFisheriesModelling/CASAL2/FrontEnd/source/FrontEnd.cpp"
-}
-]
