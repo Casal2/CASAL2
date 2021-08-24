@@ -1,0 +1,3 @@
+"C:\Program Files\CMake\bin\cmake.exe" -E rm -f CMakeFiles\casal2.dir/objects.a
+D:\Programming\TDM-GCC-64\bin\ar.exe cr CMakeFiles\casal2.dir/objects.a @CMakeFiles\casal2.dir\objects1.rsp
+D:\Programming\TDM-GCC-64\bin\x86_64-w64-mingw32-g++.exe -g -static D:/Workspaces/NIWAFisheriesModelling/CASAL2/FrontEnd/icon.o -Wl,--whole-archive CMakeFiles\casal2.dir/objects.a -Wl,--no-whole-archive -o casal2.exe -Wl,--out-implib,libcasal2.dll.a -Wl,--major-image-version,0,--minor-image-version,0 @CMakeFiles\casal2.dir\linklibs.rsp

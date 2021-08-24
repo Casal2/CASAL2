@@ -1,0 +1,8 @@
+*estimation_result[minimiser_result]
+minimiser: gammadiff
+type: deltadiff
+Result {string}
+Success
+Message {string}
+Convergence
+*end

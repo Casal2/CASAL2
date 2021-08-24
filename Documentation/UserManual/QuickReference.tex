@@ -3,9 +3,9 @@
 
 \defComLab{Additional\_Prior}{Define an object of type \emph{Additional\_Prior}}
 
-\defSub{parameter}{The name of the parameter to generate additional prior on}
 \defSub{label}{The label for the additional prior}
-\defSub{type}{The type of additional prior}
+\defSub{parameter}{The name of the parameter for the additional prior}
+\defSub{type}{The additional prior type}
 
 \commandlabsubarg{Additional\_Prior}{type}{Beta}
 
@@ -22,7 +22,7 @@
 \commandlabsubarg{Additional\_Prior}{type}{Log\_Normal}
 
 \defSub{mu}{The lognormal prior mean (mu) parameter}
-\defSub{cv}{The lognormal variance (cv) parameter}
+\defSub{cv}{The lognormal CV parameter}
 
 \commandlabsubarg{Additional\_Prior}{type}{Uniform\_Log}
 
@@ -59,8 +59,8 @@
 
 \commandlabsubarg{Ageing\_Error}{type}{Off\_By\_One}
 
-\defSub{p1}{The proportion misclassified as one year younger, e.g., the proportion of age 3 individuals that were misclassified as age 2}
-\defSub{p2}{The proportion misclassified as one year older, e.g., the proportion of age 3 individuals that were misclassified as age 4}
+\defSub{p1}{The proportion misclassified as one year younger, e.g., the proportion of age k individuals that were misclassified as age (k-1)}
+\defSub{p2}{The proportion misclassified as one year older, e.g., the proportion of age k individuals that were misclassified as age (k+1))}
 \defSub{k}{The minimum age of animals which can be misclassified, i.e., animals of age less than k are assumed to be correctly classified}
 
 \defComLab{Age\_Length}{Define an object of type \emph{Age\_Length}}
@@ -145,16 +145,16 @@
 \defSub{format}{The format that the category names use}
 \defSub{names}{The names of the categories}
 \defSub{age\_lengths}{The age-length relationship labels for each category}
-\defSub{age\_weight}{The age-weight relationships labelsfor each category}
+\defSub{age\_weight}{The age-weight relationships labels for each category}
 
 \defComLab{Derived\_Quantity}{Define an object of type \emph{Derived\_Quantity}}
 
 \defSub{label}{The label of the derived quantity}
 \defSub{type}{The type of derived quantity}
-\defSub{time\_step}{The time step in which to calculate the derived quantity after}
+\defSub{time\_step}{The time step in which to calculate the derived quantity}
 \defSub{categories}{The list of categories to use when calculating the derived quantity}
-\defSub{selectivities}{A list of one selectivity}
-\defSub{time\_step\_proportion}{The proportion through the mortality block of the time step when calculated}
+\defSub{selectivities}{The list of selectivities to use when calculating the derived quantity}
+\defSub{time\_step\_proportion}{The proportion through the mortality block of the time step when the derived quantity is calculated}
 \defSub{time\_step\_proportion\_method}{The method for interpolating for the proportion through the mortality block}
 \defSub{values}{}
 
@@ -163,16 +163,16 @@
 
 \commandlabsubarg{Derived\_Quantity}{type}{Biomass}
 
-\defSub{age\_weight\_labels}{The labels for the @age\_weight block which corresponds to each category, to use that weight calculation method for biomass calculations}
+\defSub{age\_weight\_labels}{The labels for the age-weights that correspond to each category for the biomass calculation}
 
 \defComLab{Estimate}{Define an object of type \emph{Estimate}}
 
 \defSub{label}{The label of the estimate}
-\defSub{type}{The prior type for the estimate}
-\defSub{parameter}{The name of the parameter to estimate in the model}
+\defSub{type}{The type of prior for the estimate}
+\defSub{parameter}{The name of the parameter to estimate}
 \defSub{lower\_bound}{The lower bound for the parameter}
 \defSub{upper\_bound}{The upper bound for the parameter}
-\defSub{same}{List of parameters that are constrained to have the same value as this parameter}
+\defSub{same}{List of other parameters that are constrained to have the same value as this parameter}
 \defSub{estimation\_phase}{The first estimation phase to allow this to be estimated}
 \defSub{mcmc}{Indicates if this parameter is estimated at the point estimate but fixed during MCMC estimation run}
 \defSub{transformation}{Type of simple transformation to apply to estimate}
@@ -799,10 +799,12 @@
 \defSub{to}{The categories to transition to}
 \defSub{penalty}{The penalty label}
 \defSub{u\_max}{The maximum exploitation rate ($U\_{max}$)}
+\defSub{years}{The years to execute the transition in}
 \defSub{initial\_mortality}{}
 \defSub{initial\_mortality\_selectivity}{}
 \defSub{selectivities}{}
 \defSub{n}{}
+\defSub{tolerance}{Tolerance for checking the proportions to move in each year}
 
 \commandlabsubarg{Process}{type}{Tag\_Loss}
 
@@ -880,6 +882,7 @@
 \defSub{type}{The report type}
 \defSub{file\_name}{The file name. If not supplied, then output is directed to the standard out}
 \defSub{write\_mode}{Specify if any previous file with the same name should be overwritten, appended to, or is generated using a sequential suffix}
+\defSub{format}{Report output format}
 
 \commandlabsubarg{Report}{type}{Addressable}
 

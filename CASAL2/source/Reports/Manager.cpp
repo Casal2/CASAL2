@@ -104,6 +104,10 @@ void Manager::Build(shared_ptr<Model> model) {
       exists_estimate_value = true;
   }
 
+<<<<<<< HEAD
+=======
+#ifndef TESTMODE
+>>>>>>> ea1332f3f303f1495f800e8e6d2ef636be458f8a
   if (run_mode == RunMode::Type::kMCMC && !exists_MCMC_sample)
     LOG_WARNING() << "You are running an MCMC but there was no " << PARAM_MCMC_SAMPLE << " report specified. This is probably an error";
   if (run_mode == RunMode::Type::kMCMC && !exists_MCMC_objective)

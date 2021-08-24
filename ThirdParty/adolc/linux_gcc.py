@@ -33,7 +33,7 @@ class Builder:
     # Build
     os.chdir(fileName)
     print('-- Configuring - check casal2_configure.log')
-    os.system("./configure --disable-shared --enable-static 1> casal2_configure.log 2>&1")
+    os.system("./configure --disable-shared --enable-static --with-pic 1> casal2_configure.log 2>&1")
     print('-- Building - check casal2_build.log')
     os.system("make 1> casal2_build.log 2>&1")
 
