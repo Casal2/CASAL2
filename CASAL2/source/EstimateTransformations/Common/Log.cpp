@@ -119,7 +119,7 @@ void Log::RestoreFromObjectiveFunction() {
 Double Log::GetScore() {
   LOG_TRACE()
   if (transform_with_jacobian_) {
-    jacobian_ = -log(1.0 / current_untransformed_value_);
+    jacobian_ = -log(1 /current_untransformed_value_));
     LOG_MEDIUM() << "Jacobian: " << jacobian_ << " current value " << current_untransformed_value_;
   } else
     jacobian_ = 0.0;

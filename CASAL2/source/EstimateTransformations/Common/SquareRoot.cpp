@@ -114,7 +114,7 @@ void SquareRoot::RestoreFromObjectiveFunction() {
 Double SquareRoot::GetScore() {
   LOG_TRACE();
   if (transform_with_jacobian_) {
-    jacobian_ = -log(-0.5 * pow(current_untransformed_value_, -1.5));
+    jacobian_ = -log(1.0 / sqrt(current_untransformed_value_));
     LOG_MEDIUM() << "Jacobian: " << jacobian_ << " current value " << current_untransformed_value_;
   } else
     jacobian_ = 0.0;

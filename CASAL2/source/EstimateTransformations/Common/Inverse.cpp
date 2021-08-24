@@ -115,7 +115,7 @@ void Inverse::RestoreFromObjectiveFunction() {
 Double Inverse::GetScore() {
   LOG_TRACE()
   if (transform_with_jacobian_) {
-    jacobian_ = -log(-1.0 * pow(current_untransformed_value_, -2));
+    jacobian_ = -log(pow(current_untransformed_value_, -2));
     LOG_MEDIUM() << "Jacobian: " << jacobian_ << " current value " << current_untransformed_value_;
   } else
     jacobian_ = 0.0;
