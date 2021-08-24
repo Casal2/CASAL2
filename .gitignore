@@ -44,3 +44,7 @@ casal2.code-workspace
 /CASAL2/.project
 BuildSystem/*.log
 BuildSystem/CMakeCache.txt
+BuildSystem/Casal2
+CASAL2/Build
+R-libraries/Version.R
+CASAL2/.settings
