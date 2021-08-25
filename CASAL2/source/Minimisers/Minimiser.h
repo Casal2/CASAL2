@@ -75,8 +75,8 @@ public:
 
 protected:
   // Members
-  shared_ptr<Model>     model_ = nullptr;
-  bool                  active_;
+  shared_ptr<Model>     model_   = nullptr;
+  bool                  active_  = false;
   double**              hessian_ = nullptr;
   unsigned              hessian_size_;
   bool                  build_covariance_;
