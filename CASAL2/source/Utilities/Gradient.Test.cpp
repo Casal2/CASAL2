@@ -56,8 +56,8 @@ TEST_F(GradientThreadedModel, Calc_With_1_ModelThread) {
   vector<double> estimate_values;
   vector<double> lower_bounds;
   vector<double> upper_bounds;
-  double         step_size;
-  double         last_score;
+  double         step_size  = 0.0;
+  double         last_score = 0.0;
 
   // Do a simple check
   last_score      = 1993.8041770617783186;

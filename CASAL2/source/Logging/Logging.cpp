@@ -114,7 +114,7 @@ void Logging::Flush(niwa::logger::Record& record) {
       cerr << "NOTE: " << errors_.size() << " non-fatal errors were also recorded\n";
 
     cerr.flush();
-    throw utilities::StopException();
+    exit(-1);
   }
 
   if (static_cast<int>(record.severity()) >= static_cast<int>(current_log_level_)) {

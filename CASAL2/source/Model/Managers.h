@@ -70,6 +70,7 @@ class Managers {
 public:
   Managers() = delete;
   virtual ~Managers();
+  void create_test_managers();
 
   // accessors
   virtual additionalpriors::Manager*        additional_prior() { CHECK_AND_RETURN(additional_prior_); }

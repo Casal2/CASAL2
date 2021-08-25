@@ -67,6 +67,7 @@ class HamiltonianMonteCarloThreadedModel : public testfixtures::BaseThreaded {};
 TEST_F(HamiltonianMonteCarloThreadedModel, Five_Iteration_With_TwoSex) {
   string ammended_definition = testcases::test_cases_two_sex_model_population;
   boost::replace_all(ammended_definition, "numerical_differences", "deltadiff");
+  boost::replace_all(ammended_definition, "threads 1", "threads 4");
   AddConfigurationLine(ammended_definition, __FILE__, __LINE__);
 
   string mcmc_definition = R"(

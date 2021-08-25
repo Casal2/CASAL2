@@ -81,14 +81,19 @@ Managers::Managers(shared_ptr<Model> model) {
   simulate_                = new simulates::Manager();
   time_step_               = new timesteps::Manager();
   time_varying_            = new timevarying::Manager();
+}
 
-  LOG_TRACE();
-#ifdef TESTMODE
+/**
+ * @brief This method will create some test
+ * managers that won't exist because this class was instantiated via
+ * the Model class and not the Runner class. This is a legacy
+ * requirement for unit tests that haven't been migrated to the Runner
+ * way of life.
+ */
+void Managers::create_test_managers() {
   minimiser_.reset(new minimisers::Manager());
   report_.reset(new reports::Manager());
   mcmc_.reset(new mcmcs::Manager());
-#endif
-  LOG_TRACE();
 }
 
 /**
@@ -170,7 +175,7 @@ void Managers::Validate() {
   estimate_transformation_->Validate();
   length_weight_->Validate();
   likelihood_->Validate();
-  if (run_mode == RunMode::kMCMC || run_mode == RunMode::kTesting)
+  if (mcmc_ && (run_mode == RunMode::kMCMC || run_mode == RunMode::kTesting))
     mcmc_->Validate(model_);
   if (minimiser_)
     minimiser_->Validate(model_);
@@ -206,7 +211,7 @@ void Managers::Build() {
   derived_quantity_->Build();
   length_weight_->Build();
   likelihood_->Build();
-  if (run_mode == RunMode::kMCMC || run_mode == RunMode::kTesting)
+  if (mcmc_ && (run_mode == RunMode::kMCMC || run_mode == RunMode::kTesting))
     mcmc_->Build();
   if (run_mode == RunMode::kEstimation || run_mode == RunMode::kMCMC || run_mode == RunMode::kTesting)
     minimiser_->Build();

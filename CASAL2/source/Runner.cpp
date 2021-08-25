@@ -45,12 +45,22 @@ using std::shared_ptr;
 using std::string;
 
 /**
+ * @brief Construct a new Runner:: Runner object
+ *
+ */
+Runner::Runner() {
+  reports_manager_.reset(new reports::Manager());
+}
+
+/**
  * @brief Destroy the Runner:: Runner object
- * 
+ *
  */
 Runner::~Runner() {
-  reports_manager_->StopThread();
-  report_thread_->join();
+  if (reports_manager_)
+    reports_manager_->StopThread();
+  if (report_thread_ && report_thread_->joinable())
+    report_thread_->join();
 }
 
 /**
@@ -188,7 +198,6 @@ int Runner::GoWithRunMode(RunMode::Type run_mode) {
   master_model_->set_global_configuration(&global_configuration_);
 
   // Create the managers that are shared across threads
-  reports_manager_ = shared_ptr<reports::Manager>(new reports::Manager());
   master_model_->managers()->set_reports(reports_manager_);
   auto minimiser_manager = shared_ptr<minimisers::Manager>(new minimisers::Manager());
   master_model_->managers()->set_minimiser(minimiser_manager);
@@ -234,8 +243,9 @@ int Runner::GoWithRunMode(RunMode::Type run_mode) {
   // Put the master model back into the list at the start
   //	model_list[0]->flag_primary_thread_model();
   model_list.insert(model_list.begin(), master_model_);
-  report_thread_.reset(new std::thread([this]() { this->reports_manager_->FlushReports(); }));
-  
+  if (print_reports_)
+    report_thread_.reset(new std::thread([this]() { this->reports_manager_->FlushReports(); }));
+
   /**
    * Prep each of the models for being run
    * i.e. Validate and Build them
@@ -290,8 +300,10 @@ int Runner::GoWithRunMode(RunMode::Type run_mode) {
   Finalize();
 
   // finish report thread
-  reports_manager_->StopThread();
-  report_thread_->join();
+  if (reports_manager_)
+    reports_manager_->StopThread();
+  if (report_thread_)
+    report_thread_->join();
 
   // check for any errors
   if (logging.errors().size() > 0) {
@@ -524,8 +536,6 @@ shared_ptr<Model> Runner::model() {
  * @return shared_ptr<ThreadPool>
  */
 shared_ptr<ThreadPool> Runner::thread_pool() {
-  if (!thread_pool_)
-    LOG_CODE_ERROR() << "!thread_pool_";
   return thread_pool_;
 }
 

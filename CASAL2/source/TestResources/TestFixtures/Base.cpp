@@ -26,6 +26,7 @@ namespace testfixtures {
 void Base::SetUp() {
   model_.reset(new model::Age());
   model_->set_global_configuration(&global_config_);
+  model_->managers()->create_test_managers();
 }
 
 /**

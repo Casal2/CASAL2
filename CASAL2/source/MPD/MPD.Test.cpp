@@ -50,6 +50,7 @@ TEST_F(InternalEmptyModel, MPDLoader_TwoSex_MPD) {
 
   string mcmc_definition = R"(
     @mcmc my_mcmc
+    type random_walk
     length 1
   )";
   AddConfigurationLine(mcmc_definition, __FILE__, 71);
@@ -58,6 +59,9 @@ TEST_F(InternalEmptyModel, MPDLoader_TwoSex_MPD) {
   model_->global_configuration().set_estimate_before_mcmc(true);
   model_->Start(RunMode::kTesting);
 
+  ASSERT_EQ(1u, model_->managers()->mcmc()->size());
+
+  model_->set_run_mode(RunMode::kMCMC);
   MockMPD mpd(model_);
   mpd.ParseString(TwoSex_MPD);
   mpd.ParseFile();

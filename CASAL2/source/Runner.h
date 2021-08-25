@@ -25,18 +25,18 @@ class Runner {
   friend class BaseThread;  // Unit test base model
 public:
   // methods
-  Runner()          = default;
+  Runner();
   virtual ~Runner();
-
   bool StartUp();
   bool Validate();
   bool Build();
   bool Verify();
   bool Execute();
   bool Finalize();
+  int  Go();
+  int  GoWithRunMode(RunMode::Type run_mode);
 
-  int                      Go();
-  int                      GoWithRunMode(RunMode::Type run_mode);
+  // accessors and mutators
   void                     set_run_parameters(utilities::RunParameters& options) { run_parameters_ = options; }
   utilities::RunParameters run_parameters() const { return run_parameters_; }
   GlobalConfiguration&     global_configuration() { return global_configuration_; }
@@ -44,6 +44,7 @@ public:
   shared_ptr<Model>        model();
   shared_ptr<ThreadPool>   thread_pool();
   shared_ptr<MPD>          mpd();
+  void                     set_print_reports(bool value) { print_reports_ = value; }
 
 private:
   // methods
@@ -59,8 +60,13 @@ private:
   shared_ptr<Model>        master_model_;
   shared_ptr<ThreadPool>   thread_pool_;
   shared_ptr<MPD>          mpd_;
-  shared_ptr<std::thread>  report_thread_;
-  shared_ptr<reports::Manager> reports_manager_;
+  bool                     print_reports_ = true;  // we can disable reports all together for things like unit tests
+
+  // Objects that only have 1 instance across all threads
+  shared_ptr<minimisers::Manager> minimiser_manager_;
+  shared_ptr<mcmcs::Manager>      mcmc_manager_;
+  shared_ptr<std::thread>         report_thread_;
+  shared_ptr<reports::Manager>    reports_manager_;
 };
 
 } /* namespace niwa */

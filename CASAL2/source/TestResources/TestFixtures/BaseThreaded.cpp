@@ -51,6 +51,7 @@ void BaseThreaded::SetUp() {
   configuration_file_.clear();
 
   runner_.reset(new niwa::Runner());
+  runner_->set_print_reports(false);
 
   utilities::RandomNumberGenerator& rng = utilities::RandomNumberGenerator::Instance();
   rng.Reset(666);
@@ -75,6 +76,8 @@ void BaseThreaded::TearDown() {
   // sure it's done cleanly
   if (runner_ != nullptr && runner_->thread_pool())
     runner_->thread_pool()->TerminateAll();
+
+  runner_.reset();
 }
 
 /**
