@@ -1,0 +1,14 @@
+Casal2
+Call: casal2 -r 
+Version: v21.08 (2021-08-20)
+Copyright (c) 2017-2021, NIWA (www.niwa.co.nz)
+Date: Wed Aug 25 19:51:45 2021
+
+Environment: machine:HP1040, user:alist, os:Windows_NT, pid:9200
+
+
+
+ERROR: Printing 1 of 1 errors
+
+#1: At line 14 in config/population.csl2 the parameter 'initialisation_phases' (Mispelt_option) has not been defined. Please ensure you have defined it
+

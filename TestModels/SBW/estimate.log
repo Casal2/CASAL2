@@ -1,14 +1,17 @@
 Casal2
 Call: C:\Projects\Software\CASAL2-NIWA\BuildSystem/bin/windows_gcc/release_betadiff/casal2.exe -e -g 20 
-Version: v1.2 (2021-08-14)
+Version: v21.08 (2021-08-25)
 Copyright (c) 2017-2021, NIWA (www.niwa.co.nz)
-Environment: machine:HP1040, user:alist, os:Windows_NT, pid:11852
+Date: Wed Aug 25 22:13:02 2021
 
+Environment: machine:HP1040, user:alist, os:Windows_NT, pid:17384
 
-Casal2 has found warnings:
 
-Estimates were removed because of matching lower and upper bounds. Originally had 70 estimates, now have 68
 
+[INFO] Setting the random number seed to 20
+[WARNING] Estimates were removed because of matching lower and upper bounds. Originally had 70 estimates, now have 68
+[INFO] Initiating point estimate run mode
+
 ADOL-C message: exponent of zero/negative basis deactivated
 
 ADOL-C message: exponent of zero/negative basis deactivated
@@ -456,9 +459,7 @@ ADOL-C message: exponent of zero/negative basis deactivated
 ADOL-C message: exponent of zero/negative basis deactivated
 
 ADOL-C message: exponent of zero/negative basis deactivated
-resizing from 40000 to 44000
-resizing from 44000 to 48400
-resizing from 48400 to 53240
+[INFO] Estimation with the betadiff minimiser
 about to evaluate function with x = 120000 0.15 0.7 0.95 0.99 0.05 0.5 0.95 0.99 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 0.2 0.02 0.001 0.001 
 finished objective call: f = 13070.7
 about to evaluate gradient with x = 120000 0.15 0.7 0.95 0.99 0.05 0.5 0.95 0.99 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 0.2 0.02 0.001 0.001 
@@ -5049,22 +5050,10 @@ done fmin call
 ireturn = -1
 finished main minimiser loop
 Successful convergence in optimise
-
-Casal2 has found warnings:
-
-estimated parameter 'selectivity[MaturationSel_female].v{4}' was within 0.001 of upper bound 0.999
-
-Casal2 has found warnings:
-
-estimated parameter 'process[Instantaneous_Mortality].m{female.nonspawn}' was within 0.001 of upper bound 0.05
-
-Casal2 has found warnings:
-
-estimated parameter 'observation[TangaroaAcousticMature].process_error' was within 0.001 of lower bound 0.0001
-
-Casal2 has found warnings:
-
-estimated parameter 'observation[TangaroaAcousticImmature].process_error' was within 0.001 of lower bound 0.0001
+[WARNING] estimated parameter 'selectivity[MaturationSel_female].v{4}' was within 0.001 of upper bound 0.999
+[WARNING] estimated parameter 'process[Instantaneous_Mortality].m{female.nonspawn}' was within 0.001 of upper bound 0.05
+[WARNING] estimated parameter 'observation[TangaroaAcousticMature].process_error' was within 0.001 of lower bound 0.0001
+[WARNING] estimated parameter 'observation[TangaroaAcousticImmature].process_error' was within 0.001 of lower bound 0.0001
 *process[Recruitment]
 age: 2
 b0: 314528
@@ -5100,13 +5089,13 @@ actual_catch[Trawl]: 7262 18017 33868 29469 1661 11933 18460 6403 25305 12828 59
 *end
 
 *estimate_value[estimate_value]
-values {d}
+values {dataframe}
 process[Recruitment].b0 selectivity[MaturationSel_male].v{1} selectivity[MaturationSel_male].v{2} selectivity[MaturationSel_male].v{3} selectivity[MaturationSel_male].v{4} selectivity[MaturationSel_female].v{1} selectivity[MaturationSel_female].v{2} selectivity[MaturationSel_female].v{3} selectivity[MaturationSel_female].v{4} process[Recruitment].ycs_values{1958} process[Recruitment].ycs_values{1959} process[Recruitment].ycs_values{1960} process[Recruitment].ycs_values{1961} process[Recruitment].ycs_values{1962} process[Recruitment].ycs_values{1963} process[Recruitment].ycs_values{1964} process[Recruitment].ycs_values{1965} process[Recruitment].ycs_values{1966} process[Recruitment].ycs_values{1967} process[Recruitment].ycs_values{1968} process[Recruitment].ycs_values{1969} process[Recruitment].ycs_values{1970} process[Recruitment].ycs_values{1971} process[Recruitment].ycs_values{1972} process[Recruitment].ycs_values{1973} process[Recruitment].ycs_values{1974} process[Recruitment].ycs_values{1975} process[Recruitment].ycs_values{1976} process[Recruitment].ycs_values{1977} process[Recruitment].ycs_values{1978} process[Recruitment].ycs_values{1979} process[Recruitment].ycs_values{1980} process[Recruitment].ycs_values{1981} process[Recruitment].ycs_values{1982} process[Recruitment].ycs_values{1983} process[Recruitment].ycs_values{1984} process[Recruitment].ycs_values{1985} process[Recruitment].ycs_values{1986} process[Recruitment].ycs_values{1987} process[Recruitment].ycs_values{1988} process[Recruitment].ycs_values{1989} process[Recruitment].ycs_values{1990} process[Recruitment].ycs_values{1991} process[Recruitment].ycs_values{1992} process[Recruitment].ycs_values{1993} process[Recruitment].ycs_values{1994} process[Recruitment].ycs_values{1995} process[Recruitment].ycs_values{1996} process[Recruitment].ycs_values{1997} process[Recruitment].ycs_values{1998} process[Recruitment].ycs_values{1999} process[Recruitment].ycs_values{2000} process[Recruitment].ycs_values{2001} process[Recruitment].ycs_values{2002} process[Recruitment].ycs_values{2003} process[Recruitment].ycs_values{2004} process[Recruitment].ycs_values{2005} process[Recruitment].ycs_values{2006} process[Recruitment].ycs_values{2007} process[Recruitment].ycs_values{2008} process[Recruitment].ycs_values{2009} process[Recruitment].ycs_values{2010} process[Recruitment].ycs_values{2011} process[Recruitment].ycs_values{2012} process[Instantaneous_Mortality].m{male.nonspawn} process[Instantaneous_Mortality].m{female.nonspawn} observation[TangaroaAcousticMature].process_error observation[TangaroaAcousticImmature].process_error 
 314528 0.0855841 0.729928 0.512671 0.331184 0.0190747 0.51254 0.941203 0.999 0.255897 0.260996 0.267025 0.274312 0.283172 0.294102 0.308798 0.824676 0.531626 0.370704 0.266765 0.138528 0.0802537 0.158215 0.106305 0.0575723 0.0607929 0.127247 0.0505653 0.0395934 0.0499645 0.375867 0.368154 0.0940201 0.0328014 0.136472 0.130805 0.112561 0.286164 0.127934 0.437718 0.035898 0.256495 2.75116 0.558714 0.2639 0.126748 0.560017 0.36192 0.144856 0.320595 0.192791 0.298743 0.705181 0.417688 0.254272 0.252378 0.324954 1.69567 0.686601 0.200672 1.20373 0.16935 0.875692 0.132659 0.151183 0.160327 0.0001 0.0001 
 *end
 
 *objective_function[obj]
-values {v}
+values {vector}
 observation->TangaroaAcousticMature-1993 -1.37137
 observation->TangaroaAcousticMature-1994 -0.439215
 observation->TangaroaAcousticMature-1995 -0.621757
@@ -5242,10 +5231,10 @@ total_score 929.019
 *end
 
 *derived_quantity[SSB]
-SSB {L} 
-type: biomass 
+SSB {list}
+type: biomass
 initialisation_phase[1]: 314528 
-values {v}
+values {vector}
 1960 314290
 1961 310378
 1962 303889
@@ -5302,7 +5291,7 @@ values {v}
 2013 162682
 2014 162774
 2015 166304
-end {L}
+{end_list}
 *end
 
 *selectivity[MaturationSel_male]
@@ -5313,7 +5302,7 @@ label: MaturationSel_male
 length_based: 0 
 type: all_values_bounded 
 v: 0.0855841 0.729928 0.512671 0.331184 0.99 
-Values {v}
+Values {vector}
 2 0.0855841
 3 0.729928
 4 0.512671
@@ -5338,7 +5327,7 @@ label: MaturationSel_female
 length_based: 0 
 type: all_values_bounded 
 v: 0.0190747 0.51254 0.941203 0.999 0.99 
-Values {v}
+Values {vector}
 2 0.0190747
 3 0.51254
 4 0.941203
@@ -5358,7 +5347,7 @@ Values {v}
 *observation[TangaroaAcousticMature]
 observation_type: biomass
 likelihood: lognormal
-Values {d}
+Values {dataframe}
 year category age length observed expected residual error_value process_error adjusted_error neglogLike
 1993 male.spawn+female.spawn 0 0 16060 18043 -1982.99 0.24 0.0001 0.24 -1.37137
 1994 male.spawn+female.spawn 0 0 72168 52020.1 20147.9 0.34 0.0001 0.34 -0.439215
@@ -5376,7 +5365,7 @@ year category age length observed expected residual error_value process_error ad
 *observation[TangaroaAcousticImmature]
 observation_type: biomass
 likelihood: lognormal
-Values {d}
+Values {dataframe}
 year category age length observed expected residual error_value process_error adjusted_error neglogLike
 1993 male.nonspawn+female.nonspawn 0 0 35208 18176.6 17031.4 0.25 0.0001 0.25 2.5416
 1994 male.nonspawn+female.nonspawn 0 0 8018 16610.6 -8592.6 0.38 0.0001 0.38 0.617545
@@ -5392,32 +5381,25 @@ year category age length observed expected residual error_value process_error ad
 *end
 
 *catchability[Qs]
-TangaroaMatureq: 0.47985 
-TangaroaImmatureq: 0.379929 
+TangaroaMatureq: 0.47985
+TangaroaImmatureq: 0.379929
 *end
 
-*[]
-minimiser: beta_diff
-type: betadiff
-Result {s}
-Success
-Message {s}
-Convergence
-*end
-
-*warnings[warnings_encounted]
-warnings_found: 5
-warning_1 {s}
+*warnings[messages_encountered]
+{string}
 Estimates were removed because of matching lower and upper bounds. Originally had 70 estimates, now have 68
-warning_2 {s}
 estimated parameter 'selectivity[MaturationSel_female].v{4}' was within 0.001 of upper bound 0.999
-warning_3 {s}
 estimated parameter 'process[Instantaneous_Mortality].m{female.nonspawn}' was within 0.001 of upper bound 0.05
-warning_4 {s}
 estimated parameter 'observation[TangaroaAcousticMature].process_error' was within 0.001 of lower bound 0.0001
-warning_5 {s}
 estimated parameter 'observation[TangaroaAcousticImmature].process_error' was within 0.001 of lower bound 0.0001
 *end
 
-Total elapsed time: 2.033 minutes
-Completed
+*info[messages_encountered]
+{string}
+Setting the random number seed to 20
+Initiating point estimate run mode
+Estimation with the betadiff minimiser
+*end
+
+[INFO] Completed
+[INFO] Total elapsed time: 49 seconds

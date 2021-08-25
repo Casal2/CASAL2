@@ -1,20 +1,22 @@
 Casal2
-Call: C:\Projects\Software\CASAL2-NIWA\BuildSystem/bin/windows_gcc/release_betadiff/casal2.exe -r -i pars.out 
-Version: v1.2 (2021-08-14)
+Call: C:\Projects\Software\CASAL2-NIWA\BuildSystem/bin/windows_gcc/release_betadiff/casal2.exe -r -I pars.out 
+Version: v21.08 (2021-08-25)
 Copyright (c) 2017-2021, NIWA (www.niwa.co.nz)
-Environment: machine:HP1040, user:alist, os:Windows_NT, pid:12396
+Date: Wed Aug 25 22:12:37 2021
 
-resizing from 40000 to 44000
-resizing from 44000 to 48400
+Environment: machine:HP1040, user:alist, os:Windows_NT, pid:16804
 
-Casal2 has found warnings:
 
-Estimates were removed because of matching lower and upper bounds. Originally had 33 estimates, now have 16
+
+[WARNING] Estimates were removed because of matching lower and upper bounds. Originally had 33 estimates, now have 16
+[INFO] Initiating basic run mode
+[INFO] Estimable parameters were loaded from the free parameter file: pars.out
+[IMPORTANT] 1 additional non-estimated addressable parameters were found in the free parameter file: pars.out
 *derived_quantity[SSB]
-SSB {L} 
-type: biomass 
+SSB {list}
+type: biomass
 initialisation_phase[1]: 76728.7 
-values {v}
+values {vector}
 1995 76728.7
 1996 76728.7
 1997 76728.7
@@ -36,64 +38,19 @@ values {v}
 2013 56791.3
 2014 55571.6
 2015 54477.7
-end {L}
+{end_list}
 *end
 
-*warnings[warnings_encounted]
-warnings_found: 1
-warning_1 {s}
+*warnings[messages_encountered]
+{string}
 Estimates were removed because of matching lower and upper bounds. Originally had 33 estimates, now have 16
 *end
 
-Total elapsed time: 5 seconds
-Completed
-resizing from 48400 to 53240
-resizing from 53240 to 58564
-resizing from 58564 to 64420
-resizing from 64420 to 70862
-resizing from 70862 to 77948
-resizing from 77948 to 85742
-resizing from 85742 to 94316
-resizing from 94316 to 103747
-resizing from 103747 to 114121
-resizing from 114121 to 125533
-resizing from 125533 to 138086
-resizing from 138086 to 151894
-resizing from 151894 to 167083
-resizing from 167083 to 183791
-resizing from 183791 to 202170
-resizing from 202170 to 222387
-resizing from 222387 to 244625
-resizing from 244625 to 269087
-resizing from 269087 to 295995
-resizing from 295995 to 325594
-resizing from 325594 to 358153
-resizing from 358153 to 393968
-resizing from 393968 to 433364
-resizing from 433364 to 476700
-resizing from 476700 to 524370
-resizing from 524370 to 576807
-resizing from 576807 to 634487
-resizing from 634487 to 697935
-resizing from 697935 to 767728
-resizing from 767728 to 844500
-resizing from 844500 to 928950
-resizing from 928950 to 1021845
-resizing from 1021845 to 1124029
-resizing from 1124029 to 1236431
-resizing from 1236431 to 1360074
-resizing from 1360074 to 1496081
-resizing from 1496081 to 1645689
-resizing from 1645689 to 1810257
-resizing from 1810257 to 1991282
-resizing from 1991282 to 2190410
-resizing from 2190410 to 2409451
-resizing from 2409451 to 2650396
-resizing from 2650396 to 2915435
-resizing from 2915435 to 3206978
-resizing from 3206978 to 3527675
-resizing from 3527675 to 3880442
-resizing from 3880442 to 4268486
-resizing from 4268486 to 4695334
-resizing from 4695334 to 5164867
-resizing from 5164867 to 5681353
+*info[messages_encountered]
+{string}
+Initiating basic run mode
+Estimable parameters were loaded from the free parameter file: pars.out
+*end
+
+[INFO] Completed
+[INFO] Total elapsed time: 2 seconds

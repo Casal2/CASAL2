@@ -5,7 +5,7 @@
  * @date Jan 11, 2016
  * @section LICENSE
  *
- * Copyright NIWA Science ©2016 - www.niwa.co.nz
+ * Copyright NIWA Science ï¿½2016 - www.niwa.co.nz
  *
  */
 #ifdef TESTMODE
@@ -42,7 +42,7 @@ TEST_F(InternalEmptyModel, EstimateTransformations_Inverse) {
   model_->Start(RunMode::kEstimation);
 
   ObjectiveFunction& obj_function = model_->objective_function();
-  EXPECT_NEAR(1977.895725058263, obj_function.score(), 1e-4);
+  EXPECT_NEAR(2120.172819815507, obj_function.score(), 1e-4);
 }
 
 /**
@@ -66,7 +66,7 @@ TEST_F(InternalEmptyModel, EstimateTransformations_Inverse_NoBounds) {
   model_->Start(RunMode::kEstimation);
 
   ObjectiveFunction& obj_function = model_->objective_function();
-  EXPECT_NEAR(1977.895725058263, obj_function.score(), 1e-4);
+  EXPECT_NEAR(2120.172819815507, obj_function.score(), 1e-4);
 }
 
 /**
@@ -97,7 +97,7 @@ TEST_F(InternalEmptyModel, EstimateTransformations_Inverse_NoBounds_With_DeSolve
   model_->Start(RunMode::kEstimation);
 
   ObjectiveFunction& obj_function = model_->objective_function();
-  EXPECT_DOUBLE_EQ(2220.7769862967702, obj_function.score());
+  EXPECT_DOUBLE_EQ(2248.0705811183047, obj_function.score());
 }
 
 } /* namespace estimatetransformations */
