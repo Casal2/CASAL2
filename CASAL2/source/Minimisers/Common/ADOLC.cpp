@@ -28,7 +28,7 @@ namespace minimisers {
 ADOLC::ADOLC(shared_ptr<Model> model) : Minimiser(model) {
   parameters_.Bind<int>(PARAM_MAX_ITERATIONS, &max_iterations_, "The maximum number of iterations", "", 1000)->set_lower_bound(1);
   parameters_.Bind<int>(PARAM_MAX_EVALUATIONS, &max_evaluations_, "The maximum number of evaluations", "", 4000)->set_lower_bound(1);
-  parameters_.Bind<double>(PARAM_TOLERANCE, &gradient_tolerance_, "The tolerance of the gradient for convergence", "", 0.02)->set_lower_bound(0.0, false);
+  parameters_.Bind<double>(PARAM_TOLERANCE, &gradient_tolerance_, "The tolerance of the gradient for convergence", "", DEFAULT_CONVERGENCE)->set_lower_bound(0.0, false);
   parameters_.Bind<double>(PARAM_STEP_SIZE, &step_size_, "The minimum step size before minimisation fails", "", 1e-7)->set_lower_bound(0.0, false);
 }
 
@@ -56,11 +56,11 @@ void ADOLC::Execute() {
     start_values.push_back(estimate->value());
 
     if (estimate->value() < estimate->lower_bound()) {
-      LOG_ERROR() << "When starting the GammDiff numerical_differences minimiser the starting value (" << estimate->value() << ") for estimate " << estimate->parameter()
-                  << " was less than the lower bound (" << estimate->lower_bound() << ")";
+      LOG_ERROR() << "The starting value for estimate " << estimate->parameter() << " (" << estimate->value() << ") was less than the lower bound (" << estimate->lower_bound()
+                  << ")";
     } else if (estimate->value() > estimate->upper_bound()) {
-      LOG_ERROR() << "When starting the GammDiff numerical_differences minimiser the starting value (" << estimate->value() << ") for estimate " << estimate->parameter()
-                  << " was greater than the upper bound (" << estimate->upper_bound() << ")";
+      LOG_ERROR() << "The starting value for estimate " << estimate->parameter() << " (" << estimate->value() << ") was greater than the upper bound (" << estimate->upper_bound()
+                  << ")";
     }
   }
 

@@ -79,6 +79,7 @@
 #define CONVERGENCE_CHECK                     "Convergence check value = "
 #define CONVERGENCE_THRESHOLD                 "Convergence tolerance   = "
 #define CONVERGENCE                           "Convergence = "
+#define DEFAULT_CONVERGENCE                   1e-5 
 
 //**********************************************************************
 // GAMMADIFF

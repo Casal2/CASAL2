@@ -26,11 +26,12 @@ namespace minimisers {
  * Default constructor
  */
 DESolver::DESolver(shared_ptr<Model> model) : Minimiser(model) {
-  parameters_.Bind<unsigned>(PARAM_POPULATION_SIZE, &population_size_, "The number of candidate solutions to have in the population", "");
+  parameters_.Bind<unsigned>(PARAM_POPULATION_SIZE, &population_size_, "The number of candidate solutions to have in the population", "")->set_lower_bound(1);
   parameters_.Bind<double>(PARAM_CROSSOVER_PROBABILITY, &crossover_probability_, "The minimiser's crossover probability", "", 0.9)->set_range(0.0, 1.0);
   parameters_.Bind<double>(PARAM_DIFFERENCE_SCALE, &difference_scale_, "The scale to apply to new solutions when comparing candidates", "", 0.02);
   parameters_.Bind<unsigned>(PARAM_MAX_GENERATIONS, &max_generations_, "The maximum number of iterations to run", "");
-  parameters_.Bind<double>(PARAM_TOLERANCE, &tolerance_, "The total variance between the population and best candidate before acceptance", "", 0.01)->set_lower_bound(0.0, false);
+  parameters_.Bind<double>(PARAM_TOLERANCE, &tolerance_, "The total variance between the population and best candidate before acceptance", "", DEFAULT_CONVERGENCE)
+      ->set_lower_bound(0.0, false);
   parameters_.Bind<string>(PARAM_METHOD, &method_, "The type of candidate generation method to use", "not_yet_implemented", "");
 }
 
@@ -70,11 +71,11 @@ void DESolver::Execute() {
     start_values.push_back(estimate->value());
 
     if (estimate->value() < estimate->lower_bound()) {
-      LOG_FATAL() << "When starting the DESolver minimiser the starting value (" << estimate->value() << ") for estimate " << estimate->parameter()
-                  << " was less than the lower bound (" << estimate->lower_bound() << ")";
+      LOG_ERROR() << "The starting value for estimate " << estimate->parameter() << " (" << estimate->value() << ") was less than the lower bound (" << estimate->lower_bound()
+                  << ")";
     } else if (estimate->value() > estimate->upper_bound()) {
-      LOG_FATAL() << "When starting the DESolver minimiser the starting value (" << estimate->value() << ") for estimate " << estimate->parameter()
-                  << " was greater than the upper bound (" << estimate->upper_bound() << ")";
+      LOG_ERROR() << "The starting value for estimate " << estimate->parameter() << " (" << estimate->value() << ") was greater than the upper bound (" << estimate->upper_bound()
+                  << ")";
     }
   }
 

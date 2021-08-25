@@ -2,9 +2,9 @@ Casal2
 Call: C:\Projects\Software\CASAL2-NIWA\BuildSystem/bin/windows_gcc/release_betadiff/casal2.exe -r -i pars.out 
 Version: v21.08 (2021-08-25)
 Copyright (c) 2017-2021, NIWA (www.niwa.co.nz)
-Date: Wed Aug 25 22:12:36 2021
+Date: Wed Aug 25 23:08:49 2021
 
-Environment: machine:HP1040, user:alist, os:Windows_NT, pid:9132
+Environment: machine:HP1040, user:alist, os:Windows_NT, pid:15848
 
 
 

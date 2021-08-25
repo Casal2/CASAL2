@@ -55,7 +55,7 @@ private:
 BetaDiff::BetaDiff(shared_ptr<Model> model) : Minimiser(model) {
   parameters_.Bind<int>(PARAM_MAX_ITERATIONS, &max_iterations_, "The maximum number of iterations", "", 1000)->set_lower_bound(1);
   parameters_.Bind<int>(PARAM_MAX_EVALUATIONS, &max_evaluations_, "The maximum number of evaluations", "", 4000)->set_lower_bound(1);
-  parameters_.Bind<double>(PARAM_TOLERANCE, &gradient_tolerance_, "The tolerance of the gradient for convergence", "", 2e-3)->set_lower_bound(0.0, false);
+  parameters_.Bind<double>(PARAM_TOLERANCE, &gradient_tolerance_, "The tolerance of the gradient for convergence", "", DEFAULT_CONVERGENCE)->set_lower_bound(0.0, false);
 }
 
 /**
@@ -79,13 +79,13 @@ void BetaDiff::Execute() {
     upper_bounds[i] = AS_DOUBLE(estimate->upper_bound());
     start_values[i] = AS_DOUBLE(estimate->value());
 
-    //    if (estimate->value() < estimate->lower_bound()) {
-    //      LOG_ERROR_P("When starting the DESolver minimiser the starting value (" << estimate->value() << ") for estimate "
-    //          << estimate->parameter() << " was less than the lower bound (" << estimate->lower_bound() << ")");
-    //    } else if (estimate->value() > estimate->upper_bound()) {
-    //      LOG_ERROR_P("When starting the DESolver minimiser the starting value (" << estimate->value() << ") for estimate "
-    //          << estimate->parameter() << " was greater than the upper bound (" << estimate->upper_bound() << ")");
-    //    }
+    if (estimate->value() < estimate->lower_bound()) {
+      LOG_ERROR() << "The starting value for estimate " << estimate->parameter() << " (" << estimate->value() << ") was less than the lower bound (" << estimate->lower_bound()
+                  << ")";
+    } else if (estimate->value() > estimate->upper_bound()) {
+      LOG_ERROR() << "The starting value for estimate " << estimate->parameter() << " (" << estimate->value() << ") was greater than the upper bound (" << estimate->upper_bound()
+                  << ")";
+    }
   }
 
   MyModel     my_model;
