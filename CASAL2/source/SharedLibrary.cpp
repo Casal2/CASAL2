@@ -27,6 +27,7 @@
 #include "Runner.h"
 #include "Translations/Translations.h"
 #include "Utilities/CommandLineParser/CommandLineParser.h"
+#include "Utilities/Exception.h"
 #include "Utilities/RandomNumberGenerator.h"
 #include "Utilities/RunParameters.h"
 #include "Utilities/StandardHeader.h"
@@ -174,6 +175,9 @@ int Run(int argc, char* argv[], niwa::utilities::RunParameters& options) {
 
   } catch (const string& exception) {
     LOG_FATAL() << "Casal2 experienced a problem and has stopped execution\n" << exception << endl;
+    return_code = -1;
+
+  } catch (utilities::StopException& e) {
     return_code = -1;
 
   } catch (std::exception& e) {

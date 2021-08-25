@@ -238,13 +238,15 @@ int Runner::GoWithRunMode(RunMode::Type run_mode) {
   for (auto model : model_list) {
     if (!model->PrepareForIterations()) {
       logging.FlushErrors();
+      // finish report thread
+      reports_manager->StopThread();
+      report_thread.join();
       return -1;
     }
   }
 
   thread_pool_.reset(new ThreadPool());
   thread_pool_->CreateThreads(model_list);
-  //	thread_pool_->CheckThreads();
 
   /**
    * Check the run mode and call the handler.

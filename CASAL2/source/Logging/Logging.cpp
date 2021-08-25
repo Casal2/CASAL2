@@ -13,6 +13,7 @@
 #include "Logging.h"
 
 #include "../Model/Model.h"
+#include "../Utilities/Exception.h"
 
 // namespaces
 namespace niwa {
@@ -113,7 +114,7 @@ void Logging::Flush(niwa::logger::Record& record) {
       cerr << "NOTE: " << errors_.size() << " non-fatal errors were also recorded\n";
 
     cerr.flush();
-    exit(-1);
+    throw new utilities::StopException();
   }
 
   if (static_cast<int>(record.severity()) >= static_cast<int>(current_log_level_)) {
