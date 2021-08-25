@@ -14,6 +14,7 @@
 #include "GlobalConfiguration/GlobalConfiguration.h"
 #include "MPD/MPD.h"
 #include "Model/Model.h"
+#include "Reports/Manager.h"
 #include "ThreadPool/ThreadPool.h"
 
 // namespaces
@@ -25,7 +26,7 @@ class Runner {
 public:
   // methods
   Runner()          = default;
-  virtual ~Runner() = default;
+  virtual ~Runner();
 
   bool StartUp();
   bool Validate();
@@ -58,6 +59,8 @@ private:
   shared_ptr<Model>        master_model_;
   shared_ptr<ThreadPool>   thread_pool_;
   shared_ptr<MPD>          mpd_;
+  shared_ptr<std::thread>  report_thread_;
+  shared_ptr<reports::Manager> reports_manager_;
 };
 
 } /* namespace niwa */

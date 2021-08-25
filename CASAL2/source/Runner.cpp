@@ -35,7 +35,6 @@
 #include "Model/Factory.h"
 #include "Model/Managers.h"
 #include "Model/Models/Age.h"
-#include "Reports/Manager.h"
 #include "Utilities/RandomNumberGenerator.h"
 
 // namespaces
@@ -44,6 +43,15 @@ using std::cout;
 using std::endl;
 using std::shared_ptr;
 using std::string;
+
+/**
+ * @brief Destroy the Runner:: Runner object
+ * 
+ */
+Runner::~Runner() {
+  reports_manager_->StopThread();
+  report_thread_->join();
+}
 
 /**
  * @brief The startup method is responsible for ensuring the command
@@ -180,8 +188,8 @@ int Runner::GoWithRunMode(RunMode::Type run_mode) {
   master_model_->set_global_configuration(&global_configuration_);
 
   // Create the managers that are shared across threads
-  auto reports_manager = shared_ptr<reports::Manager>(new reports::Manager());
-  master_model_->managers()->set_reports(reports_manager);
+  reports_manager_ = shared_ptr<reports::Manager>(new reports::Manager());
+  master_model_->managers()->set_reports(reports_manager_);
   auto minimiser_manager = shared_ptr<minimisers::Manager>(new minimisers::Manager());
   master_model_->managers()->set_minimiser(minimiser_manager);
   auto mcmc_manager = std::make_shared<mcmcs::Manager>();
@@ -207,7 +215,7 @@ int Runner::GoWithRunMode(RunMode::Type run_mode) {
     LOG_MEDIUM() << "Spawning model for thread with id " << (i + 1);
     shared_ptr<Model> model = Factory::Create(PARAM_MODEL, model_type);
     model->set_id(i + 1);
-    model->managers()->set_reports(reports_manager);
+    model->managers()->set_reports(reports_manager_);
     model->managers()->set_minimiser(minimiser_manager);
     model->set_global_configuration(&global_configuration_);
     model->set_run_mode(run_mode);
@@ -226,7 +234,8 @@ int Runner::GoWithRunMode(RunMode::Type run_mode) {
   // Put the master model back into the list at the start
   //	model_list[0]->flag_primary_thread_model();
   model_list.insert(model_list.begin(), master_model_);
-
+  report_thread_.reset(new std::thread([this]() { this->reports_manager_->FlushReports(); }));
+  
   /**
    * Prep each of the models for being run
    * i.e. Validate and Build them
@@ -234,15 +243,11 @@ int Runner::GoWithRunMode(RunMode::Type run_mode) {
   for (auto model : model_list) {
     if (!model->PrepareForIterations()) {
       logging.FlushErrors();
-
       return -1;
     }
   }
 
-  // Thread off the reports
-  // Must be done before we validate and build below
-  std::thread report_thread([reports_manager]() { reports_manager->FlushReports(); });
-
+  // Kick off our threads now
   thread_pool_.reset(new ThreadPool());
   thread_pool_->CreateThreads(model_list);
 
@@ -285,8 +290,8 @@ int Runner::GoWithRunMode(RunMode::Type run_mode) {
   Finalize();
 
   // finish report thread
-  reports_manager->StopThread();
-  report_thread.join();
+  reports_manager_->StopThread();
+  report_thread_->join();
 
   // check for any errors
   if (logging.errors().size() > 0) {
