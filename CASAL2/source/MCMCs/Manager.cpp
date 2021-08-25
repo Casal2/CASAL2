@@ -28,7 +28,7 @@ void Manager::Validate() {
  *
  */
 void Manager::Validate(shared_ptr<Model> model) {
-  if (objects_.size() == 0 || has_validated_)
+  if (has_validated_ || model->run_mode() != RunMode::kMCMC)
     return;
 
   for (auto mcmc : objects_) mcmc->Validate();

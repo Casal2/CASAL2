@@ -227,10 +227,6 @@ int Runner::GoWithRunMode(RunMode::Type run_mode) {
   //	model_list[0]->flag_primary_thread_model();
   model_list.insert(model_list.begin(), master_model_);
 
-  // Thread off the reports
-  // Must be done before we validate and build below
-  std::thread report_thread([reports_manager]() { reports_manager->FlushReports(); });
-
   /**
    * Prep each of the models for being run
    * i.e. Validate and Build them
@@ -238,12 +234,14 @@ int Runner::GoWithRunMode(RunMode::Type run_mode) {
   for (auto model : model_list) {
     if (!model->PrepareForIterations()) {
       logging.FlushErrors();
-      // finish report thread
-      reports_manager->StopThread();
-      report_thread.join();
+
       return -1;
     }
   }
+
+  // Thread off the reports
+  // Must be done before we validate and build below
+  std::thread report_thread([reports_manager]() { reports_manager->FlushReports(); });
 
   thread_pool_.reset(new ThreadPool());
   thread_pool_->CreateThreads(model_list);
