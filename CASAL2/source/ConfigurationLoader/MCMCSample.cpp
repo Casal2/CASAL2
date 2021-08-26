@@ -64,35 +64,20 @@ bool MCMCSample::LoadFile(const string& file_name) {
    * as this is the expected line before our sample lines
    */
   string line = "";
-  while (line != "*mcmc_sample[mcmc]") {
+  // TODO: This is prone to errors, and should be reconsidered
+  while (utilities::ToLowercase(line.substr(0, 13)) != "*mcmc_sample[") {
     if (!getline(file, line)) {
-      LOG_ERROR() << "Failed to read a line from the MCMC Sample file when looking for '*mcmc_sample[mcmc]'";
+      LOG_ERROR() << "Failed to read a line from the MCMC sample file when looking for '*mcmc_sample[_label_]'";
       return false;
     }
     boost::trim_right(line);
   }
-
-  if (line != "*mcmc_sample[mcmc]") {
-    LOG_ERROR() << "Could not read '*mcmc_sample[mcmc]' string in MCMC Sample file " << file_name;
+  // TODO: Why is this here twice??
+  if (utilities::ToLowercase(line.substr(0, 13)) != "*mcmc_sample[") {
+    LOG_ERROR() << "Could not read '*mcmc_sample[_label_]' string in MCMC Sample file " << file_name;
     return false;
   }
   LOG_MEDIUM() << "line = " << line;
-
-  /*
-  // Skip the next line which is needed for reading into R
-  while (line != ("values " + (string)REPORT_R_MATRIX) {
-    if (!getline(file, line)) {
-      LOG_ERROR() << "Failed to read a line from the MCMC Sample file when looking for 'values '" << REPORT_R_MATRIX << "'";
-      return false;
-    }
-  }
-
-  if (line != ("values " + (string)REPORT_R_MATRIX)) {
-     LOG_ERROR() << "Could not read 'values '" << REPORT_R_MATRIX << "' string in MCMC Sample file " << file_name;
-     return false;
-   }
-
-  */
 
   /**
    * read the columns from our header

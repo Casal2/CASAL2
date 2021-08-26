@@ -34,6 +34,7 @@ class Model;
 namespace mcmc {
 struct ChainLink {
   unsigned       iteration_                   = 1;
+  string         mcmc_state_                  = "NA";
   double         score_                       = 0.0;
   double         likelihood_                  = 0.0;
   double         prior_                       = 0.0;
@@ -95,6 +96,8 @@ protected:
   shared_ptr<Model>       model_;  // first model in thread pool
   unsigned                length_             = 0;
   unsigned                starting_iteration_ = 0;
+  unsigned                burn_in_            = 0;
+  string                  mcmc_state_         = "NA";
   bool                    active_             = true;
   unsigned                estimate_count_     = 0;
   unsigned                df_                 = 0;
@@ -119,8 +122,8 @@ protected:
   unsigned                jumps_                        = 0;
   bool                    last_item_                    = false;
   unsigned                successful_jumps_since_adapt_ = 0;
-  vector<unsigned>        adapt_step_size_              = {1};
-  unsigned                adapt_covariance_matrix_      = 1;
+  vector<unsigned>        adapt_step_size_              = {0};
+  unsigned                adapt_covariance_matrix_      = 0;
   string                  adapt_stepsize_method_;
 };
 

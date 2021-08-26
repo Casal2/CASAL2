@@ -78,16 +78,16 @@ void MCMCObjective::DoExecute(shared_ptr<Model> model) {
     }
 
     cache_ << "samples " << REPORT_R_DATAFRAME << REPORT_EOL;
-    cache_ << "sample objective_score prior likelihood penalties additional_priors jacobians step_size acceptance_rate acceptance_rate_since_adapt" << REPORT_EOL;
+    cache_ << "sample state objective_score prior likelihood penalties additional_priors jacobians step_size acceptance_rate acceptance_rate_since_adapt" << REPORT_EOL;
     first_write_ = false;
   }
 
   auto chain = mcmc_->chain();
   if (chain.size() >= 1) {
     unsigned element = chain.size() - 1;
-    cache_ << chain[element].iteration_ << " " << chain[element].score_ << " " << chain[element].prior_ << " " << chain[element].likelihood_ << " " << chain[element].penalty_
-           << " " << chain[element].additional_priors_ << " " << chain[element].jacobians_ << " " << chain[element].step_size_ << " " << chain[element].acceptance_rate_ << " "
-           << chain[element].acceptance_rate_since_adapt_ << REPORT_EOL;
+    cache_ << chain[element].iteration_ << " " << chain[element].mcmc_state_ << " " << chain[element].score_ << " " << chain[element].prior_ << " " << chain[element].likelihood_
+           << " " << chain[element].penalty_ << " " << chain[element].additional_priors_ << " " << chain[element].jacobians_ << " " << chain[element].step_size_ << " "
+           << chain[element].acceptance_rate_ << " " << chain[element].acceptance_rate_since_adapt_ << REPORT_EOL;
   }
 
   ready_for_writing_ = true;

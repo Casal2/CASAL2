@@ -32,7 +32,9 @@ namespace math = niwa::utilities::math;
  *
  * @param model
  */
-RandomWalkMetropolisHastings::RandomWalkMetropolisHastings(shared_ptr<Model> model) : MCMC(model) {}
+RandomWalkMetropolisHastings::RandomWalkMetropolisHastings(shared_ptr<Model> model) : MCMC(model) {
+  type_ = PARAM_RANDOMWALK;
+}
 
 /**
  * @brief
@@ -96,8 +98,13 @@ void RandomWalkMetropolisHastings::DoExecute(shared_ptr<ThreadPool> thread_pool)
     }
 
     if (jumps_ % keep_ == 0) {
+      if (jumps_ > burn_in_)
+        mcmc_state_ = PARAM_MCMC;
+      else
+        mcmc_state_ = PARAM_BURN_IN;
       if (accept_jump) {
         mcmc::ChainLink new_link{.iteration_                   = jumps_,
+                                 .mcmc_state_                  = mcmc_state_,
                                  .score_                       = obj_function.score(),
                                  .likelihood_                  = obj_function.likelihoods(),
                                  .prior_                       = obj_function.priors(),
@@ -114,6 +121,7 @@ void RandomWalkMetropolisHastings::DoExecute(shared_ptr<ThreadPool> thread_pool)
         // Copy the last chain accepted link to the end of the vector
         auto temp                         = *chain_.rbegin();
         temp.iteration_                   = jumps_;
+        temp.mcmc_state_                  = mcmc_state_;
         temp.acceptance_rate_             = double(successful_jumps_) / double(jumps_);
         temp.acceptance_rate_since_adapt_ = double(successful_jumps_since_adapt_) / double(jumps_since_adapt_);
         chain_.push_back(temp);

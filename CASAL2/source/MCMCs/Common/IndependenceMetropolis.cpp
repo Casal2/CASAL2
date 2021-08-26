@@ -41,6 +41,10 @@ IndependenceMetropolis::IndependenceMetropolis(shared_ptr<Model> model) : MCMC(m
 void IndependenceMetropolis::DoExecute(shared_ptr<ThreadPool> thread_pool) {
   vector<Double> previous_untransformed_candidates = candidates_;
 
+  LOG_MEDIUM() << "MCMC Starting";
+  LOG_MEDIUM() << "Covariance matrix has rows = " << covariance_matrix_.size1() << " and cols = " << covariance_matrix_.size2();
+  LOG_MEDIUM() << "Estimate Count: " << estimate_count_;
+
   // Transform any parameters so that candidates are in the same space as the covariance matrix.
   model_->managers()->estimate_transformation()->TransformEstimatesForObjectiveFunction();
   for (unsigned i = 0; i < estimate_count_; ++i) {
@@ -50,7 +54,6 @@ void IndependenceMetropolis::DoExecute(shared_ptr<ThreadPool> thread_pool) {
   if (!model_->global_configuration().resume_mcmc()) {
     LOG_MEDIUM() << "Not resuming";
     BuildCovarianceMatrix();
-    successful_jumps_ = starting_iteration_;
   }
 
   // Set jumps = starting iteration if it is resuming
@@ -113,6 +116,7 @@ void IndependenceMetropolis::DoExecute(shared_ptr<ThreadPool> thread_pool) {
    */
   mcmc::ChainLink new_link;
   new_link.penalty_           = AS_DOUBLE(obj_function.penalties());
+  new_link.mcmc_state_        = mcmc_state_;
   new_link.score_             = AS_DOUBLE(obj_function.score());
   new_link.prior_             = AS_DOUBLE(obj_function.priors());
   new_link.likelihood_        = AS_DOUBLE(obj_function.likelihoods());
@@ -128,21 +132,29 @@ void IndependenceMetropolis::DoExecute(shared_ptr<ThreadPool> thread_pool) {
     new_link.iteration_                   = jumps_;
     new_link.acceptance_rate_             = 0;
     new_link.acceptance_rate_since_adapt_ = 0;
-
+    if (jumps_ > burn_in_)
+      new_link.mcmc_state_ = PARAM_MCMC;
+    else
+      new_link.mcmc_state_ = PARAM_BURN_IN;
     chain_.push_back(new_link);
 
-    // Print first value
-    model_->managers()->report()->Execute(model_, State::kIterationComplete);
   } else {
     // resume
     new_link.iteration_                   = jumps_;
     new_link.acceptance_rate_             = acceptance_rate_;
     new_link.acceptance_rate_since_adapt_ = acceptance_rate_since_last_adapt_;
+    new_link.mcmc_state_                  = PARAM_RESUME;
+    if (jumps_ > burn_in_)
+      new_link.mcmc_state_ = PARAM_RESUME;
+    else
+      new_link.mcmc_state_ = PARAM_BURN_IN + string("+") + PARAM_RESUME;
 
     chain_.push_back(new_link);
 
     LOG_MEDIUM() << "Resuming MCMC chain with iteration " << jumps_;
   }
+  // Print first value (logging only)
+  // model_->managers()->report()->Execute(model_, State::kIterationComplete);
 
   /**
    * Now we start the MCMC process
@@ -254,6 +266,17 @@ void IndependenceMetropolis::DoExecute(shared_ptr<ThreadPool> thread_pool) {
       new_link.step_size_                   = step_size_;
       new_link.values_                      = previous_untransformed_candidates;
 
+      if (burn_in_ >= jumps_) {
+        if (model_->global_configuration().resume_mcmc())
+          new_link.mcmc_state_ = PARAM_BURN_IN + string("+") + PARAM_RESUME;
+        else
+          new_link.mcmc_state_ = PARAM_BURN_IN;
+      } else {
+        if (model_->global_configuration().resume_mcmc())
+          new_link.mcmc_state_ = PARAM_RESUME;
+        else
+          new_link.mcmc_state_ = PARAM_MCMC;
+      }
       chain_.push_back(new_link);
 
       // LOG_MEDIUM() << "Storing: Successful Jumps " << successful_jumps_ << " Jumps : " << jumps_;
