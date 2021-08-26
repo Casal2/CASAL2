@@ -1,0 +1,96 @@
+@report summary
+type estimate_value
+
+@report objective
+type objective_function
+
+@report SSB
+type derived_quantity
+
+@report Recruit_E
+type process
+process recruit_E
+
+@report Recruit_W
+type process
+process recruit_W
+
+@report Mortality
+type process
+process Instant_mortality
+
+@report M_male
+type selectivity
+selectivity M_male
+
+@report M_female
+type selectivity
+selectivity M_female
+
+## observations
+@report CSacous
+type observation
+observation CSacous
+
+@report WCacous
+type observation
+observation WCacous
+
+@report Espage
+type observation
+observation Espage
+
+@report Wspage
+type observation
+observation Wspage
+
+@report Enspage
+type observation
+observation Enspage
+
+@report Wnspage
+type observation
+observation Wnspage
+
+@report CRsumage
+type observation
+observation CRsumage
+
+
+@report year_age_mat
+type year_age_matrix
+time_step Jul_Sep
+
+
+@report SAsumage
+type observation
+observation SAsumage
+
+
+@report SAautage
+type observation
+observation SAautage
+
+@report CRsumbio
+type observation
+observation CRsumbio
+
+@report SAsumbio
+type observation
+observation SAsumbio
+
+@report Init
+type initialisation_partition
+
+#MCMC objectives
+@report objectives
+type MCMC_Objective
+file_name objectives
+write_mode incremental_suffix
+
+#MCMC samples
+@report samples
+type mcmc_sample
+file_name samples
+write_mode incremental_suffix
+
