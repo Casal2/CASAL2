@@ -30,7 +30,7 @@ MCMC* Factory::Create(shared_ptr<Model> model, const string& object_type, const 
   MCMC* object = nullptr;
 #ifndef USE_AUTODIFF
   if (object_type == PARAM_MCMC) {
-    if (sub_type == PARAM_INDEPENDENCE_METROPOLIS || sub_type == PARAM_METROPOLIS_HASTINGS)
+    if (sub_type == "" || sub_type == PARAM_INDEPENDENCE_METROPOLIS || sub_type == PARAM_METROPOLIS_HASTINGS)
       object = new IndependenceMetropolis(model);
     else if (sub_type == PARAM_HAMILTONIAN)
       object = new HamiltonianMonteCarlo(model);

@@ -69,16 +69,16 @@ TEST_F(InternalEmptyModel, EstimateTransformations_Log_NoBounds) {
 /**
  *
  */
-TEST_F(InternalEmptyModel, EstimateTransformations_Log_With_DeSolver_Minimiser) {
-  AddConfigurationLine(testresources::models::two_sex_with_de_solver, "TestResources/Models/TwoSexWithDeSolver.h", 28);
-  AddConfigurationLine(estimate_transformation_log_no_bounds, __FILE__, 22);
-  LoadConfiguration();
+// TEST_F(InternalEmptyModel, EstimateTransformations_Log_With_DeSolver_Minimiser) {
+//   AddConfigurationLine(testresources::models::two_sex_with_de_solver, "TestResources/Models/TwoSexWithDeSolver.h", 28);
+//   AddConfigurationLine(estimate_transformation_log_no_bounds, __FILE__, 22);
+//   LoadConfiguration();
 
-  model_->Start(RunMode::kEstimation);
+//   model_->Start(RunMode::kEstimation);
 
-  ObjectiveFunction& obj_function = model_->objective_function();
-  EXPECT_DOUBLE_EQ(2228.6513160921527, obj_function.score());
-}
+//   ObjectiveFunction& obj_function = model_->objective_function();
+//   EXPECT_DOUBLE_EQ(2228.6513160921527, obj_function.score());
+// }
 
 } /* namespace estimatetransformations */
 } /* namespace niwa */
