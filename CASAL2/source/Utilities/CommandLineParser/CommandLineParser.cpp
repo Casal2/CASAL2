@@ -225,8 +225,6 @@ void CommandLineParser::Parse(int argc, char* argv[], RunParameters& options) {
       LOG_FATAL() << "Command line error: Cannot specify an MCMC and a free parameter output file with --output at the same time";
 
   } else if (parameters.count("profile")) {
-    if (!(parameters.count("input") || parameters.count("Input")))
-      LOG_FATAL() << "A free parameter file must be supplied (using -i/-I) for profiles";
     options.run_mode_ = RunMode::kProfiling;
   } else if (parameters.count("simulation")) {
     if (!(parameters.count("input") || parameters.count("Input")))
