@@ -35,8 +35,9 @@ namespace math = niwa::utilities::math;
  */
 MCMC::MCMC(shared_ptr<Model> model) : model_(model) {
   parameters_.Bind<string>(PARAM_LABEL, &label_, "The label of the MCMC", "");
-  parameters_.Bind<string>(PARAM_TYPE, &type_, "The MCMC method", "", "");  //->set_allowed_values({PARAM_INDEPENDENCE_METROPOLIS, PARAM_HAMILTONIAN, PARAM_RANDOMWALK});
-  parameters_.Bind<unsigned>(PARAM_LENGTH, &length_, "The number of iterations in for the MCMC chain", "")->set_lower_bound(1);
+  parameters_.Bind<string>(PARAM_TYPE, &type_, "The MCMC method", "", PARAM_RANDOMWALK)->set_allowed_values({PARAM_METROPOLIS_HASTINGS, PARAM_HAMILTONIAN, PARAM_RANDOMWALK});
+  parameters_.Bind<unsigned>(PARAM_LENGTH, &length_, "The number of iterations for the MCMC (including the burn in period)", "")->set_lower_bound(1);
+  parameters_.Bind<unsigned>(PARAM_BURN_IN, &burn_in_, "The number of iterations for the burn_in period of the MCMC", "", 0u)->set_lower_bound(0);
   parameters_.Bind<bool>(PARAM_ACTIVE, &active_, "Indicates if this is the active MCMC algorithm", "", true);
   parameters_.Bind<double>(PARAM_STEP_SIZE, &step_size_, "Initial step-size (as a multiplier of the approximate covariance matrix)", "", 0.02)->set_lower_bound(0);
   parameters_.Bind<double>(PARAM_START, &start_, "The covariance multiplier for the starting point of the MCMC", "", 0.0)->set_lower_bound(0.0);
@@ -54,9 +55,9 @@ MCMC::MCMC(shared_ptr<Model> model) : model_(model) {
       ->set_allowed_values({PARAM_NORMAL, PARAM_T});
   parameters_.Bind<unsigned>(PARAM_DF, &df_, "The degrees of freedom of the multivariate t proposal distribution", "", 4)->set_lower_bound(0, false);
   parameters_.Bind<unsigned>(PARAM_ADAPT_STEPSIZE_AT, &adapt_step_size_, "The iteration numbers in which to check and resize the MCMC stepsize", "", true)->set_lower_bound(0);
-  parameters_.Bind<unsigned>(PARAM_ADAPT_COVARIANCE_AT, &adapt_covariance_matrix_, "The iteration numbers in which to adapt the covariance matrix", "", true)->set_lower_bound(0);
   parameters_.Bind<string>(PARAM_ADAPT_STEPSIZE_METHOD, &adapt_stepsize_method_, "The method to use to adapt the step size", "", PARAM_RATIO)
       ->set_allowed_values({PARAM_RATIO, PARAM_DOUBLE_HALF});
+  parameters_.Bind<unsigned>(PARAM_ADAPT_COVARIANCE_AT, &adapt_covariance_matrix_, "The iteration number in which to adapt the covariance matrix", "", true)->set_lower_bound(0);
 }
 #ifdef USE_AUTODIFF
 /**
@@ -90,10 +91,15 @@ bool MCMC::WithinBounds() {
 void MCMC::Validate() {
   parameters_.Populate(model_);
 
+  if (burn_in_ > length_)
+    LOG_ERROR_P(PARAM_BURN_IN) << "(" << burn_in_ << ") cannot be greater than the length of the MCMC (" << length_ << ")";
+
   for (unsigned adapt : adapt_step_size_) {
-    if (adapt > length_)
-      LOG_ERROR_P(PARAM_ADAPT_STEPSIZE_AT) << "(" << adapt << ") cannot be greater than length (" << length_ << ")";
+    if (adapt > burn_in_)
+      LOG_ERROR_P(PARAM_ADAPT_STEPSIZE_AT) << "(" << adapt << ") cannot be greater than the length of the burn in(" << burn_in_ << ")";
   }
+  if (adapt_covariance_matrix_ > burn_in_)
+    LOG_ERROR_P(PARAM_ADAPT_COVARIANCE_AT) << "(" << adapt_covariance_matrix_ << ") cannot be greater than the length of the burn in(" << burn_in_ << ")";
 
   DoValidate();
 }
@@ -131,9 +137,8 @@ void MCMC::Execute(shared_ptr<ThreadPool> thread_pool) {
   if (type_ == PARAM_INDEPENDENCE_METROPOLIS)
     return DoExecute(thread_pool);
 
-  LOG_MEDIUM() << "mcmc type: " << type_;
-
   LOG_TRACE();
+  LOG_MEDIUM() << "mcmc type: " << type_;
 
   // for (size_t i = 0; auto e : estimates_) candidates_[i++] = e->value(); // C++20
   for (unsigned i = 0; i < estimates_.size(); ++i) candidates_[i] = estimates_[i]->value();
@@ -166,6 +171,7 @@ void MCMC::Execute(shared_ptr<ThreadPool> thread_pool) {
    * we'll be running the last
    */
   mcmc::ChainLink new_link{.iteration_                   = 1,
+                           .mcmc_state_                  = PARAM_INITIALISATION,
                            .score_                       = obj_function.score(),
                            .likelihood_                  = obj_function.likelihoods(),
                            .prior_                       = obj_function.priors(),
@@ -183,10 +189,11 @@ void MCMC::Execute(shared_ptr<ThreadPool> thread_pool) {
     chain_.push_back(new_link);
   } else {
     LOG_INFO() << "Resuming MCMC chain with iteration " << jumps_;
+    mcmc_state_                           = PARAM_RESUME;
     new_link.iteration_                   = jumps_;
+    new_link.mcmc_state_                  = mcmc_state_;
     new_link.acceptance_rate_             = acceptance_rate_;
     new_link.acceptance_rate_since_adapt_ = acceptance_rate_since_last_adapt_;
-
     chain_.push_back(new_link);
   }
   // Make sure we print the first link of the chain
@@ -515,10 +522,7 @@ void MCMC::UpdateStepSize() {
         step_size_ /= 2;
       LOG_MEDIUM() << "new step_size = " << step_size_;
     }
-
     LOG_INFO() << "Adapting step_size from " << old_step_size << " to " << step_size_ << " after " << jumps_ << " iterations";
-    jumps_since_adapt_            = 0;
-    successful_jumps_since_adapt_ = 0;
     return;
   }
 }
@@ -530,7 +534,7 @@ void MCMC::UpdateStepSize() {
  * 2. Modify the covariance matrix
  */
 void MCMC::UpdateCovarianceMatrix() {
-  if (adapt_covariance_matrix_ != jumps_)
+  if (adapt_covariance_matrix_ < 2 || adapt_covariance_matrix_ != jumps_)
     return;
 
   if (jumps_since_adapt_ > 1000) {
@@ -594,8 +598,11 @@ void MCMC::UpdateCovarianceMatrix() {
     if (!DoCholeskyDecomposition())
       LOG_FATAL() << "Cholesky decomposition failed. Cannot continue MCMC";
 
+    mcmc_state_ = PARAM_ADAPT_COVARIANCE;
     // continue chain
     return;
+  } else {
+    LOG_WARNING() << "Recalculation of covariance was not done as the number of jumps since the last adapt_stepsize was not greater than 1000";
   }
 }
 

@@ -57,6 +57,8 @@ HamiltonianMonteCarlo::HamiltonianMonteCarlo(shared_ptr<Model> model) : MCMC(mod
   parameters_.Bind<unsigned>(PARAM_LEAPFROG_STEPS, &leapfrog_steps_, "Number of leapfrog steps", "", 1u)->set_lower_bound(0, false);
   parameters_.Bind<double>(PARAM_LEAPFROG_DELTA, &leapfrog_delta_, "Amount to leapfrog per step", "", 1e-7)->set_lower_bound(0, false);
   parameters_.Bind<double>(PARAM_GRADIENT_STEP_SIZE, &gradient_step_size_, "Step size to use when calculating gradient", "", 1e-7)->set_lower_bound(1e-13, true);
+
+  type_ = PARAM_HAMILTONIAN;
 }
 
 /**
@@ -176,6 +178,7 @@ void HamiltonianMonteCarlo::DoExecute(shared_ptr<ThreadPool> thread_pool) {
     if (math::IsEqual(ratio, 1.0) || rng_uniform < ratio) {
       LOG_MEDIUM() << "Accepting Jump (ratio: " << ratio << ", rng: " << rng_uniform << ")" << endl;
       mcmc::ChainLink new_link{.iteration_                   = jumps_,
+                               .mcmc_state_                  = mcmc_state_,
                                .score_                       = obj_function.score(),
                                .likelihood_                  = obj_function.likelihoods(),
                                .prior_                       = obj_function.priors(),
@@ -186,12 +189,20 @@ void HamiltonianMonteCarlo::DoExecute(shared_ptr<ThreadPool> thread_pool) {
                                .acceptance_rate_since_adapt_ = 0,
                                .step_size_                   = step_size_,
                                .values_                      = q};
+      if (jumps_ > burn_in_)
+        new_link.mcmc_state_ = PARAM_MCMC;
+      else
+        new_link.mcmc_state_ = PARAM_BURN_IN;
       chain_.push_back(new_link);
     } else {
       LOG_MEDIUM() << "Rejecting Jump (ratio: " << ratio << ", rng: " << rng_uniform << ")" << endl;
       // Copy the last chain accepted link to the end of the vector
       auto temp       = *chain_.rbegin();
       temp.iteration_ = jumps_;
+      if (jumps_ > burn_in_)
+        temp.mcmc_state_ = PARAM_MCMC;
+      else
+        temp.mcmc_state_ = PARAM_BURN_IN;
       chain_.push_back(temp);
     }
 
