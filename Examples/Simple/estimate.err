@@ -1,0 +1,96 @@
+
+[IMPORTANT] Setting 'MPD.dat' as the output file for the MPD (i.e., free parameters and covariance)
+[IMPORTANT] Setting 'params.dat' as the output file for the free parameters
+[INFO] Initiating point estimate run mode
+[INFO] Estimation with the gammadiff minimiser
+[INFO] Convergence check value = 0.625284. Convergence tolerance   = 0.0002
+[INFO] Convergence check value = 0.331237. Convergence tolerance   = 0.0002
+[INFO] Convergence check value = 1.60392. Convergence tolerance   = 0.0002
+[INFO] Convergence check value = 1.0525. Convergence tolerance   = 0.0002
+[INFO] Convergence check value = 0.51435. Convergence tolerance   = 0.0002
+[INFO] Convergence check value = 0.624917. Convergence tolerance   = 0.0002
+[INFO] Convergence check value = 0.464883. Convergence tolerance   = 0.0002
+[INFO] Convergence check value = 0.576048. Convergence tolerance   = 0.0002
+[INFO] Convergence check value = 0.612277. Convergence tolerance   = 0.0002
+[INFO] Convergence check value = 0.247653. Convergence tolerance   = 0.0002
+[INFO] Convergence check value = 0.422512. Convergence tolerance   = 0.0002
+[INFO] Convergence check value = 0.14554. Convergence tolerance   = 0.0002
+[INFO] Convergence check value = 0.13368. Convergence tolerance   = 0.0002
+[INFO] Convergence check value = 0.139067. Convergence tolerance   = 0.0002
+[INFO] Convergence check value = 0.143839. Convergence tolerance   = 0.0002
+[INFO] Convergence check value = 0.114828. Convergence tolerance   = 0.0002
+[INFO] Convergence check value = 0.0896041. Convergence tolerance   = 0.0002
+[INFO] Convergence check value = 0.134871. Convergence tolerance   = 0.0002
+[INFO] Convergence check value = 0.148555. Convergence tolerance   = 0.0002
+[INFO] Convergence check value = 0.171493. Convergence tolerance   = 0.0002
+[INFO] Convergence check value = 0.16126. Convergence tolerance   = 0.0002
+[INFO] Convergence check value = 0.0801526. Convergence tolerance   = 0.0002
+[INFO] Convergence check value = 0.046284. Convergence tolerance   = 0.0002
+[INFO] Convergence check value = 0.0285901. Convergence tolerance   = 0.0002
+[INFO] Convergence check value = 0.0375406. Convergence tolerance   = 0.0002
+[INFO] Convergence check value = 0.0454671. Convergence tolerance   = 0.0002
+[INFO] Convergence check value = 0.0462008. Convergence tolerance   = 0.0002
+[INFO] Convergence check value = 0.0448684. Convergence tolerance   = 0.0002
+[INFO] Convergence check value = 0.0216749. Convergence tolerance   = 0.0002
+[INFO] Convergence check value = 0.0114364. Convergence tolerance   = 0.0002
+[INFO] Convergence check value = 0.0180987. Convergence tolerance   = 0.0002
+[INFO] Convergence check value = 0.0201083. Convergence tolerance   = 0.0002
+[INFO] Convergence check value = 0.0156088. Convergence tolerance   = 0.0002
+[INFO] Convergence check value = 0.0066823. Convergence tolerance   = 0.0002
+[INFO] Convergence check value = 0.00550061. Convergence tolerance   = 0.0002
+[INFO] Convergence check value = 0.00391635. Convergence tolerance   = 0.0002
+[INFO] Convergence check value = 0.00275257. Convergence tolerance   = 0.0002
+[INFO] Convergence check value = 0.00288927. Convergence tolerance   = 0.0002
+[INFO] Convergence check value = 0.00325517. Convergence tolerance   = 0.0002
+[INFO] Convergence check value = 0.0014437. Convergence tolerance   = 0.0002
+[INFO] Convergence check value = 0.00145748. Convergence tolerance   = 0.0002
+[INFO] Convergence check value = 0.00144652. Convergence tolerance   = 0.0002
+[INFO] Convergence check value = 0.000933184. Convergence tolerance   = 0.0002
+[INFO] Convergence check value = 0.00217606. Convergence tolerance   = 0.0002
+[INFO] Convergence check value = 0.00313954. Convergence tolerance   = 0.0002
+[INFO] Convergence check value = 0.00109547. Convergence tolerance   = 0.0002
+[INFO] Convergence check value = 0.00199173. Convergence tolerance   = 0.0002
+[INFO] Convergence check value = 0.00114802. Convergence tolerance   = 0.0002
+[INFO] Convergence check value = 0.00214156. Convergence tolerance   = 0.0002
+[INFO] Convergence check value = 0.00244507. Convergence tolerance   = 0.0002
+[INFO] Convergence check value = 0.0015187. Convergence tolerance   = 0.0002
+[INFO] Convergence check value = 0.00212637. Convergence tolerance   = 0.0002
+[INFO] Convergence check value = 0.00373904. Convergence tolerance   = 0.0002
+[INFO] Convergence check value = 0.00971961. Convergence tolerance   = 0.0002
+[INFO] Convergence check value = 0.0138512. Convergence tolerance   = 0.0002
+[INFO] Convergence check value = 0.0162664. Convergence tolerance   = 0.0002
+[INFO] Convergence check value = 0.0315648. Convergence tolerance   = 0.0002
+[INFO] Convergence check value = 0.03048. Convergence tolerance   = 0.0002
+[INFO] Convergence check value = 0.0214476. Convergence tolerance   = 0.0002
+[INFO] Convergence check value = 0.0207564. Convergence tolerance   = 0.0002
+[INFO] Convergence check value = 0.0087413. Convergence tolerance   = 0.0002
+[INFO] Convergence check value = 0.00857887. Convergence tolerance   = 0.0002
+[INFO] Convergence check value = 0.00764361. Convergence tolerance   = 0.0002
+[INFO] Convergence check value = 0.00687591. Convergence tolerance   = 0.0002
+[INFO] Convergence check value = 0.00615499. Convergence tolerance   = 0.0002
+[INFO] Convergence check value = 0.00552639. Convergence tolerance   = 0.0002
+[INFO] Convergence check value = 0.00495534. Convergence tolerance   = 0.0002
+[INFO] Convergence check value = 0.00444828. Convergence tolerance   = 0.0002
+[INFO] Convergence check value = 0.00398957. Convergence tolerance   = 0.0002
+[INFO] Convergence check value = 0.00398893. Convergence tolerance   = 0.0002
+[INFO] Convergence check value = 0.00412798. Convergence tolerance   = 0.0002
+[INFO] Convergence check value = 0.00173837. Convergence tolerance   = 0.0002
+[INFO] Convergence check value = 0.00077303. Convergence tolerance   = 0.0002
+[INFO] Convergence check value = 0.000914611. Convergence tolerance   = 0.0002
+[INFO] Convergence check value = 0.00608298. Convergence tolerance   = 0.0002
+[INFO] Convergence check value = 0.00523081. Convergence tolerance   = 0.0002
+[INFO] Convergence check value = 0.00609653. Convergence tolerance   = 0.0002
+[INFO] Convergence check value = 0.012156. Convergence tolerance   = 0.0002
+[INFO] Convergence check value = 0.00885675. Convergence tolerance   = 0.0002
+[INFO] Convergence check value = 0.0424803. Convergence tolerance   = 0.0002
+[INFO] Convergence check value = 0.0269044. Convergence tolerance   = 0.0002
+[INFO] Convergence check value = 0.0242539. Convergence tolerance   = 0.0002
+[INFO] Convergence check value = 0.000548349. Convergence tolerance   = 0.0002
+[INFO] Convergence check value = 0.000462177. Convergence tolerance   = 0.0002
+[INFO] Convergence check value = 1.15447e-05. Convergence tolerance   = 0.0002
+[WARNING] estimated parameter 'process[Recruitment].ycs_values{2010}' was within 0.001 of upper bound 3
+[WARNING] estimated parameter 'process[Recruitment].ycs_values{2011}' was within 0.001 of upper bound 3
+[WARNING] estimated parameter 'process[Recruitment].ycs_values{2010}' was within 0.001 of upper bound 3
+[WARNING] estimated parameter 'process[Recruitment].ycs_values{2011}' was within 0.001 of upper bound 3
+[INFO] Completed
+[INFO] Total elapsed time: 51 seconds

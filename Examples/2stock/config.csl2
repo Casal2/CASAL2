@@ -1,4 +1,4 @@
-!include "population.csl2"
-!include "observation.csl2"
-!include "estimation.csl2"
-!include "reports.csl2"
+!include "config/population.csl2"
+!include "config/observation.csl2"
+!include "config/estimation.csl2"
+!include "config/reports.csl2"

@@ -1,0 +1,10 @@
+
+[INFO] Setting the random number seed to 0
+[WARNING] Estimates were removed because of matching lower and upper bounds. Originally had 152 estimates, now have 151
+[INFO] The filename for the report 'objectives' has been modified to objectives.1 as the write_mode is incremental_suffix
+[INFO] The filename for the report 'samples' has been modified to samples.1 as the write_mode is incremental_suffix
+[INFO] Initiating MCMC run mode
+[INFO] Loading MPD from file MPD.dat
+[INFO] Beginning MCMC iterations
+[INFO] Starting MCMC 
+^C

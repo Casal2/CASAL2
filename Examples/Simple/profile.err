@@ -1,0 +1,387 @@
+
+[IMPORTANT] Setting 'profile.dat' as the output file for the free parameters
+[INFO] Initiating profile run mode
+[INFO] Estimable parameters were loaded from the free parameter file: params.dat
+[INFO] Profiling with 1 parameter(s)
+[INFO] Profiling parameter process[Recruitment].b0
+[INFO] Profiling with parameter at step 1 of 10 steps
+[INFO] Estimation with the gammadiff minimiser
+[INFO] Convergence check value = 0.119879. Convergence tolerance   = 0.0002
+[INFO] Convergence check value = 0.163493. Convergence tolerance   = 0.0002
+[INFO] Convergence check value = 0.392056. Convergence tolerance   = 0.0002
+[INFO] Convergence check value = 0.174283. Convergence tolerance   = 0.0002
+[INFO] Convergence check value = 0.146805. Convergence tolerance   = 0.0002
+[INFO] Convergence check value = 0.180786. Convergence tolerance   = 0.0002
+[INFO] Convergence check value = 0.20003. Convergence tolerance   = 0.0002
+[INFO] Convergence check value = 0.210525. Convergence tolerance   = 0.0002
+[INFO] Convergence check value = 0.135266. Convergence tolerance   = 0.0002
+[INFO] Convergence check value = 0.131803. Convergence tolerance   = 0.0002
+[INFO] Convergence check value = 0.146023. Convergence tolerance   = 0.0002
+[INFO] Convergence check value = 0.119257. Convergence tolerance   = 0.0002
+[INFO] Convergence check value = 0.0688375. Convergence tolerance   = 0.0002
+[INFO] Convergence check value = 0.0767628. Convergence tolerance   = 0.0002
+[INFO] Convergence check value = 0.0457504. Convergence tolerance   = 0.0002
+[INFO] Convergence check value = 0.0380205. Convergence tolerance   = 0.0002
+[INFO] Convergence check value = 0.0281342. Convergence tolerance   = 0.0002
+[INFO] Convergence check value = 0.0139252. Convergence tolerance   = 0.0002
+[INFO] Convergence check value = 0.0117008. Convergence tolerance   = 0.0002
+[INFO] Convergence check value = 0.00753205. Convergence tolerance   = 0.0002
+[INFO] Convergence check value = 0.0071209. Convergence tolerance   = 0.0002
+[INFO] Convergence check value = 0.00615709. Convergence tolerance   = 0.0002
+[INFO] Convergence check value = 0.00455375. Convergence tolerance   = 0.0002
+[INFO] Convergence check value = 0.00378276. Convergence tolerance   = 0.0002
+[INFO] Convergence check value = 0.00295734. Convergence tolerance   = 0.0002
+[INFO] Convergence check value = 0.00356668. Convergence tolerance   = 0.0002
+[INFO] Convergence check value = 0.00278271. Convergence tolerance   = 0.0002
+[INFO] Convergence check value = 0.00217983. Convergence tolerance   = 0.0002
+[INFO] Convergence check value = 0.00122621. Convergence tolerance   = 0.0002
+[INFO] Convergence check value = 0.0010589. Convergence tolerance   = 0.0002
+[INFO] Convergence check value = 0.00135263. Convergence tolerance   = 0.0002
+[INFO] Convergence check value = 0.00150554. Convergence tolerance   = 0.0002
+[INFO] Convergence check value = 0.00188285. Convergence tolerance   = 0.0002
+[INFO] Convergence check value = 0.000717263. Convergence tolerance   = 0.0002
+[INFO] Convergence check value = 0.000550739. Convergence tolerance   = 0.0002
+[INFO] Convergence check value = 0.000383842. Convergence tolerance   = 0.0002
+[INFO] Convergence check value = 0.000105874. Convergence tolerance   = 0.0002
+[WARNING] estimated parameter 'process[Recruitment].ycs_values{2010}' was within 0.001 of upper bound 3
+[WARNING] estimated parameter 'process[Recruitment].ycs_values{2011}' was within 0.001 of upper bound 3
+[WARNING] estimated parameter 'process[Recruitment].ycs_values{2010}' was within 0.001 of upper bound 3
+[WARNING] estimated parameter 'process[Recruitment].ycs_values{2011}' was within 0.001 of upper bound 3
+[INFO] Profiling with parameter at step 2 of 10 steps
+[INFO] Estimation with the gammadiff minimiser
+[INFO] Convergence check value = 0.0143183. Convergence tolerance   = 0.0002
+[INFO] Convergence check value = 0.00723316. Convergence tolerance   = 0.0002
+[INFO] Convergence check value = 0.0148836. Convergence tolerance   = 0.0002
+[INFO] Convergence check value = 0.0125566. Convergence tolerance   = 0.0002
+[INFO] Convergence check value = 0.00902952. Convergence tolerance   = 0.0002
+[INFO] Convergence check value = 0.00736134. Convergence tolerance   = 0.0002
+[INFO] Convergence check value = 0.00899446. Convergence tolerance   = 0.0002
+[INFO] Convergence check value = 0.0065281. Convergence tolerance   = 0.0002
+[INFO] Convergence check value = 0.0117941. Convergence tolerance   = 0.0002
+[INFO] Convergence check value = 0.00481076. Convergence tolerance   = 0.0002
+[INFO] Convergence check value = 0.00436646. Convergence tolerance   = 0.0002
+[INFO] Convergence check value = 0.0042701. Convergence tolerance   = 0.0002
+[INFO] Convergence check value = 0.00302719. Convergence tolerance   = 0.0002
+[INFO] Convergence check value = 0.00185296. Convergence tolerance   = 0.0002
+[INFO] Convergence check value = 0.00115622. Convergence tolerance   = 0.0002
+[INFO] Convergence check value = 0.00145705. Convergence tolerance   = 0.0002
+[INFO] Convergence check value = 0.00169087. Convergence tolerance   = 0.0002
+[INFO] Convergence check value = 0.00208005. Convergence tolerance   = 0.0002
+[INFO] Convergence check value = 0.00199452. Convergence tolerance   = 0.0002
+[INFO] Convergence check value = 0.00195235. Convergence tolerance   = 0.0002
+[INFO] Convergence check value = 0.00155599. Convergence tolerance   = 0.0002
+[INFO] Convergence check value = 0.00103472. Convergence tolerance   = 0.0002
+[INFO] Convergence check value = 0.000578352. Convergence tolerance   = 0.0002
+[INFO] Convergence check value = 0.000510744. Convergence tolerance   = 0.0002
+[INFO] Convergence check value = 0.000820196. Convergence tolerance   = 0.0002
+[INFO] Convergence check value = 0.000842043. Convergence tolerance   = 0.0002
+[INFO] Convergence check value = 0.000932011. Convergence tolerance   = 0.0002
+[INFO] Convergence check value = 0.000608028. Convergence tolerance   = 0.0002
+[INFO] Convergence check value = 0.000334903. Convergence tolerance   = 0.0002
+[INFO] Convergence check value = 0.000107265. Convergence tolerance   = 0.0002
+[WARNING] estimated parameter 'process[Recruitment].ycs_values{2010}' was within 0.001 of upper bound 3
+[WARNING] estimated parameter 'process[Recruitment].ycs_values{2011}' was within 0.001 of upper bound 3
+[WARNING] estimated parameter 'process[Recruitment].ycs_values{2010}' was within 0.001 of upper bound 3
+[WARNING] estimated parameter 'process[Recruitment].ycs_values{2011}' was within 0.001 of upper bound 3
+[INFO] Profiling with parameter at step 3 of 10 steps
+[INFO] Estimation with the gammadiff minimiser
+[INFO] Convergence check value = 0.0187254. Convergence tolerance   = 0.0002
+[INFO] Convergence check value = 0.0092762. Convergence tolerance   = 0.0002
+[INFO] Convergence check value = 0.0239021. Convergence tolerance   = 0.0002
+[INFO] Convergence check value = 0.0134147. Convergence tolerance   = 0.0002
+[INFO] Convergence check value = 0.00833113. Convergence tolerance   = 0.0002
+[INFO] Convergence check value = 0.0130074. Convergence tolerance   = 0.0002
+[INFO] Convergence check value = 0.0102068. Convergence tolerance   = 0.0002
+[INFO] Convergence check value = 0.0104227. Convergence tolerance   = 0.0002
+[INFO] Convergence check value = 0.0125858. Convergence tolerance   = 0.0002
+[INFO] Convergence check value = 0.00653197. Convergence tolerance   = 0.0002
+[INFO] Convergence check value = 0.00580916. Convergence tolerance   = 0.0002
+[INFO] Convergence check value = 0.00503523. Convergence tolerance   = 0.0002
+[INFO] Convergence check value = 0.00453954. Convergence tolerance   = 0.0002
+[INFO] Convergence check value = 0.00479173. Convergence tolerance   = 0.0002
+[INFO] Convergence check value = 0.00170437. Convergence tolerance   = 0.0002
+[INFO] Convergence check value = 0.00173314. Convergence tolerance   = 0.0002
+[INFO] Convergence check value = 0.00215816. Convergence tolerance   = 0.0002
+[INFO] Convergence check value = 0.00249498. Convergence tolerance   = 0.0002
+[INFO] Convergence check value = 0.00303991. Convergence tolerance   = 0.0002
+[INFO] Convergence check value = 0.00286253. Convergence tolerance   = 0.0002
+[INFO] Convergence check value = 0.00250903. Convergence tolerance   = 0.0002
+[INFO] Convergence check value = 0.00210953. Convergence tolerance   = 0.0002
+[INFO] Convergence check value = 0.000940223. Convergence tolerance   = 0.0002
+[INFO] Convergence check value = 0.000537683. Convergence tolerance   = 0.0002
+[INFO] Convergence check value = 0.000973044. Convergence tolerance   = 0.0002
+[INFO] Convergence check value = 0.00134189. Convergence tolerance   = 0.0002
+[INFO] Convergence check value = 0.00113736. Convergence tolerance   = 0.0002
+[INFO] Convergence check value = 0.00117051. Convergence tolerance   = 0.0002
+[INFO] Convergence check value = 0.000512325. Convergence tolerance   = 0.0002
+[INFO] Convergence check value = 0.000159727. Convergence tolerance   = 0.0002
+[WARNING] estimated parameter 'process[Recruitment].ycs_values{2010}' was within 0.001 of upper bound 3
+[WARNING] estimated parameter 'process[Recruitment].ycs_values{2011}' was within 0.001 of upper bound 3
+[WARNING] estimated parameter 'process[Recruitment].ycs_values{2010}' was within 0.001 of upper bound 3
+[WARNING] estimated parameter 'process[Recruitment].ycs_values{2011}' was within 0.001 of upper bound 3
+[INFO] Profiling with parameter at step 4 of 10 steps
+[INFO] Estimation with the gammadiff minimiser
+[INFO] Convergence check value = 0.0253987. Convergence tolerance   = 0.0002
+[INFO] Convergence check value = 0.0123511. Convergence tolerance   = 0.0002
+[INFO] Convergence check value = 0.0350724. Convergence tolerance   = 0.0002
+[INFO] Convergence check value = 0.0165152. Convergence tolerance   = 0.0002
+[INFO] Convergence check value = 0.0110399. Convergence tolerance   = 0.0002
+[INFO] Convergence check value = 0.0171213. Convergence tolerance   = 0.0002
+[INFO] Convergence check value = 0.0172962. Convergence tolerance   = 0.0002
+[INFO] Convergence check value = 0.0119338. Convergence tolerance   = 0.0002
+[INFO] Convergence check value = 0.0159667. Convergence tolerance   = 0.0002
+[INFO] Convergence check value = 0.00880544. Convergence tolerance   = 0.0002
+[INFO] Convergence check value = 0.00479055. Convergence tolerance   = 0.0002
+[INFO] Convergence check value = 0.00540828. Convergence tolerance   = 0.0002
+[INFO] Convergence check value = 0.00343729. Convergence tolerance   = 0.0002
+[INFO] Convergence check value = 0.00314979. Convergence tolerance   = 0.0002
+[INFO] Convergence check value = 0.00289866. Convergence tolerance   = 0.0002
+[INFO] Convergence check value = 0.00241852. Convergence tolerance   = 0.0002
+[INFO] Convergence check value = 0.00183009. Convergence tolerance   = 0.0002
+[INFO] Convergence check value = 0.00260817. Convergence tolerance   = 0.0002
+[INFO] Convergence check value = 0.00289201. Convergence tolerance   = 0.0002
+[INFO] Convergence check value = 0.00288185. Convergence tolerance   = 0.0002
+[INFO] Convergence check value = 0.00240899. Convergence tolerance   = 0.0002
+[INFO] Convergence check value = 0.00190704. Convergence tolerance   = 0.0002
+[INFO] Convergence check value = 0.00108905. Convergence tolerance   = 0.0002
+[INFO] Convergence check value = 0.000641045. Convergence tolerance   = 0.0002
+[INFO] Convergence check value = 0.00128757. Convergence tolerance   = 0.0002
+[INFO] Convergence check value = 0.00187258. Convergence tolerance   = 0.0002
+[INFO] Convergence check value = 0.00197029. Convergence tolerance   = 0.0002
+[INFO] Convergence check value = 0.00167166. Convergence tolerance   = 0.0002
+[INFO] Convergence check value = 0.00114642. Convergence tolerance   = 0.0002
+[INFO] Convergence check value = 0.000451551. Convergence tolerance   = 0.0002
+[IMPORTANT] FMM: Too many function evaluations (71)
+[WARNING] estimated parameter 'process[Recruitment].ycs_values{2010}' was within 0.001 of upper bound 3
+[WARNING] estimated parameter 'process[Recruitment].ycs_values{2011}' was within 0.001 of upper bound 3
+[WARNING] estimated parameter 'process[Recruitment].ycs_values{2010}' was within 0.001 of upper bound 3
+[WARNING] estimated parameter 'process[Recruitment].ycs_values{2011}' was within 0.001 of upper bound 3
+[INFO] Profiling with parameter at step 5 of 10 steps
+[INFO] Estimation with the gammadiff minimiser
+[INFO] Convergence check value = 0.0363918. Convergence tolerance   = 0.0002
+[INFO] Convergence check value = 0.0171842. Convergence tolerance   = 0.0002
+[INFO] Convergence check value = 0.0448568. Convergence tolerance   = 0.0002
+[INFO] Convergence check value = 0.0253616. Convergence tolerance   = 0.0002
+[INFO] Convergence check value = 0.0169883. Convergence tolerance   = 0.0002
+[INFO] Convergence check value = 0.0174032. Convergence tolerance   = 0.0002
+[INFO] Convergence check value = 0.0175836. Convergence tolerance   = 0.0002
+[INFO] Convergence check value = 0.0103243. Convergence tolerance   = 0.0002
+[INFO] Convergence check value = 0.0132387. Convergence tolerance   = 0.0002
+[INFO] Convergence check value = 0.0126229. Convergence tolerance   = 0.0002
+[INFO] Convergence check value = 0.0033692. Convergence tolerance   = 0.0002
+[INFO] Convergence check value = 0.00411456. Convergence tolerance   = 0.0002
+[INFO] Convergence check value = 0.00339242. Convergence tolerance   = 0.0002
+[INFO] Convergence check value = 0.00535458. Convergence tolerance   = 0.0002
+[INFO] Convergence check value = 0.00271351. Convergence tolerance   = 0.0002
+[INFO] Convergence check value = 0.00297791. Convergence tolerance   = 0.0002
+[INFO] Convergence check value = 0.00173887. Convergence tolerance   = 0.0002
+[INFO] Convergence check value = 0.00201652. Convergence tolerance   = 0.0002
+[INFO] Convergence check value = 0.0016178. Convergence tolerance   = 0.0002
+[INFO] Convergence check value = 0.00177135. Convergence tolerance   = 0.0002
+[INFO] Convergence check value = 0.00192321. Convergence tolerance   = 0.0002
+[INFO] Convergence check value = 0.00162689. Convergence tolerance   = 0.0002
+[INFO] Convergence check value = 0.000849731. Convergence tolerance   = 0.0002
+[INFO] Convergence check value = 0.000470567. Convergence tolerance   = 0.0002
+[INFO] Convergence check value = 0.000837874. Convergence tolerance   = 0.0002
+[INFO] Convergence check value = 0.00116819. Convergence tolerance   = 0.0002
+[INFO] Convergence check value = 0.00136642. Convergence tolerance   = 0.0002
+[INFO] Convergence check value = 0.00106522. Convergence tolerance   = 0.0002
+[INFO] Convergence check value = 0.000855792. Convergence tolerance   = 0.0002
+[INFO] Convergence check value = 0.000347498. Convergence tolerance   = 0.0002
+[IMPORTANT] FMM: Too many quasi newton iterations  (31)
+[WARNING] estimated parameter 'process[Recruitment].ycs_values{2010}' was within 0.001 of upper bound 3
+[WARNING] estimated parameter 'process[Recruitment].ycs_values{2011}' was within 0.001 of upper bound 3
+[WARNING] estimated parameter 'process[Recruitment].ycs_values{2010}' was within 0.001 of upper bound 3
+[WARNING] estimated parameter 'process[Recruitment].ycs_values{2011}' was within 0.001 of upper bound 3
+[INFO] Profiling with parameter at step 6 of 10 steps
+[INFO] Estimation with the gammadiff minimiser
+[INFO] Convergence check value = 0.0564802. Convergence tolerance   = 0.0002
+[INFO] Convergence check value = 0.0294338. Convergence tolerance   = 0.0002
+[INFO] Convergence check value = 0.0802377. Convergence tolerance   = 0.0002
+[INFO] Convergence check value = 0.0463386. Convergence tolerance   = 0.0002
+[INFO] Convergence check value = 0.0315185. Convergence tolerance   = 0.0002
+[INFO] Convergence check value = 0.03524. Convergence tolerance   = 0.0002
+[INFO] Convergence check value = 0.0463929. Convergence tolerance   = 0.0002
+[INFO] Convergence check value = 0.0228431. Convergence tolerance   = 0.0002
+[INFO] Convergence check value = 0.0205715. Convergence tolerance   = 0.0002
+[INFO] Convergence check value = 0.026118. Convergence tolerance   = 0.0002
+[INFO] Convergence check value = 0.00514521. Convergence tolerance   = 0.0002
+[INFO] Convergence check value = 0.00690334. Convergence tolerance   = 0.0002
+[INFO] Convergence check value = 0.00879388. Convergence tolerance   = 0.0002
+[INFO] Convergence check value = 0.00489956. Convergence tolerance   = 0.0002
+[INFO] Convergence check value = 0.00452162. Convergence tolerance   = 0.0002
+[INFO] Convergence check value = 0.004176. Convergence tolerance   = 0.0002
+[INFO] Convergence check value = 0.002366. Convergence tolerance   = 0.0002
+[INFO] Convergence check value = 0.00269773. Convergence tolerance   = 0.0002
+[INFO] Convergence check value = 0.00214774. Convergence tolerance   = 0.0002
+[INFO] Convergence check value = 0.00213196. Convergence tolerance   = 0.0002
+[INFO] Convergence check value = 0.00231734. Convergence tolerance   = 0.0002
+[INFO] Convergence check value = 0.00171959. Convergence tolerance   = 0.0002
+[INFO] Convergence check value = 0.000954717. Convergence tolerance   = 0.0002
+[INFO] Convergence check value = 0.000574361. Convergence tolerance   = 0.0002
+[INFO] Convergence check value = 0.000479288. Convergence tolerance   = 0.0002
+[INFO] Convergence check value = 0.000473496. Convergence tolerance   = 0.0002
+[INFO] Convergence check value = 0.000636738. Convergence tolerance   = 0.0002
+[INFO] Convergence check value = 0.000755329. Convergence tolerance   = 0.0002
+[INFO] Convergence check value = 0.000512971. Convergence tolerance   = 0.0002
+[INFO] Convergence check value = 0.000346698. Convergence tolerance   = 0.0002
+[INFO] Convergence check value = 0.00027355. Convergence tolerance   = 0.0002
+[IMPORTANT] FMM: Too many function evaluations (72)
+[WARNING] estimated parameter 'process[Recruitment].ycs_values{2010}' was within 0.001 of upper bound 3
+[WARNING] estimated parameter 'process[Recruitment].ycs_values{2011}' was within 0.001 of upper bound 3
+[WARNING] estimated parameter 'process[Recruitment].ycs_values{2010}' was within 0.001 of upper bound 3
+[WARNING] estimated parameter 'process[Recruitment].ycs_values{2011}' was within 0.001 of upper bound 3
+[INFO] Profiling with parameter at step 7 of 10 steps
+[INFO] Estimation with the gammadiff minimiser
+[INFO] Convergence check value = 0.099075. Convergence tolerance   = 0.0002
+[INFO] Convergence check value = 0.0759657. Convergence tolerance   = 0.0002
+[INFO] Convergence check value = 0.115346. Convergence tolerance   = 0.0002
+[INFO] Convergence check value = 0.105672. Convergence tolerance   = 0.0002
+[INFO] Convergence check value = 0.0731915. Convergence tolerance   = 0.0002
+[INFO] Convergence check value = 0.0467418. Convergence tolerance   = 0.0002
+[INFO] Convergence check value = 0.0708909. Convergence tolerance   = 0.0002
+[INFO] Convergence check value = 0.0658708. Convergence tolerance   = 0.0002
+[INFO] Convergence check value = 0.0440425. Convergence tolerance   = 0.0002
+[INFO] Convergence check value = 0.045371. Convergence tolerance   = 0.0002
+[INFO] Convergence check value = 0.0110252. Convergence tolerance   = 0.0002
+[INFO] Convergence check value = 0.00901753. Convergence tolerance   = 0.0002
+[INFO] Convergence check value = 0.00868327. Convergence tolerance   = 0.0002
+[INFO] Convergence check value = 0.00644507. Convergence tolerance   = 0.0002
+[INFO] Convergence check value = 0.00611955. Convergence tolerance   = 0.0002
+[INFO] Convergence check value = 0.00382162. Convergence tolerance   = 0.0002
+[INFO] Convergence check value = 0.00298365. Convergence tolerance   = 0.0002
+[INFO] Convergence check value = 0.00274532. Convergence tolerance   = 0.0002
+[INFO] Convergence check value = 0.00324834. Convergence tolerance   = 0.0002
+[INFO] Convergence check value = 0.0027633. Convergence tolerance   = 0.0002
+[INFO] Convergence check value = 0.00192799. Convergence tolerance   = 0.0002
+[INFO] Convergence check value = 0.00202227. Convergence tolerance   = 0.0002
+[INFO] Convergence check value = 0.0014379. Convergence tolerance   = 0.0002
+[INFO] Convergence check value = 0.0011021. Convergence tolerance   = 0.0002
+[INFO] Convergence check value = 0.00106271. Convergence tolerance   = 0.0002
+[INFO] Convergence check value = 0.000609915. Convergence tolerance   = 0.0002
+[INFO] Convergence check value = 0.000496413. Convergence tolerance   = 0.0002
+[INFO] Convergence check value = 0.000461825. Convergence tolerance   = 0.0002
+[INFO] Convergence check value = 0.00058131. Convergence tolerance   = 0.0002
+[INFO] Convergence check value = 0.000524868. Convergence tolerance   = 0.0002
+[INFO] Convergence check value = 0.000397721. Convergence tolerance   = 0.0002
+[IMPORTANT] FMM: Too many function evaluations (73)
+[WARNING] estimated parameter 'process[Recruitment].ycs_values{2010}' was within 0.001 of upper bound 3
+[WARNING] estimated parameter 'process[Recruitment].ycs_values{2011}' was within 0.001 of upper bound 3
+[WARNING] estimated parameter 'process[Recruitment].ycs_values{2010}' was within 0.001 of upper bound 3
+[WARNING] estimated parameter 'process[Recruitment].ycs_values{2011}' was within 0.001 of upper bound 3
+[INFO] Profiling with parameter at step 8 of 10 steps
+[INFO] Estimation with the gammadiff minimiser
+[INFO] Convergence check value = 0.281557. Convergence tolerance   = 0.0002
+[INFO] Convergence check value = 0.443889. Convergence tolerance   = 0.0002
+[INFO] Convergence check value = 0.269736. Convergence tolerance   = 0.0002
+[INFO] Convergence check value = 0.322559. Convergence tolerance   = 0.0002
+[INFO] Convergence check value = 0.311879. Convergence tolerance   = 0.0002
+[INFO] Convergence check value = 0.217229. Convergence tolerance   = 0.0002
+[INFO] Convergence check value = 0.185615. Convergence tolerance   = 0.0002
+[INFO] Convergence check value = 0.258532. Convergence tolerance   = 0.0002
+[INFO] Convergence check value = 0.26399. Convergence tolerance   = 0.0002
+[INFO] Convergence check value = 0.178693. Convergence tolerance   = 0.0002
+[INFO] Convergence check value = 0.0526482. Convergence tolerance   = 0.0002
+[INFO] Convergence check value = 0.0498733. Convergence tolerance   = 0.0002
+[INFO] Convergence check value = 0.0296979. Convergence tolerance   = 0.0002
+[INFO] Convergence check value = 0.0243781. Convergence tolerance   = 0.0002
+[INFO] Convergence check value = 0.0175547. Convergence tolerance   = 0.0002
+[INFO] Convergence check value = 0.0147603. Convergence tolerance   = 0.0002
+[INFO] Convergence check value = 0.00989776. Convergence tolerance   = 0.0002
+[INFO] Convergence check value = 0.00657151. Convergence tolerance   = 0.0002
+[INFO] Convergence check value = 0.0038846. Convergence tolerance   = 0.0002
+[INFO] Convergence check value = 0.00435351. Convergence tolerance   = 0.0002
+[INFO] Convergence check value = 0.00567804. Convergence tolerance   = 0.0002
+[INFO] Convergence check value = 0.00660296. Convergence tolerance   = 0.0002
+[INFO] Convergence check value = 0.00702644. Convergence tolerance   = 0.0002
+[INFO] Convergence check value = 0.00601722. Convergence tolerance   = 0.0002
+[INFO] Convergence check value = 0.00391664. Convergence tolerance   = 0.0002
+[INFO] Convergence check value = 0.0024522. Convergence tolerance   = 0.0002
+[INFO] Convergence check value = 0.00205314. Convergence tolerance   = 0.0002
+[INFO] Convergence check value = 0.00164885. Convergence tolerance   = 0.0002
+[INFO] Convergence check value = 0.00111659. Convergence tolerance   = 0.0002
+[INFO] Convergence check value = 0.000661004. Convergence tolerance   = 0.0002
+[INFO] Convergence check value = 0.000464773. Convergence tolerance   = 0.0002
+[IMPORTANT] FMM: Too many quasi newton iterations  (32)
+[WARNING] estimated parameter 'process[Recruitment].ycs_values{2010}' was within 0.001 of upper bound 3
+[WARNING] estimated parameter 'process[Recruitment].ycs_values{2011}' was within 0.001 of upper bound 3
+[WARNING] estimated parameter 'process[Recruitment].ycs_values{2010}' was within 0.001 of upper bound 3
+[WARNING] estimated parameter 'process[Recruitment].ycs_values{2011}' was within 0.001 of upper bound 3
+[INFO] Profiling with parameter at step 9 of 10 steps
+[INFO] Estimation with the gammadiff minimiser
+[INFO] Convergence check value = 8.32818. Convergence tolerance   = 0.0002
+[INFO] Convergence check value = 7.27062. Convergence tolerance   = 0.0002
+[INFO] Convergence check value = 4.52807. Convergence tolerance   = 0.0002
+[INFO] Convergence check value = 3.6742. Convergence tolerance   = 0.0002
+[INFO] Convergence check value = 5.81949. Convergence tolerance   = 0.0002
+[INFO] Convergence check value = 4.63668. Convergence tolerance   = 0.0002
+[INFO] Convergence check value = 4.0234. Convergence tolerance   = 0.0002
+[INFO] Convergence check value = 2.708. Convergence tolerance   = 0.0002
+[INFO] Convergence check value = 1.7931. Convergence tolerance   = 0.0002
+[INFO] Convergence check value = 1.04596. Convergence tolerance   = 0.0002
+[INFO] Convergence check value = 0.884449. Convergence tolerance   = 0.0002
+[INFO] Convergence check value = 0.669806. Convergence tolerance   = 0.0002
+[INFO] Convergence check value = 0.593747. Convergence tolerance   = 0.0002
+[INFO] Convergence check value = 0.487312. Convergence tolerance   = 0.0002
+[INFO] Convergence check value = 0.568837. Convergence tolerance   = 0.0002
+[INFO] Convergence check value = 1.40377. Convergence tolerance   = 0.0002
+[INFO] Convergence check value = 1.39196. Convergence tolerance   = 0.0002
+[INFO] Convergence check value = 0.582746. Convergence tolerance   = 0.0002
+[INFO] Convergence check value = 0.75672. Convergence tolerance   = 0.0002
+[INFO] Convergence check value = 0.587147. Convergence tolerance   = 0.0002
+[INFO] Convergence check value = 0.430271. Convergence tolerance   = 0.0002
+[INFO] Convergence check value = 0.273531. Convergence tolerance   = 0.0002
+[INFO] Convergence check value = 0.188739. Convergence tolerance   = 0.0002
+[INFO] Convergence check value = 0.0911082. Convergence tolerance   = 0.0002
+[INFO] Convergence check value = 0.231493. Convergence tolerance   = 0.0002
+[INFO] Convergence check value = 0.182948. Convergence tolerance   = 0.0002
+[INFO] Convergence check value = 0.0559406. Convergence tolerance   = 0.0002
+[INFO] Convergence check value = 0.0597988. Convergence tolerance   = 0.0002
+[INFO] Convergence check value = 0.0819609. Convergence tolerance   = 0.0002
+[INFO] Convergence check value = 0.0553254. Convergence tolerance   = 0.0002
+[INFO] Convergence check value = 0.0165426. Convergence tolerance   = 0.0002
+[INFO] Convergence check value = 0.0160972. Convergence tolerance   = 0.0002
+[IMPORTANT] FMM: Too many quasi newton iterations  (33)
+[WARNING] estimated parameter 'process[Recruitment].ycs_values{2010}' was within 0.001 of upper bound 3
+[WARNING] estimated parameter 'process[Recruitment].ycs_values{2011}' was within 0.001 of upper bound 3
+[WARNING] estimated parameter 'process[Recruitment].ycs_values{2010}' was within 0.001 of upper bound 3
+[WARNING] estimated parameter 'process[Recruitment].ycs_values{2011}' was within 0.001 of upper bound 3
+[INFO] Profiling with parameter at step 10 of 10 steps
+[INFO] Estimation with the gammadiff minimiser
+[INFO] Convergence check value = 4.67556. Convergence tolerance   = 0.0002
+[INFO] Convergence check value = 2.28281. Convergence tolerance   = 0.0002
+[INFO] Convergence check value = 1.32831. Convergence tolerance   = 0.0002
+[INFO] Convergence check value = 1.69155. Convergence tolerance   = 0.0002
+[INFO] Convergence check value = 1.29427. Convergence tolerance   = 0.0002
+[INFO] Convergence check value = 3.58909. Convergence tolerance   = 0.0002
+[INFO] Convergence check value = 1.46486. Convergence tolerance   = 0.0002
+[INFO] Convergence check value = 2.06689. Convergence tolerance   = 0.0002
+[INFO] Convergence check value = 2.26783. Convergence tolerance   = 0.0002
+[INFO] Convergence check value = 1.21839. Convergence tolerance   = 0.0002
+[INFO] Convergence check value = 1.54162. Convergence tolerance   = 0.0002
+[INFO] Convergence check value = 1.19909. Convergence tolerance   = 0.0002
+[INFO] Convergence check value = 1.04151. Convergence tolerance   = 0.0002
+[INFO] Convergence check value = 0.875383. Convergence tolerance   = 0.0002
+[INFO] Convergence check value = 0.501875. Convergence tolerance   = 0.0002
+[INFO] Convergence check value = 1.03746. Convergence tolerance   = 0.0002
+[INFO] Convergence check value = 0.330626. Convergence tolerance   = 0.0002
+[INFO] Convergence check value = 0.523729. Convergence tolerance   = 0.0002
+[INFO] Convergence check value = 0.400652. Convergence tolerance   = 0.0002
+[INFO] Convergence check value = 0.218301. Convergence tolerance   = 0.0002
+[INFO] Convergence check value = 0.287908. Convergence tolerance   = 0.0002
+[INFO] Convergence check value = 0.35635. Convergence tolerance   = 0.0002
+[INFO] Convergence check value = 0.185276. Convergence tolerance   = 0.0002
+[INFO] Convergence check value = 0.256857. Convergence tolerance   = 0.0002
+[INFO] Convergence check value = 0.112622. Convergence tolerance   = 0.0002
+[INFO] Convergence check value = 0.130842. Convergence tolerance   = 0.0002
+[INFO] Convergence check value = 0.373852. Convergence tolerance   = 0.0002
+[INFO] Convergence check value = 0.394869. Convergence tolerance   = 0.0002
+[IMPORTANT] FMM: Too many function evaluations (63)
+[WARNING] estimated parameter 'process[Recruitment].b0' was within 0.001 of lower bound 10000
+[WARNING] estimated parameter 'process[Recruitment].ycs_values{2010}' was within 0.001 of upper bound 3
+[WARNING] estimated parameter 'process[Recruitment].ycs_values{2011}' was within 0.001 of upper bound 3
+[WARNING] estimated parameter 'process[Recruitment].b0' was within 0.001 of lower bound 10000
+[WARNING] estimated parameter 'process[Recruitment].ycs_values{2010}' was within 0.001 of upper bound 3
+[WARNING] estimated parameter 'process[Recruitment].ycs_values{2011}' was within 0.001 of upper bound 3
+[INFO] Completed
+[INFO] Total elapsed time: 3.117 minutes

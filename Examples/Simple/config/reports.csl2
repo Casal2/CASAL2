@@ -1,0 +1,52 @@
+#####################################
+# The Report definition for the model
+#####################################
+
+# Print estimate values
+@report mpd
+type mpd
+
+@report estimate_value
+type estimate_value
+
+@report objective
+type objective_function
+
+# Print process information
+@report Recruitment
+type process
+process Recruitment
+
+@report Mortality
+type process
+process Instantaneous_Mortality
+
+# Print the partition
+@report Init
+type initialisation_partition
+
+# Look at numbers at age for each category during model run
+@report Sep_Feb
+type partition
+time_step Sep_Feb
+
+@report westF_at_age
+type observation
+observation chatOBSwst
+
+# Ageing error matrix
+@report age_error
+type ageing_error
+ageing_error Normal_ageing
+
+#MCMC objectives
+@report objectives
+type MCMC_Objective
+file_name objectives
+write_mode incremental_suffix
+
+#MCMC samples
+@report samples
+type mcmc_sample
+file_name samples
+write_mode incremental_suffix

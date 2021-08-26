@@ -1,0 +1,13 @@
+
+[INFO] Setting the random number seed to 0
+[INFO] The filename for the report 'objectives' has been modified to objectives.1 as the write_mode is incremental_suffix
+[INFO] The filename for the report 'samples' has been modified to samples.1 as the write_mode is incremental_suffix
+[INFO] Initiating MCMC run mode
+[INFO] Loading MPD from file MPD.dat
+[INFO] Beginning MCMC iterations
+[INFO] Starting MCMC 
+[INFO] Adapting step_size from 0.02 to 0.0681667 after 1000 iterations
+[INFO] Adapting step_size from 0.0681667 to 0.150535 after 2000 iterations
+[INFO] MCMC execution complete
+[INFO] Completed
+[INFO] Total elapsed time: 1.733 minutes

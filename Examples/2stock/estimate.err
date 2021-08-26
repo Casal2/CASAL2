@@ -1,0 +1,43 @@
+
+[WARNING] Estimates were removed because of matching lower and upper bounds. Originally had 152 estimates, now have 151
+[IMPORTANT] Setting 'MPD.dat' as the output file for the MPD (i.e., free parameters and covariance)
+[IMPORTANT] Setting 'params.dat' as the output file for the free parameters
+[INFO] Initiating point estimate run mode
+[INFO] Estimation with the gammadiff minimiser
+[INFO] Convergence check value = 0.000176863. Convergence tolerance   = 1e-05
+[INFO] Convergence check value = 0.000126796. Convergence tolerance   = 1e-05
+[INFO] Convergence check value = 0.000130849. Convergence tolerance   = 1e-05
+[INFO] Convergence check value = 0.000101689. Convergence tolerance   = 1e-05
+[INFO] Convergence check value = 3.2874e-05. Convergence tolerance   = 1e-05
+[INFO] Convergence check value = 2.54878e-05. Convergence tolerance   = 1e-05
+[INFO] Convergence check value = 7.6489e-06. Convergence tolerance   = 1e-05
+[WARNING] estimated parameter 'process[recruit_E].b0' was within 0.001 of upper bound 16.2
+[WARNING] estimated parameter 'process[recruit_W].b0' was within 0.001 of upper bound 0.59
+[WARNING] estimated parameter 'process[recruit_E].ycs_values{1999}' was within 0.001 of lower bound 0.06
+[WARNING] estimated parameter 'process[recruit_W].ycs_values{1999}' was within 0.001 of lower bound 0.06
+[WARNING] estimated parameter 'selectivity[sel_Whome].v{7}' was within 0.001 of upper bound 1
+[WARNING] estimated parameter 'selectivity[sel_Espmg_Female].v{1}' was within 0.001 of lower bound 0
+[WARNING] estimated parameter 'selectivity[sel_Espmg_Female].v{8}' was within 0.001 of lower bound 0.6
+[WARNING] estimated parameter 'selectivity[sel_Wspmg_Female].v{8}' was within 0.001 of lower bound 0.6
+[WARNING] estimated parameter 'selectivity[Enspsl].sigma_r' was within 0.001 of upper bound 44
+[WARNING] estimated parameter 'selectivity[Espsl].ato95' was within 0.001 of lower bound 4
+[WARNING] estimated parameter 'selectivity[CRsl].mu' was within 0.001 of lower bound 64
+[WARNING] estimated parameter 'selectivity[SAsl].mu' was within 0.001 of upper bound 84
+[WARNING] estimated parameter 'selectivity[SAsl].sigma_l' was within 0.001 of upper bound 44
+[WARNING] estimated parameter 'selectivity[SAsl].sigma_r' was within 0.001 of upper bound 44
+[WARNING] estimated parameter 'process[recruit_E].b0' was within 0.001 of upper bound 16.2
+[WARNING] estimated parameter 'process[recruit_W].b0' was within 0.001 of upper bound 0.59
+[WARNING] estimated parameter 'process[recruit_E].ycs_values{1999}' was within 0.001 of lower bound 0.06
+[WARNING] estimated parameter 'process[recruit_W].ycs_values{1999}' was within 0.001 of lower bound 0.06
+[WARNING] estimated parameter 'selectivity[sel_Whome].v{7}' was within 0.001 of upper bound 1
+[WARNING] estimated parameter 'selectivity[sel_Espmg_Female].v{1}' was within 0.001 of lower bound 0
+[WARNING] estimated parameter 'selectivity[sel_Espmg_Female].v{8}' was within 0.001 of lower bound 0.6
+[WARNING] estimated parameter 'selectivity[sel_Wspmg_Female].v{8}' was within 0.001 of lower bound 0.6
+[WARNING] estimated parameter 'selectivity[Enspsl].sigma_r' was within 0.001 of upper bound 44
+[WARNING] estimated parameter 'selectivity[Espsl].ato95' was within 0.001 of lower bound 4
+[WARNING] estimated parameter 'selectivity[CRsl].mu' was within 0.001 of lower bound 64
+[WARNING] estimated parameter 'selectivity[SAsl].mu' was within 0.001 of upper bound 84
+[WARNING] estimated parameter 'selectivity[SAsl].sigma_l' was within 0.001 of upper bound 44
+[WARNING] estimated parameter 'selectivity[SAsl].sigma_r' was within 0.001 of upper bound 44
+[INFO] Completed
+[INFO] Total elapsed time: 1.433 minutes

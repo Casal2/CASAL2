@@ -47,7 +47,6 @@ void StandardHeader::PrintTop(GlobalConfiguration& global_config) {
 
   ostringstream header;
   header << "Casal2" << endl;
-
   /**
    * Build the Command line
    */
@@ -55,41 +54,36 @@ void StandardHeader::PrintTop(GlobalConfiguration& global_config) {
   vector<string>& commandLine = global_config.command_line_parameters();
   for (unsigned i = 0; i < commandLine.size(); ++i) header << commandLine[i] << " ";
   header << endl;
-
+  /**
+   *  Print the date and time
+   */
+  header << "Date: ";
+  time_t t;
+  t = time(NULL);
+  header << ctime(&t);
   /**
    * Version information
    */
   header << "Version: v" << VERSION << endl;
   header << "Copyright (c) 2017-" << SOURCE_CONTROL_YEAR << ", NIWA (www.niwa.co.nz)" << endl;
-
-  /**
-   *  Print the date and time
-   * */
-  header << "Date: ";
-  time_t t;
-  t = time(NULL);
-  header << ctime(&t) << endl;
-
   /**
    * User and Computer Information
    */
-
 #ifdef __MINGW32__
-  header << "Environment: machine:" << getenv("COMPUTERNAME") << ", user:" << getenv("USERNAME") << ", os:" << getenv("OS") << ", pid:" << _getpid() << endl;
+  header << "Environment: User=" << getenv("USERNAME") << " Machine=" << getenv("COMPUTERNAME") << " OS=" << getenv("OS") << " PID=" << _getpid() << endl;
 #elif _MSC_VER
 #else
-  cout << "-- Username: ";
+  cout << "Environment: User=";
   auto* cUsername = getenv("LOGNAME");
   if (cUsername != NULL)
     header << cUsername << endl;
   else {
     header << "-----" << endl;
   }
-
   struct utsname names;
   uname(&names);
-  header << "-- Machine: " << names.nodename << " (" << names.sysname << " " << names.release << " " << names.machine << ")" << endl;
-  header << "-- Process Id: " << getpid() << endl;
+  header << " Machine=" << names.nodename << " (" << names.sysname << " " << names.release << " " << names.machine << ")" << endl;
+  header << " PID=" << getpid() << endl;
 #endif
 
   if (!global_config.disable_standard_report()) {
@@ -99,7 +93,6 @@ void StandardHeader::PrintTop(GlobalConfiguration& global_config) {
 
   global_config.set_standard_header(header.str());
 }
-
 /**
  *
  */

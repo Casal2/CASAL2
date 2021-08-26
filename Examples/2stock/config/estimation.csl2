@@ -6,11 +6,29 @@
 
 ################################### Minimiser ###############################
 
+@minimiser gammadiff
+type numerical_differences
+tolerance 1e-5
+iterations 2500
+evaluations 4000
+active true
+
 @minimiser beta_diff
 type betadiff
 tolerance 1e-5
 iterations 2500
 evaluations 4000
+active false
+
+# MCMC
+@mcmc mcmc
+start 0
+length 10000
+keep 100
+step_size 0.02
+adapt_stepsize_at 1000 2000
+proposal_distribution t
+adapt_stepsize_method ratio
 
 ################################### Estimates ###############################
 ## Format for parameter in @estimate block = type[label].parameter
@@ -76,7 +94,7 @@ upper_bound 1
 #######
 ## B0's
 #######
-## this includes your funnny transformation see the manual for how Casal2 applies transformations
+## this includes a transformation see the manual for how Casal2 applies transformations
 @estimate B0_E_with_total_log_b0_prior
 type uniform
 parameter process[recruit_E].b0
@@ -365,3 +383,10 @@ type lognormal
 parameter selectivity[M_female].values{5:9}
 mu 0.182355
 cv 0.5090222
+
+# Profiling
+@profile B0
+parameter process[recruit_W].b0
+steps 10
+upper_bound 100000
+lower_bound 1000000

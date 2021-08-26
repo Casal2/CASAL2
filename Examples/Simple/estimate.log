@@ -1,10 +1,9 @@
 Casal2
-Call: casal2 -E MPD.dat 
-Version: v21.08 (2021-08-20)
+Call: ..\..\BuildSystem\bin\windows_gcc\release\Casal2 -E MPD.dat -o params.dat 
+Date: Thu Aug 26 19:18:32 2021
+Version: v21.08 (2021-08-26)
 Copyright (c) 2017-2021, NIWA (www.niwa.co.nz)
-Date: Wed Aug 25 19:42:34 2021
-
-Environment: machine:HP1040, user:alist, os:Windows_NT, pid:5396
+Environment: Machine=HP1040 User=alist OS=Windows_NT PID=9304
 
 
 *initialisation_partition[Init]
@@ -853,6 +852,8 @@ year category age length observed expected residual error_value process_error ad
 
 *warnings[messages_encountered]
 {string}
+estimated parameter 'process[Recruitment].ycs_values{2010}' was within 0.001 of upper bound 3
+estimated parameter 'process[Recruitment].ycs_values{2011}' was within 0.001 of upper bound 3
 estimated parameter 'process[Recruitment].ycs_values{2010}' was within 0.001 of upper bound 3
 estimated parameter 'process[Recruitment].ycs_values{2011}' was within 0.001 of upper bound 3
 *end
