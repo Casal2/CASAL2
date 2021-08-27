@@ -42,6 +42,7 @@ public:
   // methods
   virtual ~Manager() noexcept(true) = default;
   void AddObject(niwa::Report* object) final;
+  void AddInternalObject(niwa::Report* object);
   void Validate() final;
   void Validate(shared_ptr<Model> model);
   void Build() final;
@@ -82,6 +83,8 @@ private:
   bool                              has_built_     = false;
   bool                              has_prepared_  = false;
   bool                              has_finalised_ = false;
+  static std::mutex                 internal_lock_;  // for internally created reports
+  vector<niwa::Report*>             internal_objects_;
 };
 
 } /* namespace reports */

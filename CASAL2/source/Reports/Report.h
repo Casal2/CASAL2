@@ -65,14 +65,15 @@ public:
   void FlushCache();
 
   // Accessors
-  RunMode::Type run_mode() const { return run_mode_; }
-  State::Type   model_state() const { return model_state_; }
-  const string& time_step() const { return time_step_; }
-  const string& file_name() const { return file_name_; }
-  bool          ready_for_writing() const { return ready_for_writing_; }
-  void          set_skip_tags(bool value) { skip_tags_ = value; }
-  void          set_suffix(string_view suffix);
-  void          set_write_mode(string_view write_mode) { write_mode_ = write_mode; }
+  RunMode::Type  run_mode() const { return run_mode_; }
+  State::Type    model_state() const { return model_state_; }
+  const string&  time_step() const { return time_step_; }
+  const string&  file_name() const { return file_name_; }
+  bool           ready_for_writing() const { return ready_for_writing_; }
+  void           set_skip_tags(bool value) { skip_tags_ = value; }
+  void           set_suffix(string_view suffix);
+  void           set_write_mode(string_view write_mode) { write_mode_ = write_mode; }
+  constexpr bool is_valid() const { return is_valid_; }
 
 protected:
   // methods
@@ -105,6 +106,7 @@ protected:
   bool              skip_tags_         = false;
   string            suffix_            = "";
   string            format_            = PARAM_R;
+  bool              is_valid_          = true;
 };
 
 // Typedef

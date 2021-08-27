@@ -18,16 +18,11 @@ namespace niwa::reports {
 
 using std::scoped_lock;
 std::mutex Manager::lock_;
-
-#define LOCK_WAIT()                                                                                                \
-  static std::mutex io_mutex;                                                                                      \
-  {                                                                                                                \
-    std::lock_guard<std::mutex> lk(io_mutex);                                                                      \
-    std::cout << "Model [thread#" << model->id() << "] is waiting for a " << __FUNCTION__ << " lock" << std::endl; \
-  }
+std::mutex Manager::internal_lock_;
 
 /**
- * Default Constructor
+ * @brief Construct a new Manager:: Manager object
+ *
  */
 Manager::Manager() {
   run_.test_and_set();
@@ -36,12 +31,33 @@ Manager::Manager() {
   waiting_   = false;
 }
 
+/**
+ * @brief
+ *
+ * @param object
+ */
 void Manager::AddObject(niwa::Report* object) {
   std::scoped_lock l(lock_);
   objects_.push_back(object);
 }
 
 /**
+ * @brief Add a new internal report. The new report should be at the same state level
+ * as the object creating it. So if you're creating it from a validate method,
+ * then it should be given in a way that is ready to be (but has not been) validated.
+ *
+ * If you're adding an internal object during a build phase, then you will need to ensure
+ * it has been successfully validated and is ready for this manager to call build on it.
+ *
+ * @param object Pointer to report object you have created
+ */
+void Manager::AddInternalObject(niwa::Report* object) {
+  std::scoped_lock l(internal_lock_);
+  internal_objects_.push_back(object);
+}
+
+/**
+ * @brief
  *
  */
 void Manager::Validate() {
@@ -49,6 +65,7 @@ void Manager::Validate() {
 }
 
 /**
+ * @brief
  *
  */
 void Manager::Build() {
@@ -56,7 +73,9 @@ void Manager::Build() {
 }
 
 /**
+ * @brief Validate the internal consistency of each report object
  *
+ * @param model A model pointer so we can access global configuration
  */
 void Manager::Validate(shared_ptr<Model> model) {
   std::scoped_lock l(lock_);
@@ -67,17 +86,28 @@ void Manager::Validate(shared_ptr<Model> model) {
 
   LOG_FINEST() << "objects_.size(): " << objects_.size();
   for (auto report : objects_) {
-    report->Validate(model);
+    if (report->is_valid())
+      report->Validate(model);
   }
+
+  // move any objects from the internal vector to the objects vector
+  // internal vector is used for auto generated reports
+  for (auto report : internal_objects_) {
+    report->Validate(model);
+    objects_.push_back(report);
+  }
+  internal_objects_.clear();
 
   has_validated_ = true;
 }
 
 /**
- * Build our reports then
+ * @brief Build our reports then
  * organise the reports stored in our
  * object list into different containers
  * based on their type.
+ *
+ * @param model
  */
 void Manager::Build(shared_ptr<Model> model) {
   std::scoped_lock l(lock_);
@@ -87,29 +117,6 @@ void Manager::Build(shared_ptr<Model> model) {
     return;
 
   RunMode::Type run_mode = model->run_mode();
-
-#ifndef TESTMODE
-  bool exists_MCMC_sample    = false;
-  bool exists_MCMC_objective = false;
-  bool exists_estimate_value = false;
-
-  for (auto report : objects_) {
-    // Check that important reports exist
-    if (util::ToLowercase(report->type()) == PARAM_MCMC_SAMPLE)
-      exists_MCMC_sample = true;
-    if (util::ToLowercase(report->type()) == PARAM_MCMC_OBJECTIVE)
-      exists_MCMC_objective = true;
-    if (util::ToLowercase(report->type()) == PARAM_ESTIMATE_VALUE)
-      exists_estimate_value = true;
-  }
-
-  if (run_mode == RunMode::Type::kMCMC && !exists_MCMC_sample)
-    LOG_WARNING() << "You are running an MCMC but there was no " << PARAM_MCMC_SAMPLE << " report specified. This is probably an error";
-  if (run_mode == RunMode::Type::kMCMC && !exists_MCMC_objective)
-    LOG_WARNING() << "You are running an MCMC but there was no " << PARAM_MCMC_OBJECTIVE << " report specified. This is probably an error";
-  if (run_mode == RunMode::Type::kEstimation && !exists_estimate_value)
-    LOG_WARNING() << "You are running an estimation but there was no " << PARAM_ESTIMATE_VALUE << " report specified. This is probably an error";
-#endif
 
   std::map<std::string, int> count_file_names;
   std::map<std::string, int> count_labels;
@@ -141,11 +148,33 @@ void Manager::Build(shared_ptr<Model> model) {
   LOG_FINEST() << "objects_.size(): " << objects_.size();
   for (auto report : objects_) {
     if ((RunMode::Type)(report->run_mode() & run_mode) == run_mode)
-      report->Build(model);
+      if (report->is_valid())
+        report->Build(model);
+  }
 
+  // move any objects from the internal vector to the objects vector
+  // internal vector is used for auto generated reports
+  for (auto report : internal_objects_) {
+    report->Build(model);
+    objects_.push_back(report);
+  }
+  internal_objects_.clear();
+
+  /**
+   * Iterate over the objects doing some basic checks.
+   * - Has the report been configured to have a proper run mode
+   * - Take report and add it to the state or time step report lists based on it's execution type
+   * - Check if we have some basic reports for the current run mode
+   */
+  [[maybe_unused]] bool exists_MCMC_sample    = false;  // Ignore unused because
+  [[maybe_unused]] bool exists_MCMC_objective = false;  // we only check if it's valid
+  [[maybe_unused]] bool exists_estimate_value = false;  // during non-test modes
+
+  for (auto report : objects_) {
     if ((RunMode::Type)(report->run_mode() & RunMode::kInvalid) == RunMode::kInvalid)
       LOG_CODE_ERROR() << "Report: " << report->label() << " has not been properly configured to have a run mode";
 
+    // add report to the right map for executing later
     if (report->model_state() != State::kExecute) {
       LOG_FINE() << "Adding report " << report->label() << " to state reports, with model->state() = " << report->model_state();
       state_reports_[report->model_state()].push_back(report);
@@ -153,7 +182,27 @@ void Manager::Build(shared_ptr<Model> model) {
       LOG_FINE() << "Adding report " << report->label() << " to time step reports";
       time_step_reports_[report->time_step()].push_back(report);
     }
+
+    // Do we have the reports we expect to have for this run mode
+    if (util::ToLowercase(report->type()) == PARAM_MCMC_SAMPLE)
+      exists_MCMC_sample = true;
+    if (util::ToLowercase(report->type()) == PARAM_MCMC_OBJECTIVE)
+      exists_MCMC_objective = true;
+    if (util::ToLowercase(report->type()) == PARAM_ESTIMATE_VALUE)
+      exists_estimate_value = true;
   }
+
+// Pop out any warnings if we're missing reports for specific run modes
+// don't do it during unit tests though as warnings become errors
+#ifndef TESTMODE
+  if (run_mode == RunMode::Type::kMCMC && !exists_MCMC_sample)
+    LOG_WARNING() << "You are running an MCMC but there was no " << PARAM_MCMC_SAMPLE << " report specified. This is probably an error";
+  if (run_mode == RunMode::Type::kMCMC && !exists_MCMC_objective)
+    LOG_WARNING() << "You are running an MCMC but there was no " << PARAM_MCMC_OBJECTIVE << " report specified. This is probably an error";
+  if (run_mode == RunMode::Type::kEstimation && !exists_estimate_value)
+    LOG_WARNING() << "You are running an estimation but there was no " << PARAM_ESTIMATE_VALUE << " report specified. This is probably an error";
+#endif
+
   has_built_ = true;
 }
 
@@ -180,7 +229,7 @@ void Manager::Execute(shared_ptr<Model> model, State::Type model_state) {
   LOG_FINE() << "Checking " << state_reports_[model_state].size() << " reports";
   for (auto report : state_reports_[model_state]) {
     LOG_FINE() << "Checking report: " << report->label();
-    if ((RunMode::Type)(report->run_mode() & run_mode) == run_mode) {
+    if ((RunMode::Type)(report->run_mode() & run_mode) == run_mode && report->is_valid()) {
       if (tabular)
         report->ExecuteTabular(model);
       else
@@ -210,7 +259,7 @@ void Manager::Execute(shared_ptr<Model> model, unsigned year, const string& time
   bool          tabular  = model->global_configuration().print_tabular();
   for (auto report : time_step_reports_[time_step_label]) {
     LOG_FINE() << "executing report " << report->label();
-    if ((RunMode::Type)(report->run_mode() & run_mode) != run_mode) {
+    if ((RunMode::Type)(report->run_mode() & run_mode) != run_mode && report->is_valid()) {
       LOG_FINEST() << "Skipping report: " << report->label() << " because run mode is not right";
       continue;
     }
@@ -245,7 +294,8 @@ void Manager::Prepare(shared_ptr<Model> model) {
       LOG_FINEST() << "Skipping report: " << report->label() << " because run mode is not right";
       continue;
     }
-
+    if (!report->is_valid())
+      continue;
     if (tabular)
       report->PrepareTabular(model);
     else
@@ -269,9 +319,6 @@ void Manager::Finalise(shared_ptr<Model> model) {
 
   LOG_FINE() << "finalise called from thread " << std::this_thread::get_id();
   LOG_FINE() << "reports.manager.size(): " << objects_.size();
-  for (auto report : objects_) {
-    LOG_FINE() << "report: " << report->label() << "." << report->type();
-  }
 
   RunMode::Type run_mode = model->run_mode();
   bool          tabular  = model->global_configuration().print_tabular();
@@ -280,6 +327,8 @@ void Manager::Finalise(shared_ptr<Model> model) {
       LOG_FINE() << "Skipping report: " << report->label() << " because run mode is not right (" << (int)report->run_mode() << " & " << (int)run_mode << ")";
       continue;
     }
+    if (!report->is_valid())
+      continue;
 
     if (tabular)
       report->FinaliseTabular(model);
@@ -376,6 +425,7 @@ void Manager::set_report_suffix(const string& suffix) {
  *
  */
 void Manager::CreateDefaultReports() {
+  // TODO use: add_internal to avoid thread issues.
   /**
    * We will create the default reports if necessary.
    * But we'll use append if we're resuming.
