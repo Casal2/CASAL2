@@ -5,12 +5,14 @@
  * @date 18/08/2016
  * @section LICENSE
  *
- * Copyright NIWA Science ©2016 - www.niwa.co.nz
+ * Copyright NIWA Science ï¿½2016 - www.niwa.co.nz
  *
  */
 #ifdef TESTMODE
 
 // Headers
+#include "Nuisance.h"
+
 #include <iostream>
 
 #include "../../Catchabilities/Manager.h"
@@ -19,7 +21,6 @@
 #include "../../Partition/Partition.h"
 #include "../../TestResources/TestFixtures/InternalEmptyModel.h"
 #include "../../TimeSteps/Manager.h"
-#include "Nuisance.h"
 
 // Namespaces
 namespace niwa {
@@ -76,7 +77,6 @@ ycs_years 1974:2011
 @process Ageing
 type ageing
 categories stock
-
 
 @process instant_mort
 type mortality_instantaneous
@@ -183,7 +183,6 @@ a 0.131
 b 1.70
 cv_first 0.1
 length_weight size_weight3
-
 
 @length_weight size_weight3
 type basic
@@ -351,6 +350,7 @@ iterations 500
 evaluations 1000
 
 @mcmc mcmc
+type random_walk
 start 0
 length 4000000
 keep 2500

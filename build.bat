@@ -17,6 +17,7 @@ call doBuild.bat library betadiff
 call doBuild.bat library adolc
 call doBuild.bat library test
 
+call doBuild.bat test
 call doBuild.bat frontend
 
 call doBuild.bat documentation

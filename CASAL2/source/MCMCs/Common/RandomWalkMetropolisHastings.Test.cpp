@@ -152,6 +152,7 @@ TEST_F(RandomWalkMetropolisHastingsThreadedModel, TwentyFive_Iterations_With_Two
 
   string mcmc_definition = R"(
     @mcmc my_mcmc
+    type random_walk
     length 25
     keep 1
   )";

@@ -4,7 +4,7 @@
  * @date 17/09/2014
  * @section LICENSE
  *
- * Copyright NIWA Science ©2014 - www.niwa.co.nz
+ * Copyright NIWA Science ï¿½2014 - www.niwa.co.nz
  *
  * @section DESCRIPTION
  *
@@ -108,6 +108,7 @@ type de_solver
 covariance false
 population_size 100
 max_generations 1000
+tolerance 0.001
 
 @minimiser gammadiff
 type numerical_differences
@@ -119,6 +120,7 @@ tolerance 0.002
 covariance true
 
 @mcmc x
+type random_walk
 length 100
 
 @catchability CPUEq

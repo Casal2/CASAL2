@@ -108,6 +108,7 @@ type de_solver
 covariance false
 population_size 100
 max_generations 1000
+tolerance 0.001
 
 @minimiser gammadiff
 type numerical_differences

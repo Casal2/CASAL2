@@ -4,7 +4,7 @@
  * @date 10/10/2018
  * @section LICENSE
  *
- * Copyright NIWA Science ©2018 - www.niwa.co.nz
+ * Copyright NIWA Science ï¿½2018 - www.niwa.co.nz
  *
  * @section
  *
@@ -22,7 +22,7 @@ namespace niwa {
 namespace testcases {
 
 /**
- *
+ * Test case based roughly on the Ross Sea using generic data
  */
 const std::string test_cases_models_casal_ross_sea_complex_with_partition_asserts =
     R"(

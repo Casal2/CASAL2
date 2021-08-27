@@ -57,7 +57,7 @@ MCMC::MCMC(shared_ptr<Model> model) : model_(model) {
   parameters_.Bind<unsigned>(PARAM_ADAPT_STEPSIZE_AT, &adapt_step_size_, "The iteration numbers in which to check and resize the MCMC stepsize", "", true)->set_lower_bound(0);
   parameters_.Bind<string>(PARAM_ADAPT_STEPSIZE_METHOD, &adapt_stepsize_method_, "The method to use to adapt the step size", "", PARAM_RATIO)
       ->set_allowed_values({PARAM_RATIO, PARAM_DOUBLE_HALF});
-  parameters_.Bind<unsigned>(PARAM_ADAPT_COVARIANCE_AT, &adapt_covariance_matrix_, "The iteration number in which to adapt the covariance matrix", "", true)->set_lower_bound(0);
+  parameters_.Bind<unsigned>(PARAM_ADAPT_COVARIANCE_AT, &adapt_covariance_matrix_, "The iteration number in which to adapt the covariance matrix", "", 0u)->set_lower_bound(0);
 }
 #ifdef USE_AUTODIFF
 /**

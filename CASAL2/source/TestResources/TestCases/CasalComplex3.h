@@ -4,7 +4,7 @@
  * @date 25/03/2014
  * @section LICENSE
  *
- * Copyright NIWA Science ©2014 - www.niwa.co.nz
+ * Copyright NIWA Science ï¿½2014 - www.niwa.co.nz
  *
  * @section DESCRIPTION
  *
@@ -147,6 +147,7 @@ max_generations 5000
 crossover_probability 1.0
 difference_scale 0.8
 covariance false
+tolerance 0.001
 
 @observation chatCPUE
 type biomass

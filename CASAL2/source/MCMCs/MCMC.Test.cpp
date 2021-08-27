@@ -12,10 +12,11 @@
 #ifdef TESTMODE
 
 // Headers
+#include "../MCMCs/MCMC.h"
+
 #include <iostream>
 
 #include "../DerivedQuantities/Manager.h"
-#include "../MCMCs/MCMC.h"
 #include "../MCMCs/Manager.h"
 #include "../MPD/MPD.Mock.h"
 #include "../Model/Managers.h"
@@ -100,6 +101,7 @@ TEST_F(MCMCThreadedModel, MCMC_25Iterations_With_TwoSex) {
 
   string mcmc_definition = R"(
     @mcmc my_mcmc
+    type random_walk
     length 25
     keep 1
   )";

@@ -4,7 +4,7 @@
  * @date 3/10/2014
  * @section LICENSE
  *
- * Copyright NIWA Science ©2014 - www.niwa.co.nz
+ * Copyright NIWA Science ï¿½2014 - www.niwa.co.nz
  *
  * @section
  *
@@ -127,7 +127,6 @@ linf 113.4
 type process
 log_scale True
 multiplier 10
-
 
 @selectivity chatTANselMale
 type logistic

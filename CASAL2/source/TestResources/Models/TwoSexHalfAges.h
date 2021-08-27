@@ -127,10 +127,6 @@ iterations 1000
 step_size 1e-7
 covariance f
 
-@minimiser dlib
-type dlib
-active true
-
 @observation chatCPUE
 type biomass
 catchability [type=free; q=6.52606e-005]

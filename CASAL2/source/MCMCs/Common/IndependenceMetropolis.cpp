@@ -28,6 +28,8 @@ namespace mcmcs {
 
 namespace math = niwa::utilities::math;
 
+// TODO: This algorithm has been replaced by random_walk in RandomWalkMetropolisHastings.cpp, and should be deleted from the code base following testing
+
 /**
  * Default constructor
  */
