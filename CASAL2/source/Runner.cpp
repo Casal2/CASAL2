@@ -310,8 +310,9 @@ int Runner::GoWithRunMode(RunMode::Type run_mode) {
     logging.FlushErrors();
     return_code = -1;
   } else {
-    logging.FlushWarnings();
     logging.FlushInfo();
+    logging.FlushImportant();
+    logging.FlushWarnings();
   }
 
   return return_code;
