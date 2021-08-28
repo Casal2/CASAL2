@@ -63,17 +63,19 @@ void Observation::DoBuild(shared_ptr<Model> model) {
     return;
   }
 
-  if (pearson_resids_ && !default_report_) {
+  if (pearson_resids_) {
     if (std::find(pearson_likelihoods.begin(), pearson_likelihoods.end(), observation_->likelihood()) == pearson_likelihoods.end()) {
-      LOG_INFO() << "The likelihood for the observation '" << observation_label_ << "' is " << observation_->likelihood()
-                 << ". Pearsons residuals can only be calculated for the binomial, multinomial, lognormal, normal, and binomial_approx likelihoods";
+      if (!default_report_)
+        LOG_INFO() << "The likelihood for the observation '" << observation_label_ << "' is " << observation_->likelihood()
+                   << ". Pearsons residuals can only be calculated for the binomial, multinomial, lognormal, normal, and binomial_approx likelihoods";
       pearson_resids_ = false;
     }
   }
-  if (normalised_resids_ && !default_report_) {
+  if (normalised_resids_) {
     if (std::find(normalised_likelihoods.begin(), normalised_likelihoods.end(), observation_->likelihood()) == normalised_likelihoods.end()) {
-      LOG_INFO() << "The likelihood for the observation '" << observation_label_ << "' is " << observation_->likelihood()
-                 << ". Normalised residuals can only be calculated for the lognormal, lognormal_with_Q, and normal likelihoods";
+      if (!default_report_)
+        LOG_INFO() << "The likelihood for the observation '" << observation_label_ << "' is " << observation_->likelihood()
+                   << ". Normalised residuals can only be calculated for the lognormal, lognormal_with_Q, and normal likelihoods";
       normalised_resids_ = false;
     }
   }

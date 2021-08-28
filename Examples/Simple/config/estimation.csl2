@@ -131,6 +131,6 @@ cv 0.79
 # Profiling
 @profile B0
 parameter process[Recruitment].b0
-steps 10
+steps 5
 upper_bound 10000
 lower_bound 100000

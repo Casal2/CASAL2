@@ -1,5 +1,4 @@
 
-[INFO] Setting the random number seed to 0
 [INFO] Creating default report for catchability chatTANq
 [INFO] Creating default report for derived quantity SSB
 [INFO] Creating default report for observation chatTANbiomass
@@ -14,14 +13,9 @@
 [INFO] Creating default report for selectivity eastFSel
 [INFO] Creating default report for selectivity chatTANSel
 [INFO] Creating default report for selectivity One
-[INFO] The filename for the report 'objectives' has been modified to objectives.1 as the write_mode is incremental_suffix
-[INFO] The filename for the report 'samples' has been modified to samples.1 as the write_mode is incremental_suffix
-[INFO] Initiating MCMC run mode
-[INFO] Loading MPD from file MPD.dat
-[INFO] Beginning MCMC iterations
-[INFO] Starting MCMC random_walk
-[INFO] Adapting step_size from 0.02 to 0.06825 after 1000 iterations
-[INFO] Adapting step_size from 0.06825 to 0.186692 after 2000 iterations
-[INFO] MCMC execution complete
+[INFO] Initiating basic run mode
+[INFO] Estimable parameters were loaded from the free parameter file: free.dat
+[WARNING] estimated parameter 'process[Recruitment].ycs_values{2010}' was within 0.001 of upper bound 3
+[WARNING] estimated parameter 'process[Recruitment].ycs_values{2011}' was within 0.001 of upper bound 3
 [INFO] Completed
-[INFO] Total elapsed time: 1.017 minutes
+[INFO] Total elapsed time: 1 seconds

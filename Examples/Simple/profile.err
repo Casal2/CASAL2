@@ -1,7 +1,21 @@
 
 [IMPORTANT] Setting 'profile.dat' as the output file for the free parameters
+[INFO] Creating default report for catchability chatTANq
+[INFO] Creating default report for derived quantity SSB
+[INFO] Creating default report for observation chatTANbiomass
+[INFO] Creating default report for observation chatTANage
+[INFO] Creating default report for observation chatOBSwst
+[INFO] Creating default report for observation chatOBSest
+[INFO] Creating default report for process Recruitment
+[INFO] Creating default report for process Ageing
+[INFO] Creating default report for process Instantaneous_Mortality
+[INFO] Creating default report for selectivity MaturationSel
+[INFO] Creating default report for selectivity westFSel
+[INFO] Creating default report for selectivity eastFSel
+[INFO] Creating default report for selectivity chatTANSel
+[INFO] Creating default report for selectivity One
 [INFO] Initiating profile run mode
-[INFO] Estimable parameters were loaded from the free parameter file: params.dat
+[INFO] Estimable parameters were loaded from the free parameter file: free.dat
 [INFO] Profiling with 1 parameter(s)
 [INFO] Profiling parameter process[Recruitment].b0
 [INFO] Profiling with parameter at step 1 of 10 steps
@@ -384,4 +398,4 @@
 [WARNING] estimated parameter 'process[Recruitment].ycs_values{2010}' was within 0.001 of upper bound 3
 [WARNING] estimated parameter 'process[Recruitment].ycs_values{2011}' was within 0.001 of upper bound 3
 [INFO] Completed
-[INFO] Total elapsed time: 3.117 minutes
+[INFO] Total elapsed time: 1.683 minutes

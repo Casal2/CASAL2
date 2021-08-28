@@ -1,6 +1,20 @@
 
 [IMPORTANT] Setting 'MPD.dat' as the output file for the MPD (i.e., free parameters and covariance)
-[IMPORTANT] Setting 'params.dat' as the output file for the free parameters
+[IMPORTANT] Setting 'free.dat' as the output file for the free parameters
+[INFO] Creating default report for catchability chatTANq
+[INFO] Creating default report for derived quantity SSB
+[INFO] Creating default report for observation chatTANbiomass
+[INFO] Creating default report for observation chatTANage
+[INFO] Creating default report for observation chatOBSwst
+[INFO] Creating default report for observation chatOBSest
+[INFO] Creating default report for process Recruitment
+[INFO] Creating default report for process Ageing
+[INFO] Creating default report for process Instantaneous_Mortality
+[INFO] Creating default report for selectivity MaturationSel
+[INFO] Creating default report for selectivity westFSel
+[INFO] Creating default report for selectivity eastFSel
+[INFO] Creating default report for selectivity chatTANSel
+[INFO] Creating default report for selectivity One
 [INFO] Initiating point estimate run mode
 [INFO] Estimation with the gammadiff minimiser
 [INFO] Convergence check value = 0.625284. Convergence tolerance   = 0.0002
@@ -93,4 +107,4 @@
 [WARNING] estimated parameter 'process[Recruitment].ycs_values{2010}' was within 0.001 of upper bound 3
 [WARNING] estimated parameter 'process[Recruitment].ycs_values{2011}' was within 0.001 of upper bound 3
 [INFO] Completed
-[INFO] Total elapsed time: 51 seconds
+[INFO] Total elapsed time: 28 seconds

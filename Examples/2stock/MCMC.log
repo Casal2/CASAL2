@@ -1,8 +1,78 @@
 Casal2
 Call: ..\..\BuildSystem\bin\windows_gcc\release\Casal2 -M MPD.dat -g 0 
-Date: Thu Aug 26 19:17:28 2021
-Version: v21.08 (2021-08-26)
+Date: Sat Aug 28 16:59:26 2021
+Version: v21.08 (2021-08-28)
 Copyright (c) 2017-2021, NIWA (www.niwa.co.nz)
-Environment: machine:HP1040, user:alist, os:Windows_NT, pid:13512
+Environment: User=alist Machine=DELL-9020 OS=Windows_NT PID=3296
 
+
+*info[messages_encountered]
+{string}
+Setting the random number seed to 0
+Creating default report for catchability CSacous
+Creating default report for catchability WCacous
+Creating default report for catchability CRsum
+Creating default report for catchability SAsum
+Creating default report for catchability SAaut
+Creating default report for derived quantity SSB_E
+Creating default report for derived quantity SSB_W
+Creating default report for observation CSacous
+Creating default report for observation WCacous
+Creating default report for observation CRsumbio
+Creating default report for observation SAsumbio
+Creating default report for observation SAautbio
+Creating default report for observation Espage
+Creating default report for observation Wspage
+Creating default report for observation EnspOLF
+Creating default report for observation Enspage
+Creating default report for observation WnspOLF
+Creating default report for observation Wnspage
+Creating default report for observation CRsumage
+Creating default report for observation SAsumage
+Creating default report for observation SAautage
+Creating default report for observation pspawn_1993
+Creating default report for observation pspawn
+Creating default report for process Ageing
+Creating default report for process Ertn
+Creating default report for process Wrtn
+Creating default report for process Whome
+Creating default report for process Espmg
+Creating default report for process Wspmg
+Creating default report for process recruit_W
+Creating default report for process recruit_E
+Creating default report for process Instant_mortality
+Creating default report for selectivity M_male
+Creating default report for selectivity M_female
+Creating default report for selectivity Enspsl
+Creating default report for selectivity Wnspsl
+Creating default report for selectivity Espsl
+Creating default report for selectivity Wspsl
+Creating default report for selectivity CRsl
+Creating default report for selectivity SAsl
+Creating default report for selectivity sel_Whome
+Creating default report for selectivity sel_Espmg_Male
+Creating default report for selectivity sel_Espmg_Female
+Creating default report for selectivity sel_Wspmg_Male
+Creating default report for selectivity sel_Wspmg_Female
+Creating default report for selectivity One
+Creating default report for selectivity Point5
+The filename for the report 'objectives' has been modified to objectives.1 as the write_mode is incremental_suffix
+The filename for the report 'samples' has been modified to samples.1 as the write_mode is incremental_suffix
+Initiating MCMC run mode
+Loading MPD from file MPD.dat
+Beginning MCMC iterations
+Starting MCMC random_walk
+MCMC execution complete
+*end
+
+*warnings[messages_encountered]
+{string}
+Estimates were removed because of matching lower and upper bounds. Originally had 152 estimates, now have 151
+Cannot report the length-based selectivity values. This report (__Enspsl__) is being ignored. This can be done using the Casal2 R package. See the User Manual for more information
+Cannot report the length-based selectivity values. This report (__Wnspsl__) is being ignored. This can be done using the Casal2 R package. See the User Manual for more information
+Cannot report the length-based selectivity values. This report (__Espsl__) is being ignored. This can be done using the Casal2 R package. See the User Manual for more information
+Cannot report the length-based selectivity values. This report (__Wspsl__) is being ignored. This can be done using the Casal2 R package. See the User Manual for more information
+Cannot report the length-based selectivity values. This report (__CRsl__) is being ignored. This can be done using the Casal2 R package. See the User Manual for more information
+Cannot report the length-based selectivity values. This report (__SAsl__) is being ignored. This can be done using the Casal2 R package. See the User Manual for more information
+*end
 

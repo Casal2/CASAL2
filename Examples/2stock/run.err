@@ -1,5 +1,4 @@
 
-[INFO] Setting the random number seed to 0
 [WARNING] Estimates were removed because of matching lower and upper bounds. Originally had 152 estimates, now have 151
 [INFO] Creating default report for catchability CSacous
 [INFO] Creating default report for catchability WCacous
@@ -54,12 +53,21 @@
 [WARNING] Cannot report the length-based selectivity values. This report (__Wspsl__) is being ignored. This can be done using the Casal2 R package. See the User Manual for more information
 [WARNING] Cannot report the length-based selectivity values. This report (__CRsl__) is being ignored. This can be done using the Casal2 R package. See the User Manual for more information
 [WARNING] Cannot report the length-based selectivity values. This report (__SAsl__) is being ignored. This can be done using the Casal2 R package. See the User Manual for more information
-[INFO] The filename for the report 'objectives' has been modified to objectives.1 as the write_mode is incremental_suffix
-[INFO] The filename for the report 'samples' has been modified to samples.1 as the write_mode is incremental_suffix
-[INFO] Initiating MCMC run mode
-[INFO] Loading MPD from file MPD.dat
-[INFO] Beginning MCMC iterations
-[INFO] Starting MCMC random_walk
-[INFO] MCMC execution complete
+[INFO] Initiating basic run mode
+[INFO] Estimable parameters were loaded from the free parameter file: free.dat
+[WARNING] estimated parameter 'process[recruit_E].b0' was within 0.001 of upper bound 16.2
+[WARNING] estimated parameter 'process[recruit_W].b0' was within 0.001 of upper bound 0.59
+[WARNING] estimated parameter 'process[recruit_E].ycs_values{1999}' was within 0.001 of lower bound 0.06
+[WARNING] estimated parameter 'process[recruit_W].ycs_values{1999}' was within 0.001 of lower bound 0.06
+[WARNING] estimated parameter 'selectivity[sel_Whome].v{7}' was within 0.001 of upper bound 1
+[WARNING] estimated parameter 'selectivity[sel_Espmg_Female].v{1}' was within 0.001 of lower bound 0
+[WARNING] estimated parameter 'selectivity[sel_Espmg_Female].v{8}' was within 0.001 of lower bound 0.6
+[WARNING] estimated parameter 'selectivity[sel_Wspmg_Female].v{8}' was within 0.001 of lower bound 0.6
+[WARNING] estimated parameter 'selectivity[Enspsl].sigma_r' was within 0.001 of upper bound 44
+[WARNING] estimated parameter 'selectivity[Espsl].ato95' was within 0.001 of lower bound 4
+[WARNING] estimated parameter 'selectivity[CRsl].mu' was within 0.001 of lower bound 64
+[WARNING] estimated parameter 'selectivity[SAsl].mu' was within 0.001 of upper bound 84
+[WARNING] estimated parameter 'selectivity[SAsl].sigma_l' was within 0.001 of upper bound 44
+[WARNING] estimated parameter 'selectivity[SAsl].sigma_r' was within 0.001 of upper bound 44
 [INFO] Completed
-[INFO] Total elapsed time: 3 seconds
+[INFO] Total elapsed time: 1 second
