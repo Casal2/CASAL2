@@ -1,6 +1,6 @@
 ## Structure of my estimation.csl2 
 # - Define Minimiser along with subcommands such as gradient tolerance to stop, how many evaluations to stop at etc.
-# - Define Estimates = Parameters being estiamted with assumed priors and bounds
+# - Define Estimates = Parameters being estimated with assumed priors and bounds
 # - Define Penalties = Additional Penalties assumed on these models
 # - Define AdditionalPriors = Analogous to Penalties really.
 
@@ -22,6 +22,7 @@ active false
 
 # MCMC
 @mcmc mcmc
+type random_walk
 start 0
 length 10000
 keep 100

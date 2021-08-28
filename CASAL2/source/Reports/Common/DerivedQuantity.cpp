@@ -18,15 +18,37 @@ namespace reports {
 DerivedQuantity::DerivedQuantity() {
   run_mode_    = (RunMode::Type)(RunMode::kBasic | RunMode::kProjection | RunMode::kSimulation | RunMode::kEstimation | RunMode::kProfiling);
   model_state_ = (State::Type)(State::kIterationComplete);
+
+  parameters_.Bind<string>(PARAM_DERIVED_QUANTITY, &derived_quantity_label_, "The derived quantity label", "", "");
 }
 
+/**
+ * Validate object
+ */
+void DerivedQuantity::DoValidate(shared_ptr<Model> model) {
+  if (derived_quantity_label_ == "")
+    derived_quantity_label_ = label_;
+}
+/**
+ * Build the relationships between this object and other objects
+ */
+void DerivedQuantity::DoBuild(shared_ptr<Model> model) {
+  derived_quantity_ = model->managers()->derived_quantity()->GetDerivedQuantity(derived_quantity_label_);
+  if (!derived_quantity_) {
+#ifndef TESTMODE
+    LOG_WARNING() << "The report for " << PARAM_DERIVED_QUANTITY << " with label '" << derived_quantity_label_ << "' was requested. This " << PARAM_DERIVED_QUANTITY
+                  << " was not found in the input configuration file and the report will not be generated";
+#endif
+    is_valid_ = false;
+  }
+}
 /**
  *
  */
 void DerivedQuantity::DoExecute(shared_ptr<Model> model) {
   LOG_TRACE();
   derivedquantities::Manager& manager = *model->managers()->derived_quantity();
-  cache_ << ReportHeader(type_, label_);
+  cache_ << ReportHeader(type_, derived_quantity_label_);
 
   auto derived_quantities = manager.objects();
   for (auto dq : derived_quantities) {
@@ -63,7 +85,7 @@ void DerivedQuantity::DoExecuteTabular(shared_ptr<Model> model) {
 
   if (first_run_) {
     first_run_ = false;
-    cache_ << "*" << type_ << "[" << label_ << "]" << REPORT_EOL;
+    cache_ << "*" << type_ << "[" << derived_quantity_label_ << "]" << REPORT_EOL;
     cache_ << "values " << REPORT_R_DATAFRAME << REPORT_EOL;
     for (auto dq : derived_quantities) {
       const vector<vector<Double>> init_values  = dq->initialisation_values();

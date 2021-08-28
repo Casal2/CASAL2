@@ -1,6 +1,6 @@
 ## Structure of my estimation.csl2 
 # - Define Minimiser along with subcommands such as gradient tolerance to stop, how many evaluations to stop at etc.
-# - Define Estimates = Parameters being estiamted with assumed priors and bounds
+# - Define Estimates = Parameters being estimated with assumed priors and bounds
 # - Define Penalties = Additional Penalties assumed on these models
 # - Define AdditionalPriors = Analogous to Penalties really.
 
@@ -13,10 +13,6 @@ iterations 4000
 tolerance 0.000002
 evaluations 10000
 
-/*
-@minimiser num_diff
-type numerical_differences
-*/
 ################################### Estimates ###############################
 ## Format for parameter in @estimate block = type[label].parameter
 #######
@@ -139,4 +135,4 @@ parameter catchability[TangaroaMatureq].q
 mu 0.54
 cv 0.44		
 
-## don't need to add a uniform prior for the other q as- it's not a true estiamte so has a null contribution.
+## don't need to add a uniform prior for the other q as- it's not a true estimate so has a null contribution.

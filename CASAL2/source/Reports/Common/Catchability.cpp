@@ -18,15 +18,36 @@ namespace reports {
 Catchability::Catchability() {
   run_mode_    = (RunMode::Type)(RunMode::kBasic | RunMode::kEstimation | RunMode::kProjection | RunMode::kProfiling);
   model_state_ = (State::Type)(State::kFinalise);
-}
 
+  parameters_.Bind<string>(PARAM_CATCHABILITY, &catchability_label_, "The catchability label", "", "");
+}
+/**
+ * Validate object
+ */
+void Catchability::DoValidate(shared_ptr<Model> model) {
+  if (catchability_label_ == "")
+    catchability_label_ = label_;
+}
+/**
+ * Build the relationships between this object and other objects
+ */
+void Catchability::DoBuild(shared_ptr<Model> model) {
+  catchability_ = model->managers()->catchability()->GetCatchability(catchability_label_);
+  if (!catchability_) {
+#ifndef TESTMODE
+    LOG_WARNING() << "The report for " << PARAM_CATCHABILITY << " with label '" << catchability_label_ << "' was requested. This " << PARAM_CATCHABILITY
+                  << " was not found in the input configuration file and the report will not be generated";
+#endif
+    is_valid_ = false;
+  }
+}
 /**
  * Execute the report
  */
 void Catchability::DoExecute(shared_ptr<Model> model) {
   LOG_TRACE();
   catchabilities::Manager& manager = *model->managers()->catchability();
-  cache_ << ReportHeader(type_, label_);
+  cache_ << ReportHeader(type_, catchability_label_);
 
   auto catchabilities = manager.objects();
   for (auto Q : catchabilities) {
@@ -45,7 +66,7 @@ void Catchability::DoExecuteTabular(shared_ptr<Model> model) {
   catchabilities::Manager& manager        = *model->managers()->catchability();
   auto                     catchabilities = manager.objects();
   if (first_run_) {
-    cache_ << "*" << type_ << "[" << label_ << "]" << REPORT_EOL;
+    cache_ << ReportHeader(type_, catchability_label_);
     cache_ << "values " << REPORT_R_DATAFRAME << REPORT_EOL;
     first_run_ = false;
 

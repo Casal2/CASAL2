@@ -30,6 +30,7 @@
 #include "../Reports/Common/CategoryList.h"
 #include "../Reports/Common/CorrelationMatrix.h"
 #include "../Reports/Common/CovarianceMatrix.h"
+#include "../Reports/Common/DefaultReports.h"
 #include "../Reports/Common/DerivedQuantity.h"
 #include "../Reports/Common/EquationTest.h"
 #include "../Reports/Common/EstimateSummary.h"
@@ -72,6 +73,8 @@ Report* Factory::Create(shared_ptr<Model> model, const string& object_type, cons
   Report* result = nullptr;
 
   if (object_type == PARAM_REPORT) {
+    if (sub_type == PARAM_DEFAULT)
+      result = new DefaultReports();
     if (sub_type == PARAM_CATEGORY_INFO)
       result = new CategoryInfo();
     else if (sub_type == PARAM_CATEGORY_LIST)

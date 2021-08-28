@@ -42,12 +42,7 @@ void Manager::AddObject(niwa::Report* object) {
 }
 
 /**
- * @brief Add a new internal report. The new report should be at the same state level
- * as the object creating it. So if you're creating it from a validate method,
- * then it should be given in a way that is ready to be (but has not been) validated.
- *
- * If you're adding an internal object during a build phase, then you will need to ensure
- * it has been successfully validated and is ready for this manager to call build on it.
+ * @brief Add a new internal report. The new report should not be validated
  *
  * @param object Pointer to report object you have created
  */
@@ -155,6 +150,7 @@ void Manager::Build(shared_ptr<Model> model) {
   // move any objects from the internal vector to the objects vector
   // internal vector is used for auto generated reports
   for (auto report : internal_objects_) {
+    report->Validate(model);
     report->Build(model);
     objects_.push_back(report);
   }

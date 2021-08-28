@@ -4,7 +4,7 @@
  * @date 6/06/2013
  * @section LICENSE
  *
- * Copyright NIWA Science ©2013 - www.niwa.co.nz
+ * Copyright NIWA Science ï¿½2013 - www.niwa.co.nz
  *
  */
 
@@ -26,8 +26,6 @@ DerivedQuantity* Manager::GetDerivedQuantity(const string& label) {
     if (quantity->label() == label)
       return quantity;
   }
-
-  LOG_WARNING() << "Returning an empty derived quantity because none was found";
   return nullptr;
 }
 

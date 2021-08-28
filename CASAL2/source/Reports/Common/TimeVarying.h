@@ -4,7 +4,7 @@
  * @date 01/06/2016
  * @section LICENSE
  *
- * Copyright NIWA Science ©2016 - www.niwa.co.nz
+ * Copyright NIWA Science ï¿½2016 - www.niwa.co.nz
  *
  */
 
@@ -13,6 +13,7 @@
 
 // headers
 #include "../../Reports/Report.h"
+#include "../../TimeVarying/Manager.h"
 
 // namespaces
 namespace niwa {
@@ -25,14 +26,16 @@ class TimeVarying : public niwa::Report {
 public:
   TimeVarying();
   virtual ~TimeVarying() = default;
-  void DoValidate(shared_ptr<Model> model) final{};
-  void DoBuild(shared_ptr<Model> model) final{};
+  void DoValidate(shared_ptr<Model> model) final;
+  void DoBuild(shared_ptr<Model> model) final;
   void DoExecute(shared_ptr<Model> model) final;
   void DoExecuteTabular(shared_ptr<Model> model) final;
   void DoFinaliseTabular(shared_ptr<Model> model) final;
 
 private:
-  bool first_run_ = true;
+  string             time_varying_label_ = "";
+  bool               first_run_          = true;
+  niwa::TimeVarying* timevarying_        = nullptr;
 };
 
 } /* namespace reports */

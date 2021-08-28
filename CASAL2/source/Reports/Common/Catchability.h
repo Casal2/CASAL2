@@ -5,10 +5,11 @@
  *      Author: Admin
  */
 
-#ifndef REPORTS_CATCHABILIY_H_
-#define REPORTS_CATCHABILIY_H_
+#ifndef REPORTS_CATCHABILITY_H_
+#define REPORTS_CATCHABILITY_H_
 
 // headers
+#include "../../Catchabilities/Manager.h"
 #include "../../Reports/Report.h"
 
 // namespaces
@@ -22,17 +23,19 @@ class Catchability : public niwa::Report {
 public:
   Catchability();
   virtual ~Catchability() = default;
-  void DoValidate(shared_ptr<Model> model) final{};
-  void DoBuild(shared_ptr<Model> model) final{};
+  void DoValidate(shared_ptr<Model> model) final;
+  void DoBuild(shared_ptr<Model> model) final;
   void DoExecute(shared_ptr<Model> model) final;
   void DoExecuteTabular(shared_ptr<Model> model) final;
   void DoFinaliseTabular(shared_ptr<Model> model) final;
 
 private:
-  bool   first_run_ = true;
-  string unit_;
+  bool                first_run_ = true;
+  string              unit_;
+  string              catchability_label_ = "";
+  niwa::Catchability* catchability_       = nullptr;
 };
 
 } /* namespace reports */
 } /* namespace niwa */
-#endif /* REPORTS_CATCHABILIY_H_ */
+#endif /* REPORTS_CATCHABILITY_H_ */

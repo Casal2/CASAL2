@@ -26,7 +26,15 @@ SimulatedObservation::SimulatedObservation() {
   model_state_ = State::kIterationComplete;
   skip_tags_   = true;
 
-  parameters_.Bind<string>(PARAM_OBSERVATION, &observation_label_, "The observation label", "");
+  parameters_.Bind<string>(PARAM_OBSERVATION, &observation_label_, "The observation label", "", "");
+}
+
+/**
+ * Validate object
+ */
+void SimulatedObservation::DoValidate(shared_ptr<Model> model) {
+  if (observation_label_ == "")
+    observation_label_ = label_;
 }
 
 /**
@@ -34,14 +42,22 @@ SimulatedObservation::SimulatedObservation() {
  */
 void SimulatedObservation::DoBuild(shared_ptr<Model> model) {
   observation_ = model->managers()->observation()->GetObservation(observation_label_);
-  if (!observation_)
-    LOG_ERROR_P(PARAM_OBSERVATION) << "The observation label (" << observation_label_ << ") was not found.";
+  if (!observation_) {
+#ifndef TESTMODE
+    LOG_WARNING() << "The report for " << PARAM_OBSERVATION << " with label '" << observation_label_ << "' was requested. This " << PARAM_OBSERVATION
+                  << " was not found in the input configuration file and the report will not be generated";
+#endif
+    is_valid_ = false;
+  }
 }
 
 /**
  * Execute method
  */
 void SimulatedObservation::DoExecute(shared_ptr<Model> model) {
+  if (!is_valid())
+    return;
+
   cache_ << CONFIG_SECTION_SYMBOL << PARAM_OBSERVATION << " " << label_ << REPORT_EOL;
   bool                           biomass_abundance_obs = false;
   ParameterList&                 parameter_list        = observation_->parameters();

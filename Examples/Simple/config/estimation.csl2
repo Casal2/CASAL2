@@ -12,6 +12,7 @@ active true
 
 # MCMC
 @mcmc mcmc
+type random_walk
 start 0
 length 10000
 keep 100
@@ -19,7 +20,7 @@ step_size 0.02
 adapt_stepsize_at 1000 2000
 proposal_distribution t
 adapt_stepsize_method ratio
-
+burn_in 2500
 
 # Estimate B0
 @estimate B0

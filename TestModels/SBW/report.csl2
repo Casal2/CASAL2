@@ -39,5 +39,8 @@ type observation
 observation TangaroaAcousticImmature
 
 ## report Catchabilities
-@report Qs
+@report TangaroaMatureq
+type catchability
+
+@report TangaroaImmatureq
 type catchability

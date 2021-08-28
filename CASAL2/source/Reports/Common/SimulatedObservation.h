@@ -4,7 +4,7 @@
  * @date 8/05/2014
  * @section LICENSE
  *
- * Copyright NIWA Science ©2014 - www.niwa.co.nz
+ * Copyright NIWA Science ï¿½2014 - www.niwa.co.nz
  *
  * @section DESCRIPTION
  *
@@ -29,7 +29,7 @@ class SimulatedObservation : public Report {
 public:
   SimulatedObservation();
   virtual ~SimulatedObservation() = default;
-  void DoValidate(shared_ptr<Model> model) final{};
+  void DoValidate(shared_ptr<Model> model) final;
   void DoBuild(shared_ptr<Model> model) final;
   void DoExecute(shared_ptr<Model> model) final;
   void DoExecuteTabular(shared_ptr<Model> model) final{};

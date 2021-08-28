@@ -30,11 +30,21 @@ Observation::Observation() {
   run_mode_    = (RunMode::Type)(RunMode::kBasic | RunMode::kProjection | RunMode::kSimulation | RunMode::kEstimation | RunMode::kProfiling);
   model_state_ = (State::Type)(State::kIterationComplete);
 
-  parameters_.Bind<string>(PARAM_OBSERVATION, &observation_label_, "The observation label", "");
-  parameters_.Bind<bool>(PARAM_NORMALISED_RESIDUALS, &normalised_resids_, "Print Normalised Residuals?", "", false);
-  parameters_.Bind<bool>(PARAM_PEARSONS_RESIDUALS, &pearson_resids_, "Print Pearsons Residuals?", "", false);
+  parameters_.Bind<string>(PARAM_OBSERVATION, &observation_label_, "The observation label", "", "");
+  parameters_.Bind<bool>(PARAM_NORMALISED_RESIDUALS, &normalised_resids_, "Print Normalised Residuals?", "", true);
+  parameters_.Bind<bool>(PARAM_PEARSONS_RESIDUALS, &pearson_resids_, "Print Pearsons Residuals?", "", true);
+}
+/**
+ * Validate object
+ */
+void Observation::DoValidate(shared_ptr<Model> model) {
+  if (observation_label_ == "")
+    observation_label_ = label_;
 }
 
+/**
+ *  Build object
+ */
 /**
  *
  */
@@ -45,21 +55,26 @@ void Observation::DoBuild(shared_ptr<Model> model) {
 
   observation_ = model->managers()->observation()->GetObservation(observation_label_);
   if (!observation_) {
-    auto observations = model->managers()->observation()->objects();
-    for (auto observation : observations) cout << observation->label() << endl;
-    LOG_ERROR_P(PARAM_OBSERVATION) << "with label '" << observation_label_ << "' was not found.";
+#ifndef TESTMODE
+    LOG_WARNING() << "The report for " << PARAM_OBSERVATION << " with label '" << observation_label_ << "' was requested. This " << PARAM_OBSERVATION
+                  << " was not found in the input configuration file and the report will not be generated";
+#endif
+    is_valid_ = false;
+    return;
   }
 
-  if (pearson_resids_) {
+  if (pearson_resids_ && !default_report_) {
     if (std::find(pearson_likelihoods.begin(), pearson_likelihoods.end(), observation_->likelihood()) == pearson_likelihoods.end()) {
-      LOG_ERROR_P(PARAM_PEARSONS_RESIDUALS) << "The likelihood associated with this observation is " << observation_->likelihood()
-                                            << ". Pearsons residuals can be calculated only for the likelihoods binomial, multinomial, lognormal, normal, binomial_approx";
+      LOG_INFO() << "The likelihood for the observation '" << observation_label_ << "' is " << observation_->likelihood()
+                 << ". Pearsons residuals can only be calculated for the binomial, multinomial, lognormal, normal, and binomial_approx likelihoods";
+      pearson_resids_ = false;
     }
   }
-  if (normalised_resids_) {
+  if (normalised_resids_ && !default_report_) {
     if (std::find(normalised_likelihoods.begin(), normalised_likelihoods.end(), observation_->likelihood()) == normalised_likelihoods.end()) {
-      LOG_ERROR_P(PARAM_NORMALISED_RESIDUALS) << "The likelihood associated with this observation is " << observation_->likelihood()
-                                              << ". Normalised residuals can be calculated only for the likelihoods lognormal, lognormal_with_Q, normal";
+      LOG_INFO() << "The likelihood for the observation '" << observation_label_ << "' is " << observation_->likelihood()
+                 << ". Normalised residuals can only be calculated for the lognormal, lognormal_with_Q, and normal likelihoods";
+      normalised_resids_ = false;
     }
   }
 }
@@ -68,7 +83,10 @@ void Observation::DoBuild(shared_ptr<Model> model) {
  *  Execute the report
  */
 void Observation::DoExecute(shared_ptr<Model> model) {
-  cache_ << ReportHeader(type_, label_);
+  if (!is_valid())
+    return;
+
+  cache_ << ReportHeader(type_, observation_label_);
   cache_ << "observation_type: " << observation_->type() << REPORT_EOL;
   cache_ << "likelihood: " << observation_->likelihood() << REPORT_EOL;
   cache_ << "Values " << REPORT_R_DATAFRAME << REPORT_EOL;
@@ -167,6 +185,9 @@ void Observation::DoExecute(shared_ptr<Model> model) {
  *  Execute the tabular report
  */
 void Observation::DoExecuteTabular(shared_ptr<Model> model) {
+  if (!is_valid())
+    return;
+
   map<unsigned, vector<obs::Comparison>>& comparisons = observation_->comparisons();
   if (first_run_) {
     first_run_ = false;
@@ -377,6 +398,9 @@ void Observation::DoExecuteTabular(shared_ptr<Model> model) {
  *  Finalise the tabular report
  */
 void Observation::DoFinaliseTabular(shared_ptr<Model> model) {
+  if (!is_valid())
+    return;
+
   ready_for_writing_ = true;
 }
 

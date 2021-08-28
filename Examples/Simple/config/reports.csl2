@@ -2,42 +2,31 @@
 # The Report definition for the model
 #####################################
 
-# Print estimate values
+@report summary
+type estimate_value
+
 @report mpd
 type mpd
-
-@report estimate_value
-type estimate_value
 
 @report objective
 type objective_function
 
-# Print process information
-@report Recruitment
-type process
-process Recruitment
+# Print default reports
+@report default
+type default
+catchabilities true
+derived_quantities true
+observations true
+projects true
+processes true
+selectivities true
 
-@report Mortality
-type process
-process Instantaneous_Mortality
-
-# Print the partition
-@report Init
-type initialisation_partition
-
-# Look at numbers at age for each category during model run
-@report Sep_Feb
-type partition
+@report year_age_mat
+type year_age_matrix
 time_step Sep_Feb
 
-@report westF_at_age
-type observation
-observation chatOBSwst
-
-# Ageing error matrix
-@report age_error
-type ageing_error
-ageing_error Normal_ageing
+@report Init
+type initialisation_partition
 
 #MCMC objectives
 @report objectives

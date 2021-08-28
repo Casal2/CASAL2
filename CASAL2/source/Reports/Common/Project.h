@@ -4,7 +4,7 @@
  * @date 5/6/17
  * @section LICENSE
  *
- * Copyright NIWA Science ©2017 - www.niwa.co.nz
+ * Copyright NIWA Science ï¿½2017 - www.niwa.co.nz
  *
  * @section DESCRIPTION
  *
@@ -27,7 +27,7 @@ class Project : public Report {
 public:
   Project();
   virtual ~Project() = default;
-  void DoValidate(shared_ptr<Model> model) override final{};
+  void DoValidate(shared_ptr<Model> model) override final;
   void DoBuild(shared_ptr<Model> model) override final;
   void DoExecute(shared_ptr<Model> model) override final;
   void DoExecuteTabular(shared_ptr<Model> model) override final{};

@@ -74,6 +74,7 @@ public:
   void           set_suffix(string_view suffix);
   void           set_write_mode(string_view write_mode) { write_mode_ = write_mode; }
   constexpr bool is_valid() const { return is_valid_; }
+  void           set_is_default(bool value) { default_report_ = value; }
 
 protected:
   // methods
@@ -107,6 +108,7 @@ protected:
   string            suffix_            = "";
   string            format_            = PARAM_R;
   bool              is_valid_          = true;
+  bool              default_report_    = false;
 };
 
 // Typedef

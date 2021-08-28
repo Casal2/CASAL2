@@ -22,26 +22,43 @@ namespace reports {
 Selectivity::Selectivity() {
   run_mode_    = (RunMode::Type)(RunMode::kBasic | RunMode::kProjection | RunMode::kSimulation | RunMode::kEstimation | RunMode::kProfiling);
   model_state_ = (State::Type)(State::kIterationComplete);
-  parameters_.Bind<string>(PARAM_SELECTIVITY, &selectivity_label_, "Selectivity name", "");
+  parameters_.Bind<string>(PARAM_SELECTIVITY, &selectivity_label_, "Selectivity name", "", "");
 }
 
-void Selectivity::DoValidate(shared_ptr<Model> model) {}
-
+/**
+ * Validate object
+ */
+void Selectivity::DoValidate(shared_ptr<Model> model) {
+  if (selectivity_label_ == "")
+    selectivity_label_ = label_;
+}
+/**
+ * Build object
+ */
 void Selectivity::DoBuild(shared_ptr<Model> model) {
   selectivity_ = model->managers()->selectivity()->GetSelectivity(selectivity_label_);
-  if (!selectivity_)
-    LOG_FATAL_P(PARAM_SELECTIVITY) << " " << selectivity_label_ << " was not found.";
-  if (selectivity_->IsSelectivityLengthBased()) {
-    LOG_WARNING() << "Cannot report the length-based selectivity values. This report (" << label_ << ") is being ignored.\n"
-                  << "This can be done using the Casal2 R package. See the User Manual for more info. ";
+  if (!selectivity_) {
+#ifndef TESTMODE
+    LOG_WARNING() << "The report for " << PARAM_SELECTIVITY << " with label '" << selectivity_label_ << "' was requested. This " << PARAM_SELECTIVITY
+                  << " was not found in the input configuration file and the report will not be generated";
+#endif
+    is_valid_ = false;
+#ifndef TESTMODE
+  } else if (selectivity_->IsSelectivityLengthBased()) {
+    LOG_WARNING() << "Cannot report the length-based selectivity values. This report (" << label_ << ") is being ignored. "
+                  << "This can be done using the Casal2 R package. See the User Manual for more information";
+#endif
   }
 }
 
 void Selectivity::DoExecute(shared_ptr<Model> model) {
+  if (!is_valid())
+    return;
+
   LOG_TRACE();
   if (!selectivity_->IsSelectivityLengthBased()) {
     LOG_FINEST() << "Printing age-based selectivity";
-    cache_ << ReportHeader(type_, label_);
+    cache_ << ReportHeader(type_, selectivity_label_);
     const map<string, Parameter*> parameters = selectivity_->parameters().parameters();
 
     for (auto iter : parameters) {
@@ -60,6 +77,9 @@ void Selectivity::DoExecute(shared_ptr<Model> model) {
 }
 
 void Selectivity::DoExecuteTabular(shared_ptr<Model> model) {
+  if (!is_valid())
+    return;
+
   if (!selectivity_->IsSelectivityLengthBased()) {
     if (first_run_) {
       first_run_ = false;
@@ -83,6 +103,9 @@ void Selectivity::DoExecuteTabular(shared_ptr<Model> model) {
 }
 
 void Selectivity::DoFinaliseTabular(shared_ptr<Model> model) {
+  if (!is_valid())
+    return;
+
   ready_for_writing_ = true;
 }
 

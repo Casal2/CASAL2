@@ -70,6 +70,9 @@ Report::Report() {
  * when the report is not running in the execute phase.
  */
 void Report::Validate(shared_ptr<Model> model) {
+  if (!is_valid())
+    return;
+
   Report::lock_.lock();
   parameters_.Populate(model);
   DoValidate(model);
@@ -80,6 +83,9 @@ void Report::Validate(shared_ptr<Model> model) {
  *
  */
 void Report::Build(shared_ptr<Model> model) {
+  if (!is_valid())
+    return;
+
   Report::lock_.lock();
   if (time_step_ != "" && !model->managers()->time_step()->GetTimeStep(time_step_))
     LOG_ERROR_P(PARAM_TIME_STEP) << " labelled '" << time_step_ << "' could not be found. Please check it has been defined correctly";
@@ -106,6 +112,9 @@ bool Report::HasYear(unsigned year) {
  * the file it wants to write to exists, etc.
  */
 void Report::Prepare(shared_ptr<Model> model) {
+  if (!is_valid())
+    return;
+
   LOG_FINEST() << "preparing report: " << label_;
   Report::lock_.lock();
   SetUpInternalStates();
@@ -117,6 +126,9 @@ void Report::Prepare(shared_ptr<Model> model) {
  * Execute the report
  */
 void Report::Execute(shared_ptr<Model> model) {
+  if (!is_valid())
+    return;
+
   Report::lock_.lock();
   if (model == nullptr)
     LOG_CODE_ERROR() << "(model == nullptr)";
@@ -129,6 +141,9 @@ void Report::Execute(shared_ptr<Model> model) {
  * Finalise the report
  */
 void Report::Finalise(shared_ptr<Model> model) {
+  if (!is_valid())
+    return;
+
   Report::lock_.lock();
   DoFinalise(model);
   Report::lock_.unlock();
@@ -147,6 +162,9 @@ string Report::ReportHeader(string type, string label) {
  * Prepare the report
  */
 void Report::PrepareTabular(shared_ptr<Model> model) {
+  if (!is_valid())
+    return;
+
   LOG_FINEST() << "preparing tabular report: " << label_;
   // Put a header in
 
@@ -164,6 +182,9 @@ void Report::PrepareTabular(shared_ptr<Model> model) {
  * Execute the tabular report
  */
 void Report::ExecuteTabular(shared_ptr<Model> model) {
+  if (!is_valid())
+    return;
+
   Report::lock_.lock();
   DoExecuteTabular(model);
   Report::lock_.unlock();
@@ -173,7 +194,11 @@ void Report::ExecuteTabular(shared_ptr<Model> model) {
  * Finalise the tabular report
  */
 void Report::FinaliseTabular(shared_ptr<Model> model) {
+  if (!is_valid())
+    return;
+
   Report::lock_.lock();
+
   DoFinaliseTabular(model);
   Report::lock_.unlock();
 }
@@ -186,6 +211,9 @@ void Report::SetUpInternalStates() {
    * Figure out the write options. If we're using an incremental suffix
    * we want to loop over the existing files to see what suffix to use.
    */
+  if (!is_valid())
+    return;
+
   if (file_name_ != "" && write_mode_ == PARAM_INCREMENTAL_SUFFIX) {
     LOG_FINEST() << "Finding incremental suffix for file: " << label_;
     string trial_name = file_name_ + "." + util::ToInline<unsigned, string>(1);
@@ -213,15 +241,20 @@ void Report::SetUpInternalStates() {
  *
  */
 void Report::set_suffix(string_view suffix) {
+  if (!is_valid())
+    return;
+
   Report::lock_.lock();
   suffix_ = suffix;
   Report::lock_.unlock();
 }
-
 /**
  * Flush the contents of the cache to the file or stdout/stderr
  */
 void Report::FlushCache() {
+  if (!is_valid())
+    return;
+
   Report::lock_.lock();
 
   /**

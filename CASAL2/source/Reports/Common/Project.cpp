@@ -33,6 +33,13 @@ Project::Project() {
 
   parameters_.Bind<string>(PARAM_PROJECT, &project_label_, "The project label that is reported", "", "");
 }
+/**
+ * Validate object
+ */
+void Project::DoValidate(shared_ptr<Model> model) {
+  if (project_label_ == "")
+    project_label_ = label_;
+}
 
 /**
  * Build the relationships between this object and other objects
@@ -40,7 +47,11 @@ Project::Project() {
 void Project::DoBuild(shared_ptr<Model> model) {
   project_ = model->managers()->project()->GetProject(project_label_);
   if (!project_) {
-    LOG_ERROR_P(PARAM_PROJECT) << "project " << project_label_ << " was not found.";
+#ifndef TESTMODE
+    LOG_WARNING() << "The report for " << PARAM_PROJECT << " with label '" << project_label_ << "' was requested. This " << PARAM_PROJECT
+                  << " was not found in the input configuration file. The report will not be generated";
+#endif
+    is_valid_ = false;
   }
 }
 
@@ -48,10 +59,8 @@ void Project::DoBuild(shared_ptr<Model> model) {
  * Execute this report
  */
 void Project::DoExecute(shared_ptr<Model> model) {
-  project_ = model->managers()->project()->GetProject(project_label_);
-  if (!project_) {
-    LOG_CODE_ERROR() << "!project: " << project_label_;
-  }
+  if (!is_valid())
+    return;
 
   LOG_FINE() << " printing report " << label_ << " of type " << project_->type();
   map<unsigned, Double>& values = project_->projected_parameters();
