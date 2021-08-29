@@ -48,7 +48,7 @@ void DerivedQuantity::DoBuild(shared_ptr<Model> model) {
 void DerivedQuantity::DoExecute(shared_ptr<Model> model) {
   LOG_TRACE();
   derivedquantities::Manager& manager = *model->managers()->derived_quantity();
-  cache_ << ReportHeader(type_, derived_quantity_label_);
+  cache_ << ReportHeader(type_, derived_quantity_label_, format_);
 
   auto derived_quantities = manager.objects();
   for (auto dq : derived_quantities) {
@@ -85,7 +85,7 @@ void DerivedQuantity::DoExecuteTabular(shared_ptr<Model> model) {
 
   if (first_run_) {
     first_run_ = false;
-    cache_ << "*" << type_ << "[" << derived_quantity_label_ << "]" << REPORT_EOL;
+    cache_ << ReportHeader(type_, derived_quantity_label_, format_);
     cache_ << "values " << REPORT_R_DATAFRAME << REPORT_EOL;
     for (auto dq : derived_quantities) {
       const vector<vector<Double>> init_values  = dq->initialisation_values();

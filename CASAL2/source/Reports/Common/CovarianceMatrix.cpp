@@ -32,7 +32,7 @@ void CovarianceMatrix::DoExecute(shared_ptr<Model> model) {
   auto minimiser_    = model->managers()->minimiser()->active_minimiser();
   covariance_matrix_ = minimiser_->covariance_matrix();
 
-  cache_ << ReportHeader(type_, label_);
+  cache_ << ReportHeader(type_, label_, format_);
   cache_ << "covariance_matrix " << REPORT_R_MATRIX << REPORT_EOL;
 
   for (unsigned i = 0; i < covariance_matrix_.size1(); ++i) {

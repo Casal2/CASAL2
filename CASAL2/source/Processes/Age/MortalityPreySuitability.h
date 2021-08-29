@@ -47,7 +47,7 @@ private:
   vector<unsigned>      years_;
   string                penalty_label_ = "";
   penalties::Process*   penalty_       = nullptr;
-  Double                u_max_;
+  double                u_max_;
   vector<string>        prey_category_labels_;
   vector<string>        predator_category_labels_;
   Double                consumption_rate_;

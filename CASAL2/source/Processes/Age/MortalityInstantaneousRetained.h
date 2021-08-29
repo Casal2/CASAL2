@@ -41,7 +41,7 @@ class MortalityInstantaneousRetained : public Process {
     string   label_;
     string   time_step_label_;
     unsigned time_step_index_;
-    Double   u_max_;
+    double   u_max_;
     string   penalty_label_;
     Penalty* penalty_ = nullptr;
 
@@ -133,7 +133,7 @@ private:
   vector<unsigned>     process_years_;
 
   // members from mortality event
-  // Double                      u_max_ = 0.99; // Now attached to the fishery object
+  // Double                     u_max_ = 0.99; // Now attached to the fishery object
   string              penalty_label_ = "";
   penalties::Process* penalty_       = nullptr;
   string              unit_;
@@ -141,8 +141,8 @@ private:
   // members from natural mortality
   vector<Double>             m_input_;
   OrderedMap<string, Double> m_;
-  vector<Double>             time_step_ratios_temp_;
-  map<unsigned, Double>      time_step_ratios_;
+  vector<double>             time_step_ratios_temp_;
+  map<unsigned, double>      time_step_ratios_;
   vector<string>             selectivity_labels_;
   vector<Selectivity*>       selectivities_;
   vector<string>             retained_selectivity_labels_;

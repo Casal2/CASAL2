@@ -331,7 +331,8 @@
 
 \defSub{label}{The label of the MCMC}
 \defSub{type}{The MCMC method}
-\defSub{length}{The number of iterations in for the MCMC chain}
+\defSub{length}{The number of iterations for the MCMC (including the burn in period)}
+\defSub{burn\_in}{The number of iterations for the burn\_in period of the MCMC}
 \defSub{active}{Indicates if this is the active MCMC algorithm}
 \defSub{step\_size}{Initial step-size (as a multiplier of the approximate covariance matrix)}
 \defSub{start}{The covariance multiplier for the starting point of the MCMC}
@@ -342,8 +343,8 @@
 \defSub{proposal\_distribution}{The shape of the proposal distribution (either the t or the normal distribution)}
 \defSub{df}{The degrees of freedom of the multivariate t proposal distribution}
 \defSub{adapt\_stepsize\_at}{The iteration numbers in which to check and resize the MCMC stepsize}
-\defSub{adapt\_covariance\_matrix\_at}{The iteration numbers in which to adapt the covariance matrix}
 \defSub{adapt\_stepsize\_method}{The method to use to adapt the step size}
+\defSub{adapt\_covariance\_matrix\_at}{The iteration number in which to adapt the covariance matrix}
 
 \commandlabsubarg{MCMC}{type}{Hamiltonian\_Monte\_Carlo}
 
@@ -903,6 +904,7 @@
 
 \commandlabsubarg{Report}{type}{Catchability}
 
+\defSub{catchability}{The catchability label}
 
 \commandlabsubarg{Report}{type}{Category\_Info}
 
@@ -916,8 +918,18 @@
 \commandlabsubarg{Report}{type}{Covariance\_Matrix}
 
 
+\commandlabsubarg{Report}{type}{Default\_Reports}
+
+\defSub{catchabilities}{Report catchabilities}
+\defSub{derived\_quantities}{Report derived quantities}
+\defSub{observations}{Report observations}
+\defSub{processes}{Report processes}
+\defSub{projects}{Report projects}
+\defSub{selectivities}{Report selectivities}
+
 \commandlabsubarg{Report}{type}{Derived\_Quantity}
 
+\defSub{derived\_quantity}{The derived quantity label}
 
 \commandlabsubarg{Report}{type}{Equation\_Test}
 
@@ -1009,6 +1021,7 @@
 
 \commandlabsubarg{Report}{type}{Time\_Varying}
 
+\defSub{time\_varying}{The time varying label that is reported}
 
 \defComLab{Selectivity}{Define an object of type \emph{Selectivity}}
 

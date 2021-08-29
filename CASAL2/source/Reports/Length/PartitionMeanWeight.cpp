@@ -55,7 +55,7 @@ void PartitionMeanWeight::DoExecute(shared_ptr<Model> model) {
   vector<Double>                  length_bins = model->length_bins();
   unsigned                        year        = model->current_year();
 
-  cache_ << ReportHeader(type_, label_);
+  cache_ << ReportHeader(type_, label_, format_);
   cache_ << "year: " << year << REPORT_EOL;
   for (auto iterator : all_view) {
     string category = iterator->name_;

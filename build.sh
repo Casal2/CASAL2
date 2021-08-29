@@ -17,12 +17,13 @@ doBuild.sh library betadiff
 doBuild.sh library adolc
 doBuild.sh library test
 
+doBuild.sh test
 doBuild.sh frontend
 
 doBuild.sh documentation
 doBuild.sh rlibrary
 doBuild.sh archive
-doBuild.sh installer
+doBuild.sh deb
 
 doBuild.sh modelrunner
 doBuild.sh unittests

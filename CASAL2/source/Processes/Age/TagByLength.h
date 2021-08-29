@@ -53,8 +53,8 @@ private:
   map<string, Selectivity*>     selectivities_;
   string                        penalty_label_                       = "";
   Penalty*                      penalty_                             = nullptr;
-  Double                        u_max_                               = 0;
-  Double                        tolerance_                           = 0;
+  double                        u_max_                               = 0;
+  double                        tolerance_                           = 0;
   Double                        initial_mortality_                   = 0;
   string                        initial_mortality_selectivity_label_ = "";
   Selectivity*                  initial_mortality_selectivity_       = nullptr;

@@ -86,6 +86,7 @@ Correlation_Matrix
 Covariance_Matrix
 DESolver
 Data
+Default_Reports
 Delta_Diff
 Derived
 Derived_Quantity
@@ -230,10 +231,12 @@ b0
 b0_initialisation_phase
 b_max
 base_weight_units
+burn_in
 by_length
 c
 casal_initialisation_switch
 catch
+catchabilities
 catchability
 catches
 categories
@@ -250,6 +253,8 @@ cv
 cv_first
 cv_last
 delta
+derived_quantities
+derived_quantity
 detection
 deviation_values
 deviation_years
@@ -330,6 +335,7 @@ n
 names
 normalised_residuals
 observation
+observations
 p1
 p2
 parameter
@@ -348,6 +354,7 @@ process_errors
 processes
 project
 projection_final_year
+projects
 proportions
 proposal_distribution
 q
@@ -392,6 +399,7 @@ time_step_proportion_method
 time_step_proportions
 time_step_ratio
 time_steps
+time_varying
 to
 tolerance
 total_categories

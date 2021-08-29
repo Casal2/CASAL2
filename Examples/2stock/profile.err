@@ -1,528 +1,118 @@
 
 [WARNING] Estimates were removed because of matching lower and upper bounds. Originally had 152 estimates, now have 151
 [IMPORTANT] Setting 'profile.dat' as the output file for the free parameters
+[INFO] Creating default report for catchability CSacous
+[INFO] Creating default report for catchability WCacous
+[INFO] Creating default report for catchability CRsum
+[INFO] Creating default report for catchability SAsum
+[INFO] Creating default report for catchability SAaut
+[INFO] Creating default report for derived quantity SSB_E
+[INFO] Creating default report for derived quantity SSB_W
+[INFO] Creating default report for observation CSacous
+[INFO] Creating default report for observation WCacous
+[INFO] Creating default report for observation CRsumbio
+[INFO] Creating default report for observation SAsumbio
+[INFO] Creating default report for observation SAautbio
+[INFO] Creating default report for observation Espage
+[INFO] Creating default report for observation Wspage
+[INFO] Creating default report for observation EnspOLF
+[INFO] Creating default report for observation Enspage
+[INFO] Creating default report for observation WnspOLF
+[INFO] Creating default report for observation Wnspage
+[INFO] Creating default report for observation CRsumage
+[INFO] Creating default report for observation SAsumage
+[INFO] Creating default report for observation SAautage
+[INFO] Creating default report for observation pspawn_1993
+[INFO] Creating default report for observation pspawn
+[INFO] Creating default report for process Ageing
+[INFO] Creating default report for process Ertn
+[INFO] Creating default report for process Wrtn
+[INFO] Creating default report for process Whome
+[INFO] Creating default report for process Espmg
+[INFO] Creating default report for process Wspmg
+[INFO] Creating default report for process recruit_W
+[INFO] Creating default report for process recruit_E
+[INFO] Creating default report for process Instant_mortality
+[INFO] Creating default report for selectivity M_male
+[INFO] Creating default report for selectivity M_female
+[INFO] Creating default report for selectivity Enspsl
+[INFO] Creating default report for selectivity Wnspsl
+[INFO] Creating default report for selectivity Espsl
+[INFO] Creating default report for selectivity Wspsl
+[INFO] Creating default report for selectivity CRsl
+[INFO] Creating default report for selectivity SAsl
+[INFO] Creating default report for selectivity sel_Whome
+[INFO] Creating default report for selectivity sel_Espmg_Male
+[INFO] Creating default report for selectivity sel_Espmg_Female
+[INFO] Creating default report for selectivity sel_Wspmg_Male
+[INFO] Creating default report for selectivity sel_Wspmg_Female
+[INFO] Creating default report for selectivity One
+[INFO] Creating default report for selectivity Point5
+[WARNING] Cannot report the length-based selectivity values. This report (__Enspsl__) is being ignored. This can be done using the Casal2 R package. See the User Manual for more information
+[WARNING] Cannot report the length-based selectivity values. This report (__Wnspsl__) is being ignored. This can be done using the Casal2 R package. See the User Manual for more information
+[WARNING] Cannot report the length-based selectivity values. This report (__Espsl__) is being ignored. This can be done using the Casal2 R package. See the User Manual for more information
+[WARNING] Cannot report the length-based selectivity values. This report (__Wspsl__) is being ignored. This can be done using the Casal2 R package. See the User Manual for more information
+[WARNING] Cannot report the length-based selectivity values. This report (__CRsl__) is being ignored. This can be done using the Casal2 R package. See the User Manual for more information
+[WARNING] Cannot report the length-based selectivity values. This report (__SAsl__) is being ignored. This can be done using the Casal2 R package. See the User Manual for more information
 [INFO] Initiating profile run mode
-[INFO] Estimable parameters were loaded from the free parameter file: params.dat
+[INFO] Estimable parameters were loaded from the free parameter file: free.dat
 [INFO] Profiling with 1 parameter(s)
 [INFO] Profiling parameter process[recruit_W].b0
-[INFO] Profiling with parameter at step 1 of 10 steps
-[INFO] Estimation with the gammadiff minimiser
-[INFO] Convergence check value = 0.283872. Convergence tolerance   = 1e-05
-[INFO] Convergence check value = 0.137213. Convergence tolerance   = 1e-05
-[INFO] Convergence check value = 0.0248367. Convergence tolerance   = 1e-05
-[INFO] Convergence check value = 0.0730034. Convergence tolerance   = 1e-05
-[INFO] Convergence check value = 0.0343878. Convergence tolerance   = 1e-05
-[INFO] Convergence check value = 0.0119764. Convergence tolerance   = 1e-05
-[INFO] Convergence check value = 0.0160866. Convergence tolerance   = 1e-05
-[INFO] Convergence check value = 0.0048416. Convergence tolerance   = 1e-05
-[INFO] Convergence check value = 0.00249969. Convergence tolerance   = 1e-05
-[INFO] Convergence check value = 0.00404426. Convergence tolerance   = 1e-05
-[INFO] Convergence check value = 0.0129125. Convergence tolerance   = 1e-05
-[INFO] Convergence check value = 0.00274422. Convergence tolerance   = 1e-05
-[INFO] Convergence check value = 0.00372285. Convergence tolerance   = 1e-05
-[INFO] Convergence check value = 0.00151459. Convergence tolerance   = 1e-05
-[INFO] Convergence check value = 0.00097493. Convergence tolerance   = 1e-05
-[INFO] Convergence check value = 0.000858402. Convergence tolerance   = 1e-05
-[INFO] Convergence check value = 0.000731008. Convergence tolerance   = 1e-05
-[INFO] Convergence check value = 0.000559859. Convergence tolerance   = 1e-05
-[INFO] Convergence check value = 0.000694565. Convergence tolerance   = 1e-05
-[INFO] Convergence check value = 0.000650328. Convergence tolerance   = 1e-05
-[INFO] Convergence check value = 0.000608565. Convergence tolerance   = 1e-05
-[INFO] Convergence check value = 0.000482038. Convergence tolerance   = 1e-05
-[INFO] Convergence check value = 0.00814729. Convergence tolerance   = 1e-05
-[INFO] Convergence check value = 0.000833052. Convergence tolerance   = 1e-05
-[INFO] Convergence check value = 0.000472022. Convergence tolerance   = 1e-05
-[INFO] Convergence check value = 0.000227604. Convergence tolerance   = 1e-05
-[INFO] Convergence check value = 0.000260841. Convergence tolerance   = 1e-05
-[INFO] Convergence check value = 0.000373622. Convergence tolerance   = 1e-05
-[INFO] Convergence check value = 0.000311995. Convergence tolerance   = 1e-05
-[INFO] Convergence check value = 0.000185943. Convergence tolerance   = 1e-05
-[INFO] Convergence check value = 0.000244921. Convergence tolerance   = 1e-05
-[INFO] Convergence check value = 0.000273769. Convergence tolerance   = 1e-05
-[INFO] Convergence check value = 0.000355808. Convergence tolerance   = 1e-05
-[INFO] Convergence check value = 0.000308908. Convergence tolerance   = 1e-05
-[INFO] Convergence check value = 0.000244815. Convergence tolerance   = 1e-05
-[INFO] Convergence check value = 0.000165821. Convergence tolerance   = 1e-05
-[INFO] Convergence check value = 0.00114481. Convergence tolerance   = 1e-05
-[INFO] Convergence check value = 0.000166925. Convergence tolerance   = 1e-05
-[INFO] Convergence check value = 0.000123951. Convergence tolerance   = 1e-05
-[INFO] Convergence check value = 0.000116387. Convergence tolerance   = 1e-05
-[INFO] Convergence check value = 0.000128138. Convergence tolerance   = 1e-05
-[INFO] Convergence check value = 0.000115357. Convergence tolerance   = 1e-05
-[INFO] Convergence check value = 0.000139062. Convergence tolerance   = 1e-05
-[INFO] Convergence check value = 0.000135106. Convergence tolerance   = 1e-05
-[INFO] Convergence check value = 0.000122105. Convergence tolerance   = 1e-05
-[INFO] Convergence check value = 0.000110028. Convergence tolerance   = 1e-05
-[INFO] Convergence check value = 0.000114211. Convergence tolerance   = 1e-05
-[INFO] Convergence check value = 0.000124528. Convergence tolerance   = 1e-05
-[INFO] Convergence check value = 0.000107949. Convergence tolerance   = 1e-05
-[INFO] Convergence check value = 0.00011214. Convergence tolerance   = 1e-05
-[INFO] Convergence check value = 9.69035e-05. Convergence tolerance   = 1e-05
-[INFO] Convergence check value = 8.57603e-05. Convergence tolerance   = 1e-05
-[INFO] Convergence check value = 8.48247e-05. Convergence tolerance   = 1e-05
-[INFO] Convergence check value = 9.40469e-05. Convergence tolerance   = 1e-05
-[INFO] Convergence check value = 0.00010281. Convergence tolerance   = 1e-05
-[INFO] Convergence check value = 8.18273e-05. Convergence tolerance   = 1e-05
-[INFO] Convergence check value = 8.16855e-05. Convergence tolerance   = 1e-05
-[INFO] Convergence check value = 0.00209345. Convergence tolerance   = 1e-05
-[INFO] Convergence check value = 0.000184071. Convergence tolerance   = 1e-05
-[INFO] Convergence check value = 0.000147851. Convergence tolerance   = 1e-05
-[INFO] Convergence check value = 0.000103231. Convergence tolerance   = 1e-05
-[INFO] Convergence check value = 0.000118235. Convergence tolerance   = 1e-05
-[INFO] Convergence check value = 0.000107734. Convergence tolerance   = 1e-05
-[INFO] Convergence check value = 8.6904e-05. Convergence tolerance   = 1e-05
-[INFO] Convergence check value = 0.000104792. Convergence tolerance   = 1e-05
-[INFO] Convergence check value = 9.85352e-05. Convergence tolerance   = 1e-05
-[INFO] Convergence check value = 9.81044e-05. Convergence tolerance   = 1e-05
-[INFO] Convergence check value = 0.000117209. Convergence tolerance   = 1e-05
-[INFO] Convergence check value = 0.000106631. Convergence tolerance   = 1e-05
-[INFO] Convergence check value = 0.000122109. Convergence tolerance   = 1e-05
-[INFO] Convergence check value = 0.000113909. Convergence tolerance   = 1e-05
-[INFO] Convergence check value = 7.10785e-05. Convergence tolerance   = 1e-05
-[INFO] Convergence check value = 6.5431e-05. Convergence tolerance   = 1e-05
-[INFO] Convergence check value = 7.26543e-05. Convergence tolerance   = 1e-05
-[INFO] Convergence check value = 8.37918e-05. Convergence tolerance   = 1e-05
-[INFO] Convergence check value = 6.13648e-05. Convergence tolerance   = 1e-05
-[INFO] Convergence check value = 5.30654e-05. Convergence tolerance   = 1e-05
-[INFO] Convergence check value = 5.29889e-05. Convergence tolerance   = 1e-05
-[INFO] Convergence check value = 8.22959e-05. Convergence tolerance   = 1e-05
-[INFO] Convergence check value = 7.78456e-05. Convergence tolerance   = 1e-05
-[INFO] Convergence check value = 6.97145e-05. Convergence tolerance   = 1e-05
-[INFO] Convergence check value = 5.91714e-05. Convergence tolerance   = 1e-05
-[INFO] Convergence check value = 6.99308e-05. Convergence tolerance   = 1e-05
-[INFO] Convergence check value = 7.53439e-05. Convergence tolerance   = 1e-05
-[INFO] Convergence check value = 6.98775e-05. Convergence tolerance   = 1e-05
-[INFO] Convergence check value = 6.43026e-05. Convergence tolerance   = 1e-05
-[INFO] Convergence check value = 6.1293e-05. Convergence tolerance   = 1e-05
-[INFO] Convergence check value = 0.000182107. Convergence tolerance   = 1e-05
-[INFO] Convergence check value = 6.41753e-05. Convergence tolerance   = 1e-05
-[INFO] Convergence check value = 0.000356777. Convergence tolerance   = 1e-05
-[INFO] Convergence check value = 6.19339e-05. Convergence tolerance   = 1e-05
-[INFO] Convergence check value = 6.18968e-05. Convergence tolerance   = 1e-05
-[INFO] Convergence check value = 6.65431e-05. Convergence tolerance   = 1e-05
-[INFO] Convergence check value = 6.1375e-05. Convergence tolerance   = 1e-05
-[INFO] Convergence check value = 6.88366e-05. Convergence tolerance   = 1e-05
-[INFO] Convergence check value = 6.39025e-05. Convergence tolerance   = 1e-05
-[INFO] Convergence check value = 6.84656e-05. Convergence tolerance   = 1e-05
-[INFO] Convergence check value = 6.31449e-05. Convergence tolerance   = 1e-05
-[INFO] Convergence check value = 7.14775e-05. Convergence tolerance   = 1e-05
-[INFO] Convergence check value = 0.000101. Convergence tolerance   = 1e-05
-[INFO] Convergence check value = 8.92561e-05. Convergence tolerance   = 1e-05
-[INFO] Convergence check value = 7.06742e-05. Convergence tolerance   = 1e-05
-[INFO] Convergence check value = 6.89455e-05. Convergence tolerance   = 1e-05
-[INFO] Convergence check value = 7.24006e-05. Convergence tolerance   = 1e-05
-[INFO] Convergence check value = 9.31227e-05. Convergence tolerance   = 1e-05
-[INFO] Convergence check value = 7.33106e-05. Convergence tolerance   = 1e-05
-[INFO] Convergence check value = 5.286e-05. Convergence tolerance   = 1e-05
-[INFO] Convergence check value = 4.65873e-05. Convergence tolerance   = 1e-05
-[INFO] Convergence check value = 5.36945e-05. Convergence tolerance   = 1e-05
-[INFO] Convergence check value = 4.56981e-05. Convergence tolerance   = 1e-05
-[INFO] Convergence check value = 3.96548e-05. Convergence tolerance   = 1e-05
-[INFO] Convergence check value = 3.64624e-05. Convergence tolerance   = 1e-05
-[INFO] Convergence check value = 5.61062e-05. Convergence tolerance   = 1e-05
-[INFO] Convergence check value = 5.53914e-05. Convergence tolerance   = 1e-05
-[INFO] Convergence check value = 4.25066e-05. Convergence tolerance   = 1e-05
-[INFO] Convergence check value = 3.49327e-05. Convergence tolerance   = 1e-05
-[INFO] Convergence check value = 3.35351e-05. Convergence tolerance   = 1e-05
-[INFO] Convergence check value = 3.90672e-05. Convergence tolerance   = 1e-05
-[INFO] Convergence check value = 2.73285e-05. Convergence tolerance   = 1e-05
-[INFO] Convergence check value = 2.69393e-05. Convergence tolerance   = 1e-05
-[INFO] Convergence check value = 2.76844e-05. Convergence tolerance   = 1e-05
-[INFO] Convergence check value = 3.4824e-05. Convergence tolerance   = 1e-05
-[INFO] Convergence check value = 3.28456e-05. Convergence tolerance   = 1e-05
-[INFO] Convergence check value = 2.53506e-05. Convergence tolerance   = 1e-05
-[INFO] Convergence check value = 3.40539e-05. Convergence tolerance   = 1e-05
-[INFO] Convergence check value = 3.7712e-05. Convergence tolerance   = 1e-05
-[INFO] Convergence check value = 0.000596889. Convergence tolerance   = 1e-05
-[INFO] Convergence check value = 5.40621e-05. Convergence tolerance   = 1e-05
-[INFO] Convergence check value = 4.76116e-05. Convergence tolerance   = 1e-05
-[INFO] Convergence check value = 3.74166e-05. Convergence tolerance   = 1e-05
-[INFO] Convergence check value = 2.76233e-05. Convergence tolerance   = 1e-05
-[INFO] Convergence check value = 2.34362e-05. Convergence tolerance   = 1e-05
-[INFO] Convergence check value = 2.75862e-05. Convergence tolerance   = 1e-05
-[INFO] Convergence check value = 3.13534e-05. Convergence tolerance   = 1e-05
-[INFO] Convergence check value = 3.38212e-05. Convergence tolerance   = 1e-05
-[INFO] Convergence check value = 3.17228e-05. Convergence tolerance   = 1e-05
-[INFO] Convergence check value = 2.86024e-05. Convergence tolerance   = 1e-05
-[INFO] Convergence check value = 3.109e-05. Convergence tolerance   = 1e-05
-[INFO] Convergence check value = 3.53267e-05. Convergence tolerance   = 1e-05
-[INFO] Convergence check value = 2.72069e-05. Convergence tolerance   = 1e-05
-[INFO] Convergence check value = 1.9568e-05. Convergence tolerance   = 1e-05
-[INFO] Convergence check value = 1.72955e-05. Convergence tolerance   = 1e-05
-[INFO] Convergence check value = 1.82833e-05. Convergence tolerance   = 1e-05
-[INFO] Convergence check value = 2.02389e-05. Convergence tolerance   = 1e-05
-[INFO] Convergence check value = 1.82374e-05. Convergence tolerance   = 1e-05
-[INFO] Convergence check value = 2.19806e-05. Convergence tolerance   = 1e-05
-[INFO] Convergence check value = 2.07431e-05. Convergence tolerance   = 1e-05
-[INFO] Convergence check value = 2.04032e-05. Convergence tolerance   = 1e-05
-[INFO] Convergence check value = 2.03777e-05. Convergence tolerance   = 1e-05
-[INFO] Convergence check value = 2.00375e-05. Convergence tolerance   = 1e-05
-[INFO] Convergence check value = 2.79711e-05. Convergence tolerance   = 1e-05
-[INFO] Convergence check value = 3.15741e-05. Convergence tolerance   = 1e-05
-[INFO] Convergence check value = 2.74621e-05. Convergence tolerance   = 1e-05
-[INFO] Convergence check value = 2.07734e-05. Convergence tolerance   = 1e-05
-[INFO] Convergence check value = 1.60745e-05. Convergence tolerance   = 1e-05
-[INFO] Convergence check value = 2.07446e-05. Convergence tolerance   = 1e-05
-[INFO] Convergence check value = 2.15136e-05. Convergence tolerance   = 1e-05
-[INFO] Convergence check value = 2.10175e-05. Convergence tolerance   = 1e-05
-[INFO] Convergence check value = 1.32866e-05. Convergence tolerance   = 1e-05
-[INFO] Convergence check value = 1.34349e-05. Convergence tolerance   = 1e-05
-[INFO] Convergence check value = 1.57163e-05. Convergence tolerance   = 1e-05
-[INFO] Convergence check value = 8.11641e-05. Convergence tolerance   = 1e-05
-[INFO] Convergence check value = 2.011e-05. Convergence tolerance   = 1e-05
-[INFO] Convergence check value = 1.52967e-05. Convergence tolerance   = 1e-05
-[INFO] Convergence check value = 1.49987e-05. Convergence tolerance   = 1e-05
-[INFO] Convergence check value = 1.34426e-05. Convergence tolerance   = 1e-05
-[INFO] Convergence check value = 1.39274e-05. Convergence tolerance   = 1e-05
-[INFO] Convergence check value = 1.91008e-05. Convergence tolerance   = 1e-05
-[INFO] Convergence check value = 1.85224e-05. Convergence tolerance   = 1e-05
-[INFO] Convergence check value = 1.44855e-05. Convergence tolerance   = 1e-05
-[INFO] Convergence check value = 1.66828e-05. Convergence tolerance   = 1e-05
-[INFO] Convergence check value = 1.44121e-05. Convergence tolerance   = 1e-05
-[INFO] Convergence check value = 1.45887e-05. Convergence tolerance   = 1e-05
-[INFO] Convergence check value = 1.64707e-05. Convergence tolerance   = 1e-05
-[INFO] Convergence check value = 1.49946e-05. Convergence tolerance   = 1e-05
-[INFO] Convergence check value = 1.44992e-05. Convergence tolerance   = 1e-05
-[INFO] Convergence check value = 1.45374e-05. Convergence tolerance   = 1e-05
-[INFO] Convergence check value = 1.47179e-05. Convergence tolerance   = 1e-05
-[INFO] Convergence check value = 1.86292e-05. Convergence tolerance   = 1e-05
-[INFO] Convergence check value = 1.75395e-05. Convergence tolerance   = 1e-05
-[INFO] Convergence check value = 1.92501e-05. Convergence tolerance   = 1e-05
-[INFO] Convergence check value = 1.509e-05. Convergence tolerance   = 1e-05
-[INFO] Convergence check value = 1.26348e-05. Convergence tolerance   = 1e-05
-[INFO] Convergence check value = 1.41595e-05. Convergence tolerance   = 1e-05
-[INFO] Convergence check value = 1.55802e-05. Convergence tolerance   = 1e-05
-[INFO] Convergence check value = 1.65375e-05. Convergence tolerance   = 1e-05
-[INFO] Convergence check value = 1.23618e-05. Convergence tolerance   = 1e-05
-[INFO] Convergence check value = 1.22859e-05. Convergence tolerance   = 1e-05
-[INFO] Convergence check value = 1.13631e-05. Convergence tolerance   = 1e-05
-[INFO] Convergence check value = 1.6525e-05. Convergence tolerance   = 1e-05
-[INFO] Convergence check value = 1.91306e-05. Convergence tolerance   = 1e-05
-[INFO] Convergence check value = 1.37379e-05. Convergence tolerance   = 1e-05
-[INFO] Convergence check value = 1.87413e-05. Convergence tolerance   = 1e-05
-[INFO] Convergence check value = 1.33224e-05. Convergence tolerance   = 1e-05
-[INFO] Convergence check value = 1.33903e-05. Convergence tolerance   = 1e-05
-[INFO] Convergence check value = 6.17555e-05. Convergence tolerance   = 1e-05
-[INFO] Convergence check value = 1.38538e-05. Convergence tolerance   = 1e-05
-[INFO] Convergence check value = 1.65401e-05. Convergence tolerance   = 1e-05
-[INFO] Convergence check value = 1.27679e-05. Convergence tolerance   = 1e-05
-[INFO] Convergence check value = 1.42009e-05. Convergence tolerance   = 1e-05
-[INFO] Convergence check value = 1.70038e-05. Convergence tolerance   = 1e-05
-[INFO] Convergence check value = 1.14843e-05. Convergence tolerance   = 1e-05
-[INFO] Convergence check value = 8.03959e-06. Convergence tolerance   = 1e-05
-[WARNING] estimated parameter 'process[recruit_E].b0' was within 0.001 of upper bound 16.2
-[WARNING] estimated parameter 'process[recruit_W].b0' was within 0.001 of upper bound 0.59
-[WARNING] estimated parameter 'process[recruit_E].ycs_values{1999}' was within 0.001 of lower bound 0.06
-[WARNING] estimated parameter 'process[recruit_W].ycs_values{1999}' was within 0.001 of lower bound 0.06
-[WARNING] estimated parameter 'selectivity[sel_Whome].v{7}' was within 0.001 of upper bound 1
-[WARNING] estimated parameter 'selectivity[sel_Espmg_Female].v{1}' was within 0.001 of lower bound 0
-[WARNING] estimated parameter 'selectivity[sel_Espmg_Female].v{8}' was within 0.001 of lower bound 0.6
-[WARNING] estimated parameter 'selectivity[sel_Wspmg_Female].v{8}' was within 0.001 of lower bound 0.6
-[WARNING] estimated parameter 'selectivity[Enspsl].sigma_r' was within 0.001 of upper bound 44
-[WARNING] estimated parameter 'selectivity[Espsl].ato95' was within 0.001 of lower bound 4
-[WARNING] estimated parameter 'selectivity[CRsl].mu' was within 0.001 of lower bound 64
-[WARNING] estimated parameter 'selectivity[SAsl].mu' was within 0.001 of upper bound 84
-[WARNING] estimated parameter 'selectivity[SAsl].sigma_l' was within 0.001 of upper bound 44
-[WARNING] estimated parameter 'selectivity[SAsl].sigma_r' was within 0.001 of upper bound 44
-[WARNING] estimated parameter 'process[recruit_E].b0' was within 0.001 of upper bound 16.2
-[WARNING] estimated parameter 'process[recruit_W].b0' was within 0.001 of upper bound 0.59
-[WARNING] estimated parameter 'process[recruit_E].ycs_values{1999}' was within 0.001 of lower bound 0.06
-[WARNING] estimated parameter 'process[recruit_W].ycs_values{1999}' was within 0.001 of lower bound 0.06
-[WARNING] estimated parameter 'selectivity[sel_Whome].v{7}' was within 0.001 of upper bound 1
-[WARNING] estimated parameter 'selectivity[sel_Espmg_Female].v{1}' was within 0.001 of lower bound 0
-[WARNING] estimated parameter 'selectivity[sel_Espmg_Female].v{8}' was within 0.001 of lower bound 0.6
-[WARNING] estimated parameter 'selectivity[sel_Wspmg_Female].v{8}' was within 0.001 of lower bound 0.6
-[WARNING] estimated parameter 'selectivity[Enspsl].sigma_r' was within 0.001 of upper bound 44
-[WARNING] estimated parameter 'selectivity[Espsl].ato95' was within 0.001 of lower bound 4
-[WARNING] estimated parameter 'selectivity[CRsl].mu' was within 0.001 of lower bound 64
-[WARNING] estimated parameter 'selectivity[SAsl].mu' was within 0.001 of upper bound 84
-[WARNING] estimated parameter 'selectivity[SAsl].sigma_l' was within 0.001 of upper bound 44
-[WARNING] estimated parameter 'selectivity[SAsl].sigma_r' was within 0.001 of upper bound 44
-[INFO] Profiling with parameter at step 2 of 10 steps
-[INFO] Estimation with the gammadiff minimiser
-[INFO] Convergence check value = 0.290431. Convergence tolerance   = 1e-05
-[INFO] Convergence check value = 0.232217. Convergence tolerance   = 1e-05
-[INFO] Convergence check value = 0.0280082. Convergence tolerance   = 1e-05
-[INFO] Convergence check value = 0.0670814. Convergence tolerance   = 1e-05
-[INFO] Convergence check value = 0.0254322. Convergence tolerance   = 1e-05
-[INFO] Convergence check value = 0.0123503. Convergence tolerance   = 1e-05
-[INFO] Convergence check value = 0.0112399. Convergence tolerance   = 1e-05
-[INFO] Convergence check value = 0.00891756. Convergence tolerance   = 1e-05
-[INFO] Convergence check value = 0.00585138. Convergence tolerance   = 1e-05
-[INFO] Convergence check value = 0.00303391. Convergence tolerance   = 1e-05
-[INFO] Convergence check value = 0.00843702. Convergence tolerance   = 1e-05
-[INFO] Convergence check value = 0.00166887. Convergence tolerance   = 1e-05
-[INFO] Convergence check value = 0.00171651. Convergence tolerance   = 1e-05
-[INFO] Convergence check value = 0.00196719. Convergence tolerance   = 1e-05
-[INFO] Convergence check value = 0.000569134. Convergence tolerance   = 1e-05
-[INFO] Convergence check value = 0.000655456. Convergence tolerance   = 1e-05
-[INFO] Convergence check value = 0.00121337. Convergence tolerance   = 1e-05
-[INFO] Convergence check value = 0.000930044. Convergence tolerance   = 1e-05
-[INFO] Convergence check value = 0.000585431. Convergence tolerance   = 1e-05
-[INFO] Convergence check value = 0.000487262. Convergence tolerance   = 1e-05
-[INFO] Convergence check value = 0.000559152. Convergence tolerance   = 1e-05
-[INFO] Convergence check value = 0.000372221. Convergence tolerance   = 1e-05
-[INFO] Convergence check value = 0.0142759. Convergence tolerance   = 1e-05
-[INFO] Convergence check value = 0.000808537. Convergence tolerance   = 1e-05
-[INFO] Convergence check value = 0.00027283. Convergence tolerance   = 1e-05
-[INFO] Convergence check value = 0.000161355. Convergence tolerance   = 1e-05
-[INFO] Convergence check value = 0.000276392. Convergence tolerance   = 1e-05
-[INFO] Convergence check value = 0.0002787. Convergence tolerance   = 1e-05
-[INFO] Convergence check value = 0.000348408. Convergence tolerance   = 1e-05
-[INFO] Convergence check value = 0.000233025. Convergence tolerance   = 1e-05
-[INFO] Convergence check value = 0.000159269. Convergence tolerance   = 1e-05
-[INFO] Convergence check value = 0.000251765. Convergence tolerance   = 1e-05
-[INFO] Convergence check value = 0.000267761. Convergence tolerance   = 1e-05
-[INFO] Convergence check value = 0.000190295. Convergence tolerance   = 1e-05
-[INFO] Convergence check value = 0.0001647. Convergence tolerance   = 1e-05
-[INFO] Convergence check value = 0.000107497. Convergence tolerance   = 1e-05
-[INFO] Convergence check value = 0.000111445. Convergence tolerance   = 1e-05
-[INFO] Convergence check value = 9.17106e-05. Convergence tolerance   = 1e-05
-[INFO] Convergence check value = 9.18255e-05. Convergence tolerance   = 1e-05
-[INFO] Convergence check value = 8.00214e-05. Convergence tolerance   = 1e-05
-[INFO] Convergence check value = 7.84685e-05. Convergence tolerance   = 1e-05
-[INFO] Convergence check value = 8.477e-05. Convergence tolerance   = 1e-05
-[INFO] Convergence check value = 9.84832e-05. Convergence tolerance   = 1e-05
-[INFO] Convergence check value = 0.000110845. Convergence tolerance   = 1e-05
-[INFO] Convergence check value = 8.92945e-05. Convergence tolerance   = 1e-05
-[INFO] Convergence check value = 7.91397e-05. Convergence tolerance   = 1e-05
-[INFO] Convergence check value = 6.72469e-05. Convergence tolerance   = 1e-05
-[INFO] Convergence check value = 7.01452e-05. Convergence tolerance   = 1e-05
-[INFO] Convergence check value = 0.000290923. Convergence tolerance   = 1e-05
-[INFO] Convergence check value = 6.75607e-05. Convergence tolerance   = 1e-05
-[INFO] Convergence check value = 6.71508e-05. Convergence tolerance   = 1e-05
-[INFO] Convergence check value = 4.98594e-05. Convergence tolerance   = 1e-05
-[INFO] Convergence check value = 5.00482e-05. Convergence tolerance   = 1e-05
-[INFO] Convergence check value = 5.34498e-05. Convergence tolerance   = 1e-05
-[INFO] Convergence check value = 5.93604e-05. Convergence tolerance   = 1e-05
-[INFO] Convergence check value = 3.9524e-05. Convergence tolerance   = 1e-05
-[INFO] Convergence check value = 3.85369e-05. Convergence tolerance   = 1e-05
-[INFO] Convergence check value = 4.1664e-05. Convergence tolerance   = 1e-05
-[INFO] Convergence check value = 5.00966e-05. Convergence tolerance   = 1e-05
-[INFO] Convergence check value = 5.23314e-05. Convergence tolerance   = 1e-05
-[INFO] Convergence check value = 6.0686e-05. Convergence tolerance   = 1e-05
-[INFO] Convergence check value = 7.39175e-05. Convergence tolerance   = 1e-05
-[INFO] Convergence check value = 6.33179e-05. Convergence tolerance   = 1e-05
-[INFO] Convergence check value = 4.60391e-05. Convergence tolerance   = 1e-05
-[INFO] Convergence check value = 5.45265e-05. Convergence tolerance   = 1e-05
-[INFO] Convergence check value = 4.08359e-05. Convergence tolerance   = 1e-05
-[INFO] Convergence check value = 3.41574e-05. Convergence tolerance   = 1e-05
-[INFO] Convergence check value = 3.43233e-05. Convergence tolerance   = 1e-05
-[INFO] Convergence check value = 4.26568e-05. Convergence tolerance   = 1e-05
-[INFO] Convergence check value = 4.46634e-05. Convergence tolerance   = 1e-05
-[INFO] Convergence check value = 3.53506e-05. Convergence tolerance   = 1e-05
-[INFO] Convergence check value = 3.15876e-05. Convergence tolerance   = 1e-05
-[INFO] Convergence check value = 2.74585e-05. Convergence tolerance   = 1e-05
-[INFO] Convergence check value = 3.2097e-05. Convergence tolerance   = 1e-05
-[INFO] Convergence check value = 2.71755e-05. Convergence tolerance   = 1e-05
-[INFO] Convergence check value = 3.07813e-05. Convergence tolerance   = 1e-05
-[INFO] Convergence check value = 2.43346e-05. Convergence tolerance   = 1e-05
-[INFO] Convergence check value = 2.32473e-05. Convergence tolerance   = 1e-05
-[INFO] Convergence check value = 2.74011e-05. Convergence tolerance   = 1e-05
-[INFO] Convergence check value = 3.97833e-05. Convergence tolerance   = 1e-05
-[INFO] Convergence check value = 4.0651e-05. Convergence tolerance   = 1e-05
-[INFO] Convergence check value = 0.000142993. Convergence tolerance   = 1e-05
-[INFO] Convergence check value = 3.11753e-05. Convergence tolerance   = 1e-05
-[INFO] Convergence check value = 2.45924e-05. Convergence tolerance   = 1e-05
-[INFO] Convergence check value = 3.63763e-05. Convergence tolerance   = 1e-05
-[INFO] Convergence check value = 3.18917e-05. Convergence tolerance   = 1e-05
-[INFO] Convergence check value = 3.76336e-05. Convergence tolerance   = 1e-05
-[INFO] Convergence check value = 3.93634e-05. Convergence tolerance   = 1e-05
-[INFO] Convergence check value = 3.17051e-05. Convergence tolerance   = 1e-05
-[INFO] Convergence check value = 3.36023e-05. Convergence tolerance   = 1e-05
-[INFO] Convergence check value = 2.88299e-05. Convergence tolerance   = 1e-05
-[INFO] Convergence check value = 2.77838e-05. Convergence tolerance   = 1e-05
-[INFO] Convergence check value = 3.12788e-05. Convergence tolerance   = 1e-05
-[INFO] Convergence check value = 3.30242e-05. Convergence tolerance   = 1e-05
-[INFO] Convergence check value = 3.24155e-05. Convergence tolerance   = 1e-05
-[INFO] Convergence check value = 2.49948e-05. Convergence tolerance   = 1e-05
-[INFO] Convergence check value = 2.13019e-05. Convergence tolerance   = 1e-05
-[INFO] Convergence check value = 2.52181e-05. Convergence tolerance   = 1e-05
-[INFO] Convergence check value = 3.39038e-05. Convergence tolerance   = 1e-05
-[INFO] Convergence check value = 4.23262e-05. Convergence tolerance   = 1e-05
-[INFO] Convergence check value = 3.52978e-05. Convergence tolerance   = 1e-05
-[INFO] Convergence check value = 2.85437e-05. Convergence tolerance   = 1e-05
-[INFO] Convergence check value = 2.80521e-05. Convergence tolerance   = 1e-05
-[INFO] Convergence check value = 3.08887e-05. Convergence tolerance   = 1e-05
-[INFO] Convergence check value = 3.63831e-05. Convergence tolerance   = 1e-05
-[INFO] Convergence check value = 3.79033e-05. Convergence tolerance   = 1e-05
-[INFO] Convergence check value = 3.5368e-05. Convergence tolerance   = 1e-05
-[INFO] Convergence check value = 2.69415e-05. Convergence tolerance   = 1e-05
-[INFO] Convergence check value = 2.72758e-05. Convergence tolerance   = 1e-05
-[INFO] Convergence check value = 0.000110119. Convergence tolerance   = 1e-05
-[INFO] Convergence check value = 3.24525e-05. Convergence tolerance   = 1e-05
-[INFO] Convergence check value = 2.47089e-05. Convergence tolerance   = 1e-05
-[INFO] Convergence check value = 3.04068e-05. Convergence tolerance   = 1e-05
-[INFO] Convergence check value = 2.71682e-05. Convergence tolerance   = 1e-05
-[INFO] Convergence check value = 3.31933e-05. Convergence tolerance   = 1e-05
-[INFO] Convergence check value = 3.51038e-05. Convergence tolerance   = 1e-05
-[INFO] Convergence check value = 2.14486e-05. Convergence tolerance   = 1e-05
-[INFO] Convergence check value = 2.2629e-05. Convergence tolerance   = 1e-05
-[INFO] Convergence check value = 1.58255e-05. Convergence tolerance   = 1e-05
-[INFO] Convergence check value = 2.3739e-05. Convergence tolerance   = 1e-05
-[INFO] Convergence check value = 2.15346e-05. Convergence tolerance   = 1e-05
-[INFO] Convergence check value = 1.75168e-05. Convergence tolerance   = 1e-05
-[INFO] Convergence check value = 1.41326e-05. Convergence tolerance   = 1e-05
-[INFO] Convergence check value = 1.72327e-05. Convergence tolerance   = 1e-05
-[INFO] Convergence check value = 1.99958e-05. Convergence tolerance   = 1e-05
-[INFO] Convergence check value = 2.36909e-05. Convergence tolerance   = 1e-05
-[INFO] Convergence check value = 2.93182e-05. Convergence tolerance   = 1e-05
-[INFO] Convergence check value = 2.44917e-05. Convergence tolerance   = 1e-05
-[INFO] Convergence check value = 2.4531e-05. Convergence tolerance   = 1e-05
-[INFO] Convergence check value = 2.06286e-05. Convergence tolerance   = 1e-05
-[INFO] Convergence check value = 2.13702e-05. Convergence tolerance   = 1e-05
-[INFO] Convergence check value = 2.61473e-05. Convergence tolerance   = 1e-05
-[INFO] Convergence check value = 2.31831e-05. Convergence tolerance   = 1e-05
-[INFO] Convergence check value = 2.3469e-05. Convergence tolerance   = 1e-05
-[INFO] Convergence check value = 1.91491e-05. Convergence tolerance   = 1e-05
-[INFO] Convergence check value = 0.000167864. Convergence tolerance   = 1e-05
-[INFO] Convergence check value = 3.57732e-05. Convergence tolerance   = 1e-05
-[INFO] Convergence check value = 3.15953e-05. Convergence tolerance   = 1e-05
-[INFO] Convergence check value = 2.71589e-05. Convergence tolerance   = 1e-05
-[INFO] Convergence check value = 2.72293e-05. Convergence tolerance   = 1e-05
-[INFO] Convergence check value = 2.56904e-05. Convergence tolerance   = 1e-05
-[INFO] Convergence check value = 2.41657e-05. Convergence tolerance   = 1e-05
-[INFO] Convergence check value = 3.0606e-05. Convergence tolerance   = 1e-05
-[INFO] Convergence check value = 2.73176e-05. Convergence tolerance   = 1e-05
-[INFO] Convergence check value = 3.07968e-05. Convergence tolerance   = 1e-05
-[INFO] Convergence check value = 3.92613e-05. Convergence tolerance   = 1e-05
-[INFO] Convergence check value = 3.32884e-05. Convergence tolerance   = 1e-05
-[INFO] Convergence check value = 2.95174e-05. Convergence tolerance   = 1e-05
-[INFO] Convergence check value = 2.25458e-05. Convergence tolerance   = 1e-05
-[INFO] Convergence check value = 3.04507e-05. Convergence tolerance   = 1e-05
-[INFO] Convergence check value = 5.15665e-05. Convergence tolerance   = 1e-05
-[INFO] Convergence check value = 5.54769e-05. Convergence tolerance   = 1e-05
-[INFO] Convergence check value = 5.26554e-05. Convergence tolerance   = 1e-05
-[INFO] Convergence check value = 4.31348e-05. Convergence tolerance   = 1e-05
-[INFO] Convergence check value = 3.23504e-05. Convergence tolerance   = 1e-05
-[INFO] Convergence check value = 3.86844e-05. Convergence tolerance   = 1e-05
-[INFO] Convergence check value = 3.73003e-05. Convergence tolerance   = 1e-05
-[INFO] Convergence check value = 3.21082e-05. Convergence tolerance   = 1e-05
-[INFO] Convergence check value = 4.35865e-05. Convergence tolerance   = 1e-05
-[INFO] Convergence check value = 4.00564e-05. Convergence tolerance   = 1e-05
-[INFO] Convergence check value = 4.48873e-05. Convergence tolerance   = 1e-05
-[INFO] Convergence check value = 4.1852e-05. Convergence tolerance   = 1e-05
-[INFO] Convergence check value = 4.9647e-05. Convergence tolerance   = 1e-05
-[INFO] Convergence check value = 7.40052e-05. Convergence tolerance   = 1e-05
-[INFO] Convergence check value = 8.76634e-05. Convergence tolerance   = 1e-05
-[INFO] Convergence check value = 7.32996e-05. Convergence tolerance   = 1e-05
-[INFO] Convergence check value = 0.000229268. Convergence tolerance   = 1e-05
-[INFO] Convergence check value = 5.08823e-05. Convergence tolerance   = 1e-05
-[INFO] Convergence check value = 8.41841e-05. Convergence tolerance   = 1e-05
-[INFO] Convergence check value = 0.000130419. Convergence tolerance   = 1e-05
-[INFO] Convergence check value = 0.000147009. Convergence tolerance   = 1e-05
-[INFO] Convergence check value = 0.000122391. Convergence tolerance   = 1e-05
-[INFO] Convergence check value = 0.000159801. Convergence tolerance   = 1e-05
-[INFO] Convergence check value = 0.000155121. Convergence tolerance   = 1e-05
-[INFO] Convergence check value = 0.00028495. Convergence tolerance   = 1e-05
-[INFO] Convergence check value = 0.000181881. Convergence tolerance   = 1e-05
-[INFO] Convergence check value = 0.000111424. Convergence tolerance   = 1e-05
-[INFO] Convergence check value = 0.000148516. Convergence tolerance   = 1e-05
-[INFO] Convergence check value = 9.06854e-05. Convergence tolerance   = 1e-05
-[INFO] Convergence check value = 9.31425e-05. Convergence tolerance   = 1e-05
-[INFO] Convergence check value = 9.55557e-05. Convergence tolerance   = 1e-05
-[INFO] Convergence check value = 9.08232e-05. Convergence tolerance   = 1e-05
-[INFO] Convergence check value = 8.21708e-05. Convergence tolerance   = 1e-05
-[INFO] Convergence check value = 9.78205e-05. Convergence tolerance   = 1e-05
-[INFO] Convergence check value = 7.86176e-05. Convergence tolerance   = 1e-05
-[INFO] Convergence check value = 6.95926e-05. Convergence tolerance   = 1e-05
-[INFO] Convergence check value = 8.74515e-05. Convergence tolerance   = 1e-05
-[INFO] Convergence check value = 8.30804e-05. Convergence tolerance   = 1e-05
-[INFO] Convergence check value = 6.22646e-05. Convergence tolerance   = 1e-05
-[INFO] Convergence check value = 5.63223e-05. Convergence tolerance   = 1e-05
-[INFO] Convergence check value = 5.50604e-05. Convergence tolerance   = 1e-05
-[INFO] Convergence check value = 7.44311e-05. Convergence tolerance   = 1e-05
-[INFO] Convergence check value = 7.79714e-05. Convergence tolerance   = 1e-05
-[INFO] Convergence check value = 7.25315e-05. Convergence tolerance   = 1e-05
-[INFO] Convergence check value = 5.17694e-05. Convergence tolerance   = 1e-05
-[INFO] Convergence check value = 4.03844e-05. Convergence tolerance   = 1e-05
-[INFO] Convergence check value = 6.85531e-05. Convergence tolerance   = 1e-05
-[INFO] Convergence check value = 5.50742e-05. Convergence tolerance   = 1e-05
-[INFO] Convergence check value = 5.59148e-05. Convergence tolerance   = 1e-05
-[INFO] Convergence check value = 6.21364e-05. Convergence tolerance   = 1e-05
-[INFO] Convergence check value = 5.44373e-05. Convergence tolerance   = 1e-05
-[INFO] Convergence check value = 6.20255e-05. Convergence tolerance   = 1e-05
-[INFO] Convergence check value = 0.000123728. Convergence tolerance   = 1e-05
-[IMPORTANT] FMM: Too many function evaluations (209)
-[WARNING] estimated parameter 'process[recruit_E].b0' was within 0.001 of upper bound 16.2
-[WARNING] estimated parameter 'process[recruit_W].b0' was within 0.001 of upper bound 0.59
-[WARNING] estimated parameter 'process[recruit_E].ycs_values{1999}' was within 0.001 of lower bound 0.06
-[WARNING] estimated parameter 'process[recruit_W].ycs_values{1999}' was within 0.001 of lower bound 0.06
-[WARNING] estimated parameter 'selectivity[sel_Whome].v{7}' was within 0.001 of upper bound 1
-[WARNING] estimated parameter 'selectivity[sel_Espmg_Female].v{1}' was within 0.001 of lower bound 0
-[WARNING] estimated parameter 'selectivity[sel_Espmg_Female].v{8}' was within 0.001 of lower bound 0.6
-[WARNING] estimated parameter 'selectivity[sel_Wspmg_Female].v{8}' was within 0.001 of lower bound 0.6
-[WARNING] estimated parameter 'selectivity[Enspsl].sigma_r' was within 0.001 of upper bound 44
-[WARNING] estimated parameter 'selectivity[Espsl].ato95' was within 0.001 of lower bound 4
-[WARNING] estimated parameter 'selectivity[CRsl].mu' was within 0.001 of lower bound 64
-[WARNING] estimated parameter 'selectivity[SAsl].mu' was within 0.001 of upper bound 84
-[WARNING] estimated parameter 'selectivity[SAsl].sigma_l' was within 0.001 of upper bound 44
-[WARNING] estimated parameter 'selectivity[SAsl].sigma_r' was within 0.001 of upper bound 44
-[WARNING] estimated parameter 'process[recruit_E].b0' was within 0.001 of upper bound 16.2
-[WARNING] estimated parameter 'process[recruit_W].b0' was within 0.001 of upper bound 0.59
-[WARNING] estimated parameter 'process[recruit_E].ycs_values{1999}' was within 0.001 of lower bound 0.06
-[WARNING] estimated parameter 'process[recruit_W].ycs_values{1999}' was within 0.001 of lower bound 0.06
-[WARNING] estimated parameter 'selectivity[sel_Whome].v{7}' was within 0.001 of upper bound 1
-[WARNING] estimated parameter 'selectivity[sel_Espmg_Female].v{1}' was within 0.001 of lower bound 0
-[WARNING] estimated parameter 'selectivity[sel_Espmg_Female].v{8}' was within 0.001 of lower bound 0.6
-[WARNING] estimated parameter 'selectivity[sel_Wspmg_Female].v{8}' was within 0.001 of lower bound 0.6
-[WARNING] estimated parameter 'selectivity[Enspsl].sigma_r' was within 0.001 of upper bound 44
-[WARNING] estimated parameter 'selectivity[Espsl].ato95' was within 0.001 of lower bound 4
-[WARNING] estimated parameter 'selectivity[CRsl].mu' was within 0.001 of lower bound 64
-[WARNING] estimated parameter 'selectivity[SAsl].mu' was within 0.001 of upper bound 84
-[WARNING] estimated parameter 'selectivity[SAsl].sigma_l' was within 0.001 of upper bound 44
-[WARNING] estimated parameter 'selectivity[SAsl].sigma_r' was within 0.001 of upper bound 44
-[INFO] Profiling with parameter at step 3 of 10 steps
-[INFO] Estimation with the gammadiff minimiser
-[INFO] Convergence check value = 0.441153. Convergence tolerance   = 1e-05
-[INFO] Convergence check value = 0.0436809. Convergence tolerance   = 1e-05
-[INFO] Convergence check value = 0.0410165. Convergence tolerance   = 1e-05
-[INFO] Convergence check value = 0.0471925. Convergence tolerance   = 1e-05
-[INFO] Convergence check value = 0.0254893. Convergence tolerance   = 1e-05
-[INFO] Convergence check value = 0.00831061. Convergence tolerance   = 1e-05
-[INFO] Convergence check value = 0.00821247. Convergence tolerance   = 1e-05
-[INFO] Convergence check value = 0.0045497. Convergence tolerance   = 1e-05
-[INFO] Convergence check value = 0.00253987. Convergence tolerance   = 1e-05
-[INFO] Convergence check value = 0.00388154. Convergence tolerance   = 1e-05
-[INFO] Convergence check value = 0.00332233. Convergence tolerance   = 1e-05
-[INFO] Convergence check value = 0.00102551. Convergence tolerance   = 1e-05
-[INFO] Convergence check value = 0.0014522. Convergence tolerance   = 1e-05
-[INFO] Convergence check value = 0.000870523. Convergence tolerance   = 1e-05
-[INFO] Convergence check value = 0.000505726. Convergence tolerance   = 1e-05
-[INFO] Convergence check value = 0.000579527. Convergence tolerance   = 1e-05
-[INFO] Convergence check value = 0.000939496. Convergence tolerance   = 1e-05
-[INFO] Convergence check value = 0.000867687. Convergence tolerance   = 1e-05
-[INFO] Convergence check value = 0.000421282. Convergence tolerance   = 1e-05
-[INFO] Convergence check value = 0.000451556. Convergence tolerance   = 1e-05
-[INFO] Convergence check value = 0.000773074. Convergence tolerance   = 1e-05
-[INFO] Convergence check value = 0.000561134. Convergence tolerance   = 1e-05
-[INFO] Convergence check value = 0.00288422. Convergence tolerance   = 1e-05
-[INFO] Convergence check value = 0.000780041. Convergence tolerance   = 1e-05
-[INFO] Convergence check value = 0.000644043. Convergence tolerance   = 1e-05
-[INFO] Convergence check value = 0.000188591. Convergence tolerance   = 1e-05
-[INFO] Convergence check value = 0.000265625. Convergence tolerance   = 1e-05
-[INFO] Convergence check value = 0.00038617. Convergence tolerance   = 1e-05
-[INFO] Convergence check value = 0.000412597. Convergence tolerance   = 1e-05
-[INFO] Convergence check value = 0.000248226. Convergence tolerance   = 1e-05
-[INFO] Convergence check value = 0.000186196. Convergence tolerance   = 1e-05
-[INFO] Convergence check value = 0.00431576. Convergence tolerance   = 1e-05
-[INFO] Convergence check value = 0.000719716. Convergence tolerance   = 1e-05
-[INFO] Convergence check value = 0.000311127. Convergence tolerance   = 1e-05
-[INFO] Convergence check value = 0.000292275. Convergence tolerance   = 1e-05
-[INFO] Convergence check value = 0.000391701. Convergence tolerance   = 1e-05
-[INFO] Convergence check value = 0.000254425. Convergence tolerance   = 1e-05
-[INFO] Convergence check value = 0.000143446. Convergence tolerance   = 1e-05
-[INFO] Convergence check value = 0.000141131. Convergence tolerance   = 1e-05
-[INFO] Convergence check value = 0.000180453. Convergence tolerance   = 1e-05
-[INFO] Convergence check value = 0.000117784. Convergence tolerance   = 1e-05
-[INFO] Convergence check value = 0.000102716. Convergence tolerance   = 1e-05
-[INFO] Convergence check value = 0.000171237. Convergence tolerance   = 1e-05
-[INFO] Convergence check value = 0.000203678. Convergence tolerance   = 1e-05
-[INFO] Convergence check value = 0.000127513. Convergence tolerance   = 1e-05
-[INFO] Convergence check value = 0.0001249. Convergence tolerance   = 1e-05
-[INFO] Convergence check value = 0.000156887. Convergence tolerance   = 1e-05
-[INFO] Convergence check value = 0.00249062. Convergence tolerance   = 1e-05
-[INFO] Convergence check value = 0.000171125. Convergence tolerance   = 1e-05
-[INFO] Convergence check value = 0.000109436. Convergence tolerance   = 1e-05
-[INFO] Convergence check value = 0.000131309. Convergence tolerance   = 1e-05
+[INFO] Profiling with parameter at step 1 of 5 steps
+[INFO] Estimation with the betadiff minimiser
+about to evaluate function with x = 0.601978 0.531055 0.078685 0.0853067 0.0744263 0.146333 0.374328 14.1883 0.320262 0.474266 0.527917 0.950754 0.726553 0.262942 0.350486 0.225249 0.382309 0.445767 0.376622 0.209946 1.01489 0.970934 0.441747 0.133907 0.412969 0.422577 0.399745 0.621956 0.277796 0.300057 0.507843 0.308003 0.06 0.531165 0.16589 0.301494 0.528436 0.588593 0.52839 0.66536 0.564703 0.379977 0.720257 0.118366 0.884576 0.329791 0.356389 2.01885 0.426002 0.701343 0.620779 0.60283 0.457008 0.502504 0.587757 0.484496 0.92113 0.833419 0.329682 0.153253 1.52246 0.876875 0.0838459 0.0773969 0.855884 1.29861 0.353758 1.01379 0.219892 0.201091 0.251271 0.187677 0.06 0.333908 0.0863392 0.738096 0.447889 0.492426 0.501255 0.725451 0.590138 0.679885 0.456935 0.121559 1.16735 0.349763 0.317523 2.0189 7.06524 0.182153 1.43768 1.57169 6.50502 0.0886199 1.72199 0.811489 0.135443 0.0517902 0.264679 0.366851 0.320746 0.719068 0.999999 0.00260068 0.131903 0.419269 0.651486 0.656927 0.740576 0.820544 0.564855 0.21816 0.671697 0.778671 0.801159 0.867849 0.744763 0.637951 0.541749 0.000389449 0.0649227 0.203769 0.373531 0.372641 0.473007 0.620072 0.6 0.121269 0.332453 0.234759 0.50265 0.545186 0.544606 0.700431 0.6 71.0859 10.7574 44 67.527 12.6136 27.0358 44.8007 4 -0.0913785 64 17.0631 38.2803 84 44 44 
+finished objective call: f = 2879.15
+about to evaluate gradient with x = 0.601978 0.531055 0.078685 0.0853067 0.0744263 0.146333 0.374328 14.1883 0.320262 0.474266 0.527917 0.950754 0.726553 0.262942 0.350486 0.225249 0.382309 0.445767 0.376622 0.209946 1.01489 0.970934 0.441747 0.133907 0.412969 0.422577 0.399745 0.621956 0.277796 0.300057 0.507843 0.308003 0.06 0.531165 0.16589 0.301494 0.528436 0.588593 0.52839 0.66536 0.564703 0.379977 0.720257 0.118366 0.884576 0.329791 0.356389 2.01885 0.426002 0.701343 0.620779 0.60283 0.457008 0.502504 0.587757 0.484496 0.92113 0.833419 0.329682 0.153253 1.52246 0.876875 0.0838459 0.0773969 0.855884 1.29861 0.353758 1.01379 0.219892 0.201091 0.251271 0.187677 0.06 0.333908 0.0863392 0.738096 0.447889 0.492426 0.501255 0.725451 0.590138 0.679885 0.456935 0.121559 1.16735 0.349763 0.317523 2.0189 7.06524 0.182153 1.43768 1.57169 6.50502 0.0886199 1.72199 0.811489 0.135443 0.0517902 0.264679 0.366851 0.320746 0.719068 0.999999 0.00260068 0.131903 0.419269 0.651486 0.656927 0.740576 0.820544 0.564855 0.21816 0.671697 0.778671 0.801159 0.867849 0.744763 0.637951 0.541749 0.000389449 0.0649227 0.203769 0.373531 0.372641 0.473007 0.620072 0.6 0.121269 0.332453 0.234759 0.50265 0.545186 0.544606 0.700431 0.6 71.0859 10.7574 44 67.527 12.6136 27.0358 44.8007 4 -0.0913785 64 17.0631 38.2803 84 44 44 
+transformed = -0.528518 -0.483014 -0.536261 -0.524175 -0.567381 -0.500205 -0.161745 -0.0750513 -0.776582 -0.717254 -0.699175 -0.581287 -0.63949 -0.802938 -0.763823 -0.822311 -0.751064 -0.72731 -0.753298 -0.830789 -0.565885 -0.57639 -0.728757 -0.881382 -0.739332 -0.735757 -0.74433 -0.669695 -0.795793 -0.785516 -0.705819 -0.781961 -1 -0.698113 -0.857927 -0.784869 -0.699005 -0.679869 -0.69902 -0.656871 -0.68734 -0.751978 -0.641244 -0.89462 -0.597703 -0.772486 -0.761407 -0.3641 -0.734494 -0.646558 -0.670049 -0.675492 -0.723303 -0.707609 -0.680128 -0.713725 -0.588566 -0.6108 -0.772532 -0.866707 -0.456775 -0.599651 -0.932688 -0.942514 -0.605002 -0.502545 -0.762481 -0.566145 -0.825233 -0.83589 -0.808733 -0.843928 -1 -0.770738 -0.929253 -0.636295 -0.72655 -0.711017 -0.70803 -0.639797 -0.679392 -0.652675 -0.723329 -0.891769 -0.530981 -0.764121 -0.777773 -0.364091 -0.011065 0.119923 0.161019 0.282212 -0.192299 -0.30272 0.433333 -0.397561 -0.536611 -0.736529 -0.322723 -0.171601 -0.233429 0.288722 0.998727 -0.935041 -0.526758 -0.103242 0.195958 0.20324 0.319563 0.443033 0.0828093 -0.38123 0.223153 0.376358 0.411512 0.526291 0.32566 0.177953 0.0532184 -0.974872 -0.671962 -0.403688 -0.162794 -0.163965 -0.0343853 0.154389 -1 -0.547122 -0.217536 -0.355978 0.0033741 0.0576112 0.0568697 0.262579 -1 -0.188249 -0.460695 1 -0.448204 -0.385587 0.0970075 0.030995 -1 0.43093 -1 -0.225494 0.50625 1 1 1 
+finished gradient call: status = 0 g = 20.1389 66.3727 218.14 113.007 51.5793 -22.6899 -36.2019 817.321 -10.4839 -12.6732 -12.832 -16.2174 -13.058 -6.66153 -6.95526 -4.37655 -4.59643 -3.42235 -1.6164 0.589598 7.8585 11.794 4.49479 2.88792 20.1621 21.0712 14.062 31.5644 11.9353 9.50725 18.018 15.421 -0.000200838 8.37633 -1.60788 11.3381 -5.44259 -4.73781 -9.89832 -6.81718 -9.84761 -0.972814 -17.8322 -7.02782 -17.5113 0.122094 0.260189 1.75057 -21.6744 -24.7155 -19.5381 -15.0709 -8.91546 -5.1332 -0.975225 3.1413 9.62442 13.9803 9.85373 4.68514 12.0631 6.7885 2.37063 2.91982 23.6425 46.8856 25.8486 44.9791 21.9558 18.559 9.56028 5.57231 -0.000201828 -3.42985 -1.39018 4.63745 -4.62954 -9.91799 -9.21512 -19.732 -20.1665 -26.4757 -35.9825 -11.5056 -48.8412 0.89422 0.768057 0.135512 5.13387 8.1623 4.2173 0.414033 16.4661 63.0489 13.5308 11.6197 -95.7248 -38.4529 -46.5983 -25.3478 -8.91668 -3.24682 -0.00141997 -4.75611 -15.4794 -11.2905 -6.12892 -3.92902 -2.79092 -1.96681 -6.42037 -5.95788 -6.7714 -8.04624 -7.85783 -5.93865 -8.35111 -7.88395 -19.4636 -1.81648 -10.9752 -10.8819 -9.34301 -7.44343 -6.9396 -6.06768 -0.000199968 -3.95906 -6.2438 -9.35894 -15.3379 -17.4093 -21.9641 -19.2333 -0.000199915 -4.9378 -0.0150678 0.0002 9.31403 -9.20684 11.4322 33.2747 -0.000199998 2.37538 -0.000199942 55.3138 2.1499 0.000199995 0.000200003 0.000199995 
+about to do fmin call with x = 0.601978 0.531055 0.078685 0.0853067 0.0744263 0.146333 0.374328 14.1883 0.320262 0.474266 0.527917 0.950754 0.726553 0.262942 0.350486 0.225249 0.382309 0.445767 0.376622 0.209946 1.01489 0.970934 0.441747 0.133907 0.412969 0.422577 0.399745 0.621956 0.277796 0.300057 0.507843 0.308003 0.06 0.531165 0.16589 0.301494 0.528436 0.588593 0.52839 0.66536 0.564703 0.379977 0.720257 0.118366 0.884576 0.329791 0.356389 2.01885 0.426002 0.701343 0.620779 0.60283 0.457008 0.502504 0.587757 0.484496 0.92113 0.833419 0.329682 0.153253 1.52246 0.876875 0.0838459 0.0773969 0.855884 1.29861 0.353758 1.01379 0.219892 0.201091 0.251271 0.187677 0.06 0.333908 0.0863392 0.738096 0.447889 0.492426 0.501255 0.725451 0.590138 0.679885 0.456935 0.121559 1.16735 0.349763 0.317523 2.0189 7.06524 0.182153 1.43768 1.57169 6.50502 0.0886199 1.72199 0.811489 0.135443 0.0517902 0.264679 0.366851 0.320746 0.719068 0.999999 0.00260068 0.131903 0.419269 0.651486 0.656927 0.740576 0.820544 0.564855 0.21816 0.671697 0.778671 0.801159 0.867849 0.744763 0.637951 0.541749 0.000389449 0.0649227 0.203769 0.373531 0.372641 0.473007 0.620072 0.6 0.121269 0.332453 0.234759 0.50265 0.545186 0.544606 0.700431 0.6 71.0859 10.7574 44 67.527 12.6136 27.0358 44.8007 4 -0.0913785 64 17.0631 38.2803 84 44 44  f = 2879.15 g = 20.1389 66.3727 218.14 113.007 51.5793 -22.6899 -36.2019 817.321 -10.4839 -12.6732 -12.832 -16.2174 -13.058 -6.66153 -6.95526 -4.37655 -4.59643 -3.42235 -1.6164 0.589598 7.8585 11.794 4.49479 2.88792 20.1621 21.0712 14.062 31.5644 11.9353 9.50725 18.018 15.421 -0.000200838 8.37633 -1.60788 11.3381 -5.44259 -4.73781 -9.89832 -6.81718 -9.84761 -0.972814 -17.8322 -7.02782 -17.5113 0.122094 0.260189 1.75057 -21.6744 -24.7155 -19.5381 -15.0709 -8.91546 -5.1332 -0.975225 3.1413 9.62442 13.9803 9.85373 4.68514 12.0631 6.7885 2.37063 2.91982 23.6425 46.8856 25.8486 44.9791 21.9558 18.559 9.56028 5.57231 -0.000201828 -3.42985 -1.39018 4.63745 -4.62954 -9.91799 -9.21512 -19.732 -20.1665 -26.4757 -35.9825 -11.5056 -48.8412 0.89422 0.768057 0.135512 5.13387 8.1623 4.2173 0.414033 16.4661 63.0489 13.5308 11.6197 -95.7248 -38.4529 -46.5983 -25.3478 -8.91668 -3.24682 -0.00141997 -4.75611 -15.4794 -11.2905 -6.12892 -3.92902 -2.79092 -1.96681 -6.42037 -5.95788 -6.7714 -8.04624 -7.85783 -5.93865 -8.35111 -7.88395 -19.4636 -1.81648 -10.9752 -10.8819 -9.34301 -7.44343 -6.9396 -6.06768 -0.000199968 -3.95906 -6.2438 -9.35894 -15.3379 -17.4093 -21.9641 -19.2333 -0.000199915 -4.9378 -0.0150678 0.0002 9.31403 -9.20684 11.4322 33.2747 -0.000199998 2.37538 -0.000199942 55.3138 2.1499 0.000199995 0.000200003 0.000199995 
+Convergence check: current value is 0.283875 and threshold is 1e-05
+done fmin call
+ireturn = 0
+about to evaluate function with x = 0.585325 0.487931 0.0604659 0.0753868 0.0701695 0.150735 0.38391 13.4381 0.328724 0.487044 0.541616 0.973981 0.742965 0.267696 0.356389 0.22807 0.386403 0.449085 0.378047 0.209585 1.00338 0.954041 0.437431 0.132666 0.394507 0.403041 0.387055 0.586045 0.269115 0.29279 0.489314 0.296081 0.06 0.522294 0.166721 0.292814 0.534227 0.593925 0.538946 0.673537 0.575577 0.380838 0.742618 0.121095 0.90883 0.329692 0.356167 2.01542 0.446728 0.732021 0.643538 0.620087 0.465799 0.50782 0.588852 0.481321 0.907675 0.814827 0.321711 0.150998 1.50135 0.867596 0.0832666 0.0767889 0.824151 1.22269 0.332205 0.948786 0.206321 0.190281 0.244735 0.184545 0.06 0.336731 0.0866996 0.732266 0.452393 0.502614 0.510807 0.750303 0.613036 0.71227 0.492973 0.126177 1.24491 0.349009 0.316911 2.01863 7.05964 0.181518 1.43601 1.57154 6.48789 0.0842257 1.71767 0.807641 0.153138 0.0560658 0.275757 0.373528 0.323019 0.719864 0.999999 0.00273451 0.134774 0.42231 0.653078 0.657944 0.741243 0.820956 0.566591 0.219504 0.673431 0.780491 0.802867 0.868944 0.746747 0.640017 0.547037 0.000409248 0.0664058 0.206166 0.375998 0.374606 0.474897 0.621678 0.6 0.121975 0.334059 0.236927 0.506834 0.549914 0.55057 0.705226 0.6 71.1117 10.7575 44 67.4884 12.6963 26.9124 44.1295 4 -0.0976855 64 16.5003 38.2639 84 44 44 
+finished objective call: f = 3.24953e+06
+about to do fmin call with x = 0.585325 0.487931 0.0604659 0.0753868 0.0701695 0.150735 0.38391 13.4381 0.328724 0.487044 0.541616 0.973981 0.742965 0.267696 0.356389 0.22807 0.386403 0.449085 0.378047 0.209585 1.00338 0.954041 0.437431 0.132666 0.394507 0.403041 0.387055 0.586045 0.269115 0.29279 0.489314 0.296081 0.06 0.522294 0.166721 0.292814 0.534227 0.593925 0.538946 0.673537 0.575577 0.380838 0.742618 0.121095 0.90883 0.329692 0.356167 2.01542 0.446728 0.732021 0.643538 0.620087 0.465799 0.50782 0.588852 0.481321 0.907675 0.814827 0.321711 0.150998 1.50135 0.867596 0.0832666 0.0767889 0.824151 1.22269 0.332205 0.948786 0.206321 0.190281 0.244735 0.184545 0.06 0.336731 0.0866996 0.732266 0.452393 0.502614 0.510807 0.750303 0.613036 0.71227 0.492973 0.126177 1.24491 0.349009 0.316911 2.01863 7.05964 0.181518 1.43601 1.57154 6.48789 0.0842257 1.71767 0.807641 0.153138 0.0560658 0.275757 0.373528 0.323019 0.719864 0.999999 0.00273451 0.134774 0.42231 0.653078 0.657944 0.741243 0.820956 0.566591 0.219504 0.673431 0.780491 0.802867 0.868944 0.746747 0.640017 0.547037 0.000409248 0.0664058 0.206166 0.375998 0.374606 0.474897 0.621678 0.6 0.121975 0.334059 0.236927 0.506834 0.549914 0.55057 0.705226 0.6 71.1117 10.7575 44 67.4884 12.6963 26.9124 44.1295 4 -0.0976855 64 16.5003 38.2639 84 44 44  f = 3.24953e+06 g = 20.1389 66.3727 218.14 113.007 51.5793 -22.6899 -36.2019 817.321 -10.4839 -12.6732 -12.832 -16.2174 -13.058 -6.66153 -6.95526 -4.37655 -4.59643 -3.42235 -1.6164 0.589598 7.8585 11.794 4.49479 2.88792 20.1621 21.0712 14.062 31.5644 11.9353 9.50725 18.018 15.421 -0.000200838 8.37633 -1.60788 11.3381 -5.44259 -4.73781 -9.89832 -6.81718 -9.84761 -0.972814 -17.8322 -7.02782 -17.5113 0.122094 0.260189 1.75057 -21.6744 -24.7155 -19.5381 -15.0709 -8.91546 -5.1332 -0.975225 3.1413 9.62442 13.9803 9.85373 4.68514 12.0631 6.7885 2.37063 2.91982 23.6425 46.8856 25.8486 44.9791 21.9558 18.559 9.56028 5.57231 -0.000201828 -3.42985 -1.39018 4.63745 -4.62954 -9.91799 -9.21512 -19.732 -20.1665 -26.4757 -35.9825 -11.5056 -48.8412 0.89422 0.768057 0.135512 5.13387 8.1623 4.2173 0.414033 16.4661 63.0489 13.5308 11.6197 -95.7248 -38.4529 -46.5983 -25.3478 -8.91668 -3.24682 -0.00141997 -4.75611 -15.4794 -11.2905 -6.12892 -3.92902 -2.79092 -1.96681 -6.42037 -5.95788 -6.7714 -8.04624 -7.85783 -5.93865 -8.35111 -7.88395 -19.4636 -1.81648 -10.9752 -10.8819 -9.34301 -7.44343 -6.9396 -6.06768 -0.000199968 -3.95906 -6.2438 -9.35894 -15.3379 -17.4093 -21.9641 -19.2333 -0.000199915 -4.9378 -0.0150678 0.0002 9.31403 -9.20684 11.4322 33.2747 -0.000199998 2.37538 -0.000199942 55.3138 2.1499 0.000199995 0.000200003 0.000199995 
+done fmin call
+ireturn = 0
+about to evaluate function with x = 0.600304 0.526674 0.0767412 0.0842833 0.0739938 0.146771 0.375284 14.1088 0.321102 0.475535 0.529279 0.953065 0.728186 0.263415 0.351074 0.22553 0.382717 0.446098 0.376764 0.20991 1.01374 0.969238 0.441314 0.133782 0.411101 0.4206 0.398466 0.618315 0.27692 0.299325 0.505973 0.306798 0.06 0.530274 0.165973 0.300619 0.529014 0.589125 0.529441 0.666175 0.565785 0.380063 0.722478 0.118636 0.886987 0.329781 0.356367 2.01851 0.42805 0.704381 0.623036 0.604544 0.457883 0.503034 0.587866 0.484178 0.91978 0.831551 0.32888 0.153026 1.52034 0.875945 0.0837877 0.0773356 0.852685 1.29093 0.351567 1.0072 0.218508 0.199991 0.250612 0.187362 0.06 0.33419 0.0863751 0.737512 0.448338 0.49344 0.502206 0.727917 0.592407 0.683089 0.460472 0.122013 1.17501 0.349688 0.317462 2.01887 7.06468 0.18209 1.43751 1.57167 6.5033 0.0881769 1.72156 0.811103 0.137168 0.0522088 0.26578 0.367518 0.320973 0.719148 0.999999 0.00261391 0.132189 0.419573 0.651645 0.657029 0.740643 0.820585 0.565029 0.218294 0.67187 0.778853 0.80133 0.867959 0.744962 0.638158 0.542278 0.000391407 0.0650703 0.204008 0.373778 0.372837 0.473196 0.620233 0.6 0.12134 0.332613 0.234975 0.503068 0.545659 0.545203 0.700912 0.6 71.0885 10.7574 44 67.5231 12.6219 27.0235 44.7336 4 -0.0920089 64 17.0065 38.2787 84 44 44 
+finished objective call: f = 2870.6
+about to do fmin call with x = 0.600304 0.526674 0.0767412 0.0842833 0.0739938 0.146771 0.375284 14.1088 0.321102 0.475535 0.529279 0.953065 0.728186 0.263415 0.351074 0.22553 0.382717 0.446098 0.376764 0.20991 1.01374 0.969238 0.441314 0.133782 0.411101 0.4206 0.398466 0.618315 0.27692 0.299325 0.505973 0.306798 0.06 0.530274 0.165973 0.300619 0.529014 0.589125 0.529441 0.666175 0.565785 0.380063 0.722478 0.118636 0.886987 0.329781 0.356367 2.01851 0.42805 0.704381 0.623036 0.604544 0.457883 0.503034 0.587866 0.484178 0.91978 0.831551 0.32888 0.153026 1.52034 0.875945 0.0837877 0.0773356 0.852685 1.29093 0.351567 1.0072 0.218508 0.199991 0.250612 0.187362 0.06 0.33419 0.0863751 0.737512 0.448338 0.49344 0.502206 0.727917 0.592407 0.683089 0.460472 0.122013 1.17501 0.349688 0.317462 2.01887 7.06468 0.18209 1.43751 1.57167 6.5033 0.0881769 1.72156 0.811103 0.137168 0.0522088 0.26578 0.367518 0.320973 0.719148 0.999999 0.00261391 0.132189 0.419573 0.651645 0.657029 0.740643 0.820585 0.565029 0.218294 0.67187 0.778853 0.80133 0.867959 0.744962 0.638158 0.542278 0.000391407 0.0650703 0.204008 0.373778 0.372837 0.473196 0.620233 0.6 0.12134 0.332613 0.234975 0.503068 0.545659 0.545203 0.700912 0.6 71.0885 10.7574 44 67.5231 12.6219 27.0235 44.7336 4 -0.0920089 64 17.0065 38.2787 84 44 44  f = 2870.6 g = 20.1389 66.3727 218.14 113.007 51.5793 -22.6899 -36.2019 817.321 -10.4839 -12.6732 -12.832 -16.2174 -13.058 -6.66153 -6.95526 -4.37655 -4.59643 -3.42235 -1.6164 0.589598 7.8585 11.794 4.49479 2.88792 20.1621 21.0712 14.062 31.5644 11.9353 9.50725 18.018 15.421 -0.000200838 8.37633 -1.60788 11.3381 -5.44259 -4.73781 -9.89832 -6.81718 -9.84761 -0.972814 -17.8322 -7.02782 -17.5113 0.122094 0.260189 1.75057 -21.6744 -24.7155 -19.5381 -15.0709 -8.91546 -5.1332 -0.975225 3.1413 9.62442 13.9803 9.85373 4.68514 12.0631 6.7885 2.37063 2.91982 23.6425 46.8856 25.8486 44.9791 21.9558 18.559 9.56028 5.57231 -0.000201828 -3.42985 -1.39018 4.63745 -4.62954 -9.91799 -9.21512 -19.732 -20.1665 -26.4757 -35.9825 -11.5056 -48.8412 0.89422 0.768057 0.135512 5.13387 8.1623 4.2173 0.414033 16.4661 63.0489 13.5308 11.6197 -95.7248 -38.4529 -46.5983 -25.3478 -8.91668 -3.24682 -0.00141997 -4.75611 -15.4794 -11.2905 -6.12892 -3.92902 -2.79092 -1.96681 -6.42037 -5.95788 -6.7714 -8.04624 -7.85783 -5.93865 -8.35111 -7.88395 -19.4636 -1.81648 -10.9752 -10.8819 -9.34301 -7.44343 -6.9396 -6.06768 -0.000199968 -3.95906 -6.2438 -9.35894 -15.3379 -17.4093 -21.9641 -19.2333 -0.000199915 -4.9378 -0.0150678 0.0002 9.31403 -9.20684 11.4322 33.2747 -0.000199998 2.37538 -0.000199942 55.3138 2.1499 0.000199995 0.000200003 0.000199995 
+done fmin call
+ireturn = 1
+about to evaluate gradient with x = 0.600304 0.526674 0.0767412 0.0842833 0.0739938 0.146771 0.375284 14.1088 0.321102 0.475535 0.529279 0.953065 0.728186 0.263415 0.351074 0.22553 0.382717 0.446098 0.376764 0.20991 1.01374 0.969238 0.441314 0.133782 0.411101 0.4206 0.398466 0.618315 0.27692 0.299325 0.505973 0.306798 0.06 0.530274 0.165973 0.300619 0.529014 0.589125 0.529441 0.666175 0.565785 0.380063 0.722478 0.118636 0.886987 0.329781 0.356367 2.01851 0.42805 0.704381 0.623036 0.604544 0.457883 0.503034 0.587866 0.484178 0.91978 0.831551 0.32888 0.153026 1.52034 0.875945 0.0837877 0.0773356 0.852685 1.29093 0.351567 1.0072 0.218508 0.199991 0.250612 0.187362 0.06 0.33419 0.0863751 0.737512 0.448338 0.49344 0.502206 0.727917 0.592407 0.683089 0.460472 0.122013 1.17501 0.349688 0.317462 2.01887 7.06468 0.18209 1.43751 1.57167 6.5033 0.0881769 1.72156 0.811103 0.137168 0.0522088 0.26578 0.367518 0.320973 0.719148 0.999999 0.00261391 0.132189 0.419573 0.651645 0.657029 0.740643 0.820585 0.565029 0.218294 0.67187 0.778853 0.80133 0.867959 0.744962 0.638158 0.542278 0.000391407 0.0650703 0.204008 0.373778 0.372837 0.473196 0.620233 0.6 0.12134 0.332613 0.234975 0.503068 0.545659 0.545203 0.700912 0.6 71.0885 10.7574 44 67.5231 12.6219 27.0235 44.7336 4 -0.0920089 64 17.0065 38.2787 84 44 44 
+transformed = -0.529218 -0.48532 -0.543838 -0.5281 -0.569173 -0.499417 -0.160488 -0.103439 -0.776218 -0.716814 -0.698729 -0.580724 -0.639037 -0.802707 -0.763582 -0.822159 -0.750904 -0.727191 -0.753242 -0.83081 -0.566158 -0.576799 -0.728913 -0.881482 -0.740032 -0.736489 -0.744818 -0.670792 -0.796208 -0.785846 -0.706445 -0.782497 -1 -0.698404 -0.857872 -0.785263 -0.698816 -0.679705 -0.698676 -0.656634 -0.686998 -0.751944 -0.640624 -0.894376 -0.597095 -0.77249 -0.761416 -0.36416 -0.733741 -0.645699 -0.669371 -0.674969 -0.722993 -0.707431 -0.680094 -0.713834 -0.5889 -0.611285 -0.772874 -0.86687 -0.457194 -0.599886 -0.932771 -0.942615 -0.605823 -0.504173 -0.763379 -0.567707 -0.825996 -0.836535 -0.809065 -0.844121 -1 -0.770618 -0.929205 -0.636456 -0.726389 -0.710673 -0.707709 -0.639111 -0.678691 -0.651755 -0.722079 -0.89137 -0.529285 -0.764152 -0.7778 -0.364096 -0.0112433 0.119639 0.160873 0.282197 -0.192871 -0.30491 0.432863 -0.397964 -0.533286 -0.735193 -0.321104 -0.170721 -0.233119 0.288835 0.998727 -0.934875 -0.52622 -0.10285 0.196171 0.203377 0.31966 0.443102 0.0830323 -0.381023 0.223388 0.376637 0.411785 0.526498 0.32595 0.178227 0.0538945 -0.974809 -0.671581 -0.40331 -0.162469 -0.163707 -0.0341442 0.1546 -1 -0.546984 -0.217319 -0.355653 0.00390682 0.0582159 0.0576326 0.263247 -1 -0.188077 -0.460694 1 -0.448527 -0.385267 0.0966104 0.0298393 -1 0.430847 -1 -0.227415 0.506176 1 1 1 
+finished gradient call: status = 0 g = -91.2037 28.7391 -145.959 46.0979 22.7176 -3.21041 -9.34105 -393.888 25.346 30.8155 31.4137 39.9737 32.4368 16.6086 17.1979 10.5913 10.4288 6.70423 1.50938 -2.3624 -12.6489 -22.9437 -28.8069 -16.6543 -30.955 -40.4696 -53.3974 -63.1797 -51.2071 -53.9343 -65.3215 -42.7218 -0.000198971 -30.3491 -8.62352 17.3186 12.9726 19.6522 17.5275 28.4228 25.1754 30.4488 34.833 11.3683 52.6854 -0.474853 -0.365313 -3.73756 -1.42365 -0.410451 1.15001 2.84674 4.07938 5.96117 8.29375 8.99935 14.3552 15.1277 9.08489 4.10073 8.69974 1.93107 0.745454 0.931917 3.40229 9.35361 1.17532 -6.04309 -3.11275 -6.08682 -20.1325 -17.9305 -0.000196118 -23.3699 -4.40144 -0.256866 -5.2411 -8.22237 -3.07318 -6.33203 -2.53478 -1.81385 -11.9687 -1.30591 -8.35356 -0.217347 -0.0171591 2.42032 -1.49669 -9.64454 -3.39148 -1.28613 -11.9677 -67.9919 -13.2093 -13.9209 5.27629 3.58013 17.9025 17.3522 8.22163 5.05406 0.00363449 9.20694 25.3758 19.3721 11.3688 7.67784 5.66313 3.84383 12.4845 -0.486828 -1.49517 -1.89561 -1.60904 -1.06012 -1.50697 -1.03151 -1.31068 3.33825 20.0368 22.5071 21.6659 18.3263 17.6205 14.9791 -0.000199792 -0.345231 -1.37339 -2.14446 -3.54839 -3.89998 -4.86598 -3.47993 -0.00019997 -0.927408 -10.4805 0.000199981 3.15995 -2.65098 4.49748 -1.69944 -0.000199979 1.7035 -0.000199805 -38.8802 -3.84105 0.000199985 0.00019998 0.00019999 
+about to do fmin call with x = 0.600304 0.526674 0.0767412 0.0842833 0.0739938 0.146771 0.375284 14.1088 0.321102 0.475535 0.529279 0.953065 0.728186 0.263415 0.351074 0.22553 0.382717 0.446098 0.376764 0.20991 1.01374 0.969238 0.441314 0.133782 0.411101 0.4206 0.398466 0.618315 0.27692 0.299325 0.505973 0.306798 0.06 0.530274 0.165973 0.300619 0.529014 0.589125 0.529441 0.666175 0.565785 0.380063 0.722478 0.118636 0.886987 0.329781 0.356367 2.01851 0.42805 0.704381 0.623036 0.604544 0.457883 0.503034 0.587866 0.484178 0.91978 0.831551 0.32888 0.153026 1.52034 0.875945 0.0837877 0.0773356 0.852685 1.29093 0.351567 1.0072 0.218508 0.199991 0.250612 0.187362 0.06 0.33419 0.0863751 0.737512 0.448338 0.49344 0.502206 0.727917 0.592407 0.683089 0.460472 0.122013 1.17501 0.349688 0.317462 2.01887 7.06468 0.18209 1.43751 1.57167 6.5033 0.0881769 1.72156 0.811103 0.137168 0.0522088 0.26578 0.367518 0.320973 0.719148 0.999999 0.00261391 0.132189 0.419573 0.651645 0.657029 0.740643 0.820585 0.565029 0.218294 0.67187 0.778853 0.80133 0.867959 0.744962 0.638158 0.542278 0.000391407 0.0650703 0.204008 0.373778 0.372837 0.473196 0.620233 0.6 0.12134 0.332613 0.234975 0.503068 0.545659 0.545203 0.700912 0.6 71.0885 10.7574 44 67.5231 12.6219 27.0235 44.7336 4 -0.0920089 64 17.0065 38.2787 84 44 44  f = 2870.6 g = -91.2037 28.7391 -145.959 46.0979 22.7176 -3.21041 -9.34105 -393.888 25.346 30.8155 31.4137 39.9737 32.4368 16.6086 17.1979 10.5913 10.4288 6.70423 1.50938 -2.3624 -12.6489 -22.9437 -28.8069 -16.6543 -30.955 -40.4696 -53.3974 -63.1797 -51.2071 -53.9343 -65.3215 -42.7218 -0.000198971 -30.3491 -8.62352 17.3186 12.9726 19.6522 17.5275 28.4228 25.1754 30.4488 34.833 11.3683 52.6854 -0.474853 -0.365313 -3.73756 -1.42365 -0.410451 1.15001 2.84674 4.07938 5.96117 8.29375 8.99935 14.3552 15.1277 9.08489 4.10073 8.69974 1.93107 0.745454 0.931917 3.40229 9.35361 1.17532 -6.04309 -3.11275 -6.08682 -20.1325 -17.9305 -0.000196118 -23.3699 -4.40144 -0.256866 -5.2411 -8.22237 -3.07318 -6.33203 -2.53478 -1.81385 -11.9687 -1.30591 -8.35356 -0.217347 -0.0171591 2.42032 -1.49669 -9.64454 -3.39148 -1.28613 -11.9677 -67.9919 -13.2093 -13.9209 5.27629 3.58013 17.9025 17.3522 8.22163 5.05406 0.00363449 9.20694 25.3758 19.3721 11.3688 7.67784 5.66313 3.84383 12.4845 -0.486828 -1.49517 -1.89561 -1.60904 -1.06012 -1.50697 -1.03151 -1.31068 3.33825 20.0368 22.5071 21.6659 18.3263 17.6205 14.9791 -0.000199792 -0.345231 -1.37339 -2.14446 -3.54839 -3.89998 -4.86598 -3.47993 -0.00019997 -0.927408 -10.4805 0.000199981 3.15995 -2.65098 4.49748 -1.69944 -0.000199979 1.7035 -0.000199805 -38.8802 -3.84105 0.000199985 0.00019998 0.00019999 
+Convergence check: current value is 0.137215 and threshold is 1e-05
+done fmin call
+ireturn = 0
+about to evaluate function with x = 0.647121 0.499773 0.0792275 0.0782421 0.0713169 0.148631 0.380099 14.1091 0.310143 0.458849 0.511223 0.922117 0.706103 0.25699 0.343164 0.221844 0.377771 0.442776 0.376327 0.210776 1.0226 0.986182 0.45894 0.138326 0.424592 0.440171 0.427877 0.656485 0.30016 0.325811 0.546748 0.325879 0.06 0.549477 0.169295 0.288821 0.521568 0.575933 0.520266 0.645879 0.55061 0.362265 0.700401 0.116565 0.845983 0.330012 0.356506 2.02236 0.435717 0.714719 0.629544 0.607962 0.458025 0.500585 0.581912 0.476971 0.901761 0.811812 0.321281 0.150947 1.50308 0.871109 0.0834736 0.0770039 0.839145 1.25561 0.343782 0.991724 0.215335 0.198848 0.257949 0.193284 0.06 0.348337 0.0872741 0.735821 0.453284 0.502523 0.507493 0.741448 0.601825 0.69514 0.48032 0.123868 1.20924 0.349565 0.317271 2.01556 7.06396 0.182392 1.43788 1.57195 6.50617 0.0899805 1.72301 0.812985 0.142225 0.0533237 0.266508 0.366597 0.320293 0.718565 0.999999 0.0024845 0.129945 0.417022 0.650156 0.656009 0.73994 0.820173 0.5633 0.218809 0.672699 0.779741 0.802128 0.868451 0.745855 0.639018 0.544252 0.000373534 0.0637267 0.201432 0.370698 0.370194 0.470551 0.61806 0.6 0.121612 0.333379 0.236022 0.505096 0.547927 0.548054 0.703073 0.6 71.1002 10.8158 44 67.5015 12.6651 26.9501 44.5372 4 -0.0971496 64 17.0918 38.2932 84 44 44 
+finished objective call: f = 2863.99
+about to do fmin call with x = 0.647121 0.499773 0.0792275 0.0782421 0.0713169 0.148631 0.380099 14.1091 0.310143 0.458849 0.511223 0.922117 0.706103 0.25699 0.343164 0.221844 0.377771 0.442776 0.376327 0.210776 1.0226 0.986182 0.45894 0.138326 0.424592 0.440171 0.427877 0.656485 0.30016 0.325811 0.546748 0.325879 0.06 0.549477 0.169295 0.288821 0.521568 0.575933 0.520266 0.645879 0.55061 0.362265 0.700401 0.116565 0.845983 0.330012 0.356506 2.02236 0.435717 0.714719 0.629544 0.607962 0.458025 0.500585 0.581912 0.476971 0.901761 0.811812 0.321281 0.150947 1.50308 0.871109 0.0834736 0.0770039 0.839145 1.25561 0.343782 0.991724 0.215335 0.198848 0.257949 0.193284 0.06 0.348337 0.0872741 0.735821 0.453284 0.502523 0.507493 0.741448 0.601825 0.69514 0.48032 0.123868 1.20924 0.349565 0.317271 2.01556 7.06396 0.182392 1.43788 1.57195 6.50617 0.0899805 1.72301 0.812985 0.142225 0.0533237 0.266508 0.366597 0.320293 0.718565 0.999999 0.0024845 0.129945 0.417022 0.650156 0.656009 0.73994 0.820173 0.5633 0.218809 0.672699 0.779741 0.802128 0.868451 0.745855 0.639018 0.544252 0.000373534 0.0637267 0.201432 0.370698 0.370194 0.470551 0.61806 0.6 0.121612 0.333379 0.236022 0.505096 0.547927 0.548054 0.703073 0.6 71.1002 10.8158 44 67.5015 12.6651 26.9501 44.5372 4 -0.0971496 64 17.0918 38.2932 84 44 44  f = 2863.99 g = -91.2037 28.7391 -145.959 46.0979 22.7176 -3.21041 -9.34105 -393.888 25.346 30.8155 31.4137 39.9737 32.4368 16.6086 17.1979 10.5913 10.4288 6.70423 1.50938 -2.3624 -12.6489 -22.9437 -28.8069 -16.6543 -30.955 -40.4696 -53.3974 -63.1797 -51.2071 -53.9343 -65.3215 -42.7218 -0.000198971 -30.3491 -8.62352 17.3186 12.9726 19.6522 17.5275 28.4228 25.1754 30.4488 34.833 11.3683 52.6854 -0.474853 -0.365313 -3.73756 -1.42365 -0.410451 1.15001 2.84674 4.07938 5.96117 8.29375 8.99935 14.3552 15.1277 9.08489 4.10073 8.69974 1.93107 0.745454 0.931917 3.40229 9.35361 1.17532 -6.04309 -3.11275 -6.08682 -20.1325 -17.9305 -0.000196118 -23.3699 -4.40144 -0.256866 -5.2411 -8.22237 -3.07318 -6.33203 -2.53478 -1.81385 -11.9687 -1.30591 -8.35356 -0.217347 -0.0171591 2.42032 -1.49669 -9.64454 -3.39148 -1.28613 -11.9677 -67.9919 -13.2093 -13.9209 5.27629 3.58013 17.9025 17.3522 8.22163 5.05406 0.00363449 9.20694 25.3758 19.3721 11.3688 7.67784 5.66313 3.84383 12.4845 -0.486828 -1.49517 -1.89561 -1.60904 -1.06012 -1.50697 -1.03151 -1.31068 3.33825 20.0368 22.5071 21.6659 18.3263 17.6205 14.9791 -0.000199792 -0.345231 -1.37339 -2.14446 -3.54839 -3.89998 -4.86598 -3.47993 -0.00019997 -0.927408 -10.4805 0.000199981 3.15995 -2.65098 4.49748 -1.69944 -0.000199979 1.7035 -0.000199805 -38.8802 -3.84105 0.000199985 0.00019998 0.00019999 
+done fmin call
+ireturn = 1
+about to evaluate gradient with x = 0.647121 0.499773 0.0792275 0.0782421 0.0713169 0.148631 0.380099 14.1091 0.310143 0.458849 0.511223 0.922117 0.706103 0.25699 0.343164 0.221844 0.377771 0.442776 0.376327 0.210776 1.0226 0.986182 0.45894 0.138326 0.424592 0.440171 0.427877 0.656485 0.30016 0.325811 0.546748 0.325879 0.06 0.549477 0.169295 0.288821 0.521568 0.575933 0.520266 0.645879 0.55061 0.362265 0.700401 0.116565 0.845983 0.330012 0.356506 2.02236 0.435717 0.714719 0.629544 0.607962 0.458025 0.500585 0.581912 0.476971 0.901761 0.811812 0.321281 0.150947 1.50308 0.871109 0.0834736 0.0770039 0.839145 1.25561 0.343782 0.991724 0.215335 0.198848 0.257949 0.193284 0.06 0.348337 0.0872741 0.735821 0.453284 0.502523 0.507493 0.741448 0.601825 0.69514 0.48032 0.123868 1.20924 0.349565 0.317271 2.01556 7.06396 0.182392 1.43788 1.57195 6.50617 0.0899805 1.72301 0.812985 0.142225 0.0533237 0.266508 0.366597 0.320293 0.718565 0.999999 0.0024845 0.129945 0.417022 0.650156 0.656009 0.73994 0.820173 0.5633 0.218809 0.672699 0.779741 0.802128 0.868451 0.745855 0.639018 0.544252 0.000373534 0.0637267 0.201432 0.370698 0.370194 0.470551 0.61806 0.6 0.121612 0.333379 0.236022 0.505096 0.547927 0.548054 0.703073 0.6 71.1002 10.8158 44 67.5015 12.6651 26.9501 44.5372 4 -0.0971496 64 17.0918 38.2932 84 44 44 
+transformed = -0.509965 -0.499655 -0.534165 -0.551837 -0.580403 -0.496078 -0.154165 -0.103332 -0.781013 -0.722652 -0.70469 -0.588322 -0.645214 -0.805872 -0.766853 -0.824163 -0.752845 -0.728386 -0.753415 -0.830319 -0.564063 -0.572721 -0.72262 -0.877876 -0.735013 -0.729326 -0.733804 -0.659457 -0.78547 -0.774188 -0.693064 -0.774159 -1 -0.692188 -0.855652 -0.790643 -0.701262 -0.683808 -0.701691 -0.662572 -0.691825 -0.759025 -0.646824 -0.896262 -0.607548 -0.772392 -0.76136 -0.363477 -0.73094 -0.642792 -0.667421 -0.673928 -0.722943 -0.708255 -0.681942 -0.716317 -0.593385 -0.616448 -0.776141 -0.868371 -0.460621 -0.601114 -0.933216 -0.943167 -0.609315 -0.511713 -0.766596 -0.571394 -0.827757 -0.837207 -0.805397 -0.84052 -1 -0.764708 -0.928007 -0.636923 -0.724624 -0.707603 -0.705936 -0.635372 -0.6758 -0.648316 -0.715161 -0.889753 -0.521758 -0.764202 -0.777883 -0.364683 -0.0114735 0.120989 0.161194 0.282454 -0.191916 -0.296019 0.434445 -0.395998 -0.523648 -0.731666 -0.320034 -0.171937 -0.234047 0.288011 0.998726 -0.936509 -0.530454 -0.106142 0.194182 0.20201 0.31864 0.442417 0.0808134 -0.38023 0.224511 0.378 0.413059 0.527423 0.327256 0.179367 0.0564171 -0.975391 -0.675066 -0.407389 -0.166524 -0.167189 -0.0375172 0.151752 -1 -0.546453 -0.216285 -0.354082 0.0064889 0.0611165 0.0612793 0.266255 -1 -0.187297 -0.458217 1 -0.450333 -0.383594 0.0942482 0.0264573 -1 0.430175 -1 -0.224521 0.506839 1 1 1 
+finished gradient call: status = 0 g = -5.71233 14.7704 17.1349 17.5651 10.9044 -0.101543 -3.03343 18.0915 2.45432 2.50793 1.77168 1.01998 -0.813356 -1.50502 -2.81748 -2.95118 -5.10855 -6.46041 -6.87021 -5.2553 -12.6309 -12.0267 -7.89443 -3.94515 -6.16995 -5.07701 0.877747 3.37274 9.13173 18.3595 29.1106 16.9626 -0.000174987 12.4183 -2.26669 -12.331 -9.9163 -4.01227 -2.94823 -0.586892 -1.54598 7.57017 4.82356 0.955523 9.52609 0.420324 -0.00395602 78.2925 -3.2709 -3.64679 -2.66497 -1.8129 -0.845809 -0.23392 0.333438 0.552451 0.817554 0.366455 -0.223384 -0.357983 -2.83176 -1.39853 1.00312 1.39139 -0.396609 -2.3025 -0.520945 -0.963704 2.18708 6.7414 11.5689 7.58661 -0.000137442 10.2964 0.145798 -6.24528 -2.13258 -1.84165 2.29321 0.62825 2.16545 2.13895 -3.22852 1.79268 -1.49139 0.900591 0.359086 -77.4282 -6.32515 -5.50359 -29.7053 0.264156 32.2853 71.1277 33.647 5.4493 11.8016 0.77272 -0.368738 1.46308 0.915843 1.03373 0.000775736 0.335524 3.86764 7.38365 5.09967 2.85092 1.72823 0.974036 0.181084 3.61798 0.0148182 -1.38987 -1.61547 -1.1697 -1.69871 -1.4239 -2.24668 -0.589625 0.0295386 3.2013 4.62999 3.35146 3.23806 2.64933 -0.000199653 2.40469 0.311634 -0.578999 -2.11607 -2.65628 -3.87826 -3.54079 -0.000199854 -13.2567 28.5112 0.000199794 -2.14215 4.38018 -0.211128 -46.2361 -0.00019942 1.32601 -0.00020035 24.4149 -1.53246 0.000199702 0.000199803 0.000199841 
+about to do fmin call with x = 0.647121 0.499773 0.0792275 0.0782421 0.0713169 0.148631 0.380099 14.1091 0.310143 0.458849 0.511223 0.922117 0.706103 0.25699 0.343164 0.221844 0.377771 0.442776 0.376327 0.210776 1.0226 0.986182 0.45894 0.138326 0.424592 0.440171 0.427877 0.656485 0.30016 0.325811 0.546748 0.325879 0.06 0.549477 0.169295 0.288821 0.521568 0.575933 0.520266 0.645879 0.55061 0.362265 0.700401 0.116565 0.845983 0.330012 0.356506 2.02236 0.435717 0.714719 0.629544 0.607962 0.458025 0.500585 0.581912 0.476971 0.901761 0.811812 0.321281 0.150947 1.50308 0.871109 0.0834736 0.0770039 0.839145 1.25561 0.343782 0.991724 0.215335 0.198848 0.257949 0.193284 0.06 0.348337 0.0872741 0.735821 0.453284 0.502523 0.507493 0.741448 0.601825 0.69514 0.48032 0.123868 1.20924 0.349565 0.317271 2.01556 7.06396 0.182392 1.43788 1.57195 6.50617 0.0899805 1.72301 0.812985 0.142225 0.0533237 0.266508 0.366597 0.320293 0.718565 0.999999 0.0024845 0.129945 0.417022 0.650156 0.656009 0.73994 0.820173 0.5633 0.218809 0.672699 0.779741 0.802128 0.868451 0.745855 0.639018 0.544252 0.000373534 0.0637267 0.201432 0.370698 0.370194 0.470551 0.61806 0.6 0.121612 0.333379 0.236022 0.505096 0.547927 0.548054 0.703073 0.6 71.1002 10.8158 44 67.5015 12.6651 26.9501 44.5372 4 -0.0971496 64 17.0918 38.2932 84 44 44  f = 2863.99 g = -5.71233 14.7704 17.1349 17.5651 10.9044 -0.101543 -3.03343 18.0915 2.45432 2.50793 1.77168 1.01998 -0.813356 -1.50502 -2.81748 -2.95118 -5.10855 -6.46041 -6.87021 -5.2553 -12.6309 -12.0267 -7.89443 -3.94515 -6.16995 -5.07701 0.877747 3.37274 9.13173 18.3595 29.1106 16.9626 -0.000174987 12.4183 -2.26669 -12.331 -9.9163 -4.01227 -2.94823 -0.586892 -1.54598 7.57017 4.82356 0.955523 9.52609 0.420324 -0.00395602 78.2925 -3.2709 -3.64679 -2.66497 -1.8129 -0.845809 -0.23392 0.333438 0.552451 0.817554 0.366455 -0.223384 -0.357983 -2.83176 -1.39853 1.00312 1.39139 -0.396609 -2.3025 -0.520945 -0.963704 2.18708 6.7414 11.5689 7.58661 -0.000137442 10.2964 0.145798 -6.24528 -2.13258 -1.84165 2.29321 0.62825 2.16545 2.13895 -3.22852 1.79268 -1.49139 0.900591 0.359086 -77.4282 -6.32515 -5.50359 -29.7053 0.264156 32.2853 71.1277 33.647 5.4493 11.8016 0.77272 -0.368738 1.46308 0.915843 1.03373 0.000775736 0.335524 3.86764 7.38365 5.09967 2.85092 1.72823 0.974036 0.181084 3.61798 0.0148182 -1.38987 -1.61547 -1.1697 -1.69871 -1.4239 -2.24668 -0.589625 0.0295386 3.2013 4.62999 3.35146 3.23806 2.64933 -0.000199653 2.40469 0.311634 -0.578999 -2.11607 -2.65628 -3.87826 -3.54079 -0.000199854 -13.2567 28.5112 0.000199794 -2.14215 4.38018 -0.211128 -46.2361 -0.00019942 1.32601 -0.00020035 24.4149 -1.53246 0.000199702 0.000199803 0.000199841 
+Convergence check: current value is 0.0273369 and threshold is 1e-05
+done fmin call
+ireturn = 0
+about to evaluate function with x = 0.680798 0.476799 0.0799293 0.0737268 0.0690801 0.149612 0.38339 14.1191 0.301722 0.446448 0.498549 0.901943 0.693572 0.254046 0.340504 0.221321 0.378901 0.446494 0.381655 0.214317 1.04565 1.01318 0.477044 0.142789 0.438811 0.457295 0.445522 0.677134 0.30811 0.328375 0.542864 0.325059 0.06 0.548776 0.172374 0.290813 0.526697 0.572129 0.517395 0.634373 0.542912 0.345998 0.681332 0.114938 0.809651 0.329834 0.356599 1.88405 0.442534 0.72409 0.635556 0.611351 0.458592 0.499186 0.578017 0.472318 0.89055 0.800377 0.31725 0.149957 1.49816 0.870325 0.0830816 0.0765627 0.8327 1.2408 0.340322 0.986042 0.212661 0.194871 0.255038 0.192872 0.06 0.348685 0.0877661 0.74232 0.458023 0.509388 0.50811 0.747962 0.604395 0.698826 0.494155 0.124156 1.22939 0.348813 0.316912 2.15606 7.07012 0.182988 1.44906 1.57202 6.47726 0.0865535 1.71403 0.812545 0.142655 0.0537707 0.266659 0.365475 0.319598 0.717958 0.999999 0.00239684 0.127874 0.413569 0.647987 0.654684 0.739117 0.819725 0.562173 0.218312 0.673129 0.780498 0.802869 0.868906 0.746693 0.639806 0.545814 0.000368223 0.0628849 0.199185 0.367663 0.367746 0.468103 0.616066 0.6 0.121353 0.333706 0.236697 0.506697 0.549785 0.550525 0.705013 0.6 71.1707 10.6343 44 67.4983 12.6515 26.9128 45.3084 4 -0.103264 64 16.9291 38.3133 84 44 44 
+finished objective call: f = 2940.48
+about to do fmin call with x = 0.680798 0.476799 0.0799293 0.0737268 0.0690801 0.149612 0.38339 14.1191 0.301722 0.446448 0.498549 0.901943 0.693572 0.254046 0.340504 0.221321 0.378901 0.446494 0.381655 0.214317 1.04565 1.01318 0.477044 0.142789 0.438811 0.457295 0.445522 0.677134 0.30811 0.328375 0.542864 0.325059 0.06 0.548776 0.172374 0.290813 0.526697 0.572129 0.517395 0.634373 0.542912 0.345998 0.681332 0.114938 0.809651 0.329834 0.356599 1.88405 0.442534 0.72409 0.635556 0.611351 0.458592 0.499186 0.578017 0.472318 0.89055 0.800377 0.31725 0.149957 1.49816 0.870325 0.0830816 0.0765627 0.8327 1.2408 0.340322 0.986042 0.212661 0.194871 0.255038 0.192872 0.06 0.348685 0.0877661 0.74232 0.458023 0.509388 0.50811 0.747962 0.604395 0.698826 0.494155 0.124156 1.22939 0.348813 0.316912 2.15606 7.07012 0.182988 1.44906 1.57202 6.47726 0.0865535 1.71403 0.812545 0.142655 0.0537707 0.266659 0.365475 0.319598 0.717958 0.999999 0.00239684 0.127874 0.413569 0.647987 0.654684 0.739117 0.819725 0.562173 0.218312 0.673129 0.780498 0.802869 0.868906 0.746693 0.639806 0.545814 0.000368223 0.0628849 0.199185 0.367663 0.367746 0.468103 0.616066 0.6 0.121353 0.333706 0.236697 0.506697 0.549785 0.550525 0.705013 0.6 71.1707 10.6343 44 67.4983 12.6515 26.9128 45.3084 4 -0.103264 64 16.9291 38.3133 84 44 44  f = 2940.48 g = -5.71233 14.7704 17.1349 17.5651 10.9044 -0.101543 -3.03343 18.0915 2.45432 2.50793 1.77168 1.01998 -0.813356 -1.50502 -2.81748 -2.95118 -5.10855 -6.46041 -6.87021 -5.2553 -12.6309 -12.0267 -7.89443 -3.94515 -6.16995 -5.07701 0.877747 3.37274 9.13173 18.3595 29.1106 16.9626 -0.000174987 12.4183 -2.26669 -12.331 -9.9163 -4.01227 -2.94823 -0.586892 -1.54598 7.57017 4.82356 0.955523 9.52609 0.420324 -0.00395602 78.2925 -3.2709 -3.64679 -2.66497 -1.8129 -0.845809 -0.23392 0.333438 0.552451 0.817554 0.366455 -0.223384 -0.357983 -2.83176 -1.39853 1.00312 1.39139 -0.396609 -2.3025 -0.520945 -0.963704 2.18708 6.7414 11.5689 7.58661 -0.000137442 10.2964 0.145798 -6.24528 -2.13258 -1.84165 2.29321 0.62825 2.16545 2.13895 -3.22852 1.79268 -1.49139 0.900591 0.359086 -77.4282 -6.32515 -5.50359 -29.7053 0.264156 32.2853 71.1277 33.647 5.4493 11.8016 0.77272 -0.368738 1.46308 0.915843 1.03373 0.000775736 0.335524 3.86764 7.38365 5.09967 2.85092 1.72823 0.974036 0.181084 3.61798 0.0148182 -1.38987 -1.61547 -1.1697 -1.69871 -1.4239 -2.24668 -0.589625 0.0295386 3.2013 4.62999 3.35146 3.23806 2.64933 -0.000199653 2.40469 0.311634 -0.578999 -2.11607 -2.65628 -3.87826 -3.54079 -0.000199854 -13.2567 28.5112 0.000199794 -2.14215 4.38018 -0.211128 -46.2361 -0.00019942 1.32601 -0.00020035 24.4149 -1.53246 0.000199702 0.000199803 0.000199841 
+done fmin call
+ireturn = 0
+about to evaluate function with x = 0.650456 0.497455 0.0792975 0.0777835 0.0710913 0.148729 0.380428 14.1101 0.309294 0.457601 0.509948 0.92009 0.704845 0.256695 0.342897 0.221792 0.377884 0.443147 0.376858 0.211128 1.0249 0.988866 0.460733 0.138767 0.426002 0.441868 0.429624 0.658536 0.300949 0.326067 0.546359 0.325797 0.06 0.549407 0.169601 0.28902 0.52208 0.575552 0.519979 0.644723 0.549838 0.360619 0.698482 0.116401 0.842315 0.329994 0.356515 2.00837 0.436396 0.715654 0.630144 0.6083 0.458082 0.500445 0.581522 0.476505 0.900637 0.810665 0.320877 0.150848 1.50259 0.871031 0.0834343 0.0769595 0.838499 1.25413 0.343435 0.991155 0.215067 0.198448 0.257657 0.193243 0.06 0.348372 0.0873231 0.73647 0.453757 0.503207 0.507555 0.742098 0.602081 0.695508 0.481694 0.123897 1.21125 0.34949 0.317235 2.02946 7.06457 0.182451 1.439 1.57196 6.50327 0.0896357 1.72211 0.812941 0.142268 0.0533683 0.266523 0.366484 0.320223 0.718505 0.999999 0.00247567 0.129737 0.416677 0.64994 0.655877 0.739858 0.820128 0.563188 0.218759 0.672742 0.779817 0.802202 0.868496 0.745939 0.639097 0.544408 0.000373001 0.0636423 0.201207 0.370395 0.369949 0.470306 0.617861 0.6 0.121586 0.333412 0.23609 0.505256 0.548113 0.548302 0.703267 0.6 71.1072 10.7976 44 67.5012 12.6638 26.9464 44.6144 4 -0.0977608 64 17.0755 38.2952 84 44 44 
+finished objective call: f = 2864
+about to do fmin call with x = 0.650456 0.497455 0.0792975 0.0777835 0.0710913 0.148729 0.380428 14.1101 0.309294 0.457601 0.509948 0.92009 0.704845 0.256695 0.342897 0.221792 0.377884 0.443147 0.376858 0.211128 1.0249 0.988866 0.460733 0.138767 0.426002 0.441868 0.429624 0.658536 0.300949 0.326067 0.546359 0.325797 0.06 0.549407 0.169601 0.28902 0.52208 0.575552 0.519979 0.644723 0.549838 0.360619 0.698482 0.116401 0.842315 0.329994 0.356515 2.00837 0.436396 0.715654 0.630144 0.6083 0.458082 0.500445 0.581522 0.476505 0.900637 0.810665 0.320877 0.150848 1.50259 0.871031 0.0834343 0.0769595 0.838499 1.25413 0.343435 0.991155 0.215067 0.198448 0.257657 0.193243 0.06 0.348372 0.0873231 0.73647 0.453757 0.503207 0.507555 0.742098 0.602081 0.695508 0.481694 0.123897 1.21125 0.34949 0.317235 2.02946 7.06457 0.182451 1.439 1.57196 6.50327 0.0896357 1.72211 0.812941 0.142268 0.0533683 0.266523 0.366484 0.320223 0.718505 0.999999 0.00247567 0.129737 0.416677 0.64994 0.655877 0.739858 0.820128 0.563188 0.218759 0.672742 0.779817 0.802202 0.868496 0.745939 0.639097 0.544408 0.000373001 0.0636423 0.201207 0.370395 0.369949 0.470306 0.617861 0.6 0.121586 0.333412 0.23609 0.505256 0.548113 0.548302 0.703267 0.6 71.1072 10.7976 44 67.5012 12.6638 26.9464 44.6144 4 -0.0977608 64 17.0755 38.2952 84 44 44  f = 2864 g = -5.71233 14.7704 17.1349 17.5651 10.9044 -0.101543 -3.03343 18.0915 2.45432 2.50793 1.77168 1.01998 -0.813356 -1.50502 -2.81748 -2.95118 -5.10855 -6.46041 -6.87021 -5.2553 -12.6309 -12.0267 -7.89443 -3.94515 -6.16995 -5.07701 0.877747 3.37274 9.13173 18.3595 29.1106 16.9626 -0.000174987 12.4183 -2.26669 -12.331 -9.9163 -4.01227 -2.94823 -0.586892 -1.54598 7.57017 4.82356 0.955523 9.52609 0.420324 -0.00395602 78.2925 -3.2709 -3.64679 -2.66497 -1.8129 -0.845809 -0.23392 0.333438 0.552451 0.817554 0.366455 -0.223384 -0.357983 -2.83176 -1.39853 1.00312 1.39139 -0.396609 -2.3025 -0.520945 -0.963704 2.18708 6.7414 11.5689 7.58661 -0.000137442 10.2964 0.145798 -6.24528 -2.13258 -1.84165 2.29321 0.62825 2.16545 2.13895 -3.22852 1.79268 -1.49139 0.900591 0.359086 -77.4282 -6.32515 -5.50359 -29.7053 0.264156 32.2853 71.1277 33.647 5.4493 11.8016 0.77272 -0.368738 1.46308 0.915843 1.03373 0.000775736 0.335524 3.86764 7.38365 5.09967 2.85092 1.72823 0.974036 0.181084 3.61798 0.0148182 -1.38987 -1.61547 -1.1697 -1.69871 -1.4239 -2.24668 -0.589625 0.0295386 3.2013 4.62999 3.35146 3.23806 2.64933 -0.000199653 2.40469 0.311634 -0.578999 -2.11607 -2.65628 -3.87826 -3.54079 -0.000199854 -13.2567 28.5112 0.000199794 -2.14215 4.38018 -0.211128 -46.2361 -0.00019942 1.32601 -0.00020035 24.4149 -1.53246 0.000199702 0.000199803 0.000199841 
+done fmin call
+ireturn = 0
+about to evaluate function with x = 0.648769 0.498626 0.0792621 0.0780151 0.0712053 0.14868 0.380262 14.1096 0.309723 0.458231 0.510592 0.921114 0.705481 0.256844 0.343032 0.221818 0.377827 0.44296 0.376589 0.21095 1.02374 0.987509 0.459826 0.138544 0.425289 0.44101 0.42874 0.657499 0.30055 0.325938 0.546555 0.325839 0.06 0.549442 0.169446 0.288919 0.521821 0.575745 0.520124 0.645307 0.550228 0.361451 0.699451 0.116484 0.844168 0.330003 0.356511 2.01544 0.436053 0.715181 0.629841 0.608129 0.458053 0.500516 0.581719 0.47674 0.901205 0.811244 0.321081 0.150898 1.50283 0.87107 0.0834542 0.0769819 0.838825 1.25488 0.343611 0.991443 0.215203 0.19865 0.257805 0.193264 0.06 0.348355 0.0872984 0.736142 0.453518 0.502862 0.507523 0.741769 0.601952 0.695322 0.480999 0.123882 1.21024 0.349528 0.317253 2.02243 7.06426 0.182421 1.43843 1.57195 6.50474 0.0898099 1.72257 0.812963 0.142246 0.0533458 0.266516 0.366541 0.320258 0.718535 0.999999 0.00248013 0.129842 0.416851 0.650049 0.655944 0.739899 0.82015 0.563245 0.218784 0.67272 0.779778 0.802164 0.868473 0.745896 0.639057 0.544329 0.00037327 0.0636849 0.201321 0.370548 0.370073 0.47043 0.617962 0.6 0.1216 0.333395 0.236056 0.505175 0.548019 0.548177 0.703169 0.6 71.1037 10.8068 44 67.5014 12.6645 26.9482 44.5754 4 -0.0974519 64 17.0837 38.2942 84 44 44 
+finished objective call: f = 2863.78
+about to do fmin call with x = 0.648769 0.498626 0.0792621 0.0780151 0.0712053 0.14868 0.380262 14.1096 0.309723 0.458231 0.510592 0.921114 0.705481 0.256844 0.343032 0.221818 0.377827 0.44296 0.376589 0.21095 1.02374 0.987509 0.459826 0.138544 0.425289 0.44101 0.42874 0.657499 0.30055 0.325938 0.546555 0.325839 0.06 0.549442 0.169446 0.288919 0.521821 0.575745 0.520124 0.645307 0.550228 0.361451 0.699451 0.116484 0.844168 0.330003 0.356511 2.01544 0.436053 0.715181 0.629841 0.608129 0.458053 0.500516 0.581719 0.47674 0.901205 0.811244 0.321081 0.150898 1.50283 0.87107 0.0834542 0.0769819 0.838825 1.25488 0.343611 0.991443 0.215203 0.19865 0.257805 0.193264 0.06 0.348355 0.0872984 0.736142 0.453518 0.502862 0.507523 0.741769 0.601952 0.695322 0.480999 0.123882 1.21024 0.349528 0.317253 2.02243 7.06426 0.182421 1.43843 1.57195 6.50474 0.0898099 1.72257 0.812963 0.142246 0.0533458 0.266516 0.366541 0.320258 0.718535 0.999999 0.00248013 0.129842 0.416851 0.650049 0.655944 0.739899 0.82015 0.563245 0.218784 0.67272 0.779778 0.802164 0.868473 0.745896 0.639057 0.544329 0.00037327 0.0636849 0.201321 0.370548 0.370073 0.47043 0.617962 0.6 0.1216 0.333395 0.236056 0.505175 0.548019 0.548177 0.703169 0.6 71.1037 10.8068 44 67.5014 12.6645 26.9482 44.5754 4 -0.0974519 64 17.0837 38.2942 84 44 44  f = 2863.78 g = -5.71233 14.7704 17.1349 17.5651 10.9044 -0.101543 -3.03343 18.0915 2.45432 2.50793 1.77168 1.01998 -0.813356 -1.50502 -2.81748 -2.95118 -5.10855 -6.46041 -6.87021 -5.2553 -12.6309 -12.0267 -7.89443 -3.94515 -6.16995 -5.07701 0.877747 3.37274 9.13173 18.3595 29.1106 16.9626 -0.000174987 12.4183 -2.26669 -12.331 -9.9163 -4.01227 -2.94823 -0.586892 -1.54598 7.57017 4.82356 0.955523 9.52609 0.420324 -0.00395602 78.2925 -3.2709 -3.64679 -2.66497 -1.8129 -0.845809 -0.23392 0.333438 0.552451 0.817554 0.366455 -0.223384 -0.357983 -2.83176 -1.39853 1.00312 1.39139 -0.396609 -2.3025 -0.520945 -0.963704 2.18708 6.7414 11.5689 7.58661 -0.000137442 10.2964 0.145798 -6.24528 -2.13258 -1.84165 2.29321 0.62825 2.16545 2.13895 -3.22852 1.79268 -1.49139 0.900591 0.359086 -77.4282 -6.32515 -5.50359 -29.7053 0.264156 32.2853 71.1277 33.647 5.4493 11.8016 0.77272 -0.368738 1.46308 0.915843 1.03373 0.000775736 0.335524 3.86764 7.38365 5.09967 2.85092 1.72823 0.974036 0.181084 3.61798 0.0148182 -1.38987 -1.61547 -1.1697 -1.69871 -1.4239 -2.24668 -0.589625 0.0295386 3.2013 4.62999 3.35146 3.23806 2.64933 -0.000199653 2.40469 0.311634 -0.578999 -2.11607 -2.65628 -3.87826 -3.54079 -0.000199854 -13.2567 28.5112 0.000199794 -2.14215 4.38018 -0.211128 -46.2361 -0.00019942 1.32601 -0.00020035 24.4149 -1.53246 0.000199702 0.000199803 0.000199841 
+done fmin call
+ireturn = 1
+about to evaluate gradient with x = 0.648769 0.498626 0.0792621 0.0780151 0.0712053 0.14868 0.380262 14.1096 0.309723 0.458231 0.510592 0.921114 0.705481 0.256844 0.343032 0.221818 0.377827 0.44296 0.376589 0.21095 1.02374 0.987509 0.459826 0.138544 0.425289 0.44101 0.42874 0.657499 0.30055 0.325938 0.546555 0.325839 0.06 0.549442 0.169446 0.288919 0.521821 0.575745 0.520124 0.645307 0.550228 0.361451 0.699451 0.116484 0.844168 0.330003 0.356511 2.01544 0.436053 0.715181 0.629841 0.608129 0.458053 0.500516 0.581719 0.47674 0.901205 0.811244 0.321081 0.150898 1.50283 0.87107 0.0834542 0.0769819 0.838825 1.25488 0.343611 0.991443 0.215203 0.19865 0.257805 0.193264 0.06 0.348355 0.0872984 0.736142 0.453518 0.502862 0.507523 0.741769 0.601952 0.695322 0.480999 0.123882 1.21024 0.349528 0.317253 2.02243 7.06426 0.182421 1.43843 1.57195 6.50474 0.0898099 1.72257 0.812963 0.142246 0.0533458 0.266516 0.366541 0.320258 0.718535 0.999999 0.00248013 0.129842 0.416851 0.650049 0.655944 0.739899 0.82015 0.563245 0.218784 0.67272 0.779778 0.802164 0.868473 0.745896 0.639057 0.544329 0.00037327 0.0636849 0.201321 0.370548 0.370073 0.47043 0.617962 0.6 0.1216 0.333395 0.236056 0.505175 0.548019 0.548177 0.703169 0.6 71.1037 10.8068 44 67.5014 12.6645 26.9482 44.5754 4 -0.0974519 64 17.0837 38.2942 84 44 44 
+transformed = -0.509298 -0.500273 -0.534031 -0.55275 -0.580877 -0.495992 -0.153952 -0.103155 -0.781199 -0.72287 -0.704901 -0.58857 -0.645389 -0.805945 -0.766908 -0.824177 -0.752823 -0.72832 -0.753311 -0.83022 -0.563796 -0.572403 -0.722307 -0.877706 -0.734756 -0.729023 -0.733488 -0.659161 -0.785294 -0.774134 -0.693126 -0.774176 -1 -0.692199 -0.855552 -0.790597 -0.701178 -0.683867 -0.701738 -0.662741 -0.691947 -0.759354 -0.647093 -0.896337 -0.608016 -0.772395 -0.761358 -0.364704 -0.730818 -0.642663 -0.667332 -0.673877 -0.722933 -0.708279 -0.682002 -0.716397 -0.593524 -0.616597 -0.776227 -0.868407 -0.460669 -0.601124 -0.933244 -0.943204 -0.609398 -0.511871 -0.766667 -0.571461 -0.827831 -0.837324 -0.805468 -0.840532 -1 -0.764701 -0.927975 -0.636834 -0.724541 -0.707489 -0.705926 -0.635284 -0.675761 -0.648265 -0.714927 -0.889741 -0.521541 -0.764217 -0.777891 -0.363465 -0.0113765 0.121121 0.16168 0.282457 -0.192394 -0.296857 0.433962 -0.39602 -0.523608 -0.731597 -0.320024 -0.172011 -0.234094 0.287968 0.998726 -0.936565 -0.530649 -0.106362 0.194039 0.201922 0.318581 0.442381 0.0807418 -0.380268 0.22454 0.378057 0.413117 0.527466 0.327317 0.179419 0.0565159 -0.975399 -0.675175 -0.407566 -0.166722 -0.167349 -0.0376717 0.151623 -1 -0.546478 -0.216263 -0.354032 0.00658968 0.0612341 0.0614357 0.266389 -1 -0.187065 -0.458599 1 -0.450346 -0.38362 0.0941888 0.0271144 -1 0.430135 -1 -0.224794 0.506884 1 1 1 
 ^C

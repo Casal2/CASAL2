@@ -30,7 +30,7 @@ namespace selectivities {
 Logistic::Logistic(shared_ptr<Model> model) : Selectivity(model) {
   parameters_.Bind<Double>(PARAM_A50, &a50_, "The a50 parameter", "");
   parameters_.Bind<Double>(PARAM_ATO95, &ato95_, "The ato95 parameter", "")->set_lower_bound(0.0, false);
-  parameters_.Bind<Double>(PARAM_ALPHA, &alpha_, "The alpha (maximum value of the selectivity) parameter", "", 1.0)->set_lower_bound(0.0, false);
+  parameters_.Bind<Double>(PARAM_ALPHA, &alpha_, "The maximum value of the selectivity", "", 1.0)->set_lower_bound(0.0, false);
 
   RegisterAsAddressable(PARAM_A50, &a50_);
   RegisterAsAddressable(PARAM_ATO95, &ato95_);

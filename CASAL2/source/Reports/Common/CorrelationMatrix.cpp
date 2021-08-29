@@ -35,7 +35,7 @@ void CorrelationMatrix::DoExecute(shared_ptr<Model> model) {
 
   correlation_matrix_ = minimiser_->correlation_matrix();
 
-  cache_ << ReportHeader(type_, label_);
+  cache_ << ReportHeader(type_, label_, format_);
   cache_ << "correlation_matrix " << REPORT_R_MATRIX << REPORT_EOL;
   for (unsigned i = 0; i < correlation_matrix_.size1(); ++i) {
     for (unsigned j = 0; j < correlation_matrix_.size2(); ++j) cache_ << correlation_matrix_(i, j) << " ";

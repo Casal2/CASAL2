@@ -26,9 +26,9 @@ namespace util = niwa::utilities;
  */
 Profile::Profile(shared_ptr<Model> model) : model_(model) {
   parameters_.Bind<string>(PARAM_LABEL, &label_, "The label of the profile", "", "");
-  parameters_.Bind<unsigned>(PARAM_STEPS, &steps_, "The number of steps between the lower and upper bound", "");
-  parameters_.Bind<Double>(PARAM_LOWER_BOUND, &lower_bound_, "The lower bounds", "");
-  parameters_.Bind<Double>(PARAM_UPPER_BOUND, &upper_bound_, "The upper bounds", "");
+  parameters_.Bind<unsigned>(PARAM_STEPS, &steps_, "The number of steps between the lower and upper bound", "")->set_lower_bound(2, true);
+  parameters_.Bind<Double>(PARAM_LOWER_BOUND, &lower_bound_, "The lower value of the range", "");
+  parameters_.Bind<Double>(PARAM_UPPER_BOUND, &upper_bound_, "The upper value of the range", "");
   parameters_.Bind<string>(PARAM_PARAMETER, &parameter_, "The system parameter to profile", "");
   parameters_.Bind<string>(PARAM_SAME, &same_parameter_, "A parameter that is constrained to have the same value as the parameter being profiled", "", "");
 }

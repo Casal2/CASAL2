@@ -18,11 +18,9 @@ The peer-reviewed journal article reference for \CNAME\ is \citep{doonan_casal2}
 
 \subsection{\I{\CNAME\ Contributors}}
 
-The \CNAME\ project is maintained by the \CNAME\ Development Team. \CNAME\ was started by Alistair Dunn. The software architect and lead author of the software code was Scott Rasmussen. Authors of this document included Ian Doonan, Craig Marsh, Kath Large, Teresa A'mar, and Alistair Dunn.
+The \CNAME\ project is maintained by the \CNAME\ Development Team. \CNAME\ was started by Alistair Dunn. The software architect and lead author of the software code was Scott Rasmussen. Contributors to the development include Scott Rasmussen, Alistair Dunn, Ian Doonan, Craig Marsh, Teresa A'mar, Kath Large, Sophie Mormede, Samik Datta, Matt Dunn, Jingjing Zhang, and Marco Kienzle.
 
-Contributors to the development include Scott Rasmussen, Alistair Dunn, Ian Doonan, Craig Marsh, Teresa A'mar, Kath Large, Sophie Mormede, and Samik Datta. Other contributors to \CNAME\ have included Matt Dunn, Jingjing Zhang, and Marco Kienzle. 
-
-The development of \CNAME\ was funded by the New Zealand \href{http://www.mpi.govt.nz}{Ministry for Primary Industries} and the \href{http://www.niwa.co.nz}{National Institute of Water \& Atmospheric Research Ltd. (NIWA)}.
+The development of \CNAME\ was funded by \href{http://www.niwa.co.nz}{National Institute of Water \& Atmospheric Research Ltd. (NIWA)}, with additional funding from the New Zealand \href{http://www.mpi.govt.nz}{Ministry for Primary Industries}.
 
 \subsection{\I{Software license}}
 
@@ -40,9 +38,9 @@ There are installation packages available for Linux and Microsoft Windows. Relea
 
 \CNAME\ is available for most x86 compatible machines running 64-bit \I{Linux} and \I{Microsoft Windows} operating systems. \CNAME\ has not been compiled nor tested on macOS.
 
-Several of \CNAME's tasks are computer intensive and a fast processor is recommended. Depending on the model implemented, some of the \CNAME\ tasks can take a considerable amount of processing time (minutes to hours), and in extreme cases may take several days to complete an MCMC estimate. 
+Several of \CNAME's tasks are computer intensive and a fast processor is recommended. Depending on the model implemented, some of the \CNAME\ tasks can take a considerable amount of processing time (minutes to hours), and in extreme cases may even take several days to complete an MCMC estimate.
 
-Output files can be large, and the output from developing a model, sensitivity analyses, and running multiple MCMC chains can take up significant amounts of disk space\index{Disk space}. Depending on the number and type of user output requests, the output could range from a few hundred kilobytes to several hundred megabytes. When estimating model fits, several hundred megabytes of RAM may be required, depending on the spatial size of the model, number of categories, and complexity of processes and observations. For larger models, several gigabytes of RAM and disk space may occasionally be required. 
+Output files have the potential to be large, and the output from developing a model, sensitivity analyses, and running multiple MCMC chains can take up significant amounts of disk space\index{Disk space}. Depending on the number and type of user output requests, the output could range from a few hundred kilobytes to several hundred megabytes. When estimating model fits, several hundred megabytes of RAM may be required, depending on the spatial size of the model, number of categories, and complexity of processes and observations. For larger models, several gigabytes of RAM and disk space may occasionally be required.
 
 \subsection{\I{Necessary files}}
 
@@ -50,9 +48,9 @@ For both 64-bit Linux and Microsoft Windows, we recommend using the install pack
 
 \CNAME\ does not post-process model output. \CNAME\ writes all output to text files --- either the standard out or to files. A package that allows tabulation and graphing of model outputs is recommended. Software such as \href{http://www.r-project.org}{\R}\ \citep{R} is recommended. The \texttt{CASAL2} \R\ package is provided for extracting \CNAME\ output from reports and output files into \R\ (see Section \ref{sec:PostProcessing}). A separate \R\ package is also available that provides some examples of diagnostic and plot functionality.
 
-\subsection{Getting help\index{Getting help}\index{User assistance}\index{Notifying errors}}
+\subsection{Getting help\index{Getting help}\index{User assistance}\index{Repoerting issues or errors}}
 
-\CNAME\ is distributed as unsupported software. Please notify the \CNAME\ Development Team of any issues with or errors in \CNAME. Please contact the \emaillink. See Section \ref{sec:ReportingErrors} for the guidelines for reporting issues. Note that \CNAME\ is a complex program, with many different options and possibilities, and we may not be able to provide any useful help if you submit an error report that does not follow the guidelines. 
+\CNAME\ is distributed as unsupported software. Please notify the \CNAME\ Development Team of any issues with or errors in \CNAME. Please contact the \emaillink. See Section \ref{sec:ReportingErrors} for the guidelines for reporting issues. Note that \CNAME\ is a complex program, with many different options and possibilities, and we may not be able to provide any useful help if you submit an error report that does not follow the guidelines.
 
 \subsection{Technical details\index{Technical specifications}}\label{sec:TechnicalDetails}
 
@@ -60,21 +58,23 @@ For both 64-bit Linux and Microsoft Windows, we recommend using the install pack
 
 The Microsoft Windows (\url{https://www.microsoft.com})\index{Microsoft Windows} version was compiled using TDM-gcc (\url{https://jmeubank.github.io/tdm-gcc/}) using \texttt{gcc} 10.3.0 (\url{http://gcc.gnu.org})\index{gcc}. The Microsoft Windows(\url{https://www.microsoft.com}) installer was built using the Inno Setup (\url{https://jrsoftware.org/isdl.php}).
 
-\CNAME\ includes several minimisers; different minimisers may perform better for some models than others. Some of the minimisers are numerical differences minimisers and will usually work form most problems, albeit more slowly than auto-differentiation based minimisers. The numerical differences minimisers are 
+\CNAME\ includes several minimisers; different minimisers may perform better for some models than others. These incldue both numerical differences minimisers and auto-differentiation minimisers. Numerical differences minimisers will usually work form most problems, albeit more slowly than auto-differentiation based minimisers. The numerical differences minimisers are:
+
 \begin{enumerate}
-\item Numerical differences: GammaDiff, a minimiser that is closely based on the main algorithm of \cite{779}, that uses finite difference gradients\index{Finite differences minimiser}
+\item Numerical differences: A minimiser that is closely based on the main algorithm of \cite{779}, that uses finite difference gradients\index{Finite differences minimiser}.
+\item deltadiff: A multithreaded version of the numerical diffferences, but with $tan$ recscaling instead of $arcsin$ and available for use with the Hamiltonial Monte Carlo MCMC algortihm.
 \item DESolver: The differential evolution solver\index{Differential evolution minimiser} \citep{1442}, based on code by \href{mailto:<godwin@pushcorp.com>}{Lester E. Godwin} of \href{http://www.pushcorp.com}{PushCorp, Inc.}
 \end{enumerate}
 
 There are two auto-differentiation minimisers, both based on ADOL-C. These are
 \begin{enumerate}
-\item Betadiff: A minimiser using an older version of ADOL-C (v1.8.4) that was used as the automatic differentiation minimiser in the first version of CASAL \citep{1388}, with a similar minimising algorithm as used for the finite differences minimiser above, but based on the gradient from the auto-differentiation chain
-\item ADOLC: A minimiser using version of ADOL-C (v2.5.1) \citep{walther1996adolc};, with a similar minimising algorithm as used for the finite differences (GammaDiff) minimiser above, but based on the gradient from the auto-differentiation chain
+\item Betadiff: A minimiser using a very old version of ADOL-C (v1.8.4) that was used as the automatic differentiation minimiser in the first version of CASAL \citep{1388}, with the same minimising algorithm as used for the finite differences minimiser above, but based on the gradient from the auto-differentiation chain.
+\item ADOLC: A minimiser using version of ADOL-C (v2.5.1) \citep{walther1996adolc};, with a similar minimising algorithm as used for the finite differences minimiser above, but based on the gradient from the auto-differentiation chain.
 \end{enumerate}
 
 The random number generator\index{Random number generator} used in \CNAME\ uses an implementation of the Mersenne twister random number generator \citep{796}. This functionality, the command line functionality, matrix operations, and a number of other functions use the \href{http://www.boost.org/}{Boost} C++ library (Version 1.71.0)\index{Boost C++ library}.
 
-Note that the output from \CNAME\ may differ slightly on the different operating systems and operating system versions due to different precision arithmetic or other platform-dependent (including CPU hardware) implementation details. In particular, the implementation of the standard C++ library \texttt{math.h} differs slightly on different platforms, and hence the results from different platforms may appear to be slightly different.
+Note that the output from \CNAME\ may differ slightly on the different operating systems and operating system versions due to different precision arithmetic or other platform-dependent (including CPU hardware) implementation details. In particular, the implementation of the standard C++ library \texttt{math.h} differs slightly on different platforms, and hence the results from different platforms may be different.
 
 Unit tests of the underlying \CNAME\ code are carried out at build time, using the \href{https://github.com/google/googletest}{Google Test and Mock} unit testing and mocking framework. The unit test framework aims to cover a significant proportion of the key functionality within the \CNAME\ code base. The unit test code\index{Unit tests} for \CNAME\ is available as a part of the underlying source code.
 

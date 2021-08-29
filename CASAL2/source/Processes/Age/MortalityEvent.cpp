@@ -30,11 +30,10 @@ MortalityEvent::MortalityEvent(shared_ptr<Model> model) : Process(model), partit
   parameters_.Bind<string>(PARAM_CATEGORIES, &category_labels_, "The categories", "");
   parameters_.Bind<unsigned>(PARAM_YEARS, &years_, "The years in which to apply the mortality process", "");
   parameters_.Bind<Double>(PARAM_CATCHES, &catches_, "The number of removals (catches) to apply for each year", "");
-  parameters_.Bind<Double>(PARAM_U_MAX, &u_max_, "The maximum exploitation rate ($U_{max}$)", "", 0.99)->set_range(0.0, 1.0);
+  parameters_.Bind<double>(PARAM_U_MAX, &u_max_, "The maximum exploitation rate ($U_{max}$)", "", 0.99)->set_range(0.0, 1.0);
   parameters_.Bind<string>(PARAM_SELECTIVITIES, &selectivity_names_, "The list of selectivities", "");
   parameters_.Bind<string>(PARAM_PENALTY, &penalty_name_, "The label of the penalty to apply if the total number of removals cannot be taken", "", "");
 
-  RegisterAsAddressable(PARAM_U_MAX, &u_max_);
   RegisterAsAddressable(PARAM_CATCHES, &catch_years_);
 
   process_type_        = ProcessType::kMortality;
@@ -70,7 +69,7 @@ void MortalityEvent::DoValidate() {
 
   // Validate u_max
   if (u_max_ < 0.0 || u_max_ > 1.0)
-    LOG_ERROR_P(PARAM_U_MAX) << ": u_max (" << AS_DOUBLE(u_max_) << ") must be between 0.0 and 1.0 (inclusive).";
+    LOG_ERROR_P(PARAM_U_MAX) << ": u_max (" << u_max_ << ") must be between 0.0 and 1.0 (inclusive).";
 }
 
 /**

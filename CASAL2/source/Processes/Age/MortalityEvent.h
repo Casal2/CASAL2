@@ -5,7 +5,7 @@
  * @date 21/12/2012
  * @section LICENSE
  *
- * Copyright NIWA Science ©2012 - www.niwa.co.nz
+ * Copyright NIWA Science ï¿½2012 - www.niwa.co.nz
  *
  * @section DESCRIPTION
  *
@@ -56,7 +56,7 @@ private:
   vector<Double>   actual_catches_;
 
   map<unsigned, Double>               catch_years_;
-  Double                              u_max_;
+  double                              u_max_;
   vector<string>                      selectivity_names_;
   string                              penalty_name_;
   accessor::Categories                partition_;

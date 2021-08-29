@@ -25,11 +25,11 @@ namespace timevarying {
  * Default constructor
  */
 RandomWalk::RandomWalk(shared_ptr<Model> model) : TimeVarying(model) {
-  parameters_.Bind<Double>(PARAM_MEAN, &mu_, "The mean ($\\mu$) of the random walk distribution", "", 0);
-  parameters_.Bind<Double>(PARAM_SIGMA, &sigma_, "The standard deviation ($\\sigma$)  of the random walk distribution", "", 1);
+  parameters_.Bind<Double>(PARAM_MEAN, &mu_, "The mean (mu) of the random walk distribution", "", 0);
+  parameters_.Bind<Double>(PARAM_SIGMA, &sigma_, "The standard deviation (sigma)  of the random walk distribution", "", 1)->set_lower_bound(0, false);
   parameters_.Bind<Double>(PARAM_LOWER_BOUND, &upper_bound_, "The lower bound for the random walk", "");
   parameters_.Bind<Double>(PARAM_UPPER_BOUND, &lower_bound_, "The upper bound for the random walk", "");
-  parameters_.Bind<Double>(PARAM_RHO, &rho_, "The autocorrelation parameter ($\\rho$)  of the random walk distribution", "", 1);
+  parameters_.Bind<Double>(PARAM_RHO, &rho_, "The autocorrelation parameter (rho)  of the random walk distribution", "", 1);
   parameters_.Bind<string>(PARAM_DISTRIBUTION, &distribution_, "The distribution type", "", PARAM_NORMAL)->set_allowed_values({PARAM_NORMAL});
 
   RegisterAsAddressable(PARAM_MEAN, &mu_);

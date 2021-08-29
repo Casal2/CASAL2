@@ -28,7 +28,7 @@ CategoryList::CategoryList() {
  * Execute the report
  */
 void CategoryList::DoExecute(shared_ptr<Model> model) {
-  cache_ << ReportHeader(type_, label_);
+  cache_ << ReportHeader(type_, label_, format_);
   auto categories = model->categories();
 
   vector<string> names = categories->category_names();

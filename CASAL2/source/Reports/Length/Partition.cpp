@@ -50,7 +50,7 @@ void Partition::DoExecute(shared_ptr<Model> model) {
   niwa::partition::accessors::All all_view(model);
   vector<Double>                  length_bins = model->length_bins();
   // Print the header
-  cache_ << ReportHeader(type_, label_);
+  cache_ << ReportHeader(type_, label_, format_);
   cache_ << "year: " << model->current_year() << REPORT_EOL;
   cache_ << "time_step: " << time_step_ << REPORT_EOL;
   cache_ << "values " << REPORT_R_DATAFRAME << REPORT_EOL;

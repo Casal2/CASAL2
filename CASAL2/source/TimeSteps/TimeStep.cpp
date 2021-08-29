@@ -29,7 +29,7 @@ TimeStep::TimeStep(shared_ptr<Model> model) : model_(model) {
   LOG_TRACE();
 
   parameters_.Bind<string>(PARAM_LABEL, &label_, "The label of the time step", "");
-  parameters_.Bind<string>(PARAM_PROCESSES, &process_names_, "The labels of the processes for this time step, and given in the order that they occur within the time step", "");
+  parameters_.Bind<string>(PARAM_PROCESSES, &process_names_, "The labels of the processes that occur in this time step, in the order that they occur", "");
 }
 
 /**

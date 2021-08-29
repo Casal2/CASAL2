@@ -56,8 +56,8 @@ MortalityInstantaneous::MortalityInstantaneous(shared_ptr<Model> model) : Proces
   parameters_.BindTable(PARAM_CATCHES, catches_table_, "The table of removals (catch) data", "", true, false);
   parameters_.BindTable(PARAM_METHOD, method_table_, "The table of method of removal data", "", true, false);
   parameters_.Bind<Double>(PARAM_M, &m_input_, "The natural mortality rates for each category", "")->set_lower_bound(0.0);
-  parameters_.Bind<Double>(PARAM_TIME_STEP_RATIO, &time_step_ratios_temp_, "The time step ratios for natural mortality", "", true)->set_range(0.0, 1.0);
-  parameters_.Bind<string>(PARAM_RELATIVE_M_BY_AGE, &selectivity_labels_, "The M-by-age ogives to apply on the categories for natural mortality", "");
+  parameters_.Bind<double>(PARAM_TIME_STEP_PROPORTIONS, &time_step_ratios_temp_, "The time step proportions for natural mortality", "", true)->set_range(0.0, 1.0);
+  parameters_.Bind<string>(PARAM_RELATIVE_M_BY_AGE, &selectivity_labels_, "The M-by-age ogives to apply to each category for natural mortality", "");
 
   RegisterAsAddressable(PARAM_M, &m_);
 }
@@ -316,7 +316,7 @@ void MortalityInstantaneous::DoBuild() {
       LOG_ERROR_P(PARAM_TIME_STEP_RATIO) << " The time step ratio length (" << time_step_ratios_temp_.size()
                                          << ") does not match the number of time steps this process has been assigned to (" << active_time_steps.size() << ")";
 
-    for (Double value : time_step_ratios_temp_) {
+    for (double value : time_step_ratios_temp_) {
       if (value < 0.0 || value > 1.0)
         LOG_ERROR_P(PARAM_TIME_STEP_RATIO) << "The time step ratio value (" << value << ") must be between 0.0 and 1.0 (inclusive)";
     }
@@ -473,7 +473,7 @@ void MortalityInstantaneous::DoExecute() {
 
   unsigned time_step_index   = model_->managers()->time_step()->current_time_step();
   unsigned year              = model_->current_year();
-  Double   ratio             = time_step_ratios_[time_step_index];
+  double   ratio             = time_step_ratios_[time_step_index];
   Double   selectivity_value = 0.0;
 
   for (auto& category : categories_) {

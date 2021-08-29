@@ -44,7 +44,7 @@ void MCMCObjective::DoBuild(shared_ptr<Model> model) {
  */
 void MCMCObjective::DoPrepare(shared_ptr<Model> model) {
   if (!model->global_configuration().resume_mcmc()) {
-    cache_ << ReportHeader(type_, label_);
+    cache_ << ReportHeader(type_, label_, format_);
   }
 }
 

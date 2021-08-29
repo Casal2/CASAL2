@@ -56,7 +56,7 @@ void PartitionBiomass::DoExecute(shared_ptr<Model> model) {
     if (longest_length < iterator->name_.length())
       longest_length = iterator->name_.length();
   }
-  cache_ << ReportHeader(type_, label_);
+  cache_ << ReportHeader(type_, label_, format_);
   cache_ << "year: " << model->current_year() << REPORT_EOL;
   cache_ << "time_step: " << time_step_ << REPORT_EOL;
   cache_ << "values " << REPORT_R_DATAFRAME << REPORT_EOL;

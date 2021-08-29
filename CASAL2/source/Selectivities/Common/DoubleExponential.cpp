@@ -34,7 +34,7 @@ DoubleExponential::DoubleExponential(shared_ptr<Model> model) : Selectivity(mode
   parameters_.Bind<Double>(PARAM_Y0, &y0_, "The Y0 parameter", "")->set_lower_bound(0.0);
   parameters_.Bind<Double>(PARAM_Y1, &y1_, "The Y1 parameter", "")->set_lower_bound(0.0);
   parameters_.Bind<Double>(PARAM_Y2, &y2_, "The Y2 parameter", "")->set_lower_bound(0.0);
-  parameters_.Bind<Double>(PARAM_ALPHA, &alpha_, "alpha", "", 1.0)->set_lower_bound(0.0, false);
+  parameters_.Bind<Double>(PARAM_ALPHA, &alpha_, "The maximum value of the selectivity", "", 1.0)->set_lower_bound(0.0, false);
 
   RegisterAsAddressable(PARAM_X0, &x0_);
   RegisterAsAddressable(PARAM_Y0, &y0_);

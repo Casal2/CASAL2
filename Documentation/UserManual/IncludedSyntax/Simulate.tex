@@ -1,0 +1,30 @@
+\defComLab{Simulate}{Define an object of type \emph{Simulate}}.
+\defRef{sec:Simulate}
+\label{syntax:Simulate}
+
+\defSub{label}{The label for the simulation command}
+\defType{String}
+\defDefault{No default}
+
+\defSub{type}{The type of simulation}
+\defType{String}
+\defDefault{No default}
+\defValue{Only the type constant is implemented}
+
+\defSub{years}{The years to simulate values for}
+\defType{Vector of non-negative integers}
+\defDefault{No default}
+
+\defSub{parameter}{The parameter to generate simulated values for}
+\defType{String}
+\defDefault{No default}
+
+\subsubsection{Simulate of type Constant}
+\commandlabsubarg{Simulate}{type}{Constant}.
+\defRef{sec:Simulate-Constant}
+\label{syntax:Simulate-Constant}
+
+\defSub{value}{The value to assign to the parameter in the simulations}
+\defType{Real number (estimable)}
+\defDefault{No default}
+

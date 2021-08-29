@@ -5,7 +5,7 @@
  * @date 6/4/2017
  * @section LICENSE
  *
- * Copyright NIWA Science ©2012 - www.niwa.co.nz
+ * Copyright NIWA Science ï¿½2012 - www.niwa.co.nz
  *
  * @section DESCRIPTION
  *
@@ -51,7 +51,7 @@ private:
   // Members
   vector<string>                      category_labels_;
   Double                              catch_;
-  Double                              u_max_;
+  double                              u_max_;
   vector<string>                      selectivity_names_;
   string                              penalty_name_;
   accessor::Categories                partition_;

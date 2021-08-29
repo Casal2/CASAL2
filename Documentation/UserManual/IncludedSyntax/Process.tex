@@ -1,0 +1,749 @@
+\defComLab{Process}{Define an object of type \emph{Process}}.
+\defRef{sec:Process}
+\label{syntax:Process}
+
+\defSub{label}{The label of the process}
+\defType{String}
+\defDefault{No default}
+
+\defSub{type}{The type of process}
+\defType{String}
+\defDefault{No default}
+
+\subsubsection{Process of type Ageing}
+\commandlabsubarg{Process}{type}{Ageing}.
+\defRef{sec:Process-Ageing}
+\label{syntax:Process-Ageing}
+
+\defSub{categories}{The labels of the categories to age}
+\defType{Vector of strings}
+\defDefault{No default}
+
+\subsubsection{Process of type Load\_Partition}
+\commandlabsubarg{Process}{type}{Load\_Partition}.
+\defRef{sec:Process-LoadPartition}
+\label{syntax:Process-LoadPartition}
+
+The Load\_Partition type has no additional subcommands.
+
+\subsubsection{Process of type Maturation}
+\commandlabsubarg{Process}{type}{Maturation}.
+\defRef{sec:Process-Maturation}
+\label{syntax:Process-Maturation}
+
+\defSub{from}{The list of categories to mature from}
+\defType{Vector of strings}
+\defDefault{No default}
+
+\defSub{to}{The list of categories to mature to}
+\defType{Vector of strings}
+\defDefault{No default}
+
+\defSub{selectivities}{The list of selectivities to use for maturation}
+\defType{Vector of strings}
+\defDefault{No default}
+
+\defSub{years}{The years to be associated with the maturity rates}
+\defType{Vector of non-negative integers}
+\defDefault{No default}
+
+\defSub{rates}{The rates to mature for each year}
+\defType{Vector of real numbers (estimable)}
+\defDefault{No default}
+
+\subsubsection{Process of type Mortality\_Constant\_Rate}
+\commandlabsubarg{Process}{type}{Mortality\_Constant\_Rate}.
+\defRef{sec:Process-MortalityConstantRate}
+\label{syntax:Process-MortalityConstantRate}
+
+\defSub{categories}{The list of category labels}
+\defType{Vector of strings}
+\defDefault{No default}
+
+\defSub{m}{The mortality rates}
+\defType{Real number (estimable)}
+\defDefault{No default}
+\defLowerBound{0.0 (inclusive)}
+
+\defSub{time\_step\_proportions}{The time step proportions for the mortality rates}
+\defType{Vector of real numbers}
+\defDefault{false}
+\defLowerBound{0.0 (inclusive)}
+\defUpperBound{1.0 (inclusive)}
+\defValue{The time step proportions must sum to one. If only one value is supplied, then the each time step is allocated an equal proportion. Otherwise the number of values must equal the number of time steps}
+
+\defSub{relative\_m\_by\_age}{The list of mortality by age ogive labels for the categories}
+\defType{Vector of strings}
+\defDefault{No default}
+
+\subsubsection{Process of type Mortality\_Event}
+\commandlabsubarg{Process}{type}{Mortality\_Event}.
+\defRef{sec:Process-MortalityEvent}
+\label{syntax:Process-MortalityEvent}
+
+\defSub{categories}{The categories}
+\defType{Vector of strings}
+\defDefault{No default}
+
+\defSub{years}{The years in which to apply the mortality process}
+\defType{Vector of non-negative integers}
+\defDefault{No default}
+
+\defSub{catches}{The number of removals (catches) to apply for each year}
+\defType{Vector of real numbers (estimable)}
+\defDefault{No default}
+
+\defSub{u\_max}{The maximum exploitation rate ($U\_{max}$)}
+\defType{Real number}
+\defDefault{0.99}
+\defLowerBound{0.0 (inclusive)}
+\defUpperBound{1.0 (inclusive)}
+
+\defSub{selectivities}{The list of selectivities}
+\defType{Vector of strings}
+\defDefault{No default}
+
+\defSub{penalty}{The label of the penalty to apply if the total number of removals cannot be taken}
+\defType{String}
+\defDefault{No default}
+
+\subsubsection{Process of type Mortality\_Event\_Biomass}
+\commandlabsubarg{Process}{type}{Mortality\_Event\_Biomass}.
+\defRef{sec:Process-MortalityEventBiomass}
+\label{syntax:Process-MortalityEventBiomass}
+
+\defSub{categories}{The category labels}
+\defType{Vector of strings}
+\defDefault{No default}
+
+\defSub{selectivities}{The labels of the selectivities for each of the categories}
+\defType{Vector of strings}
+\defDefault{No default}
+
+\defSub{years}{The years in which to apply the mortality process}
+\defType{Vector of non-negative integers}
+\defDefault{No default}
+
+\defSub{catches}{The biomass of removals (catches) to apply for each year}
+\defType{Vector of real numbers (estimable)}
+\defDefault{No default}
+
+\defSub{u\_max}{The maximum exploitation rate ($U\_{max}$)}
+\defType{Real number (estimable)}
+\defDefault{0.99}
+\defLowerBound{0.0 (inclusive)}
+\defUpperBound{1.0 (inclusive)}
+
+\defSub{penalty}{The label of the penalty to apply if the total biomass of removals cannot be taken}
+\defType{String}
+\defDefault{No default}
+
+\subsubsection{Process of type Mortality\_Holling\_Rate}
+\commandlabsubarg{Process}{type}{Mortality\_Holling\_Rate}.
+\defRef{sec:Process-MortalityHollingRate}
+\label{syntax:Process-MortalityHollingRate}
+
+\defSub{prey\_categories}{The prey categories labels}
+\defType{Vector of strings}
+\defDefault{No default}
+
+\defSub{predator\_categories}{The predator categories labels}
+\defType{Vector of strings}
+\defDefault{No default}
+
+\defSub{is\_abundance}{Is vulnerable amount of prey and predator an abundance [true] or biomass [false]}
+\defType{Boolean}
+\defDefault{true}
+
+\defSub{a}{Parameter a}
+\defType{Real number (estimable)}
+\defDefault{No default}
+\defLowerBound{0.0 (inclusive)}
+
+\defSub{b}{Parameter b}
+\defType{Real number (estimable)}
+\defDefault{No default}
+\defLowerBound{0.0 (inclusive)}
+
+\defSub{x}{This parameter controls the functional form: Holling function type 2 (x=2) or 3 (x=3), or generalised (Michaelis Menten, x>=1)}
+\defType{Real number (estimable)}
+\defDefault{No default}
+\defLowerBound{1.0 (inclusive)}
+
+\defSub{u\_max}{The maximum exploitation rate ($U\_{max}$)}
+\defType{Real number}
+\defDefault{0.99}
+\defLowerBound{0.0 (inclusive)}
+\defUpperBound{1.0 (exclusive)}
+
+\defSub{prey\_selectivities}{The selectivities for prey categories}
+\defType{Vector of strings}
+\defDefault{true}
+
+\defSub{predator\_selectivities}{The selectivities for predator categories}
+\defType{Vector of strings}
+\defDefault{true}
+
+\defSub{penalty}{The label of penalty}
+\defType{String}
+\defDefault{No default}
+
+\defSub{years}{The years in which to apply the mortality process}
+\defType{Vector of non-negative integers}
+\defDefault{No default}
+
+\subsubsection{Process of type Mortality\_Initialisation\_Event}
+\commandlabsubarg{Process}{type}{Mortality\_Initialisation\_Event}.
+\defRef{sec:Process-MortalityInitialisationEvent}
+\label{syntax:Process-MortalityInitialisationEvent}
+
+\defSub{categories}{The categories}
+\defType{Vector of strings}
+\defDefault{No default}
+
+\defSub{catch}{The number of removals (catches) to apply for each year}
+\defType{Real number (estimable)}
+\defDefault{No default}
+
+\defSub{u\_max}{The maximum exploitation rate ($U\_{max}$)}
+\defType{Real number}
+\defDefault{0.99}
+\defLowerBound{0.0 (inclusive)}
+\defUpperBound{1.0 (exclusive)}
+
+\defSub{selectivities}{The list of selectivities}
+\defType{Vector of strings}
+\defDefault{No default}
+
+\defSub{penalty}{The label of the penalty to apply if the total number of removals cannot be taken}
+\defType{String}
+\defDefault{No default}
+
+\subsubsection{Process of type Mortality\_Initialisation\_Event\_Biomass}
+\commandlabsubarg{Process}{type}{Mortality\_Initialisation\_Event\_Biomass}.
+\defRef{sec:Process-MortalityInitialisationEventBiomass}
+\label{syntax:Process-MortalityInitialisationEventBiomass}
+
+\defSub{categories}{The categories}
+\defType{Vector of strings}
+\defDefault{No default}
+
+\defSub{catch}{The number of removals (catches) to apply for each year}
+\defType{Real number (estimable)}
+\defDefault{No default}
+
+\defSub{u\_max}{The maximum exploitation rate ($U\_{max}$)}
+\defType{Real number}
+\defDefault{0.99}
+\defLowerBound{0.0 (inclusive)}
+\defUpperBound{1.0 (inclusive)}
+
+\defSub{selectivities}{The list of selectivities}
+\defType{Vector of strings}
+\defDefault{No default}
+
+\defSub{penalty}{The label of the penalty to apply if the total number of removals cannot be taken}
+\defType{String}
+\defDefault{No default}
+
+\subsubsection{Process of type Mortality\_Instantaneous}
+\commandlabsubarg{Process}{type}{Mortality\_Instantaneous}.
+\defRef{sec:Process-MortalityInstantaneous}
+\label{syntax:Process-MortalityInstantaneous}
+
+\defSub{categories}{The categories for instantaneous mortality}
+\defType{Vector of strings}
+\defDefault{No default}
+
+\defSub{m}{The natural mortality rates for each category}
+\defType{Real number (estimable)}
+\defDefault{No default}
+\defLowerBound{0.0 (inclusive)}
+
+\defSub{time\_step\_proportions}{The time step proportions for natural mortality}
+\defType{Vector of real numbers}
+\defDefault{true}
+\defLowerBound{0.0 (inclusive)}
+\defUpperBound{1.0 (inclusive)}
+\defValue{Proportions must sum to one}
+
+\defSub{relative\_m\_by\_age}{The M-by-age selectivities to apply to each of the categories for natural mortality}
+\defType{Vector of strings}
+\defDefault{No default}
+
+\subsubsection{Process of type Mortality\_Instantaneous\_Retained}
+\commandlabsubarg{Process}{type}{Mortality\_Instantaneous\_Retained}.
+\defRef{sec:Process-MortalityInstantaneousRetained}
+\label{syntax:Process-MortalityInstantaneousRetained}
+
+\defSub{categories}{The categories for instantaneous mortality}
+\defType{Vector of strings}
+\defDefault{No default}
+
+\defSub{m}{The natural mortality rates for each category}
+\defType{Real number (estimable)}
+\defDefault{No default}
+\defLowerBound{0.0 (inclusive)}
+
+\defSub{time\_step\_proportions}{The time step proportions for natural mortality}
+\defType{Vector of real numbers}
+\defDefault{No default}
+\defLowerBound{0.0 (inclusive)}
+\defUpperBound{1.0 (inclusive)}
+\defValue{Proportions must sum to one}
+
+\defSub{relative\_m\_by\_age}{The M-by-age selectivities to apply on the categories for natural mortality}
+\defType{Vector of strings}
+\defDefault{No default}
+
+\subsubsection{Process of type Mortality\_Prey\_Suitability}
+\commandlabsubarg{Process}{type}{Mortality\_Prey\_Suitability}.
+\defRef{sec:Process-MortalityPreySuitability}
+\label{syntax:Process-MortalityPreySuitability}
+
+\defSub{prey\_categories}{The prey categories labels}
+\defType{Vector of strings}
+\defDefault{No default}
+
+\defSub{predator\_categories}{The predator categories labels}
+\defType{Vector of strings}
+\defDefault{No default}
+
+\defSub{consumption\_rate}{The predator consumption rate}
+\defType{Real number (estimable)}
+\defDefault{No default}
+\defLowerBound{0.0 (inclusive)}
+\defUpperBound{1.0 (inclusive)}
+
+\defSub{electivities}{The prey electivities}
+\defType{Vector of real numbers (estimable)}
+\defDefault{No default}
+\defLowerBound{0.0 (inclusive)}
+\defUpperBound{1.0 (inclusive)}
+
+\defSub{u\_max}{The maximum exploitation rate ($U\_{max}$)}
+\defType{Real number}
+\defDefault{0.99}
+\defLowerBound{0.0 (inclusive)}
+\defUpperBound{1.0 (exclusive)}
+
+\defSub{prey\_selectivities}{The selectivities for prey categories}
+\defType{Vector of strings}
+\defDefault{No default}
+
+\defSub{predator\_selectivities}{The selectivities for predator categories}
+\defType{Vector of strings}
+\defDefault{No default}
+
+\defSub{penalty}{The label of the penalty}
+\defType{String}
+\defDefault{No default}
+
+\defSub{years}{The year that process occurs}
+\defType{Vector of non-negative integers}
+\defDefault{No default}
+
+\subsubsection{Process of type null process}
+\commandlabsubarg{Process}{type}{null\_preocess}.
+\defRef{sec:Process-Null}
+\label{syntax:Process-Null}
+
+The null\_process  type has no additional subcommands. Note that this process does nothing. It is included primarily as a means of replacing other processes with "no action" to allow for testing of alternative scenarios]
+
+\subsubsection{Process of type Recruitment\_Beverton\_Holt}
+\commandlabsubarg{Process}{type}{Recruitment\_Beverton\_Holt}.
+\defRef{sec:Process-RecruitmentBevertonHolt}
+\label{syntax:Process-RecruitmentBevertonHolt}
+
+\defSub{categories}{The category labels}
+\defType{Vector of strings}
+\defDefault{No default}
+
+\defSub{r0}{R0, the mean recruitment used to scale annual recruits or initialise the model}
+\defType{Real number (estimable)}
+\defDefault{No default}
+\defLowerBound{0.0 (inclusive)}
+\defValue{Use either R0 or B0, but not both}
+
+\defSub{b0}{B0, the SSB corresponding to R0, and used to scale annual recruits or initialise the model}
+\defType{Real number (estimable)}
+\defDefault{No default}
+\defLowerBound{0.0 (inclusive)}
+\defValue{Use either R0 or B0, but not both}
+
+\defSub{proportions}{The proportion for each category}
+\defType{Real number (estimable)}
+\defDefault{No default}
+
+\defSub{age}{The age at recruitment}
+\defType{Non-negative integer}
+\defDefault{No default}
+
+\defSub{ssb\_offset}{The spawning biomass year offset}
+\defType{Non-negative integer}
+\defDefault{No default}
+
+\defSub{steepness}{Steepness (h)}
+\defType{Real number (estimable)}
+\defDefault{1.0}
+\defLowerBound{0.2 (inclusive)}
+\defUpperBound{1.0 (inclusive)}
+
+\defSub{ssb}{The SSB label (i.e., the derived quantity label)}
+\defType{String}
+\defDefault{No default}
+
+\defSub{b0\_initialisation\_phase}{The initialisation phase label that B0 is from}
+\defType{String}
+\defDefault{No default}
+
+\defSub{ycs\_values}{The YCS values}
+\defType{Vector of real numbers (estimable)}
+\defDefault{No default}
+
+\defSub{ycs\_years}{The recruitment years. A vector of years that relates to the year of the spawning event that created this cohort}
+\defType{Vector of non-negative integers}
+\defDefault{false}
+
+\defSub{standardise\_ycs\_years}{The years that are included for year class standardisation}
+\defType{Vector of non-negative integers}
+\defDefault{true}
+
+\subsubsection{Process of type Recruitment\_Beverton\_Holt\_With\_Deviations}
+\commandlabsubarg{Process}{type}{Recruitment\_Beverton\_Holt\_With\_Deviations}.
+\defRef{sec:Process-RecruitmentBevertonHoltWithDeviations}
+\label{syntax:Process-RecruitmentBevertonHoltWithDeviations}
+
+\defSub{categories}{The category labels}
+\defType{Vector of strings}
+\defDefault{No default}
+
+\defSub{r0}{R0, the mean recruitment used to scale annual recruits or initialise the model}
+\defType{Real number (estimable)}
+\defDefault{No default}
+\defLowerBound{0.0 (inclusive)}
+\defValue{Use either R0 or B0, but not both}
+
+\defSub{b0}{B0, the SSB corresponding to R0, and used to scale annual recruits or initialise the model}
+\defType{Real number (estimable)}
+\defDefault{No default}
+\defLowerBound{0.0 (inclusive)}
+\defValue{Use either R0 or B0, but not both}
+
+\defSub{proportions}{The proportion for each category}
+\defType{Real number (estimable)}
+\defDefault{No default}
+
+\defSub{age}{The age at recruitment}
+\defType{Non-negative integer}
+\defDefault{true}
+
+\defSub{ssb\_offset}{The spawning biomass year offset}
+\defType{Non-negative integer}
+\defDefault{No default}
+
+\defSub{steepness}{Steepness (h)}
+\defType{Real number (estimable)}
+\defDefault{1.0}
+\defLowerBound{0.2 (inclusive)}
+\defUpperBound{1.0 (inclusive)}
+
+\defSub{ssb}{The SSB label (i.e., the derived quantity label)}
+\defType{String}
+\defDefault{No default}
+\defValue(A valid derived quantity)
+
+\defSub{sigma\_r}{The standard deviation of recruitment, $\sigma_R$}
+\defType{Real number (estimable)}
+\defDefault{No default}
+\defLowerBound{0.0 (inclusive)}
+
+\defSub{b\_max}{The maximum bias adjustment}
+\defType{Real number (estimable)}
+\defDefault{0.85}
+\defLowerBound{0.0 (inclusive)}
+\defUpperBound{1.0 (inclusive)}
+
+\defSub{last\_year\_with\_no\_bias}{The last year with no bias adjustment}
+\defType{Non-negative integer}
+\defDefault{false}
+
+\defSub{first\_year\_with\_bias}{The first year with full bias adjustment}
+\defType{Non-negative integer}
+\defDefault{false}
+
+\defSub{last\_year\_with\_bias}{The last year with full bias adjustment}
+\defType{Non-negative integer}
+\defDefault{false}
+
+\defSub{first\_recent\_year\_with\_no\_bias}{The first recent year with no bias adjustment}
+\defType{Non-negative integer}
+\defDefault{false}
+
+\defSub{b0\_initialisation\_phase}{The initialisation phase label that B0 is from}
+\defType{String}
+\defDefault{No default}
+
+\defSub{deviation\_values}{The recruitment deviation values}
+\defType{Vector of real numbers (estimable)}
+\defDefault{No default}
+
+\defSub{deviation\_years}{The recruitment years. A vector of years that relates to the year of the spawning event that created this cohort}
+\defType{Vector of non-negative integers}
+\defDefault{false}
+
+\subsubsection{Process of type Recruitment\_Constant}
+\commandlabsubarg{Process}{type}{Recruitment\_Constant}.
+\defRef{sec:Process-RecruitmentConstant}
+\label{syntax:Process-RecruitmentConstant}
+
+\defSub{categories}{The categories}
+\defType{Vector of strings}
+\defDefault{No default}
+
+\defSub{proportions}{The proportion for each category}
+\defType{Real number (estimable)}
+\defDefault{true}
+
+\defSub{age}{The age at recruitment}
+\defType{Non-negative integer}
+\defDefault{No default}
+
+\defSub{r0}{R0, the recruitment used for annual recruits and initialise the model}
+\defType{Real number (estimable)}
+\defDefault{No default}
+\defLowerBound{0.0 (inclusive)}
+
+\subsubsection{Process of type Survival\_Constant\_Rate}
+\commandlabsubarg{Process}{type}{Survival\_Constant\_Rate}.
+\defRef{sec:Process-SurvivalConstantRate}
+\label{syntax:Process-SurvivalConstantRate}
+
+\defSub{categories}{The list of categories}
+\defType{Vector of strings}
+\defDefault{No default}
+
+\defSub{s}{The survival rates}
+\defType{Real number (estimable)}
+\defDefault{No default}
+\defLowerBound{0.0 (inclusive)}
+\defUpperBound{1.0 (inclusive)}
+
+\defSub{time\_step\_proportions}{The time step proportions for the survival rate $S$}
+\defType{Vector of real numbers}
+\defDefault{true}
+\defLowerBound{0.0 (exclusive)}
+\defUpperBound{1.0 (inclusive)}
+\defValue{The proportions must sum to one}
+
+\defSub{selectivities}{The selectivity labels for each category}
+\defType{Vector of strings}
+\defDefault{No default}
+
+\subsubsection{Process of type Tag\_By\_Age}
+\commandlabsubarg{Process}{type}{Tag\_By\_Age}.
+\defRef{sec:Process-TagByAge}
+\label{syntax:Process-TagByAge}
+
+\defSub{from}{The categories that are selected for tagging (i.e, transition from)}
+\defType{Vector of strings}
+\defDefault{No default}
+
+\defSub{to}{The categories that have tags (i.e., transition to)}
+\defType{Vector of strings}
+\defDefault{No default}
+
+\defSub{min\_age}{The minimum age tagged}
+\defType{Non-negative integer}
+\defDefault{No default}
+
+\defSub{max\_age}{The maximum age tagged}
+\defType{Non-negative integer}
+\defDefault{No default}
+
+\defSub{penalty}{The penalty label}
+\defType{String}
+\defDefault{No default}
+
+\defSub{u\_max}{The maximum exploitation rate ($U\_{max}$)}
+\defType{Real number}
+\defDefault{0.99}
+\defLowerBound{0.0 (inclusive)}
+\defUpperBound{1.0 (exclusive)}
+
+\defSub{years}{The years to execute the tagging in}
+\defType{Vector of non-negative integers}
+\defDefault{No default}
+
+\defSub{initial\_mortality}{The initial mortality value}
+\defType{Real number (estimable)}
+\defDefault{0.0}
+\defLowerBound{0.0 (inclusive)}
+
+\defSub{initial\_mortality\_selectivity}{The initial mortality selectivity label}
+\defType{String}
+\defDefault{No default}
+
+\defSub{loss\_rate}{The loss rate}
+\defType{Vector of real numbers (estimable)}
+\defDefault{No default}
+
+\defSub{loss\_rate\_selectivities}{The loss rate selectivity label}
+\defType{Vector of strings}
+\defDefault{true}
+
+\defSub{selectivities}{The selectivity labels}
+\defType{Vector of strings}
+\defDefault{No default}
+
+\defSub{n}{N}
+\defType{Vector of real numbers (estimable)}
+\defDefault{true}
+
+\subsubsection{Process of type Tag\_By\_Length}
+\commandlabsubarg{Process}{type}{Tag\_By\_Length}.
+\defRef{sec:Process-TagByLength}
+\label{syntax:Process-TagByLength}
+
+\defSub{from}{The categories to transition from}
+\defType{Vector of strings}
+\defDefault{No default}
+
+\defSub{to}{The categories to transition to}
+\defType{Vector of strings}
+\defDefault{No default}
+
+\defSub{penalty}{The penalty label}
+\defType{String}
+\defDefault{No default}
+
+\defSub{u\_max}{The maximum exploitation rate ($U\_{max}$)}
+\defType{Real number (estimable)}
+\defDefault{0.99}
+\defLowerBound{0.0 (inclusive)}
+\defUpperBound{1.0 (exclusive)}
+
+\defSub{years}{The years to execute the transition in}
+\defType{Vector of non-negative integers}
+\defDefault{No default}
+
+\defSub{initial\_mortality}{}
+\defType{Real number (estimable)}
+\defDefault{0.0}
+\defLowerBound{0.0 (inclusive)}
+\defUpperBound{1.0 (inclusive)}
+
+\defSub{initial\_mortality\_selectivity}{}
+\defType{String}
+\defDefault{No default}
+
+\defSub{selectivities}{}
+\defType{Vector of strings}
+\defDefault{No default}
+
+\defSub{n}{}
+\defType{Vector of real numbers (estimable)}
+\defDefault{true}
+
+\defSub{tolerance}{Tolerance for checking the proportions to move in each year}
+\defType{Real number (estimable)}
+\defDefault{1e-5}
+\defLowerBound{0 (inclusive)}
+\defUpperBound{1.0 (inclusive)}
+
+\subsubsection{Process of type Tag\_Loss}
+\commandlabsubarg{Process}{type}{Tag\_Loss}.
+\defRef{sec:Process-TagLoss}
+\label{syntax:Process-TagLoss}
+
+\defSub{categories}{The list of categories}
+\defType{Vector of strings}
+\defDefault{No default}
+
+\defSub{tag\_loss\_rate}{The tag loss rates}
+\defType{Vector of real numbers (estimable)}
+\defDefault{No default}
+\defLowerBound{0.0 (inclusive)}
+
+\defSub{time\_step\_ratio}{The time step ratios for tag loss}
+\defType{Vector of real numbers (estimable)}
+\defDefault{true}
+\defLowerBound{0.0 (inclusive)}
+\defUpperBound{1.0 (inclusive)}
+
+\defSub{tag\_loss\_type}{The type of tag loss}
+\defType{String}
+\defDefault{No default}
+
+\defSub{selectivities}{The selectivities}
+\defType{Vector of strings}
+\defDefault{No default}
+
+\defSub{year}{The year the first tagging release process was executed}
+\defType{Non-negative integer}
+\defDefault{No default}
+
+\subsubsection{Process of type Transition\_Category}
+\commandlabsubarg{Process}{type}{Transition\_Category}.
+\defRef{sec:Process-TransitionCategory}
+\label{syntax:Process-TransitionCategory}
+
+\defSub{from}{The from category}
+\defType{Vector of strings}
+\defDefault{No default}
+
+\defSub{to}{The to category}
+\defType{Vector of strings}
+\defDefault{No default}
+
+\defSub{proportions}{The proportions}
+\defType{Real number (estimable)}
+\defDefault{No default}
+\defLowerBound{0.0 (inclusive)}
+\defUpperBound{1.0 (inclusive)}
+
+\defSub{selectivities}{The selectivity names}
+\defType{Vector of strings}
+\defDefault{No default}
+
+\subsubsection{Process of type Transition\_Category\_By\_Age}
+\commandlabsubarg{Process}{type}{Transition\_Category\_By\_Age}.
+\defRef{sec:Process-TransitionCategoryByAge}
+\label{syntax:Process-TransitionCategoryByAge}
+
+\defSub{from}{The categories to transition from}
+\defType{Vector of strings}
+\defDefault{No default}
+
+\defSub{to}{The categories to transition to}
+\defType{Vector of strings}
+\defDefault{No default}
+
+\defSub{min\_age}{The minimum age to transition}
+\defType{Non-negative integer}
+\defDefault{No default}
+
+\defSub{max\_age}{The maximum age to transition}
+\defType{Non-negative integer}
+\defDefault{No default}
+
+\defSub{penalty}{The penalty label}
+\defType{String}
+\defDefault{No default}
+
+\defSub{u\_max}{The maximum exploitation rate ($U\_{max}$)}
+\defType{Real number (estimable)}
+\defDefault{0.99}
+\defLowerBound{0.0 (inclusive)}
+\defUpperBound{1.0 (inclusive)}
+
+\defSub{years}{The years to execute the transition in}
+\defType{Vector of non-negative integers}
+\defDefault{No default}
+
+\subsubsection{Process of type Unit\_Tester}
+\commandlabsubarg{Process}{type}{Unit\_Tester}.
+\defRef{sec:Process-UnitTester}
+\label{syntax:Process-UnitTester}
+
+The Unit\_Tester type has no additional subcommands.

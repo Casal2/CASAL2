@@ -37,7 +37,7 @@ void EstimationResult::DoExecute(shared_ptr<Model> model) {
     LOG_CODE_ERROR() << "minimiser == nullptr";
   }
 
-  cache_ << ReportHeader(type_, label_);
+  cache_ << ReportHeader(type_, label_, format_);
   cache_ << PARAM_MINIMIZER << ": " << minimiser->label() << REPORT_EOL;
   cache_ << PARAM_TYPE << ": " << minimiser->type() << REPORT_EOL;
   cache_ << "Result " << REPORT_R_STRING_VECTOR << REPORT_EOL;

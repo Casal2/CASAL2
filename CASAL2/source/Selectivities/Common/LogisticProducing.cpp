@@ -29,9 +29,9 @@ namespace selectivities {
 LogisticProducing::LogisticProducing(shared_ptr<Model> model) : Selectivity(model) {
   parameters_.Bind<unsigned>(PARAM_L, &low_, "The low value (L)", "");
   parameters_.Bind<unsigned>(PARAM_H, &high_, "The high value (H)", "");
-  parameters_.Bind<Double>(PARAM_A50, &a50_, "a50", "");
-  parameters_.Bind<Double>(PARAM_ATO95, &ato95_, "ato95", "")->set_lower_bound(0.0, false);
-  parameters_.Bind<Double>(PARAM_ALPHA, &alpha_, "alpha", "", 1.0)->set_lower_bound(0.0, false);
+  parameters_.Bind<Double>(PARAM_A50, &a50_, "the a50 parameter", "");
+  parameters_.Bind<Double>(PARAM_ATO95, &ato95_, "The ato95 parameter", "")->set_lower_bound(0.0, false);
+  parameters_.Bind<Double>(PARAM_ALPHA, &alpha_, "The maximum value of the selectivity", "", 1.0)->set_lower_bound(0.0, false);
 
   RegisterAsAddressable(PARAM_A50, &a50_);
   RegisterAsAddressable(PARAM_ATO95, &ato95_);

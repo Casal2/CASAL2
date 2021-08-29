@@ -47,7 +47,7 @@ void AgeLength::DoExecute(shared_ptr<Model> model) {
   unsigned time_steps = model->time_steps().size();
 
   // Print the header
-  cache_ << ReportHeader(type_, label_);
+  cache_ << ReportHeader(type_, label_, format_);
   cache_ << "year: " << model->current_year() << REPORT_EOL;
   cache_ << "time_step: " << time_step_ << REPORT_EOL;
 

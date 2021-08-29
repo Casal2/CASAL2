@@ -32,10 +32,9 @@ MortalityEventBiomass::MortalityEventBiomass(shared_ptr<Model> model) : Process(
   parameters_.Bind<string>(PARAM_SELECTIVITIES, &selectivity_labels_, "The labels of the selectivities for each of the categories", "");
   parameters_.Bind<unsigned>(PARAM_YEARS, &years_, "The years in which to apply the mortality process", "");
   parameters_.Bind<Double>(PARAM_CATCHES, &catches_, "The biomass of removals (catches) to apply for each year", "");
-  parameters_.Bind<Double>(PARAM_U_MAX, &u_max_, "The maximum exploitation rate ($U_{max}$)", "", 0.99)->set_range(0.0, 1.0);
+  parameters_.Bind<double>(PARAM_U_MAX, &u_max_, "The maximum exploitation rate, U_max", "", 0.99)->set_range(0.0, 1.0);
   parameters_.Bind<string>(PARAM_PENALTY, &penalty_label_, "The label of the penalty to apply if the total biomass of removals cannot be taken", "", "");
 
-  RegisterAsAddressable(PARAM_U_MAX, &u_max_);
   RegisterAsAddressable(PARAM_CATCHES, &catch_years_);
 
   process_type_        = ProcessType::kMortality;

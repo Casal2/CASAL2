@@ -23,7 +23,7 @@ namespace niwa {
 Project::Project(shared_ptr<Model> model) : model_(model) {
   parameters_.Bind<string>(PARAM_LABEL, &label_, "Label", "");
   parameters_.Bind<string>(PARAM_TYPE, &type_, "Type", "", "");
-  parameters_.Bind<unsigned>(PARAM_YEARS, &years_, "Years to recalculate the values", "", true);
+  parameters_.Bind<unsigned>(PARAM_YEARS, &years_, "Years to recalculate the values", "", false);
   parameters_.Bind<string>(PARAM_PARAMETER, &parameter_, "Parameter to project", "");
   parameters_.Bind<Double>(PARAM_MULTIPLIER, &multiplier_, "Multiplier that is applied to the projected value", "", 1.0)->set_lower_bound(0, false);
 

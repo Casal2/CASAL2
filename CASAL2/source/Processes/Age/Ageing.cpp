@@ -5,7 +5,7 @@
  * @date 20/12/2012
  * @section LICENSE
  *
- * Copyright NIWA Science ©2012 - www.niwa.co.nz
+ * Copyright NIWA Science ï¿½2012 - www.niwa.co.nz
  *
  * $Date: 2008-03-04 16:33:32 +1300 (Tue, 04 Mar 2008) $
  */
@@ -30,7 +30,7 @@ Ageing::Ageing(shared_ptr<Model> model) : Process(model), partition_(model) {
   process_type_        = ProcessType::kAgeing;
   partition_structure_ = PartitionType::kAge;
 
-  parameters_.Bind<string>(PARAM_CATEGORIES, &category_labels_, "The labels of the categories", "");
+  parameters_.Bind<string>(PARAM_CATEGORIES, &category_labels_, "The labels of the categories to age", "");
 }
 
 /**

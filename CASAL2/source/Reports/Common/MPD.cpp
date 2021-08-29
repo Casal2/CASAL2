@@ -35,7 +35,7 @@ MPD::MPD() {
  * Execute this report
  */
 void MPD::DoExecute(shared_ptr<Model> model) {
-  cache_ << ReportHeader(type_, label_);
+  cache_ << ReportHeader(type_, label_, format_);
   /**
    * Print our Estimate Values
    */

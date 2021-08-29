@@ -37,15 +37,15 @@ TagByAge::TagByAge(shared_ptr<Model> model) : Process(model), to_partition_(mode
   parameters_.Bind<unsigned>(PARAM_MIN_AGE, &min_age_, "The minimum age to transition", "");
   parameters_.Bind<unsigned>(PARAM_MAX_AGE, &max_age_, "The maximum age to transition", "");
   parameters_.Bind<string>(PARAM_PENALTY, &penalty_label_, "The penalty label", "", "");
-  parameters_.Bind<Double>(PARAM_U_MAX, &u_max_, "The maximum exploitation rate ($U_{max}$)", "", 0.99)->set_range(0.0, 1.0);
+  parameters_.Bind<double>(PARAM_U_MAX, &u_max_, "The maximum exploitation rate, U_max", "", 0.99)->set_range(0.0, 1.0, true, false);
   parameters_.Bind<unsigned>(PARAM_YEARS, &years_, "The years to execute the transition in", "");
-  parameters_.Bind<Double>(PARAM_INITIAL_MORTALITY, &initial_mortality_, "The initial mortality value", "", 0.0)->set_lower_bound(0.0);
+  parameters_.Bind<Double>(PARAM_INITIAL_MORTALITY, &initial_mortality_, "The initial mortality proportion", "", 0.0)->set_range(0.0, 1.0);
   parameters_.Bind<string>(PARAM_INITIAL_MORTALITY_SELECTIVITY, &initial_mortality_selectivity_label_, "The initial mortality selectivity label", "", "");
   parameters_.Bind<Double>(PARAM_LOSS_RATE, &loss_rate_, "The loss rate", "");
   parameters_.Bind<string>(PARAM_LOSS_RATE_SELECTIVITIES, &loss_rate_selectivity_labels_, "The loss rate selectivity label", "", true);
   parameters_.Bind<string>(PARAM_SELECTIVITIES, &selectivity_labels_, "The selectivity labels", "");
   parameters_.Bind<Double>(PARAM_N, &n_, "N", "", true);
-  parameters_.BindTable(PARAM_NUMBERS, numbers_table_, "The table of N data", "", true, true);
+  parameters_.BindTable(PARAM_NUMBERS, numbers_table_, "The table of N data (each row is the year then numbers for each age)", "", true, true);
   parameters_.BindTable(PARAM_PROPORTIONS, proportions_table_, "The table of proportions to move", "", true, true);
 }
 
@@ -65,8 +65,8 @@ void TagByAge::DoValidate() {
     LOG_ERROR_P(PARAM_TO) << " number of values supplied (" << to_category_labels_.size() << ") does not match the number of from categories provided ("
                           << from_category_labels_.size() << ")";
   }
-  if (u_max_ <= 0.0 || u_max_ > 1.0)
-    LOG_ERROR_P(PARAM_U_MAX) << " (" << u_max_ << ") must be greater than 0.0 and less than or equal to 1.0";
+  if (u_max_ < 0.0 || u_max_ > 1.0)
+    LOG_ERROR_P(PARAM_U_MAX) << " (" << u_max_ << ") must be greater than or equal to 0.0 and less than 1.0";
   if (min_age_ < model_->min_age())
     LOG_ERROR_P(PARAM_MIN_AGE) << " (" << min_age_ << ") is less than the model's minimum age (" << model_->min_age() << ")";
   if (max_age_ > model_->max_age())

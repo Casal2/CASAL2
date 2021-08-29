@@ -32,7 +32,7 @@ RandomNumberSeed::RandomNumberSeed() {
 void RandomNumberSeed::DoExecute(shared_ptr<Model> model) {
   // Header
   // cache_ << CONFIG_ARRAY_START << label_ << CONFIG_ARRAY_END << "\n";
-  cache_ << ReportHeader(type_, label_);
+  cache_ << ReportHeader(type_, label_, format_);
   cache_ << PARAM_RANDOM_NUMBER_SEED << ": " << model->global_configuration().random_seed() << REPORT_EOL;
   ready_for_writing_ = true;
 }

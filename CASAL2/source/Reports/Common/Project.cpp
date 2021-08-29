@@ -64,7 +64,7 @@ void Project::DoExecute(shared_ptr<Model> model) {
 
   LOG_FINE() << " printing report " << label_ << " of type " << project_->type();
   map<unsigned, Double>& values = project_->projected_parameters();
-  cache_ << ReportHeader(type_, label_);
+  cache_ << ReportHeader(type_, label_, format_);
   cache_ << "project: " << project_label_ << REPORT_EOL;
   cache_ << "values " << REPORT_R_VECTOR << REPORT_EOL;
   for (auto value : values) {

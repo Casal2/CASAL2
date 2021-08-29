@@ -1,0 +1,114 @@
+\defComLab{Additional\_Prior}{Define an object of type \emph{Additional\_Prior}}.
+\defRef{sec:AdditionalPrior}
+\label{syntax:AdditionalPrior}
+
+\defSub{label}{The label for the additional prior}
+\defType{String}
+\defDefault{No default}
+
+\defSub{parameter}{The name of the parameter for the additional prior}
+\defType{String}
+\defDefault{No default}
+
+\defSub{type}{The additional prior type}
+\defType{String}
+\defDefault{No default}
+
+\subsubsection{Additional\_Prior of type Beta}
+\commandlabsubarg{Additional\_Prior}{type}{Beta}.
+\defRef{sec:AdditionalPrior-Beta}
+\label{syntax:AdditionalPrior-Beta}
+
+\defSub{mu}{Beta distribution mean $\mu$ parameter}
+\defType{Real number (estimable)}
+\defDefault{No default}
+
+\defSub{sigma}{Beta distribution variance $\sigma$ parameter}
+\defType{Real number (estimable)}
+\defDefault{No default}
+\defLowerBound{0.0 (exclusive)}
+
+\defSub{a}{Beta distribution lower bound, of the range $A$ parameter}
+\defType{Real number (estimable)}
+\defDefault{No default}
+
+\defSub{b}{Beta distribution upper bound of the range $B$ parameter}
+\defType{Real number (estimable)}
+\defDefault{No default}
+
+\subsubsection{Additional\_Prior of type Element\_Difference}
+\commandlabsubarg{Additional\_Prior}{type}{Element\_Difference}.
+\defRef{sec:AdditionalPrior-ElementDifference}
+\label{syntax:AdditionalPrior-ElementDifference}
+
+\defSub{second\_parameter}{The name of the second parameter for comparing}
+\defType{String}
+\defDefault{No default}
+
+\defSub{multiplier}{Multiply the penalty by this factor}
+\defType{Real number (estimable)}
+\defDefault{1}
+
+\subsubsection{Additional\_Prior of type Log\_Normal}
+\commandlabsubarg{Additional\_Prior}{type}{Log\_Normal}.
+\defRef{sec:AdditionalPrior-LogNormal}
+\label{syntax:AdditionalPrior-LogNormal}
+
+\defSub{mu}{The lognormal prior mean (mu) parameter}
+\defType{Real number (estimable)}
+\defDefault{No default}
+\defLowerBound{0.0 (exclusive)}
+
+\defSub{cv}{The lognormal CV parameter}
+\defType{Real number (estimable)}
+\defDefault{No default}
+\defLowerBound{0.0 (exclusive)}
+
+\subsubsection{Additional\_Prior of type Uniform\_Log}
+\commandlabsubarg{Additional\_Prior}{type}{Uniform\_Log}.
+\defRef{sec:AdditionalPrior-UniformLog}
+\label{syntax:AdditionalPrior-UniformLog}
+
+The Uniform\_Log type has no additional subcommands.
+\subsubsection{Additional\_Prior of type Vector\_Average}
+\commandlabsubarg{Additional\_Prior}{type}{Vector\_Average}.
+\defRef{sec:AdditionalPrior-VectorAverage}
+\label{syntax:AdditionalPrior-VectorAverage}
+
+\defSub{method}{Which calculation method to use: k, l, or m}
+\defType{String}
+\defDefault{k}
+
+\defSub{k}{The k value to use in the calculation}
+\defType{Real number (estimable)}
+\defDefault{No default}
+
+\defSub{multiplier}{Multiplier for the penalty amount}
+\defType{Real number (estimable)}
+\defDefault{1}
+
+\subsubsection{Additional\_Prior of type Vector\_Smoothing}
+\commandlabsubarg{Additional\_Prior}{type}{Vector\_Smoothing}.
+\defRef{sec:AdditionalPrior-VectorSmoothing}
+\label{syntax:AdditionalPrior-VectorSmoothing}
+
+\defSub{log\_scale}{Should the sums of squares be calculated on the log scale?}
+\defType{Boolean}
+\defDefault{false}
+
+\defSub{multiplier}{Multiply the penalty by this factor}
+\defType{Real number (estimable)}
+\defDefault{1}
+
+\defSub{lower\_bound}{The first element to apply the penalty to in the vector}
+\defType{Non-negative integer}
+\defDefault{0}
+
+\defSub{upper\_bound}{The last element to apply the penalty to in the vector}
+\defType{Non-negative integer}
+\defDefault{0}
+
+\defSub{r}{Penalty applied to rth differences}
+\defType{Non-negative integer}
+\defDefault{2}
+

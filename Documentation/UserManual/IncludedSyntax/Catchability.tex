@@ -1,0 +1,39 @@
+\defComLab{Catchability}{Define an object of type \emph{Catchability}}.
+\defRef{sec:Catchability}
+\label{syntax:Catchability}
+
+\defSub{label}{Label of the catchability}
+\defType{String}
+\defDefault{No default}
+
+\defSub{type}{The type of catchability}
+\defType{String}
+\defDefault{No default}
+
+\subsubsection{Catchability of type Free}
+\commandlabsubarg{Catchability}{type}{Free}.
+\defRef{sec:Catchability-Free}
+\label{syntax:Catchability-Free}
+
+\defSub{q}{The value of the catchability}
+\defType{Real number (estimable)}
+\defDefault{No default}
+\defLowerBound{0.0 (inclusive)}
+
+\subsubsection{Catchability of type Nuisance}
+\commandlabsubarg{Catchability}{type}{Nuisance}.
+\defRef{sec:Catchability-Nuisance}
+\label{syntax:Catchability-Nuisance}
+
+\defSub{lower\_bound}{The upper bound for nuisance catchability}
+\defType{Real number (estimable)}
+\defDefault{No default}
+
+\defSub{upper\_bound}{The lower bound for nuisance catchability}
+\defType{Real number (estimable)}
+\defDefault{No default}
+
+\defSub{q}{}
+\defType{Addressable}
+\defDefault{No default}
+

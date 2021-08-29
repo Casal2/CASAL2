@@ -30,7 +30,7 @@ Increasing::Increasing(shared_ptr<Model> model) : Selectivity(model) {
   parameters_.Bind<unsigned>(PARAM_L, &low_, "The low value (L)", "");
   parameters_.Bind<unsigned>(PARAM_H, &high_, "The high value (H)", "");
   parameters_.Bind<Double>(PARAM_V, &v_, "The v parameter", "");
-  parameters_.Bind<Double>(PARAM_ALPHA, &alpha_, "alpha", "", 1.0)->set_lower_bound(0.0, false);
+  parameters_.Bind<Double>(PARAM_ALPHA, &alpha_, "The maximum value of the selectivity", "", 1.0)->set_lower_bound(0.0, false);
 
   RegisterAsAddressable(PARAM_V, &v_);
 }

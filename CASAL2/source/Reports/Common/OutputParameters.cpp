@@ -40,7 +40,7 @@ void OutputParameters::DoExecute(shared_ptr<Model> model) {
   if (first_run_) {
     first_run_ = false;
     if (!skip_tags_) {
-      cache_ << ReportHeader(type_, label_);
+      cache_ << ReportHeader(type_, label_, format_);
       cache_ << "values " << REPORT_R_MATRIX << REPORT_EOL;
     }
     for (Estimate* estimate : estimates) cache_ << estimate->parameter() << " ";

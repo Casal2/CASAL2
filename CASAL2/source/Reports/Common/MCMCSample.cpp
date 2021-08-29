@@ -45,7 +45,7 @@ void MCMCSample::DoBuild(shared_ptr<Model> model) {
  */
 void MCMCSample::DoPrepare(shared_ptr<Model> model) {
   if (!model->global_configuration().resume_mcmc()) {
-    cache_ << ReportHeader(type_, label_);
+    cache_ << ReportHeader(type_, label_, format_);
     auto estimates = model->managers()->estimate()->GetIsEstimated();
     for (unsigned i = 0; i < estimates.size() - 1; ++i) cache_ << estimates[i]->parameter() << " ";
     cache_ << estimates[estimates.size() - 1]->parameter() << REPORT_EOL;

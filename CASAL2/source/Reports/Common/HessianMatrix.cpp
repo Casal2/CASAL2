@@ -35,7 +35,7 @@ void HessianMatrix::DoExecute(shared_ptr<Model> model) {
   hessian_              = minimiser_->hessian_matrix();
   unsigned hessian_size = minimiser_->hessian_size();
 
-  cache_ << ReportHeader(type_, label_);
+  cache_ << ReportHeader(type_, label_, format_);
   cache_ << "hessian_matrix " << REPORT_R_MATRIX << REPORT_EOL;
   for (unsigned i = 0; i < hessian_size; ++i) {
     for (unsigned j = 0; j < hessian_size; ++j) {

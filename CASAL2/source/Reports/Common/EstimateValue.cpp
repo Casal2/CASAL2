@@ -47,7 +47,7 @@ void EstimateValue::DoExecute(shared_ptr<Model> model) {
 
   if (estimates.size() > 0) {
     if (format_ == PARAM_R) {
-      cache_ << "*" << type_ << "[" << label_ << "]" << REPORT_EOL;
+      cache_ << ReportHeader(type_, label_, format_);
       cache_ << "values " << REPORT_R_DATAFRAME << REPORT_EOL;
       for (Estimate* estimate : estimates) cache_ << estimate->parameter() << " ";
       cache_ << REPORT_EOL;
@@ -101,7 +101,7 @@ void EstimateValue::DoExecuteTabular(shared_ptr<Model> model) {
    */
   if (first_run_) {
     first_run_ = false;
-    cache_ << ReportHeader(type_, label_);
+    cache_ << ReportHeader(type_, label_, format_);
     cache_ << "values " << REPORT_R_DATAFRAME << REPORT_EOL;
     for (Estimate* estimate : estimates) cache_ << estimate->parameter() << " ";
     cache_ << REPORT_EOL;

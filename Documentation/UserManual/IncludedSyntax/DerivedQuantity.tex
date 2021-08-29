@@ -1,0 +1,53 @@
+\defComLab{Derived\_Quantity}{Define an object of type \emph{Derived\_Quantity}}.
+\defRef{sec:DerivedQuantity}
+\label{syntax:DerivedQuantity}
+
+\defSub{label}{The label of the derived quantity}
+\defType{String}
+\defDefault{No default}
+
+\defSub{type}{The type of derived quantity}
+\defType{String}
+\defDefault{No default}
+
+\defSub{time\_step}{The time step in which to calculate the derived quantity}
+\defType{String}
+\defDefault{No default}
+
+\defSub{categories}{The list of categories to use when calculating the derived quantity}
+\defType{Vector of strings}
+\defDefault{No default}
+
+\defSub{selectivities}{The list of selectivities to use when calculating the derived quantity}
+\defType{Vector of strings}
+\defDefault{No default}
+
+\defSub{time\_step\_proportion}{The proportion through the mortality block of the time step when the derived quantity is calculated}
+\defType{Real number (estimable)}
+\defDefault{0.5}
+\defLowerBound{0.0 (inclusive)}
+\defUpperBound{1.0 (inclusive)}
+
+\defSub{time\_step\_proportion\_method}{The method for interpolating for the proportion through the mortality block}
+\defType{String}
+\defDefault{weighted\_sum}
+
+\defSub{values}{}
+\defType{Vector of addressables}
+\defDefault{No default}
+
+\subsubsection{Derived\_Quantity of type Abundance}
+\commandlabsubarg{Derived\_Quantity}{type}{Abundance}.
+\defRef{sec:DerivedQuantity-Abundance}
+\label{syntax:DerivedQuantity-Abundance}
+
+The Abundance type has no additional subcommands.
+\subsubsection{Derived\_Quantity of type Biomass}
+\commandlabsubarg{Derived\_Quantity}{type}{Biomass}.
+\defRef{sec:DerivedQuantity-Biomass}
+\label{syntax:DerivedQuantity-Biomass}
+
+\defSub{age\_weight\_labels}{The labels for the age-weights that correspond to each category for the biomass calculation}
+\defType{Vector of strings}
+\defDefault{No default}
+

@@ -4,7 +4,7 @@
 
 The \config\ is required and defines the model structure, processes, observations, parameters (both the fixed parameters and the parameters to be estimated)\index{Estimable parameters}, and the requested reports (outputs).
 
-By convention, the name of the \config\ ends with the suffix \texttt{.csl2}. However, any suffix is acceptable. The default name for the \config\ is \emph{config.csl2} and if used it does not have to be specified as one of the command line arguments to to \CNAME. Note that the \config\ can include other separate files so the specification can be split into digestible parts. 
+By convention, the name of the \config\ ends with the suffix \texttt{.csl2}. However, any suffix is acceptable. The default name for the \config\ is \emph{config.csl2} and if used it does not have to be specified as one of the command line arguments to to \CNAME. Note that the \config\ can include other separate files so the specification can be split into digestible parts.
 
 Command line arguments\index{Command line arguments} are used to specify the actions or \emph{tasks}\index{Tasks} of \CNAME, e.g., to run a model with a set of parameter values, to estimate parameter values (either point estimates or MCMC), to project quantities, or to simulate observations.For example, \texttt{-r} is the \emph{run} mode, \texttt{-e} is the \emph{estimation} mode, and \texttt{-m} is the \emph{MCMC} mode. The \emph{command line arguments} are described in Section \ref{sec:CommandLineArguments}.
 
@@ -36,14 +36,9 @@ And, on some Microsoft Windows systems (e.g., Windows 10), you can redirect to b
 
 \CNAME\ outputs header information to the output (Figure~\ref{fig:log_file_1}). The header\index{Output header information} consists of the program name and version, the arguments passed to \CNAME\ from the command line, the date and time that the program was called (derived from the system time), the user name, and the machine name (including the operating system and the process identification number). This information can be used to track outputs as well as identifying the version of \CNAME\ used to run the model.
 
-\begin{figure}[htp]
-	\includegraphics[scale=1]{Figures/eglog.png}
-	\caption{\textbf{Example of output file header information.}}\label{fig:log_file_1}
-\end{figure}
-
 \vspace*{4mm}
 
-\subsection{\I{Command line arguments}\label{sec:command-line-arguments}}
+\subsection{\I{Command line arguments}\label{sec:CommandLineArguments}}
 
 \CNAME\ is called using:
 
@@ -62,96 +57,85 @@ and where \emph{task} must be one of the following (\textbf{[]} indicates a seco
 \item [\texttt{-l [-{}-licence]}] Display the reference for the software license (GPL v2)
 \item [\texttt{-v [-{}-version]}] Display the \CNAME\ version number
 
-\item [\texttt{-r [-{}-run]}] \emph{Run} the model once using the parameter values in the \config, or optionally with the parameter values from the file specified with argument \texttt{-i \emph{filename}}
+\item [\texttt{-r [-{}-run]}] \emph{Run} the model once using the parameter values in the \config, or optionally with the free parameter values from the file specified with argument \texttt{-i} or \texttt{-I}.
 
-\item [\texttt{-e [-{}-estimate]}] Do a point \emph{estimate} using the values in the \config\ as the starting point for the parameters to be estimated, or optionally with the starting parameter values from the file specified with the argument \texttt{-i \emph{filename}}.
+\item [\texttt{-e [-{}-estimate]}] Do a point \emph{estimate} using the values in the \config\ as the starting point for the parameters to be estimated, or optionally with the free parameter values from the file specified with argument \texttt{-i} or \texttt{-I}.
 
-\item [\texttt{[-{p}-profiling]}] Do a likelihood \emph{profile} using the parameter values in the \config\ as the starting point, or optionally with the starting parameter values from the file specified with the argument \texttt{-i \emph{filename}}
+\item [\texttt{-E [-{}-Estimate]} \emph{filename}] Do a point \emph{estimate} and generate an MPD file (ie.e., a file containing the free parameters and the covariance matrix). As with \texttt{-e}, this uses the values in the \config\ as the starting point for the parameters to be estimated, or optionally the free parameter values from the file specified with argument \texttt{-i} or \texttt{-I}.
 
-\item [\texttt{-m [-{}-mcmc]}] Do an \emph{MCMC} chain. The the co-variance matrix is first estimated using the values in the \config\ as the starting point for the parameters to be estimated, or optionally with the starting parameter values from the file specified with the argument \texttt{-i \emph{filename}}. Use \texttt{--skip-estimation} to skip estimating the co-variance matrix and to read it in from a file.
+\item [\texttt{[-{p}-profiling]}] Do a likelihood \emph{profile} using the parameter values in the \config\ as the starting point, or optionally with the free parameter values from the file specified with argument \texttt{-i} or \texttt{-I}
 
-\item [\texttt{-f [-{}-projection]}] \emph{arg}. Project the model \emph{forward} in time using the parameter values in the \config\ as the starting point for the estimation, or optionally with the parameter values from the file specified with the argument \texttt{-i \emph{filename}}. Repeat each parameter set \emph{arg} times (default 1). Normally, the MCMC sample are used via \texttt{-i}
+\item [\texttt{-m [-{}-mcmc]}] Do an \emph{MCMC}. An estimate run is fist carried out to estimate the co-variance matrix for the MCMC proposal distribution, using the values in the \config\ as the starting point for the parameters to be estimated. Optionally the free parameter values from the file specified with argument \texttt{-i} or \texttt{-I} can be used as the starting point.
 
-\item [\texttt{-s [-{}-simulation]} \emph{number}] \emph{Simulate} the \emph{number} of observation sets using values in the \config\ as the parameter values, or optionally with the parameter values from the file specified with the argument \texttt{-i \emph{filename}}
+\item [\texttt{-M [-{}-mcmc-from-estimate] \emph{filename}}] Do an \emph{MCMC} using the covariance and free parameters in the MPD file.
+
+\item [\texttt{-R [-{}-resume] \emph{filename}}] Resume a previously stopped\emph{MCMC} using the covariance and free parameters in the MPD file. Additional arguments must be supplied to specify the sample and objective files from the previous MCMC with \texttt{-{}-objective-file} and \texttt{-{}-sample-file}.
+
+\item [\texttt{-f [-{}-projection]}] \emph{arg}. Project the model \emph{forward} in time using the parameter values in the \config\ as the starting point for the estimation, or optionally with the parameter values from the file specified with the argument \texttt{-i} or \texttt{-I}. Projections are repeated for each parameter set (i.e., each line of data in the free parameter file) \emph{arg} times (the default is 1). Typically, the MCMC sample output will be used with \texttt{-i}.
+
+\item [\texttt{-s [-{}-simulation]} \emph{arg}] \emph{Simulate} \emph{arg} of observation sets using values in the \config\ as the parameter values, or optionally with the parameter values from the file specified with the argument \texttt{-i} or \texttt{-I}.
+
 \end{description}
 
-and where the following optional arguments\index{Optional command line arguments} [\emph{options}] may be specified
+The following optional arguments\index{Optional command line arguments} [\emph{options}] may be specified
 
 \begin{description}
-\item [\texttt{-i [-{}-input] \emph{filename}}] \emph{Input} one or more sets of free (estimated) parameter values from \texttt{\emph{filename}} (see Section \ref{sec:report-syntax} for details about the format of \texttt{\emph{filename}})
+\item [\texttt{-i [-{}-input] \emph{filename}}] \emph{Input} one or more sets of free (estimated) parameter values from \texttt{\emph{filename}} (see Section \ref{sec:report-syntax} for details about the format of \texttt{\emph{filename}}).
 
-\item [\texttt{-o [-{}-output]\emph{filename}}] \emph{Output} a report of the free (estimated) parameter values in a format suitable for \texttt{-i \emph{filename}} (see Section \ref{sec:report-syntax} for details about the format of \texttt{\emph{filename}})
+\item [\texttt{-I [-{}-input-force] \emph{filename}}] \emph{Input} one or more sets of parameter values from \texttt{\emph{filename}}. This contains both the free paramters and also force the \emph{overwrite} addressable (non-estimated) values in the \config\ (see Section \ref{sec:ReportSyntax} for details about the format of \texttt{\emph{filename}})
 
-\item [\texttt{-g [-{}-seed]\emph{seed}}] Initialise the random number \emph{generator} with \texttt{\emph{seed}}, a positive (long) integer value (note, if \texttt{-g} is not specified, then \CNAME\ will  generate a random number seed based on the computer clock time)
+\item [\texttt{-o [-{}-output] \emph{filename}}] \emph{Output} a report of the free (estimated) parameter values in a format suitable for \texttt{-i \emph{filename}} (see Section \ref{sec:ReportSyntax} for details about the format of \texttt{\emph{filename}})
 
-\item [\texttt{-{}-loglevel}] arg = \{trace, finest, fine, medium\} (see Section \ref{sec:Report})
+\item [\texttt{-g [-{}-seed] \emph{seed}}] Initialise the random number \emph{generator} with \texttt{\emph{seed}}, a positive (long) integer value (note, if \texttt{-g} is not specified, then \CNAME\ will  generate a random number seed based on the computer clock time)
 
-\item [\texttt{-{}-tabular}] Run with \texttt{-r} or \texttt{-f}  command to print \command{report} in tabular format (see Section \ref{sec:report-section})
+\item [\texttt{-{}-loglevel \emph{arg}}] Set the level for information or logging messages from \CNAME. Valid options are (from more verbose to less verbose) trace, finest, fine, medium, info, important, and warning. The default is 'info' (see Section \ref{sec:Report} for more information).
 
-\item [\texttt{-{}-single-step}] Run with \texttt{-r} to pause the model and ask the user to specify parameters and their values to use for the next iteration (see Section \ref{sec:singlestepping})
+\item [\texttt{-t [-{}-tabular]}]. Print \command{report} in tabular format (see Section \ref{sec:ReportSection} for more information).
 
-\item [\texttt{   [-{}-resume] }] Resume a MCMC chain
+\item [\texttt{-{}-single-step}] Run with \texttt{-r} to pause the model and ask the user to specify parameters and their values to use for the next iteration (see Section \ref{sec:SingleStepping})
 
-\item [\texttt{   [-{}-objective-file] }] \emph{arg}. Objective file for resuming an MCMC is \emph{arg}
-
-\item [\texttt{   [-{}-sample-file] }] \emph{arg}. Sample file for resuming an MCMC is \emph{arg}
-
-\item [\texttt{   [-{}-skip-estimation] }] For \texttt{   [-{}-mcmc]} run, skip estimating the covariance matrix; take it from the file \texttt{mpd.out}. This is a way use a re-calculated covariance matrix based on a previous MCMC run and start a new chain
-
-\item [\texttt{   [-{}-no-mpd] }] For \texttt{-e [-{}-estimate]} run, do not create the MPD file, \texttt{mpd.out}
-
-\item [\texttt{-q [-{}-query]\emph{object type}}] \emph{Query} an object type to print an extract of the object description and parameter definitions.  An object can be defined as \texttt{\emph{block.type}}, e.g. \texttt{casal2 -{}-query process.recruitment\_constant} will query the constant recruitment block.
+\item [\texttt{-q [-{}-query]\emph{object type}}] \emph{Query} an object type to print an extract of the object description and parameter definitions.  An object can be defined as \texttt{\emph{block.type}}, e.g., \texttt{casal2 -{}-query process.recruitment\_constant} will query the constant recruitment block.
 
 \end{description}
 
-\subsection{Constructing the \CNAME\ \config s \label{constructing-config}}\index{Input configuration file syntax}
-
-By convention, the \config\ is a stub that names four other files that cover four broad sections:
+\subsection{Constructing the \CNAME\ \config s \label{ConstructingConfig}}\index{Input configuration file syntax}
 
 \begin{itemize}
-	\item the description of the population structure, dynamics, and parameters (\texttt{population.csl2},Section \ref{sec:population-section}),
-	\item the estimation methods and estimated variables (\texttt{estimation.csl2}, Section \ref{sec:estimation-section}),
-	\item the observations and their associated properties and likelihoods (\texttt{observation.csl2, Section \ref{sec:observation-section}}), and
-	\item the results that \CNAME\ will output (\texttt{reports.csl2}, Section \ref{sec:report-section}).
+	\item the description of the population structure, dynamics, and parameters. See Section \ref{sec:PopulationSection},
+	\item the estimation methods and estimated variables. See Section \ref{sec:EstimationSection},
+	\item the observations and their associated properties and likelihoods. See Section \ref{sec:ObservationSection}, and
+	\item the results that \CNAME\ will output. See Section \ref{sec:ReportSection}.
 \end{itemize}
 
-The way to do the above is to use the command \texttt{!include "\emph{filename}"} (Figure~\ref{fig:config_file_1}). This command specifies that another file, \argument{filename}, be read and processed, exactly as if its contents had been inserted into the main \config~at that point\index{Including external files}. The file name must be the complete file name with extension, and can use either the relative or absolute path as part of its name. Included files can also contain \texttt{!include} commands. See Section \ref{sec:general-syntax} for more detail.
-
-\vspace*{3mm}
-\begin{figure}[htp]
-	\includegraphics[scale=1]{Figures/config.png}
-	\caption{\textbf{Example of using the \config~command \texttt{!include}
-	 "\argument{filename}".}}\label{fig:config_file_1}
-\end{figure}
-%\vspace*{1mm}
-
-The command and subcommand syntax to be used in each of these configuration sections are listed in Sections \ref{sec:population-syntax} (Population), \ref{sec:estimation-syntax} (Estimation), \ref{sec:observation-syntax} (Observation) and \ref{sec:report-syntax} (Report).
+Note that \config\ files can \emph{include} other \config\ files to assist file management, using the command \texttt{!include "\emph{filename}"}. See Section \ref{sec:GeneralSyntax} for more details.
 
 \subsubsection{Commands}\index{Commands}
 
 \CNAME\ has a range of commands that define the model structure, processes, parameters, observations, and how tasks are carried out. There are three types of commands
 
 \begin{itemize}
-\item Commands that have an argument and do not have subcommands (for example, \texttt{!include}\ \argument{\emph{filename}})
+\item Commands that have an argument only and do not have subcommands (for example, \texttt{!include}\ \argument{\emph{filename}})
 \item Commands that have a label and subcommands (for example \command{process} must have a label and has subcommands)
-\item Commands that do not have either a label or argument, but have subcommands (for example \command{model})
+\item Commands that do not have either a label or argument, but have subcommands (for example \command{model} or \command{categories})
 \end{itemize}
 
-Apart from \texttt{!include}, commands start with an \texttt{@} in column 1. Otherwise, inputs are free form. The \texttt{@} is important as it signals the start of a command block which is the basic  unit in the input files (see sub-section \ref{{sec:command-block-format}}).
+Apart from \texttt{!include}, commands start with an \texttt{@} in the first column (i.e., may not have a space or tab character before them on the line). After each command, the subcommands are listed and must occur before the next command. Otherwise, the commands and subcommands are free form with each command or subcommand on a separate line (see Section \ref{{sec:CommandBlockFormat}}).
 
-Commands that have a label must have a unique label, i.e., the label cannot be used on more than one command of that type so that it can be referenced in other parts of the \config. The labels can contain alpha numeric characters, period (`.'), underscore (`\_') and dash (`-'). Labels must not contain white space (tabs or spaces) or other characters that are not letters, numbers, dash, period, or an underscore. For example,
+Commands that have a label must have a unique label, i.e., the label cannot be used on more than one command of that type. |CNAME\ checks and will report an error of two commands of the same type have the same label. The labels can contain alpha numeric characters, period (`.'), underscore (`\_') and dash (`-'), but cannot start with a double underscore ('\_\_'). Labels that start with a double underscore are reserved, and used for internal reports that \CNAME\ can automatically generate in some circumstances. Otherwise labels must not contain white space (tabs or spaces) or any characters that are not letters, numbers, dashes, periods, or underscores. For example,
 
 {\small{\begin{verbatim}
 @process NaturalMortality
+\end{verbatim}}}
 or
+{\small{\begin{verbatim}
 !include MyModelSpecification.csl2
 \end{verbatim}}}
 
 \subsubsection{Subcommands}\index{Commands ! Subcommands}
 
-\CNAME\ subcommands define options and parameter values related to a particular command. Subcommands always take an argument which is one of a specific \emph{type}. The argument \emph{types} acceptable for each subcommand are defined in Section \ref{sec:syntax}, and are summarised below.
+\CNAME\ subcommands define options and parameter values related to a particular command. Subcommands always take an argument which is one of a specific \emph{type}. The \emph{types} for each subcommand are defined in Section \ref{sec:syntax}, and are summarised below.
 
-Like commands (\command{command}), subcommands and their arguments are not order specific, except that that all subcommands of a given command must appear before the next \command{command} block. \CNAME\ may report an error if they are not supplied in this way. However, in some circumstances a different order may result in a valid, but unintended, set of actions, leading to possible errors in the expected results.
+Like commands (\command{command}), subcommands and their arguments are not order specific, except that that all subcommands of a given command must appear before the next \command{command} block. \CNAME\ may report an error if they are not supplied in this way. However, in some circumstances a different order may result in a valid, but unintended, set of actions, leading to unexpected results.
 
 The argument type for a subcommand can be\index{Subcommand argument type}:
 
@@ -174,47 +158,42 @@ Switches are characteristics which are either true or false. Enter \emph{true} a
 
 Integers must be entered as whole numbers without decimal points (i.e., if \subcommand{year}\ is an integer then it is specified as \texttt{2008}, not \texttt{2008.0})
 
-Arguments of type integer vector, constant vector, estimable vector, addressable vector, or categorical vector must contain one or more entries on a row, separated by whitespace (tabs or spaces). Arguments of type integer range must contain a colon (\texttt{:}) and no white space (tabs or spaces).
+Arguments of type integer vector, constant vector, estimable vector, addressable vector, or categorical vector must contain one or more entries on a row, separated by white space (tabs or spaces). Arguments of type integer range must contain a colon (\texttt{:}) and no white space (tabs or spaces).
 
-Parameters are defined in the population section and can be specified as estimable with the subcommand type \texttt{estimable} or \texttt{estimable vector}.  These parameters will be estimated if specified as such in the estimation section. If an estimable parameter is not specified in the estimation section it will instead be treated as a constant (or constant vector). In other words, only estimable parameters can be estimated and the parameter command must explicitly specify that the parameter is estimable with the \texttt{estimable} or \texttt{estimable vector} subcommand type. TODO: check
+Parameters are defined in the population section and most (but not all) numeric parameters can be estimated. See Section \ref{sec:syntax} for the list of available parameters and if they are allowed to be estimated. Note that parameters will only be estimated if requested using an \command{estimate} command, and are otherwise treated as a constant.
 
-Parameters defined as addressable with the subcommand type \texttt{addressable} or \texttt{addressable vector} are usually derived quantities and are not directly estimable. As such, they can be referenced by various processes, or have priors and/or penalties associated with them, but they do not directly contribute to any estimation within the model. WHAT IS ADDRESSABLE????
+Parameters can also be addressable, i.e., they can be referred to within another command or command block by using their addressable name. See Section \ref{sec:syntax} to determine of a subcommand is addressable.
 
-\subsubsection{The command block format}\index{Command block format}\label{sec:command-block-format}
+\subsubsection{The command block format}\index{Command block format}\label{sec:CommandBlockFormat}
 
-The command block is a basic continuous unit within the input file(s). It begin with a line that starts with the symbol \command{}, juxtaposition against a single command and followed, if required, by any unique label or argument. There is no indicator of the end of a command block. Each command block is delimited by the end of the file or the start of the next command block (which is marked by the \command{} on the first character of a line). The \texttt{!include} command is the only exception to this rule (see Section \ref{sec:general-syntax}\index{command ! include files} for details of the use of \texttt{!include}). The \texttt{!include} command can be used to include contents of another file within the scope of the command block.
+The command block is a basic unit within the \config. Each command begins with the symbol \command{} and then the command name, usually followed by a user defined label or a valid argument. The end of each command block is denoted by the start of the next command block or end of the file. For example, the layout of a \config\ will be
 
-Within the command block, any subcommands needed and their arguments are presented,
+\begin{description}
+	\item \command{command}
+	\item \subcommand{subcommand} \subcommand{argument}
+	\item \subcommand{subcommand} \subcommand{argument}
+	\item .
+	\item .
+	\item etc.
+	\item \command{command} \subcommand{argument}
+	\item \subcommand{subcommand} \subcommand{argument}
+	\item \subcommand{subcommand} \subcommand{argument}
+	\item .
+	\item .
+	\item etc.
+	\item \command{command} \subcommand{\emph{label}}
+	\item \subcommand{subcommand} \subcommand{argument}
+	\item \subcommand{subcommand} \subcommand{argument}
+	\item .
+	\item .
+	\item etc.
+\end{description}
 
-%\begin{multicols}{3}
-%	\begin{description}
-%		\item \command{command}
-%		\item \subcommand{subcommand} \subcommand{argument}
-%		\item \subcommand{subcommand} \subcommand{argument}
-%		\item .
-%		\item .
-%		\item etc.
-%		\item \command{command} \subcommand{argument}
-%		\item \subcommand{subcommand} \subcommand{argument}
-%		\item \subcommand{subcommand} \subcommand{argument}
-%		\item .
-%		\item .
-%		\item etc.
-%		\item \command{command} \subcommand{\emph{label}}
-%		\item \subcommand{subcommand} \subcommand{argument}
-%		\item \subcommand{subcommand} \subcommand{argument}
-%		\item .
-%		\item .
-%		\item etc.
-%		\end{description}
-%\end{multicols}
+Note that subcommands can be in any order within each command block. And command blocks can be in any order within the input files, except \command{model} --- this must be the first command block encountered by \CNAME\.
 
-Subcommands can be in any order within the command block. Command blocks can be in any order within the input files, except \texttt{\command{}model} which must be the first command block encountered by \CNAME\ since this scopes the basic model dimensions (but excluding the \texttt{!include} command).
-	
-Blank lines are ignored, as is extra whitespace (tabs and spaces) between arguments. However, to start command block the \command{} character must be the first character on the line and must not be preceded by any whitespace. Each input file must end with a carriage return.
+Blank lines are ignored, as is extra white space (tabs and spaces) between arguments. However, to start command block the \command{} character must be the first character on the line and must not be preceded by any white space. Each input file must end with a carriage return.
 
-Commands, subcommands, and arguments in the \config s are not case sensitive. However, labels and variable values are case sensitive. On Linux, filenames and paths are case sensitive (i.e., when using \texttt{!include} \argument{\emph{filename}}, the argument \argument{\emph{filename}} will be case sensitive).
-
+Commands, subcommands, and arguments in the \config s are not case sensitive. However, labels and variable values are case sensitive. Note that on Linux (unlike Microsoft Windows) specification of any file names or file paths will be case sensitive.
 
 \subsubsection{\I{Commenting out lines}}\index{Comments}
 
@@ -222,22 +201,19 @@ Text on a line that starts with the symbol \commentline\ is considered to be a c
 
 Alternatively, to comment out an entire block or section, use \commentstart\ at the beginning of a line to start the comment block, then end the block with \commentend. All lines (including line breaks) between \commentstart\ and \commentend\ inclusive are ignored.
 
-{\small{\begin{verbatim}
-		# This line is a comment and will be ignored
-		@process NaturalMortality
-		m 0.2
-		/*
-		This block of text
-		is a comment and
-		will be ignored
-		*/
-\end{verbatim}}}
+\small{\begin{verbatim}
+  # This line is a comment and will be ignored
+  @process NaturalMortality
+  m 0.2
+  /* This block of text
+  is a comment and
+  will be ignored
+  */
+\end{verbatim}}
 
 \subsubsection{How to reference parameters\label{sec:parameter-names}\index{Determining parameter names}\index{Parameter names}}
 
-Parameters need an unique name so it can be referenced in other command blocks, e.g., specifying it to be estimated, to apply a penalty, specifying values to use in projections, making it time varying, or profiling. 
-
-When \CNAME\ processes the \config\ it translates each command block and each subcommand block into a \CNAME\ object, each with a unique parameter name. For commands, this parameter name is simply the command label. For subcommands, the parameter name format is one of the following:
+All parameters have an unique name, allowing it to be referenced in other command blocks. When \CNAME\ processes the \config\ it translates each command block and each subcommand block into an object, each with a unique parameter name. For commands, this parameter name is simply the command label. For subcommands, the parameter name format is one of the following:
 
 \begin{description}
 \item \texttt{command[label].subcommand} if the command has a label, or
@@ -246,13 +222,19 @@ When \CNAME\ processes the \config\ it translates each command block and each su
 \item \texttt{command[label].subcommand\{i:j\}} if the command has a label, and the subcommand arguments are a vector, and we are accessing the elements from $i$ to $j$ (inclusive) of that vector.
 \end{description}
 
-For example, the parameter name of the natural mortality rates subcommand \subcommand{m} of the command \command{process} with the label \argument{NaturalMortality} and there is a different rate for \argument{males} and \argument{females} has the form to reference both rates as a vector  is
+For example, the parameter name of a process of instantaneous mortality (i.e., natural mortality) is the subcommand \subcommand{m} of a \command{process} of type \subcommand{mortality\_constant\_rate}, i.e., the command block may be
 
-\texttt{process[NaturalMortality].m}, but to reference just the male rate then the form is
-\texttt{process[NaturalMortality].m\{male\}}.
+\small{\begin{verbatim}
+				@process NaturalMortality
+				type mortality_constant_rate
+				categories male female
+				m 0.2 0.2
+\end{verbatim}}
 
-All labels (parameter names) are user specified. As such, naming conventions are non-restrictive and can be model specific.
+The the parameter names of the rates is
 
+\texttt{process[NaturalMortality].m} to reference the vector of make then females rates. But to reference just the 'female' rate then the form is
+\texttt{process[NaturalMortality].m\{female\}}.
 
 \subsection{\I{Reading a command block}\label{sec:Readingcommandblock}}\index{Reading\ command\ block}\index{Reading\ command\ block section}
 
@@ -266,7 +248,7 @@ We have categories male and female, and two fisheries, line and pot. The command
 type mortality_instantaneous
 \end{verbatim}}}
 
-This sets up a process block using the \textit{mortality\_instantaneous}~ process which simultaneously depletes the population by natural mortality and from two types of fishing. Its label is \textit{Fishing}.
+This sets up a process block using the \textit{mortality\_instantaneous} process which simultaneously depletes the population by natural mortality and from two types of fishing. Its label is \textit{Fishing}.
 
 Next we specify the values for natural mortality (\textit{m}) an argument to this process, to 0.17 and specify that fisheries acts on all categories. Note there are two values for natural mortality, one for each sex. The parameters \textit{m} can be estimated, if required. The command block fragment:
 
@@ -305,33 +287,29 @@ To estimate natural mortality, you need to supply an \textit{@estimate} block wi
 type normal normal
 parameter process[fishing].m  #
     \*Fishing is unique amongst the @process command blocks
-    so     this defines the unique reference to the parameter m
+      so this defines the unique reference to the parameter m
     *\
 
 mu  0.2 0.2   #argument to prior = mean
 sd  0.02 0.02 #another argument to the prior = standard deviation
 \end{verbatim}}}
 
-Note that there are two \textit{m}s, one for each sex, so there has to be two priors. The \textit{\@estiamte} label \textit{estimate.m} is often redundant, but it may be needed, e.g., in a transformation command block.
+Note that there are two \textit{m}s, one for each sex, so there has to be two priors. The \textit{\@estiamte} label \textit{estimate.m} is often redundant, but it may be needed in some circumstances.
 
-To estimate a common \textit{m} over both sexes, we estimate one \textit{m}, say male, and use the \textit{same} subcommand to apply the same value to the female \textit{m},
+To estimate a common \textit{m} over both sexes, we estimate one \textit{m}, say the female category, and use the \textit{same} subcommand to apply the same value to the male category \textit{m},
 
 {\small{\begin{verbatim}
 @estimate estimate.m
-type normal 
-parameter process[fishing].m{1}  #male M since males are first in the category order
-same process[fishing].m{2}       #{} is used to index one or more elements in a vector
-mu  0.2    #argument to prior = mean
-sd  0.02 #another argument to the prior = standard deviation
+type normal
+parameter process[fishing].m{2}  # female M since female is the second in the category order
+same process[fishing].m{1}       # {} is used to index one or more elements in a vector
+mu  0.2                          # The mean of the prior
+sd  0.02                         # The standard deviation of the prior
 \end{verbatim}}}
-
-There are section detailing the equations involve and a separate syntax section that gives the possible \texttt{type}s and their subcommands.
-
-Note that the syntax sections are auto-generated from the code base (from the class constructors) so they give the definitive set of subcommands and their names. 
 
 \subsection{\I{Single-stepping \CNAME}\label{sec:SingleStepping}}\index{Single\_stepping}\index{single\_stepping section}
 
-TODO: move this section to somewhere else
+\TODO: move this section to somewhere else
 
 Single-stepping means \CNAME\ can 'pause' after each year in the annual cycle during a model run, write reports, then wait and process user input of updated estimable parameters for the next year (see the command line argument \texttt{ -{}-single-step}).
 

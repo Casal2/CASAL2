@@ -31,14 +31,14 @@
 }
 \pdfadjustspacing=1
 
-% Use AMS Maths 
+% Use AMS Maths
 \usepackage[fleqn]{amsmath}
 % artificial method of adding vertical space within equations
-\newcommand\AddVspace{\\[0 pt]} 
+\newcommand\AddVspace{\\[0 pt]}
 
 % Package for including and pretty printing of external config files and program code
-\usepackage{listings} 
-\lstset{ 
+\usepackage{listings}
+\lstset{
   basicstyle=\ttfamily\footnotesize,
   breaklines=true,
   columns=fullflexible,
@@ -72,7 +72,7 @@
 % Section header fonts
 \usepackage{sectsty}
 % Normal sized arial style section headings
-\allsectionsfont{\sffamily\large} 
+\allsectionsfont{\sffamily\large}
 % Add a dot after section headings
 \makeatletter
 \makeatother
@@ -177,7 +177,7 @@
 
 % New commands to automate document dates, manual titles, document reference, etc.
 \newcommand{\VER}{v\Version} % Casal2 program version
-\newcommand{\CNAME}{\textsc{Casal2}}
+\newcommand{\CNAME}{Casal2}
 \newcommand{\cname}{\texttt{casal2}} % Casal2 binary name
 \newcommand{\authors}{\CNAME\ Development Team}
 % hyper ref for Development Team email
@@ -187,6 +187,9 @@
 % hyper ref for email
 \newcommand{\Organisation}{National Institute of Water \& Atmospheric Research Ltd.} %NIWA
 \newcommand{\ManualRef}{\authors\ (\DocYear). \CNAME\ User Manual, \VER. \Organisation\ \emph{NIWA Technical Report 139}. \ref{TotPages} p.} % full document reference
+
+%Special commands
+\newcommand{\TODO}[1]{TODO: {#1}}
 
 % Define \clearemptydoublepage so-as to have truly blank pages between sections
 \let\origdoublepage\cleardoublepage

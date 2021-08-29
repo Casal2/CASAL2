@@ -53,7 +53,7 @@ void PartitionMeanLength::DoExecute(shared_ptr<Model> model) {
   unsigned                        time_step_index = model->managers()->time_step()->GetTimeStepIndex(time_step_);
   niwa::partition::accessors::All all_view(model);
 
-  cache_ << ReportHeader(type_, label_);
+  cache_ << ReportHeader(type_, label_, format_);
   cache_ << "time_step: " << time_step_ << REPORT_EOL;
 
   for (auto iterator = all_view.Begin(); iterator != all_view.End(); ++iterator) {

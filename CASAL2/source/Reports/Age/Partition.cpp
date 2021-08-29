@@ -61,7 +61,7 @@ void Partition::DoExecute(shared_ptr<Model> model) {
   }
 
   // Print the header
-  cache_ << ReportHeader(type_, label_);
+  cache_ << ReportHeader(type_, label_, format_);
   cache_ << "year: " << model->current_year() << REPORT_EOL;
   cache_ << "time_step: " << time_step_ << REPORT_EOL;
   cache_ << "values " << REPORT_R_DATAFRAME_ROW_LABELS << REPORT_EOL;

@@ -37,7 +37,7 @@ void ObjectiveFunction::DoExecute(shared_ptr<Model> model) {
   if (!model->is_primary_thread_model() && model->run_mode() == RunMode::kEstimation)
     return;
 
-  cache_ << ReportHeader(type_, label_);
+  cache_ << ReportHeader(type_, label_, format_);
   cache_ << "values " << REPORT_R_VECTOR << REPORT_EOL;
 
   if (model == nullptr)

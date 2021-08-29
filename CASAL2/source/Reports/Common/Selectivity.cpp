@@ -58,7 +58,7 @@ void Selectivity::DoExecute(shared_ptr<Model> model) {
   LOG_TRACE();
   if (!selectivity_->IsSelectivityLengthBased()) {
     LOG_FINEST() << "Printing age-based selectivity";
-    cache_ << ReportHeader(type_, selectivity_label_);
+    cache_ << ReportHeader(type_, selectivity_label_, format_);
     const map<string, Parameter*> parameters = selectivity_->parameters().parameters();
 
     for (auto iter : parameters) {
@@ -83,7 +83,7 @@ void Selectivity::DoExecuteTabular(shared_ptr<Model> model) {
   if (!selectivity_->IsSelectivityLengthBased()) {
     if (first_run_) {
       first_run_ = false;
-      cache_ << "*" << type_ << "[" << label_ << "]" << REPORT_EOL;
+      cache_ << ReportHeader(type_, label_, format_);
       cache_ << "values " << REPORT_R_DATAFRAME << REPORT_EOL;
       string age, selectivity_by_age_label;
 

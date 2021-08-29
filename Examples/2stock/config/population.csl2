@@ -99,7 +99,7 @@ proportions 0.5 0.5 0.0 0.0 0.0 0.0 ## The zeros are needed if you initialise vi
 # male.west.sa 	male.east.cr 	male.west.cr 	male.west.wc 	male.east.cs 	female.west.sa 	female.east.cr 	female.west.cr 	female.west.wc 	female.east.cs	
 @process recruit_E
 type recruitment_beverton_holt
-b0 451777
+b0 420000
 ycs_years 1970:2014
 standardise_ycs_years 1975:2011
 ycs_values 1*5 0.320262 0.474268 0.527918 0.950748 0.726547 0.262939 0.350483 0.225253 0.382309 0.445766 0.376622 0.209948 1.01489 0.970934 0.441749 0.133906 0.412971 0.422578 0.399745 0.621958 0.277797 0.300057 0.507842 0.308004 0.06 0.531166 0.16589 0.301495 0.528437 0.588595 0.52839 0.665359 0.564706 0.379978 0.720256 0.118365 0.884577 0.329789 0.356391 2.01885
@@ -112,7 +112,7 @@ proportions 0.5 0.5 0.0 0.0
 @process Instant_mortality
 type mortality_instantaneous
 m 1
-time_step_ratio 0.17 0.33 0.25 0.25
+time_step_proportions 0.17 0.33 0.25 0.25
 relative_m_by_age M_male*5  M_female*5
 categories sex=male sex=female	
 table catches

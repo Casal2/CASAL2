@@ -61,7 +61,7 @@ void Partition_YearCrossAgeMatrix::DoPrepare(shared_ptr<Model> model) {
   }
 
   // Print the header
-  cache_ << ReportHeader(type_, label_);
+  cache_ << ReportHeader(type_, label_, format_);
   cache_ << "time_step: " << time_step_ << REPORT_EOL;
 
   // Print the age-groups

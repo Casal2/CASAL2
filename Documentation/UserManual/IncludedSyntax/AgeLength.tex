@@ -1,0 +1,125 @@
+\defComLab{Age\_Length}{Define an object of type \emph{Age\_Length}}.
+\defRef{sec:AgeLength}
+\label{syntax:AgeLength}
+
+\defSub{label}{The label of the age length relationship}
+\defType{String}
+\defDefault{No default}
+
+\defSub{type}{The type of age length relationship}
+\defType{String}
+\defDefault{No default}
+
+\defSub{time\_step\_proportions}{The fraction of the year applied in each time step that is added to the age for the purposes of evaluating the length, i.e., a value of 0.5 for a time step will evaluate the length of individuals at age+0.5 in that time step}
+\defType{Vector of real numbers (estimable)}
+\defDefault{true}
+\defLowerBound{0.0 (inclusive)}
+\defUpperBound{1.0 (inclusive)}
+
+\defSub{distribution}{The assumed distribution for the growth curve}
+\defType{String}
+\defDefault{normal}
+
+\defSub{cv\_first}{The CV for the first age class}
+\defType{Real number (estimable)}
+\defDefault{0.0}
+\defLowerBound{0.0 (inclusive)}
+
+\defSub{cv\_last}{The CV for last age class}
+\defType{Real number (estimable)}
+\defDefault{0.0}
+\defLowerBound{0.0 (inclusive)}
+
+\defSub{compatibility\_option}{Backwards compatibility option: either casal2 (the default) or casal to use the (less accurate) cumulative normal function from CASAL}
+\defType{String}
+\defDefault{casal2}
+
+\defSub{by\_length}{Specifies if the linear interpolation of CVs is a linear function of mean length at age. Default is by age only}
+\defType{Boolean}
+\defDefault{true}
+
+\subsubsection{Age\_Length of type Data}
+\commandlabsubarg{Age\_Length}{type}{Data}.
+\defRef{sec:AgeLength-Data}
+\label{syntax:AgeLength-Data}
+
+\defSub{external\_gaps}{The method to use for external data gaps}
+\defType{String}
+\defDefault{mean}
+
+\defSub{internal\_gaps}{The method to use for internal data gaps}
+\defType{String}
+\defDefault{mean}
+
+\defSub{length\_weight}{The label from an associated length-weight block}
+\defType{String}
+\defDefault{No default}
+
+\defSub{time\_step\_measurements\_were\_made}{The time step label for which size-at-age data are provided}
+\defType{String}
+\defDefault{No default}
+
+\subsubsection{Age\_Length of type None}
+\commandlabsubarg{Age\_Length}{type}{None}.
+\defRef{sec:AgeLength-None}
+\label{syntax:AgeLength-None}
+
+The None type has no additional subcommands.
+\subsubsection{Age\_Length of type Schnute}
+\commandlabsubarg{Age\_Length}{type}{Schnute}.
+\defRef{sec:AgeLength-Schnute}
+\label{syntax:AgeLength-Schnute}
+
+\defSub{y1}{The $y\_1$ parameter}
+\defType{Real number (estimable)}
+\defDefault{No default}
+
+\defSub{y2}{The $y\_2$ parameter}
+\defType{Real number (estimable)}
+\defDefault{No default}
+
+\defSub{tau1}{The $\tau\_1$ parameter}
+\defType{Real number (estimable)}
+\defDefault{No default}
+
+\defSub{tau2}{The $\tau\_2$ parameter}
+\defType{Real number (estimable)}
+\defDefault{No default}
+
+\defSub{a}{The $a$ parameter}
+\defType{Real number (estimable)}
+\defDefault{No default}
+\defLowerBound{0.0 (inclusive)}
+
+\defSub{b}{The $b$ parameter}
+\defType{Real number (estimable)}
+\defDefault{No default}
+\defLowerBound{0.0 (exclusive)}
+
+\defSub{length\_weight}{The label of the associated length-weight relationship}
+\defType{String}
+\defDefault{No default}
+
+\subsubsection{Age\_Length of type Von\_Bertalanffy}
+\commandlabsubarg{Age\_Length}{type}{Von\_Bertalanffy}.
+\defRef{sec:AgeLength-VonBertalanffy}
+\label{syntax:AgeLength-VonBertalanffy}
+
+\defSub{linf}{The $L\_{infinity}$ parameter}
+\defType{Real number (estimable)}
+\defDefault{No default}
+\defLowerBound{0.0 (inclusive)}
+
+\defSub{k}{The $k$ parameter}
+\defType{Real number (estimable)}
+\defDefault{No default}
+\defLowerBound{0.0 (inclusive)}
+
+\defSub{t0}{The $t\_0$ parameter}
+\defType{Real number (estimable)}
+\defDefault{No default}
+
+\defSub{length\_weight}{The label of the associated length-weight relationship}
+\defType{String}
+\defDefault{No default}
+

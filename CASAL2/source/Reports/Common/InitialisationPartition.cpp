@@ -54,7 +54,7 @@ void InitialisationPartition::DoExecute(shared_ptr<Model> model) {
   LOG_FINEST() << "min age = " << lowest << ", max age = " << highest << ", longest_length = " << longest_length;
 
   // Print the header
-  cache_ << ReportHeader(type_, label_);
+  cache_ << ReportHeader(type_, label_, format_);
   cache_ << "values " << REPORT_R_DATAFRAME << REPORT_EOL;
   cache_ << "category";
   for (unsigned i = lowest; i <= highest; ++i) cache_ << " " << i;

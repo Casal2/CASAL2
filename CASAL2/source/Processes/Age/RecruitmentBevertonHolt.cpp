@@ -36,13 +36,13 @@ RecruitmentBevertonHolt::RecruitmentBevertonHolt(shared_ptr<Model> model) : Proc
   LOG_TRACE();
 
   parameters_.Bind<string>(PARAM_CATEGORIES, &category_labels_, "The category labels", "");
-  parameters_.Bind<Double>(PARAM_R0, &r0_, "R0", "", false)->set_lower_bound(0.0);
-  parameters_.Bind<Double>(PARAM_B0, &b0_, "B0", "", false)->set_lower_bound(0.0);
+  parameters_.Bind<Double>(PARAM_R0, &r0_, "R0, the mean recruitment used to scale annual recruits or initialise the model", "", false)->set_lower_bound(0.0);
+  parameters_.Bind<Double>(PARAM_B0, &b0_, "B0, the SSB corresponding to R0, and used to scale annual recruits or initialise the model", "", false)->set_lower_bound(0.0);
   parameters_.Bind<Double>(PARAM_PROPORTIONS, &proportions_, "The proportion for each category", "");
   parameters_.Bind<unsigned>(PARAM_AGE, &age_, "The age at recruitment", "", true);
   parameters_.Bind<unsigned>(PARAM_SSB_OFFSET, &ssb_offset_, "The spawning biomass year offset", "", true);
   parameters_.Bind<Double>(PARAM_STEEPNESS, &steepness_, "Steepness (h)", "", 1.0)->set_range(0.2, 1.0);
-  parameters_.Bind<string>(PARAM_SSB, &ssb_, "The SSB label (derived quantity)", "");
+  parameters_.Bind<string>(PARAM_SSB, &ssb_, "The SSB label (i.e., the derived quantity label)", "");
   parameters_.Bind<string>(PARAM_B0_PHASE, &phase_b0_label_, "The initialisation phase label that B0 is from", "", "");
   parameters_.Bind<Double>(PARAM_YCS_VALUES, &ycs_values_, "The YCS values", "");
   parameters_.Bind<unsigned>(PARAM_YCS_YEARS, &ycs_years_, "The recruitment years. A vector of years that relates to the year of the spawning event that created this cohort", "",

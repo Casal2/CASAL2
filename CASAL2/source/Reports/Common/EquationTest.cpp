@@ -40,7 +40,7 @@ EquationTest::EquationTest() {
 void EquationTest::DoExecute(shared_ptr<Model> model) {
   equation_ = boost::algorithm::join(equation_input_, " ");
 
-  cache_ << ReportHeader(type_, label_);
+  cache_ << ReportHeader(type_, label_, format_);
   cache_ << "equation: " << equation_ << REPORT_EOL;
   try {
     cache_ << "result: " << model->equation_parser().Parse(equation_) << REPORT_EOL;

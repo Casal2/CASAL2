@@ -67,7 +67,7 @@ void Process::DoExecute(shared_ptr<Model> model) {
   LOG_FINE() << " printing report " << label_ << " of type " << process_->type();
 
   bool is_BH_recruitment = (process_->type() == PARAM_RECRUITMENT_BEVERTON_HOLT) | (process_->type() == PARAM_BEVERTON_HOLT);
-  cache_ << ReportHeader(type_, process_label_);
+  cache_ << ReportHeader(type_, process_label_, format_);
 
   auto parameters = process_->parameters().parameters();
   for (auto parameter : parameters) {
@@ -91,7 +91,7 @@ void Process::DoExecute(shared_ptr<Model> model) {
 void Process::DoExecuteTabular(shared_ptr<Model> model) {
   if (first_run_) {
     first_run_ = false;
-    cache_ << "*" << type_ << "[" << process_label_ << "]" << REPORT_EOL;
+    cache_ << ReportHeader(type_, process_label_, format_);
     cache_ << "type: " << process_->type() << REPORT_EOL;
     cache_ << "values " << REPORT_R_DATAFRAME << REPORT_EOL;
     process_->FillTabularReportCache(cache_, true);

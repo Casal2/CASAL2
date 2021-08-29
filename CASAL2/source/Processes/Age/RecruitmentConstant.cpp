@@ -5,7 +5,7 @@
  * @date 14/12/2012
  * @section LICENSE
  *
- * Copyright NIWA Science ©2012 - www.niwa.co.nz
+ * Copyright NIWA Science ï¿½2012 - www.niwa.co.nz
  *
  * $Date: 2008-03-04 16:33:32 +1300 (Tue, 04 Mar 2008) $
  */
@@ -30,8 +30,8 @@ using niwa::partition::accessors::CategoriesWithAge;
 RecruitmentConstant::RecruitmentConstant(shared_ptr<Model> model) : Process(model) {
   parameters_.Bind<string>(PARAM_CATEGORIES, &category_labels_, "The categories", "");
   parameters_.Bind<Double>(PARAM_PROPORTIONS, &proportions_, "The proportion for each category", "", true);
-  parameters_.Bind<unsigned>(PARAM_AGE, &age_, "The age", "");
-  parameters_.Bind<Double>(PARAM_R0, &r0_, "R0", "")->set_lower_bound(0.0);
+  parameters_.Bind<unsigned>(PARAM_AGE, &age_, "The age at recruitment", "");
+  parameters_.Bind<Double>(PARAM_R0, &r0_, "R0, the recruitment used for annual recruits and initialise the model", "")->set_lower_bound(0.0);
 
   RegisterAsAddressable(PARAM_R0, &r0_);
   RegisterAsAddressable(PARAM_PROPORTIONS, &proportions_categories_);

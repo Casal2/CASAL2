@@ -45,7 +45,7 @@ void EstimateSummary::DoExecute(shared_ptr<Model> model) {
       for (unsigned i = 0; i < covariance_matrix_.size1(); ++i) est_std_dev[i] = sqrt(covariance_matrix_(i, i));
   }
 
-  cache_ << ReportHeader(type_, label_);
+  cache_ << ReportHeader(type_, label_, format_);
   unsigned est_idx = 0;
   for (Estimate* estimate : estimates) {
     cache_ << estimate->parameter() << " " << REPORT_R_LIST << REPORT_EOL;

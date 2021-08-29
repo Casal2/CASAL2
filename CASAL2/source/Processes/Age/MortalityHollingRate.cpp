@@ -58,7 +58,7 @@ MortalityHollingRate::MortalityHollingRate(shared_ptr<Model> model) : Process(mo
   parameters_.Bind<Double>(PARAM_B, &b_, "Parameter b", "")->set_lower_bound(0.0);
   parameters_.Bind<Double>(PARAM_X, &x_, "This parameter controls the functional form: Holling function type 2 (x=2) or 3 (x=3), or generalised (Michaelis Menten, x>=1)", "")
       ->set_lower_bound(1.0);
-  parameters_.Bind<Double>(PARAM_U_MAX, &u_max_, "The maximum exploitation rate ($U_{max}$)", "", 0.99)->set_range(0.0, 1.0);
+  parameters_.Bind<double>(PARAM_U_MAX, &u_max_, "The maximum exploitation rate ($U_{max}$)", "", 0.99)->set_range(0.0, 1.0);
   parameters_.Bind<string>(PARAM_PREY_SELECTIVITIES, &prey_selectivity_labels_, "The selectivities for prey categories", "", true);
   parameters_.Bind<string>(PARAM_PREDATOR_SELECTIVITIES, &predator_selectivity_labels_, "The selectivities for predator categories", "", true);
   parameters_.Bind<string>(PARAM_PENALTY, &penalty_label_, "The label of penalty", "", "");
@@ -342,7 +342,7 @@ void MortalityHollingRate::DoExecute() {
     Double Exploitation = Mortality / math::ZeroFun(Vulnerable, math::ZERO);
 
     if (Exploitation > u_max_) {
-      LOG_FINE() << "Exloitation rate larger than u_max = " << Exploitation << ", rescaled to u_max = " << u_max_;
+      LOG_FINE() << "Exploitation rate larger than u_max = " << Exploitation << ", rescaled to u_max = " << u_max_;
       Exploitation = u_max_;
 
       if (penalty_)  // Throw Penalty

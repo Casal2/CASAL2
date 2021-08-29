@@ -54,7 +54,7 @@ MortalityInstantaneousRetained::MortalityInstantaneousRetained(shared_ptr<Model>
   parameters_.BindTable(PARAM_CATCHES, catches_table_, "The table of removals (catch) data", "", true, false);
   parameters_.BindTable(PARAM_METHOD, method_table_, "The table of method of removal data", "", true, false);
   parameters_.Bind<Double>(PARAM_M, &m_input_, "The natural mortality rates for each category", "")->set_lower_bound(0.0);
-  parameters_.Bind<Double>(PARAM_TIME_STEP_RATIO, &time_step_ratios_temp_, "The time step ratios for natural mortality", "", true)->set_range(0.0, 1.0);
+  parameters_.Bind<double>(PARAM_TIME_STEP_PROPORTIONS, &time_step_ratios_temp_, "The time step proportions for natural mortality", "", true)->set_range(0.0, 1.0);
   parameters_.Bind<string>(PARAM_RELATIVE_M_BY_AGE, &selectivity_labels_, "The M-by-age ogives to apply on the categories for natural mortality", "");
 
   RegisterAsAddressable(PARAM_M, &m_);
@@ -78,7 +78,7 @@ void MortalityInstantaneousRetained::DoValidate() {
   // Check Natural Mortality parameter first
   for (auto M_proportion : time_step_ratios_temp_) {
     if (M_proportion < 0.0)
-      LOG_ERROR_P(PARAM_TIME_STEP_RATIO) << "Natural mortality time step ratio cannot be less than 0.0 for a given time step";
+      LOG_ERROR_P(PARAM_TIME_STEP_RATIO) << "Natural mortality time step proportion cannot be less than 0.0 for a given time step";
   }
 
   /**
@@ -216,7 +216,7 @@ void MortalityInstantaneousRetained::DoValidate() {
     new_fishery.penalty_label_   = row[penalty_index];
     fishery_time_step[new_fishery.label_].push_back(new_fishery.time_step_label_);
 
-    if (!utilities::To<string, Double>(row[u_max_index], new_fishery.u_max_))
+    if (!utilities::To<string, double>(row[u_max_index], new_fishery.u_max_))
       LOG_ERROR_P(PARAM_METHOD) << "u_max value " << row[u_max_index] << " could not be converted to a Double";
     if (fishery_year_catch.find(new_fishery.label_) == fishery_year_catch.end())
       LOG_ERROR_P(PARAM_METHOD) << "fishery " << new_fishery.label_ << " does not have catch information in the catches table";

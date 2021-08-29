@@ -34,7 +34,7 @@ void CategoryInfo::DoExecute(shared_ptr<Model> model) {
   auto           categories = model->categories();
   vector<string> names      = categories->category_names();
 
-  cache_ << ReportHeader(type_, label_);
+  cache_ << ReportHeader(type_, label_, format_);
   for (string name : names) {
     cache_ << name << " " << REPORT_R_LIST << REPORT_EOL;
     cache_ << "min_age: " << categories->min_age(name) << REPORT_EOL;

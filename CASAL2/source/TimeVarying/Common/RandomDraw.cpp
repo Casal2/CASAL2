@@ -25,8 +25,8 @@ namespace timevarying {
  * Default constructor
  */
 RandomDraw::RandomDraw(shared_ptr<Model> model) : TimeVarying(model) {
-  parameters_.Bind<Double>(PARAM_MEAN, &mu_, "The mean ($\\mu$) of the random draw distribution", "", 0);
-  parameters_.Bind<Double>(PARAM_SIGMA, &sigma_, "The standard deviation ($\\sigma$)  of the random draw distribution", "", 1);
+  parameters_.Bind<Double>(PARAM_MEAN, &mu_, "The mean (mu) of the random draw distribution", "", 0);
+  parameters_.Bind<Double>(PARAM_SIGMA, &sigma_, "The standard deviation (sigma)  of the random draw distribution", "", 1)->set_lower_bound(0.0, false);
   parameters_.Bind<Double>(PARAM_LOWER_BOUND, &upper_bound_, "The lower bound for the random draw", "");
   parameters_.Bind<Double>(PARAM_UPPER_BOUND, &lower_bound_, "The upper bound for the random draw", "");
   parameters_.Bind<string>(PARAM_DISTRIBUTION, &distribution_, "The distribution type", "", PARAM_NORMAL)->set_allowed_values({PARAM_NORMAL, PARAM_LOGNORMAL});

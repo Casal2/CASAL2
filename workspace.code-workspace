@@ -1,40 +1,30 @@
 {
-	"folders": [
-		{
-			"path": "."
-		}
-	],
-	"settings": {
-		"cSpell.words": [
-			"BEVERTON",
-			"CASAL",
-			"CPUE",
-			"Doonan",
-			"Initialisation",
-			"MCMC",
-			"Mersenne",
-			"NIWA's",
-			"admb",
-			"adolc",
-			"arma",
-			"bertalanffy",
-			"bfgs",
-			"bobyqa",
-			"catchability",
-			"cinitial",
-			"cppad",
-			"electivities",
-			"estimables",
-			"hoki",
-			"lbfgs",
-			"linf",
-			"mcmcs",
-			"niwa",
-			"schnute",
-			"selectivities",
-			"texttt"
-		],
-		"AREPL.max_string_length": 119,
-		"cSpell.language": "en-GB"
-	}
+  "folders": [
+    {
+      "path": "."
+    }
+  ],
+  "settings": {
+    "cSpell.words": ["BEVERTON", "CASAL", "CPUE", "Doonan", "Initialisation", "MCMC", "Mersenne", "NIWA's", "YCS", "admb", "adolc", "arma", "bertalanffy", "bfgs", "bobyqa", "catchability", "cinitial", "cppad", "electivities", "estimables", "hoki", "lbfgs", "linf", "mcmcs", "niwa", "schnute", "selectivities", "texttt"],
+    "AREPL.max_string_length": 119,
+    "cSpell.language": "en-GB",
+    "files.associations": {
+      "*.rmd": "markdown",
+      "variant": "cpp",
+      "*.ipp": "cpp",
+      "*.tex": "latex",
+      "any": "cpp",
+      "functional": "cpp",
+      "new": "cpp",
+      "tuple": "cpp",
+      "type_traits": "cpp",
+      "*.tcc": "cpp",
+      "array": "cpp",
+      "fstream": "cpp",
+      "future": "cpp",
+      "system_error": "cpp",
+      "thread": "cpp",
+      "memory_resource": "cpp"
+    }
+  }
 }

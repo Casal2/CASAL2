@@ -1,4 +1,4 @@
 "casal2.binary.version"<-
 function() {
-return("1.2")
+return("21.08")
 }

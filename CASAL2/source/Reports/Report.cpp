@@ -56,7 +56,7 @@ inline bool DoesFileExist(const string& file_name) {
 Report::Report() {
   parameters_.Bind<string>(PARAM_LABEL, &label_, "The report label", "");
   parameters_.Bind<string>(PARAM_TYPE, &type_, "The report type", "");
-  parameters_.Bind<string>(PARAM_FILE_NAME, &file_name_, "The file name. If not supplied, then output is directed to the standard out", "", "");
+  parameters_.Bind<string>(PARAM_FILE_NAME, &file_name_, "The file name. If not supplied, then output is directed to standard out", "", "");
   parameters_
       .Bind<string>(PARAM_WRITE_MODE, &write_mode_, "Specify if any previous file with the same name should be overwritten, appended to, or is generated using a sequential suffix",
                     "", PARAM_OVERWRITE)
@@ -152,9 +152,13 @@ void Report::Finalise(shared_ptr<Model> model) {
 /**
  * Standard Report Header
  */
-string Report::ReportHeader(string type, string label) {
+string Report::ReportHeader(string type, string label, string format_) {
   string header;
-  header = string(REPORT_START) + type + string("[") + label + string("]") + (string)REPORT_EOL;
+  if (format_ == PARAM_R)
+    header = string(REPORT_START) + type + string("[") + label + string("]") + (string)REPORT_EOL;
+  else
+    header = type + string("[") + label + string("]") + (string)REPORT_EOL;
+
   return (header);
 };
 

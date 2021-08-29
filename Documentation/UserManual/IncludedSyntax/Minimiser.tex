@@ -1,0 +1,149 @@
+\defComLab{Minimiser}{Define an object of type \emph{Minimiser}}.
+\defRef{sec:Minimiser}
+\label{syntax:Minimiser}
+
+\defSub{label}{The minimiser label}
+\defType{String}
+\defDefault{No default}
+
+\defSub{type}{The type of minimiser to use}
+\defType{String}
+\defDefault{No default}
+
+\defSub{active}{Indicates if this minimiser is active}
+\defType{Boolean}
+\defDefault{false}
+
+\defSub{covariance}{Indicates if a covariance matrix should be generated}
+\defType{Boolean}
+\defDefault{true}
+
+\subsubsection{Minimiser of type ADOLC}
+\commandlabsubarg{Minimiser}{type}{ADOLC}.
+\defRef{sec:Minimiser-ADOLC}
+\label{syntax:Minimiser-ADOLC}
+
+\defSub{iterations}{The maximum number of iterations}
+\defType{Integer}
+\defDefault{1000}
+\defLowerBound{1 (inclusive)}
+
+\defSub{evaluations}{The maximum number of evaluations}
+\defType{Integer}
+\defDefault{4000}
+\defLowerBound{1 (inclusive)}
+
+\defSub{tolerance}{The tolerance of the gradient for convergence}
+\defType{Real number}
+\defDefault{DEFAULT\_CONVERGENCE}
+\defLowerBound{0.0 (exclusive)}
+
+\defSub{step\_size}{The minimum step size before minimisation fails}
+\defType{Real number}
+\defDefault{1e-7}
+\defLowerBound{0.0 (exclusive)}
+
+\subsubsection{Minimiser of type Beta\_Diff}
+\commandlabsubarg{Minimiser}{type}{Beta\_Diff}.
+\defRef{sec:Minimiser-BetaDiff}
+\label{syntax:Minimiser-BetaDiff}
+
+\defSub{iterations}{The maximum number of iterations}
+\defType{Integer}
+\defDefault{1000}
+\defLowerBound{1 (inclusive)}
+
+\defSub{evaluations}{The maximum number of evaluations}
+\defType{Integer}
+\defDefault{4000}
+\defLowerBound{1 (inclusive)}
+
+\defSub{tolerance}{The tolerance of the gradient for convergence}
+\defType{Real number}
+\defDefault{DEFAULT\_CONVERGENCE}
+\defLowerBound{0.0 (exclusive)}
+
+\subsubsection{Minimiser of type DESolver}
+\commandlabsubarg{Minimiser}{type}{DESolver}.
+\defRef{sec:Minimiser-DESolver}
+\label{syntax:Minimiser-DESolver}
+
+\defSub{population\_size}{The number of candidate solutions to have in the population}
+\defType{Non-negative integer}
+\defDefault{No default}
+\defLowerBound{1 (inclusive)}
+
+\defSub{crossover\_probability}{The minimiser's crossover probability}
+\defType{Real number}
+\defDefault{0.9}
+\defLowerBound{0.0 (inclusive)}
+\defUpperBound{1.0 (inclusive)}
+
+\defSub{difference\_scale}{The scale to apply to new solutions when comparing candidates}
+\defType{Real number}
+\defDefault{0.02}
+
+\defSub{max\_generations}{The maximum number of iterations to run}
+\defType{Non-negative integer}
+\defDefault{No default}
+
+\defSub{tolerance}{The total variance between the population and best candidate before acceptance}
+\defType{Real number}
+\defDefault{DEFAULT\_CONVERGENCE}
+\defLowerBound{0.0 (exclusive)}
+
+\defSub{method}{The type of candidate generation method to use}
+\defType{String}
+\defDefault{No default}
+\defValue{not\_yet\_implemented}
+
+\subsubsection{Minimiser of type Delta\_Diff}
+\commandlabsubarg{Minimiser}{type}{Delta\_Diff}.
+\defRef{sec:Minimiser-DeltaDiff}
+\label{syntax:Minimiser-DeltaDiff}
+
+\defSub{iterations}{Maximum number of iterations}
+\defType{Integer}
+\defDefault{1000}
+\defLowerBound{1 (inclusive)}
+
+\defSub{evaluations}{Maximum number of evaluations}
+\defType{Integer}
+\defDefault{4000}
+\defLowerBound{1 (inclusive)}
+
+\defSub{tolerance}{Tolerance of the gradient for convergence}
+\defType{Real number}
+\defDefault{DEFAULT\_CONVERGENCE}
+\defLowerBound{0 (exclusive)}
+
+\defSub{step\_size}{Minimum Step-size before minimisation fails}
+\defType{Real number}
+\defDefault{1e-7}
+\defLowerBound{0 (exclusive)}
+
+\subsubsection{Minimiser of type Gamma\_Diff}
+\commandlabsubarg{Minimiser}{type}{Gamma\_Diff}.
+\defRef{sec:Minimiser-GammaDiff}
+\label{syntax:Minimiser-GammaDiff}
+
+\defSub{iterations}{The maximum number of iterations}
+\defType{Integer}
+\defDefault{1000}
+\defLowerBound{1 (inclusive)}
+
+\defSub{evaluations}{The maximum number of evaluations}
+\defType{Integer}
+\defDefault{4000}
+\defLowerBound{1 (inclusive)}
+
+\defSub{tolerance}{The tolerance of the gradient for convergence}
+\defType{Real number}
+\defDefault{DEFAULT\_CONVERGENCE}
+\defLowerBound{0.0 (exclusive)}
+
+\defSub{step\_size}{The minimum step size before minimisation fails}
+\defType{Real number}
+\defDefault{1e-7}
+\defLowerBound{0.0 (exclusive)}
+

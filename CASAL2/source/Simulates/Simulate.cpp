@@ -22,8 +22,8 @@ namespace niwa {
  */
 Simulate::Simulate(shared_ptr<Model> model) : model_(model) {
   parameters_.Bind<string>(PARAM_LABEL, &label_, "The label for the simulation command block", "");
-  parameters_.Bind<string>(PARAM_TYPE, &type_, "The type of simulation", "", "");
-  parameters_.Bind<unsigned>(PARAM_YEARS, &years_, "The years to simulate values for", "", true);
+  parameters_.Bind<string>(PARAM_TYPE, &type_, "The type of simulation", "");
+  parameters_.Bind<unsigned>(PARAM_YEARS, &years_, "The years to simulate values for", "", false);
   parameters_.Bind<string>(PARAM_PARAMETER, &parameter_, "The parameter to generate simulated values for", "");
 
   original_value_ = 0;

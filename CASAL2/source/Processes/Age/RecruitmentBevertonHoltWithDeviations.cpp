@@ -36,14 +36,14 @@ RecruitmentBevertonHoltWithDeviations::RecruitmentBevertonHoltWithDeviations(sha
   LOG_TRACE();
 
   parameters_.Bind<string>(PARAM_CATEGORIES, &category_labels_, "The category labels", "");
-  parameters_.Bind<Double>(PARAM_R0, &r0_, "R0", "", false)->set_lower_bound(0.0);
-  parameters_.Bind<Double>(PARAM_B0, &b0_, "B0", "", false)->set_lower_bound(0.0);
+  parameters_.Bind<Double>(PARAM_R0, &r0_, "R0, the mean recruitment used to scale annual recruits or initialise the model", "", false)->set_lower_bound(0.0);
+  parameters_.Bind<Double>(PARAM_B0, &b0_, "B0, the SSB corresponding to R0, and used to scale annual recruits or initialise the model", "", false)->set_lower_bound(0.0);
   parameters_.Bind<Double>(PARAM_PROPORTIONS, &proportions_, "The proportion for each category", "");
   parameters_.Bind<unsigned>(PARAM_AGE, &age_, "The age at recruitment", "", true);
   parameters_.Bind<unsigned>(PARAM_SSB_OFFSET, &ssb_offset_, "The spawning biomass year offset", "", true);
-  parameters_.Bind<Double>(PARAM_STEEPNESS, &steepness_, "Steepness (h)", "", 1.0)->set_lower_bound(0.2);
-  parameters_.Bind<string>(PARAM_SSB, &ssb_, "The SSB Label (derived quantity)", "");
-  parameters_.Bind<Double>(PARAM_SIGMA_R, &sigma_r_, "sigma R", "")->set_lower_bound(0.0);
+  parameters_.Bind<Double>(PARAM_STEEPNESS, &steepness_, "Steepness (h)", "", 1.0)->set_range(0.2, 1.0);
+  parameters_.Bind<string>(PARAM_SSB, &ssb_, "The SSB label (i.e., the derived quantity label))", "");
+  parameters_.Bind<Double>(PARAM_SIGMA_R, &sigma_r_, "The standard deviation of recruitment, sigma_R", "")->set_lower_bound(0.0);
   parameters_.Bind<Double>(PARAM_B_MAX, &b_max_, "The maximum bias adjustment", "", 0.85)->set_range(0.0, 1.0);
   parameters_.Bind<unsigned>(PARAM_LAST_YEAR_WITH_NO_BIAS, &year1_, "The last year with no bias adjustment", "", false);
   parameters_.Bind<unsigned>(PARAM_FIRST_YEAR_WITH_BIAS, &year2_, "The first year with full bias adjustment", "", false);
@@ -80,10 +80,10 @@ void RecruitmentBevertonHoltWithDeviations::DoValidate() {
   }
 
   if (parameters_.Get(PARAM_R0)->has_been_defined() && parameters_.Get(PARAM_B0)->has_been_defined())
-    LOG_FATAL_P(PARAM_R0) << "Cannot specify both R0 and B0 in the model";
+    LOG_FATAL_P(PARAM_R0) << "Cannot specify both R0 and B0 in the model for Beverton-Holt recruitment";
 
   if (!parameters_.Get(PARAM_R0)->has_been_defined() && !parameters_.Get(PARAM_B0)->has_been_defined())
-    LOG_FATAL() << "Specify either R0 or B0 to initialise the model with Beverton-Holt recruitment";
+    LOG_FATAL() << "Specify either R0 or B0 to initialise the model for Beverton-Holt recruitment";
 
   if (age_ < model_->min_age())
     LOG_ERROR_P(PARAM_AGE) << " (" << age_ << ") cannot be less than the model's min_age (" << model_->min_age() << ")";

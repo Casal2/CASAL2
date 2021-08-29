@@ -55,7 +55,7 @@ void TimeVarying::DoExecute(shared_ptr<Model> model) {
   auto manager      = model->managers()->time_varying();
   auto time_varying = manager->objects();
   if (manager->size() > 0 && time_varying.size() > 0) {
-    cache_ << ReportHeader(type_, time_varying_label_);
+    cache_ << ReportHeader(type_, time_varying_label_, format_);
 
     for (auto time_var : time_varying) {
       LOG_FINEST() << "Reporting for @time_varying block " << time_varying_label_;

@@ -132,9 +132,11 @@ void Orthogonal::DoRestore() {
 Double Orthogonal::GetScore() {
   LOG_TRACE();
   if (transform_with_jacobian_) {
-    // TODO: Alistair to check this equation
-    jacobian_ = -log(theta_2_ / (2 * theta_1_));
-    LOG_MEDIUM() << "Jacobian: " << jacobian_ << " current value " << current_untransformed_value_;
+    // TODO: Check this equation
+    // jacobian_ = -log(theta_2_ / (2 * theta_1_));
+    // LOG_MEDIUM() << "Jacobian: " << jacobian_ << " current value " << current_untransformed_value_;
+    LOG_FATAL() << "Jacobian is not available for the orthogonal transformation";
+
   } else
     jacobian_ = 0.0;
   return jacobian_;

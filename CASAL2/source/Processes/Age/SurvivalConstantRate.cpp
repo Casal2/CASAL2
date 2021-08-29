@@ -33,8 +33,8 @@ SurvivalConstantRate::SurvivalConstantRate(shared_ptr<Model> model) : Process(mo
 
   parameters_.Bind<string>(PARAM_CATEGORIES, &category_labels_, "The list of categories", "");
   parameters_.Bind<Double>(PARAM_S, &s_input_, "The survival rates", "")->set_range(0.0, 1.0);
-  parameters_.Bind<Double>(PARAM_TIME_STEP_RATIO, &ratios_, "The time step ratios for S", "", true)->set_range(0.0, 1.0, false, true);
-  parameters_.Bind<string>(PARAM_SELECTIVITIES, &selectivity_names_, "The selectivity label", "");
+  parameters_.Bind<double>(PARAM_TIME_STEP_PROPORTIONS, &ratios_, "The time step proportions for the survival rate S", "", true)->set_range(0.0, 1.0, false, true);
+  parameters_.Bind<string>(PARAM_SELECTIVITIES, &selectivity_names_, "The selectivity labels for each category", "");
 
   RegisterAsAddressable(PARAM_S, &s_);
 }

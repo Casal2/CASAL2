@@ -88,7 +88,7 @@ protected:
   virtual void DoPrepareTabular(shared_ptr<Model> model){};
   virtual void DoExecuteTabular(shared_ptr<Model> model){};
   virtual void DoFinaliseTabular(shared_ptr<Model> model){};
-  string       ReportHeader(string type, string label);
+  string       ReportHeader(string type, string label, string format);
 
   // Members
   //  shared_ptr<Model>                      model_ = nullptr;

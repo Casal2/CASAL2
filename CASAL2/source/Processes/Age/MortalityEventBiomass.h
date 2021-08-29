@@ -4,7 +4,7 @@
  * @date 8/11/2013
  * @section LICENSE
  *
- * Copyright NIWA Science ©2013 - www.niwa.co.nz
+ * Copyright NIWA Science ï¿½2013 - www.niwa.co.nz
  *
  * @section DESCRIPTION
  *
@@ -48,7 +48,7 @@ private:
   vector<string>        category_labels_;
   vector<string>        selectivity_labels_;
   vector<Selectivity*>  selectivities_;
-  Double                u_max_ = 0;
+  double                u_max_ = 0;
   vector<Double>        catches_;
   vector<Double>        exploitation_by_year_;
   vector<Double>        actual_catches_;

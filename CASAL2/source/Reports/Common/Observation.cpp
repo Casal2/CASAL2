@@ -88,7 +88,7 @@ void Observation::DoExecute(shared_ptr<Model> model) {
   if (!is_valid())
     return;
 
-  cache_ << ReportHeader(type_, observation_label_);
+  cache_ << ReportHeader(type_, observation_label_, format_);
   cache_ << "observation_type: " << observation_->type() << REPORT_EOL;
   cache_ << "likelihood: " << observation_->likelihood() << REPORT_EOL;
   cache_ << "Values " << REPORT_R_DATAFRAME << REPORT_EOL;
@@ -193,7 +193,7 @@ void Observation::DoExecuteTabular(shared_ptr<Model> model) {
   map<unsigned, vector<obs::Comparison>>& comparisons = observation_->comparisons();
   if (first_run_) {
     first_run_ = false;
-    cache_ << "*" << type_ << "[" << label_ << "]" << REPORT_EOL;
+    cache_ << ReportHeader(type_, label_, format_);
     cache_ << "observation_type: " << observation_->type() << REPORT_EOL;
     cache_ << "likelihood: " << observation_->likelihood() << REPORT_EOL;
     cache_ << "values " << REPORT_R_DATAFRAME << REPORT_EOL;

@@ -47,7 +47,7 @@ void Catchability::DoBuild(shared_ptr<Model> model) {
 void Catchability::DoExecute(shared_ptr<Model> model) {
   LOG_TRACE();
   catchabilities::Manager& manager = *model->managers()->catchability();
-  cache_ << ReportHeader(type_, catchability_label_);
+  cache_ << ReportHeader(type_, catchability_label_, format_);
 
   auto catchabilities = manager.objects();
   for (auto Q : catchabilities) {
@@ -66,7 +66,7 @@ void Catchability::DoExecuteTabular(shared_ptr<Model> model) {
   catchabilities::Manager& manager        = *model->managers()->catchability();
   auto                     catchabilities = manager.objects();
   if (first_run_) {
-    cache_ << ReportHeader(type_, catchability_label_);
+    cache_ << ReportHeader(type_, catchability_label_, format_);
     cache_ << "values " << REPORT_R_DATAFRAME << REPORT_EOL;
     first_run_ = false;
 

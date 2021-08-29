@@ -35,8 +35,8 @@ MortalityConstantRate::MortalityConstantRate(shared_ptr<Model> model) : Process(
 
   parameters_.Bind<string>(PARAM_CATEGORIES, &category_labels_, "The list of category labels", "");
   parameters_.Bind<Double>(PARAM_M, &m_input_, "The mortality rates", "")->set_lower_bound(0.0);
-  parameters_.Bind<Double>(PARAM_TIME_STEP_RATIO, &ratios_, "The time step ratios for the mortality rates", "", true)->set_range(0.0, 1.0);
-  parameters_.Bind<string>(PARAM_RELATIVE_M_BY_AGE, &selectivity_names_, "The list of M-by-age ogives for the categories", "");
+  parameters_.Bind<double>(PARAM_TIME_STEP_PROPORTIONS, &ratios_, "The time step proportions for the mortality rates", "", true)->set_range(0.0, 1.0);
+  parameters_.Bind<string>(PARAM_RELATIVE_M_BY_AGE, &selectivity_names_, "The list of mortality by age ogive labels for the categories", "");
 
   RegisterAsAddressable(PARAM_M, &m_);
 }
@@ -49,6 +49,7 @@ MortalityConstantRate::MortalityConstantRate(shared_ptr<Model> model) : Process(
  * - Assign and validate remaining parameters
  * - Duplicate 'm' and 'selectivities' if only one value specified
  * - Check m is between 0.0 and 1.0
+ * - Check ratios sum to one
  * - Check the categories are real
  */
 void MortalityConstantRate::DoValidate() {
@@ -78,8 +79,15 @@ void MortalityConstantRate::DoValidate() {
     if (m < 0.0)
       LOG_ERROR_P(PARAM_M) << ": m value (" << AS_DOUBLE(m) << ") must be greater than or equal to 0.0";
   }
-
   for (unsigned i = 0; i < m_input_.size(); ++i) m_[category_labels_[i]] = m_input_[i];
+
+  // Check that the time step ratios sum to one
+  double total = 0.0;
+  for (double value : ratios_) {
+    total += value;
+  }
+  if (fabs(total - 1.0) > 1e-5)
+    LOG_ERROR() << "The time step ratios must sum to one";
 }
 
 /**
@@ -96,7 +104,6 @@ void MortalityConstantRate::DoBuild() {
     Selectivity* selectivity = model_->managers()->selectivity()->GetSelectivity(label);
     if (!selectivity)
       LOG_ERROR_P(PARAM_RELATIVE_M_BY_AGE) << ": M-by-age ogive label " << label << " was not found.";
-
     selectivities_.push_back(selectivity);
   }
 
@@ -120,9 +127,9 @@ void MortalityConstantRate::DoBuild() {
       LOG_ERROR_P(PARAM_TIME_STEP_RATIO) << " The number of time step ratios (" << ratios_.size() << ") does not match the number of time steps this process has been assigned to ("
                                          << active_time_steps.size() << ")";
 
-    for (Double value : ratios_) {
+    for (double value : ratios_) {
       if (value < 0.0 || value > 1.0)
-        LOG_ERROR_P(PARAM_TIME_STEP_RATIO) << "Time step ratio value (" << value << ") must be between 0.0 and 1.0 (inclusive)";
+        LOG_ERROR_P(PARAM_TIME_STEP_RATIO) << "Time step ratio value (" << value << ") must be between 0.0 and 1.0 (inclusive) and sum to one";
     }
 
     for (unsigned i = 0; i < ratios_.size(); ++i) time_step_ratios_[active_time_steps[i]] = ratios_[i];
@@ -144,7 +151,7 @@ void MortalityConstantRate::DoExecute() {
   unsigned time_step = model_->managers()->time_step()->current_time_step();
 
   LOG_FINEST() << "Ratios.size() " << time_step_ratios_.size() << " : time_step: " << time_step << "; ratio: " << time_step_ratios_[time_step];
-  Double ratio = time_step_ratios_[time_step];
+  double ratio = time_step_ratios_[time_step];
 
   unsigned i = 0;
   Double   amount;

@@ -1,10 +1,9 @@
 Casal2
 Call: C:\Projects\Software\CASAL2-NIWA\BuildSystem/bin/windows_gcc/release_betadiff/casal2.exe -r -i pars.out 
-Version: v21.08 (2021-08-25)
+Date: Sat Aug 28 18:51:46 2021
+Version: v21.08 (2021-08-28)
 Copyright (c) 2017-2021, NIWA (www.niwa.co.nz)
-Date: Wed Aug 25 23:08:49 2021
-
-Environment: machine:HP1040, user:alist, os:Windows_NT, pid:15848
+Environment: User=alist Machine=DELL-9020 OS=Windows_NT PID=10196
 
 
 
@@ -404,6 +403,12 @@ total_negloglike 3559.67
 total_score 3559.67
 *end
 
+*info[messages_encountered]
+{string}
+Initiating basic run mode
+Estimable parameters were loaded from the free parameter file: pars.out
+*end
+
 *warnings[messages_encountered]
 {string}
 Estimates were removed because of matching lower and upper bounds. Originally had 152 estimates, now have 151
@@ -420,12 +425,6 @@ estimated parameter 'selectivity[Espsl].ato95' was within 0.001 of lower bound 4
 estimated parameter 'selectivity[CRsl].mu' was within 0.001 of lower bound 64
 estimated parameter 'selectivity[SAsl].mu' was within 0.001 of upper bound 84
 estimated parameter 'selectivity[SAsl].sigma_r' was within 0.001 of upper bound 44
-*end
-
-*info[messages_encountered]
-{string}
-Initiating basic run mode
-Estimable parameters were loaded from the free parameter file: pars.out
 *end
 
 [INFO] Completed
