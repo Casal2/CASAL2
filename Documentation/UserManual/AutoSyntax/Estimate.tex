@@ -1,0 +1,143 @@
+\defComLab{Estimate}{Define an object of type \emph{Estimate}}.
+\defRef{sec:Estimate}
+\label{syntax:Estimate}
+
+\defSub{label}{The label of the estimate}
+\defType{String}
+\defDefault{No default}
+
+\defSub{type}{The type of prior for the estimate}
+\defType{String}
+\defDefault{No default}
+
+\defSub{parameter}{The name of the parameter to estimate}
+\defType{String}
+\defDefault{No default}
+
+\defSub{lower\_bound}{The lower bound for the parameter}
+\defType{Real number (estimable)}
+\defDefault{No default}
+
+\defSub{upper\_bound}{The upper bound for the parameter}
+\defType{Real number (estimable)}
+\defDefault{No default}
+
+\defSub{same}{List of other parameters that are constrained to have the same value as this parameter}
+\defType{Vector of strings}
+\defDefault{No default}
+
+\defSub{estimation\_phase}{The first estimation phase to allow this to be estimated}
+\defType{Non-negative integer}
+\defDefault{1}
+
+\defSub{mcmc}{Indicates if this parameter is estimated at the point estimate but fixed during MCMC estimation run}
+\defType{Boolean}
+\defDefault{false}
+
+\defSub{transformation}{Type of simple transformation to apply to estimate}
+\defType{String}
+\defDefault{No default}
+
+\defSub{transform\_with\_jacobian}{Apply jacobian during transformation}
+\defType{Boolean}
+\defDefault{false}
+
+\defSub{prior\_applies\_to\_transform}{Does the prior apply to the transformed parameter? a legacy switch, see Manual for more information}
+\defType{Boolean}
+\defDefault{false}
+
+\subsubsection{Estimate of type Beta}
+\commandlabsubarg{Estimate}{type}{Beta}.
+\defRef{sec:Estimate-Beta}
+\label{syntax:Estimate-Beta}
+
+\defSub{mu}{Beta prior  mean (mu) parameter}
+\defType{Real number (estimable)}
+\defDefault{No default}
+
+\defSub{sigma}{Beta prior variance (sigma) parameter}
+\defType{Real number (estimable)}
+\defDefault{No default}
+\defLowerBound{0.0 (exclusive)}
+
+\defSub{a}{Beta prior lower bound of the range (A) parameter}
+\defType{Real number (estimable)}
+\defDefault{No default}
+
+\defSub{b}{Beta prior upper bound of the range (B) parameter}
+\defType{Real number (estimable)}
+\defDefault{No default}
+
+\subsubsection{Estimate of type Lognormal}
+\commandlabsubarg{Estimate}{type}{Lognormal}.
+\defRef{sec:Estimate-Lognormal}
+\label{syntax:Estimate-Lognormal}
+
+\defSub{mu}{The lognormal prior mean (mu) parameter}
+\defType{Real number (estimable)}
+\defDefault{No default}
+\defLowerBound{0.0 (exclusive)}
+
+\defSub{cv}{The lognormal variance (cv) parameter}
+\defType{Real number (estimable)}
+\defDefault{No default}
+\defLowerBound{0.0 (exclusive)}
+
+\subsubsection{Estimate of type Normal}
+\commandlabsubarg{Estimate}{type}{Normal}.
+\defRef{sec:Estimate-Normal}
+\label{syntax:Estimate-Normal}
+
+\defSub{mu}{The normal prior mean (mu) parameter}
+\defType{Real number (estimable)}
+\defDefault{No default}
+
+\defSub{cv}{The normal variance (standard devation) parameter}
+\defType{Real number (estimable)}
+\defDefault{No default}
+\defLowerBound{0.0 (exclusive)}
+
+\subsubsection{Estimate of type Normal\_By\_Stdev}
+\commandlabsubarg{Estimate}{type}{Normal\_By\_Stdev}.
+\defRef{sec:Estimate-NormalByStdev}
+\label{syntax:Estimate-NormalByStdev}
+
+\defSub{mu}{The normal prior mean (mu) parameter}
+\defType{Real number (estimable)}
+\defDefault{No default}
+
+\defSub{sigma}{The normal variance (sigma) parameter}
+\defType{Real number (estimable)}
+\defDefault{No default}
+\defLowerBound{0.0 (exclusive)}
+
+\defSub{lognormal\_transformation}{Add a Jacobian if the derived outcome of the estimate is assumed to be lognormal, e.g., used for rectuitment deviations in the recruitment process. See the User Manual for more information}
+\defType{Boolean}
+\defDefault{false}
+
+\subsubsection{Estimate of type Normal\_Log}
+\commandlabsubarg{Estimate}{type}{Normal\_Log}.
+\defRef{sec:Estimate-NormalLog}
+\label{syntax:Estimate-NormalLog}
+
+\defSub{mu}{The normal-log prior mean (mu) parameter}
+\defType{Real number (estimable)}
+\defDefault{No default}
+
+\defSub{sigma}{The normal-log prior variance (standard deviation) parameter}
+\defType{Real number (estimable)}
+\defDefault{No default}
+\defLowerBound{0.0 (exclusive)}
+
+\subsubsection{Estimate of type Uniform}
+\commandlabsubarg{Estimate}{type}{Uniform}.
+\defRef{sec:Estimate-Uniform}
+\label{syntax:Estimate-Uniform}
+
+The Uniform type has no additional subcommands.
+\subsubsection{Estimate of type Uniform\_Log}
+\commandlabsubarg{Estimate}{type}{Uniform\_Log}.
+\defRef{sec:Estimate-UniformLog}
+\label{syntax:Estimate-UniformLog}
+
+The Uniform\_Log type has no additional subcommands.

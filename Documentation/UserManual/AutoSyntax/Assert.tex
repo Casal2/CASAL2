@@ -1,0 +1,67 @@
+\defComLab{Assert}{Define an object of type \emph{Assert}}.
+\defRef{sec:Assert}
+\label{syntax:Assert}
+
+\defSub{label}{The label for the assert}
+\defType{String}
+\defDefault{No default}
+
+\defSub{type}{The type of the assert}
+\defType{String}
+\defDefault{No default}
+
+\subsubsection{Assert of type Addressable}
+\commandlabsubarg{Assert}{type}{Addressable}.
+\defRef{sec:Assert-Addressable}
+\label{syntax:Assert-Addressable}
+
+\defSub{parameter}{The addressable to check}
+\defType{String}
+\defDefault{No default}
+
+\defSub{years}{The years to check addressable}
+\defType{Vector of non-negative integers}
+\defDefault{No default}
+
+\defSub{time\_step}{The time step to execute after}
+\defType{String}
+\defDefault{No default}
+
+\defSub{values}{The values to check against the addressable}
+\defType{Vector of non-negative integers}
+\defDefault{No default}
+
+\defSub{error\_type}{Report assert failures as either an error or warning}
+\defType{String}
+\defDefault{error}
+
+\subsubsection{Assert of type Objective\_Function}
+\commandlabsubarg{Assert}{type}{Objective\_Function}.
+\defRef{sec:Assert-ObjectiveFunction}
+\label{syntax:Assert-ObjectiveFunction}
+
+\defSub{value}{Expected value of the objective function}
+\defType{Real number (estimable)}
+\defDefault{No default}
+
+\defSub{error\_type}{Report assert failures as either an error or warning}
+\defType{String}
+\defDefault{error}
+
+\subsubsection{Assert of type Partition}
+\commandlabsubarg{Assert}{type}{Partition}.
+\defRef{sec:Assert-Partition}
+\label{syntax:Assert-Partition}
+
+\defSub{category}{Category to check population values for}
+\defType{String}
+\defDefault{No default}
+
+\defSub{values}{Values expected in the partition}
+\defType{Vector of real numbers (estimable)}
+\defDefault{No default}
+
+\defSub{error\_type}{Report assert failures as either an error or warning}
+\defType{String}
+\defDefault{error}
+

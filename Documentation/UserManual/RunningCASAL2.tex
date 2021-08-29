@@ -119,7 +119,7 @@ Note that \config\ files can \emph{include} other \config\ files to assist file 
 \item Commands that do not have either a label or argument, but have subcommands (for example \command{model} or \command{categories})
 \end{itemize}
 
-Apart from \texttt{!include}, commands start with an \texttt{@} in the first column (i.e., may not have a space or tab character before them on the line). After each command, the subcommands are listed and must occur before the next command. Otherwise, the commands and subcommands are free form with each command or subcommand on a separate line (see Section \ref{{sec:CommandBlockFormat}}).
+Apart from \texttt{!include}, commands start with an \texttt{@} in the first column (i.e., may not have a space or tab character before them on the line). After each command, the subcommands are listed and must occur before the next command. Otherwise, the commands and subcommands are free form with each command or subcommand on a separate line (see Section \ref{sec:CommandBlockFormat}).
 
 Commands that have a label must have a unique label, i.e., the label cannot be used on more than one command of that type. |CNAME\ checks and will report an error of two commands of the same type have the same label. The labels can contain alpha numeric characters, period (`.'), underscore (`\_') and dash (`-'), but cannot start with a double underscore ('\_\_'). Labels that start with a double underscore are reserved, and used for internal reports that \CNAME\ can automatically generate in some circumstances. Otherwise labels must not contain white space (tabs or spaces) or any characters that are not letters, numbers, dashes, periods, or underscores. For example,
 
@@ -169,27 +169,17 @@ Parameters can also be addressable, i.e., they can be referred to within another
 The command block is a basic unit within the \config. Each command begins with the symbol \command{} and then the command name, usually followed by a user defined label or a valid argument. The end of each command block is denoted by the start of the next command block or end of the file. For example, the layout of a \config\ will be
 
 \begin{description}
-	\item \command{command}
-	\item \subcommand{subcommand} \subcommand{argument}
-	\item \subcommand{subcommand} \subcommand{argument}
-	\item .
-	\item .
-	\item etc.
-	\item \command{command} \subcommand{argument}
-	\item \subcommand{subcommand} \subcommand{argument}
-	\item \subcommand{subcommand} \subcommand{argument}
-	\item .
-	\item .
-	\item etc.
-	\item \command{command} \subcommand{\emph{label}}
-	\item \subcommand{subcommand} \subcommand{argument}
-	\item \subcommand{subcommand} \subcommand{argument}
-	\item .
-	\item .
-	\item etc.
+	\item \command{command} \subcommand{label}
+	\item \subcommand{first\_subcommand} \subcommand{argument}
+	\item \subcommand{second\_subcommand} \subcommand{argument}
+	\item ... etc.
+	\item \command{another\_command} \subcommand{label}
+	\item \subcommand{another\_subcommand} \subcommand{argument}
+	\item \subcommand{another\_subcommand} \subcommand{argument}
+	\item ... etc.
 \end{description}
 
-Note that subcommands can be in any order within each command block. And command blocks can be in any order within the input files, except \command{model} --- this must be the first command block encountered by \CNAME\.
+Note that subcommands can be in any order within each command block. And command blocks can be in any order within the input files, except \command{model} --- this must be the first command block encountered by \CNAME.
 
 Blank lines are ignored, as is extra white space (tabs and spaces) between arguments. However, to start command block the \command{} character must be the first character on the line and must not be preceded by any white space. Each input file must end with a carriage return.
 
@@ -270,7 +260,7 @@ year line pot       #names columns so can identity catch for each fishery
 end_table           # end of table marker
 \end{verbatim}}}
 
-Other information needed are supplied in the methods table which has a fixed number of columns (again these can be in any order), one for each piece of information needed to model a fishery. The method column defines the fishery name which is used in the catch table and also in other observations like age composition from that fishery. The categories that the fishery operates on (all in this case, but it could be just males for one and females for the other) are in the category column, the fishing selectivity to be used is given as a selectivity block name which is define somewhere else in the files, \textit{u\_max} is the maximum exploitation rate in any year that is allowed, next comes the time step the fishing operates in, and lastly the block name of a penalty function that is used to penalise estimable parameter values that result in the supplied catch not being caught. Again, the penalty block is define elsewhere in the files. After the row with the column names, there follows one row for each fishery:
+Other information needed are supplied in the methods table which has a fixed number of columns (again these can be in any order), one for each piece of information needed to model a fishery. The method column defines the fishery name which is used in the catch table and also in other observations like age composition from that fishery. The categories that the fishery operates on (all in this case, but it could be just males for one and females for the other) are in the category column, the fishing selectivity to be used is given as a selectivity block name which is define somewhere else in the files, $U_max$ is the maximum exploitation rate in any year that is allowed, next comes the time step the fishing operates in, and lastly the block name of a penalty function that is used to penalise estimable parameter values that result in the supplied catch not being caught. Again, the penalty block is define elsewhere in the files. After the row with the column names, there follows one row for each fishery:
 
 {\small{\begin{verbatim}
 table method        # supply arguments and name selectivity etc

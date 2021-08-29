@@ -1,0 +1,691 @@
+\defComLab{Observation}{Define an object of type \emph{Observation}}.
+\defRef{sec:Observation}
+\label{syntax:Observation}
+
+\defSub{label}{The label of the observation}
+\defType{String}
+\defDefault{No default}
+
+\defSub{type}{The type of observation}
+\defType{String}
+\defDefault{No default}
+
+\defSub{likelihood}{The type of likelihood to use}
+\defType{String}
+\defDefault{No default}
+
+\defSub{categories}{The category labels to use}
+\defType{Vector of strings}
+\defDefault{true}
+
+\defSub{delta}{The robustification value (delta) for the likelihood}
+\defType{Real number (estimable)}
+\defDefault{utilities::math::DELTA}
+\defLowerBound{0.0 (inclusive)}
+
+\defSub{simulation\_likelihood}{The simulation likelihood to use}
+\defType{String}
+\defDefault{No default}
+
+\defSub{likelihood\_multiplier}{The likelihood score multiplier}
+\defType{Real number (estimable)}
+\defDefault{1.0}
+\defLowerBound{0.0 (inclusive)}
+
+\defSub{error\_value\_multiplier}{The error value multiplier for likelihood}
+\defType{Real number (estimable)}
+\defDefault{1.0}
+\defLowerBound{0.0 (inclusive)}
+
+\subsubsection{Observation of type Abundance}
+\commandlabsubarg{Observation}{type}{Abundance}.
+\defRef{sec:Observation-Abundance}
+\label{syntax:Observation-Abundance}
+
+\defSub{time\_step}{The label of the time step that the observation occurs in}
+\defType{String}
+\defDefault{No default}
+
+\defSub{catchability}{The label of the catchability coefficient (q)}
+\defType{String}
+\defDefault{No default}
+
+\defSub{selectivities}{The labels of the selectivities}
+\defType{Vector of strings}
+\defDefault{true}
+
+\defSub{process\_error}{The process error}
+\defType{Real number (estimable)}
+\defDefault{0.0}
+\defLowerBound{0.0 (inclusive)}
+
+\defSub{years}{The years for which there are observations}
+\defType{Vector of non-negative integers}
+\defDefault{No default}
+
+\subsubsection{Observation of type Biomass}
+\commandlabsubarg{Observation}{type}{Biomass}.
+\defRef{sec:Observation-Biomass}
+\label{syntax:Observation-Biomass}
+
+\defSub{time\_step}{The label of the time step that the observation occurs in}
+\defType{String}
+\defDefault{No default}
+
+\defSub{catchability}{The label of the catchability coefficient (q)}
+\defType{String}
+\defDefault{No default}
+
+\defSub{selectivities}{The labels of the selectivities}
+\defType{Vector of strings}
+\defDefault{true}
+
+\defSub{process\_error}{The process error}
+\defType{Real number (estimable)}
+\defDefault{0.0}
+\defLowerBound{0.0 (inclusive)}
+
+\defSub{age\_weight\_labels}{The labels for the \command{$age\_weight$} block which corresponds to each category, to use the weight calculation method for biomass calculations)}
+\defType{Vector of strings}
+\defDefault{No default}
+
+\defSub{years}{The years of the observed values}
+\defType{Vector of non-negative integers}
+\defDefault{No default}
+
+\subsubsection{Observation of type Process\_Removals\_By\_Age}
+\commandlabsubarg{Observation}{type}{Process\_Removals\_By\_Age}.
+\defRef{sec:Observation-ProcessRemovalsByAge}
+\label{syntax:Observation-ProcessRemovalsByAge}
+
+\defSub{min\_age}{The minimum age}
+\defType{Non-negative integer}
+\defDefault{No default}
+
+\defSub{max\_age}{The maximum age}
+\defType{Non-negative integer}
+\defDefault{No default}
+
+\defSub{plus\_group}{Is the maximum age the age plus group}
+\defType{Boolean}
+\defDefault{true}
+
+\defSub{time\_step}{The label of time-step that the observation occurs in}
+\defType{Vector of strings}
+\defDefault{No default}
+
+\defSub{tolerance}{The tolerance}
+\defType{Real number (estimable)}
+\defDefault{0.001}
+\defLowerBound{0.0 (exclusive)}
+\defUpperBound{1.0 (exclusive)}
+
+\defSub{years}{The years for which there are observations}
+\defType{Vector of non-negative integers}
+\defDefault{No default}
+
+\defSub{process\_errors}{The label of process error to use}
+\defType{Vector of real numbers (estimable)}
+\defDefault{true}
+
+\defSub{ageing\_error}{The label of the ageing error to use}
+\defType{String}
+\defDefault{No default}
+
+\defSub{method\_of\_removal}{The label of the observed method of removals}
+\defType{Vector of strings}
+\defDefault{No default}
+
+\defSub{mortality\_instantaneous\_process}{The label of the mortality instantaneous process for the observation}
+\defType{String}
+\defDefault{No default}
+
+\subsubsection{Observation of type Process\_Removals\_By\_Age\_Retained}
+\commandlabsubarg{Observation}{type}{Process\_Removals\_By\_Age\_Retained}.
+\defRef{sec:Observation-ProcessRemovalsByAgeRetained}
+\label{syntax:Observation-ProcessRemovalsByAgeRetained}
+
+\defSub{min\_age}{The minimum age}
+\defType{Non-negative integer}
+\defDefault{No default}
+
+\defSub{max\_age}{The maximum age}
+\defType{Non-negative integer}
+\defDefault{No default}
+
+\defSub{plus\_group}{Is the maximum age the age plus group?}
+\defType{Boolean}
+\defDefault{true}
+
+\defSub{time\_step}{The label of the time step that the observation occurs in}
+\defType{Vector of strings}
+\defDefault{No default}
+
+\defSub{tolerance}{The tolerance}
+\defType{Real number (estimable)}
+\defDefault{0.001}
+\defLowerBound{0.0 (exclusive)}
+\defUpperBound{1.0 (exclusive)}
+
+\defSub{years}{The years for which there are observations}
+\defType{Vector of non-negative integers}
+\defDefault{No default}
+
+\defSub{process\_errors}{The label of the process error to use}
+\defType{Vector of real numbers (estimable)}
+\defDefault{true}
+
+\defSub{ageing\_error}{The label of the ageing error to use}
+\defType{String}
+\defDefault{No default}
+
+\defSub{method\_of\_removal}{The label of observed method of removals}
+\defType{Vector of strings}
+\defDefault{No default}
+
+\defSub{mortality\_instantaneous\_process}{The label of the mortality instantaneous process for the observation}
+\defType{String}
+\defDefault{No default}
+
+\subsubsection{Observation of type Process\_Removals\_By\_Age\_Retained\_Total}
+\commandlabsubarg{Observation}{type}{Process\_Removals\_By\_Age\_Retained\_Total}.
+\defRef{sec:Observation-ProcessRemovalsByAgeRetainedTotal}
+\label{syntax:Observation-ProcessRemovalsByAgeRetainedTotal}
+
+\defSub{min\_age}{The minimum age}
+\defType{Non-negative integer}
+\defDefault{No default}
+
+\defSub{max\_age}{The maximum age}
+\defType{Non-negative integer}
+\defDefault{No default}
+
+\defSub{plus\_group}{Is the maximum age the age plus group?}
+\defType{Boolean}
+\defDefault{true}
+
+\defSub{time\_step}{The label of the time step that the observation occurs in}
+\defType{Vector of strings}
+\defDefault{No default}
+
+\defSub{tolerance}{The tolerance}
+\defType{Real number (estimable)}
+\defDefault{0.001}
+\defLowerBound{0.0 (exclusive)}
+\defUpperBound{1.0 (exclusive)}
+
+\defSub{years}{The years for which there are observations}
+\defType{Vector of non-negative integers}
+\defDefault{No default}
+
+\defSub{process\_errors}{The label of the process error to use}
+\defType{Vector of real numbers (estimable)}
+\defDefault{true}
+
+\defSub{ageing\_error}{The label of the ageing error to use}
+\defType{String}
+\defDefault{No default}
+
+\defSub{method\_of\_removal}{The label of observed method of removals}
+\defType{Vector of strings}
+\defDefault{No default}
+
+\defSub{mortality\_instantaneous\_process}{The label of the mortality instantaneous process for the observation}
+\defType{String}
+\defDefault{No default}
+
+\subsubsection{Observation of type Process\_Removals\_By\_Length}
+\commandlabsubarg{Observation}{type}{Process\_Removals\_By\_Length}.
+\defRef{sec:Observation-ProcessRemovalsByLength}
+\label{syntax:Observation-ProcessRemovalsByLength}
+
+\defSub{time\_step}{The time step to execute in}
+\defType{String}
+\defDefault{No default}
+
+\defSub{tolerance}{The tolerance for rescaling proportions}
+\defType{Real number (estimable)}
+\defDefault{0.001}
+\defLowerBound{0.0 (exclusive)}
+\defUpperBound{1.0 (exclusive)}
+
+\defSub{years}{The years for which there are observations}
+\defType{Vector of non-negative integers}
+\defDefault{No default}
+
+\defSub{process\_errors}{The process error}
+\defType{Vector of real numbers (estimable)}
+\defDefault{true}
+
+\defSub{method\_of\_removal}{The label of observed method of removals}
+\defType{String}
+\defDefault{No default}
+
+\defSub{length\_bins}{The length bins}
+\defType{Vector of real numbers (estimable)}
+\defDefault{No default}
+
+\defSub{length\_plus}{Is the last length bin a plus group? (defaults to @model value)}
+\defType{Boolean}
+\defDefault{model}
+
+\defSub{mortality\_instantaneous\_process}{The label of the mortality instantaneous process for the observation}
+\defType{String}
+\defDefault{No default}
+
+\subsubsection{Observation of type Process\_Removals\_By\_Length\_Retained}
+\commandlabsubarg{Observation}{type}{Process\_Removals\_By\_Length\_Retained}.
+\defRef{sec:Observation-ProcessRemovalsByLengthRetained}
+\label{syntax:Observation-ProcessRemovalsByLengthRetained}
+
+\defSub{time\_step}{The time step to execute in}
+\defType{String}
+\defDefault{No default}
+
+\defSub{tolerance}{The tolerance for rescaling proportions}
+\defType{Real number (estimable)}
+\defDefault{0.001}
+\defLowerBound{0.0 (exclusive)}
+\defUpperBound{1.0 (exclusive)}
+
+\defSub{years}{The years for which there are observations}
+\defType{Vector of non-negative integers}
+\defDefault{No default}
+
+\defSub{process\_errors}{The process error}
+\defType{Vector of real numbers (estimable)}
+\defDefault{true}
+
+\defSub{method\_of\_removal}{The label of observed method of removals}
+\defType{String}
+\defDefault{No default}
+
+\defSub{length\_bins}{The length bins}
+\defType{Vector of real numbers (estimable)}
+\defDefault{No default}
+
+\defSub{length\_plus}{Is the last length bin a plus group? (defaults to @model value)}
+\defType{Boolean}
+\defDefault{model}
+
+\defSub{mortality\_instantaneous\_process}{The label of the mortality instantaneous process for the observation}
+\defType{String}
+\defDefault{No default}
+
+\subsubsection{Observation of type Process\_Removals\_By\_Length\_Retained\_Total}
+\commandlabsubarg{Observation}{type}{Process\_Removals\_By\_Length\_Retained\_Total}.
+\defRef{sec:Observation-ProcessRemovalsByLengthRetainedTotal}
+\label{syntax:Observation-ProcessRemovalsByLengthRetainedTotal}
+
+\defSub{time\_step}{The time step to execute in}
+\defType{String}
+\defDefault{No default}
+
+\defSub{tolerance}{The tolerance for rescaling proportions}
+\defType{Real number (estimable)}
+\defDefault{0.001}
+\defLowerBound{0.0 (exclusive)}
+\defUpperBound{1.0 (exclusive)}
+
+\defSub{years}{The years for which there are observations}
+\defType{Vector of non-negative integers}
+\defDefault{No default}
+
+\defSub{process\_errors}{The process error}
+\defType{Vector of real numbers (estimable)}
+\defDefault{true}
+
+\defSub{method\_of\_removal}{The label of observed method of removals}
+\defType{String}
+\defDefault{No default}
+
+\defSub{length\_bins}{The length bins}
+\defType{Vector of real numbers (estimable)}
+\defDefault{No default}
+
+\defSub{length\_plus}{Is the last length bin a plus group? (defaults to @model value)}
+\defType{Boolean}
+\defDefault{model}
+
+\defSub{mortality\_instantaneous\_process}{The label of the mortality instantaneous process for the observation}
+\defType{String}
+\defDefault{No default}
+
+\subsubsection{Observation of type Process\_Removals\_By\_Weight}
+\commandlabsubarg{Observation}{type}{Process\_Removals\_By\_Weight}.
+\defRef{sec:Observation-ProcessRemovalsByWeight}
+\label{syntax:Observation-ProcessRemovalsByWeight}
+
+\defSub{mortality\_instantaneous\_process}{The label of the mortality instantaneous process for the observation}
+\defType{String}
+\defDefault{No default}
+
+\defSub{method\_of\_removal}{The label of observed method of removals}
+\defType{String}
+\defDefault{No default}
+
+\defSub{time\_step}{The time step to execute in}
+\defType{String}
+\defDefault{No default}
+
+\defSub{tolerance}{The tolerance for rescaling proportions}
+\defType{Real number (estimable)}
+\defDefault{0.001}
+\defLowerBound{0.0 (exclusive)}
+\defUpperBound{1.0 (exclusive)}
+
+\defSub{years}{The years for which there are observations}
+\defType{Vector of non-negative integers}
+\defDefault{No default}
+
+\defSub{process\_errors}{The process error}
+\defType{Vector of real numbers (estimable)}
+\defDefault{true}
+
+\defSub{length\_weight\_cv}{The CV for the length-weight relationship}
+\defType{Real number (estimable)}
+\defDefault{0.10}
+\defLowerBound{0.0 (exclusive)}
+
+\defSub{length\_weight\_distribution}{The distribution of the length-weight relationship}
+\defType{String}
+\defDefault{normal}
+
+\defSub{length\_bins}{The length bins}
+\defType{Vector of real numbers (estimable)}
+\defDefault{No default}
+
+\defSub{length\_bins\_n}{The average number in each length bin}
+\defType{Vector of real numbers (estimable)}
+\defDefault{No default}
+
+\defSub{units}{The units for the weight bins (grams, kilograms (kgs), or tonnes)}
+\defType{String}
+\defDefault{kgs}
+
+\defSub{fishbox\_weight}{The target weight of each box}
+\defType{Real number (estimable)}
+\defDefault{20.0}
+\defLowerBound{0.0 (exclusive)}
+
+\defSub{weight\_bins}{The weight bins}
+\defType{Vector of real numbers (estimable)}
+\defDefault{No default}
+
+\subsubsection{Observation of type Proportions\_At\_Age}
+\commandlabsubarg{Observation}{type}{Proportions\_At\_Age}.
+\defRef{sec:Observation-ProportionsAtAge}
+\label{syntax:Observation-ProportionsAtAge}
+
+\defSub{min\_age}{The minimum age}
+\defType{Non-negative integer}
+\defDefault{No default}
+
+\defSub{max\_age}{The maximum age}
+\defType{Non-negative integer}
+\defDefault{No default}
+
+\defSub{plus\_group}{Is the maximum age the age plus group?}
+\defType{Boolean}
+\defDefault{true}
+
+\defSub{time\_step}{The label of the time step that the observation occurs in}
+\defType{String}
+\defDefault{No default}
+
+\defSub{tolerance}{The tolerance on the constraint that for each year the sum of proportions in each age must equal 1, e.g., if tolerance = 0.1 then 1 - Sum(Proportions) can be as great as 0.1}
+\defType{Real number (estimable)}
+\defDefault{0.001}
+\defLowerBound{0.0 (exclusive)}
+\defUpperBound{1.0 (exclusive)}
+
+\defSub{years}{The years of the observed values}
+\defType{Vector of non-negative integers}
+\defDefault{No default}
+
+\defSub{selectivities}{The labels of the selectivities}
+\defType{Vector of strings}
+\defDefault{true}
+
+\defSub{process\_errors}{The process error}
+\defType{Vector of real numbers (estimable)}
+\defDefault{true}
+
+\defSub{ageing\_error}{The label of ageing error to use}
+\defType{String}
+\defDefault{No default}
+
+\subsubsection{Observation of type Proportions\_At\_Length}
+\commandlabsubarg{Observation}{type}{Proportions\_At\_Length}.
+\defRef{sec:Observation-ProportionsAtLength}
+\label{syntax:Observation-ProportionsAtLength}
+
+\defSub{time\_step}{The label of the time step that the observation occurs in}
+\defType{String}
+\defDefault{No default}
+
+\defSub{tolerance}{The tolerance for rescaling proportions}
+\defType{Real number (estimable)}
+\defDefault{0.001}
+\defLowerBound{0.0 (exclusive)}
+
+\defSub{years}{The years for which there are observations}
+\defType{Vector of non-negative integers}
+\defDefault{No default}
+
+\defSub{selectivities}{The labels of the selectivities}
+\defType{Vector of strings}
+\defDefault{true}
+
+\defSub{process\_errors}{The process error}
+\defType{Vector of real numbers (estimable)}
+\defDefault{true}
+
+\defSub{length\_bins}{The length bins}
+\defType{Vector of real numbers (estimable)}
+\defDefault{true}
+
+\subsubsection{Observation of type Proportions\_By\_Category}
+\commandlabsubarg{Observation}{type}{Proportions\_By\_Category}.
+\defRef{sec:Observation-ProportionsByCategory}
+\label{syntax:Observation-ProportionsByCategory}
+
+\defSub{min\_age}{The minimum age}
+\defType{Non-negative integer}
+\defDefault{No default}
+
+\defSub{max\_age}{The maximum age}
+\defType{Non-negative integer}
+\defDefault{No default}
+
+\defSub{time\_step}{The label of the time step that the observation occurs in}
+\defType{String}
+\defDefault{No default}
+
+\defSub{plus\_group}{Use the age plus group?}
+\defType{Boolean}
+\defDefault{true}
+
+\defSub{years}{The years for which there are observations}
+\defType{Vector of non-negative integers}
+\defDefault{No default}
+
+\defSub{selectivities}{The labels of the selectivities}
+\defType{Vector of strings}
+\defDefault{true}
+
+\defSub{categories2}{The target categories}
+\defType{Vector of strings}
+\defDefault{No default}
+
+\defSub{selectivities2}{The target selectivities}
+\defType{Vector of strings}
+\defDefault{No default}
+
+\subsubsection{Observation of type Proportions\_Mature\_By\_Age}
+\commandlabsubarg{Observation}{type}{Proportions\_Mature\_By\_Age}.
+\defRef{sec:Observation-ProportionsMatureByAge}
+\label{syntax:Observation-ProportionsMatureByAge}
+
+\defSub{min\_age}{The minimum age}
+\defType{Non-negative integer}
+\defDefault{No default}
+
+\defSub{max\_age}{The maximum age}
+\defType{Non-negative integer}
+\defDefault{No default}
+
+\defSub{time\_step}{The label of time-step that the observation occurs in}
+\defType{String}
+\defDefault{No default}
+
+\defSub{plus\_group}{Use the age plus group?}
+\defType{Boolean}
+\defDefault{true}
+
+\defSub{years}{The years for which there are observations}
+\defType{Vector of non-negative integers}
+\defDefault{No default}
+
+\defSub{ageing\_error}{The label of ageing error to use}
+\defType{String}
+\defDefault{No default}
+
+\defSub{total\_categories}{All category labels that were vulnerable to sampling at the time of this observation (not including the categories already given)}
+\defType{Vector of strings}
+\defDefault{true}
+
+\defSub{time\_step\_proportion}{The proportion through the mortality block of the time step when the observation is evaluated}
+\defType{Real number (estimable)}
+\defDefault{0.5}
+\defLowerBound{0.0 (inclusive)}
+\defUpperBound{1.0 (inclusive)}
+
+\subsubsection{Observation of type Proportions\_Migrating}
+\commandlabsubarg{Observation}{type}{Proportions\_Migrating}.
+\defRef{sec:Observation-ProportionsMigrating}
+\label{syntax:Observation-ProportionsMigrating}
+
+\defSub{min\_age}{The minimum age}
+\defType{Non-negative integer}
+\defDefault{No default}
+
+\defSub{max\_age}{The maximum age}
+\defType{Non-negative integer}
+\defDefault{No default}
+
+\defSub{time\_step}{The label of the time step that the observation occurs in}
+\defType{String}
+\defDefault{No default}
+
+\defSub{plus\_group}{Is the maximum age the age plus group?}
+\defType{Boolean}
+\defDefault{true}
+
+\defSub{years}{The years for which there are observations}
+\defType{Vector of non-negative integers}
+\defDefault{No default}
+
+\defSub{process\_errors}{The process error}
+\defType{Vector of real numbers (estimable)}
+\defDefault{true}
+
+\defSub{ageing\_error}{The label of the ageing error to use}
+\defType{String}
+\defDefault{No default}
+
+\defSub{process}{The process label}
+\defType{String}
+\defDefault{No default}
+
+\subsubsection{Observation of type Tag\_Recapture\_By\_Age}
+\commandlabsubarg{Observation}{type}{Tag\_Recapture\_By\_Age}.
+\defRef{sec:Observation-TagRecaptureByAge}
+\label{syntax:Observation-TagRecaptureByAge}
+
+\defSub{min\_age}{The minimum age}
+\defType{Non-negative integer}
+\defDefault{No default}
+
+\defSub{max\_age}{The maximum age}
+\defType{Non-negative integer}
+\defDefault{No default}
+
+\defSub{plus\_group}{Is the maximum age the age plus group?}
+\defType{Boolean}
+\defDefault{true}
+
+\defSub{years}{The years for which there are observations}
+\defType{Vector of non-negative integers}
+\defDefault{No default}
+
+\defSub{categories2}{The available categories in the partition}
+\defType{Vector of strings}
+\defDefault{No default}
+
+\defSub{selectivities}{The labels of the selectivities}
+\defType{Vector of strings}
+\defDefault{true}
+
+\defSub{time\_step}{The label of the time step that the observation occurs in}
+\defType{String}
+\defDefault{No default}
+
+\defSub{selectivities2}{The categories of tagged individuals for the observation}
+\defType{Vector of strings}
+\defDefault{No default}
+
+\defSub{detection}{The probability of detecting a recaptured individual}
+\defType{Real number (estimable)}
+\defDefault{No default}
+\defLowerBound{0.0 (inclusive)}
+\defUpperBound{1.0 (inclusive)}
+
+\defSub{time\_step\_proportion}{The proportion through the mortality block of the time step when the observation is evaluated}
+\defType{Real number (estimable)}
+\defDefault{0.5}
+\defLowerBound{0.0 (inclusive)}
+\defUpperBound{1.0 (inclusive)}
+
+\subsubsection{Observation of type Tag\_Recapture\_By\_Length}
+\commandlabsubarg{Observation}{type}{Tag\_Recapture\_By\_Length}.
+\defRef{sec:Observation-TagRecaptureByLength}
+\label{syntax:Observation-TagRecaptureByLength}
+
+\defSub{years}{The years for which there are observations}
+\defType{Vector of non-negative integers}
+\defDefault{No default}
+
+\defSub{time\_step}{The time step to execute in}
+\defType{String}
+\defDefault{No default}
+
+\defSub{length\_bins}{The length bins}
+\defType{Vector of real numbers (estimable)}
+\defDefault{true}
+
+\defSub{selectivities}{The labels of the selectivities used for untagged categories}
+\defType{Vector of strings}
+\defDefault{true}
+
+\defSub{tagged\_selectivities}{The labels of the tag category selectivities}
+\defType{Vector of strings}
+\defDefault{No default}
+
+\defSub{detection}{The probability of detecting a recaptured individual}
+\defType{Real number (estimable)}
+\defDefault{No default}
+\defLowerBound{0.0 (inclusive)}
+\defUpperBound{1.0 (inclusive)}
+
+\defSub{dispersion}{The overdispersion parameter (phi)}
+\defType{Real number (estimable)}
+\defDefault{1.0}
+\defLowerBound{0.0 (inclusive)}
+
+\defSub{time\_step\_proportion}{The proportion through the mortality block of the time step when the observation is evaluated}
+\defType{Real number (estimable)}
+\defDefault{0.5}
+\defLowerBound{0.0 (inclusive)}
+\defUpperBound{1.0 (inclusive)}
+

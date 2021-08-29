@@ -1,0 +1,61 @@
+\defComLab{Ageing\_Error}{Define an object of type \emph{Ageing\_Error}}.
+\defRef{sec:AgeingError}
+\label{syntax:AgeingError}
+
+\defSub{label}{The label of the ageing error}
+\defType{String}
+\defDefault{No default}
+
+\defSub{type}{The type of ageing error}
+\defType{String}
+\defDefault{No default}
+
+\subsubsection{Ageing\_Error of type Data}
+\commandlabsubarg{Ageing\_Error}{type}{Data}.
+\defRef{sec:AgeingError-Data}
+\label{syntax:AgeingError-Data}
+
+The Data type has no additional subcommands.
+\subsubsection{Ageing\_Error of type None}
+\commandlabsubarg{Ageing\_Error}{type}{None}.
+\defRef{sec:AgeingError-None}
+\label{syntax:AgeingError-None}
+
+The None type has no additional subcommands.
+\subsubsection{Ageing\_Error of type Normal}
+\commandlabsubarg{Ageing\_Error}{type}{Normal}.
+\defRef{sec:AgeingError-Normal}
+\label{syntax:AgeingError-Normal}
+
+\defSub{cv}{CV of the misclassification matrix}
+\defType{Real number (estimable)}
+\defDefault{No default}
+\defLowerBound{0.0 (exclusive)}
+
+\defSub{k}{k defines the minimum age of individuals which can be misclassified, i.e., individuals of age less than k have no ageing error}
+\defType{Non-negative integer}
+\defDefault{0}
+\defLowerBound{0 (inclusive)}
+
+\subsubsection{Ageing\_Error of type Off\_By\_One}
+\commandlabsubarg{Ageing\_Error}{type}{Off\_By\_One}.
+\defRef{sec:AgeingError-OffByOne}
+\label{syntax:AgeingError-OffByOne}
+
+\defSub{p1}{The proportion misclassified as one year younger, e.g., the proportion of age k individuals that were misclassified as age (k-1)}
+\defType{Real number (estimable)}
+\defDefault{No default}
+\defLowerBound{0.0 (inclusive)}
+\defUpperBound{1.0 (inclusive)}
+
+\defSub{p2}{The proportion misclassified as one year older, e.g., the proportion of age k individuals that were misclassified as age (k+1))}
+\defType{Real number (estimable)}
+\defDefault{No default}
+\defLowerBound{0.0 (inclusive)}
+\defUpperBound{1.0 (inclusive)}
+
+\defSub{k}{The minimum age of animals which can be misclassified, i.e., animals of age less than k are assumed to be correctly classified}
+\defType{Non-negative integer}
+\defDefault{0}
+\defLowerBound{0 (inclusive)}
+

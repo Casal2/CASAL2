@@ -523,7 +523,7 @@ class VariableLoader:
 
 
 class Printer:
-    output_path_ = '../Documentation/UserManual/Syntax/'
+    output_path_ = '../Documentation/UserManual/AutoSyntax/'
 
     def Run(self):
         global parent_class_
@@ -533,8 +533,8 @@ class Printer:
 
         parent_class_.name_ = re.sub(reReplaceUnderscores, '\_', parent_class_.name_)
 
-        if not os.path.exists('../Documentation/UserManual/Syntax/'):
-            os.makedirs('../Documentation/UserManual/Syntax/')
+        if not os.path.exists('../Documentation/UserManual/AutoSyntax/'):
+            os.makedirs('../Documentation/UserManual/AutoSyntax/')
 
         print('-- Printing to file ' + self.current_output_file_)
         file = open(self.current_output_file_ + '.tex', 'w')

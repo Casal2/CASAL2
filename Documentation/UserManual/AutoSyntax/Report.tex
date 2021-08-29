@@ -1,0 +1,349 @@
+\defComLab{Report}{Define an object of type \emph{Report}}.
+\defRef{sec:Report}
+\label{syntax:Report}
+
+\defSub{label}{The report label}
+\defType{String}
+\defDefault{No default}
+
+\defSub{type}{The report type}
+\defType{String}
+\defDefault{No default}
+
+\defSub{file\_name}{The file name. If not supplied, then output is directed to standard out}
+\defType{String}
+\defDefault{No default}
+
+\defSub{write\_mode}{Specify if any previous file with the same name should be overwritten, appended to, or is generated using a sequential suffix}
+\defType{String}
+\defDefault{overwrite}
+
+\defSub{format}{Report output format}
+\defType{String}
+\defDefault{r}
+
+\subsubsection{Report of type Addressable}
+\commandlabsubarg{Report}{type}{Addressable}.
+\defRef{sec:Report-Addressable}
+\label{syntax:Report-Addressable}
+
+\defSub{parameter}{The addressable parameter name}
+\defType{String}
+\defDefault{No default}
+
+\defSub{years}{Define the years that the report is generated for}
+\defType{Vector of non-negative integers}
+\defDefault{No default}
+
+\defSub{time\_step}{Defines the time-step that the report applies to}
+\defType{String}
+\defDefault{No default}
+
+\subsubsection{Report of type Age\_Length}
+\commandlabsubarg{Report}{type}{Age\_Length}.
+\defRef{sec:Report-AgeLength}
+\label{syntax:Report-AgeLength}
+
+\defSub{time\_step}{The time step label}
+\defType{String}
+\defDefault{No default}
+
+\defSub{years}{The years for the report}
+\defType{Vector of non-negative integers}
+\defDefault{true}
+
+\defSub{age\_length}{The age-length label}
+\defType{String}
+\defDefault{No default}
+
+\defSub{category}{The category label}
+\defType{String}
+\defDefault{No default}
+
+\subsubsection{Report of type Ageing\_Error\_Matrix}
+\commandlabsubarg{Report}{type}{Ageing\_Error\_Matrix}.
+\defRef{sec:Report-AgeingErrorMatrix}
+\label{syntax:Report-AgeingErrorMatrix}
+
+\defSub{ageing\_error}{The ageing error label}
+\defType{String}
+\defDefault{No default}
+
+\subsubsection{Report of type Catchability}
+\commandlabsubarg{Report}{type}{Catchability}.
+\defRef{sec:Report-Catchability}
+\label{syntax:Report-Catchability}
+
+\defSub{catchability}{The catchability label}
+\defType{String}
+\defDefault{No default}
+
+\subsubsection{Report of type Category\_Info}
+\commandlabsubarg{Report}{type}{Category\_Info}.
+\defRef{sec:Report-CategoryInfo}
+\label{syntax:Report-CategoryInfo}
+
+The Category\_Info type has no additional subcommands.
+\subsubsection{Report of type Category\_List}
+\commandlabsubarg{Report}{type}{Category\_List}.
+\defRef{sec:Report-CategoryList}
+\label{syntax:Report-CategoryList}
+
+The Category\_List type has no additional subcommands.
+\subsubsection{Report of type Correlation\_Matrix}
+\commandlabsubarg{Report}{type}{Correlation\_Matrix}.
+\defRef{sec:Report-CorrelationMatrix}
+\label{syntax:Report-CorrelationMatrix}
+
+The Correlation\_Matrix type has no additional subcommands.
+\subsubsection{Report of type Covariance\_Matrix}
+\commandlabsubarg{Report}{type}{Covariance\_Matrix}.
+\defRef{sec:Report-CovarianceMatrix}
+\label{syntax:Report-CovarianceMatrix}
+
+The Covariance\_Matrix type has no additional subcommands.
+\subsubsection{Report of type Default\_Reports}
+\commandlabsubarg{Report}{type}{Default\_Reports}.
+\defRef{sec:Report-DefaultReports}
+\label{syntax:Report-DefaultReports}
+
+\defSub{catchabilities}{Report catchabilities}
+\defType{Boolean}
+\defDefault{false}
+
+\defSub{derived\_quantities}{Report derived quantities}
+\defType{Boolean}
+\defDefault{false}
+
+\defSub{observations}{Report observations}
+\defType{Boolean}
+\defDefault{false}
+
+\defSub{processes}{Report processes}
+\defType{Boolean}
+\defDefault{false}
+
+\defSub{projects}{Report projects}
+\defType{Boolean}
+\defDefault{false}
+
+\defSub{selectivities}{Report selectivities}
+\defType{Boolean}
+\defDefault{false}
+
+\subsubsection{Report of type Derived\_Quantity}
+\commandlabsubarg{Report}{type}{Derived\_Quantity}.
+\defRef{sec:Report-DerivedQuantity}
+\label{syntax:Report-DerivedQuantity}
+
+\defSub{derived\_quantity}{The derived quantity label}
+\defType{String}
+\defDefault{No default}
+
+\subsubsection{Report of type Equation\_Test}
+\commandlabsubarg{Report}{type}{Equation\_Test}.
+\defRef{sec:Report-EquationTest}
+\label{syntax:Report-EquationTest}
+
+\defSub{equation}{The equation to do a test run of}
+\defType{Vector of strings}
+\defDefault{No default}
+
+\subsubsection{Report of type Estimate\_Summary}
+\commandlabsubarg{Report}{type}{Estimate\_Summary}.
+\defRef{sec:Report-EstimateSummary}
+\label{syntax:Report-EstimateSummary}
+
+The Estimate\_Summary type has no additional subcommands.
+\subsubsection{Report of type Estimate\_Value}
+\commandlabsubarg{Report}{type}{Estimate\_Value}.
+\defRef{sec:Report-EstimateValue}
+\label{syntax:Report-EstimateValue}
+
+The Estimate\_Value type has no additional subcommands.
+\subsubsection{Report of type Estimation\_Result}
+\commandlabsubarg{Report}{type}{Estimation\_Result}.
+\defRef{sec:Report-EstimationResult}
+\label{syntax:Report-EstimationResult}
+
+The Estimation\_Result type has no additional subcommands.
+\subsubsection{Report of type Hessian\_Matrix}
+\commandlabsubarg{Report}{type}{Hessian\_Matrix}.
+\defRef{sec:Report-HessianMatrix}
+\label{syntax:Report-HessianMatrix}
+
+The Hessian\_Matrix type has no additional subcommands.
+\subsubsection{Report of type Initialisation\_Partition}
+\commandlabsubarg{Report}{type}{Initialisation\_Partition}.
+\defRef{sec:Report-InitialisationPartition}
+\label{syntax:Report-InitialisationPartition}
+
+The Initialisation\_Partition type has no additional subcommands.
+\subsubsection{Report of type Initialisation\_Partition\_Mean\_Weight}
+\commandlabsubarg{Report}{type}{Initialisation\_Partition\_Mean\_Weight}.
+\defRef{sec:Report-InitialisationPartitionMeanWeight}
+\label{syntax:Report-InitialisationPartitionMeanWeight}
+
+The Initialisation\_Partition\_Mean\_Weight type has no additional subcommands.
+\subsubsection{Report of type MCMCCovariance}
+\commandlabsubarg{Report}{type}{MCMCCovariance}.
+\defRef{sec:Report-MCMCCovariance}
+\label{syntax:Report-MCMCCovariance}
+
+The MCMCCovariance type has no additional subcommands.
+\subsubsection{Report of type MCMCObjective}
+\commandlabsubarg{Report}{type}{MCMCObjective}.
+\defRef{sec:Report-MCMCObjective}
+\label{syntax:Report-MCMCObjective}
+
+The MCMCObjective type has no additional subcommands.
+\subsubsection{Report of type MCMCSample}
+\commandlabsubarg{Report}{type}{MCMCSample}.
+\defRef{sec:Report-MCMCSample}
+\label{syntax:Report-MCMCSample}
+
+The MCMCSample type has no additional subcommands.
+\subsubsection{Report of type MPD}
+\commandlabsubarg{Report}{type}{MPD}.
+\defRef{sec:Report-MPD}
+\label{syntax:Report-MPD}
+
+The MPD type has no additional subcommands.
+\subsubsection{Report of type Objective\_Function}
+\commandlabsubarg{Report}{type}{Objective\_Function}.
+\defRef{sec:Report-ObjectiveFunction}
+\label{syntax:Report-ObjectiveFunction}
+
+The Objective\_Function type has no additional subcommands.
+\subsubsection{Report of type Observation}
+\commandlabsubarg{Report}{type}{Observation}.
+\defRef{sec:Report-Observation}
+\label{syntax:Report-Observation}
+
+\defSub{observation}{The observation label}
+\defType{String}
+\defDefault{No default}
+
+\defSub{normalised\_residuals}{Print Normalised Residuals?}
+\defType{Boolean}
+\defDefault{true}
+
+\defSub{pearsons\_residuals}{Print Pearsons Residuals?}
+\defType{Boolean}
+\defDefault{true}
+
+\subsubsection{Report of type Output\_Parameters}
+\commandlabsubarg{Report}{type}{Output\_Parameters}.
+\defRef{sec:Report-OutputParameters}
+\label{syntax:Report-OutputParameters}
+
+The Output\_Parameters type has no additional subcommands.
+\subsubsection{Report of type Partition}
+\commandlabsubarg{Report}{type}{Partition}.
+\defRef{sec:Report-Partition}
+\label{syntax:Report-Partition}
+
+\defSub{time\_step}{Time Step label}
+\defType{String}
+\defDefault{No default}
+
+\defSub{years}{Years}
+\defType{Vector of non-negative integers}
+\defDefault{true}
+
+\subsubsection{Report of type Partition\_Biomass}
+\commandlabsubarg{Report}{type}{Partition\_Biomass}.
+\defRef{sec:Report-PartitionBiomass}
+\label{syntax:Report-PartitionBiomass}
+
+\defSub{time\_step}{The time step label}
+\defType{String}
+\defDefault{No default}
+
+\defSub{years}{The years for the report}
+\defType{Vector of non-negative integers}
+\defDefault{true}
+
+\subsubsection{Report of type Partition\_Mean\_Length}
+\commandlabsubarg{Report}{type}{Partition\_Mean\_Length}.
+\defRef{sec:Report-PartitionMeanLength}
+\label{syntax:Report-PartitionMeanLength}
+
+\defSub{time\_step}{The time step label}
+\defType{String}
+\defDefault{No default}
+
+\defSub{years}{The years for the report}
+\defType{Vector of non-negative integers}
+\defDefault{true}
+
+\subsubsection{Report of type Partition\_Mean\_Weight}
+\commandlabsubarg{Report}{type}{Partition\_Mean\_Weight}.
+\defRef{sec:Report-PartitionMeanWeight}
+\label{syntax:Report-PartitionMeanWeight}
+
+\defSub{time\_step}{The time step label}
+\defType{String}
+\defDefault{No default}
+
+\defSub{years}{The years for the report}
+\defType{Vector of non-negative integers}
+\defDefault{true}
+
+\subsubsection{Report of type Partition\_Year\_Cross\_Age\_Matrix}
+\commandlabsubarg{Report}{type}{Partition\_Year\_Cross\_Age\_Matrix}.
+\defRef{sec:Report-PartitionYearCrossAgeMatrix}
+\label{syntax:Report-PartitionYearCrossAgeMatrix}
+
+The Partition\_Year\_Cross\_Age\_Matrix type has no additional subcommands.
+\subsubsection{Report of type Process}
+\commandlabsubarg{Report}{type}{Process}.
+\defRef{sec:Report-Process}
+\label{syntax:Report-Process}
+
+\defSub{process}{The process label that is reported}
+\defType{String}
+\defDefault{No default}
+
+\subsubsection{Report of type Project}
+\commandlabsubarg{Report}{type}{Project}.
+\defRef{sec:Report-Project}
+\label{syntax:Report-Project}
+
+\defSub{project}{The project label that is reported}
+\defType{String}
+\defDefault{No default}
+
+\subsubsection{Report of type Random\_Number\_Seed}
+\commandlabsubarg{Report}{type}{Random\_Number\_Seed}.
+\defRef{sec:Report-RandomNumberSeed}
+\label{syntax:Report-RandomNumberSeed}
+
+The Random\_Number\_Seed type has no additional subcommands.
+\subsubsection{Report of type Selectivity}
+\commandlabsubarg{Report}{type}{Selectivity}.
+\defRef{sec:Report-Selectivity}
+\label{syntax:Report-Selectivity}
+
+\defSub{selectivity}{Selectivity name}
+\defType{String}
+\defDefault{No default}
+
+\subsubsection{Report of type Simulated\_Observation}
+\commandlabsubarg{Report}{type}{Simulated\_Observation}.
+\defRef{sec:Report-SimulatedObservation}
+\label{syntax:Report-SimulatedObservation}
+
+\defSub{observation}{The observation label}
+\defType{String}
+\defDefault{No default}
+
+\subsubsection{Report of type Time\_Varying}
+\commandlabsubarg{Report}{type}{Time\_Varying}.
+\defRef{sec:Report-TimeVarying}
+\label{syntax:Report-TimeVarying}
+
+\defSub{time\_varying}{The time varying label that is reported}
+\defType{String}
+\defDefault{No default}
+

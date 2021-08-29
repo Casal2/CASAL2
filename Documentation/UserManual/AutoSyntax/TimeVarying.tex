@@ -1,0 +1,142 @@
+\defComLab{Time\_Varying}{Define an object of type \emph{Time\_Varying}}.
+\defRef{sec:TimeVarying}
+\label{syntax:TimeVarying}
+
+\defSub{label}{The label of the time-varying object}
+\defType{String}
+\defDefault{No default}
+
+\defSub{type}{The type of the time-varying object}
+\defType{String}
+\defDefault{No default}
+
+\defSub{parameter}{The name of the parameter to vary in each year}
+\defType{String}
+\defDefault{No default}
+
+\defSub{years}{The years in which to vary the paramter}
+\defType{Vector of non-negative integers}
+\defDefault{No default}
+
+\subsubsection{Time\_Varying of type Annual\_Shift}
+\commandlabsubarg{Time\_Varying}{type}{Annual\_Shift}.
+\defRef{sec:TimeVarying-AnnualShift}
+\label{syntax:TimeVarying-AnnualShift}
+
+\defSub{a}{Parameter A}
+\defType{Real number (estimable)}
+\defDefault{No default}
+
+\defSub{b}{Parameter B}
+\defType{Real number (estimable)}
+\defDefault{No default}
+
+\defSub{c}{Parameter C}
+\defType{Real number (estimable)}
+\defDefault{No default}
+
+\defSub{scaling\_years}{The scaling years}
+\defType{Vector of non-negative integers}
+\defDefault{true}
+
+\defSub{values}{The values}
+\defType{Vector of real numbers (estimable)}
+\defDefault{No default}
+
+\subsubsection{Time\_Varying of type Constant}
+\commandlabsubarg{Time\_Varying}{type}{Constant}.
+\defRef{sec:TimeVarying-Constant}
+\label{syntax:TimeVarying-Constant}
+
+\defSub{values}{The value to assign to addressable}
+\defType{Vector of real numbers (estimable)}
+\defDefault{No default}
+
+\subsubsection{Time\_Varying of type Constant.Mock}
+\commandlabsubarg{Time\_Varying}{type}{Constant.Mock}.
+\defRef{sec:TimeVarying-Constant.Mock}
+\label{syntax:TimeVarying-Constant.Mock}
+
+The Constant.Mock type has no additional subcommands.
+\subsubsection{Time\_Varying of type Exogenous}
+\commandlabsubarg{Time\_Varying}{type}{Exogenous}.
+\defRef{sec:TimeVarying-Exogenous}
+\label{syntax:TimeVarying-Exogenous}
+
+\defSub{a}{The shift parameter}
+\defType{Real number (estimable)}
+\defDefault{No default}
+
+\defSub{exogenous\_variable}{The values of exogenous variable for each year}
+\defType{Vector of real numbers (estimable)}
+\defDefault{No default}
+
+\subsubsection{Time\_Varying of type Linear}
+\commandlabsubarg{Time\_Varying}{type}{Linear}.
+\defRef{sec:TimeVarying-Linear}
+\label{syntax:TimeVarying-Linear}
+
+\defSub{slope}{The slope of the linear trend (i.e., the additive amount per year)}
+\defType{Real number (estimable)}
+\defDefault{No default}
+
+\defSub{intercept}{The intercept of the linear trend (, i.e. the value in the first year)}
+\defType{Real number (estimable)}
+\defDefault{No default}
+
+\subsubsection{Time\_Varying of type Random\_Draw}
+\commandlabsubarg{Time\_Varying}{type}{Random\_Draw}.
+\defRef{sec:TimeVarying-RandomDraw}
+\label{syntax:TimeVarying-RandomDraw}
+
+\defSub{mean}{The mean (mu) of the random draw distribution}
+\defType{Real number (estimable)}
+\defDefault{0}
+
+\defSub{sigma}{The standard deviation (sigma)  of the random draw distribution}
+\defType{Real number (estimable)}
+\defDefault{1}
+\defLowerBound{0.0 (exclusive)}
+
+\defSub{lower\_bound}{The lower bound for the random draw}
+\defType{Real number (estimable)}
+\defDefault{No default}
+
+\defSub{upper\_bound}{The upper bound for the random draw}
+\defType{Real number (estimable)}
+\defDefault{No default}
+
+\defSub{distribution}{The distribution type}
+\defType{String}
+\defDefault{normal}
+
+\subsubsection{Time\_Varying of type Random\_Walk}
+\commandlabsubarg{Time\_Varying}{type}{Random\_Walk}.
+\defRef{sec:TimeVarying-RandomWalk}
+\label{syntax:TimeVarying-RandomWalk}
+
+\defSub{mean}{The mean (mu) of the random walk distribution}
+\defType{Real number (estimable)}
+\defDefault{0}
+
+\defSub{sigma}{The standard deviation (sigma)  of the random walk distribution}
+\defType{Real number (estimable)}
+\defDefault{1}
+\defLowerBound{0 (exclusive)}
+
+\defSub{lower\_bound}{The lower bound for the random walk}
+\defType{Real number (estimable)}
+\defDefault{No default}
+
+\defSub{upper\_bound}{The upper bound for the random walk}
+\defType{Real number (estimable)}
+\defDefault{No default}
+
+\defSub{rho}{The autocorrelation parameter (rho)  of the random walk distribution}
+\defType{Real number (estimable)}
+\defDefault{1}
+
+\defSub{distribution}{The distribution type}
+\defType{String}
+\defDefault{normal}
+

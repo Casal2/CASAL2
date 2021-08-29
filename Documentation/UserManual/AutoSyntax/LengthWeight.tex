@@ -1,0 +1,37 @@
+\defComLab{Length\_Weight}{Define an object of type \emph{Length\_Weight}}.
+\defRef{sec:LengthWeight}
+\label{syntax:LengthWeight}
+
+\defSub{label}{The label of the length-weight relationship}
+\defType{String}
+\defDefault{No default}
+
+\defSub{type}{The type of the length-weight relationship}
+\defType{String}
+\defDefault{No default}
+
+\subsubsection{Length\_Weight of type Basic}
+\commandlabsubarg{Length\_Weight}{type}{Basic}.
+\defRef{sec:LengthWeight-Basic}
+\label{syntax:LengthWeight-Basic}
+
+\defSub{a}{The $a$ parameter ($W = a L^b$)}
+\defType{Real number (estimable)}
+\defDefault{No default}
+\defLowerBound{0.0 (exclusive)}
+
+\defSub{b}{The $b$ parameter ($W = a L^b$)}
+\defType{Real number (estimable)}
+\defDefault{No default}
+\defLowerBound{0.0 (exclusive)}
+
+\defSub{units}{The units for weights (grams, kilograms (kgs), or tonnes)}
+\defType{String}
+\defDefault{No default}
+
+\subsubsection{Length\_Weight of type None}
+\commandlabsubarg{Length\_Weight}{type}{None}.
+\defRef{sec:LengthWeight-None}
+\label{syntax:LengthWeight-None}
+
+The None type has no additional subcommands.

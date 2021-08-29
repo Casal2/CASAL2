@@ -1,0 +1,111 @@
+\defComLab{MCMC}{Define an object of type \emph{MCMC}}.
+\defRef{sec:MCMC}
+\label{syntax:MCMC}
+
+\defSub{label}{The label of the MCMC}
+\defType{String}
+\defDefault{No default}
+
+\defSub{type}{The MCMC method}
+\defType{String}
+\defDefault{random\_walk}
+
+\defSub{length}{The number of iterations for the MCMC (including the burn in period)}
+\defType{Non-negative integer}
+\defDefault{No default}
+\defLowerBound{1 (inclusive)}
+
+\defSub{burn\_in}{The number of iterations for the burn\_in period of the MCMC}
+\defType{Non-negative integer}
+\defDefault{0}
+\defLowerBound{0 (inclusive)}
+
+\defSub{active}{Indicates if this is the active MCMC algorithm}
+\defType{Boolean}
+\defDefault{true}
+
+\defSub{step\_size}{Initial step-size (as a multiplier of the approximate covariance matrix)}
+\defType{Real number}
+\defDefault{0.02}
+\defLowerBound{0 (inclusive)}
+
+\defSub{start}{The covariance multiplier for the starting point of the MCMC}
+\defType{Real number}
+\defDefault{0.0}
+\defLowerBound{0.0 (inclusive)}
+
+\defSub{keep}{The spacing between recorded values in the MCMC}
+\defType{Non-negative integer}
+\defDefault{1}
+\defLowerBound{1 (inclusive)}
+
+\defSub{max\_correlation}{The maximum absolute correlation in the covariance matrix of the proposal distribution}
+\defType{Real number}
+\defDefault{0.8}
+\defLowerBound{0.0 (exclusive)}
+\defUpperBound{1.0 (inclusive)}
+
+\defSub{covariance\_adjustment\_method}{The method for adjusting small variances in the covariance proposal matrix}
+\defType{String}
+\defDefault{correlation}
+
+\defSub{correlation\_adjustment\_diff}{The minimum non-zero variance times the range of the bounds in the covariance matrix of the proposal distribution}
+\defType{Real number}
+\defDefault{0.0001}
+\defLowerBound{0.0 (exclusive)}
+
+\defSub{proposal\_distribution}{The shape of the proposal distribution (either the t or the normal distribution)}
+\defType{String}
+\defDefault{t}
+
+\defSub{df}{The degrees of freedom of the multivariate t proposal distribution}
+\defType{Non-negative integer}
+\defDefault{4}
+\defLowerBound{0 (exclusive)}
+
+\defSub{adapt\_stepsize\_at}{The iteration numbers in which to check and resize the MCMC stepsize}
+\defType{Vector of non-negative integers}
+\defDefault{true}
+\defLowerBound{0 (inclusive)}
+
+\defSub{adapt\_stepsize\_method}{The method to use to adapt the step size}
+\defType{String}
+\defDefault{ratio}
+
+\defSub{adapt\_covariance\_matrix\_at}{The iteration number in which to adapt the covariance matrix}
+\defType{Non-negative integer}
+\defDefault{0}
+\defLowerBound{0 (inclusive)}
+
+\subsubsection{MCMC of type Hamiltonian\_Monte\_Carlo}
+\commandlabsubarg{MCMC}{type}{Hamiltonian\_Monte\_Carlo}.
+\defRef{sec:MCMC-HamiltonianMonteCarlo}
+\label{syntax:MCMC-HamiltonianMonteCarlo}
+
+\defSub{leapfrog\_steps}{Number of leapfrog steps}
+\defType{Non-negative integer}
+\defDefault{1}
+\defLowerBound{0 (exclusive)}
+
+\defSub{leapfrog\_delta}{Amount to leapfrog per step}
+\defType{Real number}
+\defDefault{1e-7}
+\defLowerBound{0 (exclusive)}
+
+\defSub{gradient\_step\_size}{Step size to use when calculating gradient}
+\defType{Real number}
+\defDefault{1e-7}
+\defLowerBound{1e-13 (inclusive)}
+
+\subsubsection{MCMC of type Independence\_Metropolis}
+\commandlabsubarg{MCMC}{type}{Independence\_Metropolis}.
+\defRef{sec:MCMC-IndependenceMetropolis}
+\label{syntax:MCMC-IndependenceMetropolis}
+
+The Independence\_Metropolis type has no additional subcommands.
+\subsubsection{MCMC of type Random\_Walk\_Metropolis\_Hastings}
+\commandlabsubarg{MCMC}{type}{Random\_Walk\_Metropolis\_Hastings}.
+\defRef{sec:MCMC-RandomWalkMetropolisHastings}
+\label{syntax:MCMC-RandomWalkMetropolisHastings}
+
+The Random\_Walk\_Metropolis\_Hastings type has no additional subcommands.

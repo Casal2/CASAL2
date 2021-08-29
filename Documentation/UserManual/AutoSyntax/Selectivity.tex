@@ -1,0 +1,230 @@
+\defComLab{Selectivity}{Define an object of type \emph{Selectivity}}.
+\defRef{sec:Selectivity}
+\label{syntax:Selectivity}
+
+\defSub{label}{The label for the selectivity}
+\defType{String}
+\defDefault{No default}
+
+\defSub{type}{The type of selectivity}
+\defType{String}
+\defDefault{No default}
+
+\defSub{length\_based}{Is the selectivity length based?}
+\defType{Boolean}
+\defDefault{false}
+
+\defSub{intervals}{The number of quantiles to evaluate a length-based selectivity over the age-length distribution}
+\defType{Non-negative integer}
+\defDefault{5}
+
+\defSub{values}{}
+\defType{Vector of addressables}
+\defDefault{No default}
+
+\defSub{length\_values}{}
+\defType{Vector of addressables}
+\defDefault{No default}
+
+\subsubsection{Selectivity of type All\_Values}
+\commandlabsubarg{Selectivity}{type}{All\_Values}.
+\defRef{sec:Selectivity-AllValues}
+\label{syntax:Selectivity-AllValues}
+
+\defSub{v}{The v parameter}
+\defType{Vector of real numbers (estimable)}
+\defDefault{No default}
+
+\subsubsection{Selectivity of type All\_Values\_Bounded}
+\commandlabsubarg{Selectivity}{type}{All\_Values\_Bounded}.
+\defRef{sec:Selectivity-AllValuesBounded}
+\label{syntax:Selectivity-AllValuesBounded}
+
+\defSub{l}{The low value (L)}
+\defType{Non-negative integer}
+\defDefault{No default}
+
+\defSub{h}{The high value (H)}
+\defType{Non-negative integer}
+\defDefault{No default}
+
+\defSub{v}{The v parameter}
+\defType{Vector of real numbers (estimable)}
+\defDefault{No default}
+
+\subsubsection{Selectivity of type Constant}
+\commandlabsubarg{Selectivity}{type}{Constant}.
+\defRef{sec:Selectivity-Constant}
+\label{syntax:Selectivity-Constant}
+
+\defSub{c}{The constant value}
+\defType{Real number (estimable)}
+\defDefault{No default}
+
+\subsubsection{Selectivity of type Constant.Mock}
+\commandlabsubarg{Selectivity}{type}{Constant.Mock}.
+\defRef{sec:Selectivity-Constant.Mock}
+\label{syntax:Selectivity-Constant.Mock}
+
+The Constant.Mock type has no additional subcommands.
+\subsubsection{Selectivity of type Double\_Exponential}
+\commandlabsubarg{Selectivity}{type}{Double\_Exponential}.
+\defRef{sec:Selectivity-DoubleExponential}
+\label{syntax:Selectivity-DoubleExponential}
+
+\defSub{x0}{The X0 parameter}
+\defType{Real number (estimable)}
+\defDefault{No default}
+
+\defSub{x1}{The X1 parameter}
+\defType{Real number (estimable)}
+\defDefault{No default}
+
+\defSub{x2}{The X2 parameter}
+\defType{Real number (estimable)}
+\defDefault{No default}
+
+\defSub{y0}{The Y0 parameter}
+\defType{Real number (estimable)}
+\defDefault{No default}
+\defLowerBound{0.0 (inclusive)}
+
+\defSub{y1}{The Y1 parameter}
+\defType{Real number (estimable)}
+\defDefault{No default}
+\defLowerBound{0.0 (inclusive)}
+
+\defSub{y2}{The Y2 parameter}
+\defType{Real number (estimable)}
+\defDefault{No default}
+\defLowerBound{0.0 (inclusive)}
+
+\defSub{alpha}{The maximum value of the selectivity}
+\defType{Real number (estimable)}
+\defDefault{1.0}
+\defLowerBound{0.0 (exclusive)}
+
+\subsubsection{Selectivity of type Double\_Normal}
+\commandlabsubarg{Selectivity}{type}{Double\_Normal}.
+\defRef{sec:Selectivity-DoubleNormal}
+\label{syntax:Selectivity-DoubleNormal}
+
+\defSub{mu}{The mean (mu)}
+\defType{Real number (estimable)}
+\defDefault{No default}
+
+\defSub{sigma\_l}{The sigma L parameter}
+\defType{Real number (estimable)}
+\defDefault{No default}
+\defLowerBound{0.0 (exclusive)}
+
+\defSub{sigma\_r}{The sigma R parameter}
+\defType{Real number (estimable)}
+\defDefault{No default}
+\defLowerBound{0.0 (exclusive)}
+
+\defSub{alpha}{The maximum value of the selectivity}
+\defType{Real number (estimable)}
+\defDefault{1.0}
+\defLowerBound{0.0 (exclusive)}
+
+\subsubsection{Selectivity of type Increasing}
+\commandlabsubarg{Selectivity}{type}{Increasing}.
+\defRef{sec:Selectivity-Increasing}
+\label{syntax:Selectivity-Increasing}
+
+\defSub{l}{The low value (L)}
+\defType{Non-negative integer}
+\defDefault{No default}
+
+\defSub{h}{The high value (H)}
+\defType{Non-negative integer}
+\defDefault{No default}
+
+\defSub{v}{The v parameter}
+\defType{Vector of real numbers (estimable)}
+\defDefault{No default}
+
+\defSub{alpha}{The maximum value of the selectivity}
+\defType{Real number (estimable)}
+\defDefault{1.0}
+\defLowerBound{0.0 (exclusive)}
+
+\subsubsection{Selectivity of type Inverse\_Logistic}
+\commandlabsubarg{Selectivity}{type}{Inverse\_Logistic}.
+\defRef{sec:Selectivity-InverseLogistic}
+\label{syntax:Selectivity-InverseLogistic}
+
+\defSub{a50}{a50}
+\defType{Real number (estimable)}
+\defDefault{No default}
+
+\defSub{ato95}{ato95}
+\defType{Real number (estimable)}
+\defDefault{No default}
+\defLowerBound{0.0 (exclusive)}
+
+\defSub{alpha}{The maximum value of the selectivity}
+\defType{Real number (estimable)}
+\defDefault{1.0}
+\defLowerBound{0.0 (exclusive)}
+
+\subsubsection{Selectivity of type Knife\_Edge}
+\commandlabsubarg{Selectivity}{type}{Knife\_Edge}.
+\defRef{sec:Selectivity-KnifeEdge}
+\label{syntax:Selectivity-KnifeEdge}
+
+\defSub{e}{The edge value}
+\defType{Real number (estimable)}
+\defDefault{No default}
+
+\defSub{alpha}{The maximum value of the selectivity}
+\defType{Real number (estimable)}
+\defDefault{1.0}
+
+\subsubsection{Selectivity of type Logistic}
+\commandlabsubarg{Selectivity}{type}{Logistic}.
+\defRef{sec:Selectivity-Logistic}
+\label{syntax:Selectivity-Logistic}
+
+\defSub{a50}{The a50 parameter}
+\defType{Real number (estimable)}
+\defDefault{No default}
+
+\defSub{ato95}{The ato95 parameter}
+\defType{Real number (estimable)}
+\defDefault{No default}
+\defLowerBound{0.0 (exclusive)}
+
+\defSub{alpha}{The maximum value of the selectivity}
+\defType{Real number (estimable)}
+\defDefault{1.0}
+\defLowerBound{0.0 (exclusive)}
+
+\subsubsection{Selectivity of type Logistic\_Producing}
+\commandlabsubarg{Selectivity}{type}{Logistic\_Producing}.
+\defRef{sec:Selectivity-LogisticProducing}
+\label{syntax:Selectivity-LogisticProducing}
+
+\defSub{l}{The low value (L)}
+\defType{Non-negative integer}
+\defDefault{No default}
+
+\defSub{h}{The high value (H)}
+\defType{Non-negative integer}
+\defDefault{No default}
+
+\defSub{a50}{the a50 parameter}
+\defType{Real number (estimable)}
+\defDefault{No default}
+
+\defSub{ato95}{The ato95 parameter}
+\defType{Real number (estimable)}
+\defDefault{No default}
+\defLowerBound{0.0 (exclusive)}
+
+\defSub{alpha}{The maximum value of the selectivity}
+\defType{Real number (estimable)}
+\defDefault{1.0}
+\defLowerBound{0.0 (exclusive)}
+
