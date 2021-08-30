@@ -159,7 +159,7 @@ void Logging::FlushInfo() {
   }
 
   cout << "*info[messages_encountered]" << REPORT_EOL;
-  cout << REPORT_R_STRING_VECTOR << REPORT_EOL;
+  cout << "Values " << REPORT_R_STRING_VECTOR << REPORT_EOL;
   for (unsigned i = 0; i < info_.size(); ++i) cout << info_[i] << REPORT_EOL;
   cout << REPORT_END << REPORT_EOL << REPORT_EOL;
   cout.flush();
@@ -177,7 +177,7 @@ void Logging::FlushImportant() {
   }
 
   cout << "*important[messages_encountered]\n";
-  cout << REPORT_R_STRING_VECTOR << REPORT_EOL;
+  cout << "Values " << REPORT_R_STRING_VECTOR << REPORT_EOL;
   for (unsigned i = 0; i < important_.size(); ++i) cout << important_[i] << REPORT_EOL;
   cout << REPORT_END << REPORT_EOL << REPORT_EOL;
   cout.flush();
@@ -197,7 +197,7 @@ void Logging::FlushWarnings() {
   // unsigned to_print = warnings_.size() > 10 ? 10 : warnings_.size();
 
   cout << "*warnings[messages_encountered]" << REPORT_EOL;
-  cout << REPORT_R_STRING_VECTOR << REPORT_EOL;
+  cout << "Values " << REPORT_R_STRING_VECTOR << REPORT_EOL;
   for (unsigned i = 0; i < warnings_.size(); ++i) cout << warnings_[i] << REPORT_EOL;
   cout << REPORT_END << REPORT_EOL << REPORT_EOL;
   cout.flush();

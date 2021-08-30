@@ -12,35 +12,26 @@ rm -f params_mcmc.out objectives.* samples.*
 
 cd ../Casal2/betadiff_casal_flags_off
 rm -f params_mcmc.out mcmc*.out
-../../../../../BuildSystem/bin/linux/release/casal2 -m --skip-estimation > run_mcmc.txt 2>&1 &
+../../../../../BuildSystem/bin/linux_gcc/release/casal2 -m --skip-estimation > run_mcmc.txt 2>&1 &
 
 cd ../betadiff_casal_flags_on
 rm -f params_mcmc.out mcmc*.out
-../../../../../BuildSystem/bin/linux/release/casal2 -m --skip-estimation > run_mcmc.txt 2>&1 &
+../../../../../BuildSystem/bin/linux_gcc/release/casal2 -m --skip-estimation > run_mcmc.txt 2>&1 &
 
 cd ../betadiff_casal_flags_on_low_tol
 rm -f params_mcmc.out mcmc*.out
-../../../../../BuildSystem/bin/linux/release/casal2 -m --skip-estimation > run_mcmc.txt 2>&1 &
-
-
-# cd ../cppad_casal_flags_off
-# rm -f params_mcmc.out mcmc*.out
-# ../../../../../BuildSystem/bin/linux/release/casal2 -m --skip-estimation > run_mcmc.txt 2>&1 &
-
-# cd ../cppad_casal_flags_on
-# rm -f params_mcmc.out mcmc*.out
-# ../../../../../BuildSystem/bin/linux/release/casal2 -m --skip-estimation > run_mcmc.txt 2>&1 &
+../../../../../BuildSystem/bin/linux_gcc/release/casal2 -m --skip-estimation > run_mcmc.txt 2>&1 &
 
 
 cd ../adolc_casal_flags_off
 rm -f params_mcmc.out mcmc*.out
-../../../../../BuildSystem/bin/linux/release/casal2 -m --skip-estimation > run_mcmc.txt 2>&1 &
+../../../../../BuildSystem/bin/linux_gcc/release/casal2 -m --skip-estimation > run_mcmc.txt 2>&1 &
 
 cd ../adolc_casal_flags_on
 rm -f params_mcmc.out mcmc*.out
-../../../../../BuildSystem/bin/linux/release/casal2 -m --skip-estimation > run_mcmc.txt 2>&1 &
+../../../../../BuildSystem/bin/linux_gcc/release/casal2 -m --skip-estimation > run_mcmc.txt 2>&1 &
 
 cd ../adolc_casal_flags_on_low_tol
 rm -f params_mcmc.out mcmc*.out
-../../../../../BuildSystem/bin/linux/release/casal2 -m --skip-estimation > run_mcmc.txt 2>&1 &
+../../../../../BuildSystem/bin/linux_gcc/release/casal2 -m --skip-estimation > run_mcmc.txt 2>&1 &
 

@@ -1,8 +1,8 @@
 C2_subdir <- c('betadiff_casal_flags_on',
                'betadiff_casal_flags_off',
                'betadiff_casal_flags_on_low_tol',
-               'cppad_casal_flags_on',
-               'cppad_casal_flags_off',
+#                'cppad_casal_flags_on',
+#                'cppad_casal_flags_off',
                'adolc_casal_flags_on',
                'adolc_casal_flags_off',
                'adolc_casal_flags_on_low_tol')
@@ -16,7 +16,7 @@ C2_subdir <- unlist(sapply(C2_subdir, function(c_dir) if ( file.access(file.path
 
 num_C2_models <- length(C2_subdir)
 
-C2_color <- c('blue', 'green3', 'red', 'gold', 'magenta', 'cyan', 'brown', 'orange')
+C2_color <- c('blue', 'green3', 'red', 'gold', 'cyan', 'magenta', 'brown', 'orange')
 
 problem_str <- '* grad_f'
 new_str     <- ' grad_f'
@@ -42,9 +42,9 @@ for (c in 1:num_C2_models)
         }
     }
 
-    cas2_mpd[[c]]  <- casal2::extract.mpd(cas2_mpd_filename)
+    cas2_mpd[[c]]  <- Casal2::extract.mpd(cas2_mpd_filename)
 
-    cas2_corr[[c]] <- casal2::extract.correlation.matrix(mpd_out, file.path(base_dir, 'Casal2', C2_subdir[c]))
+    cas2_corr[[c]] <- Casal2::extract.correlation.matrix(mpd_out, file.path(base_dir, 'Casal2', C2_subdir[c]))
 
     cas2_conv[[c]] <- get_convergence_information(cas2_mpd_filename)
 }
