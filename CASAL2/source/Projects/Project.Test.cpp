@@ -67,7 +67,7 @@ categories HAK4
 @process Instantaneou_Mortality
 type mortality_instantaneous
 m 0.2
-time_step_ratio 0.42 0.58
+time_step_proportions 0.42 0.58
 relative_m_by_age One
 categories HAK4
 table catches

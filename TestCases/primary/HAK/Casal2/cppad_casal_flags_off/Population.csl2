@@ -58,7 +58,7 @@ categories male female
 @process Instantaneous_Mortality
 type mortality_instantaneous
 m 0.19
-time_step_ratio 0.58 0.42
+time_step_proportions 0.58 0.42
 relative_m_by_age One
 categories *
 table catches

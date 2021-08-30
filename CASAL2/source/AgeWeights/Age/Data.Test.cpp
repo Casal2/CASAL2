@@ -5,7 +5,7 @@
  * @date 4/01/2018
  * @section LICENSE
  *
- * Copyright NIWA Science ©2018 - www.niwa.co.nz
+ * Copyright NIWA Science ï¿½2018 - www.niwa.co.nz
  *
  */
 #ifdef TESTMODE
@@ -85,7 +85,7 @@ categories *
 @process Instantaneous_Mortality
 type mortality_instantaneous
 m 0.3
-time_step_ratio 1.0
+time_step_proportions 1.0
 relative_m_by_age One
 categories Stock
 table catches

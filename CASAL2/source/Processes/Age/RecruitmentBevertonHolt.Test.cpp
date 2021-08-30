@@ -4,7 +4,7 @@
  * @date 20/08/2013
  * @section LICENSE
  *
- * Copyright NIWA Science ©2013 - www.niwa.co.nz
+ * Copyright NIWA Science ï¿½2013 - www.niwa.co.nz
  *
  */
 #ifdef TESTMODE
@@ -172,7 +172,7 @@ multiplier 1000
 @process instant_mort
 type mortality_instantaneous
 m 0.19
-time_step_ratio 0.42 0.25 0.33
+time_step_proportions 0.42 0.25 0.33
 relative_m_by_age One
 categories stock
 table catches

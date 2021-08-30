@@ -80,7 +80,7 @@ void MortalityInstantaneous::DoValidate() {
   // Check Natural Mortality parameter first
   for (auto M_proportion : time_step_ratios_temp_) {
     if (M_proportion < 0.0)
-      LOG_ERROR_P(PARAM_TIME_STEP_RATIO) << "Natural Mortality time step ratio cannot be less than 0.0 for a given time step";
+      LOG_ERROR_P(PARAM_TIME_STEP_PROPORTIONS) << "Natural Mortality time step proportions cannot be less than 0.0 for a given time step";
   }
 
   /**
@@ -313,12 +313,12 @@ void MortalityInstantaneous::DoBuild() {
     for (unsigned i : active_time_steps) time_step_ratios_[i] = 1.0;
   } else {
     if (time_step_ratios_temp_.size() != active_time_steps.size())
-      LOG_ERROR_P(PARAM_TIME_STEP_RATIO) << " The time step ratio length (" << time_step_ratios_temp_.size()
-                                         << ") does not match the number of time steps this process has been assigned to (" << active_time_steps.size() << ")";
+      LOG_ERROR_P(PARAM_TIME_STEP_PROPORTIONS) << " The time step proportions length (" << time_step_ratios_temp_.size()
+                                               << ") does not match the number of time steps this process has been assigned to (" << active_time_steps.size() << ")";
 
     for (double value : time_step_ratios_temp_) {
       if (value < 0.0 || value > 1.0)
-        LOG_ERROR_P(PARAM_TIME_STEP_RATIO) << "The time step ratio value (" << value << ") must be between 0.0 and 1.0 (inclusive)";
+        LOG_ERROR_P(PARAM_TIME_STEP_PROPORTIONS) << "The time step proportions value (" << value << ") must be between 0.0 and 1.0 (inclusive)";
     }
 
     for (unsigned i = 0; i < time_step_ratios_temp_.size(); ++i) time_step_ratios_[active_time_steps[i]] = time_step_ratios_temp_[i];

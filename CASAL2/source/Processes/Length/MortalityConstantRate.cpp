@@ -34,7 +34,7 @@ MortalityConstantRate::MortalityConstantRate(shared_ptr<Model> model) : Process(
 
   parameters_.Bind<string>(PARAM_CATEGORIES, &category_labels_, "The list of categories labels", "");
   parameters_.Bind<Double>(PARAM_M, &m_input_, "The mortality rates", "")->set_lower_bound(0.0);
-  parameters_.Bind<Double>(PARAM_TIME_STEP_RATIO, &ratios_, "The time step ratios for the mortality rates", "", true)->set_range(0.0, 1.0);
+  parameters_.Bind<Double>(PARAM_TIME_STEP_PROPORTIONS, &ratios_, "The time step proportions for the mortality rates", "", true)->set_range(0.0, 1.0);
   //  parameters_.Bind<string>(PARAM_SELECTIVITIES, &selectivity_names_, "List of selectivities for the categories", "");
 
   RegisterAsAddressable(PARAM_M, &m_);
@@ -122,12 +122,12 @@ void MortalityConstantRate::DoBuild() {
     for (unsigned i : active_time_steps) time_step_ratios_[i] = 1.0;
   } else {
     if (ratios_.size() != active_time_steps.size())
-      LOG_ERROR_P(PARAM_TIME_STEP_RATIO) << " length (" << ratios_.size() << ") does not match the number of time steps this process has been assigned to ("
-                                         << active_time_steps.size() << ")";
+      LOG_ERROR_P(PARAM_TIME_STEP_PROPORTIONS) << " length (" << ratios_.size() << ") does not match the number of time steps this process has been assigned to ("
+                                               << active_time_steps.size() << ")";
 
     for (Double value : ratios_) {
       if (value < 0.0 || value > 1.0)
-        LOG_ERROR_P(PARAM_TIME_STEP_RATIO) << " value (" << value << ") must be between 0.0 and 1.0 inclusive";
+        LOG_ERROR_P(PARAM_TIME_STEP_PROPORTIONS) << " value (" << value << ") must be between 0.0 and 1.0 inclusive";
     }
 
     for (unsigned i = 0; i < ratios_.size(); ++i) time_step_ratios_[active_time_steps[i]] = ratios_[i];

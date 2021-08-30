@@ -56,7 +56,7 @@ type mortality_instantaneous
 m 0.0
 selectivities One
 categories stock
-time_step_ratio 0.5
+time_step_proportions 0.5
 table catches
 year Fishery
 2001    1

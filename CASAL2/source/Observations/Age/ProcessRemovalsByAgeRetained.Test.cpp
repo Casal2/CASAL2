@@ -5,17 +5,18 @@
  * @date 07/05/2019
  * @section LICENSE
  *
- * Copyright NIWA Science ©2019 - www.niwa.co.nz
+ * Copyright NIWA Science ï¿½2019 - www.niwa.co.nz
  *
  */
 #ifdef TESTMODE
 
 // Headers
+#include "ProcessRemovalsByAgeRetained.h"
+
 #include <iostream>
 
 #include "ObjectiveFunction/ObjectiveFunction.h"
 #include "Observations/Manager.h"
-#include "ProcessRemovalsByAgeRetained.h"
 #include "TestResources/TestFixtures/InternalEmptyModel.h"
 
 // Namespaces
@@ -58,7 +59,7 @@ processes mort
 @process mort
 type mortality_instantaneous_retained
 m 0
-time_step_ratio 1
+time_step_proportions 1
 relative_m_by_age One
 categories *
 table catches

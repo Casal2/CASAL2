@@ -574,7 +574,7 @@ The Nop type has no additional subcommands.
 \defType{String}
 \defDefault{No default}
 
-\defSub{loss\_rate}{The loss rate}
+\defSub{loss\_rate}{The annual tag loss rate}
 \defType{Vector of real numbers (estimable)}
 \defDefault{No default}
 
@@ -613,17 +613,17 @@ The Nop type has no additional subcommands.
 \defLowerBound{0.0 (inclusive)}
 \defUpperBound{1.0 (exclusive)}
 
-\defSub{years}{The years to execute the transition in}
+\defSub{years}{The years to execute the tagging events in}
 \defType{Vector of non-negative integers}
 \defDefault{No default}
 
-\defSub{initial\_mortality}{Initial mortality proportion}
+\defSub{initial\_mortality}{The initial mortality to apply to tags as a proportion}
 \defType{Real number (estimable)}
 \defDefault{0.0}
 \defLowerBound{0.0 (inclusive)}
 \defUpperBound{1.0 (inclusive)}
 
-\defSub{initial\_mortality\_selectivity}{}
+\defSub{initial\_mortality\_selectivity}{The initial mortality selectivity label}
 \defType{String}
 \defDefault{No default}
 
@@ -635,7 +635,7 @@ The Nop type has no additional subcommands.
 \defType{Vector of real numbers (estimable)}
 \defDefault{true}
 
-\defSub{tolerance}{Tolerance for checking the proportions to move in each year}
+\defSub{tolerance}{Tolerance for checking the specificed proportions sum to one}
 \defType{Real number}
 \defDefault{1e-5}
 \defLowerBound{0 (inclusive)}
@@ -655,7 +655,7 @@ The Nop type has no additional subcommands.
 \defDefault{No default}
 \defLowerBound{0.0 (inclusive)}
 
-\defSub{time\_step\_ratio}{The time step ratios for tag loss}
+\defSub{time\_step\_proportions}{The time step proportions for tag loss}
 \defType{Vector of real numbers (estimable)}
 \defDefault{true}
 \defLowerBound{0.0 (inclusive)}
@@ -678,21 +678,21 @@ The Nop type has no additional subcommands.
 \defRef{sec:Process-TransitionCategory}
 \label{syntax:Process-TransitionCategory}
 
-\defSub{from}{The from category}
+\defSub{from}{The categories to transition from}
 \defType{Vector of strings}
 \defDefault{No default}
 
-\defSub{to}{The to category}
+\defSub{to}{The categories to transition to}
 \defType{Vector of strings}
 \defDefault{No default}
 
-\defSub{proportions}{The proportions}
+\defSub{proportions}{The proportions to transition for each category}
 \defType{Real number (estimable)}
 \defDefault{No default}
 \defLowerBound{0.0 (inclusive)}
 \defUpperBound{1.0 (inclusive)}
 
-\defSub{selectivities}{The selectivity names}
+\defSub{selectivities}{The selectivities to apply to each proportion}
 \defType{Vector of strings}
 \defDefault{No default}
 

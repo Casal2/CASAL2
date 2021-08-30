@@ -1,9 +1,9 @@
 Casal2
 Call: C:\Projects\Software\CASAL2-NIWA\BuildSystem/bin/windows_gcc/release_betadiff/casal2.exe -r -I pars.out 
-Date: Sat Aug 28 18:51:47 2021
-Version: v21.08 (2021-08-28)
+Date: Mon Aug 30 23:28:16 2021
+Version: v21.08 (2021-08-30)
 Copyright (c) 2017-2021, NIWA (www.niwa.co.nz)
-Environment: User=alist Machine=DELL-9020 OS=Windows_NT PID=17116
+Environment: User=alist Machine=QUIET-5950X OS=Windows_NT PID=15232
 
 
 
@@ -41,20 +41,20 @@ values {vector}
 *end
 
 *info[messages_encountered]
-{string}
+Values {string}
 Initiating basic run mode
 Estimable parameters were loaded from the free parameter file: pars.out
 *end
 
 *important[messages_encountered]
-{string}
+Values {string}
 1 additional non-estimated addressable parameters were found in the free parameter file: pars.out
 *end
 
 *warnings[messages_encountered]
-{string}
+Values {string}
 Estimates were removed because of matching lower and upper bounds. Originally had 33 estimates, now have 16
 *end
 
 [INFO] Completed
-[INFO] Total elapsed time: 2 seconds
+[INFO] Total elapsed time: 1 second

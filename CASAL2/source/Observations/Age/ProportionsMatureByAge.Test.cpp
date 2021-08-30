@@ -6,17 +6,18 @@
  * @date 13/07/2017
  * @section LICENSE
  *
- * Copyright NIWA Science ©2017 - www.niwa.co.nz
+ * Copyright NIWA Science ï¿½2017 - www.niwa.co.nz
  *
  */
 #ifdef TESTMODE
 
 // Headers
+#include "ProportionsMatureByAge.h"
+
 #include <iostream>
 
 #include "ObjectiveFunction/ObjectiveFunction.h"
 #include "Observations/Manager.h"
-#include "ProportionsMatureByAge.h"
 #include "TestResources/TestFixtures/InternalEmptyModel.h"
 
 // Namespaces
@@ -82,7 +83,7 @@ proportions 1
 @process Instantaneous_Mortality
 type mortality_instantaneous
 m 0.045
-time_step_ratio 1
+time_step_proportions 1
 relative_m_by_age One
 categories *
 table catches

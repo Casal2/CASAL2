@@ -4,11 +4,13 @@
  * @date 21/6/2017
  * @section LICENSE
  *
- * Copyright NIWA Science ©2017 - www.niwa.co.nz
+ * Copyright NIWA Science ï¿½2017 - www.niwa.co.nz
  */
 #ifdef TESTMODE
 
 // Headers
+#include "UserDefined.h"
+
 #include <iostream>
 
 #include "../../DerivedQuantities/Manager.h"
@@ -16,7 +18,6 @@
 #include "../../ObjectiveFunction/ObjectiveFunction.h"
 #include "../../Projects/Manager.h"
 #include "../../TestResources/TestFixtures/InternalEmptyModel.h"
-#include "UserDefined.h"
 
 // Namespaces
 namespace niwa {
@@ -82,7 +83,7 @@ type mortality_constant_rate
 categories stock
 M 0.19
 relative_m_by_age One
-time_step_ratio 0.25 0.33
+time_step_proportions 0.25 0.33
 
 @derived_quantity biomass_t1
 type biomass

@@ -86,8 +86,8 @@ void MortalityConstantRate::DoValidate() {
   for (double value : ratios_) {
     total += value;
   }
-  if (fabs(total - 1.0) > 1e-5)
-    LOG_ERROR() << "The time step ratios must sum to one";
+  // if (fabs(total - 1.0) > 1e-5)
+  //  LOG_ERROR() << "The time step proportions must sum to one";
 }
 
 /**
@@ -124,12 +124,12 @@ void MortalityConstantRate::DoBuild() {
     for (unsigned i : active_time_steps) time_step_ratios_[i] = 1.0;
   } else {
     if (ratios_.size() != active_time_steps.size())
-      LOG_ERROR_P(PARAM_TIME_STEP_RATIO) << " The number of time step ratios (" << ratios_.size() << ") does not match the number of time steps this process has been assigned to ("
-                                         << active_time_steps.size() << ")";
+      LOG_ERROR_P(PARAM_TIME_STEP_PROPORTIONS) << " The number of time step proportions (" << ratios_.size()
+                                               << ") does not match the number of time steps this process has been assigned to (" << active_time_steps.size() << ")";
 
     for (double value : ratios_) {
       if (value < 0.0 || value > 1.0)
-        LOG_ERROR_P(PARAM_TIME_STEP_RATIO) << "Time step ratio value (" << value << ") must be between 0.0 and 1.0 (inclusive) and sum to one";
+        LOG_ERROR_P(PARAM_TIME_STEP_PROPORTIONS) << "Time step proportion values (" << value << ") must be between 0.0 and 1.0 (inclusive) and sum to one";
     }
 
     for (unsigned i = 0; i < ratios_.size(); ++i) time_step_ratios_[active_time_steps[i]] = ratios_[i];

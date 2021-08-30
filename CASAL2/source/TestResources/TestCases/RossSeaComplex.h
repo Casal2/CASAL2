@@ -89,7 +89,7 @@ type mortality_instantaneous
 m 0.13*30
 relative_m_by_age One*30
 categories *
-time_step_ratio 0.5 0.5
+time_step_proportions 0.5 0.5
 table catches
 year FishingShelf FishingSlope FishingNorth
 1998  8.030 28.970    3.970
@@ -331,7 +331,7 @@ b 3.108
 type tag_loss
 categories tagyear=2001:2002
 tag_loss_rate 0.039
-time_step_ratio 1
+time_step_proportions 1
 selectivities One
 tag_loss_type single
 year 2001
@@ -340,7 +340,7 @@ year 2001
 type tag_loss
 categories tagyear=2003
 tag_loss_rate 0.029
-time_step_ratio 1
+time_step_proportions 1
 selectivities One
 tag_loss_type single
 year 2003
@@ -349,7 +349,7 @@ year 2003
 type tag_loss
 categories tagyear=2004:2014
 tag_loss_rate 0.0084
-time_step_ratio 1
+time_step_proportions 1
 selectivities One
 tag_loss_type single
 year 2004

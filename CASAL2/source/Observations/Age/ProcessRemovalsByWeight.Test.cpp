@@ -10,20 +10,21 @@
 #ifdef TESTMODE
 
 // Headers
+#include "ProcessRemovalsByWeight.h"
+
 #include <iostream>
 
 #include "ObjectiveFunction/ObjectiveFunction.h"
 #include "Observations/Manager.h"
-#include "ProcessRemovalsByWeight.h"
 #include "TestResources/TestFixtures/InternalEmptyModel.h"
 
 // Namespaces
 namespace niwa {
 namespace age {
 
+using niwa::testfixtures::InternalEmptyModel;
 using std::cout;
 using std::endl;
-using niwa::testfixtures::InternalEmptyModel;
 
 // comments omitted from model
 // # length at age
@@ -34,9 +35,8 @@ using niwa::testfixtures::InternalEmptyModel;
 // #ato95  1
 // #length_based False
 
-
 const std::string test_cases_observation_process_removals_by_weight =
-R"(
+    R"(
 @model
 start_year 2001
 final_year 2005
@@ -69,7 +69,7 @@ processes mort
 @process mort
 type mortality_instantaneous
 m 0.08
-time_step_ratio 1
+time_step_proportions 1
 relative_m_by_age One
 categories *
 table catches
@@ -173,10 +173,10 @@ type none
  *
  */
 TEST_F(InternalEmptyModel, Observation_Process_Removals_By_Weight) {
-  AddConfigurationLine(test_cases_observation_process_removals_by_weight, __FILE__, 31); //what is _FILE_ ?
+  AddConfigurationLine(test_cases_observation_process_removals_by_weight, __FILE__, 31);  // what is _FILE_ ?
   LoadConfiguration();
 
-  model_->Start(RunMode::kBasic); // kEstimation instead of kBasic
+  model_->Start(RunMode::kBasic);  // kEstimation instead of kBasic
 
   ObjectiveFunction& obj_function = model_->objective_function();
   // EXPECT_NEAR(-364.2906, obj_function.score(), 1e-3);  //constant part not included<<<<<<<<<<<<
@@ -189,25 +189,25 @@ TEST_F(InternalEmptyModel, Observation_Process_Removals_By_Weight) {
 
   unsigned year = 2001;
   ASSERT_FALSE(comparisons.find(year) == comparisons.end());
-  ASSERT_EQ(194u, comparisons[year].size()); // number of weight bins
+  ASSERT_EQ(194u, comparisons[year].size());  // number of weight bins
 
-  //wgt bin 8th = index is 7 =1.3 kg
+  // wgt bin 8th = index is 7 =1.3 kg
   // males age 4 have mean length 39.3 -> mean weight 1.10314817149131
   // females age 4 have mean length 40.1 -> mean weight 1.17598933036853
   EXPECT_EQ("male+female", comparisons[year][7].category_);
-  EXPECT_EQ(1.3, comparisons[year][7].length_);		// Is weight_ right? = lower bin weight
+  EXPECT_EQ(1.3, comparisons[year][7].length_);  // Is weight_ right? = lower bin weight
   EXPECT_NEAR(0.00119949, comparisons[year][7].observed_, 1e-6);
-  EXPECT_NEAR(0.00119949, comparisons[year][7].expected_, 3e-4);	// simulated value so has some error
-  //EXPECT_NEAR(88.3886, comparisons[year][7].score_, 1e-4);
+  EXPECT_NEAR(0.00119949, comparisons[year][7].expected_, 3e-4);  // simulated value so has some error
+  // EXPECT_NEAR(88.3886, comparisons[year][7].score_, 1e-4);
 
   // wgt bin 34th = index 33 = 3.9 kg
   // males age 14 have mean length 58.5 -> mean weight 3.89773088340654
   // females age 13 have mean length 58.1 -> mean weight 3.81379333290517
   EXPECT_EQ("male+female", comparisons[year][33].category_);
   EXPECT_EQ(3.9, comparisons[year][33].length_);
-  EXPECT_NEAR(2.455872e-02 , comparisons[year][33].observed_, 1e-6);
-  EXPECT_NEAR(2.455872e-02 , comparisons[year][33].expected_, 2e-4);
- // EXPECT_NEAR(294.428, comparisons[year][33].score_, 1e-3);
+  EXPECT_NEAR(2.455872e-02, comparisons[year][33].observed_, 1e-6);
+  EXPECT_NEAR(2.455872e-02, comparisons[year][33].expected_, 2e-4);
+  // EXPECT_NEAR(294.428, comparisons[year][33].score_, 1e-3);
 
   // wgt bin 43th = index 42 = 4.8 kg
   // males age 19 have mean length 62.8 -> mean weight 4.88148811988671
@@ -216,12 +216,10 @@ TEST_F(InternalEmptyModel, Observation_Process_Removals_By_Weight) {
   EXPECT_EQ(4.8, comparisons[year][42].length_);
   EXPECT_NEAR(1.324190e-02, comparisons[year][42].observed_, 1e-6);
   EXPECT_NEAR(1.324190e-02, comparisons[year][42].expected_, 2e-4);
- // EXPECT_NEAR(283.089, comparisons[year][42].score_, 1e-3);
-
+  // EXPECT_NEAR(283.089, comparisons[year][42].score_, 1e-3);
 }
 
-} /* namespace processes */
+}  // namespace age
 } /* namespace niwa */
-
 
 #endif /* TESTMODE */

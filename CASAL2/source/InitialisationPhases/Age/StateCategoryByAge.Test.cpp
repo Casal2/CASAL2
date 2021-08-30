@@ -6,18 +6,19 @@
  * @date 30/09/2017
  * @section LICENSE
  *
- * Copyright NIWA Science ©2017 - www.niwa.co.nz
+ * Copyright NIWA Science ï¿½2017 - www.niwa.co.nz
  *
  */
 #ifdef TESTMODE
 
 // Headers
+#include "StateCategoryByAge.h"
+
 #include <iostream>
 
 #include "../../DerivedQuantities/Manager.h"
 #include "../../Model/Models/Age.h"
 #include "../../TestResources/TestFixtures/InternalEmptyModel.h"
-#include "StateCategoryByAge.h"
 
 // Namespaces
 namespace niwa {
@@ -71,7 +72,7 @@ categories *
 type constant_rate
 m 0.4*2
 categories *
-time_step_ratio 1
+time_step_proportions 1
 relative_m_by_age [type = constant; c = 1]*2
 
 @age_length AL

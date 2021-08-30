@@ -775,7 +775,7 @@ For example, to apply natural mortality of $0.20$ across three time steps on bot
 	@process instant_mort
 	type mortality_instantaneous
 	m 0.20
-	time_step_ratio 0.42 0.25 0.33
+	time_step_proportions 0.42 0.25 0.33
 	relative_m_by_age One
 	categories male female
 	units kgs
@@ -841,7 +841,7 @@ Extending the example shown in instantaneous mortality process (\ref{submethods:
     # natural mortality
     m 0.20
     # the ratio of natural mortality in each of the three time steps
-    time_step_ratio 0.42 0.25 0.33
+    time_step_proportions 0.42 0.25 0.33
     relative_m_by_age One
     #for natural mortality by age
     categories male female
@@ -1218,7 +1218,7 @@ The syntax for the tag loss is
 	type tag_loss
 	categories tagged_fish
 	tag_loss_rate 0.02
-	time_step_ratio 0.25 0.75
+	time_step_proportions 0.25 0.75
 	selectivities One
 	tag_loss_type single
 	year 1985
@@ -1964,7 +1964,7 @@ Catches are unique in that they are known inputs in a table format. For example,
 @process Fishing
 type mortality_instantaneous_retained
 m 0.17*6  #0.17    #testing at old values
-time_step_ratio 1
+time_step_proportions 1
 relative_m_by_age One*6   #for age based M
 categories *
 table catches
