@@ -2,7 +2,7 @@ This example describes a single species and area model, with recruitment, matura
 
 The default \CNAME\ configuration filename is \texttt{config.csl2}. In this example, \texttt{config.csl2} specifies the files to include to run the \CNAME\ model from the current directory using the !\texttt{\emph{include}} command.
 
-\lstinputlisting[firstline=2,lastline=5]{../../Examples/Simple/config.csl2} 
+\lstinputlisting[firstline=2,lastline=5]{../../Examples/Simple/config.csl2}
 
 It is recommended to separate the sections of a \CNAME\ model for enhancing readability and error checking, and including the files in a version control system.
 
@@ -22,12 +22,12 @@ The first time step applies processes of recruitment, and  $\frac{1}{2} M_1 + F 
 
 The second time step applies an age increment and the remaining natural mortality.
 
-The third time step applies TODO.
+The third time step applies \TODO{complete this}.
 
 The first 28 lines of the main section of the \texttt{population.csl2}:
 
 % Include config file
-\lstinputlisting[firstline=1,lastline=28]{../../Examples/Simple/config/population.csl2} 
+\lstinputlisting[firstline=1,lastline=28]{../../Examples/Simple/config/population.csl2}
 
 To run the model to verify that the model runs without any syntax errors, use the command \texttt{casal2 -r}. Since \CNAME\ reads in the default filename \texttt{config.csl2}, this filename can be overridden. For example, if the model is in file \texttt{Mymodel.txt}, then this filename would be specified using the \texttt{-c} option, \texttt{casal2 -r -c Mymodel.txt}.
 

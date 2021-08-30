@@ -605,11 +605,11 @@ The null\_process  type has no additional subcommands. Note that this process do
 \defRef{sec:Process-TagByLength}
 \label{syntax:Process-TagByLength}
 
-\defSub{from}{The categories to transition from}
+\defSub{from}{The categories that are selected for tagging (i.e, transition from)}
 \defType{Vector of strings}
 \defDefault{No default}
 
-\defSub{to}{The categories to transition to}
+\defSub{to}{The categories that have tags (i.e., transition to)}
 \defType{Vector of strings}
 \defDefault{No default}
 
@@ -618,16 +618,16 @@ The null\_process  type has no additional subcommands. Note that this process do
 \defDefault{No default}
 
 \defSub{u\_max}{The maximum exploitation rate ($U\_{max}$)}
-\defType{Real number (estimable)}
+\defType{Real number}
 \defDefault{0.99}
 \defLowerBound{0.0 (inclusive)}
 \defUpperBound{1.0 (exclusive)}
 
-\defSub{years}{The years to execute the transition in}
+\defSub{years}{The years to execute the tagging events in}
 \defType{Vector of non-negative integers}
 \defDefault{No default}
 
-\defSub{initial\_mortality}{}
+\defSub{initial\_mortality}{The initial mortality to apply to tags as a proportion}
 \defType{Real number (estimable)}
 \defDefault{0.0}
 \defLowerBound{0.0 (inclusive)}
@@ -636,17 +636,19 @@ The null\_process  type has no additional subcommands. Note that this process do
 \defSub{initial\_mortality\_selectivity}{}
 \defType{String}
 \defDefault{No default}
+\defValue{A valid selectivity label}
 
 \defSub{selectivities}{}
 \defType{Vector of strings}
 \defDefault{No default}
+\defValue{Valid selectivity labels}
 
-\defSub{n}{}
+\defSub{n}{The total number of tags to apply}
 \defType{Vector of real numbers (estimable)}
-\defDefault{true}
+\defDefault{No default}
 
-\defSub{tolerance}{Tolerance for checking the proportions to move in each year}
-\defType{Real number (estimable)}
+\defSub{tolerance}{Tolerance for checking the specified proportions sum to one}
+\defType{Real number}
 \defDefault{1e-5}
 \defLowerBound{0 (inclusive)}
 \defUpperBound{1.0 (inclusive)}
@@ -659,11 +661,13 @@ The null\_process  type has no additional subcommands. Note that this process do
 \defSub{categories}{The list of categories}
 \defType{Vector of strings}
 \defDefault{No default}
+\defValue{Valid category labels}
 
 \defSub{tag\_loss\_rate}{The tag loss rates}
 \defType{Vector of real numbers (estimable)}
 \defDefault{No default}
 \defLowerBound{0.0 (inclusive)}
+\defValue{The instantaneous rate of tag loss}
 
 \defSub{time\_step\_ratio}{The time step ratios for tag loss}
 \defType{Vector of real numbers (estimable)}
@@ -688,23 +692,26 @@ The null\_process  type has no additional subcommands. Note that this process do
 \defRef{sec:Process-TransitionCategory}
 \label{syntax:Process-TransitionCategory}
 
-\defSub{from}{The from category}
+\defSub{from}{The categories to transition from}
 \defType{Vector of strings}
 \defDefault{No default}
+\defValue{Valid category labels}
 
-\defSub{to}{The to category}
+\defSub{to}{The categories to transition to}
 \defType{Vector of strings}
 \defDefault{No default}
+\defValue{Valid category labels}
 
-\defSub{proportions}{The proportions}
+\defSub{proportions}{The proportions to transition for each category}
 \defType{Real number (estimable)}
 \defDefault{No default}
 \defLowerBound{0.0 (inclusive)}
 \defUpperBound{1.0 (inclusive)}
 
-\defSub{selectivities}{The selectivity names}
+\defSub{selectivities}{The selectivities to apply to each proportion}
 \defType{Vector of strings}
 \defDefault{No default}
+\defValue{Valid selectivity labels}
 
 \subsubsection{Process of type Transition\_Category\_By\_Age}
 \commandlabsubarg{Process}{type}{Transition\_Category\_By\_Age}.
@@ -714,14 +721,17 @@ The null\_process  type has no additional subcommands. Note that this process do
 \defSub{from}{The categories to transition from}
 \defType{Vector of strings}
 \defDefault{No default}
+\defValue{Valid category labels}
 
 \defSub{to}{The categories to transition to}
 \defType{Vector of strings}
 \defDefault{No default}
+\defValue{Valid category labels}
 
 \defSub{min\_age}{The minimum age to transition}
 \defType{Non-negative integer}
 \defDefault{No default}
+\defValue{Valid category labels}
 
 \defSub{max\_age}{The maximum age to transition}
 \defType{Non-negative integer}
@@ -730,20 +740,15 @@ The null\_process  type has no additional subcommands. Note that this process do
 \defSub{penalty}{The penalty label}
 \defType{String}
 \defDefault{No default}
+\defValue{A valid penalty label}
 
 \defSub{u\_max}{The maximum exploitation rate ($U\_{max}$)}
 \defType{Real number (estimable)}
 \defDefault{0.99}
 \defLowerBound{0.0 (inclusive)}
-\defUpperBound{1.0 (inclusive)}
+\defUpperBound{1.0 (exclusive)}
 
 \defSub{years}{The years to execute the transition in}
 \defType{Vector of non-negative integers}
 \defDefault{No default}
 
-\subsubsection{Process of type Unit\_Tester}
-\commandlabsubarg{Process}{type}{Unit\_Tester}.
-\defRef{sec:Process-UnitTester}
-\label{syntax:Process-UnitTester}
-
-The Unit\_Tester type has no additional subcommands.

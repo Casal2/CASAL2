@@ -41,7 +41,7 @@ TagByAge::TagByAge(shared_ptr<Model> model) : Process(model), to_partition_(mode
   parameters_.Bind<unsigned>(PARAM_YEARS, &years_, "The years to execute the transition in", "");
   parameters_.Bind<Double>(PARAM_INITIAL_MORTALITY, &initial_mortality_, "The initial mortality proportion", "", 0.0)->set_range(0.0, 1.0);
   parameters_.Bind<string>(PARAM_INITIAL_MORTALITY_SELECTIVITY, &initial_mortality_selectivity_label_, "The initial mortality selectivity label", "", "");
-  parameters_.Bind<Double>(PARAM_LOSS_RATE, &loss_rate_, "The loss rate", "");
+  parameters_.Bind<Double>(PARAM_LOSS_RATE, &loss_rate_, "The annual tag loss rate", "");
   parameters_.Bind<string>(PARAM_LOSS_RATE_SELECTIVITIES, &loss_rate_selectivity_labels_, "The loss rate selectivity label", "", true);
   parameters_.Bind<string>(PARAM_SELECTIVITIES, &selectivity_labels_, "The selectivity labels", "");
   parameters_.Bind<Double>(PARAM_N, &n_, "N", "", true);

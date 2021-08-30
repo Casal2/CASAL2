@@ -96,7 +96,7 @@ evaluations 4000
 
 \subsubsection{\I{The differential evolution minimiser}}\label{methods:Minimiser-DESolver}
 
-The differential evolution minimiser is a simple population-based, stochastic function minimizer, but is claimed to be quite powerful in solving minimisation problems. It is a method of mathematical optimization of multidimensional functions and belongs to the class of evolution strategy optimizers (TODO reference?).
+The differential evolution minimiser is a simple population-based, stochastic function minimizer, but is claimed to be quite powerful in solving minimisation problems. It is a method of mathematical optimization of multidimensional functions and belongs to the class of evolution strategy optimizers.
 
 Initially, the procedure randomly generates and evaluates a number of solution vectors (the population size), each with $p$ parameters. Then, for each generation (iteration), the algorithm creates a candidate solution for each existing solution by random mutation and uniform crossover. The random mutation generates a new solution by multiplying the difference between two randomly selected solution vectors by some scale factor, then adding the result to a third vector. Then an element-wise crossover takes place with probability $P_{cr}$, to generate a potential candidate solution. If this is better than the initial solution vector, it replaces it, otherwise the original solution is retained. The algorithm terminates after either a predefined number of generations (\argument{max\_generations}) or when the maximum difference between the scaled individual parameters from the candidate solutions from all populations is less than some predefined amount \argument{tolerance}.
 
@@ -227,7 +227,7 @@ All modified versions of the covariance matrix are printed to the standard outpu
 
 The variance-covariance matrix of this sub-sample of chain is calculated. As above, correlations greater than \commandsub{mcmc}{max\_correlation} are reduced to \commandsub{mcmc}{max\_correlation}, correlations less than -\commandsub{mcmc}{max\_correlation} are increased to  -\commandsub{mcmc}{max\_correlation}, and very small non-zero variances are increased (\commandsub{mcmc}{covariance\_adjustment} and \commandsub{mcmc}{min\_difference}). The result is the new variance-covariance matrix of the proposal distribution.
 
-The procedure used to choose the sample of points is that, to start, all points on the chain so far are taken. (TODO reword this paragraph) All points in an initial user-specified period are discarded. The assumption is that the chain will have started moving during this period. If this is incorrect and the chain has still not moved by the end of this period, it is a fatal error and \CNAME\ stops. The remaining set of points must contain at least some user-specified number of transitions. If this is incorrect and the chain has not had at least this number of transitions, then it is also a fatal error. If this test is passed, the set of points is systematically sub-sampled down to 1000 points (and it must be at least this long to start with).
+The procedure used to choose the sample of points is that, to start, all points on the chain so far are taken. \TODO{reword this paragraph} All points in an initial user-specified period are discarded. The assumption is that the chain will have started moving during this period. If this is incorrect and the chain has still not moved by the end of this period, it is a fatal error and \CNAME\ stops. The remaining set of points must contain at least some user-specified number of transitions. If this is incorrect and the chain has not had at least this number of transitions, then it is also a fatal error. If this test is passed, the set of points is systematically sub-sampled down to 1000 points (and it must be at least this long to start with).
 
 The probability of acceptance for each jump is $0$ if the jump would move a parameter value outside of its bounds, $1$ if it improves the posterior, or $(new posterior/old posterior)$ otherwise. How often the position of the chain is recorded is specified with the \texttt{keep} parameter. For example, with \texttt{keep 10}, only every $10$th sample is recorded.
 
@@ -240,7 +240,7 @@ Restarting an MCMC chain: in the case where an MCMC chain was halted or interrup
 {\small{\begin{verbatim}
 		casal2 -m --resume --objective-file Objective_file_name --sample-file Sample_file_name
 		\end{verbatim}}}
-	
+
 where \texttt{Objective\_file\_name} is the file name for the objective function report and \texttt{Sample\_file\_name} is the file name for the sample report from a MCMC chain.
 
 The posterior sample can be used for (projections (Section \ref{sec:projection})) or simulations (Section \ref{sec:simulation-observations}) with the values supplied with the command \texttt{\cname\ -i \emph{file}}.
@@ -374,21 +374,21 @@ where, for example, $X_1$ is observed catch biomass and $X_2$ is the estimated c
 
 \subsection{Additional Priors\label{sec:additional_priors}}
 
-Additional priors can be thought of as the inverse of penalties (TODO please rephrase). For CASAL models, most of the legacy \command{penalty} blocks have now been implemented as \command{additional\_prior} blocks. They restrict parameters in user-defined spaces (TODO please rephrase).
+Additional priors can be thought of as the inverse of penalties \TODO{please rephrase}. For CASAL models, most of the legacy \command{penalty} blocks have now been implemented as \command{additional\_prior} blocks. They restrict parameters in user-defined spaces (TODO please rephrase).
 
 The types of additional priors available in \CNAME\ are \texttt{vector\_smoothing}, \texttt{vector\_averaging}, \texttt{uniform\_log}, \texttt{lognormal}, \texttt{element\_difference}, and \texttt{Beta}:
 
 \begin{itemize}
 	\item \texttt{vector\_averaging}
-	
+
 	This prior can be applied to a vector parameter. Sum of squares of $r^{th}$ differences, optionally on a log scale. This encourages the vector to be like a polynomial of degree $(r-1)$. A range of the vector to be "smoothed" can be specified (and if not, the smoother is applied to the entire vector). However, this restriction must be specified by an index of the vector and must be between 1 and the length of the vector, inclusive.
-	
+
 	\item \texttt{vector\_smoothing}
-	
+
 	This prior can be applied to a vector parameter. Square of (mean(vector)-k), or of (mean(log(vector))-l), or of (log(mean(vector)/m)). Restricts the vector to average arithmetically to k or m, or geometrically to exp(l). Typically used for YCS with k=1 or m=1 or l=0, to restrict the YCS to centre on 1. Optionally, indices can be chosen or excluded outside a given set of bounds.
-	
+
 	\item\texttt{lognormal} with mean $\mu$ and c.v. $c$
-	
+
 	\begin{equation}
 	- \log \left(\pi \left(p \right) \right) = \log \left( p \right) + 0.5 \left( \frac{\log \left( p / \mu \right)}{s} + \frac{s}{2} \right)^2
 	\end{equation}
@@ -398,7 +398,7 @@ The types of additional priors available in \CNAME\ are \texttt{vector\_smoothin
 	\begin{equation}
 	- \log \left(\pi \left(p \right) \right) = \log \left( p \right)
 	\end{equation}
-	
+
 	\item\texttt{element\_difference}
 
 	\begin{equation}
@@ -406,13 +406,13 @@ The types of additional priors available in \CNAME\ are \texttt{vector\_smoothin
 	\end{equation}
 
 	\item\texttt{Beta}
-	
+
 	{Beta\index{Beta additional prior}\index{Additional Priors ! Beta} with mean $\mu$ and standard deviation $\sigma$, and range parameters $A$ and $B$, for parameter value = $p$}
 
 	\begin{equation}
 	- \log \left(\pi \left( p \right) \right) = \left( 1 - m \right) \log \left( p - A \right) + \left( 1 - n \right)\log \left( B - p \right)
 	\end{equation}
-	
+
 	where $\nu  = \frac{\mu  - A}{B - A}$, and $\tau = \frac{\left(\mu -A \right)\left(B - \mu \right)}{\sigma ^2} - 1$ and then $m=\tau \nu$ and $n=\tau(1-\nu)$. The beta prior is undefined when $\tau \leq 0$.
 \end{itemize}
 
@@ -420,29 +420,29 @@ Methods available for the type \texttt{vector\_average} are \subcommand{l}, \sub
 
 \begin{itemize}
 	\item \subcommand{method k}
-	
+
 	$- \log \left(\pi \left(p \right) \right) = \left(\bar{X} - k\right)^2$
 
 	\item \subcommand{method l}
-	
+
 	$- \log \left(\pi \left(p \right) \right) = \left(\overline{ln\left(X\right)} - k\right)^2$
 
 	\item \subcommand{method m}
-	
+
 	$- \log \left(\pi \left(p \right) \right) = \left(ln\left(\bar{X}\right) - k\right)^2$
 \end{itemize}
 
 where $\overline{ln\left(X\right)}$ is the mean of the logged values.
 
-There are a range of parameters and derived values that additional priors can be applied to. Here are a list of non-estimated (all parameters that can be estimated can have an additional prior attached to them) parameters that additional priors can be applied to. 
+There are a range of parameters and derived values that additional priors can be applied to. Here are a list of non-estimated (all parameters that can be estimated can have an additional prior attached to them) parameters that additional priors can be applied to.
 
 \begin{itemize}
 	\item \subcommand{selectivity[Selectivity\_label].values\{i:j\}}.
-	
+
 	This subcommand applies a selectivity (???) to the actual selectivity value by age (for ages $i$ through $j$). This option is available only for certain types of selectivities (\subcommand{all\_values}, \subcommand{all\_values\_bounded}, \subcommand{double\_exponential}). See the Hoki stock assessment for an example of applying additional priors on selectivities.
-	
+
 	\item \subcommand{catchability[Catchability\_label].q}
-	
+
 	This subcommand is for catchabilities that are of type \subcommand{nuisance} only. Since \subcommand{nuisance} $q$s are not free parameters, additional priors can be applied to replicate CASAL models with \command{estimate} blocks in nuisance $q$s. If a CASAL model applied a uniform prior, then this has a null effect and this functionality can be ignored when converting to a \CNAME\ model.
 \end{itemize}
 
@@ -569,7 +569,7 @@ $Y_2 =  (Y_1 - \theta_2)2 $\\
 Restore transformations\\
 $\theta_1 = Y_1 + 0.5Y_2$\\
 $\theta_2 = \theta_1 - 0.5Y_2$\\
-$\begin{vmatrix} \frac{\partial}{\partial y} f^{-1}(y) \end{vmatrix}$ Hasn't been assessed (i.e it could exist) (TODO ?????)\\
+$\begin{vmatrix} \frac{\partial}{\partial y} f^{-1}(y) \end{vmatrix}$ Hasn't been assessed (i.e it could exist) \TODO{?????}\\
 
 \item \subcommand{log\_sum} : two parameters $\theta_1$ and $\theta_2$ are transformed to $Y_1$ and $Y_2$, where $Y_1$ is the natural logarithm of the sum of $\theta_1$ and $\theta_2$. $Y_2$ describes the proportion of the sum with respect to $\theta_1$\\
 \subcommand{is\_simple = false}\\
@@ -579,7 +579,7 @@ $Y_2 = \theta_1 / (\theta_1 + \theta_2)$\\
 Restore transformations\\
 $\theta_1 = exp(Y_1)Y_2$\\
 $\theta_2 =exp(Y_1)(1 - Y_2)$\\
-$\begin{vmatrix} \frac{\partial}{\partial y} f^{-1}(y) \end{vmatrix}$ Hasn't been assessed (i.e it could exist) (TODO ?????)\\
+$\begin{vmatrix} \frac{\partial}{\partial y} f^{-1}(y) \end{vmatrix}$ Hasn't been assessed (i.e it could exist) \TODO{?????}\\
 
 \item \subcommand{orthogonal} : two parameters $\theta_1$ and $\theta_2$ are transformed to $Y_1$ and $Y_2$, where $Y_1$ is the multiplication of $\theta_1$ and $\theta_2$. $Y_2$ is the division of $\theta_1$ and $\theta_2$\\
 \subcommand{is\_simple = false}\\

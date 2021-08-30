@@ -1,6 +1,6 @@
-\section{\I{Partition \& Categories}\label{sec:partition-categories-section}}
+\section{\I{Partition \& Categories}\label{sec:PartitionCategories}}
 
-Dividing the population into different categories is fundamental to modelling the dynamics of a fish stock. CASAL had a fixed set of hard-wired categories (e.g., factors like sex, area, or stock) and each category type had a predefined set of allowed processes (or transitions in CASAL-speak), e.g., immature fish moving into mature category \citep{1388}. This made sense when CASAL was coded, but now it is seen as a limitation, e.g., changing sex was not allowed and there can only be male and female sexes, not an unknown sex that sometimes occurs in data. [TODO: shift to intro or drop?]
+Dividing the population into different categories is fundamental to modelling the dynamics of a fish stock. CASAL had a fixed set of hard-wired categories (e.g., factors like sex, area, or stock) and each category type had a predefined set of allowed processes (or transitions in CASAL-speak), e.g., immature fish moving into mature category \citep{1388}. This made sense when CASAL was coded, but now it is seen as a limitation, e.g., changing sex was not allowed and there can only be male and female sexes, not an unknown sex that sometimes occurs in data. \TODO{shift to intro or drop?}
 
 In \CNAME\, the concept of user defined categories was introduced to allow more flexibility in dividing up the population. Note that \CNAME\ does not know about sex or area and their properties; these are explicitly built up by the user by specifying processes that act on the categories in the input files. The cost is that users need to follow good practice to achieve clarity and readability of the input files, i.e., poor specifications can result in obscure input files.
 
@@ -14,7 +14,7 @@ A key element of the model is the partition which holds the current state of the
 		\caption{A visual representation of a partition.}\label{Fig:part}
 \end{figure}
 
-The categories can include combinations of levels from one or more factors such as sex, maturity state, area, or even species. \CNAME\ has no predefined categories; \emph{all} categories are defined by the user. Note that the partition only has the current state of the model; past states are not kept (\textit{See} the section on derived quantities about saving past summaries from the partition, p. \pageref{sec:derived-quantities}).
+The categories can include combinations of levels from one or more factors such as sex, maturity state, area, or even species. \CNAME\ has no predefined categories; \emph{all} categories are defined by the user. Note that the partition only has the current state of the model; past states are not kept (\textit{See} the section on derived quantities about saving past summaries from the partition, p. \pageref{sec:DerivedQuantities}).
 
 To illustrate categories, consider a model of a fish population with two fisheries, one on spawning fish at the spawning grounds and another on the non-spawning population in the rest of the stock area. The mature fish will migrate to the spawning area, where the spawning fishery occurs. At the end of spawning, these fish, along with the recruits from the previous year, migrate back to the non-spawning area. The fish population can be represented  by factors sex (levels \textit{male} and \textit{female}), maturity (levels \textit{immature} and \textit{mature}), and area (levels \textit{spawning} and \textit{non-spawning} ). So the partition has 8 rows of numbers-at-age, from 2 sexes $\times$ 2 maturity levels $\times$ 2 areas.
 
@@ -23,7 +23,7 @@ These categories are specified in a categories block which starts with a \textit
 {\small{\begin{lstlisting}
 	@categories
 	format area.sex.mature
-	names spawn.male.immature spawn.male.mature spawn.female.immature spawn.female.mature nonspawn.male.immature nonspawn.male.mature nonspawn.female.immature #all on one line nonspawn.female.mature  
+	names spawn.male.immature spawn.male.mature spawn.female.immature spawn.female.mature nonspawn.male.immature nonspawn.male.mature nonspawn.female.immature #all on one line nonspawn.female.mature
 \end{lstlisting}}}  %{verbatimIJD}}}
 
 Note the "." syntax to separate the factor names.
@@ -46,16 +46,16 @@ To make recruitment to enter the partition in  the non-spawning area, use
 {\small{\begin{lstlisting}
 	@categories
 	format area.sex.mature
-	names spawn.male.mature spawn.female.mature nonspawn.male.immature nonspawn.male.mature nonspawn.female.immature   
+	names spawn.male.mature spawn.female.mature nonspawn.male.immature nonspawn.male.mature nonspawn.female.immature
 \end{lstlisting}}}
 
-\subsection{Shorthand syntax for categories}\label{sec:ShorthandSyntax-section}
+\subsection{Shorthand syntax for categories}\label{sec:ShorthandSyntax}
 
 This can be skipped on the first reading.
 
 Some specifications have long lists of categories or years or initial values for parameters and the like, e.g., for YCS from 1900 to 2019, 120 years and 120 initial vales of YCS must be specified; this is hard to do by hand and it can be error prone as well as difficult to match values for each year. Here, the range short cut (\textit{:)} can be used so the  the year specification is \textit{1900:2019}, and the multiplier short cut (\textit{*)} to give the initial values specification as \textit{1*120}.
 
-There is also shorthand notation for categories since each category can be quite complicated. \label{sub:categories}. First use the \texttt{format} subcommand in the \textit{@categories} block to define the factors that make up the sections of the category names. A "." (period) character delineates each factor and this structure allows a shorthand syntax to compose category names. 
+There is also shorthand notation for categories since each category can be quite complicated. \label{sec:Categories}. First use the \texttt{format} subcommand in the \textit{@categories} block to define the factors that make up the sections of the category names. A "." (period) character delineates each factor and this structure allows a shorthand syntax to compose category names.
 
 The \texttt{names} subcommand is used to list the category names. Sections within the shorthand syntax for \textit{names} are required to match the order of factors in the \textit{format} subcommand so \CNAME\ can organise and search on them. In these sections, levels for each factor use the "list specifier" and range characters, e.g.,
 
@@ -74,7 +74,7 @@ names male,female.immature,mature.notag,2001:2005 # Valid shortcut
 names male.immature.notag male.immature.2001 male.immature.2002 male.immature.2003 male.immature.2004 male.immature.2005 male.mature.notag male.mature.2001 male.mature.2002 male.mature.2003 male.mature.2004 male.mature.2005 female.immature.notag female.immature.2001 female.immature.2002 female.immature.2003 female.immature.2004 female.immature.2005 female.mature.notag female.mature.2001 female.mature.2002 female.mature.2003 female.mature.2004 female.mature.2005
 \end{lstlisting}}}
 
-The shorthand syntax available are: [TODO: edit list]
+The shorthand syntax available are: \TODO{edit list}
 
 \begin{itemize}
 	\item \textit{*} Specify all categories
@@ -82,7 +82,7 @@ The shorthand syntax available are: [TODO: edit list]
 specifies that the observation covers both sexes combined.
     \item \textit{:} Specify a range of integers <int1>:<int2>, e.g., \textit{2000:2005} expands to \textit{2000, 2001, 2002, 2003, 2004, 2005}
     \item Lists using ",": <item1>,<item2>,<item3>, e.g., \textit{male,female,unsexed} are the levels for the factor \textit{sex}.
-    \item Repeats a number or label: <number~|~label>*<integer>, e.g., \textit{1*5} --> \textit{1 1 1 1 1} 
+    \item Repeats a number or label: <number~|~label>*<integer>, e.g., \textit{1*5} --> \textit{1 1 1 1 1}
     \item \textit{format=<X>=<x>=<int>}   ??? no idea how it works
     \textit{<factor>=level>=<year range>}, e.g., \textit{tag=2001=1999:2003} the categories with level 2001 in the tag factor are accessible from year 1999 to 2003 inclusive, i.e, these categories are not not part of the partition in the years prior to 1999 (saves computation effort). format=??
     \item \textit{[]} replace label to a command block with the block defined inline, e.g., \textit{catchability [q = 1e-5]} rather than \textit{catchability CHATq} where \textit{CHATq} labels a command block somewhere in the input files
@@ -165,7 +165,7 @@ Then, to migrate a portion of the mature population from the southern area to th
 {\small{\begin{verbatim}
 		@process spawn_migration
 		type transition_category   #process to move fish from one category to another
-		from format=south.mature.* #move all south mature fish, both notag and tagged fish  
+		from format=south.mature.* #move all south mature fish, both notag and tagged fish
 		to format=north.mature.*   # into the relevant north categories
 \end{verbatim}}}
 
@@ -183,9 +183,9 @@ final_year 2010   # goes through to 2010
 @categories
 format sex.stage.tag
 names male,female.immature,mature.notag,2001:2005 # Valid
-# Specify categories with the tag value "2001" are available in years 
+# Specify categories with the tag value "2001" are available in years
         #1999, 2000, 2001, 2002, 2003
-# And also for categories with the tag value "2005" are available in years 
+# And also for categories with the tag value "2005" are available in years
         #2003, 2004, 2005, 2006, 2007
 years tag=2001=1999:2003  tag=2005=2003:2007
 \end{verbatim}}}
@@ -238,13 +238,13 @@ Category shortcuts can be used in a sequence to create a complex partition. For 
 {\small{\begin{lstlisting}
 @categories
 format sex.maturation.tag
-names male,female.immature,mature male,female.immature,mature.2005-2010 unsexed.immature 
+names male,female.immature,mature male,female.immature,mature.2005-2010 unsexed.immature
 #<is equal to>
 names male.immature male.mature female.immature female.mature
       male.immature.2005 male.immature.2006 male.immature.2007 male.immature.2008 male.immature.2009 male.immature.2010
       male.mature.2005 male.mature.2006 male.mature.2007 male.mature.2008 male.mature.2009 male.mature.2010
       female.immature.2005 female.immature.2006 female.immature.2007 female.immature.2008 female.immature.2009 female.immature.2010
-      female.mature.2005 female.mature.2006 female.mature.2007 female.mature.2008 female.mature.2009 female.mature.2010      
+      female.mature.2005 female.mature.2006 female.mature.2007 female.mature.2008 female.mature.2009 female.mature.2010
       unsexed.immature
 \end{lstlisting}}}
 
@@ -252,7 +252,7 @@ Note that the algorithm goes from left to right over the factors in the \textit{
 
 \subsection{\I{Referencing vector and map parameters}\label{sec:params}}
 
-TODO: has ref been done above?? shift? or new sction?
+\TODO{has ref been done above?? shift? or new section?}
 
 To build relationships between command blocks, \CNAME\ uses  a referencing system so that blocks and parameters within blocks can be accessed. In its simplest form, command blocks are referenced by their label. To access specified parameters within a command block, the syntax used is:
 
@@ -267,7 +267,7 @@ process[recruitment].ycs         #ycs parameter in the process block called recr
 process[Fishing].m               #natural mortality in the process called Fishing
 
 process[Fishing].method_pot      #pot fishery in the process called Fishing
-                                 # it is usual to define all fisheries in one 
+                                 # it is usual to define all fisheries in one
                                  # mortality process block so we need a way to
                                  # identify each one
 \end{verbatim}}}
@@ -312,8 +312,8 @@ Next, to estimate only one \textit{q} value for the time block, pick one element
 		parameter time_varying[q_step1].value{1992}  #estimate this one
 		same      time_varying[q_step1].value{1993:1995}  #set these to the value for 1992
 		type      uniform                   #uniform prior on q
-		lower_bound 0.1 
-		upper_bound  10  
+		lower_bound 0.1
+		upper_bound  10
 \end{verbatim}}}
 
 Keys are restricted in \CNAME\ to years and categories. An example using categories as a key in a map:
@@ -333,7 +333,7 @@ type uniform                     #prior
 parameter recruitment.[m]{male}  # estimate male M, "male" is a level for factor sex
 same recruitment.[m]{female}     # set female M to the same value as male's
 \end{verbatim}}}
-	
+
 For vector parameters (i.e., no key values), the index is an integer starting with 1 for the first value. An example is the selectivity \textit{all.values.bounded} which can be defined by:
 
 {\small{\begin{verbatim}
@@ -349,7 +349,7 @@ parameter selectivity[MatSel].v{2}  # estimate the 2nd value only, i.e., age 3
 lower_bound 0.1                     # lower parameter range
 upper_bound 1.0                     # upper parameter range
 \end{verbatim}}}
-	
+
 The integer \textit{{2}} cannot be used to specify the \textit{q} parameter for 1993 in the above example labeled \textit{q\_block\_1992}. This will pass the syntax test, but it will fail at the validate stage in \CNAME.
 
 

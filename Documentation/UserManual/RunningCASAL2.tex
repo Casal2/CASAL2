@@ -12,7 +12,7 @@ Command line arguments\index{Command line arguments} are used to specify the act
 
 To use \CNAME, open a console window (i.e. the command prompt) window on Microsoft Windows or a terminal window on Linux. Navigate to the directory where the model \config s are located. Then enter \CNAME\ with arguments for a specific mode to start the \CNAME\ mode running; see Section \ref{sec:CommandLineArguments} for the list of possible arguments. \CNAME\ will print output to the screen.
 
-For both 64-bit Linux and Microsoft Windows, we recommend using the install package available on \github\ for Microsoft Windows or the Debian package (.deb) for Linux. Running \CNAME\ on a system requires the main binary (casal2.exe on Windows, or casa2 on Linux) and the associated dynamically linked libraries (DLL) for Windows or shared objects (.so) for Linux to be installed into appropriate directories, and cannot be (easily) run by copying the binary to a working directory. \CNAME\ is not available for 32-bit operating systems or macOS.
+For both 64-bit Linux and Microsoft Windows, we recommend using the install package available on \github\ for Microsoft Windows or the Debian package (.deb) for Linux. Running \CNAME\ on a system requires the main binary (casal2.exe on Windows, or casal2 on Linux) and the associated dynamically linked libraries (DLL) for Windows or shared objects (.so) for Linux to be installed into appropriate directories, and cannot be (easily) run by copying the binary to a working directory. \CNAME\ is not available for 32-bit operating systems or macOS.
 
 \subsection{\I{Redirecting standard output}\label{sec:RedirectingStandardOut}}
 
@@ -34,7 +34,7 @@ And, on some Microsoft Windows systems (e.g., Windows 10), you can redirect to b
 
 \begin{verbatim} casal2 [arguments] > run.out 2> run.err\end{verbatim}
 
-\CNAME\ outputs header information to the output (Figure~\ref{fig:log_file_1}). The header\index{Output header information} consists of the program name and version, the arguments passed to \CNAME\ from the command line, the date and time that the program was called (derived from the system time), the user name, and the machine name (including the operating system and the process identification number). This information can be used to track outputs as well as identifying the version of \CNAME\ used to run the model.
+\CNAME\ outputs header information to the output. The header\index{Output header information} consists of the program name and version, the arguments passed to \CNAME\ from the command line, the date and time that the program was called (derived from the system time), the user name, and the machine name (including the operating system and the process identification number). This information can be used to track output across runs, dates, and versions of \CNAME .
 
 \vspace*{4mm}
 
@@ -47,7 +47,7 @@ And, on some Microsoft Windows systems (e.g., Windows 10), you can redirect to b
 where
 
 \begin{description}
-  \item [\texttt{-c \emph{config\_file}}] Define the \config~for \CNAME\ (if this argument is omitted, the default \config\ is \texttt{config.csl2})
+  \item [\texttt{-c \emph{config\_file}}] Define the \config for \CNAME\ (if this argument is omitted, the default \config\ is \texttt{config.csl2})
 \end{description}
 
 and where \emph{task} must be one of the following (\textbf{[]} indicates a secondary label to call the task, e.g. \textbf{\texttt{-h}} will execute the same task as \textbf{\texttt{-{}-help}}),
@@ -71,26 +71,26 @@ and where \emph{task} must be one of the following (\textbf{[]} indicates a seco
 
 \item [\texttt{-R [-{}-resume] \emph{filename}}] Resume a previously stopped\emph{MCMC} using the covariance and free parameters in the MPD file. Additional arguments must be supplied to specify the sample and objective files from the previous MCMC with \texttt{-{}-objective-file} and \texttt{-{}-sample-file}.
 
-\item [\texttt{-f [-{}-projection]}] \emph{arg}. Project the model \emph{forward} in time using the parameter values in the \config\ as the starting point for the estimation, or optionally with the parameter values from the file specified with the argument \texttt{-i} or \texttt{-I}. Projections are repeated for each parameter set (i.e., each line of data in the free parameter file) \emph{arg} times (the default is 1). Typically, the MCMC sample output will be used with \texttt{-i}.
+\item [\texttt{-f [-{}-projection]}] \emph{n}. Project the model \emph{forward} in time using the parameter values in the \config\ as the starting point for the estimation, or optionally with the parameter values from the file specified with the argument \texttt{-i} or \texttt{-I}. Projections are repeated for each parameter set (i.e., each line of data in the free parameter file) \emph{n} times (the default is 1). Typically, the MCMC sample output will be used with \texttt{-i}.
 
-\item [\texttt{-s [-{}-simulation]} \emph{arg}] \emph{Simulate} \emph{arg} of observation sets using values in the \config\ as the parameter values, or optionally with the parameter values from the file specified with the argument \texttt{-i} or \texttt{-I}.
+\item [\texttt{-s [-{}-simulation]} \emph{n}] \emph{Simulate} \emph{n} of observation sets using values in the \config\ as the parameter values, or optionally with the parameter values from the file specified with the argument \texttt{-i} or \texttt{-I}.
 
 \end{description}
 
 The following optional arguments\index{Optional command line arguments} [\emph{options}] may be specified
 
 \begin{description}
-\item [\texttt{-i [-{}-input] \emph{filename}}] \emph{Input} one or more sets of free (estimated) parameter values from \texttt{\emph{filename}} (see Section \ref{sec:report-syntax} for details about the format of \texttt{\emph{filename}}).
+\item [\texttt{-i [-{}-input] \emph{filename}}] \emph{Input} one or more sets of free (estimated) parameter values from \texttt{\emph{filename}} (see Section \ref{sec:Reports} for details about the format of \texttt{\emph{filename}}).
 
-\item [\texttt{-I [-{}-input-force] \emph{filename}}] \emph{Input} one or more sets of parameter values from \texttt{\emph{filename}}. This contains both the free paramters and also force the \emph{overwrite} addressable (non-estimated) values in the \config\ (see Section \ref{sec:ReportSyntax} for details about the format of \texttt{\emph{filename}})
+\item [\texttt{-I [-{}-input-force] \emph{filename}}] \emph{Input} one or more sets of parameter values from \texttt{\emph{filename}}. This contains both the free paramters and also force the \emph{overwrite} addressable (non-estimated) values in the \config\ (see Section \ref{sec:Reports} for details about the format of \texttt{\emph{filename}})
 
-\item [\texttt{-o [-{}-output] \emph{filename}}] \emph{Output} a report of the free (estimated) parameter values in a format suitable for \texttt{-i \emph{filename}} (see Section \ref{sec:ReportSyntax} for details about the format of \texttt{\emph{filename}})
+\item [\texttt{-o [-{}-output] \emph{filename}}] \emph{Output} a report of the free (estimated) parameter values in a format suitable for \texttt{-i \emph{filename}} (see Section \ref{sec:Reports} for details about the format of \texttt{\emph{filename}})
 
 \item [\texttt{-g [-{}-seed] \emph{seed}}] Initialise the random number \emph{generator} with \texttt{\emph{seed}}, a positive (long) integer value (note, if \texttt{-g} is not specified, then \CNAME\ will  generate a random number seed based on the computer clock time)
 
-\item [\texttt{-{}-loglevel \emph{arg}}] Set the level for information or logging messages from \CNAME. Valid options are (from more verbose to less verbose) trace, finest, fine, medium, info, important, and warning. The default is 'info' (see Section \ref{sec:Report} for more information).
+\item [\texttt{-{}-loglevel \emph{arg}}] Set the level for information or logging messages from \CNAME. Valid options are (from more verbose to less verbose) trace, finest, fine, medium, info, important, and warning. The default is 'info' (see Section \ref{sec:Reports} for more information).
 
-\item [\texttt{-t [-{}-tabular]}]. Print \command{report} in tabular format (see Section \ref{sec:ReportSection} for more information).
+\item [\texttt{-t [-{}-tabular]}]. Print \command{report} in tabular format (see Section \ref{sec:Reports} for more information).
 
 \item [\texttt{-{}-single-step}] Run with \texttt{-r} to pause the model and ask the user to specify parameters and their values to use for the next iteration (see Section \ref{sec:SingleStepping})
 
@@ -101,13 +101,13 @@ The following optional arguments\index{Optional command line arguments} [\emph{o
 \subsection{Constructing the \CNAME\ \config s \label{ConstructingConfig}}\index{Input configuration file syntax}
 
 \begin{itemize}
-	\item the description of the population structure, dynamics, and parameters. See Section \ref{sec:PopulationSection},
-	\item the estimation methods and estimated variables. See Section \ref{sec:EstimationSection},
-	\item the observations and their associated properties and likelihoods. See Section \ref{sec:ObservationSection}, and
-	\item the results that \CNAME\ will output. See Section \ref{sec:ReportSection}.
+	\item the description of the population structure, dynamics, and parameters. See Section \ref{sec:Population},
+	\item the estimation methods and estimated variables. See Section \ref{sec:Estimation},
+	\item the observations and their associated properties and likelihoods. See Section \ref{sec:Observation}, and
+	\item the results that \CNAME\ will output. See Section \ref{sec:Report}.
 \end{itemize}
 
-Note that \config\ files can \emph{include} other \config\ files to assist file management, using the command \texttt{!include "\emph{filename}"}. See Section \ref{sec:GeneralSyntax} for more details.
+Note that \config\ files can \emph{include} other \config\ files to assist file management, using the command \texttt{!include "\emph{filename}"}. See Section \ref{syntax:General} for more details.
 
 \subsubsection{Commands}\index{Commands}
 
@@ -121,7 +121,7 @@ Note that \config\ files can \emph{include} other \config\ files to assist file 
 
 Apart from \texttt{!include}, commands start with an \texttt{@} in the first column (i.e., may not have a space or tab character before them on the line). After each command, the subcommands are listed and must occur before the next command. Otherwise, the commands and subcommands are free form with each command or subcommand on a separate line (see Section \ref{sec:CommandBlockFormat}).
 
-Commands that have a label must have a unique label, i.e., the label cannot be used on more than one command of that type. |CNAME\ checks and will report an error of two commands of the same type have the same label. The labels can contain alpha numeric characters, period (`.'), underscore (`\_') and dash (`-'), but cannot start with a double underscore ('\_\_'). Labels that start with a double underscore are reserved, and used for internal reports that \CNAME\ can automatically generate in some circumstances. Otherwise labels must not contain white space (tabs or spaces) or any characters that are not letters, numbers, dashes, periods, or underscores. For example,
+Commands that have a label must have a unique label, i.e., the label cannot be used on more than one command of that type. \CNAME\ checks and will report an error of two commands of the same type have the same label. The labels can contain alpha numeric characters, period (`.'), underscore (`\_') and dash (`-'), but cannot start with a double underscore ('\_\_'). Labels that start with a double underscore are reserved, and used for internal reports that \CNAME\ can automatically generate in some circumstances. Otherwise labels must not contain white space (tabs or spaces) or any characters that are not letters, numbers, dashes, periods, or underscores. For example,
 
 {\small{\begin{verbatim}
 @process NaturalMortality
@@ -307,8 +307,8 @@ This enables \CNAME\ to implement models for management simulations or scenarios
 
 \subsection{\CNAME\ exit status values\index{Exit status value}}
 
-When \CNAME\ is run, it will complete its task successfully or output errors. \CNAME\ will return a single exit status value 'completed' to the standard output. Error messages will be printed to the console. When input file configuration errors are found, \CNAME\ will print error messages, along with the associated filename(s) and line number(s) where the errors were identified, for example,
+When \CNAME\ is run, it will either complete its task successfully or output an error. \CNAME\ will return a single exit status value 'completed' to the standard output. Error messages will be printed to the console. When input file configuration errors are found, \CNAME\ will print error messages, along with the associated filename(s) and line number(s) where the errors were identified, for example,
 
 {\small{\begin{verbatim}
-	#1: At line 15 in Reports.csl2: Parameter '{' is not supported
+	[ERROR] At line 15 in Reports.csl2: Parameter '{' is not supported
 \end{verbatim}}}

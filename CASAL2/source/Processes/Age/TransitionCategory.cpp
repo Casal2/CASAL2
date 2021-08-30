@@ -5,7 +5,7 @@
  * @date 21/12/2012
  * @section LICENSE
  *
- * Copyright NIWA Science ©2012 - www.niwa.co.nz
+ * Copyright NIWA Science ï¿½2012 - www.niwa.co.nz
  *
  * $Date: 2008-03-04 16:33:32 +1300 (Tue, 04 Mar 2008) $
  */
@@ -27,10 +27,10 @@ namespace age {
 TransitionCategory::TransitionCategory(shared_ptr<Model> model) : Process(model), from_partition_(model), to_partition_(model) {
   LOG_TRACE();
 
-  parameters_.Bind<string>(PARAM_FROM, &from_category_names_, "The from category", "");
-  parameters_.Bind<string>(PARAM_TO, &to_category_names_, "The to category", "");
-  parameters_.Bind<Double>(PARAM_PROPORTIONS, &proportions_, "The proportions", "")->set_range(0.0, 1.0);
-  parameters_.Bind<string>(PARAM_SELECTIVITIES, &selectivity_names_, "The selectivity names", "");
+  parameters_.Bind<string>(PARAM_FROM, &from_category_names_, "The categories to transition from", "");
+  parameters_.Bind<string>(PARAM_TO, &to_category_names_, "The categories to transition to", "");
+  parameters_.Bind<Double>(PARAM_PROPORTIONS, &proportions_, "The proportions to transition for each category", "")->set_range(0.0, 1.0);
+  parameters_.Bind<string>(PARAM_SELECTIVITIES, &selectivity_names_, "The selectivities to apply to each proportion", "");
 
   RegisterAsAddressable(PARAM_PROPORTIONS, &proportions_by_category_);
 

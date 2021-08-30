@@ -8,7 +8,7 @@ For most issues, \CNAME\ attempts to produce informative error messages. There a
 
 \subsection{Logging}
 
-\CNAME's internal logging system can be invoked at the command line with argument  \argument{--loglevel} followed by one of the options: \argument{trace}, \argument{finest}, \argument{fine}, \argument{medium}. 
+\CNAME's internal logging system can be invoked at the command line with argument  \argument{--loglevel} followed by one of the options: \argument{trace}, \argument{finest}, \argument{fine}, \argument{medium}.
 
 The optimal level of logging will depend on what run mode you are using and the granularity of information that you would like to see. The ordering for the options is that \argument{medium} is the most coarse, and \argument{trace} being the finest level, with \argument{fine} and \argument{finest} in-between. We suggest that if you are running \CNAME\ in an iterative state such as for estimation (\argument{casal2 -e}) or MCMC you use \argument{medium} level. This is because the logging can print a lot of information for a single model run, so an estimation which could comprise thousands of model runs can produce very large text files with the finer logging option specified. For a single iteration run such as \argument{casal2 -r} each of the logging options can be useful during different phases of model development.
 
@@ -19,9 +19,9 @@ For example, to enable logging with trace level output:
 	\item On Linux: \argument{casal2 -r --loglevel trace > output.log 2\&> log.out}
 \end{itemize}
 
-This argument will output \CNAME's reports to the file "output.log", and the "\argument{2>}" or "\argument{2\&>}" syntax will print the error logged information to the file "log.out". You should be able to see where \CNAME\ failed, and is exited by going to the end of the "log.out" file and looking at the last few messages. 
+This argument will output \CNAME's reports to the file "output.log", and the "\argument{2>}" or "\argument{2\&>}" syntax will print the error logged information to the file "log.out". You should be able to see where \CNAME\ failed, and is exited by going to the end of the "log.out" file and looking at the last few messages.
 
-\subsection{Reporting errors\label{sec:reporting-errors}}
+\subsection{Reporting errors\label{sec:ReportingErrors}}
 
 If you find a bug or error in \CNAME, please submit an issue in the GitHub repository at \url{https://github.com/NIWAFisheriesModelling/CASAL2/issues}.
 
@@ -30,7 +30,7 @@ Please follow the guidelines below so that the bug or error can be reproduced. I
 \subsubsection{Guidelines for reporting an error with \CNAME\label{sec:ErrorGuidelines}}
 
 \begin{enumerate}
-\item Ensure you are using the most recent version of \CNAME, as the bug or error you are having may have already been resolved. 
+\item Ensure you are using the most recent version of \CNAME, as the bug or error you are having may have already been resolved.
 \item Provide the version of \CNAME\ you are using, e.g., "\CNAME\ \VER". The version is output by \CNAME\ with the command \argument{casal2 -v}.
 \item Provide the system  you are using, e.g., "x64 Intel CPU with Microsoft Windows 10".
 \item Provide a brief description of the problem, e.g., "a segmentation fault was produced".

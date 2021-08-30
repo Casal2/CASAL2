@@ -18,7 +18,7 @@ The peer-reviewed journal article reference for \CNAME\ is \citep{doonan_casal2}
 
 \subsection{\I{\CNAME\ Contributors}}
 
-The \CNAME\ project is maintained by the \CNAME\ Development Team. \CNAME\ was started by Alistair Dunn. The software architect and lead author of the software code was Scott Rasmussen. Contributors to the development include Scott Rasmussen, Alistair Dunn, Ian Doonan, Craig Marsh, Teresa A'mar, Kath Large, Sophie Mormede, Samik Datta, Matt Dunn, Jingjing Zhang, and Marco Kienzle.
+The \CNAME\ project is maintained by the \CNAME\ Development Team. \CNAME\ was started by Alistair Dunn. The software architect and lead author of the software code was Scott Rasmussen. Contributors to the development of \CNAME\ are Scott Rasmussen, Alistair Dunn, Ian Doonan, Craig Marsh, Teresa A'mar, Kath Large, Sophie Mormede, Samik Datta, Matt Dunn, Jingjing Zhang, and Marco Kienzle.
 
 The development of \CNAME\ was funded by \href{http://www.niwa.co.nz}{National Institute of Water \& Atmospheric Research Ltd. (NIWA)}, with additional funding from the New Zealand \href{http://www.mpi.govt.nz}{Ministry for Primary Industries}.
 
@@ -46,7 +46,7 @@ Output files have the potential to be large, and the output from developing a mo
 
 For both 64-bit Linux and Microsoft Windows, we recommend using the install package available on \github\ for Microsoft Windows or the Debian package (.deb) for Linux. Running \CNAME\ on a system requires the main binary (casal2.exe on Windows, or casa2 on Linux) and the associated dynamically linked libraries (DLL) for Windows or shared objects (.so) for Linux, and cannot be (easily) run by copying the binary to a working directory. \CNAME\ is not available for 32-bit operating systems or macOS.
 
-\CNAME\ does not post-process model output. \CNAME\ writes all output to text files --- either the standard out or to files. A package that allows tabulation and graphing of model outputs is recommended. Software such as \href{http://www.r-project.org}{\R}\ \citep{R} is recommended. The \texttt{CASAL2} \R\ package is provided for extracting \CNAME\ output from reports and output files into \R\ (see Section \ref{sec:PostProcessing}). A separate \R\ package is also available that provides some examples of diagnostic and plot functionality.
+\CNAME\ does not post-process model output. \CNAME\ writes all output to text files --- either the standard out or to files. A package that allows tabulation and graphing of model outputs is recommended. Software such as \href{http://www.r-project.org}{\R}\ \citep{R} is recommended. The \CNAME\ \R\ package is provided for extracting \CNAME\ output from reports and output files into \R\ (see Section \ref{sec:PostProcessing}). A separate \R\ package is also available that provides some examples of diagnostic and plot functionality.
 
 \subsection{Getting help\index{Getting help}\index{User assistance}\index{Repoerting issues or errors}}
 
@@ -62,13 +62,13 @@ The Microsoft Windows (\url{https://www.microsoft.com})\index{Microsoft Windows}
 
 \begin{enumerate}
 \item Numerical differences: A minimiser that is closely based on the main algorithm of \cite{779}, that uses finite difference gradients\index{Finite differences minimiser}.
-\item deltadiff: A multithreaded version of the numerical diffferences, but with $tan$ recscaling instead of $arcsin$ and available for use with the Hamiltonial Monte Carlo MCMC algortihm.
+\item deltadiff: A multithreaded version of the numerical differences, but with $tan$ rescaling instead of $arcsin$ and available for use with the Hamiltonian Monte Carlo MCMC algorithm.
 \item DESolver: The differential evolution solver\index{Differential evolution minimiser} \citep{1442}, based on code by \href{mailto:<godwin@pushcorp.com>}{Lester E. Godwin} of \href{http://www.pushcorp.com}{PushCorp, Inc.}
 \end{enumerate}
 
 There are two auto-differentiation minimisers, both based on ADOL-C. These are
 \begin{enumerate}
-\item Betadiff: A minimiser using a very old version of ADOL-C (v1.8.4) that was used as the automatic differentiation minimiser in the first version of CASAL \citep{1388}, with the same minimising algorithm as used for the finite differences minimiser above, but based on the gradient from the auto-differentiation chain.
+\item Betadiff: A minimiser using an older version of ADOL-C (v1.8.4) that was used as the automatic differentiation minimiser in CASAL \citep{1388}, with the same minimising algorithm as used for the finite differences minimiser above, but based on the gradient from the auto-differentiation chain.
 \item ADOLC: A minimiser using version of ADOL-C (v2.5.1) \citep{walther1996adolc};, with a similar minimising algorithm as used for the finite differences minimiser above, but based on the gradient from the auto-differentiation chain.
 \end{enumerate}
 

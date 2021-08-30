@@ -1,4 +1,4 @@
-\section{\I{Post-processing output using \R} \label{sec:post-processing}}\index{Post processing}\index{Post-processing section}
+\section{\I{Post-processing output using \R} \label{sec:PostProcessing}}\index{Post processing}\index{Post-processing section}
 
 \R\ (\url{https://www.r-project.org/}) is the main application used to process and visualise output from a \CNAME\ model. \R\ is free and can be downloaded from \url{https://cran.r-project.org/}. Once you have installed \R\ you can install the \cname\ \R\ package from the file (\texttt{casal2\_1.0.tar.gz}) which is part of the \CNAME\ download.
 
@@ -41,7 +41,7 @@ The required and optional arguments for these functions can be queried after loa
 
 \paragraph*{Standard diagnostic functions and plots for model output}
 
-TODO (functionality description)
+\TODO{functionality description}
 
 \texttt{plot.derived\_quantity()}
 
@@ -90,11 +90,11 @@ ModelFactor <- Method.TA1.8(mpd, observation_labels = c("ObserverProportionsAtAg
 
 while(abs(ModelFactor - 1) > 0.01) {
 	shell("betadiff & casal2 -e > estimate.log 2> log.out")
-	
+
 	new_mpd <- extract.mpd(file = "estimate.log")
 
 	ModelFactor <- Method.TA1.8(new_mpd, observation_labels = c("ObserverProportionsAtAge"))
-	
+
 	apply.dataweighting.to.csl2(weighting_factor = ModelFactor,
                                   Observation_csl2_file = "Observation.csl2",
                                   Observation_out_filename = "Observation.csl2",
