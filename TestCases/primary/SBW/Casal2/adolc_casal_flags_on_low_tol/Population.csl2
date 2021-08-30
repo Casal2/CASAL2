@@ -60,7 +60,7 @@ proportions 1
 @process Instantaneous_Mortality
 type mortality_instantaneous
 m 0.21 0.21 0.19 0.19
-time_step_ratio 0.9 0.1
+time_step_proportions 0.9 0.1
 relative_m_by_age One
 categories male.nonspawn male.spawn female.nonspawn female.spawn
 table catches

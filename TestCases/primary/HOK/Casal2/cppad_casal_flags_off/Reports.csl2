@@ -8,10 +8,16 @@ type estimate_summary
 @report obj_fun
 type objective_function
 
+# Print default reports
+@report default
+type default
+catchabilities true
+derived_quantities true
+observations true
+projects true
+processes true
+selectivities true
 
-## Derived Quantities
-@report DerivedQuantities
-type derived_quantity
 
 @report Init
 type initialisation_partition
