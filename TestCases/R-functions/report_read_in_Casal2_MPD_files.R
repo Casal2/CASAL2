@@ -1,8 +1,8 @@
 C2_subdir <- c('betadiff_casal_flags_on',
                'betadiff_casal_flags_off',
                'betadiff_casal_flags_on_low_tol',
-               'cppad_casal_flags_on',
-               'cppad_casal_flags_off',
+#                'cppad_casal_flags_on',
+#                'cppad_casal_flags_off',
                'adolc_casal_flags_on',
                'adolc_casal_flags_off',
                'adolc_casal_flags_on_low_tol')
@@ -16,7 +16,7 @@ C2_subdir <- unlist(sapply(C2_subdir, function(c_dir) if ( file.access(file.path
 
 num_C2_models <- length(C2_subdir)
 
-C2_color <- c('blue', 'green3', 'red', 'gold', 'magenta', 'cyan', 'brown', 'orange')
+C2_color <- c('blue', 'green3', 'red', 'gold', 'cyan', 'magenta', 'brown', 'orange')
 
 problem_str <- '* grad_f'
 new_str     <- ' grad_f'

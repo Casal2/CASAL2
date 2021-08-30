@@ -14,14 +14,15 @@ require(devtools)
 
 if (!require(casal))
 {
-    install.packages('../../../R-libraries/casal_2.30.tar.gz', repos=NULL)
+    install.packages('../../R-functions/casal_2.30.tar.gz', repos=NULL)
     library(casal)
     # install('casal_utils')
 }
 
 if (!require(casal2))
 {
-    install.packages('../../../R-libraries/casal2_1.0.tar.gz', repos=NULL)
+#     install.packages('../../R-functions/casal2_1.0.tar.gz', repos=NULL)
+    install.packages('../../../R-libraries/Casal2_21.08.tar.gz', repos=NULL)
     library(casal2)
 }
 
