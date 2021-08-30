@@ -42,9 +42,9 @@ for (c in 1:num_C2_models)
         }
     }
 
-    cas2_mpd[[c]]  <- casal2::extract.mpd(cas2_mpd_filename)
+    cas2_mpd[[c]]  <- Casal2::extract.mpd(cas2_mpd_filename)
 
-    cas2_corr[[c]] <- casal2::extract.correlation.matrix(mpd_out, file.path(base_dir, 'Casal2', C2_subdir[c]))
+    cas2_corr[[c]] <- Casal2::extract.correlation.matrix(mpd_out, file.path(base_dir, 'Casal2', C2_subdir[c]))
 
     cas2_conv[[c]] <- get_convergence_information(cas2_mpd_filename)
 }

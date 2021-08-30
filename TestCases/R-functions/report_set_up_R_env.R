@@ -19,11 +19,11 @@ if (!require(casal))
     # install('casal_utils')
 }
 
-if (!require(casal2))
+if (!require(Casal2))
 {
 #     install.packages('../../R-functions/casal2_1.0.tar.gz', repos=NULL)
     install.packages('../../../R-libraries/Casal2_21.08.tar.gz', repos=NULL)
-    library(casal2)
+    library(Casal2)
 }
 
 print(date())
