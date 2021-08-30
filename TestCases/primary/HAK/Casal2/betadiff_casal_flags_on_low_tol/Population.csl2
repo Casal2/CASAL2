@@ -168,7 +168,7 @@ c 1.0
 
 @age_length age_len_m
 type schnute
-casal_switch true
+compatibility_option casal
 by_length true
 time_step_proportions 0.0 0.33
 y1 22.3
@@ -183,7 +183,7 @@ length_weight len_wt_m
 
 @age_length age_len_f
 type schnute
-casal_switch true
+compatibility_option casal
 by_length true
 time_step_proportions 0.0 0.33
 y1 22.9
