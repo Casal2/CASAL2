@@ -1,19 +1,48 @@
 Environment: User=Casal2
 Call: ../../../../../BuildSystem/bin/linux_gcc/release_adolc/casal2 -e -o params_est.out
-Date: Mon Aug 30 13:33:46 2021
-Version: v21.08 (2021-08-30)
+Date: Tue Aug 31 14:17:32 2021
+Version: v21.08 (2021-08-31)
 Copyright (c) 2017-2021, NIWA (www.niwa.co.nz)
 c2user
  Machine=c2computer (Linux 5.10.0-8-amd64 x86_64)
- PID=86682
+ PID=320863
 
 
 
 [WARNING] Estimates were removed because of matching lower and upper bounds. Originally had 127 estimates, now have 42
 [IMPORTANT] Setting 'params_est.out' as the output file for the free parameters
-[WARNING] The report for derived_quantity with label 'DerivedQuantities' was requested. This derived_quantity was not found in the input configuration file and the report will not be generated
-[WARNING] The report for catchability with label 'Qs' was requested. This catchability was not found in the input configuration file and the report will not be generated
+[INFO] Creating default report for catchability potSurveyq
+[INFO] Creating default report for catchability potCPUEq
+[INFO] Creating default report for derived quantity SSB
+[INFO] Creating default report for observation potSurvey
+[INFO] Creating default report for observation potCPUE
+[INFO] Creating default report for observation AFpotSurvey
+[INFO] Creating default report for observation AFpotFishing
+[INFO] Creating default report for observation lgobookLF
+[INFO] Creating default report for observation rec.catch.LF
+[INFO] Creating default report for process Recruitment
+[INFO] Creating default report for process Ageing
+[INFO] Creating default report for process Fishing
+[INFO] Creating default report for selectivity MaturationSel_male
+[INFO] Creating default report for selectivity MaturationSel_female
+[INFO] Creating default report for selectivity lineFSel
+[INFO] Creating default report for selectivity lineFretained
+[INFO] Creating default report for selectivity potFSel
+[INFO] Creating default report for selectivity potFretained
+[INFO] Creating default report for selectivity recFretained
+[INFO] Creating default report for selectivity recFSel
+[INFO] Creating default report for selectivity potFdis
+[INFO] Creating default report for selectivity recFdis
+[INFO] Creating default report for selectivity potSurveySel_female
+[INFO] Creating default report for selectivity potSurveySel_male
+[INFO] Creating default report for selectivity One
 [INFO] The likelihood for the observation 'lgobookLF' is multinomial. Normalised residuals can only be calculated for the lognormal, lognormal_with_Q, and normal likelihoods
+[WARNING] Cannot report the length-based selectivity values. This report (__lineFSel__) is being ignored. This can be done using the Casal2 R package. See the User Manual for more information
+[WARNING] Cannot report the length-based selectivity values. This report (__lineFretained__) is being ignored. This can be done using the Casal2 R package. See the User Manual for more information
+[WARNING] Cannot report the length-based selectivity values. This report (__potFSel__) is being ignored. This can be done using the Casal2 R package. See the User Manual for more information
+[WARNING] Cannot report the length-based selectivity values. This report (__potFretained__) is being ignored. This can be done using the Casal2 R package. See the User Manual for more information
+[WARNING] Cannot report the length-based selectivity values. This report (__recFretained__) is being ignored. This can be done using the Casal2 R package. See the User Manual for more information
+[WARNING] Cannot report the length-based selectivity values. This report (__recFSel__) is being ignored. This can be done using the Casal2 R package. See the User Manual for more information
 [INFO] Initiating point estimate run mode
 [INFO] Estimation with the adolc minimiser
 [INFO] Convergence check value = 0.675195. Convergence tolerance   = 2e-05
@@ -514,8 +543,8 @@ male 116259.638709 98349.805344 43392.567624 41179.923845 37725.975816 24866.249
 female 109563.947900 89697.532171 40729.079138 40525.663771 38497.350459 25633.711565 33593.447355 7643.043185 10122.583734 5775.510657 5412.946261 1753.964143 2867.083047 1832.898957 430.614057 417.951876 294.731501 650.818886
 *end
 
-[WARNING] estimated parameter 'age_length[asMm0].cv_last' was within 0.001 of lower bound 0.02(a)
-[WARNING] estimated parameter 'age_length[asMm0].cv_last' was within 0.001 of lower bound 0.02(a)
+[WARNING] estimated parameter 'age_length[asMm0].cv_last' was within 0.001 of lower bound 0.02
+[WARNING] estimated parameter 'age_length[asMm0].cv_last' was within 0.001 of lower bound 0.02
 *estimate_value[estimated_values]
 values {dataframe}
 process[Recruitment].b0 age_length[asMm0].linf age_length[asMm0].cv_last selectivity[potSurveySel_male].a50 selectivity[potSurveySel_male].ato95 selectivity[potSurveySel_female].a50 selectivity[potSurveySel_female].ato95 process[Recruitment].ycs_values{1980} process[Recruitment].ycs_values{1981} process[Recruitment].ycs_values{1982} process[Recruitment].ycs_values{1983} process[Recruitment].ycs_values{1984} process[Recruitment].ycs_values{1985} process[Recruitment].ycs_values{1986} process[Recruitment].ycs_values{1987} process[Recruitment].ycs_values{1988} process[Recruitment].ycs_values{1989} process[Recruitment].ycs_values{1990} process[Recruitment].ycs_values{1991} process[Recruitment].ycs_values{1992} process[Recruitment].ycs_values{1993} process[Recruitment].ycs_values{1994} process[Recruitment].ycs_values{1995} process[Recruitment].ycs_values{1996} process[Recruitment].ycs_values{1997} process[Recruitment].ycs_values{1998} process[Recruitment].ycs_values{1999} process[Recruitment].ycs_values{2000} process[Recruitment].ycs_values{2001} process[Recruitment].ycs_values{2002} process[Recruitment].ycs_values{2003} process[Recruitment].ycs_values{2004} process[Recruitment].ycs_values{2005} process[Recruitment].ycs_values{2006} process[Recruitment].ycs_values{2007} process[Recruitment].ycs_values{2008} process[Recruitment].ycs_values{2009} process[Recruitment].ycs_values{2010} process[Recruitment].ycs_values{2011} process[Recruitment].ycs_values{2012} process[Recruitment].ycs_values{2013} process[Recruitment].ycs_values{2014} 
@@ -525,7 +554,7 @@ process[Recruitment].b0 age_length[asMm0].linf age_length[asMm0].cv_last selecti
 *estimate_summary[estimated_summary]
 process[Recruitment].b0 {list}
 value: 13871.1
-std_dev: 9138.95(a)
+std_dev: 9138.95
 estimation_phase: 
 label: B0 
 lower_bound: 100 
@@ -541,7 +570,7 @@ upper_bound: 250000
 
 age_length[asMm0].linf {list}
 value: 46.6613
-std_dev: 2.48885(a)
+std_dev: 2.48885
 estimation_phase: 
 label: male_Linf 
 lower_bound: 30 
@@ -557,7 +586,7 @@ upper_bound: 70
 
 age_length[asMm0].cv_last {list}
 value: 0.0202847
-std_dev: 1125.2(a)
+std_dev: 1125.2
 estimation_phase: 
 label: male_cv2 
 lower_bound: 0.02 
@@ -573,7 +602,7 @@ upper_bound: 1.0
 
 selectivity[potSurveySel_male].a50 {list}
 value: 3.02547
-std_dev: 0.619696(a)
+std_dev: 0.619696
 estimation_phase: 
 label: potSurvey_mA50 
 lower_bound: 1 
@@ -589,7 +618,7 @@ upper_bound: 7
 
 selectivity[potSurveySel_male].ato95 {list}
 value: 0.125875
-std_dev: 1203.9(a)
+std_dev: 1203.9
 estimation_phase: 
 label: potSurvey_mAto95 
 lower_bound: .1 
@@ -605,7 +634,7 @@ upper_bound: 5
 
 selectivity[potSurveySel_female].a50 {list}
 value: 3.32402
-std_dev: 0.507146(a)
+std_dev: 0.507146
 estimation_phase: 
 label: potSurvey_fA50 
 lower_bound: 1 
@@ -621,7 +650,7 @@ upper_bound: 7
 
 selectivity[potSurveySel_female].ato95 {list}
 value: 1.07887
-std_dev: 3.182(a)
+std_dev: 3.182
 estimation_phase: 
 label: potSurvey_fAto95 
 lower_bound: .1 
@@ -637,7 +666,7 @@ upper_bound: 5
 
 process[Recruitment].ycs_values{1980} {list}
 value: 0.211994
-std_dev: 30.8106(a)
+std_dev: 30.8106
 cv: 0.6 
 estimation_phase: 
 label: YCS 
@@ -655,7 +684,7 @@ upper_bound: 10
 
 process[Recruitment].ycs_values{1981} {list}
 value: 0.208756
-std_dev: 27.8111(a)
+std_dev: 27.8111
 cv: 0.6 
 estimation_phase: 
 label: YCS 
@@ -673,7 +702,7 @@ upper_bound: 10
 
 process[Recruitment].ycs_values{1982} {list}
 value: 0.209535
-std_dev: 22.3019(a)
+std_dev: 22.3019
 cv: 0.6 
 estimation_phase: 
 label: YCS 
@@ -691,7 +720,7 @@ upper_bound: 10
 
 process[Recruitment].ycs_values{1983} {list}
 value: 0.217601
-std_dev: 30.2487(a)
+std_dev: 30.2487
 cv: 0.6 
 estimation_phase: 
 label: YCS 
@@ -709,7 +738,7 @@ upper_bound: 10
 
 process[Recruitment].ycs_values{1984} {list}
 value: 0.240423
-std_dev: 24.3903(a)
+std_dev: 24.3903
 cv: 0.6 
 estimation_phase: 
 label: YCS 
@@ -727,7 +756,7 @@ upper_bound: 10
 
 process[Recruitment].ycs_values{1985} {list}
 value: 0.292905
-std_dev: 20.3655(a)
+std_dev: 20.3655
 cv: 0.6 
 estimation_phase: 
 label: YCS 
@@ -745,7 +774,7 @@ upper_bound: 10
 
 process[Recruitment].ycs_values{1986} {list}
 value: 0.400428
-std_dev: 15.614(a)
+std_dev: 15.614
 cv: 0.6 
 estimation_phase: 
 label: YCS 
@@ -763,7 +792,7 @@ upper_bound: 10
 
 process[Recruitment].ycs_values{1987} {list}
 value: 0.600384
-std_dev: 12.2857(a)
+std_dev: 12.2857
 cv: 0.6 
 estimation_phase: 
 label: YCS 
@@ -781,7 +810,7 @@ upper_bound: 10
 
 process[Recruitment].ycs_values{1988} {list}
 value: 0.926599
-std_dev: 11.4133(a)
+std_dev: 11.4133
 cv: 0.6 
 estimation_phase: 
 label: YCS 
@@ -799,7 +828,7 @@ upper_bound: 10
 
 process[Recruitment].ycs_values{1989} {list}
 value: 1.47522
-std_dev: 11.9051(a)
+std_dev: 11.9051
 cv: 0.6 
 estimation_phase: 
 label: YCS 
@@ -817,7 +846,7 @@ upper_bound: 10
 
 process[Recruitment].ycs_values{1990} {list}
 value: 1.59625
-std_dev: 11.5996(a)
+std_dev: 11.5996
 cv: 0.6 
 estimation_phase: 
 label: YCS 
@@ -835,7 +864,7 @@ upper_bound: 10
 
 process[Recruitment].ycs_values{1991} {list}
 value: 1.0047
-std_dev: 12.2164(a)
+std_dev: 12.2164
 cv: 0.6 
 estimation_phase: 
 label: YCS 
@@ -853,7 +882,7 @@ upper_bound: 10
 
 process[Recruitment].ycs_values{1992} {list}
 value: 0.835557
-std_dev: 11.2331(a)
+std_dev: 11.2331
 cv: 0.6 
 estimation_phase: 
 label: YCS 
@@ -871,7 +900,7 @@ upper_bound: 10
 
 process[Recruitment].ycs_values{1993} {list}
 value: 0.852505
-std_dev: 11.4982(a)
+std_dev: 11.4982
 cv: 0.6 
 estimation_phase: 
 label: YCS 
@@ -889,7 +918,7 @@ upper_bound: 10
 
 process[Recruitment].ycs_values{1994} {list}
 value: 1.11053
-std_dev: 11.8795(a)
+std_dev: 11.8795
 cv: 0.6 
 estimation_phase: 
 label: YCS 
@@ -907,7 +936,7 @@ upper_bound: 10
 
 process[Recruitment].ycs_values{1995} {list}
 value: 1.66456
-std_dev: 9.26668(a)
+std_dev: 9.26668
 cv: 0.6 
 estimation_phase: 
 label: YCS 
@@ -925,7 +954,7 @@ upper_bound: 10
 
 process[Recruitment].ycs_values{1996} {list}
 value: 1.05336
-std_dev: 11.2334(a)
+std_dev: 11.2334
 cv: 0.6 
 estimation_phase: 
 label: YCS 
@@ -943,7 +972,7 @@ upper_bound: 10
 
 process[Recruitment].ycs_values{1997} {list}
 value: 0.823938
-std_dev: 11.171(a)
+std_dev: 11.171
 cv: 0.6 
 estimation_phase: 
 label: YCS 
@@ -961,7 +990,7 @@ upper_bound: 10
 
 process[Recruitment].ycs_values{1998} {list}
 value: 0.843893
-std_dev: 9.29092(a)
+std_dev: 9.29092
 cv: 0.6 
 estimation_phase: 
 label: YCS 
@@ -979,7 +1008,7 @@ upper_bound: 10
 
 process[Recruitment].ycs_values{1999} {list}
 value: 0.621678
-std_dev: 11.5248(a)
+std_dev: 11.5248
 cv: 0.6 
 estimation_phase: 
 label: YCS 
@@ -997,7 +1026,7 @@ upper_bound: 10
 
 process[Recruitment].ycs_values{2000} {list}
 value: 0.741839
-std_dev: 7.78189(a)
+std_dev: 7.78189
 cv: 0.6 
 estimation_phase: 
 label: YCS 
@@ -1015,7 +1044,7 @@ upper_bound: 10
 
 process[Recruitment].ycs_values{2001} {list}
 value: 0.673329
-std_dev: 7.39265(a)
+std_dev: 7.39265
 cv: 0.6 
 estimation_phase: 
 label: YCS 
@@ -1033,7 +1062,7 @@ upper_bound: 10
 
 process[Recruitment].ycs_values{2002} {list}
 value: 0.443959
-std_dev: 11.3894(a)
+std_dev: 11.3894
 cv: 0.6 
 estimation_phase: 
 label: YCS 
@@ -1051,7 +1080,7 @@ upper_bound: 10
 
 process[Recruitment].ycs_values{2003} {list}
 value: 1.21009
-std_dev: 3.12821(a)
+std_dev: 3.12821
 cv: 0.6 
 estimation_phase: 
 label: YCS 
@@ -1069,7 +1098,7 @@ upper_bound: 10
 
 process[Recruitment].ycs_values{2004} {list}
 value: 1.22005
-std_dev: 2.79784(a)
+std_dev: 2.79784
 cv: 0.6 
 estimation_phase: 
 label: YCS 
@@ -1087,7 +1116,7 @@ upper_bound: 10
 
 process[Recruitment].ycs_values{2005} {list}
 value: 0.489316
-std_dev: 6.63933(a)
+std_dev: 6.63933
 cv: 0.6 
 estimation_phase: 
 label: YCS 
@@ -1105,7 +1134,7 @@ upper_bound: 10
 
 process[Recruitment].ycs_values{2006} {list}
 value: 1.00363
-std_dev: 2.75202(a)
+std_dev: 2.75202
 cv: 0.6 
 estimation_phase: 
 label: YCS 
@@ -1123,7 +1152,7 @@ upper_bound: 10
 
 process[Recruitment].ycs_values{2007} {list}
 value: 0.711867
-std_dev: 4.53687(a)
+std_dev: 4.53687
 cv: 0.6 
 estimation_phase: 
 label: YCS 
@@ -1141,7 +1170,7 @@ upper_bound: 10
 
 process[Recruitment].ycs_values{2008} {list}
 value: 0.831317
-std_dev: 3.65856(a)
+std_dev: 3.65856
 cv: 0.6 
 estimation_phase: 
 label: YCS 
@@ -1159,7 +1188,7 @@ upper_bound: 10
 
 process[Recruitment].ycs_values{2009} {list}
 value: 0.421531
-std_dev: 7.33358(a)
+std_dev: 7.33358
 cv: 0.6 
 estimation_phase: 
 label: YCS 
@@ -1177,7 +1206,7 @@ upper_bound: 10
 
 process[Recruitment].ycs_values{2010} {list}
 value: 1.26131
-std_dev: 2.14759(a)
+std_dev: 2.14759
 cv: 0.6 
 estimation_phase: 
 label: YCS 
@@ -1195,7 +1224,7 @@ upper_bound: 10
 
 process[Recruitment].ycs_values{2011} {list}
 value: 0.665273
-std_dev: 4.30977(a)
+std_dev: 4.30977
 cv: 0.6 
 estimation_phase: 
 label: YCS 
@@ -1213,7 +1242,7 @@ upper_bound: 10
 
 process[Recruitment].ycs_values{2012} {list}
 value: 0.709385
-std_dev: 4.14145(a)
+std_dev: 4.14145
 cv: 0.6 
 estimation_phase: 
 label: YCS 
@@ -1231,7 +1260,7 @@ upper_bound: 10
 
 process[Recruitment].ycs_values{2013} {list}
 value: 0.551839
-std_dev: 5.88493(a)
+std_dev: 5.88493
 cv: 0.6 
 estimation_phase: 
 label: YCS 
@@ -1249,7 +1278,7 @@ upper_bound: 10
 
 process[Recruitment].ycs_values{2014} {list}
 value: 0.429672
-std_dev: 8.85266(a)
+std_dev: 8.85266
 cv: 0.6 
 estimation_phase: 
 label: YCS 
@@ -1497,16 +1526,16 @@ correlation_matrix {matrix}
 
 *process[Recruitment]
 age: 3
-b0: 13871.1(a)
+b0: 13871.1
 b0_initialisation_phase:
 categories: male female
 label: Recruitment
-proportions: 0.5(a) 0.5(a)
-r0: 318729(a)
+proportions: 0.5 0.5
+r0: 318729
 ssb: SSB
 ssb_offset: 3
 standardise_ycs_years: 1980 1981 1982 1983 1984 1985 1986 1987 1988 1989 1990 1991 1992 1993 1994 1995 1996 1997 1998 1999 2000 2001 2002 2003 2004 2005 2006 2007 2008 2009 2010 2011 2012 2013 2014
-steepness: 0.75(a)
+steepness: 0.75
 type: recruitment_beverton_holt
 ycs_years: 1897 1898 1899 1900 1901 1902 1903 1904 1905 1906 1907 1908 1909 1910 1911 1912 1913 1914 1915 1916 1917 1918 1919 1920 1921 1922 1923 1924 1925 1926 1927 1928 1929 1930 1931 1932 1933 1934 1935 1936 1937 1938 1939 1940 1941 1942 1943 1944 1945 1946 1947 1948 1949 1950 1951 1952 1953 1954 1955 1956 1957 1958 1959 1960 1961 1962 1963 1964 1965 1966 1967 1968 1969 1970 1971 1972 1973 1974 1975 1976 1977 1978 1979 1980 1981 1982 1983 1984 1985 1986 1987 1988 1989 1990 1991 1992 1993 1994 1995 1996 1997 1998 1999 2000 2001 2002 2003 2004 2005 2006 2007 2008 2009 2010 2011 2012 2013 2014 2015 2016
 standardised_ycs: 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 0.279409 0.275142 0.276169 0.2868 0.31688 0.386051 0.527767 0.791311 1.22126 1.94435 2.10387 1.32421 1.10127 1.12361 1.46369 2.1939 1.38833 1.08596 1.11226 0.819377 0.97775 0.887453 0.585142 1.59491 1.60803 0.644923 1.32279 0.938246 1.09568 0.555582 1.66242 0.876835 0.934975 0.727328 0.566311 1 1
@@ -1519,9 +1548,9 @@ SSB: 13871.1 13871.1 13871.1 13871.1 13836.8 13787.8 13727.6 13657.2 13577.9 134
 *process[Fishing]
 categories: male female
 label: Fishing
-m: 0.14(a) 0.2(a)
+m: 0.14 0.2
 relative_m_by_age: One One
-time_step_ratio: 1(a)
+time_step_proportions: 1
 type: mortality_instantaneous_retained
 year: 1900 1901 1902 1903 1904 1905 1906 1907 1908 1909 1910 1911 1912 1913 1914 1915 1916 1917 1918 1919 1920 1921 1922 1923 1924 1925 1926 1927 1928 1929 1930 1931 1932 1933 1934 1935 1936 1937 1938 1939 1940 1941 1942 1943 1944 1945 1946 1947 1948 1949 1950 1951 1952 1953 1954 1955 1956 1957 1958 1959 1960 1961 1962 1963 1964 1965 1966 1967 1968 1969 1970 1971 1972 1973 1974 1975 1976 1977 1978 1979 1980 1981 1982 1983 1984 1985 1986 1987 1988 1989 1990 1991 1992 1993 1994 1995 1996 1997 1998 1999 2000 2001 2002 2003 2004 2005 2006 2007 2008 2009 2010 2011 2012 2013 2014 2015 2016 2017 2018 2019
 fishing_pressure[FishingLine]: 0 0.00106197 0.00212994 0.00320705 0.00428796 0.00538321 0.00648675 0.00761695 0.00875098 0.0099153 0.011095 0.0122999 0.0135317 0.0147826 0.0160628 0.0173649 0.0187081 0.0200762 0.0214706 0.0229018 0.0243719 0.0258827 0.0274271 0.0290169 0.0306544 0.0323324 0.0340633 0.0358397 0.037685 0.0395823 0.0415342 0.0435555 0.0455049 0.0507773 0.0683585 0.0185621 0.0074335 0.0104843 0.00575112 0.00806339 0.00242385 0.00707762 0.00751296 0.011366 0.0309165 0.0354223 0.0405186 0.05655 0.0518734 0.0599169 0.0660304 0.058656 0.0632765 0.0311117 0.0313142 0.0330388 0.0503589 0.0440455 0.0413889 0.037359 0.0553642 0.0436582 0.0503483 0.0480325 0.0355514 0.0236357 0.0275121 0.0382818 0.0352898 0.0256384 0.0318456 0.0279131 0.0143767 0.0396746 0.0340534 0.0161501 0.0180603 0.0144053 0.0140955 0.010345 0.0222505 0.0228488 0.0135859 0.0198112 0.018407 0.0153597 0.0074701 0.000347223 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
@@ -1573,9 +1602,9 @@ year 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20
 *end
 
 *selectivity[potSurveySel_male]
-a50: 3.02547(a)
-alpha: 1(a)
-ato95: 0.125875(a)
+a50: 3.02547
+alpha: 1
+ato95: 0.125875
 intervals: 5
 label: potSurveySel_male
 length_based: 0
@@ -1602,9 +1631,9 @@ Values {vector}
 *end
 
 *selectivity[potSurveySel_female]
-a50: 3.32402(a)
-alpha: 1(a)
-ato95: 1.07887(a)
+a50: 3.32402
+alpha: 1
+ato95: 1.07887
 intervals: 5
 label: potSurveySel_female
 length_based: 0
@@ -1635,9 +1664,9 @@ observation_type: abundance
 likelihood: lognormal
 Values {dataframe}
 year category age length observed expected residual error_value process_error adjusted_error neglogLike pearsons_residuals normalised_residuals
-2010 male+female 0 0(a) 11.066 14.8807 -3.81465 0.125(a) 0.2 0.23585 -0.789207 -1.08692 -1.15668
-2014 male+female 0 0(a) 17.568 14.2282 3.3398 0.135(a) 0.2 0.241299 -0.930638 0.972783 1.00528
-2018 male+female 0 0(a) 12.532 11.3052 1.22682 0.215(a) 0.2 0.293641 -1.1202 0.369562 0.502029
+2010 male+female 0 0 11.066 14.8807 -3.81465 0.125 0.2 0.23585 -0.789207 -1.08692 -1.15668
+2014 male+female 0 0 17.568 14.2282 3.3398 0.135 0.2 0.241299 -0.930638 0.972783 1.00528
+2018 male+female 0 0 12.532 11.3052 1.22682 0.215 0.2 0.293641 -1.1202 0.369562 0.502029
 *end
 
 *observation[potCPUE]
@@ -1645,35 +1674,35 @@ observation_type: biomass
 likelihood: lognormal
 Values {dataframe}
 year category age length observed expected residual error_value process_error adjusted_error neglogLike pearsons_residuals normalised_residuals
-1990 male+female 0 0(a) 1.01179 1.35678 -0.344992 0.05(a) 0.1 0.111803 1.12544 -2.27429 -2.57665
-1991 male+female 0 0(a) 0.812523 1.13886 -0.326334 0.05(a) 0.1 0.111803 2.22697 -2.56294 -2.97358
-1992 male+female 0 0(a) 0.789768 0.964392 -0.174623 0.05(a) 0.1 0.111803 -0.686363 -1.61955 -1.73652
-1993 male+female 0 0(a) 0.800867 0.872746 -0.0718788 0.05(a) 0.1 0.111803 -1.93821 -0.736644 -0.71542
-1994 male+female 0 0(a) 0.814346 0.850016 -0.0356695 0.05(a) 0.1 0.111803 -2.14003 -0.375331 -0.3289
-1995 male+female 0 0(a) 0.844336 0.900895 -0.0565584 0.05(a) 0.1 0.111803 -2.05578 -0.561524 -0.526002
-1996 male+female 0 0(a) 0.968863 0.974768 -0.00590559 0.05(a) 0.1 0.111803 -2.19412 -0.0541885 0.00120564
-1997 male+female 0 0(a) 1.07802 1.01679 0.0612312 0.05(a) 0.1 0.111803 -2.0257 0.538626 0.580387
-1998 male+female 0 0(a) 1.0632 1.04111 0.02209 0.05(a) 0.1 0.111803 -2.16433 0.189777 0.244104
-1999 male+female 0 0(a) 0.955824 1.07007 -0.114243 0.05(a) 0.1 0.111803 -1.73596 -0.954913 -0.957249
-2000 male+female 0 0(a) 1.12167 1.13205 -0.0103801 0.05(a) 0.1 0.111803 -2.19376 -0.0820124 -0.0269191
-2001 male+female 0 0(a) 1.23278 1.21251 0.020275 0.05(a) 0.1 0.111803 -2.17321 0.149562 0.204515
-2002 male+female 0 0(a) 1.30543 1.24673 0.0586922 0.05(a) 0.1 0.111803 -2.08439 0.421068 0.468466
-2003 male+female 0 0(a) 1.26698 1.25795 0.0090264 0.05(a) 0.1 0.111803 -2.18694 0.0641795 0.119878
-2004 male+female 0 0(a) 1.22875 1.25466 -0.0259051 0.05(a) 0.1 0.111803 -2.18548 -0.184674 -0.13146
-2005 male+female 0 0(a) 1.31587 1.21452 0.101348 0.05(a) 0.1 0.111803 -1.89395 0.746368 0.774818
-2006 male+female 0 0(a) 1.26358 1.12558 0.138 0.05(a) 0.1 0.111803 -1.59641 1.0966 1.09336
-2007 male+female 0 0(a) 1.08656 1.01982 0.0667376 0.05(a) 0.1 0.111803 -1.99915 0.585318 0.624456
-2008 male+female 0 0(a) 1.01899 0.945865 0.0731295 0.05(a) 0.1 0.111803 -1.93211 0.691526 0.723898
-2009 male+female 0 0(a) 1.03144 0.922106 0.109334 0.05(a) 0.1 0.111803 -1.6312 1.06052 1.06106
-2010 male+female 0 0(a) 0.895963 0.914797 -0.0188335 0.05(a) 0.1 0.111803 -2.18555 -0.184142 -0.130915
-2011 male+female 0 0(a) 0.984095 0.906008 0.0780871 0.05(a) 0.1 0.111803 -1.87612 0.770889 0.797493
-2012 male+female 0 0(a) 0.975651 0.902303 0.073348 0.05(a) 0.1 0.111803 -1.90764 0.727078 0.75694
-2013 male+female 0 0(a) 0.960914 0.895794 0.0651196 0.05(a) 0.1 0.111803 -1.95928 0.650202 0.685338
-2014 male+female 0 0(a) 1.00118 0.868889 0.132289 0.05(a) 0.1 0.111803 -1.31335 1.36177 1.32723
-2015 male+female 0 0(a) 0.928886 0.859094 0.0697926 0.05(a) 0.1 0.111803 -1.90796 0.72663 0.756525
-2016 male+female 0 0(a) 0.917794 0.875974 0.0418204 0.05(a) 0.1 0.111803 -2.08171 0.427015 0.474162
-2017 male+female 0 0(a) 0.922603 0.872086 0.0505161 0.05(a) 0.1 0.111803 -2.03679 0.518102 0.560948
-2018 male+female 0 0(a) 0.758655 0.857173 -0.098518 0.05(a) 0.1 0.111803 -1.65363 -1.028 -1.0397
+1990 male+female 0 0 1.01179 1.35678 -0.344992 0.05 0.1 0.111803 1.12544 -2.27429 -2.57665
+1991 male+female 0 0 0.812523 1.13886 -0.326334 0.05 0.1 0.111803 2.22697 -2.56294 -2.97358
+1992 male+female 0 0 0.789768 0.964392 -0.174623 0.05 0.1 0.111803 -0.686363 -1.61955 -1.73652
+1993 male+female 0 0 0.800867 0.872746 -0.0718788 0.05 0.1 0.111803 -1.93821 -0.736644 -0.71542
+1994 male+female 0 0 0.814346 0.850016 -0.0356695 0.05 0.1 0.111803 -2.14003 -0.375331 -0.3289
+1995 male+female 0 0 0.844336 0.900895 -0.0565584 0.05 0.1 0.111803 -2.05578 -0.561524 -0.526002
+1996 male+female 0 0 0.968863 0.974768 -0.00590559 0.05 0.1 0.111803 -2.19412 -0.0541885 0.00120564
+1997 male+female 0 0 1.07802 1.01679 0.0612312 0.05 0.1 0.111803 -2.0257 0.538626 0.580387
+1998 male+female 0 0 1.0632 1.04111 0.02209 0.05 0.1 0.111803 -2.16433 0.189777 0.244104
+1999 male+female 0 0 0.955824 1.07007 -0.114243 0.05 0.1 0.111803 -1.73596 -0.954913 -0.957249
+2000 male+female 0 0 1.12167 1.13205 -0.0103801 0.05 0.1 0.111803 -2.19376 -0.0820124 -0.0269191
+2001 male+female 0 0 1.23278 1.21251 0.020275 0.05 0.1 0.111803 -2.17321 0.149562 0.204515
+2002 male+female 0 0 1.30543 1.24673 0.0586922 0.05 0.1 0.111803 -2.08439 0.421068 0.468466
+2003 male+female 0 0 1.26698 1.25795 0.0090264 0.05 0.1 0.111803 -2.18694 0.0641795 0.119878
+2004 male+female 0 0 1.22875 1.25466 -0.0259051 0.05 0.1 0.111803 -2.18548 -0.184674 -0.13146
+2005 male+female 0 0 1.31587 1.21452 0.101348 0.05 0.1 0.111803 -1.89395 0.746368 0.774818
+2006 male+female 0 0 1.26358 1.12558 0.138 0.05 0.1 0.111803 -1.59641 1.0966 1.09336
+2007 male+female 0 0 1.08656 1.01982 0.0667376 0.05 0.1 0.111803 -1.99915 0.585318 0.624456
+2008 male+female 0 0 1.01899 0.945865 0.0731295 0.05 0.1 0.111803 -1.93211 0.691526 0.723898
+2009 male+female 0 0 1.03144 0.922106 0.109334 0.05 0.1 0.111803 -1.6312 1.06052 1.06106
+2010 male+female 0 0 0.895963 0.914797 -0.0188335 0.05 0.1 0.111803 -2.18555 -0.184142 -0.130915
+2011 male+female 0 0 0.984095 0.906008 0.0780871 0.05 0.1 0.111803 -1.87612 0.770889 0.797493
+2012 male+female 0 0 0.975651 0.902303 0.073348 0.05 0.1 0.111803 -1.90764 0.727078 0.75694
+2013 male+female 0 0 0.960914 0.895794 0.0651196 0.05 0.1 0.111803 -1.95928 0.650202 0.685338
+2014 male+female 0 0 1.00118 0.868889 0.132289 0.05 0.1 0.111803 -1.31335 1.36177 1.32723
+2015 male+female 0 0 0.928886 0.859094 0.0697926 0.05 0.1 0.111803 -1.90796 0.72663 0.756525
+2016 male+female 0 0 0.917794 0.875974 0.0418204 0.05 0.1 0.111803 -2.08171 0.427015 0.474162
+2017 male+female 0 0 0.922603 0.872086 0.0505161 0.05 0.1 0.111803 -2.03679 0.518102 0.560948
+2018 male+female 0 0 0.758655 0.857173 -0.098518 0.05 0.1 0.111803 -1.65363 -1.028 -1.0397
 *end
 
 *observation[lgobookLF]
@@ -1681,56 +1710,767 @@ observation_type: proportions_at_length
 likelihood: multinomial
 Values {dataframe}
 year category age length observed expected residual error_value process_error adjusted_error neglogLike pearsons_residuals
-2010 male+female 0 13(a) 0 3.57381e-07 -3.57381e-07 100(a) 0 100 0 -0.00597814
-2010 male+female 0 14(a) 0 8.80741e-07 -8.80741e-07 100(a) 0 100 0 -0.00938478
-2010 male+female 0 15(a) 0 2.25948e-06 -2.25948e-06 100(a) 0 100 0 -0.0150316
-2010 male+female 0 16(a) 0 5.99077e-06 -5.99077e-06 100(a) 0 100 0 -0.0244761
-2010 male+female 0 17(a) 0 1.61891e-05 -1.61891e-05 100(a) 0 100 0 -0.040236
-2010 male+female 0 18(a) 0 4.36994e-05 -4.36994e-05 100(a) 0 100 0 -0.066107
-2010 male+female 0 19(a) 0 0.000115161 -0.000115161 100(a) 0 100 0 -0.107319
-2010 male+female 0 20(a) 0 0.000290357 -0.000290357 100(a) 0 100 0 -0.170423
-2010 male+female 0 21(a) 0 0.000689751 -0.000689751 100(a) 0 100 0 -0.262722
-2010 male+female 0 22(a) 0 0.00152464 -0.00152464 100(a) 0 100 0 -0.390765
-2010 male+female 0 23(a) 0 0.00310355 -0.00310355 100(a) 0 100 0 -0.557962
-2010 male+female 0 24(a) 0 0.00578154 -0.00578154 100(a) 0 100 0 -0.762572
-2010 male+female 0 25(a) 0 0.00982077 -0.00982077 100(a) 0 100 0 -0.9959
-2010 male+female 0 26(a) 0.000289101 0.0152133 -0.0149242 100(a) 0 100 0.104996 -1.2193
-2010 male+female 0 27(a) 0.00289101 0.0217133 -0.0188223 100(a) 0 100 1.00094 -1.29145
-2010 male+female 0 28(a) 0.00462561 0.0287775 -0.0241519 100(a) 0 100 1.51976 -1.44466
-2010 male+female 0 29(a) 0.0118531 0.0356346 -0.0237815 100(a) 0 100 4.04137 -1.28287
-2010 male+female 0 30(a) 0.0153223 0.0418617 -0.0265394 100(a) 0 100 5.16997 -1.32516
-2010 male+female 0 31(a) 0.022839 0.0470806 -0.0242417 100(a) 0 100 7.94983 -1.14449
-2010 male+female 0 32(a) 0.0297774 0.0518097 -0.0220323 100(a) 0 100 10.5785 -0.994045
-2010 male+female 0 33(a) 0.0760335 0.0559235 0.02011 100(a) 0 100 31.6912 0.875209
-2010 male+female 0 34(a) 0.082972 0.0596727 0.0232992 100(a) 0 100 34.6347 0.983591
-2010 male+female 0 35(a) 0.100607 0.0627578 0.0378493 100(a) 0 100 43.1002 1.56062
-2010 male+female 0 36(a) 0.113328 0.0643219 0.0490056 100(a) 0 100 49.4153 1.99758
-2010 male+female 0 37(a) 0.0913559 0.0641647 0.0271912 100(a) 0 100 38.1972 1.10964
-2010 male+female 0 38(a) 0.10292 0.0617306 0.0411893 100(a) 0 100 44.4581 1.71147
-2010 male+female 0 39(a) 0.0777681 0.0569735 0.0207947 100(a) 0 100 32.4117 0.897126
-2010 male+female 0 40(a) 0.0526164 0.0511614 0.00145493 100(a) 0 100 20.8816 0.0660352
-2010 male+female 0 41(a) 0.0436542 0.0444478 -0.000793523 100(a) 0 100 17.3343 -0.0385041
-2010 male+female 0 42(a) 0.0416305 0.0380852 0.00354532 100(a) 0 100 17.0311 0.185229
-2010 male+female 0 43(a) 0.0222608 0.0325086 -0.0102478 100(a) 0 100 8.53867 -0.577842
-2010 male+female 0 44(a) 0.0268864 0.0280271 -0.0011407 100(a) 0 100 11.0256 -0.0691121
-2010 male+female 0 45(a) 0.0141659 0.0246067 -0.0104408 100(a) 0 100 5.47587 -0.673932
-2010 male+female 0 46(a) 0.0121422 0.0219512 -0.00980897 100(a) 0 100 4.74179 -0.669443
-2010 male+female 0 47(a) 0.0153223 0.0196929 -0.00437053 100(a) 0 100 6.32545 -0.314557
-2010 male+female 0 48(a) 0.0104076 0.0175308 -0.00712313 100(a) 0 100 4.2264 -0.542764
-2010 male+female 0 49(a) 0.00636022 0.0146872 -0.00832695 100(a) 0 100 2.57701 -0.692197
-2010 male+female 0 50(a) 0.00751662 0.010034 -0.00251737 100(a) 0 100 3.37499 -0.25258
-2010 male+female 0 51(a) 0.00375831 0.00511427 -0.00135595 100(a) 0 100 1.86495 -0.190093
-2010 male+female 0 52(a) 0.00520382 0.00205241 0.00315141 100(a) 0 100 3.10066 0.696336
-2010 male+female 0 53(a) 0.00260191 0.00072346 0.00187845 100(a) 0 100 1.78103 0.698633
-2010 male+female 0 54(a) 0.0011564 0.000236647 0.000919756 100(a) 0 100 0.909148 0.597962
-2010 male+female 0 55(a) 0.000289101 7.5015e-05 0.000214086 100(a) 0 100 0.258573 0.24719
-2010 male+female 0 56(a) 0.000867303 2.39933e-05 0.000843309 100(a) 0 100 0.878491 1.72166
-2010 male+female 0 57(a) 0.000289101 7.95373e-06 0.000281147 100(a) 0 100 0.323449 0.996896
-2010 male+female 0 58(a) 0.000289101 2.77172e-06 0.000286329 100(a) 0 100 0.353925 1.71985
+2010 male+female 0 13 0 3.57381e-07 -3.57381e-07 100 0 100 0 -0.00597814
+2010 male+female 0 14 0 8.80741e-07 -8.80741e-07 100 0 100 0 -0.00938478
+2010 male+female 0 15 0 2.25948e-06 -2.25948e-06 100 0 100 0 -0.0150316
+2010 male+female 0 16 0 5.99077e-06 -5.99077e-06 100 0 100 0 -0.0244761
+2010 male+female 0 17 0 1.61891e-05 -1.61891e-05 100 0 100 0 -0.040236
+2010 male+female 0 18 0 4.36994e-05 -4.36994e-05 100 0 100 0 -0.066107
+2010 male+female 0 19 0 0.000115161 -0.000115161 100 0 100 0 -0.107319
+2010 male+female 0 20 0 0.000290357 -0.000290357 100 0 100 0 -0.170423
+2010 male+female 0 21 0 0.000689751 -0.000689751 100 0 100 0 -0.262722
+2010 male+female 0 22 0 0.00152464 -0.00152464 100 0 100 0 -0.390765
+2010 male+female 0 23 0 0.00310355 -0.00310355 100 0 100 0 -0.557962
+2010 male+female 0 24 0 0.00578154 -0.00578154 100 0 100 0 -0.762572
+2010 male+female 0 25 0 0.00982077 -0.00982077 100 0 100 0 -0.9959
+2010 male+female 0 26 0.000289101 0.0152133 -0.0149242 100 0 100 0.104996 -1.2193
+2010 male+female 0 27 0.00289101 0.0217133 -0.0188223 100 0 100 1.00094 -1.29145
+2010 male+female 0 28 0.00462561 0.0287775 -0.0241519 100 0 100 1.51976 -1.44466
+2010 male+female 0 29 0.0118531 0.0356346 -0.0237815 100 0 100 4.04137 -1.28287
+2010 male+female 0 30 0.0153223 0.0418617 -0.0265394 100 0 100 5.16997 -1.32516
+2010 male+female 0 31 0.022839 0.0470806 -0.0242417 100 0 100 7.94983 -1.14449
+2010 male+female 0 32 0.0297774 0.0518097 -0.0220323 100 0 100 10.5785 -0.994045
+2010 male+female 0 33 0.0760335 0.0559235 0.02011 100 0 100 31.6912 0.875209
+2010 male+female 0 34 0.082972 0.0596727 0.0232992 100 0 100 34.6347 0.983591
+2010 male+female 0 35 0.100607 0.0627578 0.0378493 100 0 100 43.1002 1.56062
+2010 male+female 0 36 0.113328 0.0643219 0.0490056 100 0 100 49.4153 1.99758
+2010 male+female 0 37 0.0913559 0.0641647 0.0271912 100 0 100 38.1972 1.10964
+2010 male+female 0 38 0.10292 0.0617306 0.0411893 100 0 100 44.4581 1.71147
+2010 male+female 0 39 0.0777681 0.0569735 0.0207947 100 0 100 32.4117 0.897126
+2010 male+female 0 40 0.0526164 0.0511614 0.00145493 100 0 100 20.8816 0.0660352
+2010 male+female 0 41 0.0436542 0.0444478 -0.000793523 100 0 100 17.3343 -0.0385041
+2010 male+female 0 42 0.0416305 0.0380852 0.00354532 100 0 100 17.0311 0.185229
+2010 male+female 0 43 0.0222608 0.0325086 -0.0102478 100 0 100 8.53867 -0.577842
+2010 male+female 0 44 0.0268864 0.0280271 -0.0011407 100 0 100 11.0256 -0.0691121
+2010 male+female 0 45 0.0141659 0.0246067 -0.0104408 100 0 100 5.47587 -0.673932
+2010 male+female 0 46 0.0121422 0.0219512 -0.00980897 100 0 100 4.74179 -0.669443
+2010 male+female 0 47 0.0153223 0.0196929 -0.00437053 100 0 100 6.32545 -0.314557
+2010 male+female 0 48 0.0104076 0.0175308 -0.00712313 100 0 100 4.2264 -0.542764
+2010 male+female 0 49 0.00636022 0.0146872 -0.00832695 100 0 100 2.57701 -0.692197
+2010 male+female 0 50 0.00751662 0.010034 -0.00251737 100 0 100 3.37499 -0.25258
+2010 male+female 0 51 0.00375831 0.00511427 -0.00135595 100 0 100 1.86495 -0.190093
+2010 male+female 0 52 0.00520382 0.00205241 0.00315141 100 0 100 3.10066 0.696336
+2010 male+female 0 53 0.00260191 0.00072346 0.00187845 100 0 100 1.78103 0.698633
+2010 male+female 0 54 0.0011564 0.000236647 0.000919756 100 0 100 0.909148 0.597962
+2010 male+female 0 55 0.000289101 7.5015e-05 0.000214086 100 0 100 0.258573 0.24719
+2010 male+female 0 56 0.000867303 2.39933e-05 0.000843309 100 0 100 0.878491 1.72166
+2010 male+female 0 57 0.000289101 7.95373e-06 0.000281147 100 0 100 0.323449 0.996896
+2010 male+female 0 58 0.000289101 2.77172e-06 0.000286329 100 0 100 0.353925 1.71985
+*end
+
+*catchability[potSurveyq]
+potSurveyq: 1.43244e-05
+potCPUEq: 0.000272688
+*end
+
+*catchability[potCPUEq]
+potSurveyq: 1.43244e-05
+potCPUEq: 0.000272688
+*end
+
+*derived_quantity[SSB]
+SSB {list}
+type: biomass
+initialisation_phase[1]: 13871.1
+values {vector}
+1900 13871.1
+1901 13836.8
+1902 13787.8
+1903 13727.6
+1904 13657.2
+1905 13577.9
+1906 13490.7
+1907 13396.1
+1908 13295.2
+1909 13188.5
+1910 13076.7
+1911 12960.2
+1912 12840.1
+1913 12716.5
+1914 12589.9
+1915 12460.6
+1916 12328.6
+1917 12194.2
+1918 12057.8
+1919 11919.3
+1920 11778.9
+1921 11636.5
+1922 11492.3
+1923 11346.2
+1924 11198.4
+1925 11048.8
+1926 10897.6
+1927 10744.9
+1928 10590.6
+1929 10434.8
+1930 10277.6
+1931 10118.7
+1932 9959.27
+1933 9770.91
+1934 9449.61
+1935 9560.65
+1936 9813.76
+1937 10044.8
+1938 10301.2
+1939 10522.7
+1940 10774.5
+1941 10968.3
+1942 11134.9
+1943 11246.7
+1944 11149.3
+1945 10988.9
+1946 10785.2
+1947 10443.9
+1948 10165.6
+1949 9853.66
+1950 9520.94
+1951 9287.13
+1952 9055.49
+1953 9106.64
+1954 9190.83
+1955 9260.15
+1956 9182.12
+1957 9142.56
+1958 9131.32
+1959 9155.73
+1960 9037.52
+1961 9005.29
+1962 8933.61
+1963 8881.27
+1964 8933.75
+1965 9088.45
+1966 9213.66
+1967 9237.64
+1968 9269.69
+1969 9376.94
+1970 9433.3
+1971 9510.2
+1972 9695.9
+1973 9666.45
+1974 9658.88
+1975 9805.04
+1976 9942.81
+1977 10101
+1978 10253.1
+1979 10425.7
+1980 10451.4
+1981 10411.2
+1982 10445.7
+1983 10254.5
+1984 9817.67
+1985 9084.11
+1986 8265.46
+1987 7423.21
+1988 6551.53
+1989 5842.21
+1990 5145.69
+1991 4477.01
+1992 4288.45
+1993 4406.49
+1994 4684.6
+1995 4963.94
+1996 5055.59
+1997 5046.17
+1998 5243.13
+1999 5506.01
+2000 5879.26
+2001 5964.31
+2002 5877.56
+2003 5770.51
+2004 5649.03
+2005 5313.95
+2006 4896.26
+2007 4687.45
+2008 4596.93
+2009 4547.42
+2010 4464.89
+2011 4398.62
+2012 4325.23
+2013 4243.78
+2014 4168.09
+2015 4234.86
+2016 4217.24
+2017 4036.12
+2018 3935.4
+2019 3769.23
+{end_list}
+*end
+
+*observation[potSurvey]
+observation_type: abundance
+likelihood: lognormal
+Values {dataframe}
+year category age length observed expected residual error_value process_error adjusted_error neglogLike pearsons_residuals normalised_residuals
+2010 male+female 0 0 11.066 14.8807 -3.81465 0.125 0.2 0.23585 -0.789207 -1.08692 -1.15668
+2014 male+female 0 0 17.568 14.2282 3.3398 0.135 0.2 0.241299 -0.930638 0.972783 1.00528
+2018 male+female 0 0 12.532 11.3052 1.22682 0.215 0.2 0.293641 -1.1202 0.369562 0.502029
+*end
+
+*observation[potCPUE]
+observation_type: biomass
+likelihood: lognormal
+Values {dataframe}
+year category age length observed expected residual error_value process_error adjusted_error neglogLike pearsons_residuals normalised_residuals
+1990 male+female 0 0 1.01179 1.35678 -0.344992 0.05 0.1 0.111803 1.12544 -2.27429 -2.57665
+1991 male+female 0 0 0.812523 1.13886 -0.326334 0.05 0.1 0.111803 2.22697 -2.56294 -2.97358
+1992 male+female 0 0 0.789768 0.964392 -0.174623 0.05 0.1 0.111803 -0.686363 -1.61955 -1.73652
+1993 male+female 0 0 0.800867 0.872746 -0.0718788 0.05 0.1 0.111803 -1.93821 -0.736644 -0.71542
+1994 male+female 0 0 0.814346 0.850016 -0.0356695 0.05 0.1 0.111803 -2.14003 -0.375331 -0.3289
+1995 male+female 0 0 0.844336 0.900895 -0.0565584 0.05 0.1 0.111803 -2.05578 -0.561524 -0.526002
+1996 male+female 0 0 0.968863 0.974768 -0.00590559 0.05 0.1 0.111803 -2.19412 -0.0541885 0.00120564
+1997 male+female 0 0 1.07802 1.01679 0.0612312 0.05 0.1 0.111803 -2.0257 0.538626 0.580387
+1998 male+female 0 0 1.0632 1.04111 0.02209 0.05 0.1 0.111803 -2.16433 0.189777 0.244104
+1999 male+female 0 0 0.955824 1.07007 -0.114243 0.05 0.1 0.111803 -1.73596 -0.954913 -0.957249
+2000 male+female 0 0 1.12167 1.13205 -0.0103801 0.05 0.1 0.111803 -2.19376 -0.0820124 -0.0269191
+2001 male+female 0 0 1.23278 1.21251 0.020275 0.05 0.1 0.111803 -2.17321 0.149562 0.204515
+2002 male+female 0 0 1.30543 1.24673 0.0586922 0.05 0.1 0.111803 -2.08439 0.421068 0.468466
+2003 male+female 0 0 1.26698 1.25795 0.0090264 0.05 0.1 0.111803 -2.18694 0.0641795 0.119878
+2004 male+female 0 0 1.22875 1.25466 -0.0259051 0.05 0.1 0.111803 -2.18548 -0.184674 -0.13146
+2005 male+female 0 0 1.31587 1.21452 0.101348 0.05 0.1 0.111803 -1.89395 0.746368 0.774818
+2006 male+female 0 0 1.26358 1.12558 0.138 0.05 0.1 0.111803 -1.59641 1.0966 1.09336
+2007 male+female 0 0 1.08656 1.01982 0.0667376 0.05 0.1 0.111803 -1.99915 0.585318 0.624456
+2008 male+female 0 0 1.01899 0.945865 0.0731295 0.05 0.1 0.111803 -1.93211 0.691526 0.723898
+2009 male+female 0 0 1.03144 0.922106 0.109334 0.05 0.1 0.111803 -1.6312 1.06052 1.06106
+2010 male+female 0 0 0.895963 0.914797 -0.0188335 0.05 0.1 0.111803 -2.18555 -0.184142 -0.130915
+2011 male+female 0 0 0.984095 0.906008 0.0780871 0.05 0.1 0.111803 -1.87612 0.770889 0.797493
+2012 male+female 0 0 0.975651 0.902303 0.073348 0.05 0.1 0.111803 -1.90764 0.727078 0.75694
+2013 male+female 0 0 0.960914 0.895794 0.0651196 0.05 0.1 0.111803 -1.95928 0.650202 0.685338
+2014 male+female 0 0 1.00118 0.868889 0.132289 0.05 0.1 0.111803 -1.31335 1.36177 1.32723
+2015 male+female 0 0 0.928886 0.859094 0.0697926 0.05 0.1 0.111803 -1.90796 0.72663 0.756525
+2016 male+female 0 0 0.917794 0.875974 0.0418204 0.05 0.1 0.111803 -2.08171 0.427015 0.474162
+2017 male+female 0 0 0.922603 0.872086 0.0505161 0.05 0.1 0.111803 -2.03679 0.518102 0.560948
+2018 male+female 0 0 0.758655 0.857173 -0.098518 0.05 0.1 0.111803 -1.65363 -1.028 -1.0397
+*end
+
+*observation[AFpotSurvey]
+observation_type: proportions_at_age
+likelihood: multinomial
+Values {dataframe}
+year category age length observed expected residual error_value process_error adjusted_error neglogLike pearsons_residuals
+2010 male 3 0 0.04055 0.0415414 -0.000991378 100 0 100 16.1604 -0.0496835
+2010 male 4 0 0.14075 0.142797 -0.00204676 100 0 100 52.7866 -0.0585013
+2010 male 5 0 0.08901 0.0574757 0.0315343 100 0 100 38.0042 1.35486
+2010 male 6 0 0.10256 0.107361 -0.00480125 100 0 100 38.5964 -0.155093
+2010 male 7 0 0.07751 0.0742112 0.00329885 100 0 100 30.2344 0.125855
+2010 male 8 0 0.01632 0.0186068 -0.00228682 100 0 100 6.88394 -0.169229
+2010 male 9 0 0.00554 0.0193587 -0.0138187 100 0 100 2.06785 -1.00294
+2010 male 10 0 0.00082 0.0148649 -0.0140449 100 0 100 0.303107 -1.16062
+2010 male 11 0 0.00164 0.0088349 -0.0071949 100 0 100 0.701428 -0.768866
+2010 male 12 0 0.00164 0.00862135 -0.00698135 100 0 100 0.705441 -0.755148
+2010 male 13 0 0.00051 0.00600965 -0.00549965 100 0 100 0.233484 -0.711573
+2010 male 14 0 0.0001 0.00546461 -0.00536461 100 0 100 0.0464043 -0.727693
+2010 male 15 0 0.00021 0.0145045 -0.0142945 100 0 100 0.0771368 -1.19561
+2010 female 3 0 0.02885 0.0334104 -0.00456042 100 0 100 11.455 -0.253771
+2010 female 4 0 0.13561 0.114931 0.0206793 100 0 100 53.3621 0.64838
+2010 female 5 0 0.04168 0.0530358 -0.0113558 100 0 100 15.6747 -0.506718
+2010 female 6 0 0.13222 0.106397 0.0258228 100 0 100 52.7567 0.837464
+2010 female 7 0 0.10759 0.0789973 0.0285927 100 0 100 44.2262 1.06003
+2010 female 8 0 0.00883 0.0205169 -0.0116869 100 0 100 3.38685 -0.824412
+2010 female 9 0 0.03039 0.021225 0.00916499 100 0 100 13.5489 0.635868
+2010 female 10 0 0.02731 0.0155875 0.0117225 100 0 100 12.8289 0.946331
+2010 female 11 0 0.00329 0.00861377 -0.00532377 100 0 100 1.45159 -0.576105
+2010 female 12 0 0.00554 0.00779927 -0.00225927 100 0 100 2.57149 -0.256827
+2010 female 13 0 0.00041 0.00512121 -0.00471121 100 0 100 0.193939 -0.660026
+2010 female 14 0 0.00072 0.00443019 -0.00371019 100 0 100 0.352752 -0.558662
+2010 female 15 0 0.00041 0.0102832 -0.00987321 100 0 100 0.165357 -0.978675
+2014 male 3 0 0.06416 0.0400447 0.0241153 100 0 100 28.0165 1.22997
+2014 male 4 0 0.17413 0.184154 -0.0100235 100 0 100 64.1546 -0.258599
+2014 male 5 0 0.02622 0.0505028 -0.0242828 100 0 100 9.16656 -1.1089
+2014 male 6 0 0.12801 0.0754534 0.0525566 100 0 100 55.1165 1.98987
+2014 male 7 0 0.04001 0.0463095 -0.00629955 100 0 100 15.4723 -0.299758
+2014 male 8 0 0.0313 0.0456121 -0.0143121 100 0 100 11.6216 -0.685963
+2014 male 9 0 0.00446 0.0153758 -0.0109158 100 0 100 1.74067 -0.887157
+2014 male 10 0 0.00311 0.0260588 -0.0229488 100 0 100 1.02437 -1.44051
+2014 male 11 0 0.00238 0.0173769 -0.0149969 100 0 100 0.869066 -1.14768
+2014 male 12 0 0.0001 0.00431927 -0.00421927 100 0 100 0.0487564 -0.643386
+2014 male 13 0 0.0001 0.00448922 -0.00438922 100 0 100 0.0483704 -0.656567
+2014 male 14 0 0.0001 0.00344646 -0.00334646 100 0 100 0.0510138 -0.571017
+2014 male 15 0 0.0001 0.0100695 -0.00996947 100 0 100 0.0402922 -0.998542
+2014 female 3 0 0.06291 0.032207 0.030703 100 0 100 28.7438 1.73906
+2014 female 4 0 0.12624 0.148129 -0.0218887 100 0 100 45.6865 -0.616188
+2014 female 5 0 0.0626 0.0463017 0.0162983 100 0 100 26.3056 0.775602
+2014 female 6 0 0.07898 0.0730524 0.00592764 100 0 100 31.0526 0.227791
+2014 female 7 0 0.06385 0.0473587 0.0164913 100 0 100 26.7857 0.776409
+2014 female 8 0 0.04581 0.0483583 -0.00254827 100 0 100 17.9654 -0.118788
+2014 female 9 0 0.01772 0.0165504 0.00116957 100 0 100 7.76092 0.0916738
+2014 female 10 0 0.03783 0.0280181 0.00981186 100 0 100 16.3804 0.594569
+2014 female 11 0 0.00954 0.0183318 -0.00879181 100 0 100 3.7964 -0.65538
+2014 female 12 0 0.00808 0.00437545 0.00370455 100 0 100 4.32007 0.561277
+2014 female 13 0 0.00798 0.00429095 0.00368905 100 0 100 4.27844 0.564379
+2014 female 14 0 0.00031 0.00304522 -0.00273522 100 0 100 0.162505 -0.496415
+2014 female 15 0 0.00394 0.00676937 -0.00282937 100 0 100 1.84894 -0.345057
+2018 male 3 0 0.03324 0.0569866 -0.0237466 100 0 100 11.7363 -1.02437
+2018 male 4 0 0.0936 0.077899 0.015701 100 0 100 37.5091 0.585832
+2018 male 5 0 0.1252 0.0826176 0.0425824 100 0 100 52.5304 1.54674
+2018 male 6 0 0.11103 0.0809604 0.0300696 100 0 100 45.665 1.10236
+2018 male 7 0 0.06209 0.0547681 0.00732193 100 0 100 25.0089 0.321805
+2018 male 8 0 0.05761 0.0732935 -0.0156835 100 0 100 21.1912 -0.601783
+2018 male 9 0 0.01703 0.0171037 -7.37435e-05 100 0 100 7.3658 -0.00568754
+2018 male 10 0 0.00744 0.0234028 -0.0159628 100 0 100 2.70777 -1.05589
+2018 male 11 0 0.0001 0.0139043 -0.0138043 100 0 100 0.0370652 -1.17891
+2018 male 12 0 0.00031 0.013586 -0.013276 100 0 100 0.116145 -1.14681
+2018 male 13 0 0.0001 0.0045754 -0.0044754 100 0 100 0.0481803 -0.663152
+2018 male 14 0 0.00031 0.00775289 -0.00744289 100 0 100 0.133535 -0.848594
+2018 male 15 0 0.0001 0.0118106 -0.0117106 100 0 100 0.0386973 -1.08398
+2018 female 3 0 0.01937 0.045833 -0.026463 100 0 100 6.60709 -1.26543
+2018 female 4 0 0.06046 0.0625271 -0.00206714 100 0 100 23.426 -0.08538
+2018 female 5 0 0.07586 0.0752074 0.000652631 100 0 100 29.3574 0.0247466
+2018 female 6 0 0.08982 0.0777409 0.0120791 100 0 100 35.7047 0.451112
+2018 female 7 0 0.0627 0.0553607 0.00733934 100 0 100 25.2351 0.32094
+2018 female 8 0 0.08819 0.0759691 0.0122209 100 0 100 35.1263 0.461255
+2018 female 9 0 0.02661 0.0177801 0.00882993 100 0 100 12.1058 0.668169
+2018 female 10 0 0.02783 0.0239485 0.00388154 100 0 100 11.9117 0.253881
+2018 female 11 0 0.02345 0.0138184 0.00963156 100 0 100 11.0747 0.825066
+2018 female 12 0 0.01519 0.0130587 0.00213125 100 0 100 6.888 0.187732
+2018 female 13 0 0.00051 0.00425555 -0.00374555 100 0 100 0.251086 -0.575392
+2018 female 14 0 0.0001 0.00698067 -0.00688067 100 0 100 0.0439558 -0.826425
+2018 female 15 0 0.00173 0.00885894 -0.00712894 100 0 100 0.740552 -0.760792
+*end
+
+*observation[AFpotFishing]
+observation_type: proportions_at_age
+likelihood: multinomial
+Values {dataframe}
+year category age length observed expected residual error_value process_error adjusted_error neglogLike pearsons_residuals
+2018 male 3 0 0.000113 7.37412e-05 3.92588e-05 100 0 100 0.101101 0.0457192
+2018 male 4 0 0.000113 0.00639894 -0.00628594 100 0 100 0.0506653 -0.788334
+2018 male 5 0 0.038653 0.0560836 -0.0174306 100 0 100 14.1128 -0.757579
+2018 male 6 0 0.124204 0.119433 0.00477101 100 0 100 47.4495 0.147118
+2018 male 7 0 0.080877 0.109753 -0.0288765 100 0 100 28.6627 -0.923804
+2018 male 8 0 0.227785 0.165799 0.0619862 100 0 100 91.841 1.66675
+2018 male 9 0 0.020334 0.0403821 -0.0200481 100 0 100 7.25012 -1.01842
+2018 male 10 0 0.055132 0.0557477 -0.000615671 100 0 100 21.6024 -0.0268344
+2018 male 11 0 0.012131 0.0331779 -0.0210469 100 0 100 4.23579 -1.17514
+2018 male 12 0 0.000113 0.0324307 -0.0323177 100 0 100 0.0323257 -1.8244
+2018 male 13 0 0.000113 0.0109228 -0.0108098 100 0 100 0.0446229 -1.04001
+2018 male 14 0 0.000113 0.018509 -0.018396 100 0 100 0.0386632 -1.36486
+2018 male 15 0 0.005352 0.0281967 -0.0228447 100 0 100 1.79096 -1.38006
+2018 female 3 0 0.000113 9.43799e-07 0.000112056 100 0 100 0.150351 1.15344
+2018 female 4 0 0.000113 5.39986e-05 5.90014e-05 100 0 100 0.104622 0.0802939
+2018 female 5 0 0.000113 0.00273402 -0.00262102 100 0 100 0.0602743 -0.501954
+2018 female 6 0 0.021264 0.0239216 -0.00265759 100 0 100 8.75069 -0.17392
+2018 female 7 0 0.037513 0.0411404 -0.00362736 100 0 100 14.78 -0.182633
+2018 female 8 0 0.132566 0.0896357 0.0429303 100 0 100 55.1974 1.50285
+2018 female 9 0 0.046826 0.0270365 0.0197895 100 0 100 21.1621 1.22015
+2018 female 10 0 0.01954 0.0421093 -0.0225693 100 0 100 6.84039 -1.12375
+2018 female 11 0 0.031885 0.0265016 0.00538337 100 0 100 13.6095 0.335158
+2018 female 12 0 0.101808 0.0264349 0.0753731 100 0 100 52.5187 4.69835
+2018 female 13 0 0.005715 0.00892006 -0.00320506 100 0 100 2.58133 -0.340877
+2018 female 14 0 0.013969 0.0149827 -0.00101374 100 0 100 6.08301 -0.0834467
+2018 female 15 0 0.023543 0.0196199 0.00392306 100 0 100 10.2991 0.282865
+2019 male 3 0 0.000161 7.75122e-05 8.34878e-05 5 0 5 0.00715526 0.0212051
+2019 male 4 0 0.000161 0.0119115 -0.0117505 5 0 5 0.00310222 -0.242192
+2019 male 5 0 0.000161 0.045674 -0.045513 5 0 5 0.00202029 -0.487458
+2019 male 6 0 0.082464 0.0983448 -0.0158808 5 0 5 0.835992 -0.11925
+2019 male 7 0 0.132357 0.124863 0.00749378 5 0 5 1.27368 0.050691
+2019 male 8 0 0.115831 0.0934657 0.0223653 5 0 5 1.25766 0.171807
+2019 male 9 0 0.277357 0.129847 0.14751 5 0 5 3.03926 0.981282
+2019 male 10 0 0.027463 0.0305522 -0.0030892 5 0 5 0.414296 -0.0401372
+2019 male 11 0 0.066926 0.0418704 0.0250556 5 0 5 0.948478 0.27972
+2019 male 12 0 0.053131 0.0248851 0.0282459 5 0 5 0.879506 0.405455
+2019 male 13 0 0.025173 0.0243175 0.00085555 5 0 5 0.407426 0.0124199
+2019 male 14 0 0.022882 0.00818963 0.0146924 5 0 5 0.493896 0.364528
+2019 male 15 0 0.000161 0.0350175 -0.0348565 5 0 5 0.00223416 -0.424
+2019 female 3 0 0.000161 9.92073e-07 0.000160008 5 0 5 0.0106638 0.359215
+2019 female 4 0 0.000161 0.000100691 6.03086e-05 5 0 5 0.00694465 0.0134397
+2019 female 5 0 0.000161 0.00222834 -0.00206734 5 0 5 0.00445161 -0.0980371
+2019 female 6 0 0.000161 0.0194812 -0.0193202 5 0 5 0.00270621 -0.312579
+2019 female 7 0 0.000161 0.0461931 -0.0460321 5 0 5 0.00201119 -0.490374
+2019 female 8 0 0.013732 0.0500799 -0.0363479 5 0 5 0.169699 -0.372639
+2019 female 9 0 0.034168 0.0859608 -0.0517928 5 0 5 0.342817 -0.413164
+2019 female 10 0 0.009529 0.0228347 -0.0133057 5 0 5 0.154397 -0.199178
+2019 female 11 0 0.000161 0.0331776 -0.0330166 5 0 5 0.00227761 -0.412213
+2019 female 12 0 0.000161 0.0200654 -0.0199044 5 0 5 0.00268242 -0.317404
+2019 female 13 0 0.038904 0.0195342 0.0193698 5 0 5 0.681779 0.312964
+2019 female 14 0 0.000161 0.00649454 -0.00633354 5 0 5 0.00359049 -0.176308
+2019 female 15 0 0.098154 0.0248329 0.0733211 5 0 5 1.6926 1.05356
+*end
+
+*observation[lgobookLF]
+observation_type: proportions_at_length
+likelihood: multinomial
+Values {dataframe}
+year category age length observed expected residual error_value process_error adjusted_error neglogLike pearsons_residuals
+2010 male+female 0 13 0 3.57381e-07 -3.57381e-07 100 0 100 0 -0.00597814
+2010 male+female 0 14 0 8.80741e-07 -8.80741e-07 100 0 100 0 -0.00938478
+2010 male+female 0 15 0 2.25948e-06 -2.25948e-06 100 0 100 0 -0.0150316
+2010 male+female 0 16 0 5.99077e-06 -5.99077e-06 100 0 100 0 -0.0244761
+2010 male+female 0 17 0 1.61891e-05 -1.61891e-05 100 0 100 0 -0.040236
+2010 male+female 0 18 0 4.36994e-05 -4.36994e-05 100 0 100 0 -0.066107
+2010 male+female 0 19 0 0.000115161 -0.000115161 100 0 100 0 -0.107319
+2010 male+female 0 20 0 0.000290357 -0.000290357 100 0 100 0 -0.170423
+2010 male+female 0 21 0 0.000689751 -0.000689751 100 0 100 0 -0.262722
+2010 male+female 0 22 0 0.00152464 -0.00152464 100 0 100 0 -0.390765
+2010 male+female 0 23 0 0.00310355 -0.00310355 100 0 100 0 -0.557962
+2010 male+female 0 24 0 0.00578154 -0.00578154 100 0 100 0 -0.762572
+2010 male+female 0 25 0 0.00982077 -0.00982077 100 0 100 0 -0.9959
+2010 male+female 0 26 0.000289101 0.0152133 -0.0149242 100 0 100 0.104996 -1.2193
+2010 male+female 0 27 0.00289101 0.0217133 -0.0188223 100 0 100 1.00094 -1.29145
+2010 male+female 0 28 0.00462561 0.0287775 -0.0241519 100 0 100 1.51976 -1.44466
+2010 male+female 0 29 0.0118531 0.0356346 -0.0237815 100 0 100 4.04137 -1.28287
+2010 male+female 0 30 0.0153223 0.0418617 -0.0265394 100 0 100 5.16997 -1.32516
+2010 male+female 0 31 0.022839 0.0470806 -0.0242417 100 0 100 7.94983 -1.14449
+2010 male+female 0 32 0.0297774 0.0518097 -0.0220323 100 0 100 10.5785 -0.994045
+2010 male+female 0 33 0.0760335 0.0559235 0.02011 100 0 100 31.6912 0.875209
+2010 male+female 0 34 0.082972 0.0596727 0.0232992 100 0 100 34.6347 0.983591
+2010 male+female 0 35 0.100607 0.0627578 0.0378493 100 0 100 43.1002 1.56062
+2010 male+female 0 36 0.113328 0.0643219 0.0490056 100 0 100 49.4153 1.99758
+2010 male+female 0 37 0.0913559 0.0641647 0.0271912 100 0 100 38.1972 1.10964
+2010 male+female 0 38 0.10292 0.0617306 0.0411893 100 0 100 44.4581 1.71147
+2010 male+female 0 39 0.0777681 0.0569735 0.0207947 100 0 100 32.4117 0.897126
+2010 male+female 0 40 0.0526164 0.0511614 0.00145493 100 0 100 20.8816 0.0660352
+2010 male+female 0 41 0.0436542 0.0444478 -0.000793523 100 0 100 17.3343 -0.0385041
+2010 male+female 0 42 0.0416305 0.0380852 0.00354532 100 0 100 17.0311 0.185229
+2010 male+female 0 43 0.0222608 0.0325086 -0.0102478 100 0 100 8.53867 -0.577842
+2010 male+female 0 44 0.0268864 0.0280271 -0.0011407 100 0 100 11.0256 -0.0691121
+2010 male+female 0 45 0.0141659 0.0246067 -0.0104408 100 0 100 5.47587 -0.673932
+2010 male+female 0 46 0.0121422 0.0219512 -0.00980897 100 0 100 4.74179 -0.669443
+2010 male+female 0 47 0.0153223 0.0196929 -0.00437053 100 0 100 6.32545 -0.314557
+2010 male+female 0 48 0.0104076 0.0175308 -0.00712313 100 0 100 4.2264 -0.542764
+2010 male+female 0 49 0.00636022 0.0146872 -0.00832695 100 0 100 2.57701 -0.692197
+2010 male+female 0 50 0.00751662 0.010034 -0.00251737 100 0 100 3.37499 -0.25258
+2010 male+female 0 51 0.00375831 0.00511427 -0.00135595 100 0 100 1.86495 -0.190093
+2010 male+female 0 52 0.00520382 0.00205241 0.00315141 100 0 100 3.10066 0.696336
+2010 male+female 0 53 0.00260191 0.00072346 0.00187845 100 0 100 1.78103 0.698633
+2010 male+female 0 54 0.0011564 0.000236647 0.000919756 100 0 100 0.909148 0.597962
+2010 male+female 0 55 0.000289101 7.5015e-05 0.000214086 100 0 100 0.258573 0.24719
+2010 male+female 0 56 0.000867303 2.39933e-05 0.000843309 100 0 100 0.878491 1.72166
+2010 male+female 0 57 0.000289101 7.95373e-06 0.000281147 100 0 100 0.323449 0.996896
+2010 male+female 0 58 0.000289101 2.77172e-06 0.000286329 100 0 100 0.353925 1.71985
+*end
+
+*observation[rec.catch.LF]
+observation_type: proportions_at_length
+likelihood: multinomial
+Values {dataframe}
+year category age length observed expected residual error_value process_error adjusted_error neglogLike pearsons_residuals
+2010 male+female 0 13 0.00984563 2.28871e-06 0.00984334 100 0 100 12.7806 65.0651
+2010 male+female 0 14 0.00153212 7.88466e-06 0.00152424 100 0 100 1.72989 5.42828
+2010 male+female 0 15 0.00831351 2.60774e-05 0.00828743 100 0 100 8.71265 16.2291
+2010 male+female 0 16 0.00772669 7.70324e-05 0.00764966 100 0 100 7.23958 8.7161
+2010 male+female 0 17 0.00371714 0.0001966 0.00352054 100 0 100 3.05487 2.51108
+2010 male+female 0 18 0.00904652 0.000443053 0.00860347 100 0 100 6.94824 4.08829
+2010 male+female 0 19 0.00306424 0.000912281 0.00215196 100 0 100 2.0356 0.712801
+2010 male+female 0 20 0.00971344 0.00172601 0.00798744 100 0 100 6.16779 1.92425
+2010 male+female 0 21 0.00138592 0.00304084 -0.00165492 100 0 100 0.73805 -0.300567
+2010 male+female 0 22 0.0143609 0.0050546 0.00930627 100 0 100 7.834 1.3123
+2010 male+female 0 23 0.00474357 0.00795403 -0.00321047 100 0 100 2.17167 -0.361417
+2010 male+female 0 24 0.012976 0.0119467 0.00102926 100 0 100 5.8976 0.0947351
+2010 male+female 0 25 0.0195591 0.0171364 0.00242267 100 0 100 8.60664 0.186676
+2010 male+female 0 26 0.0232612 0.0234544 -0.000193245 100 0 100 9.74347 -0.0127688
+2010 male+female 0 27 0.0169194 0.0305591 -0.0136396 100 0 100 6.33007 -0.792451
+2010 male+female 0 28 0.0267 0.0377973 -0.0110974 100 0 100 10.1388 -0.58191
+2010 male+female 0 29 0.0239281 0.0441749 -0.0202468 100 0 100 8.54926 -0.985325
+2010 male+female 0 30 0.0603926 0.0491215 0.0112711 100 0 100 24.8519 0.521516
+2010 male+female 0 31 0.0362372 0.052298 -0.0160608 100 0 100 13.3203 -0.721422
+2010 male+female 0 32 0.0357315 0.0544731 -0.0187416 100 0 100 12.954 -0.825808
+2010 male+female 0 33 0.0676827 0.0559014 0.0117813 100 0 100 27.5825 0.51283
+2010 male+female 0 34 0.0740895 0.0571248 0.0169647 100 0 100 30.5687 0.730983
+2010 male+female 0 35 0.0728508 0.0580763 0.0147745 100 0 100 29.8385 0.631693
+2010 male+female 0 36 0.0770937 0.0581058 0.0189879 100 0 100 31.9244 0.811646
+2010 male+female 0 37 0.0633997 0.05702 0.00637978 100 0 100 25.3846 0.275132
+2010 male+female 0 38 0.0880408 0.0542499 0.0337909 100 0 100 38.0192 1.49181
+2010 male+female 0 39 0.0497779 0.0496912 8.67207e-05 100 0 100 19.6926 0.00399072
+2010 male+female 0 40 0.0706868 0.0443902 0.0262967 100 0 100 30.681 1.27678
+2010 male+female 0 41 0.0229167 0.0384426 -0.0155259 100 0 100 8.44611 -0.807537
+2010 male+female 0 42 0.031802 0.0328865 -0.00108448 100 0 100 12.8821 -0.0608099
+2010 male+female 0 43 0.0166921 0.0280661 -0.011374 100 0 100 6.37491 -0.688656
+2010 male+female 0 44 0.00992674 0.0242214 -0.0142947 100 0 100 3.69018 -0.929819
+2010 male+female 0 45 0.00554267 0.0213032 -0.0157605 100 0 100 2.01587 -1.0915
+2010 male+female 0 46 0.0117372 0.0190416 -0.0073044 100 0 100 4.73212 -0.53445
+2010 male+female 0 47 0.00350385 0.0171125 -0.0136086 100 0 100 1.31006 -1.04931
+2010 male+female 0 48 0.00510206 0.0152542 -0.0101522 100 0 100 2.01378 -0.828327
+2010 male+female 0 49 0 0.0127914 -0.0127914 100 0 100 0 -1.13829
+2010 male+female 0 50 0 0.00874257 -0.00874257 100 0 100 0 -0.939131
+2010 male+female 0 51 0 0.00445643 -0.00445643 100 0 100 0 -0.669058
+2010 male+female 0 52 0 0.00178822 -0.00178822 100 0 100 0 -0.423252
+2010 male+female 0 53 0 0.000630208 -0.000630208 100 0 100 0 -0.251119
+2010 male+female 0 54 0 0.000206083 -0.000206083 100 0 100 0 -0.143571
+2010 male+female 0 55 0 6.53005e-05 -6.53005e-05 100 0 100 0 -0.0808113
+2010 male+female 0 56 0 2.08757e-05 -2.08757e-05 100 0 100 0 -0.0456905
+2010 male+female 0 57 0 6.91619e-06 -6.91619e-06 100 0 100 0 -0.0262987
+2010 male+female 0 58 0 2.40857e-06 -2.40857e-06 100 0 100 0 -0.0155196
+*end
+
+*process[Recruitment]
+age: 3
+b0: 13871.1
+b0_initialisation_phase:
+categories: male female
+label: Recruitment
+proportions: 0.5 0.5
+r0: 318729
+ssb: SSB
+ssb_offset: 3
+standardise_ycs_years: 1980 1981 1982 1983 1984 1985 1986 1987 1988 1989 1990 1991 1992 1993 1994 1995 1996 1997 1998 1999 2000 2001 2002 2003 2004 2005 2006 2007 2008 2009 2010 2011 2012 2013 2014
+steepness: 0.75
+type: recruitment_beverton_holt
+ycs_years: 1897 1898 1899 1900 1901 1902 1903 1904 1905 1906 1907 1908 1909 1910 1911 1912 1913 1914 1915 1916 1917 1918 1919 1920 1921 1922 1923 1924 1925 1926 1927 1928 1929 1930 1931 1932 1933 1934 1935 1936 1937 1938 1939 1940 1941 1942 1943 1944 1945 1946 1947 1948 1949 1950 1951 1952 1953 1954 1955 1956 1957 1958 1959 1960 1961 1962 1963 1964 1965 1966 1967 1968 1969 1970 1971 1972 1973 1974 1975 1976 1977 1978 1979 1980 1981 1982 1983 1984 1985 1986 1987 1988 1989 1990 1991 1992 1993 1994 1995 1996 1997 1998 1999 2000 2001 2002 2003 2004 2005 2006 2007 2008 2009 2010 2011 2012 2013 2014 2015 2016
+standardised_ycs: 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 0.279409 0.275142 0.276169 0.2868 0.31688 0.386051 0.527767 0.791311 1.22126 1.94435 2.10387 1.32421 1.10127 1.12361 1.46369 2.1939 1.38833 1.08596 1.11226 0.819377 0.97775 0.887453 0.585142 1.59491 1.60803 0.644923 1.32279 0.938246 1.09568 0.555582 1.66242 0.876835 0.934975 0.727328 0.566311 1 1
+ycs_values: 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 0.211994 0.208756 0.209535 0.217601 0.240423 0.292905 0.400428 0.600384 0.926599 1.47522 1.59625 1.0047 0.835557 0.852505 1.11053 1.66456 1.05336 0.823938 0.843893 0.621678 0.741839 0.673329 0.443959 1.21009 1.22005 0.489316 1.00363 0.711867 0.831317 0.421531 1.26131 0.665273 0.709385 0.551839 0.429672 1 1
+true_ycs: 1 1 1 1 0.999794 0.999497 0.99913 0.998697 0.998204 0.997656 0.997054 0.996404 0.995706 0.994963 0.994177 0.993353 0.992491 0.991591 0.990655 0.989682 0.988671 0.987623 0.986538 0.985414 0.98425 0.983043 0.981794 0.980499 0.979158 0.977768 0.976329 0.974837 0.973291 0.971688 0.970024 0.968306 0.966213 0.962472 0.96379 0.966695 0.969233 0.971932 0.974168 0.97661 0.978421 0.979933 0.980925 0.980062 0.97861 0.976712 0.973382 0.97052 0.967141 0.963322 0.960493 0.957565 0.958223 0.959292 0.960159 0.959182 0.958681 0.958538 0.958848 0.957333 0.956913 0.955971 0.955275 0.955973 0.95799 0.959579 0.959879 0.960277 0.961594 0.962276 0.963194 0.965359 0.965021 0.964933 0.966597 0.968126 0.969836 0.971434 0.973199 0.271993 0.267727 0.268823 0.278611 0.30634 0.369811 0.499535 0.737899 1.11725 1.74456 1.84339 1.12712 0.928394 0.953027 1.2581 1.90852 1.21219 0.947825 0.978127 0.727297 0.878263 0.799166 0.525576 1.42788 1.43409 0.568619 1.14751 0.806562 0.937988 0.474507 1.41415 0.743422 0.78973 0.61169 0.4743 0.840604 0.839799
+Recruits: 318729 318729 318729 318729 318663 318569 318452 318314 318157 317982 317790 317583 317360 317124 316873 316611 316336 316049 315751 315440 315118 314784 314438 314080 313709 313324 312926 312513 312086 311643 311184 310709 310216 309705 309175 308627 307960 306768 307188 308114 308923 309783 310496 311274 311851 312333 312649 312374 311912 311306 310245 309333 308256 307039 306137 305204 305413 305754 306031 305719 305559 305514 305613 305130 304996 304696 304474 304696 305339 305846 305941 306068 306488 306705 306998 307688 307580 307552 308083 308570 309115 309624 310187 86692.1 85332.5 85681.8 88801.4 97639.5 117870 159216 235190 356099 556042 587541 359247 295906 303757 400991 608301 386360 302099 311758 231811 279928 254717 167516 455106 457087 181235 365746 257075 298964 151239 450731 236950 251710 194963 151173 267925 267668
+SSB: 13871.1 13871.1 13871.1 13871.1 13836.8 13787.8 13727.6 13657.2 13577.9 13490.7 13396.1 13295.2 13188.5 13076.7 12960.2 12840.1 12716.5 12589.9 12460.6 12328.6 12194.2 12057.8 11919.3 11778.9 11636.5 11492.3 11346.2 11198.4 11048.8 10897.6 10744.9 10590.6 10434.8 10277.6 10118.7 9959.27 9770.91 9449.61 9560.65 9813.76 10044.8 10301.2 10522.7 10774.5 10968.3 11134.9 11246.7 11149.3 10988.9 10785.2 10443.9 10165.6 9853.66 9520.94 9287.13 9055.49 9106.64 9190.83 9260.15 9182.12 9142.56 9131.32 9155.73 9037.52 9005.29 8933.61 8881.27 8933.75 9088.45 9213.66 9237.64 9269.69 9376.94 9433.3 9510.2 9695.9 9666.45 9658.88 9805.04 9942.81 10101 10253.1 10425.7 10451.4 10411.2 10445.7 10254.5 9817.67 9084.11 8265.46 7423.21 6551.53 5842.21 5145.69 4477.01 4288.45 4406.49 4684.6 4963.94 5055.59 5046.17 5243.13 5506.01 5879.26 5964.31 5877.56 5770.51 5649.03 5313.95 4896.26 4687.45 4596.93 4547.42 4464.89 4398.62 4325.23 4243.78 4168.09 4234.86 4217.24
+*end
+
+*process[Ageing]
+categories: male female
+label: Ageing
+type: ageing
+*end
+
+*process[Fishing]
+categories: male female
+label: Fishing
+m: 0.14 0.2
+relative_m_by_age: One One
+time_step_proportions: 1
+type: mortality_instantaneous_retained
+year: 1900 1901 1902 1903 1904 1905 1906 1907 1908 1909 1910 1911 1912 1913 1914 1915 1916 1917 1918 1919 1920 1921 1922 1923 1924 1925 1926 1927 1928 1929 1930 1931 1932 1933 1934 1935 1936 1937 1938 1939 1940 1941 1942 1943 1944 1945 1946 1947 1948 1949 1950 1951 1952 1953 1954 1955 1956 1957 1958 1959 1960 1961 1962 1963 1964 1965 1966 1967 1968 1969 1970 1971 1972 1973 1974 1975 1976 1977 1978 1979 1980 1981 1982 1983 1984 1985 1986 1987 1988 1989 1990 1991 1992 1993 1994 1995 1996 1997 1998 1999 2000 2001 2002 2003 2004 2005 2006 2007 2008 2009 2010 2011 2012 2013 2014 2015 2016 2017 2018 2019
+fishing_pressure[FishingLine]: 0 0.00106197 0.00212994 0.00320705 0.00428796 0.00538321 0.00648675 0.00761695 0.00875098 0.0099153 0.011095 0.0122999 0.0135317 0.0147826 0.0160628 0.0173649 0.0187081 0.0200762 0.0214706 0.0229018 0.0243719 0.0258827 0.0274271 0.0290169 0.0306544 0.0323324 0.0340633 0.0358397 0.037685 0.0395823 0.0415342 0.0435555 0.0455049 0.0507773 0.0683585 0.0185621 0.0074335 0.0104843 0.00575112 0.00806339 0.00242385 0.00707762 0.00751296 0.011366 0.0309165 0.0354223 0.0405186 0.05655 0.0518734 0.0599169 0.0660304 0.058656 0.0632765 0.0311117 0.0313142 0.0330388 0.0503589 0.0440455 0.0413889 0.037359 0.0553642 0.0436582 0.0503483 0.0480325 0.0355514 0.0236357 0.0275121 0.0382818 0.0352898 0.0256384 0.0318456 0.0279131 0.0143767 0.0396746 0.0340534 0.0161501 0.0180603 0.0144053 0.0140955 0.010345 0.0222505 0.0228488 0.0135859 0.0198112 0.018407 0.0153597 0.0074701 0.000347223 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
+actual_catch[FishingLine]: 0 15.3646 30.735 46.1168 61.3992 76.7029 91.9148 107.271 122.424 137.727 152.949 168.208 183.507 198.731 213.998 229.193 244.552 259.843 275.067 290.344 305.677 321.067 336.399 351.794 367.256 382.668 398.153 413.593 429.232 444.835 460.403 476.063 490.246 539.069 712.72 187.257 76.2889 110.506 61.9475 88.9436 27.2545 81.3717 87.7437 134.549 369.082 418.295 471.528 646.17 574.106 647.078 692.366 595.556 628.758 302.057 307.027 327.009 501.963 434.65 406.991 367.091 545.704 424.269 488.276 462.099 340.291 227.858 269.938 380.276 350.856 255.708 321.349 283.029 146.916 413.394 352.741 167.192 189.978 153.5 152.465 113.442 247.857 254.6 150.699 220.368 198.843 155.64 68.7735 2.88173 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
+retained_catch[FishingLine]: 0 13.2 26.4 39.6 52.7 65.8 78.8 91.9 104.8 117.8 130.7 143.6 156.5 169.3 182.1 194.8 207.6 220.3 232.9 245.5 258.1 270.7 283.2 295.7 308.2 320.6 333 345.3 357.7 370 382.2 394.4 405.3 444.7 586.5 153.5 62.5 90.7 51 73.5 22.6 67.7 73.2 112.5 309.1 350.3 394.4 539.3 477.4 536 571 488.8 513.9 245.9 249.7 266.1 409 354.2 331.6 299 444.5 345.2 397 375.3 276.1 184.9 219.4 309.7 286.1 208.7 262.6 231.5 120.3 339.2 289.6 137.3 156.2 126.4 125.8 93.8 205.4 211.2 125 183 167.6 135.1 61.2 2.6 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
+actual_retained_catch[FishingLine]: 0 13.2 26.4 39.6 52.7 65.8 78.8 91.9 104.8 117.8 130.7 143.6 156.5 169.3 182.1 194.8 207.6 220.3 232.9 245.5 258.1 270.7 283.2 295.7 308.2 320.6 333 345.3 357.7 370 382.2 394.4 405.3 444.7 586.5 153.5 62.5 90.7 51 73.5 22.6 67.7 73.2 112.5 309.1 350.3 394.4 539.3 477.4 536 571 488.8 513.9 245.9 249.7 266.1 409 354.2 331.6 299 444.5 345.2 397 375.3 276.1 184.9 219.4 309.7 286.1 208.7 262.6 231.5 120.3 339.2 289.6 137.3 156.2 126.4 125.8 93.8 205.4 211.2 125 183 167.6 135.1 61.2 2.6 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
+discards[FishingLine]: 0 2.16461 4.33497 6.5168 8.69917 10.9029 13.1148 15.3709 17.6241 19.927 22.2485 24.6079 27.0073 29.431 31.8981 34.3927 36.9522 39.543 42.167 44.8441 47.5765 50.3667 53.1989 56.0944 59.0562 62.0682 65.1525 68.2931 71.5324 74.8348 78.2035 81.6632 84.9464 94.3688 126.22 33.7568 13.7889 19.8056 10.9475 15.4436 4.65453 13.6717 14.5437 22.0492 59.9816 67.9954 77.1276 106.87 96.7063 111.078 121.366 106.756 114.858 56.1569 57.3269 60.9091 92.9634 80.4497 75.391 68.0911 101.204 79.0688 91.2759 86.7991 64.1905 42.9576 50.5383 70.5757 64.7556 47.0084 58.7489 51.5295 26.616 74.1937 63.1409 29.8922 33.7776 27.0997 26.6651 19.6424 42.4569 43.3999 25.6991 37.3684 31.2431 20.5398 7.57348 0.281729 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
+discards_dead[FishingLine]: 0 2.16461 4.33497 6.5168 8.69917 10.9029 13.1148 15.3709 17.6241 19.927 22.2485 24.6079 27.0073 29.431 31.8981 34.3927 36.9522 39.543 42.167 44.8441 47.5765 50.3667 53.1989 56.0944 59.0562 62.0682 65.1525 68.2931 71.5324 74.8348 78.2035 81.6632 84.9464 94.3688 126.22 33.7568 13.7889 19.8056 10.9475 15.4436 4.65453 13.6717 14.5437 22.0492 59.9816 67.9954 77.1276 106.87 96.7063 111.078 121.366 106.756 114.858 56.1569 57.3269 60.9091 92.9634 80.4497 75.391 68.0911 101.204 79.0688 91.2759 86.7991 64.1905 42.9576 50.5383 70.5757 64.7556 47.0084 58.7489 51.5295 26.616 74.1937 63.1409 29.8922 33.7776 27.0997 26.6651 19.6424 42.4569 43.3999 25.6991 37.3684 31.2431 20.5398 7.57348 0.281729 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
+fishing_pressure[FishingPot]: 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0.00326711 0.00780877 0.00833832 0.0202213 0.0311892 0.0463184 0.0511604 0.0620209 0.0787114 0.0736014 0.111042 0.172584 0.159131 0.203186 0.238767 0.231536 0.220681 0.204337 0.165856 0.18176 0.160215 0.186248 0.173979 0.150569 0.137889 0.173178 0.203162 0.199133 0.220764 0.223858 0.210964 0.201719 0.187855 0.191173 0.197392 0.173532 0.181079 0.195292 0.153151 0.181586
+actual_catch[FishingPot]: 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 33.2545 79.5364 84.53 205.799 311.775 441.547 448.223 492.053 558.35 458.774 616.771 841.666 673.232 831.319 1016.81 1063.9 1075.67 1008.15 812.861 926.452 866.381 1082.1 1017.06 865.679 776.522 954.239 1049.7 935.578 997.806 1006.11 931.174 875.537 803.405 807.771 808.985 704.331 751.06 804.903 601.783 693.725
+retained_catch[FishingPot]: 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 29.2 69.9 74.3 180.9 275.1 396.3 409.9 455.5 519.3 425.7 566.9 756.2 576.6 660.5 738.2 739.3 767.9 749.9 617.8 698.4 636.7 807.7 782.9 683 625.3 775.7 856.5 759.6 773.7 751.8 704.7 665.7 614.4 623.9 631 535.6 572.2 623.5 475.2 557
+actual_retained_catch[FishingPot]: 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 29.2 69.9 74.3 180.9 275.1 396.3 409.9 455.5 519.3 425.7 566.9 756.2 576.6 660.5 738.2 739.3 767.9 749.9 617.8 698.4 636.7 807.7 782.9 683 625.3 775.7 856.5 759.6 773.7 751.8 704.7 665.7 614.4 623.9 631 535.6 572.2 623.5 475.2 557
+discards[FishingPot]: 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 4.05448 9.63642 10.23 24.8992 36.6749 45.2475 38.3234 36.5533 39.0501 33.0742 49.8706 85.4662 96.6316 170.819 278.611 324.598 307.772 258.252 195.061 228.052 229.681 274.398 234.157 182.679 151.222 178.539 193.199 175.978 224.106 254.314 226.474 209.837 189.005 183.871 177.985 168.731 178.86 181.403 126.583 136.725
+discards_dead[FishingPot]: 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 4.05448 9.63642 10.23 24.8992 36.6749 45.2475 38.3234 36.5533 39.0501 33.0742 49.8706 85.4662 96.6316 170.819 278.611 324.598 307.772 258.252 195.061 228.052 229.681 274.398 234.157 182.679 151.222 178.539 193.199 175.978 224.106 254.314 226.474 209.837 189.005 183.871 177.985 168.731 178.86 181.403 126.583 136.725
+fishing_pressure[Recreation]: 0 0.00189306 0.00194819 0.00199727 0.0020569 0.00211037 0.00216596 0.00223214 0.00229199 0.00236257 0.00242672 0.00249301 0.002517 0.00256019 0.00259591 0.00264221 0.00268087 0.00273038 0.00277212 0.00282497 0.00286992 0.0029362 0.00300474 0.00307563 0.00314899 0.00322495 0.00330364 0.00337448 0.00344798 0.00351328 0.00359242 0.00367471 0.0037952 0.00392008 0.00407529 0.00429287 0.00428511 0.00416476 0.00405013 0.00393825 0.00384797 0.00373801 0.0036468 0.00356739 0.00350987 0.00351654 0.00355159 0.00370153 0.00391584 0.00412313 0.00435178 0.00460605 0.00478057 0.00495495 0.00496537 0.0049682 0.00497758 0.00516847 0.00534281 0.00550393 0.00562877 0.00587334 0.00599535 0.00617065 0.006316 0.00639 0.0063718 0.00633079 0.00635423 0.00637814 0.00633274 0.00634538 0.00631286 0.00621335 0.00626965 0.00630748 0.00622314 0.00613281 0.00602797 0.00593143 0.0058128 0.00580375 0.00579638 0.00573975 0.00578838 0.00594044 0.00631109 0.00684132 0.00759515 0.00860773 0.00970769 0.0112766 0.0134942 0.0149837 0.0156741 0.0151304 0.0134991 0.0126296 0.0122046 0.011599 0.0110567 0.0102299 0.00991516 0.00988892 0.00989548 0.00999301 0.0105431 0.0116543 0.0126592 0.0132666 0.0134831 0.0138 0.0139517 0.0140161 0.0143931 0.0149797 0.0147421 0.014685 0.015226 0.0153129
+actual_catch[Recreation]: 0 25.9025 26.5849 27.1571 27.8454 28.4236 29.0044 29.7011 30.287 30.9888 31.5797 32.1731 32.2 32.4562 32.6001 32.8596 33.0067 33.2697 33.42 33.6865 33.8401 34.225 34.6122 35.0018 35.3939 35.7885 36.1858 36.4702 36.757 36.9305 37.2226 37.5177 38.166 38.8186 39.5999 40.3094 40.9257 40.8759 40.6639 40.5419 40.4262 40.1985 39.8748 39.5674 39.2807 38.9292 38.7307 39.606 40.5328 41.5917 42.5593 43.5489 44.1726 44.6748 45.1961 45.6587 46.0876 47.3785 48.8001 50.2297 51.5298 52.9929 53.97 55.0844 56.078 57.1442 58.0244 58.406 58.6965 59.1214 59.415 59.8404 60.0218 60.2767 60.4774 60.8121 60.9896 60.9169 60.8196 60.7147 60.4868 60.4315 60.0798 59.6609 58.7472 57.13 55.6271 54.6134 54.3114 54.2669 54.8597 56.6053 60.0652 66.2728 73.1964 75.3533 69.9924 65.6946 63.3673 63.3736 63.9341 62.6588 60.5593 59.0689 57.8002 57.0717 56.4505 57.5842 61.0788 63.2657 62.8703 63.186 62.8187 62.0536 62.3605 64.4761 64.3685 63.2275 62.1868 61.0613
+retained_catch[Recreation]: 0 22.9 23.5 24 24.6 25.1 25.6 26.2 26.7 27.3 27.8 28.3 28.3 28.5 28.6 28.8 28.9 29.1 29.2 29.4 29.5 29.8 30.1 30.4 30.7 31 31.3 31.5 31.7 31.8 32 32.2 32.7 33.2 33.8 34.3 34.8 34.8 34.7 34.7 34.7 34.6 34.4 34.2 34 33.7 33.5 34.2 34.9 35.7 36.4 37.1 37.5 37.8 38.2 38.6 39 40.1 41.3 42.5 43.6 44.8 45.6 46.5 47.3 48.2 49 49.4 49.7 50.1 50.4 50.8 51 51.3 51.5 51.8 52 52 52 52 51.9 51.9 51.6 51.3 51 50.7 50.4 50.1 50 49.7 49.5 49.4 49 49 49 48.9 47.3 46.5 45.6 44.8 44.3 44.6 44.7 44.9 44.9 44.8 44.5 44.5 44.6 44.9 45.2 45.7 45.8 45.9 46.1 46.5 46.8 47 47.3 47
+actual_retained_catch[Recreation]: 0 22.9 23.5 24 24.6 25.1 25.6 26.2 26.7 27.3 27.8 28.3 28.3 28.5 28.6 28.8 28.9 29.1 29.2 29.4 29.5 29.8 30.1 30.4 30.7 31 31.3 31.5 31.7 31.8 32 32.2 32.7 33.2 33.8 34.3 34.8 34.8 34.7 34.7 34.7 34.6 34.4 34.2 34 33.7 33.5 34.2 34.9 35.7 36.4 37.1 37.5 37.8 38.2 38.6 39 40.1 41.3 42.5 43.6 44.8 45.6 46.5 47.3 48.2 49 49.4 49.7 50.1 50.4 50.8 51 51.3 51.5 51.8 52 52 52 52 51.9 51.9 51.6 51.3 51 50.7 50.4 50.1 50 49.7 49.5 49.4 49 49 49 48.9 47.3 46.5 45.6 44.8 44.3 44.6 44.7 44.9 44.9 44.8 44.5 44.5 44.6 44.9 45.2 45.7 45.8 45.9 46.1 46.5 46.8 47 47.3 47
+discards[Recreation]: 0 3.0025 3.08492 3.15706 3.24542 3.32356 3.40437 3.50107 3.58696 3.68882 3.77972 3.8731 3.90004 3.95617 4.00009 4.05965 4.10675 4.16971 4.22003 4.28648 4.34009 4.42503 4.51224 4.60183 4.69389 4.78852 4.88583 4.97017 5.05705 5.13046 5.2226 5.31766 5.46596 5.61857 5.79993 6.0094 6.12574 6.07593 5.96395 5.84194 5.72621 5.59849 5.47478 5.36738 5.28068 5.2292 5.23068 5.40597 5.63275 5.89175 6.15932 6.44888 6.67264 6.87478 6.99612 7.0587 7.08756 7.27848 7.50013 7.72969 7.92984 8.19291 8.37004 8.58444 8.77801 8.94423 9.02444 9.00598 8.9965 9.02142 9.01502 9.04035 9.02177 8.97669 8.97744 9.01213 8.98958 8.9169 8.81956 8.71473 8.5868 8.53152 8.47983 8.36089 7.74724 6.43003 5.22706 4.51343 4.31143 4.56689 5.35974 7.20531 11.0652 17.2728 24.1964 26.4533 22.6924 19.1946 17.7673 18.5736 19.6341 18.0588 15.8593 14.1689 12.9002 12.2717 11.9505 13.0842 16.4788 18.3657 17.6703 17.486 17.0187 16.1536 16.2605 17.9761 17.5685 16.2275 14.8868 14.0613
+discards_dead[Recreation]: 0 3.0025 3.08492 3.15706 3.24542 3.32356 3.40437 3.50107 3.58696 3.68882 3.77972 3.8731 3.90004 3.95617 4.00009 4.05965 4.10675 4.16971 4.22003 4.28648 4.34009 4.42503 4.51224 4.60183 4.69389 4.78852 4.88583 4.97017 5.05705 5.13046 5.2226 5.31766 5.46596 5.61857 5.79993 6.0094 6.12574 6.07593 5.96395 5.84194 5.72621 5.59849 5.47478 5.36738 5.28068 5.2292 5.23068 5.40597 5.63275 5.89175 6.15932 6.44888 6.67264 6.87478 6.99612 7.0587 7.08756 7.27848 7.50013 7.72969 7.92984 8.19291 8.37004 8.58444 8.77801 8.94423 9.02444 9.00598 8.9965 9.02142 9.01502 9.04035 9.02177 8.97669 8.97744 9.01213 8.98958 8.9169 8.81956 8.71473 8.5868 8.53152 8.47983 8.36089 7.74724 6.43003 5.22706 4.51343 4.31143 4.56689 5.35974 7.20531 11.0652 17.2728 24.1964 26.4533 22.6924 19.1946 17.7673 18.5736 19.6341 18.0588 15.8593 14.1689 12.9002 12.2717 11.9505 13.0842 16.4788 18.3657 17.6703 17.486 17.0187 16.1536 16.2605 17.9761 17.5685 16.2275 14.8868 14.0613
+*end
+
+*selectivity[MaturationSel_male]
+a50: 4.1
+alpha: 1
+ato95: 2.47
+intervals: 5
+label: MaturationSel_male
+length_based: 0
+type: logistic
+Values {vector}
+3 0.212271
+4 0.470233
+5 0.745143
+6 0.905933
+7 0.96944
+8 0.990521
+9 0.997103
+10 0.999119
+11 0.999732
+12 0.999919
+13 0.999975
+14 0.999993
+15 0.999998
+16 0.999999
+17 1
+18 1
+19 1
+20 1
+*end
+
+*selectivity[MaturationSel_female]
+a50: 4.1
+alpha: 1
+ato95: 2.47
+intervals: 5
+label: MaturationSel_female
+length_based: 0
+type: logistic
+Values {vector}
+3 0.212271
+4 0.470233
+5 0.745143
+6 0.905933
+7 0.96944
+8 0.990521
+9 0.997103
+10 0.999119
+11 0.999732
+12 0.999919
+13 0.999975
+14 0.999993
+15 0.999998
+16 0.999999
+17 1
+18 1
+19 1
+20 1
+*end
+
+*selectivity[potFdis]
+c: 1
+intervals: 5
+label: potFdis
+length_based: 0
+type: constant
+Values {vector}
+3 1
+4 1
+5 1
+6 1
+7 1
+8 1
+9 1
+10 1
+11 1
+12 1
+13 1
+14 1
+15 1
+16 1
+17 1
+18 1
+19 1
+20 1
+*end
+
+*selectivity[recFdis]
+c: 1
+intervals: 5
+label: recFdis
+length_based: 0
+type: constant
+Values {vector}
+3 1
+4 1
+5 1
+6 1
+7 1
+8 1
+9 1
+10 1
+11 1
+12 1
+13 1
+14 1
+15 1
+16 1
+17 1
+18 1
+19 1
+20 1
+*end
+
+*selectivity[potSurveySel_female]
+a50: 3.32402
+alpha: 1
+ato95: 1.07887
+intervals: 5
+label: potSurveySel_female
+length_based: 0
+type: logistic
+Values {vector}
+3 0.292283
+4 0.863523
+5 0.989789
+6 0.999327
+7 0.999956
+8 0.999997
+9 1
+10 1
+11 1
+12 1
+13 1
+14 1
+15 1
+16 1
+17 1
+18 1
+19 1
+20 1
+*end
+
+*selectivity[potSurveySel_male]
+a50: 3.02547
+alpha: 1
+ato95: 0.125875
+intervals: 5
+label: potSurveySel_male
+length_based: 0
+type: logistic
+Values {vector}
+3 0.355326
+4 1
+5 1
+6 1
+7 1
+8 1
+9 1
+10 1
+11 1
+12 1
+13 1
+14 1
+15 1
+16 1
+17 1
+18 1
+19 1
+20 1
+*end
+
+*selectivity[One]
+c: 1
+intervals: 5
+label: One
+length_based: 0
+type: constant
+Values {vector}
+3 1
+4 1
+5 1
+6 1
+7 1
+8 1
+9 1
+10 1
+11 1
+12 1
+13 1
+14 1
+15 1
+16 1
+17 1
+18 1
+19 1
+20 1
 *end
 
 *info[messages_encountered]
-{string}
+Values {string}
+Creating default report for catchability potSurveyq
+Creating default report for catchability potCPUEq
+Creating default report for derived quantity SSB
+Creating default report for observation potSurvey
+Creating default report for observation potCPUE
+Creating default report for observation AFpotSurvey
+Creating default report for observation AFpotFishing
+Creating default report for observation lgobookLF
+Creating default report for observation rec.catch.LF
+Creating default report for process Recruitment
+Creating default report for process Ageing
+Creating default report for process Fishing
+Creating default report for selectivity MaturationSel_male
+Creating default report for selectivity MaturationSel_female
+Creating default report for selectivity lineFSel
+Creating default report for selectivity lineFretained
+Creating default report for selectivity potFSel
+Creating default report for selectivity potFretained
+Creating default report for selectivity recFretained
+Creating default report for selectivity recFSel
+Creating default report for selectivity potFdis
+Creating default report for selectivity recFdis
+Creating default report for selectivity potSurveySel_female
+Creating default report for selectivity potSurveySel_male
+Creating default report for selectivity One
 The likelihood for the observation 'lgobookLF' is multinomial. Normalised residuals can only be calculated for the lognormal, lognormal_with_Q, and normal likelihoods
 Initiating point estimate run mode
 Estimation with the adolc minimiser
@@ -2201,19 +2941,23 @@ Convergence check value = 9.66045e-06. Convergence tolerance   = 2e-05
 *end
 
 *important[messages_encountered]
-{string}
+Values {string}
 Setting 'params_est.out' as the output file for the free parameters
 *end
 
 *warnings[messages_encountered]
-{string}
+Values {string}
 Estimates were removed because of matching lower and upper bounds. Originally had 127 estimates, now have 42
-The report for derived_quantity with label 'DerivedQuantities' was requested. This derived_quantity was not found in the input configuration file and the report will not be generated
-The report for catchability with label 'Qs' was requested. This catchability was not found in the input configuration file and the report will not be generated
-estimated parameter 'age_length[asMm0].cv_last' was within 0.001 of lower bound 0.02(a)
-estimated parameter 'age_length[asMm0].cv_last' was within 0.001 of lower bound 0.02(a)
+Cannot report the length-based selectivity values. This report (__lineFSel__) is being ignored. This can be done using the Casal2 R package. See the User Manual for more information
+Cannot report the length-based selectivity values. This report (__lineFretained__) is being ignored. This can be done using the Casal2 R package. See the User Manual for more information
+Cannot report the length-based selectivity values. This report (__potFSel__) is being ignored. This can be done using the Casal2 R package. See the User Manual for more information
+Cannot report the length-based selectivity values. This report (__potFretained__) is being ignored. This can be done using the Casal2 R package. See the User Manual for more information
+Cannot report the length-based selectivity values. This report (__recFretained__) is being ignored. This can be done using the Casal2 R package. See the User Manual for more information
+Cannot report the length-based selectivity values. This report (__recFSel__) is being ignored. This can be done using the Casal2 R package. See the User Manual for more information
+estimated parameter 'age_length[asMm0].cv_last' was within 0.001 of lower bound 0.02
+estimated parameter 'age_length[asMm0].cv_last' was within 0.001 of lower bound 0.02
 *end
 
 [INFO] Completed
-[INFO] Total CPU time: -3.90919e+08 hours
-[INFO] Total elapsed time: 7.217 minutes
+[INFO] Total CPU time: -3.90905e+08 hours
+[INFO] Total elapsed time: 18.733 minutes

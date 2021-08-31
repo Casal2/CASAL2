@@ -1,18 +1,30 @@
 Environment: User=Casal2
 Call: ../../../../../BuildSystem/bin/linux_gcc/release_adolc/casal2 -e -o params_est.out
-Date: Mon Aug 30 13:30:18 2021
-Version: v21.08 (2021-08-30)
+Date: Tue Aug 31 14:38:19 2021
+Version: v21.08 (2021-08-31)
 Copyright (c) 2017-2021, NIWA (www.niwa.co.nz)
 c2user
  Machine=c2computer (Linux 5.10.0-8-amd64 x86_64)
- PID=84756
+ PID=323816
 
 
 
 [WARNING] Estimates were removed because of matching lower and upper bounds. Originally had 69 estimates, now have 67
 [IMPORTANT] Setting 'params_est.out' as the output file for the free parameters
-[WARNING] The report for derived_quantity with label 'DerivedQuantities' was requested. This derived_quantity was not found in the input configuration file and the report will not be generated
-[WARNING] The report for catchability with label 'Qs' was requested. This catchability was not found in the input configuration file and the report will not be generated
+[INFO] Creating default report for catchability TangaroaMatureq
+[INFO] Creating default report for catchability TangaroaImmatureq
+[INFO] Creating default report for derived quantity SSB
+[INFO] Creating default report for observation TangaroaAcousticMature
+[INFO] Creating default report for observation TangaroaAcousticImmature
+[INFO] Creating default report for observation ObserverProportionsAtAge
+[INFO] Creating default report for process Recruitment
+[INFO] Creating default report for process Ageing
+[INFO] Creating default report for process Maturity_Migration
+[INFO] Creating default report for process Instantaneous_Mortality
+[INFO] Creating default report for selectivity MaturationSel_male
+[INFO] Creating default report for selectivity MaturationSel_female
+[INFO] Creating default report for selectivity TangaroaImmatureSel
+[INFO] Creating default report for selectivity One
 [INFO] Initiating point estimate run mode
 
 ADOL-C message: exponent of zero/negative basis deactivated
@@ -1929,1208 +1941,18 @@ male.nonspawn 239743717.688736 4775527.036308 26592951.681706 4790.277734 265.09
 female.nonspawn 256068334.040113 6969479.615335 39596922.341335 7755.338588 427.740595 0.524368 0.015801 0.000293 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000
 *end
 
-[WARNING] estimated parameter 'selectivity[MaturationSel_male].v{4}' was within 0.001 of upper bound 0.999(a)
-[WARNING] estimated parameter 'selectivity[MaturationSel_female].v{4}' was within 0.001 of upper bound 0.999(a)
-[WARNING] estimated parameter 'process[Instantaneous_Mortality].m{female.nonspawn}' was within 0.001 of upper bound 0.05(a)
-[WARNING] estimated parameter 'observation[TangaroaAcousticMature].process_error' was within 0.001 of lower bound 0.0001(a)
-[WARNING] estimated parameter 'selectivity[MaturationSel_male].v{4}' was within 0.001 of upper bound 0.999(a)
-[WARNING] estimated parameter 'selectivity[MaturationSel_female].v{4}' was within 0.001 of upper bound 0.999(a)
-[WARNING] estimated parameter 'process[Instantaneous_Mortality].m{female.nonspawn}' was within 0.001 of upper bound 0.05(a)
-[WARNING] estimated parameter 'observation[TangaroaAcousticMature].process_error' was within 0.001 of lower bound 0.0001(a)
+[WARNING] estimated parameter 'selectivity[MaturationSel_male].v{4}' was within 0.001 of upper bound 0.999
+[WARNING] estimated parameter 'selectivity[MaturationSel_female].v{4}' was within 0.001 of upper bound 0.999
+[WARNING] estimated parameter 'process[Instantaneous_Mortality].m{female.nonspawn}' was within 0.001 of upper bound 0.05
+[WARNING] estimated parameter 'observation[TangaroaAcousticMature].process_error' was within 0.001 of lower bound 0.0001
+[WARNING] estimated parameter 'selectivity[MaturationSel_male].v{4}' was within 0.001 of upper bound 0.999
+[WARNING] estimated parameter 'selectivity[MaturationSel_female].v{4}' was within 0.001 of upper bound 0.999
+[WARNING] estimated parameter 'process[Instantaneous_Mortality].m{female.nonspawn}' was within 0.001 of upper bound 0.05
+[WARNING] estimated parameter 'observation[TangaroaAcousticMature].process_error' was within 0.001 of lower bound 0.0001
 *estimate_value[estimated_values]
 values {dataframe}
 process[Recruitment].b0 selectivity[MaturationSel_male].v{1} selectivity[MaturationSel_male].v{2} selectivity[MaturationSel_male].v{3} selectivity[MaturationSel_male].v{4} selectivity[MaturationSel_female].v{1} selectivity[MaturationSel_female].v{2} selectivity[MaturationSel_female].v{3} selectivity[MaturationSel_female].v{4} process[Recruitment].ycs_values{1958} process[Recruitment].ycs_values{1959} process[Recruitment].ycs_values{1960} process[Recruitment].ycs_values{1961} process[Recruitment].ycs_values{1962} process[Recruitment].ycs_values{1963} process[Recruitment].ycs_values{1964} process[Recruitment].ycs_values{1965} process[Recruitment].ycs_values{1966} process[Recruitment].ycs_values{1967} process[Recruitment].ycs_values{1968} process[Recruitment].ycs_values{1969} process[Recruitment].ycs_values{1970} process[Recruitment].ycs_values{1971} process[Recruitment].ycs_values{1972} process[Recruitment].ycs_values{1973} process[Recruitment].ycs_values{1974} process[Recruitment].ycs_values{1975} process[Recruitment].ycs_values{1976} process[Recruitment].ycs_values{1977} process[Recruitment].ycs_values{1978} process[Recruitment].ycs_values{1979} process[Recruitment].ycs_values{1980} process[Recruitment].ycs_values{1981} process[Recruitment].ycs_values{1982} process[Recruitment].ycs_values{1983} process[Recruitment].ycs_values{1984} process[Recruitment].ycs_values{1985} process[Recruitment].ycs_values{1986} process[Recruitment].ycs_values{1987} process[Recruitment].ycs_values{1988} process[Recruitment].ycs_values{1989} process[Recruitment].ycs_values{1990} process[Recruitment].ycs_values{1991} process[Recruitment].ycs_values{1992} process[Recruitment].ycs_values{1993} process[Recruitment].ycs_values{1994} process[Recruitment].ycs_values{1995} process[Recruitment].ycs_values{1996} process[Recruitment].ycs_values{1997} process[Recruitment].ycs_values{1998} process[Recruitment].ycs_values{1999} process[Recruitment].ycs_values{2000} process[Recruitment].ycs_values{2001} process[Recruitment].ycs_values{2002} process[Recruitment].ycs_values{2003} process[Recruitment].ycs_values{2004} process[Recruitment].ycs_values{2005} process[Recruitment].ycs_values{2006} process[Recruitment].ycs_values{2007} process[Recruitment].ycs_values{2008} process[Recruitment].ycs_values{2009} process[Recruitment].ycs_values{2010} process[Recruitment].ycs_values{2011} process[Recruitment].ycs_values{2012} process[Instantaneous_Mortality].m{male.nonspawn} process[Instantaneous_Mortality].m{female.nonspawn} observation[TangaroaAcousticMature].process_error
 799422 0.0820411 0.889596 0.0253688 0.998845 0.0192042 0.848637 0.00224634 0.99874 0.232804 0.24015 0.297022 0.216653 0.322778 0.271099 4.58489 1.03632 0.74839 0.493109 0.324095 0.154935 0.0823328 0.167277 0.106959 0.0533076 0.0533521 0.106589 0.041712 0.0324353 0.0386773 0.273444 0.256089 0.0625287 0.0223632 0.0847082 0.0800672 0.0706157 0.20174 0.109407 0.391252 0.0358928 0.288007 3.23674 0.571971 0.245744 0.13258 0.609539 0.372142 0.165432 0.28502 0.207394 0.282537 0.825827 0.414506 0.280811 0.259408 0.33969 1.9083 0.782379 0.197196 1.20427 0.165257 0.806714 0.107047 0.273977 0.277355 0.000113011
-*end
-
-*estimate_summary[estimated_summary]
-process[Recruitment].b0 {list}
-value: 799422
-std_dev: 4.74409e+07(a)
-estimation_phase:
-label: B0
-lower_bound: 30000
-mcmc:
-parameter: process[Recruitment].b0
-prior_applies_to_transform:
-same:
-transform_with_jacobian:
-transformation:
-type: uniform_log
-upper_bound: 800000
-{end_list}
-
-selectivity[MaturationSel_male].v{1} {list}
-value: 0.0820411
-std_dev: 0.294096(a)
-estimation_phase:
-label: Migration_male
-lower_bound: 0.001
-mcmc:
-parameter: selectivity[MaturationSel_male].v{1}
-prior_applies_to_transform:
-same:
-transform_with_jacobian:
-transformation:
-type: uniform
-upper_bound: 0.999
-{end_list}
-
-selectivity[MaturationSel_male].v{2} {list}
-value: 0.889596
-std_dev: 0.780967(a)
-estimation_phase:
-label: Migration_male
-lower_bound: 0.001
-mcmc:
-parameter: selectivity[MaturationSel_male].v{2}
-prior_applies_to_transform:
-same:
-transform_with_jacobian:
-transformation:
-type: uniform
-upper_bound: 0.999
-{end_list}
-
-selectivity[MaturationSel_male].v{3} {list}
-value: 0.0253688
-std_dev: 66.6747(a)
-estimation_phase:
-label: Migration_male
-lower_bound: 0.001
-mcmc:
-parameter: selectivity[MaturationSel_male].v{3}
-prior_applies_to_transform:
-same:
-transform_with_jacobian:
-transformation:
-type: uniform
-upper_bound: 0.999
-{end_list}
-
-selectivity[MaturationSel_male].v{4} {list}
-value: 0.998845
-std_dev: 101.954(a)
-estimation_phase:
-label: Migration_male
-lower_bound: 0.001
-mcmc:
-parameter: selectivity[MaturationSel_male].v{4}
-prior_applies_to_transform:
-same:
-transform_with_jacobian:
-transformation:
-type: uniform
-upper_bound: 0.999
-{end_list}
-
-selectivity[MaturationSel_female].v{1} {list}
-value: 0.0192042
-std_dev: 1.1687(a)
-estimation_phase:
-label: Migration_female
-lower_bound: 0.001
-mcmc:
-parameter: selectivity[MaturationSel_female].v{1}
-prior_applies_to_transform:
-same:
-transform_with_jacobian:
-transformation:
-type: uniform
-upper_bound: 0.999
-{end_list}
-
-selectivity[MaturationSel_female].v{2} {list}
-value: 0.848637
-std_dev: 0.407089(a)
-estimation_phase:
-label: Migration_female
-lower_bound: 0.001
-mcmc:
-parameter: selectivity[MaturationSel_female].v{2}
-prior_applies_to_transform:
-same:
-transform_with_jacobian:
-transformation:
-type: uniform
-upper_bound: 0.999
-{end_list}
-
-selectivity[MaturationSel_female].v{3} {list}
-value: 0.00224634
-std_dev: 12.1785(a)
-estimation_phase:
-label: Migration_female
-lower_bound: 0.001
-mcmc:
-parameter: selectivity[MaturationSel_female].v{3}
-prior_applies_to_transform:
-same:
-transform_with_jacobian:
-transformation:
-type: uniform
-upper_bound: 0.999
-{end_list}
-
-selectivity[MaturationSel_female].v{4} {list}
-value: 0.99874
-std_dev: 83.9873(a)
-estimation_phase:
-label: Migration_female
-lower_bound: 0.001
-mcmc:
-parameter: selectivity[MaturationSel_female].v{4}
-prior_applies_to_transform:
-same:
-transform_with_jacobian:
-transformation:
-type: uniform
-upper_bound: 0.999
-{end_list}
-
-process[Recruitment].ycs_values{1958} {list}
-value: 0.232804
-std_dev: 691.859(a)
-cv: 1.3
-estimation_phase:
-label: YCS
-lower_bound: 0.001
-mcmc:
-mu: 1
-parameter: process[Recruitment].ycs_values{1958}
-prior_applies_to_transform:
-same:
-transform_with_jacobian:
-transformation:
-type: lognormal
-upper_bound: 100
-{end_list}
-
-process[Recruitment].ycs_values{1959} {list}
-value: 0.24015
-std_dev: 665.737(a)
-cv: 1.3
-estimation_phase:
-label: YCS
-lower_bound: 0.001
-mcmc:
-mu: 1
-parameter: process[Recruitment].ycs_values{1959}
-prior_applies_to_transform:
-same:
-transform_with_jacobian:
-transformation:
-type: lognormal
-upper_bound: 100
-{end_list}
-
-process[Recruitment].ycs_values{1960} {list}
-value: 0.297022
-std_dev: 835.455(a)
-cv: 1.3
-estimation_phase:
-label: YCS
-lower_bound: 0.001
-mcmc:
-mu: 1
-parameter: process[Recruitment].ycs_values{1960}
-prior_applies_to_transform:
-same:
-transform_with_jacobian:
-transformation:
-type: lognormal
-upper_bound: 100
-{end_list}
-
-process[Recruitment].ycs_values{1961} {list}
-value: 0.216653
-std_dev: 839.413(a)
-cv: 1.3
-estimation_phase:
-label: YCS
-lower_bound: 0.001
-mcmc:
-mu: 1
-parameter: process[Recruitment].ycs_values{1961}
-prior_applies_to_transform:
-same:
-transform_with_jacobian:
-transformation:
-type: lognormal
-upper_bound: 100
-{end_list}
-
-process[Recruitment].ycs_values{1962} {list}
-value: 0.322778
-std_dev: 911.129(a)
-cv: 1.3
-estimation_phase:
-label: YCS
-lower_bound: 0.001
-mcmc:
-mu: 1
-parameter: process[Recruitment].ycs_values{1962}
-prior_applies_to_transform:
-same:
-transform_with_jacobian:
-transformation:
-type: lognormal
-upper_bound: 100
-{end_list}
-
-process[Recruitment].ycs_values{1963} {list}
-value: 0.271099
-std_dev: 1015.1(a)
-cv: 1.3
-estimation_phase:
-label: YCS
-lower_bound: 0.001
-mcmc:
-mu: 1
-parameter: process[Recruitment].ycs_values{1963}
-prior_applies_to_transform:
-same:
-transform_with_jacobian:
-transformation:
-type: lognormal
-upper_bound: 100
-{end_list}
-
-process[Recruitment].ycs_values{1964} {list}
-value: 4.58489
-std_dev: 139.959(a)
-cv: 1.3
-estimation_phase:
-label: YCS
-lower_bound: 0.001
-mcmc:
-mu: 1
-parameter: process[Recruitment].ycs_values{1964}
-prior_applies_to_transform:
-same:
-transform_with_jacobian:
-transformation:
-type: lognormal
-upper_bound: 100
-{end_list}
-
-process[Recruitment].ycs_values{1965} {list}
-value: 1.03632
-std_dev: 452.851(a)
-cv: 1.3
-estimation_phase:
-label: YCS
-lower_bound: 0.001
-mcmc:
-mu: 1
-parameter: process[Recruitment].ycs_values{1965}
-prior_applies_to_transform:
-same:
-transform_with_jacobian:
-transformation:
-type: lognormal
-upper_bound: 100
-{end_list}
-
-process[Recruitment].ycs_values{1966} {list}
-value: 0.74839
-std_dev: 351.79(a)
-cv: 1.3
-estimation_phase:
-label: YCS
-lower_bound: 0.001
-mcmc:
-mu: 1
-parameter: process[Recruitment].ycs_values{1966}
-prior_applies_to_transform:
-same:
-transform_with_jacobian:
-transformation:
-type: lognormal
-upper_bound: 100
-{end_list}
-
-process[Recruitment].ycs_values{1967} {list}
-value: 0.493109
-std_dev: 338.72(a)
-cv: 1.3
-estimation_phase:
-label: YCS
-lower_bound: 0.001
-mcmc:
-mu: 1
-parameter: process[Recruitment].ycs_values{1967}
-prior_applies_to_transform:
-same:
-transform_with_jacobian:
-transformation:
-type: lognormal
-upper_bound: 100
-{end_list}
-
-process[Recruitment].ycs_values{1968} {list}
-value: 0.324095
-std_dev: 410.195(a)
-cv: 1.3
-estimation_phase:
-label: YCS
-lower_bound: 0.001
-mcmc:
-mu: 1
-parameter: process[Recruitment].ycs_values{1968}
-prior_applies_to_transform:
-same:
-transform_with_jacobian:
-transformation:
-type: lognormal
-upper_bound: 100
-{end_list}
-
-process[Recruitment].ycs_values{1969} {list}
-value: 0.154935
-std_dev: 649.321(a)
-cv: 1.3
-estimation_phase:
-label: YCS
-lower_bound: 0.001
-mcmc:
-mu: 1
-parameter: process[Recruitment].ycs_values{1969}
-prior_applies_to_transform:
-same:
-transform_with_jacobian:
-transformation:
-type: lognormal
-upper_bound: 100
-{end_list}
-
-process[Recruitment].ycs_values{1970} {list}
-value: 0.0823328
-std_dev: 935.337(a)
-cv: 1.3
-estimation_phase:
-label: YCS
-lower_bound: 0.001
-mcmc:
-mu: 1
-parameter: process[Recruitment].ycs_values{1970}
-prior_applies_to_transform:
-same:
-transform_with_jacobian:
-transformation:
-type: lognormal
-upper_bound: 100
-{end_list}
-
-process[Recruitment].ycs_values{1971} {list}
-value: 0.167277
-std_dev: 491.935(a)
-cv: 1.3
-estimation_phase:
-label: YCS
-lower_bound: 0.001
-mcmc:
-mu: 1
-parameter: process[Recruitment].ycs_values{1971}
-prior_applies_to_transform:
-same:
-transform_with_jacobian:
-transformation:
-type: lognormal
-upper_bound: 100
-{end_list}
-
-process[Recruitment].ycs_values{1972} {list}
-value: 0.106959
-std_dev: 614.061(a)
-cv: 1.3
-estimation_phase:
-label: YCS
-lower_bound: 0.001
-mcmc:
-mu: 1
-parameter: process[Recruitment].ycs_values{1972}
-prior_applies_to_transform:
-same:
-transform_with_jacobian:
-transformation:
-type: lognormal
-upper_bound: 100
-{end_list}
-
-process[Recruitment].ycs_values{1973} {list}
-value: 0.0533076
-std_dev: 731.735(a)
-cv: 1.3
-estimation_phase:
-label: YCS
-lower_bound: 0.001
-mcmc:
-mu: 1
-parameter: process[Recruitment].ycs_values{1973}
-prior_applies_to_transform:
-same:
-transform_with_jacobian:
-transformation:
-type: lognormal
-upper_bound: 100
-{end_list}
-
-process[Recruitment].ycs_values{1974} {list}
-value: 0.0533521
-std_dev: 557.693(a)
-cv: 1.3
-estimation_phase:
-label: YCS
-lower_bound: 0.001
-mcmc:
-mu: 1
-parameter: process[Recruitment].ycs_values{1974}
-prior_applies_to_transform:
-same:
-transform_with_jacobian:
-transformation:
-type: lognormal
-upper_bound: 100
-{end_list}
-
-process[Recruitment].ycs_values{1975} {list}
-value: 0.106589
-std_dev: 450.429(a)
-cv: 1.3
-estimation_phase:
-label: YCS
-lower_bound: 0.001
-mcmc:
-mu: 1
-parameter: process[Recruitment].ycs_values{1975}
-prior_applies_to_transform:
-same:
-transform_with_jacobian:
-transformation:
-type: lognormal
-upper_bound: 100
-{end_list}
-
-process[Recruitment].ycs_values{1976} {list}
-value: 0.041712
-std_dev: 883.872(a)
-cv: 1.3
-estimation_phase:
-label: YCS
-lower_bound: 0.001
-mcmc:
-mu: 1
-parameter: process[Recruitment].ycs_values{1976}
-prior_applies_to_transform:
-same:
-transform_with_jacobian:
-transformation:
-type: lognormal
-upper_bound: 100
-{end_list}
-
-process[Recruitment].ycs_values{1977} {list}
-value: 0.0324353
-std_dev: 1081.17(a)
-cv: 1.3
-estimation_phase:
-label: YCS
-lower_bound: 0.001
-mcmc:
-mu: 1
-parameter: process[Recruitment].ycs_values{1977}
-prior_applies_to_transform:
-same:
-transform_with_jacobian:
-transformation:
-type: lognormal
-upper_bound: 100
-{end_list}
-
-process[Recruitment].ycs_values{1978} {list}
-value: 0.0386773
-std_dev: 690.414(a)
-cv: 1.3
-estimation_phase:
-label: YCS
-lower_bound: 0.001
-mcmc:
-mu: 1
-parameter: process[Recruitment].ycs_values{1978}
-prior_applies_to_transform:
-same:
-transform_with_jacobian:
-transformation:
-type: lognormal
-upper_bound: 100
-{end_list}
-
-process[Recruitment].ycs_values{1979} {list}
-value: 0.273444
-std_dev: 193.523(a)
-cv: 1.3
-estimation_phase:
-label: YCS
-lower_bound: 0.001
-mcmc:
-mu: 1
-parameter: process[Recruitment].ycs_values{1979}
-prior_applies_to_transform:
-same:
-transform_with_jacobian:
-transformation:
-type: lognormal
-upper_bound: 100
-{end_list}
-
-process[Recruitment].ycs_values{1980} {list}
-value: 0.256089
-std_dev: 197.646(a)
-cv: 1.3
-estimation_phase:
-label: YCS
-lower_bound: 0.001
-mcmc:
-mu: 1
-parameter: process[Recruitment].ycs_values{1980}
-prior_applies_to_transform:
-same:
-transform_with_jacobian:
-transformation:
-type: lognormal
-upper_bound: 100
-{end_list}
-
-process[Recruitment].ycs_values{1981} {list}
-value: 0.0625287
-std_dev: 544.034(a)
-cv: 1.3
-estimation_phase:
-label: YCS
-lower_bound: 0.001
-mcmc:
-mu: 1
-parameter: process[Recruitment].ycs_values{1981}
-prior_applies_to_transform:
-same:
-transform_with_jacobian:
-transformation:
-type: lognormal
-upper_bound: 100
-{end_list}
-
-process[Recruitment].ycs_values{1982} {list}
-value: 0.0223632
-std_dev: 1093.26(a)
-cv: 1.3
-estimation_phase:
-label: YCS
-lower_bound: 0.001
-mcmc:
-mu: 1
-parameter: process[Recruitment].ycs_values{1982}
-prior_applies_to_transform:
-same:
-transform_with_jacobian:
-transformation:
-type: lognormal
-upper_bound: 100
-{end_list}
-
-process[Recruitment].ycs_values{1983} {list}
-value: 0.0847082
-std_dev: 406.334(a)
-cv: 1.3
-estimation_phase:
-label: YCS
-lower_bound: 0.001
-mcmc:
-mu: 1
-parameter: process[Recruitment].ycs_values{1983}
-prior_applies_to_transform:
-same:
-transform_with_jacobian:
-transformation:
-type: lognormal
-upper_bound: 100
-{end_list}
-
-process[Recruitment].ycs_values{1984} {list}
-value: 0.0800672
-std_dev: 410.267(a)
-cv: 1.3
-estimation_phase:
-label: YCS
-lower_bound: 0.001
-mcmc:
-mu: 1
-parameter: process[Recruitment].ycs_values{1984}
-prior_applies_to_transform:
-same:
-transform_with_jacobian:
-transformation:
-type: lognormal
-upper_bound: 100
-{end_list}
-
-process[Recruitment].ycs_values{1985} {list}
-value: 0.0706157
-std_dev: 455.013(a)
-cv: 1.3
-estimation_phase:
-label: YCS
-lower_bound: 0.001
-mcmc:
-mu: 1
-parameter: process[Recruitment].ycs_values{1985}
-prior_applies_to_transform:
-same:
-transform_with_jacobian:
-transformation:
-type: lognormal
-upper_bound: 100
-{end_list}
-
-process[Recruitment].ycs_values{1986} {list}
-value: 0.20174
-std_dev: 215.573(a)
-cv: 1.3
-estimation_phase:
-label: YCS
-lower_bound: 0.001
-mcmc:
-mu: 1
-parameter: process[Recruitment].ycs_values{1986}
-prior_applies_to_transform:
-same:
-transform_with_jacobian:
-transformation:
-type: lognormal
-upper_bound: 100
-{end_list}
-
-process[Recruitment].ycs_values{1987} {list}
-value: 0.109407
-std_dev: 326.501(a)
-cv: 1.3
-estimation_phase:
-label: YCS
-lower_bound: 0.001
-mcmc:
-mu: 1
-parameter: process[Recruitment].ycs_values{1987}
-prior_applies_to_transform:
-same:
-transform_with_jacobian:
-transformation:
-type: lognormal
-upper_bound: 100
-{end_list}
-
-process[Recruitment].ycs_values{1988} {list}
-value: 0.391252
-std_dev: 150.011(a)
-cv: 1.3
-estimation_phase:
-label: YCS
-lower_bound: 0.001
-mcmc:
-mu: 1
-parameter: process[Recruitment].ycs_values{1988}
-prior_applies_to_transform:
-same:
-transform_with_jacobian:
-transformation:
-type: lognormal
-upper_bound: 100
-{end_list}
-
-process[Recruitment].ycs_values{1989} {list}
-value: 0.0358928
-std_dev: 727.363(a)
-cv: 1.3
-estimation_phase:
-label: YCS
-lower_bound: 0.001
-mcmc:
-mu: 1
-parameter: process[Recruitment].ycs_values{1989}
-prior_applies_to_transform:
-same:
-transform_with_jacobian:
-transformation:
-type: lognormal
-upper_bound: 100
-{end_list}
-
-process[Recruitment].ycs_values{1990} {list}
-value: 0.288007
-std_dev: 208.877(a)
-cv: 1.3
-estimation_phase:
-label: YCS
-lower_bound: 0.001
-mcmc:
-mu: 1
-parameter: process[Recruitment].ycs_values{1990}
-prior_applies_to_transform:
-same:
-transform_with_jacobian:
-transformation:
-type: lognormal
-upper_bound: 100
-{end_list}
-
-process[Recruitment].ycs_values{1991} {list}
-value: 3.23674
-std_dev: 47.4915(a)
-cv: 1.3
-estimation_phase:
-label: YCS
-lower_bound: 0.001
-mcmc:
-mu: 1
-parameter: process[Recruitment].ycs_values{1991}
-prior_applies_to_transform:
-same:
-transform_with_jacobian:
-transformation:
-type: lognormal
-upper_bound: 100
-{end_list}
-
-process[Recruitment].ycs_values{1992} {list}
-value: 0.571971
-std_dev: 130.074(a)
-cv: 1.3
-estimation_phase:
-label: YCS
-lower_bound: 0.001
-mcmc:
-mu: 1
-parameter: process[Recruitment].ycs_values{1992}
-prior_applies_to_transform:
-same:
-transform_with_jacobian:
-transformation:
-type: lognormal
-upper_bound: 100
-{end_list}
-
-process[Recruitment].ycs_values{1993} {list}
-value: 0.245744
-std_dev: 240.888(a)
-cv: 1.3
-estimation_phase:
-label: YCS
-lower_bound: 0.001
-mcmc:
-mu: 1
-parameter: process[Recruitment].ycs_values{1993}
-prior_applies_to_transform:
-same:
-transform_with_jacobian:
-transformation:
-type: lognormal
-upper_bound: 100
-{end_list}
-
-process[Recruitment].ycs_values{1994} {list}
-value: 0.13258
-std_dev: 428.744(a)
-cv: 1.3
-estimation_phase:
-label: YCS
-lower_bound: 0.001
-mcmc:
-mu: 1
-parameter: process[Recruitment].ycs_values{1994}
-prior_applies_to_transform:
-same:
-transform_with_jacobian:
-transformation:
-type: lognormal
-upper_bound: 100
-{end_list}
-
-process[Recruitment].ycs_values{1995} {list}
-value: 0.609539
-std_dev: 140.846(a)
-cv: 1.3
-estimation_phase:
-label: YCS
-lower_bound: 0.001
-mcmc:
-mu: 1
-parameter: process[Recruitment].ycs_values{1995}
-prior_applies_to_transform:
-same:
-transform_with_jacobian:
-transformation:
-type: lognormal
-upper_bound: 100
-{end_list}
-
-process[Recruitment].ycs_values{1996} {list}
-value: 0.372142
-std_dev: 173.727(a)
-cv: 1.3
-estimation_phase:
-label: YCS
-lower_bound: 0.001
-mcmc:
-mu: 1
-parameter: process[Recruitment].ycs_values{1996}
-prior_applies_to_transform:
-same:
-transform_with_jacobian:
-transformation:
-type: lognormal
-upper_bound: 100
-{end_list}
-
-process[Recruitment].ycs_values{1997} {list}
-value: 0.165432
-std_dev: 334.184(a)
-cv: 1.3
-estimation_phase:
-label: YCS
-lower_bound: 0.001
-mcmc:
-mu: 1
-parameter: process[Recruitment].ycs_values{1997}
-prior_applies_to_transform:
-same:
-transform_with_jacobian:
-transformation:
-type: lognormal
-upper_bound: 100
-{end_list}
-
-process[Recruitment].ycs_values{1998} {list}
-value: 0.28502
-std_dev: 220.29(a)
-cv: 1.3
-estimation_phase:
-label: YCS
-lower_bound: 0.001
-mcmc:
-mu: 1
-parameter: process[Recruitment].ycs_values{1998}
-prior_applies_to_transform:
-same:
-transform_with_jacobian:
-transformation:
-type: lognormal
-upper_bound: 100
-{end_list}
-
-process[Recruitment].ycs_values{1999} {list}
-value: 0.207394
-std_dev: 289.089(a)
-cv: 1.3
-estimation_phase:
-label: YCS
-lower_bound: 0.001
-mcmc:
-mu: 1
-parameter: process[Recruitment].ycs_values{1999}
-prior_applies_to_transform:
-same:
-transform_with_jacobian:
-transformation:
-type: lognormal
-upper_bound: 100
-{end_list}
-
-process[Recruitment].ycs_values{2000} {list}
-value: 0.282537
-std_dev: 233.861(a)
-cv: 1.3
-estimation_phase:
-label: YCS
-lower_bound: 0.001
-mcmc:
-mu: 1
-parameter: process[Recruitment].ycs_values{2000}
-prior_applies_to_transform:
-same:
-transform_with_jacobian:
-transformation:
-type: lognormal
-upper_bound: 100
-{end_list}
-
-process[Recruitment].ycs_values{2001} {list}
-value: 0.825827
-std_dev: 110.945(a)
-cv: 1.3
-estimation_phase:
-label: YCS
-lower_bound: 0.001
-mcmc:
-mu: 1
-parameter: process[Recruitment].ycs_values{2001}
-prior_applies_to_transform:
-same:
-transform_with_jacobian:
-transformation:
-type: lognormal
-upper_bound: 100
-{end_list}
-
-process[Recruitment].ycs_values{2002} {list}
-value: 0.414506
-std_dev: 165.18(a)
-cv: 1.3
-estimation_phase:
-label: YCS
-lower_bound: 0.001
-mcmc:
-mu: 1
-parameter: process[Recruitment].ycs_values{2002}
-prior_applies_to_transform:
-same:
-transform_with_jacobian:
-transformation:
-type: lognormal
-upper_bound: 100
-{end_list}
-
-process[Recruitment].ycs_values{2003} {list}
-value: 0.280811
-std_dev: 248.858(a)
-cv: 1.3
-estimation_phase:
-label: YCS
-lower_bound: 0.001
-mcmc:
-mu: 1
-parameter: process[Recruitment].ycs_values{2003}
-prior_applies_to_transform:
-same:
-transform_with_jacobian:
-transformation:
-type: lognormal
-upper_bound: 100
-{end_list}
-
-process[Recruitment].ycs_values{2004} {list}
-value: 0.259408
-std_dev: 235.911(a)
-cv: 1.3
-estimation_phase:
-label: YCS
-lower_bound: 0.001
-mcmc:
-mu: 1
-parameter: process[Recruitment].ycs_values{2004}
-prior_applies_to_transform:
-same:
-transform_with_jacobian:
-transformation:
-type: lognormal
-upper_bound: 100
-{end_list}
-
-process[Recruitment].ycs_values{2005} {list}
-value: 0.33969
-std_dev: 231.41(a)
-cv: 1.3
-estimation_phase:
-label: YCS
-lower_bound: 0.001
-mcmc:
-mu: 1
-parameter: process[Recruitment].ycs_values{2005}
-prior_applies_to_transform:
-same:
-transform_with_jacobian:
-transformation:
-type: lognormal
-upper_bound: 100
-{end_list}
-
-process[Recruitment].ycs_values{2006} {list}
-value: 1.9083
-std_dev: 74.6541(a)
-cv: 1.3
-estimation_phase:
-label: YCS
-lower_bound: 0.001
-mcmc:
-mu: 1
-parameter: process[Recruitment].ycs_values{2006}
-prior_applies_to_transform:
-same:
-transform_with_jacobian:
-transformation:
-type: lognormal
-upper_bound: 100
-{end_list}
-
-process[Recruitment].ycs_values{2007} {list}
-value: 0.782379
-std_dev: 120.983(a)
-cv: 1.3
-estimation_phase:
-label: YCS
-lower_bound: 0.001
-mcmc:
-mu: 1
-parameter: process[Recruitment].ycs_values{2007}
-prior_applies_to_transform:
-same:
-transform_with_jacobian:
-transformation:
-type: lognormal
-upper_bound: 100
-{end_list}
-
-process[Recruitment].ycs_values{2008} {list}
-value: 0.197196
-std_dev: 374.136(a)
-cv: 1.3
-estimation_phase:
-label: YCS
-lower_bound: 0.001
-mcmc:
-mu: 1
-parameter: process[Recruitment].ycs_values{2008}
-prior_applies_to_transform:
-same:
-transform_with_jacobian:
-transformation:
-type: lognormal
-upper_bound: 100
-{end_list}
-
-process[Recruitment].ycs_values{2009} {list}
-value: 1.20427
-std_dev: 102.561(a)
-cv: 1.3
-estimation_phase:
-label: YCS
-lower_bound: 0.001
-mcmc:
-mu: 1
-parameter: process[Recruitment].ycs_values{2009}
-prior_applies_to_transform:
-same:
-transform_with_jacobian:
-transformation:
-type: lognormal
-upper_bound: 100
-{end_list}
-
-process[Recruitment].ycs_values{2010} {list}
-value: 0.165257
-std_dev: 454.869(a)
-cv: 1.3
-estimation_phase:
-label: YCS
-lower_bound: 0.001
-mcmc:
-mu: 1
-parameter: process[Recruitment].ycs_values{2010}
-prior_applies_to_transform:
-same:
-transform_with_jacobian:
-transformation:
-type: lognormal
-upper_bound: 100
-{end_list}
-
-process[Recruitment].ycs_values{2011} {list}
-value: 0.806714
-std_dev: 161.675(a)
-cv: 1.3
-estimation_phase:
-label: YCS
-lower_bound: 0.001
-mcmc:
-mu: 1
-parameter: process[Recruitment].ycs_values{2011}
-prior_applies_to_transform:
-same:
-transform_with_jacobian:
-transformation:
-type: lognormal
-upper_bound: 100
-{end_list}
-
-process[Recruitment].ycs_values{2012} {list}
-value: 0.107047
-std_dev: 834.919(a)
-cv: 1.3
-estimation_phase:
-label: YCS
-lower_bound: 0.001
-mcmc:
-mu: 1
-parameter: process[Recruitment].ycs_values{2012}
-prior_applies_to_transform:
-same:
-transform_with_jacobian:
-transformation:
-type: lognormal
-upper_bound: 100
-{end_list}
-
-process[Instantaneous_Mortality].m{male.nonspawn} {list}
-value: 0.273977
-std_dev: 0.0391728(a)
-cv: 0.20
-estimation_phase: 1
-label: M_male_with_avg_prior
-lower_bound: 0.05
-mcmc:
-mu: 0.20
-parameter: process[Instantaneous_Mortality].m{male.nonspawn}
-prior_applies_to_transform: true
-same:
-transform_with_jacobian:
-transformation:
-type: lognormal
-upper_bound: 0.75
-{end_list}
-
-process[Instantaneous_Mortality].m{female.nonspawn} {list}
-value: 0.277355
-std_dev: 0.0206609(a)
-estimation_phase: 1
-label: M_female_with_diff_prior
-lognormal_transformation:
-lower_bound: -0.05
-mcmc:
-mu: 0.0
-parameter: process[Instantaneous_Mortality].m{female.nonspawn}
-prior_applies_to_transform: true
-same:
-sigma: 0.05
-transform_with_jacobian:
-transformation:
-type: normal_by_stdev
-upper_bound: 0.05
-{end_list}
-
-observation[TangaroaAcousticMature].process_error {list}
-value: 0.000113011
-std_dev: 348.494(a)
-estimation_phase:
-label: mature_process_error
-lower_bound: 0.0001
-mcmc:
-parameter: observation[TangaroaAcousticMature].process_error
-prior_applies_to_transform:
-same:
-transform_with_jacobian:
-transformation:
-type: uniform_log
-upper_bound: 1.0
-{end_list}
-
 *end
 
 *objective_function[obj_fun]
@@ -3266,6 +2088,2718 @@ additional_prior->TangaroaMatureq 5.1721
 jacobian->avg_diff 0
 total_negloglike 987.951
 total_score 987.951
+*end
+
+*process[Recruitment]
+age: 2
+b0: 799422
+b0_initialisation_phase:
+categories: male.nonspawn male.spawn female.nonspawn female.spawn
+label: Recruitment
+proportions: 0.5 0 0.5 0
+r0: 5.37722e+08
+ssb: SSB
+ssb_offset: 2
+standardise_ycs_years: 1958 1959 1960 1961 1962 1963 1964 1965 1966 1967 1968 1969 1970 1971 1972 1973 1974 1975 1976 1977 1978 1979 1980 1981 1982 1983 1984 1985 1986 1987 1988 1989 1990 1991 1992 1993 1994 1995 1996 1997 1998 1999 2000 2001 2002 2003 2004 2005 2006 2007 2008 2009 2010 2011 2012
+steepness: 0.9
+type: recruitment_beverton_holt
+ycs_years: 1958 1959 1960 1961 1962 1963 1964 1965 1966 1967 1968 1969 1970 1971 1972 1973 1974 1975 1976 1977 1978 1979 1980 1981 1982 1983 1984 1985 1986 1987 1988 1989 1990 1991 1992 1993 1994 1995 1996 1997 1998 1999 2000 2001 2002 2003 2004 2005 2006 2007 2008 2009 2010 2011 2012 2013
+standardised_ycs: 0.514608 0.530847 0.656561 0.478906 0.713493 0.599259 10.1348 2.29076 1.6543 1.09001 0.716404 0.342481 0.181995 0.369763 0.236431 0.117835 0.117934 0.235613 0.0922034 0.0716975 0.0854953 0.604442 0.566079 0.138218 0.0494333 0.187246 0.176987 0.156094 0.445942 0.241842 0.864853 0.0793403 0.636632 7.15474 1.26433 0.543211 0.293065 1.34737 0.822612 0.365684 0.63003 0.45844 0.624542 1.82547 0.916255 0.620727 0.573414 0.750878 4.21824 1.72943 0.435898 2.66202 0.365297 1.78322 0.236625 1
+ycs_values: 0.232804 0.24015 0.297022 0.216653 0.322778 0.271099 4.58489 1.03632 0.74839 0.493109 0.324095 0.154935 0.0823328 0.167277 0.106959 0.0533076 0.0533521 0.106589 0.041712 0.0324353 0.0386773 0.273444 0.256089 0.0625287 0.0223632 0.0847082 0.0800672 0.0706157 0.20174 0.109407 0.391252 0.0358928 0.288007 3.23674 0.571971 0.245744 0.13258 0.609539 0.372142 0.165432 0.28502 0.207394 0.282537 0.825827 0.414506 0.280811 0.259408 0.33969 1.9083 0.782379 0.197196 1.20427 0.165257 0.806714 0.107047 1
+true_ycs: 0.514608 0.530847 0.65651 0.478036 0.710815 0.595935 10.0526 2.26948 1.64069 1.10408 0.7268 0.347831 0.184771 0.374947 0.239239 0.118853 0.11849 0.235639 0.0916635 0.0707115 0.0836275 0.579292 0.532864 0.127837 0.0462165 0.176451 0.165737 0.144548 0.408704 0.218629 0.771872 0.0715361 0.572538 6.67946 1.17206 0.515043 0.293068 1.34966 0.824931 0.366055 0.630284 0.457623 0.621496 1.8129 0.907158 0.613428 0.569923 0.746619 4.18625 1.70946 0.429881 2.65729 0.365094 1.78018 0.236904 0.998378
+Recruits: 2.76716e+08 2.85448e+08 3.5302e+08 2.5705e+08 3.82221e+08 3.20447e+08 5.40552e+09 1.22035e+09 8.82238e+08 5.93686e+08 3.90817e+08 1.87036e+08 9.93556e+07 2.01617e+08 1.28644e+08 6.391e+07 6.37144e+07 1.26708e+08 4.92895e+07 3.80232e+07 4.49684e+07 3.11498e+08 2.86533e+08 6.87406e+07 2.48516e+07 9.48814e+07 8.91206e+07 7.77266e+07 2.19769e+08 1.17561e+08 4.15053e+08 3.84665e+07 3.07866e+08 3.59169e+09 6.30242e+08 2.7695e+08 1.57589e+08 7.25741e+08 4.43583e+08 1.96836e+08 3.38917e+08 2.46074e+08 3.34192e+08 9.74838e+08 4.87799e+08 3.29854e+08 3.0646e+08 4.01473e+08 2.25104e+09 9.19215e+08 2.31157e+08 1.42888e+09 1.96319e+08 9.57242e+08 1.27388e+08 5.3685e+08
+SSB: 799422 799422 797183 750239 703934 665729 617673 597694 615648 1.47699e+06 1.64809e+06 1.79115e+06 1.74161e+06 1.59166e+06 1.38444e+06 1.15578e+06 961859 802718 659554 532250 443129 311914 246429 203750 228034 249631 232152 206267 186778 165775 149799 162240 158927 224456 208503 269270 799682 851357 889443 829632 811184 751104 679523 639747 587371 559676 654983 663224 626934 562765 531574 751289 783758 753096 834843 755240
+*end
+
+*process[Instantaneous_Mortality]
+categories: male.nonspawn male.spawn female.nonspawn female.spawn
+label: Instantaneous_Mortality
+m: 0.273977 0.273977 0.277355 0.277355
+relative_m_by_age: One One One One
+time_step_proportions: 0.90000000000000002 0.10000000000000001
+type: mortality_instantaneous
+year: 1960 1961 1962 1963 1964 1965 1966 1967 1968 1969 1970 1971 1972 1973 1974 1975 1976 1977 1978 1979 1980 1981 1982 1983 1984 1985 1986 1987 1988 1989 1990 1991 1992 1993 1994 1995 1996 1997 1998 1999 2000 2001 2002 2003 2004 2005 2006 2007 2008 2009 2010 2011 2012 2013 2014 2015
+fishing_pressure[Trawl]: 0 0 0 0 0 0 0 0 0 0 0 0.00455273 0.0129322 0.0288884 0.0301844 0.00206731 0.0179342 0.0341029 0.0143486 0.0780145 0.0507574 0.0289766 0.0341288 0.0500273 0.0453875 0.0356767 0.0785048 0.0744101 0.110004 0.151762 0.0990131 0.0907192 0.0659337 0.03402 0.0144879 0.0121856 0.0183889 0.0225574 0.032946 0.0355878 0.0262246 0.0431941 0.0553902 0.0415145 0.0297871 0.0387383 0.0310437 0.0366381 0.0378178 0.0250326 0.0254821 0.0403253 0.0252237 0.0371857 0.0294222 0.0301428
+catch[Trawl]: 0 0 0 0 0 0 0 0 0 0 0 7262 18017 33868 29469 1661 11933 18460 6403 25305 12828 5989 7915 12803 10777 7490 15252 12804 17422 26611 16542 21314 14208 9316 11668 10436 16504 18923 27164 27205 18052 28232 33445 23718 19799 26190 19763 20996 20483 19040 20224 30982 21321 28606 23397 22100
+actual_catch[Trawl]: 0 0 0 0 0 0 0 0 0 0 0 7262 18017 33868 29469 1661 11933 18460 6403 25305 12828 5989 7915 12803 10777 7490 15252 12804 17422 26611 16542 21314 14208 9316 11668 10436 16504 18923 27164 27205 18052 28232 33445 23718 19799 26190 19763 20996 20483 19040 20224 30982 21321 28606 23397 22100
+*end
+
+*partition_mean_length[part_length_1]
+time_step: step1
+male.spawn {list}
+mean_lengths {dataframe}
+year 2 3 4 5 6 7 8 9 10 11 12 13 14 15
+1960 29.3107 33.8502 36.4551 39.4219 40.7614 41.8791 42.9256 43.8858 44.8865 45.3398 44.9126 46.3484 46.6014 46.8544
+2015 27.29 29.66 33.19 35.44 37.79 38.39 39.76 41.16 43.08 43.49 42.79 43.03 44.89 46.05
+{end_list}
+female.spawn {list}
+mean_lengths {dataframe}
+year 2 3 4 5 6 7 8 9 10 11 12 13 14 15
+1960 30.9619 35.3521 37.9558 40.9533 43.0528 44.7691 45.7537 46.437 48.2958 48.6735 49.1558 50.1777 50.3326 50.4874
+2015 28.39 31.48 34.17 36.84 39.21 40.82 42.21 44.07 45.03 46.51 47.31 48.17 49.76 49.55
+{end_list}
+male.nonspawn {list}
+mean_lengths {dataframe}
+year 2 3 4 5 6 7 8 9 10 11 12 13 14 15
+1960 29.3107 33.8502 36.4551 39.4219 40.7614 41.8791 42.9256 43.8858 44.8865 45.3398 44.9126 46.3484 46.6014 46.8544
+2015 27.29 29.66 33.19 35.44 37.79 38.39 39.76 41.16 43.08 43.49 42.79 43.03 44.89 46.05
+{end_list}
+female.nonspawn {list}
+mean_lengths {dataframe}
+year 2 3 4 5 6 7 8 9 10 11 12 13 14 15
+1960 30.9619 35.3521 37.9558 40.9533 43.0528 44.7691 45.7537 46.437 48.2958 48.6735 49.1558 50.1777 50.3326 50.4874
+2015 28.39 31.48 34.17 36.84 39.21 40.82 42.21 44.07 45.03 46.51 47.31 48.17 49.76 49.55
+{end_list}
+*end
+
+*partition_mean_length[part_length_2]
+time_step: step2
+male.spawn {list}
+mean_lengths {dataframe}
+year 2 3 4 5 6 7 8 9 10 11 12 13 14 15
+1960 28.7563 32.7502 36.1898 38.5293 40.6035 41.7851 42.8088 43.7386 44.5516 45.2174 45.5484 45.757 46.6014 46.8544
+2015 28.7563 30.78 33.93 35.63 38.05 38.94 39.87 41.21 42.7 43.39 42.87 43.12 45.15 46.24
+{end_list}
+female.spawn {list}
+mean_lengths {dataframe}
+year 2 3 4 5 6 7 8 9 10 11 12 13 14 15
+1960 28.9163 34.3972 37.8326 40.313 42.6702 44.3872 45.7216 46.6742 47.5947 48.7523 49.2088 49.7442 50.3326 50.4874
+2015 28.9163 32.43 35.08 37.11 39.55 40.88 42.2 44 45.43 46.76 47.56 48.3 49.58 49.75
+{end_list}
+male.nonspawn {list}
+mean_lengths {dataframe}
+year 2 3 4 5 6 7 8 9 10 11 12 13 14 15
+1960 28.7563 32.7502 36.1898 38.5293 40.6035 41.7851 42.8088 43.7386 44.5516 45.2174 45.5484 45.757 46.6014 46.8544
+2015 28.7563 30.78 33.93 35.63 38.05 38.94 39.87 41.21 42.7 43.39 42.87 43.12 45.15 46.24
+{end_list}
+female.nonspawn {list}
+mean_lengths {dataframe}
+year 2 3 4 5 6 7 8 9 10 11 12 13 14 15
+1960 28.9163 34.3972 37.8326 40.313 42.6702 44.3872 45.7216 46.6742 47.5947 48.7523 49.2088 49.7442 50.3326 50.4874
+2015 28.9163 32.43 35.08 37.11 39.55 40.88 42.2 44 45.43 46.76 47.56 48.3 49.58 49.75
+{end_list}
+*end
+
+*partition_mean_weight[part_weight_1]
+time_step: step1
+male.spawn {list}
+mean_weights {dataframe}
+year 2 3 4 5 6 7 8 9 10 11 12 13 14 15
+1960 0.000146523 0.000189556 0.000268372 0.000328714 0.000400897 0.000420907 0.000469107 0.000522085 0.000601124 0.00061899 0.0005887 0.000598969 0.0006827 0.000738737
+2015 0.000146523 0.000189556 0.000268372 0.000328714 0.000400897 0.000420907 0.000469107 0.000522085 0.000601124 0.00061899 0.0005887 0.000598969 0.0006827 0.000738737
+{end_list}
+female.spawn {list}
+mean_weights {dataframe}
+year 2 3 4 5 6 7 8 9 10 11 12 13 14 15
+1960 0.000160187 0.000221848 0.000287276 0.000364158 0.000443238 0.000503179 0.00055919 0.000640604 0.000685628 0.000759201 0.000801129 0.000847935 0.000939329 0.00092689
+2015 0.000160187 0.000221848 0.000287276 0.000364158 0.000443238 0.000503179 0.00055919 0.000640604 0.000685628 0.000759201 0.000801129 0.000847935 0.000939329 0.00092689
+{end_list}
+male.nonspawn {list}
+mean_weights {dataframe}
+year 2 3 4 5 6 7 8 9 10 11 12 13 14 15
+1960 0.000146523 0.000189556 0.000268372 0.000328714 0.000400897 0.000420907 0.000469107 0.000522085 0.000601124 0.00061899 0.0005887 0.000598969 0.0006827 0.000738737
+2015 0.000146523 0.000189556 0.000268372 0.000328714 0.000400897 0.000420907 0.000469107 0.000522085 0.000601124 0.00061899 0.0005887 0.000598969 0.0006827 0.000738737
+{end_list}
+female.nonspawn {list}
+mean_weights {dataframe}
+year 2 3 4 5 6 7 8 9 10 11 12 13 14 15
+1960 0.000160187 0.000221848 0.000287276 0.000364158 0.000443238 0.000503179 0.00055919 0.000640604 0.000685628 0.000759201 0.000801129 0.000847935 0.000939329 0.00092689
+2015 0.000160187 0.000221848 0.000287276 0.000364158 0.000443238 0.000503179 0.00055919 0.000640604 0.000685628 0.000759201 0.000801129 0.000847935 0.000939329 0.00092689
+{end_list}
+*end
+
+*partition_mean_weight[part_weight_2]
+time_step: step2
+male.spawn {list}
+mean_weights {dataframe}
+year 2 3 4 5 6 7 8 9 10 11 12 13 14 15
+1960 0.00017226 0.000212574 0.000287309 0.000334194 0.000409487 0.000439833 0.000473131 0.000524049 0.00058488 0.0006146 0.00059211 0.000602851 0.000695001 0.000748202
+2015 0.00017226 0.000212574 0.000287309 0.000334194 0.000409487 0.000439833 0.000473131 0.000524049 0.00058488 0.0006146 0.00059211 0.000602851 0.000695001 0.000748202
+{end_list}
+female.spawn {list}
+mean_weights {dataframe}
+year 2 3 4 5 6 7 8 9 10 11 12 13 14 15
+1960 0.000169735 0.000243644 0.000312089 0.000372637 0.000455466 0.000505514 0.000558773 0.000637402 0.000705009 0.000772138 0.000814548 0.000855169 0.00092866 0.000938734
+2015 0.000169735 0.000243644 0.000312089 0.000372637 0.000455466 0.000505514 0.000558773 0.000637402 0.000705009 0.000772138 0.000814548 0.000855169 0.00092866 0.000938734
+{end_list}
+male.nonspawn {list}
+mean_weights {dataframe}
+year 2 3 4 5 6 7 8 9 10 11 12 13 14 15
+1960 0.00017226 0.000212574 0.000287309 0.000334194 0.000409487 0.000439833 0.000473131 0.000524049 0.00058488 0.0006146 0.00059211 0.000602851 0.000695001 0.000748202
+2015 0.00017226 0.000212574 0.000287309 0.000334194 0.000409487 0.000439833 0.000473131 0.000524049 0.00058488 0.0006146 0.00059211 0.000602851 0.000695001 0.000748202
+{end_list}
+female.nonspawn {list}
+mean_weights {dataframe}
+year 2 3 4 5 6 7 8 9 10 11 12 13 14 15
+1960 0.000169735 0.000243644 0.000312089 0.000372637 0.000455466 0.000505514 0.000558773 0.000637402 0.000705009 0.000772138 0.000814548 0.000855169 0.00092866 0.000938734
+2015 0.000169735 0.000243644 0.000312089 0.000372637 0.000455466 0.000505514 0.000558773 0.000637402 0.000705009 0.000772138 0.000814548 0.000855169 0.00092866 0.000938734
+{end_list}
+*end
+
+*selectivity[MaturationSel_male]
+h: 6
+intervals: 5
+l: 2
+label: MaturationSel_male
+length_based: 0
+type: all_values_bounded
+v: 0.0820411 0.889596 0.0253688 0.998845 0.99
+Values {vector}
+2 0.0820411
+3 0.889596
+4 0.0253688
+5 0.998845
+6 0.99
+7 0.99
+8 0.99
+9 0.99
+10 0.99
+11 0.99
+12 0.99
+13 0.99
+14 0.99
+15 0.99
+*end
+
+*selectivity[MaturationSel_female]
+h: 6
+intervals: 5
+l: 2
+label: MaturationSel_female
+length_based: 0
+type: all_values_bounded
+v: 0.0192042 0.848637 0.00224634 0.99874 0.99
+Values {vector}
+2 0.0192042
+3 0.848637
+4 0.00224634
+5 0.99874
+6 0.99
+7 0.99
+8 0.99
+9 0.99
+10 0.99
+11 0.99
+12 0.99
+13 0.99
+14 0.99
+15 0.99
+*end
+
+*observation[TangaroaAcousticMature]
+observation_type: biomass
+likelihood: lognormal
+Values {dataframe}
+year category age length observed expected residual error_value process_error adjusted_error neglogLike pearsons_residuals normalised_residuals
+1993 male.spawn+female.spawn 0 0 16060 26075.7 -10015.7 0.24 0.000113011 0.24 0.420799 -1.60042 -1.92976
+1994 male.spawn+female.spawn 0 0 72168 77440 -5272 0.34 0.000113011 0.34 -1.10526 -0.200231 -0.0478029
+1995 male.spawn+female.spawn 0 0 53608 82444.2 -28836.2 0.3 0.000113011 0.3 -0.355214 -1.16589 -1.31944
+1998 male.spawn+female.spawn 0 0 91639 78553.9 13085.1 0.14 0.000113011 0.14 -1.28003 1.18982 1.17554
+2000 male.spawn+female.spawn 0 0 71749 65804.1 5944.94 0.17 0.000113011 0.17 -1.601 0.53143 0.596819
+2002 male.spawn+female.spawn 0 0 66034 56880.1 9153.87 0.68 0.000113011 0.68 -0.332273 0.236666 0.5503
+2004 male.spawn+female.spawn 0 0 42236 63427.6 -21191.6 0.35 0.000113011 0.35 -0.552439 -0.954593 -1.02621
+2006 male.spawn+female.spawn 0 0 43843 60711.4 -16868.4 0.32 0.000113011 0.32 -0.771131 -0.868266 -0.886424
+2009 male.spawn+female.spawn 0 0 99521 72753.8 26767.2 0.27 0.000113011 0.27 -0.464161 1.36265 1.31367
+2011 male.spawn+female.spawn 0 0 53299 72928.7 -19629.7 0.22 0.000113011 0.22 -0.636743 -1.22347 -1.3336
+2013 male.spawn+female.spawn 0 0 65801 73136.3 -7335.33 0.25 0.000113011 0.25 -1.35467 -0.401187 -0.30614
+*end
+
+*observation[TangaroaAcousticImmature]
+observation_type: biomass
+likelihood: lognormal
+Values {dataframe}
+year category age length observed expected residual error_value process_error adjusted_error neglogLike pearsons_residuals normalised_residuals
+1993 male.nonspawn+female.nonspawn 0 0 35208 28359 6849.01 0.25 0.001 0.250002 -0.899815 0.966036 1.0017
+1994 male.nonspawn+female.nonspawn 0 0 8018 12271.7 -4253.68 0.38 0.001 0.380001 -0.526145 -0.912169 -0.975228
+1995 male.nonspawn+female.nonspawn 0 0 15507 11109.7 4397.32 0.29 0.001 0.290002 -0.39279 1.36485 1.3156
+1998 male.nonspawn+female.nonspawn 0 0 6759 5249.59 1509.41 0.2 0.001 0.200002 -0.673777 1.43763 1.37513
+2000 male.nonspawn+female.nonspawn 0 0 1864 4146.82 -2282.82 0.24 0.001 0.240002 3.87451 -2.29373 -3.26058
+2002 male.nonspawn+female.nonspawn 0 0 247 4232.01 -3985.01 0.76 0.001 0.760001 7.09593 -1.23899 -3.87005
+2004 male.nonspawn+female.nonspawn 0 0 5617 7159.58 -1542.58 0.16 0.001 0.160003 -0.792437 -1.34658 -1.44669
+2006 male.nonspawn+female.nonspawn 0 0 3423 4537.41 -1114.41 0.24 0.001 0.240002 -0.865909 -1.02334 -1.07263
+2009 male.nonspawn+female.nonspawn 0 0 24479 11085.3 13393.7 0.26 0.001 0.260002 3.83765 4.64701 3.22526
+2011 male.nonspawn+female.nonspawn 0 0 14454 11752.6 2701.39 0.17 0.001 0.170003 -0.920856 1.35206 1.31013
+2013 male.nonspawn+female.nonspawn 0 0 8004 9673.6 -1669.6 0.55 0.001 0.550001 -0.659146 -0.313806 -0.111491
+*end
+
+*derived_quantity[SSB]
+SSB {list}
+type: biomass
+initialisation_phase[1]: 799422
+values {vector}
+1960 797183
+1961 750239
+1962 703934
+1963 665729
+1964 617673
+1965 597694
+1966 615648
+1967 1.47699e+06
+1968 1.64809e+06
+1969 1.79115e+06
+1970 1.74161e+06
+1971 1.59166e+06
+1972 1.38444e+06
+1973 1.15578e+06
+1974 961859
+1975 802718
+1976 659554
+1977 532250
+1978 443129
+1979 311914
+1980 246429
+1981 203750
+1982 228034
+1983 249631
+1984 232152
+1985 206267
+1986 186778
+1987 165775
+1988 149799
+1989 162240
+1990 158927
+1991 224456
+1992 208503
+1993 269270
+1994 799682
+1995 851357
+1996 889443
+1997 829632
+1998 811184
+1999 751104
+2000 679523
+2001 639747
+2002 587371
+2003 559676
+2004 654983
+2005 663224
+2006 626934
+2007 562765
+2008 531574
+2009 751289
+2010 783758
+2011 753096
+2012 834843
+2013 755240
+2014 783753
+2015 722349
+{end_list}
+*end
+
+*observation[TangaroaAcousticMature]
+observation_type: biomass
+likelihood: lognormal
+Values {dataframe}
+year category age length observed expected residual error_value process_error adjusted_error neglogLike pearsons_residuals normalised_residuals
+1993 male.spawn+female.spawn 0 0 16060 26075.7 -10015.7 0.24 0.000113011 0.24 0.420799 -1.60042 -1.92976
+1994 male.spawn+female.spawn 0 0 72168 77440 -5272 0.34 0.000113011 0.34 -1.10526 -0.200231 -0.0478029
+1995 male.spawn+female.spawn 0 0 53608 82444.2 -28836.2 0.3 0.000113011 0.3 -0.355214 -1.16589 -1.31944
+1998 male.spawn+female.spawn 0 0 91639 78553.9 13085.1 0.14 0.000113011 0.14 -1.28003 1.18982 1.17554
+2000 male.spawn+female.spawn 0 0 71749 65804.1 5944.94 0.17 0.000113011 0.17 -1.601 0.53143 0.596819
+2002 male.spawn+female.spawn 0 0 66034 56880.1 9153.87 0.68 0.000113011 0.68 -0.332273 0.236666 0.5503
+2004 male.spawn+female.spawn 0 0 42236 63427.6 -21191.6 0.35 0.000113011 0.35 -0.552439 -0.954593 -1.02621
+2006 male.spawn+female.spawn 0 0 43843 60711.4 -16868.4 0.32 0.000113011 0.32 -0.771131 -0.868266 -0.886424
+2009 male.spawn+female.spawn 0 0 99521 72753.8 26767.2 0.27 0.000113011 0.27 -0.464161 1.36265 1.31367
+2011 male.spawn+female.spawn 0 0 53299 72928.7 -19629.7 0.22 0.000113011 0.22 -0.636743 -1.22347 -1.3336
+2013 male.spawn+female.spawn 0 0 65801 73136.3 -7335.33 0.25 0.000113011 0.25 -1.35467 -0.401187 -0.30614
+*end
+
+*observation[TangaroaAcousticImmature]
+observation_type: biomass
+likelihood: lognormal
+Values {dataframe}
+year category age length observed expected residual error_value process_error adjusted_error neglogLike pearsons_residuals normalised_residuals
+1993 male.nonspawn+female.nonspawn 0 0 35208 28359 6849.01 0.25 0.001 0.250002 -0.899815 0.966036 1.0017
+1994 male.nonspawn+female.nonspawn 0 0 8018 12271.7 -4253.68 0.38 0.001 0.380001 -0.526145 -0.912169 -0.975228
+1995 male.nonspawn+female.nonspawn 0 0 15507 11109.7 4397.32 0.29 0.001 0.290002 -0.39279 1.36485 1.3156
+1998 male.nonspawn+female.nonspawn 0 0 6759 5249.59 1509.41 0.2 0.001 0.200002 -0.673777 1.43763 1.37513
+2000 male.nonspawn+female.nonspawn 0 0 1864 4146.82 -2282.82 0.24 0.001 0.240002 3.87451 -2.29373 -3.26058
+2002 male.nonspawn+female.nonspawn 0 0 247 4232.01 -3985.01 0.76 0.001 0.760001 7.09593 -1.23899 -3.87005
+2004 male.nonspawn+female.nonspawn 0 0 5617 7159.58 -1542.58 0.16 0.001 0.160003 -0.792437 -1.34658 -1.44669
+2006 male.nonspawn+female.nonspawn 0 0 3423 4537.41 -1114.41 0.24 0.001 0.240002 -0.865909 -1.02334 -1.07263
+2009 male.nonspawn+female.nonspawn 0 0 24479 11085.3 13393.7 0.26 0.001 0.260002 3.83765 4.64701 3.22526
+2011 male.nonspawn+female.nonspawn 0 0 14454 11752.6 2701.39 0.17 0.001 0.170003 -0.920856 1.35206 1.31013
+2013 male.nonspawn+female.nonspawn 0 0 8004 9673.6 -1669.6 0.55 0.001 0.550001 -0.659146 -0.313806 -0.111491
+*end
+
+*observation[ObserverProportionsAtAge]
+observation_type: process_removals_by_age
+likelihood: multinomial
+Values {dataframe}
+year category age length observed expected residual error_value process_error adjusted_error neglogLike pearsons_residuals
+1979 male.spawn 2 0 0.0059 0.00292405 0.00297595 12 0 12 0.376223 0.190923
+1979 male.spawn 3 0 0.0139 0.031528 -0.017628 12 0 12 0.501537 -0.349464
+1979 male.spawn 4 0 0.1321 0.0608082 0.0712918 12 0 12 4.78496 1.03341
+1979 male.spawn 5 0 0.0439 0.025081 0.018819 12 0 12 1.82213 0.416899
+1979 male.spawn 6 0 0.0066 0.0188187 -0.0122187 12 0 12 0.273909 -0.311491
+1979 male.spawn 7 0 0.0065 0.0285799 -0.0220799 12 0 12 0.237094 -0.459043
+1979 male.spawn 8 0 0.057 0.0330774 0.0239226 12 0 12 2.23265 0.463381
+1979 male.spawn 9 0 0.0087 0.0120855 -0.00338547 12 0 12 0.409281 -0.107329
+1979 male.spawn 10 0 0.013 0.0170547 -0.00405473 12 0 12 0.563719 -0.108484
+1979 male.spawn 11 0 0.0358 0.0269144 0.0088856 12 0 12 1.43206 0.1902
+1979 male.spawn 12 0 0.0657 0.0310464 0.0346536 12 0 12 2.6632 0.69212
+1979 male.spawn 13 0 0.0601 0.0350637 0.0250363 12 0 12 2.32524 0.471502
+1979 male.spawn 14 0 0.0931 0.0368782 0.0562218 12 0 12 3.74079 1.0334
+1979 male.spawn 15 0 0.1649 0.150658 0.0142424 12 0 12 4.41904 0.137923
+1979 female.spawn 2 0 0.0028 0.000684346 0.00211565 12 0 12 0.226364 0.28025
+1979 female.spawn 3 0 0.0079 0.0297988 -0.0218988 12 0 12 0.28541 -0.44615
+1979 female.spawn 4 0 0.08 0.0572136 0.0227864 12 0 12 2.73013 0.339868
+1979 female.spawn 5 0 0.024 0.0249094 -0.000909415 12 0 12 0.95738 -0.0202138
+1979 female.spawn 6 0 0.0093 0.018614 -0.00931402 12 0 12 0.389905 -0.238719
+1979 female.spawn 7 0 0.0029 0.028178 -0.025278 12 0 12 0.105101 -0.529157
+1979 female.spawn 8 0 0.0154 0.0325179 -0.0171179 12 0 12 0.552285 -0.334317
+1979 female.spawn 9 0 0 0.0118456 -0.0118456 12 0 12 0 -0.379277
+1979 female.spawn 10 0 0.0082 0.0166367 -0.00843674 12 0 12 0.353868 -0.228494
+1979 female.spawn 11 0 0.0082 0.0261266 -0.0179266 12 0 12 0.309456 -0.38931
+1979 female.spawn 12 0 0.0144 0.0300168 -0.0156168 12 0 12 0.528798 -0.317044
+1979 female.spawn 13 0 0.0198 0.0337789 -0.0139789 12 0 12 0.709611 -0.268042
+1979 female.spawn 14 0 0.0374 0.0354071 0.00199291 12 0 12 1.37796 0.0373561
+1979 female.spawn 15 0 0.0626 0.143755 -0.0811546 12 0 12 1.37296 -0.801297
+1980 male.spawn 2 0 0.0019 0.00454048 -0.00264048 16 0 16 0.147201 -0.157101
+1980 male.spawn 3 0 0.01 0.0317478 -0.0217478 16 0 16 0.479207 -0.496162
+1980 male.spawn 4 0 0.0254 0.0291098 -0.00370978 16 0 16 1.31732 -0.0882681
+1980 male.spawn 5 0 0.0381 0.0627335 -0.0246335 16 0 16 1.57655 -0.406354
+1980 male.spawn 6 0 0.0031 0.0230885 -0.0199885 16 0 16 0.16026 -0.532371
+1980 male.spawn 7 0 0.026 0.0173215 0.00867852 16 0 16 1.56675 0.266077
+1980 male.spawn 8 0 0.0146 0.026306 -0.011706 16 0 16 0.755447 -0.292571
+1980 male.spawn 9 0 0.0266 0.0304457 -0.0038457 16 0 16 1.36526 -0.0895338
+1980 male.spawn 10 0 0 0.0111239 -0.0111239 16 0 16 0 -0.424247
+1980 male.spawn 11 0 0.0213 0.0156978 0.00560216 16 0 16 1.30162 0.180273
+1980 male.spawn 12 0 0.0659 0.0247731 0.0411269 16 0 16 3.92311 1.05838
+1980 male.spawn 13 0 0.0517 0.0285763 0.0231237 16 0 16 2.87778 0.555148
+1980 male.spawn 14 0 0.0824 0.032274 0.050126 16 0 16 4.69204 1.13454
+1980 male.spawn 15 0 0.3443 0.172615 0.171685 16 0 16 15.3556 1.81718
+1980 female.spawn 2 0 0.0003 0.00106266 -0.000762655 16 0 16 0.0301138 -0.0936317
+1980 female.spawn 3 0 0.0025 0.0301388 -0.0276388 16 0 16 0.11828 -0.646639
+1980 female.spawn 4 0 0.0041 0.0273471 -0.0232471 16 0 16 0.20167 -0.570157
+1980 female.spawn 5 0 0.0334 0.0625211 -0.0291211 16 0 16 1.36251 -0.481143
+1980 female.spawn 6 0 0.0074 0.022855 -0.015455 16 0 16 0.389955 -0.413676
+1980 female.spawn 7 0 0.0064 0.0170753 -0.0106753 16 0 16 0.365895 -0.329607
+1980 female.spawn 8 0 0.0095 0.0258486 -0.0163486 16 0 16 0.485624 -0.412106
+1980 female.spawn 9 0 0.0114 0.0298298 -0.0184298 16 0 16 0.560545 -0.433342
+1980 female.spawn 10 0 0.0046 0.0108664 -0.00626638 16 0 16 0.294645 -0.241772
+1980 female.spawn 11 0 0.013 0.0152615 -0.00226146 16 0 16 0.782298 -0.0737887
+1980 female.spawn 12 0 0.0031 0.0239668 -0.0208668 16 0 16 0.158408 -0.545731
+1980 female.spawn 13 0 0.0214 0.0275355 -0.00613549 16 0 16 1.11565 -0.149978
+1980 female.spawn 14 0 0.0358 0.0309865 0.00481345 16 0 16 1.87432 0.111113
+1980 female.spawn 15 0 0.136 0.164351 -0.0283512 16 0 16 4.79085 -0.306008
+1981 male.spawn 2 0 0.1238 0.037655 0.086145 39 0 39 20.3302 2.82609
+1981 male.spawn 3 0 0.008 0.0450642 -0.0370642 39 0 39 0.856973 -1.11579
+1981 male.spawn 4 0 0.0096 0.0275164 -0.0179164 39 0 39 1.22751 -0.683985
+1981 male.spawn 5 0 0.0147 0.0283034 -0.0136034 39 0 39 1.92804 -0.512266
+1981 male.spawn 6 0 0.0227 0.0542149 -0.0315149 39 0 39 2.53633 -0.869146
+1981 male.spawn 7 0 0.0182 0.0199507 -0.00175071 39 0 39 2.68478 -0.0781886
+1981 male.spawn 8 0 0.005 0.0149674 -0.00996744 39 0 39 0.735453 -0.512645
+1981 male.spawn 9 0 0.0235 0.022731 0.000769026 39 0 39 3.43505 0.0322223
+1981 male.spawn 10 0 0.0248 0.026308 -0.00150805 39 0 39 3.50504 -0.0588427
+1981 male.spawn 11 0 0.0053 0.00961216 -0.00431216 39 0 39 0.872783 -0.276003
+1981 male.spawn 12 0 0.0212 0.0135645 0.00763554 39 0 39 3.49231 0.412227
+1981 male.spawn 13 0 0.0423 0.0214063 0.0208937 39 0 39 6.73687 0.901518
+1981 male.spawn 14 0 0.0427 0.0246927 0.0180073 39 0 39 6.57113 0.724644
+1981 male.spawn 15 0 0.2575 0.177044 0.0804558 39 0 39 32.5916 1.31632
+1981 female.spawn 2 0 0.0326 0.00881278 0.0237872 39 0 39 6.15295 1.58943
+1981 female.spawn 3 0 0.0015 0.0426997 -0.0411997 39 0 39 0.153454 -1.27259
+1981 female.spawn 4 0 0.0116 0.0259658 -0.0143658 39 0 39 1.53026 -0.564123
+1981 female.spawn 5 0 0.0037 0.0282253 -0.0245253 39 0 39 0.447531 -0.924793
+1981 female.spawn 6 0 0.0359 0.0538535 -0.0179535 39 0 39 4.3073 -0.496701
+1981 female.spawn 7 0 0.0075 0.0196824 -0.0121824 39 0 39 1.04207 -0.547701
+1981 female.spawn 8 0 0.007 0.014705 -0.00770498 39 0 39 1.04875 -0.39975
+1981 female.spawn 9 0 0.0215 0.0222604 -0.000760386 39 0 39 3.13088 -0.0321876
+1981 female.spawn 10 0 0.017 0.0256889 -0.0086889 39 0 39 2.32473 -0.342985
+1981 female.spawn 11 0 0.0071 0.00935794 -0.00225794 39 0 39 1.18959 -0.146452
+1981 female.spawn 12 0 0.0165 0.0131429 0.00335709 39 0 39 2.68125 0.184087
+1981 female.spawn 13 0 0.0206 0.0206398 -3.98184e-05 39 0 39 3.04751 -0.00174901
+1981 female.spawn 14 0 0.024 0.0237131 0.000286901 39 0 39 3.47654 0.0117756
+1981 female.spawn 15 0 0.1744 0.168222 0.00617844 39 0 39 20.2516 0.103149
+1982 male.spawn 2 0 0.0648 0.0254599 0.0393401 39 0 39 10.5076 1.5597
+1982 male.spawn 3 0 0.2994 0.229912 0.0694877 39 0 39 36.3398 1.03131
+1982 male.spawn 4 0 0.0346 0.0245287 0.0100713 39 0 39 5.18795 0.406608
+1982 male.spawn 5 0 0.0024 0.0167191 -0.0143191 39 0 39 0.335805 -0.697435
+1982 male.spawn 6 0 0.0117 0.0153622 -0.00366224 39 0 39 1.78396 -0.185958
+1982 male.spawn 7 0 0.0432 0.0294224 0.0137776 39 0 39 6.36337 0.509158
+1982 male.spawn 8 0 0.0039 0.0108272 -0.00692722 39 0 39 0.61831 -0.41802
+1982 male.spawn 9 0 0.0036 0.00812281 -0.00452281 39 0 39 0.609914 -0.314672
+1982 male.spawn 10 0 0.0088 0.0123361 -0.00353607 39 0 39 1.394 -0.20006
+1982 male.spawn 11 0 0.0178 0.0142773 0.00352266 39 0 39 2.85271 0.185439
+1982 male.spawn 12 0 0.0037 0.00521651 -0.00151651 39 0 39 0.691166 -0.131469
+1982 male.spawn 13 0 0.0019 0.00736142 -0.00546142 39 0 39 0.325531 -0.398989
+1982 male.spawn 14 0 0.0019 0.0116172 -0.00971719 39 0 39 0.291724 -0.566317
+1982 male.spawn 15 0 0.1078 0.109482 -0.00168236 39 0 39 12.7898 -0.0336478
+1982 female.spawn 2 0 0.0505 0.00595864 0.0445414 39 0 39 10.7548 3.61426
+1982 female.spawn 3 0 0.1348 0.217522 -0.0827217 39 0 39 13.2518 -1.25217
+1982 female.spawn 4 0 0.0279 0.0231042 0.00479576 39 0 39 4.13938 0.199352
+1982 female.spawn 5 0 0.0229 0.0166946 0.00620536 39 0 39 3.61374 0.302459
+1982 female.spawn 6 0 0.002 0.0152694 -0.0132694 39 0 39 0.285989 -0.675794
+1982 female.spawn 7 0 0.0228 0.0291277 -0.00632772 39 0 39 3.10148 -0.234988
+1982 female.spawn 8 0 0.0063 0.0106456 -0.0043456 39 0 39 1.01884 -0.264436
+1982 female.spawn 9 0 0.0048 0.00795346 -0.00315346 39 0 39 0.823383 -0.221705
+1982 female.spawn 10 0 0.0116 0.0120399 -0.000439938 39 0 39 1.87795 -0.0251908
+1982 female.spawn 11 0 0.0085 0.0138943 -0.00539431 39 0 39 1.30464 -0.287798
+1982 female.spawn 12 0 0.0075 0.00506141 0.00243859 39 0 39 1.43931 0.214603
+1982 female.spawn 13 0 0.0048 0.00710858 -0.00230858 39 0 39 0.844406 -0.171607
+1982 female.spawn 14 0 0.012 0.0111634 0.000836575 39 0 39 1.98225 0.0497252
+1982 female.spawn 15 0 0.0781 0.103811 -0.0257114 39 0 39 8.74922 -0.526424
+1983 male.spawn 2 0 0.0239 0.00538166 0.0185183 34 0 34 4.1782 1.47589
+1983 male.spawn 3 0 0.2128 0.18625 0.0265502 34 0 34 21.1628 0.397661
+1983 male.spawn 4 0 0.1646 0.149212 0.0153884 34 0 34 16.4827 0.251837
+1983 male.spawn 5 0 0.0043 0.0177329 -0.0134329 34 0 34 0.521577 -0.593477
+1983 male.spawn 6 0 0.0055 0.0108199 -0.00531986 34 0 34 0.764923 -0.299841
+1983 male.spawn 7 0 0.0108 0.00994049 0.000859512 34 0 34 1.57617 0.0505193
+1983 male.spawn 8 0 0.0202 0.0190384 0.0011616 34 0 34 2.62213 0.0495627
+1983 male.spawn 9 0 0.0029 0.00700599 -0.00410599 34 0 34 0.439876 -0.287045
+1983 male.spawn 10 0 0 0.00525604 -0.00525604 34 0 34 0 -0.423851
+1983 male.spawn 11 0 0.0179 0.00798232 0.00991768 34 0 34 2.82838 0.649868
+1983 male.spawn 12 0 0.0135 0.00923847 0.00426153 34 0 34 2.02865 0.259729
+1983 male.spawn 13 0 0 0.00337545 -0.00337545 34 0 34 0 -0.339344
+1983 male.spawn 14 0 0.0035 0.00476336 -0.00126336 34 0 34 0.578602 -0.106991
+1983 male.spawn 15 0 0.1003 0.0783601 0.0219399 34 0 34 11.0139 0.476043
+1983 female.spawn 2 0 0.0094 0.00125952 0.00814048 34 0 34 2.0227 1.33832
+1983 female.spawn 3 0 0.1773 0.176275 0.0010251 34 0 34 17.0953 0.0156862
+1983 female.spawn 4 0 0.1145 0.140334 -0.0258344 34 0 34 10.663 -0.433701
+1983 female.spawn 5 0 0.0076 0.0176617 -0.0100617 34 0 34 0.942855 -0.445413
+1983 female.spawn 6 0 0.0102 0.0107684 -0.000568408 34 0 34 1.45653 -0.0321125
+1983 female.spawn 7 0 0.0015 0.00984712 -0.00834712 34 0 34 0.208299 -0.492913
+1983 female.spawn 8 0 0.0218 0.0187842 0.00301584 34 0 34 2.85953 0.12953
+1983 female.spawn 9 0 0.0067 0.00686524 -0.000165236 34 0 34 1.04181 -0.0116684
+1983 female.spawn 10 0 0 0.0051291 -0.0051291 34 0 34 0 -0.418675
+1983 female.spawn 11 0 0.0038 0.00776443 -0.00396443 34 0 34 0.566037 -0.263365
+1983 female.spawn 12 0 0.0022 0.0089603 -0.0067603 34 0 34 0.313945 -0.41831
+1983 female.spawn 13 0 0 0.00326405 -0.00326405 34 0 34 0 -0.333678
+1983 female.spawn 14 0 0.0015 0.00458425 -0.00308425 34 0 34 0.247291 -0.266227
+1983 female.spawn 15 0 0.0631 0.074146 -0.011046 34 0 34 6.41314 -0.245828
+1984 male.spawn 2 0 0.0017 0.00232143 -0.000621426 46 0 46 0.434037 -0.0875781
+1984 male.spawn 3 0 0.0287 0.0532353 -0.0245353 46 0 46 4.03861 -0.741223
+1984 male.spawn 4 0 0.1417 0.161001 -0.0193006 46 0 46 19.4743 -0.356168
+1984 male.spawn 5 0 0.1876 0.143977 0.0436231 46 0 46 28.7001 0.842765
+1984 male.spawn 6 0 0.0297 0.0152847 0.0144153 46 0 46 5.90704 0.796931
+1984 male.spawn 7 0 0.0244 0.00932489 0.0150751 46 0 46 5.30376 1.06378
+1984 male.spawn 8 0 0.0192 0.00856701 0.010633 46 0 46 4.15902 0.782507
+1984 male.spawn 9 0 0.0415 0.0164079 0.0250921 46 0 46 8.45681 1.33962
+1984 male.spawn 10 0 0.0128 0.00603797 0.00676203 46 0 46 2.89463 0.592005
+1984 male.spawn 11 0 0.0044 0.00452981 -0.000129813 46 0 46 1.0063 -0.0131112
+1984 male.spawn 12 0 0.0039 0.0068794 -0.0029794 46 0 46 0.814124 -0.244474
+1984 male.spawn 13 0 0.0185 0.00796199 0.010538 46 0 46 4.05735 0.804198
+1984 male.spawn 14 0 0.0061 0.00290907 0.00319093 46 0 46 1.534 0.401839
+1984 male.spawn 15 0 0.0951 0.0716383 0.0234617 46 0 46 15.2894 0.617032
+1984 female.spawn 2 0 0.0005 0.000543307 -4.33072e-05 46 0 46 0.160065 -0.0126047
+1984 female.spawn 3 0 0.0276 0.0504395 -0.0228395 46 0 46 3.92847 -0.707814
+1984 female.spawn 4 0 0.128 0.151469 -0.0234691 46 0 46 17.4833 -0.443996
+1984 female.spawn 5 0 0.1285 0.143364 -0.0148642 46 0 46 17.8945 -0.287676
+1984 female.spawn 6 0 0.01 0.0151731 -0.00517312 46 0 46 1.8051 -0.287021
+1984 female.spawn 7 0 0.0038 0.00924926 -0.00544926 46 0 46 0.740942 -0.386083
+1984 female.spawn 8 0 0.0049 0.00845792 -0.00355792 46 0 46 0.983445 -0.263504
+1984 female.spawn 9 0 0.0167 0.0161342 0.000565849 46 0 46 3.09045 0.0304606
+1984 female.spawn 10 0 0.0056 0.00589671 -0.00029671 46 0 46 1.22239 -0.026284
+1984 female.spawn 11 0 0.0009 0.0044055 -0.0035055 46 0 46 0.202076 -0.358997
+1984 female.spawn 12 0 0.0036 0.00666905 -0.00306905 46 0 46 0.755031 -0.255743
+1984 female.spawn 13 0 0.0095 0.00769621 0.00180379 46 0 46 2.0057 0.139993
+1984 female.spawn 14 0 0.0045 0.00280357 0.00169643 46 0 46 1.12914 0.217605
+1984 female.spawn 15 0 0.0405 0.0676233 -0.0271233 46 0 46 5.58905 -0.732617
+1985 male.spawn 2 0 0.0202 0.0109921 0.00920787 32 0 32 2.80981 0.499567
+1985 male.spawn 3 0 0.0082 0.0238796 -0.0156796 32 0 32 0.878993 -0.580958
+1985 male.spawn 4 0 0.0861 0.048067 0.038033 32 0 32 9.85544 1.0058
+1985 male.spawn 5 0 0.1896 0.162482 0.0271184 32 0 32 17.7307 0.415854
+1985 male.spawn 6 0 0.1193 0.129625 -0.0103253 32 0 32 10.7068 -0.173893
+1985 male.spawn 7 0 0.0033 0.0137593 -0.0104593 32 0 32 0.400382 -0.507913
+1985 male.spawn 8 0 0.0063 0.00839431 -0.00209431 32 0 32 0.877854 -0.129854
+1985 male.spawn 9 0 0.013 0.00771206 0.00528794 32 0 32 1.90336 0.341946
+1985 male.spawn 10 0 0.0212 0.0147704 0.00642956 32 0 32 2.75942 0.301503
+1985 male.spawn 11 0 0.0157 0.00543541 0.0102646 32 0 32 2.49923 0.789739
+1985 male.spawn 12 0 0.0038 0.00407776 -0.000277761 32 0 32 0.610374 -0.024656
+1985 male.spawn 13 0 0.0229 0.00619287 0.0167071 32 0 32 3.63727 1.2047
+1985 male.spawn 14 0 0.0119 0.00716742 0.00473258 32 0 32 1.76223 0.317361
+1985 male.spawn 15 0 0.0892 0.0671079 0.0220921 32 0 32 9.32295 0.49947
+1985 female.spawn 2 0 0.0031 0.0025726 0.000527399 32 0 32 0.541981 0.0588963
+1985 female.spawn 3 0 0.0036 0.0226183 -0.0190183 32 0 32 0.380343 -0.723576
+1985 female.spawn 4 0 0.0493 0.0452714 0.00402862 32 0 32 5.2235 0.109617
+1985 female.spawn 5 0 0.1134 0.161936 -0.0485359 32 0 32 9.24109 -0.745295
+1985 female.spawn 6 0 0.125 0.128649 -0.00364876 32 0 32 11.3807 -0.0616483
+1985 female.spawn 7 0 0.0116 0.0136129 -0.00201288 32 0 32 1.47753 -0.0982642
+1985 female.spawn 8 0 0.002 0.00829815 -0.00629815 32 0 32 0.272997 -0.392741
+1985 female.spawn 9 0 0.0018 0.00758818 -0.00578818 32 0 32 0.250562 -0.377313
+1985 female.spawn 10 0 0.0103 0.0144751 -0.00417506 32 0 32 1.28327 -0.19774
+1985 female.spawn 11 0 0 0.00529035 -0.00529035 32 0 32 0 -0.412543
+1985 female.spawn 12 0 0.0055 0.00395248 0.00154752 32 0 32 0.895812 0.13952
+1985 female.spawn 13 0 0.0174 0.00598326 0.0114167 32 0 32 2.73292 0.837435
+1985 female.spawn 14 0 0.018 0.0069048 0.0110952 32 0 32 2.75054 0.757948
+1985 female.spawn 15 0 0.0283 0.0631848 -0.0348848 32 0 32 2.46401 -0.811107
+1986 male.spawn 2 0 0.0255 0.0111861 0.0143139 45 0 45 5.22498 0.91299
+1986 male.spawn 3 0 0.068 0.0988646 -0.0308646 45 0 45 8.94849 -0.693668
+1986 male.spawn 4 0 0.0264 0.0190264 0.00737361 45 0 45 4.79723 0.362059
+1986 male.spawn 5 0 0.0414 0.0427453 -0.00134532 45 0 45 6.4436 -0.0446142
+1986 male.spawn 6 0 0.1421 0.129091 0.0130087 45 0 45 20.4208 0.260258
+1986 male.spawn 7 0 0.1195 0.102974 0.0165259 45 0 45 17.6687 0.364759
+1986 male.spawn 8 0 0.018 0.0109304 0.00706963 45 0 45 3.58993 0.456112
+1986 male.spawn 9 0 0.0078 0.00666841 0.00113159 45 0 45 1.64329 0.0932688
+1986 male.spawn 10 0 0.0112 0.00612644 0.00507356 45 0 45 2.44732 0.436164
+1986 male.spawn 11 0 0.0151 0.0117336 0.00336641 45 0 45 2.92067 0.209711
+1986 male.spawn 12 0 0 0.00431787 -0.00431787 45 0 45 0 -0.441754
+1986 male.spawn 13 0 0.0089 0.00323936 0.00566064 45 0 45 2.17617 0.668262
+1986 male.spawn 14 0 0.0089 0.0049196 0.0039804 45 0 45 2.00883 0.381627
+1986 male.spawn 15 0 0.0922 0.0590041 0.0331959 45 0 45 15.1472 0.945053
+1986 female.spawn 2 0 0.0065 0.00261801 0.00388199 45 0 45 1.63214 0.509618
+1986 female.spawn 3 0 0.0465 0.0935798 -0.0470798 45 0 45 5.73718 -1.08439
+1986 female.spawn 4 0 0.0264 0.0179146 0.00848544 45 0 45 4.86876 0.429144
+1986 female.spawn 5 0 0.0218 0.0426111 -0.0208111 45 0 45 3.08777 -0.691188
+1986 female.spawn 6 0 0.0916 0.128234 -0.0366342 45 0 45 11.8296 -0.735006
+1986 female.spawn 7 0 0.1089 0.101854 0.00704632 45 0 45 15.8124 0.156281
+1986 female.spawn 8 0 0.0121 0.0107776 0.00132244 45 0 45 2.3485 0.0859164
+1986 female.spawn 9 0 0.0092 0.00656979 0.00263021 45 0 45 1.96009 0.2184
+1986 female.spawn 10 0 0.0137 0.00600769 0.00769231 45 0 45 3.04283 0.667755
+1986 female.spawn 11 0 0.0112 0.0114602 -0.000260158 45 0 45 2.13169 -0.0163965
+1986 female.spawn 12 0 0.0085 0.00418846 0.00431154 45 0 45 1.97597 0.44784
+1986 female.spawn 13 0 0.0042 0.00312925 0.00107075 45 0 45 1.00784 0.128604
+1986 female.spawn 14 0 0.005 0.00473705 0.000262945 45 0 45 1.11207 0.0256891
+1986 female.spawn 15 0 0.0494 0.0554911 -0.00609115 45 0 45 7.33635 -0.17848
+1987 male.spawn 2 0 0.02 0.0110046 0.00899538 56 0 56 5.10584 0.645251
+1987 male.spawn 3 0 0.0949 0.104336 -0.00943592 56 0 56 17.344 -0.230988
+1987 male.spawn 4 0 0.0905 0.0783792 0.0121208 56 0 56 17.808 0.337479
+1987 male.spawn 5 0 0.0133 0.0168972 -0.00359717 56 0 56 2.95356 -0.208857
+1987 male.spawn 6 0 0.0244 0.0337875 -0.00938746 56 0 56 4.82412 -0.388802
+1987 male.spawn 7 0 0.1115 0.102025 0.00947486 56 0 56 21.2929 0.234251
+1987 male.spawn 8 0 0.0787 0.0813837 -0.00268367 56 0 56 14.865 -0.0734493
+1987 male.spawn 9 0 0.0093 0.00863862 0.000661379 56 0 56 2.35477 0.0534818
+1987 male.spawn 10 0 0.0074 0.00527026 0.00212974 56 0 56 2.05342 0.220116
+1987 male.spawn 11 0 0.0052 0.00484192 0.000358081 56 0 56 1.44558 0.038603
+1987 male.spawn 12 0 0.0115 0.00927343 0.00222657 56 0 56 2.90808 0.173834
+1987 male.spawn 13 0 0.0034 0.00341255 -1.25528e-05 56 0 56 0.998987 -0.00161079
+1987 male.spawn 14 0 0.0077 0.00256017 0.00513983 56 0 56 2.45223 0.761141
+1987 male.spawn 15 0 0.0501 0.0505209 -0.000420901 56 0 56 9.92878 -0.0143812
+1987 female.spawn 2 0 0.0102 0.00257552 0.00762448 56 0 56 3.28946 1.12572
+1987 female.spawn 3 0 0.0958 0.0990517 -0.00325167 56 0 56 17.8257 -0.0814553
+1987 female.spawn 4 0 0.1099 0.073741 0.036159 56 0 56 22.916 1.03536
+1987 female.spawn 5 0 0.0125 0.0168711 -0.00437108 56 0 56 2.7617 -0.253984
+1987 female.spawn 6 0 0.0288 0.0335706 -0.00477058 56 0 56 5.84108 -0.198199
+1987 female.spawn 7 0 0.0765 0.101006 -0.024506 56 0 56 13.4359 -0.608575
+1987 female.spawn 8 0 0.0727 0.0802267 -0.00752672 56 0 56 13.5571 -0.207348
+1987 female.spawn 9 0 0.0079 0.00848912 -0.00058912 56 0 56 1.98849 -0.0480527
+1987 female.spawn 10 0 0.0058 0.0051748 0.0006252 56 0 56 1.59771 0.0652068
+1987 female.spawn 11 0 0.0075 0.00473206 0.00276794 56 0 56 2.12779 0.301825
+1987 female.spawn 12 0 0.0055 0.00902678 -0.00352678 56 0 56 1.34044 -0.279046
+1987 female.spawn 13 0 0.0035 0.00329911 0.000200892 56 0 56 1.03576 0.0262166
+1987 female.spawn 14 0 0.0043 0.0024648 0.0018352 56 0 56 1.35003 0.276963
+1987 female.spawn 15 0 0.0314 0.0474397 -0.0160397 56 0 56 5.84223 -0.564643
+1988 male.spawn 2 0 0.0813 0.033573 0.047727 52 0 52 17.8751 1.91067
+1988 male.spawn 3 0 0.0943 0.0982218 -0.00392183 52 0 52 16.0028 -0.0950246
+1988 male.spawn 4 0 0.0866 0.0794757 0.00712431 52 0 52 15.3664 0.189937
+1988 male.spawn 5 0 0.0704 0.0671807 0.00321928 52 0 52 12.5658 0.092734
+1988 male.spawn 6 0 0 0.0128329 -0.0128329 52 0 52 0 -0.822182
+1988 male.spawn 7 0 0.0202 0.025657 -0.00545705 52 0 52 3.86967 -0.248886
+1988 male.spawn 8 0 0.12 0.0774743 0.0425257 52 0 52 22.9938 1.14706
+1988 male.spawn 9 0 0.0571 0.0617999 -0.0046999 52 0 52 10.019 -0.14075
+1988 male.spawn 10 0 0.0006 0.00655987 -0.00595987 52 0 52 0.139615 -0.532378
+1988 male.spawn 11 0 0.011 0.00400205 0.00699795 52 0 52 3.0422 0.799286
+1988 male.spawn 12 0 0.0013 0.00367678 -0.00237678 52 0 52 0.343567 -0.283176
+1988 male.spawn 13 0 0.0115 0.00704191 0.00445809 52 0 52 2.85077 0.38445
+1988 male.spawn 14 0 0.0055 0.00259137 0.00290863 52 0 52 1.5976 0.412561
+1988 male.spawn 15 0 0.0248 0.0403079 -0.0155079 52 0 52 4.28915 -0.568583
+1988 female.spawn 2 0 0.0033 0.00785743 -0.00455743 52 0 52 0.754976 -0.372216
+1988 female.spawn 3 0 0.075 0.0932208 -0.0182208 52 0 52 12.2824 -0.451919
+1988 female.spawn 4 0 0.0823 0.0749945 0.00730555 52 0 52 14.6933 0.200017
+1988 female.spawn 5 0 0.0627 0.0671788 -0.00447885 52 0 52 10.9326 -0.129019
+1988 female.spawn 6 0 0.0038 0.0127709 -0.00897092 52 0 52 0.776975 -0.576127
+1988 female.spawn 7 0 0.0315 0.0254064 0.0060936 52 0 52 6.40226 0.279249
+1988 female.spawn 8 0 0.0759 0.0764417 -0.000541717 52 0 52 13.2464 -0.014702
+1988 female.spawn 9 0 0.0404 0.0607159 -0.0203159 52 0 52 6.67364 -0.613462
+1988 female.spawn 10 0 0.0055 0.0064246 -0.000924598 52 0 52 1.33793 -0.0834509
+1988 female.spawn 11 0 0.0031 0.00391631 -0.000816308 52 0 52 0.820277 -0.0942474
+1988 female.spawn 12 0 0.0043 0.00358124 0.00071876 52 0 52 1.16748 0.0867656
+1988 female.spawn 13 0 0.0027 0.0068315 -0.0041315 52 0 52 0.634222 -0.361693
+1988 female.spawn 14 0 0 0.00249678 -0.00249678 52 0 52 0 -0.360773
+1988 female.spawn 15 0 0.0249 0.0377679 -0.0128679 52 0 52 4.39322 -0.486754
+1989 male.spawn 2 0 0.0038 0.014624 -0.010824 53 0 53 0.765156 -0.656433
+1989 male.spawn 3 0 0.144 0.225402 -0.0814019 53 0 53 21.1956 -1.41826
+1989 male.spawn 4 0 0.0758 0.0542987 0.0215013 53 0 53 14.908 0.690768
+1989 male.spawn 5 0 0.0617 0.0496542 0.0120458 53 0 53 11.9602 0.403696
+1989 male.spawn 6 0 0.0554 0.0370242 0.0183758 53 0 53 11.3905 0.708488
+1989 male.spawn 7 0 0 0.00707134 -0.00707134 53 0 53 0 -0.61437
+1989 male.spawn 8 0 0.0356 0.0141379 0.0214621 53 0 53 8.62694 1.32346
+1989 male.spawn 9 0 0.0864 0.0426909 0.0437091 53 0 53 18.5278 1.57404
+1989 male.spawn 10 0 0.0637 0.0340538 0.0296462 53 0 53 13.6942 1.19
+1989 male.spawn 11 0 0.0172 0.0036147 0.0135853 53 0 53 5.09089 1.648
+1989 male.spawn 12 0 0.004 0.00220526 0.00179474 53 0 53 1.20803 0.278541
+1989 male.spawn 13 0 0.0077 0.00202603 0.00567397 53 0 53 2.41083 0.918634
+1989 male.spawn 14 0 0.0061 0.00388033 0.00221967 53 0 53 1.6831 0.259918
+1989 male.spawn 15 0 0.0189 0.0236389 -0.00473892 53 0 53 3.75195 -0.22709
+1989 female.spawn 2 0 0.0007 0.0034226 -0.0027226 53 0 53 0.190327 -0.339381
+1989 female.spawn 3 0 0.0923 0.214455 -0.122155 53 0 53 12.136 -2.16668
+1989 female.spawn 4 0 0.0633 0.051217 0.012083 53 0 53 12.2246 0.399044
+1989 female.spawn 5 0 0.0543 0.0498824 0.00441759 53 0 53 10.2687 0.147727
+1989 female.spawn 6 0 0.0595 0.0369017 0.0225983 53 0 53 12.3928 0.872681
+1989 female.spawn 7 0 0.0089 0.00701348 0.00188652 53 0 53 2.21816 0.164574
+1989 female.spawn 8 0 0.0152 0.0139526 0.00124745 53 0 53 3.37212 0.0774254
+1989 female.spawn 9 0 0.0609 0.0419799 0.0189201 53 0 53 12.3186 0.686838
+1989 female.spawn 10 0 0.0349 0.0333436 0.00155637 53 0 53 6.84963 0.0631116
+1989 female.spawn 11 0 0.0133 0.00352823 0.00977177 53 0 53 3.88577 1.19978
+1989 female.spawn 12 0 0.0014 0.00215074 -0.000750737 53 0 53 0.417275 -0.117978
+1989 female.spawn 13 0 0.0052 0.00196673 0.00323327 53 0 53 1.61366 0.531295
+1989 female.spawn 14 0 0.0013 0.00375169 -0.00245169 53 0 53 0.348853 -0.291948
+1989 female.spawn 15 0 0.0084 0.0221124 -0.0137124 53 0 53 1.57558 -0.678872
+1990 male.spawn 2 0 0.0198 0.0546945 -0.0348945 58 0 58 3.40687 -1.16873
+1990 male.spawn 3 0 0.107 0.127239 -0.0202392 58 0 58 19.7631 -0.462541
+1990 male.spawn 4 0 0.2107 0.154528 0.0561724 58 0 58 43.3669 1.18354
+1990 male.spawn 5 0 0.0457 0.0425134 0.00318657 58 0 58 9.74122 0.120284
+1990 male.spawn 6 0 0.0405 0.033931 0.006569 58 0 58 8.9859 0.276319
+1990 male.spawn 7 0 0.0459 0.0252964 0.0206036 58 0 58 11.1733 0.999291
+1990 male.spawn 8 0 0.0034 0.0048314 -0.0014314 58 0 58 0.967032 -0.157214
+1990 male.spawn 9 0 0.0104 0.00965953 0.000740473 58 0 58 2.68655 0.0576572
+1990 male.spawn 10 0 0.026 0.029168 -0.00316801 58 0 58 5.62063 -0.143376
+1990 male.spawn 11 0 0.024 0.0232668 0.000733186 58 0 58 5.44658 0.03704
+1990 male.spawn 12 0 0.0062 0.0024697 0.0037303 58 0 58 2.04263 0.572365
+1990 male.spawn 13 0 0 0.00150672 -0.00150672 58 0 58 0 -0.29584
+1990 male.spawn 14 0 0.0058 0.00138426 0.00441574 58 0 58 2.10079 0.904503
+1990 male.spawn 15 0 0.0099 0.0188022 -0.00890217 58 0 58 2.16619 -0.499146
+1990 female.spawn 2 0 0.0039 0.0128007 -0.00890072 58 0 58 0.893321 -0.603003
+1990 female.spawn 3 0 0.045 0.121413 -0.0764129 58 0 58 6.82763 -1.78179
+1990 female.spawn 4 0 0.2625 0.146097 0.116403 58 0 58 57.8027 2.50988
+1990 female.spawn 5 0 0.0318 0.042911 -0.011111 58 0 58 6.36177 -0.417548
+1990 female.spawn 6 0 0.0268 0.0339753 -0.00717529 58 0 58 5.58082 -0.301632
+1990 female.spawn 7 0 0.021 0.0251276 -0.00412764 58 0 58 4.59369 -0.200848
+1990 female.spawn 8 0 0.0046 0.00477571 -0.00017571 58 0 58 1.32391 -0.0194103
+1990 female.spawn 9 0 0.0062 0.00950075 -0.00330075 58 0 58 1.55815 -0.259132
+1990 female.spawn 10 0 0.0193 0.0285855 -0.00928547 58 0 58 4.03427 -0.424368
+1990 female.spawn 11 0 0.0129 0.0227048 -0.00980477 58 0 58 2.74723 -0.50128
+1990 female.spawn 12 0 0.0019 0.00240249 -0.000502486 58 0 58 0.610523 -0.0781681
+1990 female.spawn 13 0 0.0024 0.00146451 0.000935492 58 0 58 0.843051 0.186306
+1990 female.spawn 14 0 0.0026 0.00133921 0.00126079 58 0 58 0.928055 0.262557
+1990 female.spawn 15 0 0.0037 0.0176117 -0.0139117 58 0 58 0.777351 -0.805474
+1991 male.spawn 2 0 0 0.00324322 -0.00324322 156 0 156 0 -0.712452
+1991 male.spawn 3 0 0.2668 0.28882 -0.0220201 156 0 156 168.043 -0.606845
+1991 male.spawn 4 0 0.0517 0.0559502 -0.00425017 156 0 156 33.9988 -0.230978
+1991 male.spawn 5 0 0.0428 0.0775266 -0.0347266 156 0 156 24.9542 -1.62189
+1991 male.spawn 6 0 0.0161 0.0186372 -0.0025372 156 0 156 11.2165 -0.234321
+1991 male.spawn 7 0 0.0104 0.0148724 -0.00447242 156 0 156 7.20181 -0.461496
+1991 male.spawn 8 0 0.0061 0.0110877 -0.00498773 156 0 156 4.26432 -0.594929
+1991 male.spawn 9 0 0.0027 0.00211767 0.000582334 156 0 156 2.47283 0.158222
+1991 male.spawn 10 0 0.0049 0.00423389 0.000666106 156 0 156 4.09641 0.128132
+1991 male.spawn 11 0 0.0074 0.0127847 -0.00538471 156 0 156 5.10534 -0.598651
+1991 male.spawn 12 0 0.0035 0.0101981 -0.00669814 156 0 156 2.38558 -0.832687
+1991 male.spawn 13 0 0.002 0.0010825 0.000917499 156 0 156 2.02036 0.348489
+1991 male.spawn 14 0 0.0001 0.000660413 -0.000560413 156 0 156 0.105427 -0.272462
+1991 male.spawn 15 0 0.0022 0.00884797 -0.00664797 156 0 156 1.50806 -0.886665
+1991 female.spawn 2 0 0.0007 0.000759043 -5.90435e-05 156 0 156 0.730722 -0.0267772
+1991 female.spawn 3 0 0.3521 0.274583 0.0775169 156 0 156 239.031 2.16934
+1991 female.spawn 4 0 0.087 0.0530605 0.0339395 156 0 156 63.9047 1.89113
+1991 female.spawn 5 0 0.0836 0.078357 0.00524299 156 0 156 55.8707 0.243681
+1991 female.spawn 6 0 0.0178 0.0187499 -0.000949874 156 0 156 12.5608 -0.087466
+1991 female.spawn 7 0 0.012 0.0148416 -0.00284163 156 0 156 8.46004 -0.293518
+1991 female.spawn 8 0 0.0048 0.0109766 -0.00617662 156 0 156 3.29388 -0.740416
+1991 female.spawn 9 0 0.0021 0.0020862 1.38046e-05 156 0 156 1.90967 0.00377888
+1991 female.spawn 10 0 0.0035 0.00415026 -0.000650258 156 0 156 2.87646 -0.126332
+1991 female.spawn 11 0 0.0064 0.0124871 -0.00608712 156 0 156 4.37537 -0.684655
+1991 female.spawn 12 0 0.0052 0.00991823 -0.00471823 156 0 156 3.67453 -0.594687
+1991 female.spawn 13 0 0.002 0.00104949 0.000950511 156 0 156 2.03003 0.366656
+1991 female.spawn 14 0 0.0018 0.000639748 0.00116025 156 0 156 1.96041 0.573125
+1991 female.spawn 15 0 0.0044 0.0082784 -0.0038784 156 0 156 3.1921 -0.534623
+1992 male.spawn 2 0 0.0814 0.0330457 0.0483543 70 0 70 25.4502 2.26321
+1992 male.spawn 3 0 0.0086 0.0341034 -0.0255034 70 0 70 1.92143 -1.17566
+1992 male.spawn 4 0 0.2553 0.25502 0.000279756 70 0 70 60.4386 0.00536994
+1992 male.spawn 5 0 0.0648 0.0559168 0.00888321 70 0 70 17.0973 0.323476
+1992 male.spawn 6 0 0.0739 0.0682481 0.0056519 70 0 70 18.9728 0.18752
+1992 male.spawn 7 0 0.0142 0.0164041 -0.00220408 70 0 70 4.08304 -0.145175
+1992 male.spawn 8 0 0.0111 0.0130904 -0.00199037 70 0 70 3.29153 -0.146511
+1992 male.spawn 9 0 0.0077 0.00975917 -0.00205917 70 0 70 2.37667 -0.175253
+1992 male.spawn 10 0 0.0024 0.00186392 0.000536077 70 0 70 0.980424 0.103984
+1992 male.spawn 11 0 0.0025 0.00372658 -0.00122658 70 0 70 0.900898 -0.168423
+1992 male.spawn 12 0 0.0035 0.0112528 -0.00775282 70 0 70 1.00223 -0.614944
+1992 male.spawn 13 0 0.0038 0.00897618 -0.00517618 70 0 70 1.15195 -0.459167
+1992 male.spawn 14 0 0.0024 0.000952793 0.00144721 70 0 70 1.09316 0.392453
+1992 male.spawn 15 0 0.0012 0.00836907 -0.00716907 70 0 70 0.358882 -0.658413
+1992 female.spawn 2 0 0.0141 0.00773402 0.00636598 70 0 70 4.79348 0.607992
+1992 female.spawn 3 0 0.0054 0.0324037 -0.0270037 70 0 70 1.17833 -1.27593
+1992 female.spawn 4 0 0.2586 0.240971 0.0176291 70 0 70 62.4539 0.34488
+1992 female.spawn 5 0 0.0684 0.056445 0.011955 70 0 70 18.193 0.433414
+1992 female.spawn 6 0 0.0859 0.068753 0.017147 70 0 70 22.7018 0.566967
+1992 female.spawn 7 0 0.0102 0.0164476 -0.00624761 70 0 70 2.84 -0.410973
+1992 female.spawn 8 0 0.0094 0.0130192 -0.00361922 70 0 70 2.75273 -0.267126
+1992 female.spawn 9 0 0.0042 0.0096288 -0.0054288 70 0 70 1.2579 -0.465123
+1992 female.spawn 10 0 0.0004 0.00183003 -0.00143003 70 0 70 0.16097 -0.279939
+1992 female.spawn 11 0 0.0036 0.00364065 -4.06455e-05 70 0 70 1.31641 -0.0056463
+1992 female.spawn 12 0 0.0039 0.0109538 -0.00705382 70 0 70 1.12915 -0.566999
+1992 female.spawn 13 0 0.0015 0.00870037 -0.00720037 70 0 70 0.446188 -0.648683
+1992 female.spawn 14 0 0 0.000920622 -0.000920622 70 0 70 0 -0.253974
+1992 female.spawn 15 0 0.0013 0.00782309 -0.00652309 70 0 70 0.395411 -0.619468
+1993 male.spawn 2 0 0.0293 0.22061 -0.19131 39 0 39 1.79374 -2.88124
+1993 male.spawn 3 0 0.1831 0.156546 0.0265544 39 0 39 22.0526 0.456371
+1993 male.spawn 4 0 0.0299 0.0139028 0.0159972 39 0 39 5.06468 0.853229
+1993 male.spawn 5 0 0.1551 0.11712 0.0379804 39 0 39 19.6432 0.73761
+1993 male.spawn 6 0 0.0295 0.0227285 0.00677151 39 0 39 4.42436 0.283743
+1993 male.spawn 7 0 0.0386 0.0277368 0.0108632 39 0 39 5.68534 0.413115
+1993 male.spawn 8 0 0.0095 0.00666679 0.00283321 39 0 39 1.73908 0.217423
+1993 male.spawn 9 0 0 0.00532006 -0.00532006 39 0 39 0 -0.456719
+1993 male.spawn 10 0 0 0.00396623 -0.00396623 39 0 39 0 -0.39408
+1993 male.spawn 11 0 0 0.000757518 -0.000757518 39 0 39 0 -0.171946
+1993 male.spawn 12 0 0.002 0.00151452 0.000485479 39 0 39 0.466228 0.077964
+1993 male.spawn 13 0 0.0061 0.00457326 0.00152674 39 0 39 1.18626 0.141312
+1993 male.spawn 14 0 0.0033 0.00364801 -0.000348013 39 0 39 0.661016 -0.036049
+1993 male.spawn 15 0 0 0.0037885 -0.0037885 39 0 39 0 -0.385115
+1993 female.spawn 2 0 0.0008 0.0516317 -0.0508317 39 0 39 0.0752445 -1.43456
+1993 female.spawn 3 0 0.1981 0.148488 0.0496124 39 0 39 24.7576 0.871328
+1993 female.spawn 4 0 0.0258 0.0131303 0.0126697 39 0 39 4.36233 0.695076
+1993 female.spawn 5 0 0.1399 0.117603 0.0222968 39 0 39 17.2625 0.432249
+1993 female.spawn 6 0 0.0438 0.0228678 0.0209322 39 0 39 6.89499 0.874496
+1993 female.spawn 7 0 0.0759 0.0278478 0.0480522 39 0 39 12.342 1.82383
+1993 female.spawn 8 0 0.0046 0.00666194 -0.00206194 39 0 39 0.819886 -0.158292
+1993 female.spawn 9 0 0.0064 0.0052733 0.0011267 39 0 39 1.211 0.0971511
+1993 female.spawn 10 0 0.0021 0.00390005 -0.00180005 39 0 39 0.412314 -0.180356
+1993 female.spawn 11 0 0.0015 0.000741235 0.000758765 39 0 39 0.390591 0.17411
+1993 female.spawn 12 0 0.0014 0.00147461 -7.46061e-05 39 0 39 0.32683 -0.012142
+1993 female.spawn 13 0 0.0116 0.00443673 0.00716327 39 0 39 2.32958 0.673097
+1993 female.spawn 14 0 0.0002 0.00352399 -0.00332399 39 0 39 0.0396032 -0.350301
+1993 female.spawn 15 0 0.0014 0.00354155 -0.00214155 39 0 39 0.278991 -0.22513
+1994 male.spawn 2 0 0.024 0.00932754 0.0146725 118 0 118 14.8238 1.65804
+1994 male.spawn 3 0 0.5952 0.44135 0.15385 118 0 118 288.879 3.36571
+1994 male.spawn 4 0 0.0198 0.0277874 -0.00798743 118 0 118 9.39672 -0.52789
+1994 male.spawn 5 0 0.0018 0.00276142 -0.000961419 118 0 118 1.1626 -0.199016
+1994 male.spawn 6 0 0.0185 0.0207302 -0.00223023 118 0 118 9.33014 -0.170035
+1994 male.spawn 7 0 0.0011 0.00402241 -0.00292241 118 0 118 0.654088 -0.50155
+1994 male.spawn 8 0 0.0105 0.00490876 0.00559124 118 0 118 6.70604 0.869025
+1994 male.spawn 9 0 0 0.00117986 -0.00117986 118 0 118 0 -0.373348
+1994 male.spawn 10 0 0.0005 0.000941526 -0.000441526 118 0 118 0.379841 -0.156382
+1994 male.spawn 11 0 0 0.000701929 -0.000701929 118 0 118 0 -0.287899
+1994 male.spawn 12 0 0 0.000134063 -0.000134063 118 0 118 0 -0.125784
+1994 male.spawn 13 0 0 0.000268035 -0.000268035 118 0 118 0 -0.177867
+1994 male.spawn 14 0 0.0008 0.00080936 -9.3602e-06 118 0 118 0.624582 -0.00357545
+1994 male.spawn 15 0 0 0.00131609 -0.00131609 118 0 118 0 -0.394339
+1994 female.spawn 2 0 0.0064 0.00218302 0.00421698 118 0 118 4.54404 0.981495
+1994 female.spawn 3 0 0.2378 0.41771 -0.17991 118 0 118 92.588 -3.96268
+1994 female.spawn 4 0 0.0487 0.0262008 0.0224992 118 0 118 27.0386 1.53008
+1994 female.spawn 5 0 0.0017 0.00276255 -0.00106255 118 0 118 1.09631 -0.219905
+1994 female.spawn 6 0 0.0179 0.0207474 -0.00284736 118 0 118 8.98462 -0.216998
+1994 female.spawn 7 0 0.0049 0.00403343 0.000866573 118 0 118 3.07256 0.148521
+1994 female.spawn 8 0 0.0075 0.00491178 0.00258822 118 0 118 4.66052 0.402153
+1994 female.spawn 9 0 0.0009 0.00117503 -0.00027503 118 0 118 0.664002 -0.0872071
+1994 female.spawn 10 0 0.0003 0.000930102 -0.000630102 118 0 118 0.22768 -0.224537
+1994 female.spawn 11 0 0.0005 0.000687889 -0.000187889 118 0 118 0.398359 -0.0778452
+1994 female.spawn 12 0 0 0.000130739 -0.000130739 118 0 118 0 -0.124214
+1994 female.spawn 13 0 0 0.00026009 -0.00026009 118 0 118 0 -0.17521
+1994 female.spawn 14 0 0.0006 0.000782549 -0.000182549 118 0 118 0.469549 -0.0709145
+1994 female.spawn 15 0 0.0007 0.00124622 -0.000546218 118 0 118 0.510119 -0.168182
+1995 male.spawn 2 0 0.0037 0.00454149 -0.000841494 131 0 131 2.49348 -0.143244
+1995 male.spawn 3 0 0.0791 0.0859616 -0.00686156 131 0 131 41.3892 -0.280172
+1995 male.spawn 4 0 0.3109 0.367501 -0.056601 131 0 131 153.791 -1.34369
+1995 male.spawn 5 0 0.0124 0.0257395 -0.0133395 131 0 131 6.32074 -0.964134
+1995 male.spawn 6 0 0.0018 0.00229298 -0.000492977 131 0 131 1.33825 -0.117967
+1995 male.spawn 7 0 0.0156 0.0172114 -0.00161144 131 0 131 9.03523 -0.141811
+1995 male.spawn 8 0 0.002 0.00333964 -0.00133964 131 0 131 1.39298 -0.265766
+1995 male.spawn 9 0 0.0071 0.00407553 0.00302447 131 0 131 5.09016 0.54335
+1995 male.spawn 10 0 0.0006 0.000979591 -0.000379591 131 0 131 0.504098 -0.138881
+1995 male.spawn 11 0 0.0002 0.000781708 -0.000581708 131 0 131 0.17287 -0.238226
+1995 male.spawn 12 0 0.0002 0.000582781 -0.000382781 131 0 131 0.180564 -0.181535
+1995 male.spawn 13 0 0 0.000111307 -0.000111307 131 0 131 0 -0.120759
+1995 male.spawn 14 0 0 0.000222538 -0.000222538 131 0 131 0 -0.17076
+1995 male.spawn 15 0 0.0013 0.00176467 -0.000464668 131 0 131 1.00344 -0.126716
+1995 female.spawn 2 0 0.0002 0.00106289 -0.000862892 131 0 131 0.16482 -0.303095
+1995 female.spawn 3 0 0.0291 0.0812477 -0.0521477 131 0 131 12.4684 -2.18457
+1995 female.spawn 4 0 0.4778 0.345774 0.132026 131 0 131 265.787 3.17713
+1995 female.spawn 5 0 0.0277 0.0256407 0.00205928 131 0 131 15.9285 0.149117
+1995 female.spawn 6 0 0.0011 0.00228636 -0.00118636 131 0 131 0.80905 -0.2843
+1995 female.spawn 7 0 0.015 0.0171676 -0.00216758 131 0 131 8.64829 -0.190993
+1995 female.spawn 8 0 0.0029 0.00333749 -0.000437486 131 0 131 2.04822 -0.0868192
+1995 female.spawn 9 0 0.0082 0.00406429 0.00413571 131 0 131 5.94715 0.744009
+1995 female.spawn 10 0 0.0005 0.000972286 -0.000472286 131 0 131 0.419912 -0.173442
+1995 female.spawn 11 0 0.0008 0.000769619 3.03805e-05 131 0 131 0.699486 0.0125389
+1995 female.spawn 12 0 0.0003 0.000569198 -0.000269198 131 0 131 0.272183 -0.129181
+1995 female.spawn 13 0 0.0002 0.000108181 9.18194e-05 131 0 131 0.224685 0.101046
+1995 female.spawn 14 0 0.0002 0.000215214 -1.52136e-05 131 0 131 0.206664 -0.0118708
+1995 female.spawn 15 0 0.001 0.00167872 -0.000678717 131 0 131 0.774725 -0.189758
+1996 male.spawn 2 0 0.0039 0.00287168 0.00102832 128 0 128 2.80094 0.217415
+1996 male.spawn 3 0 0.0425 0.0419858 0.000514151 128 0 128 22.8024 0.029004
+1996 male.spawn 4 0 0.0728 0.0719554 0.000844557 128 0 128 38.0474 0.0369758
+1996 male.spawn 5 0 0.236 0.341332 -0.105332 128 0 128 107.84 -2.51329
+1996 male.spawn 6 0 0.0046 0.0214859 -0.0168859 128 0 128 2.14725 -1.31756
+1996 male.spawn 7 0 0.0007 0.00191382 -0.00121382 128 0 128 0.515388 -0.314214
+1996 male.spawn 8 0 0.0051 0.0143654 -0.00926544 128 0 128 2.66503 -0.880955
+1996 male.spawn 9 0 0.0011 0.00278741 -0.00168741 128 0 128 0.762287 -0.362102
+1996 male.spawn 10 0 0.0009 0.00340162 -0.00250162 128 0 128 0.598591 -0.486097
+1996 male.spawn 11 0 0.0004 0.00081761 -0.00041761 128 0 128 0.336538 -0.165303
+1996 male.spawn 12 0 0.0003 0.000652449 -0.000352449 128 0 128 0.260681 -0.15616
+1996 male.spawn 13 0 0.0002 0.000486416 -0.000286416 128 0 128 0.181044 -0.146961
+1996 male.spawn 14 0 0 9.29014e-05 -9.29014e-05 128 0 128 0 -0.109053
+1996 male.spawn 15 0 0.0005 0.00165861 -0.00115861 128 0 128 0.37604 -0.32213
+1996 female.spawn 2 0 0.0017 0.000672089 0.00102791 128 0 128 1.49933 0.448739
+1996 female.spawn 3 0 0.0251 0.0396772 -0.0145772 128 0 128 12.433 -0.844888
+1996 female.spawn 4 0 0.1035 0.067611 0.035889 128 0 128 58.8899 1.61718
+1996 female.spawn 5 0 0.4724 0.338973 0.133427 128 0 128 255.962 3.18902
+1996 female.spawn 6 0 0.009 0.0213329 -0.0123329 128 0 128 4.50381 -0.965667
+1996 female.spawn 7 0 0.0024 0.00190186 0.000498135 128 0 128 1.81522 0.129353
+1996 female.spawn 8 0 0.0098 0.0142805 -0.00448051 128 0 128 5.45717 -0.427252
+1996 female.spawn 9 0 0.0019 0.00277622 -0.00087622 128 0 128 1.33494 -0.188406
+1996 female.spawn 10 0 0.0026 0.00338079 -0.000780795 128 0 128 1.78039 -0.152184
+1996 female.spawn 11 0 0.001 0.000808777 0.000191223 128 0 128 0.850176 0.0761039
+1996 female.spawn 12 0 0.0002 0.000640192 -0.000440192 128 0 128 0.174011 -0.196893
+1996 female.spawn 13 0 0.0004 0.000473476 -7.34759e-05 128 0 128 0.364508 -0.0382124
+1996 female.spawn 14 0 0 8.99879e-05 -8.99879e-05 128 0 128 0 -0.107329
+1996 female.spawn 15 0 0.001 0.00157543 -0.000575428 128 0 128 0.764831 -0.164149
+1997 male.spawn 2 0 0.0094 0.0161178 -0.00671781 67 0 67 2.49125 -0.436657
+1997 male.spawn 3 0 0.0203 0.0291001 -0.00880011 67 0 67 5.00191 -0.42854
+1997 male.spawn 4 0 0.0461 0.0383032 0.00779682 67 0 67 11.9803 0.33252
+1997 male.spawn 5 0 0.089 0.0728523 0.0161477 67 0 67 22.1291 0.508571
+1997 male.spawn 6 0 0.321 0.310524 0.0104764 67 0 67 72.094 0.185329
+1997 male.spawn 7 0 0.0095 0.0195443 -0.0100443 67 0 67 2.39725 -0.593928
+1997 male.spawn 8 0 0.007 0.00174088 0.00525912 67 0 67 2.85827 1.03263
+1997 male.spawn 9 0 0.0094 0.0130673 -0.00366729 67 0 67 2.62339 -0.26433
+1997 male.spawn 10 0 0.0029 0.00253552 0.000364478 67 0 67 1.07769 0.0593234
+1997 male.spawn 11 0 0.0037 0.00309423 0.000605772 67 0 67 1.33463 0.0892778
+1997 male.spawn 12 0 0.0002 0.000743726 -0.000543726 67 0 67 0.0889435 -0.163257
+1997 male.spawn 13 0 0.001 0.00059349 0.00040651 67 0 67 0.462679 0.136625
+1997 male.spawn 14 0 0 0.00044246 -0.00044246 67 0 67 0 -0.172215
+1997 male.spawn 15 0 0.0002 0.00159323 -0.00139323 67 0 67 0.0787347 -0.285935
+1997 female.spawn 2 0 0.011 0.00377222 0.00722778 67 0 67 4.02497 0.965083
+1997 female.spawn 3 0 0.0228 0.0275117 -0.00471173 67 0 67 5.79316 -0.235785
+1997 female.spawn 4 0 0.0483 0.0359843 0.0123157 67 0 67 12.855 0.541249
+1997 female.spawn 5 0 0.0595 0.0722748 -0.0127748 67 0 67 13.6314 -0.403821
+1997 female.spawn 6 0 0.3134 0.30736 0.0060397 67 0 67 70.1452 0.107146
+1997 female.spawn 7 0 0.0115 0.0193397 -0.0078397 67 0 67 2.96091 -0.465964
+1997 female.spawn 8 0 0.0046 0.00172417 0.00287583 67 0 67 1.85156 0.567396
+1997 female.spawn 9 0 0.0035 0.0129462 -0.00944622 67 0 67 0.924758 -0.683996
+1997 female.spawn 10 0 0.002 0.00251683 -0.000516827 67 0 67 0.738494 -0.0844312
+1997 female.spawn 11 0 0.002 0.00306491 -0.00106491 67 0 67 0.712093 -0.157692
+1997 female.spawn 12 0 0.0003 0.000733209 -0.000433209 67 0 67 0.13381 -0.131003
+1997 female.spawn 13 0 0.0009 0.000580377 0.000319623 67 0 67 0.417446 0.108629
+1997 female.spawn 14 0 0 0.000429237 -0.000429237 67 0 67 0 -0.169621
+1997 female.spawn 15 0 0.0006 0.00150981 -0.000909809 67 0 67 0.23923 -0.191803
+1998 male.spawn 2 0 0.0136 0.00977159 0.00382841 47 0 47 2.8514 0.266819
+1998 male.spawn 3 0 0.1025 0.132877 -0.0303774 47 0 47 14.2025 -0.613526
+1998 male.spawn 4 0 0.0289 0.0215148 0.00738525 47 0 47 5.40462 0.348954
+1998 male.spawn 5 0 0.0343 0.0314612 0.00283877 47 0 47 5.94279 0.111489
+1998 male.spawn 6 0 0.0826 0.0537112 0.0288888 47 0 47 14.3543 0.878483
+1998 male.spawn 7 0 0.216 0.22891 -0.0129103 47 0 47 30.4313 -0.210669
+1998 male.spawn 8 0 0.0041 0.0144076 -0.0103076 47 0 47 0.733818 -0.593009
+1998 male.spawn 9 0 0.0112 0.00128333 0.00991667 47 0 47 3.38543 1.899
+1998 male.spawn 10 0 0.0014 0.00963287 -0.00823287 47 0 47 0.270952 -0.577862
+1998 male.spawn 11 0 0.0044 0.00186912 0.00253088 47 0 47 1.21187 0.401705
+1998 male.spawn 12 0 0 0.00228099 -0.00228099 47 0 47 0 -0.327798
+1998 male.spawn 13 0 0 0.000548256 -0.000548256 47 0 47 0 -0.160568
+1998 male.spawn 14 0 0.0005 0.000437505 6.24948e-05 47 0 47 0.168643 0.0204878
+1998 male.spawn 15 0 0 0.00150066 -0.00150066 47 0 47 0 -0.265776
+1998 female.spawn 2 0 0.0022 0.00228695 -8.69456e-05 47 0 47 0.577423 -0.0124786
+1998 female.spawn 3 0 0.0335 0.125661 -0.0921606 47 0 47 3.60419 -1.90614
+1998 female.spawn 4 0 0.0271 0.0202206 0.00687935 47 0 47 5.10737 0.335069
+1998 female.spawn 5 0 0.0381 0.0312236 0.00687644 47 0 47 6.71651 0.271056
+1998 female.spawn 6 0 0.0734 0.0531098 0.0202902 47 0 47 12.5109 0.620296
+1998 female.spawn 7 0 0.3085 0.225814 0.0826856 47 0 47 48.1114 1.35575
+1998 female.spawn 8 0 0.0059 0.0142086 -0.00830865 47 0 47 1.07557 -0.481294
+1998 female.spawn 9 0 0.0031 0.00126672 0.00183328 47 0 47 0.904241 0.353355
+1998 female.spawn 10 0 0.0062 0.00951144 -0.00331144 47 0 47 1.24987 -0.233893
+1998 female.spawn 11 0 0.0005 0.00184908 -0.00134908 47 0 47 0.134772 -0.215284
+1998 female.spawn 12 0 0.0019 0.00225176 -0.000351755 47 0 47 0.499121 -0.0508767
+1998 female.spawn 13 0 0 0.00053868 -0.00053868 47 0 47 0 -0.159159
+1998 female.spawn 14 0 0 0.000426396 -0.000426396 47 0 47 0 -0.141595
+1998 female.spawn 15 0 0 0.00142459 -0.00142459 47 0 47 0 -0.258943
+1999 male.spawn 2 0 0.0094 0.00485345 0.00454655 59 0 59 2.83753 0.502504
+1999 male.spawn 3 0 0.068 0.0908214 -0.0228214 59 0 59 12.8204 -0.610029
+1999 male.spawn 4 0 0.1257 0.109688 0.0160124 59 0 59 25.7665 0.39358
+1999 male.spawn 5 0 0.0037 0.0197616 -0.0160616 59 0 59 0.766159 -0.886417
+1999 male.spawn 6 0 0.0219 0.025897 -0.00399699 59 0 59 4.87032 -0.1933
+1999 male.spawn 7 0 0.0433 0.0442065 -0.00090654 59 0 59 9.22962 -0.0338757
+1999 male.spawn 8 0 0.1596 0.188402 -0.0288023 59 0 59 29.4661 -0.565769
+1999 male.spawn 9 0 0.0122 0.011858 0.000341988 59 0 59 3.10061 0.0242673
+1999 male.spawn 10 0 0.0024 0.00105623 0.00134377 59 0 59 0.904109 0.31776
+1999 male.spawn 11 0 0.0016 0.00792823 -0.00632823 59 0 59 0.409167 -0.548086
+1999 male.spawn 12 0 0.0044 0.00153836 0.00286164 59 0 59 1.58104 0.560849
+1999 male.spawn 13 0 0.004 0.00187734 0.00212266 59 0 59 1.38661 0.376654
+1999 male.spawn 14 0 0 0.000451236 -0.000451236 59 0 59 0 -0.163202
+1999 male.spawn 15 0 0.0023 0.00159519 0.000704811 59 0 59 0.809911 0.135656
+1999 female.spawn 2 0 0.0026 0.0011359 0.0014641 59 0 59 0.969599 0.333866
+1999 female.spawn 3 0 0.0739 0.0859503 -0.0120503 59 0 59 14.434 -0.33023
+1999 female.spawn 4 0 0.1812 0.103117 0.0780834 59 0 59 41.0396 1.97221
+1999 female.spawn 5 0 0.0075 0.0196347 -0.0121347 59 0 59 1.61792 -0.671815
+1999 female.spawn 6 0 0.034 0.0256166 0.00838336 59 0 59 8.0497 0.407585
+1999 female.spawn 7 0 0.0325 0.0435641 -0.0110641 59 0 59 6.6269 -0.416342
+1999 female.spawn 8 0 0.1908 0.185227 0.00557254 59 0 59 37.115 0.110182
+1999 female.spawn 9 0 0.0087 0.0116548 -0.00295484 59 0 59 2.16501 -0.211472
+1999 female.spawn 10 0 0.0039 0.00103905 0.00286095 59 0 59 1.48715 0.682094
+1999 female.spawn 11 0 0.0028 0.00780189 -0.00500189 59 0 59 0.727242 -0.436678
+1999 female.spawn 12 0 0.0027 0.00151674 0.00118326 59 0 59 0.961504 0.233551
+1999 female.spawn 13 0 0 0.00184703 -0.00184703 59 0 59 0 -0.330419
+1999 female.spawn 14 0 0 0.00044186 -0.00044186 59 0 59 0 -0.161497
+1999 female.spawn 15 0 0.0008 0.0015183 -0.000718301 59 0 59 0.280883 -0.141704
+2000 male.spawn 2 0 0.0136 0.00994672 0.00365328 25 0 25 1.45353 0.184071
+2000 male.spawn 3 0 0.0598 0.0479569 0.0118431 25 0 25 4.82217 0.277129
+2000 male.spawn 4 0 0.081 0.0795049 0.00149511 25 0 25 5.84351 0.0276335
+2000 male.spawn 5 0 0.1064 0.106995 -0.000594942 25 0 25 7.32667 -0.00962356
+2000 male.spawn 6 0 0.015 0.0172501 -0.00225008 25 0 25 1.40472 -0.0864074
+2000 male.spawn 7 0 0.0178 0.0226029 -0.00480294 25 0 25 1.56505 -0.161569
+2000 male.spawn 8 0 0.016 0.0385835 -0.0225835 25 0 25 1.18236 -0.586279
+2000 male.spawn 9 0 0.1426 0.164438 -0.0218377 25 0 25 8.98016 -0.294568
+2000 male.spawn 10 0 0.0061 0.0103497 -0.00424968 25 0 25 0.626859 -0.209953
+2000 male.spawn 11 0 0 0.00092188 -0.00092188 25 0 25 0 -0.151882
+2000 male.spawn 12 0 0.0063 0.00691977 -0.000619769 25 0 25 0.71138 -0.0373819
+2000 male.spawn 13 0 0.0009 0.00134268 -0.000442683 25 0 25 0.136219 -0.0604461
+2000 male.spawn 14 0 0.0023 0.00163855 0.000661455 25 0 25 0.338258 0.0817706
+2000 male.spawn 15 0 0.0014 0.00178612 -0.000386121 25 0 25 0.202258 -0.0457221
+2000 female.spawn 2 0 0.001 0.00232793 -0.00132793 25 0 25 0.137647 -0.137774
+2000 female.spawn 3 0 0.0227 0.045393 -0.022693 25 0 25 1.6387 -0.545074
+2000 female.spawn 4 0 0.1447 0.0747949 0.0699051 25 0 25 11.9988 1.32869
+2000 female.spawn 5 0 0.1452 0.106407 0.0387933 25 0 25 10.7693 0.629031
+2000 female.spawn 6 0 0.0147 0.0170828 -0.00238285 25 0 25 1.37854 -0.0919449
+2000 female.spawn 7 0 0.021 0.0222829 -0.00128286 25 0 25 1.87749 -0.0434567
+2000 female.spawn 8 0 0.0308 0.0378946 -0.00709456 25 0 25 2.44087 -0.185779
+2000 female.spawn 9 0 0.1396 0.161121 -0.0215214 25 0 25 8.81119 -0.292695
+2000 female.spawn 10 0 0.0038 0.010138 -0.00633805 25 0 25 0.388453 -0.316345
+2000 female.spawn 11 0 0.0034 0.000903824 0.00249618 25 0 25 0.552401 0.415336
+2000 female.spawn 12 0 0.0026 0.00678653 -0.00418653 25 0 25 0.290383 -0.254964
+2000 female.spawn 13 0 0.0008 0.00131934 -0.000519344 25 0 25 0.121394 -0.0715373
+2000 female.spawn 14 0 0.0007 0.00160666 -0.000906656 25 0 25 0.102736 -0.113188
+2000 female.spawn 15 0 0 0.00170506 -0.00170506 25 0 25 0 -0.206638
+2001 male.spawn 2 0 0.0192 0.00787492 0.0113251 46 0 46 4.23341 0.868988
+2001 male.spawn 3 0 0.1308 0.0901173 0.0406827 46 0 46 21.091 0.963589
+2001 male.spawn 4 0 0.0449 0.0388326 0.00606743 46 0 46 7.46378 0.213003
+2001 male.spawn 5 0 0.0687 0.0716933 -0.00299332 46 0 46 10.3248 -0.0786949
+2001 male.spawn 6 0 0.0746 0.0863941 -0.0117941 46 0 46 10.7627 -0.284722
+2001 male.spawn 7 0 0.0017 0.013927 -0.012227 46 0 46 0.29393 -0.707646
+2001 male.spawn 8 0 0.02 0.0182487 0.0017513 46 0 46 3.65164 0.0887407
+2001 male.spawn 9 0 0.0396 0.0311508 0.00844924 46 0 46 6.85394 0.329863
+2001 male.spawn 10 0 0.0861 0.13276 -0.0466603 46 0 46 11.1162 -0.932659
+2001 male.spawn 11 0 0.004 0.00835591 -0.00435591 46 0 46 0.799814 -0.324551
+2001 male.spawn 12 0 0.0036 0.000744289 0.00285571 46 0 46 1.11816 0.710206
+2001 male.spawn 13 0 0.006 0.00558674 0.000413258 46 0 46 1.32793 0.0376043
+2001 male.spawn 14 0 0.0018 0.00108403 0.000715972 46 0 46 0.522911 0.147567
+2001 male.spawn 15 0 0.0003 0.00276494 -0.00246494 46 0 46 0.0734822 -0.318378
+2001 female.spawn 2 0 0.0041 0.00184305 0.00225695 46 0 46 1.10549 0.356889
+2001 female.spawn 3 0 0.1179 0.0852444 0.0326556 46 0 46 18.8794 0.793141
+2001 female.spawn 4 0 0.0345 0.0365396 -0.0020396 46 0 46 5.59964 -0.0737267
+2001 female.spawn 5 0 0.0791 0.0713196 0.00778037 46 0 46 12.2566 0.205041
+2001 female.spawn 6 0 0.1085 0.085636 0.022864 46 0 46 17.0383 0.554171
+2001 female.spawn 7 0 0.0058 0.0137455 -0.00794551 46 0 46 1.04186 -0.462835
+2001 female.spawn 8 0 0.015 0.0179296 -0.00292961 46 0 46 2.67684 -0.149738
+2001 female.spawn 9 0 0.0458 0.0304914 0.0153086 46 0 46 8.14731 0.603881
+2001 female.spawn 10 0 0.0775 0.129644 -0.0521442 46 0 46 9.82769 -1.05283
+2001 female.spawn 11 0 0.0069 0.00815745 -0.00125745 46 0 46 1.41537 -0.0948134
+2001 female.spawn 12 0 0.0014 0.00072725 0.00067275 46 0 46 0.431506 0.169258
+2001 female.spawn 13 0 0.001 0.00546069 -0.00446069 46 0 46 0.214819 -0.410531
+2001 female.spawn 14 0 0.0002 0.00106159 -0.000861592 46 0 46 0.0577604 -0.179445
+2001 female.spawn 15 0 0.0012 0.00266473 -0.00146473 46 0 46 0.297785 -0.192703
+2002 male.spawn 2 0 0.0088 0.0123193 -0.00351927 27 0 27 0.949271 -0.16578
+2002 male.spawn 3 0 0.033 0.0752511 -0.0422511 27 0 27 2.26279 -0.832245
+2002 male.spawn 4 0 0.1523 0.0757448 0.0765552 27 0 27 13.9591 1.50343
+2002 male.spawn 5 0 0.0397 0.0363775 0.00332252 27 0 27 3.58411 0.0922104
+2002 male.spawn 6 0 0.0878 0.0600867 0.0277133 27 0 27 7.72708 0.605951
+2002 male.spawn 7 0 0.0621 0.0723985 -0.0102985 27 0 27 4.81867 -0.206495
+2002 male.spawn 8 0 0 0.0116709 -0.0116709 27 0 27 0 -0.564655
+2002 male.spawn 9 0 0.0104 0.0152924 -0.00489245 27 0 27 1.06914 -0.207165
+2002 male.spawn 10 0 0.0192 0.0261044 -0.0069044 27 0 27 1.76995 -0.225006
+2002 male.spawn 11 0 0.0608 0.111253 -0.0504534 27 0 27 3.99392 -0.833733
+2002 male.spawn 12 0 0.0026 0.00700227 -0.00440227 27 0 27 0.311699 -0.274325
+2002 male.spawn 13 0 0 0.000623716 -0.000623716 27 0 27 0 -0.129811
+2002 male.spawn 14 0 0 0.0046817 -0.0046817 27 0 27 0 -0.356371
+2002 male.spawn 15 0 0.0011 0.00322544 -0.00212544 27 0 27 0.153951 -0.194777
+2002 female.spawn 2 0 0 0.0028832 -0.0028832 27 0 27 0 -0.279413
+2002 female.spawn 3 0 0.0169 0.0712655 -0.0543655 27 0 27 1.08377 -1.09804
+2002 female.spawn 4 0 0.1483 0.0712232 0.0770768 27 0 27 13.7628 1.55718
+2002 female.spawn 5 0 0.0195 0.0362095 -0.0167095 27 0 27 1.62767 -0.464774
+2002 female.spawn 6 0 0.0772 0.0595766 0.0176234 27 0 27 6.65146 0.386877
+2002 female.spawn 7 0 0.0785 0.0715213 0.00697874 27 0 27 6.39693 0.14072
+2002 female.spawn 8 0 0.0083 0.0114799 -0.00317992 27 0 27 0.909114 -0.155109
+2002 female.spawn 9 0 0.0129 0.0149744 -0.00207437 27 0 27 1.34831 -0.0887505
+2002 female.spawn 10 0 0.0504 0.0254656 0.0249344 27 0 27 5.18638 0.82244
+2002 female.spawn 11 0 0.1004 0.108276 -0.0078757 27 0 27 7.46701 -0.131701
+2002 female.spawn 12 0 0.0077 0.0068129 0.000887099 27 0 27 0.949582 0.0560367
+2002 female.spawn 13 0 0.0012 0.000607381 0.000592619 27 0 27 0.222114 0.124985
+2002 female.spawn 14 0 0 0.00456064 -0.00456064 27 0 27 0 -0.351712
+2002 female.spawn 15 0 0.001 0.00311213 -0.00211213 27 0 27 0.140863 -0.197038
+2003 male.spawn 2 0 0.0266 0.0372029 -0.0106029 56 0 56 5.18022 -0.419239
+2003 male.spawn 3 0 0.0504 0.105685 -0.0552849 56 0 56 7.91599 -1.3457
+2003 male.spawn 4 0 0.0595 0.0561244 0.00337556 56 0 56 11.8207 0.10975
+2003 male.spawn 5 0 0.1068 0.0631589 0.0436411 56 0 56 23.0629 1.34258
+2003 male.spawn 6 0 0.0321 0.0270526 0.00504741 56 0 56 7.00397 0.232816
+2003 male.spawn 7 0 0.0345 0.0446786 -0.0101786 56 0 56 6.63648 -0.368687
+2003 male.spawn 8 0 0.0287 0.0538332 -0.0251332 56 0 56 5.05885 -0.833361
+2003 male.spawn 9 0 0.0057 0.0086781 -0.0029781 56 0 56 1.40401 -0.240278
+2003 male.spawn 10 0 0.0081 0.011371 -0.00327098 56 0 56 1.90917 -0.230864
+2003 male.spawn 11 0 0.0168 0.0194104 -0.0026104 56 0 56 3.6847 -0.141592
+2003 male.spawn 12 0 0.0586 0.0827245 -0.0241245 56 0 56 10.335 -0.655368
+2003 male.spawn 13 0 0.0123 0.00520667 0.00709333 56 0 56 3.52349 0.737561
+2003 male.spawn 14 0 0.0016 0.000463775 0.00113622 56 0 56 0.642392 0.394917
+2003 male.spawn 15 0 0.0022 0.0058795 -0.0036795 56 0 56 0.573469 -0.360158
+2003 female.spawn 2 0 0.0003 0.00870697 -0.00840697 56 0 56 0.070226 -0.677172
+2003 female.spawn 3 0 0.0554 0.100172 -0.0447718 56 0 56 9.06007 -1.11595
+2003 female.spawn 4 0 0.0674 0.0528339 0.0145661 56 0 56 13.943 0.487267
+2003 female.spawn 5 0 0.1063 0.0629279 0.0433721 56 0 56 22.9551 1.33658
+2003 female.spawn 6 0 0.0246 0.026839 -0.00223898 56 0 56 5.18638 -0.103674
+2003 female.spawn 7 0 0.0696 0.0441499 0.0254501 56 0 56 15.1861 0.927092
+2003 female.spawn 8 0 0.0616 0.0530016 0.00859842 56 0 56 12.517 0.287206
+2003 female.spawn 9 0 0.0231 0.00850732 0.0145927 56 0 56 6.31673 1.18902
+2003 female.spawn 10 0 0.008 0.0110969 -0.00309692 56 0 56 1.89509 -0.221231
+2003 female.spawn 11 0 0.0099 0.0188716 -0.00897158 56 0 56 2.08359 -0.493396
+2003 female.spawn 12 0 0.0973 0.0802388 0.0170612 56 0 56 19.3169 0.469973
+2003 female.spawn 13 0 0.0254 0.00504877 0.0203512 56 0 56 7.75413 2.14877
+2003 female.spawn 14 0 0.0039 0.000450106 0.00344989 56 0 56 1.59252 1.21714
+2003 female.spawn 15 0 0.0035 0.00568598 -0.00218598 56 0 56 0.929063 -0.217559
+2004 male.spawn 2 0 0.0225 0.0139894 0.00851064 23 0 23 2.08944 0.347526
+2004 male.spawn 3 0 0.2053 0.231961 -0.0266611 23 0 23 11.2197 -0.30293
+2004 male.spawn 4 0 0.0419 0.0580532 -0.0161532 23 0 23 2.72815 -0.33128
+2004 male.spawn 5 0 0.0336 0.0344678 -0.000867774 23 0 23 2.52402 -0.0228129
+2004 male.spawn 6 0 0.042 0.0345941 0.00740585 23 0 23 3.23569 0.194349
+2004 male.spawn 7 0 0.0172 0.0148157 0.00238432 23 0 23 1.54696 0.0946473
+2004 male.spawn 8 0 0.0155 0.0244687 -0.00896875 23 0 23 1.20678 -0.2784
+2004 male.spawn 9 0 0.0295 0.0294824 1.76145e-05 23 0 23 2.2909 0.000499402
+2004 male.spawn 10 0 0.0042 0.00475266 -0.00055266 23 0 23 0.468295 -0.0385379
+2004 male.spawn 11 0 0 0.00622745 -0.00622745 23 0 23 0 -0.379643
+2004 male.spawn 12 0 0.0139 0.0106303 0.00326967 23 0 23 1.34144 0.152903
+2004 male.spawn 13 0 0.0539 0.045305 0.00859498 23 0 23 3.95505 0.1982
+2004 male.spawn 14 0 0 0.00285149 -0.00285149 23 0 23 0 -0.25646
+2004 male.spawn 15 0 0.0012 0.00347397 -0.00227397 23 0 23 0.140971 -0.185349
+2004 female.spawn 2 0 0 0.00327407 -0.00327407 23 0 23 0 -0.274865
+2004 female.spawn 3 0 0.159 0.21965 -0.06065 23 0 23 8.2178 -0.702562
+2004 female.spawn 4 0 0.0958 0.0546976 0.0411024 23 0 23 7.29174 0.866886
+2004 female.spawn 5 0 0.0385 0.034374 0.00412602 23 0 23 2.94046 0.108612
+2004 female.spawn 6 0 0.0564 0.0343542 0.0220458 23 0 23 4.52541 0.580485
+2004 female.spawn 7 0 0.0356 0.0146491 0.0209509 23 0 23 3.3925 0.836304
+2004 female.spawn 8 0 0.0174 0.0240977 -0.00669767 23 0 23 1.37138 -0.209458
+2004 female.spawn 9 0 0.0274 0.028929 -0.00152903 23 0 23 2.12434 -0.0437509
+2004 female.spawn 10 0 0.0162 0.00464342 0.0115566 23 0 23 1.88418 0.81524
+2004 female.spawn 11 0 0.0007 0.00605686 -0.00535686 23 0 23 0.073134 -0.331108
+2004 female.spawn 12 0 0.0134 0.0103004 0.00309962 23 0 23 1.30067 0.147229
+2004 female.spawn 13 0 0.0549 0.0437955 0.0111045 23 0 23 4.0822 0.260239
+2004 female.spawn 14 0 0.002 0.00275569 -0.000755693 23 0 23 0.246279 -0.0691342
+2004 female.spawn 15 0 0.002 0.00334917 -0.00134917 23 0 23 0.237307 -0.111993
+2005 male.spawn 2 0 0 0.00970485 -0.00970485 60 0 60 0 -0.76681
+2005 male.spawn 3 0 0.1409 0.119207 0.0216935 60 0 60 29.5692 0.518583
+2005 male.spawn 4 0 0.1645 0.176072 -0.0115716 60 0 60 31.9423 -0.235332
+2005 male.spawn 5 0 0.046 0.0491334 -0.00313338 60 0 60 9.81513 -0.11229
+2005 male.spawn 6 0 0.0109 0.0260891 -0.0151891 60 0 60 2.28009 -0.738106
+2005 male.spawn 7 0 0.0221 0.0261815 -0.00408146 60 0 60 5.0002 -0.197995
+2005 male.spawn 8 0 0.0067 0.0112128 -0.00451275 60 0 60 1.68553 -0.331978
+2005 male.spawn 9 0 0.0105 0.0185184 -0.00801835 60 0 60 2.40464 -0.4607
+2005 male.spawn 10 0 0.0127 0.0223128 -0.00961276 60 0 60 2.8162 -0.504135
+2005 male.spawn 11 0 0.004 0.00359689 0.000403108 60 0 60 1.25471 0.0521574
+2005 male.spawn 12 0 0.0031 0.00471303 -0.00161303 60 0 60 0.915278 -0.182429
+2005 male.spawn 13 0 0.0074 0.00804521 -0.000645209 60 0 60 2.01993 -0.055945
+2005 male.spawn 14 0 0.0089 0.0342876 -0.0253876 60 0 60 1.68216 -1.0807
+2005 male.spawn 15 0 0.0052 0.00478721 0.000412789 60 0 60 1.55652 0.0463238
+2005 female.spawn 2 0 0 0.00227133 -0.00227133 60 0 60 0 -0.369581
+2005 female.spawn 3 0 0.1235 0.112788 0.0107116 60 0 60 25.533 0.262291
+2005 female.spawn 4 0 0.236 0.165741 0.070259 60 0 60 51.0702 1.46356
+2005 female.spawn 5 0 0.0665 0.0489703 0.0175297 60 0 60 15.199 0.629197
+2005 female.spawn 6 0 0.0212 0.0259324 -0.00473243 60 0 60 4.78328 -0.230645
+2005 female.spawn 7 0 0.0169 0.0259122 -0.00901219 60 0 60 3.71017 -0.439395
+2005 female.spawn 8 0 0.0121 0.0110493 0.00105068 60 0 60 3.18079 0.077856
+2005 female.spawn 9 0 0.0071 0.018176 -0.011076 60 0 60 1.58639 -0.642233
+2005 female.spawn 10 0 0.0213 0.0218201 -0.000520128 60 0 60 5.02937 -0.027577
+2005 female.spawn 11 0 0.0121 0.00350236 0.00859764 60 0 60 4.01492 1.12729
+2005 female.spawn 12 0 0.0057 0.00456847 0.00113153 60 0 60 1.7286 0.129972
+2005 female.spawn 13 0 0.0049 0.00776921 -0.00286921 60 0 60 1.32099 -0.25313
+2005 female.spawn 14 0 0.0273 0.0330334 -0.00573339 60 0 60 5.97225 -0.248488
+2005 female.spawn 15 0 0.0026 0.00460468 -0.00200468 60 0 60 0.767979 -0.229363
+2006 male.spawn 2 0 0.0927 0.0097283 0.0829717 25 0 25 11.7416 4.22673
+2006 male.spawn 3 0 0.0473 0.0869001 -0.0396001 25 0 25 2.97635 -0.702905
+2006 male.spawn 4 0 0.1319 0.0942854 0.0376146 25 0 25 9.96449 0.643589
+2006 male.spawn 5 0 0.136 0.155207 -0.0192067 25 0 25 8.6503 -0.265211
+2006 male.spawn 6 0 0.0544 0.0387509 0.0156491 25 0 25 4.61198 0.405416
+2006 male.spawn 7 0 0.0222 0.0205736 0.00162641 25 0 25 2.0381 0.0572874
+2006 male.spawn 8 0 0.0059 0.0206464 -0.0147464 25 0 25 0.503916 -0.518518
+2006 male.spawn 9 0 0.0228 0.00884224 0.0139578 25 0 25 2.5791 0.745475
+2006 male.spawn 10 0 0.0165 0.0146034 0.00189665 25 0 25 1.62313 0.0790542
+2006 male.spawn 11 0 0.0169 0.0175956 -0.000695574 25 0 25 1.58621 -0.0264525
+2006 male.spawn 12 0 0.0107 0.00283647 0.00786353 25 0 25 1.46687 0.739292
+2006 male.spawn 13 0 0.0031 0.00371664 -0.000616643 25 0 25 0.393636 -0.0506684
+2006 male.spawn 14 0 0 0.00634436 -0.00634436 25 0 25 0 -0.399527
+2006 male.spawn 15 0 0.0361 0.0308139 0.00528608 25 0 25 3.10242 0.152942
+2006 female.spawn 2 0 0 0.00227681 -0.00227681 25 0 25 0 -0.238852
+2006 female.spawn 3 0 0.0207 0.0822722 -0.0615722 25 0 25 1.17257 -1.12039
+2006 female.spawn 4 0 0.0728 0.0886798 -0.0158798 25 0 25 4.94296 -0.279297
+2006 female.spawn 5 0 0.1494 0.154538 -0.00513812 25 0 25 9.76128 -0.0710738
+2006 female.spawn 6 0 0.0371 0.038495 -0.00139503 25 0 25 2.99215 -0.0362557
+2006 female.spawn 7 0 0.0345 0.0203811 0.0141189 25 0 25 3.30599 0.499608
+2006 female.spawn 8 0 0.0161 0.0203651 -0.00426513 25 0 25 1.44754 -0.150983
+2006 female.spawn 9 0 0.0123 0.00868397 0.00361603 25 0 25 1.35007 0.194866
+2006 female.spawn 10 0 0.0085 0.014285 -0.00578504 25 0 25 0.813927 -0.243759
+2006 female.spawn 11 0 0.0096 0.0171491 -0.00754906 25 0 25 0.879858 -0.290736
+2006 female.spawn 12 0 0.001 0.00275261 -0.00175261 25 0 25 0.133458 -0.167256
+2006 female.spawn 13 0 0 0.00359049 -0.00359049 25 0 25 0 -0.300143
+2006 female.spawn 14 0 0.0027 0.00610604 -0.00340604 25 0 25 0.308815 -0.21861
+2006 female.spawn 15 0 0.0386 0.0295808 0.00901917 25 0 25 3.38301 0.266166
+2007 male.spawn 2 0 0.0189 0.0138489 0.00505113 45 0 45 3.584 0.289945
+2007 male.spawn 3 0 0.0482 0.0877958 -0.0395958 45 0 45 6.13123 -0.938583
+2007 male.spawn 4 0 0.0494 0.0697779 -0.0203779 45 0 45 6.82708 -0.536553
+2007 male.spawn 5 0 0.0993 0.0843795 0.0149205 45 0 45 14.9552 0.360093
+2007 male.spawn 6 0 0.1396 0.124273 0.0153269 45 0 45 20.2131 0.311665
+2007 male.spawn 7 0 0.0308 0.0310238 -0.00022378 45 0 45 5.02135 -0.00865813
+2007 male.spawn 8 0 0.0322 0.0164711 0.0157289 45 0 45 6.19927 0.828991
+2007 male.spawn 9 0 0.0085 0.0165294 -0.00802938 45 0 45 1.45087 -0.422454
+2007 male.spawn 10 0 0.0064 0.00707905 -0.000679052 45 0 45 1.31971 -0.0543331
+2007 male.spawn 11 0 0.0066 0.0116914 -0.00509136 45 0 45 1.21366 -0.317732
+2007 male.spawn 12 0 0.0083 0.0140869 -0.00578692 45 0 45 1.47442 -0.329402
+2007 male.spawn 13 0 0.0059 0.00227086 0.00362914 45 0 45 1.5146 0.511456
+2007 male.spawn 14 0 0 0.00297552 -0.00297552 45 0 45 0 -0.366467
+2007 male.spawn 15 0 0.0121 0.0297487 -0.0176487 45 0 45 1.79566 -0.696856
+2007 female.spawn 2 0 0 0.00324119 -0.00324119 45 0 45 0 -0.382528
+2007 female.spawn 3 0 0.029 0.0830761 -0.0540761 45 0 45 3.40403 -1.31434
+2007 female.spawn 4 0 0.1283 0.065671 0.062629 45 0 45 21.8809 1.69607
+2007 female.spawn 5 0 0.1365 0.0839581 0.0525419 45 0 45 22.0653 1.27093
+2007 female.spawn 6 0 0.1028 0.12333 -0.0205301 45 0 45 13.8441 -0.418836
+2007 female.spawn 7 0 0.0659 0.030715 0.035185 45 0 45 12.0774 1.36792
+2007 female.spawn 8 0 0.0104 0.016262 -0.00586195 45 0 45 1.80619 -0.310901
+2007 female.spawn 9 0 0.0087 0.0162492 -0.00754923 45 0 45 1.49381 -0.400544
+2007 female.spawn 10 0 0.0096 0.00692889 0.00267111 45 0 45 2.02687 0.216011
+2007 female.spawn 11 0 0.0066 0.011398 -0.00479796 45 0 45 1.22121 -0.303206
+2007 female.spawn 12 0 0.0042 0.0136831 -0.00948314 45 0 45 0.728993 -0.547592
+2007 female.spawn 13 0 0.0026 0.00219629 0.000403711 45 0 45 0.659285 0.0578508
+2007 female.spawn 14 0 0.0018 0.00286483 -0.00106483 45 0 45 0.432715 -0.133648
+2007 female.spawn 15 0 0.0275 0.0284744 -0.000974353 45 0 45 4.52171 -0.0392978
+2008 male.spawn 2 0 0.0182 0.0737029 -0.0555029 53 0 53 2.50084 -1.54645
+2008 male.spawn 3 0 0.0175 0.109113 -0.0916133 53 0 53 2.02582 -2.13918
+2008 male.spawn 4 0 0.0749 0.0612226 0.0136774 53 0 53 14.2208 0.41534
+2008 male.spawn 5 0 0.0605 0.0542229 0.00627711 53 0 53 11.4029 0.201796
+2008 male.spawn 6 0 0.0935 0.0586729 0.0348271 53 0 53 18.7644 1.07886
+2008 male.spawn 7 0 0.1132 0.0864021 0.0267979 53 0 53 21.27 0.694383
+2008 male.spawn 8 0 0.054 0.0215696 0.0324304 53 0 53 12.6011 1.62519
+2008 male.spawn 9 0 0.0204 0.0114517 0.00894832 53 0 53 4.86897 0.612274
+2008 male.spawn 10 0 0.0078 0.0114922 -0.0036922 53 0 53 1.72594 -0.252192
+2008 male.spawn 11 0 0.0048 0.00492177 -0.000121774 53 0 53 1.25264 -0.0126678
+2008 male.spawn 12 0 0.0046 0.00812852 -0.00352852 53 0 53 1.07642 -0.286087
+2008 male.spawn 13 0 0.003 0.00979406 -0.00679406 53 0 53 0.66309 -0.502254
+2008 male.spawn 14 0 0.0027 0.00157883 0.00112117 53 0 53 0.856319 0.205581
+2008 male.spawn 15 0 0.019 0.0227518 -0.00375181 53 0 53 3.81257 -0.183176
+2008 female.spawn 2 0 0.0001 0.0172494 -0.0171494 53 0 53 0.0184817 -0.958912
+2008 female.spawn 3 0 0.0046 0.103287 -0.0986875 53 0 53 0.456646 -2.36075
+2008 female.spawn 4 0 0.0861 0.057588 0.028512 53 0 53 17.0859 0.891003
+2008 female.spawn 5 0 0.0791 0.0539773 0.0251227 53 0 53 15.7098 0.809372
+2008 female.spawn 6 0 0.0583 0.0581876 0.000112392 53 0 53 10.6938 0.00349524
+2008 female.spawn 7 0 0.1286 0.0854573 0.0431427 53 0 53 24.9212 1.12349
+2008 female.spawn 8 0 0.0762 0.0212829 0.0549171 53 0 53 18.7844 2.77014
+2008 female.spawn 9 0 0.0274 0.0112681 0.0161319 53 0 53 6.76588 1.11265
+2008 female.spawn 10 0 0.0101 0.0112593 -0.00115932 53 0 53 2.28274 -0.0799913
+2008 female.spawn 11 0 0.005 0.00480113 0.000198872 53 0 53 1.31326 0.0209452
+2008 female.spawn 12 0 0.0035 0.0078978 -0.0043978 53 0 53 0.816988 -0.361695
+2008 female.spawn 13 0 0.0019 0.00948124 -0.00758124 53 0 53 0.418936 -0.569527
+2008 female.spawn 14 0 0.0004 0.00152184 -0.00112184 53 0 53 0.125671 -0.209515
+2008 female.spawn 15 0 0.0246 0.0217154 0.00288464 53 0 53 5.14968 0.144083
+2009 male.spawn 2 0 0.0532 0.0157956 0.0374044 19 0 19 4.19743 1.30764
+2009 male.spawn 3 0 0.2327 0.321051 -0.088351 19 0 19 8.85493 -0.824864
+2009 male.spawn 4 0 0 0.0420203 -0.0420203 19 0 19 0 -0.912911
+2009 male.spawn 5 0 0.1067 0.026291 0.080409 19 0 19 8.09488 2.1906
+2009 male.spawn 6 0 0.0174 0.0208221 -0.00342211 19 0 19 1.16717 -0.104467
+2009 male.spawn 7 0 0.0576 0.0225282 0.0350718 19 0 19 4.19378 1.0302
+2009 male.spawn 8 0 0.0516 0.0331751 0.0184249 19 0 19 3.33104 0.448439
+2009 male.spawn 9 0 0.0136 0.00828188 0.00531812 19 0 19 1.13855 0.255786
+2009 male.spawn 10 0 0.0096 0.004397 0.005203 19 0 19 0.909765 0.342775
+2009 male.spawn 11 0 0.0003 0.00441256 -0.00411256 19 0 19 0.0276493 -0.270461
+2009 male.spawn 12 0 0.0044 0.00188977 0.00251023 19 0 19 0.481552 0.251939
+2009 male.spawn 13 0 0 0.00312104 -0.00312104 19 0 19 0 -0.243896
+2009 male.spawn 14 0 0.002 0.00376054 -0.00176054 19 0 19 0.191393 -0.125376
+2009 male.spawn 15 0 0.0078 0.00934203 -0.00154203 19 0 19 0.623907 -0.0698694
+2009 female.spawn 2 0 0.0055 0.0036968 0.0018032 19 0 19 0.533465 0.129512
+2009 female.spawn 3 0 0.1474 0.303934 -0.156534 19 0 19 4.8824 -1.48344
+2009 female.spawn 4 0 0 0.0395408 -0.0395408 19 0 19 0 -0.884422
+2009 female.spawn 5 0 0.1083 0.0261684 0.0821316 19 0 19 8.24366 2.24262
+2009 female.spawn 6 0 0.0584 0.0206595 0.0377405 19 0 19 4.35491 1.15653
+2009 female.spawn 7 0 0.0383 0.0222665 0.0160335 19 0 19 2.67893 0.473663
+2009 female.spawn 8 0 0.0198 0.0327017 -0.0129017 19 0 19 1.16887 -0.316197
+2009 female.spawn 9 0 0.0501 0.00814424 0.0419558 19 0 19 4.55948 2.03479
+2009 female.spawn 10 0 0.0067 0.00431194 0.00238806 19 0 19 0.63241 0.158864
+2009 female.spawn 11 0 0.0005 0.00430856 -0.00380856 19 0 19 0.0463383 -0.25346
+2009 female.spawn 12 0 0.0007 0.00183723 -0.00113723 19 0 19 0.0762509 -0.115756
+2009 female.spawn 13 0 0.0017 0.00302223 -0.00132223 19 0 19 0.169598 -0.104997
+2009 female.spawn 14 0 0.0009 0.00362815 -0.00272815 19 0 19 0.0864536 -0.197784
+2009 female.spawn 15 0 0.0047 0.0088921 -0.0041921 19 0 19 0.376472 -0.194646
+2010 male.spawn 2 0 0 0.00398878 -0.00398878 67 0 67 0 -0.517995
+2010 male.spawn 3 0 0.116 0.131805 -0.015805 67 0 67 25.869 -0.382434
+2010 male.spawn 4 0 0.2388 0.239701 -0.000900879 67 0 67 53.524 -0.0172734
+2010 male.spawn 5 0 0.0474 0.034943 0.012457 67 0 67 12.6686 0.555257
+2010 male.spawn 6 0 0.0128 0.019574 -0.00677399 67 0 67 3.31995 -0.400253
+2010 male.spawn 7 0 0.0153 0.0155004 -0.000200437 67 0 67 4.28229 -0.0132812
+2010 male.spawn 8 0 0.0195 0.0167704 0.00272955 67 0 67 5.49925 0.173992
+2010 male.spawn 9 0 0.025 0.0246962 0.00030378 67 0 67 6.61439 0.0160218
+2010 male.spawn 10 0 0.0217 0.00616521 0.0155348 67 0 67 7.65145 1.62447
+2010 male.spawn 11 0 0.0044 0.00327322 0.00112678 67 0 67 1.57956 0.161473
+2010 male.spawn 12 0 0.0022 0.0032848 -0.0010848 67 0 67 0.774519 -0.155185
+2010 male.spawn 13 0 0.0022 0.00140679 0.000793214 67 0 67 0.899514 0.173229
+2010 male.spawn 14 0 0.0021 0.00232337 -0.000223368 67 0 67 0.787356 -0.0379756
+2010 male.spawn 15 0 0.0048 0.00975383 -0.00495383 67 0 67 1.37747 -0.412591
+2010 female.spawn 2 0 0.0002 0.000933535 -0.000733535 67 0 67 0.0858976 -0.196606
+2010 female.spawn 3 0 0.0551 0.124668 -0.0695677 67 0 67 10.411 -1.72378
+2010 female.spawn 4 0 0.2382 0.225582 0.0126176 67 0 67 54.3227 0.2471
+2010 female.spawn 5 0 0.0857 0.0347707 0.0509293 67 0 67 25.388 2.27553
+2010 female.spawn 6 0 0.0174 0.0194186 -0.00201857 67 0 67 4.6737 -0.119738
+2010 female.spawn 7 0 0.0187 0.0153275 0.00337246 67 0 67 5.36128 0.2247
+2010 female.spawn 8 0 0.0222 0.0165197 0.00568025 67 0 67 6.37896 0.364771
+2010 female.spawn 9 0 0.0172 0.0242617 -0.0070617 67 0 67 4.3573 -0.375681
+2010 female.spawn 10 0 0.0179 0.0060423 0.0118577 67 0 67 6.22375 1.25243
+2010 female.spawn 11 0 0.0067 0.00319907 0.00350093 67 0 67 2.45748 0.507463
+2010 female.spawn 12 0 0.0033 0.00319657 0.000103432 67 0 67 1.17918 0.0149984
+2010 female.spawn 13 0 0.0003 0.00136306 -0.00106306 67 0 67 0.121347 -0.235849
+2010 female.spawn 14 0 0.0011 0.00224222 -0.00114222 67 0 67 0.411365 -0.197668
+2010 female.spawn 15 0 0.004 0.00928891 -0.00528891 67 0 67 1.15178 -0.451281
+2011 male.spawn 2 0 0.0026 0.0279433 -0.0253433 54 0 54 0.43645 -1.12999
+2011 male.spawn 3 0 0.0023 0.0375621 -0.0352621 54 0 54 0.347882 -1.36284
+2011 male.spawn 4 0 0.091 0.111009 -0.020009 54 0 54 15.4431 -0.468053
+2011 male.spawn 5 0 0.2497 0.22456 0.0251399 54 0 54 43.9596 0.44271
+2011 male.spawn 6 0 0.0262 0.029347 -0.00314704 54 0 54 5.21879 -0.13702
+2011 male.spawn 7 0 0.0019 0.0164373 -0.0145373 54 0 54 0.370532 -0.840164
+2011 male.spawn 8 0 0.0155 0.0130165 0.0024835 54 0 54 3.57383 0.161012
+2011 male.spawn 9 0 0.0064 0.014083 -0.00768299 54 0 54 1.35849 -0.479137
+2011 male.spawn 10 0 0.0311 0.0207387 0.0103613 54 0 54 6.92745 0.534285
+2011 male.spawn 11 0 0.0024 0.00517724 -0.00277724 54 0 54 0.620352 -0.284373
+2011 male.spawn 12 0 0.005 0.00274869 0.00225131 54 0 54 1.48951 0.315985
+2011 male.spawn 13 0 0.0012 0.00275842 -0.00155842 54 0 54 0.347818 -0.218349
+2011 male.spawn 14 0 0.0009 0.00118135 -0.000281349 54 0 54 0.301463 -0.060188
+2011 male.spawn 15 0 0.0048 0.0101418 -0.00534184 54 0 54 1.0897 -0.39178
+2011 female.spawn 2 0 0.0007 0.00653985 -0.00583985 54 0 54 0.169463 -0.532402
+2011 female.spawn 3 0 0.0225 0.0355292 -0.0130292 54 0 54 4.16012 -0.517224
+2011 female.spawn 4 0 0.1213 0.104379 0.0169213 54 0 54 22.434 0.40669
+2011 female.spawn 5 0 0.328 0.22333 0.10467 54 0 54 62.1095 1.84683
+2011 female.spawn 6 0 0.0225 0.0291061 -0.00660608 54 0 54 4.4024 -0.288777
+2011 female.spawn 7 0 0.0092 0.0162518 -0.0070518 54 0 54 1.9257 -0.40983
+2011 female.spawn 8 0 0.0163 0.0128279 0.0034721 54 0 54 3.78837 0.226733
+2011 female.spawn 9 0 0.0055 0.0138257 -0.00832568 54 0 54 1.16386 -0.523958
+2011 female.spawn 10 0 0.0163 0.0203051 -0.00400507 54 0 54 3.38414 -0.20867
+2011 female.spawn 11 0 0.0043 0.00505691 -0.000756914 54 0 54 1.13361 -0.0784154
+2011 female.spawn 12 0 0.0052 0.00267736 0.00252264 54 0 54 1.55844 0.35874
+2011 female.spawn 13 0 0.0027 0.00267527 2.47326e-05 54 0 54 0.79587 0.00351855
+2011 female.spawn 14 0 0.0016 0.00114077 0.000459229 54 0 54 0.541475 0.0999712
+2011 female.spawn 15 0 0.0029 0.00965061 -0.00675061 54 0 54 0.655123 -0.507421
+2012 male.spawn 2 0 0.002 0.00324461 -0.00124461 67 0 67 0.704458 -0.179141
+2012 male.spawn 3 0 0.1542 0.195961 -0.0417606 67 0 67 32.7275 -0.861154
+2012 male.spawn 4 0 0.0214 0.0232328 -0.00183283 67 0 67 5.63345 -0.0995892
+2012 male.spawn 5 0 0.0728 0.0764874 -0.00368743 67 0 67 17.1185 -0.113565
+2012 male.spawn 6 0 0.1642 0.138498 0.0257024 67 0 67 39.2544 0.609062
+2012 male.spawn 7 0 0.0222 0.0180976 0.00410241 67 0 67 6.24328 0.251902
+2012 male.spawn 8 0 0.0095 0.0101365 -0.00063646 67 0 67 2.81514 -0.0520089
+2012 male.spawn 9 0 0.0014 0.00802694 -0.00662694 67 0 67 0.405363 -0.607891
+2012 male.spawn 10 0 0.0071 0.00868462 -0.00158462 67 0 67 2.13638 -0.139792
+2012 male.spawn 11 0 0.0164 0.012789 0.00361099 67 0 67 4.83471 0.263051
+2012 male.spawn 12 0 0.0055 0.00319267 0.00230733 67 0 67 2.00057 0.334784
+2012 male.spawn 13 0 0.0021 0.00169505 0.000404953 67 0 67 0.83172 0.0805785
+2012 male.spawn 14 0 0.0033 0.00170104 0.00159896 67 0 67 1.31865 0.317604
+2012 male.spawn 15 0 0.0013 0.00698272 -0.00568272 67 0 67 0.388106 -0.558602
+2012 female.spawn 2 0 0.0022 0.000759369 0.00144063 67 0 67 0.990397 0.428084
+2012 female.spawn 3 0 0.1236 0.185545 -0.0619449 67 0 67 25.1605 -1.30432
+2012 female.spawn 4 0 0.0346 0.021845 0.012755 67 0 67 9.87029 0.71423
+2012 female.spawn 5 0 0.0759 0.0760692 -0.000169176 67 0 67 18.034 -0.00522339
+2012 female.spawn 6 0 0.1835 0.137285 0.0462148 67 0 67 45.1477 1.09919
+2012 female.spawn 7 0 0.0479 0.0178885 0.0300115 67 0 67 14.9737 1.85335
+2012 female.spawn 8 0 0.0046 0.00998827 -0.00538827 67 0 67 1.31015 -0.443528
+2012 female.spawn 9 0 0.0103 0.00788396 0.00241604 67 0 67 3.24427 0.223608
+2012 female.spawn 10 0 0.0089 0.00849719 0.00040281 67 0 67 2.73012 0.0359213
+2012 female.spawn 11 0 0.011 0.0124794 -0.00147939 67 0 67 3.14322 -0.109081
+2012 female.spawn 12 0 0.0064 0.00310795 0.00329205 67 0 67 2.35484 0.484108
+2012 female.spawn 13 0 0.0042 0.00164549 0.00255451 67 0 67 1.69886 0.515887
+2012 female.spawn 14 0 0.0011 0.0016442 -0.000544205 67 0 67 0.434227 -0.109946
+2012 female.spawn 15 0 0.0023 0.00663233 -0.00433233 67 0 67 0.702187 -0.436889
+2013 male.spawn 2 0 0.0049 0.0194241 -0.0145241 62 0 62 1.08854 -0.828655
+2013 male.spawn 3 0 0.0006 0.033102 -0.032502 62 0 62 0.106429 -1.4305
+2013 male.spawn 4 0 0.2519 0.178848 0.0730522 62 0 62 56.4865 1.50098
+2013 male.spawn 5 0 0.0143 0.0236213 -0.00932126 62 0 62 3.27716 -0.483292
+2013 male.spawn 6 0 0.0788 0.0696115 0.0091885 62 0 62 17.6128 0.284294
+2013 male.spawn 7 0 0.0828 0.126032 -0.0432318 62 0 62 15.6499 -1.02568
+2013 male.spawn 8 0 0.0154 0.0164687 -0.00106865 62 0 62 3.90225 -0.0661165
+2013 male.spawn 9 0 0.0087 0.00922409 -0.000524093 62 0 62 2.40897 -0.0431673
+2013 male.spawn 10 0 0.0002 0.00730445 -0.00710445 62 0 62 0.0539672 -0.656938
+2013 male.spawn 11 0 0.0034 0.00790293 -0.00450293 62 0 62 0.93196 -0.400424
+2013 male.spawn 12 0 0.013 0.0116379 0.00136211 62 0 62 3.52015 0.100003
+2013 male.spawn 13 0 0.0031 0.0029053 0.000194698 62 0 62 1.0396 0.0284836
+2013 male.spawn 14 0 0 0.00154248 -0.00154248 62 0 62 0 -0.309486
+2013 male.spawn 15 0 0.0012 0.00790215 -0.00670215 62 0 62 0.321593 -0.596019
+2013 female.spawn 2 0 0.006 0.00454602 0.00145398 62 0 62 1.88889 0.170188
+2013 female.spawn 3 0 0.0001 0.03131 -0.03121 62 0 62 0.0179285 -1.41109
+2013 female.spawn 4 0 0.259 0.168343 0.0906575 62 0 62 59.446 1.90779
+2013 female.spawn 5 0 0.0226 0.0234916 -0.000891601 62 0 62 5.4737 -0.0463524
+2013 female.spawn 6 0 0.0681 0.0690027 -0.000902704 62 0 62 14.8066 -0.0280436
+2013 female.spawn 7 0 0.0901 0.124507 -0.0344073 62 0 62 17.456 -0.820583
+2013 female.spawn 8 0 0.0233 0.0162235 0.00707654 62 0 62 6.20011 0.441059
+2013 female.spawn 9 0 0.019 0.00905858 0.00994142 62 0 62 5.62647 0.826209
+2013 female.spawn 10 0 0.0107 0.00715014 0.00354986 62 0 62 3.17471 0.331748
+2013 female.spawn 11 0 0.0047 0.00770629 -0.00300629 62 0 62 1.31119 -0.270698
+2013 female.spawn 12 0 0.0092 0.0113178 -0.00211784 62 0 62 2.44023 -0.157644
+2013 female.spawn 13 0 0.0039 0.00281867 0.00108133 62 0 62 1.32336 0.160599
+2013 female.spawn 14 0 0.0013 0.00149233 -0.000192334 62 0 62 0.483118 -0.0392323
+2013 female.spawn 15 0 0.0038 0.00750617 -0.00370617 62 0 62 1.05769 -0.338102
+2014 male.spawn 2 0 0.0015 0.00241911 -0.000919111 73 0 73 0.605833 -0.159855
+2014 male.spawn 3 0 0.177 0.150885 0.0261153 73 0 73 46.7835 0.623378
+2014 male.spawn 4 0 0.0338 0.0227462 0.0110538 73 0 73 10.5002 0.633453
+2014 male.spawn 5 0 0.1042 0.136875 -0.0326752 73 0 73 24.8988 -0.812233
+2014 male.spawn 6 0 0.0229 0.0161853 0.00671473 73 0 73 7.30596 0.454646
+2014 male.spawn 7 0 0.0402 0.0476918 -0.00749185 73 0 73 10.6402 -0.300358
+2014 male.spawn 8 0 0.0519 0.0863461 -0.0344461 73 0 73 12.1448 -1.04783
+2014 male.spawn 9 0 0.0307 0.0112829 0.0194171 73 0 73 10.9769 1.57072
+2014 male.spawn 10 0 0.0093 0.00631955 0.00298045 73 0 73 3.33799 0.321349
+2014 male.spawn 11 0 0.0022 0.00500438 -0.00280438 73 0 73 0.777782 -0.339557
+2014 male.spawn 12 0 0.0024 0.00541441 -0.00301441 73 0 73 0.836502 -0.350967
+2014 male.spawn 13 0 0.0047 0.00797328 -0.00327328 73 0 73 1.54331 -0.314459
+2014 male.spawn 14 0 0.0021 0.00199046 0.000109538 73 0 73 0.882964 0.0209982
+2014 male.spawn 15 0 0.0008 0.00647065 -0.00567065 73 0 73 0.263383 -0.604268
+2014 female.spawn 2 0 0.0002 0.000566169 -0.000366169 73 0 73 0.100905 -0.13152
+2014 female.spawn 3 0 0.1134 0.142834 -0.0294339 73 0 73 27.3146 -0.718723
+2014 female.spawn 4 0 0.0542 0.0213872 0.0328128 73 0 73 18.3259 1.93786
+2014 female.spawn 5 0 0.1062 0.136233 -0.0300326 73 0 73 25.5326 -0.748024
+2014 female.spawn 6 0 0.0504 0.0160434 0.0343566 73 0 73 17.9107 2.33634
+2014 female.spawn 7 0 0.0428 0.0471154 -0.00431536 73 0 73 11.4957 -0.174011
+2014 female.spawn 8 0 0.0639 0.0850139 -0.0211139 73 0 73 15.724 -0.646813
+2014 female.spawn 9 0 0.0515 0.0110774 0.0404226 73 0 73 19.7508 3.29978
+2014 female.spawn 10 0 0.0103 0.00618523 0.00411477 73 0 73 3.73993 0.448411
+2014 female.spawn 11 0 0.0048 0.00488214 -8.21382e-05 73 0 73 1.7496 -0.0100685
+2014 female.spawn 12 0 0.0055 0.00526188 0.000238119 73 0 73 1.98707 0.028121
+2014 female.spawn 13 0 0.0085 0.00772785 0.000772147 73 0 73 2.90762 0.0753384
+2014 female.spawn 14 0 0.0032 0.0019246 0.0012754 73 0 73 1.36633 0.248632
+2014 female.spawn 15 0 0.0014 0.00614421 -0.00474421 73 0 73 0.469626 -0.518717
+2015 male.spawn 2 0 0.0032 0.0128797 -0.00967973 57 0 57 0.713734 -0.64813
+2015 male.spawn 3 0 0.0253 0.0253858 -8.57982e-05 57 0 57 5.54245 -0.00411816
+2015 male.spawn 4 0 0.1329 0.141091 -0.00819122 57 0 57 24.5413 -0.177649
+2015 male.spawn 5 0 0.0183 0.0236969 -0.00539693 57 0 57 3.92252 -0.267883
+2015 male.spawn 6 0 0.0953 0.127629 -0.0323294 57 0 57 16.7239 -0.731492
+2015 male.spawn 7 0 0.011 0.0150901 -0.00409012 57 0 57 2.52058 -0.253296
+2015 male.spawn 8 0 0.0277 0.0444648 -0.0167648 57 0 57 5.25688 -0.614051
+2015 male.spawn 9 0 0.0697 0.0805036 -0.0108036 57 0 57 13.1469 -0.299793
+2015 male.spawn 10 0 0.0098 0.0105194 -0.000719448 57 0 57 2.42709 -0.0532399
+2015 male.spawn 11 0 0.0109 0.00589194 0.00500806 57 0 57 3.08015 0.494038
+2015 male.spawn 12 0 0.0023 0.00466576 -0.00236576 57 0 57 0.641313 -0.262097
+2015 male.spawn 13 0 0 0.00504804 -0.00504804 57 0 57 0 -0.537772
+2015 male.spawn 14 0 0.0159 0.00743377 0.00846623 57 0 57 4.4057 0.744121
+2015 male.spawn 15 0 0.0084 0.00788859 0.000511409 57 0 57 2.19717 0.0436441
+2015 female.spawn 2 0 0.0016 0.00301438 -0.00141438 57 0 57 0.48327 -0.194787
+2015 female.spawn 3 0 0.0109 0.0240184 -0.0131184 57 0 57 2.20707 -0.646883
+2015 female.spawn 4 0 0.1737 0.132774 0.0409264 57 0 57 34.8628 0.910581
+2015 female.spawn 5 0 0.0346 0.0235679 0.0110321 57 0 57 8.05919 0.549051
+2015 female.spawn 6 0 0.1203 0.126612 -0.00631159 57 0 57 22.4096 -0.143296
+2015 female.spawn 7 0 0.012 0.0149074 -0.00290741 57 0 57 2.77779 -0.181136
+2015 female.spawn 8 0 0.0467 0.0437792 0.00292083 57 0 57 9.71184 0.107778
+2015 female.spawn 9 0 0.1227 0.0789942 0.0437058 57 0 57 26.266 1.22334
+2015 female.spawn 10 0 0.0109 0.010293 0.000606951 57 0 57 2.73353 0.045401
+2015 female.spawn 11 0 0.0039 0.00574726 -0.00184726 57 0 57 1.05535 -0.184496
+2015 female.spawn 12 0 0.0059 0.00453644 0.00136356 57 0 57 1.70097 0.153194
+2015 female.spawn 13 0 0.0012 0.00488929 -0.00368929 57 0 57 0.32818 -0.399321
+2015 female.spawn 14 0 0.0209 0.00718065 0.0137193 57 0 57 5.97293 1.22674
+2015 female.spawn 15 0 0.004 0.00749746 -0.00349746 57 0 57 1.02267 -0.306103
+*end
+
+*process[Recruitment]
+age: 2
+b0: 799422
+b0_initialisation_phase:
+categories: male.nonspawn male.spawn female.nonspawn female.spawn
+label: Recruitment
+proportions: 0.5 0 0.5 0
+r0: 5.37722e+08
+ssb: SSB
+ssb_offset: 2
+standardise_ycs_years: 1958 1959 1960 1961 1962 1963 1964 1965 1966 1967 1968 1969 1970 1971 1972 1973 1974 1975 1976 1977 1978 1979 1980 1981 1982 1983 1984 1985 1986 1987 1988 1989 1990 1991 1992 1993 1994 1995 1996 1997 1998 1999 2000 2001 2002 2003 2004 2005 2006 2007 2008 2009 2010 2011 2012
+steepness: 0.9
+type: recruitment_beverton_holt
+ycs_years: 1958 1959 1960 1961 1962 1963 1964 1965 1966 1967 1968 1969 1970 1971 1972 1973 1974 1975 1976 1977 1978 1979 1980 1981 1982 1983 1984 1985 1986 1987 1988 1989 1990 1991 1992 1993 1994 1995 1996 1997 1998 1999 2000 2001 2002 2003 2004 2005 2006 2007 2008 2009 2010 2011 2012 2013
+standardised_ycs: 0.514608 0.530847 0.656561 0.478906 0.713493 0.599259 10.1348 2.29076 1.6543 1.09001 0.716404 0.342481 0.181995 0.369763 0.236431 0.117835 0.117934 0.235613 0.0922034 0.0716975 0.0854953 0.604442 0.566079 0.138218 0.0494333 0.187246 0.176987 0.156094 0.445942 0.241842 0.864853 0.0793403 0.636632 7.15474 1.26433 0.543211 0.293065 1.34737 0.822612 0.365684 0.63003 0.45844 0.624542 1.82547 0.916255 0.620727 0.573414 0.750878 4.21824 1.72943 0.435898 2.66202 0.365297 1.78322 0.236625 1
+ycs_values: 0.232804 0.24015 0.297022 0.216653 0.322778 0.271099 4.58489 1.03632 0.74839 0.493109 0.324095 0.154935 0.0823328 0.167277 0.106959 0.0533076 0.0533521 0.106589 0.041712 0.0324353 0.0386773 0.273444 0.256089 0.0625287 0.0223632 0.0847082 0.0800672 0.0706157 0.20174 0.109407 0.391252 0.0358928 0.288007 3.23674 0.571971 0.245744 0.13258 0.609539 0.372142 0.165432 0.28502 0.207394 0.282537 0.825827 0.414506 0.280811 0.259408 0.33969 1.9083 0.782379 0.197196 1.20427 0.165257 0.806714 0.107047 1
+true_ycs: 0.514608 0.530847 0.65651 0.478036 0.710815 0.595935 10.0526 2.26948 1.64069 1.10408 0.7268 0.347831 0.184771 0.374947 0.239239 0.118853 0.11849 0.235639 0.0916635 0.0707115 0.0836275 0.579292 0.532864 0.127837 0.0462165 0.176451 0.165737 0.144548 0.408704 0.218629 0.771872 0.0715361 0.572538 6.67946 1.17206 0.515043 0.293068 1.34966 0.824931 0.366055 0.630284 0.457623 0.621496 1.8129 0.907158 0.613428 0.569923 0.746619 4.18625 1.70946 0.429881 2.65729 0.365094 1.78018 0.236904 0.998378
+Recruits: 2.76716e+08 2.85448e+08 3.5302e+08 2.5705e+08 3.82221e+08 3.20447e+08 5.40552e+09 1.22035e+09 8.82238e+08 5.93686e+08 3.90817e+08 1.87036e+08 9.93556e+07 2.01617e+08 1.28644e+08 6.391e+07 6.37144e+07 1.26708e+08 4.92895e+07 3.80232e+07 4.49684e+07 3.11498e+08 2.86533e+08 6.87406e+07 2.48516e+07 9.48814e+07 8.91206e+07 7.77266e+07 2.19769e+08 1.17561e+08 4.15053e+08 3.84665e+07 3.07866e+08 3.59169e+09 6.30242e+08 2.7695e+08 1.57589e+08 7.25741e+08 4.43583e+08 1.96836e+08 3.38917e+08 2.46074e+08 3.34192e+08 9.74838e+08 4.87799e+08 3.29854e+08 3.0646e+08 4.01473e+08 2.25104e+09 9.19215e+08 2.31157e+08 1.42888e+09 1.96319e+08 9.57242e+08 1.27388e+08 5.3685e+08
+SSB: 799422 799422 797183 750239 703934 665729 617673 597694 615648 1.47699e+06 1.64809e+06 1.79115e+06 1.74161e+06 1.59166e+06 1.38444e+06 1.15578e+06 961859 802718 659554 532250 443129 311914 246429 203750 228034 249631 232152 206267 186778 165775 149799 162240 158927 224456 208503 269270 799682 851357 889443 829632 811184 751104 679523 639747 587371 559676 654983 663224 626934 562765 531574 751289 783758 753096 834843 755240
+*end
+
+*process[Ageing]
+categories: male.spawn female.spawn male.nonspawn female.nonspawn
+label: Ageing
+type: ageing
+*end
+
+*process[Maturity_Migration]
+from: male.nonspawn female.nonspawn
+label: Maturity_Migration
+proportions: 1 1
+selectivities: MaturationSel_male MaturationSel_female
+to: male.spawn female.spawn
+type: transition_category
+*end
+
+*process[Instantaneous_Mortality]
+categories: male.nonspawn male.spawn female.nonspawn female.spawn
+label: Instantaneous_Mortality
+m: 0.273977 0.273977 0.277355 0.277355
+relative_m_by_age: One One One One
+time_step_proportions: 0.90000000000000002 0.10000000000000001
+type: mortality_instantaneous
+year: 1960 1961 1962 1963 1964 1965 1966 1967 1968 1969 1970 1971 1972 1973 1974 1975 1976 1977 1978 1979 1980 1981 1982 1983 1984 1985 1986 1987 1988 1989 1990 1991 1992 1993 1994 1995 1996 1997 1998 1999 2000 2001 2002 2003 2004 2005 2006 2007 2008 2009 2010 2011 2012 2013 2014 2015
+fishing_pressure[Trawl]: 0 0 0 0 0 0 0 0 0 0 0 0.00455273 0.0129322 0.0288884 0.0301844 0.00206731 0.0179342 0.0341029 0.0143486 0.0780145 0.0507574 0.0289766 0.0341288 0.0500273 0.0453875 0.0356767 0.0785048 0.0744101 0.110004 0.151762 0.0990131 0.0907192 0.0659337 0.03402 0.0144879 0.0121856 0.0183889 0.0225574 0.032946 0.0355878 0.0262246 0.0431941 0.0553902 0.0415145 0.0297871 0.0387383 0.0310437 0.0366381 0.0378178 0.0250326 0.0254821 0.0403253 0.0252237 0.0371857 0.0294222 0.0301428
+catch[Trawl]: 0 0 0 0 0 0 0 0 0 0 0 7262 18017 33868 29469 1661 11933 18460 6403 25305 12828 5989 7915 12803 10777 7490 15252 12804 17422 26611 16542 21314 14208 9316 11668 10436 16504 18923 27164 27205 18052 28232 33445 23718 19799 26190 19763 20996 20483 19040 20224 30982 21321 28606 23397 22100
+actual_catch[Trawl]: 0 0 0 0 0 0 0 0 0 0 0 7262 18017 33868 29469 1661 11933 18460 6403 25305 12828 5989 7915 12803 10777 7490 15252 12804 17422 26611 16542 21314 14208 9316 11668 10436 16504 18923 27164 27205 18052 28232 33445 23718 19799 26190 19763 20996 20483 19040 20224 30982 21321 28606 23397 22100
+*end
+
+*selectivity[MaturationSel_male]
+h: 6
+intervals: 5
+l: 2
+label: MaturationSel_male
+length_based: 0
+type: all_values_bounded
+v: 0.0820411 0.889596 0.0253688 0.998845 0.99
+Values {vector}
+2 0.0820411
+3 0.889596
+4 0.0253688
+5 0.998845
+6 0.99
+7 0.99
+8 0.99
+9 0.99
+10 0.99
+11 0.99
+12 0.99
+13 0.99
+14 0.99
+15 0.99
+*end
+
+*selectivity[MaturationSel_female]
+h: 6
+intervals: 5
+l: 2
+label: MaturationSel_female
+length_based: 0
+type: all_values_bounded
+v: 0.0192042 0.848637 0.00224634 0.99874 0.99
+Values {vector}
+2 0.0192042
+3 0.848637
+4 0.00224634
+5 0.99874
+6 0.99
+7 0.99
+8 0.99
+9 0.99
+10 0.99
+11 0.99
+12 0.99
+13 0.99
+14 0.99
+15 0.99
+*end
+
+*selectivity[TangaroaImmatureSel]
+a50: 2
+alpha: 1
+ato95: 3
+intervals: 5
+label: TangaroaImmatureSel
+length_based: 0
+type: logistic
+Values {vector}
+2 0.5
+3 0.727402
+4 0.876853
+5 0.95
+6 0.980658
+7 0.992663
+8 0.997238
+9 0.998963
+10 0.999611
+11 0.999854
+12 0.999945
+13 0.99998
+14 0.999992
+15 0.999997
+*end
+
+*selectivity[One]
+c: 1
+intervals: 5
+label: One
+length_based: 0
+type: constant
+Values {vector}
+2 1
+3 1
+4 1
+5 1
+6 1
+7 1
+8 1
+9 1
+10 1
+11 1
+12 1
+13 1
+14 1
+15 1
+*end
+
+*estimate_summary[estimated_summary]
+process[Recruitment].b0 {list}
+value: 799422
+std_dev: 4.74409e+07
+estimation_phase:
+label: B0
+lower_bound: 30000
+mcmc:
+parameter: process[Recruitment].b0
+prior_applies_to_transform:
+same:
+transform_with_jacobian:
+transformation:
+type: uniform_log
+upper_bound: 800000
+{end_list}
+
+selectivity[MaturationSel_male].v{1} {list}
+value: 0.0820411
+std_dev: 0.294096
+estimation_phase:
+label: Migration_male
+lower_bound: 0.001
+mcmc:
+parameter: selectivity[MaturationSel_male].v{1}
+prior_applies_to_transform:
+same:
+transform_with_jacobian:
+transformation:
+type: uniform
+upper_bound: 0.999
+{end_list}
+
+selectivity[MaturationSel_male].v{2} {list}
+value: 0.889596
+std_dev: 0.780967
+estimation_phase:
+label: Migration_male
+lower_bound: 0.001
+mcmc:
+parameter: selectivity[MaturationSel_male].v{2}
+prior_applies_to_transform:
+same:
+transform_with_jacobian:
+transformation:
+type: uniform
+upper_bound: 0.999
+{end_list}
+
+selectivity[MaturationSel_male].v{3} {list}
+value: 0.0253688
+std_dev: 66.6747
+estimation_phase:
+label: Migration_male
+lower_bound: 0.001
+mcmc:
+parameter: selectivity[MaturationSel_male].v{3}
+prior_applies_to_transform:
+same:
+transform_with_jacobian:
+transformation:
+type: uniform
+upper_bound: 0.999
+{end_list}
+
+selectivity[MaturationSel_male].v{4} {list}
+value: 0.998845
+std_dev: 101.954
+estimation_phase:
+label: Migration_male
+lower_bound: 0.001
+mcmc:
+parameter: selectivity[MaturationSel_male].v{4}
+prior_applies_to_transform:
+same:
+transform_with_jacobian:
+transformation:
+type: uniform
+upper_bound: 0.999
+{end_list}
+
+selectivity[MaturationSel_female].v{1} {list}
+value: 0.0192042
+std_dev: 1.1687
+estimation_phase:
+label: Migration_female
+lower_bound: 0.001
+mcmc:
+parameter: selectivity[MaturationSel_female].v{1}
+prior_applies_to_transform:
+same:
+transform_with_jacobian:
+transformation:
+type: uniform
+upper_bound: 0.999
+{end_list}
+
+selectivity[MaturationSel_female].v{2} {list}
+value: 0.848637
+std_dev: 0.407089
+estimation_phase:
+label: Migration_female
+lower_bound: 0.001
+mcmc:
+parameter: selectivity[MaturationSel_female].v{2}
+prior_applies_to_transform:
+same:
+transform_with_jacobian:
+transformation:
+type: uniform
+upper_bound: 0.999
+{end_list}
+
+selectivity[MaturationSel_female].v{3} {list}
+value: 0.00224634
+std_dev: 12.1785
+estimation_phase:
+label: Migration_female
+lower_bound: 0.001
+mcmc:
+parameter: selectivity[MaturationSel_female].v{3}
+prior_applies_to_transform:
+same:
+transform_with_jacobian:
+transformation:
+type: uniform
+upper_bound: 0.999
+{end_list}
+
+selectivity[MaturationSel_female].v{4} {list}
+value: 0.99874
+std_dev: 83.9873
+estimation_phase:
+label: Migration_female
+lower_bound: 0.001
+mcmc:
+parameter: selectivity[MaturationSel_female].v{4}
+prior_applies_to_transform:
+same:
+transform_with_jacobian:
+transformation:
+type: uniform
+upper_bound: 0.999
+{end_list}
+
+process[Recruitment].ycs_values{1958} {list}
+value: 0.232804
+std_dev: 691.859
+cv: 1.3
+estimation_phase:
+label: YCS
+lower_bound: 0.001
+mcmc:
+mu: 1
+parameter: process[Recruitment].ycs_values{1958}
+prior_applies_to_transform:
+same:
+transform_with_jacobian:
+transformation:
+type: lognormal
+upper_bound: 100
+{end_list}
+
+process[Recruitment].ycs_values{1959} {list}
+value: 0.24015
+std_dev: 665.737
+cv: 1.3
+estimation_phase:
+label: YCS
+lower_bound: 0.001
+mcmc:
+mu: 1
+parameter: process[Recruitment].ycs_values{1959}
+prior_applies_to_transform:
+same:
+transform_with_jacobian:
+transformation:
+type: lognormal
+upper_bound: 100
+{end_list}
+
+process[Recruitment].ycs_values{1960} {list}
+value: 0.297022
+std_dev: 835.455
+cv: 1.3
+estimation_phase:
+label: YCS
+lower_bound: 0.001
+mcmc:
+mu: 1
+parameter: process[Recruitment].ycs_values{1960}
+prior_applies_to_transform:
+same:
+transform_with_jacobian:
+transformation:
+type: lognormal
+upper_bound: 100
+{end_list}
+
+process[Recruitment].ycs_values{1961} {list}
+value: 0.216653
+std_dev: 839.413
+cv: 1.3
+estimation_phase:
+label: YCS
+lower_bound: 0.001
+mcmc:
+mu: 1
+parameter: process[Recruitment].ycs_values{1961}
+prior_applies_to_transform:
+same:
+transform_with_jacobian:
+transformation:
+type: lognormal
+upper_bound: 100
+{end_list}
+
+process[Recruitment].ycs_values{1962} {list}
+value: 0.322778
+std_dev: 911.129
+cv: 1.3
+estimation_phase:
+label: YCS
+lower_bound: 0.001
+mcmc:
+mu: 1
+parameter: process[Recruitment].ycs_values{1962}
+prior_applies_to_transform:
+same:
+transform_with_jacobian:
+transformation:
+type: lognormal
+upper_bound: 100
+{end_list}
+
+process[Recruitment].ycs_values{1963} {list}
+value: 0.271099
+std_dev: 1015.1
+cv: 1.3
+estimation_phase:
+label: YCS
+lower_bound: 0.001
+mcmc:
+mu: 1
+parameter: process[Recruitment].ycs_values{1963}
+prior_applies_to_transform:
+same:
+transform_with_jacobian:
+transformation:
+type: lognormal
+upper_bound: 100
+{end_list}
+
+process[Recruitment].ycs_values{1964} {list}
+value: 4.58489
+std_dev: 139.959
+cv: 1.3
+estimation_phase:
+label: YCS
+lower_bound: 0.001
+mcmc:
+mu: 1
+parameter: process[Recruitment].ycs_values{1964}
+prior_applies_to_transform:
+same:
+transform_with_jacobian:
+transformation:
+type: lognormal
+upper_bound: 100
+{end_list}
+
+process[Recruitment].ycs_values{1965} {list}
+value: 1.03632
+std_dev: 452.851
+cv: 1.3
+estimation_phase:
+label: YCS
+lower_bound: 0.001
+mcmc:
+mu: 1
+parameter: process[Recruitment].ycs_values{1965}
+prior_applies_to_transform:
+same:
+transform_with_jacobian:
+transformation:
+type: lognormal
+upper_bound: 100
+{end_list}
+
+process[Recruitment].ycs_values{1966} {list}
+value: 0.74839
+std_dev: 351.79
+cv: 1.3
+estimation_phase:
+label: YCS
+lower_bound: 0.001
+mcmc:
+mu: 1
+parameter: process[Recruitment].ycs_values{1966}
+prior_applies_to_transform:
+same:
+transform_with_jacobian:
+transformation:
+type: lognormal
+upper_bound: 100
+{end_list}
+
+process[Recruitment].ycs_values{1967} {list}
+value: 0.493109
+std_dev: 338.72
+cv: 1.3
+estimation_phase:
+label: YCS
+lower_bound: 0.001
+mcmc:
+mu: 1
+parameter: process[Recruitment].ycs_values{1967}
+prior_applies_to_transform:
+same:
+transform_with_jacobian:
+transformation:
+type: lognormal
+upper_bound: 100
+{end_list}
+
+process[Recruitment].ycs_values{1968} {list}
+value: 0.324095
+std_dev: 410.195
+cv: 1.3
+estimation_phase:
+label: YCS
+lower_bound: 0.001
+mcmc:
+mu: 1
+parameter: process[Recruitment].ycs_values{1968}
+prior_applies_to_transform:
+same:
+transform_with_jacobian:
+transformation:
+type: lognormal
+upper_bound: 100
+{end_list}
+
+process[Recruitment].ycs_values{1969} {list}
+value: 0.154935
+std_dev: 649.321
+cv: 1.3
+estimation_phase:
+label: YCS
+lower_bound: 0.001
+mcmc:
+mu: 1
+parameter: process[Recruitment].ycs_values{1969}
+prior_applies_to_transform:
+same:
+transform_with_jacobian:
+transformation:
+type: lognormal
+upper_bound: 100
+{end_list}
+
+process[Recruitment].ycs_values{1970} {list}
+value: 0.0823328
+std_dev: 935.337
+cv: 1.3
+estimation_phase:
+label: YCS
+lower_bound: 0.001
+mcmc:
+mu: 1
+parameter: process[Recruitment].ycs_values{1970}
+prior_applies_to_transform:
+same:
+transform_with_jacobian:
+transformation:
+type: lognormal
+upper_bound: 100
+{end_list}
+
+process[Recruitment].ycs_values{1971} {list}
+value: 0.167277
+std_dev: 491.935
+cv: 1.3
+estimation_phase:
+label: YCS
+lower_bound: 0.001
+mcmc:
+mu: 1
+parameter: process[Recruitment].ycs_values{1971}
+prior_applies_to_transform:
+same:
+transform_with_jacobian:
+transformation:
+type: lognormal
+upper_bound: 100
+{end_list}
+
+process[Recruitment].ycs_values{1972} {list}
+value: 0.106959
+std_dev: 614.061
+cv: 1.3
+estimation_phase:
+label: YCS
+lower_bound: 0.001
+mcmc:
+mu: 1
+parameter: process[Recruitment].ycs_values{1972}
+prior_applies_to_transform:
+same:
+transform_with_jacobian:
+transformation:
+type: lognormal
+upper_bound: 100
+{end_list}
+
+process[Recruitment].ycs_values{1973} {list}
+value: 0.0533076
+std_dev: 731.735
+cv: 1.3
+estimation_phase:
+label: YCS
+lower_bound: 0.001
+mcmc:
+mu: 1
+parameter: process[Recruitment].ycs_values{1973}
+prior_applies_to_transform:
+same:
+transform_with_jacobian:
+transformation:
+type: lognormal
+upper_bound: 100
+{end_list}
+
+process[Recruitment].ycs_values{1974} {list}
+value: 0.0533521
+std_dev: 557.693
+cv: 1.3
+estimation_phase:
+label: YCS
+lower_bound: 0.001
+mcmc:
+mu: 1
+parameter: process[Recruitment].ycs_values{1974}
+prior_applies_to_transform:
+same:
+transform_with_jacobian:
+transformation:
+type: lognormal
+upper_bound: 100
+{end_list}
+
+process[Recruitment].ycs_values{1975} {list}
+value: 0.106589
+std_dev: 450.429
+cv: 1.3
+estimation_phase:
+label: YCS
+lower_bound: 0.001
+mcmc:
+mu: 1
+parameter: process[Recruitment].ycs_values{1975}
+prior_applies_to_transform:
+same:
+transform_with_jacobian:
+transformation:
+type: lognormal
+upper_bound: 100
+{end_list}
+
+process[Recruitment].ycs_values{1976} {list}
+value: 0.041712
+std_dev: 883.872
+cv: 1.3
+estimation_phase:
+label: YCS
+lower_bound: 0.001
+mcmc:
+mu: 1
+parameter: process[Recruitment].ycs_values{1976}
+prior_applies_to_transform:
+same:
+transform_with_jacobian:
+transformation:
+type: lognormal
+upper_bound: 100
+{end_list}
+
+process[Recruitment].ycs_values{1977} {list}
+value: 0.0324353
+std_dev: 1081.17
+cv: 1.3
+estimation_phase:
+label: YCS
+lower_bound: 0.001
+mcmc:
+mu: 1
+parameter: process[Recruitment].ycs_values{1977}
+prior_applies_to_transform:
+same:
+transform_with_jacobian:
+transformation:
+type: lognormal
+upper_bound: 100
+{end_list}
+
+process[Recruitment].ycs_values{1978} {list}
+value: 0.0386773
+std_dev: 690.414
+cv: 1.3
+estimation_phase:
+label: YCS
+lower_bound: 0.001
+mcmc:
+mu: 1
+parameter: process[Recruitment].ycs_values{1978}
+prior_applies_to_transform:
+same:
+transform_with_jacobian:
+transformation:
+type: lognormal
+upper_bound: 100
+{end_list}
+
+process[Recruitment].ycs_values{1979} {list}
+value: 0.273444
+std_dev: 193.523
+cv: 1.3
+estimation_phase:
+label: YCS
+lower_bound: 0.001
+mcmc:
+mu: 1
+parameter: process[Recruitment].ycs_values{1979}
+prior_applies_to_transform:
+same:
+transform_with_jacobian:
+transformation:
+type: lognormal
+upper_bound: 100
+{end_list}
+
+process[Recruitment].ycs_values{1980} {list}
+value: 0.256089
+std_dev: 197.646
+cv: 1.3
+estimation_phase:
+label: YCS
+lower_bound: 0.001
+mcmc:
+mu: 1
+parameter: process[Recruitment].ycs_values{1980}
+prior_applies_to_transform:
+same:
+transform_with_jacobian:
+transformation:
+type: lognormal
+upper_bound: 100
+{end_list}
+
+process[Recruitment].ycs_values{1981} {list}
+value: 0.0625287
+std_dev: 544.034
+cv: 1.3
+estimation_phase:
+label: YCS
+lower_bound: 0.001
+mcmc:
+mu: 1
+parameter: process[Recruitment].ycs_values{1981}
+prior_applies_to_transform:
+same:
+transform_with_jacobian:
+transformation:
+type: lognormal
+upper_bound: 100
+{end_list}
+
+process[Recruitment].ycs_values{1982} {list}
+value: 0.0223632
+std_dev: 1093.26
+cv: 1.3
+estimation_phase:
+label: YCS
+lower_bound: 0.001
+mcmc:
+mu: 1
+parameter: process[Recruitment].ycs_values{1982}
+prior_applies_to_transform:
+same:
+transform_with_jacobian:
+transformation:
+type: lognormal
+upper_bound: 100
+{end_list}
+
+process[Recruitment].ycs_values{1983} {list}
+value: 0.0847082
+std_dev: 406.334
+cv: 1.3
+estimation_phase:
+label: YCS
+lower_bound: 0.001
+mcmc:
+mu: 1
+parameter: process[Recruitment].ycs_values{1983}
+prior_applies_to_transform:
+same:
+transform_with_jacobian:
+transformation:
+type: lognormal
+upper_bound: 100
+{end_list}
+
+process[Recruitment].ycs_values{1984} {list}
+value: 0.0800672
+std_dev: 410.267
+cv: 1.3
+estimation_phase:
+label: YCS
+lower_bound: 0.001
+mcmc:
+mu: 1
+parameter: process[Recruitment].ycs_values{1984}
+prior_applies_to_transform:
+same:
+transform_with_jacobian:
+transformation:
+type: lognormal
+upper_bound: 100
+{end_list}
+
+process[Recruitment].ycs_values{1985} {list}
+value: 0.0706157
+std_dev: 455.013
+cv: 1.3
+estimation_phase:
+label: YCS
+lower_bound: 0.001
+mcmc:
+mu: 1
+parameter: process[Recruitment].ycs_values{1985}
+prior_applies_to_transform:
+same:
+transform_with_jacobian:
+transformation:
+type: lognormal
+upper_bound: 100
+{end_list}
+
+process[Recruitment].ycs_values{1986} {list}
+value: 0.20174
+std_dev: 215.573
+cv: 1.3
+estimation_phase:
+label: YCS
+lower_bound: 0.001
+mcmc:
+mu: 1
+parameter: process[Recruitment].ycs_values{1986}
+prior_applies_to_transform:
+same:
+transform_with_jacobian:
+transformation:
+type: lognormal
+upper_bound: 100
+{end_list}
+
+process[Recruitment].ycs_values{1987} {list}
+value: 0.109407
+std_dev: 326.501
+cv: 1.3
+estimation_phase:
+label: YCS
+lower_bound: 0.001
+mcmc:
+mu: 1
+parameter: process[Recruitment].ycs_values{1987}
+prior_applies_to_transform:
+same:
+transform_with_jacobian:
+transformation:
+type: lognormal
+upper_bound: 100
+{end_list}
+
+process[Recruitment].ycs_values{1988} {list}
+value: 0.391252
+std_dev: 150.011
+cv: 1.3
+estimation_phase:
+label: YCS
+lower_bound: 0.001
+mcmc:
+mu: 1
+parameter: process[Recruitment].ycs_values{1988}
+prior_applies_to_transform:
+same:
+transform_with_jacobian:
+transformation:
+type: lognormal
+upper_bound: 100
+{end_list}
+
+process[Recruitment].ycs_values{1989} {list}
+value: 0.0358928
+std_dev: 727.363
+cv: 1.3
+estimation_phase:
+label: YCS
+lower_bound: 0.001
+mcmc:
+mu: 1
+parameter: process[Recruitment].ycs_values{1989}
+prior_applies_to_transform:
+same:
+transform_with_jacobian:
+transformation:
+type: lognormal
+upper_bound: 100
+{end_list}
+
+process[Recruitment].ycs_values{1990} {list}
+value: 0.288007
+std_dev: 208.877
+cv: 1.3
+estimation_phase:
+label: YCS
+lower_bound: 0.001
+mcmc:
+mu: 1
+parameter: process[Recruitment].ycs_values{1990}
+prior_applies_to_transform:
+same:
+transform_with_jacobian:
+transformation:
+type: lognormal
+upper_bound: 100
+{end_list}
+
+process[Recruitment].ycs_values{1991} {list}
+value: 3.23674
+std_dev: 47.4915
+cv: 1.3
+estimation_phase:
+label: YCS
+lower_bound: 0.001
+mcmc:
+mu: 1
+parameter: process[Recruitment].ycs_values{1991}
+prior_applies_to_transform:
+same:
+transform_with_jacobian:
+transformation:
+type: lognormal
+upper_bound: 100
+{end_list}
+
+process[Recruitment].ycs_values{1992} {list}
+value: 0.571971
+std_dev: 130.074
+cv: 1.3
+estimation_phase:
+label: YCS
+lower_bound: 0.001
+mcmc:
+mu: 1
+parameter: process[Recruitment].ycs_values{1992}
+prior_applies_to_transform:
+same:
+transform_with_jacobian:
+transformation:
+type: lognormal
+upper_bound: 100
+{end_list}
+
+process[Recruitment].ycs_values{1993} {list}
+value: 0.245744
+std_dev: 240.888
+cv: 1.3
+estimation_phase:
+label: YCS
+lower_bound: 0.001
+mcmc:
+mu: 1
+parameter: process[Recruitment].ycs_values{1993}
+prior_applies_to_transform:
+same:
+transform_with_jacobian:
+transformation:
+type: lognormal
+upper_bound: 100
+{end_list}
+
+process[Recruitment].ycs_values{1994} {list}
+value: 0.13258
+std_dev: 428.744
+cv: 1.3
+estimation_phase:
+label: YCS
+lower_bound: 0.001
+mcmc:
+mu: 1
+parameter: process[Recruitment].ycs_values{1994}
+prior_applies_to_transform:
+same:
+transform_with_jacobian:
+transformation:
+type: lognormal
+upper_bound: 100
+{end_list}
+
+process[Recruitment].ycs_values{1995} {list}
+value: 0.609539
+std_dev: 140.846
+cv: 1.3
+estimation_phase:
+label: YCS
+lower_bound: 0.001
+mcmc:
+mu: 1
+parameter: process[Recruitment].ycs_values{1995}
+prior_applies_to_transform:
+same:
+transform_with_jacobian:
+transformation:
+type: lognormal
+upper_bound: 100
+{end_list}
+
+process[Recruitment].ycs_values{1996} {list}
+value: 0.372142
+std_dev: 173.727
+cv: 1.3
+estimation_phase:
+label: YCS
+lower_bound: 0.001
+mcmc:
+mu: 1
+parameter: process[Recruitment].ycs_values{1996}
+prior_applies_to_transform:
+same:
+transform_with_jacobian:
+transformation:
+type: lognormal
+upper_bound: 100
+{end_list}
+
+process[Recruitment].ycs_values{1997} {list}
+value: 0.165432
+std_dev: 334.184
+cv: 1.3
+estimation_phase:
+label: YCS
+lower_bound: 0.001
+mcmc:
+mu: 1
+parameter: process[Recruitment].ycs_values{1997}
+prior_applies_to_transform:
+same:
+transform_with_jacobian:
+transformation:
+type: lognormal
+upper_bound: 100
+{end_list}
+
+process[Recruitment].ycs_values{1998} {list}
+value: 0.28502
+std_dev: 220.29
+cv: 1.3
+estimation_phase:
+label: YCS
+lower_bound: 0.001
+mcmc:
+mu: 1
+parameter: process[Recruitment].ycs_values{1998}
+prior_applies_to_transform:
+same:
+transform_with_jacobian:
+transformation:
+type: lognormal
+upper_bound: 100
+{end_list}
+
+process[Recruitment].ycs_values{1999} {list}
+value: 0.207394
+std_dev: 289.089
+cv: 1.3
+estimation_phase:
+label: YCS
+lower_bound: 0.001
+mcmc:
+mu: 1
+parameter: process[Recruitment].ycs_values{1999}
+prior_applies_to_transform:
+same:
+transform_with_jacobian:
+transformation:
+type: lognormal
+upper_bound: 100
+{end_list}
+
+process[Recruitment].ycs_values{2000} {list}
+value: 0.282537
+std_dev: 233.861
+cv: 1.3
+estimation_phase:
+label: YCS
+lower_bound: 0.001
+mcmc:
+mu: 1
+parameter: process[Recruitment].ycs_values{2000}
+prior_applies_to_transform:
+same:
+transform_with_jacobian:
+transformation:
+type: lognormal
+upper_bound: 100
+{end_list}
+
+process[Recruitment].ycs_values{2001} {list}
+value: 0.825827
+std_dev: 110.945
+cv: 1.3
+estimation_phase:
+label: YCS
+lower_bound: 0.001
+mcmc:
+mu: 1
+parameter: process[Recruitment].ycs_values{2001}
+prior_applies_to_transform:
+same:
+transform_with_jacobian:
+transformation:
+type: lognormal
+upper_bound: 100
+{end_list}
+
+process[Recruitment].ycs_values{2002} {list}
+value: 0.414506
+std_dev: 165.18
+cv: 1.3
+estimation_phase:
+label: YCS
+lower_bound: 0.001
+mcmc:
+mu: 1
+parameter: process[Recruitment].ycs_values{2002}
+prior_applies_to_transform:
+same:
+transform_with_jacobian:
+transformation:
+type: lognormal
+upper_bound: 100
+{end_list}
+
+process[Recruitment].ycs_values{2003} {list}
+value: 0.280811
+std_dev: 248.858
+cv: 1.3
+estimation_phase:
+label: YCS
+lower_bound: 0.001
+mcmc:
+mu: 1
+parameter: process[Recruitment].ycs_values{2003}
+prior_applies_to_transform:
+same:
+transform_with_jacobian:
+transformation:
+type: lognormal
+upper_bound: 100
+{end_list}
+
+process[Recruitment].ycs_values{2004} {list}
+value: 0.259408
+std_dev: 235.911
+cv: 1.3
+estimation_phase:
+label: YCS
+lower_bound: 0.001
+mcmc:
+mu: 1
+parameter: process[Recruitment].ycs_values{2004}
+prior_applies_to_transform:
+same:
+transform_with_jacobian:
+transformation:
+type: lognormal
+upper_bound: 100
+{end_list}
+
+process[Recruitment].ycs_values{2005} {list}
+value: 0.33969
+std_dev: 231.41
+cv: 1.3
+estimation_phase:
+label: YCS
+lower_bound: 0.001
+mcmc:
+mu: 1
+parameter: process[Recruitment].ycs_values{2005}
+prior_applies_to_transform:
+same:
+transform_with_jacobian:
+transformation:
+type: lognormal
+upper_bound: 100
+{end_list}
+
+process[Recruitment].ycs_values{2006} {list}
+value: 1.9083
+std_dev: 74.6541
+cv: 1.3
+estimation_phase:
+label: YCS
+lower_bound: 0.001
+mcmc:
+mu: 1
+parameter: process[Recruitment].ycs_values{2006}
+prior_applies_to_transform:
+same:
+transform_with_jacobian:
+transformation:
+type: lognormal
+upper_bound: 100
+{end_list}
+
+process[Recruitment].ycs_values{2007} {list}
+value: 0.782379
+std_dev: 120.983
+cv: 1.3
+estimation_phase:
+label: YCS
+lower_bound: 0.001
+mcmc:
+mu: 1
+parameter: process[Recruitment].ycs_values{2007}
+prior_applies_to_transform:
+same:
+transform_with_jacobian:
+transformation:
+type: lognormal
+upper_bound: 100
+{end_list}
+
+process[Recruitment].ycs_values{2008} {list}
+value: 0.197196
+std_dev: 374.136
+cv: 1.3
+estimation_phase:
+label: YCS
+lower_bound: 0.001
+mcmc:
+mu: 1
+parameter: process[Recruitment].ycs_values{2008}
+prior_applies_to_transform:
+same:
+transform_with_jacobian:
+transformation:
+type: lognormal
+upper_bound: 100
+{end_list}
+
+process[Recruitment].ycs_values{2009} {list}
+value: 1.20427
+std_dev: 102.561
+cv: 1.3
+estimation_phase:
+label: YCS
+lower_bound: 0.001
+mcmc:
+mu: 1
+parameter: process[Recruitment].ycs_values{2009}
+prior_applies_to_transform:
+same:
+transform_with_jacobian:
+transformation:
+type: lognormal
+upper_bound: 100
+{end_list}
+
+process[Recruitment].ycs_values{2010} {list}
+value: 0.165257
+std_dev: 454.869
+cv: 1.3
+estimation_phase:
+label: YCS
+lower_bound: 0.001
+mcmc:
+mu: 1
+parameter: process[Recruitment].ycs_values{2010}
+prior_applies_to_transform:
+same:
+transform_with_jacobian:
+transformation:
+type: lognormal
+upper_bound: 100
+{end_list}
+
+process[Recruitment].ycs_values{2011} {list}
+value: 0.806714
+std_dev: 161.675
+cv: 1.3
+estimation_phase:
+label: YCS
+lower_bound: 0.001
+mcmc:
+mu: 1
+parameter: process[Recruitment].ycs_values{2011}
+prior_applies_to_transform:
+same:
+transform_with_jacobian:
+transformation:
+type: lognormal
+upper_bound: 100
+{end_list}
+
+process[Recruitment].ycs_values{2012} {list}
+value: 0.107047
+std_dev: 834.919
+cv: 1.3
+estimation_phase:
+label: YCS
+lower_bound: 0.001
+mcmc:
+mu: 1
+parameter: process[Recruitment].ycs_values{2012}
+prior_applies_to_transform:
+same:
+transform_with_jacobian:
+transformation:
+type: lognormal
+upper_bound: 100
+{end_list}
+
+process[Instantaneous_Mortality].m{male.nonspawn} {list}
+value: 0.273977
+std_dev: 0.0391728
+cv: 0.20
+estimation_phase: 1
+label: M_male_with_avg_prior
+lower_bound: 0.05
+mcmc:
+mu: 0.20
+parameter: process[Instantaneous_Mortality].m{male.nonspawn}
+prior_applies_to_transform: true
+same:
+transform_with_jacobian:
+transformation:
+type: lognormal
+upper_bound: 0.75
+{end_list}
+
+process[Instantaneous_Mortality].m{female.nonspawn} {list}
+value: 0.277355
+std_dev: 0.0206609
+estimation_phase: 1
+label: M_female_with_diff_prior
+lognormal_transformation:
+lower_bound: -0.05
+mcmc:
+mu: 0.0
+parameter: process[Instantaneous_Mortality].m{female.nonspawn}
+prior_applies_to_transform: true
+same:
+sigma: 0.05
+transform_with_jacobian:
+transformation:
+type: normal_by_stdev
+upper_bound: 0.05
+{end_list}
+
+observation[TangaroaAcousticMature].process_error {list}
+value: 0.000113011
+std_dev: 348.494
+estimation_phase:
+label: mature_process_error
+lower_bound: 0.0001
+mcmc:
+parameter: observation[TangaroaAcousticMature].process_error
+prior_applies_to_transform:
+same:
+transform_with_jacobian:
+transformation:
+type: uniform_log
+upper_bound: 1.0
+{end_list}
+
 *end
 
 *hessian_matrix[Hess]
@@ -3481,240 +5015,32 @@ correlation_matrix {matrix}
 0.992154 -0.114411 0.197054 -0.985668 -0.999939 -0.105124 0.0446277 0.967592 -0.999951 0.740079 0.694528 0.100228 0.825519 -0.070399 -0.119297 -0.227222 0.0681578 -0.039921 -0.0706526 -0.096242 -0.0953172 0.0913105 -0.107546 -0.0623164 -0.0659334 0.143476 -0.133877 -0.566164 -0.418139 -0.0749516 -0.176591 -0.12694 -0.097839 0.0691307 -0.135785 -0.118648 -0.115646 -0.104186 -0.108061 -0.0816893 0.0901248 -0.0780622 -0.0771314 -0.0945304 -0.00205411 -0.0348035 -0.0844751 0.0354292 -0.0499427 -0.0341884 -0.016119 -0.0497338 -0.0184018 0.0453491 -0.0313849 -0.138328 -0.0432602 -0.0408504 0.0676807 -0.0115751 -0.0325118 -0.0116779 -0.00471906 -0.0585649 -0.15315 -0.0111859 1
 *end
 
-*process[Recruitment]
-age: 2
-b0: 799422(a)
-b0_initialisation_phase:
-categories: male.nonspawn male.spawn female.nonspawn female.spawn
-label: Recruitment
-proportions: 0.5(a) 0(a) 0.5(a) 0(a)
-r0: 5.37722e+08(a)
-ssb: SSB
-ssb_offset: 2
-standardise_ycs_years: 1958 1959 1960 1961 1962 1963 1964 1965 1966 1967 1968 1969 1970 1971 1972 1973 1974 1975 1976 1977 1978 1979 1980 1981 1982 1983 1984 1985 1986 1987 1988 1989 1990 1991 1992 1993 1994 1995 1996 1997 1998 1999 2000 2001 2002 2003 2004 2005 2006 2007 2008 2009 2010 2011 2012
-steepness: 0.9(a)
-type: recruitment_beverton_holt
-ycs_years: 1958 1959 1960 1961 1962 1963 1964 1965 1966 1967 1968 1969 1970 1971 1972 1973 1974 1975 1976 1977 1978 1979 1980 1981 1982 1983 1984 1985 1986 1987 1988 1989 1990 1991 1992 1993 1994 1995 1996 1997 1998 1999 2000 2001 2002 2003 2004 2005 2006 2007 2008 2009 2010 2011 2012 2013
-standardised_ycs: 0.514608 0.530847 0.656561 0.478906 0.713493 0.599259 10.1348 2.29076 1.6543 1.09001 0.716404 0.342481 0.181995 0.369763 0.236431 0.117835 0.117934 0.235613 0.0922034 0.0716975 0.0854953 0.604442 0.566079 0.138218 0.0494333 0.187246 0.176987 0.156094 0.445942 0.241842 0.864853 0.0793403 0.636632 7.15474 1.26433 0.543211 0.293065 1.34737 0.822612 0.365684 0.63003 0.45844 0.624542 1.82547 0.916255 0.620727 0.573414 0.750878 4.21824 1.72943 0.435898 2.66202 0.365297 1.78322 0.236625 1
-ycs_values: 0.232804 0.24015 0.297022 0.216653 0.322778 0.271099 4.58489 1.03632 0.74839 0.493109 0.324095 0.154935 0.0823328 0.167277 0.106959 0.0533076 0.0533521 0.106589 0.041712 0.0324353 0.0386773 0.273444 0.256089 0.0625287 0.0223632 0.0847082 0.0800672 0.0706157 0.20174 0.109407 0.391252 0.0358928 0.288007 3.23674 0.571971 0.245744 0.13258 0.609539 0.372142 0.165432 0.28502 0.207394 0.282537 0.825827 0.414506 0.280811 0.259408 0.33969 1.9083 0.782379 0.197196 1.20427 0.165257 0.806714 0.107047 1
-true_ycs: 0.514608 0.530847 0.65651 0.478036 0.710815 0.595935 10.0526 2.26948 1.64069 1.10408 0.7268 0.347831 0.184771 0.374947 0.239239 0.118853 0.11849 0.235639 0.0916635 0.0707115 0.0836275 0.579292 0.532864 0.127837 0.0462165 0.176451 0.165737 0.144548 0.408704 0.218629 0.771872 0.0715361 0.572538 6.67946 1.17206 0.515043 0.293068 1.34966 0.824931 0.366055 0.630284 0.457623 0.621496 1.8129 0.907158 0.613428 0.569923 0.746619 4.18625 1.70946 0.429881 2.65729 0.365094 1.78018 0.236904 0.998378
-Recruits: 2.76716e+08 2.85448e+08 3.5302e+08 2.5705e+08 3.82221e+08 3.20447e+08 5.40552e+09 1.22035e+09 8.82238e+08 5.93686e+08 3.90817e+08 1.87036e+08 9.93556e+07 2.01617e+08 1.28644e+08 6.391e+07 6.37144e+07 1.26708e+08 4.92895e+07 3.80232e+07 4.49684e+07 3.11498e+08 2.86533e+08 6.87406e+07 2.48516e+07 9.48814e+07 8.91206e+07 7.77266e+07 2.19769e+08 1.17561e+08 4.15053e+08 3.84665e+07 3.07866e+08 3.59169e+09 6.30242e+08 2.7695e+08 1.57589e+08 7.25741e+08 4.43583e+08 1.96836e+08 3.38917e+08 2.46074e+08 3.34192e+08 9.74838e+08 4.87799e+08 3.29854e+08 3.0646e+08 4.01473e+08 2.25104e+09 9.19215e+08 2.31157e+08 1.42888e+09 1.96319e+08 9.57242e+08 1.27388e+08 5.3685e+08
-SSB: 799422 799422 797183 750239 703934 665729 617673 597694 615648 1.47699e+06 1.64809e+06 1.79115e+06 1.74161e+06 1.59166e+06 1.38444e+06 1.15578e+06 961859 802718 659554 532250 443129 311914 246429 203750 228034 249631 232152 206267 186778 165775 149799 162240 158927 224456 208503 269270 799682 851357 889443 829632 811184 751104 679523 639747 587371 559676 654983 663224 626934 562765 531574 751289 783758 753096 834843 755240
+*catchability[TangaroaMatureq]
+TangaroaMatureq: 0.0968385
+TangaroaImmatureq: 0.10676
 *end
 
-*process[Instantaneous_Mortality]
-categories: male.nonspawn male.spawn female.nonspawn female.spawn
-label: Instantaneous_Mortality
-m: 0.273977(a) 0.273977(a) 0.277355(a) 0.277355(a)
-relative_m_by_age: One One One One
-time_step_ratio: 0.9(a) 0.1(a)
-type: mortality_instantaneous
-year: 1960 1961 1962 1963 1964 1965 1966 1967 1968 1969 1970 1971 1972 1973 1974 1975 1976 1977 1978 1979 1980 1981 1982 1983 1984 1985 1986 1987 1988 1989 1990 1991 1992 1993 1994 1995 1996 1997 1998 1999 2000 2001 2002 2003 2004 2005 2006 2007 2008 2009 2010 2011 2012 2013 2014 2015
-fishing_pressure[Trawl]: 0 0 0 0 0 0 0 0 0 0 0 0.00455273 0.0129322 0.0288884 0.0301844 0.00206731 0.0179342 0.0341029 0.0143486 0.0780145 0.0507574 0.0289766 0.0341288 0.0500273 0.0453875 0.0356767 0.0785048 0.0744101 0.110004 0.151762 0.0990131 0.0907192 0.0659337 0.03402 0.0144879 0.0121856 0.0183889 0.0225574 0.032946 0.0355878 0.0262246 0.0431941 0.0553902 0.0415145 0.0297871 0.0387383 0.0310437 0.0366381 0.0378178 0.0250326 0.0254821 0.0403253 0.0252237 0.0371857 0.0294222 0.0301428
-catch[Trawl]: 0 0 0 0 0 0 0 0 0 0 0 7262 18017 33868 29469 1661 11933 18460 6403 25305 12828 5989 7915 12803 10777 7490 15252 12804 17422 26611 16542 21314 14208 9316 11668 10436 16504 18923 27164 27205 18052 28232 33445 23718 19799 26190 19763 20996 20483 19040 20224 30982 21321 28606 23397 22100
-actual_catch[Trawl]: 0 0 0 0 0 0 0 0 0 0 0 7262 18017 33868 29469 1661 11933 18460 6403 25305 12828 5989 7915 12803 10777 7490 15252 12804 17422 26611 16542 21314 14208 9316 11668 10436 16504 18923 27164 27205 18052 28232 33445 23718 19799 26190 19763 20996 20483 19040 20224 30982 21321 28606 23397 22100
-*end
-
-*partition_mean_length[part_length_1]
-time_step: step1
-male.spawn {list}
-mean_lengths {dataframe}
-year 2 3 4 5 6 7 8 9 10 11 12 13 14 15
-1960 29.3107 33.8502 36.4551 39.4219 40.7614 41.8791 42.9256 43.8858 44.8865 45.3398 44.9126 46.3484 46.6014 46.8544
-2015 27.29 29.66 33.19 35.44 37.79 38.39 39.76 41.16 43.08 43.49 42.79 43.03 44.89 46.05
-{end_list}
-female.spawn {list}
-mean_lengths {dataframe}
-year 2 3 4 5 6 7 8 9 10 11 12 13 14 15
-1960 30.9619 35.3521 37.9558 40.9533 43.0528 44.7691 45.7537 46.437 48.2958 48.6735 49.1558 50.1777 50.3326 50.4874
-2015 28.39 31.48 34.17 36.84 39.21 40.82 42.21 44.07 45.03 46.51 47.31 48.17 49.76 49.55
-{end_list}
-male.nonspawn {list}
-mean_lengths {dataframe}
-year 2 3 4 5 6 7 8 9 10 11 12 13 14 15
-1960 29.3107 33.8502 36.4551 39.4219 40.7614 41.8791 42.9256 43.8858 44.8865 45.3398 44.9126 46.3484 46.6014 46.8544
-2015 27.29 29.66 33.19 35.44 37.79 38.39 39.76 41.16 43.08 43.49 42.79 43.03 44.89 46.05
-{end_list}
-female.nonspawn {list}
-mean_lengths {dataframe}
-year 2 3 4 5 6 7 8 9 10 11 12 13 14 15
-1960 30.9619 35.3521 37.9558 40.9533 43.0528 44.7691 45.7537 46.437 48.2958 48.6735 49.1558 50.1777 50.3326 50.4874
-2015 28.39 31.48 34.17 36.84 39.21 40.82 42.21 44.07 45.03 46.51 47.31 48.17 49.76 49.55
-{end_list}
-*end
-
-*partition_mean_length[part_length_2]
-time_step: step2
-male.spawn {list}
-mean_lengths {dataframe}
-year 2 3 4 5 6 7 8 9 10 11 12 13 14 15
-1960 28.7563 32.7502 36.1898 38.5293 40.6035 41.7851 42.8088 43.7386 44.5516 45.2174 45.5484 45.757 46.6014 46.8544
-2015 28.7563 30.78 33.93 35.63 38.05 38.94 39.87 41.21 42.7 43.39 42.87 43.12 45.15 46.24
-{end_list}
-female.spawn {list}
-mean_lengths {dataframe}
-year 2 3 4 5 6 7 8 9 10 11 12 13 14 15
-1960 28.9163 34.3972 37.8326 40.313 42.6702 44.3872 45.7216 46.6742 47.5947 48.7523 49.2088 49.7442 50.3326 50.4874
-2015 28.9163 32.43 35.08 37.11 39.55 40.88 42.2 44 45.43 46.76 47.56 48.3 49.58 49.75
-{end_list}
-male.nonspawn {list}
-mean_lengths {dataframe}
-year 2 3 4 5 6 7 8 9 10 11 12 13 14 15
-1960 28.7563 32.7502 36.1898 38.5293 40.6035 41.7851 42.8088 43.7386 44.5516 45.2174 45.5484 45.757 46.6014 46.8544
-2015 28.7563 30.78 33.93 35.63 38.05 38.94 39.87 41.21 42.7 43.39 42.87 43.12 45.15 46.24
-{end_list}
-female.nonspawn {list}
-mean_lengths {dataframe}
-year 2 3 4 5 6 7 8 9 10 11 12 13 14 15
-1960 28.9163 34.3972 37.8326 40.313 42.6702 44.3872 45.7216 46.6742 47.5947 48.7523 49.2088 49.7442 50.3326 50.4874
-2015 28.9163 32.43 35.08 37.11 39.55 40.88 42.2 44 45.43 46.76 47.56 48.3 49.58 49.75
-{end_list}
-*end
-
-*partition_mean_weight[part_weight_1]
-time_step: step1
-male.spawn {list}
-mean_weights {dataframe}
-year 2 3 4 5 6 7 8 9 10 11 12 13 14 15
-1960 0.000146523 0.000189556 0.000268372 0.000328714 0.000400897 0.000420907 0.000469107 0.000522085 0.000601124 0.00061899 0.0005887 0.000598969 0.0006827 0.000738737
-2015 0.000146523 0.000189556 0.000268372 0.000328714 0.000400897 0.000420907 0.000469107 0.000522085 0.000601124 0.00061899 0.0005887 0.000598969 0.0006827 0.000738737
-{end_list}
-female.spawn {list}
-mean_weights {dataframe}
-year 2 3 4 5 6 7 8 9 10 11 12 13 14 15
-1960 0.000160187 0.000221848 0.000287276 0.000364158 0.000443238 0.000503179 0.00055919 0.000640604 0.000685628 0.000759201 0.000801129 0.000847935 0.000939329 0.00092689
-2015 0.000160187 0.000221848 0.000287276 0.000364158 0.000443238 0.000503179 0.00055919 0.000640604 0.000685628 0.000759201 0.000801129 0.000847935 0.000939329 0.00092689
-{end_list}
-male.nonspawn {list}
-mean_weights {dataframe}
-year 2 3 4 5 6 7 8 9 10 11 12 13 14 15
-1960 0.000146523 0.000189556 0.000268372 0.000328714 0.000400897 0.000420907 0.000469107 0.000522085 0.000601124 0.00061899 0.0005887 0.000598969 0.0006827 0.000738737
-2015 0.000146523 0.000189556 0.000268372 0.000328714 0.000400897 0.000420907 0.000469107 0.000522085 0.000601124 0.00061899 0.0005887 0.000598969 0.0006827 0.000738737
-{end_list}
-female.nonspawn {list}
-mean_weights {dataframe}
-year 2 3 4 5 6 7 8 9 10 11 12 13 14 15
-1960 0.000160187 0.000221848 0.000287276 0.000364158 0.000443238 0.000503179 0.00055919 0.000640604 0.000685628 0.000759201 0.000801129 0.000847935 0.000939329 0.00092689
-2015 0.000160187 0.000221848 0.000287276 0.000364158 0.000443238 0.000503179 0.00055919 0.000640604 0.000685628 0.000759201 0.000801129 0.000847935 0.000939329 0.00092689
-{end_list}
-*end
-
-*partition_mean_weight[part_weight_2]
-time_step: step2
-male.spawn {list}
-mean_weights {dataframe}
-year 2 3 4 5 6 7 8 9 10 11 12 13 14 15
-1960 0.00017226 0.000212574 0.000287309 0.000334194 0.000409487 0.000439833 0.000473131 0.000524049 0.00058488 0.0006146 0.00059211 0.000602851 0.000695001 0.000748202
-2015 0.00017226 0.000212574 0.000287309 0.000334194 0.000409487 0.000439833 0.000473131 0.000524049 0.00058488 0.0006146 0.00059211 0.000602851 0.000695001 0.000748202
-{end_list}
-female.spawn {list}
-mean_weights {dataframe}
-year 2 3 4 5 6 7 8 9 10 11 12 13 14 15
-1960 0.000169735 0.000243644 0.000312089 0.000372637 0.000455466 0.000505514 0.000558773 0.000637402 0.000705009 0.000772138 0.000814548 0.000855169 0.00092866 0.000938734
-2015 0.000169735 0.000243644 0.000312089 0.000372637 0.000455466 0.000505514 0.000558773 0.000637402 0.000705009 0.000772138 0.000814548 0.000855169 0.00092866 0.000938734
-{end_list}
-male.nonspawn {list}
-mean_weights {dataframe}
-year 2 3 4 5 6 7 8 9 10 11 12 13 14 15
-1960 0.00017226 0.000212574 0.000287309 0.000334194 0.000409487 0.000439833 0.000473131 0.000524049 0.00058488 0.0006146 0.00059211 0.000602851 0.000695001 0.000748202
-2015 0.00017226 0.000212574 0.000287309 0.000334194 0.000409487 0.000439833 0.000473131 0.000524049 0.00058488 0.0006146 0.00059211 0.000602851 0.000695001 0.000748202
-{end_list}
-female.nonspawn {list}
-mean_weights {dataframe}
-year 2 3 4 5 6 7 8 9 10 11 12 13 14 15
-1960 0.000169735 0.000243644 0.000312089 0.000372637 0.000455466 0.000505514 0.000558773 0.000637402 0.000705009 0.000772138 0.000814548 0.000855169 0.00092866 0.000938734
-2015 0.000169735 0.000243644 0.000312089 0.000372637 0.000455466 0.000505514 0.000558773 0.000637402 0.000705009 0.000772138 0.000814548 0.000855169 0.00092866 0.000938734
-{end_list}
-*end
-
-*selectivity[MaturationSel_male]
-h: 6
-intervals: 5
-l: 2
-label: MaturationSel_male
-length_based: 0
-type: all_values_bounded
-v: 0.0820411(a) 0.889596(a) 0.0253688(a) 0.998845(a) 0.99(a)
-Values {vector}
-2 0.0820411
-3 0.889596
-4 0.0253688
-5 0.998845
-6 0.99
-7 0.99
-8 0.99
-9 0.99
-10 0.99
-11 0.99
-12 0.99
-13 0.99
-14 0.99
-15 0.99
-*end
-
-*selectivity[MaturationSel_female]
-h: 6
-intervals: 5
-l: 2
-label: MaturationSel_female
-length_based: 0
-type: all_values_bounded
-v: 0.0192042(a) 0.848637(a) 0.00224634(a) 0.99874(a) 0.99(a)
-Values {vector}
-2 0.0192042
-3 0.848637
-4 0.00224634
-5 0.99874
-6 0.99
-7 0.99
-8 0.99
-9 0.99
-10 0.99
-11 0.99
-12 0.99
-13 0.99
-14 0.99
-15 0.99
-*end
-
-*observation[TangaroaAcousticMature]
-observation_type: biomass
-likelihood: lognormal
-Values {dataframe}
-year category age length observed expected residual error_value process_error adjusted_error neglogLike pearsons_residuals normalised_residuals
-1993 male.spawn+female.spawn 0 0(a) 16060 26075.7 -10015.7 0.24(a) 0.000113011 0.24 0.420799 -1.60042 -1.92976
-1994 male.spawn+female.spawn 0 0(a) 72168 77440 -5272 0.34(a) 0.000113011 0.34 -1.10526 -0.200231 -0.0478029
-1995 male.spawn+female.spawn 0 0(a) 53608 82444.2 -28836.2 0.3(a) 0.000113011 0.3 -0.355214 -1.16589 -1.31944
-1998 male.spawn+female.spawn 0 0(a) 91639 78553.9 13085.1 0.14(a) 0.000113011 0.14 -1.28003 1.18982 1.17554
-2000 male.spawn+female.spawn 0 0(a) 71749 65804.1 5944.94 0.17(a) 0.000113011 0.17 -1.601 0.53143 0.596819
-2002 male.spawn+female.spawn 0 0(a) 66034 56880.1 9153.87 0.68(a) 0.000113011 0.68 -0.332273 0.236666 0.5503
-2004 male.spawn+female.spawn 0 0(a) 42236 63427.6 -21191.6 0.35(a) 0.000113011 0.35 -0.552439 -0.954593 -1.02621
-2006 male.spawn+female.spawn 0 0(a) 43843 60711.4 -16868.4 0.32(a) 0.000113011 0.32 -0.771131 -0.868266 -0.886424
-2009 male.spawn+female.spawn 0 0(a) 99521 72753.8 26767.2 0.27(a) 0.000113011 0.27 -0.464161 1.36265 1.31367
-2011 male.spawn+female.spawn 0 0(a) 53299 72928.7 -19629.7 0.22(a) 0.000113011 0.22 -0.636743 -1.22347 -1.3336
-2013 male.spawn+female.spawn 0 0(a) 65801 73136.3 -7335.33 0.25(a) 0.000113011 0.25 -1.35467 -0.401187 -0.30614
-*end
-
-*observation[TangaroaAcousticImmature]
-observation_type: biomass
-likelihood: lognormal
-Values {dataframe}
-year category age length observed expected residual error_value process_error adjusted_error neglogLike pearsons_residuals normalised_residuals
-1993 male.nonspawn+female.nonspawn 0 0(a) 35208 28359 6849.01 0.25(a) 0.001 0.250002 -0.899815 0.966036 1.0017
-1994 male.nonspawn+female.nonspawn 0 0(a) 8018 12271.7 -4253.68 0.38(a) 0.001 0.380001 -0.526145 -0.912169 -0.975228
-1995 male.nonspawn+female.nonspawn 0 0(a) 15507 11109.7 4397.32 0.29(a) 0.001 0.290002 -0.39279 1.36485 1.3156
-1998 male.nonspawn+female.nonspawn 0 0(a) 6759 5249.59 1509.41 0.2(a) 0.001 0.200002 -0.673777 1.43763 1.37513
-2000 male.nonspawn+female.nonspawn 0 0(a) 1864 4146.82 -2282.82 0.24(a) 0.001 0.240002 3.87451 -2.29373 -3.26058
-2002 male.nonspawn+female.nonspawn 0 0(a) 247 4232.01 -3985.01 0.76(a) 0.001 0.760001 7.09593 -1.23899 -3.87005
-2004 male.nonspawn+female.nonspawn 0 0(a) 5617 7159.58 -1542.58 0.16(a) 0.001 0.160003 -0.792437 -1.34658 -1.44669
-2006 male.nonspawn+female.nonspawn 0 0(a) 3423 4537.41 -1114.41 0.24(a) 0.001 0.240002 -0.865909 -1.02334 -1.07263
-2009 male.nonspawn+female.nonspawn 0 0(a) 24479 11085.3 13393.7 0.26(a) 0.001 0.260002 3.83765 4.64701 3.22526
-2011 male.nonspawn+female.nonspawn 0 0(a) 14454 11752.6 2701.39 0.17(a) 0.001 0.170003 -0.920856 1.35206 1.31013
-2013 male.nonspawn+female.nonspawn 0 0(a) 8004 9673.6 -1669.6 0.55(a) 0.001 0.550001 -0.659146 -0.313806 -0.111491
+*catchability[TangaroaImmatureq]
+TangaroaMatureq: 0.0968385
+TangaroaImmatureq: 0.10676
 *end
 
 *info[messages_encountered]
-{string}
+Values {string}
+Creating default report for catchability TangaroaMatureq
+Creating default report for catchability TangaroaImmatureq
+Creating default report for derived quantity SSB
+Creating default report for observation TangaroaAcousticMature
+Creating default report for observation TangaroaAcousticImmature
+Creating default report for observation ObserverProportionsAtAge
+Creating default report for process Recruitment
+Creating default report for process Ageing
+Creating default report for process Maturity_Migration
+Creating default report for process Instantaneous_Mortality
+Creating default report for selectivity MaturationSel_male
+Creating default report for selectivity MaturationSel_female
+Creating default report for selectivity TangaroaImmatureSel
+Creating default report for selectivity One
 Initiating point estimate run mode
 Estimation with the adolc minimiser
 Convergence check value = 2.36531. Convergence tolerance   = 1e-09
@@ -5132,26 +6458,24 @@ Convergence check value = 0.000262269. Convergence tolerance   = 1e-09
 *end
 
 *important[messages_encountered]
-{string}
+Values {string}
 Setting 'params_est.out' as the output file for the free parameters
 FMM: Max newton steps (5)
 *end
 
 *warnings[messages_encountered]
-{string}
+Values {string}
 Estimates were removed because of matching lower and upper bounds. Originally had 69 estimates, now have 67
-The report for derived_quantity with label 'DerivedQuantities' was requested. This derived_quantity was not found in the input configuration file and the report will not be generated
-The report for catchability with label 'Qs' was requested. This catchability was not found in the input configuration file and the report will not be generated
-estimated parameter 'selectivity[MaturationSel_male].v{4}' was within 0.001 of upper bound 0.999(a)
-estimated parameter 'selectivity[MaturationSel_female].v{4}' was within 0.001 of upper bound 0.999(a)
-estimated parameter 'process[Instantaneous_Mortality].m{female.nonspawn}' was within 0.001 of upper bound 0.05(a)
-estimated parameter 'observation[TangaroaAcousticMature].process_error' was within 0.001 of lower bound 0.0001(a)
-estimated parameter 'selectivity[MaturationSel_male].v{4}' was within 0.001 of upper bound 0.999(a)
-estimated parameter 'selectivity[MaturationSel_female].v{4}' was within 0.001 of upper bound 0.999(a)
-estimated parameter 'process[Instantaneous_Mortality].m{female.nonspawn}' was within 0.001 of upper bound 0.05(a)
-estimated parameter 'observation[TangaroaAcousticMature].process_error' was within 0.001 of lower bound 0.0001(a)
+estimated parameter 'selectivity[MaturationSel_male].v{4}' was within 0.001 of upper bound 0.999
+estimated parameter 'selectivity[MaturationSel_female].v{4}' was within 0.001 of upper bound 0.999
+estimated parameter 'process[Instantaneous_Mortality].m{female.nonspawn}' was within 0.001 of upper bound 0.05
+estimated parameter 'observation[TangaroaAcousticMature].process_error' was within 0.001 of lower bound 0.0001
+estimated parameter 'selectivity[MaturationSel_male].v{4}' was within 0.001 of upper bound 0.999
+estimated parameter 'selectivity[MaturationSel_female].v{4}' was within 0.001 of upper bound 0.999
+estimated parameter 'process[Instantaneous_Mortality].m{female.nonspawn}' was within 0.001 of upper bound 0.05
+estimated parameter 'observation[TangaroaAcousticMature].process_error' was within 0.001 of lower bound 0.0001
 *end
 
 [INFO] Completed
-[INFO] Total CPU time: -3.90897e+08 hours
-[INFO] Total elapsed time: 3.983 minutes
+[INFO] Total CPU time: -3.90925e+08 hours
+[INFO] Total elapsed time: 4.133 minutes

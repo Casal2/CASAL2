@@ -141,22 +141,22 @@ for (c in 1:num_C2_models)
     print(paste('Catch time series base model comparison for run', C2_subdir[c]))
 
     print(paste('Removals / Actual catches for line match:',
-                time_series_match(c1_quant$removals$line, cas2_mpd[[c]]$Mortality$`actual_catch[FishingLine]`)))
+                time_series_match(c1_quant$removals$line, cas2_mpd[[c]]$Fishing$`actual_catch[FishingLine]`)))
 
     print(paste('Discarded catches for line match:',
-                time_series_match(c1_quant$discards$line, cas2_mpd[[c]]$Mortality$`discards[FishingLine]`)))
+                time_series_match(c1_quant$discards$line, cas2_mpd[[c]]$Fishing$`discards[FishingLine]`)))
 
     print(paste('Removals / Actual catches for pot match:',
-                time_series_match(c1_quant$removals$pot, cas2_mpd[[c]]$Mortality$`actual_catch[FishingPot]`)))
+                time_series_match(c1_quant$removals$pot, cas2_mpd[[c]]$Fishing$`actual_catch[FishingPot]`)))
 
     print(paste('Discarded catches for pot match:',
-                time_series_match(c1_quant$discards$pot, cas2_mpd[[c]]$Mortality$`discards[FishingPot]`)))
+                time_series_match(c1_quant$discards$pot, cas2_mpd[[c]]$Fishing$`discards[FishingPot]`)))
 
     print(paste('Removals / Actual catches for rec match:',
-                time_series_match(c1_quant$removals$rec, cas2_mpd[[c]]$Mortality$`actual_catch[Recreation]`)))
+                time_series_match(c1_quant$removals$rec, cas2_mpd[[c]]$Fishing$`actual_catch[Recreation]`)))
 
     print(paste('Discarded catches for rec match:',
-                time_series_match(c1_quant$discards$rec, cas2_mpd[[c]]$Mortality$`discards[Recreation]`)))
+                time_series_match(c1_quant$discards$rec, cas2_mpd[[c]]$Fishing$`discards[Recreation]`)))
 
     print('')
 }
@@ -353,13 +353,13 @@ plot_legend()
 
 max_val <- max(c1_quant$removals$line,
                c1_sens1_quant$removals$line,
-               max(unlist(list.map(cas2_mpd, max(Mortality$`actual_catch[FishingLine]`)))))
+               max(unlist(list.map(cas2_mpd, max(Fishing$`actual_catch[FishingLine]`)))))
 
 plot(c1_quant$removals$year, c1_quant$removals$line, type='l', col='black', lwd=bl_lwd, ylim=c(0, max_val), xlab='Year', ylab='Catch (tonnes)', main='Removals / Actual catch comparison: line')
 lines(c1_sens1_quant$removals$year, c1_sens1_quant$removals$line, type='l', col='grey', lwd=gr_lwd)
 for (c in 1:num_C2_models)
 {
-    lines(cas2_mpd[[c]]$Mortality$year, cas2_mpd[[c]]$Mortality$`actual_catch[FishingLine]`, col=C2_color[c], lwd=1)
+    lines(cas2_mpd[[c]]$Fishing$year, cas2_mpd[[c]]$Fishing$`actual_catch[FishingLine]`, col=C2_color[c], lwd=1)
 }
 
 plot_legend()
@@ -372,13 +372,13 @@ plot_legend()
 
 max_val <- max(c1_quant$removals$pot,
                c1_sens1_quant$removals$pot,
-               max(unlist(list.map(cas2_mpd, max(Mortality$`actual_catch[FishingPot]`)))))
+               max(unlist(list.map(cas2_mpd, max(Fishing$`actual_catch[FishingPot]`)))))
 
 plot(c1_quant$removals$year, c1_quant$removals$pot, type='l', col='black', lwd=bl_lwd, ylim=c(0, max_val), xlab='Year', ylab='Catch (tonnes)', main='Removals / Actual catch comparison: pot')
 lines(c1_sens1_quant$removals$year, c1_sens1_quant$removals$pot, type='l', col='grey', lwd=gr_lwd)
 for (c in 1:num_C2_models)
 {
-    lines(cas2_mpd[[c]]$Mortality$year, cas2_mpd[[c]]$Mortality$`actual_catch[FishingPot]`, col=C2_color[c], lwd=1)
+    lines(cas2_mpd[[c]]$Fishing$year, cas2_mpd[[c]]$Fishing$`actual_catch[FishingPot]`, col=C2_color[c], lwd=1)
 }
 
 plot_legend()
@@ -386,13 +386,13 @@ plot_legend()
 
 max_val <- max(c1_quant$removals$rec,
                c1_sens1_quant$removals$rec,
-               max(unlist(list.map(cas2_mpd, max(Mortality$`actual_catch[Recreation]`)))))
+               max(unlist(list.map(cas2_mpd, max(Fishing$`actual_catch[Recreation]`)))))
 
 plot(c1_quant$removals$year, c1_quant$removals$rec, type='l', col='black', lwd=bl_lwd, ylim=c(0, max_val), xlab='Year', ylab='Catch (tonnes)', main='Removals / Actual catch comparison: recreational')
 lines(c1_sens1_quant$removals$year, c1_sens1_quant$removals$rec, type='l', col='grey', lwd=gr_lwd)
 for (c in 1:num_C2_models)
 {
-    lines(cas2_mpd[[c]]$Mortality$year, cas2_mpd[[c]]$Mortality$`actual_catch[Recreation]`, col=C2_color[c], lwd=1)
+    lines(cas2_mpd[[c]]$Fishing$year, cas2_mpd[[c]]$Fishing$`actual_catch[Recreation]`, col=C2_color[c], lwd=1)
 }
 
 plot_legend()
@@ -406,13 +406,13 @@ plot_legend()
 
 max_val <- max(c1_quant$discards$line,
                c1_sens1_quant$discards$line,
-               max(unlist(list.map(cas2_mpd, max(Mortality$`discards[FishingLine]`)))))
+               max(unlist(list.map(cas2_mpd, max(Fishing$`discards[FishingLine]`)))))
 
 plot(c1_quant$discards$year, c1_quant$discards$line, type='l', col='black', lwd=bl_lwd, ylim=c(0, max_val), xlab='Year', ylab='Catch (tonnes)', main='Discarded catch comparison: line')
 lines(c1_sens1_quant$discards$year, c1_sens1_quant$discards$line, type='l', col='grey', lwd=gr_lwd)
 for (c in 1:num_C2_models)
 {
-    lines(cas2_mpd[[c]]$Mortality$year, cas2_mpd[[c]]$Mortality$`discards[FishingLine]`, col=C2_color[c], lwd=1)
+    lines(cas2_mpd[[c]]$Fishing$year, cas2_mpd[[c]]$Fishing$`discards[FishingLine]`, col=C2_color[c], lwd=1)
 }
 
 plot_legend()
@@ -420,13 +420,13 @@ plot_legend()
 
 max_val <- max(c1_quant$discards$pot,
                c1_sens1_quant$discards$pot,
-               max(unlist(list.map(cas2_mpd, max(Mortality$`discards[FishingPot]`)))))
+               max(unlist(list.map(cas2_mpd, max(Fishing$`discards[FishingPot]`)))))
 
 plot(c1_quant$discards$year, c1_quant$discards$pot, type='l', col='black', lwd=bl_lwd, ylim=c(0, max_val), xlab='Year', ylab='Catch (tonnes)', main='Discarded catch comparison: pot')
 lines(c1_sens1_quant$discards$year, c1_sens1_quant$discards$pot, type='l', col='grey', lwd=gr_lwd)
 for (c in 1:num_C2_models)
 {
-    lines(cas2_mpd[[c]]$Mortality$year, cas2_mpd[[c]]$Mortality$`discards[FishingPot]`, col=C2_color[c], lwd=1)
+    lines(cas2_mpd[[c]]$Fishing$year, cas2_mpd[[c]]$Fishing$`discards[FishingPot]`, col=C2_color[c], lwd=1)
 }
 
 plot_legend()
@@ -434,13 +434,13 @@ plot_legend()
 
 max_val <- max(c1_quant$discards$rec,
                c1_sens1_quant$discards$rec,
-               max(unlist(list.map(cas2_mpd, max(Mortality$`discards[Recreation]`)))))
+               max(unlist(list.map(cas2_mpd, max(Fishing$`discards[Recreation]`)))))
 
 plot(c1_quant$discards$year, c1_quant$discards$rec, type='l', col='black', lwd=bl_lwd, ylim=c(0, max_val), xlab='Year', ylab='Catch (tonnes)', main='Discarded catch comparison: recreational')
 lines(c1_sens1_quant$discards$year, c1_sens1_quant$discards$rec, type='l', col='grey', lwd=gr_lwd)
 for (c in 1:num_C2_models)
 {
-    lines(cas2_mpd[[c]]$Mortality$year, cas2_mpd[[c]]$Mortality$`discards[Recreation]`, col=C2_color[c], lwd=1)
+    lines(cas2_mpd[[c]]$Fishing$year, cas2_mpd[[c]]$Fishing$`discards[Recreation]`, col=C2_color[c], lwd=1)
 }
 
 plot_legend()
@@ -453,18 +453,21 @@ plot_legend()
 
 
 ```{r plots_set_5, echo=FALSE}
-
 # > names(cas2_mpd[[1]])
 #  [1] "Init"                 "state1"               "estimated_values"
-#  [4] "estimated_summary"    "obj_fun"              "DerivedQuantities"
-#  [7] "Hess"                 "Covar"                "Corr"
-# [10] "Recruitment"          "Mortality"            "Qs"
-# [13] "growth_length_at_age" "growth_weight_at_age" "pot_survey"
-# [16] "CPUE"                 "LFlogbook"            "warnings_encounted"
-# > names(cas2_mpd[[1]]$Mortality)
+#  [4] "estimated_summary"    "obj_fun"              "Hess"
+#  [7] "Covar"                "Corr"                 "Recruitment"
+# [10] "Fishing"              "growth_length_at_age" "growth_weight_at_age"
+# [13] "potSurveySel_male"    "potSurveySel_female"  "potSurvey"
+# [16] "potCPUE"              "lgobookLF"            "potSurveyq"
+# [19] "potCPUEq"             "SSB"                  "AFpotSurvey"
+# [22] "AFpotFishing"         "rec.catch.LF"         "Ageing"
+# [25] "MaturationSel_male"   "MaturationSel_female" "potFdis"
+# [28] "recFdis"              "One"                  "messages_encountered"
+# > names(cas2_mpd[[1]]$Fishing)
 #  [1] "categories"                         "label"
-#  [3] "m"                                  "selectivities"
-#  [5] "time_step_ratio"                    "sub_type"
+#  [3] "m"                                  "relative_m_by_age"
+#  [5] "time_step_proportions"              "sub_type"
 #  [7] "year"                               "fishing_pressure[FishingLine]"
 #  [9] "actual_catch[FishingLine]"          "retained_catch[FishingLine]"
 # [11] "actual_retained_catch[FishingLine]" "discards[FishingLine]"
@@ -476,19 +479,17 @@ plot_legend()
 # [23] "actual_retained_catch[Recreation]"  "discards[Recreation]"
 # [25] "discards_dead[Recreation]"          "type"
 
-
-
 # plot fishing pressures - line
 
 max_val <- max(c1_quant$fishing_pressures$line,
                c1_sens1_quant$fishing_pressures$line,
-               max(unlist(list.map(cas2_mpd, max(Mortality$`fishing_pressure[FishingLine]`)))))
+               max(unlist(list.map(cas2_mpd, max(Fishing$`fishing_pressure[FishingLine]`)))))
 
 plot(c1_quant$fishing_pressures$year, c1_quant$fishing_pressures$line, type='l', col='black', lwd=bl_lwd, ylim=c(0, max_val), xlab='Year', ylab='U', main='Fishing pressure comparison: line')
 lines(c1_sens1_quant$fishing_pressures$year, c1_sens1_quant$fishing_pressures$line, type='l', col='grey', lwd=gr_lwd)
 for (c in 1:num_C2_models)
 {
-    lines(cas2_mpd[[c]]$Mortality$year, cas2_mpd[[c]]$Mortality$`fishing_pressure[FishingLine]`, col=C2_color[c], lwd=1)
+    lines(cas2_mpd[[c]]$Fishing$year, cas2_mpd[[c]]$Fishing$`fishing_pressure[FishingLine]`, col=C2_color[c], lwd=1)
 }
 
 plot_legend()
@@ -499,13 +500,13 @@ plot_legend()
 
 max_val <- max(c1_quant$fishing_pressures$pot,
                c1_sens1_quant$fishing_pressures$pot,
-               max(unlist(list.map(cas2_mpd, max(Mortality$`fishing_pressure[FishingPot]`)))))
+               max(unlist(list.map(cas2_mpd, max(Fishing$`fishing_pressure[FishingPot]`)))))
 
 plot(c1_quant$fishing_pressures$year, c1_quant$fishing_pressures$pot, type='l', col='black', lwd=bl_lwd, ylim=c(0, max_val), xlab='Year', ylab='U', main='Fishing pressure comparison: pot')
 lines(c1_sens1_quant$fishing_pressures$year, c1_sens1_quant$fishing_pressures$pot, type='l', col='grey', lwd=gr_lwd)
 for (c in 1:num_C2_models)
 {
-    lines(cas2_mpd[[c]]$Mortality$year, cas2_mpd[[c]]$Mortality$`fishing_pressure[FishingPot]`, col=C2_color[c], lwd=1)
+    lines(cas2_mpd[[c]]$Fishing$year, cas2_mpd[[c]]$Fishing$`fishing_pressure[FishingPot]`, col=C2_color[c], lwd=1)
 }
 
 plot_legend()
@@ -516,13 +517,13 @@ plot_legend()
 
 max_val <- max(c1_quant$fishing_pressures$rec,
                c1_sens1_quant$fishing_pressures$rec,
-               max(unlist(list.map(cas2_mpd, max(Mortality$`fishing_pressure[Recreation]`)))))
+               max(unlist(list.map(cas2_mpd, max(Fishing$`fishing_pressure[Recreation]`)))))
 
 plot(c1_quant$fishing_pressures$year, c1_quant$fishing_pressures$rec, type='l', col='black', lwd=bl_lwd, ylim=c(0, max_val), xlab='Year', ylab='U', main='Fishing pressure comparison: recreational')
 lines(c1_sens1_quant$fishing_pressures$year, c1_sens1_quant$fishing_pressures$rec, col='grey', lwd=gr_lwd)
 for (c in 1:num_C2_models)
 {
-    lines(cas2_mpd[[c]]$Mortality$year, cas2_mpd[[c]]$Mortality$`fishing_pressure[Recreation]`, col=C2_color[c], lwd=1)
+    lines(cas2_mpd[[c]]$Fishing$year, cas2_mpd[[c]]$Fishing$`fishing_pressure[Recreation]`, col=C2_color[c], lwd=1)
 }
 
 plot_legend()

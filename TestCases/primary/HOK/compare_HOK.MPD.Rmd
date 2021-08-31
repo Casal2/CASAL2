@@ -143,22 +143,22 @@ for (c in 1:num_C2_models)
     print(paste('Catch time series base model comparison for run', C2_subdir[c]))
 
     print(paste('Actual catches for Ensp1 match:',
-                time_series_match(c1_quant$actual_catches$Ensp1, cas2_mpd[[c]]$Mortality$`catch[Ensp1]`)))
+                time_series_match(c1_quant$actual_catches$Ensp1, cas2_mpd[[c]]$Instant_mortality$`catch[Ensp1]`)))
 
     print(paste('Actual catches for Wnsp1 match:',
-                time_series_match(c1_quant$actual_catches$Wnsp1, cas2_mpd[[c]]$Mortality$`catch[Wnsp1]`)))
+                time_series_match(c1_quant$actual_catches$Wnsp1, cas2_mpd[[c]]$Instant_mortality$`catch[Wnsp1]`)))
 
     print(paste('Actual catches for Ensp2 match:',
-                time_series_match(c1_quant$actual_catches$Ensp2, cas2_mpd[[c]]$Mortality$`catch[Ensp2]`)))
+                time_series_match(c1_quant$actual_catches$Ensp2, cas2_mpd[[c]]$Instant_mortality$`catch[Ensp2]`)))
 
     print(paste('Actual catches for Wnsp2 match:',
-                time_series_match(c1_quant$actual_catches$Wnsp2, cas2_mpd[[c]]$Mortality$`catch[Wnsp2]`)))
+                time_series_match(c1_quant$actual_catches$Wnsp2, cas2_mpd[[c]]$Instant_mortality$`catch[Wnsp2]`)))
 
     print(paste('Actual catches for Esp match:',
-                time_series_match(c1_quant$actual_catches$Esp, cas2_mpd[[c]]$Mortality$`catch[Esp]`)))
+                time_series_match(c1_quant$actual_catches$Esp, cas2_mpd[[c]]$Instant_mortality$`catch[Esp]`)))
 
     print(paste('Actual catches for Wsp match:',
-                time_series_match(c1_quant$actual_catches$Wsp, cas2_mpd[[c]]$Mortality$`catch[Wsp]`)))
+                time_series_match(c1_quant$actual_catches$Wsp, cas2_mpd[[c]]$Instant_mortality$`catch[Wsp]`)))
 
     print('')
 }
@@ -294,13 +294,13 @@ for (i in 1:nrow(c2_mat[1,,]))
 
 max_val <- max(c1_quant$YCS$E,
                c1_sens1_quant$YCS$E,
-               max(unlist(list.map(cas2_mpd, max(Recruit_E$ycs_values)))))
+               max(unlist(list.map(cas2_mpd, max(recruit_E$ycs_values)))))
 
 plot(c1_quant$YCS$E, type='l', col='black', lwd=bl_lwd, ylim=c(0, max_val), xlab='Year', ylab='', main='E YCS comparison')
 lines(c1_sens1_quant$YCS$E, type='l', col='grey', lwd=gr_lwd)
 for (c in 1:num_C2_models)
 {
-    lines(cas2_mpd[[c]]$Recruit_E$ycs_values, col=C2_color[c], lwd=1)
+    lines(cas2_mpd[[c]]$recruit_E$ycs_values, col=C2_color[c], lwd=1)
 }
 
 plot_legend()
@@ -308,13 +308,13 @@ plot_legend()
 
 max_val <- max(c1_quant$YCS$W,
                c1_sens1_quant$YCS$W,
-               max(unlist(list.map(cas2_mpd, max(Recruit_W$ycs_values)))))
+               max(unlist(list.map(cas2_mpd, max(recruit_W$ycs_values)))))
 
 plot(c1_quant$YCS$W, type='l', col='black', lwd=bl_lwd, ylim=c(0, max_val), xlab='Year', ylab='', main='W YCS comparison')
 lines(c1_sens1_quant$YCS$W, type='l', col='grey', lwd=gr_lwd)
 for (c in 1:num_C2_models)
 {
-    lines(cas2_mpd[[c]]$Recruit_W$ycs_values, col=C2_color[c], lwd=1)
+    lines(cas2_mpd[[c]]$recruit_W$ycs_values, col=C2_color[c], lwd=1)
 }
 
 plot_legend()
@@ -325,13 +325,13 @@ plot_legend()
 
 max_val <- max(c1_quant$true_YCS$E,
                c1_sens1_quant$true_YCS$E,
-               max(unlist(list.map(cas2_mpd, max(Recruit_E$true_ycs)))))
+               max(unlist(list.map(cas2_mpd, max(recruit_E$true_ycs)))))
 
 plot(c1_quant$true_YCS$year, c1_quant$true_YCS$E, type='l', col='black', lwd=bl_lwd, ylim=c(0, max_val), xlab='Year', ylab='', main='E true YCS comparison')
 lines(c1_sens1_quant$true_YCS$year, c1_sens1_quant$true_YCS$E, type='l', col='grey', lwd=gr_lwd)
 for (c in 1:num_C2_models)
 {
-    lines(cas2_mpd[[c]]$Recruit_E$ycs_years, cas2_mpd[[c]]$Recruit_E$true_ycs, col=C2_color[c], lwd=1)
+    lines(cas2_mpd[[c]]$recruit_E$ycs_years, cas2_mpd[[c]]$recruit_E$true_ycs, col=C2_color[c], lwd=1)
 }
 
 plot_legend()
@@ -339,13 +339,13 @@ plot_legend()
 
 max_val <- max(c1_quant$true_YCS$W,
                c1_sens1_quant$true_YCS$W,
-               max(unlist(list.map(cas2_mpd, max(Recruit_W$true_ycs)))))
+               max(unlist(list.map(cas2_mpd, max(recruit_W$true_ycs)))))
 
 plot(c1_quant$true_YCS$year, c1_quant$true_YCS$W, type='l', col='black', lwd=bl_lwd, ylim=c(0, max_val), xlab='Year', ylab='', main='W true YCS comparison')
 lines(c1_sens1_quant$true_YCS$year, c1_sens1_quant$true_YCS$W, type='l', col='grey', lwd=gr_lwd)
 for (c in 1:num_C2_models)
 {
-    lines(cas2_mpd[[c]]$Recruit_E$ycs_years, cas2_mpd[[c]]$Recruit_W$true_ycs, col=C2_color[c], lwd=1)
+    lines(cas2_mpd[[c]]$recruit_E$ycs_years, cas2_mpd[[c]]$recruit_W$true_ycs, col=C2_color[c], lwd=1)
 }
 
 plot_legend()
@@ -357,13 +357,13 @@ plot_legend()
 
 max_val <- max(c1_quant$recruitments$E,
                c1_sens1_quant$recruitments$E,
-               max(unlist(list.map(cas2_mpd, max(Recruit_E$Recruits)))))
+               max(unlist(list.map(cas2_mpd, max(recruit_E$Recruits)))))
 
 plot(c1_quant$recruitments$year, c1_quant$recruitments$E, type='l', col='black', lwd=bl_lwd, ylim=c(0, max_val), xlab='Year', ylab='', main='E Recruits comparison')
 lines(c1_sens1_quant$recruitments$year, c1_sens1_quant$recruitments$E, type='l', col='grey', lwd=gr_lwd)
 for (c in 1:num_C2_models)
 {
-    lines((cas2_mpd[[c]]$Recruit_E$ycs_years + cas2_mpd[[c]]$Recruit_E$ssb_offset), cas2_mpd[[c]]$Recruit_E$Recruits, col=C2_color[c], lwd=1)
+    lines((cas2_mpd[[c]]$recruit_E$ycs_years + cas2_mpd[[c]]$recruit_E$ssb_offset), cas2_mpd[[c]]$recruit_E$Recruits, col=C2_color[c], lwd=1)
 }
 
 plot_legend()
@@ -371,13 +371,13 @@ plot_legend()
 
 max_val <- max(c1_quant$recruitments$W,
                c1_sens1_quant$recruitments$W,
-               max(unlist(list.map(cas2_mpd, max(Recruit_W$Recruits)))))
+               max(unlist(list.map(cas2_mpd, max(recruit_W$Recruits)))))
 
 plot(c1_quant$recruitments$year, c1_quant$recruitments$W, type='l', col='black', lwd=bl_lwd, ylim=c(0, max_val), xlab='Year', ylab='', main='W Recruits comparison')
 lines(c1_sens1_quant$recruitments$year, c1_sens1_quant$recruitments$W, type='l', col='grey', lwd=gr_lwd)
 for (c in 1:num_C2_models)
 {
-    lines((cas2_mpd[[c]]$Recruit_W$ycs_years + cas2_mpd[[c]]$Recruit_W$ssb_offset), cas2_mpd[[c]]$Recruit_W$Recruits, col=C2_color[c], lwd=1)
+    lines((cas2_mpd[[c]]$recruit_W$ycs_years + cas2_mpd[[c]]$recruit_W$ssb_offset), cas2_mpd[[c]]$recruit_W$Recruits, col=C2_color[c], lwd=1)
 }
 
 plot_legend()
@@ -469,17 +469,47 @@ plot_legend()
 
 
 ```{r plots_set_5, echo=FALSE}
+# > names(cas2_mpd[[1]])
+#  [1] "Init"                 "state1"               "state5"
+#  [4] "estimated_values"     "estimated_summary"    "obj_fun"
+#  [7] "Hess"                 "Covar"                "Corr"
+# [10] "Instant_mortality"    "recruit_E"            "recruit_W"
+# [13] "M_male"               "M_female"             "CSacous"
+# [16] "WCacous"              "Espage"               "Wspage"
+# [19] "Enspage"              "EnspOLF"              "WnspOLF"
+# [22] "Wnspage"              "CRsumage"             "SAsumage"
+# [25] "SAautage"             "CRsumbio"             "SAsumbio"
+# [28] "pspawn_1993"          "pspawn"               "Enspsl"
+# [31] "Wnspsl"               "Espsl"                "Wspsl"
+# [34] "CRsl"                 "SAsl"                 "shifted_mu"
+# [37] "CRsum"                "SAsum"                "SAaut"
+# [40] "SSB_E"                "SSB_W"                "SAautbio"
+# [43] "Ageing"               "Ertn"                 "Wrtn"
+# [46] "Whome"                "Espmg"                "Wspmg"
+# [49] "sel_Whome"            "sel_Espmg"            "sel_Wspmg"
+# [52] "One"                  "Point5"               "messages_encountered"
+# > names(cas2_mpd[[1]]$Instant_mortality)
+#  [1] "categories"              "label"                   "m"
+#  [4] "relative_m_by_age"       "time_step_proportions"   "sub_type"
+#  [7] "year"                    "fishing_pressure[Ensp1]" "catch[Ensp1]"
+# [10] "actual_catch[Ensp1]"     "fishing_pressure[Ensp2]" "catch[Ensp2]"
+# [13] "actual_catch[Ensp2]"     "fishing_pressure[Esp]"   "catch[Esp]"
+# [16] "actual_catch[Esp]"       "fishing_pressure[Wnsp1]" "catch[Wnsp1]"
+# [19] "actual_catch[Wnsp1]"     "fishing_pressure[Wnsp2]" "catch[Wnsp2]"
+# [22] "actual_catch[Wnsp2]"     "fishing_pressure[Wsp]"   "catch[Wsp]"
+# [25] "actual_catch[Wsp]"       "type"
+
 # plot fishing pressures
 
 max_val <- max(c1_quant$fishing_pressures$Ensp1,
                c1_sens1_quant$fishing_pressures$Ensp1,
-               max(unlist(list.map(cas2_mpd, max(Mortality$`fishing_pressure[Ensp1]`)))))
+               max(unlist(list.map(cas2_mpd, max(Instant_mortality$`fishing_pressure[Ensp1]`)))))
 
 plot(c1_quant$fishing_pressures$year, c1_quant$fishing_pressures$Ensp1, type='l', col='black', lwd=bl_lwd, ylim=c(0, max_val), xlab='Year', ylab='U', main='Fishing pressure comparison: Ensp1')
 lines(c1_sens1_quant$fishing_pressures$year, c1_sens1_quant$fishing_pressures$Ensp1, type='l', col='grey', lwd=gr_lwd)
 for (c in 1:num_C2_models)
 {
-    lines(cas2_mpd[[c]]$Mortality$year, cas2_mpd[[c]]$Mortality$`fishing_pressure[Ensp1]`, col=C2_color[c], lwd=1)
+    lines(cas2_mpd[[c]]$Instant_mortality$year, cas2_mpd[[c]]$Instant_mortality$`fishing_pressure[Ensp1]`, col=C2_color[c], lwd=1)
 }
 
 plot_legend()
@@ -488,13 +518,13 @@ plot_legend()
 
 max_val <- max(c1_quant$fishing_pressures$Wnsp1,
                c1_sens1_quant$fishing_pressures$Wnsp1,
-               max(unlist(list.map(cas2_mpd, max(Mortality$`fishing_pressure[Wnsp1]`)))))
+               max(unlist(list.map(cas2_mpd, max(Instant_mortality$`fishing_pressure[Wnsp1]`)))))
 
 plot(c1_quant$fishing_pressures$year, c1_quant$fishing_pressures$Wnsp1, type='l', col='black', lwd=bl_lwd, ylim=c(0, max_val), xlab='Year', ylab='U', main='Fishing pressure comparison: Wnsp1')
 lines(c1_sens1_quant$fishing_pressures$year, c1_sens1_quant$fishing_pressures$Wnsp1, type='l', col='grey', lwd=gr_lwd)
 for (c in 1:num_C2_models)
 {
-    lines(cas2_mpd[[c]]$Mortality$year, cas2_mpd[[c]]$Mortality$`fishing_pressure[Wnsp1]`, col=C2_color[c], lwd=1)
+    lines(cas2_mpd[[c]]$Instant_mortality$year, cas2_mpd[[c]]$Instant_mortality$`fishing_pressure[Wnsp1]`, col=C2_color[c], lwd=1)
 }
 
 plot_legend()
@@ -503,13 +533,13 @@ plot_legend()
 
 max_val <- max(c1_quant$fishing_pressures$Ensp2,
                c1_sens1_quant$fishing_pressures$Ensp2,
-               max(unlist(list.map(cas2_mpd, max(Mortality$`fishing_pressure[Ensp2]`)))))
+               max(unlist(list.map(cas2_mpd, max(Instant_mortality$`fishing_pressure[Ensp2]`)))))
 
 plot(c1_quant$fishing_pressures$year, c1_quant$fishing_pressures$Ensp2, type='l', col='black', lwd=bl_lwd, ylim=c(0, max_val), xlab='Year', ylab='U', main='Fishing pressure comparison: Ensp2')
 lines(c1_sens1_quant$fishing_pressures$year, c1_sens1_quant$fishing_pressures$Ensp2, type='l', col='grey', lwd=gr_lwd)
 for (c in 1:num_C2_models)
 {
-    lines(cas2_mpd[[c]]$Mortality$year, cas2_mpd[[c]]$Mortality$`fishing_pressure[Ensp2]`, col=C2_color[c], lwd=1)
+    lines(cas2_mpd[[c]]$Instant_mortality$year, cas2_mpd[[c]]$Instant_mortality$`fishing_pressure[Ensp2]`, col=C2_color[c], lwd=1)
 }
 
 plot_legend()
@@ -518,13 +548,13 @@ plot_legend()
 
 max_val <- max(c1_quant$fishing_pressures$Wnsp2,
                c1_sens1_quant$fishing_pressures$Wnsp2,
-               max(unlist(list.map(cas2_mpd, max(Mortality$`fishing_pressure[Wnsp2]`)))))
+               max(unlist(list.map(cas2_mpd, max(Instant_mortality$`fishing_pressure[Wnsp2]`)))))
 
 plot(c1_quant$fishing_pressures$year, c1_quant$fishing_pressures$Wnsp2, type='l', col='black', lwd=bl_lwd, ylim=c(0, max_val), xlab='Year', ylab='U', main='Fishing pressure comparison: Wnsp2')
 lines(c1_sens1_quant$fishing_pressures$year, c1_sens1_quant$fishing_pressures$Wnsp2, type='l', col='grey', lwd=gr_lwd)
 for (c in 1:num_C2_models)
 {
-    lines(cas2_mpd[[c]]$Mortality$year, cas2_mpd[[c]]$Mortality$`fishing_pressure[Wnsp2]`, col=C2_color[c], lwd=1)
+    lines(cas2_mpd[[c]]$Instant_mortality$year, cas2_mpd[[c]]$Instant_mortality$`fishing_pressure[Wnsp2]`, col=C2_color[c], lwd=1)
 }
 
 plot_legend()
@@ -533,13 +563,13 @@ plot_legend()
 
 max_val <- max(c1_quant$fishing_pressures$Esp,
                c1_sens1_quant$fishing_pressures$Esp,
-               max(unlist(list.map(cas2_mpd, max(Mortality$`fishing_pressure[Esp]`)))))
+               max(unlist(list.map(cas2_mpd, max(Instant_mortality$`fishing_pressure[Esp]`)))))
 
 plot(c1_quant$fishing_pressures$year, c1_quant$fishing_pressures$Esp, type='l', col='black', lwd=bl_lwd, ylim=c(0, max_val), xlab='Year', ylab='U', main='Fishing pressure comparison: Esp')
 lines(c1_sens1_quant$fishing_pressures$year, c1_sens1_quant$fishing_pressures$Esp, type='l', col='grey', lwd=gr_lwd)
 for (c in 1:num_C2_models)
 {
-    lines(cas2_mpd[[c]]$Mortality$year, cas2_mpd[[c]]$Mortality$`fishing_pressure[Esp]`, col=C2_color[c], lwd=1)
+    lines(cas2_mpd[[c]]$Instant_mortality$year, cas2_mpd[[c]]$Instant_mortality$`fishing_pressure[Esp]`, col=C2_color[c], lwd=1)
 }
 
 plot_legend()
@@ -548,13 +578,13 @@ plot_legend()
 
 max_val <- max(c1_quant$fishing_pressures$Wsp,
                c1_sens1_quant$fishing_pressures$Wsp,
-               max(unlist(list.map(cas2_mpd, max(Mortality$`fishing_pressure[Wsp]`)))))
+               max(unlist(list.map(cas2_mpd, max(Instant_mortality$`fishing_pressure[Wsp]`)))))
 
 plot(c1_quant$fishing_pressures$year, c1_quant$fishing_pressures$Wsp, type='l', col='black', lwd=bl_lwd, ylim=c(0, max_val), xlab='Year', ylab='U', main='Fishing pressure comparison: Wsp')
 lines(c1_sens1_quant$fishing_pressures$year, c1_sens1_quant$fishing_pressures$Wsp, type='l', col='grey', lwd=gr_lwd)
 for (c in 1:num_C2_models)
 {
-    lines(cas2_mpd[[c]]$Mortality$year, cas2_mpd[[c]]$Mortality$`fishing_pressure[Wsp]`, col=C2_color[c], lwd=1)
+    lines(cas2_mpd[[c]]$Instant_mortality$year, cas2_mpd[[c]]$Instant_mortality$`fishing_pressure[Wsp]`, col=C2_color[c], lwd=1)
 }
 
 plot_legend()
