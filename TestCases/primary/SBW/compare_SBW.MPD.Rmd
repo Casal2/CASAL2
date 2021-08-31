@@ -18,11 +18,11 @@ knitr::opts_chunk$set(echo = TRUE)
 
 # SBW comparison of CASAL and Casal2 model configurations
 
-This document compares the results of at least 2 CASAL model configurations (base and at least one sensitivity) and up to 8 Casal2 model configurations (3 BetaDiff, 2 CppAD, and 3 ADOL-C).
+This document compares the results of at least 2 CASAL model configurations (base and at least one sensitivity) and up to 6 Casal2 model configurations (3 BetaDiff and 3 ADOL-C).
 
 The CASAL model sensitivity 1 has a smaller minimisation tolerance value than the CASAL base model (1e-8 vs. 2e-6).
 
-The Casal2 ADOL-C and BetaDiff low tolerance models have a smaller tolerance value than the CASAL base model (1e-8 vs. 2e-6). The Casal2 CppAD models have a tolerance value of 1e-9.
+The Casal2 ADOL-C and BetaDiff low tolerance models have a smaller tolerance value than the CASAL base model (1e-8 vs. 2e-6).
 
 
 ## SBW model characteristics
@@ -140,7 +140,7 @@ for (c in 1:num_C2_models)
 {
     print(paste('Catch time series base model comparison for run', C2_subdir[c]))
 
-    print(paste('Actual catches for Trawl match:', time_series_match(c1_catch, cas2_mpd[[c]]$Mortality$`catch[Trawl]`)))
+    print(paste('Actual catches for Trawl match:', time_series_match(c1_catch, cas2_mpd[[c]]$Instantaneous_Mortality$`catch[Trawl]`)))
 
     print('')
 }
@@ -179,14 +179,14 @@ source('../../R-functions/report_set_up_legend.R')
 
 max_val <- max(c1_quant$SSBs$SSB,
                c1_sens1_quant$SSBs$SSB,
-               max(unlist(list.map(cas2_mpd, max(DerivedQuantities$SSB$values)))))
+               max(unlist(list.map(cas2_mpd, max(SSB$SSB$values)))))
 
 plot(c1_quant$SSBs$year, c1_quant$SSBs$SSB, type='l', col='black', lwd=bl_lwd, ylim=c(0, max_val), xlab='Year', ylab='Biomass (t)', main='SSB comparison')
 lines(c1_sens1_quant$SSBs$year, c1_sens1_quant$SSBs$SSB, type='l', col='grey', lwd=gr_lwd)
 
 for (c in 1:num_C2_models)
 {
-    lines(names(cas2_mpd[[c]]$DerivedQuantities$SSB$values), cas2_mpd[[c]]$DerivedQuantities$SSB$values, col=C2_color[c], lwd=1)
+    lines(names(cas2_mpd[[c]]$SSB$SSB$values), cas2_mpd[[c]]$SSB$SSB$values, col=C2_color[c], lwd=1)
 }
 
 plot_legend()
@@ -346,26 +346,33 @@ plot_legend()
 
 ```{r plots_set_5, echo=FALSE}
 # > names(cas2_mpd[[1]])
-#  [1] "Init"                     ""                         "state1"
-#  [4] "state2"                   "estimated_values"         "obj_fun"
-#  [7] "DerivedQuantities"        "Recruitment"              "Mortality"
-# [10] "part_length_1"            "part_length_2"            "part_weight_1"
-# [13] "part_weight_2"            "MaturationSel_male"       "MaturationSel_female"
-# [16] "TangaroaAcousticMature"   "TangaroaAcousticImmature" "Qs"
-# [19] "estimated_summary"        "Hess"                     "Covar"
-# [22] "Corr"                     "warnings_encounted"
+#  [1] "Init"                     "state1"                   "state2"
+#  [4] "estimated_values"         "estimated_summary"        "obj_fun"
+#  [7] "Hess"                     "Covar"                    "Corr"
+# [10] "Recruitment"              "Instantaneous_Mortality"  "part_length_1"
+# [13] "part_length_2"            "part_weight_1"            "part_weight_2"
+# [16] "MaturationSel_male"       "MaturationSel_female"     "TangaroaAcousticMature"
+# [19] "TangaroaAcousticImmature" "TangaroaMatureq"          "TangaroaImmatureq"
+# [22] "SSB"                      "ObserverProportionsAtAge" "Ageing"
+# [25] "Maturity_Migration"       "TangaroaImmatureSel"      "One"
+# [28] "messages_encountered"
+# > names(cas2_mpd[[1]]$Instantaneous_Mortality)
+#  [1] "categories"              "label"                   "m"
+#  [4] "relative_m_by_age"       "time_step_proportions"   "sub_type"
+#  [7] "year"                    "fishing_pressure[Trawl]" "catch[Trawl]"
+# [10] "actual_catch[Trawl]"     "type"
 
 # plot fishing pressures
 
 max_val <- max(c1_quant$fishing_pressures$pressure,
                c1_sens1_quant$fishing_pressures$pressure,
-               max(unlist(list.map(cas2_mpd, max(Mortality$`fishing_pressure[Trawl]`)))))
+               max(unlist(list.map(cas2_mpd, max(Instantaneous_Mortality$`fishing_pressure[Trawl]`)))))
 
 plot(c1_quant$fishing_pressures$year, c1_quant$fishing_pressures$pressure, type='l', col='black', lwd=bl_lwd, ylim=c(0, max_val), xlab='Year', ylab='U', main='Fishing pressure comparison: Trawl')
 lines(c1_sens1_quant$fishing_pressures$year, c1_sens1_quant$fishing_pressures$pressure, type='l', col='grey', lwd=gr_lwd)
 for (c in 1:num_C2_models)
 {
-    lines(cas2_mpd[[c]]$Mortality$year, cas2_mpd[[c]]$Mortality$`fishing_pressure[Trawl]`, col=C2_color[c], lwd=1)
+    lines(cas2_mpd[[c]]$Instantaneous_Mortality$year, cas2_mpd[[c]]$Instantaneous_Mortality$`fishing_pressure[Trawl]`, col=C2_color[c], lwd=1)
 }
 
 plot_legend()

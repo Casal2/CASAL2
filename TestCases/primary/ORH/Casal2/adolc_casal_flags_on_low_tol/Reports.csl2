@@ -55,10 +55,6 @@ time_step Jul_Jun
 years 1979 2005
 
 
-@report nuisance_Q
-type catchability
-
-
 @report maturity_ogive
 type selectivity
 selectivity maturity_sel

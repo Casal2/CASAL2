@@ -60,10 +60,6 @@ time_step Feb_Jun
 years 1975 2018
 
 
-@report Qs
-type catchability
-
-
 @report maturity_ogive_m
 type selectivity
 selectivity maturity_sel_m

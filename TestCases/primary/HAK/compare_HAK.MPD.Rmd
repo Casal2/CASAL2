@@ -18,11 +18,11 @@ knitr::opts_chunk$set(echo = TRUE)
 
 # HAK comparison of CASAL and Casal2 model configurations
 
-This document compares the results of at least 2 CASAL model configurations (base and at least one sensitivity) and up to 8 Casal2 model configurations (3 BetaDiff, 2 CppAD, and 3 ADOL-C).
+This document compares the results of at least 2 CASAL model configurations (base and at least one sensitivity) and up to 6 Casal2 model configurations (3 BetaDiff and 3 ADOL-C).
 
 The CASAL model sensitivity 1 has a smaller minimisation tolerance value than the CASAL base model (1e-6 vs. 2e-3).
 
-The Casal2 ADOL-C and BetaDiff low tolerance models have a smaller tolerance value than the CASAL base model (1e-6 vs. 2e-3). The Casal2 CppAD models have a tolerance value of 1e-9.
+The Casal2 ADOL-C and BetaDiff low tolerance models have a smaller tolerance value than the CASAL base model (1e-6 vs. 2e-3).
 
 
 ## HAK model characteristics
@@ -142,7 +142,7 @@ for (c in 1:num_C2_models)
 {
     print(paste('Catch time series base model comparison for run', C2_subdir[c]))
 
-    print(paste('Actual catches for fishery match:', time_series_match(c1_catch, cas2_mpd[[c]]$Mortality$`catch[subaF]`)))
+    print(paste('Actual catches for fishery match:', time_series_match(c1_catch, cas2_mpd[[c]]$Instantaneous_Mortality$`catch[subaF]`)))
 
     print('')
 }
@@ -181,14 +181,14 @@ source('../../R-functions/report_set_up_legend.R')
 
 max_val <- max(c1_quant$SSBs$SSB,
                c1_sens1_quant$SSBs$SSB,
-               max(unlist(list.map(cas2_mpd, max(DerivedQuantities$SSB$values)))))
+               max(unlist(list.map(cas2_mpd, max(SSB$SSB$values)))))
 
 plot(c1_quant$SSBs$year, c1_quant$SSBs$SSB, type='l', col='black', lwd=bl_lwd, ylim=c(0, max_val), xlab='Year', ylab='Biomass (t)', main='SSB comparison')
 lines(c1_sens1_quant$SSBs$year, c1_sens1_quant$SSBs$SSB, type='l', col='grey', lwd=gr_lwd)
 
 for (c in 1:num_C2_models)
 {
-    lines(names(cas2_mpd[[c]]$DerivedQuantities$SSB$values), cas2_mpd[[c]]$DerivedQuantities$SSB$values, col=C2_color[c], lwd=1)
+    lines(names(cas2_mpd[[c]]$SSB$SSB$values), cas2_mpd[[c]]$SSB$SSB$values, col=C2_color[c], lwd=1)
 }
 
 plot_legend()
@@ -348,7 +348,7 @@ c1_s1_surv <- unlist(c1_sens1_quant$subaTANbiomassDEC.fits)
 c2_surv <- list()
 for (c in 1:num_C2_models)
 {
-    c2_surv[[c]] <- cas2_mpd[[c]]$Tangaroa_biomass$Values
+    c2_surv[[c]] <- cas2_mpd[[c]]$subaTANbiomassDEC$Values
 }
 
 max_val <- max(c1_surv,
@@ -377,7 +377,7 @@ c1_s1_surv <- unlist(c1_sens1_quant$CPUE.fits)
 c2_surv <- list()
 for (c in 1:num_C2_models)
 {
-    c2_surv[[c]] <- cas2_mpd[[c]]$CPUE_index$Values
+    c2_surv[[c]] <- cas2_mpd[[c]]$CPUE$Values
 }
 
 max_val <- max(c1_surv,
@@ -400,27 +400,34 @@ plot_legend()
 
 ```{r plots_set_5, echo=FALSE}
 # > names(cas2_mpd[[1]])
-#  [1] "Init"                   "state1"                 "state2"
-#  [4] "obj_fun"                "DQs"                    "estimated_values"
-#  [7] "estimated_summary"      "Qs"                     "SSB"
-# [10] "Mortality"              "Recruitment"            "maturity_ogive_m"
-# [13] "maturity_ogive_f"       "growth_length_at_age_1" "growth_length_at_age_2"
-# [16] "growth_weight_at_age_1" "growth_weight_at_age_2" "fishery_selectivity"
-# [19] "survey_selectivity"     "CPUE_index"             "fishery_AF"
-# [22] "Tangaroa_biomass"       "Tangaroa_AF"            "Hess"
-# [25] "Covar"                  "Corr"                   "warnings_encounted"
+#  [1] "Init"                    "state1"                  "state2"
+#  [4] "estimated_values"        "estimated_summary"       "obj_fun"
+#  [7] "Hess"                    "Covar"                   "Corr"
+# [10] "Recruitment"             "Instantaneous_Mortality" "maturity_sel_m"
+# [13] "maturity_sel_f"          "growth_length_at_age_1"  "growth_length_at_age_2"
+# [16] "growth_weight_at_age_1"  "growth_weight_at_age_2"  "subaFsel"
+# [19] "subaTANselA"             "CPUE"                    "subaOBSage"
+# [22] "subaTANbiomassDEC"       "subaTANageDEC"           "subaTANqA"
+# [25] "CPUEq"                   "SSB"                     "Ageing"
+# [28] "One"                     "messages_encountered"
+# > names(cas2_mpd[[1]]$Instantaneous_Mortality)
+#  [1] "categories"              "label"                   "m"
+#  [4] "relative_m_by_age"       "time_step_proportions"   "sub_type"
+#  [7] "year"                    "fishing_pressure[subaF]" "catch[subaF]"
+# [10] "actual_catch[subaF]"     "type"
+
 
 # plot fishing pressures
 
 max_val <- max(c1_quant$fishing_pressures$pressure,
                c1_sens1_quant$fishing_pressures$pressure,
-               max(unlist(list.map(cas2_mpd, max(Mortality$`fishing_pressure[subaF]`)))))
+               max(unlist(list.map(cas2_mpd, max(Instantaneous_Mortality$`fishing_pressure[subaF]`)))))
 
 plot(c1_quant$fishing_pressures$year, c1_quant$fishing_pressures$pressure, type='l', col='black', lwd=bl_lwd, ylim=c(0, max_val), xlab='Year', ylab='U', main='Fishing pressure comparison')
 lines(c1_sens1_quant$fishing_pressures$year, c1_sens1_quant$fishing_pressures$pressure, type='l', col='grey', lwd=gr_lwd)
 for (c in 1:num_C2_models)
 {
-    lines(cas2_mpd[[c]]$Mortality$year, cas2_mpd[[c]]$Mortality$`fishing_pressure[subaF]`, col=C2_color[c], lwd=1)
+    lines(cas2_mpd[[c]]$Instantaneous_Mortality$year, cas2_mpd[[c]]$Instantaneous_Mortality$`fishing_pressure[subaF]`, col=C2_color[c], lwd=1)
 }
 
 plot_legend()
@@ -438,7 +445,7 @@ plot(ages, c1_quant$`Ogive parameter values`$`selectivity[subaFsel].all`, type='
 lines(ages, c1_sens1_quant$`Ogive parameter values`$`selectivity[subaFsel].all`, col='grey', lwd=gr_lwd)
 for (c in 1:num_C2_models)
 {
-    lines(ages, cas2_mpd[[c]]$fishery_selectivity$Values, col=C2_color[c], lwd=1)
+    lines(ages, cas2_mpd[[c]]$subaFsel$Values, col=C2_color[c], lwd=1)
 }
 
 plot_legend()
@@ -456,7 +463,7 @@ plot(ages, c1_quant$`Ogive parameter values`$`selectivity[subaTANselA].all`, typ
 lines(ages, c1_sens1_quant$`Ogive parameter values`$`selectivity[subaTANselA].all`, col='grey', lwd=gr_lwd)
 for (c in 1:num_C2_models)
 {
-    lines(ages, cas2_mpd[[c]]$survey_selectivity$Values, col=C2_color[c], lwd=1)
+    lines(ages, cas2_mpd[[c]]$subaTANselA$Values, col=C2_color[c], lwd=1)
 }
 
 plot_legend()

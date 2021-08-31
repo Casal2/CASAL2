@@ -9,6 +9,6 @@ for (c in 1:num_C2_models)
 {
     print('')
     print(paste('Casal2', C2_subdir[c], 'model warnings'))
-    print(cas2_mpd[[c]]$warnings_encounted)
+    ifelse((!is.null(cas2_mpd[[c]]$messages_encountered)) && (cas2_mpd[[c]]$messages_encountered$type == 'warnings'), print(cas2_mpd[[c]]$messages_encountered$Values), print(''))
 }
 

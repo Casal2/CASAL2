@@ -60,10 +60,6 @@ time_step Jul_Sep
 years 1972 2018
 
 
-@report Qs
-type catchability
-
-
 @report Recruit_E
 type process
 process recruit_E
@@ -171,6 +167,6 @@ type selectivity
 selectivity SAsl
 
 
-@report time_var
+@report shifted_mu
 type time_varying
 

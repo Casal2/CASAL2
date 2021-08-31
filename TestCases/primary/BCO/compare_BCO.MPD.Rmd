@@ -18,11 +18,11 @@ knitr::opts_chunk$set(echo = TRUE)
 
 # BCO comparison of CASAL and Casal2 model configurations
 
-This document compares the results of at least 2 CASAL model configurations (base and at least one sensitivity) and up to 8 Casal2 model configurations (3 BetaDiff, 2 CppAD, and 3 ADOL-C).
+This document compares the results of at least 2 CASAL model configurations (base and at least one sensitivity) and up to 6 Casal2 model configurations (3 BetaDiff and 3 ADOL-C).
 
 The CASAL model sensitivity 1 has a smaller minimisation tolerance value than the CASAL base model (1e-7 vs. 2e-5).
 
-The Casal2 ADOL-C and BetaDiff low tolerance models have a smaller tolerance value than the CASAL base model (1e-7 vs. 2e-5). The Casal2 CppAD models have a tolerance value of 1e-9.
+The Casal2 ADOL-C and BetaDiff low tolerance models have a smaller tolerance value than the CASAL base model (1e-7 vs. 2e-5).
 
 
 ## BCO model characteristics
@@ -195,14 +195,14 @@ source('../../R-functions/report_set_up_legend.R')
 
 max_val <- max(c1_quant$SSBs$SSB,
                c1_sens1_quant$SSBs$SSB,
-               max(unlist(list.map(cas2_mpd, max(DerivedQuantities$SSB$values)))))
+               max(unlist(list.map(cas2_mpd, max(SSB$SSB$values)))))
 
 plot(c1_quant$SSBs$year, c1_quant$SSBs$SSB, type='l', col='black', lwd=bl_lwd, ylim=c(0, max_val), xlab='Year', ylab='Biomass (t)', main='SSB comparison')
 lines(c1_sens1_quant$SSBs$year, c1_sens1_quant$SSBs$SSB, type='l', col='grey', lwd=gr_lwd)
 
 for (c in 1:num_C2_models)
 {
-    lines(names(cas2_mpd[[c]]$DerivedQuantities$SSB$values), cas2_mpd[[c]]$DerivedQuantities$SSB$values, col=C2_color[c], lwd=1)
+    lines(names(cas2_mpd[[c]]$SSB$SSB$values), cas2_mpd[[c]]$SSB$SSB$values, col=C2_color[c], lwd=1)
 }
 
 plot_legend()
@@ -461,7 +461,6 @@ plot_legend()
 # [10] "Recruitment"          "Mortality"            "Qs"
 # [13] "growth_length_at_age" "growth_weight_at_age" "pot_survey"
 # [16] "CPUE"                 "LFlogbook"            "warnings_encounted"
-
 # > names(cas2_mpd[[1]]$Mortality)
 #  [1] "categories"                         "label"
 #  [3] "m"                                  "selectivities"

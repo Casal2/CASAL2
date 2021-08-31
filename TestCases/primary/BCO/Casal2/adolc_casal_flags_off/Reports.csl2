@@ -55,10 +55,6 @@ time_step 1
 years 2001 2010 2019
 
 
-@report Qs
-type catchability
-
-
 /*
 @report Ageing_error
 type ageing_error

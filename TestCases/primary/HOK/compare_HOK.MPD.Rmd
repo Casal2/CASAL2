@@ -18,11 +18,11 @@ knitr::opts_chunk$set(echo = TRUE)
 
 # HOK comparison of CASAL and Casal2 model configurations
 
-This document compares the results of at least 2 CASAL model configurations (base and at least one sensitivity) and up to 8 Casal2 model configurations (3 BetaDiff, 2 CppAD, and 3 ADOL-C).
+This document compares the results of at least 2 CASAL model configurations (base and at least one sensitivity) and up to 6 Casal2 model configurations (3 BetaDiff and 3 ADOL-C).
 
 The CASAL model sensitivity 1 has a smaller minimisation tolerance value than the CASAL base model (1e-9 vs. 1e-6).
 
-The Casal2 ADOL-C and BetaDiff low tolerance models have a smaller tolerance value than the CASAL base model (1e-9 vs. 1e-6). The Casal2 CppAD models have a tolerance value of 1e-9.
+The Casal2 ADOL-C and BetaDiff low tolerance models have a smaller tolerance value than the CASAL base model (1e-9 vs. 1e-6).
 
 
 ## HOK model characteristics
@@ -198,13 +198,13 @@ source('../../R-functions/report_set_up_legend.R')
 
 max_val <- max(c1_quant$SSBs$E,
                c1_sens1_quant$SSBs$E,
-               max(unlist(list.map(cas2_mpd, max(DerivedQuantities$SSB_E$values)))))
+               max(unlist(list.map(cas2_mpd, max(SSB_E$SSB_E$values)))))
 
 plot(c1_quant$SSBs$year, c1_quant$SSBs$E, type='l', col='black', lwd=bl_lwd, ylim=c(0, max_val), xlab='Year', ylab='Biomass (t)', main='E SSB comparison')
 lines(c1_sens1_quant$SSBs$year, c1_sens1_quant$SSBs$E, type='l', col='grey', lwd=gr_lwd)
 for (c in 1:num_C2_models)
 {
-    lines(names(cas2_mpd[[c]]$DerivedQuantities$SSB_E$values), cas2_mpd[[c]]$DerivedQuantities$SSB_E$values, col=C2_color[c], lwd=1)
+    lines(names(cas2_mpd[[c]]$SSB_E$SSB_E$values), cas2_mpd[[c]]$SSB_E$SSB_E$values, col=C2_color[c], lwd=1)
 }
 
 plot_legend()
@@ -214,13 +214,13 @@ plot_legend()
 
 max_val <- max(c1_quant$SSBs$W,
                c1_sens1_quant$SSBs$W,
-               max(unlist(list.map(cas2_mpd, max(DerivedQuantities$SSB_W$values)))))
+               max(unlist(list.map(cas2_mpd, max(SSB_W$SSB_W$values)))))
 
 plot(c1_quant$SSBs$year, c1_quant$SSBs$W, type='l', col='black', lwd=bl_lwd, ylim=c(0, max_val), xlab='Year', ylab='Biomass (t)', main='W SSB comparison')
 lines(c1_sens1_quant$SSBs$year, c1_sens1_quant$SSBs$W, type='l', col='grey', lwd=gr_lwd)
 for (c in 1:num_C2_models)
 {
-    lines(names(cas2_mpd[[c]]$DerivedQuantities$SSB_E$values), cas2_mpd[[c]]$DerivedQuantities$SSB_W$values, col=C2_color[c], lwd=1)
+    lines(names(cas2_mpd[[c]]$SSB_W$SSB_W$values), cas2_mpd[[c]]$SSB_W$SSB_W$values, col=C2_color[c], lwd=1)
 }
 
 plot_legend()
