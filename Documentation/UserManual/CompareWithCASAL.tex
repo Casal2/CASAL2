@@ -1,6 +1,6 @@
 \section{\I{Tips for setting up Casal2 model based on an existing CASAL model}\label{sec:setupCasal2}}
 
-Many users of \CNAME\ may be be starting with a functioning CASAL model. This section focuses on transitioning from CASAL to \CNAME. 
+Many users of \CNAME\ may be be starting with a functioning CASAL model. This section focuses on transitioning from CASAL to \CNAME.
 
 There are a range of reasons why \CNAME\ will output different values when comparing model output to CASAL models. There are also reasons why values will differ that are not so obvious such as, reasons caused from using different compilers on different machines where over/underflow might occur. It is assumed that the latter reasons  should be rare, and the 'overall' behaviour when it comes to estimation will be the same between CASAL and \CNAME.
 
@@ -8,21 +8,21 @@ Reasons why there may be different values reported between CASAL and \CNAME\ inc
 
 \begin{itemize}
 	\item Report rounding. There are settings with respect to output in CASAL that set the number of significant figures for writing to files. So if values look truncated, this might be the reason.
-	
+
 	\item Priors on parameters that are turned off with \subcommand{upper\_bound} = \subcommand{lower\_bound}. In both CASAL and \CNAME\ the estimation of parameters can be turned off by setting the bounds equal. CASAL will evaluate the prior value and add this to the objective function.  This contribution is a constant value so it will not affect parameter inference. It may however be confusing when comparing output between the two models.
-	
+
 	\item Default values. There are a lot of switches in these programs, and options like the \subcommand{delta} in \CNAME\ or \subcommand{r} parameter in CASAL for robustifying likelihoods can cause differences.
-	
+
 	\item The order of processes. CASAL has a predefined sequence in which it executes processes within a time step (i.e., ageing, recruitment, maturation, migration, growth, natural and fishing mortality, disease mortality, tag release events, tag shedding rate, and semelparous mortality), where as \CNAME\ is completely user defined.
-		
+
 	\item Length-based processes or observations. \CNAME\ has updated the cumulative normal distribution calculation (CASAL used the approximated no closed form solution) with better approximations.
-	
+
 	\item Age-based observations. \CNAME\ does not have the \subcommand{sum\_to\_one} subcommand implemented, and CASAL makes this adjustment implicitly. Check that this flag is set to 'false' in the CASAL model for a more accurate comparison.
-	
+
 	\item Tag penalties. CASAL applies a penalty to the sum of squares on total tagged fish in a 'tagging episode' from the model compared to observed number of tagged fish. \CNAME\ applies a penalty on the transition rate by length. If tags are applied in a length bin that does not have individuals, e.g., a model configuration which tags 2 individuals of length $l$ when there are no individuals in that length bin will include a penalty.
 \end{itemize}
 
-Many of the flags and options in CASAL and \CNAME\ are the same or similar. The syntax section of this document (Sections~\ref{sec:population-syntax}) provides more details about the \CNAME\ functionality and behaviour. Check that the programs produce the same results with a \textbf{range} of parameter values using the deterministic run command (\texttt{casal2 -r}), before doing an estimation run (\texttt{casal2 -e}).
+Many of the flags and options in CASAL and \CNAME\ are the same or similar. The syntax section of this document (Section~\ref{syntax:Population}) provides more details about the \CNAME\ functionality and behaviour. Check that the programs produce the same results with a \textbf{range} of parameter values using the deterministic run command (\texttt{casal2 -r}), before doing an estimation run (\texttt{casal2 -e}).
 
 The first outputs to check when comparing \CNAME\ and CASAL versions of the same model are the stock dynamics outputs, ignoring the fits to observations. That is, check the initial age structure, the SSB and YCS values and patterns, R0, B0, etc. If these outputs differ, then the fits to the observations will likely also be different.
 

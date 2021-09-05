@@ -11,7 +11,7 @@
 \defDefault{No default}
 
 \defSub{time\_step\_proportions}{The fraction of the year applied in each time step that is added to the age for the purposes of evaluating the length, i.e., a value of 0.5 for a time step will evaluate the length of individuals at age+0.5 in that time step}
-\defType{Vector of real numbers (estimable)}
+\defType{Vector of real numbers}
 \defDefault{true}
 \defLowerBound{0.0 (inclusive)}
 \defUpperBound{1.0 (inclusive)}
@@ -29,14 +29,16 @@
 \defType{Real number (estimable)}
 \defDefault{0.0}
 \defLowerBound{0.0 (inclusive)}
+\defNote{If not supplied, the value is assumed to be equal to cv\_first}
 
 \defSub{compatibility\_option}{Backwards compatibility option: either casal2 (the default) or casal to use the (less accurate) cumulative normal function from CASAL}
 \defType{String}
 \defDefault{casal2}
 
-\defSub{by\_length}{Specifies if the linear interpolation of CVs is a linear function of mean length at age. Default is by age only}
+\defSub{by\_length}{Specifies if the linear interpolation of CVs is a linear function of mean length at age, or at age}
 \defType{Boolean}
 \defDefault{true}
+\defNote{The default is almost always the most appropriate choice. This option is provided for compatibility with a similar option in CASAL}
 
 \subsubsection{Age\_Length of type Data}
 \commandlabsubarg{Age\_Length}{type}{Data}.
@@ -59,12 +61,20 @@
 \defType{String}
 \defDefault{No default}
 
+\defSub{table}{The table of data specifying the length at age values}
+\defType{Data table with label = data}
+\defDefault{No default}
+\defValue{A $n \times m$ matrix, where $n=$ the years of the model, and $m=$ the number of ages defined in the model. Rows of values specify the length for each age for every year. The table ends with `end\_table'}
+\defNote{See \ref{sec:DataTable} for more details on specifying data tables}
+
+
 \subsubsection{Age\_Length of type None}
 \commandlabsubarg{Age\_Length}{type}{None}.
 \defRef{sec:AgeLength-None}
 \label{syntax:AgeLength-None}
 
 The None type has no additional subcommands.
+
 \subsubsection{Age\_Length of type Schnute}
 \commandlabsubarg{Age\_Length}{type}{Schnute}.
 \defRef{sec:AgeLength-Schnute}

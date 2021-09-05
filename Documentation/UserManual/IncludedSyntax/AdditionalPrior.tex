@@ -29,11 +29,11 @@
 \defLowerBound{0.0 (exclusive)}
 
 \defSub{a}{Beta distribution lower bound, of the range $A$ parameter}
-\defType{Real number (estimable)}
+\defType{Real number}
 \defDefault{No default}
 
 \defSub{b}{Beta distribution upper bound of the range $B$ parameter}
-\defType{Real number (estimable)}
+\defType{Real number}
 \defDefault{No default}
 
 \subsubsection{Additional\_Prior of type Element\_Difference}
@@ -46,7 +46,7 @@
 \defDefault{No default}
 
 \defSub{multiplier}{Multiply the penalty by this factor}
-\defType{Real number (estimable)}
+\defType{Real number}
 \defDefault{1}
 
 \subsubsection{Additional\_Prior of type Log\_Normal}
@@ -70,6 +70,7 @@
 \label{syntax:AdditionalPrior-UniformLog}
 
 The Uniform\_Log type has no additional subcommands.
+
 \subsubsection{Additional\_Prior of type Vector\_Average}
 \commandlabsubarg{Additional\_Prior}{type}{Vector\_Average}.
 \defRef{sec:AdditionalPrior-VectorAverage}
@@ -80,11 +81,11 @@ The Uniform\_Log type has no additional subcommands.
 \defDefault{k}
 
 \defSub{k}{The k value to use in the calculation}
-\defType{Real number (estimable)}
+\defType{Real number}
 \defDefault{No default}
 
 \defSub{multiplier}{Multiplier for the penalty amount}
-\defType{Real number (estimable)}
+\defType{Real number}
 \defDefault{1}
 
 \subsubsection{Additional\_Prior of type Vector\_Smoothing}
@@ -97,7 +98,7 @@ The Uniform\_Log type has no additional subcommands.
 \defDefault{false}
 
 \defSub{multiplier}{Multiply the penalty by this factor}
-\defType{Real number (estimable)}
+\defType{Real number}
 \defDefault{1}
 
 \defSub{lower\_bound}{The first element to apply the penalty to in the vector}
@@ -108,7 +109,7 @@ The Uniform\_Log type has no additional subcommands.
 \defType{Non-negative integer}
 \defDefault{0}
 
-\defSub{r}{Penalty applied to rth differences}
+\defSub{r}{The rth difference that the penalty is applied to}
 \defType{Non-negative integer}
 \defDefault{2}
 

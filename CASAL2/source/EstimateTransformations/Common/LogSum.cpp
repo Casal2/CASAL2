@@ -26,10 +26,8 @@ namespace estimatetransformations {
  * Default constructor
  */
 LogSum::LogSum(shared_ptr<Model> model) : EstimateTransformation(model) {
-  parameters_.Bind<string>(PARAM_THETA_TWO, &second_estimate_label_,
-                           "The label of the @estimate block relating to the $\theta_2$ parameter in the transformation. See the User Manual for more information", "");
-  parameters_.Bind<string>(PARAM_THETA_ONE, &estimate_label_,
-                           "The label of @estimate block relating to the $\theta_1$ parameter in the transformation. See the User Manual for more information", "");
+  parameters_.Bind<string>(PARAM_THETA_TWO, &second_estimate_label_, "The label of the @estimate block relating to the theta2 parameter in the transformation", "");
+  parameters_.Bind<string>(PARAM_THETA_ONE, &estimate_label_, "The label of @estimate block relating to the theta1 parameter in the transformation", "");
   is_simple_ = false;
 }
 

@@ -89,7 +89,7 @@ The Casal2 C++ code changes would be for the creation of a new report \texttt{po
 This would assume a multirun input, for example a MCMC sample file. For each line of the \texttt{-i} file it would produce a replicate dataset denoted \(y^{rep}\). Most of this functionality will be in Casal2, since generating simulated observations has been implemented. However, there are no public functions (this would be needed because the report class will be responsible for executing the simulate call) that allow an observation to simulate data, so this will have to be implemented (shouldn't be difficult) could almost keep the simulate call at the parent class..
 
 
-Once this has happened the \texttt{TBD} function in the Casal2 R package will read that in and users can define different discrepancy functions \(D()\), i.e., the likelihood or Pearson's residuals \textbf{discussion}: should Casal2 do the discrepency calculation or the Casal2 R package? An example of standardised residuals for a discrepancy function
+Once this has happened the \texttt{TBD} function in the Casal2 R package will read that in and users can define different discrepancy functions \(D()\), i.e., the likelihood or Pearson's residuals \textbf{discussion}: should Casal2 do the discrepancy calculation or the Casal2 R package? An example of standardised residuals for a discrepancy function
 
 \[
 D\left(y^{rep}; \theta\right) =\sum_{i = 1} \frac{y_i^{rep} - \mathbb{E}[y_i]}{Var(y_i)}

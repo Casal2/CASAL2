@@ -36,12 +36,12 @@ using std::pow;
  * Note: The constructor is parsed to generate LaTeX for the documentation.
  */
 Schnute::Schnute(shared_ptr<Model> model) : AgeLength(model) {
-  parameters_.Bind<Double>(PARAM_Y1, &y1_, "The $y_1$ parameter", "");
-  parameters_.Bind<Double>(PARAM_Y2, &y2_, "The $y_2$ parameter", "");
-  parameters_.Bind<Double>(PARAM_TAU1, &tau1_, "The $\tau_1$ parameter", "");
-  parameters_.Bind<Double>(PARAM_TAU2, &tau2_, "The $\tau_2$ parameter", "");
-  parameters_.Bind<Double>(PARAM_A, &a_, "The $a$ parameter", "")->set_lower_bound(0.0);
-  parameters_.Bind<Double>(PARAM_B, &b_, "The $b$ parameter", "")->set_lower_bound(0.0, false);
+  parameters_.Bind<Double>(PARAM_Y1, &y1_, "The y1 parameter", "");
+  parameters_.Bind<Double>(PARAM_Y2, &y2_, "The y2 parameter", "");
+  parameters_.Bind<Double>(PARAM_TAU1, &tau1_, "The tau1 parameter", "");
+  parameters_.Bind<Double>(PARAM_TAU2, &tau2_, "The tau2 parameter", "");
+  parameters_.Bind<Double>(PARAM_A, &a_, "The a parameter", "")->set_lower_bound(0.0);
+  parameters_.Bind<Double>(PARAM_B, &b_, "The b parameter", "")->set_lower_bound(0.0, false);
   parameters_.Bind<string>(PARAM_LENGTH_WEIGHT, &length_weight_label_, "The label of the associated length-weight relationship", "");
 
   RegisterAsAddressable(PARAM_Y1, &y1_);

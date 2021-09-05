@@ -11,19 +11,21 @@
 
 \subsubsection{Ageing\_Error of type Data}
 \commandlabsubarg{Ageing\_Error}{type}{Data}.
-\defRef{sec:AgeingError-Data}
 \label{syntax:AgeingError-Data}
 
-The Data type has no additional subcommands.
+\defSub{table}{The table of data specifying the ageing misclassification matrix}
+\defType{A table giving the misclassification matrix}
+\defDefault{No default}
+\defValue{The table has $n$ rows and columns, where n is the number of ages in the model}
+
 \subsubsection{Ageing\_Error of type None}
 \commandlabsubarg{Ageing\_Error}{type}{None}.
-\defRef{sec:AgeingError-None}
 \label{syntax:AgeingError-None}
 
 The None type has no additional subcommands.
+
 \subsubsection{Ageing\_Error of type Normal}
 \commandlabsubarg{Ageing\_Error}{type}{Normal}.
-\defRef{sec:AgeingError-Normal}
 \label{syntax:AgeingError-Normal}
 
 \defSub{cv}{CV of the misclassification matrix}
@@ -38,7 +40,6 @@ The None type has no additional subcommands.
 
 \subsubsection{Ageing\_Error of type Off\_By\_One}
 \commandlabsubarg{Ageing\_Error}{type}{Off\_By\_One}.
-\defRef{sec:AgeingError-OffByOne}
 \label{syntax:AgeingError-OffByOne}
 
 \defSub{p1}{The proportion misclassified as one year younger, e.g., the proportion of age k individuals that were misclassified as age (k-1)}
@@ -57,4 +58,3 @@ The None type has no additional subcommands.
 \defType{Non-negative integer}
 \defDefault{0}
 \defLowerBound{0 (inclusive)}
-

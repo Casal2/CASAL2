@@ -122,7 +122,7 @@ final=true
 \hyphenpenalty=5000
 \tolerance=1000
 
-\newcommand{\CNAME}{\textsc{Casal2}}
+\newcommand{\CNAME}{Casal2}
 
 
 % Title Page
@@ -148,13 +148,13 @@ Overview
 
 The observation \texttt{process\_removals\_by\_weight} was added to allow the use of fish market data, where fish weights have been measured instead of fish lengths or ages, which are collated into proportions-at-weight. The observation is strictly from retained catch and is therefore associated with mortality from a defined fishery. When discarding is included in the model, the retained selectivity should be used for these data. If there is no discarding, then the total catch selectivity is used. However, for current coding purposes, this observation must be linked to a fishery as defined in a \texttt{mortality\_instantaneous} block, which ignores discards and so the selectivity is that defined in the \texttt{mortality\_instantaneous} block. We do not know of discard data being collected for fisheries that provide weight composition data (currently in 2021, just the bluenose fishery in New Zealand) and so this feature is being implemented in the \texttt{mortality\_instantaneous} block only.
 
-The expected  \texttt{proportions-at-weight} are derived from normalizing the expected numbers-at-weight. There are two stages in calculating the expected numbers-at-weight. Firstly, \CNAME~calculates the expected numbers-at-length from the numbers-at-age using the age-length relationship specified in the \texttt{@age\_length} block. Secondly, the numbers-at-length are converted into numbers-at-weight using the length-weight relationship specified in the \texttt{@length\_weight} block and its distribution of weight about the mean weight-at-length. The length-weight distribution is currently applied in \CNAME~only in weight composition data and so the cv is specified in its \texttt{@observation} block.
+The expected \texttt{proportions-at-weight} are derived from normalizing the expected numbers-at-weight. There are two stages in calculating the expected numbers-at-weight. Firstly, \CNAME\ calculates the expected numbers-at-length from the numbers-at-age using the age-length relationship specified in the \texttt{@age\_length} block. Secondly, the numbers-at-length are converted into numbers-at-weight using the length-weight relationship specified in the \texttt{@length\_weight} block and its distribution of weight about the mean weight-at-length. The length-weight distribution is currently applied in \CNAME~only in weight composition data and so the cv is specified in its \texttt{@observation} block.
 
-The user must specify the units of weight for the proportions-at-weight observations (which may be g or kg), a vector containing the lower edge of each weight bin, a vector containing the proportions in each weight bin, and a vector containing the mean number of fish in a fishbox at that length bin, to adjust the CV of the length-weight distribution to account for the fact that these data are mean weights, not weights for a single fish as found in a length composition. Note that units for weight in the proportions-at-weight do not have to be the same as specified in \texttt{@length-weight}. Observation-specific weight bins must be in a strictly increasing sequence; there is no \texttt{@model/weight\_bins} as in length composition observations. Observations may be specified for any category used in the partition, or for some combinations of them [LINK TO CATEGORY SECTION?], e.g., for both males and females separately, or alternately, one set for combined sex. The weight bins must be the same for each year; if this is not the case, then years for which they are different need to be entered as a different \texttt{process\_removals\_by\_weight} block.
+The user must specify the units of weight for the proportions-at-weight observations (which may be g or kg), a vector containing the lower edge of each weight bin, a vector containing the proportions in each weight bin, and a vector containing the mean number of fish in a fishbox at that length bin, to adjust the CV of the length-weight distribution to account for the fact that these data are mean weights, not weights for a single fish as found in a length composition. Note that units for weight in the proportions-at-weight do not have to be the same as specified in \texttt{@length-weight}. Observation-specific weight bins must be in a strictly increasing sequence; there is no \texttt{@model/weight\_bins} as in length composition observations. Observations may be specified for any category used in the partition, or for some combinations of them \TODO{LINK TO CATEGORY SECTION?}, e.g., for both males and females separately, or alternately, one set for combined sex. The weight bins must be the same for each year; if this is not the case, then years for which they are different need to be entered as a different \texttt{process\_removals\_by\_weight} block.
 
-\CNAME~does not allow a weight plus group, so the data are specified in a vector of proportions-at-weight of length n+1, where n is the number of lower edges of each weight bin supplied (the final value provides the upper limit to the final bin). Note that a plus group can be mimicked by using a large terminal weight bin value.
+\CNAME\ does not allow a weight plus group, so the data are specified in a vector of proportions-at-weight of length n+1, where n is the number of lower edges of each weight bin supplied (the final value provides the upper limit to the final bin). Note that a plus group can be mimicked by using a large terminal weight bin value.
 
-\CNAME~generates a warning if the mean weight estimated for the youngest age in the partition is smaller than the lower size of the first weight bin. This is to guard against including weight observations that may have a substantial contribution from fish younger than the youngest age in the partition (\texttt{@model/min\_age}).
+\CNAME \generates a warning if the mean weight estimated for the youngest age in the partition is smaller than the lower size of the first weight bin. This is to guard against including weight observations that may have a substantial contribution from fish younger than the youngest age in the partition (\texttt{@model/min\_age}).
 
 The only likelihood currently available in \CNAME~for proportions\_at\_weight observations is the multinomial, with effective sample sizes for each year provided as error\_values. Note that in the implementation of the multinomial likelihood in \CNAME, the weight bins having a value of zero will have no contribution to the likelihood.
 
@@ -362,7 +362,7 @@ If growth is not time varying, then $\mathbf{Tal}$ should be calculated once. If
 
 The age ranges specified in \texttt{@model} can exclude the youngest ages, but invariably it has a maximum age, usually with a plus-group. Both situations can create bias in predicting length distributions in certain circumstances.  If the age plus-group is not located where the mean length is at $L_{\infty}$, some parts of the length distribution within the age plus-group are not represented and this will result in a bias for length composition data where a length plus-group is specified. This is only an issue in the early part of the model run when the fishdown is occurring, after which it will disappear as the age plus-group is emptied.  A bias may also occur when the youngest ages are excluded if their length distribution(s) overlaps with the smaller length bins in the model. We recommend that the model starts at age 1 and finishes at a sufficiently old age that the mean length is almost at $L_{\infty}$. 
 
-As a check, \CNAME~will output the predicted mean length and the length at 3 $x$ standard deviation above the mean for ages at  \texttt{max\_age}, $max\_age + 5$ and $max\_age + 10$ years. This will mean that growth functions can take ages outside the \texttt{@model} age range to predict mean length (it may do this already?). 
+As a check, \CNAME~will output the predicted mean length and the length at 3 $x$ standard deviation above the mean for ages at  \texttt{max\_age}, $max\_age + 5$ and $max\_age + 10$ years. This will mean that growth functions can take ages outside the \texttt{@model} age range to predict mean length. 
 
 
 \subsection{Part 2: length-weight transition leading to age-weight transition}
@@ -471,7 +471,7 @@ length_bins_n 200.0  91.0  72.9  48.8       	# replace 1s with calculated n
 
 For more then one category, there will results for each, i.e., a matrix of results, so the analyst must decide how to combine them, e.g., the median over categories, or the value from the most numerous category. Hopefully, the choice does not matter much so a few trial value should be tries in the development phase of the assessment.
 
-[Use the mid-bin length?]
+|\TODO{Check: Use the mid-bin length?}
 
 \emph{Length-based selectivity in an age-based model}
 

@@ -1,6 +1,6 @@
 \defComLab{Estimate\_Transformation}{Define an object of type \emph{Estimate\_Transformation}}.
-\defRef{sec:EstimateTransformation}
-\label{syntax:EstimateTransformation}
+\defRef{sec:Transformation}
+\label{syntax:Transformation}
 
 \defSub{label}{Label for the transformation block}
 \defType{String}
@@ -16,87 +16,87 @@
 
 \subsubsection{Estimate\_Transformation of type Average\_Difference}
 \commandlabsubarg{Estimate\_Transformation}{type}{Average\_Difference}.
-\defRef{sec:EstimateTransformation-AverageDifference}
-\label{syntax:EstimateTransformation-AverageDifference}
+\defRef{sec:Transformation-AverageDifference}
+\label{syntax:Transformation-AverageDifference}
 
-\defSub{theta2}{The label of the @estimate block relating to the $\theta\_2$ parameter in the transformation. See the User Manual for more information}
+\defSub{theta2}{The label of the @estimate block relating to the $\theta_2$ parameter in the transformation}
 \defType{String}
 \defDefault{No default}
 
-\defSub{theta1}{The label of @estimate block relating to the $\theta\_1$ parameter in the transformation. See the User Manual for more information}
+\defSub{theta1}{The label of @estimate block relating to the $\theta_1$ parameter in the transformation}
 \defType{String}
 \defDefault{No default}
 
 \subsubsection{Estimate\_Transformation of type Inverse}
 \commandlabsubarg{Estimate\_Transformation}{type}{Inverse}.
-\defRef{sec:EstimateTransformation-Inverse}
-\label{syntax:EstimateTransformation-Inverse}
+\defRef{sec:Transformation-Inverse}
+\label{syntax:Transformation-Inverse}
 
-\defSub{estimate\_label}{The label of estimate block to apply transformation. Defined as $\theta\_1$ in the documentation}
+\defSub{estimate\_label}{The label of estimate block to apply transformation}
 \defType{String}
 \defDefault{No default}
 
 \subsubsection{Estimate\_Transformation of type Log}
 \commandlabsubarg{Estimate\_Transformation}{type}{Log}.
-\defRef{sec:EstimateTransformation-Log}
-\label{syntax:EstimateTransformation-Log}
+\defRef{sec:Transformation-Log}
+\label{syntax:Transformation-Log}
 
-\defSub{estimate\_label}{Label of estimate block to apply transformation. Defined as $\theta\_1$ in the documentation}
+\defSub{estimate\_label}{The label of estimate block to apply transformation}
 \defType{String}
 \defDefault{No default}
 
 \subsubsection{Estimate\_Transformation of type Log\_Sum}
 \commandlabsubarg{Estimate\_Transformation}{type}{Log\_Sum}.
-\defRef{sec:EstimateTransformation-LogSum}
-\label{syntax:EstimateTransformation-LogSum}
+\defRef{sec:Transformation-LogSum}
+\label{syntax:Transformation-LogSum}
 
-\defSub{theta2}{The label of the @estimate block relating to the $\theta\_2$ parameter in the transformation. See the User Manual for more information}
+\defSub{estimate\_label}{The label of estimate block to apply transformation}
 \defType{String}
 \defDefault{No default}
 
-\defSub{theta1}{The label of @estimate block relating to the $\theta\_1$ parameter in the transformation. See the User Manual for more information}
+\defSub{theta1}{The label of @estimate block relating to the $\theta\_1$ parameter in the transformation}
 \defType{String}
 \defDefault{No default}
 
 \subsubsection{Estimate\_Transformation of type Orthogonal}
 \commandlabsubarg{Estimate\_Transformation}{type}{Orthogonal}.
-\defRef{sec:EstimateTransformation-Orthogonal}
-\label{syntax:EstimateTransformation-Orthogonal}
+\defRef{sec:Transformation-Orthogonal}
+\label{syntax:Transformation-Orthogonal}
 
-\defSub{theta2}{The label of the @estimate block relating to the $\theta\_2$ parameter in the transformation. See the User Manual for more information}
+\defSub{theta2}{The label of the @estimate block relating to the $\theta\_2$ parameter in the transformation}
 \defType{String}
 \defDefault{No default}
 
-\defSub{theta1}{The label of @estimate block relating to the $\theta\_1$ parameter in the transformation. See the User Manual for more information}
+\defSub{theta1}{The label of @estimate block relating to the $\theta\_1$ parameter in the transformation}
 \defType{String}
 \defDefault{No default}
 
-\subsubsection{Estimate\_Transformation of type Simplex}
-\commandlabsubarg{Estimate\_Transformation}{type}{Simplex}.
-\defRef{sec:EstimateTransformation-Simplex}
-\label{syntax:EstimateTransformation-Simplex}
-
-\defSub{lower\_bound}{The empirical lower bound for the simplex transformed. This should be -Inf but some of the minimisers do not allow that}
-\defType{Real number}
-\defDefault{true}
-
-\defSub{upper\_bound}{The empirical upper bound for the simplex transformed. This should be Inf but some of the minimisers do not allow that}
-\defType{Real number}
-\defDefault{true}
-
+%\subsubsection{Estimate\_Transformation of type Simplex}
+%\commandlabsubarg{Estimate\_Transformation}{type}{Simplex}.
+%\defRef{sec:Transformation-Simplex}
+%\label{syntax:Transformation-Simplex}
+%
+%\defSub{lower\_bound}{The empirical lower bound for the simplex transformed. This should be -Inf but some of the minimisers do not allow that}
+%\defType{Real number}
+%\defDefault{true}
+%
+%\defSub{upper\_bound}{The empirical upper bound for the simplex transformed. This should be Inf but some of the %minimisers do not allow that}
+%\defType{Real number}
+%\defDefault{true}
+%
 \subsubsection{Estimate\_Transformation of type Square\_Root}
 \commandlabsubarg{Estimate\_Transformation}{type}{Square\_Root}.
-\defRef{sec:EstimateTransformation-SquareRoot}
-\label{syntax:EstimateTransformation-SquareRoot}
+\defRef{sec:Transformation-SquareRoot}
+\label{syntax:Transformation-SquareRoot}
 
-\defSub{estimate\_label}{The label of the estimate block to apply transformation. Defined as $\theta\_1$ in the documentation}
+\defSub{estimate\_label}{The label of the estimate block to apply transformation}
 \defType{String}
 \defDefault{No default}
 
 \subsubsection{Estimate\_Transformation of type Sum\_To\_One}
 \commandlabsubarg{Estimate\_Transformation}{type}{Sum\_To\_One}.
-\defRef{sec:EstimateTransformation-SumToOne}
-\label{syntax:EstimateTransformation-SumToOne}
+\defRef{sec:Transformation-SumToOne}
+\label{syntax:Transformation-SumToOne}
 
 \defSub{estimate\_labels}{The label for the estimates for the sum to one transformation}
 \defType{Vector of strings}
@@ -109,4 +109,3 @@
 \defSub{lower\_bound}{The empirical lower bound for the transformed parameters. There should be one less bound than parameters}
 \defType{Vector of real numbers (estimable)}
 \defDefault{true}
-

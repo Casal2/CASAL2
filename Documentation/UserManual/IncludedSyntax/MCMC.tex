@@ -8,7 +8,7 @@
 
 \defSub{type}{The MCMC method}
 \defType{String}
-\defDefault{random\_walk}
+\defDefault{No default}
 
 \defSub{length}{The number of iterations for the MCMC (including the burn in period)}
 \defType{Non-negative integer}
@@ -67,6 +67,7 @@
 \defType{Vector of non-negative integers}
 \defDefault{true}
 \defLowerBound{0 (inclusive)}
+\defValue{Must be less than the burn\_in}
 
 \defSub{adapt\_stepsize\_method}{The method to use to adapt the step size}
 \defType{String}
@@ -76,10 +77,10 @@
 \defType{Non-negative integer}
 \defDefault{0}
 \defLowerBound{0 (inclusive)}
+\defValue{Must be less than the burn\_in}
 
 \subsubsection{MCMC of type Hamiltonian\_Monte\_Carlo}
 \commandlabsubarg{MCMC}{type}{Hamiltonian\_Monte\_Carlo}.
-\defRef{sec:MCMC-HamiltonianMonteCarlo}
 \label{syntax:MCMC-HamiltonianMonteCarlo}
 
 \defSub{leapfrog\_steps}{Number of leapfrog steps}
@@ -97,15 +98,9 @@
 \defDefault{1e-7}
 \defLowerBound{1e-13 (inclusive)}
 
-\subsubsection{MCMC of type Independence\_Metropolis}
-\commandlabsubarg{MCMC}{type}{Independence\_Metropolis}.
-\defRef{sec:MCMC-IndependenceMetropolis}
-\label{syntax:MCMC-IndependenceMetropolis}
-
-The Independence\_Metropolis type has no additional subcommands.
 \subsubsection{MCMC of type Random\_Walk\_Metropolis\_Hastings}
-\commandlabsubarg{MCMC}{type}{Random\_Walk\_Metropolis\_Hastings}.
+\commandlabsubarg{MCMC}{type}{Random\_Walk}.
 \defRef{sec:MCMC-RandomWalkMetropolisHastings}
 \label{syntax:MCMC-RandomWalkMetropolisHastings}
 
-The Random\_Walk\_Metropolis\_Hastings type has no additional subcommands.
+The Random\_Walk type has no additional subcommands.

@@ -28,7 +28,7 @@ VectorSmoothing::VectorSmoothing(shared_ptr<Model> model) : AdditionalPrior(mode
   parameters_.Bind<Double>(PARAM_MULTIPLIER, &multiplier_, "Multiply the penalty by this factor", "", 1);
   parameters_.Bind<unsigned>(PARAM_LOWER_BOUND, &lower_, "The first element to apply the penalty to in the vector", "", 0u);
   parameters_.Bind<unsigned>(PARAM_UPPER_BOUND, &upper_, "The last element to apply the penalty to in the vector", "", 0u);
-  parameters_.Bind<unsigned>(PARAM_R, &r_, "Penalty applied to rth differences", "", 2u);
+  parameters_.Bind<unsigned>(PARAM_R, &r_, "The rth difference that the penalty is applied to", "", 2u);
 }
 
 /**

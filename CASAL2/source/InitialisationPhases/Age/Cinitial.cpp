@@ -61,6 +61,7 @@ void Cinitial::DoValidate() {
   if (max_age_ < min_age_)
     LOG_ERROR_P(PARAM_MIN_AGE) << " The minimum age (" << min_age_ << ") cannot be greater than the maximum age (" << max_age_ << ")";
 
+  // TODO: Check this code for if there is an age plus group or not
   column_count_ = (max_age_ - min_age_) + 2;
 
   /**

@@ -1,0 +1,37 @@
+\defComLab{Age\_Weight}{Define an object of type \emph{Age\_Weight}}.
+\defRef{sec:AgeWeight}
+\label{syntax:AgeWeight}
+
+\defSub{label}{Label of the age weight relationship}
+\defType{String}
+\defDefault{No default}
+
+\defSub{type}{The type of age weight}
+\defType{String}
+\defDefault{No default}
+
+\subsubsection{Age\_Weight of type Data}
+\commandlabsubarg{Age\_Weight}{type}{Data}.
+\defRef{sec:AgeWeight-Data}
+\label{syntax:AgeWeight-Data}
+
+\defSub{equilibrium\_method}{If used in an SSB calculation, what is the method to calculate equilibrium SSB}
+\defType{String}
+\defDefault{terminal\_year}
+
+\defSub{units}{The units of measure (grams, kilograms (kgs), or tonnes)}
+\defType{String}
+\defDefault{kgs}
+
+\defSub{table}{The table of data specifying the age at weight values}
+\defType{Data table with label = data}
+\defDefault{No default}
+\defValue{A $n \times m$ matrix, where $n=$ the years of the model, and $m=$ the number of ages defined in the model. Rows of values specify the weight for each age for every year. The table ends with `end\_table'}
+\defNote{See \ref{sec:DataTable} for more details on specifying data tables}
+
+\subsubsection{Age\_Weight of type None}
+\commandlabsubarg{Age\_Weight}{type}{None}.
+\defRef{sec:AgeWeight-None}
+\label{syntax:AgeWeight-None}
+
+The None type has no additional subcommands.

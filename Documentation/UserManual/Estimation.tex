@@ -8,10 +8,10 @@ The role of the estimation section is to define the tasks carried out by \CNAME:
 
 \begin{enumerate}
   \item Define the objective function (see Section \ref{sec:objective-function})
-  \item Define the parameters to be estimated (see Section \ref{sec:estimate-free-parameters})
+  \item Define the parameters to be estimated (the free parameters, see Section \ref{sec:FreeParameters})
   \item Calculate a point estimate, i.e., the maximum posterior density estimate (MPD) (see Section \ref{sec:estimate-MPD})\index{Maximum posterior density estimate (MPD)}\index{MPD (Maximum posterior density estimate)}
-  \item Calculate a posterior profile on selected parameters, i.e., for each of a series of values of a parameter, minimise the objective function, allowing the other estimated parameters to vary (see Section \ref{sec:estimate-profiles}\index{Profiles})
-  \item Generate MCMC\index{Markov chain Monte Carlo (MCMC)} samples from the posterior distribution (see Section \ref{sec:estimate-MCMC}\index{MCMC})
+  \item Calculate a posterior profile on selected parameters, i.e., for each of a series of values of a parameter, minimise the objective function, allowing the other estimated parameters to vary (see Section \ref{sec:Profile}\index{Profiles})
+  \item Generate MCMC\index{Markov chain Monte Carlo (MCMC)} samples from the posterior distribution (see Section \ref{sec:MCMC}\index{MCMC})
   \item Calculate the approximate covariance matrix of the parameters as the inverse of the minimizer\textquoteright{}s approximation to the \I{Hessian}, and the corresponding correlation matrix (see Section \ref{sec:estimate-MPD}\index{Covariance matrix})
 \end{enumerate}
 
@@ -27,15 +27,15 @@ Objective(p)= - \sum\limits_i {\log \left[ {L\left( {{\bf{p}}|O_i } \right)} \ri
 
 where $\pi$ is the joint prior density of the parameters $p$.
 
-The contribution to the objective function from the likelihood components is described in Section \ref{sec:likelihood-observations}. In addition to likelihoods, priors (see Section \ref{sec:priors}) and penalties (see Section \ref{sec:penalties}) are components of the objective function. Note that if the priors are specified as uniform, then the prior contribution is zero and the optimisation is now a penalised likelihood and not Bayesian.
+The contribution to the objective function from the likelihood components is described in Section \ref{sec:Likelihood}. In addition to likelihoods, priors (see Section \ref{sec:Priors}) and penalties (see Section \ref{sec:Penalty}) are components of the objective function. Note that if the priors are specified as uniform, then the prior contribution is zero and the optimisation is now a penalised likelihood and not Bayesian.
 
 Penalties can be used to ensure that the estimated parameter values and derived quantities meet certain restrictions. For example, exploitation rate constraints on mortality events (i.e., fisheries) that are not violated (otherwise there is nothing to prevent the model from having abundances so low that the recorded catches could not have been taken); penalties on category transitions (to ensure there are enough individuals to move); penalties such that estimated values are similar or smooth, etc.
 
 Equation~\ref{objective_function} can be reduced to a penalised likelihood equation if all priors are assumed to be uniform. This is because uniform priors have no contribution to the objective function so Equation~\ref{objective_function} reduces to the likelihood components plus penalties.
 
-\subsection{\I{Specifying the parameters to be estimated}\label{sec:estimate-free-parameters}}
+\subsection{\I{Specifying the parameters to be estimated}\label{sec:FreeParameters}}
 
-The parameters to be estimated (estimables) are defined using \command{estimate} commands (see Section \ref{sec:estimation-syntax}).
+The parameters to be estimated (estimables) are defined using \command{estimate} commands (see Section \ref{syntax:Estimation}).
 
 For example, a \command{estimate} command block \index{Estimating parameters}
 
@@ -47,21 +47,23 @@ For example, a \command{estimate} command block \index{Estimating parameters}
   type uniform
 \end{verbatim}}}
 
-See Section \ref{sec:parameter-names} for information on how to specify the parameter name. At least one parameter is required to be estimated if doing an estimation \texttt{-e}, profile \texttt{-p}, or MCMC \texttt{-m} run. Initial values for the parameters to be estimated are required, and these values are used as the starting values for the minimiser. However, these values may be overwritten if a set of alternative starting values is provided (i.e., using \texttt{\cname\ -i}, see Section \ref{sec:command-line-arguments}).
+See Section \ref{sec:parameter-names} for information on how to specify the parameter name. At least one parameter is required to be estimated if doing an estimation \texttt{-e}, profile \texttt{-p}, or MCMC \texttt{-m} run. Initial values for the parameters to be estimated are required, and these values are used as the starting values for the minimiser. However, these values may be overwritten if a set of alternative starting values is provided (i.e., using \texttt{\cname\ -i}, see Section \ref{sec:CommandLineArguments}).
 
-All parameters are estimated within the specified bounds\index{Bounds}. For each parameter estimated, the lower and upper bounds and the prior\index{Priors} (\texttt{type}) (Section \ref{sec:priors}) must be specified. The bounds and the prior should be chosen carefully as they affect the values over which the minimisers search. Some minimisers convert the lower and upper bounds into a minimisation space (for example -1,1 space for the numerical differences algorithm). If estimating only some elements of a vector, either define each element of the vector to be estimated (see \ref{sec:parameter-names}) or fix the others by setting the the lower and upper bounds to the same value as the initial value.
+All parameters are estimated within the specified bounds\index{Bounds}. For each parameter estimated, the lower and upper bounds and the prior\index{Priors} (\texttt{type}) (Section \ref{sec:Priors}) must be specified. The bounds and the prior should be chosen carefully as they affect the values over which the minimisers search. Some minimisers convert the lower and upper bounds into a minimisation space (for example -1,1 space for the numerical differences algorithm). If estimating only some elements of a vector, either define each element of the vector to be estimated or fix the others by setting the the lower and upper bounds to the same value as the initial value.
 
-\subsection{\I{Point estimation}\label{sec:estimate-MPD}}\label{methods:Minimiser}
+\subsection{\I{Point estimation}\label{sec:estimate-MPD}}\label{sec:Minimiser}
 
-Point estimation is invoked with \texttt{\cname\ -e}, which attempts to find a minimum of the objective function\index{Objective function}. \CNAME\ has multiple minimisation algorithms. There are three automatic differentiation (AD) minimisers: ADOL-C, CppAD, and BetaDiff (the minimiser used in CASAL). There are also three non-automatic differentiation minimisers: numerical differences, differential evolution minimiser (\subcommand{de\_solver}), and the dlib minimiser (see Section \ref{sec:tech}). AD minimisers are recommended for more complex models as they are on average much faster and tend to find a more robust minimum when exploring a complex objective surface.
+Point estimation is invoked with \texttt{\cname\ -e}, which attempts to find a minimum of the objective function\index{Objective function}. \CNAME\ has multiple minimisation algorithms. There are two automatic differentiation (AD) minimisers: ADOL-C, and BetaDiff (the minimiser used in CASAL). There are also three non-automatic differentiation minimisers: numerical differences, DeltaDiff, and the differential evolution minimiser (\subcommand{de\_solver}). Automatic differentiation  minimisers are recommended for more complex models as they are on average much faster and tend to find a more robust minimum when exploring a complex objective surface.
 
-An important input parameter for most minimisers is the \subcommand{tolerance} parameter. This is one of the stopping rules that minimisers use to define when they have found a 'solution' (although a solution may be a local minimum and not the global minimum). To evaluate the robustness of a solution, use a set of different starting values, with the \texttt{-i parameter\_file.txt} option.
+An important input parameter for most minimisers is the \subcommand{tolerance} parameter. This is the gradient of the objective function, and is used as the stopping rule to define the 'solution' (although a solution may be a local minimum and not the global minimum). Evaluating the robustness of a minimum can be tested with different starting values (i.e., using \texttt{-i free\_parameter\_file.txt}).
 
-Start with the default \subcommand{tolerance} parameter value of 0.002 and decrease it while developing a model. For a given model, the parameter estimates when minimising with tolerance value 0.0000002 may be quite different from those with the default tolerance value. This is not robust model behaviour and more investigative and diagnostic work may be required to determine what parameters are causing this behaviour. \texttt{Note:} this issue will also affect the covariance matrix. When a different tolerance value and/or minimiser is used, a different approximate Hessian matrix which is inverted to solve for the covariance matrix may be produced. The effect that this behaviour has on MCMC samples is not well-determined.
+Start with the default \subcommand{tolerance} parameter value of 1e-5 and decrease it while developing a model. For a given model, the parameter estimates when minimising with different tolerance may be different.
 
-\subsubsection{\I{The numerical differences minimiser}}\label{methods:Minimiser-GammaDiff}
+\subsubsection{\I{The numerical differences minimiser}}\label{sec:Minimiser-GammaDiff}
 
 See Section \ref{syntax:Minimiser-GammaDiff} for the command syntax.
+
+The numerical differences minimiser uses a quasi-Newton minimiser which is a slightly modified implementation of the main algorithm of \cite{779}, and uses an $arcsin$ transformation to ensure parameters remain within bounds.
 
 The minimiser has three kinds of (non-error) exit status, depending on the minimiser:
 
@@ -94,7 +96,13 @@ iterations 2500
 evaluations 4000
 \end{verbatim}}}
 
-\subsubsection{\I{The differential evolution minimiser}}\label{methods:Minimiser-DESolver}
+\subsubsection{\I{The DeltaDiff numerical differences minimiser}}\label{sec:Minimiser-DeltaDiff}
+
+See Section \ref{syntax:Minimiser-DeltaDiff} for the command syntax.
+
+DeltaDiff applies the same minimiser as Numerical Differences, expect that it uses $tan$ rescaling for the parameters rather than $arcsin$. This minimiser may perform better than the Numerical Differences minimiser when parameters are very close to zero bounds.
+
+\subsubsection{\I{The differential evolution minimiser}}\label{sec:Minimiser-DESolver}
 
 The differential evolution minimiser is a simple population-based, stochastic function minimizer, but is claimed to be quite powerful in solving minimisation problems. It is a method of mathematical optimization of multidimensional functions and belongs to the class of evolution strategy optimizers.
 
@@ -112,7 +120,7 @@ There is no proof of convergence for the differential evolution solver, but seve
 		evaluations 4000
 \end{verbatim}}}
 
-\subsubsection{\I{The BetaDiff minimiser}}\label{methods:Minimiser-BetaDiff}
+\subsubsection{\I{The BetaDiff minimiser}}\label{sec:Minimiser-BetaDiff}
 
 An automatic differentiation minimiser for non-linear models, This is the minimiser from the original CASAL package, based on ADOL-C.
 
@@ -124,7 +132,7 @@ An automatic differentiation minimiser for non-linear models, This is the minimi
 		evaluations 4000
 \end{verbatim}}}
 
-\subsubsection{\I{The ADOL-C minimiser}}\label{methods:Minimiser-ADOLC}
+\subsubsection{\I{The ADOL-C minimiser}}\label{sec:Minimiser-ADOLC}
 
 An automatic differentiation minimiser for non-linear models. See \url{https://projects.coin-or.org/ADOL-C} for more information.
 
@@ -137,7 +145,7 @@ An automatic differentiation minimiser for non-linear models. See \url{https://p
 		tolerance 1e-6
 \end{verbatim}}}
 
-\subsection{\I{Posterior profiles}\label{sec:estimate-profiles}}\label{methods:Profile}
+\subsection{\I{Posterior profiles}}\label{sec:Profile}
 
 If profiles are run using the command \texttt{\cname\ -p}, \CNAME\ will first calculate a point estimate. For each scalar parameter or, in the case of vectors or selectivities, the element of the parameter to be profiled, \CNAME\ will fix its value at a sequence of $n$ evenly spaced numbers ($step$) between the specified lower and upper bounds $l$ and $u$, and calculate a point estimate at each value.
 
@@ -149,7 +157,7 @@ The initial starting point for the estimation can also be specified using \textt
 
 If the profile results are not reasonable, it may be a result of not using enough iterations in the minimiser or a poor choice of minimiser control variables (e.g., the minimiser tolerance). It may also be useful to try other minimisers and compare the results.
 
-\subsection{\I{Bayesian estimation}\label{sec:estimate-MCMC}}
+\subsection{\I{Bayesian estimation}}\label{sec:MCMC}\label{sec:MCMC-RandomWalkMetropolisHastings}
 
 \CNAME\ can use \I{Markov chain Monte Carlo (MCMC)}\index{MCMC} functionality to generate a sample from the posterior distribution of the estimated parameters with command \texttt{\cname\ -m} and output the sampled values to a file, optionally keeping only every $n$th set of values.
 
@@ -157,11 +165,9 @@ As \CNAME\ has no post-processing capabilities. \CNAME\ cannot produce MCMC conv
 
 Bayesian methodology\index{Bayesian estimation} and MCMC are both large and complex topics. See Gelman et al. \citeyearpar{823} and Gilks et al. \citeyearpar{143} for details of both Bayesian analysis and MCMC methods. In addition, see Punt \& Hilborn \citeyearpar{828} for an introduction to quantitative fish stock assessment using Bayesian methods.
 
-This section briefly describes the MCMC algorithms used in \CNAME. See Section \ref{sec:estimation-syntax-MCMC} for a description of the sequence of \CNAME\ commands used in a full Bayesian analysis.
+This section briefly describes the MCMC algorithms used in \CNAME. See Section \ref{syntax:MCMC} for the \CNAME\ commands used in an MCMC Bayesian analysis.
 
-\CNAME\ uses a straightforward implementation of the Metropolis-Hastings algorithm \citep{823,143}. The Metropolis-Hastings algorithm attempts to draw a sample from a Bayesian posterior distribution, and calculates the posterior density $\pi$, scaled by an unknown constant. The algorithm generates a 'chain' or sequence of values. Typically the beginning of the chain is discarded (the burn-in period) and every $N$th element of the remainder is taken as the posterior sample.
-
-The chain is produced by taking an initial point $x_0$ and repeatedly applying the following rule, where $x_i$ is the current point:
+\CNAME\ implements two methods for MCMC. The first is a straightforward implementation of the random walk Metropolis-Hastings algorithm \citep{823,143}. The Metropolis-Hastings algorithm attempts to draw a sample from a Bayesian posterior distribution, and calculates the posterior density $\pi$, scaled by an unknown constant. The algorithm generates a 'chain' or sequence of values. Typically the beginning of the chain is discarded (the burn-in period) and every $N$th element of the remainder is taken as the posterior sample. The second is Hamiltonian Monte Carlo. This uses similar subcommands as the random walk Metropolis-Hastings algorithm. In both cases, the chain is produced by taking an initial point $x_0$ and repeatedly applying the following rule, where $x_i$ is the current point:
 
 \begin{enumerate}
 \item Draw a candidate step s from a proposal distribution J, which should be symmetric i.e., $J(-s)=J(s)$
@@ -181,7 +187,7 @@ There are currently two options for the starting point of the MCMC:
 \item Restart a chain given a covariance matrix and a previous starting point.
 \end{itemize}
 
-The chain moves in natural space, i.e., no transformations are applied to the estimated parameters. The default proposal distribution is a multivariate Student's $t$ distribution centred on the current point, with covariance matrix equal to a matrix based on the approximate covariance produced by the minimiser, multiplied by a stepsize factor.
+The chain moves in natural space, i.e., no transformations are applied to the estimated parameters. The default proposal distribution is a multivariate Student's $t$ distribution centred on the current point, with covariance matrix equal to a matrix based on the approximate covariance produced by the minimiser, multiplied by a step size factor.
 
 The following steps define how the initial covariance matrix of the proposal distribution is calculated:
 
@@ -205,7 +211,7 @@ for $i \ne j$, and ${\mathop{\rm var}} \left( i \right)^\prime   = k$
 
 This allows each estimated parameter to move in the MCMC even if its variance is very small according to the inverse Hessian. In both cases, the \commandsub{mcmc}{min\_difference} parameter defaults to $0.0001$.
 
-\item The \commandsub{mcmc}{stepsize} (a scalar factor applied to the covariance matrix to improve the acceptance probability) is set by the user. The default is $2.4d^{-0.5}$ where $d$ is the number of estimated parameters, as recommended by Gelman et al. \citep{823}. However, a smaller value may often be better.
+\item The \commandsub{mcmc}{stepsize} (a scalar factor applied to the covariance matrix to improve the acceptance probability) is set by the user. The default is $2.4d^{-0.5}$ where $d$ is the number of estimated parameters, as recommended by Gelman et al. \citep{823}.
 \end{enumerate}
 
 The proposal distribution can also change adaptively during the chain, using two different mechanisms. Both are offered as means of improving the convergence properties of the chain. It is important to note that any adaptive behaviour must finish before the end of the burn-in period, i.e., the proposal distribution must be finalised before the kept portion of the chain starts.
@@ -213,15 +219,15 @@ The proposal distribution can also change adaptively during the chain, using two
 The adaptive mechanisms are:
 
 \begin{itemize}
-\item The stepsize changes adaptively at one or more sample numbers (See next paragraph for details on the stepsize adaptation methods)
+\item The step size changes adaptively at one or more sample numbers (See next paragraph for details on the step size adaptation methods)
 \item The entire covariance matrix changes adaptively at one or more sample numbers. At each adaptation, the covariance matrix is replaced with an empirical covariance matrix, derived from the MCMC chain. The idea is that an empirical covariance is a better approximation of the proposal distribution than the inverse of the Hessian matrix, and can improve convergence and mixing of the chain.
 \end{itemize}
 
 The two options to adapt the step size are \texttt{double\_half} or \texttt{ratio}, which is chosen with the input parameter \texttt{adapt\_stepsize\_method}. The \texttt{double\_half} method is used in CASAL (see Gelman et al. \citep{823} for justification).
 
-The algorithm for \texttt{double\_half} is, at each adaptation, the stepsize is doubled if the acceptance rate since the last adaptation is more than $0.5$, or halved if the acceptance rate is less than $0.2$. The \texttt{ratio} is taken from SPM. It adapts the current step size by the acceptance rate since the last adaptation multiplied by 4.1667 to reach an acceptance rate of $\approx$ 0.24. See \cite{mcmc_rate} for justification on that acceptance rate.
+The algorithm for \texttt{double\_half} is, at each adaptation, the step size is doubled if the acceptance rate since the last adaptation is more than $0.5$, or halved if the acceptance rate is less than $0.2$. The \texttt{ratio} is taken from SPM. It adapts the current step size by the acceptance rate since the last adaptation multiplied by 4.1667 to approach an acceptance rate of $\approx$ 0.24. See \cite{mcmc_rate} for justification on that acceptance rate.
 
-The stepsize parameter is now on a completely different scale, and must be rescaled. It is set to a user-specified value (which may or may not be the same as the initial stepsize). Set the stepsize adaptations to occur after this, so that the stepsize can be readjusted to an appropriate value which gives good acceptance probabilities with the new matrix.
+The \texttt{stepsize} parameter is now on a completely different scale, and must be rescaled. It is set to a user-specified value (which may or may not be the same as the initial step size). Set the step size adaptations to occur after this, so that the step size can be readjusted to an appropriate value which gives good acceptance probabilities with the new matrix.
 
 All modified versions of the covariance matrix are printed to the standard output, but only the initial covariance matrix (inverse Hessian) is saved to the objectives file. The number of covariance modifications by each iteration is recorded as a column on the objectives file.
 
@@ -238,20 +244,20 @@ If  the start of the chain is specified with the command \texttt{\cname\ -i}, th
 Restarting an MCMC chain: in the case where an MCMC chain was halted or interrupted, the MCMC chain can be restarted from where it finished with
 
 {\small{\begin{verbatim}
-		casal2 -m --resume --objective-file Objective_file_name --sample-file Sample_file_name
-		\end{verbatim}}}
+casal2 -R MPD_file --objective-file objectives_file --sample-file samples_file
+\end{verbatim}}}
 
 where \texttt{Objective\_file\_name} is the file name for the objective function report and \texttt{Sample\_file\_name} is the file name for the sample report from a MCMC chain.
 
-The posterior sample can be used for (projections (Section \ref{sec:projection})) or simulations (Section \ref{sec:simulation-observations}) with the values supplied with the command \texttt{\cname\ -i \emph{file}}.
+The posterior sample can be used for (projections (Section \ref{sec:Project})) or simulations (see Section \ref{sec:Simulate}) with the values supplied with the command \texttt{\cname\ -i \emph{file}}.
 
 A multivariate Student's $t$ distribution is used as an alternative to the multivariate normal proposal distribution. If you request multivariate Student's $t$ proposals, change the degrees of freedom from the default of 4. As the degrees of freedom decreases, the $t$ distribution becomes more heavy tailed. This may lead to better convergence properties. Note the default is the multivariate Student's $t$.
 
-Given a posterior (sub)sample, \CNAME\ can calculate a list of output quantities for each sample point (see Section~\ref{sec:report-section} specifically tabular report). These quantities can be output to a file (with the command \texttt{\cname\ -r --tabular}) and read into an external software package where the posterior distributions can be plotted and/or summarised.
+Given a posterior (sub)sample, \CNAME\ can calculate a list of output quantities for each sample point (see Section~\ref{sec:Report} specifically tabular report). These quantities can be output to a file (with the command \texttt{\cname\ -r --tabular}) and read into an external software package where the posterior distributions can be plotted and/or summarised.
 
-The posterior sample can also be used for projections (Section~\ref{sec:projection}). The advantage of this is that the parameter uncertainty, as expressed in the posterior distribution, can be included into the risk estimates.
+The posterior sample can also be used for projections (Section~\ref{sec:Project}). The advantage of this is that the parameter uncertainty, as expressed in the posterior distribution, can be included into the risk estimates.
 
-\subsection{Priors\label{sec:priors}}
+\subsection{Priors\label{sec:Priors}}
 
 In a Bayesian analysis, a prior is required for every parameter that is being estimated. There are no default priors.
 
@@ -259,33 +265,39 @@ When some of these priors are parameterised in terms of mean, c.v., and standard
 
 \CNAME\ has the following priors (expressed in terms of their contribution to the objective function):
 
-\begin{enumerate}
-\item{Uniform\index{Uniform prior}\index{Priors ! Uniform}}
+
+\subsubsection{Uniform\index{Uniform prior}\index{Priors ! Uniform}}\label{sec:Prior-Uniform}
 
 \begin{equation}
  - \log \left(\pi \left(p \right) \right) = 0
 \end{equation}
 
-\item{Uniform-log\index{Uniform-log prior}\index{Priors ! Uniform-log}} (i.e., $\log(p) \sim \text{uniform}$)
+\subsubsection{Uniform-log\index{Uniform-log prior}\index{Priors ! Uniform-log}} (i.e., $\log(p) \sim \text{uniform}$)\label{sec:Prior-UniformLog}
 
 \begin{equation}
  - \log \left(\pi \left(p \right) \right) = \log \left( p \right)
 \end{equation}
 
-\item{Normal\index{Normal prior}\index{Priors ! Normal} with mean $\mu$ and c.v. $c$}
+\subsubsection{Normal\index{Normal prior}\index{Priors ! Normal}}\label{sec:Prior-Normal}
+
+The normal distribution with mean $\mu$ and standard deviation with c.v $c$
 
 \begin{equation}
  - \log \left(\pi \left(p \right) \right) = 0.5\left(\frac{p - \mu}{c\mu} \right)^2
 \end{equation}
 
-\item{Normal with mean $\mu$ and standard deviation $\sigma$}
+\subsubsection{Normal with standard deviation}\label{sec:Prior-NormalByStdev}
+
+The normal distribution with mean $\mu$ and standard deviation $\sigma$
 
 \begin{equation}
  - \log \left(\pi \left(p \right) \right) = 0.5\left(\frac{p - \mu}
 {\sigma }\right)^2
 \end{equation}
 
-\item{Lognormal\index{Lognormal prior}\index{Priors ! Lognormal} with mean $\mu$ and c.v. $c$}
+\subsubsection{Lognormal\index{Lognormal prior}\index{Priors ! Lognormal}}\label{sec:Prior-Lognormal}
+
+The lognormal distribution with mean $\mu$ and c.v. $c$
 
 \begin{equation}
  - \log \left(\pi \left(p \right) \right) = \log \left( p \right) + 0.5 \left( \frac{\log \left( p / \mu \right)}{s} + \frac{s}{2} \right)^2
@@ -293,15 +305,24 @@ When some of these priors are parameterised in terms of mean, c.v., and standard
 
 where $s$ is the standard deviation of $\log(p)$ and $s= \sqrt{\log \left(1+c^2 \right)}$.
 
-\item{Beta\index{Beta prior}\index{Priors ! Beta} with mean $\mu$ and standard deviation $\sigma$, and range parameters $A$ and $B$}
+\subsubsection{Normal-log\index{normal-log prior}\index{Priors ! Normal-log}}\label{sec:Prior-NormalLog}
+
+The normal-log distribution  with mean $\mu$ and c.v. $c$
+
+Similar to the lognormal prior, but with the mean ($mu$) and standard deviation ($sigma$) specified in log space.
+
+where $s$ is the standard deviation of $\log(p)$ and $s= \sqrt{\log \left(1+c^2 \right)}$.
+
+
+\subsubsection{Beta\index{Beta prior}\index{Priors ! Beta}}\label{sec:Prior-Beta}
+
+The Beta distribution with mean $\mu$ and standard deviation $\sigma$, and range parameters $A$ and $B$
 
 \begin{equation}
  - \log \left(\pi \left( p \right) \right) = \left( 1 - m \right) \log \left( p - A \right) + \left( 1 - n \right)\log \left( B - p \right)
 \end{equation}
 
 where $\nu  = \frac{\mu  - A}{B - A}$, and $\tau = \frac{\left(\mu -A \right)\left(B - \mu \right)}{\sigma ^2} - 1$ and then $\mu=\tau \nu$ and $n=\tau(1-\nu)$. Note that the beta prior is undefined when $\tau \leq 0$.
-
-\end{enumerate}
 
 Vectors of parameters can be independently (but not necessarily identically) distributed according to any of the above forms, in which case the joint negative-log-prior for the vector is the sum of the negative-log-priors of the components. Values of each parameter need to be specified for each element of the vector. Example of syntax to define the estimation of a parameter and the prior assumed:
 
@@ -324,11 +345,11 @@ Vectors of parameters can be independently (but not necessarily identically) dis
 		upper_bound 9		9		9		9		9		9
 \end{verbatim}}}
 
-\subsection{Penalties\label{sec:penalties}}
+\subsection{Penalties}\label{sec:Penalty}\label{sec:Penalty-Process}
 
-Penalties are associated with processes and can be used to enforce parameter value or derived quantity restrictions or model outputs that are invalid by adding a penalty to the objective function. For example, estimated parameter values can be restricted so that a known mortality event removes enough individuals from the population within an event mortality process. \CNAME\ requires penalty functions for processes that remove or shift a \emph{number} of individuals between categories or from the partition. Many of the penalties that were available in CASAL have been moved to be additional priors in \CNAME ()see Section~\ref{sec:additional_priors}).
+Penalties are associated with processes and can be used to enforce parameter value or derived quantity restrictions or model outputs that are invalid by adding a penalty to the objective function. For example, estimated parameter values can be restricted so that a known mortality event removes enough individuals from the population within an event mortality process. \CNAME\ requires penalty functions for processes that remove or shift a \emph{number} of individuals between categories or from the partition. Many of the penalties that were available in CASAL have been moved to be additional priors in \CNAME (see Section~\ref{sec:AdditionalPriors}).
 
-For most penalties, a multiplier is required to be specified, and the objective function is increased by this multiplier multiplied by the penalty value. In some cases the multiplier may need to be quite large to prohibit some model behaviour.
+For penalties, a multiplier is required to be specified, and the objective function is increased by this multiplier multiplied by the penalty value. In some cases the multiplier may need to be quite large to prohibit some model behaviour.
 
 Penalties are implemented for the processes
 
@@ -372,40 +393,40 @@ Penalty = (log(X_1) - log(X_2))^2
 
 where, for example, $X_1$ is observed catch biomass and $X_2$ is the estimated catch biomass. Penalties are usually applied in situations when numbers or weight are known. Another example is for tagging, where the number of individuals that were tagged in a given year is known, so a penalty can be used to restrict the model to estimate reasonable values for the numbers of tagged individuals in that year.
 
-\subsection{Additional Priors\label{sec:additional_priors}}
+\subsection{Additional Priors\label{sec:AdditionalPriors}}
 
-Additional priors can be thought of as the inverse of penalties \TODO{please rephrase}. For CASAL models, most of the legacy \command{penalty} blocks have now been implemented as \command{additional\_prior} blocks. They restrict parameters in user-defined spaces (TODO please rephrase).
+Additional priors can be thought of as the inverse of penalties \TODO{please rephrase}. For CASAL models, most of the legacy \command{penalty} blocks have now been implemented as \command{additional\_prior} blocks. They restrict parameters in user-defined spaces \TODO{please rephrase}.
 
 The types of additional priors available in \CNAME\ are \texttt{vector\_smoothing}, \texttt{vector\_averaging}, \texttt{uniform\_log}, \texttt{lognormal}, \texttt{element\_difference}, and \texttt{Beta}:
 
 \begin{itemize}
-	\item \texttt{vector\_averaging}
+	\item \texttt{vector\_average}\label{sec:AdditionalPrior-VectorAverage}
 
 	This prior can be applied to a vector parameter. Sum of squares of $r^{th}$ differences, optionally on a log scale. This encourages the vector to be like a polynomial of degree $(r-1)$. A range of the vector to be "smoothed" can be specified (and if not, the smoother is applied to the entire vector). However, this restriction must be specified by an index of the vector and must be between 1 and the length of the vector, inclusive.
 
-	\item \texttt{vector\_smoothing}
+	\item \texttt{vector\_smoothing}\label{sec:AdditionalPrior-VectorSmoothing}
 
 	This prior can be applied to a vector parameter. Square of (mean(vector)-k), or of (mean(log(vector))-l), or of (log(mean(vector)/m)). Restricts the vector to average arithmetically to k or m, or geometrically to exp(l). Typically used for YCS with k=1 or m=1 or l=0, to restrict the YCS to centre on 1. Optionally, indices can be chosen or excluded outside a given set of bounds.
 
-	\item\texttt{lognormal} with mean $\mu$ and c.v. $c$
+	\item\texttt{lognormal} with mean $\mu$ and c.v. $c$\label{sec:AdditionalPrior-LogNormal}
 
 	\begin{equation}
 	- \log \left(\pi \left(p \right) \right) = \log \left( p \right) + 0.5 \left( \frac{\log \left( p / \mu \right)}{s} + \frac{s}{2} \right)^2
 	\end{equation}
 
-	\item\texttt{uniform\_log}
+	\item\texttt{uniform\_log}\label{sec:AdditionalPrior-UniformLog}
 
 	\begin{equation}
 	- \log \left(\pi \left(p \right) \right) = \log \left( p \right)
 	\end{equation}
 
-	\item\texttt{element\_difference}
+	\item\texttt{element\_difference}\label{sec:AdditionalPrior-ElementDifference}
 
 	\begin{equation}
 	- \log \left(\pi \left(p_1,p_2 \right) \right) = \sum_{i = 1}^n \left( p_{1,i} - p_{2,i} \right)^2
 	\end{equation}
 
-	\item\texttt{Beta}
+	\item\texttt{Beta}\label{sec:AdditionalPrior-Beta}
 
 	{Beta\index{Beta additional prior}\index{Additional Priors ! Beta} with mean $\mu$ and standard deviation $\sigma$, and range parameters $A$ and $B$, for parameter value = $p$}
 
@@ -439,7 +460,7 @@ There are a range of parameters and derived values that additional priors can be
 \begin{itemize}
 	\item \subcommand{selectivity[Selectivity\_label].values\{i:j\}}.
 
-	This subcommand applies a selectivity (???) to the actual selectivity value by age (for ages $i$ through $j$). This option is available only for certain types of selectivities (\subcommand{all\_values}, \subcommand{all\_values\_bounded}, \subcommand{double\_exponential}). See the Hoki stock assessment for an example of applying additional priors on selectivities.
+	This subcommand applies a selectivity to the value by age (for ages $i$ through $j$). This option is available only for certain types of selectivities (\subcommand{all\_values}, \subcommand{all\_values\_bounded}, \subcommand{double\_exponential}). See the Hoki stock assessment for an example of applying additional priors on selectivities.
 
 	\item \subcommand{catchability[Catchability\_label].q}
 
@@ -448,7 +469,7 @@ There are a range of parameters and derived values that additional priors can be
 
 This list may be useful for users who are trying to apply the equivalent CASAL penalties in a \CNAME\ model.
 
-\subsection{\I{Parameter Transformations}\label{sec:transformations}}
+\subsection{\I{Parameter Transformations}\label{sec:Transformation}}
 
 \CNAME\ has multiple methods to transform a parameter, with some methods developed for legacy purposes. Transformations are implemented to try and achieve 'better' model optimisation. Complex population models can have highly correlated parameters so transforming them to be orthogonal or to be in a different space is a way of addressing correlations, and to allow the minimiser to find a 'global' minimum quicker. To read more about transformations and get a better understanding of why they are used, see \cite{gilks1995markov}, specifically chapter 6.
 
@@ -548,18 +569,21 @@ For example:
 \subcommand{jacobian defined = true}\\
 $Y = ln(X)$\\
 $\begin{vmatrix} \frac{\partial}{\partial y} f^{-1}(y) \end{vmatrix} = X^{-1}$\\\\
+\label{sec:Transformation-Log}
 
 \item \subcommand{inverse}\\
 \subcommand{is\_simple = true}\\
 \subcommand{jacobian defined = true}\\
 $Y = X^{-1}$\\
 $\begin{vmatrix} \frac{\partial}{\partial y} f^{-1}(y) \end{vmatrix} = -X^{-2}$\\\\
+\label{sec:Transformation-Inverse}
 
 \item \subcommand{sqrt} : square root transformation\\
 \subcommand{is\_simple = true}\\
 \subcommand{jacobian defined = true}\\
 $Y = \sqrt{X}$\\
 $\begin{vmatrix} \frac{\partial}{\partial y} f^{-1}(y) \end{vmatrix} = -X^{-1.5}$\\\\
+\label{sec:Transformation-SquareRoot}
 
 \item \subcommand{average\_difference} : two parameters $\theta_1$ and $\theta_2$ are transformed to $Y_1$ and $Y_2$, where $Y_1$ is the average of the original parameters and $Y_2$ is the difference between the mean and each parameter.\\
 \subcommand{is\_simple = false}\\
@@ -570,6 +594,7 @@ Restore transformations\\
 $\theta_1 = Y_1 + 0.5Y_2$\\
 $\theta_2 = \theta_1 - 0.5Y_2$\\
 $\begin{vmatrix} \frac{\partial}{\partial y} f^{-1}(y) \end{vmatrix}$ Hasn't been assessed (i.e it could exist) \TODO{?????}\\
+\label{sec:Transformation-AverageDifference}
 
 \item \subcommand{log\_sum} : two parameters $\theta_1$ and $\theta_2$ are transformed to $Y_1$ and $Y_2$, where $Y_1$ is the natural logarithm of the sum of $\theta_1$ and $\theta_2$. $Y_2$ describes the proportion of the sum with respect to $\theta_1$\\
 \subcommand{is\_simple = false}\\
@@ -580,6 +605,7 @@ Restore transformations\\
 $\theta_1 = exp(Y_1)Y_2$\\
 $\theta_2 =exp(Y_1)(1 - Y_2)$\\
 $\begin{vmatrix} \frac{\partial}{\partial y} f^{-1}(y) \end{vmatrix}$ Hasn't been assessed (i.e it could exist) \TODO{?????}\\
+\label{sec:Transformation-LogSum}
 
 \item \subcommand{orthogonal} : two parameters $\theta_1$ and $\theta_2$ are transformed to $Y_1$ and $Y_2$, where $Y_1$ is the multiplication of $\theta_1$ and $\theta_2$. $Y_2$ is the division of $\theta_1$ and $\theta_2$\\
 \subcommand{is\_simple = false}\\
@@ -590,8 +616,13 @@ Restore transformations\\
 $\theta_1 = \sqrt{Y_1 Y_2}$\\
 $\theta_2 = \sqrt{Y_1 / Y_2}$\\
 $\begin{vmatrix} \frac{\partial}{\partial y} f^{-1}(y) \end{vmatrix} = 2Y_2$\\\\
+\label{sec:Transformation-Orthogonal}
 
 \item \subcommand{SumToOne} : given two parameters $\theta_1$ and $\theta_2$ that have the constraint $\sum_{i = 1}^2\theta_i$, estimate $\theta_1$ only given $\theta_2 = 1 - \theta_1$\\
 \subcommand{is\_simple = false}\\
 \subcommand{jacobian defined = false}\\
+\label{sec:Transformation-SumToOne}
+
+\TODO{Simplex transformation needs adding}
+
 \end{itemize}

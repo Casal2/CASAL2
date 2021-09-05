@@ -188,9 +188,14 @@
 \newcommand{\Organisation}{National Institute of Water \& Atmospheric Research Ltd.} %NIWA
 \newcommand{\ManualRef}{\authors\ (\DocYear). \CNAME\ User Manual, \VER. \Organisation\ \emph{NIWA Technical Report 139}. \ref{TotPages} p.} % full document reference
 
-%Special commands
-\newcommand{\TODO}[1]{TODO: {#1}}
-\newcommand{\STATUS}[1]{TEST STATUS: {#1}}
+% Special commands for TODOs and Status checking
+%% Use these for developers
+% \newcommand{\TODO}[1]{TODO: {#1}}
+% \newcommand{\STATUS}[1]{Code test status: {#1}}
+%% Use these for external PDF manual versions
+\newcommand{\TODO}[1]{}
+\newcommand{\STATUS}[1]{}
+
 
 % Define \clearemptydoublepage so-as to have truly blank pages between sections
 \let\origdoublepage\cleardoublepage
@@ -215,7 +220,7 @@
 \sloppy % use sloppy paras
 
 % Title page
-\pdfbookmark[1]{CASAL2 User Manual}{title}
+\pdfbookmark[1]{Casal2 User Manual}{title}
 \pagenumbering{alph} % alpha not used, but used to remove warnings when page 1 is re-defined below
 
 \begin{titlepage}
@@ -241,7 +246,7 @@
 		\Large \DocYear \\% Document Date
 
 		\vspace{1.0cm}
-		\CNAME\ User Manual (modified \DocVer) for use with \cname\texttt{-\VER}
+		User Manual for \CNAME\ \VER
 
 	\end{center}
 \end{titlepage}
@@ -342,8 +347,8 @@ Citation: \ManualRef
 
 \clearemptydoublepage{}
 
-\clearemptydoublepage{}
-\include{QuickReference}
+%\clearemptydoublepage{}
+%\include{QuickReference}
 
 \let\stdsection\section % Force index to be a numbered section
 \def\section*#1{\stdsection{#1}}

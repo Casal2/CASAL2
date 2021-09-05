@@ -129,7 +129,7 @@ class ClassLoader:
         casal2_src_folder = '../CASAL2/source/'
         # List of source code folders to parse for syntax code
         # Add additional top-level folders here as required
-        parent_class_folders = ['AdditionalPriors', 'AgeingErrors', 'AgeLengths', 'Asserts', 'Catchabilities', 'Categories',
+        parent_class_folders = ['AdditionalPriors', 'AgeingErrors', 'AgeLengths', 'AgeWeights', 'Asserts', 'Catchabilities', 'Categories',
                                 'DerivedQuantities', 'Estimates', 'EstimateTransformations', 'InitialisationPhases',
                                 'LengthWeights', 'Likelihoods', 'MCMCs', 'Minimisers', 'Model', 'Observations', 'Penalties',
                                 'Processes', 'Profiles', 'Projects', 'Reports', 'Selectivities', 'Simulates', 'TimeSteps',

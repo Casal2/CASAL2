@@ -26,7 +26,7 @@ namespace estimatetransformations {
  * Default constructor
  */
 Inverse::Inverse(shared_ptr<Model> model) : EstimateTransformation(model) {
-  parameters_.Bind<string>(PARAM_ESTIMATE_LABEL, &estimate_label_, "The label of estimate block to apply transformation. Defined as $\theta_1$ in the documentation", "");
+  parameters_.Bind<string>(PARAM_ESTIMATE_LABEL, &estimate_label_, "The label of estimate block to apply transformation. Defined as theta1 in the documentation", "");
 }
 
 /**

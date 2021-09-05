@@ -58,21 +58,13 @@ and where \emph{task} must be one of the following (\textbf{[]} indicates a seco
 \item [\texttt{-v [-{}-version]}] Display the \CNAME\ version number
 
 \item [\texttt{-r [-{}-run]}] \emph{Run} the model once using the parameter values in the \config, or optionally with the free parameter values from the file specified with argument \texttt{-i} or \texttt{-I}.
-
 \item [\texttt{-e [-{}-estimate]}] Do a point \emph{estimate} using the values in the \config\ as the starting point for the parameters to be estimated, or optionally with the free parameter values from the file specified with argument \texttt{-i} or \texttt{-I}.
-
 \item [\texttt{-E [-{}-Estimate]} \emph{filename}] Do a point \emph{estimate} and generate an MPD file (ie.e., a file containing the free parameters and the covariance matrix). As with \texttt{-e}, this uses the values in the \config\ as the starting point for the parameters to be estimated, or optionally the free parameter values from the file specified with argument \texttt{-i} or \texttt{-I}.
-
 \item [\texttt{[-{p}-profiling]}] Do a likelihood \emph{profile} using the parameter values in the \config\ as the starting point, or optionally with the free parameter values from the file specified with argument \texttt{-i} or \texttt{-I}
-
 \item [\texttt{-m [-{}-mcmc]}] Do an \emph{MCMC}. An estimate run is fist carried out to estimate the co-variance matrix for the MCMC proposal distribution, using the values in the \config\ as the starting point for the parameters to be estimated. Optionally the free parameter values from the file specified with argument \texttt{-i} or \texttt{-I} can be used as the starting point.
-
 \item [\texttt{-M [-{}-mcmc-from-estimate] \emph{filename}}] Do an \emph{MCMC} using the covariance and free parameters in the MPD file.
-
 \item [\texttt{-R [-{}-resume] \emph{filename}}] Resume a previously stopped\emph{MCMC} using the covariance and free parameters in the MPD file. Additional arguments must be supplied to specify the sample and objective files from the previous MCMC with \texttt{-{}-objective-file} and \texttt{-{}-sample-file}.
-
 \item [\texttt{-f [-{}-projection]}] \emph{n}. Project the model \emph{forward} in time using the parameter values in the \config\ as the starting point for the estimation, or optionally with the parameter values from the file specified with the argument \texttt{-i} or \texttt{-I}. Projections are repeated for each parameter set (i.e., each line of data in the free parameter file) \emph{n} times (the default is 1). Typically, the MCMC sample output will be used with \texttt{-i}.
-
 \item [\texttt{-s [-{}-simulation]} \emph{n}] \emph{Simulate} \emph{n} of observation sets using values in the \config\ as the parameter values, or optionally with the parameter values from the file specified with the argument \texttt{-i} or \texttt{-I}.
 
 \end{description}
@@ -80,20 +72,13 @@ and where \emph{task} must be one of the following (\textbf{[]} indicates a seco
 The following optional arguments\index{Optional command line arguments} [\emph{options}] may be specified
 
 \begin{description}
-\item [\texttt{-i [-{}-input] \emph{filename}}] \emph{Input} one or more sets of free (estimated) parameter values from \texttt{\emph{filename}} (see Section \ref{sec:Reports} for details about the format of \texttt{\emph{filename}}).
-
-\item [\texttt{-I [-{}-input-force] \emph{filename}}] \emph{Input} one or more sets of parameter values from \texttt{\emph{filename}}. This contains both the free paramters and also force the \emph{overwrite} addressable (non-estimated) values in the \config\ (see Section \ref{sec:Reports} for details about the format of \texttt{\emph{filename}})
-
-\item [\texttt{-o [-{}-output] \emph{filename}}] \emph{Output} a report of the free (estimated) parameter values in a format suitable for \texttt{-i \emph{filename}} (see Section \ref{sec:Reports} for details about the format of \texttt{\emph{filename}})
-
+\item [\texttt{-i [-{}-input] \emph{filename}}] \emph{Input} one or more sets of free (estimated) parameter values from \texttt{\emph{filename}} (see Section \ref{sec:Report} for details about the format of \texttt{\emph{filename}}).
+\item [\texttt{-I [-{}-input-force] \emph{filename}}] \emph{Input} one or more sets of parameter values from \texttt{\emph{filename}}. This contains both the free parameters and also force the \emph{overwrite} addressable (non-estimated) values in the \config\ (see Section \ref{sec:Report} for details about the format of \texttt{\emph{filename}})
+\item [\texttt{-o [-{}-output] \emph{filename}}] \emph{Output} a report of the free (estimated) parameter values in a format suitable for \texttt{-i \emph{filename}} (see Section \ref{sec:Report} for details about the format of \texttt{\emph{filename}})
 \item [\texttt{-g [-{}-seed] \emph{seed}}] Initialise the random number \emph{generator} with \texttt{\emph{seed}}, a positive (long) integer value (note, if \texttt{-g} is not specified, then \CNAME\ will  generate a random number seed based on the computer clock time)
-
-\item [\texttt{-{}-loglevel \emph{arg}}] Set the level for information or logging messages from \CNAME. Valid options are (from more verbose to less verbose) trace, finest, fine, medium, info, important, and warning. The default is 'info' (see Section \ref{sec:Reports} for more information).
-
-\item [\texttt{-t [-{}-tabular]}]. Print \command{report} in tabular format (see Section \ref{sec:Reports} for more information).
-
+\item [\texttt{-{}-loglevel \emph{arg}}] Set the level for information or logging messages from \CNAME. Valid options are (from more verbose to less verbose) trace, finest, fine, medium, info, important, and warning. The default is 'info' (see Section \ref{sec:Report} for more information).
+\item [\texttt{-t [-{}-tabular]}]. Print \command{report} in tabular format (see Section \ref{sec:Report} for more information).
 \item [\texttt{-{}-single-step}] Run with \texttt{-r} to pause the model and ask the user to specify parameters and their values to use for the next iteration (see Section \ref{sec:SingleStepping})
-
 \item [\texttt{-q [-{}-query]\emph{object type}}] \emph{Query} an object type to print an extract of the object description and parameter definitions.  An object can be defined as \texttt{\emph{block.type}}, e.g., \texttt{casal2 -{}-query process.recruitment\_constant} will query the constant recruitment block.
 
 \end{description}
@@ -114,9 +99,9 @@ Note that \config\ files can \emph{include} other \config\ files to assist file 
 \CNAME\ has a range of commands that define the model structure, processes, parameters, observations, and how tasks are carried out. There are three types of commands
 
 \begin{itemize}
-\item Commands that have an argument only and do not have subcommands (for example, \texttt{!include}\ \argument{\emph{filename}})
-\item Commands that have a label and subcommands (for example \command{process} must have a label and has subcommands)
-\item Commands that do not have either a label or argument, but have subcommands (for example \command{model} or \command{categories})
+	\item Commands that have an argument only and do not have subcommands (for example, \texttt{!include}\ \argument{\emph{filename}})
+	\item Commands that have a label and subcommands (for example \command{process} must have a label and has subcommands)
+	\item Commands that do not have either a label or argument, but have subcommands (for example \command{model} or \command{categories})
 \end{itemize}
 
 Apart from \texttt{!include}, commands start with an \texttt{@} in the first column (i.e., may not have a space or tab character before them on the line). After each command, the subcommands are listed and must occur before the next command. Otherwise, the commands and subcommands are free form with each command or subcommand on a separate line (see Section \ref{sec:CommandBlockFormat}).
@@ -139,20 +124,20 @@ Like commands (\command{command}), subcommands and their arguments are not order
 
 The argument type for a subcommand can be\index{Subcommand argument type}:
 
-\begin{tabular}{ll}
-\textbf{switch} & true/false \\
-\textbf{integer}& an integer number \\
-\textbf{integer vector} & a vector of integer numbers \\
-\textbf{integer range} & a range of integer numbers separated by a colon, e.g. 1994:1996 is \\ & expanded to an integer vector of values (1994 1995 1996) \\
-\textbf{constant} & a real number (i.e., a double) \\
-\textbf{constant vector} & a vector of real numbers (i.e., a vector of doubles) \\
-\textbf{estimable} & a real number that can be estimated (i.e., a double) \\
-\textbf{estimable vector} & a vector of real numbers that can be estimated (i.e., a vector of doubles) \\
-\textbf{addressable} & a real number that can be referenced but not estimated (i.e., an addressable double) \\
-\textbf{addressable vector} & a vector of real numbers that can be referenced but not estimated (i.e., a vector of \\ & addressable doubles) \\
-\textbf{string} & a categorical (string) value \\
-\textbf{string vector} & a vector of categorical values.
-\end{tabular}
+\begin{description}
+    \item[switch] true/false
+    \item[integer] an integer number
+	\item[integer vector] a vector of integer numbers
+	\item[integer range] a range of integer numbers separated by a colon, e.g. 1994:1996 is expanded to an integer vector of values (1994 1995 1996)
+	\item[constant] a real number (i.e., a double)
+	\item[constant vector] a vector of real numbers (i.e., a vector of doubles)
+	\item[estimable] a real number that can be estimated (i.e., a double)
+	\item[estimable vector] a vector of real numbers that can be estimated (i.e., a vector of doubles)
+	\item[addressable] a real number that can be referenced but not estimated (i.e., an addressable double)
+	\item[addressable vector] a vector of real numbers that can be referenced but not estimated (i.e., a vector of addressable doubles)
+	\item[string] a categorical (string) value
+	\item[string vector] a vector of categorical values
+\end{description}
 
 Switches are characteristics which are either true or false. Enter \emph{true} as \argument{true} or \argument{t}, and \emph{false} as \argument{false} or \argument{f}.
 
@@ -206,10 +191,10 @@ Alternatively, to comment out an entire block or section, use \commentstart\ at 
 All parameters have an unique name, allowing it to be referenced in other command blocks. When \CNAME\ processes the \config\ it translates each command block and each subcommand block into an object, each with a unique parameter name. For commands, this parameter name is simply the command label. For subcommands, the parameter name format is one of the following:
 
 \begin{description}
-\item \texttt{command[label].subcommand} if the command has a label, or
-\item \texttt{command.subcommand} if the command has no label, or
-\item \texttt{command[label].subcommand\{i\}} if the command has a label and the subcommand arguments are a vector, and we are accessing the  \emph{i}th element of that vector.
-\item \texttt{command[label].subcommand\{i:j\}} if the command has a label, and the subcommand arguments are a vector, and we are accessing the elements from $i$ to $j$ (inclusive) of that vector.
+	\item \texttt{command[label].subcommand} if the command has a label, or
+	\item \texttt{command.subcommand} if the command has no label, or
+	\item \texttt{command[label].subcommand\{i\}} if the command has a label and the subcommand arguments are a vector, and we are accessing the  \emph{i}th element of that vector.
+	\item \texttt{command[label].subcommand\{i:j\}} if the command has a label, and the subcommand arguments are a vector, and we are accessing the elements from $i$ to $j$ (inclusive) of that vector.
 \end{description}
 
 For example, the parameter name of a process of instantaneous mortality (i.e., natural mortality) is the subcommand \subcommand{m} of a \command{process} of type \subcommand{mortality\_constant\_rate}, i.e., the command block may be
@@ -291,19 +276,29 @@ To estimate a common \textit{m} over both sexes, we estimate one \textit{m}, say
 {\small{\begin{verbatim}
 @estimate estimate.m
 type normal
-parameter process[fishing].m{2}  # female M since female is the second in the category order
-same process[fishing].m{1}       # {} is used to index one or more elements in a vector
-mu  0.2                          # The mean of the prior
-sd  0.02                         # The standard deviation of the prior
+# female M since female is the second in the category order
+parameter process[fishing].m{2}
+# {} is used to index one or more elements in a vector
+same process[fishing].m{1}
+# The mean of the prior
+mu  0.2
+# The standard deviation of the prior
+sd  0.02
 \end{verbatim}}}
 
 \subsection{\I{Single-stepping \CNAME}\label{sec:SingleStepping}}\index{Single\_stepping}\index{single\_stepping section}
 
-\TODO: move this section to somewhere else
+\TODO{Move this section to somewhere else?}
 
 Single-stepping means \CNAME\ can 'pause' after each year in the annual cycle during a model run, write reports, then wait and process user input of updated estimable parameters for the next year (see the command line argument \texttt{ -{}-single-step}).
 
 This enables \CNAME\ to implement models for management simulations or scenarios that require feedback and can be used, for example, in operational management procedures (OMPs). The single-stepping process can be automated using \R, so that \CNAME\ may be used with \R\ to update input harvest values (e.g., catches from a fishery in a fisheries model) to evaluate a particular harvest control rule.
+
+\subsection{\I{Validating models across versions}}\label{sec:Assert}\index{Asserts}\index{Unit tests}
+
+\CNAME\ has a number of built-in capabilities to validate and verify the code across versions. Unit tests of the underlying \CNAME\ code are carried out at build time, using the \href{https://github.com/google/googletest}{Google Test and Mock} unit testing and mocking framework. The unit test framework aims to cover a significant proportion of the key functionality within the \CNAME\ code base. The unit test code\index{Unit tests} for \CNAME\ is available as a part of the underlying source code.
+
+\CNAME\ can also validate or check certain addressables parameters as a part of testing and validation with the assert command. Asserts check the value of a specific addressables (for example, and observations, parameters, or the objective function). Asserts are one aspect of the internal tests \CNAME\ uses to ensure accuracy across versions and revisions (see Section \ref{syntax:Assert})
 
 \subsection{\CNAME\ exit status values\index{Exit status value}}
 

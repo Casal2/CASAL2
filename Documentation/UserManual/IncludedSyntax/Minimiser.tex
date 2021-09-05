@@ -35,7 +35,7 @@
 
 \defSub{tolerance}{The tolerance of the gradient for convergence}
 \defType{Real number}
-\defDefault{DEFAULT\_CONVERGENCE}
+\defDefault{1e-5}
 \defLowerBound{0.0 (exclusive)}
 
 \defSub{step\_size}{The minimum step size before minimisation fails}
@@ -43,8 +43,8 @@
 \defDefault{1e-7}
 \defLowerBound{0.0 (exclusive)}
 
-\subsubsection{Minimiser of type Beta\_Diff}
-\commandlabsubarg{Minimiser}{type}{Beta\_Diff}.
+\subsubsection{Minimiser of type Betadiff}
+\commandlabsubarg{Minimiser}{type}{Betadiff}.
 \defRef{sec:Minimiser-BetaDiff}
 \label{syntax:Minimiser-BetaDiff}
 
@@ -60,7 +60,7 @@
 
 \defSub{tolerance}{The tolerance of the gradient for convergence}
 \defType{Real number}
-\defDefault{DEFAULT\_CONVERGENCE}
+\defDefault{1e-5}
 \defLowerBound{0.0 (exclusive)}
 
 \subsubsection{Minimiser of type DESolver}
@@ -89,16 +89,11 @@
 
 \defSub{tolerance}{The total variance between the population and best candidate before acceptance}
 \defType{Real number}
-\defDefault{DEFAULT\_CONVERGENCE}
+\defDefault{1e-5}
 \defLowerBound{0.0 (exclusive)}
 
-\defSub{method}{The type of candidate generation method to use}
-\defType{String}
-\defDefault{No default}
-\defValue{not\_yet\_implemented}
-
-\subsubsection{Minimiser of type Delta\_Diff}
-\commandlabsubarg{Minimiser}{type}{Delta\_Diff}.
+\subsubsection{Minimiser of type Deltadiff}
+\commandlabsubarg{Minimiser}{type}{Deltadiff}.
 \defRef{sec:Minimiser-DeltaDiff}
 \label{syntax:Minimiser-DeltaDiff}
 
@@ -114,7 +109,7 @@
 
 \defSub{tolerance}{Tolerance of the gradient for convergence}
 \defType{Real number}
-\defDefault{DEFAULT\_CONVERGENCE}
+\defDefault{1e-5}
 \defLowerBound{0 (exclusive)}
 
 \defSub{step\_size}{Minimum Step-size before minimisation fails}
@@ -122,8 +117,8 @@
 \defDefault{1e-7}
 \defLowerBound{0 (exclusive)}
 
-\subsubsection{Minimiser of type Gamma\_Diff}
-\commandlabsubarg{Minimiser}{type}{Gamma\_Diff}.
+\subsubsection{Minimiser of type Numerical\_Differences}
+\commandlabsubarg{Minimiser}{type}{Numerical\_Differences}.
 \defRef{sec:Minimiser-GammaDiff}
 \label{syntax:Minimiser-GammaDiff}
 
@@ -139,7 +134,7 @@
 
 \defSub{tolerance}{The tolerance of the gradient for convergence}
 \defType{Real number}
-\defDefault{DEFAULT\_CONVERGENCE}
+\defDefault{1e-5}
 \defLowerBound{0.0 (exclusive)}
 
 \defSub{step\_size}{The minimum step size before minimisation fails}

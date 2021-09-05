@@ -39,7 +39,7 @@ Iterative::Iterative(shared_ptr<Model> model) : InitialisationPhase(model), cach
   parameters_.Bind<unsigned>(PARAM_YEARS, &years_, "The number of iterations (years) over which to execute this initialisation phase", "");
   parameters_.Bind<string>(PARAM_INSERT_PROCESSES, &insert_processes_, "The processes in the annual cycle to be include in this initialisation phase", "", true);
   parameters_.Bind<string>(PARAM_EXCLUDE_PROCESSES, &exclude_processes_, "The processes in the annual cycle to be excluded from this initialisation phase", "", true);
-  parameters_.Bind<unsigned>(PARAM_CONVERGENCE_YEARS, &convergence_years_, "The iteration (year) when the test for convergence ($\\lambda$) is evaluated", "", true);
+  parameters_.Bind<unsigned>(PARAM_CONVERGENCE_YEARS, &convergence_years_, "The iteration (year) when the test for convergence (lambda) is evaluated", "", true);
   parameters_.Bind<Double>(PARAM_LAMBDA, &lambda_,
                            "The maximum value of the absolute sum of differences (lambda) between the partition at year-1 and year that indicates successful convergence", "",
                            Double(0.0));

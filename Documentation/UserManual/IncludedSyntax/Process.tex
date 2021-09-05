@@ -24,7 +24,11 @@
 \defRef{sec:Process-LoadPartition}
 \label{syntax:Process-LoadPartition}
 
-The Load\_Partition type has no additional subcommands.
+\defSub{table}{The table of data specifying the n in each partition category and age}
+\defType{Data table with label = \TODO{Craig? Can you specify this table?}}
+\defDefault{No default}
+\defValue{}
+\defNote{See \ref{sec:DataTable} for more details on specifying data tables}
 
 \subsubsection{Process of type Maturation}
 \commandlabsubarg{Process}{type}{Maturation}.
@@ -192,6 +196,18 @@ The Load\_Partition type has no additional subcommands.
 \defType{Vector of non-negative integers}
 \defDefault{No default}
 
+\defSub{table}{The table of data specifying the predator selectivities}
+\defType{Data table with label = \TODO{I dont know how this one works?}}
+\defDefault{No default}
+\defValue{}
+\defNote{See \ref{sec:DataTable} for more details on specifying data tables}
+
+\defSub{table}{The table of data specifying the prey selectivities}
+\defType{Data table with label = \TODO{I dont know how this one works?}}
+\defDefault{No default}
+\defValue{}
+\defNote{See \ref{sec:DataTable} for more details on specifying data tables}
+
 \subsubsection{Process of type Mortality\_Initialisation\_Event}
 \commandlabsubarg{Process}{type}{Mortality\_Initialisation\_Event}.
 \defRef{sec:Process-MortalityInitialisationEvent}
@@ -218,6 +234,12 @@ The Load\_Partition type has no additional subcommands.
 \defSub{penalty}{The label of the penalty to apply if the total number of removals cannot be taken}
 \defType{String}
 \defDefault{No default}
+
+\defSub{table}{The table of data specifying the catches for each fishery, the categories, years, and the $U_max$}
+\defType{Data table with label = \TODO{Craig? Can you specify this table?}}
+\defDefault{No default}
+\defValue{}
+\defNote{See \ref{sec:DataTable} for more details on specifying data tables}
 
 \subsubsection{Process of type Mortality\_Initialisation\_Event\_Biomass}
 \commandlabsubarg{Process}{type}{Mortality\_Initialisation\_Event\_Biomass}.
@@ -271,6 +293,12 @@ The Load\_Partition type has no additional subcommands.
 \defType{Vector of strings}
 \defDefault{No default}
 
+\defSub{table}{The table of data specifying the catches for each fishery, the categories, years, and the $U_max$}
+\defType{Data table with label = \TODO{Craig? Can you specify this table?}}
+\defDefault{No default}
+\defValue{}
+\defNote{See \ref{sec:DataTable} for more details on specifying data tables}
+
 \subsubsection{Process of type Mortality\_Instantaneous\_Retained}
 \commandlabsubarg{Process}{type}{Mortality\_Instantaneous\_Retained}.
 \defRef{sec:Process-MortalityInstantaneousRetained}
@@ -295,6 +323,12 @@ The Load\_Partition type has no additional subcommands.
 \defSub{relative\_m\_by\_age}{The M-by-age selectivities to apply on the categories for natural mortality}
 \defType{Vector of strings}
 \defDefault{No default}
+
+\defSub{table}{The table of data specifying the catches for each fishery, the categories, years, and the $U_max$}
+\defType{Data table with label = \TODO{Craig? Can you specify this table?}}
+\defDefault{No default}
+\defValue{}
+\defNote{See \ref{sec:DataTable} for more details on specifying data tables}
 
 \subsubsection{Process of type Mortality\_Prey\_Suitability}
 \commandlabsubarg{Process}{type}{Mortality\_Prey\_Suitability}.
@@ -343,12 +377,11 @@ The Load\_Partition type has no additional subcommands.
 \defType{Vector of non-negative integers}
 \defDefault{No default}
 
-\subsubsection{Process of type null process}
-\commandlabsubarg{Process}{type}{null\_preocess}.
-\defRef{sec:Process-Null}
+\subsubsection{Process of type null\_process}
+\commandlabsubarg{Process}{type}{null\_process}.
 \label{syntax:Process-Null}
 
-The null\_process  type has no additional subcommands. Note that this process does nothing. It is included primarily as a means of replacing other processes with "no action" to allow for testing of alternative scenarios]
+The null\_process  type has no additional subcommands. Note that this process does nothing. It is included primarily as a means of replacing other processes with "no action" to allow for testing of alternative model structures.
 
 \subsubsection{Process of type Recruitment\_Beverton\_Holt}
 \commandlabsubarg{Process}{type}{Recruitment\_Beverton\_Holt}.
@@ -600,6 +633,12 @@ The null\_process  type has no additional subcommands. Note that this process do
 \defType{Vector of real numbers (estimable)}
 \defDefault{true}
 
+\defSub{table}{The table of data specifying the n to tag from and to  each category, years, and the $U_max$}
+\defType{Data table with label = \TODO{Craig? Can you specify this table?}}
+\defDefault{No default}
+\defValue{}
+\defNote{See \ref{sec:DataTable} for more details on specifying data tables}
+
 \subsubsection{Process of type Tag\_By\_Length}
 \commandlabsubarg{Process}{type}{Tag\_By\_Length}.
 \defRef{sec:Process-TagByLength}
@@ -652,6 +691,12 @@ The null\_process  type has no additional subcommands. Note that this process do
 \defDefault{1e-5}
 \defLowerBound{0 (inclusive)}
 \defUpperBound{1.0 (inclusive)}
+
+\defSub{table}{The table of data specifying the n to tag from and to  each category, years, and the $U_max$}
+\defType{Data table with label = \TODO{Craig? Can you specify this table?}}
+\defDefault{No default}
+\defValue{}
+\defNote{See \ref{sec:DataTable} for more details on specifying data tables}
 
 \subsubsection{Process of type Tag\_Loss}
 \commandlabsubarg{Process}{type}{Tag\_Loss}.
@@ -751,4 +796,10 @@ The null\_process  type has no additional subcommands. Note that this process do
 \defSub{years}{The years to execute the transition in}
 \defType{Vector of non-negative integers}
 \defDefault{No default}
+
+\defSub{table}{The table of data specifying the n to transition from and to each category, years, and the $U_max$}
+\defType{Data table with label = \TODO{Craig? Can you specify this table?}}
+\defDefault{No default}
+\defValue{}
+\defNote{See \ref{sec:DataTable} for more details on specifying data tables}
 

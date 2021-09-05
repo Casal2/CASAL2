@@ -37,14 +37,14 @@ The specific subcommands for a command are given within each command.
 \subsection{\I{Length-weight}}
 \input{IncludedSyntax/LengthWeight}
 
+\subsection{\I{Age-weight}}
+\input{IncludedSyntax/AgeWeight}
+
 \subsection{\I{Selectivities}}
 \input{IncludedSyntax/Selectivity}
 
 \subsection{\I{Projections}}
 \input{IncludedSyntax/Project}
-
-\subsection{\I{Time-varying Parameters}}
-\input{IncludedSyntax/TimeVarying}
 
 \section{Estimation command and subcommand syntax\label{syntax:Estimation}}
 
@@ -84,7 +84,7 @@ The specific subcommands for a command are given within each command.
 
 \section{Observation command and subcommand syntax\label{syntax:Observations}}
 
-The description of the methods for the observation section is given in Section \ref{sec:Observations}.
+The description of the methods for the observation section is given in Section \ref{sec:Observation}.
 
 In the following section, the sub-section headers use a notation of the form "\textbf {@observation[label].type=abundance}" which, in this case, represents the input command fragment
 {\small{\begin{verbatim}
@@ -132,7 +132,7 @@ Each type of ageing error has a set of subcommands and arguments specific to its
 
 \section{Report command and subcommand syntax\label{syntax:Reports}}
 
-The description of each report is given in Section \ref{sec:Reports}.
+The description of each report is given in Section \ref{sec:Report}.
 
 \subsection{\I{Report commands and subcommands}}
 
@@ -147,3 +147,12 @@ The description of each report is given in Section \ref{sec:Reports}.
 \defDefault{No default}
 \defValue{A valid \config}
 \defNote{If \texttt{file\_name} includes a space character, then it must be enclosed in quotes, for example \command{include} \argument{\ "my file.csl2"}. Also note that the \command{include} does not denote the end of the previous command block as is the case for all other commands}
+
+\section{\I{Validating model values using asserts}}\label{syntax:Assert}
+
+\CNAME\ can validate or check certain addressables parameters as a part of testing and validation with the assert command. Asserts check the value of a specific addressables (for example, and observations, parameters, or the objective function). Asserts are one aspect of the internal tests \CNAME\ uses to ensure accuracy across versions and revisions (see Section \ref{sec:Assert})
+
+\subsection{Assert syntax}
+
+\input{IncludedSyntax/Assert}
+
