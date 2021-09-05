@@ -60,7 +60,7 @@ and where \emph{task} must be one of the following (\textbf{[]} indicates a seco
 \item [\texttt{-r [-{}-run]}] \emph{Run} the model once using the parameter values in the \config, or optionally with the free parameter values from the file specified with argument \texttt{-i} or \texttt{-I}.
 \item [\texttt{-e [-{}-estimate]}] Do a point \emph{estimate} using the values in the \config\ as the starting point for the parameters to be estimated, or optionally with the free parameter values from the file specified with argument \texttt{-i} or \texttt{-I}.
 \item [\texttt{-E [-{}-Estimate]} \emph{filename}] Do a point \emph{estimate} and generate an MPD file (ie.e., a file containing the free parameters and the covariance matrix). As with \texttt{-e}, this uses the values in the \config\ as the starting point for the parameters to be estimated, or optionally the free parameter values from the file specified with argument \texttt{-i} or \texttt{-I}.
-\item [\texttt{[-{p}-profiling]}] Do a likelihood \emph{profile} using the parameter values in the \config\ as the starting point, or optionally with the free parameter values from the file specified with argument \texttt{-i} or \texttt{-I}
+\item [\texttt{-{p}[-profiling]}] Do a likelihood \emph{profile} using the parameter values in the \config\ as the starting point, or optionally with the free parameter values from the file specified with argument \texttt{-i} or \texttt{-I}
 \item [\texttt{-m [-{}-mcmc]}] Do an \emph{MCMC}. An estimate run is fist carried out to estimate the co-variance matrix for the MCMC proposal distribution, using the values in the \config\ as the starting point for the parameters to be estimated. Optionally the free parameter values from the file specified with argument \texttt{-i} or \texttt{-I} can be used as the starting point.
 \item [\texttt{-M [-{}-mcmc-from-estimate] \emph{filename}}] Do an \emph{MCMC} using the covariance and free parameters in the MPD file.
 \item [\texttt{-R [-{}-resume] \emph{filename}}] Resume a previously stopped\emph{MCMC} using the covariance and free parameters in the MPD file. Additional arguments must be supplied to specify the sample and objective files from the previous MCMC with \texttt{-{}-objective-file} and \texttt{-{}-sample-file}.
@@ -77,11 +77,21 @@ The following optional arguments\index{Optional command line arguments} [\emph{o
 \item [\texttt{-o [-{}-output] \emph{filename}}] \emph{Output} a report of the free (estimated) parameter values in a format suitable for \texttt{-i \emph{filename}} (see Section \ref{sec:Report} for details about the format of \texttt{\emph{filename}})
 \item [\texttt{-g [-{}-seed] \emph{seed}}] Initialise the random number \emph{generator} with \texttt{\emph{seed}}, a positive (long) integer value (note, if \texttt{-g} is not specified, then \CNAME\ will  generate a random number seed based on the computer clock time)
 \item [\texttt{-{}-loglevel \emph{arg}}] Set the level for information or logging messages from \CNAME. Valid options are (from more verbose to less verbose) trace, finest, fine, medium, info, important, and warning. The default is 'info' (see Section \ref{sec:Report} for more information).
-\item [\texttt{-t [-{}-tabular]}]. Print \command{report} in tabular format (see Section \ref{sec:Report} for more information).
+\item [\texttt{-t [-{}-tabular]}] Print \command{report} in tabular format (see Section \ref{sec:Report} for more information).
 \item [\texttt{-{}-single-step}] Run with \texttt{-r} to pause the model and ask the user to specify parameters and their values to use for the next iteration (see Section \ref{sec:SingleStepping})
 \item [\texttt{-q [-{}-query]\emph{object type}}] \emph{Query} an object type to print an extract of the object description and parameter definitions.  An object can be defined as \texttt{\emph{block.type}}, e.g., \texttt{casal2 -{}-query process.recruitment\_constant} will query the constant recruitment block.
 
 \end{description}
+%
+Combinations of these command line arguments can also be implemented. Examples of some useful ones are below.
+\begin{description}
+	\item \texttt{casal -r -i par.file> mulit\_run.out} will conduct multiple model runs, one for each row of parameters in \texttt{par.file}. This can be useful for investigating the effect of individual parameters in the model or summarising profiled outputs.
+	
+	\item \texttt{casal -e -i par.file> mulit\_estimate.out} will conduct multiple estimation routines. One for each row of parameters in \texttt{par.file}. This can be useful for assessing convergence to a global minimum. All base models should be run from multiple starting parameter values to assess model convergence/sensitivity to starting values.
+	
+	\item \texttt{casal -s 10 -i par.file > mulit\_simulation.out} This command instructs \CNAME\ to simulate 10 sets of simulated data sets for each each row of parameters in \texttt{par.file}. The \texttt{-s} component adds observation error in simulated data sets through the likelihood distribution assumptions and the \texttt{-i} adds parameter uncertainty into the simulated data sets if each row differs.
+\end{description}
+
 
 \subsection{Constructing the \CNAME\ \config s \label{ConstructingConfig}}\index{Input configuration file syntax}
 
@@ -188,7 +198,7 @@ Alternatively, to comment out an entire block or section, use \commentstart\ at 
 
 \subsubsection{How to reference parameters\label{sec:parameter-names}\index{Determining parameter names}\index{Parameter names}}
 
-All parameters have an unique name, allowing it to be referenced in other command blocks. When \CNAME\ processes the \config\ it translates each command block and each subcommand block into an object, each with a unique parameter name. For commands, this parameter name is simply the command label. For subcommands, the parameter name format is one of the following:
+All parameters have an unique name, allowing it to be referenced in other command blocks. When \CNAME\ processes the \config\ it translates each command block (see section~\ref{sec:CommandBlockFormat}) and each subcommand block into an object, each with a unique parameter name. For commands, this parameter name is simply the command label. For subcommands, the parameter name format is one of the following:
 
 \begin{description}
 	\item \texttt{command[label].subcommand} if the command has a label, or
@@ -205,10 +215,8 @@ For example, the parameter name of a process of instantaneous mortality (i.e., n
 				categories male female
 				m 0.2 0.2
 \end{verbatim}}
-
-The the parameter names of the rates is
-
-\texttt{process[NaturalMortality].m} to reference the vector of make then females rates. But to reference just the 'female' rate then the form is
+%
+\texttt{process[NaturalMortality].m} is the unique reference for the vector of male then females natural mortality values (\textbf{note:} order will follow categories order). But to reference just the 'female' rate then the form is
 \texttt{process[NaturalMortality].m\{female\}}.
 
 \subsection{\I{Reading a command block}\label{sec:Readingcommandblock}}\index{Reading\ command\ block}\index{Reading\ command\ block section}
@@ -249,9 +257,9 @@ Other information needed are supplied in the methods table which has a fixed num
 
 {\small{\begin{verbatim}
 table method        # supply arguments and name selectivity etc
-method  	category 	selectivity 	u_max 	time_step 		penalty
-pot        	*  	       potFSel		   0.7 			1 	CatchMustBeTaken1
-line     	*  	      lineFSel 	    0.7 			1 	CatchMustBeTaken1
+method     category  selectivity    u_max    time_step      penalty
+pot        *         potFSel        0.7      1              CatchMustBeTaken1
+line       *         lineFSel       0.7      1              CatchMustBeTaken1
 end_table
 \end{verbatim}}}
 
@@ -259,7 +267,7 @@ To estimate natural mortality, you need to supply an \textit{@estimate} block wi
 
 {\small{\begin{verbatim}
 @estimate estimate.m
-type normal normal
+type normal # prior type
 parameter process[fishing].m  #
     \*Fishing is unique amongst the @process command blocks
       so this defines the unique reference to the parameter m
@@ -276,10 +284,9 @@ To estimate a common \textit{m} over both sexes, we estimate one \textit{m}, say
 {\small{\begin{verbatim}
 @estimate estimate.m
 type normal
-# female M since female is the second in the category order
-parameter process[fishing].m{2}
+parameter process[fishing].m{male}
 # {} is used to index one or more elements in a vector
-same process[fishing].m{1}
+same process[fishing].m{female} # set female values = male estimated values
 # The mean of the prior
 mu  0.2
 # The standard deviation of the prior
@@ -287,6 +294,7 @@ sd  0.02
 \end{verbatim}}}
 
 \subsection{\I{Single-stepping \CNAME}\label{sec:SingleStepping}}\index{Single\_stepping}\index{single\_stepping section}
+
 
 \TODO{Move this section to somewhere else?}
 
