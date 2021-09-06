@@ -342,7 +342,6 @@ void Manager::Finalise(shared_ptr<Model> model) {
  */
 void Manager::WaitForReportsToFinish() {
 #ifndef TESTMODE
-  std::scoped_lock l(lock_);
   waiting_ = true;
   LOG_FINE() << "Waiting for reports";
   while (waiting_)
