@@ -4,7 +4,7 @@
  * @date 13/02/2014
  * @section LICENSE
  *
- * Copyright NIWA Science ©2013 - www.niwa.co.nz
+ * Copyright NIWA Science ï¿½2013 - www.niwa.co.nz
  *
  */
 #ifdef TESTMODE
@@ -103,15 +103,54 @@ TEST(Likelihood, Multinomial) {
   EXPECT_DOUBLE_EQ(0.516444725003769, comparison_list[0][5].score_);
   EXPECT_DOUBLE_EQ(0.872226985105489, comparison_list[0][6].score_);
 
+  // Need to change error values for test case 6 & 7
+  map<unsigned, vector<Comparison> > comparison_list_for_sim;
+
+  // Test case 1
+  comparison.age_           = 0;
+  comparison.category_      = "A";
+  comparison.expected_      = 0.007436329;
+  comparison.observed_      = 0.1;
+  comparison.error_value_   = 50;
+  comparison.process_error_ = 0;
+
+  comparison_list_for_sim[0].push_back(comparison);
+
+  // Test case 2
+  comparison.category_    = "A";
+  comparison.expected_    = 0.660746107;
+  comparison.observed_    = 0.1;
+  comparison.error_value_ = 50;
+  comparison_list_for_sim[0].push_back(comparison);
+
+  // Test case 3
+  comparison.category_    = "A";
+  comparison.expected_    =  0.131214101;
+  comparison.observed_    = 0.1;
+  comparison.error_value_ = 50;
+  comparison_list_for_sim[0].push_back(comparison);
+
+  // Test case 4
+  comparison.category_    = "A";
+  comparison.expected_    = 0.153796066;
+  comparison.observed_    = 0.1;
+  comparison.error_value_ = 50;
+  comparison_list_for_sim[0].push_back(comparison);
+
+  // Test case 5
+  comparison.category_    = "A";
+  comparison.expected_    = 0.046807397;
+  comparison.observed_    = 0.1;
+  comparison.error_value_ = 50;
+  comparison_list_for_sim[0].push_back(comparison);
+
   // check simulations
-  likelihood.SimulateObserved(comparison_list);
-  EXPECT_DOUBLE_EQ(7.0, comparison_list[0][0].observed_);
-  EXPECT_DOUBLE_EQ(14.0, comparison_list[0][1].observed_);
-  EXPECT_DOUBLE_EQ(13.0, comparison_list[0][2].observed_);
-  EXPECT_DOUBLE_EQ(25.0, comparison_list[0][3].observed_);
-  EXPECT_DOUBLE_EQ(24.0, comparison_list[0][4].observed_);
-  EXPECT_DOUBLE_EQ(1.0, comparison_list[0][5].observed_);
-  EXPECT_DOUBLE_EQ(5.0, comparison_list[0][6].observed_);
+  likelihood.SimulateObserved(comparison_list_for_sim);
+  EXPECT_DOUBLE_EQ(1.0, comparison_list_for_sim[0][0].observed_);
+  EXPECT_DOUBLE_EQ(29.0, comparison_list_for_sim[0][1].observed_);
+  EXPECT_DOUBLE_EQ(6.0, comparison_list_for_sim[0][2].observed_);
+  EXPECT_DOUBLE_EQ(11.0, comparison_list_for_sim[0][3].observed_);
+  EXPECT_DOUBLE_EQ(3.0, comparison_list_for_sim[0][4].observed_);
 }
 
 }  // namespace likelihoods
