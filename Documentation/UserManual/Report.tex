@@ -20,12 +20,16 @@ Reports from \CNAME\ can be defined to print partition and states objects at a p
 		etc., ...
 \end{verbatim}
 
+
+
 \subsection{Report output format}
 
-Reports from \CNAME\ have a standard style\index{Reports ! standard style} (with one exception, the \texttt{output\_parameters} report, see below). The standard style is that reports are prefixed with an asterisk followed by a user-defined label and type of report in brackets (e.g., \texttt{*label (type)}), with the report ending with the line \texttt{*end}. For example,
+Reports from \CNAME\ have a standard style\index{Reports ! standard style} (with the exception of \texttt{output\_parameters} and \texttt{simulated\_observation}, see below). The standard style is that reports are prefixed with an asterisk followed by a user-defined label and type of report in brackets (e.g., \texttt{*label (type)}), with the report ending with the line \texttt{*end}. For example,
 
 \begin{verbatim}
 *My_report(type)
+...
+... # report content
 ...
 *end
 \end{verbatim}

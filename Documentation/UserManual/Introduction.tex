@@ -56,7 +56,7 @@ For both 64-bit Linux and Microsoft Windows, we recommend using the install pack
 
 \CNAME\ was compiled on Linux using \texttt{gcc} (\url{https://gcc.gnu.org}), the C/C++ compiler developed by the GNU Project. The 64-bit Linux \index{Linux} version was compiled using \texttt{gcc} version 10.3.0). The source code\index{\CNAME\ source code} for \CNAME\ is available in the GitHub repository at \github.
 
-The Microsoft Windows (\url{https://www.microsoft.com})\index{Microsoft Windows} version was compiled using TDM-gcc (\url{https://jmeubank.github.io/tdm-gcc/}) using \texttt{gcc} 10.3.0 (\url{http://gcc.gnu.org})\index{gcc}. The Microsoft Windows(\url{https://www.microsoft.com}) installer was built using the Inno Setup (\url{https://jrsoftware.org/isdl.php}).
+The Microsoft Windows (\url{https://www.microsoft.com})\index{Microsoft Windows} version was compiled using TDM-gcc (\url{https://jmeubank.github.io/tdm-gcc/}) using \texttt{gcc} 10.3.0 (\url{http://gcc.gnu.org})\index{gcc}. The Microsoft Windows(\url{https://www.microsoft.com}) installer was built using the Inno Setup (\url{https://jrsoftware.org/isdl.php}). \textbf{Note:} for some previous gcc versions, there have been issues related to threading. This was indicated by failed unit tests which rely on threading such MCMCHamiltonian etc.
 
 \CNAME\ includes several minimisers; different minimisers may perform better for some models than others. These include both numerical differences minimisers and auto-differentiation minimisers. Numerical differences minimisers will usually work form most problems, albeit more slowly than auto-differentiation based minimisers. The numerical differences minimisers are:
 

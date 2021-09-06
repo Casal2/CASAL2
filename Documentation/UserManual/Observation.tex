@@ -1024,7 +1024,22 @@ Methods for generating the random error, and hence the simulated values, depend 
   \end{enumerate}
 \end{itemize}
 
-\textbf{An important note when simulating:} \CNAME\ will \textbf{not} automatically report simulated observations when using a \texttt{casal2 -s 1} run. A report must be defined using the \texttt{simulated\_observation} report (\commandlabsubarg{report}{type}{observation}). See Section \ref{sec:Report} for more information on how to write this report.
+\textbf{An important note when simulating:} \CNAME\ will \textbf{not} automatically report simulated observations when using a \texttt{casal2 -s 1} run. A report must be defined using the \texttt{simulated\_observation} report (\commandlabsubarg{report}{type}{observation}). For completeness we discuss the report structure and some best practices here, but there is additional information in Section \ref{sec:Report}.
+
+
+A typical report for simulating an observation looks like
+\begin{verbatim}
+@report CPUE_index_sim # report label
+type simulated_observation # report tyoe
+observation CPUEandes # observation to simulate
+file_name sim/CPUEandes # file to write simualted data to
+\end{verbatim}
+%
+note that in the subcommand \subcommand{file\_name} there is a directory called \texttt{sim}. It is recommended when doing simulations that you create directories that can be documented on what configurations caused that set of simulated datasets. This will become useful if you are looking at multipole simulated models assumptions.
+
+%Given a model structure, there are three ways users can add introduce uncertainty into simulated datasets, the likelihood structure, parameters inputs, and time-varying parameters (see section~\ref{sec:TimeVarying}).
+
+%The likelihood will automatically add observation error when running \CNAME\ with the command \texttt{casal2 -s 100}. Multiple parameter values and addressable (see section) can be adjusted using the arguments  \texttt{casal2 -s 1 -i pars.out} where there are 100 rows with differing parameter values in the\texttt{pars.out} file.
 
 
 \subsection{\I{Pseudo-observations}}\label{sec:PseudoObservations}
