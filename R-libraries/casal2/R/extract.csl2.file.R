@@ -6,16 +6,17 @@
 #' @param file the name of the input file containing model configuration
 #' @param path Optionally, the path to the file
 #' @param fileEncoding Optional, allows the R-library to read in files that have been encoded in alternative UTF formats, see the manual for the error message that would indicate when to use this switch.
+#' @param quiet suppress print or cat statements to screen.
 #' @export
 #'
-"extract.csl2.file" <- function(file, path = "", fileEncoding = "") {
+"extract.csl2.file" <- function(file, path = "", fileEncoding = "", quiet = FALSE) {
   ## if no path specified look in current directory
   if (missing(path))
     path <- ""
   ## get the list that lins subcommands to their type.
   casal2_list = get.casal2.unique_subcommands_list()
   filename = make.filename(path = path, file = file)
-  file = convert.to.lines(filename, fileEncoding = fileEncoding)
+  file = convert.to.lines(filename, fileEncoding = fileEncoding, quiet = quiet)
   ## remove white space at the beginning of a subcommand or command e.g
   while (any(regexpr(" ", file) == 1)) {
     index <- regexpr(" ", file) == 1
@@ -52,7 +53,8 @@
   non_header_tables <- c("obs", "data", "error_values", "table")
   ## there are three types of tables, 1) tables with headers (Instant mortality) 2) tables with row labels (observations and error values) and 3)tables that are just a matrix (ageing error)
   ans <- list()
-  print(paste("The 'csl' input parameter file has", length(file[substring(file, 1, 1) == "@"]), "commands, and", length(file), "lines"))
+  if(!quiet)
+    print(paste("The 'csl' input parameter file has", length(file[substring(file, 1, 1) == "@"]), "commands, and", length(file), "lines"))
   CommandCount <- 0
   ## A global variable to tell us if we are still inputing a table
   in_table <- FALSE
@@ -84,7 +86,8 @@
       if (!is.in(Command, exception_blocks)) {
         ## Create a label for the block
         Command <- paste(Command, "[", temp[2], "]", sep = "");
-        print(temp[2])
+		if(!quiet)
+          print(temp[2])
       }
       next
       ## if we come across a block we either give it a label and move on or just move on if it is an exception block

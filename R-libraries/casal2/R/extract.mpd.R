@@ -8,6 +8,7 @@
 #' @param file the name of the input file containing model output to extract
 #' @param path Optionally, the path to the file
 #' @param fileEncoding Optional, allows the R-library to read in files that have been encoded in alternative UTF formats, see the manual for the error message that would indicate when to use this switch.
+#' @param quiet suppress print or cat statements to screen.
 #' @return a 'casal2MPD' object which is essentially a list, that can be integrated using the str() function.
 #' @export
 #' @examples 
@@ -16,7 +17,7 @@
 #' data <- extract.mpd(file = system.file("extdata", "MPD.log", package="casal2"))
 #' class(data)
 #' }
-"extract.mpd" <- function(file, path = "", fileEncoding = "") {
+"extract.mpd" <- function(file, path = "", fileEncoding = "", quiet = FALSE) {
   set.class <- function(object, new.class) {
     # use in the form
     #  object <- set.class(object,"new class")
@@ -25,7 +26,7 @@
   }
 
   filename <- make.filename(path = path, file = file)
-  file <- convert.to.lines(filename, fileEncoding = fileEncoding)
+  file <- convert.to.lines(filename, fileEncoding = fileEncoding, quiet = quiet)
 
   ## Check this isn't a tabular report by looking at the Call:
   if (grepl(pattern = "--tabular", x = file[2]))
@@ -47,7 +48,8 @@
     if (grepl(pattern = "-i", x = file[2])) {
       if (sum(!duplicated(temp)) == length(unique(temp))) {
         mult_input_run <- TRUE
-        cat("loading a run from -i format\n")
+		if(!quiet)
+          cat("loading a run from -i format\n")
       }
     }
 
