@@ -147,7 +147,12 @@ void Abundance::DoBuild() {
     LOG_ERROR_P(PARAM_SELECTIVITIES) << ": number of selectivities provided (" << selectivities_.size() << ") does not match the number "
                                      << "of categories provided (" << partition_->category_count() << ")";
 }
-
+/**
+ * Reset
+ */
+void Abundance::DoReset() {
+  calculate_nuisance_q_ = true;
+}
 /**
  * This method is called before any of the processes
  * in the timestep will be executed. This takes data from
@@ -258,17 +263,20 @@ void Abundance::CalculateScore() {
   if (model_->run_mode() == RunMode::kSimulation) {
     // Check if we have a nusiance q or a free q
     if (catchability_->type() == PARAM_NUISANCE) {
-      nuisance_catchability_->CalculateQ(comparisons_, likelihood_type_);
+      if(  calculate_nuisance_q_ ) {
+        nuisance_catchability_->CalculateQ(comparisons_, likelihood_type_);
 
-      // Log out the new q
-      LOG_FINE() << "Q = " << nuisance_catchability_->q();
-      // Recalculate the expectations by multiplying by the new Q
-      for (auto year_iterator = comparisons_.begin(); year_iterator != comparisons_.end(); ++year_iterator) {
-        for (obs::Comparison& comparison : year_iterator->second) {
-          LOG_FINEST() << "---- Expected before nuisance Q applied = " << comparison.expected_;
-          comparison.expected_ *= nuisance_catchability_->q();
-          LOG_FINEST() << "---- Expected After nuisance Q applied = " << comparison.expected_;
+        // Log out the new q
+        LOG_FINE() << "Q = " << nuisance_catchability_->q();
+        // Recalculate the expectations by multiplying by the new Q
+        for (auto year_iterator = comparisons_.begin(); year_iterator != comparisons_.end(); ++year_iterator) {
+          for (obs::Comparison& comparison : year_iterator->second) {
+            LOG_FINEST() << "---- Expected before nuisance Q applied = " << comparison.expected_;
+            comparison.expected_ *= nuisance_catchability_->q();
+            LOG_FINEST() << "---- Expected After nuisance Q applied = " << comparison.expected_;
+          }
         }
+        calculate_nuisance_q_ = false;
       }
     }
 

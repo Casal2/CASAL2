@@ -56,7 +56,7 @@ void Nuisance::DoBuild() {
   // Find out if an estimate exists
   LOG_FINEST() << "Find an @additional_prior command for parameter " << parameter;
 
-  bool has_prior;
+  bool has_prior = false;
   has_prior = model_->managers()->additional_prior()->HasAdditionalPrior(parameter);
 
   if (has_prior) {
@@ -67,6 +67,9 @@ void Nuisance::DoBuild() {
     // Find out the prior type
     prior_type_ = additional_prior->type();
     LOG_FINEST() << "Type of prior on Nuisance q = " << prior_type_;
+
+    if(prior_type_ != PARAM_LOGNORMAL && prior_type_ != PARAM_NONE && prior_type_ != PARAM_UNIFORM_LOG)
+      LOG_ERROR_P(PARAM_LABEL) << "the additional prior type needs to be either 'none', 'lognormal' or 'uniform_log'";
 
     // Perhaps set value to the mean of the bounds for now if the estimate system cannot handle an uninitialised estimate
     q_ = (upper_bound_ + lower_bound_) / 2.0;
@@ -94,7 +97,7 @@ void Nuisance::DoBuild() {
       }
     }
   } else {
-    LOG_FINEST() << "solving for the q in a maximum likelihood context, i.e., with no prior";
+    LOG_FINEST() << "solving for the nuisance q in a maximum likelihood context, i.e., with no prior";
     q_ = 1.0;
   }
 }

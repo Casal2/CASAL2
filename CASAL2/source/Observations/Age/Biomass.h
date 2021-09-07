@@ -4,7 +4,7 @@
  * @date 7/01/2014
  * @section LICENSE
  *
- * Copyright NIWA Science ©2013 - www.niwa.co.nz
+ * Copyright NIWA Science ï¿½2013 - www.niwa.co.nz
  *
  * @section DESCRIPTION
  *
@@ -41,7 +41,7 @@ public:
   virtual ~Biomass();
   void         DoValidate() override final;
   virtual void DoBuild() override;
-  void         DoReset() override final{};
+  void         DoReset() override final;
   void         PreExecute() override final;
   void         Execute() override final;
   void         CalculateScore() override final;
@@ -66,6 +66,8 @@ protected:
 
   map<unsigned, vector<Double> > proportions_by_year_;
   map<unsigned, Double>          error_values_by_year_;
+
+  bool                         calculate_nuisance_q_ = true; // more for simualtions, if nuisance Q we don't want to keep applying it to expected values
 };
 
 } /* namespace age */
