@@ -94,9 +94,10 @@ class ModelRunner:
     # test -s functionality 
     for folder in dash_s_dir_list:
       os.chdir("../TestModels/" + folder)
-	  ## first delete any previous simulated observations from previous model runners
+	  # create sim directory casal will fail if this doesn't exist
       if not os.path.exists("sim"):
         os.mkdir("sim")	  
+      ## first delete any previous simulated observations from previous model runners
       for filename in os.listdir('sim'):
         file_path = os.path.join('sim', filename)
         os.remove(file_path)
