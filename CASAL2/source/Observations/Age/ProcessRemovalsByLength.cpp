@@ -446,6 +446,11 @@ void ProcessRemovalsByLength::CalculateScore() {
   LOG_FINEST() << "Calculating neglogLikelihood for observation = " << label_;
 
   if (model_->run_mode() == RunMode::kSimulation) {
+    for (auto& iter : comparisons_) {
+      Double total_expec = 0.0;
+      for (auto& comparison : iter.second) total_expec += comparison.expected_;
+      for (auto& comparison : iter.second) comparison.expected_ /= total_expec;
+    }
     likelihood_->SimulateObserved(comparisons_);
     for (auto& iter : comparisons_) {
       Double total = 0.0;
