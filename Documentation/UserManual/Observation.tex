@@ -1002,11 +1002,14 @@ The expected values (fits) reported by \CNAME\ for observations with ageing erro
 
 \subsection{\I{Simulating observations}}\label{sec:Simulate}
 
-\CNAME\ can generate simulated observations for a given model with a set of parameter values using \texttt{casal2 -s $n$} to simulate $n$ sets of observations). Simulated observations are randomly generated values, which are generated with the error distributions defined for each observation, around fits calculated from one or more sets of the 'true' parameter values. Simulating from a set of parameters can be used to generate observations from an operating model or as a form of parametric bootstrap. The only type of simulations implemented is the type \texttt{constant} \label{sec:Simulate-Constant}.
+\CNAME\ can generate simulated observations for a given model with a set of parameter values using \texttt{casal2 -s $n$} to simulate $n$ sets of observations). Simulated observations are randomly generated values, which are generated with the error distributions defined for each observation, around fits calculated from one or more sets of the 'true' parameter values. Simulating from a set of parameters can be used to generate observations from an operating model or as a form of parametric bootstrap. 
 
-The procedure \CNAME\ uses for simulating observations is to use the 'true' parameter values and generate the expected values. Then, if a set of observations use ageing error, ageing error is applied. Finally, a random value for each observed value is generated based on (i) the expected values, (ii) the type of likelihood specified, and (iii) the variability parameters (e.g., \subcommand{error\_value} and \subcommand{process\_error}).
 
-Methods for generating the random error, and hence the simulated values, depend on the specific likelihood type of each observation.
+%The only type of simulations implemented is the type \texttt{constant} \label{sec:Simulate-Constant}.
+
+The procedure \CNAME\ uses for simulating observations is to use the 'true' parameter values which are fed via the \texttt{-i}/\texttt{-I} file input which generate expected values. Then, if a set of observations use ageing error, ageing error is applied. Finally, a random value for each observed value is generated based on (i) the expected values, (ii) the type of likelihood specified, and (iii) the variability parameters (e.g., \subcommand{error\_value} and \subcommand{process\_error}).
+
+Methods for generating the random error, and hence the simulated values, have three components which the user can change. These are the (i) the likelihood choice and observation error, (ii) parameter uncertainty through the use of \texttt{-i}/\texttt{-I}, and (iii) time-varying parameters. 
 
 \begin{itemize}
   \item{} Normal likelihood parameterised by c.v.: Let $E_{i}$ be the fitted value for observation $i$, and $c_i$ be the corresponding c.v. (adjusted by the process error if applicable). Each simulated observation value $S_i$ is generated as an independent normal deviate with mean $E_i$ and standard deviation $E_i c_i$.
@@ -1024,7 +1027,7 @@ Methods for generating the random error, and hence the simulated values, depend 
   \end{enumerate}
 \end{itemize}
 
-\textbf{An important note when simulating:} \CNAME\ will \textbf{not} automatically report simulated observations when using a \texttt{casal2 -s 1} run. A report must be defined using the \texttt{simulated\_observation} report (\commandlabsubarg{report}{type}{observation}). For completeness we discuss the report structure and some best practices here, but there is additional information in Section \ref{sec:Report}.
+\textbf{An important note when simulating:} \CNAME\ will \textbf{not} automatically report simulated observations when using a \texttt{casal2 -s 1 -i input\_pars.out} run. A report must be defined using the \texttt{simulated\_observation} report (\commandlabsubarg{report}{type}{observation}). For completeness the report is described along with some best practices here, but there is additional information in Section \ref{sec:Report}.
 
 
 A typical report for simulating an observation looks like
@@ -1035,7 +1038,15 @@ observation CPUEandes # observation to simulate
 file_name sim/CPUEandes # file to write simualted data to
 \end{verbatim}
 %
-note that in the subcommand \subcommand{file\_name} there is a directory called \texttt{sim}. It is recommended when doing simulations that you create directories that can be documented on what configurations caused that set of simulated datasets. This will become useful if you are looking at multipole simulated models assumptions.
+\textbf{note} that in the subcommand \subcommand{file\_name} there is a directory component \texttt{sim}. It is recommended when doing simulations that you create directories that can be documented on what configurations caused that set of simulated datasets. This will become useful if you are looking at multiple simulated models assumptions.
+
+
+Simulated reports will be produced with the following extension \texttt{.1\_1}. The first number of the extension relates to the row of the \texttt{-i}/\texttt{-I} file and the second number (separated by \texttt{\_}) represents the simulation iteration defined by the \texttt{n} argument in the configuration input \texttt{casal2 -s n}. Examples of the extension follow,
+\begin{itemize}
+	\item \texttt{.1\_1} indicates simulated data produced from the first row of parameters and is the first random draw
+	\item \texttt{.1\_2} indicates simulated data produced from the first row of parameters and is the second random draw
+	\item \texttt{.2\_10} indicates simulated data produced from the second row of parameters and is the 10\(^{th}\) random draw
+\end{itemize}
 
 %Given a model structure, there are three ways users can add introduce uncertainty into simulated datasets, the likelihood structure, parameters inputs, and time-varying parameters (see section~\ref{sec:TimeVarying}).
 
