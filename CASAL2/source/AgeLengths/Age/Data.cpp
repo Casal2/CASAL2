@@ -411,8 +411,10 @@ void Data::FillInternalGaps() {
  * @return mean length for one member
  */
 Double Data::mean_length(unsigned time_step, unsigned age) {
-  if (model_->state() == State::kInitialise || model_->state() == State::kBuild)
+  if (model_->state() == State::kInitialise || model_->state() == State::kBuild || model_->state() == State::kVerify) {
+    LOG_FINEST() << "state init or build";
     return data_by_age_time_step_[time_step][age];
+  }
   unsigned year = model_->current_year();
   return mean_length_by_year_[year][age][time_step];
 }
@@ -427,6 +429,7 @@ Double Data::mean_length(unsigned time_step, unsigned age) {
 Double Data::mean_weight(unsigned time_step, unsigned age) {
   unsigned year = model_->current_year();
   Double   size = this->mean_length(time_step, age);
+  LOG_FINEST() << " year = " << year << " age = " << age << " time step = " << time_step << " size = " << size << " cv = " << cvs_[year][time_step][age];
   return length_weight_->mean_weight(size, distribution_, cvs_[year][time_step][age]);
 }
 

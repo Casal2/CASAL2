@@ -131,6 +131,14 @@ If \CNAME\ is in simulation run mode, then the contribution to the objective fun
 
 This report prints a complete set of observation values in the form specified by \commandlabsubarg{report}{type}{observation}, with observed values replaced by randomly generated simulated values. The output is in a form  suitable for use within a \CNAME\ \config, reproducing the command and subcommands from the \config. This report will print out in run mode \texttt{-s}.
 
+
+Simulated reports will be produced with the following extension \texttt{.1\_1}. The first number of the extension relates to the row of the \texttt{-i}/\texttt{-I} file and the second number (separated by \texttt{\_}) represents the simulation iteration defined by the \texttt{n} argument in the configuration input \texttt{casal2 -s n}. Examples of the extension follow,
+\begin{itemize}
+	\item \texttt{.1\_1} indicates simulated data produced from the first row of parameters and is the first random draw
+	\item \texttt{.1\_2} indicates simulated data produced from the first row of parameters and is the second random draw
+	\item \texttt{.2\_10} indicates simulated data produced from the second row of parameters and is the 10\(^{th}\) random draw
+\end{itemize}
+
 \subsection{\I{Print the ageing error misclassification matrix}}\index{Reports ! Ageing error misclassification matrix}\label{sec:Report-AgeingErrorMatrix}
 
 This report prints the ageing error misclassification matrix used to offset observations within during model the model fitting procedure.

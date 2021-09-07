@@ -460,6 +460,9 @@ void Model::RunBasic() {
 
   // Model is about to run
   for (unsigned i = 0; i < addressable_values_count_; ++i) {
+    LOG_FINE() << "Model: State change to Initialise";
+    state_        = State::kInitialise;
+    current_year_ = start_year_;
     if (addressable_values_file_) {
       estimables.LoadValues(i);
       Reset();
@@ -468,9 +471,7 @@ void Model::RunBasic() {
     /**
      * Running the model now
      */
-    LOG_FINE() << "Model: State change to Execute";
-    state_        = State::kInitialise;
-    current_year_ = start_year_;
+
     // Iterate over all partition members and UpDate Mean Weight for the inital weight calculations
     for (auto iterator = all_view.Begin(); iterator != all_view.End(); ++iterator) {
       (*iterator)->UpdateMeanLengthData();
@@ -478,7 +479,7 @@ void Model::RunBasic() {
     initialisationphases::Manager& init_phase_manager = *managers_->initialisation_phase();
     init_phase_manager.Execute();
     managers_->report()->Execute(pointer(), State::kInitialise);
-
+    LOG_FINE() << "Model: State change to Execute";
     state_ = State::kExecute;
 
     /**
@@ -711,42 +712,40 @@ void Model::RunSimulation() {
 
   Estimables* estimables = managers_->estimables();
   LOG_FINE() << "estimable values count: " << addressable_values_count_;
-  if (addressable_values_count_ > 1)
-    LOG_FATAL() << "Simulation mode only allows a -i file with one set of parameters.";
 
-  if (addressable_values_file_) {
-    estimables->LoadValues(0);
-    Reset();
-  }
   niwa::partition::accessors::All all_view(pointer());
 
   int simulation_candidates = global_configuration_->simulation_candidates();
   if (simulation_candidates < 1) {
     LOG_FATAL() << "The number of simulations specified at the command line parser must be at least one";
   }
-  unsigned suffix_width = (unsigned)floor(log10((double)simulation_candidates + 1)) + 1;
-  for (int i = 0; i < simulation_candidates; ++i) {
-    string   report_suffix   = ".";
-    unsigned iteration_width = (unsigned)floor(log10(i + 1)) + 1;
-
-    unsigned diff = suffix_width - iteration_width;
-    report_suffix.append(diff, '0');
-    report_suffix.append(utilities::ToInline<unsigned, string>(i + 1));
-    managers_->report()->set_report_suffix(report_suffix);
-
-    Reset();
-
+  // Suffix for sims
+  unsigned first_suffix_width = (unsigned)(floor(log10((double)(addressable_values_count_))) + 1);
+  unsigned second_suffix_width = (unsigned)(floor(log10((double)(simulation_candidates))) + 1);
+  unsigned s_width;
+  unsigned i_width;
+  unsigned init_diff;
+  unsigned second_diff;
+  for (unsigned i = 0; i < addressable_values_count_; ++i) {
+    LOG_FINE() << "addressable i = " << i + 1;
+    LOG_FINE() << "Model: State change to Initialise";
     state_        = State::kInitialise;
     current_year_ = start_year_;
+    i_width = (unsigned)(floor(log10((i + 1))) + 1);
+    init_diff = first_suffix_width - i_width;
+    // set addressables
+    if (addressable_values_file_) {
+      estimables->LoadValues(i);
+      Reset();
+    }
     // Iterate over all partition members and UpDate Mean Weight for the inital weight calculations
     for (auto iterator = all_view.Begin(); iterator != all_view.End(); ++iterator) {
       (*iterator)->UpdateMeanLengthData();
     }
-
     initialisationphases::Manager& init_phase_manager = *managers_->initialisation_phase();
     init_phase_manager.Execute();
     managers_->report()->Execute(pointer(), State::kInitialise);
-
+    LOG_FINE() << "Model: State change to Execute";
     state_                                     = State::kExecute;
     timesteps::Manager&   time_step_manager    = *managers_->time_step();
     timevarying::Manager& time_varying_manager = *managers_->time_varying();
@@ -760,14 +759,26 @@ void Model::RunSimulation() {
       managers_->simulate()->Update(current_year_);
       time_step_manager.Execute(current_year_);
     }
+    // model finish running given this set of -i
+    for (int s = 0; s < simulation_candidates; ++s) {
+      LOG_FINE() << "simulation s = " << s;
+      string report_suffix = ".";
+      s_width = (unsigned)(floor(log10((s + 1))) + 1);
+      second_diff = second_suffix_width - s_width;
+      report_suffix.append(init_diff, '0');
+      report_suffix.append(utilities::ToInline<unsigned, string>(i + 1));
+      report_suffix.append(1, '_');
+      report_suffix.append(second_diff, '0');
+      report_suffix.append(utilities::ToInline<unsigned, string>(s + 1));
+      managers_->report()->set_report_suffix(report_suffix);
+      // This function will also simulate observations
+      managers_->observation()->CalculateScores();
+      // Model has finished so we can run finalise.
+      LOG_FINE() << "Model: State change to PostExecute";
+      managers_->report()->Execute(pointer(), State::kIterationComplete);
 
-    managers_->observation()->CalculateScores();
-
-    // Model has finished so we can run finalise.
-    LOG_FINE() << "Model: State change to PostExecute";
-    managers_->report()->Execute(pointer(), State::kIterationComplete);
-
-    managers_->report()->WaitForReportsToFinish();
+      managers_->report()->WaitForReportsToFinish();
+    }
   }
 }
 
