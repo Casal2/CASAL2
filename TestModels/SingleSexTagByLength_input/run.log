@@ -1,13 +1,58 @@
 Casal2
-Call: C:\Projects\Software\CASAL2-NIWA\BuildSystem/bin/windows_gcc/release_betadiff/casal2.exe -r -I pars.out 
-Date: Sun Sep 05 21:07:51 2021
-Version: v21.08 (2021-08-31)
+Call: C:\Software\CASAL2\BuildSystem/bin/windows_gcc/release_betadiff/casal2.exe -r -I pars.out 
+Date: Wed Sep 08 11:48:56 2021
+Version: v21.09 (2021-09-07)
 Copyright (c) 2017-2021, NIWA (www.niwa.co.nz)
-Environment: User=alist Machine=DELL-9020 OS=Windows_NT PID=3232
+Environment: User=marshc Machine=NIWA-1015798 OS=Windows_NT PID=11228
 
 
 
+resizing from 40000 to 44000
+resizing from 44000 to 48400
 [WARNING] Estimates were removed because of matching lower and upper bounds. Originally had 33 estimates, now have 16
+resizing from 48400 to 53240
+resizing from 53240 to 58564
+resizing from 58564 to 64420
+resizing from 64420 to 70862
+resizing from 70862 to 77948
+resizing from 77948 to 85742
+resizing from 85742 to 94316
+resizing from 94316 to 103747
+resizing from 103747 to 114121
+resizing from 114121 to 125533
+resizing from 125533 to 138086
+resizing from 138086 to 151894
+resizing from 151894 to 167083
+resizing from 167083 to 183791
+resizing from 183791 to 202170
+resizing from 202170 to 222387
+resizing from 222387 to 244625
+resizing from 244625 to 269087
+resizing from 269087 to 295995
+resizing from 295995 to 325594
+resizing from 325594 to 358153
+resizing from 358153 to 393968
+resizing from 393968 to 433364
+resizing from 433364 to 476700
+resizing from 476700 to 524370
+resizing from 524370 to 576807
+resizing from 576807 to 634487
+resizing from 634487 to 697935
+resizing from 697935 to 767728
+resizing from 767728 to 844500
+resizing from 844500 to 928950
+resizing from 928950 to 1021845
+resizing from 1021845 to 1124029
+resizing from 1124029 to 1236431
+resizing from 1236431 to 1360074
+resizing from 1360074 to 1496081
+resizing from 1496081 to 1645689
+resizing from 1645689 to 1810257
+resizing from 1810257 to 1991282
+resizing from 1991282 to 2190410
+resizing from 2190410 to 2409451
+resizing from 2409451 to 2650396
+resizing from 2650396 to 2915435
 [INFO] Initiating basic run mode
 [INFO] Estimable parameters were loaded from the free parameter file: pars.out
 [IMPORTANT] 1 additional non-estimated addressable parameters were found in the free parameter file: pars.out
@@ -56,5 +101,12 @@ Values {string}
 Estimates were removed because of matching lower and upper bounds. Originally had 33 estimates, now have 16
 *end
 
+resizing from 2915435 to 3206978
+resizing from 3206978 to 3527675
+resizing from 3527675 to 3880442
+resizing from 3880442 to 4268486
+resizing from 4268486 to 4695334
+resizing from 4695334 to 5164867
+resizing from 5164867 to 5681353
 [INFO] Completed
 [INFO] Total elapsed time: 1 second

@@ -48,7 +48,7 @@ protected:
   // Members
   vector<unsigned>      years_;
   string                time_step_label_ = "";
-  Double                detection_;
+  double                detection_;
   Double                despersion_ = 1.0;
   Double                tolerance_  = 0.0;
   vector<Double>        process_error_values_;
@@ -89,8 +89,8 @@ protected:
   vector<vector<Double>> age_length_matrix_;
   vector<vector<Double>> cached_age_length_matrix_;
 
-  map<unsigned, map<string, vector<Double>>> recaptures_;
-  map<unsigned, map<string, vector<Double>>> scanned_;
+  map<unsigned, map<string, vector<double>>> recaptures_;
+  map<unsigned, map<string, vector<double>>> scanned_;
 };
 
 } /* namespace age */

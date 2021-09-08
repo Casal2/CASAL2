@@ -4,7 +4,7 @@
 \alias{extract.parameters}
 \title{Utility extract.parameters function}
 \usage{
-extract.parameters(file, path = "", fileEncoding = "")
+extract.parameters(file, path = "", fileEncoding = "", quiet = FALSE)
 }
 \arguments{
 \item{file}{The name of the input file containing model output to extract}
@@ -12,6 +12,8 @@ extract.parameters(file, path = "", fileEncoding = "")
 \item{path}{The path to the file (optional)}
 
 \item{fileEncoding}{Switch to read in files that have been encoded in alternative UTF formats (optional); see the Casal2 User Manual for the error message that would indicate when to use this switch.}
+
+\item{quiet}{suppress print or cat statements to screen.}
 }
 \value{
 Data <"data.frame"> of parameters that are from a -i format.

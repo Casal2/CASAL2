@@ -16,8 +16,8 @@ namespace reports {
  *
  */
 Catchability::Catchability() {
-  run_mode_    = (RunMode::Type)(RunMode::kBasic | RunMode::kEstimation | RunMode::kProjection | RunMode::kProfiling);
-  model_state_ = (State::Type)(State::kFinalise);
+  run_mode_    = (RunMode::Type)(RunMode::kBasic | RunMode::kProjection | RunMode::kSimulation | RunMode::kEstimation | RunMode::kProfiling);
+  model_state_ = (State::Type)(State::kIterationComplete);
 
   parameters_.Bind<string>(PARAM_CATCHABILITY, &catchability_label_, "The catchability label", "", "");
 }

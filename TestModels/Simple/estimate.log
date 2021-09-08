@@ -1,9 +1,9 @@
 Casal2
-Call: C:\Projects\Software\CASAL2-NIWA\BuildSystem/bin/windows_gcc/release_betadiff/casal2.exe -e -g 20 
-Date: Sun Sep 05 21:08:24 2021
-Version: v21.08 (2021-08-31)
+Call: C:\Software\CASAL2\BuildSystem/bin/windows_gcc/release_betadiff/casal2.exe -e -g 20 
+Date: Wed Sep 08 11:49:02 2021
+Version: v21.09 (2021-09-07)
 Copyright (c) 2017-2021, NIWA (www.niwa.co.nz)
-Environment: User=alist Machine=DELL-9020 OS=Windows_NT PID=10484
+Environment: User=marshc Machine=NIWA-1015798 OS=Windows_NT PID=17448
 
 
 
@@ -368,4 +368,4 @@ estimated parameter 'process[Recruitment].ycs_values{2011}' was within 0.001 of 
 *end
 
 [INFO] Completed
-[INFO] Total elapsed time: 2 seconds
+[INFO] Total elapsed time: 3 seconds

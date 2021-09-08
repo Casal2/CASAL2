@@ -143,6 +143,7 @@ void Partition::BuildMeanLengthData() {
     }
 
     // Populate the mean length object now
+    LOG_FINE() << "Populate the mean length object now";
     for (auto year : years) {
       year_index = year - model_->start_year();
 
@@ -265,14 +266,14 @@ void Partition::BuildAgeLengthProportions() {
           sum                            = 0;
           vector<Double>& prop_in_length = (*age_length_proportion)[year_iter][time_step][age_index];
           for (unsigned j = 0; j < length_bin_count; ++j) {
-            LOG_FINEST() << "calculating pnorm for length " << length_bins[j];
+            //LOG_FINEST() << "calculating pnorm for length " << length_bins[j];
             // If we are using CASAL's Normal CDF function use this switch
             if (casal_normal_cdf == PARAM_CASAL) {
               tmp = utilities::math::pnorm(length_bins[j], mu, sigma);
-              LOG_FINE() << "casal_normal_cdf: " << tmp << " utilities::math::pnorm(" << length_bins[j] << ", " << mu << ", " << sigma;
+              //LOG_FINE() << "casal_normal_cdf: " << tmp << " utilities::math::pnorm(" << length_bins[j] << ", " << mu << ", " << sigma;
             } else if (casal_normal_cdf == PARAM_CASAL2) {
               tmp = utilities::math::pnorm2(length_bins[j], mu, sigma);
-              LOG_FINE() << "normal: " << tmp << " utilities::math::pnorm(" << length_bins[j] << ", " << mu << ", " << sigma;
+              //LOG_FINE() << "normal: " << tmp << " utilities::math::pnorm(" << length_bins[j] << ", " << mu << ", " << sigma;
             } else {
               LOG_CODE_ERROR() << "Unknown compatibility option in the calculation of the distribution of age_length";
             }
@@ -281,13 +282,13 @@ void Partition::BuildAgeLengthProportions() {
             if (j > 0) {
               prop_in_length[j - 1] = cum[j] - cum[j - 1];
               sum += prop_in_length[j - 1];
-              LOG_FINEST() << "prop_in_length[j - 1]: " << prop_in_length[j - 1] << ": " << cum[j] << ": " << cum[j - 1];
+              //LOG_FINEST() << "prop_in_length[j - 1]: " << prop_in_length[j - 1] << ": " << cum[j] << ": " << cum[j - 1];
             }
           }  // for (unsigned j = 0; j < length_bin_count; ++j)
 
           if (model_->length_plus()) {
             prop_in_length[length_bin_count - 1] = 1.0 - sum - cum[0];
-            LOG_FINEST() << "prop_in_length[length_bin_count - 1]: " << prop_in_length[length_bin_count - 1];
+            //LOG_FINEST() << "prop_in_length[length_bin_count - 1]: " << prop_in_length[length_bin_count - 1];
           }
 
         }  // for (unsigned age_index = 0; age_index < iter.second->age_spread(); ++age_index)
@@ -315,8 +316,7 @@ void Partition::BuildAgeLengthProportions() {
  * Reset the partition by setting all data values to 0.0
  */
 void Partition::Reset() {
-  LOG_TRACE();
-
+  LOG_FINE() << "Partition::Reset()";
   for (auto iter = partition_.begin(); iter != partition_.end(); ++iter) {
     iter->second->data_.assign(iter->second->data_.size(), 0.0);
     if (iter->second->age_length_ != nullptr)

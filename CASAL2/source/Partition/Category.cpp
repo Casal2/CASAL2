@@ -73,16 +73,20 @@ void Category::UpdateMeanLengthData() {
  */
 
 void Category::UpdateMeanWeightData() {
+  LOG_FINE() << "UpdateMeanWeightData()";
   Categories*           categories = model_->categories();
   const vector<string>& time_steps = model_->time_steps();
 
   if (model_->partition_type() == PartitionType::kAge) {
     AgeLength* age_length = categories->age_length(name_);
+    LOG_FINE() << "Get age length";
     if (age_length == nullptr) {
+      LOG_FINE() << "Null ptr set to one";
       for (unsigned step_iter = 0; step_iter < time_steps.size(); ++step_iter) {
         for (unsigned age = min_age_; age <= max_age_; ++age) mean_weight_by_time_step_age_[step_iter][age] = 1.0;
       }
     } else {
+      LOG_FINE() << "get mean weight from age length ptr";
       for (unsigned step_iter = 0; step_iter < time_steps.size(); ++step_iter) {
         for (unsigned age = min_age_; age <= max_age_; ++age) mean_weight_by_time_step_age_[step_iter][age] = age_length->mean_weight(step_iter, age);
       }

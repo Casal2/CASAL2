@@ -102,7 +102,7 @@ void Multinomial::SimulateObserved(map<unsigned, vector<observations::Comparison
 
   auto iterator = comparisons.begin();
   vector<Double> expected_vals(iterator->second.size(), 0.0);
-  vector<Double> sim_obs(expected_vals.size(),0.0); 
+  vector<double> sim_obs(expected_vals.size(),0.0); 
   for (; iterator != comparisons.end(); ++iterator) {
     LOG_FINE() << "Simulating values for year: " << iterator->first;
     // clear these containers each year

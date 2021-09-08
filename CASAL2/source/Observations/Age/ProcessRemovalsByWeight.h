@@ -81,8 +81,8 @@ protected:
   map<string, map<string, vector<vector<Double>>>>        map_length_weight_matrix_;
   map<string, map<string, vector<vector<Double>>>>        map_age_weight_matrix_;
 
-  map<unsigned, map<string, vector<Double>>> proportions_;
-  map<unsigned, map<string, vector<Double>>> error_values_;
+  map<unsigned, map<string, vector<double>>> proportions_;
+  map<unsigned, map<string, vector<double>>> error_values_;
 };
 
 } /* namespace age */

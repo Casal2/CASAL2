@@ -442,7 +442,7 @@ Double Data::mean_weight(unsigned time_step, unsigned age) {
  * @return mean weight for one member
  */
 Double Data::GetMeanLength(unsigned year, unsigned time_step, unsigned age) {
-  if (model_->state() == State::kInitialise)
+  if (model_->state() == State::kInitialise || model_->state() == State::kBuild || model_->state() == State::kVerify)
     return data_by_age_time_step_[time_step][age];
 
   return mean_length_by_year_[year][age][time_step];

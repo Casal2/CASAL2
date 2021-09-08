@@ -45,7 +45,7 @@ TagRecaptureByAge::TagRecaptureByAge(shared_ptr<Model> model) : Observation(mode
   parameters_.Bind<string>(PARAM_TARGET_SELECTIVITIES, &target_selectivity_labels_, "The categories of tagged individuals for the observation", "");
   // TODO:  is tolerance missing?
   parameters_.Bind<Double>(PARAM_PROCESS_ERRORS, &process_error_values_, "The process error", "", true);
-  parameters_.Bind<Double>(PARAM_DETECTION_PARAMETER, &detection_, "The probability of detecting a recaptured individual", "")->set_range(0.0, 1.0);
+  parameters_.Bind<double>(PARAM_DETECTION_PARAMETER, &detection_, "The probability of detecting a recaptured individual", "")->set_range(0.0, 1.0);
   parameters_.BindTable(PARAM_RECAPTURED, recaptures_table_, "The table of observed recaptured individuals in each age class", "", false);
   parameters_.BindTable(PARAM_SCANNED, scanned_table_, "The table of observed scanned individuals in each age class", "", false);
   parameters_
@@ -54,7 +54,8 @@ TagRecaptureByAge::TagRecaptureByAge(shared_ptr<Model> model) : Observation(mode
       ->set_range(0.0, 1.0);
 
   mean_proportion_method_ = true;
-
+  // Don't ever make detection_ addressable or estimable. At line 427 it is multiplied to an observation which needs to remain a constant
+  // if you make this estimatble we will break the auto-diff stack.
   allowed_likelihood_types_.push_back(PARAM_BINOMIAL);
 }
 
@@ -76,8 +77,8 @@ void TagRecaptureByAge::DoValidate() {
 
   age_spread_ = (max_age_ - min_age_) + 1;
 
-  map<unsigned, vector<Double>> recaptures_by_year;
-  map<unsigned, vector<Double>> scanned_by_year;
+  map<unsigned, vector<double>> recaptures_by_year;
+  map<unsigned, vector<double>> scanned_by_year;
 
   for (auto year : years_) {
     if ((year < model_->start_year()) || (year > model_->final_year()))
@@ -127,8 +128,8 @@ void TagRecaptureByAge::DoValidate() {
     }
 
     for (unsigned i = 1; i < recaptures_data_line.size(); ++i) {
-      Double value = 0.0;
-      if (!utilities::To<Double>(recaptures_data_line[i], value))
+      double value = 0.0;
+      if (!utilities::To<double>(recaptures_data_line[i], value))
         LOG_ERROR_P(PARAM_RECAPTURED) << " value (" << recaptures_data_line[i] << ") could not be converted to a Double";
       recaptures_by_year[year].push_back(value);
     }
@@ -156,8 +157,8 @@ void TagRecaptureByAge::DoValidate() {
       LOG_ERROR_P(PARAM_SCANNED) << " value " << year << " is not a valid year for this observation";
     } else {
       for (unsigned i = 1; i < scanned_values_data_line.size(); ++i) {
-        Double value = 0.0;
-        if (!utilities::To<Double>(scanned_values_data_line[i], value)) {
+        double value = 0.0;
+        if (!utilities::To<double>(scanned_values_data_line[i], value)) {
           LOG_ERROR_P(PARAM_SCANNED) << " value (" << scanned_values_data_line[i] << ") could not be converted to a Double";
         } else if (likelihood_type_ == PARAM_MULTINOMIAL && value < 0.0) {
           LOG_ERROR_P(PARAM_ERROR_VALUES) << ": error_value (" << value << ") cannot be less than 0.0";
@@ -178,14 +179,14 @@ void TagRecaptureByAge::DoValidate() {
   /**
    * Build our Recaptured and scanned maps for use in the DoExecute() section
    */
-  Double value = 0.0;
+  double value = 0.0;
   for (auto iter = recaptures_by_year.begin(); iter != recaptures_by_year.end(); ++iter) {
-    Double total = 0.0;
+    double total = 0.0;
 
     for (unsigned i = 0; i < category_labels_.size(); ++i) {
       for (unsigned j = 0; j < age_spread_; ++j) {
         unsigned obs_index = i * age_spread_ + j;
-        if (!utilities::To<Double>(iter->second[obs_index], value)) {
+        if (!utilities::To<double>(iter->second[obs_index], value)) {
           LOG_ERROR_P(PARAM_OBS) << ": obs_ value (" << iter->second[obs_index] << ") at index " << obs_index + 1 << " in the definition could not be converted to a Double";
         }
 
@@ -410,7 +411,7 @@ void TagRecaptureByAge::Execute() {
     // save our comparisons so we can use them to generate the score from the likelihoods later
     for (unsigned i = 0; i < age_results.size(); ++i) {
       Double expected = 0.0;
-      Double observed = 0.0;
+      double observed = 0.0;
       if (age_results[i] != 0.0)
         expected = target_age_results[i] / age_results[i];
       if (scanned_[model_->current_year()][category_labels_[category_offset]][i] == 0.0)

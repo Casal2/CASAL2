@@ -4,7 +4,10 @@
 \alias{convert.to.lines}
 \title{Utility extract function}
 \usage{
-convert.to.lines(filename, fileEncoding)
+convert.to.lines(filename, fileEncoding, quiet = quiet)
+}
+\arguments{
+\item{quiet}{suppress print or cat statements to screen.}
 }
 \description{
 Utility extract function
