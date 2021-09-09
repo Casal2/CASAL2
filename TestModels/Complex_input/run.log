@@ -1,9 +1,9 @@
 Casal2
 Call: C:\Software\CASAL2\BuildSystem/bin/windows_gcc/release_betadiff/casal2.exe -r -i pars.out 
-Date: Wed Sep 08 11:48:55 2021
-Version: v21.09 (2021-09-07)
+Date: Fri Sep 10 09:49:32 2021
+Version: v21.09 (2021-09-08)
 Copyright (c) 2017-2021, NIWA (www.niwa.co.nz)
-Environment: User=marshc Machine=NIWA-1015798 OS=Windows_NT PID=20080
+Environment: User=marshc Machine=NIWA-1015798 OS=Windows_NT PID=11448
 
 
 
@@ -18,15 +18,14 @@ resizing from 70862 to 77948
 resizing from 77948 to 85742
 resizing from 85742 to 94316
 resizing from 94316 to 103747
-resizing from 103747 to 114121
 [INFO] Initiating basic run mode
 [INFO] Estimable parameters were loaded from the free parameter file: pars.out
+resizing from 103747 to 114121
 resizing from 114121 to 125533
 resizing from 125533 to 138086
 resizing from 138086 to 151894
 resizing from 151894 to 167083
 resizing from 167083 to 183791
-resizing from 183791 to 202170
 [WARNING] estimated parameter 'process[recruit_E].b0' was within 0.001 of upper bound 16.2
 [WARNING] estimated parameter 'process[recruit_W].b0' was within 0.001 of upper bound 0.59
 [WARNING] estimated parameter 'process[recruit_E].ycs_values{1999}' was within 0.001 of lower bound 0.06
@@ -445,4 +444,4 @@ estimated parameter 'selectivity[SAsl].sigma_r' was within 0.001 of upper bound 
 *end
 
 [INFO] Completed
-[INFO] Total elapsed time: 1 second
+[INFO] Total elapsed time: 2 seconds

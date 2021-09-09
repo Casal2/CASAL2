@@ -52,7 +52,7 @@ void PartitionMeanWeight::DoExecute(shared_ptr<Model> model) {
 
   //  auto categories = Categories::Instance();
   niwa::partition::accessors::All all_view(model);
-  vector<Double>                  length_bins = model->length_bins();
+  vector<double>                  length_bins = model->length_bins();
   unsigned                        year        = model->current_year();
 
   cache_ << ReportHeader(type_, label_, format_);

@@ -41,7 +41,7 @@ TagRecaptureByLength::TagRecaptureByLength(shared_ptr<Model> model) : Observatio
 
   parameters_.Bind<unsigned>(PARAM_YEARS, &years_, "The years for which there are observations", "");
   parameters_.Bind<string>(PARAM_TIME_STEP, &time_step_label_, "The time step to execute in", "");
-  parameters_.Bind<Double>(PARAM_LENGTH_BINS, &length_bins_input_, "The length bins", "", true);  // optional
+  parameters_.Bind<double>(PARAM_LENGTH_BINS, &length_bins_input_, "The length bins", "", true);  // optional
   parameters_.Bind<bool>(PARAM_LENGTH_PLUS, &length_plus_, "Is the last length bin a plus group? (defaults to @model value)", "",
                          model->length_plus());  // default to the model value
   parameters_.Bind<string>(PARAM_TAGGED_CATEGORIES, &tagged_category_labels_, "The categories of tagged individuals for the observation", "");
@@ -72,7 +72,7 @@ void TagRecaptureByLength::DoValidate() {
    * Do some simple checks
    * e.g Validate that the length_bins are strictly increasing
    */
-  vector<Double> model_length_bins = model_->length_bins();
+  vector<double> model_length_bins = model_->length_bins();
 
   if (parameters_.Get(PARAM_LENGTH_BINS)->has_been_defined()) {
     length_bins_.resize(length_bins_input_.size(), 0.0);

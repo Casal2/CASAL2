@@ -47,11 +47,11 @@ public:
 protected:
   // Members
   vector<unsigned>              years_;
-  vector<Double>                length_bins_;
-  vector<Double>                length_bins_plus_;
-  vector<Double>                length_bins_n_;
-  vector<Double>                weight_bins_;
-  vector<Double>                weight_bins_plus_;
+  vector<double>                length_bins_;
+  vector<double>                length_bins_plus_;
+  vector<double>                length_bins_n_;
+  vector<double>                weight_bins_;
+  vector<double>                weight_bins_plus_;
   bool                          length_plus_ = false;
   bool                          weight_plus_ = false;
   unsigned                      number_length_bins_ = 0;

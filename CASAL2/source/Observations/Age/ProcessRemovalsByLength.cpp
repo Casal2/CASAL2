@@ -87,7 +87,7 @@ void ProcessRemovalsByLength::DoValidate() {
    * Do some simple checks
    * e.g Validate that the length_bins are strictly increasing
    */
-  vector<Double> model_length_bins = model_->length_bins();
+  vector<double> model_length_bins = model_->length_bins();
   for (unsigned length = 0; length < length_bins_.size(); ++length) {
     if (length_bins_[length] < 0.0)
       LOG_ERROR_P(PARAM_LENGTH_BINS) << ": Length bin values must be positive: " << length_bins_[length] << " is less than 0.0";

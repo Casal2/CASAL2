@@ -38,6 +38,7 @@ namespace partition {
  */
 void Category::UpdateMeanLengthData() {
   if (mean_length_by_time_step_age_.size() > 0) {
+    LOG_FINE() << "Updateing mean weight";
     UpdateMeanWeightData();
     // Categories* categories    = model_->categories();
     // vector<string> time_steps = model_->time_steps();
@@ -98,7 +99,7 @@ void Category::UpdateMeanWeightData() {
 
     // Only do this under two conditions. We are initialising, it has a time varying component
     if (model_->state() == State::kInitialise) {
-      const vector<Double>& length_bins = model_->length_bins();
+      const vector<double>& length_bins = model_->length_bins();
       for (unsigned step_iter = 0; step_iter < time_steps.size(); ++step_iter) {
         for (unsigned length_bin_index = 0; length_bin_index < length_bins.size(); ++length_bin_index) {
           // Double size = 0;
@@ -131,7 +132,7 @@ void Category::CollapseAgeLengthData() {
 
 /**
  * This method takes the current age population for this category stored
- * in this->data_ and populates this->length_data_ by using the age length
+ * in this->data_ and populates this->age_length_matrix_ by using the age length
  * proportions generated and stored against the Partition class. The age
  * length proportions are generated during the build phase.
  *
@@ -149,7 +150,7 @@ void Category::PopulateAgeLengthMatrix(Selectivity* selectivity) {
 
   auto&          age_length_proportions = model_->partition().age_length_proportions(name_);
   unsigned       year_index             = model_->current_year() - model_->start_year();
-  vector<Double> length_bins            = model_->length_bins();
+  vector<double> length_bins            = model_->length_bins();
   unsigned       time_step_index        = model_->managers()->time_step()->current_time_step();
 
   LOG_FINE() << "Year: " << model_->current_year() << "; year index: " << year_index << "; time_step: " << time_step_index << "; length_bins: " << length_bins.size();
@@ -218,7 +219,7 @@ void Category::PopulateCachedAgeLengthMatrix(Selectivity* selectivity) {
 
   auto&          age_length_proportions = model_->partition().age_length_proportions(name_);
   unsigned       year_index             = model_->current_year() - model_->start_year();
-  vector<Double> length_bins            = model_->length_bins();
+  vector<double> length_bins            = model_->length_bins();
   unsigned       time_step_index        = model_->managers()->time_step()->current_time_step();
 
   LOG_FINE() << "Year: " << model_->current_year() << "; year index: " << year_index << "; time_step: " << time_step_index << "; length_bins: " << length_bins.size();
@@ -276,7 +277,7 @@ void Category::PopulateCachedAgeLengthMatrix(Selectivity* selectivity) {
  * @parameter numbers_by_length_ vector that has allocated memory which stores the results
  * @parameter length_plus whether the last bin is a plus group
  */
-void Category::CalculateNumbersAtLength(Selectivity* selectivity, const vector<Double>& length_bins, vector<vector<Double>>& age_length_matrix, vector<Double>& numbers_by_length,
+void Category::CalculateNumbersAtLength(Selectivity* selectivity, const vector<double>& length_bins, vector<vector<Double>>& age_length_matrix, vector<Double>& numbers_by_length,
                                         const bool& length_plus) {
   LOG_TRACE();
   // Probably should do some checks and balances, but I want to remove this later on
@@ -348,7 +349,7 @@ void Category::CalculateNumbersAtLength(Selectivity* selectivity, const vector<D
  * @brief
  *
  */
-void Category::CalculateCachedNumbersAtLength(Selectivity* selectivity, const vector<Double>& length_bins, vector<vector<Double>>& age_length_matrix,
+void Category::CalculateCachedNumbersAtLength(Selectivity* selectivity, const vector<double>& length_bins, vector<vector<Double>>& age_length_matrix,
                                               vector<Double>& numbers_by_length, const bool& length_plus) {
   LOG_TRACE();
   // Probably should do some checks and balances, but I want to remove this later on

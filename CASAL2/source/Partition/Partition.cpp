@@ -186,7 +186,7 @@ void Partition::BuildAgeLengthProportions() {
 
   vector<Double> cum(length_bin_count, 0.0);
   auto           model_length_bins = model_->length_bins();
-  vector<Double> length_bins(model_length_bins.size(), 0.0);
+  vector<double> length_bins(model_length_bins.size(), 0.0);
 
   LOG_FINE() << "years: " << year_count << "; time_steps: " << time_step_count << "; length_bins: " << length_bin_count;
   unsigned matrix_length_bin_count = model_->length_plus() ? length_bin_count : length_bin_count - 1;

@@ -38,7 +38,7 @@ ProportionsAtLength::ProportionsAtLength(shared_ptr<Model> model) : Observation(
   parameters_.Bind<unsigned>(PARAM_YEARS, &years_, "The years for which there are observations", "");
   parameters_.Bind<string>(PARAM_SELECTIVITIES, &selectivity_labels_, "The labels of the selectivities", "", true);
   parameters_.Bind<Double>(PARAM_PROCESS_ERRORS, &process_error_values_, "The process error", "", true);
-  parameters_.Bind<Double>(PARAM_LENGTH_BINS, &length_bins_, "The length bins", "", true);  // optional
+  parameters_.Bind<double>(PARAM_LENGTH_BINS, &length_bins_, "The length bins", "", true);  // optional
   parameters_.Bind<bool>(PARAM_LENGTH_PLUS, &length_plus_, "Is the last length bin a plus group? (defaults to @model value)", "",
                          model->length_plus());  // default to the model value
   parameters_.BindTable(PARAM_OBS, obs_table_, "The table of observed values", "", false);
@@ -104,7 +104,7 @@ void ProportionsAtLength::DoValidate() {
    * categories male+female male = 2 collections
    */
 
-  auto model_length_bins = model_->length_bins();
+  vector<double> model_length_bins = model_->length_bins();
   if (length_bins_.size() == 0) {
     length_bins_ = model_length_bins;
     // length_plus_     = model_->length_plus();

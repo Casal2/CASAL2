@@ -52,12 +52,12 @@ public:
   void CollapseAgeLengthDataToLength();
 
   void PopulateAgeLengthMatrix(Selectivity* selectivity);
-  void CalculateNumbersAtLength(Selectivity* selectivity, const vector<Double>& length_bins, vector<vector<Double>>& age_length_matrix, vector<Double>& numbers_by_length,
+  void CalculateNumbersAtLength(Selectivity* selectivity, const vector<double>& length_bins, vector<vector<Double>>& age_length_matrix, vector<Double>& numbers_by_length,
                                 const bool& length_plus);
 
   void PopulateCachedAgeLengthMatrix(Selectivity* selectivity);
   void CollapseCachedAgeLengthDataToLength();
-  void CalculateCachedNumbersAtLength(Selectivity* selectivity, const vector<Double>& length_bins, vector<vector<Double>>& age_length_matrix, vector<Double>& numbers_by_length,
+  void CalculateCachedNumbersAtLength(Selectivity* selectivity, const vector<double>& length_bins, vector<vector<Double>>& age_length_matrix, vector<Double>& numbers_by_length,
                                       const bool& length_plus);
 
   void Cache();

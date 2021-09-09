@@ -415,7 +415,11 @@ void Object::SubscribeToRebuildCache(Object* subscriber) {
  * This method notifies subscribers of a cache rebuild event
  */
 void Object::NotifySubscribers() {
-  for (auto subscriber : rebuild_cache_subscribers_) subscriber->RebuildCache();
+  for (auto subscriber : rebuild_cache_subscribers_) {
+    subscriber->RebuildCache();
+    // Add a second tier
+    subscriber->NotifySubscribers();
+  }
 }
 
 } /* namespace base */

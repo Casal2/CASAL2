@@ -66,7 +66,7 @@ void Increasing::DoValidate() {
                            << "Expected: " << (high_ - low_ + 1) << ", parsed " << v_.size();
     }
   } else if (model_->partition_type() == PartitionType::kLength) {
-    vector<Double> length_bins = model_->length_bins();
+    vector<double> length_bins = model_->length_bins();
     if (low_ < length_bins[0] || low_ > length_bins[length_bins.size() - 1])
       LOG_ERROR_P(PARAM_L) << ": 'l' (" << low_ << ") must be between the model min length (" << length_bins[0] << ") and max length (" << length_bins[length_bins.size() - 1]
                            << ")";
@@ -111,7 +111,7 @@ void Increasing::RebuildCache() {
       }
     }
   } else if (model_->partition_type() == PartitionType::kLength) {
-    vector<Double> length_bins   = model_->length_bins();
+    vector<double> length_bins   = model_->length_bins();
     unsigned       mark          = 0;
     unsigned       start_element = 0;
     while (mark == 0) {

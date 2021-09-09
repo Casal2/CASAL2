@@ -4,7 +4,7 @@
  * @date 18/07/2013
  * @section LICENSE
  *
- * Copyright NIWA Science ©2013 - www.niwa.co.nz
+ * Copyright NIWA Science ï¿½2013 - www.niwa.co.nz
  *
  */
 
@@ -25,7 +25,7 @@ namespace length {
  */
 void Biomass::PreExecute() {
   cache_value_                   = 0.0;
-  vector<Double> length_bins     = model_->length_bins();
+  vector<double> length_bins     = model_->length_bins();
   auto           iterator        = partition_.begin();
   unsigned       time_step_index = model_->managers()->time_step()->current_time_step();
   LOG_FINE() << "Time step for calculating biomass = " << time_step_index;
@@ -55,7 +55,7 @@ void Biomass::PreExecute() {
 void Biomass::Execute() {
   LOG_TRACE();
   Double         value           = 0.0;
-  vector<Double> length_bins     = model_->length_bins();
+  vector<double> length_bins     = model_->length_bins();
   unsigned       time_step_index = model_->managers()->time_step()->current_time_step();
   LOG_FINE() << "Time step for calculating biomass = " << time_step_index;
   if (model_->state() == State::kInitialise) {

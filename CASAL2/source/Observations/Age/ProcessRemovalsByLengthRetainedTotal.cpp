@@ -44,7 +44,7 @@ ProcessRemovalsByLengthRetainedTotal::ProcessRemovalsByLengthRetainedTotal(share
   parameters_.Bind<unsigned>(PARAM_YEARS, &years_, "The years for which there are observations", "");
   parameters_.Bind<Double>(PARAM_PROCESS_ERRORS, &process_error_values_, "The process error", "", true);
   parameters_.Bind<string>(PARAM_METHOD_OF_REMOVAL, &method_, "The label of observed method of removals", "", "");
-  parameters_.Bind<Double>(PARAM_LENGTH_BINS, &length_bins_, "The length bins", "");
+  parameters_.Bind<double>(PARAM_LENGTH_BINS, &length_bins_, "The length bins", "");
   parameters_.Bind<bool>(PARAM_LENGTH_PLUS, &length_plus_, "Is the last length bin a plus group? (defaults to @model value)", "",
                          model->length_plus());  // default to the model value
   parameters_.BindTable(PARAM_OBS, obs_table_, "The table of observed values", "", false);
@@ -86,7 +86,7 @@ void ProcessRemovalsByLengthRetainedTotal::DoValidate() {
    * Do some simple checks
    * e.g Validate that the length_bins are strictly increasing
    */
-  vector<Double> model_length_bins = model_->length_bins();
+  vector<double> model_length_bins = model_->length_bins();
   for (unsigned length = 0; length < length_bins_.size(); ++length) {
     if (length_bins_[length] < 0.0)
       LOG_ERROR_P(PARAM_LENGTH_BINS) << ": Length bin values must be positive: " << length_bins_[length] << " is less than 0.0";

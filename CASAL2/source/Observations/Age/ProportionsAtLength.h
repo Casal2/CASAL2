@@ -61,7 +61,7 @@ protected:
   vector<Selectivity*>        selectivities_;
   string                      time_step_label_ = "";
 
-  vector<Double> length_bins_;
+  vector<double> length_bins_;
   bool           length_plus_     = false;
   unsigned       number_bins_     = 0;
   unsigned       mlb_index_first_ = 0;  // index of model length bin for length_bins_[0]

@@ -47,11 +47,11 @@ ProcessRemovalsByWeight::ProcessRemovalsByWeight(shared_ptr<Model> model) : Obse
   parameters_.Bind<Double>(PARAM_LENGTH_WEIGHT_CV, &length_weight_cv_, "The CV for the length-weight relationship", "", double(0.10))->set_lower_bound(0.0, false);
   parameters_.Bind<string>(PARAM_LENGTH_WEIGHT_DISTRIBUTION, &length_weight_distribution_label_, "The distribution of the length-weight relationship", "", PARAM_NORMAL)
       ->set_allowed_values({PARAM_NORMAL, PARAM_LOGNORMAL});
-  parameters_.Bind<Double>(PARAM_LENGTH_BINS, &length_bins_, "The length bins", "");
-  parameters_.Bind<Double>(PARAM_LENGTH_BINS_N, &length_bins_n_, "The average number in each length bin", "");
+  parameters_.Bind<double>(PARAM_LENGTH_BINS, &length_bins_, "The length bins", "");
+  parameters_.Bind<double>(PARAM_LENGTH_BINS_N, &length_bins_n_, "The average number in each length bin", "");
   parameters_.Bind<string>(PARAM_UNITS, &units_, "The units for the weight bins (grams, kilograms (kgs), or tonnes)", "", PARAM_KGS)->set_allowed_values({PARAM_GRAMS, PARAM_TONNES, PARAM_KGS, PARAM_KILOGRAMS});
   parameters_.Bind<Double>(PARAM_FISHBOX_WEIGHT, &fishbox_weight_, "The target weight of each box", "", double(20.0))->set_lower_bound(0.0, false);
-  parameters_.Bind<Double>(PARAM_WEIGHT_BINS, &weight_bins_, "The weight bins", "");
+  parameters_.Bind<double>(PARAM_WEIGHT_BINS, &weight_bins_, "The weight bins", "");
   parameters_.BindTable(PARAM_OBS, obs_table_, "Table of observed values", "", false);
   parameters_.BindTable(PARAM_ERROR_VALUES, error_values_table_, "The table of error values of the observed values (note that the units depend on the likelihood)", "", false);
 
@@ -99,7 +99,7 @@ void ProcessRemovalsByWeight::DoValidate() {
    * e.g., validate that the length and weight bins are strictly increasing
    */
 
-  vector<Double> model_length_bins = model_->length_bins();
+  vector<double> model_length_bins = model_->length_bins();
   if (length_bins_[0] < model_length_bins[0])
     LOG_ERROR_P(PARAM_LENGTH_BINS) << ": Length bin value " << length_bins_[0] << " is smaller than the smallest model length bin " << model_length_bins[0];
   if (length_bins_[(number_length_bins_ - 1)] > model_length_bins[(model_length_bins.size() - 1)])
