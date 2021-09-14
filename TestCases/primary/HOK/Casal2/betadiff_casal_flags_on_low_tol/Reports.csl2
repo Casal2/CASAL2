@@ -78,11 +78,11 @@ type selectivity
 selectivity M_female
 
 ## observations
-@report CSacous
+@report CSacousbio
 type observation
 observation CSacous
 
-@report WCacous
+@report WCacousbio
 type observation
 observation WCacous
 

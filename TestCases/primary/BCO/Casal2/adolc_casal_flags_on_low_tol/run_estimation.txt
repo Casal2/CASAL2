@@ -1,11 +1,11 @@
 Environment: User=Casal2
 Call: ../../../../../BuildSystem/bin/linux_gcc/release_adolc/casal2 -e -o params_est.out
-Date: Tue Aug 31 14:36:16 2021
-Version: v21.08 (2021-08-31)
+Date: Tue Sep 14 11:04:18 2021
+Version: v21.09 (2021-09-08)
 Copyright (c) 2017-2021, NIWA (www.niwa.co.nz)
 c2user
  Machine=c2computer (Linux 5.10.0-8-amd64 x86_64)
- PID=323539
+ PID=26465
 
 
 
@@ -3021,5 +3021,5 @@ estimated parameter 'age_length[asMm0].cv_last' was within 0.001 of lower bound 
 *end
 
 [INFO] Completed
-[INFO] Total CPU time: -3.90926e+08 hours
-[INFO] Total elapsed time: 15 minutes
+[INFO] Total CPU time: -3.90897e+08 hours
+[INFO] Total elapsed time: 17.367 minutes

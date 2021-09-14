@@ -1,11 +1,11 @@
 Environment: User=Casal2
 Call: ../../../../../BuildSystem/bin/linux_gcc/release_adolc/casal2 -e -o params_est.out
-Date: Tue Aug 31 14:36:02 2021
-Version: v21.08 (2021-08-31)
+Date: Tue Sep 14 13:13:14 2021
+Version: v21.09 (2021-09-08)
 Copyright (c) 2017-2021, NIWA (www.niwa.co.nz)
 c2user
  Machine=c2computer (Linux 5.10.0-8-amd64 x86_64)
- PID=323507
+ PID=221365
 
 
 
@@ -2011,7 +2011,7 @@ east.cs 0.000000 1618879.494206 18905342.723624 33446584.428333 18040723.149212 
 [WARNING] estimated parameter 'selectivity[sel_Whome].v{7}' was within 0.001 of upper bound 1
 *estimate_value[estimated_values]
 values {dataframe}
-catchability[CSacous].q catchability[WCacous].q catchability[CRsum].q catchability[SAsum].q catchability[SAaut].q observation[CRsumbio].process_error observation[SAsumbio].process_error process[recruit_E].b0 process[recruit_W].b0 process[Instant_mortality].m{west.sa} time_varying[shifted_mu].a process[recruit_E].ycs_values{1975} process[recruit_E].ycs_values{1976} process[recruit_E].ycs_values{1977} process[recruit_E].ycs_values{1978} process[recruit_E].ycs_values{1979} process[recruit_E].ycs_values{1980} process[recruit_E].ycs_values{1981} process[recruit_E].ycs_values{1982} process[recruit_E].ycs_values{1983} process[recruit_E].ycs_values{1984} process[recruit_E].ycs_values{1985} process[recruit_E].ycs_values{1986} process[recruit_E].ycs_values{1987} process[recruit_E].ycs_values{1988} process[recruit_E].ycs_values{1989} process[recruit_E].ycs_values{1990} process[recruit_E].ycs_values{1991} process[recruit_E].ycs_values{1992} process[recruit_E].ycs_values{1993} process[recruit_E].ycs_values{1994} process[recruit_E].ycs_values{1995} process[recruit_E].ycs_values{1996} process[recruit_E].ycs_values{1997} process[recruit_E].ycs_values{1998} process[recruit_E].ycs_values{1999} process[recruit_E].ycs_values{2000} process[recruit_E].ycs_values{2001} process[recruit_E].ycs_values{2002} process[recruit_E].ycs_values{2003} process[recruit_E].ycs_values{2004} process[recruit_E].ycs_values{2005} process[recruit_E].ycs_values{2006} process[recruit_E].ycs_values{2007} process[recruit_E].ycs_values{2008} process[recruit_E].ycs_values{2009} process[recruit_E].ycs_values{2010} process[recruit_E].ycs_values{2011} process[recruit_E].ycs_values{2012} process[recruit_E].ycs_values{2013} process[recruit_E].ycs_values{2014} process[recruit_E].ycs_values{2015} process[recruit_E].ycs_values{2016} process[recruit_W].ycs_values{1975} process[recruit_W].ycs_values{1976} process[recruit_W].ycs_values{1977} process[recruit_W].ycs_values{1978} process[recruit_W].ycs_values{1979} process[recruit_W].ycs_values{1980} process[recruit_W].ycs_values{1981} process[recruit_W].ycs_values{1982} process[recruit_W].ycs_values{1983} process[recruit_W].ycs_values{1984} process[recruit_W].ycs_values{1985} process[recruit_W].ycs_values{1986} process[recruit_W].ycs_values{1987} process[recruit_W].ycs_values{1988} process[recruit_W].ycs_values{1989} process[recruit_W].ycs_values{1990} process[recruit_W].ycs_values{1991} process[recruit_W].ycs_values{1992} process[recruit_W].ycs_values{1993} process[recruit_W].ycs_values{1994} process[recruit_W].ycs_values{1995} process[recruit_W].ycs_values{1996} process[recruit_W].ycs_values{1997} process[recruit_W].ycs_values{1998} process[recruit_W].ycs_values{1999} process[recruit_W].ycs_values{2000} process[recruit_W].ycs_values{2001} process[recruit_W].ycs_values{2002} process[recruit_W].ycs_values{2003} process[recruit_W].ycs_values{2004} process[recruit_W].ycs_values{2005} process[recruit_W].ycs_values{2006} process[recruit_W].ycs_values{2007} process[recruit_W].ycs_values{2008} process[recruit_W].ycs_values{2009} process[recruit_W].ycs_values{2010} process[recruit_W].ycs_values{2011} process[recruit_W].ycs_values{2012} process[recruit_W].ycs_values{2013} process[recruit_W].ycs_values{2014} process[recruit_W].ycs_values{2015} process[recruit_W].ycs_values{2016} selectivity[sel_Whome].v{1} selectivity[sel_Whome].v{2} selectivity[sel_Whome].v{3} selectivity[sel_Whome].v{4} selectivity[sel_Whome].v{5} selectivity[sel_Whome].v{6} selectivity[sel_Whome].v{7} selectivity[sel_Espmg].v{1} selectivity[sel_Espmg].v{2} selectivity[sel_Espmg].v{3} selectivity[sel_Espmg].v{4} selectivity[sel_Espmg].v{5} selectivity[sel_Espmg].v{6} selectivity[sel_Espmg].v{7} selectivity[sel_Espmg].v{8} selectivity[sel_Wspmg].v{1} selectivity[sel_Wspmg].v{2} selectivity[sel_Wspmg].v{3} selectivity[sel_Wspmg].v{4} selectivity[sel_Wspmg].v{5} selectivity[sel_Wspmg].v{6} selectivity[sel_Wspmg].v{7} selectivity[sel_Wspmg].v{8} selectivity[Enspsl].mu selectivity[Enspsl].sigma_l selectivity[Enspsl].sigma_r selectivity[Wnspsl].mu selectivity[Wnspsl].sigma_l selectivity[Wnspsl].sigma_r selectivity[Espsl].mu selectivity[Espsl].sigma_l selectivity[Espsl].sigma_r selectivity[CRsl].mu selectivity[CRsl].sigma_l selectivity[CRsl].sigma_r selectivity[SAsl].mu selectivity[SAsl].sigma_l selectivity[SAsl].sigma_r 
+catchability[CSacous].q catchability[WCacous].q catchability[CRsum].q catchability[SAsum].q catchability[SAaut].q observation[CRsumbio].process_error observation[SAsumbio].process_error process[recruit_E].b0 process[recruit_W].b0 process[Instant_mortality].m{west.sa} time_varying[shifted_mu].a process[recruit_E].ycs_values{1975} process[recruit_E].ycs_values{1976} process[recruit_E].ycs_values{1977} process[recruit_E].ycs_values{1978} process[recruit_E].ycs_values{1979} process[recruit_E].ycs_values{1980} process[recruit_E].ycs_values{1981} process[recruit_E].ycs_values{1982} process[recruit_E].ycs_values{1983} process[recruit_E].ycs_values{1984} process[recruit_E].ycs_values{1985} process[recruit_E].ycs_values{1986} process[recruit_E].ycs_values{1987} process[recruit_E].ycs_values{1988} process[recruit_E].ycs_values{1989} process[recruit_E].ycs_values{1990} process[recruit_E].ycs_values{1991} process[recruit_E].ycs_values{1992} process[recruit_E].ycs_values{1993} process[recruit_E].ycs_values{1994} process[recruit_E].ycs_values{1995} process[recruit_E].ycs_values{1996} process[recruit_E].ycs_values{1997} process[recruit_E].ycs_values{1998} process[recruit_E].ycs_values{1999} process[recruit_E].ycs_values{2000} process[recruit_E].ycs_values{2001} process[recruit_E].ycs_values{2002} process[recruit_E].ycs_values{2003} process[recruit_E].ycs_values{2004} process[recruit_E].ycs_values{2005} process[recruit_E].ycs_values{2006} process[recruit_E].ycs_values{2007} process[recruit_E].ycs_values{2008} process[recruit_E].ycs_values{2009} process[recruit_E].ycs_values{2010} process[recruit_E].ycs_values{2011} process[recruit_E].ycs_values{2012} process[recruit_E].ycs_values{2013} process[recruit_E].ycs_values{2014} process[recruit_E].ycs_values{2015} process[recruit_E].ycs_values{2016} process[recruit_W].ycs_values{1975} process[recruit_W].ycs_values{1976} process[recruit_W].ycs_values{1977} process[recruit_W].ycs_values{1978} process[recruit_W].ycs_values{1979} process[recruit_W].ycs_values{1980} process[recruit_W].ycs_values{1981} process[recruit_W].ycs_values{1982} process[recruit_W].ycs_values{1983} process[recruit_W].ycs_values{1984} process[recruit_W].ycs_values{1985} process[recruit_W].ycs_values{1986} process[recruit_W].ycs_values{1987} process[recruit_W].ycs_values{1988} process[recruit_W].ycs_values{1989} process[recruit_W].ycs_values{1990} process[recruit_W].ycs_values{1991} process[recruit_W].ycs_values{1992} process[recruit_W].ycs_values{1993} process[recruit_W].ycs_values{1994} process[recruit_W].ycs_values{1995} process[recruit_W].ycs_values{1996} process[recruit_W].ycs_values{1997} process[recruit_W].ycs_values{1998} process[recruit_W].ycs_values{1999} process[recruit_W].ycs_values{2000} process[recruit_W].ycs_values{2001} process[recruit_W].ycs_values{2002} process[recruit_W].ycs_values{2003} process[recruit_W].ycs_values{2004} process[recruit_W].ycs_values{2005} process[recruit_W].ycs_values{2006} process[recruit_W].ycs_values{2007} process[recruit_W].ycs_values{2008} process[recruit_W].ycs_values{2009} process[recruit_W].ycs_values{2010} process[recruit_W].ycs_values{2011} process[recruit_W].ycs_values{2012} process[recruit_W].ycs_values{2013} process[recruit_W].ycs_values{2014} process[recruit_W].ycs_values{2015} process[recruit_W].ycs_values{2016} selectivity[sel_Whome].v{1} selectivity[sel_Whome].v{2} selectivity[sel_Whome].v{3} selectivity[sel_Whome].v{4} selectivity[sel_Whome].v{5} selectivity[sel_Whome].v{6} selectivity[sel_Whome].v{7} selectivity[sel_Espmg].v{1} selectivity[sel_Espmg].v{2} selectivity[sel_Espmg].v{3} selectivity[sel_Espmg].v{4} selectivity[sel_Espmg].v{5} selectivity[sel_Espmg].v{6} selectivity[sel_Espmg].v{7} selectivity[sel_Espmg].v{8} selectivity[sel_Wspmg].v{1} selectivity[sel_Wspmg].v{2} selectivity[sel_Wspmg].v{3} selectivity[sel_Wspmg].v{4} selectivity[sel_Wspmg].v{5} selectivity[sel_Wspmg].v{6} selectivity[sel_Wspmg].v{7} selectivity[sel_Wspmg].v{8} selectivity[Enspsl].mu selectivity[Enspsl].sigma_l selectivity[Enspsl].sigma_r selectivity[Wnspsl].mu selectivity[Wnspsl].sigma_l selectivity[Wnspsl].sigma_r selectivity[Espsl].mu selectivity[Espsl].sigma_l selectivity[Espsl].sigma_r selectivity[CRsl].mu selectivity[CRsl].sigma_l selectivity[CRsl].sigma_r selectivity[SAsl].mu selectivity[SAsl].sigma_l selectivity[SAsl].sigma_r
 0.438294 0.273031 0.080437 0.0440304 0.0476017 0.149555 0.409057 564399 1.2469e+06 0.266318 -0.177951 0.442255 0.70501 0.75637 1.29318 0.947798 0.317285 0.42896 0.256125 0.419367 0.474089 0.385615 0.213686 1.01491 0.929208 0.426515 0.139408 0.370593 0.388919 0.390867 0.553201 0.267164 0.289821 0.452271 0.251682 0.0604201 0.465156 0.16496 0.2649 0.506072 0.524334 0.516683 0.607515 0.539894 0.375747 0.54772 0.165984 0.68223 0.162159 0.193373 0.770239 0.675281 1.31568 0.465435 0.877164 0.686955 0.646368 0.465569 0.517793 0.583786 0.481325 0.8945 0.864222 0.330912 0.169415 1.56228 0.813673 0.0812518 0.0806591 0.855218 1.24792 0.374255 0.995179 0.221628 0.186494 0.233689 0.211015 0.0603451 0.379651 0.0966945 0.799988 0.469516 0.521014 0.514612 0.748401 0.617221 0.605785 0.559193 0.140707 0.943592 0.155582 0.222289 2.08545 2.13078 1.31594 0.25407 0.180998 0.567482 0.310377 0.561837 0.838041 0.999999 0.00469929 0.140821 0.297739 0.412114 0.380603 0.469398 0.612164 0.607416 0.121968 0.370771 0.271682 0.44589 0.482373 0.534331 0.674812 0.591525 3.74402 1.32447 10.8198 14.386 49.2674 1.00382 10.501 49.9337 3.80384 1.00199 49.9879 8.43285 13.0468 10.6325 2.04148
 *end
 
@@ -2019,2316 +2019,2316 @@ catchability[CSacous].q catchability[WCacous].q catchability[CRsum].q catchabili
 catchability[CSacous].q {list}
 value: 0.438294
 std_dev: 1.7441
-cv: 0.90 
-estimation_phase: 
-label: CSacousq 
-lower_bound: 0.01 
-mcmc: 
-mu: 0.55 
-parameter: catchability[CSacous].q 
-prior_applies_to_transform: 
-same: 
-transform_with_jacobian: 
-transformation: 
-type: lognormal 
-upper_bound: 4.53 
+cv: 0.90
+estimation_phase:
+label: CSacousq
+lower_bound: 0.01
+mcmc:
+mu: 0.55
+parameter: catchability[CSacous].q
+prior_applies_to_transform:
+same:
+transform_with_jacobian:
+transformation:
+type: lognormal
+upper_bound: 4.53
 {end_list}
 
 catchability[WCacous].q {list}
 value: 0.273031
 std_dev: 1.42072
-cv: 0.77 
-estimation_phase: 
-label: WCacousq 
-lower_bound: 0.01 
-mcmc: 
-mu: 0.39 
-parameter: catchability[WCacous].q 
-prior_applies_to_transform: 
-same: 
-transform_with_jacobian: 
-transformation: 
-type: lognormal 
-upper_bound: 3.35 
+cv: 0.77
+estimation_phase:
+label: WCacousq
+lower_bound: 0.01
+mcmc:
+mu: 0.39
+parameter: catchability[WCacous].q
+prior_applies_to_transform:
+same:
+transform_with_jacobian:
+transformation:
+type: lognormal
+upper_bound: 3.35
 {end_list}
 
 catchability[CRsum].q {list}
 value: 0.080437
 std_dev: 0.169809
-cv: 0.65 
-estimation_phase: 
-label: CRsumq 
-lower_bound: 0.016 
-mcmc: 
-mu: 0.15 
-parameter: catchability[CRsum].q 
-prior_applies_to_transform: 
-same: 
-transform_with_jacobian: 
-transformation: 
-type: lognormal 
-upper_bound: 0.51 
+cv: 0.65
+estimation_phase:
+label: CRsumq
+lower_bound: 0.016
+mcmc:
+mu: 0.15
+parameter: catchability[CRsum].q
+prior_applies_to_transform:
+same:
+transform_with_jacobian:
+transformation:
+type: lognormal
+upper_bound: 0.51
 {end_list}
 
 catchability[SAsum].q {list}
 value: 0.0440304
 std_dev: 0.51505
-cv: 0.61 
-estimation_phase: 
-label: SAsumq 
-lower_bound: 0.020 
-mcmc: 
-mu: 0.17 
-parameter: catchability[SAsum].q 
-prior_applies_to_transform: 
-same: 
-transform_with_jacobian: 
-transformation: 
-type: lognormal 
-upper_bound: 0.51 
+cv: 0.61
+estimation_phase:
+label: SAsumq
+lower_bound: 0.020
+mcmc:
+mu: 0.17
+parameter: catchability[SAsum].q
+prior_applies_to_transform:
+same:
+transform_with_jacobian:
+transformation:
+type: lognormal
+upper_bound: 0.51
 {end_list}
 
 catchability[SAaut].q {list}
 value: 0.0476017
 std_dev: 0.446474
-cv: 0.61 
-estimation_phase: 
-label: SAautq 
-lower_bound: 0.020 
-mcmc: 
-mu: 0.17 
-parameter: catchability[SAaut].q 
-prior_applies_to_transform: 
-same: 
-transform_with_jacobian: 
-transformation: 
-type: lognormal 
-upper_bound: 0.51 
+cv: 0.61
+estimation_phase:
+label: SAautq
+lower_bound: 0.020
+mcmc:
+mu: 0.17
+parameter: catchability[SAaut].q
+prior_applies_to_transform:
+same:
+transform_with_jacobian:
+transformation:
+type: lognormal
+upper_bound: 0.51
 {end_list}
 
 observation[CRsumbio].process_error {list}
 value: 0.149555
 std_dev: 0.259607
-estimation_phase: 
-label: CR_process_error 
-lower_bound: 0.0 
-mcmc: 
-parameter: observation[CRsumbio].process_error 
-prior_applies_to_transform: 
-same: 
-transform_with_jacobian: 
-transformation: 
-type: uniform 
-upper_bound: 1 
+estimation_phase:
+label: CR_process_error
+lower_bound: 0.0
+mcmc:
+parameter: observation[CRsumbio].process_error
+prior_applies_to_transform:
+same:
+transform_with_jacobian:
+transformation:
+type: uniform
+upper_bound: 1
 {end_list}
 
 observation[SAsumbio].process_error {list}
 value: 0.409057
 std_dev: 0.237078
-estimation_phase: 
-label: SA_process_error 
-lower_bound: 0.0 
-mcmc: 
-parameter: observation[SAsumbio].process_error 
-prior_applies_to_transform: 
-same: 
-transform_with_jacobian: 
-transformation: 
-type: uniform 
-upper_bound: 1 
+estimation_phase:
+label: SA_process_error
+lower_bound: 0.0
+mcmc:
+parameter: observation[SAsumbio].process_error
+prior_applies_to_transform:
+same:
+transform_with_jacobian:
+transformation:
+type: uniform
+upper_bound: 1
 {end_list}
 
 process[recruit_E].b0 {list}
 value: 564399
 std_dev: 0.342406
-estimation_phase: 
-label: B0_E_with_total_log_b0_prior 
-lower_bound: 12.6 
-mcmc: 
-parameter: process[recruit_E].b0 
-prior_applies_to_transform: true 
-same: 
-transform_with_jacobian: F 
-transformation: 
-type: uniform 
-upper_bound: 16.2 
+estimation_phase:
+label: B0_E_with_total_log_b0_prior
+lower_bound: 12.6
+mcmc:
+parameter: process[recruit_E].b0
+prior_applies_to_transform: true
+same:
+transform_with_jacobian: F
+transformation:
+type: uniform
+upper_bound: 16.2
 {end_list}
 
 process[recruit_W].b0 {list}
 value: 1.2469e+06
 std_dev: 0.109285
-a: 0.1 
-b: 0.6 
-estimation_phase: 
-label: B0_W_with_proportion_prior 
-lower_bound: 0.11 
-mcmc: 
-mu: 0.344 
-parameter: process[recruit_W].b0 
-prior_applies_to_transform: true 
-same: 
-sigma: 0.072 
-transform_with_jacobian: F 
-transformation: 
-type: beta 
-upper_bound: 0.59 
+a: 0.1
+b: 0.6
+estimation_phase:
+label: B0_W_with_proportion_prior
+lower_bound: 0.11
+mcmc:
+mu: 0.344
+parameter: process[recruit_W].b0
+prior_applies_to_transform: true
+same:
+sigma: 0.072
+transform_with_jacobian: F
+transformation:
+type: beta
+upper_bound: 0.59
 {end_list}
 
 process[Instant_mortality].m{west.sa} {list}
 value: 0.266318
 std_dev: 0.111426
-cv: 0.153 
-estimation_phase: 
-label: M_all 
-lower_bound: 0.22 
-mcmc: 
-mu: 0.298 
-parameter: process[Instant_mortality].m{west.sa} 
-prior_applies_to_transform: 
-same: 
-transform_with_jacobian: 
-transformation: 
-type: lognormal 
-upper_bound: 0.44 
+cv: 0.153
+estimation_phase:
+label: M_all
+lower_bound: 0.22
+mcmc:
+mu: 0.298
+parameter: process[Instant_mortality].m{west.sa}
+prior_applies_to_transform:
+same:
+transform_with_jacobian:
+transformation:
+type: lognormal
+upper_bound: 0.44
 {end_list}
 
 time_varying[shifted_mu].a {list}
 value: -0.177951
 std_dev: 0.887674
-estimation_phase: 
-label: Wspsl_shift_param 
+estimation_phase:
+label: Wspsl_shift_param
 lognormal_transformation:
-lower_bound: -10.24 
-mcmc: 
-mu: 0.0 
-parameter: time_varying[shifted_mu].a 
-prior_applies_to_transform: 
-same: 
-sigma: 0.25 
-transform_with_jacobian: 
-transformation: 
-type: normal_by_stdev 
-upper_bound: 2.24 
+lower_bound: -10.24
+mcmc:
+mu: 0.0
+parameter: time_varying[shifted_mu].a
+prior_applies_to_transform:
+same:
+sigma: 0.25
+transform_with_jacobian:
+transformation:
+type: normal_by_stdev
+upper_bound: 2.24
 {end_list}
 
 process[recruit_E].ycs_values{1975} {list}
 value: 0.442255
 std_dev: 15.6565
-cv: 0.95 
-estimation_phase: 
-label: YCS_E 
-lower_bound: 0.06 
-mcmc: 
-mu: 1 
-parameter: process[recruit_E].ycs_values{1975} 
-prior_applies_to_transform: 
-same: 
-transform_with_jacobian: 
-transformation: 
-type: lognormal 
-upper_bound: 8.6 
+cv: 0.95
+estimation_phase:
+label: YCS_E
+lower_bound: 0.06
+mcmc:
+mu: 1
+parameter: process[recruit_E].ycs_values{1975}
+prior_applies_to_transform:
+same:
+transform_with_jacobian:
+transformation:
+type: lognormal
+upper_bound: 8.6
 {end_list}
 
 process[recruit_E].ycs_values{1976} {list}
 value: 0.70501
 std_dev: 9.13186
-cv: 0.95 
-estimation_phase: 
-label: YCS_E 
-lower_bound: 0.06 
-mcmc: 
-mu: 1 
-parameter: process[recruit_E].ycs_values{1976} 
-prior_applies_to_transform: 
-same: 
-transform_with_jacobian: 
-transformation: 
-type: lognormal 
-upper_bound: 8.6 
+cv: 0.95
+estimation_phase:
+label: YCS_E
+lower_bound: 0.06
+mcmc:
+mu: 1
+parameter: process[recruit_E].ycs_values{1976}
+prior_applies_to_transform:
+same:
+transform_with_jacobian:
+transformation:
+type: lognormal
+upper_bound: 8.6
 {end_list}
 
 process[recruit_E].ycs_values{1977} {list}
 value: 0.75637
 std_dev: 7.91852
-cv: 0.95 
-estimation_phase: 
-label: YCS_E 
-lower_bound: 0.06 
-mcmc: 
-mu: 1 
-parameter: process[recruit_E].ycs_values{1977} 
-prior_applies_to_transform: 
-same: 
-transform_with_jacobian: 
-transformation: 
-type: lognormal 
-upper_bound: 8.6 
+cv: 0.95
+estimation_phase:
+label: YCS_E
+lower_bound: 0.06
+mcmc:
+mu: 1
+parameter: process[recruit_E].ycs_values{1977}
+prior_applies_to_transform:
+same:
+transform_with_jacobian:
+transformation:
+type: lognormal
+upper_bound: 8.6
 {end_list}
 
 process[recruit_E].ycs_values{1978} {list}
 value: 1.29318
 std_dev: 3.75232
-cv: 0.95 
-estimation_phase: 
-label: YCS_E 
-lower_bound: 0.06 
-mcmc: 
-mu: 1 
-parameter: process[recruit_E].ycs_values{1978} 
-prior_applies_to_transform: 
-same: 
-transform_with_jacobian: 
-transformation: 
-type: lognormal 
-upper_bound: 8.6 
+cv: 0.95
+estimation_phase:
+label: YCS_E
+lower_bound: 0.06
+mcmc:
+mu: 1
+parameter: process[recruit_E].ycs_values{1978}
+prior_applies_to_transform:
+same:
+transform_with_jacobian:
+transformation:
+type: lognormal
+upper_bound: 8.6
 {end_list}
 
 process[recruit_E].ycs_values{1979} {list}
 value: 0.947798
 std_dev: 4.00353
-cv: 0.95 
-estimation_phase: 
-label: YCS_E 
-lower_bound: 0.06 
-mcmc: 
-mu: 1 
-parameter: process[recruit_E].ycs_values{1979} 
-prior_applies_to_transform: 
-same: 
-transform_with_jacobian: 
-transformation: 
-type: lognormal 
-upper_bound: 8.6 
+cv: 0.95
+estimation_phase:
+label: YCS_E
+lower_bound: 0.06
+mcmc:
+mu: 1
+parameter: process[recruit_E].ycs_values{1979}
+prior_applies_to_transform:
+same:
+transform_with_jacobian:
+transformation:
+type: lognormal
+upper_bound: 8.6
 {end_list}
 
 process[recruit_E].ycs_values{1980} {list}
 value: 0.317285
 std_dev: 12.4582
-cv: 0.95 
-estimation_phase: 
-label: YCS_E 
-lower_bound: 0.06 
-mcmc: 
-mu: 1 
-parameter: process[recruit_E].ycs_values{1980} 
-prior_applies_to_transform: 
-same: 
-transform_with_jacobian: 
-transformation: 
-type: lognormal 
-upper_bound: 8.6 
+cv: 0.95
+estimation_phase:
+label: YCS_E
+lower_bound: 0.06
+mcmc:
+mu: 1
+parameter: process[recruit_E].ycs_values{1980}
+prior_applies_to_transform:
+same:
+transform_with_jacobian:
+transformation:
+type: lognormal
+upper_bound: 8.6
 {end_list}
 
 process[recruit_E].ycs_values{1981} {list}
 value: 0.42896
 std_dev: 6.54352
-cv: 0.95 
-estimation_phase: 
-label: YCS_E 
-lower_bound: 0.06 
-mcmc: 
-mu: 1 
-parameter: process[recruit_E].ycs_values{1981} 
-prior_applies_to_transform: 
-same: 
-transform_with_jacobian: 
-transformation: 
-type: lognormal 
-upper_bound: 8.6 
+cv: 0.95
+estimation_phase:
+label: YCS_E
+lower_bound: 0.06
+mcmc:
+mu: 1
+parameter: process[recruit_E].ycs_values{1981}
+prior_applies_to_transform:
+same:
+transform_with_jacobian:
+transformation:
+type: lognormal
+upper_bound: 8.6
 {end_list}
 
 process[recruit_E].ycs_values{1982} {list}
 value: 0.256125
 std_dev: 11.7859
-cv: 0.95 
-estimation_phase: 
-label: YCS_E 
-lower_bound: 0.06 
-mcmc: 
-mu: 1 
-parameter: process[recruit_E].ycs_values{1982} 
-prior_applies_to_transform: 
-same: 
-transform_with_jacobian: 
-transformation: 
-type: lognormal 
-upper_bound: 8.6 
+cv: 0.95
+estimation_phase:
+label: YCS_E
+lower_bound: 0.06
+mcmc:
+mu: 1
+parameter: process[recruit_E].ycs_values{1982}
+prior_applies_to_transform:
+same:
+transform_with_jacobian:
+transformation:
+type: lognormal
+upper_bound: 8.6
 {end_list}
 
 process[recruit_E].ycs_values{1983} {list}
 value: 0.419367
 std_dev: 5.21643
-cv: 0.95 
-estimation_phase: 
-label: YCS_E 
-lower_bound: 0.06 
-mcmc: 
-mu: 1 
-parameter: process[recruit_E].ycs_values{1983} 
-prior_applies_to_transform: 
-same: 
-transform_with_jacobian: 
-transformation: 
-type: lognormal 
-upper_bound: 8.6 
+cv: 0.95
+estimation_phase:
+label: YCS_E
+lower_bound: 0.06
+mcmc:
+mu: 1
+parameter: process[recruit_E].ycs_values{1983}
+prior_applies_to_transform:
+same:
+transform_with_jacobian:
+transformation:
+type: lognormal
+upper_bound: 8.6
 {end_list}
 
 process[recruit_E].ycs_values{1984} {list}
 value: 0.474089
 std_dev: 4.29321
-cv: 0.95 
-estimation_phase: 
-label: YCS_E 
-lower_bound: 0.06 
-mcmc: 
-mu: 1 
-parameter: process[recruit_E].ycs_values{1984} 
-prior_applies_to_transform: 
-same: 
-transform_with_jacobian: 
-transformation: 
-type: lognormal 
-upper_bound: 8.6 
+cv: 0.95
+estimation_phase:
+label: YCS_E
+lower_bound: 0.06
+mcmc:
+mu: 1
+parameter: process[recruit_E].ycs_values{1984}
+prior_applies_to_transform:
+same:
+transform_with_jacobian:
+transformation:
+type: lognormal
+upper_bound: 8.6
 {end_list}
 
 process[recruit_E].ycs_values{1985} {list}
 value: 0.385615
 std_dev: 5.22818
-cv: 0.95 
-estimation_phase: 
-label: YCS_E 
-lower_bound: 0.06 
-mcmc: 
-mu: 1 
-parameter: process[recruit_E].ycs_values{1985} 
-prior_applies_to_transform: 
-same: 
-transform_with_jacobian: 
-transformation: 
-type: lognormal 
-upper_bound: 8.6 
+cv: 0.95
+estimation_phase:
+label: YCS_E
+lower_bound: 0.06
+mcmc:
+mu: 1
+parameter: process[recruit_E].ycs_values{1985}
+prior_applies_to_transform:
+same:
+transform_with_jacobian:
+transformation:
+type: lognormal
+upper_bound: 8.6
 {end_list}
 
 process[recruit_E].ycs_values{1986} {list}
 value: 0.213686
 std_dev: 11.2998
-cv: 0.95 
-estimation_phase: 
-label: YCS_E 
-lower_bound: 0.06 
-mcmc: 
-mu: 1 
-parameter: process[recruit_E].ycs_values{1986} 
-prior_applies_to_transform: 
-same: 
-transform_with_jacobian: 
-transformation: 
-type: lognormal 
-upper_bound: 8.6 
+cv: 0.95
+estimation_phase:
+label: YCS_E
+lower_bound: 0.06
+mcmc:
+mu: 1
+parameter: process[recruit_E].ycs_values{1986}
+prior_applies_to_transform:
+same:
+transform_with_jacobian:
+transformation:
+type: lognormal
+upper_bound: 8.6
 {end_list}
 
 process[recruit_E].ycs_values{1987} {list}
 value: 1.01491
 std_dev: 2.01084
-cv: 0.95 
-estimation_phase: 
-label: YCS_E 
-lower_bound: 0.06 
-mcmc: 
-mu: 1 
-parameter: process[recruit_E].ycs_values{1987} 
-prior_applies_to_transform: 
-same: 
-transform_with_jacobian: 
-transformation: 
-type: lognormal 
-upper_bound: 8.6 
+cv: 0.95
+estimation_phase:
+label: YCS_E
+lower_bound: 0.06
+mcmc:
+mu: 1
+parameter: process[recruit_E].ycs_values{1987}
+prior_applies_to_transform:
+same:
+transform_with_jacobian:
+transformation:
+type: lognormal
+upper_bound: 8.6
 {end_list}
 
 process[recruit_E].ycs_values{1988} {list}
 value: 0.929208
 std_dev: 2.11438
-cv: 0.95 
-estimation_phase: 
-label: YCS_E 
-lower_bound: 0.06 
-mcmc: 
-mu: 1 
-parameter: process[recruit_E].ycs_values{1988} 
-prior_applies_to_transform: 
-same: 
-transform_with_jacobian: 
-transformation: 
-type: lognormal 
-upper_bound: 8.6 
+cv: 0.95
+estimation_phase:
+label: YCS_E
+lower_bound: 0.06
+mcmc:
+mu: 1
+parameter: process[recruit_E].ycs_values{1988}
+prior_applies_to_transform:
+same:
+transform_with_jacobian:
+transformation:
+type: lognormal
+upper_bound: 8.6
 {end_list}
 
 process[recruit_E].ycs_values{1989} {list}
 value: 0.426515
 std_dev: 4.04583
-cv: 0.95 
-estimation_phase: 
-label: YCS_E 
-lower_bound: 0.06 
-mcmc: 
-mu: 1 
-parameter: process[recruit_E].ycs_values{1989} 
-prior_applies_to_transform: 
-same: 
-transform_with_jacobian: 
-transformation: 
-type: lognormal 
-upper_bound: 8.6 
+cv: 0.95
+estimation_phase:
+label: YCS_E
+lower_bound: 0.06
+mcmc:
+mu: 1
+parameter: process[recruit_E].ycs_values{1989}
+prior_applies_to_transform:
+same:
+transform_with_jacobian:
+transformation:
+type: lognormal
+upper_bound: 8.6
 {end_list}
 
 process[recruit_E].ycs_values{1990} {list}
 value: 0.139408
 std_dev: 20.0463
-cv: 0.95 
-estimation_phase: 
-label: YCS_E 
-lower_bound: 0.06 
-mcmc: 
-mu: 1 
-parameter: process[recruit_E].ycs_values{1990} 
-prior_applies_to_transform: 
-same: 
-transform_with_jacobian: 
-transformation: 
-type: lognormal 
-upper_bound: 8.6 
+cv: 0.95
+estimation_phase:
+label: YCS_E
+lower_bound: 0.06
+mcmc:
+mu: 1
+parameter: process[recruit_E].ycs_values{1990}
+prior_applies_to_transform:
+same:
+transform_with_jacobian:
+transformation:
+type: lognormal
+upper_bound: 8.6
 {end_list}
 
 process[recruit_E].ycs_values{1991} {list}
 value: 0.370593
 std_dev: 4.9432
-cv: 0.95 
-estimation_phase: 
-label: YCS_E 
-lower_bound: 0.06 
-mcmc: 
-mu: 1 
-parameter: process[recruit_E].ycs_values{1991} 
-prior_applies_to_transform: 
-same: 
-transform_with_jacobian: 
-transformation: 
-type: lognormal 
-upper_bound: 8.6 
+cv: 0.95
+estimation_phase:
+label: YCS_E
+lower_bound: 0.06
+mcmc:
+mu: 1
+parameter: process[recruit_E].ycs_values{1991}
+prior_applies_to_transform:
+same:
+transform_with_jacobian:
+transformation:
+type: lognormal
+upper_bound: 8.6
 {end_list}
 
 process[recruit_E].ycs_values{1992} {list}
 value: 0.388919
 std_dev: 4.72047
-cv: 0.95 
-estimation_phase: 
-label: YCS_E 
-lower_bound: 0.06 
-mcmc: 
-mu: 1 
-parameter: process[recruit_E].ycs_values{1992} 
-prior_applies_to_transform: 
-same: 
-transform_with_jacobian: 
-transformation: 
-type: lognormal 
-upper_bound: 8.6 
+cv: 0.95
+estimation_phase:
+label: YCS_E
+lower_bound: 0.06
+mcmc:
+mu: 1
+parameter: process[recruit_E].ycs_values{1992}
+prior_applies_to_transform:
+same:
+transform_with_jacobian:
+transformation:
+type: lognormal
+upper_bound: 8.6
 {end_list}
 
 process[recruit_E].ycs_values{1993} {list}
 value: 0.390867
 std_dev: 4.3976
-cv: 0.95 
-estimation_phase: 
-label: YCS_E 
-lower_bound: 0.06 
-mcmc: 
-mu: 1 
-parameter: process[recruit_E].ycs_values{1993} 
-prior_applies_to_transform: 
-same: 
-transform_with_jacobian: 
-transformation: 
-type: lognormal 
-upper_bound: 8.6 
+cv: 0.95
+estimation_phase:
+label: YCS_E
+lower_bound: 0.06
+mcmc:
+mu: 1
+parameter: process[recruit_E].ycs_values{1993}
+prior_applies_to_transform:
+same:
+transform_with_jacobian:
+transformation:
+type: lognormal
+upper_bound: 8.6
 {end_list}
 
 process[recruit_E].ycs_values{1994} {list}
 value: 0.553201
 std_dev: 3.33902
-cv: 0.95 
-estimation_phase: 
-label: YCS_E 
-lower_bound: 0.06 
-mcmc: 
-mu: 1 
-parameter: process[recruit_E].ycs_values{1994} 
-prior_applies_to_transform: 
-same: 
-transform_with_jacobian: 
-transformation: 
-type: lognormal 
-upper_bound: 8.6 
+cv: 0.95
+estimation_phase:
+label: YCS_E
+lower_bound: 0.06
+mcmc:
+mu: 1
+parameter: process[recruit_E].ycs_values{1994}
+prior_applies_to_transform:
+same:
+transform_with_jacobian:
+transformation:
+type: lognormal
+upper_bound: 8.6
 {end_list}
 
 process[recruit_E].ycs_values{1995} {list}
 value: 0.267164
 std_dev: 6.13789
-cv: 0.95 
-estimation_phase: 
-label: YCS_E 
-lower_bound: 0.06 
-mcmc: 
-mu: 1 
-parameter: process[recruit_E].ycs_values{1995} 
-prior_applies_to_transform: 
-same: 
-transform_with_jacobian: 
-transformation: 
-type: lognormal 
-upper_bound: 8.6 
+cv: 0.95
+estimation_phase:
+label: YCS_E
+lower_bound: 0.06
+mcmc:
+mu: 1
+parameter: process[recruit_E].ycs_values{1995}
+prior_applies_to_transform:
+same:
+transform_with_jacobian:
+transformation:
+type: lognormal
+upper_bound: 8.6
 {end_list}
 
 process[recruit_E].ycs_values{1996} {list}
 value: 0.289821
 std_dev: 5.30886
-cv: 0.95 
-estimation_phase: 
-label: YCS_E 
-lower_bound: 0.06 
-mcmc: 
-mu: 1 
-parameter: process[recruit_E].ycs_values{1996} 
-prior_applies_to_transform: 
-same: 
-transform_with_jacobian: 
-transformation: 
-type: lognormal 
-upper_bound: 8.6 
+cv: 0.95
+estimation_phase:
+label: YCS_E
+lower_bound: 0.06
+mcmc:
+mu: 1
+parameter: process[recruit_E].ycs_values{1996}
+prior_applies_to_transform:
+same:
+transform_with_jacobian:
+transformation:
+type: lognormal
+upper_bound: 8.6
 {end_list}
 
 process[recruit_E].ycs_values{1997} {list}
 value: 0.452271
 std_dev: 3.4433
-cv: 0.95 
-estimation_phase: 
-label: YCS_E 
-lower_bound: 0.06 
-mcmc: 
-mu: 1 
-parameter: process[recruit_E].ycs_values{1997} 
-prior_applies_to_transform: 
-same: 
-transform_with_jacobian: 
-transformation: 
-type: lognormal 
-upper_bound: 8.6 
+cv: 0.95
+estimation_phase:
+label: YCS_E
+lower_bound: 0.06
+mcmc:
+mu: 1
+parameter: process[recruit_E].ycs_values{1997}
+prior_applies_to_transform:
+same:
+transform_with_jacobian:
+transformation:
+type: lognormal
+upper_bound: 8.6
 {end_list}
 
 process[recruit_E].ycs_values{1998} {list}
 value: 0.251682
 std_dev: 6.51065
-cv: 0.95 
-estimation_phase: 
-label: YCS_E 
-lower_bound: 0.06 
-mcmc: 
-mu: 1 
-parameter: process[recruit_E].ycs_values{1998} 
-prior_applies_to_transform: 
-same: 
-transform_with_jacobian: 
-transformation: 
-type: lognormal 
-upper_bound: 8.6 
+cv: 0.95
+estimation_phase:
+label: YCS_E
+lower_bound: 0.06
+mcmc:
+mu: 1
+parameter: process[recruit_E].ycs_values{1998}
+prior_applies_to_transform:
+same:
+transform_with_jacobian:
+transformation:
+type: lognormal
+upper_bound: 8.6
 {end_list}
 
 process[recruit_E].ycs_values{1999} {list}
 value: 0.0604201
 std_dev: 1867.37
-cv: 0.95 
-estimation_phase: 
-label: YCS_E 
-lower_bound: 0.06 
-mcmc: 
-mu: 1 
-parameter: process[recruit_E].ycs_values{1999} 
-prior_applies_to_transform: 
-same: 
-transform_with_jacobian: 
-transformation: 
-type: lognormal 
-upper_bound: 8.6 
+cv: 0.95
+estimation_phase:
+label: YCS_E
+lower_bound: 0.06
+mcmc:
+mu: 1
+parameter: process[recruit_E].ycs_values{1999}
+prior_applies_to_transform:
+same:
+transform_with_jacobian:
+transformation:
+type: lognormal
+upper_bound: 8.6
 {end_list}
 
 process[recruit_E].ycs_values{2000} {list}
 value: 0.465156
 std_dev: 3.32652
-cv: 0.95 
-estimation_phase: 
-label: YCS_E 
-lower_bound: 0.06 
-mcmc: 
-mu: 1 
-parameter: process[recruit_E].ycs_values{2000} 
-prior_applies_to_transform: 
-same: 
-transform_with_jacobian: 
-transformation: 
-type: lognormal 
-upper_bound: 8.6 
+cv: 0.95
+estimation_phase:
+label: YCS_E
+lower_bound: 0.06
+mcmc:
+mu: 1
+parameter: process[recruit_E].ycs_values{2000}
+prior_applies_to_transform:
+same:
+transform_with_jacobian:
+transformation:
+type: lognormal
+upper_bound: 8.6
 {end_list}
 
 process[recruit_E].ycs_values{2001} {list}
 value: 0.16496
 std_dev: 10.8515
-cv: 0.95 
-estimation_phase: 
-label: YCS_E 
-lower_bound: 0.06 
-mcmc: 
-mu: 1 
-parameter: process[recruit_E].ycs_values{2001} 
-prior_applies_to_transform: 
-same: 
-transform_with_jacobian: 
-transformation: 
-type: lognormal 
-upper_bound: 8.6 
+cv: 0.95
+estimation_phase:
+label: YCS_E
+lower_bound: 0.06
+mcmc:
+mu: 1
+parameter: process[recruit_E].ycs_values{2001}
+prior_applies_to_transform:
+same:
+transform_with_jacobian:
+transformation:
+type: lognormal
+upper_bound: 8.6
 {end_list}
 
 process[recruit_E].ycs_values{2002} {list}
 value: 0.2649
 std_dev: 6.17539
-cv: 0.95 
-estimation_phase: 
-label: YCS_E 
-lower_bound: 0.06 
-mcmc: 
-mu: 1 
-parameter: process[recruit_E].ycs_values{2002} 
-prior_applies_to_transform: 
-same: 
-transform_with_jacobian: 
-transformation: 
-type: lognormal 
-upper_bound: 8.6 
+cv: 0.95
+estimation_phase:
+label: YCS_E
+lower_bound: 0.06
+mcmc:
+mu: 1
+parameter: process[recruit_E].ycs_values{2002}
+prior_applies_to_transform:
+same:
+transform_with_jacobian:
+transformation:
+type: lognormal
+upper_bound: 8.6
 {end_list}
 
 process[recruit_E].ycs_values{2003} {list}
 value: 0.506072
 std_dev: 2.99762
-cv: 0.95 
-estimation_phase: 
-label: YCS_E 
-lower_bound: 0.06 
-mcmc: 
-mu: 1 
-parameter: process[recruit_E].ycs_values{2003} 
-prior_applies_to_transform: 
-same: 
-transform_with_jacobian: 
-transformation: 
-type: lognormal 
-upper_bound: 8.6 
+cv: 0.95
+estimation_phase:
+label: YCS_E
+lower_bound: 0.06
+mcmc:
+mu: 1
+parameter: process[recruit_E].ycs_values{2003}
+prior_applies_to_transform:
+same:
+transform_with_jacobian:
+transformation:
+type: lognormal
+upper_bound: 8.6
 {end_list}
 
 process[recruit_E].ycs_values{2004} {list}
 value: 0.524334
 std_dev: 3.0444
-cv: 0.95 
-estimation_phase: 
-label: YCS_E 
-lower_bound: 0.06 
-mcmc: 
-mu: 1 
-parameter: process[recruit_E].ycs_values{2004} 
-prior_applies_to_transform: 
-same: 
-transform_with_jacobian: 
-transformation: 
-type: lognormal 
-upper_bound: 8.6 
+cv: 0.95
+estimation_phase:
+label: YCS_E
+lower_bound: 0.06
+mcmc:
+mu: 1
+parameter: process[recruit_E].ycs_values{2004}
+prior_applies_to_transform:
+same:
+transform_with_jacobian:
+transformation:
+type: lognormal
+upper_bound: 8.6
 {end_list}
 
 process[recruit_E].ycs_values{2005} {list}
 value: 0.516683
 std_dev: 3.18348
-cv: 0.95 
-estimation_phase: 
-label: YCS_E 
-lower_bound: 0.06 
-mcmc: 
-mu: 1 
-parameter: process[recruit_E].ycs_values{2005} 
-prior_applies_to_transform: 
-same: 
-transform_with_jacobian: 
-transformation: 
-type: lognormal 
-upper_bound: 8.6 
+cv: 0.95
+estimation_phase:
+label: YCS_E
+lower_bound: 0.06
+mcmc:
+mu: 1
+parameter: process[recruit_E].ycs_values{2005}
+prior_applies_to_transform:
+same:
+transform_with_jacobian:
+transformation:
+type: lognormal
+upper_bound: 8.6
 {end_list}
 
 process[recruit_E].ycs_values{2006} {list}
 value: 0.607515
 std_dev: 2.91762
-cv: 0.95 
-estimation_phase: 
-label: YCS_E 
-lower_bound: 0.06 
-mcmc: 
-mu: 1 
-parameter: process[recruit_E].ycs_values{2006} 
-prior_applies_to_transform: 
-same: 
-transform_with_jacobian: 
-transformation: 
-type: lognormal 
-upper_bound: 8.6 
+cv: 0.95
+estimation_phase:
+label: YCS_E
+lower_bound: 0.06
+mcmc:
+mu: 1
+parameter: process[recruit_E].ycs_values{2006}
+prior_applies_to_transform:
+same:
+transform_with_jacobian:
+transformation:
+type: lognormal
+upper_bound: 8.6
 {end_list}
 
 process[recruit_E].ycs_values{2007} {list}
 value: 0.539894
 std_dev: 3.32084
-cv: 0.95 
-estimation_phase: 
-label: YCS_E 
-lower_bound: 0.06 
-mcmc: 
-mu: 1 
-parameter: process[recruit_E].ycs_values{2007} 
-prior_applies_to_transform: 
-same: 
-transform_with_jacobian: 
-transformation: 
-type: lognormal 
-upper_bound: 8.6 
+cv: 0.95
+estimation_phase:
+label: YCS_E
+lower_bound: 0.06
+mcmc:
+mu: 1
+parameter: process[recruit_E].ycs_values{2007}
+prior_applies_to_transform:
+same:
+transform_with_jacobian:
+transformation:
+type: lognormal
+upper_bound: 8.6
 {end_list}
 
 process[recruit_E].ycs_values{2008} {list}
 value: 0.375747
 std_dev: 5.7325
-cv: 0.95 
-estimation_phase: 
-label: YCS_E 
-lower_bound: 0.06 
-mcmc: 
-mu: 1 
-parameter: process[recruit_E].ycs_values{2008} 
-prior_applies_to_transform: 
-same: 
-transform_with_jacobian: 
-transformation: 
-type: lognormal 
-upper_bound: 8.6 
+cv: 0.95
+estimation_phase:
+label: YCS_E
+lower_bound: 0.06
+mcmc:
+mu: 1
+parameter: process[recruit_E].ycs_values{2008}
+prior_applies_to_transform:
+same:
+transform_with_jacobian:
+transformation:
+type: lognormal
+upper_bound: 8.6
 {end_list}
 
 process[recruit_E].ycs_values{2009} {list}
 value: 0.54772
 std_dev: 3.37346
-cv: 0.95 
-estimation_phase: 
-label: YCS_E 
-lower_bound: 0.06 
-mcmc: 
-mu: 1 
-parameter: process[recruit_E].ycs_values{2009} 
-prior_applies_to_transform: 
-same: 
-transform_with_jacobian: 
-transformation: 
-type: lognormal 
-upper_bound: 8.6 
+cv: 0.95
+estimation_phase:
+label: YCS_E
+lower_bound: 0.06
+mcmc:
+mu: 1
+parameter: process[recruit_E].ycs_values{2009}
+prior_applies_to_transform:
+same:
+transform_with_jacobian:
+transformation:
+type: lognormal
+upper_bound: 8.6
 {end_list}
 
 process[recruit_E].ycs_values{2010} {list}
 value: 0.165984
 std_dev: 14.8474
-cv: 0.95 
-estimation_phase: 
-label: YCS_E 
-lower_bound: 0.06 
-mcmc: 
-mu: 1 
-parameter: process[recruit_E].ycs_values{2010} 
-prior_applies_to_transform: 
-same: 
-transform_with_jacobian: 
-transformation: 
-type: lognormal 
-upper_bound: 8.6 
+cv: 0.95
+estimation_phase:
+label: YCS_E
+lower_bound: 0.06
+mcmc:
+mu: 1
+parameter: process[recruit_E].ycs_values{2010}
+prior_applies_to_transform:
+same:
+transform_with_jacobian:
+transformation:
+type: lognormal
+upper_bound: 8.6
 {end_list}
 
 process[recruit_E].ycs_values{2011} {list}
 value: 0.68223
 std_dev: 2.8605
-cv: 0.95 
-estimation_phase: 
-label: YCS_E 
-lower_bound: 0.06 
-mcmc: 
-mu: 1 
-parameter: process[recruit_E].ycs_values{2011} 
-prior_applies_to_transform: 
-same: 
-transform_with_jacobian: 
-transformation: 
-type: lognormal 
-upper_bound: 8.6 
+cv: 0.95
+estimation_phase:
+label: YCS_E
+lower_bound: 0.06
+mcmc:
+mu: 1
+parameter: process[recruit_E].ycs_values{2011}
+prior_applies_to_transform:
+same:
+transform_with_jacobian:
+transformation:
+type: lognormal
+upper_bound: 8.6
 {end_list}
 
 process[recruit_E].ycs_values{2012} {list}
 value: 0.162159
 std_dev: 16.7293
-cv: 0.95 
-estimation_phase: 
-label: YCS_E 
-lower_bound: 0.06 
-mcmc: 
-mu: 1 
-parameter: process[recruit_E].ycs_values{2012} 
-prior_applies_to_transform: 
-same: 
-transform_with_jacobian: 
-transformation: 
-type: lognormal 
-upper_bound: 8.6 
+cv: 0.95
+estimation_phase:
+label: YCS_E
+lower_bound: 0.06
+mcmc:
+mu: 1
+parameter: process[recruit_E].ycs_values{2012}
+prior_applies_to_transform:
+same:
+transform_with_jacobian:
+transformation:
+type: lognormal
+upper_bound: 8.6
 {end_list}
 
 process[recruit_E].ycs_values{2013} {list}
 value: 0.193373
 std_dev: 13.9403
-cv: 0.95 
-estimation_phase: 
-label: YCS_E 
-lower_bound: 0.06 
-mcmc: 
-mu: 1 
-parameter: process[recruit_E].ycs_values{2013} 
-prior_applies_to_transform: 
-same: 
-transform_with_jacobian: 
-transformation: 
-type: lognormal 
-upper_bound: 8.6 
+cv: 0.95
+estimation_phase:
+label: YCS_E
+lower_bound: 0.06
+mcmc:
+mu: 1
+parameter: process[recruit_E].ycs_values{2013}
+prior_applies_to_transform:
+same:
+transform_with_jacobian:
+transformation:
+type: lognormal
+upper_bound: 8.6
 {end_list}
 
 process[recruit_E].ycs_values{2014} {list}
 value: 0.770239
 std_dev: 5.3516
-cv: 0.95 
-estimation_phase: 
-label: YCS_E 
-lower_bound: 0.06 
-mcmc: 
-mu: 1 
-parameter: process[recruit_E].ycs_values{2014} 
-prior_applies_to_transform: 
-same: 
-transform_with_jacobian: 
-transformation: 
-type: lognormal 
-upper_bound: 8.6 
+cv: 0.95
+estimation_phase:
+label: YCS_E
+lower_bound: 0.06
+mcmc:
+mu: 1
+parameter: process[recruit_E].ycs_values{2014}
+prior_applies_to_transform:
+same:
+transform_with_jacobian:
+transformation:
+type: lognormal
+upper_bound: 8.6
 {end_list}
 
 process[recruit_E].ycs_values{2015} {list}
 value: 0.675281
 std_dev: 16.4559
-cv: 0.95 
-estimation_phase: 
-label: YCS_E 
-lower_bound: 0.06 
-mcmc: 
-mu: 1 
-parameter: process[recruit_E].ycs_values{2015} 
-prior_applies_to_transform: 
-same: 
-transform_with_jacobian: 
-transformation: 
-type: lognormal 
-upper_bound: 8.6 
+cv: 0.95
+estimation_phase:
+label: YCS_E
+lower_bound: 0.06
+mcmc:
+mu: 1
+parameter: process[recruit_E].ycs_values{2015}
+prior_applies_to_transform:
+same:
+transform_with_jacobian:
+transformation:
+type: lognormal
+upper_bound: 8.6
 {end_list}
 
 process[recruit_E].ycs_values{2016} {list}
 value: 1.31568
 std_dev: 2.87857
-cv: 0.95 
-estimation_phase: 
-label: YCS_E 
-lower_bound: 0.06 
-mcmc: 
-mu: 1 
-parameter: process[recruit_E].ycs_values{2016} 
-prior_applies_to_transform: 
-same: 
-transform_with_jacobian: 
-transformation: 
-type: lognormal 
-upper_bound: 8.6 
+cv: 0.95
+estimation_phase:
+label: YCS_E
+lower_bound: 0.06
+mcmc:
+mu: 1
+parameter: process[recruit_E].ycs_values{2016}
+prior_applies_to_transform:
+same:
+transform_with_jacobian:
+transformation:
+type: lognormal
+upper_bound: 8.6
 {end_list}
 
 process[recruit_W].ycs_values{1975} {list}
 value: 0.465435
 std_dev: 16.7696
-cv: 0.95 
-estimation_phase: 
-label: YCS_W 
-lower_bound: 0.06 
-mcmc: 
-mu: 1 
-parameter: process[recruit_W].ycs_values{1975} 
-prior_applies_to_transform: 
-same: 
-transform_with_jacobian: 
-transformation: 
-type: lognormal 
-upper_bound: 8.6 
+cv: 0.95
+estimation_phase:
+label: YCS_W
+lower_bound: 0.06
+mcmc:
+mu: 1
+parameter: process[recruit_W].ycs_values{1975}
+prior_applies_to_transform:
+same:
+transform_with_jacobian:
+transformation:
+type: lognormal
+upper_bound: 8.6
 {end_list}
 
 process[recruit_W].ycs_values{1976} {list}
 value: 0.877164
 std_dev: 9.62455
-cv: 0.95 
-estimation_phase: 
-label: YCS_W 
-lower_bound: 0.06 
-mcmc: 
-mu: 1 
-parameter: process[recruit_W].ycs_values{1976} 
-prior_applies_to_transform: 
-same: 
-transform_with_jacobian: 
-transformation: 
-type: lognormal 
-upper_bound: 8.6 
+cv: 0.95
+estimation_phase:
+label: YCS_W
+lower_bound: 0.06
+mcmc:
+mu: 1
+parameter: process[recruit_W].ycs_values{1976}
+prior_applies_to_transform:
+same:
+transform_with_jacobian:
+transformation:
+type: lognormal
+upper_bound: 8.6
 {end_list}
 
 process[recruit_W].ycs_values{1977} {list}
 value: 0.686955
 std_dev: 11.0521
-cv: 0.95 
-estimation_phase: 
-label: YCS_W 
-lower_bound: 0.06 
-mcmc: 
-mu: 1 
-parameter: process[recruit_W].ycs_values{1977} 
-prior_applies_to_transform: 
-same: 
-transform_with_jacobian: 
-transformation: 
-type: lognormal 
-upper_bound: 8.6 
+cv: 0.95
+estimation_phase:
+label: YCS_W
+lower_bound: 0.06
+mcmc:
+mu: 1
+parameter: process[recruit_W].ycs_values{1977}
+prior_applies_to_transform:
+same:
+transform_with_jacobian:
+transformation:
+type: lognormal
+upper_bound: 8.6
 {end_list}
 
 process[recruit_W].ycs_values{1978} {list}
 value: 0.646368
 std_dev: 9.54285
-cv: 0.95 
-estimation_phase: 
-label: YCS_W 
-lower_bound: 0.06 
-mcmc: 
-mu: 1 
-parameter: process[recruit_W].ycs_values{1978} 
-prior_applies_to_transform: 
-same: 
-transform_with_jacobian: 
-transformation: 
-type: lognormal 
-upper_bound: 8.6 
+cv: 0.95
+estimation_phase:
+label: YCS_W
+lower_bound: 0.06
+mcmc:
+mu: 1
+parameter: process[recruit_W].ycs_values{1978}
+prior_applies_to_transform:
+same:
+transform_with_jacobian:
+transformation:
+type: lognormal
+upper_bound: 8.6
 {end_list}
 
 process[recruit_W].ycs_values{1979} {list}
 value: 0.465569
 std_dev: 11.6139
-cv: 0.95 
-estimation_phase: 
-label: YCS_W 
-lower_bound: 0.06 
-mcmc: 
-mu: 1 
-parameter: process[recruit_W].ycs_values{1979} 
-prior_applies_to_transform: 
-same: 
-transform_with_jacobian: 
-transformation: 
-type: lognormal 
-upper_bound: 8.6 
+cv: 0.95
+estimation_phase:
+label: YCS_W
+lower_bound: 0.06
+mcmc:
+mu: 1
+parameter: process[recruit_W].ycs_values{1979}
+prior_applies_to_transform:
+same:
+transform_with_jacobian:
+transformation:
+type: lognormal
+upper_bound: 8.6
 {end_list}
 
 process[recruit_W].ycs_values{1980} {list}
 value: 0.517793
 std_dev: 9.15361
-cv: 0.95 
-estimation_phase: 
-label: YCS_W 
-lower_bound: 0.06 
-mcmc: 
-mu: 1 
-parameter: process[recruit_W].ycs_values{1980} 
-prior_applies_to_transform: 
-same: 
-transform_with_jacobian: 
-transformation: 
-type: lognormal 
-upper_bound: 8.6 
+cv: 0.95
+estimation_phase:
+label: YCS_W
+lower_bound: 0.06
+mcmc:
+mu: 1
+parameter: process[recruit_W].ycs_values{1980}
+prior_applies_to_transform:
+same:
+transform_with_jacobian:
+transformation:
+type: lognormal
+upper_bound: 8.6
 {end_list}
 
 process[recruit_W].ycs_values{1981} {list}
 value: 0.583786
 std_dev: 7.64713
-cv: 0.95 
-estimation_phase: 
-label: YCS_W 
-lower_bound: 0.06 
-mcmc: 
-mu: 1 
-parameter: process[recruit_W].ycs_values{1981} 
-prior_applies_to_transform: 
-same: 
-transform_with_jacobian: 
-transformation: 
-type: lognormal 
-upper_bound: 8.6 
+cv: 0.95
+estimation_phase:
+label: YCS_W
+lower_bound: 0.06
+mcmc:
+mu: 1
+parameter: process[recruit_W].ycs_values{1981}
+prior_applies_to_transform:
+same:
+transform_with_jacobian:
+transformation:
+type: lognormal
+upper_bound: 8.6
 {end_list}
 
 process[recruit_W].ycs_values{1982} {list}
 value: 0.481325
 std_dev: 7.90545
-cv: 0.95 
-estimation_phase: 
-label: YCS_W 
-lower_bound: 0.06 
-mcmc: 
-mu: 1 
-parameter: process[recruit_W].ycs_values{1982} 
-prior_applies_to_transform: 
-same: 
-transform_with_jacobian: 
-transformation: 
-type: lognormal 
-upper_bound: 8.6 
+cv: 0.95
+estimation_phase:
+label: YCS_W
+lower_bound: 0.06
+mcmc:
+mu: 1
+parameter: process[recruit_W].ycs_values{1982}
+prior_applies_to_transform:
+same:
+transform_with_jacobian:
+transformation:
+type: lognormal
+upper_bound: 8.6
 {end_list}
 
 process[recruit_W].ycs_values{1983} {list}
 value: 0.8945
 std_dev: 3.53213
-cv: 0.95 
-estimation_phase: 
-label: YCS_W 
-lower_bound: 0.06 
-mcmc: 
-mu: 1 
-parameter: process[recruit_W].ycs_values{1983} 
-prior_applies_to_transform: 
-same: 
-transform_with_jacobian: 
-transformation: 
-type: lognormal 
-upper_bound: 8.6 
+cv: 0.95
+estimation_phase:
+label: YCS_W
+lower_bound: 0.06
+mcmc:
+mu: 1
+parameter: process[recruit_W].ycs_values{1983}
+prior_applies_to_transform:
+same:
+transform_with_jacobian:
+transformation:
+type: lognormal
+upper_bound: 8.6
 {end_list}
 
 process[recruit_W].ycs_values{1984} {list}
 value: 0.864222
 std_dev: 3.33988
-cv: 0.95 
-estimation_phase: 
-label: YCS_W 
-lower_bound: 0.06 
-mcmc: 
-mu: 1 
-parameter: process[recruit_W].ycs_values{1984} 
-prior_applies_to_transform: 
-same: 
-transform_with_jacobian: 
-transformation: 
-type: lognormal 
-upper_bound: 8.6 
+cv: 0.95
+estimation_phase:
+label: YCS_W
+lower_bound: 0.06
+mcmc:
+mu: 1
+parameter: process[recruit_W].ycs_values{1984}
+prior_applies_to_transform:
+same:
+transform_with_jacobian:
+transformation:
+type: lognormal
+upper_bound: 8.6
 {end_list}
 
 process[recruit_W].ycs_values{1985} {list}
 value: 0.330912
 std_dev: 8.9794
-cv: 0.95 
-estimation_phase: 
-label: YCS_W 
-lower_bound: 0.06 
-mcmc: 
-mu: 1 
-parameter: process[recruit_W].ycs_values{1985} 
-prior_applies_to_transform: 
-same: 
-transform_with_jacobian: 
-transformation: 
-type: lognormal 
-upper_bound: 8.6 
+cv: 0.95
+estimation_phase:
+label: YCS_W
+lower_bound: 0.06
+mcmc:
+mu: 1
+parameter: process[recruit_W].ycs_values{1985}
+prior_applies_to_transform:
+same:
+transform_with_jacobian:
+transformation:
+type: lognormal
+upper_bound: 8.6
 {end_list}
 
 process[recruit_W].ycs_values{1986} {list}
 value: 0.169415
 std_dev: 24.557
-cv: 0.95 
-estimation_phase: 
-label: YCS_W 
-lower_bound: 0.06 
-mcmc: 
-mu: 1 
-parameter: process[recruit_W].ycs_values{1986} 
-prior_applies_to_transform: 
-same: 
-transform_with_jacobian: 
-transformation: 
-type: lognormal 
-upper_bound: 8.6 
+cv: 0.95
+estimation_phase:
+label: YCS_W
+lower_bound: 0.06
+mcmc:
+mu: 1
+parameter: process[recruit_W].ycs_values{1986}
+prior_applies_to_transform:
+same:
+transform_with_jacobian:
+transformation:
+type: lognormal
+upper_bound: 8.6
 {end_list}
 
 process[recruit_W].ycs_values{1987} {list}
 value: 1.56228
 std_dev: 1.60232
-cv: 0.95 
-estimation_phase: 
-label: YCS_W 
-lower_bound: 0.06 
-mcmc: 
-mu: 1 
-parameter: process[recruit_W].ycs_values{1987} 
-prior_applies_to_transform: 
-same: 
-transform_with_jacobian: 
-transformation: 
-type: lognormal 
-upper_bound: 8.6 
+cv: 0.95
+estimation_phase:
+label: YCS_W
+lower_bound: 0.06
+mcmc:
+mu: 1
+parameter: process[recruit_W].ycs_values{1987}
+prior_applies_to_transform:
+same:
+transform_with_jacobian:
+transformation:
+type: lognormal
+upper_bound: 8.6
 {end_list}
 
 process[recruit_W].ycs_values{1988} {list}
 value: 0.813673
 std_dev: 2.49254
-cv: 0.95 
-estimation_phase: 
-label: YCS_W 
-lower_bound: 0.06 
-mcmc: 
-mu: 1 
-parameter: process[recruit_W].ycs_values{1988} 
-prior_applies_to_transform: 
-same: 
-transform_with_jacobian: 
-transformation: 
-type: lognormal 
-upper_bound: 8.6 
+cv: 0.95
+estimation_phase:
+label: YCS_W
+lower_bound: 0.06
+mcmc:
+mu: 1
+parameter: process[recruit_W].ycs_values{1988}
+prior_applies_to_transform:
+same:
+transform_with_jacobian:
+transformation:
+type: lognormal
+upper_bound: 8.6
 {end_list}
 
 process[recruit_W].ycs_values{1989} {list}
 value: 0.0812518
 std_dev: 132.449
-cv: 0.95 
-estimation_phase: 
-label: YCS_W 
-lower_bound: 0.06 
-mcmc: 
-mu: 1 
-parameter: process[recruit_W].ycs_values{1989} 
-prior_applies_to_transform: 
-same: 
-transform_with_jacobian: 
-transformation: 
-type: lognormal 
-upper_bound: 8.6 
+cv: 0.95
+estimation_phase:
+label: YCS_W
+lower_bound: 0.06
+mcmc:
+mu: 1
+parameter: process[recruit_W].ycs_values{1989}
+prior_applies_to_transform:
+same:
+transform_with_jacobian:
+transformation:
+type: lognormal
+upper_bound: 8.6
 {end_list}
 
 process[recruit_W].ycs_values{1990} {list}
 value: 0.0806591
 std_dev: 112.606
-cv: 0.95 
-estimation_phase: 
-label: YCS_W 
-lower_bound: 0.06 
-mcmc: 
-mu: 1 
-parameter: process[recruit_W].ycs_values{1990} 
-prior_applies_to_transform: 
-same: 
-transform_with_jacobian: 
-transformation: 
-type: lognormal 
-upper_bound: 8.6 
+cv: 0.95
+estimation_phase:
+label: YCS_W
+lower_bound: 0.06
+mcmc:
+mu: 1
+parameter: process[recruit_W].ycs_values{1990}
+prior_applies_to_transform:
+same:
+transform_with_jacobian:
+transformation:
+type: lognormal
+upper_bound: 8.6
 {end_list}
 
 process[recruit_W].ycs_values{1991} {list}
 value: 0.855218
 std_dev: 2.30043
-cv: 0.95 
-estimation_phase: 
-label: YCS_W 
-lower_bound: 0.06 
-mcmc: 
-mu: 1 
-parameter: process[recruit_W].ycs_values{1991} 
-prior_applies_to_transform: 
-same: 
-transform_with_jacobian: 
-transformation: 
-type: lognormal 
-upper_bound: 8.6 
+cv: 0.95
+estimation_phase:
+label: YCS_W
+lower_bound: 0.06
+mcmc:
+mu: 1
+parameter: process[recruit_W].ycs_values{1991}
+prior_applies_to_transform:
+same:
+transform_with_jacobian:
+transformation:
+type: lognormal
+upper_bound: 8.6
 {end_list}
 
 process[recruit_W].ycs_values{1992} {list}
 value: 1.24792
 std_dev: 1.69352
-cv: 0.95 
-estimation_phase: 
-label: YCS_W 
-lower_bound: 0.06 
-mcmc: 
-mu: 1 
-parameter: process[recruit_W].ycs_values{1992} 
-prior_applies_to_transform: 
-same: 
-transform_with_jacobian: 
-transformation: 
-type: lognormal 
-upper_bound: 8.6 
+cv: 0.95
+estimation_phase:
+label: YCS_W
+lower_bound: 0.06
+mcmc:
+mu: 1
+parameter: process[recruit_W].ycs_values{1992}
+prior_applies_to_transform:
+same:
+transform_with_jacobian:
+transformation:
+type: lognormal
+upper_bound: 8.6
 {end_list}
 
 process[recruit_W].ycs_values{1993} {list}
 value: 0.374255
 std_dev: 5.37977
-cv: 0.95 
-estimation_phase: 
-label: YCS_W 
-lower_bound: 0.06 
-mcmc: 
-mu: 1 
-parameter: process[recruit_W].ycs_values{1993} 
-prior_applies_to_transform: 
-same: 
-transform_with_jacobian: 
-transformation: 
-type: lognormal 
-upper_bound: 8.6 
+cv: 0.95
+estimation_phase:
+label: YCS_W
+lower_bound: 0.06
+mcmc:
+mu: 1
+parameter: process[recruit_W].ycs_values{1993}
+prior_applies_to_transform:
+same:
+transform_with_jacobian:
+transformation:
+type: lognormal
+upper_bound: 8.6
 {end_list}
 
 process[recruit_W].ycs_values{1994} {list}
 value: 0.995179
 std_dev: 1.93992
-cv: 0.95 
-estimation_phase: 
-label: YCS_W 
-lower_bound: 0.06 
-mcmc: 
-mu: 1 
-parameter: process[recruit_W].ycs_values{1994} 
-prior_applies_to_transform: 
-same: 
-transform_with_jacobian: 
-transformation: 
-type: lognormal 
-upper_bound: 8.6 
+cv: 0.95
+estimation_phase:
+label: YCS_W
+lower_bound: 0.06
+mcmc:
+mu: 1
+parameter: process[recruit_W].ycs_values{1994}
+prior_applies_to_transform:
+same:
+transform_with_jacobian:
+transformation:
+type: lognormal
+upper_bound: 8.6
 {end_list}
 
 process[recruit_W].ycs_values{1995} {list}
 value: 0.221628
 std_dev: 9.15494
-cv: 0.95 
-estimation_phase: 
-label: YCS_W 
-lower_bound: 0.06 
-mcmc: 
-mu: 1 
-parameter: process[recruit_W].ycs_values{1995} 
-prior_applies_to_transform: 
-same: 
-transform_with_jacobian: 
-transformation: 
-type: lognormal 
-upper_bound: 8.6 
+cv: 0.95
+estimation_phase:
+label: YCS_W
+lower_bound: 0.06
+mcmc:
+mu: 1
+parameter: process[recruit_W].ycs_values{1995}
+prior_applies_to_transform:
+same:
+transform_with_jacobian:
+transformation:
+type: lognormal
+upper_bound: 8.6
 {end_list}
 
 process[recruit_W].ycs_values{1996} {list}
 value: 0.186494
 std_dev: 11.0098
-cv: 0.95 
-estimation_phase: 
-label: YCS_W 
-lower_bound: 0.06 
-mcmc: 
-mu: 1 
-parameter: process[recruit_W].ycs_values{1996} 
-prior_applies_to_transform: 
-same: 
-transform_with_jacobian: 
-transformation: 
-type: lognormal 
-upper_bound: 8.6 
+cv: 0.95
+estimation_phase:
+label: YCS_W
+lower_bound: 0.06
+mcmc:
+mu: 1
+parameter: process[recruit_W].ycs_values{1996}
+prior_applies_to_transform:
+same:
+transform_with_jacobian:
+transformation:
+type: lognormal
+upper_bound: 8.6
 {end_list}
 
 process[recruit_W].ycs_values{1997} {list}
 value: 0.233689
 std_dev: 8.35376
-cv: 0.95 
-estimation_phase: 
-label: YCS_W 
-lower_bound: 0.06 
-mcmc: 
-mu: 1 
-parameter: process[recruit_W].ycs_values{1997} 
-prior_applies_to_transform: 
-same: 
-transform_with_jacobian: 
-transformation: 
-type: lognormal 
-upper_bound: 8.6 
+cv: 0.95
+estimation_phase:
+label: YCS_W
+lower_bound: 0.06
+mcmc:
+mu: 1
+parameter: process[recruit_W].ycs_values{1997}
+prior_applies_to_transform:
+same:
+transform_with_jacobian:
+transformation:
+type: lognormal
+upper_bound: 8.6
 {end_list}
 
 process[recruit_W].ycs_values{1998} {list}
 value: 0.211015
 std_dev: 9.98277
-cv: 0.95 
-estimation_phase: 
-label: YCS_W 
-lower_bound: 0.06 
-mcmc: 
-mu: 1 
-parameter: process[recruit_W].ycs_values{1998} 
-prior_applies_to_transform: 
-same: 
-transform_with_jacobian: 
-transformation: 
-type: lognormal 
-upper_bound: 8.6 
+cv: 0.95
+estimation_phase:
+label: YCS_W
+lower_bound: 0.06
+mcmc:
+mu: 1
+parameter: process[recruit_W].ycs_values{1998}
+prior_applies_to_transform:
+same:
+transform_with_jacobian:
+transformation:
+type: lognormal
+upper_bound: 8.6
 {end_list}
 
 process[recruit_W].ycs_values{1999} {list}
 value: 0.0603451
 std_dev: 2071.22
-cv: 0.95 
-estimation_phase: 
-label: YCS_W 
-lower_bound: 0.06 
-mcmc: 
-mu: 1 
-parameter: process[recruit_W].ycs_values{1999} 
-prior_applies_to_transform: 
-same: 
-transform_with_jacobian: 
-transformation: 
-type: lognormal 
-upper_bound: 8.6 
+cv: 0.95
+estimation_phase:
+label: YCS_W
+lower_bound: 0.06
+mcmc:
+mu: 1
+parameter: process[recruit_W].ycs_values{1999}
+prior_applies_to_transform:
+same:
+transform_with_jacobian:
+transformation:
+type: lognormal
+upper_bound: 8.6
 {end_list}
 
 process[recruit_W].ycs_values{2000} {list}
 value: 0.379651
 std_dev: 4.57378
-cv: 0.95 
-estimation_phase: 
-label: YCS_W 
-lower_bound: 0.06 
-mcmc: 
-mu: 1 
-parameter: process[recruit_W].ycs_values{2000} 
-prior_applies_to_transform: 
-same: 
-transform_with_jacobian: 
-transformation: 
-type: lognormal 
-upper_bound: 8.6 
+cv: 0.95
+estimation_phase:
+label: YCS_W
+lower_bound: 0.06
+mcmc:
+mu: 1
+parameter: process[recruit_W].ycs_values{2000}
+prior_applies_to_transform:
+same:
+transform_with_jacobian:
+transformation:
+type: lognormal
+upper_bound: 8.6
 {end_list}
 
 process[recruit_W].ycs_values{2001} {list}
 value: 0.0966945
 std_dev: 58.5739
-cv: 0.95 
-estimation_phase: 
-label: YCS_W 
-lower_bound: 0.06 
-mcmc: 
-mu: 1 
-parameter: process[recruit_W].ycs_values{2001} 
-prior_applies_to_transform: 
-same: 
-transform_with_jacobian: 
-transformation: 
-type: lognormal 
-upper_bound: 8.6 
+cv: 0.95
+estimation_phase:
+label: YCS_W
+lower_bound: 0.06
+mcmc:
+mu: 1
+parameter: process[recruit_W].ycs_values{2001}
+prior_applies_to_transform:
+same:
+transform_with_jacobian:
+transformation:
+type: lognormal
+upper_bound: 8.6
 {end_list}
 
 process[recruit_W].ycs_values{2002} {list}
 value: 0.799988
 std_dev: 2.20235
-cv: 0.95 
-estimation_phase: 
-label: YCS_W 
-lower_bound: 0.06 
-mcmc: 
-mu: 1 
-parameter: process[recruit_W].ycs_values{2002} 
-prior_applies_to_transform: 
-same: 
-transform_with_jacobian: 
-transformation: 
-type: lognormal 
-upper_bound: 8.6 
+cv: 0.95
+estimation_phase:
+label: YCS_W
+lower_bound: 0.06
+mcmc:
+mu: 1
+parameter: process[recruit_W].ycs_values{2002}
+prior_applies_to_transform:
+same:
+transform_with_jacobian:
+transformation:
+type: lognormal
+upper_bound: 8.6
 {end_list}
 
 process[recruit_W].ycs_values{2003} {list}
 value: 0.469516
 std_dev: 3.75296
-cv: 0.95 
-estimation_phase: 
-label: YCS_W 
-lower_bound: 0.06 
-mcmc: 
-mu: 1 
-parameter: process[recruit_W].ycs_values{2003} 
-prior_applies_to_transform: 
-same: 
-transform_with_jacobian: 
-transformation: 
-type: lognormal 
-upper_bound: 8.6 
+cv: 0.95
+estimation_phase:
+label: YCS_W
+lower_bound: 0.06
+mcmc:
+mu: 1
+parameter: process[recruit_W].ycs_values{2003}
+prior_applies_to_transform:
+same:
+transform_with_jacobian:
+transformation:
+type: lognormal
+upper_bound: 8.6
 {end_list}
 
 process[recruit_W].ycs_values{2004} {list}
 value: 0.521014
 std_dev: 3.50257
-cv: 0.95 
-estimation_phase: 
-label: YCS_W 
-lower_bound: 0.06 
-mcmc: 
-mu: 1 
-parameter: process[recruit_W].ycs_values{2004} 
-prior_applies_to_transform: 
-same: 
-transform_with_jacobian: 
-transformation: 
-type: lognormal 
-upper_bound: 8.6 
+cv: 0.95
+estimation_phase:
+label: YCS_W
+lower_bound: 0.06
+mcmc:
+mu: 1
+parameter: process[recruit_W].ycs_values{2004}
+prior_applies_to_transform:
+same:
+transform_with_jacobian:
+transformation:
+type: lognormal
+upper_bound: 8.6
 {end_list}
 
 process[recruit_W].ycs_values{2005} {list}
 value: 0.514612
 std_dev: 3.50739
-cv: 0.95 
-estimation_phase: 
-label: YCS_W 
-lower_bound: 0.06 
-mcmc: 
-mu: 1 
-parameter: process[recruit_W].ycs_values{2005} 
-prior_applies_to_transform: 
-same: 
-transform_with_jacobian: 
-transformation: 
-type: lognormal 
-upper_bound: 8.6 
+cv: 0.95
+estimation_phase:
+label: YCS_W
+lower_bound: 0.06
+mcmc:
+mu: 1
+parameter: process[recruit_W].ycs_values{2005}
+prior_applies_to_transform:
+same:
+transform_with_jacobian:
+transformation:
+type: lognormal
+upper_bound: 8.6
 {end_list}
 
 process[recruit_W].ycs_values{2006} {list}
 value: 0.748401
 std_dev: 2.59256
-cv: 0.95 
-estimation_phase: 
-label: YCS_W 
-lower_bound: 0.06 
-mcmc: 
-mu: 1 
-parameter: process[recruit_W].ycs_values{2006} 
-prior_applies_to_transform: 
-same: 
-transform_with_jacobian: 
-transformation: 
-type: lognormal 
-upper_bound: 8.6 
+cv: 0.95
+estimation_phase:
+label: YCS_W
+lower_bound: 0.06
+mcmc:
+mu: 1
+parameter: process[recruit_W].ycs_values{2006}
+prior_applies_to_transform:
+same:
+transform_with_jacobian:
+transformation:
+type: lognormal
+upper_bound: 8.6
 {end_list}
 
 process[recruit_W].ycs_values{2007} {list}
 value: 0.617221
 std_dev: 3.11242
-cv: 0.95 
-estimation_phase: 
-label: YCS_W 
-lower_bound: 0.06 
-mcmc: 
-mu: 1 
-parameter: process[recruit_W].ycs_values{2007} 
-prior_applies_to_transform: 
-same: 
-transform_with_jacobian: 
-transformation: 
-type: lognormal 
-upper_bound: 8.6 
+cv: 0.95
+estimation_phase:
+label: YCS_W
+lower_bound: 0.06
+mcmc:
+mu: 1
+parameter: process[recruit_W].ycs_values{2007}
+prior_applies_to_transform:
+same:
+transform_with_jacobian:
+transformation:
+type: lognormal
+upper_bound: 8.6
 {end_list}
 
 process[recruit_W].ycs_values{2008} {list}
 value: 0.605785
 std_dev: 3.27995
-cv: 0.95 
-estimation_phase: 
-label: YCS_W 
-lower_bound: 0.06 
-mcmc: 
-mu: 1 
-parameter: process[recruit_W].ycs_values{2008} 
-prior_applies_to_transform: 
-same: 
-transform_with_jacobian: 
-transformation: 
-type: lognormal 
-upper_bound: 8.6 
+cv: 0.95
+estimation_phase:
+label: YCS_W
+lower_bound: 0.06
+mcmc:
+mu: 1
+parameter: process[recruit_W].ycs_values{2008}
+prior_applies_to_transform:
+same:
+transform_with_jacobian:
+transformation:
+type: lognormal
+upper_bound: 8.6
 {end_list}
 
 process[recruit_W].ycs_values{2009} {list}
 value: 0.559193
 std_dev: 3.94052
-cv: 0.95 
-estimation_phase: 
-label: YCS_W 
-lower_bound: 0.06 
-mcmc: 
-mu: 1 
-parameter: process[recruit_W].ycs_values{2009} 
-prior_applies_to_transform: 
-same: 
-transform_with_jacobian: 
-transformation: 
-type: lognormal 
-upper_bound: 8.6 
+cv: 0.95
+estimation_phase:
+label: YCS_W
+lower_bound: 0.06
+mcmc:
+mu: 1
+parameter: process[recruit_W].ycs_values{2009}
+prior_applies_to_transform:
+same:
+transform_with_jacobian:
+transformation:
+type: lognormal
+upper_bound: 8.6
 {end_list}
 
 process[recruit_W].ycs_values{2010} {list}
 value: 0.140707
 std_dev: 23.5134
-cv: 0.95 
-estimation_phase: 
-label: YCS_W 
-lower_bound: 0.06 
-mcmc: 
-mu: 1 
-parameter: process[recruit_W].ycs_values{2010} 
-prior_applies_to_transform: 
-same: 
-transform_with_jacobian: 
-transformation: 
-type: lognormal 
-upper_bound: 8.6 
+cv: 0.95
+estimation_phase:
+label: YCS_W
+lower_bound: 0.06
+mcmc:
+mu: 1
+parameter: process[recruit_W].ycs_values{2010}
+prior_applies_to_transform:
+same:
+transform_with_jacobian:
+transformation:
+type: lognormal
+upper_bound: 8.6
 {end_list}
 
 process[recruit_W].ycs_values{2011} {list}
 value: 0.943592
 std_dev: 2.72464
-cv: 0.95 
-estimation_phase: 
-label: YCS_W 
-lower_bound: 0.06 
-mcmc: 
-mu: 1 
-parameter: process[recruit_W].ycs_values{2011} 
-prior_applies_to_transform: 
-same: 
-transform_with_jacobian: 
-transformation: 
-type: lognormal 
-upper_bound: 8.6 
+cv: 0.95
+estimation_phase:
+label: YCS_W
+lower_bound: 0.06
+mcmc:
+mu: 1
+parameter: process[recruit_W].ycs_values{2011}
+prior_applies_to_transform:
+same:
+transform_with_jacobian:
+transformation:
+type: lognormal
+upper_bound: 8.6
 {end_list}
 
 process[recruit_W].ycs_values{2012} {list}
 value: 0.155582
 std_dev: 24.6165
-cv: 0.95 
-estimation_phase: 
-label: YCS_W 
-lower_bound: 0.06 
-mcmc: 
-mu: 1 
-parameter: process[recruit_W].ycs_values{2012} 
-prior_applies_to_transform: 
-same: 
-transform_with_jacobian: 
-transformation: 
-type: lognormal 
-upper_bound: 8.6 
+cv: 0.95
+estimation_phase:
+label: YCS_W
+lower_bound: 0.06
+mcmc:
+mu: 1
+parameter: process[recruit_W].ycs_values{2012}
+prior_applies_to_transform:
+same:
+transform_with_jacobian:
+transformation:
+type: lognormal
+upper_bound: 8.6
 {end_list}
 
 process[recruit_W].ycs_values{2013} {list}
 value: 0.222289
 std_dev: 15.5988
-cv: 0.95 
-estimation_phase: 
-label: YCS_W 
-lower_bound: 0.06 
-mcmc: 
-mu: 1 
-parameter: process[recruit_W].ycs_values{2013} 
-prior_applies_to_transform: 
-same: 
-transform_with_jacobian: 
-transformation: 
-type: lognormal 
-upper_bound: 8.6 
+cv: 0.95
+estimation_phase:
+label: YCS_W
+lower_bound: 0.06
+mcmc:
+mu: 1
+parameter: process[recruit_W].ycs_values{2013}
+prior_applies_to_transform:
+same:
+transform_with_jacobian:
+transformation:
+type: lognormal
+upper_bound: 8.6
 {end_list}
 
 process[recruit_W].ycs_values{2014} {list}
 value: 2.08545
 std_dev: 1.93951
-cv: 0.95 
-estimation_phase: 
-label: YCS_W 
-lower_bound: 0.06 
-mcmc: 
-mu: 1 
-parameter: process[recruit_W].ycs_values{2014} 
-prior_applies_to_transform: 
-same: 
-transform_with_jacobian: 
-transformation: 
-type: lognormal 
-upper_bound: 8.6 
+cv: 0.95
+estimation_phase:
+label: YCS_W
+lower_bound: 0.06
+mcmc:
+mu: 1
+parameter: process[recruit_W].ycs_values{2014}
+prior_applies_to_transform:
+same:
+transform_with_jacobian:
+transformation:
+type: lognormal
+upper_bound: 8.6
 {end_list}
 
 process[recruit_W].ycs_values{2015} {list}
 value: 2.13078
 std_dev: 3.51159
-cv: 0.95 
-estimation_phase: 
-label: YCS_W 
-lower_bound: 0.06 
-mcmc: 
-mu: 1 
-parameter: process[recruit_W].ycs_values{2015} 
-prior_applies_to_transform: 
-same: 
-transform_with_jacobian: 
-transformation: 
-type: lognormal 
-upper_bound: 8.6 
+cv: 0.95
+estimation_phase:
+label: YCS_W
+lower_bound: 0.06
+mcmc:
+mu: 1
+parameter: process[recruit_W].ycs_values{2015}
+prior_applies_to_transform:
+same:
+transform_with_jacobian:
+transformation:
+type: lognormal
+upper_bound: 8.6
 {end_list}
 
 process[recruit_W].ycs_values{2016} {list}
 value: 1.31594
 std_dev: 2.87677
-cv: 0.95 
-estimation_phase: 
-label: YCS_W 
-lower_bound: 0.06 
-mcmc: 
-mu: 1 
-parameter: process[recruit_W].ycs_values{2016} 
-prior_applies_to_transform: 
-same: 
-transform_with_jacobian: 
-transformation: 
-type: lognormal 
-upper_bound: 8.6 
+cv: 0.95
+estimation_phase:
+label: YCS_W
+lower_bound: 0.06
+mcmc:
+mu: 1
+parameter: process[recruit_W].ycs_values{2016}
+prior_applies_to_transform:
+same:
+transform_with_jacobian:
+transformation:
+type: lognormal
+upper_bound: 8.6
 {end_list}
 
 selectivity[sel_Whome].v{1} {list}
 value: 0.25407
 std_dev: 0.182289
-estimation_phase: 
-label: sel_Whome 
-lower_bound: 0.01 
-mcmc: 
-parameter: selectivity[sel_Whome].v{1} 
-prior_applies_to_transform: 
-same: 
-transform_with_jacobian: 
-transformation: 
-type: uniform 
-upper_bound: 1 
+estimation_phase:
+label: sel_Whome
+lower_bound: 0.01
+mcmc:
+parameter: selectivity[sel_Whome].v{1}
+prior_applies_to_transform:
+same:
+transform_with_jacobian:
+transformation:
+type: uniform
+upper_bound: 1
 {end_list}
 
 selectivity[sel_Whome].v{2} {list}
 value: 0.180998
 std_dev: 0.697963
-estimation_phase: 
-label: sel_Whome 
-lower_bound: 0.01 
-mcmc: 
-parameter: selectivity[sel_Whome].v{2} 
-prior_applies_to_transform: 
-same: 
-transform_with_jacobian: 
-transformation: 
-type: uniform 
-upper_bound: 1 
+estimation_phase:
+label: sel_Whome
+lower_bound: 0.01
+mcmc:
+parameter: selectivity[sel_Whome].v{2}
+prior_applies_to_transform:
+same:
+transform_with_jacobian:
+transformation:
+type: uniform
+upper_bound: 1
 {end_list}
 
 selectivity[sel_Whome].v{3} {list}
 value: 0.567482
 std_dev: 0.261188
-estimation_phase: 
-label: sel_Whome 
-lower_bound: 0.01 
-mcmc: 
-parameter: selectivity[sel_Whome].v{3} 
-prior_applies_to_transform: 
-same: 
-transform_with_jacobian: 
-transformation: 
-type: uniform 
-upper_bound: 1 
+estimation_phase:
+label: sel_Whome
+lower_bound: 0.01
+mcmc:
+parameter: selectivity[sel_Whome].v{3}
+prior_applies_to_transform:
+same:
+transform_with_jacobian:
+transformation:
+type: uniform
+upper_bound: 1
 {end_list}
 
 selectivity[sel_Whome].v{4} {list}
 value: 0.310377
 std_dev: 0.999015
-estimation_phase: 
-label: sel_Whome 
-lower_bound: 0 
-mcmc: 
-parameter: selectivity[sel_Whome].v{4} 
-prior_applies_to_transform: 
-same: 
-transform_with_jacobian: 
-transformation: 
-type: uniform 
-upper_bound: 1 
+estimation_phase:
+label: sel_Whome
+lower_bound: 0
+mcmc:
+parameter: selectivity[sel_Whome].v{4}
+prior_applies_to_transform:
+same:
+transform_with_jacobian:
+transformation:
+type: uniform
+upper_bound: 1
 {end_list}
 
 selectivity[sel_Whome].v{5} {list}
 value: 0.561837
 std_dev: 1.05605
-estimation_phase: 
-label: sel_Whome 
-lower_bound: 0 
-mcmc: 
-parameter: selectivity[sel_Whome].v{5} 
-prior_applies_to_transform: 
-same: 
-transform_with_jacobian: 
-transformation: 
-type: uniform 
-upper_bound: 1 
+estimation_phase:
+label: sel_Whome
+lower_bound: 0
+mcmc:
+parameter: selectivity[sel_Whome].v{5}
+prior_applies_to_transform:
+same:
+transform_with_jacobian:
+transformation:
+type: uniform
+upper_bound: 1
 {end_list}
 
 selectivity[sel_Whome].v{6} {list}
 value: 0.838041
 std_dev: 7.71712
-estimation_phase: 
-label: sel_Whome 
-lower_bound: 0 
-mcmc: 
-parameter: selectivity[sel_Whome].v{6} 
-prior_applies_to_transform: 
-same: 
-transform_with_jacobian: 
-transformation: 
-type: uniform 
-upper_bound: 1 
+estimation_phase:
+label: sel_Whome
+lower_bound: 0
+mcmc:
+parameter: selectivity[sel_Whome].v{6}
+prior_applies_to_transform:
+same:
+transform_with_jacobian:
+transformation:
+type: uniform
+upper_bound: 1
 {end_list}
 
 selectivity[sel_Whome].v{7} {list}
 value: 0.999999
 std_dev: 2.82641e-05
-estimation_phase: 
-label: sel_Whome 
-lower_bound: 0 
-mcmc: 
-parameter: selectivity[sel_Whome].v{7} 
-prior_applies_to_transform: 
-same: 
-transform_with_jacobian: 
-transformation: 
-type: uniform 
-upper_bound: 1 
+estimation_phase:
+label: sel_Whome
+lower_bound: 0
+mcmc:
+parameter: selectivity[sel_Whome].v{7}
+prior_applies_to_transform:
+same:
+transform_with_jacobian:
+transformation:
+type: uniform
+upper_bound: 1
 {end_list}
 
 selectivity[sel_Espmg].v{1} {list}
 value: 0.00469929
 std_dev: 3.33606
-estimation_phase: 
-label: sel_Espmg_male 
-lower_bound: 0 
-mcmc: 
-parameter: selectivity[sel_Espmg].v{1} 
-prior_applies_to_transform: 
-same: 
-transform_with_jacobian: 
-transformation: 
-type: uniform 
-upper_bound: 1 
+estimation_phase:
+label: sel_Espmg_male
+lower_bound: 0
+mcmc:
+parameter: selectivity[sel_Espmg].v{1}
+prior_applies_to_transform:
+same:
+transform_with_jacobian:
+transformation:
+type: uniform
+upper_bound: 1
 {end_list}
 
 selectivity[sel_Espmg].v{2} {list}
 value: 0.140821
 std_dev: 0.247641
-estimation_phase: 
-label: sel_Espmg_male 
-lower_bound: 0 
-mcmc: 
-parameter: selectivity[sel_Espmg].v{2} 
-prior_applies_to_transform: 
-same: 
-transform_with_jacobian: 
-transformation: 
-type: uniform 
-upper_bound: 1 
+estimation_phase:
+label: sel_Espmg_male
+lower_bound: 0
+mcmc:
+parameter: selectivity[sel_Espmg].v{2}
+prior_applies_to_transform:
+same:
+transform_with_jacobian:
+transformation:
+type: uniform
+upper_bound: 1
 {end_list}
 
 selectivity[sel_Espmg].v{3} {list}
 value: 0.297739
 std_dev: 0.175444
-estimation_phase: 
-label: sel_Espmg_male 
-lower_bound: 0 
-mcmc: 
-parameter: selectivity[sel_Espmg].v{3} 
-prior_applies_to_transform: 
-same: 
-transform_with_jacobian: 
-transformation: 
-type: uniform 
-upper_bound: 1 
+estimation_phase:
+label: sel_Espmg_male
+lower_bound: 0
+mcmc:
+parameter: selectivity[sel_Espmg].v{3}
+prior_applies_to_transform:
+same:
+transform_with_jacobian:
+transformation:
+type: uniform
+upper_bound: 1
 {end_list}
 
 selectivity[sel_Espmg].v{4} {list}
 value: 0.412114
 std_dev: 0.172325
-estimation_phase: 
-label: sel_Espmg_male 
-lower_bound: 0 
-mcmc: 
-parameter: selectivity[sel_Espmg].v{4} 
-prior_applies_to_transform: 
-same: 
-transform_with_jacobian: 
-transformation: 
-type: uniform 
-upper_bound: 1 
+estimation_phase:
+label: sel_Espmg_male
+lower_bound: 0
+mcmc:
+parameter: selectivity[sel_Espmg].v{4}
+prior_applies_to_transform:
+same:
+transform_with_jacobian:
+transformation:
+type: uniform
+upper_bound: 1
 {end_list}
 
 selectivity[sel_Espmg].v{5} {list}
 value: 0.380603
 std_dev: 0.172637
-estimation_phase: 
-label: sel_Espmg_male 
-lower_bound: 0 
-mcmc: 
-parameter: selectivity[sel_Espmg].v{5} 
-prior_applies_to_transform: 
-same: 
-transform_with_jacobian: 
-transformation: 
-type: uniform 
-upper_bound: 1 
+estimation_phase:
+label: sel_Espmg_male
+lower_bound: 0
+mcmc:
+parameter: selectivity[sel_Espmg].v{5}
+prior_applies_to_transform:
+same:
+transform_with_jacobian:
+transformation:
+type: uniform
+upper_bound: 1
 {end_list}
 
 selectivity[sel_Espmg].v{6} {list}
 value: 0.469398
 std_dev: 0.190119
-estimation_phase: 
-label: sel_Espmg_male 
-lower_bound: 0 
-mcmc: 
-parameter: selectivity[sel_Espmg].v{6} 
-prior_applies_to_transform: 
-same: 
-transform_with_jacobian: 
-transformation: 
-type: uniform 
-upper_bound: 1 
+estimation_phase:
+label: sel_Espmg_male
+lower_bound: 0
+mcmc:
+parameter: selectivity[sel_Espmg].v{6}
+prior_applies_to_transform:
+same:
+transform_with_jacobian:
+transformation:
+type: uniform
+upper_bound: 1
 {end_list}
 
 selectivity[sel_Espmg].v{7} {list}
 value: 0.612164
 std_dev: 0.261983
-estimation_phase: 
-label: sel_Espmg_male 
-lower_bound: 0 
-mcmc: 
-parameter: selectivity[sel_Espmg].v{7} 
-prior_applies_to_transform: 
-same: 
-transform_with_jacobian: 
-transformation: 
-type: uniform 
-upper_bound: 1 
+estimation_phase:
+label: sel_Espmg_male
+lower_bound: 0
+mcmc:
+parameter: selectivity[sel_Espmg].v{7}
+prior_applies_to_transform:
+same:
+transform_with_jacobian:
+transformation:
+type: uniform
+upper_bound: 1
 {end_list}
 
 selectivity[sel_Espmg].v{8} {list}
 value: 0.607416
 std_dev: 0.207255
-estimation_phase: 
-label: sel_Espmg_male 
-lower_bound: 0 
-mcmc: 
-parameter: selectivity[sel_Espmg].v{8} 
-prior_applies_to_transform: 
-same: 
-transform_with_jacobian: 
-transformation: 
-type: uniform 
-upper_bound: 1 
+estimation_phase:
+label: sel_Espmg_male
+lower_bound: 0
+mcmc:
+parameter: selectivity[sel_Espmg].v{8}
+prior_applies_to_transform:
+same:
+transform_with_jacobian:
+transformation:
+type: uniform
+upper_bound: 1
 {end_list}
 
 selectivity[sel_Wspmg].v{1} {list}
 value: 0.121968
 std_dev: 0.42212
-estimation_phase: 
-label: sel_Wspmg_male 
-lower_bound: 0 
-mcmc: 
-parameter: selectivity[sel_Wspmg].v{1} 
-prior_applies_to_transform: 
-same: 
-transform_with_jacobian: 
-transformation: 
-type: uniform 
-upper_bound: 1 
+estimation_phase:
+label: sel_Wspmg_male
+lower_bound: 0
+mcmc:
+parameter: selectivity[sel_Wspmg].v{1}
+prior_applies_to_transform:
+same:
+transform_with_jacobian:
+transformation:
+type: uniform
+upper_bound: 1
 {end_list}
 
 selectivity[sel_Wspmg].v{2} {list}
 value: 0.370771
 std_dev: 0.222862
-estimation_phase: 
-label: sel_Wspmg_male 
-lower_bound: 0 
-mcmc: 
-parameter: selectivity[sel_Wspmg].v{2} 
-prior_applies_to_transform: 
-same: 
-transform_with_jacobian: 
-transformation: 
-type: uniform 
-upper_bound: 1 
+estimation_phase:
+label: sel_Wspmg_male
+lower_bound: 0
+mcmc:
+parameter: selectivity[sel_Wspmg].v{2}
+prior_applies_to_transform:
+same:
+transform_with_jacobian:
+transformation:
+type: uniform
+upper_bound: 1
 {end_list}
 
 selectivity[sel_Wspmg].v{3} {list}
 value: 0.271682
 std_dev: 0.130568
-estimation_phase: 
-label: sel_Wspmg_male 
-lower_bound: 0 
-mcmc: 
-parameter: selectivity[sel_Wspmg].v{3} 
-prior_applies_to_transform: 
-same: 
-transform_with_jacobian: 
-transformation: 
-type: uniform 
-upper_bound: 1 
+estimation_phase:
+label: sel_Wspmg_male
+lower_bound: 0
+mcmc:
+parameter: selectivity[sel_Wspmg].v{3}
+prior_applies_to_transform:
+same:
+transform_with_jacobian:
+transformation:
+type: uniform
+upper_bound: 1
 {end_list}
 
 selectivity[sel_Wspmg].v{4} {list}
 value: 0.44589
 std_dev: 0.122163
-estimation_phase: 
-label: sel_Wspmg_male 
-lower_bound: 0 
-mcmc: 
-parameter: selectivity[sel_Wspmg].v{4} 
-prior_applies_to_transform: 
-same: 
-transform_with_jacobian: 
-transformation: 
-type: uniform 
-upper_bound: 1 
+estimation_phase:
+label: sel_Wspmg_male
+lower_bound: 0
+mcmc:
+parameter: selectivity[sel_Wspmg].v{4}
+prior_applies_to_transform:
+same:
+transform_with_jacobian:
+transformation:
+type: uniform
+upper_bound: 1
 {end_list}
 
 selectivity[sel_Wspmg].v{5} {list}
 value: 0.482373
 std_dev: 0.13662
-estimation_phase: 
-label: sel_Wspmg_male 
-lower_bound: 0 
-mcmc: 
-parameter: selectivity[sel_Wspmg].v{5} 
-prior_applies_to_transform: 
-same: 
-transform_with_jacobian: 
-transformation: 
-type: uniform 
-upper_bound: 1 
+estimation_phase:
+label: sel_Wspmg_male
+lower_bound: 0
+mcmc:
+parameter: selectivity[sel_Wspmg].v{5}
+prior_applies_to_transform:
+same:
+transform_with_jacobian:
+transformation:
+type: uniform
+upper_bound: 1
 {end_list}
 
 selectivity[sel_Wspmg].v{6} {list}
 value: 0.534331
 std_dev: 0.170716
-estimation_phase: 
-label: sel_Wspmg_male 
-lower_bound: 0 
-mcmc: 
-parameter: selectivity[sel_Wspmg].v{6} 
-prior_applies_to_transform: 
-same: 
-transform_with_jacobian: 
-transformation: 
-type: uniform 
-upper_bound: 1 
+estimation_phase:
+label: sel_Wspmg_male
+lower_bound: 0
+mcmc:
+parameter: selectivity[sel_Wspmg].v{6}
+prior_applies_to_transform:
+same:
+transform_with_jacobian:
+transformation:
+type: uniform
+upper_bound: 1
 {end_list}
 
 selectivity[sel_Wspmg].v{7} {list}
 value: 0.674812
 std_dev: 0.252352
-estimation_phase: 
-label: sel_Wspmg_male 
-lower_bound: 0 
-mcmc: 
-parameter: selectivity[sel_Wspmg].v{7} 
-prior_applies_to_transform: 
-same: 
-transform_with_jacobian: 
-transformation: 
-type: uniform 
-upper_bound: 1 
+estimation_phase:
+label: sel_Wspmg_male
+lower_bound: 0
+mcmc:
+parameter: selectivity[sel_Wspmg].v{7}
+prior_applies_to_transform:
+same:
+transform_with_jacobian:
+transformation:
+type: uniform
+upper_bound: 1
 {end_list}
 
 selectivity[sel_Wspmg].v{8} {list}
 value: 0.591525
 std_dev: 0.134351
-estimation_phase: 
-label: sel_Wspmg_male 
-lower_bound: 0 
-mcmc: 
-parameter: selectivity[sel_Wspmg].v{8} 
-prior_applies_to_transform: 
-same: 
-transform_with_jacobian: 
-transformation: 
-type: uniform 
-upper_bound: 1 
+estimation_phase:
+label: sel_Wspmg_male
+lower_bound: 0
+mcmc:
+parameter: selectivity[sel_Wspmg].v{8}
+prior_applies_to_transform:
+same:
+transform_with_jacobian:
+transformation:
+type: uniform
+upper_bound: 1
 {end_list}
 
 selectivity[Enspsl].mu {list}
 value: 3.74402
 std_dev: 1.65701
-estimation_phase: 
-label: Enspsl_mu 
-lower_bound: 1 
-mcmc: 
-parameter: selectivity[Enspsl].mu 
-prior_applies_to_transform: 
-same: 
-transform_with_jacobian: 
-transformation: 
-type: uniform 
-upper_bound: 17 
+estimation_phase:
+label: Enspsl_mu
+lower_bound: 1
+mcmc:
+parameter: selectivity[Enspsl].mu
+prior_applies_to_transform:
+same:
+transform_with_jacobian:
+transformation:
+type: uniform
+upper_bound: 17
 {end_list}
 
 selectivity[Enspsl].sigma_l {list}
 value: 1.32447
 std_dev: 116.239
-estimation_phase: 
-label: Enspsl_s_l 
-lower_bound: 1 
-mcmc: 
-parameter: selectivity[Enspsl].sigma_l 
-prior_applies_to_transform: 
-same: 
-transform_with_jacobian: 
-transformation: 
-type: uniform 
-upper_bound: 50 
+estimation_phase:
+label: Enspsl_s_l
+lower_bound: 1
+mcmc:
+parameter: selectivity[Enspsl].sigma_l
+prior_applies_to_transform:
+same:
+transform_with_jacobian:
+transformation:
+type: uniform
+upper_bound: 50
 {end_list}
 
 selectivity[Enspsl].sigma_r {list}
 value: 10.8198
 std_dev: 22.0155
-estimation_phase: 
-label: Enspsl_s_r 
-lower_bound: 1 
-mcmc: 
-parameter: selectivity[Enspsl].sigma_r 
-prior_applies_to_transform: 
-same: 
-transform_with_jacobian: 
-transformation: 
-type: uniform 
-upper_bound: 50 
+estimation_phase:
+label: Enspsl_s_r
+lower_bound: 1
+mcmc:
+parameter: selectivity[Enspsl].sigma_r
+prior_applies_to_transform:
+same:
+transform_with_jacobian:
+transformation:
+type: uniform
+upper_bound: 50
 {end_list}
 
 selectivity[Wnspsl].mu {list}
 value: 14.386
 std_dev: 9.11989
-estimation_phase: 
-label: Wnspsl_mu 
-lower_bound: 1 
-mcmc: 
-parameter: selectivity[Wnspsl].mu 
-prior_applies_to_transform: 
-same: 
-transform_with_jacobian: 
-transformation: 
-type: uniform 
-upper_bound: 17 
+estimation_phase:
+label: Wnspsl_mu
+lower_bound: 1
+mcmc:
+parameter: selectivity[Wnspsl].mu
+prior_applies_to_transform:
+same:
+transform_with_jacobian:
+transformation:
+type: uniform
+upper_bound: 17
 {end_list}
 
 selectivity[Wnspsl].sigma_l {list}
 value: 49.2674
 std_dev: 373.715
-estimation_phase: 
-label: Wnspsl_s_l 
-lower_bound: 1 
-mcmc: 
-parameter: selectivity[Wnspsl].sigma_l 
-prior_applies_to_transform: 
-same: 
-transform_with_jacobian: 
-transformation: 
-type: uniform 
-upper_bound: 50 
+estimation_phase:
+label: Wnspsl_s_l
+lower_bound: 1
+mcmc:
+parameter: selectivity[Wnspsl].sigma_l
+prior_applies_to_transform:
+same:
+transform_with_jacobian:
+transformation:
+type: uniform
+upper_bound: 50
 {end_list}
 
 selectivity[Wnspsl].sigma_r {list}
 value: 1.00382
 std_dev: 8522.28
-estimation_phase: 
-label: Wnspsl_s_r 
-lower_bound: 1 
-mcmc: 
-parameter: selectivity[Wnspsl].sigma_r 
-prior_applies_to_transform: 
-same: 
-transform_with_jacobian: 
-transformation: 
-type: uniform 
-upper_bound: 50 
+estimation_phase:
+label: Wnspsl_s_r
+lower_bound: 1
+mcmc:
+parameter: selectivity[Wnspsl].sigma_r
+prior_applies_to_transform:
+same:
+transform_with_jacobian:
+transformation:
+type: uniform
+upper_bound: 50
 {end_list}
 
 selectivity[Espsl].mu {list}
 value: 10.501
 std_dev: 2.66587
-estimation_phase: 
-label: Espsl_mu 
-lower_bound: 1 
-mcmc: 
-parameter: selectivity[Espsl].mu 
-prior_applies_to_transform: 
-same: 
-transform_with_jacobian: 
-transformation: 
-type: uniform 
-upper_bound: 17 
+estimation_phase:
+label: Espsl_mu
+lower_bound: 1
+mcmc:
+parameter: selectivity[Espsl].mu
+prior_applies_to_transform:
+same:
+transform_with_jacobian:
+transformation:
+type: uniform
+upper_bound: 17
 {end_list}
 
 selectivity[Espsl].sigma_l {list}
 value: 49.9337
 std_dev: 1941.87
-estimation_phase: 
-label: Espsl_s_l 
-lower_bound: 1 
-mcmc: 
-parameter: selectivity[Espsl].sigma_l 
-prior_applies_to_transform: 
-same: 
-transform_with_jacobian: 
-transformation: 
-type: uniform 
-upper_bound: 50 
+estimation_phase:
+label: Espsl_s_l
+lower_bound: 1
+mcmc:
+parameter: selectivity[Espsl].sigma_l
+prior_applies_to_transform:
+same:
+transform_with_jacobian:
+transformation:
+type: uniform
+upper_bound: 50
 {end_list}
 
 selectivity[Espsl].sigma_r {list}
 value: 3.80384
 std_dev: 26.5974
-estimation_phase: 
-label: Espsl_s_r 
-lower_bound: 1 
-mcmc: 
-parameter: selectivity[Espsl].sigma_r 
-prior_applies_to_transform: 
-same: 
-transform_with_jacobian: 
-transformation: 
-type: uniform 
-upper_bound: 50 
+estimation_phase:
+label: Espsl_s_r
+lower_bound: 1
+mcmc:
+parameter: selectivity[Espsl].sigma_r
+prior_applies_to_transform:
+same:
+transform_with_jacobian:
+transformation:
+type: uniform
+upper_bound: 50
 {end_list}
 
 selectivity[CRsl].mu {list}
 value: 1.00199
 std_dev: 2216.82
-estimation_phase: 
-label: CRsl_mu 
-lower_bound: 1 
-mcmc: 
-parameter: selectivity[CRsl].mu 
-prior_applies_to_transform: 
-same: 
-transform_with_jacobian: 
-transformation: 
-type: uniform 
-upper_bound: 17 
+estimation_phase:
+label: CRsl_mu
+lower_bound: 1
+mcmc:
+parameter: selectivity[CRsl].mu
+prior_applies_to_transform:
+same:
+transform_with_jacobian:
+transformation:
+type: uniform
+upper_bound: 17
 {end_list}
 
 selectivity[CRsl].sigma_l {list}
 value: 49.9879
 std_dev: 4669.2
-estimation_phase: 
-label: CRsl_s_l 
-lower_bound: 1 
-mcmc: 
-parameter: selectivity[CRsl].sigma_l 
-prior_applies_to_transform: 
-same: 
-transform_with_jacobian: 
-transformation: 
-type: uniform 
-upper_bound: 50 
+estimation_phase:
+label: CRsl_s_l
+lower_bound: 1
+mcmc:
+parameter: selectivity[CRsl].sigma_l
+prior_applies_to_transform:
+same:
+transform_with_jacobian:
+transformation:
+type: uniform
+upper_bound: 50
 {end_list}
 
 selectivity[CRsl].sigma_r {list}
 value: 8.43285
 std_dev: 12.4409
-estimation_phase: 
-label: CRsl_s_r 
-lower_bound: 1 
-mcmc: 
-parameter: selectivity[CRsl].sigma_r 
-prior_applies_to_transform: 
-same: 
-transform_with_jacobian: 
-transformation: 
-type: uniform 
-upper_bound: 50 
+estimation_phase:
+label: CRsl_s_r
+lower_bound: 1
+mcmc:
+parameter: selectivity[CRsl].sigma_r
+prior_applies_to_transform:
+same:
+transform_with_jacobian:
+transformation:
+type: uniform
+upper_bound: 50
 {end_list}
 
 selectivity[SAsl].mu {list}
 value: 13.0468
 std_dev: 6.81735
-estimation_phase: 
-label: SAsl_mu 
-lower_bound: 1 
-mcmc: 
-parameter: selectivity[SAsl].mu 
-prior_applies_to_transform: 
-same: 
-transform_with_jacobian: 
-transformation: 
-type: uniform 
-upper_bound: 17 
+estimation_phase:
+label: SAsl_mu
+lower_bound: 1
+mcmc:
+parameter: selectivity[SAsl].mu
+prior_applies_to_transform:
+same:
+transform_with_jacobian:
+transformation:
+type: uniform
+upper_bound: 17
 {end_list}
 
 selectivity[SAsl].sigma_l {list}
 value: 10.6325
 std_dev: 11.2348
-estimation_phase: 
-label: SAsl_s_l 
-lower_bound: 1 
-mcmc: 
-parameter: selectivity[SAsl].sigma_l 
-prior_applies_to_transform: 
-same: 
-transform_with_jacobian: 
-transformation: 
-type: uniform 
-upper_bound: 50 
+estimation_phase:
+label: SAsl_s_l
+lower_bound: 1
+mcmc:
+parameter: selectivity[SAsl].sigma_l
+prior_applies_to_transform:
+same:
+transform_with_jacobian:
+transformation:
+type: uniform
+upper_bound: 50
 {end_list}
 
 selectivity[SAsl].sigma_r {list}
 value: 2.04148
 std_dev: 201.101
-estimation_phase: 
-label: SAsl_s_r 
-lower_bound: 1 
-mcmc: 
-parameter: selectivity[SAsl].sigma_r 
-prior_applies_to_transform: 
-same: 
-transform_with_jacobian: 
-transformation: 
-type: uniform 
-upper_bound: 50 
+estimation_phase:
+label: SAsl_s_r
+lower_bound: 1
+mcmc:
+parameter: selectivity[SAsl].sigma_r
+prior_applies_to_transform:
+same:
+transform_with_jacobian:
+transformation:
+type: uniform
+upper_bound: 50
 {end_list}
 
 *end
@@ -12321,5 +12321,5 @@ estimated parameter 'selectivity[sel_Whome].v{7}' was within 0.001 of upper boun
 *end
 
 [INFO] Completed
-[INFO] Total CPU time: -3.90936e+08 hours
-[INFO] Total elapsed time: 13.017 minutes
+[INFO] Total CPU time: -3.90923e+08 hours
+[INFO] Total elapsed time: 5.483 minutes
