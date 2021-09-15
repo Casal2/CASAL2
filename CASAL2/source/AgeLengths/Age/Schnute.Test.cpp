@@ -4,7 +4,7 @@
  * @date 19/08/2013
  * @section LICENSE
  *
- * Copyright NIWA Science ©2013 - www.niwa.co.nz
+ * Copyright NIWA Science ï¿½2013 - www.niwa.co.nz
  *
  */
 #ifdef TESTMODE
@@ -47,10 +47,24 @@ public:
     cv_first_              = cv_first;
     cv_last_               = cv_last;
     time_step_proportions_ = time_step_proportions;
+
+    year_offset_ = model ->start_year();
+    age_offset_ = model ->min_age();    
+    model_years_ = model->years();
+
+    // allocate memory for cvs; this is usually done in the Build() but difficult to mock
+    cvs_.resize(model->years().size());
+    for(unsigned year_ndx = 0; year_ndx < cvs_.size(); ++year_ndx) {
+      cvs_[year_ndx].resize(model->time_steps().size());
+      for(unsigned time_step_ndx = 0; time_step_ndx < cvs_[year_ndx].size(); ++time_step_ndx) {
+        cvs_[year_ndx][time_step_ndx].resize(model->age_spread(), 0.0);
+      }
+    }      
+  }
+
+  void MockPopulateCV() { this->PopulateCV(); }
   };
 
-  void MockBuildCV() { this->BuildCV(); }
-};
 
 /**
  * Test the results of our Schnute are correct
@@ -70,11 +84,12 @@ TEST(AgeLengths, Schnute) {
   EXPECT_CALL(*model, managers()).WillRepeatedly(Return(mock_managers));
   EXPECT_CALL(*model, time_steps()).WillRepeatedly(ReturnRef(time_steps));
   EXPECT_CALL(*model, years()).WillRepeatedly(Return(years));
+  EXPECT_CALL(*model, age_spread()).WillRepeatedly(Return(10 - 5 + 1));
 
   EXPECT_CALL(*mock_managers, time_step()).WillRepeatedly(Return(&time_step_manager));
 
   MockSchnute schnute(model, 24.5, 104.8, 1, 20, 0.131, 1.70, true, 1.5, 0.01, {0.0});
-
+  schnute.MockPopulateCV();
   EXPECT_DOUBLE_EQ(69.024873822523432, schnute.mean_length(0, 5));
   EXPECT_DOUBLE_EQ(74.848134092163818, schnute.mean_length(0, 6));
   EXPECT_DOUBLE_EQ(79.70651775663795, schnute.mean_length(0, 7));
@@ -82,7 +97,7 @@ TEST(AgeLengths, Schnute) {
   EXPECT_DOUBLE_EQ(87.285326700186346, schnute.mean_length(0, 9));
   EXPECT_DOUBLE_EQ(90.261388412893822, schnute.mean_length(0, 10));
 
-  ASSERT_NO_THROW(schnute.MockBuildCV());
+  //ASSERT_NO_THROW(schnute.MockBuildCV());
   EXPECT_DOUBLE_EQ(1.5, schnute.cv(1990, 0, 5));
   EXPECT_DOUBLE_EQ(1.5, schnute.cv(1990, 0, 6));
   EXPECT_DOUBLE_EQ(1.5, schnute.cv(1990, 0, 7));
@@ -113,19 +128,17 @@ TEST(AgeLengths, Schnute_BuildCV_ByLength_Proportion) {
   EXPECT_CALL(*model, managers()).WillRepeatedly(Return(mock_managers));
   EXPECT_CALL(*model, time_steps()).WillRepeatedly(ReturnRef(time_steps));
   EXPECT_CALL(*model, years()).WillRepeatedly(Return(years));
+  EXPECT_CALL(*model, age_spread()).WillRepeatedly(Return(10 - 5 + 1));
 
-  MockSchnute schnute(model, 24.5, 104.8, 1, 20, 0.131, 1.70, true, 1.5, 7, {0.3});
+  MockSchnute  schnute(model, 24.5, 104.8, 1, 20, 0.131, 1.70, true, 1.5, 7, {0.3});
+  schnute.MockPopulateCV();
 
-  ASSERT_NO_THROW(schnute.MockBuildCV());
-
-  EXPECT_DOUBLE_EQ(0.0, schnute.cv(1990, 0, 4));
   EXPECT_DOUBLE_EQ(1.5, schnute.cv(1990, 0, 5));
   EXPECT_DOUBLE_EQ(1.5, schnute.cv(1990, 0, 6));
   EXPECT_DOUBLE_EQ(1.5, schnute.cv(1990, 0, 7));
   EXPECT_DOUBLE_EQ(1.5, schnute.cv(1990, 0, 8));
   EXPECT_DOUBLE_EQ(1.5, schnute.cv(1990, 0, 9));
   EXPECT_DOUBLE_EQ(1.5, schnute.cv(1990, 0, 10));
-  EXPECT_DOUBLE_EQ(0.0, schnute.cv(1990, 0, 11));
 
   EXPECT_DOUBLE_EQ(70.88858658180817, schnute.mean_length(0, 5));
   EXPECT_DOUBLE_EQ(76.396278285380305, schnute.mean_length(0, 6));
@@ -158,17 +171,16 @@ TEST(AgeLengths, Schnute_BuildCV_ByLength_ProportionAndTimeStep) {
   EXPECT_CALL(*model, managers()).WillRepeatedly(Return(mock_managers));
   EXPECT_CALL(*model, time_steps()).WillRepeatedly(ReturnRef(time_steps));
   EXPECT_CALL(*model, years()).WillRepeatedly(Return(years));
+  EXPECT_CALL(*model, age_spread()).WillRepeatedly(Return(10 - 5 + 1));
 
   MockSchnute schnute(model, 24.5, 104.8, 1, 20, 0.131, 1.70, true, 0.2, 0.9, {0.25, 0.5});
-  ASSERT_NO_THROW(schnute.MockBuildCV());
-  EXPECT_DOUBLE_EQ(0.0, schnute.cv(1990, 1, 4));
+  ASSERT_NO_THROW(schnute.MockPopulateCV());
   EXPECT_DOUBLE_EQ(0.20000000000000001, schnute.cv(1990, 1, 5));
   EXPECT_DOUBLE_EQ(0.20000000000000001, schnute.cv(1990, 1, 6));
   EXPECT_DOUBLE_EQ(0.20000000000000001, schnute.cv(1990, 1, 7));
   EXPECT_DOUBLE_EQ(0.20000000000000001, schnute.cv(1990, 1, 8));
   EXPECT_DOUBLE_EQ(0.20000000000000001, schnute.cv(1990, 1, 9));
   EXPECT_DOUBLE_EQ(0.20000000000000001, schnute.cv(1990, 1, 10));
-  EXPECT_DOUBLE_EQ(0.0, schnute.cv(1990, 1, 11));
 
   EXPECT_TRUE(testing::Mock::VerifyAndClearExpectations(mock_managers.get()));
   EXPECT_TRUE(testing::Mock::VerifyAndClearExpectations(model.get()));
@@ -195,17 +207,16 @@ TEST(AgeLengths, Schnute_BuildCV_LinearInterpolation) {
   EXPECT_CALL(*model, managers()).WillRepeatedly(Return(mock_managers));
   EXPECT_CALL(*model, time_steps()).WillRepeatedly(ReturnRef(time_steps));
   EXPECT_CALL(*model, years()).WillRepeatedly(Return(years));
+  EXPECT_CALL(*model, age_spread()).WillRepeatedly(Return(10 - 5 + 1));
 
   MockSchnute schnute(model, 24.5, 104.8, 1, 20, 0.131, 1.70, false, 0.1, 0.9, {1.0});
-  ASSERT_NO_THROW(schnute.MockBuildCV());
-  EXPECT_DOUBLE_EQ(0.0, schnute.cv(1990, 0, 4));
+  ASSERT_NO_THROW(schnute.MockPopulateCV());
   EXPECT_DOUBLE_EQ(0.10000000000000001, schnute.cv(1990, 0, 5));
   EXPECT_DOUBLE_EQ(0.10000000000000001, schnute.cv(1990, 0, 6));
   EXPECT_DOUBLE_EQ(0.10000000000000001, schnute.cv(1990, 0, 7));
   EXPECT_DOUBLE_EQ(0.10000000000000001, schnute.cv(1990, 0, 8));
   EXPECT_DOUBLE_EQ(0.10000000000000001, schnute.cv(1990, 0, 9));
   EXPECT_DOUBLE_EQ(0.10000000000000001, schnute.cv(1990, 0, 10));
-  EXPECT_DOUBLE_EQ(0.0, schnute.cv(1990, 0, 11));
 
   EXPECT_TRUE(testing::Mock::VerifyAndClearExpectations(mock_managers.get()));
   EXPECT_TRUE(testing::Mock::VerifyAndClearExpectations(model.get()));

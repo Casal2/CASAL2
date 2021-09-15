@@ -67,6 +67,10 @@ void AgeLength::Validate() {
   LOG_FINEST() << "by_length_ = " << by_length_;
   parameters_.Populate(model_);
 
+  // get offsets
+  year_offset_ = model_->start_year();
+  age_offset_ = model_->min_age();
+
   if (distribution_label_ == PARAM_NORMAL)
     distribution_ = Distribution::kNormal;
   else if (distribution_label_ == PARAM_LOGNORMAL)
@@ -84,6 +88,7 @@ void AgeLength::Validate() {
  * Obtain smart_pointers to any objects that will be used by this object.
  */
 void AgeLength::Build() {
+  LOG_FINE() << "Build()";
   unsigned time_step_count = model_->managers()->time_step()->ordered_time_steps().size();
   if (time_step_proportions_.size() == 0) {
     time_step_proportions_.assign(time_step_count, 0.0);
@@ -101,47 +106,55 @@ void AgeLength::Build() {
     if (iter < 0.0 || iter > 1.0)
       LOG_ERROR_P(PARAM_TIME_STEP_PROPORTIONS) << "Time step proportion value (" << iter << ") must be in the range 0.0 to 1.0 inclusive";
   }
+  // allocate memory for cvs
+  cvs_.resize(model_->years().size());
+  for(unsigned year_ndx = 0; year_ndx < cvs_.size(); ++year_ndx) {
+    cvs_[year_ndx].resize(model_->time_steps().size());
+    for(unsigned time_step_ndx = 0; time_step_ndx < cvs_[year_ndx].size(); ++time_step_ndx) {
+      cvs_[year_ndx][time_step_ndx].resize(model_->age_spread(), 0.0);
+    }
+  }
+  model_years_ = model_->years();
 
   DoBuild();
-  BuildCV();
+  PopulateCV();
 }
 
 /**
- * Calculate the CVs
- * populates a 3-D map of CVs by year, age, and time_step
+ * Populates the CVs, memory has been allocated in the Build()
+ * populates a 3-D vector of CVs by year, time_step, and age
  */
-void AgeLength::BuildCV() {
+void AgeLength::PopulateCV() {
+  LOG_FINE() << "PopulateCV()";
   unsigned min_age = model_->min_age();
   unsigned max_age = model_->max_age();
+  unsigned age = min_age;
 
-  vector<unsigned> years(model_->years().size() + 1, 0);
-  unsigned         year_ndx = 1;
-  for (unsigned year : model_->years()) {
-    years[year_ndx] = year;
-    ++year_ndx;
-  }
   vector<string> time_steps = model_->time_steps();
 
-  for (unsigned year : years) {
+  for(unsigned year_ndx = 0; year_ndx < cvs_.size(); ++year_ndx) {
     for (unsigned step_iter = 0; step_iter < time_steps.size(); ++step_iter) {
       if (!parameters_.Get(PARAM_CV_LAST)->has_been_defined()) {
         // TODO: Fix this #this test is robust but not compatible with testing framework, blah
         // If cv_last_ is not defined in the input then assume cv_first_ represents the cv for all age classes i.e constant cv
         LOG_FINEST() << "No cv_last defined";
-        for (unsigned age = min_age; age <= max_age; ++age) cvs_[year][step_iter][age] = (cv_first_);
-
+        for (unsigned age_ndx = 0; age_ndx <  model_->age_spread(); ++age_ndx) 
+          cvs_[year_ndx][step_iter][age_ndx] = (cv_first_);
       } else if (by_length_) {  // if passed the first test we have a min and max CV. So ask if this is linear interpolated by length at age
         LOG_FINEST() << "cv_last defined with by_length = true";
-        for (unsigned age = min_age; age <= max_age; ++age) {
-          cvs_[year][step_iter][age] = ((this->mean_length(step_iter, age) - this->mean_length(step_iter, min_age)) * (cv_last_ - cv_first_)
-                                            / (this->mean_length(step_iter, max_age) - this->mean_length(step_iter, min_age))
+        age = min_age; // needs resetting for each year and timestep
+        for (unsigned age_ndx = 0; age_ndx <  model_->age_spread(); ++age_ndx, ++age) {
+          cvs_[year_ndx][step_iter][age_ndx] = ((this->GetMeanLength(model_years_[year_ndx], step_iter, age) - this->GetMeanLength(model_years_[year_ndx], step_iter, min_age)) * (cv_last_ - cv_first_)
+                                            / (this->GetMeanLength(model_years_[year_ndx], step_iter, max_age) - this->GetMeanLength(model_years_[year_ndx], step_iter, min_age))
                                         + cv_first_);
         }
       } else {
         // else Do linear interpolation between cv_first_ and cv_last_ based on age class
         LOG_FINEST() << "cv_last defined with by_length = false";
-        for (unsigned age = min_age; age <= max_age; ++age) cvs_[year][step_iter][age] = (cv_first_ + (cv_last_ - cv_first_) * (age - min_age) / (max_age - min_age));
-
+        age = min_age;// needs resetting for each year and timestep
+        for (unsigned age_ndx = 0; age_ndx <  model_->age_spread(); ++age_ndx, ++age) {
+          cvs_[year_ndx][step_iter][age_ndx] = (cv_first_ + (cv_last_ - cv_first_) * (age - min_age) / (max_age - min_age));
+        }
       }  // if (!parameters_.Get(PARAM_CV_LAST)->has_been_defined()) {
     }    // for (unsigned step_iter = 0; step_iter < time_steps.size(); ++step_iter)
   }      // for (unsigned year : years) {
@@ -153,7 +166,7 @@ void AgeLength::BuildCV() {
 void AgeLength::Reset() {
   if (is_estimated_) {
     LOG_FINEST() << "Rebuilding cv lookup table";
-    BuildCV();
+    PopulateCV();
   }
 
   LOG_FINE() << "Resetting age-length";
@@ -165,9 +178,9 @@ void AgeLength::Reset() {
  */
 void AgeLength::RebuildCache() {
   LOG_FINE() << "Rebuilding age-length cache for year " << model_->current_year() << " run mode " << model_->run_mode() << " state " << model_->state();
-
-  BuildCV();
   DoRebuildCache();
+  PopulateCV();
+
 }
 
 } /* namespace niwa */

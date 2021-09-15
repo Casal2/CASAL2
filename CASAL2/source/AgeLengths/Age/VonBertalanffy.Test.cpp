@@ -51,18 +51,41 @@ public:
     cv_last_               = cv_last;
     time_step_proportions_ = time_step_proportions;
     compatibility_         = compatibility;
-    distribution_          = distribution;
+    distribution_          = distribution; 
+    year_offset_ = model ->start_year();
+    age_offset_ = model ->min_age();    
+    model_years_ = model->years();
+    // allocate memory for cvs; this is usually done in the Build() but difficult to mock
+    cvs_.resize(model->years().size());
+    for(unsigned year_ndx = 0; year_ndx < cvs_.size(); ++year_ndx) {
+      cvs_[year_ndx].resize(model->time_steps().size());
+      for(unsigned time_step_ndx = 0; time_step_ndx < cvs_[year_ndx].size(); ++time_step_ndx) {
+        cvs_[year_ndx][time_step_ndx].resize(model->age_spread(), 0.0);
+      }
+    }      
   }
 
-  void MockBuildCV() { this->BuildCV(); }
+  void MockPopulateCV() { this->PopulateCV(); }
 };
 
 TEST(AgeLengths, VonBertalanffy_MeanLength) {
   shared_ptr<MockModel> model = shared_ptr<MockModel>(new MockModel());
-  model->bind_calls();
+  MockManagersPtr       mock_managers = MockManagersPtr(new MockManagers(model));
+  MockTimeStepManager   time_step_manager;
+  time_step_manager.time_step_index_ = 0;
+  vector<string>   time_steps        = {"0", "1", "2"};
+  vector<unsigned> years             = {1990, 1991, 1992};
+  EXPECT_CALL(*model, min_age()).WillRepeatedly(Return(1));
+  EXPECT_CALL(*model, max_age()).WillRepeatedly(Return(10));
+  EXPECT_CALL(*model, start_year()).WillRepeatedly(Return(1990));
+  EXPECT_CALL(*model, final_year()).WillRepeatedly(Return(1992));
+  EXPECT_CALL(*model, age_spread()).WillRepeatedly(Return(10 - 1 + 1));
+  EXPECT_CALL(*model, managers()).WillRepeatedly(Return(mock_managers));
+  EXPECT_CALL(*model, time_steps()).WillRepeatedly(ReturnRef(time_steps));
+  EXPECT_CALL(*model, years()).WillRepeatedly(Return(years));
 
-  MockVonBertalanffy von_bertalanffy(model, 80, 0.064, 4, false, 0.2, 0.2, {1.0});
-  ASSERT_NO_THROW(von_bertalanffy.MockBuildCV());
+  MockVonBertalanffy von_bertalanffy(model, 80, 0.064, 4, false, 0.2, 0.2, {1.0}, PARAM_CASAL2, Distribution::kNormal);
+  von_bertalanffy.MockPopulateCV();
 
   EXPECT_DOUBLE_EQ(0.0, von_bertalanffy.mean_length(0, 1));
   EXPECT_DOUBLE_EQ(0.0, von_bertalanffy.mean_length(0, 2));
@@ -74,6 +97,9 @@ TEST(AgeLengths, VonBertalanffy_MeanLength) {
   EXPECT_DOUBLE_EQ(21.908077034104725, von_bertalanffy.mean_length(0, 8));
   EXPECT_DOUBLE_EQ(25.509485825636233, von_bertalanffy.mean_length(0, 9));
   EXPECT_DOUBLE_EQ(28.887625277446702, von_bertalanffy.mean_length(0, 10));
+
+  EXPECT_TRUE(testing::Mock::VerifyAndClearExpectations(mock_managers.get()));
+  EXPECT_TRUE(testing::Mock::VerifyAndClearExpectations(model.get()));
 }
 
 TEST(AgeLengths, VonBertalanffy_MeanLength_2) {
@@ -81,8 +107,7 @@ TEST(AgeLengths, VonBertalanffy_MeanLength_2) {
   model->bind_calls();
 
   MockVonBertalanffy von_bertalanffy(model, 80, 0.064, 4, false, 0.2, 0.2, {1.0}, PARAM_CASAL2, Distribution::kLogNormal);
-  ASSERT_NO_THROW(von_bertalanffy.MockBuildCV());
-
+  von_bertalanffy.MockPopulateCV();
   EXPECT_DOUBLE_EQ(0.0, von_bertalanffy.mean_length(0, 1));
   EXPECT_DOUBLE_EQ(0.0, von_bertalanffy.mean_length(0, 2));
   EXPECT_DOUBLE_EQ(0.0, von_bertalanffy.mean_length(0, 3));
@@ -93,6 +118,7 @@ TEST(AgeLengths, VonBertalanffy_MeanLength_2) {
   EXPECT_DOUBLE_EQ(21.908077034104725, von_bertalanffy.mean_length(0, 8));
   EXPECT_DOUBLE_EQ(25.509485825636233, von_bertalanffy.mean_length(0, 9));
   EXPECT_DOUBLE_EQ(28.887625277446702, von_bertalanffy.mean_length(0, 10));
+  EXPECT_TRUE(testing::Mock::VerifyAndClearExpectations(model.get()));
 }
 
 /**
@@ -100,11 +126,23 @@ TEST(AgeLengths, VonBertalanffy_MeanLength_2) {
  */
 TEST(AgeLengths, VonBertalanffy_CV) {
   shared_ptr<MockModel> model = shared_ptr<MockModel>(new MockModel());
-  model->bind_calls();
+  MockManagersPtr       mock_managers = MockManagersPtr(new MockManagers(model));
+  MockTimeStepManager   time_step_manager;
+  time_step_manager.time_step_index_ = 0;
+  vector<string>   time_steps        = {"0", "1", "2"};
+  vector<unsigned> years             = {1990, 1991, 1992};
+  EXPECT_CALL(*model, min_age()).WillRepeatedly(Return(1));
+  EXPECT_CALL(*model, max_age()).WillRepeatedly(Return(10));
+  EXPECT_CALL(*model, start_year()).WillRepeatedly(Return(1990));
+  EXPECT_CALL(*model, final_year()).WillRepeatedly(Return(1992));
+  EXPECT_CALL(*model, age_spread()).WillRepeatedly(Return(10 - 1 + 1));
+  EXPECT_CALL(*model, managers()).WillRepeatedly(Return(mock_managers));
+  EXPECT_CALL(*model, time_steps()).WillRepeatedly(ReturnRef(time_steps));
+  EXPECT_CALL(*model, years()).WillRepeatedly(Return(years));
 
-  MockVonBertalanffy von_bertalanffy(model, 80, 0.064, 4, false, 0.2, 0.2, {1.0});
-  ASSERT_NO_THROW(von_bertalanffy.MockBuildCV());
 
+  MockVonBertalanffy von_bertalanffy(model, 80, 0.064, 4, false, 0.2, 0.2, {1.0},  PARAM_CASAL2, Distribution::kNormal);
+  von_bertalanffy.MockPopulateCV();
   EXPECT_DOUBLE_EQ(0.2, von_bertalanffy.cv(1990, 0, 1));
   EXPECT_DOUBLE_EQ(0.2, von_bertalanffy.cv(1990, 0, 2));
   EXPECT_DOUBLE_EQ(0.2, von_bertalanffy.cv(1990, 0, 3));
@@ -113,6 +151,9 @@ TEST(AgeLengths, VonBertalanffy_CV) {
   EXPECT_DOUBLE_EQ(0.2, von_bertalanffy.cv(1990, 0, 6));
   EXPECT_DOUBLE_EQ(0.2, von_bertalanffy.cv(1990, 0, 7));
   EXPECT_DOUBLE_EQ(0.2, von_bertalanffy.cv(1990, 0, 8));
+
+  EXPECT_TRUE(testing::Mock::VerifyAndClearExpectations(mock_managers.get()));
+  EXPECT_TRUE(testing::Mock::VerifyAndClearExpectations(model.get()));
 }
 
 /**
@@ -120,11 +161,22 @@ TEST(AgeLengths, VonBertalanffy_CV) {
  */
 TEST(AgeLengths, VonBertalanffy_CV_2) {
   shared_ptr<MockModel> model = shared_ptr<MockModel>(new MockModel());
-  model->bind_calls();
+  MockManagersPtr       mock_managers = MockManagersPtr(new MockManagers(model));
+  MockTimeStepManager   time_step_manager;
+  time_step_manager.time_step_index_ = 0;
+  vector<string>   time_steps        = {"0", "1", "2"};
+  vector<unsigned> years             = {1990, 1991, 1992};
+  EXPECT_CALL(*model, min_age()).WillRepeatedly(Return(1));
+  EXPECT_CALL(*model, max_age()).WillRepeatedly(Return(10));
+  EXPECT_CALL(*model, start_year()).WillRepeatedly(Return(1990));
+  EXPECT_CALL(*model, final_year()).WillRepeatedly(Return(1992));
+  EXPECT_CALL(*model, age_spread()).WillRepeatedly(Return(10 - 1 + 1));
+  EXPECT_CALL(*model, managers()).WillRepeatedly(Return(mock_managers));
+  EXPECT_CALL(*model, time_steps()).WillRepeatedly(ReturnRef(time_steps));
+  EXPECT_CALL(*model, years()).WillRepeatedly(Return(years));
 
-  MockVonBertalanffy von_bertalanffy(model, 169.07, 0.093, -0.256, true, 0.102, 0.0, {0.0, 0.0}, PARAM_CASAL);
-  ASSERT_NO_THROW(von_bertalanffy.MockBuildCV());
-
+  MockVonBertalanffy von_bertalanffy(model, 169.07, 0.093, -0.256, true, 0.102, 0.0, {0.0, 0.0}, PARAM_CASAL, Distribution::kNormal);
+  von_bertalanffy.MockPopulateCV();
   EXPECT_DOUBLE_EQ(0.10199999999999999, von_bertalanffy.cv(1990, 0, 1));
   EXPECT_DOUBLE_EQ(0.10199999999999999, von_bertalanffy.cv(1990, 0, 2));
   EXPECT_DOUBLE_EQ(0.10199999999999999, von_bertalanffy.cv(1990, 0, 3));
@@ -133,6 +185,8 @@ TEST(AgeLengths, VonBertalanffy_CV_2) {
   EXPECT_DOUBLE_EQ(0.10199999999999999, von_bertalanffy.cv(1990, 0, 6));
   EXPECT_DOUBLE_EQ(0.10199999999999999, von_bertalanffy.cv(1990, 0, 7));
   EXPECT_DOUBLE_EQ(0.10199999999999999, von_bertalanffy.cv(1990, 0, 8));
+  EXPECT_TRUE(testing::Mock::VerifyAndClearExpectations(mock_managers.get()));
+  EXPECT_TRUE(testing::Mock::VerifyAndClearExpectations(model.get()));
 }
 
 ///**

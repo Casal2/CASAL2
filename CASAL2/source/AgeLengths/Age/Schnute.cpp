@@ -107,7 +107,7 @@ Double Schnute::mean_weight(unsigned time_step, unsigned age) {
   unsigned year = model_->current_year();
   Double   size = mean_length_[time_step][age];
   // LOG_FINE() << "year = " << year << " age " << age << " time step " << time_step << " cv = " <<  cvs_[year][age][time_step];
-  Double mean_weight = length_weight_->mean_weight(size, distribution_, cvs_[year][time_step][age]);
+  Double mean_weight = length_weight_->mean_weight(size, distribution_, cvs_[year - year_offset_][time_step - time_step_offset_][age - age_offset_]);
   return mean_weight;
 }
 
@@ -133,7 +133,7 @@ Double Schnute::GetMeanLength(unsigned year, unsigned time_step, unsigned age) {
  * @return mean weight for one member
  */
 Double Schnute::GetMeanWeight(unsigned year, unsigned time_step, unsigned age, Double length) {
-  return length_weight_->mean_weight(length, distribution_, cvs_[year][time_step][age]);
+  return length_weight_->mean_weight(length, distribution_, cvs_[year - year_offset_][time_step - time_step_offset_][age - age_offset_]);
 }
 
 /**

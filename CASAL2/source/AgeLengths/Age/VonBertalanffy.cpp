@@ -95,8 +95,8 @@ Double VonBertalanffy::mean_length(unsigned time_step, unsigned age) {
 Double VonBertalanffy::mean_weight(unsigned time_step, unsigned age) {
   unsigned year        = model_->current_year();
   Double   size        = mean_length_[time_step][age];
-  Double   mean_weight = 0.0;                                                                           //
-  mean_weight          = length_weight_->mean_weight(size, distribution_, cvs_[year][time_step][age]);  // make a map [key = age]
+  Double   mean_weight = 0.0;                                                                      //
+  mean_weight          = length_weight_->mean_weight(size, distribution_, cvs_[year - year_offset_][time_step - time_step_offset_][age - age_offset_]);  // make a map [key = age]
   return mean_weight;
 }
 
@@ -110,7 +110,7 @@ Double VonBertalanffy::mean_weight(unsigned time_step, unsigned age) {
  * @return mean weight for one member
  */
 Double VonBertalanffy::GetMeanWeight(unsigned year, unsigned time_step, unsigned age, Double length) {
-  return length_weight_->mean_weight(length, distribution_, cvs_[year][time_step][age]);
+  return length_weight_->mean_weight(length, distribution_, cvs_[year - year_offset_][time_step - time_step_offset_][age - age_offset_]);
 }
 
 /**

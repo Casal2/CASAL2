@@ -154,6 +154,7 @@ void Partition::BuildMeanLengthData() {
         }
       }
     }
+    LOG_FINE() << "Population complete";
 
     category.UpdateMeanWeightData();
   }  // for (auto iter : partition_)

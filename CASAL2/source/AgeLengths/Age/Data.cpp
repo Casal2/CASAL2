@@ -412,7 +412,8 @@ void Data::FillInternalGaps() {
  */
 Double Data::mean_length(unsigned time_step, unsigned age) {
   if (model_->state() == State::kInitialise || model_->state() == State::kBuild || model_->state() == State::kVerify) {
-    LOG_FINEST() << "state init or build";
+    LOG_FINEST() << "state init or build " << " time-setp = " << time_step << " age = "<< age;
+    //LOG_FINEST() << "dim 1 = " << data_by_age_time_step_.size() << " dim2 = " << data_by_age_time_step_[0].size();
     return data_by_age_time_step_[time_step][age];
   }
   unsigned year = model_->current_year();
@@ -429,8 +430,8 @@ Double Data::mean_length(unsigned time_step, unsigned age) {
 Double Data::mean_weight(unsigned time_step, unsigned age) {
   unsigned year = model_->current_year();
   Double   size = this->mean_length(time_step, age);
-  LOG_FINEST() << " year = " << year << " age = " << age << " time step = " << time_step << " size = " << size << " cv = " << cvs_[year][time_step][age];
-  return length_weight_->mean_weight(size, distribution_, cvs_[year][time_step][age]);
+  //LOG_FINEST() << " year = " << year << " age = " << age << " time step = " << time_step << " size = " << size << " cv = " << cvs_[year - year_offset_][time_step - time_step_offset_][age - age_offset_];
+  return length_weight_->mean_weight(size, distribution_, cvs_[year - year_offset_][time_step - time_step_offset_][age - age_offset_]);
 }
 
 /**
@@ -458,7 +459,7 @@ Double Data::GetMeanLength(unsigned year, unsigned time_step, unsigned age) {
  * @return mean weight for one member
  */
 Double Data::GetMeanWeight(unsigned year, unsigned time_step, unsigned age, Double length) {
-  return length_weight_->mean_weight(length, distribution_, cvs_[year][time_step][age]);
+  return length_weight_->mean_weight(length, distribution_, cvs_[year - year_offset_][time_step - time_step_offset_][age - age_offset_]);
 }
 
 /**

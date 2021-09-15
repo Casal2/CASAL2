@@ -406,7 +406,10 @@ void Model::Validate() {
  *
  */
 void Model::Build() {
-  LOG_TRACE();
+  LOG_FINE() << "Model:Build()";
+  // Set current year
+  current_year_ = start_year_;
+
   categories()->Build();
   partition().Build();
   managers()->Build();
@@ -424,7 +427,7 @@ void Model::Build() {
   }
 
   managers_->Reset();
-  LOG_TRACE();
+  LOG_FINE() << "Exit: Model:Build()";
 }
 
 /**

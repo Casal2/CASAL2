@@ -104,8 +104,8 @@ public:
    */
   void bind_calls() {
     EXPECT_CALL(*this, min_age()).WillRepeatedly(Return(min_age_));
+    EXPECT_CALL(*this, age_spread()).WillRepeatedly(Return((max_age_ - min_age_) + 1));
     EXPECT_CALL(*this, max_age()).WillRepeatedly(Return(max_age_));
-    EXPECT_CALL(*this, age_spread()).WillRepeatedly(Return(mock_age_spread()));
     EXPECT_CALL(*this, start_year()).WillRepeatedly(Return(start_year_));
     EXPECT_CALL(*this, final_year()).WillRepeatedly(Return(final_year_));
     EXPECT_CALL(*this, projection_final_year()).WillRepeatedly(Return(projection_final_year_));

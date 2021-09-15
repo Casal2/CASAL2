@@ -75,16 +75,27 @@ public:
     time_step_proportions_ = time_step_proportions;
     compatibility_         = compatibility;
     distribution_          = distribution;
+    year_offset_ = model ->start_year();
+    age_offset_ = model ->min_age();    
+    model_years_ = model->years();
+    // allocate memory for cvs; this is usually done in the Build() but difficult to mock
+    cvs_.resize(model->years().size());
+    for(unsigned year_ndx = 0; year_ndx < cvs_.size(); ++year_ndx) {
+      cvs_[year_ndx].resize(model->time_steps().size());
+      for(unsigned time_step_ndx = 0; time_step_ndx < cvs_[year_ndx].size(); ++time_step_ndx) {
+        cvs_[year_ndx][time_step_ndx].resize(model->age_spread(), 0.0);
+      }
+    }   
   }
 
-  void MockBuildCV() { this->BuildCV(); }
+  void MockPopulateCV() { this->PopulateCV(); }
 
   Double mean_weight(unsigned time_step, unsigned age) override final { return 0.0; }
 
   double override_cv_ = 0.0;
   Double cv(unsigned year, unsigned time_step, unsigned age) override final {
     if (override_cv_ == 0.0)
-      return cvs_[year][time_step][age];
+      return cvs_[year - year_offset_][time_step - time_step_offset_][age - age_offset_];
     return override_cv_;
   };
 };
@@ -145,7 +156,8 @@ TEST(Partition, BuildMeanLength) {
   ASSERT_NO_THROW(mock_categories.Validate());
 
   MockVonBertalanffy von_bertalanffy(model, 80, 0.064, 4, false, 0.2, 0.2, {1.0, 1.0});
-  ASSERT_NO_THROW(von_bertalanffy.MockBuildCV());
+  ASSERT_NO_THROW(von_bertalanffy.MockPopulateCV());
+
   ASSERT_NO_THROW(von_bertalanffy.RebuildCache());
   mock_categories.age_length_ = &von_bertalanffy;
 
@@ -210,7 +222,7 @@ TEST(Partition, BuildAgeLengthProportions) {
   ASSERT_NO_THROW(mock_categories.Validate());
 
   MockVonBertalanffy von_bertalanffy(model, 80, 0.064, 4, false, 0.2, 0.2, {1.0, 1.0});
-  ASSERT_NO_THROW(von_bertalanffy.MockBuildCV());
+  ASSERT_NO_THROW(von_bertalanffy.MockPopulateCV());
   ASSERT_NO_THROW(von_bertalanffy.RebuildCache());
   mock_categories.age_length_ = &von_bertalanffy;
 
@@ -289,7 +301,7 @@ TEST(Partition, BuildAgeLengthProportions_2) {
   ASSERT_NO_THROW(mock_categories.Validate());
 
   MockVonBertalanffy von_bertalanffy(model, 80, 0.064, 4, false, 0.2, 0.2, {1.0, 1.0});
-  ASSERT_NO_THROW(von_bertalanffy.MockBuildCV());
+  ASSERT_NO_THROW(von_bertalanffy.MockPopulateCV());
   ASSERT_NO_THROW(von_bertalanffy.RebuildCache());
   mock_categories.age_length_ = &von_bertalanffy;
 
@@ -352,7 +364,7 @@ TEST(Partition, BuildAgeLengthProportions_3) {
   ASSERT_NO_THROW(mock_categories.Validate());
 
   MockVonBertalanffy von_bertalanffy(model, 80, 0.064, 4, false, 0.2, 0.2, {1.0, 1.0}, PARAM_CASAL2, Distribution::kLogNormal);
-  ASSERT_NO_THROW(von_bertalanffy.MockBuildCV());
+  ASSERT_NO_THROW(von_bertalanffy.MockPopulateCV());
   ASSERT_NO_THROW(von_bertalanffy.RebuildCache());
   mock_categories.age_length_ = &von_bertalanffy;
 
@@ -442,7 +454,7 @@ TEST(Partition, BuildAgeLengthProportions_4) {
   ASSERT_NO_THROW(mock_categories.Validate());
 
   MockVonBertalanffy von_bertalanffy(model, 80, 0.064, 4, false, 0.2, 0.2, {1.0, 1.0});
-  ASSERT_NO_THROW(von_bertalanffy.MockBuildCV());
+  ASSERT_NO_THROW(von_bertalanffy.MockPopulateCV());
   ASSERT_NO_THROW(von_bertalanffy.RebuildCache());
   mock_categories.age_length_ = &von_bertalanffy;
 

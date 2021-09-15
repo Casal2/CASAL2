@@ -43,12 +43,11 @@ public:
   virtual Double GetMeanWeight(unsigned year, unsigned time_step, unsigned age, Double length) = 0;
   virtual string weight_units()                                                                = 0;
 
-  virtual Double cv(unsigned year, unsigned time_step, unsigned age) { return cvs_[year][time_step][age]; };
+  virtual Double cv(unsigned year, unsigned time_step, unsigned age) { return cvs_[year - year_offset_][time_step - time_step_offset_][age - age_offset_]; };
   virtual string distribution_label() { return distribution_label_; };
   Distribution   distribution() const { return distribution_; }
   string         compatibility() const { return compatibility_; }
   bool           varies_by_years() const { return varies_by_year_; }
-
   // Methods
   virtual Double mean_weight(unsigned time_step, unsigned age) = 0;
   virtual Double mean_length(unsigned time_step, unsigned age) = 0;
@@ -61,19 +60,22 @@ protected:
   virtual void DoReset()        = 0;
   virtual void DoRebuildCache() = 0;
 
-  void BuildCV();
+  void         PopulateCV();
   // members
   shared_ptr<Model> model_ = nullptr;
   vector<Double>    time_step_proportions_;
   Double            cv_first_ = 0.0;
-  Double            cv_last_;
+  Double            cv_last_  = 0.0;
   bool              by_length_;
   string            distribution_label_;
   Distribution      distribution_;
   string            compatibility_  = "";
   bool              varies_by_year_ = false;
-
-  map<unsigned, map<unsigned, map<unsigned, Double>>> cvs_;  // cvs[year][time_step][age]
+  unsigned          year_offset_;
+  unsigned          age_offset_;
+  unsigned          time_step_offset_ = 0;// time-steps are already vector friendly i.e start at 0
+  vector<vector<vector<Double>>>    cvs_;  // cvs[year][time_step][age]
+  vector<unsigned>  model_years_;
 };
 
 } /* namespace niwa */
