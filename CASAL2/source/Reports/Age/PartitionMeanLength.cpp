@@ -11,12 +11,12 @@
 // headers
 #include "PartitionMeanLength.h"
 
-#include "AgeLengths/Manager.h"
 #include "Categories/Categories.h"
 #include "Model/Model.h"
 #include "Partition/Accessors/All.h"
 #include "Partition/Partition.h"
 #include "TimeSteps/Manager.h"
+#include "AgeLengths/AgeLength.h"
 
 // namespaces
 namespace niwa {
@@ -72,7 +72,7 @@ void PartitionMeanLength::DoExecute(shared_ptr<Model> model) {
 
       unsigned age_bins = (*iterator)->age_spread();
       for (unsigned age_index = 0; age_index < age_bins; ++age_index) {
-        Double temp = (*iterator)->mean_length_by_time_step_age_[year_index][time_step_index][age_index];
+        Double temp = (*iterator)->age_length_->mean_length(time_step_index, age_index + model->min_age());
         cache_ << AS_DOUBLE(temp) << " ";
       }
 

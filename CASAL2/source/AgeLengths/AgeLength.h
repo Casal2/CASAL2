@@ -23,7 +23,7 @@
 namespace niwa {
 class Model;
 class Selectivity;
-
+class LengthWeight;
 // classes
 class AgeLength : public niwa::base::Object {
 public:
@@ -39,28 +39,33 @@ public:
   virtual void RebuildCache();
 
   // accessors
-  virtual Double GetMeanLength(unsigned year, unsigned time_step, unsigned age)                = 0;
-  virtual Double GetMeanWeight(unsigned year, unsigned time_step, unsigned age, Double length) = 0;
-  virtual string weight_units()                                                                = 0;
+  string          weight_units();
+  const Double&   cv(unsigned year, unsigned time_step, unsigned age) { return cvs_[year - year_offset_][time_step - time_step_offset_][age - age_offset_]; };
+  virtual string  distribution_label() { return distribution_label_; };
+  Distribution    distribution() const { return distribution_; }
+  string          compatibility() const { return compatibility_; }
+  bool            varies_by_years() const { return varies_by_year_; }
+  const Double&   mean_weight(unsigned time_step, unsigned age) {return mean_weight_by_timestep_age_[time_step - time_step_offset_][age - age_offset_];};
+  const Double&   mean_length(unsigned time_step, unsigned age) {return mean_length_by_timestep_age_[time_step - time_step_offset_][age - age_offset_];};
 
-  virtual Double cv(unsigned year, unsigned time_step, unsigned age) { return cvs_[year - year_offset_][time_step - time_step_offset_][age - age_offset_]; };
-  virtual string distribution_label() { return distribution_label_; };
-  Distribution   distribution() const { return distribution_; }
-  string         compatibility() const { return compatibility_; }
-  bool           varies_by_years() const { return varies_by_year_; }
-  // Methods
-  virtual Double mean_weight(unsigned time_step, unsigned age) = 0;
-  virtual Double mean_length(unsigned time_step, unsigned age) = 0;
+  void            BuildAgeLengthMatrixForTheseYears(vector<unsigned> years);
+  void            populate_numbers_at_length(vector<Double> numbers_at_age, vector<Double>& numbers_at_length, Selectivity* selectivity);
+  void            populate_numbers_at_length(vector<Double> numbers_at_age, vector<Double>& numbers_at_length); // overloaded for the case with no selectivity
+  
+  // For reporting in the AgeLength 
+  void            FillReportCache(ostringstream& cache);
 
 protected:
   // methods
 
-  virtual void DoValidate()     = 0;
-  virtual void DoBuild()        = 0;
-  virtual void DoReset()        = 0;
-  virtual void DoRebuildCache() = 0;
+  virtual void      DoValidate()     = 0;
+  virtual void      DoBuild()        = 0;
+  virtual void      DoReset()        = 0;
+  virtual void      DoRebuildCache() = 0;
+  virtual  Double   calculate_mean_length(unsigned year, unsigned time_step, unsigned age) = 0;
 
-  void         PopulateCV();
+  void              PopulateCV();
+  void              PopulateAgeLengthMatrix();
   // members
   shared_ptr<Model> model_ = nullptr;
   vector<Double>    time_step_proportions_;
@@ -76,6 +81,16 @@ protected:
   unsigned          time_step_offset_ = 0;// time-steps are already vector friendly i.e start at 0
   vector<vector<vector<Double>>>    cvs_;  // cvs[year][time_step][age]
   vector<unsigned>  model_years_;
+  string                                              length_weight_label_;
+  const LengthWeight*                                 length_weight_ = nullptr;
+  // these objects get allocated memory in Dobuild and get populated by DoRebuildCache() in each child
+  vector<vector<Double>>    mean_length_by_timestep_age_;  // mean_length_by_timestep_age_[time_step][age]
+  vector<vector<Double>>    mean_weight_by_timestep_age_;  // mean_weight_by_timestep_age_[time_step][age]
+  vector<unsigned>          age_length_matrix_years_;
+  map<unsigned, unsigned>   age_length_matrix_year_key_;  // [year, dimension]
+  // because this may not be in sequential order (see method BuildAgeLengthMatrixForTheseYears) we have a key which maps the right year with first dimension of age_length_transition_matrix_
+  vector<vector<Double>>                 numbers_by_age_length_transition_; // age x length used as a temporarey container
+  vector<vector<vector<vector<Double>>>> age_length_transition_matrix_; // dims years x timesteps x age x length
 };
 
 } /* namespace niwa */

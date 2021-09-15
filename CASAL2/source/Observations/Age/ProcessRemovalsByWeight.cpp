@@ -378,10 +378,11 @@ void ProcessRemovalsByWeight::PreExecute() {
  * Execute the ProcessRemovalsByWeight expected values calculations
  */
 void ProcessRemovalsByWeight::Execute() {
+  
   LOG_TRACE();
   /**
    * Verify our cached partition and partition sizes are correct
-   */
+   
   //  auto categories = model_->categories();
   unsigned year      = model_->current_year();
   unsigned time_step = model_->managers()->time_step()->current_time_step();
@@ -401,11 +402,7 @@ void ProcessRemovalsByWeight::Execute() {
   // vector<Double> expected_values_length(number_length_bins_);
   vector<Double> expected_values_weight(number_weight_bins_);
 
-  /**
-   * Loop through the provided categories. Each provided category (combination) will have a list of observations
-   * with it. We need to build a vector of proportions for each weight using that combination and then
-   * compare it to the observations.
-   */
+
   for (unsigned category_offset = 0; category_offset < category_labels_.size(); ++category_offset, ++partition_iter, ++cached_partition_iter) {
     LOG_FINE() << "category: " << category_labels_[category_offset];
     Double start_value   = 0.0;
@@ -415,10 +412,7 @@ void ProcessRemovalsByWeight::Execute() {
     // std::fill(expected_values_length.begin(), expected_values_length.end(), 0.0);
     std::fill(expected_values_weight.begin(), expected_values_weight.end(), 0.0);
 
-    /**
-     * Loop through the 2 combined categories building up the
-     * expected proportions values.
-     */
+
     auto category_iter        = partition_iter->begin();
     auto cached_category_iter = cached_partition_iter->begin();
     for (; category_iter != partition_iter->end(); ++cached_category_iter, ++category_iter) {
@@ -573,14 +567,12 @@ void ProcessRemovalsByWeight::Execute() {
       LOG_CODE_ERROR() << "expected_values_weight.size(" << expected_values_weight.size() << ") != proportions_[category_offset].size("
                        << proportions_[model_->current_year()][category_labels_[category_offset]].size() << ")";
 
-    /**
-     * save our comparisons so we can use them to generate the score from the likelihoods later
-     */
     for (unsigned i = 0; i < expected_values_weight.size(); ++i) {
       SaveComparison(category_labels_[category_offset], 0, weight_bins_[i], expected_values_weight[i], proportions_[model_->current_year()][category_labels_[category_offset]][i],
                      process_errors_by_year_[model_->current_year()], error_values_[model_->current_year()][category_labels_[category_offset]][i], 0.0, delta_, 0.0);
     }
   }
+  */
 }
 
 /**

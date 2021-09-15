@@ -67,249 +67,15 @@ void Partition::Build() {
       unsigned age_spread = (categories->max_age(category) - categories->min_age(category)) + 1;
       LOG_FINEST() << "resizing data_ to " << age_spread;
       new_category->data_.resize(age_spread, 0.0);
+      new_category->cached_data_.resize(age_spread, 0.0);
 
-      // Allocate memory for our age_length matrix
-      if (model_->length_bins().size() > 0) {
-        unsigned length_bin_count = model_->length_plus() == true ? model_->length_bins().size() : model_->length_bins().size() - 1;
-        unsigned year_count       = model_->year_spread();
-        unsigned time_step_count  = model_->time_steps().size();
-
-        new_category->age_length_matrix_.resize(year_count);
-        for (unsigned year = 0; year < year_count; ++year) {
-          new_category->age_length_matrix_[year].resize(time_step_count);
-          for (unsigned step_iter = 0; step_iter < time_step_count; ++step_iter) {
-            new_category->age_length_matrix_[year][step_iter].resize(new_category->age_spread());
-            for (unsigned age = 0; age < new_category->age_spread(); ++age) {
-              new_category->age_length_matrix_[year][step_iter][age].resize(length_bin_count);
-            }
-          }
-        }
-
-        auto age_length_proportion = new utilities::Vector4();
-        age_length_proportion->resize(year_count);
-        for (unsigned year = 0; year < year_count; ++year) {
-          (*age_length_proportion)[year].resize(time_step_count);
-          for (unsigned time_step = 0; time_step < time_step_count; ++time_step) {
-            (*age_length_proportion)[year][time_step].resize(new_category->age_spread());
-            for (unsigned age_index = 0; age_index < new_category->age_spread(); ++age_index) {
-              (*age_length_proportion)[year][time_step][age_index].resize(length_bin_count);
-            }
-          }
-        }
-
-        age_length_proportions_[category] = age_length_proportion;
-      }
     } else if (model_->partition_type() == PartitionType::kLength) {
       unsigned length_bins = model_->length_bins().size();
-      new_category->data_.resize(length_bins, 0.0);
+      new_category->length_data_.resize(length_bins, 0.0);
+      new_category->cached_length_data_.resize(length_bins, 0.0);
     }
 
     partition_[category] = new_category;
-  }
-}
-
-/**
- * This method builds the mean_length_by_time_step_age_ object on each of the categories.
- *
- * This method is called at the start of the model during the build phase. It allocates
- * memory and set the values to be used by the model. This is called now because the values
- * are needed by the Partition::BuildAgeLengthProportions() method to build all of the
- * proportions.
- */
-void Partition::BuildMeanLengthData() {
-  LOG_TRACE();
-  auto     years           = model_->years();
-  unsigned time_step_count = model_->time_steps().size();
-  unsigned age_spread      = 0;
-  unsigned year_index      = 0;
-  unsigned age_index       = 0;
-
-  for (auto iter : partition_) {
-    LOG_FINE() << "Working on " << iter.first;
-    auto& category = *iter.second;  // mean_length_by_time_step_age_
-    if (category.age_length_ == nullptr)
-      return;
-
-    // Allocate memory for the mean_length_by_time_step_age if it hasn't been done previously
-    if (category.mean_length_by_time_step_age_.size() == 0) {
-      age_spread = category.age_spread();
-      category.mean_length_by_time_step_age_.resize(years.size());
-      for (unsigned i = 0; i < years.size(); ++i) {
-        category.mean_length_by_time_step_age_[i].resize(time_step_count);
-        for (unsigned j = 0; j < time_step_count; ++j) {
-          category.mean_length_by_time_step_age_[i][j].resize(age_spread);
-        }
-      }
-    }
-
-    // Populate the mean length object now
-    LOG_FINE() << "Populate the mean length object now";
-    for (auto year : years) {
-      year_index = year - model_->start_year();
-
-      for (unsigned step_iter = 0; step_iter < time_step_count; ++step_iter) {
-        for (unsigned age = category.min_age_; age <= category.max_age_; ++age) {
-          age_index                                                                = age - category.min_age_;
-          category.mean_length_by_time_step_age_[year_index][step_iter][age_index] = category.age_length_->GetMeanLength(year, step_iter, age);
-        }
-      }
-    }
-    LOG_FINE() << "Population complete";
-
-    category.UpdateMeanWeightData();
-  }  // for (auto iter : partition_)
-}
-
-/**
- * This method builds the age length proportions for each category to be used during
- * processes/observations that need to convert the age partition into length for use
- * in an age-based model
- */
-void Partition::BuildAgeLengthProportions() {
-  LOG_TRACE();
-  // If we have age lengths defined, build our age-length proportions
-  if (!model_->categories()->HasAgeLengths())
-    return;
-
-  unsigned year_count       = model_->years().size();
-  unsigned time_step_count  = model_->time_steps().size();
-  unsigned length_bin_count = model_->length_bins().size();
-
-  unsigned year    = 0;
-  Double   mu      = 0.0;
-  Double   cv      = 0.0;
-  unsigned age     = 0;
-  Double   sigma   = 0.0;
-  Double   cv_temp = 0.0;
-  Double   Lvar    = 0.0;
-  Double   tmp     = 0.0;
-  Double   sum     = 0.0;
-
-  vector<Double> cum(length_bin_count, 0.0);
-  auto           model_length_bins = model_->length_bins();
-  vector<double> length_bins(model_length_bins.size(), 0.0);
-
-  LOG_FINE() << "years: " << year_count << "; time_steps: " << time_step_count << "; length_bins: " << length_bin_count;
-  unsigned matrix_length_bin_count = model_->length_plus() ? length_bin_count : length_bin_count - 1;
-  LOG_FINEST() << "matrix_length_bin_count: " << matrix_length_bin_count;
-
-  for (auto iter : partition_) {
-    LOG_FINE() << "Working on " << iter.first;
-    if (iter.second->age_length_->distribution() == Distribution::kLogNormal) {
-      for (unsigned i = 0; i < model_length_bins.size(); ++i) {
-        if (model_length_bins[i] < 0.0001)
-          length_bins[i] = log(0.0001);
-        else
-          length_bins[i] = log(model_length_bins[i]);
-      }
-    } else {
-      for (unsigned i = 0; i < model_length_bins.size(); ++i) length_bins[i] = model_length_bins[i];
-    }
-
-    utilities::Vector4* age_length_proportion;
-    if (age_length_proportions_[iter.first]->size() == 0) {
-      age_length_proportion = new utilities::Vector4();
-      age_length_proportion->resize(year_count);
-      for (unsigned year = 0; year < year_count; ++year) {
-        (*age_length_proportion)[year].resize(time_step_count);
-        for (unsigned time_step = 0; time_step < time_step_count; ++time_step) {
-          (*age_length_proportion)[year][time_step].resize(iter.second->age_spread());
-          for (unsigned age_index = 0; age_index < iter.second->age_spread(); ++age_index) {
-            (*age_length_proportion)[year][time_step][age_index].resize(matrix_length_bin_count);
-          }
-        }
-      }
-    } else {
-      age_length_proportion = age_length_proportions_[iter.first];
-    }
-
-    if (iter.second->age_length_matrix_.size() == 0) {
-      iter.second->age_length_matrix_.resize(year_count);
-      for (unsigned year = 0; year < year_count; ++year) {
-        iter.second->age_length_matrix_[year].resize(time_step_count);
-        for (unsigned time_step = 0; time_step < time_step_count; ++time_step) {
-          iter.second->age_length_matrix_[year][time_step].resize(iter.second->age_spread());
-          for (unsigned age_index = 0; age_index < iter.second->age_spread(); ++age_index) {
-            iter.second->age_length_matrix_[year][time_step][age_index].resize(matrix_length_bin_count);
-          }
-        }
-      }
-    }
-
-    LOG_FINEST() << "Memory allocation done";
-
-    string casal_normal_cdf = iter.second->age_length_->compatibility();
-    for (unsigned year_iter = 0; year_iter < year_count; ++year_iter) {
-      year = year_iter + model_->start_year();
-
-      for (unsigned time_step = 0; time_step < time_step_count; ++time_step) {
-        for (unsigned age_index = 0; age_index < iter.second->age_spread(); ++age_index) {
-          age   = age_index + iter.second->min_age_;
-          mu    = iter.second->mean_length_by_time_step_age_[year_iter][time_step][age_index];
-          cv    = iter.second->age_length_->cv(year, time_step, age);
-          sigma = cv * mu;
-
-          LOG_FINEST() << "year: " << year << "; age: " << age << "; mu: " << mu << "; cv: " << cv << "; sigma: " << sigma;
-          if (iter.second->age_length_->distribution() == Distribution::kLogNormal) {
-            // Transform parameters in to log space
-            cv_temp = sigma / mu;
-            Lvar    = log(cv_temp * cv_temp + 1.0);
-            mu      = log(mu) - Lvar / 2.0;
-            sigma   = sqrt(Lvar);
-          }
-          LOG_FINEST() << "year: " << year << "; age: " << age << "; mu: " << mu << "; cv: " << cv << "; sigma: " << sigma;
-
-          for (auto value : length_bins) LOG_FINEST() << "length_bin: " << value;
-
-          LOG_FINEST() << "mu: " << mu;
-          LOG_FINEST() << "sigma: " << sigma;
-
-          sum                            = 0;
-          vector<Double>& prop_in_length = (*age_length_proportion)[year_iter][time_step][age_index];
-          for (unsigned j = 0; j < length_bin_count; ++j) {
-            //LOG_FINEST() << "calculating pnorm for length " << length_bins[j];
-            // If we are using CASAL's Normal CDF function use this switch
-            if (casal_normal_cdf == PARAM_CASAL) {
-              tmp = utilities::math::pnorm(length_bins[j], mu, sigma);
-              //LOG_FINE() << "casal_normal_cdf: " << tmp << " utilities::math::pnorm(" << length_bins[j] << ", " << mu << ", " << sigma;
-            } else if (casal_normal_cdf == PARAM_CASAL2) {
-              tmp = utilities::math::pnorm2(length_bins[j], mu, sigma);
-              //LOG_FINE() << "normal: " << tmp << " utilities::math::pnorm(" << length_bins[j] << ", " << mu << ", " << sigma;
-            } else {
-              LOG_CODE_ERROR() << "Unknown compatibility option in the calculation of the distribution of age_length";
-            }
-            cum[j] = tmp;
-
-            if (j > 0) {
-              prop_in_length[j - 1] = cum[j] - cum[j - 1];
-              sum += prop_in_length[j - 1];
-              //LOG_FINEST() << "prop_in_length[j - 1]: " << prop_in_length[j - 1] << ": " << cum[j] << ": " << cum[j - 1];
-            }
-          }  // for (unsigned j = 0; j < length_bin_count; ++j)
-
-          if (model_->length_plus()) {
-            prop_in_length[length_bin_count - 1] = 1.0 - sum - cum[0];
-            //LOG_FINEST() << "prop_in_length[length_bin_count - 1]: " << prop_in_length[length_bin_count - 1];
-          }
-
-        }  // for (unsigned age_index = 0; age_index < iter.second->age_spread(); ++age_index)
-      }    // for (unsigned time_step = 0; time_step < time_step_count; ++time_step)
-
-      // If the age length object is not data, then it doesn't vary by year
-      if (!(iter.second->age_length_->varies_by_years())) {
-        auto& source = (*age_length_proportion)[0];
-
-        if (year_count > 1)
-          for (unsigned year_idx = 1; year_idx < year_count; ++year_idx) {
-            auto& props = (*age_length_proportion)[year_idx];
-            props       = source;
-          }
-
-        break;
-      }
-    }  // for (unsigned year_iter = 0; year_iter < year_count; ++year_iter)
-
-    age_length_proportions_[iter.first] = age_length_proportion;
   }
 }
 
@@ -323,10 +89,6 @@ void Partition::Reset() {
     if (iter->second->age_length_ != nullptr)
       iter->second->age_length_->Reset();
   }
-
-  BuildMeanLengthData();
-  if (model_->length_bins().size() > 0)
-    BuildAgeLengthProportions();
 }
 
 /**
@@ -343,18 +105,5 @@ partition::Category& Partition::category(const string& category_label) {
   return (*find_iter->second);
 }
 
-/**
- * Return a reference to one of the age length proportion objects
- *
- * @param category_label The name of the category
- * @return reference to the age length proportion object
- */
-utilities::Vector4& Partition::age_length_proportions(const string& category_label) {
-  auto find_iter = age_length_proportions_.find(category_label);
-  if (find_iter == age_length_proportions_.end())
-    LOG_FATAL() << "The partition does not have age length proportions for category " << category_label;
-
-  return (*find_iter->second);
-}
 
 } /* namespace niwa */

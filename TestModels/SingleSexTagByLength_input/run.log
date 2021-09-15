@@ -1,9 +1,9 @@
 Casal2
 Call: C:\Software\CASAL2\BuildSystem/bin/windows_gcc/release_betadiff/casal2.exe -r -I pars.out 
-Date: Wed Sep 15 15:38:09 2021
-Version: v21.09 (2021-09-09)
+Date: Wed Sep 15 22:23:17 2021
+Version: v21.09 (2021-09-15)
 Copyright (c) 2017-2021, NIWA (www.niwa.co.nz)
-Environment: User=marshc Machine=NIWA-1015798 OS=Windows_NT PID=17760
+Environment: User=marshc Machine=NIWA-1015798 OS=Windows_NT PID=22856
 
 
 
@@ -18,95 +18,11 @@ resizing from 70862 to 77948
 resizing from 77948 to 85742
 resizing from 85742 to 94316
 resizing from 94316 to 103747
-resizing from 103747 to 114121
-resizing from 114121 to 125533
-resizing from 125533 to 138086
-resizing from 138086 to 151894
-resizing from 151894 to 167083
-resizing from 167083 to 183791
-resizing from 183791 to 202170
-resizing from 202170 to 222387
-resizing from 222387 to 244625
-resizing from 244625 to 269087
-resizing from 269087 to 295995
-resizing from 295995 to 325594
-resizing from 325594 to 358153
-resizing from 358153 to 393968
-resizing from 393968 to 433364
-resizing from 433364 to 476700
-resizing from 476700 to 524370
-resizing from 524370 to 576807
-resizing from 576807 to 634487
-resizing from 634487 to 697935
-resizing from 697935 to 767728
-resizing from 767728 to 844500
-resizing from 844500 to 928950
-resizing from 928950 to 1021845
-resizing from 1021845 to 1124029
-resizing from 1124029 to 1236431
-resizing from 1236431 to 1360074
-resizing from 1360074 to 1496081
-resizing from 1496081 to 1645689
-resizing from 1645689 to 1810257
-resizing from 1810257 to 1991282
-resizing from 1991282 to 2190410
-resizing from 2190410 to 2409451
-resizing from 2409451 to 2650396
-resizing from 2650396 to 2915435
 [INFO] Initiating basic run mode
 [INFO] Estimable parameters were loaded from the free parameter file: pars.out
 [IMPORTANT] 1 additional non-estimated addressable parameters were found in the free parameter file: pars.out
-*derived_quantity[SSB]
-SSB {list}
-type: biomass
-initialisation_phase[1]: 76728.7 
-values {vector}
-1995 76728.7
-1996 76728.7
-1997 76728.7
-1998 76699.4
-1999 76486.6
-2000 75948.6
-2001 75505.5
-2002 74458.9
-2003 73008.9
-2004 71531.8
-2005 69354.3
-2006 67419.1
-2007 65392.8
-2008 64113.8
-2009 62780.7
-2010 61273.5
-2011 59903.9
-2012 58284.8
-2013 56791.3
-2014 55571.6
-2015 54477.7
-{end_list}
-*end
+resizing from 103747 to 114121
+resizing from 114121 to 125533
+[CODE_ERROR] A critical error has occurred in the Casal2 source code. Please contact the Casal2 Development Team and report this event
 
-*info[messages_encountered]
-Values {string}
-Initiating basic run mode
-Estimable parameters were loaded from the free parameter file: pars.out
-*end
-
-*important[messages_encountered]
-Values {string}
-1 additional non-estimated addressable parameters were found in the free parameter file: pars.out
-*end
-
-*warnings[messages_encountered]
-Values {string}
-Estimates were removed because of matching lower and upper bounds. Originally had 33 estimates, now have 16
-*end
-
-resizing from 2915435 to 3206978
-resizing from 3206978 to 3527675
-resizing from 3527675 to 3880442
-resizing from 3880442 to 4268486
-resizing from 4268486 to 4695334
-resizing from 4695334 to 5164867
-resizing from 5164867 to 5681353
-[INFO] Completed
-[INFO] Total elapsed time: 2 seconds
+Reading out of memory

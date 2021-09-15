@@ -65,7 +65,7 @@ void PartitionMeanWeight::DoExecute(shared_ptr<Model> model) {
     cache_ << "values: ";
 
     for (unsigned length_bin_index = 0; length_bin_index <= length_bins.size(); ++length_bin_index)
-      cache_ << iterator->mean_weight_by_time_step_length_[time_step_index][length_bin_index] << " ";
+      //cache_ << iterator->mean_weight_by_time_step_length_[time_step_index][length_bin_index] << " ";
     cache_ << REPORT_EOL;
 
     cache_ << REPORT_R_LIST_END << REPORT_EOL;

@@ -4,7 +4,7 @@
  * @date 24/07/2013
  * @section LICENSE
  *
- * Copyright NIWA Science ©2013 - www.niwa.co.nz
+ * Copyright NIWA Science ï¿½2013 - www.niwa.co.nz
  *
  * @section DESCRIPTION
  *
@@ -34,11 +34,8 @@ public:
   void DoRebuildCache() override final{};
 
   // accessors
-  Double mean_length(unsigned year, unsigned age) override final { return 1.0; }
-  Double mean_weight(unsigned year, unsigned age) override final { return 1.0; }
-  Double GetMeanLength(unsigned year, unsigned time_step, unsigned age) override final { return 1.0; }
-  Double GetMeanWeight(unsigned year, unsigned time_step, unsigned age, Double length) override final { return 1.0; };
-  string weight_units() { return ""; };
+  Double calculate_mean_length(unsigned year, unsigned time_step, unsigned age) override final { return 1.0; };
+
 };
 
 } /* namespace agelengths */

@@ -326,13 +326,13 @@ void ProportionsAtLength::Execute() {
     auto cached_category_iter = cached_partition_iter->begin();
     for (; category_iter != partition_iter->end(); ++cached_category_iter, ++category_iter) {
       LOG_FINEST() << "Selectivity for " << category_labels_[category_offset] << " selectivity " << selectivities_[category_offset]->label();
-
+    /*
       (*category_iter)->PopulateAgeLengthMatrix(selectivities_[category_offset]);
       (*category_iter)->CollapseAgeLengthDataToLength();
 
       (*cached_category_iter)->PopulateCachedAgeLengthMatrix(selectivities_[category_offset]);
       (*cached_category_iter)->CollapseCachedAgeLengthDataToLength();
-
+    */
       for (unsigned length_offset = 0; length_offset < number_bins_; ++length_offset) {
         // now for each column (length bin) in age_length_matrix sum up all the rows (ages) for both cached and current matricies
         start_value = (*cached_category_iter)->cached_length_data_[mlb_index_first_ + length_offset];

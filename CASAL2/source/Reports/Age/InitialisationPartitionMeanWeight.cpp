@@ -17,6 +17,7 @@
 #include "../../Model/Model.h"
 #include "../../Partition/Accessors/All.h"
 #include "../../TimeSteps/Manager.h"
+#include "AgeLengths/AgeLength.h"
 
 // namespaces
 namespace niwa {
@@ -50,7 +51,7 @@ void InitialisationPartitionMeanWeight::DoExecute(shared_ptr<Model> model) {
     cache_ << "mean_weights " << REPORT_R_LIST << REPORT_EOL;
     cache_ << "values: ";
 
-    for (unsigned age = iterator->min_age_; age <= iterator->max_age_; ++age) cache_ << AS_DOUBLE(iterator->mean_weight_by_time_step_age_[time_step_index][age]) << " ";
+    for (unsigned age = iterator->min_age_; age <= iterator->max_age_; ++age) cache_ << (iterator->age_length_->mean_weight(time_step_index, age)) << " ";
     cache_ << REPORT_EOL;
 
     cache_ << REPORT_R_LIST_END << REPORT_EOL;
@@ -59,7 +60,7 @@ void InitialisationPartitionMeanWeight::DoExecute(shared_ptr<Model> model) {
     cache_ << "values: ";
 
     unsigned age_bins = iterator->age_spread();
-    for (unsigned age_index = 0; age_index < age_bins; ++age_index) cache_ << AS_DOUBLE(iterator->mean_length_by_time_step_age_[0][time_step_index][age_index]) << " ";
+    for (unsigned age_index = 0; age_index < age_bins; ++age_index) cache_ << (iterator->age_length_->mean_length(time_step_index, age_index)) << " ";
     cache_ << REPORT_EOL;
     cache_ << REPORT_R_LIST_END << REPORT_EOL;
     cache_ << REPORT_R_LIST_END << REPORT_EOL;

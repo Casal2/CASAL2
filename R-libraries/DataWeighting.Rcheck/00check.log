@@ -5,8 +5,4 @@
 * checking for file 'DataWeighting/DESCRIPTION' ... OK
 * this is package 'DataWeighting' version '1.0'
 * checking package namespace information ... OK
-* checking package dependencies ... OK
-* checking if this is a source package ... ERROR
-Only *source* packages can be checked.
-* DONE
-Status: 1 ERROR
+* checking package dependencies ...

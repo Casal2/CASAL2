@@ -12,7 +12,6 @@
 // headers
 #include "Data.h"
 
-#include "../../LengthWeights/Manager.h"
 #include "../../Model/Managers.h"
 #include "../../TimeSteps/Manager.h"
 #include "../../Utilities/To.h"
@@ -39,7 +38,6 @@ Data::Data(shared_ptr<Model> model) : AgeLength(model) {
       ->set_allowed_values({PARAM_MEAN, PARAM_NEAREST_NEIGHBOUR});
   parameters_.Bind<string>(PARAM_INTERNAL_GAPS, &internal_gaps_, "The method to use for internal data gaps", "", PARAM_MEAN)
       ->set_allowed_values({PARAM_MEAN, PARAM_NEAREST_NEIGHBOUR, PARAM_INTERPOLATE});
-  parameters_.Bind<string>(PARAM_LENGTH_WEIGHT, &length_weight_label_, "The label from an associated length-weight block", "");
   parameters_.Bind<string>(PARAM_TIME_STEP_MEASUREMENTS_WERE_MADE, &step_data_supplied_, "The time step label for which size-at-age data are provided", "");
 
   varies_by_year_ = true;
@@ -57,9 +55,6 @@ Data::~Data() {
  */
 void Data::DoBuild() {
   LOG_FINE() << "Building age length block " << label_;
-  length_weight_ = model_->managers()->length_weight()->GetLengthWeight(length_weight_label_);
-  if (!length_weight_)
-    LOG_ERROR_P(PARAM_LENGTH_WEIGHT) << "Length-weight label " << length_weight_label_ << " was not found.";
   if (!data_table_)
     LOG_CODE_ERROR() << "!data_table_";
   if (model_->run_mode() == RunMode::kProjection)
@@ -404,69 +399,14 @@ void Data::FillInternalGaps() {
 }
 
 /**
- * Return the mean length of a single population
- *
- * @param time_step The time step
- * @param age The age of the population
- * @return mean length for one member
+ * This is responsible for returning the correct mean length
+ * for this class
  */
-Double Data::mean_length(unsigned time_step, unsigned age) {
+Double Data::calculate_mean_length(unsigned year, unsigned time_step, unsigned age) {
   if (model_->state() == State::kInitialise || model_->state() == State::kBuild || model_->state() == State::kVerify) {
-    LOG_FINEST() << "state init or build " << " time-setp = " << time_step << " age = "<< age;
-    //LOG_FINEST() << "dim 1 = " << data_by_age_time_step_.size() << " dim2 = " << data_by_age_time_step_[0].size();
     return data_by_age_time_step_[time_step][age];
   }
-  unsigned year = model_->current_year();
   return mean_length_by_year_[year][age][time_step];
-}
-
-/**
- * Return the mean weight of a single population
- *
- * @param time_step The time step
- * @param age The age of the population
- * @return mean weight for one member
- */
-Double Data::mean_weight(unsigned time_step, unsigned age) {
-  unsigned year = model_->current_year();
-  Double   size = this->mean_length(time_step, age);
-  //LOG_FINEST() << " year = " << year << " age = " << age << " time step = " << time_step << " size = " << size << " cv = " << cvs_[year - year_offset_][time_step - time_step_offset_][age - age_offset_];
-  return length_weight_->mean_weight(size, distribution_, cvs_[year - year_offset_][time_step - time_step_offset_][age - age_offset_]);
-}
-
-/**
- * Return the mean length for a time_step and age
- *
- * @param year Ignored for this child (was implemented for the Data AgeLength child)
- * @param time_step The time step
- * @param age The age of the population
- * @return mean weight for one member
- */
-Double Data::GetMeanLength(unsigned year, unsigned time_step, unsigned age) {
-  if (model_->state() == State::kInitialise || model_->state() == State::kBuild || model_->state() == State::kVerify)
-    return data_by_age_time_step_[time_step][age];
-
-  return mean_length_by_year_[year][age][time_step];
-}
-
-/**
- * Return the mean weight for a time_step and age
- *
- * @param year Ignored for this child (was implemented for the Data AgeLength child)
- * @param time_step The time step
- * @param age The age of the population
- * @param length The length of the population
- * @return mean weight for one member
- */
-Double Data::GetMeanWeight(unsigned year, unsigned time_step, unsigned age, Double length) {
-  return length_weight_->mean_weight(length, distribution_, cvs_[year - year_offset_][time_step - time_step_offset_][age - age_offset_]);
-}
-
-/**
- * Return the units for the length-weight relationship
- */
-string Data::weight_units() {
-    return length_weight_->weight_units();
 }
 
 } /* namespace agelengths */

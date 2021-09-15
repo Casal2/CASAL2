@@ -18,6 +18,7 @@
 #include "TimeSteps/Manager.h"
 #include "Utilities/Map.h"
 #include "Utilities/To.h"
+#include "../../AgeLengths/AgeLength.h"
 
 // namespaces
 namespace niwa {
@@ -239,7 +240,7 @@ void Biomass::Execute() {
             temp        = temp < 0 ? temp : temp * -1.0;
             final_value = temp * proportion_of_time_;
           }
-          expected_total += selectivity_result * final_value * (*category_iter)->mean_weight_by_time_step_age_[time_step_index][age];
+          expected_total += selectivity_result * final_value * (*category_iter)->age_length_->mean_weight(time_step_index, age);
         }
       } else {
         // Use the age_weight calculation for weight

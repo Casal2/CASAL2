@@ -11,13 +11,13 @@
 // headers
 #include "PartitionMeanWeight.h"
 
-#include "../../AgeLengths/Manager.h"
 #include "../../Categories/Categories.h"
 #include "../../LengthWeights/Manager.h"
 #include "../../Model/Model.h"
 #include "../../Partition/Accessors/All.h"
 #include "../../Partition/Partition.h"
 #include "../../TimeSteps/Manager.h"
+#include "AgeLengths/AgeLength.h"
 
 // namespaces
 namespace niwa {
@@ -71,7 +71,7 @@ void PartitionMeanWeight::DoExecute(shared_ptr<Model> model) {
       cache_ << year << " ";
 
       for (unsigned age = (*iterator)->min_age_; age <= (*iterator)->max_age_; ++age) {
-        Double temp = (*iterator)->mean_weight_by_time_step_age_[time_step_index][age];
+        Double temp = (*iterator)->age_length_->mean_weight(time_step_index, age);
         cache_ << AS_DOUBLE(temp) << " ";
       }
       cache_ << REPORT_EOL;

@@ -305,9 +305,9 @@ void TagByLength::DoExecute() {
   for (; from_iter != from_partition_.end(); from_iter++) {
     //  (*from_iter)->UpdateMeanWeightData();
     //  build numbers at age and length
-    (*from_iter)->PopulateAgeLengthMatrix(selectivities_[(*from_iter)->name_]);
+    //(*from_iter)->PopulateAgeLengthMatrix(selectivities_[(*from_iter)->name_]);
     //  total numbers at length
-    (*from_iter)->CollapseAgeLengthDataToLength();
+    //(*from_iter)->CollapseAgeLengthDataToLength();
     numbers_at_age_by_category[(*from_iter)->name_].resize((*from_iter)->data_.size(), 0.0);
   }
 
@@ -370,7 +370,7 @@ void TagByLength::DoExecute() {
 
       // vector<Double> numbers_at_age((*from_iter)->data_.size(), 0.0);
       for (unsigned j = 0; j < (*from_iter)->data_.size(); ++j) {
-        numbers_at_age_by_category[(*from_iter)->name_][j] += (*from_iter)->age_length_matrix_[year_index][time_step_index][j][i] * exploitation_by_length;
+        //numbers_at_age_by_category[(*from_iter)->name_][j] += (*from_iter)->age_length_matrix_[year_index][time_step_index][j][i] * exploitation_by_length;
       }
     }
   }  // for (unsigned i = 0; i < length_bins_.size(); ++i)

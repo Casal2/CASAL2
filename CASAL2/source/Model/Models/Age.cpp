@@ -55,6 +55,9 @@ void Age::DoValidate() {
       LOG_ERROR_P(PARAM_PROJECTION_FINAL_YEAR) << "(" << projection_final_year_ << ") cannot be less than or equal to final_year (" << final_year_ << ")";
     }
   }
+
+  number_of_length_bins_ = length_plus_ == true ? length_bins_.size() : length_bins_.size() - 1;
+
 }
 
 }  // namespace niwa::model

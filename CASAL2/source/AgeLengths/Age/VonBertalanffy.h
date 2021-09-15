@@ -4,7 +4,7 @@
  * @date 14/08/2013
  * @section LICENSE
  *
- * Copyright NIWA Science ©2013 - www.niwa.co.nz
+ * Copyright NIWA Science ï¿½2013 - www.niwa.co.nz
  *
  * @section DESCRIPTION
  *
@@ -18,8 +18,6 @@
 
 // namespaces
 namespace niwa {
-class LengthWeight;
-
 namespace agelengths {
 
 // classes
@@ -35,12 +33,8 @@ public:
   void DoReset() override final;
   void DoRebuildCache() override final;
 
-  // accessors
-  Double mean_length(unsigned time_step, unsigned age) override final;
-  Double mean_weight(unsigned time_step, unsigned age) override;
-  Double GetMeanLength(unsigned year, unsigned time_step, unsigned age) override final;
-  Double GetMeanWeight(unsigned year, unsigned time_step, unsigned age, Double length) override final;
-  string weight_units() override final;
+  // accessors  
+  Double calculate_mean_length(unsigned year, unsigned time_step, unsigned age) override final;
 
 protected:
   // methods
@@ -49,9 +43,6 @@ protected:
   Double                               linf_;
   Double                               k_;
   Double                               t0_;
-  string                               length_weight_label_;
-  LengthWeight*                        length_weight_ = nullptr;
-  map<unsigned, map<unsigned, Double>> mean_length_;  // mean_length_[time_step][age]
 };
 
 } /* namespace agelengths */

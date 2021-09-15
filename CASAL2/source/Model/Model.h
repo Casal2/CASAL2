@@ -101,6 +101,8 @@ public:
   virtual const vector<double>& length_bins() const { return length_bins_; }
   virtual bool                  length_plus() const { return length_plus_; }
   virtual double                length_plus_group() const { return length_plus_group_; }
+  unsigned                      get_number_of_length_bins() const { return number_of_length_bins_; }
+
   void                          set_id(unsigned id) { id_ = id; }
   unsigned                      id() const { return id_; }
   void                          flag_primary_thread_model() { is_primary_thread_model_ = true; }
@@ -151,6 +153,7 @@ protected:
   unsigned             min_age_                 = 0;
   unsigned             max_age_                 = 0;
   string               base_weight_units_       = "";
+  unsigned             number_of_length_bins_   = 0;
   map<string, Double>  b0_;
   map<string, Double>  binitial_;
   map<string, bool>    b0_initialised_;

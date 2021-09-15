@@ -30,6 +30,18 @@ process instant_mort
 @report Rec
 type process
 process Recruitment
+
+
+@report vb_male
+type age_length
+age_length vb_male
+time_step step1
+
+@report vb_female
+type age_length
+age_length vb_male
+time_step step1
+
 /*
 @report chatTANq
 type derived_quantity

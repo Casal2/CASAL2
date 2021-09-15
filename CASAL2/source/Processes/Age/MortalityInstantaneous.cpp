@@ -26,6 +26,7 @@
 #include "TimeSteps/TimeStep.h"
 #include "Utilities/Math.h"
 #include "Utilities/To.h"
+#include "AgeLengths/AgeLength.h"
 
 // namespaces
 namespace niwa {
@@ -534,7 +535,7 @@ void MortalityInstantaneous::DoExecute() {
         }
       } else {
         for (unsigned i = 0; i < category->data_.size(); ++i) {
-          vulnerable += category->data_[i] * category->mean_weight_by_time_step_age_[time_step_index][category->min_age_ + i] * fishery_category.selectivity_values_[i]
+          vulnerable += category->data_[i] * category->age_length_->mean_weight(time_step_index, category->min_age_ + i) * fishery_category.selectivity_values_[i]
                         * fishery_category.category_.exp_values_[i];
         }
       }
