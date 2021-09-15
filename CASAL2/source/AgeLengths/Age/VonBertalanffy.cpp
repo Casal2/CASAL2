@@ -57,8 +57,6 @@ void VonBertalanffy::DoBuild() {
   if (!length_weight_)
     LOG_ERROR_P(PARAM_LENGTH_WEIGHT) << "Length-weight label '" << length_weight_label_ << "' was not found";
 
-  // Build up our mean_length_ container.
-  DoRebuildCache();
 }
 
 
@@ -68,12 +66,7 @@ void VonBertalanffy::DoBuild() {
 void VonBertalanffy::DoReset() {}
 
 
-/**
- * ReBuildCache: initialised by the timevarying class and build method
- */
-void VonBertalanffy::DoRebuildCache() {
 
-}
 /**
  * This is responsible for returning the correct mean length
  * for this class

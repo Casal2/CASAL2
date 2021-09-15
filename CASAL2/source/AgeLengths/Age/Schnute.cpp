@@ -56,7 +56,7 @@ Schnute::Schnute(shared_ptr<Model> model) : AgeLength(model) {
  */
 void Schnute::DoBuild() {
 
-  DoRebuildCache();
+
 }
 
 
@@ -64,15 +64,10 @@ void Schnute::DoBuild() {
  * Reset any objects
  */
 void Schnute::DoReset() {
-  DoRebuildCache();
-}
-
-/**
- * ReBuildCache: initialised by the timevarying class.
- */
-void Schnute::DoRebuildCache() {
 
 }
+
+
 /**
  * This is responsible for returning the correct mean length
  * for this class

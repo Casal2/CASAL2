@@ -20,6 +20,7 @@
 #include "Utilities/Map.h"
 #include "Utilities/Math.h"
 #include "Utilities/To.h"
+#include "AgeLengths/AgeLength.h"
 
 // Namespaces
 namespace niwa {
@@ -257,7 +258,13 @@ void ProportionsAtLength::DoValidate() {
 void ProportionsAtLength::DoBuild() {
   partition_        = CombinedCategoriesPtr(new niwa::partition::accessors::CombinedCategories(model_, category_labels_));
   cached_partition_ = CachedCombinedCategoriesPtr(new niwa::partition::accessors::cached::CombinedCategories(model_, category_labels_));
-
+  // flag age-length to Build age-length matrix
+  auto partition_iter = partition_->Begin();  
+  for (unsigned category_offset = 0; category_offset < category_labels_.size(); ++category_offset, ++partition_iter) {
+    auto category_iter        = partition_iter->begin();
+    for (; category_iter != partition_iter->end();  ++category_iter)
+      (*category_iter)->age_length_->BuildAgeLengthMatrixForTheseYears(years_);
+  }
   // Build Selectivity pointers
   for (string label : selectivity_labels_) {
     Selectivity* selectivity = model_->managers()->selectivity()->GetSelectivity(label);
@@ -271,7 +278,9 @@ void ProportionsAtLength::DoBuild() {
     selectivities_.assign(category_labels_.size(), val_sel);
   }
 
-  length_results_.resize(number_bins_ * category_labels_.size(), 0.0);
+  expected_values_.resize(number_bins_, 0.0);
+  numbers_at_length_.resize(number_bins_, 0.0);
+  cached_numbers_at_length_.resize(number_bins_, 0.0);
 }
 
 /**
@@ -302,9 +311,6 @@ void ProportionsAtLength::Execute() {
    */
   auto cached_partition_iter = cached_partition_->Begin();
   auto partition_iter        = partition_->Begin();  // vector<vector<partition::Category> >
-
-  vector<Double> expected_values(number_bins_, 0.0);
-
   /**
    * Loop through the provided categories. Each provided category (combination) will have a list of observations
    * with it. We need to build a vector of proportions for each length using that combination and then
@@ -312,11 +318,12 @@ void ProportionsAtLength::Execute() {
    */
   for (unsigned category_offset = 0; category_offset < category_labels_.size(); ++category_offset, ++partition_iter, ++cached_partition_iter) {
     LOG_FINEST() << "category: " << category_labels_[category_offset];
+    std::fill(expected_values_.begin(), expected_values_.end(), 0.0);
+
     Double start_value = 0.0;
     Double end_value   = 0.0;
     Double final_value = 0.0;
 
-    std::fill(expected_values.begin(), expected_values.end(), 0.0);
 
     /**
      * Loop through the 2 combined categories building up the
@@ -326,64 +333,42 @@ void ProportionsAtLength::Execute() {
     auto cached_category_iter = cached_partition_iter->begin();
     for (; category_iter != partition_iter->end(); ++cached_category_iter, ++category_iter) {
       LOG_FINEST() << "Selectivity for " << category_labels_[category_offset] << " selectivity " << selectivities_[category_offset]->label();
-    /*
-      (*category_iter)->PopulateAgeLengthMatrix(selectivities_[category_offset]);
-      (*category_iter)->CollapseAgeLengthDataToLength();
+      // clear these temporay vectors
+      std::fill(cached_numbers_at_length_.begin(), cached_numbers_at_length_.end(), 0.0);
+      std::fill(numbers_at_length_.begin(), numbers_at_length_.end(), 0.0);
+      // Now convert numbers at age to numbers at length using the categories age-length transition matrix
+      (*category_iter)->age_length_->populate_numbers_at_length((*category_iter)->data_, numbers_at_length_, selectivities_[category_offset]);
+      (*category_iter)->age_length_->populate_numbers_at_length((*category_iter)->cached_data_, cached_numbers_at_length_, selectivities_[category_offset]);
 
-      (*cached_category_iter)->PopulateCachedAgeLengthMatrix(selectivities_[category_offset]);
-      (*cached_category_iter)->CollapseCachedAgeLengthDataToLength();
-    */
       for (unsigned length_offset = 0; length_offset < number_bins_; ++length_offset) {
         // now for each column (length bin) in age_length_matrix sum up all the rows (ages) for both cached and current matricies
-        start_value = (*cached_category_iter)->cached_length_data_[mlb_index_first_ + length_offset];
-        end_value   = (*category_iter)->length_data_[mlb_index_first_ + length_offset];
+        start_value = cached_numbers_at_length_[length_offset];
+        end_value   = numbers_at_length_[length_offset];
 
         if (mean_proportion_method_)
           final_value = start_value + ((end_value - start_value) * proportion_of_time_);
         else
           final_value = (1 - proportion_of_time_) * start_value + proportion_of_time_ * end_value;
 
-        expected_values[length_offset] += final_value;
+        expected_values_[length_offset] += final_value;
 
         LOG_FINE() << "----------";
         LOG_FINE() << "Category: " << (*category_iter)->name_ << " at length " << length_bins_[length_offset];
         LOG_FINE() << "Selectivity: " << selectivities_[category_offset]->label();
         LOG_FINE() << "start_value: " << start_value << "; end_value: " << end_value << "; final_value: " << final_value;
-        LOG_FINE() << "expected_value becomes: " << expected_values[length_offset];
-      }
-
-      // add the values for the larger lengths to expected_values[(number_bins_ - 1)]
-      unsigned last_obs_bin = mlb_index_first_ + number_bins_ - 1;
-      if (length_plus_ && (*cached_category_iter)->cached_length_data_.size() > last_obs_bin && (*category_iter)->length_data_.size() > last_obs_bin) {
-        for (unsigned length_idx = (last_obs_bin + 1); length_idx < (*cached_category_iter)->cached_length_data_.size(); ++length_idx) {
-          start_value = (*cached_category_iter)->cached_length_data_[length_idx];
-          end_value   = (*category_iter)->length_data_[length_idx];
-
-          if (mean_proportion_method_)
-            final_value = start_value + ((end_value - start_value) * proportion_of_time_);
-          else
-            final_value = (1 - proportion_of_time_) * start_value + proportion_of_time_ * end_value;
-
-          expected_values[(number_bins_ - 1)] += final_value;
-
-          LOG_FINE() << "----------";
-          LOG_FINE() << "Category: " << (*category_iter)->name_ << " at length (length_plus) " << length_bins_[(number_bins_ - 1)];
-          LOG_FINE() << "Selectivity: " << selectivities_[category_offset]->label();
-          LOG_FINE() << "start_value: " << start_value << "; end_value: " << end_value << "; final_value: " << final_value;
-          LOG_FINE() << "expected_value (length_plus) becomes: " << expected_values[(number_bins_ - 1)];
-        }
+        LOG_FINE() << "expected_value becomes: " << expected_values_[length_offset];
       }
     }
 
-    if (expected_values.size() != proportions_[model_->current_year()][category_labels_[category_offset]].size())
-      LOG_CODE_ERROR() << "expected_values.size(" << expected_values.size() << ") != proportions_[category_offset].size("
+    if (expected_values_.size() != proportions_[model_->current_year()][category_labels_[category_offset]].size())
+      LOG_CODE_ERROR() << "expected_values.size(" << expected_values_.size() << ") != proportions_[category_offset].size("
                        << proportions_[model_->current_year()][category_labels_[category_offset]].size() << ")";
 
     /**
      * save our comparisons so we can use them to generate the score from the likelihoods later
      */
-    for (unsigned i = 0; i < expected_values.size(); ++i) {
-      SaveComparison(category_labels_[category_offset], 0, length_bins_[i], expected_values[i], proportions_[model_->current_year()][category_labels_[category_offset]][i],
+    for (unsigned i = 0; i < expected_values_.size(); ++i) {
+      SaveComparison(category_labels_[category_offset], 0, length_bins_[i], expected_values_[i], proportions_[model_->current_year()][category_labels_[category_offset]][i],
                      process_errors_by_year_[model_->current_year()], error_values_[model_->current_year()][category_labels_[category_offset]][i], 0.0, delta_, 0.0);
     }
   }

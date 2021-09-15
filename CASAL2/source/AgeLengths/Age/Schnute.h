@@ -30,7 +30,6 @@ public:
   void DoValidate() override final{};
   void DoBuild() override final;
   void DoReset() override final;
-  void DoRebuildCache() override final;
   // accessors
 
   Double calculate_mean_length(unsigned year, unsigned time_step, unsigned age) override final;
@@ -45,7 +44,6 @@ protected:
   Double                               tau2_;
   Double                               a_;
   Double                               b_;
-  map<unsigned, map<unsigned, Double>> mean_length_;
 };
 
 } /* namespace agelengths */

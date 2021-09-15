@@ -32,7 +32,6 @@ public:
   void DoValidate() override final{};
   void DoBuild() override final;
   void DoReset() override final{};
-  void DoRebuildCache() override final{};  // This should never happen. i.e time vary data type.
 
   Double calculate_mean_length(unsigned year, unsigned time_step, unsigned age) override final;
 

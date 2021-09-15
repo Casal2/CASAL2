@@ -502,6 +502,7 @@ void Model::RunBasic() {
     timesteps::Manager&   time_step_manager    = *managers_->time_step();
     timevarying::Manager& time_varying_manager = *managers_->time_varying();
     for (current_year_ = start_year_; current_year_ <= final_year_; ++current_year_) {
+      age_length_manager.UpdateDataType(); // this only does something if we have data type age-length
       LOG_FINE() << "Iteration year: " << current_year_;
       if (single_step) {
         managers_->report()->Pause();
@@ -735,8 +736,11 @@ void Model::RunSimulation() {
     state_                                     = State::kExecute;
     timesteps::Manager&   time_step_manager    = *managers_->time_step();
     timevarying::Manager& time_varying_manager = *managers_->time_varying();
+    agelengths::Manager& age_length_manager = *managers_->age_length();    
+
     for (current_year_ = start_year_; current_year_ <= final_year_; ++current_year_) {
       LOG_FINE() << "Iteration year: " << current_year_;
+      age_length_manager.UpdateDataType(); // this only does something if we have data type age-length
       time_varying_manager.Update(current_year_);
       managers_->simulate()->Update(current_year_);
       time_step_manager.Execute(current_year_);
@@ -778,7 +782,7 @@ void Model::RunProjection() {
   vector<Double*> estimable_targets;
   // Create an instance of all categories
   niwa::partition::accessors::All all_view(pointer());
-
+  agelengths::Manager& age_length_manager = *managers_->age_length();    
   // Model is about to run
   for (unsigned i = 0; i < addressable_values_count_; ++i) {
     for (int j = 0; j < projection_candidates; ++j) {
@@ -804,6 +808,7 @@ void Model::RunProjection() {
 
       for (current_year_ = start_year_; current_year_ <= final_year_; ++current_year_) {
         LOG_FINE() << "Iteration year: " << current_year_;
+        age_length_manager.UpdateDataType(); // this only does something if we have data type age-length
         time_varying_manager.Update(current_year_);
         time_step_manager.Execute(current_year_);
         project_manager.StoreValues(current_year_);
@@ -857,7 +862,7 @@ void Model::Iterate() {
 
   state_        = State::kInitialise;
   current_year_ = start_year_;  // TODO: Fix this
-
+  agelengths::Manager& age_length_manager = *managers_->age_length();    
   initialisationphases::Manager& init_phase_manager = *managers_->initialisation_phase();
   init_phase_manager.Execute();
   managers_->report()->Execute(pointer(), State::kInitialise);
@@ -866,6 +871,7 @@ void Model::Iterate() {
   timesteps::Manager&   time_step_manager    = *managers_->time_step();
   timevarying::Manager& time_varying_manager = *managers_->time_varying();
   for (current_year_ = start_year_; current_year_ <= final_year_; ++current_year_) {
+    age_length_manager.UpdateDataType(); // this only does something if we have data type age-length
     LOG_FINE() << "Iteration year: " << current_year_;
     time_varying_manager.Update(current_year_);
 

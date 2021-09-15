@@ -36,7 +36,8 @@ public:
   void         Validate();
   void         Build();
   void         Reset();
-  virtual void RebuildCache();
+  void         RebuildCache(); // should only be called by time-varying class
+  void         UpdateYearContainers(); // should only be called by this class or its manager
 
   // accessors
   string          weight_units();
@@ -61,11 +62,12 @@ protected:
   virtual void      DoValidate()     = 0;
   virtual void      DoBuild()        = 0;
   virtual void      DoReset()        = 0;
-  virtual void      DoRebuildCache() = 0;
   virtual  Double   calculate_mean_length(unsigned year, unsigned time_step, unsigned age) = 0;
 
   void              PopulateCV();
   void              PopulateAgeLengthMatrix();
+  void              UpdateAgeLengthMatrixForThisYear(unsigned year);
+
   // members
   shared_ptr<Model> model_ = nullptr;
   vector<Double>    time_step_proportions_;

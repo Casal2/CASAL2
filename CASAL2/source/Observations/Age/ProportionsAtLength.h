@@ -56,14 +56,16 @@ protected:
   parameters::Table*          error_values_table_ = nullptr;
   CachedCombinedCategoriesPtr cached_partition_;
   CombinedCategoriesPtr       partition_;
-  vector<Double>              length_results_;
   vector<string>              selectivity_labels_;
   vector<Selectivity*>        selectivities_;
   string                      time_step_label_ = "";
+  vector<Double>              expected_values_;
+  unsigned                    number_bins_ = 0;
+  vector<Double>              numbers_at_length_;
+  vector<Double>              cached_numbers_at_length_;
 
   vector<double> length_bins_;
   bool           length_plus_     = false;
-  unsigned       number_bins_     = 0;
   unsigned       mlb_index_first_ = 0;  // index of model length bin for length_bins_[0]
 
   map<unsigned, map<string, vector<double>>> proportions_;

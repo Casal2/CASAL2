@@ -113,6 +113,9 @@ void AgeLength::Build() {
   length_weight_ = model_->managers()->length_weight()->GetLengthWeight(length_weight_label_);
   if (!length_weight_)
     LOG_ERROR_P(PARAM_LENGTH_WEIGHT) << "Length-weight label " << length_weight_label_ << " was not found";
+  // Subscribe this class to this length_weight class
+  // length_weight_->SubscribeToRebuildCache(this);
+  // if this length weight class time-varys then that will flag this class to rebuild cache
 
   // allocate memory for cvs
   cvs_.resize(model_->years().size());
@@ -149,9 +152,12 @@ void AgeLength::Build() {
   model_years_ = model_->years();
   // Build child dependencies
   DoBuild();
-  // Rebuild the key containers.
-  RebuildCache();
-  // this calls populate CV and build age length matrix
+  // 
+  PopulateCV();
+  //
+  UpdateYearContainers();
+  // Build Age-length matrix
+  PopulateAgeLengthMatrix();
 }
 
 /**
@@ -200,20 +206,24 @@ void AgeLength::PopulateCV() {
  * This is called when the partition is reset
  */
 void AgeLength::Reset() {
-  if (is_estimated_) {
-    LOG_FINEST() << "Rebuilding cv lookup table";
-    PopulateCV();
-  }
-
   LOG_FINE() << "Resetting age-length";
   DoReset();
+  if (is_estimated_) {
+    // Something is estimated in this class, so we should update everything.
+    LOG_FINEST() << "Rebuilding cv lookup table";
+    PopulateCV();
+    //
+    UpdateYearContainers();
+    // Build Age-length matrix
+    PopulateAgeLengthMatrix();
+  }
 }
-
 /**
- * ReBuild Cache: called by the time_varying class
+ * this class is responsible for populating mean_length_by_timestep_age_ mean_weight_by_timestep_age_
  */
-void AgeLength::RebuildCache() {
-  LOG_FINE() << "Rebuilding age-length cache for year " << model_->current_year() << " run mode " << model_->run_mode() << " state " << model_->state();
+
+void AgeLength::UpdateYearContainers() {
+  LOG_FINE() << "UpdateYearContainers " << model_->current_year();
   unsigned min_age         = model_->min_age();
   unsigned max_age         = model_->max_age();
   unsigned time_step_count = model_->time_steps().size();
@@ -226,11 +236,18 @@ void AgeLength::RebuildCache() {
           = length_weight_->mean_weight(mean_length_by_timestep_age_[step_iter][age_iter], distribution_, cvs_[model_->current_year() - year_offset_][step_iter][age_iter]);
     }
   }
-  DoRebuildCache();
+}
+/**
+ * ReBuild Cache: called by the time_varying class
+ */
+void AgeLength::RebuildCache() {
+  LOG_FINE() << "Rebuilding age-length cache for year " << model_->current_year() << " run mode " << model_->run_mode() << " state " << model_->state();
   // needs to go after Rebuild Cache
   PopulateCV();
+  //
+  UpdateYearContainers();
   // Build Age-length matrix
-  PopulateAgeLengthMatrix();
+  UpdateAgeLengthMatrixForThisYear(model_->current_year());
 }
 
 /**
@@ -329,7 +346,7 @@ void AgeLength::PopulateAgeLengthMatrix() {
           LOG_FINEST() << "sigma: " << sigma;
 
           sum                            = 0;
-          vector<Double>& prop_in_length = age_length_transition_matrix_[year_iter][time_step][age_index];
+          vector<Double>& prop_in_length = age_length_transition_matrix_[year_dim_in_age_length][time_step][age_index];
           for (unsigned j = 0; j < length_bin_count; ++j) {
             LOG_FINEST() << "calculating pnorm for length " << length_bins[j];
             // If we are using CASAL's Normal CDF function use this switch
@@ -372,6 +389,94 @@ void AgeLength::PopulateAgeLengthMatrix() {
     }  // for (unsigned year_iter = 0; year_iter < year_count; ++year_iter)
   }
 
+/*
+* This will populate age_length_transition_matrix_ for a specific year, called in Rebuild cache
+* will first check if this is neccessary
+*/
+void AgeLength::UpdateAgeLengthMatrixForThisYear(unsigned year) {
+  LOG_FINE() << "UpdateAgeLengthMatrixForThisYear";
+  if (std::find(age_length_matrix_years_.begin(), age_length_matrix_years_.end(), year) != age_length_matrix_years_.end()) {
+    unsigned time_step_count  = model_->time_steps().size();
+    unsigned length_bin_count = model_->get_number_of_length_bins();
+    unsigned year_dim_in_age_length = 0;
+    Double   mu      = 0.0;
+    Double   cv      = 0.0;
+    unsigned age     = 0;
+    Double   sigma   = 0.0;
+    Double   cv_temp = 0.0;
+    Double   Lvar    = 0.0;
+    Double   tmp     = 0.0;
+    Double   sum     = 0.0;
+    vector<Double> cum(length_bin_count, 0.0);
+    auto           model_length_bins = model_->length_bins();
+    vector<double> length_bins(model_length_bins.size(), 0.0);
+    LOG_FINEST() << "length_bin_count: " << length_bin_count;
+    if (distribution_ == Distribution::kLogNormal) {
+      for (unsigned i = 0; i < model_length_bins.size(); ++i) {
+        if (model_length_bins[i] < 0.0001)
+          length_bins[i] = log(0.0001);
+        else
+          length_bins[i] = log(model_length_bins[i]);
+      }
+    } else {
+      for (unsigned i = 0; i < model_length_bins.size(); ++i) 
+        length_bins[i] = model_length_bins[i];
+    }
+
+    
+    year_dim_in_age_length = age_length_matrix_year_key_[year];
+    for (unsigned time_step = 0; time_step < time_step_count; ++time_step) {
+      age = model_->min_age();
+      for (unsigned age_index = 0; age_index < model_->age_spread(); ++age_index, ++age) {
+        mu    = calculate_mean_length(year, time_step, age);
+        cv    = cvs_[year - year_offset_][time_step - time_step_offset_][age - age_offset_];
+        sigma = cv * mu;
+          LOG_FINEST() << "year: " << year << "; age: " << age << "; mu: " << mu << "; cv: " << cv << "; sigma: " << sigma;
+          if (distribution_ == Distribution::kLogNormal) {
+            // Transform parameters in to log space
+            cv_temp = sigma / mu;
+            Lvar    = log(cv_temp * cv_temp + 1.0);
+            mu      = log(mu) - Lvar / 2.0;
+            sigma   = sqrt(Lvar);
+          }
+          LOG_FINEST() << "year: " << year << "; age: " << age << "; mu: " << mu << "; cv: " << cv << "; sigma: " << sigma;
+
+          for (auto value : length_bins) LOG_FINEST() << "length_bin: " << value;
+
+          LOG_FINEST() << "mu: " << mu;
+          LOG_FINEST() << "sigma: " << sigma;
+
+          sum                            = 0;
+          vector<Double>& prop_in_length = age_length_transition_matrix_[year_dim_in_age_length][time_step][age_index];
+          for (unsigned j = 0; j < length_bin_count; ++j) {
+            LOG_FINEST() << "calculating pnorm for length " << length_bins[j];
+            // If we are using CASAL's Normal CDF function use this switch
+            if (compatibility_ == PARAM_CASAL) {
+              tmp = utilities::math::pnorm(length_bins[j], mu, sigma);
+              LOG_FINE() << "casal_normal_cdf: " << tmp << " utilities::math::pnorm(" << length_bins[j] << ", " << mu << ", " << sigma;
+            } else if (compatibility_ == PARAM_CASAL2) {
+              tmp = utilities::math::pnorm2(length_bins[j], mu, sigma);
+              LOG_FINE() << "normal: " << tmp << " utilities::math::pnorm(" << length_bins[j] << ", " << mu << ", " << sigma;
+            } else {
+              LOG_CODE_ERROR() << "Unknown compatibility option in the calculation of the distribution of age_length";
+            }
+            cum[j] = tmp;
+
+            if (j > 0) {
+              prop_in_length[j - 1] = cum[j] - cum[j - 1];
+              sum += prop_in_length[j - 1];
+              LOG_FINEST() << "prop_in_length[j - 1]: " << prop_in_length[j - 1] << ": " << cum[j] << ": " << cum[j - 1];
+            }
+          }  // for (unsigned j = 0; j < length_bin_count; ++j)
+
+          if (model_->length_plus()) {
+            prop_in_length[length_bin_count - 1] = 1.0 - sum - cum[0];
+            LOG_FINEST() << "prop_in_length[length_bin_count - 1]: " << prop_in_length[length_bin_count - 1];
+          }
+        }  // for (unsigned age_index = 0; age_index < iter.second->age_spread(); ++age_index)
+      }    // for (unsigned time_step = 0; time_step < time_step_count; ++time_step)
+    } // if we need to update
+}
 /**
  * @details This will take numbers at age and pass them through the age-length transition matrix whilst applying a selectivity
  * it is assumed that this only happens in execute() so this method will have access to time-step and year.
@@ -385,7 +490,7 @@ void AgeLength::populate_numbers_at_length(vector<Double> numbers_at_age, vector
   unsigned this_time_step = model_->managers()->time_step()->current_time_step();
   unsigned year_dim_in_age_length = age_length_matrix_year_key_[this_year];
   unsigned min_age = model_->min_age();
-  unsigned max_age = model_->min_age();
+  unsigned max_age = model_->max_age();
 
   vector<double> length_bins            = model_->length_bins();
   unsigned size = model_->length_plus() == true ? model_->length_bins().size() : model_->length_bins().size() - 1;
@@ -415,7 +520,7 @@ void AgeLength::populate_numbers_at_length(vector<Double> numbers_at_age, vector
   unsigned this_time_step = model_->managers()->time_step()->current_time_step();
   unsigned year_dim_in_age_length = age_length_matrix_year_key_[this_year];
   unsigned min_age = model_->min_age();
-  unsigned max_age = model_->min_age();
+  unsigned max_age = model_->max_age();
 
   vector<double> length_bins            = model_->length_bins();
   unsigned size = model_->length_plus() == true ? model_->length_bins().size() : model_->length_bins().size() - 1;
@@ -451,6 +556,7 @@ void AgeLength::FillReportCache(ostringstream& cache) {
   unsigned year       = model_->current_year();
   unsigned this_time_step = model_->managers()->time_step()->current_time_step();
   unsigned year_dim_in_age_length = age_length_matrix_year_key_[year];
+  LOG_FINE() << "FillReportCache time step = " << this_time_step << " year = " << year;
 
   cache << "cvs_by_age: ";
   for (unsigned age = min_age; age <= max_age; ++age) {
@@ -470,6 +576,8 @@ void AgeLength::FillReportCache(ostringstream& cache) {
   cache << REPORT_EOL;
 
   if (std::find(age_length_matrix_years_.begin(), age_length_matrix_years_.end(), year) != age_length_matrix_years_.end()) {
+    LOG_FINE() << "printing Age length matrix";
+
     // print age-length matrix for this year
     cache << REPORT_EOL << REPORT_EOL;
     cache << "age_length_transition_matrix " << REPORT_R_DATAFRAME << REPORT_EOL;
