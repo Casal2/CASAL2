@@ -321,8 +321,6 @@ void ProcessRemovalsByLength::Execute() {
    */
   //  auto categories = model_->categories();
   unsigned year       = model_->current_year();
-  unsigned year_index = year - model_->start_year();
-  unsigned time_step  = model_->managers()->time_step()->current_time_step();
 
   auto                                                     partition_iter        = partition_->Begin();  // vector<vector<partition::Category> >
   map<unsigned, map<string, map<string, vector<Double>>>>& Removals_at_age       = mortality_instantaneous_->catch_at();

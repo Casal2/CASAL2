@@ -313,8 +313,6 @@ void ProcessRemovalsByLengthRetained::Execute() {
    */
   //  auto categories = model_->categories();
   unsigned year       = model_->current_year();
-  unsigned year_index = year - model_->start_year();
-  unsigned time_step  = model_->managers()->time_step()->current_time_step();
 
   auto                                                     cached_partition_iter = cached_partition_->Begin();
   auto                                                     partition_iter        = partition_->Begin();  // vector<vector<partition::Category> >
@@ -378,7 +376,6 @@ void ProcessRemovalsByLengthRetained::Execute() {
         }
 
         // include the larger lengths if specified and they exist
-        unsigned last_obs_bin = mlb_index_first_ + number_bins_ - 1;
         /*
         if (length_plus_ && age_length_proportions[0].size() > last_obs_bin) {
           for (unsigned j = (last_obs_bin + 1); j < age_length_proportions[0].size(); ++j) {

@@ -28,7 +28,7 @@ namespace niwa {
 namespace partition {
 
 /**
- * @brief
+ * @brief 
  *
  */
 void Category::Cache() {

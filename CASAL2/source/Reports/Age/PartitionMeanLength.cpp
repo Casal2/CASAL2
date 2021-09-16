@@ -58,7 +58,7 @@ void PartitionMeanLength::DoExecute(shared_ptr<Model> model) {
 
   for (auto iterator = all_view.Begin(); iterator != all_view.End(); ++iterator) {
     string category = (*iterator)->name_;
-    LOG_FINEST() << "printing mean length-at-age for category " << category;
+    LOG_FINEST() << "printing mean length-at-age for category " << category << " year ndx = " << year_index;
     cache_ << category << " " << REPORT_R_LIST << REPORT_EOL;
 
     cache_ << "mean_lengths " << REPORT_R_DATAFRAME << REPORT_EOL;

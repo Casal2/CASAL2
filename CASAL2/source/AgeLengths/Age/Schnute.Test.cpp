@@ -51,7 +51,8 @@ public:
     year_offset_ = model ->start_year();
     age_offset_ = model ->min_age();    
     model_years_ = model->years();
-
+    min_age_ = model ->min_age(); 
+    max_age_ = model ->min_age(); 
     // allocate memory for cvs; this is usually done in the Build() but difficult to mock
     cvs_.resize(model->years().size());
     for(unsigned year_ndx = 0; year_ndx < cvs_.size(); ++year_ndx) {
@@ -59,7 +60,15 @@ public:
       for(unsigned time_step_ndx = 0; time_step_ndx < cvs_[year_ndx].size(); ++time_step_ndx) {
         cvs_[year_ndx][time_step_ndx].resize(model->age_spread(), 0.0);
       }
-    }      
+    } 
+    // allocate memory for mean weight and length
+    mean_length_by_timestep_age_.resize(model_->time_steps().size());
+    mean_weight_by_timestep_age_.resize(model_->time_steps().size());
+    for (unsigned time_step_ndx = 0; time_step_ndx < mean_weight_by_timestep_age_.size(); ++time_step_ndx) {
+      mean_length_by_timestep_age_[time_step_ndx].resize(model_->age_spread(), 0.0);
+      mean_weight_by_timestep_age_[time_step_ndx].resize(model_->age_spread(), 0.0);
+    }  
+
   }
 
   void MockPopulateCV() { this->PopulateCV(); }

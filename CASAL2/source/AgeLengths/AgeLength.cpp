@@ -166,9 +166,8 @@ void AgeLength::Build() {
  */
 void AgeLength::PopulateCV() {
   LOG_FINE() << "PopulateCV()";
-  unsigned min_age = model_->min_age();
-  unsigned max_age = model_->max_age();
-  unsigned age     = min_age;
+
+  unsigned age     = min_age_;
 
   vector<string> time_steps = model_->time_steps();
 
@@ -181,20 +180,20 @@ void AgeLength::PopulateCV() {
         for (unsigned age_ndx = 0; age_ndx < model_->age_spread(); ++age_ndx) cvs_[year_ndx][step_iter][age_ndx] = (cv_first_);
       } else if (by_length_) {  // if passed the first test we have a min and max CV. So ask if this is linear interpolated by length at age
         LOG_FINEST() << "cv_last defined with by_length = true";
-        age = min_age;  // needs resetting for each year and timestep
+        age = min_age_;  // needs resetting for each year and timestep
         for (unsigned age_ndx = 0; age_ndx < model_->age_spread(); ++age_ndx, ++age) {
           cvs_[year_ndx][step_iter][age_ndx]
-              = ((this->calculate_mean_length(model_years_[year_ndx], step_iter, age) - this->calculate_mean_length(model_years_[year_ndx], step_iter, min_age))
+              = ((this->calculate_mean_length(model_years_[year_ndx], step_iter, age) - this->calculate_mean_length(model_years_[year_ndx], step_iter, min_age_))
                      * (cv_last_ - cv_first_)
-                     / (this->calculate_mean_length(model_years_[year_ndx], step_iter, max_age) - this->calculate_mean_length(model_years_[year_ndx], step_iter, min_age))
+                     / (this->calculate_mean_length(model_years_[year_ndx], step_iter, max_age_) - this->calculate_mean_length(model_years_[year_ndx], step_iter, min_age_))
                  + cv_first_);
         }
       } else {
         // else Do linear interpolation between cv_first_ and cv_last_ based on age class
         LOG_FINEST() << "cv_last defined with by_length = false";
-        age = min_age;  // needs resetting for each year and timestep
+        age = min_age_;  // needs resetting for each year and timestep
         for (unsigned age_ndx = 0; age_ndx < model_->age_spread(); ++age_ndx, ++age) {
-          cvs_[year_ndx][step_iter][age_ndx] = (cv_first_ + (cv_last_ - cv_first_) * (age - min_age) / (max_age - min_age));
+          cvs_[year_ndx][step_iter][age_ndx] = (cv_first_ + (cv_last_ - cv_first_) * (age - min_age_) / (max_age_ - min_age_));
         }
       }  // if (!parameters_.Get(PARAM_CV_LAST)->has_been_defined()) {
     }    // for (unsigned step_iter = 0; step_iter < time_steps.size(); ++step_iter)
@@ -226,12 +225,10 @@ void AgeLength::Reset() {
 
 void AgeLength::UpdateYearContainers() {
   LOG_FINE() << "UpdateYearContainers " << model_->current_year();
-  unsigned min_age         = model_->min_age();
-  unsigned max_age         = model_->max_age();
   unsigned time_step_count = model_->time_steps().size();
-  unsigned age             = min_age;
+  unsigned age             = min_age_;
   for (unsigned step_iter = 0; step_iter < time_step_count; ++step_iter) {
-    age = min_age;
+    age = min_age_;
     for (unsigned age_iter = 0; age_iter < model_->age_spread(); ++age_iter, ++age) {
       mean_length_by_timestep_age_[step_iter][age_iter] = calculate_mean_length(model_->current_year(), step_iter, age);
       mean_weight_by_timestep_age_[step_iter][age_iter]
@@ -570,6 +567,17 @@ void  AgeLength::populate_numbers_at_age_with_length_based_exploitation(vector<D
   // 
 
 }
+
+
+/**
+ * @details get_age_length_probability
+ * Only used in the testing suite to validate the age-length
+ * Assumes the age-length matrix is available.
+ */
+const Double&  AgeLength::get_age_length_probability(unsigned year, unsigned time_step, unsigned age, unsigned length_bin_ndx) {
+  return age_length_transition_matrix_[age_length_matrix_year_key_[year]][time_step][age - age_offset_][length_bin_ndx];
+}
+
 /**
  * @details FillReportCache
  * populates neccessary information that we want to report for this current year.

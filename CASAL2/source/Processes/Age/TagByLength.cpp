@@ -313,10 +313,6 @@ void TagByLength::DoExecute() {
     std::fill(numbers_at_age_by_category_[from_category_iter].begin(), numbers_at_age_by_category_[from_category_iter].end(), 0.0);
   }
 
-  unsigned year_index      = model_->current_year() - model_->start_year();
-  unsigned time_step_index = model_->managers()->time_step()->current_time_step();
-
-
   
   // Calculate the exploitation rate by length bin
   for (unsigned i = 0; i < n_length_bins_; ++i) {

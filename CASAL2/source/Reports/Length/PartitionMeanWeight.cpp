@@ -48,7 +48,6 @@ void PartitionMeanWeight::DoBuild(shared_ptr<Model> model) {
  * Execute method
  */
 void PartitionMeanWeight::DoExecute(shared_ptr<Model> model) {
-  unsigned time_step_index = model->managers()->time_step()->current_time_step();
 
   //  auto categories = Categories::Instance();
   niwa::partition::accessors::All all_view(model);

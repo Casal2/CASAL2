@@ -45,6 +45,14 @@ time_steps step_one=[processes=Recruitment] step_two=[processes=Ageing]
 @categories
 format stage.sex
 names immature.male mature.male immature.female mature.female
+age_lengths no_age_length*4
+
+@age_length no_age_length
+type none
+length_weight no_length_weight
+
+@length_weight no_length_weight
+type none
 
 @initialisation_phase iphase1
 years 200

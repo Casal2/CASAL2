@@ -45,7 +45,6 @@ void PartitionBiomass::DoValidate(shared_ptr<Model> model) {
  */
 void PartitionBiomass::DoExecute(shared_ptr<Model> model) {
   // First, figure out the lowest and highest ages/length
-  unsigned       time_step_index = model->managers()->time_step()->current_time_step();
   vector<double> length_bins     = model->length_bins();
 
   niwa::partition::accessors::All all_view(model);

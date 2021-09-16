@@ -56,7 +56,8 @@ public:
 
   // For reporting in the AgeLength 
   void            FillReportCache(ostringstream& cache);
-
+  // testing method
+  const Double&   get_age_length_probability(unsigned year, unsigned time_step, unsigned age, unsigned length_bin_ndx);
 protected:
   // methods
 
