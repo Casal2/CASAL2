@@ -82,12 +82,10 @@ protected:
   //
   vector<Double>         length_results_;
   vector<Double>         tagged_length_results_;
-  vector<Double>         numbers_at_length_;
-  vector<Double>         tagged_cached_numbers_at_length_;
-  vector<Double>         cached_numbers_at_length_;
-  vector<Double>         tagged_numbers_at_length_;
-  vector<vector<Double>> age_length_matrix_;
-  vector<vector<Double>> cached_age_length_matrix_;
+  vector<vector<Double>>         numbers_at_length_;
+  vector<vector<Double>>         tagged_cached_numbers_at_length_;
+  vector<vector<Double>>         cached_numbers_at_length_;
+  vector<vector<Double>>         tagged_numbers_at_length_;
 
   map<unsigned, map<string, vector<double>>> recaptures_;
   map<unsigned, map<string, vector<double>>> scanned_;

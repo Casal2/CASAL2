@@ -62,8 +62,11 @@ private:
   parameters::Table*            numbers_table_     = nullptr;
   parameters::Table*            proportions_table_ = nullptr;
   unsigned                      first_year_        = 0;
+  unsigned                      n_length_bins_;
   map<unsigned, vector<Double>> numbers_;
   map<unsigned, Double>         n_by_year_;
+  vector<vector<Double>>        numbers_at_length_by_category_; // dims category x length bins
+  vector<vector<Double>>        numbers_at_age_by_category_; // dims category x length bins
 
   // Containers for reporting
   vector<vector<vector<Double>>> actual_tagged_fish_from_;  // n_years x n_from_categories x n_ages

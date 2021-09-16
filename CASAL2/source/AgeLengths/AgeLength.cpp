@@ -216,6 +216,8 @@ void AgeLength::Reset() {
     UpdateYearContainers();
     // Build Age-length matrix
     PopulateAgeLengthMatrix();
+  } else {
+    UpdateYearContainers();
   }
 }
 /**
@@ -296,7 +298,7 @@ void AgeLength::PopulateAgeLengthMatrix() {
   unsigned time_step_count  = model_->time_steps().size();
   unsigned length_bin_count = model_->get_number_of_length_bins();
   unsigned year    = 0;
-  unsigned year_dim_in_age_length = 0;
+  year_dim_in_age_length_ = 0;
   Double   mu      = 0.0;
   Double   cv      = 0.0;
   unsigned age     = 0;
@@ -323,9 +325,9 @@ void AgeLength::PopulateAgeLengthMatrix() {
   }
   for(unsigned year_iter = 0; year_iter < age_length_matrix_years_.size(); ++year_iter) {
     year = age_length_matrix_years_[year_iter];
-    year_dim_in_age_length = age_length_matrix_year_key_[age_length_matrix_years_[year_iter]];
+    year_dim_in_age_length_ = age_length_matrix_year_key_[age_length_matrix_years_[year_iter]];
     for (unsigned time_step = 0; time_step < time_step_count; ++time_step) {
-      age = model_->min_age();
+      age = min_age_;
       for (unsigned age_index = 0; age_index < model_->age_spread(); ++age_index, ++age) {
         mu    = calculate_mean_length(year, time_step, age);
         cv    = cvs_[year - year_offset_][time_step - time_step_offset_][age - age_offset_];
@@ -346,7 +348,7 @@ void AgeLength::PopulateAgeLengthMatrix() {
           LOG_FINEST() << "sigma: " << sigma;
 
           sum                            = 0;
-          vector<Double>& prop_in_length = age_length_transition_matrix_[year_dim_in_age_length][time_step][age_index];
+          vector<Double>& prop_in_length = age_length_transition_matrix_[year_dim_in_age_length_][time_step][age_index];
           for (unsigned j = 0; j < length_bin_count; ++j) {
             LOG_FINEST() << "calculating pnorm for length " << length_bins[j];
             // If we are using CASAL's Normal CDF function use this switch
@@ -398,7 +400,7 @@ void AgeLength::UpdateAgeLengthMatrixForThisYear(unsigned year) {
   if (std::find(age_length_matrix_years_.begin(), age_length_matrix_years_.end(), year) != age_length_matrix_years_.end()) {
     unsigned time_step_count  = model_->time_steps().size();
     unsigned length_bin_count = model_->get_number_of_length_bins();
-    unsigned year_dim_in_age_length = 0;
+    year_dim_in_age_length_ = 0;
     Double   mu      = 0.0;
     Double   cv      = 0.0;
     unsigned age     = 0;
@@ -424,9 +426,9 @@ void AgeLength::UpdateAgeLengthMatrixForThisYear(unsigned year) {
     }
 
     
-    year_dim_in_age_length = age_length_matrix_year_key_[year];
+    year_dim_in_age_length_ = age_length_matrix_year_key_[year];
     for (unsigned time_step = 0; time_step < time_step_count; ++time_step) {
-      age = model_->min_age();
+      age = min_age_;
       for (unsigned age_index = 0; age_index < model_->age_spread(); ++age_index, ++age) {
         mu    = calculate_mean_length(year, time_step, age);
         cv    = cvs_[year - year_offset_][time_step - time_step_offset_][age - age_offset_];
@@ -447,7 +449,7 @@ void AgeLength::UpdateAgeLengthMatrixForThisYear(unsigned year) {
           LOG_FINEST() << "sigma: " << sigma;
 
           sum                            = 0;
-          vector<Double>& prop_in_length = age_length_transition_matrix_[year_dim_in_age_length][time_step][age_index];
+          vector<Double>& prop_in_length = age_length_transition_matrix_[year_dim_in_age_length_][time_step][age_index];
           for (unsigned j = 0; j < length_bin_count; ++j) {
             LOG_FINEST() << "calculating pnorm for length " << length_bins[j];
             // If we are using CASAL's Normal CDF function use this switch
@@ -486,21 +488,20 @@ void AgeLength::UpdateAgeLengthMatrixForThisYear(unsigned year) {
  */
 void AgeLength::populate_numbers_at_length(vector<Double> numbers_at_age, vector<Double>& numbers_at_length, Selectivity* selectivity){
   LOG_FINEST() << "populate_numbers_at_length";
-  unsigned this_year = model_->current_year();
-  unsigned this_time_step = model_->managers()->time_step()->current_time_step();
-  unsigned year_dim_in_age_length = age_length_matrix_year_key_[this_year];
-  unsigned min_age = model_->min_age();
-  unsigned max_age = model_->max_age();
+  this_year_ = model_->current_year();
+  this_time_step_ = model_->managers()->time_step()->current_time_step();
+  year_dim_in_age_length_ = age_length_matrix_year_key_[this_year_];
+
 
   vector<double> length_bins            = model_->length_bins();
-  unsigned size = model_->length_plus() == true ? model_->length_bins().size() : model_->length_bins().size() - 1;
+  unsigned size = model_->get_number_of_length_bins();
 
-  LOG_FINE() << "Populating the age-length matrix for agelength class " << label_ << " in year " << this_year << " and time-step " << this_time_step;
+  LOG_FINE() << "Populating the age-length matrix for agelength class " << label_ << " in year " << this_year_ << " and time-step " << this_time_step_;
   LOG_FINE() << "Calculating age length data";
-  for (unsigned age = min_age; age <= max_age; ++age) {
-    unsigned i = age - min_age;
+  for (unsigned age = min_age_; age <= max_age_; ++age) {
+    unsigned i = age - min_age_;
     for (unsigned bin = 0; bin < size; ++bin) {
-      numbers_by_age_length_transition_[i][bin] = selectivity->GetAgeResult(age, this) * numbers_at_age[i] * age_length_transition_matrix_[year_dim_in_age_length][this_time_step][i][bin];
+      numbers_by_age_length_transition_[i][bin] = selectivity->GetAgeResult(age, this) * numbers_at_age[i] * age_length_transition_matrix_[year_dim_in_age_length_][this_time_step_][i][bin];
       numbers_at_length[bin] += numbers_by_age_length_transition_[i][bin];
     }
   }
@@ -516,36 +517,59 @@ void AgeLength::populate_numbers_at_length(vector<Double> numbers_at_age, vector
  */
 void AgeLength::populate_numbers_at_length(vector<Double> numbers_at_age, vector<Double>& numbers_at_length){
   LOG_FINEST() << "populate_numbers_at_length";
-  unsigned this_year = model_->current_year();
-  unsigned this_time_step = model_->managers()->time_step()->current_time_step();
-  unsigned year_dim_in_age_length = age_length_matrix_year_key_[this_year];
-  unsigned min_age = model_->min_age();
-  unsigned max_age = model_->max_age();
+  this_year_ = model_->current_year();
+  this_time_step_ = model_->managers()->time_step()->current_time_step();
+  year_dim_in_age_length_ = age_length_matrix_year_key_[this_year_];
+
 
   vector<double> length_bins            = model_->length_bins();
-  unsigned size = model_->length_plus() == true ? model_->length_bins().size() : model_->length_bins().size() - 1;
-
-  LOG_FINE() << "Populating the age-length matrix for agelength class " << label_ << " in year " << this_year << " and time-step " << this_time_step << " year ndx = " << year_dim_in_age_length;
+  unsigned size = model_->get_number_of_length_bins();
+  LOG_FINE() << "Populating the age-length matrix for agelength class " << label_ << " in year " << this_year_ << " and time-step " << this_time_step_ << " year ndx = " << year_dim_in_age_length_;
   LOG_FINE() << "Calculating age length data";
   LOG_FINE() << "years in " << age_length_transition_matrix_.size();
   LOG_FINE() << "time_steps in " << age_length_transition_matrix_.size();
 
-  for (unsigned age = min_age; age <= max_age; ++age) {
-    unsigned i = age - min_age;
+  for (unsigned age = min_age_; age <= max_age_; ++age) {
+    unsigned i = age - min_age_;
     LOG_FINEST() << " age = " << age << " i = " << i;
 
     for (unsigned bin = 0; bin < size; ++bin) {
       LOG_FINEST() << " bin = " << bin;
-      LOG_FINEST() << " prop = " << age_length_transition_matrix_[year_dim_in_age_length][this_time_step][i][bin];
+      LOG_FINEST() << " prop = " << age_length_transition_matrix_[year_dim_in_age_length_][this_time_step_][i][bin];
 
-      numbers_by_age_length_transition_[i][bin] = numbers_at_age[i] * age_length_transition_matrix_[year_dim_in_age_length][this_time_step][i][bin];
+      numbers_by_age_length_transition_[i][bin] = numbers_at_age[i] * age_length_transition_matrix_[year_dim_in_age_length_][this_time_step_][i][bin];
       numbers_at_length[bin] += numbers_by_age_length_transition_[i][bin];
     }
   }
   // 
 
 }
+/**
+ * @details This will take the numbers at age and pass them through the age-length transition matrix for a specific length bin
+ * which must be consistent with model length bins and store in an age based vector. Currently only the process TagByLength I think uses this.
+ * it is assumed that this only happens in execute() so this method will have access to time-step and year.
+ * @param numbers_at_age vector of numbers at age to go through the age-length-transition matrix
+ * @param numbers_at_age_with_exploitation vector of numbers at age to store values in
+ * @param exploitation_by_length exploitation value by length
+ * @param model_length_bin_ndx an index for the length bin.
+ */
+void  AgeLength::populate_numbers_at_age_with_length_based_exploitation(vector<Double>& numbers_at_age, vector<Double>& numbers_at_age_with_exploitation, Double& exploitation_by_length, unsigned model_length_bin_ndx, Selectivity* selectivity) {
+  LOG_FINEST() << "populate_numbers_at_age_with_length_based_exploitation";
+  this_year_ = model_->current_year();
+  this_time_step_ = model_->managers()->time_step()->current_time_step();
+  year_dim_in_age_length_ = age_length_matrix_year_key_[this_year_];
+  if(model_length_bin_ndx >= model_->get_number_of_length_bins()) 
+    LOG_CODE_ERROR() << "this function can only deal with length bins that are consistent with the model length bins. this function recieved a length bin = " << model_length_bin_ndx << " but there are only " << model_->get_number_of_length_bins() << " model length bins";
+  
+  LOG_FINE() << "Populating the age-length matrix for agelength class " << label_ << " in year " << this_year_ << " and time-step " << this_time_step_ << " year ndx = " << year_dim_in_age_length_;
+  for (unsigned age = min_age_; age <= max_age_; ++age) {
+    unsigned i = age - min_age_;
+    //LOG_FINEST() << " age = " << age << " i = " << i;
+    numbers_at_age_with_exploitation[i] += numbers_at_age[i] * age_length_transition_matrix_[year_dim_in_age_length_][this_time_step_][i][model_length_bin_ndx] * exploitation_by_length * selectivity->GetAgeResult(age, this);
+  }
+  // 
 
+}
 /**
  * @details FillReportCache
  * populates neccessary information that we want to report for this current year.
@@ -595,5 +619,8 @@ void AgeLength::FillReportCache(ostringstream& cache) {
     }
   }
 }
+
+
+
 
 } /* namespace niwa */

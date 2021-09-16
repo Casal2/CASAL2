@@ -1,17 +1,17 @@
 Casal2
 Call: C:\Software\CASAL2\BuildSystem/bin/windows_gcc/release_betadiff/casal2.exe -r -i pars.out 
-Date: Wed Sep 15 23:57:19 2021
+Date: Thu Sep 16 16:15:15 2021
 Version: v21.09 (2021-09-15)
 Copyright (c) 2017-2021, NIWA (www.niwa.co.nz)
-Environment: User=marshc Machine=NIWA-1015798 OS=Windows_NT PID=948
+Environment: User=marshc Machine=NIWA-1015798 OS=Windows_NT PID=11844
 
 
 
 [WARNING] Estimates were removed because of matching lower and upper bounds. Originally had 152 estimates, now have 151
 resizing from 40000 to 44000
+resizing from 44000 to 48400
 [INFO] Initiating basic run mode
 [INFO] Estimable parameters were loaded from the free parameter file: pars.out
-resizing from 44000 to 48400
 resizing from 48400 to 53240
 resizing from 53240 to 58564
 resizing from 58564 to 64420
@@ -435,4 +435,4 @@ estimated parameter 'selectivity[SAsl].sigma_r' was within 0.001 of upper bound 
 *end
 
 [INFO] Completed
-[INFO] Total elapsed time: 1 second
+[INFO] Total elapsed time: 1 seconds

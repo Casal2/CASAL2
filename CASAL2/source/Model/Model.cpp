@@ -798,6 +798,8 @@ void Model::RunProjection() {
       state_        = State::kInitialise;
       current_year_ = start_year_;
       initialisationphases::Manager& init_phase_manager = *managers_->initialisation_phase();
+      // update data type needs to be updated in the f loop
+      age_length_manager.UpdateDataType();
       init_phase_manager.Execute();
 
       state_ = State::kExecute;
@@ -861,9 +863,11 @@ void Model::Iterate() {
   niwa::partition::accessors::All all_view(pointer());
 
   state_        = State::kInitialise;
-  current_year_ = start_year_;  // TODO: Fix this
+  current_year_ = start_year_; 
   agelengths::Manager& age_length_manager = *managers_->age_length();    
   initialisationphases::Manager& init_phase_manager = *managers_->initialisation_phase();
+  // update data type before Init phase
+  age_length_manager.UpdateDataType(); 
   init_phase_manager.Execute();
   managers_->report()->Execute(pointer(), State::kInitialise);
 

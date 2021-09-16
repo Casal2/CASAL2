@@ -302,9 +302,9 @@ void Biomass::CalculateScore() {
         // Recalculate the expectations by multiplying by the new Q
         for (auto year_iterator = comparisons_.begin(); year_iterator != comparisons_.end(); ++year_iterator) {
           for (obs::Comparison& comparison : year_iterator->second) {
-            LOG_FINEST() << "---- Expected before nuisance Q applied = " << comparison.expected_;
+            LOG_FINE() << "---- Expected before nuisance Q applied = " << comparison.expected_;
             comparison.expected_ *= nuisance_catchability_->q();
-            LOG_FINEST() << "---- Expected After nuisance Q applied = " << comparison.expected_;
+            LOG_FINE() << "---- Expected After nuisance Q applied = " << comparison.expected_;
           }
         }
         calculate_nuisance_q_ = false; 
@@ -327,9 +327,9 @@ void Biomass::CalculateScore() {
       // Recalculate the expectations by multiplying by the new Q
       for (auto year_iterator = comparisons_.begin(); year_iterator != comparisons_.end(); ++year_iterator) {
         for (obs::Comparison& comparison : year_iterator->second) {
-          LOG_FINEST() << "---- Expected before nuisance Q applied = " << comparison.expected_;
+          LOG_FINE() << "---- Expected before nuisance Q applied = " << comparison.expected_;
           comparison.expected_ *= nuisance_catchability_->q();
-          LOG_FINEST() << "---- Expected after nuisance Q applied = " << comparison.expected_;
+          LOG_FINE() << "---- Expected after nuisance Q applied = " << comparison.expected_;
         }
       }
     }

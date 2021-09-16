@@ -132,8 +132,8 @@ protected:
   void Iterate();
   void Reset();
   void RunBasic();
-  void RunEstimation();
-  bool RunMCMC();
+  void RunEstimation();  // important!!! if you change this method you need to change it in Runner.cpp
+  bool RunMCMC();        // important!!! if you change this method you need to change it in Runner.cpp
   void RunProfiling();
   void RunSimulation();
   void RunProjection();

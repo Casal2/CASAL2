@@ -86,8 +86,6 @@ void Partition::Reset() {
   LOG_FINE() << "Partition::Reset()";
   for (auto iter = partition_.begin(); iter != partition_.end(); ++iter) {
     iter->second->data_.assign(iter->second->data_.size(), 0.0);
-    if (iter->second->age_length_ != nullptr)
-      iter->second->age_length_->Reset();
   }
 }
 

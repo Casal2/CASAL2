@@ -66,6 +66,7 @@ void ObjectiveFunction::CalculateScore() {
       if (append_age)
         new_score.label_ += string("-") + utilities::ToInline<unsigned, string>(iter->first);
       new_score.score_ = iter->second;
+      LOG_FINE() << "observation_: " << new_score.label_ << " = " << new_score.score_;
 
       score_list_.push_back(new_score);
       score_ += new_score.score_;
@@ -84,6 +85,7 @@ void ObjectiveFunction::CalculateScore() {
 
       new_score.label_ = PARAM_PENALTY + string("->") + penalty->label();
       new_score.score_ = penalty->GetScore();
+      LOG_FINE() << "penalty_: " << new_score.label_ << " = " << new_score.score_;
 
       score_list_.push_back(new_score);
       score_ += new_score.score_;
@@ -100,6 +102,7 @@ void ObjectiveFunction::CalculateScore() {
 
     new_score.label_ = PARAM_PENALTY + string("->") + penalty.label_;
     new_score.score_ = penalty.score_;
+    LOG_FINE() << "penalty_: " << new_score.label_ << " = " << new_score.score_;
 
     score_list_.push_back(new_score);
     score_ += new_score.score_;
@@ -121,6 +124,7 @@ void ObjectiveFunction::CalculateScore() {
     else
       new_score.label_ = PARAM_PRIOR + string("->") + estimate->parameter();
     new_score.score_ = estimate->GetScore();
+    LOG_FINE() << "priors: " << new_score.label_ << " = " << new_score.score_;
 
     score_list_.push_back(new_score);
     score_ += new_score.score_;
@@ -137,6 +141,7 @@ void ObjectiveFunction::CalculateScore() {
     objective::Score new_score;
     new_score.label_ = PARAM_ADDITIONAL_PRIOR + string("->") + prior->label();
     new_score.score_ = prior->GetScore();
+    LOG_FINE() << "additional_priors: " << new_score.label_ << " = " << new_score.score_;
 
     score_list_.push_back(new_score);
     score_ += new_score.score_;

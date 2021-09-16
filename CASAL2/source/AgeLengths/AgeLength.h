@@ -52,7 +52,8 @@ public:
   void            BuildAgeLengthMatrixForTheseYears(vector<unsigned> years);
   void            populate_numbers_at_length(vector<Double> numbers_at_age, vector<Double>& numbers_at_length, Selectivity* selectivity);
   void            populate_numbers_at_length(vector<Double> numbers_at_age, vector<Double>& numbers_at_length); // overloaded for the case with no selectivity
-  
+  void            populate_numbers_at_age_with_length_based_exploitation(vector<Double>& numbers_at_age, vector<Double>& numbers_at_age_with_exploitation, Double& exploitation_by_length, unsigned model_length_bin_ndx,  Selectivity* selectivity); // 
+
   // For reporting in the AgeLength 
   void            FillReportCache(ostringstream& cache);
 
@@ -93,6 +94,12 @@ protected:
   // because this may not be in sequential order (see method BuildAgeLengthMatrixForTheseYears) we have a key which maps the right year with first dimension of age_length_transition_matrix_
   vector<vector<Double>>                 numbers_by_age_length_transition_; // age x length used as a temporarey container
   vector<vector<vector<vector<Double>>>> age_length_transition_matrix_; // dims years x timesteps x age x length
+  // these members are used in the functions
+  unsigned            this_year_ = model_->start_year();
+  unsigned            this_time_step_ = 0;
+  unsigned            year_dim_in_age_length_ = 0;
+  unsigned            min_age_ = model_->min_age();
+  unsigned            max_age_ = model_->max_age();
 };
 
 } /* namespace niwa */
