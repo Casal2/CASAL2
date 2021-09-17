@@ -62,5 +62,47 @@ TEST(Math, Test_UnscalingValue_Math) {
   EXPECT_DOUBLE_EQ(4.8909675978793405449, unscaled_value);
 }
 
+
+/**
+ * @brief
+ * test cumulative distributions pnorm
+ * the expected values are from R
+ * R version 4.0.2 (2020-06-22)
+ * Platform: x86_64-w64-mingw32/x64 (64-bit)
+ * Running under: Windows 10 x64 (build 18363)
+ * The near test shows expected precision, the old CASAL (pnorm) is not as accurate
+ */
+TEST(Math, pnorm) {
+  // CASAL's pnorm
+  EXPECT_DOUBLE_EQ(0.5, pnorm(23, 23, 3));
+  EXPECT_NEAR(0.0001228664, pnorm(12, 23, 3), 0.001);
+  EXPECT_NEAR(0.9995709, pnorm(33, 23, 3), 0.001);
+
+  
+  // CASAL2's pnorm // look at the expected precision
+  EXPECT_NEAR(0.5, pnorm2(23, 23, 3), 0.000001);
+  EXPECT_NEAR(0.0001228664, pnorm2(12, 23, 3), 0.000001);
+  EXPECT_NEAR(0.9995709, pnorm2(33, 23, 3), 0.000001);
+
+}
+
+
+/**
+ * @brief
+ * test LnGamma call against R
+ * the expected values are from R
+ * R version 4.0.2 (2020-06-22)
+ * Platform: x86_64-w64-mingw32/x64 (64-bit)
+ * Running under: Windows 10 x64 (build 18363)
+ * The near test shows expected precision, the old CASAL (pnorm) is not as accurate
+ */
+TEST(Math, LnGamma) {
+
+  EXPECT_NEAR(48.47118, LnGamma(23), 0.0001);
+  EXPECT_NEAR(19.98721, LnGamma(13), 0.0001);
+  EXPECT_NEAR(6.213457, LnGamma(0.002), 0.0001);
+  EXPECT_NEAR(15756.25, LnGamma(2333), 0.005); // not as precise for big values
+}
+
 }  // namespace niwa::utilities::math
 #endif

@@ -147,6 +147,7 @@ inline Double dlognorm(const Double& x, const Double& mu = 0.0, const Double& si
 
 /**
  * pnorm: return the cdf for the normal
+ * this is from CASAL development.h line 391
  */
 inline Double pnorm(const Double& x, const Double& mu = 0.0, const Double& sigma = 1.0) {
   // Abramowitz & Stegun eqn 26.2.18
