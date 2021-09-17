@@ -262,10 +262,13 @@ void ProcessRemovalsByWeight::DoValidate() {
  */
 void ProcessRemovalsByWeight::DoBuild() {
   partition_        = CombinedCategoriesPtr(new niwa::partition::accessors::CombinedCategories(model_, category_labels_));
-  cached_partition_ = CachedCombinedCategoriesPtr(new niwa::partition::accessors::cached::CombinedCategories(model_, category_labels_));
-
-  //  if (ageing_error_label_ != "")
-  //   LOG_CODE_ERROR() << "ageing error has not been implemented for the proportions at age observation";
+  // flag age-length to Build age-length matrix for these years
+  auto partition_iter = partition_->Begin();  
+  for (unsigned category_offset = 0; category_offset < category_labels_.size(); ++category_offset, ++partition_iter) {
+    auto category_iter        = partition_iter->begin();
+    for (; category_iter != partition_iter->end();  ++category_iter)
+      (*category_iter)->age_length_->BuildAgeLengthMatrixForTheseYears(years_);
+  }
 
   length_results_.resize(number_length_bins_ * category_labels_.size(), 0.0);
   weight_results_.resize(number_weight_bins_ * category_labels_.size(), 0.0);
@@ -321,36 +324,14 @@ void ProcessRemovalsByWeight::DoBuild() {
   weight_plus_      = false;
   weight_bins_plus_ = weight_bins_;
   weight_bins_plus_.push_back(weight_bins_[number_weight_bins_ - 1] + (weight_bins_[number_weight_bins_ - 1] - weight_bins_[number_weight_bins_ - 2]));
-}
 
-/**
- * This method is called at the start of the targeted
- * time step for this observation.
- *
- * At this point we need to build our cache for the partition
- * structure to use with any interpolation
- */
-void ProcessRemovalsByWeight::PreExecute() {
-  LOG_FINEST() << "Entering observation " << label_;
-
-  cached_partition_->BuildCache();
-
-  if (cached_partition_->Size() != proportions_[model_->current_year()].size())
-    LOG_CODE_ERROR() << "cached_partition_->Size() != proportions_[model->current_year()].size()";
-  if (partition_->Size() != proportions_[model_->current_year()].size())
-    LOG_CODE_ERROR() << "partition_->Size() != proportions_[model->current_year()].size()";
 
   auto age_data_size = model_->age_spread();
-
-  auto cached_partition_iter = cached_partition_->Begin();
-  auto partition_iter        = partition_->Begin();  // vector<vector<partition::Category> >
-
-  for (unsigned category_offset = 0; category_offset < category_labels_.size(); ++category_offset, ++partition_iter, ++cached_partition_iter) {
+  partition_iter        = partition_->Begin();  // vector<vector<partition::Category> >
+  for (unsigned category_offset = 0; category_offset < category_labels_.size(); ++category_offset, ++partition_iter) {
     LOG_FINE() << "category: " << category_labels_[category_offset];
-
     auto category_iter        = partition_iter->begin();
-    auto cached_category_iter = cached_partition_iter->begin();
-    for (; category_iter != partition_iter->end(); ++cached_category_iter, ++category_iter) {
+    for (; category_iter != partition_iter->end(); ++category_iter) {
       auto category_name = (*category_iter)->name_;
       LOG_FINE() << "category name: " << category_name;
 
@@ -372,6 +353,40 @@ void ProcessRemovalsByWeight::PreExecute() {
       }
     }
   }
+
+  // get the units specified in the age-length relationship (returns length_weight_->weight_units())
+  // weight_units    = age_length->weight_units();
+  string weight_units    = model_->base_weight_units();  // since age_length->GetMeanWeight() returns the model weight units, per Craig Marsh 2021-07-07
+  unit_multiplier_ = 1.0;
+  // what value to multiply weight_units by to get units_
+  if ((units_ == PARAM_TONNES) && (weight_units == PARAM_KGS || weight_units == PARAM_KILOGRAMS))
+    unit_multiplier_ = 0.001;
+  else if (units_ == PARAM_GRAMS && (weight_units == PARAM_KGS || weight_units == PARAM_KILOGRAMS))
+    unit_multiplier_ = 1000;
+
+  if ((units_ == PARAM_KGS || units_ == PARAM_KILOGRAMS) && (weight_units == PARAM_TONNES))
+    unit_multiplier_ = 1000;
+  else if (units_ == PARAM_GRAMS && (weight_units == PARAM_TONNES))
+    unit_multiplier_ = 1000000;
+
+  if ((units_ == PARAM_KGS || units_ == PARAM_KILOGRAMS) && (weight_units == PARAM_GRAMS))
+    unit_multiplier_ = 0.0001;
+  else if (units_ == PARAM_TONNES && (weight_units == PARAM_GRAMS))
+    unit_multiplier_ = 0.0000001;
+
+}
+
+/**
+ * This method is called at the start of the targeted
+ * time step for this observation.
+ *
+ * At this point we need to build our cache for the partition
+ * structure to use with any interpolation
+ */
+void ProcessRemovalsByWeight::PreExecute() {
+  LOG_FINEST() << "Entering observation " << label_;
+  if (partition_->Size() != proportions_[model_->current_year()].size())
+    LOG_CODE_ERROR() << "partition_->Size() != proportions_[model->current_year()].size()";
 }
 
 /**
@@ -382,28 +397,23 @@ void ProcessRemovalsByWeight::Execute() {
   LOG_TRACE();
   /**
    * Verify our cached partition and partition sizes are correct
-   
+   */
   //  auto categories = model_->categories();
   unsigned year      = model_->current_year();
   unsigned time_step = model_->managers()->time_step()->current_time_step();
-
-  auto                                                     cached_partition_iter = cached_partition_->Begin();
   auto                                                     partition_iter        = partition_->Begin();  // vector<vector<partition::Category> >
   map<unsigned, map<string, map<string, vector<Double>>>>& Removals_at_age       = mortality_instantaneous_->catch_at();
 
   Double mean_length;
   Double mean_weight;
   Double std_dev;
-  string weight_units;
-  Double unit_multiplier;
 
   // vector<Double> numbers_at_length(number_length_bins_);
   vector<Double> numbers_at_weight(number_weight_bins_);
   // vector<Double> expected_values_length(number_length_bins_);
   vector<Double> expected_values_weight(number_weight_bins_);
 
-
-  for (unsigned category_offset = 0; category_offset < category_labels_.size(); ++category_offset, ++partition_iter, ++cached_partition_iter) {
+  for (unsigned category_offset = 0; category_offset < category_labels_.size(); ++category_offset, ++partition_iter) {
     LOG_FINE() << "category: " << category_labels_[category_offset];
     Double start_value   = 0.0;
     Double end_value     = 0.0;
@@ -414,42 +424,18 @@ void ProcessRemovalsByWeight::Execute() {
 
 
     auto category_iter        = partition_iter->begin();
-    auto cached_category_iter = cached_partition_iter->begin();
-    for (; category_iter != partition_iter->end(); ++cached_category_iter, ++category_iter) {
+    for (; category_iter != partition_iter->end(); ++category_iter) {
       auto category_name = (*category_iter)->name_;
       LOG_FINE() << "category name: " << category_name;
 
-      AgeLength* age_length = (*category_iter)->age_length_;
-
-      // get the units specified in the age-length relationship (returns length_weight_->weight_units())
-      // weight_units    = age_length->weight_units();
-      weight_units    = model_->base_weight_units();  // since age_length->GetMeanWeight() returns the model weight units, per Craig Marsh 2021-07-07
-      unit_multiplier = 1.0;
-      // what value to multiply weight_units by to get units_
-      if ((units_ == PARAM_TONNES) && (weight_units == PARAM_KGS || weight_units == PARAM_KILOGRAMS))
-        unit_multiplier = 0.001;
-      else if (units_ == PARAM_GRAMS && (weight_units == PARAM_KGS || weight_units == PARAM_KILOGRAMS))
-        unit_multiplier = 1000;
-
-      if ((units_ == PARAM_KGS || units_ == PARAM_KILOGRAMS) && (weight_units == PARAM_TONNES))
-        unit_multiplier = 1000;
-      else if (units_ == PARAM_GRAMS && (weight_units == PARAM_TONNES))
-        unit_multiplier = 1000000;
-
-      if ((units_ == PARAM_KGS || units_ == PARAM_KILOGRAMS) && (weight_units == PARAM_GRAMS))
-        unit_multiplier = 0.0001;
-      else if (units_ == PARAM_TONNES && (weight_units == PARAM_GRAMS))
-        unit_multiplier = 0.0000001;
-
-      LOG_FINE() << "category " << category_name << " unit multiplier " << unit_multiplier << " from " << weight_units << " to " << units_;
 
       bool no_length_weight_change = true;
 
       for (unsigned j = 0; j < number_length_bins_; ++j) {
         // NOTE: hardcoded for now with minimum age (used to get cv[year][time_step][age])
-        mean_weight = unit_multiplier * age_length->GetMeanWeight(year, time_step, (*category_iter)->min_age_, length_bins_[j]);
+        mean_weight = unit_multiplier_ * (*category_iter)->age_length_->mean_weight_by_length(length_bins_[j], year, time_step, (*category_iter)->min_age_);
         LOG_FINEST() << "Mean weight at length " << length_bins_[j] << " (CVs for age " << (*category_iter)->min_age_ << "): " << mean_weight
-                     << " mean weight = " << age_length->GetMeanWeight(year, time_step, (*category_iter)->min_age_, length_bins_[j]) << " multiplier = " << unit_multiplier;
+                     << " mean weight = " << (*category_iter)->age_length_->mean_weight_by_length(length_bins_[j], year, time_step, (*category_iter)->min_age_) << " multiplier = " << unit_multiplier_;
 
         std_dev      = length_weight_cv_adj_[j] * mean_weight;
         auto tmp_vec = utilities::math::distribution2(weight_bins_plus_, weight_plus_, length_weight_distribution_, mean_weight, std_dev);
@@ -484,11 +470,11 @@ void ProcessRemovalsByWeight::Execute() {
         number_at_age = Removals_at_age[year][method_][category_name][data_offset];
         LOG_FINEST() << "Numbers at age " << age << ": " << number_at_age;
 
-        mean_length = age_length->GetMeanLength(year, time_step, age);
+        mean_length = (*category_iter)->age_length_->mean_length(time_step, age);
         LOG_FINEST() << "Mean length at age " << age << ": " << mean_length;
 
-        std_dev      = age_length->cv(year, time_step, age) * mean_length;
-        auto tmp_vec = utilities::math::distribution2(length_bins_plus_, length_plus_, age_length->distribution(), mean_length, std_dev);
+        std_dev      = (*category_iter)->age_length_->cv(year, time_step, age) * mean_length;
+        auto tmp_vec = utilities::math::distribution2(length_bins_plus_, length_plus_, (*category_iter)->age_length_->distribution(), mean_length, std_dev);
 
         // update the age-length (and the age-weight) matrix only if necessary
         if (no_length_weight_change && utilities::math::Sum(tmp_vec) > 0
@@ -523,17 +509,6 @@ void ProcessRemovalsByWeight::Execute() {
         LOG_FINE() << "Fraction of weight_bin[0] at age " << age << ": " << map_age_weight_matrix_[category_labels_[category_offset]][category_name][data_offset][0] << " size "
                    << map_age_weight_matrix_[category_labels_[category_offset]][category_name][data_offset].size();
       }
-
-      // if (map_age_length_matrix_[category_labels_[category_offset]][category_name].size() == 0)
-      //   LOG_CODE_ERROR()<< "if (map_age_length_matrix_[category_labels_[category_offset]][category_name]_.size() == 0)";
-
-      // numbers_at_length.assign(map_age_length_matrix_[category_labels_[category_offset]][category_name][0].size(), 0.0);
-      // for (unsigned i = 0; i < map_age_length_matrix_[category_labels_[category_offset]][category_name].size(); ++i) {
-      //   for (unsigned j = 0; j < map_age_length_matrix_[category_labels_[category_offset]][category_name][i].size(); ++j) {
-      //     numbers_at_length[j] += map_age_length_matrix_[category_labels_[category_offset]][category_name][i][j];
-      //   }
-      // }
-
       // numbers_at_weight.assign(map_age_weight_matrix_[category_labels_[category_offset]][category_name][0].size(), 0.0);
       std::fill(numbers_at_weight.begin(), numbers_at_weight.end(), 0.0);
       for (unsigned i = 0; i < map_age_weight_matrix_[category_labels_[category_offset]][category_name].size(); ++i) {
@@ -572,7 +547,7 @@ void ProcessRemovalsByWeight::Execute() {
                      process_errors_by_year_[model_->current_year()], error_values_[model_->current_year()][category_labels_[category_offset]][i], 0.0, delta_, 0.0);
     }
   }
-  */
+  
 }
 
 /**

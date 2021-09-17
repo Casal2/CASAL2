@@ -67,14 +67,13 @@ protected:
   map<unsigned, Double>         process_errors_by_year_;
   string                        method_;
   parameters::Table*            error_values_table_ = nullptr;
-  CachedCombinedCategoriesPtr   cached_partition_;
   CombinedCategoriesPtr         partition_;
   vector<Double>                length_results_;
   vector<Double>                weight_results_;
   MortalityInstantaneous*       mortality_instantaneous_ = nullptr;
   string                        time_step_label_ = "";
   string                        process_label_;
-
+  Double                        unit_multiplier_;
   // local; here so that it doesn't get reallocated in Execute()
   vector<Double>                                          length_weight_cv_adj_;
   map<string, map<string, vector<vector<Double>>>>        map_age_length_matrix_;

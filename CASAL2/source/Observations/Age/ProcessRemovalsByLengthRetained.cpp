@@ -234,8 +234,13 @@ void ProcessRemovalsByLengthRetained::DoValidate() {
  */
 void ProcessRemovalsByLengthRetained::DoBuild() {
   partition_        = CombinedCategoriesPtr(new niwa::partition::accessors::CombinedCategories(model_, category_labels_));
-  cached_partition_ = CachedCombinedCategoriesPtr(new niwa::partition::accessors::cached::CombinedCategories(model_, category_labels_));
-
+  // flag age-length to Build age-length matrix
+  auto partition_iter = partition_->Begin();  
+  for (unsigned category_offset = 0; category_offset < category_labels_.size(); ++category_offset, ++partition_iter) {
+    auto category_iter        = partition_iter->begin();
+    for (; category_iter != partition_iter->end();  ++category_iter)
+      (*category_iter)->age_length_->BuildAgeLengthMatrixForTheseYears(years_);
+  }
   //  if (ageing_error_label_ != "")
   //   LOG_CODE_ERROR() << "ageing error has not been implemented for the proportions at age observation";
 
@@ -278,11 +283,9 @@ void ProcessRemovalsByLengthRetained::DoBuild() {
     LOG_ERROR_P(PARAM_YEARS) << "could not find catches in all years in the instantaneous_mortality process labeled " << process_label_
                              << ". Check that the years are compatible with this process";
 
-  auto data_size = model_->age_spread();
-  age_length_matrix.resize(data_size);
-  for (unsigned i = 0; i < data_size; ++i) {
-    age_length_matrix[i].resize(number_bins_);
-  }
+  numbers_at_age_.resize(model_->age_spread(), 0.0);
+  numbers_at_length_.resize(number_bins_, 0.0);
+  expected_values_.resize(number_bins_, 0.0);
 }
 
 /**
@@ -293,12 +296,8 @@ void ProcessRemovalsByLengthRetained::DoBuild() {
  * structure to use with any interpolation
  */
 void ProcessRemovalsByLengthRetained::PreExecute() {
-  LOG_FINEST() << "Entering observation " << label_;
+  LOG_FINEST() << "Entering PREExecute " << label_;
 
-  cached_partition_->BuildCache();
-
-  if (cached_partition_->Size() != proportions_[model_->current_year()].size())
-    LOG_CODE_ERROR() << "cached_partition_->Size() != proportions_[model->current_year()].size()";
   if (partition_->Size() != proportions_[model_->current_year()].size())
     LOG_CODE_ERROR() << "partition_->Size() != proportions_[model->current_year()].size()";
 }
@@ -313,109 +312,55 @@ void ProcessRemovalsByLengthRetained::Execute() {
    */
   //  auto categories = model_->categories();
   unsigned year       = model_->current_year();
-
-  auto                                                     cached_partition_iter = cached_partition_->Begin();
   auto                                                     partition_iter        = partition_->Begin();  // vector<vector<partition::Category> >
   map<unsigned, map<string, map<string, vector<Double>>>>& Removals_at_age       = mortality_instantaneous_retained_->retained_data();
-
-  vector<Double> expected_values(number_bins_);
-  vector<Double> numbers_at_length;
-
   /**
    * Loop through the provided categories. Each provided category (combination) will have a list of observations
    * with it. We need to build a vector of proportions for each length using that combination and then
    * compare it to the observations.
    */
-  for (unsigned category_offset = 0; category_offset < category_labels_.size(); ++category_offset, ++partition_iter, ++cached_partition_iter) {
+  for (unsigned category_offset = 0; category_offset < category_labels_.size(); ++category_offset, ++partition_iter) {
     LOG_FINEST() << "category: " << category_labels_[category_offset];
-    Double start_value   = 0.0;
-    Double end_value     = 0.0;
-    Double number_at_age = 0.0;
-
     //    LOG_WARNING() << "This is bad code because it allocates memory in the middle of an execute";
     //    vector<Double> expected_values(number_bins_, 0.0);
     //    vector<Double> numbers_at_length;
-    std::fill(expected_values.begin(), expected_values.end(), 0.0);
+    std::fill(expected_values_.begin(), expected_values_.end(), 0.0);
 
     /**
      * Loop through the 2 combined categories building up the
      * expected proportions values.
      */
     auto category_iter        = partition_iter->begin();
-    auto cached_category_iter = cached_partition_iter->begin();
-    for (; category_iter != partition_iter->end(); ++cached_category_iter, ++category_iter) {
-      //      AgeLength* age_length = categories->age_length((*category_iter)->name_);
-
-      //      LOG_WARNING() << "This is bad code because it allocates memory in the middle of an execute";
-      //      age_length_matrix.resize((*category_iter)->data_.size());
-      //      vector<Double> age_frequencies(length_bins_.size(), 0.0);
-      //const auto& age_length_proportions = model_->partition().age_length_proportions((*category_iter)->name_)[year_index][time_step];
-
+    for (; category_iter != partition_iter->end();  ++category_iter) {
+      // clear these temporay vectors
+      std::fill(numbers_at_age_.begin(), numbers_at_age_.end(), 0.0);
+      std::fill(numbers_at_length_.begin(), numbers_at_length_.end(), 0.0);
+      // get numbers at age for this category 
       for (unsigned data_offset = 0; data_offset < (*category_iter)->data_.size(); ++data_offset) {
-        unsigned age = ((*category_iter)->min_age_ + data_offset);
-
-        // Calculate the age structure removed from the fishing process
-        number_at_age = Removals_at_age[year][method_][(*category_iter)->name_][data_offset];
-        LOG_FINEST() << "Numbers at age = " << age << " = " << number_at_age << " start value : " << start_value << " end value : " << end_value;
-        // Implement an algorithm similar to DoAgeLengthConversion() to convert numbers at age to numbers at length
-        // This is different to DoAgeLengthConversion as this number is now not related to the partition
-        //        Double mu= (*category_iter)->mean_length_by_time_step_age_[time_step][age];
-
-        //        LOG_FINEST() << "mean = " << mu << " cv = " << age_length->cv(year, time_step, age) << " distribution = " << age_length->distribution_label() << " and length plus
-        //        group = " << length_plus_; age_length->CummulativeNormal(mu, age_length->cv(year, time_step, age), age_frequencies, length_bins_, length_plus_);
-
-        //        LOG_WARNING() << "This is bad code because it allocates memory in the middle of an execute";
-        //        age_length_matrix[data_offset].resize(number_bins_);
-
-        // Loop through the length bins and multiple the partition of the current age to go from
-        // length frequencies to age length numbers
-        for (unsigned j = 0; j < number_bins_; ++j) {
-          // use the subset of age_length_proportions for the length bins associated with the model length bins
-          //age_length_matrix[data_offset][j] = number_at_age * age_length_proportions[data_offset][mlb_index_first_ + j];  // added length bin offset to get correct length bin
-          //LOG_FINEST() << "The proportion in length bin " << length_bins_[j] << " = " << age_length_matrix[data_offset][j];
-        }
-
-        // include the larger lengths if specified and they exist
-        /*
-        if (length_plus_ && age_length_proportions[0].size() > last_obs_bin) {
-          for (unsigned j = (last_obs_bin + 1); j < age_length_proportions[0].size(); ++j) {
-            age_length_matrix[data_offset][(number_bins_ - 1)] += number_at_age * age_length_proportions[data_offset][j];
-            LOG_FINEST() << "The proportion of " << number_at_age << " added to length bin " << length_bins_[(number_bins_ - 1)] << " = " << age_length_proportions[data_offset][j];
-          }
-        }
-        */
+        numbers_at_age_[data_offset] += Removals_at_age[year][method_][(*category_iter)->name_][data_offset];
       }
+      // Now convert numbers at age to numbers at length using the categories age-length transition matrix
+      (*category_iter)->age_length_->populate_numbers_at_length(numbers_at_age_, numbers_at_length_);
+      // Add this to the expected values
+      LOG_FINE() << "----------";
+      LOG_FINE() << "Category: " << (*category_iter)->name_;;
 
-      if (age_length_matrix.size() == 0)
-        LOG_CODE_ERROR() << "if (age_length_matrix_.size() == 0)";
-
-      numbers_at_length.assign(age_length_matrix[0].size(), 0.0);
-      for (unsigned i = 0; i < age_length_matrix.size(); ++i) {
-        for (unsigned j = 0; j < age_length_matrix[i].size(); ++j) {
-          numbers_at_length[j] += age_length_matrix[i][j];
-        }
-      }
-
-      for (unsigned length_offset = 0; length_offset < number_bins_; ++length_offset) {
-        LOG_FINEST() << " numbers for length bin: " << length_bins_[length_offset] << " = " << numbers_at_length[length_offset];
-        expected_values[length_offset] += numbers_at_length[length_offset];
-
-        LOG_FINE() << "----------";
-        LOG_FINE() << "Category: " << (*category_iter)->name_ << " at length " << length_bins_[length_offset];
-        LOG_FINE() << "start_value: " << start_value << "; end_value: " << end_value << "; final_value: " << numbers_at_length[length_offset];
-        LOG_FINE() << "expected_value becomes: " << expected_values[length_offset];
+      for (unsigned j = 0; j < number_bins_; ++j) {
+        expected_values_[j] += numbers_at_length_[j];
+        LOG_FINE() << "expected_value for length = " << length_bins_[j] << " = " << expected_values_[j];
       }
     }
 
-    if (expected_values.size() != proportions_[model_->current_year()][category_labels_[category_offset]].size())
-      LOG_CODE_ERROR() << "expected_values.size(" << expected_values.size() << ") != proportions_[category_offset].size("
+
+    if (expected_values_.size() != proportions_[model_->current_year()][category_labels_[category_offset]].size())
+      LOG_CODE_ERROR() << "expected_values_.size(" << expected_values_.size() << ") != proportions_[category_offset].size("
                        << proportions_[model_->current_year()][category_labels_[category_offset]].size() << ")";
 
     /**
      * save our comparisons so we can use them to generate the score from the likelihoods later
      */
-    for (unsigned i = 0; i < expected_values.size(); ++i) {
-      SaveComparison(category_labels_[category_offset], 0, length_bins_[i], expected_values[i], proportions_[model_->current_year()][category_labels_[category_offset]][i],
+    for (unsigned i = 0; i < expected_values_.size(); ++i) {
+      SaveComparison(category_labels_[category_offset], 0, length_bins_[i], expected_values_[i], proportions_[model_->current_year()][category_labels_[category_offset]][i],
                      process_errors_by_year_[model_->current_year()], error_values_[model_->current_year()][category_labels_[category_offset]][i], 0.0, delta_, 0.0);
     }
   }

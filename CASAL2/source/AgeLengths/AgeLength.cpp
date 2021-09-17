@@ -257,6 +257,13 @@ string AgeLength::weight_units() {
 }
 
 /**
+ * Return mean weight for a given length, used by ProcessRemovalsByWeight
+ */
+Double AgeLength::mean_weight_by_length(Double length, unsigned age, unsigned year, unsigned time_step) {
+ return length_weight_->mean_weight(length, distribution_, cvs_[year - year_offset_][time_step][age - age_offset_]);
+}
+
+/**
  * Processes and observations can call this to tell this agelength class to build an age-length class for these years.
  * Note the container which stores these years age_length_matrix_years_ will not be in sequential order.
  */
