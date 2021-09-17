@@ -75,6 +75,14 @@ ProcessRemovalsByWeight::~ProcessRemovalsByWeight() {
  * Validate configuration file parameters
  */
 void ProcessRemovalsByWeight::DoValidate() {
+  // Check value for initial mortality
+  if (model_->length_bins().size() == 0)
+    LOG_FATAL_P(PARAM_LENGTH_BINS) << ": No length bins have been specified in @model. This observation requires those to be defined";
+
+  // Need to validate length bins are subclass of mdoel length bins.
+  if(!model_->are_length_bin_compatible_with_model_length_bins(length_bins_)) {
+    LOG_FATAL_P(PARAM_LENGTH_BINS) << "Length bins need to be a subset of the model length bins. See manual for more information";
+  }
   // How many elements are expected in our observed table;
   number_length_bins_ = length_bins_.size();
   number_weight_bins_ = weight_bins_.size();
@@ -433,9 +441,9 @@ void ProcessRemovalsByWeight::Execute() {
 
       for (unsigned j = 0; j < number_length_bins_; ++j) {
         // NOTE: hardcoded for now with minimum age (used to get cv[year][time_step][age])
-        mean_weight = unit_multiplier_ * (*category_iter)->age_length_->mean_weight_by_length(length_bins_[j], year, time_step, (*category_iter)->min_age_);
+        mean_weight = unit_multiplier_ * (*category_iter)->age_length_->mean_weight_by_length(length_bins_[j], (*category_iter)->min_age_, year, time_step);
         LOG_FINEST() << "Mean weight at length " << length_bins_[j] << " (CVs for age " << (*category_iter)->min_age_ << "): " << mean_weight
-                     << " mean weight = " << (*category_iter)->age_length_->mean_weight_by_length(length_bins_[j], year, time_step, (*category_iter)->min_age_) << " multiplier = " << unit_multiplier_;
+                     << " mean weight = " << (*category_iter)->age_length_->mean_weight_by_length(length_bins_[j], (*category_iter)->min_age_, year, time_step) << " multiplier = " << unit_multiplier_;
 
         std_dev      = length_weight_cv_adj_[j] * mean_weight;
         auto tmp_vec = utilities::math::distribution2(weight_bins_plus_, weight_plus_, length_weight_distribution_, mean_weight, std_dev);

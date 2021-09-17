@@ -45,7 +45,7 @@ ProcessRemovalsByLength::ProcessRemovalsByLength(shared_ptr<Model> model) : Obse
   parameters_.Bind<unsigned>(PARAM_YEARS, &years_, "The years for which there are observations", "");
   parameters_.Bind<Double>(PARAM_PROCESS_ERRORS, &process_error_values_, "The process error", "", true);
   parameters_.Bind<string>(PARAM_METHOD_OF_REMOVAL, &method_, "The label of observed method of removals", "", "");
-  parameters_.Bind<Double>(PARAM_LENGTH_BINS, &length_bins_, "The length bins", "");
+  parameters_.Bind<double>(PARAM_LENGTH_BINS, &length_bins_, "The length bins", "");
   parameters_.Bind<bool>(PARAM_LENGTH_PLUS, &length_plus_, "Is the last length bin a plus group? (defaults to @model value)", "",
                          model->length_plus());  // default to the model value
   parameters_.BindTable(PARAM_OBS, obs_table_, "Table of observed values", "", false);
@@ -72,7 +72,16 @@ ProcessRemovalsByLength::~ProcessRemovalsByLength() {
  * Validate configuration file parameters
  */
 void ProcessRemovalsByLength::DoValidate() {
-  // TODO Need to validate length bins are subclass of mdoel length bins.
+  // Check value for initial mortality
+  if (model_->length_bins().size() == 0)
+    LOG_FATAL_P(PARAM_LENGTH_BINS) << ": No length bins have been specified in @model. This observation requires those to be defined";
+
+  // Need to validate length bins are subclass of mdoel length bins.
+  if(!model_->are_length_bin_compatible_with_model_length_bins(length_bins_)) {
+    LOG_FATAL_P(PARAM_LENGTH_BINS) << "Length bins need to be a subset of the model length bins. See manual for more information";
+  }
+
+
 
   // How many elements are expected in our observed table;
   number_bins_ = length_plus_ ? length_bins_.size() : length_bins_.size() - 1;
@@ -339,18 +348,20 @@ void ProcessRemovalsByLength::Execute() {
      */
     auto category_iter        = partition_iter->begin();
     for (; category_iter != partition_iter->end();  ++category_iter) {
+      LOG_FINE() << "----------";
+      LOG_FINE() << "Category: " << (*category_iter)->name_;;
       // clear these temporay vectors
       std::fill(numbers_at_age_.begin(), numbers_at_age_.end(), 0.0);
       std::fill(numbers_at_length_.begin(), numbers_at_length_.end(), 0.0);
       // get numbers at age for this category 
       for (unsigned data_offset = 0; data_offset < (*category_iter)->data_.size(); ++data_offset) {
         numbers_at_age_[data_offset] += Removals_at_age[year][method_][(*category_iter)->name_][data_offset];
+        LOG_FINEST() << "removals for age = " << data_offset + model_->min_age() << " = " << numbers_at_age_[data_offset];
       }
       // Now convert numbers at age to numbers at length using the categories age-length transition matrix
       (*category_iter)->age_length_->populate_numbers_at_length(numbers_at_age_, numbers_at_length_);
       // Add this to the expected values
-      LOG_FINE() << "----------";
-      LOG_FINE() << "Category: " << (*category_iter)->name_;;
+
 
       for (unsigned j = 0; j < number_bins_; ++j) {
         expected_values_[j] += numbers_at_length_[j];

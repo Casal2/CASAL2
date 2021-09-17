@@ -57,6 +57,7 @@ void Age::DoValidate() {
   }
 
   number_of_length_bins_ = length_plus_ == true ? length_bins_.size() : length_bins_.size() - 1;
+  LOG_FINE() << "number of length bins supplied = " << length_bins_.size() << " number length bins " << number_of_length_bins_;
 
 }
 

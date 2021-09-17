@@ -142,7 +142,7 @@ void AgeLength::Build() {
         age_length_transition_matrix_[year_iter][time_step_ndx].resize(model_->age_spread());
         numbers_by_age_length_transition_.resize(model_->age_spread());
         for(unsigned age_iter = 0; age_iter < model_->age_spread(); ++age_iter) {
-          age_length_transition_matrix_[year_iter][time_step_ndx][age_iter].resize(model_->length_bins().size(), 0.0);
+          age_length_transition_matrix_[year_iter][time_step_ndx][age_iter].resize(model_->get_number_of_length_bins(), 0.0);
           numbers_by_age_length_transition_[age_iter].resize(model_->get_number_of_length_bins(), 0.0);
         }
       }
@@ -350,6 +350,7 @@ void AgeLength::PopulateAgeLengthMatrix() {
         LOG_FINEST() << "sigma: " << sigma;
         sum                            = 0;
         vector<Double>& prop_in_length = age_length_transition_matrix_[year_dim_in_age_length_][time_step][age_index];
+        
         for (unsigned j = 0; j < length_bin_count; ++j) {
           LOG_FINEST() << "calculating pnorm for length " << length_bins[j];
           // If we are using CASAL's Normal CDF function use this switch
@@ -374,6 +375,17 @@ void AgeLength::PopulateAgeLengthMatrix() {
         if (model_->length_plus()) {
           prop_in_length[length_bin_count - 1] = 1.0 - sum - cum[0];
           LOG_FINEST() << "prop_in_length[length_bin_count - 1]: " << prop_in_length[length_bin_count - 1];
+        } else {
+          if (compatibility_ == PARAM_CASAL) {
+            tmp = utilities::math::pnorm(length_bins[length_bin_count], mu, sigma);
+            LOG_FINE() << "casal_normal_cdf: " << tmp << " utilities::math::pnorm(" << length_bins[length_bin_count] << ", " << mu << ", " << sigma;
+          } else if (compatibility_ == PARAM_CASAL2) {
+            tmp = utilities::math::pnorm2(length_bins[length_bin_count], mu, sigma);
+            LOG_FINE() << "normal: " << tmp << " utilities::math::pnorm(" << length_bins[length_bin_count] << ", " << mu << ", " << sigma;
+          } else {
+            LOG_CODE_ERROR() << "Unknown compatibility option in the calculation of the distribution of age_length";
+          }
+          prop_in_length[length_bin_count - 1] = tmp -  cum[length_bin_count - 1];
         }
       }  // for (unsigned age_index = 0; age_index < iter.second->age_spread(); ++age_index)
     }    // for (unsigned time_step = 0; time_step < time_step_count; ++time_step)
@@ -474,6 +486,17 @@ void AgeLength::UpdateAgeLengthMatrixForThisYear(unsigned year) {
         if (model_->length_plus()) {
           prop_in_length[length_bin_count - 1] = 1.0 - sum - cum[0];
           LOG_FINEST() << "prop_in_length[length_bin_count - 1]: " << prop_in_length[length_bin_count - 1];
+        }  else {
+          if (compatibility_ == PARAM_CASAL) {
+            tmp = utilities::math::pnorm(length_bins[length_bin_count], mu, sigma);
+            LOG_FINE() << "casal_normal_cdf: " << tmp << " utilities::math::pnorm(" << length_bins[length_bin_count] << ", " << mu << ", " << sigma;
+          } else if (compatibility_ == PARAM_CASAL2) {
+            tmp = utilities::math::pnorm2(length_bins[length_bin_count], mu, sigma);
+            LOG_FINE() << "normal: " << tmp << " utilities::math::pnorm(" << length_bins[length_bin_count] << ", " << mu << ", " << sigma;
+          } else {
+            LOG_CODE_ERROR() << "Unknown compatibility option in the calculation of the distribution of age_length";
+          }
+          prop_in_length[length_bin_count - 1] = tmp -  cum[length_bin_count - 1];
         }
       }  // for (unsigned age_index = 0; age_index < iter.second->age_spread(); ++age_index)
     }    // for (unsigned time_step = 0; time_step < time_step_count; ++time_step)
@@ -604,7 +627,6 @@ void AgeLength::FillReportCache(ostringstream& cache) {
     LOG_FINE() << "printing Age length matrix";
 
     // print age-length matrix for this year
-    cache << REPORT_EOL << REPORT_EOL;
     cache << "age_length_transition_matrix " << REPORT_R_DATAFRAME << REPORT_EOL;
     cache << "year time_step age ";
     for (auto length : model_->length_bins()) 

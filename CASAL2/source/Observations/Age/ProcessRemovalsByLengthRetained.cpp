@@ -70,6 +70,14 @@ ProcessRemovalsByLengthRetained::~ProcessRemovalsByLengthRetained() {
  * Validate configuration file parameters
  */
 void ProcessRemovalsByLengthRetained::DoValidate() {
+  // Check value for initial mortality
+  if (model_->length_bins().size() == 0)
+    LOG_FATAL_P(PARAM_LENGTH_BINS) << ": No length bins have been specified in @model. This observation requires those to be defined";
+
+  // Need to validate length bins are subclass of mdoel length bins.
+  if(!model_->are_length_bin_compatible_with_model_length_bins(length_bins_)) {
+    LOG_FATAL_P(PARAM_LENGTH_BINS) << "Length bins need to be a subset of the model length bins. See manual for more information";
+  }
   // How many elements are expected in our observed table;
   number_bins_ = length_plus_ ? length_bins_.size() : length_bins_.size() - 1;
 

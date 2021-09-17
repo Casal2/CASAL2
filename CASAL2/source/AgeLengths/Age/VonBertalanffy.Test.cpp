@@ -86,9 +86,10 @@ public:
 
   void MockPopulateCV() { this->PopulateCV(); }
   void MockPopulateAgeLengthMatrix() { this->PopulateAgeLengthMatrix(); }
-
+  void MockUpdateAgeLengthMatrixForThisYear(unsigned year) { this->UpdateAgeLengthMatrixForThisYear(year); }
   // to validate elements of the age-length transition
   const Double Mock_get_age_length_probability(unsigned year, unsigned time_step, unsigned age, unsigned length_bin_ndx) { return age_length_transition_matrix_[age_length_matrix_year_key_[year]][time_step][age - age_offset_][length_bin_ndx];}
+  void change_k(Double new_k) { k_ = new_k;}
 
 };
 
@@ -222,6 +223,56 @@ TEST(AgeLengths, BuildAgeLengthProportions) {
   EXPECT_TRUE(testing::Mock::VerifyAndClearExpectations(model.get()));
 }
 
+
+/*
+* check RebuildCache functionality() from the time-varying class
+*/
+
+TEST(AgeLengths, VonBertalanffy_change_k) {
+  shared_ptr<MockModel> model = shared_ptr<MockModel>(new MockModel());
+  model->set_length_plus(true);
+  model->set_number_of_length_bins(); // if we chnage plus group need to reset thsi
+  model->bind_calls();
+
+  MockVonBertalanffy von_bertalanffy(model, 80, 0.064, 4, false, 0.2, 0.2, {1.0, 1.0});
+  ASSERT_NO_THROW(von_bertalanffy.MockPopulateCV());
+  ASSERT_NO_THROW(von_bertalanffy.MockPopulateAgeLengthMatrix());
+
+  unsigned min_age = model->min_age();
+  for (unsigned year = 0; year < 1; ++year) {
+    EXPECT_DOUBLE_EQ(0.69070308538891911, von_bertalanffy.Mock_get_age_length_probability(year,0, 6 + min_age, 0));
+    EXPECT_DOUBLE_EQ(0.29603445809402762, von_bertalanffy.Mock_get_age_length_probability(year,0, 6 + min_age, 1));
+    EXPECT_DOUBLE_EQ(0.00048060422206530617, von_bertalanffy.Mock_get_age_length_probability(year,0, 6 + min_age, 2));
+    EXPECT_DOUBLE_EQ(6.4636329621947652e-010, von_bertalanffy.Mock_get_age_length_probability(year,0, 6 + min_age, 3));
+    EXPECT_DOUBLE_EQ(0u, von_bertalanffy.Mock_get_age_length_probability(year,0, 6 + min_age, 4));
+
+    EXPECT_DOUBLE_EQ(0.13891252421751288, von_bertalanffy.Mock_get_age_length_probability(year,0, 8 + min_age, 0));
+    EXPECT_DOUBLE_EQ(0.67051952644369806, von_bertalanffy.Mock_get_age_length_probability(year,0, 8 + min_age, 1));
+    EXPECT_DOUBLE_EQ(0.18713059299787771, von_bertalanffy.Mock_get_age_length_probability(year,0, 8 + min_age, 2));
+    EXPECT_DOUBLE_EQ(0.0022533864694446182, von_bertalanffy.Mock_get_age_length_probability(year,0, 8 + min_age, 3));
+    EXPECT_DOUBLE_EQ(7.9325922641704238e-007, von_bertalanffy.Mock_get_age_length_probability(year,0, 8 + min_age, 4));
+  }
+  // change K
+  von_bertalanffy.change_k(0.1);
+  von_bertalanffy.MockPopulateCV();
+  von_bertalanffy.MockUpdateAgeLengthMatrixForThisYear(1990);
+  min_age = model->min_age();
+  for (unsigned year = 0; year < 1; ++year) {
+    EXPECT_DOUBLE_EQ(0.11248435140284607, von_bertalanffy.Mock_get_age_length_probability(year,0, 6 + min_age, 0));
+    EXPECT_DOUBLE_EQ(0.64062560348154041, von_bertalanffy.Mock_get_age_length_probability(year,0, 6 + min_age, 1));
+    EXPECT_DOUBLE_EQ( 0.24104036867781808, von_bertalanffy.Mock_get_age_length_probability(year,0, 6 + min_age, 2));
+    EXPECT_DOUBLE_EQ(0.0048919529778737036, von_bertalanffy.Mock_get_age_length_probability(year,0, 6 + min_age, 3));
+    EXPECT_DOUBLE_EQ(3.7549792077928856e-06, von_bertalanffy.Mock_get_age_length_probability(year,0, 6 + min_age, 4));
+
+    EXPECT_DOUBLE_EQ(0.012738662003135892, von_bertalanffy.Mock_get_age_length_probability(year,0, 8 + min_age, 0));
+    EXPECT_DOUBLE_EQ(0.18635967735434533, von_bertalanffy.Mock_get_age_length_probability(year,0, 8 + min_age, 1));
+    EXPECT_DOUBLE_EQ(0.50647102919617581, von_bertalanffy.Mock_get_age_length_probability(year,0, 8 + min_age, 2));
+    EXPECT_DOUBLE_EQ(0.26723777001670812, von_bertalanffy.Mock_get_age_length_probability(year,0, 8 + min_age, 3));
+    EXPECT_DOUBLE_EQ(0.027042517702221103, von_bertalanffy.Mock_get_age_length_probability(year,0, 8 + min_age, 4));
+  }
+
+  EXPECT_TRUE(testing::Mock::VerifyAndClearExpectations(model.get()));
+}
 
 
 /**

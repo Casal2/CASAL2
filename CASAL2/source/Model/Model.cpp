@@ -897,4 +897,19 @@ void Model::FullIteration() {
   Reset();
   Iterate();
 }
+
+
+
+/**
+ * A utility function to check length bins for a given process or observation are a subset of the model length bins.
+ */
+bool Model::are_length_bin_compatible_with_model_length_bins(vector<double>& length_bins) {
+  if(length_bins.size() > length_bins_.size())
+    return false;
+  for(unsigned len_ndx = 0; len_ndx < length_bins.size(); ++len_ndx) {
+    if(std::find(length_bins_.begin(), length_bins_.end(), length_bins[len_ndx]) == length_bins_.end())
+      return false;
+  }
+  return true;
+}
 } /* namespace niwa */

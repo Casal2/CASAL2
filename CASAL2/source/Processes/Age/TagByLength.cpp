@@ -65,6 +65,12 @@ TagByLength::~TagByLength() {
  */
 void TagByLength::DoValidate() {
   LOG_TRACE();
+
+  // Check value for initial mortality
+  if (model_->length_bins().size() == 0)
+    LOG_FATAL_P(PARAM_TYPE) << ": No length bins have been specified in @model. This process requires those to be defined, as the table dimensions depend on them.";
+
+
   // Check if the user has specified combined categories, if so check the same number of categories are
   for (auto& category : to_category_labels_) {
     bool check_combined = model_->categories()->IsCombinedLabels(category);
@@ -221,10 +227,6 @@ void TagByLength::DoValidate() {
     }
   }
 
-  // Check value for initial mortality
-  if (model_->length_bins().size() == 0)
-    LOG_ERROR_P(PARAM_TYPE) << ": No length bins have been specified in @model for this process";
-
   actual_tagged_fish_from_.resize(years_.size());
   actual_tagged_fish_to_.resize(years_.size());
   for (unsigned year_ndx = 0; year_ndx < years_.size(); ++year_ndx) {
@@ -309,8 +311,11 @@ void TagByLength::DoExecute() {
   // iterate over from_categories to update length data and age length matrix instead of doing in a length loop
   unsigned from_category_iter = 0;
   for (; from_iter != from_partition_.end(); from_iter++, from_category_iter++) {
-    (*from_iter)->age_length_->populate_numbers_at_length((*from_iter)->data_, numbers_at_length_by_category_[from_category_iter], selectivities_[(*from_iter)->name_]);
+    // before we fill the numbers at length we will clear it
     std::fill(numbers_at_age_by_category_[from_category_iter].begin(), numbers_at_age_by_category_[from_category_iter].end(), 0.0);
+    std::fill(numbers_at_length_by_category_[from_category_iter].begin(), numbers_at_length_by_category_[from_category_iter].end(), 0.0);
+    LOG_FINE() << "population numbers at length for category = " << (*from_iter)->name_;
+    (*from_iter)->age_length_->populate_numbers_at_length((*from_iter)->data_, numbers_at_length_by_category_[from_category_iter], selectivities_[(*from_iter)->name_]);
   }
 
   

@@ -102,6 +102,7 @@ public:
   virtual bool                  length_plus() const { return length_plus_; }
   virtual double                length_plus_group() const { return length_plus_group_; }
   unsigned                      get_number_of_length_bins() const { return number_of_length_bins_; }
+  bool                          are_length_bin_compatible_with_model_length_bins(vector<double>& length_bins);
 
   void                          set_id(unsigned id) { id_ = id; }
   unsigned                      id() const { return id_; }

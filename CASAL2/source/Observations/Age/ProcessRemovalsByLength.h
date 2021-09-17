@@ -50,7 +50,7 @@ public:
 protected:
   // Members
   vector<unsigned>            years_;
-  vector<Double>              length_bins_;
+  vector<double>              length_bins_;
   bool                        length_plus_ = false;
   unsigned                    number_bins_ = 0;
   parameters::Table*          obs_table_   = nullptr;

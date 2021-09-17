@@ -45,7 +45,6 @@ public:
   virtual string  distribution_label() { return distribution_label_; };
   Distribution    distribution() const { return distribution_; }
   string          compatibility() const { return compatibility_; }
-  bool            varies_by_years() const { return varies_by_year_; }
   const Double&   mean_weight(unsigned time_step, unsigned age) {return mean_weight_by_timestep_age_[time_step - time_step_offset_][age - age_offset_];};
   const Double&   mean_length(unsigned time_step, unsigned age) {return mean_length_by_timestep_age_[time_step - time_step_offset_][age - age_offset_];};
   Double          mean_weight_by_length(Double length, unsigned age, unsigned year, unsigned time_step);
