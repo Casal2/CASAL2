@@ -4,7 +4,7 @@
  * @date 1/09/2014
  * @section LICENSE
  *
- * Copyright NIWA Science ©2014 - www.niwa.co.nz
+ * Copyright NIWA Science ï¿½2014 - www.niwa.co.nz
  *
  * @section DESCRIPTION
  *
@@ -38,6 +38,14 @@ time_steps step_one step_two
 @categories
 format stage.sex
 names immature.male mature.male immature.female mature.female
+age_lengths no_age_length*4
+
+@age_length no_age_length
+type none
+length_weight no_length_weight
+
+@length_weight no_length_weight
+type none
 
 @initialisation_phase iphase1
 years 200
@@ -175,6 +183,14 @@ time_steps step_one step_two
 @categories
 format stage.sex
 names immature.male mature.male immature.female mature.female
+age_lengths no_age_length*4
+
+@age_length no_age_length
+type none
+length_weight no_length_weight
+
+@length_weight no_length_weight
+type none
 
 @initialisation_phase iphase1
 years 200

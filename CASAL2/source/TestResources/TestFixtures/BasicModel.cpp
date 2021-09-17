@@ -56,6 +56,20 @@ void BasicModel::SetUp() {
   categories->set_block_type(PARAM_CATEGORIES);
   categories->parameters().Add(PARAM_FORMAT, "stage.sex", __FILE__, __LINE__);
   categories->parameters().Add(PARAM_NAMES, {"immature.male", "mature.male", "immature.female", "mature.female"}, __FILE__, __LINE__);
+  categories->parameters().Add(PARAM_AGE_LENGTHS, {"no_age_length","no_age_length","no_age_length","no_age_length"}, __FILE__, __LINE__);
+  
+  base::Object* age_length_object = model_->factory().CreateObject(PARAM_AGE_LENGTH, PARAM_NONE);
+  if (age_length_object == nullptr)
+    LOG_CODE_ERROR() << "age_length_object == nullptr";
+  age_length_object->parameters().Add(PARAM_LABEL, "no_age_length", __FILE__, __LINE__);
+  age_length_object->parameters().Add(PARAM_TYPE, PARAM_NONE, __FILE__, __LINE__);
+  age_length_object->parameters().Add(PARAM_LENGTH_WEIGHT, "no_length_weight", __FILE__, __LINE__);
+
+  base::Object* length_weight_object = model_->factory().CreateObject(PARAM_LENGTH_WEIGHT, PARAM_NONE);
+  if (length_weight_object == nullptr)
+    LOG_CODE_ERROR() << "age_length_object == nullptr";
+  length_weight_object->parameters().Add(PARAM_LABEL, "no_length_weight", __FILE__, __LINE__);
+  length_weight_object->parameters().Add(PARAM_TYPE, PARAM_NONE, __FILE__, __LINE__);
 
   base::Object* object = model_->factory().CreateObject(PARAM_SELECTIVITY, PARAM_CONSTANT);
   if (object == nullptr)

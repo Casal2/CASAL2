@@ -44,6 +44,14 @@ time_steps Annual Ageing
 @categories 
 format stock
 names Stock
+age_lengths no_age_length
+
+@age_length no_age_length
+type none
+length_weight no_length_weight
+
+@length_weight no_length_weight
+type none
 
 @initialisation_phase Equilibrium_phase
 type derived

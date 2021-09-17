@@ -57,6 +57,10 @@ public:
     min_age_ = model ->min_age(); 
     max_age_ = model ->min_age(); 
     model_years_ = model->years();
+    age_length_matrix_years_ = model->years();
+    for(unsigned i = 0; i < age_length_matrix_years_.size(); ++i) {
+      age_length_matrix_year_key_[age_length_matrix_years_[i]] = i;
+    }
     // allocate memory for cvs; this is usually done in the Build() but difficult to mock
     cvs_.resize(model->years().size());
     for(unsigned year_ndx = 0; year_ndx < cvs_.size(); ++year_ndx) {
@@ -65,49 +69,47 @@ public:
         cvs_[year_ndx][time_step_ndx].resize(model->age_spread(), 0.0);
       }
     }   
-    // allocate memory for mean weight and length
-    mean_length_by_timestep_age_.resize(model_->time_steps().size());
-    mean_weight_by_timestep_age_.resize(model_->time_steps().size());
-    for (unsigned time_step_ndx = 0; time_step_ndx < mean_weight_by_timestep_age_.size(); ++time_step_ndx) {
-      mean_length_by_timestep_age_[time_step_ndx].resize(model_->age_spread(), 0.0);
-      mean_weight_by_timestep_age_[time_step_ndx].resize(model_->age_spread(), 0.0);
-    }         
+
+    age_length_transition_matrix_.resize(age_length_matrix_years_.size());
+    for(unsigned year_iter = 0; year_iter < age_length_matrix_years_.size(); ++year_iter) {
+      age_length_transition_matrix_[year_iter].resize(model->time_steps().size());
+      for (unsigned time_step_ndx = 0; time_step_ndx < model->time_steps().size(); ++time_step_ndx) {
+        age_length_transition_matrix_[year_iter][time_step_ndx].resize(model_->age_spread());
+        numbers_by_age_length_transition_.resize(model_->age_spread());
+        for(unsigned age_iter = 0; age_iter < model_->age_spread(); ++age_iter) {
+          age_length_transition_matrix_[year_iter][time_step_ndx][age_iter].resize(model_->length_bins().size(), 0.0);
+          numbers_by_age_length_transition_[age_iter].resize(model_->get_number_of_length_bins(), 0.0);
+        }
+      }
+    }             
   }
 
   void MockPopulateCV() { this->PopulateCV(); }
+  void MockPopulateAgeLengthMatrix() { this->PopulateAgeLengthMatrix(); }
+
+  // to validate elements of the age-length transition
+  const Double Mock_get_age_length_probability(unsigned year, unsigned time_step, unsigned age, unsigned length_bin_ndx) { return age_length_transition_matrix_[age_length_matrix_year_key_[year]][time_step][age - age_offset_][length_bin_ndx];}
+
 };
 
 TEST(AgeLengths, VonBertalanffy_MeanLength) {
   shared_ptr<MockModel> model = shared_ptr<MockModel>(new MockModel());
-  MockManagersPtr       mock_managers = MockManagersPtr(new MockManagers(model));
-  MockTimeStepManager   time_step_manager;
-  time_step_manager.time_step_index_ = 0;
-  vector<string>   time_steps        = {"0", "1", "2"};
-  vector<unsigned> years             = {1990, 1991, 1992};
-  EXPECT_CALL(*model, min_age()).WillRepeatedly(Return(1));
-  EXPECT_CALL(*model, max_age()).WillRepeatedly(Return(10));
-  EXPECT_CALL(*model, start_year()).WillRepeatedly(Return(1990));
-  EXPECT_CALL(*model, final_year()).WillRepeatedly(Return(1992));
-  EXPECT_CALL(*model, age_spread()).WillRepeatedly(Return(10 - 1 + 1));
-  EXPECT_CALL(*model, managers()).WillRepeatedly(Return(mock_managers));
-  EXPECT_CALL(*model, time_steps()).WillRepeatedly(ReturnRef(time_steps));
-  EXPECT_CALL(*model, years()).WillRepeatedly(Return(years));
+  model->bind_calls();
 
   MockVonBertalanffy von_bertalanffy(model, 80, 0.064, 4, false, 0.2, 0.2, {1.0}, PARAM_CASAL2, Distribution::kNormal);
   von_bertalanffy.MockPopulateCV();
 
-  EXPECT_DOUBLE_EQ(0.0, von_bertalanffy.mean_length(0, 1));
-  EXPECT_DOUBLE_EQ(0.0, von_bertalanffy.mean_length(0, 2));
-  EXPECT_DOUBLE_EQ(0.0, von_bertalanffy.mean_length(0, 3));
-  EXPECT_DOUBLE_EQ(4.9596000375416427, von_bertalanffy.mean_length(0, 4));
-  EXPECT_DOUBLE_EQ(9.611729668428497, von_bertalanffy.mean_length(0, 5));
-  EXPECT_DOUBLE_EQ(13.975450520665413, von_bertalanffy.mean_length(0, 6));
-  EXPECT_DOUBLE_EQ(18.068642496620129, von_bertalanffy.mean_length(0, 7));
-  EXPECT_DOUBLE_EQ(21.908077034104725, von_bertalanffy.mean_length(0, 8));
-  EXPECT_DOUBLE_EQ(25.509485825636233, von_bertalanffy.mean_length(0, 9));
-  EXPECT_DOUBLE_EQ(28.887625277446702, von_bertalanffy.mean_length(0, 10));
+  EXPECT_DOUBLE_EQ(0.0, von_bertalanffy.calculate_mean_length(1990,0, 1));
+  EXPECT_DOUBLE_EQ(0.0, von_bertalanffy.calculate_mean_length(1990,0, 2));
+  EXPECT_DOUBLE_EQ(0.0, von_bertalanffy.calculate_mean_length(1990,0, 3));
+  EXPECT_DOUBLE_EQ(4.9596000375416427, von_bertalanffy.calculate_mean_length(1990, 0, 4));
+  EXPECT_DOUBLE_EQ(9.611729668428497, von_bertalanffy.calculate_mean_length(1990, 0, 5));
+  EXPECT_DOUBLE_EQ(13.975450520665413, von_bertalanffy.calculate_mean_length(1990, 0, 6));
+  EXPECT_DOUBLE_EQ(18.068642496620129, von_bertalanffy.calculate_mean_length(1990, 0, 7));
+  EXPECT_DOUBLE_EQ(21.908077034104725, von_bertalanffy.calculate_mean_length(1990, 0, 8));
+  EXPECT_DOUBLE_EQ(25.509485825636233, von_bertalanffy.calculate_mean_length(1990, 0, 9));
+  EXPECT_DOUBLE_EQ(28.887625277446702, von_bertalanffy.calculate_mean_length(1990, 0, 10));
 
-  EXPECT_TRUE(testing::Mock::VerifyAndClearExpectations(mock_managers.get()));
   EXPECT_TRUE(testing::Mock::VerifyAndClearExpectations(model.get()));
 }
 
@@ -117,16 +119,17 @@ TEST(AgeLengths, VonBertalanffy_MeanLength_2) {
 
   MockVonBertalanffy von_bertalanffy(model, 80, 0.064, 4, false, 0.2, 0.2, {1.0}, PARAM_CASAL2, Distribution::kLogNormal);
   von_bertalanffy.MockPopulateCV();
-  EXPECT_DOUBLE_EQ(0.0, von_bertalanffy.mean_length(0, 1));
-  EXPECT_DOUBLE_EQ(0.0, von_bertalanffy.mean_length(0, 2));
-  EXPECT_DOUBLE_EQ(0.0, von_bertalanffy.mean_length(0, 3));
-  EXPECT_DOUBLE_EQ(4.9596000375416427, von_bertalanffy.mean_length(0, 4));
-  EXPECT_DOUBLE_EQ(9.611729668428497, von_bertalanffy.mean_length(0, 5));
-  EXPECT_DOUBLE_EQ(13.975450520665413, von_bertalanffy.mean_length(0, 6));
-  EXPECT_DOUBLE_EQ(18.068642496620129, von_bertalanffy.mean_length(0, 7));
-  EXPECT_DOUBLE_EQ(21.908077034104725, von_bertalanffy.mean_length(0, 8));
-  EXPECT_DOUBLE_EQ(25.509485825636233, von_bertalanffy.mean_length(0, 9));
-  EXPECT_DOUBLE_EQ(28.887625277446702, von_bertalanffy.mean_length(0, 10));
+
+  EXPECT_DOUBLE_EQ(0.0, von_bertalanffy.calculate_mean_length(1990, 0, 1));
+  EXPECT_DOUBLE_EQ(0.0, von_bertalanffy.calculate_mean_length(1990, 0, 2));
+  EXPECT_DOUBLE_EQ(0.0, von_bertalanffy.calculate_mean_length(1990, 0, 3));
+  EXPECT_DOUBLE_EQ(4.9596000375416427, von_bertalanffy.calculate_mean_length(1990,0, 4));
+  EXPECT_DOUBLE_EQ(9.611729668428497, von_bertalanffy.calculate_mean_length(1990,0, 5));
+  EXPECT_DOUBLE_EQ(13.975450520665413, von_bertalanffy.calculate_mean_length(1990,0, 6));
+  EXPECT_DOUBLE_EQ(18.068642496620129, von_bertalanffy.calculate_mean_length(1990,0, 7));
+  EXPECT_DOUBLE_EQ(21.908077034104725, von_bertalanffy.calculate_mean_length(1990,0, 8));
+  EXPECT_DOUBLE_EQ(25.509485825636233, von_bertalanffy.calculate_mean_length(1990,0, 9));
+  EXPECT_DOUBLE_EQ(28.887625277446702, von_bertalanffy.calculate_mean_length(1990,0, 10));
   EXPECT_TRUE(testing::Mock::VerifyAndClearExpectations(model.get()));
 }
 
@@ -135,23 +138,11 @@ TEST(AgeLengths, VonBertalanffy_MeanLength_2) {
  */
 TEST(AgeLengths, VonBertalanffy_CV) {
   shared_ptr<MockModel> model = shared_ptr<MockModel>(new MockModel());
-  MockManagersPtr       mock_managers = MockManagersPtr(new MockManagers(model));
-  MockTimeStepManager   time_step_manager;
-  time_step_manager.time_step_index_ = 0;
-  vector<string>   time_steps        = {"0", "1", "2"};
-  vector<unsigned> years             = {1990, 1991, 1992};
-  EXPECT_CALL(*model, min_age()).WillRepeatedly(Return(1));
-  EXPECT_CALL(*model, max_age()).WillRepeatedly(Return(10));
-  EXPECT_CALL(*model, start_year()).WillRepeatedly(Return(1990));
-  EXPECT_CALL(*model, final_year()).WillRepeatedly(Return(1992));
-  EXPECT_CALL(*model, age_spread()).WillRepeatedly(Return(10 - 1 + 1));
-  EXPECT_CALL(*model, managers()).WillRepeatedly(Return(mock_managers));
-  EXPECT_CALL(*model, time_steps()).WillRepeatedly(ReturnRef(time_steps));
-  EXPECT_CALL(*model, years()).WillRepeatedly(Return(years));
-
+  model->bind_calls();
 
   MockVonBertalanffy von_bertalanffy(model, 80, 0.064, 4, false, 0.2, 0.2, {1.0},  PARAM_CASAL2, Distribution::kNormal);
   von_bertalanffy.MockPopulateCV();
+
   EXPECT_DOUBLE_EQ(0.2, von_bertalanffy.cv(1990, 0, 1));
   EXPECT_DOUBLE_EQ(0.2, von_bertalanffy.cv(1990, 0, 2));
   EXPECT_DOUBLE_EQ(0.2, von_bertalanffy.cv(1990, 0, 3));
@@ -161,7 +152,6 @@ TEST(AgeLengths, VonBertalanffy_CV) {
   EXPECT_DOUBLE_EQ(0.2, von_bertalanffy.cv(1990, 0, 7));
   EXPECT_DOUBLE_EQ(0.2, von_bertalanffy.cv(1990, 0, 8));
 
-  EXPECT_TRUE(testing::Mock::VerifyAndClearExpectations(mock_managers.get()));
   EXPECT_TRUE(testing::Mock::VerifyAndClearExpectations(model.get()));
 }
 
@@ -170,20 +160,7 @@ TEST(AgeLengths, VonBertalanffy_CV) {
  */
 TEST(AgeLengths, VonBertalanffy_CV_2) {
   shared_ptr<MockModel> model = shared_ptr<MockModel>(new MockModel());
-  MockManagersPtr       mock_managers = MockManagersPtr(new MockManagers(model));
-  MockTimeStepManager   time_step_manager;
-  time_step_manager.time_step_index_ = 0;
-  vector<string>   time_steps        = {"0", "1", "2"};
-  vector<unsigned> years             = {1990, 1991, 1992};
-  EXPECT_CALL(*model, min_age()).WillRepeatedly(Return(1));
-  EXPECT_CALL(*model, max_age()).WillRepeatedly(Return(10));
-  EXPECT_CALL(*model, start_year()).WillRepeatedly(Return(1990));
-  EXPECT_CALL(*model, final_year()).WillRepeatedly(Return(1992));
-  EXPECT_CALL(*model, age_spread()).WillRepeatedly(Return(10 - 1 + 1));
-  EXPECT_CALL(*model, managers()).WillRepeatedly(Return(mock_managers));
-  EXPECT_CALL(*model, time_steps()).WillRepeatedly(ReturnRef(time_steps));
-  EXPECT_CALL(*model, years()).WillRepeatedly(Return(years));
-
+  model->bind_calls();
   MockVonBertalanffy von_bertalanffy(model, 169.07, 0.093, -0.256, true, 0.102, 0.0, {0.0, 0.0}, PARAM_CASAL, Distribution::kNormal);
   von_bertalanffy.MockPopulateCV();
   EXPECT_DOUBLE_EQ(0.10199999999999999, von_bertalanffy.cv(1990, 0, 1));
@@ -194,309 +171,157 @@ TEST(AgeLengths, VonBertalanffy_CV_2) {
   EXPECT_DOUBLE_EQ(0.10199999999999999, von_bertalanffy.cv(1990, 0, 6));
   EXPECT_DOUBLE_EQ(0.10199999999999999, von_bertalanffy.cv(1990, 0, 7));
   EXPECT_DOUBLE_EQ(0.10199999999999999, von_bertalanffy.cv(1990, 0, 8));
-  EXPECT_TRUE(testing::Mock::VerifyAndClearExpectations(mock_managers.get()));
+  EXPECT_TRUE(testing::Mock::VerifyAndClearExpectations(model.get()));
+}
+
+/*
+* test the building of the age-length transition matrix
+*/
+TEST(AgeLengths, BuildAgeLengthProportions) {
+  shared_ptr<MockModel> model = shared_ptr<MockModel>(new MockModel());
+  model->set_length_plus(true);
+  model->set_number_of_length_bins(); // if we chnage plus group need to reset thsi
+  model->bind_calls();
+
+  MockVonBertalanffy von_bertalanffy(model, 80, 0.064, 4, false, 0.2, 0.2, {1.0, 1.0});
+  ASSERT_NO_THROW(von_bertalanffy.MockPopulateCV());
+  ASSERT_NO_THROW(von_bertalanffy.MockPopulateAgeLengthMatrix());
+
+  unsigned min_age = model->min_age();
+  for (unsigned year = 0; year < 1; ++year) {
+    EXPECT_DOUBLE_EQ(0u, von_bertalanffy.Mock_get_age_length_probability(year,0, 0 + min_age, 0));
+    EXPECT_DOUBLE_EQ(0u, von_bertalanffy.Mock_get_age_length_probability(year,0, 0 + min_age, 1));
+    EXPECT_DOUBLE_EQ(0u, von_bertalanffy.Mock_get_age_length_probability(year,0,0 + min_age, 2));
+    EXPECT_DOUBLE_EQ(0u, von_bertalanffy.Mock_get_age_length_probability(year,0,0 + min_age, 3));
+    EXPECT_DOUBLE_EQ(0u, von_bertalanffy.Mock_get_age_length_probability(year,0, 0 + min_age, 4));
+
+    EXPECT_DOUBLE_EQ(0u, von_bertalanffy.Mock_get_age_length_probability(year,0, 2 + min_age, 0));
+    EXPECT_DOUBLE_EQ(0u, von_bertalanffy.Mock_get_age_length_probability(year,0, 2 + min_age, 1));
+    EXPECT_DOUBLE_EQ(0u, von_bertalanffy.Mock_get_age_length_probability(year,0, 2 + min_age, 2));
+    EXPECT_DOUBLE_EQ(0u, von_bertalanffy.Mock_get_age_length_probability(year,0, 2 + min_age, 3));
+    EXPECT_DOUBLE_EQ(0u, von_bertalanffy.Mock_get_age_length_probability(year,0, 2 + min_age, 4));
+
+    EXPECT_DOUBLE_EQ(0.41996720731752746, von_bertalanffy.Mock_get_age_length_probability(year,0, 4 + min_age, 0));
+    EXPECT_DOUBLE_EQ(3.2667977767353307e-008, von_bertalanffy.Mock_get_age_length_probability(year,0, 4 + min_age, 1));
+    EXPECT_DOUBLE_EQ(0u, von_bertalanffy.Mock_get_age_length_probability(year,0, 4 + min_age, 2));
+    EXPECT_DOUBLE_EQ(0u, von_bertalanffy.Mock_get_age_length_probability(year,0, 4 + min_age, 3));
+    EXPECT_DOUBLE_EQ(0u, von_bertalanffy.Mock_get_age_length_probability(year,0, 4 + min_age, 4));
+
+    EXPECT_DOUBLE_EQ(0.69070308538891911, von_bertalanffy.Mock_get_age_length_probability(year,0, 6 + min_age, 0));
+    EXPECT_DOUBLE_EQ(0.29603445809402762, von_bertalanffy.Mock_get_age_length_probability(year,0, 6 + min_age, 1));
+    EXPECT_DOUBLE_EQ(0.00048060422206530617, von_bertalanffy.Mock_get_age_length_probability(year,0, 6 + min_age, 2));
+    EXPECT_DOUBLE_EQ(6.4636329621947652e-010, von_bertalanffy.Mock_get_age_length_probability(year,0, 6 + min_age, 3));
+    EXPECT_DOUBLE_EQ(0u, von_bertalanffy.Mock_get_age_length_probability(year,0, 6 + min_age, 4));
+
+    EXPECT_DOUBLE_EQ(0.13891252421751288, von_bertalanffy.Mock_get_age_length_probability(year,0, 8 + min_age, 0));
+    EXPECT_DOUBLE_EQ(0.67051952644369806, von_bertalanffy.Mock_get_age_length_probability(year,0, 8 + min_age, 1));
+    EXPECT_DOUBLE_EQ(0.18713059299787771, von_bertalanffy.Mock_get_age_length_probability(year,0, 8 + min_age, 2));
+    EXPECT_DOUBLE_EQ(0.0022533864694446182, von_bertalanffy.Mock_get_age_length_probability(year,0, 8 + min_age, 3));
+    EXPECT_DOUBLE_EQ(7.9325922641704238e-007, von_bertalanffy.Mock_get_age_length_probability(year,0, 8 + min_age, 4));
+  }
   EXPECT_TRUE(testing::Mock::VerifyAndClearExpectations(model.get()));
 }
 
 
-TEST(AgeLengths, BuildAgeLengthProportions) {
-  /*
-  shared_ptr<MockModel> model = shared_ptr<MockModel>(new MockModel());
-  MockCategories        mock_categories(model);
-  MockPartition         partition(model);
-  MockTimeStepManager   time_step_manager;
-  time_step_manager.time_step_index_ = 0;
-
-  model->set_length_plus(true);
-  model->bind_calls();
-
-  EXPECT_CALL(*model, categories()).WillRepeatedly(Return(&mock_categories));
-
-  ASSERT_NO_THROW(mock_categories.Validate());
-
-  MockVonBertalanffy von_bertalanffy(model, 80, 0.064, 4, false, 0.2, 0.2, {1.0, 1.0});
-  ASSERT_NO_THROW(von_bertalanffy.MockPopulateCV());
-  ASSERT_NO_THROW(von_bertalanffy.RebuildCache());
-  mock_categories.age_length_ = &von_bertalanffy;
-
-  ASSERT_NO_THROW(partition.Validate());
-  ASSERT_NO_THROW(partition.Build());
-
-  auto& male_mature = partition.category("male.mature");
-  EXPECT_EQ(male_mature.min_age_, 1u);
-  EXPECT_EQ(male_mature.max_age_, 10u);
-  EXPECT_NE(nullptr, male_mature.age_length_);
-
-  ASSERT_NO_THROW(partition.BuildMeanLengthData());
-
-  //ASSERT_EQ(3u, male_mature.mean_length_by_time_step_age_.size());
-  //ASSERT_EQ(2u, male_mature.mean_length_by_time_step_age_[0].size());
-  //ASSERT_EQ(10u, male_mature.mean_length_by_time_step_age_[0][0].size());
-
-  //ASSERT_NO_THROW(partition.BuildAgeLengthProportions());
-  //ASSERT_NO_THROW(partition.age_length_proportions("male.immature"));
-
-  auto& male_age_props = partition.age_length_proportions("male.immature");
-  // vector<year, time_step, age, length, proportion>>;
-  ASSERT_EQ(3u, male_age_props.size());
-  ASSERT_EQ(2u, male_age_props[0].size());
-  ASSERT_EQ(10u, male_age_props[0][0].size());
-  ASSERT_EQ(5u, male_age_props[0][0][0].size());
-
-  for (unsigned year = 0; year < 1; ++year) {
-    EXPECT_DOUBLE_EQ(0u, male_age_props[year][0][0][0]);
-    EXPECT_DOUBLE_EQ(0u, male_age_props[year][0][0][1]);
-    EXPECT_DOUBLE_EQ(0u, male_age_props[year][0][0][2]);
-    EXPECT_DOUBLE_EQ(0u, male_age_props[year][0][0][3]);
-    EXPECT_DOUBLE_EQ(0u, male_age_props[year][0][0][4]);
-
-    EXPECT_DOUBLE_EQ(0u, male_age_props[year][0][2][0]);
-    EXPECT_DOUBLE_EQ(0u, male_age_props[year][0][2][1]);
-    EXPECT_DOUBLE_EQ(0u, male_age_props[year][0][2][2]);
-    EXPECT_DOUBLE_EQ(0u, male_age_props[year][0][2][3]);
-    EXPECT_DOUBLE_EQ(0u, male_age_props[year][0][2][4]);
-
-    EXPECT_DOUBLE_EQ(0.41996720731752746, male_age_props[year][0][4][0]);
-    EXPECT_DOUBLE_EQ(3.2667977767353307e-008, male_age_props[year][0][4][1]);
-    EXPECT_DOUBLE_EQ(0u, male_age_props[year][0][4][2]);
-    EXPECT_DOUBLE_EQ(0u, male_age_props[year][0][4][3]);
-    EXPECT_DOUBLE_EQ(0u, male_age_props[year][0][4][4]);
-
-    EXPECT_DOUBLE_EQ(0.69070308538891911, male_age_props[year][0][6][0]);
-    EXPECT_DOUBLE_EQ(0.29603445809402762, male_age_props[year][0][6][1]);
-    EXPECT_DOUBLE_EQ(0.00048060422206530617, male_age_props[year][0][6][2]);
-    EXPECT_DOUBLE_EQ(6.4636329621947652e-010, male_age_props[year][0][6][3]);
-    EXPECT_DOUBLE_EQ(0u, male_age_props[0][0][6][4]);
-
-    EXPECT_DOUBLE_EQ(0.13891252421751288, male_age_props[year][0][8][0]);
-    EXPECT_DOUBLE_EQ(0.67051952644369806, male_age_props[year][0][8][1]);
-    EXPECT_DOUBLE_EQ(0.18713059299787771, male_age_props[year][0][8][2]);
-    EXPECT_DOUBLE_EQ(0.0022533864694446182, male_age_props[year][0][8][3]);
-    EXPECT_DOUBLE_EQ(7.9325922641704238e-007, male_age_props[year][0][8][4]);
-  }
-  */
-}
-
-
 
 /**
  * This method will test the BuildAgeLengthProportions  method
  */
-TEST(AgeLengths, BuildAgeLengthProportions_2) {
-  /*
+TEST(AgeLengths, BuildAgeLengthProportions_normal) {
   shared_ptr<MockModel> model = shared_ptr<MockModel>(new MockModel());
-  MockCategories        mock_categories(model);
-  MockPartition         partition(model);
   MockTimeStepManager   time_step_manager;
   time_step_manager.time_step_index_ = 0;
 
   model->set_length_plus(true);
   model->set_length_bins({0, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32, 33, 34, 35, 36, 37, 38, 39, 40, 41, 42, 43, 44, 45, 46, 47});
+  model->set_number_of_length_bins(); // if we chnage plus group need to reset thsi
   model->bind_calls();
 
-  EXPECT_CALL(*model, categories()).WillRepeatedly(Return(&mock_categories));
-  ASSERT_NO_THROW(mock_categories.Validate());
-
-  MockVonBertalanffy von_bertalanffy(model, 80, 0.064, 4, false, 0.2, 0.2, {1.0, 1.0});
+  MockVonBertalanffy von_bertalanffy(model, 80, 0.064, -1.16415, false, 0.1, 0.1, {1.0, 1.0});
   ASSERT_NO_THROW(von_bertalanffy.MockPopulateCV());
-  ASSERT_NO_THROW(von_bertalanffy.RebuildCache());
-  mock_categories.age_length_ = &von_bertalanffy;
+  ASSERT_NO_THROW(von_bertalanffy.MockPopulateAgeLengthMatrix());
 
-  ASSERT_NO_THROW(partition.Validate());
-  ASSERT_NO_THROW(partition.Build());
-
-  auto& male_mature = partition.category("male.mature");
-  EXPECT_EQ(male_mature.min_age_, 1u);
-  EXPECT_EQ(male_mature.max_age_, 10u);
-  EXPECT_NE(nullptr, male_mature.age_length_);
-
-  ASSERT_NO_THROW(partition.BuildMeanLengthData());
-
-  ASSERT_EQ(3u, male_mature.mean_length_by_time_step_age_.size());
-  ASSERT_EQ(2u, male_mature.mean_length_by_time_step_age_[0].size());
-  ASSERT_EQ(10u, male_mature.mean_length_by_time_step_age_[0][0].size());
-
-  double mu = 35.49858;
-  for (unsigned i = 0; i < male_mature.mean_length_by_time_step_age_.size(); ++i)
-    for (unsigned j = 0; j < male_mature.mean_length_by_time_step_age_[i].size(); ++j)
-      for (unsigned k = 0; k < male_mature.mean_length_by_time_step_age_[i][j].size(); ++k) male_mature.mean_length_by_time_step_age_[i][j][k] = mu;
-  von_bertalanffy.override_cv_ = 0.1;
-
-  ASSERT_NO_THROW(partition.BuildAgeLengthProportions());
-  ASSERT_NO_THROW(partition.age_length_proportions("male.mature"));
-
-  auto& male_age_props = partition.age_length_proportions("male.mature");
-  // vector<year, time_step, age, length, proportion>>;
-  ASSERT_EQ(3u, male_age_props.size());
-  ASSERT_EQ(2u, male_age_props[0].size());
-  ASSERT_EQ(10u, male_age_props[0][0].size());
-  ASSERT_EQ(34u, male_age_props[0][0][0].size());
-
-  vector<Double> expected = {3.8713535710499514e-009, 1.5960216925847703e-008, 7.422358561104403e-008, 3.1901955588331532e-007, 1.2672619864595447e-006, 4.6525401673491729e-006,
-                             1.5786604316003761e-005, 4.9506445653380027e-005, 0.00014348551812060073, 0.00038434913282614502,  0.00095150900849361175,  0.0021770396325317964,
-                             0.0046034492460040877,   0.0089962477651120976,   0.016247952527619458,   0.027120294871666895,    0.041835938013406682,    0.059643893860880981,
-                             0.078586144395677904,    0.095695106434901311,    0.10769489117184539,    0.11201216057229546,     0.10767078378048922,     0.095652266453105428,
-                             0.078533378916068819,    0.059590504250288112,    0.041789131783027234,   0.027083887651074501,    0.01622250783484136,     0.0089801483958439343,
-                             0.0045941822881506722,   0.002172170763177772,    0.00094916847523229819, 0.00059778133048304927};
-
-  ASSERT_EQ(expected.size(), male_age_props[0][0][0].size());
-  for (unsigned i = 0; i < expected.size(); ++i) {
-    EXPECT_DOUBLE_EQ(expected[i], male_age_props[0][0][0][i]) << " with i = " << i;
-  }
+  EXPECT_DOUBLE_EQ(35.498582852610163, von_bertalanffy.calculate_mean_length(1990,0, 7));
+  // double mu = 35.49858; // for the growth model in the mock class this is equivalant to mean age of an 7 year old
+  // due to not being able to have the exact same expected value as previous test all the expected values changed
+  // I didn't know how they were generated so created new expected values based on R see below to reproduce
+  /*
+  * New expected values are generated by R using the following code
+  * R version 4.0.2 (2020-06-22)
+  * Platform: x86_64-w64-mingw32/x64 (64-bit)
+  * Running under: Windows 10 x64 (build 18363)
+   mu = 35.498582852610163
+   cv = 0.1
+   sd = mu * cv
+   len_bins = c(0, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32, 33, 34, 35, 36, 37, 38, 39, 40, 41, 42, 43, 44, 45, 46, 47)
+   expect_probs = vector();
+   expect_probs[1] = pnorm(len_bins[2], mu, sd)
+   for(i in 1:(length(len_bins) - 1)) {
+    expect_probs[i] = pnorm(len_bins[i + 1], mu, sd) - pnorm(len_bins[i], mu, sd) 
+   }
+   expect_probs[length(len_bins)] = 1 - pnorm(len_bins[length(len_bins)], mu, sd) 
+   round(expect_probs, 7)
   */
+  vector<Double> expected = {0, 0, 1e-07, 3e-07, 1.3e-06, 4.6e-06, 1.58e-05, 4.95e-05, 0.0001435, 0.0003843, 0.0009515, 0.0021771, 0.0046035, 0.0089963, 0.0162479, 0.0271202, 0.0418358, 0.0596439, 0.0785862, 0.0956949, 0.1076949, 0.1120121, 0.1076709, 0.0956522, 0.0785335, 0.0595906, 0.0417891, 0.0270839, 0.0162225, 0.0089802, 0.0045942, 0.0021722, 0.0009492, 0.0005977};
+  
+  // not check 8 year olds based on the previous mean age test
+  Double total = 0.0;
+  for (unsigned i = 0; i < expected.size(); ++i) {
+    total += von_bertalanffy.Mock_get_age_length_probability(1990,0, 7, i);
+    EXPECT_NEAR(expected[i], von_bertalanffy.Mock_get_age_length_probability(1990,0, 7, i), 0.00001) << " with i = " << i;
+  }
+  EXPECT_DOUBLE_EQ(1.0, total);
+
 }
 
 /**
  * This method will test the BuildAgeLengthProportions  method
  */
-TEST(AgeLengths, BuildAgeLengthProportions_3) {
-  /*
+TEST(AgeLengths, BuildAgeLengthProportions_lognormal) {
+  
   shared_ptr<MockModel> model = shared_ptr<MockModel>(new MockModel());
-  MockCategories        mock_categories(model);
-  MockPartition         partition(model);
-  MockTimeStepManager   time_step_manager;
-  time_step_manager.time_step_index_ = 0;
-
   model->set_length_bins({0, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32, 33, 34, 35, 36, 37, 38, 39, 40, 41, 42, 43, 44, 45, 46, 47});
+  model->set_length_plus(true);
+  model->set_number_of_length_bins(); // if we chnage plus group need to reset thsi
   model->bind_calls();
-  EXPECT_CALL(*model, categories()).WillRepeatedly(Return(&mock_categories));
-  ASSERT_NO_THROW(mock_categories.Validate());
 
-  MockVonBertalanffy von_bertalanffy(model, 80, 0.064, 4, false, 0.2, 0.2, {1.0, 1.0}, PARAM_CASAL2, Distribution::kLogNormal);
+  MockVonBertalanffy von_bertalanffy(model, 80, 0.064, -1.16415, false, 0.1, 0.1, {1.0, 1.0}, PARAM_CASAL2, Distribution::kLogNormal);
   ASSERT_NO_THROW(von_bertalanffy.MockPopulateCV());
-  ASSERT_NO_THROW(von_bertalanffy.RebuildCache());
-  mock_categories.age_length_ = &von_bertalanffy;
+  ASSERT_NO_THROW(von_bertalanffy.MockPopulateAgeLengthMatrix());
 
-  ASSERT_NO_THROW(partition.Validate());
-  ASSERT_NO_THROW(partition.Build());
-
-  auto& male_mature = partition.category("male.mature");
-  EXPECT_EQ(male_mature.min_age_, 1u);
-  EXPECT_EQ(male_mature.max_age_, 10u);
-  EXPECT_NE(nullptr, male_mature.age_length_);
-
-  ASSERT_NO_THROW(partition.BuildMeanLengthData());
-
-  ASSERT_EQ(3u, male_mature.mean_length_by_time_step_age_.size());
-  ASSERT_EQ(2u, male_mature.mean_length_by_time_step_age_[0].size());
-  ASSERT_EQ(10u, male_mature.mean_length_by_time_step_age_[0][0].size());
-
-  double mu = 35.49858;
-  for (unsigned i = 0; i < male_mature.mean_length_by_time_step_age_.size(); ++i)
-    for (unsigned j = 0; j < male_mature.mean_length_by_time_step_age_[i].size(); ++j)
-      for (unsigned k = 0; k < male_mature.mean_length_by_time_step_age_[i][j].size(); ++k) male_mature.mean_length_by_time_step_age_[i][j][k] = mu;
-  von_bertalanffy.override_cv_ = 0.1;
-
-  ASSERT_NO_THROW(partition.BuildAgeLengthProportions());
-  ASSERT_NO_THROW(partition.age_length_proportions("male.mature"));
-
-  auto& male_age_props = partition.age_length_proportions("male.mature");
-  // vector<year, time_step, age, length, proportion>>;
-  ASSERT_EQ(3u, male_age_props.size());
-  ASSERT_EQ(2u, male_age_props[0].size());
-  ASSERT_EQ(10u, male_age_props[0][0].size());
-  ASSERT_EQ(33u, male_age_props[0][0][0].size());
-
-  vector<Double> expected = {0,
-                             9.9920072216264089e-016,
-                             1.1390888232654106e-013,
-                             6.907807659217724e-012,
-                             2.4863089365112501e-010,
-                             5.6808661108576075e-009,
-                             8.7191919018181352e-008,
-                             9.4269457673323842e-007,
-                             7.4745056608538363e-006,
-                             4.4982380957292456e-005,
-                             0.00021163731992057677,
-                             0.00079862796125962365,
-                             0.0024715534075264722,
-                             0.0063962867724943751,
-                             0.01408161729231916,
-                             0.026773528172936767,
-                             0.044555539731829574,
-                             0.065676687795628297,
-                             0.086665248035340148,
-                             0.1033532304575121,
-                             0.11234199264093081,
-                             0.11215706824927596,
-                             0.10355520403577334,
-                             0.088978990579101747,
-                             0.071552403002032916,
-                             0.054126600808507175,
-                             0.038696543948670059,
-                             0.026257468168220055,
-                             0.016976053665368585,
-                             0.010494572238876954,
-                             0.0062237099943515117,
-                             0.0035513001369547048,
-                             0.0019551097231892411};
-
-  ASSERT_EQ(expected.size(), male_age_props[0][0][0].size());
-  for (unsigned i = 0; i < expected.size(); ++i) {
-    EXPECT_DOUBLE_EQ(expected[i], male_age_props[0][0][0][i]) << " with i = " << i;
-  }
-  */
-}
-
-/**
- * This method will test the BuildAgeLengthProportions  method
- */
-TEST(AgeLengths, BuildAgeLengthProportions_4) {
-
+  EXPECT_DOUBLE_EQ(35.498582852610163, von_bertalanffy.calculate_mean_length(1990,0, 7));
+  // double mu = 35.49858; // for the growth model in the mock class this is equivalant to mean age of an 7 year old
+  // due to not being able to have the exact same expected value as previous test all the expected values changed
+  // I didn't know how they were generated so created new expected values based on R see below to reproduce
   /*
-  shared_ptr<MockModel> model = shared_ptr<MockModel>(new MockModel());
-  MockCategories        mock_categories(model);
-  MockPartition         partition(model);
-  MockTimeStepManager   time_step_manager;
-  time_step_manager.time_step_index_ = 0;
-
-  model->set_length_bins({0, 20, 40, 60, 80, 110});
-  model->bind_calls();
-  EXPECT_CALL(*model, categories()).WillRepeatedly(Return(&mock_categories));
-  ASSERT_NO_THROW(mock_categories.Validate());
-
-  MockVonBertalanffy von_bertalanffy(model, 80, 0.064, 4, false, 0.2, 0.2, {1.0, 1.0});
-  ASSERT_NO_THROW(von_bertalanffy.MockPopulateCV());
-  ASSERT_NO_THROW(von_bertalanffy.RebuildCache());
-  mock_categories.age_length_ = &von_bertalanffy;
-
-  ASSERT_NO_THROW(partition.Validate());
-  ASSERT_NO_THROW(partition.Build());
-
-  auto& male_mature = partition.category("male.mature");
-  EXPECT_EQ(male_mature.min_age_, 1u);
-  EXPECT_EQ(male_mature.max_age_, 10u);
-  EXPECT_NE(nullptr, male_mature.age_length_);
-
-  ASSERT_NO_THROW(partition.BuildMeanLengthData());
-
-  ASSERT_EQ(3u, male_mature.mean_length_by_time_step_age_.size());
-  ASSERT_EQ(2u, male_mature.mean_length_by_time_step_age_[0].size());
-  ASSERT_EQ(10u, male_mature.mean_length_by_time_step_age_[0][0].size());
-
-  double mu = 40.081628;
-  for (unsigned i = 0; i < male_mature.mean_length_by_time_step_age_.size(); ++i)
-    for (unsigned j = 0; j < male_mature.mean_length_by_time_step_age_[i].size(); ++j)
-      for (unsigned k = 0; k < male_mature.mean_length_by_time_step_age_[i][j].size(); ++k) male_mature.mean_length_by_time_step_age_[i][j][k] = mu;
-  von_bertalanffy.override_cv_ = 0.1;
-
-  ASSERT_NO_THROW(partition.BuildAgeLengthProportions());
-  ASSERT_NO_THROW(partition.age_length_proportions("male.mature"));
-
-  auto& male_age_props = partition.age_length_proportions("male.mature");
-  // vector<year, time_step, age, length, proportion>>;
-  ASSERT_EQ(3u, male_age_props.size());
-  ASSERT_EQ(2u, male_age_props[0].size());
-  ASSERT_EQ(10u, male_age_props[0][0].size());
-  ASSERT_EQ(5u, male_age_props[0][0][0].size());
-
-  vector<Double> expected = {2.7232626398365767e-007, 0.49187561267029634, 0.50812377877585069, 3.3622758899287675e-007, 0};
-
-  ASSERT_EQ(expected.size(), male_age_props[0][0][0].size());
-  for (unsigned i = 0; i < expected.size(); ++i) {
-    EXPECT_DOUBLE_EQ(expected[i], male_age_props[0][0][0][i]) << " with i = " << i;
+  * New expected values are generated by R using the following code
+  * R version 4.0.2 (2020-06-22)
+  * Platform: x86_64-w64-mingw32/x64 (64-bit)
+  * Running under: Windows 10 x64 (build 18363)
+  mu = 35.498582852610163
+  cv = 0.1
+  sd = sqrt(log(cv * cv + 1.0))
+  mu_adj = log(mu) - sd^2 / 2.0
+  len_bins = c(0.0001, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32, 33, 34, 35, 36, 37, 38, 39, 40, 41, 42, 43, 44, 45, 46, 47)
+  log_len_bins = log(len_bins)
+  expect_probs = vector();
+  expect_probs[1] = pnorm(log_len_bins[2], mu_adj, sd)
+  for(i in 1:(length(len_bins) - 1)) {
+    expect_probs[i] = pnorm(log_len_bins[i + 1], mu_adj, sd) - pnorm(log_len_bins[i], mu_adj, sd) 
   }
+  expect_probs[length(len_bins)] = 1 - pnorm(log_len_bins[length(len_bins)], mu_adj, sd) 
+  round(expect_probs, 7)
   */
+  vector<Double> expected =  {0, 0, 0, 0, 0, 0, 1e-07, 9e-07, 7.5e-06, 4.5e-05, 0.0002116, 0.0007986, 0.0024716, 0.0063963, 0.0140816, 0.0267734, 0.0445554, 0.0656767, 0.0866653, 0.1033531, 0.1123421, 0.112157, 0.1035552, 0.0889789, 0.0715525, 0.0541267, 0.0386966, 0.0262574, 0.016976, 0.0104946, 0.0062238, 0.0035514, 0.0019551, 0.0020955};
+  
+  // not check 8 year olds based on the previous mean age test
+  Double total = 0.0;
+  for (unsigned i = 0; i < expected.size(); ++i) {
+    total += von_bertalanffy.Mock_get_age_length_probability(1990,0, 7, i);
+    EXPECT_NEAR(expected[i], von_bertalanffy.Mock_get_age_length_probability(1990,0, 7, i), 0.00001) << " with i = " << i;
+  }
+  EXPECT_DOUBLE_EQ(1.0, total);
+  
 }
 
 }  // namespace agelengths

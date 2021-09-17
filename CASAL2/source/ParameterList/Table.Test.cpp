@@ -5,7 +5,7 @@
  * @date 11/10/2018
  * @section LICENSE
  *
- * Copyright NIWA Science ©2018 - www.niwa.co.nz
+ * Copyright NIWA Science ï¿½2018 - www.niwa.co.nz
  *
  */
 #ifdef TESTMODE
@@ -40,14 +40,21 @@ public:
     vector<string> sexes  = {"male", "female"};
     vector<string> stages = {"immature", "mature"};
     vector<string> tags   = {"notag", "2000", "2001", "2002"};
-
-    for (string sex : sexes)
-      for (string stage : stages)
-        for (string tag : tags) names.push_back(sex + "." + stage + "." + tag);
+    vector<string> age_length_lab;
+    for (string sex : sexes) {
+      for (string stage : stages) {
+        for (string tag : tags)  {
+          names.push_back(sex + "." + stage + "." + tag);
+          age_length_lab.push_back("no_age_length");
+        }
+      }
+    }
 
     set_block_type(PARAM_CATEGORIES);
     parameters().Add(PARAM_FORMAT, "sex.stage.tag", __FILE__, __LINE__);
     parameters().Add(PARAM_NAMES, names, __FILE__, __LINE__);
+    parameters().Add(PARAM_AGE_LENGTHS, age_length_lab, __FILE__, __LINE__);
+
   };
 
   map<string, string> GetCategoryLabelsAndValues(const string& lookup, const string& parameter_location) override final {
