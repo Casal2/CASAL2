@@ -5,7 +5,7 @@
  * @date 17/10/2014
  * @section LICENSE
  *
- * Copyright NIWA Science ©2014 - www.niwa.co.nz
+ * Copyright NIWA Science ï¿½2014 - www.niwa.co.nz
  *
  */
 #ifdef TESTMODE
@@ -186,9 +186,9 @@ TEST_F(InternalEmptyModel, Observation_Process_Proportions_At_Age_Single) {
 
   EXPECT_EQ("male+female", comparisons[year][3].category_);
   EXPECT_DOUBLE_EQ(0.66300000000000003, comparisons[year][3].error_value_);
-  EXPECT_DOUBLE_EQ(0.019859549506180619, comparisons[year][3].expected_);
+  EXPECT_DOUBLE_EQ(0.019859549506180636, comparisons[year][3].expected_);
   EXPECT_DOUBLE_EQ(0.070999999999999994, comparisons[year][3].observed_);
-  EXPECT_DOUBLE_EQ(2.405090306456859, comparisons[year][3].score_);
+  EXPECT_DOUBLE_EQ(2.4050903064568567, comparisons[year][3].score_);
 
   EXPECT_EQ("male+female", comparisons[year][4].category_);
   EXPECT_DOUBLE_EQ(0.72399999999999998, comparisons[year][4].error_value_);
@@ -342,25 +342,25 @@ TEST_F(InternalEmptyModel, Observation_Process_Proportions_At_Age_Double) {
   EXPECT_DOUBLE_EQ(1.091, comparisons[year][0].error_value_);
   EXPECT_DOUBLE_EQ(0.0041574653467937941, comparisons[year][0].expected_);
   EXPECT_DOUBLE_EQ(0.0173, comparisons[year][0].observed_);
-  EXPECT_DOUBLE_EQ(1.9856983223045572, comparisons[year][0].score_);
+  EXPECT_DOUBLE_EQ(1.9856983223045555, comparisons[year][0].score_);
 
   EXPECT_EQ("male", comparisons[year][1].category_);
   EXPECT_DOUBLE_EQ(0.770, comparisons[year][1].error_value_);
-  EXPECT_DOUBLE_EQ(0.0070154825800801696, comparisons[year][1].expected_);
+  EXPECT_DOUBLE_EQ(0.007015482580080174, comparisons[year][1].expected_);
   EXPECT_DOUBLE_EQ(0.0193, comparisons[year][1].observed_);
-  EXPECT_DOUBLE_EQ(1.2818091773704532, comparisons[year][1].score_);
+  EXPECT_DOUBLE_EQ(1.2818091773704512, comparisons[year][1].score_);
 
   EXPECT_EQ("male", comparisons[year][2].category_);
   EXPECT_DOUBLE_EQ(0.539, comparisons[year][2].error_value_);
   EXPECT_DOUBLE_EQ(0.011679426533958197, comparisons[year][2].expected_);
   EXPECT_DOUBLE_EQ(0.0241, comparisons[year][2].observed_);
-  EXPECT_DOUBLE_EQ(0.7396146371416138, comparisons[year][2].score_);
+  EXPECT_DOUBLE_EQ(0.73961463714161468, comparisons[year][2].score_);
 
   EXPECT_EQ("male", comparisons[year][3].category_);
   EXPECT_DOUBLE_EQ(0.421, comparisons[year][3].error_value_);
   EXPECT_DOUBLE_EQ(0.018934183961419469, comparisons[year][3].expected_);
   EXPECT_DOUBLE_EQ(0.0346, comparisons[year][3].observed_);
-  EXPECT_DOUBLE_EQ(0.52912129877249725, comparisons[year][3].score_);
+  EXPECT_DOUBLE_EQ(0.52912129877249503, comparisons[year][3].score_);
 
   EXPECT_EQ("male", comparisons[year][4].category_);
   EXPECT_DOUBLE_EQ(0.412, comparisons[year][4].error_value_);
