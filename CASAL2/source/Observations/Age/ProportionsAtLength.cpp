@@ -63,10 +63,10 @@ ProportionsAtLength::~ProportionsAtLength() {
 void ProportionsAtLength::DoValidate() {
   // Check value for initial mortality
   if (model_->length_bins().size() == 0)
-    LOG_FATAL_P(PARAM_LABEL) << ": No length bins have been specified in @model. This observation requires those to be defined";
+    LOG_ERROR_P(PARAM_LABEL) << ": No length bins have been specified in @model. This observation requires those to be defined";
 
   if(length_plus_ & !model_->length_plus())
-    LOG_FATAL_P(PARAM_LENGTH_PLUS) << "you have specified a plus group on this observation, but the global length bins don't have a plus group. This is an inconsistency that must be fixed. Try changing the model plus group to false or this plus group to true";
+    LOG_ERROR_P(PARAM_LENGTH_PLUS) << "you have specified a plus group on this observation, but the global length bins don't have a plus group. This is an inconsistency that must be fixed. Try changing the model plus group to false or this plus group to true";
 
 
   // How many elements are expected in our observed table;
@@ -139,7 +139,7 @@ void ProportionsAtLength::DoValidate() {
     } else {
       // Need to validate length bins are subclass of mdoel length bins.
       if(!model_->are_length_bin_compatible_with_model_length_bins(length_bins_)) {
-        LOG_FATAL_P(PARAM_LENGTH_BINS) << "Length bins need to be a subset of the model length bins. See manual for more information";
+        LOG_ERROR_P(PARAM_LENGTH_BINS) << "Length bins need to be a subset of the model length bins. See manual for more information";
       }
       LOG_FINE() << "length bins = " << length_bins_.size();
       map_local_length_bins_to_global_length_bins_ = model_->get_map_for_bespoke_length_bins_to_global_length_bins(length_bins_, length_plus_);

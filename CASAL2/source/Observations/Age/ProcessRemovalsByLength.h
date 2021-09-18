@@ -51,7 +51,7 @@ protected:
   // Members
   vector<unsigned>            years_;
   vector<double>              length_bins_;
-  bool                        length_plus_ = false;
+  bool                        length_plus_     = false;  // have to be assigned a value to be optional, note in the constructpr the default is model_->length_plus()
   unsigned                    number_bins_ = 0;
   parameters::Table*          obs_table_   = nullptr;
   Double                      tolerance_   = 0.0;
@@ -63,10 +63,11 @@ protected:
   MortalityInstantaneous*     mortality_instantaneous_ = nullptr;
   string                      time_step_label_         = "";
   string                      process_label_;
-  unsigned                    mlb_index_first_ = 0;  // index of model length bin for length_bins_[0]
   vector<Double>              numbers_at_age_;
   vector<Double>              numbers_at_length_;
   vector<Double>              expected_values_;
+  bool                        using_model_length_bins = true;
+  vector<int>                 map_local_length_bins_to_global_length_bins_;
 
   map<unsigned, map<string, vector<double>>> proportions_;
   map<unsigned, map<string, vector<double>>> error_values_;

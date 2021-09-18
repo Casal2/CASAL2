@@ -548,7 +548,7 @@ TEST_F(InternalEmptyModel, Observation_Proportions_At_Length_bespoke_length_bins
   ASSERT_EQ(10, comparisons[year].size()); // 10 length bins
   EXPECT_EQ("male+female", comparisons[year][0].category_);
   for(unsigned i = 0; i < expected_vals.size(); ++i) {
-    EXPECT_DOUBLE_EQ(expected_vals[i], comparisons[year][i].expected_);
+    EXPECT_NEAR(expected_vals[i], comparisons[year][i].expected_, 0.0001);
   }
 }
 /**
@@ -569,7 +569,7 @@ TEST_F(InternalEmptyModel, Observation_Proportions_At_Length_bespoke_length_bins
   ASSERT_EQ(9, comparisons[year].size()); // 9 length bins
   EXPECT_EQ("male+female", comparisons[year][0].category_);
   for(unsigned i = 0; i < expected_vals.size(); ++i) {
-    EXPECT_DOUBLE_EQ(expected_vals[i], comparisons[year][i].expected_);
+    EXPECT_NEAR(expected_vals[i], comparisons[year][i].expected_, 0.0001);
   }
 }
 
