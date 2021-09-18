@@ -100,8 +100,8 @@ public:
   bool check_categories_in_methods_for_removal_obs(vector<string> methods, vector<string> category_labels);
   bool check_years_in_methods_for_removal_obs(vector<unsigned> years, vector<string> methods);
   bool check_methods_for_removal_obs(vector<string> methods);
-  vector<unsigned>      get_fishery_ndx_for_catch_at(vector<string> fishery_labs) ;
-  vector<unsigned>      get_category_ndx_for_catch_at(vector<string> category_labs);
+  vector<unsigned>      get_fishery_ndx_for_catch_at(vector<string> fishery_labels) ;
+  vector<unsigned>      get_category_ndx_for_catch_at(vector<string> category_labels);
   vector<unsigned>      get_year_ndx_for_catch_at(vector<unsigned> years);
 
   // accessors
@@ -148,7 +148,7 @@ private:
   bool                           use_age_weight_ = true;
   vector<vector<vector<Double>>> removals_by_year_category_age_;  // year[year_ndx][category_ndx][age_ndx]
   vector<vector<Double>>         removals_by_category_age_;       // [category_ndx][age_ndx]
-  vector<string>                 fishery_labs_;
+  vector<string>                 fishery_labels_;
 };
 
 } /* namespace age */

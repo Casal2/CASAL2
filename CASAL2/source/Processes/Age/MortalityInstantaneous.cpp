@@ -221,7 +221,7 @@ void MortalityInstantaneous::DoValidate() {
     new_fishery.time_step_label_ = row[time_step_index];
     new_fishery.penalty_label_   = row[penalty_index];
     new_fishery.years_ = process_years_;
-    std::pair<bool, int>  this_fishery_iter = findInVector(fishery_labs_, new_fishery.label_ );
+    std::pair<bool, int>  this_fishery_iter = findInVector(fishery_labels_, new_fishery.label_ );
     if(this_fishery_iter.first) {
       // we have already seen this fishery in the methods table
       // Do some checks and don't cache anything
@@ -234,8 +234,8 @@ void MortalityInstantaneous::DoValidate() {
         LOG_ERROR_P(PARAM_METHOD) << "Fishery labelled " << new_fishery.label_ << " had u_max = " << new_fishery.u_max_ << " at row " << row_iter << " but the same fishery had u_max_ = " << fisheries_[new_fishery.label_].u_max_  << " at row = " << this_fishery_iter.second + 1 << " these need to be consistent for a single method";
     } else {
       // haven't seen this method so store it in the fisheries struct
-      fishery_labs_.push_back(new_fishery.label_);
-      new_fishery.fishery_ndx_ = fishery_labs_.size() - 1;
+      fishery_labels_.push_back(new_fishery.label_);
+      new_fishery.fishery_ndx_ = fishery_labels_.size() - 1;
       fishery_time_step[new_fishery.label_].push_back(new_fishery.time_step_label_);
       if (!utilities::To<string, Double>(row[u_max_index], new_fishery.u_max_))
         LOG_ERROR_P(PARAM_METHOD) << "u_max value " << row[u_max_index] << " could not be converted to a Double";
@@ -926,12 +926,12 @@ bool MortalityInstantaneous::check_methods_for_removal_obs(vector<string> method
  * accessor get_catch_at_by_year_fishery_category()
  * this function assumes all fishery labs have been passed.
  */
-vector<unsigned> MortalityInstantaneous::get_fishery_ndx_for_catch_at(vector<string> fishery_labs) {
+vector<unsigned> MortalityInstantaneous::get_fishery_ndx_for_catch_at(vector<string> fishery_labels) {
   vector<unsigned> fishery_ndxs;
-  for(unsigned fishery_ndx = 0; fishery_ndx < fishery_labs.size(); ++fishery_ndx) {
-    std::pair<bool, int >  this_fishery_iter = findInVector(fishery_labs_, fishery_labs[fishery_ndx]);
+  for(unsigned fishery_ndx = 0; fishery_ndx < fishery_labels.size(); ++fishery_ndx) {
+    std::pair<bool, int >  this_fishery_iter = findInVector(fishery_labels_, fishery_labels[fishery_ndx]);
     if(!this_fishery_iter.first) {
-      LOG_CODE_ERROR() << "couldn't find fishery lab = " << fishery_labs[fishery_ndx] << " in fishery_labs_. this should be validated before this function is used.";
+      LOG_CODE_ERROR() << "couldn't find fishery lab = " << fishery_labels[fishery_ndx] << " in fishery_labels_. this should be validated before this function is used.";
     }
     fishery_ndxs.push_back(this_fishery_iter.second);
   }
@@ -963,12 +963,12 @@ vector<unsigned> MortalityInstantaneous::get_year_ndx_for_catch_at(vector<unsign
  * accessor get_catch_at_by_year_fishery_category()
  * this function assumes all fishery labs have been passed.
  */
-vector<unsigned> MortalityInstantaneous::get_category_ndx_for_catch_at(vector<string> category_labs) {
+vector<unsigned> MortalityInstantaneous::get_category_ndx_for_catch_at(vector<string> category_labels) {
   vector<unsigned> category_ndxs;
-  for(unsigned category_ndx = 0; category_ndx < category_labs.size(); ++category_ndx) {
-      std::pair<bool, int >  this_category_iter = findInVector(category_labels_, category_labs[category_ndx]);
+  for(unsigned category_ndx = 0; category_ndx < category_labels.size(); ++category_ndx) {
+      std::pair<bool, int >  this_category_iter = findInVector(category_labels_, category_labels[category_ndx]);
       if(!this_category_iter.first) {
-        LOG_CODE_ERROR() << "couldn't find category = " << category_labs[category_ndx] << " in category_labels_. this should be validated before this function is used.";
+        LOG_CODE_ERROR() << "couldn't find category = " << category_labels[category_ndx] << " in category_labels_. this should be validated before this function is used.";
       }
       category_ndxs.push_back(this_category_iter.second);
   }
