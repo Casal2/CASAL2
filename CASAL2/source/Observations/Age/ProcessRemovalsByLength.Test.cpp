@@ -206,19 +206,19 @@ TEST_F(InternalEmptyModel, Observation_removals_by_length_for_fishery_Single) {
   ASSERT_EQ(5u, comparisons[year].size());
   EXPECT_EQ("stock", comparisons[year][0].category_);
   EXPECT_DOUBLE_EQ(37, comparisons[year][0].error_value_);
-  EXPECT_DOUBLE_EQ(1.2882479154945758e-008, comparisons[year][0].expected_);
+  EXPECT_DOUBLE_EQ(1.2882479154945773e-08, comparisons[year][0].expected_);
   EXPECT_DOUBLE_EQ(0.12, comparisons[year][0].observed_);
   EXPECT_DOUBLE_EQ(58.053610343773592, comparisons[year][0].score_);
 
   EXPECT_EQ("stock", comparisons[year][1].category_);
   EXPECT_DOUBLE_EQ(37, comparisons[year][1].error_value_);
-  EXPECT_DOUBLE_EQ(0.023315666243312189, comparisons[year][1].expected_);
+  EXPECT_DOUBLE_EQ(0.02331566624331222, comparisons[year][1].expected_);
   EXPECT_DOUBLE_EQ(0.25, comparisons[year][1].observed_);
   EXPECT_DOUBLE_EQ(48.135349075361496, comparisons[year][1].score_);
 
   EXPECT_EQ("stock", comparisons[year][2].category_);
   EXPECT_DOUBLE_EQ(37, comparisons[year][2].error_value_);
-  EXPECT_DOUBLE_EQ(0.084381382173838546, comparisons[year][2].expected_);
+  EXPECT_DOUBLE_EQ(0.084381382173838615, comparisons[year][2].expected_);
   EXPECT_DOUBLE_EQ(0.28, comparisons[year][2].observed_);
   EXPECT_DOUBLE_EQ(41.57129306955153, comparisons[year][2].score_);
 

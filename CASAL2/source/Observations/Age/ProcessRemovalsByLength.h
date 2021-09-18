@@ -68,6 +68,9 @@ protected:
   vector<Double>              expected_values_;
   bool                        using_model_length_bins = true;
   vector<int>                 map_local_length_bins_to_global_length_bins_;
+  vector<unsigned>            fishery_ndx_to_get_catch_at_info_;
+  vector<unsigned>            year_ndx_to_get_catch_at_info_;
+  map<string, unsigned >      category_lookup_for_ndx_to_get_catch_at_info_;
 
   map<unsigned, map<string, vector<double>>> proportions_;
   map<unsigned, map<string, vector<double>>> error_values_;

@@ -27,6 +27,7 @@
 #include "Utilities/Map.h"
 #include "Utilities/Math.h"
 #include "Utilities/To.h"
+#include "Utilities/Vector.h"
 
 // Namespaces
 namespace niwa {
@@ -307,14 +308,20 @@ void ProcessRemovalsByLength::DoBuild() {
 
   // Do some checks so that the observation and process are compatible
   if (!mortality_instantaneous_->check_methods_for_removal_obs(methods))
-    LOG_ERROR_P(PARAM_METHOD_OF_REMOVAL) << "could not find all these methods in the instantaneous_mortality process labeled " << process_label_
+    LOG_FATAL_P(PARAM_METHOD_OF_REMOVAL) << "could not find all these methods in the instantaneous_mortality process labeled " << process_label_
                                          << ". Check that the methods are compatible with this process";
   if (!mortality_instantaneous_->check_categories_in_methods_for_removal_obs(methods, split_category_labels))
-    LOG_ERROR_P(PARAM_CATEGORIES) << "could not find all these categories in the instantaneous_mortality process labeled " << process_label_
+    LOG_FATAL_P(PARAM_CATEGORIES) << "could not find all these categories in the instantaneous_mortality process labeled " << process_label_
                                   << ". Check that the categories are compatible with this process";
   if (!mortality_instantaneous_->check_years_in_methods_for_removal_obs(years_, methods))
-    LOG_ERROR_P(PARAM_YEARS) << "could not find catches in all years in the instantaneous_mortality process labeled " << process_label_
+    LOG_FATAL_P(PARAM_YEARS) << "could not find catches in all years in the instantaneous_mortality process labeled " << process_label_
                              << ". Check that the years are compatible with this process";
+
+  fishery_ndx_to_get_catch_at_info_ = mortality_instantaneous_->get_fishery_ndx_for_catch_at(methods);
+  vector<unsigned> category_ndxs = mortality_instantaneous_->get_category_ndx_for_catch_at(split_category_labels);
+  for(unsigned category_ndx = 0; category_ndx < split_category_labels.size(); ++category_ndx) 
+    category_lookup_for_ndx_to_get_catch_at_info_[split_category_labels[category_ndx]] = category_ndxs[category_ndx];
+  year_ndx_to_get_catch_at_info_ = mortality_instantaneous_->get_year_ndx_for_catch_at(years_);
 
   numbers_at_age_.resize(model_->age_spread(), 0.0);
   numbers_at_length_.resize(number_bins_, 0.0);
@@ -344,10 +351,11 @@ void ProcessRemovalsByLength::Execute() {
    */
   //  auto categories = model_->categories();
   unsigned year       = model_->current_year();
+  std::pair<bool, int >  this_year_iter = utilities::findInVector(years_, year);
+  if(!this_year_iter.first)
+    LOG_CODE_ERROR() << "if(!this_year_iter.first)";
 
   auto                                                     partition_iter        = partition_->Begin();  // vector<vector<partition::Category> >
-  map<unsigned, map<string, map<string, vector<Double>>>>& Removals_at_age       = mortality_instantaneous_->catch_at();
-
   /**
    * Loop through the provided categories. Each provided category (combination) will have a list of observations
    * with it. We need to build a vector of proportions for each length using that combination and then
@@ -362,14 +370,17 @@ void ProcessRemovalsByLength::Execute() {
      */
     auto category_iter        = partition_iter->begin();
     for (; category_iter != partition_iter->end();  ++category_iter) {
+      vector<Double>& Removals_at_age = mortality_instantaneous_->get_catch_at_by_year_fishery_category(year_ndx_to_get_catch_at_info_[this_year_iter.second], fishery_ndx_to_get_catch_at_info_[0], category_lookup_for_ndx_to_get_catch_at_info_[(*category_iter)->name_]);
+
       LOG_FINE() << "----------";
       LOG_FINE() << "Category: " << (*category_iter)->name_;;
       // clear these temporay vectors
       std::fill(numbers_at_age_.begin(), numbers_at_age_.end(), 0.0);
       std::fill(numbers_at_length_.begin(), numbers_at_length_.end(), 0.0);
       // get numbers at age for this category 
+
       for (unsigned data_offset = 0; data_offset < (*category_iter)->data_.size(); ++data_offset) {
-        numbers_at_age_[data_offset] += Removals_at_age[year][method_][(*category_iter)->name_][data_offset];
+        numbers_at_age_[data_offset] += Removals_at_age[data_offset];
         LOG_FINEST() << "removals for age = " << data_offset + model_->min_age() << " = " << numbers_at_age_[data_offset];
       }
       // Now convert numbers at age to numbers at length using the categories age-length transition matrix

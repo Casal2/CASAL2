@@ -80,6 +80,10 @@ protected:
   map<string, map<string, vector<vector<Double>>>>        map_length_weight_matrix_;
   map<string, map<string, vector<vector<Double>>>>        map_age_weight_matrix_;
 
+  vector<unsigned>            fishery_ndx_to_get_catch_at_info_;
+  vector<unsigned>            year_ndx_to_get_catch_at_info_;
+  map<string, unsigned >      category_lookup_for_ndx_to_get_catch_at_info_;
+  
   map<unsigned, map<string, vector<double>>> proportions_;
   map<unsigned, map<string, vector<double>>> error_values_;
 };

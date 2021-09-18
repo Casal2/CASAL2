@@ -25,6 +25,7 @@
 #include "Utilities/Map.h"
 #include "Utilities/Math.h"
 #include "Utilities/To.h"
+#include "Utilities/Vector.h"
 
 // Namespaces
 namespace niwa {
@@ -261,14 +262,19 @@ void ProcessRemovalsByAge::DoBuild() {
 
   // Do some checks so that the observation and process are compatible
   if (!mortality_instantaneous_->check_methods_for_removal_obs(method_))
-    LOG_ERROR_P(PARAM_METHOD_OF_REMOVAL) << "could not find all these methods in the instantaneous_mortality process labeled " << process_label_
+    LOG_FATAL_P(PARAM_METHOD_OF_REMOVAL) << "could not find all these methods in the instantaneous_mortality process labeled " << process_label_
                                          << ". Check that the methods are compatible with this process";
   if (!mortality_instantaneous_->check_categories_in_methods_for_removal_obs(method_, split_category_labels))
-    LOG_ERROR_P(PARAM_CATEGORIES) << "could not find all these categories in the instantaneous_mortality process labeled " << process_label_
+    LOG_FATAL_P(PARAM_CATEGORIES) << "could not find all these categories in the instantaneous_mortality process labeled " << process_label_
                                   << ". Check that the categories are compatible with this process";
   if (!mortality_instantaneous_->check_years_in_methods_for_removal_obs(years_, method_))
-    LOG_ERROR_P(PARAM_YEARS) << "could not find catches with catch in all years in the instantaneous_mortality process labeled " << process_label_
+    LOG_FATAL_P(PARAM_YEARS) << "could not find catches with catch in all years in the instantaneous_mortality process labeled " << process_label_
                              << ". Check that the years are compatible with this process";
+  fishery_ndx_to_get_catch_at_info_ = mortality_instantaneous_->get_fishery_ndx_for_catch_at(method_);
+  vector<unsigned> category_ndxs = mortality_instantaneous_->get_category_ndx_for_catch_at(split_category_labels);
+  for(unsigned category_ndx = 0; category_ndx < split_category_labels.size(); ++category_ndx) 
+    category_lookup_for_ndx_to_get_catch_at_info_[split_category_labels[category_ndx]] = category_ndxs[category_ndx];
+  year_ndx_to_get_catch_at_info_ = mortality_instantaneous_->get_year_ndx_for_catch_at(years_);
 
   // If this observation is made up of multiple methods lets find out the last one, because that is when we execute the process
   vector<unsigned> time_step_index;
@@ -289,6 +295,7 @@ void ProcessRemovalsByAge::DoBuild() {
 
   expected_values_.resize(age_spread_, 0.0);
   accumulated_expected_values_.resize(age_spread_, 0.0);
+  numbers_at_age_with_ageing_error_.resize(model_->age_spread(), 0.0);
 }
 
 /**
@@ -306,11 +313,13 @@ void ProcessRemovalsByAge::PreExecute() {}
 void ProcessRemovalsByAge::Execute() {
   LOG_FINEST() << "Entering observation " << label_;
   unsigned year = model_->current_year();
+  std::pair<bool, int >  this_year_iter = utilities::findInVector(years_, year);
+  if(!this_year_iter.first)
+    LOG_CODE_ERROR() << "if(!this_year_iter.first)";
   LOG_FINEST() << "current year " << year;
   // Check if we are in the final time_step so we have all the relevent information from the Mortaltiy process
   unsigned current_time_step = model_->managers()->time_step()->current_time_step();
   if (time_step_to_execute_ == current_time_step) {
-    map<unsigned, map<string, map<string, vector<Double>>>>& Removals_at_age = mortality_instantaneous_->catch_at();
     auto                                                     partition_iter  = partition_->Begin();  // vector<vector<partition::Category> >
     for (unsigned category_offset = 0; category_offset < category_labels_.size(); ++category_offset, ++partition_iter) {
       fill(accumulated_expected_values_.begin(), accumulated_expected_values_.end(), 0.0);
@@ -321,47 +330,40 @@ void ProcessRemovalsByAge::Execute() {
         // Go through all the fisheries and accumulate the expectation whilst also applying ageing error
         unsigned method_offset = 0;
         for (string fishery : method_) {
-          // This should get caught in the DoBuild now.
-          if (Removals_at_age.find(year) == Removals_at_age.end() || Removals_at_age[year].find(fishery) == Removals_at_age[year].end()
-              || Removals_at_age[year][fishery].find((*category_iter)->name_) == Removals_at_age[year][fishery].end()
-              || Removals_at_age[year][fishery][(*category_iter)->name_].size() == 0) {
-            LOG_FATAL() << "There is no catch at age data in year " << year << " for method " << fishery << " applied to category = " << (*category_iter)->name_
-                        << ". Check that the mortality_instantaneous process '" << process_label_ << "' is comparable with the observation " << label_;
-          }
+          fill(numbers_at_age_with_ageing_error_.begin(), numbers_at_age_with_ageing_error_.end(), 0.0);
 
+          vector<Double>& Removals_at_age = mortality_instantaneous_->get_catch_at_by_year_fishery_category(year_ndx_to_get_catch_at_info_[this_year_iter.second], fishery_ndx_to_get_catch_at_info_[method_offset], category_lookup_for_ndx_to_get_catch_at_info_[(*category_iter)->name_]);
           /*
            *  Apply Ageing error on Removals at age vector
            */
           if (ageing_error_label_ != "") {
             vector<vector<Double>>& mis_matrix = ageing_error_->mis_matrix();
-            vector<Double>          temp(Removals_at_age[year][fishery][(*category_iter)->name_].size(), 0.0);
-            LOG_FINEST() << "category = " << (*category_iter)->name_;
-            LOG_FINEST() << "size = " << Removals_at_age[year][fishery][(*category_iter)->name_].size();
-
             for (unsigned i = 0; i < mis_matrix.size(); ++i) {
               for (unsigned j = 0; j < mis_matrix[i].size(); ++j) {
-                temp[j] += Removals_at_age[year][fishery][(*category_iter)->name_][i] * mis_matrix[i][j];
+                numbers_at_age_with_ageing_error_[j] += Removals_at_age[i] * mis_matrix[i][j];
               }
             }
-            Removals_at_age[year][fishery][(*category_iter)->name_] = temp;
+          } else {
+            for (unsigned i = 0; i < numbers_at_age_with_ageing_error_.size(); ++i) 
+              numbers_at_age_with_ageing_error_[i] = Removals_at_age[i];
           }
           LOG_TRACE();
 
           /*
            *  Now collapse the number_age into the expected_values for the observation
            */
-          for (unsigned k = 0; k < Removals_at_age[year][fishery][(*category_iter)->name_].size(); ++k) {
+          for (unsigned k = 0; k < numbers_at_age_with_ageing_error_.size(); ++k) {
             LOG_FINE() << "----------";
             LOG_FINE() << "Fishery: " << fishery;
             LOG_FINE() << "Numbers At Age After Ageing error: " << (*category_iter)->min_age_ + k << " for category " << (*category_iter)->name_ << " "
-                       << Removals_at_age[year][fishery][(*category_iter)->name_][k];
+                       << numbers_at_age_with_ageing_error_[k];
 
             unsigned age_offset = min_age_ - model_->min_age();
             if (k >= age_offset && (k - age_offset + min_age_) <= max_age_)
-              expected_values_[k - age_offset] = Removals_at_age[year][fishery][(*category_iter)->name_][k];
+              expected_values_[k - age_offset] = numbers_at_age_with_ageing_error_[k];
             // Deal with the plus group
             if (((k - age_offset + min_age_) > max_age_) && plus_group_)
-              expected_values_[age_spread_ - 1] += Removals_at_age[year][fishery][(*category_iter)->name_][k];
+              expected_values_[age_spread_ - 1] += numbers_at_age_with_ageing_error_[k];
           }
 
           if (expected_values_.size() != proportions_[model_->current_year()][category_labels_[category_offset]].size())
@@ -369,7 +371,8 @@ void ProcessRemovalsByAge::Execute() {
                              << proportions_[model_->current_year()][category_labels_[category_offset]].size() << ")";
 
           // Accumulate the expectations if they come form multiple fisheries
-          for (unsigned i = 0; i < expected_values_.size(); ++i) accumulated_expected_values_[i] += expected_values_[i];
+          for (unsigned i = 0; i < expected_values_.size(); ++i) 
+            accumulated_expected_values_[i] += expected_values_[i];
 
           method_offset++;
         }

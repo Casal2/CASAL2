@@ -209,19 +209,19 @@ TEST_F(InternalEmptyModel, Observation_Proportions_At_Length_Single) {
   ASSERT_EQ(5u, comparisons[year].size());
   EXPECT_EQ("stock", comparisons[year][0].category_);
   EXPECT_DOUBLE_EQ(37, comparisons[year][0].error_value_);
-  EXPECT_DOUBLE_EQ(1.3049322854316948e-008, comparisons[year][0].expected_);
+  EXPECT_DOUBLE_EQ(1.3049322854316964e-08, comparisons[year][0].expected_);
   EXPECT_DOUBLE_EQ(0.12, comparisons[year][0].observed_);
   EXPECT_DOUBLE_EQ(58.053573280444361, comparisons[year][0].score_);
 
   EXPECT_EQ("stock", comparisons[year][1].category_);
   EXPECT_DOUBLE_EQ(37, comparisons[year][1].error_value_);
-  EXPECT_DOUBLE_EQ(0.023617445143820383, comparisons[year][1].expected_);
+  EXPECT_DOUBLE_EQ(0.023617445143820415, comparisons[year][1].expected_);
   EXPECT_DOUBLE_EQ(0.25, comparisons[year][1].observed_);
   EXPECT_DOUBLE_EQ(48.016392832372198, comparisons[year][1].score_);
 
   EXPECT_EQ("stock", comparisons[year][2].category_);
   EXPECT_DOUBLE_EQ(37, comparisons[year][2].error_value_);
-  EXPECT_DOUBLE_EQ(0.085102989012712807, comparisons[year][2].expected_);
+  EXPECT_DOUBLE_EQ(0.08510298901271289, comparisons[year][2].expected_);
   EXPECT_DOUBLE_EQ(0.28, comparisons[year][2].observed_);
   EXPECT_DOUBLE_EQ(41.483073819928485, comparisons[year][2].score_);
 

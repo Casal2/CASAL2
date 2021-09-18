@@ -1,9 +1,9 @@
 Casal2
 Call: C:\Software\CASAL2\BuildSystem/bin/windows_gcc/release_betadiff/casal2.exe -r -I pars.out 
-Date: Sat Sep 18 14:25:23 2021
+Date: Sun Sep 19 09:28:11 2021
 Version: v21.09 (2021-09-18)
 Copyright (c) 2017-2021, NIWA (www.niwa.co.nz)
-Environment: User=marshc Machine=NIWA-1015798 OS=Windows_NT PID=23424
+Environment: User=marshc Machine=NIWA-1015798 OS=Windows_NT PID=16116
 
 
 
@@ -73,4 +73,4 @@ Estimates were removed because of matching lower and upper bounds. Originally ha
 resizing from 151894 to 167083
 resizing from 167083 to 183791
 [INFO] Completed
-[INFO] Total elapsed time: 1 second
+[INFO] Total elapsed time: 1 seconds

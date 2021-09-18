@@ -25,6 +25,7 @@
 #include "Utilities/Map.h"
 #include "Utilities/Math.h"
 #include "Utilities/To.h"
+#include "Utilities/Vector.h"
 
 // Namespaces
 namespace niwa {
@@ -309,14 +310,20 @@ void ProcessRemovalsByWeight::DoBuild() {
 
   // Do some checks so that the observation and process are compatible
   if (!mortality_instantaneous_->check_methods_for_removal_obs(methods))
-    LOG_ERROR_P(PARAM_METHOD_OF_REMOVAL) << "could not find all these methods in the instantaneous_mortality process labeled " << process_label_
+    LOG_FATAL_P(PARAM_METHOD_OF_REMOVAL) << "could not find all these methods in the instantaneous_mortality process labeled " << process_label_
                                          << ". Check that the methods are compatible with this process";
   if (!mortality_instantaneous_->check_categories_in_methods_for_removal_obs(methods, split_category_labels))
-    LOG_ERROR_P(PARAM_CATEGORIES) << "could not find all these categories in the instantaneous_mortality process labeled " << process_label_
+    LOG_FATAL_P(PARAM_CATEGORIES) << "could not find all these categories in the instantaneous_mortality process labeled " << process_label_
                                   << ". Check that the categories are compatible with this process";
   if (!mortality_instantaneous_->check_years_in_methods_for_removal_obs(years_, methods))
-    LOG_ERROR_P(PARAM_YEARS) << "could not find catches in all years in the instantaneous_mortality process labeled " << process_label_
+    LOG_FATAL_P(PARAM_YEARS) << "could not find catches in all years in the instantaneous_mortality process labeled " << process_label_
                              << ". Check that the years are compatible with this process";
+
+  fishery_ndx_to_get_catch_at_info_ = mortality_instantaneous_->get_fishery_ndx_for_catch_at(methods);
+  vector<unsigned> category_ndxs = mortality_instantaneous_->get_category_ndx_for_catch_at(split_category_labels);
+  for(unsigned category_ndx = 0; category_ndx < split_category_labels.size(); ++category_ndx) 
+    category_lookup_for_ndx_to_get_catch_at_info_[split_category_labels[category_ndx]] = category_ndxs[category_ndx];
+  year_ndx_to_get_catch_at_info_ = mortality_instantaneous_->get_year_ndx_for_catch_at(years_);
 
   length_weight_cv_adj_.resize(number_length_bins_);
   for (unsigned i = 0; i < number_length_bins_; ++i) {
@@ -408,9 +415,12 @@ void ProcessRemovalsByWeight::Execute() {
    */
   //  auto categories = model_->categories();
   unsigned year      = model_->current_year();
+  std::pair<bool, int >  this_year_iter = utilities::findInVector(years_, year);
+  if(!this_year_iter.first)
+    LOG_CODE_ERROR() << "if(!this_year_iter.first)";
+
   unsigned time_step = model_->managers()->time_step()->current_time_step();
   auto                                                     partition_iter        = partition_->Begin();  // vector<vector<partition::Category> >
-  map<unsigned, map<string, map<string, vector<Double>>>>& Removals_at_age       = mortality_instantaneous_->catch_at();
 
   Double mean_length;
   Double mean_weight;
@@ -435,6 +445,7 @@ void ProcessRemovalsByWeight::Execute() {
     for (; category_iter != partition_iter->end(); ++category_iter) {
       auto category_name = (*category_iter)->name_;
       LOG_FINE() << "category name: " << category_name;
+      vector<Double>& Removals_at_age = mortality_instantaneous_->get_catch_at_by_year_fishery_category(year_ndx_to_get_catch_at_info_[this_year_iter.second], fishery_ndx_to_get_catch_at_info_[0], category_lookup_for_ndx_to_get_catch_at_info_[(*category_iter)->name_]);
 
 
       bool no_length_weight_change = true;
@@ -470,12 +481,12 @@ void ProcessRemovalsByWeight::Execute() {
       LOG_FINE() << "number_length_bins_ " << number_length_bins_ << " number_weight_bins_ " << number_weight_bins_ << " age spread " << model_->age_spread();
       LOG_FINE() << "category data size (number of ages) " << (*category_iter)->data_.size();
 
-      Double total_number_at_age = utilities::math::Sum(Removals_at_age[year][method_][category_name]);
+      Double total_number_at_age = utilities::math::Sum(Removals_at_age);
 
       for (unsigned data_offset = 0; data_offset < (*category_iter)->data_.size(); ++data_offset) {
         unsigned age = ((*category_iter)->min_age_ + data_offset);
         // Calculate the age structure removed from the fishing process
-        number_at_age = Removals_at_age[year][method_][category_name][data_offset];
+        number_at_age = Removals_at_age[data_offset];
         LOG_FINEST() << "Numbers at age " << age << ": " << number_at_age;
 
         mean_length = (*category_iter)->age_length_->mean_length(time_step, age);
