@@ -75,6 +75,8 @@ void ProcessRemovalsByLength::DoValidate() {
   // Check value for initial mortality
   if (model_->length_bins().size() == 0)
     LOG_FATAL_P(PARAM_LENGTH_BINS) << ": No length bins have been specified in @model. This observation requires those to be defined";
+  if(length_plus_ & !model_->length_plus())
+    LOG_FATAL_P(PARAM_LENGTH_PLUS) << "you have specified a plus group on this observation, but the global length bins don't have a plus group. This is an inconsistency that must be fixed. Try changing the model plus group to false or this plus group to true";
 
   // Need to validate length bins are subclass of mdoel length bins.
   if(!model_->are_length_bin_compatible_with_model_length_bins(length_bins_)) {

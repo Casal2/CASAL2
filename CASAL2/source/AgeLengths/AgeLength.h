@@ -50,8 +50,11 @@ public:
   Double          mean_weight_by_length(Double length, unsigned age, unsigned year, unsigned time_step);
 
   void            BuildAgeLengthMatrixForTheseYears(vector<unsigned> years);
+  // four versions of this function, these variations are to do with a selectivity, and using bespoke length bins.
   void            populate_numbers_at_length(vector<Double> numbers_at_age, vector<Double>& numbers_at_length, Selectivity* selectivity);
   void            populate_numbers_at_length(vector<Double> numbers_at_age, vector<Double>& numbers_at_length); // overloaded for the case with no selectivity
+  void            populate_numbers_at_length(vector<Double> numbers_at_age, vector<Double>& numbers_at_length, Selectivity* selectivity, vector<int>& map_length_bin_ndx); // overloaded for the case where class has bespoke length bins
+  void            populate_numbers_at_length(vector<Double> numbers_at_age, vector<Double>& numbers_at_length, vector<int>& map_length_bin_ndx); // overloaded for the case with no selectivity and class has bespoke length bins
   void            populate_numbers_at_age_with_length_based_exploitation(vector<Double>& numbers_at_age, vector<Double>& numbers_at_age_with_exploitation, Double& exploitation_by_length, unsigned model_length_bin_ndx,  Selectivity* selectivity); // 
 
   // For reporting in the AgeLength 

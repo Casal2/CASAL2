@@ -63,7 +63,8 @@ protected:
   unsigned                    number_bins_ = 0;
   vector<Double>              numbers_at_length_;
   vector<Double>              cached_numbers_at_length_;
-
+  bool                        using_model_length_bins = true;
+  vector<int>                 map_local_length_bins_to_global_length_bins_;
   vector<double> length_bins_;
   bool           length_plus_     = false;
   unsigned       mlb_index_first_ = 0;  // index of model length bin for length_bins_[0]

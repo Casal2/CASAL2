@@ -39,7 +39,7 @@ ProportionsAtLength::ProportionsAtLength(shared_ptr<Model> model) : Observation(
   parameters_.Bind<unsigned>(PARAM_YEARS, &years_, "The years for which there are observations", "");
   parameters_.Bind<string>(PARAM_SELECTIVITIES, &selectivity_labels_, "The labels of the selectivities", "", true);
   parameters_.Bind<Double>(PARAM_PROCESS_ERRORS, &process_error_values_, "The process error", "", true);
-  parameters_.Bind<double>(PARAM_LENGTH_BINS, &length_bins_, "The length bins", "", true);  // optional
+  parameters_.Bind<double>(PARAM_LENGTH_BINS, &length_bins_, "The length bins", "", true);  // optional defaults to model length bins if ignroed
   parameters_.Bind<bool>(PARAM_LENGTH_PLUS, &length_plus_, "Is the last length bin a plus group? (defaults to @model value)", "",
                          model->length_plus());  // default to the model value
   parameters_.BindTable(PARAM_OBS, obs_table_, "The table of observed values", "", false);
@@ -61,6 +61,14 @@ ProportionsAtLength::~ProportionsAtLength() {
  * Validate configuration file parameters
  */
 void ProportionsAtLength::DoValidate() {
+  // Check value for initial mortality
+  if (model_->length_bins().size() == 0)
+    LOG_FATAL_P(PARAM_LABEL) << ": No length bins have been specified in @model. This observation requires those to be defined";
+
+  if(length_plus_ & !model_->length_plus())
+    LOG_FATAL_P(PARAM_LENGTH_PLUS) << "you have specified a plus group on this observation, but the global length bins don't have a plus group. This is an inconsistency that must be fixed. Try changing the model plus group to false or this plus group to true";
+
+
   // How many elements are expected in our observed table;
   for (auto year : years_) {
     if ((year < model_->start_year()) || (year > model_->final_year()))
@@ -107,42 +115,54 @@ void ProportionsAtLength::DoValidate() {
 
   vector<double> model_length_bins = model_->length_bins();
   if (length_bins_.size() == 0) {
+    LOG_FINE() << "using model length bins";
     length_bins_ = model_length_bins;
+    using_model_length_bins = true;
     // length_plus_     = model_->length_plus();
-    mlb_index_first_ = 0;
   } else {
+    LOG_FINE() << "using bespoke length bins";
     // allow for the use of observation-defined length bins, as long as all values are in the set of model length bin values
-    for (unsigned length = 0; length < length_bins_.size(); ++length) {
-      if (length_bins_[length] < 0.0)
-        LOG_ERROR_P(PARAM_LENGTH_BINS) << ": Observation length bin values must be positive. '" << length_bins_[length] << "' is less than 0";
-
-      if (length > 0 && length_bins_[length - 1] >= length_bins_[length])
-        LOG_ERROR_P(PARAM_LENGTH_BINS) << ": Observation length bins must be strictly increasing. " << length_bins_[length - 1] << " is greater than or equal to "
-                                       << length_bins_[length];
-
-      if (std::find(model_length_bins.begin(), model_length_bins.end(), length_bins_[length]) == model_length_bins.end())
-        LOG_ERROR_P(PARAM_LENGTH_BINS) << ": Observation length bin values must be in the set of model length bins. Length '" << length_bins_[length]
-                                       << "' is not in the set of model length bins.";
+    using_model_length_bins = false;
+    // check users haven't just respecified the moedl length bins
+    bool length_bins_match = false;
+    LOG_FINE() << length_bins_.size()  << "  " << model_length_bins.size();
+    if(length_bins_.size() == model_length_bins.size()) {
+      length_bins_match = true;
+      for(unsigned len_ndx = 0; len_ndx < length_bins_.size(); len_ndx++) {
+        if(length_bins_[len_ndx] != model_length_bins[len_ndx])
+          length_bins_match = false;
+      }
     }
+    if(length_bins_match) {
+      LOG_FINE() << "using have actually just respecified model bins so we are ignoring it";
+      using_model_length_bins = true;
+    } else {
+      // Need to validate length bins are subclass of mdoel length bins.
+      if(!model_->are_length_bin_compatible_with_model_length_bins(length_bins_)) {
+        LOG_FATAL_P(PARAM_LENGTH_BINS) << "Length bins need to be a subset of the model length bins. See manual for more information";
+      }
+      LOG_FINE() << "length bins = " << length_bins_.size();
+      map_local_length_bins_to_global_length_bins_ = model_->get_map_for_bespoke_length_bins_to_global_length_bins(length_bins_, length_plus_);
 
-    // check that the observation length bins exactly match a sequential subset of the model length bins
-    auto it_first = std::find(model_length_bins.begin(), model_length_bins.end(), length_bins_[0]);
-    auto it_last  = std::find(model_length_bins.begin(), model_length_bins.end(), length_bins_[(length_bins_.size() - 1)]);
-    if (((unsigned)(abs(std::distance(it_first, it_last))) + 1) != length_bins_.size()) {
-      LOG_ERROR_P(PARAM_LENGTH_BINS) << ": Observation length bin values must be a sequential subset of model length bins."
-                                     << " Length of subset of model length bin sequence: " << (std::distance(it_first, it_last) + 1)
-                                     << ", observation length bins: " << length_bins_.size();
+      LOG_FINE() << "check index";
+      for(unsigned i = 0; i < map_local_length_bins_to_global_length_bins_.size(); ++i) {
+        LOG_FINE() << "i = " << map_local_length_bins_to_global_length_bins_[i];
+      }
     }
-
-    mlb_index_first_ = labs(std::distance(model_length_bins.begin(), it_first));
-    LOG_FINE() << "Index of observation length bin in model length bins: " << mlb_index_first_ << ", length_bins_[0] " << length_bins_[0] << ", model length bin "
-               << model_length_bins[mlb_index_first_];
   }
+  // more checks on the model length bins.
+  for (unsigned length = 0; length < length_bins_.size(); ++length) {
+    if (length_bins_[length] < 0.0)
+      LOG_ERROR_P(PARAM_LENGTH_BINS) << ": Observation length bin values must be positive. '" << length_bins_[length] << "' is less than 0";
 
-  // model vs. observation consistency length_plus check
-  if (!(model_->length_plus()) && length_plus_ && length_bins_.back() == model_length_bins.back())
-    LOG_ERROR() << "Mismatch between @model length_plus and observation " << label_ << " length_plus for the last length bin";
+    if (length > 0 && length_bins_[length - 1] >= length_bins_[length])
+      LOG_ERROR_P(PARAM_LENGTH_BINS) << ": Observation length bins must be strictly increasing. " << length_bins_[length - 1] << " is greater than or equal to "
+                                      << length_bins_[length];
 
+    if (std::find(model_length_bins.begin(), model_length_bins.end(), length_bins_[length]) == model_length_bins.end())
+      LOG_ERROR_P(PARAM_LENGTH_BINS) << ": Observation length bin values must be in the set of model length bins. Length '" << length_bins_[length]
+                                      << "' is not in the set of model length bins.";
+  }
   number_bins_                         = length_plus_ ? length_bins_.size() : length_bins_.size() - 1;
   unsigned                obs_expected = (category_labels_.size() * number_bins_) + 1;
   vector<vector<string>>& obs_data     = obs_table_->data();
@@ -332,13 +352,25 @@ void ProportionsAtLength::Execute() {
     auto category_iter        = partition_iter->begin();
     auto cached_category_iter = cached_partition_iter->begin();
     for (; category_iter != partition_iter->end(); ++cached_category_iter, ++category_iter) {
+      LOG_FINE() << "this category = " << (*category_iter)->name_;
+      // Numbers at age 
+      LOG_FINE() << "numebrs at age pre - post mortality";
+      for(unsigned age_ndx = 0; age_ndx < (*category_iter)->data_.size(); ++age_ndx) {
+        LOG_FINE() << (*category_iter)->data_[age_ndx] << " " << (*category_iter)->cached_data_[age_ndx] ;
+      }
+
       LOG_FINEST() << "Selectivity for " << category_labels_[category_offset] << " selectivity " << selectivities_[category_offset]->label();
       // clear these temporay vectors
       std::fill(cached_numbers_at_length_.begin(), cached_numbers_at_length_.end(), 0.0);
       std::fill(numbers_at_length_.begin(), numbers_at_length_.end(), 0.0);
       // Now convert numbers at age to numbers at length using the categories age-length transition matrix
-      (*category_iter)->age_length_->populate_numbers_at_length((*category_iter)->data_, numbers_at_length_, selectivities_[category_offset]);
-      (*category_iter)->age_length_->populate_numbers_at_length((*category_iter)->cached_data_, cached_numbers_at_length_, selectivities_[category_offset]);
+      if(using_model_length_bins) {
+        (*category_iter)->age_length_->populate_numbers_at_length((*category_iter)->data_, numbers_at_length_, selectivities_[category_offset]);
+        (*category_iter)->age_length_->populate_numbers_at_length((*category_iter)->cached_data_, cached_numbers_at_length_, selectivities_[category_offset]);
+      } else {
+        (*category_iter)->age_length_->populate_numbers_at_length((*category_iter)->data_, numbers_at_length_, selectivities_[category_offset], map_local_length_bins_to_global_length_bins_);
+        (*category_iter)->age_length_->populate_numbers_at_length((*category_iter)->cached_data_, cached_numbers_at_length_, selectivities_[category_offset], map_local_length_bins_to_global_length_bins_);
+      }
 
       for (unsigned length_offset = 0; length_offset < number_bins_; ++length_offset) {
         // now for each column (length bin) in age_length_matrix sum up all the rows (ages) for both cached and current matricies

@@ -912,4 +912,42 @@ bool Model::are_length_bin_compatible_with_model_length_bins(vector<double>& len
   }
   return true;
 }
+/**
+ * A utility function to help make age-length transition matrix effecient, for different resolution model bins we just sum over the colums save recalculting the age-length matrix
+ * should only be called in validate or build by processes or observations that want to use the age-length transition and allow for different bin sizes to that on the model.
+ * @return a vector of column of indicies that map the process or observations length bins to the global length bins, so we can do a simple
+ * summation over the global age-length matrix when we are asked for different values other than the model length bin resolution
+ */
+vector<int>  Model::get_map_for_bespoke_length_bins_to_global_length_bins(vector<double> length_bins, bool plus_group) {
+  LOG_FINE() << "get_map_for_bespoke_length_bins_to_global_length_bins";
+  unsigned number_of_bespoke_length_bins = plus_group ? length_bins.size() : length_bins.size() - 1;
+  vector<int> ndx(number_of_length_bins_, 0);
+  int ndx_store = 0;
+  ndx[0] = 0;
+  int max_ndx = 0;
+  for (unsigned i = 1; i < number_of_length_bins_; ++i) {
+      for (unsigned j = 0; j < length_bins.size(); ++j) {
+          if (!plus_group & (length_bins_[i] >= length_bins[length_bins.size() - 1])) {
+              ndx_store = -9999;
+              break;
+          }
+          if (length_bins[j] == length_bins_[i]) {
+            if(j == 0)
+              break;
+            ndx_store++;
+            break;
+          }
+      }
+      ndx[i] = ndx_store;
+      if(ndx_store > max_ndx)
+        max_ndx = ndx_store;
+  }
+
+  if(max_ndx != (int)(number_of_bespoke_length_bins - 1)) {
+    for(unsigned i = 0; i < ndx.size(); ++i)
+      LOG_FINE() << ndx[i];
+    LOG_CODE_ERROR() << "this function has failed. there should be a maxiumum element = " << number_of_bespoke_length_bins - 1 << " but the maxiumum value calculated = " << max_ndx;
+  }
+  return ndx;
+}
 } /* namespace niwa */

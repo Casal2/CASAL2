@@ -565,8 +565,70 @@ void AgeLength::populate_numbers_at_length(vector<Double> numbers_at_age, vector
     }
   }
   // 
+}
+
+/**
+ * @details This will take numbers at age and pass them through the age-length transition matrix whilst applying a selectivity
+ * it is assumed that this only happens in execute() so this method will have access to time-step and year.
+ * @param numbers_at_age vector of numbers at age
+ * @param numbers_at_length vector of numbers at length which has pre allocated memory and contains zeros
+ * @param selectivity to apply for the age dimension.
+ * @param map_length_bin_ndx vector col elements to amalgamate for the bespoke length bins, created by Model::get_map_for_bespoke_length_bins_to_global_length_bins()
+ */
+void AgeLength::populate_numbers_at_length(vector<Double> numbers_at_age, vector<Double>& numbers_at_length, Selectivity* selectivity, vector<int>& map_length_bin_ndx){
+  LOG_FINEST() << "populate_numbers_at_length";
+  this_year_ = model_->current_year();
+  this_time_step_ = model_->managers()->time_step()->current_time_step();
+  year_dim_in_age_length_ = age_length_matrix_year_key_[this_year_];
+  unsigned size = model_->get_number_of_length_bins();
+
+  LOG_FINE() << "Populating the age-length matrix for agelength class " << label_ << " in year " << this_year_ << " and time-step " << this_time_step_;
+  LOG_FINE() << "Calculating age length data";
+  for (unsigned age = min_age_; age <= max_age_; ++age) {
+    unsigned i = age - min_age_;
+    for (unsigned bin = 0; bin < size; ++bin) {
+      if(map_length_bin_ndx[bin] >= 0) {   // values = -999 indicate see the function which makes this in the fucntion description
+        numbers_at_length[map_length_bin_ndx[bin]] += selectivity->GetAgeResult(age, this) * numbers_at_age[i] * age_length_transition_matrix_[year_dim_in_age_length_][this_time_step_][i][bin];
+      }
+    }
+  }
+  // 
 
 }
+
+/**
+ * @details This will take numbers at age and pass them through the age-length transition matrix 
+ * it is assumed that this only happens in execute() so this method will have access to time-step and year.
+ * @param numbers_at_age vector of numbers at age
+ * @param numbers_at_length vector of numbers at length which has pre allocated memory and contains zeros
+ * @param map_length_bin_ndx vector col elements to amalgamate for the bespoke length bins, created by Model::get_map_for_bespoke_length_bins_to_global_length_bins()
+ */
+void AgeLength::populate_numbers_at_length(vector<Double> numbers_at_age, vector<Double>& numbers_at_length, vector<int>& map_length_bin_ndx){
+  LOG_FINEST() << "populate_numbers_at_length";
+  this_year_ = model_->current_year();
+  this_time_step_ = model_->managers()->time_step()->current_time_step();
+  year_dim_in_age_length_ = age_length_matrix_year_key_[this_year_];
+
+
+  vector<double> length_bins            = model_->length_bins();
+  unsigned size = model_->get_number_of_length_bins();
+  LOG_FINE() << "Populating the age-length matrix for agelength class " << label_ << " in year " << this_year_ << " and time-step " << this_time_step_ << " year ndx = " << year_dim_in_age_length_;
+  LOG_FINE() << "Calculating age length data";
+  LOG_FINE() << "years in " << age_length_transition_matrix_.size();
+  LOG_FINE() << "time_steps in " << age_length_transition_matrix_.size();
+  for (unsigned age = min_age_; age <= max_age_; ++age) {
+    unsigned i = age - min_age_;
+    LOG_FINEST() << " age = " << age << " i = " << i;
+
+    for (unsigned bin = 0; bin < size; ++bin) {
+      if(map_length_bin_ndx[bin] >= 0) {   // values = -999 indicate see the function which makes this in the fucntion description
+        numbers_at_length[map_length_bin_ndx[bin]] += numbers_at_age[i] * age_length_transition_matrix_[year_dim_in_age_length_][this_time_step_][i][bin];
+      }
+    }
+  }
+}
+
+
 /**
  * @details This will take the numbers at age and pass them through the age-length transition matrix for a specific length bin
  * which must be consistent with model length bins and store in an age based vector. Currently only the process TagByLength I think uses this.
