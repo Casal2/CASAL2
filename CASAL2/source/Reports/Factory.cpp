@@ -21,8 +21,6 @@
 #include "../Reports/Age/InitialisationPartitionMeanWeight.h"
 #include "../Reports/Age/Partition.h"
 #include "../Reports/Age/PartitionBiomass.h"
-#include "../Reports/Age/PartitionMeanLength.h"
-#include "../Reports/Age/PartitionMeanWeight.h"
 #include "../Reports/Age/PartitionYearCrossAgeMatrix.h"
 #include "../Reports/Common/Addressable.h"
 #include "../Reports/Common/Catchability.h"
@@ -135,10 +133,6 @@ Report* Factory::Create(shared_ptr<Model> model, const string& object_type, cons
           result = new age::AgeLength();
         else if (sub_type == PARAM_PARTITION_BIOMASS)
           result = new age::PartitionBiomass();
-        else if (sub_type == PARAM_PARTITION_MEAN_LENGTH)
-          result = new age::PartitionMeanLength();
-        else if (sub_type == PARAM_PARTITION_MEAN_WEIGHT)
-          result = new age::PartitionMeanWeight();
         else if (sub_type == PARAM_INITIALISATION_PARTITION_MEAN_WEIGHT)
           result = new age::InitialisationPartitionMeanWeight();
         else if (sub_type == PARAM_PARTITION)
@@ -150,8 +144,6 @@ Report* Factory::Create(shared_ptr<Model> model, const string& object_type, cons
       LOG_FATAL() << "Length based models are mot yet implemented";
       if (sub_type == PARAM_INITIALISATION_PARTITION_MEAN_WEIGHT)
         result = new age::InitialisationPartitionMeanWeight();
-      else if (sub_type == PARAM_PARTITION_MEAN_WEIGHT)
-        result = new age::PartitionMeanWeight();
       else if (sub_type == PARAM_PARTITION_BIOMASS)
         result = new age::PartitionBiomass();
       else if (sub_type == PARAM_PARTITION)
