@@ -225,6 +225,7 @@ void ProportionsAtAge::DoValidate() {
 void ProportionsAtAge::DoBuild() {
   LOG_TRACE();
   partition_        = CombinedCategoriesPtr(new niwa::partition::accessors::CombinedCategories(model_, category_labels_));
+  cached_partition_ = CachedCombinedCategoriesPtr(new niwa::partition::accessors::cached::CombinedCategories(model_, category_labels_));
 
   // Build Selectivity pointers
   for (string label : selectivity_labels_) {
@@ -271,6 +272,10 @@ void ProportionsAtAge::DoBuild() {
  */
 void ProportionsAtAge::PreExecute() {
   LOG_TRACE();
+  cached_partition_->BuildCache();
+
+  if (cached_partition_->Size() != proportions_[model_->current_year()].size())
+    LOG_CODE_ERROR() << "cached_partition_->Size() != proportions_[model->current_year()].size()";
   if (partition_->Size() != proportions_[model_->current_year()].size())
     LOG_CODE_ERROR() << "partition_->Size() != proportions_[model->current_year()].size()";
 }
@@ -284,6 +289,7 @@ void ProportionsAtAge::Execute() {
   /**
    * Verify our cached partition and partition sizes are correct
    */
+  auto cached_partition_iter = cached_partition_->Begin();
   auto partition_iter        = partition_->Begin();  // vector<vector<partition::Category> >
 
   /**
@@ -294,7 +300,7 @@ void ProportionsAtAge::Execute() {
   unsigned selectivity_iter = 0;
 
   LOG_FINEST() << "Number of categories " << category_labels_.size();
-  for (unsigned category_offset = 0; category_offset < category_labels_.size(); ++category_offset, ++partition_iter, ++selectivity_iter) {
+  for (unsigned category_offset = 0; category_offset < category_labels_.size(); ++category_offset, ++partition_iter, ++cached_partition_iter, ++selectivity_iter) {
     Double selectivity_result = 0.0;
     Double start_value        = 0.0;
     Double end_value          = 0.0;
@@ -307,7 +313,8 @@ void ProportionsAtAge::Execute() {
      * expected proportions values.
      */
     auto category_iter        = partition_iter->begin();
-    for (; category_iter != partition_iter->end(); ++category_iter) {
+    auto cached_category_iter = cached_partition_iter->begin();
+    for (; category_iter != partition_iter->end(); ++cached_category_iter, ++category_iter) {
       if (selectivity_iter >= selectivities_.size())
         LOG_CODE_ERROR() << "selectivity_iter > selectivities_.size()";
 
@@ -317,7 +324,7 @@ void ProportionsAtAge::Execute() {
         // for ages older than max_age_ that could be classified as an individual within the observation range
         unsigned age       = ((*category_iter)->min_age_ + data_offset);
         selectivity_result = selectivities_[selectivity_iter]->GetAgeResult(age, (*category_iter)->age_length_);
-        start_value        = (*category_iter)->cached_data_[data_offset]; 
+        start_value        = (*cached_category_iter)->cached_data_[data_offset];
         end_value          = (*category_iter)->data_[data_offset];
         final_value        = 0.0;
 
