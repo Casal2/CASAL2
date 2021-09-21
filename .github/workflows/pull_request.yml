@@ -1,0 +1,127 @@
+name: Casal2 validate test suite
+on: [push, pull_request]
+## for a release idea linux is fairly easy
+## for windows look at this example https://github.com/freenet/wininstaller-innosetup/actions/runs/768471071/workflow
+jobs:
+  Compile-Casal2-linux:
+  # should run on linux based operating system
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - uses: actions/setup-python@v2    
+        with:
+          python-version: '3.8'
+      - name: Install python dependencies
+        run: pip install pytz python-dateutil --upgrade pip
+
+      - name: Build third-party library - adolc
+        run: |
+          cd BuildSystem
+          ./doBuild.sh thirdparty adolc
+      - name: Build third-party library - betadiff
+        run: |
+          cd BuildSystem
+          ./doBuild.sh thirdparty betadiff
+
+      - name: Build third-party libraries - boost
+        run: |
+          cd BuildSystem
+          ./doBuild.sh thirdparty boost
+      - name: Build third-party libraries - google test and mock
+        run: |
+          cd BuildSystem
+          ./doBuild.sh thirdparty googletest_googlemock
+      - name: Build third-party libraries - parser
+        run: |
+          cd BuildSystem
+          ./doBuild.sh thirdparty parser
+      - name: Build documentation
+        run: |
+          sudo apt install texlive-latex-extra
+          cd BuildSystem
+          ./doBuild.sh documentation
+
+      - name: Build "Betadiff" standalone binary
+        run: |
+          cd BuildSystem
+          export CASAL2_BUILD_THREADS=16
+          ./doBuild.sh release betadiff
+
+      - name: Build "adolc" standalone binary
+        run: |
+          cd BuildSystem
+          export CASAL2_BUILD_THREADS=16
+          ./doBuild.sh release adolc
+
+      - name: Build "Unit Test" standalone binary
+        run: |
+          cd BuildSystem
+          ./doBuild.sh test
+          
+      - name: Run Unit Tests standalone binary
+        run: |
+          cd BuildSystem/bin/linux_gcc/test/
+          ./casal2 test
+
+      - name: Run model runner
+        run: |
+          cd BuildSystem
+          ./doBuild.sh modelrunner
+  Compile-Casal2-Windows:
+    runs-on: windows-latest 
+    steps:
+      - uses: actions/checkout@v2
+      - uses: actions/setup-python@v2    
+        with:
+          python-version: '3.8'
+      - name: Install python dependencies
+        run: pip install pytz python-dateutil --upgrade pip
+
+      - name: Build third-party library - adolc
+        run: |
+          cd BuildSystem
+          ./doBuild.bat thirdparty adolc
+      - name: Build third-party library - betadiff
+        run: |
+          cd BuildSystem
+          ./doBuild.bat thirdparty betadiff          
+      - name: Build third-party library - boost
+        run: |
+          cd BuildSystem
+          ./doBuild.bat thirdparty boost
+
+      - name: Build third-party libraries - google test and mock
+        run: |
+          cd BuildSystem
+          ./doBuild.bat thirdparty googletest_googlemock
+
+      - name: Build third-party libraries - parser
+        run: |
+          cd BuildSystem
+          ./doBuild.bat thirdparty parser
+
+      - name: Build "Betadiff" standalone binary
+        run: |
+          cd BuildSystem
+          ./doBuild.bat release betadiff
+
+      - name: Build "ADOLC" standalone binary
+        run: |
+          cd BuildSystem
+          ./doBuild.bat release adolc
+
+      - name: Build "Unit Test" standalone binary
+        run: |
+          cd BuildSystem
+          ./doBuild.bat test
+          
+      - name: Run Unit Tests standalone binary
+        run: |
+          cd BuildSystem/bin/linux_gcc/test/
+          ./casal2 test
+
+      - name: Run model runner
+        run: |
+          cd BuildSystem
+          ./doBuild.bat modelrunner          
+        
