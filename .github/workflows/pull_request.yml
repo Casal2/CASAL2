@@ -61,7 +61,7 @@ jobs:
           
       - name: Run Unit Tests standalone binary
         run: |
-          cd BuildSystem/bin/windows_gcc/test/
+          cd BuildSystem/bin/linux_gcc/test/
           ./casal2 test
 
       - name: Run model runner
@@ -118,7 +118,7 @@ jobs:
           
       - name: Run Unit Tests standalone binary
         run: |
-          cd BuildSystem/bin/linux_gcc/test/
+          cd BuildSystem/bin/windows_gcc/test/
           ./casal2 test
 
       - name: Run model runner
