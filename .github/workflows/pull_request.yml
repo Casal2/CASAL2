@@ -35,11 +35,12 @@ jobs:
         run: |
           cd BuildSystem
           ./doBuild.sh thirdparty parser
-      - name: Build documentation
-        run: |
-          sudo apt install texlive-latex-extra
-          cd BuildSystem
-          ./doBuild.sh documentation
+# remove documentation build, this is being removed from the build system.          
+#      - name: Build documentation
+#        run: |
+#          sudo apt install texlive-latex-extra
+#          cd BuildSystem
+#          ./doBuild.sh documentation
 
       - name: Build "Betadiff" standalone binary
         run: |
@@ -60,7 +61,7 @@ jobs:
           
       - name: Run Unit Tests standalone binary
         run: |
-          cd BuildSystem/bin/linux_gcc/test/
+          cd BuildSystem/bin/windows_gcc/test/
           ./casal2 test
 
       - name: Run model runner
