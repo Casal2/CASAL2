@@ -60,23 +60,27 @@ time_step step2
 years 1960 2015
 
 
-@report part_length_1
-type partition_mean_length
+@report age_length_weight_male_1
+type age_length
+age_length male_AL
 time_step step1
 years 1960 2015
 
-@report part_length_2
-type partition_mean_length
+@report age_length_weight_male_2
+type age_length
+age_length male_AL
 time_step step2
 years 1960 2015
 
-@report part_weight_1
-type partition_mean_weight
+@report age_length_weight_female_1
+type age_length
+age_length female_AL
 time_step step1
 years 1960 2015
 
-@report part_weight_2
-type partition_mean_weight
+@report age_length_weight_female_2
+type age_length
+age_length female_AL
 time_step step2
 years 1960 2015
 

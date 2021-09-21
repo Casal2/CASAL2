@@ -62,13 +62,15 @@ ageing_error Ageing_error
 */
 
 
-@report growth_length_at_age
-type partition_mean_length
+@report age_length_weight_male
+type age_length
+age_length asMm0
 time_step 1
 years 2019
 
-@report growth_weight_at_age
-type partition_mean_weight
+@report age_length_weight_female
+type age_length
+age_length asFm0
 time_step 1
 years 2019
 
