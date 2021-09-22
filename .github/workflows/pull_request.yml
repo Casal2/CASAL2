@@ -8,7 +8,7 @@ on: [push, pull_request]
 jobs:
   Compile-Casal2-linux:
   # should run on linux based operating system
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-18.04
     steps:
       - uses: actions/checkout@v2
       - uses: actions/setup-python@v2    
@@ -72,7 +72,7 @@ jobs:
           cd BuildSystem
           ./doBuild.sh modelrunner
   Compile-Casal2-Windows:
-    runs-on: windows-latest 
+    runs-on: windows-2019 
     steps:
       - uses: actions/checkout@v2
       - uses: actions/setup-python@v2    
