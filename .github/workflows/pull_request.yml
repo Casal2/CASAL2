@@ -1,13 +1,14 @@
 name: Casal2 validate test suite
 env:
-  CC: gcc-10
-  CXX: g++-10
+  CC: gcc-9
+  CXX: g++-9
 on: [push, pull_request]
 ## for a release idea linux is fairly easy
 ## for windows look at this example https://github.com/freenet/wininstaller-innosetup/actions/runs/768471071/workflow
 jobs:
   Compile-Casal2-linux:
   # should run on linux based operating system
+  # https://docs.github.com/en/actions/using-github-hosted-runners/about-github-hosted-runners#supported-runners-and-hardware-resources
     runs-on: ubuntu-18.04
     steps:
       - uses: actions/checkout@v2
@@ -51,11 +52,16 @@ jobs:
           export CASAL2_BUILD_THREADS=16
           ./doBuild.sh release betadiff
 
-      - name: Build "adolc" standalone binary
+      - name: Build "ADOL-C" standalone binary
         run: |
           cd BuildSystem
           export CASAL2_BUILD_THREADS=16
           ./doBuild.sh release adolc
+
+      - name: Run model runner
+        run: |
+          cd BuildSystem
+          ./doBuild.sh modelrunner
 
       - name: Build "Unit Test" standalone binary
         run: |
@@ -66,11 +72,6 @@ jobs:
         run: |
           cd BuildSystem/bin/linux_gcc/test/
           ./casal2 test
-
-      - name: Run model runner
-        run: |
-          cd BuildSystem
-          ./doBuild.sh modelrunner
   Compile-Casal2-Windows:
     runs-on: windows-2019 
     steps:
@@ -109,10 +110,15 @@ jobs:
           cd BuildSystem
           ./doBuild.bat release betadiff
 
-      - name: Build "ADOLC" standalone binary
+      - name: Build "ADOL-C" standalone binary
         run: |
           cd BuildSystem
           ./doBuild.bat release adolc
+
+      - name: Run model runner
+        run: |
+          cd BuildSystem
+          ./doBuild.bat modelrunner          
 
       - name: Build "Unit Test" standalone binary
         run: |
@@ -123,9 +129,4 @@ jobs:
         run: |
           cd BuildSystem/bin/windows_gcc/test/
           ./casal2 test
-
-      - name: Run model runner
-        run: |
-          cd BuildSystem
-          ./doBuild.bat modelrunner          
         
