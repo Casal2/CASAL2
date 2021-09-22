@@ -1,4 +1,7 @@
 name: Casal2 validate test suite
+env:
+  CC: gcc-9
+  CXX: g++-9
 on:
   push:
     branches:
@@ -20,8 +23,9 @@ jobs:
         run: pip install pytz python-dateutil --upgrade pip
 
       - name: Install gcc
-        uses: egor-tensin/setup-mingw@v2
+        uses: egor-tensin/setup-gcc@v1
         with:
+          version: 9
           platform: x86
 
       - name: Build third-party library - adolc
@@ -88,11 +92,12 @@ jobs:
           python-version: '3.8'
       - name: Install python dependencies
         run: pip install pytz python-dateutil --upgrade pip
+
       - name: Install gcc
         uses: egor-tensin/setup-mingw@v2
         with:
-          platform: x86
-
+          platform: x64
+          
       - name: Build third-party library - adolc
         run: |
           cd BuildSystem
