@@ -11,9 +11,10 @@ jobs:
   # should run on linux based operating system
   # https://docs.github.com/en/actions/using-github-hosted-runners/about-github-hosted-runners#supported-runners-and-hardware-resources
     runs-on: ubuntu-18.04
+    timeout-minutes: 60
     env:
-      CC: gcc-9
-      CXX: g++-9   
+      CC: gcc-10
+      CXX: g++-10   
     steps:
       - uses: actions/checkout@v2
         with:
@@ -31,7 +32,7 @@ jobs:
       - name: Install gcc
         uses: egor-tensin/setup-gcc@v1
         with:
-          version: 9
+          version: 10
           platform: x86
 
       - name: Build third-party library - adolc
@@ -90,7 +91,8 @@ jobs:
           ./casal2 test
   Compile-Casal2-Windows:
     # https://docs.github.com/en/actions/using-github-hosted-runners/about-github-hosted-runners#supported-runners-and-hardware-resources
-    runs-on: windows-latest #windows-2016
+    runs-on: windows-2019 #windows-2016
+    timeout-minutes: 60
     steps:
       - uses: actions/checkout@v2
         with:
@@ -107,6 +109,7 @@ jobs:
       - name: Install gcc
         uses: egor-tensin/setup-mingw@v2
         with:
+          version: 10
           platform: x64
 
       - name: Build third-party library - adolc
