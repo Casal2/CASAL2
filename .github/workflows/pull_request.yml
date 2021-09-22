@@ -25,7 +25,7 @@ jobs:
       - name: Install gcc
         uses: egor-tensin/setup-gcc@v1
         with:
-          version: 9
+          version: 10
           platform: x86
 
       - name: Build third-party library - adolc
@@ -92,6 +92,11 @@ jobs:
           python-version: '3.8'
       - name: Install python dependencies
         run: pip install pytz python-dateutil --upgrade pip
+      - name: Install gcc
+        uses: egor-tensin/setup-gcc@v1
+        with:
+          version: 10
+          platform: x86
 
       - name: Build third-party library - adolc
         run: |
