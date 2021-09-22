@@ -679,12 +679,9 @@ void MortalityInstantaneous::DoExecute() {
      */
     if (recalculate_age_exploitation) {
       for (auto& category : categories_) {
-        if (!category.used_in_current_timestep_)
-          continue;
-
         LOG_FINE() << "recalculating age exploitation for category " << category.category_label_ << " in time step " << time_step_index;
-
-        for (unsigned i = 0; i < category.category_->age_spread(); ++i) category.exploitation_[i] = 0.0;
+        for (unsigned i = 0; i < category.category_->age_spread(); ++i) 
+          category.exploitation_[i] = 0.0;
       }
 
       for (auto& fishery_category : fishery_categories_) {
