@@ -1,7 +1,4 @@
 name: Casal2 validate test suite
-env:
-  CC: gcc-9
-  CXX: g++-9
 on:
   push:
     branches:
@@ -15,6 +12,9 @@ jobs:
   # https://docs.github.com/en/actions/using-github-hosted-runners/about-github-hosted-runners#supported-runners-and-hardware-resources
     runs-on: ubuntu-18.04
     steps:
+        env:
+          CC: gcc-9
+          CXX: g++-9
       - uses: actions/checkout@v2
       - uses: actions/setup-python@v2    
         with:
@@ -84,7 +84,7 @@ jobs:
           ./casal2 test
   Compile-Casal2-Windows:
     # https://docs.github.com/en/actions/using-github-hosted-runners/about-github-hosted-runners#supported-runners-and-hardware-resources
-    runs-on: windows-2016
+    runs-on: windows-latest #windows-2016
     steps:
       - uses: actions/checkout@v2
       - uses: actions/setup-python@v2    
@@ -97,7 +97,7 @@ jobs:
         uses: egor-tensin/setup-mingw@v2
         with:
           platform: x64
-          
+
       - name: Build third-party library - adolc
         run: |
           cd BuildSystem
