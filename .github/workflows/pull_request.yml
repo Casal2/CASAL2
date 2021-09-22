@@ -1,4 +1,7 @@
 name: Casal2 validate test suite
+env:
+  CC: gcc-10
+  CXX: g++-10
 on: [push, pull_request]
 ## for a release idea linux is fairly easy
 ## for windows look at this example https://github.com/freenet/wininstaller-innosetup/actions/runs/768471071/workflow
@@ -6,10 +9,6 @@ jobs:
   Compile-Casal2-linux:
   # should run on linux based operating system
     runs-on: ubuntu-latest
-    include:
-      - runs-on: ubuntu-latest
-        compiler: gcc
-        gcc: 10
     steps:
       - uses: actions/checkout@v2
       - uses: actions/setup-python@v2    
