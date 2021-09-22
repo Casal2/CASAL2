@@ -11,11 +11,10 @@ jobs:
   # should run on linux based operating system
   # https://docs.github.com/en/actions/using-github-hosted-runners/about-github-hosted-runners#supported-runners-and-hardware-resources
     runs-on: ubuntu-18.04
+    env:
+      CC: gcc-9
+      CXX: g++-9   
     steps:
-      - name: set gcc version
-        env:
-          CC: gcc-9
-          CXX: g++-9    
       - uses: actions/checkout@v2
       - uses: actions/setup-python@v2    
         with:
