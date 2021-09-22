@@ -400,22 +400,21 @@ plot_legend()
 
 ```{r plots_set_5, echo=FALSE}
 # > names(cas2_mpd[[1]])
-#  [1] "Init"                    "state1"                  "state2"
-#  [4] "estimated_values"        "estimated_summary"       "obj_fun"
-#  [7] "Hess"                    "Covar"                   "Corr"
-# [10] "Recruitment"             "Instantaneous_Mortality" "maturity_sel_m"
-# [13] "maturity_sel_f"          "growth_length_at_age_1"  "growth_length_at_age_2"
-# [16] "growth_weight_at_age_1"  "growth_weight_at_age_2"  "subaFsel"
-# [19] "subaTANselA"             "CPUE"                    "subaOBSage"
-# [22] "subaTANbiomassDEC"       "subaTANageDEC"           "subaTANqA"
-# [25] "CPUEq"                   "SSB"                     "Ageing"
-# [28] "One"                     "messages_encountered"
+#  [1] "Init"                       "state1"                     "state2"
+#  [4] "estimated_values"           "obj_fun"                    "Recruitment"
+#  [7] "Instantaneous_Mortality"    "maturity_sel_m"             "maturity_sel_f"
+# [10] "age_length_weight_male_1"   "age_length_weight_male_2"   "age_length_weight_female_1"
+# [13] "age_length_weight_female_2" "subaFsel"                   "subaTANselA"
+# [16] "CPUE"                       "subaOBSage"                 "subaTANbiomassDEC"
+# [19] "subaTANageDEC"              "subaTANqA"                  "CPUEq"
+# [22] "SSB"                        "Ageing"                     "One"
+# [25] "estimated_summary"          "Hess"                       "Covar"
+# [28] "Corr"                       "messages_encountered"
 # > names(cas2_mpd[[1]]$Instantaneous_Mortality)
 #  [1] "categories"              "label"                   "m"
 #  [4] "relative_m_by_age"       "time_step_proportions"   "sub_type"
 #  [7] "year"                    "fishing_pressure[subaF]" "catch[subaF]"
 # [10] "actual_catch[subaF]"     "type"
-
 
 # plot fishing pressures
 
