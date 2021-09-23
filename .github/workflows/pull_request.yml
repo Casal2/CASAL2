@@ -10,7 +10,7 @@ jobs:
   Compile-Casal2-linux:
   # should run on linux based operating system
   # https://docs.github.com/en/actions/using-github-hosted-runners/about-github-hosted-runners#supported-runners-and-hardware-resources
-    runs-on: ubuntu-18.04
+    runs-on: ubuntu-20.04
     timeout-minutes: 60
     env:
       CC: gcc-10
@@ -109,7 +109,6 @@ jobs:
       - name: Install gcc
         uses: egor-tensin/setup-mingw@v2
         with:
-          version: 10
           platform: x64
 
       - name: Build third-party library - adolc
