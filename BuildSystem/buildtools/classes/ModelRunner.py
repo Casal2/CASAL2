@@ -58,9 +58,11 @@ class ModelRunner:
       start = time.time()
       
       result = False 
-      if os.system(f"{exe_path} -r --loglevel=trace> run.log 2>&1") != EX_OK:
+      if os.system(f"{exe_path} -r > run.log 2>&1") != EX_OK:
         elapsed = time.time() - start
         print('[FAILED] - ' + folder + ' in ' + str(round(elapsed, 2)) + ' seconds')
+        print("--> Printing last 20 lines of run.log")
+        os.system("tail -n20 run.log")
         fail_count += 1
       else:
         elapsed = time.time() - start
@@ -73,6 +75,8 @@ class ModelRunner:
       if os.system(f"{exe_path} -r -i pars.out > run.log 2>&1") != EX_OK:
         elapsed = time.time() - start
         print('[FAILED] - ' + folder + ' -i run in ' + str(round(elapsed, 2)) + ' seconds')
+        print("--> Printing last 20 lines of run.log")
+        os.system("tail -n20 run.log")        
         fail_count += 1
       else:
         elapsed = time.time() - start
@@ -85,6 +89,8 @@ class ModelRunner:
       if os.system(f"{exe_path} -r -I pars.out > run.log 2>&1") != EX_OK:
         elapsed = time.time() - start
         print('[FAILED] - ' + folder + ' -I run in ' + str(round(elapsed, 2)) + ' seconds')
+        print("--> Printing last 20 lines of run.log")
+        os.system("tail -n20 run.log")
         fail_count += 1
       else:
         elapsed = time.time() - start
@@ -104,6 +110,8 @@ class ModelRunner:
       if os.system(f"{exe_path} -s 10 -i samples.1  > multi_sim.out 2> log.out") != EX_OK:
         elapsed = time.time() - start
         print('[FAILED] - ' + folder + ' -s run in ' + str(round(elapsed, 2)) + ' seconds')
+        print("--> Printing last 20 lines of multi_sim.out")
+        os.system("tail -n20 multi_sim.out")        
         fail_count += 1
       else:
         elapsed = time.time() - start
@@ -126,6 +134,8 @@ class ModelRunner:
       if os.system(f"{exe_path} -e -g 20 > estimate.log 2>&1") != EX_OK:
         elapsed = time.time() - start
         print('[FAILED] - ' + folder + ' betadiff estimation in ' + str(round(elapsed, 2)) + ' seconds')
+        print("--> Printing last 20 lines of estimate.log")
+        os.system("tail -n20 estimate.log")       
         fail_count += 1
       else:
         elapsed = time.time() - start
