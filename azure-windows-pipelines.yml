@@ -57,8 +57,13 @@ jobs:
   - script: |
       BuildSystem\\bin\\windows_gcc\\test\\casal2.exe
     displayName: 'Run "Unit Test" standalone binary'
-
+    
+  - script: |
+      cd BuildSystem
+      doBuild.bat release betadiff
+    displayName: 'Build "standalone betadiff'
+    
   - script: |
       cd BuildSystem
       doBuild.bat modelrunner
-    displayName: 'Build "Unit Test" standalone binary'
+    displayName: 'run modelrunner'
