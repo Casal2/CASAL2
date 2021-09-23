@@ -50,7 +50,7 @@ void ObjectiveFunction::DoBuild() {
  */
 void ObjectiveFunction::Execute() {
   niwa::ObjectiveFunction& obj = model_->objective_function();
-  if (fabs(AS_DOUBLE(value_) - AS_DOUBLE(obj.score())) > (tol_ * fabs(AS_DOUBLE(obj.score())) + tol_)) {
+  if (fabs(AS_DOUBLE(value_) - AS_DOUBLE(obj.score())) > tol_) {
     std::streamsize prec = std::cout.precision();
     std::cout.precision(9);
     if (error_type_ == PARAM_ERROR) {
