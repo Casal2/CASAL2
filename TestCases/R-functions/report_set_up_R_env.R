@@ -1,6 +1,10 @@
 # print(paste('pandoc installed?', rmarkdown::pandoc_available()))
 # print(paste('pandoc version:', rmarkdown::pandoc_version()))
 
+require(plyr)
+require(dplyr)
+require(huxtable)
+
 require(ggmcmc)
 require(coda)
 require(gridExtra)

@@ -36,7 +36,7 @@ protected:
 private:
   // members
   Double value_;
-  Double tol_ = 1.0e-6;
+  Double tol_ = 1e-5;
 };
 
 } /* namespace asserts */
