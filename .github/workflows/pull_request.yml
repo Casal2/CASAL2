@@ -91,7 +91,8 @@ jobs:
           ./casal2 test
   Compile-Casal2-Windows:
     # https://docs.github.com/en/actions/using-github-hosted-runners/about-github-hosted-runners#supported-runners-and-hardware-resources
-    runs-on: windows-2019 #windows-2016
+    # https://github.com/actions/virtual-environments/blob/main/images/win/Windows2019-Readme.md
+    runs-on: windows-2019
     timeout-minutes: 60
     steps:
       - uses: actions/checkout@v2
@@ -109,8 +110,9 @@ jobs:
       - name: Install gcc
         uses: bwoodsend/setup-winlibs-action@v1.2
         with:
-          tag: 10.3.0-12.0.0-9.0.0-r2
-          platform: x86_64
+          # see https://github.com/marketplace/actions/setup-winlibs
+          # and https://github.com/brechtsanders/winlibs_mingw/tags
+          tag: '10.3.0-12.0.0-9.0.0-r2'
 
       - name: Build third-party library - adolc
         run: |
@@ -145,11 +147,6 @@ jobs:
           cd BuildSystem
           ./doBuild.bat release adolc
 
-      - name: Run model runner
-        run: |
-          cd BuildSystem
-          ./doBuild.bat modelrunner          
-
       - name: Build "Unit Test" standalone binary
         run: |
           cd BuildSystem
@@ -159,4 +156,8 @@ jobs:
         run: |
           cd BuildSystem/bin/windows_gcc/test/
           ./casal2 test
-        
+
+      - name: Run model runner
+        run: |
+          cd BuildSystem
+          ./doBuild.bat modelrunner

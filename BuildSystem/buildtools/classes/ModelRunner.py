@@ -123,7 +123,7 @@ class ModelRunner:
     # test -e functionality
     for folder in estimation_dir_list:
       os.chdir("../TestModels/" + folder)
-      if os.system(f"{exe_path} -e -g 20 --loglevel fine > estimate.log") != EX_OK:
+      if os.system(f"{exe_path} -e -g 20 > estimate.log") != EX_OK:
         elapsed = time.time() - start
         print('[FAILED] - ' + folder + ' betadiff estimation in ' + str(round(elapsed, 2)) + ' seconds')
         fail_count += 1
