@@ -19,9 +19,7 @@ jobs:
       pip3 install python-dateutil
     displayName: 'Installing Python3 build environment'
 
-  - script: |
-      cd BuildSystem
-      doBuild.bat thirdparty adolc
+  - script: BuildSystem/doBuild.bat thirdparty adolc
     displayName: 'Build third-party library - adolc'
 
   - script: |
@@ -48,6 +46,11 @@ jobs:
       cd BuildSystem
       doBuild.bat debug
     displayName: 'Build "Debug" standalone binary'
+
+  - script: |
+      cd BuildSystem
+      doBuild.bat release betadiff
+    displayName: 'Build "Release-BetaDiff" standalone binary'
 
   - script: |
       cd BuildSystem
