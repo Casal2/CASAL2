@@ -109,7 +109,9 @@ jobs:
       - name: Install gcc
         uses: bwoodsend/setup-winlibs-action@v1.2
         with:
-          tag: '10.3.0-12.0.0-9.0.0-r2'
+          # see https://github.com/marketplace/actions/setup-winlibs
+          # and https://github.com/brechtsanders/winlibs_mingw/tags
+          tag: '11.2.0-12.0.1-9.0.0-r1'
 
       - name: Build third-party library - adolc
         run: |
