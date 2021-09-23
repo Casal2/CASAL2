@@ -522,7 +522,8 @@ void TagRecaptureByLength::Execute() {
       Double expected = 0.0;
       double observed = 0.0;
       if (length_results_[i] != 0.0) {
-        expected = detection_ * tagged_length_results_[i] / length_results_[i];
+        //expected = detection_ * tagged_length_results_[i] / length_results_[i];
+        expected = detection_ * tagged_length_results_[i] / (length_results_[i] + tagged_length_results_[i]);
         LOG_FINEST() << " total numbers at length " << length_bins_[i] << " = " << tagged_length_results_[i] << ", denominator = " << length_results_[i] << " + "
                      << tagged_length_results_[i];
       }
