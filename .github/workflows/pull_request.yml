@@ -107,9 +107,10 @@ jobs:
         run: pip install pytz python-dateutil --upgrade pip
 
       - name: Install gcc
-        uses: egor-tensin/setup-mingw@v2
+        uses: bwoodsend/setup-winlibs-action@v1.2
         with:
-          platform: x64
+          tag: 10.3.0-12.0.0-9.0.0-r2
+          platform: x86_64
 
       - name: Build third-party library - adolc
         run: |
