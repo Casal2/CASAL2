@@ -4,7 +4,7 @@
 # https://aka.ms/yaml
 
 trigger:
-- master
+- age_length_redesign_202109
 
 # https://github.com/actions/virtual-environments/blob/main/images/linux/Ubuntu1804-README.md
 pool:
