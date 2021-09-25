@@ -486,7 +486,7 @@ void TagRecaptureByLength::Execute() {
       // get numbers at length
       (*tagged_category_iter)->age_length_->populate_numbers_at_length((*tagged_category_iter)->data_, tagged_numbers_at_length_[category_offset], tagged_selectivities_[category_offset]);
       (*tagged_category_iter)->age_length_->populate_numbers_at_length((*tagged_category_iter)->cached_data_, tagged_cached_numbers_at_length_[category_offset], tagged_selectivities_[category_offset]);
-    } 
+    }
     // Interpolate between the cached and current values for bothe tagged and untagged
     for (unsigned length_offset = 0; length_offset < number_bins_; ++length_offset) {
       start_value = tagged_cached_numbers_at_length_[category_offset][length_offset];
@@ -523,9 +523,8 @@ void TagRecaptureByLength::Execute() {
       double observed = 0.0;
       if (length_results_[i] != 0.0) {
         //expected = detection_ * tagged_length_results_[i] / length_results_[i];
-        expected = detection_ * tagged_length_results_[i] / (length_results_[i] + tagged_length_results_[i]);
-        LOG_FINEST() << " total numbers at length " << length_bins_[i] << " = " << tagged_length_results_[i] << ", denominator = " << length_results_[i] << " + "
-                     << tagged_length_results_[i];
+        expected = detection_ * tagged_length_results_[i] / length_results_[i];
+        LOG_FINEST() << " total numbers at length " << length_bins_[i] << " = " << tagged_length_results_[i] << ", denominator = " << length_results_[i];
       }
 
       if (scanned_[model_->current_year()][category_labels_[category_offset]][i] == 0.0)
