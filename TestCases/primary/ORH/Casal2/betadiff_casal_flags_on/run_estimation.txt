@@ -1,14 +1,15 @@
 Environment: User=Casal2
 Call: ../../../../../BuildSystem/bin/linux_gcc/release_betadiff/casal2 -e -o params_est.out
-Date: Wed Sep 22 11:35:17 2021
-Version: v21.09 (2021-09-21)
+Date: Mon Sep 27 11:34:57 2021
+Version: v21.09 (2021-09-26)
 Copyright (c) 2017-2021, NIWA (www.niwa.co.nz)
 c2user
  Machine=c2computer (Linux 5.10.0-8-amd64 x86_64)
- PID=70506
+ PID=105340
 
 
 
+resizing from 40000 to 44000
 [IMPORTANT] Setting 'params_est.out' as the output file for the free parameters
 [INFO] Creating default report for catchability Qandes
 [INFO] Creating default report for derived quantity SSB
@@ -23,6 +24,7 @@ c2user
 [INFO] Creating default report for selectivity One
 [INFO] The likelihood for the observation 'Obs_Andes_LF' is multinomial. Normalised residuals can only be calculated for the lognormal, lognormal_with_Q, and normal likelihoods
 [INFO] Initiating point estimate run mode
+resizing from 44000 to 48400
 [INFO] Estimation with the betadiff minimiser
 about to evaluate function with x = 29400 0.09 0.04 29.5 5 
 finished objective call: f = 125.137
@@ -3983,5 +3985,5 @@ Setting 'params_est.out' as the output file for the free parameters
 *end
 
 [INFO] Completed
-[INFO] Total CPU time: -3.90909e+08 hours
-[INFO] Total elapsed time: 50 seconds
+[INFO] Total CPU time: -3.90925e+08 hours
+[INFO] Total elapsed time: 45 seconds

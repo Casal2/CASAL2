@@ -1,11 +1,11 @@
 Environment: User=Casal2
 Call: ../../../../../BuildSystem/bin/linux_gcc/release_adolc/casal2 -e -o params_est.out
-Date: Wed Sep 22 11:39:48 2021
-Version: v21.09 (2021-09-21)
+Date: Mon Sep 27 11:16:30 2021
+Version: v21.09 (2021-09-26)
 Copyright (c) 2017-2021, NIWA (www.niwa.co.nz)
 c2user
  Machine=c2computer (Linux 5.10.0-8-amd64 x86_64)
- PID=84071
+ PID=62661
 
 
 
@@ -12235,5 +12235,5 @@ estimated parameter 'selectivity[sel_Whome].v{7}' was within 0.001 of upper boun
 *end
 
 [INFO] Completed
-[INFO] Total CPU time: -3.90896e+08 hours
-[INFO] Total elapsed time: 5.6 minutes
+[INFO] Total CPU time: -3.90894e+08 hours
+[INFO] Total elapsed time: 4.633 minutes

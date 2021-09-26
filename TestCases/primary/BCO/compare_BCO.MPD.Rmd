@@ -455,15 +455,15 @@ plot_legend()
 ```{r plots_set_5, echo=FALSE}
 # > names(cas2_mpd[[1]])
 #  [1] "Init"                     "state1"                   "estimated_values"
-#  [4] "obj_fun"                  "Recruitment"              "Fishing"
-#  [7] "age_length_weight_male"   "age_length_weight_female" "potSurveySel_male"
-# [10] "potSurveySel_female"      "potSurvey"                "potCPUE"
-# [13] "lgobookLF"                "potSurveyq"               "potCPUEq"
-# [16] "SSB"                      "AFpotSurvey"              "AFpotFishing"
-# [19] "rec.catch.LF"             "Ageing"                   "MaturationSel_male"
-# [22] "MaturationSel_female"     "potFdis"                  "recFdis"
-# [25] "One"                      "estimated_summary"        "Hess"
-# [28] "Covar"                    "Corr"                     "messages_encountered"
+#  [4] "estimated_summary"        "obj_fun"                  "Hess"
+#  [7] "Covar"                    "Corr"                     "Recruitment"
+# [10] "Fishing"                  "age_length_weight_male"   "age_length_weight_female"
+# [13] "potSurveySel_male"        "potSurveySel_female"      "potSurvey"
+# [16] "potCPUE"                  "lgobookLF"                "potSurveyq"
+# [19] "potCPUEq"                 "SSB"                      "AFpotSurvey"
+# [22] "AFpotFishing"             "rec.catch.LF"             "Ageing"
+# [25] "MaturationSel_male"       "MaturationSel_female"     "potFdis"
+# [28] "recFdis"                  "One"                      "messages_encountered"
 # > names(cas2_mpd[[1]]$Fishing)
 #  [1] "categories"                         "label"
 #  [3] "m"                                  "relative_m_by_age"
@@ -546,8 +546,8 @@ lines(ages, c1_sens1_quant$`Ogive parameter values`$`selectivity[potSsel].female
 
 for (c in 1:num_C2_models)
 {
-    lines(ages, cas2_mpd[[c]]$potSSelm$Values, col=C2_color[c], lwd=1)
-    lines(ages, cas2_mpd[[c]]$potSSelf$Values, col=C2_color[c], lwd=1, lty=3)
+    lines(ages, cas2_mpd[[c]]$potSurveySel_male$Values, col=C2_color[c], lwd=1)
+    lines(ages, cas2_mpd[[c]]$potSurveySel_female$Values, col=C2_color[c], lwd=1, lty=3)
 }
 
 plot_legend()

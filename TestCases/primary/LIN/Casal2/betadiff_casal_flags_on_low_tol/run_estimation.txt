@@ -1,11 +1,11 @@
 Environment: User=Casal2
 Call: ../../../../../BuildSystem/bin/linux_gcc/release_betadiff/casal2 -e -o params_est.out
-Date: Wed Sep 22 11:31:40 2021
-Version: v21.09 (2021-09-21)
+Date: Mon Sep 27 11:32:37 2021
+Version: v21.09 (2021-09-26)
 Copyright (c) 2017-2021, NIWA (www.niwa.co.nz)
 c2user
  Machine=c2computer (Linux 5.10.0-8-amd64 x86_64)
- PID=59911
+ PID=98477
 
 
 
@@ -7222,5 +7222,5 @@ estimated parameter 'selectivity[trwlFSel_m].sigma_r' was within 0.001 of upper 
 *end
 
 [INFO] Completed
-[INFO] Total CPU time: -3.9091e+08 hours
-[INFO] Total elapsed time: 24 seconds
+[INFO] Total CPU time: -3.90919e+08 hours
+[INFO] Total elapsed time: 14 seconds

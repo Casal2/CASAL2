@@ -1,11 +1,11 @@
 Environment: User=Casal2
 Call: ../../../../../BuildSystem/bin/linux_gcc/release_adolc/casal2 -e -o params_est.out
-Date: Wed Sep 22 11:57:04 2021
-Version: v21.09 (2021-09-21)
+Date: Mon Sep 27 11:31:11 2021
+Version: v21.09 (2021-09-26)
 Copyright (c) 2017-2021, NIWA (www.niwa.co.nz)
 c2user
  Machine=c2computer (Linux 5.10.0-8-amd64 x86_64)
- PID=122719
+ PID=94091
 
 
 
@@ -3101,5 +3101,5 @@ Cannot report the length-based selectivity values. This report (__recFSel__) is 
 *end
 
 [INFO] Completed
-[INFO] Total CPU time: -3.90933e+08 hours
-[INFO] Total elapsed time: 10.567 minutes
+[INFO] Total CPU time: -3.90891e+08 hours
+[INFO] Total elapsed time: 15 minutes
