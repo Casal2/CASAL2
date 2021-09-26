@@ -11,7 +11,7 @@ jobs:
   # should run on linux based operating system
   # https://docs.github.com/en/actions/using-github-hosted-runners/about-github-hosted-runners#supported-runners-and-hardware-resources
     runs-on: ubuntu-20.04
-    timeout-minutes: 60
+    timeout-minutes: 100
     env:
       CC: gcc-10
       CXX: g++-10   
@@ -93,7 +93,7 @@ jobs:
     # https://docs.github.com/en/actions/using-github-hosted-runners/about-github-hosted-runners#supported-runners-and-hardware-resources
     # https://github.com/actions/virtual-environments/blob/main/images/win/Windows2019-Readme.md
     runs-on: windows-2019
-    timeout-minutes: 60
+    timeout-minutes: 100
     steps:
       - uses: actions/checkout@v2
         with:
