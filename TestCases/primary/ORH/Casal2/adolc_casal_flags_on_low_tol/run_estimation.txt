@@ -1,11 +1,11 @@
 Environment: User=Casal2
 Call: ../../../../../BuildSystem/bin/linux_gcc/release_adolc/casal2 -e -o params_est.out
-Date: Mon Sep 27 16:32:01 2021
-Version: v21.09 (2021-09-23)
+Date: Mon Sep 27 19:13:38 2021
+Version: v21.09 (2021-09-27)
 Copyright (c) 2017-2021, NIWA (www.niwa.co.nz)
 c2user
  Machine=c2computer (Linux 5.10.0-8-amd64 x86_64)
- PID=224021
+ PID=269794
 
 
 
@@ -1514,5 +1514,5 @@ Setting 'params_est.out' as the output file for the free parameters
 *end
 
 [INFO] Completed
-[INFO] Total CPU time: -3.90936e+08 hours
-[INFO] Total elapsed time: 2.567 minutes
+[INFO] Total CPU time: -3.90904e+08 hours
+[INFO] Total elapsed time: 1.733 minutes

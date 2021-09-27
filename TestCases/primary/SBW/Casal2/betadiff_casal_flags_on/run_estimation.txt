@@ -1,11 +1,11 @@
 Environment: User=Casal2
 Call: ../../../../../BuildSystem/bin/linux_gcc/release_betadiff/casal2 -e -o params_est.out
-Date: Mon Sep 27 16:36:06 2021
-Version: v21.09 (2021-09-23)
+Date: Mon Sep 27 19:16:40 2021
+Version: v21.09 (2021-09-27)
 Copyright (c) 2017-2021, NIWA (www.niwa.co.nz)
 c2user
  Machine=c2computer (Linux 5.10.0-8-amd64 x86_64)
- PID=224808
+ PID=270358
 
 
 
@@ -7377,5 +7377,5 @@ estimated parameter 'observation[TangaroaAcousticMature].process_error' was with
 *end
 
 [INFO] Completed
-[INFO] Total CPU time: -3.90895e+08 hours
-[INFO] Total elapsed time: 1.517 minutes
+[INFO] Total CPU time: -3.9092e+08 hours
+[INFO] Total elapsed time: 1.167 minutes

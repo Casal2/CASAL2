@@ -1,11 +1,11 @@
 Environment: User=Casal2
 Call: ../../../../../BuildSystem/bin/linux_gcc/release_betadiff/casal2 -e -o params_est.out
-Date: Mon Sep 27 15:54:36 2021
-Version: v21.09 (2021-09-23)
+Date: Mon Sep 27 18:42:33 2021
+Version: v21.09 (2021-09-27)
 Copyright (c) 2017-2021, NIWA (www.niwa.co.nz)
 c2user
  Machine=c2computer (Linux 5.10.0-8-amd64 x86_64)
- PID=216763
+ PID=264768
 
 
 
@@ -6428,5 +6428,5 @@ estimated parameter 'selectivity[subaTANselA].ato95' was within 0.001 of lower b
 *end
 
 [INFO] Completed
-[INFO] Total CPU time: -3.90908e+08 hours
-[INFO] Total elapsed time: 1.417 minutes
+[INFO] Total CPU time: -3.90936e+08 hours
+[INFO] Total elapsed time: 1.35 minutes
