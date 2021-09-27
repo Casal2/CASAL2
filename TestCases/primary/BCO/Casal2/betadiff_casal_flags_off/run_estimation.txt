@@ -1,15 +1,42 @@
 Environment: User=Casal2
 Call: ../../../../../BuildSystem/bin/linux_gcc/release_betadiff/casal2 -e -o params_est.out
-Date: Tue Sep 14 10:14:20 2021
-Version: v21.09 (2021-09-08)
+Date: Mon Sep 27 15:51:35 2021
+Version: v21.09 (2021-09-23)
 Copyright (c) 2017-2021, NIWA (www.niwa.co.nz)
 c2user
  Machine=c2computer (Linux 5.10.0-8-amd64 x86_64)
- PID=16728
+ PID=209067
 
 
 
 [WARNING] Estimates were removed because of matching lower and upper bounds. Originally had 127 estimates, now have 42
+resizing from 40000 to 44000
+resizing from 44000 to 48400
+resizing from 48400 to 53240
+resizing from 53240 to 58564
+resizing from 58564 to 64420
+resizing from 64420 to 70862
+resizing from 70862 to 77948
+resizing from 77948 to 85742
+resizing from 85742 to 94316
+resizing from 94316 to 103747
+resizing from 103747 to 114121
+resizing from 114121 to 125533
+resizing from 125533 to 138086
+resizing from 138086 to 151894
+resizing from 151894 to 167083
+resizing from 167083 to 183791
+resizing from 183791 to 202170
+resizing from 202170 to 222387
+resizing from 222387 to 244625
+resizing from 244625 to 269087
+resizing from 269087 to 295995
+resizing from 295995 to 325594
+resizing from 325594 to 358153
+resizing from 358153 to 393968
+resizing from 393968 to 433364
+resizing from 433364 to 476700
+resizing from 476700 to 524370
 [IMPORTANT] Setting 'params_est.out' as the output file for the free parameters
 [INFO] Creating default report for catchability potSurveyq
 [INFO] Creating default report for catchability potCPUEq
@@ -44,8 +71,19 @@ c2user
 [WARNING] Cannot report the length-based selectivity values. This report (__recFretained__) is being ignored. This can be done using the Casal2 R package. See the User Manual for more information
 [WARNING] Cannot report the length-based selectivity values. This report (__recFSel__) is being ignored. This can be done using the Casal2 R package. See the User Manual for more information
 [INFO] Initiating point estimate run mode
+resizing from 524370 to 576807
+resizing from 576807 to 634487
+resizing from 634487 to 697935
+resizing from 697935 to 767728
+resizing from 767728 to 844500
+resizing from 844500 to 928950
+resizing from 928950 to 1021845
+resizing from 1021845 to 1124029
+resizing from 1124029 to 1236431
 [INFO] Estimation with the betadiff minimiser
 about to evaluate function with x = 15000 50.7 0.1 4 1.3 4 1.27 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 
+resizing from 1236431 to 1360074
+resizing from 1360074 to 1496081
 finished objective call: f = 407.93
 about to evaluate gradient with x = 15000 50.7 0.1 4 1.3 4 1.27 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 
 transformed = -0.685925 0.0222862 -0.631077 0 -0.34086 0 -0.349963 -0.610036 -0.610036 -0.610036 -0.610036 -0.610036 -0.610036 -0.610036 -0.610036 -0.610036 -0.610036 -0.610036 -0.610036 -0.610036 -0.610036 -0.610036 -0.610036 -0.610036 -0.610036 -0.610036 -0.610036 -0.610036 -0.610036 -0.610036 -0.610036 -0.610036 -0.610036 -0.610036 -0.610036 -0.610036 -0.610036 -0.610036 -0.610036 -0.610036 -0.610036 -0.610036 
@@ -1291,15 +1329,6 @@ male 113469.516208 133391.965672 50564.905473 89762.884294 60679.534795 15141.42
 female 106929.150714 122079.503824 48557.099077 93453.950152 66831.219697 16881.121981 17135.307295 12444.551311 6827.749773 6149.373717 4023.057906 3473.939674 3670.102795 1621.599445 822.925485 535.410248 430.178250 957.546207
 *end
 
-*partition[state1]
-year: 2019
-time_step: 1
-values {dataframe_with_row_labels}
-category 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20
-male 116313.292057 98393.899476 43394.247105 41209.767948 37786.060033 24931.554735 33120.670402 7721.602054 10560.125853 6377.890059 6112.408935 2056.926583 3487.473261 2329.288455 580.395888 603.549717 463.578311 1353.726021
-female 109614.316617 89736.993360 40723.409134 40533.950533 38525.276319 25676.173666 33604.600805 7644.539680 10122.355878 5872.163026 5398.971604 1748.112335 2858.645929 1830.049735 430.923567 418.452156 295.240024 651.793524
-*end
-
 *estimate_value[estimated_values]
 values {dataframe}
 process[Recruitment].b0 age_length[asMm0].linf age_length[asMm0].cv_last selectivity[potSurveySel_male].a50 selectivity[potSurveySel_male].ato95 selectivity[potSurveySel_female].a50 selectivity[potSurveySel_female].ato95 process[Recruitment].ycs_values{1980} process[Recruitment].ycs_values{1981} process[Recruitment].ycs_values{1982} process[Recruitment].ycs_values{1983} process[Recruitment].ycs_values{1984} process[Recruitment].ycs_values{1985} process[Recruitment].ycs_values{1986} process[Recruitment].ycs_values{1987} process[Recruitment].ycs_values{1988} process[Recruitment].ycs_values{1989} process[Recruitment].ycs_values{1990} process[Recruitment].ycs_values{1991} process[Recruitment].ycs_values{1992} process[Recruitment].ycs_values{1993} process[Recruitment].ycs_values{1994} process[Recruitment].ycs_values{1995} process[Recruitment].ycs_values{1996} process[Recruitment].ycs_values{1997} process[Recruitment].ycs_values{1998} process[Recruitment].ycs_values{1999} process[Recruitment].ycs_values{2000} process[Recruitment].ycs_values{2001} process[Recruitment].ycs_values{2002} process[Recruitment].ycs_values{2003} process[Recruitment].ycs_values{2004} process[Recruitment].ycs_values{2005} process[Recruitment].ycs_values{2006} process[Recruitment].ycs_values{2007} process[Recruitment].ycs_values{2008} process[Recruitment].ycs_values{2009} process[Recruitment].ycs_values{2010} process[Recruitment].ycs_values{2011} process[Recruitment].ycs_values{2012} process[Recruitment].ycs_values{2013} process[Recruitment].ycs_values{2014}
@@ -2328,6 +2357,15 @@ discards[Recreation]: 0 3.00882 3.0914 3.16368 3.25221 3.3305 3.41146 3.50835 3.
 discards_dead[Recreation]: 0 3.00882 3.0914 3.16368 3.25221 3.3305 3.41146 3.50835 3.59441 3.69647 3.78755 3.8811 3.90808 3.96431 4.0083 4.06796 4.11514 4.17822 4.22861 4.29518 4.34888 4.43396 4.52133 4.61107 4.70329 4.79808 4.89556 4.98003 5.06705 5.14057 5.23286 5.32806 5.47661 5.62947 5.81112 6.02084 6.13746 6.08784 5.97599 5.85399 5.73809 5.61011 5.4861 5.37846 5.29155 5.23985 5.24116 5.41663 5.64366 5.90301 6.17098 6.46097 6.68509 6.88758 7.00932 7.0723 7.10146 7.29276 7.51471 7.74457 7.94509 8.20862 8.38604 8.60078 8.79468 8.9613 9.0419 9.02366 9.01424 9.03913 9.03267 9.05806 9.0395 8.99447 8.99523 9.02988 9.00729 8.93459 8.83725 8.73235 8.60425 8.54879 8.4968 8.37772 7.76405 6.4478 5.2437 4.52568 4.3186 4.57228 5.3647 7.20918 11.0667 17.2759 24.211 26.4888 22.743 19.2445 17.8023 18.5906 19.6457 18.0838 15.894 14.2025 12.9281 12.2956 11.9705 13.0945 16.4646 18.3391 17.6622 17.519 17.0953 16.2229 16.3104 18.0052 17.5951 16.2566 14.9148 14.0818
 *end
 
+*partition[state1]
+year: 2019
+time_step: 1
+values {dataframe_with_row_labels}
+category 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20
+male 116313.292057 98393.899476 43394.247105 41209.767948 37786.060033 24931.554735 33120.670402 7721.602054 10560.125853 6377.890059 6112.408935 2056.926583 3487.473261 2329.288455 580.395888 603.549717 463.578311 1353.726021
+female 109614.316617 89736.993360 40723.409134 40533.950533 38525.276319 25676.173666 33604.600805 7644.539680 10122.355878 5872.163026 5398.971604 1748.112335 2858.645929 1830.049735 430.923567 418.452156 295.240024 651.793524
+*end
+
 *partition_mean_length[growth_length_at_age]
 time_step: 1
 male {list}
@@ -3248,5 +3286,5 @@ Cannot report the length-based selectivity values. This report (__recFSel__) is 
 *end
 
 [INFO] Completed
-[INFO] Total CPU time: -3.90899e+08 hours
-[INFO] Total elapsed time: 4.9 minutes
+[INFO] Total CPU time: -3.90897e+08 hours
+[INFO] Total elapsed time: 3.567 minutes

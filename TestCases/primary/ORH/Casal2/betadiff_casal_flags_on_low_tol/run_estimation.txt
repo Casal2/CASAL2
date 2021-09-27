@@ -1,14 +1,35 @@
 Environment: User=Casal2
 Call: ../../../../../BuildSystem/bin/linux_gcc/release_betadiff/casal2 -e -o params_est.out
-Date: Tue Sep 14 10:42:43 2021
-Version: v21.09 (2021-09-08)
+Date: Mon Sep 27 16:21:32 2021
+Version: v21.09 (2021-09-23)
 Copyright (c) 2017-2021, NIWA (www.niwa.co.nz)
 c2user
  Machine=c2computer (Linux 5.10.0-8-amd64 x86_64)
- PID=22364
+ PID=222012
 
 
 
+resizing from 40000 to 44000
+resizing from 44000 to 48400
+resizing from 48400 to 53240
+resizing from 53240 to 58564
+resizing from 58564 to 64420
+resizing from 64420 to 70862
+resizing from 70862 to 77948
+resizing from 77948 to 85742
+resizing from 85742 to 94316
+resizing from 94316 to 103747
+resizing from 103747 to 114121
+resizing from 114121 to 125533
+resizing from 125533 to 138086
+resizing from 138086 to 151894
+resizing from 151894 to 167083
+resizing from 167083 to 183791
+resizing from 183791 to 202170
+resizing from 202170 to 222387
+resizing from 222387 to 244625
+resizing from 244625 to 269087
+resizing from 269087 to 295995
 [IMPORTANT] Setting 'params_est.out' as the output file for the free parameters
 [INFO] Creating default report for catchability Qandes
 [INFO] Creating default report for derived quantity SSB
@@ -22,7 +43,13 @@ c2user
 [INFO] Creating default report for selectivity SELandes
 [INFO] Creating default report for selectivity One
 [INFO] The likelihood for the observation 'Obs_Andes_LF' is multinomial. Normalised residuals can only be calculated for the lognormal, lognormal_with_Q, and normal likelihoods
+resizing from 295995 to 325594
+resizing from 325594 to 358153
 [INFO] Initiating point estimate run mode
+resizing from 358153 to 393968
+resizing from 393968 to 433364
+resizing from 433364 to 476700
+resizing from 476700 to 524370
 [INFO] Estimation with the betadiff minimiser
 about to evaluate function with x = 29400 0.09 0.04 29.5 5 
 finished objective call: f = 125.137
@@ -2897,6 +2924,98 @@ process[Recruitment].b0 age_length[age_len_label].cv_first age_length[age_len_la
 27500.6 0.103046 0.0308078 33.594 8.28892 
 *end
 
+*estimate_summary[estimated_summary]
+process[Recruitment].b0 {list}
+value: 27500.6
+std_dev: 1109.39
+estimation_phase: 1
+label: B0
+lower_bound: 1e4
+mcmc:
+parameter: process[Recruitment].b0
+prior_applies_to_transform:
+same:
+transform_with_jacobian:
+transformation:
+type: uniform_log
+upper_bound: 1e5
+{end_list}
+
+age_length[age_len_label].cv_first {list}
+value: 0.103046
+std_dev: 0.0133506
+estimation_phase: 1
+label: age_len_cv_first
+lognormal_transformation:
+lower_bound: 0.01
+mcmc:
+mu: 0.15
+parameter: age_length[age_len_label].cv_first
+prior_applies_to_transform:
+same:
+sigma: 0.025
+transform_with_jacobian:
+transformation:
+type: normal_by_stdev
+upper_bound: 1.0
+{end_list}
+
+age_length[age_len_label].cv_last {list}
+value: 0.0308078
+std_dev: 0.00812606
+cv: 0.5
+estimation_phase: 1
+label: age_len_cv_last
+lower_bound: 0.01
+mcmc:
+mu: 0.1
+parameter: age_length[age_len_label].cv_last
+prior_applies_to_transform:
+same:
+transform_with_jacobian:
+transformation:
+type: normal
+upper_bound: 1.0
+{end_list}
+
+selectivity[SELandes].a50 {list}
+value: 33.594
+std_dev: 1.87725
+cv: 0.3
+estimation_phase: 1
+label: fishery_sel_a50
+lower_bound: 5
+mcmc:
+mu: 35
+parameter: selectivity[SELandes].a50
+prior_applies_to_transform:
+same:
+transform_with_jacobian:
+transformation:
+type: normal
+upper_bound: 80
+{end_list}
+
+selectivity[SELandes].ato95 {list}
+value: 8.28892
+std_dev: 1.83657
+cv: 0.5
+estimation_phase: 1
+label: fishery_sel_ato95
+lower_bound: 1
+mcmc:
+mu: 5
+parameter: selectivity[SELandes].ato95
+prior_applies_to_transform:
+same:
+transform_with_jacobian:
+transformation:
+type: normal
+upper_bound: 20
+{end_list}
+
+*end
+
 *objective_function[obj_fun]
 values {vector}
 observation->CPUEandes-1991 -0.951998
@@ -2927,6 +3046,33 @@ prior->fishery_sel_ato95->selectivity[SELandes].ato95 0.865358
 additional_prior->chatTANq_prior -9.08288
 total_negloglike 111.189
 total_score 111.189
+*end
+
+*hessian_matrix[Hess]
+hessian_matrix {matrix}
+3.93886 2852.49 -472.183 -3576.54 2110.5
+2852.49 2.07624e+06 -332941 -2.59013e+06 1.52846e+06
+-472.183 -332941 79837.5 428720 -252966
+-3576.54 -2.59013e+06 428720 3.24755e+06 -1.91637e+06
+2110.5 1.52846e+06 -252966 -1.91637e+06 1.13084e+06
+*end
+
+*covariance_matrix[Covar]
+covariance_matrix {matrix}
+1.23075e+06 -0.0353983 1.08122 1748.88 667.043
+-0.0353983 0.000178239 -6.0023e-05 -0.00593389 -0.0102441
+1.08122 -6.0023e-05 6.60328e-05 0.00225669 0.00190228
+1748.88 -0.00593389 0.00225669 3.52408 2.71659
+667.043 -0.0102441 0.00190228 2.71659 3.373
+*end
+
+*correlation_matrix[Corr]
+correlation_matrix {matrix}
+1 -0.00238999 0.119936 0.839755 0.327386
+-0.00238999 1 -0.55327 -0.236764 -0.417794
+0.119936 -0.55327 1 0.147934 0.127463
+0.839755 -0.236764 0.147934 1 0.787941
+0.327386 -0.417794 0.127463 0.787941 1
 *end
 
 *process[Recruitment]
@@ -3345,6 +3491,10 @@ year category age length observed expected residual error_value process_error ad
 2003 immature+mature 0 43 5e-05 0.000222007 -0.000172007 83 0 83 0.0325318 -0.105184
 2003 immature+mature 0 44 1e-05 5.54133e-05 -4.54133e-05 83 0 83 0.00765605 -0.0555811
 2003 immature+mature 0 45 0 1.46024e-05 -1.46024e-05 83 0 83 0 -0.034814
+*end
+
+*catchability[Qandes]
+Qandes: 0.000113594
 *end
 
 *derived_quantity[SSB]
@@ -3868,129 +4018,6 @@ Values {vector}
 80 1
 *end
 
-*estimate_summary[estimated_summary]
-process[Recruitment].b0 {list}
-value: 27500.6
-std_dev: 1109.39
-estimation_phase: 1
-label: B0
-lower_bound: 1e4
-mcmc:
-parameter: process[Recruitment].b0
-prior_applies_to_transform:
-same:
-transform_with_jacobian:
-transformation:
-type: uniform_log
-upper_bound: 1e5
-{end_list}
-
-age_length[age_len_label].cv_first {list}
-value: 0.103046
-std_dev: 0.0133506
-estimation_phase: 1
-label: age_len_cv_first
-lognormal_transformation:
-lower_bound: 0.01
-mcmc:
-mu: 0.15
-parameter: age_length[age_len_label].cv_first
-prior_applies_to_transform:
-same:
-sigma: 0.025
-transform_with_jacobian:
-transformation:
-type: normal_by_stdev
-upper_bound: 1.0
-{end_list}
-
-age_length[age_len_label].cv_last {list}
-value: 0.0308078
-std_dev: 0.00812606
-cv: 0.5
-estimation_phase: 1
-label: age_len_cv_last
-lower_bound: 0.01
-mcmc:
-mu: 0.1
-parameter: age_length[age_len_label].cv_last
-prior_applies_to_transform:
-same:
-transform_with_jacobian:
-transformation:
-type: normal
-upper_bound: 1.0
-{end_list}
-
-selectivity[SELandes].a50 {list}
-value: 33.594
-std_dev: 1.87725
-cv: 0.3
-estimation_phase: 1
-label: fishery_sel_a50
-lower_bound: 5
-mcmc:
-mu: 35
-parameter: selectivity[SELandes].a50
-prior_applies_to_transform:
-same:
-transform_with_jacobian:
-transformation:
-type: normal
-upper_bound: 80
-{end_list}
-
-selectivity[SELandes].ato95 {list}
-value: 8.28892
-std_dev: 1.83657
-cv: 0.5
-estimation_phase: 1
-label: fishery_sel_ato95
-lower_bound: 1
-mcmc:
-mu: 5
-parameter: selectivity[SELandes].ato95
-prior_applies_to_transform:
-same:
-transform_with_jacobian:
-transformation:
-type: normal
-upper_bound: 20
-{end_list}
-
-*end
-
-*hessian_matrix[Hess]
-hessian_matrix {matrix}
-3.93886 2852.49 -472.183 -3576.54 2110.5
-2852.49 2.07624e+06 -332941 -2.59013e+06 1.52846e+06
--472.183 -332941 79837.5 428720 -252966
--3576.54 -2.59013e+06 428720 3.24755e+06 -1.91637e+06
-2110.5 1.52846e+06 -252966 -1.91637e+06 1.13084e+06
-*end
-
-*covariance_matrix[Covar]
-covariance_matrix {matrix}
-1.23075e+06 -0.0353983 1.08122 1748.88 667.043
--0.0353983 0.000178239 -6.0023e-05 -0.00593389 -0.0102441
-1.08122 -6.0023e-05 6.60328e-05 0.00225669 0.00190228
-1748.88 -0.00593389 0.00225669 3.52408 2.71659
-667.043 -0.0102441 0.00190228 2.71659 3.373
-*end
-
-*correlation_matrix[Corr]
-correlation_matrix {matrix}
-1 -0.00238999 0.119936 0.839755 0.327386
--0.00238999 1 -0.55327 -0.236764 -0.417794
-0.119936 -0.55327 1 0.147934 0.127463
-0.839755 -0.236764 0.147934 1 0.787941
-0.327386 -0.417794 0.127463 0.787941 1
-*end
-
-*catchability[Qandes]
-Qandes: 0.000113594
-*end
-
 *info[messages_encountered]
 Values {string}
 Creating default report for catchability Qandes
@@ -4015,5 +4042,5 @@ Setting 'params_est.out' as the output file for the free parameters
 *end
 
 [INFO] Completed
-[INFO] Total CPU time: -3.90924e+08 hours
-[INFO] Total elapsed time: 4.567 minutes
+[INFO] Total CPU time: -3.90908e+08 hours
+[INFO] Total elapsed time: 4.917 minutes

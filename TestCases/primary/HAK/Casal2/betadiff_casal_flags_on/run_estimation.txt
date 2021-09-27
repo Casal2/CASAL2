@@ -1,11 +1,11 @@
 Environment: User=Casal2
 Call: ../../../../../BuildSystem/bin/linux_gcc/release_betadiff/casal2 -e -o params_est.out
-Date: Tue Sep 14 10:16:35 2021
-Version: v21.09 (2021-09-08)
+Date: Mon Sep 27 15:54:36 2021
+Version: v21.09 (2021-09-23)
 Copyright (c) 2017-2021, NIWA (www.niwa.co.nz)
 c2user
  Machine=c2computer (Linux 5.10.0-8-amd64 x86_64)
- PID=17281
+ PID=216763
 
 
 
@@ -30,6 +30,7 @@ c2user
 [INFO] The likelihood for the observation 'subaOBSage' is multinomial. Normalised residuals can only be calculated for the lognormal, lognormal_with_Q, and normal likelihoods
 [INFO] The likelihood for the observation 'subaTANageDEC' is multinomial. Normalised residuals can only be calculated for the lognormal, lognormal_with_Q, and normal likelihoods
 [INFO] Initiating point estimate run mode
+resizing from 40000 to 44000
 [INFO] Estimation with the betadiff minimiser
 about to evaluate function with x = 60000 0.001 0.041 4 3 10 5 0.1 1 1 1 1 1.92 1.11 0.78 0.71 1 0.38 0.89 0.66 1.08 0.84 1.06 1.06 1.19 1.31 1.71 0.93 1.92 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1
 finished objective call: f = 20854.5
@@ -2874,913 +2875,6 @@ process[Recruitment].b0 catchability[CPUEq].q catchability[subaTANqA].q selectiv
 53986.5 2.53394e-05 0.0376915 6.99552 2.70821 3.03394 0.100724 0.186489 0.220494 0.255441 0.334147 0.53203 0.98836 0.453412 2.39187 0.269196 0.257133 0.395979 0.281336 0.18851 0.17059 0.221611 0.213082 0.265066 0.377476 0.42968 0.423136 0.339476 0.345614 0.401523 0.350411 0.340489 0.371305 0.300455 0.201093 0.210627 0.185592 0.235199 0.300472 0.331585 0.331337 0.276183 0.245954 0.237933 0.204833 0.190387 0.224485 0.176453 0.280988 0.333488 0.277149
 *end
 
-*estimate_summary[estimated_summary]
-process[Recruitment].b0 {list}
-value: 53986.5
-std_dev: 5310.1
-estimation_phase:
-label: B0
-lower_bound: 10000
-mcmc:
-parameter: process[Recruitment].b0
-prior_applies_to_transform:
-same:
-transform_with_jacobian:
-transformation:
-type: uniform_log
-upper_bound: 400000
-{end_list}
-
-catchability[CPUEq].q {list}
-value: 2.53394e-05
-std_dev: 3.61347e-06
-estimation_phase:
-label: CPUE_q
-lower_bound: 1e-8
-mcmc:
-parameter: catchability[CPUEq].q
-prior_applies_to_transform:
-same:
-transform_with_jacobian:
-transformation:
-type: uniform_log
-upper_bound: 1e-1
-{end_list}
-
-catchability[subaTANqA].q {list}
-value: 0.0376915
-std_dev: 0.00510863
-cv: 0.79
-estimation_phase:
-label: subaTANA_q
-lower_bound: 0.01
-mcmc:
-mu: 0.16
-parameter: catchability[subaTANqA].q
-prior_applies_to_transform:
-same:
-transform_with_jacobian:
-transformation:
-type: lognormal
-upper_bound: 0.40
-{end_list}
-
-selectivity[subaFsel].a50 {list}
-value: 6.99552
-std_dev: 0.249547
-estimation_phase:
-label: fishery_sel_a50
-lower_bound: 1
-mcmc:
-parameter: selectivity[subaFsel].a50
-prior_applies_to_transform:
-same:
-transform_with_jacobian:
-transformation:
-type: uniform
-upper_bound: 25
-{end_list}
-
-selectivity[subaFsel].ato95 {list}
-value: 2.70821
-std_dev: 0.266766
-estimation_phase:
-label: fishery_sel_ato95
-lower_bound: 0.1
-mcmc:
-parameter: selectivity[subaFsel].ato95
-prior_applies_to_transform:
-same:
-transform_with_jacobian:
-transformation:
-type: uniform
-upper_bound: 50
-{end_list}
-
-selectivity[subaTANselA].a50 {list}
-value: 3.03394
-std_dev: 0.00803957
-estimation_phase:
-label: survey_sel_a50
-lower_bound: 1
-mcmc:
-parameter: selectivity[subaTANselA].a50
-prior_applies_to_transform:
-same:
-transform_with_jacobian:
-transformation:
-type: uniform
-upper_bound: 25
-{end_list}
-
-selectivity[subaTANselA].ato95 {list}
-value: 0.100724
-std_dev: 0.00141237
-estimation_phase:
-label: survey_sel_ato95
-lower_bound: 0.1
-mcmc:
-parameter: selectivity[subaTANselA].ato95
-prior_applies_to_transform:
-same:
-transform_with_jacobian:
-transformation:
-type: uniform
-upper_bound: 50
-{end_list}
-
-observation[CPUE].process_error {list}
-value: 0.186489
-std_dev: 0.0307502
-estimation_phase:
-label: CPUE_process_error
-lower_bound: 0.001
-mcmc:
-parameter: observation[CPUE].process_error
-prior_applies_to_transform:
-same:
-transform_with_jacobian:
-transformation:
-type: uniform_log
-upper_bound: 5
-{end_list}
-
-process[Recruitment].ycs_values{1974} {list}
-value: 0.220494
-std_dev: 0.14575
-cv: 1.1
-estimation_phase:
-label: rec_ycs
-lower_bound: 0.01
-mcmc:
-mu: 1
-parameter: process[Recruitment].ycs_values{1974}
-prior_applies_to_transform:
-same:
-transform_with_jacobian:
-transformation:
-type: lognormal
-upper_bound: 100
-{end_list}
-
-process[Recruitment].ycs_values{1975} {list}
-value: 0.255441
-std_dev: 0.171046
-cv: 1.1
-estimation_phase:
-label: rec_ycs
-lower_bound: 0.01
-mcmc:
-mu: 1
-parameter: process[Recruitment].ycs_values{1975}
-prior_applies_to_transform:
-same:
-transform_with_jacobian:
-transformation:
-type: lognormal
-upper_bound: 100
-{end_list}
-
-process[Recruitment].ycs_values{1976} {list}
-value: 0.334147
-std_dev: 0.240906
-cv: 1.1
-estimation_phase:
-label: rec_ycs
-lower_bound: 0.01
-mcmc:
-mu: 1
-parameter: process[Recruitment].ycs_values{1976}
-prior_applies_to_transform:
-same:
-transform_with_jacobian:
-transformation:
-type: lognormal
-upper_bound: 100
-{end_list}
-
-process[Recruitment].ycs_values{1977} {list}
-value: 0.53203
-std_dev: 0.504005
-cv: 1.1
-estimation_phase:
-label: rec_ycs
-lower_bound: 0.01
-mcmc:
-mu: 1
-parameter: process[Recruitment].ycs_values{1977}
-prior_applies_to_transform:
-same:
-transform_with_jacobian:
-transformation:
-type: lognormal
-upper_bound: 100
-{end_list}
-
-process[Recruitment].ycs_values{1978} {list}
-value: 0.98836
-std_dev: 0.733239
-cv: 1.1
-estimation_phase:
-label: rec_ycs
-lower_bound: 0.01
-mcmc:
-mu: 1
-parameter: process[Recruitment].ycs_values{1978}
-prior_applies_to_transform:
-same:
-transform_with_jacobian:
-transformation:
-type: lognormal
-upper_bound: 100
-{end_list}
-
-process[Recruitment].ycs_values{1979} {list}
-value: 0.453412
-std_dev: 0.385105
-cv: 1.1
-estimation_phase:
-label: rec_ycs
-lower_bound: 0.01
-mcmc:
-mu: 1
-parameter: process[Recruitment].ycs_values{1979}
-prior_applies_to_transform:
-same:
-transform_with_jacobian:
-transformation:
-type: lognormal
-upper_bound: 100
-{end_list}
-
-process[Recruitment].ycs_values{1980} {list}
-value: 2.39187
-std_dev: 0.629104
-cv: 1.1
-estimation_phase:
-label: rec_ycs
-lower_bound: 0.01
-mcmc:
-mu: 1
-parameter: process[Recruitment].ycs_values{1980}
-prior_applies_to_transform:
-same:
-transform_with_jacobian:
-transformation:
-type: lognormal
-upper_bound: 100
-{end_list}
-
-process[Recruitment].ycs_values{1981} {list}
-value: 0.269196
-std_dev: 0.184942
-cv: 1.1
-estimation_phase:
-label: rec_ycs
-lower_bound: 0.01
-mcmc:
-mu: 1
-parameter: process[Recruitment].ycs_values{1981}
-prior_applies_to_transform:
-same:
-transform_with_jacobian:
-transformation:
-type: lognormal
-upper_bound: 100
-{end_list}
-
-process[Recruitment].ycs_values{1982} {list}
-value: 0.257133
-std_dev: 0.160309
-cv: 1.1
-estimation_phase:
-label: rec_ycs
-lower_bound: 0.01
-mcmc:
-mu: 1
-parameter: process[Recruitment].ycs_values{1982}
-prior_applies_to_transform:
-same:
-transform_with_jacobian:
-transformation:
-type: lognormal
-upper_bound: 100
-{end_list}
-
-process[Recruitment].ycs_values{1983} {list}
-value: 0.395979
-std_dev: 0.190969
-cv: 1.1
-estimation_phase:
-label: rec_ycs
-lower_bound: 0.01
-mcmc:
-mu: 1
-parameter: process[Recruitment].ycs_values{1983}
-prior_applies_to_transform:
-same:
-transform_with_jacobian:
-transformation:
-type: lognormal
-upper_bound: 100
-{end_list}
-
-process[Recruitment].ycs_values{1984} {list}
-value: 0.281336
-std_dev: 0.146363
-cv: 1.1
-estimation_phase:
-label: rec_ycs
-lower_bound: 0.01
-mcmc:
-mu: 1
-parameter: process[Recruitment].ycs_values{1984}
-prior_applies_to_transform:
-same:
-transform_with_jacobian:
-transformation:
-type: lognormal
-upper_bound: 100
-{end_list}
-
-process[Recruitment].ycs_values{1985} {list}
-value: 0.18851
-std_dev: 0.0937144
-cv: 1.1
-estimation_phase:
-label: rec_ycs
-lower_bound: 0.01
-mcmc:
-mu: 1
-parameter: process[Recruitment].ycs_values{1985}
-prior_applies_to_transform:
-same:
-transform_with_jacobian:
-transformation:
-type: lognormal
-upper_bound: 100
-{end_list}
-
-process[Recruitment].ycs_values{1986} {list}
-value: 0.17059
-std_dev: 0.0788095
-cv: 1.1
-estimation_phase:
-label: rec_ycs
-lower_bound: 0.01
-mcmc:
-mu: 1
-parameter: process[Recruitment].ycs_values{1986}
-prior_applies_to_transform:
-same:
-transform_with_jacobian:
-transformation:
-type: lognormal
-upper_bound: 100
-{end_list}
-
-process[Recruitment].ycs_values{1987} {list}
-value: 0.221611
-std_dev: 0.0945394
-cv: 1.1
-estimation_phase:
-label: rec_ycs
-lower_bound: 0.01
-mcmc:
-mu: 1
-parameter: process[Recruitment].ycs_values{1987}
-prior_applies_to_transform:
-same:
-transform_with_jacobian:
-transformation:
-type: lognormal
-upper_bound: 100
-{end_list}
-
-process[Recruitment].ycs_values{1988} {list}
-value: 0.213082
-std_dev: 0.0871387
-cv: 1.1
-estimation_phase:
-label: rec_ycs
-lower_bound: 0.01
-mcmc:
-mu: 1
-parameter: process[Recruitment].ycs_values{1988}
-prior_applies_to_transform:
-same:
-transform_with_jacobian:
-transformation:
-type: lognormal
-upper_bound: 100
-{end_list}
-
-process[Recruitment].ycs_values{1989} {list}
-value: 0.265066
-std_dev: 0.0937503
-cv: 1.1
-estimation_phase:
-label: rec_ycs
-lower_bound: 0.01
-mcmc:
-mu: 1
-parameter: process[Recruitment].ycs_values{1989}
-prior_applies_to_transform:
-same:
-transform_with_jacobian:
-transformation:
-type: lognormal
-upper_bound: 100
-{end_list}
-
-process[Recruitment].ycs_values{1990} {list}
-value: 0.377476
-std_dev: 0.115072
-cv: 1.1
-estimation_phase:
-label: rec_ycs
-lower_bound: 0.01
-mcmc:
-mu: 1
-parameter: process[Recruitment].ycs_values{1990}
-prior_applies_to_transform:
-same:
-transform_with_jacobian:
-transformation:
-type: lognormal
-upper_bound: 100
-{end_list}
-
-process[Recruitment].ycs_values{1991} {list}
-value: 0.42968
-std_dev: 0.163603
-cv: 1.1
-estimation_phase:
-label: rec_ycs
-lower_bound: 0.01
-mcmc:
-mu: 1
-parameter: process[Recruitment].ycs_values{1991}
-prior_applies_to_transform:
-same:
-transform_with_jacobian:
-transformation:
-type: lognormal
-upper_bound: 100
-{end_list}
-
-process[Recruitment].ycs_values{1992} {list}
-value: 0.423136
-std_dev: 0.169689
-cv: 1.1
-estimation_phase:
-label: rec_ycs
-lower_bound: 0.01
-mcmc:
-mu: 1
-parameter: process[Recruitment].ycs_values{1992}
-prior_applies_to_transform:
-same:
-transform_with_jacobian:
-transformation:
-type: lognormal
-upper_bound: 100
-{end_list}
-
-process[Recruitment].ycs_values{1993} {list}
-value: 0.339476
-std_dev: 0.137683
-cv: 1.1
-estimation_phase:
-label: rec_ycs
-lower_bound: 0.01
-mcmc:
-mu: 1
-parameter: process[Recruitment].ycs_values{1993}
-prior_applies_to_transform:
-same:
-transform_with_jacobian:
-transformation:
-type: lognormal
-upper_bound: 100
-{end_list}
-
-process[Recruitment].ycs_values{1994} {list}
-value: 0.345614
-std_dev: 0.11856
-cv: 1.1
-estimation_phase:
-label: rec_ycs
-lower_bound: 0.01
-mcmc:
-mu: 1
-parameter: process[Recruitment].ycs_values{1994}
-prior_applies_to_transform:
-same:
-transform_with_jacobian:
-transformation:
-type: lognormal
-upper_bound: 100
-{end_list}
-
-process[Recruitment].ycs_values{1995} {list}
-value: 0.401523
-std_dev: 0.120037
-cv: 1.1
-estimation_phase:
-label: rec_ycs
-lower_bound: 0.01
-mcmc:
-mu: 1
-parameter: process[Recruitment].ycs_values{1995}
-prior_applies_to_transform:
-same:
-transform_with_jacobian:
-transformation:
-type: lognormal
-upper_bound: 100
-{end_list}
-
-process[Recruitment].ycs_values{1996} {list}
-value: 0.350411
-std_dev: 0.0951663
-cv: 1.1
-estimation_phase:
-label: rec_ycs
-lower_bound: 0.01
-mcmc:
-mu: 1
-parameter: process[Recruitment].ycs_values{1996}
-prior_applies_to_transform:
-same:
-transform_with_jacobian:
-transformation:
-type: lognormal
-upper_bound: 100
-{end_list}
-
-process[Recruitment].ycs_values{1997} {list}
-value: 0.340489
-std_dev: 0.084746
-cv: 1.1
-estimation_phase:
-label: rec_ycs
-lower_bound: 0.01
-mcmc:
-mu: 1
-parameter: process[Recruitment].ycs_values{1997}
-prior_applies_to_transform:
-same:
-transform_with_jacobian:
-transformation:
-type: lognormal
-upper_bound: 100
-{end_list}
-
-process[Recruitment].ycs_values{1998} {list}
-value: 0.371305
-std_dev: 0.0826401
-cv: 1.1
-estimation_phase:
-label: rec_ycs
-lower_bound: 0.01
-mcmc:
-mu: 1
-parameter: process[Recruitment].ycs_values{1998}
-prior_applies_to_transform:
-same:
-transform_with_jacobian:
-transformation:
-type: lognormal
-upper_bound: 100
-{end_list}
-
-process[Recruitment].ycs_values{1999} {list}
-value: 0.300455
-std_dev: 0.0686127
-cv: 1.1
-estimation_phase:
-label: rec_ycs
-lower_bound: 0.01
-mcmc:
-mu: 1
-parameter: process[Recruitment].ycs_values{1999}
-prior_applies_to_transform:
-same:
-transform_with_jacobian:
-transformation:
-type: lognormal
-upper_bound: 100
-{end_list}
-
-process[Recruitment].ycs_values{2000} {list}
-value: 0.201093
-std_dev: 0.0540169
-cv: 1.1
-estimation_phase:
-label: rec_ycs
-lower_bound: 0.01
-mcmc:
-mu: 1
-parameter: process[Recruitment].ycs_values{2000}
-prior_applies_to_transform:
-same:
-transform_with_jacobian:
-transformation:
-type: lognormal
-upper_bound: 100
-{end_list}
-
-process[Recruitment].ycs_values{2001} {list}
-value: 0.210627
-std_dev: 0.0542975
-cv: 1.1
-estimation_phase:
-label: rec_ycs
-lower_bound: 0.01
-mcmc:
-mu: 1
-parameter: process[Recruitment].ycs_values{2001}
-prior_applies_to_transform:
-same:
-transform_with_jacobian:
-transformation:
-type: lognormal
-upper_bound: 100
-{end_list}
-
-process[Recruitment].ycs_values{2002} {list}
-value: 0.185592
-std_dev: 0.0507909
-cv: 1.1
-estimation_phase:
-label: rec_ycs
-lower_bound: 0.01
-mcmc:
-mu: 1
-parameter: process[Recruitment].ycs_values{2002}
-prior_applies_to_transform:
-same:
-transform_with_jacobian:
-transformation:
-type: lognormal
-upper_bound: 100
-{end_list}
-
-process[Recruitment].ycs_values{2003} {list}
-value: 0.235199
-std_dev: 0.0571956
-cv: 1.1
-estimation_phase:
-label: rec_ycs
-lower_bound: 0.01
-mcmc:
-mu: 1
-parameter: process[Recruitment].ycs_values{2003}
-prior_applies_to_transform:
-same:
-transform_with_jacobian:
-transformation:
-type: lognormal
-upper_bound: 100
-{end_list}
-
-process[Recruitment].ycs_values{2004} {list}
-value: 0.300472
-std_dev: 0.0677139
-cv: 1.1
-estimation_phase:
-label: rec_ycs
-lower_bound: 0.01
-mcmc:
-mu: 1
-parameter: process[Recruitment].ycs_values{2004}
-prior_applies_to_transform:
-same:
-transform_with_jacobian:
-transformation:
-type: lognormal
-upper_bound: 100
-{end_list}
-
-process[Recruitment].ycs_values{2005} {list}
-value: 0.331585
-std_dev: 0.0730307
-cv: 1.1
-estimation_phase:
-label: rec_ycs
-lower_bound: 0.01
-mcmc:
-mu: 1
-parameter: process[Recruitment].ycs_values{2005}
-prior_applies_to_transform:
-same:
-transform_with_jacobian:
-transformation:
-type: lognormal
-upper_bound: 100
-{end_list}
-
-process[Recruitment].ycs_values{2006} {list}
-value: 0.331337
-std_dev: 0.0727744
-cv: 1.1
-estimation_phase:
-label: rec_ycs
-lower_bound: 0.01
-mcmc:
-mu: 1
-parameter: process[Recruitment].ycs_values{2006}
-prior_applies_to_transform:
-same:
-transform_with_jacobian:
-transformation:
-type: lognormal
-upper_bound: 100
-{end_list}
-
-process[Recruitment].ycs_values{2007} {list}
-value: 0.276183
-std_dev: 0.0713812
-cv: 1.1
-estimation_phase:
-label: rec_ycs
-lower_bound: 0.01
-mcmc:
-mu: 1
-parameter: process[Recruitment].ycs_values{2007}
-prior_applies_to_transform:
-same:
-transform_with_jacobian:
-transformation:
-type: lognormal
-upper_bound: 100
-{end_list}
-
-process[Recruitment].ycs_values{2008} {list}
-value: 0.245954
-std_dev: 0.0698699
-cv: 1.1
-estimation_phase:
-label: rec_ycs
-lower_bound: 0.01
-mcmc:
-mu: 1
-parameter: process[Recruitment].ycs_values{2008}
-prior_applies_to_transform:
-same:
-transform_with_jacobian:
-transformation:
-type: lognormal
-upper_bound: 100
-{end_list}
-
-process[Recruitment].ycs_values{2009} {list}
-value: 0.237933
-std_dev: 0.0720891
-cv: 1.1
-estimation_phase:
-label: rec_ycs
-lower_bound: 0.01
-mcmc:
-mu: 1
-parameter: process[Recruitment].ycs_values{2009}
-prior_applies_to_transform:
-same:
-transform_with_jacobian:
-transformation:
-type: lognormal
-upper_bound: 100
-{end_list}
-
-process[Recruitment].ycs_values{2010} {list}
-value: 0.204833
-std_dev: 0.0755224
-cv: 1.1
-estimation_phase:
-label: rec_ycs
-lower_bound: 0.01
-mcmc:
-mu: 1
-parameter: process[Recruitment].ycs_values{2010}
-prior_applies_to_transform:
-same:
-transform_with_jacobian:
-transformation:
-type: lognormal
-upper_bound: 100
-{end_list}
-
-process[Recruitment].ycs_values{2011} {list}
-value: 0.190387
-std_dev: 0.0914963
-cv: 1.1
-estimation_phase:
-label: rec_ycs
-lower_bound: 0.01
-mcmc:
-mu: 1
-parameter: process[Recruitment].ycs_values{2011}
-prior_applies_to_transform:
-same:
-transform_with_jacobian:
-transformation:
-type: lognormal
-upper_bound: 100
-{end_list}
-
-process[Recruitment].ycs_values{2012} {list}
-value: 0.224485
-std_dev: 0.111606
-cv: 1.1
-estimation_phase:
-label: rec_ycs
-lower_bound: 0.01
-mcmc:
-mu: 1
-parameter: process[Recruitment].ycs_values{2012}
-prior_applies_to_transform:
-same:
-transform_with_jacobian:
-transformation:
-type: lognormal
-upper_bound: 100
-{end_list}
-
-process[Recruitment].ycs_values{2013} {list}
-value: 0.176453
-std_dev: 0.118973
-cv: 1.1
-estimation_phase:
-label: rec_ycs
-lower_bound: 0.01
-mcmc:
-mu: 1
-parameter: process[Recruitment].ycs_values{2013}
-prior_applies_to_transform:
-same:
-transform_with_jacobian:
-transformation:
-type: lognormal
-upper_bound: 100
-{end_list}
-
-process[Recruitment].ycs_values{2014} {list}
-value: 0.280988
-std_dev: 0.240997
-cv: 1.1
-estimation_phase:
-label: rec_ycs
-lower_bound: 0.01
-mcmc:
-mu: 1
-parameter: process[Recruitment].ycs_values{2014}
-prior_applies_to_transform:
-same:
-transform_with_jacobian:
-transformation:
-type: lognormal
-upper_bound: 5
-{end_list}
-
-process[Recruitment].ycs_values{2015} {list}
-value: 0.333488
-std_dev: 0.223568
-cv: 1.1
-estimation_phase:
-label: rec_ycs
-lower_bound: 0.01
-mcmc:
-mu: 1
-parameter: process[Recruitment].ycs_values{2015}
-prior_applies_to_transform:
-same:
-transform_with_jacobian:
-transformation:
-type: lognormal
-upper_bound: 5
-{end_list}
-
-process[Recruitment].ycs_values{2016} {list}
-value: 0.277149
-std_dev: 0.181087
-cv: 1.1
-estimation_phase:
-label: rec_ycs
-lower_bound: 0.01
-mcmc:
-mu: 1
-parameter: process[Recruitment].ycs_values{2016}
-prior_applies_to_transform:
-same:
-transform_with_jacobian:
-transformation:
-type: lognormal
-upper_bound: 5
-{end_list}
-
-*end
-
 *objective_function[obj_fun]
 values {vector}
 observation->subaTANbiomassDEC-1992 0.431065
@@ -3922,171 +3016,6 @@ prior->rec_ycs->process[Recruitment].ycs_values{2015} -0.787732
 prior->rec_ycs->process[Recruitment].ycs_values{2016} -0.787455
 total_negloglike 709.025
 total_score 709.025
-*end
-
-*hessian_matrix[Hess]
-hessian_matrix {matrix}
-8.22456e-07 867.857 0.202742 -0.0019872 0.000107245 0.00953862 0.0413763 -0.000743739 -0.00116304 -0.00142837 -0.00153353 -0.00139497 -0.00158574 -0.00116864 -0.00123006 -0.000880713 -0.000910266 0.000321535 4.88991e-05 0.000755674 0.00117511 0.00108553 0.0025352 0.00116417 0.00274378 0.00142885 0.0022211 0.00332047 0.00150386 0.00332971 0.00254404 0.00283754 0.00272664 0.00204815 0.00227398 0.0012356 0.00152279 0.000339912 0.000278148 -0.00058171 -0.00108644 -0.00126399 -0.0019646 -0.00228674 -0.00249096 -0.00316547 -0.00269717 -0.00333093 -3.43881e-05 -0.0031451 0.00391717
-867.857 1.34135e+12 -1.22661e+07 -3.59264e+06 213425 2.07704e+07 -9.59037e+06 -5.90729e+06 -481441 -1.01877e+06 -736755 -1.16924e+06 -1.23723e+06 -749747 -996793 -620402 -614696 261444 384695 1.29805e+06 764421 1.3019e+06 2.47472e+06 317757 2.62798e+06 949420 2.26652e+06 3.45081e+06 422372 3.16385e+06 1.55266e+06 2.32515e+06 1.74634e+06 1.07027e+06 1.5563e+06 920344 1.35503e+06 514040 435497 -426332 -1.08393e+06 -597035 -1.85456e+06 -2.4046e+06 -2.03807e+06 -3.26231e+06 -2.89629e+06 -4.10503e+06 495612 -3.69302e+06 4.29576e+06
-0.202742 -1.22661e+07 228319 100.085 171.108 -4143.02 -34836.3 2086.32 -307.895 -357.722 -708.086 -446.958 -523.17 -585.935 -430.862 -416.542 -486.285 334.77 -143.304 -74.7116 401.902 162.041 719.032 298.035 740.413 -67.0108 221.719 558.895 338.133 806.437 874.647 863.218 1138.27 1019.97 977.666 648.583 754.684 409.721 439.86 99.629 100.063 -429.129 -335.208 -362.874 -911.529 -675.606 -494.8 -624.339 120.809 -3064.38 3669.94
--0.0019872 -3.59264e+06 100.085 62.9113 -37.088 -47.8968 102.724 3.6615 7.17876 6.42855 3.49861 4.66973 4.48833 1.48816 4.11301 3.98605 7.46549 4.17301 -0.759493 5.81078 -3.38766 3.47676 1.83597 -2.26486 -0.623188 -5.58852 -4.52154 -3.79785 0.853589 -8.11252 -3.87199 -5.743 0.771395 2.51297 14.7971 0.630561 7.67965 -5.16866 -7.96031 -7.99153 -11.4964 -14.4005 -8.11655 -4.21641 -14.1773 -11.015 1.49954 3.36306 0.510992 -59.5324 72.388
-0.000107245 213425 171.108 -37.088 42.7931 60.1085 -103.35 5.82284 1.95539 1.06213 2.58293 0.560575 0.536874 0.853315 -0.0642142 -1.67526 -5.94737 0.51225 -0.856621 -7.29355 4.23274 -3.99251 -1.65046 -2.46756 -1.39339 -6.87082 -1.977 -0.344026 -8.67548 6.02864 1.35866 2.76559 -2.66252 -3.56944 -14.8879 -4.80902 -12.6324 -5.01987 -2.42366 -0.658291 6.89959 8.71989 0.337044 1.54174 14.6688 14.7399 9.11704 4.90168 -0.616143 36.7419 -44.6811
-0.00953862 2.07704e+07 -4143.02 -47.8968 60.1085 19861.2 -12600.7 -252.204 218.787 96.083 101.163 32.6762 36.4566 50.9089 -10.8012 -42.9507 -6.42808 87.9133 58.4492 42.5478 79.1972 -94.2434 100.482 -76.5458 141.791 -181.455 171.262 221.659 -43.5869 324.107 2.96984 144.348 -13.0978 -179.334 -20.7002 -119.897 62.9752 -174.948 -95.1271 -199.43 -313.153 51.796 7.57913 -289.13 -244.61 -0.872783 -129.505 -90.0011 50.154 -460.081 561.726
-0.0413763 -9.59037e+06 -34836.3 102.724 -103.35 -12600.7 1.77416e+06 1084.24 -296.962 -14.6842 -61.0799 87.5311 -685.73 981.351 -232.929 117.635 -342.797 -860.61 -72.8618 677.483 -260.374 471.734 -164.95 130.697 64.9045 193.235 -348.507 -713.498 56.2923 -286.418 135.13 -171.191 305.919 292.106 500.829 176.113 163.328 26.6295 91.4092 90.9235 317.556 74.2502 -319.523 -55.7733 633.325 -270.999 478.607 -716.977 -7143.51 2140.88 1949.89
--0.000743739 -5.90729e+06 2086.32 3.6615 5.82284 -252.204 1084.24 1348.25 10.9775 -15.337 2.6845 -0.718158 -6.188 -8.54607 -16.0137 -24.423 -13.8828 -0.114076 14.538 17.1586 4.39084 14.0198 35.8249 55.6788 68.1519 67.4323 70.2895 62.8862 51.6748 57.959 26.9252 4.88158 5.47859 -5.92123 -10.6293 -9.70887 -12.0143 -26.6988 -38.5103 -63.0222 -68.0081 -70.949 -48.9583 -36.326 -35.0141 -5.60275 -6.63596 -4.73687 -8.30106 31.013 -31.1887
--0.00116304 -481441 -307.895 7.17876 1.95539 218.787 -296.962 10.9775 77.0606 22.58 20.6825 11.9303 7.29067 1.55953 0.731752 -1.86685 -4.72585 5.58663 0.143843 2.79704 -2.81201 1.24528 7.47907 -27.886 14.1466 -23.2642 1.63295 12.1651 -27.3529 11.8711 -13.1146 -8.74294 -13.4185 -15.4915 -10.2031 -12.5069 -2.97157 -6.27068 -5.1021 -8.50331 -7.26722 1.51478 -0.510193 2.75092 4.62624 -0.808504 9.7978 -4.59886 1.74891 -80.71 101.601
--0.00142837 -1.01877e+06 -357.722 6.42855 1.06213 96.083 -14.6842 -15.337 22.58 51.3374 21.1669 11.5338 8.07832 3.98523 3.96565 2.34064 -1.5904 3.94044 1.3085 4.7076 -2.77327 -2.7372 0.926632 -18.3481 -1.64392 -19.4074 -5.50936 2.20999 -19.2904 4.66306 -11.1858 -10.7513 -10.5774 -12.9729 -11.2592 -11.9704 -9.60873 -6.84095 -6.60567 -5.8617 -2.63575 5.35524 0.600352 4.62192 6.63941 -2.41008 6.0356 1.74165 -1.25126 -6.5038 9.28963
--0.00153353 -736755 -708.086 3.49861 2.58293 101.163 -61.0799 2.6845 20.6825 21.1669 39.4922 15.1786 11.7363 7.79391 3.58182 1.04597 -4.68477 -0.294805 4.54772 3.56179 -11.7174 -4.64468 3.10997 -16.7295 1.25135 -10.2577 -3.63956 -0.392335 -21.8323 3.53428 -16.4727 -13.1268 -13.0724 -15.9372 -13.919 -12.3058 -9.63043 -7.59622 -5.82612 -7.42429 -5.00084 1.39236 -1.06999 2.13884 2.05714 3.75102 6.76621 1.60815 -0.876289 57.7317 -71.7213
--0.00139497 -1.16924e+06 -446.958 4.66973 0.560575 32.6762 87.5311 -0.718158 11.9303 11.5338 15.1786 16.5504 11.6177 5.7874 3.85437 0.746408 -1.80598 -0.47671 0.0791593 0.808981 -3.37288 -2.2459 0.734334 -10.6962 -0.895899 -11.1527 -5.61244 -2.07006 -12.9085 -1.77638 -8.0431 -9.50858 -10.4344 -11.0826 -9.84294 -11.3401 -5.99066 -8.52153 -5.50098 -5.29707 -2.69991 0.329161 0.866242 2.94341 4.40823 1.12363 5.27246 4.88721 -1.7938 26.4636 -32.7639
--0.00158574 -1.23723e+06 -523.17 4.48833 0.536874 36.4566 -685.73 -6.188 7.29067 8.07832 11.7363 11.6177 13.4983 9.99574 7.70814 4.06421 2.20731 -0.156077 0.783792 0.588509 -4.93802 -1.4461 -3.7248 -8.26575 -7.0752 -8.68374 -9.37529 -9.69342 -10.3183 -8.7091 -10.9148 -12.4831 -13.7726 -13.992 -11.4986 -13.0338 -7.9667 -9.45524 -6.73947 -5.58271 -2.54691 -0.186489 1.55854 2.24998 2.90018 4.32611 4.53318 5.82937 2.87877 22.1883 -30.4122
--0.00116864 -749747 -585.935 1.48816 0.853315 50.9089 981.351 -8.54607 1.55953 3.98523 7.79391 5.7874 9.99574 19.2543 9.95188 7.45727 4.15444 -1.49402 2.4132 2.4133 -9.09782 -2.23661 -6.37375 -5.59517 -12.5916 -1.74247 -10.9007 -15.2706 -5.39908 -10.5 -12.0784 -11.8582 -13.7588 -13.2441 -10.3175 -11.18 -7.02006 -7.8671 -5.69342 -4.53595 -0.957425 1.23847 1.55282 -0.536394 0.660898 6.88445 2.83248 3.20501 -2.39964 23.6325 -28.3718
--0.00123006 -996793 -430.862 4.11301 -0.0642142 -10.8012 -232.929 -16.0137 0.731752 3.96565 3.58182 3.85437 7.70814 9.95188 13.0527 12.3073 10.1046 2.97606 2.2883 -0.0318199 -2.39205 -2.09893 -10.0558 -3.43305 -11.0696 -3.78788 -10.9322 -15.6255 -6.1857 -15.7026 -11.3187 -14.4779 -14.9919 -13.3115 -13.947 -10.1446 -12.4384 -8.23953 -7.90364 -5.32195 -1.36669 -1.92612 2.16963 -0.25984 0.388616 3.6415 3.10408 6.54651 2.46575 7.94046 -12.1361
--0.000880713 -620402 -416.542 3.98605 -1.67526 -42.9507 117.635 -24.423 -1.86685 2.34064 1.04597 0.746408 4.06421 7.45727 12.3073 44.9333 21.9707 9.35181 3.36391 -2.2319 -1.00459 -1.20714 -13.287 -0.0162347 -9.90166 -3.78807 -9.58952 -15.6027 -4.99815 -16.874 -12.6195 -14.1349 -14.4297 -10.9135 -12.8369 -8.20558 -13.8915 -8.29796 -8.2631 -4.44702 0.718895 -4.37578 2.52102 -5.49493 -1.83171 3.88465 -0.0815371 5.60261 2.43996 -11.2811 12.4696
--0.000910266 -614696 -486.285 7.46549 -5.94737 -6.42808 -342.797 -13.8828 -4.72585 -1.5904 -4.68477 -1.80598 2.20731 4.15444 10.1046 21.9707 72.3752 32.457 12.4244 -0.324035 4.56485 -2.29382 -12.7952 7.67941 -11.703 0.0483149 -6.68227 -15.3192 0.754844 -20.5364 -13.3444 -14.5343 -17.7005 -13.0871 -20.9015 -8.27884 -20.476 -9.03982 -12.4332 -7.73876 -7.34291 -10.3884 2.58045 -0.664974 -9.93172 7.50246 -2.2645 0.500476 5.86882 -70.0259 85.9018
-0.000321535 261444 334.77 4.17301 0.51225 87.9133 -860.61 -0.114076 5.58663 3.94044 -0.294805 -0.47671 -0.156077 -1.49402 2.97606 9.35181 32.457 61.1417 33.0916 12.4264 14.3557 -3.23321 -2.21935 -1.47796 2.69521 -12.0594 -5.61621 -3.52961 -14.7454 -5.21835 -12.0144 -13.0257 -10.1253 -14.6866 -9.78807 -16.2244 -6.10496 -12.2345 -5.98692 -9.37061 -6.35264 -8.64479 -4.53495 -0.791097 -5.43939 0.224216 3.42227 -0.893198 4.14948 -67.9418 82.1825
-4.88991e-05 384695 -143.304 -0.759493 -0.856621 58.4492 -72.8618 14.538 0.143843 1.3085 4.54772 0.0791593 0.783792 2.4132 2.2883 3.36391 12.4244 33.0916 87.3564 54.3632 13.6906 0.787529 -4.08965 -8.55487 -9.88147 -3.72062 -11.573 -12.565 -9.94985 -8.28726 -11.894 -13.3895 -10.6189 -13.4706 -13.5778 -13.7224 -12.6084 -13.0868 -8.15412 -7.27725 -0.72338 -5.94727 -5.32517 -1.75743 4.8579 7.89777 1.64587 3.36827 0.162754 40.1368 -51.5309
-0.000755674 1.29805e+06 -74.7116 5.81078 -7.29355 42.5478 677.483 17.1586 2.79704 4.7076 3.56179 0.808981 0.588509 2.4133 -0.0318199 -2.2319 -0.324035 12.4264 54.3632 178.653 48.8677 26.4995 3.6888 -13.913 -13.5411 -7.42365 -14.6794 -14.3923 -6.86006 -14.3304 -8.71258 -10.4394 -8.76517 0.513723 -13.3648 2.11102 -22.8211 -8.68309 -15.9207 -3.45266 -4.08861 -9.29214 -17.9525 -6.75583 11.4519 -1.77224 1.38013 -8.64782 0.449312 -62.1707 78.2996
-0.00117511 764421 401.902 -3.38766 4.23274 79.1972 -260.374 4.39084 -2.81201 -2.77327 -11.7174 -3.37288 -4.93802 -9.09782 -2.39205 -1.00459 4.56485 14.3557 13.6906 48.8677 223.935 67.391 11.5546 7.90084 -7.9158 -6.50756 -2.83132 -6.88073 -1.90402 -2.10692 1.59592 -12.4468 -1.16498 -1.52787 -23.8268 -5.57832 -13.196 -13.926 -9.05238 -6.16962 -10.9823 -25.288 -10.4756 7.80517 -4.10458 -8.69784 -14.1145 -2.91269 0.670135 -56.3508 66.4741
-0.00108553 1.3019e+06 162.041 3.47676 -3.99251 -94.2434 471.734 14.0198 1.24528 -2.7372 -4.64468 -2.2459 -1.4461 -2.23661 -2.09893 -1.20714 -2.29382 -3.23321 0.787529 26.4995 67.391 179.427 74.6727 18.1021 -8.00528 -8.96688 -11.3207 -13.2809 -1.49478 -13.9872 -5.71226 -15.846 -7.29408 -7.06777 -19.4719 -0.245213 -12.2767 -5.33109 -10.5221 -3.66118 -13.2782 -22.2271 -7.85087 2.89127 3.57748 -4.35849 -4.60335 -8.22326 2.92575 -93.4271 116.06
-0.0025352 2.47472e+06 719.032 1.83597 -1.65046 100.482 -164.95 35.8249 7.47907 0.926632 3.10997 0.734334 -3.7248 -6.37375 -10.0558 -13.287 -12.7952 -2.21935 -4.08965 3.6888 11.5546 74.6727 216.684 60.4463 26.8584 -14.6874 -0.726064 12.4294 -5.00489 20.7758 -6.86928 -9.70006 -2.02029 -17.5627 -17.1904 -18.7208 -10.8552 -11.6641 -5.51371 -12.8155 -21.4998 -13.7582 -12.4316 -6.75911 6.67224 -12.5656 -2.4413 -14.4804 -1.04275 -18.402 24.0898
-0.00116417 317757 298.035 -2.26486 -2.46756 -76.5458 130.697 55.6788 -27.886 -18.3481 -16.7295 -10.6962 -8.26575 -5.59517 -3.43305 -0.0162347 7.67941 -1.47796 -8.55487 -13.913 7.90084 18.1021 60.4463 191.457 41.1802 18.5323 -12.3097 -16.3795 23.1192 -3.15305 4.63181 -5.73338 -6.59457 -8.86727 -19.9552 -19.391 -32.7286 -7.10677 -12.5242 -8.25617 -16.5991 -9.7678 -5.22807 -3.56924 -6.05199 -6.64268 -14.3209 5.83657 -1.52057 44.9862 -55.7742
-0.00274378 2.62798e+06 740.413 -0.623188 -1.39339 141.791 64.9045 68.1519 14.1466 -1.64392 1.25135 -0.895899 -7.0752 -12.5916 -11.0696 -9.90166 -11.703 2.69521 -9.88147 -13.5411 -7.9158 -8.00528 26.8584 41.1802 149.61 34.8937 20.4157 19.8259 -21.6024 18.7955 2.89791 6.70966 -7.9613 -9.89944 0.487966 -27.3195 -0.869176 -16.9822 -5.24854 -14.1006 -18.3456 -16.3305 -6.40948 -17.649 -14.3792 -23.025 -8.77491 -11.2697 -3.81801 -10.2975 13.2897
-0.00142885 949420 -67.0108 -5.58852 -6.87082 -181.455 193.235 67.4323 -23.2642 -19.4074 -10.2577 -11.1527 -8.68374 -1.74247 -3.78788 -3.78807 0.0483149 -12.0594 -3.72062 -7.42365 -6.50756 -8.96688 -14.6874 18.5323 34.8937 110.13 52.7427 1.15832 11.7282 -16.5156 12.8227 2.07076 -12.71 -2.84919 -16.9571 -9.31299 -11.9679 -5.58657 -10.3688 -8.96121 -13.9247 -8.95997 -5.40178 0.72184 -12.9293 -5.84572 -11.9412 -6.10352 -0.632543 60.2528 -73.7529
-0.0022211 2.26652e+06 221.719 -4.52154 -1.977 171.262 -348.507 70.2895 1.63295 -5.50936 -3.63956 -5.61244 -9.37529 -10.9007 -10.9322 -9.58952 -6.68227 -5.61621 -11.573 -14.6794 -2.83132 -11.3207 -0.726064 -12.3097 20.4157 52.7427 112.955 77.9268 6.51901 6.03078 3.44211 9.39819 -5.88914 -6.77312 -11.4426 -11.5224 -6.75959 -6.38777 -10.5981 -12.8839 -25.5165 -6.60201 -19.7573 -6.44497 -6.04496 -13.5975 -7.00541 -20.3759 2.12605 -65.466 83.7818
-0.00332047 3.45081e+06 558.895 -3.79785 -0.344026 221.659 -713.498 62.8862 12.1651 2.20999 -0.392335 -2.07006 -9.69342 -15.2706 -15.6255 -15.6027 -15.3192 -3.52961 -12.565 -14.3923 -6.88073 -13.2809 12.4294 -16.3795 19.8259 1.15832 77.9268 161.193 59.0803 44.7663 0.120207 8.06045 6.50525 -15.6909 -8.11005 -21.7731 -9.03993 -15.6677 -12.3753 -17.9501 -26.2004 -6.69028 -22.8953 -13.0179 -4.1428 -23.7878 -7.63807 -23.0335 -0.00944304 -53.9214 68.4934
-0.00150386 422372 338.133 0.853589 -8.67548 -43.5869 56.2923 51.6748 -27.3529 -19.2904 -21.8323 -12.9085 -10.3183 -5.39908 -6.1857 -4.99815 0.754844 -14.7454 -9.94985 -6.86006 -1.90402 -1.49478 -5.00489 23.1192 -21.6024 11.7282 6.51901 59.0803 170.735 64.5219 17.3805 -8.49949 1.43278 -14.9845 -25.3248 -17.9995 -23.9535 -13.7255 -16.8938 -12.6133 -13.5235 -10.0275 -2.4319 -2.42524 -2.01682 -4.28015 -9.5106 -0.531055 0.896028 6.72442 -8.90333
-0.00332971 3.16385e+06 806.437 -8.11252 6.02864 324.107 -286.418 57.959 11.8711 4.66306 3.53428 -1.77638 -8.7091 -10.5 -15.7026 -16.874 -20.5364 -5.21835 -8.28726 -14.3304 -2.10692 -13.9872 20.7758 -3.15305 18.7955 -16.5156 6.03078 44.7663 64.5219 173.525 63.1658 9.31699 -0.844281 -13.4128 -13.9466 -27.3341 -12.7789 -21.7167 -15.7576 -13.455 -15.809 -6.32145 -5.20888 -26.0995 -13.7375 -18.4361 -11.2889 -17.9672 -4.41123 51.1491 -60.8277
-0.00254404 1.55266e+06 874.647 -3.87199 1.35866 2.96984 135.13 26.9252 -13.1146 -11.1858 -16.4727 -8.0431 -10.9148 -12.0784 -11.3187 -12.6195 -13.3444 -12.0144 -11.894 -8.71258 1.59592 -5.71226 -6.86928 4.63181 2.89791 12.8227 3.44211 0.120207 17.3805 63.1658 195.862 69.6886 -10.9023 3.27355 -15.7548 -17.3486 -23.9297 -21.4303 -18.6499 -9.87934 -5.74062 -3.27047 -8.62274 -15.6067 -8.53944 -14.8723 -8.23741 -11.2127 -1.6383 -12.6061 15.6536
-0.00283754 2.32515e+06 863.218 -5.743 2.76559 144.348 -171.191 4.88158 -8.74294 -10.7513 -13.1268 -9.50858 -12.4831 -11.8582 -14.4779 -14.1349 -14.5343 -13.0257 -13.3895 -10.4394 -12.4468 -15.846 -9.70006 -5.73338 6.70966 2.07076 9.39819 8.06045 -8.49949 9.31699 69.6886 252.886 54.3858 16.951 13.0865 -18.9509 -38.0705 -39.451 -25.8315 -12.5115 -11.2792 -1.0142 -18.6795 -11.2594 -2.8046 -6.64285 -7.24135 -14.1217 0.928265 -38.9704 50.0841
-0.00272664 1.74634e+06 1138.27 0.771395 -2.66252 -13.0978 305.919 5.47859 -13.4185 -10.5774 -13.0724 -10.4344 -13.7726 -13.7588 -14.9919 -14.4297 -17.7005 -10.1253 -10.6189 -8.76517 -1.16498 -7.29408 -2.02029 -6.59457 -7.9613 -12.71 -5.88914 6.50525 1.43278 -0.844281 -10.9023 54.3858 272.541 61.1945 46.1698 13.4202 -11.2057 -35.7083 -30.2601 -8.69298 -2.85205 -9.51998 0.0747331 -11.0923 -16.3499 -10.2203 -14.0278 -8.66918 -5.07472 40.6444 -48.6809
-0.00204815 1.07027e+06 1019.97 2.51297 -3.56944 -179.334 292.106 -5.92123 -15.4915 -12.9729 -15.9372 -11.0826 -13.992 -13.2441 -13.3115 -10.9135 -13.0871 -14.6866 -13.4706 0.513723 -1.52787 -7.06777 -17.5627 -8.86727 -9.89944 -2.84919 -6.77312 -15.6909 -14.9845 -13.4128 3.27355 16.951 61.1945 360.155 96.9029 46.0922 16.1181 -34.6655 -40.4693 -22.2754 -3.46093 -0.942032 -15.5908 -16.196 -17.01 -2.72833 -9.12784 -8.79061 -0.62628 -60.485 77.5484
-0.00227398 1.5563e+06 977.666 14.7971 -14.8879 -20.7002 500.829 -10.6293 -10.2031 -11.2592 -13.919 -9.84294 -11.4986 -10.3175 -13.947 -12.8369 -20.9015 -9.78807 -13.5778 -13.3648 -23.8268 -19.4719 -17.1904 -19.9552 0.487966 -16.9571 -11.4426 -8.11005 -25.3248 -13.9466 -15.7548 13.0865 46.1698 96.9029 548.322 118.195 53.7996 5.1775 -39.3769 -32.8967 -19.1435 -30.8094 -16.7576 -8.25883 -28.379 -9.22273 -10.6176 -2.71697 -5.32279 54.6888 -67.3625
-0.0012356 920344 648.583 0.630561 -4.80902 -119.897 176.113 -9.70887 -12.5069 -11.9704 -12.3058 -11.3401 -13.0338 -11.18 -10.1446 -8.20558 -8.27884 -16.2244 -13.7224 2.11102 -5.57832 -0.245213 -18.7208 -19.391 -27.3195 -9.31299 -11.5224 -21.7731 -17.9995 -27.3341 -17.3486 -18.9509 13.4202 46.0922 118.195 535.997 144.832 42.119 -3.69527 -42.7382 -25.9765 -28.3776 -1.38013 -9.7075 -24.7985 -11.5564 -9.82387 -8.67859 1.87594 -96.8692 122.618
-0.00152279 1.35503e+06 754.684 7.67965 -12.6324 62.9752 163.328 -12.0143 -2.97157 -9.60873 -9.63043 -5.99066 -7.9667 -7.02006 -12.4384 -13.8915 -20.476 -6.10496 -12.6084 -22.8211 -13.196 -12.2767 -10.8552 -32.7286 -0.869176 -11.9679 -6.75959 -9.03993 -23.9535 -12.7789 -23.9297 -38.0705 -11.2057 16.1181 53.7996 144.832 625.892 127.171 34.8696 -23.8471 -47.5179 -39.5187 -38.2086 -8.61478 -27.3124 -16.5752 -3.15548 -2.86122 -5.80231 75.9336 -91.8188
-0.000339912 514040 409.721 -5.16866 -5.01987 -174.948 26.6295 -26.6988 -6.27068 -6.84095 -7.59622 -8.52153 -9.45524 -7.8671 -8.23953 -8.29796 -9.03982 -12.2345 -13.0868 -8.68309 -13.926 -5.33109 -11.6641 -7.10677 -16.9822 -5.58657 -6.38777 -15.6677 -13.7255 -21.7167 -21.4303 -39.451 -35.7083 -34.6655 5.1775 42.119 127.171 488.665 88.8367 9.01096 -20.9307 -37.5782 -7.29464 -13.7518 -13.6372 -10.2834 -6.26809 -5.00495 1.42724 -62.7672 79.5237
-0.000278148 435497 439.86 -7.96031 -2.42366 -95.1271 91.4092 -38.5103 -5.1021 -6.60567 -5.82612 -5.50098 -6.73947 -5.69342 -7.90364 -8.2631 -12.4332 -5.98692 -8.15412 -15.9207 -9.05238 -10.5221 -5.51371 -12.5242 -5.24854 -10.3688 -10.5981 -12.3753 -16.8938 -15.7576 -18.6499 -25.8315 -30.2601 -40.4693 -39.3769 -3.69527 34.8696 88.8367 379.866 48.1205 2.83892 -13.752 -30.6654 -20.1042 -15.0213 -4.67966 -2.40827 1.83685 -3.93065 50.6198 -60.1759
--0.00058171 -426332 99.629 -7.99153 -0.658291 -199.43 90.9235 -63.0222 -8.50331 -5.8617 -7.42429 -5.29707 -5.58271 -4.53595 -5.32195 -4.44702 -7.73876 -9.37061 -7.27725 -3.45266 -6.16962 -3.66118 -12.8155 -8.25617 -14.1006 -8.96121 -12.8839 -17.9501 -12.6133 -13.455 -9.87934 -12.5115 -8.69298 -22.2754 -32.8967 -42.7382 -23.8471 9.01096 48.1205 318.536 33.8651 -8.13742 -17.448 -28.2629 -9.7694 -3.47166 -1.89127 6.25952 -1.26292 5.28646 -4.19758
--0.00108644 -1.08393e+06 100.063 -11.4964 6.89959 -313.153 317.556 -68.0081 -7.26722 -2.63575 -5.00084 -2.69991 -2.54691 -0.957425 -1.36669 0.718895 -7.34291 -6.35264 -0.72338 -4.08861 -10.9823 -13.2782 -21.4998 -16.5991 -18.3456 -13.9247 -25.5165 -26.2004 -13.5235 -15.809 -5.74062 -11.2792 -2.85205 -3.46093 -19.1435 -25.9765 -47.5179 -20.9307 2.83892 33.8651 306.777 21.1147 -14.9497 -7.06107 -13.6706 -2.59715 5.45506 7.80459 -3.13727 40.334 -48.676
--0.00126399 -597035 -429.129 -14.4005 8.71989 51.796 74.2502 -70.949 1.51478 5.35524 1.39236 0.329161 -0.186489 1.23847 -1.92612 -4.37578 -10.3884 -8.64479 -5.94727 -9.29214 -25.288 -22.2271 -13.7582 -9.7678 -16.3305 -8.95997 -6.60201 -6.69028 -10.0275 -6.32145 -3.27047 -1.0142 -9.51998 -0.942032 -30.8094 -28.3776 -39.5187 -37.5782 -13.752 -8.13742 21.1147 299.007 37.5779 -37.1082 5.47886 2.2939 2.31667 9.24021 -1.94146 30.8093 -34.9612
--0.0019646 -1.85456e+06 -335.208 -8.11655 0.337044 7.57913 -319.523 -48.9583 -0.510193 0.600352 -1.06999 0.866242 1.55854 1.55282 2.16963 2.52102 2.58045 -4.53495 -5.32517 -17.9525 -10.4756 -7.85087 -12.4316 -5.22807 -6.40948 -5.40178 -19.7573 -22.8953 -2.4319 -5.20888 -8.62274 -18.6795 0.0747331 -15.5908 -16.7576 -1.38013 -38.2086 -7.29464 -30.6654 -17.448 -14.9497 37.5779 292.157 26.302 -39.2738 -5.21038 10.1958 3.32221 0.580176 11.5731 -14.1318
--0.00228674 -2.4046e+06 -362.874 -4.21641 1.54174 -289.13 -55.7733 -36.326 2.75092 4.62192 2.13884 2.94341 2.24998 -0.536394 -0.25984 -5.49493 -0.664974 -0.791097 -1.75743 -6.75583 7.80517 2.89127 -6.75911 -3.56924 -17.649 0.72184 -6.44497 -13.0179 -2.42524 -26.0995 -15.6067 -11.2594 -11.0923 -16.196 -8.25883 -9.7075 -8.61478 -13.7518 -20.1042 -28.2629 -7.06107 -37.1082 26.302 274.462 49.3541 0.814377 4.20513 2.17616 -0.174607 -7.68348 10.4547
--0.00249096 -2.03807e+06 -911.529 -14.1773 14.6688 -244.61 633.325 -35.0141 4.62624 6.63941 2.05714 4.40823 2.90018 0.660898 0.388616 -1.83171 -9.93172 -5.43939 4.8579 11.4519 -4.10458 3.57748 6.67224 -6.05199 -14.3792 -12.9293 -6.04496 -4.1428 -2.01682 -13.7375 -8.53944 -2.8046 -16.3499 -17.01 -28.379 -24.7985 -27.3124 -13.6372 -15.0213 -9.7694 -13.6706 5.47886 -39.2738 49.3541 252.49 49.9657 -3.70876 15.5194 -4.0155 16.3083 -16.8314
--0.00316547 -3.26231e+06 -675.606 -11.015 14.7399 -0.872783 -270.999 -5.60275 -0.808504 -2.41008 3.75102 1.12363 4.32611 6.88445 3.6415 3.88465 7.50246 0.224216 7.89777 -1.77224 -8.69784 -4.35849 -12.5656 -6.64268 -23.025 -5.84572 -13.5975 -23.7878 -4.28015 -18.4361 -14.8723 -6.64285 -10.2203 -2.72833 -9.22273 -11.5564 -16.5752 -10.2834 -4.67966 -3.47166 -2.59715 2.2939 -5.21038 0.814377 49.9657 160.962 24.0052 17.6184 1.91867 23.6639 -28.2732
--0.00269717 -2.89629e+06 -494.8 1.49954 9.11704 -129.505 478.607 -6.63596 9.7978 6.0356 6.76621 5.27246 4.53318 2.83248 3.10408 -0.0815371 -2.2645 3.42227 1.64587 1.38013 -14.1145 -4.60335 -2.4413 -14.3209 -8.77491 -11.9412 -7.00541 -7.63807 -9.5106 -11.2889 -8.23741 -7.24135 -14.0278 -9.12784 -10.6176 -9.82387 -3.15548 -6.26809 -2.40827 -1.89127 5.45506 2.31667 10.1958 4.20513 -3.70876 24.0052 102.377 16.7856 -2.99569 -14.6863 20.0635
--0.00333093 -4.10503e+06 -624.339 3.36306 4.90168 -90.0011 -716.977 -4.73687 -4.59886 1.74165 1.60815 4.88721 5.82937 3.20501 6.54651 5.60261 0.500476 -0.893198 3.36827 -8.64782 -2.91269 -8.22326 -14.4804 5.83657 -11.2697 -6.10352 -20.3759 -23.0335 -0.531055 -17.9672 -11.2127 -14.1217 -8.66918 -8.79061 -2.71697 -8.67859 -2.86122 -5.00495 1.83685 6.25952 7.80459 9.24021 3.32221 2.17616 15.5194 17.6184 16.7856 94.09 -0.94622 93.7605 -118.387
--3.43881e-05 495612 120.809 0.510992 -0.616143 50.154 -7143.51 -8.30106 1.74891 -1.25126 -0.876289 -1.7938 2.87877 -2.39964 2.46575 2.43996 5.86882 4.14948 0.162754 0.449312 0.670135 2.92575 -1.04275 -1.52057 -3.81801 -0.632543 2.12605 -0.00944304 0.896028 -4.41123 -1.6383 0.928265 -5.07472 -0.62628 -5.32279 1.87594 -5.80231 1.42724 -3.93065 -1.26292 -3.13727 -1.94146 0.580176 -0.174607 -4.0155 1.91867 -2.99569 -0.94622 49.1485 -68.3774 65.433
--0.0031451 -3.69302e+06 -3064.38 -59.5324 36.7419 -460.081 2140.88 31.013 -80.71 -6.5038 57.7317 26.4636 22.1883 23.6325 7.94046 -11.2811 -70.0259 -67.9418 40.1368 -62.1707 -56.3508 -93.4271 -18.402 44.9862 -10.2975 60.2528 -65.466 -53.9214 6.72442 51.1491 -12.6061 -38.9704 40.6444 -60.485 54.6888 -96.8692 75.9336 -62.7672 50.6198 5.28646 40.334 30.8093 11.5731 -7.68348 16.3083 23.6639 -14.6863 93.7605 -68.3774 1870.16 -2294.27
-0.00391717 4.29576e+06 3669.94 72.388 -44.6811 561.726 1949.89 -31.1887 101.601 9.28963 -71.7213 -32.7639 -30.4122 -28.3718 -12.1361 12.4696 85.9018 82.1825 -51.5309 78.2996 66.4741 116.06 24.0898 -55.7742 13.2897 -73.7529 83.7818 68.4934 -8.90333 -60.8277 15.6536 50.0841 -48.6809 77.5484 -67.3625 122.618 -91.8188 79.5237 -60.1759 -4.19758 -48.676 -34.9612 -14.1318 10.4547 -16.8314 -28.2732 20.0635 -118.387 65.433 -2294.27 2858.47
-*end
-
-*covariance_matrix[Covar]
-covariance_matrix {matrix}
-2.81972e+07 -0.0177761 -23.7489 -262.937 -181.119 -1.80701 -0.389958 4.39605 50.2494 66.6904 163.06 -233.585 484.29 -142.425 -52.7765 -45.232 -7.06645 -59.1798 3.28108 -29.1125 -29.256 -26.7971 -37.7169 -36.2195 -21.9994 -162.747 -33.8588 -74.773 -73.1137 -39.929 -58.5346 -38.8032 -38.1298 -29.4208 -11.843 -14.0759 0.0600075 -5.09207 4.65995 7.92702 12.0192 17.7568 16.7632 15.8789 13.2807 32.9597 41.3675 8.3907 91.7857 -116.907 -65.3535
--0.0177761 1.30572e-11 1.55841e-08 3.46707e-07 2.32197e-07 1.33415e-09 7.8172e-11 8.50849e-09 -2.78878e-08 -2.91034e-08 -1.21507e-07 2.00094e-07 -2.85644e-07 7.62836e-08 -3.02308e-08 2.82905e-08 1.34039e-08 1.22151e-08 -7.78678e-09 3.49029e-09 2.04661e-08 5.53151e-09 9.05486e-09 2.5139e-08 -1.08552e-08 1.05359e-07 1.50553e-08 1.94283e-08 5.78836e-08 -2.29637e-09 3.19616e-08 1.47211e-08 1.3567e-08 1.41444e-08 1.39482e-09 7.41819e-09 -4.50877e-09 2.67791e-09 -5.15079e-09 -1.81869e-09 -4.06937e-09 -8.39188e-09 4.22587e-10 -1.14099e-09 2.02557e-09 -2.30669e-09 -4.57616e-09 2.96419e-08 -8.91307e-08 9.99022e-08 5.99758e-08
--23.7489 1.55841e-08 2.60981e-05 0.000196864 7.131e-05 3.37591e-06 3.74026e-07 -6.30269e-06 -2.14095e-05 -5.63125e-05 -9.28059e-05 0.00022552 -0.000339525 0.00015486 -9.00504e-06 4.31723e-05 6.09184e-05 -1.96319e-05 -2.69567e-06 1.69734e-05 2.4913e-05 2.12777e-05 8.96907e-06 3.59372e-05 -8.75655e-06 0.000141758 2.90704e-05 5.1027e-05 5.79558e-05 1.22761e-05 3.76268e-05 2.0834e-05 1.51704e-05 1.60576e-05 2.34875e-06 9.20638e-06 -7.59272e-06 -4.13049e-08 -1.42844e-05 -1.06401e-05 -1.51713e-05 -1.53042e-05 -1.2794e-05 -1.34574e-05 8.578e-06 -2.02638e-05 -9.15491e-07 2.4643e-05 -8.24629e-05 0.000124971 7.00888e-05
--262.937 3.46707e-07 0.000196864 0.0622736 0.0509091 7.32138e-05 -1.50497e-05 0.000828376 -0.00150767 -0.000750592 -0.00603205 0.00646427 -0.00910272 0.00506589 -0.0110638 0.00159225 0.00171115 -0.00283536 0.00142091 -0.000496074 0.000519264 -2.34668e-05 -0.000844931 0.000960772 -0.00138658 0.00462692 0.000387582 -0.000532825 0.00213594 -0.00123699 0.000118771 0.000138195 -0.000434433 0.000276235 -0.000417018 0.000540667 -9.13362e-05 0.000930581 0.000969117 0.00160814 0.00147778 0.00142363 0.00263312 0.00182936 0.0016716 0.00182921 -0.000464083 0.0003504 -0.00234206 0.00369888 0.00194007
--181.119 2.32197e-07 7.131e-05 0.0509091 0.0711638 -5.19679e-05 -1.05942e-05 0.000197665 -0.000937189 0.000183765 -0.00420317 0.00784459 -0.00281738 0.000719771 -0.00287951 0.0019447 0.00358631 -0.00302266 0.00305452 0.0013684 -0.000602935 0.000761333 0.00047708 0.00127697 -9.06307e-05 0.00654011 0.000969984 -0.000181126 0.0045263 -0.00103787 0.00080584 0.000726297 0.000961207 0.000716507 0.00109733 0.000433777 0.0011277 0.00106082 0.00191044 0.00203603 0.00134388 0.00122407 0.00251738 0.00164538 0.000110644 -0.000292589 -0.00307141 -0.000760542 -0.00253471 0.00129408 0.000927619
--1.80701 1.33415e-09 3.37591e-06 7.32138e-05 -5.19679e-05 6.46346e-05 7.78566e-07 2.68202e-05 -8.67588e-05 -2.10571e-05 -6.56205e-05 0.000214732 -0.000120525 -0.000392437 0.000167905 7.02117e-05 1.55908e-05 -3.03037e-05 -4.90258e-05 -1.34179e-05 -3.10445e-05 4.72826e-05 -1.56712e-05 -3.04665e-06 -7.74122e-05 0.000216321 -0.000208162 5.33879e-05 -8.01643e-06 -7.55515e-05 1.36694e-05 -3.32678e-05 -1.08584e-06 2.76099e-05 -3.27048e-06 1.07099e-05 -1.36814e-05 2.08932e-05 6.66284e-06 3.31761e-05 5.29046e-05 2.50989e-06 -1.44713e-06 5.14713e-05 8.30101e-05 -3.2338e-05 0.000119485 -1.97766e-05 3.89921e-05 -3.10625e-05 -4.05858e-05
--0.389958 7.8172e-11 3.74026e-07 -1.50497e-05 -1.05942e-05 7.78566e-07 1.99478e-06 -1.2521e-06 1.11404e-05 9.06469e-06 -4.21091e-06 -0.000110572 0.00028517 -0.000151373 0.00012107 -4.34891e-06 9.33537e-07 3.936e-05 -5.10114e-07 8.20756e-06 5.25116e-06 3.6869e-06 1.3573e-05 9.03107e-06 1.03103e-05 2.61017e-05 1.13403e-05 2.73848e-05 2.09694e-06 2.64813e-05 8.63149e-06 1.59615e-05 1.40026e-05 1.29075e-05 6.3195e-06 9.12835e-06 6.88257e-06 9.20274e-06 1.17073e-05 1.28094e-05 1.18657e-05 1.04725e-05 8.68457e-06 8.83284e-06 5.1145e-06 7.83009e-06 2.16139e-06 7.69067e-06 0.00023512 -0.000101389 -8.89642e-05
-4.39605 8.50849e-09 -6.30269e-06 0.000828376 0.000197665 2.68202e-05 -1.2521e-06 0.000945575 -0.000296245 0.00025176 -0.000235517 0.000198683 -0.000580425 -0.000369391 0.000150769 0.000183369 3.05383e-05 -0.000180127 -0.000281815 -0.000209975 3.80154e-05 -0.000156663 -9.41616e-05 -0.000232649 -0.000326019 -0.000318385 -0.000497522 -0.000186848 -0.000172193 -0.000344262 -7.64577e-05 -7.11183e-05 -0.000123808 -3.47889e-05 -4.20261e-05 -3.65763e-05 -2.79482e-05 4.77267e-06 1.29724e-05 0.000125714 0.000124907 0.000164052 0.000140123 0.000156405 0.000198284 3.8512e-05 0.000180051 4.26014e-05 -8.98831e-05 1.12549e-05 2.43315e-06
-50.2494 -2.78878e-08 -2.14095e-05 -0.00150767 -0.000937189 -8.67588e-05 1.11404e-05 -0.000296245 0.021243 -0.00221451 -0.00432273 -0.00555556 0.00737874 0.000296808 0.00471625 0.000623905 0.00126676 0.00148006 5.05934e-05 0.00070284 0.000257818 0.000269064 0.000233355 0.00218975 -0.00116788 0.00226871 0.00166594 -0.000732575 0.00310776 -0.00114084 0.00142307 0.000998996 0.000951142 0.00102779 0.000409272 0.000750858 0.000267141 0.000653964 0.000651965 0.000942159 0.000773806 0.000507389 0.000534848 0.000241404 0.000242676 0.000394514 -0.000174468 0.000324336 0.000797893 -0.00127623 -0.0019035
-66.6904 -2.91034e-08 -5.63125e-05 -0.000750592 0.000183765 -2.10571e-05 9.06469e-06 0.00025176 -0.00221451 0.0292568 -0.0100295 -0.00781365 0.0098309 0.0010545 -0.00350112 3.72574e-05 0.000834007 -0.000352357 0.00119286 -0.000423446 5.44426e-05 0.00037034 0.000277088 0.000863045 0.000655202 0.00204355 0.000911326 -0.000635395 0.00185723 -0.000825162 0.000586184 0.000642905 0.000517794 0.000558354 0.000327978 0.000466654 0.000387459 0.000361617 0.000630767 0.00067421 0.000584104 8.60071e-05 0.000468738 0.000105876 -0.000126689 0.00121517 0.000440999 3.65791e-05 0.00176732 -0.00137673 -0.00130679
-163.06 -1.21507e-07 -9.28059e-05 -0.00603205 -0.00420317 -6.56205e-05 -4.21091e-06 -0.000235517 -0.00432273 -0.0100295 0.0580359 -0.0261302 0.00365178 -0.00884211 0.0302905 -0.00180409 0.00222223 0.00187646 0.000543459 3.28666e-06 0.00248117 0.000803497 0.000609936 0.00231911 0.00213831 0.000289974 0.00223368 0.00073709 0.00474596 -1.35868e-05 0.00378917 0.00202019 0.00254744 0.00153376 0.00199283 0.000531487 0.0019901 0.00082843 0.00217453 0.00212102 0.00231108 0.00185858 0.00183147 0.000962814 0.00207102 0.000131527 0.000372725 0.00195686 -0.00257183 -0.000809505 0.00100494
--233.585 2.00094e-07 0.00022552 0.00646427 0.00784459 0.000214732 -0.000110572 0.000198683 -0.00555556 -0.00781365 -0.0261302 0.254021 -0.255743 0.046896 0.0320432 -0.00180565 0.000301895 -0.001949 0.00100174 -0.00102708 -0.00197454 0.00183145 -0.00247232 0.00213105 -0.00437498 0.00555424 -0.00210096 -0.00486341 0.00395437 -0.00309178 -0.00156136 -0.000717582 -0.000343979 -0.00128176 0.000507843 -0.000884138 -3.53458e-05 -0.000541591 -0.000337703 -0.000478222 -0.000611018 -0.000542073 -0.000778798 -0.000736517 -0.00111015 0.00150343 -0.000957562 -0.0027403 0.00418595 -0.00021504 0.000227878
-484.29 -2.85644e-07 -0.000339525 -0.00910272 -0.00281738 -0.000120525 0.00028517 -0.000580425 0.00737874 0.0098309 0.00365178 -0.255743 0.53764 -0.127592 0.00414549 0.0163749 0.00552766 0.0149922 0.0111562 0.00531503 0.00534004 0.00321229 0.00825292 0.00856864 0.0106111 0.0197077 0.0121218 0.0151009 0.00619116 0.0188632 0.00859636 0.012597 0.0129711 0.0109347 0.00613625 0.00828303 0.00578754 0.00866654 0.0107735 0.0118192 0.0113359 0.0100147 0.00811911 0.00765207 0.00641399 0.00542216 0.00584009 0.00354409 0.000905731 -0.00242194 -0.00086416
--142.425 7.62836e-08 0.00015486 0.00506589 0.000719771 -0.000392437 -0.000151373 -0.000369391 0.000296808 0.0010545 -0.00884211 0.046896 -0.127592 0.148306 -0.0697206 -0.000332925 0.00284745 0.000702452 -0.00191035 -0.00181822 0.00268693 3.26636e-05 -0.00210508 -0.000790085 0.00486713 -0.0109873 0.0049113 -0.001065 -0.000319335 -0.00463673 0.00201972 -0.00216326 -0.000920928 -0.000679603 -0.00130959 -9.93135e-05 -0.00155806 -0.000522551 -0.00165244 -0.00142341 -0.00165617 -0.00170809 -0.000807639 -0.00077139 -4.34376e-05 -0.00282429 0.000142767 0.00235685 -0.00294069 0.00238242 0.00131484
--52.7765 -3.02308e-08 -9.00504e-06 -0.0110638 -0.00287951 0.000167905 0.00012107 0.000150769 0.00471625 -0.00350112 0.0302905 0.0320432 0.00414549 -0.0697206 0.395772 -0.0271938 0.000467431 0.0213547 0.013925 0.0106887 0.00573715 0.013024 0.0137902 0.0144451 0.020789 0.0236476 0.0233056 0.0229828 0.0142783 0.0295416 0.0161249 0.0216657 0.0220762 0.0166505 0.012668 0.0105931 0.011822 0.0123133 0.017742 0.0187808 0.0175819 0.0159378 0.0118886 0.0132662 0.00917112 0.0119304 0.00476766 -0.000702925 0.00365638 -0.00464559 -0.00230052
--45.232 2.82905e-08 4.31723e-05 0.00159225 0.0019447 7.02117e-05 -4.34891e-06 0.000183369 0.000623905 3.72574e-05 -0.00180409 -0.00180565 0.0163749 -0.000332925 -0.0271938 0.0342036 -0.00510452 -0.000120787 0.000991124 0.000720577 0.00046089 -6.01977e-05 0.00114884 0.000367132 0.000241666 0.00261875 -0.000158078 0.00128826 0.00067556 0.00085549 0.000992045 0.000735266 0.00092343 0.000606835 0.000368282 0.000489675 0.000349175 0.000625237 0.000668288 0.000750653 0.000371296 0.000809769 0.00028181 0.00116033 0.000278199 0.000135254 0.000964842 -0.000350893 -0.0011671 0.000538425 0.000399534
--7.06645 1.34039e-08 6.09184e-05 0.00171115 0.00358631 1.55908e-05 9.33537e-07 3.05383e-05 0.00126676 0.000834007 0.00222223 0.000301895 0.00552766 0.00284745 0.000467431 -0.00510452 0.0256989 -0.0117184 0.00213528 0.0012436 0.000722304 0.00108187 0.000784494 0.000153536 0.00234907 0.000517434 0.00128899 0.00224924 -0.000422101 0.00224555 0.00134184 0.00104401 0.0016244 0.00100231 0.00105234 0.000548343 0.000963585 0.000824022 0.00134924 0.00128528 0.00140575 0.00138775 0.000832763 0.000958087 0.00166283 -0.000458359 0.00191137 0.00119532 -0.000808626 -0.00124041 -0.00137435
--59.1798 1.22151e-08 -1.96319e-05 -0.00283536 -0.00302266 -3.03037e-05 3.936e-05 -0.000180127 0.00148006 -0.000352357 0.00187646 -0.001949 0.0149922 0.000702452 0.0213547 -0.000120787 -0.0117184 0.0364693 -0.0101265 0.00290717 -0.000376309 0.00272507 0.00174563 0.00156778 0.00144169 0.00476218 0.004062 0.00143186 0.00495943 0.00175319 0.00293316 0.00336022 0.0025167 0.00284002 0.00108989 0.00222032 0.000806325 0.00208244 0.00185315 0.0025727 0.00225619 0.00183658 0.00173194 0.00120053 0.00107733 0.00159809 -0.000748524 -0.000313618 0.00343311 -0.00132628 -0.00193995
-3.28108 -7.78678e-09 -2.69567e-06 0.00142091 0.00305452 -4.90258e-05 -5.10114e-07 -0.000281815 5.05934e-05 0.00119286 0.000543459 0.00100174 0.0111562 -0.00191035 0.013925 0.000991124 0.00213528 -0.0101265 0.0214221 -0.00466362 0.0010782 0.000891953 0.000919524 0.00187129 0.00259257 0.00148398 0.00228238 0.0018848 0.00137144 0.00231169 0.00152487 0.00160979 0.00205705 0.00134073 0.00124397 0.000854856 0.00111595 0.00103168 0.00161902 0.00162456 0.00130879 0.00141383 0.00092589 0.00105209 0.0006081 6.08138e-05 0.000714496 -0.000183804 -0.000769707 0.000355498 0.0012125
--29.1125 3.49029e-09 1.69734e-05 -0.000496074 0.0013684 -1.34179e-05 8.20756e-06 -0.000209975 0.00070284 -0.000423446 3.28666e-06 -0.00102708 0.00531503 -0.00181822 0.0106887 0.000720577 0.0012436 0.00290717 -0.00466362 0.00878238 -0.00108816 0.000484287 0.000716931 0.00112654 0.00137192 0.00105033 0.00238991 0.00141334 0.000600352 0.00197415 0.000974274 0.00121346 0.00123221 0.000809316 0.000667563 0.000508313 0.000764946 0.000658431 0.00107935 0.00088623 0.000929633 0.000777995 0.000921879 0.000918776 2.05368e-05 0.000727092 -0.000300042 0.000600073 0.000393536 -0.000879024 -0.00103341
--29.256 2.04661e-08 2.4913e-05 0.000519264 -0.000602935 -3.10445e-05 5.25116e-06 3.80154e-05 0.000257818 5.44426e-05 0.00248117 -0.00197454 0.00534004 0.00268693 0.00573715 0.00046089 0.000722304 -0.000376309 0.0010782 -0.00108816 0.00621094 -0.00165726 0.00104433 0.000464783 0.00122546 0.00128858 0.000581244 0.00116717 0.000974903 0.000724131 0.000839886 0.00106428 0.000894246 0.000710378 0.000666738 0.000555337 0.000463096 0.000668744 0.000731041 0.000877279 0.000854038 0.000942465 0.000626941 0.000341829 0.000724901 0.000472657 0.00110048 2.24225e-05 0.000692143 0.000548165 0.000488032
--26.7971 5.53151e-09 2.12777e-05 -2.34668e-05 0.000761333 4.72826e-05 3.6869e-06 -0.000156663 0.000269064 0.00037034 0.000803497 0.00183145 0.00321229 3.26636e-05 0.013024 -6.01977e-05 0.00108187 0.00272507 0.000891953 0.000484287 -0.00165726 0.0089377 -0.00197381 0.00119297 0.0019549 0.00160958 0.00220902 0.00195846 0.000748423 0.00248617 0.00105903 0.00163432 0.00149275 0.00123378 0.000843412 0.000791225 0.000714051 0.000932741 0.00124831 0.00120755 0.0012867 0.00127261 0.000820707 0.000895213 0.000648922 0.000540922 0.000503391 0.000172922 -0.000198663 -0.000526609 -0.000694538
--37.7169 9.05486e-09 8.96907e-06 -0.000844931 0.00047708 -1.56712e-05 1.3573e-05 -9.41616e-05 0.000233355 0.000277088 0.000609936 -0.00247232 0.00825292 -0.00210508 0.0137902 0.00114884 0.000784494 0.00174563 0.000919524 0.000716931 0.00104433 -0.00197381 0.00759315 -0.00119851 0.0010949 0.00273259 0.0012093 0.00115538 0.00182225 0.000895194 0.00159661 0.00151011 0.00141604 0.00126822 0.000866693 0.00081973 0.000707068 0.000901465 0.00106368 0.00128003 0.00119058 0.000999557 0.000766067 0.000826049 0.000192228 0.000652102 -0.000209928 0.000509274 0.000743689 -0.000633867 -0.000435598
--36.2195 2.5139e-08 3.59372e-05 0.000960772 0.00127697 -3.04665e-06 9.03107e-06 -0.000232649 0.00218975 0.000863045 0.00231911 0.00213105 0.00856864 -0.000790085 0.0144451 0.000367132 0.000153536 0.00156778 0.00187129 0.00112654 0.000464783 0.00119297 -0.00119851 0.00878911 -0.000776094 0.00252935 0.00255457 0.00268148 0.000179357 0.00278865 0.00130005 0.00178623 0.00194037 0.00137086 0.00117538 0.000944753 0.00124558 0.000911406 0.00165938 0.00158528 0.00173245 0.00119666 0.00127558 0.000937633 0.00100647 0.000845869 0.0011189 -0.000133098 0.000205583 -0.00063167 -0.00030378
--21.9994 -1.08552e-08 -8.75655e-06 -0.00138658 -9.06307e-05 -7.74122e-05 1.03103e-05 -0.000326019 -0.00116788 0.000655202 0.00213831 -0.00437498 0.0106111 0.00486713 0.020789 0.000241666 0.00234907 0.00144169 0.00259257 0.00137192 0.00122546 0.0019549 0.0010949 -0.000776094 0.0132416 -0.00345542 0.00588545 0.000188287 0.004663 0.00120045 0.00287002 0.00209438 0.00268137 0.00207884 0.00109869 0.00171016 0.000964863 0.00175597 0.00178202 0.00218662 0.00190694 0.0020931 0.0010904 0.00184887 0.00083951 0.00143388 0.000553021 2.82684e-05 0.00147065 -0.000118066 -0.000278526
--162.747 1.05359e-07 0.000141758 0.00462692 0.00654011 0.000216321 2.61017e-05 -0.000318385 0.00226871 0.00204355 0.000289974 0.00555424 0.0197077 -0.0109873 0.0236476 0.00261875 0.000517434 0.00476218 0.00148398 0.00105033 0.00128858 0.00160958 0.00273259 0.00252935 -0.00345542 0.0267661 -0.0114637 0.0101978 -0.00118178 0.00641783 0.000916903 0.00316187 0.00354212 0.00222134 0.00218806 0.00144526 0.00181558 0.00168245 0.00276745 0.00272524 0.0027095 0.00209733 0.00176782 0.00131237 0.0021087 0.00106007 0.00157566 0.000750458 4.3325e-06 -0.0010004 3.53574e-06
--33.8588 1.50553e-08 2.90704e-05 0.000387582 0.000969984 -0.000208162 1.13403e-05 -0.000497522 0.00166594 0.000911326 0.00223368 -0.00210096 0.0121218 0.0049113 0.0233056 -0.000158078 0.00128899 0.004062 0.00228238 0.00238991 0.000581244 0.00220902 0.0012093 0.00255457 0.00588545 -0.0114637 0.0287944 -0.0102712 0.00751727 0.0020758 0.00301641 0.00254565 0.0029211 0.00230621 0.00141438 0.00172011 0.00123521 0.00170195 0.00216477 0.00234635 0.00251666 0.00187811 0.00201831 0.00164688 0.000752081 0.00127351 0.000147852 0.00105703 0.000109758 -0.00113409 -0.00168638
--74.773 1.94283e-08 5.1027e-05 -0.000532825 -0.000181126 5.33879e-05 2.73848e-05 -0.000186848 -0.000732575 -0.000635395 0.00073709 -0.00486341 0.0151009 -0.001065 0.0229828 0.00128826 0.00224924 0.00143186 0.0018848 0.00141334 0.00116717 0.00195846 0.00115538 0.00268148 0.000188287 0.0101978 -0.0102712 0.0189567 -0.0050178 0.00385888 0.00239729 0.00222443 0.00236409 0.00213982 0.0013189 0.00141277 0.0012989 0.00153859 0.00202531 0.00218497 0.00210886 0.00165833 0.00160641 0.00158926 0.0011096 0.00154894 0.000772844 0.000944573 0.0021788 -0.00105218 -0.000617066
--73.1137 5.78836e-08 5.79558e-05 0.00213594 0.0045263 -8.01643e-06 2.09694e-06 -0.000172193 0.00310776 0.00185723 0.00474596 0.00395437 0.00619116 -0.000319335 0.0142783 0.00067556 -0.000422101 0.00495943 0.00137144 0.000600352 0.000974903 0.000748423 0.00182225 0.000179357 0.004663 -0.00118178 0.00751727 -0.0050178 0.0140565 -0.0030761 0.00268211 0.00230165 0.00193578 0.00186599 0.00133943 0.00123475 0.0010508 0.00130842 0.00167377 0.00197244 0.00170784 0.0015328 0.00114082 0.000877722 0.000668347 0.000601837 0.000275794 -0.000595399 -0.00100736 0.000506763 0.000166283
--39.929 -2.29637e-09 1.22761e-05 -0.00123699 -0.00103787 -7.55515e-05 2.64813e-05 -0.000344262 -0.00114084 -0.000825162 -1.35868e-05 -0.00309178 0.0188632 -0.00463673 0.0295416 0.00085549 0.00224555 0.00175319 0.00231169 0.00197415 0.000724131 0.00248617 0.000895194 0.00278865 0.00120045 0.00641783 0.0020758 0.00385888 -0.0030761 0.0144089 -0.00101402 0.00327906 0.00300596 0.00217938 0.00165159 0.00155018 0.00153227 0.00169239 0.00247623 0.00232694 0.00235389 0.00213615 0.00142581 0.00209428 0.00139916 0.0013364 0.00110979 0.00118744 0.00165719 -0.00196774 -0.00108168
--58.5346 3.19616e-08 3.76268e-05 0.000118771 0.00080584 1.36694e-05 8.63149e-06 -7.64577e-05 0.00142307 0.000586184 0.00378917 -0.00156136 0.00859636 0.00201972 0.0161249 0.000992045 0.00134184 0.00293316 0.00152487 0.000974274 0.000839886 0.00105903 0.00159661 0.00130005 0.00287002 0.000916903 0.00301641 0.00239729 0.00268211 -0.00101402 0.00905662 0.000115884 0.00280865 0.0016109 0.00127508 0.00119477 0.00106525 0.00132916 0.00174255 0.00188453 0.0016416 0.00146339 0.00122829 0.00132119 0.000889198 0.00108019 0.00048276 0.000378908 0.000408493 0.000111724 -1.5223e-05
--38.8032 1.47211e-08 2.0834e-05 0.000138195 0.000726297 -3.32678e-05 1.59615e-05 -7.11183e-05 0.000998996 0.000642905 0.00202019 -0.000717582 0.012597 -0.00216326 0.0216657 0.000735266 0.00104401 0.00336022 0.00160979 0.00121346 0.00106428 0.00163432 0.00151011 0.00178623 0.00209438 0.00316187 0.00254565 0.00222443 0.00230165 0.00327906 0.000115884 0.00718189 0.00140267 0.00189912 0.00121001 0.00140783 0.00134883 0.00159456 0.00198508 0.00210652 0.00203604 0.00166576 0.00158472 0.00136086 0.000963864 0.000942809 0.000546749 0.000406433 0.000485566 -0.000957127 -0.000802638
--38.1298 1.3567e-08 1.51704e-05 -0.000434433 0.000961207 -1.08584e-06 1.40026e-05 -0.000123808 0.000951142 0.000517794 0.00254744 -0.000343979 0.0129711 -0.000920928 0.0220762 0.00092343 0.0016244 0.0025167 0.00205705 0.00123221 0.000894246 0.00149275 0.00141604 0.00194037 0.00268137 0.00354212 0.0029211 0.00236409 0.00193578 0.00300596 0.00280865 0.00140267 0.00682939 0.00136874 0.00127911 0.00125587 0.0013438 0.00163 0.00221169 0.00212128 0.00199643 0.00189682 0.00126074 0.00151018 0.00123334 0.00102062 0.000996574 0.000400249 0.000817708 -0.000710633 -0.000337154
--29.4208 1.41444e-08 1.60576e-05 0.000276235 0.000716507 2.76099e-05 1.29075e-05 -3.47889e-05 0.00102779 0.000558354 0.00153376 -0.00128176 0.0109347 -0.000679603 0.0166505 0.000606835 0.00100231 0.00284002 0.00134073 0.000809316 0.000710378 0.00123378 0.00126822 0.00137086 0.00207884 0.00222134 0.00230621 0.00213982 0.00186599 0.00217938 0.0016109 0.00189912 0.00136874 0.00470771 0.000584395 0.000995791 0.000840692 0.00139334 0.00172373 0.00182988 0.00159411 0.00131614 0.00126663 0.00128228 0.00101184 0.000717863 0.000700994 0.000293206 0.000610455 -0.000689758 -0.000678959
--11.843 1.39482e-09 2.34875e-06 -0.000417018 0.00109733 -3.27048e-06 6.3195e-06 -4.20261e-05 0.000409272 0.000327978 0.00199283 0.000507843 0.00613625 -0.00130959 0.012668 0.000368282 0.00105234 0.00108989 0.00124397 0.000667563 0.000666738 0.000843412 0.000866693 0.00117538 0.00109869 0.00218806 0.00141438 0.0013189 0.00133943 0.00165159 0.00127508 0.00121001 0.00127911 0.000584395 0.00291782 0.000290567 0.000725794 0.000722069 0.00132426 0.00127149 0.00118934 0.00112426 0.000877638 0.000741329 0.000754899 0.000475991 0.000438857 5.29256e-05 0.000277192 -0.000357168 -7.80617e-05
--14.0759 7.41819e-09 9.20638e-06 0.000540667 0.000433777 1.07099e-05 9.12835e-06 -3.65763e-05 0.000750858 0.000466654 0.000531487 -0.000884138 0.00828303 -9.93135e-05 0.0105931 0.000489675 0.000548343 0.00222032 0.000854856 0.000508313 0.000555337 0.000791225 0.00081973 0.000944753 0.00171016 0.00144526 0.00172011 0.00141277 0.00123475 0.00155018 0.00119477 0.00140783 0.00125587 0.000995791 0.000290567 0.00294822 0.000156833 0.000819703 0.00103223 0.00141699 0.00117509 0.00108801 0.000716336 0.00091179 0.000718133 0.000690161 0.000600155 0.000190554 0.000471998 -0.000481065 -0.000543856
-0.0600075 -4.50877e-09 -7.59272e-06 -9.13362e-05 0.0011277 -1.36814e-05 6.88257e-06 -2.79482e-05 0.000267141 0.000387459 0.0019901 -3.53458e-05 0.00578754 -0.00155806 0.011822 0.000349175 0.000963585 0.000806325 0.00111595 0.000764946 0.000463096 0.000714051 0.000707068 0.00124558 0.000964863 0.00181558 0.00123521 0.0012989 0.0010508 0.00153227 0.00106525 0.00134883 0.0013438 0.000840692 0.000725794 0.000156833 0.00257972 0.000273887 0.00100842 0.00115539 0.00126038 0.000996931 0.000993171 0.000687116 0.000682677 0.000593012 0.000225001 0.000146497 0.000386661 -0.000573344 -0.000235301
--5.09207 2.67791e-09 -4.13049e-08 0.000930581 0.00106082 2.08932e-05 9.20274e-06 4.77267e-06 0.000653964 0.000361617 0.00082843 -0.000541591 0.00866654 -0.000522551 0.0123133 0.000625237 0.000824022 0.00208244 0.00103168 0.000658431 0.000668744 0.000932741 0.000901465 0.000911406 0.00175597 0.00168245 0.00170195 0.00153859 0.00130842 0.00169239 0.00132916 0.00159456 0.00163 0.00139334 0.000722069 0.000819703 0.000273887 0.00327133 0.00072712 0.00133988 0.00134113 0.00134488 0.000831794 0.00108125 0.000741087 0.000776457 0.000650405 0.00021541 0.000475484 -0.000481738 -0.00049634
-4.65995 -5.15079e-09 -1.42844e-05 0.000969117 0.00191044 6.66284e-06 1.17073e-05 1.29724e-05 0.000651965 0.000630767 0.00217453 -0.000337703 0.0107735 -0.00165244 0.017742 0.000668288 0.00134924 0.00185315 0.00161902 0.00107935 0.000731041 0.00124831 0.00106368 0.00165938 0.00178202 0.00276745 0.00216477 0.00202531 0.00167377 0.00247623 0.00174255 0.00198508 0.00221169 0.00172373 0.00132426 0.00103223 0.00100842 0.00072712 0.00458517 0.00142601 0.00172917 0.001554 0.00153104 0.00134469 0.00113947 0.0008973 0.00066188 0.000266304 0.000719826 -0.000895788 -0.000535562
-7.92702 -1.81869e-09 -1.06401e-05 0.00160814 0.00203603 3.31761e-05 1.28094e-05 0.000125714 0.000942159 0.00067421 0.00212102 -0.000478222 0.0118192 -0.00142341 0.0187808 0.000750653 0.00128528 0.0025727 0.00162456 0.00088623 0.000877279 0.00120755 0.00128003 0.00158528 0.00218662 0.00272524 0.00234635 0.00218497 0.00197244 0.00232694 0.00188453 0.00210652 0.00212128 0.00182988 0.00127149 0.00141699 0.00115539 0.00133988 0.00142601 0.00533348 0.00159145 0.00182631 0.00152083 0.00173264 0.00121563 0.00113306 0.000902403 0.00013734 0.000702902 -0.000928602 -0.000726243
-12.0192 -4.06937e-09 -1.51713e-05 0.00147778 0.00134388 5.29046e-05 1.18657e-05 0.000124907 0.000773806 0.000584104 0.00231108 -0.000611018 0.0113359 -0.00165617 0.0175819 0.000371296 0.00140575 0.00225619 0.00130879 0.000929633 0.000854038 0.0012867 0.00119058 0.00173245 0.00190694 0.0027095 0.00251666 0.00210886 0.00170784 0.00235389 0.0016416 0.00203604 0.00199643 0.00159411 0.00118934 0.00117509 0.00126038 0.00134113 0.00172917 0.00159145 0.00529611 0.00136518 0.00163992 0.00132282 0.0013958 0.00114076 0.000715913 0.000322063 0.000736403 -0.000815738 -0.000558798
-17.7568 -8.39188e-09 -1.53042e-05 0.00142363 0.00122407 2.50989e-06 1.04725e-05 0.000164052 0.000507389 8.60071e-05 0.00185858 -0.000542073 0.0100147 -0.00170809 0.0159378 0.000809769 0.00138775 0.00183658 0.00141383 0.000777995 0.000942465 0.00127261 0.000999557 0.00119666 0.0020931 0.00209733 0.00187811 0.00165833 0.0015328 0.00213615 0.00146339 0.00166576 0.00189682 0.00131614 0.00112426 0.00108801 0.000996931 0.00134488 0.001554 0.00182631 0.00136518 0.00509528 0.000650029 0.00181865 0.000767742 0.00102842 0.000823174 3.26867e-05 0.000630858 -0.000901449 -0.000664507
-16.7632 4.22587e-10 -1.2794e-05 0.00263312 0.00251738 -1.44713e-06 8.68457e-06 0.000140123 0.000534848 0.000468738 0.00183147 -0.000778798 0.00811911 -0.000807639 0.0118886 0.00028181 0.000832763 0.00173194 0.00092589 0.000921879 0.000626941 0.000820707 0.000766067 0.00127558 0.0010904 0.00176782 0.00201831 0.00160641 0.00114082 0.00142581 0.00122829 0.00158472 0.00126074 0.00126663 0.000877638 0.000716336 0.000993171 0.000831794 0.00153104 0.00152083 0.00163992 0.000650029 0.00488181 0.000503438 0.001573 0.000889542 0.000293885 0.000463243 0.000496318 -0.000619609 -0.000460105
-15.8789 -1.14099e-09 -1.34574e-05 0.00182936 0.00164538 5.14713e-05 8.83284e-06 0.000156405 0.000241404 0.000105876 0.000962814 -0.000736517 0.00765207 -0.00077139 0.0132662 0.00116033 0.000958087 0.00120053 0.00105209 0.000918776 0.000341829 0.000895213 0.000826049 0.000937633 0.00184887 0.00131237 0.00164688 0.00158926 0.000877722 0.00209428 0.00132119 0.00136086 0.00151018 0.00128228 0.000741329 0.00091179 0.000687116 0.00108125 0.00134469 0.00173264 0.00132282 0.00181865 0.000503438 0.00519684 -4.55882e-05 0.0011885 0.000573105 0.000553874 0.000526594 -0.000644128 -0.000531595
-13.2807 2.02557e-09 8.578e-06 0.0016716 0.000110644 8.30101e-05 5.1145e-06 0.000198284 0.000242676 -0.000126689 0.00207102 -0.00111015 0.00641399 -4.34376e-05 0.00917112 0.000278199 0.00166283 0.00107733 0.0006081 2.05368e-05 0.000724901 0.000648922 0.000192228 0.00100647 0.00083951 0.0021087 0.000752081 0.0011096 0.000668347 0.00139916 0.000889198 0.000963864 0.00123334 0.00101184 0.000754899 0.000718133 0.000682677 0.000741087 0.00113947 0.00121563 0.0013958 0.000767742 0.001573 -4.55882e-05 0.00570363 -0.000808532 0.00165008 -0.000185624 0.000581982 -0.000435571 -0.000345578
-32.9597 -2.30669e-09 -2.02638e-05 0.00182921 -0.000292589 -3.2338e-05 7.83009e-06 3.8512e-05 0.000394514 0.00121517 0.000131527 0.00150343 0.00542216 -0.00282429 0.0119304 0.000135254 -0.000458359 0.00159809 6.08138e-05 0.000727092 0.000472657 0.000540922 0.000652102 0.000845869 0.00143388 0.00106007 0.00127351 0.00154894 0.000601837 0.0013364 0.00108019 0.000942809 0.00102062 0.000717863 0.000475991 0.000690161 0.000593012 0.000776457 0.0008973 0.00113306 0.00114076 0.00102842 0.000889542 0.0011885 -0.000808532 0.00837157 -0.000920352 5.49361e-05 6.93156e-05 -0.000733614 -0.000575733
-41.3675 -4.57616e-09 -9.15491e-07 -0.000464083 -0.00307141 0.000119485 2.16139e-06 0.000180051 -0.000174468 0.000440999 0.000372725 -0.000957562 0.00584009 0.000142767 0.00476766 0.000964842 0.00191137 -0.000748524 0.000714496 -0.000300042 0.00110048 0.000503391 -0.000209928 0.0011189 0.000553021 0.00157566 0.000147852 0.000772844 0.000275794 0.00110979 0.00048276 0.000546749 0.000996574 0.000700994 0.000438857 0.000600155 0.000225001 0.000650405 0.00066188 0.000902403 0.000715913 0.000823174 0.000293885 0.000573105 0.00165008 -0.000920352 0.0124559 -0.0010135 0.00100548 -0.000155844 -0.000303252
-8.3907 2.96419e-08 2.4643e-05 0.0003504 -0.000760542 -1.97766e-05 7.69067e-06 4.26014e-05 0.000324336 3.65791e-05 0.00195686 -0.0027403 0.00354409 0.00235685 -0.000702925 -0.000350893 0.00119532 -0.000313618 -0.000183804 0.000600073 2.24225e-05 0.000172922 0.000509274 -0.000133098 2.82684e-05 0.000750458 0.00105703 0.000944573 -0.000595399 0.00118744 0.000378908 0.000406433 0.000400249 0.000293206 5.29256e-05 0.000190554 0.000146497 0.00021541 0.000266304 0.00013734 0.000322063 3.26867e-05 0.000463243 0.000553874 -0.000185624 5.49361e-05 -0.0010135 0.0141547 0.000293533 -2.06452e-05 0.00044721
-91.7857 -8.91307e-08 -8.24629e-05 -0.00234206 -0.00253471 3.89921e-05 0.00023512 -8.98831e-05 0.000797893 0.00176732 -0.00257183 0.00418595 0.000905731 -0.00294069 0.00365638 -0.0011671 -0.000808626 0.00343311 -0.000769707 0.000393536 0.000692143 -0.000198663 0.000743689 0.000205583 0.00147065 4.3325e-06 0.000109758 0.0021788 -0.00100736 0.00165719 0.000408493 0.000485566 0.000817708 0.000610455 0.000277192 0.000471998 0.000386661 0.000475484 0.000719826 0.000702902 0.000736403 0.000630858 0.000496318 0.000526594 0.000581982 6.93156e-05 0.00100548 0.000293533 0.0580797 0.000333283 -0.00126798
--116.907 9.99022e-08 0.000124971 0.00369888 0.00129408 -3.10625e-05 -0.000101389 1.12549e-05 -0.00127623 -0.00137673 -0.000809505 -0.00021504 -0.00242194 0.00238242 -0.00464559 0.000538425 -0.00124041 -0.00132628 0.000355498 -0.000879024 0.000548165 -0.000526609 -0.000633867 -0.00063167 -0.000118066 -0.0010004 -0.00113409 -0.00105218 0.000506763 -0.00196774 0.000111724 -0.000957127 -0.000710633 -0.000689758 -0.000357168 -0.000481065 -0.000573344 -0.000481738 -0.000895788 -0.000928602 -0.000815738 -0.000901449 -0.000619609 -0.000644128 -0.000435571 -0.000733614 -0.000155844 -2.06452e-05 0.000333283 0.0499826 0.0400389
--65.3535 5.99758e-08 7.00888e-05 0.00194007 0.000927619 -4.05858e-05 -8.89642e-05 2.43315e-06 -0.0019035 -0.00130679 0.00100494 0.000227878 -0.00086416 0.00131484 -0.00230052 0.000399534 -0.00137435 -0.00193995 0.0012125 -0.00103341 0.000488032 -0.000694538 -0.000435598 -0.00030378 -0.000278526 3.53574e-06 -0.00168638 -0.000617066 0.000166283 -0.00108168 -1.5223e-05 -0.000802638 -0.000337154 -0.000678959 -7.80617e-05 -0.000543856 -0.000235301 -0.00049634 -0.000535562 -0.000726243 -0.000558798 -0.000664507 -0.000460105 -0.000531595 -0.000345578 -0.000575733 -0.000303252 0.00044721 -0.00126798 0.0400389 0.0327926
-*end
-
-*correlation_matrix[Corr]
-correlation_matrix {matrix}
-1 -0.926423 -0.875461 -0.198425 -0.127859 -0.0423278 -0.0519956 0.0269223 0.0649263 0.0734256 0.127467 -0.0872785 0.124382 -0.0696471 -0.0157985 -0.0460582 -0.00830121 -0.0583589 0.00422166 -0.0585019 -0.069909 -0.0533793 -0.0815121 -0.0727557 -0.0360029 -0.187334 -0.0375764 -0.102273 -0.116133 -0.0626427 -0.115831 -0.0862274 -0.0868902 -0.0807509 -0.0412887 -0.0488195 0.000222493 -0.016766 0.0129599 0.020441 0.0311024 0.0468465 0.0451818 0.0414809 0.0331162 0.0678386 0.0698021 0.0132814 0.0717232 -0.0984753 -0.0679638
--0.926423 1 0.844215 0.384491 0.240881 0.0459249 0.0153172 0.0765737 -0.0529518 -0.0470875 -0.139582 0.109869 -0.107809 0.0548185 -0.0132985 0.042333 0.0231393 0.0177014 -0.0147232 0.010307 0.0718673 0.0161922 0.0287572 0.0742079 -0.0261061 0.178219 0.0245533 0.0390507 0.135111 -0.00529422 0.092944 0.0480726 0.0454328 0.05705 0.00714601 0.0378088 -0.0245667 0.0129571 -0.0210509 -0.00689174 -0.0154748 -0.032535 0.00167379 -0.00438013 0.00742243 -0.00697686 -0.0113472 0.0689496 -0.102351 0.123663 0.0916565
--0.875461 0.844215 1 0.154422 0.0523259 0.0821966 0.0518381 -0.0401212 -0.0287538 -0.0644447 -0.075409 0.0875882 -0.0906405 0.0787149 -0.00280194 0.0456946 0.0743852 -0.0201231 -0.00360522 0.0354535 0.0618789 0.0440562 0.020148 0.0750357 -0.0148956 0.16961 0.0335346 0.0725461 0.0956871 0.0200189 0.0773944 0.0481227 0.0359336 0.0458112 0.00851143 0.0331898 -0.0292622 -0.000141363 -0.0412934 -0.0285192 -0.0408074 -0.0419685 -0.0358437 -0.0365415 0.0222334 -0.0433524 -0.00160569 0.0405453 -0.0669795 0.10942 0.0757628
--0.198425 0.384491 0.154422 1 0.764739 0.0364929 -0.0427001 0.107951 -0.041452 -0.0175848 -0.100338 0.0513964 -0.0497478 0.0527138 -0.0704743 0.0345003 0.0427739 -0.0594967 0.038903 -0.0212123 0.0264033 -0.000994694 -0.038856 0.0410673 -0.0482862 0.113331 0.00915288 -0.0155078 0.0721933 -0.0412951 0.00500121 0.00653462 -0.0210659 0.0161333 -0.0309366 0.0399023 -0.00720618 0.0651988 0.0573517 0.0882402 0.0813729 0.0799212 0.151018 0.10169 0.0886962 0.0801138 -0.0166631 0.0118022 -0.0389434 0.0662993 0.0429317
--0.127859 0.240881 0.0523259 0.764739 1 -0.0242311 -0.0281185 0.0240964 -0.024104 0.00402735 -0.0654032 0.0583453 -0.0144036 0.00700624 -0.017158 0.0394173 0.083861 -0.0593329 0.0782316 0.0547367 -0.0286789 0.0301879 0.0205234 0.0510598 -0.0029524 0.149852 0.021428 -0.00493139 0.143111 -0.0324115 0.0317421 0.0321266 0.043601 0.0391459 0.0761517 0.0299473 0.0832296 0.0695267 0.105761 0.104508 0.0692231 0.0642822 0.13506 0.0855592 0.00549188 -0.0119874 -0.103162 -0.0239631 -0.0394264 0.0216982 0.0192022
--0.0423278 0.0459249 0.0821966 0.0364929 -0.0242311 1 0.068567 0.108488 -0.0740411 -0.0153127 -0.0338812 0.0529944 -0.0204455 -0.126753 0.0331977 0.0472216 0.012097 -0.0197379 -0.041664 -0.0178093 -0.0489975 0.0622094 -0.0223696 -0.0040422 -0.0836771 0.164465 -0.152586 0.0482312 -0.00841025 -0.078288 0.0178663 -0.0488283 -0.00163434 0.0500527 -0.00753095 0.0245343 -0.0335052 0.045437 0.0122391 0.0565051 0.0904237 0.00437358 -0.00257624 0.0888102 0.136717 -0.043962 0.133166 -0.0206761 0.0201248 -0.017282 -0.0278774
--0.0519956 0.0153172 0.0518381 -0.0427001 -0.0281185 0.068567 1 -0.02883 0.0541184 0.0375225 -0.012376 -0.155332 0.275366 -0.278306 0.136259 -0.0166493 0.00412312 0.14593 -0.00246768 0.0620098 0.0471768 0.0276122 0.110285 0.0682054 0.0634384 0.112961 0.0473175 0.140825 0.0125227 0.156198 0.0642177 0.133354 0.11997 0.133195 0.0828333 0.119032 0.0959437 0.113922 0.122414 0.124187 0.115443 0.103877 0.0880056 0.0867527 0.047949 0.060592 0.0137119 0.0457685 0.690763 -0.321095 -0.34784
-0.0269223 0.0765737 -0.0401212 0.107951 0.0240964 0.108488 -0.02883 1 -0.0660989 0.0478657 -0.0317926 0.0128197 -0.0257426 -0.0311932 0.00779365 0.0322435 0.00619497 -0.0306739 -0.062616 -0.072864 0.0156867 -0.0538895 -0.0351411 -0.0807014 -0.0921351 -0.0632866 -0.0953478 -0.0441325 -0.0472312 -0.0932665 -0.026127 -0.0272907 -0.0487204 -0.0164887 -0.0253012 -0.0219064 -0.0178945 0.00271363 0.00623011 0.0559795 0.0558163 0.0747392 0.0652187 0.0705557 0.0853817 0.0136882 0.0524639 0.0116446 -0.0121288 0.00163713 0.000436951
-0.0649263 -0.0529518 -0.0287538 -0.041452 -0.024104 -0.0740411 0.0541184 -0.0660989 1 -0.0888294 -0.123112 -0.0756284 0.0690444 0.00528796 0.0514358 0.0231459 0.0542163 0.0531749 0.00237167 0.0514567 0.0224454 0.0195269 0.0183737 0.160256 -0.0696337 0.0951433 0.0673591 -0.0365058 0.179846 -0.0652082 0.102597 0.0808791 0.0789671 0.102776 0.0519846 0.0948788 0.0360867 0.0784483 0.06606 0.0885137 0.0729534 0.0487696 0.0525208 0.0229756 0.0220466 0.0295836 -0.0107256 0.0187041 0.0227156 -0.0391661 -0.0721203
-0.0734256 -0.0470875 -0.0644447 -0.0175848 0.00402735 -0.0153127 0.0375225 0.0478657 -0.0888294 1 -0.243398 -0.0906371 0.0783852 0.0160085 -0.0325365 0.00117778 0.0304158 -0.0107871 0.0476481 -0.0264167 0.00403875 0.0229021 0.0185906 0.0538205 0.0332883 0.0730263 0.0313983 -0.0269804 0.0915827 -0.0401893 0.0360112 0.0443521 0.0366313 0.0475764 0.0354978 0.050246 0.0445991 0.0369635 0.05446 0.053973 0.0469243 0.00704428 0.0392217 0.00858647 -0.00980733 0.077646 0.0231013 0.0017975 0.0428736 -0.036002 -0.0421896
-0.127467 -0.139582 -0.075409 -0.100338 -0.0654032 -0.0338812 -0.012376 -0.0317926 -0.123112 -0.243398 1 -0.215208 0.0206734 -0.0953077 0.199865 -0.0404923 0.0575418 0.0407875 0.015413 0.000145579 0.130686 0.0352796 0.0290553 0.102684 0.0771351 0.00735729 0.054641 0.0222224 0.166164 -0.000469844 0.165277 0.0989521 0.127957 0.0927906 0.153141 0.0406317 0.162645 0.0601236 0.133303 0.120557 0.131822 0.108081 0.108808 0.0554401 0.113831 0.00596708 0.0138629 0.0682751 -0.0442978 -0.0150301 0.0230359
--0.0872785 0.109869 0.0875882 0.0513964 0.0583453 0.0529944 -0.155332 0.0128197 -0.0756284 -0.0906371 -0.215208 1 -0.692027 0.241614 0.10106 -0.0193715 0.00373649 -0.0202495 0.0135797 -0.0217452 -0.049711 0.0384368 -0.0562937 0.0451011 -0.0754347 0.0673593 -0.0245657 -0.070085 0.0661765 -0.0511045 -0.0325526 -0.0168003 -0.00825861 -0.0370652 0.0186537 -0.0323077 -0.00138076 -0.0187877 -0.00989515 -0.0129924 -0.0166587 -0.0150674 -0.0221157 -0.0202712 -0.0291657 0.0326021 -0.0170234 -0.0456997 0.0344625 -0.00190843 0.00249678
-0.124382 -0.107809 -0.0906405 -0.0497478 -0.0144036 -0.0204455 0.275366 -0.0257426 0.0690444 0.0783852 0.0206734 -0.692027 1 -0.451853 0.00898686 0.120753 0.047026 0.107067 0.103954 0.0773489 0.0924102 0.04634 0.129167 0.12465 0.12576 0.164285 0.0974241 0.14958 0.0712176 0.214316 0.123193 0.202723 0.214063 0.217348 0.154927 0.208048 0.155404 0.206651 0.216987 0.220717 0.212438 0.191341 0.158479 0.144765 0.115826 0.0808208 0.0713651 0.0406265 0.00512556 -0.0147744 -0.00650819
--0.0696471 0.0548185 0.0787149 0.0527138 0.00700624 -0.126753 -0.278306 -0.0311932 0.00528796 0.0160085 -0.0953077 0.241614 -0.451853 1 -0.287779 -0.00467446 0.0461231 0.00955155 -0.0338925 -0.0503803 0.0885317 0.000897164 -0.0627305 -0.0218838 0.109831 -0.17439 0.075156 -0.0200857 -0.00699404 -0.100304 0.0551099 -0.0662843 -0.0289371 -0.02572 -0.0629544 -0.00474951 -0.0796562 -0.023724 -0.063368 -0.0506111 -0.0590944 -0.0621366 -0.0300156 -0.0277859 -0.00149352 -0.0801542 0.0033217 0.0514403 -0.0316852 0.0276713 0.0188541
--0.0157985 -0.0132985 -0.00280194 -0.0704743 -0.017158 0.0331977 0.136259 0.00779365 0.0514358 -0.0325365 0.199865 0.10106 0.00898686 -0.287779 1 -0.233728 0.00463487 0.177749 0.151231 0.181299 0.115717 0.218982 0.251558 0.244921 0.287171 0.229759 0.218315 0.265338 0.191432 0.391198 0.269334 0.40638 0.424631 0.385745 0.372784 0.310115 0.369984 0.342208 0.416489 0.408776 0.384031 0.354913 0.27047 0.29252 0.19303 0.207266 0.067904 -0.00939154 0.0241166 -0.0330301 -0.0201937
--0.0460582 0.042333 0.0456946 0.0345003 0.0394173 0.0472216 -0.0166493 0.0322435 0.0231459 0.00117778 -0.0404923 -0.0193715 0.120753 -0.00467446 -0.233728 1 -0.172172 -0.00341995 0.0366152 0.0415756 0.0316215 -0.00344296 0.0712874 0.0211745 0.0113556 0.0865498 -0.00503711 0.0505923 0.0308098 0.0385357 0.0563654 0.0469126 0.0604195 0.0478223 0.036865 0.0487631 0.0371724 0.059108 0.0533642 0.0555774 0.0275871 0.0613396 0.0218087 0.0870316 0.0199179 0.00799301 0.0467447 -0.0159473 -0.0261854 0.0130221 0.0119297
--0.00830121 0.0231393 0.0743852 0.0427739 0.083861 0.012097 0.00412312 0.00619497 0.0542163 0.0304158 0.0575418 0.00373649 0.047026 0.0461231 0.00463487 -0.172172 1 -0.382777 0.091005 0.0827785 0.057172 0.0713848 0.0561592 0.010216 0.127341 0.019729 0.0473846 0.101905 -0.0222085 0.116695 0.0879548 0.0768469 0.122615 0.0911255 0.121526 0.0629962 0.118344 0.0898708 0.124295 0.109783 0.120496 0.121274 0.0743487 0.0829044 0.137346 -0.0312496 0.106832 0.0626727 -0.0209304 -0.0346097 -0.0473426
--0.0583589 0.0177014 -0.0201231 -0.0594967 -0.0593329 -0.0197379 0.14593 -0.0306739 0.0531749 -0.0107871 0.0407875 -0.0202495 0.107067 0.00955155 0.177749 -0.00341995 -0.382777 1 -0.362297 0.162443 -0.0250036 0.150939 0.1049 0.0875688 0.0656051 0.152423 0.12535 0.0544572 0.219043 0.0764805 0.161395 0.207628 0.159469 0.216747 0.105655 0.214127 0.0831305 0.190654 0.143307 0.184467 0.162343 0.134729 0.129802 0.0872046 0.074698 0.0914604 -0.03512 -0.0138034 0.0745954 -0.0310643 -0.056097
-0.00422166 -0.0147232 -0.00360522 0.038903 0.0782316 -0.041664 -0.00246768 -0.062616 0.00237167 0.0476481 0.015413 0.0135797 0.103954 -0.0338925 0.151231 0.0366152 0.091005 -0.362297 1 -0.340006 0.0934734 0.0644612 0.0720977 0.136376 0.153932 0.0619733 0.0918972 0.0935306 0.0790325 0.131578 0.109476 0.129783 0.170068 0.133507 0.157343 0.107568 0.150117 0.12324 0.163359 0.151985 0.122875 0.135326 0.0905395 0.099713 0.0550134 0.00454117 0.0437403 -0.0105554 -0.0218214 0.0108642 0.0457472
--0.0585019 0.010307 0.0354535 -0.0212123 0.0547367 -0.0178093 0.0620098 -0.072864 0.0514567 -0.0264167 0.000145579 -0.0217452 0.0773489 -0.0503803 0.181299 0.0415756 0.0827785 0.162443 -0.340006 1 -0.147335 0.0546618 0.0877931 0.128223 0.12722 0.0685054 0.150287 0.109537 0.0540331 0.175492 0.109243 0.152791 0.159107 0.125866 0.131873 0.0998954 0.160708 0.12284 0.170089 0.12949 0.13631 0.116302 0.140792 0.135999 0.00290169 0.0847968 -0.0286873 0.0538206 0.0174247 -0.0419551 -0.0608945
--0.069909 0.0718673 0.0618789 0.0264033 -0.0286789 -0.0489975 0.0471768 0.0156867 0.0224454 0.00403875 0.130686 -0.049711 0.0924102 0.0885317 0.115717 0.0316215 0.057172 -0.0250036 0.0934734 -0.147335 1 -0.222433 0.152071 0.0629069 0.13513 0.0999398 0.0434637 0.107566 0.104338 0.0765461 0.111985 0.159352 0.137305 0.131373 0.15662 0.129777 0.115693 0.148361 0.136989 0.152424 0.148909 0.167534 0.113856 0.0601673 0.121794 0.0655487 0.125117 0.00239142 0.0364422 0.0311117 0.0341965
--0.0533793 0.0161922 0.0440562 -0.000994694 0.0301879 0.0622094 0.0276122 -0.0538895 0.0195269 0.0229021 0.0352796 0.0384368 0.04634 0.000897164 0.218982 -0.00344296 0.0713848 0.150939 0.0644612 0.0546618 -0.222433 1 -0.239597 0.1346 0.179697 0.104065 0.1377 0.15046 0.0667721 0.21908 0.11771 0.203989 0.191066 0.190205 0.165157 0.154137 0.148707 0.172499 0.194999 0.174899 0.187019 0.188582 0.124247 0.131354 0.0908875 0.0625343 0.0477095 0.0153741 -0.00871948 -0.0249153 -0.0405691
--0.0815121 0.0287572 0.020148 -0.038856 0.0205234 -0.0223696 0.110285 -0.0351411 0.0183737 0.0185906 0.0290553 -0.0562937 0.129167 -0.0627305 0.251558 0.0712874 0.0561592 0.1049 0.0720977 0.0877931 0.152071 -0.239597 1 -0.14671 0.109192 0.191677 0.0817842 0.0963017 0.176383 0.0855836 0.192533 0.204493 0.196641 0.212119 0.18413 0.173252 0.159759 0.180874 0.180269 0.201142 0.187745 0.160699 0.125825 0.1315 0.0292099 0.0817901 -0.021586 0.0491236 0.0354134 -0.032537 -0.027605
--0.0727557 0.0742079 0.0750357 0.0410673 0.0510598 -0.0040422 0.0682054 -0.0807014 0.160256 0.0538205 0.102684 0.0451011 0.12465 -0.0218838 0.244921 0.0211745 0.010216 0.0875688 0.136376 0.128223 0.0629069 0.1346 -0.14671 1 -0.0719402 0.164909 0.16058 0.207741 0.0161364 0.247803 0.145715 0.224826 0.250451 0.213116 0.2321 0.185595 0.261586 0.169972 0.261394 0.231541 0.253927 0.178819 0.194735 0.138737 0.142152 0.0986113 0.106938 -0.011933 0.0090992 -0.0301376 -0.0178936
--0.0360029 -0.0261061 -0.0148956 -0.0482862 -0.0029524 -0.0836771 0.0634384 -0.0921351 -0.0696337 0.0332883 0.0771351 -0.0754347 0.12576 0.109831 0.287171 0.0113556 0.127341 0.0656051 0.153932 0.12722 0.13513 0.179697 0.109192 -0.0719402 1 -0.183543 0.301409 0.0118842 0.341787 0.0869079 0.262079 0.214766 0.281965 0.263297 0.176757 0.273707 0.165086 0.266799 0.228699 0.260194 0.227713 0.254821 0.13562 0.222878 0.0966007 0.136188 0.043061 0.00206481 0.0530307 -0.00458929 -0.0133662
--0.187334 0.178219 0.16961 0.113331 0.149852 0.164465 0.112961 -0.0632866 0.0951433 0.0730263 0.00735729 0.0673593 0.164285 -0.17439 0.229759 0.0865498 0.019729 0.152423 0.0619733 0.0685054 0.0999398 0.104065 0.191677 0.164909 -0.183543 1 -0.412931 0.452723 -0.0609265 0.326799 0.0588909 0.228051 0.261987 0.197887 0.247593 0.162695 0.218493 0.179799 0.24981 0.22809 0.227571 0.179593 0.154652 0.111274 0.170666 0.0708172 0.0862943 0.0385553 0.000109884 -0.0273508 0.000119344
--0.0375764 0.0245533 0.0335346 0.00915288 0.021428 -0.152586 0.0473175 -0.0953478 0.0673591 0.0313983 0.054641 -0.0245657 0.0974241 0.075156 0.218315 -0.00503711 0.0473846 0.12535 0.0918972 0.150287 0.0434637 0.1377 0.0817842 0.16058 0.301409 -0.412931 1 -0.439629 0.373652 0.10191 0.18679 0.177021 0.208306 0.19808 0.154306 0.18669 0.143318 0.175361 0.1884 0.189337 0.203794 0.155054 0.170233 0.134629 0.0586861 0.0820247 0.00780702 0.0523579 0.00268393 -0.029894 -0.05488
--0.102273 0.0390507 0.0725461 -0.0155078 -0.00493139 0.0482312 0.140825 -0.0441325 -0.0365058 -0.0269804 0.0222224 -0.070085 0.14958 -0.0200857 0.265338 0.0505923 0.101905 0.0544572 0.0935306 0.109537 0.107566 0.15046 0.0963017 0.207741 0.0118842 0.452723 -0.439629 1 -0.307392 0.233488 0.18296 0.190642 0.207774 0.226512 0.177338 0.188977 0.185742 0.195379 0.217236 0.217299 0.210468 0.168735 0.166988 0.160119 0.106711 0.122956 0.0502948 0.0576639 0.0656633 -0.034182 -0.0247492
--0.116133 0.135111 0.0956871 0.0721933 0.143111 -0.00841025 0.0125227 -0.0472312 0.179846 0.0915827 0.166164 0.0661765 0.0712176 -0.00699404 0.191432 0.0308098 -0.0222085 0.219043 0.0790325 0.0540331 0.104338 0.0667721 0.176383 0.0161364 0.341787 -0.0609265 0.373652 -0.307392 1 -0.216145 0.237713 0.229077 0.197572 0.229386 0.209147 0.191804 0.1745 0.19295 0.208487 0.227803 0.197938 0.181119 0.137717 0.102695 0.0746426 0.0554799 0.0208429 -0.0422104 -0.0352559 0.0191186 0.00774496
--0.0626427 -0.00529422 0.0200189 -0.0412951 -0.0324115 -0.078288 0.156198 -0.0932665 -0.0652082 -0.0401893 -0.000469844 -0.0511045 0.214316 -0.100304 0.391198 0.0385357 0.116695 0.0764805 0.131578 0.175492 0.0765461 0.21908 0.0855836 0.247803 0.0869079 0.326799 0.10191 0.233488 -0.216145 1 -0.0887659 0.32234 0.303024 0.264614 0.254717 0.237841 0.251323 0.246504 0.304648 0.265439 0.269459 0.249306 0.170003 0.24202 0.154339 0.121679 0.0828398 0.0831472 0.0572853 -0.0733236 -0.0497618
--0.115831 0.092944 0.0773944 0.00500121 0.0317421 0.0178663 0.0642177 -0.026127 0.102597 0.0360112 0.165277 -0.0325526 0.123193 0.0551099 0.269334 0.0563654 0.0879548 0.161395 0.109476 0.109243 0.111985 0.11771 0.192533 0.145715 0.262079 0.0588909 0.18679 0.18296 0.237713 -0.0887659 1 0.0143688 0.357128 0.246707 0.248042 0.231218 0.220385 0.244193 0.27041 0.271153 0.237031 0.215424 0.184726 0.192581 0.12372 0.124055 0.0454529 0.0334658 0.017811 0.00525114 -0.000883344
--0.0862274 0.0480726 0.0481227 0.00653462 0.0321266 -0.0488283 0.133354 -0.0272907 0.0808791 0.0443521 0.0989521 -0.0168003 0.202723 -0.0662843 0.40638 0.0469126 0.0768469 0.207628 0.129783 0.152791 0.159352 0.203989 0.204493 0.224826 0.214766 0.228051 0.177021 0.190642 0.229077 0.32234 0.0143688 1 0.200284 0.326609 0.264326 0.30595 0.313366 0.328971 0.345924 0.340361 0.330133 0.275366 0.267636 0.222753 0.150599 0.121591 0.0578071 0.0403107 0.0237748 -0.0505174 -0.0523013
--0.0868902 0.0454328 0.0359336 -0.0210659 0.043601 -0.00163434 0.11997 -0.0487204 0.0789671 0.0366313 0.127957 -0.00825861 0.214063 -0.0289371 0.424631 0.0604195 0.122615 0.159469 0.170068 0.159107 0.137305 0.191066 0.196641 0.250451 0.281965 0.261987 0.208306 0.207774 0.197572 0.303024 0.357128 0.200284 1 0.241394 0.286542 0.27988 0.320153 0.344854 0.395235 0.351481 0.331958 0.321551 0.218346 0.253495 0.197614 0.13498 0.108052 0.0407089 0.0410577 -0.0384632 -0.0225294
--0.0807509 0.05705 0.0458112 0.0161333 0.0391459 0.0500527 0.133195 -0.0164887 0.102776 0.0475764 0.0927906 -0.0370652 0.217348 -0.02572 0.385745 0.0478223 0.0911255 0.216747 0.133507 0.125866 0.131373 0.190205 0.212119 0.213116 0.263297 0.197887 0.19808 0.226512 0.229386 0.264614 0.246707 0.326609 0.241394 1 0.157679 0.26729 0.241238 0.355051 0.37101 0.365185 0.319253 0.268728 0.264214 0.259244 0.195268 0.114349 0.0915423 0.0359185 0.0369178 -0.0449658 -0.054645
--0.0412887 0.00714601 0.00851143 -0.0309366 0.0761517 -0.00753095 0.0828333 -0.0253012 0.0519846 0.0354978 0.153141 0.0186537 0.154927 -0.0629544 0.372784 0.036865 0.121526 0.105655 0.157343 0.131873 0.15662 0.165157 0.18413 0.2321 0.176757 0.247593 0.154306 0.177338 0.209147 0.254717 0.248042 0.264326 0.286542 0.157679 1 0.0990689 0.264544 0.233715 0.362048 0.322314 0.30255 0.291577 0.232539 0.190376 0.185048 0.0963088 0.0727958 0.00823543 0.0212931 -0.0295756 -0.00798032
--0.0488195 0.0378088 0.0331898 0.0399023 0.0299473 0.0245343 0.119032 -0.0219064 0.0948788 0.050246 0.0406317 -0.0323077 0.208048 -0.00474951 0.310115 0.0487631 0.0629962 0.214127 0.107568 0.0998954 0.129777 0.154137 0.173252 0.185595 0.273707 0.162695 0.18669 0.188977 0.191804 0.237841 0.231218 0.30595 0.27988 0.26729 0.0990689 1 0.0568684 0.263945 0.280749 0.357339 0.29738 0.280718 0.188819 0.232941 0.175125 0.138921 0.0990366 0.0294978 0.0360701 -0.0396291 -0.0553115
-0.000222493 -0.0245667 -0.0292622 -0.00720618 0.0832296 -0.0335052 0.0959437 -0.0178945 0.0360867 0.0445991 0.162645 -0.00138076 0.155404 -0.0796562 0.369984 0.0371724 0.118344 0.0831305 0.150117 0.160708 0.115693 0.148707 0.159759 0.261586 0.165086 0.218493 0.143318 0.185742 0.1745 0.251323 0.220385 0.313366 0.320153 0.241238 0.264544 0.0568684 1 0.0942807 0.293209 0.311486 0.340985 0.274976 0.279865 0.187661 0.177973 0.127607 0.0396927 0.0242433 0.0315887 -0.0504916 -0.0255829
--0.016766 0.0129571 -0.000141363 0.0651988 0.0695267 0.045437 0.113922 0.00271363 0.0784483 0.0369635 0.0601236 -0.0187877 0.206651 -0.023724 0.342208 0.059108 0.0898708 0.190654 0.12324 0.12284 0.148361 0.172499 0.180874 0.169972 0.266799 0.179799 0.175361 0.195379 0.19295 0.246504 0.244193 0.328971 0.344854 0.355051 0.233715 0.263945 0.0942807 1 0.187744 0.320774 0.322203 0.32941 0.208144 0.262238 0.171566 0.148372 0.101891 0.0316558 0.0344954 -0.0376738 -0.0479213
-0.0129599 -0.0210509 -0.0412934 0.0573517 0.105761 0.0122391 0.122414 0.00623011 0.06606 0.05446 0.133303 -0.00989515 0.216987 -0.063368 0.416489 0.0533642 0.124295 0.143307 0.163359 0.170089 0.136989 0.194999 0.180269 0.261394 0.228699 0.24981 0.1884 0.217236 0.208487 0.304648 0.27041 0.345924 0.395235 0.37101 0.362048 0.280749 0.293209 0.187744 1 0.288363 0.350898 0.321505 0.323607 0.27547 0.222818 0.144829 0.0875818 0.033056 0.04411 -0.0591722 -0.0436761
-0.020441 -0.00689174 -0.0285192 0.0882402 0.104508 0.0565051 0.124187 0.0559795 0.0885137 0.053973 0.120557 -0.0129924 0.220717 -0.0506111 0.408776 0.0555774 0.109783 0.184467 0.151985 0.12949 0.152424 0.174899 0.201142 0.231541 0.260194 0.22809 0.189337 0.217299 0.227803 0.265439 0.271153 0.340361 0.351481 0.365185 0.322314 0.357339 0.311486 0.320774 0.288363 1 0.29944 0.350336 0.298047 0.329104 0.220404 0.169568 0.110715 0.0158067 0.0399371 -0.0568742 -0.0549146
-0.0311024 -0.0154748 -0.0408074 0.0813729 0.0692231 0.0904237 0.115443 0.0558163 0.0729534 0.0469243 0.131822 -0.0166587 0.212438 -0.0590944 0.384031 0.0275871 0.120496 0.162343 0.122875 0.13631 0.148909 0.187019 0.187745 0.253927 0.227713 0.227571 0.203794 0.210468 0.197938 0.269459 0.237031 0.330133 0.331958 0.319253 0.30255 0.29738 0.340985 0.322203 0.350898 0.29944 1 0.262802 0.322517 0.252146 0.253961 0.171322 0.0881443 0.0371974 0.0419879 -0.0501375 -0.0424021
-0.0468465 -0.032535 -0.0419685 0.0799212 0.0642822 0.00437358 0.103877 0.0747392 0.0487696 0.00704428 0.108081 -0.0150674 0.191341 -0.0621366 0.354913 0.0613396 0.121274 0.134729 0.135326 0.116302 0.167534 0.188582 0.160699 0.178819 0.254821 0.179593 0.155054 0.168735 0.181119 0.249306 0.215424 0.275366 0.321551 0.268728 0.291577 0.280718 0.274976 0.32941 0.321505 0.350336 0.262802 1 0.130334 0.353424 0.142415 0.157465 0.103328 0.00384891 0.036672 -0.0564869 -0.0514076
-0.0451818 0.00167379 -0.0358437 0.151018 0.13506 -0.00257624 0.0880056 0.0652187 0.0525208 0.0392217 0.108808 -0.0221157 0.158479 -0.0300156 0.27047 0.0218087 0.0743487 0.129802 0.0905395 0.140792 0.113856 0.124247 0.125825 0.194735 0.13562 0.154652 0.170233 0.166988 0.137717 0.170003 0.184726 0.267636 0.218346 0.264214 0.232539 0.188819 0.279865 0.208144 0.323607 0.298047 0.322517 0.130334 1 0.0999507 0.298101 0.139147 0.0376877 0.0557274 0.0294752 -0.0396659 -0.0363646
-0.0414809 -0.00438013 -0.0365415 0.10169 0.0855592 0.0888102 0.0867527 0.0705557 0.0229756 0.00858647 0.0554401 -0.0202712 0.144765 -0.0277859 0.29252 0.0870316 0.0829044 0.0872046 0.099713 0.135999 0.0601673 0.131354 0.1315 0.138737 0.222878 0.111274 0.134629 0.160119 0.102695 0.24202 0.192581 0.222753 0.253495 0.259244 0.190376 0.232941 0.187661 0.262238 0.27547 0.329104 0.252146 0.353424 0.0999507 1 -0.0083735 0.180188 0.0712323 0.0645791 0.0303106 -0.0399663 -0.0407214
-0.0331162 0.00742243 0.0222334 0.0886962 0.00549188 0.136717 0.047949 0.0853817 0.0220466 -0.00980733 0.113831 -0.0291657 0.115826 -0.00149352 0.19303 0.0199179 0.137346 0.074698 0.0550134 0.00290169 0.121794 0.0908875 0.0292099 0.142152 0.0966007 0.170666 0.0586861 0.106711 0.0746426 0.154339 0.12372 0.150599 0.197614 0.195268 0.185048 0.175125 0.177973 0.171566 0.222818 0.220404 0.253961 0.142415 0.298101 -0.0083735 1 -0.117009 0.195768 -0.0206589 0.0319758 -0.0257973 -0.0252686
-0.0678386 -0.00697686 -0.0433524 0.0801138 -0.0119874 -0.043962 0.060592 0.0136882 0.0295836 0.077646 0.00596708 0.0326021 0.0808208 -0.0801542 0.207266 0.00799301 -0.0312496 0.0914604 0.00454117 0.0847968 0.0655487 0.0625343 0.0817901 0.0986113 0.136188 0.0708172 0.0820247 0.122956 0.0554799 0.121679 0.124055 0.121591 0.13498 0.114349 0.0963088 0.138921 0.127607 0.148372 0.144829 0.169568 0.171322 0.157465 0.139147 0.180188 -0.117009 1 -0.0901287 0.00504667 0.00314351 -0.0358637 -0.034748
-0.0698021 -0.0113472 -0.00160569 -0.0166631 -0.103162 0.133166 0.0137119 0.0524639 -0.0107256 0.0231013 0.0138629 -0.0170234 0.0713651 0.0033217 0.067904 0.0467447 0.106832 -0.03512 0.0437403 -0.0286873 0.125117 0.0477095 -0.021586 0.106938 0.043061 0.0862943 0.00780702 0.0502948 0.0208429 0.0828398 0.0454529 0.0578071 0.108052 0.0915423 0.0727958 0.0990366 0.0396927 0.101891 0.0875818 0.110715 0.0881443 0.103328 0.0376877 0.0712323 0.195768 -0.0901287 1 -0.0763283 0.0373831 -0.00624587 -0.0150047
-0.0132814 0.0689496 0.0405453 0.0118022 -0.0239631 -0.0206761 0.0457685 0.0116446 0.0187041 0.0017975 0.0682751 -0.0456997 0.0406265 0.0514403 -0.00939154 -0.0159473 0.0626727 -0.0138034 -0.0105554 0.0538206 0.00239142 0.0153741 0.0491236 -0.011933 0.00206481 0.0385553 0.0523579 0.0576639 -0.0422104 0.0831472 0.0334658 0.0403107 0.0407089 0.0359185 0.00823543 0.0294978 0.0242433 0.0316558 0.033056 0.0158067 0.0371974 0.00384891 0.0557274 0.0645791 -0.0206589 0.00504667 -0.0763283 1 0.0102375 -0.000776176 0.0207574
-0.0717232 -0.102351 -0.0669795 -0.0389434 -0.0394264 0.0201248 0.690763 -0.0121288 0.0227156 0.0428736 -0.0442978 0.0344625 0.00512556 -0.0316852 0.0241166 -0.0261854 -0.0209304 0.0745954 -0.0218214 0.0174247 0.0364422 -0.00871948 0.0354134 0.0090992 0.0530307 0.000109884 0.00268393 0.0656633 -0.0352559 0.0572853 0.017811 0.0237748 0.0410577 0.0369178 0.0212931 0.0360701 0.0315887 0.0344954 0.04411 0.0399371 0.0419879 0.036672 0.0294752 0.0303106 0.0319758 0.00314351 0.0373831 0.0102375 1 0.00618573 -0.0290544
--0.0984753 0.123663 0.10942 0.0662993 0.0216982 -0.017282 -0.321095 0.00163713 -0.0391661 -0.036002 -0.0150301 -0.00190843 -0.0147744 0.0276713 -0.0330301 0.0130221 -0.0346097 -0.0310643 0.0108642 -0.0419551 0.0311117 -0.0249153 -0.032537 -0.0301376 -0.00458929 -0.0273508 -0.029894 -0.034182 0.0191186 -0.0733236 0.00525114 -0.0505174 -0.0384632 -0.0449658 -0.0295756 -0.0396291 -0.0504916 -0.0376738 -0.0591722 -0.0568742 -0.0501375 -0.0564869 -0.0396659 -0.0399663 -0.0257973 -0.0358637 -0.00624587 -0.000776176 0.00618573 1 0.988973
--0.0679638 0.0916565 0.0757628 0.0429317 0.0192022 -0.0278774 -0.34784 0.000436951 -0.0721203 -0.0421896 0.0230359 0.00249678 -0.00650819 0.0188541 -0.0201937 0.0119297 -0.0473426 -0.056097 0.0457472 -0.0608945 0.0341965 -0.0405691 -0.027605 -0.0178936 -0.0133662 0.000119344 -0.05488 -0.0247492 0.00774496 -0.0497618 -0.000883344 -0.0523013 -0.0225294 -0.054645 -0.00798032 -0.0553115 -0.0255829 -0.0479213 -0.0436761 -0.0549146 -0.0424021 -0.0514076 -0.0363646 -0.0407214 -0.0252686 -0.034748 -0.0150047 0.0207574 -0.0290544 0.988973 1
 *end
 
 *process[Recruitment]
@@ -5211,16 +4140,6 @@ year category age length observed expected residual error_value process_error ad
 2015 male+female 19 0 0.0387 0.00755145 0.0311486 22 0 22 4.10448 1.68764
 2015 male+female 20 0 0.0001 0.00597172 -0.00587172 22 0 22 0.00999969 -0.35746
 2015 male+female 21 0 0.0001 0.0219421 -0.0218421 22 0 22 0.00713667 -0.699333
-*end
-
-*catchability[subaTANqA]
-subaTANqA: 0.0376915
-CPUEq: 2.53394e-05
-*end
-
-*catchability[CPUEq]
-subaTANqA: 0.0376915
-CPUEq: 2.53394e-05
 *end
 
 *derived_quantity[SSB]
@@ -6388,6 +5307,1088 @@ Values {vector}
 30 1
 *end
 
+*estimate_summary[estimated_summary]
+process[Recruitment].b0 {list}
+value: 53986.5
+std_dev: 5310.1
+estimation_phase:
+label: B0
+lower_bound: 10000
+mcmc:
+parameter: process[Recruitment].b0
+prior_applies_to_transform:
+same:
+transform_with_jacobian:
+transformation:
+type: uniform_log
+upper_bound: 400000
+{end_list}
+
+catchability[CPUEq].q {list}
+value: 2.53394e-05
+std_dev: 3.61347e-06
+estimation_phase:
+label: CPUE_q
+lower_bound: 1e-8
+mcmc:
+parameter: catchability[CPUEq].q
+prior_applies_to_transform:
+same:
+transform_with_jacobian:
+transformation:
+type: uniform_log
+upper_bound: 1e-1
+{end_list}
+
+catchability[subaTANqA].q {list}
+value: 0.0376915
+std_dev: 0.00510863
+cv: 0.79
+estimation_phase:
+label: subaTANA_q
+lower_bound: 0.01
+mcmc:
+mu: 0.16
+parameter: catchability[subaTANqA].q
+prior_applies_to_transform:
+same:
+transform_with_jacobian:
+transformation:
+type: lognormal
+upper_bound: 0.40
+{end_list}
+
+selectivity[subaFsel].a50 {list}
+value: 6.99552
+std_dev: 0.249547
+estimation_phase:
+label: fishery_sel_a50
+lower_bound: 1
+mcmc:
+parameter: selectivity[subaFsel].a50
+prior_applies_to_transform:
+same:
+transform_with_jacobian:
+transformation:
+type: uniform
+upper_bound: 25
+{end_list}
+
+selectivity[subaFsel].ato95 {list}
+value: 2.70821
+std_dev: 0.266766
+estimation_phase:
+label: fishery_sel_ato95
+lower_bound: 0.1
+mcmc:
+parameter: selectivity[subaFsel].ato95
+prior_applies_to_transform:
+same:
+transform_with_jacobian:
+transformation:
+type: uniform
+upper_bound: 50
+{end_list}
+
+selectivity[subaTANselA].a50 {list}
+value: 3.03394
+std_dev: 0.00803957
+estimation_phase:
+label: survey_sel_a50
+lower_bound: 1
+mcmc:
+parameter: selectivity[subaTANselA].a50
+prior_applies_to_transform:
+same:
+transform_with_jacobian:
+transformation:
+type: uniform
+upper_bound: 25
+{end_list}
+
+selectivity[subaTANselA].ato95 {list}
+value: 0.100724
+std_dev: 0.00141237
+estimation_phase:
+label: survey_sel_ato95
+lower_bound: 0.1
+mcmc:
+parameter: selectivity[subaTANselA].ato95
+prior_applies_to_transform:
+same:
+transform_with_jacobian:
+transformation:
+type: uniform
+upper_bound: 50
+{end_list}
+
+observation[CPUE].process_error {list}
+value: 0.186489
+std_dev: 0.0307502
+estimation_phase:
+label: CPUE_process_error
+lower_bound: 0.001
+mcmc:
+parameter: observation[CPUE].process_error
+prior_applies_to_transform:
+same:
+transform_with_jacobian:
+transformation:
+type: uniform_log
+upper_bound: 5
+{end_list}
+
+process[Recruitment].ycs_values{1974} {list}
+value: 0.220494
+std_dev: 0.14575
+cv: 1.1
+estimation_phase:
+label: rec_ycs
+lower_bound: 0.01
+mcmc:
+mu: 1
+parameter: process[Recruitment].ycs_values{1974}
+prior_applies_to_transform:
+same:
+transform_with_jacobian:
+transformation:
+type: lognormal
+upper_bound: 100
+{end_list}
+
+process[Recruitment].ycs_values{1975} {list}
+value: 0.255441
+std_dev: 0.171046
+cv: 1.1
+estimation_phase:
+label: rec_ycs
+lower_bound: 0.01
+mcmc:
+mu: 1
+parameter: process[Recruitment].ycs_values{1975}
+prior_applies_to_transform:
+same:
+transform_with_jacobian:
+transformation:
+type: lognormal
+upper_bound: 100
+{end_list}
+
+process[Recruitment].ycs_values{1976} {list}
+value: 0.334147
+std_dev: 0.240906
+cv: 1.1
+estimation_phase:
+label: rec_ycs
+lower_bound: 0.01
+mcmc:
+mu: 1
+parameter: process[Recruitment].ycs_values{1976}
+prior_applies_to_transform:
+same:
+transform_with_jacobian:
+transformation:
+type: lognormal
+upper_bound: 100
+{end_list}
+
+process[Recruitment].ycs_values{1977} {list}
+value: 0.53203
+std_dev: 0.504005
+cv: 1.1
+estimation_phase:
+label: rec_ycs
+lower_bound: 0.01
+mcmc:
+mu: 1
+parameter: process[Recruitment].ycs_values{1977}
+prior_applies_to_transform:
+same:
+transform_with_jacobian:
+transformation:
+type: lognormal
+upper_bound: 100
+{end_list}
+
+process[Recruitment].ycs_values{1978} {list}
+value: 0.98836
+std_dev: 0.733239
+cv: 1.1
+estimation_phase:
+label: rec_ycs
+lower_bound: 0.01
+mcmc:
+mu: 1
+parameter: process[Recruitment].ycs_values{1978}
+prior_applies_to_transform:
+same:
+transform_with_jacobian:
+transformation:
+type: lognormal
+upper_bound: 100
+{end_list}
+
+process[Recruitment].ycs_values{1979} {list}
+value: 0.453412
+std_dev: 0.385105
+cv: 1.1
+estimation_phase:
+label: rec_ycs
+lower_bound: 0.01
+mcmc:
+mu: 1
+parameter: process[Recruitment].ycs_values{1979}
+prior_applies_to_transform:
+same:
+transform_with_jacobian:
+transformation:
+type: lognormal
+upper_bound: 100
+{end_list}
+
+process[Recruitment].ycs_values{1980} {list}
+value: 2.39187
+std_dev: 0.629104
+cv: 1.1
+estimation_phase:
+label: rec_ycs
+lower_bound: 0.01
+mcmc:
+mu: 1
+parameter: process[Recruitment].ycs_values{1980}
+prior_applies_to_transform:
+same:
+transform_with_jacobian:
+transformation:
+type: lognormal
+upper_bound: 100
+{end_list}
+
+process[Recruitment].ycs_values{1981} {list}
+value: 0.269196
+std_dev: 0.184942
+cv: 1.1
+estimation_phase:
+label: rec_ycs
+lower_bound: 0.01
+mcmc:
+mu: 1
+parameter: process[Recruitment].ycs_values{1981}
+prior_applies_to_transform:
+same:
+transform_with_jacobian:
+transformation:
+type: lognormal
+upper_bound: 100
+{end_list}
+
+process[Recruitment].ycs_values{1982} {list}
+value: 0.257133
+std_dev: 0.160309
+cv: 1.1
+estimation_phase:
+label: rec_ycs
+lower_bound: 0.01
+mcmc:
+mu: 1
+parameter: process[Recruitment].ycs_values{1982}
+prior_applies_to_transform:
+same:
+transform_with_jacobian:
+transformation:
+type: lognormal
+upper_bound: 100
+{end_list}
+
+process[Recruitment].ycs_values{1983} {list}
+value: 0.395979
+std_dev: 0.190969
+cv: 1.1
+estimation_phase:
+label: rec_ycs
+lower_bound: 0.01
+mcmc:
+mu: 1
+parameter: process[Recruitment].ycs_values{1983}
+prior_applies_to_transform:
+same:
+transform_with_jacobian:
+transformation:
+type: lognormal
+upper_bound: 100
+{end_list}
+
+process[Recruitment].ycs_values{1984} {list}
+value: 0.281336
+std_dev: 0.146363
+cv: 1.1
+estimation_phase:
+label: rec_ycs
+lower_bound: 0.01
+mcmc:
+mu: 1
+parameter: process[Recruitment].ycs_values{1984}
+prior_applies_to_transform:
+same:
+transform_with_jacobian:
+transformation:
+type: lognormal
+upper_bound: 100
+{end_list}
+
+process[Recruitment].ycs_values{1985} {list}
+value: 0.18851
+std_dev: 0.0937144
+cv: 1.1
+estimation_phase:
+label: rec_ycs
+lower_bound: 0.01
+mcmc:
+mu: 1
+parameter: process[Recruitment].ycs_values{1985}
+prior_applies_to_transform:
+same:
+transform_with_jacobian:
+transformation:
+type: lognormal
+upper_bound: 100
+{end_list}
+
+process[Recruitment].ycs_values{1986} {list}
+value: 0.17059
+std_dev: 0.0788095
+cv: 1.1
+estimation_phase:
+label: rec_ycs
+lower_bound: 0.01
+mcmc:
+mu: 1
+parameter: process[Recruitment].ycs_values{1986}
+prior_applies_to_transform:
+same:
+transform_with_jacobian:
+transformation:
+type: lognormal
+upper_bound: 100
+{end_list}
+
+process[Recruitment].ycs_values{1987} {list}
+value: 0.221611
+std_dev: 0.0945394
+cv: 1.1
+estimation_phase:
+label: rec_ycs
+lower_bound: 0.01
+mcmc:
+mu: 1
+parameter: process[Recruitment].ycs_values{1987}
+prior_applies_to_transform:
+same:
+transform_with_jacobian:
+transformation:
+type: lognormal
+upper_bound: 100
+{end_list}
+
+process[Recruitment].ycs_values{1988} {list}
+value: 0.213082
+std_dev: 0.0871387
+cv: 1.1
+estimation_phase:
+label: rec_ycs
+lower_bound: 0.01
+mcmc:
+mu: 1
+parameter: process[Recruitment].ycs_values{1988}
+prior_applies_to_transform:
+same:
+transform_with_jacobian:
+transformation:
+type: lognormal
+upper_bound: 100
+{end_list}
+
+process[Recruitment].ycs_values{1989} {list}
+value: 0.265066
+std_dev: 0.0937503
+cv: 1.1
+estimation_phase:
+label: rec_ycs
+lower_bound: 0.01
+mcmc:
+mu: 1
+parameter: process[Recruitment].ycs_values{1989}
+prior_applies_to_transform:
+same:
+transform_with_jacobian:
+transformation:
+type: lognormal
+upper_bound: 100
+{end_list}
+
+process[Recruitment].ycs_values{1990} {list}
+value: 0.377476
+std_dev: 0.115072
+cv: 1.1
+estimation_phase:
+label: rec_ycs
+lower_bound: 0.01
+mcmc:
+mu: 1
+parameter: process[Recruitment].ycs_values{1990}
+prior_applies_to_transform:
+same:
+transform_with_jacobian:
+transformation:
+type: lognormal
+upper_bound: 100
+{end_list}
+
+process[Recruitment].ycs_values{1991} {list}
+value: 0.42968
+std_dev: 0.163603
+cv: 1.1
+estimation_phase:
+label: rec_ycs
+lower_bound: 0.01
+mcmc:
+mu: 1
+parameter: process[Recruitment].ycs_values{1991}
+prior_applies_to_transform:
+same:
+transform_with_jacobian:
+transformation:
+type: lognormal
+upper_bound: 100
+{end_list}
+
+process[Recruitment].ycs_values{1992} {list}
+value: 0.423136
+std_dev: 0.169689
+cv: 1.1
+estimation_phase:
+label: rec_ycs
+lower_bound: 0.01
+mcmc:
+mu: 1
+parameter: process[Recruitment].ycs_values{1992}
+prior_applies_to_transform:
+same:
+transform_with_jacobian:
+transformation:
+type: lognormal
+upper_bound: 100
+{end_list}
+
+process[Recruitment].ycs_values{1993} {list}
+value: 0.339476
+std_dev: 0.137683
+cv: 1.1
+estimation_phase:
+label: rec_ycs
+lower_bound: 0.01
+mcmc:
+mu: 1
+parameter: process[Recruitment].ycs_values{1993}
+prior_applies_to_transform:
+same:
+transform_with_jacobian:
+transformation:
+type: lognormal
+upper_bound: 100
+{end_list}
+
+process[Recruitment].ycs_values{1994} {list}
+value: 0.345614
+std_dev: 0.11856
+cv: 1.1
+estimation_phase:
+label: rec_ycs
+lower_bound: 0.01
+mcmc:
+mu: 1
+parameter: process[Recruitment].ycs_values{1994}
+prior_applies_to_transform:
+same:
+transform_with_jacobian:
+transformation:
+type: lognormal
+upper_bound: 100
+{end_list}
+
+process[Recruitment].ycs_values{1995} {list}
+value: 0.401523
+std_dev: 0.120037
+cv: 1.1
+estimation_phase:
+label: rec_ycs
+lower_bound: 0.01
+mcmc:
+mu: 1
+parameter: process[Recruitment].ycs_values{1995}
+prior_applies_to_transform:
+same:
+transform_with_jacobian:
+transformation:
+type: lognormal
+upper_bound: 100
+{end_list}
+
+process[Recruitment].ycs_values{1996} {list}
+value: 0.350411
+std_dev: 0.0951663
+cv: 1.1
+estimation_phase:
+label: rec_ycs
+lower_bound: 0.01
+mcmc:
+mu: 1
+parameter: process[Recruitment].ycs_values{1996}
+prior_applies_to_transform:
+same:
+transform_with_jacobian:
+transformation:
+type: lognormal
+upper_bound: 100
+{end_list}
+
+process[Recruitment].ycs_values{1997} {list}
+value: 0.340489
+std_dev: 0.084746
+cv: 1.1
+estimation_phase:
+label: rec_ycs
+lower_bound: 0.01
+mcmc:
+mu: 1
+parameter: process[Recruitment].ycs_values{1997}
+prior_applies_to_transform:
+same:
+transform_with_jacobian:
+transformation:
+type: lognormal
+upper_bound: 100
+{end_list}
+
+process[Recruitment].ycs_values{1998} {list}
+value: 0.371305
+std_dev: 0.0826401
+cv: 1.1
+estimation_phase:
+label: rec_ycs
+lower_bound: 0.01
+mcmc:
+mu: 1
+parameter: process[Recruitment].ycs_values{1998}
+prior_applies_to_transform:
+same:
+transform_with_jacobian:
+transformation:
+type: lognormal
+upper_bound: 100
+{end_list}
+
+process[Recruitment].ycs_values{1999} {list}
+value: 0.300455
+std_dev: 0.0686127
+cv: 1.1
+estimation_phase:
+label: rec_ycs
+lower_bound: 0.01
+mcmc:
+mu: 1
+parameter: process[Recruitment].ycs_values{1999}
+prior_applies_to_transform:
+same:
+transform_with_jacobian:
+transformation:
+type: lognormal
+upper_bound: 100
+{end_list}
+
+process[Recruitment].ycs_values{2000} {list}
+value: 0.201093
+std_dev: 0.0540169
+cv: 1.1
+estimation_phase:
+label: rec_ycs
+lower_bound: 0.01
+mcmc:
+mu: 1
+parameter: process[Recruitment].ycs_values{2000}
+prior_applies_to_transform:
+same:
+transform_with_jacobian:
+transformation:
+type: lognormal
+upper_bound: 100
+{end_list}
+
+process[Recruitment].ycs_values{2001} {list}
+value: 0.210627
+std_dev: 0.0542975
+cv: 1.1
+estimation_phase:
+label: rec_ycs
+lower_bound: 0.01
+mcmc:
+mu: 1
+parameter: process[Recruitment].ycs_values{2001}
+prior_applies_to_transform:
+same:
+transform_with_jacobian:
+transformation:
+type: lognormal
+upper_bound: 100
+{end_list}
+
+process[Recruitment].ycs_values{2002} {list}
+value: 0.185592
+std_dev: 0.0507909
+cv: 1.1
+estimation_phase:
+label: rec_ycs
+lower_bound: 0.01
+mcmc:
+mu: 1
+parameter: process[Recruitment].ycs_values{2002}
+prior_applies_to_transform:
+same:
+transform_with_jacobian:
+transformation:
+type: lognormal
+upper_bound: 100
+{end_list}
+
+process[Recruitment].ycs_values{2003} {list}
+value: 0.235199
+std_dev: 0.0571956
+cv: 1.1
+estimation_phase:
+label: rec_ycs
+lower_bound: 0.01
+mcmc:
+mu: 1
+parameter: process[Recruitment].ycs_values{2003}
+prior_applies_to_transform:
+same:
+transform_with_jacobian:
+transformation:
+type: lognormal
+upper_bound: 100
+{end_list}
+
+process[Recruitment].ycs_values{2004} {list}
+value: 0.300472
+std_dev: 0.0677139
+cv: 1.1
+estimation_phase:
+label: rec_ycs
+lower_bound: 0.01
+mcmc:
+mu: 1
+parameter: process[Recruitment].ycs_values{2004}
+prior_applies_to_transform:
+same:
+transform_with_jacobian:
+transformation:
+type: lognormal
+upper_bound: 100
+{end_list}
+
+process[Recruitment].ycs_values{2005} {list}
+value: 0.331585
+std_dev: 0.0730307
+cv: 1.1
+estimation_phase:
+label: rec_ycs
+lower_bound: 0.01
+mcmc:
+mu: 1
+parameter: process[Recruitment].ycs_values{2005}
+prior_applies_to_transform:
+same:
+transform_with_jacobian:
+transformation:
+type: lognormal
+upper_bound: 100
+{end_list}
+
+process[Recruitment].ycs_values{2006} {list}
+value: 0.331337
+std_dev: 0.0727744
+cv: 1.1
+estimation_phase:
+label: rec_ycs
+lower_bound: 0.01
+mcmc:
+mu: 1
+parameter: process[Recruitment].ycs_values{2006}
+prior_applies_to_transform:
+same:
+transform_with_jacobian:
+transformation:
+type: lognormal
+upper_bound: 100
+{end_list}
+
+process[Recruitment].ycs_values{2007} {list}
+value: 0.276183
+std_dev: 0.0713812
+cv: 1.1
+estimation_phase:
+label: rec_ycs
+lower_bound: 0.01
+mcmc:
+mu: 1
+parameter: process[Recruitment].ycs_values{2007}
+prior_applies_to_transform:
+same:
+transform_with_jacobian:
+transformation:
+type: lognormal
+upper_bound: 100
+{end_list}
+
+process[Recruitment].ycs_values{2008} {list}
+value: 0.245954
+std_dev: 0.0698699
+cv: 1.1
+estimation_phase:
+label: rec_ycs
+lower_bound: 0.01
+mcmc:
+mu: 1
+parameter: process[Recruitment].ycs_values{2008}
+prior_applies_to_transform:
+same:
+transform_with_jacobian:
+transformation:
+type: lognormal
+upper_bound: 100
+{end_list}
+
+process[Recruitment].ycs_values{2009} {list}
+value: 0.237933
+std_dev: 0.0720891
+cv: 1.1
+estimation_phase:
+label: rec_ycs
+lower_bound: 0.01
+mcmc:
+mu: 1
+parameter: process[Recruitment].ycs_values{2009}
+prior_applies_to_transform:
+same:
+transform_with_jacobian:
+transformation:
+type: lognormal
+upper_bound: 100
+{end_list}
+
+process[Recruitment].ycs_values{2010} {list}
+value: 0.204833
+std_dev: 0.0755224
+cv: 1.1
+estimation_phase:
+label: rec_ycs
+lower_bound: 0.01
+mcmc:
+mu: 1
+parameter: process[Recruitment].ycs_values{2010}
+prior_applies_to_transform:
+same:
+transform_with_jacobian:
+transformation:
+type: lognormal
+upper_bound: 100
+{end_list}
+
+process[Recruitment].ycs_values{2011} {list}
+value: 0.190387
+std_dev: 0.0914963
+cv: 1.1
+estimation_phase:
+label: rec_ycs
+lower_bound: 0.01
+mcmc:
+mu: 1
+parameter: process[Recruitment].ycs_values{2011}
+prior_applies_to_transform:
+same:
+transform_with_jacobian:
+transformation:
+type: lognormal
+upper_bound: 100
+{end_list}
+
+process[Recruitment].ycs_values{2012} {list}
+value: 0.224485
+std_dev: 0.111606
+cv: 1.1
+estimation_phase:
+label: rec_ycs
+lower_bound: 0.01
+mcmc:
+mu: 1
+parameter: process[Recruitment].ycs_values{2012}
+prior_applies_to_transform:
+same:
+transform_with_jacobian:
+transformation:
+type: lognormal
+upper_bound: 100
+{end_list}
+
+process[Recruitment].ycs_values{2013} {list}
+value: 0.176453
+std_dev: 0.118973
+cv: 1.1
+estimation_phase:
+label: rec_ycs
+lower_bound: 0.01
+mcmc:
+mu: 1
+parameter: process[Recruitment].ycs_values{2013}
+prior_applies_to_transform:
+same:
+transform_with_jacobian:
+transformation:
+type: lognormal
+upper_bound: 100
+{end_list}
+
+process[Recruitment].ycs_values{2014} {list}
+value: 0.280988
+std_dev: 0.240997
+cv: 1.1
+estimation_phase:
+label: rec_ycs
+lower_bound: 0.01
+mcmc:
+mu: 1
+parameter: process[Recruitment].ycs_values{2014}
+prior_applies_to_transform:
+same:
+transform_with_jacobian:
+transformation:
+type: lognormal
+upper_bound: 5
+{end_list}
+
+process[Recruitment].ycs_values{2015} {list}
+value: 0.333488
+std_dev: 0.223568
+cv: 1.1
+estimation_phase:
+label: rec_ycs
+lower_bound: 0.01
+mcmc:
+mu: 1
+parameter: process[Recruitment].ycs_values{2015}
+prior_applies_to_transform:
+same:
+transform_with_jacobian:
+transformation:
+type: lognormal
+upper_bound: 5
+{end_list}
+
+process[Recruitment].ycs_values{2016} {list}
+value: 0.277149
+std_dev: 0.181087
+cv: 1.1
+estimation_phase:
+label: rec_ycs
+lower_bound: 0.01
+mcmc:
+mu: 1
+parameter: process[Recruitment].ycs_values{2016}
+prior_applies_to_transform:
+same:
+transform_with_jacobian:
+transformation:
+type: lognormal
+upper_bound: 5
+{end_list}
+
+*end
+
+*hessian_matrix[Hess]
+hessian_matrix {matrix}
+8.22456e-07 867.857 0.202742 -0.0019872 0.000107245 0.00953862 0.0413763 -0.000743739 -0.00116304 -0.00142837 -0.00153353 -0.00139497 -0.00158574 -0.00116864 -0.00123006 -0.000880713 -0.000910266 0.000321535 4.88991e-05 0.000755674 0.00117511 0.00108553 0.0025352 0.00116417 0.00274378 0.00142885 0.0022211 0.00332047 0.00150386 0.00332971 0.00254404 0.00283754 0.00272664 0.00204815 0.00227398 0.0012356 0.00152279 0.000339912 0.000278148 -0.00058171 -0.00108644 -0.00126399 -0.0019646 -0.00228674 -0.00249096 -0.00316547 -0.00269717 -0.00333093 -3.43881e-05 -0.0031451 0.00391717
+867.857 1.34135e+12 -1.22661e+07 -3.59264e+06 213425 2.07704e+07 -9.59037e+06 -5.90729e+06 -481441 -1.01877e+06 -736755 -1.16924e+06 -1.23723e+06 -749747 -996793 -620402 -614696 261444 384695 1.29805e+06 764421 1.3019e+06 2.47472e+06 317757 2.62798e+06 949420 2.26652e+06 3.45081e+06 422372 3.16385e+06 1.55266e+06 2.32515e+06 1.74634e+06 1.07027e+06 1.5563e+06 920344 1.35503e+06 514040 435497 -426332 -1.08393e+06 -597035 -1.85456e+06 -2.4046e+06 -2.03807e+06 -3.26231e+06 -2.89629e+06 -4.10503e+06 495612 -3.69302e+06 4.29576e+06
+0.202742 -1.22661e+07 228319 100.085 171.108 -4143.02 -34836.3 2086.32 -307.895 -357.722 -708.086 -446.958 -523.17 -585.935 -430.862 -416.542 -486.285 334.77 -143.304 -74.7116 401.902 162.041 719.032 298.035 740.413 -67.0108 221.719 558.895 338.133 806.437 874.647 863.218 1138.27 1019.97 977.666 648.583 754.684 409.721 439.86 99.629 100.063 -429.129 -335.208 -362.874 -911.529 -675.606 -494.8 -624.339 120.809 -3064.38 3669.94
+-0.0019872 -3.59264e+06 100.085 62.9113 -37.088 -47.8968 102.724 3.6615 7.17876 6.42855 3.49861 4.66973 4.48833 1.48816 4.11301 3.98605 7.46549 4.17301 -0.759493 5.81078 -3.38766 3.47676 1.83597 -2.26486 -0.623188 -5.58852 -4.52154 -3.79785 0.853589 -8.11252 -3.87199 -5.743 0.771395 2.51297 14.7971 0.630561 7.67965 -5.16866 -7.96031 -7.99153 -11.4964 -14.4005 -8.11655 -4.21641 -14.1773 -11.015 1.49954 3.36306 0.510992 -59.5324 72.388
+0.000107245 213425 171.108 -37.088 42.7931 60.1085 -103.35 5.82284 1.95539 1.06213 2.58293 0.560575 0.536874 0.853315 -0.0642142 -1.67526 -5.94737 0.51225 -0.856621 -7.29355 4.23274 -3.99251 -1.65046 -2.46756 -1.39339 -6.87082 -1.977 -0.344026 -8.67548 6.02864 1.35866 2.76559 -2.66252 -3.56944 -14.8879 -4.80902 -12.6324 -5.01987 -2.42366 -0.658291 6.89959 8.71989 0.337044 1.54174 14.6688 14.7399 9.11704 4.90168 -0.616143 36.7419 -44.6811
+0.00953862 2.07704e+07 -4143.02 -47.8968 60.1085 19861.2 -12600.7 -252.204 218.787 96.083 101.163 32.6762 36.4566 50.9089 -10.8012 -42.9507 -6.42808 87.9133 58.4492 42.5478 79.1972 -94.2434 100.482 -76.5458 141.791 -181.455 171.262 221.659 -43.5869 324.107 2.96984 144.348 -13.0978 -179.334 -20.7002 -119.897 62.9752 -174.948 -95.1271 -199.43 -313.153 51.796 7.57913 -289.13 -244.61 -0.872783 -129.505 -90.0011 50.154 -460.081 561.726
+0.0413763 -9.59037e+06 -34836.3 102.724 -103.35 -12600.7 1.77416e+06 1084.24 -296.962 -14.6842 -61.0799 87.5311 -685.73 981.351 -232.929 117.635 -342.797 -860.61 -72.8618 677.483 -260.374 471.734 -164.95 130.697 64.9045 193.235 -348.507 -713.498 56.2923 -286.418 135.13 -171.191 305.919 292.106 500.829 176.113 163.328 26.6295 91.4092 90.9235 317.556 74.2502 -319.523 -55.7733 633.325 -270.999 478.607 -716.977 -7143.51 2140.88 1949.89
+-0.000743739 -5.90729e+06 2086.32 3.6615 5.82284 -252.204 1084.24 1348.25 10.9775 -15.337 2.6845 -0.718158 -6.188 -8.54607 -16.0137 -24.423 -13.8828 -0.114076 14.538 17.1586 4.39084 14.0198 35.8249 55.6788 68.1519 67.4323 70.2895 62.8862 51.6748 57.959 26.9252 4.88158 5.47859 -5.92123 -10.6293 -9.70887 -12.0143 -26.6988 -38.5103 -63.0222 -68.0081 -70.949 -48.9583 -36.326 -35.0141 -5.60275 -6.63596 -4.73687 -8.30106 31.013 -31.1887
+-0.00116304 -481441 -307.895 7.17876 1.95539 218.787 -296.962 10.9775 77.0606 22.58 20.6825 11.9303 7.29067 1.55953 0.731752 -1.86685 -4.72585 5.58663 0.143843 2.79704 -2.81201 1.24528 7.47907 -27.886 14.1466 -23.2642 1.63295 12.1651 -27.3529 11.8711 -13.1146 -8.74294 -13.4185 -15.4915 -10.2031 -12.5069 -2.97157 -6.27068 -5.1021 -8.50331 -7.26722 1.51478 -0.510193 2.75092 4.62624 -0.808504 9.7978 -4.59886 1.74891 -80.71 101.601
+-0.00142837 -1.01877e+06 -357.722 6.42855 1.06213 96.083 -14.6842 -15.337 22.58 51.3374 21.1669 11.5338 8.07832 3.98523 3.96565 2.34064 -1.5904 3.94044 1.3085 4.7076 -2.77327 -2.7372 0.926632 -18.3481 -1.64392 -19.4074 -5.50936 2.20999 -19.2904 4.66306 -11.1858 -10.7513 -10.5774 -12.9729 -11.2592 -11.9704 -9.60873 -6.84095 -6.60567 -5.8617 -2.63575 5.35524 0.600352 4.62192 6.63941 -2.41008 6.0356 1.74165 -1.25126 -6.5038 9.28963
+-0.00153353 -736755 -708.086 3.49861 2.58293 101.163 -61.0799 2.6845 20.6825 21.1669 39.4922 15.1786 11.7363 7.79391 3.58182 1.04597 -4.68477 -0.294805 4.54772 3.56179 -11.7174 -4.64468 3.10997 -16.7295 1.25135 -10.2577 -3.63956 -0.392335 -21.8323 3.53428 -16.4727 -13.1268 -13.0724 -15.9372 -13.919 -12.3058 -9.63043 -7.59622 -5.82612 -7.42429 -5.00084 1.39236 -1.06999 2.13884 2.05714 3.75102 6.76621 1.60815 -0.876289 57.7317 -71.7213
+-0.00139497 -1.16924e+06 -446.958 4.66973 0.560575 32.6762 87.5311 -0.718158 11.9303 11.5338 15.1786 16.5504 11.6177 5.7874 3.85437 0.746408 -1.80598 -0.47671 0.0791593 0.808981 -3.37288 -2.2459 0.734334 -10.6962 -0.895899 -11.1527 -5.61244 -2.07006 -12.9085 -1.77638 -8.0431 -9.50858 -10.4344 -11.0826 -9.84294 -11.3401 -5.99066 -8.52153 -5.50098 -5.29707 -2.69991 0.329161 0.866242 2.94341 4.40823 1.12363 5.27246 4.88721 -1.7938 26.4636 -32.7639
+-0.00158574 -1.23723e+06 -523.17 4.48833 0.536874 36.4566 -685.73 -6.188 7.29067 8.07832 11.7363 11.6177 13.4983 9.99574 7.70814 4.06421 2.20731 -0.156077 0.783792 0.588509 -4.93802 -1.4461 -3.7248 -8.26575 -7.0752 -8.68374 -9.37529 -9.69342 -10.3183 -8.7091 -10.9148 -12.4831 -13.7726 -13.992 -11.4986 -13.0338 -7.9667 -9.45524 -6.73947 -5.58271 -2.54691 -0.186489 1.55854 2.24998 2.90018 4.32611 4.53318 5.82937 2.87877 22.1883 -30.4122
+-0.00116864 -749747 -585.935 1.48816 0.853315 50.9089 981.351 -8.54607 1.55953 3.98523 7.79391 5.7874 9.99574 19.2543 9.95188 7.45727 4.15444 -1.49402 2.4132 2.4133 -9.09782 -2.23661 -6.37375 -5.59517 -12.5916 -1.74247 -10.9007 -15.2706 -5.39908 -10.5 -12.0784 -11.8582 -13.7588 -13.2441 -10.3175 -11.18 -7.02006 -7.8671 -5.69342 -4.53595 -0.957425 1.23847 1.55282 -0.536394 0.660898 6.88445 2.83248 3.20501 -2.39964 23.6325 -28.3718
+-0.00123006 -996793 -430.862 4.11301 -0.0642142 -10.8012 -232.929 -16.0137 0.731752 3.96565 3.58182 3.85437 7.70814 9.95188 13.0527 12.3073 10.1046 2.97606 2.2883 -0.0318199 -2.39205 -2.09893 -10.0558 -3.43305 -11.0696 -3.78788 -10.9322 -15.6255 -6.1857 -15.7026 -11.3187 -14.4779 -14.9919 -13.3115 -13.947 -10.1446 -12.4384 -8.23953 -7.90364 -5.32195 -1.36669 -1.92612 2.16963 -0.25984 0.388616 3.6415 3.10408 6.54651 2.46575 7.94046 -12.1361
+-0.000880713 -620402 -416.542 3.98605 -1.67526 -42.9507 117.635 -24.423 -1.86685 2.34064 1.04597 0.746408 4.06421 7.45727 12.3073 44.9333 21.9707 9.35181 3.36391 -2.2319 -1.00459 -1.20714 -13.287 -0.0162347 -9.90166 -3.78807 -9.58952 -15.6027 -4.99815 -16.874 -12.6195 -14.1349 -14.4297 -10.9135 -12.8369 -8.20558 -13.8915 -8.29796 -8.2631 -4.44702 0.718895 -4.37578 2.52102 -5.49493 -1.83171 3.88465 -0.0815371 5.60261 2.43996 -11.2811 12.4696
+-0.000910266 -614696 -486.285 7.46549 -5.94737 -6.42808 -342.797 -13.8828 -4.72585 -1.5904 -4.68477 -1.80598 2.20731 4.15444 10.1046 21.9707 72.3752 32.457 12.4244 -0.324035 4.56485 -2.29382 -12.7952 7.67941 -11.703 0.0483149 -6.68227 -15.3192 0.754844 -20.5364 -13.3444 -14.5343 -17.7005 -13.0871 -20.9015 -8.27884 -20.476 -9.03982 -12.4332 -7.73876 -7.34291 -10.3884 2.58045 -0.664974 -9.93172 7.50246 -2.2645 0.500476 5.86882 -70.0259 85.9018
+0.000321535 261444 334.77 4.17301 0.51225 87.9133 -860.61 -0.114076 5.58663 3.94044 -0.294805 -0.47671 -0.156077 -1.49402 2.97606 9.35181 32.457 61.1417 33.0916 12.4264 14.3557 -3.23321 -2.21935 -1.47796 2.69521 -12.0594 -5.61621 -3.52961 -14.7454 -5.21835 -12.0144 -13.0257 -10.1253 -14.6866 -9.78807 -16.2244 -6.10496 -12.2345 -5.98692 -9.37061 -6.35264 -8.64479 -4.53495 -0.791097 -5.43939 0.224216 3.42227 -0.893198 4.14948 -67.9418 82.1825
+4.88991e-05 384695 -143.304 -0.759493 -0.856621 58.4492 -72.8618 14.538 0.143843 1.3085 4.54772 0.0791593 0.783792 2.4132 2.2883 3.36391 12.4244 33.0916 87.3564 54.3632 13.6906 0.787529 -4.08965 -8.55487 -9.88147 -3.72062 -11.573 -12.565 -9.94985 -8.28726 -11.894 -13.3895 -10.6189 -13.4706 -13.5778 -13.7224 -12.6084 -13.0868 -8.15412 -7.27725 -0.72338 -5.94727 -5.32517 -1.75743 4.8579 7.89777 1.64587 3.36827 0.162754 40.1368 -51.5309
+0.000755674 1.29805e+06 -74.7116 5.81078 -7.29355 42.5478 677.483 17.1586 2.79704 4.7076 3.56179 0.808981 0.588509 2.4133 -0.0318199 -2.2319 -0.324035 12.4264 54.3632 178.653 48.8677 26.4995 3.6888 -13.913 -13.5411 -7.42365 -14.6794 -14.3923 -6.86006 -14.3304 -8.71258 -10.4394 -8.76517 0.513723 -13.3648 2.11102 -22.8211 -8.68309 -15.9207 -3.45266 -4.08861 -9.29214 -17.9525 -6.75583 11.4519 -1.77224 1.38013 -8.64782 0.449312 -62.1707 78.2996
+0.00117511 764421 401.902 -3.38766 4.23274 79.1972 -260.374 4.39084 -2.81201 -2.77327 -11.7174 -3.37288 -4.93802 -9.09782 -2.39205 -1.00459 4.56485 14.3557 13.6906 48.8677 223.935 67.391 11.5546 7.90084 -7.9158 -6.50756 -2.83132 -6.88073 -1.90402 -2.10692 1.59592 -12.4468 -1.16498 -1.52787 -23.8268 -5.57832 -13.196 -13.926 -9.05238 -6.16962 -10.9823 -25.288 -10.4756 7.80517 -4.10458 -8.69784 -14.1145 -2.91269 0.670135 -56.3508 66.4741
+0.00108553 1.3019e+06 162.041 3.47676 -3.99251 -94.2434 471.734 14.0198 1.24528 -2.7372 -4.64468 -2.2459 -1.4461 -2.23661 -2.09893 -1.20714 -2.29382 -3.23321 0.787529 26.4995 67.391 179.427 74.6727 18.1021 -8.00528 -8.96688 -11.3207 -13.2809 -1.49478 -13.9872 -5.71226 -15.846 -7.29408 -7.06777 -19.4719 -0.245213 -12.2767 -5.33109 -10.5221 -3.66118 -13.2782 -22.2271 -7.85087 2.89127 3.57748 -4.35849 -4.60335 -8.22326 2.92575 -93.4271 116.06
+0.0025352 2.47472e+06 719.032 1.83597 -1.65046 100.482 -164.95 35.8249 7.47907 0.926632 3.10997 0.734334 -3.7248 -6.37375 -10.0558 -13.287 -12.7952 -2.21935 -4.08965 3.6888 11.5546 74.6727 216.684 60.4463 26.8584 -14.6874 -0.726064 12.4294 -5.00489 20.7758 -6.86928 -9.70006 -2.02029 -17.5627 -17.1904 -18.7208 -10.8552 -11.6641 -5.51371 -12.8155 -21.4998 -13.7582 -12.4316 -6.75911 6.67224 -12.5656 -2.4413 -14.4804 -1.04275 -18.402 24.0898
+0.00116417 317757 298.035 -2.26486 -2.46756 -76.5458 130.697 55.6788 -27.886 -18.3481 -16.7295 -10.6962 -8.26575 -5.59517 -3.43305 -0.0162347 7.67941 -1.47796 -8.55487 -13.913 7.90084 18.1021 60.4463 191.457 41.1802 18.5323 -12.3097 -16.3795 23.1192 -3.15305 4.63181 -5.73338 -6.59457 -8.86727 -19.9552 -19.391 -32.7286 -7.10677 -12.5242 -8.25617 -16.5991 -9.7678 -5.22807 -3.56924 -6.05199 -6.64268 -14.3209 5.83657 -1.52057 44.9862 -55.7742
+0.00274378 2.62798e+06 740.413 -0.623188 -1.39339 141.791 64.9045 68.1519 14.1466 -1.64392 1.25135 -0.895899 -7.0752 -12.5916 -11.0696 -9.90166 -11.703 2.69521 -9.88147 -13.5411 -7.9158 -8.00528 26.8584 41.1802 149.61 34.8937 20.4157 19.8259 -21.6024 18.7955 2.89791 6.70966 -7.9613 -9.89944 0.487966 -27.3195 -0.869176 -16.9822 -5.24854 -14.1006 -18.3456 -16.3305 -6.40948 -17.649 -14.3792 -23.025 -8.77491 -11.2697 -3.81801 -10.2975 13.2897
+0.00142885 949420 -67.0108 -5.58852 -6.87082 -181.455 193.235 67.4323 -23.2642 -19.4074 -10.2577 -11.1527 -8.68374 -1.74247 -3.78788 -3.78807 0.0483149 -12.0594 -3.72062 -7.42365 -6.50756 -8.96688 -14.6874 18.5323 34.8937 110.13 52.7427 1.15832 11.7282 -16.5156 12.8227 2.07076 -12.71 -2.84919 -16.9571 -9.31299 -11.9679 -5.58657 -10.3688 -8.96121 -13.9247 -8.95997 -5.40178 0.72184 -12.9293 -5.84572 -11.9412 -6.10352 -0.632543 60.2528 -73.7529
+0.0022211 2.26652e+06 221.719 -4.52154 -1.977 171.262 -348.507 70.2895 1.63295 -5.50936 -3.63956 -5.61244 -9.37529 -10.9007 -10.9322 -9.58952 -6.68227 -5.61621 -11.573 -14.6794 -2.83132 -11.3207 -0.726064 -12.3097 20.4157 52.7427 112.955 77.9268 6.51901 6.03078 3.44211 9.39819 -5.88914 -6.77312 -11.4426 -11.5224 -6.75959 -6.38777 -10.5981 -12.8839 -25.5165 -6.60201 -19.7573 -6.44497 -6.04496 -13.5975 -7.00541 -20.3759 2.12605 -65.466 83.7818
+0.00332047 3.45081e+06 558.895 -3.79785 -0.344026 221.659 -713.498 62.8862 12.1651 2.20999 -0.392335 -2.07006 -9.69342 -15.2706 -15.6255 -15.6027 -15.3192 -3.52961 -12.565 -14.3923 -6.88073 -13.2809 12.4294 -16.3795 19.8259 1.15832 77.9268 161.193 59.0803 44.7663 0.120207 8.06045 6.50525 -15.6909 -8.11005 -21.7731 -9.03993 -15.6677 -12.3753 -17.9501 -26.2004 -6.69028 -22.8953 -13.0179 -4.1428 -23.7878 -7.63807 -23.0335 -0.00944304 -53.9214 68.4934
+0.00150386 422372 338.133 0.853589 -8.67548 -43.5869 56.2923 51.6748 -27.3529 -19.2904 -21.8323 -12.9085 -10.3183 -5.39908 -6.1857 -4.99815 0.754844 -14.7454 -9.94985 -6.86006 -1.90402 -1.49478 -5.00489 23.1192 -21.6024 11.7282 6.51901 59.0803 170.735 64.5219 17.3805 -8.49949 1.43278 -14.9845 -25.3248 -17.9995 -23.9535 -13.7255 -16.8938 -12.6133 -13.5235 -10.0275 -2.4319 -2.42524 -2.01682 -4.28015 -9.5106 -0.531055 0.896028 6.72442 -8.90333
+0.00332971 3.16385e+06 806.437 -8.11252 6.02864 324.107 -286.418 57.959 11.8711 4.66306 3.53428 -1.77638 -8.7091 -10.5 -15.7026 -16.874 -20.5364 -5.21835 -8.28726 -14.3304 -2.10692 -13.9872 20.7758 -3.15305 18.7955 -16.5156 6.03078 44.7663 64.5219 173.525 63.1658 9.31699 -0.844281 -13.4128 -13.9466 -27.3341 -12.7789 -21.7167 -15.7576 -13.455 -15.809 -6.32145 -5.20888 -26.0995 -13.7375 -18.4361 -11.2889 -17.9672 -4.41123 51.1491 -60.8277
+0.00254404 1.55266e+06 874.647 -3.87199 1.35866 2.96984 135.13 26.9252 -13.1146 -11.1858 -16.4727 -8.0431 -10.9148 -12.0784 -11.3187 -12.6195 -13.3444 -12.0144 -11.894 -8.71258 1.59592 -5.71226 -6.86928 4.63181 2.89791 12.8227 3.44211 0.120207 17.3805 63.1658 195.862 69.6886 -10.9023 3.27355 -15.7548 -17.3486 -23.9297 -21.4303 -18.6499 -9.87934 -5.74062 -3.27047 -8.62274 -15.6067 -8.53944 -14.8723 -8.23741 -11.2127 -1.6383 -12.6061 15.6536
+0.00283754 2.32515e+06 863.218 -5.743 2.76559 144.348 -171.191 4.88158 -8.74294 -10.7513 -13.1268 -9.50858 -12.4831 -11.8582 -14.4779 -14.1349 -14.5343 -13.0257 -13.3895 -10.4394 -12.4468 -15.846 -9.70006 -5.73338 6.70966 2.07076 9.39819 8.06045 -8.49949 9.31699 69.6886 252.886 54.3858 16.951 13.0865 -18.9509 -38.0705 -39.451 -25.8315 -12.5115 -11.2792 -1.0142 -18.6795 -11.2594 -2.8046 -6.64285 -7.24135 -14.1217 0.928265 -38.9704 50.0841
+0.00272664 1.74634e+06 1138.27 0.771395 -2.66252 -13.0978 305.919 5.47859 -13.4185 -10.5774 -13.0724 -10.4344 -13.7726 -13.7588 -14.9919 -14.4297 -17.7005 -10.1253 -10.6189 -8.76517 -1.16498 -7.29408 -2.02029 -6.59457 -7.9613 -12.71 -5.88914 6.50525 1.43278 -0.844281 -10.9023 54.3858 272.541 61.1945 46.1698 13.4202 -11.2057 -35.7083 -30.2601 -8.69298 -2.85205 -9.51998 0.0747331 -11.0923 -16.3499 -10.2203 -14.0278 -8.66918 -5.07472 40.6444 -48.6809
+0.00204815 1.07027e+06 1019.97 2.51297 -3.56944 -179.334 292.106 -5.92123 -15.4915 -12.9729 -15.9372 -11.0826 -13.992 -13.2441 -13.3115 -10.9135 -13.0871 -14.6866 -13.4706 0.513723 -1.52787 -7.06777 -17.5627 -8.86727 -9.89944 -2.84919 -6.77312 -15.6909 -14.9845 -13.4128 3.27355 16.951 61.1945 360.155 96.9029 46.0922 16.1181 -34.6655 -40.4693 -22.2754 -3.46093 -0.942032 -15.5908 -16.196 -17.01 -2.72833 -9.12784 -8.79061 -0.62628 -60.485 77.5484
+0.00227398 1.5563e+06 977.666 14.7971 -14.8879 -20.7002 500.829 -10.6293 -10.2031 -11.2592 -13.919 -9.84294 -11.4986 -10.3175 -13.947 -12.8369 -20.9015 -9.78807 -13.5778 -13.3648 -23.8268 -19.4719 -17.1904 -19.9552 0.487966 -16.9571 -11.4426 -8.11005 -25.3248 -13.9466 -15.7548 13.0865 46.1698 96.9029 548.322 118.195 53.7996 5.1775 -39.3769 -32.8967 -19.1435 -30.8094 -16.7576 -8.25883 -28.379 -9.22273 -10.6176 -2.71697 -5.32279 54.6888 -67.3625
+0.0012356 920344 648.583 0.630561 -4.80902 -119.897 176.113 -9.70887 -12.5069 -11.9704 -12.3058 -11.3401 -13.0338 -11.18 -10.1446 -8.20558 -8.27884 -16.2244 -13.7224 2.11102 -5.57832 -0.245213 -18.7208 -19.391 -27.3195 -9.31299 -11.5224 -21.7731 -17.9995 -27.3341 -17.3486 -18.9509 13.4202 46.0922 118.195 535.997 144.832 42.119 -3.69527 -42.7382 -25.9765 -28.3776 -1.38013 -9.7075 -24.7985 -11.5564 -9.82387 -8.67859 1.87594 -96.8692 122.618
+0.00152279 1.35503e+06 754.684 7.67965 -12.6324 62.9752 163.328 -12.0143 -2.97157 -9.60873 -9.63043 -5.99066 -7.9667 -7.02006 -12.4384 -13.8915 -20.476 -6.10496 -12.6084 -22.8211 -13.196 -12.2767 -10.8552 -32.7286 -0.869176 -11.9679 -6.75959 -9.03993 -23.9535 -12.7789 -23.9297 -38.0705 -11.2057 16.1181 53.7996 144.832 625.892 127.171 34.8696 -23.8471 -47.5179 -39.5187 -38.2086 -8.61478 -27.3124 -16.5752 -3.15548 -2.86122 -5.80231 75.9336 -91.8188
+0.000339912 514040 409.721 -5.16866 -5.01987 -174.948 26.6295 -26.6988 -6.27068 -6.84095 -7.59622 -8.52153 -9.45524 -7.8671 -8.23953 -8.29796 -9.03982 -12.2345 -13.0868 -8.68309 -13.926 -5.33109 -11.6641 -7.10677 -16.9822 -5.58657 -6.38777 -15.6677 -13.7255 -21.7167 -21.4303 -39.451 -35.7083 -34.6655 5.1775 42.119 127.171 488.665 88.8367 9.01096 -20.9307 -37.5782 -7.29464 -13.7518 -13.6372 -10.2834 -6.26809 -5.00495 1.42724 -62.7672 79.5237
+0.000278148 435497 439.86 -7.96031 -2.42366 -95.1271 91.4092 -38.5103 -5.1021 -6.60567 -5.82612 -5.50098 -6.73947 -5.69342 -7.90364 -8.2631 -12.4332 -5.98692 -8.15412 -15.9207 -9.05238 -10.5221 -5.51371 -12.5242 -5.24854 -10.3688 -10.5981 -12.3753 -16.8938 -15.7576 -18.6499 -25.8315 -30.2601 -40.4693 -39.3769 -3.69527 34.8696 88.8367 379.866 48.1205 2.83892 -13.752 -30.6654 -20.1042 -15.0213 -4.67966 -2.40827 1.83685 -3.93065 50.6198 -60.1759
+-0.00058171 -426332 99.629 -7.99153 -0.658291 -199.43 90.9235 -63.0222 -8.50331 -5.8617 -7.42429 -5.29707 -5.58271 -4.53595 -5.32195 -4.44702 -7.73876 -9.37061 -7.27725 -3.45266 -6.16962 -3.66118 -12.8155 -8.25617 -14.1006 -8.96121 -12.8839 -17.9501 -12.6133 -13.455 -9.87934 -12.5115 -8.69298 -22.2754 -32.8967 -42.7382 -23.8471 9.01096 48.1205 318.536 33.8651 -8.13742 -17.448 -28.2629 -9.7694 -3.47166 -1.89127 6.25952 -1.26292 5.28646 -4.19758
+-0.00108644 -1.08393e+06 100.063 -11.4964 6.89959 -313.153 317.556 -68.0081 -7.26722 -2.63575 -5.00084 -2.69991 -2.54691 -0.957425 -1.36669 0.718895 -7.34291 -6.35264 -0.72338 -4.08861 -10.9823 -13.2782 -21.4998 -16.5991 -18.3456 -13.9247 -25.5165 -26.2004 -13.5235 -15.809 -5.74062 -11.2792 -2.85205 -3.46093 -19.1435 -25.9765 -47.5179 -20.9307 2.83892 33.8651 306.777 21.1147 -14.9497 -7.06107 -13.6706 -2.59715 5.45506 7.80459 -3.13727 40.334 -48.676
+-0.00126399 -597035 -429.129 -14.4005 8.71989 51.796 74.2502 -70.949 1.51478 5.35524 1.39236 0.329161 -0.186489 1.23847 -1.92612 -4.37578 -10.3884 -8.64479 -5.94727 -9.29214 -25.288 -22.2271 -13.7582 -9.7678 -16.3305 -8.95997 -6.60201 -6.69028 -10.0275 -6.32145 -3.27047 -1.0142 -9.51998 -0.942032 -30.8094 -28.3776 -39.5187 -37.5782 -13.752 -8.13742 21.1147 299.007 37.5779 -37.1082 5.47886 2.2939 2.31667 9.24021 -1.94146 30.8093 -34.9612
+-0.0019646 -1.85456e+06 -335.208 -8.11655 0.337044 7.57913 -319.523 -48.9583 -0.510193 0.600352 -1.06999 0.866242 1.55854 1.55282 2.16963 2.52102 2.58045 -4.53495 -5.32517 -17.9525 -10.4756 -7.85087 -12.4316 -5.22807 -6.40948 -5.40178 -19.7573 -22.8953 -2.4319 -5.20888 -8.62274 -18.6795 0.0747331 -15.5908 -16.7576 -1.38013 -38.2086 -7.29464 -30.6654 -17.448 -14.9497 37.5779 292.157 26.302 -39.2738 -5.21038 10.1958 3.32221 0.580176 11.5731 -14.1318
+-0.00228674 -2.4046e+06 -362.874 -4.21641 1.54174 -289.13 -55.7733 -36.326 2.75092 4.62192 2.13884 2.94341 2.24998 -0.536394 -0.25984 -5.49493 -0.664974 -0.791097 -1.75743 -6.75583 7.80517 2.89127 -6.75911 -3.56924 -17.649 0.72184 -6.44497 -13.0179 -2.42524 -26.0995 -15.6067 -11.2594 -11.0923 -16.196 -8.25883 -9.7075 -8.61478 -13.7518 -20.1042 -28.2629 -7.06107 -37.1082 26.302 274.462 49.3541 0.814377 4.20513 2.17616 -0.174607 -7.68348 10.4547
+-0.00249096 -2.03807e+06 -911.529 -14.1773 14.6688 -244.61 633.325 -35.0141 4.62624 6.63941 2.05714 4.40823 2.90018 0.660898 0.388616 -1.83171 -9.93172 -5.43939 4.8579 11.4519 -4.10458 3.57748 6.67224 -6.05199 -14.3792 -12.9293 -6.04496 -4.1428 -2.01682 -13.7375 -8.53944 -2.8046 -16.3499 -17.01 -28.379 -24.7985 -27.3124 -13.6372 -15.0213 -9.7694 -13.6706 5.47886 -39.2738 49.3541 252.49 49.9657 -3.70876 15.5194 -4.0155 16.3083 -16.8314
+-0.00316547 -3.26231e+06 -675.606 -11.015 14.7399 -0.872783 -270.999 -5.60275 -0.808504 -2.41008 3.75102 1.12363 4.32611 6.88445 3.6415 3.88465 7.50246 0.224216 7.89777 -1.77224 -8.69784 -4.35849 -12.5656 -6.64268 -23.025 -5.84572 -13.5975 -23.7878 -4.28015 -18.4361 -14.8723 -6.64285 -10.2203 -2.72833 -9.22273 -11.5564 -16.5752 -10.2834 -4.67966 -3.47166 -2.59715 2.2939 -5.21038 0.814377 49.9657 160.962 24.0052 17.6184 1.91867 23.6639 -28.2732
+-0.00269717 -2.89629e+06 -494.8 1.49954 9.11704 -129.505 478.607 -6.63596 9.7978 6.0356 6.76621 5.27246 4.53318 2.83248 3.10408 -0.0815371 -2.2645 3.42227 1.64587 1.38013 -14.1145 -4.60335 -2.4413 -14.3209 -8.77491 -11.9412 -7.00541 -7.63807 -9.5106 -11.2889 -8.23741 -7.24135 -14.0278 -9.12784 -10.6176 -9.82387 -3.15548 -6.26809 -2.40827 -1.89127 5.45506 2.31667 10.1958 4.20513 -3.70876 24.0052 102.377 16.7856 -2.99569 -14.6863 20.0635
+-0.00333093 -4.10503e+06 -624.339 3.36306 4.90168 -90.0011 -716.977 -4.73687 -4.59886 1.74165 1.60815 4.88721 5.82937 3.20501 6.54651 5.60261 0.500476 -0.893198 3.36827 -8.64782 -2.91269 -8.22326 -14.4804 5.83657 -11.2697 -6.10352 -20.3759 -23.0335 -0.531055 -17.9672 -11.2127 -14.1217 -8.66918 -8.79061 -2.71697 -8.67859 -2.86122 -5.00495 1.83685 6.25952 7.80459 9.24021 3.32221 2.17616 15.5194 17.6184 16.7856 94.09 -0.94622 93.7605 -118.387
+-3.43881e-05 495612 120.809 0.510992 -0.616143 50.154 -7143.51 -8.30106 1.74891 -1.25126 -0.876289 -1.7938 2.87877 -2.39964 2.46575 2.43996 5.86882 4.14948 0.162754 0.449312 0.670135 2.92575 -1.04275 -1.52057 -3.81801 -0.632543 2.12605 -0.00944304 0.896028 -4.41123 -1.6383 0.928265 -5.07472 -0.62628 -5.32279 1.87594 -5.80231 1.42724 -3.93065 -1.26292 -3.13727 -1.94146 0.580176 -0.174607 -4.0155 1.91867 -2.99569 -0.94622 49.1485 -68.3774 65.433
+-0.0031451 -3.69302e+06 -3064.38 -59.5324 36.7419 -460.081 2140.88 31.013 -80.71 -6.5038 57.7317 26.4636 22.1883 23.6325 7.94046 -11.2811 -70.0259 -67.9418 40.1368 -62.1707 -56.3508 -93.4271 -18.402 44.9862 -10.2975 60.2528 -65.466 -53.9214 6.72442 51.1491 -12.6061 -38.9704 40.6444 -60.485 54.6888 -96.8692 75.9336 -62.7672 50.6198 5.28646 40.334 30.8093 11.5731 -7.68348 16.3083 23.6639 -14.6863 93.7605 -68.3774 1870.16 -2294.27
+0.00391717 4.29576e+06 3669.94 72.388 -44.6811 561.726 1949.89 -31.1887 101.601 9.28963 -71.7213 -32.7639 -30.4122 -28.3718 -12.1361 12.4696 85.9018 82.1825 -51.5309 78.2996 66.4741 116.06 24.0898 -55.7742 13.2897 -73.7529 83.7818 68.4934 -8.90333 -60.8277 15.6536 50.0841 -48.6809 77.5484 -67.3625 122.618 -91.8188 79.5237 -60.1759 -4.19758 -48.676 -34.9612 -14.1318 10.4547 -16.8314 -28.2732 20.0635 -118.387 65.433 -2294.27 2858.47
+*end
+
+*covariance_matrix[Covar]
+covariance_matrix {matrix}
+2.81972e+07 -0.0177761 -23.7489 -262.937 -181.119 -1.80701 -0.389958 4.39605 50.2494 66.6904 163.06 -233.585 484.29 -142.425 -52.7765 -45.232 -7.06645 -59.1798 3.28108 -29.1125 -29.256 -26.7971 -37.7169 -36.2195 -21.9994 -162.747 -33.8588 -74.773 -73.1137 -39.929 -58.5346 -38.8032 -38.1298 -29.4208 -11.843 -14.0759 0.0600075 -5.09207 4.65995 7.92702 12.0192 17.7568 16.7632 15.8789 13.2807 32.9597 41.3675 8.3907 91.7857 -116.907 -65.3535
+-0.0177761 1.30572e-11 1.55841e-08 3.46707e-07 2.32197e-07 1.33415e-09 7.8172e-11 8.50849e-09 -2.78878e-08 -2.91034e-08 -1.21507e-07 2.00094e-07 -2.85644e-07 7.62836e-08 -3.02308e-08 2.82905e-08 1.34039e-08 1.22151e-08 -7.78678e-09 3.49029e-09 2.04661e-08 5.53151e-09 9.05486e-09 2.5139e-08 -1.08552e-08 1.05359e-07 1.50553e-08 1.94283e-08 5.78836e-08 -2.29637e-09 3.19616e-08 1.47211e-08 1.3567e-08 1.41444e-08 1.39482e-09 7.41819e-09 -4.50877e-09 2.67791e-09 -5.15079e-09 -1.81869e-09 -4.06937e-09 -8.39188e-09 4.22587e-10 -1.14099e-09 2.02557e-09 -2.30669e-09 -4.57616e-09 2.96419e-08 -8.91307e-08 9.99022e-08 5.99758e-08
+-23.7489 1.55841e-08 2.60981e-05 0.000196864 7.131e-05 3.37591e-06 3.74026e-07 -6.30269e-06 -2.14095e-05 -5.63125e-05 -9.28059e-05 0.00022552 -0.000339525 0.00015486 -9.00504e-06 4.31723e-05 6.09184e-05 -1.96319e-05 -2.69567e-06 1.69734e-05 2.4913e-05 2.12777e-05 8.96907e-06 3.59372e-05 -8.75655e-06 0.000141758 2.90704e-05 5.1027e-05 5.79558e-05 1.22761e-05 3.76268e-05 2.0834e-05 1.51704e-05 1.60576e-05 2.34875e-06 9.20638e-06 -7.59272e-06 -4.13049e-08 -1.42844e-05 -1.06401e-05 -1.51713e-05 -1.53042e-05 -1.2794e-05 -1.34574e-05 8.578e-06 -2.02638e-05 -9.15491e-07 2.4643e-05 -8.24629e-05 0.000124971 7.00888e-05
+-262.937 3.46707e-07 0.000196864 0.0622736 0.0509091 7.32138e-05 -1.50497e-05 0.000828376 -0.00150767 -0.000750592 -0.00603205 0.00646427 -0.00910272 0.00506589 -0.0110638 0.00159225 0.00171115 -0.00283536 0.00142091 -0.000496074 0.000519264 -2.34668e-05 -0.000844931 0.000960772 -0.00138658 0.00462692 0.000387582 -0.000532825 0.00213594 -0.00123699 0.000118771 0.000138195 -0.000434433 0.000276235 -0.000417018 0.000540667 -9.13362e-05 0.000930581 0.000969117 0.00160814 0.00147778 0.00142363 0.00263312 0.00182936 0.0016716 0.00182921 -0.000464083 0.0003504 -0.00234206 0.00369888 0.00194007
+-181.119 2.32197e-07 7.131e-05 0.0509091 0.0711638 -5.19679e-05 -1.05942e-05 0.000197665 -0.000937189 0.000183765 -0.00420317 0.00784459 -0.00281738 0.000719771 -0.00287951 0.0019447 0.00358631 -0.00302266 0.00305452 0.0013684 -0.000602935 0.000761333 0.00047708 0.00127697 -9.06307e-05 0.00654011 0.000969984 -0.000181126 0.0045263 -0.00103787 0.00080584 0.000726297 0.000961207 0.000716507 0.00109733 0.000433777 0.0011277 0.00106082 0.00191044 0.00203603 0.00134388 0.00122407 0.00251738 0.00164538 0.000110644 -0.000292589 -0.00307141 -0.000760542 -0.00253471 0.00129408 0.000927619
+-1.80701 1.33415e-09 3.37591e-06 7.32138e-05 -5.19679e-05 6.46346e-05 7.78566e-07 2.68202e-05 -8.67588e-05 -2.10571e-05 -6.56205e-05 0.000214732 -0.000120525 -0.000392437 0.000167905 7.02117e-05 1.55908e-05 -3.03037e-05 -4.90258e-05 -1.34179e-05 -3.10445e-05 4.72826e-05 -1.56712e-05 -3.04665e-06 -7.74122e-05 0.000216321 -0.000208162 5.33879e-05 -8.01643e-06 -7.55515e-05 1.36694e-05 -3.32678e-05 -1.08584e-06 2.76099e-05 -3.27048e-06 1.07099e-05 -1.36814e-05 2.08932e-05 6.66284e-06 3.31761e-05 5.29046e-05 2.50989e-06 -1.44713e-06 5.14713e-05 8.30101e-05 -3.2338e-05 0.000119485 -1.97766e-05 3.89921e-05 -3.10625e-05 -4.05858e-05
+-0.389958 7.8172e-11 3.74026e-07 -1.50497e-05 -1.05942e-05 7.78566e-07 1.99478e-06 -1.2521e-06 1.11404e-05 9.06469e-06 -4.21091e-06 -0.000110572 0.00028517 -0.000151373 0.00012107 -4.34891e-06 9.33537e-07 3.936e-05 -5.10114e-07 8.20756e-06 5.25116e-06 3.6869e-06 1.3573e-05 9.03107e-06 1.03103e-05 2.61017e-05 1.13403e-05 2.73848e-05 2.09694e-06 2.64813e-05 8.63149e-06 1.59615e-05 1.40026e-05 1.29075e-05 6.3195e-06 9.12835e-06 6.88257e-06 9.20274e-06 1.17073e-05 1.28094e-05 1.18657e-05 1.04725e-05 8.68457e-06 8.83284e-06 5.1145e-06 7.83009e-06 2.16139e-06 7.69067e-06 0.00023512 -0.000101389 -8.89642e-05
+4.39605 8.50849e-09 -6.30269e-06 0.000828376 0.000197665 2.68202e-05 -1.2521e-06 0.000945575 -0.000296245 0.00025176 -0.000235517 0.000198683 -0.000580425 -0.000369391 0.000150769 0.000183369 3.05383e-05 -0.000180127 -0.000281815 -0.000209975 3.80154e-05 -0.000156663 -9.41616e-05 -0.000232649 -0.000326019 -0.000318385 -0.000497522 -0.000186848 -0.000172193 -0.000344262 -7.64577e-05 -7.11183e-05 -0.000123808 -3.47889e-05 -4.20261e-05 -3.65763e-05 -2.79482e-05 4.77267e-06 1.29724e-05 0.000125714 0.000124907 0.000164052 0.000140123 0.000156405 0.000198284 3.8512e-05 0.000180051 4.26014e-05 -8.98831e-05 1.12549e-05 2.43315e-06
+50.2494 -2.78878e-08 -2.14095e-05 -0.00150767 -0.000937189 -8.67588e-05 1.11404e-05 -0.000296245 0.021243 -0.00221451 -0.00432273 -0.00555556 0.00737874 0.000296808 0.00471625 0.000623905 0.00126676 0.00148006 5.05934e-05 0.00070284 0.000257818 0.000269064 0.000233355 0.00218975 -0.00116788 0.00226871 0.00166594 -0.000732575 0.00310776 -0.00114084 0.00142307 0.000998996 0.000951142 0.00102779 0.000409272 0.000750858 0.000267141 0.000653964 0.000651965 0.000942159 0.000773806 0.000507389 0.000534848 0.000241404 0.000242676 0.000394514 -0.000174468 0.000324336 0.000797893 -0.00127623 -0.0019035
+66.6904 -2.91034e-08 -5.63125e-05 -0.000750592 0.000183765 -2.10571e-05 9.06469e-06 0.00025176 -0.00221451 0.0292568 -0.0100295 -0.00781365 0.0098309 0.0010545 -0.00350112 3.72574e-05 0.000834007 -0.000352357 0.00119286 -0.000423446 5.44426e-05 0.00037034 0.000277088 0.000863045 0.000655202 0.00204355 0.000911326 -0.000635395 0.00185723 -0.000825162 0.000586184 0.000642905 0.000517794 0.000558354 0.000327978 0.000466654 0.000387459 0.000361617 0.000630767 0.00067421 0.000584104 8.60071e-05 0.000468738 0.000105876 -0.000126689 0.00121517 0.000440999 3.65791e-05 0.00176732 -0.00137673 -0.00130679
+163.06 -1.21507e-07 -9.28059e-05 -0.00603205 -0.00420317 -6.56205e-05 -4.21091e-06 -0.000235517 -0.00432273 -0.0100295 0.0580359 -0.0261302 0.00365178 -0.00884211 0.0302905 -0.00180409 0.00222223 0.00187646 0.000543459 3.28666e-06 0.00248117 0.000803497 0.000609936 0.00231911 0.00213831 0.000289974 0.00223368 0.00073709 0.00474596 -1.35868e-05 0.00378917 0.00202019 0.00254744 0.00153376 0.00199283 0.000531487 0.0019901 0.00082843 0.00217453 0.00212102 0.00231108 0.00185858 0.00183147 0.000962814 0.00207102 0.000131527 0.000372725 0.00195686 -0.00257183 -0.000809505 0.00100494
+-233.585 2.00094e-07 0.00022552 0.00646427 0.00784459 0.000214732 -0.000110572 0.000198683 -0.00555556 -0.00781365 -0.0261302 0.254021 -0.255743 0.046896 0.0320432 -0.00180565 0.000301895 -0.001949 0.00100174 -0.00102708 -0.00197454 0.00183145 -0.00247232 0.00213105 -0.00437498 0.00555424 -0.00210096 -0.00486341 0.00395437 -0.00309178 -0.00156136 -0.000717582 -0.000343979 -0.00128176 0.000507843 -0.000884138 -3.53458e-05 -0.000541591 -0.000337703 -0.000478222 -0.000611018 -0.000542073 -0.000778798 -0.000736517 -0.00111015 0.00150343 -0.000957562 -0.0027403 0.00418595 -0.00021504 0.000227878
+484.29 -2.85644e-07 -0.000339525 -0.00910272 -0.00281738 -0.000120525 0.00028517 -0.000580425 0.00737874 0.0098309 0.00365178 -0.255743 0.53764 -0.127592 0.00414549 0.0163749 0.00552766 0.0149922 0.0111562 0.00531503 0.00534004 0.00321229 0.00825292 0.00856864 0.0106111 0.0197077 0.0121218 0.0151009 0.00619116 0.0188632 0.00859636 0.012597 0.0129711 0.0109347 0.00613625 0.00828303 0.00578754 0.00866654 0.0107735 0.0118192 0.0113359 0.0100147 0.00811911 0.00765207 0.00641399 0.00542216 0.00584009 0.00354409 0.000905731 -0.00242194 -0.00086416
+-142.425 7.62836e-08 0.00015486 0.00506589 0.000719771 -0.000392437 -0.000151373 -0.000369391 0.000296808 0.0010545 -0.00884211 0.046896 -0.127592 0.148306 -0.0697206 -0.000332925 0.00284745 0.000702452 -0.00191035 -0.00181822 0.00268693 3.26636e-05 -0.00210508 -0.000790085 0.00486713 -0.0109873 0.0049113 -0.001065 -0.000319335 -0.00463673 0.00201972 -0.00216326 -0.000920928 -0.000679603 -0.00130959 -9.93135e-05 -0.00155806 -0.000522551 -0.00165244 -0.00142341 -0.00165617 -0.00170809 -0.000807639 -0.00077139 -4.34376e-05 -0.00282429 0.000142767 0.00235685 -0.00294069 0.00238242 0.00131484
+-52.7765 -3.02308e-08 -9.00504e-06 -0.0110638 -0.00287951 0.000167905 0.00012107 0.000150769 0.00471625 -0.00350112 0.0302905 0.0320432 0.00414549 -0.0697206 0.395772 -0.0271938 0.000467431 0.0213547 0.013925 0.0106887 0.00573715 0.013024 0.0137902 0.0144451 0.020789 0.0236476 0.0233056 0.0229828 0.0142783 0.0295416 0.0161249 0.0216657 0.0220762 0.0166505 0.012668 0.0105931 0.011822 0.0123133 0.017742 0.0187808 0.0175819 0.0159378 0.0118886 0.0132662 0.00917112 0.0119304 0.00476766 -0.000702925 0.00365638 -0.00464559 -0.00230052
+-45.232 2.82905e-08 4.31723e-05 0.00159225 0.0019447 7.02117e-05 -4.34891e-06 0.000183369 0.000623905 3.72574e-05 -0.00180409 -0.00180565 0.0163749 -0.000332925 -0.0271938 0.0342036 -0.00510452 -0.000120787 0.000991124 0.000720577 0.00046089 -6.01977e-05 0.00114884 0.000367132 0.000241666 0.00261875 -0.000158078 0.00128826 0.00067556 0.00085549 0.000992045 0.000735266 0.00092343 0.000606835 0.000368282 0.000489675 0.000349175 0.000625237 0.000668288 0.000750653 0.000371296 0.000809769 0.00028181 0.00116033 0.000278199 0.000135254 0.000964842 -0.000350893 -0.0011671 0.000538425 0.000399534
+-7.06645 1.34039e-08 6.09184e-05 0.00171115 0.00358631 1.55908e-05 9.33537e-07 3.05383e-05 0.00126676 0.000834007 0.00222223 0.000301895 0.00552766 0.00284745 0.000467431 -0.00510452 0.0256989 -0.0117184 0.00213528 0.0012436 0.000722304 0.00108187 0.000784494 0.000153536 0.00234907 0.000517434 0.00128899 0.00224924 -0.000422101 0.00224555 0.00134184 0.00104401 0.0016244 0.00100231 0.00105234 0.000548343 0.000963585 0.000824022 0.00134924 0.00128528 0.00140575 0.00138775 0.000832763 0.000958087 0.00166283 -0.000458359 0.00191137 0.00119532 -0.000808626 -0.00124041 -0.00137435
+-59.1798 1.22151e-08 -1.96319e-05 -0.00283536 -0.00302266 -3.03037e-05 3.936e-05 -0.000180127 0.00148006 -0.000352357 0.00187646 -0.001949 0.0149922 0.000702452 0.0213547 -0.000120787 -0.0117184 0.0364693 -0.0101265 0.00290717 -0.000376309 0.00272507 0.00174563 0.00156778 0.00144169 0.00476218 0.004062 0.00143186 0.00495943 0.00175319 0.00293316 0.00336022 0.0025167 0.00284002 0.00108989 0.00222032 0.000806325 0.00208244 0.00185315 0.0025727 0.00225619 0.00183658 0.00173194 0.00120053 0.00107733 0.00159809 -0.000748524 -0.000313618 0.00343311 -0.00132628 -0.00193995
+3.28108 -7.78678e-09 -2.69567e-06 0.00142091 0.00305452 -4.90258e-05 -5.10114e-07 -0.000281815 5.05934e-05 0.00119286 0.000543459 0.00100174 0.0111562 -0.00191035 0.013925 0.000991124 0.00213528 -0.0101265 0.0214221 -0.00466362 0.0010782 0.000891953 0.000919524 0.00187129 0.00259257 0.00148398 0.00228238 0.0018848 0.00137144 0.00231169 0.00152487 0.00160979 0.00205705 0.00134073 0.00124397 0.000854856 0.00111595 0.00103168 0.00161902 0.00162456 0.00130879 0.00141383 0.00092589 0.00105209 0.0006081 6.08138e-05 0.000714496 -0.000183804 -0.000769707 0.000355498 0.0012125
+-29.1125 3.49029e-09 1.69734e-05 -0.000496074 0.0013684 -1.34179e-05 8.20756e-06 -0.000209975 0.00070284 -0.000423446 3.28666e-06 -0.00102708 0.00531503 -0.00181822 0.0106887 0.000720577 0.0012436 0.00290717 -0.00466362 0.00878238 -0.00108816 0.000484287 0.000716931 0.00112654 0.00137192 0.00105033 0.00238991 0.00141334 0.000600352 0.00197415 0.000974274 0.00121346 0.00123221 0.000809316 0.000667563 0.000508313 0.000764946 0.000658431 0.00107935 0.00088623 0.000929633 0.000777995 0.000921879 0.000918776 2.05368e-05 0.000727092 -0.000300042 0.000600073 0.000393536 -0.000879024 -0.00103341
+-29.256 2.04661e-08 2.4913e-05 0.000519264 -0.000602935 -3.10445e-05 5.25116e-06 3.80154e-05 0.000257818 5.44426e-05 0.00248117 -0.00197454 0.00534004 0.00268693 0.00573715 0.00046089 0.000722304 -0.000376309 0.0010782 -0.00108816 0.00621094 -0.00165726 0.00104433 0.000464783 0.00122546 0.00128858 0.000581244 0.00116717 0.000974903 0.000724131 0.000839886 0.00106428 0.000894246 0.000710378 0.000666738 0.000555337 0.000463096 0.000668744 0.000731041 0.000877279 0.000854038 0.000942465 0.000626941 0.000341829 0.000724901 0.000472657 0.00110048 2.24225e-05 0.000692143 0.000548165 0.000488032
+-26.7971 5.53151e-09 2.12777e-05 -2.34668e-05 0.000761333 4.72826e-05 3.6869e-06 -0.000156663 0.000269064 0.00037034 0.000803497 0.00183145 0.00321229 3.26636e-05 0.013024 -6.01977e-05 0.00108187 0.00272507 0.000891953 0.000484287 -0.00165726 0.0089377 -0.00197381 0.00119297 0.0019549 0.00160958 0.00220902 0.00195846 0.000748423 0.00248617 0.00105903 0.00163432 0.00149275 0.00123378 0.000843412 0.000791225 0.000714051 0.000932741 0.00124831 0.00120755 0.0012867 0.00127261 0.000820707 0.000895213 0.000648922 0.000540922 0.000503391 0.000172922 -0.000198663 -0.000526609 -0.000694538
+-37.7169 9.05486e-09 8.96907e-06 -0.000844931 0.00047708 -1.56712e-05 1.3573e-05 -9.41616e-05 0.000233355 0.000277088 0.000609936 -0.00247232 0.00825292 -0.00210508 0.0137902 0.00114884 0.000784494 0.00174563 0.000919524 0.000716931 0.00104433 -0.00197381 0.00759315 -0.00119851 0.0010949 0.00273259 0.0012093 0.00115538 0.00182225 0.000895194 0.00159661 0.00151011 0.00141604 0.00126822 0.000866693 0.00081973 0.000707068 0.000901465 0.00106368 0.00128003 0.00119058 0.000999557 0.000766067 0.000826049 0.000192228 0.000652102 -0.000209928 0.000509274 0.000743689 -0.000633867 -0.000435598
+-36.2195 2.5139e-08 3.59372e-05 0.000960772 0.00127697 -3.04665e-06 9.03107e-06 -0.000232649 0.00218975 0.000863045 0.00231911 0.00213105 0.00856864 -0.000790085 0.0144451 0.000367132 0.000153536 0.00156778 0.00187129 0.00112654 0.000464783 0.00119297 -0.00119851 0.00878911 -0.000776094 0.00252935 0.00255457 0.00268148 0.000179357 0.00278865 0.00130005 0.00178623 0.00194037 0.00137086 0.00117538 0.000944753 0.00124558 0.000911406 0.00165938 0.00158528 0.00173245 0.00119666 0.00127558 0.000937633 0.00100647 0.000845869 0.0011189 -0.000133098 0.000205583 -0.00063167 -0.00030378
+-21.9994 -1.08552e-08 -8.75655e-06 -0.00138658 -9.06307e-05 -7.74122e-05 1.03103e-05 -0.000326019 -0.00116788 0.000655202 0.00213831 -0.00437498 0.0106111 0.00486713 0.020789 0.000241666 0.00234907 0.00144169 0.00259257 0.00137192 0.00122546 0.0019549 0.0010949 -0.000776094 0.0132416 -0.00345542 0.00588545 0.000188287 0.004663 0.00120045 0.00287002 0.00209438 0.00268137 0.00207884 0.00109869 0.00171016 0.000964863 0.00175597 0.00178202 0.00218662 0.00190694 0.0020931 0.0010904 0.00184887 0.00083951 0.00143388 0.000553021 2.82684e-05 0.00147065 -0.000118066 -0.000278526
+-162.747 1.05359e-07 0.000141758 0.00462692 0.00654011 0.000216321 2.61017e-05 -0.000318385 0.00226871 0.00204355 0.000289974 0.00555424 0.0197077 -0.0109873 0.0236476 0.00261875 0.000517434 0.00476218 0.00148398 0.00105033 0.00128858 0.00160958 0.00273259 0.00252935 -0.00345542 0.0267661 -0.0114637 0.0101978 -0.00118178 0.00641783 0.000916903 0.00316187 0.00354212 0.00222134 0.00218806 0.00144526 0.00181558 0.00168245 0.00276745 0.00272524 0.0027095 0.00209733 0.00176782 0.00131237 0.0021087 0.00106007 0.00157566 0.000750458 4.3325e-06 -0.0010004 3.53574e-06
+-33.8588 1.50553e-08 2.90704e-05 0.000387582 0.000969984 -0.000208162 1.13403e-05 -0.000497522 0.00166594 0.000911326 0.00223368 -0.00210096 0.0121218 0.0049113 0.0233056 -0.000158078 0.00128899 0.004062 0.00228238 0.00238991 0.000581244 0.00220902 0.0012093 0.00255457 0.00588545 -0.0114637 0.0287944 -0.0102712 0.00751727 0.0020758 0.00301641 0.00254565 0.0029211 0.00230621 0.00141438 0.00172011 0.00123521 0.00170195 0.00216477 0.00234635 0.00251666 0.00187811 0.00201831 0.00164688 0.000752081 0.00127351 0.000147852 0.00105703 0.000109758 -0.00113409 -0.00168638
+-74.773 1.94283e-08 5.1027e-05 -0.000532825 -0.000181126 5.33879e-05 2.73848e-05 -0.000186848 -0.000732575 -0.000635395 0.00073709 -0.00486341 0.0151009 -0.001065 0.0229828 0.00128826 0.00224924 0.00143186 0.0018848 0.00141334 0.00116717 0.00195846 0.00115538 0.00268148 0.000188287 0.0101978 -0.0102712 0.0189567 -0.0050178 0.00385888 0.00239729 0.00222443 0.00236409 0.00213982 0.0013189 0.00141277 0.0012989 0.00153859 0.00202531 0.00218497 0.00210886 0.00165833 0.00160641 0.00158926 0.0011096 0.00154894 0.000772844 0.000944573 0.0021788 -0.00105218 -0.000617066
+-73.1137 5.78836e-08 5.79558e-05 0.00213594 0.0045263 -8.01643e-06 2.09694e-06 -0.000172193 0.00310776 0.00185723 0.00474596 0.00395437 0.00619116 -0.000319335 0.0142783 0.00067556 -0.000422101 0.00495943 0.00137144 0.000600352 0.000974903 0.000748423 0.00182225 0.000179357 0.004663 -0.00118178 0.00751727 -0.0050178 0.0140565 -0.0030761 0.00268211 0.00230165 0.00193578 0.00186599 0.00133943 0.00123475 0.0010508 0.00130842 0.00167377 0.00197244 0.00170784 0.0015328 0.00114082 0.000877722 0.000668347 0.000601837 0.000275794 -0.000595399 -0.00100736 0.000506763 0.000166283
+-39.929 -2.29637e-09 1.22761e-05 -0.00123699 -0.00103787 -7.55515e-05 2.64813e-05 -0.000344262 -0.00114084 -0.000825162 -1.35868e-05 -0.00309178 0.0188632 -0.00463673 0.0295416 0.00085549 0.00224555 0.00175319 0.00231169 0.00197415 0.000724131 0.00248617 0.000895194 0.00278865 0.00120045 0.00641783 0.0020758 0.00385888 -0.0030761 0.0144089 -0.00101402 0.00327906 0.00300596 0.00217938 0.00165159 0.00155018 0.00153227 0.00169239 0.00247623 0.00232694 0.00235389 0.00213615 0.00142581 0.00209428 0.00139916 0.0013364 0.00110979 0.00118744 0.00165719 -0.00196774 -0.00108168
+-58.5346 3.19616e-08 3.76268e-05 0.000118771 0.00080584 1.36694e-05 8.63149e-06 -7.64577e-05 0.00142307 0.000586184 0.00378917 -0.00156136 0.00859636 0.00201972 0.0161249 0.000992045 0.00134184 0.00293316 0.00152487 0.000974274 0.000839886 0.00105903 0.00159661 0.00130005 0.00287002 0.000916903 0.00301641 0.00239729 0.00268211 -0.00101402 0.00905662 0.000115884 0.00280865 0.0016109 0.00127508 0.00119477 0.00106525 0.00132916 0.00174255 0.00188453 0.0016416 0.00146339 0.00122829 0.00132119 0.000889198 0.00108019 0.00048276 0.000378908 0.000408493 0.000111724 -1.5223e-05
+-38.8032 1.47211e-08 2.0834e-05 0.000138195 0.000726297 -3.32678e-05 1.59615e-05 -7.11183e-05 0.000998996 0.000642905 0.00202019 -0.000717582 0.012597 -0.00216326 0.0216657 0.000735266 0.00104401 0.00336022 0.00160979 0.00121346 0.00106428 0.00163432 0.00151011 0.00178623 0.00209438 0.00316187 0.00254565 0.00222443 0.00230165 0.00327906 0.000115884 0.00718189 0.00140267 0.00189912 0.00121001 0.00140783 0.00134883 0.00159456 0.00198508 0.00210652 0.00203604 0.00166576 0.00158472 0.00136086 0.000963864 0.000942809 0.000546749 0.000406433 0.000485566 -0.000957127 -0.000802638
+-38.1298 1.3567e-08 1.51704e-05 -0.000434433 0.000961207 -1.08584e-06 1.40026e-05 -0.000123808 0.000951142 0.000517794 0.00254744 -0.000343979 0.0129711 -0.000920928 0.0220762 0.00092343 0.0016244 0.0025167 0.00205705 0.00123221 0.000894246 0.00149275 0.00141604 0.00194037 0.00268137 0.00354212 0.0029211 0.00236409 0.00193578 0.00300596 0.00280865 0.00140267 0.00682939 0.00136874 0.00127911 0.00125587 0.0013438 0.00163 0.00221169 0.00212128 0.00199643 0.00189682 0.00126074 0.00151018 0.00123334 0.00102062 0.000996574 0.000400249 0.000817708 -0.000710633 -0.000337154
+-29.4208 1.41444e-08 1.60576e-05 0.000276235 0.000716507 2.76099e-05 1.29075e-05 -3.47889e-05 0.00102779 0.000558354 0.00153376 -0.00128176 0.0109347 -0.000679603 0.0166505 0.000606835 0.00100231 0.00284002 0.00134073 0.000809316 0.000710378 0.00123378 0.00126822 0.00137086 0.00207884 0.00222134 0.00230621 0.00213982 0.00186599 0.00217938 0.0016109 0.00189912 0.00136874 0.00470771 0.000584395 0.000995791 0.000840692 0.00139334 0.00172373 0.00182988 0.00159411 0.00131614 0.00126663 0.00128228 0.00101184 0.000717863 0.000700994 0.000293206 0.000610455 -0.000689758 -0.000678959
+-11.843 1.39482e-09 2.34875e-06 -0.000417018 0.00109733 -3.27048e-06 6.3195e-06 -4.20261e-05 0.000409272 0.000327978 0.00199283 0.000507843 0.00613625 -0.00130959 0.012668 0.000368282 0.00105234 0.00108989 0.00124397 0.000667563 0.000666738 0.000843412 0.000866693 0.00117538 0.00109869 0.00218806 0.00141438 0.0013189 0.00133943 0.00165159 0.00127508 0.00121001 0.00127911 0.000584395 0.00291782 0.000290567 0.000725794 0.000722069 0.00132426 0.00127149 0.00118934 0.00112426 0.000877638 0.000741329 0.000754899 0.000475991 0.000438857 5.29256e-05 0.000277192 -0.000357168 -7.80617e-05
+-14.0759 7.41819e-09 9.20638e-06 0.000540667 0.000433777 1.07099e-05 9.12835e-06 -3.65763e-05 0.000750858 0.000466654 0.000531487 -0.000884138 0.00828303 -9.93135e-05 0.0105931 0.000489675 0.000548343 0.00222032 0.000854856 0.000508313 0.000555337 0.000791225 0.00081973 0.000944753 0.00171016 0.00144526 0.00172011 0.00141277 0.00123475 0.00155018 0.00119477 0.00140783 0.00125587 0.000995791 0.000290567 0.00294822 0.000156833 0.000819703 0.00103223 0.00141699 0.00117509 0.00108801 0.000716336 0.00091179 0.000718133 0.000690161 0.000600155 0.000190554 0.000471998 -0.000481065 -0.000543856
+0.0600075 -4.50877e-09 -7.59272e-06 -9.13362e-05 0.0011277 -1.36814e-05 6.88257e-06 -2.79482e-05 0.000267141 0.000387459 0.0019901 -3.53458e-05 0.00578754 -0.00155806 0.011822 0.000349175 0.000963585 0.000806325 0.00111595 0.000764946 0.000463096 0.000714051 0.000707068 0.00124558 0.000964863 0.00181558 0.00123521 0.0012989 0.0010508 0.00153227 0.00106525 0.00134883 0.0013438 0.000840692 0.000725794 0.000156833 0.00257972 0.000273887 0.00100842 0.00115539 0.00126038 0.000996931 0.000993171 0.000687116 0.000682677 0.000593012 0.000225001 0.000146497 0.000386661 -0.000573344 -0.000235301
+-5.09207 2.67791e-09 -4.13049e-08 0.000930581 0.00106082 2.08932e-05 9.20274e-06 4.77267e-06 0.000653964 0.000361617 0.00082843 -0.000541591 0.00866654 -0.000522551 0.0123133 0.000625237 0.000824022 0.00208244 0.00103168 0.000658431 0.000668744 0.000932741 0.000901465 0.000911406 0.00175597 0.00168245 0.00170195 0.00153859 0.00130842 0.00169239 0.00132916 0.00159456 0.00163 0.00139334 0.000722069 0.000819703 0.000273887 0.00327133 0.00072712 0.00133988 0.00134113 0.00134488 0.000831794 0.00108125 0.000741087 0.000776457 0.000650405 0.00021541 0.000475484 -0.000481738 -0.00049634
+4.65995 -5.15079e-09 -1.42844e-05 0.000969117 0.00191044 6.66284e-06 1.17073e-05 1.29724e-05 0.000651965 0.000630767 0.00217453 -0.000337703 0.0107735 -0.00165244 0.017742 0.000668288 0.00134924 0.00185315 0.00161902 0.00107935 0.000731041 0.00124831 0.00106368 0.00165938 0.00178202 0.00276745 0.00216477 0.00202531 0.00167377 0.00247623 0.00174255 0.00198508 0.00221169 0.00172373 0.00132426 0.00103223 0.00100842 0.00072712 0.00458517 0.00142601 0.00172917 0.001554 0.00153104 0.00134469 0.00113947 0.0008973 0.00066188 0.000266304 0.000719826 -0.000895788 -0.000535562
+7.92702 -1.81869e-09 -1.06401e-05 0.00160814 0.00203603 3.31761e-05 1.28094e-05 0.000125714 0.000942159 0.00067421 0.00212102 -0.000478222 0.0118192 -0.00142341 0.0187808 0.000750653 0.00128528 0.0025727 0.00162456 0.00088623 0.000877279 0.00120755 0.00128003 0.00158528 0.00218662 0.00272524 0.00234635 0.00218497 0.00197244 0.00232694 0.00188453 0.00210652 0.00212128 0.00182988 0.00127149 0.00141699 0.00115539 0.00133988 0.00142601 0.00533348 0.00159145 0.00182631 0.00152083 0.00173264 0.00121563 0.00113306 0.000902403 0.00013734 0.000702902 -0.000928602 -0.000726243
+12.0192 -4.06937e-09 -1.51713e-05 0.00147778 0.00134388 5.29046e-05 1.18657e-05 0.000124907 0.000773806 0.000584104 0.00231108 -0.000611018 0.0113359 -0.00165617 0.0175819 0.000371296 0.00140575 0.00225619 0.00130879 0.000929633 0.000854038 0.0012867 0.00119058 0.00173245 0.00190694 0.0027095 0.00251666 0.00210886 0.00170784 0.00235389 0.0016416 0.00203604 0.00199643 0.00159411 0.00118934 0.00117509 0.00126038 0.00134113 0.00172917 0.00159145 0.00529611 0.00136518 0.00163992 0.00132282 0.0013958 0.00114076 0.000715913 0.000322063 0.000736403 -0.000815738 -0.000558798
+17.7568 -8.39188e-09 -1.53042e-05 0.00142363 0.00122407 2.50989e-06 1.04725e-05 0.000164052 0.000507389 8.60071e-05 0.00185858 -0.000542073 0.0100147 -0.00170809 0.0159378 0.000809769 0.00138775 0.00183658 0.00141383 0.000777995 0.000942465 0.00127261 0.000999557 0.00119666 0.0020931 0.00209733 0.00187811 0.00165833 0.0015328 0.00213615 0.00146339 0.00166576 0.00189682 0.00131614 0.00112426 0.00108801 0.000996931 0.00134488 0.001554 0.00182631 0.00136518 0.00509528 0.000650029 0.00181865 0.000767742 0.00102842 0.000823174 3.26867e-05 0.000630858 -0.000901449 -0.000664507
+16.7632 4.22587e-10 -1.2794e-05 0.00263312 0.00251738 -1.44713e-06 8.68457e-06 0.000140123 0.000534848 0.000468738 0.00183147 -0.000778798 0.00811911 -0.000807639 0.0118886 0.00028181 0.000832763 0.00173194 0.00092589 0.000921879 0.000626941 0.000820707 0.000766067 0.00127558 0.0010904 0.00176782 0.00201831 0.00160641 0.00114082 0.00142581 0.00122829 0.00158472 0.00126074 0.00126663 0.000877638 0.000716336 0.000993171 0.000831794 0.00153104 0.00152083 0.00163992 0.000650029 0.00488181 0.000503438 0.001573 0.000889542 0.000293885 0.000463243 0.000496318 -0.000619609 -0.000460105
+15.8789 -1.14099e-09 -1.34574e-05 0.00182936 0.00164538 5.14713e-05 8.83284e-06 0.000156405 0.000241404 0.000105876 0.000962814 -0.000736517 0.00765207 -0.00077139 0.0132662 0.00116033 0.000958087 0.00120053 0.00105209 0.000918776 0.000341829 0.000895213 0.000826049 0.000937633 0.00184887 0.00131237 0.00164688 0.00158926 0.000877722 0.00209428 0.00132119 0.00136086 0.00151018 0.00128228 0.000741329 0.00091179 0.000687116 0.00108125 0.00134469 0.00173264 0.00132282 0.00181865 0.000503438 0.00519684 -4.55882e-05 0.0011885 0.000573105 0.000553874 0.000526594 -0.000644128 -0.000531595
+13.2807 2.02557e-09 8.578e-06 0.0016716 0.000110644 8.30101e-05 5.1145e-06 0.000198284 0.000242676 -0.000126689 0.00207102 -0.00111015 0.00641399 -4.34376e-05 0.00917112 0.000278199 0.00166283 0.00107733 0.0006081 2.05368e-05 0.000724901 0.000648922 0.000192228 0.00100647 0.00083951 0.0021087 0.000752081 0.0011096 0.000668347 0.00139916 0.000889198 0.000963864 0.00123334 0.00101184 0.000754899 0.000718133 0.000682677 0.000741087 0.00113947 0.00121563 0.0013958 0.000767742 0.001573 -4.55882e-05 0.00570363 -0.000808532 0.00165008 -0.000185624 0.000581982 -0.000435571 -0.000345578
+32.9597 -2.30669e-09 -2.02638e-05 0.00182921 -0.000292589 -3.2338e-05 7.83009e-06 3.8512e-05 0.000394514 0.00121517 0.000131527 0.00150343 0.00542216 -0.00282429 0.0119304 0.000135254 -0.000458359 0.00159809 6.08138e-05 0.000727092 0.000472657 0.000540922 0.000652102 0.000845869 0.00143388 0.00106007 0.00127351 0.00154894 0.000601837 0.0013364 0.00108019 0.000942809 0.00102062 0.000717863 0.000475991 0.000690161 0.000593012 0.000776457 0.0008973 0.00113306 0.00114076 0.00102842 0.000889542 0.0011885 -0.000808532 0.00837157 -0.000920352 5.49361e-05 6.93156e-05 -0.000733614 -0.000575733
+41.3675 -4.57616e-09 -9.15491e-07 -0.000464083 -0.00307141 0.000119485 2.16139e-06 0.000180051 -0.000174468 0.000440999 0.000372725 -0.000957562 0.00584009 0.000142767 0.00476766 0.000964842 0.00191137 -0.000748524 0.000714496 -0.000300042 0.00110048 0.000503391 -0.000209928 0.0011189 0.000553021 0.00157566 0.000147852 0.000772844 0.000275794 0.00110979 0.00048276 0.000546749 0.000996574 0.000700994 0.000438857 0.000600155 0.000225001 0.000650405 0.00066188 0.000902403 0.000715913 0.000823174 0.000293885 0.000573105 0.00165008 -0.000920352 0.0124559 -0.0010135 0.00100548 -0.000155844 -0.000303252
+8.3907 2.96419e-08 2.4643e-05 0.0003504 -0.000760542 -1.97766e-05 7.69067e-06 4.26014e-05 0.000324336 3.65791e-05 0.00195686 -0.0027403 0.00354409 0.00235685 -0.000702925 -0.000350893 0.00119532 -0.000313618 -0.000183804 0.000600073 2.24225e-05 0.000172922 0.000509274 -0.000133098 2.82684e-05 0.000750458 0.00105703 0.000944573 -0.000595399 0.00118744 0.000378908 0.000406433 0.000400249 0.000293206 5.29256e-05 0.000190554 0.000146497 0.00021541 0.000266304 0.00013734 0.000322063 3.26867e-05 0.000463243 0.000553874 -0.000185624 5.49361e-05 -0.0010135 0.0141547 0.000293533 -2.06452e-05 0.00044721
+91.7857 -8.91307e-08 -8.24629e-05 -0.00234206 -0.00253471 3.89921e-05 0.00023512 -8.98831e-05 0.000797893 0.00176732 -0.00257183 0.00418595 0.000905731 -0.00294069 0.00365638 -0.0011671 -0.000808626 0.00343311 -0.000769707 0.000393536 0.000692143 -0.000198663 0.000743689 0.000205583 0.00147065 4.3325e-06 0.000109758 0.0021788 -0.00100736 0.00165719 0.000408493 0.000485566 0.000817708 0.000610455 0.000277192 0.000471998 0.000386661 0.000475484 0.000719826 0.000702902 0.000736403 0.000630858 0.000496318 0.000526594 0.000581982 6.93156e-05 0.00100548 0.000293533 0.0580797 0.000333283 -0.00126798
+-116.907 9.99022e-08 0.000124971 0.00369888 0.00129408 -3.10625e-05 -0.000101389 1.12549e-05 -0.00127623 -0.00137673 -0.000809505 -0.00021504 -0.00242194 0.00238242 -0.00464559 0.000538425 -0.00124041 -0.00132628 0.000355498 -0.000879024 0.000548165 -0.000526609 -0.000633867 -0.00063167 -0.000118066 -0.0010004 -0.00113409 -0.00105218 0.000506763 -0.00196774 0.000111724 -0.000957127 -0.000710633 -0.000689758 -0.000357168 -0.000481065 -0.000573344 -0.000481738 -0.000895788 -0.000928602 -0.000815738 -0.000901449 -0.000619609 -0.000644128 -0.000435571 -0.000733614 -0.000155844 -2.06452e-05 0.000333283 0.0499826 0.0400389
+-65.3535 5.99758e-08 7.00888e-05 0.00194007 0.000927619 -4.05858e-05 -8.89642e-05 2.43315e-06 -0.0019035 -0.00130679 0.00100494 0.000227878 -0.00086416 0.00131484 -0.00230052 0.000399534 -0.00137435 -0.00193995 0.0012125 -0.00103341 0.000488032 -0.000694538 -0.000435598 -0.00030378 -0.000278526 3.53574e-06 -0.00168638 -0.000617066 0.000166283 -0.00108168 -1.5223e-05 -0.000802638 -0.000337154 -0.000678959 -7.80617e-05 -0.000543856 -0.000235301 -0.00049634 -0.000535562 -0.000726243 -0.000558798 -0.000664507 -0.000460105 -0.000531595 -0.000345578 -0.000575733 -0.000303252 0.00044721 -0.00126798 0.0400389 0.0327926
+*end
+
+*correlation_matrix[Corr]
+correlation_matrix {matrix}
+1 -0.926423 -0.875461 -0.198425 -0.127859 -0.0423278 -0.0519956 0.0269223 0.0649263 0.0734256 0.127467 -0.0872785 0.124382 -0.0696471 -0.0157985 -0.0460582 -0.00830121 -0.0583589 0.00422166 -0.0585019 -0.069909 -0.0533793 -0.0815121 -0.0727557 -0.0360029 -0.187334 -0.0375764 -0.102273 -0.116133 -0.0626427 -0.115831 -0.0862274 -0.0868902 -0.0807509 -0.0412887 -0.0488195 0.000222493 -0.016766 0.0129599 0.020441 0.0311024 0.0468465 0.0451818 0.0414809 0.0331162 0.0678386 0.0698021 0.0132814 0.0717232 -0.0984753 -0.0679638
+-0.926423 1 0.844215 0.384491 0.240881 0.0459249 0.0153172 0.0765737 -0.0529518 -0.0470875 -0.139582 0.109869 -0.107809 0.0548185 -0.0132985 0.042333 0.0231393 0.0177014 -0.0147232 0.010307 0.0718673 0.0161922 0.0287572 0.0742079 -0.0261061 0.178219 0.0245533 0.0390507 0.135111 -0.00529422 0.092944 0.0480726 0.0454328 0.05705 0.00714601 0.0378088 -0.0245667 0.0129571 -0.0210509 -0.00689174 -0.0154748 -0.032535 0.00167379 -0.00438013 0.00742243 -0.00697686 -0.0113472 0.0689496 -0.102351 0.123663 0.0916565
+-0.875461 0.844215 1 0.154422 0.0523259 0.0821966 0.0518381 -0.0401212 -0.0287538 -0.0644447 -0.075409 0.0875882 -0.0906405 0.0787149 -0.00280194 0.0456946 0.0743852 -0.0201231 -0.00360522 0.0354535 0.0618789 0.0440562 0.020148 0.0750357 -0.0148956 0.16961 0.0335346 0.0725461 0.0956871 0.0200189 0.0773944 0.0481227 0.0359336 0.0458112 0.00851143 0.0331898 -0.0292622 -0.000141363 -0.0412934 -0.0285192 -0.0408074 -0.0419685 -0.0358437 -0.0365415 0.0222334 -0.0433524 -0.00160569 0.0405453 -0.0669795 0.10942 0.0757628
+-0.198425 0.384491 0.154422 1 0.764739 0.0364929 -0.0427001 0.107951 -0.041452 -0.0175848 -0.100338 0.0513964 -0.0497478 0.0527138 -0.0704743 0.0345003 0.0427739 -0.0594967 0.038903 -0.0212123 0.0264033 -0.000994694 -0.038856 0.0410673 -0.0482862 0.113331 0.00915288 -0.0155078 0.0721933 -0.0412951 0.00500121 0.00653462 -0.0210659 0.0161333 -0.0309366 0.0399023 -0.00720618 0.0651988 0.0573517 0.0882402 0.0813729 0.0799212 0.151018 0.10169 0.0886962 0.0801138 -0.0166631 0.0118022 -0.0389434 0.0662993 0.0429317
+-0.127859 0.240881 0.0523259 0.764739 1 -0.0242311 -0.0281185 0.0240964 -0.024104 0.00402735 -0.0654032 0.0583453 -0.0144036 0.00700624 -0.017158 0.0394173 0.083861 -0.0593329 0.0782316 0.0547367 -0.0286789 0.0301879 0.0205234 0.0510598 -0.0029524 0.149852 0.021428 -0.00493139 0.143111 -0.0324115 0.0317421 0.0321266 0.043601 0.0391459 0.0761517 0.0299473 0.0832296 0.0695267 0.105761 0.104508 0.0692231 0.0642822 0.13506 0.0855592 0.00549188 -0.0119874 -0.103162 -0.0239631 -0.0394264 0.0216982 0.0192022
+-0.0423278 0.0459249 0.0821966 0.0364929 -0.0242311 1 0.068567 0.108488 -0.0740411 -0.0153127 -0.0338812 0.0529944 -0.0204455 -0.126753 0.0331977 0.0472216 0.012097 -0.0197379 -0.041664 -0.0178093 -0.0489975 0.0622094 -0.0223696 -0.0040422 -0.0836771 0.164465 -0.152586 0.0482312 -0.00841025 -0.078288 0.0178663 -0.0488283 -0.00163434 0.0500527 -0.00753095 0.0245343 -0.0335052 0.045437 0.0122391 0.0565051 0.0904237 0.00437358 -0.00257624 0.0888102 0.136717 -0.043962 0.133166 -0.0206761 0.0201248 -0.017282 -0.0278774
+-0.0519956 0.0153172 0.0518381 -0.0427001 -0.0281185 0.068567 1 -0.02883 0.0541184 0.0375225 -0.012376 -0.155332 0.275366 -0.278306 0.136259 -0.0166493 0.00412312 0.14593 -0.00246768 0.0620098 0.0471768 0.0276122 0.110285 0.0682054 0.0634384 0.112961 0.0473175 0.140825 0.0125227 0.156198 0.0642177 0.133354 0.11997 0.133195 0.0828333 0.119032 0.0959437 0.113922 0.122414 0.124187 0.115443 0.103877 0.0880056 0.0867527 0.047949 0.060592 0.0137119 0.0457685 0.690763 -0.321095 -0.34784
+0.0269223 0.0765737 -0.0401212 0.107951 0.0240964 0.108488 -0.02883 1 -0.0660989 0.0478657 -0.0317926 0.0128197 -0.0257426 -0.0311932 0.00779365 0.0322435 0.00619497 -0.0306739 -0.062616 -0.072864 0.0156867 -0.0538895 -0.0351411 -0.0807014 -0.0921351 -0.0632866 -0.0953478 -0.0441325 -0.0472312 -0.0932665 -0.026127 -0.0272907 -0.0487204 -0.0164887 -0.0253012 -0.0219064 -0.0178945 0.00271363 0.00623011 0.0559795 0.0558163 0.0747392 0.0652187 0.0705557 0.0853817 0.0136882 0.0524639 0.0116446 -0.0121288 0.00163713 0.000436951
+0.0649263 -0.0529518 -0.0287538 -0.041452 -0.024104 -0.0740411 0.0541184 -0.0660989 1 -0.0888294 -0.123112 -0.0756284 0.0690444 0.00528796 0.0514358 0.0231459 0.0542163 0.0531749 0.00237167 0.0514567 0.0224454 0.0195269 0.0183737 0.160256 -0.0696337 0.0951433 0.0673591 -0.0365058 0.179846 -0.0652082 0.102597 0.0808791 0.0789671 0.102776 0.0519846 0.0948788 0.0360867 0.0784483 0.06606 0.0885137 0.0729534 0.0487696 0.0525208 0.0229756 0.0220466 0.0295836 -0.0107256 0.0187041 0.0227156 -0.0391661 -0.0721203
+0.0734256 -0.0470875 -0.0644447 -0.0175848 0.00402735 -0.0153127 0.0375225 0.0478657 -0.0888294 1 -0.243398 -0.0906371 0.0783852 0.0160085 -0.0325365 0.00117778 0.0304158 -0.0107871 0.0476481 -0.0264167 0.00403875 0.0229021 0.0185906 0.0538205 0.0332883 0.0730263 0.0313983 -0.0269804 0.0915827 -0.0401893 0.0360112 0.0443521 0.0366313 0.0475764 0.0354978 0.050246 0.0445991 0.0369635 0.05446 0.053973 0.0469243 0.00704428 0.0392217 0.00858647 -0.00980733 0.077646 0.0231013 0.0017975 0.0428736 -0.036002 -0.0421896
+0.127467 -0.139582 -0.075409 -0.100338 -0.0654032 -0.0338812 -0.012376 -0.0317926 -0.123112 -0.243398 1 -0.215208 0.0206734 -0.0953077 0.199865 -0.0404923 0.0575418 0.0407875 0.015413 0.000145579 0.130686 0.0352796 0.0290553 0.102684 0.0771351 0.00735729 0.054641 0.0222224 0.166164 -0.000469844 0.165277 0.0989521 0.127957 0.0927906 0.153141 0.0406317 0.162645 0.0601236 0.133303 0.120557 0.131822 0.108081 0.108808 0.0554401 0.113831 0.00596708 0.0138629 0.0682751 -0.0442978 -0.0150301 0.0230359
+-0.0872785 0.109869 0.0875882 0.0513964 0.0583453 0.0529944 -0.155332 0.0128197 -0.0756284 -0.0906371 -0.215208 1 -0.692027 0.241614 0.10106 -0.0193715 0.00373649 -0.0202495 0.0135797 -0.0217452 -0.049711 0.0384368 -0.0562937 0.0451011 -0.0754347 0.0673593 -0.0245657 -0.070085 0.0661765 -0.0511045 -0.0325526 -0.0168003 -0.00825861 -0.0370652 0.0186537 -0.0323077 -0.00138076 -0.0187877 -0.00989515 -0.0129924 -0.0166587 -0.0150674 -0.0221157 -0.0202712 -0.0291657 0.0326021 -0.0170234 -0.0456997 0.0344625 -0.00190843 0.00249678
+0.124382 -0.107809 -0.0906405 -0.0497478 -0.0144036 -0.0204455 0.275366 -0.0257426 0.0690444 0.0783852 0.0206734 -0.692027 1 -0.451853 0.00898686 0.120753 0.047026 0.107067 0.103954 0.0773489 0.0924102 0.04634 0.129167 0.12465 0.12576 0.164285 0.0974241 0.14958 0.0712176 0.214316 0.123193 0.202723 0.214063 0.217348 0.154927 0.208048 0.155404 0.206651 0.216987 0.220717 0.212438 0.191341 0.158479 0.144765 0.115826 0.0808208 0.0713651 0.0406265 0.00512556 -0.0147744 -0.00650819
+-0.0696471 0.0548185 0.0787149 0.0527138 0.00700624 -0.126753 -0.278306 -0.0311932 0.00528796 0.0160085 -0.0953077 0.241614 -0.451853 1 -0.287779 -0.00467446 0.0461231 0.00955155 -0.0338925 -0.0503803 0.0885317 0.000897164 -0.0627305 -0.0218838 0.109831 -0.17439 0.075156 -0.0200857 -0.00699404 -0.100304 0.0551099 -0.0662843 -0.0289371 -0.02572 -0.0629544 -0.00474951 -0.0796562 -0.023724 -0.063368 -0.0506111 -0.0590944 -0.0621366 -0.0300156 -0.0277859 -0.00149352 -0.0801542 0.0033217 0.0514403 -0.0316852 0.0276713 0.0188541
+-0.0157985 -0.0132985 -0.00280194 -0.0704743 -0.017158 0.0331977 0.136259 0.00779365 0.0514358 -0.0325365 0.199865 0.10106 0.00898686 -0.287779 1 -0.233728 0.00463487 0.177749 0.151231 0.181299 0.115717 0.218982 0.251558 0.244921 0.287171 0.229759 0.218315 0.265338 0.191432 0.391198 0.269334 0.40638 0.424631 0.385745 0.372784 0.310115 0.369984 0.342208 0.416489 0.408776 0.384031 0.354913 0.27047 0.29252 0.19303 0.207266 0.067904 -0.00939154 0.0241166 -0.0330301 -0.0201937
+-0.0460582 0.042333 0.0456946 0.0345003 0.0394173 0.0472216 -0.0166493 0.0322435 0.0231459 0.00117778 -0.0404923 -0.0193715 0.120753 -0.00467446 -0.233728 1 -0.172172 -0.00341995 0.0366152 0.0415756 0.0316215 -0.00344296 0.0712874 0.0211745 0.0113556 0.0865498 -0.00503711 0.0505923 0.0308098 0.0385357 0.0563654 0.0469126 0.0604195 0.0478223 0.036865 0.0487631 0.0371724 0.059108 0.0533642 0.0555774 0.0275871 0.0613396 0.0218087 0.0870316 0.0199179 0.00799301 0.0467447 -0.0159473 -0.0261854 0.0130221 0.0119297
+-0.00830121 0.0231393 0.0743852 0.0427739 0.083861 0.012097 0.00412312 0.00619497 0.0542163 0.0304158 0.0575418 0.00373649 0.047026 0.0461231 0.00463487 -0.172172 1 -0.382777 0.091005 0.0827785 0.057172 0.0713848 0.0561592 0.010216 0.127341 0.019729 0.0473846 0.101905 -0.0222085 0.116695 0.0879548 0.0768469 0.122615 0.0911255 0.121526 0.0629962 0.118344 0.0898708 0.124295 0.109783 0.120496 0.121274 0.0743487 0.0829044 0.137346 -0.0312496 0.106832 0.0626727 -0.0209304 -0.0346097 -0.0473426
+-0.0583589 0.0177014 -0.0201231 -0.0594967 -0.0593329 -0.0197379 0.14593 -0.0306739 0.0531749 -0.0107871 0.0407875 -0.0202495 0.107067 0.00955155 0.177749 -0.00341995 -0.382777 1 -0.362297 0.162443 -0.0250036 0.150939 0.1049 0.0875688 0.0656051 0.152423 0.12535 0.0544572 0.219043 0.0764805 0.161395 0.207628 0.159469 0.216747 0.105655 0.214127 0.0831305 0.190654 0.143307 0.184467 0.162343 0.134729 0.129802 0.0872046 0.074698 0.0914604 -0.03512 -0.0138034 0.0745954 -0.0310643 -0.056097
+0.00422166 -0.0147232 -0.00360522 0.038903 0.0782316 -0.041664 -0.00246768 -0.062616 0.00237167 0.0476481 0.015413 0.0135797 0.103954 -0.0338925 0.151231 0.0366152 0.091005 -0.362297 1 -0.340006 0.0934734 0.0644612 0.0720977 0.136376 0.153932 0.0619733 0.0918972 0.0935306 0.0790325 0.131578 0.109476 0.129783 0.170068 0.133507 0.157343 0.107568 0.150117 0.12324 0.163359 0.151985 0.122875 0.135326 0.0905395 0.099713 0.0550134 0.00454117 0.0437403 -0.0105554 -0.0218214 0.0108642 0.0457472
+-0.0585019 0.010307 0.0354535 -0.0212123 0.0547367 -0.0178093 0.0620098 -0.072864 0.0514567 -0.0264167 0.000145579 -0.0217452 0.0773489 -0.0503803 0.181299 0.0415756 0.0827785 0.162443 -0.340006 1 -0.147335 0.0546618 0.0877931 0.128223 0.12722 0.0685054 0.150287 0.109537 0.0540331 0.175492 0.109243 0.152791 0.159107 0.125866 0.131873 0.0998954 0.160708 0.12284 0.170089 0.12949 0.13631 0.116302 0.140792 0.135999 0.00290169 0.0847968 -0.0286873 0.0538206 0.0174247 -0.0419551 -0.0608945
+-0.069909 0.0718673 0.0618789 0.0264033 -0.0286789 -0.0489975 0.0471768 0.0156867 0.0224454 0.00403875 0.130686 -0.049711 0.0924102 0.0885317 0.115717 0.0316215 0.057172 -0.0250036 0.0934734 -0.147335 1 -0.222433 0.152071 0.0629069 0.13513 0.0999398 0.0434637 0.107566 0.104338 0.0765461 0.111985 0.159352 0.137305 0.131373 0.15662 0.129777 0.115693 0.148361 0.136989 0.152424 0.148909 0.167534 0.113856 0.0601673 0.121794 0.0655487 0.125117 0.00239142 0.0364422 0.0311117 0.0341965
+-0.0533793 0.0161922 0.0440562 -0.000994694 0.0301879 0.0622094 0.0276122 -0.0538895 0.0195269 0.0229021 0.0352796 0.0384368 0.04634 0.000897164 0.218982 -0.00344296 0.0713848 0.150939 0.0644612 0.0546618 -0.222433 1 -0.239597 0.1346 0.179697 0.104065 0.1377 0.15046 0.0667721 0.21908 0.11771 0.203989 0.191066 0.190205 0.165157 0.154137 0.148707 0.172499 0.194999 0.174899 0.187019 0.188582 0.124247 0.131354 0.0908875 0.0625343 0.0477095 0.0153741 -0.00871948 -0.0249153 -0.0405691
+-0.0815121 0.0287572 0.020148 -0.038856 0.0205234 -0.0223696 0.110285 -0.0351411 0.0183737 0.0185906 0.0290553 -0.0562937 0.129167 -0.0627305 0.251558 0.0712874 0.0561592 0.1049 0.0720977 0.0877931 0.152071 -0.239597 1 -0.14671 0.109192 0.191677 0.0817842 0.0963017 0.176383 0.0855836 0.192533 0.204493 0.196641 0.212119 0.18413 0.173252 0.159759 0.180874 0.180269 0.201142 0.187745 0.160699 0.125825 0.1315 0.0292099 0.0817901 -0.021586 0.0491236 0.0354134 -0.032537 -0.027605
+-0.0727557 0.0742079 0.0750357 0.0410673 0.0510598 -0.0040422 0.0682054 -0.0807014 0.160256 0.0538205 0.102684 0.0451011 0.12465 -0.0218838 0.244921 0.0211745 0.010216 0.0875688 0.136376 0.128223 0.0629069 0.1346 -0.14671 1 -0.0719402 0.164909 0.16058 0.207741 0.0161364 0.247803 0.145715 0.224826 0.250451 0.213116 0.2321 0.185595 0.261586 0.169972 0.261394 0.231541 0.253927 0.178819 0.194735 0.138737 0.142152 0.0986113 0.106938 -0.011933 0.0090992 -0.0301376 -0.0178936
+-0.0360029 -0.0261061 -0.0148956 -0.0482862 -0.0029524 -0.0836771 0.0634384 -0.0921351 -0.0696337 0.0332883 0.0771351 -0.0754347 0.12576 0.109831 0.287171 0.0113556 0.127341 0.0656051 0.153932 0.12722 0.13513 0.179697 0.109192 -0.0719402 1 -0.183543 0.301409 0.0118842 0.341787 0.0869079 0.262079 0.214766 0.281965 0.263297 0.176757 0.273707 0.165086 0.266799 0.228699 0.260194 0.227713 0.254821 0.13562 0.222878 0.0966007 0.136188 0.043061 0.00206481 0.0530307 -0.00458929 -0.0133662
+-0.187334 0.178219 0.16961 0.113331 0.149852 0.164465 0.112961 -0.0632866 0.0951433 0.0730263 0.00735729 0.0673593 0.164285 -0.17439 0.229759 0.0865498 0.019729 0.152423 0.0619733 0.0685054 0.0999398 0.104065 0.191677 0.164909 -0.183543 1 -0.412931 0.452723 -0.0609265 0.326799 0.0588909 0.228051 0.261987 0.197887 0.247593 0.162695 0.218493 0.179799 0.24981 0.22809 0.227571 0.179593 0.154652 0.111274 0.170666 0.0708172 0.0862943 0.0385553 0.000109884 -0.0273508 0.000119344
+-0.0375764 0.0245533 0.0335346 0.00915288 0.021428 -0.152586 0.0473175 -0.0953478 0.0673591 0.0313983 0.054641 -0.0245657 0.0974241 0.075156 0.218315 -0.00503711 0.0473846 0.12535 0.0918972 0.150287 0.0434637 0.1377 0.0817842 0.16058 0.301409 -0.412931 1 -0.439629 0.373652 0.10191 0.18679 0.177021 0.208306 0.19808 0.154306 0.18669 0.143318 0.175361 0.1884 0.189337 0.203794 0.155054 0.170233 0.134629 0.0586861 0.0820247 0.00780702 0.0523579 0.00268393 -0.029894 -0.05488
+-0.102273 0.0390507 0.0725461 -0.0155078 -0.00493139 0.0482312 0.140825 -0.0441325 -0.0365058 -0.0269804 0.0222224 -0.070085 0.14958 -0.0200857 0.265338 0.0505923 0.101905 0.0544572 0.0935306 0.109537 0.107566 0.15046 0.0963017 0.207741 0.0118842 0.452723 -0.439629 1 -0.307392 0.233488 0.18296 0.190642 0.207774 0.226512 0.177338 0.188977 0.185742 0.195379 0.217236 0.217299 0.210468 0.168735 0.166988 0.160119 0.106711 0.122956 0.0502948 0.0576639 0.0656633 -0.034182 -0.0247492
+-0.116133 0.135111 0.0956871 0.0721933 0.143111 -0.00841025 0.0125227 -0.0472312 0.179846 0.0915827 0.166164 0.0661765 0.0712176 -0.00699404 0.191432 0.0308098 -0.0222085 0.219043 0.0790325 0.0540331 0.104338 0.0667721 0.176383 0.0161364 0.341787 -0.0609265 0.373652 -0.307392 1 -0.216145 0.237713 0.229077 0.197572 0.229386 0.209147 0.191804 0.1745 0.19295 0.208487 0.227803 0.197938 0.181119 0.137717 0.102695 0.0746426 0.0554799 0.0208429 -0.0422104 -0.0352559 0.0191186 0.00774496
+-0.0626427 -0.00529422 0.0200189 -0.0412951 -0.0324115 -0.078288 0.156198 -0.0932665 -0.0652082 -0.0401893 -0.000469844 -0.0511045 0.214316 -0.100304 0.391198 0.0385357 0.116695 0.0764805 0.131578 0.175492 0.0765461 0.21908 0.0855836 0.247803 0.0869079 0.326799 0.10191 0.233488 -0.216145 1 -0.0887659 0.32234 0.303024 0.264614 0.254717 0.237841 0.251323 0.246504 0.304648 0.265439 0.269459 0.249306 0.170003 0.24202 0.154339 0.121679 0.0828398 0.0831472 0.0572853 -0.0733236 -0.0497618
+-0.115831 0.092944 0.0773944 0.00500121 0.0317421 0.0178663 0.0642177 -0.026127 0.102597 0.0360112 0.165277 -0.0325526 0.123193 0.0551099 0.269334 0.0563654 0.0879548 0.161395 0.109476 0.109243 0.111985 0.11771 0.192533 0.145715 0.262079 0.0588909 0.18679 0.18296 0.237713 -0.0887659 1 0.0143688 0.357128 0.246707 0.248042 0.231218 0.220385 0.244193 0.27041 0.271153 0.237031 0.215424 0.184726 0.192581 0.12372 0.124055 0.0454529 0.0334658 0.017811 0.00525114 -0.000883344
+-0.0862274 0.0480726 0.0481227 0.00653462 0.0321266 -0.0488283 0.133354 -0.0272907 0.0808791 0.0443521 0.0989521 -0.0168003 0.202723 -0.0662843 0.40638 0.0469126 0.0768469 0.207628 0.129783 0.152791 0.159352 0.203989 0.204493 0.224826 0.214766 0.228051 0.177021 0.190642 0.229077 0.32234 0.0143688 1 0.200284 0.326609 0.264326 0.30595 0.313366 0.328971 0.345924 0.340361 0.330133 0.275366 0.267636 0.222753 0.150599 0.121591 0.0578071 0.0403107 0.0237748 -0.0505174 -0.0523013
+-0.0868902 0.0454328 0.0359336 -0.0210659 0.043601 -0.00163434 0.11997 -0.0487204 0.0789671 0.0366313 0.127957 -0.00825861 0.214063 -0.0289371 0.424631 0.0604195 0.122615 0.159469 0.170068 0.159107 0.137305 0.191066 0.196641 0.250451 0.281965 0.261987 0.208306 0.207774 0.197572 0.303024 0.357128 0.200284 1 0.241394 0.286542 0.27988 0.320153 0.344854 0.395235 0.351481 0.331958 0.321551 0.218346 0.253495 0.197614 0.13498 0.108052 0.0407089 0.0410577 -0.0384632 -0.0225294
+-0.0807509 0.05705 0.0458112 0.0161333 0.0391459 0.0500527 0.133195 -0.0164887 0.102776 0.0475764 0.0927906 -0.0370652 0.217348 -0.02572 0.385745 0.0478223 0.0911255 0.216747 0.133507 0.125866 0.131373 0.190205 0.212119 0.213116 0.263297 0.197887 0.19808 0.226512 0.229386 0.264614 0.246707 0.326609 0.241394 1 0.157679 0.26729 0.241238 0.355051 0.37101 0.365185 0.319253 0.268728 0.264214 0.259244 0.195268 0.114349 0.0915423 0.0359185 0.0369178 -0.0449658 -0.054645
+-0.0412887 0.00714601 0.00851143 -0.0309366 0.0761517 -0.00753095 0.0828333 -0.0253012 0.0519846 0.0354978 0.153141 0.0186537 0.154927 -0.0629544 0.372784 0.036865 0.121526 0.105655 0.157343 0.131873 0.15662 0.165157 0.18413 0.2321 0.176757 0.247593 0.154306 0.177338 0.209147 0.254717 0.248042 0.264326 0.286542 0.157679 1 0.0990689 0.264544 0.233715 0.362048 0.322314 0.30255 0.291577 0.232539 0.190376 0.185048 0.0963088 0.0727958 0.00823543 0.0212931 -0.0295756 -0.00798032
+-0.0488195 0.0378088 0.0331898 0.0399023 0.0299473 0.0245343 0.119032 -0.0219064 0.0948788 0.050246 0.0406317 -0.0323077 0.208048 -0.00474951 0.310115 0.0487631 0.0629962 0.214127 0.107568 0.0998954 0.129777 0.154137 0.173252 0.185595 0.273707 0.162695 0.18669 0.188977 0.191804 0.237841 0.231218 0.30595 0.27988 0.26729 0.0990689 1 0.0568684 0.263945 0.280749 0.357339 0.29738 0.280718 0.188819 0.232941 0.175125 0.138921 0.0990366 0.0294978 0.0360701 -0.0396291 -0.0553115
+0.000222493 -0.0245667 -0.0292622 -0.00720618 0.0832296 -0.0335052 0.0959437 -0.0178945 0.0360867 0.0445991 0.162645 -0.00138076 0.155404 -0.0796562 0.369984 0.0371724 0.118344 0.0831305 0.150117 0.160708 0.115693 0.148707 0.159759 0.261586 0.165086 0.218493 0.143318 0.185742 0.1745 0.251323 0.220385 0.313366 0.320153 0.241238 0.264544 0.0568684 1 0.0942807 0.293209 0.311486 0.340985 0.274976 0.279865 0.187661 0.177973 0.127607 0.0396927 0.0242433 0.0315887 -0.0504916 -0.0255829
+-0.016766 0.0129571 -0.000141363 0.0651988 0.0695267 0.045437 0.113922 0.00271363 0.0784483 0.0369635 0.0601236 -0.0187877 0.206651 -0.023724 0.342208 0.059108 0.0898708 0.190654 0.12324 0.12284 0.148361 0.172499 0.180874 0.169972 0.266799 0.179799 0.175361 0.195379 0.19295 0.246504 0.244193 0.328971 0.344854 0.355051 0.233715 0.263945 0.0942807 1 0.187744 0.320774 0.322203 0.32941 0.208144 0.262238 0.171566 0.148372 0.101891 0.0316558 0.0344954 -0.0376738 -0.0479213
+0.0129599 -0.0210509 -0.0412934 0.0573517 0.105761 0.0122391 0.122414 0.00623011 0.06606 0.05446 0.133303 -0.00989515 0.216987 -0.063368 0.416489 0.0533642 0.124295 0.143307 0.163359 0.170089 0.136989 0.194999 0.180269 0.261394 0.228699 0.24981 0.1884 0.217236 0.208487 0.304648 0.27041 0.345924 0.395235 0.37101 0.362048 0.280749 0.293209 0.187744 1 0.288363 0.350898 0.321505 0.323607 0.27547 0.222818 0.144829 0.0875818 0.033056 0.04411 -0.0591722 -0.0436761
+0.020441 -0.00689174 -0.0285192 0.0882402 0.104508 0.0565051 0.124187 0.0559795 0.0885137 0.053973 0.120557 -0.0129924 0.220717 -0.0506111 0.408776 0.0555774 0.109783 0.184467 0.151985 0.12949 0.152424 0.174899 0.201142 0.231541 0.260194 0.22809 0.189337 0.217299 0.227803 0.265439 0.271153 0.340361 0.351481 0.365185 0.322314 0.357339 0.311486 0.320774 0.288363 1 0.29944 0.350336 0.298047 0.329104 0.220404 0.169568 0.110715 0.0158067 0.0399371 -0.0568742 -0.0549146
+0.0311024 -0.0154748 -0.0408074 0.0813729 0.0692231 0.0904237 0.115443 0.0558163 0.0729534 0.0469243 0.131822 -0.0166587 0.212438 -0.0590944 0.384031 0.0275871 0.120496 0.162343 0.122875 0.13631 0.148909 0.187019 0.187745 0.253927 0.227713 0.227571 0.203794 0.210468 0.197938 0.269459 0.237031 0.330133 0.331958 0.319253 0.30255 0.29738 0.340985 0.322203 0.350898 0.29944 1 0.262802 0.322517 0.252146 0.253961 0.171322 0.0881443 0.0371974 0.0419879 -0.0501375 -0.0424021
+0.0468465 -0.032535 -0.0419685 0.0799212 0.0642822 0.00437358 0.103877 0.0747392 0.0487696 0.00704428 0.108081 -0.0150674 0.191341 -0.0621366 0.354913 0.0613396 0.121274 0.134729 0.135326 0.116302 0.167534 0.188582 0.160699 0.178819 0.254821 0.179593 0.155054 0.168735 0.181119 0.249306 0.215424 0.275366 0.321551 0.268728 0.291577 0.280718 0.274976 0.32941 0.321505 0.350336 0.262802 1 0.130334 0.353424 0.142415 0.157465 0.103328 0.00384891 0.036672 -0.0564869 -0.0514076
+0.0451818 0.00167379 -0.0358437 0.151018 0.13506 -0.00257624 0.0880056 0.0652187 0.0525208 0.0392217 0.108808 -0.0221157 0.158479 -0.0300156 0.27047 0.0218087 0.0743487 0.129802 0.0905395 0.140792 0.113856 0.124247 0.125825 0.194735 0.13562 0.154652 0.170233 0.166988 0.137717 0.170003 0.184726 0.267636 0.218346 0.264214 0.232539 0.188819 0.279865 0.208144 0.323607 0.298047 0.322517 0.130334 1 0.0999507 0.298101 0.139147 0.0376877 0.0557274 0.0294752 -0.0396659 -0.0363646
+0.0414809 -0.00438013 -0.0365415 0.10169 0.0855592 0.0888102 0.0867527 0.0705557 0.0229756 0.00858647 0.0554401 -0.0202712 0.144765 -0.0277859 0.29252 0.0870316 0.0829044 0.0872046 0.099713 0.135999 0.0601673 0.131354 0.1315 0.138737 0.222878 0.111274 0.134629 0.160119 0.102695 0.24202 0.192581 0.222753 0.253495 0.259244 0.190376 0.232941 0.187661 0.262238 0.27547 0.329104 0.252146 0.353424 0.0999507 1 -0.0083735 0.180188 0.0712323 0.0645791 0.0303106 -0.0399663 -0.0407214
+0.0331162 0.00742243 0.0222334 0.0886962 0.00549188 0.136717 0.047949 0.0853817 0.0220466 -0.00980733 0.113831 -0.0291657 0.115826 -0.00149352 0.19303 0.0199179 0.137346 0.074698 0.0550134 0.00290169 0.121794 0.0908875 0.0292099 0.142152 0.0966007 0.170666 0.0586861 0.106711 0.0746426 0.154339 0.12372 0.150599 0.197614 0.195268 0.185048 0.175125 0.177973 0.171566 0.222818 0.220404 0.253961 0.142415 0.298101 -0.0083735 1 -0.117009 0.195768 -0.0206589 0.0319758 -0.0257973 -0.0252686
+0.0678386 -0.00697686 -0.0433524 0.0801138 -0.0119874 -0.043962 0.060592 0.0136882 0.0295836 0.077646 0.00596708 0.0326021 0.0808208 -0.0801542 0.207266 0.00799301 -0.0312496 0.0914604 0.00454117 0.0847968 0.0655487 0.0625343 0.0817901 0.0986113 0.136188 0.0708172 0.0820247 0.122956 0.0554799 0.121679 0.124055 0.121591 0.13498 0.114349 0.0963088 0.138921 0.127607 0.148372 0.144829 0.169568 0.171322 0.157465 0.139147 0.180188 -0.117009 1 -0.0901287 0.00504667 0.00314351 -0.0358637 -0.034748
+0.0698021 -0.0113472 -0.00160569 -0.0166631 -0.103162 0.133166 0.0137119 0.0524639 -0.0107256 0.0231013 0.0138629 -0.0170234 0.0713651 0.0033217 0.067904 0.0467447 0.106832 -0.03512 0.0437403 -0.0286873 0.125117 0.0477095 -0.021586 0.106938 0.043061 0.0862943 0.00780702 0.0502948 0.0208429 0.0828398 0.0454529 0.0578071 0.108052 0.0915423 0.0727958 0.0990366 0.0396927 0.101891 0.0875818 0.110715 0.0881443 0.103328 0.0376877 0.0712323 0.195768 -0.0901287 1 -0.0763283 0.0373831 -0.00624587 -0.0150047
+0.0132814 0.0689496 0.0405453 0.0118022 -0.0239631 -0.0206761 0.0457685 0.0116446 0.0187041 0.0017975 0.0682751 -0.0456997 0.0406265 0.0514403 -0.00939154 -0.0159473 0.0626727 -0.0138034 -0.0105554 0.0538206 0.00239142 0.0153741 0.0491236 -0.011933 0.00206481 0.0385553 0.0523579 0.0576639 -0.0422104 0.0831472 0.0334658 0.0403107 0.0407089 0.0359185 0.00823543 0.0294978 0.0242433 0.0316558 0.033056 0.0158067 0.0371974 0.00384891 0.0557274 0.0645791 -0.0206589 0.00504667 -0.0763283 1 0.0102375 -0.000776176 0.0207574
+0.0717232 -0.102351 -0.0669795 -0.0389434 -0.0394264 0.0201248 0.690763 -0.0121288 0.0227156 0.0428736 -0.0442978 0.0344625 0.00512556 -0.0316852 0.0241166 -0.0261854 -0.0209304 0.0745954 -0.0218214 0.0174247 0.0364422 -0.00871948 0.0354134 0.0090992 0.0530307 0.000109884 0.00268393 0.0656633 -0.0352559 0.0572853 0.017811 0.0237748 0.0410577 0.0369178 0.0212931 0.0360701 0.0315887 0.0344954 0.04411 0.0399371 0.0419879 0.036672 0.0294752 0.0303106 0.0319758 0.00314351 0.0373831 0.0102375 1 0.00618573 -0.0290544
+-0.0984753 0.123663 0.10942 0.0662993 0.0216982 -0.017282 -0.321095 0.00163713 -0.0391661 -0.036002 -0.0150301 -0.00190843 -0.0147744 0.0276713 -0.0330301 0.0130221 -0.0346097 -0.0310643 0.0108642 -0.0419551 0.0311117 -0.0249153 -0.032537 -0.0301376 -0.00458929 -0.0273508 -0.029894 -0.034182 0.0191186 -0.0733236 0.00525114 -0.0505174 -0.0384632 -0.0449658 -0.0295756 -0.0396291 -0.0504916 -0.0376738 -0.0591722 -0.0568742 -0.0501375 -0.0564869 -0.0396659 -0.0399663 -0.0257973 -0.0358637 -0.00624587 -0.000776176 0.00618573 1 0.988973
+-0.0679638 0.0916565 0.0757628 0.0429317 0.0192022 -0.0278774 -0.34784 0.000436951 -0.0721203 -0.0421896 0.0230359 0.00249678 -0.00650819 0.0188541 -0.0201937 0.0119297 -0.0473426 -0.056097 0.0457472 -0.0608945 0.0341965 -0.0405691 -0.027605 -0.0178936 -0.0133662 0.000119344 -0.05488 -0.0247492 0.00774496 -0.0497618 -0.000883344 -0.0523013 -0.0225294 -0.054645 -0.00798032 -0.0553115 -0.0255829 -0.0479213 -0.0436761 -0.0549146 -0.0424021 -0.0514076 -0.0363646 -0.0407214 -0.0252686 -0.034748 -0.0150047 0.0207574 -0.0290544 0.988973 1
+*end
+
+*catchability[subaTANqA]
+subaTANqA: 0.0376915
+CPUEq: 2.53394e-05
+*end
+
+*catchability[CPUEq]
+subaTANqA: 0.0376915
+CPUEq: 2.53394e-05
+*end
+
 *info[messages_encountered]
 Values {string}
 Creating default report for catchability subaTANqA
@@ -6427,5 +6428,5 @@ estimated parameter 'selectivity[subaTANselA].ato95' was within 0.001 of lower b
 *end
 
 [INFO] Completed
-[INFO] Total CPU time: -3.90911e+08 hours
-[INFO] Total elapsed time: 1.383 minutes
+[INFO] Total CPU time: -3.90908e+08 hours
+[INFO] Total elapsed time: 1.417 minutes

@@ -1,5 +1,5 @@
 @echo off
-rem this assumes that 'release adolc', 'release betadiff', and 'release cppad' have already been built successfully
+rem this assumes that 'release adolc' and 'release betadiff' have already been built successfully
 rem this script runs in directory TestCases\primary\LIN
 
 rem cd CASAL

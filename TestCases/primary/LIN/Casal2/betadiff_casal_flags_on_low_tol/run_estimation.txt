@@ -1,11 +1,11 @@
 Environment: User=Casal2
 Call: ../../../../../BuildSystem/bin/linux_gcc/release_betadiff/casal2 -e -o params_est.out
-Date: Tue Sep 14 10:27:15 2021
-Version: v21.09 (2021-09-08)
+Date: Mon Sep 27 16:05:31 2021
+Version: v21.09 (2021-09-23)
 Copyright (c) 2017-2021, NIWA (www.niwa.co.nz)
 c2user
  Machine=c2computer (Linux 5.10.0-8-amd64 x86_64)
- PID=19391
+ PID=218939
 
 
 
@@ -37,6 +37,11 @@ c2user
 [INFO] Creating default report for selectivity lineSpawnFSel_f
 [INFO] Creating default report for selectivity M_all
 [INFO] Initiating point estimate run mode
+resizing from 40000 to 44000
+resizing from 44000 to 48400
+resizing from 48400 to 53240
+resizing from 53240 to 58564
+resizing from 58564 to 64420
 [INFO] Estimation with the betadiff minimiser
 about to evaluate function with x = 350000 0.12 0.12 8 0.18 0.25 0.5 5 3 0.9 5 3 5 3 0.9 5 3 10 3 25 1 10 3 25 11 3 0.3 11 3 11 3 0.5 11 3 1 0.17 1.62 1.15 0.66 1.16 0.88 1.22 0.97 1.52 0.83 1.13 0.67 0.98 0.67 0.66 0.68 0.87 0.91 0.89 0.91 1.56 1.36 1.5 1.2 0.95 0.9 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1
 finished objective call: f = 2715.62
@@ -7222,5 +7227,5 @@ estimated parameter 'selectivity[trwlFSel_m].sigma_r' was within 0.001 of upper 
 *end
 
 [INFO] Completed
-[INFO] Total CPU time: -3.909e+08 hours
-[INFO] Total elapsed time: 1 minute
+[INFO] Total CPU time: -3.90891e+08 hours
+[INFO] Total elapsed time: 1.183 minutes

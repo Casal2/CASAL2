@@ -1,11 +1,11 @@
 Environment: User=Casal2
 Call: ../../../../../BuildSystem/bin/linux_gcc/release_betadiff/casal2 -e -o params_est.out
-Date: Tue Sep 14 11:00:21 2021
-Version: v21.09 (2021-09-08)
+Date: Mon Sep 27 16:37:37 2021
+Version: v21.09 (2021-09-23)
 Copyright (c) 2017-2021, NIWA (www.niwa.co.nz)
 c2user
  Machine=c2computer (Linux 5.10.0-8-amd64 x86_64)
- PID=25711
+ PID=225094
 
 
 
@@ -26,6 +26,9 @@ c2user
 [INFO] Creating default report for selectivity TangaroaImmatureSel
 [INFO] Creating default report for selectivity One
 [INFO] Initiating point estimate run mode
+resizing from 40000 to 44000
+resizing from 44000 to 48400
+resizing from 48400 to 53240
 [INFO] Estimation with the betadiff minimiser
 about to evaluate function with x = 120000 0.15 0.7 0.95 0.99 0.05 0.5 0.95 0.99 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 0.2 0.02 0.001
 finished objective call: f = 12476.6
@@ -7414,5 +7417,5 @@ estimated parameter 'observation[TangaroaAcousticMature].process_error' was with
 *end
 
 [INFO] Completed
-[INFO] Total CPU time: -3.90902e+08 hours
-[INFO] Total elapsed time: 1.45 minutes
+[INFO] Total CPU time: -3.90899e+08 hours
+[INFO] Total elapsed time: 1.5 minutes

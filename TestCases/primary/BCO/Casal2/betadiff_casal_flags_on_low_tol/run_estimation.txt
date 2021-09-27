@@ -1,15 +1,42 @@
 Environment: User=Casal2
 Call: ../../../../../BuildSystem/bin/linux_gcc/release_betadiff/casal2 -e -o params_est.out
-Date: Tue Sep 14 10:24:26 2021
-Version: v21.09 (2021-09-08)
+Date: Mon Sep 27 16:00:10 2021
+Version: v21.09 (2021-09-23)
 Copyright (c) 2017-2021, NIWA (www.niwa.co.nz)
 c2user
  Machine=c2computer (Linux 5.10.0-8-amd64 x86_64)
- PID=18853
+ PID=217908
 
 
 
 [WARNING] Estimates were removed because of matching lower and upper bounds. Originally had 127 estimates, now have 42
+resizing from 40000 to 44000
+resizing from 44000 to 48400
+resizing from 48400 to 53240
+resizing from 53240 to 58564
+resizing from 58564 to 64420
+resizing from 64420 to 70862
+resizing from 70862 to 77948
+resizing from 77948 to 85742
+resizing from 85742 to 94316
+resizing from 94316 to 103747
+resizing from 103747 to 114121
+resizing from 114121 to 125533
+resizing from 125533 to 138086
+resizing from 138086 to 151894
+resizing from 151894 to 167083
+resizing from 167083 to 183791
+resizing from 183791 to 202170
+resizing from 202170 to 222387
+resizing from 222387 to 244625
+resizing from 244625 to 269087
+resizing from 269087 to 295995
+resizing from 295995 to 325594
+resizing from 325594 to 358153
+resizing from 358153 to 393968
+resizing from 393968 to 433364
+resizing from 433364 to 476700
+resizing from 476700 to 524370
 [IMPORTANT] Setting 'params_est.out' as the output file for the free parameters
 [INFO] Creating default report for catchability potSurveyq
 [INFO] Creating default report for catchability potCPUEq
@@ -43,9 +70,20 @@ c2user
 [WARNING] Cannot report the length-based selectivity values. This report (__potFretained__) is being ignored. This can be done using the Casal2 R package. See the User Manual for more information
 [WARNING] Cannot report the length-based selectivity values. This report (__recFretained__) is being ignored. This can be done using the Casal2 R package. See the User Manual for more information
 [WARNING] Cannot report the length-based selectivity values. This report (__recFSel__) is being ignored. This can be done using the Casal2 R package. See the User Manual for more information
+resizing from 524370 to 576807
 [INFO] Initiating point estimate run mode
+resizing from 576807 to 634487
+resizing from 634487 to 697935
+resizing from 697935 to 767728
+resizing from 767728 to 844500
+resizing from 844500 to 928950
+resizing from 928950 to 1021845
+resizing from 1021845 to 1124029
 [INFO] Estimation with the betadiff minimiser
 about to evaluate function with x = 15000 50.7 0.1 4 1.3 4 1.27 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 
+resizing from 1124029 to 1236431
+resizing from 1236431 to 1360074
+resizing from 1360074 to 1496081
 finished objective call: f = 406.911
 about to evaluate gradient with x = 15000 50.7 0.1 4 1.3 4 1.27 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 
 transformed = -0.685925 0.0222862 -0.631077 0 -0.34086 0 -0.349963 -0.610036 -0.610036 -0.610036 -0.610036 -0.610036 -0.610036 -0.610036 -0.610036 -0.610036 -0.610036 -0.610036 -0.610036 -0.610036 -0.610036 -0.610036 -0.610036 -0.610036 -0.610036 -0.610036 -0.610036 -0.610036 -0.610036 -0.610036 -0.610036 -0.610036 -0.610036 -0.610036 -0.610036 -0.610036 -0.610036 -0.610036 -0.610036 -0.610036 -0.610036 -0.610036 
@@ -1549,6 +1587,15 @@ male 111664.972176 133806.444757 50748.568121 90004.900066 60719.272138 15112.60
 female 105228.730106 122455.589382 48737.287743 93752.799560 66945.872821 16870.625306 17115.814633 12423.525874 6817.421881 6141.024317 4016.901388 3466.178422 3667.214591 1620.350387 821.456110 534.160576 429.069941 955.454177
 *end
 
+*partition[state1]
+year: 2019
+time_step: 1
+values {dataframe_with_row_labels}
+category 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20
+male 116259.366176 98349.650084 43392.426702 41179.765562 37725.556789 24865.905547 33075.598475 7712.755173 10551.666674 6268.772664 6125.125270 2062.740751 3495.249818 2330.579579 579.274630 602.055483 462.204327 1350.398737
+female 109563.690357 89697.339386 40728.932407 40525.568446 38497.060776 25633.470889 33593.124845 7642.973038 10122.489000 5775.456239 5412.893643 1753.941061 2867.055518 1832.879863 430.606378 417.942529 294.724322 650.802914
+*end
+
 [WARNING] estimated parameter 'age_length[asMm0].cv_last' was within 0.001 of lower bound 0.02
 [WARNING] estimated parameter 'age_length[asMm0].cv_last' was within 0.001 of lower bound 0.02
 *estimate_value[estimated_values]
@@ -2579,15 +2626,6 @@ discards[Recreation]: 0 3.00247 3.08489 3.15703 3.24539 3.32353 3.40434 3.50104 
 discards_dead[Recreation]: 0 3.00247 3.08489 3.15703 3.24539 3.32353 3.40434 3.50104 3.58693 3.68879 3.77969 3.87306 3.90001 3.95613 4.00006 4.05961 4.10671 4.16967 4.21999 4.28645 4.34006 4.42499 4.51221 4.60179 4.69385 4.78848 4.88579 4.97013 5.057 5.13042 5.22256 5.31762 5.46591 5.61852 5.79989 6.00935 6.1257 6.07588 5.9639 5.84189 5.72616 5.59844 5.47473 5.36733 5.28064 5.22916 5.23063 5.40593 5.63271 5.8917 6.15927 6.44883 6.67259 6.87473 6.99606 7.05864 7.0875 7.27842 7.50007 7.72963 7.92977 8.19285 8.36998 8.58437 8.77794 8.94416 9.02437 9.00591 8.99643 9.02135 9.01495 9.04028 9.0217 8.97661 8.97737 9.01205 8.98951 8.91682 8.81949 8.71465 8.58673 8.53145 8.47975 8.36083 7.74722 6.43012 5.22714 4.5133 4.3112 4.56669 5.35962 7.20526 11.0652 17.2729 24.1965 26.4533 22.6922 19.1944 17.7672 18.5736 19.6342 18.0588 15.8593 14.1688 12.9002 12.2717 11.9505 13.0841 16.4788 18.3658 17.6703 17.4859 17.0186 16.1535 16.2604 17.976 17.5684 16.2274 14.8867 14.0612
 *end
 
-*partition[state1]
-year: 2019
-time_step: 1
-values {dataframe_with_row_labels}
-category 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20
-male 116259.366176 98349.650084 43392.426702 41179.765562 37725.556789 24865.905547 33075.598475 7712.755173 10551.666674 6268.772664 6125.125270 2062.740751 3495.249818 2330.579579 579.274630 602.055483 462.204327 1350.398737
-female 109563.690357 89697.339386 40728.932407 40525.568446 38497.060776 25633.470889 33593.124845 7642.973038 10122.489000 5775.456239 5412.893643 1753.941061 2867.055518 1832.879863 430.606378 417.942529 294.724322 650.802914
-*end
-
 *partition_mean_length[growth_length_at_age]
 time_step: 1
 male {list}
@@ -3510,5 +3548,5 @@ estimated parameter 'age_length[asMm0].cv_last' was within 0.001 of lower bound 
 *end
 
 [INFO] Completed
-[INFO] Total CPU time: -3.90916e+08 hours
-[INFO] Total elapsed time: 6.317 minutes
+[INFO] Total CPU time: -3.90899e+08 hours
+[INFO] Total elapsed time: 6.283 minutes

@@ -546,8 +546,8 @@ lines(ages, c1_sens1_quant$`Ogive parameter values`$`selectivity[potSsel].female
 
 for (c in 1:num_C2_models)
 {
-    lines(ages, cas2_mpd[[c]]$potSSelm$Values, col=C2_color[c], lwd=1)
-    lines(ages, cas2_mpd[[c]]$potSSelf$Values, col=C2_color[c], lwd=1, lty=3)
+    lines(ages, cas2_mpd[[c]]$potSurveySel_male$Values, col=C2_color[c], lwd=1)
+    lines(ages, cas2_mpd[[c]]$potSurveySel_female$Values, col=C2_color[c], lwd=1, lty=3)
 }
 
 plot_legend()
