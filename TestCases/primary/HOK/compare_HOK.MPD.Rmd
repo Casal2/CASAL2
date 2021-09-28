@@ -393,7 +393,7 @@ c1_s1_surv   <- cas_mpd_sens1$free$`q[WCacous].q` * unlist(c1_sens1_quant$WCacou
 c2_surv <- list()
 for (c in 1:num_C2_models)
 {
-    c2_surv[[c]] <- cas2_mpd[[c]]$WCacous$Values
+    c2_surv[[c]] <- cas2_mpd[[c]]$WCacousbio$Values
 }
 
 max_val <- max(c1_surv,
@@ -474,20 +474,21 @@ plot_legend()
 #  [4] "estimated_values"     "estimated_summary"    "obj_fun"
 #  [7] "Hess"                 "Covar"                "Corr"
 # [10] "Instant_mortality"    "recruit_E"            "recruit_W"
-# [13] "M_male"               "M_female"             "CSacous"
-# [16] "WCacous"              "Espage"               "Wspage"
+# [13] "M_male"               "M_female"             "CSacousbio"
+# [16] "WCacousbio"           "Espage"               "Wspage"
 # [19] "Enspage"              "EnspOLF"              "WnspOLF"
 # [22] "Wnspage"              "CRsumage"             "SAsumage"
 # [25] "SAautage"             "CRsumbio"             "SAsumbio"
 # [28] "pspawn_1993"          "pspawn"               "Enspsl"
 # [31] "Wnspsl"               "Espsl"                "Wspsl"
 # [34] "CRsl"                 "SAsl"                 "shifted_mu"
-# [37] "CRsum"                "SAsum"                "SAaut"
-# [40] "SSB_E"                "SSB_W"                "SAautbio"
-# [43] "Ageing"               "Ertn"                 "Wrtn"
-# [46] "Whome"                "Espmg"                "Wspmg"
-# [49] "sel_Whome"            "sel_Espmg"            "sel_Wspmg"
-# [52] "One"                  "Point5"               "messages_encountered"
+# [37] "CSacous"              "WCacous"              "CRsum"
+# [40] "SAsum"                "SAaut"                "SSB_E"
+# [43] "SSB_W"                "SAautbio"             "Ageing"
+# [46] "Ertn"                 "Wrtn"                 "Whome"
+# [49] "Espmg"                "Wspmg"                "sel_Whome"
+# [52] "sel_Espmg"            "sel_Wspmg"            "One"
+# [55] "Point5"               "messages_encountered"
 # > names(cas2_mpd[[1]]$Instant_mortality)
 #  [1] "categories"              "label"                   "m"
 #  [4] "relative_m_by_age"       "time_step_proportions"   "sub_type"
