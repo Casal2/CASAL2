@@ -89,6 +89,7 @@ jobs:
       - name: Build "Unit Test" standalone binary
         run: |
           cd BuildSystem
+          export CASAL2_BUILD_THREADS=16
           ./doBuild.sh test
 
       - name: Run Unit Tests standalone binary
@@ -101,7 +102,6 @@ jobs:
         with:
           name: Casal2-Linux-executables
           path: BuildSystem/bin/linux_gcc/*/casal2
-
   Compile-Casal2-Windows:
     # https://docs.github.com/en/actions/using-github-hosted-runners/about-github-hosted-runners#supported-runners-and-hardware-resources
     # https://github.com/actions/virtual-environments/blob/main/images/win/Windows2019-Readme.md
