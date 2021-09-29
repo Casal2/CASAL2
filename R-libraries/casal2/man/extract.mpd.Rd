@@ -4,7 +4,7 @@
 \alias{extract.mpd}
 \title{extract MPD function for readin in Casal2 output that has been generated from a -r, -e, -f, -p run mode.}
 \usage{
-extract.mpd(file, path = "", fileEncoding = "")
+extract.mpd(file, path = "", fileEncoding = "", quiet = FALSE)
 }
 \arguments{
 \item{file}{the name of the input file containing model output to extract}
@@ -12,6 +12,8 @@ extract.mpd(file, path = "", fileEncoding = "")
 \item{path}{Optionally, the path to the file}
 
 \item{fileEncoding}{Optional, allows the R-library to read in files that have been encoded in alternative UTF formats, see the manual for the error message that would indicate when to use this switch.}
+
+\item{quiet}{suppress print or cat statements to screen.}
 }
 \value{
 a 'casal2MPD' object which is essentially a list, that can be integrated using the str() function.
