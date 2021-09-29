@@ -2,7 +2,7 @@ name: Casal2 validate test suite
 on:
   pull_request:
     branches:
-      - main  ## this will run actions on current branch, to change to main, needed for testing.
+      - '*'  ## this will run actions on current branch, to change to main, needed for testing.
       ## taken from https://keithweaverca.medium.com/only-run-github-actions-on-specific-branches-694782fcc07
 ## for a release idea linux is fairly easy
 ## for windows look at this example https://github.com/freenet/wininstaller-innosetup/actions/runs/768471071/workflow
