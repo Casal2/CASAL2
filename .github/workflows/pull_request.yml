@@ -97,7 +97,7 @@ jobs:
           ./casal2 test
 
       - name: Archive Linux executables
-        uses: actions/upload-artifact@v2
+        uses: actions/upload-artifact@v2.2.4
         with:
           name: Casal2-Linux-executables
           path: BuildSystem/bin/linux_gcc/*/casal2
@@ -179,7 +179,7 @@ jobs:
           ./doBuild.bat modelrunner
 
       - name: Archive Windows executables
-        uses: actions/upload-artifact@v2
+        uses: actions/upload-artifact@v2.2.4
         with:
           name: Casal2-Windows-executables
           path: BuildSystem/bin/windows_gcc/*/casal2.exe
