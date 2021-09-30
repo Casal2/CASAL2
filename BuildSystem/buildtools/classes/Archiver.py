@@ -43,7 +43,7 @@ class Archiver:
       print('-- Expected build time 10-60 minutes')
       if os.system(self.do_build_ + ' thirdparty > third_party.log 2>&1') != EX_OK:
         return Globals.PrintError('Failed to build the third party libraries. Please check third_party.log for the error')
-      os.system('rm -rf third_party.log')
+      #os.system('rm -rf third_party.log')
 
       print('--> Building release version of CASAL2 library')
       print('-- Re-Entering the build system to build a release library')
@@ -51,7 +51,7 @@ class Archiver:
       result = os.system(self.do_build_ + ' library release > release_build.log 2>&1')
       if result != EX_OK:
         return Globals.PrintError('Failed to build release library. Please check release_build.log for the error')
-      os.system('rm -rf release_build.log')
+      #os.system('rm -rf release_build.log')
 
       print('--> Building release version of ADOLC CASAL2')
       print('-- Re-Entering the build system to build an adolc release library')

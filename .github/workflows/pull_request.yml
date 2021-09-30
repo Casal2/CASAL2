@@ -180,7 +180,12 @@ jobs:
         run: |
           cd BuildSystem
           ./doBuild.bat modelrunner
+          
       - name: Build Archive
+        uses: actions/upload-artifact@v2.2.4
+        with:
+          name: thirdparty-build-logs
+          path: BuildSystem/third_party.log                
         run: |
           cd BuildSystem
           ./doBuild.bat archive
