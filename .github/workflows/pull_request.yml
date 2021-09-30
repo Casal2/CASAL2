@@ -93,12 +93,19 @@ jobs:
           cd BuildSystem/bin/linux_gcc/test/
           ./casal2 test
 
-      - name: Build Archive
+      - name: Build Linux Archive
         continue-on-error: true
         run: |
           cd BuildSystem
           export CASAL2_BUILD_THREADS=16
           ./doBuild.sh archive
+
+      - name: Archive Linux third-party log
+        continue-on-error: true
+        uses: actions/upload-artifact@v2.2.4
+        with:
+          name: Casal2-Linux-third-party-log
+          path: BuildSystem/third_party.log
 
       - name: Archive Linux build
         continue-on-error: true
@@ -184,11 +191,18 @@ jobs:
           cd BuildSystem
           ./doBuild.bat modelrunner
 
-      - name: Build Archive
+      - name: Build Windows Archive
         continue-on-error: true
         run: |
           cd BuildSystem
           ./doBuild.bat archive
+
+      - name: Archive Windows third-party log
+        continue-on-error: true
+        uses: actions/upload-artifact@v2.2.4
+        with:
+          name: Casal2-Windows-third-party-log
+          path: BuildSystem/third_party.log
 
       - name: Archive Windows build
         continue-on-error: true
