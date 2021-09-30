@@ -97,7 +97,7 @@ jobs:
         run: |
           cd BuildSystem
           export CASAL2_BUILD_THREADS=16
-          ./doBuild.bat archive
+          ./doBuild.sh archive
 
       - name: Archive Linux build
         uses: actions/upload-artifact@v2.2.4
