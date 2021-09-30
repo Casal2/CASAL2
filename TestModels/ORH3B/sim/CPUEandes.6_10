@@ -1,0 +1,13 @@
+@observation CPUE_index_sim
+catchability Qandes 
+categories immature+mature 
+likelihood lognormal
+process_error 0.2 
+selectivities SELandes SELandes 
+time_step Jul_Jun 
+time_step_proportion 0.5 
+type biomass 
+years 1991 1992 1993 1994 1995 1996 1997 1998 1999 2000 2001 2002 2003 2004 
+obs 2.28489 2.38823 2.05772 0.817038 0.90324 0.793956 0.977636 0.734025 0.612467 0.431151 0.810885 0.541585 0.635701 0.273837 
+error_value 0.296 0.063 0.073 0.064 0.065 0.069 0.078 0.064 0.072 0.067 0.073 0.071 0.065 0.069 
+

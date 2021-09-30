@@ -8,6 +8,7 @@ covariance f
 active f
 
 @mcmc mcmc
+type random_walk
 start 0
 length 4000000
 keep 2500

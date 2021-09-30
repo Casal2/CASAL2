@@ -5,6 +5,7 @@ tolerance 0.00002
 iterations 1000
 
 @mcmc mcmc
+type random_walk
 start 0
 length 6000000
 keep 1000

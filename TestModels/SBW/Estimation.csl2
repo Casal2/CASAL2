@@ -12,6 +12,7 @@ type betadiff
 iterations 4000
 tolerance 0.000002
 evaluations 10000
+active true
 
 ################################### Estimates ###############################
 ## Format for parameter in @estimate block = type[label].parameter

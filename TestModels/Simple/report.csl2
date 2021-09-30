@@ -1,0 +1,9 @@
+@assert obj
+type objective_function
+value 682.978401796
+
+@report obj
+type objective_function
+
+@report estimate_value
+type estimate_value

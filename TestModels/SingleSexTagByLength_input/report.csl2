@@ -1,6 +1,7 @@
 @assert obj
 type objective_function
-value 927.615796123
+#value 927.615796123 # was this value
+value 927.61577
 
 @report SSB
 type derived_quantity

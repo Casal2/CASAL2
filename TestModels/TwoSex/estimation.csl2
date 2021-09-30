@@ -1,18 +1,13 @@
 ## Estimation script for LIN3&4 base model (2014 assessment)
-@minimiser gammdiff
-type betadiff
-tolerance 0.00002
-iterations 1000
-
 @mcmc mcmc
 start 0
+type random_walk
 length 6000000
 keep 1000
 step_size 0.001
 adapt_stepsize_at 10000 50000 100000 150000 
 proposal_distribution t
 adapt_stepsize_method double_half
-
 
 @estimate B0
 type uniform_log
