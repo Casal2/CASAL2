@@ -94,12 +94,14 @@ jobs:
           ./casal2 test
 
       - name: Build Archive
+        continue-on-error: true
         run: |
           cd BuildSystem
           export CASAL2_BUILD_THREADS=16
           ./doBuild.sh archive
 
       - name: Archive Linux build
+        continue-on-error: true
         uses: actions/upload-artifact@v2.2.4
         with:
           name: Casal2-Linux-build
@@ -183,11 +185,13 @@ jobs:
           ./doBuild.bat modelrunner
 
       - name: Build Archive
+        continue-on-error: true
         run: |
           cd BuildSystem
           ./doBuild.bat archive
 
       - name: Archive Windows build
+        continue-on-error: true
         uses: actions/upload-artifact@v2.2.4
         with:
           name: Casal2-Windows-build
