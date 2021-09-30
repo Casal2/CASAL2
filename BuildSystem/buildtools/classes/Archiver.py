@@ -45,7 +45,7 @@ class Archiver:
         return Globals.PrintError('Failed to build the third party libraries. Please check third_party.log for the error')
       #os.system('rm -rf third_party.log')
 
-      print('--> Building release version of CASAL2 library')
+      print('--> Building release version of Casal2 library')
       print('-- Re-Entering the build system to build a release library')
       print('-- All output is being diverted to release_build.log')
       result = os.system(self.do_build_ + ' library release > release_build.log 2>&1')
@@ -53,28 +53,28 @@ class Archiver:
         return Globals.PrintError('Failed to build release library. Please check release_build.log for the error')
       #os.system('rm -rf release_build.log')
 
-      print('--> Building release version of ADOLC CASAL2')
+      print('--> Building release version of ADOL-C Casal2')
       print('-- Re-Entering the build system to build an adolc release library')
       print('-- All output is being diverted to release_adolc_build.log')
       if os.system(self.do_build_ + ' library adolc > release_adolc_build.log 2>&1') != EX_OK:
         return Globals.PrintError('Failed to build release library. Please check release_adolc_build.log for the error')
       os.system('rm -rf release_adolc_build.log')
 
-      print('--> Building release version of BetaDiff CASAL2')
+      print('--> Building release version of BetaDiff Casal2')
       print('-- Re-Entering the build system to build a betadiff release library')
       print('-- All output is being diverted to release_betadiff_build.log')
       if os.system(self.do_build_ + ' library betadiff > release_betadiff_build.log 2>&1') != EX_OK:
         return Globals.PrintError('Failed to build release library. Please check release_betadiff_build.log for the error')
       os.system('rm -rf release_betadiff_build.log')
 
-      print('--> Building documentation')
-      print('-- Re-Entering the build system to build the documentation')
-      print('-- All output is being diverted to documentation_build.log')
-      if os.system(self.do_build_ + ' documentation > documentation_build.log 2>&1') != EX_OK:
-        return Globals.PrintError('Failed to build the documentation. Please check documentation_build.log for error')
-      os.system('rm -rf documentation_build.log')
+      # print('--> Building documentation')
+      # print('-- Re-Entering the build system to build the documentation')
+      # print('-- All output is being diverted to documentation_build.log')
+      # if os.system(self.do_build_ + ' documentation > documentation_build.log 2>&1') != EX_OK:
+      #   return Globals.PrintError('Failed to build the documentation. Please check documentation_build.log for error')
+      # os.system('rm -rf documentation_build.log')
 
-      print('--> Building test version of CASAL2')
+      print('--> Building test version of Casal2')
       print('-- Re-Entering the build system to build a unit test library')
       print('-- All output is being diverted to unit_test_build.log')
       if os.system(self.do_build_ + ' library test > unit_test_build.log 2>&1') != EX_OK:
@@ -94,16 +94,16 @@ class Archiver:
       os.makedirs(output_directory);
     print("-- Target output directory: " + output_directory)
 
-    if os.path.exists(output_directory + "casal2.tar.gz"):
+    if os.path.exists(output_directory + "Casal2.tar.gz"):
       print("-- Removing old Archive")
-      os.system("rm -rf " + output_directory + "casal2.tar.gz")
+      os.system("rm -rf " + output_directory + "Casal2.tar.gz")
 
     # Shitty stuff to make building archive easier
     binary_path = self.output_directory_ = os.path.normpath(os.getcwd()) + "/bin/" + Globals.operating_system_ + "_" + Globals.compiler_
 
     os.system('rm -rf Casal2')
-    os.system('rm -rf casal2.tar')
-    os.system('rm -rf casal2.zip')
+    os.system('rm -rf Casal2.tar')
+    os.system('rm -rf Casal2.zip')
     os.makedirs('Casal2')
     os.makedirs('Casal2/R-Libraries')
     print("-- Directories created")
@@ -114,10 +114,10 @@ class Archiver:
     os.system('cp ' + binary_path + '/library_test/' + library_name + ' Casal2/casal2_test' + extension)
     print("-- Binaries copied")
     os.system('cp ../Documentation/UserManual/CASAL2.pdf Casal2/Casal2.pdf')
-    os.system('cp ../Documentation/UserManual/CASAL2.xml Casal2/CASAL2.xml')    
-    os.system('cp ../Documentation/UserManual/Notepad++_syntax_highlighter.readme Casal2/Notepad++_syntax_highlighter.readme')        
-    os.system('cp ../Documentation/UserManual/CASAL2.syn Casal2/CASAL2.syn')    
-    os.system('cp ../Documentation/UserManual/TextPad_syntax_highlighter.readme Casal2/TextPad_syntax_highlighter.readme')        
+    os.system('cp ../Documentation/UserManual/CASAL2.xml Casal2/CASAL2.xml')
+    os.system('cp ../Documentation/UserManual/Notepad++_syntax_highlighter.readme Casal2/Notepad++_syntax_highlighter.readme')
+    os.system('cp ../Documentation/UserManual/CASAL2.syn Casal2/CASAL2.syn')
+    os.system('cp ../Documentation/UserManual/TextPad_syntax_highlighter.readme Casal2/TextPad_syntax_highlighter.readme')
     print("-- Manual copied")
     os.system('cp -r ../Examples Casal2/Examples')
     print("-- Example code copied")
@@ -129,7 +129,7 @@ class Archiver:
     ## deal with R libraries
     os.system('cp ../R-libraries/casal2_' + Globals.Casal2_version_number + '.tar.gz Casal2/R-Libraries/casal2.tar.gz')
     print("-- R libraries copied")
-      
+
     if Globals.operating_system_ == "windows":
       os.system("zip -r Casal2.zip CASAL2/*")
     else:

@@ -14,7 +14,7 @@ jobs:
   # should run on linux based operating system
   # https://docs.github.com/en/actions/using-github-hosted-runners/about-github-hosted-runners#supported-runners-and-hardware-resources
     runs-on: ubuntu-20.04
-    timeout-minutes: 120
+    timeout-minutes: 150
     env:
       CC: gcc-10
       CXX: g++-10
@@ -59,18 +59,11 @@ jobs:
           cd BuildSystem
           ./doBuild.sh thirdparty parser
 
-# remove documentation build, this is being removed from the build system.
-#      - name: Build documentation
-#        run: |
-#          sudo apt install texlive-latex-extra
-#          cd BuildSystem
-#          ./doBuild.sh documentation
-
-      - name: Build standalone binary
-        run: |
-          cd BuildSystem
-          export CASAL2_BUILD_THREADS=16
-          ./doBuild.sh release
+      # - name: Build standalone binary
+      #   run: |
+      #     cd BuildSystem
+      #     export CASAL2_BUILD_THREADS=16
+      #     ./doBuild.sh release
 
       - name: Build "Betadiff" standalone binary
         run: |
@@ -100,16 +93,24 @@ jobs:
           cd BuildSystem/bin/linux_gcc/test/
           ./casal2 test
 
-      - name: Archive Linux executables
+      - name: Build Archive
+        run: |
+          cd BuildSystem
+          export CASAL2_BUILD_THREADS=16
+          ./doBuild.bat archive
+
+      - name: Archive Linux build
         uses: actions/upload-artifact@v2.2.4
         with:
-          name: Casal2-Linux-executables
-          path: BuildSystem/bin/linux_gcc/*/casal2
+          name: Casal2-Linux-build
+          path: BuildSystem/Casal2
+
+
   Compile-Casal2-Windows:
     # https://docs.github.com/en/actions/using-github-hosted-runners/about-github-hosted-runners#supported-runners-and-hardware-resources
     # https://github.com/actions/virtual-environments/blob/main/images/win/Windows2019-Readme.md
     runs-on: windows-2019
-    timeout-minutes: 120
+    timeout-minutes: 150
     steps:
       - uses: actions/checkout@v2
         with:
@@ -151,10 +152,10 @@ jobs:
           cd BuildSystem
           ./doBuild.bat thirdparty parser
 
-      - name: Build standalone binary
-        run: |
-          cd BuildSystem
-          ./doBuild.bat release
+      # - name: Build standalone binary
+      #   run: |
+      #     cd BuildSystem
+      #     ./doBuild.bat release
 
       - name: Build "Betadiff" standalone binary
         run: |
@@ -180,17 +181,14 @@ jobs:
         run: |
           cd BuildSystem
           ./doBuild.bat modelrunner
-          
+
       - name: Build Archive
-        uses: actions/upload-artifact@v2.2.4
-        with:
-          name: thirdparty-build-logs
-          path: BuildSystem/third_party.log                
         run: |
           cd BuildSystem
           ./doBuild.bat archive
-      - name: Archive Windows executables
+
+      - name: Archive Windows build
         uses: actions/upload-artifact@v2.2.4
         with:
-          name: Casal2-Windows-executables
+          name: Casal2-Windows-build
           path: BuildSystem/Casal2
