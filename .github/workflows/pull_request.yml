@@ -180,9 +180,12 @@ jobs:
         run: |
           cd BuildSystem
           ./doBuild.bat modelrunner
-
+      - name: Build Archive
+        run: |
+          cd BuildSystem
+          ./doBuild.bat archive
       - name: Archive Windows executables
         uses: actions/upload-artifact@v2.2.4
         with:
           name: Casal2-Windows-executables
-          path: BuildSystem/bin/windows_gcc/*/casal2.exe
+          path: BuildSystem/Casal2
