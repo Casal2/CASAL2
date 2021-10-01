@@ -59,11 +59,11 @@ jobs:
           cd BuildSystem
           ./doBuild.sh thirdparty parser
 
-      # - name: Build standalone binary
-      #   run: |
-      #     cd BuildSystem
-      #     export CASAL2_BUILD_THREADS=16
-      #     ./doBuild.sh release
+      - name: Build standalone binary
+        run: |
+          cd BuildSystem
+          export CASAL2_BUILD_THREADS=16
+          ./doBuild.sh release
 
       - name: Build "Betadiff" standalone binary
         run: |
@@ -92,6 +92,12 @@ jobs:
         run: |
           cd BuildSystem/bin/linux_gcc/test
           ./casal2 test
+
+      - name: Archive Linux executables
+        uses: actions/upload-artifact@v2.2.4
+        with:
+          name: Casal2-Linux-executables
+          path: BuildSystem/bin/linux_gcc/*/casal2
 
       - name: Build Linux Archive
         continue-on-error: true
@@ -161,10 +167,10 @@ jobs:
           cd BuildSystem
           ./doBuild.bat thirdparty parser
 
-      # - name: Build standalone binary
-      #   run: |
-      #     cd BuildSystem
-      #     ./doBuild.bat release
+      - name: Build standalone binary
+        run: |
+          cd BuildSystem
+          ./doBuild.bat release
 
       - name: Build "Betadiff" standalone binary
         run: |
@@ -176,6 +182,11 @@ jobs:
           cd BuildSystem
           ./doBuild.bat release adolc
 
+      - name: Run model runner
+        run: |
+          cd BuildSystem
+          ./doBuild.bat modelrunner
+
       - name: Build "Unit Test" standalone binary
         run: |
           cd BuildSystem
@@ -186,10 +197,11 @@ jobs:
           cd BuildSystem/bin/windows_gcc/test
           ./casal2 test
 
-      - name: Run model runner
-        run: |
-          cd BuildSystem
-          ./doBuild.bat modelrunner
+      - name: Archive Windows executables
+        uses: actions/upload-artifact@v2.2.4
+        with:
+          name: Casal2-Windows-executables
+          path: BuildSystem/bin/windows_gcc/*/casal2.exe
 
       - name: Build Windows Archive
         continue-on-error: true

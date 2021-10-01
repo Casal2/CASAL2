@@ -23,7 +23,7 @@ class Installer:
     #print('--> Building Casal2 Archive')
     #print('-- Re-Entering build system to build the archive')
     #print('-- Expected build time 10-60 minutes')
-    #if os.system(self.do_build_ + ' archive') != EX_OK:
+    #if subprocess.call(self.do_build_ + ' archive', shell=True) != EX_OK:
     #  return Globals.PrintError('Failed to build the archive')
 
     file = open('config.iss', 'w')
@@ -166,5 +166,5 @@ class Installer:
 
     if not os.path.exists("Casal2"):
       os.makedirs("Casal2")
-    os.system('"C:\\Program Files (x86)\\Inno Setup 6\\ISCC.exe" /OCasal2\\ config.iss')
+    subprocess.call('"C:\\Program Files (x86)\\Inno Setup 6\\ISCC.exe" /OCasal2\\ config.iss', shell=True)
 
