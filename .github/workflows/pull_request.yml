@@ -26,9 +26,9 @@ jobs:
           # Otherwise, uses the default branch.
           ref: age_length_redesign_202109
 
-      - uses: actions/setup-python@v2
+      - uses: actions/setup-python@v2.2.2
         with:
-          python-version: '3.8'
+          python-version: '3.9'
       - name: Install python dependencies
         run: pip install pytz python-dateutil --upgrade pip
 
@@ -90,7 +90,7 @@ jobs:
 
       - name: Run Unit Tests standalone binary
         run: |
-          cd BuildSystem/bin/linux_gcc/test/
+          cd BuildSystem/bin/linux_gcc/test
           ./casal2 test
 
       - name: Build Linux Archive
@@ -127,9 +127,9 @@ jobs:
           # triggered a workflow, this defaults to the reference or SHA for that event.
           # Otherwise, uses the default branch.
           ref: age_length_redesign_202109
-      - uses: actions/setup-python@v2
+      - uses: actions/setup-python@v2.2.2
         with:
-          python-version: '3.8'
+          python-version: '3.9'
       - name: Install python dependencies
         run: pip install pytz python-dateutil --upgrade pip
 
@@ -183,7 +183,7 @@ jobs:
 
       - name: Run Unit Tests standalone binary
         run: |
-          cd BuildSystem/bin/windows_gcc/test/
+          cd BuildSystem/bin/windows_gcc/test
           ./casal2 test
 
       - name: Run model runner
