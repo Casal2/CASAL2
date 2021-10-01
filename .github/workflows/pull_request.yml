@@ -105,6 +105,7 @@ jobs:
           cd BuildSystem
           export CASAL2_BUILD_THREADS=16
           ./doBuild.sh archive
+        shell: bash
 
       - name: Archive Linux third-party log
         continue-on-error: true
@@ -208,6 +209,7 @@ jobs:
         run: |
           cd BuildSystem
           ./doBuild.bat archive
+        shell: bash
 
       - name: Archive Windows third-party log
         continue-on-error: true
