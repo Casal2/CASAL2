@@ -9,7 +9,7 @@ class CommandLineInterface:
         print('--> Spawning Command Line Interface Parser')
 
     def print_usage(self):
-        #os.system( [ 'clear', 'cls' ][ os.name == 'nt' ] )
+        #subprocess.call( [ 'clear', 'cls' ][ os.name == 'nt' ] , shell=True)
         print('###############################################################################')
         print('# Casal2 Build System Usage                                                   #')
         print('###############################################################################')

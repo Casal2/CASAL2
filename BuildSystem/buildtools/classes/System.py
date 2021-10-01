@@ -101,8 +101,8 @@ class SystemInfo:
   """
   def find_exe_path(self, exe):
     print('-- Searching path for ' + exe)
-    if os.system('which ' + exe + ' > which.tmp 2> err.tmp') != EX_OK:
-      os.system('rm -rf err.tmp')
+    if subprocess.call('which ' + exe + ' > which.tmp 2> err.tmp', shell=True) != EX_OK:
+      subprocess.call('rm -rf err.tmp', shell=True)
       print('## ' + exe + ' not found in the current path')
       return ''
       
@@ -124,8 +124,8 @@ class SystemInfo:
     elif path != "":
       Globals.path_ = path + ":" + Globals.path_
 
-    os.system('rm -rf err.tmp')      
-    if os.system('rm -rf which.tmp') != EX_OK:
+    subprocess.call('rm -rf err.tmp', shell=True)
+    if subprocess.call('rm -rf which.tmp', shell=True) != EX_OK:
       Globals.PrintError('Could not delete the temporary file "which.tmp". Do you have correct file system access?')
       return
     
