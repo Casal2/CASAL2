@@ -22,7 +22,7 @@ IF (WIN32)
 ELSE (WIN32)
  ## LINUX BUILD VARIABLES AND LIBRARIES
  SET(buildOS linux)
- SET(COMPILE_OPTIONS "${COMPILE_OPTIONS} -std=c++11 -pthread")
+ SET(COMPILE_OPTIONS "${COMPILE_OPTIONS} -std=c++11 -pthread  -Wl,-rpath='$ORIGIN/'")
  SET(thirdPartyLibraries ${thirdPartyLibraries} dl pthread rt)
 ENDIF ()
 
