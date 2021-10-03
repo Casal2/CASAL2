@@ -48,3 +48,4 @@ BuildSystem/Casal2
 CASAL2/Build
 R-libraries/Version.R
 CASAL2/.settings
+TestModels/ORH3B/sim/*

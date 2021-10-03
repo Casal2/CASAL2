@@ -25,7 +25,6 @@ class ModelRunner:
       print('The Casal2 binary (' + binary_name + ') was not found. Cannot continue')
       print('Please complete building the complete end-user application before running the models (i.e., doBuild archive')
       return False
-  
 
     print('')
     success_count = 0
@@ -40,8 +39,12 @@ class ModelRunner:
     dir_list = os.listdir("../TestModels/")
     cwd = os.path.normpath(os.getcwd())  
 
-    exe_path = f"{cwd}/{exe_path}"
+    if Globals.operating_system_ == 'windows':
+      exe_path = f"{cwd}/{exe_path}"
+    else:
+       exe_path = f"LD_LIBRARY_PATH={cwd}/Casal2/ {cwd}/{exe_path}"
     print(f"--> Full Casal2 path for model runner: {exe_path}")
+
     # test -r functionality with full/different models
     for folder in dir_list:
       if folder in estimation_dir_list:
