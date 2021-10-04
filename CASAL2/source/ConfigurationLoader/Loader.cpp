@@ -638,7 +638,7 @@ void Loader::FindActiveMinimiserType() {
   typedef struct {
     string   name_        = "<<unknown>>";
     string   type_        = "";
-    bool     active_      = false;
+    bool     active_      = true;
     string   file_name_   = "";
     unsigned line_number_ = 0;
   } MinimiserDefinition;
