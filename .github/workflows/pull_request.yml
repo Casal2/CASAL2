@@ -77,10 +77,6 @@ jobs:
           export CASAL2_BUILD_THREADS=16
           ./doBuild.sh release adolc
 
-      - name: Run model runner
-        run: |
-          cd BuildSystem
-          ./doBuild.sh modelrunner
 
       - name: Build "Unit Test" standalone binary
         run: |
@@ -107,6 +103,11 @@ jobs:
           ./doBuild.sh archive
         shell: bash
 
+      - name: Run model runner
+        run: |
+          cd BuildSystem
+          ./doBuild.sh modelrunner
+          
       - name: Archive Linux third-party log
         continue-on-error: true
         uses: actions/upload-artifact@v2.2.4
@@ -183,10 +184,6 @@ jobs:
           cd BuildSystem
           ./doBuild.bat release adolc
 
-      - name: Run model runner
-        run: |
-          cd BuildSystem
-          ./doBuild.bat modelrunner
 
       - name: Build "Unit Test" standalone binary
         run: |
@@ -211,6 +208,11 @@ jobs:
           ./doBuild.bat archive
         shell: bash
 
+      - name: Run model runner
+        run: |
+          cd BuildSystem
+          ./doBuild.bat modelrunner
+          
       - name: Archive Windows third-party log
         continue-on-error: true
         uses: actions/upload-artifact@v2.2.4
