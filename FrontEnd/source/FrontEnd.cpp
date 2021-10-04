@@ -268,7 +268,7 @@ void RunEstimation(int argc, char* argv[], niwa::utilities::RunParameters& optio
 
   auto proc    = (RUNPROC)LoadLibraryFunction(minimiser_library, "Run");
   return_code_ = (proc)(argc, argv, options);
-  CloseLibrary(minimiser_library);
+  //CloseLibrary(minimiser_library);
 }
 
 /**
