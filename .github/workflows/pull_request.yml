@@ -37,7 +37,11 @@ jobs:
         with:
           version: 10
           platform: x86
-
+      - name: Build third-party library - release
+        run: |
+          cd BuildSystem
+          ./doBuild.sh thirdparty release
+          
       - name: Build third-party library - adolc
         run: |
           cd BuildSystem
@@ -100,7 +104,7 @@ jobs:
         run: |
           cd BuildSystem
           export CASAL2_BUILD_THREADS=16
-          ./doBuild.sh archive
+          ./doBuild.sh archive true
         shell: bash
 
       - name: Run model runner
@@ -147,7 +151,11 @@ jobs:
           # see https://github.com/marketplace/actions/setup-winlibs
           # and https://github.com/brechtsanders/winlibs_mingw/tags
           tag: '10.3.0-12.0.0-9.0.0-r2'
-
+      - name: Build third-party library - release
+        run: |
+          cd BuildSystem
+          ./doBuild.bat thirdparty release
+          
       - name: Build third-party library - adolc
         run: |
           cd BuildSystem
@@ -205,7 +213,7 @@ jobs:
         continue-on-error: true
         run: |
           cd BuildSystem
-          ./doBuild.bat archive
+          ./doBuild.bat archive true
         shell: bash
 
       - name: Run model runner
