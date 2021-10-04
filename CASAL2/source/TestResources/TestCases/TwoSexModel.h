@@ -114,6 +114,7 @@ ato95 3
 
 @minimiser de
 type de_solver
+active false
 covariance false
 population_size 100
 max_generations 1000

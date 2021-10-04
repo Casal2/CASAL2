@@ -116,6 +116,7 @@ covariance false
 population_size 50
 max_generations 1000
 tolerance 0.001
+active true
 
 @mcmc x
 type random_walk
