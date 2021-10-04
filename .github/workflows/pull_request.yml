@@ -81,7 +81,7 @@ jobs:
           export CASAL2_BUILD_THREADS=16
           ./doBuild.sh library adolc
 
-      - name: Build "Unit Test" library 
+      - name: Build "Unit Test" library
         run: |
           cd BuildSystem
           export CASAL2_BUILD_THREADS=16
@@ -101,7 +101,6 @@ jobs:
         with:
           name: Casal2-Linux-front_end
           path: BuildSystem/bin/linux_gcc/front_end/
-
 
       - name: Build Linux Archive
         continue-on-error: true
@@ -130,8 +129,8 @@ jobs:
         run: |
           cd BuildSystem
           ./doBuild.sh modelrunner
-          
-      - name: Run Unit Tests from fontend build
+
+      - name: Run Unit Tests from frontend build
         run: |
           cd BuildSystem/Casal2
           ./casal2 --unittest
@@ -202,6 +201,13 @@ jobs:
           cd BuildSystem
           ./doBuild.bat library test
 
+      - name: Build Frontend
+        continue-on-error: true
+        run: |
+          cd BuildSystem
+          ./doBuild.bat frontend
+        shell: bash
+
       - name: Build Windows Archive
         continue-on-error: true
         run: |
@@ -228,7 +234,7 @@ jobs:
         run: |
           cd BuildSystem
           ./doBuild.bat modelrunner
-          
+
       - name: Run Unit Tests from frontend application
         run: |
           cd BuildSystem/Casal2
