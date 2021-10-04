@@ -17,12 +17,12 @@ SET(COMPILE_OPTIONS "-O2 -g0 -Wall -Werror -fmessage-length=0 -Wno-unused-local-
 IF (WIN32)
  ## WINDOWS BUILD VARIABLES AND LIBRARIES
  SET(buildOS windows) 
- SET(COMPILE_OPTIONS "${COMPILE_OPTIONS} -D__GNUDOS__ -std=c++11")
+ SET(COMPILE_OPTIONS "${COMPILE_OPTIONS} -D__GNUDOS__ -std=c++17")
  
 ELSE (WIN32)
  ## LINUX BUILD VARIABLES AND LIBRARIES
  SET(buildOS linux)
- SET(COMPILE_OPTIONS "${COMPILE_OPTIONS} -std=c++11 -pthread  -Wl,-rpath='$ORIGIN/'")
+ SET(COMPILE_OPTIONS "${COMPILE_OPTIONS} -std=c++17 -pthread  -Wl,-rpath='$ORIGIN/'")
  SET(thirdPartyLibraries ${thirdPartyLibraries} dl pthread rt)
 ENDIF ()
 
