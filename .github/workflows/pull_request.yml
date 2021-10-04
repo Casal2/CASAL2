@@ -13,7 +13,7 @@ jobs:
   Compile-Casal2-linux:
   # should run on linux based operating system
   # https://docs.github.com/en/actions/using-github-hosted-runners/about-github-hosted-runners#supported-runners-and-hardware-resources
-    runs-on: ubuntu-18.04
+    runs-on: ubuntu-20.04
     timeout-minutes: 150
     env:
       CC: gcc-10
@@ -40,8 +40,8 @@ jobs:
       - name: Build third-party library - release
         run: |
           cd BuildSystem
-          ./doBuild.sh thirdparty release
-          
+          ./doBuild.sh thirdparty
+
       - name: Build third-party library - adolc
         run: |
           cd BuildSystem
@@ -81,7 +81,6 @@ jobs:
           export CASAL2_BUILD_THREADS=16
           ./doBuild.sh release adolc
 
-
       - name: Build "Unit Test" standalone binary
         run: |
           cd BuildSystem
@@ -107,11 +106,6 @@ jobs:
           ./doBuild.sh archive true
         shell: bash
 
-      - name: Run model runner
-        run: |
-          cd BuildSystem
-          ./doBuild.sh modelrunner
-          
       - name: Archive Linux third-party log
         continue-on-error: true
         uses: actions/upload-artifact@v2.2.4
@@ -125,6 +119,12 @@ jobs:
         with:
           name: Casal2-Linux-build
           path: BuildSystem/Casal2
+
+      - name: Run Linux model runner
+        continue-on-error: true
+        run: |
+          cd BuildSystem
+          ./doBuild.sh modelrunner
 
 
   Compile-Casal2-Windows:
@@ -154,8 +154,8 @@ jobs:
       - name: Build third-party library - release
         run: |
           cd BuildSystem
-          ./doBuild.bat thirdparty release
-          
+          ./doBuild.bat thirdparty
+
       - name: Build third-party library - adolc
         run: |
           cd BuildSystem
@@ -192,7 +192,6 @@ jobs:
           cd BuildSystem
           ./doBuild.bat release adolc
 
-
       - name: Build "Unit Test" standalone binary
         run: |
           cd BuildSystem
@@ -216,11 +215,6 @@ jobs:
           ./doBuild.bat archive true
         shell: bash
 
-      - name: Run model runner
-        run: |
-          cd BuildSystem
-          ./doBuild.bat modelrunner
-          
       - name: Archive Windows third-party log
         continue-on-error: true
         uses: actions/upload-artifact@v2.2.4
@@ -234,3 +228,9 @@ jobs:
         with:
           name: Casal2-Windows-build
           path: BuildSystem/Casal2
+
+      - name: Run Windows model runner
+        continue-on-error: true
+        run: |
+          cd BuildSystem
+          ./doBuild.bat modelrunner
