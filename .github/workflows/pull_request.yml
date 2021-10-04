@@ -212,8 +212,8 @@ jobs:
         run: |
           cd BuildSystem
           ./doBuild.bat modelrunner
-
-     - name: Run Unit Tests from frontend application
+          
+      - name: Run Unit Tests from frontend application
         run: |
           cd BuildSystem/Casal2
           ./casal2 --unittest
