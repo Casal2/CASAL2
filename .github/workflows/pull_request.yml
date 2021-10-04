@@ -63,41 +63,30 @@ jobs:
           cd BuildSystem
           ./doBuild.sh thirdparty parser
 
-      - name: Build standalone binary
+      - name: Build release library
         run: |
           cd BuildSystem
           export CASAL2_BUILD_THREADS=16
-          ./doBuild.sh release
+          ./doBuild.sh library release
 
-      - name: Build "Betadiff" standalone binary
+      - name: Build "Betadiff" library
         run: |
           cd BuildSystem
           export CASAL2_BUILD_THREADS=16
-          ./doBuild.sh release betadiff
+          ./doBuild.sh library betadiff
 
-      - name: Build "ADOL-C" standalone binary
+      - name: Build "ADOL-C" library
         run: |
           cd BuildSystem
           export CASAL2_BUILD_THREADS=16
-          ./doBuild.sh release adolc
+          ./doBuild.sh library adolc
 
-      - name: Build "Unit Test" standalone binary
+      - name: Build "Unit Test" library 
         run: |
           cd BuildSystem
           export CASAL2_BUILD_THREADS=16
-          ./doBuild.sh test
-
-      - name: Run Unit Tests standalone binary
-        run: |
-          cd BuildSystem/bin/linux_gcc/test
-          ./casal2 test
-
-      - name: Archive Linux executables
-        uses: actions/upload-artifact@v2.2.4
-        with:
-          name: Casal2-Linux-executables
-          path: BuildSystem/bin/linux_gcc/*/casal2
-
+          ./doBuild.sh library test
+          
       - name: Build Linux Archive
         continue-on-error: true
         run: |
@@ -125,7 +114,11 @@ jobs:
         run: |
           cd BuildSystem
           ./doBuild.sh modelrunner
-
+          
+      - name: Run Unit Tests from fontend build
+        run: |
+          cd BuildSystem/Casal2
+          ./casal2 --unittest
 
   Compile-Casal2-Windows:
     # https://docs.github.com/en/actions/using-github-hosted-runners/about-github-hosted-runners#supported-runners-and-hardware-resources
@@ -151,10 +144,6 @@ jobs:
           # see https://github.com/marketplace/actions/setup-winlibs
           # and https://github.com/brechtsanders/winlibs_mingw/tags
           tag: '10.3.0-12.0.0-9.0.0-r2'
-      - name: Build third-party library - release
-        run: |
-          cd BuildSystem
-          ./doBuild.bat thirdparty
 
       - name: Build third-party library - adolc
         run: |
@@ -177,36 +166,25 @@ jobs:
           cd BuildSystem
           ./doBuild.bat thirdparty parser
 
-      - name: Build standalone binary
+      - name: Build release library
         run: |
           cd BuildSystem
-          ./doBuild.bat release
+          ./doBuild.bat library release
 
-      - name: Build "Betadiff" standalone binary
+      - name: Build "Betadiff" library
         run: |
           cd BuildSystem
-          ./doBuild.bat release betadiff
+          ./doBuild.bat library betadiff
 
-      - name: Build "ADOL-C" standalone binary
+      - name: Build "ADOL-C" library
         run: |
           cd BuildSystem
-          ./doBuild.bat release adolc
+          ./doBuild.bat library adolc
 
-      - name: Build "Unit Test" standalone binary
+      - name: Build "Unit Test" library
         run: |
           cd BuildSystem
-          ./doBuild.bat test
-
-      - name: Run Unit Tests standalone binary
-        run: |
-          cd BuildSystem/bin/windows_gcc/test
-          ./casal2 test
-
-      - name: Archive Windows executables
-        uses: actions/upload-artifact@v2.2.4
-        with:
-          name: Casal2-Windows-executables
-          path: BuildSystem/bin/windows_gcc/*/casal2.exe
+          ./doBuild.bat library test
 
       - name: Build Windows Archive
         continue-on-error: true
@@ -234,3 +212,8 @@ jobs:
         run: |
           cd BuildSystem
           ./doBuild.bat modelrunner
+          
+     - name: Run Unit Tests from frontend application
+        run: |
+          cd BuildSystem/Casal2
+          ./casal2 --unittest
