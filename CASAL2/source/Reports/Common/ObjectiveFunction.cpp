@@ -48,7 +48,6 @@ void ObjectiveFunction::DoExecute(shared_ptr<Model> model) {
   for (objective::Score score : score_list) {
     cache_ << score.label_ << " " << AS_DOUBLE(score.score_) << REPORT_EOL;
   }
-  cache_ << PARAM_TOTAL_NEGLOGLIKE << " " << AS_DOUBLE(obj_function.score()) << REPORT_EOL;
   cache_ << PARAM_TOTAL_SCORE << " " << AS_DOUBLE(obj_function.score()) << REPORT_EOL;
   ready_for_writing_ = true;
 }

@@ -82,7 +82,7 @@ void Normal::DoBuild() {
  * changes from any addressable modifications
  */
 void Normal::DoReset() {
-  Double age           = 0.0;
+  unsigned age         = 0;
   Double min_age_class = 0.0;
 
   for (unsigned i = 0; i < age_spread_; ++i) {

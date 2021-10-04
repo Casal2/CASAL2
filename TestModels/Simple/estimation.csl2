@@ -1,12 +1,14 @@
 ## Estimation script for HAK base model
 ## This is the -e command in CASAL
-@minimiser gammadiff
+@minimiser betadiff
 type betadiff
-tolerance 0.00002
+tolerance 1e-6
 iterations 500
-evaluations 1000
+evaluations 2000
+active true
 
 @mcmc mcmc
+type random_walk
 start 0
 length 4000000
 keep 2500
@@ -28,7 +30,6 @@ upper_bound 0.40
 mu 0.16
 cv 0.79
 
-
 @estimate TANSel
 parameter selectivity[chatTANSel].mu
 lower_bound 1
@@ -45,7 +46,6 @@ type normal_by_stdev
 mu    10
 sigma 500
 
-
 @estimate TANSel
 parameter selectivity[chatTANSel].sigma_r
 lower_bound   1
@@ -53,7 +53,6 @@ upper_bound  200
 type normal_by_stdev
 mu   10
 sigma 500
-
 
 @estimate eastFSel_mu
 parameter selectivity[eastFSel].mu
@@ -66,7 +65,6 @@ parameter selectivity[eastFSel].sigma_l
 lower_bound  1
 upper_bound 50
 type uniform
-
 
 @estimate eastFSel_sr
 parameter selectivity[eastFSel].sigma_r
@@ -86,13 +84,11 @@ lower_bound  1
 upper_bound 50
 type uniform
 
-
 @estimate westFSel_sr
 parameter selectivity[westFSel].sigma_r
 lower_bound   1
 upper_bound  200
 type uniform
-
 
 @estimate YCS
 parameter process[Recruitment].ycs_values{1975:2011}
@@ -115,7 +111,6 @@ type vector_average
 parameter process[Recruitment].ycs_values
 k 1
 multiplier 100
-
 
 @additional_prior smooth_YCS
 type vector_smoothing

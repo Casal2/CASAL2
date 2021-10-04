@@ -669,7 +669,7 @@ void Loader::FindActiveMinimiserType() {
         LOG_FINEST() << "Minimiser type block: " << file_line.line_;
         boost::split(split_string, file_line.line_, boost::is_any_of(" "));
         if (split_string.size() == 2) {
-          new_definition.type_        = split_string[1];
+          new_definition.type_        = utilities::ToLowercase(split_string[1]);
           new_definition.file_name_   = file_line.file_name_;
           new_definition.line_number_ = file_line.line_number_;
         }

@@ -80,11 +80,11 @@ selectivity M_female
 ## observations
 @report CSacousbio
 type observation
-observation CSacous
+observation CSacousbio
 
 @report WCacousbio
 type observation
-observation WCacous
+observation WCacousbio
 
 @report Espage
 type observation

@@ -1,0 +1,13 @@
+!include "population.csl2"
+!include "Observation.csl2"
+!include "reports.csl2"
+!include "estimation.csl2"
+
+@minimiser betadiff
+type betadiff
+tolerance 1e-6
+iterations 2000
+active true
+
+
+

@@ -1,8 +1,10 @@
 ## Report section for now
+@assert obj
+type objective_function
+value 1782.72476
 
 @report Init
 type initialisation_partition
-
 
 @report summary
 type estimate_value

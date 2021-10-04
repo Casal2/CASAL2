@@ -23,7 +23,7 @@ q 0.0744265
 ################ Observations
 
 ## Cook Strait Acoustic biomass survey
-@observation CSacous
+@observation CSacousbio
 type biomass
 time_step Jul_Sep
 time_step_proportion 0.5
@@ -57,7 +57,7 @@ table obs
 end_table
 
 ## West Coast Acoustic biomass survey
-@observation WCacous
+@observation WCacousbio
 type biomass
 time_step Jul_Sep
 time_step_proportion 0.5
