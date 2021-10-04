@@ -61,7 +61,11 @@ jobs:
       cd BuildSystem/bin/linux_gcc/test/
       ./casal2
     displayName: 'Run Unit Tests standalone binary'
-
+  - script: |
+      cd BuildSystem
+      ./doBuild.sh archive
+    displayName: 'Build archive'
+      
   - script: |
       cd BuildSystem
       ./doBuild.sh modelrunner

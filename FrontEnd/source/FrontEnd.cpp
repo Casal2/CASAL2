@@ -44,10 +44,10 @@ typedef int (*RUNPROC)(int, char**, niwa::utilities::RunParameters&);
 typedef int (*PRELOADPROC)(niwa::utilities::RunParameters&);
 typedef int (*LOADOPTIONSPROC)(int, char**, niwa::utilities::RunParameters&);
 
-string release_lib  = "/usr/local/lib/casal2_release.so";
-string adolc_lib    = "/usr/local/lib/casal2_adolc.so";
-string betadiff_lib = "/usr/local/lib/casal2_betadiff.so";
-string test_lib     = "/usr/local/lib/casal2_test.so";
+string release_lib  = "$ORIGIN/casal2_release.so";
+string adolc_lib    = "$ORIGIN/casal2_adolc.so";
+string betadiff_lib = "$ORIGIN/casal2_betadiff.so";
+string test_lib     = "$ORIGIN/casal2_test.so";
 #endif
 
 #ifdef __MINGW32__

@@ -18,14 +18,13 @@ class ModelRunner:
     binary_name = 'casal2'
     if Globals.operating_system_ == 'windows':
       binary_name += '.exe'
-
     exe_path = f"Casal2/{binary_name}"
+
     if not os.path.exists(exe_path):
       print(f"Looking for {exe_path}")
       print('The Casal2 binary (' + binary_name + ') was not found. Cannot continue')
       print('Please complete building the complete end-user application before running the models (i.e., doBuild archive')
       return False
-  
 
     print('')
     success_count = 0
@@ -42,6 +41,7 @@ class ModelRunner:
 
     exe_path = f"{cwd}/{exe_path}"
     print(f"--> Full Casal2 path for model runner: {exe_path}")
+
     # test -r functionality with full/different models
     for folder in dir_list:
       if folder in estimation_dir_list:
