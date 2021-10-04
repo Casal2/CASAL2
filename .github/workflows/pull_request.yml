@@ -100,7 +100,7 @@ jobs:
         uses: actions/upload-artifact@v2.2.4
         with:
           name: Casal2-Linux-front_end
-          path: BuildSystem/bin/linux_gcc/front_end/
+          path: BuildSystem/bin/linux_gcc/frontend/
 
       - name: Build Linux Archive
         continue-on-error: true
@@ -109,13 +109,6 @@ jobs:
           export CASAL2_BUILD_THREADS=16
           ./doBuild.sh archive true
         shell: bash
-
-      - name: Archive Linux third-party log
-        continue-on-error: true
-        uses: actions/upload-artifact@v2.2.4
-        with:
-          name: Casal2-Linux-front_end_build.log
-          path: BuildSystem/front_end_build.log
 
       - name: Archive Linux build
         continue-on-error: true
@@ -129,12 +122,26 @@ jobs:
         run: |
           cd BuildSystem
           ./doBuild.sh modelrunner
-
+          
+      - name: Archive modelrunner
+        continue-on-error: true
+        uses: actions/upload-artifact@v2.2.4
+        with:
+          name: Casal2-linux-modelrunner
+          path: TestModels/
+          
       - name: Run Unit Tests from frontend build
         run: |
           cd BuildSystem/Casal2
-          ./casal2 --unittest
-
+          ./casal2 --unittest > unittests.log
+          
+      - name: Archive unittest output
+        continue-on-error: true
+        uses: actions/upload-artifact@v2.2.4
+        with:
+          name: Casal2-linux-unittest
+          path: BuildSystem/Casal2/unittests.log
+          
   Compile-Casal2-Windows:
     # https://docs.github.com/en/actions/using-github-hosted-runners/about-github-hosted-runners#supported-runners-and-hardware-resources
     # https://github.com/actions/virtual-environments/blob/main/images/win/Windows2019-Readme.md
@@ -215,13 +222,6 @@ jobs:
           ./doBuild.bat archive true
         shell: bash
 
-      - name: Archive Windows front_end log
-        continue-on-error: true
-        uses: actions/upload-artifact@v2.2.4
-        with:
-          name: Casal2-Windows-front_end_build.log
-          path: BuildSystem/front_end_build.log
-
       - name: Archive Windows build
         continue-on-error: true
         uses: actions/upload-artifact@v2.2.4
@@ -234,8 +234,22 @@ jobs:
         run: |
           cd BuildSystem
           ./doBuild.bat modelrunner
-
+          
+      - name: Archive Windows modelrunner
+        continue-on-error: true
+        uses: actions/upload-artifact@v2.2.4
+        with:
+          name: Casal2-Windows-modelrunner
+          path: TestModels/
+          
       - name: Run Unit Tests from frontend application
         run: |
           cd BuildSystem/Casal2
-          ./casal2 --unittest
+          ./casal2 --unittest > unittests.log
+          
+      - name: Archive unittest output
+        continue-on-error: true
+        uses: actions/upload-artifact@v2.2.4
+        with:
+          name: Casal2-Windows-unittest
+          path: BuildSystem/Casal2/unittests.log
