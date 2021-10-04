@@ -85,7 +85,7 @@ class Archiver:
     print('-- All output is being diverted to front_end_build.log')
     if subprocess.call(self.do_build_ + ' frontend > front_end_build.log 2>&1', shell=True) != EX_OK:
       return Globals.PrintError('Failed to build the front end binary. Please check front_end_build.log for error')
-    subprocess.call('rm -rf front_end_build.log', shell=True)
+    #subprocess.call('rm -rf front_end_build.log', shell=True)
 
     ## Now we actually do the zipping of the binary
     output_directory = "bin/" + Globals.operating_system_ + "/archive/"

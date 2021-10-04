@@ -86,7 +86,23 @@ jobs:
           cd BuildSystem
           export CASAL2_BUILD_THREADS=16
           ./doBuild.sh library test
-          
+
+      - name: Build Frontend
+        continue-on-error: true
+        run: |
+          cd BuildSystem
+          export CASAL2_BUILD_THREADS=16
+          ./doBuild.sh frontend
+        shell: bash
+
+      - name: Archive frontend
+        continue-on-error: true
+        uses: actions/upload-artifact@v2.2.4
+        with:
+          name: Casal2-Linux-front_end
+          path: BuildSystem/bin/linux_gcc/front_end/
+
+
       - name: Build Linux Archive
         continue-on-error: true
         run: |
@@ -99,8 +115,8 @@ jobs:
         continue-on-error: true
         uses: actions/upload-artifact@v2.2.4
         with:
-          name: Casal2-Linux-third-party-log
-          path: BuildSystem/third_party.log
+          name: Casal2-Linux-front_end_build.log
+          path: BuildSystem/front_end_build.log
 
       - name: Archive Linux build
         continue-on-error: true
@@ -193,12 +209,12 @@ jobs:
           ./doBuild.bat archive true
         shell: bash
 
-      - name: Archive Windows third-party log
+      - name: Archive Windows front_end log
         continue-on-error: true
         uses: actions/upload-artifact@v2.2.4
         with:
-          name: Casal2-Windows-third-party-log
-          path: BuildSystem/third_party.log
+          name: Casal2-Windows-front_end_build.log
+          path: BuildSystem/front_end_build.log
 
       - name: Archive Windows build
         continue-on-error: true
