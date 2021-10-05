@@ -690,9 +690,8 @@ void Loader::FindActiveMinimiserType() {
     }  // for (auto file_line : block_vector)
 
     // add new definition to lise
-    if (new_definition.active_)
-      minimisers.push_back(new_definition);
-
+    minimisers.push_back(new_definition);
+    
   }  // for (auto block_vector : blocks_)
 
   /**
