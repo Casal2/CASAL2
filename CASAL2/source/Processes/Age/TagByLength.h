@@ -68,6 +68,10 @@ private:
   vector<vector<Double>>        numbers_at_length_by_category_; // dims category x length bins
   vector<vector<Double>>        numbers_at_age_by_category_; // dims category x length bins
 
+  unsigned                      min_age_;
+  unsigned                      max_age_;
+  unsigned                      age_spread_;
+
   // Containers for reporting
   vector<vector<vector<Double>>> actual_tagged_fish_from_;  // n_years x n_from_categories x n_ages
   vector<vector<vector<Double>>> actual_tagged_fish_to_;    // n_years x n_to_categories x n_ages

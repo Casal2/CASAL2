@@ -65,7 +65,9 @@ TagByLength::~TagByLength() {
  */
 void TagByLength::DoValidate() {
   LOG_TRACE();
-
+  min_age_ = model_->min_age();
+  max_age_ = model_->max_age();
+  age_spread_ = model_->age_spread();
   // Check value for initial mortality
   if (model_->length_bins().size() == 0)
     LOG_FATAL_P(PARAM_TYPE) << ": No length bins have been specified in @model. This process requires those to be defined, as the table dimensions depend on them.";
@@ -412,23 +414,24 @@ void TagByLength::FillReportCache(ostringstream& cache) {
   for (unsigned category_ndx = 0; category_ndx < from_category_labels_.size(); ++category_ndx) {
     cache << "from-" << from_category_labels_[category_ndx] << " " << REPORT_R_DATAFRAME_ROW_LABELS << "\n";
     cache << "year ";
-    for (unsigned age = model_->min_age(); age <= model_->max_age(); ++age) cache << age << " ";
+    for (unsigned age = min_age_; age <= max_age_; ++age) cache << age << " ";
     cache << REPORT_EOL;
     for (unsigned year_ndx = 0; year_ndx < years_.size(); ++year_ndx) {
       cache << years_[year_ndx] << " ";
-      for (unsigned age_ndx = 0; age_ndx < model_->age_spread(); ++age_ndx) cache << AS_DOUBLE(actual_tagged_fish_from_[year_ndx][category_ndx][age_ndx]) << " ";
+      for (unsigned age_ndx = 0; age_ndx < age_spread_; ++age_ndx) cache << AS_DOUBLE(actual_tagged_fish_from_[year_ndx][category_ndx][age_ndx]) << " ";
       cache << REPORT_EOL;
     }
   }
 
   for (unsigned category_ndx = 0; category_ndx < to_category_labels_.size(); ++category_ndx) {
-    cache << "to-" << from_category_labels_[category_ndx] << " " << REPORT_R_DATAFRAME_ROW_LABELS << "\n";
+    cache << "to-" << to_category_labels_[category_ndx] << " " << REPORT_R_DATAFRAME_ROW_LABELS << "\n";
     cache << "year ";
-    for (unsigned age = model_->min_age(); age <= model_->max_age(); ++age) cache << age << " ";
+    for (unsigned age = min_age_; age <= max_age_; ++age) 
+      cache << age << " ";
     cache << REPORT_EOL;
     for (unsigned year_ndx = 0; year_ndx < years_.size(); ++year_ndx) {
       cache << years_[year_ndx] << " ";
-      for (unsigned age_ndx = 0; age_ndx < model_->age_spread(); ++age_ndx) cache << AS_DOUBLE(actual_tagged_fish_to_[year_ndx][category_ndx][age_ndx]) << " ";
+      for (unsigned age_ndx = 0; age_ndx < age_spread_; ++age_ndx) cache << AS_DOUBLE(actual_tagged_fish_to_[year_ndx][category_ndx][age_ndx]) << " ";
       cache << REPORT_EOL;
     }
   }
