@@ -114,8 +114,9 @@ void AgeLength::Build() {
   if (!length_weight_)
     LOG_ERROR_P(PARAM_LENGTH_WEIGHT) << "Length-weight label " << length_weight_label_ << " was not found";
   // Subscribe this class to this length_weight class
-  // length_weight_->SubscribeToRebuildCache(this);
-  // if this length weight class time-varys then that will flag this class to rebuild cache
+  // This creates a dependency, for the timevarying functionality. See NotifySubscribers() called in TimeVarying.cpp line 107:108
+  length_weight_->SubscribeToRebuildCache(this);
+  // if this length weight class time-varys then it will flag this age-length class to rebuild cache
 
   // allocate memory for cvs
   cvs_.resize(model_->years().size());

@@ -88,7 +88,7 @@ protected:
   vector<vector<vector<Double>>>    cvs_;  // cvs[year][time_step][age]
   vector<unsigned>  model_years_;
   string                                              length_weight_label_;
-  const LengthWeight*                                 length_weight_ = nullptr;
+  LengthWeight*                                       length_weight_ = nullptr;
   // these objects get allocated memory in Dobuild and get populated by DoRebuildCache() in each child
   vector<vector<Double>>    mean_length_by_timestep_age_;  // mean_length_by_timestep_age_[time_step][age]
   vector<vector<Double>>    mean_weight_by_timestep_age_;  // mean_weight_by_timestep_age_[time_step][age]
