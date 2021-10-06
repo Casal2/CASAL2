@@ -18,7 +18,7 @@ namespace reports {
 namespace age {
 
 AgeLength::AgeLength() {
-  run_mode_    = (RunMode::Type)(RunMode::kBasic | RunMode::kProjection);
+  run_mode_    = (RunMode::Type)(RunMode::kBasic | RunMode::kProjection | RunMode::kSimulation | RunMode::kEstimation | RunMode::kProfiling);
   model_state_ = State::kExecute;
 
   parameters_.Bind<string>(PARAM_TIME_STEP, &time_step_, "The time step label", "", "");

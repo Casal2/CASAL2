@@ -1,11 +1,11 @@
 Environment: User=Casal2
-Call: ../../../../../BuildSystem/bin/linux_gcc/release_adolc/casal2 -e -o params_est.out
-Date: Mon Sep 27 11:16:30 2021
-Version: v21.09 (2021-09-26)
+Call: ../../../../../BuildSystem/Casal2/casal2 -e -o params_est.out
+Date: Thu Oct  7 10:50:05 2021
+Version: v21.10 (2021-10-06)
 Copyright (c) 2017-2021, NIWA (www.niwa.co.nz)
 c2user
  Machine=c2computer (Linux 5.10.0-8-amd64 x86_64)
- PID=62661
+ PID=174682
 
 
 
@@ -18,8 +18,8 @@ c2user
 [INFO] Creating default report for catchability SAaut
 [INFO] Creating default report for derived quantity SSB_E
 [INFO] Creating default report for derived quantity SSB_W
-[INFO] Creating default report for observation CSacous
-[INFO] Creating default report for observation WCacous
+[INFO] Creating default report for observation CSacousbio
+[INFO] Creating default report for observation WCacousbio
 [INFO] Creating default report for observation CRsumbio
 [INFO] Creating default report for observation SAsumbio
 [INFO] Creating default report for observation SAautbio
@@ -4292,36 +4292,36 @@ upper_bound: 50
 
 *objective_function[obj_fun]
 values {vector}
-observation->CSacous-1991 2.36718
-observation->CSacous-1993 -0.5897
-observation->CSacous-1994 -0.044692
-observation->CSacous-1995 -0.571853
-observation->CSacous-1996 0.0640015
-observation->CSacous-1997 -0.883421
-observation->CSacous-1998 0.0438067
-observation->CSacous-1999 -0.996183
-observation->CSacous-2001 -1.20494
-observation->CSacous-2002 -0.399001
-observation->CSacous-2003 -0.892581
-observation->CSacous-2005 -0.915658
-observation->CSacous-2006 -0.968487
-observation->CSacous-2007 -0.547167
-observation->CSacous-2008 -1.17639
-observation->CSacous-2009 0.0525279
-observation->CSacous-2011 -0.963735
-observation->CSacous-2013 -0.841873
-observation->CSacous-2015 -0.195055
-observation->CSacous-2017 -0.987316
-observation->WCacous-1988 -0.589439
-observation->WCacous-1989 -0.0680616
-observation->WCacous-1990 -0.260243
-observation->WCacous-1991 -0.425125
-observation->WCacous-1992 -0.72762
-observation->WCacous-1993 -0.488297
-observation->WCacous-1997 -0.0105042
-observation->WCacous-2000 -1.27811
-observation->WCacous-2012 -0.799809
-observation->WCacous-2013 -1.06763
+observation->CSacousbio-1991 2.36718
+observation->CSacousbio-1993 -0.5897
+observation->CSacousbio-1994 -0.044692
+observation->CSacousbio-1995 -0.571853
+observation->CSacousbio-1996 0.0640015
+observation->CSacousbio-1997 -0.883421
+observation->CSacousbio-1998 0.0438067
+observation->CSacousbio-1999 -0.996183
+observation->CSacousbio-2001 -1.20494
+observation->CSacousbio-2002 -0.399001
+observation->CSacousbio-2003 -0.892581
+observation->CSacousbio-2005 -0.915658
+observation->CSacousbio-2006 -0.968487
+observation->CSacousbio-2007 -0.547167
+observation->CSacousbio-2008 -1.17639
+observation->CSacousbio-2009 0.0525279
+observation->CSacousbio-2011 -0.963735
+observation->CSacousbio-2013 -0.841873
+observation->CSacousbio-2015 -0.195055
+observation->CSacousbio-2017 -0.987316
+observation->WCacousbio-1988 -0.589439
+observation->WCacousbio-1989 -0.0680616
+observation->WCacousbio-1990 -0.260243
+observation->WCacousbio-1991 -0.425125
+observation->WCacousbio-1992 -0.72762
+observation->WCacousbio-1993 -0.488297
+observation->WCacousbio-1997 -0.0105042
+observation->WCacousbio-2000 -1.27811
+observation->WCacousbio-2012 -0.799809
+observation->WCacousbio-2013 -1.06763
 observation->CRsumbio-1992 -1.53327
 observation->CRsumbio-1993 0.393599
 observation->CRsumbio-1994 -1.72343
@@ -4651,7 +4651,6 @@ prior->SAsl_s_r->selectivity[SAsl].sigma_r 0
 additional_prior->YCS.eq.16 4.8542e-05
 additional_prior->sp.migr 0.0208296
 jacobian->log_sum_b0 0
-total_negloglike 1954.68
 total_score 1954.68
 *end
 
@@ -5200,7 +5199,7 @@ Values {vector}
 17 0.811488
 *end
 
-*observation[CSacous]
+*observation[CSacousbio]
 observation_type: biomass
 likelihood: lognormal
 Values {dataframe}
@@ -5227,7 +5226,7 @@ year category age length observed expected residual error_value process_error ad
 2017 east.cs 0 0 102000 122963 -20963 0.36 0 0.36 -0.98731 -0.473561 -0.360878
 *end
 
-*observation[WCacous]
+*observation[WCacousbio]
 observation_type: biomass
 likelihood: lognormal
 Values {dataframe}
@@ -7749,7 +7748,7 @@ values {vector}
 {end_list}
 *end
 
-*observation[CSacous]
+*observation[CSacousbio]
 observation_type: biomass
 likelihood: lognormal
 Values {dataframe}
@@ -7776,7 +7775,7 @@ year category age length observed expected residual error_value process_error ad
 2017 east.cs 0 0 102000 122963 -20963 0.36 0 0.36 -0.98731 -0.473561 -0.360878
 *end
 
-*observation[WCacous]
+*observation[WCacousbio]
 observation_type: biomass
 likelihood: lognormal
 Values {dataframe}
@@ -10332,8 +10331,8 @@ Creating default report for catchability SAsum
 Creating default report for catchability SAaut
 Creating default report for derived quantity SSB_E
 Creating default report for derived quantity SSB_W
-Creating default report for observation CSacous
-Creating default report for observation WCacous
+Creating default report for observation CSacousbio
+Creating default report for observation WCacousbio
 Creating default report for observation CRsumbio
 Creating default report for observation SAsumbio
 Creating default report for observation SAautbio
@@ -12235,5 +12234,5 @@ estimated parameter 'selectivity[sel_Whome].v{7}' was within 0.001 of upper boun
 *end
 
 [INFO] Completed
-[INFO] Total CPU time: -3.90894e+08 hours
-[INFO] Total elapsed time: 4.633 minutes
+[INFO] Total CPU time: -3.90909e+08 hours
+[INFO] Total elapsed time: 4.817 minutes

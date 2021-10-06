@@ -1,4 +1,5 @@
-# this assumes that 'release adolc' and 'release betadiff' have already been built successfully
+# this assumes that these scripts have all been run
+# ./doBuild.sh thirdparty ; ./doBuild.sh library release ; ./doBuild.sh library adolc ; ./doBuild.sh library betadiff ; ./doBuild.sh library test ; ./doBuild.sh frontend ; ./doBuild.sh archive true
 # start in directory TestCases/primary/BCO
 
 # cd CASAL
@@ -12,26 +13,26 @@
 
 cd Casal2/betadiff_casal_flags_off
 rm -f params_est.out
-../../../../../BuildSystem/bin/linux_gcc/release_betadiff/casal2 -e -o params_est.out > run_estimation.txt 2>&1
+../../../../../BuildSystem/Casal2/casal2 -e -o params_est.out > run_estimation.txt 2>&1
 
 cd ../betadiff_casal_flags_on
 rm -f params_est.out
-../../../../../BuildSystem/bin/linux_gcc/release_betadiff/casal2 -e -o params_est.out > run_estimation.txt 2>&1
+../../../../../BuildSystem/Casal2/casal2 -e -o params_est.out > run_estimation.txt 2>&1
 
 cd ../betadiff_casal_flags_on_low_tol
 rm -f params_est.out
-../../../../../BuildSystem/bin/linux_gcc/release_betadiff/casal2 -e -o params_est.out > run_estimation.txt 2>&1
+../../../../../BuildSystem/Casal2/casal2 -e -o params_est.out > run_estimation.txt 2>&1
 
 
 cd ../adolc_casal_flags_off
 rm -f params_est.out
-../../../../../BuildSystem/bin/linux_gcc/release_adolc/casal2 -e -o params_est.out > run_estimation.txt 2>&1
+../../../../../BuildSystem/Casal2/casal2 -e -o params_est.out > run_estimation.txt 2>&1
 
 cd ../adolc_casal_flags_on
 rm -f params_est.out
-../../../../../BuildSystem/bin/linux_gcc/release_adolc/casal2 -e -o params_est.out > run_estimation.txt 2>&1
+../../../../../BuildSystem/Casal2/casal2 -e -o params_est.out > run_estimation.txt 2>&1
 
 cd ../adolc_casal_flags_on_low_tol
 rm -f params_est.out
-../../../../../BuildSystem/bin/linux_gcc/release_adolc/casal2 -e -o params_est.out > run_estimation.txt 2>&1
+../../../../../BuildSystem/Casal2/casal2 -e -o params_est.out > run_estimation.txt 2>&1
 
