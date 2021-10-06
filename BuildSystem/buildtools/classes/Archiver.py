@@ -126,7 +126,7 @@ class Archiver:
     subprocess.call('cp -r ../LICENSE Casal2/LICENSE', shell=True)
     print("-- license copied")
     ## deal with R libraries
-    subprocess.call('cp ../R-libraries/casal2_' + Globals.Casal2_version_number + '.tar.gz Casal2/R-Libraries/casal2.tar.gz', shell=True)
+    subprocess.call('cp ../R-libraries/Casal2_' + Globals.Casal2_version_number + '.tar.gz Casal2/R-Libraries/Casal2.tar.gz', shell=True)
     print("-- R libraries copied")
 
     if Globals.operating_system_ == "windows":
