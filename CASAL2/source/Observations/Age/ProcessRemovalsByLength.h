@@ -51,7 +51,8 @@ protected:
   // Members
   vector<unsigned>            years_;
   vector<double>              length_bins_;
-  bool                        length_plus_     = false;  // have to be assigned a value to be optional, note in the constructpr the default is model_->length_plus()
+  bool                        length_plus_     = false;  
+  // have to be assigned a value to be optional, note in the constructpr the default is model_->length_plus()
   unsigned                    number_bins_ = 0;
   parameters::Table*          obs_table_   = nullptr;
   Double                      tolerance_   = 0.0;
