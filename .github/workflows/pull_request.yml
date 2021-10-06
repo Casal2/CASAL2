@@ -2,7 +2,7 @@ name: Casal2 validate test suite
 on:
   push:
     branches:
-      - age_length_redesign_202109
+      - master # age_length_redesign_202109
   pull_request:
     branches:
       - master ## this will run actions on current branch, to change to main, needed for testing. all branches '*'
@@ -88,19 +88,11 @@ jobs:
           ./doBuild.sh library test
 
       - name: Build Frontend
-        continue-on-error: true
         run: |
           cd BuildSystem
           export CASAL2_BUILD_THREADS=16
           ./doBuild.sh frontend
         shell: bash
-
-      - name: Archive frontend
-        continue-on-error: true
-        uses: actions/upload-artifact@v2.2.4
-        with:
-          name: Casal2-Linux-front_end
-          path: BuildSystem/bin/linux_gcc/frontend/
 
       - name: Build Linux Archive
         continue-on-error: true
@@ -209,7 +201,6 @@ jobs:
           ./doBuild.bat library test
 
       - name: Build Frontend
-        continue-on-error: true
         run: |
           cd BuildSystem
           ./doBuild.bat frontend
