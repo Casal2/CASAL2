@@ -41,6 +41,14 @@ time_steps step_one
 @categories
 format sex
 names male female
+age_lengths no_age_length*2
+
+@age_length no_age_length
+type none
+length_weight no_length_weight
+
+@length_weight no_length_weight
+type none
 
 @time_steps step_one
 processes load_partition
@@ -108,6 +116,14 @@ time_steps step_one
 @categories
 format sex
 names male female
+age_lengths no_age_length*2
+
+@age_length no_age_length
+type none
+length_weight no_length_weight
+
+@length_weight no_length_weight
+type none
 
 @time_steps step_one
 processes load_partition
@@ -162,6 +178,14 @@ time_steps step_one
 @categories
 format sex
 names male female
+age_lengths no_age_length*2
+
+@age_length no_age_length
+type none
+length_weight no_length_weight
+
+@length_weight no_length_weight
+type none
 
 @time_steps step_one
 processes load_partition

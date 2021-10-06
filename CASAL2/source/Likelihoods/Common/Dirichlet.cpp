@@ -67,7 +67,7 @@ void Dirichlet::GetScores(map<unsigned, vector<observations::Comparison> >& comp
 void Dirichlet::SimulateObserved(map<unsigned, vector<observations::Comparison> >& comparisons) {
   // instance the random number generator
   utilities::RandomNumberGenerator& rng = utilities::RandomNumberGenerator::Instance();
-  map<string, Double>               totals;
+  map<string, double>               totals;
 
   auto iterator = comparisons.begin();
   for (; iterator != comparisons.end(); ++iterator) {
@@ -83,7 +83,8 @@ void Dirichlet::SimulateObserved(map<unsigned, vector<observations::Comparison> 
       comparison.adjusted_error_ = error_value;
     }
 
-    for (observations::Comparison& comparison : iterator->second) comparison.observed_ /= totals[comparison.category_];
+    for (observations::Comparison& comparison : iterator->second) 
+      comparison.observed_ /= totals[comparison.category_];
   }
 }
 

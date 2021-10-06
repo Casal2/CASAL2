@@ -454,16 +454,16 @@ plot_legend()
 
 ```{r plots_set_5, echo=FALSE}
 # > names(cas2_mpd[[1]])
-#  [1] "Init"                 "state1"               "estimated_values"
-#  [4] "estimated_summary"    "obj_fun"              "Hess"
-#  [7] "Covar"                "Corr"                 "Recruitment"
-# [10] "Fishing"              "growth_length_at_age" "growth_weight_at_age"
-# [13] "potSurveySel_male"    "potSurveySel_female"  "potSurvey"
-# [16] "potCPUE"              "lgobookLF"            "potSurveyq"
-# [19] "potCPUEq"             "SSB"                  "AFpotSurvey"
-# [22] "AFpotFishing"         "rec.catch.LF"         "Ageing"
-# [25] "MaturationSel_male"   "MaturationSel_female" "potFdis"
-# [28] "recFdis"              "One"                  "messages_encountered"
+#  [1] "Init"                     "state1"                   "estimated_values"
+#  [4] "estimated_summary"        "obj_fun"                  "Hess"
+#  [7] "Covar"                    "Corr"                     "Recruitment"
+# [10] "Fishing"                  "age_length_weight_male"   "age_length_weight_female"
+# [13] "potSurveySel_male"        "potSurveySel_female"      "potSurvey"
+# [16] "potCPUE"                  "lgobookLF"                "potSurveyq"
+# [19] "potCPUEq"                 "SSB"                      "AFpotSurvey"
+# [22] "AFpotFishing"             "rec.catch.LF"             "Ageing"
+# [25] "MaturationSel_male"       "MaturationSel_female"     "potFdis"
+# [28] "recFdis"                  "One"                      "messages_encountered"
 # > names(cas2_mpd[[1]]$Fishing)
 #  [1] "categories"                         "label"
 #  [3] "m"                                  "relative_m_by_age"

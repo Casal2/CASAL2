@@ -68,14 +68,9 @@ selectivity maturity_sel
 #category mature
 
 
-@report growth_length_at_age
-type partition_mean_length
-time_step Jul_Jun
-years 2005
-
-
-@report growth_weight_at_age
-type partition_mean_weight
+@report age_length_weight
+type age_length
+age_length age_len_label
 time_step Jul_Jun
 years 2005
 

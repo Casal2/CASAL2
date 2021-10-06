@@ -117,8 +117,8 @@ void Observation::DoExecute(shared_ptr<Model> model) {
           LOG_CODE_ERROR() << "Unknown coded likelihood type should be dealt with in DoBuild(). If the Pearsons residual is unknown"
                            << " for this likelihood, set pearsons_residual to 'false'";
         }
-        cache_ << iter->first << " " << comparison.category_ << " " << comparison.age_ << " " << comparison.length_ << " " << AS_DOUBLE(comparison.observed_) << " "
-               << AS_DOUBLE(comparison.expected_) << " " << AS_DOUBLE(comparison.observed_) - AS_DOUBLE(comparison.expected_) << " " << comparison.error_value_ << " "
+        cache_ << iter->first << " " << comparison.category_ << " " << comparison.age_ << " " << comparison.length_ << " " << (comparison.observed_) << " "
+               << AS_DOUBLE(comparison.expected_) << " " << comparison.observed_ - AS_DOUBLE(comparison.expected_) << " " << comparison.error_value_ << " "
                << AS_DOUBLE(comparison.process_error_) << " " << AS_DOUBLE(comparison.adjusted_error_) << " " << AS_DOUBLE(comparison.score_) << " " << AS_DOUBLE(resid)
                << REPORT_EOL;
       }
@@ -139,8 +139,8 @@ void Observation::DoExecute(shared_ptr<Model> model) {
           LOG_CODE_ERROR() << "Unknown coded likelihood type should be dealt with in DoBuild(). If the normalised residual is unknown"
                            << " for this likelihood, set normalised_residual to 'false'";
         }
-        cache_ << iter->first << " " << comparison.category_ << " " << comparison.age_ << " " << comparison.length_ << " " << AS_DOUBLE(comparison.observed_) << " "
-               << AS_DOUBLE(comparison.expected_) << " " << AS_DOUBLE(comparison.observed_) - AS_DOUBLE(comparison.expected_) << " " << comparison.error_value_ << " "
+        cache_ << iter->first << " " << comparison.category_ << " " << comparison.age_ << " " << comparison.length_ << " " << (comparison.observed_) << " "
+               << AS_DOUBLE(comparison.expected_) << " " << (comparison.observed_) - AS_DOUBLE(comparison.expected_) << " " << comparison.error_value_ << " "
                << AS_DOUBLE(comparison.process_error_) << " " << AS_DOUBLE(comparison.adjusted_error_) << " " << AS_DOUBLE(comparison.score_) << " " << AS_DOUBLE(resid)
                << REPORT_EOL;
       }
@@ -163,8 +163,8 @@ void Observation::DoExecute(shared_ptr<Model> model) {
           LOG_CODE_ERROR() << "Unknown coded likelihood type should be dealt with in DoBuild(). If the normalised or Pearsons residual is unknown"
                            << " for this likelihood, set normalised_residual to 'false' and pearsons_residual to 'false'";
         }
-        cache_ << iter->first << " " << comparison.category_ << " " << comparison.age_ << " " << comparison.length_ << " " << AS_DOUBLE(comparison.observed_) << " "
-               << AS_DOUBLE(comparison.expected_) << " " << AS_DOUBLE(comparison.observed_) - AS_DOUBLE(comparison.expected_) << " " << comparison.error_value_ << " "
+        cache_ << iter->first << " " << comparison.category_ << " " << comparison.age_ << " " << comparison.length_ << " " << (comparison.observed_) << " "
+               << AS_DOUBLE(comparison.expected_) << " " << comparison.observed_ - AS_DOUBLE(comparison.expected_) << " " << comparison.error_value_ << " "
                << AS_DOUBLE(comparison.process_error_) << " " << AS_DOUBLE(comparison.adjusted_error_) << " " << AS_DOUBLE(comparison.score_) << " " << AS_DOUBLE(pearson_resid)
                << " " << AS_DOUBLE(normalised_resid) << REPORT_EOL;
       }
@@ -174,8 +174,8 @@ void Observation::DoExecute(shared_ptr<Model> model) {
     cache_ << "year category age length observed expected residual error_value process_error adjusted_error neglogLike\n";
     for (auto iter = comparisons.begin(); iter != comparisons.end(); ++iter) {
       for (obs::Comparison comparison : iter->second) {
-        cache_ << iter->first << " " << comparison.category_ << " " << comparison.age_ << " " << comparison.length_ << " " << AS_DOUBLE(comparison.observed_) << " "
-               << AS_DOUBLE(comparison.expected_) << " " << AS_DOUBLE(comparison.observed_) - AS_DOUBLE(comparison.expected_) << " " << comparison.error_value_ << " "
+        cache_ << iter->first << " " << comparison.category_ << " " << comparison.age_ << " " << comparison.length_ << " " << (comparison.observed_) << " "
+               << AS_DOUBLE(comparison.expected_) << " " << (comparison.observed_) - AS_DOUBLE(comparison.expected_) << " " << comparison.error_value_ << " "
                << AS_DOUBLE(comparison.process_error_) << " " << AS_DOUBLE(comparison.adjusted_error_) << " " << AS_DOUBLE(comparison.score_) << REPORT_EOL;
       }
     }
@@ -335,7 +335,7 @@ void Observation::DoExecuteTabular(shared_ptr<Model> model) {
   // Print obs
   for (auto iter = comparisons.begin(); iter != comparisons.end(); ++iter) {
     for (obs::Comparison comparison : iter->second) {
-      cache_ << AS_DOUBLE(comparison.observed_) << " ";
+      cache_ << (comparison.observed_) << " ";
     }
   }
 

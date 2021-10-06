@@ -69,24 +69,28 @@ type selectivity
 selectivity maturity_sel_f
 
 
-@report growth_length_at_age_1
-type partition_mean_length
+@report age_length_weight_male_1
+type age_length
+age_length age_len_m
 time_step Jul_Jan
 years 2018
 
-@report growth_length_at_age_2
-type partition_mean_length
+@report age_length_weight_male_2
+type age_length
+age_length age_len_m
 time_step Feb_Jun
 years 2018
 
 
-@report growth_weight_at_age_1
-type partition_mean_weight
+@report age_length_weight_female_1
+type age_length
+age_length age_len_f
 time_step Jul_Jan
 years 2018
 
-@report growth_weight_at_age_2
-type partition_mean_weight
+@report age_length_weight_female_2
+type age_length
+age_length age_len_f
 time_step Feb_Jun
 years 2018
 

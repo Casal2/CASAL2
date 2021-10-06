@@ -81,8 +81,8 @@ void Abundance::DoValidate() {
   LOG_MEDIUM() << "Number of categories: " << num_obs << ", number of years: " << years_.size() << ", number of observation columns: " << obs_data.size();
 
   unsigned year      = 0;
-  Double   obs_value = 0;
-  Double   err_value = 0;
+  double   obs_value = 0;
+  double   err_value = 0;
   for (vector<string>& obs_data_line : obs_data) {
     if (obs_data_line.size() != vals_expected) {
       LOG_ERROR_P(PARAM_OBS) << " has " << obs_data_line.size() << " values defined, but does not match " << vals_expected;
@@ -94,14 +94,14 @@ void Abundance::DoValidate() {
       LOG_ERROR_P(PARAM_OBS) << " year " << year << " is not a valid year for this observation";
 
     for (unsigned i = 1; i <= num_obs; ++i) {
-      if (!utilities::To<Double>(obs_data_line[i], obs_value))
+      if (!utilities::To<double>(obs_data_line[i], obs_value))
         LOG_ERROR_P(PARAM_OBS) << " value " << obs_data_line[i] << " could not be converted to a Double. It should be the observation value for this line";
       if (obs_value <= 0.0)
         LOG_ERROR_P(PARAM_OBS) << ": observation value " << obs_value << " for year " << year << " cannot be less than or equal to 0.0";
       proportions_by_year_[year].push_back(obs_value);
     }
 
-    if (!utilities::To<Double>(obs_data_line.back(), err_value))
+    if (!utilities::To<double>(obs_data_line.back(), err_value))
       LOG_ERROR_P(PARAM_OBS) << " value " << obs_data_line.back() << " could not be converted to a Double. It should be the error value for this line";
     if (err_value <= 0.0)
       LOG_ERROR_P(PARAM_OBS) << ": error value " << err_value << " for year " << year << " cannot be less than or equal to 0.0";
@@ -175,8 +175,8 @@ void Abundance::Execute() {
   Double         expected_total = 0.0;  // value in the model
   vector<string> keys;
   vector<Double> expecteds;
-  vector<Double> observeds;
-  vector<Double> error_values;
+  vector<double> observeds;
+  vector<double> error_values;
   vector<Double> process_errors;
   vector<Double> scores;
 
@@ -185,7 +185,7 @@ void Abundance::Execute() {
   Double   end_value          = 0.0;
   Double   final_value        = 0.0;
   unsigned age                = 0;
-  Double   error_value        = 0.0;
+  double   error_value        = 0.0;
 
   unsigned current_year = model_->current_year();
 
@@ -281,12 +281,6 @@ void Abundance::CalculateScore() {
     }
 
     likelihood_->SimulateObserved(comparisons_);
-
-    for (auto& iter : comparisons_) {
-      Double total = 0.0;
-      for (auto& comparison : iter.second) total += comparison.observed_;
-      for (auto& comparison : iter.second) comparison.observed_ /= total;
-    }
   } else {
     /**
      * Convert the expected_values

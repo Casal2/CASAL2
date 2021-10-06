@@ -5,7 +5,7 @@
  * @date 20/11/2012
  * @section LICENSE
  *
- * Copyright NIWA Science ©2012 - www.niwa.co.nz
+ * Copyright NIWA Science ï¿½2012 - www.niwa.co.nz
  *
  * @section DESCRIPTION
  *
@@ -59,7 +59,6 @@ public:
   vector<string> ExpandLabels(const vector<string>& category_labels, const string& parameter_location);
   string         GetCategoryLabels(const string& lookup_string, const string& parameter_location);
   vector<string> GetCategoryLabelsV(const string& lookup_string, const string& parameter_location);
-  virtual bool   HasAgeLengths() const { return age_length_labels_.size() != 0; }
 
   // Accessors
   string                 format() const { return format_; }
@@ -69,7 +68,7 @@ public:
   vector<unsigned>       years(const string& category_name);
   virtual AgeLength*     age_length(const string& category_name);
   LengthWeight*          length_weight(const string& category_name);
-  AgeWeight*             age_weight(const string& category_name);
+  //AgeWeight*             age_weight(const string& category_name);
 
 protected:
   // Methods
@@ -84,12 +83,10 @@ protected:
   vector<string>            names_;
   vector<string>            years_;
   vector<string>            category_names_;
-  vector<string>            age_weight_labels_;
   vector<string>            age_length_labels_;
   vector<string>            length_weight_labels_;
   map<string, string>       category_age_length_labels_;
   map<string, string>       category_length_weight_labels_;
-  map<string, string>       category_age_weight_labels_;
   map<string, CategoryInfo> categories_;
 };
 } /* namespace niwa */

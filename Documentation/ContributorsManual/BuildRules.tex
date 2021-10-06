@@ -50,6 +50,19 @@ Modelunner tests are run using the \texttt{DoBuild} script in the BuildSystem fo
 
 An example of how to add a unit test for a process is shown in Section~\ref{sec:example}
 
+
+Tips on building unit tests. For a good example of mocking classes for unit test class specific functionality. See the AgeLength test classes and Partition.Test.cpp Key points when building mock classes, make sure when the mock model is passed to the mock class that it has all the methods loaded in the model pointer, that the mock class needs. i.e many classes will call 
+\texttt{model\_->age\_spread()}
+\texttt{model\_->current\_year() }
+\texttt{model\_->min\_age()}
+
+These methods need to be available on the mock model and consistent with the test. To check private or protected objects you can create methods in the mock class to access these. E.g in VonBertalanffy.Test.cpp. We want to test the AgeLengthMatrix is built correctly. This is a private object with no accessors. In the MockVonBertallanffy class you can see we build a custom function to return values of this matrix. Which gets around this issue.
+
+The mock class can call public methods, but you will have to mock protected functions if you want to call them. This recommended because often public functions require full model information to be loaded and available to the model. For example, in the age-length class it is tempting to just call the Build() method to populate everything but this would require the model having managers for the length weight objects to be built and gets very complicated. May approach has been mimic ant memory allocation for these objects build in these methods i.e Build() in the mock class constructor. Again see the VonBertTest for this in action.
+
+Running a specific unit test instead of the whole suite use the following command \texttt{casal2 --gtest\_filter=AgeLengths.*}
+
+
 \subsection{Reporting (Optional)}
 
 Currently \CNAME\ has reports that are \R\ compatible, i.e., all output reports produced by \CNAME\ can be read into \R\ using the standard  \textbf{CASAL2} \R\ package. If you create a new report or modify an old one, you most follow the standard so that the report is \R\ compatible.

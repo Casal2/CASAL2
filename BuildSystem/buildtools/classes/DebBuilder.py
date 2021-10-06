@@ -24,7 +24,7 @@ class DebBuilder:
         self.do_build_ = './' + self.do_build_ + '.sh'
       print('--> Building Casal2 Archive')
       print('-- Re-Entering the build system to build a release binary')
-      if os.system(self.do_build_ + ' archive') != EX_OK:
+      if subprocess.call(self.do_build_ + ' archive', shell=True) != EX_OK:
         return Globals.PrintError('Failed to build Casal2 archive')
 
     p = subprocess.Popen(['git', '--no-pager', 'log', '-n', '1', '--pretty=format:%H%n%h%n%ci' ], stdout=subprocess.PIPE, stderr=subprocess.PIPE, text=True)
@@ -37,26 +37,26 @@ class DebBuilder:
       os.mkdir('bin/linux/deb')
     print(lines[1])
     folder = 'bin/linux/deb/Casal2'
-    os.system('rm -rf ' + folder)
+    subprocess.call('rm -rf ' + folder, shell=True)
     os.makedirs(folder + '/usr/local/bin')
     os.makedirs(folder + '/usr/local/lib')
-    os.system('cp Casal2/casal2 ' + folder + '/usr/local/bin')
-    os.system('cp Casal2/casal2_adolc.so ' + folder + '/usr/local/lib')
-    os.system('cp Casal2/casal2_betadiff.so ' + folder + '/usr/local/lib')
-    os.system('cp Casal2/casal2_release.so ' + folder + '/usr/local/lib')
-    os.system('cp Casal2/casal2_test.so ' + folder + '/usr/local/lib')
+    subprocess.call('cp Casal2/casal2 ' + folder + '/usr/local/bin', shell=True)
+    subprocess.call('cp Casal2/casal2_adolc.so ' + folder + '/usr/local/lib', shell=True)
+    subprocess.call('cp Casal2/casal2_betadiff.so ' + folder + '/usr/local/lib', shell=True)
+    subprocess.call('cp Casal2/casal2_release.so ' + folder + '/usr/local/lib', shell=True)
+    subprocess.call('cp Casal2/casal2_test.so ' + folder + '/usr/local/lib', shell=True)
     os.makedirs(folder + '/usr/local/share/doc/casal2')
     os.makedirs(folder + '/usr/local/share/doc/ContributorsGuide')
     os.makedirs(folder + '/usr/local/share/doc/GettingStartedGuide')
     os.makedirs(folder + '/usr/local/share/doc/README')
     os.makedirs(folder + '/usr/local/share/doc/R-library/')
     os.makedirs(folder + '/usr/local/share/doc/Examples')
-    os.system('cp ../Documentation/UserManual/CASAL2.pdf ' + folder + '/usr/local/share/doc/casal2/')
-    os.system('cp ../Documentation/ContributorsManual/ContributorsGuide.pdf ' + folder + '/usr/local/share/doc/ContributorsGuide/')
-    os.system('cp ../Documentation/GettingStartedGuide/GettingStartedGuide.pdf ' + folder + '/usr/local/share/doc/GettingStartedGuide/')
-    os.system('cp ../README.txt ' + folder + '/usr/local/share/doc/README/')
-    os.system('cp -a ../Examples/. ' + folder + '/usr/local/share/doc/Examples/')
-    os.system('cp ../"R-libraries"/Casal2_' + Globals.Casal2_version_number + '.tar.gz ' + folder + '/usr/local/share/doc/R-library/Casal2_' + Globals.Casal2_version_number + '.tar.gz')
+    subprocess.call('cp ../Documentation/UserManual/CASAL2.pdf ' + folder + '/usr/local/share/doc/casal2/', shell=True)
+    subprocess.call('cp ../Documentation/ContributorsManual/ContributorsGuide.pdf ' + folder + '/usr/local/share/doc/ContributorsGuide/', shell=True)
+    subprocess.call('cp ../Documentation/GettingStartedGuide/GettingStartedGuide.pdf ' + folder + '/usr/local/share/doc/GettingStartedGuide/', shell=True)
+    subprocess.call('cp ../README.txt ' + folder + '/usr/local/share/doc/README/', shell=True)
+    subprocess.call('cp -a ../Examples/. ' + folder + '/usr/local/share/doc/Examples/', shell=True)
+    subprocess.call('cp ../"R-libraries"/Casal2_' + Globals.Casal2_version_number + '.tar.gz ' + folder + '/usr/local/share/doc/R-library/Casal2_' + Globals.Casal2_version_number + '.tar.gz', shell=True)
     os.makedirs(folder + '/DEBIAN')
     control_file = open(folder + '/DEBIAN/control', 'w')
     control_file.write('Package: Casal2\n')
@@ -68,6 +68,6 @@ class DebBuilder:
     control_file.write('Description: Casal2 Modelling Platform\n')
     control_file.close()
 
-    if os.system('dpkg-deb --build ' + folder) != EX_OK:
+    if subprocess.call('dpkg-deb --build ' + folder, shell=True) != EX_OK:
       return Globals.PrintError('Failed to build DEB Package')
     return True

@@ -38,6 +38,7 @@
 #include "../Partition/Accessors/Category.h"
 #include "../Partition/Partition.h"
 #include "../Profiles/Manager.h"
+#include "../AgeLengths/Manager.h"
 #include "../Projects/Manager.h"
 #include "../Reports/Manager.h"
 #include "../Simulates/Manager.h"
@@ -406,7 +407,10 @@ void Model::Validate() {
  *
  */
 void Model::Build() {
-  LOG_TRACE();
+  LOG_FINE() << "Model:Build()";
+  // Set current year
+  current_year_ = start_year_;
+
   categories()->Build();
   partition().Build();
   managers()->Build();
@@ -417,14 +421,8 @@ void Model::Build() {
     addressable_values_count_ = estimables.GetValueCount();
   }
 
-  if (categories()->HasAgeLengths()) {
-    partition_->BuildMeanLengthData();
-    if (length_bins_.size() > 0)
-      partition_->BuildAgeLengthProportions();
-  }
-
   managers_->Reset();
-  LOG_TRACE();
+  LOG_FINE() << "Exit: Model:Build()";
 }
 
 /**
@@ -473,9 +471,7 @@ void Model::RunBasic() {
      */
 
     // Iterate over all partition members and UpDate Mean Weight for the inital weight calculations
-    for (auto iterator = all_view.Begin(); iterator != all_view.End(); ++iterator) {
-      (*iterator)->UpdateMeanLengthData();
-    }
+    agelengths::Manager& age_length_manager = *managers_->age_length();    
     initialisationphases::Manager& init_phase_manager = *managers_->initialisation_phase();
     init_phase_manager.Execute();
     managers_->report()->Execute(pointer(), State::kInitialise);
@@ -506,6 +502,7 @@ void Model::RunBasic() {
     timesteps::Manager&   time_step_manager    = *managers_->time_step();
     timevarying::Manager& time_varying_manager = *managers_->time_varying();
     for (current_year_ = start_year_; current_year_ <= final_year_; ++current_year_) {
+      age_length_manager.UpdateDataType(); // this only does something if we have data type age-length
       LOG_FINE() << "Iteration year: " << current_year_;
       if (single_step) {
         managers_->report()->Pause();
@@ -533,12 +530,6 @@ void Model::RunBasic() {
       LOG_TRACE();
       time_varying_manager.Update(current_year_);
       LOG_FINEST() << "finishing update time varying now Update Category mean length and weight before beginning annual cycle";
-
-      // Iterate over all partition members and UpDate Mean Weight for this year.
-      for (auto iterator = all_view.Begin(); iterator != all_view.End(); ++iterator) {
-        (*iterator)->UpdateMeanLengthData();
-      }
-
       time_step_manager.Execute(current_year_);
     }
 
@@ -738,10 +729,6 @@ void Model::RunSimulation() {
       estimables->LoadValues(i);
       Reset();
     }
-    // Iterate over all partition members and UpDate Mean Weight for the inital weight calculations
-    for (auto iterator = all_view.Begin(); iterator != all_view.End(); ++iterator) {
-      (*iterator)->UpdateMeanLengthData();
-    }
     initialisationphases::Manager& init_phase_manager = *managers_->initialisation_phase();
     init_phase_manager.Execute();
     managers_->report()->Execute(pointer(), State::kInitialise);
@@ -749,13 +736,12 @@ void Model::RunSimulation() {
     state_                                     = State::kExecute;
     timesteps::Manager&   time_step_manager    = *managers_->time_step();
     timevarying::Manager& time_varying_manager = *managers_->time_varying();
+    agelengths::Manager& age_length_manager = *managers_->age_length();    
+
     for (current_year_ = start_year_; current_year_ <= final_year_; ++current_year_) {
       LOG_FINE() << "Iteration year: " << current_year_;
+      age_length_manager.UpdateDataType(); // this only does something if we have data type age-length
       time_varying_manager.Update(current_year_);
-      // Iterate over all partition members and UpDate Mean Weight for the inital weight calculations
-      for (auto iterator = all_view.Begin(); iterator != all_view.End(); ++iterator) {
-        (*iterator)->UpdateMeanLengthData();
-      }
       managers_->simulate()->Update(current_year_);
       time_step_manager.Execute(current_year_);
     }
@@ -796,7 +782,7 @@ void Model::RunProjection() {
   vector<Double*> estimable_targets;
   // Create an instance of all categories
   niwa::partition::accessors::All all_view(pointer());
-
+  agelengths::Manager& age_length_manager = *managers_->age_length();    
   // Model is about to run
   for (unsigned i = 0; i < addressable_values_count_; ++i) {
     for (int j = 0; j < projection_candidates; ++j) {
@@ -811,11 +797,9 @@ void Model::RunProjection() {
       LOG_FINE() << "Model: State change to Execute";
       state_        = State::kInitialise;
       current_year_ = start_year_;
-      // Iterate over all partition members and UpDate Mean Weight for the inital weight calculations
-      for (auto iterator = all_view.Begin(); iterator != all_view.End(); ++iterator) {
-        (*iterator)->UpdateMeanLengthData();
-      }
       initialisationphases::Manager& init_phase_manager = *managers_->initialisation_phase();
+      // update data type needs to be updated in the f loop
+      age_length_manager.UpdateDataType();
       init_phase_manager.Execute();
 
       state_ = State::kExecute;
@@ -826,11 +810,8 @@ void Model::RunProjection() {
 
       for (current_year_ = start_year_; current_year_ <= final_year_; ++current_year_) {
         LOG_FINE() << "Iteration year: " << current_year_;
+        age_length_manager.UpdateDataType(); // this only does something if we have data type age-length
         time_varying_manager.Update(current_year_);
-        // Iterate over all partition members and UpDate Mean Weight for the inital weight calculations
-        for (auto iterator = all_view.Begin(); iterator != all_view.End(); ++iterator) {
-          (*iterator)->UpdateMeanLengthData();
-        }
         time_step_manager.Execute(current_year_);
         project_manager.StoreValues(current_year_);
       }
@@ -853,10 +834,6 @@ void Model::RunProjection() {
       LOG_FINE() << "Starting projection years";
       for (; current_year_ <= projection_final_year_; ++current_year_) {
         LOG_FINE() << "Iteration year: " << current_year_;
-        // Iterate over all partition members and UpDate Mean Weight for the inital weight calculations
-        for (auto iterator = all_view.Begin(); iterator != all_view.End(); ++iterator) {
-          (*iterator)->UpdateMeanLengthData();
-        }
         project_manager.Update(current_year_);
         time_step_manager.Execute(current_year_);
       }
@@ -886,12 +863,11 @@ void Model::Iterate() {
   niwa::partition::accessors::All all_view(pointer());
 
   state_        = State::kInitialise;
-  current_year_ = start_year_;  // TODO: Fix this
-  // Iterate over all partition members and UpDate Mean Weight for the inital weight calculations
-  //  for (auto iterator = all_view.Begin(); iterator != all_view.End(); ++iterator) {
-  //    (*iterator)->UpdateMeanLengthData();
-  //  }
+  current_year_ = start_year_; 
+  agelengths::Manager& age_length_manager = *managers_->age_length();    
   initialisationphases::Manager& init_phase_manager = *managers_->initialisation_phase();
+  // update data type before Init phase
+  age_length_manager.UpdateDataType(); 
   init_phase_manager.Execute();
   managers_->report()->Execute(pointer(), State::kInitialise);
 
@@ -899,12 +875,10 @@ void Model::Iterate() {
   timesteps::Manager&   time_step_manager    = *managers_->time_step();
   timevarying::Manager& time_varying_manager = *managers_->time_varying();
   for (current_year_ = start_year_; current_year_ <= final_year_; ++current_year_) {
+    age_length_manager.UpdateDataType(); // this only does something if we have data type age-length
     LOG_FINE() << "Iteration year: " << current_year_;
     time_varying_manager.Update(current_year_);
-    // Iterate over all partition members and UpDate Mean Weight for the inital weight calculations
-    for (auto iterator = all_view.Begin(); iterator != all_view.End(); ++iterator) {
-      (*iterator)->UpdateMeanLengthData();
-    }
+
     time_step_manager.Execute(current_year_);
   }
 
@@ -922,5 +896,58 @@ void Model::FullIteration() {
   // TODO: Add calculation of the objective score here and estimate transformations
   Reset();
   Iterate();
+}
+
+
+
+/**
+ * A utility function to check length bins for a given process or observation are a subset of the model length bins.
+ */
+bool Model::are_length_bin_compatible_with_model_length_bins(vector<double>& length_bins) {
+  if(length_bins.size() > length_bins_.size())
+    return false;
+  for(unsigned len_ndx = 0; len_ndx < length_bins.size(); ++len_ndx) {
+    if(std::find(length_bins_.begin(), length_bins_.end(), length_bins[len_ndx]) == length_bins_.end())
+      return false;
+  }
+  return true;
+}
+/**
+ * A utility function to help make age-length transition matrix effecient, for different resolution model bins we just sum over the colums save recalculting the age-length matrix
+ * should only be called in validate or build by processes or observations that want to use the age-length transition and allow for different bin sizes to that on the model.
+ * @return a vector of column of indicies that map the process or observations length bins to the global length bins, so we can do a simple
+ * summation over the global age-length matrix when we are asked for different values other than the model length bin resolution
+ */
+vector<int>  Model::get_map_for_bespoke_length_bins_to_global_length_bins(vector<double> length_bins, bool plus_group) {
+  LOG_FINE() << "get_map_for_bespoke_length_bins_to_global_length_bins";
+  unsigned number_of_bespoke_length_bins = plus_group ? length_bins.size() : length_bins.size() - 1;
+  vector<int> ndx(number_of_length_bins_, 0);
+  int ndx_store = 0;
+  ndx[0] = 0;
+  int max_ndx = 0;
+  for (unsigned i = 1; i < number_of_length_bins_; ++i) {
+      for (unsigned j = 0; j < length_bins.size(); ++j) {
+          if (!plus_group & (length_bins_[i] >= length_bins[length_bins.size() - 1])) {
+              ndx_store = -9999;
+              break;
+          }
+          if (length_bins[j] == length_bins_[i]) {
+            if(j == 0)
+              break;
+            ndx_store++;
+            break;
+          }
+      }
+      ndx[i] = ndx_store;
+      if(ndx_store > max_ndx)
+        max_ndx = ndx_store;
+  }
+
+  if(max_ndx != (int)(number_of_bespoke_length_bins - 1)) {
+    for(unsigned i = 0; i < ndx.size(); ++i)
+      LOG_FINE() << ndx[i];
+    LOG_CODE_ERROR() << "this function has failed. there should be a maxiumum element = " << number_of_bespoke_length_bins - 1 << " but the maxiumum value calculated = " << max_ndx;
+  }
+  return ndx;
 }
 } /* namespace niwa */

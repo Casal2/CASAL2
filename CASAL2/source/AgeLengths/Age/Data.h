@@ -19,7 +19,7 @@
 
 // namespaces
 namespace niwa {
-class LengthWeight;
+
 
 namespace agelengths {
 
@@ -32,14 +32,8 @@ public:
   void DoValidate() override final{};
   void DoBuild() override final;
   void DoReset() override final{};
-  void DoRebuildCache() override final{};  // This should never happen. i.e time vary data type.
 
-  Double mean_length(unsigned time_step, unsigned age) override final;
-  Double mean_weight(unsigned time_step, unsigned age) override final;
-
-  Double GetMeanLength(unsigned year, unsigned time_step, unsigned age) override final;
-  Double GetMeanWeight(unsigned year, unsigned time_step, unsigned age, Double length) override final;
-  string weight_units() override final;
+  Double calculate_mean_length(unsigned year, unsigned time_step, unsigned age) override final;
 
 protected:
   // methods
@@ -62,8 +56,6 @@ private:
   unsigned                                            step_index_data_supplied_;
   unsigned                                            ageing_index_ = 0;
   vector<Double>                                      means_;
-  string                                              length_weight_label_;
-  const LengthWeight*                                 length_weight_ = nullptr;
   vector<unsigned>                                    steps_to_figure_;
   unsigned                                            number_time_steps_;
   unsigned                                            final_year_;

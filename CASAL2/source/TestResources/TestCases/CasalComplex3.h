@@ -142,6 +142,7 @@ active t
 
 @minimiser DE
 type DE_Solver
+active false
 population_size 100
 max_generations 5000
 crossover_probability 1.0

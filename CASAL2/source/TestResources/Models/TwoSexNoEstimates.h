@@ -39,6 +39,15 @@ time_steps step_one step_two
 @categories
 format stage.sex
 names immature.male mature.male immature.female mature.female
+age_lengths no_age_length*4
+
+
+@age_length no_age_length
+type none
+length_weight no_length_weight
+
+@length_weight no_length_weight
+type none
 
 @initialisation_phase iphase1
 years 200
@@ -109,6 +118,7 @@ covariance false
 population_size 100
 max_generations 1000
 tolerance 0.001
+active false
 
 @minimiser gammadiff
 type numerical_differences

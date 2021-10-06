@@ -115,7 +115,6 @@ public:
   map<unsigned, map<string, map<string, vector<Double>>>>& retained_data() { return retained_by_year_fishery_category_; };
 
   // set
-  vector<unsigned> set_years();
 
 private:
   map<string, CategoryData*> category_data_;

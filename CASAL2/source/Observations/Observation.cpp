@@ -124,7 +124,7 @@ void Observation::Reset() {
  * @param delta The delta value passed in from the configuration file
  * @param score The amount of score for this comparison
  */
-void Observation::SaveComparison(string category, unsigned age, Double length, Double expected, Double observed, Double process_error, Double error_value, Double adjusted_error,
+void Observation::SaveComparison(string category, unsigned age, Double length, Double expected, double observed, Double process_error, double error_value, Double adjusted_error,
                                  Double delta, Double score) {
   observations::Comparison new_comparison;
   new_comparison.category_       = category;
@@ -153,7 +153,7 @@ void Observation::SaveComparison(string category, unsigned age, Double length, D
  * @param delta The delta value passed in from the configuration file
  * @param score The amount of score for this comparison
  */
-void Observation::SaveComparison(string category, Double expected, Double observed, Double process_error, Double error_value, Double adjusted_error, Double delta, Double score) {
+void Observation::SaveComparison(string category, Double expected, double observed, Double process_error, double error_value, Double adjusted_error, Double delta, Double score) {
   SaveComparison(category, 0, 0, expected, observed, process_error, error_value, adjusted_error, delta, score);
 }
 

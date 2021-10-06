@@ -45,8 +45,8 @@ private:
   accessor::Categories   partition_;
   vector<Double>         g_;
   vector<Double>         l_;
-  vector<Double>         length_bin_mid_points_;
-  vector<Double>         length_bins_;
+  vector<double>         length_bin_mid_points_;
+  vector<double>         length_bins_;
   vector<string>         category_labels_;
   Double                 cv_ = 0.0;
   vector<string>         growth_time_steps_;

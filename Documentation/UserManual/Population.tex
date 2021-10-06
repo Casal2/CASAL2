@@ -1262,6 +1262,10 @@ There are four length-age relationship options. The first is the naive "no relat
 
 The length-at-age relationship is used to calculate the length frequency given age, and with the length-weight relationship, the weight-at-age of individuals within an age/category. When defining length-at-age, the length-weight relationship must also be defined (see Section \ref{sec:MeanWeight}).
 
+
+For most weight based processes, derived quantities and observations the users have the option of supplying a matrix of mean weight at age for each year see section~\ref{sec:AgeWeight}. If these are supplied then this age-length-weight process is ignored.
+
+
 Changes in length-at-age during the year, i.e., growth between birthdays, are represented by incrementing age as specified by the \subcommand{time\_step\_proportions} parameter.
 
 
@@ -1315,6 +1319,54 @@ end_table
 
 When the values for \textit{cv\_last} and \textit{cv\_first} are different, the cv used for intermediate ages is, by default, interpolate by that age's mean length. There is a legacy switch for testing the conversion of models from CASAL into \CNAME, i.e., use the subcommand, \textit{by\_length false} which allows the interpolation to be by age, the default setting for CASAL. CASAL also fixes to by-age interpretation when doing calculating the mean weight (see \ref{sec:LengthWeight-Basic}).
 
+
+\subsubsection{Length distribution at age}\index{Length distribution at age}\label{sec:AgeLength-length_at_age}
+When users supply an age-length class there is a subcommand \subcommand{distribution}. This describes the distribution of length for a given age. The two options are \texttt{none}, \texttt{normal} and \texttt{lognormal}. When a distribution is applied it contributes to the following dynamics. 1) applies an adjustment in mean-weight at age Equation~\ref{eq:mean_weight_with_adjustment} and 2) Used to populate an age-length transition matrix. For any process or observation that requires the age based partition to be converted to length, an age-length transition matrix must be used for the translation. The age-length transition matrix describes a probability mass function for a specific age being in a set of length bins. Model length bins are denoted by \(l_b\) which have a minimum length value denoted by \(l_b^{min}\). The probability of a fish at age \(a\) being in length bin \(l_b\) is denoted by \(\phi_{a,l_b}\). To calculate the age-length transition matrix the following inputs are required for each age \(a\), mean length at age denoted by \(\bar{l}_a\) and standard deviation \(\sigma_a\) along with a distribution, then,
+\begin{equation}
+	\phi_{a,l_b} = 
+	\begin{cases}
+		f(l_{b + 1}^{min},\bar{l}_a, \sigma_a), & \text{ for } a = a_{min}\\
+		1 - f(l_{b}^{min},\bar{l}_a, \sigma_a), & \text{ for } a = a_{max} \ \& \text{ plus group}\\
+		f(l_{b+1}^{min},\bar{l}_a, \sigma_a) - f(l_{b}^{min},\bar{l}_a, \sigma_a), & \text{ for } a > a_{min} \ \& \ a < a_{max} \\				
+	\end{cases}
+\end{equation}
+%
+where, \(f(X,\mu, \sigma)\) is the cumulative density function defined by \subcommand{distribution}. The variance in these distributions are parametrised by the coeffecient of variation (CV). The CV at age can have the three following forms,
+\begin{enumerate}
+	\item constant for all ages users just specify \subcommand{cv\_first}\\
+	\item Changes linearly by age between \(a_{min}\) and \(a_{max}\) where the CV at \(a_{min}\) is defined by \subcommand{cv\_first} and the cv at \(a_{max}\) is defined by \subcommand{cv\_last}, and values inbetween are linear between these two points. Note the subcommand \subcommand{by\_length} needs to be false
+	\item Changes linearly by mean length between \(a_{min}\) and \(a_{max}\) where the CV at \(a_{min}\) is defined by \subcommand{cv\_first} and the cv at \(a_{max}\) is defined by \subcommand{cv\_last}, but the values inbetween will be a linear interpolation based on mean length. This requires the subcommand \subcommand{by\_length} to be true;
+\end{enumerate}
+%
+The CV is converted into a standard deviation as follows,
+\begin{align*}
+	\sigma_a = CV_a \bar{l}_a & \text{ For the Normal distribution}\\
+	\sigma_a = \sqrt{log(CV_a^2 + 1)} & \text{ For the Lognormal distribution}\\	
+\end{align*}
+%
+When the age-length matrix is required in a model users must specify the \subcommand{length\_bin} on the \command{model}. \CNAME\ will build the age-length matrix for each year that processes and observations ask of it based on the model length bins. Each process and observation can then define a bespoke set of length bins for which thier data represents, only if those length bins are a subset of the model length bins. An example of this is.
+
+{\small{\begin{verbatim}
+		@model
+		length_bins 5 10 15 20 25 30 35 40 
+		
+		@observation 
+		type proportions_at_length
+		length_bins 10 20 30 40
+\end{verbatim}}}
+\CNAME\ will error out if users break this rule. For example the following configuration will error out
+{\small{\begin{verbatim}
+		@model
+		length_bins 5 10 15 20 25 30 35 40 
+		
+		@observation 
+		type proportions_at_length
+		length_bins 7.5 17.5 27.5
+		\end{verbatim}}}
+because the observation length bins are not a subset of the model length bins. The reason for this business rule is, if we have coarse resolution relative of lengths relative to the model length bins, then age-length matrix of the course length bins is a simple summation of the model age-length matrix, rather than recalculating for bespoke length bins, which is a computational task that requires many cumulative distribution function calls.
+
+
+
 \subsection{\I{Length-weight relationship}}\label{sec:MeanWeight}\label{sec:LengthWeight}
 
 There are two length-weight relationships options. The first is the naive "no relationship" relationship, where the weight of an individual is always 1, regardless of length. The second relationship is the "basic" relationship, which is the standard length-weight relationship, $W = aL^b$.
@@ -1335,11 +1387,11 @@ The mean weight $\hat{w}_a$ of an individual of age $a$ is
 
 where $\hat{l}_a$ is the mean length at age $a$. If a distribution of length-at-age is specified, then the mean weight is calculated over the distribution of lengths
 
-\begin{equation}
+\begin{equation}\label{eq:mean_weight_with_adjustment}
   \hat{w}_a=(a\hat{l}_a^b)(1+cv^2)^{\frac{b(b-1)}{2}}
 \end{equation}
 
-where the $cv$ is the coefficient of variation (CV) of the length-at-age relationship. This adjustment is exact for lognormal distributions, and an approximation for normal distributions if the CV is not large \citep{1388}.
+where the $cv$ is the coefficient of variation (CV) of the length-at-age relationship. This adjustment is exact for lognormal distributions, and an approximation for normal distributions if the CV is not large \citep{1388}. 
 
 For comparing CASAL with \CNAME\ results, there is a small difference between the two programs. CASAL adjusted the CVs \subcommand{by\_length} only when CVs are used in distribution calculations (length-based selectivities, length-based processes, and length-based observations), and is not done in the above correction.
 

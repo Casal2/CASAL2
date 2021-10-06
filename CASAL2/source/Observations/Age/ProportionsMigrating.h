@@ -73,8 +73,8 @@ protected:
   vector<Double>              numbers_age_before_with_ageing_error_;
   vector<Double>              numbers_age_after_with_ageing_error_;
 
-  map<unsigned, map<string, vector<Double>>> proportions_;
-  map<unsigned, map<string, vector<Double>>> error_values_;
+  map<unsigned, map<string, vector<double>>> proportions_;
+  map<unsigned, map<string, vector<double>>> error_values_;
 };
 
 } /* namespace age */

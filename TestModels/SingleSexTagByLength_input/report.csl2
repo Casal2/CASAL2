@@ -1,8 +1,58 @@
 @assert obj
 type objective_function
-#value 927.615796123 # was this value
-value 927.61577
+value 927.615768
+
+/*
+@report obj
+type objective_function
 
 @report SSB
 type derived_quantity
 
+@report Tag2001
+type observation
+observation Tag2001
+
+@report Tag2002
+type observation
+observation Tag2002
+
+@report Tag2003
+type observation
+observation Tag2003
+
+@report Tag2004
+type observation
+observation Tag2004
+@report Tag2005
+type observation
+observation Tag2005
+
+@report Tag2006
+type observation
+observation Tag2006
+
+@report Tag20017
+type observation
+observation Tag2007
+
+@report Tag2008
+type observation
+observation Tag2008
+
+@report Tag2009
+type observation
+observation Tag2009
+
+@report Tag2010
+type observation
+observation Tag2010
+
+@report Tag2011
+type observation
+observation Tag2011
+
+@report partition
+type partition
+time_step  Summer
+*/

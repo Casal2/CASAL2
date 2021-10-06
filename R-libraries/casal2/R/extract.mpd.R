@@ -53,7 +53,7 @@
       }
     }
 
-    multi_year_reports <- c("partition", "PartitionBiomass", "PartitionMeanWeight")
+    multi_year_reports <- c("partition", "PartitionBiomass", "PartitionMeanWeight", "age_length")
     result <- list()
     for (i in 1:counter) {
       header <- split.header(temp[i])

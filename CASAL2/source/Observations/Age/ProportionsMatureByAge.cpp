@@ -75,8 +75,8 @@ ProportionsMatureByAge::~ProportionsMatureByAge() {
 void ProportionsMatureByAge::DoValidate() {
   age_spread_ = (max_age_ - min_age_) + 1;
 
-  map<unsigned, vector<Double>> error_values_by_year;
-  map<unsigned, vector<Double>> obs_by_year;
+  map<unsigned, vector<double>> error_values_by_year;
+  map<unsigned, vector<double>> obs_by_year;
 
   /**
    * Now go through each category and split it if required, then check each piece to ensure
@@ -165,8 +165,8 @@ void ProportionsMatureByAge::DoValidate() {
       LOG_ERROR_P(PARAM_OBS) << " value " << year << " is not a valid year for this observation";
 
     for (unsigned i = 1; i < obs_data_line.size(); ++i) {
-      Double value = 0.0;
-      if (!utilities::To<Double>(obs_data_line[i], value))
+      double value = 0.0;
+      if (!utilities::To<double>(obs_data_line[i], value))
         LOG_ERROR_P(PARAM_OBS) << " value (" << obs_data_line[i] << ") could not be converted to a Double";
       // TODO:  need additional proportion checks
       obs_by_year[year].push_back(value);
@@ -196,8 +196,8 @@ void ProportionsMatureByAge::DoValidate() {
       LOG_ERROR_P(PARAM_ERROR_VALUES) << " value " << year << " is not a valid year for this observation";
 
     for (unsigned i = 1; i < error_values_data_line.size(); ++i) {
-      Double value = 0.0;
-      if (!utilities::To<Double>(error_values_data_line[i], value))
+      double value = 0.0;
+      if (!utilities::To<double>(error_values_data_line[i], value))
         LOG_ERROR_P(PARAM_ERROR_VALUES) << " value (" << error_values_data_line[i] << ") could not be converted to a Double";
       if (likelihood_type_ == PARAM_LOGNORMAL && value <= 0.0) {
         LOG_ERROR_P(PARAM_ERROR_VALUES) << ": error_value (" << value << ") cannot be equal to or less than 0.0";
@@ -222,12 +222,12 @@ void ProportionsMatureByAge::DoValidate() {
    * If the proportions for a given observation do not sum to 1.0
    * and is off by more than the tolerance rescale them.
    */
-  Double value = 0.0;
+  double value = 0.0;
   for (auto iter = obs_by_year.begin(); iter != obs_by_year.end(); ++iter) {
     for (unsigned i = 0; i < category_labels_.size(); ++i) {
       for (unsigned j = 0; j < age_spread_; ++j) {
         unsigned obs_index = i * age_spread_ + j;
-        if (!utilities::To<Double>(iter->second[obs_index], value))
+        if (!utilities::To<double>(iter->second[obs_index], value))
           LOG_ERROR_P(PARAM_OBS) << ": obs_ value (" << iter->second[obs_index] << ") at index " << obs_index + 1 << " in the definition could not be converted to a Double";
 
         auto e_f = error_values_by_year.find(iter->first);

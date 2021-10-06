@@ -88,7 +88,7 @@ void LogisticProducing::RebuildCache() {
       }
     }
   } else if (model_->partition_type() == PartitionType::kLength) {
-    vector<Double> length_bins = model_->length_bins();
+    vector<double> length_bins = model_->length_bins();
     Double         temp        = 0.0;
 
     for (unsigned length_bin_index = 0; length_bin_index < length_bins.size(); ++length_bin_index) {

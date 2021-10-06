@@ -122,6 +122,7 @@ multiplier 10
 
 @minimiser gammadiff
 type numerical_differences
+active true
 tolerance 0.000002
 iterations 1000
 step_size 1e-7

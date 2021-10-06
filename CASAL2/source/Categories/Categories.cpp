@@ -51,8 +51,8 @@ Categories::Categories(shared_ptr<Model> model) : model_(model) {
   parameters_.Bind<string>(PARAM_NAMES, &names_, "The names of the categories", "");
   // Years commented out due to GitHub Issue: https://github.com/NIWAFisheriesModelling/CASAL2/issues/367
   // parameters_.Bind<string>(PARAM_YEARS, &years_, "The years that individual categories will be activated (if different from the model for these categories)", "", true);
-  parameters_.Bind<string>(PARAM_AGE_LENGTHS, &age_length_labels_, "The age-length relationship labels for each category", "", true)->set_partition_type(PartitionType::kAge);
-  parameters_.Bind<string>(PARAM_AGE_WEIGHT, &age_weight_labels_, "The age-weight relationships labels for each category", "", true)->set_partition_type(PartitionType::kAge);
+  parameters_.Bind<string>(PARAM_AGE_LENGTHS, &age_length_labels_, "The age-length relationship labels for each category", "")->set_partition_type(PartitionType::kAge);
+  //parameters_.Bind<string>(PARAM_AGE_WEIGHT, &age_weight_labels_, "The age-weight relationships labels for each category", "", true)->set_partition_type(PartitionType::kAge);
 }
 
 /**
@@ -86,6 +86,7 @@ void Categories::Validate() {
 
   if (model_->partition_type() == PartitionType::kAge) {
     // Check the user hasn't specified both age_length and age_weight subcommands
+    /*
     if (parameters_.Get(PARAM_AGE_WEIGHT)->has_been_defined() && parameters_.Get(PARAM_AGE_LENGTHS)->has_been_defined())
       LOG_ERROR_P(PARAM_AGE_WEIGHT) << "Both age-length and age-weight cannot be specified at the same time in @categories. Specify either one or the other.";
     if (parameters_.Get(PARAM_AGE_WEIGHT)->has_been_defined()) {
@@ -93,12 +94,12 @@ void Categories::Validate() {
         LOG_ERROR_P(PARAM_AGE_WEIGHT) << " number of age-weight labels (" << age_weight_labels_.size() << " were specified) must be the same as the number of categories ("
                                       << names_.size() << ")";
     }
+    */
     // get the age sizes
-    if (parameters_.Get(PARAM_AGE_LENGTHS)->has_been_defined()) {
-      if (age_length_labels_.size() != names_.size())
-        LOG_ERROR_P(PARAM_AGE_LENGTHS) << " number of age-length labels (" << age_length_labels_.size() << " were specified) must be the same as the number of categories ("
-                                       << names_.size() << ")";
-    }
+    if (age_length_labels_.size() != names_.size())
+      LOG_ERROR_P(PARAM_AGE_LENGTHS) << " number of age-length labels (" << age_length_labels_.size() << " were specified) must be the same as the number of categories ("
+                                      << names_.size() << ")";
+  
     vector<string> format_chunks;
     boost::split(format_chunks, format_, boost::is_any_of("."), boost::token_compress_on);
     // build our categories vector
@@ -108,10 +109,6 @@ void Categories::Validate() {
           category_age_length_labels_[names_[i]] = age_length_labels_[i];
       }
 
-      if (parameters_.Get(PARAM_AGE_WEIGHT)->has_been_defined()) {
-        if (age_weight_labels_.size() > i)
-          category_age_weight_labels_[names_[i]] = age_weight_labels_[i];
-      }
       // expand the names.
       vector<string> category_chunks;
       boost::split(category_chunks, names_[i], boost::is_any_of("."), boost::token_compress_on);
@@ -213,27 +210,15 @@ void Categories::Build() {
     /**
      * Get our age length objects if age based partition model
      */
-    if (parameters_.Get(PARAM_AGE_LENGTHS)->has_been_defined()) {
-      agelengths::Manager* age_sizes_manager = model_->managers()->age_length();
-      auto                 iter              = category_age_length_labels_.begin();
-      for (; iter != category_age_length_labels_.end(); ++iter) {
-        AgeLength* age_size = age_sizes_manager->FindAgeLength(iter->second);
-        if (!age_size)
-          LOG_ERROR_P(PARAM_AGE_LENGTHS) << "Age-length label (" << iter->second << ") was not found.";
+    agelengths::Manager* age_sizes_manager = model_->managers()->age_length();
+    auto                 iter              = category_age_length_labels_.begin();
+    for (; iter != category_age_length_labels_.end(); ++iter) {
+      AgeLength* age_size = age_sizes_manager->FindAgeLength(iter->second);
+      if (!age_size)
+        LOG_ERROR_P(PARAM_AGE_LENGTHS) << "Age-length label (" << iter->second << ") was not found.";
 
-        categories_[iter->first].age_length_ = age_size;
-      }
-    } else if (parameters_.Get(PARAM_AGE_WEIGHT)->has_been_defined()) {
-      ageweights::Manager* age_weight_manager = model_->managers()->age_weight();
-      auto                 iter               = category_age_weight_labels_.begin();
-      for (; iter != category_age_weight_labels_.end(); ++iter) {
-        AgeWeight* age_weight = age_weight_manager->FindAgeWeight(iter->second);
-        if (!age_weight)
-          LOG_ERROR_P(PARAM_AGE_WEIGHT) << "Age-weight label (" << iter->second << ") was not found.";
-
-        categories_[iter->first].age_weight_ = age_weight;
-      }
-    }
+      categories_[iter->first].age_length_ = age_size;
+    }  
   } else if (model_->partition_type() == PartitionType::kLength) {
     lengthweights::Manager* length_weight_manager = model_->managers()->length_weight();
     auto                    iter                  = category_length_weight_labels_.begin();
@@ -582,21 +567,6 @@ AgeLength* Categories::age_length(const string& category_name) {
   return categories_[category_name].age_length_;
 }
 
-/**
- *  Return the corresponding age weight pointer for this category
- *
- * @param category_name The name of the category
- * @return The AgeWeight instance for the category
- */
-AgeWeight* Categories::age_weight(const string& category_name) {
-  if (categories_.find(category_name) == categories_.end())
-    LOG_CODE_ERROR() << "Could not find category_name " << category_name << " in the list of loaded categories";
-  if (!categories_[category_name].age_weight_) {
-    categories_[category_name].age_weight_ = ageweights::Factory::Create(model_, PARAM_AGE_WEIGHT, PARAM_NONE);
-  }
-
-  return categories_[category_name].age_weight_;
-}
 
 /**
  *  Return the corresponding length weight pointer for this category
@@ -625,8 +595,6 @@ void Categories::Clear() {
   categories_.clear();
   age_length_labels_.clear();
   category_age_length_labels_.clear();
-  age_weight_labels_.clear();
-  category_age_weight_labels_.clear();
   length_weight_labels_.clear();
   category_length_weight_labels_.clear();
 }

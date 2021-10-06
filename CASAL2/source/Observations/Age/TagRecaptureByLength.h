@@ -48,13 +48,13 @@ protected:
   // Members
   vector<unsigned>      years_;
   string                time_step_label_ = "";
-  Double                detection_;
+  double                detection_;
   Double                despersion_ = 1.0;
   Double                tolerance_  = 0.0;
   vector<Double>        process_error_values_;
   map<unsigned, Double> process_errors_by_year_;
-  vector<Double>        length_bins_input_;
-  vector<Double>        length_bins_;
+  vector<double>        length_bins_input_;
+  vector<double>        length_bins_;
   bool                  length_plus_ = false;
   string                ageing_error_label_;
   parameters::Table*    recaptures_table_ = nullptr;
@@ -82,15 +82,13 @@ protected:
   //
   vector<Double>         length_results_;
   vector<Double>         tagged_length_results_;
-  vector<Double>         numbers_at_length_;
-  vector<Double>         tagged_cached_numbers_at_length_;
-  vector<Double>         cached_numbers_at_length_;
-  vector<Double>         tagged_numbers_at_length_;
-  vector<vector<Double>> age_length_matrix_;
-  vector<vector<Double>> cached_age_length_matrix_;
+  vector<vector<Double>>         numbers_at_length_;
+  vector<vector<Double>>         tagged_cached_numbers_at_length_;
+  vector<vector<Double>>         cached_numbers_at_length_;
+  vector<vector<Double>>         tagged_numbers_at_length_;
 
-  map<unsigned, map<string, vector<Double>>> recaptures_;
-  map<unsigned, map<string, vector<Double>>> scanned_;
+  map<unsigned, map<string, vector<double>>> recaptures_;
+  map<unsigned, map<string, vector<double>>> scanned_;
 };
 
 } /* namespace age */

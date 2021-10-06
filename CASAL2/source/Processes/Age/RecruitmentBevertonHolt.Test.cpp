@@ -45,6 +45,14 @@ time_steps step_one=[processes=Recruitment] step_two=[processes=Ageing]
 @categories
 format stage.sex
 names immature.male mature.male immature.female mature.female
+age_lengths no_age_length*4
+
+@age_length no_age_length
+type none
+length_weight no_length_weight
+
+@length_weight no_length_weight
+type none
 
 @initialisation_phase iphase1
 years 200
@@ -295,13 +303,13 @@ TEST_F(InternalEmptyModel, Processes_BevertonHolt_Recruitment_B0_initialised) {
 
   partition::Category& stock = model_->partition().category("stock");
   EXPECT_DOUBLE_EQ(0.0, stock.data_[0]);
-  EXPECT_DOUBLE_EQ(37853202.461915314, stock.data_[1]);
-  EXPECT_DOUBLE_EQ(31283397.351866711, stock.data_[2]);
-  EXPECT_DOUBLE_EQ(25848294.516795192, stock.data_[3]);
-  EXPECT_DOUBLE_EQ(21342118.067770876, stock.data_[4]);
-  EXPECT_DOUBLE_EQ(17614842.936839949, stock.data_[5]);
-  EXPECT_DOUBLE_EQ(14534863.966055876, stock.data_[6]);
-  EXPECT_DOUBLE_EQ(11994661.788456632, stock.data_[7]);
+  EXPECT_DOUBLE_EQ(37853202.461915433, stock.data_[1]);
+  EXPECT_DOUBLE_EQ(31283397.351866815, stock.data_[2]);
+  EXPECT_DOUBLE_EQ(25848294.516795263, stock.data_[3]);
+  EXPECT_DOUBLE_EQ(21342118.067770921, stock.data_[4]);
+  EXPECT_DOUBLE_EQ(17614842.936839979, stock.data_[5]);
+  EXPECT_DOUBLE_EQ(14534863.966055902, stock.data_[6]);
+  EXPECT_DOUBLE_EQ(11994661.788456656, stock.data_[7]);
 }
 
 } /* namespace age */

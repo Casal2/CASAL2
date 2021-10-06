@@ -70,9 +70,12 @@ protected:
   unsigned                time_step_to_execute_;
   vector<Double>          expected_values_;
   vector<Double>          accumulated_expected_values_;
-
-  map<unsigned, map<string, vector<Double>>> proportions_;
-  map<unsigned, map<string, vector<Double>>> error_values_;
+  vector<unsigned>        fishery_ndx_to_get_catch_at_info_;
+  vector<unsigned>        year_ndx_to_get_catch_at_info_;
+  map<string, unsigned >  category_lookup_for_ndx_to_get_catch_at_info_;
+  vector<Double>          numbers_at_age_with_ageing_error_;
+  map<unsigned, map<string, vector<double>>> proportions_;
+  map<unsigned, map<string, vector<double>>> error_values_;
 };
 
 } /* namespace age */

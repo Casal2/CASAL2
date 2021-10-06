@@ -98,9 +98,13 @@ public:
   virtual const vector<string>& initialisation_phases() const { return initialisation_phases_; }
   void                          set_partition_type(PartitionType partition_type) { partition_type_ = partition_type; }
   virtual PartitionType         partition_type() const { return partition_type_; }
-  virtual const vector<Double>& length_bins() const { return length_bins_; }
+  virtual const vector<double>& length_bins() const { return length_bins_; }
   virtual bool                  length_plus() const { return length_plus_; }
-  virtual Double                length_plus_group() const { return length_plus_group_; }
+  virtual double                length_plus_group() const { return length_plus_group_; }
+  unsigned                      get_number_of_length_bins() const { return number_of_length_bins_; }
+  bool                          are_length_bin_compatible_with_model_length_bins(vector<double>& length_bins);
+  vector<int>                   get_map_for_bespoke_length_bins_to_global_length_bins(vector<double> length_bins, bool plus_group);
+
   void                          set_id(unsigned id) { id_ = id; }
   unsigned                      id() const { return id_; }
   void                          flag_primary_thread_model() { is_primary_thread_model_ = true; }
@@ -130,8 +134,8 @@ protected:
   void Iterate();
   void Reset();
   void RunBasic();
-  void RunEstimation();
-  bool RunMCMC();
+  void RunEstimation();  // important!!! if you change this method you need to change it in Runner.cpp
+  bool RunMCMC();        // important!!! if you change this method you need to change it in Runner.cpp
   void RunProfiling();
   void RunSimulation();
   void RunProjection();
@@ -151,15 +155,16 @@ protected:
   unsigned             min_age_                 = 0;
   unsigned             max_age_                 = 0;
   string               base_weight_units_       = "";
+  unsigned             number_of_length_bins_   = 0;
   map<string, Double>  b0_;
   map<string, Double>  binitial_;
   map<string, bool>    b0_initialised_;
   bool                 age_plus_ = true;
   vector<string>       initialisation_phases_;
   vector<string>       time_steps_;
-  vector<Double>       length_bins_;
+  vector<double>       length_bins_;
   bool                 length_plus_              = true;
-  Double               length_plus_group_        = 0;
+  double               length_plus_group_        = 0;
   bool                 addressable_values_file_  = false;
   unsigned             addressable_values_count_ = 1;
   PartitionType        partition_type_           = PartitionType::kInvalid;

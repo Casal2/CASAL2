@@ -46,6 +46,30 @@ inline void Vector_Scale(vector<double>& target, double scale_by) {
   }
 }
 
+/*
+Generic function to find an element in vector and also its position.
+It returns a pair of bool & int i.e.
+bool : Represents if element is present in vector or not.
+int : Represents the index of element in vector if its found else -1
+*/
+template < typename T>
+std::pair<bool, int > findInVector(const std::vector<T>  & vecOfElements, const T  & element) {
+    std::pair<bool, int > result;
+    // Find given element in vector
+    auto it = std::find(vecOfElements.begin(), vecOfElements.end(), element);
+    if (it != vecOfElements.end())
+    {
+        result.second = distance(vecOfElements.begin(), it);
+        result.first = true;
+    }
+    else
+    {
+        result.first = false;
+        result.second = -1;
+    }
+    return result;
+}
+
 /**
  * @brief Print the contents of a vector to a single line for debugging.
  * We use this when building new algorithms to make life a bit easier

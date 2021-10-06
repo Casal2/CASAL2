@@ -5,7 +5,7 @@
  * @date 14/02/2013
  * @section LICENSE
  *
- * Copyright NIWA Science ©2013 - www.niwa.co.nz
+ * Copyright NIWA Science ï¿½2013 - www.niwa.co.nz
  *
  * @section DESCRIPTION
  *
@@ -58,6 +58,7 @@ private:
   // Members
   shared_ptr<Model>       model_;
   map<unsigned, DataType> data_;
+  unsigned                year_offset_ = 0;  // used for lookup on vector
 };
 
 // Typedef

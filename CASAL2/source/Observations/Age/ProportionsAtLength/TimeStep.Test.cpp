@@ -209,19 +209,19 @@ TEST_F(InternalEmptyModel, Observation_Proportions_At_Length_Single) {
   ASSERT_EQ(5u, comparisons[year].size());
   EXPECT_EQ("stock", comparisons[year][0].category_);
   EXPECT_DOUBLE_EQ(37, comparisons[year][0].error_value_);
-  EXPECT_DOUBLE_EQ(1.3049322854316948e-008, comparisons[year][0].expected_);
+  EXPECT_DOUBLE_EQ(1.3049322854316964e-08, comparisons[year][0].expected_);
   EXPECT_DOUBLE_EQ(0.12, comparisons[year][0].observed_);
   EXPECT_DOUBLE_EQ(58.053573280444361, comparisons[year][0].score_);
 
   EXPECT_EQ("stock", comparisons[year][1].category_);
   EXPECT_DOUBLE_EQ(37, comparisons[year][1].error_value_);
-  EXPECT_DOUBLE_EQ(0.023617445143820383, comparisons[year][1].expected_);
+  EXPECT_DOUBLE_EQ(0.023617445143820415, comparisons[year][1].expected_);
   EXPECT_DOUBLE_EQ(0.25, comparisons[year][1].observed_);
   EXPECT_DOUBLE_EQ(48.016392832372198, comparisons[year][1].score_);
 
   EXPECT_EQ("stock", comparisons[year][2].category_);
   EXPECT_DOUBLE_EQ(37, comparisons[year][2].error_value_);
-  EXPECT_DOUBLE_EQ(0.085102989012712807, comparisons[year][2].expected_);
+  EXPECT_DOUBLE_EQ(0.08510298901271289, comparisons[year][2].expected_);
   EXPECT_DOUBLE_EQ(0.28, comparisons[year][2].observed_);
   EXPECT_DOUBLE_EQ(41.483073819928485, comparisons[year][2].score_);
 
@@ -238,178 +238,358 @@ TEST_F(InternalEmptyModel, Observation_Proportions_At_Length_Single) {
   EXPECT_DOUBLE_EQ(7.2340239530511967, comparisons[year][4].score_);
 }
 
-const std::string test_cases_observation_proportions_at_length_double =
-    R"(
+const std::string hak_like_model =
+R"(
 @model
-min_age 2
-max_age 25
-plus_group t
+min_age 1
+max_age 30
+age_plus true
+base_weight_units tonnes
+initialisation_phases Equilibrium_phase
+time_steps Jul_Jan Feb_Jun
+length_bins 10 20 30 40 50 60 70 80 90 100 110 120
+length_plus true
 start_year 1975
-final_year 2002
-initialisation_phases phase1
-time_steps one two three
+final_year 2018
+projection_final_year 2022
+
 
 @categories
 format sex
 names male female
-age_lengths age_size_male age_size_female
+age_lengths age_len_m age_len_f
 
-@initialisation_phase phase1
-years 200
-exclude_processes fishing
 
-@time_step one
-processes halfm fishing halfm
+@initialisation_phase Equilibrium_phase
+type Derived
+casal_initialisation_switch true
 
-@time_step two
-processes recruitment
+@time_step Jul_Jan
+processes Ageing Recruitment Instantaneous_Mortality
 
-@time_step three
-processes ageing
+@time_step Feb_Jun
+processes Instantaneous_Mortality
 
-@derived_quantity ssb
-type biomass
-categories male female
-selectivities male_maturity female_maturity
-time_step one
 
-@ageing ageing
-categories male female
 
-@recruitment recruitment
-type beverton_holt
+@process Recruitment
+type recruitment_beverton_holt
 categories male female
 proportions 0.5 0.5
-r0 5e6
-age 3
-steepness 0.9
-ycs_values 1.00 1.00 1.00 1.00 1.00 1.00 1.00 1.00 1.00 1.00 1.00 1.00 1.00 1.00 1.00 1.00 1.00 1.00 1.00 1.00 1.00 1.00 1.00 1.00 1.00 1.00 1.00 1.00
-ssb ssb
-ycs_years 1972:1999
-standardise_ycs_years 1973:1999
+b0 60000
+standardise_ycs_years          1974:2013
+ycs_values 1.00 1.00 1.00 1.00 1.92 1.11 0.78 0.71 1.00 0.38 0.89 0.66 1.08 0.84 1.06 1.06 1.19 1.31 1.71 0.93 1.92 1.00 1.00 1.00 1.00 1.00 1.00 1.00 1.00 1.00 1.00 1.00 1.00 1.00 1.00 1.00 1.00 1.00 1.00 1.00 1.00 1.00 1.00 1.00
+ycs_years  1974:2017
+steepness 0.8
+ssb SSB
+age 1
 
-@mortality halfm
-type constant_rate
+
+@process Ageing
+type ageing
 categories male female
-relative_m_by_age [type=constant; c=1] halfm.1
-m 0.10 0.10
 
-@mortality fishing
-type event_biomass
+
+@process Instantaneous_Mortality
+type mortality_instantaneous
+m 0.19
+time_step_proportions 0.58 0.42
+relative_m_by_age One
+categories *
+table catches
+year    subaF
+1975    120
+1976    281
+1977    372
+1978    762
+1979    364
+1980    350
+1981    272
+1982    179
+1983    448
+1984    722
+1985    525
+1986    818
+1987    713
+1988    1095
+1989    1237
+1990    1897
+1991    2381
+1992    2810
+1993    3941
+1994    1596
+1995    1995
+1996    2779
+1997    1915
+1998    2958
+1999    2853
+2000    3109
+2001    2820
+2002    2445
+2003    2776
+2004    3221
+2005    2580
+2006    2566
+2007    1709
+2008    2329
+2009    2446
+2010    1926
+2011    1319
+2012    1900
+2013    1859
+2014    1839
+2015    1600
+2016    1464
+2017    1033
+2018    1033
+end_table
+
+table method
+method    category  selectivity  u_max  time_step  penalty
+subaF     *         subaFsel     0.7    Jul_Jan    fisheryCatchMustBeTaken
+end_table
+
+@derived_quantity SSB
+type biomass
+time_step Jul_Jan
 categories male female
-years 1975:2002
-units kgs
-catches 1191 1488 1288 2004 609 750 997 596 302 344 544 362 509 574 804 977 991 2454 2775 2898 4094 3760 3761 3673 3524 3700 3700 3700
-U_max 0.9
-selectivities observation.male observation.female
-penalty event_mortality_penalty
+time_step_proportion 0.5
+time_step_proportion_method weighted_sum
+selectivities maturity_sel_m maturity_sel_f
 
-@selectivity male_maturity
+
+
+@selectivity maturity_sel_m
+type all_values_bounded
+l 2
+h 15
+v 0.01 0.03    0.09    0.22    0.46    0.71    0.88    0.96    0.98    0.99    1.00    1.00    1.00    1.00
+
+
+@selectivity maturity_sel_f
+type all_values_bounded
+l 2
+h 15
+v 0.01 0.02    0.05    0.11    0.23    0.43    0.64    0.81    0.91    0.96    0.98    0.99    1.00    1.00
+
+
+
+@selectivity subaFsel
 type logistic
-a50 5
-ato95 2
+a50 4
+ato95 3
+alpha 1
 
-@selectivity female_maturity
+
+@selectivity subaTANselA
 type logistic
-a50 5
-ato95 2
+a50 10
+ato95 5
+alpha 1
 
-@selectivity one
+
+@selectivity One
 type constant
-c 1
+c 1.0
 
-@age_length age_size_male
-type von_bertalanffy
-length_weight [type=none]
+
+@age_length age_len_m
+type schnute
+compatibility_option casal
 by_length true
-k 0.277
-t0 0.11
-linf 90.3
+time_step_proportions 0.0 0.33
+y1 22.3
+y2 89.8
+tau1 1
+tau2 20
+a 0.249
+b 1.243
+cv_first 0.1
+distribution normal
+length_weight len_wt_m
 
-@age_length age_size_female
-type von_bertalanffy
-length_weight [type=none]
+@age_length age_len_f
+type schnute
+compatibility_option casal
 by_length true
-k 0.202
-t0 -0.20
-linf 113.4
+time_step_proportions 0.0 0.33
+y1 22.9
+y2 109.9
+tau1 1
+tau2 20
+a 0.147
+b 1.457
+cv_first 0.1
+distribution normal
+length_weight len_wt_f
 
-@penalty event_mortality_penalty
+
+@length_weight len_wt_m
+type basic
+units tonnes
+a 2.13e-9
+b 3.281
+
+@length_weight len_wt_f
+type basic
+units tonnes
+a 1.83e-9
+b 3.314
+
+
+@penalty fisheryCatchMustBeTaken
 type process
 log_scale True
-multiplier 10
-
-@observation observation
-type proportions_at_age
-likelihood lognormal
-time_step one
-categories male female
-min_age 3
-max_age 15
-selectivities male=[type=logistic; a50=9; ato95=4] female=[type=logistic; a50=9; ato95=4; alpha=0.7]
-years 1992
-table obs
-1992 0.0173 0.0193 0.0241 0.0346 0.0365 0.0657 0.0427 0.0667 0.0326 0.0307 0.0272 0.0141 0.0319 0.0353 0.0249 0.0146 0.0133 0.0547 0.0488 0.0745 0.0660 0.0750 0.0646 0.0304 0.0147 0.0399
-end_table
-table error_values
-1992 1.091 0.770 0.539 0.421 0.412 0.297 0.367 0.322 0.391 0.510 0.523 0.734 0.481 0.612 0.643 0.756 0.772 0.399 0.369 0.331 0.306 0.304 0.309 0.461 0.752 0.423
-end_table
-time_step_proportion 1.0
-
-@report DQ
-type derived_quantity
+multiplier 1000
 )";
 
+
+const std::string prop_at_length_plus_group =
+R"(
+@observation subaTANageDEC_len
+type proportions_at_length
+time_step Jul_Jan
+time_step_proportion 0.4
+categories male+female
+selectivities subaTANselA
+likelihood multinomial
+delta 1e-11
+length_bins 10	30	50	60	70	80	90	100	110	120
+length_plus true
+years 1990 
+table obs
+1990	0.002458274	0.027817311	0.035580282	0.020442489	0.073489455	0.064562039	0.129512227	0.340147496	0.172208565	0.133781861
+end_table
+table error_values
+1990 19
+end_table
+)";
+
+
+const std::string prop_at_length_expect_fail_incorrect_bespoke_length_bins =
+R"(
+@observation subaTANageDEC_len
+type proportions_at_length
+time_step Jul_Jan
+time_step_proportion 0.4
+categories male+female
+selectivities subaTANselA
+likelihood multinomial
+delta 1e-11
+length_bins 10	31	50	60	70	80	90	100	110	120
+length_plus true
+years 1990 
+table obs
+1990	0.002458274	0.027817311	0.035580282	0.020442489	0.073489455	0.064562039	0.129512227	0.340147496	0.172208565	0.133781861
+end_table
+table error_values
+1990 19
+end_table
+)";
+
+const std::string prop_at_length_expect_fail_incorrect_proportions_supplied =
+R"(
+@observation subaTANageDEC_len
+type proportions_at_length
+time_step Jul_Jan
+time_step_proportion 0.4
+categories male+female
+selectivities subaTANselA
+likelihood multinomial
+delta 1e-11
+length_bins 10	31	50	60	70	80	90	100	110	120
+length_plus true
+years 1990 
+table obs
+1990	0.002458274	0.027817311	0.035580282	0.020442489	0.073489455	0.064562039	0.129512227	0.340147496	0.172208565
+end_table
+table error_values
+1990 19
+end_table
+)";
+
+const std::string prop_at_length_no_plus_group =
+R"(
+@observation subaTANageDEC_len
+type proportions_at_length
+time_step Jul_Jan
+time_step_proportion 0.4
+categories male+female
+selectivities subaTANselA
+likelihood multinomial
+delta 1e-11
+length_bins 10	30	50	60	70	80	90	100	110	120
+length_plus false
+years 1990 
+table obs
+1990	0.002837939	0.032113518	0.041075429	0.023599701	0.084839432	0.074533234	0.149514563	0.392681105	0.198805078
+end_table
+table error_values
+1990 19
+end_table
+)";
+
+
 /**
- *
+ * Test bespoke length bin functionality in this class
  */
-TEST_F(InternalEmptyModel, Observation_Proportions_At_Length_Double) {
-  //  AddConfigurationLine(test_cases_observation_proportions_at_length_double, __FILE__, 194);
-  //  LoadConfiguration();
-  //
-  //  ModelPtr model = Model::Instance();
-  //  model->Start(RunMode::kBasic);
-  //
-  //  ObservationPtr observation = observations::Manager::Instance().GetObservation("observation");
-  //
-  //  map<unsigned, vector<obs::Comparison> >& comparisons = observation->comparisons();
-  //  ASSERT_EQ(1u, comparisons.size());
-  //
-  //  unsigned year = 1992;
-  //  ASSERT_FALSE(comparisons.find(year) == comparisons.end());
-  //  ASSERT_EQ(26u, comparisons[year].size());
-  //  EXPECT_EQ("male",                       comparisons[year][0].category_);
-  //  EXPECT_DOUBLE_EQ(1.091,                 comparisons[year][0].error_value_);
-  //  EXPECT_DOUBLE_EQ(0.0041584607534975501, comparisons[year][0].expected_);
-  //  EXPECT_DOUBLE_EQ(0.0173,                comparisons[year][0].observed_);
-  //  EXPECT_DOUBLE_EQ(1.9851433023156135,    comparisons[year][0].score_);
-  //
-  //  EXPECT_EQ("male",                       comparisons[year][1].category_);
-  //  EXPECT_DOUBLE_EQ(0.770,                 comparisons[year][1].error_value_);
-  //  EXPECT_DOUBLE_EQ(0.0070171259680794212, comparisons[year][1].expected_);
-  //  EXPECT_DOUBLE_EQ(0.0193,                comparisons[year][1].observed_);
-  //  EXPECT_DOUBLE_EQ(1.2811829881419403,    comparisons[year][1].score_);
-  //
-  //  EXPECT_EQ("male",                       comparisons[year][2].category_);
-  //  EXPECT_DOUBLE_EQ(0.539,                 comparisons[year][2].error_value_);
-  //  EXPECT_DOUBLE_EQ(0.011682048742702372,  comparisons[year][2].expected_);
-  //  EXPECT_DOUBLE_EQ(0.0241,                comparisons[year][2].observed_);
-  //  EXPECT_DOUBLE_EQ(0.73886489332777494,   comparisons[year][2].score_);
-  //
-  //  EXPECT_EQ("male",                       comparisons[year][3].category_);
-  //  EXPECT_DOUBLE_EQ(0.421,                 comparisons[year][3].error_value_);
-  //  EXPECT_DOUBLE_EQ(0.018938077956547807,  comparisons[year][3].expected_);
-  //  EXPECT_DOUBLE_EQ(0.0346,                comparisons[year][3].observed_);
-  //  EXPECT_DOUBLE_EQ(0.52825882781144118,   comparisons[year][3].score_);
-  //
-  //  EXPECT_EQ("male",                       comparisons[year][4].category_);
-  //  EXPECT_DOUBLE_EQ(0.412,                 comparisons[year][4].error_value_);
-  //  EXPECT_DOUBLE_EQ(0.029222930328445654,  comparisons[year][4].expected_);
-  //  EXPECT_DOUBLE_EQ(0.0365,                comparisons[year][4].observed_);
-  //  EXPECT_DOUBLE_EQ(-0.63798390702860996,  comparisons[year][4].score_);
-  //
-  //  ObjectiveFunction& obj_function = ObjectiveFunction::Instance();
-  //  EXPECT_DOUBLE_EQ(30.122778748284137, obj_function.score());
+TEST_F(InternalEmptyModel, Observation_Proportions_At_Length_bespoke_length_bins_w_plus_group) {
+  AddConfigurationLine(hak_like_model, __FILE__, 31);
+  AddConfigurationLine(prop_at_length_plus_group, __FILE__, 31);
+  LoadConfiguration();
+  model_->Start(RunMode::kBasic);
+  Observation* observation = model_->managers()->observation()->GetObservation("subaTANageDEC_len");
+  map<unsigned, vector<obs::Comparison> >& comparisons = observation->comparisons();
+  ASSERT_EQ(1u, comparisons.size()); // only one year of data
+  // from CASAL model with same configuration
+  vector<Double> expected_vals = {0.0050132,	0.0107304,	0.0140647,	0.0388503,	0.129307,	0.259102,	0.258556,	0.167642,	0.0838241,	0.0329095};
+  unsigned year = 1990;
+  ASSERT_FALSE(comparisons.find(year) == comparisons.end());
+  ASSERT_EQ(10, comparisons[year].size()); // 10 length bins
+  EXPECT_EQ("male+female", comparisons[year][0].category_);
+  for(unsigned i = 0; i < expected_vals.size(); ++i) {
+    EXPECT_NEAR(expected_vals[i], comparisons[year][i].expected_, 0.0001);
+  }
+}
+/**
+ * Test bespoke length bin functionality in this class
+ */
+TEST_F(InternalEmptyModel, Observation_Proportions_At_Length_bespoke_length_bins_no_plus_group) {
+  AddConfigurationLine(hak_like_model, __FILE__, 31);
+  AddConfigurationLine(prop_at_length_no_plus_group, __FILE__, 31);
+  LoadConfiguration();
+  model_->Start(RunMode::kBasic);
+  Observation* observation = model_->managers()->observation()->GetObservation("subaTANageDEC_len");
+  map<unsigned, vector<obs::Comparison> >& comparisons = observation->comparisons();
+  ASSERT_EQ(1u, comparisons.size()); // only one year of data
+  // from CASAL model with same configuration
+  vector<Double> expected_vals = {0.00518379,	0.0110955,	0.0145433,	0.0401723,	0.133707,	0.267919,	0.267355,	0.173347,	0.0866765};
+  unsigned year = 1990;
+  ASSERT_FALSE(comparisons.find(year) == comparisons.end());
+  ASSERT_EQ(9, comparisons[year].size()); // 9 length bins
+  EXPECT_EQ("male+female", comparisons[year][0].category_);
+  for(unsigned i = 0; i < expected_vals.size(); ++i) {
+    EXPECT_NEAR(expected_vals[i], comparisons[year][i].expected_, 0.0001);
+  }
+}
+
+/**
+ * Test error catching, when users supply length bins for this obs, which don't match the model lenght bins
+ */
+TEST_F(InternalEmptyModel, Observation_Proportions_At_Length_bespoke_length_bins_expect_error) {
+  AddConfigurationLine(hak_like_model, __FILE__, 31);
+  AddConfigurationLine(prop_at_length_expect_fail_incorrect_bespoke_length_bins, __FILE__, 31);
+  LoadConfiguration();
+  EXPECT_THROW(model_->Start(RunMode::kBasic), std::string);
+}
+/**
+ * Test error catching, incorrect length bins in table supplied
+ */
+TEST_F(InternalEmptyModel, Observation_Proportions_At_Length_bespoke_length_bins_expect_error_wrong_table_input) {
+  AddConfigurationLine(hak_like_model, __FILE__, 31);
+  AddConfigurationLine(prop_at_length_expect_fail_incorrect_proportions_supplied, __FILE__, 31);
+  LoadConfiguration();
+  EXPECT_THROW(model_->Start(RunMode::kBasic), std::string);
 }
 
 }  // namespace age

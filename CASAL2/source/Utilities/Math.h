@@ -147,6 +147,7 @@ inline Double dlognorm(const Double& x, const Double& mu = 0.0, const Double& si
 
 /**
  * pnorm: return the cdf for the normal
+ * this is from CASAL development.h line 391
  */
 inline Double pnorm(const Double& x, const Double& mu = 0.0, const Double& sigma = 1.0) {
   // Abramowitz & Stegun eqn 26.2.18
@@ -225,7 +226,7 @@ inline Double plognorm2(const Double& x, const Double& mu, const Double& sigma) 
 /**
  * distribution: uses the normal CDF functions from CASAL
  */
-inline vector<Double> distribution(const vector<Double>& class_mins, bool plus_group = false, const Distribution& dist = Distribution::kNormal, const Double& mean = 0.0,
+inline vector<Double> distribution(const vector<double>& class_mins, bool plus_group = false, const Distribution& dist = Distribution::kNormal, const Double& mean = 0.0,
                                    const Double& stdev = 1.0) {
   int            n_bins = class_mins.size() - (plus_group ? 0 : 1);
   vector<Double> result(n_bins, 0.0);
@@ -292,7 +293,7 @@ inline vector<Double> distribution(const vector<Double>& class_mins, bool plus_g
 /**
  * distribution2: uses the updated/more accurate normal CDF functions
  */
-inline vector<Double> distribution2(const vector<Double>& class_mins, bool plus_group = false, const Distribution& dist = Distribution::kNormal, const Double& mean = 0.0,
+inline vector<Double> distribution2(const vector<double>& class_mins, bool plus_group = false, const Distribution& dist = Distribution::kNormal, const Double& mean = 0.0,
                                     const Double& stdev = 1.0) {
   int            n_bins = class_mins.size() - (plus_group ? 0 : 1);
   vector<Double> result(n_bins, 0.0);

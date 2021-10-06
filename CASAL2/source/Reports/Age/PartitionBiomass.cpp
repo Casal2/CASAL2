@@ -13,6 +13,7 @@
 #include "../../Model/Model.h"
 #include "../../Partition/Accessors/All.h"
 #include "../../TimeSteps/Manager.h"
+#include "AgeLengths/AgeLength.h"
 
 namespace niwa {
 namespace reports {
@@ -73,7 +74,7 @@ void PartitionBiomass::DoExecute(shared_ptr<Model> model) {
     for (unsigned i = 0; i < iterator->data_.size(); ++i) {
       unsigned age = iterator->min_age_ + i;
       if (age >= lowest && age <= highest)
-        cache_ << " " << std::fixed << std::setprecision(5) << AS_DOUBLE((iterator->data_[i] * iterator->mean_weight_by_time_step_age_[time_step_index][age]));
+        cache_ << " " << std::fixed << std::setprecision(5) << AS_DOUBLE((iterator->data_[i] * iterator->age_length_->mean_weight(time_step_index, age)));
       else
         cache_ << " "
                << "null";

@@ -23,7 +23,6 @@ public:
   virtual ~MockConstant() = default;
 
   // setters
-  void set_years(vector<unsigned> years) { years_ = years; }
   void set_values(vector<Double> values) { values_ = values; }
 };
 

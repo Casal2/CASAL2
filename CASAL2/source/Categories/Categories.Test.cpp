@@ -266,14 +266,17 @@ TEST_F(InternalEmptyModel, Categories_GetCategoryLabels) {
   vector<string> sexes  = {"male", "female"};
   vector<string> stages = {"immature", "mature"};
   vector<string> tags   = {"notag", "2000", "2001", "2002"};
+  vector<string> age_length_lab; //   = {"age_length_none * 16"};
 
   for (string sex : sexes)
     for (string stage : stages)
-      for (string tag : tags) names.push_back(sex + "." + stage + "." + tag);
+      for (string tag : tags) { names.push_back(sex + "." + stage + "." + tag); age_length_lab.push_back("no_age_length"); }
 
   categories->set_block_type(PARAM_CATEGORIES);
   categories->parameters().Add(PARAM_FORMAT, "sex.stage.tag", __FILE__, __LINE__);
   categories->parameters().Add(PARAM_NAMES, names, __FILE__, __LINE__);
+  categories->parameters().Add(PARAM_AGE_LENGTHS, age_length_lab, __FILE__, __LINE__);
+
   categories->Validate();
 
   /**

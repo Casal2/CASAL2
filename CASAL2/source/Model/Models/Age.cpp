@@ -33,9 +33,9 @@ Age::Age() {
                            R"(A list of valid labels defined by \texttt{@time_step})");
   parameters_.Bind<unsigned>(PARAM_PROJECTION_FINAL_YEAR, &projection_final_year_, "Define the final year of the model when running projections", "A value greater than final_year",
                              0);
-  parameters_.Bind<Double>(PARAM_LENGTH_BINS, &length_bins_, "The minimum length in each length bin", R"($0 \le$ length\textlow{min} $\le$ length\textlow{max})", true);
+  parameters_.Bind<double>(PARAM_LENGTH_BINS, &length_bins_, "The minimum length in each length bin", R"($0 \le$ length\textlow{min} $\le$ length\textlow{max})", true);
   parameters_.Bind<bool>(PARAM_LENGTH_PLUS, &length_plus_, "Specify whether there is a length plus group or not", "true, false", true);
-  parameters_.Bind<Double>(PARAM_LENGTH_PLUS_GROUP, &length_plus_group_, "Mean length of length plus group", R"(length\textlow{max} $<$ length_plus_group)", 0);
+  parameters_.Bind<double>(PARAM_LENGTH_PLUS_GROUP, &length_plus_group_, "Mean length of length plus group", R"(length\textlow{max} $<$ length_plus_group)", 0);
 }
 
 /**
@@ -55,6 +55,10 @@ void Age::DoValidate() {
       LOG_ERROR_P(PARAM_PROJECTION_FINAL_YEAR) << "(" << projection_final_year_ << ") cannot be less than or equal to final_year (" << final_year_ << ")";
     }
   }
+
+  number_of_length_bins_ = length_plus_ == true ? length_bins_.size() : length_bins_.size() - 1;
+  LOG_FINE() << "number of length bins supplied = " << length_bins_.size() << " number length bins " << number_of_length_bins_;
+
 }
 
 }  // namespace niwa::model

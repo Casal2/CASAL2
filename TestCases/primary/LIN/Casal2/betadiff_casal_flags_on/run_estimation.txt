@@ -1,11 +1,11 @@
 Environment: User=Casal2
 Call: ../../../../../BuildSystem/bin/linux_gcc/release_betadiff/casal2 -e -o params_est.out
-Date: Mon Sep 27 18:53:07 2021
-Version: v21.09 (2021-09-27)
+Date: Mon Sep 27 11:32:33 2021
+Version: v21.09 (2021-09-26)
 Copyright (c) 2017-2021, NIWA (www.niwa.co.nz)
 c2user
  Machine=c2computer (Linux 5.10.0-8-amd64 x86_64)
- PID=266452
+ PID=98261
 
 
 
@@ -37,11 +37,6 @@ c2user
 [INFO] Creating default report for selectivity lineSpawnFSel_f
 [INFO] Creating default report for selectivity M_all
 [INFO] Initiating point estimate run mode
-resizing from 40000 to 44000
-resizing from 44000 to 48400
-resizing from 48400 to 53240
-resizing from 53240 to 58564
-resizing from 58564 to 64420
 [INFO] Estimation with the betadiff minimiser
 about to evaluate function with x = 350000 0.12 0.12 8 0.18 0.25 0.5 5 3 0.9 5 3 5 3 0.9 5 3 10 3 25 1 10 3 25 11 3 0.3 11 3 11 3 0.5 11 3 1 0.17 1.62 1.15 0.66 1.16 0.88 1.22 0.97 1.52 0.83 1.13 0.67 0.98 0.67 0.66 0.68 0.87 0.91 0.89 0.91 1.56 1.36 1.5 1.2 0.95 0.9 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 
 finished objective call: f = 2715.62
@@ -874,8 +869,8 @@ Successful convergence in optimise
 *initialisation_partition[Init]
 values {dataframe}
 category 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 21 22 23 24 25
-male 0.000000 21352734.721380 15299927.289502 11355719.778549 8697903.653626 6852434.325498 5536225.994747 4574736.456165 3857166.730800 3311285.735630 2879794.211263 2501770.602888 2148742.604714 1822935.890245 1526072.762365 1259295.354556 1023109.740777 817357.103631 641216.803991 493244.103468 371442.503533 273367.409739 662775.143442
-female 0.000000 21352734.721380 15299927.289502 11355719.778549 8697903.653626 6852434.325498 5536225.994747 4574736.456165 3857166.730800 3311285.735630 2879794.211263 2501770.602888 2148742.604714 1822935.890245 1526072.762365 1259295.354556 1023109.740777 817357.103631 641216.803991 493244.103468 371442.503533 273367.409739 662775.143442
+male 0.000000 21352734.721382 15299927.289503 11355719.778550 8697903.653627 6852434.325498 5536225.994747 4574736.456165 3857166.730800 3311285.735630 2879794.211263 2501770.602888 2148742.604714 1822935.890245 1526072.762365 1259295.354556 1023109.740777 817357.103630 641216.803991 493244.103468 371442.503533 273367.409739 662775.143442
+female 0.000000 21352734.721382 15299927.289503 11355719.778550 8697903.653627 6852434.325498 5536225.994747 4574736.456165 3857166.730800 3311285.735630 2879794.211263 2501770.602888 2148742.604714 1822935.890245 1526072.762365 1259295.354556 1023109.740777 817357.103630 641216.803991 493244.103468 371442.503533 273367.409739 662775.143442
 *end
 
 *partition[state1]
@@ -883,8 +878,8 @@ year: 1972
 time_step: Dec_Aug
 values {dataframe_with_row_labels}
 category 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 21 22 23 24 25
-male 23260874.844909 16517179.350706 12160454.690762 9247178.189887 7238201.875357 5814166.346701 4779614.628199 4011304.911897 3429387.991501 2980826.954591 2596782.186602 2237089.555294 1904089.988397 1599643.380839 1325047.491795 1080976.050511 867442.430752 683794.149101 528741.549288 400421.410237 296493.050779 214261.131635 509324.680440
-female 23260874.844909 16517179.350706 12160454.690762 9247178.189887 7238201.875357 5814166.346701 4779614.628199 4011304.911897 3429387.991501 2980826.954591 2596782.186602 2237089.555294 1904089.988397 1599643.380839 1325047.491795 1080976.050511 867442.430752 683794.149101 528741.549288 400421.410237 296493.050779 214261.131635 509324.680440
+male 23260874.844911 16517179.350707 12160454.690762 9247178.189888 7238201.875357 5814166.346701 4779614.628199 4011304.911897 3429387.991501 2980826.954591 2596782.186602 2237089.555294 1904089.988396 1599643.380839 1325047.491795 1080976.050511 867442.430752 683794.149101 528741.549288 400421.410237 296493.050779 214261.131635 509324.680440
+female 23260874.844911 16517179.350707 12160454.690762 9247178.189888 7238201.875357 5814166.346701 4779614.628199 4011304.911897 3429387.991501 2980826.954591 2596782.186602 2237089.555294 1904089.988396 1599643.380839 1325047.491795 1080976.050511 867442.430752 683794.149101 528741.549288 400421.410237 296493.050779 214261.131635 509324.680440
 *end
 
 *partition[state2]
@@ -892,8 +887,8 @@ year: 1972
 time_step: Sep_Nov
 values {dataframe_with_row_labels}
 category 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 21 22 23 24 25
-male 0.000000 21352734.721380 15299927.289502 11355719.778549 8697903.653626 6852434.325498 5536225.994747 4574736.456165 3857166.730800 3311285.735630 2879794.211263 2501770.602888 2148742.604714 1822935.890245 1526072.762365 1259295.354556 1023109.740777 817357.103631 641216.803991 493244.103468 371442.503533 273367.409739 662775.143442
-female 0.000000 21352734.721380 15299927.289502 11355719.778549 8697903.653626 6852434.325498 5536225.994747 4574736.456165 3857166.730800 3311285.735630 2879794.211263 2501770.602888 2148742.604714 1822935.890245 1526072.762365 1259295.354556 1023109.740777 817357.103631 641216.803991 493244.103468 371442.503533 273367.409739 662775.143442
+male 0.000000 21352734.721382 15299927.289503 11355719.778550 8697903.653627 6852434.325498 5536225.994747 4574736.456165 3857166.730800 3311285.735630 2879794.211263 2501770.602888 2148742.604714 1822935.890245 1526072.762365 1259295.354556 1023109.740777 817357.103630 641216.803991 493244.103468 371442.503533 273367.409739 662775.143442
+female 0.000000 21352734.721382 15299927.289503 11355719.778550 8697903.653627 6852434.325498 5536225.994747 4574736.456165 3857166.730800 3311285.735630 2879794.211263 2501770.602888 2148742.604714 1822935.890245 1526072.762365 1259295.354556 1023109.740777 817357.103630 641216.803991 493244.103468 371442.503533 273367.409739 662775.143442
 *end
 
 *partition[state1]
@@ -901,8 +896,8 @@ year: 2018
 time_step: Dec_Aug
 values {dataframe_with_row_labels}
 category 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 21 22 23 24 25
-male 23166379.111709 17116276.699535 12234856.831120 8053855.511927 7928562.733123 6749727.324783 4941106.844678 4889320.054517 3336544.795078 3493357.306140 2355406.162758 1779128.275752 1300672.379941 1198476.736746 980764.381909 643239.058128 515444.775398 457978.302818 439721.435000 376711.683920 259084.881637 182721.348452 227777.924571
-female 23167525.677952 17119886.400306 12242622.246415 8068024.469335 7956758.658504 6781102.637607 4962888.348235 4905658.956549 3341723.524037 3489619.923448 2345841.922178 1766374.298895 1288034.814954 1184537.685702 967696.690930 633562.496514 506901.070366 449994.305438 431965.153151 369853.603272 254210.882764 179043.707839 219482.129038
+male 23166379.111710 17116276.699535 12234856.831121 8053855.511928 7928562.733123 6749727.324782 4941106.844677 4889320.054517 3336544.795077 3493357.306140 2355406.162758 1779128.275752 1300672.379941 1198476.736746 980764.381908 643239.058128 515444.775398 457978.302818 439721.435000 376711.683920 259084.881637 182721.348452 227777.924571
+female 23167525.677952 17119886.400306 12242622.246416 8068024.469336 7956758.658503 6781102.637606 4962888.348235 4905658.956549 3341723.524037 3489619.923447 2345841.922178 1766374.298895 1288034.814954 1184537.685702 967696.690930 633562.496514 506901.070366 449994.305438 431965.153151 369853.603272 254210.882764 179043.707839 219482.129038
 *end
 
 *partition[state2]
@@ -910,8 +905,8 @@ year: 2018
 time_step: Sep_Nov
 values {dataframe_with_row_labels}
 category 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 21 22 23 24 25
-male 0.000000 21264232.075721 15853262.559736 11423775.390763 7574310.324411 7504610.336060 6425618.562183 4728023.235244 4699912.905346 3220390.057577 3373404.255732 2268005.334002 1707799.486642 1244342.393761 1142423.364470 931241.592147 608185.377069 485140.389102 428940.410135 409665.713712 348964.318631 238528.087676 375426.623466
-female 0.000000 21266967.315510 15858066.780743 11432164.381390 7588304.216292 7531527.632100 6454809.556973 4747444.305218 4713452.896950 3223694.723539 3368064.094734 2257759.560659 1694910.095465 1231892.713954 1128916.258401 918747.082356 599040.365094 477149.898752 421547.938000 402557.209341 342739.841802 234146.024195 364664.159977
+male 0.000000 21264232.075721 15853262.559736 11423775.390764 7574310.324412 7504610.336060 6425618.562182 4728023.235244 4699912.905346 3220390.057577 3373404.255732 2268005.334002 1707799.486642 1244342.393761 1142423.364470 931241.592146 608185.377069 485140.389102 428940.410135 409665.713712 348964.318631 238528.087676 375426.623466
+female 0.000000 21266967.315511 15858066.780744 11432164.381390 7588304.216292 7531527.632100 6454809.556972 4747444.305218 4713452.896950 3223694.723538 3368064.094734 2257759.560659 1694910.095465 1231892.713954 1128916.258401 918747.082356 599040.365094 477149.898752 421547.938000 402557.209341 342739.841802 234146.024195 364664.159977
 *end
 
 *estimate_value[estimated_values]
@@ -1056,15 +1051,15 @@ upper_bound: 20
 selectivity[summerTANSel_m].ato95 {list}
 value: 1.74459
 std_dev: 0.22203
-estimation_phase:
+estimation_phase: 
 label:
 lower_bound: 0
-mcmc:
+mcmc: 
 parameter: selectivity[summerTANSel_m].ato95
-prior_applies_to_transform:
-same:
-transform_with_jacobian:
-transformation:
+prior_applies_to_transform: 
+same: 
+transform_with_jacobian: 
+transformation: 
 type: uniform
 upper_bound: 50
 {end_list}
@@ -1072,869 +1067,869 @@ upper_bound: 50
 selectivity[summerTANSel_m].alpha {list}
 value: 0.609946
 std_dev: 0.0388417
-estimation_phase:
-label:
-lower_bound: 0
-mcmc:
-parameter: selectivity[summerTANSel_m].alpha
-prior_applies_to_transform:
-same:
-transform_with_jacobian:
-transformation:
-type: uniform
-upper_bound: 5
+estimation_phase: 
+label: 
+lower_bound: 0 
+mcmc: 
+parameter: selectivity[summerTANSel_m].alpha 
+prior_applies_to_transform: 
+same: 
+transform_with_jacobian: 
+transformation: 
+type: uniform 
+upper_bound: 5 
 {end_list}
 
 selectivity[summerTANSel_f].a50 {list}
 value: 5.46111
 std_dev: 0.191832
-estimation_phase:
-label:
-lower_bound: 0
-mcmc:
-parameter: selectivity[summerTANSel_f].a50
-prior_applies_to_transform:
-same:
-transform_with_jacobian:
-transformation:
-type: uniform
-upper_bound: 20
+estimation_phase: 
+label: 
+lower_bound: 0 
+mcmc: 
+parameter: selectivity[summerTANSel_f].a50 
+prior_applies_to_transform: 
+same: 
+transform_with_jacobian: 
+transformation: 
+type: uniform 
+upper_bound: 20 
 {end_list}
 
 selectivity[summerTANSel_f].ato95 {list}
 value: 2.2034
 std_dev: 0.23979
-estimation_phase:
-label:
-lower_bound: 0
-mcmc:
-parameter: selectivity[summerTANSel_f].ato95
-prior_applies_to_transform:
-same:
-transform_with_jacobian:
-transformation:
-type: uniform
-upper_bound: 50
+estimation_phase: 
+label: 
+lower_bound: 0 
+mcmc: 
+parameter: selectivity[summerTANSel_f].ato95 
+prior_applies_to_transform: 
+same: 
+transform_with_jacobian: 
+transformation: 
+type: uniform 
+upper_bound: 50 
 {end_list}
 
 selectivity[autumnTANSel_m].a50 {list}
 value: 5.50982
 std_dev: 0.328992
-estimation_phase:
-label:
-lower_bound: 0
-mcmc:
-parameter: selectivity[autumnTANSel_m].a50
-prior_applies_to_transform:
-same:
-transform_with_jacobian:
-transformation:
-type: uniform
-upper_bound: 20
+estimation_phase: 
+label: 
+lower_bound: 0 
+mcmc: 
+parameter: selectivity[autumnTANSel_m].a50 
+prior_applies_to_transform: 
+same: 
+transform_with_jacobian: 
+transformation: 
+type: uniform 
+upper_bound: 20 
 {end_list}
 
 selectivity[autumnTANSel_m].ato95 {list}
 value: 2.31271
 std_dev: 0.377382
-estimation_phase:
-label:
-lower_bound: 0
-mcmc:
-parameter: selectivity[autumnTANSel_m].ato95
-prior_applies_to_transform:
-same:
-transform_with_jacobian:
-transformation:
-type: uniform
-upper_bound: 50
+estimation_phase: 
+label: 
+lower_bound: 0 
+mcmc: 
+parameter: selectivity[autumnTANSel_m].ato95 
+prior_applies_to_transform: 
+same: 
+transform_with_jacobian: 
+transformation: 
+type: uniform 
+upper_bound: 50 
 {end_list}
 
 selectivity[autumnTANSel_m].alpha {list}
 value: 0.941731
 std_dev: 0.0775898
-estimation_phase:
-label:
-lower_bound: 0
-mcmc:
-parameter: selectivity[autumnTANSel_m].alpha
-prior_applies_to_transform:
-same:
-transform_with_jacobian:
-transformation:
-type: uniform
-upper_bound: 5
+estimation_phase: 
+label: 
+lower_bound: 0 
+mcmc: 
+parameter: selectivity[autumnTANSel_m].alpha 
+prior_applies_to_transform: 
+same: 
+transform_with_jacobian: 
+transformation: 
+type: uniform 
+upper_bound: 5 
 {end_list}
 
 selectivity[autumnTANSel_f].a50 {list}
 value: 5.91574
 std_dev: 0.406224
-estimation_phase:
-label:
-lower_bound: 0
-mcmc:
-parameter: selectivity[autumnTANSel_f].a50
-prior_applies_to_transform:
-same:
-transform_with_jacobian:
-transformation:
-type: uniform
-upper_bound: 20
+estimation_phase: 
+label: 
+lower_bound: 0 
+mcmc: 
+parameter: selectivity[autumnTANSel_f].a50 
+prior_applies_to_transform: 
+same: 
+transform_with_jacobian: 
+transformation: 
+type: uniform 
+upper_bound: 20 
 {end_list}
 
 selectivity[autumnTANSel_f].ato95 {list}
 value: 2.7702
 std_dev: 0.482889
-estimation_phase:
-label:
-lower_bound: 0
-mcmc:
-parameter: selectivity[autumnTANSel_f].ato95
-prior_applies_to_transform:
-same:
-transform_with_jacobian:
-transformation:
-type: uniform
-upper_bound: 50
+estimation_phase: 
+label: 
+lower_bound: 0 
+mcmc: 
+parameter: selectivity[autumnTANSel_f].ato95 
+prior_applies_to_transform: 
+same: 
+transform_with_jacobian: 
+transformation: 
+type: uniform 
+upper_bound: 50 
 {end_list}
 
 selectivity[trwlFSel_m].mu {list}
 value: 8.36919
 std_dev: 0.333125
-estimation_phase:
-label:
-lower_bound: 1
-mcmc:
-parameter: selectivity[trwlFSel_m].mu
-prior_applies_to_transform:
-same:
-transform_with_jacobian:
-transformation:
-type: uniform
-upper_bound: 20
+estimation_phase: 
+label: 
+lower_bound: 1 
+mcmc: 
+parameter: selectivity[trwlFSel_m].mu 
+prior_applies_to_transform: 
+same: 
+transform_with_jacobian: 
+transformation: 
+type: uniform 
+upper_bound: 20 
 {end_list}
 
 selectivity[trwlFSel_m].sigma_l {list}
 value: 1.97023
 std_dev: 0.185315
-estimation_phase:
-label:
-lower_bound: 1
-mcmc:
-parameter: selectivity[trwlFSel_m].sigma_l
-prior_applies_to_transform:
-same:
-transform_with_jacobian:
-transformation:
-type: uniform
-upper_bound: 50
+estimation_phase: 
+label: 
+lower_bound: 1 
+mcmc: 
+parameter: selectivity[trwlFSel_m].sigma_l 
+prior_applies_to_transform: 
+same: 
+transform_with_jacobian: 
+transformation: 
+type: uniform 
+upper_bound: 50 
 {end_list}
 
 selectivity[trwlFSel_m].sigma_r {list}
 value: 61.5229
 std_dev: 9.56503
-estimation_phase:
-label:
-lower_bound: 1
-mcmc:
-parameter: selectivity[trwlFSel_m].sigma_r
-prior_applies_to_transform:
-same:
-transform_with_jacobian:
-transformation:
-type: uniform
-upper_bound: 200
+estimation_phase: 
+label: 
+lower_bound: 1 
+mcmc: 
+parameter: selectivity[trwlFSel_m].sigma_r 
+prior_applies_to_transform: 
+same: 
+transform_with_jacobian: 
+transformation: 
+type: uniform 
+upper_bound: 200 
 {end_list}
 
 selectivity[trwlFSel_m].alpha {list}
 value: 1.04276
 std_dev: 0.0674131
-estimation_phase:
-label:
-lower_bound: 0
-mcmc:
-parameter: selectivity[trwlFSel_m].alpha
-prior_applies_to_transform:
-same:
-transform_with_jacobian:
-transformation:
-type: uniform
-upper_bound: 5
+estimation_phase: 
+label: 
+lower_bound: 0 
+mcmc: 
+parameter: selectivity[trwlFSel_m].alpha 
+prior_applies_to_transform: 
+same: 
+transform_with_jacobian: 
+transformation: 
+type: uniform 
+upper_bound: 5 
 {end_list}
 
 selectivity[trwlFSel_f].mu {list}
 value: 8.65854
 std_dev: 0.313385
-estimation_phase:
-label:
-lower_bound: 1
-mcmc:
-parameter: selectivity[trwlFSel_f].mu
-prior_applies_to_transform:
-same:
-transform_with_jacobian:
-transformation:
-type: uniform
-upper_bound: 20
+estimation_phase: 
+label: 
+lower_bound: 1 
+mcmc: 
+parameter: selectivity[trwlFSel_f].mu 
+prior_applies_to_transform: 
+same: 
+transform_with_jacobian: 
+transformation: 
+type: uniform 
+upper_bound: 20 
 {end_list}
 
 selectivity[trwlFSel_f].sigma_l {list}
 value: 2.09656
 std_dev: 0.184926
-estimation_phase:
-label:
-lower_bound: 1
-mcmc:
-parameter: selectivity[trwlFSel_f].sigma_l
-prior_applies_to_transform:
-same:
-transform_with_jacobian:
-transformation:
-type: uniform
-upper_bound: 50
+estimation_phase: 
+label: 
+lower_bound: 1 
+mcmc: 
+parameter: selectivity[trwlFSel_f].sigma_l 
+prior_applies_to_transform: 
+same: 
+transform_with_jacobian: 
+transformation: 
+type: uniform 
+upper_bound: 50 
 {end_list}
 
 selectivity[trwlFSel_f].sigma_r {list}
 value: 43.1639
 std_dev: 5.10682
-estimation_phase:
-label:
-lower_bound: 1
-mcmc:
-parameter: selectivity[trwlFSel_f].sigma_r
-prior_applies_to_transform:
-same:
-transform_with_jacobian:
-transformation:
-type: uniform
-upper_bound: 200
+estimation_phase: 
+label: 
+lower_bound: 1 
+mcmc: 
+parameter: selectivity[trwlFSel_f].sigma_r 
+prior_applies_to_transform: 
+same: 
+transform_with_jacobian: 
+transformation: 
+type: uniform 
+upper_bound: 200 
 {end_list}
 
 selectivity[lineHomeFSel_m].a50 {list}
 value: 11.456
 std_dev: 0.774752
-estimation_phase:
-label:
-lower_bound: 0
-mcmc:
-parameter: selectivity[lineHomeFSel_m].a50
-prior_applies_to_transform:
-same:
-transform_with_jacobian:
-transformation:
-type: uniform
-upper_bound: 30
+estimation_phase: 
+label: 
+lower_bound: 0 
+mcmc: 
+parameter: selectivity[lineHomeFSel_m].a50 
+prior_applies_to_transform: 
+same: 
+transform_with_jacobian: 
+transformation: 
+type: uniform 
+upper_bound: 30 
 {end_list}
 
 selectivity[lineHomeFSel_m].ato95 {list}
 value: 8.59958
 std_dev: 1.00092
-estimation_phase:
-label:
-lower_bound: 0
-mcmc:
-parameter: selectivity[lineHomeFSel_m].ato95
-prior_applies_to_transform:
-same:
-transform_with_jacobian:
-transformation:
-type: uniform
-upper_bound: 50
+estimation_phase: 
+label: 
+lower_bound: 0 
+mcmc: 
+parameter: selectivity[lineHomeFSel_m].ato95 
+prior_applies_to_transform: 
+same: 
+transform_with_jacobian: 
+transformation: 
+type: uniform 
+upper_bound: 50 
 {end_list}
 
 selectivity[lineHomeFSel_m].alpha {list}
 value: 0.380222
 std_dev: 0.0556972
-estimation_phase:
-label:
-lower_bound: 0
-mcmc:
-parameter: selectivity[lineHomeFSel_m].alpha
-prior_applies_to_transform:
-same:
-transform_with_jacobian:
-transformation:
-type: uniform
-upper_bound: 5
+estimation_phase: 
+label: 
+lower_bound: 0 
+mcmc: 
+parameter: selectivity[lineHomeFSel_m].alpha 
+prior_applies_to_transform: 
+same: 
+transform_with_jacobian: 
+transformation: 
+type: uniform 
+upper_bound: 5 
 {end_list}
 
 selectivity[lineHomeFSel_f].a50 {list}
 value: 9.61476
 std_dev: 0.376786
-estimation_phase:
-label:
-lower_bound: 0
-mcmc:
-parameter: selectivity[lineHomeFSel_f].a50
-prior_applies_to_transform:
-same:
-transform_with_jacobian:
-transformation:
-type: uniform
-upper_bound: 30
+estimation_phase: 
+label: 
+lower_bound: 0 
+mcmc: 
+parameter: selectivity[lineHomeFSel_f].a50 
+prior_applies_to_transform: 
+same: 
+transform_with_jacobian: 
+transformation: 
+type: uniform 
+upper_bound: 30 
 {end_list}
 
 selectivity[lineHomeFSel_f].ato95 {list}
 value: 3.87014
 std_dev: 0.424256
-estimation_phase:
-label:
-lower_bound: 0
-mcmc:
-parameter: selectivity[lineHomeFSel_f].ato95
-prior_applies_to_transform:
-same:
-transform_with_jacobian:
-transformation:
-type: uniform
-upper_bound: 50
+estimation_phase: 
+label: 
+lower_bound: 0 
+mcmc: 
+parameter: selectivity[lineHomeFSel_f].ato95 
+prior_applies_to_transform: 
+same: 
+transform_with_jacobian: 
+transformation: 
+type: uniform 
+upper_bound: 50 
 {end_list}
 
 selectivity[lineSpawnFSel_m].a50 {list}
 value: 18.2151
 std_dev: 2.01396
-estimation_phase:
-label:
-lower_bound: 0
-mcmc:
-parameter: selectivity[lineSpawnFSel_m].a50
-prior_applies_to_transform:
-same:
-transform_with_jacobian:
-transformation:
-type: uniform
-upper_bound: 30
+estimation_phase: 
+label: 
+lower_bound: 0 
+mcmc: 
+parameter: selectivity[lineSpawnFSel_m].a50 
+prior_applies_to_transform: 
+same: 
+transform_with_jacobian: 
+transformation: 
+type: uniform 
+upper_bound: 30 
 {end_list}
 
 selectivity[lineSpawnFSel_m].ato95 {list}
 value: 13.5995
 std_dev: 2.21572
-estimation_phase:
-label:
-lower_bound: 0
-mcmc:
-parameter: selectivity[lineSpawnFSel_m].ato95
-prior_applies_to_transform:
-same:
-transform_with_jacobian:
-transformation:
-type: uniform
-upper_bound: 50
+estimation_phase: 
+label: 
+lower_bound: 0 
+mcmc: 
+parameter: selectivity[lineSpawnFSel_m].ato95 
+prior_applies_to_transform: 
+same: 
+transform_with_jacobian: 
+transformation: 
+type: uniform 
+upper_bound: 50 
 {end_list}
 
 selectivity[lineSpawnFSel_m].alpha {list}
 value: 1.85634
 std_dev: 0.312455
-estimation_phase:
-label:
-lower_bound: 0
-mcmc:
-parameter: selectivity[lineSpawnFSel_m].alpha
-prior_applies_to_transform:
-same:
-transform_with_jacobian:
-transformation:
-type: uniform
-upper_bound: 5
+estimation_phase: 
+label: 
+lower_bound: 0 
+mcmc: 
+parameter: selectivity[lineSpawnFSel_m].alpha 
+prior_applies_to_transform: 
+same: 
+transform_with_jacobian: 
+transformation: 
+type: uniform 
+upper_bound: 5 
 {end_list}
 
 selectivity[lineSpawnFSel_f].a50 {list}
 value: 9.73862
 std_dev: 0.319659
-estimation_phase:
-label:
-lower_bound: 0
-mcmc:
-parameter: selectivity[lineSpawnFSel_f].a50
-prior_applies_to_transform:
-same:
-transform_with_jacobian:
-transformation:
-type: uniform
-upper_bound: 30
+estimation_phase: 
+label: 
+lower_bound: 0 
+mcmc: 
+parameter: selectivity[lineSpawnFSel_f].a50 
+prior_applies_to_transform: 
+same: 
+transform_with_jacobian: 
+transformation: 
+type: uniform 
+upper_bound: 30 
 {end_list}
 
 selectivity[lineSpawnFSel_f].ato95 {list}
 value: 2.99387
 std_dev: 0.444249
-estimation_phase:
-label:
-lower_bound: 0
-mcmc:
-parameter: selectivity[lineSpawnFSel_f].ato95
-prior_applies_to_transform:
-same:
-transform_with_jacobian:
-transformation:
-type: uniform
-upper_bound: 50
+estimation_phase: 
+label: 
+lower_bound: 0 
+mcmc: 
+parameter: selectivity[lineSpawnFSel_f].ato95 
+prior_applies_to_transform: 
+same: 
+transform_with_jacobian: 
+transformation: 
+type: uniform 
+upper_bound: 50 
 {end_list}
 
 process[Recruitment].ycs_values{1972} {list}
 value: 0.483786
 std_dev: 0.226373
-cv: 0.7
-estimation_phase:
-label:
-lower_bound: 0.01
-mcmc:
-mu: 1
-parameter: process[Recruitment].ycs_values{1972}
-prior_applies_to_transform:
-same:
-transform_with_jacobian:
-transformation:
-type: lognormal
-upper_bound: 100
+cv: 0.7 
+estimation_phase: 
+label: 
+lower_bound: 0.01 
+mcmc: 
+mu: 1 
+parameter: process[Recruitment].ycs_values{1972} 
+prior_applies_to_transform: 
+same: 
+transform_with_jacobian: 
+transformation: 
+type: lognormal 
+upper_bound: 100 
 {end_list}
 
 process[Recruitment].ycs_values{1973} {list}
 value: 0.461221
 std_dev: 0.208881
-cv: 0.7
-estimation_phase:
-label:
-lower_bound: 0.01
-mcmc:
-mu: 1
-parameter: process[Recruitment].ycs_values{1973}
-prior_applies_to_transform:
-same:
-transform_with_jacobian:
-transformation:
-type: lognormal
-upper_bound: 100
+cv: 0.7 
+estimation_phase: 
+label: 
+lower_bound: 0.01 
+mcmc: 
+mu: 1 
+parameter: process[Recruitment].ycs_values{1973} 
+prior_applies_to_transform: 
+same: 
+transform_with_jacobian: 
+transformation: 
+type: lognormal 
+upper_bound: 100 
 {end_list}
 
 process[Recruitment].ycs_values{1974} {list}
 value: 0.568372
 std_dev: 0.226683
-cv: 0.7
-estimation_phase:
-label:
-lower_bound: 0.01
-mcmc:
-mu: 1
-parameter: process[Recruitment].ycs_values{1974}
-prior_applies_to_transform:
-same:
-transform_with_jacobian:
-transformation:
-type: lognormal
-upper_bound: 100
+cv: 0.7 
+estimation_phase: 
+label: 
+lower_bound: 0.01 
+mcmc: 
+mu: 1 
+parameter: process[Recruitment].ycs_values{1974} 
+prior_applies_to_transform: 
+same: 
+transform_with_jacobian: 
+transformation: 
+type: lognormal 
+upper_bound: 100 
 {end_list}
 
 process[Recruitment].ycs_values{1975} {list}
 value: 0.566516
 std_dev: 0.212101
-cv: 0.7
-estimation_phase:
-label:
-lower_bound: 0.01
-mcmc:
-mu: 1
-parameter: process[Recruitment].ycs_values{1975}
-prior_applies_to_transform:
-same:
-transform_with_jacobian:
-transformation:
-type: lognormal
-upper_bound: 100
+cv: 0.7 
+estimation_phase: 
+label: 
+lower_bound: 0.01 
+mcmc: 
+mu: 1 
+parameter: process[Recruitment].ycs_values{1975} 
+prior_applies_to_transform: 
+same: 
+transform_with_jacobian: 
+transformation: 
+type: lognormal 
+upper_bound: 100 
 {end_list}
 
 process[Recruitment].ycs_values{1976} {list}
 value: 0.486352
 std_dev: 0.196454
-cv: 0.7
-estimation_phase:
-label:
-lower_bound: 0.01
-mcmc:
-mu: 1
-parameter: process[Recruitment].ycs_values{1976}
-prior_applies_to_transform:
-same:
-transform_with_jacobian:
-transformation:
-type: lognormal
-upper_bound: 100
+cv: 0.7 
+estimation_phase: 
+label: 
+lower_bound: 0.01 
+mcmc: 
+mu: 1 
+parameter: process[Recruitment].ycs_values{1976} 
+prior_applies_to_transform: 
+same: 
+transform_with_jacobian: 
+transformation: 
+type: lognormal 
+upper_bound: 100 
 {end_list}
 
 process[Recruitment].ycs_values{1977} {list}
 value: 0.554131
 std_dev: 0.202006
-cv: 0.7
-estimation_phase:
-label:
-lower_bound: 0.01
-mcmc:
-mu: 1
-parameter: process[Recruitment].ycs_values{1977}
-prior_applies_to_transform:
-same:
-transform_with_jacobian:
-transformation:
-type: lognormal
-upper_bound: 100
+cv: 0.7 
+estimation_phase: 
+label: 
+lower_bound: 0.01 
+mcmc: 
+mu: 1 
+parameter: process[Recruitment].ycs_values{1977} 
+prior_applies_to_transform: 
+same: 
+transform_with_jacobian: 
+transformation: 
+type: lognormal 
+upper_bound: 100 
 {end_list}
 
 process[Recruitment].ycs_values{1978} {list}
 value: 0.563157
 std_dev: 0.199304
-cv: 0.7
-estimation_phase:
-label:
-lower_bound: 0.01
-mcmc:
-mu: 1
-parameter: process[Recruitment].ycs_values{1978}
-prior_applies_to_transform:
-same:
-transform_with_jacobian:
-transformation:
-type: lognormal
-upper_bound: 100
+cv: 0.7 
+estimation_phase: 
+label: 
+lower_bound: 0.01 
+mcmc: 
+mu: 1 
+parameter: process[Recruitment].ycs_values{1978} 
+prior_applies_to_transform: 
+same: 
+transform_with_jacobian: 
+transformation: 
+type: lognormal 
+upper_bound: 100 
 {end_list}
 
 process[Recruitment].ycs_values{1979} {list}
 value: 0.688994
 std_dev: 0.210807
-cv: 0.7
-estimation_phase:
-label:
-lower_bound: 0.01
-mcmc:
-mu: 1
-parameter: process[Recruitment].ycs_values{1979}
-prior_applies_to_transform:
-same:
-transform_with_jacobian:
-transformation:
-type: lognormal
-upper_bound: 100
+cv: 0.7 
+estimation_phase: 
+label: 
+lower_bound: 0.01 
+mcmc: 
+mu: 1 
+parameter: process[Recruitment].ycs_values{1979} 
+prior_applies_to_transform: 
+same: 
+transform_with_jacobian: 
+transformation: 
+type: lognormal 
+upper_bound: 100 
 {end_list}
 
 process[Recruitment].ycs_values{1980} {list}
 value: 0.620933
 std_dev: 0.198682
-cv: 0.7
-estimation_phase:
-label:
-lower_bound: 0.01
-mcmc:
-mu: 1
-parameter: process[Recruitment].ycs_values{1980}
-prior_applies_to_transform:
-same:
-transform_with_jacobian:
-transformation:
-type: lognormal
-upper_bound: 100
+cv: 0.7 
+estimation_phase: 
+label: 
+lower_bound: 0.01 
+mcmc: 
+mu: 1 
+parameter: process[Recruitment].ycs_values{1980} 
+prior_applies_to_transform: 
+same: 
+transform_with_jacobian: 
+transformation: 
+type: lognormal 
+upper_bound: 100 
 {end_list}
 
 process[Recruitment].ycs_values{1981} {list}
 value: 0.79247
 std_dev: 0.199415
-cv: 0.7
-estimation_phase:
-label:
-lower_bound: 0.01
-mcmc:
-mu: 1
-parameter: process[Recruitment].ycs_values{1981}
-prior_applies_to_transform:
-same:
-transform_with_jacobian:
-transformation:
-type: lognormal
-upper_bound: 100
+cv: 0.7 
+estimation_phase: 
+label: 
+lower_bound: 0.01 
+mcmc: 
+mu: 1 
+parameter: process[Recruitment].ycs_values{1981} 
+prior_applies_to_transform: 
+same: 
+transform_with_jacobian: 
+transformation: 
+type: lognormal 
+upper_bound: 100 
 {end_list}
 
 process[Recruitment].ycs_values{1982} {list}
 value: 0.465073
 std_dev: 0.14909
-cv: 0.7
-estimation_phase:
-label:
-lower_bound: 0.01
-mcmc:
-mu: 1
-parameter: process[Recruitment].ycs_values{1982}
-prior_applies_to_transform:
-same:
-transform_with_jacobian:
-transformation:
-type: lognormal
-upper_bound: 100
+cv: 0.7 
+estimation_phase: 
+label: 
+lower_bound: 0.01 
+mcmc: 
+mu: 1 
+parameter: process[Recruitment].ycs_values{1982} 
+prior_applies_to_transform: 
+same: 
+transform_with_jacobian: 
+transformation: 
+type: lognormal 
+upper_bound: 100 
 {end_list}
 
 process[Recruitment].ycs_values{1983} {list}
 value: 0.699667
 std_dev: 0.13656
-cv: 0.7
-estimation_phase:
-label:
-lower_bound: 0.01
-mcmc:
-mu: 1
-parameter: process[Recruitment].ycs_values{1983}
-prior_applies_to_transform:
-same:
-transform_with_jacobian:
-transformation:
-type: lognormal
-upper_bound: 100
+cv: 0.7 
+estimation_phase: 
+label: 
+lower_bound: 0.01 
+mcmc: 
+mu: 1 
+parameter: process[Recruitment].ycs_values{1983} 
+prior_applies_to_transform: 
+same: 
+transform_with_jacobian: 
+transformation: 
+type: lognormal 
+upper_bound: 100 
 {end_list}
 
 process[Recruitment].ycs_values{1984} {list}
 value: 0.409952
 std_dev: 0.0932306
-cv: 0.7
-estimation_phase:
-label:
-lower_bound: 0.01
-mcmc:
-mu: 1
-parameter: process[Recruitment].ycs_values{1984}
-prior_applies_to_transform:
-same:
-transform_with_jacobian:
-transformation:
-type: lognormal
-upper_bound: 100
+cv: 0.7 
+estimation_phase: 
+label: 
+lower_bound: 0.01 
+mcmc: 
+mu: 1 
+parameter: process[Recruitment].ycs_values{1984} 
+prior_applies_to_transform: 
+same: 
+transform_with_jacobian: 
+transformation: 
+type: lognormal 
+upper_bound: 100 
 {end_list}
 
 process[Recruitment].ycs_values{1985} {list}
 value: 0.515396
 std_dev: 0.095282
-cv: 0.7
-estimation_phase:
-label:
-lower_bound: 0.01
-mcmc:
-mu: 1
-parameter: process[Recruitment].ycs_values{1985}
-prior_applies_to_transform:
-same:
-transform_with_jacobian:
-transformation:
-type: lognormal
-upper_bound: 100
+cv: 0.7 
+estimation_phase: 
+label: 
+lower_bound: 0.01 
+mcmc: 
+mu: 1 
+parameter: process[Recruitment].ycs_values{1985} 
+prior_applies_to_transform: 
+same: 
+transform_with_jacobian: 
+transformation: 
+type: lognormal 
+upper_bound: 100 
 {end_list}
 
 process[Recruitment].ycs_values{1986} {list}
 value: 0.341311
 std_dev: 0.078312
-cv: 0.7
-estimation_phase:
-label:
-lower_bound: 0.01
-mcmc:
-mu: 1
-parameter: process[Recruitment].ycs_values{1986}
-prior_applies_to_transform:
-same:
-transform_with_jacobian:
-transformation:
-type: lognormal
-upper_bound: 100
+cv: 0.7 
+estimation_phase: 
+label: 
+lower_bound: 0.01 
+mcmc: 
+mu: 1 
+parameter: process[Recruitment].ycs_values{1986} 
+prior_applies_to_transform: 
+same: 
+transform_with_jacobian: 
+transformation: 
+type: lognormal 
+upper_bound: 100 
 {end_list}
 
 process[Recruitment].ycs_values{1987} {list}
 value: 0.347596
 std_dev: 0.0870657
-cv: 0.7
-estimation_phase:
-label:
-lower_bound: 0.01
-mcmc:
-mu: 1
-parameter: process[Recruitment].ycs_values{1987}
-prior_applies_to_transform:
-same:
-transform_with_jacobian:
-transformation:
-type: lognormal
-upper_bound: 100
+cv: 0.7 
+estimation_phase: 
+label: 
+lower_bound: 0.01 
+mcmc: 
+mu: 1 
+parameter: process[Recruitment].ycs_values{1987} 
+prior_applies_to_transform: 
+same: 
+transform_with_jacobian: 
+transformation: 
+type: lognormal 
+upper_bound: 100 
 {end_list}
 
 process[Recruitment].ycs_values{1988} {list}
 value: 0.437913
 std_dev: 0.111945
-cv: 0.7
-estimation_phase:
-label:
-lower_bound: 0.01
-mcmc:
-mu: 1
-parameter: process[Recruitment].ycs_values{1988}
-prior_applies_to_transform:
-same:
-transform_with_jacobian:
-transformation:
-type: lognormal
-upper_bound: 100
+cv: 0.7 
+estimation_phase: 
+label: 
+lower_bound: 0.01 
+mcmc: 
+mu: 1 
+parameter: process[Recruitment].ycs_values{1988} 
+prior_applies_to_transform: 
+same: 
+transform_with_jacobian: 
+transformation: 
+type: lognormal 
+upper_bound: 100 
 {end_list}
 
 process[Recruitment].ycs_values{1989} {list}
 value: 0.479243
 std_dev: 0.143266
-cv: 0.7
-estimation_phase:
-label:
-lower_bound: 0.01
-mcmc:
-mu: 1
-parameter: process[Recruitment].ycs_values{1989}
-prior_applies_to_transform:
-same:
-transform_with_jacobian:
-transformation:
-type: lognormal
-upper_bound: 100
+cv: 0.7 
+estimation_phase: 
+label: 
+lower_bound: 0.01 
+mcmc: 
+mu: 1 
+parameter: process[Recruitment].ycs_values{1989} 
+prior_applies_to_transform: 
+same: 
+transform_with_jacobian: 
+transformation: 
+type: lognormal 
+upper_bound: 100 
 {end_list}
 
 process[Recruitment].ycs_values{1990} {list}
 value: 0.451811
 std_dev: 0.145912
-cv: 0.7
-estimation_phase:
-label:
-lower_bound: 0.01
-mcmc:
-mu: 1
-parameter: process[Recruitment].ycs_values{1990}
-prior_applies_to_transform:
-same:
-transform_with_jacobian:
-transformation:
-type: lognormal
-upper_bound: 100
+cv: 0.7 
+estimation_phase: 
+label: 
+lower_bound: 0.01 
+mcmc: 
+mu: 1 
+parameter: process[Recruitment].ycs_values{1990} 
+prior_applies_to_transform: 
+same: 
+transform_with_jacobian: 
+transformation: 
+type: lognormal 
+upper_bound: 100 
 {end_list}
 
 process[Recruitment].ycs_values{1991} {list}
 value: 0.492645
 std_dev: 0.142515
-cv: 0.7
-estimation_phase:
-label:
-lower_bound: 0.01
-mcmc:
-mu: 1
-parameter: process[Recruitment].ycs_values{1991}
-prior_applies_to_transform:
-same:
-transform_with_jacobian:
-transformation:
-type: lognormal
-upper_bound: 100
+cv: 0.7 
+estimation_phase: 
+label: 
+lower_bound: 0.01 
+mcmc: 
+mu: 1 
+parameter: process[Recruitment].ycs_values{1991} 
+prior_applies_to_transform: 
+same: 
+transform_with_jacobian: 
+transformation: 
+type: lognormal 
+upper_bound: 100 
 {end_list}
 
 process[Recruitment].ycs_values{1992} {list}
 value: 0.469175
 std_dev: 0.143514
-cv: 0.7
-estimation_phase:
-label:
-lower_bound: 0.01
-mcmc:
-mu: 1
-parameter: process[Recruitment].ycs_values{1992}
-prior_applies_to_transform:
-same:
-transform_with_jacobian:
-transformation:
-type: lognormal
-upper_bound: 100
+cv: 0.7 
+estimation_phase: 
+label: 
+lower_bound: 0.01 
+mcmc: 
+mu: 1 
+parameter: process[Recruitment].ycs_values{1992} 
+prior_applies_to_transform: 
+same: 
+transform_with_jacobian: 
+transformation: 
+type: lognormal 
+upper_bound: 100 
 {end_list}
 
 process[Recruitment].ycs_values{1993} {list}
 value: 0.797909
 std_dev: 0.163598
-cv: 0.7
-estimation_phase:
-label:
-lower_bound: 0.01
-mcmc:
-mu: 1
-parameter: process[Recruitment].ycs_values{1993}
-prior_applies_to_transform:
-same:
-transform_with_jacobian:
-transformation:
-type: lognormal
-upper_bound: 100
+cv: 0.7 
+estimation_phase: 
+label: 
+lower_bound: 0.01 
+mcmc: 
+mu: 1 
+parameter: process[Recruitment].ycs_values{1993} 
+prior_applies_to_transform: 
+same: 
+transform_with_jacobian: 
+transformation: 
+type: lognormal 
+upper_bound: 100 
 {end_list}
 
 process[Recruitment].ycs_values{1994} {list}
 value: 0.791277
 std_dev: 0.15551
-cv: 0.7
-estimation_phase:
-label:
-lower_bound: 0.01
-mcmc:
-mu: 1
-parameter: process[Recruitment].ycs_values{1994}
-prior_applies_to_transform:
-same:
-transform_with_jacobian:
-transformation:
-type: lognormal
-upper_bound: 100
+cv: 0.7 
+estimation_phase: 
+label: 
+lower_bound: 0.01 
+mcmc: 
+mu: 1 
+parameter: process[Recruitment].ycs_values{1994} 
+prior_applies_to_transform: 
+same: 
+transform_with_jacobian: 
+transformation: 
+type: lognormal 
+upper_bound: 100 
 {end_list}
 
 process[Recruitment].ycs_values{1995} {list}
 value: 0.82538
 std_dev: 0.14058
-cv: 0.7
-estimation_phase:
-label:
-lower_bound: 0.01
-mcmc:
-mu: 1
-parameter: process[Recruitment].ycs_values{1995}
-prior_applies_to_transform:
-same:
-transform_with_jacobian:
-transformation:
-type: lognormal
-upper_bound: 100
+cv: 0.7 
+estimation_phase: 
+label: 
+lower_bound: 0.01 
+mcmc: 
+mu: 1 
+parameter: process[Recruitment].ycs_values{1995} 
+prior_applies_to_transform: 
+same: 
+transform_with_jacobian: 
+transformation: 
+type: lognormal 
+upper_bound: 100 
 {end_list}
 
 process[Recruitment].ycs_values{1996} {list}
 value: 0.707279
 std_dev: 0.121395
-cv: 0.7
-estimation_phase:
-label:
-lower_bound: 0.01
-mcmc:
-mu: 1
-parameter: process[Recruitment].ycs_values{1996}
-prior_applies_to_transform:
-same:
-transform_with_jacobian:
-transformation:
-type: lognormal
-upper_bound: 100
+cv: 0.7 
+estimation_phase: 
+label: 
+lower_bound: 0.01 
+mcmc: 
+mu: 1 
+parameter: process[Recruitment].ycs_values{1996} 
+prior_applies_to_transform: 
+same: 
+transform_with_jacobian: 
+transformation: 
+type: lognormal 
+upper_bound: 100 
 {end_list}
 
 process[Recruitment].ycs_values{1997} {list}
 value: 0.552059
 std_dev: 0.100518
-cv: 0.7
-estimation_phase:
-label:
-lower_bound: 0.01
-mcmc:
-mu: 1
-parameter: process[Recruitment].ycs_values{1997}
-prior_applies_to_transform:
-same:
-transform_with_jacobian:
-transformation:
-type: lognormal
-upper_bound: 100
+cv: 0.7 
+estimation_phase: 
+label: 
+lower_bound: 0.01 
+mcmc: 
+mu: 1 
+parameter: process[Recruitment].ycs_values{1997} 
+prior_applies_to_transform: 
+same: 
+transform_with_jacobian: 
+transformation: 
+type: lognormal 
+upper_bound: 100 
 {end_list}
 
 process[Recruitment].ycs_values{1998} {list}
@@ -6133,5 +6128,5 @@ Setting 'params_est.out' as the output file for the free parameters
 *end
 
 [INFO] Completed
-[INFO] Total CPU time: -3.90905e+08 hours
-[INFO] Total elapsed time: 38 seconds
+[INFO] Total CPU time: -3.90934e+08 hours
+[INFO] Total elapsed time: 4 seconds

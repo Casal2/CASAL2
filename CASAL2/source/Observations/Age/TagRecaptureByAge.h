@@ -51,7 +51,7 @@ protected:
   unsigned                    max_age_    = 0;
   bool                        plus_group_ = false;
   unsigned                    age_spread_ = 0;
-  Double                      detection_;
+  double                      detection_;
   vector<string>              target_category_labels_;
   vector<string>              target_selectivity_labels_;
   parameters::Table*          recaptures_table_ = nullptr;
@@ -71,8 +71,8 @@ protected:
   string                      time_step_label_ = "";
   Double                      time_step_proportion_;
 
-  map<unsigned, map<string, vector<Double>>> recaptures_;
-  map<unsigned, map<string, vector<Double>>> scanned_;
+  map<unsigned, map<string, vector<double>>> recaptures_;
+  map<unsigned, map<string, vector<double>>> scanned_;
 };
 
 } /* namespace age */

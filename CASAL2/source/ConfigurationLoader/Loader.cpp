@@ -638,7 +638,7 @@ void Loader::FindActiveMinimiserType() {
   typedef struct {
     string   name_        = "<<unknown>>";
     string   type_        = "";
-    bool     active_      = false;
+    bool     active_      = true;
     string   file_name_   = "";
     unsigned line_number_ = 0;
   } MinimiserDefinition;
@@ -690,9 +690,8 @@ void Loader::FindActiveMinimiserType() {
     }  // for (auto file_line : block_vector)
 
     // add new definition to lise
-    if (new_definition.active_)
-      minimisers.push_back(new_definition);
-
+    minimisers.push_back(new_definition);
+    
   }  // for (auto block_vector : blocks_)
 
   /**

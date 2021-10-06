@@ -102,7 +102,8 @@ void TransitionCategory::DoValidate() {
       LOG_ERROR_P(PARAM_PROPORTIONS) << ": proportion " << AS_DOUBLE(proportion) << " must be between 0.0 and 1.0 (inclusive)";
   }
 
-  for (unsigned i = 0; i < from_category_names_.size(); ++i) proportions_by_category_[from_category_names_[i]] = proportions_[i];
+  for (unsigned i = 0; i < from_category_names_.size(); ++i) 
+    proportions_by_category_[from_category_names_[i]] = proportions_[i];
 }
 
 /**
@@ -124,6 +125,11 @@ void TransitionCategory::DoBuild() {
       LOG_ERROR_P(PARAM_SELECTIVITIES) << ": Selectivity label " << label << " was not found.";
     selectivities_.push_back(selectivity);
   }
+
+  if (from_partition_.size() != to_partition_.size()) {
+    LOG_FATAL() << "The list of categories for the transition category process are not of equal size in year " << model_->current_year() << ". Number of 'From' "
+                << from_partition_.size() << " and 'To' " << to_partition_.size() << " categories to transition between";
+  }
 }
 
 /**
@@ -136,37 +142,17 @@ void TransitionCategory::DoExecute() {
   auto   to_iter   = to_partition_.begin();
   Double amount    = 0.0;
 
-  LOG_FINEST() << "transition_rates_.size(): " << transition_rates_.size() << "; from_partition_.size(): " << from_partition_.size()
+  LOG_FINE() << "from_partition_.size(): " << from_partition_.size()
                << "; to_partition_.size(): " << to_partition_.size();
-  if (from_partition_.size() != to_partition_.size()) {
-    LOG_FATAL() << "The list of categories for the transition category process are not of equal size in year " << model_->current_year() << ". Number of 'From' "
-                << from_partition_.size() << " and 'To' " << to_partition_.size() << " categories to transition between";
-  }
 
-  if (transition_rates_.size() != from_partition_.size()) {
-    LOG_FINE() << "Re-building the transition rates because the partition size has changed";
-    transition_rates_.resize(from_partition_.size());
-    for (unsigned i = 0; i < transition_rates_.size(); ++i) {
-      Double   proportion = proportions_.size() > 1 ? proportions_[i] : proportions_[0];
-      unsigned min_age    = (*from_iter)->min_age_;
-
-      for (unsigned j = 0; j < (*from_iter)->data_.size(); ++j) {
-        transition_rates_[i].push_back(proportion * selectivities_[i]->GetAgeResult(min_age + j, (*from_iter)->age_length_));
-        LOG_FINEST() << "transition rate = " << transition_rates_[i][j] << " age = " << min_age + j
-                     << " selectivity = " << selectivities_[i]->GetAgeResult(min_age + j, (*from_iter)->age_length_);
-        if (selectivities_[i]->GetAgeResult(min_age + j, (*from_iter)->age_length_) > 1.0)
-          LOG_ERROR() << " Selectivity value is greater than 1.0";
-      }
-    }
-  }
 
   for (unsigned i = 0; from_iter != from_partition_.end() && to_iter != to_partition_.end(); ++from_iter, ++to_iter, ++i) {
     for (unsigned offset = 0; offset < (*from_iter)->data_.size(); ++offset) {
-      amount = transition_rates_[i][offset] * (*from_iter)->data_[offset];
+      amount = proportions_by_category_[(*from_iter)->name_] * selectivities_[i]->GetAgeResult(min_age_ + offset, (*from_iter)->age_length_) * (*from_iter)->data_[offset];
 
       (*from_iter)->data_[offset] -= amount;
       (*to_iter)->data_[offset] += amount;
-      LOG_FINEST() << "Moving " << amount << " number of individuals, transition rate " << transition_rates_[i][offset] << ", from number " << (*from_iter)->data_[offset];
+      LOG_FINEST() << "Moving " << amount << " number of individuals , from number " << (*from_iter)->data_[offset] << " from category = " << (*from_iter)->name_;
       if ((*from_iter)->data_[offset] < 0.0)
         LOG_FATAL() << "Maturation rate caused a negative partition if ((*from_iter)->data_[offset] < 0.0) ";
     }
@@ -177,7 +163,7 @@ void TransitionCategory::DoExecute() {
  * Reset the maturation rates
  */
 void TransitionCategory::DoReset() {
-  transition_rates_.clear();
+
 }
 
 } /* namespace age */

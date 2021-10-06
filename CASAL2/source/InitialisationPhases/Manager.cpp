@@ -5,7 +5,7 @@
  * @date 15/02/2013
  * @section LICENSE
  *
- * Copyright NIWA Science ©2013 - www.niwa.co.nz
+ * Copyright NIWA Science ï¿½2013 - www.niwa.co.nz
  *
  * $Date: 2008-03-04 16:33:32 +1300 (Tue, 04 Mar 2008) $
  */
@@ -81,7 +81,7 @@ void Manager::Build(shared_ptr<Model> model) {
  * Execute all of the time steps in the current phase
  */
 void Manager::Execute() {
-  LOG_TRACE();
+  LOG_FINE() << "Execute init";
 
   last_executed_phase_ = 0;
   for (current_initialisation_phase_ = 0; current_initialisation_phase_ < ordered_initialisation_phases_.size(); ++current_initialisation_phase_) {

@@ -47,11 +47,11 @@ public:
 protected:
   // Members
   vector<unsigned>              years_;
-  vector<Double>                length_bins_;
-  vector<Double>                length_bins_plus_;
-  vector<Double>                length_bins_n_;
-  vector<Double>                weight_bins_;
-  vector<Double>                weight_bins_plus_;
+  vector<double>                length_bins_;
+  vector<double>                length_bins_plus_;
+  vector<double>                length_bins_n_;
+  vector<double>                weight_bins_;
+  vector<double>                weight_bins_plus_;
   bool                          length_plus_ = false;
   bool                          weight_plus_ = false;
   unsigned                      number_length_bins_ = 0;
@@ -67,22 +67,25 @@ protected:
   map<unsigned, Double>         process_errors_by_year_;
   string                        method_;
   parameters::Table*            error_values_table_ = nullptr;
-  CachedCombinedCategoriesPtr   cached_partition_;
   CombinedCategoriesPtr         partition_;
   vector<Double>                length_results_;
   vector<Double>                weight_results_;
   MortalityInstantaneous*       mortality_instantaneous_ = nullptr;
   string                        time_step_label_ = "";
   string                        process_label_;
-
+  Double                        unit_multiplier_;
   // local; here so that it doesn't get reallocated in Execute()
   vector<Double>                                          length_weight_cv_adj_;
   map<string, map<string, vector<vector<Double>>>>        map_age_length_matrix_;
   map<string, map<string, vector<vector<Double>>>>        map_length_weight_matrix_;
   map<string, map<string, vector<vector<Double>>>>        map_age_weight_matrix_;
 
-  map<unsigned, map<string, vector<Double>>> proportions_;
-  map<unsigned, map<string, vector<Double>>> error_values_;
+  vector<unsigned>            fishery_ndx_to_get_catch_at_info_;
+  vector<unsigned>            year_ndx_to_get_catch_at_info_;
+  map<string, unsigned >      category_lookup_for_ndx_to_get_catch_at_info_;
+  
+  map<unsigned, map<string, vector<double>>> proportions_;
+  map<unsigned, map<string, vector<double>>> error_values_;
 };
 
 } /* namespace age */

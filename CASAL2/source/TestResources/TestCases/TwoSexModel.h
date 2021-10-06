@@ -39,6 +39,15 @@ threads 1
 @categories
 format stage.sex
 names immature.male mature.male immature.female mature.female
+age_lengths no_age_length*4
+
+@age_length no_age_length
+type none
+length_weight no_length_weight
+
+@length_weight no_length_weight
+type none
+
 
 @initialisation_phase iphase1
 years 200
@@ -105,6 +114,7 @@ ato95 3
 
 @minimiser de
 type de_solver
+active false
 covariance false
 population_size 100
 max_generations 1000

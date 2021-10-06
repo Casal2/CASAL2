@@ -16,6 +16,8 @@
 #include "Penalties/Manager.h"
 #include "Selectivities/Manager.h"
 #include "TimeSteps/Manager.h"
+#include "AgeLengths/AgeLength.h"
+
 #include "Utilities/Math.h"
 
 // namespaces
@@ -123,7 +125,7 @@ void MortalityEventBiomass::DoExecute() {
     unsigned offset = 0;
     for (Double& data : categories->data_) {
       Double temp = data * selectivities_[i]->GetAgeResult(categories->min_age_ + offset, categories->age_length_);
-      vulnerable += temp * categories->mean_weight_by_time_step_age_[time_step_index][categories->min_age_ + offset];
+      vulnerable += temp * categories->age_length_->mean_weight(time_step_index, categories->min_age_ + offset);
       ++offset;
     }
 

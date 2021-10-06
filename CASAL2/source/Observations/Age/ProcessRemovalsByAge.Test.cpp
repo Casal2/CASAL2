@@ -224,7 +224,7 @@ TEST_F(InternalEmptyModel, Observation_Process_Removals_By_Age_for_fishery_Singl
   model_->Start(RunMode::kBasic);
 
   ObjectiveFunction& obj_function = model_->objective_function();
-  EXPECT_DOUBLE_EQ(243.66246977233092, obj_function.score());
+  EXPECT_DOUBLE_EQ(243.66246977233124, obj_function.score());
 
   Observation* observation = model_->managers()->observation()->GetObservation("observation");
 
@@ -236,13 +236,13 @@ TEST_F(InternalEmptyModel, Observation_Process_Removals_By_Age_for_fishery_Singl
   ASSERT_EQ(18u, comparisons[year].size());
   EXPECT_EQ("stock", comparisons[year][0].category_);
   EXPECT_DOUBLE_EQ(15, comparisons[year][0].error_value_);
-  EXPECT_DOUBLE_EQ(0.19433803070960703, comparisons[year][0].expected_);
+  EXPECT_DOUBLE_EQ(0.19433803070960726, comparisons[year][0].expected_);
   EXPECT_DOUBLE_EQ(0.129, comparisons[year][0].observed_);
   EXPECT_DOUBLE_EQ(3.8038399067647219, comparisons[year][0].score_);
 
   EXPECT_EQ("stock", comparisons[year][1].category_);
   EXPECT_DOUBLE_EQ(15, comparisons[year][1].error_value_);
-  EXPECT_DOUBLE_EQ(0.18541336567128372, comparisons[year][1].expected_);
+  EXPECT_DOUBLE_EQ(0.18541336567128386, comparisons[year][1].expected_);
   EXPECT_DOUBLE_EQ(0.1608, comparisons[year][1].observed_);
   EXPECT_DOUBLE_EQ(5.1698115319248554, comparisons[year][1].score_);
 

@@ -26,6 +26,7 @@
 #include "TimeSteps/TimeStep.h"
 #include "Utilities/Math.h"
 #include "Utilities/To.h"
+#include "AgeLengths/AgeLength.h"
 
 // namespaces
 namespace niwa {
@@ -587,9 +588,9 @@ void MortalityInstantaneousRetained::DoExecute() {
         for (unsigned i = 0; i < category->data_.size(); ++i) {
           LOG_FINEST() << "i = " << i << " selectivity = " << fishery_category.selectivity_values_[i] << " numbers at age = " << category->data_[i]
                        << " exp values = " << fishery_category.category_.exp_values_[i]
-                       << " mean weight = " << category->mean_weight_by_time_step_age_[time_step_index][category->min_age_ + i];
+                       << " mean weight = " << category->age_length_->mean_weight(time_step_index, category->min_age_ + i);
 
-          vulnerable = category->data_[i] * category->mean_weight_by_time_step_age_[time_step_index][category->min_age_ + i] * fishery_category.selectivity_values_[i]
+          vulnerable = category->data_[i] * category->age_length_->mean_weight(time_step_index,category->min_age_ + i) * fishery_category.selectivity_values_[i]
                        * fishery_category.category_.exp_values_[i];
 
           fishery_category.fishery_.total_vulnerability_ += vulnerable;
@@ -794,11 +795,11 @@ void MortalityInstantaneousRetained::DoExecute() {
               LOG_FINEST() << "category.selectivity_values_[i] = " << category.selectivity_values_[i];
               LOG_FINEST() << "fishery_category.selectivity_values_[i] = " << fishery_category.selectivity_values_[i];
               LOG_FINEST() << "fishery_category.fishery_.exploitation_ = " << fishery_category.fishery_.exploitation_;
-              LOG_FINEST() << "mean weight by age = " << fishery_category.category_.category_->mean_weight_by_time_step_age_[time_step_index][i + model_->min_age()];
+              LOG_FINEST() << "mean weight by age = " << fishery_category.category_.category_->age_length_->mean_weight(time_step_index, i + model_->min_age());
 
               total_catch_by_age = category.category_->data_[i] * exp(-0.5 * (*category.m_) * ratio * category.selectivity_values_[i]) * fishery_category.selectivity_values_[i]
                                    * fishery_category.fishery_.exploitation_
-                                   * fishery_category.category_.category_->mean_weight_by_time_step_age_[time_step_index][i + model_->min_age()];
+                                   * fishery_category.category_.category_->age_length_->mean_weight(time_step_index, i + model_->min_age());
               LOG_FINE() << "Total catch: " << total_catch_by_age;
 
               discards_dead_by_age = fishery_category.discard_mortality_selectivity_values_[i] * total_catch_by_age

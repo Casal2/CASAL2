@@ -4,7 +4,7 @@
  * @date 24/07/2013
  * @section LICENSE
  *
- * Copyright NIWA Science ©2013 - www.niwa.co.nz
+ * Copyright NIWA Science ï¿½2013 - www.niwa.co.nz
  *
  */
 #ifndef AGELENGTHS_MANAGER_H_
@@ -27,7 +27,8 @@ class Manager : public niwa::base::Manager<niwa::agelengths::Manager, niwa::AgeL
 public:
   // methods
   virtual ~Manager() noexcept(true){};
-  AgeLength* FindAgeLength(const string& label);
+  AgeLength*  FindAgeLength(const string& label);
+  void        UpdateDataType();
 
 protected:
   // methods

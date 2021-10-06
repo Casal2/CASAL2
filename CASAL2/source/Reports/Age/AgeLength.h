@@ -5,7 +5,7 @@
  * @date 21/11/2014
  * @section LICENSE
  *
- * Copyright NIWA Science ©2017 - www.niwa.co.nz
+ * Copyright NIWA Science ï¿½2017 - www.niwa.co.nz
  *
  * @section DESCRIPTION
  *
@@ -19,6 +19,7 @@
 #include "../../Reports/Report.h"
 
 namespace niwa {
+class AgeLength;
 namespace reports {
 namespace age {
 
@@ -28,13 +29,15 @@ public:
   AgeLength();
   virtual ~AgeLength() = default;
   void DoValidate(shared_ptr<Model> model) override final;
-  void DoBuild(shared_ptr<Model> model) override final{};
+  void DoBuild(shared_ptr<Model> model) override final;
   void DoExecute(shared_ptr<Model> model) override final;
   void DoExecuteTabular(shared_ptr<Model> model) override final{};
 
 private:
   string age_length_label_;
   string category_;
+  niwa::AgeLength* age_length_       = nullptr;
+
 };
 
 } /* namespace age */

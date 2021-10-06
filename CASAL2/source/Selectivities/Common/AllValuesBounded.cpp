@@ -67,7 +67,7 @@ void AllValuesBounded::DoValidate() {
     }
 
   } else if (model_->partition_type() == PartitionType::kLength) {
-    vector<Double> length_bins = model_->length_bins();
+    vector<double> length_bins = model_->length_bins();
     unsigned       bins        = 0;
     for (unsigned i = 0; i < length_bins.size(); ++i) {
       if (length_bins[i] >= low_ && length_bins[i] <= high_)
@@ -112,7 +112,7 @@ void AllValuesBounded::RebuildCache() {
     for (; age <= max_age; ++age) values_[age - age_index_] = *v_.rbegin();
 
   } else if (model_->partition_type() == PartitionType::kLength) {
-    vector<Double> length_bins = model_->length_bins();
+    vector<double> length_bins = model_->length_bins();
     unsigned       v_index     = 0;
     for (unsigned length_bin_index = 0; length_bin_index < length_bins.size(); ++length_bin_index)
       if (length_bins[length_bin_index] < low_)

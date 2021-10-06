@@ -5,7 +5,7 @@
  * @date 21/12/2012
  * @section LICENSE
  *
- * Copyright NIWA Science ©2012 - www.niwa.co.nz
+ * Copyright NIWA Science ï¿½2012 - www.niwa.co.nz
  *
  * @section DESCRIPTION
  *
@@ -54,7 +54,7 @@ private:
   accessor::Categories       from_partition_;
   accessor::Categories       to_partition_;
   vector<Selectivity*>       selectivities_;
-  vector<vector<Double> >    transition_rates_;
+  unsigned                   min_age_ = model_->min_age();
 };
 
 } /* namespace age */

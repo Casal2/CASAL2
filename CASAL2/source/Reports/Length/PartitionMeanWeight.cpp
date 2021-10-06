@@ -48,11 +48,10 @@ void PartitionMeanWeight::DoBuild(shared_ptr<Model> model) {
  * Execute method
  */
 void PartitionMeanWeight::DoExecute(shared_ptr<Model> model) {
-  unsigned time_step_index = model->managers()->time_step()->current_time_step();
 
   //  auto categories = Categories::Instance();
   niwa::partition::accessors::All all_view(model);
-  vector<Double>                  length_bins = model->length_bins();
+  vector<double>                  length_bins = model->length_bins();
   unsigned                        year        = model->current_year();
 
   cache_ << ReportHeader(type_, label_, format_);
@@ -65,7 +64,7 @@ void PartitionMeanWeight::DoExecute(shared_ptr<Model> model) {
     cache_ << "values: ";
 
     for (unsigned length_bin_index = 0; length_bin_index <= length_bins.size(); ++length_bin_index)
-      cache_ << iterator->mean_weight_by_time_step_length_[time_step_index][length_bin_index] << " ";
+      //cache_ << iterator->mean_weight_by_time_step_length_[time_step_index][length_bin_index] << " ";
     cache_ << REPORT_EOL;
 
     cache_ << REPORT_R_LIST_END << REPORT_EOL;

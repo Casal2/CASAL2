@@ -27,6 +27,7 @@
 #include "ConfigurationLoader/MCMCObjective.h"
 #include "ConfigurationLoader/MCMCSample.h"
 #include "Estimables/Estimables.h"
+#include "AgeLengths/Manager.h"
 #include "EstimateTransformations/Manager.h"
 #include "Estimates/Manager.h"
 #include "MCMCs/Manager.h"

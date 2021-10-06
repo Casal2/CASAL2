@@ -64,8 +64,8 @@ protected:
   vector<string>              age_weight_labels_;
   vector<AgeWeight*>          age_weights_;
 
-  map<unsigned, vector<Double> > proportions_by_year_;
-  map<unsigned, Double>          error_values_by_year_;
+  map<unsigned, vector<double> > proportions_by_year_;
+  map<unsigned, double>          error_values_by_year_;
 
   bool                         calculate_nuisance_q_ = true; // more for simualtions, if nuisance Q we don't want to keep applying it to expected values
 };

@@ -18,7 +18,6 @@
 #include <cmath>
 
 #include "../../Estimates/Manager.h"
-#include "../../LengthWeights/LengthWeight.h"
 #include "../../LengthWeights/Manager.h"
 #include "../../Model/Managers.h"
 #include "../../TimeSteps/Manager.h"
@@ -41,7 +40,6 @@ VonBertalanffy::VonBertalanffy(shared_ptr<Model> model) : AgeLength(model) {
   parameters_.Bind<Double>(PARAM_LINF, &linf_, "The $L_{infinity}$ parameter", "")->set_lower_bound(0.0);
   parameters_.Bind<Double>(PARAM_K, &k_, "The $k$ parameter", "")->set_lower_bound(0.0);
   parameters_.Bind<Double>(PARAM_T0, &t0_, "The $t_0$ parameter", "");
-  parameters_.Bind<string>(PARAM_LENGTH_WEIGHT, &length_weight_label_, "The label of the associated length-weight relationship", "");
   //  parameters_.Bind<bool>(PARAM_BY_LENGTH, &by_length_, "Specifies if the linear interpolation of CV's is a linear function of mean length at age. Default is just by age", "",
   //  true);
 
@@ -59,98 +57,30 @@ void VonBertalanffy::DoBuild() {
   if (!length_weight_)
     LOG_ERROR_P(PARAM_LENGTH_WEIGHT) << "Length-weight label '" << length_weight_label_ << "' was not found";
 
-  // Build up our mean_length_ container.
-  DoRebuildCache();
 }
 
-/**
- * Return the mean length of a single population
- *
- * @param time_step The time step
- * @param age The age of the population
- * @return The mean length for one member
- */
-Double VonBertalanffy::mean_length(unsigned time_step, unsigned age) {
-  if (time_step >= time_step_proportions_.size())
-    LOG_CODE_ERROR() << "time_step >= time_step_proportions_.size() || " << time_step << " >= " << time_step_proportions_.size();
-
-  Double proportion = time_step_proportions_[time_step];
-  if ((-k_ * ((age + proportion) - t0_)) > 10)
-    LOG_ERROR_P(PARAM_K) << "-k*(age-t0) is larger than 10. Please check the k and t0 parameters are sensible";
-
-  Double size = linf_ * (1 - exp(-k_ * ((age + proportion) - t0_)));
-  if (size < 0.0)
-    return 0.0;
-
-  return size;
-}
-
-/**
- * Return the mean weight of a single population
- *
- * @param time_step The time step
- * @param age The age of the population
- * @return mean weight for one member
- */
-Double VonBertalanffy::mean_weight(unsigned time_step, unsigned age) {
-  unsigned year        = model_->current_year();
-  Double   size        = mean_length_[time_step][age];
-  Double   mean_weight = 0.0;                                                                           //
-  mean_weight          = length_weight_->mean_weight(size, distribution_, cvs_[year][time_step][age]);  // make a map [key = age]
-  return mean_weight;
-}
-
-/**
- * Return the mean weight for a time_step, age, and length
- *
- * @param year Ignored for this child (was implemented for the Data AgeLength child)
- * @param time_step The time step
- * @param age The age of the population
- * @param length The length of the population
- * @return mean weight for one member
- */
-Double VonBertalanffy::GetMeanWeight(unsigned year, unsigned time_step, unsigned age, Double length) {
-  return length_weight_->mean_weight(length, distribution_, cvs_[year][time_step][age]);
-}
-
-/**
- * Return the units for the length-weight relationship
- */
-string VonBertalanffy::weight_units() {
-  return length_weight_->weight_units();
-}
 
 /**
  * If time Varied we need to rebuild the cache
  */
 void VonBertalanffy::DoReset() {}
 
-/**
- * Return the mean length for an time_step and age
- *
- * @param year Ignored for this child (was implemented for the Data AgeLength child)
- * @param time_step The time step
- * @param age The age of the population
- * @return mean weight for one member
- */
-Double VonBertalanffy::GetMeanLength(unsigned year, unsigned time_step, unsigned age) {
-  return mean_length_[time_step][age];
-}
+
 
 /**
- * ReBuildCache: initialised by the timevarying class and build method
+ * This is responsible for returning the correct mean length
+ * for this class
  */
-void VonBertalanffy::DoRebuildCache() {
-  // Re Build up our mean_length_ container.
-  unsigned min_age         = model_->min_age();
-  unsigned max_age         = model_->max_age();
-  unsigned time_step_count = model_->time_steps().size();
-  for (unsigned step_iter = 0; step_iter < time_step_count; ++step_iter) {
-    for (unsigned age_iter = min_age; age_iter <= max_age; ++age_iter) {
-      mean_length_[step_iter][age_iter] = mean_length(step_iter, age_iter);
-    }
-  }
-}
+Double VonBertalanffy::calculate_mean_length(unsigned year, unsigned time_step, unsigned age) {
+  Double proportion = time_step_proportions_[time_step];
+  if ((-k_ * ((age + proportion) - t0_)) > 10)
+    LOG_ERROR_P(PARAM_K) << "-k*(age-t0) is larger than 10. Please check the k and t0 parameters are sensible";
 
+  Double size = linf_ * (1 - exp(-k_ * ((age + proportion) - t0_))); //TODO could cache this exp call for all age and proportions
+  if (size < 0.0)
+    return 0.0;
+  //LOG_FINEST() << "age " << age << " size = " << size;
+  return size;
+}
 } /* namespace agelengths */
 } /* namespace niwa */

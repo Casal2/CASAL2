@@ -58,11 +58,11 @@ class MainCode:
         build_string += ' ../../../../CASAL2/'
 
         print("--> CMake command: " + build_string)
-        if os.system(build_string) != EX_OK:
+        if subprocess.call(build_string, shell=True) != EX_OK:
             return Globals.PrintError("Failed to execute cmake successfully to rebuild the make files")
 
         print("--> Build main code base")
-        if os.system(Globals.make_command_) != EX_OK:
+        if subprocess.call(Globals.make_command_, shell=True) != EX_OK:
             return Globals.PrintError("Failed to build code base. Please see above for build error")
 
         elapsed = time.time() - start
@@ -178,7 +178,7 @@ class ThirdPartyLibraries:
 
                     success = builder.start()
                     if success:
-                        os.system(f"echo {builder.version_} > {Globals.target_success_path_}{folder}.success")
+                        subprocess.call(f"echo {builder.version_} > {Globals.target_success_path_}{folder}.success", shell=True)
                         print("")
                     else:
                         return Globals.PrintError("Third party library " + folder + " had an error during the build. Check log files for more information")
@@ -230,15 +230,15 @@ class FrontEnd:
         print('--> Preparing CMake command')
         build_string = 'cmake -G "' + self.cmake_compiler_ + ' Makefiles" ../../../../FrontEnd'
         print("--> CMake command: " + build_string)
-        if os.system(build_string) != EX_OK:
+        if subprocess.call(build_string, shell=True) != EX_OK:
             return Globals.PrintError("Failed to execute cmake successfully to rebuild the make files")
 
         print("--> Build main code base")
         if Globals.operating_system_ == "windows":
-            if os.system("mingw32-make") != EX_OK:
+            if subprocess.call("mingw32-make", shell=True) != EX_OK:
                 return Globals.PrintError("Failed to build code base. Please see above for build error")
         else:
-            if os.system("make") != EX_OK:
+            if subprocess.call("make", shell=True) != EX_OK:
                 return Globals.PrintError("Failed to build code base. Please see above for build error")
 
         elapsed = time.time() - start

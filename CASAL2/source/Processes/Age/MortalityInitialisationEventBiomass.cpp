@@ -19,6 +19,7 @@
 #include "Selectivities/Manager.h"
 #include "TimeSteps/Manager.h"
 #include "Utilities/To.h"
+#include "AgeLengths/AgeLength.h"
 
 // Namespaces
 namespace niwa {
@@ -101,7 +102,7 @@ void MortalityInitialisationEventBiomass::DoExecute() {
       // categories->UpdateMeanWeightData();
       for (Double& data : categories->data_) {
         Double temp = data * selectivities_[i]->GetAgeResult(categories->min_age_ + j, categories->age_length_);
-        vulnerable += temp * categories->mean_weight_by_time_step_age_[time_step_index][categories->min_age_ + j];
+        vulnerable += temp * categories->age_length_->mean_weight(time_step_index, categories->min_age_ + j);
         ++j;
       }
       ++i;

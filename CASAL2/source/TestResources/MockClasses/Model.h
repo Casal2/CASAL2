@@ -49,6 +49,7 @@ public:
     set_partition_type(PartitionType::kAge);
     set_length_bins({10, 20, 30, 40, 50});
     set_length_plus(false);
+    set_number_of_length_bins();
   }
 
   virtual ~MockModel() = default;
@@ -64,6 +65,7 @@ public:
   MOCK_CONST_METHOD0(projection_final_year, unsigned());
   MOCK_CONST_METHOD0(age_plus, bool());
   MOCK_CONST_METHOD0(current_year, unsigned());
+  MOCK_CONST_METHOD0(get_number_of_length_bins, unsigned());
   MOCK_CONST_METHOD0(time_steps, vector<string>&());
   MOCK_CONST_METHOD0(initialisation_phases, vector<string>&());
   MOCK_CONST_METHOD0(years, vector<unsigned>());
@@ -91,6 +93,8 @@ public:
   void set_initialiation_phases(vector<string> init_phases) { initialisation_phases_ = init_phases; }
   void set_partition_type(PartitionType partition_type) { partition_type_ = partition_type; }
   void set_length_bins(vector<double> length_bins) { length_bins_ = length_bins; }
+  void set_number_of_length_bins() { number_of_length_bins_ = length_plus_ == true ? length_bins_.size() : length_bins_.size() - 1;; }
+
 
   /**
    * Mock methods to call parent
@@ -104,8 +108,8 @@ public:
    */
   void bind_calls() {
     EXPECT_CALL(*this, min_age()).WillRepeatedly(Return(min_age_));
+    EXPECT_CALL(*this, age_spread()).WillRepeatedly(Return((max_age_ - min_age_) + 1));
     EXPECT_CALL(*this, max_age()).WillRepeatedly(Return(max_age_));
-    EXPECT_CALL(*this, age_spread()).WillRepeatedly(Return(mock_age_spread()));
     EXPECT_CALL(*this, start_year()).WillRepeatedly(Return(start_year_));
     EXPECT_CALL(*this, final_year()).WillRepeatedly(Return(final_year_));
     EXPECT_CALL(*this, projection_final_year()).WillRepeatedly(Return(projection_final_year_));
@@ -118,6 +122,8 @@ public:
     EXPECT_CALL(*this, partition_type()).WillRepeatedly(Return(partition_type_));
     EXPECT_CALL(*this, length_bins()).WillRepeatedly(ReturnRef(length_bins_));
     EXPECT_CALL(*this, length_plus()).WillRepeatedly(Return(length_plus_));
+    EXPECT_CALL(*this, get_number_of_length_bins()).WillRepeatedly(Return(number_of_length_bins_));
+
   }
 
   /**
@@ -145,6 +151,7 @@ public:
     EXPECT_CALL(*this, partition_type()).WillRepeatedly(DoDefault());
     EXPECT_CALL(*this, length_bins()).WillRepeatedly(DoDefault());
     EXPECT_CALL(*this, length_plus()).WillRepeatedly(DoDefault());
+    EXPECT_CALL(*this, get_number_of_length_bins()).WillRepeatedly(DoDefault());
     EXPECT_CALL(*this, managers()).WillRepeatedly(DoDefault());
     EXPECT_CALL(*this, categories()).WillRepeatedly(DoDefault());
     EXPECT_CALL(*this, objects()).WillRepeatedly(DoDefault());

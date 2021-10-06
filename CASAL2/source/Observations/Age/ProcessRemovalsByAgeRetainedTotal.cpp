@@ -73,8 +73,8 @@ ProcessRemovalsByAgeRetainedTotal::~ProcessRemovalsByAgeRetainedTotal() {
 void ProcessRemovalsByAgeRetainedTotal::DoValidate() {
   age_spread_ = (max_age_ - min_age_) + 1;
 
-  map<unsigned, vector<Double>> error_values_by_year;
-  map<unsigned, vector<Double>> obs_by_year;
+  map<unsigned, vector<double>> error_values_by_year;
+  map<unsigned, vector<double>> obs_by_year;
 
   /**
    * Do some simple checks
@@ -123,8 +123,8 @@ void ProcessRemovalsByAgeRetainedTotal::DoValidate() {
       LOG_ERROR_P(PARAM_OBS) << " value " << year << " is not a valid year for this observation";
 
     for (unsigned i = 1; i < obs_data_line.size(); ++i) {
-      Double value = 0;
-      if (!utilities::To<Double>(obs_data_line[i], value))
+      double value = 0;
+      if (!utilities::To<double>(obs_data_line[i], value))
         LOG_ERROR_P(PARAM_OBS) << " value (" << obs_data_line[i] << ") could not be converted to a Double";
       obs_by_year[year].push_back(value);
     }
@@ -153,8 +153,8 @@ void ProcessRemovalsByAgeRetainedTotal::DoValidate() {
       LOG_ERROR_P(PARAM_ERROR_VALUES) << " value " << year << " is not a valid year for this observation";
 
     for (unsigned i = 1; i < error_values_data_line.size(); ++i) {
-      Double value = 0;
-      if (!utilities::To<Double>(error_values_data_line[i], value))
+      double value = 0;
+      if (!utilities::To<double>(error_values_data_line[i], value))
         LOG_FATAL_P(PARAM_ERROR_VALUES) << " value (" << error_values_data_line[i] << ") could not be converted to a Double";
       if (likelihood_type_ == PARAM_LOGNORMAL && value <= 0.0) {
         LOG_ERROR_P(PARAM_ERROR_VALUES) << ": error_value (" << value << ") cannot be equal to or less than 0.0";
@@ -180,9 +180,9 @@ void ProcessRemovalsByAgeRetainedTotal::DoValidate() {
    * If the proportions for a given observation do not sum to 1.0
    * and is off by more than the tolerance rescale them.
    */
-  Double value = 0.0;
+  double value = 0.0;
   for (auto iter = obs_by_year.begin(); iter != obs_by_year.end(); ++iter) {
-    Double total = 0.0;
+    double total = 0.0;
 
     for (unsigned i = 0; i < category_labels_.size(); ++i) {
       for (unsigned j = 0; j < age_spread_; ++j) {
@@ -399,7 +399,7 @@ void ProcessRemovalsByAgeRetainedTotal::CalculateScore() {
     }
     likelihood_->SimulateObserved(comparisons_);
     for (auto& iter : comparisons_) {
-      Double total = 0.0;
+      double total = 0.0;
       for (auto& comparison : iter.second) total += comparison.observed_;
       for (auto& comparison : iter.second) comparison.observed_ /= total;
     }

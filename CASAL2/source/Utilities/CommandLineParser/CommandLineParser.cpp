@@ -227,12 +227,12 @@ void CommandLineParser::Parse(int argc, char* argv[], RunParameters& options) {
   } else if (parameters.count("profile")) {
     options.run_mode_ = RunMode::kProfiling;
   } else if (parameters.count("simulation")) {
-    if (!(parameters.count("input") || parameters.count("Input")))
+    if (!(parameters.count("input") || !parameters.count("input-force")))
       LOG_FATAL() << "A free parameter file must be supplied (using -i/-I) for simulations";
     options.run_mode_              = RunMode::kSimulation;
     options.simulation_candidates_ = parameters["simulation"].as<unsigned>();
   } else if (parameters.count("projection")) {
-    if (!(parameters.count("input") || parameters.count("Input")))
+    if (!(parameters.count("input") || parameters.count("input-force")))
       LOG_FATAL() << "A free parameter file must be supplied (using -i/-I) for projections";
     options.run_mode_              = RunMode::kProjection;
     options.projection_candidates_ = parameters["projection"].as<unsigned>();

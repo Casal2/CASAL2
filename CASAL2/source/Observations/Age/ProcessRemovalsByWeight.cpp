@@ -25,6 +25,7 @@
 #include "Utilities/Map.h"
 #include "Utilities/Math.h"
 #include "Utilities/To.h"
+#include "Utilities/Vector.h"
 
 // Namespaces
 namespace niwa {
@@ -47,11 +48,11 @@ ProcessRemovalsByWeight::ProcessRemovalsByWeight(shared_ptr<Model> model) : Obse
   parameters_.Bind<Double>(PARAM_LENGTH_WEIGHT_CV, &length_weight_cv_, "The CV for the length-weight relationship", "", double(0.10))->set_lower_bound(0.0, false);
   parameters_.Bind<string>(PARAM_LENGTH_WEIGHT_DISTRIBUTION, &length_weight_distribution_label_, "The distribution of the length-weight relationship", "", PARAM_NORMAL)
       ->set_allowed_values({PARAM_NORMAL, PARAM_LOGNORMAL});
-  parameters_.Bind<Double>(PARAM_LENGTH_BINS, &length_bins_, "The length bins", "");
-  parameters_.Bind<Double>(PARAM_LENGTH_BINS_N, &length_bins_n_, "The average number in each length bin", "");
+  parameters_.Bind<double>(PARAM_LENGTH_BINS, &length_bins_, "The length bins", "");
+  parameters_.Bind<double>(PARAM_LENGTH_BINS_N, &length_bins_n_, "The average number in each length bin", "");
   parameters_.Bind<string>(PARAM_UNITS, &units_, "The units for the weight bins (grams, kilograms (kgs), or tonnes)", "", PARAM_KGS)->set_allowed_values({PARAM_GRAMS, PARAM_TONNES, PARAM_KGS, PARAM_KILOGRAMS});
   parameters_.Bind<Double>(PARAM_FISHBOX_WEIGHT, &fishbox_weight_, "The target weight of each box", "", double(20.0))->set_lower_bound(0.0, false);
-  parameters_.Bind<Double>(PARAM_WEIGHT_BINS, &weight_bins_, "The weight bins", "");
+  parameters_.Bind<double>(PARAM_WEIGHT_BINS, &weight_bins_, "The weight bins", "");
   parameters_.BindTable(PARAM_OBS, obs_table_, "Table of observed values", "", false);
   parameters_.BindTable(PARAM_ERROR_VALUES, error_values_table_, "The table of error values of the observed values (note that the units depend on the likelihood)", "", false);
 
@@ -75,6 +76,14 @@ ProcessRemovalsByWeight::~ProcessRemovalsByWeight() {
  * Validate configuration file parameters
  */
 void ProcessRemovalsByWeight::DoValidate() {
+  // Check value for initial mortality
+  if (model_->length_bins().size() == 0)
+    LOG_FATAL_P(PARAM_LENGTH_BINS) << ": No length bins have been specified in @model. This observation requires those to be defined";
+
+  // Need to validate length bins are subclass of mdoel length bins.
+  if(!model_->are_length_bin_compatible_with_model_length_bins(length_bins_)) {
+    LOG_FATAL_P(PARAM_LENGTH_BINS) << "Length bins need to be a subset of the model length bins. See manual for more information";
+  }
   // How many elements are expected in our observed table;
   number_length_bins_ = length_bins_.size();
   number_weight_bins_ = weight_bins_.size();
@@ -91,15 +100,15 @@ void ProcessRemovalsByWeight::DoValidate() {
       LOG_ERROR_P(PARAM_YEARS) << "Years cannot be less than start_year (" << model_->start_year() << "), or greater than final_year (" << model_->final_year() << ").";
   }
 
-  map<unsigned, vector<Double>> error_values_by_year;
-  map<unsigned, vector<Double>> obs_by_year;
+  map<unsigned, vector<double>> error_values_by_year;
+  map<unsigned, vector<double>> obs_by_year;
 
   /**
    * Do some simple checks
    * e.g., validate that the length and weight bins are strictly increasing
    */
 
-  vector<Double> model_length_bins = model_->length_bins();
+  vector<double> model_length_bins = model_->length_bins();
   if (length_bins_[0] < model_length_bins[0])
     LOG_ERROR_P(PARAM_LENGTH_BINS) << ": Length bin value " << length_bins_[0] << " is smaller than the smallest model length bin " << model_length_bins[0];
   if (length_bins_[(number_length_bins_ - 1)] > model_length_bins[(model_length_bins.size() - 1)])
@@ -175,8 +184,8 @@ void ProcessRemovalsByWeight::DoValidate() {
       LOG_ERROR_P(PARAM_OBS) << " value " << year << " is not a valid year for this observation";
 
     for (unsigned i = 1; i < obs_data_line.size(); ++i) {
-      Double value = 0.0;
-      if (!utilities::To<Double>(obs_data_line[i], value))
+      double value = 0.0;
+      if (!utilities::To<double>(obs_data_line[i], value))
         LOG_ERROR_P(PARAM_OBS) << " value (" << obs_data_line[i] << ") could not be converted to a Double";
       obs_by_year[year].push_back(value);
     }
@@ -206,8 +215,8 @@ void ProcessRemovalsByWeight::DoValidate() {
       LOG_FATAL_P(PARAM_ERROR_VALUES) << " value " << year << " is not a valid year for this observation";
 
     for (unsigned i = 1; i < error_values_data_line.size(); ++i) {
-      Double value = 0.0;
-      if (!utilities::To<Double>(error_values_data_line[i], value))
+      double value = 0.0;
+      if (!utilities::To<double>(error_values_data_line[i], value))
         LOG_FATAL_P(PARAM_ERROR_VALUES) << " value (" << error_values_data_line[i] << ") could not be converted to a Double";
       if (likelihood_type_ == PARAM_LOGNORMAL && value <= 0.0) {
         LOG_ERROR_P(PARAM_ERROR_VALUES) << ": error_value (" << value << ") cannot be equal to or less than 0.0";
@@ -233,9 +242,9 @@ void ProcessRemovalsByWeight::DoValidate() {
    * If the proportions for a given observation do not sum to 1.0
    * and is off by more than the tolerance rescale them.
    */
-  Double value = 0.0;
+  double value = 0.0;
   for (auto iter = obs_by_year.begin(); iter != obs_by_year.end(); ++iter) {
-    Double total = 0.0;
+    double total = 0.0;
 
     for (unsigned i = 0; i < category_labels_.size(); ++i) {
       for (unsigned j = 0; j < number_weight_bins_; ++j) {
@@ -262,10 +271,13 @@ void ProcessRemovalsByWeight::DoValidate() {
  */
 void ProcessRemovalsByWeight::DoBuild() {
   partition_        = CombinedCategoriesPtr(new niwa::partition::accessors::CombinedCategories(model_, category_labels_));
-  cached_partition_ = CachedCombinedCategoriesPtr(new niwa::partition::accessors::cached::CombinedCategories(model_, category_labels_));
-
-  //  if (ageing_error_label_ != "")
-  //   LOG_CODE_ERROR() << "ageing error has not been implemented for the proportions at age observation";
+  // flag age-length to Build age-length matrix for these years
+  auto partition_iter = partition_->Begin();  
+  for (unsigned category_offset = 0; category_offset < category_labels_.size(); ++category_offset, ++partition_iter) {
+    auto category_iter        = partition_iter->begin();
+    for (; category_iter != partition_iter->end();  ++category_iter)
+      (*category_iter)->age_length_->BuildAgeLengthMatrixForTheseYears(years_);
+  }
 
   length_results_.resize(number_length_bins_ * category_labels_.size(), 0.0);
   weight_results_.resize(number_weight_bins_ * category_labels_.size(), 0.0);
@@ -298,14 +310,20 @@ void ProcessRemovalsByWeight::DoBuild() {
 
   // Do some checks so that the observation and process are compatible
   if (!mortality_instantaneous_->check_methods_for_removal_obs(methods))
-    LOG_ERROR_P(PARAM_METHOD_OF_REMOVAL) << "could not find all these methods in the instantaneous_mortality process labeled " << process_label_
+    LOG_FATAL_P(PARAM_METHOD_OF_REMOVAL) << "could not find all these methods in the instantaneous_mortality process labeled " << process_label_
                                          << ". Check that the methods are compatible with this process";
   if (!mortality_instantaneous_->check_categories_in_methods_for_removal_obs(methods, split_category_labels))
-    LOG_ERROR_P(PARAM_CATEGORIES) << "could not find all these categories in the instantaneous_mortality process labeled " << process_label_
+    LOG_FATAL_P(PARAM_CATEGORIES) << "could not find all these categories in the instantaneous_mortality process labeled " << process_label_
                                   << ". Check that the categories are compatible with this process";
   if (!mortality_instantaneous_->check_years_in_methods_for_removal_obs(years_, methods))
-    LOG_ERROR_P(PARAM_YEARS) << "could not find catches in all years in the instantaneous_mortality process labeled " << process_label_
+    LOG_FATAL_P(PARAM_YEARS) << "could not find catches in all years in the instantaneous_mortality process labeled " << process_label_
                              << ". Check that the years are compatible with this process";
+
+  fishery_ndx_to_get_catch_at_info_ = mortality_instantaneous_->get_fishery_ndx_for_catch_at(methods);
+  vector<unsigned> category_ndxs = mortality_instantaneous_->get_category_ndx_for_catch_at(split_category_labels);
+  for(unsigned category_ndx = 0; category_ndx < split_category_labels.size(); ++category_ndx) 
+    category_lookup_for_ndx_to_get_catch_at_info_[split_category_labels[category_ndx]] = category_ndxs[category_ndx];
+  year_ndx_to_get_catch_at_info_ = mortality_instantaneous_->get_year_ndx_for_catch_at(years_);
 
   length_weight_cv_adj_.resize(number_length_bins_);
   for (unsigned i = 0; i < number_length_bins_; ++i) {
@@ -321,36 +339,14 @@ void ProcessRemovalsByWeight::DoBuild() {
   weight_plus_      = false;
   weight_bins_plus_ = weight_bins_;
   weight_bins_plus_.push_back(weight_bins_[number_weight_bins_ - 1] + (weight_bins_[number_weight_bins_ - 1] - weight_bins_[number_weight_bins_ - 2]));
-}
 
-/**
- * This method is called at the start of the targeted
- * time step for this observation.
- *
- * At this point we need to build our cache for the partition
- * structure to use with any interpolation
- */
-void ProcessRemovalsByWeight::PreExecute() {
-  LOG_FINEST() << "Entering observation " << label_;
-
-  cached_partition_->BuildCache();
-
-  if (cached_partition_->Size() != proportions_[model_->current_year()].size())
-    LOG_CODE_ERROR() << "cached_partition_->Size() != proportions_[model->current_year()].size()";
-  if (partition_->Size() != proportions_[model_->current_year()].size())
-    LOG_CODE_ERROR() << "partition_->Size() != proportions_[model->current_year()].size()";
 
   auto age_data_size = model_->age_spread();
-
-  auto cached_partition_iter = cached_partition_->Begin();
-  auto partition_iter        = partition_->Begin();  // vector<vector<partition::Category> >
-
-  for (unsigned category_offset = 0; category_offset < category_labels_.size(); ++category_offset, ++partition_iter, ++cached_partition_iter) {
+  partition_iter        = partition_->Begin();  // vector<vector<partition::Category> >
+  for (unsigned category_offset = 0; category_offset < category_labels_.size(); ++category_offset, ++partition_iter) {
     LOG_FINE() << "category: " << category_labels_[category_offset];
-
     auto category_iter        = partition_iter->begin();
-    auto cached_category_iter = cached_partition_iter->begin();
-    for (; category_iter != partition_iter->end(); ++cached_category_iter, ++category_iter) {
+    for (; category_iter != partition_iter->end(); ++category_iter) {
       auto category_name = (*category_iter)->name_;
       LOG_FINE() << "category name: " << category_name;
 
@@ -372,41 +368,70 @@ void ProcessRemovalsByWeight::PreExecute() {
       }
     }
   }
+
+  // get the units specified in the age-length relationship (returns length_weight_->weight_units())
+  // weight_units    = age_length->weight_units();
+  string weight_units    = model_->base_weight_units();  // since age_length->GetMeanWeight() returns the model weight units, per Craig Marsh 2021-07-07
+  unit_multiplier_ = 1.0;
+  // what value to multiply weight_units by to get units_
+  if ((units_ == PARAM_TONNES) && (weight_units == PARAM_KGS || weight_units == PARAM_KILOGRAMS))
+    unit_multiplier_ = 0.001;
+  else if (units_ == PARAM_GRAMS && (weight_units == PARAM_KGS || weight_units == PARAM_KILOGRAMS))
+    unit_multiplier_ = 1000;
+
+  if ((units_ == PARAM_KGS || units_ == PARAM_KILOGRAMS) && (weight_units == PARAM_TONNES))
+    unit_multiplier_ = 1000;
+  else if (units_ == PARAM_GRAMS && (weight_units == PARAM_TONNES))
+    unit_multiplier_ = 1000000;
+
+  if ((units_ == PARAM_KGS || units_ == PARAM_KILOGRAMS) && (weight_units == PARAM_GRAMS))
+    unit_multiplier_ = 0.0001;
+  else if (units_ == PARAM_TONNES && (weight_units == PARAM_GRAMS))
+    unit_multiplier_ = 0.0000001;
+
+}
+
+/**
+ * This method is called at the start of the targeted
+ * time step for this observation.
+ *
+ * At this point we need to build our cache for the partition
+ * structure to use with any interpolation
+ */
+void ProcessRemovalsByWeight::PreExecute() {
+  LOG_FINEST() << "Entering observation " << label_;
+  if (partition_->Size() != proportions_[model_->current_year()].size())
+    LOG_CODE_ERROR() << "partition_->Size() != proportions_[model->current_year()].size()";
 }
 
 /**
  * Execute the ProcessRemovalsByWeight expected values calculations
  */
 void ProcessRemovalsByWeight::Execute() {
+  
   LOG_TRACE();
   /**
    * Verify our cached partition and partition sizes are correct
    */
   //  auto categories = model_->categories();
   unsigned year      = model_->current_year();
-  unsigned time_step = model_->managers()->time_step()->current_time_step();
+  std::pair<bool, int >  this_year_iter = utilities::findInVector(years_, year);
+  if(!this_year_iter.first)
+    LOG_CODE_ERROR() << "if(!this_year_iter.first)";
 
-  auto                                                     cached_partition_iter = cached_partition_->Begin();
+  unsigned time_step = model_->managers()->time_step()->current_time_step();
   auto                                                     partition_iter        = partition_->Begin();  // vector<vector<partition::Category> >
-  map<unsigned, map<string, map<string, vector<Double>>>>& Removals_at_age       = mortality_instantaneous_->catch_at();
 
   Double mean_length;
   Double mean_weight;
   Double std_dev;
-  string weight_units;
-  Double unit_multiplier;
 
   // vector<Double> numbers_at_length(number_length_bins_);
   vector<Double> numbers_at_weight(number_weight_bins_);
   // vector<Double> expected_values_length(number_length_bins_);
   vector<Double> expected_values_weight(number_weight_bins_);
 
-  /**
-   * Loop through the provided categories. Each provided category (combination) will have a list of observations
-   * with it. We need to build a vector of proportions for each weight using that combination and then
-   * compare it to the observations.
-   */
-  for (unsigned category_offset = 0; category_offset < category_labels_.size(); ++category_offset, ++partition_iter, ++cached_partition_iter) {
+  for (unsigned category_offset = 0; category_offset < category_labels_.size(); ++category_offset, ++partition_iter) {
     LOG_FINE() << "category: " << category_labels_[category_offset];
     Double start_value   = 0.0;
     Double end_value     = 0.0;
@@ -415,47 +440,21 @@ void ProcessRemovalsByWeight::Execute() {
     // std::fill(expected_values_length.begin(), expected_values_length.end(), 0.0);
     std::fill(expected_values_weight.begin(), expected_values_weight.end(), 0.0);
 
-    /**
-     * Loop through the 2 combined categories building up the
-     * expected proportions values.
-     */
+
     auto category_iter        = partition_iter->begin();
-    auto cached_category_iter = cached_partition_iter->begin();
-    for (; category_iter != partition_iter->end(); ++cached_category_iter, ++category_iter) {
+    for (; category_iter != partition_iter->end(); ++category_iter) {
       auto category_name = (*category_iter)->name_;
       LOG_FINE() << "category name: " << category_name;
+      vector<Double>& Removals_at_age = mortality_instantaneous_->get_catch_at_by_year_fishery_category(year_ndx_to_get_catch_at_info_[this_year_iter.second], fishery_ndx_to_get_catch_at_info_[0], category_lookup_for_ndx_to_get_catch_at_info_[(*category_iter)->name_]);
 
-      AgeLength* age_length = (*category_iter)->age_length_;
-
-      // get the units specified in the age-length relationship (returns length_weight_->weight_units())
-      // weight_units    = age_length->weight_units();
-      weight_units    = model_->base_weight_units();  // since age_length->GetMeanWeight() returns the model weight units, per Craig Marsh 2021-07-07
-      unit_multiplier = 1.0;
-      // what value to multiply weight_units by to get units_
-      if ((units_ == PARAM_TONNES) && (weight_units == PARAM_KGS || weight_units == PARAM_KILOGRAMS))
-        unit_multiplier = 0.001;
-      else if (units_ == PARAM_GRAMS && (weight_units == PARAM_KGS || weight_units == PARAM_KILOGRAMS))
-        unit_multiplier = 1000;
-
-      if ((units_ == PARAM_KGS || units_ == PARAM_KILOGRAMS) && (weight_units == PARAM_TONNES))
-        unit_multiplier = 1000;
-      else if (units_ == PARAM_GRAMS && (weight_units == PARAM_TONNES))
-        unit_multiplier = 1000000;
-
-      if ((units_ == PARAM_KGS || units_ == PARAM_KILOGRAMS) && (weight_units == PARAM_GRAMS))
-        unit_multiplier = 0.0001;
-      else if (units_ == PARAM_TONNES && (weight_units == PARAM_GRAMS))
-        unit_multiplier = 0.0000001;
-
-      LOG_FINE() << "category " << category_name << " unit multiplier " << unit_multiplier << " from " << weight_units << " to " << units_;
 
       bool no_length_weight_change = true;
 
       for (unsigned j = 0; j < number_length_bins_; ++j) {
         // NOTE: hardcoded for now with minimum age (used to get cv[year][time_step][age])
-        mean_weight = unit_multiplier * age_length->GetMeanWeight(year, time_step, (*category_iter)->min_age_, length_bins_[j]);
+        mean_weight = unit_multiplier_ * (*category_iter)->age_length_->mean_weight_by_length(length_bins_[j], (*category_iter)->min_age_, year, time_step);
         LOG_FINEST() << "Mean weight at length " << length_bins_[j] << " (CVs for age " << (*category_iter)->min_age_ << "): " << mean_weight
-                     << " mean weight = " << age_length->GetMeanWeight(year, time_step, (*category_iter)->min_age_, length_bins_[j]) << " multiplier = " << unit_multiplier;
+                     << " mean weight = " << (*category_iter)->age_length_->mean_weight_by_length(length_bins_[j], (*category_iter)->min_age_, year, time_step) << " multiplier = " << unit_multiplier_;
 
         std_dev      = length_weight_cv_adj_[j] * mean_weight;
         auto tmp_vec = utilities::math::distribution2(weight_bins_plus_, weight_plus_, length_weight_distribution_, mean_weight, std_dev);
@@ -482,19 +481,19 @@ void ProcessRemovalsByWeight::Execute() {
       LOG_FINE() << "number_length_bins_ " << number_length_bins_ << " number_weight_bins_ " << number_weight_bins_ << " age spread " << model_->age_spread();
       LOG_FINE() << "category data size (number of ages) " << (*category_iter)->data_.size();
 
-      Double total_number_at_age = utilities::math::Sum(Removals_at_age[year][method_][category_name]);
+      Double total_number_at_age = utilities::math::Sum(Removals_at_age);
 
       for (unsigned data_offset = 0; data_offset < (*category_iter)->data_.size(); ++data_offset) {
         unsigned age = ((*category_iter)->min_age_ + data_offset);
         // Calculate the age structure removed from the fishing process
-        number_at_age = Removals_at_age[year][method_][category_name][data_offset];
+        number_at_age = Removals_at_age[data_offset];
         LOG_FINEST() << "Numbers at age " << age << ": " << number_at_age;
 
-        mean_length = age_length->GetMeanLength(year, time_step, age);
+        mean_length = (*category_iter)->age_length_->mean_length(time_step, age);
         LOG_FINEST() << "Mean length at age " << age << ": " << mean_length;
 
-        std_dev      = age_length->cv(year, time_step, age) * mean_length;
-        auto tmp_vec = utilities::math::distribution2(length_bins_plus_, length_plus_, age_length->distribution(), mean_length, std_dev);
+        std_dev      = (*category_iter)->age_length_->cv(year, time_step, age) * mean_length;
+        auto tmp_vec = utilities::math::distribution2(length_bins_plus_, length_plus_, (*category_iter)->age_length_->distribution(), mean_length, std_dev);
 
         // update the age-length (and the age-weight) matrix only if necessary
         if (no_length_weight_change && utilities::math::Sum(tmp_vec) > 0
@@ -529,17 +528,6 @@ void ProcessRemovalsByWeight::Execute() {
         LOG_FINE() << "Fraction of weight_bin[0] at age " << age << ": " << map_age_weight_matrix_[category_labels_[category_offset]][category_name][data_offset][0] << " size "
                    << map_age_weight_matrix_[category_labels_[category_offset]][category_name][data_offset].size();
       }
-
-      // if (map_age_length_matrix_[category_labels_[category_offset]][category_name].size() == 0)
-      //   LOG_CODE_ERROR()<< "if (map_age_length_matrix_[category_labels_[category_offset]][category_name]_.size() == 0)";
-
-      // numbers_at_length.assign(map_age_length_matrix_[category_labels_[category_offset]][category_name][0].size(), 0.0);
-      // for (unsigned i = 0; i < map_age_length_matrix_[category_labels_[category_offset]][category_name].size(); ++i) {
-      //   for (unsigned j = 0; j < map_age_length_matrix_[category_labels_[category_offset]][category_name][i].size(); ++j) {
-      //     numbers_at_length[j] += map_age_length_matrix_[category_labels_[category_offset]][category_name][i][j];
-      //   }
-      // }
-
       // numbers_at_weight.assign(map_age_weight_matrix_[category_labels_[category_offset]][category_name][0].size(), 0.0);
       std::fill(numbers_at_weight.begin(), numbers_at_weight.end(), 0.0);
       for (unsigned i = 0; i < map_age_weight_matrix_[category_labels_[category_offset]][category_name].size(); ++i) {
@@ -573,14 +561,12 @@ void ProcessRemovalsByWeight::Execute() {
       LOG_CODE_ERROR() << "expected_values_weight.size(" << expected_values_weight.size() << ") != proportions_[category_offset].size("
                        << proportions_[model_->current_year()][category_labels_[category_offset]].size() << ")";
 
-    /**
-     * save our comparisons so we can use them to generate the score from the likelihoods later
-     */
     for (unsigned i = 0; i < expected_values_weight.size(); ++i) {
       SaveComparison(category_labels_[category_offset], 0, weight_bins_[i], expected_values_weight[i], proportions_[model_->current_year()][category_labels_[category_offset]][i],
                      process_errors_by_year_[model_->current_year()], error_values_[model_->current_year()][category_labels_[category_offset]][i], 0.0, delta_, 0.0);
     }
   }
+  
 }
 
 /**
@@ -597,7 +583,7 @@ void ProcessRemovalsByWeight::CalculateScore() {
   if (model_->run_mode() == RunMode::kSimulation) {
     likelihood_->SimulateObserved(comparisons_);
     for (auto& iter : comparisons_) {
-      Double total = 0.0;
+      double total = 0.0;
       for (auto& comparison : iter.second) total += comparison.observed_;
       for (auto& comparison : iter.second) comparison.observed_ /= total;
     }

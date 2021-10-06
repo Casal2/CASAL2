@@ -204,18 +204,22 @@ void Managers::Build() {
 
   additional_prior_->Build();
   ageing_error_->Build();
-  age_length_->Build();
-  age_weight_->Build();
   assert_->Build();
   catchability_->Build();
   derived_quantity_->Build();
-  length_weight_->Build();
   likelihood_->Build();
   if (mcmc_ && (run_mode == RunMode::kMCMC || run_mode == RunMode::kTesting))
     mcmc_->Build();
   if (run_mode == RunMode::kEstimation || run_mode == RunMode::kMCMC || run_mode == RunMode::kTesting)
     minimiser_->Build();
   observation_->Build();
+
+  // age-length and length-weight needs to be down stream of observations and processes
+  // so they can tell the age-length class which years to build age-length matricies for.
+  age_length_->Build();
+  age_weight_->Build();
+  length_weight_->Build();
+
   penalty_->Build();
   profile_->Build();
   project_->Build(model_);
@@ -240,13 +244,6 @@ void Managers::Reset() {
   age_weight_->Reset();
   length_weight_->Reset();
   selectivity_->Reset();
-
-  /**
-   * Now. Update Age Lengths
-   */
-  vector<string> category_names = model_->categories()->category_names();
-  for (string category_name : category_names) model_->partition().category(category_name).UpdateMeanLengthData();
-
   additional_prior_->Reset();
   ageing_error_->Reset();
   assert_->Reset();
