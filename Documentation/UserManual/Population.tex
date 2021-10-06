@@ -1267,8 +1267,7 @@ For most weight based processes, derived quantities and observations the users h
 
 
 Changes in length-at-age during the year, i.e., growth between birthdays, are represented by incrementing age as specified by the \subcommand{time\_step\_proportions} parameter.
-
-
+	
 \subsubsection{The `none' relationship}\index{Age-length relationshsip!None}\label{sec:AgeLength-None}
 
 The length of each individual is 1 for all ages, and the \texttt{none} length-weight relationship must also be used.
@@ -1367,6 +1366,16 @@ because the observation length bins are not a subset of the model length bins. T
 
 
 
+
+To get \CNAME\ to report the mean length, mean weight at age and the age-length distribution, include the following report into your model with the years and time-steps of interest, see section~\ref{syntax:Report-AgeLength} for more information.
+{\small{\begin{verbatim}
+		@report age_length
+		type age_length 
+		age_length age_length_von_bertalanffy ## @age_length label
+		years 1930:2020  ## years of interest
+		time_step summer ## time-step label
+		\end{verbatim}}}
+	
 \subsection{\I{Length-weight relationship}}\label{sec:MeanWeight}\label{sec:LengthWeight}
 
 There are two length-weight relationships options. The first is the naive "no relationship" relationship, where the weight of an individual is always 1, regardless of length. The second relationship is the "basic" relationship, which is the standard length-weight relationship, $W = aL^b$.
