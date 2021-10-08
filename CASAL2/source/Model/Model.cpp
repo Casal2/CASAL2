@@ -532,6 +532,7 @@ void Model::RunBasic() {
       LOG_FINEST() << "finishing update time varying now Update Category mean length and weight before beginning annual cycle";
       time_step_manager.Execute(current_year_);
     }
+    current_year_ = final_year_;
 
     managers_->observation()->CalculateScores();
 
@@ -881,12 +882,12 @@ void Model::Iterate() {
 
     time_step_manager.Execute(current_year_);
   }
+  current_year_ = final_year_;
 
   managers_->observation()->CalculateScores();
 
   for (auto executor : executors_[State::kExecute]) executor->Execute();
 
-  current_year_ = final_year_;
 }
 
 /**
