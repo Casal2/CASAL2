@@ -48,18 +48,19 @@ Engine::~Engine() {}
 // double Engine::optimise_finite_differences(CGammaDiffCallback& objective, vector<double>& StartValues, vector<double>& LowerBounds,
 //   vector<double>& UpperBounds, int& convergence, int& iMaxIter, int& iMaxFunc, double dGradTol,
 //   double **pOPTIMIZEHessian, int untransformedHessians, double dStepSize)
+// @param use_tan_transform if true use the new tan scale, if false use the previous sin scaling function
+//
 // OPTIMIZE our function
 //**********************************************************************
 Double Engine::optimise(adolc::CallBack& objective, vector<Double>& start_values, vector<double>& lower_bounds, vector<double>& upper_bounds, int& convergence, int& max_iterations,
-                        int& max_evaluations, double gradient_tolerance, double** out_hessian, int untransformed_hessians, double step_size) {
+                        int& max_evaluations, double gradient_tolerance, double** out_hessian, int untransformed_hessians, double step_size, bool use_tan_transform) {
   // Variables
   unsigned       parameter_count = start_values.size();
   double         obj_score       = 0.0;
   adouble        aobj_score      = 0.0;
-  Double         penalty         = 0.0;
   vector<double> scaled_candidate_values(parameter_count, 0.0);
   vector<double> gradient_values(parameter_count, 0.0);
-
+  Double penalty = 0.0; // only used if transform_tan != true
   //  bool first_iteration = true;
 
   /**
@@ -86,10 +87,14 @@ Double Engine::optimise(adolc::CallBack& objective, vector<Double>& start_values
     if (start_values[i] > upper_bounds[i])
       LOG_CODE_ERROR() << "start_values[i] > upper_bounds[i]";
 
-    if (math::IsEqual(lower_bounds[i], upper_bounds[i]))
+    if (math::IsEqual(lower_bounds[i], upper_bounds[i])) {
       scaled_candidates[i] = 0.0;
-    else
-      scaled_candidates[i] = math::scale(start_values[i], lower_bounds[i], upper_bounds[i]);
+    } else {
+      if(use_tan_transform)
+        scaled_candidates[i] = math::scale(start_values[i], lower_bounds[i], upper_bounds[i]);
+      else 
+        scaled_candidates[i] = math::scale_value_sin(start_values[i], lower_bounds[i], upper_bounds[i]);
+    }
   }
 
   // Loop through our Minimiser now
@@ -109,10 +114,14 @@ Double Engine::optimise(adolc::CallBack& objective, vector<Double>& start_values
       // unscale candidates
       LOG_MEDIUM() << "candidates (unscaled): ";
       for (unsigned i = 0; i < parameter_count; ++i) {
-        if (math::IsEqual(lower_bounds[i], upper_bounds[i]))
+        if (math::IsEqual(lower_bounds[i], upper_bounds[i])) {
           candidates[i] = lower_bounds[i];
-        else
-          candidates[i] = math::unscale(scaled_candidates[i], lower_bounds[i], upper_bounds[i]);
+        } else {
+          if(use_tan_transform)
+            candidates[i] = math::unscale(scaled_candidates[i], lower_bounds[i], upper_bounds[i]);
+          else
+            candidates[i] = math::unscale_value_sin(scaled_candidates[i], penalty, lower_bounds[i], upper_bounds[i]);
+        }
         LOG_MEDIUM() << candidates[i] << ", ";
       }
       LOG_MEDIUM() << "";

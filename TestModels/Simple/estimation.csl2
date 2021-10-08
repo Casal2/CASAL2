@@ -1,11 +1,5 @@
 ## Estimation script for HAK base model
 ## This is the -e command in CASAL
-@minimiser betadiff
-type betadiff
-tolerance 1e-6
-iterations 500
-evaluations 2000
-active true
 
 @mcmc mcmc
 type random_walk

@@ -5,14 +5,7 @@
 # - Define AdditionalPriors = Analogous to Penalties really.
 
 ################################### Minimiser ###############################
-
-@minimiser beta_diff
-type betadiff
-#type numerical_differences
-iterations 4000
-tolerance 0.000002
-evaluations 10000
-active true
+## moved to relevant config
 
 ################################### Estimates ###############################
 ## Format for parameter in @estimate block = type[label].parameter
