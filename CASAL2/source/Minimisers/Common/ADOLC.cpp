@@ -30,6 +30,8 @@ ADOLC::ADOLC(shared_ptr<Model> model) : Minimiser(model) {
   parameters_.Bind<int>(PARAM_MAX_EVALUATIONS, &max_evaluations_, "The maximum number of evaluations", "", 4000)->set_lower_bound(1);
   parameters_.Bind<double>(PARAM_TOLERANCE, &gradient_tolerance_, "The tolerance of the gradient for convergence", "", DEFAULT_CONVERGENCE)->set_lower_bound(0.0, false);
   parameters_.Bind<double>(PARAM_STEP_SIZE, &step_size_, "The minimum step size before minimisation fails", "", 1e-7)->set_lower_bound(0.0, false);
+  parameters_.Bind<string>(PARAM_PARAMETER_TRANSFORMATION, &parameter_transformation_, "The choice to scale parameters for ADOLC optimation", "", PARAM_SIN_TRANSFORM)->set_allowed_values({PARAM_SIN_TRANSFORM, PARAM_TAN_TRANSFORM});
+
 }
 
 /**
@@ -42,6 +44,11 @@ void ADOLC::Execute() {
 
   auto estimate_manager = model_->managers()->estimate();
 
+  if(parameter_transformation_ == PARAM_TAN_TRANSFORM) {
+    use_tan_transform = true;
+  } else {
+    use_tan_transform = false;
+  }
   vector<double> lower_bounds;
   vector<double> upper_bounds;
   vector<Double> start_values;
@@ -66,7 +73,7 @@ void ADOLC::Execute() {
 
   int           status = 0;
   adolc::Engine adolc;
-  adolc.optimise(call_back, start_values, lower_bounds, upper_bounds, status, max_iterations_, max_evaluations_, gradient_tolerance_, hessian_, 1, step_size_);
+  adolc.optimise(call_back, start_values, lower_bounds, upper_bounds, status, max_iterations_, max_evaluations_, gradient_tolerance_, hessian_, 1, step_size_, use_tan_transform);
 
   model_->managers()->estimate_transformation()->RestoreEstimates();
 

@@ -5,7 +5,7 @@
  * @date 17/11/2014
  * @section LICENSE
  *
- * Copyright NIWA Science ©2014 - www.niwa.co.nz
+ * Copyright NIWA Science ï¿½2014 - www.niwa.co.nz
  *
  * @section DESCRIPTION
  *
@@ -42,6 +42,8 @@ private:
   int    max_evaluations_;
   double gradient_tolerance_;
   double step_size_;
+  string parameter_transformation_;
+  bool   use_tan_transform;
 };
 
 } /* namespace minimisers */

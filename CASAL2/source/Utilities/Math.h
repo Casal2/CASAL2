@@ -410,6 +410,60 @@ inline void unscale_vector(vector<Double>& target, const vector<Double>& lower_b
   }
 }
 
+/**
+ * conditional assignment
+ * used by the sin scale function below
+ */
+inline void cond_assign(Double &res, const Double &cond, const Double &arg1, const Double &arg2) {
+  res = (cond) > 0 ? arg1 : arg2;
+}
+
+/**
+ * conditional assignment
+ * used by the sin scale function
+ */
+inline void cond_assign(Double &res, const Double &cond, const Double &arg) {
+  res = (cond) > 0 ? arg : res;
+}
+
+
+/**
+ * scale value with sin tranform - this was the previous implementation
+ * note: there is an implied penalty in this transformation
+ * when paraemters are close to the lower or upper bounds.
+ */
+inline Double scale_value_sin(Double value, double min, double max) {
+  if (math::IsEqual(value, min))
+    return -1;
+  else if (math::IsEqual(value, max))
+    return 1;
+
+  return asin(2 * (value - min) / (max - min) - 1) / 1.57079633;
+}
+
+/**
+ * unscale value with sin transformation
+ */
+inline Double unscale_value_sin(const Double& value, Double& penalty, double min, double max) {
+  // courtesy of AUTODIF - modified to correct error -
+  // penalty on values outside [-1,1] multiplied by 100 as of 14/1/02.
+  Double t = 0.0;
+  Double y = 0.0;
+
+  t = min + (max - min) * (sin(value * 1.57079633) + 1) / 2;
+  cond_assign(y, -.9999 - value, (value + .9999) * (value + .9999), 0);
+  penalty += y;
+  cond_assign(y, value - .9999, (value - .9999) * (value - .9999), 0);
+  penalty += y;
+  cond_assign(y, -1 - value, 1e5 * (value + 1) * (value + 1), 0);
+  penalty += y;
+  cond_assign(y, value - 1, 1e5 * (value - 1) * (value - 1), 0);
+  penalty += y;
+
+  return (t);
+}
+
+
 //**********************************************************************
 //    General math utilities
 //**********************************************************************

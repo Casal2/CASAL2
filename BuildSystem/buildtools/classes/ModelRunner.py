@@ -29,10 +29,10 @@ class ModelRunner:
     print('')
     success_count = 0
     fail_count = 0
-    estimation_dir_list = {"Simple", "SBW"}    # requires a config.csl2 file (uses whatever minimiser is defined)
-    estimation_betadiff_dir_list = {"TwoSex"}  # requires a config-betadiff.csl2 file
+    ##estimation_dir_list = {"Simple", "SBW"}    # requires a config.csl2 file (uses whatever minimiser is defined)
+    estimation_betadiff_dir_list = {"TwoSex", "SBW", "Simple"}  # requires a config-betadiff.csl2 file
     estimation_gammadiff_dir_list = {"TwoSex"} # requires a config-gammadiff.csl2 file
-    estimation_adolc_dir_list = {"TwoSex"}     # requires a config-adolc.csl2 file
+    estimation_adolc_dir_list = {"TwoSex", "SBW", "Simple"}     # requires a config-adolc.csl2 file
     simulate_dash_i_dir_list = {"ORH3B"} # if you change this you will need to formulate the report or python code below, not very general.
     run_dash_i_dir_list = {"Complex_input","TwoSex_input"}
     run_dash_I_dir_list = {"SingleSexTagByLength_input"}
@@ -44,8 +44,6 @@ class ModelRunner:
 
     # test -r functionality with full/different models
     for folder in dir_list:
-      if folder in estimation_dir_list:
-      	continue
       if folder in estimation_betadiff_dir_list:
       	continue
       if folder in estimation_gammadiff_dir_list:
@@ -138,19 +136,6 @@ class ModelRunner:
         fail_count += 1			
       os.chdir(cwd) 	  
     # test -e functionality
-    for folder in estimation_dir_list:
-      os.chdir("../TestModels/" + folder)
-      if os.system(f"{exe_path} -e -g 20 > estimate.log  2>&1") != EX_OK:
-        elapsed = time.time() - start
-        print('[FAILED] - ' + folder + ' estimation in ' + str(round(elapsed, 2)) + ' seconds')
-        #print("--> Printing last 20 lines of estimate.log")
-        #os.system("tail -n20 estimate.log")       
-        fail_count += 1
-      else:
-        elapsed = time.time() - start
-        print('[OK] - ' + folder + ' estimation in ' + str(round(elapsed, 2)) + ' seconds')
-        success_count += 1
-      os.chdir(cwd) 	  
     for folder in estimation_betadiff_dir_list:
       os.chdir("../TestModels/" + folder)
       if os.system(f"{exe_path} -e -g 20 -c config_betadiff.csl2 > estimate_betadiff.log 2>&1") != EX_OK:

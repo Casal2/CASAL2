@@ -8,6 +8,6 @@ type ADOLC
 tolerance 1e-6
 iterations 2000
 active true
-
+parameter_transformation sin_transform
 
 

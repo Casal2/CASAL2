@@ -6,7 +6,7 @@
  * @date 17/11/2014
  * @section LICENSE
  *
- * Copyright NIWA Science ©2014 - www.niwa.co.nz
+ * Copyright NIWA Science ï¿½2014 - www.niwa.co.nz
  *
  * @section DESCRIPTION
  *
@@ -37,7 +37,7 @@ public:
   Engine();
   virtual ~Engine();
   Double optimise(adolc::CallBack& objective, vector<Double>& start_values, vector<double>& lower_bounds, vector<double>& upper_bounds, int& convergence, int& max_iterations,
-                  int& max_evaluations, double gradient_tolerance, double** out_hessian, int untransformed_hessians, double step_size);
+                  int& max_evaluations, double gradient_tolerance, double** out_hessian, int untransformed_hessians, double step_size, bool use_tan_transform);
   int    get_convergence_status() { return convergence_; }
   int    get_iterations_used() { return iterations_used_; }
   int    get_evaluations_used() { return evaluations_used_; }
