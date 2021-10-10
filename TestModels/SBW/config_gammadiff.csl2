@@ -1,0 +1,13 @@
+!include "population.csl2"
+!include "Estimation.csl2"
+!include "Observation.csl2"
+!include "report.csl2"
+
+@minimiser gammdiff
+type numerical_differences
+tolerance 1e-6
+iterations 1000
+active true
+
+
+
