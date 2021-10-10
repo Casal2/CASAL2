@@ -73,50 +73,71 @@ void TagRecaptureByLength::DoValidate() {
    * Do some simple checks
    * e.g Validate that the length_bins are strictly increasing
    */
+  // Check value for initial mortality
+  if (model_->length_bins().size() == 0)
+    LOG_ERROR_P(PARAM_LABEL) << ": No length bins have been specified in @model. This observation requires those to be defined";
+
+  if(length_plus_ & !model_->length_plus())
+    LOG_ERROR_P(PARAM_LENGTH_PLUS) << "you have specified a plus group on this observation, but the global length bins don't have a plus group. This is an inconsistency that must be fixed. Try changing the model plus group to false or this plus group to true";
+
+  /**
+   * Do some simple checks
+   * e.g Validate that the length_bins are strictly increasing
+   */  
   vector<double> model_length_bins = model_->length_bins();
-
-  if (parameters_.Get(PARAM_LENGTH_BINS)->has_been_defined()) {
-    length_bins_.resize(length_bins_input_.size(), 0.0);
-    for (unsigned length = 0; length < length_bins_input_.size(); ++length) {
-      if (length_bins_input_[length] < 0.0)
-        LOG_ERROR_P(PARAM_LENGTH_BINS) << ": Length bin values must be positive. '" << length_bins_input_[length] << "' is less than 0";
-
-      if (length > 0 && length_bins_input_[length - 1] >= length_bins_input_[length])
-        LOG_ERROR_P(PARAM_LENGTH_BINS) << ": Length bins must be strictly increasing. " << length_bins_input_[length - 1] << " is greater than " << length_bins_input_[length];
-
-      length_bins_[length] = length_bins_input_[length];
-    }
-
-    // Finally Check the bins are not the same as in the @model, if user set them to be the same as the @model
-    // we can ignore the input for performance benefits.
-    if (length_bins_input_.size() == model_length_bins.size()) {
-      for (unsigned i = 0; i < model_length_bins.size(); ++i) {
-        if (model_length_bins[i] != length_bins_input_[i])
-          use_model_length_bins_ = false;
-      }
-    } else {
-      use_model_length_bins_ = false;
-    }
-
+  if (length_bins_.size() == 0) {
+    LOG_FINE() << "using model length bins";
+    length_bins_ = model_length_bins;
+    using_model_length_bins = true;
+    // length_plus_     = model_->length_plus();
   } else {
-    // set to model if not defined.
-    length_bins_input_ = model_length_bins;
-    length_bins_.resize(length_bins_input_.size(), 0.0);
-    for (unsigned length = 0; length < length_bins_input_.size(); ++length) {
-      length_bins_[length] = length_bins_input_[length];
-      LOG_FINE() << "length bin " << length + 1 << " " << length_bins_input_[length] << " after static " << length_bins_[length];
+    LOG_FINE() << "using bespoke length bins";
+    // allow for the use of observation-defined length bins, as long as all values are in the set of model length bin values
+    using_model_length_bins = false;
+    // check users haven't just respecified the moedl length bins
+    bool length_bins_match = false;
+    LOG_FINE() << length_bins_.size()  << "  " << model_length_bins.size();
+    if(length_bins_.size() == model_length_bins.size()) {
+      length_bins_match = true;
+      for(unsigned len_ndx = 0; len_ndx < length_bins_.size(); len_ndx++) {
+        if(length_bins_[len_ndx] != model_length_bins[len_ndx])
+          length_bins_match = false;
+      }
+    }
+    if(length_bins_match) {
+      LOG_FINE() << "using have actually just respecified model bins so we are ignoring bespoke length bin code";
+      using_model_length_bins = true;
+    } else {
+      // Need to validate length bins are subclass of mdoel length bins.
+      if(!model_->are_length_bin_compatible_with_model_length_bins(length_bins_)) {
+        LOG_ERROR_P(PARAM_LENGTH_BINS) << "Length bins need to be a subset of the model length bins. See manual for more information";
+      }
+      LOG_FINE() << "length bins = " << length_bins_.size();
+      map_local_length_bins_to_global_length_bins_ = model_->get_map_for_bespoke_length_bins_to_global_length_bins(length_bins_, length_plus_);
+
+      LOG_FINE() << "check index";
+      for(unsigned i = 0; i < map_local_length_bins_to_global_length_bins_.size(); ++i) {
+        LOG_FINE() << "i = " << map_local_length_bins_to_global_length_bins_[i];
+      }
     }
   }
+  // more checks on the model length bins.
+  /*
+  * TODO: this should be moved to the model to check rather than replicating in every child
+  */
+  for (unsigned length = 0; length < length_bins_.size(); ++length) {
+    if (length_bins_[length] < 0.0)
+      LOG_ERROR_P(PARAM_LENGTH_BINS) << ": Observation length bin values must be positive. '" << length_bins_[length] << "' is less than 0";
 
-  // model vs. observation consistency length_plus check
-  if (!(model_->length_plus()) && length_plus_ && length_bins_.back() == model_length_bins.back())
-    LOG_ERROR() << "Mismatch between @model length_plus and observation " << label_ << " length_plus for the last length bin";
+    if (length > 0 && length_bins_[length - 1] >= length_bins_[length])
+      LOG_ERROR_P(PARAM_LENGTH_BINS) << ": Observation length bins must be strictly increasing. " << length_bins_[length - 1] << " is greater than or equal to "
+                                      << length_bins_[length];
 
-  number_bins_ = length_plus_ ? length_bins_.size() : length_bins_.size() - 1;
-  if(number_bins_ != model_->get_number_of_length_bins()) {
-    LOG_FATAL_P(PARAM_LENGTH_BINS) << "needs to be consistent with the model, in the current implementation";
+    if (std::find(model_length_bins.begin(), model_length_bins.end(), length_bins_[length]) == model_length_bins.end())
+      LOG_ERROR_P(PARAM_LENGTH_BINS) << ": Observation length bin values must be in the set of model length bins. Length '" << length_bins_[length]
+                                      << "' is not in the set of model length bins.";
   }
-  LOG_FINE() << "Using model length bins = " << use_model_length_bins_ << " (1 = yes). n bins = " << number_bins_;
+  number_bins_                         = length_plus_ ? length_bins_.size() : length_bins_.size() - 1;
 
 
   // Check if number of categories is equal to number of selectivities for category and tagged_categories
@@ -474,8 +495,13 @@ void TagRecaptureByLength::Execute() {
     auto category_iter        = partition_iter->begin();
     for (; category_iter != partition_iter->end(); ++category_iter) {
       // get numbers at length
-      (*category_iter)->age_length_->populate_numbers_at_length((*category_iter)->data_, numbers_at_length_[category_offset], selectivities_[category_offset]);
-      (*category_iter)->age_length_->populate_numbers_at_length((*category_iter)->cached_data_, cached_numbers_at_length_[category_offset], selectivities_[category_offset]);
+      if(using_model_length_bins) {
+        (*category_iter)->age_length_->populate_numbers_at_length((*category_iter)->data_, numbers_at_length_[category_offset], selectivities_[category_offset]);
+        (*category_iter)->age_length_->populate_numbers_at_length((*category_iter)->cached_data_, cached_numbers_at_length_[category_offset], selectivities_[category_offset]);
+      } else {
+        (*category_iter)->age_length_->populate_numbers_at_length((*category_iter)->data_, numbers_at_length_[category_offset], selectivities_[category_offset], map_local_length_bins_to_global_length_bins_);
+        (*category_iter)->age_length_->populate_numbers_at_length((*category_iter)->cached_data_, cached_numbers_at_length_[category_offset], selectivities_[category_offset], map_local_length_bins_to_global_length_bins_);
+      }
     }
     /**
      * Loop through the  combined categories if they are supplied, building up the
@@ -484,8 +510,13 @@ void TagRecaptureByLength::Execute() {
     auto tagged_category_iter        = tagged_partition_iter->begin();
     for (; tagged_category_iter != tagged_partition_iter->end(); ++tagged_category_iter) {
       // get numbers at length
-      (*tagged_category_iter)->age_length_->populate_numbers_at_length((*tagged_category_iter)->data_, tagged_numbers_at_length_[category_offset], tagged_selectivities_[category_offset]);
-      (*tagged_category_iter)->age_length_->populate_numbers_at_length((*tagged_category_iter)->cached_data_, tagged_cached_numbers_at_length_[category_offset], tagged_selectivities_[category_offset]);
+      if(using_model_length_bins) {
+        (*tagged_category_iter)->age_length_->populate_numbers_at_length((*tagged_category_iter)->data_, tagged_numbers_at_length_[category_offset], tagged_selectivities_[category_offset]);
+        (*tagged_category_iter)->age_length_->populate_numbers_at_length((*tagged_category_iter)->cached_data_, tagged_cached_numbers_at_length_[category_offset], tagged_selectivities_[category_offset]);
+      } else {
+        (*tagged_category_iter)->age_length_->populate_numbers_at_length((*tagged_category_iter)->data_, tagged_numbers_at_length_[category_offset], tagged_selectivities_[category_offset], map_local_length_bins_to_global_length_bins_);
+        (*tagged_category_iter)->age_length_->populate_numbers_at_length((*tagged_category_iter)->cached_data_, tagged_cached_numbers_at_length_[category_offset], tagged_selectivities_[category_offset], map_local_length_bins_to_global_length_bins_);
+      }
     }
     // Interpolate between the cached and current values for bothe tagged and untagged
     for (unsigned length_offset = 0; length_offset < number_bins_; ++length_offset) {

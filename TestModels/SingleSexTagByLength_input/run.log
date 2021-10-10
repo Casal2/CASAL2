@@ -1,59 +1,16 @@
 Casal2
-Call: C:\Software\CASAL2\BuildSystem/bin/windows_gcc/release_betadiff/casal2.exe -r -I pars.out 
-Date: Sun Sep 19 11:39:46 2021
-Version: v21.09 (2021-09-18)
+Call: C:\Software\CASAL2\BuildSystem/Casal2/casal2.exe -r -I pars.out 
+Date: Mon Oct 11 10:17:52 2021
+Version: v21.10 (2021-10-08)
 Copyright (c) 2017-2021, NIWA (www.niwa.co.nz)
-Environment: User=marshc Machine=NIWA-1015798 OS=Windows_NT PID=21180
+Environment: User=marshc Machine=NIWA-1008960 OS=Windows_NT PID=17760
 
 
 
 [WARNING] Estimates were removed because of matching lower and upper bounds. Originally had 33 estimates, now have 16
-resizing from 40000 to 44000
-resizing from 44000 to 48400
-resizing from 48400 to 53240
-resizing from 53240 to 58564
-resizing from 58564 to 64420
-resizing from 64420 to 70862
-resizing from 70862 to 77948
-resizing from 77948 to 85742
-resizing from 85742 to 94316
-resizing from 94316 to 103747
-resizing from 103747 to 114121
-resizing from 114121 to 125533
-resizing from 125533 to 138086
-resizing from 138086 to 151894
 [INFO] Initiating basic run mode
 [INFO] Estimable parameters were loaded from the free parameter file: pars.out
 [IMPORTANT] 1 additional non-estimated addressable parameters were found in the free parameter file: pars.out
-*derived_quantity[SSB]
-SSB {list}
-type: biomass
-initialisation_phase[1]: 76728.7 
-values {vector}
-1995 76728.7
-1996 76728.7
-1997 76728.7
-1998 76699.4
-1999 76486.6
-2000 75948.6
-2001 75505.5
-2002 74458.9
-2003 73008.9
-2004 71531.8
-2005 69354.3
-2006 67419.1
-2007 65392.8
-2008 64113.8
-2009 62780.7
-2010 61273.5
-2011 59903.9
-2012 58284.8
-2013 56791.3
-2014 55571.6
-2015 54477.7
-{end_list}
-*end
-
 *info[messages_encountered]
 Values {string}
 Initiating basic run mode
@@ -70,7 +27,5 @@ Values {string}
 Estimates were removed because of matching lower and upper bounds. Originally had 33 estimates, now have 16
 *end
 
-resizing from 151894 to 167083
-resizing from 167083 to 183791
 [INFO] Completed
 [INFO] Total elapsed time: 1 second

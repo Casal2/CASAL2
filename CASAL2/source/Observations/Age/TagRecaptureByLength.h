@@ -61,7 +61,8 @@ protected:
   parameters::Table*    scanned_table_    = nullptr;
   Double                time_step_proportion_;
   unsigned              number_bins_;
-  bool                  use_model_length_bins_ = true;
+  bool                  using_model_length_bins = true;
+  vector<int>           map_local_length_bins_to_global_length_bins_;
 
   // Category members
   vector<string>         tagged_category_labels_;
