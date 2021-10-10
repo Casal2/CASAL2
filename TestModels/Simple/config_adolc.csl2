@@ -1,0 +1,13 @@
+!include "population.csl2"
+!include "Observation.csl2"
+!include "estimation.csl2"
+!include "report.csl2"
+
+@minimiser ADOLC
+type ADOLC
+tolerance 1e-6
+iterations 2000
+active true
+parameter_transformation sin_transform
+
+
