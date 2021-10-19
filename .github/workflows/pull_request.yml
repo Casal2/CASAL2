@@ -20,11 +20,6 @@ jobs:
       CXX: g++-10
     steps:
       - uses: actions/checkout@v2
-        with:
-          # The branch, tag or SHA to checkout. When checking out the repository that
-          # triggered a workflow, this defaults to the reference or SHA for that event.
-          # Otherwise, uses the default branch.
-          ref: age_length_redesign_202109
 
       - uses: actions/setup-python@v2.2.2
         with:
@@ -141,11 +136,7 @@ jobs:
     timeout-minutes: 150
     steps:
       - uses: actions/checkout@v2
-        with:
-          # The branch, tag or SHA to checkout. When checking out the repository that
-          # triggered a workflow, this defaults to the reference or SHA for that event.
-          # Otherwise, uses the default branch.
-          ref: age_length_redesign_202109
+
       - uses: actions/setup-python@v2.2.2
         with:
           python-version: '3.8'
