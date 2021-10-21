@@ -11,6 +11,7 @@ type adolc
 tolerance 1e-6
 iterations 5000
 evaluations 5000
+parameter_transformation sin_transform
 covariance True
 
 @mcmc mcmc

@@ -4,6 +4,7 @@ active true
 iterations 5000000
 evaluations 1000000000
 tolerance 0.002
+parameter_transformation sin_transform
 covariance true
 
 

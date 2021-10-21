@@ -11,6 +11,7 @@ type adolc
 iterations 1000
 evaluations 1000
 tolerance 0.0000002
+parameter_transformation sin_transform
 covariance True
 
 
