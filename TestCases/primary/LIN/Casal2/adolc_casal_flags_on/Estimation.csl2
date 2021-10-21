@@ -9,12 +9,13 @@ covariance true
 
 
 @mcmc mcmc
+type random_walk
 start 0.3
 length 30000000
 keep 2500
 step_size 0.02
 adapt_stepsize_at 10000 50000 150000 250000 450000
-# burn-in? burn_in 200
+burn_in 450000
 proposal_distribution t
 adapt_stepsize_method double_half
 max_correlation 0.9

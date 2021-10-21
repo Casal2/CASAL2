@@ -11,11 +11,13 @@ tolerance 0.00002
 ## MCMC
 ################
 @mcmc mcmc
+type random_walk
 start 0
 length 4000000
 keep 2500
 step_size 0.02
 adapt_stepsize_at 10000 50000 150000 250000 450000 750000 1400000
+burn_in 1400000
 proposal_distribution t
 adapt_stepsize_method double_half
 
