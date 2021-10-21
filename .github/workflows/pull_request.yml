@@ -25,7 +25,7 @@ jobs:
         with:
           python-version: '3.8'
       - name: Install python dependencies
-        run: pip install pytz python-dateutil --upgrade pip
+        run: pip install pytz python-dateutil --user --upgrade pip
 
       - name: Install gcc
         uses: egor-tensin/setup-gcc@v1
@@ -141,7 +141,7 @@ jobs:
         with:
           python-version: '3.8'
       - name: Install python dependencies
-        run: pip install pytz python-dateutil --upgrade pip
+        run: pip install pytz python-dateutil --user --upgrade pip
 
       - name: Install gcc
         uses: bwoodsend/setup-winlibs-action@v1.2
