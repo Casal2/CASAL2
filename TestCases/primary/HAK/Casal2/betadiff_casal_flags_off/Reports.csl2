@@ -38,6 +38,16 @@ type correlation_matrix
 @report mcmc_covariance
 type mcmc_covariance
 
+@report mcmc_objectives
+type mcmc_objective
+file_name objectives
+write_mode incremental_suffix
+
+@report mcmc_samples
+type mcmc_sample
+file_name samples
+write_mode incremental_suffix
+
 
 ## Print process information
 @report Recruitment
