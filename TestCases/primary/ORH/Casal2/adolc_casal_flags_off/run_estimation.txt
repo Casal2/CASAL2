@@ -1,14 +1,15 @@
 Environment: User=Casal2
-Call: ../../../../../BuildSystem/Casal2/casal2 -e -o params_est.out
-Date: Thu Oct  7 11:59:00 2021
-Version: v21.10 (2021-10-06)
+Call: ../../../../../BuildSystem/Casal2/casal2 -E mpd.out -o params_est.out
+Date: Fri Oct 29 12:56:34 2021
+Version: v21.10 (2021-10-21)
 Copyright (c) 2017-2021, NIWA (www.niwa.co.nz)
-c2user
- Machine=c2computer (Linux 5.10.0-8-amd64 x86_64)
- PID=323281
+casal2user
+ Machine=casal2computer (Linux 5.14.0-2-amd64 x86_64)
+ PID=17855
 
 
 
+[IMPORTANT] Setting 'mpd.out' as the output file for the MPD (i.e., free parameters and covariance)
 [IMPORTANT] Setting 'params_est.out' as the output file for the free parameters
 [INFO] Creating default report for catchability Qandes
 [INFO] Creating default report for derived quantity SSB
@@ -24,131 +25,137 @@ c2user
 [INFO] The likelihood for the observation 'Obs_Andes_LF' is multinomial. Normalised residuals can only be calculated for the lognormal, lognormal_with_Q, and normal likelihoods
 [INFO] Initiating point estimate run mode
 [INFO] Estimation with the adolc minimiser
-[INFO] Convergence check value = 0.389002. Convergence tolerance   = 0.002
-[INFO] Convergence check value = 0.378595. Convergence tolerance   = 0.002
-[INFO] Convergence check value = 0.372607. Convergence tolerance   = 0.002
-[INFO] Convergence check value = 0.237474. Convergence tolerance   = 0.002
-[INFO] Convergence check value = 0.233421. Convergence tolerance   = 0.002
-[INFO] Convergence check value = 0.231373. Convergence tolerance   = 0.002
-[INFO] Convergence check value = 0.229054. Convergence tolerance   = 0.002
-[INFO] Convergence check value = 0.226604. Convergence tolerance   = 0.002
-[INFO] Convergence check value = 0.224064. Convergence tolerance   = 0.002
-[INFO] Convergence check value = 0.221447. Convergence tolerance   = 0.002
-[INFO] Convergence check value = 0.22118. Convergence tolerance   = 0.002
-[INFO] Convergence check value = 0.220908. Convergence tolerance   = 0.002
-[INFO] Convergence check value = 0.22063. Convergence tolerance   = 0.002
-[INFO] Convergence check value = 0.220347. Convergence tolerance   = 0.002
-[INFO] Convergence check value = 0.220319. Convergence tolerance   = 0.002
-[INFO] Convergence check value = 0.22029. Convergence tolerance   = 0.002
-[INFO] Convergence check value = 0.220261. Convergence tolerance   = 0.002
-[INFO] Convergence check value = 0.220231. Convergence tolerance   = 0.002
-[INFO] Convergence check value = 0.220229. Convergence tolerance   = 0.002
-[INFO] Convergence check value = 0.220226. Convergence tolerance   = 0.002
-[INFO] Convergence check value = 0.220225. Convergence tolerance   = 0.002
-[INFO] Convergence check value = 0.145408. Convergence tolerance   = 0.002
-[INFO] Convergence check value = 0.287694. Convergence tolerance   = 0.002
-[INFO] Convergence check value = 0.33341. Convergence tolerance   = 0.002
-[INFO] Convergence check value = 0.343632. Convergence tolerance   = 0.002
-[INFO] Convergence check value = 0.354514. Convergence tolerance   = 0.002
-[INFO] Convergence check value = 0.334985. Convergence tolerance   = 0.002
-[INFO] Convergence check value = 0.32853. Convergence tolerance   = 0.002
-[INFO] Convergence check value = 0.326425. Convergence tolerance   = 0.002
-[INFO] Convergence check value = 0.321476. Convergence tolerance   = 0.002
-[INFO] Convergence check value = 0.32175. Convergence tolerance   = 0.002
-[INFO] Convergence check value = 0.33071. Convergence tolerance   = 0.002
-[INFO] Convergence check value = 0.337905. Convergence tolerance   = 0.002
-[INFO] Convergence check value = 0.341797. Convergence tolerance   = 0.002
-[INFO] Convergence check value = 0.345965. Convergence tolerance   = 0.002
-[INFO] Convergence check value = 0.350953. Convergence tolerance   = 0.002
-[INFO] Convergence check value = 0.358005. Convergence tolerance   = 0.002
-[INFO] Convergence check value = 0.365679. Convergence tolerance   = 0.002
-[INFO] Convergence check value = 0.370053. Convergence tolerance   = 0.002
-[INFO] Convergence check value = 0.364465. Convergence tolerance   = 0.002
-[INFO] Convergence check value = 0.345861. Convergence tolerance   = 0.002
-[INFO] Convergence check value = 0.331392. Convergence tolerance   = 0.002
-[INFO] Convergence check value = 0.32812. Convergence tolerance   = 0.002
-[INFO] Convergence check value = 0.328007. Convergence tolerance   = 0.002
-[INFO] Convergence check value = 0.328566. Convergence tolerance   = 0.002
-[INFO] Convergence check value = 0.328835. Convergence tolerance   = 0.002
-[INFO] Convergence check value = 0.32906. Convergence tolerance   = 0.002
-[INFO] Convergence check value = 0.329438. Convergence tolerance   = 0.002
-[INFO] Convergence check value = 0.330025. Convergence tolerance   = 0.002
-[INFO] Convergence check value = 0.330977. Convergence tolerance   = 0.002
-[INFO] Convergence check value = 0.332484. Convergence tolerance   = 0.002
-[INFO] Convergence check value = 0.334855. Convergence tolerance   = 0.002
-[INFO] Convergence check value = 0.338506. Convergence tolerance   = 0.002
-[INFO] Convergence check value = 0.343927. Convergence tolerance   = 0.002
-[INFO] Convergence check value = 0.351403. Convergence tolerance   = 0.002
-[INFO] Convergence check value = 0.360006. Convergence tolerance   = 0.002
-[INFO] Convergence check value = 0.364287. Convergence tolerance   = 0.002
-[INFO] Convergence check value = 0.36256. Convergence tolerance   = 0.002
-[INFO] Convergence check value = 0.361739. Convergence tolerance   = 0.002
-[INFO] Convergence check value = 0.360122. Convergence tolerance   = 0.002
-[INFO] Convergence check value = 0.357845. Convergence tolerance   = 0.002
-[INFO] Convergence check value = 0.357574. Convergence tolerance   = 0.002
-[INFO] Convergence check value = 0.357544. Convergence tolerance   = 0.002
-[INFO] Convergence check value = 0.357541. Convergence tolerance   = 0.002
-[INFO] Convergence check value = 0.357538. Convergence tolerance   = 0.002
-[INFO] Convergence check value = 0.357534. Convergence tolerance   = 0.002
-[INFO] Convergence check value = 0.357531. Convergence tolerance   = 0.002
-[INFO] Convergence check value = 0.357528. Convergence tolerance   = 0.002
-[INFO] Convergence check value = 0.357524. Convergence tolerance   = 0.002
-[INFO] Convergence check value = 0.357524. Convergence tolerance   = 0.002
-[INFO] Convergence check value = 0.287634. Convergence tolerance   = 0.002
-[INFO] Convergence check value = 0.368962. Convergence tolerance   = 0.002
-[INFO] Convergence check value = 0.347508. Convergence tolerance   = 0.002
-[INFO] Convergence check value = 0.332628. Convergence tolerance   = 0.002
-[INFO] Convergence check value = 0.32606. Convergence tolerance   = 0.002
-[INFO] Convergence check value = 0.3262. Convergence tolerance   = 0.002
-[INFO] Convergence check value = 0.326326. Convergence tolerance   = 0.002
-[INFO] Convergence check value = 0.326355. Convergence tolerance   = 0.002
-[INFO] Convergence check value = 0.326517. Convergence tolerance   = 0.002
-[INFO] Convergence check value = 0.326706. Convergence tolerance   = 0.002
-[INFO] Convergence check value = 0.327048. Convergence tolerance   = 0.002
-[INFO] Convergence check value = 0.327561. Convergence tolerance   = 0.002
-[INFO] Convergence check value = 0.328364. Convergence tolerance   = 0.002
-[INFO] Convergence check value = 0.329546. Convergence tolerance   = 0.002
-[INFO] Convergence check value = 0.331181. Convergence tolerance   = 0.002
-[INFO] Convergence check value = 0.333081. Convergence tolerance   = 0.002
-[INFO] Convergence check value = 0.334184. Convergence tolerance   = 0.002
-[INFO] Convergence check value = 0.334135. Convergence tolerance   = 0.002
-[INFO] Convergence check value = 0.333835. Convergence tolerance   = 0.002
-[INFO] Convergence check value = 0.333766. Convergence tolerance   = 0.002
-[INFO] Convergence check value = 0.333754. Convergence tolerance   = 0.002
-[INFO] Convergence check value = 0.333739. Convergence tolerance   = 0.002
-[INFO] Convergence check value = 0.333719. Convergence tolerance   = 0.002
-[INFO] Convergence check value = 0.266753. Convergence tolerance   = 0.002
-[INFO] Convergence check value = 0.330684. Convergence tolerance   = 0.002
-[INFO] Convergence check value = 0.330397. Convergence tolerance   = 0.002
-[INFO] Convergence check value = 6.53737. Convergence tolerance   = 0.002
-[INFO] Convergence check value = 0.329581. Convergence tolerance   = 0.002
-[INFO] Convergence check value = 0.329515. Convergence tolerance   = 0.002
-[INFO] Convergence check value = 0.329475. Convergence tolerance   = 0.002
-[INFO] Convergence check value = 0.329452. Convergence tolerance   = 0.002
-[INFO] Convergence check value = 0.329382. Convergence tolerance   = 0.002
-[INFO] Convergence check value = 0.329284. Convergence tolerance   = 0.002
-[INFO] Convergence check value = 3.18566. Convergence tolerance   = 0.002
-[INFO] Convergence check value = 0.329035. Convergence tolerance   = 0.002
-[INFO] Convergence check value = 0.329041. Convergence tolerance   = 0.002
-[INFO] Convergence check value = 0.329066. Convergence tolerance   = 0.002
-[INFO] Convergence check value = 0.329062. Convergence tolerance   = 0.002
-[INFO] Convergence check value = 0.329059. Convergence tolerance   = 0.002
-[INFO] Convergence check value = 0.329057. Convergence tolerance   = 0.002
-[INFO] Convergence check value = 0.329056. Convergence tolerance   = 0.002
-[INFO] Convergence check value = 0.329055. Convergence tolerance   = 0.002
-[INFO] Convergence check value = 0.190662. Convergence tolerance   = 0.002
-[INFO] Convergence check value = 0.0180666. Convergence tolerance   = 0.002
-[INFO] Convergence check value = 0.197633. Convergence tolerance   = 0.002
-[INFO] Convergence check value = 0.235218. Convergence tolerance   = 0.002
-[INFO] Convergence check value = 0.0280344. Convergence tolerance   = 0.002
-[INFO] Convergence check value = 0.0872803. Convergence tolerance   = 0.002
-[INFO] Convergence check value = 0.026413. Convergence tolerance   = 0.002
-[INFO] Convergence check value = 0.0018321. Convergence tolerance   = 0.002
+[INFO] Convergence check value = 1.27835. Convergence tolerance   = 0.002
+[INFO] Convergence check value = 1.35366. Convergence tolerance   = 0.002
+[INFO] Convergence check value = 1.34838. Convergence tolerance   = 0.002
+[INFO] Convergence check value = 1.33146. Convergence tolerance   = 0.002
+[INFO] Convergence check value = 1.32335. Convergence tolerance   = 0.002
+[INFO] Convergence check value = 1.27149. Convergence tolerance   = 0.002
+[INFO] Convergence check value = 0.861396. Convergence tolerance   = 0.002
+[INFO] Convergence check value = 0.845069. Convergence tolerance   = 0.002
+[INFO] Convergence check value = 0.838509. Convergence tolerance   = 0.002
+[INFO] Convergence check value = 0.830119. Convergence tolerance   = 0.002
+[INFO] Convergence check value = 0.822165. Convergence tolerance   = 0.002
+[INFO] Convergence check value = 0.8135. Convergence tolerance   = 0.002
+[INFO] Convergence check value = 0.812629. Convergence tolerance   = 0.002
+[INFO] Convergence check value = 0.811726. Convergence tolerance   = 0.002
+[INFO] Convergence check value = 0.810812. Convergence tolerance   = 0.002
+[INFO] Convergence check value = 0.80989. Convergence tolerance   = 0.002
+[INFO] Convergence check value = 0.809798. Convergence tolerance   = 0.002
+[INFO] Convergence check value = 0.809706. Convergence tolerance   = 0.002
+[INFO] Convergence check value = 0.809614. Convergence tolerance   = 0.002
+[INFO] Convergence check value = 0.809524. Convergence tolerance   = 0.002
+[INFO] Convergence check value = 0.809434. Convergence tolerance   = 0.002
+[INFO] Convergence check value = 0.809425. Convergence tolerance   = 0.002
+[INFO] Convergence check value = 0.809416. Convergence tolerance   = 0.002
+[INFO] Convergence check value = 0.809407. Convergence tolerance   = 0.002
+[INFO] Convergence check value = 0.809399. Convergence tolerance   = 0.002
+[INFO] Convergence check value = 0.80939. Convergence tolerance   = 0.002
+[INFO] Convergence check value = 0.809382. Convergence tolerance   = 0.002
+[INFO] Convergence check value = 0.809381. Convergence tolerance   = 0.002
+[INFO] Convergence check value = 0.415137. Convergence tolerance   = 0.002
+[INFO] Convergence check value = 0.996768. Convergence tolerance   = 0.002
+[INFO] Convergence check value = 1.02484. Convergence tolerance   = 0.002
+[INFO] Convergence check value = 1.00444. Convergence tolerance   = 0.002
+[INFO] Convergence check value = 1.01703. Convergence tolerance   = 0.002
+[INFO] Convergence check value = 1.02727. Convergence tolerance   = 0.002
+[INFO] Convergence check value = 1.02762. Convergence tolerance   = 0.002
+[INFO] Convergence check value = 1.02733. Convergence tolerance   = 0.002
+[INFO] Convergence check value = 1.02705. Convergence tolerance   = 0.002
+[INFO] Convergence check value = 1.02646. Convergence tolerance   = 0.002
+[INFO] Convergence check value = 1.02557. Convergence tolerance   = 0.002
+[INFO] Convergence check value = 1.02402. Convergence tolerance   = 0.002
+[INFO] Convergence check value = 1.02141. Convergence tolerance   = 0.002
+[INFO] Convergence check value = 1.01679. Convergence tolerance   = 0.002
+[INFO] Convergence check value = 1.00833. Convergence tolerance   = 0.002
+[INFO] Convergence check value = 0.991995. Convergence tolerance   = 0.002
+[INFO] Convergence check value = 0.974566. Convergence tolerance   = 0.002
+[INFO] Convergence check value = 0.973172. Convergence tolerance   = 0.002
+[INFO] Convergence check value = 0.965332. Convergence tolerance   = 0.002
+[INFO] Convergence check value = 0.963535. Convergence tolerance   = 0.002
+[INFO] Convergence check value = 0.960444. Convergence tolerance   = 0.002
+[INFO] Convergence check value = 0.956045. Convergence tolerance   = 0.002
+[INFO] Convergence check value = 0.955493. Convergence tolerance   = 0.002
+[INFO] Convergence check value = 0.954848. Convergence tolerance   = 0.002
+[INFO] Convergence check value = 0.954129. Convergence tolerance   = 0.002
+[INFO] Convergence check value = 0.954051. Convergence tolerance   = 0.002
+[INFO] Convergence check value = 0.95397. Convergence tolerance   = 0.002
+[INFO] Convergence check value = 0.953969. Convergence tolerance   = 0.002
+[INFO] Convergence check value = 0.953968. Convergence tolerance   = 0.002
+[INFO] Convergence check value = 0.953967. Convergence tolerance   = 0.002
+[INFO] Convergence check value = 0.953966. Convergence tolerance   = 0.002
+[INFO] Convergence check value = 0.355015. Convergence tolerance   = 0.002
+[INFO] Convergence check value = 0.986364. Convergence tolerance   = 0.002
+[INFO] Convergence check value = 0.967928. Convergence tolerance   = 0.002
+[INFO] Convergence check value = 0.983989. Convergence tolerance   = 0.002
+[INFO] Convergence check value = 0.981453. Convergence tolerance   = 0.002
+[INFO] Convergence check value = 0.981283. Convergence tolerance   = 0.002
+[INFO] Convergence check value = 0.980923. Convergence tolerance   = 0.002
+[INFO] Convergence check value = 0.980364. Convergence tolerance   = 0.002
+[INFO] Convergence check value = 0.979431. Convergence tolerance   = 0.002
+[INFO] Convergence check value = 0.977897. Convergence tolerance   = 0.002
+[INFO] Convergence check value = 0.975323. Convergence tolerance   = 0.002
+[INFO] Convergence check value = 0.970932. Convergence tolerance   = 0.002
+[INFO] Convergence check value = 0.963216. Convergence tolerance   = 0.002
+[INFO] Convergence check value = 0.961814. Convergence tolerance   = 0.002
+[INFO] Convergence check value = 0.957894. Convergence tolerance   = 0.002
+[INFO] Convergence check value = 0.957827. Convergence tolerance   = 0.002
+[INFO] Convergence check value = 0.957721. Convergence tolerance   = 0.002
+[INFO] Convergence check value = 0.957706. Convergence tolerance   = 0.002
+[INFO] Convergence check value = 0.957686. Convergence tolerance   = 0.002
+[INFO] Convergence check value = 0.957684. Convergence tolerance   = 0.002
+[INFO] Convergence check value = 0.957681. Convergence tolerance   = 0.002
+[INFO] Convergence check value = 1.30113. Convergence tolerance   = 0.002
+[INFO] Convergence check value = 0.953434. Convergence tolerance   = 0.002
+[INFO] Convergence check value = 0.954369. Convergence tolerance   = 0.002
+[INFO] Convergence check value = 0.963056. Convergence tolerance   = 0.002
+[INFO] Convergence check value = 0.973596. Convergence tolerance   = 0.002
+[INFO] Convergence check value = 0.977499. Convergence tolerance   = 0.002
+[INFO] Convergence check value = 0.97772. Convergence tolerance   = 0.002
+[INFO] Convergence check value = 0.977682. Convergence tolerance   = 0.002
+[INFO] Convergence check value = 0.977545. Convergence tolerance   = 0.002
+[INFO] Convergence check value = 0.97735. Convergence tolerance   = 0.002
+[INFO] Convergence check value = 0.976981. Convergence tolerance   = 0.002
+[INFO] Convergence check value = 0.976336. Convergence tolerance   = 0.002
+[INFO] Convergence check value = 0.976214. Convergence tolerance   = 0.002
+[INFO] Convergence check value = 0.97586. Convergence tolerance   = 0.002
+[INFO] Convergence check value = 0.975821. Convergence tolerance   = 0.002
+[INFO] Convergence check value = 0.97581. Convergence tolerance   = 0.002
+[INFO] Convergence check value = 0.975809. Convergence tolerance   = 0.002
+[INFO] Convergence check value = 0.975807. Convergence tolerance   = 0.002
+[INFO] Convergence check value = 2.29798. Convergence tolerance   = 0.002
+[INFO] Convergence check value = 0.975735. Convergence tolerance   = 0.002
+[INFO] Convergence check value = 0.976617. Convergence tolerance   = 0.002
+[INFO] Convergence check value = 0.977432. Convergence tolerance   = 0.002
+[INFO] Convergence check value = 0.97749. Convergence tolerance   = 0.002
+[INFO] Convergence check value = 0.977579. Convergence tolerance   = 0.002
+[INFO] Convergence check value = 0.977717. Convergence tolerance   = 0.002
+[INFO] Convergence check value = 0.977934. Convergence tolerance   = 0.002
+[INFO] Convergence check value = 0.978267. Convergence tolerance   = 0.002
+[INFO] Convergence check value = 0.978316. Convergence tolerance   = 0.002
+[INFO] Convergence check value = 0.978327. Convergence tolerance   = 0.002
+[INFO] Convergence check value = 0.978343. Convergence tolerance   = 0.002
+[INFO] Convergence check value = 0.978354. Convergence tolerance   = 0.002
+[INFO] Convergence check value = 0.978356. Convergence tolerance   = 0.002
+[INFO] Convergence check value = 0.978357. Convergence tolerance   = 0.002
+[INFO] Convergence check value = 0.978357. Convergence tolerance   = 0.002
+[INFO] Convergence check value = 0.267385. Convergence tolerance   = 0.002
+[INFO] Convergence check value = 0.978728. Convergence tolerance   = 0.002
+[INFO] Convergence check value = 0.978761. Convergence tolerance   = 0.002
+[INFO] Convergence check value = 0.97849. Convergence tolerance   = 0.002
+[INFO] Convergence check value = 1.8763. Convergence tolerance   = 0.002
+[INFO] Convergence check value = 0.978206. Convergence tolerance   = 0.002
+[INFO] Convergence check value = 0.0307942. Convergence tolerance   = 0.002
+[INFO] Convergence check value = 0.100858. Convergence tolerance   = 0.002
+[INFO] Convergence check value = 0.123145. Convergence tolerance   = 0.002
+[INFO] Convergence check value = 0.0464337. Convergence tolerance   = 0.002
+[INFO] Convergence check value = 0.0094901. Convergence tolerance   = 0.002
+[INFO] Convergence check value = 0.000160036. Convergence tolerance   = 0.002
 *initialisation_partition[Init]
 values {dataframe}
 category 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 21 22 23 24 25 26 27 28 29 30 31 32 33 34 35 36 37 38 39 40 41 42 43 44 45 46 47 48 49 50 51 52 53 54 55 56 57 58 59 60 61 62 63 64 65 66 67 68 69 70 71 72 73 74 75 76 77 78 79 80
-immature 2950410.492561 2820585.001263 2696472.158503 2577820.593362 2464389.995872 2355950.630308 2252282.869898 2153176.751998 2058431.552852 1967855.381052 1881264.788897 1798484.400847 1719346.558326 1643690.980158 1571336.773052 1502164.177566 1436004.520963 1372693.362412 1312040.592541 1253797.679622 1197591.782402 1142793.956159 1088259.685052 1031836.558859 969507.299101 894202.466373 795262.668701 662073.564534 496503.594335 325414.106787 186400.977062 96179.051769 46455.133892 21635.996063 9891.557498 4481.405753 2021.518031 910.010597 409.254122 183.967383 82.678969 37.153975 16.695323 7.501959 3.370931 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000
-mature 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 27.664891 56.268149 114.442299 232.750080 473.313744 962.309657 1955.607654 3970.328074 8044.082930 16227.082657 32438.902988 63655.579757 120447.211353 213342.774887 340392.221707 474656.185906 578464.208042 635030.139132 652579.011303 646638.886459 628977.547365 606275.849717 581860.880210 557280.091808 533219.078161 509963.374515 487616.895249 466202.410868 445707.154598 426103.376159 407357.555530 389436.019895 372299.854355 355917.723250 340256.447167 325284.306669 310970.978055 297287.471944 284206.074559 271700.291600 259744.794583 248315.369540 237388.867981 226943.160005 216957.089484 207410.431213 198283.849945 189558.861236 181217.794001 173243.754728 165620.593263 158332.870099 151365.825106 144705.347637 138337.947949 132250.729881 126431.364737 120868.066313 115549.567030 110465.095107 105604.352753 100957.495302 96515.111281 92268.203344 88208.170050 1916408.241114
+immature 2950410.524311 2820585.031615 2696472.187520 2577820.621102 2464390.022391 2355950.655661 2252282.894135 2153176.775169 2058431.575003 1967855.402228 1881264.809142 1798484.420201 1719346.576828 1643690.997846 1571336.789961 1502164.193732 1436004.536416 1372693.377183 1312040.606660 1253797.693114 1197591.795289 1142793.968457 1088259.696763 1031836.569963 969507.309534 894202.475996 795262.677259 662073.571659 496503.599678 325414.110289 186400.979068 96179.052804 46455.134392 21635.996296 9891.557604 4481.405802 2021.518052 910.010607 409.254126 183.967385 82.678969 37.153975 16.695323 7.501959 3.370932 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000
+mature 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 27.664891 56.268150 114.442300 232.750082 473.313749 962.309667 1955.607675 3970.328116 8044.083017 16227.082831 32438.903337 63655.580442 120447.212649 213342.777183 340392.225370 474656.191013 578464.214267 635030.145965 652579.018325 646638.893417 628977.554134 606275.856241 581860.886471 557280.097805 533219.083899 509963.380002 487616.900496 466202.415885 445707.159394 426103.380744 407357.559914 389436.024086 372299.858361 355917.727080 340256.450828 325284.310169 310970.981402 297287.475143 284206.077617 271700.294524 259744.797378 248315.372213 237388.870536 226943.162447 216957.091819 207410.433445 198283.852079 189558.863276 181217.795951 173243.756592 165620.595046 158332.871803 151365.826735 144705.349195 138337.949438 132250.731304 126431.366098 120868.067614 115549.568273 110465.096296 105604.353889 100957.496389 96515.112320 92268.204337 88208.170999 1916408.261737
 *end
 
 *partition[state1]
@@ -156,8 +163,8 @@ year: 1979
 time_step: Jul_Jun
 values {dataframe_with_row_labels}
 category 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 21 22 23 24 25 26 27 28 29 30 31 32 33 34 35 36 37 38 39 40 41 42 43 44 45 46 47 48 49 50 51 52 53 54 55 56 57 58 59 60 61 62 63 64 65 66 67 68 69 70 71 72 73 74 75 76 77 78 79 80
-immature 2950410.490078 2820584.997885 2696472.153910 2577820.587115 2464389.987376 2355950.618753 2252282.854184 2153176.730627 2058431.523788 1967855.341528 1881264.735149 1798484.327758 1719346.458944 1643690.845035 1571336.589360 1502163.927894 1436004.181701 1372692.901599 1312039.967005 1253796.831269 1197590.633550 1142792.404090 1088257.596758 1031833.769118 969503.620412 894197.730406 795256.833075 662066.900472 496496.829307 325408.205911 186396.572628 96176.164014 46453.411332 21635.035066 9891.047174 4481.144932 2021.388734 909.948041 409.224429 183.953494 82.672543 37.151027 16.693979 7.501348 3.370655 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000
-mature 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 27.664888 56.268140 114.442272 232.750002 473.313518 962.309006 1955.605778 3970.322681 8044.067494 16227.038784 32438.779902 63655.242618 120446.327513 213340.627498 340387.583749 474647.578757 578450.539617 635011.072486 652554.813626 646610.164979 628945.097257 606240.563996 581823.664359 557241.783485 533180.390831 509924.873438 487579.000647 466165.417155 445671.255562 426068.689576 407324.144125 389403.907684 372269.039386 355888.185915 340228.156692 325257.225413 310945.064444 297262.682444 284182.364993 271677.618007 259723.113771 248294.639436 237369.047833 226924.210501 216938.972803 207393.111037 198267.291448 189543.031050 181202.660178 173229.286694 165606.761767 158319.647162 151353.183970 144693.262714 138326.394774 132239.685063 126420.805910 120857.972095 115539.916979 110455.869680 105595.533266 100949.063892 96507.050874 92260.497614 88200.803392 1916248.193311
+immature 2950410.521828 2820585.028238 2696472.182927 2577820.614855 2464390.013895 2355950.644106 2252282.878421 2153176.753798 2058431.545939 1967855.362704 1881264.755393 1798484.347112 1719346.477446 1643690.862723 1571336.606270 1502163.944058 1436004.197154 1372692.916370 1312039.981124 1253796.844761 1197590.646436 1142792.416387 1088257.608468 1031833.780220 969503.630843 894197.740028 795256.841632 662066.907596 496496.834650 325408.209414 186396.574635 96176.165049 46453.411833 21635.035299 9891.047281 4481.144980 2021.388756 909.948051 409.224433 183.953496 82.672544 37.151027 16.693979 7.501348 3.370655 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000
+mature 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 27.664888 56.268140 114.442273 232.750004 473.313523 962.309016 1955.605799 3970.322724 8044.067581 16227.038959 32438.780251 63655.243303 120446.328809 213340.629793 340387.587412 474647.583867 578450.545845 635011.079325 652554.820656 646610.171946 628945.104034 606240.570528 581823.670628 557241.789488 533180.396573 509924.878929 487579.005896 466165.422173 445671.260358 426068.694161 407324.148508 389403.911873 372269.043391 355888.189744 340228.160352 325257.228912 310945.067789 297262.685642 284182.368050 271677.620929 259723.116565 248294.642107 237369.050387 226924.212942 216938.975137 207393.113268 198267.293581 189543.033089 181202.662127 173229.288558 165606.763549 158319.648865 151353.185598 144693.264271 138326.396262 132239.686485 126420.807270 120857.973395 115539.918222 110455.870868 105595.534402 100949.064977 96507.051912 92260.498607 88200.804341 1916248.213924
 *end
 
 *partition[state1]
@@ -165,14 +172,106 @@ year: 2005
 time_step: Jul_Jun
 values {dataframe_with_row_labels}
 category 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 21 22 23 24 25 26 27 28 29 30 31 32 33 34 35 36 37 38 39 40 41 42 43 44 45 46 47 48 49 50 51 52 53 54 55 56 57 58 59 60 61 62 63 64 65 66 67 68 69 70 71 72 73 74 75 76 77 78 79 80
-immature 2950390.569871 2820542.413147 2696396.895891 2577707.878719 2464231.981236 2355729.522874 2251979.002684 2152760.013445 2057863.282575 1967080.144411 1880208.051030 1797042.641224 1717382.613668 1641014.883927 1567699.180202 1497220.805595 1429289.092079 1363575.344714 1299669.844831 1237033.108734 1174913.320421 1112202.511463 1047187.487486 977134.177372 897679.510471 802276.599453 682915.824464 535206.698379 369643.435058 216940.863887 107481.093826 46051.456895 17659.571186 6239.619413 2076.750836 663.542696 207.259678 64.401447 20.209582 6.475635 2.131870 0.722430 0.251710 0.089957 0.032902 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000
-mature 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 27.600848 56.082980 113.907113 231.204054 468.851043 949.442582 1918.574856 3864.046385 7740.489801 15366.810690 30035.605283 57111.654222 103431.620624 172461.926116 253419.615758 316434.723855 333549.570390 304058.550601 248073.023131 186484.622068 132055.002192 89768.687314 59656.306369 39438.710114 26331.156909 17950.663417 12573.161963 9064.937049 6719.789692 5109.473969 3976.046614 3162.455649 2570.283744 2135.245640 1813.287703 1573.071258 1391.828266 1252.936832 1144.332868 1057.353067 985.845690 925.483753 873.244708 827.025987 785.367133 747.252309 711.971698 679.025200 648.056094 618.805666 591.082307 564.740535 539.666748 515.769555 492.973205 471.213115 450.432823 430.581910 411.614564 393.488604 376.164785 359.606078 343.778225 328.648180 314.184971 6825.891185
+immature 2950390.601557 2820542.443365 2696396.924676 2577707.906121 2464232.007299 2355729.547610 2251979.026109 2152760.035549 2057863.303338 1967080.163784 1880208.068940 1797042.657561 1717382.628292 1641014.896644 1567699.190792 1497220.813769 1429289.097489 1363575.346956 1299669.843458 1237033.103280 1174913.310462 1112202.496709 1047187.467945 977134.153599 897679.483913 802276.572830 682915.801866 535206.684346 369643.431985 216940.869499 107481.102609 46051.464409 17659.575958 6239.621888 2076.751935 663.543128 207.259832 64.401497 20.209598 6.475640 2.131872 0.722430 0.251710 0.089957 0.032902 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000
+mature 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 27.600848 56.082980 113.907114 231.204054 468.851042 949.442578 1918.574840 3864.046333 7740.489656 15366.810316 30035.604394 57111.652326 103431.617201 172461.921594 253419.613651 316434.732040 333549.597648 304058.600211 248073.090162 186484.696048 132055.072119 89768.745708 59656.350582 39438.741203 26331.177660 17950.676813 12573.170454 9064.942395 6719.793065 5109.476113 3976.047987 3162.456528 2570.284292 2135.245958 1813.287854 1573.071286 1391.828202 1252.936701 1144.332688 1057.352854 985.845455 925.483506 873.244455 827.025733 785.366881 747.252062 711.971457 679.024966 648.055868 618.805448 591.082098 564.740334 539.666555 515.769370 492.973028 471.212946 450.432661 430.581755 411.614416 393.488462 376.164649 359.605949 343.778101 328.648061 314.184858 6825.888727
 *end
 
 *estimate_value[estimated_values]
 values {dataframe}
 process[Recruitment].b0 age_length[age_len_label].cv_first age_length[age_len_label].cv_last selectivity[SELandes].a50 selectivity[SELandes].ato95 
 27506.5 0.102891 0.0310498 33.6382 8.35291
+*end
+
+*estimate_summary[estimated_summary]
+process[Recruitment].b0 {list}
+value: 27506.5
+std_dev: 1108.8
+estimation_phase: 1
+label: B0
+lower_bound: 1e4
+mcmc:
+parameter: process[Recruitment].b0
+prior_applies_to_transform:
+same:
+transform_with_jacobian:
+transformation:
+type: uniform_log
+upper_bound: 1e5
+{end_list}
+
+age_length[age_len_label].cv_first {list}
+value: 0.102891
+std_dev: 0.0135558
+estimation_phase: 1
+label: age_len_cv_first
+lognormal_transformation:
+lower_bound: 0.01
+mcmc:
+mu: 0.15
+parameter: age_length[age_len_label].cv_first
+prior_applies_to_transform:
+same:
+sigma: 0.025
+transform_with_jacobian:
+transformation:
+type: normal_by_stdev
+upper_bound: 1.0
+{end_list}
+
+age_length[age_len_label].cv_last {list}
+value: 0.0310498
+std_dev: 0.00791337
+cv: 0.5
+estimation_phase: 1
+label: age_len_cv_last
+lower_bound: 0.01
+mcmc:
+mu: 0.1
+parameter: age_length[age_len_label].cv_last
+prior_applies_to_transform:
+same:
+transform_with_jacobian:
+transformation:
+type: normal
+upper_bound: 1.0
+{end_list}
+
+selectivity[SELandes].a50 {list}
+value: 33.6382
+std_dev: 1.80176
+cv: 0.3
+estimation_phase: 1
+label: fishery_sel_a50
+lower_bound: 5
+mcmc:
+mu: 35
+parameter: selectivity[SELandes].a50
+prior_applies_to_transform:
+same:
+transform_with_jacobian:
+transformation:
+type: normal
+upper_bound: 80
+{end_list}
+
+selectivity[SELandes].ato95 {list}
+value: 8.35291
+std_dev: 1.7354
+cv: 0.5
+estimation_phase: 1
+label: fishery_sel_ato95
+lower_bound: 1
+mcmc:
+mu: 5
+parameter: selectivity[SELandes].ato95
+prior_applies_to_transform:
+same:
+transform_with_jacobian:
+transformation:
+type: normal
+upper_bound: 20
+{end_list}
+
 *end
 
 *objective_function[obj_fun]
@@ -196,14 +295,41 @@ observation->Obs_Andes_LF-1994 20.4236
 observation->Obs_Andes_LF-1997 16.7159
 observation->Obs_Andes_LF-2001 16.0423
 observation->Obs_Andes_LF-2003 23.8441
-penalty->fisheryCatchMustBeTaken(Fishing_Mortality) 4.709e-07
+penalty->fisheryCatchMustBeTaken(Fishing_Mortality) 4.76346e-07
 prior->B0->process[Recruitment].b0 10.2222
 prior->age_len_cv_first->age_length[age_len_label].cv_first 1.77541
 prior->age_len_cv_last->age_length[age_len_label].cv_last 0.950827
-prior->fishery_sel_a50->selectivity[SELandes].a50 0.0084107
-prior->fishery_sel_ato95->selectivity[SELandes].ato95 0.89936
+prior->fishery_sel_a50->selectivity[SELandes].a50 0.00841067
+prior->fishery_sel_ato95->selectivity[SELandes].ato95 0.899362
 additional_prior->chatTANq_prior -9.08155
 total_score 111.247
+*end
+
+*hessian_matrix[Hess]
+hessian_matrix {matrix}
+3.98879 2889.62 -501.149 -3620.68 2142.75
+2889.62 2.10339e+06 -353810 -2.62297e+06 1.55232e+06
+-501.149 -353810 87593.2 454881 -269183
+-3620.68 -2.62297e+06 454881 3.28654e+06 -1.945e+06
+2142.75 1.55232e+06 -269183 -1.945e+06 1.15107e+06
+*end
+
+*covariance_matrix[Covar]
+covariance_matrix {matrix}
+1.22944e+06 0.893583 0.289886 1675.71 541.738
+0.893583 0.000183759 -6.10834e-05 -0.00409165 -0.00883934
+0.289886 -6.10834e-05 6.26214e-05 0.00108725 0.00139456
+1675.71 -0.00409165 0.00108725 3.24635 2.37187
+541.738 -0.00883934 0.00139456 2.37187 3.01161
+*end
+
+*correlation_matrix[Corr]
+correlation_matrix {matrix}
+1 0.0594506 0.0330379 0.83878 0.281538
+0.0594506 1 -0.569426 -0.167524 -0.375747
+0.0330379 -0.569426 1 0.0762554 0.101549
+0.83878 -0.167524 0.0762554 1 0.758565
+0.281538 -0.375747 0.101549 0.758565 1
 *end
 
 *process[Recruitment]
@@ -336,7 +462,7 @@ Values {vector}
 *age_length[age_length_weight]
 year: 2005
 time_step: Jul_Jun
-cvs_by_age: 0.102891 0.101982 0.101072 0.100163 0.0992534 0.098344 0.0974346 0.0965252 0.0956158 0.0947065 0.0937971 0.0928877 0.0919783 0.0910689 0.0901596 0.0892502 0.0883408 0.0874314 0.086522 0.0856126 0.0847033 0.0837939 0.0828845 0.0819751 0.0810657 0.0801564 0.079247 0.0783376 0.0774282 0.0765188 0.0756095 0.0747001 0.0737907 0.0728813 0.0719719 0.0710625 0.0701532 0.0692438 0.0683344 0.067425 0.0665156 0.0656063 0.0646969 0.0637875 0.0628781 0.0619687 0.0610594 0.06015 0.0592406 0.0583312 0.0574218 0.0565124 0.0556031 0.0546937 0.0537843 0.0528749 0.0519655 0.0510562 0.0501468 0.0492374 0.048328 0.0474186 0.0465092 0.0455999 0.0446905 0.0437811 0.0428717 0.0419623 0.041053 0.0401436 0.0392342 0.0383248 0.0374154 0.0365061 0.0355967 0.0346873 0.0337779 0.0328685 0.0319591 0.0310498
+cvs_by_age: 0.102891 0.101982 0.101072 0.100163 0.0992534 0.098344 0.0974346 0.0965252 0.0956158 0.0947065 0.0937971 0.0928877 0.0919783 0.0910689 0.0901596 0.0892502 0.0883408 0.0874314 0.086522 0.0856126 0.0847033 0.0837939 0.0828845 0.0819751 0.0810657 0.0801564 0.079247 0.0783376 0.0774282 0.0765188 0.0756095 0.0747001 0.0737907 0.0728813 0.0719719 0.0710625 0.0701532 0.0692438 0.0683344 0.067425 0.0665156 0.0656063 0.0646969 0.0637875 0.0628781 0.0619687 0.0610593 0.06015 0.0592406 0.0583312 0.0574218 0.0565124 0.0556031 0.0546937 0.0537843 0.0528749 0.0519655 0.0510562 0.0501468 0.0492374 0.048328 0.0474186 0.0465092 0.0455999 0.0446905 0.0437811 0.0428717 0.0419623 0.041053 0.0401436 0.0392342 0.0383248 0.0374154 0.0365061 0.0355967 0.0346873 0.0337779 0.0328685 0.0319591 0.0310498
 mean_length_at_age: 10 10 10 10 10 10 10 10 10 10 20 20.5 24.3 24.9 23.7 26 28.5 28.5 28.5 28.9 29.8 29.9 30.6 31.4 31 31.9 32.2 32.3 32.1 33.2 32.6 32.6 33.3 33 33.8 33 34.4 34.3 34.8 34.4 34.8 34.7 34.6 35.2 35.8 36.1 35.7 35.6 36.2 37.1 35.8 35.4 36.1 36.9 36.7 36.4 36.3 35.9 36.4 36.7 38.8 38 36.5 36.4 36.7 38.2 36.8 37.5 38.5 37.4 36.9 35.7 35.7 35.4 34.7 39 38.7 37.4 35.9 38.9
 mean_weight_at_age: 4.84013e-05 4.83806e-05 4.83601e-05 4.83398e-05 4.83197e-05 4.82998e-05 4.828e-05 4.82605e-05 4.82412e-05 4.8222e-05 0.000315403 0.000337099 0.000534232 0.00057052 0.000498855 0.000640946 0.000821697 0.000821395 0.000821097 0.000852396 0.000925933 0.000934048 0.000994155 0.00106581 0.00102906 0.00111167 0.00113985 0.00114909 0.00112954 0.00123714 0.00117711 0.00117674 0.00124609 0.00121552 0.00129665 0.00121479 0.00135917 0.00134809 0.00140161 0.00135799 0.00140082 0.00138955 0.00137835 0.0014437 0.00151096 0.00154512 0.00149877 0.00148704 0.00155555 0.00166219 0.00150867 0.00146308 0.00154245 0.00163647 0.00161217 0.00157635 0.0015643 0.0015177 0.00157533 0.00161043 0.00187215 0.00176902 0.0015858 0.00157375 0.00160884 0.00179299 0.00162015 0.00170473 0.00183043 0.00169185 0.00163098 0.00149096 0.00149073 0.0014568 0.00137983 0.00189345 0.00185397 0.00168977 0.00151214 0.00187929
 *end
@@ -351,30 +477,30 @@ length_based: 0
 type: logistic
 Values {vector}
 1 1.00784e-05
-2 1.43377e-05
+2 1.43378e-05
 3 2.03971e-05
 4 2.90172e-05
-5 4.12801e-05
-6 5.87251e-05
-7 8.35418e-05
+5 4.12802e-05
+6 5.87252e-05
+7 8.3542e-05
 8 0.000118845
 9 0.000169063
-10 0.000240496
-11 0.000342101
-12 0.000486612
-13 0.000692124
-14 0.000984346
-15 0.00139977
+10 0.000240497
+11 0.000342102
+12 0.000486613
+13 0.000692125
+14 0.000984348
+15 0.00139978
 16 0.00199018
 17 0.0028289
-18 0.00401966
+18 0.00401967
 19 0.00570878
-20 0.00810191
+20 0.00810192
 21 0.0114867
 22 0.0162623
 23 0.0229772
 24 0.0323736
-25 0.0454339
+25 0.045434
 26 0.0634178
 27 0.0878649
 28 0.120523
@@ -385,7 +511,7 @@ Values {vector}
 33 0.443996
 34 0.531843
 35 0.617759
-36 0.696895
+36 0.696894
 37 0.765856
 38 0.82311
 39 0.868763
@@ -396,7 +522,7 @@ Values {vector}
 44 0.974731
 45 0.982104
 46 0.987353
-47 0.991077
+47 0.991076
 48 0.993711
 49 0.995571
 50 0.996883
@@ -449,8 +575,8 @@ year category age length observed expected residual error_value process_error ad
 2000 immature+mature 0 0 0.697 0.785845 -0.0888453 0.067 0.2 0.210924 -1.45638 -0.536008 -0.470734
 2001 immature+mature 0 0 0.549 0.694135 -0.145135 0.073 0.2 0.212906 -1.04919 -0.982067 -1.00879
 2002 immature+mature 0 0 0.572 0.594197 -0.0221973 0.071 0.2 0.212229 -1.55822 -0.176021 -0.0764395
-2003 immature+mature 0 0 0.428 0.430475 -0.00247451 0.065 0.2 0.210297 -1.56718 -0.0273343 0.0763008
-2004 immature+mature 0 0 0.312 0.304696 0.00730363 0.069 0.2 0.211568 -1.54047 0.113298 0.217826
+2003 immature+mature 0 0 0.428 0.430475 -0.00247452 0.065 0.2 0.210297 -1.56718 -0.0273344 0.0763007
+2004 immature+mature 0 0 0.312 0.304696 0.00730361 0.069 0.2 0.211568 -1.54047 0.113298 0.217826
 *end
 
 *observation[Obs_Andes_LF]
@@ -458,12 +584,12 @@ observation_type: process_removals_by_length
 likelihood: multinomial
 Values {dataframe}
 year category age length observed expected residual error_value process_error adjusted_error neglogLike pearsons_residuals
-1993 immature+mature 0 19 0.00048 3.88385e-05 0.000441161 56 0 56 0.258067 0.529747
-1993 immature+mature 0 20 0.001 5.79069e-05 0.000942093 56 0 56 0.516561 0.926478
-1993 immature+mature 0 21 0.00291 8.54554e-05 0.00282454 56 0 56 1.45274 2.2866
-1993 immature+mature 0 22 0.0015 0.000135508 0.00136449 56 0 56 0.705237 0.877228
+1993 immature+mature 0 19 0.00048 3.88386e-05 0.000441161 56 0 56 0.258067 0.529747
+1993 immature+mature 0 20 0.001 5.7907e-05 0.000942093 56 0 56 0.516561 0.926477
+1993 immature+mature 0 21 0.00291 8.54556e-05 0.00282454 56 0 56 1.45274 2.2866
+1993 immature+mature 0 22 0.0015 0.000135508 0.00136449 56 0 56 0.705237 0.877227
 1993 immature+mature 0 23 0.00463 0.000239376 0.00439062 56 0 56 2.06141 2.12389
-1993 immature+mature 0 24 0.00686 0.000473683 0.00638632 56 0 56 2.82222 2.19636
+1993 immature+mature 0 24 0.00686 0.000473684 0.00638632 56 0 56 2.82222 2.19636
 1993 immature+mature 0 25 0.00891 0.00102306 0.00788694 56 0 56 3.3145 1.84618
 1993 immature+mature 0 26 0.00895 0.00228121 0.00666879 56 0 56 2.92809 1.04605
 1993 immature+mature 0 27 0.01072 0.00496527 0.00575473 56 0 56 3.07232 0.612673
@@ -471,56 +597,56 @@ year category age length observed expected residual error_value process_error ad
 1993 immature+mature 0 29 0.01751 0.019098 -0.00158804 56 0 56 3.87313 -0.0868256
 1993 immature+mature 0 30 0.02609 0.0327287 -0.00663867 56 0 56 5.25369 -0.279214
 1993 immature+mature 0 31 0.04041 0.0510966 -0.0106866 56 0 56 7.67914 -0.363185
-1993 immature+mature 0 32 0.06405 0.0732644 -0.00921436 56 0 56 11.95 -0.264627
-1993 immature+mature 0 33 0.09926 0.0973677 0.00189232 56 0 56 18.7152 0.0477667
+1993 immature+mature 0 32 0.06405 0.0732644 -0.00921435 56 0 56 11.95 -0.264627
+1993 immature+mature 0 33 0.09926 0.0973677 0.00189232 56 0 56 18.7152 0.0477668
 1993 immature+mature 0 34 0.12552 0.119092 0.0064284 56 0 56 23.5409 0.148522
 1993 immature+mature 0 35 0.14803 0.130632 0.0173982 56 0 56 28.1022 0.386342
 1993 immature+mature 0 36 0.14041 0.127727 0.0126834 56 0 56 26.4933 0.284356
-1993 immature+mature 0 37 0.12092 0.116744 0.00417609 56 0 56 22.6118 0.0973204
+1993 immature+mature 0 37 0.12092 0.116744 0.00417609 56 0 56 22.6118 0.0973203
 1993 immature+mature 0 38 0.08129 0.0998767 -0.0185867 56 0 56 14.5298 -0.463889
 1993 immature+mature 0 39 0.04315 0.0685075 -0.0253575 56 0 56 7.58783 -0.751177
 1993 immature+mature 0 40 0.02042 0.0319785 -0.0115585 56 0 56 4.00391 -0.491615
-1993 immature+mature 0 41 0.00852 0.00977081 -0.00125081 56 0 56 2.08691 -0.0951595
-1993 immature+mature 0 42 0.00423 0.00216251 0.00206749 56 0 56 1.35843 0.333065
-1993 immature+mature 0 43 0.00046 0.000414588 4.54116e-05 56 0 56 0.186295 0.0166933
-1993 immature+mature 0 44 6e-05 7.41712e-05 -1.41712e-05 56 0 56 0.0300205 -0.012314
+1993 immature+mature 0 41 0.00852 0.00977081 -0.00125081 56 0 56 2.08691 -0.0951594
+1993 immature+mature 0 42 0.00423 0.00216251 0.00206749 56 0 56 1.35843 0.333066
+1993 immature+mature 0 43 0.00046 0.000414588 4.54118e-05 56 0 56 0.186295 0.0166934
+1993 immature+mature 0 44 6e-05 7.41711e-05 -1.41711e-05 56 0 56 0.0300205 -0.0123139
 1993 immature+mature 0 45 0 1.16454e-05 -1.16454e-05 56 0 56 0 -0.0255372
-1994 immature+mature 0 19 0 4.62755e-05 -4.62755e-05 57 0 57 0 -0.0513597
-1994 immature+mature 0 20 0 6.89889e-05 -6.89889e-05 57 0 57 0 -0.0627108
-1994 immature+mature 0 21 0 0.000101776 -0.000101776 57 0 57 0 -0.0761698
-1994 immature+mature 0 22 0 0.000161221 -0.000161221 57 0 57 0 -0.0958701
-1994 immature+mature 0 23 0 0.000284051 -0.000284051 57 0 57 0 -0.127261
-1994 immature+mature 0 24 0.00012 0.000559234 -0.000439234 57 0 57 0.0473146 -0.140268
-1994 immature+mature 0 25 0.00142 0.00119869 0.000221314 57 0 57 0.502912 0.0482896
+1994 immature+mature 0 19 0 4.62755e-05 -4.62755e-05 57 0 57 0 -0.0513598
+1994 immature+mature 0 20 0 6.89891e-05 -6.89891e-05 57 0 57 0 -0.0627108
+1994 immature+mature 0 21 0 0.000101777 -0.000101777 57 0 57 0 -0.0761699
+1994 immature+mature 0 22 0 0.000161221 -0.000161221 57 0 57 0 -0.0958702
+1994 immature+mature 0 23 0 0.000284051 -0.000284051 57 0 57 0 -0.127262
+1994 immature+mature 0 24 0.00012 0.000559235 -0.000439235 57 0 57 0.0473146 -0.140268
+1994 immature+mature 0 25 0.00142 0.00119869 0.000221313 57 0 57 0.502912 0.0482895
 1994 immature+mature 0 26 0.00122 0.00264751 -0.00142751 57 0 57 0.376369 -0.209736
 1994 immature+mature 0 27 0.00211 0.00569963 -0.00358963 57 0 57 0.563308 -0.360002
 1994 immature+mature 0 28 0.01052 0.0115114 -0.000991431 57 0 57 2.5644 -0.0701697
 1994 immature+mature 0 29 0.01703 0.0213458 -0.00431575 57 0 57 3.72212 -0.225436
-1994 immature+mature 0 30 0.02583 0.0359848 -0.0101548 57 0 57 5.16033 -0.411632
+1994 immature+mature 0 30 0.02583 0.0359848 -0.0101548 57 0 57 5.16033 -0.411631
 1994 immature+mature 0 31 0.04749 0.0551167 -0.00762675 57 0 57 9.28167 -0.252317
-1994 immature+mature 0 32 0.07759 0.0773034 0.000286649 57 0 57 15.1558 0.00810325
-1994 immature+mature 0 33 0.10289 0.100294 0.0025964 57 0 57 19.8142 0.0652562
+1994 immature+mature 0 32 0.07759 0.0773033 0.000286652 57 0 57 15.1558 0.00810335
+1994 immature+mature 0 33 0.10289 0.100294 0.0025964 57 0 57 19.8142 0.0652563
 1994 immature+mature 0 34 0.14212 0.119882 0.0222381 57 0 57 28.005 0.516878
 1994 immature+mature 0 35 0.14695 0.129032 0.0179179 57 0 57 28.5698 0.403528
 1994 immature+mature 0 36 0.13756 0.124314 0.0132464 57 0 57 26.6135 0.303111
-1994 immature+mature 0 37 0.12181 0.112251 0.00955909 57 0 57 23.5957 0.22862
+1994 immature+mature 0 37 0.12181 0.112251 0.00955908 57 0 57 23.5957 0.22862
 1994 immature+mature 0 38 0.0813 0.0951753 -0.0138753 57 0 57 15.0752 -0.356973
 1994 immature+mature 0 39 0.04229 0.0649714 -0.0226814 57 0 57 7.69354 -0.694758
 1994 immature+mature 0 40 0.02465 0.0302754 -0.00562536 57 0 57 5.13421 -0.247867
-1994 immature+mature 0 41 0.01136 0.00925136 0.00210864 57 0 57 2.92668 0.166286
+1994 immature+mature 0 41 0.01136 0.00925135 0.00210865 57 0 57 2.92668 0.166286
 1994 immature+mature 0 42 0.00474 0.00205 0.00269 57 0 57 1.56977 0.449011
 1994 immature+mature 0 43 0.00065 0.000393501 0.000256499 57 0 57 0.270211 0.0976416
 1994 immature+mature 0 44 0.00031 7.0431e-05 0.000239569 57 0 57 0.158996 0.215527
-1994 immature+mature 0 45 3e-05 1.10594e-05 1.89406e-05 57 0 57 0.0185303 0.0430001
-1997 immature+mature 0 19 0 6.57507e-05 -6.57507e-05 33 0 33 0 -0.0465824
-1997 immature+mature 0 20 0 9.80183e-05 -9.80183e-05 33 0 33 0 -0.0568764
-1997 immature+mature 0 21 0 0.000144572 -0.000144572 33 0 33 0 -0.0690765
-1997 immature+mature 0 22 0 0.000228844 -0.000228844 33 0 33 0 -0.0869114
+1994 immature+mature 0 45 3e-05 1.10593e-05 1.89407e-05 57 0 57 0.0185303 0.0430002
+1997 immature+mature 0 19 0 6.57509e-05 -6.57509e-05 33 0 33 0 -0.0465824
+1997 immature+mature 0 20 0 9.80185e-05 -9.80185e-05 33 0 33 0 -0.0568764
+1997 immature+mature 0 21 0 0.000144572 -0.000144572 33 0 33 0 -0.0690766
+1997 immature+mature 0 22 0 0.000228845 -0.000228845 33 0 33 0 -0.0869115
 1997 immature+mature 0 23 0 0.000402374 -0.000402374 33 0 33 0 -0.115255
-1997 immature+mature 0 24 0.00077 0.00078876 -1.87597e-05 33 0 33 0.167413 -0.00383868
-1997 immature+mature 0 25 0.00164 0.00167852 -3.85192e-05 33 0 33 0.316927 -0.0054055
-1997 immature+mature 0 26 0.00331 0.00366981 -0.000359813 33 0 33 0.558797 -0.034183
-1997 immature+mature 0 27 0.00631 0.00779571 -0.00148571 33 0 33 0.923076 -0.0970428
+1997 immature+mature 0 24 0.00077 0.00078876 -1.87603e-05 33 0 33 0.167413 -0.00383881
+1997 immature+mature 0 25 0.00164 0.00167852 -3.852e-05 33 0 33 0.316927 -0.00540561
+1997 immature+mature 0 26 0.00331 0.00366981 -0.000359814 33 0 33 0.558797 -0.0341831
+1997 immature+mature 0 27 0.00631 0.00779571 -0.00148571 33 0 33 0.923076 -0.0970429
 1997 immature+mature 0 28 0.01339 0.0154758 -0.00208582 33 0 33 1.72063 -0.0970718
 1997 immature+mature 0 29 0.02576 0.0280633 -0.00230327 33 0 33 2.98169 -0.080115
 1997 immature+mature 0 30 0.04363 0.0459508 -0.00232085 33 0 33 4.67806 -0.0636754
@@ -534,25 +660,25 @@ year category age length observed expected residual error_value process_error ad
 1997 immature+mature 0 38 0.05542 0.0799324 -0.0245124 33 0 33 5.16189 -0.519244
 1997 immature+mature 0 39 0.0331 0.0533999 -0.0202999 33 0 33 3.2421 -0.518677
 1997 immature+mature 0 40 0.01127 0.0246869 -0.0134169 33 0 33 1.25914 -0.496711
-1997 immature+mature 0 41 0.01048 0.00754971 0.00293029 33 0 33 1.5751 0.194468
-1997 immature+mature 0 42 0.00185 0.00168329 0.000166708 33 0 33 0.357665 0.0233615
-1997 immature+mature 0 43 0.0004 0.000325137 7.48631e-05 33 0 33 0.0985358 0.0238541
-1997 immature+mature 0 44 0.00019 5.83382e-05 0.000131662 33 0 33 0.0575409 0.0990268
-1997 immature+mature 0 45 0 9.16668e-06 -9.16668e-06 33 0 33 0 -0.0173926
-2001 immature+mature 0 19 0 8.71274e-05 -8.71274e-05 32 0 32 0 -0.0528045
+1997 immature+mature 0 41 0.01048 0.0075497 0.0029303 33 0 33 1.5751 0.194468
+1997 immature+mature 0 42 0.00185 0.00168329 0.000166709 33 0 33 0.357665 0.0233616
+1997 immature+mature 0 43 0.0004 0.000325137 7.48633e-05 33 0 33 0.0985358 0.0238541
+1997 immature+mature 0 44 0.00019 5.83382e-05 0.000131662 33 0 33 0.0575409 0.0990269
+1997 immature+mature 0 45 0 9.16667e-06 -9.16667e-06 33 0 33 0 -0.0173926
+2001 immature+mature 0 19 0 8.71275e-05 -8.71275e-05 32 0 32 0 -0.0528046
 2001 immature+mature 0 20 0 0.000129878 -0.000129878 32 0 32 0 -0.064472
-2001 immature+mature 0 21 0 0.000191524 -0.000191524 32 0 32 0 -0.078294
-2001 immature+mature 0 22 1e-05 0.000302979 -0.000292979 32 0 32 0.00240797 -0.0952293
-2001 immature+mature 0 23 4e-05 0.000531918 -0.000491918 32 0 32 0.00891246 -0.120687
-2001 immature+mature 0 24 0.0003 0.00103971 -0.000739711 32 0 32 0.0604748 -0.129839
+2001 immature+mature 0 21 0 0.000191525 -0.000191525 32 0 32 0 -0.0782941
+2001 immature+mature 0 22 1e-05 0.000302979 -0.000292979 32 0 32 0.00240797 -0.0952294
+2001 immature+mature 0 23 4e-05 0.000531919 -0.000491919 32 0 32 0.00891246 -0.120687
+2001 immature+mature 0 24 0.0003 0.00103971 -0.000739712 32 0 32 0.0604748 -0.12984
 2001 immature+mature 0 25 0.00116 0.00220306 -0.00104306 32 0 32 0.206784 -0.125849
-2001 immature+mature 0 26 0.00386 0.00478993 -0.000929931 32 0 32 0.600303 -0.076191
+2001 immature+mature 0 26 0.00386 0.00478993 -0.000929932 32 0 32 0.600303 -0.0761911
 2001 immature+mature 0 27 0.0063 0.0101053 -0.00380534 32 0 32 0.840455 -0.215228
 2001 immature+mature 0 28 0.01515 0.0198861 -0.00473608 32 0 32 1.77809 -0.191903
 2001 immature+mature 0 29 0.03448 0.0356421 -0.00116214 32 0 32 3.72592 -0.0354595
-2001 immature+mature 0 30 0.05534 0.0574124 -0.00207239 32 0 32 5.55269 -0.0503943
+2001 immature+mature 0 30 0.05534 0.0574124 -0.00207238 32 0 32 5.55269 -0.0503943
 2001 immature+mature 0 31 0.0744 0.0826261 -0.0082261 32 0 32 7.00821 -0.16902
-2001 immature+mature 0 32 0.10371 0.106307 -0.00259696 32 0 32 9.64477 -0.0476612
+2001 immature+mature 0 32 0.10371 0.106307 -0.00259695 32 0 32 9.64477 -0.0476611
 2001 immature+mature 0 33 0.13668 0.122958 0.0137225 32 0 32 12.9231 0.236385
 2001 immature+mature 0 34 0.16272 0.128369 0.0343508 32 0 32 15.8338 0.580918
 2001 immature+mature 0 35 0.13279 0.120503 0.0122875 32 0 32 12.5521 0.213512
@@ -561,36 +687,36 @@ year category age length observed expected residual error_value process_error ad
 2001 immature+mature 0 38 0.04476 0.0609457 -0.0161857 32 0 32 4.24553 -0.382727
 2001 immature+mature 0 39 0.01857 0.0387713 -0.0202013 32 0 32 1.81802 -0.591951
 2001 immature+mature 0 40 0.0088 0.0175948 -0.0087948 32 0 32 1.03284 -0.378411
-2001 immature+mature 0 41 0.00301 0.00539899 -0.00238899 32 0 32 0.454636 -0.18442
-2001 immature+mature 0 42 0.00105 0.00122481 -0.000174808 32 0 32 0.206806 -0.0282728
-2001 immature+mature 0 43 0.0005 0.000240701 0.000259299 32 0 32 0.124285 0.0945563
-2001 immature+mature 0 44 0 4.35017e-05 -4.35017e-05 32 0 32 0 -0.037311
+2001 immature+mature 0 41 0.00301 0.00539898 -0.00238898 32 0 32 0.454636 -0.18442
+2001 immature+mature 0 42 0.00105 0.00122481 -0.000174807 32 0 32 0.206806 -0.0282727
+2001 immature+mature 0 43 0.0005 0.0002407 0.0002593 32 0 32 0.124285 0.0945563
+2001 immature+mature 0 44 0 4.35016e-05 -4.35016e-05 32 0 32 0 -0.037311
 2001 immature+mature 0 45 0 6.85153e-06 -6.85153e-06 32 0 32 0 -0.0148071
-2003 immature+mature 0 19 0 0.000115718 -0.000115718 83 0 83 0 -0.0980086
-2003 immature+mature 0 20 0.00023 0.000172464 5.75361e-05 83 0 83 0.154699 0.0399179
-2003 immature+mature 0 21 0 0.000254157 -0.000254157 83 0 83 0 -0.14526
-2003 immature+mature 0 22 0.00042 0.000401264 1.87355e-05 83 0 83 0.253497 0.0085227
-2003 immature+mature 0 23 0.00044 0.00070109 -0.00026109 83 0 83 0.245238 -0.089866
-2003 immature+mature 0 24 0.00123 0.00135815 -0.000128154 83 0 83 0.623205 -0.0317024
-2003 immature+mature 0 25 0.00277 0.00284093 -7.0928e-05 83 0 83 1.25465 -0.0121407
-2003 immature+mature 0 26 0.00596 0.00608218 -0.000122178 83 0 83 2.40309 -0.0143162
+2003 immature+mature 0 19 0 0.000115718 -0.000115718 83 0 83 0 -0.0980087
+2003 immature+mature 0 20 0.00023 0.000172464 5.75358e-05 83 0 83 0.154699 0.0399177
+2003 immature+mature 0 21 0 0.000254158 -0.000254158 83 0 83 0 -0.14526
+2003 immature+mature 0 22 0.00042 0.000401265 1.8735e-05 83 0 83 0.253497 0.00852243
+2003 immature+mature 0 23 0.00044 0.000701091 -0.000261091 83 0 83 0.245238 -0.0898662
+2003 immature+mature 0 24 0.00123 0.00135816 -0.000128155 83 0 83 0.623205 -0.0317027
+2003 immature+mature 0 25 0.00277 0.00284093 -7.09294e-05 83 0 83 1.25465 -0.012141
+2003 immature+mature 0 26 0.00596 0.00608218 -0.00012218 83 0 83 2.40309 -0.0143164
 2003 immature+mature 0 27 0.01498 0.0126166 0.00236335 83 0 83 5.55787 0.192909
-2003 immature+mature 0 28 0.02466 0.0243839 0.000276148 83 0 83 8.33815 0.0163113
+2003 immature+mature 0 28 0.02466 0.0243839 0.000276146 83 0 83 8.33815 0.0163113
 2003 immature+mature 0 29 0.0325 0.0428579 -0.0103579 83 0 83 9.92192 -0.465916
 2003 immature+mature 0 30 0.0555 0.0675418 -0.0120418 83 0 83 16.5451 -0.437149
 2003 immature+mature 0 31 0.0822 0.094736 -0.012536 83 0 83 24.2483 -0.38999
-2003 immature+mature 0 32 0.11527 0.118044 -0.00277362 83 0 83 34.5388 -0.0783144
-2003 immature+mature 0 33 0.13796 0.131003 0.0069569 83 0 83 41.8858 0.187847
+2003 immature+mature 0 32 0.11527 0.118044 -0.00277362 83 0 83 34.5388 -0.0783143
+2003 immature+mature 0 33 0.13796 0.131003 0.00695691 83 0 83 41.8858 0.187847
 2003 immature+mature 0 34 0.15496 0.129918 0.0250417 83 0 83 48.4416 0.678558
 2003 immature+mature 0 35 0.13347 0.115077 0.0183934 83 0 83 41.6455 0.525116
 2003 immature+mature 0 36 0.10163 0.0914204 0.0102096 83 0 83 31.727 0.322733
-2003 immature+mature 0 37 0.06708 0.0673209 -0.000240901 83 0 83 20.8073 -0.00875866
-2003 immature+mature 0 38 0.04202 0.0471053 -0.00508535 83 0 83 13.0927 -0.218677
+2003 immature+mature 0 37 0.06708 0.0673209 -0.000240901 83 0 83 20.8073 -0.00875863
+2003 immature+mature 0 38 0.04202 0.0471053 -0.00508535 83 0 83 13.0927 -0.218676
 2003 immature+mature 0 39 0.01506 0.0284268 -0.0133668 83 0 83 4.57532 -0.732764
 2003 immature+mature 0 40 0.00784 0.0126244 -0.00478438 83 0 83 2.73992 -0.390408
 2003 immature+mature 0 41 0.00292 0.00388435 -0.000964354 83 0 83 1.24879 -0.141241
-2003 immature+mature 0 42 0.00083 0.000896922 -6.69221e-05 83 0 83 0.447383 -0.020367
-2003 immature+mature 0 43 5e-05 0.000179294 -0.000129294 83 0 83 0.0334186 -0.0879779
+2003 immature+mature 0 42 0.00083 0.000896922 -6.69219e-05 83 0 83 0.447383 -0.0203669
+2003 immature+mature 0 43 5e-05 0.000179294 -0.000129294 83 0 83 0.0334186 -0.0879778
 2003 immature+mature 0 44 1e-05 3.26231e-05 -2.26231e-05 83 0 83 0.00809578 -0.0360857
 2003 immature+mature 0 45 0 5.14877e-06 -5.14877e-06 83 0 83 0 -0.0206724
 *end
@@ -651,8 +777,8 @@ year category age length observed expected residual error_value process_error ad
 2000 immature+mature 0 0 0.697 0.785845 -0.0888453 0.067 0.2 0.210924 -1.45638 -0.536008 -0.470734
 2001 immature+mature 0 0 0.549 0.694135 -0.145135 0.073 0.2 0.212906 -1.04919 -0.982067 -1.00879
 2002 immature+mature 0 0 0.572 0.594197 -0.0221973 0.071 0.2 0.212229 -1.55822 -0.176021 -0.0764395
-2003 immature+mature 0 0 0.428 0.430475 -0.00247451 0.065 0.2 0.210297 -1.56718 -0.0273343 0.0763008
-2004 immature+mature 0 0 0.312 0.304696 0.00730363 0.069 0.2 0.211568 -1.54047 0.113298 0.217826
+2003 immature+mature 0 0 0.428 0.430475 -0.00247452 0.065 0.2 0.210297 -1.56718 -0.0273344 0.0763007
+2004 immature+mature 0 0 0.312 0.304696 0.00730361 0.069 0.2 0.211568 -1.54047 0.113298 0.217826
 *end
 
 *observation[Obs_Andes_LF]
@@ -660,12 +786,12 @@ observation_type: process_removals_by_length
 likelihood: multinomial
 Values {dataframe}
 year category age length observed expected residual error_value process_error adjusted_error neglogLike pearsons_residuals
-1993 immature+mature 0 19 0.00048 3.88385e-05 0.000441161 56 0 56 0.258067 0.529747
-1993 immature+mature 0 20 0.001 5.79069e-05 0.000942093 56 0 56 0.516561 0.926478
-1993 immature+mature 0 21 0.00291 8.54554e-05 0.00282454 56 0 56 1.45274 2.2866
-1993 immature+mature 0 22 0.0015 0.000135508 0.00136449 56 0 56 0.705237 0.877228
+1993 immature+mature 0 19 0.00048 3.88386e-05 0.000441161 56 0 56 0.258067 0.529747
+1993 immature+mature 0 20 0.001 5.7907e-05 0.000942093 56 0 56 0.516561 0.926477
+1993 immature+mature 0 21 0.00291 8.54556e-05 0.00282454 56 0 56 1.45274 2.2866
+1993 immature+mature 0 22 0.0015 0.000135508 0.00136449 56 0 56 0.705237 0.877227
 1993 immature+mature 0 23 0.00463 0.000239376 0.00439062 56 0 56 2.06141 2.12389
-1993 immature+mature 0 24 0.00686 0.000473683 0.00638632 56 0 56 2.82222 2.19636
+1993 immature+mature 0 24 0.00686 0.000473684 0.00638632 56 0 56 2.82222 2.19636
 1993 immature+mature 0 25 0.00891 0.00102306 0.00788694 56 0 56 3.3145 1.84618
 1993 immature+mature 0 26 0.00895 0.00228121 0.00666879 56 0 56 2.92809 1.04605
 1993 immature+mature 0 27 0.01072 0.00496527 0.00575473 56 0 56 3.07232 0.612673
@@ -673,56 +799,56 @@ year category age length observed expected residual error_value process_error ad
 1993 immature+mature 0 29 0.01751 0.019098 -0.00158804 56 0 56 3.87313 -0.0868256
 1993 immature+mature 0 30 0.02609 0.0327287 -0.00663867 56 0 56 5.25369 -0.279214
 1993 immature+mature 0 31 0.04041 0.0510966 -0.0106866 56 0 56 7.67914 -0.363185
-1993 immature+mature 0 32 0.06405 0.0732644 -0.00921436 56 0 56 11.95 -0.264627
-1993 immature+mature 0 33 0.09926 0.0973677 0.00189232 56 0 56 18.7152 0.0477667
+1993 immature+mature 0 32 0.06405 0.0732644 -0.00921435 56 0 56 11.95 -0.264627
+1993 immature+mature 0 33 0.09926 0.0973677 0.00189232 56 0 56 18.7152 0.0477668
 1993 immature+mature 0 34 0.12552 0.119092 0.0064284 56 0 56 23.5409 0.148522
 1993 immature+mature 0 35 0.14803 0.130632 0.0173982 56 0 56 28.1022 0.386342
 1993 immature+mature 0 36 0.14041 0.127727 0.0126834 56 0 56 26.4933 0.284356
-1993 immature+mature 0 37 0.12092 0.116744 0.00417609 56 0 56 22.6118 0.0973204
+1993 immature+mature 0 37 0.12092 0.116744 0.00417609 56 0 56 22.6118 0.0973203
 1993 immature+mature 0 38 0.08129 0.0998767 -0.0185867 56 0 56 14.5298 -0.463889
 1993 immature+mature 0 39 0.04315 0.0685075 -0.0253575 56 0 56 7.58783 -0.751177
 1993 immature+mature 0 40 0.02042 0.0319785 -0.0115585 56 0 56 4.00391 -0.491615
-1993 immature+mature 0 41 0.00852 0.00977081 -0.00125081 56 0 56 2.08691 -0.0951595
-1993 immature+mature 0 42 0.00423 0.00216251 0.00206749 56 0 56 1.35843 0.333065
-1993 immature+mature 0 43 0.00046 0.000414588 4.54116e-05 56 0 56 0.186295 0.0166933
-1993 immature+mature 0 44 6e-05 7.41712e-05 -1.41712e-05 56 0 56 0.0300205 -0.012314
+1993 immature+mature 0 41 0.00852 0.00977081 -0.00125081 56 0 56 2.08691 -0.0951594
+1993 immature+mature 0 42 0.00423 0.00216251 0.00206749 56 0 56 1.35843 0.333066
+1993 immature+mature 0 43 0.00046 0.000414588 4.54118e-05 56 0 56 0.186295 0.0166934
+1993 immature+mature 0 44 6e-05 7.41711e-05 -1.41711e-05 56 0 56 0.0300205 -0.0123139
 1993 immature+mature 0 45 0 1.16454e-05 -1.16454e-05 56 0 56 0 -0.0255372
-1994 immature+mature 0 19 0 4.62755e-05 -4.62755e-05 57 0 57 0 -0.0513597
-1994 immature+mature 0 20 0 6.89889e-05 -6.89889e-05 57 0 57 0 -0.0627108
-1994 immature+mature 0 21 0 0.000101776 -0.000101776 57 0 57 0 -0.0761698
-1994 immature+mature 0 22 0 0.000161221 -0.000161221 57 0 57 0 -0.0958701
-1994 immature+mature 0 23 0 0.000284051 -0.000284051 57 0 57 0 -0.127261
-1994 immature+mature 0 24 0.00012 0.000559234 -0.000439234 57 0 57 0.0473146 -0.140268
-1994 immature+mature 0 25 0.00142 0.00119869 0.000221314 57 0 57 0.502912 0.0482896
+1994 immature+mature 0 19 0 4.62755e-05 -4.62755e-05 57 0 57 0 -0.0513598
+1994 immature+mature 0 20 0 6.89891e-05 -6.89891e-05 57 0 57 0 -0.0627108
+1994 immature+mature 0 21 0 0.000101777 -0.000101777 57 0 57 0 -0.0761699
+1994 immature+mature 0 22 0 0.000161221 -0.000161221 57 0 57 0 -0.0958702
+1994 immature+mature 0 23 0 0.000284051 -0.000284051 57 0 57 0 -0.127262
+1994 immature+mature 0 24 0.00012 0.000559235 -0.000439235 57 0 57 0.0473146 -0.140268
+1994 immature+mature 0 25 0.00142 0.00119869 0.000221313 57 0 57 0.502912 0.0482895
 1994 immature+mature 0 26 0.00122 0.00264751 -0.00142751 57 0 57 0.376369 -0.209736
 1994 immature+mature 0 27 0.00211 0.00569963 -0.00358963 57 0 57 0.563308 -0.360002
 1994 immature+mature 0 28 0.01052 0.0115114 -0.000991431 57 0 57 2.5644 -0.0701697
 1994 immature+mature 0 29 0.01703 0.0213458 -0.00431575 57 0 57 3.72212 -0.225436
-1994 immature+mature 0 30 0.02583 0.0359848 -0.0101548 57 0 57 5.16033 -0.411632
+1994 immature+mature 0 30 0.02583 0.0359848 -0.0101548 57 0 57 5.16033 -0.411631
 1994 immature+mature 0 31 0.04749 0.0551167 -0.00762675 57 0 57 9.28167 -0.252317
-1994 immature+mature 0 32 0.07759 0.0773034 0.000286649 57 0 57 15.1558 0.00810325
-1994 immature+mature 0 33 0.10289 0.100294 0.0025964 57 0 57 19.8142 0.0652562
+1994 immature+mature 0 32 0.07759 0.0773033 0.000286652 57 0 57 15.1558 0.00810335
+1994 immature+mature 0 33 0.10289 0.100294 0.0025964 57 0 57 19.8142 0.0652563
 1994 immature+mature 0 34 0.14212 0.119882 0.0222381 57 0 57 28.005 0.516878
 1994 immature+mature 0 35 0.14695 0.129032 0.0179179 57 0 57 28.5698 0.403528
 1994 immature+mature 0 36 0.13756 0.124314 0.0132464 57 0 57 26.6135 0.303111
-1994 immature+mature 0 37 0.12181 0.112251 0.00955909 57 0 57 23.5957 0.22862
+1994 immature+mature 0 37 0.12181 0.112251 0.00955908 57 0 57 23.5957 0.22862
 1994 immature+mature 0 38 0.0813 0.0951753 -0.0138753 57 0 57 15.0752 -0.356973
 1994 immature+mature 0 39 0.04229 0.0649714 -0.0226814 57 0 57 7.69354 -0.694758
 1994 immature+mature 0 40 0.02465 0.0302754 -0.00562536 57 0 57 5.13421 -0.247867
-1994 immature+mature 0 41 0.01136 0.00925136 0.00210864 57 0 57 2.92668 0.166286
+1994 immature+mature 0 41 0.01136 0.00925135 0.00210865 57 0 57 2.92668 0.166286
 1994 immature+mature 0 42 0.00474 0.00205 0.00269 57 0 57 1.56977 0.449011
 1994 immature+mature 0 43 0.00065 0.000393501 0.000256499 57 0 57 0.270211 0.0976416
 1994 immature+mature 0 44 0.00031 7.0431e-05 0.000239569 57 0 57 0.158996 0.215527
-1994 immature+mature 0 45 3e-05 1.10594e-05 1.89406e-05 57 0 57 0.0185303 0.0430001
-1997 immature+mature 0 19 0 6.57507e-05 -6.57507e-05 33 0 33 0 -0.0465824
-1997 immature+mature 0 20 0 9.80183e-05 -9.80183e-05 33 0 33 0 -0.0568764
-1997 immature+mature 0 21 0 0.000144572 -0.000144572 33 0 33 0 -0.0690765
-1997 immature+mature 0 22 0 0.000228844 -0.000228844 33 0 33 0 -0.0869114
+1994 immature+mature 0 45 3e-05 1.10593e-05 1.89407e-05 57 0 57 0.0185303 0.0430002
+1997 immature+mature 0 19 0 6.57509e-05 -6.57509e-05 33 0 33 0 -0.0465824
+1997 immature+mature 0 20 0 9.80185e-05 -9.80185e-05 33 0 33 0 -0.0568764
+1997 immature+mature 0 21 0 0.000144572 -0.000144572 33 0 33 0 -0.0690766
+1997 immature+mature 0 22 0 0.000228845 -0.000228845 33 0 33 0 -0.0869115
 1997 immature+mature 0 23 0 0.000402374 -0.000402374 33 0 33 0 -0.115255
-1997 immature+mature 0 24 0.00077 0.00078876 -1.87597e-05 33 0 33 0.167413 -0.00383868
-1997 immature+mature 0 25 0.00164 0.00167852 -3.85192e-05 33 0 33 0.316927 -0.0054055
-1997 immature+mature 0 26 0.00331 0.00366981 -0.000359813 33 0 33 0.558797 -0.034183
-1997 immature+mature 0 27 0.00631 0.00779571 -0.00148571 33 0 33 0.923076 -0.0970428
+1997 immature+mature 0 24 0.00077 0.00078876 -1.87603e-05 33 0 33 0.167413 -0.00383881
+1997 immature+mature 0 25 0.00164 0.00167852 -3.852e-05 33 0 33 0.316927 -0.00540561
+1997 immature+mature 0 26 0.00331 0.00366981 -0.000359814 33 0 33 0.558797 -0.0341831
+1997 immature+mature 0 27 0.00631 0.00779571 -0.00148571 33 0 33 0.923076 -0.0970429
 1997 immature+mature 0 28 0.01339 0.0154758 -0.00208582 33 0 33 1.72063 -0.0970718
 1997 immature+mature 0 29 0.02576 0.0280633 -0.00230327 33 0 33 2.98169 -0.080115
 1997 immature+mature 0 30 0.04363 0.0459508 -0.00232085 33 0 33 4.67806 -0.0636754
@@ -736,25 +862,25 @@ year category age length observed expected residual error_value process_error ad
 1997 immature+mature 0 38 0.05542 0.0799324 -0.0245124 33 0 33 5.16189 -0.519244
 1997 immature+mature 0 39 0.0331 0.0533999 -0.0202999 33 0 33 3.2421 -0.518677
 1997 immature+mature 0 40 0.01127 0.0246869 -0.0134169 33 0 33 1.25914 -0.496711
-1997 immature+mature 0 41 0.01048 0.00754971 0.00293029 33 0 33 1.5751 0.194468
-1997 immature+mature 0 42 0.00185 0.00168329 0.000166708 33 0 33 0.357665 0.0233615
-1997 immature+mature 0 43 0.0004 0.000325137 7.48631e-05 33 0 33 0.0985358 0.0238541
-1997 immature+mature 0 44 0.00019 5.83382e-05 0.000131662 33 0 33 0.0575409 0.0990268
-1997 immature+mature 0 45 0 9.16668e-06 -9.16668e-06 33 0 33 0 -0.0173926
-2001 immature+mature 0 19 0 8.71274e-05 -8.71274e-05 32 0 32 0 -0.0528045
+1997 immature+mature 0 41 0.01048 0.0075497 0.0029303 33 0 33 1.5751 0.194468
+1997 immature+mature 0 42 0.00185 0.00168329 0.000166709 33 0 33 0.357665 0.0233616
+1997 immature+mature 0 43 0.0004 0.000325137 7.48633e-05 33 0 33 0.0985358 0.0238541
+1997 immature+mature 0 44 0.00019 5.83382e-05 0.000131662 33 0 33 0.0575409 0.0990269
+1997 immature+mature 0 45 0 9.16667e-06 -9.16667e-06 33 0 33 0 -0.0173926
+2001 immature+mature 0 19 0 8.71275e-05 -8.71275e-05 32 0 32 0 -0.0528046
 2001 immature+mature 0 20 0 0.000129878 -0.000129878 32 0 32 0 -0.064472
-2001 immature+mature 0 21 0 0.000191524 -0.000191524 32 0 32 0 -0.078294
-2001 immature+mature 0 22 1e-05 0.000302979 -0.000292979 32 0 32 0.00240797 -0.0952293
-2001 immature+mature 0 23 4e-05 0.000531918 -0.000491918 32 0 32 0.00891246 -0.120687
-2001 immature+mature 0 24 0.0003 0.00103971 -0.000739711 32 0 32 0.0604748 -0.129839
+2001 immature+mature 0 21 0 0.000191525 -0.000191525 32 0 32 0 -0.0782941
+2001 immature+mature 0 22 1e-05 0.000302979 -0.000292979 32 0 32 0.00240797 -0.0952294
+2001 immature+mature 0 23 4e-05 0.000531919 -0.000491919 32 0 32 0.00891246 -0.120687
+2001 immature+mature 0 24 0.0003 0.00103971 -0.000739712 32 0 32 0.0604748 -0.12984
 2001 immature+mature 0 25 0.00116 0.00220306 -0.00104306 32 0 32 0.206784 -0.125849
-2001 immature+mature 0 26 0.00386 0.00478993 -0.000929931 32 0 32 0.600303 -0.076191
+2001 immature+mature 0 26 0.00386 0.00478993 -0.000929932 32 0 32 0.600303 -0.0761911
 2001 immature+mature 0 27 0.0063 0.0101053 -0.00380534 32 0 32 0.840455 -0.215228
 2001 immature+mature 0 28 0.01515 0.0198861 -0.00473608 32 0 32 1.77809 -0.191903
 2001 immature+mature 0 29 0.03448 0.0356421 -0.00116214 32 0 32 3.72592 -0.0354595
-2001 immature+mature 0 30 0.05534 0.0574124 -0.00207239 32 0 32 5.55269 -0.0503943
+2001 immature+mature 0 30 0.05534 0.0574124 -0.00207238 32 0 32 5.55269 -0.0503943
 2001 immature+mature 0 31 0.0744 0.0826261 -0.0082261 32 0 32 7.00821 -0.16902
-2001 immature+mature 0 32 0.10371 0.106307 -0.00259696 32 0 32 9.64477 -0.0476612
+2001 immature+mature 0 32 0.10371 0.106307 -0.00259695 32 0 32 9.64477 -0.0476611
 2001 immature+mature 0 33 0.13668 0.122958 0.0137225 32 0 32 12.9231 0.236385
 2001 immature+mature 0 34 0.16272 0.128369 0.0343508 32 0 32 15.8338 0.580918
 2001 immature+mature 0 35 0.13279 0.120503 0.0122875 32 0 32 12.5521 0.213512
@@ -763,36 +889,36 @@ year category age length observed expected residual error_value process_error ad
 2001 immature+mature 0 38 0.04476 0.0609457 -0.0161857 32 0 32 4.24553 -0.382727
 2001 immature+mature 0 39 0.01857 0.0387713 -0.0202013 32 0 32 1.81802 -0.591951
 2001 immature+mature 0 40 0.0088 0.0175948 -0.0087948 32 0 32 1.03284 -0.378411
-2001 immature+mature 0 41 0.00301 0.00539899 -0.00238899 32 0 32 0.454636 -0.18442
-2001 immature+mature 0 42 0.00105 0.00122481 -0.000174808 32 0 32 0.206806 -0.0282728
-2001 immature+mature 0 43 0.0005 0.000240701 0.000259299 32 0 32 0.124285 0.0945563
-2001 immature+mature 0 44 0 4.35017e-05 -4.35017e-05 32 0 32 0 -0.037311
+2001 immature+mature 0 41 0.00301 0.00539898 -0.00238898 32 0 32 0.454636 -0.18442
+2001 immature+mature 0 42 0.00105 0.00122481 -0.000174807 32 0 32 0.206806 -0.0282727
+2001 immature+mature 0 43 0.0005 0.0002407 0.0002593 32 0 32 0.124285 0.0945563
+2001 immature+mature 0 44 0 4.35016e-05 -4.35016e-05 32 0 32 0 -0.037311
 2001 immature+mature 0 45 0 6.85153e-06 -6.85153e-06 32 0 32 0 -0.0148071
-2003 immature+mature 0 19 0 0.000115718 -0.000115718 83 0 83 0 -0.0980086
-2003 immature+mature 0 20 0.00023 0.000172464 5.75361e-05 83 0 83 0.154699 0.0399179
-2003 immature+mature 0 21 0 0.000254157 -0.000254157 83 0 83 0 -0.14526
-2003 immature+mature 0 22 0.00042 0.000401264 1.87355e-05 83 0 83 0.253497 0.0085227
-2003 immature+mature 0 23 0.00044 0.00070109 -0.00026109 83 0 83 0.245238 -0.089866
-2003 immature+mature 0 24 0.00123 0.00135815 -0.000128154 83 0 83 0.623205 -0.0317024
-2003 immature+mature 0 25 0.00277 0.00284093 -7.0928e-05 83 0 83 1.25465 -0.0121407
-2003 immature+mature 0 26 0.00596 0.00608218 -0.000122178 83 0 83 2.40309 -0.0143162
+2003 immature+mature 0 19 0 0.000115718 -0.000115718 83 0 83 0 -0.0980087
+2003 immature+mature 0 20 0.00023 0.000172464 5.75358e-05 83 0 83 0.154699 0.0399177
+2003 immature+mature 0 21 0 0.000254158 -0.000254158 83 0 83 0 -0.14526
+2003 immature+mature 0 22 0.00042 0.000401265 1.8735e-05 83 0 83 0.253497 0.00852243
+2003 immature+mature 0 23 0.00044 0.000701091 -0.000261091 83 0 83 0.245238 -0.0898662
+2003 immature+mature 0 24 0.00123 0.00135816 -0.000128155 83 0 83 0.623205 -0.0317027
+2003 immature+mature 0 25 0.00277 0.00284093 -7.09294e-05 83 0 83 1.25465 -0.012141
+2003 immature+mature 0 26 0.00596 0.00608218 -0.00012218 83 0 83 2.40309 -0.0143164
 2003 immature+mature 0 27 0.01498 0.0126166 0.00236335 83 0 83 5.55787 0.192909
-2003 immature+mature 0 28 0.02466 0.0243839 0.000276148 83 0 83 8.33815 0.0163113
+2003 immature+mature 0 28 0.02466 0.0243839 0.000276146 83 0 83 8.33815 0.0163113
 2003 immature+mature 0 29 0.0325 0.0428579 -0.0103579 83 0 83 9.92192 -0.465916
 2003 immature+mature 0 30 0.0555 0.0675418 -0.0120418 83 0 83 16.5451 -0.437149
 2003 immature+mature 0 31 0.0822 0.094736 -0.012536 83 0 83 24.2483 -0.38999
-2003 immature+mature 0 32 0.11527 0.118044 -0.00277362 83 0 83 34.5388 -0.0783144
-2003 immature+mature 0 33 0.13796 0.131003 0.0069569 83 0 83 41.8858 0.187847
+2003 immature+mature 0 32 0.11527 0.118044 -0.00277362 83 0 83 34.5388 -0.0783143
+2003 immature+mature 0 33 0.13796 0.131003 0.00695691 83 0 83 41.8858 0.187847
 2003 immature+mature 0 34 0.15496 0.129918 0.0250417 83 0 83 48.4416 0.678558
 2003 immature+mature 0 35 0.13347 0.115077 0.0183934 83 0 83 41.6455 0.525116
 2003 immature+mature 0 36 0.10163 0.0914204 0.0102096 83 0 83 31.727 0.322733
-2003 immature+mature 0 37 0.06708 0.0673209 -0.000240901 83 0 83 20.8073 -0.00875866
-2003 immature+mature 0 38 0.04202 0.0471053 -0.00508535 83 0 83 13.0927 -0.218677
+2003 immature+mature 0 37 0.06708 0.0673209 -0.000240901 83 0 83 20.8073 -0.00875863
+2003 immature+mature 0 38 0.04202 0.0471053 -0.00508535 83 0 83 13.0927 -0.218676
 2003 immature+mature 0 39 0.01506 0.0284268 -0.0133668 83 0 83 4.57532 -0.732764
 2003 immature+mature 0 40 0.00784 0.0126244 -0.00478438 83 0 83 2.73992 -0.390408
 2003 immature+mature 0 41 0.00292 0.00388435 -0.000964354 83 0 83 1.24879 -0.141241
-2003 immature+mature 0 42 0.00083 0.000896922 -6.69221e-05 83 0 83 0.447383 -0.020367
-2003 immature+mature 0 43 5e-05 0.000179294 -0.000129294 83 0 83 0.0334186 -0.0879779
+2003 immature+mature 0 42 0.00083 0.000896922 -6.69219e-05 83 0 83 0.447383 -0.0203669
+2003 immature+mature 0 43 5e-05 0.000179294 -0.000129294 83 0 83 0.0334186 -0.0879778
 2003 immature+mature 0 44 1e-05 3.26231e-05 -2.26231e-05 83 0 83 0.00809578 -0.0360857
 2003 immature+mature 0 45 0 5.14877e-06 -5.14877e-06 83 0 83 0 -0.0206724
 *end
@@ -950,30 +1076,30 @@ length_based: 0
 type: logistic
 Values {vector}
 1 1.00784e-05
-2 1.43377e-05
+2 1.43378e-05
 3 2.03971e-05
 4 2.90172e-05
-5 4.12801e-05
-6 5.87251e-05
-7 8.35418e-05
+5 4.12802e-05
+6 5.87252e-05
+7 8.3542e-05
 8 0.000118845
 9 0.000169063
-10 0.000240496
-11 0.000342101
-12 0.000486612
-13 0.000692124
-14 0.000984346
-15 0.00139977
+10 0.000240497
+11 0.000342102
+12 0.000486613
+13 0.000692125
+14 0.000984348
+15 0.00139978
 16 0.00199018
 17 0.0028289
-18 0.00401966
+18 0.00401967
 19 0.00570878
-20 0.00810191
+20 0.00810192
 21 0.0114867
 22 0.0162623
 23 0.0229772
 24 0.0323736
-25 0.0454339
+25 0.045434
 26 0.0634178
 27 0.0878649
 28 0.120523
@@ -984,7 +1110,7 @@ Values {vector}
 33 0.443996
 34 0.531843
 35 0.617759
-36 0.696895
+36 0.696894
 37 0.765856
 38 0.82311
 39 0.868763
@@ -995,7 +1121,7 @@ Values {vector}
 44 0.974731
 45 0.982104
 46 0.987353
-47 0.991077
+47 0.991076
 48 0.993711
 49 0.995571
 50 0.996883
@@ -1120,125 +1246,6 @@ Values {vector}
 80 1
 *end
 
-*estimate_summary[estimated_summary]
-process[Recruitment].b0 {list}
-value: 27506.5
-std_dev: 6311.84
-estimation_phase: 1
-label: B0
-lower_bound: 1e4
-mcmc:
-parameter: process[Recruitment].b0
-prior_applies_to_transform:
-same:
-transform_with_jacobian:
-transformation:
-type: uniform_log
-upper_bound: 1e5
-{end_list}
-
-age_length[age_len_label].cv_first {list}
-value: 0.102891
-std_dev: 0.233003
-estimation_phase: 1
-label: age_len_cv_first
-lognormal_transformation:
-lower_bound: 0.01
-mcmc:
-mu: 0.15
-parameter: age_length[age_len_label].cv_first
-prior_applies_to_transform:
-same:
-sigma: 0.025
-transform_with_jacobian:
-transformation:
-type: normal_by_stdev
-upper_bound: 1.0
-{end_list}
-
-age_length[age_len_label].cv_last {list}
-value: 0.0310498
-std_dev: 1.25247
-cv: 0.5
-estimation_phase: 1
-label: age_len_cv_last
-lower_bound: 0.01
-mcmc:
-mu: 0.1
-parameter: age_length[age_len_label].cv_last
-prior_applies_to_transform:
-same:
-transform_with_jacobian:
-transformation:
-type: normal
-upper_bound: 1.0
-{end_list}
-
-selectivity[SELandes].a50 {list}
-value: 33.6382
-std_dev: 5.04888
-cv: 0.3
-estimation_phase: 1
-label: fishery_sel_a50
-lower_bound: 5
-mcmc:
-mu: 35
-parameter: selectivity[SELandes].a50
-prior_applies_to_transform:
-same:
-transform_with_jacobian:
-transformation:
-type: normal
-upper_bound: 80
-{end_list}
-
-selectivity[SELandes].ato95 {list}
-value: 8.35291
-std_dev: 4.99173
-cv: 0.5
-estimation_phase: 1
-label: fishery_sel_ato95
-lower_bound: 1
-mcmc:
-mu: 5
-parameter: selectivity[SELandes].ato95
-prior_applies_to_transform:
-same:
-transform_with_jacobian:
-transformation:
-type: normal
-upper_bound: 20
-{end_list}
-
-*end
-
-*hessian_matrix[Hess]
-hessian_matrix {matrix}
-0.111685 28.1514 -0.522634 -217.882 130.205
-28.1514 7130.5 -128.409 -54920.2 32820.5
--0.522634 -128.409 3.41365 1019.53 -609.214
--217.882 -54920.2 1019.53 425060 -254013
-130.205 32820.5 -609.214 -254013 151796
-*end
-
-*covariance_matrix[Covar]
-covariance_matrix {matrix}
-3.98394e+07 71.1826 644.727 26468.7 10106.8
-71.1826 0.0542903 -0.160839 -0.240469 -0.475839
-644.727 -0.160839 1.56868 0.775223 0.785295
-26468.7 -0.240469 0.775223 25.4912 20.0077
-10106.8 -0.475839 0.785295 20.0077 24.9174
-*end
-
-*correlation_matrix[Corr]
-correlation_matrix {matrix}
-1 0.0484013 0.0815555 0.830581 0.32078
-0.0484013 1 -0.551142 -0.204411 -0.409117
-0.0815555 -0.551142 1 0.122593 0.125607
-0.830581 -0.204411 0.122593 1 0.793874
-0.32078 -0.409117 0.125607 0.793874 1
-*end
-
 *info[messages_encountered]
 Values {string}
 Creating default report for catchability Qandes
@@ -1255,133 +1262,140 @@ Creating default report for selectivity One
 The likelihood for the observation 'Obs_Andes_LF' is multinomial. Normalised residuals can only be calculated for the lognormal, lognormal_with_Q, and normal likelihoods
 Initiating point estimate run mode
 Estimation with the adolc minimiser
-Convergence check value = 0.389002. Convergence tolerance   = 0.002
-Convergence check value = 0.378595. Convergence tolerance   = 0.002
-Convergence check value = 0.372607. Convergence tolerance   = 0.002
-Convergence check value = 0.237474. Convergence tolerance   = 0.002
-Convergence check value = 0.233421. Convergence tolerance   = 0.002
-Convergence check value = 0.231373. Convergence tolerance   = 0.002
-Convergence check value = 0.229054. Convergence tolerance   = 0.002
-Convergence check value = 0.226604. Convergence tolerance   = 0.002
-Convergence check value = 0.224064. Convergence tolerance   = 0.002
-Convergence check value = 0.221447. Convergence tolerance   = 0.002
-Convergence check value = 0.22118. Convergence tolerance   = 0.002
-Convergence check value = 0.220908. Convergence tolerance   = 0.002
-Convergence check value = 0.22063. Convergence tolerance   = 0.002
-Convergence check value = 0.220347. Convergence tolerance   = 0.002
-Convergence check value = 0.220319. Convergence tolerance   = 0.002
-Convergence check value = 0.22029. Convergence tolerance   = 0.002
-Convergence check value = 0.220261. Convergence tolerance   = 0.002
-Convergence check value = 0.220231. Convergence tolerance   = 0.002
-Convergence check value = 0.220229. Convergence tolerance   = 0.002
-Convergence check value = 0.220226. Convergence tolerance   = 0.002
-Convergence check value = 0.220225. Convergence tolerance   = 0.002
-Convergence check value = 0.145408. Convergence tolerance   = 0.002
-Convergence check value = 0.287694. Convergence tolerance   = 0.002
-Convergence check value = 0.33341. Convergence tolerance   = 0.002
-Convergence check value = 0.343632. Convergence tolerance   = 0.002
-Convergence check value = 0.354514. Convergence tolerance   = 0.002
-Convergence check value = 0.334985. Convergence tolerance   = 0.002
-Convergence check value = 0.32853. Convergence tolerance   = 0.002
-Convergence check value = 0.326425. Convergence tolerance   = 0.002
-Convergence check value = 0.321476. Convergence tolerance   = 0.002
-Convergence check value = 0.32175. Convergence tolerance   = 0.002
-Convergence check value = 0.33071. Convergence tolerance   = 0.002
-Convergence check value = 0.337905. Convergence tolerance   = 0.002
-Convergence check value = 0.341797. Convergence tolerance   = 0.002
-Convergence check value = 0.345965. Convergence tolerance   = 0.002
-Convergence check value = 0.350953. Convergence tolerance   = 0.002
-Convergence check value = 0.358005. Convergence tolerance   = 0.002
-Convergence check value = 0.365679. Convergence tolerance   = 0.002
-Convergence check value = 0.370053. Convergence tolerance   = 0.002
-Convergence check value = 0.364465. Convergence tolerance   = 0.002
-Convergence check value = 0.345861. Convergence tolerance   = 0.002
-Convergence check value = 0.331392. Convergence tolerance   = 0.002
-Convergence check value = 0.32812. Convergence tolerance   = 0.002
-Convergence check value = 0.328007. Convergence tolerance   = 0.002
-Convergence check value = 0.328566. Convergence tolerance   = 0.002
-Convergence check value = 0.328835. Convergence tolerance   = 0.002
-Convergence check value = 0.32906. Convergence tolerance   = 0.002
-Convergence check value = 0.329438. Convergence tolerance   = 0.002
-Convergence check value = 0.330025. Convergence tolerance   = 0.002
-Convergence check value = 0.330977. Convergence tolerance   = 0.002
-Convergence check value = 0.332484. Convergence tolerance   = 0.002
-Convergence check value = 0.334855. Convergence tolerance   = 0.002
-Convergence check value = 0.338506. Convergence tolerance   = 0.002
-Convergence check value = 0.343927. Convergence tolerance   = 0.002
-Convergence check value = 0.351403. Convergence tolerance   = 0.002
-Convergence check value = 0.360006. Convergence tolerance   = 0.002
-Convergence check value = 0.364287. Convergence tolerance   = 0.002
-Convergence check value = 0.36256. Convergence tolerance   = 0.002
-Convergence check value = 0.361739. Convergence tolerance   = 0.002
-Convergence check value = 0.360122. Convergence tolerance   = 0.002
-Convergence check value = 0.357845. Convergence tolerance   = 0.002
-Convergence check value = 0.357574. Convergence tolerance   = 0.002
-Convergence check value = 0.357544. Convergence tolerance   = 0.002
-Convergence check value = 0.357541. Convergence tolerance   = 0.002
-Convergence check value = 0.357538. Convergence tolerance   = 0.002
-Convergence check value = 0.357534. Convergence tolerance   = 0.002
-Convergence check value = 0.357531. Convergence tolerance   = 0.002
-Convergence check value = 0.357528. Convergence tolerance   = 0.002
-Convergence check value = 0.357524. Convergence tolerance   = 0.002
-Convergence check value = 0.357524. Convergence tolerance   = 0.002
-Convergence check value = 0.287634. Convergence tolerance   = 0.002
-Convergence check value = 0.368962. Convergence tolerance   = 0.002
-Convergence check value = 0.347508. Convergence tolerance   = 0.002
-Convergence check value = 0.332628. Convergence tolerance   = 0.002
-Convergence check value = 0.32606. Convergence tolerance   = 0.002
-Convergence check value = 0.3262. Convergence tolerance   = 0.002
-Convergence check value = 0.326326. Convergence tolerance   = 0.002
-Convergence check value = 0.326355. Convergence tolerance   = 0.002
-Convergence check value = 0.326517. Convergence tolerance   = 0.002
-Convergence check value = 0.326706. Convergence tolerance   = 0.002
-Convergence check value = 0.327048. Convergence tolerance   = 0.002
-Convergence check value = 0.327561. Convergence tolerance   = 0.002
-Convergence check value = 0.328364. Convergence tolerance   = 0.002
-Convergence check value = 0.329546. Convergence tolerance   = 0.002
-Convergence check value = 0.331181. Convergence tolerance   = 0.002
-Convergence check value = 0.333081. Convergence tolerance   = 0.002
-Convergence check value = 0.334184. Convergence tolerance   = 0.002
-Convergence check value = 0.334135. Convergence tolerance   = 0.002
-Convergence check value = 0.333835. Convergence tolerance   = 0.002
-Convergence check value = 0.333766. Convergence tolerance   = 0.002
-Convergence check value = 0.333754. Convergence tolerance   = 0.002
-Convergence check value = 0.333739. Convergence tolerance   = 0.002
-Convergence check value = 0.333719. Convergence tolerance   = 0.002
-Convergence check value = 0.266753. Convergence tolerance   = 0.002
-Convergence check value = 0.330684. Convergence tolerance   = 0.002
-Convergence check value = 0.330397. Convergence tolerance   = 0.002
-Convergence check value = 6.53737. Convergence tolerance   = 0.002
-Convergence check value = 0.329581. Convergence tolerance   = 0.002
-Convergence check value = 0.329515. Convergence tolerance   = 0.002
-Convergence check value = 0.329475. Convergence tolerance   = 0.002
-Convergence check value = 0.329452. Convergence tolerance   = 0.002
-Convergence check value = 0.329382. Convergence tolerance   = 0.002
-Convergence check value = 0.329284. Convergence tolerance   = 0.002
-Convergence check value = 3.18566. Convergence tolerance   = 0.002
-Convergence check value = 0.329035. Convergence tolerance   = 0.002
-Convergence check value = 0.329041. Convergence tolerance   = 0.002
-Convergence check value = 0.329066. Convergence tolerance   = 0.002
-Convergence check value = 0.329062. Convergence tolerance   = 0.002
-Convergence check value = 0.329059. Convergence tolerance   = 0.002
-Convergence check value = 0.329057. Convergence tolerance   = 0.002
-Convergence check value = 0.329056. Convergence tolerance   = 0.002
-Convergence check value = 0.329055. Convergence tolerance   = 0.002
-Convergence check value = 0.190662. Convergence tolerance   = 0.002
-Convergence check value = 0.0180666. Convergence tolerance   = 0.002
-Convergence check value = 0.197633. Convergence tolerance   = 0.002
-Convergence check value = 0.235218. Convergence tolerance   = 0.002
-Convergence check value = 0.0280344. Convergence tolerance   = 0.002
-Convergence check value = 0.0872803. Convergence tolerance   = 0.002
-Convergence check value = 0.026413. Convergence tolerance   = 0.002
-Convergence check value = 0.0018321. Convergence tolerance   = 0.002
+Convergence check value = 1.27835. Convergence tolerance   = 0.002
+Convergence check value = 1.35366. Convergence tolerance   = 0.002
+Convergence check value = 1.34838. Convergence tolerance   = 0.002
+Convergence check value = 1.33146. Convergence tolerance   = 0.002
+Convergence check value = 1.32335. Convergence tolerance   = 0.002
+Convergence check value = 1.27149. Convergence tolerance   = 0.002
+Convergence check value = 0.861396. Convergence tolerance   = 0.002
+Convergence check value = 0.845069. Convergence tolerance   = 0.002
+Convergence check value = 0.838509. Convergence tolerance   = 0.002
+Convergence check value = 0.830119. Convergence tolerance   = 0.002
+Convergence check value = 0.822165. Convergence tolerance   = 0.002
+Convergence check value = 0.8135. Convergence tolerance   = 0.002
+Convergence check value = 0.812629. Convergence tolerance   = 0.002
+Convergence check value = 0.811726. Convergence tolerance   = 0.002
+Convergence check value = 0.810812. Convergence tolerance   = 0.002
+Convergence check value = 0.80989. Convergence tolerance   = 0.002
+Convergence check value = 0.809798. Convergence tolerance   = 0.002
+Convergence check value = 0.809706. Convergence tolerance   = 0.002
+Convergence check value = 0.809614. Convergence tolerance   = 0.002
+Convergence check value = 0.809524. Convergence tolerance   = 0.002
+Convergence check value = 0.809434. Convergence tolerance   = 0.002
+Convergence check value = 0.809425. Convergence tolerance   = 0.002
+Convergence check value = 0.809416. Convergence tolerance   = 0.002
+Convergence check value = 0.809407. Convergence tolerance   = 0.002
+Convergence check value = 0.809399. Convergence tolerance   = 0.002
+Convergence check value = 0.80939. Convergence tolerance   = 0.002
+Convergence check value = 0.809382. Convergence tolerance   = 0.002
+Convergence check value = 0.809381. Convergence tolerance   = 0.002
+Convergence check value = 0.415137. Convergence tolerance   = 0.002
+Convergence check value = 0.996768. Convergence tolerance   = 0.002
+Convergence check value = 1.02484. Convergence tolerance   = 0.002
+Convergence check value = 1.00444. Convergence tolerance   = 0.002
+Convergence check value = 1.01703. Convergence tolerance   = 0.002
+Convergence check value = 1.02727. Convergence tolerance   = 0.002
+Convergence check value = 1.02762. Convergence tolerance   = 0.002
+Convergence check value = 1.02733. Convergence tolerance   = 0.002
+Convergence check value = 1.02705. Convergence tolerance   = 0.002
+Convergence check value = 1.02646. Convergence tolerance   = 0.002
+Convergence check value = 1.02557. Convergence tolerance   = 0.002
+Convergence check value = 1.02402. Convergence tolerance   = 0.002
+Convergence check value = 1.02141. Convergence tolerance   = 0.002
+Convergence check value = 1.01679. Convergence tolerance   = 0.002
+Convergence check value = 1.00833. Convergence tolerance   = 0.002
+Convergence check value = 0.991995. Convergence tolerance   = 0.002
+Convergence check value = 0.974566. Convergence tolerance   = 0.002
+Convergence check value = 0.973172. Convergence tolerance   = 0.002
+Convergence check value = 0.965332. Convergence tolerance   = 0.002
+Convergence check value = 0.963535. Convergence tolerance   = 0.002
+Convergence check value = 0.960444. Convergence tolerance   = 0.002
+Convergence check value = 0.956045. Convergence tolerance   = 0.002
+Convergence check value = 0.955493. Convergence tolerance   = 0.002
+Convergence check value = 0.954848. Convergence tolerance   = 0.002
+Convergence check value = 0.954129. Convergence tolerance   = 0.002
+Convergence check value = 0.954051. Convergence tolerance   = 0.002
+Convergence check value = 0.95397. Convergence tolerance   = 0.002
+Convergence check value = 0.953969. Convergence tolerance   = 0.002
+Convergence check value = 0.953968. Convergence tolerance   = 0.002
+Convergence check value = 0.953967. Convergence tolerance   = 0.002
+Convergence check value = 0.953966. Convergence tolerance   = 0.002
+Convergence check value = 0.355015. Convergence tolerance   = 0.002
+Convergence check value = 0.986364. Convergence tolerance   = 0.002
+Convergence check value = 0.967928. Convergence tolerance   = 0.002
+Convergence check value = 0.983989. Convergence tolerance   = 0.002
+Convergence check value = 0.981453. Convergence tolerance   = 0.002
+Convergence check value = 0.981283. Convergence tolerance   = 0.002
+Convergence check value = 0.980923. Convergence tolerance   = 0.002
+Convergence check value = 0.980364. Convergence tolerance   = 0.002
+Convergence check value = 0.979431. Convergence tolerance   = 0.002
+Convergence check value = 0.977897. Convergence tolerance   = 0.002
+Convergence check value = 0.975323. Convergence tolerance   = 0.002
+Convergence check value = 0.970932. Convergence tolerance   = 0.002
+Convergence check value = 0.963216. Convergence tolerance   = 0.002
+Convergence check value = 0.961814. Convergence tolerance   = 0.002
+Convergence check value = 0.957894. Convergence tolerance   = 0.002
+Convergence check value = 0.957827. Convergence tolerance   = 0.002
+Convergence check value = 0.957721. Convergence tolerance   = 0.002
+Convergence check value = 0.957706. Convergence tolerance   = 0.002
+Convergence check value = 0.957686. Convergence tolerance   = 0.002
+Convergence check value = 0.957684. Convergence tolerance   = 0.002
+Convergence check value = 0.957681. Convergence tolerance   = 0.002
+Convergence check value = 1.30113. Convergence tolerance   = 0.002
+Convergence check value = 0.953434. Convergence tolerance   = 0.002
+Convergence check value = 0.954369. Convergence tolerance   = 0.002
+Convergence check value = 0.963056. Convergence tolerance   = 0.002
+Convergence check value = 0.973596. Convergence tolerance   = 0.002
+Convergence check value = 0.977499. Convergence tolerance   = 0.002
+Convergence check value = 0.97772. Convergence tolerance   = 0.002
+Convergence check value = 0.977682. Convergence tolerance   = 0.002
+Convergence check value = 0.977545. Convergence tolerance   = 0.002
+Convergence check value = 0.97735. Convergence tolerance   = 0.002
+Convergence check value = 0.976981. Convergence tolerance   = 0.002
+Convergence check value = 0.976336. Convergence tolerance   = 0.002
+Convergence check value = 0.976214. Convergence tolerance   = 0.002
+Convergence check value = 0.97586. Convergence tolerance   = 0.002
+Convergence check value = 0.975821. Convergence tolerance   = 0.002
+Convergence check value = 0.97581. Convergence tolerance   = 0.002
+Convergence check value = 0.975809. Convergence tolerance   = 0.002
+Convergence check value = 0.975807. Convergence tolerance   = 0.002
+Convergence check value = 2.29798. Convergence tolerance   = 0.002
+Convergence check value = 0.975735. Convergence tolerance   = 0.002
+Convergence check value = 0.976617. Convergence tolerance   = 0.002
+Convergence check value = 0.977432. Convergence tolerance   = 0.002
+Convergence check value = 0.97749. Convergence tolerance   = 0.002
+Convergence check value = 0.977579. Convergence tolerance   = 0.002
+Convergence check value = 0.977717. Convergence tolerance   = 0.002
+Convergence check value = 0.977934. Convergence tolerance   = 0.002
+Convergence check value = 0.978267. Convergence tolerance   = 0.002
+Convergence check value = 0.978316. Convergence tolerance   = 0.002
+Convergence check value = 0.978327. Convergence tolerance   = 0.002
+Convergence check value = 0.978343. Convergence tolerance   = 0.002
+Convergence check value = 0.978354. Convergence tolerance   = 0.002
+Convergence check value = 0.978356. Convergence tolerance   = 0.002
+Convergence check value = 0.978357. Convergence tolerance   = 0.002
+Convergence check value = 0.978357. Convergence tolerance   = 0.002
+Convergence check value = 0.267385. Convergence tolerance   = 0.002
+Convergence check value = 0.978728. Convergence tolerance   = 0.002
+Convergence check value = 0.978761. Convergence tolerance   = 0.002
+Convergence check value = 0.97849. Convergence tolerance   = 0.002
+Convergence check value = 1.8763. Convergence tolerance   = 0.002
+Convergence check value = 0.978206. Convergence tolerance   = 0.002
+Convergence check value = 0.0307942. Convergence tolerance   = 0.002
+Convergence check value = 0.100858. Convergence tolerance   = 0.002
+Convergence check value = 0.123145. Convergence tolerance   = 0.002
+Convergence check value = 0.0464337. Convergence tolerance   = 0.002
+Convergence check value = 0.0094901. Convergence tolerance   = 0.002
+Convergence check value = 0.000160036. Convergence tolerance   = 0.002
 *end
 
 *important[messages_encountered]
 Values {string}
+Setting 'mpd.out' as the output file for the MPD (i.e., free parameters and covariance)
 Setting 'params_est.out' as the output file for the free parameters
 *end
 
 [INFO] Completed
-[INFO] Total CPU time: -3.90917e+08 hours
-[INFO] Total elapsed time: 44 seconds
+[INFO] Total CPU time: -3.90934e+08 hours
+[INFO] Total elapsed time: 43 seconds

@@ -1,15 +1,16 @@
 Environment: User=Casal2
-Call: ../../../../../BuildSystem/Casal2/casal2 -e -o params_est.out
-Date: Thu Oct  7 12:01:39 2021
-Version: v21.10 (2021-10-06)
+Call: ../../../../../BuildSystem/Casal2/casal2 -E mpd.out -o params_est.out
+Date: Fri Oct 29 12:58:46 2021
+Version: v21.10 (2021-10-21)
 Copyright (c) 2017-2021, NIWA (www.niwa.co.nz)
-c2user
- Machine=c2computer (Linux 5.10.0-8-amd64 x86_64)
- PID=331488
+casal2user
+ Machine=casal2computer (Linux 5.14.0-2-amd64 x86_64)
+ PID=18522
 
 
 
 [WARNING] Estimates were removed because of matching lower and upper bounds. Originally had 69 estimates, now have 67
+[IMPORTANT] Setting 'mpd.out' as the output file for the MPD (i.e., free parameters and covariance)
 [IMPORTANT] Setting 'params_est.out' as the output file for the free parameters
 [INFO] Creating default report for catchability TangaroaMatureq
 [INFO] Creating default report for catchability TangaroaImmatureq
@@ -7750,6 +7751,7 @@ Estimation with the betadiff minimiser
 
 *important[messages_encountered]
 Values {string}
+Setting 'mpd.out' as the output file for the MPD (i.e., free parameters and covariance)
 Setting 'params_est.out' as the output file for the free parameters
 *end
 
@@ -7765,5 +7767,5 @@ estimated parameter 'observation[TangaroaAcousticMature].process_error' was with
 *end
 
 [INFO] Completed
-[INFO] Total CPU time: -3.90895e+08 hours
-[INFO] Total elapsed time: 1.183 minutes
+[INFO] Total CPU time: -3.90896e+08 hours
+[INFO] Total elapsed time: 39 seconds
