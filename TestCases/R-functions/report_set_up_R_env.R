@@ -48,8 +48,8 @@ mcmc_run        <- 'run_mcmc.txt'
 C1_sample_file  <- 'samples.1'
 C1_obj_fun_file <- 'objectives.1'
 
-C2_sample_file  <- 'mcmc_samples.out'
-C2_obj_fun_file <- 'mcmc_objectives.out'
+C2_sample_file  <- 'samples.1'
+C2_obj_fun_file <- 'objectives.1'
 
 
 get_convergence_information <- function(filename)
