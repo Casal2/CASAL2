@@ -1,0 +1,116 @@
+Environment: User=Casal2
+Call: ../../../../../BuildSystem/Casal2/casal2 -M mpd.out -g 850088731 
+Date: Fri Oct 22 05:25:30 2021
+Version: v21.10 (2021-10-21)
+Copyright (c) 2017-2021, NIWA (www.niwa.co.nz)
+c2user
+ Machine=c2computer.local (Linux 3.10.0-1160.42.2.el7.x86_64 x86_64)
+ PID=5418
+
+
+
+[INFO] Setting the random number seed to 850088731
+[WARNING] Estimates were removed because of matching lower and upper bounds. Originally had 127 estimates, now have 42
+[INFO] Creating default report for catchability potSurveyq
+[INFO] Creating default report for catchability potCPUEq
+[INFO] Creating default report for derived quantity SSB
+[INFO] Creating default report for observation potSurvey
+[INFO] Creating default report for observation potCPUE
+[INFO] Creating default report for observation AFpotSurvey
+[INFO] Creating default report for observation AFpotFishing
+[INFO] Creating default report for observation lgobookLF
+[INFO] Creating default report for observation rec.catch.LF
+[INFO] Creating default report for process Recruitment
+[INFO] Creating default report for process Ageing
+[INFO] Creating default report for process Fishing
+[INFO] Creating default report for selectivity MaturationSel_male
+[INFO] Creating default report for selectivity MaturationSel_female
+[INFO] Creating default report for selectivity lineFSel
+[INFO] Creating default report for selectivity lineFretained
+[INFO] Creating default report for selectivity potFSel
+[INFO] Creating default report for selectivity potFretained
+[INFO] Creating default report for selectivity recFretained
+[INFO] Creating default report for selectivity recFSel
+[INFO] Creating default report for selectivity potFdis
+[INFO] Creating default report for selectivity recFdis
+[INFO] Creating default report for selectivity potSurveySel_female
+[INFO] Creating default report for selectivity potSurveySel_male
+[INFO] Creating default report for selectivity One
+[WARNING] Cannot report the length-based selectivity values. This report (__lineFSel__) is being ignored. This can be done using the Casal2 R package. See the User Manual for more information
+[WARNING] Cannot report the length-based selectivity values. This report (__lineFretained__) is being ignored. This can be done using the Casal2 R package. See the User Manual for more information
+[WARNING] Cannot report the length-based selectivity values. This report (__potFSel__) is being ignored. This can be done using the Casal2 R package. See the User Manual for more information
+[WARNING] Cannot report the length-based selectivity values. This report (__potFretained__) is being ignored. This can be done using the Casal2 R package. See the User Manual for more information
+[WARNING] Cannot report the length-based selectivity values. This report (__recFretained__) is being ignored. This can be done using the Casal2 R package. See the User Manual for more information
+[WARNING] Cannot report the length-based selectivity values. This report (__recFSel__) is being ignored. This can be done using the Casal2 R package. See the User Manual for more information
+[INFO] The filename for the report 'mcmc_objectives' has been modified to objectives.1 as the write_mode is incremental_suffix
+[INFO] The filename for the report 'mcmc_samples' has been modified to samples.1 as the write_mode is incremental_suffix
+[INFO] Initiating MCMC run mode
+[INFO] Loading MPD from file mpd.out
+[INFO] Beginning MCMC iterations
+[INFO] Starting MCMC random_walk
+[INFO] Adapting step_size from 0.02 to 0.04 after 10000 iterations
+[INFO] Adapting step_size from 0.04 to 0.08 after 50000 iterations
+[INFO] Adapting step_size from 0.08 to 0.08 after 150000 iterations
+[INFO] Adapting step_size from 0.08 to 0.08 after 250000 iterations
+[INFO] Adapting step_size from 0.08 to 0.08 after 450000 iterations
+[INFO] Adapting step_size from 0.08 to 0.08 after 750000 iterations
+[INFO] Adapting step_size from 0.08 to 0.08 after 1400000 iterations
+[INFO] MCMC execution complete
+*info[messages_encountered]
+Values {string}
+Setting the random number seed to 850088731
+Creating default report for catchability potSurveyq
+Creating default report for catchability potCPUEq
+Creating default report for derived quantity SSB
+Creating default report for observation potSurvey
+Creating default report for observation potCPUE
+Creating default report for observation AFpotSurvey
+Creating default report for observation AFpotFishing
+Creating default report for observation lgobookLF
+Creating default report for observation rec.catch.LF
+Creating default report for process Recruitment
+Creating default report for process Ageing
+Creating default report for process Fishing
+Creating default report for selectivity MaturationSel_male
+Creating default report for selectivity MaturationSel_female
+Creating default report for selectivity lineFSel
+Creating default report for selectivity lineFretained
+Creating default report for selectivity potFSel
+Creating default report for selectivity potFretained
+Creating default report for selectivity recFretained
+Creating default report for selectivity recFSel
+Creating default report for selectivity potFdis
+Creating default report for selectivity recFdis
+Creating default report for selectivity potSurveySel_female
+Creating default report for selectivity potSurveySel_male
+Creating default report for selectivity One
+The filename for the report 'mcmc_objectives' has been modified to objectives.1 as the write_mode is incremental_suffix
+The filename for the report 'mcmc_samples' has been modified to samples.1 as the write_mode is incremental_suffix
+Initiating MCMC run mode
+Loading MPD from file mpd.out
+Beginning MCMC iterations
+Starting MCMC random_walk
+Adapting step_size from 0.02 to 0.04 after 10000 iterations
+Adapting step_size from 0.04 to 0.08 after 50000 iterations
+Adapting step_size from 0.08 to 0.08 after 150000 iterations
+Adapting step_size from 0.08 to 0.08 after 250000 iterations
+Adapting step_size from 0.08 to 0.08 after 450000 iterations
+Adapting step_size from 0.08 to 0.08 after 750000 iterations
+Adapting step_size from 0.08 to 0.08 after 1400000 iterations
+MCMC execution complete
+*end
+
+*warnings[messages_encountered]
+Values {string}
+Estimates were removed because of matching lower and upper bounds. Originally had 127 estimates, now have 42
+Cannot report the length-based selectivity values. This report (__lineFSel__) is being ignored. This can be done using the Casal2 R package. See the User Manual for more information
+Cannot report the length-based selectivity values. This report (__lineFretained__) is being ignored. This can be done using the Casal2 R package. See the User Manual for more information
+Cannot report the length-based selectivity values. This report (__potFSel__) is being ignored. This can be done using the Casal2 R package. See the User Manual for more information
+Cannot report the length-based selectivity values. This report (__potFretained__) is being ignored. This can be done using the Casal2 R package. See the User Manual for more information
+Cannot report the length-based selectivity values. This report (__recFretained__) is being ignored. This can be done using the Casal2 R package. See the User Manual for more information
+Cannot report the length-based selectivity values. This report (__recFSel__) is being ignored. This can be done using the Casal2 R package. See the User Manual for more information
+*end
+
+[INFO] Completed
+[INFO] Total CPU time: -25.619 hours
+[INFO] Total elapsed time: 51.56 hours

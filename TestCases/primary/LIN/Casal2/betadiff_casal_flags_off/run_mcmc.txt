@@ -1,0 +1,98 @@
+Environment: User=Casal2
+Call: ../../../../../BuildSystem/Casal2/casal2 -M mpd.out -g 850088731 
+Date: Thu Oct 21 18:27:47 2021
+Version: v21.10 (2021-10-21)
+Copyright (c) 2017-2021, NIWA (www.niwa.co.nz)
+c2user
+ Machine=c2computer.local (Linux 3.10.0-1160.42.2.el7.x86_64 x86_64)
+ PID=2791
+
+
+
+[INFO] Setting the random number seed to 850088731
+[INFO] Creating default report for catchability summerTANq
+[INFO] Creating default report for catchability autumnTANq
+[INFO] Creating default report for derived quantity SSB
+[INFO] Creating default report for observation summerTANbiomass
+[INFO] Creating default report for observation Tangaroa_propn_at_age_summer
+[INFO] Creating default report for observation autumnTANbiomass
+[INFO] Creating default report for observation Tangaroa_propn_at_age_autumn
+[INFO] Creating default report for observation trawl_propn_at_age
+[INFO] Creating default report for observation longline_Campbell_home_propn_at_age
+[INFO] Creating default report for observation longline_Puyseger_home_propn_at_age
+[INFO] Creating default report for process Recruitment
+[INFO] Creating default report for process Ageing
+[INFO] Creating default report for process Instantaneous_Mortality
+[INFO] Creating default report for selectivity MaturationSel_male
+[INFO] Creating default report for selectivity MaturationSel_female
+[INFO] Creating default report for selectivity summerTANSel_m
+[INFO] Creating default report for selectivity summerTANSel_f
+[INFO] Creating default report for selectivity autumnTANSel_m
+[INFO] Creating default report for selectivity autumnTANSel_f
+[INFO] Creating default report for selectivity trwlFSel_m
+[INFO] Creating default report for selectivity trwlFSel_f
+[INFO] Creating default report for selectivity lineHomeFSel_m
+[INFO] Creating default report for selectivity lineHomeFSel_f
+[INFO] Creating default report for selectivity lineSpawnFSel_m
+[INFO] Creating default report for selectivity lineSpawnFSel_f
+[INFO] Creating default report for selectivity M_all
+[INFO] The filename for the report 'mcmc_objectives' has been modified to objectives.1 as the write_mode is incremental_suffix
+[INFO] The filename for the report 'mcmc_samples' has been modified to samples.1 as the write_mode is incremental_suffix
+[INFO] Initiating MCMC run mode
+[INFO] Loading MPD from file mpd.out
+[INFO] Beginning MCMC iterations
+[INFO] Starting MCMC random_walk
+[INFO] Generating random start values for MCMC
+[INFO] Adapting step_size from 0.02 to 0.04 after 10000 iterations
+[INFO] Adapting step_size from 0.04 to 0.08 after 50000 iterations
+[INFO] Adapting step_size from 0.08 to 0.08 after 150000 iterations
+[INFO] Adapting step_size from 0.08 to 0.08 after 250000 iterations
+[INFO] Adapting step_size from 0.08 to 0.08 after 450000 iterations
+[INFO] MCMC execution complete
+*info[messages_encountered]
+Values {string}
+Setting the random number seed to 850088731
+Creating default report for catchability summerTANq
+Creating default report for catchability autumnTANq
+Creating default report for derived quantity SSB
+Creating default report for observation summerTANbiomass
+Creating default report for observation Tangaroa_propn_at_age_summer
+Creating default report for observation autumnTANbiomass
+Creating default report for observation Tangaroa_propn_at_age_autumn
+Creating default report for observation trawl_propn_at_age
+Creating default report for observation longline_Campbell_home_propn_at_age
+Creating default report for observation longline_Puyseger_home_propn_at_age
+Creating default report for process Recruitment
+Creating default report for process Ageing
+Creating default report for process Instantaneous_Mortality
+Creating default report for selectivity MaturationSel_male
+Creating default report for selectivity MaturationSel_female
+Creating default report for selectivity summerTANSel_m
+Creating default report for selectivity summerTANSel_f
+Creating default report for selectivity autumnTANSel_m
+Creating default report for selectivity autumnTANSel_f
+Creating default report for selectivity trwlFSel_m
+Creating default report for selectivity trwlFSel_f
+Creating default report for selectivity lineHomeFSel_m
+Creating default report for selectivity lineHomeFSel_f
+Creating default report for selectivity lineSpawnFSel_m
+Creating default report for selectivity lineSpawnFSel_f
+Creating default report for selectivity M_all
+The filename for the report 'mcmc_objectives' has been modified to objectives.1 as the write_mode is incremental_suffix
+The filename for the report 'mcmc_samples' has been modified to samples.1 as the write_mode is incremental_suffix
+Initiating MCMC run mode
+Loading MPD from file mpd.out
+Beginning MCMC iterations
+Starting MCMC random_walk
+Generating random start values for MCMC
+Adapting step_size from 0.02 to 0.04 after 10000 iterations
+Adapting step_size from 0.04 to 0.08 after 50000 iterations
+Adapting step_size from 0.08 to 0.08 after 150000 iterations
+Adapting step_size from 0.08 to 0.08 after 250000 iterations
+Adapting step_size from 0.08 to 0.08 after 450000 iterations
+MCMC execution complete
+*end
+
+[INFO] Completed
+[INFO] Total CPU time: 20.359 hours
+[INFO] Total elapsed time: 16.862 hours
