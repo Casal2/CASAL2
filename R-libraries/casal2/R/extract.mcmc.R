@@ -8,8 +8,9 @@
 #' @param samples.file <string> the name of the input file containing the samples.file output by casal2
 #' @param objectives.file <string> the name of the input file containing the objectives.file output by casal2
 #' @param path Optional<string>, the path to the file
-#' @param fileEncoding Optional, allows the R-library to read in files that have been encoded in alternative UTF formats, see the manual for the error message that would indicate when to use this switch.
 #' @param return_covariance Optional<bool>, Whether you want to extract the covariance matrix with the mcmc object?
+#' @param fileEncoding Optional, allows the R-library to read in files that have been encoded in alternative UTF formats, see the manual for the error message that would indicate when to use this switch.
+#' @param quiet suppress print or cat statements to screen.
 #' @export
 #' @return a 'casal2MCMC' that can be integrated using the str() function.
 #'
