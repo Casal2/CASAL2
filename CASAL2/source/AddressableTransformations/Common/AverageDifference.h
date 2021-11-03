@@ -15,49 +15,35 @@
 #define SOURCE_ESTIMATETRANSFORMATIONS_CHILDREN_AVERAGEDIFFERENCE_H_
 
 // headers
-#include "../../EstimateTransformations/EstimateTransformation.h"
+#include "../EstimableTransformation.h"
 
 // namespaces
 namespace niwa {
-namespace estimatetransformations {
+namespace addressableransformations {
 
 // classes
-class AverageDifference : public EstimateTransformation {
+class AverageDifference : public EstimableTransformation {
 public:
   AverageDifference() = delete;
   explicit AverageDifference(shared_ptr<Model> model);
   virtual ~AverageDifference() = default;
-  void             TransformForObjectiveFunction() override final;
-  void             RestoreFromObjectiveFunction() override final;
-  std::set<string> GetTargetEstimates() override final;
   Double           GetScore() override final;
-
+  void             FillReportCache(ostringstream& cache) override final;
+  Double           GetRestoredValue(unsigned index) override final;
 protected:
   // methods
   void DoValidate() override final;
   void DoBuild() override final;
-  void DoTransform() override final;
   void DoRestore() override final;
-
 private:
   // members
-  string    difference_estimate_label_ = "";
-  Estimate* difference_estimate_       = nullptr;
-  Double    average_original_upper_bound_;
-  Double    average_original_lower_bound_;
-  Double    difference_original_lower_bound_;
-  Double    difference_original_upper_bound_;
-  Double    average_upper_bound_;
-  Double    average_lower_bound_;
-  Double    difference_lower_bound_;
-  Double    difference_upper_bound_;
-  Double    x1_;
-  Double    y1_;
-  Double    y2_;
-  bool      first_time_transform_ = true;
+  Double          average_parameter_;
+  Double          difference_parameter_;
+  unsigned        number_of_parameters_;
+
 };
 
-} /* namespace estimatetransformations */
+} /* namespace estimabletransformations */
 } /* namespace niwa */
 
 #endif /* SOURCE_ESTIMATETRANSFORMATIONS_CHILDREN_AVERAGEDIFFERENCE_H_ */

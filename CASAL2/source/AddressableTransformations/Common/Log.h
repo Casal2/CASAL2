@@ -15,36 +15,34 @@
 #define SOURCE_ESTIMATETRANSFORMATIONS_CHILDREN_LOG_H_
 
 // headers
-#include "../../EstimateTransformations/EstimateTransformation.h"
+#include "../EstimableTransformation.h"
 
 // namespaces
 namespace niwa {
-class Estimate;
-namespace estimatetransformations {
+namespace addressableransformations {
 
 /**
  *
  */
-class Log : public EstimateTransformation {
+class Log : public EstimableTransformation {
 public:
   Log() = delete;
   explicit Log(shared_ptr<Model> model);
   virtual ~Log() = default;
-  void             TransformForObjectiveFunction() override final;
-  void             RestoreFromObjectiveFunction() override final;
-  std::set<string> GetTargetEstimates() override final;
   Double           GetScore() override final;
-  void             RestoreEstimateBounds() final;
+  void             FillReportCache(ostringstream& cache) override final;
+  Double           GetRestoredValue(unsigned index) override final;
 
 protected:
   // methods
   void DoValidate() override final;
   void DoBuild() override final;
-  void DoTransform() override final;
   void DoRestore() override final;
+  Double    log_value_;
+
 };
 
-} /* namespace estimatetransformations */
+} /* namespace estimabletransformations */
 } /* namespace niwa */
 
 #endif /* SOURCE_ESTIMATETRANSFORMATIONS_CHILDREN_LOG_H_ */

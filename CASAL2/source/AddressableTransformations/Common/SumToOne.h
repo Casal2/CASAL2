@@ -15,48 +15,36 @@
 #define SOURCE_ESTIMATETRANSFORMATIONS_CHILDREN_SUM_TO_ONE_
 
 // headers
-#include "../../EstimateTransformations/EstimateTransformation.h"
+#include "../EstimableTransformation.h"
 
 // namespaces
 namespace niwa {
-class Estimate;
-namespace estimatetransformations {
+namespace addressableransformations {
 
 /**
  *
  */
 
-class SumToOne : public EstimateTransformation {
+class SumToOne : public EstimableTransformation {
 public:
   SumToOne() = delete;
   explicit SumToOne(shared_ptr<Model> model);
   virtual ~SumToOne() = default;
-  void             TransformForObjectiveFunction() override final{};
-  void             RestoreFromObjectiveFunction() override final{};
-  std::set<string> GetTargetEstimates() override final;
   Double           GetScore() override final;
+  void             FillReportCache(ostringstream& cache) override final;
+  Double           GetRestoredValue(unsigned index) override final;
 
 protected:
   // methods
   void DoValidate() override final;
   void DoBuild() override final;
-  void DoTransform() override final;
   void DoRestore() override final;
 
 private:
-  // members
-  bool           unit_ = false;  // whether this is a unit vector or an average 1 vector.
-  vector<Double> unit_vector_;
-  vector<Double> zk_;
-  vector<Double> yk_;
-  vector<Double> lower_bounds_;
-  vector<Double> upper_bounds_;
-
-  vector<string>    estimate_labels_;
-  vector<Estimate*> estimates_;
+  Double difference_parameter_;
 };
 
-} /* namespace estimatetransformations */
+} /* namespace estimabletransformations */
 } /* namespace niwa */
 
 #endif /* SOURCE_ESTIMATETRANSFORMATIONS_CHILDREN_SUM_TO_ONE_ */

@@ -15,38 +15,38 @@
 #define SOURCE_ESTIMATETRANSFORMATIONS_CHILDREN_LOGSUM_H_
 
 // headers
-#include "../../EstimateTransformations/EstimateTransformation.h"
+#include "../EstimableTransformation.h"
 
 // namespaces
 namespace niwa {
-namespace estimatetransformations {
+namespace addressableransformations {
 
 // classes
-class LogSum : public EstimateTransformation {
+class LogSum : public EstimableTransformation {
 public:
   LogSum() = delete;
   explicit LogSum(shared_ptr<Model> model);
   virtual ~LogSum() = default;
-  void             TransformForObjectiveFunction() override final;
-  void             RestoreFromObjectiveFunction() override final;
-  std::set<string> GetTargetEstimates() override final;
   Double           GetScore() override final;
+  void             FillReportCache(ostringstream& cache) override final;
+  Double           GetRestoredValue(unsigned index) override final;
 
 protected:
   // methods
   void DoValidate() override final;
   void DoBuild() override final;
-  void DoTransform() override final;
   void DoRestore() override final;
 
 private:
   // members
-  string    second_estimate_label_ = "";
-  Estimate* second_estimate_       = nullptr;
-  Double    xt_;
+  Double          log_total_parameter_;
+  Double          total_difference_parameter_;
+  unsigned        number_of_parameters_;
+  Double          total_parameter_;
+
 };
 
-} /* namespace estimatetransformations */
+} /* namespace estimabletransformations */
 } /* namespace niwa */
 
 #endif /* SOURCE_ESTIMATETRANSFORMATIONS_CHILDREN_LOGSUM_H_ */

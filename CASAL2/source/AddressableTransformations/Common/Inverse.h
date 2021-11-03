@@ -5,7 +5,7 @@
  * @date Jan 8, 2016
  * @section LICENSE
  *
- * Copyright NIWA Science ©2016 - www.niwa.co.nz
+ * Copyright NIWA Science ï¿½2016 - www.niwa.co.nz
  *
  * @section DESCRIPTION
  *
@@ -15,32 +15,33 @@
 #define SOURCE_ESTIMATETRANSFORMATIONS_CHILDREN_INVERSE_H_
 
 // headers
-#include "../../EstimateTransformations/EstimateTransformation.h"
+#include "../EstimableTransformation.h"
 
 // namespaces
 namespace niwa {
-namespace estimatetransformations {
+namespace addressableransformations {
 
 // classes
-class Inverse : public EstimateTransformation {
+class Inverse : public EstimableTransformation {
 public:
   Inverse() = delete;
   explicit Inverse(shared_ptr<Model> model);
   virtual ~Inverse() = default;
-  void             TransformForObjectiveFunction() override final;
-  void             RestoreFromObjectiveFunction() override final;
-  std::set<string> GetTargetEstimates() override final;
   Double           GetScore() override final;
+  void             FillReportCache(ostringstream& cache) override final;
+  Double           GetRestoredValue(unsigned index) override final;
 
 protected:
   // methods
   void DoValidate() override final;
   void DoBuild() override final;
-  void DoTransform() override final;
   void DoRestore() override final;
+
+  Double          inverse_value_;
+
 };
 
-} /* namespace estimatetransformations */
+} /* namespace estimabletransformations */
 } /* namespace niwa */
 
 #endif /* SOURCE_ESTIMATETRANSFORMATIONS_CHILDREN_INVERSE_H_ */
