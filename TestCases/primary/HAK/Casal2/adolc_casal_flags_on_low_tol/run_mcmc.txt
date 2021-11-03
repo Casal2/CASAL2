@@ -1,0 +1,100 @@
+Environment: User=Casal2
+Call: ../../../../../BuildSystem/Casal2/casal2 -M mpd.out -g 850088731 
+Date: Thu Oct 28 14:47:50 2021
+Version: v21.10 (2021-10-21)
+Copyright (c) 2017-2021, NIWA (www.niwa.co.nz)
+c2user
+ Machine=c2computer.local (Linux 3.10.0-1160.42.2.el7.x86_64 x86_64)
+ PID=32058
+
+
+
+[INFO] Setting the random number seed to 850088731
+[WARNING] Estimates were removed because of matching lower and upper bounds. Originally had 52 estimates, now have 51
+[INFO] Creating default report for catchability subaTANqA
+[INFO] Creating default report for catchability CPUEq
+[INFO] Creating default report for derived quantity SSB
+[INFO] Creating default report for observation subaTANbiomassDEC
+[INFO] Creating default report for observation subaTANageDEC
+[INFO] Creating default report for observation subaOBSage
+[INFO] Creating default report for observation CPUE
+[INFO] Creating default report for process Recruitment
+[INFO] Creating default report for process Ageing
+[INFO] Creating default report for process Instantaneous_Mortality
+[INFO] Creating default report for project future_catch
+[INFO] Creating default report for selectivity maturity_sel_m
+[INFO] Creating default report for selectivity maturity_sel_f
+[INFO] Creating default report for selectivity subaFsel
+[INFO] Creating default report for selectivity subaTANselA
+[INFO] Creating default report for selectivity One
+[INFO] The filename for the report 'mcmc_objectives' has been modified to objectives.1 as the write_mode is incremental_suffix
+[INFO] The filename for the report 'mcmc_samples' has been modified to samples.1 as the write_mode is incremental_suffix
+[INFO] Initiating MCMC run mode
+[INFO] Loading MPD from file mpd.out
+[INFO] Beginning MCMC iterations
+[INFO] Starting MCMC random_walk
+[INFO] Generating random start values for MCMC
+[INFO] Adapting step_size from 0.001 to 0.001 after 10000 iterations
+[INFO] Adapting step_size from 0.001 to 0.001 after 20000 iterations
+[INFO] Adapting step_size from 0.001 to 0.001 after 30000 iterations
+[INFO] Adapting step_size from 0.001 to 0.001 after 40000 iterations
+[INFO] Adapting step_size from 0.001 to 0.001 after 50000 iterations
+[INFO] Adapting step_size from 0.001 to 0.001 after 100000 iterations
+[INFO] Adapting step_size from 0.001 to 0.001 after 200000 iterations
+[INFO] Adapting step_size from 0.001 to 0.001 after 300000 iterations
+[INFO] Adapting step_size from 0.001 to 0.001 after 400000 iterations
+[INFO] Adapting step_size from 0.001 to 0.001 after 500000 iterations
+[INFO] Adapting step_size from 0.001 to 0.001 after 600000 iterations
+[INFO] Adapting step_size from 0.001 to 0.001 after 700000 iterations
+[INFO] Adapting step_size from 0.001 to 0.001 after 800000 iterations
+[INFO] MCMC execution complete
+*info[messages_encountered]
+Values {string}
+Setting the random number seed to 850088731
+Creating default report for catchability subaTANqA
+Creating default report for catchability CPUEq
+Creating default report for derived quantity SSB
+Creating default report for observation subaTANbiomassDEC
+Creating default report for observation subaTANageDEC
+Creating default report for observation subaOBSage
+Creating default report for observation CPUE
+Creating default report for process Recruitment
+Creating default report for process Ageing
+Creating default report for process Instantaneous_Mortality
+Creating default report for project future_catch
+Creating default report for selectivity maturity_sel_m
+Creating default report for selectivity maturity_sel_f
+Creating default report for selectivity subaFsel
+Creating default report for selectivity subaTANselA
+Creating default report for selectivity One
+The filename for the report 'mcmc_objectives' has been modified to objectives.1 as the write_mode is incremental_suffix
+The filename for the report 'mcmc_samples' has been modified to samples.1 as the write_mode is incremental_suffix
+Initiating MCMC run mode
+Loading MPD from file mpd.out
+Beginning MCMC iterations
+Starting MCMC random_walk
+Generating random start values for MCMC
+Adapting step_size from 0.001 to 0.001 after 10000 iterations
+Adapting step_size from 0.001 to 0.001 after 20000 iterations
+Adapting step_size from 0.001 to 0.001 after 30000 iterations
+Adapting step_size from 0.001 to 0.001 after 40000 iterations
+Adapting step_size from 0.001 to 0.001 after 50000 iterations
+Adapting step_size from 0.001 to 0.001 after 100000 iterations
+Adapting step_size from 0.001 to 0.001 after 200000 iterations
+Adapting step_size from 0.001 to 0.001 after 300000 iterations
+Adapting step_size from 0.001 to 0.001 after 400000 iterations
+Adapting step_size from 0.001 to 0.001 after 500000 iterations
+Adapting step_size from 0.001 to 0.001 after 600000 iterations
+Adapting step_size from 0.001 to 0.001 after 700000 iterations
+Adapting step_size from 0.001 to 0.001 after 800000 iterations
+MCMC execution complete
+*end
+
+*warnings[messages_encountered]
+Values {string}
+Estimates were removed because of matching lower and upper bounds. Originally had 52 estimates, now have 51
+*end
+
+[INFO] Completed
+[INFO] Total CPU time: -81.4243 hours
+[INFO] Total elapsed time: 4.413 hours

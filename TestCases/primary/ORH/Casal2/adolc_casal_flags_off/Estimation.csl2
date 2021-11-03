@@ -4,15 +4,18 @@ active true
 iterations 5000000
 evaluations 1000000000
 tolerance 0.002
+parameter_transformation sin_transform
 covariance true
 
 
 @mcmc mcmc  #not the same as CASAL?
+type random_walk
 start 0.2
 length 11000000
 keep 1000
 step_size 0.02
 adapt_stepsize_at 10000 20000 30000 40000 50000 100000 200000 4000000
+burn_in 4000000
 proposal_distribution t
 adapt_stepsize_method double_half
 max_correlation 0.8

@@ -11,17 +11,19 @@ type adolc
 tolerance 1e-9
 iterations 10000
 evaluations 10000
+parameter_transformation sin_transform
 covariance True
 
 @mcmc mcmc
+type random_walk
 start 0.3
 length 4000000
 keep 1000
 step_size 0.02
 adapt_stepsize_at 20000 40000 60000 80000 100000
+burn_in 100000
 proposal_distribution t
 adapt_stepsize_method double_half
-#burn_in 500
 #subsample_size 2000
 #systematic 1
 max_correlation 0.9
