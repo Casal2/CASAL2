@@ -19,14 +19,13 @@
 
 // namespaces
 namespace niwa {
-namespace addressableransformations {
+namespace addressabletransformations {
 
 /**
  * Default constructor
  */
 Orthogonal::Orthogonal(shared_ptr<Model> model) : AddressableTransformation(model) {
-  RegisterAsAddressable(PARAM_PRODUCT_PARAMETER, &product_parameter_);
-  RegisterAsAddressable(PARAM_QUOTIENT_PARAMETER, &quotient_parameter_);
+
 
 }
 
@@ -34,16 +33,11 @@ Orthogonal::Orthogonal(shared_ptr<Model> model) : AddressableTransformation(mode
  * Validate
  */
 void Orthogonal::DoValidate() {
-  if(parameter_labels_.size() != 2) {
-    LOG_ERROR_P(PARAM_PARAMETER_LABELS) << "the " << type_ << " transformation only can transform 2 parameters at a time. You supplied " << parameter_labels_.size() << " parmaters" ;
+  if(parameter_labels_.size() > 2) { // could be one
+    LOG_ERROR_P(PARAM_PARAMETERS) << "the " << type_ << " transformation only can transform 2 parameters at a time. You supplied " << parameter_labels_.size() << " parmaters" ;
   }
   restored_values_.resize(parameter_labels_.size(), 0.0);
-}
 
-/**
- * Build
- */
-void Orthogonal::DoBuild() {
   LOG_FINE() << "check values";
   for(unsigned i = 0; i < parameter_labels_.size(); ++i) {
     LOG_FINE() << parameter_labels_[i] << " value = " << init_values_[i];
@@ -57,9 +51,19 @@ void Orthogonal::DoBuild() {
       LOG_CODE_ERROR() << "restored_values_[i] !=  init_values_[i]";
   }
   
-  if(calculate_jacobian_)
-    LOG_FATAL_P(PARAM_LABEL) << "You are trying to estimate (look for the @estimate block) a parameter from this class with jacobian true. That isn't derived for this class. Please make sure you want to do this.";
+ if(prior_applies_to_restored_parameters_)
+    LOG_FATAL_P(PARAM_PRIOR_APPLIES_TO_RESTORED_PARAMETERS) << "There is no jacobian calculated for this transformation. Statistically this may be in in-appropriate, so you are not allowed to do it";
 
+  
+  RegisterAsAddressable(PARAM_PRODUCT_PARAMETER, &product_parameter_);
+  RegisterAsAddressable(PARAM_QUOTIENT_PARAMETER, &quotient_parameter_);
+}
+
+/**
+ * Build
+ */
+void Orthogonal::DoBuild() {
+ 
 }
 
 
@@ -82,21 +86,28 @@ Double Orthogonal::GetScore() {
   jacobian_ = 0.0;
   return jacobian_;
 }
+
 /**
- * Return the restored value
+ * PrepareForObjectiveFunction
+ * if prior_applies_to_restored_parameters_
  */
-Double  Orthogonal::GetRestoredValue(unsigned index) {
-   if(index == 0) {
-     return restored_values_[0];
-   }
-   return restored_values_[1];
+void Orthogonal::PrepareForObjectiveFunction() {
+
+}
+
+/**
+ * RestoreForObjectiveFunction
+ * if prior_applies_to_restored_parameters_
+ */
+void Orthogonal::RestoreForObjectiveFunction() {
+
 }
 /**
  * Report stuff for this transformation
  */
 void Orthogonal::FillReportCache(ostringstream& cache) {
   LOG_FINE() << "FillReportCache";
-  cache << PARAM_PARAMETER_LABELS << ": ";
+  cache << PARAM_PARAMETERS << ": ";
   for(unsigned i = 0; i < parameter_labels_.size(); ++i)
     cache << parameter_labels_[i] << " ";
   cache << REPORT_EOL;
@@ -108,5 +119,5 @@ void Orthogonal::FillReportCache(ostringstream& cache) {
   cache << PARAM_QUOTIENT_PARAMETER << ": " <<  quotient_parameter_ << REPORT_EOL;
   cache << "negative_log_jacobian: " << jacobian_ << REPORT_EOL;
 }
-} /* namespace estimabletransformations */
+} /* namespace addressabletransformations */
 } /* namespace niwa */

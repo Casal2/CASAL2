@@ -17,13 +17,12 @@
 
 // namespaces
 namespace niwa {
-namespace addressableransformations {
+namespace addressabletransformations {
 
 /**
  * Default constructor
  */
-Inverse::Inverse(shared_ptr<Model> model) : EstimableTransformation(model) {
-    RegisterAsAddressable(PARAM_INVERSE_PARAMETER, &inverse_value_);
+Inverse::Inverse(shared_ptr<Model> model) : AddressableTransformation(model) {
 }
 
 /**
@@ -31,22 +30,22 @@ Inverse::Inverse(shared_ptr<Model> model) : EstimableTransformation(model) {
  */
 void Inverse::DoValidate() {
   if(parameter_labels_.size() != 1) {
-    LOG_ERROR_P(PARAM_PARAMETER_LABELS) << "Log transformation only can transform 1 parameter at a time. You supplied " << parameter_labels_.size() << " parmaters" ;
+    LOG_ERROR_P(PARAM_PARAMETERS) << "Log transformation only can transform 1 parameter at a time. You supplied " << parameter_labels_.size() << " parmaters" ;
   }
+  restored_values_.resize(parameter_labels_.size(), 0.0);
+  // if usage -i calculate restored value
+  restored_values_[0] = 1.0 / inverse_value_;
+  // else get transform value
+  inverse_value_ = 1.0 / init_values_[0];
+
+  RegisterAsAddressable(PARAM_INVERSE_PARAMETER, &inverse_value_);
 }
 
 /**
  * Build
  */
 void Inverse::DoBuild() {
-  restored_values_.resize(parameter_labels_.size(), 0.0);
-  inverse_value_ = 1.0 / init_values_[0];
-  restored_values_[0] = 1.0 / inverse_value_;
-  // Check the transformations are correct
-  for(unsigned i = 0; i < parameter_labels_.size(); ++i) {
-    if(restored_values_[i] !=  init_values_[i])
-      LOG_CODE_ERROR() << "restored_values_[i] !=  init_values_[i]";
-  }  
+
 }
 
 
@@ -65,25 +64,34 @@ void Inverse::DoRestore() {
  */
 Double Inverse::GetScore() {
   LOG_TRACE()
-  if(calculate_jacobian_)
+  if(prior_applies_to_restored_parameters_)
     jacobian_ = 2.0 * log(inverse_value_);
   return jacobian_;
 }
+
 /**
- * Return the restored value
+ * PrepareForObjectiveFunction
+ * if prior_applies_to_restored_parameters_ then set inverse_value_ = 1/inverse_value_
  */
-Double  Inverse::GetRestoredValue(unsigned index) {
-   if(index == 0) {
-     return restored_values_[0];
-   }
-   return restored_values_[1];
+void Inverse::PrepareForObjectiveFunction() {
+  if(prior_applies_to_restored_parameters_)
+    inverse_value_ = 1.0 / inverse_value_;
+}
+
+/**
+ * RestoreForObjectiveFunction
+ * if prior_applies_to_restored_parameters_ then set inverse_value_ = 1/inverse_value_
+ */
+void Inverse::RestoreForObjectiveFunction() {
+  if(prior_applies_to_restored_parameters_)
+    inverse_value_ = 1.0 / inverse_value_;
 }
  /**
  * Report stuff for this transformation
  */
 void Inverse::FillReportCache(ostringstream& cache) {
   LOG_FINE() << "FillReportCache";
-  cache << PARAM_PARAMETER_LABELS << ": ";
+  cache << PARAM_PARAMETERS << ": ";
   for(unsigned i = 0; i < parameter_labels_.size(); ++i)
     cache << parameter_labels_[i] << " ";
   cache << REPORT_EOL;
@@ -95,5 +103,5 @@ void Inverse::FillReportCache(ostringstream& cache) {
   cache << "negative_log_jacobian: " << jacobian_ << REPORT_EOL;
 }
 
-} /* namespace estimabletransformations */
+} /* namespace addressabletransformations */
 } /* namespace niwa */

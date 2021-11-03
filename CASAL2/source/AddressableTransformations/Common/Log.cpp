@@ -20,14 +20,13 @@
 
 // namespaces
 namespace niwa {
-namespace addressableransformations {
+namespace addressabletransformations {
 
 /**
  * Default constructor
  */
-Log::Log(shared_ptr<Model> model) : EstimableTransformation(model) {
+Log::Log(shared_ptr<Model> model) : AddressableTransformation(model) {
 
-  RegisterAsAddressable(PARAM_LOG_PARAMETER, &log_value_);
 }
 
 
@@ -36,23 +35,25 @@ Log::Log(shared_ptr<Model> model) : EstimableTransformation(model) {
  */
 void Log::DoValidate() {
   if(parameter_labels_.size() != 1) {
-    LOG_ERROR_P(PARAM_PARAMETER_LABELS) << "Log transformation only can transform 1 parameter at a time. You supplied " << parameter_labels_.size() << " parmaters" ;
+    LOG_ERROR_P(PARAM_PARAMETERS) << "Log transformation only can transform 1 parameter at a time. You supplied " << parameter_labels_.size() << " parmaters" ;
   }
-}
-
-/**
- * Build
- */
-void Log::DoBuild() {
   restored_values_.resize(parameter_labels_.size(), 0.0);
-  log_value_ = log(init_values_[0]);
+  log_value_ = log(init_values_[0]); // this will get over-riden by load estimables
   restored_values_[0] = exp(log_value_);
   // Check the transformations are correct
   for(unsigned i = 0; i < parameter_labels_.size(); ++i) {
     if(restored_values_[i] !=  init_values_[i]) {
       LOG_FINE() << "i = " << i << " restored val " << restored_values_[i]  << " init value = " << init_values_[i];
     }
-  }  
+  } 
+  RegisterAsAddressable(PARAM_LOG_PARAMETER, &log_value_);
+}
+
+/**
+ * Build
+ */
+void Log::DoBuild() {
+
 }
 
 
@@ -71,25 +72,33 @@ void Log::DoRestore() {
  */
 Double Log::GetScore() {
   LOG_TRACE()
-  if(calculate_jacobian_)
+  if(prior_applies_to_restored_parameters_)
     jacobian_ = -1.0 * log_value_;
   return jacobian_;
 }
 /**
- * Return the restored value
+ * PrepareForObjectiveFunction
+ * if prior_applies_to_restored_parameters_ then set log_value_ = exp(log_value_)
  */
-Double  Log::GetRestoredValue(unsigned index) {
-   if(index == 0) {
-     return restored_values_[0];
-   }
-   return restored_values_[1];
+void Log::PrepareForObjectiveFunction() {
+  if(prior_applies_to_restored_parameters_)
+    log_value_ = exp(log_value_);
+}
+
+/**
+ * RestoreForObjectiveFunction
+ * if prior_applies_to_restored_parameters_ then set log_value_ = log(log_value_)
+ */
+void Log::RestoreForObjectiveFunction() {
+  if(prior_applies_to_restored_parameters_)
+    log_value_ = log(log_value_);
 }
  /**
  * Report stuff for this transformation
  */
 void Log::FillReportCache(ostringstream& cache) {
   LOG_FINE() << "FillReportCache";
-  cache << PARAM_PARAMETER_LABELS << ": ";
+  cache << PARAM_PARAMETERS << ": ";
   for(unsigned i = 0; i < parameter_labels_.size(); ++i)
     cache << parameter_labels_[i] << " ";
   cache << REPORT_EOL;
@@ -100,5 +109,5 @@ void Log::FillReportCache(ostringstream& cache) {
   cache << PARAM_LOG_PARAMETER << ": " << log_value_ << REPORT_EOL;
   cache << "negative_log_jacobian: " << jacobian_ << REPORT_EOL;
 }
-} /* namespace estimabletransformations */
+} /* namespace addressabletransformations */
 } /* namespace niwa */

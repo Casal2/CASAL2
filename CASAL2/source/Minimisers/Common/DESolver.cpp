@@ -14,7 +14,6 @@
 // Headers
 #include "DESolver.h"
 
-#include "../../EstimateTransformations/Manager.h"
 #include "../../Estimates/Manager.h"
 #include "../../Minimisers/Common/DESolver/CallBack.h"
 
@@ -60,7 +59,6 @@ void DESolver::Execute() {
 
   LOG_INFO() << "Estimation with the " << PARAM_DE_SOLVER << " minimiser";
 
-  model_->managers()->estimate_transformation()->TransformEstimates();
   vector<Estimate*> estimates = estimate_manager.GetIsEstimated();
   for (Estimate* estimate : estimates) {
     if (!estimate->estimated())
@@ -92,7 +90,6 @@ void DESolver::Execute() {
     LOG_IMPORTANT() << "DE Solver has failed to converge";
   }
 
-  model_->managers()->estimate_transformation()->RestoreEstimates();
 }
 
 } /* namespace minimisers */

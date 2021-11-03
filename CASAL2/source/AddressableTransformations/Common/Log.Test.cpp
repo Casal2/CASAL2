@@ -19,7 +19,7 @@
 #include "../../ObjectiveFunction/ObjectiveFunction.h"
 
 namespace niwa {
-namespace addressableransformations {
+namespace addressabletransformations {
 using niwa::testfixtures::InternalEmptyModel;
 
 const string non_transformed_esimate_blocks =

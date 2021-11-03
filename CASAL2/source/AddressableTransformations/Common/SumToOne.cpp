@@ -15,13 +15,12 @@
 
 // namespaces
 namespace niwa {
-namespace addressableransformations {
+namespace addressabletransformations {
 namespace utils = niwa::utilities;
 /**
  * Default constructor
  */
 SumToOne::SumToOne(shared_ptr<Model> model) : AddressableTransformation(model) {
-  RegisterAsAddressable(PARAM_DIFFERENCE_PARAMETER, &difference_parameter_);
 }
 
 /**
@@ -29,17 +28,10 @@ SumToOne::SumToOne(shared_ptr<Model> model) : AddressableTransformation(model) {
  */
 void SumToOne::DoValidate() {
   restored_values_.resize(parameter_labels_.size(), 0.0);
-  if(parameter_labels_.size() != 2) {
-    LOG_ERROR_P(PARAM_PARAMETER_LABELS) << "the " << type_ << " transformation only can transform 2 parameter at a time. You supplied " << parameter_labels_.size() << " parmaters" ;
+  if(parameter_labels_.size() > 2) { // could be one
+    LOG_ERROR_P(PARAM_PARAMETERS) << "the " << type_ << " transformation only can transform 2 parameter at a time. You supplied " << parameter_labels_.size() << " parmaters" ;
   }
-}
-
-/**
- * Build objects
- */
-void SumToOne::DoBuild() {
-  LOG_TRACE();
-  LOG_FINE() << "check values";
+    LOG_FINE() << "check values";
   difference_parameter_ = init_values_[0];
 
   restored_values_[0] = difference_parameter_;
@@ -49,9 +41,17 @@ void SumToOne::DoBuild() {
     if(restored_values_[i] !=  init_values_[i])
       LOG_CODE_ERROR() << "restored_values_[i] !=  init_values_[i]";
   }
+ if(prior_applies_to_restored_parameters_)
+    LOG_FATAL_P(PARAM_PRIOR_APPLIES_TO_RESTORED_PARAMETERS) << "There is no jacobian calculated for this transformation. Statistically this may be in in-appropriate, so you are not allowed to do it";
 
-  if(calculate_jacobian_)
-    LOG_FATAL_P(PARAM_LABEL) << "You are trying to estimate (look for the @estimate block) a parameter from this class with jacobian true. That isn't derived for this class. Please make sure you want to do this.";
+  RegisterAsAddressable(PARAM_PROPORTION_PARAMETER, &difference_parameter_);
+}
+
+/**
+ * Build objects
+ */
+void SumToOne::DoBuild() {
+  LOG_TRACE();
 }
 
 /**
@@ -73,20 +73,26 @@ Double SumToOne::GetScore() {
   return jacobian_;
 }
 /**
- * Return the restored value
+ * PrepareForObjectiveFunction
+ * if prior_applies_to_restored_parameters_
  */
-Double  SumToOne::GetRestoredValue(unsigned index) {
-   if(index == 0) {
-     return restored_values_[0];
-   }
-   return restored_values_[1];
+void SumToOne::PrepareForObjectiveFunction() {
+
+}
+
+/**
+ * RestoreForObjectiveFunction
+ * if prior_applies_to_restored_parameters_
+ */
+void SumToOne::RestoreForObjectiveFunction() {
+
 }
 /**
  * Report stuff for this transformation
  */
 void SumToOne::FillReportCache(ostringstream& cache) {
   LOG_FINE() << "FillReportCache";
-  cache << PARAM_PARAMETER_LABELS << ": ";
+  cache << PARAM_PARAMETERS << ": ";
   for(unsigned i = 0; i < parameter_labels_.size(); ++i)
     cache << parameter_labels_[i] << " ";
   cache << REPORT_EOL;
@@ -94,8 +100,8 @@ void SumToOne::FillReportCache(ostringstream& cache) {
   for(unsigned i = 0; i < restored_values_.size(); ++i)
     cache << restored_values_[i] << " ";
   cache << REPORT_EOL;
-  cache << PARAM_DIFFERENCE_PARAMETER << ": " << difference_parameter_ << REPORT_EOL;
+  cache << PARAM_PROPORTION_PARAMETER << ": " << difference_parameter_ << REPORT_EOL;
   cache << "negative_log_jacobian: " << jacobian_ << REPORT_EOL;
 }
-} /* namespace estimabletransformations */
+} /* namespace addressabletransformations */
 } /* namespace niwa */

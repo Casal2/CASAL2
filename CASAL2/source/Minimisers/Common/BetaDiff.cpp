@@ -10,7 +10,6 @@
 
 #include <betadiff.h>
 
-#include "../../EstimateTransformations/Manager.h"
 #include "../../Estimates/Manager.h"
 #include "../../Model/Model.h"
 #include "../../ObjectiveFunction/ObjectiveFunction.h"
@@ -35,13 +34,9 @@ public:
       LOG_MEDIUM() << estimates[i]->value() << " ";
     }
 
-    model_->managers()->estimate_transformation()->RestoreEstimates();
     model_->FullIteration();
-
     ObjectiveFunction& objective = model_->objective_function();
     objective.CalculateScore();
-
-    model_->managers()->estimate_transformation()->TransformEstimates();
     return objective.score();
   }
 
@@ -64,7 +59,6 @@ BetaDiff::BetaDiff(shared_ptr<Model> model) : Minimiser(model) {
 void BetaDiff::Execute() {
   auto estimate_manager = model_->managers()->estimate();
   auto estimates        = estimate_manager->GetIsEstimated();
-  model_->managers()->estimate_transformation()->TransformEstimates();
 
   dvector lower_bounds((int)estimates.size());
   dvector upper_bounds((int)estimates.size());
@@ -102,8 +96,6 @@ void BetaDiff::Execute() {
       hessian_[row][col] = betadiff_hessian[row + 1][col + 1];
     }
   }
-
-  model_->managers()->estimate_transformation()->RestoreEstimates();
 
   switch (convergence) {
     case -1:

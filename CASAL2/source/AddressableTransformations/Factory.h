@@ -17,23 +17,23 @@
 // headers
 #include <string>
 
-#include "EstimableTransformation.h"
+#include "AddressableTransformation.h"
 
 // namespaces
 namespace niwa {
-namespace estimabletransformations {
+namespace addressabletransformations {
 
 // classes
 class Factory {
 public:
-  static EstimableTransformation* Create(shared_ptr<Model> model, const string& object_type, const string& sub_type);
+  static AddressableTransformation* Create(shared_ptr<Model> model, const string& object_type, const string& sub_type);
 
 private:
   Factory()          = delete;
   virtual ~Factory() = delete;
 };
 
-} /* namespace estimabletransformations */
+} /* namespace addressabletransformations */
 } /* namespace niwa */
 
 #endif /* SOURCE_ESTIMABLETRANSFORMATIONS_FACTORY_H_ */

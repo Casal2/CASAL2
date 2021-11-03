@@ -11,8 +11,8 @@
  * @copyright Copyright (c) 2021
  *
  */
-#ifndef SOURCE_ESTIMABLETRANSFORMATIONS_ESTIMATETRANSFORMATION_H_
-#define SOURCE_ESTIMABLETRANSFORMATIONS_ESTIMATETRANSFORMATION_H_
+#ifndef SOURCE_ADDRESSABLETRANSFORMATIONS_H_
+#define SOURCE_ADDRESSABLETRANSFORMATIONS_H_
 
 // headers
 #include "../BaseClasses/Object.h"
@@ -33,21 +33,16 @@ public:
   void         Validate();
   void         Build();
   void         Reset(){Restore();}; // Restore in the reset
-  void         Transform();
-  void         Transform_after_objective();
   void         Restore();
-  virtual void RestoreEstimateBounds(){};
 
   // pure virtual
   vector<string>           GetParameterLabels() {return parameter_labels_;} // so managers can check business rules to catch duplicate addressables in multiple transformation blocks
   virtual Double           GetScore()                      = 0;
-  virtual unsigned         GetExpectedEstimableParameters() {return n_params_ - 1;}
 
   // For reporting EstimableTransformation
   virtual void             FillReportCache(ostringstream& cache){};
-  void                     set_calculate_jacobian(bool jacobian) {calculate_jacobian_ =  jacobian;};
-  virtual Double           GetRestoredValue(unsigned index) = 0; // used by The Estimate class to apply prior on untransformed parameter
-
+  virtual void             PrepareForObjectiveFunction() = 0;
+  virtual void             RestoreForObjectiveFunction() = 0;
 protected:
   // methods
   virtual void DoValidate()  = 0;
@@ -77,8 +72,7 @@ protected:
 
   // members
   shared_ptr<Model> model_                        = nullptr;
-  bool              calculate_jacobian_           = false;
-  Double            current_untransformed_value_  = 0.0;
+  bool              prior_applies_to_restored_parameters_ = false;
   Double            jacobian_                     = 0.0;
   vector<string>    parameter_labels_;
 
@@ -104,4 +98,4 @@ protected:
 
 } /* namespace niwa */
 
-#endif /* SOURCE_ESTIMABLETRANSFORMATIONS_ESTIMATETRANSFORMATION_H_ */
+#endif /* SOURCE_ADDRESSABLETRANSFORMATIONS_H_ */

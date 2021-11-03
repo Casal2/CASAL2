@@ -20,15 +20,13 @@
 
 // namespaces
 namespace niwa {
-namespace addressableransformations {
+namespace addressabletransformations {
 
 /**
  * Default constructor
  */
-LogSum::LogSum(shared_ptr<Model> model) : EstimableTransformation(model) {
-    // Assign memory for transformed addressables
-    RegisterAsAddressable(PARAM_LOG_TOTAL_PARAMETER, &log_total_parameter_);
-    RegisterAsAddressable(PARAM_TOTAL_DIFFERENCE_PARAMETERS, &total_difference_parameter_);
+LogSum::LogSum(shared_ptr<Model> model) : AddressableTransformation(model) {
+
 
 }
 
@@ -40,24 +38,10 @@ void LogSum::DoValidate() {
   log_total_parameter_ = 0.0;
   number_of_parameters_ = parameter_labels_.size();
   restored_values_.resize(number_of_parameters_, 0.0);
-  if(parameter_labels_.size() != 2) {
-    LOG_ERROR_P(PARAM_PARAMETER_LABELS) << "the " << type_ << " transformation only can transform 2 parameter at a time. You supplied " << parameter_labels_.size() << " parmaters" ;
+  if(parameter_labels_.size() > 2) { // could be one
+    LOG_ERROR_P(PARAM_PARAMETERS) << "the " << type_ << " transformation only can transform 2 parameter at a time. You supplied " << parameter_labels_.size() << " parmaters" ;
   }
 
-}
-/**
- * Return the restored value
- */
-Double  LogSum::GetRestoredValue(unsigned index) {
-   if(index == 0) {
-     return restored_values_[0];
-   }
-   return restored_values_[1];
-}
-/**
- * Build objects
- */
-void LogSum::DoBuild() {
   LOG_FINE() << "check values";
   total_parameter_ = 0;
   for(unsigned i = 0; i < parameter_labels_.size(); ++i) {
@@ -74,10 +58,17 @@ void LogSum::DoBuild() {
     if(restored_values_[i] !=  init_values_[i])
       LOG_CODE_ERROR() << "restored_values_[i] !=  init_values_[i]";
   }
-  
-  if(calculate_jacobian_)
-    LOG_FATAL_P(PARAM_LABEL) << "You are trying to estimate (look for the @estimate block) a parameter from this class with jacobian true. That isn't derived for this class. Please make sure you want to do this.";
+  if(prior_applies_to_restored_parameters_)
+    LOG_FATAL_P(PARAM_PRIOR_APPLIES_TO_RESTORED_PARAMETERS) << "There is no jacobian calculated for this transformation. Statistically this may be in in-appropriate, so you are not allowed to do it";
 
+  RegisterAsAddressable(PARAM_LOG_TOTAL_PARAMETER, &log_total_parameter_);
+  RegisterAsAddressable(PARAM_TOTAL_PROPORTION_PARAMETER, &total_difference_parameter_);
+}
+
+/**
+ * Build objects
+ */
+void LogSum::DoBuild() {
 }
 
 
@@ -94,6 +85,21 @@ void LogSum::DoRestore() {
 }
 
 /**
+ * PrepareForObjectiveFunction
+ * if prior_applies_to_restored_parameters_
+ */
+void LogSum::PrepareForObjectiveFunction() {
+
+}
+
+/**
+ * RestoreForObjectiveFunction
+ * if prior_applies_to_restored_parameters_
+ */
+void LogSum::RestoreForObjectiveFunction() {
+
+}
+/**
  * GetScore
  * @return Jacobian if transformed with Jacobian, otherwise 0.0
  */
@@ -108,7 +114,7 @@ Double LogSum::GetScore() {
  */
 void LogSum::FillReportCache(ostringstream& cache) {
   LOG_FINE() << "FillReportCache";
-  cache << PARAM_PARAMETER_LABELS << ": ";
+  cache << PARAM_PARAMETERS << ": ";
   for(unsigned i = 0; i < parameter_labels_.size(); ++i)
     cache << parameter_labels_[i] << " ";
   cache << REPORT_EOL;
@@ -117,8 +123,8 @@ void LogSum::FillReportCache(ostringstream& cache) {
     cache << restored_values_[i] << " ";
   cache << REPORT_EOL;
   cache << PARAM_LOG_TOTAL_PARAMETER << ": " << log_total_parameter_ << REPORT_EOL;
-  cache << PARAM_TOTAL_DIFFERENCE_PARAMETERS << ": " <<  total_difference_parameter_ << REPORT_EOL;
+  cache << PARAM_TOTAL_PROPORTION_PARAMETER << ": " <<  total_difference_parameter_ << REPORT_EOL;
   cache << "negative_log_jacobian: " << jacobian_ << REPORT_EOL;
 }
-} /* namespace estimabletransformations */
+} /* namespace addressabletransformations */
 } /* namespace niwa */

@@ -23,7 +23,6 @@
 #include "../Model/Model.h"
 
 // TODO: Move this to the model
-#include "../EstimateTransformations/Manager.h"
 #include "../Estimates/Manager.h"
 #include "../ObjectiveFunction/ObjectiveFunction.h"
 #include "../Utilities/To.h"
@@ -92,7 +91,6 @@ void Thread::Loop() {
 
           for (unsigned i = 0; i < candidates_.size(); ++i) estimates[i]->set_value(candidates_[i]);
 
-          model_->managers()->estimate_transformation()->RestoreEstimates();
           model_->FullIteration();
 
           ObjectiveFunction& objective = model_->objective_function();
@@ -100,7 +98,6 @@ void Thread::Loop() {
           //					cout << "Pushing Score: " << objective.score() << " to stack" << endl;
           scores_.push(AS_DOUBLE(objective.score()));
 
-          model_->managers()->estimate_transformation()->TransformEstimates();
 
           is_finished_ = true;
         }

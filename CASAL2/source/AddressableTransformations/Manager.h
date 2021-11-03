@@ -10,30 +10,33 @@
 
 // Headers
 #include "../BaseClasses/Manager.h"
-#include "EstimableTransformation.h"
+#include "AddressableTransformation.h"
 #include "../Model/Managers.h"
 
 // Namespaces
 namespace niwa {
-namespace estimabletransformations {
+namespace addressabletransformations {
 
 /**
  * Class Definition
  */
-class Manager : public niwa::base::Manager<niwa::estimabletransformations::Manager, niwa::EstimableTransformation> {
-  friend class niwa::base::Manager<niwa::estimabletransformations::Manager, niwa::EstimableTransformation>;
+class Manager : public niwa::base::Manager<niwa::addressabletransformations::Manager, niwa::AddressableTransformation> {
+  friend class niwa::base::Manager<niwa::addressabletransformations::Manager, niwa::AddressableTransformation>;
   friend class niwa::Managers;
 
 public:
   virtual ~Manager() = default;
   void Validate() override final;
-  EstimableTransformation*         GetEstimableTransformation(const string& label);
+  AddressableTransformation*         GetAddressableTransformation(const string& label);
+  void                               PrepareForObjectiveFunction();
+  void                               RestoreForObjectiveFunction();
+
 
 protected:
   // methods
   Manager() = default;
 };
 
-} /* namespace estimabletransformations */
+} /* namespace addressabletransformations */
 } /* namespace niwa */
 #endif /* SOURCE_ESTIMABLETRANSFORMATIONS_MANAGER_H_ */

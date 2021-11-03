@@ -15,7 +15,6 @@
 
 #include <boost/numeric/ublas/blas.hpp>
 
-#include "../../EstimateTransformations/Manager.h"
 #include "../../Estimates/Manager.h"
 #include "../../Minimisers/Manager.h"
 #include "../../Model/Model.h"

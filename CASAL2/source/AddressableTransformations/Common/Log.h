@@ -15,23 +15,24 @@
 #define SOURCE_ESTIMATETRANSFORMATIONS_CHILDREN_LOG_H_
 
 // headers
-#include "../EstimableTransformation.h"
+#include "../AddressableTransformation.h"
 
 // namespaces
 namespace niwa {
-namespace addressableransformations {
+namespace addressabletransformations {
 
 /**
  *
  */
-class Log : public EstimableTransformation {
+class Log : public AddressableTransformation {
 public:
   Log() = delete;
   explicit Log(shared_ptr<Model> model);
   virtual ~Log() = default;
   Double           GetScore() override final;
   void             FillReportCache(ostringstream& cache) override final;
-  Double           GetRestoredValue(unsigned index) override final;
+  void             PrepareForObjectiveFunction() override final;
+  void             RestoreForObjectiveFunction() override final;
 
 protected:
   // methods
@@ -42,7 +43,7 @@ protected:
 
 };
 
-} /* namespace estimabletransformations */
+} /* namespace addressabletransformations */
 } /* namespace niwa */
 
 #endif /* SOURCE_ESTIMATETRANSFORMATIONS_CHILDREN_LOG_H_ */

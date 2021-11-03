@@ -11,7 +11,6 @@
 // Local Headers
 #include "DeltaDiff.h"
 
-#include "../../EstimateTransformations/Manager.h"
 #include "../../Estimates/Manager.h"
 #include "../../Minimisers/Common/DeltaDiff/Callback.h"
 #include "../../Minimisers/Common/DeltaDiff/Engine.h"
@@ -48,7 +47,6 @@ void DeltaDiff::ExecuteThreaded(shared_ptr<ThreadPool> thread_pool) {
   vector<double> upper_bounds;
   vector<double> start_values;
 
-  model->managers()->estimate_transformation()->TransformEstimates();
   vector<Estimate*> estimates = estimate_manager->GetIsEstimated();
   LOG_FINE() << "estimates.size(): " << estimates.size();
   for (Estimate* estimate : estimates) {
@@ -78,7 +76,6 @@ void DeltaDiff::ExecuteThreaded(shared_ptr<ThreadPool> thread_pool) {
   clDeltaDiff.optimise_finite_differences(call_back, start_values, lower_bounds, upper_bounds, status, max_iterations_, max_evaluations_, gradient_tolerance_, hessian_, 1,
                                           step_size_);
 
-  model_->managers()->estimate_transformation()->RestoreEstimates();
 
   switch (status) {
     case -1:

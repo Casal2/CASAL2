@@ -15,25 +15,25 @@
 #define SOURCE_ESTIMATETRANSFORMATIONS_CHILDREN_SUM_TO_ONE_
 
 // headers
-#include "../EstimableTransformation.h"
+#include "../AddressableTransformation.h"
 
 // namespaces
 namespace niwa {
-namespace addressableransformations {
+namespace addressabletransformations {
 
 /**
  *
  */
 
-class SumToOne : public EstimableTransformation {
+class SumToOne : public AddressableTransformation {
 public:
   SumToOne() = delete;
   explicit SumToOne(shared_ptr<Model> model);
   virtual ~SumToOne() = default;
   Double           GetScore() override final;
   void             FillReportCache(ostringstream& cache) override final;
-  Double           GetRestoredValue(unsigned index) override final;
-
+  void             PrepareForObjectiveFunction() override final;
+  void             RestoreForObjectiveFunction() override final;
 protected:
   // methods
   void DoValidate() override final;
@@ -44,7 +44,7 @@ private:
   Double difference_parameter_;
 };
 
-} /* namespace estimabletransformations */
+} /* namespace addressabletransformations */
 } /* namespace niwa */
 
 #endif /* SOURCE_ESTIMATETRANSFORMATIONS_CHILDREN_SUM_TO_ONE_ */

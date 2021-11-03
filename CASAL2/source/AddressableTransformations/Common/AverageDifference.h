@@ -15,21 +15,22 @@
 #define SOURCE_ESTIMATETRANSFORMATIONS_CHILDREN_AVERAGEDIFFERENCE_H_
 
 // headers
-#include "../EstimableTransformation.h"
+#include "../AddressableTransformation.h"
 
 // namespaces
 namespace niwa {
-namespace addressableransformations {
+namespace addressabletransformations {
 
 // classes
-class AverageDifference : public EstimableTransformation {
+class AverageDifference : public AddressableTransformation {
 public:
   AverageDifference() = delete;
   explicit AverageDifference(shared_ptr<Model> model);
   virtual ~AverageDifference() = default;
   Double           GetScore() override final;
   void             FillReportCache(ostringstream& cache) override final;
-  Double           GetRestoredValue(unsigned index) override final;
+  void             PrepareForObjectiveFunction() override final;
+  void             RestoreForObjectiveFunction() override final;
 protected:
   // methods
   void DoValidate() override final;
@@ -43,7 +44,7 @@ private:
 
 };
 
-} /* namespace estimabletransformations */
+} /* namespace addressabletransformations */
 } /* namespace niwa */
 
 #endif /* SOURCE_ESTIMATETRANSFORMATIONS_CHILDREN_AVERAGEDIFFERENCE_H_ */

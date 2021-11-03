@@ -13,7 +13,6 @@
 // headers
 #include "IndependenceMetropolis.h"
 
-#include "../../EstimateTransformations/Manager.h"
 #include "../../Estimates/Manager.h"
 #include "../../Minimisers/Manager.h"
 #include "../../Model/Model.h"
@@ -48,7 +47,6 @@ void IndependenceMetropolis::DoExecute(shared_ptr<ThreadPool> thread_pool) {
   LOG_MEDIUM() << "Estimate Count: " << estimate_count_;
 
   // Transform any parameters so that candidates are in the same space as the covariance matrix.
-  model_->managers()->estimate_transformation()->TransformEstimatesForObjectiveFunction();
   for (unsigned i = 0; i < estimate_count_; ++i) {
     candidates_[i] = estimates_[i]->value();
   }
@@ -95,7 +93,6 @@ void IndependenceMetropolis::DoExecute(shared_ptr<ThreadPool> thread_pool) {
    * Get the objective score
    */
   // Do a quick restore so that estimates are in a space the model wants
-  model_->managers()->estimate_transformation()->RestoreEstimatesFromObjectiveFunction();
   model_->FullIteration();
 
   // For reporting purposes
@@ -184,7 +181,6 @@ void IndependenceMetropolis::DoExecute(shared_ptr<ThreadPool> thread_pool) {
 
     // Generate new candidates
     // Need to make sure estimates are in the correct space.
-    model_->managers()->estimate_transformation()->TransformEstimatesForObjectiveFunction();
     GenerateNewCandidates();
 
     // Count the jump
@@ -197,7 +193,6 @@ void IndependenceMetropolis::DoExecute(shared_ptr<ThreadPool> thread_pool) {
       for (unsigned i = 0; i < candidates_.size(); ++i) estimates_[i]->set_value(candidates_[i]);
 
       // restore for model run.
-      model_->managers()->estimate_transformation()->RestoreEstimatesFromObjectiveFunction();
 
       // Run model with candidate parameters.
       model_->FullIteration();

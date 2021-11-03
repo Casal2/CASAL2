@@ -22,7 +22,7 @@
 
 // namespaces
 namespace niwa {
-namespace addressableransformations {
+namespace addressabletransformations {
 namespace utils = niwa::utilities;
 /**
  * Default constructor
@@ -36,20 +36,6 @@ Simplex::Simplex(shared_ptr<Model> model) : AddressableTransformation(model) {
  * Validate
  */
 void Simplex::DoValidate() {
-
-  Get @esitmate block, issue this is validated before Estimates
-
-  if (estimate->prior_applies_to_untransformed)
-    n-1
-
-  RegisterAsAddressable(PARAM_SIMPLEX_PARAMETERS, &simplex_parameter_); // equivalent to yk_ in the formulas
-
-}
-
-/**
- * Build
- */
-void Simplex::DoBuild() {
   LOG_FINE() << "Build values allocate memory";
   LOG_FINE() << "init_values_.size() " << init_values_.size() << " n-params " << n_params_;
 
@@ -72,15 +58,12 @@ void Simplex::DoBuild() {
   }
   if(sum_to_one_) {
     if((total_ - 1.0) > 0.0001)
-      LOG_ERROR_P(PARAM_PARAMETER_LABELS) << "You have specified a sum_to_one parameter but your parameters = " << sum_to_one_;
+      LOG_ERROR_P(PARAM_PARAMETERS) << "You have specified a sum_to_one parameter but your parameters = " << sum_to_one_;
   }
 
   for(unsigned i = 0; i < init_values_.size(); ++i) {
     unit_vector_[i] = init_values_[i] / total_;
   }
-  if(!calculate_jacobian_)
-    LOG_FATAL_P(PARAM_LABEL) << "You are trying to estimate (look for the @estimate block) a parameter from this class with jacobian false. That isn't derived for this class. Please make sure you want to do this.";
-
   // TODO Scott, need to know if simplex_parameter_ is input in -i 
   // if given -i restore  simplex_parameter_ -> restore_values_
   // this maps yk_ -> zk_
@@ -101,6 +84,15 @@ void Simplex::DoBuild() {
     for(unsigned i = 0; i < restored_values_.size(); ++i) 
       restored_values_[i] = unit_vector_[i] * total_;
   }
+  RegisterAsAddressable(PARAM_SIMPLEX_PARAMETER, &simplex_parameter_); // equivalent to yk_ in the formulas
+
+}
+
+/**
+ * Build
+ */
+void Simplex::DoBuild() {
+
 }
 /**
  * Restore
@@ -136,23 +128,34 @@ void Simplex::DoRestore() {
  */
 Double Simplex::GetScore() {
   LOG_TRACE();
+  if(not prior_applies_to_restored_parameters_)
+    return 0.0;
+
   jacobian_ = 1.0;
   for (unsigned i = 0; i < zk_.size(); ++i)
     jacobian_ *= zk_[i] * ( 1.0 - zk_[i]) * (1 - cumulative_simplex_k_[i]);
   return -1.0 * log(jacobian_); // return negative log-likelihood
 }
 /**
- * Return the restored value
+ * PrepareForObjectiveFunction
+ * if prior_applies_to_restored_parameters_
  */
-Double  Simplex::GetRestoredValue(unsigned index) {
-   return restored_values_[index];
+void Simplex::PrepareForObjectiveFunction() {
 }
+
+/**
+ * RestoreForObjectiveFunction
+ * if prior_applies_to_restored_parameters_
+ */
+void Simplex::RestoreForObjectiveFunction() {
+}
+
 /**
  * Report stuff for this transformation
  */
 void Simplex::FillReportCache(ostringstream& cache) {
   LOG_FINE() << "FillReportCache";
-  cache << PARAM_PARAMETER_LABELS << ": ";
+  cache << PARAM_PARAMETERS << ": ";
   for(unsigned i = 0; i < parameter_labels_.size(); ++i)
     cache << parameter_labels_[i] << " ";
   cache << REPORT_EOL;
@@ -166,5 +169,5 @@ void Simplex::FillReportCache(ostringstream& cache) {
 
 }
 
-} /* namespace estimabletransformations */
+} /* namespace addressabletransformations */
 } /* namespace niwa */

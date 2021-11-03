@@ -26,19 +26,19 @@ namespace utils = niwa::utilities;
  * Register any parameters that can be an estimated or utilised in other run modes (e.g., profiling, yields, projections, etc.)
  * Set some initial values
  *
- * Note: The constructor is parsed to generate LaTeX for the documentation.
  */
 AddressableTransformation::AddressableTransformation(shared_ptr<Model> model) : model_(model) {
   parameters_.Bind<string>(PARAM_LABEL, &label_, "Label for the transformation block", "");
   parameters_.Bind<string>(PARAM_TYPE, &type_, "The type of transformation", "");
-  parameters_.Bind<string>(PARAM_PARAMETER_LABELS, &parameter_labels_, "The label of the parameters used in the transformation", "");
+  parameters_.Bind<string>(PARAM_PARAMETERS, &parameter_labels_, "The parameters used in the transformation", "");
+  parameters_.Bind<bool>(PARAM_PRIOR_APPLIES_TO_RESTORED_PARAMETERS, &prior_applies_to_restored_parameters_, "If the prior applies to the parameters (true) with jacobian (if it exists) or prior applies to transformed_parameter (false) with no jacobian ", "", true);
+
 }
 
 /**
- * Populate any parameters,
- * Validate values are within expected ranges when bind<>() overloads cannot be used
- *
- * Note: all parameters are populated from configuration files
+ * Validate
+ * This checks addressables are usable
+ * sets usage via the VerifyForAddressable()
  */
 void AddressableTransformation::Validate() {
   parameters_.Populate(model_);
@@ -51,21 +51,19 @@ void AddressableTransformation::Validate() {
   string error = "";
   for(auto param : parameter_labels_) {
     if (!model_->objects().VerifyAddressableForUse(param, addressable::kEstimate, error)) {
-      LOG_ERROR_P(PARAM_PARAMETER_LABELS) << "The parameter " << param << " could not be verified for use in an @addressable_transformation block. Error: " << error;
+      LOG_ERROR_P(PARAM_PARAMETERS) << "The parameter " << param << " could not be verified for use in an @addressable_transformation block. Error: " << error;
     }
   }
   vector_and_u_map_indicies_.resize(parameter_labels_.size());
   string_map_indicies_.resize(parameter_labels_.size());
 
-  DoValidate();
-}
 
-/**
- * Build relationships
- * get the pointers to our target values
- */
-void AddressableTransformation::Build() {
+  // Because in Model::Managers::Validate() this class is validated at the end 
+  // we can assume all objects are initialisaed in thier respective class and we can essentially
+  // move teh build methods into the validate
+
   LOG_FINE();
+  // bind our function pointer for the update function, original value and addressible pointer
   // bind our function pointer for the update function, original value and addressible pointer
   unsigned param_counter = 0;
   addressable::Type previous_addressable_type = addressable::kSingle;
@@ -84,7 +82,7 @@ void AddressableTransformation::Build() {
     if (index != "") {
       indexes = utilities::String::explode(index);
       if (index != "" && indexes.size() == 0) {
-        LOG_FATAL_P(PARAM_PARAMETER_LABELS) << "parameter " << parameter_labels_[param_counter] << " could not be split up to search for indexes because the format was invalid. Check the indices. Only the operators ',' and ':' (range) are supported";
+        LOG_FATAL_P(PARAM_PARAMETERS) << "parameter " << parameter_labels_[param_counter] << " could not be split up to search for indexes because the format was invalid. Check the indices. Only the operators ',' and ':' (range) are supported";
       }
       new_parameter = new_parameter.substr(0, new_parameter.find('{'));
     }
@@ -103,14 +101,14 @@ void AddressableTransformation::Build() {
       previous_indicies = indexes.size();
     } else {
       if(addressable_type != previous_addressable_type)
-        LOG_ERROR_P(PARAM_PARAMETER_LABELS) << "parameter " << parameter_labels_[param_counter] << " needs to be the same type as previous parameters. i.e. all need to be scalar, you can't mix vector values with scalars";
+        LOG_ERROR_P(PARAM_PARAMETERS) << "parameter " << parameter_labels_[param_counter] << " needs to be the same type as previous parameters. i.e. all need to be scalar, you can't mix vector values with scalars";
       if(previous_indicies != indexes.size()) {
-        LOG_ERROR_P(PARAM_PARAMETER_LABELS) << "parameter " << parameter_labels_[param_counter] << " is a map or vector and has different number of indicies to previous parameter, these need to be consistent.";
+        LOG_ERROR_P(PARAM_PARAMETERS) << "parameter " << parameter_labels_[param_counter] << " is a map or vector and has different number of indicies to previous parameter, these need to be consistent.";
       }  
     }
     switch (addressable_type) {
       case addressable::kInvalid:
-        LOG_ERROR_P(PARAM_PARAMETER_LABELS) << "parameter " << parameter_labels_[param_counter] << " " << error;
+        LOG_ERROR_P(PARAM_PARAMETERS) << "parameter " << parameter_labels_[param_counter] << " " << error;
         break;
       case addressable::kSingle:
         restore_function_ = &AddressableTransformation::set_single_values;
@@ -128,9 +126,9 @@ void AddressableTransformation::Build() {
         for (string string_index : indexes) {
           unsigned u_index = 0;
           if (!utils::To<string, unsigned>(string_index, u_index))
-            LOG_FATAL_P(PARAM_PARAMETER_LABELS) << "parameter " << parameter_labels_[param_counter] << " could not be converted to an unsigned integer";
+            LOG_FATAL_P(PARAM_PARAMETERS) << "parameter " << parameter_labels_[param_counter] << " could not be converted to an unsigned integer";
           if (u_index <= 0 || u_index > addressable_vectors_[param_counter]->size())
-            LOG_FATAL_P(PARAM_PARAMETER_LABELS) << "parameter " << parameter_labels_[param_counter] << " index not in range for this parameter, please check the input";
+            LOG_FATAL_P(PARAM_PARAMETERS) << "parameter " << parameter_labels_[param_counter] << " index not in range for this parameter, please check the input";
           vector_and_u_map_indicies_[param_counter].push_back(u_index);
           init_values_.push_back((*addressable_vectors_[param_counter])[u_index]);
           ++n_params_;
@@ -146,9 +144,9 @@ void AddressableTransformation::Build() {
         for (string string_index : indexes) {
           unsigned u_index = 0;
           if (!utils::To<string, unsigned>(string_index, u_index))
-            LOG_FATAL_P(PARAM_PARAMETER_LABELS) << "parameter " << parameter_labels_[param_counter] << " could not be converted to an unsigned integer";
+            LOG_FATAL_P(PARAM_PARAMETERS) << "parameter " << parameter_labels_[param_counter] << " could not be converted to an unsigned integer";
           if (addressable_maps_[param_counter]->find(u_index) == addressable_maps_[param_counter]->end())
-            LOG_FATAL_P(PARAM_PARAMETER_LABELS) << "parameter " << parameter_labels_[param_counter] << " could not find index " << string_index << " between {}";
+            LOG_FATAL_P(PARAM_PARAMETERS) << "parameter " << parameter_labels_[param_counter] << " could not find index " << string_index << " between {}";
           vector_and_u_map_indicies_[param_counter].push_back(u_index);
           init_values_.push_back((*addressable_maps_[param_counter])[u_index]);
           ++n_params_;
@@ -163,14 +161,14 @@ void AddressableTransformation::Build() {
         addressable_string_maps_.push_back(model_->objects().GetAddressableSMap(param));
         for (string string_index : indexes) {
           if (addressable_string_maps_[param_counter]->find(index) == addressable_string_maps_[param_counter]->end())
-            LOG_FATAL_P(PARAM_PARAMETER_LABELS) << "parameter " << parameter_labels_[param_counter] << " could not find index " << string_index << " between {}";
+            LOG_FATAL_P(PARAM_PARAMETERS) << "parameter " << parameter_labels_[param_counter] << " could not find index " << string_index << " between {}";
           string_map_indicies_[param_counter].push_back(string_index);
           init_values_.push_back((*addressable_string_maps_[param_counter])[string_index]);
           ++n_params_;
         }
         break;        
       default:
-        LOG_ERROR_P(PARAM_PARAMETER_LABELS) << "The addressable " << parameter_labels_[param_counter] << " provided for use in the @estimate_tranformation block: " << label_ << " is not a parameter of a type that is supported";
+        LOG_ERROR_P(PARAM_PARAMETERS) << "The addressable " << parameter_labels_[param_counter] << " provided for use in the @estimate_tranformation block: " << label_ << " is not a parameter of a type that is supported";
         break;
     }
     // Get Target Object variable.
@@ -178,7 +176,14 @@ void AddressableTransformation::Build() {
     target_objects_.push_back(model_->objects().FindObject(param));
     ++param_counter;
   }
-  LOG_FINE() << "finished with objects";
+  DoValidate();
+}
+
+/**
+ * Build relationships
+ * get the pointers to our target values
+ */
+void AddressableTransformation::Build() {
   // Build child specific relationships
   DoBuild();
 }

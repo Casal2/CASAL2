@@ -6,7 +6,7 @@
  * @date 28/02/2013
  * @section LICENSE
  *
- * Copyright NIWA Science ©2013 - www.niwa.co.nz
+ * Copyright NIWA Science ï¿½2013 - www.niwa.co.nz
  *
  * $Date: 2008-03-04 16:33:32 +1300 (Tue, 04 Mar 2008) $
  */
@@ -14,7 +14,6 @@
 // Headers
 #include "CallBack.h"
 
-#include "../../../EstimateTransformations/Manager.h"
 #include "../../../Estimates/Manager.h"
 #include "../../../Logging/Logging.h"
 #include "../../../ObjectiveFunction/ObjectiveFunction.h"
@@ -51,13 +50,11 @@ double CallBack::EnergyFunction(vector<double> test_solution) {
 
   for (unsigned i = 0; i < test_solution.size(); ++i) estimates[i]->set_value(test_solution[i]);
 
-  model_->managers()->estimate_transformation()->RestoreEstimates();
   model_->FullIteration();
 
   ObjectiveFunction& objective = model_->objective_function();
   objective.CalculateScore();
 
-  model_->managers()->estimate_transformation()->TransformEstimates();
   return objective.score();
 }
 

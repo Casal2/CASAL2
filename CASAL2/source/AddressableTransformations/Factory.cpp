@@ -24,7 +24,7 @@
 #include "../Model/Model.h"
 // namespaces
 namespace niwa {
-namespace estimabletransformations {
+namespace addressabletransformations {
 
 /**
  * Create the instance of the object as defined by the two parameters
@@ -54,11 +54,11 @@ AddressableTransformation* Factory::Create(shared_ptr<Model> model, const string
       result = new SumToOne(model);
 
     if (result)
-      model->managers()->estimable_transformation()->AddObject(result);
+      model->managers()->addressable_transformation()->AddObject(result);
   }
 
   return result;
 }
 
-} /* namespace estimabletransformations */
+} /* namespace addressabletransformations */
 } /* namespace niwa */

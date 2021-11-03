@@ -14,7 +14,7 @@
 
 // namespaces
 namespace niwa {
-namespace addressableransformations {
+namespace addressabletransformations {
 
 /**
  * Validate the estimate transformations
@@ -46,5 +46,30 @@ AddressableTransformation* Manager::GetAddressableTransformation(const string& l
   }
   return nullptr;
 }
-} /* namespace addressableransformations */
+
+/**
+ * This method iterates over all objects and calls
+ * PrepareForObjectiveFunction()
+ * Which will transform the esimated parameters into the space that the priors relate to.
+ *
+ */
+void Manager::PrepareForObjectiveFunction() {
+  for (AddressableTransformation* addressabletransformation : objects_) {
+    addressabletransformation->PrepareForObjectiveFunction();
+  }
+}
+
+/**
+ * This method iterates over all objects and calls
+ * RestoreForObjectiveFunction()
+ * Which will un transform the esimated parameters into the space used in teh model
+ * This shouldn't effect be neccessary other than in the reports (CM Thinks)
+ *
+ */
+void Manager::RestoreForObjectiveFunction() {
+  for (AddressableTransformation* addressabletransformation : objects_) {
+    addressabletransformation->RestoreForObjectiveFunction();
+  }
+}
+} /* namespace addressabletransformations */
 } /* namespace niwa */

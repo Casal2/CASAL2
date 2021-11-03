@@ -15,21 +15,22 @@
 #define SOURCE_ESTIMATETRANSFORMATIONS_CHILDREN_INVERSE_H_
 
 // headers
-#include "../EstimableTransformation.h"
+#include "../AddressableTransformation.h"
 
 // namespaces
 namespace niwa {
-namespace addressableransformations {
+namespace addressabletransformations {
 
 // classes
-class Inverse : public EstimableTransformation {
+class Inverse : public AddressableTransformation {
 public:
   Inverse() = delete;
   explicit Inverse(shared_ptr<Model> model);
   virtual ~Inverse() = default;
   Double           GetScore() override final;
   void             FillReportCache(ostringstream& cache) override final;
-  Double           GetRestoredValue(unsigned index) override final;
+  void             PrepareForObjectiveFunction() override final;
+  void             RestoreForObjectiveFunction() override final;
 
 protected:
   // methods
@@ -41,7 +42,7 @@ protected:
 
 };
 
-} /* namespace estimabletransformations */
+} /* namespace addressabletransformations */
 } /* namespace niwa */
 
 #endif /* SOURCE_ESTIMATETRANSFORMATIONS_CHILDREN_INVERSE_H_ */
