@@ -511,7 +511,6 @@
 #define PARAM_PRINT_LEVEL                         "print_level"
 #define PARAM_PRINT_REPORT                        "print_report"
 #define PARAM_PRIOR                               "prior"
-#define PARAM_PRIOR_APPLIES_TO_TRANSFORM          "prior_applies_to_transform"
 #define PARAM_PRIOR_APPLIES_TO_RESTORED_PARAMETERS "prior_applies_to_restored_parameters"
 #define PARAM_PRIOR_YCS_VALUES                    "prior_standardised_ycs"
 #define PARAM_PROCESS                             "process"

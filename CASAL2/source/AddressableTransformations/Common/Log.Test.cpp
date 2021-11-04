@@ -45,32 +45,30 @@ type uniform
 
 const string estimable_transformation_log_jacobian =
 R"(
-  @addressable_transformation log_r0
+  @parameter_transformation log_r0
   type log
-  parameter_labels process[Recruitment].r0
-
+  parameters process[Recruitment].r0
+  prior_applies_to_restored_parameters true
 
   @estimate log_r0
   type uniform_log
-  parameter addressable_transformation[log_r0].log_parameter
+  parameter parameter_transformation[log_r0].log_parameter
   lower_bound 11.5
   upper_bound 23.025
-  jacobian true
 )";
 
 const string estimable_transformation_log =
 R"(
-  @addressable_transformation log_r0
+  @parameter_transformation log_r0
   type log
-  parameter_labels process[Recruitment].r0
-
+  parameters process[Recruitment].r0
+  prior_applies_to_restored_parameters false
 
   @estimate log_r0
   type uniform_log
-  parameter addressable_transformation[log_r0].log_parameter
+  parameter parameter_transformation[log_r0].log_parameter
   lower_bound 11.5
   upper_bound 23.025
-  jacobian false
 )";
 /**
  *

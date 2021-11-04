@@ -499,54 +499,47 @@ There are a range of parameters and derived values that additional priors can be
 This list may be useful for users who are trying to apply the equivalent CASAL penalties in a \CNAME\ model.
 
 \subsection{\I{Parameter Transformations}\label{sec:Transformation}}
+\CNAME\ has multiple methods to transform a parameter into a different \enquote{space}. Transformations are implemented to try and achieve \enquote{better} model optimisation. Complex population models can have highly correlated parameters so transforming them is a method of addressing confounded parameters, and \enquote{help} the minimisers find a \enquote{global} solution faster. To read more about transformations and get a better understanding of why they are used, see \cite{gilks1995markov}, specifically chapter 6.
 
-\CNAME\ has multiple methods to transform a parameter, with some methods developed for legacy purposes. Transformations are implemented to try and achieve 'better' model optimisation. Complex population models can have highly correlated parameters so transforming them to be orthogonal or to be in a different space is a way of addressing correlations, and to allow the minimiser to find a 'global' minimum quicker. To read more about transformations and get a better understanding of why they are used, see \cite{gilks1995markov}, specifically chapter 6.
 
-There are two main transformation methods available in \CNAME, \subcommand{transform\_with\_jacobian} and \subcommand{prior\_applies\_to\_transform}. When using \subcommand{transform\_with\_jacobian}, priors are defined on parameters in natural/model space (the usual priors) but when the parameter is passed to the minimiser it gets transformed and a Jacobian is added to the objective function to account for this transformation. The second method is when bounds and prior parameters on the parameters can be specified in transformed space. Note that both \subcommand{prior\_applies\_to\_transform} and \subcommand{transform\_with\_jacobian} cannot be set to \texttt{true}.
-
-There are two ways that transformations can be applied. The first is within the \command{estimate} block, which is for univariate (simple) transformations only. For more complex transformations a \command{estimate\_transformation} block must be specified to describe the transformation.
-
-For example:
-
+To transform a parameter the \command{parameter\_transformation} block is used. For example if users wanted to estimate log \(R_0\) instead of \(R_0\), they could do the following,
 {\small{\begin{verbatim}
-		## simple transformation
-		@estimate log_R0
-		type lognormal
-		transformation log
-		parameter process[Recruitment].r0
-		transform_with_jacobian true
-		mu 442413
-		cv 0.2
-		lower_bound 3000
-		upper_bound 24154953
-
-
-		## more complex transformation
-		@estimate R0
-		type lognormal
-		parameter process[Recruitment].r0
-		mu 442413
-		cv 0.2
-		lower_bound 3000
-		upper_bound 24154953
-
-		@estimate_transformation Log_R0
+		## define transformation
+		@parameter_transformation log_R0
 		type log
-		estimate_label log_R0
-		transform_with_jacobian true
+		parameters process[Recruitment].r0
+
+		## define @estimate for the log parameter
+		@estimate log_R0
+		type uniform
+		parameter parameter_transformation[log_r0].log_parameter
+		lower_bound 1
+		upper_bound 25
 \end{verbatim}}}
+%
+The available parameter transformations are,
+\begin{enumerate}
+	\item log (Univariate transformation) Section~\ref{subsec:Transformation-types} - \ref{sec:Transformation-Log}
+	\item inverse (Univariate transformation) Section~\ref{subsec:Transformation-types} - \ref{sec:Transformation-Inverse}
+	\item average difference (Bivariate transformation) Section~\ref{subsec:Transformation-types} - \ref{sec:Transformation-AverageDifference}
+	\item log sum (Bivariate transformation) Section~\ref{subsec:Transformation-types} - \ref{sec:Transformation-LogSum}	
+	\item Orthogonal (Bivariate transformation) Section~\ref{subsec:Transformation-types} - \ref{sec:Transformation-Orthogonal}
+	\item Sum to one (Bivariate transformation) Section~\ref{subsec:Transformation-types} - \ref{sec:Transformation-SumToOne}
+	\item Simplex (Multivariate transformation) Section~\ref{subsec:Transformation-types} - \ref{sec:Transformation-Simplex}	
+\end{enumerate}
+%
+To see the parameters that can be used in \command{estimate} block for each estimable transformation see the \subcommand{estimable parameter} description in Section~\ref{subsec:Transformation-types}.
 
+When users estimate a transformed parameter they have the option of defining the prior for the transformed parameter or for the parameter in natural space. An example of when the later has been used. Say a meta-analysis has been done on the catchability parameter, for which an \textit{a priori} assumption can be made, but the user wants to estimate log transformed catchability for optimisation reasons. In this instance users are required to use the subcommand \subcommand{jacobian}. If this is true the prior will be applied to the untransformed parameter and a Jacobian will be added (if it is known) to account for the change in variable. If the Jacobian is false then the prior refers to the transformed parameter and no adjustments are needed. If users spefify to calculate a Jacobian and the estimate is not a \subcommand{estimable\_transformation} \CNAME\ will print a warning and ignore this input.
 \subsubsection*{Transform with Jacobian}
-
 The support of a random variable $X$ with density $p_X(x)$ is that subset of values for which it has non-zero density,
-
 \begin{equation}
   supp(X) = \{x|p_X(x) > 0\}
 \end{equation}
 
 If $f$ is a transformation function defined on the support of $X$, then $Y = f(X)$ is a new random variable (transformed variable).
 
-This section shows the available transformations in \CNAME\ and the probability density function of $Y$. %%This theory follows the STAN manual \cite{STAN}.
+This section shows the available transformations in \CNAME\ and the resulting probability density function of $Y$. %%This theory follows the STAN manual \cite{STAN}.
 
 Suppose $X$ is one dimensional and $f$: $supp(X) \to \mathbf{R}$ is a one-to-one, monotonic function with a differentiable inverse $f^{-1}$. Then the density of $Y$ is
 
@@ -554,104 +547,215 @@ Suppose $X$ is one dimensional and $f$: $supp(X) \to \mathbf{R}$ is a one-to-one
 	p_Y(y) = p_X(f^{-1}(y)) \begin{vmatrix} \frac{\partial}{\partial y} f^{-1}(y) \end{vmatrix}
 \end{equation}
 
-where $\begin{vmatrix} \frac{\partial}{\partial y} f^{-1}(y) \end{vmatrix}$ is the Jacobian term. The Jacobian measures how the scale of the transformed variable changes with respect to the underlying variable. This can be expanded to the multivariate case where the Jacobian becomes a matrix of partial derivatives.
+where $\begin{vmatrix} \frac{\partial}{\partial y} f^{-1}(y) \end{vmatrix}$ si the Jacobian adjustment is the absolute derivative of the transform. The Jacobian measures how the scale of the transformed variable changes with respect to the underlying variable. This can be expanded to the multivariate case where the Jacobian becomes a matrix of partial derivatives.
 
-In equation~\ref{eq:jacobian} the term $p_X(f^{-1}(y)) = p_X(X)$ and in a Bayesian context is the prior of the untransformed variable/parameter. \textbf{Note:} if this functionality is in use be careful interpreting the covariance matrix as this will be related to the transformed variable not the variable space, e.g., if natural mortality ($M$) is estimated as $Y = M/2$, then the covariance matrix will be described for $Y$.
+In equation~\ref{eq:jacobian} the term $p_X(f^{-1}(y)) = p_X(X)$ and in a Bayesian context is the prior of the untransformed variable/parameter. \CNAME\ defines the objective function as the negative log-likelihood. This means \(\begin{vmatrix} \frac{\partial}{\partial y} f^{-1}(y) \end{vmatrix}\) needs to be times by a negative log, as it is currently defined as an adjustment to the density.
 
-{\small{\begin{verbatim}
-		@estimate log_R0
-		type lognormal
-		transformation log
-		parameter process[Recruitment].r0
-		transform_with_jacobian true
-		mu 442413
-		cv 0.2
-		lower_bound 3000
-		upper_bound 24154953
-\end{verbatim}}}
-
-\subsubsection*{Transform without Jacobian but prior defined in transformed space}
-
-This transformation is where the priors are defined in transformed space. This class of transformations contains functionality that was implemented in the CASAL.
-
-If $f()$ is a transformation function defined on the support of $X$, then $Y = f(X)$ is a new random variable (transformed variable). In this class \textit{a priori} information is specified with regard to $p_Y(y)$ and $X$ can be thought of as a derived quantity.
-
-For example:
-
-{\small{\begin{verbatim}
-		@estimate log_R0
-		type lognormal
-		parameter process[Recruitment].r0
-		prior_applies_to_transform true
-		mu 13
-		cv 0.5
-		lower_bound 8
-		upper_bound 17
-\end{verbatim}}}
-
-
-\subsubsection*{Transformation types}
-
-\begin{itemize}
-\item \subcommand{log} : natural logarithm transformation\\
-\subcommand{is\_simple = true}\\
-\subcommand{jacobian defined = true}\\
-$Y = ln(X)$\\
-$\begin{vmatrix} \frac{\partial}{\partial y} f^{-1}(y) \end{vmatrix} = X^{-1}$\\\\
+\subsubsection{Transformation types}\label{subsec:Transformation-types}
+\begin{enumerate}
+\item \subcommand{type} \subcommand{log} : natural logarithm transformation\\
+\subcommand{jacobian known = true}\\
+\subcommand{estimable parameter = log\_parameter}\\
+$Y = log(X)$\\
+$f() = log()$\\
+$f^{-1}() = exp()$
+\[
+log \begin{vmatrix} \frac{\partial}{\partial y}  exp (y) \end{vmatrix} = log \begin{vmatrix}  exp (y) \end{vmatrix} = log(x)
+\]
 \label{sec:Transformation-Log}
+{\small{\begin{verbatim}
+@parameter_transformation log_R0
+type log
+parameters process[Recruitment].r0
+
+@estimate log_R0
+type uniform
+parameter parameter_transformation[log_r0].log_parameter
+lower_bound 1
+upper_bound 25
+\end{verbatim}}}
+
 
 \item \subcommand{inverse}\\
-\subcommand{is\_simple = true}\\
-\subcommand{jacobian defined = true}\\
-$Y = X^{-1}$\\
-$\begin{vmatrix} \frac{\partial}{\partial y} f^{-1}(y) \end{vmatrix} = -X^{-2}$\\\\
+\subcommand{jacobian known = true}\\
+\subcommand{estimable parameter = inverse\_parameter}\\
+$Y = X^{-1}$
+\[
+log \begin{vmatrix} \frac{\partial}{\partial y} \frac{1}{y} \end{vmatrix} = log \begin{vmatrix} y^{-2}\end{vmatrix} = -2log(y)
+\]
 \label{sec:Transformation-Inverse}
-
-\item \subcommand{sqrt} : square root transformation\\
-\subcommand{is\_simple = true}\\
-\subcommand{jacobian defined = true}\\
-$Y = \sqrt{X}$\\
-$\begin{vmatrix} \frac{\partial}{\partial y} f^{-1}(y) \end{vmatrix} = -X^{-1.5}$\\\\
-\label{sec:Transformation-SquareRoot}
-
-\item \subcommand{average\_difference} : two parameters $\theta_1$ and $\theta_2$ are transformed to $Y_1$ and $Y_2$, where $Y_1$ is the average of the original parameters and $Y_2$ is the difference between the mean and each parameter.\\
-\subcommand{is\_simple = false}\\
-\subcommand{jacobian defined = false}\\
-$Y_1 = \frac{\theta_1 + \theta_2}{2}$\\
-$Y_2 =  (Y_1 - \theta_2)2 $\\
+{\small{\begin{verbatim}
+		@parameter_transformation inverse_R0
+		type inverse
+		parameters process[Recruitment].r0
+		
+		@estimate inverse_R0
+		type uniform
+		parameter parameter_transformation[inverse_R0].inverse_parameter
+		lower_bound 0.001
+		upper_bound 1
+		\end{verbatim}}}
+	
+\item \subcommand{average\_difference} : two parameters $X_1$ and $X_2$ are transformed to $Y_1$ and $Y_2$, where $Y_1$ is the average of the original parameters and $Y_2$ is the difference between the mean and each parameter.\\
+\subcommand{jacobian known = false}\\
+\subcommand{estimable parameter = average\_parameter, difference\_parameter}\\
+$Y_1 = \frac{X_1 + X_2}{2}$\\
+$Y_2 =  (Y_1 - X_2)2 $\\
 Restore transformations\\
-$\theta_1 = Y_1 + 0.5Y_2$\\
-$\theta_2 = \theta_1 - 0.5Y_2$\\
+$X_1 = Y_1 + 0.5Y_2$\\
+$X_2 = X_1 - 0.5Y_2$\\
 $\begin{vmatrix} \frac{\partial}{\partial y} f^{-1}(y) \end{vmatrix}$ Hasn't been assessed (i.e it could exist) \TODO{?????}\\
 \label{sec:Transformation-AverageDifference}
-
-\item \subcommand{log\_sum} : two parameters $\theta_1$ and $\theta_2$ are transformed to $Y_1$ and $Y_2$, where $Y_1$ is the natural logarithm of the sum of $\theta_1$ and $\theta_2$. $Y_2$ describes the proportion of the sum with respect to $\theta_1$\\
-\subcommand{is\_simple = false}\\
-\subcommand{jacobian defined = false}\\
-$Y_1 = ln(\theta_1 + \theta_2)$\\
-$Y_2 = \theta_1 / (\theta_1 + \theta_2)$\\
+{\small{\begin{verbatim}
+		@parameter_transformation avg_diff
+		type average_difference
+		parameters process[InstantMortality].m{male} process[InstantMortality].m{female}
+		
+		@estimate avg_m
+		type uniform
+		parameter parameter_transformation[avg_diff].average_parameter
+		lower_bound 0.01
+		upper_bound 1
+		
+		@estimate diff_m
+		type uniform
+		parameter parameter_transformation[avg_diff].difference_parameter
+		lower_bound -0.5
+		upper_bound 0.5		
+\end{verbatim}}}
+	
+\item \subcommand{log\_sum} : two parameters $X_1$ and $X_2$ are transformed to $Y_1$ and $Y_2$, where $Y_1$ is the natural logarithm of the sum of $X_1$ and $X_2$. $Y_2$ describes the proportion of the sum with respect to $X_1$\\
+\subcommand{jacobian known = false}\\
+\subcommand{estimable parameter = log\_total\_parameter, difference\_parameters}\\
+$Y_1 = ln(X_1 + X_2)$\\
+$Y_2 = X_1 / (X_1 + X_2)$\\
 Restore transformations\\
-$\theta_1 = exp(Y_1)Y_2$\\
-$\theta_2 =exp(Y_1)(1 - Y_2)$\\
+$X_1 = exp(Y_1)Y_2$\\
+$X_2 =exp(Y_1)(1 - Y_2)$\\
 $\begin{vmatrix} \frac{\partial}{\partial y} f^{-1}(y) \end{vmatrix}$ Hasn't been assessed (i.e it could exist) \TODO{?????}\\
 \label{sec:Transformation-LogSum}
-
-\item \subcommand{orthogonal} : two parameters $\theta_1$ and $\theta_2$ are transformed to $Y_1$ and $Y_2$, where $Y_1$ is the multiplication of $\theta_1$ and $\theta_2$. $Y_2$ is the division of $\theta_1$ and $\theta_2$\\
-\subcommand{is\_simple = false}\\
+{\small{\begin{verbatim}
+		@parameter_transformation log_total_r0
+		type average_difference
+		parameters process[Recruitment_east].r0 process[Recruitment_west].r0
+		
+		@estimate log_total_r0
+		type uniform
+		parameter parameter_transformation[log_total_r0].log_total_parameter
+		lower_bound 4
+		upper_bound 25
+		
+		@estimate prop_r0_east
+		type uniform
+		parameter parameter_transformation[log_total_r0].difference_parameters
+		lower_bound 0.001
+		upper_bound 0.8		
+		\end{verbatim}}}
+	
+\item \subcommand{orthogonal} : two parameters $X_1$ and $X_2$ are transformed to $Y_1$ and $Y_2$, where $Y_1$ is the multiplication of $X_1$ and $X_2$. $Y_2$ is the division of $X_1$ and $X_2$\\
 \subcommand{jacobian defined = true}\\
-$Y_1 = \theta_1 \theta_2$\\
-$Y_2 = \theta_1 / \theta_2$\\
+\subcommand{estimable parameter = product\_parameter, quotient\_parameter}\\
+$Y_1 = X_1 X_2$\\
+$Y_2 = X_1 / X_2$\\
 Restore transformations\\
-$\theta_1 = \sqrt{Y_1 Y_2}$\\
-$\theta_2 = \sqrt{Y_1 / Y_2}$\\
+$X_1 = \sqrt{Y_1 Y_2}$\\
+$X_2 = \sqrt{Y_1 / Y_2}$\\
 $\begin{vmatrix} \frac{\partial}{\partial y} f^{-1}(y) \end{vmatrix} = 2Y_2$\\\\
 \label{sec:Transformation-Orthogonal}
 
-\item \subcommand{SumToOne} : given two parameters $\theta_1$ and $\theta_2$ that have the constraint $\sum_{i = 1}^2\theta_i$, estimate $\theta_1$ only given $\theta_2 = 1 - \theta_1$\\
-\subcommand{is\_simple = false}\\
+\item \subcommand{SumToOne} : given two parameters $X_1$ and $X_2$ that have the constraint $\sum_{i = 1}^2X_i$, estimate $X_1$ only given $X_2 = 1 - X_1$\\
 \subcommand{jacobian defined = false}\\
 \label{sec:Transformation-SumToOne}
+{\small{\begin{verbatim}
+		@parameter_transformation orthogonal_trans
+		type average_difference
+		parameters process[Recruitment].r0 catchability[CPUEQ].q
+		
+		@estimate B0_times_q
+		type uniform
+		parameter parameter_transformation[orthogonal_trans].product_parameter
+		lower_bound 0.1
+		upper_bound 2500
+		
+		@estimate B0_divide_q
+		type uniform
+		parameter parameter_transformation[orthogonal_trans].quotient_parameter
+		lower_bound 0.001
+		upper_bound 1e8	
+		\end{verbatim}}}
 
-\TODO{Simplex transformation needs adding}
+% useful reference for the simplex https://mc-stan.org/docs/2_27/reference-manual/simplex-transform-section.html#fn15
+\item \subcommand{simplex} : given the vector of parameters $\boldmath{X} = (X_1, \dots, X_n)$ which either has the constraint $\sum_{i = 1}^n X_i = 1$ or $\sum_{i = 1}^n X_i = n$. Then the simplex is a suitable transformation. It translates to a new vector parameter \(\boldmath{Y} = (Y_1, \dots, Y_{n - 1})\) which has unconstrained parameter space i.e \(Y_i \in (-\infty, \infty)\)\\
 
-\end{itemize}
+This transformation follows the implementation in stan, where an intermediate variable \(Z_i\) is used. The transformation going from $\boldmath{X}$ to $\boldmath{Y}$ follows\\
+\[
+Z_i = \frac{X_i}{1 - \sum_{j = 1}^{i - 1}X_j}
+\]
+and 
+\[
+Y_i = logit(Z_i) - log\left(\frac{1}{n -i}\right)
+\]
+The inverse transformation going from $\boldmath{Y}$ to $\boldmath{X}$ follows
+\[
+Z_i = logit^{-1}\left(Y_i +  log\left(\frac{1}{n -i}\right)\right)
+\]
+and
+\begin{align*}
+	X_i &= \left( \sum_{j = 1}^{i - 1}X_j\right)Z_i & \text{ for } i < n\\
+	X_n &= 1 - \sum_{i = 1}^{n - 1} X_i & \text{ for } i = n
+\end{align*}
+The jacobian for the density is evaluated as follows,
+\begin{align*}
+|det \ J| = \prod_{i = 1}^{n - 1} Z_i \left(1 - Z_i\right) \left(1 - \sum_{j = 1}^{i - 1}X_j\right)
+\end{align*}
+\subcommand{jacobian defined = true}\\
+\subcommand{estimable parameter = simplex}\\
+\label{sec:Transformation-Simplex}
+{\small{\begin{verbatim}
+		@parameter_transformation simplex_ycs
+		type simplex
+		sum_to_one false
+		parameters process[Recruitment].ycs_values{1950:2018}
+		prior_applies_to_restored_parameters true
+		
+		@estimate simplex_ycs
+		type uniform
+		parameter parameter_transformation[simplex_ycs].simplex
+		lower_bound -10
+		upper_bound 10
+
+		\end{verbatim}}}	
+\end{enumerate}
+
+
+If users want to force other parameters in the system to be the same as an estimated transformation, this can be done by creating multiple \command{parameter\_transformation} blocks. For example if there were multiple categories (spawning and non spawning males and females) and the average difference parametrisation was used to estimate natural mortality. The non-spawning components can be set the same as the spawning values using the following syntax.
+
+{\small{\begin{verbatim}
+		@categories
+		format sex.maturity
+		names male.spawn female.spawn male.nonspawn female.nonspawn
+		
+		@parameter_transformation avg_diff_spawn
+		type average_difference
+		parameters process[InstantMortality].m{male.spawn} process[InstantMortality].m{female.spawn}
+		
+		@parameter_transformation avg_diff_non_spawn
+		type average_difference
+		parameters process[InstantMortality].m{male.nonspawn} process[InstantMortality].m{female.nonspawn}
+		
+		@estimate avg_m
+		type uniform
+		parameter parameter_transformation[avg_diff_spawn].average_parameter
+		same  parameter_transformation[avg_diff_non_spawn].average_parameter
+		lower_bound 0.01
+		upper_bound 1
+		
+		@estimate diff_m
+		type uniform
+		parameter parameter_transformation[avg_diff_spawn].difference_parameter
+		same  parameter_transformation[avg_diff_non_spawn].average_parameter
+		lower_bound -0.5
+		upper_bound 0.5		
+\end{verbatim}}}
+
+This can be done for any set of parameters in the system, for example if you had multiple recruitment dynamics and wanted to estimate a joint steepness parameter with the log transformation, you would need to create multiple blocks and force them in the same.

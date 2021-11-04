@@ -31,7 +31,7 @@ AddressableTransformation::AddressableTransformation(shared_ptr<Model> model) : 
   parameters_.Bind<string>(PARAM_LABEL, &label_, "Label for the transformation block", "");
   parameters_.Bind<string>(PARAM_TYPE, &type_, "The type of transformation", "");
   parameters_.Bind<string>(PARAM_PARAMETERS, &parameter_labels_, "The parameters used in the transformation", "");
-  parameters_.Bind<bool>(PARAM_PRIOR_APPLIES_TO_RESTORED_PARAMETERS, &prior_applies_to_restored_parameters_, "If the prior applies to the parameters (true) with jacobian (if it exists) or prior applies to transformed_parameter (false) with no jacobian ", "", true);
+  parameters_.Bind<bool>(PARAM_PRIOR_APPLIES_TO_RESTORED_PARAMETERS, &prior_applies_to_restored_parameters_, "If the prior applies to the parameters (true) with jacobian (if it exists) or prior applies to transformed_parameter (false) with no jacobian ", "", false);
 }
 
 /**
@@ -50,7 +50,7 @@ void AddressableTransformation::Validate() {
   string error = "";
   for(auto param : parameter_labels_) {
     if (!model_->objects().VerifyAddressableForUse(param, addressable::kEstimate, error)) {
-      LOG_ERROR_P(PARAM_PARAMETERS) << "The parameter " << param << " could not be verified for use in an @addressable_transformation block. Error: " << error;
+      LOG_ERROR_P(PARAM_PARAMETERS) << "The parameter " << param << " could not be verified for use in an @parameter_tranformation block. Error: " << error;
     }
   }
   vector_and_u_map_indicies_.resize(parameter_labels_.size());
@@ -88,6 +88,8 @@ void AddressableTransformation::Validate() {
     LOG_FINE() << "sizes = " << indexes.size();
 
     addressable::Type addressable_type = model_->objects().GetAddressableType(param);
+    LOG_FINE() << " addressable_type = " << addressable_type;
+
     // Check all parameters are the same type i.e. all maps, or all vectors or all scalars etc.
     // if they are maps or vectors they also need to have the same indicies i.e. 
     // parameter_labels process[Recruit_east].ycs_values process[Recruit_west].ycs_values // will work
@@ -110,12 +112,14 @@ void AddressableTransformation::Validate() {
         LOG_ERROR_P(PARAM_PARAMETERS) << "parameter " << parameter_labels_[param_counter] << " " << error;
         break;
       case addressable::kSingle:
+        LOG_FINE() << "kSingle()";
         restore_function_ = &AddressableTransformation::set_single_values;
         addressables_.push_back(model_->objects().GetAddressable(param));
         init_values_.push_back(*addressables_[param_counter]);
         ++n_params_;
         break;
       case addressable::kVector:
+        LOG_FINE() << "kVector()";
         if(indexes.size() == 1) {
           restore_function_    = &AddressableTransformation::set_single_values_for_multiple_vectors;
         } else {
@@ -134,6 +138,7 @@ void AddressableTransformation::Validate() {
         }        
         break;
       case addressable::kUnsignedMap:
+        LOG_FINE() << "kUnsignedMap()";
         if(indexes.size() == 1) {
           restore_function_    = &AddressableTransformation::set_single_values_for_multiple_maps;
         } else {
@@ -152,6 +157,7 @@ void AddressableTransformation::Validate() {
         }          
         break;
       case addressable::kStringMap:
+        LOG_FINE() << "kStringMap()";
         if(indexes.size() == 1) {
           restore_function_    = &AddressableTransformation::set_single_values_for_multiple_string_maps;
         } else {
@@ -165,9 +171,9 @@ void AddressableTransformation::Validate() {
           init_values_.push_back((*addressable_string_maps_[param_counter])[string_index]);
           ++n_params_;
         }
-        break;        
+        break;             
       default:
-        LOG_ERROR_P(PARAM_PARAMETERS) << "The addressable " << parameter_labels_[param_counter] << " provided for use in the @estimate_tranformation block: " << label_ << " is not a parameter of a type that is supported";
+        LOG_FATAL_P(PARAM_PARAMETERS) << "The addressable " << parameter_labels_[param_counter] << " provided for use in the @parameter_tranformation block: " << label_ << " is not a parameter of a type that is supported";
         break;
     }
     // Get Target Object variable.
@@ -175,6 +181,7 @@ void AddressableTransformation::Validate() {
     target_objects_.push_back(model_->objects().FindObject(param));
     ++param_counter;
   }
+
   DoValidate();
 }
 

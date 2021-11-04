@@ -37,7 +37,7 @@ namespace addressabletransformations {
 AddressableTransformation* Factory::Create(shared_ptr<Model> model, const string& object_type, const string& sub_type) {
   AddressableTransformation* result = nullptr;
 
-  if (object_type == PARAM_ESTIMATE_TRANSFORMATION) {
+  if (object_type == PARAM_PARAMETER_TRANSFORMATION) {
     if (sub_type == PARAM_INVERSE)
       result = new Inverse(model);
     else if (sub_type == PARAM_LOG)

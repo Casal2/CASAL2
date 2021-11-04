@@ -143,16 +143,15 @@ b 3.288
 )";
 
 const std::string avg_diff_fail = R"(
-  @addressable_transformation ycs_avg_diff
+  @parameter_transformation ycs_avg_diff
   type average_difference
-  parameter_labels process[Recruitment].ycs_values{1975} process[Recruitment].ycs_values{1976}
+  parameters process[Recruitment].ycs_values{1975} process[Recruitment].ycs_values{1976}
 
   @estimate ycs_avg
   type uniform
-  parameter addressable_transformation[ycs_avg_diff].average_parameter
+  parameter parameter_transformation[ycs_avg_diff].average_parameter
   lower_bound 0
   upper_bound 20
-  jacobian true
 )";
 
 /*

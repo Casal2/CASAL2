@@ -76,6 +76,8 @@ void LogSum::DoBuild() {
  * Restore objects
  */
 void LogSum::DoRestore() {
+  LOG_MEDIUM() << log_total_parameter_ << " " << total_difference_parameter_;
+
   total_parameter_ = exp(log_total_parameter_);
   restored_values_[0] = total_parameter_ * total_difference_parameter_;
   restored_values_[1] = total_parameter_ * (1 - total_difference_parameter_);

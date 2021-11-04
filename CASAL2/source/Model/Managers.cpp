@@ -240,6 +240,7 @@ void Managers::Build() {
 void Managers::Reset() {
   std::scoped_lock l(lock_);
   LOG_TRACE();
+  addressable_transformation_->Reset(); // needs to be up top, asmay change values down the list
   age_length_->Reset();
   age_weight_->Reset();
   length_weight_->Reset();
@@ -250,7 +251,6 @@ void Managers::Reset() {
   catchability_->Reset();
   derived_quantity_->Reset();
   estimate_->Reset();
-  addressable_transformation_->Reset();
   initialisation_phase_->Reset();
   likelihood_->Reset();
   observation_->Reset();

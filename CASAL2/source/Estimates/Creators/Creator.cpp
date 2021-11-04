@@ -411,10 +411,7 @@ void Creator::CopyParameters(niwa::Estimate* estimate, unsigned index) {
   //  estimate->parameters().CopyFrom(parameters_, PARAM_PRIOR);
   estimate->parameters().CopyFrom(parameters_, PARAM_ESTIMATION_PHASE);
   estimate->parameters().CopyFrom(parameters_, PARAM_MCMC);
-  estimate->parameters().CopyFrom(parameters_, PARAM_PRIOR_APPLIES_TO_TRANSFORM);
 
-  estimate->parameters().CopyFrom(parameters_, PARAM_TRANSFORMATION, index);
-  estimate->parameters().CopyFrom(parameters_, PARAM_TRANSFORM_WITH_JACOBIAN, index);
   estimate->parameters().CopyFrom(parameters_, PARAM_LOWER_BOUND, index);
   estimate->parameters().CopyFrom(parameters_, PARAM_UPPER_BOUND, index);
 

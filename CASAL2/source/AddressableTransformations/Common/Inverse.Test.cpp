@@ -50,31 +50,30 @@ type uniform
 
 const string estimable_transformation_inverse_jacobian =
 R"(
-  @addressable_transformation inverse_r0
+  @parameter_transformation inverse_r0
   type inverse
-  parameter_labels process[Recruitment].r0
-
+  parameters process[Recruitment].r0
+  prior_applies_to_restored_parameters true
 
   @estimate inverse_r0
   type uniform_log
-  parameter addressable_transformation[inverse_r0].inverse_parameter
+  parameter parameter_transformation[inverse_r0].inverse_parameter
   lower_bound 1e-10 
   upper_bound 1e-05
-  jacobian true
 )";
 
 const string estimable_transformation_inverse =
 R"(
-  @addressable_transformation inverse_r0
+  @parameter_transformation inverse_r0
   type inverse
-  parameter_labels process[Recruitment].r0
+  parameters process[Recruitment].r0
 
   @estimate inverse_r0
   type uniform_log
-  parameter addressable_transformation[inverse_r0].inverse_parameter
+  parameter parameter_transformation[inverse_r0].inverse_parameter
   lower_bound 1e-10 
   upper_bound 1e-05
-  jacobian false
+  prior_applies_to_restored_parameters false
 )";
 /**
  *
