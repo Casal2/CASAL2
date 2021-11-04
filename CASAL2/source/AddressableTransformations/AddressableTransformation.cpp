@@ -32,7 +32,6 @@ AddressableTransformation::AddressableTransformation(shared_ptr<Model> model) : 
   parameters_.Bind<string>(PARAM_TYPE, &type_, "The type of transformation", "");
   parameters_.Bind<string>(PARAM_PARAMETERS, &parameter_labels_, "The parameters used in the transformation", "");
   parameters_.Bind<bool>(PARAM_PRIOR_APPLIES_TO_RESTORED_PARAMETERS, &prior_applies_to_restored_parameters_, "If the prior applies to the parameters (true) with jacobian (if it exists) or prior applies to transformed_parameter (false) with no jacobian ", "", true);
-
 }
 
 /**

@@ -18,6 +18,7 @@
 #include "../AddressableTransformation.h"
 // namespaces
 namespace niwa {
+class Estimate;
 namespace addressabletransformations {
 
 /**
@@ -48,7 +49,9 @@ private:
   bool              sum_to_one_ = true;
   Double            n_param_double_;
   Double            sub_total_;
+  vector<Double>    cached_simplex_values_for_objective_function_restore_;
 
+  vector<Estimate*> simplex_estimates_;
 };
 
 } /* namespace addressabletransformations */

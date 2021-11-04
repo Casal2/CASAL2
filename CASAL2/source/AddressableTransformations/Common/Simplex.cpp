@@ -41,7 +41,13 @@ void Simplex::DoValidate() {
 
   n_param_double_ = (Double)n_params_;
   Double count = 1.0;
-  
+  if(prior_applies_to_restored_parameters_) {
+    simplex_parameter_.resize(n_params_, 0.0);  // need to account for dummy estimate to apply prior to the nth parameter
+    cached_simplex_values_for_objective_function_restore_.resize(n_params_, 0.0);
+  } else {
+    simplex_parameter_.resize(n_params_ - 1, 0.0);
+  }
+
   cache_log_k_value_.resize(n_params_ - 1, 0.0);
   for(unsigned i = 0; i < init_values_.size(); ++i) {
     LOG_FINE() << init_values_[i];
@@ -67,7 +73,7 @@ void Simplex::DoValidate() {
   // TODO Scott, need to know if simplex_parameter_ is input in -i 
   // if given -i restore  simplex_parameter_ -> restore_values_
   // this maps yk_ -> zk_
-  for (unsigned i = 0; i < simplex_parameter_.size(); ++i) {
+  for (unsigned i = 0; i < zk_.size(); ++i) {
     zk_[i] = 1.0 / (1.0 + exp(-simplex_parameter_[i] + cache_log_k_value_[i]));
   }
   // Translate zk_ -> restore_values_
@@ -86,13 +92,34 @@ void Simplex::DoValidate() {
   }
   RegisterAsAddressable(PARAM_SIMPLEX_PARAMETER, &simplex_parameter_); // equivalent to yk_ in the formulas
 
+
 }
 
 /**
  * Build
  */
 void Simplex::DoBuild() {
-
+  // get estimate label
+  string estimate_label = "parameter_transformation[" + label_ + "].simplex";
+  LOG_FINE() << "looking for " << estimate_label;
+  // iterate over the 
+  simplex_estimates_ = model_->managers()->estimate()->GetEstimatesByLabel(estimate_label);
+  LOG_FINE() << "found estimates = " << simplex_estimates_.size();
+  if(simplex_estimates_.size() == 0) {
+    LOG_WARNING() << "Could not find @estimate block for " << estimate_label << ", this is odd that you have a parameter transfomration, but not estimating the transformed parameter";
+  }
+  // iterate over the simplex estiamtes and check they are active, 
+  // if prior applies to restored value, turn the last estimate to not estimate
+  // but contribute to the objective function.
+  for(unsigned i = 0; i < simplex_estimates_.size(); ++i) {
+    if(!simplex_estimates_[i]) 
+      LOG_CODE_ERROR() << "if(!simplex_estimates_[i])";
+    // if last value and prior applies to restored value 
+    if(prior_applies_to_restored_parameters_ & (i == (simplex_estimates_.size() - 1))) {
+      simplex_estimates_[i]->set_in_objective_function(true);
+      simplex_estimates_[i]->set_estimated(false);
+    }
+  }
 }
 /**
  * Restore
@@ -101,7 +128,7 @@ void Simplex::DoBuild() {
 void Simplex::DoRestore() {
   LOG_FINE() << "";
   // this maps yk_ -> zk_
-  for (unsigned i = 0; i < simplex_parameter_.size(); ++i) {
+  for (unsigned i = 0; i < zk_.size(); ++i) {
     zk_[i] = 1.0 / (1.0 + exp(-simplex_parameter_[i] + cache_log_k_value_[i]));
   }
   // Translate zk_ -> restore_values_
@@ -141,6 +168,12 @@ Double Simplex::GetScore() {
  * if prior_applies_to_restored_parameters_
  */
 void Simplex::PrepareForObjectiveFunction() {
+  if(prior_applies_to_restored_parameters_) {
+    for(unsigned i = 0; i < simplex_parameter_.size(); ++i) {
+      cached_simplex_values_for_objective_function_restore_[i] = simplex_parameter_[i];
+      simplex_parameter_[i] = restored_values_[i];
+    }
+  }
 }
 
 /**
@@ -148,6 +181,10 @@ void Simplex::PrepareForObjectiveFunction() {
  * if prior_applies_to_restored_parameters_
  */
 void Simplex::RestoreForObjectiveFunction() {
+  if(prior_applies_to_restored_parameters_) {
+    for(unsigned i = 0; i < simplex_parameter_.size(); ++i) 
+      simplex_parameter_[i] = cached_simplex_values_for_objective_function_restore_[i];
+  }
 }
 
 /**
@@ -166,7 +203,6 @@ void Simplex::FillReportCache(ostringstream& cache) {
   for(unsigned i = 0; i < restored_values_.size(); ++i)
     cache << restored_values_[i] << " ";
   cache << "negative_log_jacobian: " << jacobian_ << REPORT_EOL;
-
 }
 
 } /* namespace addressabletransformations */
