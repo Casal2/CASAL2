@@ -16,7 +16,7 @@
 #include <thread>
 
 #include "../AdditionalPriors/Manager.h"
-#include "../EstimateTransformations/Manager.h"
+#include "../AddressableTransformations/Manager.h"
 #include "../Estimates/Manager.h"
 #include "../Model/Model.h"
 #include "../Observations/Manager.h"
@@ -112,7 +112,7 @@ void ObjectiveFunction::CalculateScore() {
   /**
    * Get the scores from each of the estimate priors
    */
-  model_->managers()->estimate_transformation()->TransformEstimatesForObjectiveFunction();
+  model_->managers()->addressable_transformation()->PrepareForObjectiveFunction(); // prior applies to the transformed variable
   vector<Estimate*> estimates = model_->managers()->estimate()->objects();
   priors_                     = 0.0;
   for (Estimate* estimate : estimates) {
@@ -130,7 +130,7 @@ void ObjectiveFunction::CalculateScore() {
     score_ += new_score.score_;
     priors_ += new_score.score_;
   }
-  model_->managers()->estimate_transformation()->RestoreEstimatesFromObjectiveFunction();
+  model_->managers()->addressable_transformation()->RestoreForObjectiveFunction(); // revert any transformations that were required to change for prior
 
   /**
    * Get the score from each additional prior
@@ -151,7 +151,7 @@ void ObjectiveFunction::CalculateScore() {
   /**
    * Get the Jacobian score from estimate_transformations
    */
-  auto jacobians = model_->managers()->estimate_transformation()->objects();
+  auto jacobians = model_->managers()->addressable_transformation()->objects();
   jacobians_     = 0.0;
   for (auto jacobian : jacobians) {
     objective::Score new_score;

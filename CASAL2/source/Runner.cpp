@@ -28,7 +28,7 @@
 #include "ConfigurationLoader/MCMCSample.h"
 #include "Estimables/Estimables.h"
 #include "AgeLengths/Manager.h"
-#include "EstimateTransformations/Manager.h"
+#include "AddressableTransformations/Manager.h"
 #include "Estimates/Manager.h"
 #include "MCMCs/Manager.h"
 #include "Minimisers/Manager.h"
@@ -502,7 +502,6 @@ int Runner::RunMCMC() {
     minimiser->BuildCovarianceMatrix();
     LOG_FINE() << "Minimisation complete. Starting MCMC";
 
-    master_model_->managers()->estimate_transformation()->RestoreEstimateBounds();
 
     // TODO: Implement a setter here
     mcmc->covariance_matrix() = minimiser->covariance_matrix();

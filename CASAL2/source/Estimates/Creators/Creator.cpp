@@ -42,9 +42,6 @@ Creator::Creator(shared_ptr<Model> model) : model_(model) {
   parameters_.Bind<string>(PARAM_SAME, &same_labels_, "The list of parameters that are constrained to have the same value as this parameter", "", "");
   parameters_.Bind<string>(PARAM_ESTIMATION_PHASE, &estimation_phase_, "The estimation phase", "", "");
   parameters_.Bind<string>(PARAM_MCMC, &mcmc_, "Indicates if this parameter is fixed at the point estimate during an MCMC run", "", "");
-  parameters_.Bind<string>(PARAM_TRANSFORMATION, &transformation_details_, "TBA", "", true);
-  parameters_.Bind<bool>(PARAM_TRANSFORM_WITH_JACOBIAN, &transform_with_jacobian_, "Transform the addressables with Jacobian score", "", true);
-  parameters_.Bind<bool>(PARAM_PRIOR_APPLIES_TO_TRANSFORM, &transform_for_objective_function_, "Transform before calculating prior score for objective function", "", false);
 }
 
 /**
@@ -414,10 +411,7 @@ void Creator::CopyParameters(niwa::Estimate* estimate, unsigned index) {
   //  estimate->parameters().CopyFrom(parameters_, PARAM_PRIOR);
   estimate->parameters().CopyFrom(parameters_, PARAM_ESTIMATION_PHASE);
   estimate->parameters().CopyFrom(parameters_, PARAM_MCMC);
-  estimate->parameters().CopyFrom(parameters_, PARAM_PRIOR_APPLIES_TO_TRANSFORM);
 
-  estimate->parameters().CopyFrom(parameters_, PARAM_TRANSFORMATION, index);
-  estimate->parameters().CopyFrom(parameters_, PARAM_TRANSFORM_WITH_JACOBIAN, index);
   estimate->parameters().CopyFrom(parameters_, PARAM_LOWER_BOUND, index);
   estimate->parameters().CopyFrom(parameters_, PARAM_UPPER_BOUND, index);
 

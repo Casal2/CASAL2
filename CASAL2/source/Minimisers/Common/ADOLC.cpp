@@ -14,7 +14,6 @@
 // headers
 #include "ADOLC.h"
 
-#include "../../EstimateTransformations/Manager.h"
 #include "../../Estimates/Manager.h"
 #include "ADOLC/Callback.h"
 #include "ADOLC/Engine.h"
@@ -55,7 +54,6 @@ void ADOLC::Execute() {
 
   LOG_INFO() << "Estimation with the " << PARAM_ADOLC << " minimiser";
 
-  model_->managers()->estimate_transformation()->TransformEstimates();
   auto estimates = estimate_manager->GetIsEstimated();
   for (auto estimate : estimates) {
     lower_bounds.push_back(AS_DOUBLE(estimate->lower_bound()));
@@ -74,8 +72,6 @@ void ADOLC::Execute() {
   int           status = 0;
   adolc::Engine adolc;
   adolc.optimise(call_back, start_values, lower_bounds, upper_bounds, status, max_iterations_, max_evaluations_, gradient_tolerance_, hessian_, 1, step_size_, use_tan_transform);
-
-  model_->managers()->estimate_transformation()->RestoreEstimates();
 
   switch (adolc.get_convergence_status()) {
     case -1:

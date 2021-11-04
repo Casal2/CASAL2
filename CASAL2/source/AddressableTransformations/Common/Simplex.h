@@ -5,7 +5,7 @@
  * @date Jan 8, 2016
  * @section LICENSE
  *
- * Copyright NIWA Science ©2016 - www.niwa.co.nz
+ * Copyright NIWA Science ï¿½2016 - www.niwa.co.nz
  *
  * @section DESCRIPTION
  *
@@ -15,50 +15,46 @@
 #define SOURCE_ESTIMATETRANSFORMATIONS_CHILDREN_SIMPLEX_H_
 
 // headers
-#include "../../EstimateTransformations/EstimateTransformation.h"
-
+#include "../AddressableTransformation.h"
 // namespaces
 namespace niwa {
 class Estimate;
-namespace estimatetransformations {
+namespace addressabletransformations {
 
 /**
  *
  */
-class Simplex : public EstimateTransformation {
+class Simplex : public AddressableTransformation {
 public:
   Simplex() = delete;
   explicit Simplex(shared_ptr<Model> model);
   virtual ~Simplex() = default;
-  void             TransformForObjectiveFunction() override final{};
-  void             RestoreFromObjectiveFunction() override final{};
-  std::set<string> GetTargetEstimates() override final;
   Double           GetScore() override final;
-
+  void             FillReportCache(ostringstream& cache) override final;
+  void             PrepareForObjectiveFunction() override final;
+  void             RestoreForObjectiveFunction() override final;
 protected:
   // methods
   void DoValidate() override final;
   void DoBuild() override final;
-  void DoTransform() override final;
   void DoRestore() override final;
 
 private:
-  // members
-  bool           unit_ = false;  // whether this is a unit vector or an average 1 vector.
-  vector<Double> unit_vector_;
-  vector<Double> zk_;
-  vector<Double> yk_;
-  double         lower_bound_ = 1.0e-10;
-  double         upper_bound_ = 1.0e10;
+  vector<Double>    zk_;
+  vector<Double>    cumulative_simplex_k_;
+  vector<Double>    unit_vector_;
+  vector<Double>    simplex_parameter_;
+  vector<Double>    cache_log_k_value_;
+  Double            total_ = 0.0;
+  bool              sum_to_one_ = true;
+  Double            n_param_double_;
+  Double            sub_total_;
+  vector<Double>    cached_simplex_values_for_objective_function_restore_;
 
-  vector<Estimate*> estimates_;
   vector<Estimate*> simplex_estimates_;
-  Double            sub_total_ = 0.0;
-  Double            total_     = 0.0;
-  unsigned          length_    = 0;
 };
 
-} /* namespace estimatetransformations */
+} /* namespace addressabletransformations */
 } /* namespace niwa */
 
 #endif /* SOURCE_ESTIMATETRANSFORMATIONS_CHILDREN_SIMPLEX_H_ */

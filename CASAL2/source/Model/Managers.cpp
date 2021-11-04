@@ -25,7 +25,7 @@
 #include "../Categories/Categories.h"
 #include "../DerivedQuantities/Manager.h"
 #include "../Estimables/Estimables.h"
-#include "../EstimateTransformations/Manager.h"
+#include "../AddressableTransformations/Manager.h"
 #include "../Estimates/Manager.h"
 #include "../InitialisationPhases/Manager.h"
 #include "../LengthWeights/Manager.h"
@@ -68,7 +68,7 @@ Managers::Managers(shared_ptr<Model> model) {
   derived_quantity_        = new derivedquantities::Manager();
   estimables_              = new Estimables(model_);
   estimate_                = new estimates::Manager();
-  estimate_transformation_ = new estimatetransformations::Manager();
+  addressable_transformation_ = new addressabletransformations::Manager();
   initialisation_phase_    = new initialisationphases::Manager();
   length_weight_           = new lengthweights::Manager();
   likelihood_              = new likelihoods::Manager();
@@ -109,7 +109,7 @@ Managers::~Managers() {
   delete derived_quantity_;
   delete estimables_;
   delete estimate_;
-  delete estimate_transformation_;
+  delete addressable_transformation_;
   delete initialisation_phase_;
   delete length_weight_;
   delete likelihood_;
@@ -172,7 +172,6 @@ void Managers::Validate() {
   assert_->Validate();
   catchability_->Validate();
   derived_quantity_->Validate();
-  estimate_transformation_->Validate();
   length_weight_->Validate();
   likelihood_->Validate();
   if (mcmc_ && (run_mode == RunMode::kMCMC || run_mode == RunMode::kTesting))
@@ -190,6 +189,7 @@ void Managers::Validate() {
   simulate_->Validate();
   time_varying_->Validate();
 
+  addressable_transformation_->Validate(); // needs to be at the after all other classes, but before Estimates
   estimate_->Validate(model_);
   LOG_TRACE();
 }
@@ -229,7 +229,7 @@ void Managers::Build() {
 
   LOG_FINE() << "Building estimates and transformations...";
   estimate_->Build(model_);
-  estimate_transformation_->Build();
+  addressable_transformation_->Build();
   LOG_FINE() << "Building estimates and transformations...Done";
 
   if (report_)
@@ -240,6 +240,7 @@ void Managers::Build() {
 void Managers::Reset() {
   std::scoped_lock l(lock_);
   LOG_TRACE();
+  addressable_transformation_->Reset(); // needs to be up top, asmay change values down the list
   age_length_->Reset();
   age_weight_->Reset();
   length_weight_->Reset();
@@ -250,7 +251,6 @@ void Managers::Reset() {
   catchability_->Reset();
   derived_quantity_->Reset();
   estimate_->Reset();
-  estimate_transformation_->Reset();
   initialisation_phase_->Reset();
   likelihood_->Reset();
   observation_->Reset();

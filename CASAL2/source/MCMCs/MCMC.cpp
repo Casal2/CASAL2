@@ -11,7 +11,6 @@
 // headers
 #include "MCMC.h"
 
-#include "../EstimateTransformations/Manager.h"
 #include "../Estimates/Manager.h"
 #include "../GlobalConfiguration/GlobalConfiguration.h"
 #include "../Model/Managers.h"

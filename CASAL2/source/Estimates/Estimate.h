@@ -68,9 +68,6 @@ public:
   const vector<string>&  same_labels() const { return same_labels_; }
   const vector<Double*>& sames() const { return sames_; }
   unsigned               phase() const { return estimation_phase_; }
-  bool                   transform_for_objective() const { return transform_for_objective_function_; }
-  bool                   transform_with_jacobian() const { return transform_with_jacobian_; }
-  bool                   transform_with_jacobian_is_defined() const { return transform_with_jacobian_is_defined_; }
 
 protected:
   // Members
@@ -87,10 +84,6 @@ protected:
   vector<Double*> sames_;
   bool            estimated_                          = true;
   bool            in_objective_                       = true;
-  string          transformation_type_                = "";
-  bool            transform_with_jacobian_            = false;
-  bool            transform_with_jacobian_is_defined_ = false;
-  bool            transform_for_objective_function_   = false;
 };
 } /* namespace niwa */
 #endif /* ESTIMATE_H_ */

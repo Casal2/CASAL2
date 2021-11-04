@@ -13,7 +13,6 @@
 // headers
 #include "RandomWalkMetropolisHastings.h"
 
-#include "../../EstimateTransformations/Manager.h"
 #include "../../Estimates/Manager.h"
 #include "../../Minimisers/Manager.h"
 #include "../../Model/Model.h"

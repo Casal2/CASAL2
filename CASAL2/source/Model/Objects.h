@@ -24,7 +24,7 @@
 #include "../Utilities/Map.h"
 #include "../Utilities/NoCopy.h"
 #include "../Utilities/Types.h"
-
+#include "../AddressableTransformations/AddressableTransformation.h"
 // namespaces
 namespace niwa {
 
@@ -43,7 +43,7 @@ class Objects {
   friend class Model;
   friend class estimates::Creator;
   friend class TimeVarying;
-
+  friend class AddressableTransformation;
 public:
   // methods
   virtual ~Objects() = default;

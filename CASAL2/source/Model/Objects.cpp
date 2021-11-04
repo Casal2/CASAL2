@@ -19,6 +19,7 @@
 #include "../Catchabilities/Manager.h"
 #include "../DerivedQuantities/Manager.h"
 #include "../Estimates/Manager.h"
+#include "../AddressableTransformations/Manager.h"
 #include "../InitialisationPhases/Manager.h"
 #include "../LengthWeights/Manager.h"
 #include "../Model/Managers.h"
@@ -222,6 +223,9 @@ base::Object* Objects::FindObjectOrNull(const string& parameter_absolute_name) {
   } else if (type == PARAM_ESTIMATE) {
     result = model_->managers()->estimate()->GetEstimateByLabel(label);
 
+  } else if (type == PARAM_PARAMETER_TRANSFORMATION) {
+    result = model_->managers()->addressable_transformation()->GetAddressableTransformation(label);
+    
   } else if (type == PARAM_CATCHABILITY) {
     result = model_->managers()->catchability()->GetCatchability(label);
 

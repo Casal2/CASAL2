@@ -130,7 +130,7 @@ class ClassLoader:
         # List of source code folders to parse for syntax code
         # Add additional top-level folders here as required
         parent_class_folders = ['AdditionalPriors', 'AgeingErrors', 'AgeLengths', 'AgeWeights', 'Asserts', 'Catchabilities', 'Categories',
-                                'DerivedQuantities', 'Estimates', 'EstimateTransformations', 'InitialisationPhases',
+                                'DerivedQuantities', 'Estimates', 'AddressableTransformations', 'InitialisationPhases',
                                 'LengthWeights', 'Likelihoods', 'MCMCs', 'Minimisers', 'Model', 'Observations', 'Penalties',
                                 'Processes', 'Profiles', 'Projects', 'Reports', 'Selectivities', 'Simulates', 'TimeSteps',
                                 'TimeVarying']

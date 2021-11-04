@@ -5,7 +5,7 @@
  * @date 19/12/2014
  * @section LICENSE
  *
- * Copyright NIWA Science ©2014 - www.niwa.co.nz
+ * Copyright NIWA Science ï¿½2014 - www.niwa.co.nz
  */
 
 // headers
@@ -57,7 +57,8 @@ void EstimableValuesLoader::LoadValues(const string& file_name) {
     LOG_FATAL() << "estimable value file appears to be empty, or the first line is blank. File: " << file_name;
 
   // Make an exception for MCMC_samples outputs that users will want to feed back into Casal2 using the -i functionality
-  if (current_line == "*mcmc_sample[mcmc]") {
+  LOG_FINE() << " current_line.substr(0, 12) = " <<  current_line.substr(0, 12);
+  if ("*mcmc_sample" == current_line.substr(0, 12)) {
     LOG_FINEST() << "skipping line as it is an input from an MCMC report " << current_line;
     getline(file_, current_line);
     ++line_number;

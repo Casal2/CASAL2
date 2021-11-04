@@ -40,7 +40,7 @@ namespace asserts { class Manager; }
 namespace catchabilities { class Manager; }
 namespace derivedquantities { class Manager; }
 namespace estimates { class Manager; }
-namespace estimatetransformations { class Manager;}
+namespace addressabletransformations { class Manager;}
 namespace initialisationphases { class Manager; }
 namespace lengthweights { class Manager; }
 namespace likelihoods { class Manager; }
@@ -82,7 +82,7 @@ public:
   virtual derivedquantities::Manager*       derived_quantity() { CHECK_AND_RETURN(derived_quantity_); }
   virtual Estimables*                       estimables() { CHECK_AND_RETURN(estimables_); }
   virtual estimates::Manager*               estimate() { CHECK_AND_RETURN(estimate_); }
-  virtual estimatetransformations::Manager* estimate_transformation() { CHECK_AND_RETURN(estimate_transformation_); }
+  virtual addressabletransformations::Manager* addressable_transformation() { CHECK_AND_RETURN(addressable_transformation_); }
   virtual initialisationphases::Manager*    initialisation_phase() { CHECK_AND_RETURN(initialisation_phase_); }
   virtual lengthweights::Manager*           length_weight() { CHECK_AND_RETURN(length_weight_); }
   virtual likelihoods::Manager*             likelihood() { CHECK_AND_RETURN(likelihood_); }
@@ -121,7 +121,7 @@ protected:
   derivedquantities::Manager*       derived_quantity_        = nullptr;
   Estimables*                       estimables_              = nullptr;  // TODO: Move to Model
   estimates::Manager*               estimate_                = nullptr;
-  estimatetransformations::Manager* estimate_transformation_ = nullptr;
+  addressabletransformations::Manager* addressable_transformation_ = nullptr;
   initialisationphases::Manager*    initialisation_phase_    = nullptr;
   lengthweights::Manager*           length_weight_           = nullptr;
   likelihoods::Manager*             likelihood_              = nullptr;

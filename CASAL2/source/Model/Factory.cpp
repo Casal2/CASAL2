@@ -19,7 +19,7 @@
 #include "../Catchabilities/Factory.h"
 #include "../Categories/Categories.h"
 #include "../DerivedQuantities/Factory.h"
-#include "../EstimateTransformations/Factory.h"
+#include "../AddressableTransformations/Factory.h"
 #include "../Estimates/Creators/Factory.h"
 #include "../InitialisationPhases/Factory.h"
 #include "../LengthWeights/Factory.h"
@@ -94,8 +94,8 @@ base::Object* Factory::CreateObject(const string& object_type, const string& sub
     return derivedquantities::Factory::Create(model_, lwr_object_type, lwr_sub_type, partition_type);
   else if (lwr_object_type == PARAM_ESTIMATE)
     return estimates::creators::Factory::Create(model_, lwr_object_type, lwr_sub_type);
-  else if (lwr_object_type == PARAM_ESTIMATE_TRANSFORMATION)
-    return estimatetransformations::Factory::Create(model_, lwr_object_type, lwr_sub_type);
+  else if (lwr_object_type == PARAM_PARAMETER_TRANSFORMATION) // not the same as code class name, easier for users to understand
+    return addressabletransformations::Factory::Create(model_, lwr_object_type, lwr_sub_type);
   else if (lwr_object_type == PARAM_INITIALISATION_PHASE || lwr_object_type == PARAM_INITIALISATION_PHASES)
     return initialisationphases::Factory::Create(model_, lwr_object_type, lwr_sub_type);
   else if (lwr_object_type == PARAM_LENGTH_WEIGHT || lwr_object_type == PARAM_LENGTH_WEIGHTS)

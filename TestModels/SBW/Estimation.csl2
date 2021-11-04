@@ -57,37 +57,38 @@ upper_bound   100 * 55
 ## M's
 #######
 # male
-@estimate M_male_with_avg_prior
+@estimate M_avg_prior
 type lognormal
-parameter process[Instantaneous_Mortality].m{male.nonspawn}
-same process[Instantaneous_Mortality].m{male.spawn}
+parameter parameter_transformation[avg_diff_nonspawn].average_parameter
+same parameter_transformation[avg_diff_spawn].average_parameter
 mu 0.20
 cv 0.20
 #estimation_phase 2
 lower_bound 0.05
 upper_bound 0.75
-prior_applies_to_transform true
 
 # female
-@estimate M_female_with_diff_prior
+@estimate M_diff_prior
 type normal_by_stdev
 #estimation_phase 2
-parameter process[Instantaneous_Mortality].m{female.nonspawn}
-same process[Instantaneous_Mortality].m{female.spawn}
+parameter parameter_transformation[avg_diff_nonspawn].difference_parameter
+same parameter_transformation[avg_diff_spawn].difference_parameter
 mu 0.0
 sigma 0.05
 lower_bound -0.05
 upper_bound 0.05
-prior_applies_to_transform true
 
 ##################
 ## Estiamte transformation on M
 ##################
-@estimate_transformation avg_diff
-type average_difference
-theta1 M_male_with_avg_prior
-theta2 M_female_with_diff_prior
-transform_with_jacobian false
+@parameter_transformation avg_diff_nonspawn
+type average_difference 
+parameters process[Instantaneous_Mortality].m{male.nonspawn} process[Instantaneous_Mortality].m{female.nonspawn}
+
+@parameter_transformation avg_diff_spawn
+type average_difference 
+parameters process[Instantaneous_Mortality].m{male.spawn} process[Instantaneous_Mortality].m{female.spawn}
+
 
 ##################
 ## Acoustic process error
