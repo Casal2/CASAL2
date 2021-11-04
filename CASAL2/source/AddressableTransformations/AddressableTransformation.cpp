@@ -50,7 +50,7 @@ void AddressableTransformation::Validate() {
   string error = "";
   for(auto param : parameter_labels_) {
     if (!model_->objects().VerifyAddressableForUse(param, addressable::kEstimate, error)) {
-      LOG_ERROR_P(PARAM_PARAMETERS) << "The parameter " << param << " could not be verified for use in an @parameter_tranformation block. Error: " << error;
+      LOG_FATAL_P(PARAM_PARAMETERS) << "The parameter " << param << " could not be verified for use in an @parameter_tranformation block. Error: " << error;
     }
   }
   vector_and_u_map_indicies_.resize(parameter_labels_.size());
@@ -68,26 +68,22 @@ void AddressableTransformation::Validate() {
   addressable::Type previous_addressable_type = addressable::kSingle;
   unsigned previous_indicies = 0;
   for(auto param : parameter_labels_) {
-    // Check if this is 
     string         new_parameter = param;
-    string type      = "";
-    string label     = "";
-    string parameter = "";
-    string index     = "";
-    string error            = "";
-    model_->objects().ExplodeString(param, type, label, parameter, index);
-    LOG_FINE() << "type = " << type << " label = " << label << " parameter = " << parameter << " index = " << index;
+
+    auto           pair          = model_->objects().ExplodeParameterAndIndex(param);
+    string         parameter     = pair.first;
+    string         index         = pair.second;
     vector<string> indexes;
     if (index != "") {
       indexes = utilities::String::explode(index);
       if (index != "" && indexes.size() == 0) {
-        LOG_FATAL_P(PARAM_PARAMETERS) << "parameter " << parameter_labels_[param_counter] << " could not be split up to search for indexes because the format was invalid. Check the indices. Only the operators ',' and ':' (range) are supported";
+        LOG_FATAL_P(PARAM_PARAMETER) << " could not be split up to search for indexes because the format was invalid. "
+                                    << "Check the indices. Only the operators ',' and ':' (range) are supported";
       }
       new_parameter = new_parameter.substr(0, new_parameter.find('{'));
     }
-    LOG_FINE() << "sizes = " << indexes.size();
-
-    addressable::Type addressable_type = model_->objects().GetAddressableType(param);
+    LOG_FINE() << "sizes = " << indexes.size() << " parameter = " << parameter << " index = " << index << " new param = " << new_parameter;
+    addressable::Type addressable_type = model_->objects().GetAddressableType(new_parameter);
     LOG_FINE() << " addressable_type = " << addressable_type;
 
     // Check all parameters are the same type i.e. all maps, or all vectors or all scalars etc.
@@ -114,7 +110,7 @@ void AddressableTransformation::Validate() {
       case addressable::kSingle:
         LOG_FINE() << "kSingle()";
         restore_function_ = &AddressableTransformation::set_single_values;
-        addressables_.push_back(model_->objects().GetAddressable(param));
+        addressables_.push_back(model_->objects().GetAddressable(new_parameter));
         init_values_.push_back(*addressables_[param_counter]);
         ++n_params_;
         break;
@@ -125,7 +121,7 @@ void AddressableTransformation::Validate() {
         } else {
           restore_function_    = &AddressableTransformation::set_vector_values;
         }
-        addressable_vectors_.push_back(model_->objects().GetAddressableVector(param));
+        addressable_vectors_.push_back(model_->objects().GetAddressableVector(new_parameter));
         for (string string_index : indexes) {
           unsigned u_index = 0;
           if (!utils::To<string, unsigned>(string_index, u_index))
@@ -144,7 +140,7 @@ void AddressableTransformation::Validate() {
         } else {
           restore_function_    = &AddressableTransformation::set_map_values;
         }
-        addressable_maps_.push_back(model_->objects().GetAddressableUMap(param));
+        addressable_maps_.push_back(model_->objects().GetAddressableUMap(new_parameter));
         for (string string_index : indexes) {
           unsigned u_index = 0;
           if (!utils::To<string, unsigned>(string_index, u_index))
@@ -163,7 +159,7 @@ void AddressableTransformation::Validate() {
         } else {
           restore_function_    = &AddressableTransformation::set_map_string_values;
         }   
-        addressable_string_maps_.push_back(model_->objects().GetAddressableSMap(param));
+        addressable_string_maps_.push_back(model_->objects().GetAddressableSMap(new_parameter));
         for (string string_index : indexes) {
           if (addressable_string_maps_[param_counter]->find(index) == addressable_string_maps_[param_counter]->end())
             LOG_FATAL_P(PARAM_PARAMETERS) << "parameter " << parameter_labels_[param_counter] << " could not find index " << string_index << " between {}";
@@ -178,7 +174,7 @@ void AddressableTransformation::Validate() {
     }
     // Get Target Object variable.
     // Scott: Do we need this? We already have pointers to specific objects above
-    target_objects_.push_back(model_->objects().FindObject(param));
+    target_objects_.push_back(model_->objects().FindObject(new_parameter));
     ++param_counter;
   }
 

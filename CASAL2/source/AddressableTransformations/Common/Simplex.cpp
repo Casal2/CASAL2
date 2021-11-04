@@ -49,19 +49,23 @@ void Simplex::DoValidate() {
   }
 
   cache_log_k_value_.resize(n_params_ - 1, 0.0);
-  for(unsigned i = 0; i < init_values_.size(); ++i) {
-    LOG_FINE() << init_values_[i];
-    if(i < (n_params_ - 1))
-      cache_log_k_value_[i] = log(1.0 / (n_param_double_ - count));
+  for(unsigned i = 0; i < cache_log_k_value_.size(); ++i, ++count) {
+    cache_log_k_value_[i] = log(1.0 / (n_param_double_ - count));
   }
+
+  LOG_FINE() << "cached values";
   restored_values_.resize(n_params_, 0.0);
+  unit_vector_.resize(n_params_, 0.0);
   zk_.resize(n_params_ - 1, 0.0);
   cumulative_simplex_k_.resize(n_params_ - 1, 0.0);
   // TODO Scott, need to know if simplex_parameter_ is input in -i 
   // if given -i check they have supplied all the values otherwise error out.
+  total_ = 0.0;
   for(unsigned i = 0; i < init_values_.size(); ++i) {
+    LOG_FINE() << init_values_[i];
     total_ += init_values_[i];
   }
+  LOG_FINE() << "total = " << total_;
   if(sum_to_one_) {
     if((total_ - 1.0) > 0.0001)
       LOG_ERROR_P(PARAM_PARAMETERS) << "You have specified a sum_to_one parameter but your parameters = " << sum_to_one_;
