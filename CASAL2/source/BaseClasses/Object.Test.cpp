@@ -5,7 +5,7 @@
  * @date 10/11/2015
  * @section LICENSE
  *
- * Copyright NIWA Science ©2015 - www.niwa.co.nz
+ * Copyright NIWA Science ï¿½2015 - www.niwa.co.nz
  *
  * @section DESCRIPTION
  *
@@ -194,6 +194,47 @@ TEST(Object, UnnamedVectorMap_Double_Addressable_with_plus) {
 
   EXPECT_THROW(object.GetAddressableType("apple"), std::string);
   EXPECT_THROW(object.GetAddressable("apple"), std::string);
+}
+
+/**
+ * Check if we can use an addressable, then verify it is being used.
+ *
+ *
+ */
+class TestObject7 : public Object {
+public:
+  void Reset() override final{};
+
+  TestObject7() {
+    RegisterAsAddressable("apple", &addressable, addressable::kLookup);
+    RegisterAsAddressable("banana", &addressable, addressable::kEstimate);
+    RegisterAsAddressable("carrot", &addressable, addressable::kInputRun);
+    RegisterAsAddressable("apple", &addressable, addressable::kTimeVarying);
+    RegisterAsAddressable("lemon", &addressable, (addressable::Usage)(addressable::kEstimate | addressable::kInputRun | addressable::kTimeVarying));
+  }
+
+  double addressable = 0.0;
+};
+
+TEST(Object, Test_Addressable_Usage_Is_Set) {
+  TestObject7 object;
+
+  EXPECT_EQ(addressable::kSingle, object.GetAddressableType("apple"));
+  EXPECT_EQ(&object.addressable, object.GetAddressable("apple"));
+
+  EXPECT_NO_THROW(object.SetAddressableIsUsed("apple", addressable::kLookup));
+  EXPECT_TRUE(object.IsAddressableUsedFor("apple", addressable::kLookup));
+  EXPECT_FALSE(object.IsAddressableUsedFor("apple", addressable::kEstimate));
+
+  EXPECT_NO_THROW(object.SetAddressableIsUsed("banana", addressable::kEstimate));
+  EXPECT_TRUE(object.IsAddressableUsedFor("banana", addressable::kEstimate));
+  EXPECT_FALSE(object.IsAddressableUsedFor("banana", addressable::kLookup));
+
+  EXPECT_NO_THROW(object.SetAddressableIsUsed("lemon", addressable::kEstimate));
+  EXPECT_NO_THROW(object.SetAddressableIsUsed("lemon", addressable::kInputRun));
+  EXPECT_TRUE(object.IsAddressableUsedFor("lemon", addressable::kInputRun));
+  EXPECT_TRUE(object.IsAddressableUsedFor("lemon", addressable::kEstimate));
+  EXPECT_FALSE(object.IsAddressableUsedFor("lemon", addressable::kLookup));
 }
 
 } /* namespace base */

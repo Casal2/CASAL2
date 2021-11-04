@@ -70,6 +70,8 @@ public:
   virtual ~Object(){};
   bool                        HasAddressable(const string& label) const;
   bool                        HasAddressableUsage(const string& label, const addressable::Usage&) const;
+  void                        SetAddressableIsUsed(const string& label, const addressable::Usage&);
+  bool                        IsAddressableUsedFor(const string& label, const addressable::Usage&);
   bool                        IsAddressableAVector(const string& label) const;
   unsigned                    GetAddressableSize(const string& label) const;
   Double*                     GetAddressable(const string& label);
@@ -128,7 +130,8 @@ protected:
   map<string, vector<Double>*>    addressable_vectors_;
   map<string, vector<Double*>>    addressable_custom_vectors_;
   map<string, addressable::Type>  addressable_types_;
-  map<string, addressable::Usage> addressable_usage_;
+  map<string, addressable::Usage> allowed_addressable_usage_;
+  map<string, addressable::Usage> actual_addressable_usage_;
   vector<Object*>                 rebuild_cache_subscribers_;
 
   map<string, map<unsigned, Double>*>      addressable_u_maps_;

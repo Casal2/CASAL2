@@ -68,8 +68,43 @@ bool Object::HasAddressableUsage(const string& label, const addressable::Usage& 
     LOG_CODE_ERROR() << "The addressable " << label << " has not been registered for the object " << block_type_ << ".type=" << type_;
   }
 
-  addressable::Usage flags = addressable_usage_.find(label)->second;
+  addressable::Usage flags = allowed_addressable_usage_.find(label)->second;
   return (flags & flag) == flag;
+}
+
+/**
+ * @brief This method will store the usage for an addressable that is going to be used
+ * by the model. This allows us to check later if we're using addressables for estimations
+ * or time varying etc.
+ *
+ * @param label label of the parameter
+ */
+void Object::SetAddressableIsUsed(const string& label, const addressable::Usage& usage) {
+  // if we don't have any usage yet, just add it.
+  if (actual_addressable_usage_.find(label) == actual_addressable_usage_.end()) {
+    actual_addressable_usage_[label] = usage;
+    return;
+  }
+
+  // if we have usage, then we need to combine the values
+  addressable::Usage new_usage     = actual_addressable_usage_[label];
+  new_usage                        = (addressable::Usage)(new_usage | usage);
+  actual_addressable_usage_[label] = new_usage;
+}
+
+/**
+ * @brief Check if the addressable is actually being used for the usage parameter.
+ *
+ * @param label label of the parameter
+ * @param usage usage of the parameter
+ * @return true
+ * @return false
+ */
+bool Object::IsAddressableUsedFor(const string& label, const addressable::Usage& usage) {
+  if (actual_addressable_usage_.find(label) == actual_addressable_usage_.end())
+    return false;
+
+  return usage == (addressable::Usage)(actual_addressable_usage_[label] & usage);
 }
 
 /**
@@ -302,9 +337,9 @@ addressable::Type Object::GetAddressableType(const string& label) const {
  * @param usage The Usage enum for this addressable
  */
 void Object::RegisterAsAddressable(const string& label, Double* variable, addressable::Usage usage) {
-  addressables_[label]      = variable;
-  addressable_types_[label] = addressable::kSingle;
-  addressable_usage_[label] = usage;
+  addressables_[label]              = variable;
+  addressable_types_[label]         = addressable::kSingle;
+  allowed_addressable_usage_[label] = usage;
 }
 
 /**
@@ -317,9 +352,9 @@ void Object::RegisterAsAddressable(const string& label, Double* variable, addres
  * @param usage The Usage enum for this addressable
  */
 void Object::RegisterAsAddressable(const string& label, vector<Double>* variables, addressable::Usage usage) {
-  addressable_vectors_[label] = variables;
-  addressable_types_[label]   = addressable::kVector;
-  addressable_usage_[label]   = usage;
+  addressable_vectors_[label]       = variables;
+  addressable_types_[label]         = addressable::kVector;
+  allowed_addressable_usage_[label] = usage;
 }
 
 /**
@@ -333,9 +368,9 @@ void Object::RegisterAsAddressable(const string& label, vector<Double>* variable
  * @param usage The Usage enum for this addressable
  */
 void Object::RegisterAsAddressable(const string& label, OrderedMap<string, Double>* variables, addressable::Usage usage) {
-  addressable_s_maps_[label] = variables;
-  addressable_types_[label]  = addressable::kStringMap;
-  addressable_usage_[label]  = usage;
+  addressable_s_maps_[label]        = variables;
+  addressable_types_[label]         = addressable::kStringMap;
+  allowed_addressable_usage_[label] = usage;
 }
 
 /**
@@ -349,9 +384,9 @@ void Object::RegisterAsAddressable(const string& label, OrderedMap<string, Doubl
  * @param usage The Usage enum for this addressable
  */
 void Object::RegisterAsAddressable(const string& label, map<unsigned, Double>* variables, addressable::Usage usage) {
-  addressable_u_maps_[label] = variables;
-  addressable_types_[label]  = addressable::kUnsignedMap;
-  addressable_usage_[label]  = usage;
+  addressable_u_maps_[label]        = variables;
+  addressable_types_[label]         = addressable::kUnsignedMap;
+  allowed_addressable_usage_[label] = usage;
 }
 
 /**

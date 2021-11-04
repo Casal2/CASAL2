@@ -15,11 +15,11 @@
 #include <boost/lexical_cast.hpp>
 #include <boost/tokenizer.hpp>
 
+#include "../AddressableTransformations/Manager.h"
 #include "../AgeLengths/Manager.h"
 #include "../Catchabilities/Manager.h"
 #include "../DerivedQuantities/Manager.h"
 #include "../Estimates/Manager.h"
-#include "../AddressableTransformations/Manager.h"
 #include "../InitialisationPhases/Manager.h"
 #include "../LengthWeights/Manager.h"
 #include "../Model/Managers.h"
@@ -83,6 +83,9 @@ bool Objects::VerifyAddressableForUse(const string& parameter_absolute_name, add
     error = parameter + " on " + type + "." + label + " cannot be used for this purpose due to usage restrictions";
     return false;
   }
+
+  // Flag that we're now using the addressable so that we can verify this later
+  object->SetAddressableIsUsed(parameter, usage);
 
   return true;
 }
@@ -225,7 +228,7 @@ base::Object* Objects::FindObjectOrNull(const string& parameter_absolute_name) {
 
   } else if (type == PARAM_PARAMETER_TRANSFORMATION) {
     result = model_->managers()->addressable_transformation()->GetAddressableTransformation(label);
-    
+
   } else if (type == PARAM_CATCHABILITY) {
     result = model_->managers()->catchability()->GetCatchability(label);
 
