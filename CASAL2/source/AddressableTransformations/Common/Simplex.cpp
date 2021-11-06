@@ -134,7 +134,11 @@ void Simplex::DoBuild() {
   // iterate over the simplex estiamtes and check they are active, 
   // if prior applies to restored value, turn the last estimate to not estimate
   // but contribute to the objective function.
-  for(unsigned i = 0; i < n_params_; ++i) {
+  unsigned n_par_in_estimates = n_params_;
+  if(not prior_applies_to_restored_parameters_)
+    n_par_in_estimates--;
+
+  for(unsigned i = 0; i < n_par_in_estimates; ++i) {
     estimate_label = "parameter_transformation[" + label_ + "].simplex{" +  utilities::ToInline<unsigned, string>(i + 1) + "}";
     LOG_FINE() << "looking for " << estimate_label;
     simplex_estimate_ = model_->managers()->estimate()->GetEstimate(estimate_label);

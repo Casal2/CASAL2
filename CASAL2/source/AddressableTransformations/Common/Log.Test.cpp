@@ -81,7 +81,7 @@ TEST_F(InternalEmptyModel, EstimableTransformations_Log_jacobian) {
   MockObjects       mock_objects(model_);
   model_->Start(RunMode::kBasic);
   ObjectiveFunction& obj_function = model_->objective_function();
-  EXPECT_NEAR(2673.1332492295737, obj_function.score(), 1e-4);
+  EXPECT_NEAR(2684.3205399239037, obj_function.score(), 1e-4);
   Double*  est_r0 = model_->objects().GetAddressable("process[Recruitment].r0");
   EXPECT_NEAR(997386, *est_r0, 1e-2);
 }

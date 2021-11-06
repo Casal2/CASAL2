@@ -67,13 +67,13 @@ R"(
   @parameter_transformation inverse_r0
   type inverse
   parameters process[Recruitment].r0
+  prior_applies_to_restored_parameters false
 
   @estimate inverse_r0
   type uniform_log
   parameter parameter_transformation[inverse_r0].inverse_parameter
   lower_bound 1e-10 
   upper_bound 1e-05
-  prior_applies_to_restored_parameters false
 )";
 /**
  *
@@ -86,7 +86,7 @@ TEST_F(InternalEmptyModel, EstimableTransformations_Inverse_jacobian) {
   MockObjects       mock_objects(model_);
   model_->Start(RunMode::kBasic);
   ObjectiveFunction& obj_function = model_->objective_function();
-  EXPECT_NEAR(2642.881860517401, obj_function.score(), 1e-4);
+  EXPECT_NEAR(2670.5076467884028, obj_function.score(), 1e-4);
   Double*  est_r0 = model_->objects().GetAddressable("process[Recruitment].r0");
   EXPECT_NEAR(997386, *est_r0, 1e-2);
 }
