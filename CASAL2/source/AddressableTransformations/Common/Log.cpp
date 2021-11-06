@@ -26,7 +26,7 @@ namespace addressabletransformations {
  * Default constructor
  */
 Log::Log(shared_ptr<Model> model) : AddressableTransformation(model) {
-
+  RegisterAsAddressable(PARAM_LOG_PARAMETER, &log_value_);
 }
 
 
@@ -46,7 +46,6 @@ void Log::DoValidate() {
       LOG_FINE() << "i = " << i << " restored val " << restored_values_[i]  << " init value = " << init_values_[i];
     }
   } 
-  RegisterAsAddressable(PARAM_LOG_PARAMETER, &log_value_);
 }
 
 /**

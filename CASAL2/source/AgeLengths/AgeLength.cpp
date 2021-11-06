@@ -82,7 +82,8 @@ void AgeLength::Validate() {
     distribution_ = Distribution::kNone;
   else
     LOG_ERROR() << "The age-length distribution '" << distribution_label_ << "' is not valid.";
-
+  if(!by_length_)
+    update_cv_based_updated_length_ = false;
   DoValidate();
 }
 
@@ -208,11 +209,10 @@ void AgeLength::PopulateCV() {
 void AgeLength::Reset() {
   LOG_FINE() << "Resetting age-length";
   DoReset();
-  if (is_estimated_) {
+  if ((IsAddressableUsedFor(PARAM_CV_FIRST, addressable::kEstimate) || IsAddressableUsedFor(PARAM_CV_FIRST, addressable::kEstimate)) & update_cv_based_updated_length_) {
     // Something is estimated in this class, so we should update everything.
     LOG_FINEST() << "Rebuilding cv lookup table";
     PopulateCV();
-    //
     UpdateYearContainers();
     // Build Age-length matrix
     PopulateAgeLengthMatrix();

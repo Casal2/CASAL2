@@ -23,6 +23,7 @@ namespace addressabletransformations {
  * Default constructor
  */
 Inverse::Inverse(shared_ptr<Model> model) : AddressableTransformation(model) {
+  RegisterAsAddressable(PARAM_INVERSE_PARAMETER, &inverse_value_);
 }
 
 /**
@@ -38,7 +39,6 @@ void Inverse::DoValidate() {
   // else get transform value
   inverse_value_ = 1.0 / init_values_[0];
 
-  RegisterAsAddressable(PARAM_INVERSE_PARAMETER, &inverse_value_);
 }
 
 /**

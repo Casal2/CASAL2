@@ -28,6 +28,7 @@ namespace niwa {
  * @param value The value
  */
 void Estimables::AddValue(const string& estimable_label, Double value) {
+  LOG_FINE() << "AddValue Estimable " <<  estimable_label;
   estimable_values_[estimable_label].push_back(value);
 }
 

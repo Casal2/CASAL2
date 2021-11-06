@@ -103,6 +103,7 @@ protected:
   unsigned            year_dim_in_age_length_ = 0;
   unsigned            min_age_ = model_->min_age();
   unsigned            max_age_ = model_->max_age();
+  bool                update_cv_based_updated_length_ = true;
 };
 
 } /* namespace niwa */

@@ -486,6 +486,7 @@
 #define PARAM_PARAMETER                           "parameter"
 #define PARAM_PARAMETERS                          "parameters"
 #define PARAM_PARAMETER_TRANSFORMATION            "parameter_transformation"
+#define PARAM_PARAMETER_TRANSFORMATIONS           "parameter_transformations"   
 #define PARAM_REPORT_PARTITION_YEARAGEMATRIX      "year_age_matrix"
 #define PARAM_PARTITION                           "partition"
 #define PARAM_PARTITION_BIOMASS                   "partition_biomass"

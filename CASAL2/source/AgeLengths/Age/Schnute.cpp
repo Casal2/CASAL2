@@ -55,8 +55,13 @@ Schnute::Schnute(shared_ptr<Model> model) : AgeLength(model) {
  * Obtain smart_pointers to any objects that will be used by this object.
  */
 void Schnute::DoBuild() {
-
-
+  if(update_cv_based_updated_length_) {
+    // Cv by length are we estiamteing mean growth params
+    // if we aren't estimating
+    if(!IsAddressableUsedFor(PARAM_Y1, addressable::kEstimate) & !IsAddressableUsedFor(PARAM_Y2, addressable::kEstimate) & !IsAddressableUsedFor(PARAM_A, addressable::kEstimate)& !IsAddressableUsedFor(PARAM_B, addressable::kEstimate))
+      update_cv_based_updated_length_ = false;
+  }
+  LOG_FINE() << "update CV in reset call = " << update_cv_based_updated_length_;
 }
 
 

@@ -15,6 +15,9 @@ process Instantaneous_Mortality
 @report estimate_value
 type estimate_value
 
+@report transformations
+type parameter_transformations
+
 @report obj
 type objective_function 
 

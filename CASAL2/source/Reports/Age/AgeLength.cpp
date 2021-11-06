@@ -18,8 +18,8 @@ namespace reports {
 namespace age {
 
 AgeLength::AgeLength() {
-  run_mode_    = (RunMode::Type)(RunMode::kBasic | RunMode::kProjection | RunMode::kSimulation | RunMode::kEstimation | RunMode::kProfiling);
-  model_state_ = State::kIterationComplete;
+  run_mode_    = (RunMode::Type)(RunMode::kBasic | RunMode::kProjection);
+  model_state_ = State::kExecute;
 
   parameters_.Bind<string>(PARAM_TIME_STEP, &time_step_, "The time step label", "", "");
   parameters_.Bind<unsigned>(PARAM_YEARS, &years_, "The years for the report", "", true);
@@ -37,16 +37,17 @@ void AgeLength::DoValidate(shared_ptr<Model> model) {
  * DoBuild get pointer
  */
 void AgeLength::DoBuild(shared_ptr<Model> model) {
-  age_length_ = model->managers()->age_length()->FindAgeLength(age_length_label_);
-  if (!age_length_)
-    LOG_FATAL() << "Could not find age_length " << age_length_label_ << " for the report";
+
 
 }
 /**
  * Execute the report
  */
 void AgeLength::DoExecute(shared_ptr<Model> model) {
-  LOG_FINE() << "here we are";
+  LOG_FINEST() << "";
+  age_length_ = model->managers()->age_length()->FindAgeLength(age_length_label_);
+  if (!age_length_)
+    LOG_FATAL() << "Could not find age_length " << age_length_label_ << " for the report";
   // Print the header
   if (!age_length_)
     LOG_CODE_ERROR() << "Could not find age_length pointer, this should be addressed in DoBuild()";
@@ -54,7 +55,6 @@ void AgeLength::DoExecute(shared_ptr<Model> model) {
   cache_ << ReportHeader(type_, label_, format_);
   cache_ << "year: " << model->current_year() << REPORT_EOL;
   cache_ << "time_step: " << time_step_ << REPORT_EOL;
-  LOG_FINE() << "here we are";
   age_length_->FillReportCache(cache_);
 
   ready_for_writing_ = true;

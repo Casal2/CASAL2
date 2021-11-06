@@ -21,6 +21,7 @@ namespace utils = niwa::utilities;
  * Default constructor
  */
 SumToOne::SumToOne(shared_ptr<Model> model) : AddressableTransformation(model) {
+  RegisterAsAddressable(PARAM_PROPORTION_PARAMETER, &difference_parameter_);
 }
 
 /**
@@ -44,7 +45,6 @@ void SumToOne::DoValidate() {
  if(prior_applies_to_restored_parameters_)
     LOG_FATAL_P(PARAM_PRIOR_APPLIES_TO_RESTORED_PARAMETERS) << "There is no jacobian calculated for this transformation. Statistically this may be in in-appropriate, so you are not allowed to do it";
 
-  RegisterAsAddressable(PARAM_PROPORTION_PARAMETER, &difference_parameter_);
 }
 
 /**

@@ -20,6 +20,8 @@
 #include "../../Model/Model.h"
 #include "../../Model/Objects.h"
 
+#include "../../Utilities/String.h"
+#include "../../Utilities/To.h"
 // namespaces
 namespace niwa {
 namespace addressabletransformations {
@@ -29,7 +31,7 @@ namespace utils = niwa::utilities;
  */
 Simplex::Simplex(shared_ptr<Model> model) : AddressableTransformation(model) {
   parameters_.Bind<bool>(PARAM_SUM_TO_ONE, &sum_to_one_, "if true parameter in natural space will sum = 1, otherwise they will sum = length(parameter)", "", true);
-
+  RegisterAsAddressable(PARAM_SIMPLEX_PARAMETER, &simplex_parameter_); // equivalent to yk_ in the formulas
 }
 
 /**
@@ -38,7 +40,11 @@ Simplex::Simplex(shared_ptr<Model> model) : AddressableTransformation(model) {
 void Simplex::DoValidate() {
   LOG_FINE() << "Build values allocate memory";
   LOG_FINE() << "init_values_.size() " << init_values_.size() << " n-params " << n_params_;
+  // check if parameter has been supplied by -i or -i Files
+  if (IsAddressableUsedFor(PARAM_SIMPLEX_PARAMETER, addressable::kInputRun))
+    simplex_input_supplied_ = true;
 
+  LOG_FINE() << "simplex param given in -i " << simplex_input_supplied_;
   n_param_double_ = (Double)n_params_;
   Double count = 1.0;
   if(prior_applies_to_restored_parameters_) {
@@ -58,45 +64,62 @@ void Simplex::DoValidate() {
   unit_vector_.resize(n_params_, 0.0);
   zk_.resize(n_params_ - 1, 0.0);
   cumulative_simplex_k_.resize(n_params_ - 1, 0.0);
-  // TODO Scott, need to know if simplex_parameter_ is input in -i 
   // if given -i check they have supplied all the values otherwise error out.
-  total_ = 0.0;
-  for(unsigned i = 0; i < init_values_.size(); ++i) {
-    LOG_FINE() << init_values_[i];
-    total_ += init_values_[i];
-  }
-  LOG_FINE() << "total = " << total_;
-  if(sum_to_one_) {
-    if((total_ - 1.0) > 0.0001)
-      LOG_ERROR_P(PARAM_PARAMETERS) << "You have specified a sum_to_one parameter but your parameters = " << sum_to_one_;
-  }
+  if(simplex_input_supplied_) {
+    // calculated restored values
+    for (unsigned i = 0; i < zk_.size(); ++i) {
+      zk_[i] = 1.0 / (1.0 + exp(-1.0 * (simplex_parameter_[i] + cache_log_k_value_[i])));
+    }
+    // Translate zk_ -> restore_values_
+    sub_total_ = 0;
+    for (unsigned i = 0; i < zk_.size(); ++i) {
+      cumulative_simplex_k_[i] = sub_total_;
+      unit_vector_[i] = (1 - sub_total_) * zk_[i];
+      sub_total_ += unit_vector_[i];
+    }
+    // plus group
+    unit_vector_[unit_vector_.size() - 1] = 1.0 - sub_total_;
 
-  for(unsigned i = 0; i < init_values_.size(); ++i) {
-    unit_vector_[i] = init_values_[i] / total_;
-  }
-  // TODO Scott, need to know if simplex_parameter_ is input in -i 
-  // if given -i restore  simplex_parameter_ -> restore_values_
-  // this maps yk_ -> zk_
-  for (unsigned i = 0; i < zk_.size(); ++i) {
-    zk_[i] = 1.0 / (1.0 + exp(-simplex_parameter_[i] + cache_log_k_value_[i]));
-  }
-  // Translate zk_ -> restore_values_
-  sub_total_ = 0;
-  for (unsigned i = 0; i < zk_.size(); ++i) {
-    cumulative_simplex_k_[i] = sub_total_;
-    unit_vector_[i] = (1 - sub_total_) * zk_[i];
-    sub_total_ += unit_vector_[i];
-  }
-  // plus group
-  unit_vector_[unit_vector_.size() - 1] = 1.0 - sub_total_;
+    if(not sum_to_one_) {
+      for(unsigned i = 0; i < restored_values_.size(); ++i) 
+        restored_values_[i] = unit_vector_[i] * n_param_double_;
+    }
+  } else {
+    // calculate the simplex
+    total_ = 0.0;
+    for(unsigned i = 0; i < init_values_.size(); ++i) {
+      LOG_FINE() << init_values_[i];
+      total_ += init_values_[i];
+    }
+    LOG_FINE() << "total = " << total_;
+    if(sum_to_one_) {
+      if(fabs(total_ - 1.0) > 0.0001)
+        LOG_ERROR_P(PARAM_PARAMETERS) << "You have specified a sum_to_one parameter but your parameters = " << sum_to_one_;
+      for(unsigned i = 0; i < init_values_.size(); ++i) {
+        unit_vector_[i] = init_values_[i] / total_;
+        LOG_FINE() << unit_vector_[i];
+      }
+    } else { 
+      if(fabs(total_ - n_param_double_) > 0.0001) {
+        LOG_WARNING() << "Values in your vector supplied should sum = " << n_param_double_ << " but sum = " << total_ << ", values returned will be rescaled to sum = " << n_param_double_;
+        for(unsigned i = 0; i < init_values_.size(); ++i) {
+          unit_vector_[i] = init_values_[i] / total_;
+          LOG_FINE() << unit_vector_[i];
+        }
+        total_ = n_param_double_;
+      }
+    }
 
-  if(not sum_to_one_) {
-    for(unsigned i = 0; i < restored_values_.size(); ++i) 
-      restored_values_[i] = unit_vector_[i] * total_;
+    // Translate xk_ -> zk_ 
+    sub_total_ = 0.0;
+    for (unsigned i = 0; i < zk_.size(); ++i) {
+      zk_[i] = unit_vector_[i] / (1.0 - sub_total_);
+      sub_total_ += unit_vector_[i];
+      simplex_parameter_[i] = log(zk_[i] / (1 - zk_[i])) - cache_log_k_value_[i];
+      LOG_FINE() << "zk = " << zk_[i] << " yk (simplex) = " <<  simplex_parameter_[i] << " cache k " << cache_log_k_value_[i];
+    }
   }
-  RegisterAsAddressable(PARAM_SIMPLEX_PARAMETER, &simplex_parameter_); // equivalent to yk_ in the formulas
-
-
+  LOG_FINE() << "exit validate";
 }
 
 /**
@@ -104,24 +127,27 @@ void Simplex::DoValidate() {
  */
 void Simplex::DoBuild() {
   // get estimate label
-  string estimate_label = "parameter_transformation[" + label_ + "].simplex";
-  LOG_FINE() << "looking for " << estimate_label;
+  string estimate_label = "";
   // iterate over the 
-  simplex_estimates_ = model_->managers()->estimate()->GetEstimatesByLabel(estimate_label);
-  LOG_FINE() << "found estimates = " << simplex_estimates_.size();
-  if(simplex_estimates_.size() == 0) {
-    LOG_WARNING() << "Could not find @estimate block for " << estimate_label << ", this is odd that you have a parameter transfomration, but not estimating the transformed parameter";
-  }
+  estimate_label = "parameter_transformation[" + label_ + "].simplex{1}";
+  LOG_FINE() << "looking for " << estimate_label;
   // iterate over the simplex estiamtes and check they are active, 
   // if prior applies to restored value, turn the last estimate to not estimate
   // but contribute to the objective function.
-  for(unsigned i = 0; i < simplex_estimates_.size(); ++i) {
-    if(!simplex_estimates_[i]) 
-      LOG_CODE_ERROR() << "if(!simplex_estimates_[i])";
-    // if last value and prior applies to restored value 
-    if(prior_applies_to_restored_parameters_ & (i == (simplex_estimates_.size() - 1))) {
-      simplex_estimates_[i]->set_in_objective_function(true);
-      simplex_estimates_[i]->set_estimated(false);
+  for(unsigned i = 0; i < n_params_; ++i) {
+    estimate_label = "parameter_transformation[" + label_ + "].simplex{" +  utilities::ToInline<unsigned, string>(i + 1) + "}";
+    LOG_FINE() << "looking for " << estimate_label;
+    simplex_estimate_ = model_->managers()->estimate()->GetEstimate(estimate_label);
+    if(!simplex_estimate_) {
+      LOG_WARNING() << "Could not find @estimate block for " << estimate_label << ", this is odd that you have a parameter transfomration, but not estimating the transformed parameter";
+      continue;
+    } else {
+      // if last value and prior applies to restored value 
+      if(prior_applies_to_restored_parameters_ & (i == (n_params_ - 1))) {
+        LOG_FINE() << "setting last value to be a dummy prior";
+        simplex_estimate_->set_in_objective_function(true);
+        simplex_estimate_->set_estimated(false);
+      }
     }
   }
 }
@@ -131,15 +157,18 @@ void Simplex::DoBuild() {
  */
 void Simplex::DoRestore() {
   LOG_FINE() << "";
-  // this maps yk_ -> zk_
+  // calculated restored values
   for (unsigned i = 0; i < zk_.size(); ++i) {
-    zk_[i] = 1.0 / (1.0 + exp(-simplex_parameter_[i] + cache_log_k_value_[i]));
+    zk_[i] = 1.0 / (1.0 + exp(-1.0 * (simplex_parameter_[i] + cache_log_k_value_[i])));
+    LOG_FINE() << "zk " << zk_[i] << " simplex = " << simplex_parameter_[i] << " cached log " << cache_log_k_value_[i];
   }
   // Translate zk_ -> restore_values_
   sub_total_ = 0;
   for (unsigned i = 0; i < zk_.size(); ++i) {
+    cumulative_simplex_k_[i] = 0.0;
     unit_vector_[i] = (1 - sub_total_) * zk_[i];
     sub_total_ += unit_vector_[i];
+    cumulative_simplex_k_[i] = sub_total_;
   }
   // plus group
   unit_vector_[unit_vector_.size() - 1] = 1.0 - sub_total_;
@@ -161,10 +190,13 @@ Double Simplex::GetScore() {
   LOG_TRACE();
   if(not prior_applies_to_restored_parameters_)
     return 0.0;
-
-  jacobian_ = 1.0;
-  for (unsigned i = 0; i < zk_.size(); ++i)
-    jacobian_ *= zk_[i] * ( 1.0 - zk_[i]) * (1 - cumulative_simplex_k_[i]);
+  jacobian_ = 0.0;
+  LOG_FINE() << jacobian_;
+  for (unsigned i = 0; i < zk_.size(); ++i) {
+    jacobian_ += zk_[i] * ( 1.0 - zk_[i]) * (1 - cumulative_simplex_k_[i]);
+    LOG_FINE() << "zk = " << zk_[i] << " 1 - cumulative_simplex_k_ " <<  cumulative_simplex_k_[i] << " jacobian = " << jacobian_;
+  }
+  LOG_FINE() << jacobian_;
   return -1.0 * log(jacobian_); // return negative log-likelihood
 }
 /**
@@ -172,6 +204,7 @@ Double Simplex::GetScore() {
  * if prior_applies_to_restored_parameters_
  */
 void Simplex::PrepareForObjectiveFunction() {
+  LOG_FINE();
   if(prior_applies_to_restored_parameters_) {
     for(unsigned i = 0; i < simplex_parameter_.size(); ++i) {
       cached_simplex_values_for_objective_function_restore_[i] = simplex_parameter_[i];
@@ -185,6 +218,7 @@ void Simplex::PrepareForObjectiveFunction() {
  * if prior_applies_to_restored_parameters_
  */
 void Simplex::RestoreForObjectiveFunction() {
+  LOG_FINE();
   if(prior_applies_to_restored_parameters_) {
     for(unsigned i = 0; i < simplex_parameter_.size(); ++i) 
       simplex_parameter_[i] = cached_simplex_values_for_objective_function_restore_[i];

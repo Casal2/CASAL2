@@ -44,6 +44,7 @@ enum Usage {
   kLookup      = 1,  // Assert, Additional Prior, Equation, Reports
   kEstimate    = 2,
   kInputRun    = 4,
+  kTransformation = 6,
   kProfile     = 8,
   kProject     = 16,
   kSimulate    = 32,

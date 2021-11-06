@@ -85,7 +85,10 @@ void RecruitmentConstant::DoValidate() {
   } else {
     // Assign equal proportions to every category
     Double proportion = category_labels_.size() / 1.0;
-    for (string category : category_labels_) proportions_categories_[category] = proportion;
+    for (string category : category_labels_) {
+      proportions_categories_[category] = proportion;
+      LOG_FINE() << "category " << category << " prop = " << proportion;
+    }
   }
 }
 

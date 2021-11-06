@@ -24,7 +24,8 @@ namespace addressabletransformations {
  * Default constructor
  */
 AverageDifference::AverageDifference(shared_ptr<Model> model) : AddressableTransformation(model) {
-
+  RegisterAsAddressable(PARAM_AVERAGE_PARAMETER, &average_parameter_);
+  RegisterAsAddressable(PARAM_DIFFERENCE_PARAMETER, &difference_parameter_);
 }
 /**
  * Validate objects
@@ -52,8 +53,7 @@ void AverageDifference::DoValidate() {
   restored_values_[0] = average_parameter_ + (difference_parameter_ / 2.0);
   restored_values_[1] = average_parameter_ - (difference_parameter_ / 2.0);
 
-  RegisterAsAddressable(PARAM_AVERAGE_PARAMETER, &average_parameter_);
-  RegisterAsAddressable(PARAM_DIFFERENCE_PARAMETER, &difference_parameter_);
+
 }
 
 /**

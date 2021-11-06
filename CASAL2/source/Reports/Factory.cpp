@@ -23,6 +23,7 @@
 #include "../Reports/Age/PartitionBiomass.h"
 #include "../Reports/Age/PartitionYearCrossAgeMatrix.h"
 #include "../Reports/Common/Addressable.h"
+#include "../Reports/Common/AddressableTransformation.h"
 #include "../Reports/Common/Catchability.h"
 #include "../Reports/Common/CategoryInfo.h"
 #include "../Reports/Common/CategoryList.h"
@@ -89,6 +90,8 @@ Report* Factory::Create(shared_ptr<Model> model, const string& object_type, cons
       result = new EquationTest();
     else if (sub_type == PARAM_ADDRESSABLE)
       result = new Addressable();
+    else if (sub_type == PARAM_PARAMETER_TRANSFORMATIONS)
+      result = new AddressableTransformation();
     else if (sub_type == PARAM_ESTIMATE_SUMMARY)
       result = new EstimateSummary();
     else if (sub_type == PARAM_ESTIMATE_VALUE)

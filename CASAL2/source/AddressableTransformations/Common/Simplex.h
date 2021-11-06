@@ -50,8 +50,8 @@ private:
   Double            n_param_double_;
   Double            sub_total_;
   vector<Double>    cached_simplex_values_for_objective_function_restore_;
-
-  vector<Estimate*> simplex_estimates_;
+  bool              simplex_input_supplied_ = false;
+  Estimate*         simplex_estimate_;
 };
 
 } /* namespace addressabletransformations */

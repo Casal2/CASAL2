@@ -25,8 +25,8 @@ namespace addressabletransformations {
  * Default constructor
  */
 Orthogonal::Orthogonal(shared_ptr<Model> model) : AddressableTransformation(model) {
-
-
+  RegisterAsAddressable(PARAM_PRODUCT_PARAMETER, &product_parameter_);
+  RegisterAsAddressable(PARAM_QUOTIENT_PARAMETER, &quotient_parameter_);
 }
 
 /**
@@ -54,9 +54,7 @@ void Orthogonal::DoValidate() {
  if(prior_applies_to_restored_parameters_)
     LOG_FATAL_P(PARAM_PRIOR_APPLIES_TO_RESTORED_PARAMETERS) << "There is no jacobian calculated for this transformation. Statistically this may be in in-appropriate, so you are not allowed to do it";
 
-  
-  RegisterAsAddressable(PARAM_PRODUCT_PARAMETER, &product_parameter_);
-  RegisterAsAddressable(PARAM_QUOTIENT_PARAMETER, &quotient_parameter_);
+
 }
 
 /**

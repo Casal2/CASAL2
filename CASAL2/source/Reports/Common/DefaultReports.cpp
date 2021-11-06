@@ -20,6 +20,7 @@ DefaultReports::DefaultReports() {
   parameters_.Bind<bool>(PARAM_PROCESSES, &report_processes_, "Report processes", "", false);
   parameters_.Bind<bool>(PARAM_PROJECTS, &report_projects_, "Report projects", "", false);
   parameters_.Bind<bool>(PARAM_SELECTIVITIES, &report_selectivities_, "Report selectivities", "", false);
+  parameters_.Bind<bool>(PARAM_PARAMETER_TRANSFORMATIONS, &addressable_transformations_, "Report parameters transformations", "", false);
 
   run_mode_    = (RunMode::Type)(RunMode::kBasic | RunMode::kProjection | RunMode::kSimulation | RunMode::kEstimation | RunMode::kProfiling | RunMode::kMCMC);
   model_state_ = (State::Type)(State::kIterationComplete);
@@ -66,6 +67,18 @@ void DefaultReports::DoBuild(shared_ptr<Model> model) {
         report->parameters().Add(PARAM_DERIVED_QUANTITY, label, __FILE__, __LINE__);
         model->managers()->report()->AddInternalObject(report);
       }
+    }
+    if (addressable_transformations_) {
+      string report_label = "__parameter_transformations__";
+      LOG_INFO() << "Creating default report for catchability " << report_label;
+      reports::AddressableTransformation* report = new reports::AddressableTransformation();
+      report->set_is_default(true);
+      report->set_block_type(PARAM_REPORT);
+      report->set_defined_file_name(__FILE__);
+      report->set_defined_line_number(__LINE__);
+      report->parameters().Add(PARAM_LABEL, report_label, __FILE__, __LINE__);
+      report->parameters().Add(PARAM_TYPE, PARAM_PARAMETER_TRANSFORMATIONS, __FILE__, __LINE__);
+      model->managers()->report()->AddInternalObject(report);
     }
     if (report_observations_) {
       observations::Manager& ObservationManager = *model->managers()->observation();

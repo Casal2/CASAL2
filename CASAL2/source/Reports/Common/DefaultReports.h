@@ -17,6 +17,7 @@
 #include "../../Reports/Common/Catchability.h"
 #include "../../Reports/Common/DerivedQuantity.h"
 #include "../../Reports/Common/Observation.h"
+#include "../../Reports/Common/AddressableTransformation.h"
 #include "../../Reports/Common/Process.h"
 #include "../../Reports/Common/Project.h"
 #include "../../Reports/Common/Selectivity.h"
@@ -48,6 +49,7 @@ private:
   bool   report_processes_          = false;
   bool   report_projects_           = false;
   bool   report_selectivities_      = false;
+  bool   addressable_transformations_ = false;
 };
 
 } /* namespace reports */
