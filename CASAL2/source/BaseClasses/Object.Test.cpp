@@ -235,6 +235,14 @@ TEST(Object, Test_Addressable_Usage_Is_Set) {
   EXPECT_TRUE(object.IsAddressableUsedFor("lemon", addressable::kInputRun));
   EXPECT_TRUE(object.IsAddressableUsedFor("lemon", addressable::kEstimate));
   EXPECT_FALSE(object.IsAddressableUsedFor("lemon", addressable::kLookup));
+
+  
+  EXPECT_NO_THROW(object.SetAddressableIsUsed("pineapple", addressable::kTransformation));
+  EXPECT_NO_THROW(object.SetAddressableIsUsed("pineapple", addressable::kInputRun));
+  
+  EXPECT_TRUE(object.IsAddressableUsedFor("pineapple", addressable::kInputRun));
+  EXPECT_TRUE(object.IsAddressableUsedFor("pineapple", addressable::kTransformation));
+  EXPECT_FALSE(object.IsAddressableUsedFor("pineapple", addressable::kEstimate));
 }
 
 } /* namespace base */
