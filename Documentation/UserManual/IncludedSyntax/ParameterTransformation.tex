@@ -1,0 +1,60 @@
+\defComLab{parameter\_transformation}{Define an object of type \emph{parameter\_transformation}}.
+\defRef{sec:Transformation}
+\label{syntax:Transformation}
+
+\defSub{label}{Label for the transformation block}
+\defType{String}
+\defDefault{No default}
+
+\defSub{type}{The type of transformation}
+\defType{String}
+\defDefault{No default}
+
+\defSub{prior\_applies\_to\_restored\_parameters}{If the prior applies to the parameters (true) with jacobian (if it exists) or prior applies to transformed\_parameter (false) with no jacobian}
+\defType{bool}
+\defDefault{false}
+
+\defSub{parameters}{The label of the parameters used in the transformation}
+\defType{String}
+\defDefault{No default}
+
+\subsubsection{parameter\_transformation of type Average\_Difference}
+\commandlabsubarg{parameter\_transformation}{type}{average\_difference}.
+\defRef{sec:Transformation-AverageDifference}
+\label{syntax:Transformation-AverageDifference}
+
+\subsubsection{parameter\_transformation of type Inverse}
+\commandlabsubarg{parameter\_transformation}{type}{inverse}.
+\defRef{sec:Transformation-Inverse}
+\label{syntax:Transformation-Inverse}
+
+\subsubsection{parameter\_transformation of type Log}
+\commandlabsubarg{parameter\_transformation}{type}{log}.
+\defRef{sec:Transformation-Log}
+\label{syntax:Transformation-Log}
+
+
+\subsubsection{parameter\_transformation of type log\_sum}
+\commandlabsubarg{parameter\_transformation}{type}{log\_sum}.
+\defRef{sec:Transformation-LogSum}
+\label{syntax:Transformation-LogSum}
+
+
+\subsubsection{parameter\_transformation of type orthogonal}
+\commandlabsubarg{parameter\_transformation}{type}{orthogonal}.
+\defRef{sec:Transformation-Orthogonal}
+\label{syntax:Transformation-Orthogonal}
+
+\subsubsection{parameter\_transformation of type sum\_to\_one}
+\commandlabsubarg{parameter\_transformation}{type}{sum\_to\_one}.
+\defRef{sec:Transformation-SumToOne}
+\label{syntax:Transformation-SumToOne}
+
+\subsubsection{parameter\_transformation of type simplex}
+\commandlabsubarg{parameter\_transformation}{type}{simplex}.
+\defRef{sec:Transformation-Simplex}
+\label{syntax:Transformation-Simplex}
+
+\defSub{sum\_to\_one}{if true parameter in natural space will sum = 1, otherwise they will sum = length(parameter)}
+\defType{bool}
+\defDefault{true}

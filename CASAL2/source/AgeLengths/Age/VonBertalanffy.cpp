@@ -57,12 +57,13 @@ void VonBertalanffy::DoBuild() {
   if (!length_weight_)
     LOG_ERROR_P(PARAM_LENGTH_WEIGHT) << "Length-weight label '" << length_weight_label_ << "' was not found";
 
-  if(update_cv_based_updated_length_) {
-    // Cv by length are we estiamteing mean growth params
-    if(!IsAddressableUsedFor(PARAM_LINF, addressable::kEstimate) & !IsAddressableUsedFor(PARAM_K, addressable::kEstimate) & !IsAddressableUsedFor(PARAM_T0, addressable::kEstimate))
-      update_cv_based_updated_length_ = false;
+  // Cv by length are we estiamteing mean growth params
+  if((!IsAddressableUsedFor(PARAM_LINF, addressable::kEstimate) & !IsAddressableUsedFor(PARAM_K, addressable::kEstimate) & !IsAddressableUsedFor(PARAM_T0, addressable::kEstimate)) & 
+     (!IsAddressableUsedFor(PARAM_LINF, addressable::kInputRun) & !IsAddressableUsedFor(PARAM_K, addressable::kInputRun) & !IsAddressableUsedFor(PARAM_T0, addressable::kInputRun))) {
+    change_mean_length_params_ = false;
   }
-  LOG_FINE() << "update CV in reset call = " << update_cv_based_updated_length_;
+
+  LOG_FINE() << "update CV in reset call = " << change_mean_length_params_;
 }
 
 

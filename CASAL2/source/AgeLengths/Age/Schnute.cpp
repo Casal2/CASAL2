@@ -55,13 +55,16 @@ Schnute::Schnute(shared_ptr<Model> model) : AgeLength(model) {
  * Obtain smart_pointers to any objects that will be used by this object.
  */
 void Schnute::DoBuild() {
-  if(update_cv_based_updated_length_) {
-    // Cv by length are we estiamteing mean growth params
-    // if we aren't estimating
-    if(!IsAddressableUsedFor(PARAM_Y1, addressable::kEstimate) & !IsAddressableUsedFor(PARAM_Y2, addressable::kEstimate) & !IsAddressableUsedFor(PARAM_A, addressable::kEstimate)& !IsAddressableUsedFor(PARAM_B, addressable::kEstimate))
-      update_cv_based_updated_length_ = false;
+  // Cv by length are we estiamteing mean growth params
+  // if we aren't estimating or using in -i 
+  LOG_FINE() << "does a have an @estimate block " << IsAddressableUsedFor(PARAM_A, addressable::kEstimate);
+  if((!IsAddressableUsedFor(PARAM_Y1, addressable::kEstimate) & !IsAddressableUsedFor(PARAM_Y2, addressable::kEstimate) & !IsAddressableUsedFor(PARAM_A, addressable::kEstimate) & !IsAddressableUsedFor(PARAM_B, addressable::kEstimate)) & 
+     (!IsAddressableUsedFor(PARAM_Y1, addressable::kInputRun) & !IsAddressableUsedFor(PARAM_Y2, addressable::kInputRun) & !IsAddressableUsedFor(PARAM_A, addressable::kInputRun) & !IsAddressableUsedFor(PARAM_B, addressable::kInputRun))) {
+    change_mean_length_params_ = false;
+    LOG_FINE() << "Not estimating mean length params and cv by length so don't need to update CV or Length age translation";
   }
-  LOG_FINE() << "update CV in reset call = " << update_cv_based_updated_length_;
+
+  LOG_FINE() << "update CV in reset call = " << change_mean_length_params_;
 }
 
 

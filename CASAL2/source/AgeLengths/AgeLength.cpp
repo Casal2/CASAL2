@@ -82,8 +82,7 @@ void AgeLength::Validate() {
     distribution_ = Distribution::kNone;
   else
     LOG_ERROR() << "The age-length distribution '" << distribution_label_ << "' is not valid.";
-  if(!by_length_)
-    update_cv_based_updated_length_ = false;
+
   DoValidate();
 }
 
@@ -93,6 +92,17 @@ void AgeLength::Validate() {
  */
 void AgeLength::Build() {
   LOG_FINE() << "Build()";
+
+  LOG_FINE() << "-i cv_first = " << IsAddressableUsedFor(PARAM_CV_FIRST, addressable::kInputRun);
+  LOG_FINE() << "@estimate cv_first = " << IsAddressableUsedFor(PARAM_CV_FIRST, addressable::kEstimate);
+
+  // Cv by length are we estiamteing mean growth params
+  if((!IsAddressableUsedFor(PARAM_CV_FIRST, addressable::kEstimate) || !IsAddressableUsedFor(PARAM_CV_LAST, addressable::kEstimate)) & (!IsAddressableUsedFor(PARAM_CV_FIRST, addressable::kInputRun) || !IsAddressableUsedFor(PARAM_CV_LAST, addressable::kInputRun))) {
+    change_cvs_ = false;
+  }
+
+
+
   unsigned time_step_count = model_->time_steps().size();
   if (time_step_proportions_.size() == 0) {
     time_step_proportions_.assign(time_step_count, 0.0);
@@ -209,15 +219,31 @@ void AgeLength::PopulateCV() {
 void AgeLength::Reset() {
   LOG_FINE() << "Resetting age-length";
   DoReset();
-  if ((IsAddressableUsedFor(PARAM_CV_FIRST, addressable::kEstimate) || IsAddressableUsedFor(PARAM_CV_FIRST, addressable::kEstimate)) & update_cv_based_updated_length_) {
-    // Something is estimated in this class, so we should update everything.
-    LOG_FINEST() << "Rebuilding cv lookup table";
+  LOG_FINE() << "change_cvs_ = " << change_cvs_ << " by_length_ " << by_length_ << " " << change_mean_length_params_;
+  // IF estimating CV update everything
+  if (change_cvs_) {
+    LOG_FINEST() << "Rebuilding cv lookup table estimating CV's";
     PopulateCV();
-    UpdateYearContainers();
     // Build Age-length matrix
     PopulateAgeLengthMatrix();
-  } else {
     UpdateYearContainers();
+  }  else if(!change_cvs_ & by_length_ & change_mean_length_params_) {
+    // If not estimating cv & by length & mean length is changing
+    LOG_FINEST() << "Rebuilding cv lookup table and age-length cv by length and estimating mean length params";
+    PopulateCV();
+    // Build Age-length matrix
+    PopulateAgeLengthMatrix();
+    UpdateYearContainers();
+  } else if (!change_cvs_ & !by_length_ & change_mean_length_params_) {
+    LOG_FINE() << "Don't need to rebuild CV but rebuilding Age-length matrix";
+    // If not estimating cv & not by length & mean length is changing
+    // Build Age-length matrix
+    PopulateAgeLengthMatrix();
+    UpdateYearContainers();
+  } else {
+    LOG_FINE() << "Don't need to rebuild CV or Age-length matrix";
+    UpdateYearContainers();
+
   }
 }
 /**

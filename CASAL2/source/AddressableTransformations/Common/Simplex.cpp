@@ -107,6 +107,9 @@ void Simplex::DoValidate() {
           LOG_FINE() << unit_vector_[i];
         }
         total_ = n_param_double_;
+      } else {
+        for(unsigned i = 0; i < init_values_.size(); ++i) 
+          unit_vector_[i] = init_values_[i] / total_;
       }
     }
 
@@ -116,7 +119,7 @@ void Simplex::DoValidate() {
       zk_[i] = unit_vector_[i] / (1.0 - sub_total_);
       sub_total_ += unit_vector_[i];
       simplex_parameter_[i] = log(zk_[i] / (1 - zk_[i])) - cache_log_k_value_[i];
-      LOG_FINE() << "zk = " << zk_[i] << " yk (simplex) = " <<  simplex_parameter_[i] << " cache k " << cache_log_k_value_[i];
+      LOG_FINE() << "zk = " << zk_[i] << " yk (simplex) = " <<  simplex_parameter_[i] << " cache k " << cache_log_k_value_[i] << " unit vector " << unit_vector_[i];
     }
   }
   LOG_FINE() << "exit validate";
@@ -161,6 +164,7 @@ void Simplex::DoBuild() {
  */
 void Simplex::DoRestore() {
   LOG_FINE() << "";
+  fill(cumulative_simplex_k_.begin(), cumulative_simplex_k_.end(), 0.0);
   // calculated restored values
   for (unsigned i = 0; i < zk_.size(); ++i) {
     zk_[i] = 1.0 / (1.0 + exp(-1.0 * (simplex_parameter_[i] + cache_log_k_value_[i])));
@@ -169,10 +173,10 @@ void Simplex::DoRestore() {
   // Translate zk_ -> restore_values_
   sub_total_ = 0;
   for (unsigned i = 0; i < zk_.size(); ++i) {
-    cumulative_simplex_k_[i] = 0.0;
+    cumulative_simplex_k_[i] = sub_total_;
     unit_vector_[i] = (1 - sub_total_) * zk_[i];
     sub_total_ += unit_vector_[i];
-    cumulative_simplex_k_[i] = sub_total_;
+    LOG_FINE() << "unit vec = " << unit_vector_[i] << " cumulative k = " << cumulative_simplex_k_[i];
   }
   // plus group
   unit_vector_[unit_vector_.size() - 1] = 1.0 - sub_total_;
@@ -198,7 +202,7 @@ Double Simplex::GetScore() {
   LOG_FINE() << jacobian_;
   for (unsigned i = 0; i < zk_.size(); ++i) {
     jacobian_ += zk_[i] * ( 1.0 - zk_[i]) * (1 - cumulative_simplex_k_[i]);
-    LOG_FINE() << "zk = " << zk_[i] << " 1 - cumulative_simplex_k_ " <<  cumulative_simplex_k_[i] << " jacobian = " << jacobian_;
+    LOG_FINE() << "zk = " << zk_[i] << "  cumulative_simplex_k_ " <<  cumulative_simplex_k_[i] << " jacobian = " << jacobian_;
   }
   LOG_FINE() << jacobian_;
   return -1.0 * log(jacobian_); // return negative log-likelihood
@@ -239,11 +243,13 @@ void Simplex::FillReportCache(ostringstream& cache) {
     cache << parameter_labels_[i] << " ";
   cache << REPORT_EOL;
   cache << "simplex_values: ";
-  for(unsigned i = 0; i < simplex_parameter_.size(); ++i)
+  for(unsigned i = 0; i < zk_.size(); ++i)
     cache << simplex_parameter_[i] << " ";
+  cache << REPORT_EOL;
   cache << "parameter_values: ";
   for(unsigned i = 0; i < restored_values_.size(); ++i)
     cache << restored_values_[i] << " ";
+  cache << REPORT_EOL;
   cache << "negative_log_jacobian: " << jacobian_ << REPORT_EOL;
 }
 
