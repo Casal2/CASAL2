@@ -209,8 +209,9 @@ public:
     RegisterAsAddressable("apple", &addressable, addressable::kLookup);
     RegisterAsAddressable("banana", &addressable, addressable::kEstimate);
     RegisterAsAddressable("carrot", &addressable, addressable::kInputRun);
-    RegisterAsAddressable("apple", &addressable, addressable::kTimeVarying);
-    RegisterAsAddressable("lemon", &addressable, (addressable::Usage)(addressable::kEstimate | addressable::kInputRun | addressable::kTimeVarying));
+    RegisterAsAddressable("donut", &addressable, addressable::kTimeVarying);
+    RegisterAsAddressable("pineapple", &addressable, (addressable::Usage)(addressable::kEstimate | addressable::kInputRun | addressable::kTimeVarying));
+    RegisterAsAddressable("lemon", &addressable, (addressable::Usage)(addressable::kTransformation | addressable::kInputRun | addressable::kTimeVarying));
   }
 
   double addressable = 0.0;
@@ -236,10 +237,9 @@ TEST(Object, Test_Addressable_Usage_Is_Set) {
   EXPECT_TRUE(object.IsAddressableUsedFor("lemon", addressable::kEstimate));
   EXPECT_FALSE(object.IsAddressableUsedFor("lemon", addressable::kLookup));
 
-  
   EXPECT_NO_THROW(object.SetAddressableIsUsed("pineapple", addressable::kTransformation));
   EXPECT_NO_THROW(object.SetAddressableIsUsed("pineapple", addressable::kInputRun));
-  
+
   EXPECT_TRUE(object.IsAddressableUsedFor("pineapple", addressable::kInputRun));
   EXPECT_TRUE(object.IsAddressableUsedFor("pineapple", addressable::kTransformation));
   EXPECT_FALSE(object.IsAddressableUsedFor("pineapple", addressable::kEstimate));
