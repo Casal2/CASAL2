@@ -103,7 +103,9 @@ protected:
   unsigned            year_dim_in_age_length_ = 0;
   unsigned            min_age_ = model_->min_age();
   unsigned            max_age_ = model_->max_age();
-  bool                update_cv_based_updated_length_ = true;
+  bool                change_cvs_ = true;
+  bool                change_mean_length_params_ = true; // either estimate or input
+
 };
 
 } /* namespace niwa */
