@@ -211,13 +211,16 @@ unsigned Manager::GetIsEstimatedCount() {
  * @return The vector of enabled estimates
  */
 vector<Estimate*> Manager::GetIsEstimated() {
+
   vector<Estimate*> result;
-
   for (Estimate* estimate : objects_) {
-    if (estimate->estimated())
+    LOG_MEDIUM() << "GetIsEstimated : " << estimate->label();
+    if (estimate->estimated() & estimate->estimated_for_phasing()) {
+      LOG_MEDIUM() << "is estimated";
       result.push_back(estimate);
+    }
   }
-
+  LOG_MEDIUM() << "found " << result.size() << " estimated params";
   return result;
 }
 
@@ -395,10 +398,10 @@ vector<Estimate*> Manager::GetEstimatesByLabel(const string& label) {
 void Manager::SetActivePhase(unsigned phase) {
   for (auto estimate : objects_) {
     if (estimate->phase() <= phase) {
-      estimate->set_estimated(true);
+      estimate->set_estimated_for_phasing(true);
       LOG_FINEST() << "@estimate " << estimate->label() << " is enabled for phase " << phase;
     } else {
-      estimate->set_estimated(false);
+      estimate->set_estimated_for_phasing(false);
       LOG_FINEST() << "@estimate " << estimate->label() << " is disabled for phase " << phase;
     }
   }

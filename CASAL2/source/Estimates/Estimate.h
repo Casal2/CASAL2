@@ -59,7 +59,10 @@ public:
   Double                 upper_bound() const { return upper_bound_; }
   void                   set_upper_bound(Double new_value) { upper_bound_ = new_value; }
   bool                   estimated() const { return estimated_; }
+  bool                   estimated_for_phasing() const { return estimated_in_phasing_; }
   void                   set_estimated(bool new_value) { estimated_ = new_value; }
+  void                   set_estimated_for_phasing(bool new_value) { estimated_in_phasing_ = new_value; }
+  void                   set_mcmc_fixed(bool new_value) { mcmc_fixed_ = new_value; }
   Double                 value() { return *target_; }
   void                   set_value(Double new_value);
   bool                   mcmc_fixed() const { return mcmc_fixed_; }
@@ -83,6 +86,7 @@ protected:
   vector<string>  same_labels_;
   vector<Double*> sames_;
   bool            estimated_                          = true;
+  bool            estimated_in_phasing_               = true;
   bool            in_objective_                       = true;
 };
 } /* namespace niwa */
