@@ -11,7 +11,12 @@ extract.tabular(file, path = "", fileEncoding = "")
 
 \item{path}{Optionally, the path to the file}
 
-\item{fileEncoding}{Optional, allows the R-library to read in files that have been encoded in alternative UTF formats, see the manual for the error message that would indicate when to use this switch.}
+\item{fileEncoding}{Optional, allows the R-library to read in files that have been encoded in alternative UTF formats, see the manual for the error message that would indicate when to use this switch.
+\itemize{
+  \item "" - Default
+  \item "utf-8" - if Casal2 was run in command prompt
+  \item "utf-16" - if Casal2 was run on powershell or terminal
+}}
 }
 \value{
 a 'casal2TAB' object which is essentially a list, that can be integrated using the str() function.
@@ -19,6 +24,15 @@ a 'casal2TAB' object which is essentially a list, that can be integrated using t
 \description{
 An extract function that reads Casal2 output that are produced from a '-r' or '-e' or '-f' or '-p' model run. This funciton
 also create a 'casal2TAB' class which can be used in plotting and summary functions. See the casal2 manual for more information.
+}
+\details{
+if you get the following error, try changing the fileEncoding = "utf-16"
+Read 1 item
+Warning messages:
+ 1: In scan(filename,...
+            embedded nul(s) found in input
+ 2: In extract.mpd(file =
+           File is empty, no reports found
 }
 \author{
 Craig Marsh

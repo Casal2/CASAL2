@@ -1,4 +1,4 @@
-#' @title extract Tabular function for readin in Casal2 output that has been generated from a -r, -e, -f, -p run mode with the --tabular.  
+#' @title extract Tabular function for readin in Casal2 output that has been generated from a -r, -e, -f, -p run mode with the --tabular.
 #'
 #' @description
 #' An extract function that reads Casal2 output that are produced from a '-r' or '-e' or '-f' or '-p' model run. This funciton
@@ -8,7 +8,19 @@
 #' @param file the name of the input file containing model output to extract
 #' @param path Optionally, the path to the file
 #' @param fileEncoding Optional, allows the R-library to read in files that have been encoded in alternative UTF formats, see the manual for the error message that would indicate when to use this switch.
+#' \itemize{
+#'   \item "" - Default
+#'   \item "utf-8" - if Casal2 was run in command prompt
+#'   \item "utf-16" - if Casal2 was run on powershell or terminal
+#' }
 #' @return a 'casal2TAB' object which is essentially a list, that can be integrated using the str() function.
+#' @details if you get the following error, try changing the fileEncoding = "utf-16"
+#' Read 1 item
+#' Warning messages:
+#'  1: In scan(filename,...
+#'             embedded nul(s) found in input
+#'  2: In extract.mpd(file =
+#'            File is empty, no reports found
 #' @export
 #'
 #'
@@ -22,7 +34,7 @@ function(file, path = "", fileEncoding = "") {
   }
 
   filename = make.filename(path = path, file = file)
-  file = convert.to.lines(filename, fileEncoding = fileEncoding)
+  file = convert.to.lines(filename, fileEncoding = fileEncoding, quiet = F)
   original_file = file;
   end_file_locations = which("*end" == file);
 
@@ -49,8 +61,8 @@ function(file, path = "", fileEncoding = "") {
       report = get.lines(file, clip.to = temp[i])
       report = get.lines(report, clip.from = "*end")
       print(paste0("loading report '", label, "'"))
-      if (type == "warnings_encounted") {
-        warning("Found a warning in your report. I am skipping that report, just letting you know =)")
+      if (type == "warnings" || type == "info") {
+        warning("Found a warning or an info section in your report. I am skipping that report, just letting you know =)")
         next;
       }
       ## report = make.list(report)
@@ -66,10 +78,10 @@ function(file, path = "", fileEncoding = "") {
           temp_result[[report_label]] = make.list_element(current_line)
           line_no = line_no + 1
           start_ndx = start_ndx + 1;
-        } else if (report_type == "d") {
+        } else if (report_type == "dataframe") {
           header = string.to.vector.of.words(original_file[start_ndx + 1])
           ##header1 = read.table(file = filename, skip = (start_ndx + 1 + (i - 1)), nrows = 1, stringsAsFactors = FALSE,  sep = " ", header = F,strip.white=FALSE, fill = FALSE)
-          Data = read.table(file = filename, skip = (start_ndx + 2 + (i - 1)), nrows = (end_file_locations[i] - start_ndx - 3), stringsAsFactors = FALSE, sep = " ", header = F, strip.white = FALSE, fill = FALSE, fileEncoding = fileEncoding)
+          Data = read.table(file = filename, skip = (start_ndx + 2 + (i - 1)), nrows = (end_file_locations[i] - start_ndx - 3), stringsAsFactors = FALSE, sep = " ", header = T, strip.white = FALSE, fill = FALSE, fileEncoding = fileEncoding)
           Data = Data[, - ncol(Data)]
           colnames(Data) = header
           temp_result$values = Data
@@ -88,4 +100,3 @@ function(file, path = "", fileEncoding = "") {
     warning("File is empty, no reports found")
   }
 }
-

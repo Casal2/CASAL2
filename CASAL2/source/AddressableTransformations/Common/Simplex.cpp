@@ -151,11 +151,13 @@ void Simplex::DoBuild() {
     } else {
       // if last value and prior applies to restored value 
       if(prior_applies_to_restored_parameters_ & (i == (n_params_ - 1))) {
-        LOG_FINE() << "setting last value to be a dummy prior";
+        LOG_FINE() << "setting last value to be a dummy prior for estimate " << estimate_label;
         simplex_estimate_->set_in_objective_function(true);
         simplex_estimate_->set_estimated(false);
+        simplex_estimate_->set_mcmc_fixed(false);
       }
     }
+    simplex_estimate_ = nullptr;
   }
 }
 /**

@@ -102,8 +102,14 @@ void HamiltonianMonteCarlo::DoExecute(shared_ptr<ThreadPool> thread_pool) {
   vector<double>                    scores(100, 0u);
   vector<vector<double>>            candidates;
 
-  estimate_lower_bounds_ = model_->managers()->estimate()->lower_bounds();
-  estimate_upper_bounds_ = model_->managers()->estimate()->upper_bounds();
+  estimate_lower_bounds_.resize(estimates_.size(), 0.0);
+  estimate_upper_bounds_.resize(estimates_.size(), 0.0);
+  for(unsigned i = 0; i < estimates_.size(); ++i) {
+    estimate_lower_bounds_[i] = estimates_[i]->lower_bound();
+    estimate_upper_bounds_[i] = estimates_[i]->upper_bound();
+  }
+  //estimate_lower_bounds_ = model_->managers()->estimate()->lower_bounds();
+  //estimate_upper_bounds_ = model_->managers()->estimate()->upper_bounds();
 
   // Lambda to increment vector e by scaled g
   auto increment_vector = [](vector<double> e, vector<double> g, double delta) {
