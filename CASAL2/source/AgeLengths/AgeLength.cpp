@@ -680,9 +680,60 @@ void  AgeLength::populate_numbers_at_age_with_length_based_exploitation(vector<D
     numbers_at_age_with_exploitation[i] += numbers_at_age[i] * age_length_transition_matrix_[year_dim_in_age_length_][this_time_step_][i][model_length_bin_ndx] * exploitation_by_length * selectivity->GetAgeResult(age, this);
   }
   // 
-
 }
+/**
+ * @details This will take the numbers at age and pass them through the age-length transition matrix and
+ store it in numbers_by_age_length. Assumes numbers_by_age_length has been allocated in memory
+ * @param numbers_at_age vector of numbers at age to go through the age-length-transition matrix
+ * @param numbers_by_age_length matrix dimenstion age x length
+ */
+void  AgeLength::populate_age_length_matrix(vector<Double> numbers_at_age, vector<vector<Double>>& numbers_by_age_length) {
+  LOG_FINEST() << "populate_numbers_at_length";
+  this_year_ = model_->current_year();
+  this_time_step_ = model_->managers()->time_step()->current_time_step();
+  year_dim_in_age_length_ = age_length_matrix_year_key_[this_year_];
 
+  vector<double> length_bins            = model_->length_bins();
+  unsigned size = model_->get_number_of_length_bins();
+  LOG_FINE() << "Populating the age-length matrix for agelength class " << label_ << " in year " << this_year_ << " and time-step " << this_time_step_ << " year ndx = " << year_dim_in_age_length_;
+  LOG_FINE() << "Calculating age length data";
+  LOG_FINE() << "years in " << age_length_transition_matrix_.size();
+  LOG_FINE() << "time_steps in " << age_length_transition_matrix_.size();
+  for (unsigned age = min_age_; age <= max_age_; ++age) {
+    unsigned i = age - min_age_;
+    for (unsigned bin = 0; bin < size; ++bin) 
+      numbers_by_age_length[age][bin] += numbers_at_age[i] * age_length_transition_matrix_[year_dim_in_age_length_][this_time_step_][i][bin];
+  }
+}
+/**
+ * @details This will take the numbers at age and pass them through the age-length transition matrix and
+ store it in numbers_by_age_length. Assumes numbers_by_age_length has been allocated in memory
+ * @param numbers_at_age vector of numbers at age to go through the age-length-transition matrix
+ * @param numbers_by_age_length matrix dimenstion age x length
+ * @param selectivity pointer to apply for the age dimension.
+ */
+void  AgeLength::populate_age_length_matrix(vector<Double> numbers_at_age, vector<vector<Double>>& numbers_by_age_length, Selectivity* selectivity) {
+  LOG_FINEST() << "populate_numbers_at_length";
+  this_year_ = model_->current_year();
+  this_time_step_ = model_->managers()->time_step()->current_time_step();
+  year_dim_in_age_length_ = age_length_matrix_year_key_[this_year_];
+
+  vector<double> length_bins            = model_->length_bins();
+  unsigned size = model_->get_number_of_length_bins();
+  LOG_FINEST() << "Populating the age-length matrix for agelength class " << label_ << " in year " << this_year_ << " and time-step " << this_time_step_ << " year ndx = " << year_dim_in_age_length_;
+  LOG_FINEST() << "Calculating age length data";
+  LOG_FINEST() << "years in " << age_length_transition_matrix_.size();
+  LOG_FINEST() << "time_steps in " << age_length_transition_matrix_[0].size();
+  LOG_FINEST() << "ages in " << age_length_transition_matrix_[0][0].size();
+  LOG_FINEST() << "lengths in " << age_length_transition_matrix_[0][0][0].size();
+  LOG_FINE() << "size = " << size;
+  for (unsigned age = min_age_; age <= max_age_; ++age) {
+    unsigned i = age - min_age_;
+    for (unsigned bin = 0; bin < size; ++bin) {
+      numbers_by_age_length[i][bin] += selectivity->GetAgeResult(age, this) * numbers_at_age[i] * age_length_transition_matrix_[year_dim_in_age_length_][this_time_step_][i][bin];
+    }
+  }
+}
 /**
  * @details FillReportCache
  * populates neccessary information that we want to report for this current year.

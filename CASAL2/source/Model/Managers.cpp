@@ -210,10 +210,7 @@ void Managers::Build() {
   catchability_->Build();
   derived_quantity_->Build();
   likelihood_->Build();
-  if (mcmc_ && (run_mode == RunMode::kMCMC || run_mode == RunMode::kTesting))
-    mcmc_->Build();
-  if (run_mode == RunMode::kEstimation || run_mode == RunMode::kMCMC || run_mode == RunMode::kTesting)
-    minimiser_->Build();
+
   observation_->Build();
 
   // age-length and length-weight needs to be down stream of observations and processes
@@ -233,6 +230,11 @@ void Managers::Build() {
   estimate_->Build(model_);
   addressable_transformation_->Build();
   LOG_FINE() << "Building estimates and transformations...Done";
+  
+  if (mcmc_ && (run_mode == RunMode::kMCMC || run_mode == RunMode::kTesting))
+    mcmc_->Build();
+  if (run_mode == RunMode::kEstimation || run_mode == RunMode::kMCMC || run_mode == RunMode::kTesting)
+    minimiser_->Build();
 
   if (report_)
     report_->Build(model_->pointer());

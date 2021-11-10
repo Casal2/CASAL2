@@ -190,12 +190,11 @@ unsigned Manager::GetIsEstimatedCount() {
  */
 vector<Estimate*> Manager::GetIsEstimated() {
   vector<Estimate*> result;
-
   for (Estimate* estimate : objects_) {
-    if (estimate->estimated())
+    if (estimate->estimated() & estimate->estimated_in_phasing()) {
       result.push_back(estimate);
+    }
   }
-
   return result;
 }
 
@@ -373,10 +372,10 @@ vector<Estimate*> Manager::GetEstimatesByLabel(const string& label) {
 void Manager::SetActivePhase(unsigned phase) {
   for (auto estimate : objects_) {
     if (estimate->phase() <= phase) {
-      estimate->set_estimated(true);
+      estimate->set_estimated_in_phasing(true);
       LOG_FINEST() << "@estimate " << estimate->label() << " is enabled for phase " << phase;
     } else {
-      estimate->set_estimated(false);
+      estimate->set_estimated_in_phasing(false);
       LOG_FINEST() << "@estimate " << estimate->label() << " is disabled for phase " << phase;
     }
   }

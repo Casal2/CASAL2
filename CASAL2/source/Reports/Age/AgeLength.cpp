@@ -20,7 +20,7 @@ namespace age {
 AgeLength::AgeLength() {
   run_mode_    = (RunMode::Type)(RunMode::kBasic | RunMode::kProjection);
   model_state_ = State::kExecute;
-
+  skip_tags_ = true;
   parameters_.Bind<string>(PARAM_TIME_STEP, &time_step_, "The time step label", "", "");
   parameters_.Bind<unsigned>(PARAM_YEARS, &years_, "The years for the report", "", true);
   parameters_.Bind<string>(PARAM_AGE_LENGTH, &age_length_label_, "The age-length label", "");
@@ -56,7 +56,7 @@ void AgeLength::DoExecute(shared_ptr<Model> model) {
   cache_ << "year: " << model->current_year() << REPORT_EOL;
   cache_ << "time_step: " << time_step_ << REPORT_EOL;
   age_length_->FillReportCache(cache_);
-
+  cache_  << REPORT_END << REPORT_EOL;
   ready_for_writing_ = true;
 }
 

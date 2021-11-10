@@ -67,6 +67,13 @@ private:
   map<unsigned, Double>         n_by_year_;
   vector<vector<Double>>        numbers_at_length_by_category_; // dims category x length bins
   vector<vector<Double>>        numbers_at_age_by_category_; // dims category x length bins
+  vector<vector<Double>>        numbers_at_age_and_length_; // dims age x length bins
+  vector<Double>                exploitation_by_age_;
+  vector<Double>                final_exploitation_by_age_;
+  vector<vector<Double>>        proportion_by_length_; // year x length bins
+  vector<Double>                tagged_fish_by_year_; // year bins
+  vector<Double>                tag_to_fish_by_age_; //  age bins
+  vector<Double>                vulnerable_fish_by_age_; //  age bins
 
   unsigned                      min_age_;
   unsigned                      max_age_;
@@ -75,6 +82,7 @@ private:
   // Containers for reporting
   vector<vector<vector<Double>>> actual_tagged_fish_from_;  // n_years x n_from_categories x n_ages
   vector<vector<vector<Double>>> actual_tagged_fish_to_;    // n_years x n_to_categories x n_ages
+  string                         compatibility_;
 };
 
 } /* namespace age */

@@ -94,7 +94,7 @@ void AddressableTransformation::Validate() {
       LOG_ERROR_P(PARAM_PARAMETERS) <<"Parameter " << parameter_labels_[param_counter] << " has been supplied with a -i format. If you transform a parameter you should supply the transformed value in the -i file";
     */
     addressable::Type addressable_type = target->GetAddressableType(parameter);
- 
+    n_params_ = 0;
 
     if(param_counter == 0) {
       previous_addressable_type = addressable_type;
