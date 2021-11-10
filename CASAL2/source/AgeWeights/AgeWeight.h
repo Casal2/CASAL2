@@ -4,7 +4,7 @@
  * @date 16/11/2017
  * @section LICENSE
  *
- * Copyright NIWA Science ©2017 - www.niwa.co.nz
+ * Copyright NIWA Science ï¿½2017 - www.niwa.co.nz
  *
  * @section DESCRIPTION
  *
@@ -30,6 +30,7 @@ public:
   virtual ~AgeWeight(){};
   void         Validate();
   void         Build();
+  void         Verify(shared_ptr<Model> model){};
   void         Reset();
   virtual void RebuildCache();
 

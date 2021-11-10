@@ -43,9 +43,10 @@ public:
   void ScalePartition();
 
   // accessor
-  unsigned ssb_offset() { return ssb_offset_; };
-  string   ssb_label() { return ssb_; };
-  bool     b0_initialised() { return b0_initialised_; };
+  unsigned              ssb_offset() { return ssb_offset_; };
+  string                ssb_label() { return ssb_; };
+  bool                  b0_initialised() { return b0_initialised_; };
+  const vector<string>& category_labels() const { return category_labels_; }
 
 private:
   // members

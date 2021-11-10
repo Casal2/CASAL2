@@ -90,6 +90,8 @@ private:
 #define LOG_INFO() LOG_IF_FOR_STREAM(logger::Severity::kInfo)
 // Important messages (not an error)
 #define LOG_IMPORTANT() LOG_IF_FOR_STREAM(logger::Severity::kImportant)
+// Warning messages (an error, except during unit tests)
+#define LOG_VERIFY() LOG_IF_FOR_STREAM(logger::Severity::kVerifyWarning)
 // Warning messages (not an error, except during test)
 #define LOG_WARNING() LOG_IF_FOR_STREAM(logger::Severity::kWarning)
 // Errors that do not cause an immediate stop, but are logged and reported all at once

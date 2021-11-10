@@ -5,7 +5,7 @@
  * @date 16/04/2013
  * @section LICENSE
  *
- * Copyright NIWA Science ©2016 - www.niwa.co.nz
+ * Copyright NIWA Science ï¿½2016 - www.niwa.co.nz
  *
  * @section DESCRIPTION
  *
@@ -39,6 +39,7 @@ public:
   virtual ~AgeingError() = default;
   void Validate();
   void Build();
+  void Verify(shared_ptr<Model> model){};
   void Reset() { DoReset(); }
 
   // Accessors

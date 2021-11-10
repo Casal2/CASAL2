@@ -41,6 +41,7 @@ public:
   virtual ~Observation() = default;
   void Validate();
   void Build();
+  void Verify(shared_ptr<Model> model){};
   void Reset();
 
   // pure methods

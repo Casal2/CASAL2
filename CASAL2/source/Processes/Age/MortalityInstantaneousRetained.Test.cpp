@@ -11,9 +11,8 @@
 #ifdef TESTMODE
 
 // Headers
-#include "MortalityInstantaneousRetained.h"
-
 #include "Model/Model.h"
+#include "MortalityInstantaneousRetained.h"
 #include "ObjectiveFunction/ObjectiveFunction.h"
 #include "Partition/Partition.h"
 #include "Processes/Manager.h"
@@ -122,7 +121,6 @@ TEST_F(InternalEmptyModel, Processes_Mortality_Instantaneous_Retained_Simple) {
   LoadConfiguration();
 
   model_->Start(RunMode::kBasic);
-
   vector<Double> expected = {99999.488207,
                              89991.271188,
                              79859.543717,

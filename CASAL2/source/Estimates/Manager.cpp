@@ -15,7 +15,6 @@
 
 #include <algorithm>
 
-#include "../Estimables/Estimables.h"
 #include "../GlobalConfiguration/GlobalConfiguration.h"
 #include "../Model/Managers.h"
 #include "../Model/Model.h"
@@ -88,27 +87,6 @@ void Manager::Validate(shared_ptr<Model> model) {
                  objects_.end());
   if (count != objects_.size())
     LOG_WARNING() << "Estimates were removed because of matching lower and upper bounds. Originally had " << count << " estimates, now have " << objects_.size();
-
-  /**
-   * Load any estimate values that have been supplied
-   */
-  GlobalConfiguration& global_config = model->global_configuration();
-  if (global_config.get_free_parameter_input_file() != "") {
-    Estimables&    estimables       = *model->managers()->estimables();
-    vector<string> estimable_labels = estimables.GetEstimables();
-
-    for (string label : estimable_labels) {
-      //      auto match = [](string label, vector<Estimate*>& objects) -> bool {
-      //        for (Estimate* estimate : objects) {
-      //          if (estimate->label() == label)
-      //            return true;
-      //        }
-      //        return false;
-      //      };
-      //      if (!match(label, objects_))
-      //        LOG_ERROR() << "The estimable " << label << " was defined in the estimable value file, but has not been defined as an @estimate";
-    }
-  }
 }
 
 /**

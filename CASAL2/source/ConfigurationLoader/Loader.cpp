@@ -477,6 +477,12 @@ void Loader::HandleInlineDefinitions() {
       if (file_line.line_[0] == '@') {
         if (file_line.line_ == "@model") {
           parent_label = "model";
+        } else if (file_line.line_ == "@categories") {
+          parent_label = "categories";
+        } else if (file_line.line_ == "@time_steps") {
+          parent_label = "time_steps";
+        } else if (file_line.line_ == "@initialisation_phases") {
+          parent_label = "initialisation_phases";
         } else {
           boost::split(temp, file_line.line_, boost::is_any_of(" "));
           if (temp.size() == 1) {
@@ -691,7 +697,7 @@ void Loader::FindActiveMinimiserType() {
 
     // add new definition to lise
     minimisers.push_back(new_definition);
-    
+
   }  // for (auto block_vector : blocks_)
 
   /**

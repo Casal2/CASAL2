@@ -20,12 +20,13 @@
 #include <iostream>
 #include <thread>
 
+#include "../AddressableInputLoader/AddressableInputLoader.h"
+#include "../AgeLengths/Manager.h"
 #include "../Categories/Categories.h"
-#include "../ConfigurationLoader/EstimableValuesLoader.h"
+#include "../ConfigurationLoader/AddressableInputValueLoader.h"
 #include "../ConfigurationLoader/MCMCObjective.h"
 #include "../ConfigurationLoader/MCMCSample.h"
 #include "../EquationParser/EquationParser.h"
-#include "../Estimables/Estimables.h"
 #include "../Estimates/Manager.h"
 #include "../GlobalConfiguration/GlobalConfiguration.h"
 #include "../InitialisationPhases/Manager.h"
@@ -38,7 +39,6 @@
 #include "../Partition/Accessors/Category.h"
 #include "../Partition/Partition.h"
 #include "../Profiles/Manager.h"
-#include "../AgeLengths/Manager.h"
 #include "../Projects/Manager.h"
 #include "../Reports/Manager.h"
 #include "../Simulates/Manager.h"
@@ -228,7 +228,7 @@ bool Model::PrepareForIterations() {
     LOG_CODE_ERROR() << "Model state should always be startup when entering the start method, not " << state_;
   if (global_configuration_->get_free_parameter_input_file() != "") {
     LOG_MEDIUM() << "get_free_parameter_input_file(): " << global_configuration_->get_free_parameter_input_file();
-    configuration::EstimableValuesLoader loader(pointer());
+    configuration::AddressableInputValueLoader loader(pointer());
     loader.LoadValues(global_configuration_->get_free_parameter_input_file());
   }
 
@@ -255,10 +255,16 @@ bool Model::PrepareForIterations() {
 
   LOG_FINE() << "Model: State Change to Verify";
   state_ = State::kVerify;
-  Verify();
-  if (logging.errors().size() > 0) {
-    logging.FlushErrors();
-    return false;
+  if (is_primary_thread_model_) {
+    Verify();
+    if (logging.errors().size() > 0) {
+      logging.FlushErrors();
+      return false;
+    }
+    if (logging.warnings().size() > 0) {
+      logging.FlushWarnings();
+      return global_configuration_->skip_verify();
+    }
   }
   managers_->report()->Execute(pointer(), state_);
 
@@ -284,8 +290,10 @@ bool Model::Start(RunMode::Type run_mode) {
    * We're hacking this in for now because the unit tests do not know about
    * the runner and threading yet.
    */
-  if (state_ == State::kStartUp)
-    PrepareForIterations();
+  if (state_ == State::kStartUp) {
+    if (!PrepareForIterations())
+      LOG_CODE_ERROR() << "Failed to successfully PrepareForIteration in Model->Start()";
+  }
 #endif
 
   LOG_TRACE();
@@ -415,10 +423,10 @@ void Model::Build() {
   partition().Build();
   managers()->Build();
 
-  Estimables& estimables = *managers_->estimables();
-  if (estimables.GetValueCount() > 0) {
+  AddressableInputLoader& addressable_inputs = *managers_->addressable_input_loader();
+  if (addressable_inputs.GetValueCount() > 0) {
     addressable_values_file_  = true;
-    addressable_values_count_ = estimables.GetValueCount();
+    addressable_values_count_ = addressable_inputs.GetValueCount();
   }
 
   managers_->Reset();
@@ -429,8 +437,13 @@ void Model::Build() {
  *
  */
 void Model::Verify() {
-  LOG_TRACE();
+  LOG_FINE() << "Model:Verify()";
+  categories()->Verify(pointer());
+  partition().Verify(pointer());
+  managers()->Verify(pointer());
+
   for (auto executor : executors_[state_]) executor->Execute();
+  LOG_FINE() << "Exit: Model:Verify()";
 }
 
 /**
@@ -449,10 +462,10 @@ void Model::Reset() {
  */
 void Model::RunBasic() {
   LOG_TRACE();
-  Estimables&     estimables  = *managers_->estimables();
-  bool            single_step = global_configuration_->single_step();
-  vector<string>  single_step_addressables;
-  vector<Double*> estimable_targets;
+  AddressableInputLoader& addressable_inputs = *managers_->addressable_input_loader();
+  bool                    single_step        = global_configuration_->single_step();
+  vector<string>          single_step_addressables;
+  vector<Double*>         estimable_targets;
   // Create an instance of all categories
   niwa::partition::accessors::All all_view(pointer());
 
@@ -462,7 +475,7 @@ void Model::RunBasic() {
     state_        = State::kInitialise;
     current_year_ = start_year_;
     if (addressable_values_file_) {
-      estimables.LoadValues(i);
+      addressable_inputs.LoadValues(i);
       Reset();
     }
 
@@ -471,7 +484,7 @@ void Model::RunBasic() {
      */
 
     // Iterate over all partition members and UpDate Mean Weight for the inital weight calculations
-    agelengths::Manager& age_length_manager = *managers_->age_length();    
+    agelengths::Manager&           age_length_manager = *managers_->age_length();
     initialisationphases::Manager& init_phase_manager = *managers_->initialisation_phase();
     init_phase_manager.Execute();
     managers_->report()->Execute(pointer(), State::kInitialise);
@@ -502,7 +515,7 @@ void Model::RunBasic() {
     timesteps::Manager&   time_step_manager    = *managers_->time_step();
     timevarying::Manager& time_varying_manager = *managers_->time_varying();
     for (current_year_ = start_year_; current_year_ <= final_year_; ++current_year_) {
-      age_length_manager.UpdateDataType(); // this only does something if we have data type age-length
+      age_length_manager.UpdateDataType();  // this only does something if we have data type age-length
       LOG_FINE() << "Iteration year: " << current_year_;
       if (single_step) {
         managers_->report()->Pause();
@@ -561,12 +574,12 @@ void Model::RunEstimation() {
   if (minimiser == nullptr)
     LOG_CODE_ERROR() << "if (minimiser == nullptr)";
 
-  Estimables*         estimables = managers_->estimables();
-  map<string, Double> estimable_values;
+  AddressableInputLoader* addressable_inputs = managers_->addressable_input_loader();
+  map<string, Double>     estimable_values;
   LOG_FINE() << "estimable values count: " << addressable_values_count_;
   for (unsigned i = 0; i < addressable_values_count_; ++i) {
     if (addressable_values_file_) {
-      estimables->LoadValues(i);
+      addressable_inputs->LoadValues(i);
       Reset();
     }
 
@@ -648,12 +661,12 @@ bool Model::RunMCMC() {
  *
  */
 void Model::RunProfiling() {
-  Estimables& estimables = *managers_->estimables();
+  AddressableInputLoader& addressable_inputs = *managers_->addressable_input_loader();
 
   map<string, Double> estimable_values;
   for (unsigned i = 0; i < addressable_values_count_; ++i) {
     if (addressable_values_file_) {
-      estimables.LoadValues(i);
+      addressable_inputs.LoadValues(i);
       Reset();
     }
 
@@ -702,7 +715,7 @@ void Model::RunProfiling() {
 void Model::RunSimulation() {
   LOG_FINE() << "Entering the Simulation Sub-System";
 
-  Estimables* estimables = managers_->estimables();
+  AddressableInputLoader& addressable_inputs = *managers_->addressable_input_loader();
   LOG_FINE() << "estimable values count: " << addressable_values_count_;
 
   niwa::partition::accessors::All all_view(pointer());
@@ -712,7 +725,7 @@ void Model::RunSimulation() {
     LOG_FATAL() << "The number of simulations specified at the command line parser must be at least one";
   }
   // Suffix for sims
-  unsigned first_suffix_width = (unsigned)(floor(log10((double)(addressable_values_count_))) + 1);
+  unsigned first_suffix_width  = (unsigned)(floor(log10((double)(addressable_values_count_))) + 1);
   unsigned second_suffix_width = (unsigned)(floor(log10((double)(simulation_candidates))) + 1);
   unsigned s_width;
   unsigned i_width;
@@ -723,11 +736,11 @@ void Model::RunSimulation() {
     LOG_FINE() << "Model: State change to Initialise";
     state_        = State::kInitialise;
     current_year_ = start_year_;
-    i_width = (unsigned)(floor(log10((i + 1))) + 1);
-    init_diff = first_suffix_width - i_width;
+    i_width       = (unsigned)(floor(log10((i + 1))) + 1);
+    init_diff     = first_suffix_width - i_width;
     // set addressables
     if (addressable_values_file_) {
-      estimables->LoadValues(i);
+      addressable_inputs.LoadValues(i);
       Reset();
     }
     initialisationphases::Manager& init_phase_manager = *managers_->initialisation_phase();
@@ -737,11 +750,11 @@ void Model::RunSimulation() {
     state_                                     = State::kExecute;
     timesteps::Manager&   time_step_manager    = *managers_->time_step();
     timevarying::Manager& time_varying_manager = *managers_->time_varying();
-    agelengths::Manager& age_length_manager = *managers_->age_length();    
+    agelengths::Manager&  age_length_manager   = *managers_->age_length();
 
     for (current_year_ = start_year_; current_year_ <= final_year_; ++current_year_) {
       LOG_FINE() << "Iteration year: " << current_year_;
-      age_length_manager.UpdateDataType(); // this only does something if we have data type age-length
+      age_length_manager.UpdateDataType();  // this only does something if we have data type age-length
       time_varying_manager.Update(current_year_);
       managers_->simulate()->Update(current_year_);
       time_step_manager.Execute(current_year_);
@@ -750,8 +763,8 @@ void Model::RunSimulation() {
     for (int s = 0; s < simulation_candidates; ++s) {
       LOG_FINE() << "simulation s = " << s;
       string report_suffix = ".";
-      s_width = (unsigned)(floor(log10((s + 1))) + 1);
-      second_diff = second_suffix_width - s_width;
+      s_width              = (unsigned)(floor(log10((s + 1))) + 1);
+      second_diff          = second_suffix_width - s_width;
       report_suffix.append(init_diff, '0');
       report_suffix.append(utilities::ToInline<unsigned, string>(i + 1));
       report_suffix.append(1, '_');
@@ -779,11 +792,11 @@ void Model::RunProjection() {
   if (projection_candidates < 1) {
     LOG_FATAL() << "The number of projections specified at the command line parser must be at least one";
   }
-  Estimables&     estimables = *managers_->estimables();
-  vector<Double*> estimable_targets;
+  AddressableInputLoader& addressable_inputs = *managers_->addressable_input_loader();
+  vector<Double*>         estimable_targets;
   // Create an instance of all categories
   niwa::partition::accessors::All all_view(pointer());
-  agelengths::Manager& age_length_manager = *managers_->age_length();    
+  agelengths::Manager&            age_length_manager = *managers_->age_length();
   // Model is about to run
   for (unsigned i = 0; i < addressable_values_count_; ++i) {
     for (int j = 0; j < projection_candidates; ++j) {
@@ -791,13 +804,13 @@ void Model::RunProjection() {
       projection_final_phase_ = false;
       if (addressable_values_file_) {
         LOG_FINE() << "loading input parameters";
-        estimables.LoadValues(i);
+        addressable_inputs.LoadValues(i);
         Reset();
       }
 
       LOG_FINE() << "Model: State change to Execute";
-      state_        = State::kInitialise;
-      current_year_ = start_year_;
+      state_                                            = State::kInitialise;
+      current_year_                                     = start_year_;
       initialisationphases::Manager& init_phase_manager = *managers_->initialisation_phase();
       // update data type needs to be updated in the f loop
       age_length_manager.UpdateDataType();
@@ -811,7 +824,7 @@ void Model::RunProjection() {
 
       for (current_year_ = start_year_; current_year_ <= final_year_; ++current_year_) {
         LOG_FINE() << "Iteration year: " << current_year_;
-        age_length_manager.UpdateDataType(); // this only does something if we have data type age-length
+        age_length_manager.UpdateDataType();  // this only does something if we have data type age-length
         time_varying_manager.Update(current_year_);
         time_step_manager.Execute(current_year_);
         project_manager.StoreValues(current_year_);
@@ -863,12 +876,12 @@ void Model::Iterate() {
   // Create an instance of all categories
   niwa::partition::accessors::All all_view(pointer());
 
-  state_        = State::kInitialise;
-  current_year_ = start_year_; 
-  agelengths::Manager& age_length_manager = *managers_->age_length();    
+  state_                                            = State::kInitialise;
+  current_year_                                     = start_year_;
+  agelengths::Manager&           age_length_manager = *managers_->age_length();
   initialisationphases::Manager& init_phase_manager = *managers_->initialisation_phase();
   // update data type before Init phase
-  age_length_manager.UpdateDataType(); 
+  age_length_manager.UpdateDataType();
   init_phase_manager.Execute();
   managers_->report()->Execute(pointer(), State::kInitialise);
 
@@ -876,7 +889,7 @@ void Model::Iterate() {
   timesteps::Manager&   time_step_manager    = *managers_->time_step();
   timevarying::Manager& time_varying_manager = *managers_->time_varying();
   for (current_year_ = start_year_; current_year_ <= final_year_; ++current_year_) {
-    age_length_manager.UpdateDataType(); // this only does something if we have data type age-length
+    age_length_manager.UpdateDataType();  // this only does something if we have data type age-length
     LOG_FINE() << "Iteration year: " << current_year_;
     time_varying_manager.Update(current_year_);
 
@@ -887,7 +900,6 @@ void Model::Iterate() {
   managers_->observation()->CalculateScores();
 
   for (auto executor : executors_[State::kExecute]) executor->Execute();
-
 }
 
 /**
@@ -899,16 +911,14 @@ void Model::FullIteration() {
   Iterate();
 }
 
-
-
 /**
  * A utility function to check length bins for a given process or observation are a subset of the model length bins.
  */
 bool Model::are_length_bin_compatible_with_model_length_bins(vector<double>& length_bins) {
-  if(length_bins.size() > length_bins_.size())
+  if (length_bins.size() > length_bins_.size())
     return false;
-  for(unsigned len_ndx = 0; len_ndx < length_bins.size(); ++len_ndx) {
-    if(std::find(length_bins_.begin(), length_bins_.end(), length_bins[len_ndx]) == length_bins_.end())
+  for (unsigned len_ndx = 0; len_ndx < length_bins.size(); ++len_ndx) {
+    if (std::find(length_bins_.begin(), length_bins_.end(), length_bins[len_ndx]) == length_bins_.end())
       return false;
   }
   return true;
@@ -919,35 +929,35 @@ bool Model::are_length_bin_compatible_with_model_length_bins(vector<double>& len
  * @return a vector of column of indicies that map the process or observations length bins to the global length bins, so we can do a simple
  * summation over the global age-length matrix when we are asked for different values other than the model length bin resolution
  */
-vector<int>  Model::get_map_for_bespoke_length_bins_to_global_length_bins(vector<double> length_bins, bool plus_group) {
+vector<int> Model::get_map_for_bespoke_length_bins_to_global_length_bins(vector<double> length_bins, bool plus_group) {
   LOG_FINE() << "get_map_for_bespoke_length_bins_to_global_length_bins";
-  unsigned number_of_bespoke_length_bins = plus_group ? length_bins.size() : length_bins.size() - 1;
+  unsigned    number_of_bespoke_length_bins = plus_group ? length_bins.size() : length_bins.size() - 1;
   vector<int> ndx(number_of_length_bins_, 0);
-  int ndx_store = 0;
-  ndx[0] = 0;
-  int max_ndx = 0;
+  int         ndx_store = 0;
+  ndx[0]                = 0;
+  int max_ndx           = 0;
   for (unsigned i = 1; i < number_of_length_bins_; ++i) {
-      for (unsigned j = 0; j < length_bins.size(); ++j) {
-          if (!plus_group & (length_bins_[i] >= length_bins[length_bins.size() - 1])) {
-              ndx_store = -9999;
-              break;
-          }
-          if (length_bins[j] == length_bins_[i]) {
-            if(j == 0)
-              break;
-            ndx_store++;
-            break;
-          }
+    for (unsigned j = 0; j < length_bins.size(); ++j) {
+      if (!plus_group & (length_bins_[i] >= length_bins[length_bins.size() - 1])) {
+        ndx_store = -9999;
+        break;
       }
-      ndx[i] = ndx_store;
-      if(ndx_store > max_ndx)
-        max_ndx = ndx_store;
+      if (length_bins[j] == length_bins_[i]) {
+        if (j == 0)
+          break;
+        ndx_store++;
+        break;
+      }
+    }
+    ndx[i] = ndx_store;
+    if (ndx_store > max_ndx)
+      max_ndx = ndx_store;
   }
 
-  if(max_ndx != (int)(number_of_bespoke_length_bins - 1)) {
-    for(unsigned i = 0; i < ndx.size(); ++i)
-      LOG_FINE() << ndx[i];
-    LOG_CODE_ERROR() << "this function has failed. there should be a maxiumum element = " << number_of_bespoke_length_bins - 1 << " but the maxiumum value calculated = " << max_ndx;
+  if (max_ndx != (int)(number_of_bespoke_length_bins - 1)) {
+    for (unsigned i = 0; i < ndx.size(); ++i) LOG_FINE() << ndx[i];
+    LOG_CODE_ERROR() << "this function has failed. there should be a maxiumum element = " << number_of_bespoke_length_bins - 1
+                     << " but the maxiumum value calculated = " << max_ndx;
   }
   return ndx;
 }

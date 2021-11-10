@@ -5,7 +5,7 @@
  * @date 27/01/2015
  * @section LICENSE
  *
- * Copyright NIWA Science ©2014 - www.niwa.co.nz
+ * Copyright NIWA Science ï¿½2014 - www.niwa.co.nz
  *
  * @section DESCRIPTION
  *
@@ -34,6 +34,7 @@ public:
   virtual ~TimeVarying() = default;
   void Validate();
   void Build();
+  void Verify(shared_ptr<Model> model){};
   void Reset();
   void Update(unsigned current_year);
 

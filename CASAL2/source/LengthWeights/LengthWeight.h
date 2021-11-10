@@ -4,7 +4,7 @@
  * @date 24/07/2013
  * @section LICENSE
  *
- * Copyright NIWA Science ©2013 - www.niwa.co.nz
+ * Copyright NIWA Science ï¿½2013 - www.niwa.co.nz
  *
  * @section DESCRIPTION
  *
@@ -32,6 +32,7 @@ public:
   virtual ~LengthWeight(){};
   void Validate();
   void Build() { DoBuild(); };
+  void Verify(shared_ptr<Model> model){};
   void Reset() { DoReset(); };
 
   virtual void DoValidate() = 0;
@@ -40,7 +41,7 @@ public:
 
   // accessors
   virtual Double mean_weight(Double size, Distribution distribution, Double cv) const = 0;
-  virtual string weight_units() const = 0;
+  virtual string weight_units() const                                                 = 0;
 
   // members
   shared_ptr<Model> model_ = nullptr;

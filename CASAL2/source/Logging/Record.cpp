@@ -84,6 +84,14 @@ void Record::BuildMessage() {
 #endif
       o << "[INFO] " << stream_.str() << endl;
       break;
+    case Severity::kVerifyWarning:
+#ifdef DEBUG
+      o << "[VERIFY_WARNING] " << file_name_ << "(line: " << line_number_ << "): " << stream_.str() << "\n";
+      o << " Source File: " << file_name_ << "(line: " << line_number_ << ")\n";
+      o << " Source Method: " << function_ << "\n";
+#endif
+      o << "[VERIFY_WARNING] " << stream_.str() << endl;
+      break;
     case Severity::kWarning:
 #ifdef DEBUG
       o << "[WARNING] " << file_name_ << "(line: " << line_number_ << "): " << stream_.str() << "\n";

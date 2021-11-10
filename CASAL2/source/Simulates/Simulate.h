@@ -4,7 +4,7 @@
  * @date 5/08/2014
  * @section LICENSE
  *
- * Copyright NIWA Science ©2014 - www.niwa.co.nz
+ * Copyright NIWA Science ï¿½2014 - www.niwa.co.nz
  *
  * @section DESCRIPTION
  *
@@ -33,6 +33,7 @@ public:
   virtual ~Simulate() = default;
   void Validate();
   void Build();
+  void Verify(shared_ptr<Model> model){};
   void Reset() { DoReset(); };
   void Update(unsigned current_year);
 

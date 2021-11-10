@@ -42,6 +42,7 @@ public:
   virtual ~Estimate() = default;
   void Validate();
   void Build();
+  void Verify(shared_ptr<Model> model){};
   void Reset();
   void AddSame(const string& label, Double* target);
 
@@ -82,8 +83,8 @@ protected:
   unsigned        estimation_phase_ = 1;
   vector<string>  same_labels_;
   vector<Double*> sames_;
-  bool            estimated_                          = true;
-  bool            in_objective_                       = true;
+  bool            estimated_    = true;
+  bool            in_objective_ = true;
 };
 } /* namespace niwa */
 #endif /* ESTIMATE_H_ */

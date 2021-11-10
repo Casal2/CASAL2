@@ -23,12 +23,13 @@
 #include <memory>
 #include <string>
 
+#include "AddressableInputLoader/AddressableInputLoader.h"
+#include "AddressableTransformations/Manager.h"
+#include "AgeLengths/Manager.h"
 #include "BaseClasses/Object.h"
+#include "ConfigurationLoader/AddressableInputValueLoader.h"
 #include "ConfigurationLoader/MCMCObjective.h"
 #include "ConfigurationLoader/MCMCSample.h"
-#include "Estimables/Estimables.h"
-#include "AgeLengths/Manager.h"
-#include "AddressableTransformations/Manager.h"
 #include "Estimates/Manager.h"
 #include "MCMCs/Manager.h"
 #include "Minimisers/Manager.h"
@@ -161,16 +162,6 @@ int Runner::GoWithRunMode(RunMode::Type run_mode) {
   run_parameters_.run_mode_ = run_mode;
   run_mode_                 = run_mode;
   int return_code           = 0;
-
-  /**
-   * @brief TODO: REMOVE STD HEADER FROM RUNNER TO SHARED LIBRARY SO IT CAN
-   * BE DISABLED
-   *
-   */
-
-  // Override global configuration run_mode. We do this if we're loading from
-  // a shared library to bounce between run modes (e.g. estimation before mcmc)
-  // global_configuration_.set_run_mode(run_mode);
 
   // These run modes are handled elsewhere. TODO: Move them here somewhere
   if (run_mode == RunMode::kVersion || run_mode == RunMode::kHelp || run_mode == RunMode::kLicense) {
@@ -379,14 +370,12 @@ bool Runner::RunEstimation() {
   if (minimiser == nullptr)
     LOG_CODE_ERROR() << "if (minimiser == nullptr)";
 
-  auto                estimables_manager = managers->estimables();
-  map<string, Double> estimable_values;
-  bool                use_addressable_file = master_model_->addressables_value_file();
-  unsigned            iterations_to_do     = estimables_manager->GetValueCount() == 0 ? 1 : estimables_manager->GetValueCount();
+  AddressableInputLoader* addressable_input_loader = master_model_->managers()->addressable_input_loader();
+  bool                    use_addressable_file     = master_model_->addressables_value_file();
+  unsigned                iterations_to_do         = addressable_input_loader->GetValueCount() == 0 ? 1 : addressable_input_loader->GetValueCount();
   for (unsigned i = 0; i < iterations_to_do; ++i) {
     if (use_addressable_file) {
-      estimables_manager->LoadValues(i);
-      //			master_model_->Reset();
+      addressable_input_loader->LoadValues(i);
     }
 
     master_model_->set_run_mode(RunMode::kEstimation);
@@ -501,7 +490,6 @@ int Runner::RunMCMC() {
     LOG_FINE() << "Build covariance matrix";
     minimiser->BuildCovarianceMatrix();
     LOG_FINE() << "Minimisation complete. Starting MCMC";
-
 
     // TODO: Implement a setter here
     mcmc->covariance_matrix() = minimiser->covariance_matrix();

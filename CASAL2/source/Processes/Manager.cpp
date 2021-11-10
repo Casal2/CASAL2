@@ -9,6 +9,7 @@
 
 #include "../Logging/Logging.h"
 #include "../Model/Model.h"
+#include "Verification/Verification.h"
 
 namespace niwa {
 namespace processes {
@@ -57,6 +58,16 @@ void Manager::Validate(shared_ptr<Model> model) {
       LOG_ERROR() << process->location() << "the process " << label << " is not allowed to be created when the model type is set to " << model->type();
     }
   }
+}
+
+/**
+ * @brief
+ *
+ * @param model
+ */
+void Manager::Verify(shared_ptr<Model> model) {
+  for (auto process : objects_) process->Verify(model);
+  verification::DoVerification(model);
 }
 
 /**

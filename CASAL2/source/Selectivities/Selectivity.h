@@ -36,6 +36,7 @@ public:
   virtual ~Selectivity() = default;
   void           Validate();
   virtual void   Build() { RebuildCache(); };
+  void           Verify(shared_ptr<Model> model){};
   void           Reset();
   virtual Double GetAgeResult(unsigned age, AgeLength* age_length);
   virtual Double GetLengthResult(unsigned length_bin_index);

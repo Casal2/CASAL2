@@ -5,7 +5,7 @@
  * @date 14/12/2012
  * @section LICENSE
  *
- * Copyright NIWA Science ©2012 - www.niwa.co.nz
+ * Copyright NIWA Science ï¿½2012 - www.niwa.co.nz
  *
  * @section DESCRIPTION
  *
@@ -37,6 +37,7 @@ public:
   virtual ~Manager() noexcept(true);
   void     Validate() override final;
   void     Validate(shared_ptr<Model> model);
+  void     Verify(shared_ptr<Model> model) final;
   Process* GetProcess(const string& label);
 
 protected:

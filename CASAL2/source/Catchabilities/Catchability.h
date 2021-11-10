@@ -5,7 +5,7 @@
  * @date 12/03/2013
  * @section LICENSE
  *
- * Copyright NIWA Science ©2013 - www.niwa.co.nz
+ * Copyright NIWA Science ï¿½2013 - www.niwa.co.nz
  *
  * @section DESCRIPTION
  *
@@ -31,6 +31,7 @@ public:
   virtual ~Catchability() = default;
   void         Validate();
   void         Build() { DoBuild(); };
+  void         Verify(shared_ptr<Model> model){};
   void         Reset(){};
   virtual void DoValidate() = 0;
   virtual void DoBuild()    = 0;

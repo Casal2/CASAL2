@@ -28,7 +28,7 @@ namespace logger {
 using std::string;
 
 // enums
-enum class Severity { kInvalid, kTrace, kFinest, kFine, kMedium, kInfo, kImportant, kWarning, kError, kFatal, kCodeError };
+enum class Severity { kInvalid, kTrace, kFinest, kFine, kMedium, kInfo, kImportant, kVerifyWarning, kWarning, kError, kFatal, kCodeError };
 
 /**
  * Class definition

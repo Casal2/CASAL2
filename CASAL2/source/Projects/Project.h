@@ -39,6 +39,7 @@ public:
   virtual ~Project() = default;
   void Validate();
   void Build();
+  void Verify(shared_ptr<Model> model){};
   void Reset();
   void Update(unsigned current_year);
   void StoreValue(unsigned current_year);

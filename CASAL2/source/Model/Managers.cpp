@@ -17,6 +17,8 @@
 #include <vector>
 
 #include "../AdditionalPriors/Manager.h"
+#include "../AddressableInputLoader/AddressableInputLoader.h"
+#include "../AddressableTransformations/Manager.h"
 #include "../AgeLengths/Manager.h"
 #include "../AgeWeights/Manager.h"
 #include "../AgeingErrors/Manager.h"
@@ -24,8 +26,6 @@
 #include "../Catchabilities/Manager.h"
 #include "../Categories/Categories.h"
 #include "../DerivedQuantities/Manager.h"
-#include "../Estimables/Estimables.h"
-#include "../AddressableTransformations/Manager.h"
 #include "../Estimates/Manager.h"
 #include "../InitialisationPhases/Manager.h"
 #include "../LengthWeights/Manager.h"
@@ -59,28 +59,28 @@ Managers::Managers(shared_ptr<Model> model) {
 
   model_ = model;
 
-  additional_prior_        = new additionalpriors::Manager();
-  ageing_error_            = new ageingerrors::Manager();
-  age_length_              = new agelengths::Manager();
-  age_weight_              = new ageweights::Manager();
-  assert_                  = new asserts::Manager();
-  catchability_            = new catchabilities::Manager();
-  derived_quantity_        = new derivedquantities::Manager();
-  estimables_              = new Estimables(model_);
-  estimate_                = new estimates::Manager();
+  additional_prior_           = new additionalpriors::Manager();
+  ageing_error_               = new ageingerrors::Manager();
+  age_length_                 = new agelengths::Manager();
+  age_weight_                 = new ageweights::Manager();
+  assert_                     = new asserts::Manager();
+  catchability_               = new catchabilities::Manager();
+  derived_quantity_           = new derivedquantities::Manager();
+  addressable_input_loader_   = new AddressableInputLoader(model_);
+  estimate_                   = new estimates::Manager();
   addressable_transformation_ = new addressabletransformations::Manager();
-  initialisation_phase_    = new initialisationphases::Manager();
-  length_weight_           = new lengthweights::Manager();
-  likelihood_              = new likelihoods::Manager();
-  observation_             = new observations::Manager();
-  penalty_                 = new penalties::Manager();
-  process_                 = new processes::Manager();
-  profile_                 = new profiles::Manager();
-  project_                 = new projects::Manager();
-  selectivity_             = new selectivities::Manager();
-  simulate_                = new simulates::Manager();
-  time_step_               = new timesteps::Manager();
-  time_varying_            = new timevarying::Manager();
+  initialisation_phase_       = new initialisationphases::Manager();
+  length_weight_              = new lengthweights::Manager();
+  likelihood_                 = new likelihoods::Manager();
+  observation_                = new observations::Manager();
+  penalty_                    = new penalties::Manager();
+  process_                    = new processes::Manager();
+  profile_                    = new profiles::Manager();
+  project_                    = new projects::Manager();
+  selectivity_                = new selectivities::Manager();
+  simulate_                   = new simulates::Manager();
+  time_step_                  = new timesteps::Manager();
+  time_varying_               = new timevarying::Manager();
 }
 
 /**
@@ -107,7 +107,7 @@ Managers::~Managers() {
   delete assert_;
   delete catchability_;
   delete derived_quantity_;
-  delete estimables_;
+  delete addressable_input_loader_;
   delete estimate_;
   delete addressable_transformation_;
   delete initialisation_phase_;
@@ -165,6 +165,7 @@ void Managers::Validate() {
   initialisation_phase_->Validate();
   process_->Validate(model_);  // Needs to go before estimate for the situation where there is an @estimate block
 
+  addressable_input_loader_->Validate();
   additional_prior_->Validate();
   ageing_error_->Validate();
   age_length_->Validate();
@@ -189,7 +190,7 @@ void Managers::Validate() {
   simulate_->Validate();
   time_varying_->Validate();
 
-  addressable_transformation_->Validate(); // needs to be at the after all other classes, but before Estimates
+  addressable_transformation_->Validate();  // needs to be at the after all other classes, but before Estimates
   estimate_->Validate(model_);
   LOG_TRACE();
 }
@@ -202,6 +203,7 @@ void Managers::Build() {
   initialisation_phase_->Build(model_);
   process_->Build();  // To handle BH Recruitment having ssb_offset available
 
+  addressable_input_loader_->Build();
   additional_prior_->Build();
   ageing_error_->Build();
   assert_->Build();
@@ -237,10 +239,47 @@ void Managers::Build() {
   LOG_TRACE();
 }
 
+/**
+ * @brief Verify all of our managers. Verify is used to validate
+ * business rules after the build has completed. At this point
+ * the entire model is ready for execution. We can check the entire
+ * loaded configuration for some basic things (e.g. is there ageing)
+ */
+void Managers::Verify(shared_ptr<Model> model) {
+  std::scoped_lock l(lock_);
+  LOG_TRACE();
+  addressable_input_loader_->Verify(model);
+  addressable_transformation_->Verify(model);
+  age_length_->Verify(model);
+  age_weight_->Verify(model);
+  length_weight_->Verify(model);
+  selectivity_->Verify(model);
+  additional_prior_->Verify(model);
+  ageing_error_->Verify(model);
+  assert_->Verify(model);
+  catchability_->Verify(model);
+  derived_quantity_->Verify(model);
+  estimate_->Verify(model);
+  initialisation_phase_->Verify(model);
+  likelihood_->Verify(model);
+  observation_->Verify(model);
+  penalty_->Verify(model);
+  process_->Verify(model);
+  profile_->Verify(model);
+  project_->Verify(model);
+  simulate_->Verify(model);
+  time_step_->Verify(model);
+  time_varying_->Verify(model);
+}
+
+/**
+ * @brief
+ *
+ */
 void Managers::Reset() {
   std::scoped_lock l(lock_);
   LOG_TRACE();
-  addressable_transformation_->Reset(); // needs to be up top, asmay change values down the list
+  addressable_transformation_->Reset();  // needs to be up top, asmay change values down the list
   age_length_->Reset();
   age_weight_->Reset();
   length_weight_->Reset();

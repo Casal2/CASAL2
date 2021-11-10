@@ -60,6 +60,7 @@ public:
   virtual ~MCMC() = default;
   void Validate();
   void Build();
+  void Verify(shared_ptr<Model> model){};
   void Reset(){};
   void Execute(shared_ptr<ThreadPool> thread_pool);
 

@@ -19,12 +19,14 @@
 #define OLDBASE_MANAGER_H_
 
 // Headers
+#include <memory>
 #include <string>
 #include <string_view>
 #include <vector>
 
 #include "../Model/Managers.h"
 #include "../Utilities/NoCopy.h"
+
 
 // Namespaces
 namespace niwa {
@@ -43,6 +45,7 @@ public:
   virtual ~Manager();
   virtual void Validate();
   virtual void Build();
+  virtual void Verify(shared_ptr<Model> model);
   virtual void Reset();
   virtual void AddObject(StoredType* object) { objects_.push_back(object); }
   virtual void Clear() { objects_.clear(); }

@@ -11,13 +11,13 @@
 #ifdef TESTMODE
 
 // Headers
-#include "MortalityInstantaneous.h"
-
 #include "Model/Model.h"
+#include "MortalityInstantaneous.h"
 #include "ObjectiveFunction/ObjectiveFunction.h"
 #include "Partition/Partition.h"
 #include "Processes/Manager.h"
 #include "TestResources/TestFixtures/InternalEmptyModel.h"
+
 
 // Namespaces
 namespace niwa {

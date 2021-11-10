@@ -5,7 +5,7 @@
  * @date 22/03/2013
  * @section LICENSE
  *
- * Copyright NIWA Science ©2013 - www.niwa.co.nz
+ * Copyright NIWA Science ï¿½2013 - www.niwa.co.nz
  *
  * @section DESCRIPTION
  *
@@ -36,7 +36,8 @@ public:
   virtual ~Likelihood() = default;
   void           Validate();
   void           Build(){};
-  void           Reset() override final{};
+  void           Verify(shared_ptr<Model> model){};
+  void           Reset() final{};
   virtual Double AdjustErrorValue(const Double process_error, const Double error_value) = 0;
   virtual void   SimulateObserved(map<unsigned, vector<observations::Comparison> >& comparisons){};
   virtual Double GetInitialScore(map<unsigned, vector<observations::Comparison> >& comparisons, unsigned year) { return 0.0; };

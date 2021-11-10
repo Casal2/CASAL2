@@ -5,7 +5,7 @@
  * @date 13/12/2012
  * @section LICENSE
  *
- * Copyright NIWA Science ©2012 - www.niwa.co.nz
+ * Copyright NIWA Science ï¿½2012 - www.niwa.co.nz
  *
  * @section DESCRIPTION
  *
@@ -40,6 +40,7 @@ public:
   virtual ~TimeStep() = default;
   void     Validate();
   void     Build();
+  void     Verify(shared_ptr<Model> model){};
   void     Reset(){};
   void     ExecuteForInitialisation(const string& phase_label);
   void     Execute(unsigned year);

@@ -61,6 +61,19 @@ void Manager<ClassType, StoredType>::Build() {
 }
 
 /**
+ * Verify the objects stored in the manager.
+ */
+template <class ClassType, class StoredType>
+void Manager<ClassType, StoredType>::Verify(shared_ptr<Model> model) {
+  LOG_FINEST() << "Starting Verify... with " << objects_.size() << " objects";
+  for (auto stored_object : objects_) {
+    stored_object->Verify(model);
+  }
+
+  LOG_FINEST() << "Verify Finished";
+}
+
+/**
  * Reset all of the stored objects for the
  * next iteration
  */

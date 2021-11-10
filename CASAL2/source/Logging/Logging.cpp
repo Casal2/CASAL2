@@ -25,7 +25,7 @@ using std::vector;
 std::mutex Logging::lock_;
 
 #ifdef TESTMODE
-logger::Severity Logging::current_log_level_ = logger::Severity::kWarning;
+logger::Severity Logging::current_log_level_ = logger::Severity::kVerifyWarning;
 #else
 logger::Severity Logging::current_log_level_ = logger::Severity::kInfo;
 #endif
@@ -104,7 +104,7 @@ void Logging::Flush(niwa::logger::Record& record) {
     info_.push_back(record.stream().str());
   if (record.severity() == logger::Severity::kImportant)
     important_.push_back(record.stream().str());
-  else if (record.severity() == logger::Severity::kWarning)
+  else if (record.severity() == logger::Severity::kWarning || record.severity() == logger::Severity::kVerifyWarning)
     warnings_.push_back(record.stream().str());
   else if (record.severity() == logger::Severity::kError)
     errors_.push_back(record.stream().str());

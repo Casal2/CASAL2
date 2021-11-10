@@ -74,7 +74,9 @@ void CommandLineParser::Parse(int argc, char* argv[], RunParameters& options) {
     ("loglevel", value<string>(), "Set message log level. Defaults to [info]. See the Manual for further options")
     ("single-step", "Single step the model each year with new estimable values")
     ("tabular,t", "Print reports using the Tabular format")
-    ("unittest", "Run the unit tests for Casal2");
+    ("unittest", "Run the unit tests for Casal2")
+    ("skip-verify", "Skip halting if warnings are created during verification of the model");
+
   // clang-format on
 
   ostringstream o;
@@ -238,6 +240,10 @@ void CommandLineParser::Parse(int argc, char* argv[], RunParameters& options) {
     options.projection_candidates_ = parameters["projection"].as<unsigned>();
   } else {
     LOG_FATAL() << "Command line error: An invalid or unknown run mode has been specified";
+  }
+
+  if (parameters.count("skip-verify")) {
+    options.skip_verify_ = true;
   }
 
   /**

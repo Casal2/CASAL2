@@ -51,6 +51,7 @@ public:
   virtual ~Categories() = default;
   void           Validate();
   void           Build();
+  void           Verify(shared_ptr<Model> model){};
   void           Reset(){};
   bool           IsValid(const string& label) const;
   bool           IsCombinedLabels(const string& label) const;
@@ -68,7 +69,7 @@ public:
   vector<unsigned>       years(const string& category_name);
   virtual AgeLength*     age_length(const string& category_name);
   LengthWeight*          length_weight(const string& category_name);
-  //AgeWeight*             age_weight(const string& category_name);
+  // AgeWeight*             age_weight(const string& category_name);
 
 protected:
   // Methods

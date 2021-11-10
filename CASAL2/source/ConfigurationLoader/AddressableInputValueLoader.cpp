@@ -1,15 +1,15 @@
 /**
- * @file EstimateValuesLoader.cpp
+ * @file AddressableInputValueLoader.cpp
  * @author Scott Rasmussen (scott.rasmussen@zaita.com)
  * @github https://github.com/Zaita
  * @date 19/12/2014
  * @section LICENSE
  *
- * Copyright NIWA Science �2014 - www.niwa.co.nz
+ * Copyright NIWA Science (c)2014 - www.niwa.co.nz
  */
 
 // headers
-#include "EstimableValuesLoader.h"
+#include "AddressableInputValueLoader.h"
 
 #include <boost/algorithm/string/join.hpp>
 #include <boost/algorithm/string/replace.hpp>
@@ -19,7 +19,7 @@
 #include <iostream>
 #include <vector>
 
-#include "../Estimables/Estimables.h"
+#include "../AddressableInputLoader/AddressableInputLoader.h"
 #include "../Logging/Logging.h"
 #include "../Model/Managers.h"
 #include "../Utilities/To.h"
@@ -36,16 +36,16 @@ using std::ifstream;
 using std::vector;
 
 /**
- * Load the values of the estimate parameters from the file provided
+ * Load the values of the addressable parameters from the file provided
  *
  * @param file_name The name of the file containing the values
  */
-void EstimableValuesLoader::LoadValues(const string& file_name) {
+void AddressableInputValueLoader::LoadValues(const string& file_name) {
   LOG_FINE() << "Load values from file " << file_name;
   ifstream file_;
   file_.open(file_name.c_str());
   if (file_.fail() || !file_.is_open())
-    LOG_FATAL() << "Unable to open the estimate_value file " << file_name;
+    LOG_FATAL() << "Unable to open the addressable input file " << file_name;
 
   /**
    * Get the first line which should contain a list of parameters
@@ -54,10 +54,10 @@ void EstimableValuesLoader::LoadValues(const string& file_name) {
   vector<string> parameters;
   unsigned       line_number = 0;
   if (!getline(file_, current_line) || current_line == "")
-    LOG_FATAL() << "estimable value file appears to be empty, or the first line is blank. File: " << file_name;
+    LOG_FATAL() << "addressable input file appears to be empty, or the first line is blank. File: " << file_name;
 
   // Make an exception for MCMC_samples outputs that users will want to feed back into Casal2 using the -i functionality
-  LOG_FINE() << " current_line.substr(0, 12) = " <<  current_line.substr(0, 12);
+  LOG_FINE() << " current_line.substr(0, 12) = " << current_line.substr(0, 12);
   if ("*mcmc_sample" == current_line.substr(0, 12)) {
     LOG_FINEST() << "skipping line as it is an input from an MCMC report " << current_line;
     getline(file_, current_line);
@@ -73,20 +73,19 @@ void EstimableValuesLoader::LoadValues(const string& file_name) {
   /**
    * Iterate through file
    */
-
-  vector<string> values;
-  Estimables&    estimables = *model_->managers()->estimables();
+  vector<string>          values;
+  AddressableInputLoader& addressable_input_loader = *model_->managers()->addressable_input_loader();
   ++line_number;
   while (getline(file_, current_line)) {
     ++line_number;
 
     boost::replace_all(current_line, "\t", " ");
     boost::trim_all(current_line);
-    LOG_FINEST() << "current_line " << line_number << " in estimate_values: " << current_line;
+    LOG_FINEST() << "current_line " << line_number << " in addressable input file: " << current_line;
 
     boost::split(values, current_line, boost::is_any_of(" "));
     if (values.size() != parameters.size())
-      LOG_FATAL() << "In estimate_value file, line " << line_number << " has " << values.size() << " values when the number of parameters is " << parameters.size();
+      LOG_FATAL() << "In addressable input file, line " << line_number << " has " << values.size() << " values when the number of parameters is " << parameters.size();
 
     double numeric = 0.0;
     for (unsigned i = 0; i < values.size(); ++i) {
@@ -94,8 +93,8 @@ void EstimableValuesLoader::LoadValues(const string& file_name) {
       boost::trim_all(values[i]);
 
       if (!utilities::To<double>(values[i], numeric))
-        LOG_FATAL() << "In estimate_value file could not convert the value " << values[i] << " to a double";
-      estimables.AddValue(parameters[i], numeric);
+        LOG_FATAL() << "In addressable input file could not convert the value " << values[i] << " to a double";
+      addressable_input_loader.AddValue(parameters[i], numeric);
     }
   }
 

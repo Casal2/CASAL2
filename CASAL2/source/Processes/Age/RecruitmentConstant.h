@@ -47,6 +47,9 @@ public:
   void FillReportCache(ostringstream& cache) override final;
   void FillTabularReportCache(ostringstream& cache, bool first_run) override final;
 
+  // accessors
+  const vector<string>& category_labels() const { return category_labels_; }
+
 private:
   // Members
   vector<string>             category_labels_;

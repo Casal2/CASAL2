@@ -40,17 +40,17 @@ namespace addressable {
 enum Type { kInvalid = 0, kSingle = 1, kMultiple = 2, kVector = 3, kStringMap = 4, kUnsignedMap = 5, kVectorStringMap = 6 };
 
 enum Usage {
-  kNone        = 0,
-  kLookup      = 1,  // Assert, Additional Prior, Equation, Reports
-  kEstimate    = 2,
-  kInputRun    = 4,
-  kTransformation = 6,
-  kProfile     = 8,
-  kProject     = 16,
-  kSimulate    = 32,
-  kSingleStep  = 64,
-  kTimeVarying = 128,
-  kAll         = 255
+  kNone           = 0,
+  kLookup         = 1,  // Assert, Additional Prior, Equation, Reports
+  kEstimate       = 2,
+  kInputRun       = 4,
+  kProfile        = 8,
+  kProject        = 16,
+  kSimulate       = 32,
+  kSingleStep     = 64,
+  kTimeVarying    = 128,
+  kTransformation = 256,
+  kAll            = 511
 };
 };  // namespace addressable
 

@@ -46,6 +46,7 @@ public:
   virtual ~Partition();
   void Validate();
   void Build();
+  void Verify(shared_ptr<Model> model){};
   void Reset();
   void Clear() { partition_.clear(); }
 
@@ -58,7 +59,7 @@ protected:
 
   // Members
   shared_ptr<Model>                 model_ = nullptr;
-  map<string, partition::Category*> partition_;               // map<category label, partition::Category Struct>
+  map<string, partition::Category*> partition_;  // map<category label, partition::Category Struct>
 
   DISALLOW_COPY_AND_ASSIGN(Partition);
 };

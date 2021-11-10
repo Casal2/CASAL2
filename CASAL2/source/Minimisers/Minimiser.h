@@ -53,6 +53,7 @@ public:
   virtual ~Minimiser();
   void Validate();
   void Build();
+  void Verify(shared_ptr<Model> model){};
   void Reset() { DoReset(); };
   void BuildCovarianceMatrix();
 

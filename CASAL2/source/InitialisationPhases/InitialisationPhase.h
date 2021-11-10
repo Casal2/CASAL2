@@ -5,7 +5,7 @@
  * @date 20/12/2012
  * @section LICENSE
  *
- * Copyright NIWA Science ©2012 - www.niwa.co.nz
+ * Copyright NIWA Science ï¿½2012 - www.niwa.co.nz
  *
  * @section DESCRIPTION
  *
@@ -33,6 +33,7 @@ public:
   virtual ~InitialisationPhase() = default;
   void         Validate();
   void         Build();
+  void         Verify(shared_ptr<Model> model){};
   void         Reset(){};
   virtual void Execute() = 0;
 

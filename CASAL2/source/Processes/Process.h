@@ -5,7 +5,7 @@
  * @date 13/12/2012
  * @section LICENSE
  *
- * Copyright NIWA Science ©2012 - www.niwa.co.nz
+ * Copyright NIWA Science ï¿½2012 - www.niwa.co.nz
  *
  * @section DESCRIPTION
  *
@@ -46,6 +46,7 @@ public:
   virtual ~Process() = default;
   void Validate();
   void Build();
+  void Verify(shared_ptr<Model> model){};
   void Reset();
   void Execute(unsigned year, const string& time_step_label);
   void Subscribe(unsigned year, const string& time_step_label, Executor* executor);

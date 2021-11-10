@@ -4,7 +4,7 @@
  * @date 6/06/2013
  * @section LICENSE
  *
- * Copyright NIWA Science ©2013 - www.niwa.co.nz
+ * Copyright NIWA Science ï¿½2013 - www.niwa.co.nz
  *
  * @section DESCRIPTION
  *
@@ -36,6 +36,7 @@ public:
   virtual ~DerivedQuantity() = default;
   void   Validate();
   void   Build();
+  void   Verify(shared_ptr<Model> model){};
   void   Reset();
   Double GetValue(unsigned year);
   Double GetInitialisationValue(unsigned phase = 0, unsigned index = 0);

@@ -34,8 +34,9 @@ public:
   virtual ~Assert() = default;
   void Validate();
   void Build() { DoBuild(); };
+  void Verify(shared_ptr<Model> model){};
   void Reset(){};
-  void PreExecute() override final{};
+  void PreExecute() final{};
 
 protected:
   // methods

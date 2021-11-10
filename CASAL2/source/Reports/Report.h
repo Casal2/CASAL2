@@ -54,8 +54,9 @@ public:
   void Build(){};
   void Validate(shared_ptr<Model> model);
   void Build(shared_ptr<Model> model);
-  void Prepare(shared_ptr<Model> model);
+  void Verify(shared_ptr<Model> model){};
   void Reset(){};
+  void Prepare(shared_ptr<Model> model);
   void Execute(shared_ptr<Model> model);
   void Finalise(shared_ptr<Model> model);
   void PrepareTabular(shared_ptr<Model> model);

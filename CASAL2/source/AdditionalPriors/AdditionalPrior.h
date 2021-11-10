@@ -5,7 +5,7 @@
  * @date 21/10/2014
  * @section LICENSE
  *
- * Copyright NIWA Science ©2014 - www.niwa.co.nz
+ * Copyright NIWA Science ï¿½2014 - www.niwa.co.nz
  *
  * @section DESCRIPTION
  *
@@ -36,6 +36,7 @@ public:
   virtual Double GetScore()  = 0;
   void           Validate();
   void           Build();
+  void           Verify(shared_ptr<Model> model){};
   void           Reset(){};
   string         parameter() const { return parameter_; }
 
