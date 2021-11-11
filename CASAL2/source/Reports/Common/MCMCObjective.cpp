@@ -57,7 +57,7 @@ void MCMCObjective::DoExecute(shared_ptr<Model> model) {
   if (!model)
     LOG_CODE_ERROR() << "!model";
 
-  if (first_write_ && !model->global_configuration().resume_mcmc()) {
+  if (first_time_ && !model->global_configuration().resume_mcmc()) {
     /// Up here!!!!!!!!!
     vector<Estimate*> estimates = model->managers()->estimate()->GetIsEstimated();
     cache_ << "starting_covariance_matrix " << REPORT_R_MATRIX << REPORT_EOL;
@@ -76,10 +76,9 @@ void MCMCObjective::DoExecute(shared_ptr<Model> model) {
       for (unsigned j = 0; j < covariance.size2() - 1; ++j) cache_ << covariance(i, j) << " ";
       cache_ << covariance(i, covariance.size2() - 1) << REPORT_EOL;
     }
-
     cache_ << "samples " << REPORT_R_DATAFRAME << REPORT_EOL;
     cache_ << "sample state objective_score prior likelihood penalties additional_priors jacobians step_size acceptance_rate acceptance_rate_since_adapt" << REPORT_EOL;
-    first_write_ = false;
+    first_time_ = false;
   }
 
   auto chain = mcmc_->chain();

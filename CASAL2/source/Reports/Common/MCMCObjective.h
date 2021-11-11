@@ -5,7 +5,7 @@
  * @date 5/11/2015
  * @section LICENSE
  *
- * Copyright NIWA Science ©2015 - www.niwa.co.nz
+ * Copyright NIWA Science ï¿½2015 - www.niwa.co.nz
  *
  * @section DESCRIPTION
  *
@@ -36,7 +36,8 @@ public:
   void DoExecuteTabular(shared_ptr<Model> model) final{};
 
 private:
-  MCMC* mcmc_ = nullptr;
+  MCMC* mcmc_       = nullptr;
+  bool  first_time_ = true;
 };
 
 } /* namespace reports */
