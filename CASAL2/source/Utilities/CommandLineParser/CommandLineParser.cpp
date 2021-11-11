@@ -71,12 +71,11 @@ void CommandLineParser::Parse(int argc, char* argv[], RunParameters& options) {
     ("seed,g", value<unsigned>(), "Set the random number seed [n]")
     ("query", value<string>(), "Query an object type to view its syntax description. Argument = [object_type.sub_type, e.g., process.recruitment_constant]")
     ("nostd", "Do not print the standard header report")
-    ("loglevel", value<string>(), "Set message log level. Defaults to [info]. See the Manual for further options")
+    ("loglevel,L", value<string>(), "Set message log level. Defaults to [info]. See the Manual for further options")
     ("single-step", "Single step the model each year with new estimable values")
     ("tabular,t", "Print reports using the Tabular format")
     ("unittest", "Run the unit tests for Casal2")
-    ("skip-verify", "Skip halting if warnings are created during verification of the model");
-
+    ("verifylevel,V", value<string>(), "If error (the default) then halt on any failed verifications. If warn then report failed verifications as warnings ");
   // clang-format on
 
   ostringstream o;
@@ -241,11 +240,16 @@ void CommandLineParser::Parse(int argc, char* argv[], RunParameters& options) {
   } else {
     LOG_FATAL() << "Command line error: An invalid or unknown run mode has been specified";
   }
-
-  if (parameters.count("skip-verify")) {
-    options.skip_verify_ = true;
+  // Deal with verify options
+  if (parameters.count("verifylevel")) {
+    if(parameters["verifylevel"].as<string>() ==  PARAM_WARNING) {
+      options.continue_pass_verify_ = true;
+    } else if (parameters["verifylevel"].as<string>()==  PARAM_ERROR) {
+      options.continue_pass_verify_ = false;
+    } else {
+      LOG_FATAL() << "verifylevel (or -V) has only two options, " << PARAM_WARNING << " and " << PARAM_ERROR;
+    }
   }
-
   /**
    * Now we store any variables we want to use to override global defaults.
    */

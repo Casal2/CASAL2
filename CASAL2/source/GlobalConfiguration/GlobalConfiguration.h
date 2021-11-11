@@ -68,8 +68,8 @@ public:
   bool   print_tabular() const { return options_.tabular_reports_; }
   string object_to_query() const { return options_.query_object_; }
 
-  void set_skip_verify(bool value) { options_.skip_verify_ = value; }
-  bool skip_verify() const { return options_.skip_verify_; }
+  void set_continue_pass_verify(bool value) { options_.continue_pass_verify_ = value; }
+  bool get_continue_pass_verify() const { return options_.continue_pass_verify_; }
 
   // Estimation options
   bool   create_mpd_output_file() const { return options_.create_mpd_output_file_; }

@@ -80,7 +80,7 @@ private:
   unsigned                      age_spread_;
 
   // Containers for reporting
-  vector<vector<vector<Double>>> actual_tagged_fish_from_;  // n_years x n_from_categories x n_ages
+  vector<vector<vector<Double>>> tagged_fish_after_init_mort_;  // n_years x n_from_categories x n_ages
   vector<vector<vector<Double>>> actual_tagged_fish_to_;    // n_years x n_to_categories x n_ages
   string                         compatibility_;
 };

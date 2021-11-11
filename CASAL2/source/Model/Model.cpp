@@ -257,13 +257,10 @@ bool Model::PrepareForIterations() {
   state_ = State::kVerify;
   if (is_primary_thread_model_) {
     Verify();
-    if (logging.errors().size() > 0) {
-      logging.FlushErrors();
-      return false;
-    }
-    if (logging.warnings().size() > 0) {
-      logging.FlushWarnings();
-      return global_configuration_->skip_verify();
+    LOG_FINE() << "found  verify" << logging.verifies().size();
+    if (logging.verifies().size() > 0) {
+      logging.FlushVerifies();
+      return global_configuration_->get_continue_pass_verify();
     }
   }
   managers_->report()->Execute(pointer(), state_);

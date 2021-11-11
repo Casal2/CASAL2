@@ -465,7 +465,7 @@ void RecruitmentBevertonHolt::FillReportCache(ostringstream& cache) {
   for (auto iter : true_ycs_values_) cache << AS_DOUBLE(iter) << " ";
   cache << "\nRecruits: ";
   for (auto iter : recruitment_values_) cache << AS_DOUBLE(iter) << " ";
-  cache << "\nSSB: ";
+  cache << "\nRecruit_event_SSB: ";
   for (auto iter : ssb_values_) cache << AS_DOUBLE(iter) << " ";
   cache << REPORT_EOL;
 }
@@ -489,7 +489,7 @@ void RecruitmentBevertonHolt::FillTabularReportCache(ostringstream& cache, bool 
     }
     for (auto year : years) {
       unsigned ssb_year = year - ssb_offset_;
-      cache << "SSB[" << ssb_year << "] ";
+      cache << "Recruit_event_SSB[" << ssb_year << "] ";
     }
 
     cache << "R0 B0 steepness ";

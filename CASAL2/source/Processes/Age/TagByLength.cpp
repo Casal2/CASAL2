@@ -233,13 +233,13 @@ void TagByLength::DoValidate() {
     }
   }
 
-  actual_tagged_fish_from_.resize(years_.size());
+  tagged_fish_after_init_mort_.resize(years_.size());
   actual_tagged_fish_to_.resize(years_.size());
   for (unsigned year_ndx = 0; year_ndx < years_.size(); ++year_ndx) {
-    actual_tagged_fish_from_[year_ndx].resize(split_from_category_labels_.size());
+    tagged_fish_after_init_mort_[year_ndx].resize(split_from_category_labels_.size());
     actual_tagged_fish_to_[year_ndx].resize(to_category_labels_.size());
     for (unsigned from_category_ndx = 0; from_category_ndx < split_from_category_labels_.size(); ++from_category_ndx)
-      actual_tagged_fish_from_[year_ndx][from_category_ndx].resize(model_->age_spread(), 0.0);
+      tagged_fish_after_init_mort_[year_ndx][from_category_ndx].resize(model_->age_spread(), 0.0);
     for (unsigned to_category_ndx = 0; to_category_ndx < to_category_labels_.size(); ++to_category_ndx)
       actual_tagged_fish_to_[year_ndx][to_category_ndx].resize(model_->age_spread(), 0.0);
   }
@@ -309,7 +309,7 @@ void TagByLength::DoBuild() {
  * Execute this process
  */
 void TagByLength::DoExecute() {
-  LOG_TRACE();
+  LOG_FINE() << label_;
   unsigned current_year = model_->current_year();
 
   if (model_->state() == State::kInitialise)
@@ -366,8 +366,13 @@ void TagByLength::DoExecute() {
       for (unsigned age_ndx = 0; age_ndx < model_->age_spread(); ++age_ndx)
         exploitation_by_age_[age_ndx] += proportion_by_length_[year_ndx][length_ndx] * (numbers_at_age_and_length_[age_ndx][length_ndx] / sum_age);
     }
-    for (unsigned age_ndx = 0; age_ndx < model_->age_spread(); ++age_ndx)
+    for (unsigned age_ndx = 0; age_ndx < model_->age_spread(); ++age_ndx) {
       tag_to_fish_by_age_[age_ndx] = exploitation_by_age_[age_ndx] * tagged_fish_by_year_[year_ndx];
+      LOG_FINE() << "sex age = " << exploitation_by_age_[age_ndx];
+    }
+    LOG_FINE() << "fish to tag";
+    for (unsigned age_ndx = 0; age_ndx < model_->age_spread(); ++age_ndx) 
+      LOG_FINE() << tag_to_fish_by_age_[age_ndx] ;
     // vulnerable age
     from_iter = from_partition_.begin();
     from_category_iter = 0;
@@ -375,6 +380,9 @@ void TagByLength::DoExecute() {
       for (unsigned age_ndx = 0; age_ndx < (*from_iter)->data_.size(); ++age_ndx)
         vulnerable_fish_by_age_[age_ndx] += (*from_iter)->data_[age_ndx];
     }
+    LOG_FINE() << "vulnerable to tag";
+    for (unsigned age_ndx = 0; age_ndx < model_->age_spread(); ++age_ndx) 
+      LOG_FINE() << vulnerable_fish_by_age_[age_ndx] ;
     if (penalty_) {
       // check there is enough fish to tag by age
       for (unsigned age_ndx = 0; age_ndx < model_->age_spread(); ++age_ndx) {
@@ -399,17 +407,17 @@ void TagByLength::DoExecute() {
       for (unsigned j = 0; j < (*from_iter)->data_.size(); ++j) {
         // fish to move
         amount = (*from_iter)->data_[j] * final_exploitation_by_age_[j];
-        actual_tagged_fish_from_[year_ndx][category_ndx][j] -= amount;
-        actual_tagged_fish_to_[year_ndx][category_ndx][j] += amount;
         // account for mortality
         if ((initial_mortality_selectivity_label_ != "") && (initial_mortality_ > 0.0))
-          amount *= initial_mortality_
-                                  * initial_mortality_selectivity_->GetAgeResult((*from_iter)->min_age_ + j, (*to_iter)->age_length_);
+          amount *= (1 - (initial_mortality_
+                                  * initial_mortality_selectivity_->GetAgeResult((*from_iter)->min_age_ + j, (*to_iter)->age_length_)));
         else if ((initial_mortality_selectivity_label_ == "") && (initial_mortality_ > 0.0))
-          amount *= initial_mortality_;
+          amount *= 1 - initial_mortality_;
         // Just do it!
         (*from_iter)->data_[j] -= amount;
         (*to_iter)->data_[j] += amount;
+        tagged_fish_after_init_mort_[year_ndx][category_ndx][j] -= amount;
+        actual_tagged_fish_to_[year_ndx][category_ndx][j] += amount;
         // log out for debuggin
         LOG_FINEST() << "age = " << j + model_->min_age() << " = " << amount  << " after process to category = " << (*to_iter)->data_[j] << " from category = " <<  (*from_iter)->data_[j];
       }
@@ -492,14 +500,17 @@ void TagByLength::DoExecute() {
         (*from_iter)->data_[j] -= numbers_at_age_by_category_[category_ndx][j];
         (*to_iter)->data_[j] += numbers_at_age_by_category_[category_ndx][j];
         // Apply the Initial mortality and tag loss after the tagging event
-        actual_tagged_fish_from_[year_ndx][category_ndx][j] -= numbers_at_age_by_category_[category_ndx][j];
         actual_tagged_fish_to_[year_ndx][category_ndx][j] += numbers_at_age_by_category_[category_ndx][j];
 
-        if ((initial_mortality_selectivity_label_ != "") && (initial_mortality_ > 0.0))
+        if ((initial_mortality_selectivity_label_ != "") && (initial_mortality_ > 0.0)) {
           (*to_iter)->data_[j] -= numbers_at_age_by_category_[category_ndx][j] * initial_mortality_
                                   * initial_mortality_selectivity_->GetAgeResult((*to_iter)->min_age_ + j, (*to_iter)->age_length_);
-        else if ((initial_mortality_selectivity_label_ == "") && (initial_mortality_ > 0.0))
+          tagged_fish_after_init_mort_[year_ndx][category_ndx][j] -= numbers_at_age_by_category_[category_ndx][j] * initial_mortality_
+                                  * initial_mortality_selectivity_->GetAgeResult((*to_iter)->min_age_ + j, (*to_iter)->age_length_);
+        } else if ((initial_mortality_selectivity_label_ == "") && (initial_mortality_ > 0.0)) {
           (*to_iter)->data_[j] -= numbers_at_age_by_category_[category_ndx][j] * initial_mortality_;
+          tagged_fish_after_init_mort_[year_ndx][category_ndx][j] -= numbers_at_age_by_category_[category_ndx][j] * initial_mortality_;
+        }
 
         LOG_FINEST() << "age = " << j + model_->min_age() << " = " << numbers_at_age_by_category_[category_ndx][j] << " after init mort = " << (*to_iter)->data_[j];
       }
@@ -515,20 +526,20 @@ void TagByLength::DoExecute() {
  */
 void TagByLength::FillReportCache(ostringstream& cache) {
   LOG_FINE() << "report age distribution of tagged individuals by source and destination";
-  for (unsigned category_ndx = 0; category_ndx < from_category_labels_.size(); ++category_ndx) {
-    cache << "from-" << from_category_labels_[category_ndx] << " " << REPORT_R_DATAFRAME_ROW_LABELS << "\n";
+  for (unsigned category_ndx = 0; category_ndx < to_category_labels_.size(); ++category_ndx) {
+    cache << "tags-after-initial_mortality-" << to_category_labels_[category_ndx]  << " " << REPORT_R_DATAFRAME_ROW_LABELS << "\n";
     cache << "year ";
     for (unsigned age = min_age_; age <= max_age_; ++age) cache << age << " ";
     cache << REPORT_EOL;
     for (unsigned year_ndx = 0; year_ndx < years_.size(); ++year_ndx) {
       cache << years_[year_ndx] << " ";
-      for (unsigned age_ndx = 0; age_ndx < age_spread_; ++age_ndx) cache << AS_DOUBLE(actual_tagged_fish_from_[year_ndx][category_ndx][age_ndx]) << " ";
+      for (unsigned age_ndx = 0; age_ndx < age_spread_; ++age_ndx) cache << AS_DOUBLE(tagged_fish_after_init_mort_[year_ndx][category_ndx][age_ndx]) << " ";
       cache << REPORT_EOL;
     }
   }
 
   for (unsigned category_ndx = 0; category_ndx < to_category_labels_.size(); ++category_ndx) {
-    cache << "to-" << to_category_labels_[category_ndx] << " " << REPORT_R_DATAFRAME_ROW_LABELS << "\n";
+    cache << "tag-releases-" << to_category_labels_[category_ndx] << " " << REPORT_R_DATAFRAME_ROW_LABELS << "\n";
     cache << "year ";
     for (unsigned age = min_age_; age <= max_age_; ++age) 
       cache << age << " ";

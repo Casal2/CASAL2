@@ -383,10 +383,10 @@ void AgeLength::PopulateAgeLengthMatrix() {
           // If we are using CASAL's Normal CDF function use this switch
           if (compatibility_ == PARAM_CASAL) {
             tmp = utilities::math::pnorm(length_bins[j], mu, sigma);
-            LOG_FINE() << "casal_normal_cdf: " << tmp << " utilities::math::pnorm(" << length_bins[j] << ", " << mu << ", " << sigma;
+            //LOG_FINE() << "casal_normal_cdf: " << tmp << " utilities::math::pnorm(" << length_bins[j] << ", " << mu << ", " << sigma;
           } else if (compatibility_ == PARAM_CASAL2) {
             tmp = utilities::math::pnorm2(length_bins[j], mu, sigma);
-            LOG_FINE() << "normal: " << tmp << " utilities::math::pnorm(" << length_bins[j] << ", " << mu << ", " << sigma;
+            //LOG_FINE() << "normal: " << tmp << " utilities::math::pnorm(" << length_bins[j] << ", " << mu << ", " << sigma;
           } else {
             LOG_CODE_ERROR() << "Unknown compatibility option in the calculation of the distribution of age_length";
           }
@@ -405,10 +405,10 @@ void AgeLength::PopulateAgeLengthMatrix() {
         } else {
           if (compatibility_ == PARAM_CASAL) {
             tmp = utilities::math::pnorm(length_bins[length_bin_count], mu, sigma);
-            LOG_FINE() << "casal_normal_cdf: " << tmp << " utilities::math::pnorm(" << length_bins[length_bin_count] << ", " << mu << ", " << sigma;
+            //LOG_FINE() << "casal_normal_cdf: " << tmp << " utilities::math::pnorm(" << length_bins[length_bin_count] << ", " << mu << ", " << sigma;
           } else if (compatibility_ == PARAM_CASAL2) {
             tmp = utilities::math::pnorm2(length_bins[length_bin_count], mu, sigma);
-            LOG_FINE() << "normal: " << tmp << " utilities::math::pnorm(" << length_bins[length_bin_count] << ", " << mu << ", " << sigma;
+            //LOG_FINE() << "normal: " << tmp << " utilities::math::pnorm(" << length_bins[length_bin_count] << ", " << mu << ", " << sigma;
           } else {
             LOG_CODE_ERROR() << "Unknown compatibility option in the calculation of the distribution of age_length";
           }
@@ -769,8 +769,11 @@ void AgeLength::FillReportCache(ostringstream& cache) {
     // print age-length matrix for this year
     cache << "age_length_transition_matrix " << REPORT_R_DATAFRAME << REPORT_EOL;
     cache << "year time_step age ";
-    for (auto length : model_->length_bins()) 
+    for (auto length : model_->length_bins()) {
+      if(!model_->length_plus() & (length == model_->length_bins()[model_->length_bins().size() - 1]))
+        continue; // don't print header for the last class min (it is a maxium)
       cache << "L(" << length << ") ";
+    }
     cache << REPORT_EOL;
     for (unsigned age = min_age; age <= max_age; ++age) {
       unsigned i = age - min_age;

@@ -222,6 +222,7 @@ void MortalityInstantaneous::DoValidate() {
     new_fishery.penalty_label_   = row[penalty_index];
     new_fishery.years_ = process_years_;
     std::pair<bool, int>  this_fishery_iter = findInVector(fishery_labels_, new_fishery.label_ );
+    LOG_FINE() << new_fishery.label_ << " found = " << this_fishery_iter.first << " ndx = " << this_fishery_iter.second;
     if(this_fishery_iter.first) {
       // we have already seen this fishery in the methods table
       // Do some checks and don't cache anything
@@ -513,7 +514,8 @@ void MortalityInstantaneous::DoExecute() {
   double   ratio             = time_step_ratios_[time_step_index];
   std::pair<bool, int >  this_year_iter = findInVector(process_years_, year);
 
-  LOG_FINE() << "Year = "<< year << " should = " << process_years_[this_year_iter.second];
+  LOG_FINE() << "Year = "<< year << " found? = " << this_year_iter.first << " should = " << process_years_[this_year_iter.second] ;
+
   Double   selectivity_value = 0.0;
   // This is to do with M. so pre-allocate and only call the exp call once per category 
   // per execute. will be used in initialisation and when Catch is not removed

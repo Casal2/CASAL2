@@ -25,7 +25,7 @@ using std::vector;
 std::mutex Logging::lock_;
 
 #ifdef TESTMODE
-logger::Severity Logging::current_log_level_ = logger::Severity::kVerifyWarning;
+logger::Severity Logging::current_log_level_ = logger::Severity::kWarning;
 #else
 logger::Severity Logging::current_log_level_ = logger::Severity::kInfo;
 #endif
@@ -72,6 +72,7 @@ void Logging::SetLogLevel(const std::string& log_level) {
   }
 }
 
+
 #ifdef TESTMODE
 /**
  * This method flushes the standard output and standard error
@@ -104,10 +105,12 @@ void Logging::Flush(niwa::logger::Record& record) {
     info_.push_back(record.stream().str());
   if (record.severity() == logger::Severity::kImportant)
     important_.push_back(record.stream().str());
-  else if (record.severity() == logger::Severity::kWarning || record.severity() == logger::Severity::kVerifyWarning)
+  else if (record.severity() == logger::Severity::kWarning)
     warnings_.push_back(record.stream().str());
   else if (record.severity() == logger::Severity::kError)
     errors_.push_back(record.stream().str());
+  else if (record.severity() == logger::Severity::kVerify)
+    verifies_.push_back(record.stream().str());
   else if (record.severity() == logger::Severity::kFatal || record.severity() == logger::Severity::kCodeError) {
     cerr << record.message();
     if (errors_.size() > 0)
@@ -203,6 +206,24 @@ void Logging::FlushWarnings() {
   cout.flush();
 
   warnings_.clear();
+}
+
+
+/**
+ * FLush verifies report that is compatable with the Casal2 R package
+ */
+void Logging::FlushVerifies() {
+  std::scoped_lock l(lock_);
+  if (verifies_.size() == 0) {
+    return;
+  }
+  cout << "*verifications[messages_encountered]" << REPORT_EOL;
+  cout << "Values " << REPORT_R_STRING_VECTOR << REPORT_EOL;
+  for (unsigned i = 0; i < verifies_.size(); ++i) cout << verifies_[i] << REPORT_EOL;
+  cout << REPORT_END << REPORT_EOL << REPORT_EOL;
+  cout.flush();
+
+  verifies_.clear();
 }
 
 } /* namespace niwa */

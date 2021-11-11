@@ -39,7 +39,7 @@ struct RunParameters {
   string        model_type_  = "";
   string        config_file_ = "config.csl2";
   string        log_level_   = "information";
-  bool          skip_verify_ = false;  // Skip verify halting execution if warnings are produced
+  bool          continue_pass_verify_ = false;  // Skip verify halting execution if warnings are produced
 
   // basic run mode options
   bool single_step_model_ = false;

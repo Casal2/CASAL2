@@ -42,6 +42,7 @@ public:
   void            Flush(niwa::logger::Record& record);
   void            FlushErrors();
   void            FlushWarnings();
+  void            FlushVerifies();
   void            FlushInfo();
   void            FlushImportant();
 
@@ -50,6 +51,7 @@ public:
   std::vector<std::string>& important() { return important_; }
   std::vector<std::string>& warnings() { return warnings_; }
   std::vector<std::string>& errors() { return errors_; }
+  std::vector<std::string>& verifies() { return verifies_; }
 
   // static members
   static logger::Severity current_log_level_;
@@ -63,6 +65,7 @@ private:
   std::vector<std::string> info_;
   std::vector<std::string> important_;
   std::vector<std::string> warnings_;
+  std::vector<std::string> verifies_;
   std::vector<std::string> errors_;
 };
 
@@ -90,8 +93,8 @@ private:
 #define LOG_INFO() LOG_IF_FOR_STREAM(logger::Severity::kInfo)
 // Important messages (not an error)
 #define LOG_IMPORTANT() LOG_IF_FOR_STREAM(logger::Severity::kImportant)
-// Warning messages (an error, except during unit tests)
-#define LOG_VERIFY() LOG_IF_FOR_STREAM(logger::Severity::kVerifyWarning)
+// Verify messages (an error, except during unit tests) can be bypassed with --verifylevel warning or -V warning
+#define LOG_VERIFY() LOG_IF_FOR_STREAM(logger::Severity::kVerify)
 // Warning messages (not an error, except during test)
 #define LOG_WARNING() LOG_IF_FOR_STREAM(logger::Severity::kWarning)
 // Errors that do not cause an immediate stop, but are logged and reported all at once
