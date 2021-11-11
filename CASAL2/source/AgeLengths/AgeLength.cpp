@@ -787,6 +787,4 @@ void AgeLength::FillReportCache(ostringstream& cache) {
 }
 
 
-
-
 } /* namespace niwa */

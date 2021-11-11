@@ -40,11 +40,13 @@ Simplex::Simplex(shared_ptr<Model> model) : AddressableTransformation(model) {
 void Simplex::DoValidate() {
   LOG_FINE() << "Build values allocate memory";
   LOG_FINE() << "init_values_.size() " << init_values_.size() << " n-params " << n_params_;
-  // check if parameter has been supplied by -i or -i Files
-  if (IsAddressableUsedFor(PARAM_SIMPLEX_PARAMETER, addressable::kInputRun))
-    simplex_input_supplied_ = true;
 
-  LOG_FINE() << "simplex param given in -i " << simplex_input_supplied_;
+  LOG_FINE() << "cached values";
+  restored_values_.resize(n_params_, 0.0);
+  unit_vector_.resize(n_params_, 0.0);
+  zk_.resize(n_params_ - 1, 0.0);
+  cumulative_simplex_k_.resize(n_params_ - 1, 0.0);
+
   n_param_double_ = (Double)n_params_;
   Double count = 1.0;
   if(prior_applies_to_restored_parameters_) {
@@ -59,11 +61,49 @@ void Simplex::DoValidate() {
     cache_log_k_value_[i] = log(1.0 / (n_param_double_ - count));
   }
 
-  LOG_FINE() << "cached values";
-  restored_values_.resize(n_params_, 0.0);
-  unit_vector_.resize(n_params_, 0.0);
-  zk_.resize(n_params_ - 1, 0.0);
-  cumulative_simplex_k_.resize(n_params_ - 1, 0.0);
+  LOG_FINE() << "exit validate";
+}
+
+/**
+ * Build
+ */
+void Simplex::DoBuild() {
+  // get estimate label
+  string estimate_label = "";
+  // iterate over the 
+  estimate_label = "parameter_transformation[" + label_ + "].simplex{1}";
+  LOG_FINE() << "looking for " << estimate_label;
+  // iterate over the simplex estiamtes and check they are active, 
+  // if prior applies to restored value, turn the last estimate to not estimate
+  // but contribute to the objective function.
+  unsigned n_par_in_estimates = n_params_;
+  if(not prior_applies_to_restored_parameters_)
+    n_par_in_estimates--;
+
+  for(unsigned i = 0; i < n_par_in_estimates; ++i) {
+    estimate_label = "parameter_transformation[" + label_ + "].simplex{" +  utilities::ToInline<unsigned, string>(i + 1) + "}";
+    LOG_FINE() << "looking for " << estimate_label;
+    simplex_estimate_ = model_->managers()->estimate()->GetEstimate(estimate_label);
+    if(!simplex_estimate_) {
+      LOG_WARNING() << "Could not find @estimate block for " << estimate_label << ", this is odd that you have a parameter transfomration, but not estimating the transformed parameter";
+      continue;
+    } else {
+      // if last value and prior applies to restored value 
+      if(prior_applies_to_restored_parameters_ & (i == (n_params_ - 1))) {
+        LOG_FINE() << "setting last value to be a dummy prior for estimate " << estimate_label;
+        simplex_estimate_->set_in_objective_function(true);
+        simplex_estimate_->set_estimated(false);
+        simplex_estimate_->set_mcmc_fixed(false);
+      }
+    }
+    simplex_estimate_ = nullptr;
+  }
+
+  // check if parameter has been supplied by -i or -i Files
+  if (IsAddressableUsedFor(PARAM_SIMPLEX_PARAMETER, addressable::kInputRun))
+    simplex_input_supplied_ = true;
+  LOG_FINE() << "simplex param given in -i " << simplex_input_supplied_;
+
   // if given -i check they have supplied all the values otherwise error out.
   if(simplex_input_supplied_) {
     // calculated restored values
@@ -121,43 +161,6 @@ void Simplex::DoValidate() {
       simplex_parameter_[i] = log(zk_[i] / (1 - zk_[i])) - cache_log_k_value_[i];
       LOG_FINE() << "zk = " << zk_[i] << " yk (simplex) = " <<  simplex_parameter_[i] << " cache k " << cache_log_k_value_[i] << " unit vector " << unit_vector_[i];
     }
-  }
-  LOG_FINE() << "exit validate";
-}
-
-/**
- * Build
- */
-void Simplex::DoBuild() {
-  // get estimate label
-  string estimate_label = "";
-  // iterate over the 
-  estimate_label = "parameter_transformation[" + label_ + "].simplex{1}";
-  LOG_FINE() << "looking for " << estimate_label;
-  // iterate over the simplex estiamtes and check they are active, 
-  // if prior applies to restored value, turn the last estimate to not estimate
-  // but contribute to the objective function.
-  unsigned n_par_in_estimates = n_params_;
-  if(not prior_applies_to_restored_parameters_)
-    n_par_in_estimates--;
-
-  for(unsigned i = 0; i < n_par_in_estimates; ++i) {
-    estimate_label = "parameter_transformation[" + label_ + "].simplex{" +  utilities::ToInline<unsigned, string>(i + 1) + "}";
-    LOG_FINE() << "looking for " << estimate_label;
-    simplex_estimate_ = model_->managers()->estimate()->GetEstimate(estimate_label);
-    if(!simplex_estimate_) {
-      LOG_WARNING() << "Could not find @estimate block for " << estimate_label << ", this is odd that you have a parameter transfomration, but not estimating the transformed parameter";
-      continue;
-    } else {
-      // if last value and prior applies to restored value 
-      if(prior_applies_to_restored_parameters_ & (i == (n_params_ - 1))) {
-        LOG_FINE() << "setting last value to be a dummy prior for estimate " << estimate_label;
-        simplex_estimate_->set_in_objective_function(true);
-        simplex_estimate_->set_estimated(false);
-        simplex_estimate_->set_mcmc_fixed(false);
-      }
-    }
-    simplex_estimate_ = nullptr;
   }
 }
 /**

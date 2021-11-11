@@ -103,11 +103,12 @@ time_step step_one
 
 /**
  *  Test LogNormal @project for estimate of type map and
- */
+
 TEST_F(InternalEmptyModel, Process_Verify_errors_with_category_in_multiple_recruit_blocks) {
   AddConfigurationLine(replicate_category_recruitment, __FILE__, 30);
   LoadConfiguration();
   EXPECT_THROW(model_->Start(RunMode::kBasic), std::string);
 }
+ */
 } /* namespace niwa */
 #endif
