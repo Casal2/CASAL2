@@ -617,14 +617,6 @@ The null\_process  type has no additional subcommands. Note that this process do
 \defType{String}
 \defDefault{No default}
 
-\defSub{loss\_rate}{The loss rate}
-\defType{Vector of real numbers (estimable)}
-\defDefault{No default}
-
-\defSub{loss\_rate\_selectivities}{The loss rate selectivity label}
-\defType{Vector of strings}
-\defDefault{true}
-
 \defSub{selectivities}{The selectivity labels}
 \defType{Vector of strings}
 \defDefault{No default}
@@ -661,6 +653,11 @@ The null\_process  type has no additional subcommands. Note that this process do
 \defDefault{0.99}
 \defLowerBound{0.0 (inclusive)}
 \defUpperBound{1.0 (exclusive)}
+
+\defSub{compatibility\_option}{Backwards compatibility option: either casal2 (the default) or casal effects penalty and age-length calculation}
+\defType{string}
+\defDefault{casal2}
+\defValue{Valid options are \subcommand{casal2} \& \subcommand{casal}}
 
 \defSub{years}{The years to execute the tagging events in}
 \defType{Vector of non-negative integers}
@@ -714,7 +711,7 @@ The null\_process  type has no additional subcommands. Note that this process do
 \defLowerBound{0.0 (inclusive)}
 \defValue{The instantaneous rate of tag loss}
 
-\defSub{time\_step\_ratio}{The time step ratios for tag loss}
+\defSub{time\_step\_proportions}{The time step proportions for tag loss}
 \defType{Vector of real numbers (estimable)}
 \defDefault{true}
 \defLowerBound{0.0 (inclusive)}
@@ -722,7 +719,8 @@ The null\_process  type has no additional subcommands. Note that this process do
 
 \defSub{tag\_loss\_type}{The type of tag loss}
 \defType{String}
-\defDefault{No default}
+\defDefault{single}
+\defValue{Valid options are \subcommand{single} \& \subcommand{double}}
 
 \defSub{selectivities}{The selectivities}
 \defType{Vector of strings}

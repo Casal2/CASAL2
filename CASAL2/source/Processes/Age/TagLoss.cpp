@@ -33,10 +33,11 @@ TagLoss::TagLoss(shared_ptr<Model> model) : Process(model), partition_(model) {
   process_type_        = ProcessType::kTransition;
   partition_structure_ = PartitionType::kAge;
 
-  parameters_.Bind<string>(PARAM_CATEGORIES, &category_labels_, "The list of categories", "");
+  parameters_.Bind<string>(PARAM_CATEGORIES, &category_labels_, "The list of categories to apply", "");
   parameters_.Bind<Double>(PARAM_TAG_LOSS_RATE, &tag_loss_input_, "The tag loss rates", "")->set_lower_bound(0.0, true);
   parameters_.Bind<Double>(PARAM_TIME_STEP_PROPORTIONS, &ratios_, "The time step proportions for tag loss", "", true)->set_range(0.0, 1.0);
-  parameters_.Bind<string>(PARAM_TAG_LOSS_TYPE, &tag_loss_type_, "The type of tag loss", "");
+  parameters_.Bind<string>(PARAM_TAG_LOSS_TYPE, &tag_loss_type_, "The type of tag loss", "", PARAM_SINGLE)
+      ->set_allowed_values({PARAM_SINGLE, PARAM_DOUBLE_TAG});
   parameters_.Bind<string>(PARAM_SELECTIVITIES, &selectivity_names_, "The selectivities", "");
   parameters_.Bind<unsigned>(PARAM_YEAR, &year_, "The year the first tagging release process was executed", "");
 
@@ -75,13 +76,6 @@ void TagLoss::DoValidate() {
     LOG_ERROR_P(PARAM_SELECTIVITIES) << ": the number of selectivities provided is not the same as the number of categories provided. Categories: " << category_labels_.size()
                                      << ", selectivities size " << selectivity_names_.size();
   }
-
-  // Validate type of tag loss
-  if (tag_loss_type_ != "single")
-    LOG_ERROR_P(PARAM_TAG_LOSS_TYPE) << tag_loss_type_ << " is not an expected type. Values allowed are: " << PARAM_SINGLE;
-
-  if (tag_loss_type_ == PARAM_DOUBLE)
-    LOG_ERROR() << PARAM_TAG_LOSS_TYPE << " " << PARAM_DOUBLE << " is not implemented";
 
   // Validate our Ms are between 1.0 and 0.0
   for (Double tag_loss : tag_loss_input_) {
@@ -134,7 +128,8 @@ void TagLoss::DoBuild() {
         LOG_ERROR_P(PARAM_TIME_STEP_PROPORTIONS) << " Time step proportions (" << value << ") must be between 0.0 and 1.0 inclusive";
     }
 
-    for (unsigned i = 0; i < ratios_.size(); ++i) time_step_ratios_[active_time_steps[i]] = ratios_[i];
+    for (unsigned i = 0; i < ratios_.size(); ++i) 
+      time_step_ratios_[active_time_steps[i]] = ratios_[i];
   }
 }
 
@@ -154,22 +149,39 @@ void TagLoss::DoExecute() {
 
     // StoreForReport("year", model_->current_year());
 
-    unsigned i = 0;
-    for (auto category : partition_) {
-      Double tag_loss = tag_loss_[category->name_];
+    if(tag_loss_type_ == PARAM_SINGLE) {
+      unsigned i = 0;
+      for (auto category : partition_) {
+        Double tag_loss = tag_loss_[category->name_];
 
-      unsigned j = 0;
-      LOG_FINEST() << "category " << category->name_ << "; min_age: " << category->min_age_ << "; ratio: " << ratio;
-      // StoreForReport(category->name_ + " ratio", ratio);
-      for (Double& data : category->data_) {
-        // Deleting this partition. In future we may have a target category to migrate to.
-        Double amount = data * (1 - exp(-selectivities_[i]->GetAgeResult(category->min_age_ + j, category->age_length_) * tag_loss * ratio));
-        LOG_FINEST() << "Category " << category->name_ << " numbers at age: " << category->min_age_ + j << " = " << data << " removing " << amount;
-        data -= amount;
-        ++j;
+        unsigned j = 0;
+        LOG_FINEST() << "category " << category->name_ << "; min_age: " << category->min_age_ << "; ratio: " << ratio;
+        // StoreForReport(category->name_ + " ratio", ratio);
+        for (Double& data : category->data_) {
+          // Deleting this partition. In future we may have a target category to migrate to.
+          Double amount = data * (1.0 - exp(-selectivities_[i]->GetAgeResult(category->min_age_ + j, category->age_length_) * tag_loss * ratio));
+          LOG_FINEST() << "Category " << category->name_ << " numbers at age: " << category->min_age_ + j << " = " << data << " removing " << amount;
+          data -= amount;
+          ++j;
+        }
+        ++i;
       }
-
-      ++i;
+    } else if (tag_loss_type_ == PARAM_DOUBLE_TAG) {
+      unsigned i = 0;
+      for (auto category : partition_) {
+        Double tag_loss = tag_loss_[category->name_];
+        unsigned j = 0;
+        LOG_FINEST() << "category " << category->name_ << "; min_age: " << category->min_age_ << "; ratio: " << ratio;
+        // StoreForReport(category->name_ + " ratio", ratio);
+        for (Double& data : category->data_) {
+          Double amount = data * (1.0 - exp(-selectivities_[i]->GetAgeResult(category->min_age_ + j, category->age_length_) * tag_loss * ratio));
+          amount = 1.0 - ((1.0 - amount) * (1.0 - amount));
+          LOG_FINEST() << "Category " << category->name_ << " numbers at age: " << category->min_age_ + j << " = " << data << " removing " << amount;
+          data -= amount;
+          ++j;
+        }
+        ++i;
+      }
     }
   }
 }

@@ -386,10 +386,10 @@ void TagByLength::DoExecute() {
     if (penalty_) {
       // check there is enough fish to tag by age
       for (unsigned age_ndx = 0; age_ndx < model_->age_spread(); ++age_ndx) {
-        if(vulnerable_fish_by_age_[age_ndx] < tag_to_fish_by_age_[age_ndx]) {
+        if(vulnerable_fish_by_age_[age_ndx] <= tag_to_fish_by_age_[age_ndx]) {
           // flage penalty
           penalty_->Trigger(label_, vulnerable_fish_by_age_[age_ndx], tag_to_fish_by_age_[age_ndx]);
-          tag_to_fish_by_age_[age_ndx] = vulnerable_fish_by_age_[age_ndx]; // Does this break AD? its pretty disgusting.
+          tag_to_fish_by_age_[age_ndx] = u_max_ * vulnerable_fish_by_age_[age_ndx]; // Does this break AD? its pretty disgusting.
           // comment from CASAL: we will not be able to tag as many fish as we designated - this should be rare
         }
       }
@@ -418,6 +418,10 @@ void TagByLength::DoExecute() {
         (*to_iter)->data_[j] += amount;
         tagged_fish_after_init_mort_[year_ndx][category_ndx][j] -= amount;
         actual_tagged_fish_to_[year_ndx][category_ndx][j] += amount;
+
+        if((*from_iter)->data_[j] < 0.0)
+          LOG_CODE_ERROR() << "TagByLength caused a negative partition " << (*from_iter)->name_ << " " << " age = " << j + (*from_iter)->min_age_ << " numbers at age = " << (*from_iter)->data_[j] << " tagged fish = " << amount;
+
         // log out for debuggin
         LOG_FINEST() << "age = " << j + model_->min_age() << " = " << amount  << " after process to category = " << (*to_iter)->data_[j] << " from category = " <<  (*from_iter)->data_[j];
       }
@@ -512,6 +516,8 @@ void TagByLength::DoExecute() {
           tagged_fish_after_init_mort_[year_ndx][category_ndx][j] -= numbers_at_age_by_category_[category_ndx][j] * initial_mortality_;
         }
 
+        if((*from_iter)->data_[j] < 0.0)
+          LOG_CODE_ERROR() << "TagByLength caused a negative partition " << (*from_iter)->name_ << " " << " age = " << j + (*from_iter)->min_age_ << " numbers at age = " << (*from_iter)->data_[j] << " tagged fish = " << numbers_at_age_by_category_[category_ndx][j];
         LOG_FINEST() << "age = " << j + model_->min_age() << " = " << numbers_at_age_by_category_[category_ndx][j] << " after init mort = " << (*to_iter)->data_[j];
       }
     }

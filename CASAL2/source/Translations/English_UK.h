@@ -253,6 +253,7 @@
 #define PARAM_DISTRIBUTION                        "distribution"
 #define PARAM_DIRICHLET                           "dirichlet"
 #define PARAM_DOUBLE                              "numeric"
+#define PARAM_DOUBLE_TAG                          "double"
 #define PARAM_DOUBLE_EXPONENTIAL                  "double_exponential"
 #define PARAM_DOUBLE_NORMAL                       "double_normal"
 #define PARAM_E                                   "e"

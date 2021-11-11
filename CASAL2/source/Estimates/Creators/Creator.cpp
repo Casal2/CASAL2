@@ -41,7 +41,7 @@ Creator::Creator(shared_ptr<Model> model) : model_(model) {
   //  parameters_.Bind<string>(PARAM_PRIOR, &prior_label_, "TBA", "", "");
   parameters_.Bind<string>(PARAM_SAME, &same_labels_, "The list of parameters that are constrained to have the same value as this parameter", "", "");
   parameters_.Bind<string>(PARAM_ESTIMATION_PHASE, &estimation_phase_, "The estimation phase", "", "");
-  parameters_.Bind<string>(PARAM_MCMC, &mcmc_, "Indicates if this parameter is fixed at the point estimate during an MCMC run", "", "");
+  //parameters_.Bind<string>(PARAM_MCMC_FIXED, &mcmc_fixed_, "Indicates if this parameter is fixed at the point estimate during an MCMC run", "", "");
 }
 
 /**
@@ -410,7 +410,7 @@ void Creator::CopyParameters(niwa::Estimate* estimate, unsigned index) {
   estimate->parameters().CopyFrom(parameters_, PARAM_PARAMETER);
   //  estimate->parameters().CopyFrom(parameters_, PARAM_PRIOR);
   estimate->parameters().CopyFrom(parameters_, PARAM_ESTIMATION_PHASE);
-  estimate->parameters().CopyFrom(parameters_, PARAM_MCMC);
+  //estimate->parameters().CopyFrom(parameters_, PARAM_MCMC_FIXED);
 
   estimate->parameters().CopyFrom(parameters_, PARAM_LOWER_BOUND, index);
   estimate->parameters().CopyFrom(parameters_, PARAM_UPPER_BOUND, index);

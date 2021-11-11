@@ -81,7 +81,7 @@ protected:
   string            creator_parameter_;
   Double            lower_bound_;
   Double            upper_bound_;
-  bool              mcmc_fixed_;
+  bool              mcmc_fixed_ = false;
   //  string                      prior_label_;
   unsigned        estimation_phase_ = 1;
   vector<string>  same_labels_;

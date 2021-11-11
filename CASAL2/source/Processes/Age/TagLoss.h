@@ -48,7 +48,7 @@ private:
   vector<string>             category_labels_;
   vector<Double>             tag_loss_input_;
   OrderedMap<string, Double> tag_loss_;
-  string                     tag_loss_type_ = "single";
+  string                     tag_loss_type_;
   vector<Double>             ratios_;
   map<unsigned, Double>      time_step_ratios_;
   vector<string>             selectivity_names_;

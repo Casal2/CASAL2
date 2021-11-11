@@ -758,7 +758,7 @@ The equations for instantaneous mortality:
 
 	In most cases the mortality pressure will be equal to the exploitation rate (i.e., $U_{f,obs} = U_f$), but can be different if: (a) there is another removal method operating in the same time step as removal method $f$ and affecting some of the same partition elements, and/or (b) the selectivity $S_{f,a}$ does not have a maximum value of 1.
 
-	There is a maximum mortality pressure limit of $U_{f,max}$ for each method of removal $f$. So, no more than proportion $U_{f,max}$ can be taken from any element of the partition affected by removal method $f$ in that time step. Clearly, $0 \leq U_{max} \leq 1$. It is an error if two removal methods, which affect the same partition elements in the same time step, do not have the same $U_max$.
+	There is a maximum mortality pressure limit of $U_{f,max}$ for each method of removal $f$. So, no more than proportion $U_{f,max}$ can be taken from any element of the partition affected by removal method $f$ in that time step. Clearly, $0 \leq U_{max} \leq 1$. It is an error if two removal methods, which affect the same partition elements in the same time step, do not have the same $U_{max}$.
 
 	For each $f$, if $U_{f,obs} > U_{f,max}$, then $U_f$ is multiplied by $U_{f,max}/U_{f,obs}$ and the mortality pressures are recalculated. In this case the catch actually taken from the population in the model will differ from the specified catch, $C_f$.
 
@@ -787,7 +787,7 @@ For example, to apply natural mortality of $0.20$ across three time steps on bot
 	end table
 
 	table method
-	method       category  selectivity u_max   time_step penalty
+	method       category  selectivity u_max   time_step  penalty
 	FishingWest   stock     westFSel    0.7     step1     CatchPenalty
 	FishingEast   stock     eastFSel    0.7     step1     CatchPenalty
 	end_table
@@ -1152,11 +1152,12 @@ Age-based tag release events move a known number of individuals tagged for each 
 
 Length-based tag release processes are more complicated, as the age-length matrix is calculated and the exploitation for each length bin to then move the correct numbers-at-age based on the known lengths of release. \CNAME\ also allows for initial tag loss.
 
-The tag-release process:
 
+\paragraph*{{Tag Release By Length}}
+\subcommand{compatability\_switch casal2}
 For each length bin $l$ of the input vector of numbers-at-length $\tilde{N_l}$
 
-$$N_{l,j} = \sum_{a = 1}N_{a,l,j} * S_a$$
+$$N_{l,j} = \sum_{a = 1}N_{a,l,j} * S_{a,j}$$
 
 where $N_{a,l,j}$ is the numbers at age $a$ and length $l$ for category $j$, and $S_a$ is the selectivity at age $a$.
 
@@ -1180,7 +1181,12 @@ u_{l},  & \text{otherwise}
 
 Calculate the numbers-at-age in this category that will be moved by multiplying across the age-length matrix and storing the result by age, for each age accumulated across all length bins. Then move the necessary
 
-$$N_{a,j} += N_{a,l} * u_l$$
+$$\widetilde{N_{a,j}}  = \widetilde{N_{a,j}}  +  N_{a,l} * u_l$$
+
+Release mortality denoted by \(U_a\) can be applied before the process finished,
+
+$$\widetilde{N_{a,j}} = \widetilde{N_{a,j}} - \widetilde{N_{a,j}}\left(1.0 - U_a\right)$$
+
 
 The syntax for an example of tag release by length process
 
@@ -1203,25 +1209,73 @@ U_max 0.999
 
 This process moves 207 individuals from a combination of male.untagged and female.untagged categories, based on the combination of growth rates and selectivity, into tagged male and tagged female categories.
 
-\subsubsection{\I{Tag loss}}\label{sec:Process-TagLoss} \STATUS{Untested}
 
-Tag Loss is the process which accounts for tags being lost from a tagged individual due to, for example, tag failure or tags getting knocked off. This process is applied as an instantaneous migration rate that can happen over multiple time steps in the annual cycle. This method assumes that when tags are lost the individuals are transferred from the \subcommand{from} category to the \subcommand{to} category.
+For \subcommand{compatability\_switch casal}
+This describes the algoirthm applied in CASAL, it should yield identical results when a single untagged category and tagged category are supplied. There is a small difference when input numbers at length are defined for a combination of categories (unsexed) and we allocated into each corresponding category (male and female). This is supplied for backwards compatibility with CASAL, we recommend using \subcommand{compatability\_switch casal2}. 
 
-The tag loss rate is applied depending on whether the individuals were tagged with a single tag only (\subcommand{tag\_number\_per\_animal = 1}), double tagged (\subcommand{tag\_number\_per\_animal = 2}), or tagged with $n$ tags (\subcommand{tag\_number\_per\_animal = n}).
 
-The syntax for the tag loss is
+Given the input vector of proportions-at-length denoted by $\widetilde{p_l}$ and number of releases \(\widetilde{N}\), CASAL first calculates vulnerable numbers at age and length for all combined categories,
 
+$$N_{a,l} = \sum_{j = 1} \phi_{a,l,j} N_{a,l,j} * S_a$$
+
+Then it converts $\widetilde{p_l}$ to an age proportion denoted by  $\widetilde{p_a}$
+
+$$\widetilde{p_a} = \widetilde{p_a} + \sum_{l = 1} \widetilde{p_l} \frac{N_{a,l}}{\sum_a N_{a,l}}$$
+This assumption is thought to be less than ideal, because it ignores the length ratios between categories. $\widetilde{N_a}$ denotes the number of tags to release. 
+
+$$\widetilde{N_a} = \widetilde{p_a} \widetilde{N}$$
+At this point if \(\widetilde{N_a} > \sum_a N_{a,l}\) a penalty is flagged on the difference on these numbers at this point.
+
+The tagged fish released for category \(c\)
+$$\widetilde{N_{a,j}} = \widetilde{N_a} \frac{N_{a,l,c} }{\sum_a N_{a,l} }$$
+%
+Release mortality denoted by \(U_a\)  is applied as an exploitation proportion before the process finished,
+
+$$\widetilde{N_{a,j}} = \widetilde{N_{a,j}} - \widetilde{N_{a,j}}\left(1.0 - U_a\right)$$
+
+\subsubsection{\I{Tag loss}}\label{sec:Process-TagLoss} 
+Tag Loss is the process which accounts for tagged fish being removed from the partition. For example tag related mortality or tag failure. This process is applied as an instantaneous mortality rate that can happen over multiple time steps in the annual cycle. This method assumes that when tags are lost the individuals are deleted from the model.
+
+
+Two options are available depending on whether the tag release event were tagged with a single tag (\subcommand{tag\_type single}) and double tag (\subcommand{tag\_type double}).
+
+For elements in the partition indexed by age \(a\) and category \(c\) , the number of tag lost (\(N^*_{c,a}\)) at time step \(t\) with loss rate \(r\) and proportion denoted by \(p^t\) for type \subcommand{single} is
+\begin{equation}
+	N^*_{c,a} = N_{c,a} exp\left( - r_a p^t\right)
+\end{equation}
+%
+where \(N_{c,a}\) is the number of tagged fish before the process is applied.
+
+For tag type \subcommand{double}
+\begin{equation}
+N^*_{c,a} = 1 - \left(1 - N_{c,a} exp\left( - r_a p^t\right)\right)\left(1 - N_{c,a} exp\left( - r_a p^t\right)\right)
+\end{equation}
+%
+
+
+The syntax for the tag loss process follows
 {\small{\begin{verbatim}
 @process Tag_loss
 type tag_loss
-categories tagged_fish
+categories single_tagged_fish
 tag_loss_rate 0.02
 time_step_proportions 0.25 0.75
 selectivities One
 tag_loss_type single
 year 1985
 \end{verbatim}}}
+and double tagged
 
+{\small{\begin{verbatim}
+	@process Tag_loss
+	type tag_loss
+	categories double_tagged_fish
+	tag_loss_rate 0.02
+	time_step_proportions 0.25 0.75
+	selectivities One
+	tag_loss_type double
+	year 1985
+\end{verbatim}}}
 \subsection{\I{Derived quantities}\label{sec:DerivedQuantity}}
 
 Some processes require a population value derived from the population state as an argument. These values are \texttt{derived quantities}. Derived quantities are values calculated in a specified time step in every year, and thus have a single value for each year of the model. The time within the time-step is at the end unless otherwise specified (using \textit{proportion\_mortality}-like subcommand.

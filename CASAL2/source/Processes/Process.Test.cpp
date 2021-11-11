@@ -46,7 +46,6 @@ type none
 years 20
 convergence_years 20
 
-
 @time_step step_one
 processes Recruitment maturation halfM Recruitment_again
 
