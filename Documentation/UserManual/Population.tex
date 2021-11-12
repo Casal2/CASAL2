@@ -232,6 +232,13 @@ An example with one initialisation phase:
 		type derived
 		\end{verbatim}}}
 
+
+When a model is initialised with this method, and recruitment is defined by \(B_0\), the model initialises the partition with an \(R_0 = 1\). Once the initialisation phase is complete, it scales all the categories defined in each recruitment process by
+\[
+N_{a,c}  = N_{a,c} \times B_0^R / SSB^R  \ .
+\]
+where, \(R\) denotes each recruitment block and \(N_{a,c}\) are categories defined in that recruitment block. For this case, it is advised to associate all categories to the recruitment so they are accounted for in this scaling process. If maturity is in the partition, it is not intuitive to define mature categories with a proportion set = 0 in a recruitment process. However, this is exactly what is needed to scale the partition to the correct equilibrium state. \CNAME\ will flag a warning if a model doesn't have all categories defined in the available recruitment blocks. A case where this can be ignored is in models with tagged categories, these categories don't exist in initialisation and so don't need to be scaled, thus can be omitted from the recruitment definition. \CNAME\ will still output a warning for this, but can be ignored if users understand its purpose.
+
 \paragraph{\I{Cinitial Initialisation}}\label{sec:InitialisationPhase-Cinitial} \STATUS{Untested}
 
 The \texttt{cinitial} initialisation can only be applied after \textit{derived} or \textit{iterative} initialisation phases. This initialisation can be a method for estimating the non-equilibrium state of population if there is exploitation before data is collected. The estimated \textit{cinitial} factors shift the initial population away from an equilibrium state prior to the start year.
@@ -315,12 +322,13 @@ Population processes are processes that change the model state. These processes 
 Current population processes available include:
 
 \begin{itemize}
-\item recruitment\index{Recruitment},
-\item ageing\index{Ageing},
-\item growth\index{Growth},
-\item maturation\index{Maturation},
-\item mortality\index{Mortality} events (e.g., natural and fishing), and
-\item category transition processes\index{Category transition}, i.e., processes that move individuals between categories while preserving their overall age structure.
+\item recruitment\index{Recruitment} (Section~\ref{sec:Process-Recruitment}),
+\item ageing\index{Ageing} (Section~\ref{sec:Process-Ageing}),
+\item growth\index{Growth} (Section~\ref{sec:AgeLength}),
+\item maturation\index{Maturation} (Section~\ref{sec:Process-TransitionCategory}),
+\item mortality\index{Mortality} events (e.g., natural and fishing) (Section~\ref{sec:Process-Mortality}), 
+\item category transition processes\index{Category transition}, i.e., processes that move individuals between categories while preserving their overall age structure (Section~\ref{sec:Process-TransitionCategory}), and
+\item tagging and tag loss (Section~\ref{sec:Process-TagByAge}).
 \end{itemize}
 
 There are two types of processes: (1) processes that occur across multiple time steps in the annual cycle, e.g., \subcommand{mortality\_constant\_rate} and \subcommand{mortality\_instantaneous}; and (2) processes that occur only within the time step in which they are specified.
