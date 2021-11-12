@@ -62,6 +62,8 @@ The mock class can call public methods, but you will have to mock protected func
 
 Running a specific unit test instead of the whole suite use the following command \texttt{casal2 --gtest\_filter=AgeLengths.*}
 
+\subsection{Verification}
+After \CNAME\ executes Validate and Build it runs sanity checks in the verify state. These are business rules that can be checked across the entire system. This can be useful to suggest dependencies or configurations. For an example see the directory \subcommand{Processes\textbackslash Verification\textbackslash} in the source code. 
 
 \subsection{Reporting (Optional)}
 
