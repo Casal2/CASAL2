@@ -18,43 +18,45 @@
 \defType{String}
 \defDefault{No default}
 
-\subsubsection{parameter\_transformation of type Average\_Difference}
-\commandlabsubarg{parameter\_transformation}{type}{average\_difference}.
-\defRef{sec:Transformation-AverageDifference}
-\label{syntax:Transformation-AverageDifference}
+\subsubsection{parameter\_transformation of type Log}
+\commandlabsubarg{parameter\_transformation}{type}{log}.
+\label{syntax:Transformation-Log} \\ \\
+The addressable parameter for this transformation is \subcommand{log\_parameter}. See Section \ref{subsec:Transformation-types}, paragraph \ref{sec:Transformation-Log}.
 
 \subsubsection{parameter\_transformation of type Inverse}
 \commandlabsubarg{parameter\_transformation}{type}{inverse}.
-\defRef{sec:Transformation-Inverse}
-\label{syntax:Transformation-Inverse}
+\label{syntax:Transformation-Inverse}  \\ \\
+The addressable parameter for this transformation is \subcommand{inverse\_parameter}. See Section \ref{subsec:Transformation-types}, paragraph \ref{sec:Transformation-Inverse}.
 
-\subsubsection{parameter\_transformation of type Log}
-\commandlabsubarg{parameter\_transformation}{type}{log}.
-\defRef{sec:Transformation-Log}
-\label{syntax:Transformation-Log}
-
+\subsubsection{parameter\_transformation of type Average\_Difference}
+\commandlabsubarg{parameter\_transformation}{type}{average\_difference}.
+\label{syntax:Transformation-AverageDifference} \\ \\
+The addressable parameters for this transformation are \subcommand{average\_parameter} and \subcommand{difference\_parameter}. See Section \ref{subsec:Transformation-types}, paragraph \ref{sec:Transformation-AverageDifference}.
 
 \subsubsection{parameter\_transformation of type log\_sum}
 \commandlabsubarg{parameter\_transformation}{type}{log\_sum}.
-\defRef{sec:Transformation-LogSum}
-\label{syntax:Transformation-LogSum}
-
+\label{syntax:Transformation-LogSum} \\ \\
+The addressable parameters for this transformation are \subcommand{log\_total\_parameter} and \subcommand{difference\_parameter}. See Section \ref{subsec:Transformation-types}, paragraph \ref{sec:Transformation-LogSum}.
 
 \subsubsection{parameter\_transformation of type orthogonal}
 \commandlabsubarg{parameter\_transformation}{type}{orthogonal}.
-\defRef{sec:Transformation-Orthogonal}
-\label{syntax:Transformation-Orthogonal}
+\label{syntax:Transformation-Orthogonal} \\ \\
+The addressable parameters for this transformation are \subcommand{product\_parameter} and \subcommand{quotient\_parameter}. See Section \ref{subsec:Transformation-types}, paragraph \ref{sec:Transformation-Orthogonal}.
 
 \subsubsection{parameter\_transformation of type sum\_to\_one}
 \commandlabsubarg{parameter\_transformation}{type}{sum\_to\_one}.
-\defRef{sec:Transformation-SumToOne}
-\label{syntax:Transformation-SumToOne}
+\label{syntax:Transformation-SumToOne} \\ \\
+The addressable parameter for this transformation is \subcommand{product\_parameter}. See Section \ref{subsec:Transformation-types}, paragraph \ref{sec:Transformation-SumToOne}.
 
 \subsubsection{parameter\_transformation of type simplex}
 \commandlabsubarg{parameter\_transformation}{type}{simplex}.
-\defRef{sec:Transformation-Simplex}
 \label{syntax:Transformation-Simplex}
 
-\defSub{sum\_to\_one}{if true parameter in natural space will sum = 1, otherwise they will sum = length(parameter)}
+\defSub{sum\_to\_one}{Apply the sum\_to\_one constraint}
 \defType{bool}
 \defDefault{true}
+\defValue{If true, the parameter vector in natural space will sum to one, otherwise it will sum to the value of the length(parameter), i.e., defines the vector to have average one}
+
+The addressable parameter for this transformation is \subcommand{simplex}. See Section \ref{subsec:Transformation-types}, paragraph \ref{sec:Transformation-Simplex}.
+
+
