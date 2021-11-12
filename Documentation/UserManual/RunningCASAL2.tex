@@ -60,7 +60,7 @@ and where \emph{task} must be one of the following (\textbf{[]} indicates a seco
 \item [\texttt{-r [-{}-run]}] \emph{Run} the model once using the parameter values in the \config, or optionally with the free parameter values from the file specified with argument \texttt{-i} or \texttt{-I}.
 \item [\texttt{-e [-{}-estimate]}] Do a point \emph{estimate} using the values in the \config\ as the starting point for the parameters to be estimated, or optionally with the free parameter values from the file specified with argument \texttt{-i} or \texttt{-I}.
 \item [\texttt{-E [-{}-Estimate]} \emph{filename}] Do a point \emph{estimate} and generate an MPD file (ie.e., a file containing the free parameters and the covariance matrix). As with \texttt{-e}, this uses the values in the \config\ as the starting point for the parameters to be estimated, or optionally the free parameter values from the file specified with argument \texttt{-i} or \texttt{-I}.
-\item [\texttt{-{p}[-profiling]}] Do a likelihood \emph{profile} using the parameter values in the \config\ as the starting point, or optionally with the free parameter values from the file specified with argument \texttt{-i} or \texttt{-I}
+\item [\texttt{-{p}[-profiling]}] Do an objective function profile \emph{profile} using the parameter values in the \config\ as the starting point, or optionally with the free parameter values from the file specified with argument \texttt{-i} or \texttt{-I}
 \item [\texttt{-m [-{}-mcmc]}] Do an \emph{MCMC}. An estimate run is fist carried out to estimate the co-variance matrix for the MCMC proposal distribution, using the values in the \config\ as the starting point for the parameters to be estimated. Optionally the free parameter values from the file specified with argument \texttt{-i} or \texttt{-I} can be used as the starting point.
 \item [\texttt{-M [-{}-mcmc-from-estimate] \emph{filename}}] Do an \emph{MCMC} using the covariance and free parameters in the MPD file.
 \item [\texttt{-R [-{}-resume] \emph{filename}}] Resume a previously stopped\emph{MCMC} using the covariance and free parameters in the MPD file. Additional arguments must be supplied to specify the sample and objective files from the previous MCMC with \texttt{-{}-objective-file} and \texttt{-{}-sample-file}.
@@ -76,11 +76,11 @@ The following optional arguments\index{Optional command line arguments} [\emph{o
 \item [\texttt{-I [-{}-input-force] \emph{filename}}] \emph{Input} one or more sets of parameter values from \texttt{\emph{filename}}. This contains both the free parameters and also force the \emph{overwrite} addressable (non-estimated) values in the \config\ (see Section \ref{sec:Report} for details about the format of \texttt{\emph{filename}})
 \item [\texttt{-o [-{}-output] \emph{filename}}] \emph{Output} a report of the free (estimated) parameter values in a format suitable for \texttt{-i \emph{filename}} (see Section \ref{sec:Report} for details about the format of \texttt{\emph{filename}})
 \item [\texttt{-g [-{}-seed] \emph{seed}}] Initialise the random number \emph{generator} with \texttt{\emph{seed}}, a positive (long) integer value (note, if \texttt{-g} is not specified, then \CNAME\ will  generate a random number seed based on the computer clock time)
-\item [\texttt{-{}-loglevel \emph{arg}}] Set the level for information or logging messages from \CNAME. Valid options are (from more verbose to less verbose) trace, finest, fine, medium, info, important, and warning. The default is 'info' (see Section \ref{sec:Report} for more information).
+\item [\texttt{-L [-{}-loglevel] \emph{arg}}] Set the level for information or logging messages from \CNAME. Valid options are (from more verbose to less verbose) trace, finest, fine, medium, info, important, and warning. The default is 'info' (see Section \ref{sec:Report} for more information).
 \item [\texttt{-t [-{}-tabular]}] Print \command{report} in tabular format (see Section \ref{sec:Report} for more information).
 \item [\texttt{-{}-single-step}] Run with \texttt{-r} to pause the model and ask the user to specify parameters and their values to use for the next iteration (see Section \ref{sec:SingleStepping})
 \item [\texttt{-q [-{}-query]\emph{object type}}] \emph{Query} an object type to print an extract of the object description and parameter definitions.  An object can be defined as \texttt{\emph{block.type}}, e.g., \texttt{casal2 -{}-query process.recruitment\_constant} will query the constant recruitment block.
-
+\item [\texttt{-V [-{}-verifylevel] \emph{arg}}] If \CNAME\ exits with a verify message (the default), then it will halt. If \emph{arg = warning} \CNAME\ will complete the model run and print the verify statement.
 \end{description}
 %
 Combinations of these command line arguments can also be implemented. Examples of some useful ones are below.
@@ -190,7 +190,8 @@ Alternatively, to comment out an entire block or section, use \commentstart\ at 
   # This line is a comment and will be ignored
   @process NaturalMortality
   m 0.2
-  /* This block of text
+  /* 
+  This block of text
   is a comment and
   will be ignored
   */
@@ -268,10 +269,12 @@ To estimate natural mortality, you need to supply an \textit{@estimate} block wi
 {\small{\begin{verbatim}
 @estimate estimate.m
 type normal # prior type
-parameter process[fishing].m  #
-    \*Fishing is unique amongst the @process command blocks
-      so this defines the unique reference to the parameter m
-    *\
+parameter process[fishing].m  
+# this is a comment
+\*
+Fishing is unique amongst the @process command blocks
+so this defines the unique reference to the parameter m
+*\
 
 mu  0.2 0.2   #argument to prior = mean
 sd  0.02 0.02 #another argument to the prior = standard deviation
@@ -293,14 +296,21 @@ mu  0.2
 sd  0.02
 \end{verbatim}}}
 
+
 \subsection{\I{Single-stepping \CNAME}\label{sec:SingleStepping}}\index{Single\_stepping}\index{single\_stepping section}
 
 
 \TODO{Move this section to somewhere else?}
 
-Single-stepping means \CNAME\ can 'pause' after each year in the annual cycle during a model run, write reports, then wait and process user input of updated estimable parameters for the next year (see the command line argument \texttt{ -{}-single-step}).
+Single-stepping means \CNAME\ can 'pause' after each year in the annual cycle during a model run, write reports, then wait and process user input of updated estimable parameters for the next year (see the command line argument \texttt{ -{}-single-step}). Note this is still an experimental feature.
 
-This enables \CNAME\ to implement models for management simulations or scenarios that require feedback and can be used, for example, in operational management procedures (OMPs). The single-stepping process can be automated using \R, so that \CNAME\ may be used with \R\ to update input harvest values (e.g., catches from a fishery in a fisheries model) to evaluate a particular harvest control rule.
+%This enables \CNAME\ to implement models for management simulations or scenarios that require feedback and can be used, for example, in operational management procedures (OMPs). The single-stepping process can be automated using \R, so that \CNAME\ may be used with \R\ to update input harvest values (e.g., catches from a fishery in a fisheries model) to evaluate a particular harvest control rule.
+\subsection{\I{Logging and Verifying Models}}\label{sec:LogandVerify}\index{Logging and Verifying Models}
+
+\CNAME\ has an number of information and error message output. This is enabled using the \subcommand{--loglevel} or \subcommand{-L} command line option. See Section~\ref{sec:TroubleShooting-logging} for details on logging. 
+
+
+\CNAME\ also applies sanity checks on model configurations. These can be bypassed using the command line option \subcommand{--verifylevel} or \subcommand{-V}. These sanity checks are based on expected model structures e.g. \CNAME\ verifies models have an ageing process. Currently only a few sanity checks are implemented.
 
 \subsection{\I{Validating models across versions}}\label{sec:Assert}\index{Asserts}\index{Unit tests}
 

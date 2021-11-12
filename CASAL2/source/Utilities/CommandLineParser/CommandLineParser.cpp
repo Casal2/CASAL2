@@ -61,7 +61,7 @@ void CommandLineParser::Parse(int argc, char* argv[], RunParameters& options) {
     ("objective-file", value<string>(), "Objectives [file] for resuming the MCMC")
     ("sample-file", value<string>(), "Samples [file] for resuming the MCMC")
     // other
-    ("profile,p", "Do a likelihood profile")
+    ("profile,p", "Do an objective function profile")
     ("simulation,s", value<unsigned>(), "Do a simulation [n] = number of candidates)")
     ("projection,f", value<unsigned>(), "Do projections [n] = number of projections per set of input values)")
     ("input,i", value<string>(), "Load free parameter values from [file]")
@@ -75,7 +75,7 @@ void CommandLineParser::Parse(int argc, char* argv[], RunParameters& options) {
     ("single-step", "Single step the model each year with new estimable values")
     ("tabular,t", "Print reports using the Tabular format")
     ("unittest", "Run the unit tests for Casal2")
-    ("verifylevel,V", value<string>(), "If error (the default) then halt on any failed verifications. If warn then report failed verifications as warnings ");
+    ("verifylevel,V", value<string>(), "If Casal2 exits with a verify message (the default), then it will halt. If [arg] = warning Casal2 will complete the model run and print the verify statement");
   // clang-format on
 
   ostringstream o;

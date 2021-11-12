@@ -76,6 +76,8 @@ void TagByLength::DoValidate() {
   if (model_->length_bins().size() == 0)
     LOG_FATAL_P(PARAM_TYPE) << ": No length bins have been specified in @model. This process requires those to be defined, as the table dimensions depend on them.";
 
+  if (n_.size() != years_.size())
+    LOG_FATAL_P(PARAM_N) << "The values provided (" << n_.size() << ") does not match the number of years (" << years_.size() << ")";
 
   // Check if the user has specified combined categories, if so check the same number of categories are
   for (auto& category : to_category_labels_) {

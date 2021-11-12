@@ -6,7 +6,7 @@ If you cannot resolve an issue using these guidelines then please contact the de
 
 For most issues, \CNAME\ attempts to produce informative error messages. There are optional command line arguments that will give more verbose reporting, and should enable additional information to help resolve a problem. However, when \CNAME\ generates an error and the error message does not make sense, please let the Development Team know. Even if you manage to fix the problem yourself, we may be able to implement a more helpful error message or modify the user manual, and make life easier for the next person to encounter the problem. You can do this by submitting an issue in the GitHub repository at \url{https://github.com/NIWAFisheriesModelling/CASAL2/issues}.
 
-\subsection{Logging}
+\subsection{Logging}\label{sec:TroubleShooting-logging}
 
 \CNAME's internal logging system can be invoked at the command line with argument  \argument{--loglevel} followed by one of the options: \argument{trace}, \argument{finest}, \argument{fine}, \argument{medium}.
 
@@ -15,11 +15,11 @@ The optimal level of logging will depend on what run mode you are using and the 
 For example, to enable logging with trace level output:
 
 \begin{itemize}
-	\item On Windows: \argument{casal2 -r --loglevel trace > output.log 2> log.out}
-	\item On Linux: \argument{casal2 -r --loglevel trace > output.log 2\&> log.out}
+	\item On Windows: \argument{casal2 -r --loglevel trace > run.log 2> run.err}
+	\item On Linux: \argument{casal2 -r --loglevel trace > run.log 2\&> run.err}
 \end{itemize}
 
-This argument will output \CNAME's reports to the file "output.log", and the "\argument{2>}" or "\argument{2\&>}" syntax will print the error logged information to the file "log.out". You should be able to see where \CNAME\ failed, and is exited by going to the end of the "log.out" file and looking at the last few messages.
+This argument will output \CNAME's reports to the file "run.log", and the "\argument{2>}" or "\argument{2\&>}" syntax will print the error logged information to the file "run.err". You should be able to see where \CNAME\ failed, and is exited by going to the end of the "run.err" file and looking at the last few messages.
 
 \subsection{Reporting errors\label{sec:ReportingErrors}}
 
