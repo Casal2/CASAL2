@@ -66,8 +66,8 @@ q 0.00609399
 
 @process Recruitment
 type recruitment_beverton_holt
-categories tagyear=untagged
-proportions 0.5 0.5
+categories male,female.untagged,2001:2014
+proportions 0.5 0*14 0.5 0*14
 b0 80000
 standardise_ycs_years 2003:2009
 ycs_values 1*21
