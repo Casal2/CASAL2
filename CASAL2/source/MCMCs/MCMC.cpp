@@ -38,7 +38,7 @@ MCMC::MCMC(shared_ptr<Model> model) : model_(model) {
   parameters_.Bind<unsigned>(PARAM_LENGTH, &length_, "The number of iterations for the MCMC (including the burn in period)", "")->set_lower_bound(1);
   parameters_.Bind<unsigned>(PARAM_BURN_IN, &burn_in_, "The number of iterations for the burn_in period of the MCMC", "", 0u)->set_lower_bound(0);
   parameters_.Bind<bool>(PARAM_ACTIVE, &active_, "Indicates if this is the active MCMC algorithm", "", true);
-  parameters_.Bind<double>(PARAM_STEP_SIZE, &step_size_, "Initial step-size (as a multiplier of the approximate covariance matrix)", "", 0.02)->set_lower_bound(0);
+  parameters_.Bind<double>(PARAM_STEP_SIZE, &step_size_, "Initial step-size (as a multiplier of the approximate covariance matrix)", "", 0)->set_lower_bound(0);
   parameters_.Bind<double>(PARAM_START, &start_, "The covariance multiplier for the starting point of the MCMC", "", 0.0)->set_lower_bound(0.0);
   parameters_.Bind<unsigned>(PARAM_KEEP, &keep_, "The spacing between recorded values in the MCMC", "", 1u)->set_lower_bound(1u);
   parameters_.Bind<double>(PARAM_MAX_CORRELATION, &max_correlation_, "The maximum absolute correlation in the covariance matrix of the proposal distribution", "", 0.8)
@@ -52,7 +52,7 @@ MCMC::MCMC(shared_ptr<Model> model) : model_(model) {
       ->set_lower_bound(0.0, false);
   parameters_.Bind<string>(PARAM_PROPOSAL_DISTRIBUTION, &proposal_distribution_, "The shape of the proposal distribution (either the t or the normal distribution)", "", PARAM_T)
       ->set_allowed_values({PARAM_NORMAL, PARAM_T});
-  parameters_.Bind<unsigned>(PARAM_DF, &df_, "The degrees of freedom of the multivariate t proposal distribution", "", 4)->set_lower_bound(0, false);
+  parameters_.Bind<unsigned>(PARAM_DF, &df_, "The degrees of freedom of the multivariate t proposal distribution", "", 4)->set_lower_bound(1, false);
   parameters_.Bind<unsigned>(PARAM_ADAPT_STEPSIZE_AT, &adapt_step_size_, "The iteration numbers in which to check and resize the MCMC stepsize", "", true)->set_lower_bound(0);
   parameters_.Bind<string>(PARAM_ADAPT_STEPSIZE_METHOD, &adapt_stepsize_method_, "The method to use to adapt the step size", "", PARAM_RATIO)
       ->set_allowed_values({PARAM_RATIO, PARAM_DOUBLE_HALF});
@@ -113,7 +113,7 @@ void MCMC::Build() {
   estimates_ = model_->managers()->estimate()->GetIsMCMCd();
   if (estimates_.size() == 0)
     LOG_FATAL() << "No estimates are available for use in the MCMC. Either none have been defined, or they have all been set as " << PARAM_MCMC_FIXED;
-  if (step_size_ == 0.0)
+  if (step_size_ <= 0.0)
     step_size_ = 2.4 * pow((double)estimate_count_, -0.5);
 
   estimate_count_ = estimates_.size();
@@ -499,28 +499,27 @@ void MCMC::UpdateStepSize() {
   if (jumps_since_adapt_ > 0 && successful_jumps_since_adapt_ > 0) {
     if (std::find(adapt_step_size_.begin(), adapt_step_size_.end(), jumps_) == adapt_step_size_.end())
       return;
+    LOG_MEDIUM() << "MCMC step_size: About to modify step_size (" << step_size_ << "), after jumps: " << jumps_ << " jumps_since_adapt: " << jumps_since_adapt_
+                 << " successful_jumps_since_adapt_:" << successful_jumps_since_adapt_;
     double old_step_size = step_size_;
     if (adapt_stepsize_method_ == PARAM_RATIO) {
       // modify the stepsize so that AcceptanceRate = 0.24
       step_size_ *= ((double)successful_jumps_since_adapt_ / (double)jumps_since_adapt_) * 4.166667;
-      // Ensure the stepsize remains positive
-      step_size_ = math::ZeroFun(step_size_, 1e-10);
-      // reset counters
     } else if (adapt_stepsize_method_ == PARAM_DOUBLE_HALF) {
       // This is a half or double method really.
       double acceptance_rate;
-      if ((double)successful_jumps_since_adapt_ == 0.0)
-        acceptance_rate = double(successful_jumps_) / double(jumps_);
-      else
-        acceptance_rate = (double)successful_jumps_since_adapt_ / (double)jumps_since_adapt_;
-      // LOG_MEDIUM() << "acceptance rate since last jump = " << acceptance_rate << " step size " << step_size_ << " numerator = " << ((Double)successful_jumps_ -
-      // (Double)successful_jumps_since_adapt_) << " denominator = " << ((Double)jumps_ - (Double)jumps_since_adapt_);
+      acceptance_rate = (double)successful_jumps_since_adapt_ / (double)jumps_since_adapt_;
       if (acceptance_rate > 0.5)
         step_size_ *= 2;
       else if (acceptance_rate < 0.2)
         step_size_ /= 2;
-      LOG_MEDIUM() << "new step_size = " << step_size_;
     }
+    // reset counters
+    jumps_since_adapt_            = 0;
+    successful_jumps_since_adapt_ = 0;
+    // Ensure the stepsize remains positive
+    step_size_ = math::ZeroFun(step_size_, 1e-10);
+
     LOG_INFO() << "Adapting step_size from " << old_step_size << " to " << step_size_ << " after " << jumps_ << " iterations";
     return;
   }
@@ -601,7 +600,7 @@ void MCMC::UpdateCovarianceMatrix() {
     // continue chain
     return;
   } else {
-    LOG_WARNING() << "Recalculation of covariance was not done as the number of jumps since the last adapt_stepsize was not greater than 1000";
+    LOG_WARNING() << "Recalculation of MCMC covariance was not done as the number of jumps since the last adapt_stepsize was not greater than 1000";
   }
 }
 

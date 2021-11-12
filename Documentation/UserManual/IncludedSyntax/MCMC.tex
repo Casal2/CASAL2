@@ -26,13 +26,14 @@
 
 \defSub{step\_size}{Initial step-size (as a multiplier of the approximate covariance matrix)}
 \defType{Real number}
-\defDefault{0.02}
+\defDefault{The default is $2.4d^{-0.5}$}
 \defLowerBound{0 (inclusive)}
 
 \defSub{start}{The covariance multiplier for the starting point of the MCMC}
 \defType{Real number}
 \defDefault{0.0}
 \defLowerBound{0.0 (inclusive)}
+\defValue{If zero, then the MCMC starts at the point estimate (i.e., the MPD). Otherwise a random (multivariate normal) jump from the point estimate with \subcommand{start} used as the standard deviation multiplier}
 
 \defSub{keep}{The spacing between recorded values in the MCMC}
 \defType{Non-negative integer}
@@ -48,6 +49,7 @@
 \defSub{covariance\_adjustment\_method}{The method for adjusting small variances in the covariance proposal matrix}
 \defType{String}
 \defDefault{correlation}
+\defValue{Either covariance, correlation, or none}
 
 \defSub{correlation\_adjustment\_diff}{The minimum non-zero variance times the range of the bounds in the covariance matrix of the proposal distribution}
 \defType{Real number}
@@ -57,17 +59,18 @@
 \defSub{proposal\_distribution}{The shape of the proposal distribution (either the t or the normal distribution)}
 \defType{String}
 \defDefault{t}
+\defValue{Either t or normal}
 
 \defSub{df}{The degrees of freedom of the multivariate t proposal distribution}
 \defType{Non-negative integer}
 \defDefault{4}
-\defLowerBound{0 (exclusive)}
+\defLowerBound{1}
 
 \defSub{adapt\_stepsize\_at}{The iteration numbers in which to check and resize the MCMC stepsize}
 \defType{Vector of non-negative integers}
 \defDefault{true}
 \defLowerBound{0 (inclusive)}
-\defValue{Must be less than the burn\_in}
+\defValue{If zero, then no step size adaption is applied. Otherwise must be a positive integer less than less than the burn\_in}
 
 \defSub{adapt\_stepsize\_method}{The method to use to adapt the step size}
 \defType{String}
@@ -77,7 +80,7 @@
 \defType{Non-negative integer}
 \defDefault{0}
 \defLowerBound{0 (inclusive)}
-\defValue{Must be less than the burn\_in}
+\defValue{If zero, then no covariance matrix adaption is applied. Otherwise must be a positive integer that is less than the burn\_in}
 
 \subsubsection{MCMC of type Hamiltonian\_Monte\_Carlo}
 \commandlabsubarg{MCMC}{type}{Hamiltonian\_Monte\_Carlo}.
