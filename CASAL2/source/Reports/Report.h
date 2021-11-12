@@ -54,7 +54,7 @@ public:
   void Build(){};
   void Validate(shared_ptr<Model> model);
   void Build(shared_ptr<Model> model);
-  void Verify(shared_ptr<Model> model){};
+  void Verify(shared_ptr<Model> model);
   void Reset(){};
   void Prepare(shared_ptr<Model> model);
   void Execute(shared_ptr<Model> model);
@@ -83,6 +83,7 @@ protected:
   // pure methods
   virtual void DoValidate(shared_ptr<Model> model) = 0;
   virtual void DoBuild(shared_ptr<Model> model)    = 0;
+  virtual void DoVerify(shared_ptr<Model> model) {};
   virtual void DoPrepare(shared_ptr<Model> model){};
   virtual void DoExecute(shared_ptr<Model> model) = 0;
   virtual void DoFinalise(shared_ptr<Model> model){};

@@ -30,6 +30,7 @@ public:
   virtual ~MCMCObjective() = default;
   void DoValidate(shared_ptr<Model> model) final{};
   void DoBuild(shared_ptr<Model> model) final;
+  void DoVerify(shared_ptr<Model> model) final;
   void DoPrepare(shared_ptr<Model> model) final;
   void DoExecute(shared_ptr<Model> model) final;
   void DoFinalise(shared_ptr<Model> model) final;

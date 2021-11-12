@@ -40,6 +40,16 @@ void MCMCObjective::DoBuild(shared_ptr<Model> model) {
 }
 
 /**
+ * Verify the MCMCSample object
+ */
+void MCMCObjective::DoVerify(shared_ptr<Model> model) {
+  if(file_name_ == "") {
+    LOG_VERIFY() << "in @report " << label_ << " you haven't specified a " << PARAM_FILE_NAME << " this is not recommended, as Casal2 will mix mcmc samples and objectives in the same output file";
+  }
+}
+
+
+/**
  * Prepare the MCMCObjective object
  */
 void MCMCObjective::DoPrepare(shared_ptr<Model> model) {

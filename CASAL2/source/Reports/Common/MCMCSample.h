@@ -5,7 +5,7 @@
  * @date 5/11/2015
  * @section LICENSE
  *
- * Copyright NIWA Science ©2015 - www.niwa.co.nz
+ * Copyright NIWA Science ï¿½2015 - www.niwa.co.nz
  *
  * @section DESCRIPTION
  *
@@ -31,6 +31,7 @@ public:
   void DoValidate(shared_ptr<Model> model) final{};
   void DoBuild(shared_ptr<Model> model) final;
   void DoPrepare(shared_ptr<Model> model) final;
+  void DoVerify(shared_ptr<Model> model) final;
   void DoExecute(shared_ptr<Model> model) final;
   void DoFinalise(shared_ptr<Model> model) final;
   void DoExecuteTabular(shared_ptr<Model> model) final{};

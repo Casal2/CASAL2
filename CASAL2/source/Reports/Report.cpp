@@ -121,6 +121,22 @@ void Report::Prepare(shared_ptr<Model> model) {
   DoPrepare(model);
   Report::lock_.unlock();
 };
+/**
+ * The prepare method is called once before the model is run. It is done
+ * post-build in the model and allows the report to check if
+ * the file it wants to write to exists, etc.
+ */
+void Report::Verify(shared_ptr<Model> model) {
+  if (!is_valid())
+    return;
+
+  Report::lock_.lock();
+  if (time_step_ != "" && !model->managers()->time_step()->GetTimeStep(time_step_))
+    LOG_ERROR_P(PARAM_TIME_STEP) << " labelled '" << time_step_ << "' could not be found. Please check it has been defined correctly";
+
+  DoVerify(model);
+  Report::lock_.unlock();
+};
 
 /**
  * Execute the report
