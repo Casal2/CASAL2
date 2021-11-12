@@ -41,7 +41,7 @@ Creator::Creator(shared_ptr<Model> model) : model_(model) {
   //  parameters_.Bind<string>(PARAM_PRIOR, &prior_label_, "TBA", "", "");
   parameters_.Bind<string>(PARAM_SAME, &same_labels_, "The list of parameters that are constrained to have the same value as this parameter", "", "");
   parameters_.Bind<string>(PARAM_ESTIMATION_PHASE, &estimation_phase_, "The estimation phase", "", "");
-  //parameters_.Bind<string>(PARAM_MCMC_FIXED, &mcmc_fixed_, "Indicates if this parameter is fixed at the point estimate during an MCMC run", "", "");
+  // parameters_.Bind<string>(PARAM_MCMC_FIXED, &mcmc_fixed_, "Indicates if this parameter is fixed at the point estimate during an MCMC run", "", "");
 }
 
 /**
@@ -82,9 +82,9 @@ void Creator::CreateEstimates() {
      * This estimate is only for a single object. So we will validate based on that
      */
     if (lower_bounds_.size() != 1)
-      LOG_FATAL_P(PARAM_LOWER_BOUND) << "values specified (" << lower_bounds_.size() << " must match number of target addressables (1)";
+      LOG_FATAL_P(PARAM_LOWER_BOUND) << "values specified (" << lower_bounds_.size() << ") must match number of target addressables (1)";
     if (upper_bounds_.size() != 1)
-      LOG_FATAL_P(PARAM_UPPER_BOUND) << "values specified (" << upper_bounds_.size() << " must match number of target addressables (1)";
+      LOG_FATAL_P(PARAM_UPPER_BOUND) << "values specified (" << upper_bounds_.size() << ") must match number of target addressables (1)";
 
     CreateEstimate(parameter_, 0, target->GetAddressable(parameter));
 
@@ -94,9 +94,9 @@ void Creator::CreateEstimates() {
      * and create new estimates for each of these.
      */
     if (lower_bounds_.size() != indexes.size())
-      LOG_FATAL_P(PARAM_LOWER_BOUND) << "values specified (" << lower_bounds_.size() << " must match number of target addressables (" << indexes.size() << ")";
+      LOG_FATAL_P(PARAM_LOWER_BOUND) << "values specified (" << lower_bounds_.size() << ") must match number of target addressables (" << indexes.size() << ")";
     if (upper_bounds_.size() != indexes.size())
-      LOG_FATAL_P(PARAM_UPPER_BOUND) << "values specified (" << upper_bounds_.size() << " must match number of target addressables (" << indexes.size() << ")";
+      LOG_FATAL_P(PARAM_UPPER_BOUND) << "values specified (" << upper_bounds_.size() << ") must match number of target addressables (" << indexes.size() << ")";
 
     switch (target->GetAddressableType(parameter)) {
       case addressable::kVector: {
@@ -156,9 +156,9 @@ void Creator::CreateEstimates() {
       n = target->GetAddressableSize(parameter);
 
     if (lower_bounds_.size() != n)
-      LOG_FATAL_P(PARAM_LOWER_BOUND) << "values specified (" << lower_bounds_.size() << " must match number of target addressables (" << n << ")";
+      LOG_FATAL_P(PARAM_LOWER_BOUND) << "values specified (" << lower_bounds_.size() << ") must match number of target addressables (" << n << ")";
     if (upper_bounds_.size() != n)
-      LOG_FATAL_P(PARAM_UPPER_BOUND) << "values specified (" << upper_bounds_.size() << " must match number of target addressables (" << n << ")";
+      LOG_FATAL_P(PARAM_UPPER_BOUND) << "values specified (" << upper_bounds_.size() << ") must match number of target addressables (" << n << ")";
 
     switch (target->GetAddressableType(parameter)) {
       case addressable::kVector:
@@ -410,7 +410,7 @@ void Creator::CopyParameters(niwa::Estimate* estimate, unsigned index) {
   estimate->parameters().CopyFrom(parameters_, PARAM_PARAMETER);
   //  estimate->parameters().CopyFrom(parameters_, PARAM_PRIOR);
   estimate->parameters().CopyFrom(parameters_, PARAM_ESTIMATION_PHASE);
-  //estimate->parameters().CopyFrom(parameters_, PARAM_MCMC_FIXED);
+  // estimate->parameters().CopyFrom(parameters_, PARAM_MCMC_FIXED);
 
   estimate->parameters().CopyFrom(parameters_, PARAM_LOWER_BOUND, index);
   estimate->parameters().CopyFrom(parameters_, PARAM_UPPER_BOUND, index);

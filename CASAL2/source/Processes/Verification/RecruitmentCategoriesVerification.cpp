@@ -10,14 +10,14 @@
  */
 
 // headers
+#include "../../Categories/Categories.h"
+#include "../../InitialisationPhases/Manager.h"
 #include "../../Model/Model.h"
-#include "../Age/RecruitmentBevertonHoltWithDeviations.h"
 #include "../Age/RecruitmentBevertonHolt.h"
+#include "../Age/RecruitmentBevertonHoltWithDeviations.h"
 #include "../Age/RecruitmentConstant.h"
 #include "../Manager.h"
 #include "../Process.h"
-#include "../../Categories/Categories.h"
-#include "../../InitialisationPhases/Manager.h"
 
 // namespaces
 namespace niwa::processes::verification {
@@ -29,8 +29,8 @@ namespace niwa::processes::verification {
  */
 void RecruitmentCategoriesVerification(shared_ptr<Model> model) {
   map<string, unsigned> category_count;
-  map<string, unsigned> category_in_recuitment_that_scale;
-  vector<string> all_categories = model->categories()->category_names();
+  map<string, unsigned> category_in_recruitment_that_scale;
+  vector<string>        all_categories = model->categories()->category_names();
 
   auto process_list = model->managers()->process()->objects();
   for (auto* process : process_list) {
@@ -48,7 +48,7 @@ void RecruitmentCategoriesVerification(shared_ptr<Model> model) {
           LOG_CODE_ERROR() << "!rec with auto* rec = dynamic_cast<age::RecruitmentBevertonHolt*>(process)";
 
         for (auto label : recruitment->category_labels()) {
-          category_in_recuitment_that_scale[label]++;
+          category_in_recruitment_that_scale[label]++;
           category_count[label]++;
         }
       } else if (process->type() == PARAM_RECRUITMENT_BEVERTON_HOLT_WITH_DEVIATIONS) {
@@ -57,7 +57,7 @@ void RecruitmentCategoriesVerification(shared_ptr<Model> model) {
           LOG_CODE_ERROR() << "!rec with auto* rec = dynamic_cast<age::RecruitmentBevertonHolt*>(process)";
 
         for (auto label : recruitment->category_labels()) {
-          category_in_recuitment_that_scale[label]++;
+          category_in_recruitment_that_scale[label]++;
           category_count[label]++;
         }
       }
@@ -71,27 +71,32 @@ void RecruitmentCategoriesVerification(shared_ptr<Model> model) {
 
   // If we have an initialisation of type derived do a check that categories are there, otherwise can cause an issue with scaling
   // only a problem if, B0 initialised tho.
-  auto init_list = model->managers()->initialisation_phase()->objects();
+  auto init_list                        = model->managers()->initialisation_phase()->objects();
   bool there_is_type_derived_init_phase = false;
   for (auto* init : init_list) {
-    if(init->type() == PARAM_DERIVED)
+    if (init->type() == PARAM_DERIVED)
       there_is_type_derived_init_phase = true;
   }
-  // check all categories in the system have been assigned to a recruitment block. 
-  // For categories that are not present during initialisation i.e. tagged fish, you don't need 
-  // to sepecify them in a recruiment block. For this case you can run with casal2 -V warning
-  if(there_is_type_derived_init_phase) {
-    for(auto state_category : all_categories) {
+  // check all categories in the system have been assigned to a recruitment block.
+  // For categories that are not present during initialisation i.e. tagged fish, you don't need
+  // to specify them in a recruitment block. For this case you can run with casal2 -V warning
+  if (there_is_type_derived_init_phase) {
+    for (auto state_category : all_categories) {
       unsigned recruit_category_counter = 0;
-      for (auto iter : category_in_recuitment_that_scale) {
+      for (auto iter : category_in_recruitment_that_scale) {
         ++recruit_category_counter;
-        if(iter.first == state_category) {
+        if (iter.first == state_category) {
           break;
         }
         LOG_FINE() << "categories = " << category_count.size() << " counted = " << recruit_category_counter;
-        if(recruit_category_counter >= category_count.size()) {
-          LOG_WARNING() << "The category " << state_category << " is in your @categories block, but not you @process[type=recruitment] block. This can be expected for models that have categories that are not present at the beginning of the model e.g. tagged categoires.";
+        /* This may not be useful - commented out for the time being
+               if (recruit_category_counter >= category_count.size()) {
+                 LOG_WARNING()
+                     << "The category " << state_category
+                     << " is not used in @process[type=recruitment]. This may be expected for models that have categories that are not used at the beginning of the model e.g.
+           tagged categories.";
         }
+       */
       }
     }
   }

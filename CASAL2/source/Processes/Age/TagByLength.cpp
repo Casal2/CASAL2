@@ -38,21 +38,21 @@ TagByLength::TagByLength(shared_ptr<Model> model) : Process(model), to_partition
   numbers_table_     = new parameters::Table(PARAM_NUMBERS);
   proportions_table_ = new parameters::Table(PARAM_PROPORTIONS);
 
-  parameters_.Bind<string>(PARAM_FROM, &from_category_labels_, "The categories that are selected for tagging (i.e, transition from)", "");
+  parameters_.Bind<string>(PARAM_FROM, &from_category_labels_, "The categories that are selected for tagging (i.e., transition from)", "");
   parameters_.Bind<string>(PARAM_TO, &to_category_labels_, "The categories that have tags (i.e., transition to)", "");
   parameters_.Bind<string>(PARAM_PENALTY, &penalty_label_, "The penalty label", "", "");
   parameters_.Bind<double>(PARAM_U_MAX, &u_max_, "The maximum exploitation rate, U_max", "", 0.99)->set_range(0.0, 1.0, true, false);
   parameters_.Bind<unsigned>(PARAM_YEARS, &years_, "The years to execute the tagging events in", "");
   parameters_.Bind<Double>(PARAM_INITIAL_MORTALITY, &initial_mortality_, "The initial mortality to apply to tags as a proportion", "", 0.0)->set_range(0.0, 1.0, true, true);
   parameters_.Bind<string>(PARAM_INITIAL_MORTALITY_SELECTIVITY, &initial_mortality_selectivity_label_, "The initial mortality selectivity label", "", "");
-  parameters_.Bind<string>(PARAM_SELECTIVITIES, &selectivity_labels_, "", "");
-  parameters_.Bind<Double>(PARAM_N, &n_, "", "", true);
-  parameters_.BindTable(PARAM_NUMBERS, numbers_table_, "The table of N data", "", true, true);
-  parameters_.BindTable(PARAM_PROPORTIONS, proportions_table_, "The table of proportions to move", "", true, true);
+  parameters_.Bind<string>(PARAM_SELECTIVITIES, &selectivity_labels_, "Selectivity of the tagging process", "");
+  parameters_.Bind<Double>(PARAM_N, &n_, "The number of individuals tagged", "", true);
+  parameters_.BindTable(PARAM_NUMBERS, numbers_table_, "The data table of numbers to tag", "", true, true);
+  parameters_.BindTable(PARAM_PROPORTIONS, proportions_table_, "The data table of proportions to tag", "", true, true);
   parameters_.Bind<double>(PARAM_TOLERANCE, &tolerance_, "Tolerance for checking the specificed proportions sum to one", "", 1e-5)->set_range(0, 1.0);
   parameters_
-      .Bind<string>(PARAM_COMPATIBILITY, &compatibility_,
-                    "Backwards compatibility option: either casal2 (the default) or casal effects penalty and age-length calcuation", "", PARAM_CASAL2)
+      .Bind<string>(PARAM_COMPATIBILITY, &compatibility_, "Backwards compatibility option: either casal2 (the default) or casal: effects penalty and age-length calculation", "",
+                    PARAM_CASAL2)
       ->set_allowed_values({PARAM_CASAL, PARAM_CASAL2});
 }
 
@@ -69,8 +69,8 @@ TagByLength::~TagByLength() {
  */
 void TagByLength::DoValidate() {
   LOG_TRACE();
-  min_age_ = model_->min_age();
-  max_age_ = model_->max_age();
+  min_age_    = model_->min_age();
+  max_age_    = model_->max_age();
   age_spread_ = model_->age_spread();
   // Check value for initial mortality
   if (model_->length_bins().size() == 0)
@@ -158,8 +158,8 @@ void TagByLength::DoValidate() {
 
     unsigned number_bins = columns.size();
     if ((number_bins - 1) != n_length_bins_)
-      LOG_ERROR_P(PARAM_NUMBERS) << "The length bins for this process are defined in the @model block. A column is required for each length bin '"
-                                  << n_length_bins_ << "' supplied '" << number_bins - 1 << "'.";
+      LOG_ERROR_P(PARAM_NUMBERS) << "The length bins for this process are defined in the @model block. A column is required for each length bin '" << n_length_bins_
+                                 << "' supplied '" << number_bins - 1 << "'.";
 
     //
 
@@ -197,9 +197,8 @@ void TagByLength::DoValidate() {
     unsigned number_bins = columns.size();
 
     if ((number_bins - 1) != n_length_bins_)
-      LOG_ERROR_P(PARAM_PROPORTIONS) << "The length bins for this observation are defined in the @model block. A column is required for each length bin '"
-                                      << n_length_bins_ << "' supplied '" << number_bins - 1 << "'.";
-
+      LOG_ERROR_P(PARAM_PROPORTIONS) << "The length bins for this observation are defined in the @model block. A column is required for each length bin '" << n_length_bins_
+                                     << "' supplied '" << number_bins - 1 << "'.";
 
     // build a map of n data by year
     if (n_.size() == 1) {
@@ -219,10 +218,12 @@ void TagByLength::DoValidate() {
       Double total_proportion = 0.0;
       for (unsigned i = 1; i < iter.size(); ++i) {
         if (!utilities::To<Double>(iter[i], proportion))
-          LOG_ERROR_P(PARAM_PROPORTIONS) << "value (" << iter[i] << ") could not be converted to a Double.";
+          LOG_ERROR_P(PARAM_PROPORTIONS) << "value (" << iter[i] << ") could not be converted to a double.";
         if (numbers_[year].size() == 0)
           numbers_[year].resize(number_bins, 0.0);
         numbers_[year][i - 1] = n_by_year_[year] * proportion;
+        if (proportion < 0.0)
+          LOG_ERROR_P(PARAM_PROPORTIONS) << "value (" << iter[i] << ") cannot be less than zero.";
         total_proportion += proportion;
       }
       if (fabs(1.0 - total_proportion) > tolerance_)
@@ -246,8 +247,9 @@ void TagByLength::DoValidate() {
       actual_tagged_fish_to_[year_ndx][to_category_ndx].resize(model_->age_spread(), 0.0);
   }
 
-  if (compatibility_ == PARAM_CASAL) 
-    LOG_WARNING() << "in @process " << label_ << " you have specified " << PARAM_COMPATIBILITY << " = " << compatibility_ << " this is not recommended unless you validating for backwards compatibility reasons";
+  if (compatibility_ == PARAM_CASAL)
+    LOG_WARNING() << "in @process " << label_ << " you have specified " << PARAM_COMPATIBILITY << " = " << compatibility_
+                  << " this is not recommended unless you validating for backwards compatibility reasons";
 }
 
 /**
@@ -263,19 +265,18 @@ void TagByLength::DoBuild() {
   // Flag AgeLength class to build AgeLength matrix
   auto from_iter = from_partition_.begin();
   for (; from_iter != from_partition_.end(); from_iter++) {
-      (*from_iter)->age_length_->BuildAgeLengthMatrixForTheseYears(years_);
+    (*from_iter)->age_length_->BuildAgeLengthMatrixForTheseYears(years_);
   }
 
   numbers_at_length_by_category_.resize(from_partition_.size());
   numbers_at_age_by_category_.resize(from_partition_.size());
   numbers_at_age_and_length_.resize(model_->age_spread());
   exploitation_by_age_.resize(model_->age_spread(), 0.0);
-  for(unsigned i = 0; i < numbers_at_length_by_category_.size(); ++i) {
+  for (unsigned i = 0; i < numbers_at_length_by_category_.size(); ++i) {
     numbers_at_length_by_category_[i].resize(n_length_bins_, 0.0);
     numbers_at_age_by_category_[i].resize(model_->age_spread(), 0.0);
   }
-  for(unsigned i = 0; i < model_->age_spread(); ++i) 
-    numbers_at_age_and_length_[i].resize(n_length_bins_, 0.0);
+  for (unsigned i = 0; i < model_->age_spread(); ++i) numbers_at_age_and_length_[i].resize(n_length_bins_, 0.0);
 
   if (penalty_label_ != "")
     penalty_ = model_->managers()->penalty()->GetPenalty(penalty_label_);
@@ -295,10 +296,9 @@ void TagByLength::DoBuild() {
   // population proportion_by_length_
   proportion_by_length_.resize(years_.size());
   tagged_fish_by_year_.resize(years_.size(), 0.0);
-  for(unsigned year_ndx = 0; year_ndx < years_.size(); ++year_ndx) {
+  for (unsigned year_ndx = 0; year_ndx < years_.size(); ++year_ndx) {
     proportion_by_length_[year_ndx].resize(n_length_bins_, 0.0);
-    for (unsigned length_ndx = 0; length_ndx < n_length_bins_; ++length_ndx)
-      tagged_fish_by_year_[year_ndx] += numbers_[years_[year_ndx]][length_ndx];
+    for (unsigned length_ndx = 0; length_ndx < n_length_bins_; ++length_ndx) tagged_fish_by_year_[year_ndx] += numbers_[years_[year_ndx]][length_ndx];
     for (unsigned length_ndx = 0; length_ndx < n_length_bins_; ++length_ndx)
       proportion_by_length_[year_ndx][length_ndx] = numbers_[years_[year_ndx]][length_ndx] / tagged_fish_by_year_[year_ndx];
   }
@@ -319,7 +319,6 @@ void TagByLength::DoExecute() {
   if ((std::find(years_.begin(), years_.end(), current_year) == years_.end()))
     return;
 
-  
   auto     iter     = find(years_.begin(), years_.end(), current_year);
   unsigned year_ndx = distance(years_.begin(), iter);
   LOG_FINE() << "year_ndx = " << year_ndx << " year = " << current_year;
@@ -333,20 +332,18 @@ void TagByLength::DoExecute() {
   LOG_FINEST() << "numbers_[current_year].size(): " << numbers_[current_year].size();
   for (unsigned i = 0; i < numbers_[current_year].size(); ++i) LOG_FINEST() << "numbers_[current_year][" << i << "]: " << numbers_[current_year][i];
 
-  Double   total_stock_with_selectivities = 0.0;
-  auto     length_bins                    = model_->length_bins();
+  Double total_stock_with_selectivities = 0.0;
+  auto   length_bins                    = model_->length_bins();
   LOG_FINE() << "number of length bins: " << n_length_bins_ << " in year " << current_year;
 
-
-
   // This in theory replicates the CASAL process
-  // Craig thinks users shouldn't use it hence the LOG_WARNING(). 
+  // Craig thinks users shouldn't use it hence the LOG_WARNING().
   // More for backwards compatiability and model validation/translation
   if (compatibility_ == PARAM_CASAL) {
     // set = 0
     fill(exploitation_by_age_.begin(), exploitation_by_age_.end(), 0.0);
-    for(unsigned i = 0; i < model_->age_spread(); ++i) {
-      fill(numbers_at_age_and_length_[i].begin(),numbers_at_age_and_length_[i].end(), 0.0);
+    for (unsigned i = 0; i < model_->age_spread(); ++i) {
+      fill(numbers_at_age_and_length_[i].begin(), numbers_at_age_and_length_[i].end(), 0.0);
       fill(tag_to_fish_by_age_.begin(), tag_to_fish_by_age_.end(), 0.0);
       fill(vulnerable_fish_by_age_.begin(), vulnerable_fish_by_age_.end(), 0.0);
       fill(final_exploitation_by_age_.begin(), final_exploitation_by_age_.end(), 0.0);
@@ -363,8 +360,7 @@ void TagByLength::DoExecute() {
     Double sum_age = 0.0;
     for (unsigned length_ndx = 0; length_ndx < n_length_bins_; ++length_ndx) {
       sum_age = 0.0;
-      for (unsigned age_ndx = 0; age_ndx < model_->age_spread(); ++age_ndx)
-        sum_age += numbers_at_age_and_length_[age_ndx][length_ndx];
+      for (unsigned age_ndx = 0; age_ndx < model_->age_spread(); ++age_ndx) sum_age += numbers_at_age_and_length_[age_ndx][length_ndx];
       for (unsigned age_ndx = 0; age_ndx < model_->age_spread(); ++age_ndx)
         exploitation_by_age_[age_ndx] += proportion_by_length_[year_ndx][length_ndx] * (numbers_at_age_and_length_[age_ndx][length_ndx] / sum_age);
     }
@@ -373,37 +369,38 @@ void TagByLength::DoExecute() {
       LOG_FINE() << "sex age = " << exploitation_by_age_[age_ndx];
     }
     LOG_FINE() << "fish to tag";
-    for (unsigned age_ndx = 0; age_ndx < model_->age_spread(); ++age_ndx) 
-      LOG_FINE() << tag_to_fish_by_age_[age_ndx] ;
+    for (unsigned age_ndx = 0; age_ndx < model_->age_spread(); ++age_ndx) LOG_FINE() << tag_to_fish_by_age_[age_ndx];
     // vulnerable age
-    from_iter = from_partition_.begin();
+    from_iter          = from_partition_.begin();
     from_category_iter = 0;
     for (; from_iter != from_partition_.end(); from_iter++, from_category_iter++) {
-      for (unsigned age_ndx = 0; age_ndx < (*from_iter)->data_.size(); ++age_ndx)
-        vulnerable_fish_by_age_[age_ndx] += (*from_iter)->data_[age_ndx];
+      for (unsigned age_ndx = 0; age_ndx < (*from_iter)->data_.size(); ++age_ndx) vulnerable_fish_by_age_[age_ndx] += (*from_iter)->data_[age_ndx];
     }
     LOG_FINE() << "vulnerable to tag";
-    for (unsigned age_ndx = 0; age_ndx < model_->age_spread(); ++age_ndx) 
-      LOG_FINE() << vulnerable_fish_by_age_[age_ndx] ;
+    for (unsigned age_ndx = 0; age_ndx < model_->age_spread(); ++age_ndx) LOG_FINE() << vulnerable_fish_by_age_[age_ndx];
     if (penalty_) {
       // check there is enough fish to tag by age
       for (unsigned age_ndx = 0; age_ndx < model_->age_spread(); ++age_ndx) {
-        if(vulnerable_fish_by_age_[age_ndx] <= tag_to_fish_by_age_[age_ndx]) {
+        if (vulnerable_fish_by_age_[age_ndx] <= tag_to_fish_by_age_[age_ndx]) {
           // flage penalty
           penalty_->Trigger(label_, vulnerable_fish_by_age_[age_ndx], tag_to_fish_by_age_[age_ndx]);
-          tag_to_fish_by_age_[age_ndx] = u_max_ * vulnerable_fish_by_age_[age_ndx]; // Does this break AD? its pretty disgusting.
+          tag_to_fish_by_age_[age_ndx] = u_max_ * vulnerable_fish_by_age_[age_ndx];
           // comment from CASAL: we will not be able to tag as many fish as we designated - this should be rare
         }
       }
     }
-    // final exploitation by age 
-    for (unsigned age_ndx = 0; age_ndx < model_->age_spread(); ++age_ndx)
+    // final exploitation by age
+    for (unsigned age_ndx = 0; age_ndx < model_->age_spread(); ++age_ndx) {
       final_exploitation_by_age_[age_ndx] = tag_to_fish_by_age_[age_ndx] / vulnerable_fish_by_age_[age_ndx];
+      if (final_exploitation_by_age_[age_ndx] > 1.0) {
+        LOG_CODE_ERROR() << "The number of fish to move in process tag_by_length[" << label_ << "] is greater than the number available.";
+      }
+    }
     // Move the fish
     from_iter = from_partition_.begin();
     LOG_FINE() << "initial mortality = " << initial_mortality_ << " label = " << label_ << " from = " << from_category_labels_.size() << " to = " << to_category_labels_.size();
     unsigned category_ndx = 0;
-    Double amount = 0.0;
+    Double   amount       = 0.0;
     for (; from_iter != from_partition_.end(); from_iter++, to_iter++, category_ndx++) {
       LOG_FINEST() << "from category = " << (*from_iter)->name_ << " to category = " << (*to_iter)->name_ << " category ndx = " << category_ndx;
       for (unsigned j = 0; j < (*from_iter)->data_.size(); ++j) {
@@ -411,21 +408,22 @@ void TagByLength::DoExecute() {
         amount = (*from_iter)->data_[j] * final_exploitation_by_age_[j];
         // account for mortality
         if ((initial_mortality_selectivity_label_ != "") && (initial_mortality_ > 0.0))
-          amount *= (1 - (initial_mortality_
-                                  * initial_mortality_selectivity_->GetAgeResult((*from_iter)->min_age_ + j, (*to_iter)->age_length_)));
+          amount *= (1.0 - (initial_mortality_ * initial_mortality_selectivity_->GetAgeResult((*from_iter)->min_age_ + j, (*to_iter)->age_length_)));
         else if ((initial_mortality_selectivity_label_ == "") && (initial_mortality_ > 0.0))
-          amount *= 1 - initial_mortality_;
+          amount *= (1.0 - initial_mortality_);
         // Just do it!
         (*from_iter)->data_[j] -= amount;
         (*to_iter)->data_[j] += amount;
         tagged_fish_after_init_mort_[year_ndx][category_ndx][j] -= amount;
         actual_tagged_fish_to_[year_ndx][category_ndx][j] += amount;
 
-        if((*from_iter)->data_[j] < 0.0)
-          LOG_CODE_ERROR() << "TagByLength caused a negative partition " << (*from_iter)->name_ << " " << " age = " << j + (*from_iter)->min_age_ << " numbers at age = " << (*from_iter)->data_[j] << " tagged fish = " << amount;
+        if ((*from_iter)->data_[j] < 0.0)
+          LOG_CODE_ERROR() << "The process tag_by_length (with label " << label_ << ") caused a negative partition " << (*from_iter)->name_ << " "
+                           << " age = " << j + (*from_iter)->min_age_ << " numbers at age = " << (*from_iter)->data_[j] << " tagged fish = " << amount;
 
         // log out for debuggin
-        LOG_FINEST() << "age = " << j + model_->min_age() << " = " << amount  << " after process to category = " << (*to_iter)->data_[j] << " from category = " <<  (*from_iter)->data_[j];
+        LOG_FINEST() << "age = " << j + model_->min_age() << " = " << amount << " after process to category = " << (*to_iter)->data_[j]
+                     << " from category = " << (*from_iter)->data_[j];
       }
     }
   } else if (compatibility_ == PARAM_CASAL2) {
@@ -445,11 +443,11 @@ void TagByLength::DoExecute() {
         continue;
 
       /**
-      * Calculate the vulnerable abundance to the tagging event in this length bin
-      */
+       * Calculate the vulnerable abundance to the tagging event in this length bin
+       */
       from_iter                      = from_partition_.begin();
       total_stock_with_selectivities = 0.0;
-      from_category_iter = 0;
+      from_category_iter             = 0;
       for (; from_iter != from_partition_.end(); from_iter++, from_category_iter++) {
         total_stock_with_selectivities += numbers_at_length_by_category_[from_category_iter][i];
       }
@@ -460,10 +458,10 @@ void TagByLength::DoExecute() {
       //      LOG_FATAL() << "total_stock_with_selectivities: 0";
 
       /**
-      * Migrate the exploited amount using a method analagous to exploitation rate.
-      */
+       * Migrate the exploited amount using a method analagous to exploitation rate.
+       */
       from_category_iter = 0;
-      from_iter = from_partition_.begin();
+      from_iter          = from_partition_.begin();
       for (; from_iter != from_partition_.end(); from_iter++, from_category_iter++) {
         LOG_FINE() << "--";
         LOG_FINE() << "Working with categories: from " << (*from_iter)->name_;
@@ -480,20 +478,22 @@ void TagByLength::DoExecute() {
 
           exploitation_by_length = u_max_;
           Double current         = numbers_at_length_by_category_[from_category_iter][i] * u_max_;
-          LOG_FINE() << "tried to tag " << tagged_fish_for_this_category << " tagging amount overridden with " << current << " = " << numbers_at_length_by_category_[from_category_iter][i] << " * "
-                    << u_max_;
+          LOG_FINE() << "tried to tag " << tagged_fish_for_this_category << " tagging amount overridden with " << current << " = "
+                     << numbers_at_length_by_category_[from_category_iter][i] << " * " << u_max_;
 
           if (penalty_)
             penalty_->Trigger(label_, tagged_fish_for_this_category, current);
         }
         LOG_FINE() << "proportion for length " << length_bins[i] << " = " << proportion_in_this_category_by_length << " tagged animals = " << tagged_fish_for_this_category
-                  << " exploitation = " << exploitation_by_length;
+                   << " exploitation = " << exploitation_by_length;
 
         LOG_FINE() << "numbers: " << numbers_[current_year][i] << " total = " << total_stock_with_selectivities;
         LOG_FINE() << (*from_iter)->name_ << " population at length " << length_bins[i] << ": " << numbers_at_length_by_category_[from_category_iter][i];
         // put throught the age length matrix
-        if(exploitation_by_length > 0) {
-          (*from_iter)->age_length_->populate_numbers_at_age_with_length_based_exploitation((*from_iter)->data_, numbers_at_age_by_category_[from_category_iter], exploitation_by_length, i, selectivities_[(*from_iter)->name_]);
+        if (exploitation_by_length > 0) {
+          (*from_iter)
+              ->age_length_->populate_numbers_at_age_with_length_based_exploitation((*from_iter)->data_, numbers_at_age_by_category_[from_category_iter], exploitation_by_length, i,
+                                                                                    selectivities_[(*from_iter)->name_]);
         }
       }
     }  // for (unsigned i = 0; i < length_bins_.size(); ++i)
@@ -512,19 +512,20 @@ void TagByLength::DoExecute() {
           (*to_iter)->data_[j] -= numbers_at_age_by_category_[category_ndx][j] * initial_mortality_
                                   * initial_mortality_selectivity_->GetAgeResult((*to_iter)->min_age_ + j, (*to_iter)->age_length_);
           tagged_fish_after_init_mort_[year_ndx][category_ndx][j] -= numbers_at_age_by_category_[category_ndx][j] * initial_mortality_
-                                  * initial_mortality_selectivity_->GetAgeResult((*to_iter)->min_age_ + j, (*to_iter)->age_length_);
+                                                                     * initial_mortality_selectivity_->GetAgeResult((*to_iter)->min_age_ + j, (*to_iter)->age_length_);
         } else if ((initial_mortality_selectivity_label_ == "") && (initial_mortality_ > 0.0)) {
           (*to_iter)->data_[j] -= numbers_at_age_by_category_[category_ndx][j] * initial_mortality_;
           tagged_fish_after_init_mort_[year_ndx][category_ndx][j] -= numbers_at_age_by_category_[category_ndx][j] * initial_mortality_;
         }
 
-        if((*from_iter)->data_[j] < 0.0)
-          LOG_CODE_ERROR() << "TagByLength caused a negative partition " << (*from_iter)->name_ << " " << " age = " << j + (*from_iter)->min_age_ << " numbers at age = " << (*from_iter)->data_[j] << " tagged fish = " << numbers_at_age_by_category_[category_ndx][j];
+        if ((*from_iter)->data_[j] < 0.0)
+          LOG_CODE_ERROR() << "The process tag_by_length (with label " << label_ << ") caused a negative partition " << (*from_iter)->name_ << " "
+                           << " age = " << j + (*from_iter)->min_age_ << " numbers at age = " << (*from_iter)->data_[j]
+                           << " tagged fish = " << numbers_at_age_by_category_[category_ndx][j];
         LOG_FINEST() << "age = " << j + model_->min_age() << " = " << numbers_at_age_by_category_[category_ndx][j] << " after init mort = " << (*to_iter)->data_[j];
       }
     }
-  } // compatibility_ switch
-
+  }  // compatibility_ switch
 }
 
 /*
@@ -535,7 +536,7 @@ void TagByLength::DoExecute() {
 void TagByLength::FillReportCache(ostringstream& cache) {
   LOG_FINE() << "report age distribution of tagged individuals by source and destination";
   for (unsigned category_ndx = 0; category_ndx < to_category_labels_.size(); ++category_ndx) {
-    cache << "tags-after-initial_mortality-" << to_category_labels_[category_ndx]  << " " << REPORT_R_DATAFRAME_ROW_LABELS << "\n";
+    cache << "tags-after-initial_mortality-" << to_category_labels_[category_ndx] << " " << REPORT_R_DATAFRAME_ROW_LABELS << "\n";
     cache << "year ";
     for (unsigned age = min_age_; age <= max_age_; ++age) cache << age << " ";
     cache << REPORT_EOL;
@@ -549,8 +550,7 @@ void TagByLength::FillReportCache(ostringstream& cache) {
   for (unsigned category_ndx = 0; category_ndx < to_category_labels_.size(); ++category_ndx) {
     cache << "tag-releases-" << to_category_labels_[category_ndx] << " " << REPORT_R_DATAFRAME_ROW_LABELS << "\n";
     cache << "year ";
-    for (unsigned age = min_age_; age <= max_age_; ++age) 
-      cache << age << " ";
+    for (unsigned age = min_age_; age <= max_age_; ++age) cache << age << " ";
     cache << REPORT_EOL;
     for (unsigned year_ndx = 0; year_ndx < years_.size(); ++year_ndx) {
       cache << years_[year_ndx] << " ";

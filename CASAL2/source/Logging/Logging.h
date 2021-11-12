@@ -103,7 +103,7 @@ private:
 // Errors that do cause an immediate stop and exit of the program
 #define LOG_FATAL() LOG_FOR(logger::Severity::kFatal) r.stream()
 #define LOG_FATAL_P(parameter) LOG_FOR(logger::Severity::kFatal) r.stream() << this->parameters_.location(parameter)
-// Code errors tha require a developer to fix
+// Code errors that require a developer to fix
 #define LOG_CODE_ERROR() LOG_FOR(logger::Severity::kCodeError) r.stream()
 
 #endif /* SOURCE_LOGGING_LOGGING_H_ */

@@ -69,8 +69,9 @@ void DefaultReports::DoBuild(shared_ptr<Model> model) {
       }
     }
     if (addressable_transformations_) {
-      string report_label = "__parameter_transformations__";
-      LOG_INFO() << "Creating default report for catchability " << report_label;
+      string label        = "parameter_transformations";
+      string report_label = "__" + label + "__";
+      LOG_INFO() << "Creating default report for catchability " << label;
       reports::AddressableTransformation* report = new reports::AddressableTransformation();
       report->set_is_default(true);
       report->set_block_type(PARAM_REPORT);
