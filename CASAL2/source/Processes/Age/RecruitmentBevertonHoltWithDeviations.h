@@ -4,7 +4,7 @@
  * @date 11/7/17
  * @section LICENSE
  *
- * Copyright NIWA Science ©2013 - www.niwa.co.nz
+ * Copyright NIWA Science ï¿½2013 - www.niwa.co.nz
  *
  * @section DESCRIPTION
  *
@@ -47,6 +47,7 @@ public:
   unsigned ssb_offset() { return ssb_offset_; };
   string   ssb_label() { return ssb_; };
   bool     b0_initialised() { return b0_initialised_; };
+  const vector<string>& category_labels() const { return category_labels_; }
 
 private:
   // members
