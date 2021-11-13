@@ -65,7 +65,7 @@ protected:
   // i.e only on process[Recruit].ycs_values or process[Recruit].ycs_values{1990:2013}
   // or
   // selectivity[all_values_bounded].v or selectivity[all_values_bounded].v{1:5}
-  // We can catch these from the above seperate case as if we
+  // We can catch these from the above separate case as if we
   void set_vector_values(vector<Double> value);
   void set_map_values(vector<Double> value);
   void set_map_string_values(vector<Double> value);

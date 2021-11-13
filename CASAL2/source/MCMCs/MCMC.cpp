@@ -34,7 +34,7 @@ namespace math = niwa::utilities::math;
  */
 MCMC::MCMC(shared_ptr<Model> model) : model_(model) {
   parameters_.Bind<string>(PARAM_LABEL, &label_, "The label of the MCMC", "");
-  parameters_.Bind<string>(PARAM_TYPE, &type_, "The MCMC method", "", PARAM_RANDOMWALK)->set_allowed_values({PARAM_METROPOLIS_HASTINGS, PARAM_HAMILTONIAN, PARAM_RANDOMWALK});
+  parameters_.Bind<string>(PARAM_TYPE, &type_, "The MCMC method", "", PARAM_RANDOMWALK)->set_allowed_values({PARAM_HAMILTONIAN, PARAM_RANDOMWALK});
   parameters_.Bind<unsigned>(PARAM_LENGTH, &length_, "The number of iterations for the MCMC (including the burn in period)", "")->set_lower_bound(1);
   parameters_.Bind<unsigned>(PARAM_BURN_IN, &burn_in_, "The number of iterations for the burn_in period of the MCMC", "", 0u)->set_lower_bound(0);
   parameters_.Bind<bool>(PARAM_ACTIVE, &active_, "Indicates if this is the active MCMC algorithm", "", true);
@@ -111,12 +111,16 @@ void MCMC::Build() {
   LOG_TRACE();
 
   estimates_ = model_->managers()->estimate()->GetIsMCMCd();
-  if (estimates_.size() == 0)
+
+  estimate_count_ = estimates_.size();
+  if (estimate_count_ == 0)
     LOG_FATAL() << "No estimates are available for use in the MCMC. Either none have been defined, or they have all been set as " << PARAM_MCMC_FIXED;
   if (step_size_ <= 0.0)
     step_size_ = 2.4 * pow((double)estimate_count_, -0.5);
 
-  estimate_count_ = estimates_.size();
+  if (step_size_ <= 0.0)
+    LOG_CODE_ERROR() << "Step size is less than or equal to zero" << step_size_ << ")";
+
   candidates_.assign(estimate_count_, 0.0);
 
   // TODO: Check if Minimiser is being used and if so it has a covariance matrix enabled.

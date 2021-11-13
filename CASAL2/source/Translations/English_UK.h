@@ -274,7 +274,6 @@
 #define PARAM_ESTIMATE_LABEL                      "estimate_label"
 #define PARAM_ESTIMATE_LABELS                     "estimate_labels"
 #define PARAM_ESTIMATE_SUMMARY                    "estimate_summary"
-#define PARAM_ESTIMATE_TRANSFORMATION             "estimate_transformation"
 #define PARAM_ESTIMATES                           "estimates"
 #define PARAM_ESTIMATE_VALUE                      "estimate_value"
 #define PARAM_ESTIMATION                          "estimation"

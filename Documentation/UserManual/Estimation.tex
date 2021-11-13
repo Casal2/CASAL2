@@ -627,7 +627,7 @@ $\begin{vmatrix} \frac{\partial}{\partial y} f^{-1}(y) \end{vmatrix}$ Hasn't bee
 	
 \item \subcommand{log\_sum} : two parameters $X_1$ and $X_2$ are transformed to $Y_1$ and $Y_2$, where $Y_1$ is the natural logarithm of the sum of $X_1$ and $X_2$. $Y_2$ describes the proportion of the sum with respect to $X_1$\\
 \subcommand{jacobian known = false}\\
-\subcommand{estimable parameter = log\_total\_parameter, difference\_parameters}\\
+\subcommand{estimable parameter = log\_total\_parameter, total\_proportion\_parameter}\\
 $Y_1 = ln(X_1 + X_2)$\\
 $Y_2 = X_1 / (X_1 + X_2)$\\
 Restore transformations\\
@@ -648,7 +648,7 @@ $\begin{vmatrix} \frac{\partial}{\partial y} f^{-1}(y) \end{vmatrix}$ Hasn't bee
 		
 		@estimate prop_r0_east
 		type uniform
-		parameter parameter_transformation[log_total_r0].difference_parameters
+		parameter parameter_transformation[log_total_r0].total_proportion_parameter
 		lower_bound 0.001
 		upper_bound 0.8		
 		\end{verbatim}}}

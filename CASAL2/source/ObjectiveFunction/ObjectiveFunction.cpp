@@ -112,7 +112,7 @@ void ObjectiveFunction::CalculateScore() {
   /**
    * Get the scores from each of the estimate priors
    */
-  model_->managers()->addressable_transformation()->PrepareForObjectiveFunction(); // prior applies to the transformed variable
+  model_->managers()->addressable_transformation()->PrepareForObjectiveFunction();  // prior applies to the transformed variable
   vector<Estimate*> estimates = model_->managers()->estimate()->objects();
   priors_                     = 0.0;
   for (Estimate* estimate : estimates) {
@@ -131,7 +131,7 @@ void ObjectiveFunction::CalculateScore() {
     score_ += new_score.score_;
     priors_ += new_score.score_;
   }
-  model_->managers()->addressable_transformation()->RestoreForObjectiveFunction(); // revert any transformations that were required to change for prior
+  model_->managers()->addressable_transformation()->RestoreForObjectiveFunction();  // revert any transformations that were required to change for prior
 
   /**
    * Get the score from each additional prior
@@ -150,7 +150,7 @@ void ObjectiveFunction::CalculateScore() {
   }
 
   /**
-   * Get the Jacobian score from estimate_transformations
+   * Get the Jacobian score from parameter_transformations
    */
   auto jacobians = model_->managers()->addressable_transformation()->objects();
   jacobians_     = 0.0;

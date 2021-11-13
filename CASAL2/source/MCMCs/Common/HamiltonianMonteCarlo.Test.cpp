@@ -75,6 +75,7 @@ TEST_F(HamiltonianMonteCarloThreadedModel, Five_Iteration_With_TwoSex) {
     type hamiltonian
     length 5
     start 0
+    step_size 0.02
     keep 1
     leapfrog_delta 1e-5
     leapfrog_steps 3
@@ -120,6 +121,7 @@ TEST_F(HamiltonianMonteCarloThreadedModel, TwentyFive_Iteration_With_TwoSex) {
     type hamiltonian
     length 25
     start 0
+    step_size 0.02
     keep 1
     leapfrog_delta 1e-7
     leapfrog_steps 3
@@ -205,6 +207,7 @@ TEST_F(HamiltonianMonteCarloThreadedModel, OneHundred_Iteration_With_TwoSex) {
     type hamiltonian
     length 100
     start 0
+    step_size 0.02
     keep 1
     leapfrog_delta 1e-7
     leapfrog_steps 3
@@ -280,6 +283,7 @@ TEST_F(HamiltonianMonteCarloThreadedModel, Five_Iteration_With_CasalComplexOne) 
     type hamiltonian
     length 5
     start 0
+    step_size 0.02
     keep 1
     leapfrog_delta 1e-5
     leapfrog_steps 3
@@ -325,6 +329,7 @@ TEST_F(HamiltonianMonteCarloThreadedModel, Five_Iteration_With_CasalComplexOne_L
     type hamiltonian
     length 5
     start 0
+    step_size 0.02
     keep 1
     leapfrog_delta 1e-5
     leapfrog_steps 10
@@ -370,6 +375,7 @@ TEST_F(HamiltonianMonteCarloThreadedModel, Five_Iteration_With_CasalComplexOne_L
     type hamiltonian
     length 5
     start 0
+    step_size 0.02
     keep 1
     leapfrog_delta 1e-7
     leapfrog_steps 10
@@ -415,6 +421,7 @@ TEST_F(HamiltonianMonteCarloThreadedModel, Five_Iteration_With_CasalComplexOne_L
     type hamiltonian
     length 5
     start 1
+    step_size 0.02
     keep 1
     leapfrog_delta 1e-3
     leapfrog_steps 10
@@ -459,6 +466,7 @@ TEST_F(HamiltonianMonteCarloThreadedModel, Five_Iteration_With_TwoSex_CustomGrad
     type hamiltonian
     length 5
     start 0
+    step_size 0.02
     keep 1
     leapfrog_delta 1e-5
     leapfrog_steps 3
@@ -505,6 +513,7 @@ TEST_F(HamiltonianMonteCarloThreadedModel, TwentyFive_Iteration_With_TwoSex_Rand
     type hamiltonian
     length 25
     start 1
+    step_size 0.02
     keep 1
     leapfrog_delta 1e-4
     leapfrog_steps 5
@@ -590,6 +599,7 @@ TEST_F(HamiltonianMonteCarloThreadedModel, TwentyFive_Iteration_With_CasalComple
     type hamiltonian
     length 25
     start 1
+    step_size 0.02
     keep 1
     leapfrog_delta 1e-4
     leapfrog_steps 4
@@ -675,6 +685,7 @@ TEST_F(HamiltonianMonteCarloThreadedModel, TwentyFive_Iteration_With_CasalComple
     type hamiltonian
     length 25
     start 1
+    step_size 0.02
     keep 1
     leapfrog_delta 1e-4
     leapfrog_steps 10

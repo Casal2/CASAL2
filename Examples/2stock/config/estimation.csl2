@@ -91,14 +91,13 @@ upper_bound 1
 #######
 ## this includes a transformation see the manual for how Casal2 applies transformations
 @estimate B0_E_with_total_log_b0_prior
+parameter parameter_transformation[log_sum_b0].log_total_parameter
 type uniform
-parameter process[recruit_E].b0
 lower_bound 12.6
 upper_bound 16.2
-prior_applies_to_transform true
 
 @estimate B0_W_with_proportion_prior
-parameter process[recruit_W].b0
+parameter parameter_transformation[log_sum_b0].difference_parameter
 type beta
 mu 0.344
 sigma 0.072
@@ -106,16 +105,13 @@ a 0.1
 b 0.6
 lower_bound 0.11
 upper_bound 0.59
-prior_applies_to_transform true
 
-##########################
-## Estimate Transformation
-##########################
-@estimate_transformation log_sum_b0
+# Estimate Transformation
+@parameter_transformation log_sum_b0
 type log_sum
-theta1 B0_E_with_total_log_b0_prior
-theta2 B0_W_with_proportion_prior
-transform_with_jacobian false
+parameters process[recruit_E].b0 process[recruit_W].b0
+prior_applies_to_restored_parameters false
+
 #######
 ## YCS
 #######

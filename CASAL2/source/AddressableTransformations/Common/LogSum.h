@@ -27,10 +27,11 @@ public:
   LogSum() = delete;
   explicit LogSum(shared_ptr<Model> model);
   virtual ~LogSum() = default;
-  Double           GetScore() override final;
-  void             FillReportCache(ostringstream& cache) override final;
-  void             PrepareForObjectiveFunction() override final;
-  void             RestoreForObjectiveFunction() override final;
+  Double GetScore() override final;
+  void   FillReportCache(ostringstream& cache) override final;
+  void   PrepareForObjectiveFunction() override final;
+  void   RestoreForObjectiveFunction() override final;
+
 protected:
   // methods
   void DoValidate() override final;
@@ -39,11 +40,10 @@ protected:
 
 private:
   // members
-  Double          log_total_parameter_;
-  Double          total_difference_parameter_;
-  unsigned        number_of_parameters_;
-  Double          total_parameter_;
-
+  Double   log_total_parameter_;
+  Double   total_proportion_parameter_;
+  unsigned number_of_parameters_;
+  Double   total_parameter_;
 };
 
 } /* namespace addressabletransformations */

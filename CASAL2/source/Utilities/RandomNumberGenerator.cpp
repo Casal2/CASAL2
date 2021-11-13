@@ -62,7 +62,7 @@ double RandomNumberGenerator::uniform(double min, double max) {
   boost::variate_generator<boost::mt19937&, boost::uniform_real<> > generator(generator_, uniform);
 
   double value = generator();
-  LOG_MEDIUM() << "rng.uniform(" << min << ", " << max << ") = " << value;
+  LOG_FINEST() << "rng.uniform(" << min << ", " << max << ") = " << value;
 
   sequence_.push_back(0);
   rng_uniform_values_.push_back(value);
@@ -82,7 +82,7 @@ double RandomNumberGenerator::normal(double mean, double sigma) {
   boost::variate_generator<boost::mt19937&, boost::normal_distribution<> > generator(generator_, normal);
 
   double value = generator();
-  LOG_MEDIUM() << "rng.normal(" << mean << ", " << sigma << ") = " << value;
+  LOG_FINEST() << "rng.normal(" << mean << ", " << sigma << ") = " << value;
   sequence_.push_back(0);
   rng_normal_values_.push_back(value);
   return value;

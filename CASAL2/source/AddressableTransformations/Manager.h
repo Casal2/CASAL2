@@ -10,8 +10,8 @@
 
 // Headers
 #include "../BaseClasses/Manager.h"
-#include "AddressableTransformation.h"
 #include "../Model/Managers.h"
+#include "AddressableTransformation.h"
 
 // Namespaces
 namespace niwa {
@@ -26,11 +26,10 @@ class Manager : public niwa::base::Manager<niwa::addressabletransformations::Man
 
 public:
   virtual ~Manager() = default;
-  void Validate() override final;
-  AddressableTransformation*         GetAddressableTransformation(const string& label);
-  void                               PrepareForObjectiveFunction();
-  void                               RestoreForObjectiveFunction();
-
+  void                       Validate() override final;
+  AddressableTransformation* GetAddressableTransformation(const string& label);
+  void                       PrepareForObjectiveFunction();
+  void                       RestoreForObjectiveFunction();
 
 protected:
   // methods
