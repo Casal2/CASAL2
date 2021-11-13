@@ -35,7 +35,7 @@ using niwa::utilities::Vector_Debug;
 using niwa::utilities::Vector_Scale;
 
 /**
- * @brief norm2. Return cummulative squard values of
+ * @brief norm2. Return cumulative squard values of
  * the vector
  *
  * @param target
@@ -43,7 +43,8 @@ using niwa::utilities::Vector_Scale;
  */
 double norm2(const std::vector<double>& target) {
   double result = 0.0;
-  for (auto d : target) result += d * d;
+  for (auto d : target)
+    result += d * d;
   return result;
 }
 
@@ -104,12 +105,12 @@ void HamiltonianMonteCarlo::DoExecute(shared_ptr<ThreadPool> thread_pool) {
 
   estimate_lower_bounds_.resize(estimates_.size(), 0.0);
   estimate_upper_bounds_.resize(estimates_.size(), 0.0);
-  for(unsigned i = 0; i < estimates_.size(); ++i) {
+  for (unsigned i = 0; i < estimates_.size(); ++i) {
     estimate_lower_bounds_[i] = estimates_[i]->lower_bound();
     estimate_upper_bounds_[i] = estimates_[i]->upper_bound();
   }
-  //estimate_lower_bounds_ = model_->managers()->estimate()->lower_bounds();
-  //estimate_upper_bounds_ = model_->managers()->estimate()->upper_bounds();
+  // estimate_lower_bounds_ = model_->managers()->estimate()->lower_bounds();
+  // estimate_upper_bounds_ = model_->managers()->estimate()->upper_bounds();
 
   // Lambda to increment vector e by scaled g
   auto increment_vector = [](vector<double> e, vector<double> g, double delta) {
@@ -123,7 +124,8 @@ void HamiltonianMonteCarlo::DoExecute(shared_ptr<ThreadPool> thread_pool) {
 
   // Lambda to easily run a model run with some iterations
   auto quick_run = [this](const vector<double>& candidates) {
-    for (unsigned i = 0; i < candidates.size(); ++i) estimates_[i]->set_value(candidates[i]);
+    for (unsigned i = 0; i < candidates.size(); ++i)
+      estimates_[i]->set_value(candidates[i]);
 
     model_->FullIteration();
     model_->objective_function().CalculateScore();
@@ -178,7 +180,7 @@ void HamiltonianMonteCarlo::DoExecute(shared_ptr<ThreadPool> thread_pool) {
     if (q_score >= previous_score) {
       ratio = exp(previous_score - q_score);
     }
-
+    LOG_WARNING() << " HMC: LOOKS WRONG: Don't this rejection should be saving the last chain value. NEED TO CHECK";
     // Check if we accept this jump
     if (math::IsEqual(ratio, 1.0) || rng_uniform < ratio) {
       LOG_MEDIUM() << "Accepting Jump (ratio: " << ratio << ", rng: " << rng_uniform << ")" << endl;

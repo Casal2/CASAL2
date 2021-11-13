@@ -60,8 +60,10 @@ public:
                                   vector<int>& map_length_bin_ndx);  // overloaded for the case with no selectivity and class has bespoke length bins
   void populate_numbers_at_age_with_length_based_exploitation(vector<Double>& numbers_at_age, vector<Double>& numbers_at_age_with_exploitation, Double& exploitation_by_length,
                                                               unsigned model_length_bin_ndx, Selectivity* selectivity);  //
-  void            populate_age_length_matrix(vector<Double> numbers_at_age, vector<vector<Double>>& numbers_by_age_length); // overloaded for the case with no selectivity and class has bespoke length bins
-  void            populate_age_length_matrix(vector<Double> numbers_at_age, vector<vector<Double>>& numbers_by_age_length, Selectivity* selectivity); // overloaded for the case with no selectivity and class has bespoke length bins
+  void populate_age_length_matrix(vector<Double>          numbers_at_age,
+                                  vector<vector<Double>>& numbers_by_age_length);  // overloaded for the case with no selectivity and class has bespoke length bins
+  void populate_age_length_matrix(vector<Double> numbers_at_age, vector<vector<Double>>& numbers_by_age_length,
+                                  Selectivity* selectivity);  // overloaded for the case with no selectivity and class has bespoke length bins
 
   // For reporting in the AgeLength
   void FillReportCache(ostringstream& cache);
@@ -100,7 +102,8 @@ protected:
   vector<vector<Double>>  mean_weight_by_timestep_age_;  // mean_weight_by_timestep_age_[time_step][age]
   vector<unsigned>        age_length_matrix_years_;
   map<unsigned, unsigned> age_length_matrix_year_key_;  // [year, dimension]
-  // because this may not be in sequential order (see method BuildAgeLengthMatrixForTheseYears) we have a key which maps the right year with first dimension of age_length_transition_matrix_
+  // because this may not be in sequential order (see method BuildAgeLengthMatrixForTheseYears) we have a key which maps the right year with first dimension of
+  // age_length_transition_matrix_
   vector<vector<Double>>                 numbers_by_age_length_transition_;  // age x length used as a temporarey container
   vector<vector<vector<vector<Double>>>> age_length_transition_matrix_;      // dims years x timesteps x age x length
   // these members are used in the functions

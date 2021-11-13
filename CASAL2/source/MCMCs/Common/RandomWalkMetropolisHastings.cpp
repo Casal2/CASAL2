@@ -52,7 +52,6 @@ void RandomWalkMetropolisHastings::DoExecute(shared_ptr<ThreadPool> thread_pool)
 
   mcmc::ChainLink last_link;
 
-  bool   accept_jump     = false;
   double score           = 0.0;
   int    invalid_counter = 0;
 
@@ -64,14 +63,14 @@ void RandomWalkMetropolisHastings::DoExecute(shared_ptr<ThreadPool> thread_pool)
     UpdateStepSize();
     UpdateCovarianceMatrix();
     GenerateNewCandidates();
-    accept_jump = false;
-    score       = 0.0;
+    score = 0.0;
 
     if (WithinBounds()) {
       ++jumps_;
       ++jumps_since_adapt_;
 
-      for (unsigned i = 0; i < candidates_.size(); ++i) estimates_[i]->set_value(candidates_[i]);
+      for (unsigned i = 0; i < candidates_.size(); ++i)
+        estimates_[i]->set_value(candidates_[i]);
 
       model_->FullIteration();
       obj_function.CalculateScore();
@@ -86,8 +85,6 @@ void RandomWalkMetropolisHastings::DoExecute(shared_ptr<ThreadPool> thread_pool)
       // double rng_uniform = rng.uniform();
       if (math::IsEqual(ratio, 1.0) || rng.uniform() < ratio) {
         LOG_MEDIUM() << "Accept: Possible. Iteration = " << jumps_ << ", score = " << score << " Previous score " << previous_score;
-        // Accept this jump
-        accept_jump = true;
         successful_jumps_++;
         successful_jumps_since_adapt_++;
         previous_score      = score;
@@ -102,31 +99,20 @@ void RandomWalkMetropolisHastings::DoExecute(shared_ptr<ThreadPool> thread_pool)
           mcmc_state_ = PARAM_MCMC;
         else
           mcmc_state_ = PARAM_BURN_IN;
-        if (accept_jump) {
-          mcmc::ChainLink new_link{.iteration_                   = jumps_,
-                                   .mcmc_state_                  = mcmc_state_,
-                                   .score_                       = obj_function.score(),
-                                   .likelihood_                  = obj_function.likelihoods(),
-                                   .prior_                       = obj_function.priors(),
-                                   .penalty_                     = obj_function.penalties(),
-                                   .additional_priors_           = obj_function.additional_priors(),
-                                   .jacobians_                   = obj_function.jacobians(),
-                                   .acceptance_rate_             = double(successful_jumps_) / double(jumps_),
-                                   .acceptance_rate_since_adapt_ = double(successful_jumps_since_adapt_) / double(jumps_since_adapt_),
-                                   .step_size_                   = step_size_,
-                                   .values_                      = candidates_};
+        mcmc::ChainLink new_link{.iteration_                   = jumps_,
+                                 .mcmc_state_                  = mcmc_state_,
+                                 .score_                       = obj_function.score(),
+                                 .likelihood_                  = obj_function.likelihoods(),
+                                 .prior_                       = obj_function.priors(),
+                                 .penalty_                     = obj_function.penalties(),
+                                 .additional_priors_           = obj_function.additional_priors(),
+                                 .jacobians_                   = obj_function.jacobians(),
+                                 .acceptance_rate_             = double(successful_jumps_) / double(jumps_),
+                                 .acceptance_rate_since_adapt_ = double(successful_jumps_since_adapt_) / double(jumps_since_adapt_),
+                                 .step_size_                   = step_size_,
+                                 .values_                      = candidates_};
 
-          chain_.push_back(new_link);
-        } else {
-          // Copy the last chain accepted link to the end of the vector
-          auto temp                         = *chain_.rbegin();
-          temp.iteration_                   = jumps_;
-          temp.mcmc_state_                  = mcmc_state_;
-          temp.acceptance_rate_             = double(successful_jumps_) / double(jumps_);
-          temp.acceptance_rate_since_adapt_ = double(successful_jumps_since_adapt_) / double(jumps_since_adapt_);
-          chain_.push_back(temp);
-        }
-
+        chain_.push_back(new_link);
         // LOG_MEDIUM() << "Storing: Successful Jumps " << successful_jumps_ << " Jumps : " << jumps_;
         model_->managers()->report()->Execute(model_, State::kIterationComplete);
       }
@@ -136,7 +122,6 @@ void RandomWalkMetropolisHastings::DoExecute(shared_ptr<ThreadPool> thread_pool)
       LOG_MEDIUM() << "Reject: Bounds. Iteration = " << jumps_ << ", score = " << score << " Previous score " << previous_score << ". There were " << invalid_counter
                    << " invalid jumps";
     }
-
   } while (jumps_ < length_);
 }
 

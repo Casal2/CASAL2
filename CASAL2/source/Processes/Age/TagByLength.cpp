@@ -110,7 +110,8 @@ void TagByLength::DoValidate() {
           }
         }
       }
-      for (auto& split_category : split_category_labels) split_from_category_labels_.push_back(split_category);
+      for (auto& split_category : split_category_labels)
+        split_from_category_labels_.push_back(split_category);
     } else
       split_from_category_labels_.push_back(category);
   }
@@ -273,7 +274,8 @@ void TagByLength::DoBuild() {
     numbers_at_age_by_category_[i].resize(model_->age_spread(), 0.0);
   }
 
-  for (unsigned i = 0; i < model_->age_spread(); ++i) numbers_at_age_and_length_[i].resize(n_length_bins_, 0.0);
+  for (unsigned i = 0; i < model_->age_spread(); ++i)
+    numbers_at_age_and_length_[i].resize(n_length_bins_, 0.0);
 
   if (penalty_label_ != "")
     penalty_ = model_->managers()->penalty()->GetPenalty(penalty_label_);
@@ -298,7 +300,8 @@ void TagByLength::DoBuild() {
 
   for (unsigned year_ndx = 0; year_ndx < years_.size(); ++year_ndx) {
     proportion_by_length_[year_ndx].resize(n_length_bins_, 0.0);
-    for (unsigned length_ndx = 0; length_ndx < n_length_bins_; ++length_ndx) tagged_fish_by_year_[year_ndx] += numbers_[years_[year_ndx]][length_ndx];
+    for (unsigned length_ndx = 0; length_ndx < n_length_bins_; ++length_ndx)
+      tagged_fish_by_year_[year_ndx] += numbers_[years_[year_ndx]][length_ndx];
     for (unsigned length_ndx = 0; length_ndx < n_length_bins_; ++length_ndx)
       proportion_by_length_[year_ndx][length_ndx] = numbers_[years_[year_ndx]][length_ndx] / tagged_fish_by_year_[year_ndx];
   }
@@ -363,7 +366,8 @@ void TagByLength::DoExecute() {
 
     for (unsigned length_ndx = 0; length_ndx < n_length_bins_; ++length_ndx) {
       sum_age = 0.0;
-      for (unsigned age_ndx = 0; age_ndx < model_->age_spread(); ++age_ndx) sum_age += numbers_at_age_and_length_[age_ndx][length_ndx];
+      for (unsigned age_ndx = 0; age_ndx < model_->age_spread(); ++age_ndx)
+        sum_age += numbers_at_age_and_length_[age_ndx][length_ndx];
       for (unsigned age_ndx = 0; age_ndx < model_->age_spread(); ++age_ndx)
         exploitation_by_age_[age_ndx] += proportion_by_length_[year_ndx][length_ndx] * (numbers_at_age_and_length_[age_ndx][length_ndx] / sum_age);
     }
@@ -381,7 +385,8 @@ void TagByLength::DoExecute() {
     from_category_iter = 0;
 
     for (; from_iter != from_partition_.end(); from_iter++, from_category_iter++) {
-      for (unsigned age_ndx = 0; age_ndx < (*from_iter)->data_.size(); ++age_ndx) vulnerable_fish_by_age_[age_ndx] += (*from_iter)->data_[age_ndx];
+      for (unsigned age_ndx = 0; age_ndx < (*from_iter)->data_.size(); ++age_ndx)
+        vulnerable_fish_by_age_[age_ndx] += (*from_iter)->data_[age_ndx];
     }
     LOG_FINE() << "vulnerable to tag";
     // for (unsigned age_ndx = 0; age_ndx < model_->age_spread(); ++age_ndx)
@@ -551,11 +556,13 @@ void TagByLength::FillReportCache(ostringstream& cache) {
   for (unsigned category_ndx = 0; category_ndx < to_category_labels_.size(); ++category_ndx) {
     cache << "tags-after-initial_mortality-" << to_category_labels_[category_ndx] << " " << REPORT_R_DATAFRAME_ROW_LABELS << "\n";
     cache << "year ";
-    for (unsigned age = min_age_; age <= max_age_; ++age) cache << age << " ";
+    for (unsigned age = min_age_; age <= max_age_; ++age)
+      cache << age << " ";
     cache << REPORT_EOL;
     for (unsigned year_ndx = 0; year_ndx < years_.size(); ++year_ndx) {
       cache << years_[year_ndx] << " ";
-      for (unsigned age_ndx = 0; age_ndx < age_spread_; ++age_ndx) cache << AS_DOUBLE(tagged_fish_after_init_mort_[year_ndx][category_ndx][age_ndx]) << " ";
+      for (unsigned age_ndx = 0; age_ndx < age_spread_; ++age_ndx)
+        cache << AS_DOUBLE(tagged_fish_after_init_mort_[year_ndx][category_ndx][age_ndx]) << " ";
       cache << REPORT_EOL;
     }
   }
@@ -563,11 +570,13 @@ void TagByLength::FillReportCache(ostringstream& cache) {
   for (unsigned category_ndx = 0; category_ndx < to_category_labels_.size(); ++category_ndx) {
     cache << "tag-releases-" << to_category_labels_[category_ndx] << " " << REPORT_R_DATAFRAME_ROW_LABELS << "\n";
     cache << "year ";
-    for (unsigned age = min_age_; age <= max_age_; ++age) cache << age << " ";
+    for (unsigned age = min_age_; age <= max_age_; ++age)
+      cache << age << " ";
     cache << REPORT_EOL;
     for (unsigned year_ndx = 0; year_ndx < years_.size(); ++year_ndx) {
       cache << years_[year_ndx] << " ";
-      for (unsigned age_ndx = 0; age_ndx < age_spread_; ++age_ndx) cache << AS_DOUBLE(actual_tagged_fish_to_[year_ndx][category_ndx][age_ndx]) << " ";
+      for (unsigned age_ndx = 0; age_ndx < age_spread_; ++age_ndx)
+        cache << AS_DOUBLE(actual_tagged_fish_to_[year_ndx][category_ndx][age_ndx]) << " ";
       cache << REPORT_EOL;
     }
   }
