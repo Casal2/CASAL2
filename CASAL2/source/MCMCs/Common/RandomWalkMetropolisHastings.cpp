@@ -127,18 +127,10 @@ void RandomWalkMetropolisHastings::DoExecute(shared_ptr<ThreadPool> thread_pool)
           chain_.push_back(temp);
         }
 
-        // print out a . for every iteration so we get some feedback to console
-        // ++iteration_counter_;
-        // cout << ".";
-        // if (iteration_counter_ % 100 == 0) {
-        //   iteration_counter_ = 0;
-        //   cout << endl;
-        // }
-
         // LOG_MEDIUM() << "Storing: Successful Jumps " << successful_jumps_ << " Jumps : " << jumps_;
         model_->managers()->report()->Execute(model_, State::kIterationComplete);
       }
-    } else {  // Reject this attempt but still record the chain if it lands on a keep
+    } else {  // Reject this attempt
       ++invalid_counter;
       candidates_ = previous_candidates;
       LOG_MEDIUM() << "Reject: Bounds. Iteration = " << jumps_ << ", score = " << score << " Previous score " << previous_score << ". There were " << invalid_counter
