@@ -81,6 +81,7 @@ void CloseLibrary(void* library) {
 void RunConfigurationFileValidation(int argc, char* argv[], niwa::utilities::RunParameters& options);
 void RunBasic(int argc, char* argv[], niwa::utilities::RunParameters& options);
 void RunEstimation(int argc, char* argv[], niwa::utilities::RunParameters& options);
+void RunProfiling(int argc, char* argv[], niwa::utilities::RunParameters& options);
 void RunMCMC(int argc, char* argv[], niwa::utilities::RunParameters& options);
 void RunUnitTests(int argc, char* argv[], niwa::utilities::RunParameters& options);
 
@@ -153,11 +154,13 @@ int main(int argc, char* argv[]) {
     case RunMode::kHelp:
     case RunMode::kBasic:
     case RunMode::kSimulation:
-    case RunMode::kProfiling:
     case RunMode::kProjection:
     // case RunMode::kQuery:
     case RunMode::kTesting:
       RunBasic(argc, argv, options);
+      break;
+    case RunMode::kProfiling:
+      RunProfiling(argc, argv, options);
       break;
     case RunMode::kEstimation:
       RunEstimation(argc, argv, options);
@@ -251,6 +254,31 @@ void RunBasic(int argc, char* argv[], niwa::utilities::RunParameters& options) {
  * Do An estimation run of our model
  */
 void RunEstimation(int argc, char* argv[], niwa::utilities::RunParameters& options) {
+  string library_name = release_lib;
+  // if (options.minimiser_ == "cppad")
+  // library_name = cppad_lib;
+  if (options.minimiser_ == "adolc")
+    library_name = adolc_lib;
+  else if (options.minimiser_ == "betadiff")
+    library_name = betadiff_lib;
+
+  auto minimiser_library = LoadSharedLibrary(library_name);
+  if (minimiser_library == nullptr) {
+    cout << "[FATAL_ERROR] Failed to load Casal2 Library: " << library_name << endl;
+    return_code_ = -1;
+    return;
+  }
+
+  auto proc    = (RUNPROC)LoadLibraryFunction(minimiser_library, "Run");
+  return_code_ = (proc)(argc, argv, options);
+  //CloseLibrary(minimiser_library);
+}
+
+
+/**
+ * Do An Profile run of our model
+ */
+void RunProfiling(int argc, char* argv[], niwa::utilities::RunParameters& options) {
   string library_name = release_lib;
   // if (options.minimiser_ == "cppad")
   // library_name = cppad_lib;
