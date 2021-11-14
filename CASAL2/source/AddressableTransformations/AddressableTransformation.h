@@ -32,7 +32,7 @@ public:
   virtual ~AddressableTransformation() = default;
   void Validate();
   void Build();
-  void Verify(shared_ptr<Model> model){};
+  void Verify(shared_ptr<Model> model);
   void Reset() { Restore(); };  // Restore in the reset
   void Restore();
 
@@ -85,7 +85,7 @@ protected:
   vector<base::Object*>               target_objects_;
   vector<vector<unsigned>>            vector_and_u_map_indicies_;  // n_params x n_indicies
   vector<vector<string>>              string_map_indicies_;        // n_params x n_indicies
-
+  vector<string>                      parameter_lookup_for_verify_;
   // each child will populate this.
   vector<Double> restored_values_;
   // If there is no

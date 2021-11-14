@@ -1162,38 +1162,36 @@ Length-based tag release processes are more complicated, as the age-length matri
 
 
 \paragraph*{{Tag Release By Length}}
-\subcommand{compatability\_switch casal2}
-For each length bin $l$ of the input vector of numbers-at-length $\tilde{N_l}$
+\subcommand{compatability\_switch casal2}\\
 
-$$N_{l,j} = \sum_{a = 1}N_{a,l,j} * S_{a,j}$$
+For each length bin $l$ of the input vector of numbers-at-length ${N}_l$, the vulnerable numbers at length for category \(j\) are calculated as
 
-where $N_{a,l,j}$ is the numbers at age $a$ and length $l$ for category $j$, and $S_a$ is the selectivity at age $a$.
+Create a new age-length 
 
-Calculate the total numbers-at-length $T_l$ across all source categories at length $l$, taking into account the selectivities
+$$\widetilde{T}_{a,l,j} = \phi_{a,l,j} S_{a,j}$$
 
-$$T_l = \sum_{j = 1}N_{l,j}$$
+$$ \widetilde{N}_{a,l,j}= \frac{\widetilde{T}_{a,l,j}}{\sum_a\sum_j \widetilde{T}_{a,l,j}} \times {N}_l$$
 
-Calculate the transition rate for length bin $u_l$
+$$ \widetilde{N}_{a,j} = \sum_l \widetilde{N}_{a,l,j} $$
 
-$$u_{l} = \tilde{N_l} / T_l$$
+$$ u_{a,j} = \frac{\widetilde{N}_{a,j}}{N_{a,j} }  $$
 
-Check that the threshold $u_{max}$ is not exceeded, which is analogous to the $u_{max}$ in a mortality processes
-
-\[
-u_{l} =
+$$
+u_{a,j} =
 \begin{cases}
-u_{max},& \text{if } u_{l} > u_{max} \text{ \textbf{flag a penalty}}\\
+u_{max},& \text{if } u_{a,j} > u_{max} \text{ \textbf{flag a penalty}}\\
 u_{l},  & \text{otherwise}
 \end{cases}
-\]
+$$
 
-Calculate the numbers-at-age in this category that will be moved by multiplying across the age-length matrix and storing the result by age, for each age accumulated across all length bins. Then move the necessary
 
-$$\widetilde{N_{a,j}}  = \widetilde{N_{a,j}}  +  N_{a,l} * u_l$$
+$$
+\widetilde{N}_{a,j} = N_{a,j} u_{a,j}
+$$
 
-Release mortality denoted by \(U_a\) can be applied before the process finished,
+Release mortality denoted by \(h_a\) can be applied before the process finished,
 
-$$\widetilde{N_{a,j}} = \widetilde{N_{a,j}} - \widetilde{N_{a,j}}\left(1.0 - U_a\right)$$
+$$\widetilde{N_{a,j}} = \widetilde{N_{a,j}}\left(1.0 - h_a\right)$$
 
 
 The syntax for an example of tag release by length process

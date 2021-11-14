@@ -46,7 +46,7 @@ public:
   virtual ~Process() = default;
   void Validate();
   void Build();
-  void Verify(shared_ptr<Model> model){};
+  void Verify(shared_ptr<Model> model);
   void Reset();
   void Execute(unsigned year, const string& time_step_label);
   void Subscribe(unsigned year, const string& time_step_label, Executor* executor);
@@ -54,6 +54,7 @@ public:
   virtual void DoValidate() = 0;
   virtual void DoBuild()    = 0;
   virtual void DoReset()    = 0;
+  virtual void DoVerify(shared_ptr<Model> model) {};
   virtual void DoExecute()  = 0;
   virtual void FillReportCache(ostringstream& cache){};
   virtual void FillTabularReportCache(ostringstream& cache, bool first_run){};

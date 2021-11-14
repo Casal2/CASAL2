@@ -60,6 +60,8 @@ public:
                                   vector<int>& map_length_bin_ndx);  // overloaded for the case with no selectivity and class has bespoke length bins
   void populate_numbers_at_age_with_length_based_exploitation(vector<Double>& numbers_at_age, vector<Double>& numbers_at_age_with_exploitation, Double& exploitation_by_length,
                                                               unsigned model_length_bin_ndx, Selectivity* selectivity);  //
+  void populate_numbers_at_age_with_length_based_exploitation(vector<Double>& numbers_at_age, vector<Double>& numbers_at_age_with_exploitation, Double& exploitation_by_length,
+                                                              unsigned model_length_bin_ndx);  //                                                              
   void populate_age_length_matrix(vector<Double>          numbers_at_age,
                                   vector<vector<Double>>& numbers_by_age_length);  // overloaded for the case with no selectivity and class has bespoke length bins
   void populate_age_length_matrix(vector<Double> numbers_at_age, vector<vector<Double>>& numbers_by_age_length,

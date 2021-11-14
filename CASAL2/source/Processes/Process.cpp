@@ -4,7 +4,7 @@
  * @date 24/09/2013
  * @section LICENSE
  *
- * Copyright NIWA Science ©2013 - www.niwa.co.nz
+ * Copyright NIWA Science ï¿½2013 - www.niwa.co.nz
  *
  */
 
@@ -58,6 +58,15 @@ void Process::Validate() {
  */
 void Process::Build() {
   DoBuild();
+}
+
+
+/**
+ * Store the label and type in the print values and
+ * then call the child build method.
+ */
+void Process::Verify(shared_ptr<Model> model) {
+  DoVerify(model);
 }
 
 /**

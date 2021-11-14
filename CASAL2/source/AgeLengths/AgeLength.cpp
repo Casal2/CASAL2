@@ -649,7 +649,8 @@ void AgeLength::populate_numbers_at_length(vector<Double> numbers_at_age, vector
  * @param numbers_at_age_with_exploitation vector of numbers at age to store values in
  * @param exploitation_by_length exploitation value by length
  * @param model_length_bin_ndx an index for the length bin.
- */
+ * @param selectivity Selectivity pointer  
+*/
 void AgeLength::populate_numbers_at_age_with_length_based_exploitation(vector<Double>& numbers_at_age, vector<Double>& numbers_at_age_with_exploitation,
                                                                        Double& exploitation_by_length, unsigned model_length_bin_ndx, Selectivity* selectivity) {
   LOG_FINEST() << "populate_numbers_at_age_with_length_based_exploitation";
@@ -667,6 +668,35 @@ void AgeLength::populate_numbers_at_age_with_length_based_exploitation(vector<Do
     // LOG_FINEST() << " age = " << age << " i = " << i;
     numbers_at_age_with_exploitation[i] += numbers_at_age[i] * age_length_transition_matrix_[year_dim_in_age_length_][this_time_step_][i][model_length_bin_ndx]
                                            * exploitation_by_length * selectivity->GetAgeResult(age, this);
+  }
+}
+
+/**
+ * @details This will take the numbers at age and pass them through the age-length transition matrix for a specific length bin
+ * which must be consistent with model length bins and store in an age based vector. Currently only the process TagByLength I think uses this.
+ * it is assumed that this only happens in execute() so this method will have access to time-step and year.
+ * @param numbers_at_age vector of numbers at age to go through the age-length-transition matrix
+ * @param numbers_at_age_with_exploitation vector of numbers at age to store values in
+ * @param exploitation_by_length exploitation value by length
+ * @param model_length_bin_ndx an index for the length bin.
+ */
+void AgeLength::populate_numbers_at_age_with_length_based_exploitation(vector<Double>& numbers_at_age, vector<Double>& numbers_at_age_with_exploitation,
+                                                                       Double& exploitation_by_length, unsigned model_length_bin_ndx) {
+  LOG_FINEST() << "populate_numbers_at_age_with_length_based_exploitation";
+  this_year_              = model_->current_year();
+  this_time_step_         = model_->managers()->time_step()->current_time_step();
+  year_dim_in_age_length_ = age_length_matrix_year_key_[this_year_];
+  if (model_length_bin_ndx >= model_->get_number_of_length_bins())
+    LOG_CODE_ERROR() << "this function only works with length bins that are consistent with the model length bins. this function received a length bin = " << model_length_bin_ndx
+                     << " but there are only " << model_->get_number_of_length_bins() << " model length bins";
+  LOG_FINE() << "Populating the age-length matrix for agelength class " << label_ << " in year " << this_year_ << " and time-step " << this_time_step_
+             << " year ndx = " << year_dim_in_age_length_;
+
+  for (unsigned age = min_age_; age <= max_age_; ++age) {
+    unsigned i = age - min_age_;
+    // LOG_FINEST() << " age = " << age << " i = " << i;
+    numbers_at_age_with_exploitation[i] += numbers_at_age[i] * age_length_transition_matrix_[year_dim_in_age_length_][this_time_step_][i][model_length_bin_ndx]
+                                           * exploitation_by_length;
   }
 }
 /**

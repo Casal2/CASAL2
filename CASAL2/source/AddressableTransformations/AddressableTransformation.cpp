@@ -210,9 +210,9 @@ void AddressableTransformation::Validate() {
                                       << " is not a parameter of a type that is supported";
         break;
     }
-    // Get Target Object variable.
-    // Scott: Do we need this? We already have pointers to specific objects above
+    // save Target Object variable. Useful for Verifying later on.
     target_objects_.push_back(target);
+    parameter_lookup_for_verify_.push_back(parameter);
     ++param_counter;
   }
 
@@ -324,6 +324,18 @@ void AddressableTransformation::set_map_string_values(vector<Double> values) {
 void AddressableTransformation::Restore() {
   LOG_TRACE();
   DoRestore();
+}
+
+/**
+ * Do verifications
+ */
+void AddressableTransformation::Verify(shared_ptr<Model> model) {
+  LOG_TRACE();
+  // Check users haven't specified @estiamte block for the parameter used in @parameter_transformation
+  for(unsigned i = 0; i < target_objects_.size(); ++i) {
+    if(target_objects_[i]->IsAddressableUsedFor(parameter_lookup_for_verify_[i], addressable::kEstimate))
+      LOG_FATAL_P(PARAM_PARAMETERS) << "There is an @estimate block for " << parameter_lookup_for_verify_[i] << " this is not allowed for parameters with a @parameter_transformation block";
+  }
 }
 
 }  // namespace niwa

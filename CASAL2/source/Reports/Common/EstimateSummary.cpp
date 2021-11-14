@@ -33,7 +33,7 @@ EstimateSummary::EstimateSummary() {
  */
 void EstimateSummary::DoExecute(shared_ptr<Model> model) {
   // Print the estimates
-  vector<Estimate*> estimates = model->managers()->estimate()->objects();
+  vector<Estimate*> estimates = model->managers()->estimate()->GetIsEstimated();
 
   auto           minimiser_ = model->managers()->minimiser()->active_minimiser();
   vector<Double> est_std_dev(estimates.size(), 0.0);

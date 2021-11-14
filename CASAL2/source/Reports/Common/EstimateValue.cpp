@@ -33,7 +33,7 @@ EstimateValue::EstimateValue() {
  * Execute this report.
  */
 void EstimateValue::DoExecute(shared_ptr<Model> model) {
-  vector<Estimate*> estimates = model->managers()->estimate()->objects();
+  vector<Estimate*> estimates = model->managers()->estimate()->GetIsEstimated();
   vector<Profile*>  profiles  = model->managers()->profile()->objects();
   LOG_TRACE();
   // Check if estimates are close to bounds. flag a warning.

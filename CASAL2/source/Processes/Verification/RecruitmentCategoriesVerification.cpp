@@ -81,6 +81,8 @@ void RecruitmentCategoriesVerification(shared_ptr<Model> model) {
   // For categories that are not present during initialisation i.e. tagged fish, you don't need
   // to specify them in a recruitment block. For this case you can run with casal2 -V warning
   if (there_is_type_derived_init_phase) {
+    string categories_not_found;
+    bool print_warning = false;
     for (auto state_category : all_categories) {
       unsigned recruit_category_counter = 0;
       for (auto iter : category_in_recruitment_that_scale) {
@@ -88,16 +90,18 @@ void RecruitmentCategoriesVerification(shared_ptr<Model> model) {
         if (iter.first == state_category) {
           break;
         }
-        LOG_FINE() << "categories = " << category_count.size() << " counted = " << recruit_category_counter;
-        /* This may not be useful - commented out for the time being
-               if (recruit_category_counter >= category_count.size()) {
-                 LOG_WARNING()
-                     << "The category " << state_category
-                     << " is not used in @process[type=recruitment]. This may be expected for models that have categories that are not used at the beginning of the model e.g.
-           tagged categories.";
+        //LOG_FINE() << "categories = " << category_count.size() << " counted = " << recruit_category_counter;
+        /* 
+        * This may not be useful - commented out for the time being
+        */
+        if (recruit_category_counter >= category_count.size()) {
+          categories_not_found = categories_not_found + ", " + state_category;
+          print_warning = true;
         }
-       */
       }
+    }
+    if(print_warning) {
+      LOG_WARNING() << "The categories " << categories_not_found << " were not used in @process[type=recruitment]. This may be expected for models that have categories that are not used at the beginning of the model e.g. tagged categories.";
     }
   }
 }
