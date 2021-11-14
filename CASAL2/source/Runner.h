@@ -51,7 +51,7 @@ private:
   bool RunQuery();
   bool RunEstimation();
   int  RunMCMC();
-
+  bool RunProfiling();
   // members
   RunMode::Type            run_mode_ = RunMode::kInvalid;
   GlobalConfiguration      global_configuration_;

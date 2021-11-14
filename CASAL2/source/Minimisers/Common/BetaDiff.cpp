@@ -90,13 +90,13 @@ void BetaDiff::Execute() {
   int    convergence = 0;
   double score       = optimise<MyModel, MyObjective>(my_model, my_objective, start_values, lower_bounds, upper_bounds, convergence, 0, max_iterations_, max_evaluations_,
                                                 gradient_tolerance_, 0, &betadiff_hessian, 0, 1);
-
+  LOG_FINE() << "complete optimise, get hessian, " << hessian_size_;
   for (int row = 0; row < (int)estimates.size(); ++row) {
     for (int col = 0; col < (int)estimates.size(); ++col) {
       hessian_[row][col] = betadiff_hessian[row + 1][col + 1];
     }
   }
-
+  LOG_FINE() << "return convergence";
   switch (convergence) {
     case -1:
       result_ = MinimiserResult::kError;

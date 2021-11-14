@@ -34,6 +34,7 @@
 #include "MCMCs/Manager.h"
 #include "Minimisers/Manager.h"
 #include "Minimisers/Minimiser.h"
+#include "Profiles/Manager.h"
 #include "Model/Factory.h"
 #include "Model/Managers.h"
 #include "Model/Models/Age.h"
@@ -276,7 +277,8 @@ int Runner::GoWithRunMode(RunMode::Type run_mode) {
       break;
     case RunMode::kProfiling:
       LOG_INFO() << "Initiating profile run mode";
-      master_model_->Start(run_mode);
+      //master_model_->Start(run_mode);
+      return_code = RunProfiling() ? 0 : -1;
       break;
     case RunMode::kProjection:
       LOG_INFO() << "Initiating projection run mode";
@@ -507,6 +509,66 @@ int Runner::RunMCMC() {
   mcmc->Execute(thread_pool_);
 
   return 0;
+}
+
+/**
+ * Run a profiles
+ */
+bool Runner::RunProfiling() {
+  /*
+   * Before running the model in estimation mode we'll do an iteration
+   * as a basic model. We don't call any reports though.
+   */
+  LOG_MEDIUM() << "Doing pre-profiling iteration of the model";
+  master_model_->set_run_mode(RunMode::kProfiling);
+  master_model_->FullIteration();
+  auto managers  = master_model_->managers();
+  auto minimiser = managers->minimiser()->active_minimiser();
+
+  if (minimiser == nullptr)
+    LOG_CODE_ERROR() << "if (minimiser == nullptr)";
+
+  AddressableInputLoader* addressable_input_loader = managers->addressable_input_loader();
+
+  bool                    use_addressable_file     = master_model_->addressables_value_file();
+  unsigned                iterations_to_do         = addressable_input_loader->GetValueCount() == 0 ? 1 : addressable_input_loader->GetValueCount();
+  // for each -i
+  for (unsigned i = 0; i < iterations_to_do; ++i) {
+    if (use_addressable_file) {
+      addressable_input_loader->LoadValues(i);
+    }
+    
+    master_model_->set_run_mode(RunMode::kProfiling);
+    LOG_MEDIUM() << "About to begin profile for the " << i + 1 << "st/nd/nth set of values";
+    vector<Profile*> profiles = managers->profile()->objects();
+    LOG_INFO() << "Profiling with " << profiles.size() << " parameter(s)";
+    for (auto profile : profiles) {
+      LOG_INFO() << "Profiling parameter " << profile->parameter();
+      LOG_FINE() << "Disabling estimate: " << profile->parameter();
+      managers->estimate()->UnFlagIsEstimated(profile->parameter());
+      LOG_FINE() << "First-Stepping profile";
+      profile->FirstStep();
+      for (unsigned j = 0; j < profile->steps(); ++j) {
+        LOG_FINE() << "Calling minimiser to begin the estimation (profiling)";
+        LOG_INFO() << "Profiling with parameter at step " << j + 1 << " of " << profile->steps() << " steps";
+        minimiser->ExecuteThreaded(thread_pool_);
+        LOG_FINE() << "Finished estimation from " << j + 1 << " steps";
+        master_model_->set_run_mode(RunMode::kBasic);
+        master_model_->FullIteration();
+        master_model_->set_run_mode(RunMode::kProfiling);
+        LOG_FINE() << "Model: State change to Iteration Complete";
+        managers->report()->Execute(master_model_, State::kIterationComplete);
+        LOG_FINE() << "j = " << j << " steps = " << profile->steps();
+        profile->NextStep();
+        LOG_FINE() << "j = " << j << " steps = " << profile->steps();
+      }
+      profile->RestoreOriginalValue();
+      managers->estimate()->FlagIsEstimated(profile->parameter());
+    }
+  }
+  LOG_MEDIUM() << "Model: State change to Finalise";
+  master_model_->Finalise();
+  return true;
 }
 
 /**

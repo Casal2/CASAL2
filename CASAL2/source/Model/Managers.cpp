@@ -233,7 +233,7 @@ void Managers::Build() {
   
   if (mcmc_ && (run_mode == RunMode::kMCMC || run_mode == RunMode::kTesting))
     mcmc_->Build();
-  if (run_mode == RunMode::kEstimation || run_mode == RunMode::kMCMC || run_mode == RunMode::kTesting)
+  if (run_mode == RunMode::kEstimation || run_mode == RunMode::kMCMC || run_mode == RunMode::kTesting || run_mode == RunMode::kProfiling)
     minimiser_->Build();
 
   if (report_)
