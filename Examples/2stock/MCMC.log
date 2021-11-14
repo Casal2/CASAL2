@@ -1,13 +1,13 @@
 Casal2
-Call: ..\..\BuildSystem\bin\windows_gcc\release\Casal2 -M MPD.dat -g 0 
-Date: Sat Aug 28 16:59:26 2021
-Version: v21.08 (2021-08-28)
+Call: ..\..\BuildSystem\Casal2\casal2 -M MPD.dat -g 0 
+Date: Sun Nov 14 15:24:22 2021
+Version: v21.11 (2021-11-14)
 Copyright (c) 2017-2021, NIWA (www.niwa.co.nz)
-Environment: User=alist Machine=DELL-9020 OS=Windows_NT PID=3296
+Environment: User=alist Machine=QUIET-5950X OS=Windows_NT PID=3328
 
 
 *info[messages_encountered]
-{string}
+Values {string}
 Setting the random number seed to 0
 Creating default report for catchability CSacous
 Creating default report for catchability WCacous
@@ -62,12 +62,14 @@ Initiating MCMC run mode
 Loading MPD from file MPD.dat
 Beginning MCMC iterations
 Starting MCMC random_walk
+Adapting step_size from 0.02 to 0.0625 after 1000 iterations
+Adapting step_size from 0.0625 to 0.0929688 after 2000 iterations
 MCMC execution complete
 *end
 
 *warnings[messages_encountered]
-{string}
-Estimates were removed because of matching lower and upper bounds. Originally had 152 estimates, now have 151
+Values {string}
+Estimates were removed because of matching lower and upper bounds. Originally had 150 estimates, now have 149
 Cannot report the length-based selectivity values. This report (__Enspsl__) is being ignored. This can be done using the Casal2 R package. See the User Manual for more information
 Cannot report the length-based selectivity values. This report (__Wnspsl__) is being ignored. This can be done using the Casal2 R package. See the User Manual for more information
 Cannot report the length-based selectivity values. This report (__Espsl__) is being ignored. This can be done using the Casal2 R package. See the User Manual for more information

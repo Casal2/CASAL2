@@ -1,6 +1,6 @@
 
 [INFO] Setting the random number seed to 0
-[WARNING] Estimates were removed because of matching lower and upper bounds. Originally had 152 estimates, now have 151
+[WARNING] Estimates were removed because of matching lower and upper bounds. Originally had 150 estimates, now have 149
 [INFO] Creating default report for catchability CSacous
 [INFO] Creating default report for catchability WCacous
 [INFO] Creating default report for catchability CRsum
@@ -60,6 +60,8 @@
 [INFO] Loading MPD from file MPD.dat
 [INFO] Beginning MCMC iterations
 [INFO] Starting MCMC random_walk
+[INFO] Adapting step_size from 0.02 to 0.0625 after 1000 iterations
+[INFO] Adapting step_size from 0.0625 to 0.0929688 after 2000 iterations
 [INFO] MCMC execution complete
 [INFO] Completed
-[INFO] Total elapsed time: 3 seconds
+[INFO] Total elapsed time: 2.733 minutes

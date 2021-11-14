@@ -17,6 +17,8 @@ active true
 @mcmc mcmc
 type random_walk
 start 0
+# These are unusually short chains provided as an example. In practise,
+# the chain length, burn_in, and keep rate should be much longer
 length 10000
 keep 100
 step_size 0.02
@@ -74,7 +76,7 @@ upper_bound 0.51
 ## Survey Process Error
 #######################
 
-@estimate CR_process_error
+/* @estimate CR_process_error
 parameter observation[CRsumbio].process_error
 type uniform
 lower_bound 0.0
@@ -84,7 +86,7 @@ upper_bound 1
 parameter observation[SAsumbio].process_error
 type uniform
 lower_bound 0.0
-upper_bound 1
+upper_bound 1 */
 
 #######
 ## B0's
@@ -97,7 +99,7 @@ lower_bound 12.6
 upper_bound 16.2
 
 @estimate B0_W_with_proportion_prior
-parameter parameter_transformation[log_sum_b0].difference_parameter
+parameter parameter_transformation[log_sum_b0].total_proportion_parameter
 type beta
 mu 0.344
 sigma 0.072

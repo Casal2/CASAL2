@@ -3,24 +3,26 @@
 ######################################
 
 # MPD minimiser
-@minimiser gammadiff
-type numerical_differences 
+@minimiser betadiff
+type betadiff
 evaluations 4000
 iterations 1000
-tolerance 0.0002
+tolerance 1e-7
 active true
 
 # MCMC
 @mcmc mcmc
 type random_walk
 start 0
-length 10000
-keep 100
+# These are unusually short chains provided as an example. In practise,
+# the chain length, burn_in, and keep rate should be much longer
+length 110000
+keep 1000
 step_size 0.02
-adapt_stepsize_at 1000 2000
+adapt_stepsize_at 1000 2000 5000 10000
 proposal_distribution t
 adapt_stepsize_method ratio
-burn_in 2500
+burn_in 10000
 
 # Estimate B0
 @estimate B0

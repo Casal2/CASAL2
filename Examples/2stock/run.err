@@ -1,5 +1,5 @@
 
-[WARNING] Estimates were removed because of matching lower and upper bounds. Originally had 152 estimates, now have 151
+[WARNING] Estimates were removed because of matching lower and upper bounds. Originally had 150 estimates, now have 149
 [INFO] Creating default report for catchability CSacous
 [INFO] Creating default report for catchability WCacous
 [INFO] Creating default report for catchability CRsum
@@ -55,8 +55,6 @@
 [WARNING] Cannot report the length-based selectivity values. This report (__SAsl__) is being ignored. This can be done using the Casal2 R package. See the User Manual for more information
 [INFO] Initiating basic run mode
 [INFO] Estimable parameters were loaded from the free parameter file: free.dat
-[WARNING] estimated parameter 'process[recruit_E].b0' was within 0.001 of upper bound 16.2
-[WARNING] estimated parameter 'process[recruit_W].b0' was within 0.001 of upper bound 0.59
 [WARNING] estimated parameter 'process[recruit_E].ycs_values{1999}' was within 0.001 of lower bound 0.06
 [WARNING] estimated parameter 'process[recruit_W].ycs_values{1999}' was within 0.001 of lower bound 0.06
 [WARNING] estimated parameter 'selectivity[sel_Whome].v{7}' was within 0.001 of upper bound 1

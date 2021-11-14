@@ -1,16 +1,17 @@
 Casal2
-Call: ..\..\BuildSystem\bin\windows_gcc\release\Casal2 -M MPD.dat -g 0 
-Date: Sat Aug 28 16:51:19 2021
-Version: v21.08 (2021-08-28)
+Call: ..\..\BuildSystem\Casal2\casal2 -M MPD.dat -g 0 
+Date: Sun Nov 14 15:22:46 2021
+Version: v21.11 (2021-11-14)
 Copyright (c) 2017-2021, NIWA (www.niwa.co.nz)
-Environment: User=alist Machine=DELL-9020 OS=Windows_NT PID=15116
+Environment: User=alist Machine=QUIET-5950X OS=Windows_NT PID=7536
 
 
 *info[messages_encountered]
-{string}
+Values {string}
 Setting the random number seed to 0
 Creating default report for catchability chatTANq
 Creating default report for derived quantity SSB
+Creating default report for catchability parameter_transformations
 Creating default report for observation chatTANbiomass
 Creating default report for observation chatTANage
 Creating default report for observation chatOBSwst
@@ -29,8 +30,10 @@ Initiating MCMC run mode
 Loading MPD from file MPD.dat
 Beginning MCMC iterations
 Starting MCMC random_walk
-Adapting step_size from 0.02 to 0.06825 after 1000 iterations
-Adapting step_size from 0.06825 to 0.186692 after 2000 iterations
+Adapting step_size from 0.02 to 0.0674167 after 1000 iterations
+Adapting step_size from 0.0674167 to 0.148598 after 2000 iterations
+Adapting step_size from 0.148598 to 0.137453 after 5000 iterations
+Adapting step_size from 0.137453 to 0.150282 after 10000 iterations
 MCMC execution complete
 *end
 

@@ -2,6 +2,7 @@
 [INFO] Setting the random number seed to 0
 [INFO] Creating default report for catchability chatTANq
 [INFO] Creating default report for derived quantity SSB
+[INFO] Creating default report for catchability parameter_transformations
 [INFO] Creating default report for observation chatTANbiomass
 [INFO] Creating default report for observation chatTANage
 [INFO] Creating default report for observation chatOBSwst
@@ -20,8 +21,10 @@
 [INFO] Loading MPD from file MPD.dat
 [INFO] Beginning MCMC iterations
 [INFO] Starting MCMC random_walk
-[INFO] Adapting step_size from 0.02 to 0.06825 after 1000 iterations
-[INFO] Adapting step_size from 0.06825 to 0.186692 after 2000 iterations
+[INFO] Adapting step_size from 0.02 to 0.0674167 after 1000 iterations
+[INFO] Adapting step_size from 0.0674167 to 0.148598 after 2000 iterations
+[INFO] Adapting step_size from 0.148598 to 0.137453 after 5000 iterations
+[INFO] Adapting step_size from 0.137453 to 0.150282 after 10000 iterations
 [INFO] MCMC execution complete
 [INFO] Completed
-[INFO] Total elapsed time: 1.017 minutes
+[INFO] Total elapsed time: 1.433 minutes
