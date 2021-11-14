@@ -1164,38 +1164,34 @@ Length-based tag release processes are more complicated, as the age-length matri
 \paragraph*{{Tag Release By Length}}
 \subcommand{compatability\_switch casal2}\\
 
-For each length bin $l$ of the input vector of numbers-at-length ${N}_l$, the vulnerable numbers at length for category \(j\) are calculated as
-
-Create a new age-length 
-
-$$\widetilde{T}_{a,l,j} = \phi_{a,l,j} S_{a,j}$$
-
-$$ \widetilde{N}_{a,l,j}= \frac{\widetilde{T}_{a,l,j}}{\sum_a\sum_j \widetilde{T}_{a,l,j}} \times {N}_l$$
-
-$$ \widetilde{N}_{a,j} = \sum_l \widetilde{N}_{a,l,j} $$
-
-$$ u_{a,j} = \frac{\widetilde{N}_{a,j}}{N_{a,j} }  $$
+For each length bin $l$ of the input vector of proportions-at-length ${p}_l$ and total tag releases denoted by \(M\). The vulnerable numbers for age \(a\), length \(l\), and category \(j\) are calculated as
+$$V_{a,l,j} = N_{a,j} \phi_{a,l,j} S_{a,j}$$
+where, \(\phi_{a,l,j}\) is the age-length matrix (Section~\ref{sec:AgeLength-length_at_age}), and \(S_{a,j}\) is the selectivity. The transition matrix is calculated as,
+$$ T_{a,l,j}= \frac{V_{a,l,j}}{\sum_a\sum_j V_{a,l,j}} {p}_l$$
+and final tag-release by age and category are
+$$ M_{a,j} = \sum_l T_{a,l,j}M  $$
+An age based maximum transition rate is calculated to stop tagging more fish than are available in the population, in this case the penalty is flagged, see below
+$$ u_{a,j} = \frac{ M_{a,j} }{N_{a,j} }  $$
 
 $$
 u_{a,j} =
 \begin{cases}
 u_{max},& \text{if } u_{a,j} > u_{max} \text{ \textbf{flag a penalty}}\\
-u_{l},  & \text{otherwise}
+u_{a},  & \text{otherwise}
 \end{cases}
 $$
 
-
+The resulting tag-releases for each age and category denoted by \(\widetilde{N}_{a,j}\) are thus,
 $$
 \widetilde{N}_{a,j} = N_{a,j} u_{a,j}
 $$
 
-Release mortality denoted by \(h_a\) can be applied before the process finished,
+Release mortality denoted by \(h_a\) can also be applied as,
 
-$$\widetilde{N_{a,j}} = \widetilde{N_{a,j}}\left(1.0 - h_a\right)$$
+$$\widetilde{N}_{a,j} = \widetilde{N}_{a,j}\left(1.0 - h_a\right)$$
 
 
 The syntax for an example of tag release by length process
-
 {\small{\begin{verbatim}
 @process 2005Tags_shelf
 type tag_by_length
@@ -1217,27 +1213,35 @@ This process moves 207 individuals from a combination of male.untagged and femal
 
 
 For \subcommand{compatability\_switch casal}
-This describes the algoirthm applied in CASAL, it should yield identical results when a single untagged category and tagged category are supplied. There is a small difference when input numbers at length are defined for a combination of categories (unsexed) and we allocated into each corresponding category (male and female). This is supplied for backwards compatibility with CASAL, we recommend using \subcommand{compatability\_switch casal2}. 
+This describes the algoirthm applied in CASAL, it should yield identical results when a single untagged category and tagged category are supplied. There is a small difference when input numbers at length are defined for a combination of categories (unsexed) and we allocated into each corresponding category (male and female). This is supplied for backwards compatibility with CASAL, we recommend using \subcommand{compatability\_switch casal2}, for when ${p}_l$ is unsexed but sex is in the partition.
 
 
-Given the input vector of proportions-at-length denoted by $\widetilde{p_l}$ and number of releases \(\widetilde{N}\), CASAL first calculates vulnerable numbers at age and length for all combined categories,
+For each length bin $l$ of the input vector of proportions-at-length ${p}_l$ and total tag releases denoted by \(M\). The vulnerable numbers for age \(a\), length \(l\), and category \(j\) are calculated as
 
-$$N_{a,l} = \sum_{j = 1} \phi_{a,l,j} N_{a,l,j} * S_a$$
+$$V_{a,l} = N_{a,j} \phi_{a,l,j} S_{a,j}$$
+Note this is where the \subcommand{compatability\_switch} differ, the \subcommand{casal2} option preserves the category difference, where as \subcommand{casal} amalgamates them. \(\phi_{a,l,j}\) is the age-length matrix (Section~\ref{sec:AgeLength-length_at_age}), and \(S_{a,j}\) is the selectivity. The transition matrix is calculated as,
+$$ T_{a,l}= \frac{V_{a,l}}{\sum_a V_{a,l}} {p}_l$$
+and final tag-release by age are
+$$ M_{a} = \sum_l T_{a,l}M  $$
+An age based maximum transition rate is calculated to stop tagging more fish than are available in the population, in this case the penalty is flagged, see below
+$$ u_{a} = \frac{ M_{a} }{ N_{a}}  $$
 
-Then it converts $\widetilde{p_l}$ to an age proportion denoted by  $\widetilde{p_a}$
+$$
+u_{a} =
+\begin{cases}
+u_{max},& \text{if } u_{a} > u_{max} \text{ \textbf{flag a penalty}}\\
+u_{a},  & \text{otherwise}
+\end{cases}
+$$
 
-$$\widetilde{p_a} = \widetilde{p_a} + \sum_{l = 1} \widetilde{p_l} \frac{N_{a,l}}{\sum_a N_{a,l}}$$
-This assumption is thought to be less than ideal, because it ignores the length ratios between categories. $\widetilde{N_a}$ denotes the number of tags to release. 
+The resulting tag-releases for each age and category denoted by \(\widetilde{N}_{a,j}\) are thus,
+$$
+\widetilde{N}_{a,j} = N_{a,j} u_{a}
+$$
+Release mortality denoted by \(h_a\) can also be applied as,
 
-$$\widetilde{N_a} = \widetilde{p_a} \widetilde{N}$$
-At this point if \(\widetilde{N_a} > \sum_a N_{a,l}\) a penalty is flagged on the difference on these numbers at this point.
+$$\widetilde{N}_{a,j} = \widetilde{N}_{a,j}\left(1.0 - h_a\right)$$
 
-The tagged fish released for category \(c\)
-$$\widetilde{N_{a,j}} = \widetilde{N_a} \frac{N_{a,l,c} }{\sum_a N_{a,l} }$$
-%
-Release mortality denoted by \(U_a\)  is applied as an exploitation proportion before the process finished,
-
-$$\widetilde{N_{a,j}} = \widetilde{N_{a,j}} - \widetilde{N_{a,j}}\left(1.0 - U_a\right)$$
 
 \subsubsection{\I{Tag loss}}\label{sec:Process-TagLoss} 
 Tag Loss is the process which accounts for tagged fish being removed from the partition. For example tag related mortality or tag failure. This process is applied as an instantaneous mortality rate that can happen over multiple time steps in the annual cycle. This method assumes that when tags are lost the individuals are deleted from the model.
