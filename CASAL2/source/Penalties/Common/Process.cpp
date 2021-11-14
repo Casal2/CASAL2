@@ -5,7 +5,7 @@
  * @date 28/10/2014
  * @section LICENSE
  *
- * Copyright NIWA Science ©2014 - www.niwa.co.nz
+ * Copyright NIWA Science ï¿½2014 - www.niwa.co.nz
  *
  */
 
@@ -38,7 +38,7 @@ Process::Process(shared_ptr<Model> model) : Penalty(model) {
  *
  * @param source_label The label for the source of the trigger
  * @param value_1 The first value to use in equation
- * @param value_2 The second valud to use in equation
+ * @param value_2 The second value to use in equation
  */
 void Process::Trigger(const string& source_label, Double value_1, Double value_2) {
   if (log_scale_) {
