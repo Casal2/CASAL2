@@ -69,14 +69,14 @@ private:
   vector<vector<Double>>        numbers_at_age_by_category_; // dims category x length bins
   vector<vector<Double>>        numbers_at_age_and_length_; // dims age x length bins
   vector<vector<vector<Double>>>        selected_numbers_at_age_and_length_by_category_; // dims age x length bins
-  vector<vector<vector<Double>>>        tag_release_by_age_length_and_category_; // category x age bins
   vector<vector<Double>>        exploitation_by_age_category_; // category x age bins
-
   vector<Double>                exploitation_by_age_;
   vector<Double>                final_exploitation_by_age_;
   vector<vector<Double>>        proportion_by_length_; // year x length bins
   vector<Double>                tagged_fish_by_year_; // year bins
   vector<Double>                tag_to_fish_by_age_; //  age bins
+  vector<vector<Double>>                tag_to_fish_by_category_age_; //  category x age bins
+
   vector<Double>                vulnerable_fish_by_age_; //  age bins
 
   unsigned                      min_age_;
