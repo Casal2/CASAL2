@@ -5,31 +5,33 @@ p = re.compile('\{.*?\}',re.IGNORECASE)
 q = re.compile('\}.*?\{',re.IGNORECASE)
 r = re.compile('[label]',re.IGNORECASE)
 
-FILE = [open('Syntax/AdditionalPrior.tex', 'r'),
-        open('Syntax/AgeingError.tex', 'r'),
-        open('Syntax/AgeLength.tex', 'r'),
-        open('Syntax/Assert.tex', 'r'),
-        open('Syntax/Catchability.tex', 'r'),
-        open('Syntax/Categories.tex', 'r'),
-        open('Syntax/DerivedQuantity.tex', 'r'),
-        open('Syntax/Estimate.tex', 'r'),
-        open('Syntax/EstimateTransformation.tex', 'r'),
-        open('Syntax/InitialisationPhase.tex', 'r'),
-        open('Syntax/LengthWeight.tex', 'r'),
-        open('Syntax/Likelihood.tex', 'r'),
-        open('Syntax/MCMC.tex', 'r'),
-        open('Syntax/Minimiser.tex', 'r'),
-        open('Syntax/Model.tex', 'r'),
-        open('Syntax/Observation.tex', 'r'),
-        open('Syntax/Penalty.tex', 'r'),
-        open('Syntax/Process.tex', 'r'),
-        open('Syntax/Profile.tex', 'r'),
-        open('Syntax/Project.tex', 'r'),
-        open('Syntax/Report.tex', 'r'),
-        open('Syntax/Selectivity.tex', 'r'),
-        open('Syntax/Simulate.tex', 'r'),
-        open('Syntax/TimeStep.tex', 'r'),
-        open('Syntax/TimeVarying.tex', 'r')]
+FILE = [open('AutoSyntax/AdditionalPrior.tex', 'r'),
+        open('AutoSyntax/AddressableTransformation.tex', 'r'),
+        open('AutoSyntax/AgeingError.tex', 'r'),
+        open('AutoSyntax/AgeLength.tex', 'r'),
+        open('AutoSyntax/AgeWeight.tex', 'r'),
+        open('AutoSyntax/Assert.tex', 'r'),
+        open('AutoSyntax/Catchability.tex', 'r'),
+        open('AutoSyntax/Categories.tex', 'r'),
+        open('AutoSyntax/DerivedQuantity.tex', 'r'),
+        open('AutoSyntax/Estimate.tex', 'r'),
+        open('AutoSyntax/EstimateTransformation.tex', 'r'),
+        open('AutoSyntax/InitialisationPhase.tex', 'r'),
+        open('AutoSyntax/LengthWeight.tex', 'r'),
+        open('AutoSyntax/Likelihood.tex', 'r'),
+        open('AutoSyntax/MCMC.tex', 'r'),
+        open('AutoSyntax/Minimiser.tex', 'r'),
+        open('AutoSyntax/Model.tex', 'r'),
+        open('AutoSyntax/Observation.tex', 'r'),
+        open('AutoSyntax/Penalty.tex', 'r'),
+        open('AutoSyntax/Process.tex', 'r'),
+        open('AutoSyntax/Profile.tex', 'r'),
+        open('AutoSyntax/Project.tex', 'r'),
+        open('AutoSyntax/Report.tex', 'r'),
+        open('AutoSyntax/Selectivity.tex', 'r'),
+        open('AutoSyntax/Simulate.tex', 'r'),
+        open('AutoSyntax/TimeStep.tex', 'r'),
+        open('AutoSyntax/TimeVarying.tex', 'r')]
 OUTFILE = open('QuickReference.tex', 'w')
 VERSION = open('Version.tex', 'r')
 SYNTAX_OUTFILE_TEXTPAD = open('CASAL2.syn', 'w')
@@ -90,6 +92,9 @@ for i in range(len(FILE)):
       
 OUTFILE.write('\n\\normalsize\n')  
 
+# Add additional keywords
+Keywords5 = ['table','end_table']
+
 ###############################################################
 # Additional sorting and reformatting of Keywords
 ###############################################################
@@ -103,6 +108,8 @@ Keywords4 = list(set(Keywords4))
 Keywords4.sort()
 Keywords5 = list(set(Keywords5))
 Keywords5.sort()
+Keywords6 = list(set(Keywords6))
+Keywords6.sort()
 
 for i in range(len(Keywords1)):
   Keywords1[i] = Keywords1[i].replace('\\','')
@@ -229,6 +236,12 @@ for i in Keywords4 :
   SYNTAX_OUTFILE_NOTEPADPLUS.write("&#x000D;&#x000A;")
 SYNTAX_OUTFILE_NOTEPADPLUS.write("</Keywords>")
 
+SYNTAX_OUTFILE_NOTEPADPLUS.write("\n            <Keywords name=\"Keywords5\">")
+for i in Keywords5 :
+  SYNTAX_OUTFILE_NOTEPADPLUS.write(i)
+  SYNTAX_OUTFILE_NOTEPADPLUS.write("&#x000D;&#x000A;")
+SYNTAX_OUTFILE_NOTEPADPLUS.write("</Keywords>")
+
 SYNTAX_OUTFILE_NOTEPADPLUS.write('            <Keywords name="Keywords5"></Keywords>\n')
 SYNTAX_OUTFILE_NOTEPADPLUS.write('            <Keywords name="Keywords6"></Keywords>\n')
 SYNTAX_OUTFILE_NOTEPADPLUS.write('            <Keywords name="Keywords7"></Keywords>\n')
@@ -250,7 +263,7 @@ SYNTAX_OUTFILE_NOTEPADPLUS.write('            <WordsStyle name="KEYWORDS1" fgCol
 SYNTAX_OUTFILE_NOTEPADPLUS.write('            <WordsStyle name="KEYWORDS2" fgColor="0000FF" bgColor="FFFFFF" fontName="" fontStyle="0" nesting="0" />\n')
 SYNTAX_OUTFILE_NOTEPADPLUS.write('            <WordsStyle name="KEYWORDS3" fgColor="800000" bgColor="FFFFFF" fontName="Backup" fontStyle="1" nesting="0" />\n')
 SYNTAX_OUTFILE_NOTEPADPLUS.write('            <WordsStyle name="KEYWORDS4" fgColor="8080FF" bgColor="FFFFFF" fontName="" fontStyle="0" nesting="0" />\n')
-SYNTAX_OUTFILE_NOTEPADPLUS.write('            <WordsStyle name="KEYWORDS5" fgColor="000000" bgColor="FFFFFF" fontName="" fontStyle="0" nesting="0" />\n')
+SYNTAX_OUTFILE_NOTEPADPLUS.write('            <WordsStyle name="KEYWORDS5" fgColor="0000FF" bgColor="FFFFFF" fontName="" fontStyle="1" nesting="0" />\n')
 SYNTAX_OUTFILE_NOTEPADPLUS.write('            <WordsStyle name="KEYWORDS6" fgColor="000000" bgColor="FFFFFF" fontName="MRU" fontStyle="0" nesting="0" />\n')
 SYNTAX_OUTFILE_NOTEPADPLUS.write('            <WordsStyle name="KEYWORDS7" fgColor="000000" bgColor="FFFFFF" fontName="&#x7020;&#xC305;&#x0273;" fontStyle="0" nesting="0" />\n')
 SYNTAX_OUTFILE_NOTEPADPLUS.write('            <WordsStyle name="KEYWORDS8" fgColor="FF0000" bgColor="FFFFFF" fontName="4" fontStyle="3" nesting="0" />\n')
