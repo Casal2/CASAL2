@@ -30,7 +30,7 @@ namespace age {
 Partition_YearCrossAgeMatrix::Partition_YearCrossAgeMatrix() {
   run_mode_    = (RunMode::Type)(RunMode::kBasic | RunMode::kProjection);
   model_state_ = State::kExecute;
-  skip_tags_ = true;
+  skip_tags_   = true;
 
   parameters_.Bind<string>(PARAM_TIME_STEP, &time_step_, "The time step label", "", "");
   parameters_.Bind<unsigned>(PARAM_YEARS, &years_, "The years for the report", "", true);
@@ -118,6 +118,10 @@ void Partition_YearCrossAgeMatrix::DoExecute(shared_ptr<Model> model) {
  */
 void Partition_YearCrossAgeMatrix::DoFinalise(shared_ptr<Model> model) {
   ready_for_writing_ = true;
+}
+
+void Partition_YearCrossAgeMatrix::DoExecuteTabular(shared_ptr<Model> model) {
+  LOG_INFO() << "Tabular mode for reports of type " << PARAM_REPORT_PARTITION_YEARAGEMATRIX << " has not been implemented";
 }
 
 } /* namespace age */

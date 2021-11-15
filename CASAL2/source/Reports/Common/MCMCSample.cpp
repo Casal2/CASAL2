@@ -44,12 +44,11 @@ void MCMCSample::DoBuild(shared_ptr<Model> model) {
  * Verify the MCMCSample object
  */
 void MCMCSample::DoVerify(shared_ptr<Model> model) {
-  if(file_name_ == "") {
-    LOG_VERIFY() << "in @report " << label_ << " you haven't specified a " << PARAM_FILE_NAME << " this is not recommended, as Casal2 will mix mcmc samples and objectives in the same output file";
+  if (file_name_ == "") {
+    LOG_VERIFY() << "in @report " << label_ << " you haven't specified a " << PARAM_FILE_NAME
+                 << " this is not recommended, as Casal2 will mix mcmc samples and objectives in the same output file";
   }
 }
-
-
 
 /**
  * Prepare the MCMCSample object
@@ -84,6 +83,10 @@ void MCMCSample::DoExecute(shared_ptr<Model> model) {
  */
 void MCMCSample::DoFinalise(shared_ptr<Model> model) {
   ready_for_writing_ = true;
+}
+
+void MCMCSample::DoExecuteTabular(shared_ptr<Model> model) {
+  LOG_INFO() << "Tabular mode for reports of type " << PARAM_MCMC_SAMPLE << " has not been implemented";
 }
 
 } /* namespace reports */

@@ -33,9 +33,15 @@ void CategoryList::DoExecute(shared_ptr<Model> model) {
 
   vector<string> names = categories->category_names();
   for (string name : names) {
+    cache_ << name << " " << REPORT_R_LIST << REPORT_EOL;
     cache_ << name << REPORT_EOL;
+    cache_ << REPORT_R_LIST_END << REPORT_EOL;
   }
   ready_for_writing_ = true;
+}
+
+void CategoryList::DoExecuteTabular(shared_ptr<Model> model) {
+  LOG_INFO() << "Tabular mode for reports of type " << PARAM_CATEGORY_LIST << " has not been implemented";
 }
 
 } /* namespace reports */

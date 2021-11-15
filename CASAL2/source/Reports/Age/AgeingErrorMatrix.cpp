@@ -56,6 +56,10 @@ void AgeingErrorMatrix::DoExecute(shared_ptr<Model> model) {
   ready_for_writing_ = true;
 }
 
+void AgeingErrorMatrix::DoExecuteTabular(shared_ptr<Model> model) {
+  LOG_INFO() << "Tabular mode for reports of type " << PARAM_AGEING_ERROR << " has not been implemented";
+}
+
 } /* namespace age */
 } /* namespace reports */
 } /* namespace niwa */

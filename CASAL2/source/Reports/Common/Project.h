@@ -30,7 +30,7 @@ public:
   void DoValidate(shared_ptr<Model> model) override final;
   void DoBuild(shared_ptr<Model> model) override final;
   void DoExecute(shared_ptr<Model> model) override final;
-  void DoExecuteTabular(shared_ptr<Model> model) override final{};
+  void DoExecuteTabular(shared_ptr<Model> model) override final;
 
 private:
   string         project_label_ = "";

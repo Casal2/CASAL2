@@ -30,7 +30,7 @@ namespace age {
 Partition::Partition() {
   run_mode_    = (RunMode::Type)(RunMode::kBasic | RunMode::kProjection);
   model_state_ = State::kExecute;
-  skip_tags_ = true;
+  skip_tags_   = true;
 
   parameters_.Bind<string>(PARAM_TIME_STEP, &time_step_, "Time Step label", "", "");
   parameters_.Bind<unsigned>(PARAM_YEARS, &years_, "Years", "", true);
@@ -87,6 +87,10 @@ void Partition::DoExecute(shared_ptr<Model> model) {
   cache_ << REPORT_END << REPORT_EOL;
 
   ready_for_writing_ = true;
+}
+
+void Partition::DoExecuteTabular(shared_ptr<Model> model) {
+  LOG_INFO() << "Tabular mode for reports of type " << PARAM_PARTITION << " has not been implemented";
 }
 
 } /* namespace age */

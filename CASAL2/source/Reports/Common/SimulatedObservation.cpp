@@ -137,5 +137,9 @@ void SimulatedObservation::DoExecute(shared_ptr<Model> model) {
   ready_for_writing_ = true;
 }
 
+void SimulatedObservation::DoExecuteTabular(shared_ptr<Model> model) {
+  LOG_INFO() << "Tabular mode for reports of type " << PARAM_SIMULATED_OBSERVATION << " has not been implemented";
+}
+
 } /* namespace reports */
 } /* namespace niwa */

@@ -60,5 +60,9 @@ void OutputParameters::DoExecute(shared_ptr<Model> model) {
   ready_for_writing_ = true;
 }
 
+void OutputParameters::DoExecuteTabular(shared_ptr<Model> model) {
+  LOG_INFO() << "Tabular mode for reports of type " << PARAM_OUTPUT_PARAMETERS << " has not been implemented";
+}
+
 } /* namespace reports */
 } /* namespace niwa */

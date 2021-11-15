@@ -5,7 +5,7 @@
  * @date 13/02/2013
  * @section LICENSE
  *
- * Copyright NIWA Science ©2013 - www.niwa.co.nz
+ * Copyright NIWA Science ï¿½2013 - www.niwa.co.nz
  *
  * @section DESCRIPTION
  *
@@ -35,7 +35,7 @@ public:
   void DoValidate(shared_ptr<Model> model) override final;
   void DoBuild(shared_ptr<Model> model) override final{};
   void DoExecute(shared_ptr<Model> model) override final;
-  void DoExecuteTabular(shared_ptr<Model> model) override final{};
+  void DoExecuteTabular(shared_ptr<Model> model) override final;
 };
 
 } /* namespace age */

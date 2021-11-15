@@ -36,7 +36,7 @@ void AddressableTransformation::DoExecute(shared_ptr<Model> model) {
   LOG_FINE();
   // Print the EstimableTransformation
   vector<niwa::AddressableTransformation*> addressable_transformations = model->managers()->addressable_transformation()->objects();
-  if(addressable_transformations.size() > 0) {
+  if (addressable_transformations.size() > 0) {
     cache_ << ReportHeader(type_, label_, format_);
     for (auto addressable_transform : addressable_transformations) {
       cache_ << addressable_transform->label() << " " << REPORT_R_LIST << REPORT_EOL;
@@ -45,6 +45,9 @@ void AddressableTransformation::DoExecute(shared_ptr<Model> model) {
     }
     ready_for_writing_ = true;
   }
+}
+void AddressableTransformation::DoExecuteTabular(shared_ptr<Model> model) {
+  LOG_INFO() << "Tabular mode for reports of type " << PARAM_ADDRESSABLE << " has not been implemented";
 }
 
 } /* namespace reports */

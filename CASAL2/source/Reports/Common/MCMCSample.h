@@ -34,7 +34,7 @@ public:
   void DoVerify(shared_ptr<Model> model) final;
   void DoExecute(shared_ptr<Model> model) final;
   void DoFinalise(shared_ptr<Model> model) final;
-  void DoExecuteTabular(shared_ptr<Model> model) final{};
+  void DoExecuteTabular(shared_ptr<Model> model) final;
 
 private:
   MCMC* mcmc_ = nullptr;
