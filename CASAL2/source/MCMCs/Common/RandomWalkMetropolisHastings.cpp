@@ -41,6 +41,8 @@ RandomWalkMetropolisHastings::RandomWalkMetropolisHastings(shared_ptr<Model> mod
  * @param thread_pool Threadpool for running model iterations
  */
 void RandomWalkMetropolisHastings::DoExecute(shared_ptr<ThreadPool> thread_pool) {
+  thread_pool->TerminateAll();
+
   utilities::RandomNumberGenerator& rng = utilities::RandomNumberGenerator::Instance();
   LOG_MEDIUM() << "MCMC Starting";
   LOG_MEDIUM() << "Covariance matrix has rows = " << covariance_matrix_.size1() << " and cols = " << covariance_matrix_.size2();
@@ -69,8 +71,7 @@ void RandomWalkMetropolisHastings::DoExecute(shared_ptr<ThreadPool> thread_pool)
       ++jumps_;
       ++jumps_since_adapt_;
 
-      for (unsigned i = 0; i < candidates_.size(); ++i)
-        estimates_[i]->set_value(candidates_[i]);
+      for (unsigned i = 0; i < candidates_.size(); ++i) estimates_[i]->set_value(candidates_[i]);
 
       model_->FullIteration();
       obj_function.CalculateScore();
