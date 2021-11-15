@@ -40,3 +40,7 @@ write_mode incremental_suffix
 type mcmc_sample
 file_name samples
 write_mode incremental_suffix
+
+@report CategotyList
+type category_list
+

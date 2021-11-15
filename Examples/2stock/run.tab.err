@@ -55,17 +55,52 @@
 [WARNING] Cannot report the length-based selectivity values. This report (__SAsl__) is being ignored. This can be done using the Casal2 R package. See the User Manual for more information
 [INFO] Initiating basic run mode
 [INFO] Estimable parameters were loaded from the free parameter file: free.dat
-[WARNING] estimated parameter 'process[recruit_E].ycs_values{1999}' was within 0.001 of lower bound 0.06
-[WARNING] estimated parameter 'process[recruit_W].ycs_values{1999}' was within 0.001 of lower bound 0.06
-[WARNING] estimated parameter 'selectivity[sel_Whome].v{7}' was within 0.001 of upper bound 1
-[WARNING] estimated parameter 'selectivity[sel_Espmg_Female].v{1}' was within 0.001 of lower bound 0
-[WARNING] estimated parameter 'selectivity[sel_Espmg_Female].v{8}' was within 0.001 of lower bound 0.6
-[WARNING] estimated parameter 'selectivity[sel_Wspmg_Female].v{8}' was within 0.001 of lower bound 0.6
-[WARNING] estimated parameter 'selectivity[Enspsl].sigma_r' was within 0.001 of upper bound 44
-[WARNING] estimated parameter 'selectivity[Espsl].ato95' was within 0.001 of lower bound 4
-[WARNING] estimated parameter 'selectivity[CRsl].mu' was within 0.001 of lower bound 64
-[WARNING] estimated parameter 'selectivity[SAsl].mu' was within 0.001 of upper bound 84
-[WARNING] estimated parameter 'selectivity[SAsl].sigma_l' was within 0.001 of upper bound 44
-[WARNING] estimated parameter 'selectivity[SAsl].sigma_r' was within 0.001 of upper bound 44
+[INFO] Tabular mode for reports of type initialisation_partition has not been implemented
+[INFO] Tabular mode for reports of type year_age_matrix has not been implemented
+[INFO] Tabular mode for reports of type year_age_matrix has not been implemented
+[INFO] Tabular mode for reports of type year_age_matrix has not been implemented
+[INFO] Tabular mode for reports of type year_age_matrix has not been implemented
+[INFO] Tabular mode for reports of type year_age_matrix has not been implemented
+[INFO] Tabular mode for reports of type year_age_matrix has not been implemented
+[INFO] Tabular mode for reports of type year_age_matrix has not been implemented
+[INFO] Tabular mode for reports of type year_age_matrix has not been implemented
+[INFO] Tabular mode for reports of type year_age_matrix has not been implemented
+[INFO] Tabular mode for reports of type year_age_matrix has not been implemented
+[INFO] Tabular mode for reports of type year_age_matrix has not been implemented
+[INFO] Tabular mode for reports of type year_age_matrix has not been implemented
+[INFO] Tabular mode for reports of type year_age_matrix has not been implemented
+[INFO] Tabular mode for reports of type year_age_matrix has not been implemented
+[INFO] Tabular mode for reports of type year_age_matrix has not been implemented
+[INFO] Tabular mode for reports of type year_age_matrix has not been implemented
+[INFO] Tabular mode for reports of type year_age_matrix has not been implemented
+[INFO] Tabular mode for reports of type year_age_matrix has not been implemented
+[INFO] Tabular mode for reports of type year_age_matrix has not been implemented
+[INFO] Tabular mode for reports of type year_age_matrix has not been implemented
+[INFO] Tabular mode for reports of type year_age_matrix has not been implemented
+[INFO] Tabular mode for reports of type year_age_matrix has not been implemented
+[INFO] Tabular mode for reports of type year_age_matrix has not been implemented
+[INFO] Tabular mode for reports of type year_age_matrix has not been implemented
+[INFO] Tabular mode for reports of type year_age_matrix has not been implemented
+[INFO] Tabular mode for reports of type year_age_matrix has not been implemented
+[INFO] Tabular mode for reports of type year_age_matrix has not been implemented
+[INFO] Tabular mode for reports of type year_age_matrix has not been implemented
+[INFO] Tabular mode for reports of type year_age_matrix has not been implemented
+[INFO] Tabular mode for reports of type year_age_matrix has not been implemented
+[INFO] Tabular mode for reports of type year_age_matrix has not been implemented
+[INFO] Tabular mode for reports of type year_age_matrix has not been implemented
+[INFO] Tabular mode for reports of type year_age_matrix has not been implemented
+[INFO] Tabular mode for reports of type year_age_matrix has not been implemented
+[INFO] Tabular mode for reports of type year_age_matrix has not been implemented
+[INFO] Tabular mode for reports of type year_age_matrix has not been implemented
+[INFO] Tabular mode for reports of type year_age_matrix has not been implemented
+[INFO] Tabular mode for reports of type year_age_matrix has not been implemented
+[INFO] Tabular mode for reports of type year_age_matrix has not been implemented
+[INFO] Tabular mode for reports of type year_age_matrix has not been implemented
+[INFO] Tabular mode for reports of type year_age_matrix has not been implemented
+[INFO] Tabular mode for reports of type year_age_matrix has not been implemented
+[INFO] Tabular mode for reports of type year_age_matrix has not been implemented
+[INFO] Tabular mode for reports of type year_age_matrix has not been implemented
+[INFO] Tabular mode for reports of type year_age_matrix has not been implemented
+[INFO] Tabular mode for reports of type objective_function has not been implemented
 [INFO] Completed
 [INFO] Total elapsed time: 1 seconds

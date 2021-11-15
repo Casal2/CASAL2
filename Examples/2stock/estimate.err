@@ -606,4 +606,4 @@ Successful convergence in optimise
 [WARNING] estimated parameter 'selectivity[SAsl].sigma_l' was within 0.001 of upper bound 44
 [WARNING] estimated parameter 'selectivity[SAsl].sigma_r' was within 0.001 of upper bound 44
 [INFO] Completed
-[INFO] Total elapsed time: 9 seconds
+[INFO] Total elapsed time: 8 seconds

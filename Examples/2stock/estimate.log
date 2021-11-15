@@ -1,9 +1,9 @@
 Casal2
 Call: ..\..\BuildSystem\Casal2\casal2 -E MPD.dat -o free.dat 
-Date: Sun Nov 14 15:24:12 2021
-Version: v21.11 (2021-11-14)
+Date: Tue Nov 16 11:42:09 2021
+Version: v21.11 (2021-11-15)
 Copyright (c) 2017-2021, NIWA (www.niwa.co.nz)
-Environment: User=alist Machine=QUIET-5950X OS=Windows_NT PID=17048
+Environment: User=alist Machine=QUIET-5950X OS=Windows_NT PID=19676
 
 
 *initialisation_partition[Init]

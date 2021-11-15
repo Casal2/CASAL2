@@ -376,10 +376,3 @@ type lognormal
 parameter selectivity[M_female].values{5:9}
 mu 0.182355
 cv 0.5090222
-
-# Profiling
-@profile B0
-parameter process[recruit_W].b0
-steps 5
-upper_bound 100000
-lower_bound 1000000
