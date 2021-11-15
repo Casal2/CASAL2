@@ -272,11 +272,12 @@ void RecruitmentBevertonHolt::DoVerify(shared_ptr<Model> model) {
   LOG_FINE() << "check transform usage = " << IsAddressableUsedFor(PARAM_YCS_VALUES, addressable::kTransformation);
   LOG_FINE() << "check lookup usage = " << IsAddressableUsedFor(PARAM_YCS_VALUES, addressable::kLookup);
 
-  if (!IsAddressableUsedFor(PARAM_YCS_VALUES, addressable::kTransformation)) {
-    if (!IsAddressableUsedFor(PARAM_YCS_VALUES, addressable::kLookup))
-      LOG_WARNING() << "The parameter " << PARAM_YCS_VALUES << " has no @additional_prior for it. It is recommended to have a vector_average additional prior";
-  } else {
-    // Check if PARAM_YCS_VALUES has a transformation
+  //if (!IsAddressableUsedFor(PARAM_YCS_VALUES, addressable::kTransformation)) {
+  //   if (!IsAddressableUsedFor(PARAM_YCS_VALUES, addressable::kLookup))
+  //    LOG_WARNING() << "The parameter " << PARAM_YCS_VALUES << " has no @additional_prior for it. It is recommended to have a vector_average additional prior";
+  if (IsAddressableUsedFor(PARAM_YCS_VALUES, addressable::kTransformation)) {
+    // Check if PARAM_YCS_VALUES has a transformation if it does don't let users 
+    // standardise.
     if (parameters_.Get(PARAM_STANDARDISE_YCS_YEARS)->has_been_defined())
       LOG_VERIFY() << "There is an @parameter_transformation  for the parameter " << PARAM_YCS_VALUES << ", if this is type simplex, you should not specify the subcommand "
                    << PARAM_STANDARDISE_YCS_YEARS;
