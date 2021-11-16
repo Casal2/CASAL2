@@ -44,3 +44,9 @@ write_mode incremental_suffix
 @report CategotyList
 type category_list
 
+@report Hessian
+type hessian_matrix
+
+@report MCMCCovariance
+type mcmc_covariance
+
