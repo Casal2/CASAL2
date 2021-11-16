@@ -54,10 +54,10 @@ void ObjectiveFunction::Execute() {
     std::streamsize prec = std::cout.precision();
     std::cout.precision(9);
     if (error_type_ == PARAM_ERROR) {
-      LOG_ERROR() << "Assert Failure: The Objective Function had value " << obj.score() << ", when " << value_ << " was expected. The difference was "
+      LOG_ERROR() << std::setprecision(10) << "Assert Failure: The Objective Function had value " << obj.score() << ", when " << value_ << " was expected. The difference was "
                   << fabs(AS_DOUBLE(value_) - AS_DOUBLE(obj.score()));
     } else {
-      LOG_WARNING() << "Assert Failure: The Objective Function had value " << obj.score() << ", when " << value_ << " was expected. The difference was "
+      LOG_WARNING() << std::setprecision(10) << "Assert Failure: The Objective Function had value " << obj.score() << ", when " << value_ << " was expected. The difference was "
                     << fabs(AS_DOUBLE(value_) - AS_DOUBLE(obj.score()));
     }
 
