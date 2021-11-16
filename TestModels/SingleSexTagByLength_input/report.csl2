@@ -1,11 +1,15 @@
 @assert obj
 type objective_function
-value 927.615768
+value 927.6096295
 
-/*
+
 @report obj
 type objective_function
+@report 2001Tags_north
+type process 
+process 2001Tags_north
 
+/*
 @report SSB
 type derived_quantity
 
