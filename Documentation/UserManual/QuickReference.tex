@@ -9,10 +9,10 @@
 
 \commandlabsubarg{Additional\_Prior}{type}{Beta}
 
-\defSub{mu}{Beta distribution mean $\mu$ parameter}
-\defSub{sigma}{Beta distribution variance $\sigma$ parameter}
-\defSub{a}{Beta distribution lower bound, of the range $A$ parameter}
-\defSub{b}{Beta distribution upper bound of the range $B$ parameter}
+\defSub{mu}{Beta distribution mean (mu) parameter}
+\defSub{sigma}{Beta distribution variance (sigma) parameter}
+\defSub{a}{Beta distribution lower bound, of the range (A) parameter}
+\defSub{b}{Beta distribution upper bound of the range (B) parameter}
 
 \commandlabsubarg{Additional\_Prior}{type}{Element\_Difference}
 
@@ -39,7 +39,36 @@
 \defSub{multiplier}{Multiply the penalty by this factor}
 \defSub{lower\_bound}{The first element to apply the penalty to in the vector}
 \defSub{upper\_bound}{The last element to apply the penalty to in the vector}
-\defSub{r}{Penalty applied to rth differences}
+\defSub{r}{The rth difference that the penalty is applied to}
+
+\defComLab{Addressable\_Transformation}{Define an object of type \emph{Addressable\_Transformation}}
+
+\defSub{label}{Label for the transformation block}
+\defSub{type}{The type of transformation}
+\defSub{parameters}{The parameters used in the transformation}
+\defSub{prior\_applies\_to\_restored\_parameters}{If the prior applies to the parameters (true) with jacobian (if it exists) or prior applies to transformed\_parameter (false) with no jacobian}
+
+\commandlabsubarg{Addressable\_Transformation}{type}{Average\_Difference}
+
+
+\commandlabsubarg{Addressable\_Transformation}{type}{Inverse}
+
+
+\commandlabsubarg{Addressable\_Transformation}{type}{Log}
+
+
+\commandlabsubarg{Addressable\_Transformation}{type}{Log\_Sum}
+
+
+\commandlabsubarg{Addressable\_Transformation}{type}{Orthogonal}
+
+
+\commandlabsubarg{Addressable\_Transformation}{type}{Simplex}
+
+\defSub{sum\_to\_one}{if true parameter in natural space will sum = 1, otherwise they will sum = length(parameter)}
+
+\commandlabsubarg{Addressable\_Transformation}{type}{Sum\_To\_One}
+
 
 \defComLab{Ageing\_Error}{Define an object of type \emph{Ageing\_Error}}
 
@@ -65,7 +94,6 @@
 
 \defComLab{Age\_Length}{Define an object of type \emph{Age\_Length}}
 
-\defSub{label}{The label of the age length relationship}
 \defSub{type}{The type of age length relationship}
 \defSub{time\_step\_proportions}{The fraction of the year applied in each time step that is added to the age for the purposes of evaluating the length, i.e., a value of 0.5 for a time step will evaluate the length of individuals at age+0.5 in that time step}
 \defSub{distribution}{The assumed distribution for the growth curve}
@@ -73,12 +101,12 @@
 \defSub{cv\_last}{The CV for last age class}
 \defSub{compatibility\_option}{Backwards compatibility option: either casal2 (the default) or casal to use the (less accurate) cumulative normal function from CASAL}
 \defSub{by\_length}{Specifies if the linear interpolation of CVs is a linear function of mean length at age. Default is by age only}
+\defSub{length\_weight}{The label from an associated length-weight block}
 
 \commandlabsubarg{Age\_Length}{type}{Data}
 
 \defSub{external\_gaps}{The method to use for external data gaps}
 \defSub{internal\_gaps}{The method to use for internal data gaps}
-\defSub{length\_weight}{The label from an associated length-weight block}
 \defSub{time\_step\_measurements\_were\_made}{The time step label for which size-at-age data are provided}
 
 \commandlabsubarg{Age\_Length}{type}{None}
@@ -86,20 +114,31 @@
 
 \commandlabsubarg{Age\_Length}{type}{Schnute}
 
-\defSub{y1}{The $y\_1$ parameter}
-\defSub{y2}{The $y\_2$ parameter}
-\defSub{tau1}{The $\tau\_1$ parameter}
-\defSub{tau2}{The $\tau\_2$ parameter}
-\defSub{a}{The $a$ parameter}
-\defSub{b}{The $b$ parameter}
-\defSub{length\_weight}{The label of the associated length-weight relationship}
+\defSub{y1}{The y1 parameter}
+\defSub{y2}{The y2 parameter}
+\defSub{tau1}{The tau1 parameter}
+\defSub{tau2}{The tau2 parameter}
+\defSub{a}{The a parameter}
+\defSub{b}{The b parameter}
 
 \commandlabsubarg{Age\_Length}{type}{Von\_Bertalanffy}
 
 \defSub{linf}{The $L\_{infinity}$ parameter}
 \defSub{k}{The $k$ parameter}
 \defSub{t0}{The $t\_0$ parameter}
-\defSub{length\_weight}{The label of the associated length-weight relationship}
+
+\defComLab{Age\_Weight}{Define an object of type \emph{Age\_Weight}}
+
+\defSub{label}{Label of the age weight relationship}
+\defSub{type}{The type of age weight}
+
+\commandlabsubarg{Age\_Weight}{type}{Data}
+
+\defSub{equilibrium\_method}{If used in an SSB calculation, what is the method to calculate equilibrium SSB}
+\defSub{units}{The units of measure (grams, kilograms (kgs), or tonnes)}
+
+\commandlabsubarg{Age\_Weight}{type}{None}
+
 
 \defComLab{Assert}{Define an object of type \emph{Assert}}
 
@@ -145,7 +184,6 @@
 \defSub{format}{The format that the category names use}
 \defSub{names}{The names of the categories}
 \defSub{age\_lengths}{The age-length relationship labels for each category}
-\defSub{age\_weight}{The age-weight relationships labels for each category}
 
 \defComLab{Derived\_Quantity}{Define an object of type \emph{Derived\_Quantity}}
 
@@ -174,10 +212,6 @@
 \defSub{upper\_bound}{The upper bound for the parameter}
 \defSub{same}{List of other parameters that are constrained to have the same value as this parameter}
 \defSub{estimation\_phase}{The first estimation phase to allow this to be estimated}
-\defSub{mcmc}{Indicates if this parameter is estimated at the point estimate but fixed during MCMC estimation run}
-\defSub{transformation}{Type of simple transformation to apply to estimate}
-\defSub{transform\_with\_jacobian}{Apply jacobian during transformation}
-\defSub{prior\_applies\_to\_transform}{Does the prior apply to the transformed parameter? a legacy switch, see Manual for more information}
 
 \commandlabsubarg{Estimate}{type}{Beta}
 
@@ -221,26 +255,26 @@
 
 \commandlabsubarg{Estimate\_Transformation}{type}{Average\_Difference}
 
-\defSub{theta2}{The label of the @estimate block relating to the $\theta\_2$ parameter in the transformation. See the User Manual for more information}
-\defSub{theta1}{The label of @estimate block relating to the $\theta\_1$ parameter in the transformation. See the User Manual for more information}
+\defSub{theta2}{The label of the @estimate block relating to the theta2 parameter in the transformation}
+\defSub{theta1}{The label of @estimate block relating to the theta1 parameter in the transformation}
 
 \commandlabsubarg{Estimate\_Transformation}{type}{Inverse}
 
-\defSub{estimate\_label}{The label of estimate block to apply transformation. Defined as $\theta\_1$ in the documentation}
+\defSub{estimate\_label}{The label of estimate block to apply transformation. Defined as theta1 in the documentation}
 
 \commandlabsubarg{Estimate\_Transformation}{type}{Log}
 
-\defSub{estimate\_label}{Label of estimate block to apply transformation. Defined as $\theta\_1$ in the documentation}
+\defSub{estimate\_label}{Label of estimate block to apply transformation. Defined as theta1 in the documentation}
 
 \commandlabsubarg{Estimate\_Transformation}{type}{Log\_Sum}
 
-\defSub{theta2}{The label of the @estimate block relating to the $\theta\_2$ parameter in the transformation. See the User Manual for more information}
-\defSub{theta1}{The label of @estimate block relating to the $\theta\_1$ parameter in the transformation. See the User Manual for more information}
+\defSub{theta2}{The label of the @estimate block relating to the theta2 parameter in the transformation}
+\defSub{theta1}{The label of @estimate block relating to the theta1 parameter in the transformation}
 
 \commandlabsubarg{Estimate\_Transformation}{type}{Orthogonal}
 
-\defSub{theta2}{The label of the @estimate block relating to the $\theta\_2$ parameter in the transformation. See the User Manual for more information}
-\defSub{theta1}{The label of @estimate block relating to the $\theta\_1$ parameter in the transformation. See the User Manual for more information}
+\defSub{theta2}{The label of the @estimate block relating to the theta2 parameter in the transformation}
+\defSub{theta1}{The label of @estimate block relating to the theta1 parameter in the transformation}
 
 \commandlabsubarg{Estimate\_Transformation}{type}{Simplex}
 
@@ -249,7 +283,7 @@
 
 \commandlabsubarg{Estimate\_Transformation}{type}{Square\_Root}
 
-\defSub{estimate\_label}{The label of the estimate block to apply transformation. Defined as $\theta\_1$ in the documentation}
+\defSub{estimate\_label}{The label of the estimate block to apply transformation. Defined as theta1 in the documentation}
 
 \commandlabsubarg{Estimate\_Transformation}{type}{Sum\_To\_One}
 
@@ -277,7 +311,7 @@
 \defSub{years}{The number of iterations (years) over which to execute this initialisation phase}
 \defSub{insert\_processes}{The processes in the annual cycle to be include in this initialisation phase}
 \defSub{exclude\_processes}{The processes in the annual cycle to be excluded from this initialisation phase}
-\defSub{convergence\_years}{The iteration (year) when the test for convergence ($\lambda$) is evaluated}
+\defSub{convergence\_years}{The iteration (year) when the test for convergence (lambda) is evaluated}
 \defSub{lambda}{The maximum value of the absolute sum of differences (lambda) between the partition at year-1 and year that indicates successful convergence}
 
 \commandlabsubarg{Initialisation\_Phase}{type}{State\_Category\_By\_Age}
@@ -371,6 +405,7 @@
 \defSub{evaluations}{The maximum number of evaluations}
 \defSub{tolerance}{The tolerance of the gradient for convergence}
 \defSub{step\_size}{The minimum step size before minimisation fails}
+\defSub{parameter\_transformation}{The choice to scale parameters for ADOLC optimation}
 
 \commandlabsubarg{Minimiser}{type}{Beta\_Diff}
 
@@ -632,7 +667,7 @@
 
 \commandlabsubarg{Process}{type}{Ageing}
 
-\defSub{categories}{The labels of the categories}
+\defSub{categories}{The labels of the categories to age}
 
 \commandlabsubarg{Process}{type}{Load\_Partition}
 
@@ -649,8 +684,8 @@
 
 \defSub{categories}{The list of category labels}
 \defSub{m}{The mortality rates}
-\defSub{time\_step\_ratio}{The time step ratios for the mortality rates}
-\defSub{relative\_m\_by\_age}{The list of M-by-age ogives for the categories}
+\defSub{time\_step\_proportions}{The time step proportions for the mortality rates}
+\defSub{relative\_m\_by\_age}{The list of mortality by age ogive labels for the categories}
 
 \commandlabsubarg{Process}{type}{Mortality\_Event}
 
@@ -667,7 +702,7 @@
 \defSub{selectivities}{The labels of the selectivities for each of the categories}
 \defSub{years}{The years in which to apply the mortality process}
 \defSub{catches}{The biomass of removals (catches) to apply for each year}
-\defSub{u\_max}{The maximum exploitation rate ($U\_{max}$)}
+\defSub{u\_max}{The maximum exploitation rate, U\_max}
 \defSub{penalty}{The label of the penalty to apply if the total biomass of removals cannot be taken}
 
 \commandlabsubarg{Process}{type}{Mortality\_Holling\_Rate}
@@ -704,14 +739,14 @@
 
 \defSub{categories}{The categories for instantaneous mortality}
 \defSub{m}{The natural mortality rates for each category}
-\defSub{time\_step\_ratio}{The time step ratios for natural mortality}
-\defSub{relative\_m\_by\_age}{The M-by-age ogives to apply on the categories for natural mortality}
+\defSub{time\_step\_proportions}{The time step proportions for natural mortality}
+\defSub{relative\_m\_by\_age}{The M-by-age ogives to apply to each category for natural mortality}
 
 \commandlabsubarg{Process}{type}{Mortality\_Instantaneous\_Retained}
 
 \defSub{categories}{The categories for instantaneous mortality}
 \defSub{m}{The natural mortality rates for each category}
-\defSub{time\_step\_ratio}{The time step ratios for natural mortality}
+\defSub{time\_step\_proportions}{The time step proportions for natural mortality}
 \defSub{relative\_m\_by\_age}{The M-by-age ogives to apply on the categories for natural mortality}
 
 \commandlabsubarg{Process}{type}{Mortality\_Prey\_Suitability}
@@ -732,13 +767,13 @@
 \commandlabsubarg{Process}{type}{Recruitment\_Beverton\_Holt}
 
 \defSub{categories}{The category labels}
-\defSub{r0}{R0}
-\defSub{b0}{B0}
+\defSub{r0}{R0, the mean recruitment used to scale annual recruits or initialise the model}
+\defSub{b0}{B0, the SSB corresponding to R0, and used to scale annual recruits or initialise the model}
 \defSub{proportions}{The proportion for each category}
 \defSub{age}{The age at recruitment}
 \defSub{ssb\_offset}{The spawning biomass year offset}
 \defSub{steepness}{Steepness (h)}
-\defSub{ssb}{The SSB label (derived quantity)}
+\defSub{ssb}{The SSB label (i.e., the derived quantity label)}
 \defSub{b0\_initialisation\_phase}{The initialisation phase label that B0 is from}
 \defSub{ycs\_values}{The YCS values}
 \defSub{ycs\_years}{The recruitment years. A vector of years that relates to the year of the spawning event that created this cohort}
@@ -747,14 +782,14 @@
 \commandlabsubarg{Process}{type}{Recruitment\_Beverton\_Holt\_With\_Deviations}
 
 \defSub{categories}{The category labels}
-\defSub{r0}{R0}
-\defSub{b0}{B0}
+\defSub{r0}{R0, the mean recruitment used to scale annual recruits or initialise the model}
+\defSub{b0}{B0, the SSB corresponding to R0, and used to scale annual recruits or initialise the model}
 \defSub{proportions}{The proportion for each category}
 \defSub{age}{The age at recruitment}
 \defSub{ssb\_offset}{The spawning biomass year offset}
 \defSub{steepness}{Steepness (h)}
-\defSub{ssb}{The SSB Label (derived quantity)}
-\defSub{sigma\_r}{sigma R}
+\defSub{ssb}{The SSB label (i.e., the derived quantity label))}
+\defSub{sigma\_r}{The standard deviation of recruitment, sigma\_R}
 \defSub{b\_max}{The maximum bias adjustment}
 \defSub{last\_year\_with\_no\_bias}{The last year with no bias adjustment}
 \defSub{first\_year\_with\_bias}{The first year with full bias adjustment}
@@ -768,15 +803,15 @@
 
 \defSub{categories}{The categories}
 \defSub{proportions}{The proportion for each category}
-\defSub{age}{The age}
-\defSub{r0}{R0}
+\defSub{age}{The age at recruitment}
+\defSub{r0}{R0, the recruitment used for annual recruits and initialise the model}
 
 \commandlabsubarg{Process}{type}{Survival\_Constant\_Rate}
 
 \defSub{categories}{The list of categories}
 \defSub{s}{The survival rates}
-\defSub{time\_step\_ratio}{The time step ratios for S}
-\defSub{selectivities}{The selectivity label}
+\defSub{time\_step\_proportions}{The time step proportions for the survival rate S}
+\defSub{selectivities}{The selectivity labels for each category}
 
 \commandlabsubarg{Process}{type}{Tag\_By\_Age}
 
@@ -785,43 +820,43 @@
 \defSub{min\_age}{The minimum age to transition}
 \defSub{max\_age}{The maximum age to transition}
 \defSub{penalty}{The penalty label}
-\defSub{u\_max}{The maximum exploitation rate ($U\_{max}$)}
+\defSub{u\_max}{The maximum exploitation rate, U\_max}
 \defSub{years}{The years to execute the transition in}
-\defSub{initial\_mortality}{The initial mortality value}
+\defSub{initial\_mortality}{The initial mortality proportion}
 \defSub{initial\_mortality\_selectivity}{The initial mortality selectivity label}
-\defSub{loss\_rate}{The loss rate}
+\defSub{loss\_rate}{The annual tag loss rate}
 \defSub{loss\_rate\_selectivities}{The loss rate selectivity label}
 \defSub{selectivities}{The selectivity labels}
 \defSub{n}{N}
 
 \commandlabsubarg{Process}{type}{Tag\_By\_Length}
 
-\defSub{from}{The categories to transition from}
-\defSub{to}{The categories to transition to}
+\defSub{to}{The categories that have tags (i.e., transition to)}
 \defSub{penalty}{The penalty label}
-\defSub{u\_max}{The maximum exploitation rate ($U\_{max}$)}
-\defSub{years}{The years to execute the transition in}
-\defSub{initial\_mortality}{}
-\defSub{initial\_mortality\_selectivity}{}
-\defSub{selectivities}{}
-\defSub{n}{}
-\defSub{tolerance}{Tolerance for checking the proportions to move in each year}
+\defSub{u\_max}{The maximum exploitation rate, U\_max}
+\defSub{years}{The years to execute the tagging events in}
+\defSub{initial\_mortality}{The initial mortality to apply to tags as a proportion}
+\defSub{initial\_mortality\_selectivity}{The initial mortality selectivity label}
+\defSub{selectivities}{Selectivity of the tagging process}
+\defSub{n}{The number of individuals tagged}
+\defSub{tolerance}{Tolerance for checking the specificed proportions sum to one}
+\defSub{compatibility\_option}{Backwards compatibility option: either casal2 (the default) or casal: effects penalty and age-length calculation}
 
 \commandlabsubarg{Process}{type}{Tag\_Loss}
 
-\defSub{categories}{The list of categories}
+\defSub{categories}{The list of categories to apply}
 \defSub{tag\_loss\_rate}{The tag loss rates}
-\defSub{time\_step\_ratio}{The time step ratios for tag loss}
+\defSub{time\_step\_proportions}{The time step proportions for tag loss}
 \defSub{tag\_loss\_type}{The type of tag loss}
 \defSub{selectivities}{The selectivities}
 \defSub{year}{The year the first tagging release process was executed}
 
 \commandlabsubarg{Process}{type}{Transition\_Category}
 
-\defSub{from}{The from category}
-\defSub{to}{The to category}
-\defSub{proportions}{The proportions}
-\defSub{selectivities}{The selectivity names}
+\defSub{from}{The categories to transition from}
+\defSub{to}{The categories to transition to}
+\defSub{proportions}{The proportions to transition for each category}
+\defSub{selectivities}{The selectivities to apply to each proportion}
 
 \commandlabsubarg{Process}{type}{Transition\_Category\_By\_Age}
 
@@ -840,8 +875,8 @@
 
 \defSub{label}{The label of the profile}
 \defSub{steps}{The number of steps between the lower and upper bound}
-\defSub{lower\_bound}{The lower bounds}
-\defSub{upper\_bound}{The upper bounds}
+\defSub{lower\_bound}{The lower value of the range}
+\defSub{upper\_bound}{The upper value of the range}
 \defSub{parameter}{The system parameter to profile}
 \defSub{same}{A parameter that is constrained to have the same value as the parameter being profiled}
 
@@ -881,7 +916,7 @@
 
 \defSub{label}{The report label}
 \defSub{type}{The report type}
-\defSub{file\_name}{The file name. If not supplied, then output is directed to the standard out}
+\defSub{file\_name}{The file name. If not supplied, then output is directed to standard out}
 \defSub{write\_mode}{Specify if any previous file with the same name should be overwritten, appended to, or is generated using a sequential suffix}
 \defSub{format}{Report output format}
 
@@ -891,12 +926,14 @@
 \defSub{years}{Define the years that the report is generated for}
 \defSub{time\_step}{Defines the time-step that the report applies to}
 
+\commandlabsubarg{Report}{type}{Addressable\_Transformation}
+
+
 \commandlabsubarg{Report}{type}{Age\_Length}
 
 \defSub{time\_step}{The time step label}
 \defSub{years}{The years for the report}
 \defSub{age\_length}{The age-length label}
-\defSub{category}{The category label}
 
 \commandlabsubarg{Report}{type}{Ageing\_Error\_Matrix}
 
@@ -926,6 +963,7 @@
 \defSub{processes}{Report processes}
 \defSub{projects}{Report projects}
 \defSub{selectivities}{Report selectivities}
+\defSub{parameter\_transformations}{Report parameters transformations}
 
 \commandlabsubarg{Report}{type}{Derived\_Quantity}
 
@@ -987,16 +1025,6 @@
 \defSub{time\_step}{The time step label}
 \defSub{years}{The years for the report}
 
-\commandlabsubarg{Report}{type}{Partition\_Mean\_Length}
-
-\defSub{time\_step}{The time step label}
-\defSub{years}{The years for the report}
-
-\commandlabsubarg{Report}{type}{Partition\_Mean\_Weight}
-
-\defSub{time\_step}{The time step label}
-\defSub{years}{The years for the report}
-
 \commandlabsubarg{Report}{type}{Partition\_Year\_Cross\_Age\_Matrix}
 
 
@@ -1046,6 +1074,9 @@
 
 \defSub{c}{The constant value}
 
+\commandlabsubarg{Selectivity}{type}{Constant.Mock}
+
+
 \commandlabsubarg{Selectivity}{type}{Double\_Exponential}
 
 \defSub{x0}{The X0 parameter}
@@ -1054,46 +1085,46 @@
 \defSub{y0}{The Y0 parameter}
 \defSub{y1}{The Y1 parameter}
 \defSub{y2}{The Y2 parameter}
-\defSub{alpha}{alpha}
+\defSub{alpha}{The maximum value of the selectivity}
 
 \commandlabsubarg{Selectivity}{type}{Double\_Normal}
 
 \defSub{mu}{The mean (mu)}
 \defSub{sigma\_l}{The sigma L parameter}
 \defSub{sigma\_r}{The sigma R parameter}
-\defSub{alpha}{alpha}
+\defSub{alpha}{The maximum value of the selectivity}
 
 \commandlabsubarg{Selectivity}{type}{Increasing}
 
 \defSub{l}{The low value (L)}
 \defSub{h}{The high value (H)}
 \defSub{v}{The v parameter}
-\defSub{alpha}{alpha}
+\defSub{alpha}{The maximum value of the selectivity}
 
 \commandlabsubarg{Selectivity}{type}{Inverse\_Logistic}
 
 \defSub{a50}{a50}
 \defSub{ato95}{ato95}
-\defSub{alpha}{alpha}
+\defSub{alpha}{The maximum value of the selectivity}
 
 \commandlabsubarg{Selectivity}{type}{Knife\_Edge}
 
 \defSub{e}{The edge value}
-\defSub{alpha}{alpha}
+\defSub{alpha}{The maximum value of the selectivity}
 
 \commandlabsubarg{Selectivity}{type}{Logistic}
 
 \defSub{a50}{The a50 parameter}
 \defSub{ato95}{The ato95 parameter}
-\defSub{alpha}{The alpha (maximum value of the selectivity) parameter}
+\defSub{alpha}{The maximum value of the selectivity}
 
 \commandlabsubarg{Selectivity}{type}{Logistic\_Producing}
 
 \defSub{l}{The low value (L)}
 \defSub{h}{The high value (H)}
-\defSub{a50}{a50}
-\defSub{ato95}{ato95}
-\defSub{alpha}{alpha}
+\defSub{a50}{the a50 parameter}
+\defSub{ato95}{The ato95 parameter}
+\defSub{alpha}{The maximum value of the selectivity}
 
 \defComLab{Simulate}{Define an object of type \emph{Simulate}}
 
@@ -1109,7 +1140,7 @@
 \defComLab{Time\_Step}{Define an object of type \emph{Time\_Step}}
 
 \defSub{label}{The label of the time step}
-\defSub{processes}{The labels of the processes for this time step, and given in the order that they occur within the time step}
+\defSub{processes}{The labels of the processes that occur in this time step, in the order that they occur}
 
 \defComLab{Time\_Varying}{Define an object of type \emph{Time\_Varying}}
 
@@ -1121,7 +1152,7 @@
 \commandlabsubarg{Time\_Varying}{type}{Annual\_Shift}
 
 \defSub{a}{Parameter A}
-\defSub{b}{Parmeter B}
+\defSub{b}{Parameter B}
 \defSub{c}{Parameter C}
 \defSub{scaling\_years}{The scaling years}
 \defSub{values}{The values}
@@ -1145,19 +1176,19 @@
 
 \commandlabsubarg{Time\_Varying}{type}{Random\_Draw}
 
-\defSub{mean}{The mean ($\mu$) of the random draw distribution}
-\defSub{sigma}{The standard deviation ($\sigma$)  of the random draw distribution}
+\defSub{mean}{The mean (mu) of the random draw distribution}
+\defSub{sigma}{The standard deviation (sigma)  of the random draw distribution}
 \defSub{lower\_bound}{The lower bound for the random draw}
 \defSub{upper\_bound}{The upper bound for the random draw}
 \defSub{distribution}{The distribution type}
 
 \commandlabsubarg{Time\_Varying}{type}{Random\_Walk}
 
-\defSub{mean}{The mean ($\mu$) of the random walk distribution}
-\defSub{sigma}{The standard deviation ($\sigma$)  of the random walk distribution}
+\defSub{mean}{The mean (mu) of the random walk distribution}
+\defSub{sigma}{The standard deviation (sigma)  of the random walk distribution}
 \defSub{lower\_bound}{The lower bound for the random walk}
 \defSub{upper\_bound}{The upper bound for the random walk}
-\defSub{rho}{The autocorrelation parameter ($\rho$)  of the random walk distribution}
+\defSub{rho}{The autocorrelation parameter (rho)  of the random walk distribution}
 \defSub{distribution}{The distribution type}
 
 \normalsize

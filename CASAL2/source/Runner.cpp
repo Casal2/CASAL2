@@ -34,10 +34,10 @@
 #include "MCMCs/Manager.h"
 #include "Minimisers/Manager.h"
 #include "Minimisers/Minimiser.h"
-#include "Profiles/Manager.h"
 #include "Model/Factory.h"
 #include "Model/Managers.h"
 #include "Model/Models/Age.h"
+#include "Profiles/Manager.h"
 #include "Utilities/RandomNumberGenerator.h"
 
 // namespaces
@@ -277,7 +277,7 @@ int Runner::GoWithRunMode(RunMode::Type run_mode) {
       break;
     case RunMode::kProfiling:
       LOG_INFO() << "Initiating profile run mode";
-      //master_model_->Start(run_mode);
+      // master_model_->Start(run_mode);
       return_code = RunProfiling() ? 0 : -1;
       break;
     case RunMode::kProjection:
@@ -507,7 +507,8 @@ int Runner::RunMCMC() {
 
   LOG_INFO() << "Beginning MCMC iterations";
   mcmc->Execute(thread_pool_);
-
+  LOG_MEDIUM() << "Model MCMC: State change to Finalise";
+  master_model_->Finalise();
   return 0;
 }
 
@@ -530,14 +531,14 @@ bool Runner::RunProfiling() {
 
   AddressableInputLoader* addressable_input_loader = managers->addressable_input_loader();
 
-  bool                    use_addressable_file     = master_model_->addressables_value_file();
-  unsigned                iterations_to_do         = addressable_input_loader->GetValueCount() == 0 ? 1 : addressable_input_loader->GetValueCount();
+  bool     use_addressable_file = master_model_->addressables_value_file();
+  unsigned iterations_to_do     = addressable_input_loader->GetValueCount() == 0 ? 1 : addressable_input_loader->GetValueCount();
   // for each -i
   for (unsigned i = 0; i < iterations_to_do; ++i) {
     if (use_addressable_file) {
       addressable_input_loader->LoadValues(i);
     }
-    
+
     master_model_->set_run_mode(RunMode::kProfiling);
     LOG_MEDIUM() << "About to begin profile for the " << i + 1 << "st/nd/nth set of values";
     vector<Profile*> profiles = managers->profile()->objects();

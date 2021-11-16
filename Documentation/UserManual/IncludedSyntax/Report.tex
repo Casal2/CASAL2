@@ -152,10 +152,10 @@ The Covariance\_Matrix type has no additional subcommands.
 \defType{String}
 \defDefault{No default}
 \defValue{If not specified, then the label of the report is assumed to be the derived quantity label}
-
+ 
 \subsubsection{Report of type Equation\_Test}
 \commandlabsubarg{Report}{type}{Equation\_Test}.
-\defRef{sec:Report-EquationTest}
+\defRef{sec:eq_parser}
 \label{syntax:Report-EquationTest}
 
 \defSub{equation}{The equation to do a test run of}
@@ -213,9 +213,10 @@ The Initialisation\_Partition\_Mean\_Weight report has no additional subcommands
 \subsubsection{Report of type MCMC\_Covariance}
 \commandlabsubarg{Report}{type}{MCMC\_Covariance}.
 \defRef{sec:Report-MCMCCovariance}
-\label{syntax:Report-MCMCCovariance}
+\label{syntax:Report-MCMCCovariance}\\
+\defValue{This will output the covariance matrices (the initial covariance matrix and the covariance matrix if adapted ) used for the MCMC chain.}
 
-The MCMC\_Covariance report has no additional subcommands.
+The MCMC\_Covariance report has no additional subcommands.  
 
 \subsubsection{Report of type MCMC\_Objective}
 \commandlabsubarg{Report}{type}{MCMC\_Objective}.
@@ -234,7 +235,7 @@ The MCMC\_Sample report has no additional subcommands.
 \subsubsection{Report of type MPD}
 \commandlabsubarg{Report}{type}{MPD}.
 \defRef{sec:Report-MPD}
-\label{syntax:Report-MPD}
+\label{syntax:Report-MPD}\\
 \defValue{An MPD report, consisting of the free parameters and the covariance matrix}
 
 The MPD report has no additional subcommands.
@@ -317,7 +318,7 @@ The Partition\_Year\_Cross\_Age\_Matrix report has no additional subcommands.
 
 \subsubsection{Report of type Project}
 \commandlabsubarg{Report}{type}{Project}.
-\defRef{sec:Report-Project}
+\defRef{sec:Project}
 \label{syntax:Report-Project}
 
 \defSub{project}{The project label that is reported}
