@@ -1213,7 +1213,7 @@ This process moves 207 individuals from a combination of male.untagged and femal
 
 
 For \subcommand{compatability\_switch casal}
-This describes the algoirthm applied in CASAL, it should yield identical results when a single untagged category and tagged category are supplied. There is a small difference when input numbers at length are defined for a combination of categories (unsexed) and we allocated into each corresponding category (male and female). This is supplied for backwards compatibility with CASAL, we recommend using \subcommand{compatability\_switch casal2}, for when ${p}_l$ is unsexed but sex is in the partition.
+This describes the algorithm applied in CASAL, it should yield identical results when a single untagged category and tagged category are supplied. There is a small difference when input numbers at length are defined for a combination of categories (unsexed) and we allocated into each corresponding category (male and female). This is supplied for backwards compatibility with CASAL, we recommend using \subcommand{compatability\_switch casal2}, for when ${p}_l$ is unsexed but sex is in the partition.
 
 
 For each length bin $l$ of the input vector of proportions-at-length ${p}_l$ and total tag releases denoted by \(M\). The vulnerable numbers for age \(a\), length \(l\), and category \(j\) are calculated as
@@ -1394,7 +1394,7 @@ When users supply an age-length class there is a subcommand \subcommand{distribu
 	\end{cases}
 \end{equation}
 %
-where, \(f(X,\mu, \sigma)\) is the cumulative density function defined by \subcommand{distribution}. The variance in these distributions are parametrised by the coeffecient of variation (CV). The CV at age can have the three following forms,
+where, \(f(X,\mu, \sigma)\) is the cumulative density function defined by \subcommand{distribution}. The variance in these distributions are parametrised by the coefficient of variation (CV). The CV at age can have the three following forms,
 \begin{enumerate}
 	\item constant for all ages users just specify \subcommand{cv\_first}\\
 	\item Changes linearly by age between \(a_{min}\) and \(a_{max}\) where the CV at \(a_{min}\) is defined by \subcommand{cv\_first} and the cv at \(a_{max}\) is defined by \subcommand{cv\_last}, and values inbetween are linear between these two points. Note the subcommand \subcommand{by\_length} needs to be false
@@ -1407,7 +1407,7 @@ The CV is converted into a standard deviation as follows,
 	\sigma_a = \sqrt{log(CV_a^2 + 1)} & \text{ For the Lognormal distribution}\\	
 \end{align*}
 %
-When the age-length matrix is required in a model users must specify the \subcommand{length\_bin} on the \command{model}. \CNAME\ will build the age-length matrix for each year that processes and observations ask of it based on the model length bins. Each process and observation can then define a bespoke set of length bins for which thier data represents, only if those length bins are a subset of the model length bins. An example of this is.
+When the age-length matrix is required in a model users must specify the \subcommand{length\_bin} on the \command{model}. \CNAME\ will build the age-length matrix for each year that processes and observations ask of it based on the model length bins. Each process and observation can then define a bespoke set of length bins for which their data represents, only if those length bins are a subset of the model length bins. An example of this is.
 
 {\small{\begin{verbatim}
 		@model
@@ -1427,9 +1427,6 @@ When the age-length matrix is required in a model users must specify the \subcom
 		length_bins 7.5 17.5 27.5
 		\end{verbatim}}}
 because the observation length bins are not a subset of the model length bins. The reason for this business rule is, if we have coarse resolution relative of lengths relative to the model length bins, then age-length matrix of the course length bins is a simple summation of the model age-length matrix, rather than recalculating for bespoke length bins, which is a computational task that requires many cumulative distribution function calls.
-
-
-
 
 To get \CNAME\ to report the mean length, mean weight at age and the age-length distribution, include the following report into your model with the years and time-steps of interest, see section~\ref{syntax:Report-AgeLength} for more information.
 {\small{\begin{verbatim}
@@ -1769,7 +1766,7 @@ Method types for a time-varying parameter are:
 
 This option allows for a parameter to be fixed in a year, or be the result of a deterministic or stochastic equation. \textbf{Note:} the stochastic time-varying functionality was added for simulation purposes. \textbf{It has not been tested in an estimation context.}
 
-To implement hierarchical models, the prior parameter values need to be estimated using hyperpriors. To implement a hierarchical model using the time-varying functionality, use MCMC estimation as a way to calculate the integral which is required to obtain unbiased estimates. In an MCMC context, a Gibbs sampler is assumed. That is, every draw is from a conditional distribution and so every draw is a candidate value. \TODO{review}
+To implement hierarchical models, the prior parameter values need to be estimated using hyper priors. To implement a hierarchical model using the time-varying functionality, use MCMC estimation as a way to calculate the integral which is required to obtain unbiased estimates. In an MCMC context, a Gibbs sampler is assumed. That is, every draw is from a conditional distribution and so every draw is a candidate value. \TODO{review}
 
 When allowing removals with annually varying catchabilities, selectivities, and/or other model components, simulated observations more closely model real data and associated conclusions become more useful. Implementing time-varying parameters also allows for mean or location parameters of selectivities to change between years based on an explanatory variable. An example of this is in the New Zealand Hoki fishery where the $\mu$ and $a_{50}$ parameters are allowed to shift depending on when the fishing season occurs. Descriptive analysis showed that when fishing was earlier relative to other years smaller fish were caught and vice versa. This can be shown in the Examples/2stock directory, implemented at line: \texttt{382} in the \texttt{population.csl2} file. [Craig to edit]
 
