@@ -26,7 +26,7 @@
 
 \defSub{step\_size}{Initial step-size (as a multiplier of the approximate covariance matrix)}
 \defType{Real number}
-\defDefault{0.02}
+\defDefault{0}
 \defLowerBound{0 (inclusive)}
 
 \defSub{start}{The covariance multiplier for the starting point of the MCMC}
@@ -61,7 +61,7 @@
 \defSub{df}{The degrees of freedom of the multivariate t proposal distribution}
 \defType{Non-negative integer}
 \defDefault{4}
-\defLowerBound{0 (exclusive)}
+\defLowerBound{1 (exclusive)}
 
 \defSub{adapt\_stepsize\_at}{The iteration numbers in which to check and resize the MCMC stepsize}
 \defType{Vector of non-negative integers}

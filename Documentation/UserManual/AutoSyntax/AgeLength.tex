@@ -2,10 +2,6 @@
 \defRef{sec:AgeLength}
 \label{syntax:AgeLength}
 
-\defSub{label}{The label of the age length relationship}
-\defType{String}
-\defDefault{No default}
-
 \defSub{type}{The type of age length relationship}
 \defType{String}
 \defDefault{No default}
@@ -38,6 +34,10 @@
 \defType{Boolean}
 \defDefault{true}
 
+\defSub{length\_weight}{The label from an associated length-weight block}
+\defType{String}
+\defDefault{No default}
+
 \subsubsection{Age\_Length of type Data}
 \commandlabsubarg{Age\_Length}{type}{Data}.
 \defRef{sec:AgeLength-Data}
@@ -50,10 +50,6 @@
 \defSub{internal\_gaps}{The method to use for internal data gaps}
 \defType{String}
 \defDefault{mean}
-
-\defSub{length\_weight}{The label from an associated length-weight block}
-\defType{String}
-\defDefault{No default}
 
 \defSub{time\_step\_measurements\_were\_made}{The time step label for which size-at-age data are provided}
 \defType{String}
@@ -96,10 +92,6 @@ The None type has no additional subcommands.
 \defDefault{No default}
 \defLowerBound{0.0 (exclusive)}
 
-\defSub{length\_weight}{The label of the associated length-weight relationship}
-\defType{String}
-\defDefault{No default}
-
 \subsubsection{Age\_Length of type Von\_Bertalanffy}
 \commandlabsubarg{Age\_Length}{type}{Von\_Bertalanffy}.
 \defRef{sec:AgeLength-VonBertalanffy}
@@ -117,9 +109,5 @@ The None type has no additional subcommands.
 
 \defSub{t0}{The $t\_0$ parameter}
 \defType{Real number (estimable)}
-\defDefault{No default}
-
-\defSub{length\_weight}{The label of the associated length-weight relationship}
-\defType{String}
 \defDefault{No default}
 

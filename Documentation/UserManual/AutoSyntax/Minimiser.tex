@@ -12,7 +12,7 @@
 
 \defSub{active}{Indicates if this minimiser is active}
 \defType{Boolean}
-\defDefault{false}
+\defDefault{true}
 
 \defSub{covariance}{Indicates if a covariance matrix should be generated}
 \defType{Boolean}
@@ -42,6 +42,10 @@
 \defType{Real number}
 \defDefault{1e-7}
 \defLowerBound{0.0 (exclusive)}
+
+\defSub{parameter\_transformation}{The choice to scale parameters for ADOLC optimation}
+\defType{String}
+\defDefault{sin\_transform}
 
 \subsubsection{Minimiser of type Beta\_Diff}
 \commandlabsubarg{Minimiser}{type}{Beta\_Diff}.

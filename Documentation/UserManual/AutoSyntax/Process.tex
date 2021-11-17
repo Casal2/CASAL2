@@ -574,14 +574,6 @@ The Nop type has no additional subcommands.
 \defType{String}
 \defDefault{No default}
 
-\defSub{loss\_rate}{The annual tag loss rate}
-\defType{Vector of real numbers (estimable)}
-\defDefault{No default}
-
-\defSub{loss\_rate\_selectivities}{The loss rate selectivity label}
-\defType{Vector of strings}
-\defDefault{true}
-
 \defSub{selectivities}{The selectivity labels}
 \defType{Vector of strings}
 \defDefault{No default}
@@ -590,14 +582,16 @@ The Nop type has no additional subcommands.
 \defType{Vector of real numbers (estimable)}
 \defDefault{true}
 
+\defSub{tolerance}{Tolerance for checking the specificed proportions sum to one}
+\defType{Real number}
+\defDefault{1e-5}
+\defLowerBound{0 (inclusive)}
+\defUpperBound{1.0 (inclusive)}
+
 \subsubsection{Process of type Tag\_By\_Length}
 \commandlabsubarg{Process}{type}{Tag\_By\_Length}.
 \defRef{sec:Process-TagByLength}
 \label{syntax:Process-TagByLength}
-
-\defSub{from}{The categories that are selected for tagging (i.e, transition from)}
-\defType{Vector of strings}
-\defDefault{No default}
 
 \defSub{to}{The categories that have tags (i.e., transition to)}
 \defType{Vector of strings}
@@ -627,11 +621,11 @@ The Nop type has no additional subcommands.
 \defType{String}
 \defDefault{No default}
 
-\defSub{selectivities}{}
+\defSub{selectivities}{Selectivity of the tagging process}
 \defType{Vector of strings}
 \defDefault{No default}
 
-\defSub{n}{}
+\defSub{n}{The number of individuals tagged}
 \defType{Vector of real numbers (estimable)}
 \defDefault{true}
 
@@ -641,12 +635,16 @@ The Nop type has no additional subcommands.
 \defLowerBound{0 (inclusive)}
 \defUpperBound{1.0 (inclusive)}
 
+\defSub{compatibility\_option}{Backwards compatibility option: either casal2 (the default) or casal: effects penalty and age-length calculation}
+\defType{String}
+\defDefault{casal2}
+
 \subsubsection{Process of type Tag\_Loss}
 \commandlabsubarg{Process}{type}{Tag\_Loss}.
 \defRef{sec:Process-TagLoss}
 \label{syntax:Process-TagLoss}
 
-\defSub{categories}{The list of categories}
+\defSub{categories}{The list of categories to apply}
 \defType{Vector of strings}
 \defDefault{No default}
 
@@ -663,7 +661,7 @@ The Nop type has no additional subcommands.
 
 \defSub{tag\_loss\_type}{The type of tag loss}
 \defType{String}
-\defDefault{No default}
+\defDefault{single}
 
 \defSub{selectivities}{The selectivities}
 \defType{Vector of strings}

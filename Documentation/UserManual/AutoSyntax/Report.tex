@@ -39,6 +39,12 @@
 \defType{String}
 \defDefault{No default}
 
+\subsubsection{Report of type Addressable\_Transformation}
+\commandlabsubarg{Report}{type}{Addressable\_Transformation}.
+\defRef{sec:Report-AddressableTransformation}
+\label{syntax:Report-AddressableTransformation}
+
+The Addressable\_Transformation type has no additional subcommands.
 \subsubsection{Report of type Age\_Length}
 \commandlabsubarg{Report}{type}{Age\_Length}.
 \defRef{sec:Report-AgeLength}
@@ -53,10 +59,6 @@
 \defDefault{true}
 
 \defSub{age\_length}{The age-length label}
-\defType{String}
-\defDefault{No default}
-
-\defSub{category}{The category label}
 \defType{String}
 \defDefault{No default}
 
@@ -128,6 +130,10 @@ The Covariance\_Matrix type has no additional subcommands.
 \defDefault{false}
 
 \defSub{selectivities}{Report selectivities}
+\defType{Boolean}
+\defDefault{false}
+
+\defSub{parameter\_transformations}{Report parameters transformations}
 \defType{Boolean}
 \defDefault{false}
 
@@ -255,32 +261,6 @@ The Output\_Parameters type has no additional subcommands.
 \commandlabsubarg{Report}{type}{Partition\_Biomass}.
 \defRef{sec:Report-PartitionBiomass}
 \label{syntax:Report-PartitionBiomass}
-
-\defSub{time\_step}{The time step label}
-\defType{String}
-\defDefault{No default}
-
-\defSub{years}{The years for the report}
-\defType{Vector of non-negative integers}
-\defDefault{true}
-
-\subsubsection{Report of type Partition\_Mean\_Length}
-\commandlabsubarg{Report}{type}{Partition\_Mean\_Length}.
-\defRef{sec:Report-PartitionMeanLength}
-\label{syntax:Report-PartitionMeanLength}
-
-\defSub{time\_step}{The time step label}
-\defType{String}
-\defDefault{No default}
-
-\defSub{years}{The years for the report}
-\defType{Vector of non-negative integers}
-\defDefault{true}
-
-\subsubsection{Report of type Partition\_Mean\_Weight}
-\commandlabsubarg{Report}{type}{Partition\_Mean\_Weight}.
-\defRef{sec:Report-PartitionMeanWeight}
-\label{syntax:Report-PartitionMeanWeight}
 
 \defSub{time\_step}{The time step label}
 \defType{String}

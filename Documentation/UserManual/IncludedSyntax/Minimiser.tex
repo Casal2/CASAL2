@@ -43,6 +43,11 @@
 \defDefault{1e-7}
 \defLowerBound{0.0 (exclusive)}
 
+\defSub{parameter\_transformation}{The choice of parametrisation used to scale the parameters for ADOLC}
+\defType{string}
+\defDefault{sin\_transformation}
+\defValue{Either \subcommand{sin\_transformation} or \subcommand{tan\_transformation}. See \ref{sec:Minimiser-ADOLC} for more information}
+
 \subsubsection{Minimiser of type Betadiff}
 \commandlabsubarg{Minimiser}{type}{Betadiff}.
 \defRef{sec:Minimiser-BetaDiff}
@@ -117,7 +122,7 @@
 \defDefault{1e-7}
 \defLowerBound{0 (exclusive)}
 
-\subsubsection{Minimiser of type Numerical\_Differences}
+\subsubsection{Minimiser of type Numerical Differences}
 \commandlabsubarg{Minimiser}{type}{Numerical\_Differences}.
 \defRef{sec:Minimiser-GammaDiff}
 \label{syntax:Minimiser-GammaDiff}

@@ -1,0 +1,65 @@
+\defComLab{Addressable\_Transformation}{Define an object of type \emph{Addressable\_Transformation}}.
+\defRef{sec:AddressableTransformation}
+\label{syntax:AddressableTransformation}
+
+\defSub{label}{Label for the transformation block}
+\defType{String}
+\defDefault{No default}
+
+\defSub{type}{The type of transformation}
+\defType{String}
+\defDefault{No default}
+
+\defSub{parameters}{The parameters used in the transformation}
+\defType{Vector of strings}
+\defDefault{No default}
+
+\defSub{prior\_applies\_to\_restored\_parameters}{If the prior applies to the parameters (true) with jacobian (if it exists) or prior applies to transformed\_parameter (false) with no jacobian}
+\defType{Boolean}
+\defDefault{false}
+
+\subsubsection{Addressable\_Transformation of type Average\_Difference}
+\commandlabsubarg{Addressable\_Transformation}{type}{Average\_Difference}.
+\defRef{sec:AddressableTransformation-AverageDifference}
+\label{syntax:AddressableTransformation-AverageDifference}
+
+The Average\_Difference type has no additional subcommands.
+\subsubsection{Addressable\_Transformation of type Inverse}
+\commandlabsubarg{Addressable\_Transformation}{type}{Inverse}.
+\defRef{sec:AddressableTransformation-Inverse}
+\label{syntax:AddressableTransformation-Inverse}
+
+The Inverse type has no additional subcommands.
+\subsubsection{Addressable\_Transformation of type Log}
+\commandlabsubarg{Addressable\_Transformation}{type}{Log}.
+\defRef{sec:AddressableTransformation-Log}
+\label{syntax:AddressableTransformation-Log}
+
+The Log type has no additional subcommands.
+\subsubsection{Addressable\_Transformation of type Log\_Sum}
+\commandlabsubarg{Addressable\_Transformation}{type}{Log\_Sum}.
+\defRef{sec:AddressableTransformation-LogSum}
+\label{syntax:AddressableTransformation-LogSum}
+
+The Log\_Sum type has no additional subcommands.
+\subsubsection{Addressable\_Transformation of type Orthogonal}
+\commandlabsubarg{Addressable\_Transformation}{type}{Orthogonal}.
+\defRef{sec:AddressableTransformation-Orthogonal}
+\label{syntax:AddressableTransformation-Orthogonal}
+
+The Orthogonal type has no additional subcommands.
+\subsubsection{Addressable\_Transformation of type Simplex}
+\commandlabsubarg{Addressable\_Transformation}{type}{Simplex}.
+\defRef{sec:AddressableTransformation-Simplex}
+\label{syntax:AddressableTransformation-Simplex}
+
+\defSub{sum\_to\_one}{if true parameter in natural space will sum = 1, otherwise they will sum = length(parameter)}
+\defType{Boolean}
+\defDefault{true}
+
+\subsubsection{Addressable\_Transformation of type Sum\_To\_One}
+\commandlabsubarg{Addressable\_Transformation}{type}{Sum\_To\_One}.
+\defRef{sec:AddressableTransformation-SumToOne}
+\label{syntax:AddressableTransformation-SumToOne}
+
+The Sum\_To\_One type has no additional subcommands.

@@ -134,12 +134,12 @@ An automatic differentiation minimiser for non-linear models, This is the minimi
 
 \subsubsection{\I{The ADOL-C minimiser}}\label{sec:Minimiser-ADOLC}
 
-An automatic differentiation minimiser for non-linear models. See \url{https://projects.coin-or.org/ADOL-C} for more information. Users do have an option of defining what transformation to apply to convert the parameter \(\theta \in [\theta_{LB}, \theta_{UB}]\) to \(X \in [-1, 1]\), for which optimisation is done. The options are sin or tan. Initial model runs suggest this assumption will make a difference to convergence, particularly if there are poorly identified parameters which fall at the bounds, we have found the sin transform is more consistent with the betadiff minimser. The sin transform
+An automatic differentiation minimiser for non-linear models. See \url{https://projects.coin-or.org/ADOL-C} for more information. Users do have an option of defining what transformation to apply to convert the parameter \(\theta \in [\theta_{LB}, \theta_{UB}]\) to \(X \in [-1, 1]\), for which optimisation is done. The options are $sin$ or $tan$. Initial model runs suggest this assumption will make a difference to convergence, particularly if there are poorly identified parameters which fall at the bounds, we have found the sin transform is more consistent with the betadiff minimiser. The sin transform
 \begin{equation}
 	X = \frac{asin(2 * (\theta - \theta_{LB}) / (\theta_{UB} - \theta_{LB}) - 1)}{ 1.57079633}
 \end{equation}
 %
-the real consequence of this transformation is when \(X\) is back transformed to \(\theta\) there is a penalty which is added to the minimisation to dissuade parameter values close to the bounds. This penalty is hidden from the reported objective function. If you are interested in it, you can run with \texttt{--loglevel medium} and it should be reported. The back transformation follows,
+the consequence of this transformation is when \(X\) is back transformed to \(\theta\) there is a penalty which is added to the minimisation to dissuade parameter values close to the bounds. This penalty is hidden from the reported objective function. If you are interested in it, you can run with \texttt{--loglevel medium} and it should be reported. The back transformation follows,
 \begin{equation}
 \theta = \theta_{LB} + (\theta_{UB} - \theta_{LB}) * (sin(X * 1.57079633) + 1) / 2;
 \end{equation}
@@ -150,8 +150,7 @@ and penalty
 	&if(X - 0.9999 < 0) & penalty += (X - 0.9999)^2
 \end{align}
 %
-This can be seen here \href{https://github.com/NIWAFisheriesModelling/CASAL2/blob/1b1ed731537dc551674c911da3bf387273a97a92/CASAL2/source/Utilities/Math.h#L245}{here}.
-
+This can be seen  \href{https://github.com/NIWAFisheriesModelling/CASAL2/blob/1b1ed731537dc551674c911da3bf387273a97a92/CASAL2/source/Utilities/Math.h#L245}{here}.
 
 The Tan transform uses transformation
 
