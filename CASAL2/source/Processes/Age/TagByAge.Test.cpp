@@ -41,7 +41,7 @@ max_age 12
 age_plus t
 base_weight_units kgs
 initialisation_phases iphase1 iphase2
-time_steps step_one=[processes=Recruitment] step_two=[processes=Tagging] step_three=[processes=Ageing]
+time_steps step_one=[processes=Recruitment] step_two=[processes=Tagging,TagLoss] step_three=[processes=Ageing]
 
 @categories
 format stage.sex
@@ -80,13 +80,19 @@ to mature.male mature.female
 selectivities [type=constant; c=0.25] [type=constant; c=0.4]
 min_age 3
 max_age 6
-loss_rate 0
-loss_rate_selectivities loss_rate1=[type=constant; c=1] lossrate2=[type=constant; c=1]
 penalty [type=process]
 table numbers
 year 3 4 5 6
 2008 1000 2000 3000 4000
 end_table
+
+@process TagLoss
+type tag_loss
+categories mature.male mature.female
+tag_loss_rate 0
+selectivities loss_rate1=[type=constant; c=1] lossrate2=[type=constant; c=1]
+tag_loss_type single
+year 2008
 
 @report DQ
 type derived_quantity
@@ -137,7 +143,7 @@ max_age 12
 age_plus t
 base_weight_units kgs
 initialisation_phases iphase1 iphase2
-time_steps step_one=[processes=Recruitment] step_two=[processes=Tagging] step_three=[processes=Ageing]
+time_steps step_one=[processes=Recruitment] step_two=[processes=Tagging,TagLoss] step_three=[processes=Ageing]
 
 @categories
 format stage.sex
@@ -176,13 +182,19 @@ to mature.male mature.female
 selectivities [type=constant; c=0.25] [type=constant; c=0.4]
 min_age 3
 max_age 6
-loss_rate 0.02
-loss_rate_selectivities lr1=[type=constant; c=1] lr2=[type=constant; c=1]
 penalty [type=process]
 table numbers
 year 3 4 5 6
 2008 500 750 1000 2000
 end_table
+
+@process TagLoss
+type tag_loss
+categories mature.male mature.female
+tag_loss_rate 0.02
+selectivities loss_rate1=[type=constant; c=1] lossrate2=[type=constant; c=1]
+tag_loss_type single
+year 2008
 
 @report DQ
 type derived_quantity
@@ -201,20 +213,20 @@ TEST_F(InternalEmptyModel, Processes_Tag_By_Age_With_Loss_Rate) {
   EXPECT_DOUBLE_EQ(0.0, male.data_[0]);
   EXPECT_DOUBLE_EQ(0.0, male.data_[1]);
   EXPECT_DOUBLE_EQ(0.0, male.data_[2]);
-  EXPECT_DOUBLE_EQ(192.30769230769229, male.data_[3]);
-  EXPECT_DOUBLE_EQ(288.46153846153845, male.data_[4]);
-  EXPECT_DOUBLE_EQ(384.61538461538458, male.data_[5]);
-  EXPECT_DOUBLE_EQ(769.23076923076917, male.data_[6]);
+  EXPECT_DOUBLE_EQ(188.4997448666837, male.data_[3]);
+  EXPECT_DOUBLE_EQ(282.74961730002553, male.data_[4]);
+  EXPECT_DOUBLE_EQ(376.9994897333674, male.data_[5]);
+  EXPECT_DOUBLE_EQ(753.9989794667348, male.data_[6]);
   EXPECT_DOUBLE_EQ(0.0, male.data_[7]);
 
   partition::Category& female = model_->partition().category("mature.female");
   EXPECT_DOUBLE_EQ(0.0, female.data_[0]);
   EXPECT_DOUBLE_EQ(0.0, female.data_[1]);
   EXPECT_DOUBLE_EQ(0.0, female.data_[2]);
-  EXPECT_DOUBLE_EQ(307.69230769230774, female.data_[3]);
-  EXPECT_DOUBLE_EQ(461.53846153846155, female.data_[4]);
-  EXPECT_DOUBLE_EQ(615.38461538461547, female.data_[5]);
-  EXPECT_DOUBLE_EQ(1230.7692307692309, female.data_[6]);
+  EXPECT_DOUBLE_EQ(301.59959178669396, female.data_[3]);
+  EXPECT_DOUBLE_EQ(452.39938768004089, female.data_[4]);
+  EXPECT_DOUBLE_EQ(603.19918357338793, female.data_[5]);
+  EXPECT_DOUBLE_EQ(1206.3983671467759, female.data_[6]);
   EXPECT_DOUBLE_EQ(0.0, female.data_[7]);
 }
 
@@ -231,7 +243,7 @@ max_age 12
 base_weight_units kgs
 age_plus t
 initialisation_phases iphase1 iphase2
-time_steps step_one=[processes=Recruitment] step_two=[processes=Tagging] step_three=[processes=Ageing]
+time_steps step_one=[processes=Recruitment] step_two=[processes=Tagging,TagLoss] step_three=[processes=Ageing]
 
 @categories
 format stage.sex
@@ -272,13 +284,19 @@ to mature.male mature.female
 selectivities [type=constant; c=0.25] [type=constant; c=0.4]
 min_age 3
 max_age 6
-loss_rate 0.02
-loss_rate_selectivities lr1=[type=logistic; a50=11.9; ato95=5.25] lr2=[type=constant; c=0.5]
 penalty [type=process]
 table numbers
 year 3 4 5 6
 2008 500 750 1000 2000
 end_table
+
+@process TagLoss
+type tag_loss
+categories mature.male mature.female
+tag_loss_rate 0.02
+selectivities lr1=[type=logistic; a50=11.9; ato95=5.25] lr2=[type=constant; c=0.5]
+tag_loss_type single
+year 2008
 
 @report DQ
 type derived_quantity
@@ -305,10 +323,10 @@ TEST_F(InternalEmptyModel, Processes_Tag_By_Age_With_Loss_Rate_Selectivities) {
   EXPECT_DOUBLE_EQ(0.0, male.data_[2]);
   EXPECT_DOUBLE_EQ(0.0, male.data_[3]);
   EXPECT_DOUBLE_EQ(0.0, male.data_[4]);
-  EXPECT_DOUBLE_EQ(192.18385769115466, male.data_[5]);
-  EXPECT_DOUBLE_EQ(288.14027764600274, male.data_[6]);
-  EXPECT_DOUBLE_EQ(383.88143638402539, male.data_[7]);
-  EXPECT_DOUBLE_EQ(766.75435176196413, male.data_[8]);
+  EXPECT_DOUBLE_EQ(192.15793819301646, male.data_[5]);
+  EXPECT_DOUBLE_EQ(288.07257446646986, male.data_[6]);
+  EXPECT_DOUBLE_EQ(383.7249459510295, male.data_[7]);
+  EXPECT_DOUBLE_EQ(766.21588197878077, male.data_[8]);
   EXPECT_DOUBLE_EQ(0.0, male.data_[9]);
 
   // 0.000000 0.000000 0.000000 0.000000 0.000000 302.788923 454.183385 605.577846 1211.155692 0.000000 0.000000 0.000000
@@ -318,10 +336,10 @@ TEST_F(InternalEmptyModel, Processes_Tag_By_Age_With_Loss_Rate_Selectivities) {
   EXPECT_DOUBLE_EQ(0.0, female.data_[2]);
   EXPECT_DOUBLE_EQ(0.0, female.data_[3]);
   EXPECT_DOUBLE_EQ(0.0, female.data_[4]);
-  EXPECT_DOUBLE_EQ(301.56923076923078, female.data_[5]);
-  EXPECT_DOUBLE_EQ(452.35384615384612, female.data_[6]);
-  EXPECT_DOUBLE_EQ(603.13846153846157, female.data_[7]);
-  EXPECT_DOUBLE_EQ(1206.2769230769231, female.data_[8]);
+  EXPECT_DOUBLE_EQ(298.5986257072334, female.data_[5]);
+  EXPECT_DOUBLE_EQ(447.89793856084998, female.data_[6]);
+  EXPECT_DOUBLE_EQ(597.19725141446679, female.data_[7]);
+  EXPECT_DOUBLE_EQ(1194.3945028289336, female.data_[8]);
   EXPECT_DOUBLE_EQ(0.0, female.data_[9]);
 }
 
@@ -337,7 +355,7 @@ min_age 1
 max_age 12
 age_plus t
 initialisation_phases iphase1 iphase2
-time_steps step_one=[processes=Recruitment] step_two=[processes=Tagging] step_three=[processes=Ageing]
+time_steps step_one=[processes=Recruitment] step_two=[processes=Tagging,TagLoss] step_three=[processes=Ageing]
 
 @categories
 format stage.sex
@@ -378,13 +396,19 @@ to mature.male mature.female
 selectivities [type=logistic; a50=9; ato95=3] [type=constant; c=0.7]
 min_age 3
 max_age 6
-loss_rate 0.02
-loss_rate_selectivities [type=logistic; a50=11.9; ato95=5.25] [type=constant; c=0.5]
 penalty [type=process]
 table numbers
 year 3 4 5 6
 2008 500 750 1000 2000
 end_table
+
+@process TagLoss
+type tag_loss
+categories mature.male mature.female
+tag_loss_rate 0.02
+selectivities lr1=[type=logistic; a50=11.9; ato95=5.25] lr2=[type=constant; c=0.5]
+tag_loss_type single
+year 2008
 
 @report DQ
 type derived_quantity
@@ -404,10 +428,10 @@ TEST_F(InternalEmptyModel, Processes_Tag_By_Age_With_Selectivities) {
   EXPECT_DOUBLE_EQ(0.0, male.data_[0]);
   EXPECT_DOUBLE_EQ(0.0, male.data_[1]);
   EXPECT_DOUBLE_EQ(0.0, male.data_[2]);
-  EXPECT_DOUBLE_EQ(13.444567616736462, male.data_[3]);
-  EXPECT_DOUBLE_EQ(50.0, male.data_[4]);
-  EXPECT_DOUBLE_EQ(149.60525565892942, male.data_[5]);
-  EXPECT_DOUBLE_EQ(560.55678808099083, male.data_[6]);
+  EXPECT_DOUBLE_EQ(13.442752876251012, male.data_[3]);
+  EXPECT_DOUBLE_EQ(49.988235083324454, male.data_[4]);
+  EXPECT_DOUBLE_EQ(149.54412296373857, male.data_[5]);
+  EXPECT_DOUBLE_EQ(560.16157671188671, male.data_[6]);
   EXPECT_DOUBLE_EQ(0.0, male.data_[7]);
   EXPECT_DOUBLE_EQ(0.0, male.data_[8]);
   EXPECT_DOUBLE_EQ(0.0, male.data_[9]);
@@ -417,10 +441,10 @@ TEST_F(InternalEmptyModel, Processes_Tag_By_Age_With_Selectivities) {
   EXPECT_DOUBLE_EQ(0.0, female.data_[0]);
   EXPECT_DOUBLE_EQ(0.0, female.data_[1]);
   EXPECT_DOUBLE_EQ(0.0, female.data_[2]);
-  EXPECT_DOUBLE_EQ(486.55543238326356, female.data_[3]);
-  EXPECT_DOUBLE_EQ(699.99999999999989, female.data_[4]);
-  EXPECT_DOUBLE_EQ(850.39474434107069, female.data_[5]);
-  EXPECT_DOUBLE_EQ(1439.4432119190092, female.data_[6]);
+  EXPECT_DOUBLE_EQ(481.71412494080471, female.data_[3]);
+  EXPECT_DOUBLE_EQ(693.0348836244176, female.data_[4]);
+  EXPECT_DOUBLE_EQ(841.93317525604334, female.data_[5]);
+  EXPECT_DOUBLE_EQ(1425.1205126517837, female.data_[6]);
   EXPECT_DOUBLE_EQ(0.0, female.data_[7]);
   EXPECT_DOUBLE_EQ(0.0, female.data_[8]);
   EXPECT_DOUBLE_EQ(0.0, female.data_[9]);
@@ -438,7 +462,7 @@ min_age 1
 max_age 12
 age_plus t
 initialisation_phases iphase1 iphase2
-time_steps step_one=[processes=Recruitment] step_two=[processes=Tagging] step_three=[processes=Ageing]
+time_steps step_one=[processes=Recruitment] step_two=[processes=Tagging,TagLoss] step_three=[processes=Ageing]
 
 @categories
 format stage.sex
@@ -479,14 +503,20 @@ to mature.male mature.female
 selectivities [type=constant; c=0.25] [type=constant; c=0.4]
 min_age 3
 max_age 6
-loss_rate 0.02
-loss_rate_selectivities [type=logistic; a50=11.9; ato95=5.25] [type=constant; c=0.5]
 penalty [type=process]
 n 10000
 table proportions
 year 3 4 5 6
 2008 0.1 0.2 0.3 0.4
 end_table
+
+@process TagLoss
+type tag_loss
+categories mature.male mature.female
+tag_loss_rate 0.02
+selectivities lr1=[type=logistic; a50=11.9; ato95=5.25] lr2=[type=constant; c=0.5]
+tag_loss_type single
+year 2008
 
 @report DQ
 type derived_quantity
@@ -508,10 +538,10 @@ TEST_F(InternalEmptyModel, Processes_Tag_By_Age_With_Proportions_Table) {
   EXPECT_DOUBLE_EQ(0.0, male.data_[2]);
   EXPECT_DOUBLE_EQ(0.0, male.data_[3]);
   EXPECT_DOUBLE_EQ(0.0, male.data_[4]);
-  EXPECT_DOUBLE_EQ(384.36771538230931, male.data_[5]);
-  EXPECT_DOUBLE_EQ(768.37407372267387, male.data_[6]);
-  EXPECT_DOUBLE_EQ(1151.6443091520762, male.data_[7]);
-  EXPECT_DOUBLE_EQ(1533.5087035239283, male.data_[8]);
+  EXPECT_DOUBLE_EQ(384.31587638603293, male.data_[5]);
+  EXPECT_DOUBLE_EQ(768.19353191058622, male.data_[6]);
+  EXPECT_DOUBLE_EQ(1151.1748378530888, male.data_[7]);
+  EXPECT_DOUBLE_EQ(1532.4317639575615, male.data_[8]);
   EXPECT_DOUBLE_EQ(0.0, male.data_[9]);
 
   // 0.000000 0.000000 0.000000 0.000000 0.000000 605.577846 1211.155692 1816.733538 2422.311385 0.000000 0.000000 0.000000
@@ -521,10 +551,10 @@ TEST_F(InternalEmptyModel, Processes_Tag_By_Age_With_Proportions_Table) {
   EXPECT_DOUBLE_EQ(0.0, female.data_[2]);
   EXPECT_DOUBLE_EQ(0.0, female.data_[3]);
   EXPECT_DOUBLE_EQ(0.0, female.data_[4]);
-  EXPECT_DOUBLE_EQ(603.13846153846157, female.data_[5]);
-  EXPECT_DOUBLE_EQ(1206.2769230769231, female.data_[6]);
-  EXPECT_DOUBLE_EQ(1809.4153846153845, female.data_[7]);
-  EXPECT_DOUBLE_EQ(2412.5538461538463, female.data_[8]);
+  EXPECT_DOUBLE_EQ(597.19725141446679, female.data_[5]);
+  EXPECT_DOUBLE_EQ(1194.3945028289336, female.data_[6]);
+  EXPECT_DOUBLE_EQ(1791.5917542433999, female.data_[7]);
+  EXPECT_DOUBLE_EQ(2388.7890056578672, female.data_[8]);
   EXPECT_DOUBLE_EQ(0.0, female.data_[9]);
 }
 
