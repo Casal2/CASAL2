@@ -1,0 +1,332 @@
+@minimiser betadiff
+type betadiff
+iterations 1000
+covariance true
+active true
+
+# @minimiser adolc
+# type adolc
+# tolerance 0.0002
+# iterations 1000
+# covariance true
+# active true
+
+@mcmc mcmc
+type random_walk
+start 1
+length 1500000
+keep 1000
+step_size 0
+adapt_stepsize_at 10000 20000 100000 200000 300000 400000
+proposal_distribution t
+df 4
+adapt_stepsize_method ratio
+burn_in 500000
+max_correlation 0.8
+
+@penalty event_mortality_penalty
+type process
+log_scale False
+multiplier 100
+
+@penalty tagging_penalty
+type process
+log_scale False
+multiplier 100
+
+# @estimate
+# parameter process[Recruitment].b0
+# lower_bound 50000
+# upper_bound 1e8
+# type uniform_log
+
+@estimate 
+parameter parameter_transformation[logB0].log_parameter
+lower_bound 10
+upper_bound 18
+type uniform
+
+@parameter_transformation logB0
+type log
+parameters process[Recruitment].b0
+prior_applies_to_restored_parameters false
+
+# @estimate
+# parameter process[Recruitment].ycs_values{1999:2010}
+# lower_bound 0.001 0.001 0.001 0.001 0.001 0.001 0.001 0.001 0.001 0.001 0.001  0.001
+# upper_bound 100.0 100.0 100.0 100.0 100.0 100.0 100.0 100.0 100.0 100.0 100.0  100.0
+# mu              1     1     1     1     1     1     1     1     1     1     1     1 
+# cv            1.1   1.1   1.1   1.1   1.1   1.1   1.1   1.1   1.1   1.1   1.1   1.1 
+# type lognormal
+
+# @additional_prior YCSaverage
+# type vector_average
+# parameter process[Recruitment].ycs_values
+# k 1
+# multiplier 100
+
+@parameter_transformation SimplexYCS
+type simplex
+sum_to_one false
+parameters process[Recruitment].ycs_values{1999:2010}
+prior_applies_to_restored_parameters true
+
+@estimate
+type lognormal
+mu 1*12
+cv 1.1*12
+parameter parameter_transformation[SimplexYCS].simplex
+lower_bound -10*12
+upper_bound 10*12
+
+# Catchability type "nuisance" not required to be estimated
+# @estimate
+# parameter catchability[AreaEq].q
+# lower_bound 1e-6
+# upper_bound 10
+# type uniform_log
+
+# AreaE Selectivity
+@estimate
+parameter selectivity[AreaEM].mu
+lower_bound 1
+upper_bound 50
+type uniform_log
+
+@estimate
+parameter selectivity[AreaEM].sigma_l
+lower_bound 1
+upper_bound 50
+type uniform
+
+@estimate
+parameter selectivity[AreaEM].sigma_r
+lower_bound 1
+upper_bound 500
+type uniform
+
+@estimate 
+parameter selectivity[AreaEM].alpha
+lower_bound 1
+upper_bound 1
+type uniform
+
+@estimate
+parameter selectivity[AreaEF].mu
+lower_bound 1
+upper_bound 50
+type uniform
+
+@estimate
+parameter selectivity[AreaEF].sigma_l
+lower_bound 1
+upper_bound 50
+type uniform
+
+@estimate
+parameter selectivity[AreaEF].sigma_r
+lower_bound 1
+upper_bound 500
+type uniform
+
+@estimate AreaEF
+parameter selectivity[AreaEF].alpha
+lower_bound 0.01
+upper_bound   10
+type uniform
+
+# AreaA Selectivity
+@estimate
+parameter selectivity[AreaAM].mu
+lower_bound 1
+upper_bound 50
+type uniform
+
+@estimate
+parameter selectivity[AreaAM].sigma_l
+lower_bound 1
+upper_bound 50
+type uniform
+
+@estimate
+parameter selectivity[AreaAM].sigma_r
+lower_bound 1
+upper_bound 500
+type uniform
+
+@estimate 
+parameter selectivity[AreaAM].alpha
+lower_bound 1
+upper_bound 1
+type uniform
+
+@estimate
+parameter selectivity[AreaAF].mu
+lower_bound 1
+upper_bound 50
+type uniform
+
+@estimate
+parameter selectivity[AreaAF].sigma_l
+lower_bound 1
+upper_bound 50
+type uniform
+
+@estimate
+parameter selectivity[AreaAF].sigma_r
+lower_bound 1
+upper_bound 500
+type uniform
+
+@estimate AreaAF
+parameter selectivity[AreaAF].alpha
+lower_bound 0.01
+upper_bound   10
+type uniform
+
+# AreaC Selectivity
+@estimate
+parameter selectivity[AreaCM].mu
+lower_bound 1
+upper_bound 50
+type uniform
+
+@estimate
+parameter selectivity[AreaCM].sigma_l
+lower_bound 1
+upper_bound 50
+type uniform
+
+@estimate
+parameter selectivity[AreaCM].sigma_r
+lower_bound 1
+upper_bound 500
+type uniform
+
+@estimate 
+parameter selectivity[AreaCM].alpha
+lower_bound 1
+upper_bound 1
+type uniform
+
+@estimate
+parameter selectivity[AreaCF].mu
+lower_bound 1
+upper_bound 50
+type uniform
+
+@estimate
+parameter selectivity[AreaCF].sigma_l
+lower_bound 1
+upper_bound 50
+type uniform
+
+@estimate
+parameter selectivity[AreaCF].sigma_r
+lower_bound 1
+upper_bound 500
+type uniform
+
+@estimate AreaCF
+parameter selectivity[AreaCF].alpha
+lower_bound 0.01
+upper_bound   10
+type uniform
+
+# AreaD Selectivity
+@estimate
+parameter selectivity[AreaDM].mu
+lower_bound 1
+upper_bound 50
+type uniform
+
+@estimate
+parameter selectivity[AreaDM].sigma_l
+lower_bound 1
+upper_bound 50
+type uniform
+
+@estimate
+parameter selectivity[AreaDM].sigma_r
+lower_bound 1
+upper_bound 500
+type uniform
+
+@estimate 
+parameter selectivity[AreaDM].alpha
+lower_bound 1
+upper_bound 1
+type uniform
+
+@estimate
+parameter selectivity[AreaDF].mu
+lower_bound 1
+upper_bound 50
+type uniform
+
+@estimate
+parameter selectivity[AreaDF].sigma_l
+lower_bound 1
+upper_bound 50
+type uniform
+
+@estimate
+parameter selectivity[AreaDF].sigma_r
+lower_bound 1
+upper_bound 500
+type uniform
+
+@estimate AreaDF
+parameter selectivity[AreaDF].alpha
+lower_bound 0.01
+upper_bound   10
+type uniform
+
+# AreaA Selectivity
+@estimate
+parameter selectivity[AreaAM].mu
+lower_bound 1
+upper_bound 50
+type uniform
+
+@estimate
+parameter selectivity[AreaAM].sigma_l
+lower_bound 1
+upper_bound 50
+type uniform
+
+@estimate
+parameter selectivity[AreaAM].sigma_r
+lower_bound 1
+upper_bound 500
+type uniform
+
+@estimate 
+parameter selectivity[AreaAM].alpha
+lower_bound 1
+upper_bound 1
+type uniform
+
+@estimate
+parameter selectivity[AreaAF].mu
+lower_bound 1
+upper_bound 50
+type uniform
+
+@estimate
+parameter selectivity[AreaAF].sigma_l
+lower_bound 1
+upper_bound 50
+type uniform
+
+@estimate
+parameter selectivity[AreaAF].sigma_r
+lower_bound 1
+upper_bound 500
+type uniform
+
+@estimate AreaAF
+parameter selectivity[AreaAF].alpha
+lower_bound 0.01
+upper_bound   10
+type uniform

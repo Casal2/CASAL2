@@ -1,0 +1,112 @@
+# @process 2001AreaE
+# years 2001
+# n 0
+
+# @process 2002AreaE
+# years 2002
+# n 0
+
+# @process 2003AreaE
+# years 2003
+# n 0
+
+# @process 2004AreaE
+# years 2004
+# n 0
+
+# @process 2005AreaE
+# years 2005
+# n 0
+
+# @process 2006AreaE
+# years 2006
+# n 0
+
+# @process 2007AreaE
+# years 2007
+# n 0
+
+# @process 2008AreaE
+# years 2008
+# n 0
+
+# @process 2009AreaE
+# years 2009
+# n 0
+
+# @process 2010AreaE
+# years 2010
+# n 0
+
+# @process 2011AreaE
+# years 2011
+# n 0
+
+@process 2012AreaE
+type tag_by_length
+years 2012
+from M.untagged+F.untagged
+to M.2012 F.2012
+selectivities AreaEM AreaEF
+penalty TaggingPenalty
+initial_mortality 0.1
+U_max 0.999
+table proportions
+year 30 40 50 60 70 80 90 100 110 120 130 140 150 160 170 180 190 200 210 220
+2012 0.0000 0.0000 0.0000 0.0244 0.1768 0.3293 0.2256 0.1220 0.0549 0.0305 0.0122 0.0244 0.0000 0.0000 0.0000 0.0000 0.0000 0.0000 0.0000 0.0000
+end_table
+n 165
+tolerance 1e-3
+compatibility_option casal2
+
+@process 2013AreaE
+type tag_by_length
+years 2013
+from M.untagged+F.untagged
+to M.2013 F.2013
+selectivities AreaEM AreaEF
+penalty TaggingPenalty
+initial_mortality 0.1
+U_max 0.999
+table proportions
+year 30 40 50 60 70 80 90 100 110 120 130 140 150 160 170 180 190 200 210 220
+2013 0.0000 0.0000 0.0000 0.0253 0.2468 0.2405 0.2595 0.1013 0.0759 0.0253 0.0190 0.0063 0.0000 0.0000 0.0000 0.0000 0.0000 0.0000 0.0000 0.0000
+end_table
+n 158
+tolerance 1e-3
+compatibility_option casal2
+
+@process 2014AreaE
+type tag_by_length
+years 2014
+from M.untagged+F.untagged
+to M.2014 F.2014
+selectivities AreaEM AreaEF
+penalty TaggingPenalty
+initial_mortality 0.1
+U_max 0.999
+table proportions
+year  30 40 50 60 70 80 90 100 110 120 130 140 150 160 170 180 190 200 210 220
+2014  0.0000 0.0000 0.0000 0.0157 0.1024 0.2835 0.2126 0.1575 0.0866 0.0394 0.0630 0.0157 0.0157 0.0079 0.0000 0.0000 0.0000 0.0000 0.0000 0.0000
+end_table
+n 127
+tolerance 1e-3
+compatibility_option casal2
+
+@process 2015AreaE
+type tag_by_length
+years 2015
+from M.untagged+F.untagged
+to M.2015 F.2015
+selectivities AreaEM AreaEF
+penalty TaggingPenalty
+initial_mortality 0.1
+U_max 0.999
+table proportions
+year  30 40 50 60 70 80 90 100 110 120 130 140 150 160 170 180 190 200 210 220
+2015  0.0000 0.0000 0.0000 0.0388 0.1318 0.1473 0.3101 0.1550 0.0930 0.0233 0.0620 0.0233 0.0155 0.0000 0.0000 0.0000 0.0000 0.0000 0.0000 0.0000
+end_table
+n 129
+tolerance 1e-3
+compatibility_option casal2
+

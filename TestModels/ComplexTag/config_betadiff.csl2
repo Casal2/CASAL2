@@ -1,0 +1,26 @@
+# Example config for complex multi-year tagging
+
+# Population
+!include "config/population.csl2"
+# tag release by area
+!include "config/tagReleaseAreaA.csl2"
+!include "config/tagReleaseAreaB.csl2"
+!include "config/tagReleaseAreaC.csl2"
+!include "config/tagReleaseAreaD.csl2"
+!include "config/tagReleaseAreaE.csl2"
+
+# Estimation
+!include "config/estimation.csl2"
+
+# Observations
+!include "config/observations.csl2"
+!include "config/tagRecapture.csl2"
+
+# Reports
+!include "config/reports.csl2"
+
+@assert ObjectiveFunction
+type objective_function
+value 1958.87336269
+error_type error
+

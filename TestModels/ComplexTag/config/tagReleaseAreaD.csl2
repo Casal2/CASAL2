@@ -1,0 +1,215 @@
+# @process 2001AreaD
+# years 2001
+# n 0
+
+@process 2002AreaD
+type tag_by_length
+years 2002
+from M.untagged+F.untagged
+to M.2002 F.2002
+selectivities AreaDM AreaDF
+penalty TaggingPenalty
+initial_mortality 0.135
+U_max 0.999
+table proportions
+year  30 40 50 60 70 80 90 100 110 120 130 140 150 160 170 180 190 200 210 220
+2002  0.0000 0.0238 0.2738 0.5476 0.1548 0.0000 0.0000 0.0000 0.0000 0.0000 0.0000 0.0000 0.0000 0.0000 0.0000 0.0000 0.0000 0.0000 0.0000 0.0000
+end_table
+n 84
+tolerance 1e-3
+compatibility_option casal2
+
+# @process 2003AreaD
+# years 2003
+# n 0
+
+@process 2004AreaD
+type tag_by_length
+years 2004
+from M.untagged+F.untagged
+to M.2004 F.2004
+selectivities AreaDM AreaDF
+penalty TaggingPenalty
+initial_mortality 0.1
+U_max 0.999
+table proportions
+year  30 40 50 60 70 80 90 100 110 120 130 140 150 160 170 180 190 200 210 220
+2004  0.00 0.00 0.20 0.20 0.25 0.25 0.05 0.00 0.05 0.00 0.00 0.00 0.00 0.00 0.00 0.00 0.00 0.00 0.00 0.00
+end_table
+n 20
+tolerance 1e-3
+compatibility_option casal2
+
+@process 2005AreaD
+type tag_by_length
+years 2005
+from M.untagged+F.untagged
+to M.2005 F.2005
+selectivities AreaDM AreaDF
+penalty TaggingPenalty
+initial_mortality 0.1
+U_max 0.999
+table proportions
+year  30 40 50 60 70 80 90 100 110 120 130 140 150 160 170 180 190 200 210 220
+2005  0.0000 0.0085 0.2331 0.4619 0.1864 0.0636 0.0198 0.0042 0.0028 0.0000 0.0056 0.0099 0.0014 0.0014 0.0014 0.0000 0.0000 0.0000 0.0000 0.0000
+end_table
+n 708
+tolerance 1e-3
+compatibility_option casal2
+
+@process 2006AreaD
+type tag_by_length
+years 2006
+from M.untagged+F.untagged
+to M.2006 F.2006
+selectivities AreaDM AreaDF
+penalty TaggingPenalty
+initial_mortality 0.1
+U_max 0.999
+table proportions
+year  30 40 50 60 70 80 90 100 110 120 130 140 150 160 170 180 190 200 210 220
+2006  0.0000 0.0108 0.2043 0.3468 0.1263 0.0941 0.0941 0.0753 0.0349 0.0054 0.0027 0.0027 0.0000 0.0000 0.0000 0.0027 0.0000 0.0000 0.0000 0.0000
+end_table
+n 373
+tolerance 1e-3
+compatibility_option casal2
+
+# @process 2007AreaD
+# years 2007
+# n 0
+
+@process 2008AreaD
+type tag_by_length
+years 2008
+from M.untagged+F.untagged
+to M.2008 F.2008
+selectivities AreaDM AreaDF
+penalty TaggingPenalty
+initial_mortality 0.1
+U_max 0.999
+table proportions
+year  30 40 50 60 70 80 90 100 110 120 130 140 150 160 170 180 190 200 210 220
+2008  0.0000 0.0000 0.2344 0.5208 0.1667 0.0417 0.0312 0.0052 0.0000 0.0000 0.0000 0.0000 0.0000 0.0000 0.0000 0.0000 0.0000 0.0000 0.0000 0.0000
+end_table
+n 192
+tolerance 1e-3
+compatibility_option casal2
+
+@process 2009AreaD
+type tag_by_length
+years 2009
+from M.untagged+F.untagged
+to M.2009 F.2009
+selectivities AreaDM AreaDF
+penalty TaggingPenalty
+initial_mortality 0.1
+U_max 0.999
+table proportions
+year  30 40 50 60 70 80 90 100 110 120 130 140 150 160 170 180 190 200 210 220
+2009  0.0000 0.0000 0.0611 0.4284 0.2074 0.1758 0.0821 0.0326 0.0084 0.0042 0.0000 0.0000 0.0000 0.0000 0.0000 0.0000 0.0000 0.0000 0.0000 0.0000
+end_table
+n 963
+tolerance 1e-3
+compatibility_option casal2
+
+@process 2010AreaD
+type tag_by_length
+years 2010
+from M.untagged+F.untagged
+to M.2010 F.2010
+selectivities AreaDM AreaDF
+penalty TaggingPenalty
+initial_mortality 0.1
+U_max 0.999
+table proportions
+year  30 40 50 60 70 80 90 100 110 120 130 140 150 160 170 180 190 200 210 220
+2010  0.0042 0.0125 0.0125 0.0375 0.0833 0.1542 0.1625 0.1542 0.1500 0.1083 0.0625 0.0375 0.0083 0.0083 0.0042 0.0000 0.0000 0.0000 0.0000 0.0000
+end_table
+n 241
+tolerance 1e-3
+compatibility_option casal2
+
+@process 2011AreaD
+type tag_by_length
+years 2011
+from M.untagged+F.untagged
+to M.2011 F.2011
+selectivities AreaDM AreaDF
+penalty TaggingPenalty
+initial_mortality 0.1
+U_max 0.999
+table proportions
+year  30 40 50 60 70 80 90 100 110 120 130 140 150 160 170 180 190 200 210 220
+2011  0.0000 0.0000 0.0018 0.0147 0.0257 0.1397 0.1618 0.1544 0.1636 0.1397 0.0974 0.0607 0.0257 0.0110 0.0018 0.0018 0.0000 0.0000 0.0000 0.0000
+end_table
+n 544
+tolerance 1e-3
+compatibility_option casal2
+
+@process 2012AreaD
+type tag_by_length
+years 2012
+from M.untagged+F.untagged
+to M.2012 F.2012
+selectivities AreaDM AreaDF
+penalty TaggingPenalty
+initial_mortality 0.1
+U_max 0.999
+table proportions
+year  30 40 50 60 70 80 90 100 110 120 130 140 150 160 170 180 190 200 210 220
+2012  0.0000 0.0000 0.0000 0.0145 0.0097 0.0812 0.2512 0.2232 0.1778 0.1343 0.0763 0.0251 0.0048 0.0019 0.0000 0.0000 0.0000 0.0000 0.0000 0.0000
+end_table
+n 1035
+tolerance 1e-3
+compatibility_option casal2
+
+@process 2013AreaD
+type tag_by_length
+years 2013
+from M.untagged+F.untagged
+to M.2013 F.2013
+selectivities AreaDM AreaDF
+penalty TaggingPenalty
+initial_mortality 0.1
+U_max 0.999
+table proportions
+year  30 40 50 60 70 80 90 100 110 120 130 140 150 160 170 180 190 200 210 220
+2013  0.0000 0.0000 0.0074 0.0481 0.0722 0.1093 0.1833 0.2056 0.1704 0.1056 0.0685 0.0185 0.0056 0.0037 0.0019 0.0000 0.0000 0.0000 0.0000 0.0000
+end_table
+n 540
+tolerance 1e-3
+compatibility_option casal2
+
+@process 2014AreaD
+type tag_by_length
+years 2014
+from M.untagged+F.untagged
+to M.2014 F.2014
+selectivities AreaDM AreaDF
+penalty TaggingPenalty
+initial_mortality 0.1
+U_max 0.999
+table proportions
+year  30 40 50 60 70 80 90 100 110 120 130 140 150 160 170 180 190 200 210 220
+2014  0.0000 0.0000 0.0068 0.0408 0.0204 0.0476 0.1701 0.1497 0.2211 0.1973 0.1088 0.0374 0.0000 0.0000 0.0000 0.0000 0.0000 0.0000 0.0000 0.0000
+end_table
+n 294
+tolerance 1e-3
+compatibility_option casal2
+
+@process 2015AreaD
+type tag_by_length
+years 2015
+from M.untagged+F.untagged
+to M.2015 F.2015
+selectivities AreaDM AreaDF
+penalty TaggingPenalty
+initial_mortality 0.1
+U_max 0.999
+table proportions
+year  30 40 50 60 70 80 90 100 110 120 130 140 150 160 170 180 190 200 210 220
+2015  0.0000 0.0000 0.0244 0.0427 0.0549 0.0976 0.1524 0.1037 0.2012 0.2012 0.0671 0.0366 0.0122 0.0000 0.0000 0.0000 0.0061 0.0000 0.0000 0.0000
+end_table
+n 164
+tolerance 1e-3
+compatibility_option casal2

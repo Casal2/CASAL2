@@ -30,7 +30,7 @@ class ModelRunner:
     success_count = 0
     fail_count = 0
     ##estimation_dir_list = {"Simple", "SBW"}    # requires a config.csl2 file (uses whatever minimiser is defined)
-    estimation_betadiff_dir_list = {"TwoSex", "SBW", "Simple"}  # requires a config-betadiff.csl2 file
+    estimation_betadiff_dir_list = {"TwoSex", "SBW", "Simple","ComplexTag"}  # requires a config-betadiff.csl2 file
     estimation_gammadiff_dir_list = {"TwoSex", "SBW", "Simple"} # requires a config-gammadiff.csl2 file
     estimation_adolc_dir_list = {"TwoSex", "SBW", "Simple"}     # requires a config-adolc.csl2 file
     simulate_dash_i_dir_list = {"ORH3B"} # if you change this you will need to formulate the report or python code below, not very general.

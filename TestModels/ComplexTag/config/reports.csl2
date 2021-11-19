@@ -1,0 +1,72 @@
+@report default
+type default
+processes true
+observations true
+catchabilities true
+selectivities true
+projects true
+derived_quantities True
+parameter_transformations true
+
+@report EstimateValues
+type estimate_value
+
+@report EstimateSummary
+type estimate_summary
+
+@report EstimationResult
+type Estimation_result
+
+@report ObjectiveFunction
+type objective_function
+
+@report Initialisation
+type initialisation_partition
+
+@report Hessian
+type hessian_matrix
+
+@report Covariance
+type covariance_matrix
+
+@report Correlation
+type correlation_matrix
+
+@report MCMCCovariance
+type mcmc_covariance
+
+@report MCMCObjective
+type mcmc_objective
+file_name objectives
+write_mode incremental_suffix
+
+@report MCMCSample
+type mcmc_sample
+file_name samples
+write_mode incremental_suffix
+
+@report PartitionOne
+type partition
+time_step One
+
+@report PartitionTwo
+type partition
+time_step Two
+
+@report OneBiomass
+type partition_biomass
+time_step One
+
+@report TwoBiomass
+type partition_biomass
+time_step One
+
+@report CategoryInfo
+type Category_info
+
+@report CategoryList
+type Category_list
+
+@report random_number_seed
+type random_number_seed
+

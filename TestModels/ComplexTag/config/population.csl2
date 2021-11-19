@@ -1,0 +1,290 @@
+# population.csl2
+@model
+min_age     1
+max_age     50
+age_plus    True
+start_year  1990
+final_year  2016
+projection_final_year 2030
+type age
+base_weight_units tonnes
+initialisation_phases phase1
+time_steps One Tagging Two AgeIncrement
+length_bins 30 40 50 60 70 80 90 100 110 120 130 140 150 160 170 180 190 200 210 220 230
+length_plus False
+threads 1
+
+@initialisation_phase phase1
+type derived
+
+@categories
+# male and female, and tagged males and females by year in which tagging happens
+format sex.TagYear
+names M.untagged M.2001 M.2002 M.2003 M.2004 M.2005 M.2006 M.2007 M.2008 M.2009 M.2010 M.2011 M.2012 M.2013 M.2014 M.2015 F.untagged F.2001 F.2002 F.2003 F.2004 F.2005 F.2006 F.2007 F.2008 F.2009 F.2010 F.2011 F.2012 F.2013 F.2014 F.2015
+age_lengths AgeLengthM AgeLengthMTag*15 AgeLengthF AgeLengthFTag*15
+
+@time_step One
+processes Recruitment Mortality TagLoss2001 TagLoss2002 TagLoss2003 TagLoss2004Plus
+
+@time_step Tagging
+processes 2001AreaA 2003AreaA 2004AreaA 2005AreaA 2006AreaA 2007AreaA 2008AreaA 2009AreaA 2010AreaA 2011AreaA 2012AreaA 2013AreaA 2014AreaA 2015AreaA 2001AreaB 2002AreaB 2003AreaB 2004AreaB 2005AreaB 2006AreaB 2007AreaB 2008AreaB 2009AreaB 2010AreaB 2011AreaB 2012AreaB 2013AreaB 2014AreaB 2015AreaB 2002AreaC 2004AreaC 2005AreaC 2006AreaC 2008AreaC 2009AreaC 2010AreaC 2011AreaC 2012AreaC 2013AreaC 2014AreaC 2015AreaC 2004AreaD 2005AreaD 2006AreaD 2008AreaD 2009AreaD 2010AreaD 2011AreaD 2012AreaD 2013AreaD 2014AreaD 2012AreaE 2013AreaE 2014AreaE 2015AreaE
+
+@time_step Two
+processes  TagLoss2001 TagLoss2002 TagLoss2003 TagLoss2004Plus Mortality
+
+@time_step AgeIncrement
+processes  Ageing
+
+# Population processes
+@process None
+type null_process
+
+@process Ageing
+type ageing
+categories *
+
+@process Recruitment
+type recruitment_beverton_holt
+categories M.untagged F.untagged
+proportions 0.5 0.5
+b0 80000
+#standardise_ycs_years 2003:2010
+ycs_years 1989:2015
+ycs_values 1*27
+steepness 0.75
+ssb SSB
+age 1
+
+@derived_quantity SSB
+type biomass
+time_step Two
+time_step_proportion 0.5
+time_step_proportion_method weighted_sum
+categories *
+selectivities MaturityM*16 MaturityF*16
+
+@process Mortality
+type mortality_instantaneous
+m 0.13
+relative_m_by_age One
+categories *
+time_step_proportions 0.5 0.5
+table catches
+year  AreaA  AreaB   AreaC   AreaD   AreaE
+1999  10.77  28.49   256.55  0.43    0   
+2000  0      171.22  580.69  0       0   
+2001  117.82 0       342.85  131.43  0   
+2002  0      162.21  781.11  411.96  92  
+2003  1.57   0       618.89  1148.42 0   
+2004  63.06  0.47    1744.81 369.38  240 
+2005  225.08 769.78  1665.31 549.57  28  
+2006  424.14 597.43  1602.09 343.3   0   
+2007  378.75 0       2127.11 573.01  0   
+2008  446.98 60.01   1492.48 250.95  272 
+2009  19.25  858.46  1160.96 392.85  0   
+2010  364.81 243.02  1890.6  370     0   
+2011  422.28 655.52  1459.23 310.36  0   
+2012  241.69 1514.92 874.53  546.84  0   
+2013  291.67 750.73  1701.34 411.34  0   
+2014  236.54 827.67  1494.5  341.51  0   
+2015  271.78 409.49  1654.76 473.5   0   
+2016  223.42 446.61  1626.92 363.37  0   
+end_table
+table method
+method category   selectivity u_max time_step penalty
+AreaA    format=M.* AreaAM        0.99  One    event_mortality_penalty
+AreaA    format=F.* AreaAF        0.99  One    event_mortality_penalty
+AreaB    format=M.* AreaBM        0.99  One    event_mortality_penalty
+AreaB    format=F.* AreaBF        0.99  One    event_mortality_penalty
+AreaC    format=M.* AreaCM        0.99  One    event_mortality_penalty
+AreaC    format=F.* AreaCF        0.99  One    event_mortality_penalty
+AreaD    format=M.* AreaDM        0.99  One    event_mortality_penalty
+AreaD    format=F.* AreaDF        0.99  One    event_mortality_penalty
+AreaE    format=M.* AreaEM        0.99  One    event_mortality_penalty
+AreaE    format=F.* AreaEF        0.99  One    event_mortality_penalty
+end_table
+
+# Definition of selectivities
+@selectivity One
+type constant
+c 1
+
+@selectivity MaturityM
+type logistic
+a50 11.99
+ato95 5.25
+
+@selectivity MaturityF
+type logistic
+a50 16.92
+ato95 7.68
+
+@selectivity AreaAM
+type double_normal
+mu        8
+sigma_l   4
+sigma_r  10
+alpha   1.0
+
+@selectivity AreaAF
+type double_normal
+mu        8
+sigma_l   4
+sigma_r  10
+alpha   1.0
+
+@selectivity AreaBM
+type double_normal
+mu        8
+sigma_l   4
+sigma_r  10
+alpha   1.0
+
+@selectivity AreaBF
+type double_normal
+mu        8
+sigma_l   4
+sigma_r  10
+alpha   1.0
+
+@selectivity AreaCM
+type double_normal
+mu        8
+sigma_l   4
+sigma_r  10
+alpha   1.0
+
+@selectivity AreaCF
+type double_normal
+mu        8
+sigma_l   4
+sigma_r  10
+alpha   1.0
+
+@selectivity AreaDM
+type double_normal
+mu        8
+sigma_l   4
+sigma_r  10
+alpha   1.0
+
+@selectivity AreaDF
+type double_normal
+mu        8
+sigma_l   4
+sigma_r  10
+alpha   1.0
+
+@selectivity AreaEM
+type double_normal
+mu        8
+sigma_l   4
+sigma_r  10
+alpha   1.0
+
+@selectivity AreaEF
+type double_normal
+mu        8
+sigma_l   4
+sigma_r  10
+alpha   1.0
+
+@age_length AgeLengthM
+type von_bertalanffy
+length_weight LengthWeightM
+k     0.101
+t0   -0.292
+linf 164.06
+cv_first 0.101
+cv_last  0.101
+time_step_proportions 0 0 0 0
+by_length TRUE
+distribution normal
+compatibility_option casal
+
+@age_length AgeLengthF
+type von_bertalanffy
+length_weight LengthWeightF
+k     0.082
+t0   -0.712
+linf 180.49
+cv_first 0.101
+cv_last  0.101
+time_step_proportions 0 0 0 0
+by_length TRUE
+distribution normal
+compatibility_option casal
+
+@length_weight LengthWeightM
+type basic
+units tonnes
+a 1.247e-008
+b 2.990
+
+@length_weight LengthWeightF
+type basic
+units tonnes
+a 7.361e-9
+b 3.105
+
+@age_length AgeLengthMTag
+type von_bertalanffy
+length_weight LengthWeightM
+k     0.101
+t0    0.208 #-0.292+0.5
+linf 164.06
+cv_first 0.101
+cv_last  0.101
+time_step_proportions 0 0 0 0
+by_length TRUE
+distribution normal
+compatibility_option casal
+
+@age_length AgeLengthFTag
+type von_bertalanffy
+length_weight LengthWeightF
+k     0.082
+t0   -0.212 #-0.712+0.5
+linf 180.49
+cv_first 0.101
+cv_last  0.101
+time_step_proportions 0 0 0 0
+by_length TRUE
+distribution normal
+compatibility_option casal
+
+@process TagLoss2001
+type tag_loss
+categories TagYear=2001
+tag_loss_rate 0.039
+time_step_proportions 0.5 0.5
+selectivities One
+tag_loss_type single
+year 2001
+
+@process TagLoss2002
+type tag_loss
+categories TagYear=2002
+tag_loss_rate 0.039
+time_step_proportions 0.5 0.5
+selectivities One
+tag_loss_type single
+year 2002
+
+@process TagLoss2003
+type tag_loss
+categories TagYear=2003
+tag_loss_rate 0.029
+time_step_proportions 0.5 0.5
+selectivities One
+tag_loss_type single
+year 2003
+
+@process TagLoss2004Plus
+type tag_loss
+categories TagYear=2004:2020
+tag_loss_rate 0.0084
+time_step_proportions 0.5 0.5
+selectivities One
+tag_loss_type single
+year 2004
