@@ -204,7 +204,13 @@ void ParameterList::Populate(shared_ptr<Model> model) {
       }
     }
   }
-
+  // Set subcommand type to lower case
+  if (parameters_.find(PARAM_TYPE) != parameters_.end()) {
+    Parameter* param = parameters_[PARAM_TYPE];
+    if (param->values().size() != 0) {
+      param->set_value(utilities::ToLowercase(param->values()[0]));
+    }
+  }
   if (parameters_.find(PARAM_LABEL) != parameters_.end()) {
     Parameter* param = parameters_[PARAM_LABEL];
     if (param->values().size() != 0) {
