@@ -1,11 +1,11 @@
 Environment: User=Casal2
 Call: ../../../../../BuildSystem/Casal2/casal2 -M mpd.out -g 850088731 
-Date: Thu Oct 21 18:46:45 2021
-Version: v21.10 (2021-10-21)
+Date: Thu Nov 25 15:36:45 2021
+Version: v21.11 (2021-11-24)
 Copyright (c) 2017-2021, NIWA (www.niwa.co.nz)
 c2user
- Machine=c2computer.local (Linux 3.10.0-1160.42.2.el7.x86_64 x86_64)
- PID=5640
+ Machine=c2computer (Linux 3.10.0-1160.42.2.el7.x86_64 x86_64)
+ PID=78084
 
 
 
@@ -32,11 +32,28 @@ c2user
 [INFO] Adapting step_size from 0.04 to 0.08 after 20000 iterations
 [INFO] Adapting step_size from 0.08 to 0.16 after 30000 iterations
 [INFO] Adapting step_size from 0.16 to 0.32 after 40000 iterations
-[INFO] Adapting step_size from 0.32 to 0.64 after 50000 iterations
-[INFO] Adapting step_size from 0.64 to 0.64 after 100000 iterations
-[INFO] Adapting step_size from 0.64 to 0.64 after 200000 iterations
-[INFO] Adapting step_size from 0.64 to 0.64 after 4000000 iterations
+[INFO] Adapting step_size from 0.32 to 0.32 after 50000 iterations
+[INFO] Adapting step_size from 0.32 to 0.32 after 100000 iterations
+[INFO] Adapting step_size from 0.32 to 0.32 after 200000 iterations
+[INFO] Adapting step_size from 0.32 to 0.32 after 4000000 iterations
 [INFO] MCMC execution complete
+*covariance_matrix[Covar]
+covariance_matrix {matrix}
+*end
+
+*correlation_matrix[Corr]
+correlation_matrix {matrix}
+*end
+
+*mcmc_covariance[mcmc_covariance]
+MCMC_covariance{matrix}
+1.26819e+06 0.283415 0.757534 1681 620.227
+0.283415 0.000186661 -5.99325e-05 -0.00547831 -0.0100506
+0.757534 -5.99325e-05 9.9e-05 0.00182963 0.00177668
+1681 -0.00547831 0.00182963 3.48152 2.60639
+620.227 -0.0100506 0.00177668 2.60639 3.26354
+*end
+
 *info[messages_encountered]
 Values {string}
 Setting the random number seed to 850088731
@@ -62,13 +79,13 @@ Adapting step_size from 0.02 to 0.04 after 10000 iterations
 Adapting step_size from 0.04 to 0.08 after 20000 iterations
 Adapting step_size from 0.08 to 0.16 after 30000 iterations
 Adapting step_size from 0.16 to 0.32 after 40000 iterations
-Adapting step_size from 0.32 to 0.64 after 50000 iterations
-Adapting step_size from 0.64 to 0.64 after 100000 iterations
-Adapting step_size from 0.64 to 0.64 after 200000 iterations
-Adapting step_size from 0.64 to 0.64 after 4000000 iterations
+Adapting step_size from 0.32 to 0.32 after 50000 iterations
+Adapting step_size from 0.32 to 0.32 after 100000 iterations
+Adapting step_size from 0.32 to 0.32 after 200000 iterations
+Adapting step_size from 0.32 to 0.32 after 4000000 iterations
 MCMC execution complete
 *end
 
 [INFO] Completed
-[INFO] Total CPU time: -48.0108 hours
-[INFO] Total elapsed time: 6.764 hours
+[INFO] Total CPU time: -168.349 hours
+[INFO] Total elapsed time: 7.544 hours

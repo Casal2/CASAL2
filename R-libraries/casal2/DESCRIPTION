@@ -1,7 +1,7 @@
 Package: Casal2
 Title: Casal2 extract package
 Version: 21.11
-Date: 2021-11-07
+Date: 2021-11-24
 Author: Casal2 Development Team
 Description: A set of R functions for extracting and plotting from Casal2 configuration input files, reports, and other associated files.
 Maintainer: Casal2 Development Team <casal2@niwa.co.nz>
