@@ -18,11 +18,11 @@ knitr::opts_chunk$set(echo = TRUE)
 
 # HAK comparison of CASAL and Casal2 model configurations
 
-This document compares the results of at least 2 CASAL model configurations (base and at least one sensitivity) and up to 8 Casal2 model configurations (3 BetaDiff, 2 CppAD, and 3 ADOL-C).
+This document compares the results of at least 2 CASAL model configurations (base and at least one sensitivity) and up to 6 Casal2 model configurations (3 BetaDiff and 3 ADOL-C).
 
 The CASAL model sensitivity 1 has a smaller minimisation tolerance value than the CASAL base model (1e-6 vs. 2e-3).
 
-The Casal2 ADOL-C and BetaDiff low tolerance models have a smaller tolerance value than the CASAL base model (1e-6 vs. 2e-3). The Casal2 CppAD models have a tolerance value of 1e-9.
+The Casal2 ADOL-C and BetaDiff low tolerance models have a smaller tolerance value than the CASAL base model (1e-6 vs. 2e-3).
 
 
 ## HAK model characteristics
@@ -83,19 +83,6 @@ The Casal2 ADOL-C and BetaDiff MCMC options include
 * proposal_distribution t
 * adapt_stepsize_method double_half
 * max_correlation 0.8
-
-The Casal2 CppAD MCMC runs use the BetaDiff covariance matrices since Casal2 does not output the covariance matrix from CppAD minimisation. The Casal2 CppAD MCMC options include
-
-* start 0.5
-* length 12000000 (originally 11M)
-* keep 1000
-* step_size 0.001
-* adapt_stepsize_at 10000 20000 30000 40000 50000 100000 200000 300000 4000000 500000 600000 700000 800000
-* df 2
-* proposal_distribution t
-* adapt_stepsize_method double_half
-* max_correlation 0.8
-* adapt_covariance_matrix_at 1000000
 
 
 ## R environment
