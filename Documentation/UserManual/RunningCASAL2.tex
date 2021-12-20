@@ -79,7 +79,7 @@ The following optional arguments\index{Optional command line arguments} [\emph{o
 \item [\texttt{-L [-{}-loglevel] \emph{arg}}] Set the level for information or logging messages from \CNAME. Valid options are (from more verbose to less verbose) trace, finest, fine, medium, info, important, and warning. The default is 'info' (see Section \ref{sec:TroubleShooting-logging} for more information).
 \item [\texttt{-t [-{}-tabular]}] Print \command{report} in tabular format (see Section \ref{sec:Report} for more information).
 \item [\texttt{-{}-single-step}] Run with \texttt{-r} to pause the model and ask the user to specify parameters and their values to use for the next iteration (see Section \ref{sec:SingleStepping})
-\item [\texttt{-q [-{}-query]\emph{object type}}] \emph{Query} an object type to print an extract of the object description and parameter definitions.  An object can be defined as \texttt{\emph{block.type}}, e.g., \texttt{casal2 -{}-query process.recruitment\_constant} will query the constant recruitment block.
+\item [\texttt{-q [-{}-query]\emph{object type}}] \emph{Query} an object type to print an extract of the object description and parameter definitions.  An object can be defined as \texttt{\emph{block.type}}, e.g., \texttt{casal2 -{}-query process.recruitment\_constant} will query the constant recruitment block, printing the inputs for this process (should be consistent with syntax section).
 \item [\texttt{-V [-{}-verifylevel] \emph{arg}}] If \CNAME\ exits with a verify message (the default), then it will halt. If \emph{arg = warning} \CNAME\ will complete the model run and print the verify statement.
 \end{description}
 %
@@ -90,6 +90,8 @@ Combinations of these command line arguments can also be implemented. Examples o
 	\item \texttt{casal -e -i par.file> mulit\_estimate.out} will conduct multiple estimation routines. One for each row of parameters in \texttt{par.file}. This can be useful for assessing convergence to a global minimum. All base models should be run from multiple starting parameter values to assess model convergence/sensitivity to starting values.
 	
 	\item \texttt{casal -s 10 -i par.file > mulit\_simulation.out} This command instructs \CNAME\ to simulate 10 sets of simulated data sets for each each row of parameters in \texttt{par.file}. The \texttt{-s} component adds observation error in simulated data sets through the likelihood distribution assumptions and the \texttt{-i} adds parameter uncertainty into the simulated data sets if each row differs.
+	
+	\item \texttt{casal -r --loglevel trace > run.log 2> run.err} run \CNAME\ model with parameters based on configuration files, it will print logging information into the file \texttt{run.err} (useful when debugging models). See Section~\ref{sec:TroubleShooting-logging} for details on logging.
 \end{description}
 
 
