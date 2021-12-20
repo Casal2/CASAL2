@@ -143,6 +143,7 @@ void CommandLineParser::Parse(int argc, char* argv[], RunParameters& options) {
     options.force_overwrite_of_addressables_ = false;
   }
   if (parameters.count("input-force")) {
+    LOG_FINE() << "supplied -I file " << parameters["input-force"].as<string>();
     if (parameters.count("input"))
       LOG_FATAL() << "Do not specify both -i (input file) and -I (input-force file) at the same time";
     options.free_parameter_input_file_       = parameters["input-force"].as<string>();
@@ -228,7 +229,7 @@ void CommandLineParser::Parse(int argc, char* argv[], RunParameters& options) {
   } else if (parameters.count("profile")) {
     options.run_mode_ = RunMode::kProfiling;
   } else if (parameters.count("simulation")) {
-    if (!(parameters.count("input") || !parameters.count("input-force")))
+    if (!(parameters.count("input") || parameters.count("input-force")))
       LOG_FATAL() << "A free parameter file must be supplied (using -i/-I) for simulations";
     options.run_mode_              = RunMode::kSimulation;
     options.simulation_candidates_ = parameters["simulation"].as<unsigned>();
