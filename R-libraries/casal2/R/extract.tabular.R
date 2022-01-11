@@ -13,6 +13,18 @@
 #' @export
 #'
 #'
+
+# 2021-08-30
+# {d} -> {dataframe}
+# {d_r} -> {dataframe_with_row_labels}
+# {m} -> {matrix}
+# {L} -> {list}
+# {L_E} -> {end_list} ?
+# end {L} -> {end_list}
+# {v} -> {vector}
+# {s} -> {string}
+# {c} and {C} not used
+
 "extract.tabular" <-
 function(file, path = "", fileEncoding = "", quiet = FALSE) {
   set.class <- function(object, new.class) {
@@ -49,11 +61,17 @@ function(file, path = "", fileEncoding = "", quiet = FALSE) {
       type = header[2]
       report = get.lines(file, clip.to = temp[i])
       report = get.lines(report, clip.from = "*end")
-      print(paste0("loading report '", label, "'"))
-      if (type == "warnings_encounted") {
-        warning("Found a warning in the report. Skipping that report.")
+      print(paste0("loading report '", label, "' of type '", type, "'"))
+
+      if (type == "info") {
+        print("Found informational messages in the output. Skipping that report.")
         next;
       }
+      if (type == "warnings") {
+        print("Found warning messages in the output. Skipping that report.")
+        next;
+      }
+
       ## report = make.list(report)
       temp_result = list()
       start_ndx = which(temp[i] == original_file) + 1;
@@ -67,13 +85,16 @@ function(file, path = "", fileEncoding = "", quiet = FALSE) {
           temp_result[[report_label]] = make.list_element(current_line)
           line_no = line_no + 1
           start_ndx = start_ndx + 1;
-        } else if (report_type == "d") {
-          header = string.to.vector.of.words(original_file[start_ndx + 1])
-          ##header1 = read.table(file = filename, skip = (start_ndx + 1 + (i - 1)), nrows = 1, stringsAsFactors = FALSE,  sep = " ", header = F,strip.white=FALSE, fill = FALSE)
-          Data = read.table(file = filename, skip = (start_ndx + 2 + (i - 1)), nrows = (end_file_locations[i] - start_ndx - 3), stringsAsFactors = FALSE, sep = " ", header = F, strip.white = FALSE, fill = FALSE, fileEncoding = fileEncoding)
-          Data = Data[, - ncol(Data)]
-          colnames(Data) = header
-          temp_result$values = Data
+        } else if (report_type == "dataframe") {
+          # header = string.to.vector.of.words(original_file[start_ndx + 1])
+          ###header1 = read.table(file = filename, skip = (start_ndx + 1 + (i - 1)), nrows = 1, stringsAsFactors = FALSE,  sep = " ", header = F,strip.white=FALSE, fill = FALSE)
+          # Data = read.table(file = filename, skip = (start_ndx + 2 + (i - 1)), nrows = (end_file_locations[i] - start_ndx - 3), stringsAsFactors = FALSE, sep = " ", header = F, strip.white = FALSE, fill = FALSE, fileEncoding = fileEncoding)
+          # Data = Data[, - ncol(Data)]
+          # colnames(Data) = header
+          # temp_result$values = Data
+
+          Data = make.list(report)
+          temp_result$values = Data$values
           line_no = length(report) + 1
         } else {
           warning(paste0("Cannot parse tabular report of type '", report_type, "'"))
