@@ -5,6 +5,7 @@
 #' @param file the name of the file containing the estimated covariance matrix ('mpd.out')
 #' @param path (optional) the path to the file
 #' @param fileEncoding (optional) allows the R library to read in files that have been encoded in alternative UTF formats. See the User Manual for the error message that would indicate when to use this switch.
+#' @param quiet suppress print or cat statements to screen.
 #' @return correlation matrix
 #' @export
 #'

@@ -12,6 +12,8 @@ extract.correlation.matrix(file, path = "", fileEncoding = "", quiet = FALSE)
 \item{path}{(optional) the path to the file}
 
 \item{fileEncoding}{(optional) allows the R library to read in files that have been encoded in alternative UTF formats. See the User Manual for the error message that would indicate when to use this switch.}
+
+\item{quiet}{suppress print or cat statements to screen.}
 }
 \value{
 correlation matrix

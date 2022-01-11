@@ -29,7 +29,7 @@ function(file, path = "", fileEncoding = "", quiet = FALSE) {
 
   ## Check this isn't a tabular report by looking at the Call:
   if (!grepl(pattern = "--tabular", x = file[2]))
-    stop("This model was NOT run with the command '--tabular', please use the extract.mpd() function to import model runs without --tabular")
+    stop("This model was NOT run with the command '--tabular'. Please use the extract.mpd() function to import model runs without --tabular")
 
   temp = get.lines(file, starts.with = "\\*", fixed = F)
   if (length(temp) != 0) {
@@ -37,7 +37,7 @@ function(file, path = "", fileEncoding = "", quiet = FALSE) {
       ## find the report which doesn't have a *end
       nd_element = seq(2, length(temp), by = 2)
       ndx = which(temp[nd_element] != "*end")[1]
-      stop(paste0("Each report section must begin with '*' and end with '* end'. The report beginning with ", temp[ndx], " did not have a trailing *end"))
+      stop(paste0("Each report section must begin with '*' and end with '*end'. The report beginning with ", temp[ndx], " does not have a trailing '*end'."))
     }
     temp = temp[is.odd(1:length(temp))]
     counter = length(temp)
@@ -51,7 +51,7 @@ function(file, path = "", fileEncoding = "", quiet = FALSE) {
       report = get.lines(report, clip.from = "*end")
       print(paste0("loading report '", label, "'"))
       if (type == "warnings_encounted") {
-        warning("Found a warning in your report. I am skipping that report, just letting you know =)")
+        warning("Found a warning in the report. Skipping that report.")
         next;
       }
       ## report = make.list(report)
@@ -76,7 +76,7 @@ function(file, path = "", fileEncoding = "", quiet = FALSE) {
           temp_result$values = Data
           line_no = length(report) + 1
         } else {
-          warning(paste0("Haven't written code to deal with tabular report of type '", report_type, "'"))
+          warning(paste0("Cannot parse tabular report of type '", report_type, "'"))
         }
       }
       temp_result$type = type
