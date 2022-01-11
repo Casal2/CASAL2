@@ -4,7 +4,7 @@
 \alias{extract.covariance.matrix}
 \title{Utility extract.covariance.matrix function}
 \usage{
-extract.covariance.matrix(file, path = "", fileEncoding = "")
+extract.covariance.matrix(file, path = "", fileEncoding = "", quiet = FALSE)
 }
 \arguments{
 \item{file}{the name of the file containing the estimated covariance matrix ('mpd.out')}

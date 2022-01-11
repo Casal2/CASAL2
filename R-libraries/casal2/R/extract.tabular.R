@@ -8,12 +8,13 @@
 #' @param file the name of the input file containing model output to extract
 #' @param path Optionally, the path to the file
 #' @param fileEncoding Optional, allows the R-library to read in files that have been encoded in alternative UTF formats, see the manual for the error message that would indicate when to use this switch.
+#' @param quiet suppress print or cat statements to screen.
 #' @return a 'casal2TAB' object which is essentially a list, that can be integrated using the str() function.
 #' @export
 #'
 #'
 "extract.tabular" <-
-function(file, path = "", fileEncoding = "") {
+function(file, path = "", fileEncoding = "", quiet = FALSE) {
   set.class <- function(object, new.class) {
     # use in the form
     #  object <- set.class(object,"new class")
@@ -22,7 +23,7 @@ function(file, path = "", fileEncoding = "") {
   }
 
   filename = make.filename(path = path, file = file)
-  file = convert.to.lines(filename, fileEncoding = fileEncoding)
+  file = convert.to.lines(filename, fileEncoding = fileEncoding, quiet = quiet)
   original_file = file;
   end_file_locations = which("*end" == file);
 

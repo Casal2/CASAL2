@@ -8,8 +8,8 @@
 #' @return correlation matrix
 #' @export
 #'
-"extract.correlation.matrix" <- function(file, path = "", fileEncoding = "") {
-  data <- extract.covariance.matrix(file, path, fileEncoding)
+"extract.correlation.matrix" <- function(file, path = "", fileEncoding = "", quiet = FALSE) {
+  data <- extract.covariance.matrix(file, path, fileEncoding, quiet)
 
   if (dim(data)[1] > 1 & !is.na(data[1, 1])) {
     data <- cov2cor(data)
