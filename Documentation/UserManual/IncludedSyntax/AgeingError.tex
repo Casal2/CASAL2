@@ -1,4 +1,4 @@
-\defComLab{Ageing\_Error}{Define an object of type \emph{Ageing\_Error}}.
+\defComLab{ageing\_error}{Define an object of type \emph{Ageing\_Error}}.
 \defRef{sec:AgeingError}
 
 \defSub{label}{The label of the ageing error}
@@ -10,7 +10,7 @@
 \defDefault{No default}
 
 \subsubsection{Ageing\_Error of type Data}
-\commandlabsubarg{Ageing\_Error}{type}{Data}.
+\commandlabsubarg{ageing\_error}{type}{Data}.
 \label{syntax:AgeingError-Data}
 
 \defSub{table}{The table of data specifying the ageing misclassification matrix}
@@ -19,13 +19,13 @@
 \defValue{The table has $n$ rows and columns, where n is the number of ages in the model}
 
 \subsubsection{Ageing\_Error of type None}
-\commandlabsubarg{Ageing\_Error}{type}{None}.
+\commandlabsubarg{ageing\_error}{type}{None}.
 \label{syntax:AgeingError-None}
 
 The None type has no additional subcommands.
 
 \subsubsection{Ageing\_Error of type Normal}
-\commandlabsubarg{Ageing\_Error}{type}{Normal}.
+\commandlabsubarg{ageing\_error}{type}{Normal}.
 \label{syntax:AgeingError-Normal}
 
 \defSub{cv}{CV of the misclassification matrix}
@@ -39,7 +39,7 @@ The None type has no additional subcommands.
 \defLowerBound{0 (inclusive)}
 
 \subsubsection{Ageing\_Error of type Off By One}
-\commandlabsubarg{Ageing\_Error}{type}{Off\_By\_One}.
+\commandlabsubarg{ageing\_error}{type}{Off\_By\_One}.
 \label{syntax:AgeingError-OffByOne}
 
 \defSub{p1}{The proportion misclassified as one year younger, e.g., the proportion of age k individuals that were misclassified as age (k-1)}
@@ -48,7 +48,7 @@ The None type has no additional subcommands.
 \defLowerBound{0.0 (inclusive)}
 \defUpperBound{1.0 (inclusive)}
 
-\defSub{p2}{The proportion misclassified as one year older, e.g., the proportion of age k individuals that were misclassified as age (k+1))}
+\defSub{p2}{The proportion misclassified as one year older, e.g., the proportion of age k individuals that were misclassified as age (k+1)}
 \defType{Real number (estimable)}
 \defDefault{No default}
 \defLowerBound{0.0 (inclusive)}
