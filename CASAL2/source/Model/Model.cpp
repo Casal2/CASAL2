@@ -851,6 +851,8 @@ void Model::RunProjection() {
 
       current_year_ = projection_final_year_;
 
+      managers_->observation()->CalculateScores();
+
       // Model has finished so we can run finalise.
       LOG_FINE() << "Model: State change to PostExecute and iteration complete";
       managers_->report()->Execute(pointer(), State::kIterationComplete);
