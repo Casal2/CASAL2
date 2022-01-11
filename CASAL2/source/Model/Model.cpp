@@ -849,6 +849,8 @@ void Model::RunProjection() {
         time_step_manager.Execute(current_year_);
       }
 
+      current_year_ = projection_final_year_;
+
       // Model has finished so we can run finalise.
       LOG_FINE() << "Model: State change to PostExecute and iteration complete";
       managers_->report()->Execute(pointer(), State::kIterationComplete);
