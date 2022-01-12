@@ -818,9 +818,9 @@ void MortalityInstantaneous::FillTabularReportCache(ostringstream& cache, bool f
     // print header
     for (auto& fishery_iter : fisheries_) {
       auto& fishery = fishery_iter.second;
-      for (auto pressure : fishery.exploitation_by_year_) cache << "fishing_pressure[" << fishery.label_ << "][" << pressure.second << "] ";
-      for (auto catches : fishery.catches_) cache << "catch[" << fishery.label_ << "][" << catches.second << "] ";
-      for (auto actual_catches : fishery.actual_catches_) cache << "actual_catches[" << fishery.label_ << "][" << actual_catches.second << "] ";
+      for (auto pressure : fishery.exploitation_by_year_) cache << "fishing_pressure[" << fishery.label_ << "][" << pressure.first << "] ";
+      for (auto catches : fishery.catches_) cache << "catch[" << fishery.label_ << "][" << catches.first << "] ";
+      for (auto actual_catches : fishery.actual_catches_) cache << "actual_catches[" << fishery.label_ << "][" << actual_catches.first << "] ";
     }
     cache << REPORT_EOL;
   }
