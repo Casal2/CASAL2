@@ -862,6 +862,8 @@ void MortalityInstantaneousRetained::FillReportCache(ostringstream& cache) {
     auto& fishery = fishery_iter.second;
     cache << "\nfishing_pressure[" << fishery.label_ << "]: ";
     for (auto pressure : fishery.exploitation_by_year_) cache << AS_DOUBLE(pressure.second) << " ";
+    cache << "\ncatch[" << fishery.label_ << "]: ";
+    for (auto catches : fishery.catches_) cache << AS_DOUBLE(catches.second) << " ";
     cache << "\nactual_catch[" << fishery.label_ << "]: ";
     for (auto catches : fishery.actual_catches_) cache << AS_DOUBLE(catches.second) << " ";
     cache << "\nretained_catch[" << fishery.label_ << "]: ";
@@ -979,10 +981,10 @@ void MortalityInstantaneousRetained::FillTabularReportCache(ostringstream& cache
       for (auto catches : fishery.catches_) cache << "catch[" << fishery.label_ << "][" << catches.first << "] ";
       for (auto actual_catches : fishery.actual_catches_) cache << "actual_catches[" << fishery.label_ << "][" << actual_catches.first << "] ";
       // TODO:  check this block
-      for (auto retained : fishery.retained_catches_) cache << "\nretained_catch[" << fishery.label_ << "][" << retained.first << "] ";
-      for (auto retained : fishery.actual_retained_catches_) cache << "\nactual_retained_catch[" << fishery.label_ << "][" << retained.first << "] ";
-      for (auto discards : fishery.discards_) cache << "\ndiscards[" << fishery.label_ << "][" << discards.first << "] ";
-      for (auto disc_dead : fishery.discards_dead_) cache << "\ndiscards_dead[" << fishery.label_ << "][" << disc_dead.first << "] ";
+      for (auto retained : fishery.retained_catches_) cache << "retained_catch[" << fishery.label_ << "][" << retained.first << "] ";
+      for (auto retained : fishery.actual_retained_catches_) cache << "actual_retained_catch[" << fishery.label_ << "][" << retained.first << "] ";
+      for (auto discards : fishery.discards_) cache << "discards[" << fishery.label_ << "][" << discards.first << "] ";
+      for (auto disc_dead : fishery.discards_dead_) cache << "discards_dead[" << fishery.label_ << "][" << disc_dead.first << "] ";
     }
     cache << REPORT_EOL;
   }
