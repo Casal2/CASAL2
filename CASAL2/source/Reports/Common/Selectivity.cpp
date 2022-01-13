@@ -48,6 +48,7 @@ void Selectivity::DoBuild(shared_ptr<Model> model) {
     LOG_WARNING() << "Cannot report the length-based selectivity values. This report (" << label_ << ") is being ignored. "
                   << "This can be done using the Casal2 R package. See the User Manual for more information";
 #endif
+    is_valid_ = false;
   }
 }
 
