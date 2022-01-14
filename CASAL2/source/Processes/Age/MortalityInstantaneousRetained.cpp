@@ -223,13 +223,14 @@ void MortalityInstantaneousRetained::DoValidate() {
       LOG_ERROR_P(PARAM_METHOD) << "fishery " << new_fishery.label_ << " does not have catch information in the catches table";
 
     new_fishery.catches_                 = fishery_year_catch[new_fishery.label_];  // discards+retained; discards estimated
+    new_fishery.actual_catches_          = fishery_year_catch[new_fishery.label_];  // if different
     new_fishery.retained_catches_        = fishery_year_catch[new_fishery.label_];  // set to obs data
     new_fishery.actual_retained_catches_ = fishery_year_catch[new_fishery.label_];  // if different
     new_fishery.discards_                = fishery_year_catch[new_fishery.label_];  // difference of catch and retained
 
     fisheries_[new_fishery.label_] = new_fishery;
 
-    RegisterAsAddressable(PARAM_METHOD + string("_") + utilities::ToLowercase(new_fishery.label_), &fisheries_[new_fishery.label_].catches_);
+    RegisterAsAddressable(PARAM_METHOD + string("_") + utilities::ToLowercase(new_fishery.label_), &fisheries_[new_fishery.label_].retained_catches_);
     LOG_FINEST() << "Creating addressable: " << PARAM_METHOD + string("_") + utilities::ToLowercase(new_fishery.label_);
 
     // remove after build
