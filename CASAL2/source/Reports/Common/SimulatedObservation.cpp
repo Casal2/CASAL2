@@ -95,11 +95,15 @@ void SimulatedObservation::DoExecute(shared_ptr<Model> model) {
 
   if (biomass_abundance_obs) {
     // biomass obs
-    cache_ << PARAM_OBS << " ";
+    cache_ << PARAM_TABLE << " " << PARAM_OBS << REPORT_EOL;
+
     for (auto iter = comparison.begin(); iter != comparison.end(); ++iter) {
-      for (obs::Comparison comparison : iter->second) cache_ << comparison.observed_ << " ";
+      cache_ << iter->first << " ";
+      for (obs::Comparison comparison : iter->second) 
+        cache_ << comparison.observed_ << " " << comparison.error_value_;
+      cache_ << REPORT_EOL;
     }
-    cache_ << REPORT_EOL;
+    cache_ << PARAM_END_TABLE << REPORT_EOL;
   } else {
     // proportion at age obs
     cache_ << PARAM_TABLE << " " << PARAM_OBS << REPORT_EOL;
@@ -114,14 +118,7 @@ void SimulatedObservation::DoExecute(shared_ptr<Model> model) {
   }
 
   // Print Error values
-  if (biomass_abundance_obs) {
-    // biomass error
-    cache_ << PARAM_ERROR_VALUE << " ";
-    for (auto iter = comparison.begin(); iter != comparison.end(); ++iter) {
-      for (obs::Comparison comparison : iter->second) cache_ << comparison.error_value_ << " ";
-    }
-    cache_ << REPORT_EOL;
-  } else {
+  if (!biomass_abundance_obs) {
     // proportion at age obs
     cache_ << PARAM_TABLE << " " << PARAM_ERROR_VALUES << REPORT_EOL;
     for (auto iter = comparison.begin(); iter != comparison.end(); ++iter) {
