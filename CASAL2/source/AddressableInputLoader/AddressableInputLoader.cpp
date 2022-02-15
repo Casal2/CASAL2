@@ -21,6 +21,11 @@
 // namespaces
 namespace niwa {
 
+
+void AddressableInputLoader::Validate() {
+  LOG_INFO() << "Estimable parameters were loaded from the free parameter file: " << model_->global_configuration().get_free_parameter_input_file();
+}
+
 /**
  * Append a value to an addressable. Addressables have a list of
  * values that will be iterated through. One value is loaded
@@ -123,8 +128,7 @@ void AddressableInputLoader::LoadValues(unsigned index) {
       ++estimate_count;
     }
   }
-
-  LOG_INFO() << "Estimable parameters were loaded from the free parameter file: " << model_->global_configuration().get_free_parameter_input_file();
+  
 
   if (model_->global_configuration().force_overwrite_of_addressables()) {
     int AdditionalAddressables = addressable_values_.size() - estimate_count;

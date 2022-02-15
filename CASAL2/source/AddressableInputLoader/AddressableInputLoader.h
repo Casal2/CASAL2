@@ -46,7 +46,7 @@ public:
   // methods
   AddressableInputLoader(shared_ptr<Model> model) : model_(model){};
   virtual ~AddressableInputLoader() = default;
-  void                Validate(){};
+  void                Validate();
   void                Build(){};
   void                Verify(shared_ptr<Model> model){};
   void                AddValue(const string& addressable_label, Double value);
