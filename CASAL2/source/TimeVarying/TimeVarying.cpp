@@ -99,9 +99,10 @@ void TimeVarying::Update(unsigned model_year) {
   if (update_function_ == 0)
     LOG_CODE_ERROR() << "DoUpdateFunc_ == 0";
 
-  if (years_.size() > 0 && std::find(years_.begin(), years_.end(), model_year) == years_.end())
+  if (years_.size() > 0 && std::find(years_.begin(), years_.end(), model_year) == years_.end()) {
     RestoreOriginalValue();
-  else
+    parameter_by_year_[model_year] = original_value_;
+  } else
     DoUpdate();
 
   target_object_->RebuildCache();
