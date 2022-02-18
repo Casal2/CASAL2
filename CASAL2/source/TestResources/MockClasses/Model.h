@@ -92,8 +92,8 @@ public:
   void set_time_steps(vector<string> time_steps) { time_steps_ = time_steps; }
   void set_initialiation_phases(vector<string> init_phases) { initialisation_phases_ = init_phases; }
   void set_partition_type(PartitionType partition_type) { partition_type_ = partition_type; }
-  void set_length_bins(vector<double> length_bins) { length_bins_ = length_bins; }
-  void set_number_of_length_bins() { number_of_length_bins_ = length_plus_ == true ? length_bins_.size() : length_bins_.size() - 1;; }
+  void set_length_bins(vector<double> model_length_bins) { model_length_bins_ = model_length_bins; }
+  void set_number_of_length_bins() { number_of_model_length_bins_ = length_plus_ == true ? model_length_bins_.size() : model_length_bins_.size() - 1;; }
 
 
   /**
@@ -120,9 +120,9 @@ public:
     EXPECT_CALL(*this, years()).WillRepeatedly(Return(mock_years()));
     EXPECT_CALL(*this, years_all()).WillRepeatedly(Return(mock_years_all()));
     EXPECT_CALL(*this, partition_type()).WillRepeatedly(Return(partition_type_));
-    EXPECT_CALL(*this, length_bins()).WillRepeatedly(ReturnRef(length_bins_));
+    EXPECT_CALL(*this, length_bins()).WillRepeatedly(ReturnRef(model_length_bins_));
     EXPECT_CALL(*this, length_plus()).WillRepeatedly(Return(length_plus_));
-    EXPECT_CALL(*this, get_number_of_length_bins()).WillRepeatedly(Return(number_of_length_bins_));
+    EXPECT_CALL(*this, get_number_of_length_bins()).WillRepeatedly(Return(number_of_model_length_bins_));
 
   }
 

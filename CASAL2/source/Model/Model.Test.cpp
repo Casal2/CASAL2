@@ -130,7 +130,7 @@ TEST(Model, Validate_get_map_for_bespoke_length_bins_to_global_length_bins) {
   model->set_number_of_length_bins(); // if we chnage plus group need to reset thsi
   model->bind_calls();
   //Case 1
-  vector<int> expected_result = {0, 0, 0 ,0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 3};
+  vector<int> expected_result = {-9999, 0, 0 ,0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 3};
   vector<double> length_subset_1 = {15, 20, 30, 47};
   bool plus_group = true;
   vector<int> case1_result = model->get_map_for_bespoke_length_bins_to_global_length_bins(length_subset_1, plus_group);

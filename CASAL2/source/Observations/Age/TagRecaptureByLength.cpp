@@ -117,7 +117,7 @@ void TagRecaptureByLength::DoValidate() {
 
       LOG_FINE() << "check index";
       for(unsigned i = 0; i < map_local_length_bins_to_global_length_bins_.size(); ++i) {
-        LOG_FINE() << "i = " << map_local_length_bins_to_global_length_bins_[i];
+        LOG_FINE() << "i = " << i << " " << map_local_length_bins_to_global_length_bins_[i];
       }
     }
   }

@@ -916,10 +916,10 @@ void Model::FullIteration() {
  * A utility function to check length bins for a given process or observation are a subset of the model length bins.
  */
 bool Model::are_length_bin_compatible_with_model_length_bins(vector<double>& length_bins) {
-  if (length_bins.size() > length_bins_.size())
+  if (length_bins.size() > model_length_bins_.size())
     return false;
   for (unsigned len_ndx = 0; len_ndx < length_bins.size(); ++len_ndx) {
-    if (std::find(length_bins_.begin(), length_bins_.end(), length_bins[len_ndx]) == length_bins_.end())
+    if (std::find(model_length_bins_.begin(), model_length_bins_.end(), length_bins[len_ndx]) == model_length_bins_.end())
       return false;
   }
   return true;
@@ -933,17 +933,30 @@ bool Model::are_length_bin_compatible_with_model_length_bins(vector<double>& len
 vector<int> Model::get_map_for_bespoke_length_bins_to_global_length_bins(vector<double> length_bins, bool plus_group) {
   LOG_FINE() << "get_map_for_bespoke_length_bins_to_global_length_bins";
   unsigned    number_of_bespoke_length_bins = plus_group ? length_bins.size() : length_bins.size() - 1;
-  vector<int> ndx(number_of_length_bins_, 0);
+  vector<int> ndx(number_of_model_length_bins_, 0);
   int         ndx_store = 0;
-  ndx[0]                = 0;
   int max_ndx           = 0;
-  for (unsigned i = 1; i < number_of_length_bins_; ++i) {
+  int start_ndx         = 1;
+  if((length_bins[0] > model_length_bins_[0])) {
+    LOG_FINE() << length_bins[0] << " model min length bin " << model_length_bins_[0];
+    for (unsigned i = 0; i < number_of_model_length_bins_; ++i, ++start_ndx) {
+      LOG_FINE() << i <<  " model_length_bins_[i] " << model_length_bins_[i];
+      if(model_length_bins_[i] < length_bins[0]) {
+        ndx[i] = -9999;
+      } else {
+        break;
+      }
+    }
+  }
+  LOG_FINE() << "start_ndx = " << start_ndx << " should be = 1 if not min_plus_group";
+  for (unsigned i = start_ndx; i < number_of_model_length_bins_; ++i) {
     for (unsigned j = 0; j < length_bins.size(); ++j) {
-      if (!plus_group & (length_bins_[i] >= length_bins[length_bins.size() - 1])) {
+      //LOG_FINE() << "j = " << j;
+      if (!plus_group & (model_length_bins_[i] >= length_bins[length_bins.size() - 1])) {
         ndx_store = -9999;
         break;
       }
-      if (length_bins[j] == length_bins_[i]) {
+      if (length_bins[j] == model_length_bins_[i]) {
         if (j == 0)
           break;
         ndx_store++;
