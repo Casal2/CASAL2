@@ -30,7 +30,12 @@ namespace age {
  */
 TagLoss::TagLoss(shared_ptr<Model> model) : Process(model), partition_(model) {
   LOG_TRACE();
-  process_type_        = ProcessType::kTransition;
+  process_type_        = ProcessType::kMortality;  
+  // Why this was changed from type transition to mortality. CASAL includes this in the 'mortality block' so when you are deriving observations
+  // partway through a time-step Casal incorporates F and TagLoss. Casal2 wasn't including tag-loss into mid time-step interpolations. This fix will have annoying ramifications because a mortality block is definied 
+  // as continuous processes. so if you have a time-step with the following processes: F, tag-release, tag-loss. Casal2 may complain.
+  // CASAL reference see population_section.cpp line: 1924-2006
+  
   partition_structure_ = PartitionType::kAge;
 
   parameters_.Bind<string>(PARAM_CATEGORIES, &category_labels_, "The list of categories to apply", "");

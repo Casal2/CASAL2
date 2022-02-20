@@ -32,7 +32,10 @@ namespace age {
  * Default constructor
  */
 TagByLength::TagByLength(shared_ptr<Model> model) : Process(model), to_partition_(model), from_partition_(model) {
-  process_type_        = ProcessType::kTransition;
+  process_type_        = ProcessType::kMortality;  
+  // Why this was changed from type transition to mortality. CASAL includes this in the 'mortality block'
+  // CASAL reference see population_section.cpp line: 1924-2006
+  // There is mortality in this process, so does make sense
   partition_structure_ = PartitionType::kAge;
   numbers_table_       = new parameters::Table(PARAM_NUMBERS);
   proportions_table_   = new parameters::Table(PARAM_PROPORTIONS);

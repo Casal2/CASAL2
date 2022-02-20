@@ -576,7 +576,7 @@ Note: the ageing process is \emph{NOT} applied by \CNAME\ by default --- it need
 
 \subsubsection{\I{Mortality}\label{sec:Process-Mortality}}
 
-There are 8 types of mortality processes available in \CNAME:
+There are 8 types of mortality processes available in \CNAME, and three tag related processes that also cause mortality:
 
 \begin{itemize}
 	\item constant rate,
@@ -587,6 +587,9 @@ There are 8 types of mortality processes available in \CNAME:
 	\item Holling,
 	\item initialisation, and
 	\item a density-dependent relationship based on prey suitability.
+	\item Tag-release by age
+	\item Tag-release by length	
+	\item Tag-loss
 \end{itemize}
 
 These processes remove individuals from the partition, either as a rate, as a total number (abundance), as a biomass of individuals or, as a combination of these. \CNAME\ does not (yet) implement the Baranov catch equation. However, instantaneous mortality is considered an approximation to the Baranov catch equation.
@@ -600,7 +603,7 @@ To apply both natural and biomass-event mortality, the mortality type \texttt{mo
 
 Observations (see Section~\ref{sec:Observation})  and derived quantities (see Section~\ref{sec:DerivedQuantity}) need a concept called a \emph{timing evaluation interval} so that the "time" within a year can be specified for their fit or evaluation. This interval is intimately tied into mortality processes.
 
-There can be one or more mortality processes specified within a time-step, but these must  be grouped sequentially, i.e., there cannot be a non-mortality process between any two mortality processes within any one time step. The sequence of mortality processes is called a \emph{timing evaluation interval}.  If no mortality processes occurs in a time step, then the \emph{timing evaluation interval} is defined to occur at the end of the time step, i.e., it is a virtual, unspecified,  process. Thus  each time step has one \emph{timing evaluation interval}.
+There can be one or more mortality processes specified within a time-step, but these must be grouped sequentially, i.e., there cannot be a non-mortality process between any two mortality processes within any one time step. The sequence of mortality processes is called a \emph{timing evaluation interval}. If no mortality processes occurs in a time step, then the \emph{timing evaluation interval} is defined to occur at the end of the time step, i.e., it is a virtual, unspecified,  process. Thus  each time step has one \emph{timing evaluation interval}.
 
 \CNAME\ will output an error if more than one \textit{timing evaluation interval} occurs in a single time step.
 

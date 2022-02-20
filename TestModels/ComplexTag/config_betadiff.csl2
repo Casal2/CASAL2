@@ -21,6 +21,6 @@
 
 @assert ObjectiveFunction
 type objective_function
-value 1958.87336269
+value 1959.007462
 error_type error
 

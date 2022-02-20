@@ -1,6 +1,6 @@
 @assert obj
 type objective_function
-value 1482.971801
+value 1482.970819
 
 
 @report obj
