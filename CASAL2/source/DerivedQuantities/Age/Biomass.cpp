@@ -110,6 +110,7 @@ void Biomass::Execute() {
   LOG_FINE() << "Time step for calculating biomass = " << time_step_index;
   if (model_->state() == State::kInitialise) {
     auto iterator = partition_.begin();
+    LOG_FINEST() << "Partition size = " << partition_.size();
     if (!use_age_weights_) {
       // iterate over each category
       for (unsigned i = 0; i < partition_.size() && iterator != partition_.end(); ++i, ++iterator) {
@@ -190,7 +191,7 @@ void Biomass::Execute() {
     else
       values_[model_->current_year()] = pow(cache_value_, 1 - time_step_proportion_) * pow(value, time_step_proportion_);
   }
-  LOG_FINEST() << " Pre Exploitation value " << cache_value_ << " Post exploitation " << value << " Final value " << values_[model_->current_year()];
+  LOG_FINEST() << " Pre Exploitation value " << cache_value_ << " time step proportion " << time_step_proportion_ << " Post exploitation " << value << " Final value " << values_[model_->current_year()];
 }
 
 } /* namespace age */

@@ -66,7 +66,7 @@ class MortalityInstantaneousRetained : public Process {
     partition::Category* category_;
     Double*              m_;
     vector<Double>       exploitation_;
-    vector<Double>       exp_values_;
+    vector<Double>       exp_values_half_m_;
     string               selectivity_label_;
     Selectivity*         selectivity_;
     vector<Double>       selectivity_values_;

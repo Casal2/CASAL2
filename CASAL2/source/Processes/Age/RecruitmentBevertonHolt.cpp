@@ -365,7 +365,7 @@ void RecruitmentBevertonHolt::DoExecute() {
 
       LOG_FINEST() << "B0_: " << b0_ << "; ssb_ratio: " << ssb_ratio << "; true_ycs: " << true_ycs << "; amount_per: " << amount_per << " R0 = " << r0_;
     }
-
+    LOG_FINE() << "Initialise: amount_per = " << amount_per;
   } else {
     /**
      * The model is not in an initialisation phase
@@ -399,6 +399,7 @@ void RecruitmentBevertonHolt::DoExecute() {
       // else business as usual
     } else {
       ycs = stand_ycs_value_by_year_[ssb_year];
+      LOG_FINEST() << "ycs" << ycs << " for SSB year " << ssb_year;
     }
 
     // Check whether B0 as an input paramter or a derived quantity, this is a result of having an r0 or a b0 in the process

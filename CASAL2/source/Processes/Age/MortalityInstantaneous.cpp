@@ -91,8 +91,9 @@ void MortalityInstantaneous::DoValidate() {
    * Load a temporary map of the fishery catch data so we can use this
    * when we load our vector of FisheryData objects
    */
-  map<string, map<unsigned, Double>> fishery_year_catch;  auto                               
-  columns = catches_table_->columns();
+  map<string, map<unsigned, Double>> fishery_year_catch;
+  auto                               columns = catches_table_->columns();
+
   // TODO Need to catch if key column headers are missing for example year
   if (std::find(columns.begin(), columns.end(), PARAM_YEAR) == columns.end())
     LOG_ERROR_P(PARAM_CATCHES) << "The required column " << PARAM_YEAR << " was not found.";
@@ -745,6 +746,7 @@ void MortalityInstantaneous::DoExecute() {
                    << " exploitation = " << category.exploitation_[i] << " M = " << *category.m_ << " relative_m_by_age = " << category.selectivity_values_[i];
 
       category.category_->data_[i] *=  category.exp_values_half_m_[i]  * category.exp_values_half_m_[i] * (1.0 - category.exploitation_[i]);
+      LOG_FINEST() << "category " << category.category_label_ << ": updated numbers at age = " << category.category_->data_[i] << " age " << i + model_->min_age();
 
       if (category.category_->data_[i] < 0.0) {
         LOG_CODE_ERROR() << " Fishing caused a negative partition : if (categories->data_[i] < 0.0), category.category_->data_[i] = " << category.category_->data_[i]

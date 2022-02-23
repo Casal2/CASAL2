@@ -183,6 +183,8 @@ void Derived::Execute() {
           c = 0.99;
         } else if (c < 0.0)
           c = 0.0;
+        // c = fmax(0.0,fmin(0.9,c));  // from CASAL, population_section.cpp, line 222; no check on c on line 267
+        LOG_FINEST() << "The adjusted value of c = " << c;
         // reset the partition back to the original Cached partition
         (*category)->data_ = cached_category->data_;
         LOG_FINEST() << "plus group pre adjustment = " << (*category)->data_[plus_index];
