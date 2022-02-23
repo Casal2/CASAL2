@@ -137,26 +137,30 @@ void Data::DoBuild() {
    * before we modify the data_by_year object by filling the external
    * gaps
    */
-  if (external_gaps_ == PARAM_MEAN || internal_gaps_ == PARAM_MEAN) {
-    for (unsigned i = 0; i < model_->age_spread(); ++i) {
-      Double total = 0.0;
-      for (auto iter = data_by_year_.begin(); iter != data_by_year_.end(); ++iter) total += iter->second[i];
-      means_.push_back(total / data_by_year_.size());
-    }
+  // means_ is used in InterpolateTimeStepsForInitialConditions()
+  for (unsigned i = 0; i < model_->age_spread(); ++i) {
+    Double total = 0.0;
+    for (auto iter = data_by_year_.begin(); iter != data_by_year_.end(); ++iter) total += iter->second[i];
+    means_.push_back(total / data_by_year_.size());
   }
+
   // Do our timestep interpolation
   InterpolateTimeStepsForInitialConditions();
+
   // Fill our gaps
   FillExternalGaps();
   FillInternalGaps();
+
   // Initialise all time-steps and years with inputs.
   unsigned age;
   for (auto year : model_->years()) {
     LOG_FINEST() << "inital population for  = " << year;
     for (unsigned i = 0; i < number_time_steps_; ++i) {
       LOG_FINEST() <<"step = "<< i;
+      LOG_FINEST() << "data_by_year_[" << year << "].size() " << data_by_year_[year].size();
       for (unsigned a = 0; a < model_->age_spread(); ++a) {
         age = a + model_->min_age();
+        LOG_FINEST() << "a " << a << " age " << age;
         mean_length_by_year_[year][age][i] = data_by_year_[year][a];
       }
     }
@@ -182,15 +186,23 @@ void Data::InterpolateTimeStepsForInitialConditions() {
         age = a + model_->min_age();
 
         if ((step_index_data_supplied_ < i && i < ageing_index_) || (i < ageing_index_ && ageing_index_ < step_index_data_supplied_)
-            || (ageing_index_ < step_index_data_supplied_ && step_index_data_supplied_ < i) || (ageing_index_ == step_index_data_supplied_) || (i == step_index_data_supplied_))
+            || (ageing_index_ < step_index_data_supplied_ && step_index_data_supplied_ < i)
+            || (ageing_index_ == step_index_data_supplied_) || (i == step_index_data_supplied_))
           a1 = a;
         else
           a1 = a - 1;
+
+        LOG_FINEST() << "a " << a << " a1 " << a1;
+
         a2 = a1 + 1;
+
         if (a1 == a)
           w1 = 1 + time_step_proportions_[step_index_data_supplied_] - time_step_proportions_[i];
         else
           w1 = time_step_proportions_[step_index_data_supplied_] - time_step_proportions_[i];
+
+        LOG_FINEST() << "w1 " << w1;
+
         w2 = 1.0 - w1;
 
         if ((a2 + model_->min_age()) > model_->max_age()) {
@@ -199,12 +211,18 @@ void Data::InterpolateTimeStepsForInitialConditions() {
           w1 -= 1;
           w2 += 1;
         }
+
+        LOG_FINEST() << "a1 " << a1 << " a2 " << a2 << " w1 " << w1 << " w2 " << w2;
+
         if ((a1 + model_->min_age()) < model_->min_age()) {
           a1 += 1;
           a2 += 1;
           w1 += 1;
           w2 -= 1;
         }
+
+        LOG_FINEST() << "a1 " << a1 << " a2 " << a2 << " w1 " << w1 << " w2 " << w2;
+
         data_by_age_time_step_[i][age] = w1 * means_[a1] + w2 * means_[a2];
         LOG_FINEST() << "for age = " << a + model_->min_age() << " a1 = " << a1 + model_->min_age();
         LOG_FINEST() << means_[a1];
@@ -309,6 +327,8 @@ void Data::FillExternalGaps() {
         break;
     }
 
+    LOG_FINE() << "missing years " << missing_years.size();
+
     // find the missing years from the end
     for (auto year = model_years.rbegin(); year != model_years.rend(); ++year) {
       if (data_by_year_.find(*year) == data_by_year_.end())
@@ -316,6 +336,8 @@ void Data::FillExternalGaps() {
       else
         break;
     }
+
+    LOG_FINE() << "missing years " << missing_years.size();
 
     // loop over the ages
     for (unsigned year : missing_years) data_by_year_[year].assign(means_.begin(), means_.end());
@@ -329,10 +351,13 @@ void Data::FillExternalGaps() {
         break;
     }
 
+    LOG_FINE() << "missing years " << missing_years.size();
+
     // loop over the ages
     auto iter = data_by_year_.begin();
     for (unsigned year : missing_years) 
       data_by_year_[year].assign(iter->second.begin(), iter->second.end());
+
     // find the missing years from the end
     missing_years.clear();
     for (auto year = model_years.rbegin(); year != model_years.rend(); ++year) {
@@ -341,10 +366,13 @@ void Data::FillExternalGaps() {
       else
         break;
     }
+
+    LOG_FINE() << "missing years " << missing_years.size();
+
     // loop over the ages
-    auto riter = data_by_year_.rbegin();
-    for (unsigned year : missing_years) 
-      data_by_year_[year].assign(riter->second.begin(), riter->second.end());
+    auto riter = (data_by_year_.rbegin())->second;
+    for (unsigned year : missing_years)
+      data_by_year_[year].assign(riter.begin(), riter.end());
   }
 }
 

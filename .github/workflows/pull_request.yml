@@ -132,7 +132,7 @@ jobs:
   Compile-Casal2-Windows:
     # https://docs.github.com/en/actions/using-github-hosted-runners/about-github-hosted-runners#supported-runners-and-hardware-resources
     # https://github.com/actions/virtual-environments/blob/main/images/win/Windows2019-Readme.md
-    runs-on: windows-2016
+    runs-on: windows-2019
     timeout-minutes: 150
     steps:
       - uses: actions/checkout@v2
