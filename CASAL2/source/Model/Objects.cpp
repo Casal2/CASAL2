@@ -320,7 +320,7 @@ void Objects::ExplodeString(const string& parameter_absolute_name, string& type,
 
   type        = utilities::ToLowercase(token_list[0]);
   label       = token_list[1];
-  addressable = utilities::ToLowercase(token_list[2].substr(1));
+  addressable = token_list[2].substr(1);
 
   /**
    * Now check for index
@@ -331,7 +331,9 @@ void Objects::ExplodeString(const string& parameter_absolute_name, string& type,
   token_list.clear();
   for (tokenizer::iterator tok_iter = tokens2.begin(); tok_iter != tokens2.end(); ++tok_iter) token_list.push_back(*tok_iter);
 
-  if (token_list.size() == 2) {
+  if (token_list.size() == 1) {
+    addressable = utilities::ToLowercase(token_list[0]);
+  } else if(token_list.size() == 2) {
     addressable = utilities::ToLowercase(token_list[0]);
     index       = token_list[1];
   }
