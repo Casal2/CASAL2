@@ -1,14 +1,15 @@
 Environment: User=Casal2
 Call: ../../../../../BuildSystem/Casal2/casal2 -E mpd.out -o params_est.out
-Date: Thu Nov 25 11:46:42 2021
-Version: v21.11 (2021-11-24)
-Copyright (c) 2017-2021, NIWA (www.niwa.co.nz)
-c2user
- Machine=c2computer (Linux 3.10.0-1160.42.2.el7.x86_64 x86_64)
- PID=48705
+Date: Mon Feb 28 14:01:08 2022
+Version: v22.02 (2022-02-25)
+Copyright (c) 2017-2022, NIWA (www.niwa.co.nz)
+niwa-user
+ Machine=niwa-computer (Linux 3.10.0-1160.53.1.el7.x86_64 x86_64)
+ PID=25768
 
 
 
+[INFO] Estimable parameters were loaded from the free parameter file:
 [IMPORTANT] Setting 'mpd.out' as the output file for the MPD (i.e., free parameters and covariance)
 [IMPORTANT] Setting 'params_est.out' as the output file for the free parameters
 [INFO] Creating default report for catchability summerTANq
@@ -5784,6 +5785,7 @@ correlation_matrix {matrix}
 
 *info[messages_encountered]
 Values {string}
+Estimable parameters were loaded from the free parameter file:
 Creating default report for catchability summerTANq
 Creating default report for catchability autumnTANq
 Creating default report for derived quantity SSB
@@ -5821,5 +5823,5 @@ Setting 'params_est.out' as the output file for the free parameters
 *end
 
 [INFO] Completed
-[INFO] Total CPU time: -178.835 hours
-[INFO] Total elapsed time: 3 seconds
+[INFO] Total CPU time: -136.347 hours
+[INFO] Total elapsed time: 11 seconds

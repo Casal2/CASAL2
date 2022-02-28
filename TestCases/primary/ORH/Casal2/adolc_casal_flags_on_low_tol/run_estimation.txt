@@ -1,14 +1,15 @@
 Environment: User=Casal2
 Call: ../../../../../BuildSystem/Casal2/casal2 -E mpd.out -o params_est.out
-Date: Thu Nov 25 12:33:34 2021
-Version: v21.11 (2021-11-24)
-Copyright (c) 2017-2021, NIWA (www.niwa.co.nz)
-c2user
- Machine=c2computer (Linux 3.10.0-1160.42.2.el7.x86_64 x86_64)
- PID=54928
+Date: Mon Feb 28 15:43:53 2022
+Version: v22.02 (2022-02-25)
+Copyright (c) 2017-2022, NIWA (www.niwa.co.nz)
+niwa-user
+ Machine=niwa-computer (Linux 3.10.0-1160.53.1.el7.x86_64 x86_64)
+ PID=1665
 
 
 
+[INFO] Estimable parameters were loaded from the free parameter file:
 [IMPORTANT] Setting 'mpd.out' as the output file for the MPD (i.e., free parameters and covariance)
 [IMPORTANT] Setting 'params_est.out' as the output file for the free parameters
 [INFO] Creating default report for catchability Qandes
@@ -203,78 +204,6 @@ process[Recruitment].b0 age_length[age_len_label].cv_first age_length[age_len_la
 27500.6 0.103046 0.0308078 33.594 8.28892 
 *end
 
-*estimate_summary[estimated_summary]
-process[Recruitment].b0 {list}
-value: 27500.6
-std_dev: 1079.22
-estimation_phase: 1
-label: B0
-lower_bound: 1e4
-parameter: process[Recruitment].b0
-same:
-type: uniform_log
-upper_bound: 1e5
-{end_list}
-
-age_length[age_len_label].cv_first {list}
-value: 0.103046
-std_dev: 0.0133125
-estimation_phase: 1
-label: age_len_cv_first
-lognormal_transformation:
-lower_bound: 0.01
-mu: 0.15
-parameter: age_length[age_len_label].cv_first
-same:
-sigma: 0.025
-type: normal_by_stdev
-upper_bound: 1.0
-{end_list}
-
-age_length[age_len_label].cv_last {list}
-value: 0.0308078
-std_dev: 0.00791887
-cv: 0.5
-estimation_phase: 1
-label: age_len_cv_last
-lower_bound: 0.01
-mu: 0.1
-parameter: age_length[age_len_label].cv_last
-same:
-type: normal
-upper_bound: 1.0
-{end_list}
-
-selectivity[SELandes].a50 {list}
-value: 33.594
-std_dev: 1.76149
-cv: 0.3
-estimation_phase: 1
-label: fishery_sel_a50
-lower_bound: 5
-mu: 35
-parameter: selectivity[SELandes].a50
-same:
-type: normal
-upper_bound: 80
-{end_list}
-
-selectivity[SELandes].ato95 {list}
-value: 8.28892
-std_dev: 1.75587
-cv: 0.5
-estimation_phase: 1
-label: fishery_sel_ato95
-lower_bound: 1
-mu: 5
-parameter: selectivity[SELandes].ato95
-same:
-type: normal
-upper_bound: 20
-{end_list}
-
-*end
-
 *objective_function[obj_fun]
 values {vector}
 observation->CPUEandes-1991 -0.951998
@@ -304,33 +233,6 @@ prior->fishery_sel_a50->selectivity[SELandes].a50 0.00896505
 prior->fishery_sel_ato95->selectivity[SELandes].ato95 0.865358
 additional_prior->chatTANq_prior -9.08288
 total_score 111.189
-*end
-
-*hessian_matrix[Hess]
-hessian_matrix {matrix}
-4.28292 3103.64 -518.495 -3889.06 2294.77
-3103.64 2.25922e+06 -367080 -2.81825e+06 1.66297e+06
--518.495 -367080 86490.9 470788 -277776
--3889.06 -2.81825e+06 470788 3.53142e+06 -2.08375e+06
-2294.77 1.66297e+06 -277776 -2.08375e+06 1.22954e+06
-*end
-
-*covariance_matrix[Covar]
-covariance_matrix {matrix}
-1.16471e+06 0.353515 0.962545 1566.96 481.552
-0.353515 0.000177222 -5.70523e-05 -0.00520211 -0.00972862
-0.962545 -5.70523e-05 6.27086e-05 0.00213894 0.00191981
-1566.96 -0.00520211 0.00213894 3.10283 2.3415
-481.552 -0.00972862 0.00191981 2.3415 3.08308
-*end
-
-*correlation_matrix[Corr]
-correlation_matrix {matrix}
-1 0.024606 0.112629 0.824271 0.254122
-0.024606 1 -0.541192 -0.221841 -0.416199
-0.112629 -0.541192 1 0.15334 0.138071
-0.824271 -0.221841 0.15334 1 0.757046
-0.254122 -0.416199 0.138071 0.757046 1
 *end
 
 *process[Recruitment]
@@ -1239,8 +1141,108 @@ Values {vector}
 80 1
 *end
 
+*estimate_summary[estimated_summary]
+process[Recruitment].b0 {list}
+value: 27500.6
+std_dev: 1079.22
+estimation_phase: 1
+label: B0
+lower_bound: 1e4
+parameter: process[Recruitment].b0
+same:
+type: uniform_log
+upper_bound: 1e5
+{end_list}
+
+age_length[age_len_label].cv_first {list}
+value: 0.103046
+std_dev: 0.0133125
+estimation_phase: 1
+label: age_len_cv_first
+lognormal_transformation:
+lower_bound: 0.01
+mu: 0.15
+parameter: age_length[age_len_label].cv_first
+same:
+sigma: 0.025
+type: normal_by_stdev
+upper_bound: 1.0
+{end_list}
+
+age_length[age_len_label].cv_last {list}
+value: 0.0308078
+std_dev: 0.00791887
+cv: 0.5
+estimation_phase: 1
+label: age_len_cv_last
+lower_bound: 0.01
+mu: 0.1
+parameter: age_length[age_len_label].cv_last
+same:
+type: normal
+upper_bound: 1.0
+{end_list}
+
+selectivity[SELandes].a50 {list}
+value: 33.594
+std_dev: 1.76149
+cv: 0.3
+estimation_phase: 1
+label: fishery_sel_a50
+lower_bound: 5
+mu: 35
+parameter: selectivity[SELandes].a50
+same:
+type: normal
+upper_bound: 80
+{end_list}
+
+selectivity[SELandes].ato95 {list}
+value: 8.28892
+std_dev: 1.75587
+cv: 0.5
+estimation_phase: 1
+label: fishery_sel_ato95
+lower_bound: 1
+mu: 5
+parameter: selectivity[SELandes].ato95
+same:
+type: normal
+upper_bound: 20
+{end_list}
+
+*end
+
+*hessian_matrix[Hess]
+hessian_matrix {matrix}
+4.28292 3103.64 -518.495 -3889.06 2294.77
+3103.64 2.25922e+06 -367080 -2.81825e+06 1.66297e+06
+-518.495 -367080 86490.9 470788 -277776
+-3889.06 -2.81825e+06 470788 3.53142e+06 -2.08375e+06
+2294.77 1.66297e+06 -277776 -2.08375e+06 1.22954e+06
+*end
+
+*covariance_matrix[Covar]
+covariance_matrix {matrix}
+1.16471e+06 0.353515 0.962545 1566.96 481.552
+0.353515 0.000177222 -5.70523e-05 -0.00520211 -0.00972862
+0.962545 -5.70523e-05 6.27086e-05 0.00213894 0.00191981
+1566.96 -0.00520211 0.00213894 3.10283 2.3415
+481.552 -0.00972862 0.00191981 2.3415 3.08308
+*end
+
+*correlation_matrix[Corr]
+correlation_matrix {matrix}
+1 0.024606 0.112629 0.824271 0.254122
+0.024606 1 -0.541192 -0.221841 -0.416199
+0.112629 -0.541192 1 0.15334 0.138071
+0.824271 -0.221841 0.15334 1 0.757046
+0.254122 -0.416199 0.138071 0.757046 1
+*end
+
 *info[messages_encountered]
 Values {string}
+Estimable parameters were loaded from the free parameter file:
 Creating default report for catchability Qandes
 Creating default report for derived quantity SSB
 Creating default report for observation CPUEandes
@@ -1403,5 +1405,5 @@ FMM: Small step size convergence
 *end
 
 [INFO] Completed
-[INFO] Total CPU time: -199.612 hours
-[INFO] Total elapsed time: 5.5 minutes
+[INFO] Total CPU time: -198.235 hours
+[INFO] Total elapsed time: 9.8 minutes
