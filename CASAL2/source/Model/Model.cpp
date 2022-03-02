@@ -937,8 +937,9 @@ vector<int> Model::get_map_for_bespoke_length_bins_to_global_length_bins(vector<
   int         ndx_store = 0;
   int max_ndx           = 0;
   int start_ndx         = 1;
+
   if((length_bins[0] > model_length_bins_[0])) {
-    LOG_FINE() << length_bins[0] << " model min length bin " << model_length_bins_[0];
+    LOG_FINE() << "length_bins[0] " << length_bins[0] << " model_length_bins_[0] " << model_length_bins_[0];
     for (unsigned i = 0; i < number_of_model_length_bins_; ++i, ++start_ndx) {
       LOG_FINE() << i <<  " model_length_bins_[i] " << model_length_bins_[i];
       if(model_length_bins_[i] < length_bins[0]) {
@@ -948,6 +949,7 @@ vector<int> Model::get_map_for_bespoke_length_bins_to_global_length_bins(vector<
       }
     }
   }
+
   LOG_FINE() << "start_ndx = " << start_ndx << " should be = 1 if not min_plus_group";
   for (unsigned i = start_ndx; i < number_of_model_length_bins_; ++i) {
     for (unsigned j = 0; j < length_bins.size(); ++j) {
@@ -956,13 +958,16 @@ vector<int> Model::get_map_for_bespoke_length_bins_to_global_length_bins(vector<
         ndx_store = -9999;
         break;
       }
+
       if (length_bins[j] == model_length_bins_[i]) {
         if (j == 0)
           break;
+
         ndx_store++;
         break;
       }
     }
+
     ndx[i] = ndx_store;
     if (ndx_store > max_ndx)
       max_ndx = ndx_store;

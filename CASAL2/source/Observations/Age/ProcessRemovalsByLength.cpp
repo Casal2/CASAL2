@@ -126,7 +126,7 @@ void ProcessRemovalsByLength::DoValidate() {
 
       LOG_FINE() << "check index";
       for(unsigned i = 0; i < map_local_length_bins_to_global_length_bins_.size(); ++i) {
-        LOG_FINE() << "i = " << map_local_length_bins_to_global_length_bins_[i];
+        LOG_FINE() << "map_local_length_bins_to_global_length_bins_[" << i << "] = " << map_local_length_bins_to_global_length_bins_[i];
       }
     }
   }
@@ -377,8 +377,8 @@ void ProcessRemovalsByLength::Execute() {
       // clear these temporay vectors
       std::fill(numbers_at_age_.begin(), numbers_at_age_.end(), 0.0);
       std::fill(numbers_at_length_.begin(), numbers_at_length_.end(), 0.0);
-      // get numbers at age for this category 
 
+      // get numbers at age for this category
       for (unsigned data_offset = 0; data_offset < (*category_iter)->data_.size(); ++data_offset) {
         numbers_at_age_[data_offset] += Removals_at_age[data_offset];
         LOG_FINEST() << "removals for age = " << data_offset + model_->min_age() << " = " << numbers_at_age_[data_offset];
@@ -389,10 +389,11 @@ void ProcessRemovalsByLength::Execute() {
       } else {
         (*category_iter)->age_length_->populate_numbers_at_length(numbers_at_age_, numbers_at_length_, map_local_length_bins_to_global_length_bins_);
       }
+
       // Add this to the expected values
       for (unsigned j = 0; j < number_bins_; ++j) {
         expected_values_[j] += numbers_at_length_[j];
-        LOG_FINE() << "expected_value for length = " << length_bins_[j] << " = " << expected_values_[j];
+        LOG_FINE() << "expected_value for length " << length_bins_[j] << " (numbers at length " << numbers_at_length_[j] << ") = " << expected_values_[j] << ", using_model_length_bins " << using_model_length_bins;
       }
     }
 
@@ -404,6 +405,8 @@ void ProcessRemovalsByLength::Execute() {
      * save our comparisons so we can use them to generate the score from the likelihoods later
      */
     for (unsigned i = 0; i < expected_values_.size(); ++i) {
+      LOG_FINEST() << "category_labels_[category_offset] " << category_labels_[category_offset] << " i " << i << " length_bins_[i] " << length_bins_[i]
+                   << " proportions " << proportions_[model_->current_year()][category_labels_[category_offset]][i] << " expected_values_[i] " << expected_values_[i];
       SaveComparison(category_labels_[category_offset], 0, length_bins_[i], expected_values_[i], proportions_[model_->current_year()][category_labels_[category_offset]][i],
                      process_errors_by_year_[model_->current_year()], error_values_[model_->current_year()][category_labels_[category_offset]][i], 0.0, delta_, 0.0);
     }

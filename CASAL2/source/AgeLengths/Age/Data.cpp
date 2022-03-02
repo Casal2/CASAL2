@@ -77,6 +77,8 @@ void Data::DoBuild() {
     for (auto process : time_step->processes()) {
       if (process->process_type() == ProcessType::kAgeing) {
         ageing_index_ = time_step_index;
+      } else if (process->process_type() == ProcessType::kMortality) {
+        fishing_index = time_step_index;
       }
     }
     // Find unique time-steps where the sizes need to be updated
@@ -84,12 +86,15 @@ void Data::DoBuild() {
       steps_to_figure_.push_back(time_step_index);
     else if (time_step_index == ageing_index_)
       steps_to_figure_.push_back(time_step_index);
+    else if (time_step_index == fishing_index)
+      steps_to_figure_.push_back(time_step_index);
     else if (time_step_proportions_[time_step_index] != time_step_proportions_[time_step_index - 1])
       steps_to_figure_.push_back(time_step_index);
 
     ++time_step_index;
   }
   number_time_steps_ = ordered_time_steps.size();
+  LOG_FINEST() << "number_time_steps_ " << number_time_steps_ << " steps_to_figure_.size() " << steps_to_figure_.size();
 
   // basic validation
   const vector<string>& columns = data_table_->columns();
@@ -252,31 +257,41 @@ void Data::InterpolateTimeStepsForAllYears() {
         LOG_FINEST() << "adapting time step = " << i + 1;
         for (unsigned a = 0; a < model_->age_spread(); ++a) {
           age = a + model_->min_age();
+
           //// Check this code out
           y1 = (i >= step_index_data_supplied_ ? year : year - 1);
           y2 = y1 + 1;
+
           // havenet we already caught at line: 83
           if ((step_index_data_supplied_ < i && i < ageing_index_) || (i < ageing_index_ && ageing_index_ < step_index_data_supplied_)
-              || (ageing_index_ < step_index_data_supplied_ && step_index_data_supplied_ < i) || (ageing_index_ == step_index_data_supplied_) || (i == step_index_data_supplied_))
+              || (ageing_index_ < step_index_data_supplied_ && step_index_data_supplied_ < i)
+              || (ageing_index_ == step_index_data_supplied_) || (i == step_index_data_supplied_))
             a1 = a;
           else
             a1 = a - 1;
+
           a2 = a1 + 1;
+
           if (a1 == a)
             w1 = 1 + time_step_proportions_[step_index_data_supplied_] - time_step_proportions_[i];
           else
             w1 = time_step_proportions_[step_index_data_supplied_] - time_step_proportions_[i];
+
           w2 = 1.0 - w1;
           LOG_FINEST() << "w2 = " << w2;
+
           if ((a2 + model_->min_age()) > model_->max_age() || y2 > final_year_) {
             a1 -= 1;
             a2 -= 1;
+
             if ((y1 - 1) > model_->start_year())
               y1 -= 1;  // Quick fix. Needs checking. Seems to work. Suggest fuller checking on case by case basis
+
             y2 -= 1;
             w1 -= 1;
             w2 += 1;
           }
+
           if ((a1 + model_->min_age()) < model_->min_age() || y1 < model_->start_year()) {
             LOG_FINEST() << "w2 = " << w2;
             a1 += 1;

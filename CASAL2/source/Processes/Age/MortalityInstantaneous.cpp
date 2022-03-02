@@ -526,6 +526,7 @@ void MortalityInstantaneous::DoExecute() {
       category.exploitation_[i]       = 0.0;
       category.selectivity_values_[i] = selectivity_value;
       category.exp_values_half_m_[i] = exp(-0.5 * ratio * (*category.m_) * selectivity_value);  // this exp call should ony
+      LOG_FINEST() << "category " << category.category_label_ << " age index " << i << " selectivity " << selectivity_value;
     }
   }
 
@@ -533,9 +534,11 @@ void MortalityInstantaneous::DoExecute() {
     if (fishery_category.fishery_.time_step_index_ != time_step_index)
       continue;
 
-    for (unsigned i = 0; i < fishery_category.selectivity_values_.size(); ++i)
+    for (unsigned i = 0; i < fishery_category.selectivity_values_.size(); ++i) {
       fishery_category.selectivity_values_[i]
           = fishery_category.selectivity_->GetAgeResult(fishery_category.category_.category_->min_age_ + i, fishery_category.category_.category_->age_length_);
+      LOG_FINEST() << "fishery category " << fishery_category.fishery_label_ << " age index " << i << " selectivity " << selectivity_value;
+    }
   }
 
   for (auto& fishery : fisheries_) 

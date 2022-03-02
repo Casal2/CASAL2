@@ -76,7 +76,7 @@ void KnifeEdge::RebuildCache() {
 
 Double KnifeEdge::GetLengthBasedResult(unsigned age, AgeLength* age_length, unsigned year, int time_step_index) {
   unsigned yearx     = year == 0 ? model_->current_year() : year;
-  unsigned time_step = model_->managers()->time_step()->current_time_step();
+  unsigned time_step = time_step_index == -1 ? model_->managers()->time_step()->current_time_step() : (unsigned)time_step_index;
   Double   cv        = age_length->cv(yearx, time_step, age);
   Double   mean      = age_length->mean_length(time_step, age);
   string   dist      = age_length->distribution_label();

@@ -285,7 +285,7 @@ Double AgeLength::mean_weight_by_length(Double length, unsigned age, unsigned ye
  * Note the container which stores these years age_length_matrix_years_ will not be in sequential order.
  */
 void AgeLength::BuildAgeLengthMatrixForTheseYears(vector<unsigned> years) {
-  LOG_FINE() << "adding these years";
+  LOG_FINE() << "adding these years for age-length label " << this->label();
 
   if (age_length_matrix_years_.size() > 0) {
     unsigned add_this_year_counter = age_length_matrix_years_.size();
@@ -328,7 +328,8 @@ void AgeLength::PopulateAgeLengthMatrix() {
   vector<Double> cum(length_bin_count, 0.0);
   auto           model_length_bins = model_->length_bins();
   vector<double> length_bins(model_length_bins.size(), 0.0);
-  LOG_FINE() << "years: " << year_count << "; time_steps: " << time_step_count << "; length_bins: " << length_bin_count;
+
+  LOG_FINE() << "age-length label: " << this->label() << "; years: " << year_count << "; time_steps: " << time_step_count << "; length_bins: " << length_bin_count;
   LOG_FINEST() << "length_bin_count: " << length_bin_count;
 
   if (distribution_ == Distribution::kLogNormal) {
@@ -342,9 +343,12 @@ void AgeLength::PopulateAgeLengthMatrix() {
     for (unsigned i = 0; i < model_length_bins.size(); ++i)
       length_bins[i] = model_length_bins[i];
   }
+
   for (unsigned year_iter = 0; year_iter < age_length_matrix_years_.size(); ++year_iter) {
     year                    = age_length_matrix_years_[year_iter];
     year_dim_in_age_length_ = age_length_matrix_year_key_[age_length_matrix_years_[year_iter]];
+    LOG_FINEST() << "year_iter " << year_iter << " year " << year << " age_length_matrix_years_[year_iter] " << age_length_matrix_years_[year_iter]
+                 << " year_dim_in_age_length_ " << year_dim_in_age_length_;
 
     for (unsigned time_step = 0; time_step < time_step_count; ++time_step) {
       age = min_age_;
@@ -353,17 +357,18 @@ void AgeLength::PopulateAgeLengthMatrix() {
         mu    = calculate_mean_length(year, time_step, age);
         cv    = cvs_[year - year_offset_][time_step - time_step_offset_][age - age_offset_];
         sigma = cv * mu;
-        LOG_FINEST() << "year: " << year << "; age: " << age << "; mu: " << mu << "; cv: " << cv << "; sigma: " << sigma;
+        LOG_FINEST() << "year: " << year << "; time_step " << time_step << "; age: " << age << "; mu: " << mu << "; cv: " << cv << "; sigma: " << sigma;
+
         if (distribution_ == Distribution::kLogNormal) {
           // Transform parameters in to log space
           Lvar  = log(cv * cv + 1.0);
           mu    = log(mu) - Lvar / 2.0;
           sigma = sqrt(Lvar);
         }
-        LOG_FINEST() << "year: " << year << "; age: " << age << "; mu: " << mu << "; cv: " << cv << "; sigma: " << sigma;
+        LOG_FINEST() << "year: " << year << "; time_step " << time_step << "; age: " << age << "; mu: " << mu << "; cv: " << cv << "; sigma: " << sigma;
         // for (auto value : length_bins) LOG_FINEST() << "length_bin: " << value;
-        LOG_FINEST() << "mu: " << mu;
-        LOG_FINEST() << "sigma: " << sigma;
+        // LOG_FINEST() << "mu: " << mu;
+        // LOG_FINEST() << "sigma: " << sigma;
 
         sum                            = 0;
         vector<Double>& prop_in_length = age_length_transition_matrix_[year_dim_in_age_length_][time_step][age_index];
@@ -385,7 +390,7 @@ void AgeLength::PopulateAgeLengthMatrix() {
           if (j > 0) {
             prop_in_length[j - 1] = cum[j] - cum[j - 1];
             sum += prop_in_length[j - 1];
-            LOG_FINEST() << "prop_in_length[j - 1]: " << prop_in_length[j - 1] << ": " << cum[j] << ": " << cum[j - 1];
+            LOG_FINEST() << "j " << j << " prop_in_length[j - 1]: " << prop_in_length[j - 1] << " : cum[j] " << cum[j] << " : cum[j - 1] " << cum[j - 1];
           }
         }  // for (unsigned j = 0; j < length_bin_count; ++j)
 
@@ -403,6 +408,7 @@ void AgeLength::PopulateAgeLengthMatrix() {
             LOG_CODE_ERROR() << "Unknown compatibility option in the calculation of the distribution of age_length";
           }
           prop_in_length[length_bin_count - 1] = tmp - cum[length_bin_count - 1];
+          LOG_FINEST() << "prop_in_length[length_bin_count - 1]: " << prop_in_length[length_bin_count - 1];
         }
       }  // for (unsigned age_index = 0; age_index < iter.second->age_spread(); ++age_index)
     }    // for (unsigned time_step = 0; time_step < time_step_count; ++time_step)
@@ -607,6 +613,8 @@ void AgeLength::populate_numbers_at_length(vector<Double> numbers_at_age, vector
         numbers_at_length[map_length_bin_ndx[bin]]
             += selectivity->GetAgeResult(age, this) * numbers_at_age[i] * age_length_transition_matrix_[year_dim_in_age_length_][this_time_step_][i][bin];
       }
+      LOG_FINEST() << "age " << age << " map_length_bin_ndx[" << bin << "] " << map_length_bin_ndx[bin] << " numbers_at_age[i] " << numbers_at_age[i]
+                   << " numbers_at_length[map_length_bin_ndx[bin]] " << numbers_at_length[map_length_bin_ndx[bin]];
     }
   }
 }
@@ -625,6 +633,7 @@ void AgeLength::populate_numbers_at_length(vector<Double> numbers_at_age, vector
   year_dim_in_age_length_    = age_length_matrix_year_key_[this_year_];
   vector<double> length_bins = model_->length_bins();
   unsigned       size        = model_->get_number_of_length_bins();
+
   LOG_FINE() << "Populating the age-length matrix for agelength class " << label_ << " in year " << this_year_ << " and time-step " << this_time_step_
              << " year ndx = " << year_dim_in_age_length_;
   LOG_FINE() << "Calculating age length data";
@@ -635,8 +644,13 @@ void AgeLength::populate_numbers_at_length(vector<Double> numbers_at_age, vector
     unsigned i = age - min_age_;
     LOG_FINEST() << " age = " << age << " i = " << i;
     for (unsigned bin = 0; bin < size; ++bin) {
-      if (map_length_bin_ndx[bin] >= 0)  // values = -999 indicate see the function which makes this in the fucntion description
+      if (map_length_bin_ndx[bin] >= 0) { // values = -999 indicate see the function which makes this in the fucntion description
         numbers_at_length[map_length_bin_ndx[bin]] += numbers_at_age[i] * age_length_transition_matrix_[year_dim_in_age_length_][this_time_step_][i][bin];
+      }
+      LOG_FINEST() << "age_length_transition_matrix_[" << year_dim_in_age_length_ << "][" << this_time_step_ << "][" << i << "][" << bin << "] = "
+                   << age_length_transition_matrix_[year_dim_in_age_length_][this_time_step_][i][bin];
+      LOG_FINEST() << "age " << age << " map_length_bin_ndx[" << bin << "] " << map_length_bin_ndx[bin] << " numbers_at_age[i] " << numbers_at_age[i]
+                   << " numbers_at_length[map_length_bin_ndx[bin]] " << numbers_at_length[map_length_bin_ndx[bin]];
     }
   }
 }
