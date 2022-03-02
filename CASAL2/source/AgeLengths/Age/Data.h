@@ -55,7 +55,7 @@ private:
   string                                              step_data_supplied_;
   unsigned                                            step_index_data_supplied_;
   unsigned                                            ageing_index_ = 0;
-  unsigned                                            fishing_index = 0;
+  unsigned                                            mortality_index = 0;
   vector<Double>                                      means_;
   vector<unsigned>                                    steps_to_figure_;
   unsigned                                            number_time_steps_;
