@@ -68,6 +68,8 @@ protected:
   string                          process_label_;
   bool                            using_model_length_bins = true;
   vector<int>                     map_local_length_bins_to_global_length_bins_;
+  bool                            simulated_data_sum_to_one_ ;
+  bool                            sum_to_one_;
 
   vector<Double>                  numbers_at_age_;
   vector<Double>                  numbers_at_length_;

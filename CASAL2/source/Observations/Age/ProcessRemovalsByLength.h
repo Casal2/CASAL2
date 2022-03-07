@@ -72,6 +72,8 @@ protected:
   vector<unsigned>            fishery_ndx_to_get_catch_at_info_;
   vector<unsigned>            year_ndx_to_get_catch_at_info_;
   map<string, unsigned >      category_lookup_for_ndx_to_get_catch_at_info_;
+  bool                        simulated_data_sum_to_one_;
+  bool                        sum_to_one_;
 
   map<unsigned, map<string, vector<double>>> proportions_;
   map<unsigned, map<string, vector<double>>> error_values_;

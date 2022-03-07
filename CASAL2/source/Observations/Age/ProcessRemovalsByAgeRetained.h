@@ -68,6 +68,8 @@ protected:
   vector<string>                  time_step_label_;
   string                          process_label_;
   unsigned                        time_step_to_execute_;
+  bool                            simulated_data_sum_to_one_;
+  bool                            sum_to_one_;
 
   map<unsigned, map<string, vector<double>>> proportions_;
   map<unsigned, map<string, vector<double>>> error_values_;

@@ -76,6 +76,8 @@ protected:
   vector<Double>          numbers_at_age_with_ageing_error_;
   map<unsigned, map<string, vector<double>>> proportions_;
   map<unsigned, map<string, vector<double>>> error_values_;
+  bool                    simulated_data_sum_to_one_;
+  bool                    sum_to_one_;
 };
 
 } /* namespace age */

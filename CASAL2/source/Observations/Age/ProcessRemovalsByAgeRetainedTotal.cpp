@@ -50,6 +50,8 @@ ProcessRemovalsByAgeRetainedTotal::ProcessRemovalsByAgeRetainedTotal(shared_ptr<
   parameters_.BindTable(PARAM_OBS, obs_table_, "The table of observed values", "", false);
   parameters_.BindTable(PARAM_ERROR_VALUES, error_values_table_, "The table of error values of the observed values (note that the units depend on the likelihood)", "", false);
   parameters_.Bind<string>(PARAM_MORTALITY_INSTANTANEOUS_PROCESS, &process_label_, "The label of the mortality instantaneous process for the observation", "");
+  parameters_.Bind<bool>(PARAM_SIMULATED_DATA_SUM_TO_ONE, &simulated_data_sum_to_one_, "Whether simulated data is discrete or scaled by totals to be proportions for each year", "", true);
+  parameters_.Bind<bool>(PARAM_SUM_TO_ONE, &sum_to_one_, "Scale year (row) observed values by the total, so they sum = 1", "", false);
 
   mean_proportion_method_ = false;
 
@@ -191,14 +193,26 @@ void ProcessRemovalsByAgeRetainedTotal::DoValidate() {
           unsigned obs_index = i * age_spread_ + j;
           value              = iter->second[obs_index];
           error_values_[iter->first][category_labels_[i]].push_back(e_f->second[obs_index]);
-          proportions_[iter->first][category_labels_[i]].push_back(value);
+          // if not rescaling add the data
+          if(!sum_to_one_)
+            proportions_[iter->first][category_labels_[i]].push_back(value);
           total += value;
         }
       }
     }
-
-    if (fabs(1.0 - total) > tolerance_) {
-      LOG_ERROR_P(PARAM_OBS) << ": obs sum total (" << total << ") for year (" << iter->first << ") exceeds tolerance (" << tolerance_ << ") from 1.0";
+    // rescale the year obs so sum = 1
+    if(sum_to_one_) {
+      for (unsigned i = 0; i < category_labels_.size(); ++i) {
+        for (unsigned j = 0; j < age_spread_; ++j) {
+          unsigned obs_index = i * age_spread_ + j;
+          value = iter->second[obs_index];
+          proportions_[iter->first][category_labels_[i]].push_back(value / total);
+        }
+      }
+    } else {
+      if (fabs(1.0 - total) > tolerance_) {
+        LOG_ERROR_P(PARAM_OBS) << ": obs sum total (" << total << ") for year (" << iter->first << ") exceeds tolerance (" << tolerance_ << ") from 1.0";
+      }
     }
   }
 
@@ -401,7 +415,10 @@ void ProcessRemovalsByAgeRetainedTotal::CalculateScore() {
     for (auto& iter : comparisons_) {
       double total = 0.0;
       for (auto& comparison : iter.second) total += comparison.observed_;
-      for (auto& comparison : iter.second) comparison.observed_ /= total;
+      if (simulated_data_sum_to_one_) {
+        for (auto& comparison : iter.second) 
+          comparison.observed_ /= total;
+      }    
     }
   } else {
     /**

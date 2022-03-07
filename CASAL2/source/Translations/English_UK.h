@@ -610,6 +610,7 @@
 #define PARAM_SIMPLEX                             "simplex"
 #define PARAM_SIMULATED_OBSERVATION               "simulated_observation"
 #define PARAM_SIMULATION_LIKELIHOOD               "simulation_likelihood"
+#define PARAM_SIMULATED_DATA_SUM_TO_ONE           "simulated_data_sum_to_one"
 #define PARAM_SIN_TRANSFORM                       "sin_transform"
 #define PARAM_SINGLE_STEP                         "single_step"
 #define PARAM_SINGLE                              "single"

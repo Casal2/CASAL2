@@ -74,6 +74,8 @@ protected:
   vector<Double>              expected_values_;
   vector<Double>              numbers_age_;
   vector<Double>              numbers_at_age_with_error_;
+  bool                        simulated_data_sum_to_one_;
+  bool                        sum_to_one_;
 
   map<unsigned, map<string, vector<double>>> proportions_;
   map<unsigned, map<string, vector<double>>> error_values_;

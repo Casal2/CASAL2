@@ -67,6 +67,8 @@ protected:
   vector<int>                 map_local_length_bins_to_global_length_bins_;
   vector<double> length_bins_;
   bool           length_plus_     = false;  // have to be assigned a value to be optional, note in the constructpr the default is model_->length_plus()
+  bool                        simulated_data_sum_to_one_;
+  bool                        sum_to_one_;
 
   map<unsigned, map<string, vector<double>>> proportions_;
   map<unsigned, map<string, vector<double>>> error_values_;
