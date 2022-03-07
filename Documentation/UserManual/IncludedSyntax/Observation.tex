@@ -118,6 +118,15 @@
 \defType{Non-negative integer}
 \defDefault{No default}
 
+\defSub{sum\_to\_one}{Scale year (row) observed values by the total, so they sum = 1}
+\defType{Boolean}
+\defDefault{false}
+
+\defSub{simulated\_data\_sum\_to\_one}{Whether simulated data is discrete or scaled by totals to be proportions for each year}
+\defType{Boolean}
+\defDefault{true}
+
+
 \defSub{plus\_group}{Is the maximum age the age plus group}
 \defType{Boolean}
 \defDefault{true}
@@ -173,6 +182,15 @@
 \defType{Vector of strings}
 \defDefault{No default}
 
+
+\defSub{sum\_to\_one}{Scale year (row) observed values by the total, so they sum = 1}
+\defType{Boolean}
+\defDefault{false}
+
+\defSub{simulated\_data\_sum\_to\_one}{Whether simulated data is discrete or scaled by totals to be proportions for each year}
+\defType{Boolean}
+\defDefault{true}
+
 \defSub{tolerance}{The tolerance}
 \defType{Real number (estimable)}
 \defDefault{0.001}
@@ -219,6 +237,15 @@
 \defSub{time\_step}{The label of the time step that the observation occurs in}
 \defType{Vector of strings}
 \defDefault{No default}
+
+
+\defSub{sum\_to\_one}{Scale year (row) observed values by the total, so they sum = 1}
+\defType{Boolean}
+\defDefault{false}
+
+\defSub{simulated\_data\_sum\_to\_one}{Whether simulated data is discrete or scaled by totals to be proportions for each year}
+\defType{Boolean}
+\defDefault{true}
 
 \defSub{tolerance}{The tolerance}
 \defType{Real number (estimable)}
@@ -277,6 +304,15 @@
 \defType{Vector of real numbers (estimable)}
 \defDefault{No default}
 
+
+\defSub{sum\_to\_one}{Scale year (row) observed values by the total, so they sum = 1}
+\defType{Boolean}
+\defDefault{false}
+
+\defSub{simulated\_data\_sum\_to\_one}{Whether simulated data is discrete or scaled by totals to be proportions for each year}
+\defType{Boolean}
+\defDefault{true}
+
 \defSub{length\_plus}{Is the last length bin a plus group? (defaults to @model value)}
 \defType{Boolean}
 \defDefault{model}
@@ -315,6 +351,15 @@
 \defSub{length\_bins}{The length bins}
 \defType{Vector of real numbers (estimable)}
 \defDefault{No default}
+
+
+\defSub{sum\_to\_one}{Scale year (row) observed values by the total, so they sum = 1}
+\defType{Boolean}
+\defDefault{false}
+
+\defSub{simulated\_data\_sum\_to\_one}{Whether simulated data is discrete or scaled by totals to be proportions for each year}
+\defType{Boolean}
+\defDefault{true}
 
 \defSub{length\_plus}{Is the last length bin a plus group? (defaults to @model value)}
 \defType{Boolean}
@@ -358,6 +403,15 @@
 \defSub{length\_plus}{Is the last length bin a plus group? (defaults to @model value)}
 \defType{Boolean}
 \defDefault{model}
+
+
+\defSub{sum\_to\_one}{Scale year (row) observed values by the total, so they sum = 1}
+\defType{Boolean}
+\defDefault{false}
+
+\defSub{simulated\_data\_sum\_to\_one}{Whether simulated data is discrete or scaled by totals to be proportions for each year}
+\defType{Boolean}
+\defDefault{true}
 
 \defSub{mortality\_instantaneous\_process}{The label of the mortality instantaneous process for the observation}
 \defType{String}
@@ -467,6 +521,14 @@
 \defType{String}
 \defDefault{No default}
 
+\defSub{sum\_to\_one}{Scale year (row) observed values by the total, so they sum = 1}
+\defType{Boolean}
+\defDefault{false}
+
+\defSub{simulated\_data\_sum\_to\_one}{Whether simulated data is discrete or scaled by totals to be proportions for each year}
+\defType{Boolean}
+\defDefault{true}
+
 \subsubsection{Observation of type Proportions At Length}
 \commandlabsubarg{observation}{type}{Proportions\_At\_Length}.
 \defRef{sec:Observation-ProportionsAtLength}
@@ -497,6 +559,13 @@
 \defType{Vector of real numbers (estimable)}
 \defDefault{true}
 
+\defSub{sum\_to\_one}{Scale year (row) observed values by the total, so they sum = 1}
+\defType{Boolean}
+\defDefault{false}
+
+\defSub{simulated\_data\_sum\_to\_one}{Whether simulated data is discrete or scaled by totals to be proportions for each year}
+\defType{Boolean}
+\defDefault{true}
 \subsubsection{Observation of type Proportions By Category}
 \commandlabsubarg{observation}{type}{Proportions\_By\_Category}.
 \defRef{sec:Observation-ProportionsByCategory}
