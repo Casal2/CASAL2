@@ -136,7 +136,7 @@ Double DoubleNormal::GetLengthBasedResult(unsigned age, AgeLength* age_length, u
     boost::math::lognormal dist{AS_DOUBLE(mu), AS_DOUBLE(sigma)};
 
     for (unsigned j = 0; j < n_quant_; ++j) {
-      size = mu + sigma * quantile(dist, AS_DOUBLE(quantiles_[j]));
+      size = quantile(dist, AS_DOUBLE(quantiles_[j]));
 
       if (size < mu_)
         total += pow(2.0, -((size - mu_) / sigma_l_ * (size - mu_) / sigma_l_)) * alpha_;

@@ -298,7 +298,7 @@ void Report::FlushCache() {
     if (!file.is_open())
       LOG_ERROR() << "Unable to open file: " << file_name;
 
-    LOG_MEDIUM() << "skip tags = " << skip_tags_;
+    //LOG_MEDIUM() << "skip tags = " << skip_tags_;
     if (!skip_tags_) {
       cache_ << REPORT_END << "\n";
     }

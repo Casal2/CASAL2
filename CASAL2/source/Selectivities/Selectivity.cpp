@@ -43,6 +43,7 @@ Selectivity::Selectivity(shared_ptr<Model> model) : model_(model) {
  * Validate the objects
  */
 void Selectivity::Validate() {
+  LOG_FINE() << "selectivity " << label_;
   parameters_.Populate(model_);
 
   if (partition_type_label_ == PARAM_MODEL)

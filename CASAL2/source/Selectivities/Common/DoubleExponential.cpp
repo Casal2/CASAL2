@@ -156,7 +156,7 @@ Double DoubleExponential::GetLengthBasedResult(unsigned age, AgeLength* age_leng
     boost::math::lognormal dist{AS_DOUBLE(mu), AS_DOUBLE(sigma)};
 
     for (unsigned j = 0; j < n_quant_; ++j) {
-      size = mu + sigma * quantile(dist, AS_DOUBLE(quantiles_[j]));
+      size = quantile(dist, AS_DOUBLE(quantiles_[j]));
 
       if (size <= x0_)
         total += alpha_ * y0_ * pow((y1_ / y0_), (size - x0_) / (x1_ - x0_));

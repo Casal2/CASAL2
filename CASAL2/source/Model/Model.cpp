@@ -468,6 +468,7 @@ void Model::RunBasic() {
 
   // Model is about to run
   for (unsigned i = 0; i < addressable_values_count_; ++i) {
+    LOG_MEDIUM() << "-i file = " << i + 1;
     LOG_FINE() << "Model: State change to Initialise";
     state_        = State::kInitialise;
     current_year_ = start_year_;

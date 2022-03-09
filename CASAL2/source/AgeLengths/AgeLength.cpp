@@ -42,7 +42,7 @@ AgeLength::AgeLength(shared_ptr<Model> model) : model_(model) {
   parameters_.Bind<string>(PARAM_LABEL, &label_, "The label of the age length relationship", "");
   parameters_.Bind<string>(PARAM_TYPE, &type_, "The type of age length relationship", "");
   parameters_.Bind<Double>( PARAM_TIME_STEP_PROPORTIONS, &time_step_proportions_,"The fraction of the year applied in each time step that is added to the age for the purposes of evaluating the length, i.e., a value of 0.5 for a time step will evaluate the length of individuals at age+0.5 in that time step","", true)->set_range(0.0, 1.0);
-  parameters_.Bind<string>(PARAM_DISTRIBUTION, &distribution_label_, "The assumed distribution for the growth curve", "", PARAM_NORMAL);
+  parameters_.Bind<string>(PARAM_DISTRIBUTION, &distribution_label_, "The assumed distribution for the growth curve", "", PARAM_NORMAL)->set_allowed_values({PARAM_NORMAL, PARAM_LOGNORMAL, PARAM_NONE});
   parameters_.Bind<Double>(PARAM_CV_FIRST, &cv_first_, "The CV for the first age class", "", Double(0.0))->set_lower_bound(0.0);
   parameters_.Bind<Double>(PARAM_CV_LAST, &cv_last_, "The CV for last age class", "", Double(0.0))->set_lower_bound(0.0);
   parameters_.Bind<string>(PARAM_COMPATIBILITY, &compatibility_,"Backwards compatibility option: either casal2 (the default) or casal to use the (less accurate) cumulative normal function from CASAL", "", PARAM_CASAL2)->set_allowed_values({PARAM_CASAL, PARAM_CASAL2});

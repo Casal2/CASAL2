@@ -80,7 +80,7 @@ Double KnifeEdge::GetLengthBasedResult(unsigned age, AgeLength* age_length, unsi
   Double   cv        = age_length->cv(yearx, time_step, age);
   Double   mean      = age_length->mean_length(time_step, age);
   string   dist      = age_length->distribution_label();
-
+  LOG_FINEST() << "age = " << age << " mean = " << mean << " cv " << cv << " dist = " << dist;
   if (dist == PARAM_NONE || n_quant_ <= 1) {
     // no distribution_label just use the mu from age_length
     if (mean >= edge_)
@@ -110,9 +110,10 @@ Double KnifeEdge::GetLengthBasedResult(unsigned age, AgeLength* age_length, unsi
     Double                 size  = 0.0;
     Double                 total = 0.0;
     boost::math::lognormal dist{AS_DOUBLE(mu), AS_DOUBLE(sigma)};
-
+    LOG_FINEST() << " mu = " << mu << " sigma = " << sigma << " total " << total << " edge = " << edge_;
     for (unsigned j = 0; j < n_quant_; ++j) {
-      size = mu + sigma * quantile(dist, AS_DOUBLE(quantiles_[j]));
+      size = quantile(dist, AS_DOUBLE(quantiles_[j]));
+      LOG_FINEST() << "j = " << j << " quant " << quantiles_[j] << " size = " << size;
 
       if (size >= edge_)
         total += alpha_;

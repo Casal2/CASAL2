@@ -129,6 +129,32 @@ inline Double dnorm(const Double& x, const Double& mu, const Double& sigma) {
   Double z = 1.0 / (sigma * sqrt(2.0 * PI)) * exp(-((x - mu) * (x - mu)) / (2.0 * sigma * sigma));
   return (z);
 }
+/*
+* qnorm taking from CASAL development.h line 496
+*/
+inline Double qnorm(const Double& q,const Double& mu=0,const Double& sigma=1){
+  // Abramowitz & Stegun eqn 26.2.22
+  // Equations: qq = q (q < 0.5) or 1-q (q > 0.5)
+  //            t = sqrt(ln(1/(qq*qq)));
+  //            pp = t - (2.30753 + 0.27061*t) / (1 + 0.99229*t + 0.04481*t*t)
+  //            p = -pp (q < 0.5) or pp (q > 0.5)
+  //            x = mu + p*sigma
+  Double qq, t, pp, p;
+  qq = ((q < 0.5) ? q : (1-q));
+  t = sqrt(log(1/(qq*qq)));
+  pp = t - (2.30753 + 0.27061*t) / (1 + 0.99229*t + 0.04481*t*t);
+  p = ((q < 0.5) ? -pp : pp);
+  return(mu+p*sigma);
+}
+/*
+* qlognorm taking from CASAL development.h line 496
+*/
+inline Double qlognorm(const Double& q,const Double& mu,const Double& sigma){
+  // Parameterised by the mean and standard deviation of the (normal) distribution
+  //  of log(x), NOT by those of the (lognormal) distribution of x.
+  Double x = qnorm(q);
+  return(exp(mu+x*sigma));
+}
 
 //************************************
 // These are distributional functions taken from CASAL, some will wont to be updated
