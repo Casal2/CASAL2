@@ -25,8 +25,8 @@
   ## Remove any lines that begin with a #
   file <- file[substring(file, 1, 1) != "#"]
   ## Find and remove any lines that begin or end with { or } which is also a comment
-  index1 <- ifelse(substring(file, 1, 1) == "/*", 1:length(file), 0)
-  index2 <- ifelse(substring(file, 1, 1) == "*/", 1:length(file), 0)
+  index1 <- ifelse(substring(file, 1, 2) == "/*", 1:length(file), 0)
+  index2 <- ifelse(substring(file, 1, 2) == "*/", 1:length(file), 0)
   index1 <- index1[index1 != 0]
   index2 <- index2[index2 != 0]
   if (length(index1) != length(index2))
@@ -64,15 +64,15 @@
     temp <- string.to.vector.of.words(file[i])
     check_inputs <- check_short_hand(temp)
     ## expand numeric shorthand
-    if (any(check_inputs$numeric) && substr(Command, 1, 3) != "est") {
-      vals <- eval(parse(text = temp[check_inputs$numeric]))
-      eval(parse(text = "temp = paste(c(temp[!check_inputs$numeric],as.character(vals)), collapse = ' ')"))
-      temp <- string.to.vector.of.words(temp)
-    }
+    #if (any(check_inputs$numeric) && (substr(Command, 1, 3) != "est") | (substr(Command, 1, 3) != "par")) {
+      #vals <- eval(parse(text = temp[check_inputs$numeric]))
+      #eval(parse(text = "temp = paste(c(temp[!check_inputs$numeric],as.character(vals)), collapse = ' ')"))
+      #temp <- string.to.vector.of.words(temp)
+    #}
     ## expand String shorthand
-    if (any(check_inputs$string)) {
+    #if (any(check_inputs$string)) {
       ## Do nothing for now, this one needs more thought
-    }
+    #}
     ## Check if it is a beginning of a block
     if (substring(temp[1], 1, 1) == "@") {
       if (is.na(temp[2])) {
