@@ -76,6 +76,13 @@ void AgeLength::Validate() {
   else
     LOG_ERROR() << "The age-length distribution '" << distribution_label_ << "' is not valid.";
 
+  if(compatibility_ == PARAM_CASAL) {
+    compatibility_type_ = CompatibilityType::kCasal;
+  } else if(compatibility_ == PARAM_CASAL2) {
+    compatibility_type_ = CompatibilityType::kCasal2;
+  }
+  
+
   DoValidate();
 }
 
@@ -329,20 +336,11 @@ void AgeLength::PopulateAgeLengthMatrix() {
   auto           model_length_bins = model_->length_bins();
   vector<double> length_bins(model_length_bins.size(), 0.0);
 
-  LOG_FINE() << "age-length label: " << this->label() << "; years: " << year_count << "; time_steps: " << time_step_count << "; length_bins: " << length_bin_count;
+  LOG_FINE() << "age-length label: " << label_ << "; years: " << year_count << "; time_steps: " << time_step_count << "; length_bins: " << length_bin_count;
   LOG_FINEST() << "length_bin_count: " << length_bin_count;
+  for (unsigned i = 0; i < model_length_bins.size(); ++i)
+    length_bins[i] = model_length_bins[i];
 
-  if (distribution_ == Distribution::kLogNormal) {
-    for (unsigned i = 0; i < model_length_bins.size(); ++i) {
-      if (model_length_bins[i] < 0.0001)
-        length_bins[i] = log(0.0001);
-      else
-        length_bins[i] = log(model_length_bins[i]);
-    }
-  } else {
-    for (unsigned i = 0; i < model_length_bins.size(); ++i)
-      length_bins[i] = model_length_bins[i];
-  }
 
   for (unsigned year_iter = 0; year_iter < age_length_matrix_years_.size(); ++year_iter) {
     year                    = age_length_matrix_years_[year_iter];
@@ -370,53 +368,94 @@ void AgeLength::PopulateAgeLengthMatrix() {
         // LOG_FINEST() << "mu: " << mu;
         // LOG_FINEST() << "sigma: " << sigma;
 
+
+
         sum                            = 0;
         vector<Double>& prop_in_length = age_length_transition_matrix_[year_dim_in_age_length_][time_step][age_index];
+        if(distribution_ == Distribution::kNormal) {
+          for (unsigned j = 0; j < length_bin_count; ++j) {
+            LOG_FINEST() << "calculating pnorm for length " << length_bins[j];
+            // If we are using CASAL's Normal CDF function use this switch
+            if (compatibility_type_ == CompatibilityType::kCasal) {
+              tmp = utilities::math::pnorm(length_bins[j], mu, sigma);
+              // LOG_FINE() << "casal_normal_cdf: " << tmp << " utilities::math::pnorm(" << length_bins[j] << ", " << mu << ", " << sigma;
+            } else if (compatibility_type_ == CompatibilityType::kCasal2) {
+              tmp = utilities::math::pnorm2(length_bins[j], mu, sigma);
+              // LOG_FINE() << "normal: " << tmp << " utilities::math::pnorm(" << length_bins[j] << ", " << mu << ", " << sigma;
+            } else {
+              LOG_CODE_ERROR() << "Unknown compatibility option in the calculation of the distribution of age_length";
+            }
+            cum[j] = tmp;
 
-        for (unsigned j = 0; j < length_bin_count; ++j) {
-          LOG_FINEST() << "calculating pnorm for length " << length_bins[j];
-          // If we are using CASAL's Normal CDF function use this switch
-          if (compatibility_ == PARAM_CASAL) {
-            tmp = utilities::math::pnorm(length_bins[j], mu, sigma);
-            // LOG_FINE() << "casal_normal_cdf: " << tmp << " utilities::math::pnorm(" << length_bins[j] << ", " << mu << ", " << sigma;
-          } else if (compatibility_ == PARAM_CASAL2) {
-            tmp = utilities::math::pnorm2(length_bins[j], mu, sigma);
-            // LOG_FINE() << "normal: " << tmp << " utilities::math::pnorm(" << length_bins[j] << ", " << mu << ", " << sigma;
+            if (j > 0) {
+              prop_in_length[j - 1] = cum[j] - cum[j - 1];
+              sum += prop_in_length[j - 1];
+              LOG_FINEST() << "j " << j << " prop_in_length[j - 1]: " << prop_in_length[j - 1] << " : cum[j] " << cum[j] << " : cum[j - 1] " << cum[j - 1];
+            }
+          }  // for (unsigned j = 0; j < length_bin_count; ++j)
+          if (model_->length_plus()) {
+            prop_in_length[length_bin_count - 1] = 1.0 - sum - cum[0];
+            LOG_FINEST() << "prop_in_length[length_bin_count - 1]: " << prop_in_length[length_bin_count - 1];
           } else {
-            LOG_CODE_ERROR() << "Unknown compatibility option in the calculation of the distribution of age_length";
+            if (compatibility_type_ == CompatibilityType::kCasal) {
+              tmp = utilities::math::pnorm(length_bins[length_bin_count], mu, sigma);
+              // LOG_FINE() << "casal_normal_cdf: " << tmp << " utilities::math::pnorm(" << length_bins[length_bin_count] << ", " << mu << ", " << sigma;
+            } else if (compatibility_type_ == CompatibilityType::kCasal2) {
+              tmp = utilities::math::pnorm2(length_bins[length_bin_count], mu, sigma);
+              // LOG_FINE() << "normal: " << tmp << " utilities::math::pnorm(" << length_bins[length_bin_count] << ", " << mu << ", " << sigma;
+            } else {
+              LOG_CODE_ERROR() << "Unknown compatibility option in the calculation of the distribution of age_length";
+            }
+            prop_in_length[length_bin_count - 1] = tmp - cum[length_bin_count - 1];
+            LOG_FINEST() << "prop_in_length[length_bin_count - 1]: " << prop_in_length[length_bin_count - 1];
           }
-          cum[j] = tmp;
 
-          if (j > 0) {
-            prop_in_length[j - 1] = cum[j] - cum[j - 1];
-            sum += prop_in_length[j - 1];
-            LOG_FINEST() << "j " << j << " prop_in_length[j - 1]: " << prop_in_length[j - 1] << " : cum[j] " << cum[j] << " : cum[j - 1] " << cum[j - 1];
-          }
-        }  // for (unsigned j = 0; j < length_bin_count; ++j)
 
-        if (model_->length_plus()) {
-          prop_in_length[length_bin_count - 1] = 1.0 - sum - cum[0];
-          LOG_FINEST() << "prop_in_length[length_bin_count - 1]: " << prop_in_length[length_bin_count - 1];
-        } else {
-          if (compatibility_ == PARAM_CASAL) {
-            tmp = utilities::math::pnorm(length_bins[length_bin_count], mu, sigma);
-            // LOG_FINE() << "casal_normal_cdf: " << tmp << " utilities::math::pnorm(" << length_bins[length_bin_count] << ", " << mu << ", " << sigma;
-          } else if (compatibility_ == PARAM_CASAL2) {
-            tmp = utilities::math::pnorm2(length_bins[length_bin_count], mu, sigma);
-            // LOG_FINE() << "normal: " << tmp << " utilities::math::pnorm(" << length_bins[length_bin_count] << ", " << mu << ", " << sigma;
+        } else if(distribution_ == Distribution::kLogNormal) {
+          for (unsigned j = 0; j < length_bin_count; ++j) {
+            LOG_FINEST() << "calculating plognorm for length " << length_bins[j];
+            // If we are using CASAL's Normal CDF function use this switch
+            if (compatibility_type_ == CompatibilityType::kCasal) {
+              tmp = utilities::math::plognorm(length_bins[j], mu, sigma);
+               LOG_FINE() << "casal_lognormal_cdf: " << tmp << " utilities::math::pnorm(" << length_bins[j] << ", " << mu << ", " << sigma;
+            } else if (compatibility_type_ == CompatibilityType::kCasal2) {
+              tmp = utilities::math::plognorm2(length_bins[j], mu, sigma);
+               LOG_FINE() << "lognormal: " << tmp << " utilities::math::pnorm(" << length_bins[j] << ", " << mu << ", " << sigma;
+            } else {
+              LOG_CODE_ERROR() << "Unknown compatibility option in the calculation of the distribution of age_length";
+            }
+            cum[j] = tmp;
+
+            if (j > 0) {
+              prop_in_length[j - 1] = cum[j] - cum[j - 1];
+              sum += prop_in_length[j - 1];
+              LOG_FINEST() << "j " << j << " prop_in_length[j - 1]: " << prop_in_length[j - 1] << " : cum[j] " << cum[j] << " : cum[j - 1] " << cum[j - 1];
+            }
+          }  // for (unsigned j = 0; j < length_bin_count; ++j)
+          if (model_->length_plus()) {
+            prop_in_length[length_bin_count - 1] = 1.0 - sum - cum[0];
+            LOG_FINEST() << "prop_in_length[length_bin_count - 1]: " << prop_in_length[length_bin_count - 1];
           } else {
-            LOG_CODE_ERROR() << "Unknown compatibility option in the calculation of the distribution of age_length";
+            if (compatibility_type_ == CompatibilityType::kCasal) {
+              tmp = utilities::math::plognorm(length_bins[length_bin_count], mu, sigma);
+              // LOG_FINE() << "casal_normal_cdf: " << tmp << " utilities::math::pnorm(" << length_bins[length_bin_count] << ", " << mu << ", " << sigma;
+            } else if (compatibility_type_ == CompatibilityType::kCasal2) {
+              tmp = utilities::math::plognorm2(length_bins[length_bin_count], mu, sigma);
+              // LOG_FINE() << "normal: " << tmp << " utilities::math::pnorm(" << length_bins[length_bin_count] << ", " << mu << ", " << sigma;
+            } else {
+              LOG_CODE_ERROR() << "Unknown compatibility option in the calculation of the distribution of age_length";
+            }
+            prop_in_length[length_bin_count - 1] = tmp - cum[length_bin_count - 1];
+            LOG_FINEST() << "prop_in_length[length_bin_count - 1]: " << prop_in_length[length_bin_count - 1];
           }
-          prop_in_length[length_bin_count - 1] = tmp - cum[length_bin_count - 1];
-          LOG_FINEST() << "prop_in_length[length_bin_count - 1]: " << prop_in_length[length_bin_count - 1];
         }
       }  // for (unsigned age_index = 0; age_index < iter.second->age_spread(); ++age_index)
     }    // for (unsigned time_step = 0; time_step < time_step_count; ++time_step)
 
-    // If the age length object is not data, then it doesn't vary by year
-    if (this->type() != PARAM_DATA) {
+    // This code seems redundant?
+    // if not time-varying then it should all be the same anyway....
+    if (type_ != PARAM_DATA) {
       auto& source = age_length_transition_matrix_[0];
-
       if (year_count > 1)
         for (unsigned year_idx = 1; year_idx < year_count; ++year_idx) {
           auto& props = age_length_transition_matrix_[year_idx];
@@ -429,6 +468,7 @@ void AgeLength::PopulateAgeLengthMatrix() {
 
 /*
  * This will populate age_length_transition_matrix_ for a specific year, called in Rebuild cache
+ * which is triggered by the Time-varying class
  * will first check if this is necessary
  */
 void AgeLength::UpdateAgeLengthMatrixForThisYear(unsigned year) {
@@ -450,17 +490,10 @@ void AgeLength::UpdateAgeLengthMatrixForThisYear(unsigned year) {
     vector<double> length_bins(model_length_bins.size(), 0.0);
     LOG_FINEST() << "length_bin_count: " << length_bin_count;
 
-    if (distribution_ == Distribution::kLogNormal) {
-      for (unsigned i = 0; i < model_length_bins.size(); ++i) {
-        if (model_length_bins[i] < 0.0001)
-          length_bins[i] = log(0.0001);
-        else
-          length_bins[i] = log(model_length_bins[i]);
-      }
-    } else {
-      for (unsigned i = 0; i < model_length_bins.size(); ++i)
-        length_bins[i] = model_length_bins[i];
-    }
+
+    for (unsigned i = 0; i < model_length_bins.size(); ++i)
+      length_bins[i] = model_length_bins[i];
+    
 
     year_dim_in_age_length_ = age_length_matrix_year_key_[year];
     for (unsigned time_step = 0; time_step < time_step_count; ++time_step) {
@@ -469,7 +502,7 @@ void AgeLength::UpdateAgeLengthMatrixForThisYear(unsigned year) {
         mu    = calculate_mean_length(year, time_step, age);
         cv    = cvs_[year - year_offset_][time_step - time_step_offset_][age - age_offset_];
         sigma = cv * mu;
-        LOG_FINEST() << "year: " << year << "; age: " << age << "; mu: " << mu << "; cv: " << cv << "; sigma: " << sigma;
+        LOG_FINEST() << "year: " << year << "; time_step " << time_step << "; age: " << age << "; mu: " << mu << "; cv: " << cv << "; sigma: " << sigma;
 
         if (distribution_ == Distribution::kLogNormal) {
           // Transform parameters in to log space
@@ -477,51 +510,89 @@ void AgeLength::UpdateAgeLengthMatrixForThisYear(unsigned year) {
           mu    = log(mu) - Lvar / 2.0;
           sigma = sqrt(Lvar);
         }
-        LOG_FINEST() << "year: " << year << "; age: " << age << "; mu: " << mu << "; cv: " << cv << "; sigma: " << sigma;
+        LOG_FINEST() << "year: " << year << "; time_step " << time_step << "; age: " << age << "; mu: " << mu << "; cv: " << cv << "; sigma: " << sigma;
+        // for (auto value : length_bins) LOG_FINEST() << "length_bin: " << value;
+        // LOG_FINEST() << "mu: " << mu;
+        // LOG_FINEST() << "sigma: " << sigma;
 
-        for (auto value : length_bins)
-          LOG_FINEST() << "length_bin: " << value;
-        LOG_FINEST() << "mu: " << mu;
-        LOG_FINEST() << "sigma: " << sigma;
+
 
         sum                            = 0;
         vector<Double>& prop_in_length = age_length_transition_matrix_[year_dim_in_age_length_][time_step][age_index];
+        if(distribution_ == Distribution::kNormal) {
+          for (unsigned j = 0; j < length_bin_count; ++j) {
+            LOG_FINEST() << "calculating pnorm for length " << length_bins[j];
+            // If we are using CASAL's Normal CDF function use this switch
+            if (compatibility_type_ == CompatibilityType::kCasal) {
+              tmp = utilities::math::pnorm(length_bins[j], mu, sigma);
+              // LOG_FINE() << "casal_normal_cdf: " << tmp << " utilities::math::pnorm(" << length_bins[j] << ", " << mu << ", " << sigma;
+            } else if (compatibility_type_ == CompatibilityType::kCasal2) {
+              tmp = utilities::math::pnorm2(length_bins[j], mu, sigma);
+              // LOG_FINE() << "normal: " << tmp << " utilities::math::pnorm(" << length_bins[j] << ", " << mu << ", " << sigma;
+            } else {
+              LOG_CODE_ERROR() << "Unknown compatibility option in the calculation of the distribution of age_length";
+            }
+            cum[j] = tmp;
 
-        for (unsigned j = 0; j < length_bin_count; ++j) {
-          LOG_FINEST() << "calculating pnorm for length " << length_bins[j];
-          // If we are using CASAL's Normal CDF function use this switch
-          if (compatibility_ == PARAM_CASAL) {
-            tmp = utilities::math::pnorm(length_bins[j], mu, sigma);
-            LOG_FINE() << "casal_normal_cdf: " << tmp << " utilities::math::pnorm(" << length_bins[j] << ", " << mu << ", " << sigma;
-          } else if (compatibility_ == PARAM_CASAL2) {
-            tmp = utilities::math::pnorm2(length_bins[j], mu, sigma);
-            LOG_FINE() << "normal: " << tmp << " utilities::math::pnorm(" << length_bins[j] << ", " << mu << ", " << sigma;
+            if (j > 0) {
+              prop_in_length[j - 1] = cum[j] - cum[j - 1];
+              sum += prop_in_length[j - 1];
+              LOG_FINEST() << "j " << j << " prop_in_length[j - 1]: " << prop_in_length[j - 1] << " : cum[j] " << cum[j] << " : cum[j - 1] " << cum[j - 1];
+            }
+          }  // for (unsigned j = 0; j < length_bin_count; ++j)
+          if (model_->length_plus()) {
+            prop_in_length[length_bin_count - 1] = 1.0 - sum - cum[0];
+            LOG_FINEST() << "prop_in_length[length_bin_count - 1]: " << prop_in_length[length_bin_count - 1];
           } else {
-            LOG_CODE_ERROR() << "Unknown compatibility option in the calculation of the distribution of age_length";
+            if (compatibility_type_ == CompatibilityType::kCasal) {
+              tmp = utilities::math::pnorm(length_bins[length_bin_count], mu, sigma);
+              // LOG_FINE() << "casal_normal_cdf: " << tmp << " utilities::math::pnorm(" << length_bins[length_bin_count] << ", " << mu << ", " << sigma;
+            } else if (compatibility_type_ == CompatibilityType::kCasal2) {
+              tmp = utilities::math::pnorm2(length_bins[length_bin_count], mu, sigma);
+              // LOG_FINE() << "normal: " << tmp << " utilities::math::pnorm(" << length_bins[length_bin_count] << ", " << mu << ", " << sigma;
+            } else {
+              LOG_CODE_ERROR() << "Unknown compatibility option in the calculation of the distribution of age_length";
+            }
+            prop_in_length[length_bin_count - 1] = tmp - cum[length_bin_count - 1];
+            LOG_FINEST() << "prop_in_length[length_bin_count - 1]: " << prop_in_length[length_bin_count - 1];
           }
-          cum[j] = tmp;
+        } else if(distribution_ == Distribution::kLogNormal) {
+          for (unsigned j = 0; j < length_bin_count; ++j) {
+            LOG_FINEST() << "calculating plognorm for length " << length_bins[j];
+            // If we are using CASAL's Normal CDF function use this switch
+            if (compatibility_type_ == CompatibilityType::kCasal) {
+              tmp = utilities::math::plognorm(length_bins[j], mu, sigma);
+               LOG_FINE() << "casal_lognormal_cdf: " << tmp << " utilities::math::pnorm(" << length_bins[j] << ", " << mu << ", " << sigma;
+            } else if (compatibility_type_ == CompatibilityType::kCasal2) {
+              tmp = utilities::math::plognorm2(length_bins[j], mu, sigma);
+               LOG_FINE() << "lognormal: " << tmp << " utilities::math::pnorm(" << length_bins[j] << ", " << mu << ", " << sigma;
+            } else {
+              LOG_CODE_ERROR() << "Unknown compatibility option in the calculation of the distribution of age_length";
+            }
+            cum[j] = tmp;
 
-          if (j > 0) {
-            prop_in_length[j - 1] = cum[j] - cum[j - 1];
-            sum += prop_in_length[j - 1];
-            LOG_FINEST() << "prop_in_length[j - 1]: " << prop_in_length[j - 1] << ": " << cum[j] << ": " << cum[j - 1];
-          }
-        }  // for (unsigned j = 0; j < length_bin_count; ++j)
-
-        if (model_->length_plus()) {
-          prop_in_length[length_bin_count - 1] = 1.0 - sum - cum[0];
-          LOG_FINEST() << "prop_in_length[length_bin_count - 1]: " << prop_in_length[length_bin_count - 1];
-        } else {
-          if (compatibility_ == PARAM_CASAL) {
-            tmp = utilities::math::pnorm(length_bins[length_bin_count], mu, sigma);
-            LOG_FINE() << "casal_normal_cdf: " << tmp << " utilities::math::pnorm(" << length_bins[length_bin_count] << ", " << mu << ", " << sigma;
-          } else if (compatibility_ == PARAM_CASAL2) {
-            tmp = utilities::math::pnorm2(length_bins[length_bin_count], mu, sigma);
-            LOG_FINE() << "normal: " << tmp << " utilities::math::pnorm(" << length_bins[length_bin_count] << ", " << mu << ", " << sigma;
+            if (j > 0) {
+              prop_in_length[j - 1] = cum[j] - cum[j - 1];
+              sum += prop_in_length[j - 1];
+              LOG_FINEST() << "j " << j << " prop_in_length[j - 1]: " << prop_in_length[j - 1] << " : cum[j] " << cum[j] << " : cum[j - 1] " << cum[j - 1];
+            }
+          }  // for (unsigned j = 0; j < length_bin_count; ++j)
+          if (model_->length_plus()) {
+            prop_in_length[length_bin_count - 1] = 1.0 - sum - cum[0];
+            LOG_FINEST() << "prop_in_length[length_bin_count - 1]: " << prop_in_length[length_bin_count - 1];
           } else {
-            LOG_CODE_ERROR() << "Unknown compatibility option in the calculation of the distribution of age_length";
+            if (compatibility_type_ == CompatibilityType::kCasal) {
+              tmp = utilities::math::plognorm(length_bins[length_bin_count], mu, sigma);
+              // LOG_FINE() << "casal_normal_cdf: " << tmp << " utilities::math::pnorm(" << length_bins[length_bin_count] << ", " << mu << ", " << sigma;
+            } else if (compatibility_type_ == CompatibilityType::kCasal2) {
+              tmp = utilities::math::plognorm2(length_bins[length_bin_count], mu, sigma);
+              // LOG_FINE() << "normal: " << tmp << " utilities::math::pnorm(" << length_bins[length_bin_count] << ", " << mu << ", " << sigma;
+            } else {
+              LOG_CODE_ERROR() << "Unknown compatibility option in the calculation of the distribution of age_length";
+            }
+            prop_in_length[length_bin_count - 1] = tmp - cum[length_bin_count - 1];
+            LOG_FINEST() << "prop_in_length[length_bin_count - 1]: " << prop_in_length[length_bin_count - 1];
           }
-          prop_in_length[length_bin_count - 1] = tmp - cum[length_bin_count - 1];
         }
       }  // for (unsigned age_index = 0; age_index < iter.second->age_spread(); ++age_index)
     }    // for (unsigned time_step = 0; time_step < time_step_count; ++time_step)
@@ -606,15 +677,23 @@ void AgeLength::populate_numbers_at_length(vector<Double> numbers_at_age, vector
   LOG_FINE() << "Populating the age-length matrix for agelength class " << label_ << " in year " << this_year_ << " and time-step " << this_time_step_;
   LOG_FINE() << "Calculating age length data";
 
+  LOG_FINE() << "Populating the age-length matrix for agelength class " << label_ << " in year " << this_year_ << " and time-step " << this_time_step_
+             << " year ndx = " << year_dim_in_age_length_;
+  LOG_FINE() << "Calculating age length data";
+  LOG_FINE() << "years in " << age_length_transition_matrix_.size();
+  LOG_FINE() << "time_steps in " << age_length_transition_matrix_[0].size();
+  LOG_FINE() << "bins in " << age_length_transition_matrix_[0][0].size();
+  LOG_FINE() << "numbers at length = " << numbers_at_length.size();
+  LOG_FINE() << "length = " << map_length_bin_ndx.size();
   for (unsigned age = min_age_; age <= max_age_; ++age) {
     unsigned i = age - min_age_;
     for (unsigned bin = 0; bin < size; ++bin) {
+      LOG_FINEST() << "bin " << bin << " ndx = " << map_length_bin_ndx[bin];
       if (map_length_bin_ndx[bin] >= 0) {  // values = -999 indicate see the function which makes this in the fucntion description
         numbers_at_length[map_length_bin_ndx[bin]]
             += selectivity->GetAgeResult(age, this) * numbers_at_age[i] * age_length_transition_matrix_[year_dim_in_age_length_][this_time_step_][i][bin];
       }
-      LOG_FINEST() << "age " << age << " map_length_bin_ndx[" << bin << "] " << map_length_bin_ndx[bin] << " numbers_at_age[i] " << numbers_at_age[i]
-                   << " numbers_at_length[map_length_bin_ndx[bin]] " << numbers_at_length[map_length_bin_ndx[bin]];
+      LOG_FINEST() << "age " << age << " map_length_bin_ndx[" << bin << "] " << map_length_bin_ndx[bin] << " numbers_at_age[i] " << numbers_at_age[i];
     }
   }
 }

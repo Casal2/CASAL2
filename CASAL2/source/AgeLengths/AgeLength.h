@@ -24,6 +24,16 @@ namespace niwa {
 class Model;
 class Selectivity;
 class LengthWeight;
+
+/*
+
+*/
+enum class CompatibilityType { 
+  kCasal, 
+  kCasal2, 
+  kUnknown,
+}; 
+
 // classes
 class AgeLength : public niwa::base::Object {
 public:
@@ -35,7 +45,7 @@ public:
   virtual ~AgeLength(){};
   void Validate();
   void Build();
-  void Verify(shared_ptr<Model> model){};
+  void Verify(shared_ptr<Model> model){UpdateYearContainers();};
   void Reset();
   void RebuildCache();          // should only be called by time-varying class
   void UpdateYearContainers();  // should only be called by this class or its manager
@@ -116,6 +126,8 @@ protected:
   unsigned max_age_                   = model_->max_age();
   bool     change_cvs_                = true;
   bool     change_mean_length_params_ = true;  // either estimate or input
+  CompatibilityType  compatibility_type_        = CompatibilityType::kUnknown;
+
 };
 
 } /* namespace niwa */

@@ -184,7 +184,7 @@ void Data::InterpolateTimeStepsForInitialConditions() {
   // We only have to figure sizes for steps j in steps_to_figure:
   unsigned a1, a2, age;
   Double   w1, w2;
-  LOG_FINE() << "calculating initial age-length relationship for " << this->label();
+  LOG_FINE() << "calculating initial age-length relationship for " << label_;
   for (unsigned i = 0; i < number_time_steps_; ++i) {
     LOG_FINE() << "time step = " << i;
     if (find(steps_to_figure_.begin(), steps_to_figure_.end(), i) != steps_to_figure_.end()) {
@@ -472,7 +472,7 @@ void Data::FillInternalGaps() {
  * for this class
  */
 Double Data::calculate_mean_length(unsigned year, unsigned time_step, unsigned age) {
-  if (model_->state() == State::kInitialise || model_->state() == State::kBuild || model_->state() == State::kVerify) {
+  if (model_->state() == State::kInitialise ||  model_->state() == State::kVerify) {
     LOG_FINEST() << "state " << model_->state();
     return data_by_age_time_step_[time_step][age];
   }

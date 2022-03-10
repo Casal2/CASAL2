@@ -41,7 +41,7 @@ public:
   MockVonBertalanffy(Distribution distribution = Distribution::kNormal) : VonBertalanffy(nullptr) { distribution_ = distribution; }
 
   MockVonBertalanffy(shared_ptr<Model> model, Double linf, Double k, Double t0, bool by_length, Double cv_first, Double cv_last, vector<Double> time_step_proportions,
-                     string compatibility = PARAM_CASAL2, Distribution distribution = Distribution::kNormal) :
+                     CompatibilityType compatibility = CompatibilityType::kCasal2, Distribution distribution = Distribution::kNormal) :
       VonBertalanffy(model) {
     linf_                  = linf;
     k_                     = k;
@@ -50,7 +50,8 @@ public:
     cv_first_              = cv_first;
     cv_last_               = cv_last;
     time_step_proportions_ = time_step_proportions;
-    compatibility_         = compatibility;
+    //compatibility_         = compatibility;
+    compatibility_type_        = compatibility;
     distribution_          = distribution; 
     year_offset_ = model ->start_year();
     age_offset_ = model ->min_age();    
@@ -97,7 +98,7 @@ TEST(AgeLengths, VonBertalanffy_MeanLength) {
   shared_ptr<MockModel> model = shared_ptr<MockModel>(new MockModel());
   model->bind_calls();
 
-  MockVonBertalanffy von_bertalanffy(model, 80, 0.064, 4, false, 0.2, 0.2, {1.0}, PARAM_CASAL2, Distribution::kNormal);
+  MockVonBertalanffy von_bertalanffy(model, 80, 0.064, 4, false, 0.2, 0.2, {1.0}, CompatibilityType::kCasal2, Distribution::kNormal);
   von_bertalanffy.MockPopulateCV();
 
   EXPECT_DOUBLE_EQ(0.0, von_bertalanffy.calculate_mean_length(1990,0, 1));
@@ -118,7 +119,7 @@ TEST(AgeLengths, VonBertalanffy_MeanLength_2) {
   shared_ptr<MockModel> model = shared_ptr<MockModel>(new MockModel());
   model->bind_calls();
 
-  MockVonBertalanffy von_bertalanffy(model, 80, 0.064, 4, false, 0.2, 0.2, {1.0}, PARAM_CASAL2, Distribution::kLogNormal);
+  MockVonBertalanffy von_bertalanffy(model, 80, 0.064, 4, false, 0.2, 0.2, {1.0}, CompatibilityType::kCasal2, Distribution::kLogNormal);
   von_bertalanffy.MockPopulateCV();
 
   EXPECT_DOUBLE_EQ(0.0, von_bertalanffy.calculate_mean_length(1990, 0, 1));
@@ -141,7 +142,7 @@ TEST(AgeLengths, VonBertalanffy_CV) {
   shared_ptr<MockModel> model = shared_ptr<MockModel>(new MockModel());
   model->bind_calls();
 
-  MockVonBertalanffy von_bertalanffy(model, 80, 0.064, 4, false, 0.2, 0.2, {1.0},  PARAM_CASAL2, Distribution::kNormal);
+  MockVonBertalanffy von_bertalanffy(model, 80, 0.064, 4, false, 0.2, 0.2, {1.0},  CompatibilityType::kCasal2, Distribution::kNormal);
   von_bertalanffy.MockPopulateCV();
 
   EXPECT_DOUBLE_EQ(0.2, von_bertalanffy.cv(1990, 0, 1));
@@ -162,7 +163,7 @@ TEST(AgeLengths, VonBertalanffy_CV) {
 TEST(AgeLengths, VonBertalanffy_CV_2) {
   shared_ptr<MockModel> model = shared_ptr<MockModel>(new MockModel());
   model->bind_calls();
-  MockVonBertalanffy von_bertalanffy(model, 169.07, 0.093, -0.256, true, 0.102, 0.0, {0.0, 0.0}, PARAM_CASAL, Distribution::kNormal);
+  MockVonBertalanffy von_bertalanffy(model, 169.07, 0.093, -0.256, true, 0.102, 0.0, {0.0, 0.0}, CompatibilityType::kCasal, Distribution::kNormal);
   von_bertalanffy.MockPopulateCV();
   EXPECT_DOUBLE_EQ(0.10199999999999999, von_bertalanffy.cv(1990, 0, 1));
   EXPECT_DOUBLE_EQ(0.10199999999999999, von_bertalanffy.cv(1990, 0, 2));
@@ -336,7 +337,7 @@ TEST(AgeLengths, BuildAgeLengthProportions_lognormal) {
   model->set_number_of_length_bins(); // if we chnage plus group need to reset thsi
   model->bind_calls();
 
-  MockVonBertalanffy von_bertalanffy(model, 80, 0.064, -1.16415, false, 0.1, 0.1, {1.0, 1.0}, PARAM_CASAL2, Distribution::kLogNormal);
+  MockVonBertalanffy von_bertalanffy(model, 80, 0.064, -1.16415, false, 0.1, 0.1, {1.0, 1.0}, CompatibilityType::kCasal2, Distribution::kLogNormal);
   ASSERT_NO_THROW(von_bertalanffy.MockPopulateCV());
   ASSERT_NO_THROW(von_bertalanffy.MockPopulateAgeLengthMatrix());
 
