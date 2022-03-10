@@ -59,6 +59,7 @@
   ## A global variable to tell us if we are still inputing a table
   in_table <- FALSE
   label_name <- 1
+  file <- file[file != ""]
   ## this will be the default label if no user defined label is specified
   for (i in 1:length(file)) {
     temp <- string.to.vector.of.words(file[i])
