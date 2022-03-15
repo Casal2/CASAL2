@@ -113,6 +113,7 @@ public:
   // accessors
   map<unsigned, map<string, map<string, vector<Double>>>>& catch_at() { return removals_by_year_fishery_category_; };
   map<unsigned, map<string, map<string, vector<Double>>>>& retained_data() { return retained_by_year_fishery_category_; };
+  const vector<string>& category_labels() const { return category_labels_; }
 
   // set
 

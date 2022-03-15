@@ -43,6 +43,7 @@ public:
   void DoExecute() override final;
   void FillReportCache(ostringstream& cache) override final;
   void FillTabularReportCache(ostringstream& cache, bool first_run) override final;
+  const vector<string>& category_labels() const { return category_labels_; }
 
 private:
   // Members
