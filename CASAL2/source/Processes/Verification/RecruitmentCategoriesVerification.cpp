@@ -23,7 +23,7 @@
 namespace niwa::processes::verification {
 
 /**
- * @brief Check to see if at least one ageing process has been defined on the model
+ * @brief Ensure we're not recruiting into duplicate categories or not scaling some categories
  *
  * @param model Model pointer
  */
