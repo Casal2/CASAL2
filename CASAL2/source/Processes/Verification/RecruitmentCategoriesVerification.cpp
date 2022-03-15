@@ -23,7 +23,7 @@
 namespace niwa::processes::verification {
 
 /**
- * @brief Ensure we're not recruiting into duplicate categories or not scaling some categories
+ * @brief Ensure we're not recruiting into duplicate categories and make sure all categories that need to be scaled due to B0 are scaled
  *
  * @param model Model pointer
  */

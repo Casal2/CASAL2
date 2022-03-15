@@ -23,11 +23,11 @@
 namespace niwa::processes::verification {
 
 /**
- * @brief Check to see 
+ * @brief Check to see if all categories have an assigned M value.
  *
  * @param model Model pointer
  */
-void MortalityChecks(shared_ptr<Model> model) {
+void AllCategoriesHaveAnM(shared_ptr<Model> model) {
   map<string, unsigned> category_count;
   vector<string>        all_categories = model->categories()->category_names();
 
