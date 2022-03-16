@@ -93,7 +93,7 @@ public:
 
   // Accessors and Mutators
   string         label() const { return label_; }
-  string         type() const { return type_; }
+  string         type() const { return utilities::ToLowercase(type_); }  // should always return lower case.
   ParameterList& parameters() { return parameters_; }
   string         location();
   bool           is_estimated() { return is_estimated_; }
