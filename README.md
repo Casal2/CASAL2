@@ -7,6 +7,10 @@ Casal2 is an open-source age structured population dynamics modelling package. T
 
 This repository contains the required libraries and source code to compile and run Casal2. This project is covered under the GNU General Public License version 2. This program is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
 
+## Auxiliary resources
+R packages and auxiliary material that assist with interacting, intepreting and applying Casal2 models see [this repository](https://github.com/NIWAFisheriesModelling/Casal2_contrib)
+
+
 ## Releases
 
 The most recent production version of Casal2 is available [here](https://github.com/NIWAFisheriesModelling/CASAL2/releases/tag/v21.11). The production version has been checked by comparing the 6 sets of Test Case MPD and MCMC results with CASAL and generating Test Case reports. We anticipate production versions being released once or twice a year, with validation of new key functionality and fixes.
