@@ -6,25 +6,28 @@
 \usage{
 generate.starting.pars(
   path = "",
-  Estimation_csl2_file = "Estimation.csl2",
-  N = 10,
+  estimation_csl2_file = "Estimation.csl2",
+  n_sim = 10,
   par_file_name = "starting_pars.out",
   all_uniform = FALSE,
-  fileEncoding = ""
+  fileEncoding = "",
+  quiet = T
 )
 }
 \arguments{
 \item{path}{Optionally, the path to the file}
 
-\item{Estimation_csl2_file}{the name of the configuration file containing the @estimate blocks.}
+\item{estimation_csl2_file}{the name of the configuration file containing the @estimate blocks.}
 
-\item{N}{the number of random samples you want.}
+\item{n_sim}{the number of random samples you want.}
 
 \item{par_file_name}{= the filename of the file created}
 
 \item{all_uniform}{= logical if TRUE draw from a uniform between bounds regardless of prior distribution}
 
 \item{fileEncoding}{Optional, allows the R-library to read in files that have been encoded in alternative UTF formats, see the manual for the error message that would indicate when to use this switch.}
+
+\item{quiet}{Optional, supresses printing statements}
 }
 \value{
 a file named 'parms.out' in the path directory

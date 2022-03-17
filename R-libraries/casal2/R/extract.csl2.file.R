@@ -63,7 +63,6 @@
   ## this will be the default label if no user defined label is specified
   for (i in 1:length(file)) {
     temp <- string.to.vector.of.words(file[i])
-    check_inputs <- check_short_hand(temp)
     ## expand numeric shorthand
     #if (any(check_inputs$numeric) && (substr(Command, 1, 3) != "est") | (substr(Command, 1, 3) != "par")) {
       #vals <- eval(parse(text = temp[check_inputs$numeric]))
@@ -101,8 +100,24 @@
     }
     ## Check if it is a valid type/subcommand
     if (type == "vector") {
-      ## deal with a vector subcommand
-      ans[[Command]][[temp[1]]] <- list("value" = temp[-1])
+      new_string = temp[1]
+      ## if category or parameter subcommand skip expand short hand for * and : 
+      if(grepl(temp[1], pattern = "categor", fixed = TRUE) | grepl(temp[1], pattern = "parameter", fixed = TRUE)) {
+        new_string = temp
+      } else {
+        ## check white space hasn't split it up already
+        second_values = NULL
+        if(any(temp[2:length(temp)] == "*")) {
+          second_values = paste(temp[2:length(temp)], collapse = "")
+        } else {
+          second_values = temp[2:length(temp)]
+        }
+        ## deal with : shorthand
+        for (j in 1:length(second_values)) {
+          new_string <- c(new_string, expand_shorthand_syntax(second_values[j]))
+        }
+      }
+      ans[[Command]][[new_string[1]]] <- list("value" = new_string[-1])
     } else if ((type == "table_label") || in_table) {
       ## deal with a table input. the biggest pain in ithe ass
       in_table <- TRUE
