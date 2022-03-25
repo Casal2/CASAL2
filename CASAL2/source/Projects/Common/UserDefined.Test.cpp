@@ -143,6 +143,7 @@ b 3.288
 type mortality_instantaneous
 m 0.0798
 relative_m_by_age One
+time_step_proportions 1
 categories stock
 table catches
 year FishingWest FishingEest

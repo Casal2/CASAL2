@@ -60,7 +60,7 @@ MortalityInstantaneous::MortalityInstantaneous(shared_ptr<Model> model) : Proces
   parameters_.BindTable(PARAM_CATCHES, catches_table_, "The table of removals (catch) data", "", true, false);
   parameters_.BindTable(PARAM_METHOD, method_table_, "The table of method of removal data", "", true, false);
   parameters_.Bind<Double>(PARAM_M, &m_input_, "The natural mortality rates for each category", "")->set_lower_bound(0.0);
-  parameters_.Bind<double>(PARAM_TIME_STEP_PROPORTIONS, &time_step_ratios_temp_, "The time step proportions for natural mortality", "", true)->set_range(0.0, 1.0);
+  parameters_.Bind<double>(PARAM_TIME_STEP_PROPORTIONS, &time_step_ratios_temp_, "The time step proportions for natural mortality", "", false)->set_range(0.0, 1.0);
   parameters_.Bind<string>(PARAM_RELATIVE_M_BY_AGE, &selectivity_labels_, "The M-by-age ogives to apply to each category for natural mortality", "");
 
   RegisterAsAddressable(PARAM_M, &m_);
@@ -258,6 +258,10 @@ void MortalityInstantaneous::DoValidate() {
 
     boost::split(categories, row[category_index], boost::is_any_of(","));
     boost::split(selectivities, row[selectivity_index], boost::is_any_of(","));
+
+    for(auto cat : categories) {
+      LOG_FINEST() << cat;
+    }
     if (use_age_weight_)
       boost::split(age_weights, row[age_weight_index], boost::is_any_of(","));
 
@@ -336,20 +340,23 @@ void MortalityInstantaneous::DoBuild() {
       active_time_steps.push_back(i);
   }
 
-  if (time_step_ratios_temp_.size() == 0) {
-    for (unsigned i : active_time_steps) time_step_ratios_[i] = 1.0;
-  } else {
+
     if (time_step_ratios_temp_.size() != active_time_steps.size())
       LOG_ERROR_P(PARAM_TIME_STEP_PROPORTIONS) << " The time step proportions length (" << time_step_ratios_temp_.size()
                                                << ") does not match the number of time steps this process has been assigned to (" << active_time_steps.size() << ")";
-
-    for (double value : time_step_ratios_temp_) {
-      if (value < 0.0 || value > 1.0)
-        LOG_ERROR_P(PARAM_TIME_STEP_PROPORTIONS) << "The time step proportions value (" << value << ") must be between 0.0 and 1.0 (inclusive)";
+    Double total_val = 0.0;
+    for (Double value : time_step_ratios_temp_) {
+      total_val += value;
+    }
+    if(!math::IsOne(total_val)) {
+      LOG_ERROR_P(PARAM_TIME_STEP_PROPORTIONS) << " need to sum to one";
     }
 
-    for (unsigned i = 0; i < time_step_ratios_temp_.size(); ++i) time_step_ratios_[active_time_steps[i]] = time_step_ratios_temp_[i];
-  }
+
+    for (unsigned i = 0; i < time_step_ratios_temp_.size(); ++i) 
+      time_step_ratios_[active_time_steps[i]] = time_step_ratios_temp_[i];
+  
+
 
   /**
    * Assign the selectivity, penalty and time step index to each fisher data object

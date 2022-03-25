@@ -141,6 +141,7 @@ const std::string test_cases_process_mortality_instantaneous_simple =
     R"(
 @process fishing
 type mortality_instantaneous
+time_step_proportions 1
 m 0.0798
 relative_m_by_age One
 categories stock

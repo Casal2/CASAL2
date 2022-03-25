@@ -201,30 +201,35 @@ void RecruitmentBevertonHolt::DoBuild() {
   }
 
   recruitment_index = model_->managers()->time_step()->GetProcessIndex(label_);
-  if (ageing_processes > 1)
-    LOG_ERROR_P(PARAM_LABEL) << "The Beverton-Holt recruitment 'ssb_offset' has been calculated on the basis of a single ageing process. " << ageing_processes
-                             << " ageing processes were specified. Manually set the ssb_offset or contact the development team";
-  if (ageing_index == std::numeric_limits<unsigned>::max())
-    LOG_ERROR() << location() << " could not calculate the ssb_offset because there is no ageing process";
-
-  if (recruitment_index < ageing_index && ageing_index < derived_quantity_index)
-    temp_ssb_offset = age_ + 1;
-  else if (derived_quantity_index < ageing_index && ageing_index < recruitment_index)
-    temp_ssb_offset = age_ - 1;
-  else
-    temp_ssb_offset = age_;
-
-  LOG_FINEST() << "SSB offset calculated to be = " << temp_ssb_offset << "; recruitment index = " << recruitment_index << "; ageing index = " << ageing_index
-               << "; derived_quantity index = " << derived_quantity_index;
-  if (parameters_.Get(PARAM_SSB_OFFSET)->has_been_defined()) {
-    // Check if the user has supplied the expected value for the model.
-    if (temp_ssb_offset != ssb_offset_) {
-      LOG_WARNING() << "The " << PARAM_SSB_OFFSET << " specified (" << ssb_offset_ << ") is different from what Casal2 calculated (" << temp_ssb_offset
-                    << "). This value should be manually set only under certain conditions. See the User Manual on this process for more information.";
-    }
-  } else {
-    ssb_offset_ = temp_ssb_offset;
+  if ((ageing_processes > 1) & !parameters_.Get(PARAM_SSB_OFFSET)->has_been_defined()) {
+    LOG_ERROR_P(PARAM_LABEL) << "For the Beverton-Holt recruitment process, " << PARAM_SSB_OFFSET << " can only be derived when there is only one ageing process in the annual cycle. " << ageing_processes
+                             << " ageing processes were specified. Manually set the " << PARAM_SSB_OFFSET;
   }
+
+  if (ageing_processes == 1) {
+    if (ageing_index == std::numeric_limits<unsigned>::max())
+      LOG_ERROR() << location() << " could not calculate the " << PARAM_SSB_OFFSET << " because there is no ageing process";
+
+    if ((recruitment_index < ageing_index) && (ageing_index < derived_quantity_index))
+      temp_ssb_offset = age_ + 1;
+    else if (derived_quantity_index < ageing_index && ageing_index < recruitment_index)
+      temp_ssb_offset = age_ - 1;
+    else
+      temp_ssb_offset = age_;
+
+    LOG_FINEST()  << PARAM_SSB_OFFSET << " calculated to be = " << temp_ssb_offset << "; recruitment index = " << recruitment_index << "; ageing index = " << ageing_index
+                << "; derived_quantity index = " << derived_quantity_index;
+    // Check if the user has supplied the expected value for the model.
+    if(parameters_.Get(PARAM_SSB_OFFSET)->has_been_defined()) {
+      if (temp_ssb_offset != ssb_offset_) {
+        LOG_WARNING() << "The " << PARAM_SSB_OFFSET << " specified (" << ssb_offset_ << ") is different from what Casal2 calculated (" << temp_ssb_offset
+                      << "). This value should be manually set only under certain conditions. See the User Manual on this process for more information.";
+      }
+    } else {
+      ssb_offset_ = temp_ssb_offset;
+    }
+  } 
+
 
   // Check that ycs years corresponds to the correct ssb_offset calculated
   if (ycs_years_[0] != (model_->start_year() - ssb_offset_))
