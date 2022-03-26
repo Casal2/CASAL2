@@ -38,18 +38,18 @@ class MortalityInstantaneous : public Process {
    * FisheryData holds all the information related to a fishery
    */
   struct FisheryData {
-    unsigned fishery_ndx_;    // used to reference which fishery this is. Used when this is accessed via the category fishery struct
-    string   label_;
-    string   time_step_label_;
-    unsigned time_step_index_;
-    Double   u_max_;
-    string   penalty_label_;
-    Penalty* penalty_ = nullptr;
+    unsigned         fishery_ndx_;  // used to reference which fishery this is. Used when this is accessed via the category fishery struct
+    string           label_;
+    string           time_step_label_;
+    unsigned         time_step_index_;
+    Double           u_max_;
+    string           penalty_label_;
+    Penalty*         penalty_ = nullptr;
     vector<unsigned> years_;
-    //These objects want to be a map as more useful for projection methods
+    // These objects want to be a map as more useful for projection methods
     map<unsigned, Double> catches_;
     map<unsigned, Double> actual_catches_;
-    map<unsigned, Double> exploitation_by_year_;  
+    map<unsigned, Double> exploitation_by_year_;
 
     Double  vulnerability_;
     Double  uobs_fishery_;
@@ -69,7 +69,7 @@ class MortalityInstantaneous : public Process {
     AgeWeight*           age_weight_ = nullptr;
     string               age_weight_label_;
     bool                 used_in_current_timestep_;
-    unsigned             category_ndx_; // used for a look up to store info in containers
+    unsigned             category_ndx_;  // used for a look up to store info in containers
   };
   /**
    * FisheryCategoryData is used to store 1 Fishery x Category x Selectivity
@@ -97,16 +97,18 @@ public:
   void FillReportCache(ostringstream& cache) override final;
   void FillTabularReportCache(ostringstream& cache, bool first_run) override final;
   //
-  bool check_categories_in_methods_for_removal_obs(vector<string> methods, vector<string> category_labels);
-  bool check_years_in_methods_for_removal_obs(vector<unsigned> years, vector<string> methods);
-  bool check_methods_for_removal_obs(vector<string> methods);
-  vector<unsigned>      get_fishery_ndx_for_catch_at(vector<string> fishery_labels) ;
-  vector<unsigned>      get_category_ndx_for_catch_at(vector<string> category_labels);
-  vector<unsigned>      get_year_ndx_for_catch_at(vector<unsigned> years);
+  bool             check_categories_in_methods_for_removal_obs(vector<string> methods, vector<string> category_labels);
+  bool             check_years_in_methods_for_removal_obs(vector<unsigned> years, vector<string> methods);
+  bool             check_methods_for_removal_obs(vector<string> methods);
+  vector<unsigned> get_fishery_ndx_for_catch_at(vector<string> fishery_labels);
+  vector<unsigned> get_category_ndx_for_catch_at(vector<string> category_labels);
+  vector<unsigned> get_year_ndx_for_catch_at(vector<unsigned> years);
 
   // accessors
-  //map<unsigned, map<string, map<string, vector<Double>>>>& catch_at() { return removals_by_year_fishery_category_; };
-  vector<Double>& get_catch_at_by_year_fishery_category(unsigned year_ndx, unsigned fishery_ndx, unsigned category_ndx) { return removals_by_year_fishery_category_[year_ndx][fishery_ndx][category_ndx]; };
+  // map<unsigned, map<string, map<string, vector<Double>>>>& catch_at() { return removals_by_year_fishery_category_; };
+  vector<Double>& get_catch_at_by_year_fishery_category(unsigned year_ndx, unsigned fishery_ndx, unsigned category_ndx) {
+    return removals_by_year_fishery_category_[year_ndx][fishery_ndx][category_ndx];
+  };
   const vector<string>& category_labels() const { return category_labels_; }
 
   // set
@@ -124,6 +126,7 @@ private:
   accessor::Categories        partition_;
   Double                      current_m_ = 0.0;
   vector<unsigned>            process_years_;  // Can we get @project classes to modify this?
+  bool                        is_catch_biomass_ = true;
 
   // members from mortality event
   // Double                      u_max_ = 0.99; // Now attached to the fishery object
@@ -140,9 +143,9 @@ private:
   vector<Selectivity*>       selectivities_;
 
   // members for observations
-  utilities::Vector4              removals_by_year_fishery_category_; // process_years_ x method_labs x category_labels_ x age
+  utilities::Vector4 removals_by_year_fishery_category_;  // process_years_ x method_labs x category_labels_ x age
 
-  //map<unsigned, map<string, map<string, vector<Double>>>> removals_by_year_fishery_category_;  // Year,  fishery, category
+  // map<unsigned, map<string, map<string, vector<Double>>>> removals_by_year_fishery_category_;  // Year,  fishery, category
 
   // Members for reporting
   vector<unsigned>               time_steps_to_skip_applying_F_mortality_;

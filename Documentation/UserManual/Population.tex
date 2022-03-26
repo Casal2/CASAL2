@@ -752,7 +752,7 @@ and specified similarly for a \textbf{biomass-based} fishing mortality process
 
 \paragraph{Instantaneous mortality}\label{sec:Process-MortalityInstantaneous}\label{sec:Process-MortalityInstantaneousEventBiomass}\label{sec:Process-MortalityInstantaneousEvent}
 
-The instantaneous mortality process\index{Instantaneous mortality} combines both natural mortality and event biomass mortality into a single process. This allows the simultaneous application of both natural mortality and anthropogenic mortality to occur across multiple time steps. This process applies half the natural mortality in each time step, then the mortalities from all the concurrent removals instantaneously, then the remaining half of the natural mortality. In fisheries models this is the most commonly used mortality process
+The instantaneous mortality process\index{Instantaneous mortality} combines both natural mortality and event mortality into a single process. This allows the simultaneous application of both natural mortality and anthropogenic mortality to occur across multiple time steps. This process applies half the natural mortality in each time step, then the mortalities from all the concurrent removals instantaneously, then the remaining half of the natural mortality. The event mortality can be either as biomasses or numbers (abundance). In fisheries models this is the most commonly used mortality process
 
 This process allows for multiple removal events, e.g., a fisheries model with multiple fisheries and/or fleets. A removal method can occur in one time step only, although multiple removals can be defined to cover events during the year.
 
@@ -761,7 +761,7 @@ The equations for instantaneous mortality:
 \TODO{redo equations, as notation is not consistent with that above, e.g., $S_{a,j}$}
 
 \begin{itemize}
-	\item An exploitation rate (actually a proportion) is calculated for each fishery, as the catch divided by the selected-and-retained biomass,
+	\item An exploitation rate (actually a proportion) is calculated for each fishery, as the catch divided by the selected-and-retained abundance or biomass),
 	$$ U_f = \frac{C_f}{\sum_a \bar{w}_a S_{f,a} n_a exp(-0.5 t M_a)}$$
 	\item The mortality pressure associated with method $f$ is defined as the maximum proportion of fish taken from any element of the partition in the area affected by the method $f$
 	$$ U_{f,obs} = max_a(\sum_k S_{k,a} U_k) $$
@@ -788,6 +788,7 @@ For example, to apply natural mortality of $0.20$ across three time steps on bot
 	time_step_proportions 0.42 0.25 0.33
 	relative_m_by_age One
 	categories male female
+	biomass true
 	units kgs
 
 	table catches
