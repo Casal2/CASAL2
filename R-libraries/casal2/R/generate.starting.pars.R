@@ -106,7 +106,7 @@ generate.starting.pars <- function(path = "", estimation_csl2_file = "Estimation
       ## Now simulate data for each param      
       if (this_estimate$type == "uniform" || all_uniform) {
         for (param in 1:n_params) {
-          values = runif(n_sim = n_sim, min = as.numeric(this_estimate$lower_bound$value[param]), max = as.numeric(this_estimate$upper_bound$value[param]))
+          values = runif(n = n_sim, min = as.numeric(this_estimate$lower_bound$value[param]), max = as.numeric(this_estimate$upper_bound$value[param]))
           ## check within bounds
           values[values < as.numeric(this_estimate$lower_bound$value[param])] = as.numeric(this_estimate$lower_bound$value[param])
           values[values > as.numeric(this_estimate$upper_bound$value[param])] = as.numeric(this_estimate$upper_bound$value[param])
@@ -114,7 +114,7 @@ generate.starting.pars <- function(path = "", estimation_csl2_file = "Estimation
         }
       } else if (this_estimate$type == "uniform_log") {
         for (param in 1:n_params) {
-          values = exp(runif(n_sim = n_sim, min = log(as.numeric(this_estimate$lower_bound$value[param])), max = log(as.numeric(this_estimate$upper_bound$value[param]))))
+          values = exp(runif(n = n_sim, min = log(as.numeric(this_estimate$lower_bound$value[param])), max = log(as.numeric(this_estimate$upper_bound$value[param]))))
           ## check within bounds
           values[values < as.numeric(this_estimate$lower_bound$value[param])] = as.numeric(this_estimate$lower_bound$value[param])
           values[values > as.numeric(this_estimate$upper_bound$value[param])] = as.numeric(this_estimate$upper_bound$value[param])
@@ -134,7 +134,7 @@ generate.starting.pars <- function(path = "", estimation_csl2_file = "Estimation
         std_dev = as.numeric(this_estimate$mu$value) * as.numeric(this_estimate$cv$value)
 
         for (param in 1:n_params) {
-          values = rnorm(n_sim = n_sim, mean = as.numeric(this_estimate$mu$value[param]), sd = std_dev[param])
+          values = rnorm(n = n_sim, mean = as.numeric(this_estimate$mu$value[param]), sd = std_dev[param])
           ## check within bounds
           values[values < as.numeric(this_estimate$lower_bound$value[param])] = as.numeric(this_estimate$lower_bound$value[param])
           values[values > as.numeric(this_estimate$upper_bound$value[param])] = as.numeric(this_estimate$upper_bound$value[param])
@@ -170,7 +170,7 @@ generate.starting.pars <- function(path = "", estimation_csl2_file = "Estimation
           this_estimate$sigma$value = rep(left_value, n_params)
         }
         for (param in 1:n_params) {
-          values = rnorm(n_sim = n_sim, mean = as.numeric(this_estimate$mu$value[param]), sd = as.numeric(this_estimate$sigma$value[param]))
+          values = rnorm(n = n_sim, mean = as.numeric(this_estimate$mu$value[param]), sd = as.numeric(this_estimate$sigma$value[param]))
           ## check within bounds
           values[values < as.numeric(this_estimate$lower_bound$value[param])] = as.numeric(this_estimate$lower_bound$value[param])
           values[values > as.numeric(this_estimate$upper_bound$value[param])] = as.numeric(this_estimate$upper_bound$value[param])
@@ -188,7 +188,7 @@ generate.starting.pars <- function(path = "", estimation_csl2_file = "Estimation
           this_estimate$sigma$value = rep(left_value, n_params)
         }
         for (param in 1:n_params) {
-          values = exp(rnorm(n_sim = n_sim, mean = as.numeric(this_estimate$mu$value), sd = as.numeric(this_estimate$sigma$value)))
+          values = exp(rnorm(n = n_sim, mean = as.numeric(this_estimate$mu$value), sd = as.numeric(this_estimate$sigma$value)))
           ## check within bounds
           values[values < as.numeric(this_estimate$lower_bound$value[param])] = as.numeric(this_estimate$lower_bound$value[param])
           values[values > as.numeric(this_estimate$upper_bound$value[param])] = as.numeric(this_estimate$upper_bound$value[param])
