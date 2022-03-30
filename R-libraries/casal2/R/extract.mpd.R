@@ -24,13 +24,13 @@
     attributes(object)$class <- c(new.class, attributes(object)$class[attributes(object)$class != new.class])
     object
   }
-
+  multi_input_args = c("-i", "-I", "--input-force", "--input", "-s", "--simulation", "--profile", "-p", "--projection", "-f")
   filename <- make.filename(path = path, file = file)
   file <- convert.to.lines(filename, fileEncoding = fileEncoding, quiet = quiet)
 
   ## Check this isn't a tabular report by looking at the Call:
-  if (grepl(pattern = "--tabular", x = file[2]))
-    stop("This model was run with the command '--tabular'. Please use the extract.tabular() function to import this model run.")
+  if (grepl(pattern = "--tabular", x = file[2]) | grepl(pattern = "-t", x = file[2]))
+    stop("This model was run with the command '--tabular' or '-t'. Please use the extract.tabular() function to import this model run.")
 
   temp <- get.lines(file, starts.with = "\\*", fixed = F)
   if (length(temp) != 0) {
@@ -45,13 +45,15 @@
     ## iterate over all reports and see if this is a multi input run, this is identified by checking if -i in the header &
     ## if ALL reports are duplicated. Some reports will be duplicated because they are year based reports
     mult_input_run <- FALSE;
-    if (grepl(pattern = "-i", x = file[2])) {
-      if (sum(!duplicated(temp)) == length(unique(temp))) {
-        mult_input_run <- TRUE
+	## check if run is multi parameter
+	for(i in 1:length(multi_input_args)) {
+	  if (grepl(pattern = multi_input_args[i], x = file[2])) {
+	    mult_input_run <- TRUE
 		if(!quiet)
-          cat("loading a run from -i format\n")
+		  cat("loading a Casal2 output from a multi parameter input format\n")
       }
-    }
+	}
+
 
     multi_year_reports <- c("partition", "Partition", "partition_biomass", "PartitionBiomass", "partition_mean_weight", "PartitionMeanWeight", "age_length")
     result <- list()
