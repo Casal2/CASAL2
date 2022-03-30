@@ -226,6 +226,7 @@ jobs:
           path: TestModels/
           
       - name: Run Unit Tests from frontend application
+        continue-on-error: true
         run: |
           cd BuildSystem/Casal2
           ./casal2 --unittest > unittests.log
