@@ -149,10 +149,10 @@ jobs:
           # see https://github.com/marketplace/actions/setup-winlibs
           # and https://github.com/brechtsanders/winlibs_mingw/tags
           #tag: '10.3.0-12.0.0-9.0.0-r2'
-          #tag: '10.3.1-snapshot20211112-9.0.0-ucrt-r1'
-          #tag: '11.1.0-12.0.0-9.0.0-r1' # reference tag in documentation
+          #tag: '10.3.1-snapshot20211112-9.0.0-ucrt-r1' # previous tag as of 2022-03-31
+          tag: '11.1.0-12.0.0-9.0.0-r1' # reference tag in documentation
           #tag: '11.2.1-snapshot20220219-9.0.0-ucrt-r1' # caused issues with Casal2 unit tests
-          tag: '12.0.1-snapshot20220123-9.0.0-msvcrt-r1'
+          #tag: '12.0.1-snapshot20220123-9.0.0-msvcrt-r1'
       - name: Build third-party library - adolc
         run: |
           cd BuildSystem
