@@ -231,7 +231,7 @@ jobs:
         continue-on-error: false
         run: |
           cd BuildSystem/Casal2
-          casal2 --unittest > unittests.log
+          ./casal2 --unittest > unittests.log
           
       - name: Archive unittest output
         continue-on-error: true
