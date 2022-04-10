@@ -134,6 +134,8 @@ void Report::Verify(shared_ptr<Model> model) {
   if (time_step_ != "" && !model->managers()->time_step()->GetTimeStep(time_step_))
     LOG_ERROR_P(PARAM_TIME_STEP) << " labelled '" << time_step_ << "' could not be found. Please check it has been defined correctly";
 
+
+
   DoVerify(model);
   Report::lock_.unlock();
 };

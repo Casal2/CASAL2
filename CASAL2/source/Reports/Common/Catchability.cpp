@@ -57,6 +57,18 @@ void Catchability::DoExecute(shared_ptr<Model> model) {
   ready_for_writing_ = true;
 }
 
+void Catchability::DoPrepareTabular(shared_ptr<Model> model) {
+  LOG_TRACE();
+  catchabilities::Manager& manager        = *model->managers()->catchability();
+  auto                     catchabilities = manager.objects();
+  cache_ << ReportHeader(type_, catchability_label_, format_);
+  cache_ << "values " << REPORT_R_DATAFRAME << REPORT_EOL;
+  for (auto& Q : catchabilities) {
+    string label = Q->label();
+    cache_ << "catchability[" << label << "] ";
+  }
+  cache_ << REPORT_EOL;
+}
 /**
  * Execute the tabular report
  */
@@ -65,17 +77,6 @@ void Catchability::DoExecuteTabular(shared_ptr<Model> model) {
   LOG_TRACE();
   catchabilities::Manager& manager        = *model->managers()->catchability();
   auto                     catchabilities = manager.objects();
-  if (first_run_) {
-    cache_ << ReportHeader(type_, catchability_label_, format_);
-    cache_ << "values " << REPORT_R_DATAFRAME << REPORT_EOL;
-    first_run_ = false;
-
-    for (auto& Q : catchabilities) {
-      string label = Q->label();
-      cache_ << "catchability[" << label << "] ";
-    }
-    cache_ << REPORT_EOL;
-  }
   for (auto& Q : catchabilities) {
     cache_ << AS_DOUBLE(Q->q()) << " ";
   }

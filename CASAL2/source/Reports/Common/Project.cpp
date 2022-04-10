@@ -74,7 +74,7 @@ void Project::DoExecute(shared_ptr<Model> model) {
   ready_for_writing_ = true;
 }
 
-void Project::DoExecuteTabular(shared_ptr<Model> model) {
+void Project::DoPrepareTabular(shared_ptr<Model> model) {
   LOG_INFO() << "Tabular mode for reports of type " << PARAM_PROJECT << " has not been implemented";
 }
 

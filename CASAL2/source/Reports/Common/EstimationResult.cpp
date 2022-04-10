@@ -87,7 +87,7 @@ void EstimationResult::DoExecute(shared_ptr<Model> model) {
   ready_for_writing_ = true;
 }
 
-void EstimationResult::DoExecuteTabular(shared_ptr<Model> model) {
+void EstimationResult::DoPrepareTabular(shared_ptr<Model> model) {
   LOG_INFO() << "Tabular mode for reports of type " << PARAM_ESTIMATION_RESULT << " has not been implemented";
 }
 

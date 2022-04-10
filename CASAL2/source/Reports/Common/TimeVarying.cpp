@@ -71,6 +71,10 @@ void TimeVarying::DoExecute(shared_ptr<Model> model) {
     ready_for_writing_ = true;
   }
 }
+/**
+ * Prepare Tabular report write header output
+ */
+void TimeVarying::DoPrepareTabular(shared_ptr<Model> model) {}
 
 /**
  * Execute Tabular report

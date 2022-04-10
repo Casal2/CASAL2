@@ -77,8 +77,16 @@ void InitialisationPartition::DoExecute(shared_ptr<Model> model) {
   ready_for_writing_ = true;
 }
 
-void InitialisationPartition::DoExecuteTabular(shared_ptr<Model> model) {
+void InitialisationPartition::DoPrepareTabular(shared_ptr<Model> model) {
   LOG_INFO() << "Tabular mode for reports of type " << PARAM_INITIALISATION_PARTITION << " has not been implemented";
+}
+
+void InitialisationPartition::DoExecuteTabular(shared_ptr<Model> model) {
+
+}
+
+void InitialisationPartition::DoFinaliseTabular(shared_ptr<Model> model) {
+
 }
 
 } /* namespace reports */

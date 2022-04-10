@@ -40,7 +40,7 @@ void CategoryList::DoExecute(shared_ptr<Model> model) {
   ready_for_writing_ = true;
 }
 
-void CategoryList::DoExecuteTabular(shared_ptr<Model> model) {
+void CategoryList::DoPrepareTabular(shared_ptr<Model> model) {
   LOG_INFO() << "Tabular mode for reports of type " << PARAM_CATEGORY_LIST << " has not been implemented";
 }
 

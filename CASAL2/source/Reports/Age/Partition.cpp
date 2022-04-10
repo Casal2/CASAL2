@@ -89,7 +89,7 @@ void Partition::DoExecute(shared_ptr<Model> model) {
   ready_for_writing_ = true;
 }
 
-void Partition::DoExecuteTabular(shared_ptr<Model> model) {
+void Partition::DoPrepareTabular(shared_ptr<Model> model) {
   LOG_INFO() << "Tabular mode for reports of type " << PARAM_PARTITION << " has not been implemented";
 }
 

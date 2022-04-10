@@ -86,7 +86,7 @@ void PartitionBiomass::DoExecute(shared_ptr<Model> model) {
   ready_for_writing_ = true;
 }
 
-void PartitionBiomass::DoExecuteTabular(shared_ptr<Model> model) {
+void PartitionBiomass::DoPrepareTabular(shared_ptr<Model> model) {
   LOG_INFO() << "Tabular mode for reports of type " << PARAM_PARTITION_BIOMASS << " has not been implemented";
 }
 

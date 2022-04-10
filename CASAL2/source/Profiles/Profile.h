@@ -44,8 +44,10 @@ public:
 
   // accessors
   string   parameter() const { return parameter_; }
+  string   same_parameter() const { return same_parameter_; }
   unsigned steps() const { return steps_; }
   Double   value() const { return *target_; }
+  vector<Double>   get_values() const { return values_; }
 
 private:
   // members
@@ -60,6 +62,8 @@ private:
   Double*           same_target_         = nullptr;
   Double            original_value_      = 0;
   Double            same_original_value_ = 0;
+  vector<Double>    values_;
+  Double            current_value_       =  0.0;
 };
 } /* namespace niwa */
 #endif /* PROFILE_H_ */

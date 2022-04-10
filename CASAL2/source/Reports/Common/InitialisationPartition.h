@@ -30,7 +30,10 @@ public:
   void DoValidate(shared_ptr<Model> model) final{};
   void DoBuild(shared_ptr<Model> model) final{};
   void DoExecute(shared_ptr<Model> model) final;
+
+  void DoPrepareTabular(shared_ptr<Model> model) final;
   void DoExecuteTabular(shared_ptr<Model> model) final;
+  void DoFinaliseTabular(shared_ptr<Model> model) final;
 };
 
 } /* namespace reports */

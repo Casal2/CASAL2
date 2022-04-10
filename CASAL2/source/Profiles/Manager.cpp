@@ -4,12 +4,13 @@
  * @date 28/03/2014
  * @section LICENSE
  *
- * Copyright NIWA Science ©2014 - www.niwa.co.nz
+ * Copyright NIWA Science ï¿½2014 - www.niwa.co.nz
  *
  */
 
 // headers
 #include "Manager.h"
+#include "Verification/Verification.h"
 
 // namespaces
 namespace niwa {
@@ -19,6 +20,30 @@ namespace profiles {
  * Default constructor
  */
 Manager::Manager() {}
+/**
+ * Return the profile with the name passed in as a parameter.
+ * If no process is found then an empty pointer will
+ * be returned.
+ *
+ * @return A pointer to the profile or empty pointer
+ */
+Profile* Manager::GetProfile() {
+  if(objects_.size() > 1)
+    LOG_CODE_ERROR() << "if(objects_.size() > 1), Found more than 1 @profile object in the system. This should not be allowed.";
+  if(objects_.size() > 0) {
+    return objects_[0];
+  }
+  return nullptr;
+}
 
+/**
+ * @brief Verify our profiles 
+ *
+ * @param model
+ */
+void Manager::Verify(shared_ptr<Model> model) {
+  LOG_FINE() << "Verify profile";
+  verification::DoVerification(model);
+}
 } /* namespace profiles */
 } /* namespace niwa */

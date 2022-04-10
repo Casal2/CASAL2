@@ -185,6 +185,21 @@ The initial starting point for the estimation can also be specified using \textt
 
 If the profile results are not reasonable, it may be a result of not using enough iterations in the minimiser or a poor choice of minimiser control variables (e.g., the minimiser tolerance). It may also be useful to try other minimisers and compare the results.
 
+To run a \CNAME\ you will need to supply the following reports
+
+{\small{\begin{verbatim}
+		@report profile
+		type profile
+		
+		@report estimate_values
+		type estimate_value
+		
+		@report objective_scores
+		type objective_function
+\end{verbatim}}}
+ 
+
+
 \subsection{\I{Bayesian estimation}}\label{sec:MCMC}\label{sec:MCMC-RandomWalkMetropolisHastings}
 
 \CNAME\ can use \I{Markov chain Monte Carlo (MCMC)}\index{MCMC} functionality to generate a sample from the posterior distribution of the estimated parameters with command \texttt{\cname\ -m} and output the sampled values to a file, optionally keeping only every $n$th set of values.

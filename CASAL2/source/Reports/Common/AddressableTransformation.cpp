@@ -46,9 +46,17 @@ void AddressableTransformation::DoExecute(shared_ptr<Model> model) {
     ready_for_writing_ = true;
   }
 }
-void AddressableTransformation::DoExecuteTabular(shared_ptr<Model> model) {
-  LOG_INFO() << "Tabular mode for reports of type " << PARAM_ADDRESSABLE << " has not been implemented";
+
+void AddressableTransformation::DoPrepareTabular(shared_ptr<Model> model) {
+  LOG_INFO() << "Tabular mode for reports of type " << PARAM_PARAMETER_TRANSFORMATIONS << " has not been implemented";
 }
 
+void AddressableTransformation::DoExecuteTabular(shared_ptr<Model> model) {
+
+}
+
+void AddressableTransformation::DoFinaliseTabular(shared_ptr<Model> model) {
+
+}
 } /* namespace reports */
 } /* namespace niwa */

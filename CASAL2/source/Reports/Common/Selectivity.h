@@ -21,6 +21,7 @@ public:
   virtual ~Selectivity() = default;
   void DoValidate(shared_ptr<Model> model) final;
   void DoBuild(shared_ptr<Model> model) final;
+  void DoPrepareTabular(shared_ptr<Model> model) final;
   void DoPrepare(shared_ptr<Model> model) final{};
   void DoExecute(shared_ptr<Model> model) final;
   void DoExecuteTabular(shared_ptr<Model> model) final;
@@ -30,7 +31,6 @@ public:
 private:
   string             selectivity_label_;
   niwa::Selectivity* selectivity_ = nullptr;
-  bool               first_run_   = true;
 };
 
 } /* namespace reports */

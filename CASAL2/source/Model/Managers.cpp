@@ -269,6 +269,7 @@ void Managers::Verify(shared_ptr<Model> model) {
   process_->Verify(model);
   profile_->Verify(model);
   project_->Verify(model);
+  report_->Verify(model);
   simulate_->Verify(model);
   time_step_->Verify(model);
   time_varying_->Verify(model);

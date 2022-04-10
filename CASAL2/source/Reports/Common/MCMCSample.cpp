@@ -85,7 +85,7 @@ void MCMCSample::DoFinalise(shared_ptr<Model> model) {
   ready_for_writing_ = true;
 }
 
-void MCMCSample::DoExecuteTabular(shared_ptr<Model> model) {
+void MCMCSample::DoPrepareTabular(shared_ptr<Model> model) {
   LOG_INFO() << "Tabular mode for reports of type " << PARAM_MCMC_SAMPLE << " has not been implemented";
 }
 

@@ -87,9 +87,16 @@ void Addressable::DoFinalise(shared_ptr<Model> model) {
   cache_ << REPORT_EOL;
   ready_for_writing_ = true;
 }
+void Addressable::DoPrepareTabular(shared_ptr<Model> model) {
+  LOG_INFO() << "Tabular mode for reports of type " << PARAM_PARAMETER_TRANSFORMATIONS << " has not been implemented";
+}
 
 void Addressable::DoExecuteTabular(shared_ptr<Model> model) {
-  LOG_INFO() << "Tabular mode for reports of type " << PARAM_PARAMETER_TRANSFORMATIONS << " has not been implemented";
+
+}
+
+void Addressable::DoFinaliseTabular(shared_ptr<Model> model) {
+
 }
 
 } /* namespace reports */

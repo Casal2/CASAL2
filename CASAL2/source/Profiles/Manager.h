@@ -4,7 +4,7 @@
  * @date 28/03/2014
  * @section LICENSE
  *
- * Copyright NIWA Science ©2014 - www.niwa.co.nz
+ * Copyright NIWA Science ï¿½2014 - www.niwa.co.nz
  *
  */
 #ifndef PROFILES_MANAGER_H_
@@ -16,6 +16,7 @@
 
 // namespaces
 namespace niwa {
+class Model;
 namespace profiles {
 
 /**
@@ -28,6 +29,8 @@ class Manager : public niwa::base::Manager<niwa::profiles::Manager, niwa::Profil
 public:
   // methods
   virtual ~Manager() noexcept(true){};
+  void Verify(shared_ptr<Model> model);
+  Profile* GetProfile(); // should only be allowed one
 
 protected:
   // methods

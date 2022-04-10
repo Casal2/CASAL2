@@ -120,7 +120,7 @@ void Partition_YearCrossAgeMatrix::DoFinalise(shared_ptr<Model> model) {
   ready_for_writing_ = true;
 }
 
-void Partition_YearCrossAgeMatrix::DoExecuteTabular(shared_ptr<Model> model) {
+void Partition_YearCrossAgeMatrix::DoPrepareTabular(shared_ptr<Model> model) {
   LOG_INFO() << "Tabular mode for reports of type " << PARAM_REPORT_PARTITION_YEARAGEMATRIX << " has not been implemented";
 }
 

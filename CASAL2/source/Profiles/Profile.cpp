@@ -73,6 +73,7 @@ void Profile::Build() {
  */
 void Profile::FirstStep() {
   *target_ = lower_bound_;
+  values_.push_back(*target_);
   if (parameters_.Get(PARAM_SAME)->has_been_defined()) {
     *same_target_ = lower_bound_;
     LOG_MEDIUM() << "Profiling with profile parameter = " << *target_ << " and same parameter = " << *same_target_;
@@ -83,6 +84,7 @@ void Profile::FirstStep() {
  */
 void Profile::NextStep() {
   *target_ += step_size_;
+  values_.push_back(*target_);
   if (parameters_.Get(PARAM_SAME)->has_been_defined()) {
     *same_target_ += step_size_;
     LOG_MEDIUM() << "Profiling with profile parameter = " << *target_ << " and same parameter = " << *same_target_;

@@ -47,6 +47,7 @@ public:
   void Validate(shared_ptr<Model> model);
   void Build() final;
   void Build(shared_ptr<Model> model);
+  void Verify(shared_ptr<Model> model) {};
   void Execute(shared_ptr<Model> model, State::Type model_state);
   void Execute(shared_ptr<Model> model, unsigned year, const string& time_step_label);
   void Prepare(shared_ptr<Model> model);

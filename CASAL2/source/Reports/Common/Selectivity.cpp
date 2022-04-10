@@ -76,26 +76,31 @@ void Selectivity::DoExecute(shared_ptr<Model> model) {
     ready_for_writing_ = true;
   }
 }
+/*
+* write the header for tabular report
+*/
+void Selectivity::DoPrepareTabular(shared_ptr<Model> model) {
+  if (!is_valid())
+    return;
+  if (!selectivity_->IsSelectivityLengthBased()) {
+    cache_ << ReportHeader(type_, label_, format_);
+    cache_ << "values " << REPORT_R_DATAFRAME << REPORT_EOL;
+    string age, selectivity_by_age_label;
+
+    for (unsigned i = model->min_age(); i <= model->max_age(); ++i) {
+      if (!utilities::To<unsigned, string>(i, age))
+        LOG_CODE_ERROR() << "Could not convert the value " << i << " to a string for storage in the tabular report";
+      selectivity_by_age_label = "selectivity[" + selectivity_->label() + "]." + age;
+      cache_ << selectivity_by_age_label << " ";
+    }
+    cache_ << REPORT_EOL;
+  }
+}
 
 void Selectivity::DoExecuteTabular(shared_ptr<Model> model) {
   if (!is_valid())
     return;
-
   if (!selectivity_->IsSelectivityLengthBased()) {
-    if (first_run_) {
-      first_run_ = false;
-      cache_ << ReportHeader(type_, label_, format_);
-      cache_ << "values " << REPORT_R_DATAFRAME << REPORT_EOL;
-      string age, selectivity_by_age_label;
-
-      for (unsigned i = model->min_age(); i <= model->max_age(); ++i) {
-        if (!utilities::To<unsigned, string>(i, age))
-          LOG_CODE_ERROR() << "Could not convert the value " << i << " to a string for storage in the tabular report";
-        selectivity_by_age_label = "selectivity[" + selectivity_->label() + "]." + age;
-        cache_ << selectivity_by_age_label << " ";
-      }
-      cache_ << REPORT_EOL;
-    }
     for (unsigned i = model->min_age(); i <= model->max_age(); ++i) {
       cache_ << AS_DOUBLE(selectivity_->GetAgeResult(i, nullptr)) << " ";
     }

@@ -165,6 +165,8 @@ void Manager::Build(shared_ptr<Model> model) {
   [[maybe_unused]] bool exists_MCMC_sample    = false;  // Ignore unused because
   [[maybe_unused]] bool exists_MCMC_objective = false;  // we only check if it's valid
   [[maybe_unused]] bool exists_estimate_value = false;  // during non-test modes
+  [[maybe_unused]] bool exists_profile = false;  // during non-test modes
+  [[maybe_unused]] bool exists_objective_function = false;  // during non-test modes
 
   for (auto report : objects_) {
     if ((RunMode::Type)(report->run_mode() & RunMode::kInvalid) == RunMode::kInvalid)
@@ -186,6 +188,10 @@ void Manager::Build(shared_ptr<Model> model) {
       exists_MCMC_objective = true;
     if (util::ToLowercase(report->type()) == PARAM_ESTIMATE_VALUE)
       exists_estimate_value = true;
+    if (util::ToLowercase(report->type()) == PARAM_PROFILE)
+      exists_profile = true;
+    if (util::ToLowercase(report->type()) == PARAM_OBJECTIVE_FUNCTION)
+      exists_objective_function = true;
   }
 
 // Pop out any warnings if we're missing reports for specific run modes
@@ -197,6 +203,15 @@ void Manager::Build(shared_ptr<Model> model) {
     LOG_WARNING() << "You are running an MCMC but there was no " << PARAM_MCMC_OBJECTIVE << " report specified. This is probably an error";
   if (run_mode == RunMode::Type::kEstimation && !exists_estimate_value)
     LOG_WARNING() << "You are running an estimation but there was no " << PARAM_ESTIMATE_VALUE << " report specified. This is probably an error";
+  if (run_mode == RunMode::Type::kProfiling) {
+    if(!exists_estimate_value)
+      LOG_VERIFY() << "You are running an profile but there was no " << PARAM_ESTIMATE_VALUE << " report specified. This is probably an error";
+    if(!exists_profile)
+      LOG_VERIFY() << "You are running an profile but there was no " << PARAM_PROFILE << " report specified. This is probably an error";
+    if(!exists_objective_function)
+      LOG_VERIFY() << "You are running an profile but there was no " << PARAM_OBJECTIVE_FUNCTION << " report specified. This is probably an error";
+  }
+  
 #endif
 
   has_built_ = true;

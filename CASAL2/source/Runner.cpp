@@ -560,7 +560,8 @@ bool Runner::RunProfiling() {
         LOG_FINE() << "Model: State change to Iteration Complete";
         managers->report()->Execute(master_model_, State::kIterationComplete);
         LOG_FINE() << "j = " << j << " steps = " << profile->steps();
-        profile->NextStep();
+        if(j != (profile->steps() - 1)) // we don't estimate the last step!
+          profile->NextStep();
         LOG_FINE() << "j = " << j << " steps = " << profile->steps();
       }
       profile->RestoreOriginalValue();
