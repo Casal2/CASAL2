@@ -74,15 +74,7 @@ void DerivedQuantity::DoExecute(shared_ptr<Model> model) {
 void DerivedQuantity::DoPrepareTabular(shared_ptr<Model> model) {
   cache_ << ReportHeader(type_, derived_quantity_label_, format_);
   cache_ << "values " << REPORT_R_DATAFRAME << REPORT_EOL;
-  const vector<vector<Double>> init_values  = derived_quantity_->initialisation_values();
-  const map<unsigned, Double>  values       = derived_quantity_->values();
-  string                       derived_type = derived_quantity_->type();
-  for (unsigned i = 0; i < init_values.size(); ++i) {
-    cache_ << derived_type << "[" << derived_quantity_->label() << "][initialisation_phase_" << i + 1 << "] ";
-  }
-  for (auto iter = values.begin(); iter != values.end(); ++iter) cache_ << derived_type << "[" << derived_quantity_->label() << "][" << iter->first << "] ";
 
-  cache_ << REPORT_EOL;
 }
 
 
@@ -94,6 +86,16 @@ void DerivedQuantity::DoExecuteTabular(shared_ptr<Model> model) {
   string                       derived_type = derived_quantity_->type();
   const map<unsigned, Double>  values       = derived_quantity_->values();
   const vector<vector<Double>> init_values  = derived_quantity_->initialisation_values();
+  if(first_run_) {
+    first_run_ = false;
+    for (unsigned i = 0; i < init_values.size(); ++i) {
+      cache_ << derived_type << "[" << derived_quantity_->label() << "][initialisation_phase_" << i + 1 << "] ";
+    }
+    for (auto iter = values.begin(); iter != values.end(); ++iter) cache_ << derived_type << "[" << derived_quantity_->label() << "][" << iter->first << "] ";
+
+    cache_ << REPORT_EOL;
+  }
+
   for (unsigned i = 0; i < init_values.size(); ++i) {
     Double value = init_values[i].back();
     cache_ << AS_DOUBLE(value) << " ";

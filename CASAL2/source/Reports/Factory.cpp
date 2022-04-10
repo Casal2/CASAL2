@@ -46,6 +46,7 @@
 #include "../Reports/Common/OutputParameters.h"
 #include "../Reports/Common/Process.h"
 #include "../Reports/Common/Project.h"
+#include "../Reports/Common/Profile.h"
 #include "../Reports/Common/RandomNumberSeed.h"
 #include "../Reports/Common/Selectivity.h"
 #include "../Reports/Common/SimulatedObservation.h"
@@ -110,6 +111,8 @@ Report* Factory::Create(shared_ptr<Model> model, const string& object_type, cons
       result = new MPD();
     else if (sub_type == PARAM_PROJECT)
       result = new Project();
+    else if (sub_type == PARAM_PROFILE)
+      result = new Profile();
     else if (sub_type == PARAM_PROCESS)
       result = new Process();
     else if (sub_type == PARAM_OBJECTIVE_FUNCTION)

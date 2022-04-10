@@ -167,6 +167,7 @@ void Manager::Build(shared_ptr<Model> model) {
   [[maybe_unused]] bool exists_estimate_value = false;  // during non-test modes
   [[maybe_unused]] bool exists_profile = false;  // during non-test modes
   [[maybe_unused]] bool exists_objective_function = false;  // during non-test modes
+  [[maybe_unused]] bool exists_simulation_report = false;  // during non-test modes
 
   for (auto report : objects_) {
     if ((RunMode::Type)(report->run_mode() & RunMode::kInvalid) == RunMode::kInvalid)
@@ -192,6 +193,8 @@ void Manager::Build(shared_ptr<Model> model) {
       exists_profile = true;
     if (util::ToLowercase(report->type()) == PARAM_OBJECTIVE_FUNCTION)
       exists_objective_function = true;
+    if (util::ToLowercase(report->type()) == PARAM_SIMULATED_OBSERVATION)
+      exists_simulation_report = true;
   }
 
 // Pop out any warnings if we're missing reports for specific run modes
@@ -203,6 +206,9 @@ void Manager::Build(shared_ptr<Model> model) {
     LOG_WARNING() << "You are running an MCMC but there was no " << PARAM_MCMC_OBJECTIVE << " report specified. This is probably an error";
   if (run_mode == RunMode::Type::kEstimation && !exists_estimate_value)
     LOG_WARNING() << "You are running an estimation but there was no " << PARAM_ESTIMATE_VALUE << " report specified. This is probably an error";
+  if (run_mode == RunMode::Type::kSimulation && !exists_simulation_report) 
+    LOG_VERIFY() << "You are running a simulation but there was no " << PARAM_SIMULATED_OBSERVATION << " report specified. This is probably an error";
+
   if (run_mode == RunMode::Type::kProfiling) {
     if(!exists_estimate_value)
       LOG_VERIFY() << "You are running an profile but there was no " << PARAM_ESTIMATE_VALUE << " report specified. This is probably an error";
