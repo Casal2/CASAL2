@@ -103,5 +103,18 @@ void SumToOne::FillReportCache(ostringstream& cache) {
   cache << PARAM_PROPORTION_PARAMETER << ": " << difference_parameter_ << REPORT_EOL;
   cache << "negative_log_jacobian: " << jacobian_ << REPORT_EOL;
 }
+
+
+/**
+ * Report stuff for this transformation
+ */
+void SumToOne::FillTabularReportCache(ostringstream& cache, bool first_run)  {
+  LOG_FINEST() << "FillTabularReportCache";
+  if(first_run) {
+    cache << PARAM_PROPORTION_PARAMETER << " " << parameter_labels_[0] << " " << parameter_labels_[1] << " negative_log_jacobian" << REPORT_EOL;
+  }
+  cache << difference_parameter_ << " " << restored_values_[0] << " " << restored_values_[1] << " " << jacobian_ << REPORT_EOL;
+}
+
 } /* namespace addressabletransformations */
 } /* namespace niwa */

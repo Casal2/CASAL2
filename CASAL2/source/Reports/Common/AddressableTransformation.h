@@ -20,6 +20,8 @@
 
 // namespaces
 namespace niwa {
+class AddressableTransformation;
+
 namespace reports {
 
 /**
@@ -31,7 +33,7 @@ public:
   AddressableTransformation();
   virtual ~AddressableTransformation() noexcept(true) = default;
   void DoValidate(shared_ptr<Model> model) final{};
-  void DoBuild(shared_ptr<Model> model) final{};
+  void DoBuild(shared_ptr<Model> model) final;
   void DoExecute(shared_ptr<Model> model) final;
 
   void DoPrepareTabular(shared_ptr<Model> model) final;
@@ -40,8 +42,10 @@ public:
 
 private:
   // members
-  string  parameter_ = "";
-  Double* target_    = 0;
+  string  addressable_label_ = "";
+  niwa::AddressableTransformation* transformation_       = nullptr;
+  bool print_all_transformations_ = true;
+  bool first_run_ = true;
 };
 
 } /* namespace reports */

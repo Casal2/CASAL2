@@ -102,6 +102,16 @@ void Inverse::FillReportCache(ostringstream& cache) {
   cache << PARAM_INVERSE_PARAMETER << ": " << inverse_value_ << REPORT_EOL;
   cache << "negative_log_jacobian: " << jacobian_ << REPORT_EOL;
 }
-
+/**
+ * Report stuff for this transformation
+ */
+void Inverse::FillTabularReportCache(ostringstream& cache, bool first_run)  {
+  LOG_FINEST() << "FillTabularReportCache";
+  if(first_run) {
+    cache << PARAM_INVERSE_PARAMETER << " " << parameter_labels_[0] << " negative_log_jacobian" << REPORT_EOL;
+  }
+  cache << inverse_value_ << " " << restored_values_[0] << " " << jacobian_ << REPORT_EOL;
+  
+}
 } /* namespace addressabletransformations */
 } /* namespace niwa */

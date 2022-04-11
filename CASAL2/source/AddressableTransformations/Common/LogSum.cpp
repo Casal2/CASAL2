@@ -118,5 +118,16 @@ void LogSum::FillReportCache(ostringstream& cache) {
   cache << PARAM_TOTAL_PROPORTION_PARAMETER << ": " << total_proportion_parameter_ << REPORT_EOL;
   cache << "negative_log_jacobian: " << jacobian_ << REPORT_EOL;
 }
+
+/**
+ * Report stuff for this transformation
+ */
+void LogSum::FillTabularReportCache(ostringstream& cache, bool first_run)  {
+  LOG_FINEST() << "FillTabularReportCache";
+  if(first_run) {
+    cache << PARAM_LOG_TOTAL_PARAMETER << " " << PARAM_TOTAL_PROPORTION_PARAMETER << " " << parameter_labels_[0] << " " << parameter_labels_[1] << " negative_log_jacobian" << REPORT_EOL;
+  }
+  cache << log_total_parameter_ << " " << total_proportion_parameter_ << " " << restored_values_[0] << " " << restored_values_[1] << " " << jacobian_ << REPORT_EOL;
+}
 } /* namespace addressabletransformations */
 } /* namespace niwa */

@@ -42,6 +42,8 @@ public:
 
   // For reporting EstimableTransformation
   virtual void FillReportCache(ostringstream& cache){};
+  virtual void FillTabularReportCache(ostringstream& cache, bool first_run){};
+
   virtual void PrepareForObjectiveFunction() = 0;
   virtual void RestoreForObjectiveFunction() = 0;
 

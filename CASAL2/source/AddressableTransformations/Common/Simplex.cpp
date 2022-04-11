@@ -258,5 +258,25 @@ void Simplex::FillReportCache(ostringstream& cache) {
   cache << "negative_log_jacobian: " << jacobian_ << REPORT_EOL;
 }
 
+
+/**
+ * Report stuff for this transformation
+ */
+void Simplex::FillTabularReportCache(ostringstream& cache, bool first_run)  {
+  LOG_FINEST() << "FillTabularReportCache";
+  if(first_run) {
+    for(unsigned i = 0; i < zk_.size(); ++i)
+      cache << simplex_parameter_[i] << " ";
+    for(unsigned i = 0; i < restored_values_.size(); ++i)
+      cache << restored_values_[i] << " ";
+    cache << "negative_log_jacobian" << REPORT_EOL;
+  }
+  for(unsigned i = 0; i < zk_.size(); ++i)
+    cache << "simplex_value[" << i + 1 << "] ";
+  for(unsigned i = 0; i < restored_values_.size(); ++i)
+    cache << "parameter_value[" << i + 1 << "] ";
+  cache << jacobian_ << REPORT_EOL;
+}
+
 } /* namespace addressabletransformations */
 } /* namespace niwa */
