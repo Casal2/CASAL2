@@ -455,7 +455,7 @@ selectivities subaTANselA
 likelihood multinomial
 delta 1e-11
 length_bins 10	30	50	60	70	80	90	100	110	120
-length_plus true
+plus_group true
 years 1990 
 table obs
 1990	0.002458274	0.027817311	0.035580282	0.020442489	0.073489455	0.064562039	0.129512227	0.340147496	0.172208565	0.133781861
@@ -477,7 +477,7 @@ selectivities subaTANselA
 likelihood multinomial
 delta 1e-11
 length_bins 10	31	50	60	70	80	90	100	110	120
-length_plus true
+plus_group true
 years 1990 
 table obs
 1990	0.002458274	0.027817311	0.035580282	0.020442489	0.073489455	0.064562039	0.129512227	0.340147496	0.172208565	0.133781861
@@ -498,7 +498,7 @@ selectivities subaTANselA
 likelihood multinomial
 delta 1e-11
 length_bins 10	31	50	60	70	80	90	100	110	120
-length_plus true
+plus_group true
 years 1990 
 table obs
 1990	0.002458274	0.027817311	0.035580282	0.020442489	0.073489455	0.064562039	0.129512227	0.340147496	0.172208565
@@ -519,7 +519,7 @@ selectivities subaTANselA
 likelihood multinomial
 delta 1e-11
 length_bins 10	30	50	60	70	80	90	100	110	120
-length_plus false
+plus_group false
 years 1990 
 table obs
 1990	0.002837939	0.032113518	0.041075429	0.023599701	0.084839432	0.074533234	0.149514563	0.392681105	0.198805078

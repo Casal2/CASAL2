@@ -1699,6 +1699,21 @@ ato95  1
 #alpha 1.0
 \end{verbatim}}}
 
+
+CASAL's implementation of this selectivity adds the following checks.
+\begin{align*}
+	&for(\text{i in selectivity\_bins}) \\
+	& \ \ if((a_{50} - i)/a_{to95} < -5.0))\\
+	&selectivity[i] = 1
+\end{align*}
+
+\begin{align*}
+&for(\text{i in selectivity\_bins}) \\
+& \ \ if((a_{50} - i)/a_{to95} > 5.0))\\
+&selectivity[i] = 0
+\end{align*}
+\CNAME\ doesn't do this, so when you plot selectivities they may look different at the edges.
+
 \subsubsection[Double-normal]{\argument{double\_normal}}\index{Selectivities!Double-normal}\label{sec:Selectivity-DoubleNormal}
 
 \begin{equation}
