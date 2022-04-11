@@ -1,4 +1,4 @@
-#' @title extract Tabular function for readin in Casal2 output that has been generated from a -r, -e, -f, -p run mode with the --tabular.  
+#' @title extract Tabular function for readin in Casal2 output that has been generated from a -r, -e, -f, -p run mode with the --tabular.
 #'
 #' @description
 #' An extract function that reads Casal2 output that are produced from a '-r' or '-e' or '-f' or '-p' model run. This funciton
@@ -40,8 +40,8 @@ function(file, path = "", fileEncoding = "", quiet = FALSE) {
   end_file_locations = which("*end" == file);
 
   ## Check this isn't a tabular report by looking at the Call:
-  if (!grepl(pattern = "--tabular", x = file[2]))
-    stop("This model was NOT run with the command '--tabular'. Please use the extract.mpd() function to import model runs without --tabular")
+  if (!grepl(pattern = "--tabular", x = file[2]) & !grepl(pattern = "-t", x = file[2]))
+    stop("This model was NOT run with the command '--tabular'. Please use the extract.mpd() function to import model runs without --tabular or -t")
 
   temp = get.lines(file, starts.with = "\\*", fixed = F)
   if (length(temp) != 0) {
@@ -61,7 +61,8 @@ function(file, path = "", fileEncoding = "", quiet = FALSE) {
       type = header[2]
       report = get.lines(file, clip.to = temp[i])
       report = get.lines(report, clip.from = "*end")
-      print(paste0("loading report '", label, "' of type '", type, "'"))
+      if(!quiet)
+        print(paste0("loading tabular report '", label, "' of type '", type, "'"))
 
       if (type == "info") {
         print("Found informational messages in the output. Skipping that report.")
@@ -82,6 +83,8 @@ function(file, path = "", fileEncoding = "", quiet = FALSE) {
         report_label = get.line.label(current_line)
 
         if (report_type == "L_E") {
+          if(report_label == "type")
+            report_label = "sub_type"
           temp_result[[report_label]] = make.list_element(current_line)
           line_no = line_no + 1
           start_ndx = start_ndx + 1;
