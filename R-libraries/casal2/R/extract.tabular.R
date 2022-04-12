@@ -35,6 +35,7 @@ function(file, path = "", fileEncoding = "", quiet = FALSE) {
   }
 
   filename = make.filename(path = path, file = file)
+  file_all_white_space = scan(filename, what = "", sep = "\n", fileEncoding = fileEncoding, quiet = quiet, blank.lines.skip = F)
   file = convert.to.lines(filename, fileEncoding = fileEncoding, quiet = quiet)
   original_file = file;
   end_file_locations = which("*end" == file);
@@ -56,6 +57,8 @@ function(file, path = "", fileEncoding = "", quiet = FALSE) {
 
     result = list()
     for (i in 1:counter) {
+      global_line_counter = which(file_all_white_space == temp[i])
+
       header = split.header(temp[i])
       label = header[1]
       type = header[2]
@@ -65,15 +68,18 @@ function(file, path = "", fileEncoding = "", quiet = FALSE) {
         print(paste0("loading tabular report '", label, "' of type '", type, "'"))
 
       if (type == "info") {
-        print("Found informational messages in the output. Skipping that report.")
+        if(!quiet)
+          print("Found informational messages in the output. Skipping that report.")
         next;
       }
       if (type == "warnings") {
-        print("Found warning messages in the output. Skipping that report.")
+        if(!quiet)
+          print("Found warning messages in the output. Skipping that report.")
         next;
       }
 
       ## report = make.list(report)
+      last_line_for_df = length(report)
       temp_result = list()
       start_ndx = which(temp[i] == original_file) + 1;
       line_no = 1;
@@ -81,24 +87,41 @@ function(file, path = "", fileEncoding = "", quiet = FALSE) {
         current_line = report[line_no]
         report_type = get.line.type(current_line)
         report_label = get.line.label(current_line)
-
         if (report_type == "L_E") {
           if(report_label == "type")
             report_label = "sub_type"
           temp_result[[report_label]] = make.list_element(current_line)
           line_no = line_no + 1
+          global_line_counter = global_line_counter + 1
           start_ndx = start_ndx + 1;
+          last_line_for_df = last_line_for_df - 1
         } else if (report_type == "dataframe") {
           # header = string.to.vector.of.words(original_file[start_ndx + 1])
           ###header1 = read.table(file = filename, skip = (start_ndx + 1 + (i - 1)), nrows = 1, stringsAsFactors = FALSE,  sep = " ", header = F,strip.white=FALSE, fill = FALSE)
-          # Data = read.table(file = filename, skip = (start_ndx + 2 + (i - 1)), nrows = (end_file_locations[i] - start_ndx - 3), stringsAsFactors = FALSE, sep = " ", header = F, strip.white = FALSE, fill = FALSE, fileEncoding = fileEncoding)
-          # Data = Data[, - ncol(Data)]
-          # colnames(Data) = header
-          # temp_result$values = Data
+          ## skip pass "values {dataframe}" line
+          global_line_counter = global_line_counter + 1
 
-          Data = make.list(report)
-          temp_result$values = Data$values
+          #file_all_white_space[global_line_counter + 1]
+          #file_all_white_space[global_line_counter + 2]
+          #file_all_white_space[global_line_counter + 1 + length(report) - 2]
+          #print(file_all_white_space[global_line_counter])
+          if(file_all_white_space[global_line_counter + 1] == "*end") {
+            ## some reports are empty, particularly for processess
+            line_no = length(report) + 1
+            next;
+          }
+          Data = read.table(file = filename, skip = global_line_counter + 1, nrows = (last_line_for_df - 2), stringsAsFactors = FALSE, sep = " ", header = F, strip.white = FALSE, fill = FALSE, fileEncoding = fileEncoding)
+          ## deal with trailing white space that is read in as a column of NAs
+          if(all(is.na(Data[,ncol(Data)])))
+            Data = Data[,-ncol(Data)]
+          header = string.to.vector.of.words(file_all_white_space[global_line_counter + 1])
+          # Data = Data[, - ncol(Data)]
+          colnames(Data) = header
+          # temp_result$values = Data
+          temp_result$values = Data
           line_no = length(report) + 1
+          global_line_counter = length(report) + 1
+
         } else {
           warning(paste0("Cannot parse tabular report of type '", report_type, "'"))
         }
