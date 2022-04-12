@@ -15,9 +15,13 @@ process Instantaneous_Mortality
 @report estimate_value
 type estimate_value
 
-@report transformations
+@report avg_diff_nonspawn
 type parameter_transformations
+parameter_transformation avg_diff_nonspawn
 
+@report avg_diff_spawn
+type parameter_transformations
+parameter_transformation avg_diff_spawn
 @report obj
 type objective_function 
 

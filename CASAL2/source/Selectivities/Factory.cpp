@@ -24,6 +24,8 @@
 #include "../Selectivities/Common/Constant.h"
 #include "../Selectivities/Common/DoubleExponential.h"
 #include "../Selectivities/Common/DoubleNormal.h"
+#include "../Selectivities/Common/DoubleNormalPlateau.h"
+#include "../Selectivities/Common/DoubleNormalSS3.h"
 #include "../Selectivities/Common/Increasing.h"
 #include "../Selectivities/Common/InverseLogistic.h"
 #include "../Selectivities/Common/KnifeEdge.h"
@@ -57,6 +59,10 @@ Selectivity* Factory::Create(shared_ptr<Model> model, const string& object_type,
       result = new DoubleExponential(model);
     else if (sub_type == PARAM_DOUBLE_NORMAL)
       result = new DoubleNormal(model);
+    else if (sub_type == PARAM_DOUBLE_NORMAL_PLATEAU)
+      result = new DoubleNormalPlateau(model);
+    else if (sub_type == PARAM_DOUBLE_NORMAL_SS3)
+      result = new DoubleNormalSS3(model);
     else if (sub_type == PARAM_INCREASING)
       result = new Increasing(model);
     else if (sub_type == PARAM_INVERSE_LOGISTIC)

@@ -122,6 +122,84 @@
 \defDefault{1.0}
 \defLowerBound{0.0 (exclusive)}
 
+
+
+\subsubsection{Selectivity of type Double Normal Plateau}
+\commandlabsubarg{selectivity}{type}{Double\_Normal\_Plateau}.
+\defRef{sec:Selectivity-DoubleNormalPlateau}
+\label{syntax:Selectivity-DoubleNormalPlateau}
+
+\defSub{a1}{The a1 ($a1$}
+\defType{Real number (estimable)}
+\defDefault{No default}
+
+\defSub{a2}{The a2 ($a2$}
+\defType{Real number (estimable)}
+\defDefault{No default}
+
+\defSub{sigma\_l}{The left-hand variance (sigma\_l) parameter}
+\defType{Real number (estimable)}
+\defDefault{No default}
+\defLowerBound{0.0 (exclusive)}
+
+\defSub{sigma\_r}{The right-hand variance (sigma\_r) parameter}
+\defType{Real number (estimable)}
+\defDefault{No default}
+\defLowerBound{0.0 (exclusive)}
+
+\defSub{alpha}{The maximum value of the selectivity}
+\defType{Real number (estimable)}
+\defDefault{1.0}
+\defLowerBound{0.0 (exclusive)}
+
+
+\subsubsection{Selectivity of type Double Normal Stock Synthesis}
+\commandlabsubarg{selectivity}{type}{Double\_Normal\_Stock\_Synthesis}.
+\defRef{sec:Selectivity-DoubleNormalStockSynthesis}
+\label{syntax:Selectivity-DoubleNormalStockSynthesis}
+
+\defSub{peak}{Age or length of plateau (max selectivity)}
+\defType{Real number (estimable)}
+\defLowerBound{0.0 (exclusive)}
+
+\defSub{y0}{Transformed selectivity for the first age or length bin}
+\defType{Real number (estimable)}
+\defLowerBound{-20}
+\defUpperBound{0}
+
+\defSub{y1}{Transformed selectivity for the last age or length bins}
+\defType{Real number (estimable)}
+\defLowerBound{-20}
+\defUpperBound{10}
+
+\defSub{descending}{The shape of descending limb in either ages or lengths}
+\defType{Real number (estimable)}
+\defDefault{No default}
+
+\defSub{ascending}{The shape of ascending limb in either ages or lengths}
+\defType{Real number (estimable)}
+\defDefault{No default}
+
+\defSub{width}{width of plateau how many ages or lengths are in the plateau}
+\defType{Real number (estimable)}
+\defDefault{No default}
+\defLowerBound{0.0 (exclusive)}
+
+\defSub{l}{min age or first length bin}
+\defType{Real number}
+\defDefault{No default}
+\defLowerBound{0.0 (exclusive)}
+
+\defSub{l}{max age or last length bin}
+\defType{Real number}
+\defDefault{No default}
+\defLowerBound{0.0 (exclusive)}
+
+\defSub{alpha}{The maximum value of the selectivity}
+\defType{Real number (estimable)}
+\defDefault{1.0}
+\defLowerBound{0.0 (exclusive)}
+
 \subsubsection{Selectivity of type Increasing}
 \commandlabsubarg{selectivity}{type}{Increasing}.
 \defRef{sec:Selectivity-Increasing}

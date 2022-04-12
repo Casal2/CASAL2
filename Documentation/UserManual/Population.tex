@@ -1734,6 +1734,58 @@ sigma_2  10    # standard deviation for right normal
 #alpha 1.0
 \end{verbatim}}}
 
+\subsubsection[Double-normal-plateau]{\argument{double\_normal\_plateau}}\index{Selectivities!Double-normal-plateau}\label{sec:Selectivity-DoubleNormalPlateau}
+
+\begin{equation}
+f(x) = \begin{cases}
+\alpha 2^{-[(x- a1)/\sigma_L ]^2}, & \text{if $x \leq a1$} \\
+\alpha, 							& \text{if $a1 \le x \leq a1 + a2 $}\\
+\alpha 2^{-[(x- (a1 + a2))/\sigma_R ]^2}, & \text{if $x \ge a1 + a2 $}\\
+\end{cases}
+\end{equation}
+The \texttt{double\_normal\_plateau} ogive has estimable parameters \(a1\), \(a2\), \(\sigma_l\), \(\sigma_r\), and \(\alpha\). When \(\alpha = 1\) and \(a2 = 0\), it is identical to the \texttt{double\_normal\_plateau}, and otherwise follows a double normal form with values \(\alpha\) at \(a1 \le x \leq a1+a2\), and \(0.5 x \alpha\) at \(x= a1-\sigma_l\) or \(x=a1+a2+\sigma_r\).
+
+Input fragment: {\small{\begin{verbatim}
+		type  double_normal_plateau
+		a1       6    
+		a2 	     2
+		sigma_1  1     # standard deviation for left normal
+		sigma_2  10    # standard deviation for right normal
+		#alpha 1.0
+		\end{verbatim}}}
+
+
+
+\subsubsection[Double-normal-stocksynthesis]{\argument{double\_normal\_stock\_synthesis}}\index{Selectivities!Double-normal-stocksynthesis}\label{sec:Selectivity-DoubleNormalStockSynthesis}
+Double normal with defined initial and final selectivity level which is based on Stock synthesis implementation. The \texttt{ascending} and \texttt{descending} are expected in log space (This should be taken out and dealt with by the parameter transformation class in future releases). The parameter values \texttt{y0} and \texttt{y1} are transformed by the selectivity class as follows
+\[
+f(x) = \frac{1}{1+exp(-1.0 x )}
+\] 
+This is to ensure the values stay between 0 and 1. The down side is starting values are a little abstract. The rule of thumb is small numbers i.e -10 will result in selectivity values close to zero and large values i.e. 10 will result in selectivity values close to one.
+
+
+Input fragment: {\small{\begin{verbatim}
+		type  double_normal_stock_synthesis
+		peak  7.5 # age or length for the plateau, should be between L and H
+		y0	 -10  # selectivity at min-age or first length bin see below for units
+		y1	  0.5 # selectivity at max-age or last length bin see below for units
+		descending 	  # log(age or length) of descending limb (shape of right hand side) 
+		ascending 	  # log(age or length) of ascending limb (shape of left hand side) 
+		width   3     # width of plateau
+		L  		1     # first length bin
+		H 		10    # last age bin
+		#alpha 1.0
+		\end{verbatim}}}
+
+
+The parameter values \texttt{y0} and \texttt{y1} are transformed by the selectivity as follows
+\[
+f(x) = \frac{1}{1+exp(-1.0 x )}
+\] 
+This is to ensure the values stay between 0 and 1. The down side is starting values are a little abstract. The rule of thumb small numbers i.e -10 will go close to zero and large values 10 will go close to one.
+
+
+
 \subsubsection[Double-exponential]{\argument{double\_exponential}}\index{Selectivities!Double-exponential}\label{sec:Selectivity-DoubleExponential}
 
 \begin{equation}
