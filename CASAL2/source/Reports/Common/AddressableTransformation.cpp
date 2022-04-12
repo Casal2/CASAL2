@@ -28,25 +28,22 @@ namespace reports {
 AddressableTransformation::AddressableTransformation() {
   run_mode_    = (RunMode::Type)(RunMode::kBasic | RunMode::kEstimation | RunMode::kProfiling | RunMode::kProjection);
   model_state_ = State::kIterationComplete;
-  parameters_.Bind<string>(PARAM_PARAMETER_TRANSFORMATION, &addressable_label_, "The parameter_transformation label that is reported", "","");
+  parameters_.Bind<string>(PARAM_PARAMETER_TRANSFORMATION, &addressable_label_, "The parameter_transformation label that is reported", "");
 }
 
 /**
  * Build the transformation report
  */
 void AddressableTransformation::DoBuild(shared_ptr<Model> model) {
-  if(addressable_label_ == "") {
-    print_all_transformations_ = true;
-    LOG_FINE() << "user did not supplied label";
-  } else {
-    print_all_transformations_ = false;
-    LOG_FINE() << "user did not supplied label " << addressable_label_;
-
-  }
-  if(!print_all_transformations_) {
-    transformation_ = model->managers()->addressable_transformation()->GetAddressableTransformation(addressable_label_);
-    if(!transformation_)
-      LOG_ERROR_P(PARAM_PARAMETER_TRANSFORMATION) << " Could not find @" << PARAM_PARAMETER_TRANSFORMATION << " labelled " << addressable_label_;
+  LOG_FINE() << "here";
+  transformation_ = model->managers()->addressable_transformation()->GetAddressableTransformation(addressable_label_);
+  if(!transformation_) {
+    #ifndef TESTMODE
+    //LOG_ERROR_P(PARAM_PARAMETER_TRANSFORMATION) << " Could not find @" << PARAM_PARAMETER_TRANSFORMATION << " labelled " << addressable_label_;
+    LOG_WARNING() << "The report for " << PARAM_PARAMETER_TRANSFORMATION << " with label '" << addressable_label_ << "' was requested. This " << PARAM_PARAMETER_TRANSFORMATION
+                  << " was not found in the input configuration file and the report will not be generated";
+    #endif
+    is_valid_ = false;
   }
 }
 
@@ -56,40 +53,21 @@ void AddressableTransformation::DoBuild(shared_ptr<Model> model) {
 void AddressableTransformation::DoExecute(shared_ptr<Model> model) {
   LOG_FINE();
   // Print the EstimableTransformation
-  if(print_all_transformations_) {
-    vector<niwa::AddressableTransformation*> addressable_transformations = model->managers()->addressable_transformation()->objects();
-    if (addressable_transformations.size() > 0) {
-      cache_ << ReportHeader(type_, label_, format_);
-      for (auto addressable_transform : addressable_transformations) {
-        cache_ << addressable_transform->label() << " " << REPORT_R_LIST << REPORT_EOL;
-        addressable_transform->FillReportCache(cache_);
-        cache_ << REPORT_R_LIST_END << REPORT_EOL;
-      }
-      ready_for_writing_ = true;
-    }
-  } else {
-    if(!print_all_transformations_)
-      transformation_ = model->managers()->addressable_transformation()->GetAddressableTransformation(addressable_label_);
-    if(!transformation_)
-      LOG_CODE_ERROR() << "(!transformation_): " << addressable_label_;
-    cache_ << ReportHeader(type_, label_, format_);
-    transformation_->FillReportCache(cache_);
-    ready_for_writing_ = true;
-  }
+  if(!print_all_transformations_)
+    transformation_ = model->managers()->addressable_transformation()->GetAddressableTransformation(addressable_label_);
+  if(!transformation_)
+    LOG_CODE_ERROR() << "(!transformation_): " << addressable_label_;
+  cache_ << ReportHeader(type_, label_, format_);
+  transformation_->FillReportCache(cache_);
+  ready_for_writing_ = true;
 }
 
 void AddressableTransformation::DoPrepareTabular(shared_ptr<Model> model) {
-  if(print_all_transformations_)
-    LOG_ERROR_P(PARAM_LABEL) << "This report needs a specified " << PARAM_PARAMETER_TRANSFORMATION << " for tabular mode";
 
 }
 
 void AddressableTransformation::DoExecuteTabular(shared_ptr<Model> model) {
-  if(!print_all_transformations_) {
-    transformation_ = model->managers()->addressable_transformation()->GetAddressableTransformation(addressable_label_);
-    if(!transformation_)
-      LOG_CODE_ERROR() << "(!transformation_): " << addressable_label_;
-  }
+  LOG_FINE() << "here";
   if (first_run_) {
     first_run_ = false;
     cache_ << ReportHeader(type_, addressable_label_, format_);

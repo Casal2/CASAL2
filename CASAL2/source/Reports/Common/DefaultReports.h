@@ -11,6 +11,7 @@
 // headers
 #include "../../Catchabilities/Manager.h"
 #include "../../DerivedQuantities/Manager.h"
+#include "../../AddressableTransformations/Manager.h"
 #include "../../Observations/Manager.h"
 #include "../../Processes/Manager.h"
 #include "../../Projects/Manager.h"

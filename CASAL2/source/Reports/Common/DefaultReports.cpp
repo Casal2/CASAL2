@@ -69,17 +69,22 @@ void DefaultReports::DoBuild(shared_ptr<Model> model) {
       }
     }
     if (addressable_transformations_) {
-      string label        = "parameter_transformations";
-      string report_label = "__" + label + "__";
-      LOG_INFO() << "Creating default report for catchability " << label;
-      reports::AddressableTransformation* report = new reports::AddressableTransformation();
-      report->set_is_default(true);
-      report->set_block_type(PARAM_REPORT);
-      report->set_defined_file_name(__FILE__);
-      report->set_defined_line_number(__LINE__);
-      report->parameters().Add(PARAM_LABEL, report_label, __FILE__, __LINE__);
-      report->parameters().Add(PARAM_TYPE, PARAM_PARAMETER_TRANSFORMATIONS, __FILE__, __LINE__);
-      model->managers()->report()->AddInternalObject(report);
+      addressabletransformations::Manager& TransformationManager = *model->managers()->addressable_transformation();
+      auto transformation = TransformationManager.objects();
+      for (auto object : transformation) {
+        string label        = object->label();
+        string report_label = "__" + label + "__";
+        LOG_INFO() << "Creating default report for addressable transformations " << label;
+        reports::AddressableTransformation* report = new reports::AddressableTransformation();
+        report->set_is_default(true);
+        report->set_block_type(PARAM_REPORT);
+        report->set_defined_file_name(__FILE__);
+        report->set_defined_line_number(__LINE__);
+        report->parameters().Add(PARAM_LABEL, report_label, __FILE__, __LINE__);
+        report->parameters().Add(PARAM_TYPE, PARAM_PARAMETER_TRANSFORMATIONS, __FILE__, __LINE__);
+        report->parameters().Add(PARAM_PARAMETER_TRANSFORMATION, label, __FILE__, __LINE__);
+        model->managers()->report()->AddInternalObject(report);
+      }
     }
     if (report_observations_) {
       observations::Manager& ObservationManager = *model->managers()->observation();
