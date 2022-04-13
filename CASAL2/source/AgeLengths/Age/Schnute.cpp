@@ -56,10 +56,12 @@ Schnute::Schnute(shared_ptr<Model> model) : AgeLength(model) {
  */
 void Schnute::DoBuild() {
   // Cv by length are we estiamteing mean growth params
-  // if we aren't estimating or using in -i 
+  // if we aren't estimating or using in -i
   LOG_FINE() << "does a have an @estimate block " << IsAddressableUsedFor(PARAM_A, addressable::kEstimate);
-  if((!IsAddressableUsedFor(PARAM_Y1, addressable::kEstimate) & !IsAddressableUsedFor(PARAM_Y2, addressable::kEstimate) & !IsAddressableUsedFor(PARAM_A, addressable::kEstimate) & !IsAddressableUsedFor(PARAM_B, addressable::kEstimate)) & 
-     (!IsAddressableUsedFor(PARAM_Y1, addressable::kInputRun) & !IsAddressableUsedFor(PARAM_Y2, addressable::kInputRun) & !IsAddressableUsedFor(PARAM_A, addressable::kInputRun) & !IsAddressableUsedFor(PARAM_B, addressable::kInputRun))) {
+  if ((!IsAddressableUsedFor(PARAM_Y1, addressable::kEstimate) & !IsAddressableUsedFor(PARAM_Y2, addressable::kEstimate) & !IsAddressableUsedFor(PARAM_A, addressable::kEstimate)
+       & !IsAddressableUsedFor(PARAM_B, addressable::kEstimate))
+      & (!IsAddressableUsedFor(PARAM_Y1, addressable::kInputRun) & !IsAddressableUsedFor(PARAM_Y2, addressable::kInputRun) & !IsAddressableUsedFor(PARAM_A, addressable::kInputRun)
+         & !IsAddressableUsedFor(PARAM_B, addressable::kInputRun))) {
     change_mean_length_params_ = false;
     LOG_FINE() << "Not estimating mean length params and cv by length so don't need to update CV or Length age translation";
   }
@@ -67,28 +69,24 @@ void Schnute::DoBuild() {
   LOG_FINE() << "update CV in reset call = " << change_mean_length_params_;
 }
 
-
 /**
  * Reset any objects
  */
-void Schnute::DoReset() {
-
-}
-
+void Schnute::DoReset() {}
 
 /**
  * This is responsible for returning the correct mean length
  * for this class
  */
 Double Schnute::calculate_mean_length(unsigned year, unsigned time_step, unsigned age) {
-  Double temp = 0.0;
-  Double size = 0.0;
-  Double proportion = time_step_proportions_[time_step];
+  Double temp                = 0.0;
+  Double size                = 0.0;
+  Double age_with_proportion = age + time_step_proportions_[time_step];
 
   if (a_ != 0.0)
-    temp = (1 - exp(-a_ * ((age + proportion) - tau1_))) / (1 - exp(-a_ * (tau2_ - tau1_)));
+    temp = (1 - exp(-a_ * (age_with_proportion - tau1_))) / (1 - exp(-a_ * (tau2_ - tau1_)));
   else
-    temp = (age - tau1_) / (tau2_ - tau1_);
+    temp = (age_with_proportion - tau1_) / (tau2_ - tau1_);
 
   if (b_ != 0.0)
     size = pow((pow(y1_, b_) + (pow(y2_, b_) - pow(y1_, b_)) * temp), 1 / b_);
@@ -97,7 +95,7 @@ Double Schnute::calculate_mean_length(unsigned year, unsigned time_step, unsigne
 
   if (size < 0.0)
     return 0.0;
-  //LOG_FINEST() << "age " << age << " size = " << size;
+  // LOG_FINEST() << "age " << age << " size = " << size;
 
   return size;
 }
