@@ -73,7 +73,7 @@ void Selectivity::Validate() {
   if (model_->partition_type() == PartitionType::kAge) {
     values_.assign(model_->age_spread(), 0.0);
   } else {
-    length_values_.assign(model_->length_bins().size(), 0.0);
+    length_values_.assign(model_->length_bin_mid_points().size(), 0.0);
   }
 }
 

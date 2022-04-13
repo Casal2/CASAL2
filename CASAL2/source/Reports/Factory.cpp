@@ -53,6 +53,7 @@
 #include "../Reports/Common/TimeVarying.h"
 #include "../Reports/Length/InitialisationPartitionMeanWeight.h"
 #include "../Reports/Length/Partition.h"
+#include "../Reports/Length/GrowthIncrement.h"
 #include "../Reports/Length/PartitionBiomass.h"
 #include "../Reports/Length/PartitionMeanWeight.h"
 #include "../Reports/Manager.h"
@@ -147,13 +148,14 @@ Report* Factory::Create(shared_ptr<Model> model, const string& object_type, cons
           result = new age::Partition_YearCrossAgeMatrix();
       }
     } else if (model->partition_type() == PartitionType::kLength) {
-      LOG_FATAL() << "Length based models are mot yet implemented";
       if (sub_type == PARAM_INITIALISATION_PARTITION_MEAN_WEIGHT)
-        result = new age::InitialisationPartitionMeanWeight();
+        result = new length::InitialisationPartitionMeanWeight();
       else if (sub_type == PARAM_PARTITION_BIOMASS)
-        result = new age::PartitionBiomass();
+        result = new length::PartitionBiomass();
+      else if (sub_type == PARAM_GROWTH_INCREMENT)
+        result = new length::GrowthIncrement();
       else if (sub_type == PARAM_PARTITION)
-        result = new age::Partition();
+        result = new length::Partition();
     }
 
     if (result && add_to_manager)

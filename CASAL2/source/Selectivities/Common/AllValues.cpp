@@ -51,9 +51,9 @@ void AllValues::DoValidate() {
       break;
 
     case PartitionType::kLength:
-      if (v_.size() != model_->length_bins().size()) {
+      if (v_.size() != model_->length_bin_mid_points().size()) {
         LOG_ERROR_P(PARAM_V) << ": Number of 'v' values supplied is not the same as the number of length bins that were defined for the model.\n"
-                             << "Expected: " << model_->length_bins().size() << ", parsed: " << v_.size();
+                             << "Expected: " << model_->length_bin_mid_points().size() << ", parsed: " << v_.size();
       }
       break;
 

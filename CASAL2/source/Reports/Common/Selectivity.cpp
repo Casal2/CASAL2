@@ -44,7 +44,7 @@ void Selectivity::DoBuild(shared_ptr<Model> model) {
 #endif
     is_valid_ = false;
 #ifndef TESTMODE
-  } else if (selectivity_->IsSelectivityLengthBased()) {
+  } else if (selectivity_->IsSelectivityLengthBased() & (model->partition_type() == PartitionType::kAge)) {
     LOG_WARNING() << "Cannot report the length-based selectivity values. This report (" << label_ << ") is being ignored. "
                   << "This can be done using the Casal2 R package. See the User Manual for more information";
 #endif
@@ -57,7 +57,26 @@ void Selectivity::DoExecute(shared_ptr<Model> model) {
     return;
 
   LOG_TRACE();
-  if (!selectivity_->IsSelectivityLengthBased()) {
+  if(model->partition_type() == PartitionType::kAge) {
+    if (!selectivity_->IsSelectivityLengthBased()) {
+      LOG_FINEST() << "Printing age-based selectivity";
+      cache_ << ReportHeader(type_, selectivity_label_, format_);
+      const map<string, Parameter*> parameters = selectivity_->parameters().parameters();
+
+      for (auto iter : parameters) {
+        Parameter* x = iter.second;
+        cache_ << iter.first << ": ";
+
+        vector<string> values = x->current_values();
+        for (string value : values) cache_ << value << " ";
+        cache_ << REPORT_EOL;
+      }
+
+      cache_ << "Values " << REPORT_R_VECTOR << REPORT_EOL;
+      for (unsigned i = model->min_age(); i <= model->max_age(); ++i) cache_ << i << " " << AS_DOUBLE(selectivity_->GetAgeResult(i, nullptr)) << "\n";
+      ready_for_writing_ = true;
+    }
+  } else if(model->partition_type() == PartitionType::kLength) {
     LOG_FINEST() << "Printing age-based selectivity";
     cache_ << ReportHeader(type_, selectivity_label_, format_);
     const map<string, Parameter*> parameters = selectivity_->parameters().parameters();
@@ -72,7 +91,7 @@ void Selectivity::DoExecute(shared_ptr<Model> model) {
     }
 
     cache_ << "Values " << REPORT_R_VECTOR << REPORT_EOL;
-    for (unsigned i = model->min_age(); i <= model->max_age(); ++i) cache_ << i << " " << AS_DOUBLE(selectivity_->GetAgeResult(i, nullptr)) << "\n";
+    for (unsigned i = 0; i < model->get_number_of_length_bins(); ++i) cache_ << i << " " << AS_DOUBLE(selectivity_->GetLengthResult(i)) << "\n";
     ready_for_writing_ = true;
   }
 }
@@ -82,30 +101,53 @@ void Selectivity::DoExecute(shared_ptr<Model> model) {
 void Selectivity::DoPrepareTabular(shared_ptr<Model> model) {
   if (!is_valid())
     return;
-  if (!selectivity_->IsSelectivityLengthBased()) {
-    cache_ << ReportHeader(type_, label_, format_);
-    cache_ << "values " << REPORT_R_DATAFRAME << REPORT_EOL;
-    string age, selectivity_by_age_label;
+  if(model->partition_type() == PartitionType::kAge) {
+    if (!selectivity_->IsSelectivityLengthBased()) {
+      cache_ << ReportHeader(type_, label_, format_);
+      cache_ << "values " << REPORT_R_DATAFRAME << REPORT_EOL;
+      string age, selectivity_by_age_label;
 
-    for (unsigned i = model->min_age(); i <= model->max_age(); ++i) {
-      if (!utilities::To<unsigned, string>(i, age))
-        LOG_CODE_ERROR() << "Could not convert the value " << i << " to a string for storage in the tabular report";
-      selectivity_by_age_label = "selectivity[" + selectivity_->label() + "]." + age;
-      cache_ << selectivity_by_age_label << " ";
+      for (unsigned i = model->min_age(); i <= model->max_age(); ++i) {
+        if (!utilities::To<unsigned, string>(i, age))
+          LOG_CODE_ERROR() << "Could not convert the value " << i << " to a string for storage in the tabular report";
+        selectivity_by_age_label = "selectivity[" + selectivity_->label() + "]." + age;
+        cache_ << selectivity_by_age_label << " ";
+      }
+      cache_ << REPORT_EOL;
     }
-    cache_ << REPORT_EOL;
+  } else if(model->partition_type() == PartitionType::kLength) {
+      cache_ << ReportHeader(type_, label_, format_);
+      cache_ << "values " << REPORT_R_DATAFRAME << REPORT_EOL;
+      string length, selectivity_by_length_label;
+
+      for (auto length_mid_vals : model->length_bin_mid_points()) {
+        if (!utilities::To<double, string>(length_mid_vals, length))
+          LOG_CODE_ERROR() << "Could not convert the value " << length_mid_vals << " to a string for storage in the tabular report";
+        selectivity_by_length_label = "selectivity[" + selectivity_->label() + "]." + length;
+        cache_ << selectivity_by_length_label << " ";
+      }
+      cache_ << REPORT_EOL;
   }
+
 }
 
 void Selectivity::DoExecuteTabular(shared_ptr<Model> model) {
   if (!is_valid())
     return;
-  if (!selectivity_->IsSelectivityLengthBased()) {
-    for (unsigned i = model->min_age(); i <= model->max_age(); ++i) {
-      cache_ << AS_DOUBLE(selectivity_->GetAgeResult(i, nullptr)) << " ";
+  if(model->partition_type() == PartitionType::kAge) {
+    if (!selectivity_->IsSelectivityLengthBased()) {
+      for (unsigned i = model->min_age(); i <= model->max_age(); ++i) {
+        cache_ << AS_DOUBLE(selectivity_->GetAgeResult(i, nullptr)) << " ";
+      }
+      cache_ << REPORT_EOL;
     }
-    cache_ << REPORT_EOL;
+  } else if(model->partition_type() == PartitionType::kLength) {
+      for (unsigned i = 0; i < model->get_number_of_length_bins(); ++i) {
+        cache_ << AS_DOUBLE(selectivity_->GetLengthResult(i)) << " ";
+      }
+      cache_ << REPORT_EOL;
   }
+
 }
 
 void Selectivity::DoFinaliseTabular(shared_ptr<Model> model) {

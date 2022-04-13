@@ -75,19 +75,20 @@ void MortalityConstantRate::DoValidate() {
   }
 
   // Validate our Ms are greater than or equal to 0.0
-  for (Double m : m_input_) {
-    if (m < 0.0)
-      LOG_ERROR_P(PARAM_M) << ": m value (" << AS_DOUBLE(m) << ") must be greater than or equal to 0.0";
-  }
   for (unsigned i = 0; i < m_input_.size(); ++i) m_[category_labels_[i]] = m_input_[i];
 
   // Check that the time step ratios sum to one
-  double total = 0.0;
-  for (double value : ratios_) {
+  // commented out as a nightmare to add due to unit-tests...
+  /*
+  Double total = 0.0;
+  for (Double value : ratios_) {
     total += value;
   }
-  // if (fabs(total - 1.0) > 1e-5)
-  //  LOG_ERROR() << "The time step proportions must sum to one";
+  if (!utilities::math::IsOne(total)) {
+    LOG_ERROR_P(PARAM_TIME_STEP_PROPORTIONS) << " need to sum to one";
+  }
+  */
+
 }
 
 /**

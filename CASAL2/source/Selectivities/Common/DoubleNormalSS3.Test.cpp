@@ -19,6 +19,7 @@
 #include <string>
 
 #include "../../TestResources/MockClasses/Model.h"
+#include "../../TestResources/MockClasses/ModelLength.h"
 #include "DoubleNormalSS3.h"
 
 // Namespaces

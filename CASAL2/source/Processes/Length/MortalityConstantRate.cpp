@@ -18,6 +18,7 @@
 
 #include "../../Categories/Categories.h"
 #include "../../TimeSteps/Manager.h"
+#include "Selectivities/Manager.h"
 
 // Namespaces
 namespace niwa {
@@ -35,7 +36,7 @@ MortalityConstantRate::MortalityConstantRate(shared_ptr<Model> model) : Process(
   parameters_.Bind<string>(PARAM_CATEGORIES, &category_labels_, "The list of categories labels", "");
   parameters_.Bind<Double>(PARAM_M, &m_input_, "The mortality rates", "")->set_lower_bound(0.0);
   parameters_.Bind<Double>(PARAM_TIME_STEP_PROPORTIONS, &ratios_, "The time step proportions for the mortality rates", "", true)->set_range(0.0, 1.0);
-  //  parameters_.Bind<string>(PARAM_SELECTIVITIES, &selectivity_names_, "List of selectivities for the categories", "");
+  parameters_.Bind<string>(PARAM_RELATIVE_M_BY_LENGTH, &selectivity_names_, "The M-by-length bin ogives to apply to each category for natural mortality", "");
 
   RegisterAsAddressable(PARAM_M, &m_);
 }
@@ -55,34 +56,32 @@ void MortalityConstantRate::DoValidate() {
     auto val_m = m_input_[0];
     m_input_.assign(category_labels_.size(), val_m);
   }
-  //  if (selectivity_names_.size() == 1)
-  //    selectivity_names_.assign(category_labels_.size(), selectivity_names_[0]);
 
-  //  if (selectivity_names_.size() == 1) {
-  //    auto val_s = selectivity_names_[0];
-  //    selectivity_names_.assign(category_labels_.size(), val_s);
-  //  }
+  if (selectivity_names_.size() == 1) {
+    auto val_sel = selectivity_names_[0];
+    selectivity_names_.assign(category_labels_.size(), val_sel);
+  }
 
   if (m_input_.size() != category_labels_.size()) {
-    LOG_ERROR_P(PARAM_M) << ": the number of Ms provided is not the same as the number of categories provided. Expected: " << category_labels_.size() << ", parsed "
-                         << m_input_.size();
-  }
-  /*
-
-    if (selectivity_names_.size() != category_labels_.size()) {
-      LOG_ERROR_P(PARAM_SELECTIVITIES)
-        << ": Number of selectivities provided is not the same as the number of categories provided. Expected: "
-        << category_labels_.size()<< " but got " << selectivity_names_.size();
-    }
-  */
-
-  // Validate our Ms are greater than or equal to 0.0
-  for (Double m : m_input_) {
-    if (m < 0.0)
-      LOG_ERROR_P(PARAM_M) << ": m value " << AS_DOUBLE(m) << " must be greater than or equal to 0.0";
+    LOG_ERROR_P(PARAM_M) << ": The number of Ms provided (" << m_input_.size() << ") does not match the number of categories provided (" << category_labels_.size() << ").";
   }
 
-  for (unsigned i = 0; i < m_input_.size(); ++i) m_[category_labels_[i]] = m_input_[i];
+  if (selectivity_names_.size() != category_labels_.size()) {
+    LOG_ERROR_P(PARAM_RELATIVE_M_BY_LENGTH) << ": The number of M-by-age ogives provided (" << selectivity_names_.size() << ") does not match the number of categories provided ("
+                                         << category_labels_.size() << ").";
+  }
+
+  for (unsigned i = 0; i < m_input_.size(); ++i) 
+    m_[category_labels_[i]] = m_input_[i];
+
+  // Check that the time step ratios sum to one
+  Double total = 0.0;
+  for (Double value : ratios_) {
+    total += value;
+  }
+  if (!utilities::math::IsOne(total)) {
+    LOG_ERROR_P(PARAM_TIME_STEP_PROPORTIONS) << " need to sum to one";
+  }
 }
 
 /**
@@ -94,17 +93,7 @@ void MortalityConstantRate::DoValidate() {
  */
 void MortalityConstantRate::DoBuild() {
   partition_.Init(category_labels_);
-  /*
-
-    for (string label : selectivity_names_) {
-      Selectivity* selectivity = model_->managers()->selectivity()->GetSelectivity(label);
-      if (!selectivity)
-        LOG_ERROR_P(PARAM_SELECTIVITIES) << ": selectivity " << label << " was not found.";
-
-      selectivities_.push_back(selectivity);
-    }
-
-  */
+  
   /**
    * Organise our time step ratios. Each time step can
    * apply a different ratio of M so here we want to verify
@@ -124,13 +113,13 @@ void MortalityConstantRate::DoBuild() {
     if (ratios_.size() != active_time_steps.size())
       LOG_ERROR_P(PARAM_TIME_STEP_PROPORTIONS) << " length (" << ratios_.size() << ") does not match the number of time steps this process has been assigned to ("
                                                << active_time_steps.size() << ")";
-
-    for (Double value : ratios_) {
-      if (value < 0.0 || value > 1.0)
-        LOG_ERROR_P(PARAM_TIME_STEP_PROPORTIONS) << " value (" << value << ") must be between 0.0 and 1.0 inclusive";
-    }
-
     for (unsigned i = 0; i < ratios_.size(); ++i) time_step_ratios_[active_time_steps[i]] = ratios_[i];
+  }
+  for (string label : selectivity_names_) {
+    Selectivity* selectivity = model_->managers()->selectivity()->GetSelectivity(label);
+    if (!selectivity)
+      LOG_ERROR_P(PARAM_RELATIVE_M_BY_LENGTH) << ": M-by-length ogive label " << label << " was not found.";
+    selectivities_.push_back(selectivity);
   }
 }
 
@@ -153,13 +142,11 @@ void MortalityConstantRate::DoExecute() {
   Double   total_amount = 0.0;
   for (auto category : partition_) {
     Double m = m_[category->name_];
-
     unsigned j = 0;
-
-    LOG_FINEST() << "category " << category->name_ << "; min_age: " << category->min_age_ << "; ratio: " << ratio;
+    LOG_FINEST() << "category " << category->name_ << "; ratio: " << ratio;
     // StoreForReport(category->name_ + " ratio", ratio);
     for (Double& data : category->data_) {
-      amount = data * (1.0 - exp(-m * ratio));
+      amount = data * (1 - exp(-selectivities_[i]->GetLengthResult(j) * (m * ratio)));
       data -= amount;
       total_amount += amount;
       ++j;

@@ -81,7 +81,7 @@ void DoubleNormalPlateau::RebuildCache() {
         values_[age - age_index_] = alpha_*pow(2.0,-((temp-(a1_ + a2_))/sigma_r_ * (temp-(a1_ + a2_))/sigma_r_));
     }
   } else if (model_->partition_type() == PartitionType::kLength) {
-    vector<double> length_bins = model_->length_bins();
+    vector<double> length_bins = model_->length_bin_mid_points();
     Double         temp        = 0.0;
     for (unsigned length_bin_index = 0; length_bin_index < length_bins.size(); ++length_bin_index) {
       temp = length_bins[length_bin_index];

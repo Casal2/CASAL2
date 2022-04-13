@@ -106,7 +106,7 @@ void DoubleNormalSS3::RebuildCache() {
       values_[age - age_index_] = sel_val;
     }
   } else if (model_->partition_type() == PartitionType::kLength) {
-    vector<double> length_bins = model_->length_bins();
+    vector<double> length_bins = model_->length_bin_mid_points();
     Double         temp        = 0.0;
     Double         bin_width = 0.0;
     for (unsigned length_bin_index = 0; length_bin_index < length_bins.size(); ++length_bin_index) {

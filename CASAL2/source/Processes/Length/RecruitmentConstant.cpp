@@ -27,7 +27,7 @@ namespace length {
 RecruitmentConstant::RecruitmentConstant(shared_ptr<Model> model) : Process(model), partition_(model) {
   parameters_.Bind<string>(PARAM_CATEGORIES, &category_labels_, "The categories", "");
   parameters_.Bind<Double>(PARAM_PROPORTIONS, &proportions_, "The proportions", "", true);
-  parameters_.Bind<Double>(PARAM_LENGTH_BINS, &length_bins_, "The length bins that recruits are uniformly distributed over at the time of recruitment", "");
+  parameters_.Bind<Double>(PARAM_LENGTH_BINS, &length_bins_, "The length bin that recruits are uniformly distributed over at the time of recruitment. Needs to be consistent with @model length bin inputs", "");
   parameters_.Bind<Double>(PARAM_R0, &r0_, "R0", "")->set_lower_bound(0.0);
 
   RegisterAsAddressable(PARAM_R0, &r0_);

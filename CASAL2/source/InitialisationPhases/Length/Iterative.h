@@ -54,10 +54,8 @@ protected:
   vector<unsigned>     convergence_years_;
   cached::Categories   cached_partition_;
   accessor::Categories partition_;
-  vector<RecruitmentBevertonHolt*>               recruitment_process_;
+  vector<length::RecruitmentBevertonHolt*>               recruitment_process_;
 
-  // vector<RecruitmentBevertonHolt*> recruitment_process_;
-  // vector<RecruitmentBevertonHoltWithDeviations*> recruitment_process_with_devs_;
 };
 
 }  // namespace length

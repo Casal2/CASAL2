@@ -59,7 +59,6 @@ private:
   Double                     b0_             = 0.0;
   bool                       b0_initialised_ = false;
   vector<Double>             proportions_;
-  unsigned                   age_       = 0;
   Double                     steepness_ = 0.0;
   string                     ssb_;
   unsigned                   ssb_offset_;
@@ -79,6 +78,9 @@ private:
   unsigned                   last_ycs_year_;
   vector<Double>             initial_mean_length_;
   vector<Double>             initial_length_cv_;
+
+  vector<vector<Double>>     initial_length_distribution_; // category x length bins            
+
 
 };
 

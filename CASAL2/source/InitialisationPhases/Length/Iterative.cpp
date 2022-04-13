@@ -123,7 +123,7 @@ void Iterative::DoBuild() {
     for (auto process : time_step->processes()) {
       if (process->process_type() == ProcessType::kRecruitment && process->type() == PARAM_RECRUITMENT_BEVERTON_HOLT) {
         LOG_FINEST() << "Found a BevertonHolt process";
-        recruitment_process_.push_back(dynamic_cast<RecruitmentBevertonHolt*>(process));
+        recruitment_process_.push_back(dynamic_cast<length::RecruitmentBevertonHolt*>(process));
         if (!recruitment_process_[i])
           LOG_CODE_ERROR() << "BevertonHolt Recruitment exists but dynamic cast pointer cannot be made, if (!recruitment) ";
         i++;

@@ -39,6 +39,8 @@
 #include "../Processes/Length/Growth.h"
 #include "../Processes/Length/MortalityConstantRate.h"
 #include "../Processes/Length/RecruitmentConstant.h"
+#include "../Processes/Length/RecruitmentBevertonHolt.h"
+#include "../Processes/Length/MortalityInstantaneous.h"
 #include "../Processes/Manager.h"
 
 // Namespaces
@@ -128,8 +130,12 @@ Process* Factory::Create(shared_ptr<Model> model, const string& object_type, con
         result = new length::MortalityConstantRate(model);
       else if (sub == PARAM_RECRUITMENT_CONSTANT)
         result = new length::RecruitmentConstant(model);
+      else if (sub == PARAM_RECRUITMENT_BEVERTON_HOLT)
+        result = new length::RecruitmentBevertonHolt(model);
       else if (sub == PARAM_NOP)
         result = new processes::NullProcess(model);
+      else if (sub == PARAM_MORTALITY_INSTANTANEOUS)
+        result = new length::MortalityInstantaneous(model);
     }
   }
 

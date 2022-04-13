@@ -39,8 +39,8 @@ RecruitmentBevertonHolt::RecruitmentBevertonHolt(shared_ptr<Model> model) : Proc
   parameters_.Bind<Double>(PARAM_R0, &r0_, "R0, the mean recruitment used to scale annual recruits or initialise the model", "", false)->set_lower_bound(0.0);
   parameters_.Bind<Double>(PARAM_B0, &b0_, "B0, the SSB corresponding to R0, and used to scale annual recruits or initialise the model", "", false)->set_lower_bound(0.0);
   parameters_.Bind<Double>(PARAM_PROPORTIONS, &proportions_, "The proportion for each category", "");
-  parameters_.Bind<unsigned>(PARAM_SSB_OFFSET, &ssb_offset_, "The spawning biomass year offset", "", true);
-  parameters_.Bind<Double>(PARAM_STEEPNESS, &steepness_, "Steepness (h)", "", 1.0)->set_range(0.2, 1.0);
+  parameters_.Bind<unsigned>(PARAM_SSB_OFFSET, &ssb_offset_, "The spawning biomass year offset", "");
+  parameters_.Bind<Double>(PARAM_STEEPNESS, &steepness_, "Steepness (h)", "", 1.0)->set_range(0.0, 1.0);
   parameters_.Bind<string>(PARAM_SSB, &ssb_, "The SSB label (i.e., the derived quantity label)", "");
   parameters_.Bind<string>(PARAM_B0_PHASE, &phase_b0_label_, "The initialisation phase label that B0 is from", "", "");
   parameters_.Bind<Double>(PARAM_YCS_VALUES, &ycs_values_, "The YCS values", "");
@@ -77,11 +77,6 @@ void RecruitmentBevertonHolt::DoValidate() {
   if (!parameters_.Get(PARAM_R0)->has_been_defined() && !parameters_.Get(PARAM_B0)->has_been_defined())
     LOG_FATAL() << "Specify either R0 or B0 to initialise the model with Beverton-Holt recruitment";
 
-  if (age_ < model_->min_age())
-    LOG_ERROR_P(PARAM_AGE) << " (" << age_ << ") cannot be less than the model's min_age (" << model_->min_age() << ")";
-  if (age_ > model_->max_age())
-    LOG_ERROR_P(PARAM_AGE) << " (" << age_ << ") cannot be greater than the model's max_age (" << model_->max_age() << ")";
-
   if (category_labels_.size() != proportions_.size())
     LOG_ERROR_P(PARAM_CATEGORIES) << "One proportion is required to be defined per category. There are " << category_labels_.size() << " categories and " << proportions_.size()
                                   << " proportions defined.";
@@ -97,9 +92,9 @@ void RecruitmentBevertonHolt::DoValidate() {
   }
 
   if(initial_length_cv_.size() != category_labels_.size())
-    LOG_ERROR_P(PARAM_INITIAL_LENGTH_CV) << "There needs to be a value for each category";
+    LOG_FATAL_P(PARAM_INITIAL_LENGTH_CV) << "There needs to be a value for each category";
   if(initial_mean_length_.size() != category_labels_.size())
-    LOG_ERROR_P(PARAM_INITIAL_MEAN_LENGTH) << "There needs to be a value for each category";
+    LOG_FATAL_P(PARAM_INITIAL_MEAN_LENGTH) << "There needs to be a value for each category";
   Double running_total = 0.0;
   for (Double value : proportions_)  // Again, ADOLC prevents std::accum
     running_total += value;
@@ -168,80 +163,7 @@ void RecruitmentBevertonHolt::DoBuild() {
   /**
    * Calculate out SSB offset
    */
-  unsigned                temp_ssb_offset                  = 0;
-  const vector<TimeStep*> ordered_time_steps               = model_->managers()->time_step()->ordered_time_steps();
-  unsigned                time_step_index                  = 0;
-  unsigned                process_index                    = 0;
-  unsigned                ageing_processes                 = 0;
-  unsigned                ageing_index                     = std::numeric_limits<unsigned>::max();
-  unsigned                recruitment_index                = std::numeric_limits<unsigned>::max();
-  unsigned                derived_quantity_index           = std::numeric_limits<unsigned>::max();
-  unsigned                derived_quantity_time_step_index = model_->managers()->time_step()->GetTimeStepIndex(derived_quantity_->time_step());
-  bool                    mortailty_block                  = false;
-
-  // loop through time steps
-  for (auto time_step : ordered_time_steps) {
-    if (time_step_index == derived_quantity_time_step_index) {
-      for (auto process : time_step->processes()) {
-        if (process->process_type() == ProcessType::kAgeing) {
-          ageing_index = process_index;
-          ageing_processes++;
-        }
-        if (process->process_type() == ProcessType::kMortality) {
-          mortailty_block        = true;
-          derived_quantity_index = process_index;
-        }
-        process_index++;
-      }
-      LOG_FINEST() << "process_index = " << process_index;
-      if (!mortailty_block) {
-        process_index++;
-        derived_quantity_index = process_index;
-        process_index++;
-      }
-    } else {
-      for (auto process : time_step->processes()) {
-        if (process->process_type() == ProcessType::kAgeing) {
-          ageing_index = process_index;
-          ageing_processes++;
-        }
-        process_index++;
-      }
-    }
-    time_step_index++;
-  }
-
-  recruitment_index = model_->managers()->time_step()->GetProcessIndex(label_);
-  if ((ageing_processes > 1) & !parameters_.Get(PARAM_SSB_OFFSET)->has_been_defined()) {
-    LOG_ERROR_P(PARAM_LABEL) << "For the Beverton-Holt recruitment process, " << PARAM_SSB_OFFSET << " can only be derived when there is only one ageing process in the annual cycle. " << ageing_processes
-                             << " ageing processes were specified. Manually set the " << PARAM_SSB_OFFSET;
-  }
-
-  if (ageing_processes == 1) {
-    if (ageing_index == std::numeric_limits<unsigned>::max())
-      LOG_ERROR() << location() << " could not calculate the " << PARAM_SSB_OFFSET << " because there is no ageing process";
-
-    if ((recruitment_index < ageing_index) && (ageing_index < derived_quantity_index))
-      temp_ssb_offset = age_ + 1;
-    else if (derived_quantity_index < ageing_index && ageing_index < recruitment_index)
-      temp_ssb_offset = age_ - 1;
-    else
-      temp_ssb_offset = age_;
-
-    LOG_FINEST()  << PARAM_SSB_OFFSET << " calculated to be = " << temp_ssb_offset << "; recruitment index = " << recruitment_index << "; ageing index = " << ageing_index
-                << "; derived_quantity index = " << derived_quantity_index;
-    // Check if the user has supplied the expected value for the model.
-    if(parameters_.Get(PARAM_SSB_OFFSET)->has_been_defined()) {
-      if (temp_ssb_offset != ssb_offset_) {
-        LOG_WARNING() << "The " << PARAM_SSB_OFFSET << " specified (" << ssb_offset_ << ") is different from what Casal2 calculated (" << temp_ssb_offset
-                      << "). This value should be manually set only under certain conditions. See the User Manual on this process for more information.";
-      }
-    } else {
-      ssb_offset_ = temp_ssb_offset;
-    }
-  } 
-
-
+   
   // Check that ycs years corresponds to the correct ssb_offset calculated
   if (ycs_years_[0] != (model_->start_year() - ssb_offset_))
     LOG_ERROR_P(PARAM_YCS_YEARS) << "The first year class year is " << ycs_years_[0] << ", but with the configuration of the process it should be "
@@ -276,6 +198,12 @@ void RecruitmentBevertonHolt::DoBuild() {
   ssb_values_.reserve(model_->years().size());
   true_ycs_values_.reserve(model_->years().size());
   recruitment_values_.reserve(model_->years().size());
+
+  // calculate initial length distribution
+  initial_length_distribution_.resize(category_labels_.size());
+  for(unsigned i = 0; i < category_labels_.size(); i++) {
+    initial_length_distribution_[i] = utilities::math::distribution(model_->length_bins(), model_->length_plus(), Distribution::kNormal, initial_mean_length_[i], initial_mean_length_[i] * initial_length_cv_[i]);
+  }
 
   DoReset();
 }
@@ -449,12 +377,13 @@ void RecruitmentBevertonHolt::DoExecute() {
     ++year_counter_;
   }
 
-  unsigned i = 0;
+  unsigned category_counter = 0;
   for (auto category : partition_) {
-    LOG_FINEST() << category->name_ << "; age: " << age_ << "; category->min_age_: " << category->min_age_ << " recruits = " << amount_per << ", proportion of recruits "
+    LOG_FINEST() << category->name_ <<  " recruits = " << amount_per << ", proportion of recruits "
                  << proportions_by_category_[category->name_];
-    //category->data_[] += amount_per * proportions_by_category_[category->name_];
-    ++i;
+    for(unsigned i = 0; i < category->data_.size(); i++)            
+      category->data_[i] += amount_per * initial_length_distribution_[category_counter][i] * proportions_by_category_[category->name_];
+    ++category_counter;
   }
 }
 
@@ -506,6 +435,12 @@ void RecruitmentBevertonHolt::FillReportCache(ostringstream& cache) {
   cache << "\nRecruit_event_SSB: ";
   for (auto iter : ssb_values_) cache << AS_DOUBLE(iter) << " ";
   cache << REPORT_EOL;
+  for(unsigned i = 0; i < category_labels_.size(); i++) {
+    cache << category_labels_[i] << "_initial_length_distribution:";
+     for(unsigned j = 0; j < initial_length_distribution_[i].size(); j++)  
+      cache << " " << AS_DOUBLE(initial_length_distribution_[i][j]);
+    cache << REPORT_EOL;
+  }
 }
 
 /**
