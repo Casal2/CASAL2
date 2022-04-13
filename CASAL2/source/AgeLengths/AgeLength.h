@@ -18,6 +18,7 @@
 #include "../BaseClasses/Object.h"
 #include "../Partition/Category.h"
 #include "../Utilities/Distribution.h"
+#include "../Utilities/Compatibility.h"
 
 // namespaces
 namespace niwa {
@@ -28,11 +29,6 @@ class LengthWeight;
 /*
 
 */
-enum class CompatibilityType { 
-  kCasal, 
-  kCasal2, 
-  kUnknown,
-}; 
 
 // classes
 class AgeLength : public niwa::base::Object {
