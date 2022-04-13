@@ -100,6 +100,7 @@ public:
   virtual PartitionType         partition_type() const { return partition_type_; }
   virtual const vector<double>& length_bins() const { return model_length_bins_; }
   virtual bool                  length_plus() const { return length_plus_; }
+  virtual const vector<double>& length_bin_mid_points() const { return model_length_bin_mid_points_;}
   virtual double                length_plus_group() const { return length_plus_group_; }
   unsigned                      get_number_of_length_bins() const { return number_of_model_length_bins_; }
   bool                          are_length_bin_compatible_with_model_length_bins(vector<double>& length_bins);
@@ -163,6 +164,7 @@ protected:
   vector<string>       initialisation_phases_;
   vector<string>       time_steps_;
   vector<double>       model_length_bins_;
+  vector<double>       model_length_bin_mid_points_;
   bool                 length_plus_              = true;
   double               length_plus_group_        = 0;
   bool                 addressable_values_file_  = false;

@@ -13,7 +13,7 @@
 
 #include "../../InitialisationPhases/Manager.h"
 #include "../../TimeSteps/Manager.h"
-#include "../../AgeLengths/AgeLength.h"
+#include "../../GrowthIncrements/GrowthIncrement.h"
 
 // namespaces
 namespace niwa {
@@ -33,12 +33,8 @@ void Biomass::PreExecute() {
 
   // iterate over each category
   for (unsigned i = 0; i < partition_.size() && iterator != partition_.end(); ++i, ++iterator) {
-
     for (unsigned j = 0; j < (*iterator)->data_.size(); ++j) {
-      //cache_value_ += (*iterator)->data_[j] * selectivities_[i]->GetLengthResult(j) * (*iterator)->mean_weight_by_time_step_length_[time_step_index][j];
-      //LOG_FINEST() << "Biomass (Pre-execute) for category = " << (*iterator)->name_ << " length bin = " << length_bins[j]
-      //             << " mean weight = " << (*iterator)->mean_weight_by_time_step_length_[time_step_index][j] << " selectivity = " << selectivities_[i]->GetLengthResult(j)
-      //             << " numbers = " << (*iterator)->data_[j];
+      cache_value_ += (*iterator)->data_[j] * selectivities_[i]->GetLengthResult(j) * (*iterator)->growth_increment_->get_mean_weight(j);
     }
   }
 }
@@ -63,10 +59,7 @@ void Biomass::Execute() {
     // iterate over each category
     for (unsigned i = 0; i < partition_.size() && iterator != partition_.end(); ++i, ++iterator) {
       for (unsigned j = 0; j < (*iterator)->data_.size(); ++j) {
-        //LOG_FINE() << "Biomass for category = " << (*iterator)->name_ << " length = " << length_bins[j]
-        //           << " mean weight = " << (*iterator)->mean_weight_by_time_step_length_[time_step_index][j] << " selectivity = " << selectivities_[i]->GetLengthResult(j)
-        //           << " numbers = " << (*iterator)->data_[j];
-        //value += (*iterator)->data_[j] * selectivities_[i]->GetLengthResult(j) * (*iterator)->mean_weight_by_time_step_length_[time_step_index][j];
+        value += (*iterator)->data_[j] * selectivities_[i]->GetLengthResult(j) * (*iterator)->growth_increment_->get_mean_weight(j);
       }
     }
 
@@ -106,7 +99,7 @@ void Biomass::Execute() {
     for (unsigned i = 0; i < partition_.size() && iterator != partition_.end(); ++i, ++iterator) {
 
       for (unsigned j = 0; j < (*iterator)->data_.size(); ++j) {
-        //value += (*iterator)->data_[j] * selectivities_[i]->GetLengthResult(j) * (*iterator)->mean_weight_by_time_step_length_[time_step_index][j];
+        value += (*iterator)->data_[j] * selectivities_[i]->GetLengthResult(j) * (*iterator)->growth_increment_->get_mean_weight(j);
       }
     }
 

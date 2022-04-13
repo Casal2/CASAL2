@@ -11,7 +11,9 @@ void AllCategoriesHaveAnM(shared_ptr<Model> model);
 
 // Execute the functions
 void DoVerification(shared_ptr<Model> model) {
-  AgeingProcessExists(model);
+  if(model->partition_type() == PartitionType::kAge) {
+    AgeingProcessExists(model);
+  } 
   RecruitmentCategoriesVerification(model);
   AllCategoriesHaveAnM(model);
 }

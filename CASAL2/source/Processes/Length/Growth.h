@@ -1,5 +1,5 @@
 /**
- * @file GrowthBasic.h
+ * @file Growth.h
  * @author  C.Marsh
  * @version 1.0
  * @date 27/07/2017
@@ -13,8 +13,8 @@
  *
  *
  */
-#ifndef LENGTH_GROWTH_BASIC_H_
-#define LENGTH_GROWTH_BASIC_H_
+#ifndef LENGTH_GROWTH_H_
+#define LENGTH_GROWTH_H_
 
 // Headers
 #include "../../Partition/Accessors/Categories.h"
@@ -30,11 +30,11 @@ namespace accessor = niwa::partition::accessors;
 /**
  * Class Definition
  */
-class GrowthBasic : public niwa::Process {
+class Growth : public niwa::Process {
 public:
   // Methods
-  explicit GrowthBasic(shared_ptr<Model> model);
-  virtual ~GrowthBasic() = default;
+  explicit Growth(shared_ptr<Model> model);
+  virtual ~Growth() = default;
   void DoValidate() override final;
   void DoBuild() override final;
   void DoReset() override final;
@@ -43,17 +43,8 @@ public:
 private:
   // Members
   accessor::Categories   partition_;
-  vector<Double>         g_;
-  vector<Double>         l_;
-  vector<double>         length_bin_mid_points_;
-  vector<double>         length_bins_;
   vector<string>         category_labels_;
-  Double                 cv_ = 0.0;
-  vector<string>         growth_time_steps_;
-  Double                 min_sigma_         = 0.0;
-  unsigned               n_growth_episodes_ = 1;
-  vector<vector<Double>> transition_matrix_;             // explains how each length bin moves to others.
-  vector<vector<Double>> numbers_transitioning_matrix_;  // explains how each length bin moves to others.
+  vector<Double>         new_length_partition_;
 };
 
 } /* namespace length */

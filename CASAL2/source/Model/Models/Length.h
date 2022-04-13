@@ -4,7 +4,7 @@
  * @date 20/09/2019
  * @section LICENSE
  *
- * Copyright NIWA Science ©2019 - www.niwa.co.nz
+ * Copyright NIWA Science ï¿½2019 - www.niwa.co.nz
  */
 #ifndef SOURCE_MODEL_MODELS_LENGTH_H_
 #define SOURCE_MODEL_MODELS_LENGTH_H_
@@ -21,6 +21,8 @@ class Length : public Model {
 public:
   Length();
   virtual ~Length();
+  void DoValidate() override;
+
 };
 
 } /* namespace model */

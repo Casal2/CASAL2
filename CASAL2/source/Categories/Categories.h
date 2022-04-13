@@ -22,9 +22,8 @@
 // Namespaces
 namespace niwa {
 class Model;
-class AgeWeight;
 class AgeLength;
-class LengthWeight;
+class GrowthIncrement;
 
 /**
  * Struct Definition
@@ -35,8 +34,7 @@ struct CategoryInfo {
   unsigned         min_age_       = 0;
   unsigned         max_age_       = 0;
   AgeLength*       age_length_    = nullptr;
-  LengthWeight*    length_weight_ = nullptr;
-  AgeWeight*       age_weight_    = nullptr;
+  GrowthIncrement* growth_increment_ = nullptr;
 };
 
 /**
@@ -68,7 +66,7 @@ public:
   unsigned               max_age(const string& category_name);
   vector<unsigned>       years(const string& category_name);
   virtual AgeLength*     age_length(const string& category_name);
-  LengthWeight*          length_weight(const string& category_name);
+  virtual GrowthIncrement*  growth_increment(const string& category_name);
   // AgeWeight*             age_weight(const string& category_name);
 
 protected:
@@ -85,9 +83,9 @@ protected:
   vector<string>            years_;
   vector<string>            category_names_;
   vector<string>            age_length_labels_;
-  vector<string>            length_weight_labels_;
+  vector<string>            growth_increment_labels_;
   map<string, string>       category_age_length_labels_;
-  map<string, string>       category_length_weight_labels_;
+  map<string, string>       category_growth_increment_labels_;
   map<string, CategoryInfo> categories_;
 };
 } /* namespace niwa */

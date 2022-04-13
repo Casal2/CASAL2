@@ -62,7 +62,7 @@ using std::endl;
 Model::Model() {
   LOG_TRACE();
 
-  parameters_.Bind<string>(PARAM_TYPE, &type_, "Type of model (only type=age is currently implemented)", "", PARAM_AGE)->set_allowed_values({PARAM_AGE, PARAM_PI_APPROX});
+  parameters_.Bind<string>(PARAM_TYPE, &type_, "Type of model (only type=age is currently implemented)", "", PARAM_AGE)->set_allowed_values({PARAM_AGE, PARAM_PI_APPROX, PARAM_LENGTH});
   // was: ->set_allowed_values({PARAM_AGE, PARAM_LENGTH, PARAM_HYBRID, PARAM_MULTIVARIATE, PARAM_PI_APPROX});
   parameters_
       .Bind<string>(PARAM_BASE_UNITS, &base_weight_units_,

@@ -43,12 +43,12 @@ Age::Age() {
  *
  */
 void Age::DoValidate() {
+  if (min_age_ > max_age_)
+    LOG_ERROR_P(PARAM_MIN_AGE) << " (" << min_age_ << ") has been defined as greater than max_age (" << max_age_ << ")";
   if (start_year_ < 1000)
     LOG_ERROR_P(PARAM_START_YEAR) << " (" << start_year_ << ") cannot be less than 1000";
   if (start_year_ > final_year_)
     LOG_ERROR_P(PARAM_FINAL_YEAR) << " (" << final_year_ << ") cannot be less than start_year (" << start_year_ << ")";
-  if (min_age_ > max_age_)
-    LOG_ERROR_P(PARAM_MIN_AGE) << " (" << min_age_ << ") has been defined as greater than max_age (" << max_age_ << ")";
 
   if (run_mode_ == RunMode::kProjection) {
     if (projection_final_year_ <= final_year_) {

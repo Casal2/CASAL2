@@ -40,6 +40,7 @@ namespace asserts { class Manager; }
 namespace catchabilities { class Manager; }
 namespace derivedquantities { class Manager; }
 namespace estimates { class Manager; }
+namespace growthincrements { class Manager; }
 namespace addressabletransformations { class Manager;}
 namespace initialisationphases { class Manager; }
 namespace lengthweights { class Manager; }
@@ -82,6 +83,7 @@ public:
   virtual derivedquantities::Manager*          derived_quantity() { CHECK_AND_RETURN(derived_quantity_); }
   virtual AddressableInputLoader*              addressable_input_loader() { CHECK_AND_RETURN(addressable_input_loader_); }
   virtual estimates::Manager*                  estimate() { CHECK_AND_RETURN(estimate_); }
+  virtual growthincrements::Manager*           growth_increment() { CHECK_AND_RETURN(growth_increment_); }
   virtual addressabletransformations::Manager* addressable_transformation() { CHECK_AND_RETURN(addressable_transformation_); }
   virtual initialisationphases::Manager*       initialisation_phase() { CHECK_AND_RETURN(initialisation_phase_); }
   virtual lengthweights::Manager*              length_weight() { CHECK_AND_RETURN(length_weight_); }
@@ -122,6 +124,7 @@ protected:
   derivedquantities::Manager*          derived_quantity_           = nullptr;
   AddressableInputLoader*              addressable_input_loader_   = nullptr;
   estimates::Manager*                  estimate_                   = nullptr;
+  growthincrements::Manager*           growth_increment_           = nullptr;
   addressabletransformations::Manager* addressable_transformation_ = nullptr;
   initialisationphases::Manager*       initialisation_phase_       = nullptr;
   lengthweights::Manager*              length_weight_              = nullptr;

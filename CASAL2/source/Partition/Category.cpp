@@ -15,7 +15,7 @@
 
 #include "../AgeLengths/AgeLength.h"
 #include "../Categories/Categories.h"
-#include "../LengthWeights/LengthWeight.h"
+#include "../GrowthIncrements/GrowthIncrement.h"
 #include "../Model/Model.h"
 #include "../Partition/Partition.h"
 #include "../TimeSteps/Manager.h"
@@ -40,6 +40,7 @@ void Category::Cache() {
     }
   }
 }
+
 
 }  // namespace partition
 } /* namespace niwa */

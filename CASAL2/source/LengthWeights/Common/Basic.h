@@ -4,7 +4,7 @@
  * @date 24/07/2013
  * @section LICENSE
  *
- * Copyright NIWA Science ©2013 - www.niwa.co.nz
+ * Copyright NIWA Science ï¿½2013 - www.niwa.co.nz
  *
  * @section DESCRIPTION
  *
@@ -34,6 +34,8 @@ public:
 
   // accessors
   Double mean_weight(Double size, Distribution distribution, Double cv) const override final;
+  Double mean_weight(Double size) const override final;
+
   string weight_units() const override final { return units_; };
 
 private:
@@ -43,6 +45,7 @@ private:
   Double cv_             = 0;
   Double unit_multipier_ = 1.0;
   string units_;
+  Double length_bin_proportion_ = 0.5;
 };
 
 } /* namespace lengthweights */

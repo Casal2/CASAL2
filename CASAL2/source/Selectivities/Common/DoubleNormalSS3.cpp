@@ -31,7 +31,7 @@ DoubleNormalSS3::DoubleNormalSS3(shared_ptr<Model> model) : Selectivity(model) {
   parameters_.Bind<Double>(PARAM_PEAK, &peak_, "beginning size (or age) for the plateau (in cm or year).", "")->set_lower_bound(0.0, false);
   parameters_.Bind<Double>(PARAM_Y0, &first_sel_val_, "Selectivity at first bin, as logistic between 0 and 1", "")->set_range(-20, 0.0, true, true);
   parameters_.Bind<Double>(PARAM_Y1, &last_sel_val_, "Selectivity at last bin, as logistic between 0 and 1", "")->set_range(-20, 10.0, true, true);
-  parameters_.Bind<Double>(PARAM_ASCENDING, &asc_width_, "Ascending width: parameter value is ln(width).", "")->set_lower_bound(0.0, false);
+  parameters_.Bind<Double>(PARAM_ASCENDING, &asc_width_, "Ascending width: parameter value is ln(width).", "");
   parameters_.Bind<Double>(PARAM_DESCENDING, &desc_width_, "Descending width: parameter value is ln(width).", "");
   parameters_.Bind<Double>(PARAM_WIDTH, &top_width_, "width of plateau, as logistic between peak and maximum length (or age)", "");
   parameters_.Bind<Double>(PARAM_L, &min_x_val_, "The low value (L)", "")->set_lower_bound(0.0, false);

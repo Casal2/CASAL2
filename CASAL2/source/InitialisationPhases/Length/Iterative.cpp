@@ -4,7 +4,7 @@
  * @date 2/09/2014
  * @section LICENSE
  *
- * Copyright NIWA Science ©2014 - www.niwa.co.nz
+ * Copyright NIWA Science ï¿½2014 - www.niwa.co.nz
  *
  */
 
@@ -21,6 +21,7 @@
 #include "../../Processes/Manager.h"
 #include "../../TimeSteps/Factory.h"
 #include "../../TimeSteps/Manager.h"
+#include "../../Processes/Length/RecruitmentBevertonHolt.h"
 
 // namespaces
 namespace niwa {
@@ -115,41 +116,34 @@ void Iterative::DoBuild() {
   vector<string> categories = model_->categories()->category_names();
   partition_.Init(categories);
   cached_partition_.Init(categories);
-  /*
-    // Find any BH_recruitment process in the annual cycle
-    unsigned i = 0;
-    for (auto time_step : model_->managers()->time_step()->ordered_time_steps()) {
-      for (auto process : time_step->processes()) {
-        if (process->process_type() == ProcessType::kRecruitment && process->type() == PARAM_RECRUITMENT_BEVERTON_HOLT) {
-          LOG_FINEST() << "Found a BH process!!!!";
-          recruitment_process_.push_back(dynamic_cast<RecruitmentBevertonHolt*>(process));
-          if (!recruitment_process_[i])
-            LOG_CODE_ERROR() << "BevertonHolt Recruitment exists but dynamic cast pointer cannot be made, if (!recruitment) ";
-          i++;
-        } else if (process->process_type() == ProcessType::kRecruitment && process->type() == PARAM_RECRUITMENT_BEVERTON_HOLT_WITH_DEVIATIONS) {
-          LOG_FINEST() << "Found a BH process!!!!";
-          recruitment_process_with_devs_.push_back(dynamic_cast<RecruitmentBevertonHoltWithDeviations*>(process));
-          if (!recruitment_process_with_devs_[i])
-            LOG_CODE_ERROR() << "BevertonHolt Recruitment with deviations exists but dynamic cast pointer cannot be made, if (!recruitment) ";
-          i++;
-        }
-      }
+
+  // Find any BH_recruitment process in the annual cycle
+  unsigned i = 0;
+  for (auto time_step : model_->managers()->time_step()->ordered_time_steps()) {
+    for (auto process : time_step->processes()) {
+      if (process->process_type() == ProcessType::kRecruitment && process->type() == PARAM_RECRUITMENT_BEVERTON_HOLT) {
+        LOG_FINEST() << "Found a BevertonHolt process";
+        recruitment_process_.push_back(dynamic_cast<RecruitmentBevertonHolt*>(process));
+        if (!recruitment_process_[i])
+          LOG_CODE_ERROR() << "BevertonHolt Recruitment exists but dynamic cast pointer cannot be made, if (!recruitment) ";
+        i++;
+      } 
     }
-  */
+  }
 }
 
 /**
  * Execute the iterative initialisation phases
  */
 void Iterative::Execute() {
+  LOG_TRACE();
+  timesteps::Manager& time_step_manager = *model_->managers()->time_step();
   if (convergence_years_.size() == 0) {
-    timesteps::Manager& time_step_manager = *model_->managers()->time_step();
     time_step_manager.ExecuteInitialisation(label_, years_);
 
   } else {
     unsigned total_years = 0;
     for (unsigned years : convergence_years_) {
-      timesteps::Manager& time_step_manager = *model_->managers()->time_step();
       time_step_manager.ExecuteInitialisation(label_, years - (total_years + 1));
 
       total_years += years - (total_years + 1);
@@ -157,7 +151,6 @@ void Iterative::Execute() {
         time_step_manager.ExecuteInitialisation(label_, 1);
         break;
       }
-
       cached_partition_.BuildCache();
       time_step_manager.ExecuteInitialisation(label_, 1);
       ++total_years;
@@ -169,34 +162,21 @@ void Iterative::Execute() {
       LOG_FINEST() << "Initial year = " << years;
     }
   }
-
-  /*
-   * Ignore B0 Length Based Models for now.
-    LOG_FINEST() << "Number of Beverton-Holt recruitment processes in annual cycle = " << recruitment_process_.size();
-    LOG_FINEST() << "Number of Beverton-Holt recruitment processes with deviations in annual cycle = " << recruitment_process_with_devs_.size();
-    // We are at Equilibrium state here
-    // Check if we have B0 initialised or R0 initialised recruitment
-    bool B0_intial_recruitment = false;
-    for (auto recruitment_process : recruitment_process_) {
-      if (recruitment_process->bo_initialised()) {
-        LOG_FINEST() << PARAM_B0 << " has been defined for process labelled " << recruitment_process->label();
-        recruitment_process->ScalePartition();
-        B0_intial_recruitment = true;
-      }
+  // Check if we have B0 initialised or R0 initialised recruitment
+  bool B0_initial_recruitment = false;
+  for (auto recruitment_process : recruitment_process_) {
+    if (recruitment_process->b0_initialised()) {
+      LOG_FINEST() << PARAM_B0 << " has been defined for process labelled " << recruitment_process->label();
+      recruitment_process->ScalePartition();
+      B0_initial_recruitment = true;
     }
-    for (auto recruitment_process_with_devs : recruitment_process_with_devs_) {
-      if (recruitment_process_with_devs->bo_initialised()) {
-        LOG_FINEST() << PARAM_B0 << " has been defined for process labelled " << recruitment_process_with_devs->label();
-        recruitment_process_with_devs->ScalePartition();
-        B0_intial_recruitment = true;
-      }
-    }
-    if (B0_intial_recruitment) {
-      // Calculate derived quanitities in the right space if we have a B0 initialised model
-      timesteps::Manager& time_step_manager = *model_->managers()->time_step();
-      time_step_manager.ExecuteInitialisation(label_, 1);
-    }
-  */
+  }
+  // if so re-run the model and populate model quantities with scaled values
+  if (B0_initial_recruitment) {
+    LOG_FINE() << "B0 initialised";
+    // Calculate derived quantities in the right space if we have a B0 initialised model
+    time_step_manager.ExecuteInitialisation(label_, 1);
+  }
 }
 
 /**
@@ -207,19 +187,16 @@ void Iterative::Execute() {
  */
 bool Iterative::CheckConvergence() {
   LOG_TRACE();
-
   Double variance = 0.0;
-
   auto cached_category = cached_partition_.begin();
   auto category        = partition_.begin();
 
   for (; category != partition_.end(); ++cached_category, ++category) {
-    Double sum = 0.0;
-    for (Double value : (*category)->length_data_) sum += value;  // Can't use std::accum because of AutoDiff
+    Double sum = (*category)->data_[(*category)->data_.size() - 1];
     if (sum == 0.0)
       return false;
-
-    for (unsigned i = 0; i < (*category)->length_data_.size(); ++i) variance += fabs((*cached_category).length_data_[i] - (*category)->length_data_[i]) / sum;
+    // focus on the plus group
+    variance += fabs((*cached_category).data_[(*cached_category).data_.size() - 1] - (*category)->data_[(*category)->data_.size() - 1]) / sum;
   }
 
   if (variance < lambda_)

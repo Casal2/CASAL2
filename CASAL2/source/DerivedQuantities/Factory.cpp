@@ -42,7 +42,6 @@ DerivedQuantity* Factory::Create(shared_ptr<Model> model, const string& object_t
         result = new age::Biomass(model);
     }
   } else if (partition_type == PartitionType::kLength || model->partition_type() == PartitionType::kLength) {
-    LOG_FATAL() << "Length based models are mot yet implemented";
     if (object_type == PARAM_DERIVED_QUANTITY || object_type == PARAM_DERIVED_QUANTITIES) {
       if (sub_type == PARAM_ABUNDANCE)
         result = new length::Abundance(model);

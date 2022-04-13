@@ -27,7 +27,7 @@
 // namespaces
 namespace niwa {
 class AgeLength;
-class LengthWeight;
+class GrowthIncrement;
 class Model;
 
 namespace partition {
@@ -47,7 +47,6 @@ public:
   virtual ~Category() = default;
 
   void Cache();
-
   // accessors
   unsigned age_spread() const { return (max_age_ - min_age_) + 1; }
 
@@ -63,6 +62,7 @@ public:
   vector<Double>   cached_length_data_;
 
   AgeLength* age_length_ = nullptr;
+  GrowthIncrement* growth_increment_ = nullptr;
 
 private:
   // members

@@ -27,6 +27,7 @@
 #include "../Categories/Categories.h"
 #include "../DerivedQuantities/Manager.h"
 #include "../Estimates/Manager.h"
+#include "../GrowthIncrements/Manager.h"
 #include "../InitialisationPhases/Manager.h"
 #include "../LengthWeights/Manager.h"
 #include "../Likelihoods/Manager.h"
@@ -66,6 +67,7 @@ Managers::Managers(shared_ptr<Model> model) {
   assert_                     = new asserts::Manager();
   catchability_               = new catchabilities::Manager();
   derived_quantity_           = new derivedquantities::Manager();
+  growth_increment_           = new growthincrements::Manager();
   addressable_input_loader_   = new AddressableInputLoader(model_);
   estimate_                   = new estimates::Manager();
   addressable_transformation_ = new addressabletransformations::Manager();
@@ -109,6 +111,7 @@ Managers::~Managers() {
   delete derived_quantity_;
   delete addressable_input_loader_;
   delete estimate_;
+  delete growth_increment_;
   delete addressable_transformation_;
   delete initialisation_phase_;
   delete length_weight_;
@@ -169,6 +172,7 @@ void Managers::Validate() {
   additional_prior_->Validate();
   ageing_error_->Validate();
   age_length_->Validate();
+  growth_increment_->Validate();
   age_weight_->Validate();
   assert_->Validate();
   catchability_->Validate();
@@ -216,6 +220,7 @@ void Managers::Build() {
   // age-length and length-weight needs to be down stream of observations and processes
   // so they can tell the age-length class which years to build age-length matricies for.
   age_length_->Build();
+  growth_increment_->Build();
   age_weight_->Build();
   length_weight_->Build();
 
@@ -253,6 +258,7 @@ void Managers::Verify(shared_ptr<Model> model) {
   addressable_input_loader_->Verify(model);
   addressable_transformation_->Verify(model);
   age_length_->Verify(model);
+  growth_increment_->Verify(model);
   age_weight_->Verify(model);
   length_weight_->Verify(model);
   selectivity_->Verify(model);
@@ -284,6 +290,7 @@ void Managers::Reset() {
   LOG_TRACE();
   addressable_transformation_->Reset();  // needs to be up top, asmay change values down the list
   age_length_->Reset();
+  growth_increment_->Reset();
   age_weight_->Reset();
   length_weight_->Reset();
   selectivity_->Reset();
