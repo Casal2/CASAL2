@@ -65,9 +65,6 @@ ProportionsAtLength::~ProportionsAtLength() {
  */
 void ProportionsAtLength::DoValidate() {
   // Check value for initial mortality
-  if (model_->length_bins().size() == 0)
-    LOG_ERROR_P(PARAM_LABEL) << ": No length bins have been specified in @model. This observation requires those to be defined";
-
   if(length_plus_ & !model_->length_plus())
     LOG_ERROR_P(PARAM_LENGTH_PLUS) << "you have specified a plus group on this observation, but the global length bins don't have a plus group. This is an inconsistency that must be fixed. Try changing the model plus group to false or this plus group to true";
 

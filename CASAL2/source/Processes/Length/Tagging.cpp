@@ -164,7 +164,6 @@ void Tagging::DoExecute() {
     // Calculate the Exploitation rate
     from_iter = from_partition_.begin();
     to_iter   = to_partition_.begin();
-
     LOG_FINEST() << "selectivity.size(): " << selectivities_.size();
     for (auto iter : selectivities_)
       LOG_FINE() << "selectivity: " << iter.first;

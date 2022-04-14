@@ -1,20 +1,19 @@
 /**
- * @file Base.cpp
- * @author  Scott Rasmussen (scott.rasmussen@zaita.com)
- * @date 2/09/2013
+ * @file BaseLength.cpp
+ * @author  C.Marsh
+ * @date 2022
  * @section LICENSE
  *
- * Copyright NIWA Science �2013 - www.niwa.co.nz
+ * Copyright NIWA Science 2022 - www.niwa.co.nz
  *
  */
 #ifdef TESTMODE
 
 // headers
-#include "Base.h"
+#include "BaseLength.h"
 
 #include "../../Model/Managers.h"
 #include "../../Model/Model.h"
-#include "../../Model/Models/Age.h"
 #include "../../Model/Models/Length.h"
 
 // namespaces
@@ -24,8 +23,8 @@ namespace testfixtures {
 /**
  *
  */
-void Base::SetUp() {
-  model_.reset(new model::Age());
+void BaseLength::SetUp() {
+  model_.reset(new model::Length());
   model_->set_global_configuration(&global_config_);
   model_->managers()->create_test_managers();
 }
@@ -33,7 +32,7 @@ void Base::SetUp() {
 /**
  *
  */
-void Base::TearDown() {}
+void BaseLength::TearDown() {}
 
 } /* namespace testfixtures */
 } /* namespace niwa */

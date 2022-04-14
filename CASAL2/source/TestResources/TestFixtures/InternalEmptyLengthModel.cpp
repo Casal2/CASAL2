@@ -1,5 +1,5 @@
 /**
- * @file InternalEmptyModel.cpp
+ * @file InternalEmptyLengthModel.cpp
  * @author  Scott Rasmussen (scott.rasmussen@zaita.com)
  * @date 20/08/2013
  * @section LICENSE
@@ -9,7 +9,7 @@
  */
 #ifdef TESTMODE
 
-#include "InternalEmptyModel.h"
+#include "InternalEmptyLengthModel.h"
 
 #include <boost/algorithm/string/split.hpp>
 #include <boost/algorithm/string/trim_all.hpp>
@@ -42,8 +42,8 @@ namespace testfixtures {
 /**
  *
  */
-void InternalEmptyModel::SetUp() {
-  Base::SetUp();
+void InternalEmptyLengthModel::SetUp() {
+  BaseLength::SetUp();
 
   utilities::RandomNumberGenerator& rng = utilities::RandomNumberGenerator::Instance();
   rng.Reset(2468);
@@ -53,6 +53,7 @@ void InternalEmptyModel::SetUp() {
     LOG_CODE_ERROR() << "!model";
   model_->global_configuration().set_skip_config_file(true);
   model_->flag_primary_thread_model();
+  model_->set_partition_type(PartitionType::kLength);
 }
 
 /**
@@ -62,7 +63,7 @@ void InternalEmptyModel::SetUp() {
  * @param file_name The name of the file where the line has been defined
  * @param line_number The line number where the line has been defined
  */
-void InternalEmptyModel::AddConfigurationLine(const string& line, const string& file_name, unsigned line_number) {
+void InternalEmptyLengthModel::AddConfigurationLine(const string& line, const string& file_name, unsigned line_number) {
   vector<string> lines;
   boost::split(lines, line, boost::is_any_of("\n"));
 
@@ -83,7 +84,7 @@ void InternalEmptyModel::AddConfigurationLine(const string& line, const string& 
  * Call our configuration file loader to load our internal
  * configuration file for execution in the model
  */
-void InternalEmptyModel::LoadConfiguration() {
+void InternalEmptyLengthModel::LoadConfiguration() {
   configuration::Loader loader;
 
   for (config::FileLine file_line : configuration_file_) loader.StoreLine(file_line);
