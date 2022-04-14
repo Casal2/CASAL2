@@ -37,6 +37,7 @@
 #include "../Processes/Common/LoadPartition.h"
 #include "../Processes/Common/Nop.h"
 #include "../Processes/Length/Growth.h"
+#include "../Processes/Length/Tagging.h"
 #include "../Processes/Length/MortalityConstantRate.h"
 #include "../Processes/Length/RecruitmentConstant.h"
 #include "../Processes/Length/RecruitmentBevertonHolt.h"
@@ -136,6 +137,8 @@ Process* Factory::Create(shared_ptr<Model> model, const string& object_type, con
         result = new processes::NullProcess(model);
       else if (sub == PARAM_MORTALITY_INSTANTANEOUS)
         result = new length::MortalityInstantaneous(model);
+      else if (sub == PARAM_TAGGING)
+        result = new length::Tagging(model);
     }
   }
 

@@ -72,8 +72,7 @@ void TagByAge::DoValidate() {
     LOG_ERROR_P(PARAM_TO) << " number of values supplied (" << to_category_labels_.size() << ") does not match the number of from categories provided ("
                           << from_category_labels_.size() << ")";
   }
-  if (u_max_ < 0.0 || u_max_ > 1.0)
-    LOG_ERROR_P(PARAM_U_MAX) << " (" << u_max_ << ") must be greater than or equal to 0.0 and less than 1.0";
+
   if (min_age_ < model_->min_age())
     LOG_ERROR_P(PARAM_MIN_AGE) << " (" << min_age_ << ") is less than the model's minimum age (" << model_->min_age() << ")";
   if (max_age_ > model_->max_age())
@@ -184,6 +183,7 @@ void TagByAge::DoValidate() {
  * Build relationships between this object and others
  */
 void TagByAge::DoBuild() {
+
   from_partition_.Init(from_category_labels_);
   to_partition_.Init(to_category_labels_);
 
@@ -207,6 +207,7 @@ void TagByAge::DoBuild() {
  * Execute this process
  */
 void TagByAge::DoExecute() {
+
   if (model_->current_year() < first_year_)
     return;
 
@@ -220,6 +221,7 @@ void TagByAge::DoExecute() {
 
   LOG_FINEST() << "numbers_.size(): " << numbers_.size();
   LOG_FINEST() << "numbers_[current_year].size(): " << numbers_[current_year].size();
+  
   for (unsigned i = 0; i < numbers_[current_year].size(); ++i)
     LOG_FINEST() << "numbers_[current_year][" << i << "]: " << numbers_[current_year][i];
 

@@ -317,7 +317,7 @@ In the case of a virtual \textit{timing evaluation interval}, the partition at t
 \TODO{GO OVER M and specifying M-by-age HERE FOR ALL M-BASED PROCESSES}
 \TODO{MAX U rate specification + Penalities}
 
-\paragraph{Constant mortality rate}\label{sec:Process-MortalityConstantRate} \STATUS{Untested}
+\paragraph{Constant mortality rate}\label{sec:Process-MortalityConstantRate} 
 
 To specify a constant annual mortality rate \index{Constant mortality}(e.g. $M=0.2$) for categories "male" and "female"
 
@@ -436,11 +436,11 @@ and specified similarly for a \textbf{biomass-based} fishing mortality process
 
 \paragraph{Instantaneous mortality}\label{sec:Process-MortalityInstantaneous}\label{sec:Process-MortalityInstantaneousEventBiomass}\label{sec:Process-MortalityInstantaneousEvent}
 
-The instantaneous mortality process\index{Instantaneous mortality} combines both natural mortality and event mortality into a single process. This allows the simultaneous application of both natural mortality and anthropogenic mortality to occur across multiple time steps. This process applies half the natural mortality in each time step, then the mortalities from all the concurrent removals instantaneously, then the remaining half of the natural mortality. The event mortality can be either as biomasses or numbers (abundance). In fisheries models this is the most commonly used mortality process
+The instantaneous mortality process\index{Instantaneous mortality} combines both natural mortality and fishing exploitation into a single process. This allows the simultaneous application of both natural mortality and anthropogenic mortality to occur across multiple time steps. This process accounts for half the natural mortality within a time step before calculating vulnerable biomasses for calculating exploitation rates. The remaining half of the natural mortality is taken after exploitation has been accounted for. The input for this process is catches and these can either be specified as biomasses or numbers (abundance). In fisheries models in \CNAME\ this is the most commonly used mortality process.
 
 This process allows for multiple removal events, e.g., a fisheries model with multiple fisheries and/or fleets. A removal method can occur in one time step only, although multiple removals can be defined to cover events during the year.
 
-The equations for instantaneous mortality:
+The equations for instantaneous mortality are based on popes discrete catch equation, it assumes catch is known without error and \CNAME\ will try and take the exact catch in the input.
 
 \TODO{redo equations, as notation is not consistent with that above, e.g., $S_{a,j}$}
 

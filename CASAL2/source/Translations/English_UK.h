@@ -673,6 +673,7 @@
 #define PARAM_TAG_LOSS                            "tag_loss"
 #define PARAM_TAG_RECAPTURE_BY_AGE                "tag_recapture_by_age"
 #define PARAM_TAG_RECAPTURE_BY_LENGTH             "tag_recapture_by_length"
+#define PARAM_TAGGING                             "tagging"
 #define PARAM_TAN_TRANSFORM                       "tan_transform"
 #define PARAM_TAU1                                "tau1"
 #define PARAM_TAU2                                "tau2"
