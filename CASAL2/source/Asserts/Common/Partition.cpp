@@ -74,7 +74,7 @@ void Partition::Execute() {
   for (unsigned i = 0; i < values_.size(); ++i) {
     if (!utilities::math::IsBasicallyEqual(values_[i], data[i])) {
       std::streamsize prec = std::cout.precision();
-      std::cout.precision(9);
+      std::cout.precision(12);
 
       Double diff = values_[i] - data[i];
       if (error_type_ == PARAM_ERROR) {
