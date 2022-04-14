@@ -1,6 +1,16 @@
 % Standard A4 2-sided layout
 \documentclass[a4paper,11pt,twoside,pdftex]{article}
 
+%
+% Define the switch here using "newif" and start its name with "if"
+% Here, NAME_OF_SWITCH == "LengthBased"
+\newif\ifAgeBased
+
+% By default, a switch is "false". Use \NAME_OF_SWITCHtrue to set to true
+% Uncomment the line below to set the switch to "true"
+%\AgeBasedtrue
+
+
 % Caption package for formatting figure and label captions
 \usepackage[font=bf,format=hang,labelsep=colon,justification=justified,singlelinecheck=false,compatibility=false]{caption}
 
@@ -17,7 +27,7 @@
 % EXAMPLE: \href{https://www.niwa.co.nz}{NIWA}
 \usepackage[bookmarks=true,bookmarksopen=false,bookmarksnumbered=true,
             pdfpagelayout=TwoPageRight,
-            pdftitle={Casal2 User Manual},
+            pdftitle={Casal2 User Manual (Length-based models)},
             pdfauthor={Casal2 Development Team} %authors
             pdfsubject={Casal2 User Manual, NIWA Technical Report},
             pdftex]{hyperref}
@@ -220,7 +230,7 @@
 \sloppy % use sloppy paras
 
 % Title page
-\pdfbookmark[1]{Casal2 User Manual}{title}
+\pdfbookmark[1]{Casal2 User Manual for Length-Based Models}{title}
 \pagenumbering{alph} % alpha not used, but used to remove warnings when page 1 is re-defined below
 
 \begin{titlepage}
@@ -228,7 +238,7 @@
 	\begin{center}
 
 		\vspace*{2.5cm}
-		\Huge \CNAME\ User Manual \\
+		\Huge \CNAME\ User Manual for Length-Based Models\\
 
 		\vspace{2.0cm}
 		\huge \authors % Document authors

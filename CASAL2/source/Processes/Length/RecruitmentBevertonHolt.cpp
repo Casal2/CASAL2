@@ -201,10 +201,6 @@ void RecruitmentBevertonHolt::DoBuild() {
 
   // calculate initial length distribution
   initial_length_distribution_.resize(category_labels_.size());
-  for(unsigned i = 0; i < category_labels_.size(); i++) {
-    initial_length_distribution_[i] = utilities::math::distribution(model_->length_bins(), model_->length_plus(), Distribution::kNormal, initial_mean_length_[i], initial_mean_length_[i] * initial_length_cv_[i]);
-  }
-
   DoReset();
 }
 
@@ -236,7 +232,12 @@ void RecruitmentBevertonHolt::DoReset() {
   if (parameters_.Get(PARAM_B0)->has_been_defined()) {
     have_scaled_partition = false;
   }
-
+  for(unsigned i = 0; i < category_labels_.size(); i++) {
+    initial_length_distribution_[i] = utilities::math::distribution(model_->length_bins(), model_->length_plus(), Distribution::kNormal, initial_mean_length_[i], initial_mean_length_[i] * initial_length_cv_[i]);
+    Double sum_temp = utilities::math::Sum(initial_length_distribution_[i]);
+    // first bin is a min plus group
+    initial_length_distribution_[i][0] += 1.0 - sum_temp;
+  }
   // if a -i call is made then we need to repopulate the ycs_values vector for reporting.
   // This has to be done because the input parameter ycs_values and registered estimate parameter ycs_values_by_year
   // Are different
@@ -406,15 +407,14 @@ void RecruitmentBevertonHolt::ScalePartition() {
   LOG_FINEST() << "Scalar = " << scalar << " B0 = " << b0_;
   LOG_FINEST() << "R0 = " << scalar;
   r0_ = scalar;
-  /*
-  for (auto category : partition_) {
+  
+  for (auto & category : partition_) {
     for (unsigned j = 0; j < category->data_.size(); ++j) {
       LOG_FINEST() << "Category " << category->name_ << " Age = " << j + category->min_age_ << " Numbers at age before = " << category->data_[j];
-      //category->data_[j] *= scalar;
+      category->data_[j] *= scalar;
       LOG_FINEST() << "Category " << category->name_ << " Age = " << j + category->min_age_ << " Numbers at age = " << category->data_[j];
     }
   }
-  */
   LOG_FINEST() << "R0 = " << r0_;
 }
 

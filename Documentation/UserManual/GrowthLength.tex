@@ -1,0 +1,51 @@
+\subsection{\I{Growth Increment models}\label{sec:GrowthIncrement}}
+For length based models the length structure of the partition has \(n_l\) length bins where \(l_i\) denotes length bin \(i\) with minimum length value denoted by \(lc_i\) and midpoint denoted as \(lm_i\).
+
+
+\[
+lm_i = 0.5 \left(lc_i + lc_{i+1}\right)
+\]
+
+In length based models a growth transition matrix describes the probability of fish moving from length bin \(l_j\) to length bin \(l_k\). The growth increment models describe the expected mean length increment denoted by \(\mu_i\) for fish belonging to length bin \(l_i\).
+
+
+
+\subsubsection{The `none' model}\index{Growth Increment!None}\label{sec:GrowthIncrement-None}
+All individuals have a mean length increment of 1 regardless of where they are in the length partition.
+
+\subsubsection{The Exponential model}\index{Growth Incrrement!Exponential}\label{sec:GrowthIncrement-Exponential}
+
+\begin{equation}
+\mu_i = g_\alpha \left(\frac{g_\beta}{g_\alpha} \right)^{\frac{(lm_i - l_\alpha)}{(l_\beta - l_\alpha)}}
+\end{equation}
+
+\subsubsection{The Basic model}\index{Growth Increment!Basic}\label{sec:GrowthIncrement-Basic}
+
+\begin{equation}
+\mu_i = g_\alpha + (g_\beta - g_\alpha) \frac{lm_i - l_\alpha}{l_\beta - l_\alpha}
+\end{equation}
+
+\subsubsection{Growth transition matrix}\index{Growth Increment!Growth Transition Matrix}\label{sec:GrowthIncrement-GrowthMatrix}
+
+The probability of a fish in length bin \(i\) moving into length bin \(j\) is defined by the growth transition matrix. This matrix is defined by length bin midpoints (\(lm_i\)) mean increment \(\mu_i\) a standard deviation and distribution assumption.
+
+All growth increment models require a coefficient of variation (\(cv\) and minimum standard deviation \(\sigma_{min}\). 
+
+\[
+\sigma_i = max(\sigma_{min}, \mu_i cv)
+\]
+
+
+The growth transition matrix in time step \(t\) denoted by \(\boldmath{G^t}\)is defined as follows
+
+\begin{equation}
+G^t_{i,j} = 
+\begin{cases}
+0.0 \ , & \text{ for } j < i \ \text{no negative growth}\\
+f(lc_{i + 1},\mu_i, \sigma_i) \ , & \text{ for } i = j \\
+1.0 - \sum\limits_{k = 1}^{n_l - 1}G^t_{i,k} \ , & \text{ for } i = n_l \ \& \ \text{plus group} \\
+f(lc_{n_l + 1},\mu_i, \sigma_i) - \sum\limits_{k = 1}^{n_l - 1}G^t_{i,k} \ , & \text{ for } i = n_l \ \&  \  \text{no plus group} \\		
+\end{cases}
+\end{equation}
+where, \(f(X,\mu, \sigma)\) is the cumulative density function defined by \subcommand{distribution}. Currently only the Normal distribution is allowed.
+

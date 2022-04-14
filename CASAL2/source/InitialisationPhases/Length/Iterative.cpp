@@ -171,12 +171,14 @@ void Iterative::Execute() {
       B0_initial_recruitment = true;
     }
   }
+  
   // if so re-run the model and populate model quantities with scaled values
   if (B0_initial_recruitment) {
     LOG_FINE() << "B0 initialised";
     // Calculate derived quantities in the right space if we have a B0 initialised model
     time_step_manager.ExecuteInitialisation(label_, 1);
   }
+  
 }
 
 /**

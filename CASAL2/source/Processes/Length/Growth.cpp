@@ -67,7 +67,7 @@ void Growth::DoReset() {
 void Growth::DoExecute() {
   LOG_TRACE();
   unsigned             time_step_index = model_->managers()->time_step()->current_time_step();
-  for (auto category : partition_) {
+  for (auto & category : partition_) {
     // reset container
     fill(new_length_partition_.begin(), new_length_partition_.end(), 0.0);
     for(unsigned i = 0; i < model_->get_number_of_length_bins(); i++) {
@@ -80,6 +80,9 @@ void Growth::DoExecute() {
       LOG_FINE() << "i = " << i << " previous value = " << category->data_[i] << " new value = " << new_length_partition_[i];
     }
     category->data_ = new_length_partition_;
+    for(unsigned i = 0; i < model_->get_number_of_length_bins(); i++) {
+      LOG_FINE() << "i = " << i << " updated value = " << category->data_[i];
+    }
   }
 }
 

@@ -42,6 +42,7 @@ public:
   void FillReportCache(ostringstream& cache) override final;
   void FillTabularReportCache(ostringstream& cache, bool first_run) override final;
   void ScalePartition();
+  void RebuildCache() override final {DoReset();}
 
   // accessor
   unsigned              ssb_offset() { return ssb_offset_; };

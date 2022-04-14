@@ -1,11 +1,11 @@
 /**
- * @file Partition.h
- * @author  Scott Rasmussen (scott.rasmussen@zaita.com)
+ * @file PartitionBiomass.h
+ * @author  C.Marsh
  * @version 1.0
- * @date 13/02/2013
+ * @date 2022
  * @section LICENSE
  *
- * Copyright NIWA Science �2013 - www.niwa.co.nz
+ * Copyright NIWA Science 2022 - www.niwa.co.nz
  *
  * @section DESCRIPTION
  *
@@ -14,8 +14,8 @@
  *
  * $Date: 2008-03-04 16:33:32 +1300 (Tue, 04 Mar 2008) $
  */
-#ifndef AGE_REPORTS_PARTITION_H_
-#define AGE_REPORTS_PARTITION_H_
+#ifndef REPORTS_PARTITION_BIOMASS_H_
+#define REPORTS_PARTITION_BIOMASS_H_
 
 // Headers
 #include "../../Reports/Report.h"
@@ -23,22 +23,20 @@
 // Namespaces
 namespace niwa {
 namespace reports {
-namespace age {
 
 /**
  *
  */
-class Partition : public niwa::Report {
+class PartitionBiomass : public niwa::Report {
 public:
-  Partition();
-  virtual ~Partition() = default;
+  PartitionBiomass();
+  virtual ~PartitionBiomass() = default;
   void DoValidate(shared_ptr<Model> model) override final;
   void DoBuild(shared_ptr<Model> model) override final{};
   void DoExecute(shared_ptr<Model> model) override final;
   void DoPrepareTabular(shared_ptr<Model> model) override final;
 };
 
-} /* namespace age */
 } /* namespace reports */
 } /* namespace niwa */
 

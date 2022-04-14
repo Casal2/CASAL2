@@ -16,12 +16,7 @@
 
 #include "../Model/Managers.h"
 #include "../Model/Model.h"
-#include "../Reports/Age/AgeLength.h"
-#include "../Reports/Age/AgeingErrorMatrix.h"
-#include "../Reports/Age/InitialisationPartitionMeanWeight.h"
-#include "../Reports/Age/Partition.h"
-#include "../Reports/Age/PartitionBiomass.h"
-#include "../Reports/Age/PartitionYearCrossAgeMatrix.h"
+
 #include "../Reports/Common/Addressable.h"
 #include "../Reports/Common/AddressableTransformation.h"
 #include "../Reports/Common/Catchability.h"
@@ -51,12 +46,14 @@
 #include "../Reports/Common/Selectivity.h"
 #include "../Reports/Common/SimulatedObservation.h"
 #include "../Reports/Common/TimeVarying.h"
-#include "../Reports/Length/InitialisationPartitionMeanWeight.h"
-#include "../Reports/Length/Partition.h"
+#include "../Reports/Common/Partition.h"
+#include "../Reports/Common/PartitionBiomass.h"
+// Length
 #include "../Reports/Length/GrowthIncrement.h"
-#include "../Reports/Length/PartitionBiomass.h"
-#include "../Reports/Length/PartitionMeanWeight.h"
 #include "../Reports/Manager.h"
+// Age
+#include "../Reports/Age/AgeLength.h"
+#include "../Reports/Age/AgeingErrorMatrix.h"
 
 // Namespaces
 namespace niwa {
@@ -132,30 +129,20 @@ Report* Factory::Create(shared_ptr<Model> model, const string& object_type, cons
       result = new TimeVarying();
     else if (sub_type == PARAM_INITIALISATION_PARTITION)
       result = new InitialisationPartition();
+    else if (sub_type == PARAM_PARTITION_BIOMASS)
+      result = new PartitionBiomass();
+    else if (sub_type == PARAM_PARTITION)
+      result = new Partition();     
     else if (model->partition_type() == PartitionType::kAge) {
       if (object_type == PARAM_REPORT) {
         if (sub_type == PARAM_AGEING_ERROR)
           result = new age::AgeingErrorMatrix();
         if (sub_type == PARAM_AGE_LENGTH)
           result = new age::AgeLength();
-        else if (sub_type == PARAM_PARTITION_BIOMASS)
-          result = new age::PartitionBiomass();
-        else if (sub_type == PARAM_INITIALISATION_PARTITION_MEAN_WEIGHT)
-          result = new age::InitialisationPartitionMeanWeight();
-        else if (sub_type == PARAM_PARTITION)
-          result = new age::Partition();
-        else if (sub_type == PARAM_REPORT_PARTITION_YEARAGEMATRIX)
-          result = new age::Partition_YearCrossAgeMatrix();
       }
     } else if (model->partition_type() == PartitionType::kLength) {
-      if (sub_type == PARAM_INITIALISATION_PARTITION_MEAN_WEIGHT)
-        result = new length::InitialisationPartitionMeanWeight();
-      else if (sub_type == PARAM_PARTITION_BIOMASS)
-        result = new length::PartitionBiomass();
-      else if (sub_type == PARAM_GROWTH_INCREMENT)
+      if (sub_type == PARAM_GROWTH_INCREMENT)
         result = new length::GrowthIncrement();
-      else if (sub_type == PARAM_PARTITION)
-        result = new length::Partition();
     }
 
     if (result && add_to_manager)

@@ -1,0 +1,114 @@
+
+Population processes are processes that change the model state. These processes produce changes in the partition by adding or removing individuals, or by moving individuals between length bins and/or categories.
+
+Current population processes available include:
+
+\begin{itemize}
+\item recruitment\index{Recruitment} (Section~\ref{sec:Process-Length-Recruitment}),
+\item growth\index{Growth} (Section~\ref{sec:Process-Length-Growth}),
+\item mortality\index{Mortality} events (e.g., natural and fishing) (Section~\ref{sec:Process-Length-Mortality}), 
+\item category transition processes\index{Category transition}, i.e., processes that move individuals between categories while preserving their overall length structure (Section~\ref{sec:Process-Length-TransitionCategory}), and
+\end{itemize}
+
+There are three types of processes: (1) processes that occur across multiple time steps in the annual cycle, e.g., \subcommand{mortality\_constant\_rate}, \subcommand{mortality\_instantaneous}, \subcommand{growth}; and (2) processes that occur only within the time step in which they are specified.
+
+\subsubsection{\I{Recruitment}}\label{sec:Process-Length-Recruitment}
+
+The recruitment processes adds new individuals to the partition. Recruitment depends on the \(B_{0}\) and \(R_{0}\) parameters which are interpreted as the average spawning stock biomass and recruitment over the period of data when there is no fishing. The other factors needed are spawning stock biomass (SSB, see Section~\ref{sec:DerivedQuantity}), stock-recruitment relationship and the CV for the prior on YCS (the mean is mandated to be 1 over some specified year range). Thus, a SSB label may have to be included (pointing to a derived quantity).
+
+In the recruitment processes, a number of individuals are added to a range of categories and length bins within the partition, with the overall number determined by the type of stock-recruitment process specified. If recruits are added to more than one category, then the proportion of recruits to be added to each category is specified by the \argument{proportions} subcommand. For example, if recruiting to categories labelled \texttt{male} and \texttt{female}, then the proportions may be set to $0.5$ and $0.5$, so that half of the recruits are added to the male category and the other half to the female category.
+
+Recruitment can differ between a spawning event or the creation of a cohort/year class. One view for fisheries is that recruitment usually refers to individuals \enquote{recruiting} to a fishery. This definition is used because there is generally not a lot of observations for fish on younger fish between the time of spawning and being vulnerable to a survey or fishery for data collection.
+
+
+The year offset between spawning and recruitment is required by users. The \CNAME\ parameter \texttt{ssb\_offset} is the same as the CASAL parameter \texttt{y\_enter}.
+
+
+\begin{equation}
+N_{y,l,j} \leftarrow N_{y,l,j} + p_j(R_y) * f_j(l,\mu, \sigma)
+\end{equation}
+
+where $N_{y,l,j}$ is the numbers in year $y$ and category $j$ at length bin $l$, $p_j$ is the proportion added to category $j$, \(f(l,\mu, \sigma)\) is the density function of recruits among length bins for category \(j\), and $R_y$ is the total number of recruits in year $y$.
+
+
+\paragraph{\I{Beverton-Holt recruitment}}\label{sec:Process-Length-RecruitmentBevertonHolt}
+
+In the Beverton-Holt recruitment process the total number of recruits added each year is $R_y$. $R_y$ is the product of the average recruitment $R_0$, the annual year class strength multiplier $YCS$, and the stock-recruit relationship $SR(SSB_y)$
+
+\begin{equation}\label{eq:BH}
+R_{y} = (R_0 \times YCS_{ycs\_year} \times SR(SSB_{ycs\_year}))
+\end{equation}
+
+where
+
+\begin{equation}\label{eq:year_class}
+ycs\_year = y - \texttt{ssb\_offset}
+\end{equation}
+Recruitment refers to recruitment into the population and may differ from the spawning event. See below on more information about \texttt{ssb\_offset}.
+
+$SR(SSB_y)$ is the Beverton-Holt stock-recruit relationship parametrised by the steepness $h$, and based on \cite{mace_doonan_88} parametrisation
+
+\begin{equation}\label{eq:BH_SR}
+SR(SSB_y) = \frac{SSB_y}{B_0} / \left( 1-\frac{5h-1}{4h} \left( 1-\frac{SSB_y}{B_0} \right) \right)
+\end{equation}
+
+The Beverton-Holt recruitment process requires a value for \Bzero\ and $SSB_y$ to calculate the number of recruits. A derived quantity (see Section \ref{sec:DerivedQuantity}) must be defined that provides the annual $SSB_y$ for the recruitment process. \Bzero\ is then defined as the value of the $SSB$ at the end of one of the initialisation phases, which is defined by the parameter \texttt{b0\_initialisation\_phase}.
+
+During initialisation the $YCS$ multipliers are assumed to be equal to 1, and recruitment that happens in the initialisation phases that occur before and during the phase when \Bzero\ is determined are assumed to have steepness $h=1$ (i.e., in those initialisation phases, recruitment is equal to \Rzero).
+
+Recruitment in the initialisation phases after the phase where \Bzero\ was determined are calculated using the Beverton-Holt stock-recruit relationship. \Rzero\ and \Bzero\ have a direct relationship when there are no density-dependent processes in the annual cycle. Models can thus be initialised using \Bzero\ or \Rzero.
+
+
+The length density function is denoted by \(f_j(l,\mu, \sigma)\) is the normal distribution. This is calculated by calculating the cumulative density over the length bins. The first length bin is assumed to be a minimum length bin. This density can be category specific and is defined by the input parameters \texttt{inital\_mean\_length} and \texttt{inital\_length\_cv}.
+
+
+{\small{\begin{verbatim}
+		@process Recruitment
+		type recruitment_beverton_holt
+		categories immature mature
+		proportions 1.0 0.0
+		r0 500000
+		steepness 0.75
+		ssb_offset 1
+		inital_mean_length 10
+		inital_length_cv 0.40
+		ssb SSB_derived_quantity
+		
+		\end{verbatim}}}
+
+The property \texttt{ssb\_offset} has to be manually specified;
+
+\paragraph*{YCS ($YCS_y$)}
+
+The $YCS$ parameter (\texttt{ycs\_years}) is defined in Equation~\eqref{eq:year_class}. The parameter \texttt{ycs\_values} is referenced by the \texttt{ycs\_years} parameter and is important to note when defining \command{estimate}, \command{project}, and \command{time\_varying} blocks for the parameter \texttt{ycs\_values}. An example is at the end of the section.
+
+A common practice when estimating $YCS$ is to standardise using the Haist parametrisation, which was described by V. Haist. \CNAME\ will standardise $YCS$ only if subcommand \subcommand{standardise\_ycs\_years} is defined. The model parameter \texttt{ycs\_values} is a vector \textbf{Y}, covering the years from \texttt{start\_year} - \texttt{ssb\_offset} to \texttt{final\_year} - \texttt{ssb\_offset}, as defined by the parameter \texttt{ycs\_years}. The resulting year class strengths are calculated by $YCS_i=Y_i/\bar{\textbf{Y}}$, where the mean is calculated over the user-specified years \texttt{standardise\_ycs\_years}.
+
+
+An alternative to \enquote{standardisation} is to constrain the $YCS$ parameters using the simplex transformation (see Section~\ref{sec:Transformation-Simplex}). This is thought to have estimation benefits over the \enquote{standardisation} as priors can be applied to the \enquote{free} parameters (\(Y_i\)).
+
+\[
+YCS_i =
+\begin{cases}
+Y_i / mean_{y \in S}(Y_y) & :y \in S\\
+Y_i					 & :y \notin S
+\end{cases}
+\]
+
+where S is the set of years from \texttt{standardise\_ycs\_years}. One effect of this parametrisation is that \Rzero\ is then defined as the mean estimated recruitment over the set of years $S$, because the mean $YCS$ multiplier over these years will always be one.
+
+Typically \texttt{standardise\_ycs\_years} is defined to span the years over which $YCS$ is reasonably well estimated. For years that are not well estimated, $Y_y$ can be set to 1 for some or all years $y\in S$ (which is equivalent to forcing $R_y$ = \Rzero\ x $SR(SSB_y)$) by setting the lower and upper bounds of these $Y$ values to 1. An exception to this might occur for the most recent $YCS$ values, which the user may estimate but not include in the definition of \Rzero\ (because the estimates may be based on too few data). One or more years may be excluded from the range of years for the averaging process of the Haist parametrisation.
+
+The advantage of the Haist parametrisation is that a large penalty is not necessary to force the mean of the $YCS$ parameter to be 1, although a small penalty should still be used to stop the mean of \textbf{Y} from drifting. These adjustments may improve MCMC performance. Projected $YCS$ values are not affected by this feature. A disadvantage with this parametrisation in a Bayesian analysis is that the prior applies to $Y$, not $YCS$.
+
+In the  example given above,  $YCS$ are standardised to have mean one in the period 1995 to 2004, and recruits enter into the model two years following spawning
+
+{\small{\begin{verbatim}
+		@process Recruitment
+		type recruitment_beverton_holt
+		...            #subcommand above
+		standardise_ycs_years 1995:2004
+		ycs_years  1994 1995 1996 1997 1998 1999 2000 2001 2002 2003 2004 2005 2006
+		ycs_values 0.65 0.87  1.6 1.13 1.02 0.38 2.65 1.35    1    1    1    1    1
+		\end{verbatim}}}
+
