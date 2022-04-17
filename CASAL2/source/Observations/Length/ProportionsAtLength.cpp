@@ -331,14 +331,13 @@ void ProportionsAtLength::Execute() {
   /**
    * Verify our cached partition and partition sizes are correct
    */
-  auto cached_partition_iter = cached_partition_->Begin();
   auto partition_iter        = partition_->Begin();  // vector<vector<partition::Category> >
   /**
    * Loop through the provided categories. Each provided category (combination) will have a list of observations
    * with it. We need to build a vector of proportions for each length using that combination and then
    * compare it to the observations.
    */
-  for (unsigned category_offset = 0; category_offset < category_labels_.size(); ++category_offset, ++partition_iter, ++cached_partition_iter) {
+  for (unsigned category_offset = 0; category_offset < category_labels_.size(); ++category_offset, ++partition_iter) {
     LOG_FINEST() << "category: " << category_labels_[category_offset];
     std::fill(expected_values_.begin(), expected_values_.end(), 0.0);
     Double start_value = 0.0;
@@ -349,8 +348,7 @@ void ProportionsAtLength::Execute() {
      * expected proportions values.
      */
     auto category_iter        = partition_iter->begin();
-    auto cached_category_iter = cached_partition_iter->begin();
-    for (; category_iter != partition_iter->end(); ++cached_category_iter, ++category_iter) {
+    for (; category_iter != partition_iter->end(); ++category_iter) {
       LOG_FINE() << "this category = " << (*category_iter)->name_;
       LOG_FINEST() << "Selectivity for " << category_labels_[category_offset] << " selectivity " << selectivities_[category_offset]->label();
       // clear these temporay vectors

@@ -1,11 +1,11 @@
 /**
  * @file TagRecaptureByLength.cpp
  * @author C.Marsh
- * @github https://github.com/Zaita
- * @date 23/10/2015
+ * @github https://github.com/Craig44
+ * @date 2022
  * @section LICENSE
  *
- * Copyright NIWA Science �2015 - www.niwa.co.nz
+ * Copyright NIWA Science 2022 - www.niwa.co.nz
  *
  */
 
@@ -13,11 +13,7 @@
 #include "TagRecaptureByLength.h"
 
 #include <algorithm>
-#include <boost/algorithm/string/replace.hpp>
-#include <boost/algorithm/string/split.hpp>
-#include <boost/algorithm/string/trim_all.hpp>
 
-#include "../../Partition/Accessors/Cached/CombinedCategories.h"
 #include "Categories/Categories.h"
 #include "Model/Model.h"
 #include "Partition/Accessors/All.h"
@@ -26,12 +22,15 @@
 #include "Utilities/Map.h"
 #include "Utilities/Math.h"
 #include "Utilities/To.h"
-#include "AgeLengths/AgeLength.h"
 
+#include <algorithm>
+#include <boost/algorithm/string/replace.hpp>
+#include <boost/algorithm/string/split.hpp>
+#include <boost/algorithm/string/trim_all.hpp>
 // namespaces
 namespace niwa {
 namespace observations {
-namespace age {
+namespace length {
 
 /**
  * Default constructor
@@ -39,29 +38,27 @@ namespace age {
 TagRecaptureByLength::TagRecaptureByLength(shared_ptr<Model> model) : Observation(model) {
   recaptures_table_ = new parameters::Table(PARAM_RECAPTURED);
   scanned_table_    = new parameters::Table(PARAM_SCANNED);
+  parameters_.Bind<double>(PARAM_LENGTH_BINS, &length_bins_, "The length bins", "", true);  // optional defaults to model length bins if ignroed
+  parameters_.Bind<bool>(PARAM_PLUS_GROUP, &length_plus_, "Is the last length bin a plus group? (defaults to @model value)", "", true);  // default to the model value
+  parameters_.Bind<bool>(PARAM_SIMULATED_DATA_SUM_TO_ONE, &simulated_data_sum_to_one_, "Whether simulated data is discrete or scaled by totals to be proportions for each year", "", true);
+  parameters_.Bind<bool>(PARAM_SUM_TO_ONE, &sum_to_one_, "Scale year (row) observed values by the total, so they sum = 1", "", false);
 
   parameters_.Bind<unsigned>(PARAM_YEARS, &years_, "The years for which there are observations", "");
-  parameters_.Bind<string>(PARAM_TIME_STEP, &time_step_label_, "The time step to execute in", "");
-  parameters_.Bind<double>(PARAM_LENGTH_BINS, &length_bins_, "The length bins", "", true);  // optional
-  parameters_.Bind<bool>(PARAM_PLUS_GROUP, &length_plus_, "Is the last length bin a plus group? (defaults to @model value)", "",
-                         model->length_plus());  // default to the model value
-  parameters_.Bind<string>(PARAM_TAGGED_CATEGORIES, &tagged_category_labels_, "The categories of tagged individuals for the observation", "");
-  parameters_.Bind<string>(PARAM_SELECTIVITIES, &selectivity_labels_, "The labels of the selectivities used for untagged categories", "", true);
-  parameters_.Bind<string>(PARAM_TAGGED_SELECTIVITIES, &tagged_selectivity_labels_, "The labels of the tag category selectivities", "");
+  parameters_.Bind<string>(PARAM_TAGGED_CATEGORIES, &tagged_category_labels_, "The available categories in the partition", "");
+  parameters_.Bind<string>(PARAM_SELECTIVITIES, &selectivity_labels_, "The labels of the selectivities", "", true);
+  parameters_.Bind<string>(PARAM_TIME_STEP, &time_step_label_, "The label of the time step that the observation occurs in", "");
+  parameters_.Bind<string>(PARAM_TAGGED_SELECTIVITIES, &tagged_selectivity_labels_, "The categories of tagged individuals for the observation", "");
   // TODO:  is tolerance missing?
   parameters_.Bind<Double>(PARAM_PROCESS_ERRORS, &process_error_values_, "The process error", "", true);
   parameters_.Bind<double>(PARAM_DETECTION_PARAMETER, &detection_, "The probability of detecting a recaptured individual", "")->set_range(0.0, 1.0);
-  parameters_.Bind<Double>(PARAM_DISPERSION, &despersion_, "The overdispersion parameter (phi)  ", "", Double(1.0))->set_lower_bound(0.0);
-  parameters_.BindTable(PARAM_RECAPTURED, recaptures_table_, "The table of observed recaptured individuals in each length bin", "", false);
-  parameters_.BindTable(PARAM_SCANNED, scanned_table_, "The table of observed scanned individuals in each length bin", "", false);
-  parameters_
-      .Bind<Double>(PARAM_TIME_STEP_PROPORTION, &time_step_proportion_, "The proportion through the mortality block of the time step when the observation is evaluated", "",
-                    Double(0.5))
-      ->set_range(0.0, 1.0);
+  parameters_.BindTable(PARAM_RECAPTURED, recaptures_table_, "The table of observed recaptured individuals in each age class", "", false);
+  parameters_.BindTable(PARAM_SCANNED, scanned_table_, "The table of observed scanned individuals in each age class", "", false);
+  parameters_.Bind<Double>(PARAM_TIME_STEP_PROPORTION, &time_step_proportion_, "The proportion through the mortality block of the time step when the observation is evaluated", "",
+                    Double(0.5))->set_range(0.0, 1.0);
+
+  mean_proportion_method_ = true;
   // Don't ever make detection_ addressable or estimable. At line 427 it is multiplied to an observation which needs to remain a constant
   // if you make this estimatble we will break the auto-diff stack.
-  mean_proportion_method_ = true;
-
   allowed_likelihood_types_.push_back(PARAM_BINOMIAL);
 }
 
@@ -69,10 +66,6 @@ TagRecaptureByLength::TagRecaptureByLength(shared_ptr<Model> model) : Observatio
  * Validate configuration file parameters
  */
 void TagRecaptureByLength::DoValidate() {
-  /**
-   * Do some simple checks
-   * e.g Validate that the length_bins are strictly increasing
-   */
   // Check value for initial mortality
   if (model_->length_bins().size() == 0)
     LOG_ERROR_P(PARAM_LABEL) << ": No length bins have been specified in @model. This observation requires those to be defined";
@@ -195,6 +188,7 @@ void TagRecaptureByLength::DoValidate() {
   if (delta_ < 0.0) {
     LOG_ERROR_P(PARAM_DELTA) << ": delta (" << delta_ << ") cannot be less than 0.0";
   }
+
 
   /**
    * Validate the number of recaptures provided matches age spread * category_labels * years
@@ -356,6 +350,7 @@ void TagRecaptureByLength::DoValidate() {
       }
     }
   }
+
 }
 
 /**
@@ -366,21 +361,6 @@ void TagRecaptureByLength::DoBuild() {
   cached_partition_        = CachedCombinedCategoriesPtr(new niwa::partition::accessors::cached::CombinedCategories(model_, category_labels_));
   tagged_partition_        = CombinedCategoriesPtr(new niwa::partition::accessors::CombinedCategories(model_, tagged_category_labels_));
   tagged_cached_partition_ = CachedCombinedCategoriesPtr(new niwa::partition::accessors::cached::CombinedCategories(model_, tagged_category_labels_));
-
-  auto partition_iter = partition_->Begin();  
-  for (unsigned category_offset = 0; category_offset < category_labels_.size(); ++category_offset, ++partition_iter) {
-    auto category_iter        = partition_iter->begin();
-    for (; category_iter != partition_iter->end();  ++category_iter)
-      (*category_iter)->age_length_->BuildAgeLengthMatrixForTheseYears(years_);
-  }
-
-  partition_iter = tagged_partition_->Begin();  
-  for (unsigned category_offset = 0; category_offset < tagged_category_labels_.size(); ++category_offset, ++partition_iter) {
-    auto category_iter        = partition_iter->begin();
-    for (; category_iter != partition_iter->end();  ++category_iter)
-      (*category_iter)->age_length_->BuildAgeLengthMatrixForTheseYears(years_);
-  }
-
 
   // Build Selectivity pointers
   for (string label : selectivity_labels_) {
@@ -434,11 +414,10 @@ void TagRecaptureByLength::DoBuild() {
 
   length_results_.resize(number_bins_, 0.0);
   tagged_length_results_.resize(number_bins_, 0.0);
-
 }
 
 /**
- * This method is called at the start of the tagged
+ * This method is called at the start of the taggeded
  * time step for this observation.
  *
  * Build the cache for the partition
@@ -448,17 +427,10 @@ void TagRecaptureByLength::PreExecute() {
   cached_partition_->BuildCache();
   tagged_cached_partition_->BuildCache();
 
-  if (cached_partition_->Size() != scanned_[model_->current_year()].size()) {
-    LOG_CODE_ERROR() << "cached_partition_->Size() != scanned_[model->current_year()].size()";
-  }
-  if (partition_->Size() != scanned_[model_->current_year()].size()) {
-    LOG_CODE_ERROR() << "partition_->Size() != scanned_[model->current_year()].size()";
-  }
 }
 
 /**
- * This method is called at the start of the tagged
- * time step for this observation.
+ * Execute
  */
 void TagRecaptureByLength::Execute() {
   LOG_TRACE();
@@ -469,12 +441,10 @@ void TagRecaptureByLength::Execute() {
    */
   auto partition_iter               = partition_->Begin();  // vector<vector<partition::Category> >
   auto tagged_partition_iter        = tagged_partition_->Begin();  // vector<vector<partition::Category> >
-  // Reset some comtainers
-
   /**
    * Loop through the provided categories. Each provided category (combination) will have a list of observations
-   * with it. 
-   * This is equal between the category_labels_ == tagged_category_labels_
+   * with it. We need to build a vector of proportions for each age using that combination and then
+   * compare it to the observations.
    */
   for (unsigned category_offset = 0; category_offset < category_labels_.size(); ++category_offset, ++partition_iter,  ++tagged_partition_iter) {
     LOG_FINEST() << "Observing first collection of categories " << category_labels_[category_offset];
@@ -494,28 +464,53 @@ void TagRecaptureByLength::Execute() {
      */
     auto category_iter        = partition_iter->begin();
     for (; category_iter != partition_iter->end(); ++category_iter) {
-      // get numbers at length
+      LOG_FINE() << "this category = " << (*category_iter)->name_;
+      LOG_FINEST() << "Selectivity for " << category_labels_[category_offset] << " selectivity " << selectivities_[category_offset]->label();
+      // Now convert numbers at age to numbers at length using the categories age-length transition matrix
       if(using_model_length_bins) {
-        (*category_iter)->age_length_->populate_numbers_at_length((*category_iter)->data_, numbers_at_length_[category_offset], selectivities_[category_offset]);
-        (*category_iter)->age_length_->populate_numbers_at_length((*category_iter)->cached_data_, cached_numbers_at_length_[category_offset], selectivities_[category_offset]);
+        LOG_FINE() << "using model length bins";
+        for (unsigned model_length_offset = 0; model_length_offset < model_->get_number_of_length_bins(); ++model_length_offset) {
+          // now for each column (length bin) in age_length_matrix sum up all the rows (ages) for both cached and current matricies
+          cached_numbers_at_length_[category_offset][model_length_offset] += (*category_iter)->data_[model_length_offset] * selectivities_[category_offset]->GetLengthResult(model_length_offset);
+          numbers_at_length_[category_offset][model_length_offset]   += (*category_iter)->cached_data_[model_length_offset] * selectivities_[category_offset]->GetLengthResult(model_length_offset);
+        }
       } else {
-        (*category_iter)->age_length_->populate_numbers_at_length((*category_iter)->data_, numbers_at_length_[category_offset], selectivities_[category_offset], map_local_length_bins_to_global_length_bins_);
-        (*category_iter)->age_length_->populate_numbers_at_length((*category_iter)->cached_data_, cached_numbers_at_length_[category_offset], selectivities_[category_offset], map_local_length_bins_to_global_length_bins_);
+        LOG_FINE() << "using bespoke length bins";
+        for (unsigned model_length_offset = 0; model_length_offset < model_->get_number_of_length_bins(); ++model_length_offset) {
+          if(map_local_length_bins_to_global_length_bins_[model_length_offset] >= 0) {
+            // now for each column (length bin) in age_length_matrix sum up all the rows (ages) for both cached and current matricies
+            cached_numbers_at_length_[category_offset][map_local_length_bins_to_global_length_bins_[model_length_offset]] += (*category_iter)->data_[model_length_offset] * selectivities_[category_offset]->GetLengthResult(model_length_offset);
+            numbers_at_length_[category_offset][map_local_length_bins_to_global_length_bins_[model_length_offset]]   += (*category_iter)->cached_data_[model_length_offset] * selectivities_[category_offset]->GetLengthResult(model_length_offset);
+          }
+        }
       }
     }
+  
     /**
-     * Loop through the  combined categories if they are supplied, building up the
-     * numbers at length
-     */
+    * Loop through the  combined categories if they are supplied, building up the
+    * numbers at length
+    */
     auto tagged_category_iter        = tagged_partition_iter->begin();
     for (; tagged_category_iter != tagged_partition_iter->end(); ++tagged_category_iter) {
-      // get numbers at length
+      LOG_FINE() << "this category = " << (*tagged_category_iter)->name_;
+      LOG_FINEST() << "Selectivity for " << tagged_category_labels_[category_offset] << " selectivity " << tagged_selectivities_[category_offset]->label();
+      // Now convert numbers at age to numbers at length using the categories age-length transition matrix
       if(using_model_length_bins) {
-        (*tagged_category_iter)->age_length_->populate_numbers_at_length((*tagged_category_iter)->data_, tagged_numbers_at_length_[category_offset], tagged_selectivities_[category_offset]);
-        (*tagged_category_iter)->age_length_->populate_numbers_at_length((*tagged_category_iter)->cached_data_, tagged_cached_numbers_at_length_[category_offset], tagged_selectivities_[category_offset]);
+        LOG_FINE() << "using model length bins";
+        for (unsigned model_length_offset = 0; model_length_offset < model_->get_number_of_length_bins(); ++model_length_offset) {
+          // now for each column (length bin) in age_length_matrix sum up all the rows (ages) for both cached and current matricies
+          cached_numbers_at_length_[category_offset][model_length_offset] += (*tagged_category_iter)->data_[model_length_offset] * tagged_selectivities_[category_offset]->GetLengthResult(model_length_offset);
+          numbers_at_length_[category_offset][model_length_offset]   += (*tagged_category_iter)->cached_data_[model_length_offset] * tagged_selectivities_[category_offset]->GetLengthResult(model_length_offset);
+        }
       } else {
-        (*tagged_category_iter)->age_length_->populate_numbers_at_length((*tagged_category_iter)->data_, tagged_numbers_at_length_[category_offset], tagged_selectivities_[category_offset], map_local_length_bins_to_global_length_bins_);
-        (*tagged_category_iter)->age_length_->populate_numbers_at_length((*tagged_category_iter)->cached_data_, tagged_cached_numbers_at_length_[category_offset], tagged_selectivities_[category_offset], map_local_length_bins_to_global_length_bins_);
+        LOG_FINE() << "using bespoke length bins";
+        for (unsigned model_length_offset = 0; model_length_offset < model_->get_number_of_length_bins(); ++model_length_offset) {
+          if(map_local_length_bins_to_global_length_bins_[model_length_offset] >= 0) {
+            // now for each column (length bin) in age_length_matrix sum up all the rows (ages) for both cached and current matricies
+            cached_numbers_at_length_[category_offset][map_local_length_bins_to_global_length_bins_[model_length_offset]] += (*tagged_category_iter)->data_[model_length_offset] * tagged_selectivities_[category_offset]->GetLengthResult(model_length_offset);
+            numbers_at_length_[category_offset][map_local_length_bins_to_global_length_bins_[model_length_offset]]   += (*tagged_category_iter)->cached_data_[model_length_offset] * tagged_selectivities_[category_offset]->GetLengthResult(model_length_offset);
+          }
+        }        
       }
     }
     // Interpolate between the cached and current values for bothe tagged and untagged
@@ -545,8 +540,8 @@ void TagRecaptureByLength::Execute() {
 
     if (length_results_.size() != scanned_[model_->current_year()][category_labels_[category_offset]].size()) {
       LOG_CODE_ERROR() << "expected_values.size(" << length_results_.size() << ") != proportions_[category_offset].size("
-                       << scanned_[model_->current_year()][category_labels_[category_offset]].size() << ")";
-    }
+                      << scanned_[model_->current_year()][category_labels_[category_offset]].size() << ")";
+    } 
 
     // save our comparisons so we can use them to generate the score from the likelihoods later
     for (unsigned i = 0; i < length_results_.size(); ++i) {
@@ -565,9 +560,9 @@ void TagRecaptureByLength::Execute() {
 
       SaveComparison(tagged_category_labels_[category_offset], 0, length_bins_[i], expected, observed, process_errors_by_year_[model_->current_year()],
                      scanned_[model_->current_year()][category_labels_[category_offset]][i], 0.0, delta_, 0.0);
-    }
+    }    
   }
-}
+} 
 
 /**
  * This method is called at the end of a model iteration
@@ -584,6 +579,7 @@ void TagRecaptureByLength::CalculateScore() {
     likelihood_->SimulateObserved(comparisons_);
   } else {
     likelihood_->GetScores(comparisons_);
+
     for (unsigned year : years_) {
       scores_[year] = likelihood_->GetInitialScore(comparisons_, year);
       LOG_FINEST() << "-- Observation neglogLikelihood calculation " << label_;
@@ -592,9 +588,6 @@ void TagRecaptureByLength::CalculateScore() {
         LOG_FINEST() << "[" << year << "] + neglogLikelihood: " << comparison.score_;
         scores_[year] += comparison.score_;
       }
-
-      // Add the dispersion factor to the likelihood score
-      scores_[year] /= despersion_;
     }
 
     LOG_FINEST() << "Finished calculating neglogLikelihood for = " << label_;

@@ -225,7 +225,7 @@ void TagByLength::DoValidate() {
       }
 
       if (utilities::math::IsOne(total_proportion))
-        LOG_ERROR_P(PARAM_PROPORTIONS) << " total (" << total_proportion << ") do not sum to 1.0 for year " << year;
+        LOG_WARNING() << " total (" << total_proportion << ") do not sum to 1.0 for year " << year;
     }
 
     // Check years allign
