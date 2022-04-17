@@ -25,7 +25,7 @@ using std::vector;
 std::mutex Logging::lock_;
 
 #ifdef TESTMODE
-logger::Severity Logging::current_log_level_ = logger::Severity::kWarning;
+logger::Severity Logging::current_log_level_ = logger::Severity::kError;  // set severity to error for TESTMODE
 #else
 logger::Severity Logging::current_log_level_ = logger::Severity::kInfo;
 #endif
