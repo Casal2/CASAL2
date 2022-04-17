@@ -150,31 +150,31 @@ TEST_F(InternalEmptyModel, Observation_Process_Proportions_At_Age_Single) {
   ASSERT_EQ(13u, comparisons[year].size());
   EXPECT_EQ("male+female", comparisons[year][0].category_);
   EXPECT_DOUBLE_EQ(1.399, comparisons[year][0].error_value_);
-  EXPECT_DOUBLE_EQ(0, comparisons[year][0].expected_);
+  EXPECT_NEAR(0, comparisons[year][0].expected_, 1e-6);
   EXPECT_DOUBLE_EQ(0.0241, comparisons[year][0].observed_);
   EXPECT_DOUBLE_EQ(240.56840045905705, comparisons[year][0].score_);
 
   EXPECT_EQ("male+female", comparisons[year][1].category_);
   EXPECT_DOUBLE_EQ(0.79500000000000004, comparisons[year][1].error_value_);
-  EXPECT_DOUBLE_EQ(0.0070693859439931051, comparisons[year][1].expected_);
+  EXPECT_NEAR(0.0070693859439931051, comparisons[year][1].expected_, 1e-6);
   EXPECT_DOUBLE_EQ(0.047300000000000002, comparisons[year][1].observed_);
   EXPECT_DOUBLE_EQ(4.3426123755188861, comparisons[year][1].score_);
 
   EXPECT_EQ("male+female", comparisons[year][2].category_);
   EXPECT_DOUBLE_EQ(0.76400000000000001, comparisons[year][2].error_value_);
-  EXPECT_DOUBLE_EQ(0.011929133003193012, comparisons[year][2].expected_);
+  EXPECT_NEAR(0.0119291330, comparisons[year][2].expected_, 1e-6);
   EXPECT_DOUBLE_EQ(0.0448, comparisons[year][2].observed_);
   EXPECT_DOUBLE_EQ(2.2347239537272152, comparisons[year][2].score_);
 
   EXPECT_EQ("male+female", comparisons[year][3].category_);
   EXPECT_DOUBLE_EQ(0.66300000000000003, comparisons[year][3].error_value_);
-  EXPECT_DOUBLE_EQ(0.019859549506180619, comparisons[year][3].expected_);
+  EXPECT_NEAR(0.019859549506180619, comparisons[year][3].expected_, 1e-6);
   EXPECT_DOUBLE_EQ(0.070999999999999994, comparisons[year][3].observed_);
-  EXPECT_DOUBLE_EQ(2.405090306456859, comparisons[year][3].score_);
+  EXPECT_DOUBLE_EQ(2.4050903064568567, comparisons[year][3].score_);
 
   EXPECT_EQ("male+female", comparisons[year][4].category_);
   EXPECT_DOUBLE_EQ(0.72399999999999998, comparisons[year][4].error_value_);
-  EXPECT_DOUBLE_EQ(0.03219495359721037, comparisons[year][4].expected_);
+  EXPECT_NEAR(0.032194953597, comparisons[year][4].expected_, 1e-6);
   EXPECT_DOUBLE_EQ(0.078, comparisons[year][4].observed_);
   EXPECT_DOUBLE_EQ(0.99209112268452371, comparisons[year][4].score_);
 }
@@ -292,7 +292,7 @@ TEST_F(InternalEmptyModel, Observation_Process_Proportions_At_Age_Double) {
   model_->Start(RunMode::kBasic);
 
   ObjectiveFunction& obj_function = model_->objective_function();
-  EXPECT_DOUBLE_EQ(30.135766436667744, obj_function.score());
+  EXPECT_NEAR(30.135766436, obj_function.score(), 1e-6);
 
   Observation* observation = model_->managers()->observation()->GetObservation("observation");
 
@@ -304,33 +304,33 @@ TEST_F(InternalEmptyModel, Observation_Process_Proportions_At_Age_Double) {
   ASSERT_EQ(26u, comparisons[year].size());
   EXPECT_EQ("male", comparisons[year][0].category_);
   EXPECT_DOUBLE_EQ(1.091, comparisons[year][0].error_value_);
-  EXPECT_DOUBLE_EQ(0.0041574653467937941, comparisons[year][0].expected_);
+  EXPECT_NEAR(0.00415746, comparisons[year][0].expected_, 1e-6);
   EXPECT_DOUBLE_EQ(0.0173, comparisons[year][0].observed_);
-  EXPECT_DOUBLE_EQ(1.9856983223045572, comparisons[year][0].score_);
+  EXPECT_NEAR(1.9856983223045572, comparisons[year][0].score_, 1e-6);
 
   EXPECT_EQ("male", comparisons[year][1].category_);
   EXPECT_DOUBLE_EQ(0.770, comparisons[year][1].error_value_);
-  EXPECT_DOUBLE_EQ(0.0070154825800801696, comparisons[year][1].expected_);
+  EXPECT_NEAR(0.0070154, comparisons[year][1].expected_, 1e-6);
   EXPECT_DOUBLE_EQ(0.0193, comparisons[year][1].observed_);
-  EXPECT_DOUBLE_EQ(1.2818091773704532, comparisons[year][1].score_);
+  EXPECT_NEAR(1.2818091773704532, comparisons[year][1].score_, 1e-6);
 
   EXPECT_EQ("male", comparisons[year][2].category_);
   EXPECT_DOUBLE_EQ(0.539, comparisons[year][2].error_value_);
-  EXPECT_DOUBLE_EQ(0.011679426533958197, comparisons[year][2].expected_);
+  EXPECT_NEAR(0.01167942, comparisons[year][2].expected_, 1e-6);
   EXPECT_DOUBLE_EQ(0.0241, comparisons[year][2].observed_);
-  EXPECT_DOUBLE_EQ(0.7396146371416138, comparisons[year][2].score_);
+  EXPECT_NEAR(0.7396146371416138, comparisons[year][2].score_, 1e-6);
 
   EXPECT_EQ("male", comparisons[year][3].category_);
   EXPECT_DOUBLE_EQ(0.421, comparisons[year][3].error_value_);
-  EXPECT_DOUBLE_EQ(0.018934183961419469, comparisons[year][3].expected_);
+  EXPECT_NEAR(0.0189341, comparisons[year][3].expected_, 1e-6);
   EXPECT_DOUBLE_EQ(0.0346, comparisons[year][3].observed_);
-  EXPECT_DOUBLE_EQ(0.52912129877249725, comparisons[year][3].score_);
+  EXPECT_NEAR(0.52912129877249725, comparisons[year][3].score_, 1e-6);
 
   EXPECT_EQ("male", comparisons[year][4].category_);
   EXPECT_DOUBLE_EQ(0.412, comparisons[year][4].error_value_);
-  EXPECT_DOUBLE_EQ(0.029217880897376522, comparisons[year][4].expected_);
+  EXPECT_NEAR(0.0292178, comparisons[year][4].expected_, 1e-6);
   EXPECT_DOUBLE_EQ(0.0365, comparisons[year][4].observed_);
-  EXPECT_DOUBLE_EQ(-0.63765233048750125, comparisons[year][4].score_);
+  EXPECT_NEAR(-0.63765233048750125, comparisons[year][4].score_, 1e-6);
 }
 
 }  // namespace age
