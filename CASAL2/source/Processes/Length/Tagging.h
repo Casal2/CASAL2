@@ -66,7 +66,6 @@ private:
   Selectivity*                  initial_mortality_selectivity_       = nullptr;
   vector<Double>                n_;
   unsigned                      first_year_        = 0;
-  double                        tolerance_         = 0;
   map<unsigned, vector<Double>> numbers_;
 };
 

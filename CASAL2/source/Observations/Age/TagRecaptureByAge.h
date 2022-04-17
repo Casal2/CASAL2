@@ -55,7 +55,6 @@ protected:
   vector<string>              target_category_labels_;
   vector<string>              target_selectivity_labels_;
   parameters::Table*          recaptures_table_ = nullptr;
-  Double                      tolerance_        = 0.0;
   vector<Double>              process_error_values_;
   map<unsigned, Double>       process_errors_by_year_;
   string                      ageing_error_label_;

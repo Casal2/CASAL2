@@ -50,7 +50,6 @@ TagByAge::TagByAge(shared_ptr<Model> model) : Process(model), to_partition_(mode
   parameters_.Bind<Double>(PARAM_N, &n_, "N", "", true);
   parameters_.BindTable(PARAM_NUMBERS, numbers_table_, "The table of N data (each row is the year then numbers for each age)", "", true, true);
   parameters_.BindTable(PARAM_PROPORTIONS, proportions_table_, "The table of proportions to move", "", true, true);
-  parameters_.Bind<double>(PARAM_TOLERANCE, &tolerance_, "Tolerance for checking the specificed proportions sum to one", "", 1e-5)->set_range(0, 1.0);
 }
 
 /**
@@ -168,7 +167,7 @@ void TagByAge::DoValidate() {
         numbers_[year][i - 1] = n_by_year[year] * proportion;
         total_proportion += proportion;
       }
-      if (fabs(1.0 - total_proportion) > tolerance_)
+      if (!utilities::math::IsOne(total_proportion))
         LOG_ERROR_P(PARAM_PROPORTIONS) << " total (" << total_proportion << ") do not sum to 1.0 for year " << year;
     }
 

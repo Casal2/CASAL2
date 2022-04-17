@@ -43,7 +43,6 @@ ProcessRemovalsByAge::ProcessRemovalsByAge(shared_ptr<Model> model) : Observatio
   parameters_.Bind<unsigned>(PARAM_MAX_AGE, &max_age_, "The maximum age", "");
   parameters_.Bind<bool>(PARAM_PLUS_GROUP, &plus_group_, "Is the maximum age the age plus group", "", true);
   parameters_.Bind<string>(PARAM_TIME_STEP, &time_step_label_, "The label of time-step that the observation occurs in", "");
-  parameters_.Bind<Double>(PARAM_TOLERANCE, &tolerance_, "The tolerance", "", Double(0.001))->set_range(0.0, 1.0, false, false);
   parameters_.Bind<unsigned>(PARAM_YEARS, &years_, "The years for which there are observations", "");
   parameters_.Bind<Double>(PARAM_PROCESS_ERRORS, &process_error_values_, "The label of process error to use", "", true);
   parameters_.Bind<string>(PARAM_AGEING_ERROR, &ageing_error_label_, "The label of the ageing error to use", "", "");
@@ -219,8 +218,8 @@ void ProcessRemovalsByAge::DoValidate() {
         }
       }
     } else {
-      if (fabs(1.0 - total) > tolerance_) {
-        LOG_ERROR_P(PARAM_OBS) << ": obs sum total (" << total << ") for year (" << iter->first << ") exceeds tolerance (" << tolerance_ << ") from 1.0";
+      if (!utilities::math::IsOne(total)) {
+        LOG_WARNING()  << "obs sum total (" << total << ") for year (" << iter->first << ") doesn't sum to 1.0";
       }
     }
     

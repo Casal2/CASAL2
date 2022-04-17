@@ -51,7 +51,6 @@ TagByLength::TagByLength(shared_ptr<Model> model) : Process(model), to_partition
   parameters_.Bind<Double>(PARAM_N, &n_, "The number of individuals tagged", "", true);
   parameters_.BindTable(PARAM_NUMBERS, numbers_table_, "The data table of numbers to tag", "", true, true);
   parameters_.BindTable(PARAM_PROPORTIONS, proportions_table_, "The data table of proportions to tag", "", true, true);
-  parameters_.Bind<double>(PARAM_TOLERANCE, &tolerance_, "Tolerance for checking the specificed proportions sum to one", "", 1e-5)->set_range(0, 1.0);
   parameters_.Bind<string>(PARAM_COMPATIBILITY, &compatibility_, "Backwards compatibility option: either casal2 (the default) or casal: effects penalty and age-length calculation", "",PARAM_CASAL2)->set_allowed_values({PARAM_CASAL, PARAM_CASAL2});
   // clang-format on
 }
@@ -225,7 +224,7 @@ void TagByLength::DoValidate() {
         total_proportion += proportion;
       }
 
-      if (fabs(1.0 - total_proportion) > tolerance_)
+      if (utilities::math::IsOne(total_proportion))
         LOG_ERROR_P(PARAM_PROPORTIONS) << " total (" << total_proportion << ") do not sum to 1.0 for year " << year;
     }
 

@@ -55,7 +55,6 @@ protected:
   // have to be assigned a value to be optional, note in the constructpr the default is model_->length_plus()
   unsigned                        number_bins_ = 0;
   parameters::Table*              obs_table_   = nullptr;
-  Double                          tolerance_   = 0.0;
   vector<Double>                  process_error_values_;
   map<unsigned, Double>           process_errors_by_year_;
   string                          method_;

@@ -62,7 +62,6 @@ private:
   parameters::Table*            numbers_table_     = nullptr;
   parameters::Table*            proportions_table_ = nullptr;
   unsigned                      first_year_        = 0;
-  double                        tolerance_         = 0;
   map<unsigned, vector<Double>> numbers_;
 };
 

@@ -57,7 +57,6 @@ protected:
   bool                        plus_group_ = false;
   unsigned                    age_spread_ = 0;
   parameters::Table*          obs_table_  = nullptr;
-  Double                      tolerance_  = 0.0;
   vector<Double>              process_error_values_;
   map<unsigned, Double>       process_errors_by_year_;
   string                      ageing_error_label_;

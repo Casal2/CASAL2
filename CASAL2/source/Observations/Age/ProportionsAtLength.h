@@ -50,7 +50,6 @@ protected:
   // Members
   vector<unsigned>            years_;
   parameters::Table*          obs_table_ = nullptr;
-  Double                      tolerance_ = 0.0;
   vector<Double>              process_error_values_;
   map<unsigned, Double>       process_errors_by_year_;
   parameters::Table*          error_values_table_ = nullptr;

@@ -43,7 +43,6 @@ Tagging::Tagging(shared_ptr<Model> model) : Process(model), to_partition_(model)
   parameters_.Bind<string>(PARAM_SELECTIVITIES, &selectivity_labels_, "The selectivity labels", "");
   parameters_.Bind<Double>(PARAM_N, &n_, "Number of tags (N)", "");
   parameters_.BindTable(PARAM_PROPORTIONS, proportions_table_, "The table of proportions to move", "", true, true);
-  parameters_.Bind<double>(PARAM_TOLERANCE, &tolerance_, "Tolerance for checking the specificed proportions sum to one", "", 1e-5)->set_range(0, 1.0);
 
 }
 

@@ -50,7 +50,6 @@ protected:
   string                time_step_label_ = "";
   double                detection_;
   Double                despersion_ = 1.0;
-  Double                tolerance_  = 0.0;
   vector<Double>        process_error_values_;
   map<unsigned, Double> process_errors_by_year_;
   vector<double>        length_bins_;
