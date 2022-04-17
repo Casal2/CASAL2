@@ -42,13 +42,11 @@ ProcessRemovalsByLength::ProcessRemovalsByLength(shared_ptr<Model> model) : Obse
   error_values_table_ = new parameters::Table(PARAM_ERROR_VALUES);
 
   parameters_.Bind<string>(PARAM_TIME_STEP, &time_step_label_, "The time step to execute in", "");
-  parameters_.Bind<Double>(PARAM_TOLERANCE, &tolerance_, "The tolerance for rescaling proportions", "", Double(0.001))->set_range(0.0, 1.0, false, false);
   parameters_.Bind<unsigned>(PARAM_YEARS, &years_, "The years for which there are observations", "");
   parameters_.Bind<Double>(PARAM_PROCESS_ERRORS, &process_error_values_, "The process error", "", true);
   parameters_.Bind<string>(PARAM_METHOD_OF_REMOVAL, &method_, "The label of observed method of removals", "", "");
   parameters_.Bind<double>(PARAM_LENGTH_BINS, &length_bins_, "The length bins", "");
-  parameters_.Bind<bool>(PARAM_PLUS_GROUP, &length_plus_, "Is the last length bin a plus group? (defaults to @model value)", "",
-                         model->length_plus());  // default to the model value
+  parameters_.Bind<bool>(PARAM_PLUS_GROUP, &length_plus_, "Is the last length bin a plus group? (defaults to @model value)", "", true);  // default to the model value
   parameters_.BindTable(PARAM_OBS, obs_table_, "Table of observed values", "", false);
   parameters_.BindTable(PARAM_ERROR_VALUES, error_values_table_, "The table of error values of the observed values (note that the units depend on the likelihood)", "", false);
   parameters_.Bind<string>(PARAM_MORTALITY_INSTANTANEOUS_PROCESS, &process_label_, "The label of the mortality instantaneous process for the observation", "");
@@ -100,7 +98,7 @@ void ProcessRemovalsByLength::DoValidate() {
     LOG_FINE() << "using model length bins";
     length_bins_ = model_length_bins;
     using_model_length_bins = true;
-    // length_plus_     = model_->length_plus();
+    //length_plus_     = model_->length_plus();
   } else {
     LOG_FINE() << "using bespoke length bins";
     // allow for the use of observation-defined length bins, as long as all values are in the set of model length bin values
@@ -273,8 +271,8 @@ void ProcessRemovalsByLength::DoValidate() {
         }
       }
     } else {
-      if (fabs(1.0 - total) > tolerance_) {
-        LOG_ERROR_P(PARAM_OBS) << ": obs sum total (" << total << ") for year (" << iter->first << ") exceeds tolerance (" << tolerance_ << ") from 1.0";
+      if (!utilities::math::IsOne(total)) {
+        LOG_WARNING()  << "obs sum total (" << total << ") for year (" << iter->first << ") doesn't sum to 1.0";
       }
     }
   }
@@ -331,7 +329,6 @@ void ProcessRemovalsByLength::DoBuild() {
     category_lookup_for_ndx_to_get_catch_at_info_[split_category_labels[category_ndx]] = category_ndxs[category_ndx];
   year_ndx_to_get_catch_at_info_ = mortality_instantaneous_->get_year_ndx_for_catch_at(years_);
 
-  numbers_at_length_.resize(number_bins_, 0.0);
   expected_values_.resize(number_bins_, 0.0);
 }
 
@@ -375,7 +372,7 @@ void ProcessRemovalsByLength::Execute() {
      * Loop through the 2 combined categories building up the
      * expected proportions values.
      */
-    /*
+  
     auto category_iter        = partition_iter->begin();
     
     for (; category_iter != partition_iter->end();  ++category_iter) {
@@ -384,27 +381,27 @@ void ProcessRemovalsByLength::Execute() {
       LOG_FINE() << "----------";
       LOG_FINE() << "Category: " << (*category_iter)->name_;;
       // clear these temporay vectors
-      std::fill(numbers_at_length_.begin(), numbers_at_length_.end(), 0.0);
-
-      // get numbers at age for this category
-      for (unsigned data_offset = 0; data_offset < (*category_iter)->data_.size(); ++data_offset) {
-        numbers_at_age_[data_offset] += Removals_at_age[data_offset];
-        LOG_FINEST() << "removals for age = " << data_offset + model_->min_age() << " = " << numbers_at_age_[data_offset];
-      }
-      // Now convert numbers at age to numbers at length using the categories age-length transition matrix
       if(using_model_length_bins) {
-        (*category_iter)->age_length_->populate_numbers_at_length(numbers_at_age_, numbers_at_length_);
+        LOG_FINE() << "using model length bins";
+        // Model length bins
+        for (unsigned model_length_offset = 0; model_length_offset < model_->get_number_of_length_bins(); ++model_length_offset) {
+          // now for each column (length bin) in age_length_matrix sum up all the rows (ages) for both cached and current matricies
+          expected_values_[model_length_offset] += Removals_at_length[model_length_offset];
+        }
       } else {
-        (*category_iter)->age_length_->populate_numbers_at_length(numbers_at_age_, numbers_at_length_, map_local_length_bins_to_global_length_bins_);
+        LOG_FINE() << "using bespoke length bins";
+        // Bespoke model bins
+        for (unsigned model_length_offset = 0; model_length_offset < model_->get_number_of_length_bins(); ++model_length_offset) {
+          if(map_local_length_bins_to_global_length_bins_[model_length_offset] >= 0) {
+            // now for each column (length bin) in age_length_matrix sum up all the rows (ages) for both cached and current matricies
+            expected_values_[map_local_length_bins_to_global_length_bins_[model_length_offset]] += Removals_at_length[model_length_offset];
+          }
+        }
       }
 
-      // Add this to the expected values
-      for (unsigned j = 0; j < number_bins_; ++j) {
-        expected_values_[j] += numbers_at_length_[j];
-        LOG_FINE() << "expected_value for length " << length_bins_[j] << " (numbers at length " << numbers_at_length_[j] << ") = " << expected_values_[j] << ", using_model_length_bins " << using_model_length_bins;
-      }
+
     }
-    */
+    
     if (expected_values_.size() != proportions_[model_->current_year()][category_labels_[category_offset]].size())
       LOG_CODE_ERROR() << "expected_values.size(" << expected_values_.size() << ") != proportions_[category_offset].size("
                        << proportions_[model_->current_year()][category_labels_[category_offset]].size() << ")";

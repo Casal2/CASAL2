@@ -47,7 +47,6 @@ protected:
   // Members
   vector<unsigned>            years_;
   parameters::Table*          obs_table_ = nullptr;
-  Double                      tolerance_ = 0.0;
   vector<Double>              process_error_values_;
   map<unsigned, Double>       process_errors_by_year_;
   parameters::Table*          error_values_table_ = nullptr;
@@ -57,13 +56,14 @@ protected:
   vector<Selectivity*>        selectivities_;
   string                      time_step_label_ = "";
   vector<Double>              expected_values_;
+
   unsigned                    number_bins_ = 0;
   vector<Double>              numbers_at_length_;
   vector<Double>              cached_numbers_at_length_;
   bool                        using_model_length_bins = true;
   vector<int>                 map_local_length_bins_to_global_length_bins_;
-  vector<double> length_bins_;
-  bool           length_plus_     = false;  // have to be assigned a value to be optional, note in the constructpr the default is model_->length_plus()
+  vector<double>              length_bins_;
+  bool                        length_plus_;  // have to be assigned a value to be optional, note in the constructpr the default is model_->length_plus()
   bool                        simulated_data_sum_to_one_;
   bool                        sum_to_one_;
 
