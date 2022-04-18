@@ -60,6 +60,9 @@ void SimulatedObservation::DoExecute(shared_ptr<Model> model) {
 
   cache_ << CONFIG_SECTION_SYMBOL << PARAM_OBSERVATION << " " << label_ << REPORT_EOL;
   bool                           biomass_abundance_obs = false;
+  bool                           tag_recapture_obs = false;
+  bool                           tag_recapture_for_growth = false;
+
   ParameterList&                 parameter_list        = observation_->parameters();
   const map<string, Parameter*>& parameters            = parameter_list.parameters();
   for (auto iter = parameters.begin(); iter != parameters.end(); ++iter) {
@@ -84,6 +87,12 @@ void SimulatedObservation::DoExecute(shared_ptr<Model> model) {
         if ((iter->first == PARAM_TYPE && value == PARAM_BIOMASS) || (iter->first == PARAM_TYPE && value == PARAM_ABUNDANCE)) {
           biomass_abundance_obs = true;
         }
+        if ((iter->first == PARAM_TYPE && value == PARAM_TAG_RECAPTURE_BY_AGE) || (iter->first == PARAM_TYPE && value == PARAM_TAG_RECAPTURE_BY_LENGTH)) {
+          tag_recapture_obs = true;
+        }
+        if (iter->first == PARAM_TYPE && value == PARAM_TAG_RECAPTURE_BY_LENGTH_FOR_GROWTH) {
+          tag_recapture_for_growth = true;
+        }
         cache_ << value << " ";
       }
       cache_ << REPORT_EOL;
@@ -104,6 +113,28 @@ void SimulatedObservation::DoExecute(shared_ptr<Model> model) {
       cache_ << REPORT_EOL;
     }
     cache_ << PARAM_END_TABLE << REPORT_EOL;
+  } else if(tag_recapture_obs)  {
+    // tag recapture 
+    cache_ << PARAM_TABLE << " " << PARAM_RECAPTURED << REPORT_EOL;
+    for (auto iter = comparison.begin(); iter != comparison.end(); ++iter) {
+      cache_ << iter->first << " ";
+      for (obs::Comparison comparison : iter->second) {
+        cache_ << comparison.observed_ << " ";
+      }
+      cache_ << REPORT_EOL;
+    }
+    cache_ << PARAM_END_TABLE << REPORT_EOL;
+  } else if(tag_recapture_for_growth)  {
+    // tag recapture for growth
+    cache_ << PARAM_TABLE << " " << PARAM_RECAPTURED << REPORT_EOL;
+    for (auto iter = comparison.begin(); iter != comparison.end(); ++iter) {
+      cache_ << iter->first << " ";
+      for (obs::Comparison comparison : iter->second) {
+        cache_ << comparison.observed_ << " ";
+      }
+      cache_ << REPORT_EOL;
+    }
+    cache_ << PARAM_END_TABLE << REPORT_EOL;
   } else {
     // proportion at age obs
     cache_ << PARAM_TABLE << " " << PARAM_OBS << REPORT_EOL;
@@ -117,18 +148,31 @@ void SimulatedObservation::DoExecute(shared_ptr<Model> model) {
     cache_ << PARAM_END_TABLE << REPORT_EOL;
   }
 
-  // Print Error values
-  if (!biomass_abundance_obs) {
-    // proportion at age obs
-    cache_ << PARAM_TABLE << " " << PARAM_ERROR_VALUES << REPORT_EOL;
-    for (auto iter = comparison.begin(); iter != comparison.end(); ++iter) {
-      cache_ << iter->first << " ";
-      for (obs::Comparison comparison : iter->second) {
-        cache_ << comparison.error_value_ << " ";
+  // if not biomass or tag growth print error values
+  if (!biomass_abundance_obs && !tag_recapture_for_growth) {
+    if(tag_recapture_obs) {
+      // tag recpat by length or age
+      cache_ << PARAM_TABLE << " " << PARAM_SCANNED << REPORT_EOL;
+      for (auto iter = comparison.begin(); iter != comparison.end(); ++iter) {
+        cache_ << iter->first << " ";
+        for (obs::Comparison comparison : iter->second) {
+          cache_ << comparison.error_value_ << " ";
+        }
+        cache_ << REPORT_EOL;
       }
-      cache_ << REPORT_EOL;
+      cache_ << PARAM_END_TABLE << REPORT_EOL;
+    } else {
+      // proportion at age obs
+      cache_ << PARAM_TABLE << " " << PARAM_ERROR_VALUES << REPORT_EOL;
+      for (auto iter = comparison.begin(); iter != comparison.end(); ++iter) {
+        cache_ << iter->first << " ";
+        for (obs::Comparison comparison : iter->second) {
+          cache_ << comparison.error_value_ << " ";
+        }
+        cache_ << REPORT_EOL;
+      }
+      cache_ << PARAM_END_TABLE << REPORT_EOL;
     }
-    cache_ << PARAM_END_TABLE << REPORT_EOL;
   }
   cache_ << REPORT_EOL;
   ready_for_writing_ = true;
