@@ -53,7 +53,6 @@ MortalityConstantRate::MortalityConstantRate(shared_ptr<Model> model) : Process(
  * - Check the categories are real
  */
 void MortalityConstantRate::DoValidate() {
-  //  category_labels_ = model_->categories()->ExpandLabels(category_labels_, parameters_.Get(PARAM_CATEGORIES));
 
   if (m_input_.size() == 1) {
     auto val_m = m_input_[0];
