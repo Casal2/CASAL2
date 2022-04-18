@@ -152,7 +152,7 @@ void GrowthIncrement::populate_growth_transition_matrix() {
           LOG_FINE() << "in plus group set = 1.0";
           growth_transition_matrix_[step_iter][i][i] = 1.0; // stay in plus group
         } else {
-          mu = get_mean_increment(model_length_midpoints_[i]);
+          mu = get_mean_increment(model_length_midpoints_[i]) * time_step_proportions_[step_iter];
           sigma = fmax(min_sigma_, mu * cv_);
           growth_transition_matrix_[step_iter][i][i] =  utilities::math::pnorm(model_min_length_bins_[i + 1] - model_length_midpoints_[i], mu, sigma);
           LOG_FINE() << " i = " << i + 1 << " mu = " << mu << " sigma = " << sigma << " val " << model_min_length_bins_[i + 1] - model_length_midpoints_[i] << " pnorm " << growth_transition_matrix_[step_iter][i][i];
@@ -178,7 +178,7 @@ void GrowthIncrement::populate_growth_transition_matrix() {
           LOG_FINE() << "in plus group set = 1.0";
           growth_transition_matrix_[step_iter][i][i] = 1.0; // stay in plus group
         } else {
-          mu = get_mean_increment(model_length_midpoints_[i]);
+          mu = get_mean_increment(model_length_midpoints_[i]) * time_step_proportions_[step_iter];
           sigma = fmax(min_sigma_, mu * cv_);
           growth_transition_matrix_[step_iter][i][i] =  utilities::math::pnorm2(model_min_length_bins_[i + 1] - model_length_midpoints_[i], mu, sigma);
           LOG_FINE() << " i = " << i + 1 << " mu = " << mu << " sigma = " << sigma << " val " << model_min_length_bins_[i + 1] - model_length_midpoints_[i] << " pnorm " << growth_transition_matrix_[step_iter][i][i];
