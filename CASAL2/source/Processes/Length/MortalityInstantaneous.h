@@ -146,8 +146,6 @@ private:
 
   // Members for reporting
   vector<unsigned>               time_steps_to_skip_applying_F_mortality_;
-  vector<vector<vector<Double>>> removals_by_year_category_age_;  // year[year_ndx][category_ndx][age_ndx]
-  vector<vector<Double>>         removals_by_category_age_;       // [category_ndx][age_ndx]
   vector<string>                 fishery_labels_;
 };
 

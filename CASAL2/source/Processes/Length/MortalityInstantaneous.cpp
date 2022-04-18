@@ -125,7 +125,7 @@ void MortalityInstantaneous::DoValidate() {
   }
 
   if (selectivity_labels_.size() != category_labels_.size()) {
-    LOG_FATAL_P(PARAM_RELATIVE_M_BY_AGE) << ": The number of M-by-age ogives provided is not the same as the number of categories provided. Categories: " << category_labels_.size()
+    LOG_FATAL_P(PARAM_RELATIVE_M_BY_LENGTH) << ": The number of M-by-length ogives provided is not the same as the number of categories provided. Categories: " << category_labels_.size()
                                          << ", Ogives: " << selectivity_labels_.size();
   }
 
@@ -372,7 +372,7 @@ void MortalityInstantaneous::DoBuild() {
     // Selectivity
     Selectivity* selectivity = model_->managers()->selectivity()->GetSelectivity(category.selectivity_label_);
     if (!selectivity)
-      LOG_ERROR_P(PARAM_RELATIVE_M_BY_AGE) << "M-by-age ogive label " << category.selectivity_label_ << " was not found.";
+      LOG_ERROR_P(PARAM_RELATIVE_M_BY_LENGTH) << "M-by-length ogive label " << category.selectivity_label_ << " was not found.";
     category.selectivity_ = selectivity;
     selectivities_.push_back(selectivity);
   }
@@ -410,9 +410,6 @@ void MortalityInstantaneous::DoBuild() {
   }
 
   // reserve memory for reporting objects
-  removals_by_category_age_.resize(category_labels_.size());
-  for (unsigned i = 0; i < category_labels_.size(); ++i) removals_by_category_age_[i].resize(model_->get_number_of_length_bins());
-
   LOG_FINE() << "years " << process_years_.size();
   // allocate memory for observation object
   const vector<TimeStep*> ordered_time_steps = model_->managers()->time_step()->ordered_time_steps();
@@ -471,7 +468,7 @@ void MortalityInstantaneous::DoExecute() {
       category.exploitation_[i]       = 0.0;
       category.selectivity_values_[i] = selectivity_value;
       category.exp_values_half_m_[i]  = exp(-0.5 * ratio * (*category.m_) * selectivity_value);  // this exp call should ony
-      LOG_FINEST() << "category " << category.category_label_ << " age index " << i << " selectivity " << selectivity_value;
+      LOG_FINEST() << "category " << category.category_label_ << " length index " << i << " selectivity " << selectivity_value;
     }
   }
 
@@ -482,7 +479,7 @@ void MortalityInstantaneous::DoExecute() {
     for (unsigned i = 0; i < fishery_category.selectivity_values_.size(); ++i) {
       fishery_category.selectivity_values_[i]
           = fishery_category.selectivity_->GetLengthResult(i);
-      LOG_FINEST() << "fishery category " << fishery_category.fishery_label_ << " age index " << i << " selectivity " << selectivity_value;
+      LOG_FINEST() << "fishery category " << fishery_category.fishery_label_ << " length index " << i << " selectivity " << selectivity_value;
     }
   }
 
@@ -521,7 +518,7 @@ void MortalityInstantaneous::DoExecute() {
       }
       fishery_category.fishery_.vulnerability_ += vulnerable;
 
-      LOG_FINEST() << "Category is fished in year " << year << " time_step " << time_step_index << ", numbers at age length = " << category->data_.size();
+      LOG_FINEST() << "Category is fished in year " << year << " time_step " << time_step_index << ", numbers at length = " << category->data_.size();
       LOG_FINEST() << "Vulnerable biomass from category " << category->name_ << " contributing to fishery " << fishery_category.fishery_label_ << " = " << vulnerable;
     }
 
@@ -566,7 +563,7 @@ void MortalityInstantaneous::DoExecute() {
      * Calculate u_obs for each fishery, this is defined as the maximum proportion of fish taken from any element of the partition
      * affected by fishery f in this time-step
      */
-    bool recalculate_age_exploitation = false;
+    bool recalculate_length_exploitation = false;
     LOG_FINEST() << "Size of fishery_categories_ " << fishery_categories_.size();
 
     LOG_FINEST() << "calc uobs";
@@ -585,8 +582,8 @@ void MortalityInstantaneous::DoExecute() {
         if (fishery_category.fishery_.label_ != fishery.label_)
           continue;
 
-        for (Double age_exploitation : fishery_category.category_.exploitation_) {
-          uobs = uobs > age_exploitation ? uobs : age_exploitation;
+        for (Double length_exploitation : fishery_category.category_.exploitation_) {
+          uobs = uobs > length_exploitation ? uobs : length_exploitation;
         }
       }
     }
@@ -609,7 +606,7 @@ void MortalityInstantaneous::DoExecute() {
         LOG_FINE() << "fishery = " << fishery.label_ << " U_obs = " << fishery.uobs_fishery_ << " and u_max " << fishery.u_max_;
         LOG_FINE() << fishery.label_ << " rescaled exploitation rate = " << fishery.exploitation_;
 
-        recalculate_age_exploitation        = true;
+        recalculate_length_exploitation        = true;
         fishery.actual_catches_[year]       = fishery.vulnerability_ * fishery.exploitation_;
         fishery.exploitation_by_year_[year] = fishery.exploitation_;
 
@@ -622,11 +619,11 @@ void MortalityInstantaneous::DoExecute() {
     }
 
     /**
-     * recalculate age exploitation if we triggered penalty
+     * recalculate length exploitation if we triggered penalty
      */
-    if (recalculate_age_exploitation) {
+    if (recalculate_length_exploitation) {
       for (auto& category : categories_) {
-        LOG_FINE() << "recalculating age exploitation for category " << category.category_label_ << " in time step " << time_step_index;
+        LOG_FINE() << "recalculating length exploitation for category " << category.category_label_ << " in time step " << time_step_index;
         for (unsigned i = 0; i < model_->get_number_of_length_bins(); ++i) category.exploitation_[i] = 0.0;
       }
 
@@ -647,9 +644,9 @@ void MortalityInstantaneous::DoExecute() {
     }
 
     /**
-     * Calculate the expectation for a proportions_at_age observation
+     * Calculate the expectation for a proportions_at_length observation
      */
-    LOG_FINEST() << "Calculate proportions at age";
+    LOG_FINEST() << "Calculate proportions at length";
     if (find(process_years_.begin(), process_years_.end(), year) != process_years_.end()) {
       // only calculate observed fits for years the process exists for
       unsigned get_number_of_length_bins      = model_->get_number_of_length_bins();
@@ -661,12 +658,8 @@ void MortalityInstantaneous::DoExecute() {
             LOG_FINEST() << " year ndx = " << this_year_iter.second << " fisheyr ndx = " << fishery_category.fishery_.fishery_ndx_
                          << " category ndx = " << fishery_category.category_.category_ndx_;
             for (unsigned i = 0; i < get_number_of_length_bins; ++i) {
-              unsigned age_offset = categories->min_age_ - model_->min_age();
-
-              if (i < age_offset)
-                continue;
               removals_by_year_fishery_category_[this_year_iter.second][fishery_category.fishery_.fishery_ndx_][fishery_category.category_.category_ndx_][i]
-                  = categories->data_[i - age_offset] * fishery_category.fishery_.exploitation_
+                  = categories->data_[i] * fishery_category.fishery_.exploitation_
                     * fishery_category.selectivity_->GetLengthResult(i) * fishery_category.category_.exp_values_half_m_[i];
             }
           }
@@ -684,24 +677,21 @@ void MortalityInstantaneous::DoExecute() {
     LOG_FINEST() << "category " << category.category_label_ << " used in time step " << time_step_index << ": " << category.used_in_current_timestep_;
 
     for (unsigned i = 0; i < category.category_->data_.size(); ++i) {
-      // removals_by_category_age_[category_ndx][i] = category.category_->data_[i]; // initial numbers before process
-      LOG_FINEST() << "category " << category.category_label_ << ": numbers at age = " << category.category_->data_[i] << " age " << i + model_->min_age()
-                   << " exploitation = " << category.exploitation_[i] << " M = " << *category.m_ << " relative_m_by_age = " << category.selectivity_values_[i];
+      LOG_FINEST() << "category " << category.category_label_ << ": numbers at length = " << category.category_->data_[i] << " length ndx " << i
+                   << " exploitation = " << category.exploitation_[i] << " M = " << *category.m_ << " relative_m_by_length = " << category.selectivity_values_[i];
 
       category.category_->data_[i] *= category.exp_values_half_m_[i] * category.exp_values_half_m_[i] * (1.0 - category.exploitation_[i]);
-      LOG_FINEST() << "category " << category.category_label_ << ": updated numbers at age = " << category.category_->data_[i] << " age " << i + model_->min_age();
+      LOG_FINEST() << "category " << category.category_label_ << ": updated numbers at length = " << category.category_->data_[i] << " length ndx " << i ;
 
       if (category.category_->data_[i] < 0.0) {
         LOG_CODE_ERROR() << " Fishing caused a negative partition : if (categories->data_[i] < 0.0), category.category_->data_[i] = " << category.category_->data_[i]
-                         << " i = " << i + 1 << "; category " << category.category_label_ << ": numbers at age = " << category.category_->data_[i] << " age "
-                         << i + model_->min_age() << " exploitation = " << category.exploitation_[i] << " relative_m_by_age = " << category.selectivity_values_[i]
+                         << " i = " << i + 1 << "; category " << category.category_label_ << ": numbers at length = " << category.category_->data_[i] << " length ndx "
+                         << i  << " exploitation = " << category.exploitation_[i] << " relative_m_by_length = " << category.selectivity_values_[i]
                          << " M = " << *category.m_ << " time step = " << time_step_index << " used in time step = " << category.used_in_current_timestep_;
       }
-      // removals_by_category_age_[category_ndx][i] -= category.category_->data_[i]; // minus what was left thus keeping the difference
     }
     ++category_ndx;
   }
-  // removals_by_year_category_age_[model_->current_year()] = removals_by_category_age_;
 }
 
 /**
@@ -728,28 +718,6 @@ void MortalityInstantaneous::FillReportCache(ostringstream& cache) {
   }
 
   cache << REPORT_EOL;
-
-  /*
-    cache << "removals " << REPORT_R_DATAFRAME << "\n";
-    cache << "year category";
-    unsigned age = model_->min_age();
-    while(age <= model_->max_age()) {
-      cache << " " << age ;
-      ++age;
-    }
-    cache << REPORT_EOL;
-
-    for (auto& removals : removals_by_year_category_age_) {
-      LOG_FINE() << "printing year = " << removals.first;
-      for (unsigned category_ndx = 0; category_ndx < removals.second.size(); ++category_ndx) {
-        cache << removals.first << " " << category_labels_[category_ndx];
-        for (unsigned age_ndx = 0; age_ndx < removals.second[category_ndx].size(); ++age_ndx) {
-          cache << " " << removals.second[category_ndx][age_ndx];
-        }
-        cache << REPORT_EOL;
-      }
-    }
-  */
 }
 
 /**
@@ -919,6 +887,6 @@ vector<unsigned> MortalityInstantaneous::get_category_ndx_for_catch_at(vector<st
   return category_ndxs;
 }
 
-} /* namespace age */
+} /* namespace length */
 } /* namespace processes */
 } /* namespace niwa */
