@@ -418,14 +418,20 @@ void ProportionsAtLength::CalculateScore() {
   LOG_FINEST() << "Calculating neglogLikelihood for observation = " << label_;
 
   if (model_->run_mode() == RunMode::kSimulation) {
-    likelihood_->SimulateObserved(comparisons_);
     for (auto& iter : comparisons_) {
-      double total = 0.0;
-      for (auto& comparison : iter.second) total += comparison.observed_;
-      if(simulated_data_sum_to_one_) {
+      Double total_expec = 0.0;
+      for (auto& comparison : iter.second) total_expec += comparison.expected_;
+      for (auto& comparison : iter.second) comparison.expected_ /= total_expec;
+    }
+    likelihood_->SimulateObserved(comparisons_);
+    if (simulated_data_sum_to_one_) {
+      for (auto& iter : comparisons_) {
+        double total = 0.0;
+        for (auto& comparison : iter.second) 
+          total += comparison.observed_;
         for (auto& comparison : iter.second) 
           comparison.observed_ /= total;
-      }
+      }    
     }
   } else {
     /**

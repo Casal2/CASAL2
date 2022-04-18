@@ -436,10 +436,11 @@ void ProcessRemovalsByLength::CalculateScore() {
       for (auto& comparison : iter.second) comparison.expected_ /= total_expec;
     }
     likelihood_->SimulateObserved(comparisons_);
-    for (auto& iter : comparisons_) {
-      double total = 0.0;
-      for (auto& comparison : iter.second) total += comparison.observed_;
-      if (simulated_data_sum_to_one_) {
+    if (simulated_data_sum_to_one_) {
+      for (auto& iter : comparisons_) {
+        double total = 0.0;
+        for (auto& comparison : iter.second) 
+          total += comparison.observed_;
         for (auto& comparison : iter.second) 
           comparison.observed_ /= total;
       }    
