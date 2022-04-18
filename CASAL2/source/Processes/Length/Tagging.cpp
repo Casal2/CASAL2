@@ -42,6 +42,7 @@ Tagging::Tagging(shared_ptr<Model> model) : Process(model), to_partition_(model)
   parameters_.Bind<string>(PARAM_INITIAL_MORTALITY_SELECTIVITY, &initial_mortality_selectivity_label_, "The initial mortality selectivity label", "", "");
   parameters_.Bind<string>(PARAM_SELECTIVITIES, &selectivity_labels_, "The selectivity labels", "");
   parameters_.Bind<Double>(PARAM_N, &n_, "Number of tags (N)", "");
+  parameters_.Bind<double>(PARAM_TOLERANCE, &tolerance_, "Tolerance for checking the specificed proportions sum to one", "", 1e-5)->set_range(0, 1.0);
   parameters_.BindTable(PARAM_PROPORTIONS, proportions_table_, "The table of proportions to move", "", true, true);
 
 }
@@ -98,7 +99,7 @@ void Tagging::DoValidate() {
       numbers_[year][i - 1] = n_by_year[year] * proportion;
       total_proportion += proportion;
     }
-    if(!utilities::math::IsOne(total_proportion))
+    if (fabs(1.0 - total_proportion) > tolerance_)
       LOG_ERROR_P(PARAM_PROPORTIONS) << " total (" << total_proportion << ") do not sum to 1.0 for year " << year;
   }
 

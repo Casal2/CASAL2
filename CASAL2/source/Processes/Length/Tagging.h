@@ -67,6 +67,8 @@ private:
   vector<Double>                n_;
   unsigned                      first_year_        = 0;
   map<unsigned, vector<Double>> numbers_;
+  double                        tolerance_                           = 0;
+
 };
 
 } /* namespace length */
