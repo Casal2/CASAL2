@@ -118,6 +118,10 @@ void GrowthIncrement::Build() {
 void GrowthIncrement::RebuildCache() {
   // if time-vary any of these parameters update parameters
   populate_growth_transition_matrix();
+  LOG_FINE() << "Recalculate mean weight";
+  for(unsigned j = 0; j < number_of_model_length_bins_; ++j) 
+    mean_weight_by_length_bin_index_[j] = length_weight_->mean_weight(model_length_midpoints_[j]);
+    
 }
 
 /**
@@ -125,6 +129,10 @@ void GrowthIncrement::RebuildCache() {
  */
 void GrowthIncrement::Reset() {
   DoReset();
+  populate_growth_transition_matrix();
+  LOG_FINE() << "Recalculate mean weight";
+  for(unsigned j = 0; j < number_of_model_length_bins_; ++j) 
+    mean_weight_by_length_bin_index_[j] = length_weight_->mean_weight(model_length_midpoints_[j]);
 }
 
 
