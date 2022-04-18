@@ -91,7 +91,8 @@ void Selectivity::DoExecute(shared_ptr<Model> model) {
     }
 
     cache_ << "Values " << REPORT_R_VECTOR << REPORT_EOL;
-    for (unsigned i = 0; i < model->get_number_of_length_bins(); ++i) cache_ << i << " " << AS_DOUBLE(selectivity_->GetLengthResult(i)) << "\n";
+    for (unsigned i = 0; i < model->get_number_of_length_bins(); ++i)
+      cache_ << model->length_bin_mid_points()[i] << " " << AS_DOUBLE(selectivity_->GetLengthResult(i)) << "\n";
     ready_for_writing_ = true;
   }
 }
