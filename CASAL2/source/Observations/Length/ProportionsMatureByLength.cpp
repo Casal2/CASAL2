@@ -22,6 +22,7 @@
 #include "Categories/Categories.h"
 #include "Model/Model.h"
 #include "Partition/Accessors/All.h"
+#include "Selectivities/Manager.h"
 #include "TimeSteps/Manager.h"
 #include "Utilities/Map.h"
 #include "Utilities/Math.h"
@@ -37,8 +38,9 @@ namespace length {
 ProportionsMatureByLength::ProportionsMatureByLength(shared_ptr<Model> model) : Observation(model) {
   obs_table_          = new parameters::Table(PARAM_OBS);
   error_values_table_ = new parameters::Table(PARAM_ERROR_VALUES);
-  parameters_.Bind<double>(PARAM_LENGTH_BINS, &length_bins_, "The length bins", "", true);
-  parameters_.Bind<bool>(PARAM_PLUS_GROUP, &length_plus_, "Is the last length bin a plus group? (defaults to @model value)", "", true);  // default to the model value
+  parameters_.Bind<double>(PARAM_LENGTH_BINS, &length_bins_, "The length bins (minimum values) for the observations.", "", true);
+  parameters_.Bind<string>(PARAM_SELECTIVITIES, &selectivity_labels_, "The labels of the selectivities for categories", "", true);
+  parameters_.Bind<bool>(PARAM_PLUS_GROUP, &length_plus_, "Is the last length bin a plus group? if false the last length_bin is an maximum value", "", true);  // default to the model value
   parameters_.Bind<string>(PARAM_TIME_STEP, &time_step_label_, "The label of time-step that the observation occurs in", "");
   parameters_.Bind<unsigned>(PARAM_YEARS, &years_, "The years for which there are observations", "");
   parameters_.BindTable(PARAM_OBS, obs_table_, "The table of proportions at length mature ", "", false);
@@ -46,6 +48,8 @@ ProportionsMatureByLength::ProportionsMatureByLength(shared_ptr<Model> model) : 
   parameters_.BindTable(PARAM_ERROR_VALUES, error_values_table_, "The table of error values of the observed values (note the units depend on the likelihood)", "", false);
   parameters_.Bind<string>(PARAM_TOTAL_CATEGORIES, &total_category_labels_,
                            "All category labels that were vulnerable to sampling at the time of this observation (not including the categories already given)", "", true);
+  parameters_.Bind<string>(PARAM_SELECTIVITIES_FOR_TOTAL_CATEGORIES, &total_selectivity_labels_, "The labels of the selectivities for total categories", "", true);
+
   parameters_
       .Bind<Double>(PARAM_TIME_STEP_PROPORTION, &time_step_proportion_, "The proportion through the mortality block of the time step when the observation is evaluated", "",
                     Double(0.5))
@@ -81,9 +85,17 @@ void ProportionsMatureByLength::DoValidate() {
       LOG_ERROR_P(PARAM_YEARS) << "Years cannot be less than start_year (" << model_->start_year() << "), or greater than final_year (" << model_->final_year() << ").";
   }
 
+  if(total_category_labels_.size() != category_labels_.size()) {
+    LOG_ERROR_P(PARAM_TOTAL_CATEGORIES) << "different number of categoires supplied '" << total_category_labels_.size() << "' to " << PARAM_CATEGORIES << " '" << category_labels_.size() << "'";
+  }
+  if(selectivity_labels_.size() != category_labels_.size()) {
+    LOG_ERROR_P(PARAM_SELECTIVITIES) << "different number of selectivities supplied '" << selectivity_labels_.size() << "' to " << PARAM_CATEGORIES << " '" << category_labels_.size() << "'";
+  }
+  if(total_selectivity_labels_.size() != total_category_labels_.size()) {
+    LOG_ERROR_P(PARAM_SELECTIVITIES_FOR_TOTAL_CATEGORIES) << "different number of selectivities supplied '" << total_selectivity_labels_.size() << "' to " << PARAM_TOTAL_CATEGORIES << " '" << total_category_labels_.size() << "'";
+  }
   map<unsigned, vector<double>> error_values_by_year;
   map<unsigned, vector<double>> obs_by_year;
-
   /**
    * Do some simple checks
    * e.g Validate that the length_bins are strictly increasing
@@ -140,6 +152,9 @@ void ProportionsMatureByLength::DoValidate() {
   }
   number_bins_                         = length_plus_ ? length_bins_.size() : length_bins_.size() - 1;
 
+  // expand category labels
+  total_category_labels_ = model_->categories()->ExpandLabels(total_category_labels_, parameters_.Get(PARAM_TOTAL_CATEGORIES)->location());
+
   /**
    * Now go through each category and split it if required, then check each piece to ensure
    * it's a valid category
@@ -161,9 +176,10 @@ void ProportionsMatureByLength::DoValidate() {
       }
     }
   }
-  for (auto tot_category : total_category_labels_) {
-    if (std::find(category_labels_.begin(), category_labels_.end(), tot_category) != category_labels_.end())
-      LOG_ERROR_P(PARAM_TOTAL_CATEGORIES) << "category '" << tot_category << "' was found in the parameter " << PARAM_CATEGORIES << ". Please remove it from the "
+  // Check to see if categories have been specified in total categories
+  for (auto category : category_labels_) {
+    if (std::find(total_category_labels_.begin(), total_category_labels_.end(), category) == total_category_labels_.end())
+      LOG_ERROR_P(PARAM_CATEGORIES) << "category '" << category << "' was not found in the parameter " << PARAM_TOTAL_CATEGORIES << ". Please make sure all categories are within in "
                                           << PARAM_TOTAL_CATEGORIES << " parameter";
   }
   LOG_FINEST() << "Number of different total categories after splitting " << total_category_labels_.size();
@@ -276,8 +292,8 @@ void ProportionsMatureByLength::DoValidate() {
 
         auto e_f = error_values_by_year.find(iter->first);
         if (e_f != error_values_by_year.end()) {
-          error_values_[iter->first][category_labels_[i]].push_back(e_f->second[obs_index]);
-          proportions_[iter->first][category_labels_[i]].push_back(value);
+          error_values_[iter->first].push_back(e_f->second[obs_index]);
+          proportions_[iter->first].push_back(value);
         }
       }
     }
@@ -297,25 +313,50 @@ void ProportionsMatureByLength::DoBuild() {
   // all categories
   partition_        = CombinedCategoriesPtr(new niwa::partition::accessors::CombinedCategories(model_, category_labels_));
   cached_partition_ = CachedCombinedCategoriesPtr(new niwa::partition::accessors::cached::CombinedCategories(model_, category_labels_));
-  
-  vector<Double>              total_numbers_at_length_;
-  vector<Double>              cached_total_numbers_at_length_;
-  vector<Double>              numbers_at_length_;
-  vector<Double>              cached_numbers_at_length_;
 
-  total_numbers_at_length_.resize(model_->get_number_of_length_bins(), 0.0);
-  cached_total_numbers_at_length_.resize(model_->get_number_of_length_bins(), 0.0);
-  numbers_at_length_.resize(model_->get_number_of_length_bins(), 0.0);
-  cached_numbers_at_length_.resize(model_->get_number_of_length_bins(), 0.0);
-  final_numbers_at_length_.resize(model_->get_number_of_length_bins(), 0.0);
-  final_total_numbers_at_length_.resize(number_bins_, 0.0);
-  expected_values_.resize(number_bins_, 0.0);
+
+  LOG_FINE() << "number of bins " << number_bins_;
+  total_numbers_at_length_.resize(number_bins_, 0.0);
+  cached_total_numbers_at_length_.resize(number_bins_, 0.0);
+  numbers_at_length_.resize(number_bins_, 0.0);
+  cached_numbers_at_length_.resize(number_bins_, 0.0);
+
+  length_results_.resize(number_bins_ * category_labels_.size(), 0.0);
+  categories_for_comparison_.resize(number_bins_ * category_labels_.size());
+  length_bins_for_comparison_.resize(number_bins_ * category_labels_.size(), 0.0);
+
   TimeStep* time_step = model_->managers()->time_step()->GetTimeStep(time_step_label_);
   if (!time_step) {
     LOG_FATAL_P(PARAM_TIME_STEP) << "Time step label " << time_step_label_ << " was not found.";
   } else {
     for (unsigned year : years_) 
       time_step->SubscribeToBlock(this, year);
+  }
+
+  // Build Selectivity pointers
+  for (string label : selectivity_labels_) {
+    LOG_FINE() << "getting selectivity = " << label;
+    Selectivity* selectivity = model_->managers()->selectivity()->GetSelectivity(label);
+    if (!selectivity)
+      LOG_ERROR_P(PARAM_SELECTIVITIES) << ": Selectivity label " << label << " was not found.";
+    selectivities_.push_back(selectivity);
+  }
+  if (selectivities_.size() == 1 && category_labels_.size() != 1) {
+    LOG_FINE() << "resizing selectivities";
+    auto val_sel = selectivities_[0];
+    selectivities_.assign(category_labels_.size(), val_sel);
+  }
+  for (string label : total_selectivity_labels_) {
+    LOG_FINE() << "getting selectivity = " << label;
+    Selectivity* selectivity = model_->managers()->selectivity()->GetSelectivity(label);
+    if (!selectivity)
+      LOG_ERROR_P(PARAM_SELECTIVITIES_FOR_TOTAL_CATEGORIES) << ": Selectivity label " << label << " was not found.";
+    total_selectivities_.push_back(selectivity);
+  }
+  if (total_selectivities_.size() == 1 && total_category_labels_.size() != 1) {
+    LOG_FINE() << "resizing total_selectivities";
+    auto val_sel = total_selectivities_[0];
+    total_selectivities_.assign(total_category_labels_.size(), val_sel);
   }
 }
 
@@ -348,6 +389,10 @@ void ProportionsMatureByLength::Execute() {
   Double total_start_value = 0.0;
   Double total_end_value   = 0.0;
   Double total_final_value  = 0.0;
+
+  std::fill(length_results_.begin(), length_results_.end(), 0.0);
+  unsigned category_length_offset = 0;
+
   /**
    * Loop through the provided categories. Each provided category (combination) will have a list of observations
    * with it. We need to build a vector of proportions for each age using that combination and then
@@ -355,9 +400,8 @@ void ProportionsMatureByLength::Execute() {
    */
   LOG_FINEST() << "Number of categories " << category_labels_.size();
   for (unsigned category_offset = 0; category_offset < category_labels_.size(); ++category_offset, ++partition_iter) {
-
+    category_length_offset = category_offset * number_bins_;
     // clear these temporay vectors
-    std::fill(expected_values_.begin(), expected_values_.end(), 0.0);
     std::fill(cached_total_numbers_at_length_.begin(), cached_total_numbers_at_length_.end(), 0.0);
     std::fill(total_numbers_at_length_.begin(), total_numbers_at_length_.end(), 0.0);
     std::fill(cached_numbers_at_length_.begin(), cached_numbers_at_length_.end(), 0.0);
@@ -372,16 +416,18 @@ void ProportionsMatureByLength::Execute() {
         LOG_FINE() << "using model length bins";
         for (unsigned model_length_offset = 0; model_length_offset < model_->get_number_of_length_bins(); ++model_length_offset) {
           // now for each column (length bin) in age_length_matrix sum up all the rows (ages) for both cached and current matricies
-          cached_total_numbers_at_length_[model_length_offset] += (*total_category_iter)->data_[model_length_offset] ;
-          total_numbers_at_length_[model_length_offset]   += (*total_category_iter)->cached_data_[model_length_offset] ;
+          cached_total_numbers_at_length_[model_length_offset] += (*total_category_iter)->data_[model_length_offset] * total_selectivities_[category_offset]->GetLengthResult(model_length_offset);
+          total_numbers_at_length_[model_length_offset]   += (*total_category_iter)->cached_data_[model_length_offset] * total_selectivities_[category_offset]->GetLengthResult(model_length_offset);
         }
       } else {
-        LOG_FINE() << "using bespoke length bins";
+        LOG_FINE() << "using bespoke length bins length " << map_local_length_bins_to_global_length_bins_.size() << " " << cached_total_numbers_at_length_.size() <<  " " << total_numbers_at_length_.size();
+
         for (unsigned model_length_offset = 0; model_length_offset < model_->get_number_of_length_bins(); ++model_length_offset) {
+          LOG_FINEST() << "length bin " << model_length_offset << " ndx = " << map_local_length_bins_to_global_length_bins_[model_length_offset] << " category offset " << category_offset;
           if(map_local_length_bins_to_global_length_bins_[model_length_offset] >= 0) {
             // now for each column (length bin) in age_length_matrix sum up all the rows (ages) for both cached and current matricies
-            cached_total_numbers_at_length_[map_local_length_bins_to_global_length_bins_[model_length_offset]] += (*total_category_iter)->data_[model_length_offset];
-            total_numbers_at_length_[map_local_length_bins_to_global_length_bins_[model_length_offset]]   += (*total_category_iter)->cached_data_[model_length_offset];
+            cached_total_numbers_at_length_[map_local_length_bins_to_global_length_bins_[model_length_offset]] += (*total_category_iter)->data_[model_length_offset] * total_selectivities_[category_offset]->GetLengthResult(model_length_offset);
+            total_numbers_at_length_[map_local_length_bins_to_global_length_bins_[model_length_offset]]   += (*total_category_iter)->cached_data_[model_length_offset] * total_selectivities_[category_offset]->GetLengthResult(model_length_offset);
           }
         }
       }
@@ -395,21 +441,17 @@ void ProportionsMatureByLength::Execute() {
         LOG_FINE() << "using model length bins";
         for (unsigned model_length_offset = 0; model_length_offset < model_->get_number_of_length_bins(); ++model_length_offset) {
           // now for each column (length bin) in age_length_matrix sum up all the rows (ages) for both cached and current matricies
-          cached_numbers_at_length_[model_length_offset] += (*category_iter)->data_[model_length_offset] ;
-          numbers_at_length_[model_length_offset]   += (*category_iter)->cached_data_[model_length_offset] ;
-          cached_total_numbers_at_length_[model_length_offset] += (*category_iter)->data_[model_length_offset] ;
-          total_numbers_at_length_[model_length_offset]   += (*category_iter)->cached_data_[model_length_offset] ;
-
+          cached_numbers_at_length_[model_length_offset] += (*category_iter)->data_[model_length_offset] * selectivities_[category_offset]->GetLengthResult(model_length_offset);
+          numbers_at_length_[model_length_offset]   += (*category_iter)->cached_data_[model_length_offset] * selectivities_[category_offset]->GetLengthResult(model_length_offset);
         }
       } else {
         LOG_FINE() << "using bespoke length bins";
         for (unsigned model_length_offset = 0; model_length_offset < model_->get_number_of_length_bins(); ++model_length_offset) {
+          LOG_FINEST() << "length bin " << model_length_offset << " ndx = " << map_local_length_bins_to_global_length_bins_[model_length_offset] << " category offset " << category_offset;
           if(map_local_length_bins_to_global_length_bins_[model_length_offset] >= 0) {
             // now for each column (length bin) in age_length_matrix sum up all the rows (ages) for both cached and current matricies
-            cached_numbers_at_length_[map_local_length_bins_to_global_length_bins_[model_length_offset]] += (*category_iter)->data_[model_length_offset];
-            numbers_at_length_[map_local_length_bins_to_global_length_bins_[model_length_offset]]   += (*category_iter)->cached_data_[model_length_offset];
-            cached_total_numbers_at_length_[map_local_length_bins_to_global_length_bins_[model_length_offset]] += (*category_iter)->data_[model_length_offset];
-            total_numbers_at_length_[map_local_length_bins_to_global_length_bins_[model_length_offset]]   += (*category_iter)->cached_data_[model_length_offset];
+            cached_numbers_at_length_[map_local_length_bins_to_global_length_bins_[model_length_offset]] += (*category_iter)->data_[model_length_offset] * selectivities_[category_offset]->GetLengthResult(model_length_offset);
+            numbers_at_length_[map_local_length_bins_to_global_length_bins_[model_length_offset]]   += (*category_iter)->cached_data_[model_length_offset] * selectivities_[category_offset]->GetLengthResult(model_length_offset);
           }
         }
       }
@@ -426,25 +468,24 @@ void ProportionsMatureByLength::Execute() {
         final_value = (1 - proportion_of_time_) * start_value + proportion_of_time_ * end_value;
         total_final_value = (1 - proportion_of_time_) * total_start_value + proportion_of_time_ * total_end_value;
       }
-      expected_values_[length_offset] += final_value / total_final_value;;
+      length_results_[category_length_offset + length_offset] += final_value / total_final_value;
+      length_bins_for_comparison_[category_length_offset + length_offset] = length_bins_[length_offset];
+      categories_for_comparison_[category_length_offset + length_offset] = category_labels_[category_offset];
+
       LOG_FINE() << "----------";
-      LOG_FINE() << "Category: " << (*total_category_iter)->name_ << " at length " << length_bins_[length_offset];
+      LOG_FINE() << "Category ndx: " << category_offset << " at length " << length_bins_[length_offset];
       LOG_FINE() << "start_value: " << start_value << "; end_value: " << end_value << "; final_value: " << final_value;
       LOG_FINE() << "total_start_value: " << total_start_value << "; total_end_value: " << total_end_value << "; final_value: " << total_final_value;
-      LOG_FINE() << "expected_value becomes: " << expected_values_[length_offset];
+      LOG_FINE() << "expected_value becomes: " << length_results_[category_length_offset + length_offset];
     }
-    if (expected_values_.size() != proportions_[model_->current_year()][category_labels_[category_offset]].size())
-      LOG_CODE_ERROR() << "expected_values.size(" << expected_values_.size() << ") != proportions_[category_offset].size("
-                       << proportions_[model_->current_year()][category_labels_[category_offset]].size() << ")";
-
-    /**
-     * save our comparisons so we can use them to generate the score from the likelihoods later
-     */
-    for (unsigned i = 0; i < expected_values_.size(); ++i) {
-      LOG_FINEST() << "proportions mature at age " <<  i << " = " << expected_values_[i];
-      SaveComparison(category_labels_[category_offset], 0.0, length_bins_[i], expected_values_[i], proportions_[model_->current_year()][category_labels_[category_offset]][i],
-                     process_errors_by_year_[model_->current_year()], error_values_[model_->current_year()][category_labels_[category_offset]][i], 0.0, delta_, 0.0);
-    }
+  }
+  /**
+    * save our comparisons so we can use them to generate the score from the likelihoods later
+    */
+  for (unsigned i = 0; i < length_results_.size(); ++i) {
+    LOG_FINEST() << "proportions mature at ndx " <<  i << " = " << length_results_[i];
+    SaveComparison(categories_for_comparison_[i], 0.0, length_bins_for_comparison_[i], length_results_[i], proportions_[model_->current_year()][i],
+                    process_errors_by_year_[model_->current_year()], error_values_[model_->current_year()][i], 0.0, delta_, 0.0);
   }
 }
 

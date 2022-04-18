@@ -22,6 +22,7 @@
 
 // Namespace
 namespace niwa {
+  class Selectivity;
 namespace observations {
 namespace length {
 
@@ -52,7 +53,7 @@ protected:
   unsigned                    number_bins_ = 0;
   bool                        using_model_length_bins = true;
   vector<int>                 map_local_length_bins_to_global_length_bins_;
-  
+
   parameters::Table*          obs_table_  = nullptr;
   vector<Double>              process_error_values_;
   map<unsigned, Double>       process_errors_by_year_;
@@ -67,17 +68,20 @@ protected:
   vector<Double>              cached_total_numbers_at_length_;
   vector<Double>              numbers_at_length_;
   vector<Double>              cached_numbers_at_length_;
-  vector<Double>              final_numbers_at_length_;
-  vector<Double>              final_total_numbers_at_length_;
+  vector<string>              total_selectivity_labels_;
+  vector<string>              selectivity_labels_;
+  vector<Selectivity*>        selectivities_;
+  vector<Selectivity*>        total_selectivities_;
 
-  vector<Double>              expected_values_;
-
+  vector<Double>              length_results_;
+  vector<string>              categories_for_comparison_;
+  vector<double>              length_bins_for_comparison_;
   string                      time_step_label_ = "";
   bool                        simulated_data_sum_to_one_;
   bool                        sum_to_one_;
 
-  map<unsigned, map<string, vector<double>>> proportions_;
-  map<unsigned, map<string, vector<double>>> error_values_;
+  map<unsigned, vector<double>> proportions_;
+  map<unsigned, vector<double>> error_values_;
 };
 
 } /* namespace age */
