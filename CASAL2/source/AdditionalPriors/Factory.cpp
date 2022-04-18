@@ -5,7 +5,7 @@
  * @date 24/10/2014
  * @section LICENSE
  *
- * Copyright NIWA Science ©2014 - www.niwa.co.nz
+ * Copyright NIWA Science ï¿½2014 - www.niwa.co.nz
  *
  */
 
@@ -18,6 +18,7 @@
 #include "../AdditionalPriors/Common/UniformLog.h"
 #include "../AdditionalPriors/Common/VectorAverage.h"
 #include "../AdditionalPriors/Common/VectorSmoothing.h"
+#include "../AdditionalPriors/Common/Ratio.h"
 #include "../AdditionalPriors/Manager.h"
 #include "../Model/Managers.h"
 #include "../Model/Model.h"
@@ -49,6 +50,8 @@ AdditionalPrior* Factory::Create(shared_ptr<Model> model, const string& object_t
       object = new LogNormal(model);
     else if (sub_type == PARAM_UNIFORM_LOG)
       object = new UniformLog(model);
+    else if (sub_type == PARAM_RATIO)
+      object = new Ratio(model);
   }
 
   if (object)
