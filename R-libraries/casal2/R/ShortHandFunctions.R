@@ -143,6 +143,8 @@ expand_category_shorthand <- function(shorthand_categories, reference_categories
 #' expand_shorthand_syntax(syntax ="0.75 * 3 ")
 #' # cant deal with
 #' expand_shorthand_syntax(syntax ="0.75*3 0.75*3")
+#' # the below fails, can't deal with numbers in the string name
+#' # expand_shorthand_syntax(syntax ="FishingSel_1_male*4FishingSel_1_female*4")
 #' }
 expand_shorthand_syntax <- function(syntax) {
   syntax = paste(syntax, collapse = "")
