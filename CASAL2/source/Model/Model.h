@@ -105,7 +105,7 @@ public:
   unsigned                      get_number_of_length_bins() const { return number_of_model_length_bins_; }
   bool                          are_length_bin_compatible_with_model_length_bins(vector<double>& length_bins);
   vector<int>                   get_map_for_bespoke_length_bins_to_global_length_bins(vector<double> length_bins, bool plus_group);
-
+  unsigned                      get_length_bin_ndx(Double value);
   void                          set_id(unsigned id) { id_ = id; }
   unsigned                      id() const { return id_; }
   void                          flag_primary_thread_model() { is_primary_thread_model_ = true; }

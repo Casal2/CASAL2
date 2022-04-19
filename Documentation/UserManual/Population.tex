@@ -763,11 +763,33 @@ y2    0.8  # selection at x2
 %The spline selectivity implements a cubic spline that has non-estimable knots, and an estimable value for each knot. The cubic spline is either (i) a natural splines where the second derivatives are set to 0 at the boundaries, i.e., the values at the boundaries are horizontal, (ii) a spline with a fixed first derivative at the boundaries (linear, but not necessarily horizontal) and (iii) spline which turns into a parabola at the boundaries.
 %
 
+
+
+\subsubsection[Compound-Left]{\argument{compound\_left}}\index{Selectivities!Compound-Left}\label{sec:Selectivity-CompoundLeft}
+The compound left selectivity was used in the Oyster stock assessment but was undocumented in CASAL user manual. 
+\begin{align*}
+y_1 & = \frac{\left(1 - a_{min}\right)}{\left(1 + 19^{(a_{50} - x)/a_{to95}}\right)}  + a_{min}\\
+y_2 & = \frac{1}{\left(1 + 19^{(left_{mu} + to\_right_{mu} - x)/\sigma}\right)}\\
+f(x)  &= 	y_1 y_2
+\end{align*}
+
+
+\subsubsection[Compound-Right]{\argument{compound\_right}}\index{Selectivities!Compound-Right}\label{sec:Selectivity-CompoundRight}
+The compound right selectivity was used in the Oyster stock assessment but was undocumented in CASAL user manual. 
+\begin{align*}
+y_1 & = \frac{\left(1 - a_{min}\right)}{\left(1 + 19^{(a_{50} - x)/a_{to95}}\right)}  + a_{min}\\
+y_2 & = \frac{1}{\left(1 + 19^{(left_{mu} + to\_right_{mu} - x)/\sigma}\right)}\\
+f(x)  &= 	y_1 y_2
+\end{align*}
+
+
+
 \begin{figure}[H]
 	\includegraphics[scale = 0.7]{Figures/Selectivities.jpeg}
 	\caption{Examples of the selectivities}
 	\label{fig:select examples}
 \end{figure}
+
 
 
 \subsection{\I{Time-varying Parameter}}\label{sec:TimeVarying} \STATUS{Untested}

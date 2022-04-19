@@ -981,4 +981,14 @@ vector<int> Model::get_map_for_bespoke_length_bins_to_global_length_bins(vector<
   }
   return ndx;
 }
+/**
+ * A utility function to check length bins for a given process or observation are a subset of the model length bins.
+ */
+unsigned Model::get_length_bin_ndx(Double value) {
+  for(unsigned i = 1; i < number_of_model_length_bins_; ++i) {
+    if(value <  model_length_bins_[i])
+      return i - 1;
+  }
+  return number_of_model_length_bins_ - 1; // return the last value if larger than the last length bin
+}
 } /* namespace niwa */

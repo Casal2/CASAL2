@@ -150,6 +150,26 @@ TEST(Model, Validate_get_map_for_bespoke_length_bins_to_global_length_bins) {
 
 
 }
+
+
+/**
+ * Validate get model length bin nex
+ */
+TEST(Model, Validate_get_length_bin_ndx) {
+  shared_ptr<MockModel> model = shared_ptr<MockModel>(new MockModel());
+  model->set_length_plus(true);
+  model->set_length_bins({0, 15, 20, 25, 30, 50});
+  model->set_number_of_length_bins(); // if we chnage plus group need to reset thsi
+  model->bind_calls();
+  //Case 1
+  EXPECT_EQ(model->get_length_bin_ndx(10.0), 0);
+  EXPECT_EQ(model->get_length_bin_ndx(15.0), 1); // tied value to length bin
+  EXPECT_EQ(model->get_length_bin_ndx(17.0), 1);
+  EXPECT_EQ(model->get_length_bin_ndx(21.0), 2);
+  EXPECT_EQ(model->get_length_bin_ndx(27.0), 3);
+  EXPECT_EQ(model->get_length_bin_ndx(32.0), 4);
+  EXPECT_EQ(model->get_length_bin_ndx(52.0), 5);
+}
 } /* namespace niwa */
 
 #endif /* TESTMODE */
