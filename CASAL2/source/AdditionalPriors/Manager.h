@@ -5,7 +5,7 @@
  * @date 21/10/2014
  * @section LICENSE
  *
- * Copyright NIWA Science ©2014 - www.niwa.co.nz
+ * Copyright NIWA Science ï¿½2014 - www.niwa.co.nz
  *
  */
 #ifndef ADDITIONAL_PRIORS_MANAGER_H_
@@ -30,6 +30,9 @@ public:
   virtual ~Manager() = default;
   bool             HasAdditionalPrior(string_view parameter);
   AdditionalPrior* GetAdditionalPrior(string_view parameter);
+  AdditionalPrior* GetAdditionalPriorExcludingRatioType(string_view parameter);
+  bool             HasAdditionalPriorExcludingRatioType(string_view parameter);
+
 
 protected:
   // methods

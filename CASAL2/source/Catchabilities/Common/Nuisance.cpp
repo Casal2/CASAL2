@@ -60,11 +60,12 @@ void Nuisance::DoBuild() {
   LOG_FINEST() << "Find an @additional_prior command for parameter " << parameter;
 
   bool has_prior = false;
-  has_prior = model_->managers()->additional_prior()->HasAdditionalPrior(parameter);
+  has_prior = model_->managers()->additional_prior()->HasAdditionalPriorExcludingRatioType(parameter);
 
+  LOG_FINE() << " has prior = " << has_prior;
   if (has_prior) {
     // Obtain a pointer to the estimate
-    AdditionalPrior* additional_prior = model_->managers()->additional_prior()->GetAdditionalPrior(parameter);
+    AdditionalPrior* additional_prior = model_->managers()->additional_prior()->GetAdditionalPriorExcludingRatioType(parameter);
     if (!additional_prior)
       LOG_ERROR() << "Can not get additional prior with the parameter label " << parameter;
     // Find out the prior type
