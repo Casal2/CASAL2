@@ -800,6 +800,7 @@ bool MortalityInstantaneous::check_years_in_methods_for_removal_obs(vector<unsig
       for (auto& catches : fishery.catches_) {
         // Check year is in the vector
         if (find(years.begin(), years.end(), catches.first) != years.end()) {
+          LOG_FINE() << "found year = " << catches.first << " with catch = " << catches.second;
           if (catches.second <= 0)
             return false;
           ++year_counter;

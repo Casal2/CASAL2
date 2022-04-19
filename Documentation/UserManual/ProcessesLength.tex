@@ -115,11 +115,12 @@ In the  example given above,  $YCS$ are standardised to have mean one in the per
 
 \subsubsection{\I{Mortality}\label{sec:Process-Mortality}}
 
-There are 8 types of mortality processes available in \CNAME, and three tag related processes that also cause mortality:
+There are 3 types of mortality processes available in \CNAME length based models, and one tag release processes that also causes mortality (See Tagging Section~\ref{sec:Process-Tagging}):
 
 \begin{itemize}
 	\item constant rate,
-	\item instantaneous
+	\item instantaneous,
+	\item disease
 \end{itemize}
 
 \paragraph{Constant mortality rate}\label{sec:Process-Length-MortalityConstantRate} 
@@ -239,6 +240,17 @@ where \subcommand{"method\_label"} is the label from the \subcommand{catch} or \
 		\end{verbatim}}}
 
 
+\paragraph{Disease mortality rate}\label{sec:Process-Length-DiseaseMortalityRate} 
+Disease mortality is a special, additional, mortality that is implemented to occur after natural and fishing mortality during a time step. This process removes fish from the partition, is applied to all areas, and can depend on sex/length class.
+
+The partition is updated as follows
+\begin{equation}
+	n'_{c,j} = n_{c,j}  exp\{-t_y M_{c} S_{c,j} \}
+\end{equation}
+%
+where, \(n_{c,j}\) is the partition for category \(c\) and length class \(j\) before mortality and \(n'_{c,j}\)  is after the process. \(t_y\) is an annual multiplicative scalar (estimable), \(M_{c}\) is the category specific mortality rate and \(S_{c,j}\) is the selectivity.
+ 
+
 \subsubsection{\I{Transition By Category}}\label{sec:Process-Length-TransitionCategory}
 
 The transition by category process moves individuals between categories. This process is used to specify transitions such as maturation (individuals move from an immature to mature state) and migration (individuals move from one area to another).
@@ -268,9 +280,54 @@ where \texttt{MatureSel} is a selectivity that describes the proportion of lengt
 
 
 \subsubsection{\I{Tagging}}\label{sec:Process-Tagging} 
+Tag release events (also known as mark-recapture events or tag-release events) allow \CNAME\ to incorporate tagging data into the model.
+
 Tagging is a process that moves fish from the general population into specific \enquote{tag} categories. The aim is to get \CNAME\ to track these separately to generate expected recaptures or growth etc.
 
+In addition to creating tag category of the partition, you will need to initialise the values by defining a tag-release event (otherwise they will always be zero). This process moves fish from the \enquote{un tagged} category of the partition into a named category of the partition. You will need to define how many fish to move, and the year, time step, area, and stock. Also, you may
+need to define a penalty (see Section~\ref{sec:Penalty-Process}) to discourage parameter values which do not lead to enough fish being present in the population to allow for the number being tagged (although in cases where only a small proportion of the population is tagged, this is unlikely to be required).
 
+The partition is then updated by moving \(N\) fish from the equivalent \enquote{un tagged} category of the partition to the named tag category of the partition, where the numbers at length are defined by a vector of proportions by category. Note that \CNAME\ expects the vector of proportions to sum to 1 over all length bins.
 
+\CNAME\ moves fish using an \enquote{rate} which relates to the penalty. All \enquote{un tagged} categories represented by \(\tilde{c}\) are multiplied by a selectivity to calculate total abundance available to be tagged denoted by \(V_{c,j}\)
 
+\begin{equation*}
+	V_{c,j} = \sum\limits_{\tilde{c}} n_{\tilde{c}, j} S_{c,j} \ \tilde{c} \in c
+\end{equation*}
+%
+where, \(\tilde{c}\) are categories that are a subset of \(c\) which can be an accumulation of multiple categories. Users define number of tags released denoted by \(N\) and the proportion by length denoted by \(p_{c,j}\) see below for an example configuration file excerpt.
+\begin{equation*}
+U_{c,j} = \frac{Np_{c,j}}{V_{c,j}}
+\end{equation*}
+%
+if this rate is greater than the input subcommand \subcommand{u\_max}
 
+\begin{equation*}
+U_{c,j}
+\begin{cases}
+	U_{c,j} \geq u_{max}, & u_{max} \ \text{flag penalty}\\
+	U_{c,j} < u_{max}, & U_{c,j} \\
+\end{cases}
+\end{equation*}
+Tagged fish are moved as followed
+
+\begin{equation*}
+	T_{c,j} = U_{c,j} V_{c,j}
+\end{equation*}
+
+{\small{\begin{verbatim}
+@process tag_1996
+type tagging
+years 1996
+from untagged.male
+to 1996_3.male
+initial_mortality 0
+u_max 0.99
+selectivities [type=constant; c=1]
+penalty none
+N 61
+table proportions
+year 20	21	22	23	24	25	26	27	28	29	30
+1996 0.016	0	0.016	0	0.032	0	0	0.01	0.045	0.048	0.016	
+end_table
+\end{verbatim}}}

@@ -44,6 +44,7 @@
 #include "../Reports/Common/Profile.h"
 #include "../Reports/Common/RandomNumberSeed.h"
 #include "../Reports/Common/Selectivity.h"
+#include "../Reports/Common/SelectivityByYear.h"
 #include "../Reports/Common/SimulatedObservation.h"
 #include "../Reports/Common/TimeVarying.h"
 #include "../Reports/Common/Partition.h"
@@ -125,6 +126,8 @@ Report* Factory::Create(shared_ptr<Model> model, const string& object_type, cons
       result = new SimulatedObservation();
     else if (sub_type == PARAM_SELECTIVITY)
       result = new Selectivity();
+    else if (sub_type == PARAM_SELECTIVITY_BY_YEAR)
+      result = new SelectivityByYear();
     else if (sub_type == PARAM_TIME_VARYING)
       result = new TimeVarying();
     else if (sub_type == PARAM_INITIALISATION_PARTITION)
