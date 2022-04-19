@@ -36,6 +36,7 @@ TEST(Selectivities, InverseLogistic_Age) {
   EXPECT_CALL(*model, max_age()).WillRepeatedly(Return(20));
   EXPECT_CALL(*model, age_spread()).WillRepeatedly(Return(11));
   EXPECT_CALL(*model, partition_type()).WillRepeatedly(Return(PartitionType::kAge));
+  model->set_number_of_length_bins(); // if we chnage plus group need to reset thsi
 
   niwa::selectivities::InverseLogistic inverse_logistic(model);
 

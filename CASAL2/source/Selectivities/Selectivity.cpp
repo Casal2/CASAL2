@@ -14,6 +14,8 @@
 #include "Selectivity.h"
 
 #include <boost/math/distributions/normal.hpp>
+#include <boost/math/distributions/lognormal.hpp>
+#include <cmath>
 
 #include "../AgeLengths/AgeLength.h"
 #include "../Model/Model.h"
@@ -27,7 +29,7 @@ namespace niwa {
  */
 Selectivity::Selectivity(shared_ptr<Model> model) : model_(model) {
   parameters_.Bind<string>(PARAM_LABEL, &label_, "The label for the selectivity", "");
-  parameters_.Bind<string>(PARAM_TYPE, &type_, "The type of selectivity", "")->set_allowed_values({});
+  parameters_.Bind<string>(PARAM_TYPE, &type_, "The type of selectivity", "");
   parameters_.Bind<bool>(PARAM_LENGTH_BASED, &length_based_, "Is the selectivity length based?", "", false);
   parameters_.Bind<unsigned>(PARAM_INTERVALS, &n_quant_, "The number of quantiles to evaluate a length-based selectivity over the age-length distribution", "", 5);
   // parameters_.Bind<string>(PARAM_PARTITION_TYPE, &partition_type_label_, "The type of partition that this selectivity will support. Defaults to the same as the model", "",
@@ -43,8 +45,8 @@ Selectivity::Selectivity(shared_ptr<Model> model) : model_(model) {
  * Validate the objects
  */
 void Selectivity::Validate() {
-  LOG_FINE() << "selectivity " << label_;
   parameters_.Populate(model_);
+  LOG_FINE() << "selectivity " << label_ << " type = " << type_;
 
   if (partition_type_label_ == PARAM_MODEL)
     partition_type_ = model_->partition_type();
@@ -75,14 +77,47 @@ void Selectivity::Validate() {
   } else {
     length_values_.assign(model_->length_bin_mid_points().size(), 0.0);
   }
+  if(length_based_) {
+    if(!allowed_length_based_in_age_based_model_)
+      LOG_ERROR_P(PARAM_LENGTH_BASED) << "this selectivity type is not allowed to be length based.";
+  }
+  
 }
 
 /**
  * Reset the objects
  */
 void Selectivity::Reset() {
-  if (is_estimated_) {
-    RebuildCache();
+  LOG_FINE() << "Selectivity::Reset() " << label_;
+  DoReset();
+  RebuildCache();
+}
+
+/**
+ * Virtual method for children to implement
+ * overriden if child has it specified
+ */
+void Selectivity::DoReset() {
+
+}
+/**
+ * Reset the objects
+ */
+void Selectivity::RebuildCache() {
+  LOG_FINE() << "RebuildCache label " << label_;
+  if (model_->partition_type() == PartitionType::kAge) {
+    for (unsigned age = model_->min_age(); age <= model_->max_age(); ++age) {
+      values_[age - age_index_] = this->get_value(age);
+      LOG_FINEST( ) << "age = " << age << " value = " << values_[age - age_index_] ;
+    }
+  } else if (model_->partition_type() == PartitionType::kLength) {
+    vector<double> length_bins = model_->length_bin_mid_points();
+    Double         temp        = 0.0;
+    for (unsigned length_bin_index = 0; length_bin_index < length_bins.size(); ++length_bin_index) {
+      temp = length_bins[length_bin_index];
+      length_values_[length_bin_index] = this->get_value(temp);
+      LOG_FINEST( ) << "length = " << temp << " value = " << length_values_[length_bin_index];
+    }
   }
 }
 
@@ -90,8 +125,8 @@ void Selectivity::Reset() {
  * Return the cached value for the specified age or length from
  * the internal map
  *
- * @param age_or_length The age or length to get selectivity value for
- * @param time_step_index The time step to use for length based results
+ * @param age The age  to get selectivity value for
+ * @param age_length pointer to age-length object
  * @return The value stored in the map or 0.0 as default
  */
 
@@ -116,6 +151,58 @@ Double Selectivity::GetAgeResult(unsigned age, AgeLength* age_length) {
 Double Selectivity::GetLengthResult(unsigned length_bin_index) {
   return length_values_[length_bin_index];
 }
+
+/**
+ * Return the length values for a length bin
+ *
+ * @param age The index of the length bin
+ * @param age_length pointer
+ * @return age-based value based on integrating over the age-length distribution
+ */
+Double Selectivity::GetLengthBasedResult(unsigned age, AgeLength* age_length) {
+  LOG_TRACE();
+  unsigned time_step = model_->managers()->time_step()->current_time_step();
+  unsigned year = model_->current_year();
+  Double   cv        = age_length->cv(year, time_step, age);
+  LOG_FINE() << "times step " << time_step << " year = " << year;
+  Double   mean      = age_length->mean_length(time_step, age);
+  string   dist      = age_length->distribution_label();
+  LOG_FINEST() << "mu = " << mean << " cv = " << cv <<  " dist = " << dist << " n quant " << n_quant_;
+
+  if (dist == PARAM_NONE || n_quant_ <= 1) {
+    LOG_FINEST() << "value = " << this->get_value(mean);
+    return this->get_value(mean);
+  } else if (dist == PARAM_NORMAL) {
+    Double sigma = cv * mean;
+    Double size  = 0.0;
+    Double total = 0.0;
+    LOG_FINEST() << "mu = " << mean << " sigma = " << sigma << " n quant " << n_quant_;
+    for (unsigned j = 0; j < n_quant_; ++j) {
+      size = mean + sigma * quantiles_at_[j];
+      total += this->get_value(size);
+      LOG_FINEST() << "size = " << size << " value = " << this->get_value(size) << " total = " << total;
+    }
+    return total / n_quant_;
+
+  } else if (dist == PARAM_LOGNORMAL) {
+    // convert paramters to log space
+    Double                 sigma = sqrt(log(1 + cv * cv));
+    Double                 mu    = log(mean) - sigma * sigma * 0.5;
+    Double                 size  = 0.0;
+    Double                 total = 0.0;
+    LOG_FINEST() << "mu = " << mu << " sigma = " << sigma;
+    boost::math::lognormal dist{AS_DOUBLE(mu), AS_DOUBLE(sigma)};
+    for (unsigned j = 0; j < n_quant_; ++j) {
+      size = quantile(dist, AS_DOUBLE(quantiles_[j]));
+      total += this->get_value(size);
+      LOG_FINEST() << "size = " << size << " value = " << this->get_value(size) << " total = " << total;
+    }
+    return total / n_quant_;
+  }
+  LOG_CODE_ERROR() << "The specified distribution is not a valid distribution: " << dist;
+  return 0;
+}
+
 
 /**
  * This method returns a pointer to a 4D vector object
@@ -161,11 +248,10 @@ Vector3* Selectivity::GetCache(AgeLength* age_length) {
   utilities::allocate_vector3(new_vector, year_count, time_step_count, age_count);
 
   for (unsigned i = 0; i < year_count; ++i) {
-    unsigned year = model_->start_year() + i;
     for (unsigned j = 0; j < time_step_count; ++j) {
       for (unsigned k = 0; k < age_count; ++k) {
         unsigned age           = model_->min_age() + k;
-        (*new_vector)[i][j][k] = this->GetLengthBasedResult(age, age_length, year, j);
+        (*new_vector)[i][j][k] = this->GetLengthBasedResult(age, age_length);
       }
     }
   }

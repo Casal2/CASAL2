@@ -24,6 +24,10 @@
 #include "../Selectivities/Common/Constant.h"
 #include "../Selectivities/Common/DoubleExponential.h"
 #include "../Selectivities/Common/DoubleNormal.h"
+#include "../Selectivities/Common/CompoundRight.h"
+#include "../Selectivities/Common/CompoundLeft.h"
+#include "../Selectivities/Common/CompoundMiddle.h"
+#include "../Selectivities/Common/CompoundAll.h"
 #include "../Selectivities/Common/DoubleNormalPlateau.h"
 #include "../Selectivities/Common/DoubleNormalSS3.h"
 #include "../Selectivities/Common/Increasing.h"
@@ -55,6 +59,14 @@ Selectivity* Factory::Create(shared_ptr<Model> model, const string& object_type,
       result = new AllValuesBounded(model);
     else if (sub_type == PARAM_CONSTANT)
       result = new Constant(model);
+    else if (sub_type == PARAM_COMPOUND_RIGHT)
+      result = new CompoundRight(model);
+    else if (sub_type == PARAM_COMPOUND_LEFT)
+      result = new CompoundLeft(model);
+    else if (sub_type == PARAM_COMPOUND_MIDDLE)
+      result = new CompoundMiddle(model);
+    else if (sub_type == PARAM_COMPOUND_ALL)
+      result = new CompoundAll(model);
     else if (sub_type == PARAM_DOUBLE_EXPONENTIAL)
       result = new DoubleExponential(model);
     else if (sub_type == PARAM_DOUBLE_NORMAL)

@@ -100,6 +100,7 @@
 //**********************************************************************
 #define DESOLVER_CURRENT_GENERATION               "DESolver: Current generation = "
 
+
 //**********************************************************************
 // PARAMETERS
 //
@@ -148,6 +149,7 @@
 #define PARAM_ALPHA                               "alpha"
 #define PARAM_ANNUAL_MORTALITY_RATE               "annual_mortality_rate"
 #define PARAM_ANNUAL_SHIFT                        "annual_shift"
+#define PARAM_A_MIN                               "a_min"
 #define PARAM_APPEND                              "append"
 #define PARAM_AREA                                "area"
 #define PARAM_ARMA                                "arma"
@@ -214,6 +216,10 @@
 #define PARAM_CONSTANT_RATE                       "constant_rate"
 #define PARAM_CONSTANT_RECRUITMENT                "constant_recruitment"
 #define PARAM_CONSUMPTION_RATE                    "consumption_rate"
+#define PARAM_COMPOUND_RIGHT                      "compound_right"
+#define PARAM_COMPOUND_LEFT                       "compound_left"
+#define PARAM_COMPOUND_MIDDLE                     "compound_middle"
+#define PARAM_COMPOUND_ALL                        "compound_all"
 #define PARAM_CORRELATION                         "correlation"
 #define PARAM_CORRELATION_MATRIX                  "correlation_matrix"
 #define PARAM_CORRELATION_ADJUSTMENT_DIFF         "correlation_adjustment_diff"
@@ -383,6 +389,7 @@
 #define PARAM_LBFGS_MAX_SIZE                      "lbfgs_max_size"
 #define PARAM_LEAPFROG_DELTA                      "leapfrog_delta"
 #define PARAM_LEAPFROG_STEPS                      "leapfrog_steps"
+#define PARAM_LEFT_MEAN                           "left_mean"
 #define PARAM_LENGTH                              "length"
 #define PARAM_LENGTH_BASED                        "length_based"
 #define PARAM_LENGTH_BINS                         "length_bins"
@@ -700,6 +707,7 @@
 #define PARAM_TIME_STEPS                          "time_steps"
 #define PARAM_TIME_VARYING                        "time_varying"
 #define PARAM_TO                                  "to"
+#define PARAM_TO_RIGHT_MEAN                       "to_right_mean"
 #define PARAM_TOL                                 "tol"
 #define PARAM_TOLERANCE                           "tolerance"
 #define PARAM_TONNES                              "tonnes"

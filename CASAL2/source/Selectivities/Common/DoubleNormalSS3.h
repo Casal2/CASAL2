@@ -32,11 +32,10 @@ public:
   explicit DoubleNormalSS3(shared_ptr<Model> model);
   virtual ~DoubleNormalSS3() = default;
   void DoValidate() override final;
-  void RebuildCache() override final;
+  void DoReset() override final;
 
-protected:
-  // Methods
-  Double GetLengthBasedResult(unsigned age, AgeLength* age_length, unsigned year = 0, int time_step_index = -1) override final;
+  Double get_value(Double value)  override final; 
+  Double get_value(unsigned value)  override final; 
 
 private:
   // Members
@@ -49,6 +48,14 @@ private:
   Double max_x_val_;
   Double top_width_;
   Double alpha_;
+  // transformed parameters
+  Double p1trans_;
+  Double p2trans_;
+  Double p3trans_;
+  Double p4trans_;
+  Double p5trans_;
+  Double p6trans_;
+
 };
 
 } /* namespace selectivities */

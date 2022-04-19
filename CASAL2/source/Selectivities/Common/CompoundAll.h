@@ -1,11 +1,11 @@
 /**
- * @file DoubleNormal.h
- * @author  Scott Rasmussen (scott.rasmussen@zaita.com)
+ * @file CompoundAll.h
+ * @author  C.Marsh
  * @version 1.0
- * @date 14/01/2013
+ * @date 2022
  * @section LICENSE
  *
- * Copyright NIWA Science �2013 - www.niwa.co.nz
+ * Copyright NIWA Science 2022 - www.niwa.co.nz
  *
  * @section DESCRIPTION
  *
@@ -13,8 +13,8 @@
  *
  * $Date: 2008-03-04 16:33:32 +1300 (Tue, 04 Mar 2008) $
  */
-#ifndef DOUBLENORMAL_H_
-#define DOUBLENORMAL_H_
+#ifndef COMPOUND_ALL_H_
+#define COMPOUND_ALL_H_
 
 // Headers
 #include "../../Selectivities/Selectivity.h"
@@ -26,11 +26,11 @@ namespace selectivities {
 /**
  * Class definition
  */
-class DoubleNormal : public niwa::Selectivity {
+class CompoundAll : public niwa::Selectivity {
 public:
   // Methods
-  explicit DoubleNormal(shared_ptr<Model> model);
-  virtual ~DoubleNormal() = default;
+  explicit CompoundAll(shared_ptr<Model> model);
+  virtual ~CompoundAll() = default;
   void DoValidate() override final;
 
   Double get_value(Double value)  override final; 
@@ -38,12 +38,13 @@ public:
 
 private:
   // Members
-  Double mu_;
-  Double sigma_l_;
-  Double sigma_r_;
+  Double a50_;
+  Double a_to95_;
+  Double amin_;
   Double alpha_;
+
 };
 
 } /* namespace selectivities */
 } /* namespace niwa */
-#endif /* DOUBLENORMAL_H_ */
+#endif /* COMPOUND_ALL_H_ */

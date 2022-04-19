@@ -30,6 +30,8 @@ AllValues::AllValues(shared_ptr<Model> model) : Selectivity(model) {
   parameters_.Bind<Double>(PARAM_V, &v_, "The v parameter", "")->set_partition_type(PartitionType::kAge | PartitionType::kLength);
 
   RegisterAsAddressable(PARAM_V, &v_);
+  allowed_length_based_in_age_based_model_ = false;
+
 }
 
 /**
@@ -63,40 +65,29 @@ void AllValues::DoValidate() {
   }
 }
 
+
 /**
- * Reset this selectivity so it is ready for the next execution
- * phase in the model.
- *
- * This method will rebuild the cache of selectivity values
- * for each age or length in the model.
+ * The core function
  */
-void AllValues::RebuildCache() {
-  if (model_->partition_type() == PartitionType::kAge) {
-    unsigned min_age = model_->min_age();
-    for (unsigned i = 0; i < v_.size(); ++i) {
-      if (v_[i] < 0.0)
-        LOG_FATAL_P(PARAM_V) << "v cannot have values less than zero (0). The value for v was " << v_[i] << " for age " << min_age + i;
-      values_[i] = v_[i];
-    }
-  } else if (model_->partition_type() == PartitionType::kLength) {
-    for (unsigned i = 0; i < v_.size(); ++i) {
-      length_values_[i] = v_[i];
-    }
+Double AllValues::get_value(Double value) {
+  if (model_->partition_type() == PartitionType::kLength) {
+    return v_[model_->get_length_bin_ndx(value)];
   }
+  LOG_CODE_ERROR() << "AllValues::get_value(Double value) value = "  << value;
+  return 1.0;
 }
 
 /**
- * GetLengthBasedResult function
- *
- * @param age
- * @param age_length AgeLength pointer
- * @param year
- * @param time_step_index
- * @return 0.0 - error
+ * The core function
  */
-[[maybe_unused]] Double AllValues::GetLengthBasedResult(unsigned age, AgeLength* age_length, unsigned year, int time_step_index) {
-  LOG_ERROR_P(PARAM_LENGTH_BASED) << ": This selectivity type has not been implemented for length-based selectivities in an age-based model";
-  return 0.0;
+Double AllValues::get_value(unsigned value) {
+  if (model_->partition_type() == PartitionType::kAge) {
+    return v_[value - model_->min_age()];
+  } else {
+
+  }
+  LOG_CODE_ERROR() << "AllValues::get_value(unsigned value) value = "  << value;
+  return 1.0;
 }
 
 } /* namespace selectivities */

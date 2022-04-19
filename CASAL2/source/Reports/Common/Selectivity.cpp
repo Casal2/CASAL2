@@ -23,6 +23,8 @@ Selectivity::Selectivity() {
   run_mode_    = (RunMode::Type)(RunMode::kBasic | RunMode::kProjection | RunMode::kSimulation | RunMode::kEstimation | RunMode::kProfiling);
   model_state_ = (State::Type)(State::kIterationComplete);
   parameters_.Bind<string>(PARAM_SELECTIVITY, &selectivity_label_, "Selectivity name", "", "");
+  parameters_.Bind<double>(PARAM_LENGTH_VALUES, &length_values_, "Length values to evaluate the a length-based selectivity in an age based model.", "", true);
+
 }
 
 /**
@@ -43,12 +45,12 @@ void Selectivity::DoBuild(shared_ptr<Model> model) {
                   << " was not found in the input configuration file and the report will not be generated";
 #endif
     is_valid_ = false;
-#ifndef TESTMODE
-  } else if (selectivity_->IsSelectivityLengthBased() & (model->partition_type() == PartitionType::kAge)) {
-    LOG_WARNING() << "Cannot report the length-based selectivity values. This report (" << label_ << ") is being ignored. "
-                  << "This can be done using the Casal2 R package. See the User Manual for more information";
-#endif
-    is_valid_ = false;
+  } else {
+    if(selectivity_->IsSelectivityLengthBased()) {
+      if(!parameters_.Get(PARAM_LENGTH_VALUES)->has_been_defined()) {
+        LOG_ERROR_P(PARAM_SELECTIVITY) << " this is a length-based selectivity in an age based model. If you want to report this you need to supply the subcommand " << PARAM_LENGTH_VALUES;
+      }
+    }
   }
 }
 
@@ -58,23 +60,27 @@ void Selectivity::DoExecute(shared_ptr<Model> model) {
 
   LOG_TRACE();
   if(model->partition_type() == PartitionType::kAge) {
+    LOG_FINEST() << "Printing age-based selectivity";
+    cache_ << ReportHeader(type_, selectivity_label_, format_);
+    const map<string, Parameter*> parameters = selectivity_->parameters().parameters();
+
+    for (auto iter : parameters) {
+      Parameter* x = iter.second;
+      cache_ << iter.first << ": ";
+
+      vector<string> values = x->current_values();
+      for (string value : values) cache_ << value << " ";
+      cache_ << REPORT_EOL;
+    }
+    cache_ << "Values " << REPORT_R_VECTOR << REPORT_EOL;
+
     if (!selectivity_->IsSelectivityLengthBased()) {
-      LOG_FINEST() << "Printing age-based selectivity";
-      cache_ << ReportHeader(type_, selectivity_label_, format_);
-      const map<string, Parameter*> parameters = selectivity_->parameters().parameters();
-
-      for (auto iter : parameters) {
-        Parameter* x = iter.second;
-        cache_ << iter.first << ": ";
-
-        vector<string> values = x->current_values();
-        for (string value : values) cache_ << value << " ";
-        cache_ << REPORT_EOL;
-      }
-
-      cache_ << "Values " << REPORT_R_VECTOR << REPORT_EOL;
-      for (unsigned i = model->min_age(); i <= model->max_age(); ++i) cache_ << i << " " << AS_DOUBLE(selectivity_->GetAgeResult(i, nullptr)) << "\n";
+      for (unsigned i = model->min_age(); i <= model->max_age(); ++i) 
+        cache_ << i << " " << AS_DOUBLE(selectivity_->GetAgeResult(i, nullptr)) << "\n";
       ready_for_writing_ = true;
+    } else {
+      for(unsigned i = 0; i < length_values_.size(); i++) 
+        cache_ << length_values_[i] << " " << AS_DOUBLE(selectivity_->get_value(length_values_[i])) << "\n";
     }
   } else if(model->partition_type() == PartitionType::kLength) {
     LOG_FINEST() << "Printing age-based selectivity";

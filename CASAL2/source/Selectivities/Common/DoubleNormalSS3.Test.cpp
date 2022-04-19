@@ -79,6 +79,7 @@ TEST(Selectivities, DoubleNormal_Age_ss3) {
 
   double_normal_stock_synthesis.Validate();
   double_normal_stock_synthesis.Build();
+  double_normal_stock_synthesis.Reset();
 
   ASSERT_THROW(double_normal_stock_synthesis.GetAgeResult(0, nullptr), std::string);      
   // values from R
