@@ -15,9 +15,6 @@ processes true
 selectivities true
 parameter_transformations true
 
-@report year_age_mat
-type year_age_matrix
-time_step Jul_Sep
 @report Init
 type initialisation_partition
 
@@ -33,3 +30,32 @@ type mcmc_sample
 file_name samples
 write_mode incremental_suffix
 
+@report SAsl
+type selectivity
+selectivity SAsl
+length_values 1:150
+
+@report Enspsl
+type selectivity
+selectivity Enspsl
+length_values 1:150
+
+@report Wnspsl
+type selectivity
+selectivity Wnspsl
+length_values 1:150
+
+@report CRsl
+type selectivity
+selectivity CRsl
+length_values 1:150
+
+@report Wspsl
+type selectivity
+selectivity Wspsl
+length_values 1:150
+
+@report Espsl
+type selectivity
+selectivity Espsl
+length_values 1:150

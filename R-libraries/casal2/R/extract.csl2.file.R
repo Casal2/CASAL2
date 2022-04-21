@@ -101,9 +101,9 @@
     ## Check if it is a valid type/subcommand
     if (type == "vector") {
       new_string = temp[1]
-      ## if category or parameter subcommand skip expand short hand for * and : 
-	  new_string = temp
-	  
+      ## if category or parameter subcommand skip expand short hand for * and :
+	    #new_string = temp
+
       if(grepl(temp[1], pattern = "categor", fixed = TRUE) | grepl(temp[1], pattern = "parameter", fixed = TRUE)) {
         new_string = temp
       } else {
@@ -116,12 +116,12 @@
         }
         ## deal with : shorthand
         for (j in 1:length(second_values)) {
-		  try_convert = tryCatch(expr = expand_shorthand_syntax(second_values[j]), error = function(e){e}, warning = function(w){w})
+		      try_convert = tryCatch(expr = expand_shorthand_syntax(second_values[j]), error = function(e){e}, warning = function(w){w})
           if(inherits(try_convert, "error") | inherits(try_convert, "warning")) {
-		    new_string <- c(new_string, second_values[j])
-		  } else {
-		    new_string <- c(new_string, expand_shorthand_syntax(second_values[j]))
-		  }
+    		    new_string <- c(new_string, second_values[j])
+    		  } else {
+    		    new_string <- c(new_string, expand_shorthand_syntax(second_values[j]))
+    		  }
         }
       }
       ans[[Command]][[new_string[1]]] <- list("value" = new_string[-1])
