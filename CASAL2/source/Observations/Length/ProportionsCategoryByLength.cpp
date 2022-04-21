@@ -1,5 +1,5 @@
 /**
- * @file ProportionsMatureByLength.cpp
+ * @file ProportionsCategoryByLength.cpp
  * @author  C.Marsh
  * @version 1.0
  * @date 2022
@@ -10,7 +10,7 @@
  */
 
 // Headers
-#include "ProportionsMatureByLength.h"
+#include "ProportionsCategoryByLength.h"
 
 #include <algorithm>
 #include <boost/algorithm/string/join.hpp>
@@ -35,7 +35,7 @@ namespace length {
 /**
  * Default constructor
  */
-ProportionsMatureByLength::ProportionsMatureByLength(shared_ptr<Model> model) : Observation(model) {
+ProportionsCategoryByLength::ProportionsCategoryByLength(shared_ptr<Model> model) : Observation(model) {
   obs_table_          = new parameters::Table(PARAM_OBS);
   error_values_table_ = new parameters::Table(PARAM_ERROR_VALUES);
   parameters_.Bind<double>(PARAM_LENGTH_BINS, &length_bins_, "The length bins (minimum values) for the observations.", "", true);
@@ -63,7 +63,7 @@ ProportionsMatureByLength::ProportionsMatureByLength(shared_ptr<Model> model) : 
 /**
  * Destructor
  */
-ProportionsMatureByLength::~ProportionsMatureByLength() {
+ProportionsCategoryByLength::~ProportionsCategoryByLength() {
   delete obs_table_;
   delete error_values_table_;
 }
@@ -71,7 +71,7 @@ ProportionsMatureByLength::~ProportionsMatureByLength() {
 /**
  * Validate total_categories command
  */
-void ProportionsMatureByLength::DoValidate() {
+void ProportionsCategoryByLength::DoValidate() {
   // Check value for initial mortality
   if (model_->length_bins().size() == 0)
     LOG_ERROR_P(PARAM_LABEL) << ": No length bins have been specified in @model. This observation requires those to be defined";
@@ -304,7 +304,7 @@ void ProportionsMatureByLength::DoValidate() {
  * Build any runtime relationships and ensure that
  * the labels for other objects are valid.
  */
-void ProportionsMatureByLength::DoBuild() {
+void ProportionsCategoryByLength::DoBuild() {
   LOG_TRACE();
   // Get all categories in the system.
   total_partition_        = CombinedCategoriesPtr(new niwa::partition::accessors::CombinedCategories(model_, total_category_labels_));
@@ -365,7 +365,7 @@ void ProportionsMatureByLength::DoBuild() {
  *
  * Build the cache for the partition structure to use with any interpolation
  */
-void ProportionsMatureByLength::PreExecute() {
+void ProportionsCategoryByLength::PreExecute() {
   LOG_TRACE();
   cached_partition_->BuildCache();
   total_cached_partition_->BuildCache();
@@ -375,7 +375,7 @@ void ProportionsMatureByLength::PreExecute() {
 /**
  * Execute
  */
-void ProportionsMatureByLength::Execute() {
+void ProportionsCategoryByLength::Execute() {
   LOG_TRACE();
 
   /**
@@ -416,8 +416,8 @@ void ProportionsMatureByLength::Execute() {
         LOG_FINE() << "using model length bins";
         for (unsigned model_length_offset = 0; model_length_offset < model_->get_number_of_length_bins(); ++model_length_offset) {
           // now for each column (length bin) in age_length_matrix sum up all the rows (ages) for both cached and current matricies
-          cached_total_numbers_at_length_[model_length_offset] += (*total_category_iter)->data_[model_length_offset] * total_selectivities_[category_offset]->GetLengthResult(model_length_offset);
-          total_numbers_at_length_[model_length_offset]   += (*total_category_iter)->cached_data_[model_length_offset] * total_selectivities_[category_offset]->GetLengthResult(model_length_offset);
+          cached_total_numbers_at_length_[model_length_offset] += (*total_category_iter)->cached_data_[model_length_offset] * total_selectivities_[category_offset]->GetLengthResult(model_length_offset);
+          total_numbers_at_length_[model_length_offset]   += (*total_category_iter)->data_[model_length_offset] * total_selectivities_[category_offset]->GetLengthResult(model_length_offset);
         }
       } else {
         LOG_FINE() << "using bespoke length bins length " << map_local_length_bins_to_global_length_bins_.size() << " " << cached_total_numbers_at_length_.size() <<  " " << total_numbers_at_length_.size();
@@ -426,8 +426,8 @@ void ProportionsMatureByLength::Execute() {
           LOG_FINEST() << "length bin " << model_length_offset << " ndx = " << map_local_length_bins_to_global_length_bins_[model_length_offset] << " category offset " << category_offset;
           if(map_local_length_bins_to_global_length_bins_[model_length_offset] >= 0) {
             // now for each column (length bin) in age_length_matrix sum up all the rows (ages) for both cached and current matricies
-            cached_total_numbers_at_length_[map_local_length_bins_to_global_length_bins_[model_length_offset]] += (*total_category_iter)->data_[model_length_offset] * total_selectivities_[category_offset]->GetLengthResult(model_length_offset);
-            total_numbers_at_length_[map_local_length_bins_to_global_length_bins_[model_length_offset]]   += (*total_category_iter)->cached_data_[model_length_offset] * total_selectivities_[category_offset]->GetLengthResult(model_length_offset);
+            cached_total_numbers_at_length_[map_local_length_bins_to_global_length_bins_[model_length_offset]] += (*total_category_iter)->cached_data_[model_length_offset] * total_selectivities_[category_offset]->GetLengthResult(model_length_offset);
+            total_numbers_at_length_[map_local_length_bins_to_global_length_bins_[model_length_offset]]   += (*total_category_iter)->data_[model_length_offset] * total_selectivities_[category_offset]->GetLengthResult(model_length_offset);
           }
         }
       }
@@ -441,8 +441,8 @@ void ProportionsMatureByLength::Execute() {
         LOG_FINE() << "using model length bins";
         for (unsigned model_length_offset = 0; model_length_offset < model_->get_number_of_length_bins(); ++model_length_offset) {
           // now for each column (length bin) in age_length_matrix sum up all the rows (ages) for both cached and current matricies
-          cached_numbers_at_length_[model_length_offset] += (*category_iter)->data_[model_length_offset] * selectivities_[category_offset]->GetLengthResult(model_length_offset);
-          numbers_at_length_[model_length_offset]   += (*category_iter)->cached_data_[model_length_offset] * selectivities_[category_offset]->GetLengthResult(model_length_offset);
+          cached_numbers_at_length_[model_length_offset] += (*category_iter)->cached_data_[model_length_offset] * selectivities_[category_offset]->GetLengthResult(model_length_offset);
+          numbers_at_length_[model_length_offset]   += (*category_iter)->data_[model_length_offset] * selectivities_[category_offset]->GetLengthResult(model_length_offset);
         }
       } else {
         LOG_FINE() << "using bespoke length bins";
@@ -450,8 +450,8 @@ void ProportionsMatureByLength::Execute() {
           LOG_FINEST() << "length bin " << model_length_offset << " ndx = " << map_local_length_bins_to_global_length_bins_[model_length_offset] << " category offset " << category_offset;
           if(map_local_length_bins_to_global_length_bins_[model_length_offset] >= 0) {
             // now for each column (length bin) in age_length_matrix sum up all the rows (ages) for both cached and current matricies
-            cached_numbers_at_length_[map_local_length_bins_to_global_length_bins_[model_length_offset]] += (*category_iter)->data_[model_length_offset] * selectivities_[category_offset]->GetLengthResult(model_length_offset);
-            numbers_at_length_[map_local_length_bins_to_global_length_bins_[model_length_offset]]   += (*category_iter)->cached_data_[model_length_offset] * selectivities_[category_offset]->GetLengthResult(model_length_offset);
+            cached_numbers_at_length_[map_local_length_bins_to_global_length_bins_[model_length_offset]] += (*category_iter)->cached_data_[model_length_offset] * selectivities_[category_offset]->GetLengthResult(model_length_offset);
+            numbers_at_length_[map_local_length_bins_to_global_length_bins_[model_length_offset]]   += (*category_iter)->data_[model_length_offset] * selectivities_[category_offset]->GetLengthResult(model_length_offset);
           }
         }
       }
@@ -493,7 +493,7 @@ void ProportionsMatureByLength::Execute() {
  * This method is called at the end of a model iteration
  * to calculate the score for the observation.
  */
-void ProportionsMatureByLength::CalculateScore() {
+void ProportionsCategoryByLength::CalculateScore() {
   /**
    * Simulate or generate results
    * During simulation mode we'll simulate results for this observation

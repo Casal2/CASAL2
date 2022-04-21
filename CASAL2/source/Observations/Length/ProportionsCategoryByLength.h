@@ -1,5 +1,5 @@
 /**
- * @file ProportionsMatureByLength.h
+ * @file ProportionsCategoryByLength.h
  * @author  C. Marsh
  * @version 1.0
  * @date 2022
@@ -12,8 +12,8 @@
  * The time class represents a moment of time.
  *
  */
-#ifndef LENGTH_OBSERVATIONS_PROPORTIONS_MATURATION_H_
-#define LENGTH_OBSERVATIONS_PROPORTIONS_MATURATION_H_
+#ifndef LENGTH_OBSERVATIONS_PROPORTIONS_CATEGORY_H_
+#define LENGTH_OBSERVATIONS_PROPORTIONS_CATEGORY_H_
 
 // Headers
 #include "Observations/Observation.h"
@@ -32,11 +32,11 @@ using partition::accessors::cached::CachedCombinedCategoriesPtr;
 /**
  * Class Definition
  */
-class ProportionsMatureByLength : public niwa::Observation {
+class ProportionsCategoryByLength : public niwa::Observation {
 public:
   // Methods
-  explicit ProportionsMatureByLength(shared_ptr<Model> model);
-  virtual ~ProportionsMatureByLength();
+  explicit ProportionsCategoryByLength(shared_ptr<Model> model);
+  virtual ~ProportionsCategoryByLength();
   void DoValidate() override final;
   void DoBuild() override final;
   void DoReset() override final{};
@@ -88,4 +88,4 @@ protected:
 } /* namespace observations */
 } /* namespace niwa */
 
-#endif /* AGE_OBSERVATIONS_PROPORTIONS_MATURATION_H_ */
+#endif /* LENGTH_OBSERVATIONS_PROPORTIONS_CATEGORY_H_ */

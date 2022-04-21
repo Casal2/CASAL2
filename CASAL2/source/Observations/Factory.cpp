@@ -48,7 +48,7 @@
 #include "Observations/Length/ProportionsAtLength/TimeStep.h"
 #include "Observations/Length/TagRecaptureByLength.h"
 #include "Observations/Length/TagRecaptureByLengthForGrowth.h"
-#include "Observations/Length/ProportionsMatureByLength.h"
+#include "Observations/Length/ProportionsCategoryByLength.h"
 
 // Namespaces
 namespace niwa {
@@ -127,8 +127,8 @@ Observation* Factory::Create(shared_ptr<Model> model, const string& object_type,
         result = new length::TagRecaptureByLength(model);
       else if (sub_type == PARAM_TAG_RECAPTURE_BY_LENGTH_FOR_GROWTH)
         result = new length::TagRecaptureByLengthForGrowth(model);
-      else if (sub_type == PARAM_PROPORTIONS_MATURE_BY_LENGTH)
-        result = new length::ProportionsMatureByLength(model);
+      else if (sub_type == PARAM_PROPORTIONS_BY_CATEGORY)
+        result = new length::ProportionsCategoryByLength(model);
   }
 
   if (result)
