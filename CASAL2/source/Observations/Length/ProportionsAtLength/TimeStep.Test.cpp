@@ -262,7 +262,6 @@ time_step Annual
 categories untagged+tag_1996
 time_step_proportion 0.5
 selectivities TrawlSurveySel_1
-#length_bins 35:68 
 plus_group true
 sum_to_one F
 delta 1e-5
@@ -391,7 +390,7 @@ TEST_F(InternalEmptyLengthModel, Observation_ProportionsAtLength_singlesex_defau
   model_->Start(RunMode::kBasic);
 
   ObjectiveFunction& obj_function = model_->objective_function();
-  EXPECT_NEAR(101.222, obj_function.score(), 1e-3);
+  EXPECT_NEAR(101.89, obj_function.score(), 1e-3);
 }
 
 /**
@@ -405,7 +404,7 @@ TEST_F(InternalEmptyLengthModel, Observation_ProportionsAtLength_singlesex_bespo
   model_->Start(RunMode::kBasic);
 
   ObjectiveFunction& obj_function = model_->objective_function();
-  EXPECT_NEAR(-294.2585, obj_function.score(), 1e-3);
+  EXPECT_NEAR(-294.282, obj_function.score(), 1e-3);
 }
 
 /*
