@@ -21,6 +21,7 @@ DefaultReports::DefaultReports() {
   parameters_.Bind<bool>(PARAM_PROJECTS, &report_projects_, "Report projects", "", false);
   parameters_.Bind<bool>(PARAM_SELECTIVITIES, &report_selectivities_, "Report selectivities", "", false);
   parameters_.Bind<bool>(PARAM_PARAMETER_TRANSFORMATIONS, &addressable_transformations_, "Report parameters transformations", "", false);
+  parameters_.Bind<bool>(PARAM_TIME_VARYING, &time_varying_, "Report Time-Varying objects", "", false);
 
   run_mode_    = (RunMode::Type)(RunMode::kBasic | RunMode::kProjection | RunMode::kSimulation | RunMode::kEstimation | RunMode::kProfiling | RunMode::kMCMC);
   model_state_ = (State::Type)(State::kIterationComplete);
@@ -49,9 +50,26 @@ void DefaultReports::DoBuild(shared_ptr<Model> model) {
         model->managers()->report()->AddInternalObject(report);
       }
     }
+    if (time_varying_) {
+      timevarying::Manager& TimeVaryingManager = *model->managers()->time_varying();
+      auto time_vary = TimeVaryingManager.objects();
+      for (auto object : time_vary) {
+        string label        = object->label();
+        string report_label = "__" + label + "__";
+        LOG_INFO() << "Creating default report for time-varying " << label;
+        reports::TimeVarying* report = new reports::TimeVarying();
+        report->set_is_default(true);
+        report->set_block_type(PARAM_REPORT);
+        report->set_defined_file_name(__FILE__);
+        report->set_defined_line_number(__LINE__);
+        report->parameters().Add(PARAM_LABEL, report_label, __FILE__, __LINE__);
+        report->parameters().Add(PARAM_TYPE, PARAM_TIME_VARYING, __FILE__, __LINE__);
+        report->parameters().Add(PARAM_TIME_VARYING, label, __FILE__, __LINE__);
+        model->managers()->report()->AddInternalObject(report);
+      }
+    }
     if (report_derived_quantities_) {
       derivedquantities::Manager& DerivedQuantityManager = *model->managers()->derived_quantity();
-
       auto derivedquantity = DerivedQuantityManager.objects();
       for (auto object : derivedquantity) {
         string label        = object->label();
@@ -149,16 +167,21 @@ void DefaultReports::DoBuild(shared_ptr<Model> model) {
       for (auto object : selectivity) {
         string label        = object->label();
         string report_label = "__" + label + "__";
-        LOG_INFO() << "Creating default report for selectivity " << label;
-        reports::Selectivity* report = new reports::Selectivity();
-        report->set_is_default(true);
-        report->set_block_type(PARAM_REPORT);
-        report->set_defined_file_name(__FILE__);
-        report->set_defined_line_number(__LINE__);
-        report->parameters().Add(PARAM_LABEL, report_label, __FILE__, __LINE__);
-        report->parameters().Add(PARAM_TYPE, PARAM_SELECTIVITY, __FILE__, __LINE__);
-        report->parameters().Add(PARAM_SELECTIVITY, label, __FILE__, __LINE__);
-        model->managers()->report()->AddInternalObject(report);
+
+        if(!object->IsSelectivityLengthBased()) {
+          LOG_INFO() << "Creating default report for selectivity " << label;
+          reports::Selectivity* report = new reports::Selectivity();
+          report->set_is_default(true);
+          report->set_block_type(PARAM_REPORT);
+          report->set_defined_file_name(__FILE__);
+          report->set_defined_line_number(__LINE__);
+          report->parameters().Add(PARAM_LABEL, report_label, __FILE__, __LINE__);
+          report->parameters().Add(PARAM_TYPE, PARAM_SELECTIVITY, __FILE__, __LINE__);
+          report->parameters().Add(PARAM_SELECTIVITY, label, __FILE__, __LINE__);
+          model->managers()->report()->AddInternalObject(report);
+        } else {
+          LOG_INFO() << "skipping the default report for " << label << " this is a length based selectivity. Create a seperate report for this";
+        }
       }
     }
   }

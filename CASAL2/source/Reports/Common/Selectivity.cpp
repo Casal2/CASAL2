@@ -38,6 +38,7 @@ void Selectivity::DoValidate(shared_ptr<Model> model) {
  * Build object
  */
 void Selectivity::DoBuild(shared_ptr<Model> model) {
+  LOG_FINE() << "getting selectivity = " << label_;
   selectivity_ = model->managers()->selectivity()->GetSelectivity(selectivity_label_);
   if (!selectivity_) {
 #ifndef TESTMODE
@@ -47,6 +48,7 @@ void Selectivity::DoBuild(shared_ptr<Model> model) {
     is_valid_ = false;
   } else {
     if(selectivity_->IsSelectivityLengthBased()) {
+      LOG_FINE() <<" length based";
       if(!parameters_.Get(PARAM_LENGTH_VALUES)->has_been_defined()) {
         LOG_ERROR_P(PARAM_SELECTIVITY) << " this is a length-based selectivity in an age based model. If you want to report this you need to supply the subcommand " << PARAM_LENGTH_VALUES;
       }
@@ -79,8 +81,10 @@ void Selectivity::DoExecute(shared_ptr<Model> model) {
         cache_ << i << " " << AS_DOUBLE(selectivity_->GetAgeResult(i, nullptr)) << "\n";
       ready_for_writing_ = true;
     } else {
+      LOG_FINE() << "calculate length based";
       for(unsigned i = 0; i < length_values_.size(); i++) 
         cache_ << length_values_[i] << " " << AS_DOUBLE(selectivity_->get_value(length_values_[i])) << "\n";
+      ready_for_writing_ = true;  
     }
   } else if(model->partition_type() == PartitionType::kLength) {
     LOG_FINEST() << "Printing age-based selectivity";

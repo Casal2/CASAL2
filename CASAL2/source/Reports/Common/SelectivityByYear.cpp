@@ -67,6 +67,8 @@ void SelectivityByYear::DoExecute(shared_ptr<Model> model) {
   if(model->partition_type() == PartitionType::kAge) {
     if (!selectivity_->IsSelectivityLengthBased()) {
       LOG_FINEST() << "Printing age-based selectivity";
+      selectivity_ = model->managers()->selectivity()->GetSelectivity(selectivity_label_);
+
       cache_ << ReportHeader(type_, label_, format_);
       cache_ << "selectivity: " << selectivity_label_ << REPORT_EOL;
       cache_ << "year: " << model->current_year() << REPORT_EOL;
@@ -88,6 +90,8 @@ void SelectivityByYear::DoExecute(shared_ptr<Model> model) {
     }
   } else if(model->partition_type() == PartitionType::kLength) {
     LOG_FINEST() << "Printing age-based selectivity";
+    selectivity_ = model->managers()->selectivity()->GetSelectivity(selectivity_label_);
+
     cache_ << ReportHeader(type_, label_, format_);
     cache_ << "year: " << model->current_year() << REPORT_EOL;
     cache_ << "selectivity: " << selectivity_label_ << REPORT_EOL;
