@@ -15,6 +15,7 @@
 #include "Common/AverageDifference.h"
 #include "Common/Inverse.h"
 #include "Common/Log.h"
+#include "Common/Logistic.h"
 #include "Common/LogSum.h"
 #include "Common/Orthogonal.h"
 #include "Common/Simplex.h"
@@ -42,6 +43,8 @@ AddressableTransformation* Factory::Create(shared_ptr<Model> model, const string
       result = new Inverse(model);
     else if (sub_type == PARAM_LOG)
       result = new Log(model);
+    else if (sub_type == PARAM_LOGISTIC)
+      result = new Logistic(model);
     else if (sub_type == PARAM_LOG_SUM)
       result = new LogSum(model);
     else if (sub_type == PARAM_ORTHOGONAL)
