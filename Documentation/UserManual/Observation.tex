@@ -12,8 +12,6 @@ There are two main types of observations available in \CNAME. The first type is 
 
 Observations for a process are indicated by their type --- these use the word process as a part of the type name, e,.g., \defComArg{observation}{type}{abundance} is an observation of relative abundance that occurs during a mortality block within a time step, and \defComArg{observation}{type}{process\_abundance} is a observation  of relative abundance that occurs during a process within a time step.
 
-There are two types of process observations. \emph{process observations} are observations that are associated with a specific process (e.g., \texttt{process\_proportions\_migrating}), and \textbf{general process observations} are observations that can be associated with any process (e.g., \texttt{process\_proportions\_at\_age}). The observation types are described in different sections.
-
 \subsubsection{\I{Mortality block associated observations}}
 
 All observations within this class are calculated similarly. That is, the expected values are calculated at the beginning of the mortality block and at the end of the mortality block. \CNAME\ then uses a linear interpolation to approximate the expected values part way through a mortality block using the subcommand \texttt{time\_step\_proportion}. This feature could be useful if a survey occurs part way through an exploitation phase, which may be part way through a fishing season when modelling a fish population. Each observation in this class will evaluate different expectations of the partition (explained in the following descriptions).
@@ -118,13 +116,14 @@ To define a biomass observation instead of an abundance observation, use
 type biomass
 ...
 \end{verbatim}}}
-
+\ifAgeBased
+% One column version
 
 \paragraph*{\I{Proportions-at-age}}\label{sec:Observation-ProportionsAtAge}
 
 Proportions-at-age observations are observations of the relative number of individuals at age, via some selectivity.
 
-The observation is supplied for a given year and time-step, for some selected age classes of the population (i.e., for a range of ages multiplied by a selectivity), for categories aggregated over a set of spatial cells. Note that the categories defined in the observations must have an associated selectivity, defined by \subcommand{selectivities}.
+The observation is supplied for a given year and time-step, for some selected age classes of the population (i.e., for a range of ages multiplied by a selectivity). Note that the categories defined in the observations must have an associated selectivity, defined by \subcommand{selectivities}.
 
 The age range must be ages defined in the partition (i.e., between \commandsub{model}{min\_age} and \commandsub{model}{max\_age} inclusive); the upper end of the age range can optionally be a plus group, which must be either the same as or less than the plus group defined for the partition.
 
@@ -145,32 +144,32 @@ The ageing error is then applied, if the user has specified it. Finally, \CNAME\
 Defining an observation for a single category is used to model a set of proportions of a single category by age class. For example, to specify that the observations are of the proportions of male within each age class, then the subcommand \subcommand{categories} for the \commandlabsubarg{observation}{type}{proportion\_by\_age} command is
 
 {\small{\begin{verbatim}
-categories male
-\end{verbatim}}}
+		categories male
+		\end{verbatim}}}
 
 \CNAME\ then requires that there will be a single vector of proportions supplied, with one proportion for each age class within the defined age range, and that these proportions sum to one.
 
 For example, if the age range was 3 to 10, then 8 proportions should be supplied, one proportion for each of the the ages 3, 4, 5, 6, 7, 8, 9, and 10. The expected values will be the expected proportions of males within each of these age classes (after omitting males aged less than 3 and older than 10), after applying a selectivity at the year and time-step specified. The supplied vector of proportions (i.e., in this example, the 8 proportions) must sum to one, which is evaluated with a default tolerance of 0.001.
 
 {\small{\begin{verbatim}
-@observation MyProportions
-type proportions_at_age
-...
-categories male
-min_age 3
-max_age 9
-years 1990
-table obs
-1990 0.01 0.09 0.20 0.20 0.35 0.10 0.05
-end_table
-...
-\end{verbatim}}}
+		@observation MyProportions
+		type proportions_at_age
+		...
+		categories male
+		min_age 3
+		max_age 9
+		years 1990
+		table obs
+		1990 0.01 0.09 0.20 0.20 0.35 0.10 0.05
+		end_table
+		...
+		\end{verbatim}}}
 
 Defining an observation for multiple categories extends the single category observation definition. It is used to model a set of proportions over several categories by age class. For example, to specify that the observations are of the proportions of male or females within each age class, then the subcommand \subcommand{categories} for the \commandlabsubarg{observation}{type}{proportion\_by\_age} command is
 
 {\small{\begin{verbatim}
-categories male female
-\end{verbatim}}}
+		categories male female
+		\end{verbatim}}}
 
 \CNAME\ then requires that there will be a single vector of proportions supplied, with one proportion for each category and age class combination, and that these proportions sum to one across all ages and categories.
 
@@ -179,25 +178,25 @@ For example, if there were two categories and the age range was 3 to 10, then 16
 For example,
 
 {\small{\begin{verbatim}
-@observation MyProportions
-type proportions_at_age
-...
-categories male female
-min_age 1
-max_age 5
-years 1990 1991
-table obs
-1990 0.01 0.05 0.10 0.20 0.20 0.01 0.05 0.15 0.20 0.03
-1991 0.02 0.06 0.10 0.21 0.18 0.02 0.03 0.17 0.20 0.01
-end_table
-...
-\end{verbatim}}}
+		@observation MyProportions
+		type proportions_at_age
+		...
+		categories male female
+		min_age 1
+		max_age 5
+		years 1990 1991
+		table obs
+		1990 0.01 0.05 0.10 0.20 0.20 0.01 0.05 0.15 0.20 0.03
+		1991 0.02 0.06 0.10 0.21 0.18 0.02 0.03 0.17 0.20 0.01
+		end_table
+		...
+		\end{verbatim}}}
 
 Defining an observation across aggregated categories allows categories to be aggregated before the proportions are calculated. It is used to model a set of proportions from several categories that have been combined by age class. To indicate that two (or more) categories are to be aggregated, separate them with a '+' symbol. For example, to specify that the observations are of the proportions of male and females combined within each age class, then the subcommand \subcommand{categories} for the \commandlabsubarg{observation}{type}{proportion\_by\_age} command is
 
 {\small{\begin{verbatim}
-categories male + female
-\end{verbatim}}}
+		categories male + female
+		\end{verbatim}}}
 
 \CNAME\ then requires that there will be a single vector of proportions supplied, with one proportion for each age class, and that these proportions sum to one.
 
@@ -206,35 +205,35 @@ For example, if there were two categories and the age range was 3 to 10, then 8 
 For example,
 
 {\small{\begin{verbatim}
-@observation MyProportions
-type proportions_at_age
-...
-years 1990 1991
-categories male+female
-min_age 1
-max_age 5
-table obs
-1990 0.02 0.13 0.25 0.30 0.30
-1991 0.02 0.06 0.18 0.35 0.39
-end_table
-...
-\end{verbatim}}}
+		@observation MyProportions
+		type proportions_at_age
+		...
+		years 1990 1991
+		categories male+female
+		min_age 1
+		max_age 5
+		table obs
+		1990 0.02 0.13 0.25 0.30 0.30
+		1991 0.02 0.06 0.18 0.35 0.39
+		end_table
+		...
+		\end{verbatim}}}
 
 The latter form can then be extended to include multiple categories, or multiple aggregated categories. For example, to describe proportions for the three groups: immature males, mature males, and all females (immature and mature females added together) for ages 1 through 4, a total of 12 proportions are required
 
 {\small{\begin{verbatim}
-@observation MyProportions
-type proportions_at_age
-...
-categories male_immature male_mature female_immature+female_mature
-min_age 1
-max_age 4
-years 1990
-table obs
-year 1990 0.05 0.15 0.15 0.05 0.02 0.03 0.08 0.04 0.05 0.15 0.15 0.08
-end_table
-...
-\end{verbatim}}}
+		@observation MyProportions
+		type proportions_at_age
+		...
+		categories male_immature male_mature female_immature+female_mature
+		min_age 1
+		max_age 4
+		years 1990
+		table obs
+		year 1990 0.05 0.15 0.15 0.05 0.02 0.03 0.08 0.04 0.05 0.15 0.15 0.08
+		end_table
+		...
+		\end{verbatim}}}
 
 \paragraph*{\I{Proportions-at-length}}\label{sec:Observation-ProportionsAtLength}
 
@@ -245,25 +244,25 @@ Instead of supplying a minimum and maximum age, the user must supply a vector of
 If there is no plus group, i.e., \texttt{length\_plus=false}, then \CNAME\ requires a vector of proportions for each year of length $n - 1$, where $n$ is the number of lengths supplied. If \texttt{length\_plus=true} then \CNAME\ expects a vector of proportions for each year of length $n$. The last proportion represents the numbers from the last length bin to the maximum length the age-length relationship allows.
 
 {\small{\begin{verbatim}
-@observation Observed_Length_frequency_Chat_east
-type process_removals_by_length
-years 1991 1992
-likelihood multinomial
-time_step Summer
-fishery EastChathamRise
-process instant_mort
-categories male
-length_plus false
-length_bins 0 20 40 60 80 110
-table obs
-1991    0.2   0.25    0.15     0.2     0.2
-1992    0.12  0.25    0.28    0.25    0.1
-end_table
-table error_values
-1991 25
-1992 37
-end_table
-\end{verbatim}}}
+		@observation Observed_Length_frequency_Chat_east
+		type process_removals_by_length
+		years 1991 1992
+		likelihood multinomial
+		time_step Summer
+		fishery EastChathamRise
+		process instant_mort
+		categories male
+		length_plus false
+		length_bins 0 20 40 60 80 110
+		table obs
+		1991    0.2   0.25    0.15     0.2     0.2
+		1992    0.12  0.25    0.28    0.25    0.1
+		end_table
+		table error_values
+		1991 25
+		1992 37
+		end_table
+		\end{verbatim}}}
 
 
 \paragraph*{\I{Proportions-by-category observations}}\label{sec:Observation-ProportionsByCategory}
@@ -281,33 +280,33 @@ Proportions-by-category observations can be supplied for any set of categories a
 For example,
 
 {\small{\begin{verbatim}
-categories male
-categories2 female
-selectivities male-selectivity
-selectivities2 female-selectivity
-\end{verbatim}}}
+		categories male
+		categories2 female
+		selectivities male-selectivity
+		selectivities2 female-selectivity
+		\end{verbatim}}}
 
 defines the proportion of males in each age class as a proportion of males $+$ females. \CNAME\ then requires that there will be a vector of proportions supplied, with one proportion for each age class within the defined age range, i.e., if the age range was 3 to 10, then 8 proportions should be supplied (one proportion for each of the the ages 3, 4, 5, 6, 7, 8, 9, and 10). The expected values will be the expected ratios of male to male $+$ female within each of these age classes, after applying the selectivities at the year and time-step specified.
 
-The observations must be supplied using all or some of the values defined by a categorical layer. \CNAME\ calculates the expected values by summing over the ages (via the age range and selectivity) and categories for those spatial cells where the categorical layer has the same value as defined for each vector of observations.
+\CNAME\ calculates the expected values by summing over the ages (via the age range and selectivity)
 
 For example,
 
 {\small{\begin{verbatim}
-@observation MyProportions
-type proportions_by_category
-years 1990 1991
-...
-categories male
-categories2 female
-min_age 1
-max_age 5
-table obs
-1990 0.01 0.05 0.10 0.20 0.20
-1991 0.02 0.06 0.10 0.21 0.18
-end_table
-...
-\end{verbatim}}}
+		@observation MyProportions
+		type proportions_by_category
+		years 1990 1991
+		...
+		categories male
+		categories2 female
+		min_age 1
+		max_age 5
+		table obs
+		1990 0.01 0.05 0.10 0.20 0.20
+		1991 0.02 0.06 0.10 0.21 0.18
+		end_table
+		...
+		\end{verbatim}}}
 
 \paragraph*{\I{Tag Recapture by length}\label{sec:Observation-TagRecaptureByLength}}
 
@@ -340,41 +339,41 @@ When defining the tag-recapture time series, the following are also required:
 An example of a tag recapture observation:
 
 {\small{\begin{verbatim}
-# For the following partition
-@categories
-format sex.area.tag
-names  		male.Area1.2011,notag female.Area1.2011,notag
-
-# individuals tagged in 2011 and recaptured in 2012 in Area1
-@observation Tag_2011_Area1_recap_2012
-type tag_recapture_by_length
-# scanned categories in Area1
-categories format=*.Area1.*+
-# male and femaled tagged categories
-tagged_categories *.Area1.2011+
-detection 0.85 ## detection probability
-likelihood binomial
-selectivities One
-tagged_selectivities One
-# years to apply observation
-years 2012
-time_step step2
-# proportion of mortality applied before observation is calculated
-time_step_proportion 0.5
-
-table scanned
-2012 281271 41360 30239 12234
-end_table
-
-table recaptured
-2012 15 20 12 2
-end_table
-
-# robustification value to prevent divide by zero errors
-delta 1e-11
-# Likelihood dispersion
-dispersion 6.3
-\end{verbatim}}}
+		# For the following partition
+		@categories
+		format sex.area.tag
+		names  		male.Area1.2011,notag female.Area1.2011,notag
+		
+		# individuals tagged in 2011 and recaptured in 2012 in Area1
+		@observation Tag_2011_Area1_recap_2012
+		type tag_recapture_by_length
+		# scanned categories in Area1
+		categories format=*.Area1.*+
+		# male and femaled tagged categories
+		tagged_categories *.Area1.2011+
+		detection 0.85 ## detection probability
+		likelihood binomial
+		selectivities One
+		tagged_selectivities One
+		# years to apply observation
+		years 2012
+		time_step step2
+		# proportion of mortality applied before observation is calculated
+		time_step_proportion 0.5
+		
+		table scanned
+		2012 281271 41360 30239 12234
+		end_table
+		
+		table recaptured
+		2012 15 20 12 2
+		end_table
+		
+		# robustification value to prevent divide by zero errors
+		delta 1e-11
+		# Likelihood dispersion
+		dispersion 6.3
+		\end{verbatim}}}
 
 The observed ($O_{y,l}$) and expected ($E_{y,l}$) values in year $y$ and length $l$ of this observation are:
 
@@ -394,12 +393,215 @@ where $\tilde{N}_{y,l,t}$ is an element in the tagged categories at the beginnin
 For observations with multiple tagged categories and multiple categories that were vulnerable to sampling:
 
 \begin{equation}
-	\tilde{N}_{y,l,t} = \sum_{j = 1}^{J} N_{y,l,t,j}
+\tilde{N}_{y,l,t} = \sum_{j = 1}^{J} N_{y,l,t,j}
 \end{equation}
 
 where $j = \{1,2,3,...,J\}$  are all the tagged categories, the same method is applied to the vulnerable categories to calculate $N_{y,l,t}$. The tagged categories should be defined in the vulnerable categories. In an extreme case where every individual in the population is tagged, this result would be divided by zero. So, to constrain the expectation to be between 0 and 1, the numerator must be in the denominator.
 
 The tag-recapture likelihood (binomial) is specified below. It is a modified version of the more general binomial. Note that this likelihood does not have any user-set precision parameters such as $N$ or $c.v.$, although there are user-specified robustification and dispersion parameters available. The factorials are calculated using the log-gamma function, to allow for non-integer arguments where necessary (and to avoid overflow errors).
+
+\else
+% Two column version
+
+\paragraph*{\I{Proportions-at-Length}}\label{sec:Observation-ProportionsAtLength}
+
+Proportions-at-length observations are observations of the relative number of individuals by length, via some selectivity.
+
+The observation is supplied for a given year and time-step, for some selected length bins of the population (i.e., for a range of lengths multiplied by a selectivity). Note that the categories defined in the observations must have an associated selectivity, defined by \subcommand{selectivities}.
+
+The length bins supplied must be a subset of the length bins defined in the \commandsub{model} block. 
+
+Proportions-at-length observations can be supplied as
+
+\begin{itemize}
+	\item a set of proportions for a single category,
+	\item a set of proportions for multiple categories, or
+	\item a set of proportions across aggregated categories.
+\end{itemize}
+
+The method of evaluating expectations are the same for all three types of proportions. The definitions of these proportions and the expected dimensions of observation and error inputs that \CNAME\ expects for each respective proportion type are described below with examples.
+
+Like all types of observations that are associated with the mortality block, \CNAME\ will evaluate the numbers at length before and after the mortality block for the specified time step of the observation, and applying the user-defined selectivity. \CNAME\ then generates the expectations from the partition part way through the mortality block using the subcommand \texttt{time\_step\_proportion}. This approximation is a linear interpolation of the numbers-at-age over the mortality block.
+
+Defining an observation for a single category is used to model a set of proportions of a single category by length class. For example, to specify that the observations are of the proportions of male within each length class, then the subcommand \subcommand{categories} for the \commandlabsubarg{observation}{type}{proportion\_by\_length} command is
+
+{\small{\begin{verbatim}
+		categories male
+		\end{verbatim}}}
+
+\CNAME\ then requires that there will be a single vector of proportions supplied, with one proportion for each length class within the defined length range.
+
+
+{\small{\begin{verbatim}
+		@model
+		length_bins 6 8 10 12 14 16 18 20 22 24 26
+		@observation MyProportions
+		type proportions_at_length
+		...
+		categories male
+		length_bins 10 12 14 16 18 20
+		years 1990
+		table obs
+		1990 0.01 0.09 0.20 0.20 0.35 
+		end_table
+		...
+		\end{verbatim}}}
+
+Defining an observation for multiple categories extends the single category observation definition. It is used to model a set of proportions over several categories by length class. For example, to specify that the observations are of the proportions of male or females within each length class, then the subcommand \subcommand{categories} for the \commandlabsubarg{observation}{type}{proportion\_by\_length} command is
+
+{\small{\begin{verbatim}
+		categories male female
+		\end{verbatim}}}
+
+\CNAME\ then requires that there will be a single vector of proportions supplied, with one proportion for each category and length class combination, and that these proportions sum to one across all lengths and categories.
+
+For example,
+
+{\small{\begin{verbatim}
+		@observation MyProportions
+		type proportions_at_length
+		...
+		categories male female
+		length_bins 2 4 6 8 10
+		years 1990 1991
+		table obs
+		1990 0.01 0.05 0.10 0.20 0.20 0.01 0.05 0.15 0.20 0.03
+		1991 0.02 0.06 0.10 0.21 0.18 0.02 0.03 0.17 0.20 0.01
+		end_table
+		...
+		\end{verbatim}}}
+
+Defining an observation across aggregated categories allows categories to be aggregated before the proportions are calculated. It is used to model a set of proportions from several categories that have been combined by length class. To indicate that two (or more) categories are to be aggregated, separate them with a '+' symbol. For example, to specify that the observations are of the proportions of male and females combined within each length class, then the subcommand \subcommand{categories} for the \commandlabsubarg{observation}{type}{proportion\_by\_length} command is
+
+{\small{\begin{verbatim}
+		categories male + female
+		\end{verbatim}}}
+
+\CNAME\ then requires that there will be a single vector of proportions supplied, with one proportion for each length class, and that these proportions sum to one.
+
+For example,
+
+{\small{\begin{verbatim}
+		@observation MyProportions
+		type proportions_at_length
+		...
+		years 1990 1991
+		categories male+female
+		length_bins 2 4 6 8 10
+		table obs
+		1990 0.02 0.13 0.25 0.30 0.30
+		1991 0.02 0.06 0.18 0.35 0.39
+		end_table
+		...
+		\end{verbatim}}}
+
+The latter form can then be extended to include multiple categories, or multiple aggregated categories. For example, to describe proportions for the three groups: immature males, mature males, and all females (immature and mature females added together) for lengths 2 through 8, a total of 8 proportions are required for each year
+
+{\small{\begin{verbatim}
+		@observation MyProportions
+		type proportions_at_length
+		...
+		categories male_immature+male_mature female_immature+female_mature
+		length_bins 2 4 6 8
+		years 1990
+		table obs
+		year 1990 0.05 0.15 0.15 0.05 0.02 0.03 0.08 0.04 0.05 0.15 0.15 0.08
+		end_table
+		...
+		\end{verbatim}}}
+
+\paragraph*{\I{Proportions-category-by-length observations}}\label{sec:Observation-ProportionsMatureByLength}
+Proportions-category observations are observations of relative number of individuals between categories within a range of length classes.
+
+The observation is supplied for a given year and time-step, for selected length classes of the population.
+
+
+Proportions-by-category observations can be supplied for any set of categories as a proportion of themselves and any set of additional categories. For example, for a model with two categories \emph{male} and \emph{female}, observations of the proportions of males in the population at each length class might be provided. The subcommand \subcommand{categories} defines the categories for the numerator in the calculation of the proportion, and the subcommand \subcommand{total\_categories} supplies the categories to be used in the denominator of the calculation of which the the values of \subcommand{categories} must be included. In addition, each category must have an associated selectivity, defined by \subcommand{selectivities} for the numerator categories and \subcommand{total\_selectivities} for the additional categories used in the denominator.
+
+For example,
+
+{\small{\begin{verbatim}
+		categories male
+		total_categories male
+		selectivities maturity-selectivity
+		total_selectivities [type=constant; c=1] ## total population
+		\end{verbatim}}}
+defines the proportion of mature males in each length class as a proportion of all males. Another example may be males to females
+{\small{\begin{verbatim}
+		categories male
+		total_categories male+female
+		selectivities [type=constant; c=1]
+		total_selectivities [type=constant; c=1] ## total population
+		\end{verbatim}}}
+\CNAME\ then requires that there will be a vector of proportions supplied, with one proportion for each length class within the defined length bin range. The expected values will be the expected proportion of \subcommand{categories} to \subcommand{total\_categories}, after applying the selectivities at the year and time-step specified.
+
+For example,
+
+{\small{\begin{verbatim}
+		@observation mature_males
+		type proportions_by_category
+		years 1990 1991
+		categories male
+		total_categories male
+		selectivities maturity-selectivity
+		total_selectivities [type=constant; c=1] ## total population
+		length_bins 2 4 6 8 10 
+		likelihood binomial
+		table obs
+		1990 0.01 0.05 0.6 1.00 0.820
+		1991 0.02 0.06 0.70 0.91 0.988
+		end_table
+		...
+		\end{verbatim}}}
+
+\paragraph*{\I{Tag Recapture by length for growth}\label{sec:Observation-TagRecaptureByLengthForGrowth}}
+Designed for situations where you intend to estimate growth using the size frequency of recaptured fish, without using any information on scanned fish. This replicates CASALs tag recapture observation \texttt{type=growth}. 
+ 
+An example of a tag recapture observation:
+
+{\small{\begin{verbatim}
+		# For the following partition
+		@categories
+		format sex.tag
+		names  male.2011,notag female.2011,notag
+		
+
+@observation 1997_recaptures3_1
+type tag_recapture_by_length_for_growth
+years 1997
+categories male.2011 + female.2011
+selectivities One
+likelihood multinomial
+delta 1e-11
+time_step May-Sep
+time_step_proportion 0.5
+table recaptured
+1997 1 2 2 3 2 3 2 3 4
+end_table
+\end{verbatim}}}
+
+The observed ($O_{y,l}$) and expected ($E_{y,l}$) values in year $y$ and length $l$ of this observation are:
+
+\begin{equation}
+O_{y,l} = R_{y,l} \frac{R_{y,l}}{\sum_l R_{y,l}}
+\end{equation}
+
+where $R_{y,l}$ is the number of recaptures in year $y$ at length $l$.
+
+The expected value derived from \CNAME\ uses interpolation over the mortality block. The categories defined in the configuration files are calculated over this block as follows.
+\begin{equation}
+N_{y,l,c} = N^{pre}_{y,l,c} +   (N^{post}_{y,l,c} - N^{pre}_{y,l,c})p
+\end{equation}
+where, $p$ is the proportion of the time step that the observation was taken, \(N^{pre}_{y,l,c}\) is the partition before the mortality block and \(N^{post}_{y,l,c}\) is the partition after the mortality block.
+
+\begin{equation}
+E_{y,l,c} = \frac{N_{y,l,c}}{\sum_c\sum_l N_{y,l,c}}
+\end{equation}
+where $N_{y,l,c}$ is the number of tagged fish in category \(c\) for year \(y\) and length bin \(l\).
+
+Note that if you are also applying fishing or natural mortality to the population between the time of release and recapture, then the number of fish at size may be biased (although this may depend on the various mortality or fishing selectivities applied). A work-around is to define the tagged fish as being from a separate stock in a separate area (i.e., where they are not subject to fishing mortality, and the natural mortality is either zero or applied as a constant rate over all length classes).
+\fi % end if
+
 
 \subsubsection{\I{General process observations}}
 
@@ -419,6 +621,8 @@ These observations have the same expectations as the mortality block versions de
 
 A list of \texttt{types} that are associated with this set of observations are:
 
+\ifAgeBased
+% One column version
 \begin{itemize}
 	\item \texttt{process\_removals\_by\_age}
 	\item \texttt{process\_removals\_by\_age\_retained}
@@ -427,214 +631,237 @@ A list of \texttt{types} that are associated with this set of observations are:
 	\item \texttt{process\_removals\_by\_length\_retained}
 	\item \texttt{process\_removals\_by\_length\_retained\_total}
 	\item \texttt{process\_proportions\_migrating}
-
-\paragraph*{\I{Process removals by age}\label{sec:removals-by-age}}\label{sec:Observation-ProcessRemovalsByAge}
-
-Removals-at-age observations are observations of the relative number of individuals at age, part way through a process of type \texttt{mortality\_instantaneous}. This observation is exclusively associated with the process of type \texttt{mortality\_instantaneous}, and will produce an error if it is associated with any other process type.
-
-The observation is supplied for a given year and time-step, for selected age classes of the population (i.e., for a range of ages multiplied by a selectivity that is associated with the process).
-
-The age range must be ages defined in the partition (i.e., between \commandsub{model}{min\_age} and \commandsub{model}{max\_age} inclusive); the upper end of the age range can optionally be a plus group, which must be either the same or less than the plus group defined for the partition.
-
-The expectations from this observation are generated whilst the process is being executed. The expectation of numbers at age $a$ for category $c$ from exploitation method $m$ ($E[N_{a,c,m}]$) are
-
-\begin{equation}
-E[N_{a,c,m}] = N_{a,c} U_{a,m} S_{a,c,m} 0.5 M_{a,c}
-\end{equation}
-
-where $N_{a,c}$ are the numbers-at-age in category $c$ before the process is executed, $U_{a,m}$ is the exploitation rate for age $a$ from method $m$, $S_{a,c,m}$ is the selectivity, and $M$ is the natural mortality.
-
-The observation class accesses the variable $E[N_{a,c,m}]$ and applies ageing error if the user has specified it. Then the observations are aggregated by method and category depending on how the user specifies the observation, before converting numbers-at-age to proportions-at-age and then calculating the likelihood.
-
-Likelihoods that are available for this observation class are the multinomial, Dirichlet, and the lognormal. See Section~\ref{sec:Likelihood} for information on the respected likelihood.
-
-\paragraph*{\I{Process removals by age retained}} \label{sec:Observation-ProcessRemovalsByAgeRetained} \label{sec:Observation-ProcessRemovalsByAgeRetainedTotal}
-
-Observations of retained and total catches by age can be included, using the labels \texttt{process\_removals\_by\_age\_retained} and \texttt{process\_removals\_by\_age\_retained\_total}, respectively. Examples of two such observations are given below, with the associated process \texttt{Instantaneous\_Mortality\_Retained} having the form of the example in Section \ref{sec:Process-MortalityInstantaneousRetained}.
-
-For retained catch:
-
-{\small{\begin{verbatim}
-@observation potFishAFtotal
-type process_removals_by_age_retained_total
-mortality_instantaneous_process Instantaneous_Mortality_Retained
-method_of_removal FishingPot
-years 2005
-time_step 1
-categories male
-### ageing_error Normal_ageing
-min_age 3
-max_age 15
-plus_group True
-table obs
-2005 0.00 0.01 0.16 0.27 0.22 0.16 0.11 0.05 0 0 0 0 0
-end_table
-table error_values
-2005 651
-end_table
-likelihood multinomial
-delta 1e-11
-\end{verbatim}}}
-
-For total catch:
-
-{\small{\begin{verbatim}
-@observation potFishAFretained
-type process_removals_by_age_retained
-mortality_instantaneous_process Instantaneous_Mortality_Retained
-method_of_removal FishingPot
-years 2005
-time_step 1
-categories male
-# ageing_error Normal_ageing
-min_age 3
-max_age 15
-plus_group True
-table obs
-2005 1.65e-10 7.56e-07 1.77e-03 1.96e-01 3.19e-01 2.43e-01 1.60e-01 8.04e-02 0 0 0 0 0
-end_table
-table error_values
-2005 651
-end_table
-likelihood multinomial
-delta 1e-11
-\end{verbatim}}}
-
-\paragraph*{\I{Process removals by length}\label{sec:removals-by-length}}\label{sec:Observation-ProcessRemovalsByLength}
-
-Removals by length observations are observations of the relative number of individuals at length, part way through a process of type \texttt{mortality\_instantaneous}. This observation is exclusively associated with the process of type \texttt{mortality\_instantaneous}, and will produce an error if associated with any other process type.
-
-The observation is supplied for a given year and time-step, for some selected age classes of the population (i.e., for a range of ages multiplied by a selectivity that is associated with the process).
-
-The expectations from this observation are generated whilst the process is being executed. The expectation of numbers at age $a$ for category $c$ from exploitation method $m$ ($E[N_{a,c,m}]$) are
-
-\begin{equation}
-E[N_{a,c,m}] = N_{a,c} U_{a,m} S_{a,c,m} 0.5 M_{a,c}
-\end{equation}
-
-where $N_{a,c}$ are the numbers at age in category $c$ before the process is executed, $U_{a,m}$ is the exploitation rate for age $a$ from method $m$, $S_{a,c,m}$ is the selectivity, and $M$ is the natural mortality.
-
-The observation class accesses the variable $E[N_{a,c,m}]$ from the process and applies the age-length relationship specified in the model. This converts numbers-at-age to numbers-at-age and -length, which are then converted to numbers-at-length. The observations are aggregated by method and category depending on how the user specifies the observation, before converting numbers-at-age to proportions and calculating the likelihood.
-
-Similar to the proportions-at-length observation type, the user must supply a vector of length bins. The observation-specific length bins must be a sequential subset of the model length bins, with no missing or added values. For example, if the model length bins are \texttt{0 5 10 15 20 25 ... 100}, then the observation-specific length bins can be \texttt{20 25 30 35 40 45 50} but not \texttt{20 30 40 50}.
-
-{\small{\begin{verbatim}
-@observation observation_fishery_LF
-type process_removals_by_length
-...
-years  1993 1994 1995
-method_of_removal FishingEast
-mortality_instantaneous_process instant_mort
-length_plus false
-length_bins 0 20 40 60 80 110
-delta 1e-5
-table obs
-1993    0.0   0.05    0.05    0.10    0.80
-1994    0.05  0.1     0.05    0.05    0.75
-1995    0.3   0.4     0.2     0.05    0.05
-end_table
-
-table error_values
-1993 31
-1994 34
-1995 22
-end_table
-\end{verbatim}}}
-
-Likelihoods that are available for this observation are the multinomial, Dirichlet and the lognormal. See below for information on the likelihoods.
-
-\paragraph*{\I{Process removals by length retained}}\label{sec:Observation-ProcessRemovalsByLengthRetained}\label{sec:Observation-ProcessRemovalsByLengthRetainedTotal}
-
-Observations of retained and total catches by length can be included, using the labels \texttt{process\_removals\_by\_length\_retained} and \texttt{process\_removals\_by\_length\_retained\_total} respectively. Examples of two such observations are given below, with the associated process \texttt{Instantaneous\_Mortality\_Retained} having the form of the example in Section \ref{sec:Process-MortalityInstantaneousRetained}.
-
-Similar to the proportions-at-length observation type, the user must supply a vector of length bins. The observation-specific length bins must be a sequential subset of the model length bins, with no missing or added values. For example, if the model length bins are \texttt{0 5 10 15 20 25 ... 100}, then the observation-specific length bins can be \texttt{20 25 30 35 40 45 50} but not \texttt{20 30 40 50}.
-
-For retained catch:
-
-{\small{\begin{verbatim}
-@observation potFishLFtotal   #test syntax get catch LF out
-type process_removals_by_length_retained_total
-mortality_instantaneous_process Instantaneous_Mortality_Retained
-method_of_removal FishingPot
-years 2005
-time_step 1
-categories male
-length_bins 30 31 32 33 34 35 36 37 38 39 40 41 42 43 44 45 46 # for LF in catch
-length_plus False
-table obs
-2005 0.05 0.06 0.07 0.08 0.08 0.08 0.08 0.08 0.07 0.06 0.06 0.05 0.04 0.030 0.02 0.02
-end_table
-table error_values
-2005 651
-end_table
-likelihood multinomial
-delta 1e-11
-\end{verbatim}}}
-
-For total catch:
-
-{\small{\begin{verbatim}
-@observation potFishLFretained   #test syntax get retained LF out
-type process_removals_by_length_retained
-mortality_instantaneous_process Instantaneous_Mortality_Retained
-method_of_removal FishingPot
-years 2005
-time_step 1
-categories male
-length_bins 30 31 32 33 34 35 36 37 38 39 40 41 42 43 44 45 46 # for LF in catch
-length_plus False
-table obs
-2005 0.02 0.03 0.04 0.06 0.07 0.08 0.08 0.09 0.08 0.08 0.07 0.06 0.05 0.04 0.03 0.02
-end_table
-table error_values
-2005 651
-end_table
-likelihood multinomial
-delta 1e-11
-\end{verbatim}}}
-
-
-\paragraph*{\I{Proportions migrating}\label{sec:Proportions-migrating}}\label{sec:Observation-ProportionsMigrating}
-
-This observation is of the proportion migrating from one area to another. This observation is exclusively associated with the process type \texttt{transition\_category}, and will produce an error when associated with any other process type. This observation is used to inform migration rates in migration processes. This observation class is used in the hoki stock assessment see~\cite{francis_03} for more information on how these observations are collected and a situation that uses it.
-
-This observation calculates an expectation $E_a$ of proportions for each age class $a$ that have migrated, by
-
-\begin{equation}
-E_a = \frac{N_a - N_a'}{N_a}
-\end{equation}
-
-where $N_a$ are the numbers of individuals in age $a$ before the migration process occurs, and $N_a'$ are the number of individuals after the migration process occurs.
-
-The likelihoods that are allowed for this observation are the lognormal, multinomial, and Dirichlet.
-
-A section of the hoki stock assessment model:
-
-{\small{\begin{verbatim}
-@observation pspawn_1993
-type process_proportions_migrating
-years 1993
-time_step step4
-process Wspmg ## migration process that the observation is associated with
-age_plus true
-min_age 4
-max_age 9
-likelihood lognormal
-categories male.west+female.west ## Categories to evaluate the prportion for
-ageing_error Normal_offset ## label for an @ageing_error block
-table obs
-#age    4    5    6    7    8    9
-1993 0.64 0.58 0.65 0.66 0.71 0.60
-end_table
-
-table error_values
-## if lognormal these are c.v.'s
-1993 0.25
-end_table
-\end{verbatim}}}
-
+	
+	\paragraph*{\I{Process removals by age}\label{sec:removals-by-age}}\label{sec:Observation-ProcessRemovalsByAge}
+	
+	Removals-at-age observations are observations of the relative number of individuals at age, part way through a process of type \texttt{mortality\_instantaneous}. This observation is exclusively associated with the process of type \texttt{mortality\_instantaneous}, and will produce an error if it is associated with any other process type.
+	
+	The observation is supplied for a given year and time-step, for selected age classes of the population (i.e., for a range of ages multiplied by a selectivity that is associated with the process).
+	
+	The age range must be ages defined in the partition (i.e., between \commandsub{model}{min\_age} and \commandsub{model}{max\_age} inclusive); the upper end of the age range can optionally be a plus group, which must be either the same or less than the plus group defined for the partition.
+	
+	The expectations from this observation are generated whilst the process is being executed. The expectation of numbers at age $a$ for category $c$ from exploitation method $m$ ($E[N_{a,c,m}]$) are
+	
+	\begin{equation}
+	E[N_{a,c,m}] = N_{a,c} U_{a,m} S_{a,c,m} 0.5 M_{a,c}
+	\end{equation}
+	
+	where $N_{a,c}$ are the numbers-at-age in category $c$ before the process is executed, $U_{a,m}$ is the exploitation rate for age $a$ from method $m$, $S_{a,c,m}$ is the selectivity, and $M$ is the natural mortality.
+	
+	The observation class accesses the variable $E[N_{a,c,m}]$ and applies ageing error if the user has specified it. Then the observations are aggregated by method and category depending on how the user specifies the observation, before converting numbers-at-age to proportions-at-age and then calculating the likelihood.
+	
+	Likelihoods that are available for this observation class are the multinomial, Dirichlet, and the lognormal. See Section~\ref{sec:Likelihood} for information on the respected likelihood.
+	
+	\paragraph*{\I{Process removals by age retained}} \label{sec:Observation-ProcessRemovalsByAgeRetained} \label{sec:Observation-ProcessRemovalsByAgeRetainedTotal}
+	
+	Observations of retained and total catches by age can be included, using the labels \texttt{process\_removals\_by\_age\_retained} and \texttt{process\_removals\_by\_age\_retained\_total}, respectively. Examples of two such observations are given below, with the associated process \texttt{Instantaneous\_Mortality\_Retained} having the form of the example in Section \ref{sec:Process-MortalityInstantaneousRetained}.
+	
+	For retained catch:
+	
+	{\small{\begin{verbatim}
+			@observation potFishAFtotal
+			type process_removals_by_age_retained_total
+			mortality_instantaneous_process Instantaneous_Mortality_Retained
+			method_of_removal FishingPot
+			years 2005
+			time_step 1
+			categories male
+			### ageing_error Normal_ageing
+			min_age 3
+			max_age 15
+			plus_group True
+			table obs
+			2005 0.00 0.01 0.16 0.27 0.22 0.16 0.11 0.05 0 0 0 0 0
+			end_table
+			table error_values
+			2005 651
+			end_table
+			likelihood multinomial
+			delta 1e-11
+			\end{verbatim}}}
+	
+	For total catch:
+	
+	{\small{\begin{verbatim}
+			@observation potFishAFretained
+			type process_removals_by_age_retained
+			mortality_instantaneous_process Instantaneous_Mortality_Retained
+			method_of_removal FishingPot
+			years 2005
+			time_step 1
+			categories male
+			# ageing_error Normal_ageing
+			min_age 3
+			max_age 15
+			plus_group True
+			table obs
+			2005 1.65e-10 7.56e-07 1.77e-03 1.96e-01 3.19e-01 2.43e-01 1.60e-01 8.04e-02 0 0 0 0 0
+			end_table
+			table error_values
+			2005 651
+			end_table
+			likelihood multinomial
+			delta 1e-11
+			\end{verbatim}}}
+	
+	\paragraph*{\I{Process removals by length}\label{sec:removals-by-length}}\label{sec:Observation-ProcessRemovalsByLength}
+	
+	Removals by length observations are observations of the relative number of individuals at length, part way through a process of type \texttt{mortality\_instantaneous}. This observation is exclusively associated with the process of type \texttt{mortality\_instantaneous}, and will produce an error if associated with any other process type.
+	
+	The observation is supplied for a given year and time-step, for some selected age classes of the population (i.e., for a range of ages multiplied by a selectivity that is associated with the process).
+	
+	The expectations from this observation are generated whilst the process is being executed. The expectation of numbers at age $a$ for category $c$ from exploitation method $m$ ($E[N_{a,c,m}]$) are
+	
+	\begin{equation}
+	E[N_{a,c,m}] = N_{a,c} U_{a,m} S_{a,c,m} 0.5 M_{a,c}
+	\end{equation}
+	
+	where $N_{a,c}$ are the numbers at age in category $c$ before the process is executed, $U_{a,m}$ is the exploitation rate for age $a$ from method $m$, $S_{a,c,m}$ is the selectivity, and $M$ is the natural mortality.
+	
+	The observation class accesses the variable $E[N_{a,c,m}]$ from the process and applies the age-length relationship specified in the model. This converts numbers-at-age to numbers-at-age and -length, which are then converted to numbers-at-length. The observations are aggregated by method and category depending on how the user specifies the observation, before converting numbers-at-age to proportions and calculating the likelihood.
+	
+	Similar to the proportions-at-length observation type, the user must supply a vector of length bins. The observation-specific length bins must be a sequential subset of the model length bins, with no missing or added values. For example, if the model length bins are \texttt{0 5 10 15 20 25 ... 100}, then the observation-specific length bins can be \texttt{20 25 30 35 40 45 50} but not \texttt{20 30 40 50}.
+	
+	{\small{\begin{verbatim}
+			@observation observation_fishery_LF
+			type process_removals_by_length
+			...
+			years  1993 1994 1995
+			method_of_removal FishingEast
+			mortality_instantaneous_process instant_mort
+			length_plus false
+			length_bins 0 20 40 60 80 110
+			delta 1e-5
+			table obs
+			1993    0.0   0.05    0.05    0.10    0.80
+			1994    0.05  0.1     0.05    0.05    0.75
+			1995    0.3   0.4     0.2     0.05    0.05
+			end_table
+			
+			table error_values
+			1993 31
+			1994 34
+			1995 22
+			end_table
+			\end{verbatim}}}
+	
+	Likelihoods that are available for this observation are the multinomial, Dirichlet and the lognormal. See below for information on the likelihoods.
+	
+	\paragraph*{\I{Process removals by length retained}}\label{sec:Observation-ProcessRemovalsByLengthRetained}\label{sec:Observation-ProcessRemovalsByLengthRetainedTotal}
+	
+	Observations of retained and total catches by length can be included, using the labels \texttt{process\_removals\_by\_length\_retained} and \texttt{process\_removals\_by\_length\_retained\_total} respectively. Examples of two such observations are given below, with the associated process \texttt{Instantaneous\_Mortality\_Retained} having the form of the example in Section \ref{sec:Process-MortalityInstantaneousRetained}.
+	
+	Similar to the proportions-at-length observation type, the user must supply a vector of length bins. The observation-specific length bins must be a sequential subset of the model length bins, with no missing or added values. For example, if the model length bins are \texttt{0 5 10 15 20 25 ... 100}, then the observation-specific length bins can be \texttt{20 25 30 35 40 45 50} but not \texttt{20 30 40 50}.
+	
+	For retained catch:
+	
+	{\small{\begin{verbatim}
+			@observation potFishLFtotal   #test syntax get catch LF out
+			type process_removals_by_length_retained_total
+			mortality_instantaneous_process Instantaneous_Mortality_Retained
+			method_of_removal FishingPot
+			years 2005
+			time_step 1
+			categories male
+			length_bins 30 31 32 33 34 35 36 37 38 39 40 41 42 43 44 45 46 # for LF in catch
+			length_plus False
+			table obs
+			2005 0.05 0.06 0.07 0.08 0.08 0.08 0.08 0.08 0.07 0.06 0.06 0.05 0.04 0.030 0.02 0.02
+			end_table
+			table error_values
+			2005 651
+			end_table
+			likelihood multinomial
+			delta 1e-11
+			\end{verbatim}}}
+	
+	For total catch:
+	
+	{\small{\begin{verbatim}
+			@observation potFishLFretained   #test syntax get retained LF out
+			type process_removals_by_length_retained
+			mortality_instantaneous_process Instantaneous_Mortality_Retained
+			method_of_removal FishingPot
+			years 2005
+			time_step 1
+			categories male
+			length_bins 30 31 32 33 34 35 36 37 38 39 40 41 42 43 44 45 46 # for LF in catch
+			length_plus False
+			table obs
+			2005 0.02 0.03 0.04 0.06 0.07 0.08 0.08 0.09 0.08 0.08 0.07 0.06 0.05 0.04 0.03 0.02
+			end_table
+			table error_values
+			2005 651
+			end_table
+			likelihood multinomial
+			delta 1e-11
+			\end{verbatim}}}
+	
+	
+	\paragraph*{\I{Proportions migrating}\label{sec:Proportions-migrating}}\label{sec:Observation-ProportionsMigrating}
+	
+	This observation is of the proportion migrating from one area to another. This observation is exclusively associated with the process type \texttt{transition\_category}, and will produce an error when associated with any other process type. This observation is used to inform migration rates in migration processes. This observation class is used in the hoki stock assessment see~\cite{francis_03} for more information on how these observations are collected and a situation that uses it.
+	
+	This observation calculates an expectation $E_a$ of proportions for each age class $a$ that have migrated, by
+	
+	\begin{equation}
+	E_a = \frac{N_a - N_a'}{N_a}
+	\end{equation}
+	
+	where $N_a$ are the numbers of individuals in age $a$ before the migration process occurs, and $N_a'$ are the number of individuals after the migration process occurs.
+	
+	The likelihoods that are allowed for this observation are the lognormal, multinomial, and Dirichlet.
+	
+	A section of the hoki stock assessment model:
+	
+	{\small{\begin{verbatim}
+			@observation pspawn_1993
+			type process_proportions_migrating
+			years 1993
+			time_step step4
+			process Wspmg ## migration process that the observation is associated with
+			age_plus true
+			min_age 4
+			max_age 9
+			likelihood lognormal
+			categories male.west+female.west ## Categories to evaluate the prportion for
+			ageing_error Normal_offset ## label for an @ageing_error block
+			table obs
+			#age    4    5    6    7    8    9
+			1993 0.64 0.58 0.65 0.66 0.71 0.60
+			end_table
+			
+			table error_values
+			## if lognormal these are c.v.'s
+			1993 0.25
+			end_table
+			\end{verbatim}}}
+	
 \end{itemize}
+\else
+% Two column version
+\begin{itemize}
+	\item \texttt{process\_removals\_by\_length}
+	
+	\paragraph*{\I{Process removals by length}\label{sec:removals-by-length}}\label{sec:Observation-ProcessRemovalsByLength}
+	
+	Process-Removals-at-length observations are observations of the relative length frequency part way through a process of type \texttt{mortality\_instantaneous}. This observation is exclusively associated with the process of type \texttt{mortality\_instantaneous}, and will produce an error if it is associated with any other process type.
+	
+	The observation is supplied for a given year and time-step, for selected length classes of exploited categories.
 
+	The expectations from this observation are generated whilst the process is being executed. The expectation of numbers at length $l$ for category $c$ from exploitation method $m$ ($E[N_{l,c,m}]$) are
+	
+	\begin{equation}
+	E[N_{l,c,m}] = N_{l,c} U_{l,m} S_{l,c,m} 0.5 M_{l,c}
+	\end{equation}
+	
+	where $N_{l,c}$ are the numbers-at-age in category $c$ before the process is executed, $U_{l,m}$ is the exploitation rate for length bin $l$ from method $m$, $S_{l,c,m}$ is the selectivity, and $M$ is the natural mortality.
+	
+	The observation class accesses $E[N_{l,c,m}]$ from the process then the observations are aggregated by method and category depending on how the user specifies the observation, before converting numbers-at-length to proportions-at-length and then calculating the likelihood.
+	
+	Likelihoods that are available for this observation class are the multinomial, Dirichlet, and the lognormal. See Section~\ref{sec:Likelihood} for information on the respected likelihood.
+\end{itemize}
+\fi % end if
 
 \subsection{\I{Likelihoods}\index{sec:Likelihoods}}\label{sec:Likelihood}
 

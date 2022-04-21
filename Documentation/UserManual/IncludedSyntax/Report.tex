@@ -24,6 +24,52 @@
 \defDefault{r}
 \defValue{Either \R\ for formatting for reading into \R\, or \texttt{none} for no formatting}
 
+
+\subsubsection{Report of type Default}
+\commandlabsubarg{report}{type}{Default}.
+\defRef{sec:Report-Default}
+\label{syntax:Report-Default}
+
+\defSub{catchabilities}{Report catchabilities}
+\defType{Boolean}
+\defDefault{false}
+\defNote{Reports all valid catchabilities}
+
+\defSub{derived\_quantities}{Report derived quantities}
+\defType{Boolean}
+\defDefault{false}
+\defNote{Reports all valid derived quantities}
+
+\defSub{observations}{Report observations}
+\defType{Boolean}
+\defDefault{false}
+\defNote{Reports all valid observations}
+
+\defSub{processes}{Report processes}
+\defType{Boolean}
+\defDefault{false}
+\defNote{Reports all valid processes}
+
+\defSub{projects}{Report projects}
+\defType{Boolean}
+\defDefault{false}
+\defNote{Reports all valid projections}
+
+\defSub{selectivities}{Report selectivities}
+\defType{Boolean}
+\defDefault{false}
+\defNote{Reports all valid selectivities}
+
+\defSub{time\_varying}{Report time-varying parameters}
+\defType{Boolean}
+\defDefault{false}
+\defNote{Reports all valid time-varying parameters}
+
+\defSub{parameter\_transformations}{Report all parameter transformations}
+\defType{Boolean}
+\defDefault{false}
+\defNote{Reports all valid parameter transformations}
+
 \subsubsection{Report of type Addressable}
 \commandlabsubarg{report}{type}{Addressable}.
 \defRef{sec:Report-Addressable}
@@ -42,6 +88,7 @@
 \defDefault{No default}
 \defValue{A valid time step label}
 
+\ifAgeBased
 \subsubsection{Report of type Age Length}
 \commandlabsubarg{report}{type}{Age\_Length}.
 \defRef{sec:Report-AgeLength}
@@ -59,6 +106,26 @@
 \defSub{age\_length}{The age-length label}
 \defType{String}
 \defDefault{No default}
+\else
+% Two column version
+\subsubsection{Report of type Growth Increment model}
+\commandlabsubarg{report}{type}{growth\_increment}.
+\defRef{sec:Report-GrowthIncrement}
+\label{syntax:Report-GrowthIncrement}
+
+\defSub{time\_step}{The time step label}
+\defType{String}
+\defDefault{No default}
+\defValue{A valid time step label}
+
+\defSub{years}{The years for the report}
+\defType{Vector of non-negative integers}
+\defDefault{All years}
+
+\defSub{growth\_increment}{The growth-increment label}
+\defType{String}
+\defDefault{No default}
+\fi % end if
 
 
 \subsubsection{Report of type Ageing Error Matrix}
@@ -107,41 +174,6 @@ The Correlation\_Matrix report has no additional subcommands.
 \label{syntax:Report-CovarianceMatrix}
 
 The Covariance\_Matrix type has no additional subcommands.
-
-\subsubsection{Report of type Default}
-\commandlabsubarg{report}{type}{Default}.
-\defRef{sec:Report-Default}
-\label{syntax:Report-Default}
-
-\defSub{catchabilities}{Report catchabilities}
-\defType{Boolean}
-\defDefault{false}
-\defNote{Reports all valid catchabilities}
-
-\defSub{derived\_quantities}{Report derived quantities}
-\defType{Boolean}
-\defDefault{false}
-\defNote{Reports all valid derived quantities}
-
-\defSub{observations}{Report observations}
-\defType{Boolean}
-\defDefault{false}
-\defNote{Reports all valid observations}
-
-\defSub{processes}{Report processes}
-\defType{Boolean}
-\defDefault{false}
-\defNote{Reports all valid processes}
-
-\defSub{projects}{Report projects}
-\defType{Boolean}
-\defDefault{false}
-\defNote{Reports all valid projections}
-
-\defSub{selectivities}{Report selectivities}
-\defType{Boolean}
-\defDefault{false}
-\defNote{Reports all valid selectivities}
 
 \subsubsection{Report of type Derived Quantity}
 \commandlabsubarg{report}{type}{Derived\_Quantity}.
@@ -272,6 +304,16 @@ The Objective\_Function type has no additional subcommands.
 
 The Output\_Parameters report has no additional subcommands.
 
+\subsubsection{Report of Parameter transformations}
+\commandlabsubarg{report}{type}{parameter\_transformation}.
+\defRef{sec:Report-ParameterTransformation}
+\label{syntax:Report-ParameterTransformation}
+
+\defSub{parameter\_transformation}{label of parameter transformation block}
+\defType{String}
+\defDefault{No default}
+
+
 \subsubsection{Report of type Partition}
 \commandlabsubarg{report}{type}{Partition}.
 \defRef{sec:Report-Partition}
@@ -297,13 +339,6 @@ The Output\_Parameters report has no additional subcommands.
 \defSub{years}{The years for the report}
 \defType{Vector of non-negative integers}
 \defDefault{All years}
-
-\subsubsection{Report of type Partition Year Cross Age Matrix}
-\commandlabsubarg{report}{type}{Partition\_Year\_Cross\_Age\_Matrix}.
-\defRef{sec:Report-PartitionYearCrossAgeMatrix}
-\label{syntax:Report-PartitionYearCrossAgeMatrix}
-
-The Partition\_Year\_Cross\_Age\_Matrix report has no additional subcommands.
 
 \subsubsection{Report of type Process}
 \commandlabsubarg{report}{type}{Process}.
@@ -348,6 +383,27 @@ The Random\_Number\_Seed type has no additional subcommands.
 \defType{String}
 \defDefault{No default}
 \defValue{If not specified, then the label of the report is assumed to be the selectivity label}
+
+
+\subsubsection{Report of type Selectivity By Year}
+\commandlabsubarg{report}{type}{selectivity\_by\_year}.
+\defRef{sec:Report-SelectivityByYear}
+\label{syntax:Report-SelectivityByYear}
+
+\defSub{selectivity}{Selectivity name}
+\defType{String}
+\defDefault{No default}
+\defValue{If not specified, then the label of the report is assumed to be the selectivity label}
+
+\defSub{years}{years to report the selectivity in}
+\defType{String}
+\defDefault{true}
+\defValue{If not specified will print for all years in of the model}
+
+\defSub{time\_step}{Time step label}
+\defType{String}
+\defDefault{No default}
+\defNote{This should not matter because time-varying is an annual construct so time-varied selectivity should not change between time steps. Needed to print the values.}
 
 \subsubsection{Report of type Simulated Observation}
 \commandlabsubarg{report}{type}{Simulated\_Observation}.

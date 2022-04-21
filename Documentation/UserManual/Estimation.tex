@@ -538,6 +538,7 @@ The available parameter transformations are,
 	\item average difference (Bivariate transformation) Section~\ref{subsec:Transformation-types} - \ref{sec:Transformation-AverageDifference}
 	\item log sum (Bivariate transformation) Section~\ref{subsec:Transformation-types} - \ref{sec:Transformation-LogSum}	
 	\item Orthogonal (Bivariate transformation) Section~\ref{subsec:Transformation-types} - \ref{sec:Transformation-Orthogonal}
+	\item Logistic (Univariate transformation) Section~\ref{subsec:Transformation-types} - \ref{sec:Transformation-Logistic}
 	\item Sum to one (Bivariate transformation) Section~\ref{subsec:Transformation-types} - \ref{sec:Transformation-SumToOne}
 	\item Simplex (Multivariate transformation) Section~\ref{subsec:Transformation-types} - \ref{sec:Transformation-Simplex}	
 \end{enumerate}
@@ -678,6 +679,30 @@ $X_2 = \sqrt{Y_1 / Y_2}$\\
 $\begin{vmatrix} \frac{\partial}{\partial y} f^{-1}(y) \end{vmatrix} = 2Y_2$\\\\
 \label{sec:Transformation-Orthogonal}
 
+
+\item \subcommand{type} \subcommand{logistic} : logistic transformation\\
+\subcommand{jacobian known = true}\\
+\subcommand{estimable parameter = logistic\_parameter}\\
+$Y = logit(\frac{X - lb}{ub - lb})$\\
+$f^{-1}() = lb +(ub - lb)  logit^{-1}()$
+\[
+ \begin{vmatrix} \frac{\partial}{\partial y}   lb +(ub - lb)  logit^{-1}(y) \end{vmatrix} =  (ub - lb)logit^{-1}(y)\left(1 - logit^{-1}(y)\right) 
+\]
+\label{sec:Transformation-Logistic}
+{\small{\begin{verbatim}
+		@parameter_transformation logistic_R0
+		type logistic
+		parameters process[Recruitment].r0
+		lower_bound 10000
+		upper_bound 600000
+		
+		@estimate logistic_R0
+		type uniform
+		parameter parameter_transformation[logistic_R0].logistic_parameter
+		lower_bound -1000 # theoretically -Inf
+		upper_bound 1000 # theoretically Inf
+		\end{verbatim}}}
+	
 \item \subcommand{SumToOne} : given two parameters $X_1$ and $X_2$ that have the constraint $\sum_{i = 1}^2X_i$, estimate $X_1$ only given $X_2 = 1 - X_1$\\
 \subcommand{jacobian defined = false}\\
 \label{sec:Transformation-SumToOne}

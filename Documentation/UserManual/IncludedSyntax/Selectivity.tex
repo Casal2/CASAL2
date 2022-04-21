@@ -227,14 +227,15 @@
 \defRef{sec:Selectivity-InverseLogistic}
 \label{syntax:Selectivity-InverseLogistic}
 
-\defSub{a50}{The a50 parameter}
+\defSub{a50}{The age or length where the selectivity is \(50\%\)}
 \defType{Real number (estimable)}
 \defDefault{No default}
 
-\defSub{ato95}{The ato95 parameter}
+\defSub{ato95}{The age or length between \(50\%\) and \(95\%\) selective}
 \defType{Real number (estimable)}
 \defDefault{No default}
 \defLowerBound{0.0 (exclusive)}
+
 
 \defSub{alpha}{The maximum value of the selectivity }
 \defType{Real number (estimable)}
@@ -259,11 +260,11 @@
 \defRef{sec:Selectivity-Logistic}
 \label{syntax:Selectivity-Logistic}
 
-\defSub{a50}{The a50 parameter}
+\defSub{a50}{The age or length where the selectivity is \(50\%\)}
 \defType{Real number (estimable)}
 \defDefault{No default}
 
-\defSub{ato95}{The ato95 parameter}
+\defSub{ato95}{The age or length between \(50\%\) and \(95\%\) selective}
 \defType{Real number (estimable)}
 \defDefault{No default}
 \defLowerBound{0.0 (exclusive)}
@@ -300,3 +301,127 @@
 \defDefault{1.0}
 \defLowerBound{0.0 (exclusive)}
 
+
+\subsubsection{Selectivity of type Compound Right }
+\commandlabsubarg{selectivity}{type}{compound\_right}.
+\defRef{sec:Selectivity-CompoundRight}
+\label{syntax:Selectivity-CompoundRight}
+
+\defSub{a50}{The a50 ($a50$}
+\defType{Real number (estimable)}
+\defDefault{No default}
+
+\defSub{ato95}{The age or length between \(50\%\) and \(95\%\) selective}
+\defType{Real number (estimable)}
+\defDefault{No default}
+\defLowerBound{0.0 (exclusive)}
+
+\defSub{a\_min}{The (a\_min) parameter}
+\defType{Real number (estimable)}
+\defDefault{No default}
+\defLowerBound{0.0 (exclusive)}
+
+\defSub{left\_mean}{The left\_mean parameter}
+\defType{Real number (estimable)}
+\defDefault{1.0}
+\defLowerBound{0.0 (exclusive)}
+
+\defSub{to\_right\_mean}{The to\_right\_mean parameter}
+\defType{Real number (estimable)}
+\defDefault{1.0}
+\defLowerBound{0.0 (exclusive)}
+
+\defSub{sigma}{The sigma parameter}
+\defType{Real number (estimable)}
+\defDefault{1.0}
+\defLowerBound{0.0 (exclusive)}
+
+
+\subsubsection{Selectivity of type Compound Left }
+\commandlabsubarg{selectivity}{type}{compound\_left}.
+\defRef{sec:Selectivity-CompoundLeft}
+\label{syntax:Selectivity-CompoundLeft}
+
+\defSub{a50}{The a50 ($a50$}
+\defType{Real number (estimable)}
+\defDefault{No default}
+
+\defSub{ato95}{The age or length between \(50\%\) and \(95\%\) selective}
+\defType{Real number (estimable)}
+\defDefault{No default}
+\defLowerBound{0.0 (exclusive)}
+
+\defSub{a\_min}{The (a\_min) parameter}
+\defType{Real number (estimable)}
+\defDefault{No default}
+\defLowerBound{0.0 (exclusive)}
+
+\defSub{left\_mean}{The left\_mean parameter}
+\defType{Real number (estimable)}
+\defDefault{1.0}
+\defLowerBound{0.0 (exclusive)}
+
+\defSub{sigma}{The sigma parameter}
+\defType{Real number (estimable)}
+\defDefault{1.0}
+\defLowerBound{0.0 (exclusive)}
+
+
+\subsubsection{Selectivity of type Compound Middle }
+\commandlabsubarg{selectivity}{type}{compound\_middle}.
+\defRef{sec:Selectivity-CompoundMiddle}
+\label{syntax:Selectivity-CompoundMiddle}
+
+\defSub{a50}{The a50 ($a50$}
+\defType{Real number (estimable)}
+\defDefault{No default}
+
+\defSub{ato95}{The age or length between \(50\%\) and \(95\%\) selective}
+\defType{Real number (estimable)}
+\defDefault{No default}
+\defLowerBound{0.0 (exclusive)}
+
+\defSub{a\_min}{The (a\_min) parameter}
+\defType{Real number (estimable)}
+\defDefault{No default}
+\defLowerBound{0.0 (exclusive)}
+
+\defSub{left\_mean}{The left\_mean parameter}
+\defType{Real number (estimable)}
+\defDefault{1.0}
+\defLowerBound{0.0 (exclusive)}
+
+\defSub{to\_right\_mean}{The to\_right\_mean parameter}
+\defType{Real number (estimable)}
+\defDefault{1.0}
+\defLowerBound{0.0 (exclusive)}
+
+\defSub{sigma}{The sigma parameter}
+\defType{Real number (estimable)}
+\defDefault{1.0}
+\defLowerBound{0.0 (exclusive)}
+
+
+\subsubsection{Selectivity of type Compound All }
+\commandlabsubarg{selectivity}{type}{compound\_all}.
+\defRef{sec:Selectivity-CompoundAll}
+\label{syntax:Selectivity-CompoundAll}
+
+\defSub{a50}{The a50 ($a50$}
+\defType{Real number (estimable)}
+\defDefault{No default}
+
+\defSub{ato95}{The age or length between \(50\%\) and \(95\%\) selective}
+\defType{Real number (estimable)}
+\defDefault{No default}
+\defLowerBound{0.0 (exclusive)}
+
+\defSub{a\_min}{The (a\_min) parameter}
+\defType{Real number (estimable)}
+\defDefault{No default}
+\defLowerBound{0.0 (exclusive)}
+
+\defSub{sigma}{The sigma parameter}
+\defType{Real number (estimable)}
+\defDefault{1.0}
+\defLowerBound{0.0 (exclusive)}

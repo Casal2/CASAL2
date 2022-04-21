@@ -1,8 +1,8 @@
 \section{\I{Post-processing output using \R} \label{sec:PostProcessing}}\index{Post processing}\index{Post-processing section}
 
-\R\ (\url{https://www.r-project.org/}) is the main application used to process and visualise output from a \CNAME\ model. \R\ is free and can be downloaded from \url{https://cran.r-project.org/}. Once you have installed \R\ you can install the \cname\ \R\ package from the file (\texttt{casal2\_1.0.tar.gz}) which is part of the \CNAME\ download.
+\R\ (\url{https://www.r-project.org/}) is the main application used to process and visualise output from a \CNAME\ model. \R\ is free and can be downloaded from \url{https://cran.r-project.org/}. Once you have installed \R\ you can install the \cname\ \R\ package from the file (\texttt{Casal2\_1.0.tar.gz}) which is part of the \CNAME\ download.
 
-The \CNAME\ has two \R\ packages, a base library which is bundled with \CNAME\ application and a post processing package for plotting and model comparisons \url{https://github.com/NIWAFisheriesModelling/Casal2_contrib}. The base \R\ package is made to read and write output from \CNAME\ where as the post-processing package is more generalisable. 
+\CNAME\ has two \R\ packages, a base library which is bundled with \CNAME\ application and a post processing package \texttt{r4Casal2} for plotting and model comparisons \url{https://github.com/NIWAFisheriesModelling/Casal2_contrib}. The base \R\ package is made to read and write output from \CNAME\ where as the post-processing package is more generalisable. 
 
 There are three types of output that \CNAME\ can produce, depending on the type of analysis run. These outputs are: Standard, MCMC, and Derived Quantity.
 
@@ -25,11 +25,6 @@ The list of \cname\ \R\ functions include:
 	\item \texttt{extract.parameters()}, which parses the \CNAME\ parameter files into a list
 	\item \texttt{generate.starting.pars()}, which reads in a file that contains the \command{estimate} blocks and generates 'N' starting values to test convergence
 	\item \texttt{burn.in.tabular()}, which omits the first 'N' rows from a \subcommand{casal2TAB} object
-	\item \texttt{plot.derived\_quantities()}, which plots the derived quantities
-	\item \texttt{plot.selectivities()}, which plots the selectivities
-	\item \texttt{plot.ycs()}, which plots the true YCS strengths
-	\item \texttt{plot.pressure()}, which plots the fishing pressures
-	\item \texttt{summary()}, which summarises a model run
 	\item \texttt{extract.csl2.file()}, which reads a \CNAME\ .csl2 (configuration) file into a list
 	\item \texttt{write.csl2.file()}, which writes a \CNAME\ .csl2 (configuration) file to a file
 	\item \texttt{ReadSimulatedData()}, which parses \CNAME\ output from a \texttt{casal2 -s} run
@@ -37,22 +32,7 @@ The list of \cname\ \R\ functions include:
 	\item \texttt{apply.dataweighting.to.csl2()}, which parses a \CNAME\ .csl2 (configuration) file that contains \command{observation} blocks, applies a weighting factor to an age or length composition data set, and generates a new \subcommand{.csl2} file with modified effective sample size values
 \end{itemize}
 
-The required and optional arguments for these functions can be queried after loading the \CNAME\ \R\ library with \texttt{library(casal2)} and using the standard \R\ help syntax \texttt{?} (e.g., \texttt{?param.profile()}). Many of the help files have example code and data to demonstrate function syntax.
-
-\paragraph*{Standard diagnostic functions and plots for model output}
-
-\TODO{functionality description}
-
-\texttt{plot.derived\_quantity()}
-
-When comparing model output either: different parameters for the same model structure are being compared (Situation 1), or outputs from multiple model structures are being compared (Situation 2). These functions can be useful for both comparison types.
-
-\begin{itemize}
-	\item \texttt{plot.selectivities()}
-	\item \texttt{plot.pressure()}
-	\item \texttt{plot.fit()}
-	\item \texttt{plot.ycs()}
-\end{itemize}
+The required and optional arguments for these functions can be queried after loading the \CNAME\ \R\ library with \texttt{library(Casal2)} and using the standard \R\ help syntax \texttt{?} (e.g., \texttt{?param.profile()}). Many of the help files have example code and data to demonstrate function syntax.
 
 \paragraph*{Data weighting}
 
@@ -80,7 +60,7 @@ apply.dataweighting.to.csl2(weighting_factor = WeightingFactor,
 Automating the data weighting process:
 
 \begin{lstlisting}
-library(casal2)
+library(Casal2)
 
 mpd <- extract.mpd(file = "estimate.log")
 

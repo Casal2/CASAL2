@@ -769,7 +769,7 @@ y2    0.8  # selection at x2
 The compound left selectivity was used in the Oyster stock assessment but was undocumented in CASAL user manual. 
 \begin{align*}
 y_1 & = \frac{\left(1 - a_{min}\right)}{\left(1 + 19^{(a_{50} - x)/a_{to95}}\right)}  + a_{min}\\
-y_2 & = \frac{1}{\left(1 + 19^{(left_{mu} + to\_right_{mu} - x)/\sigma}\right)}\\
+y_2 & = 1.0 - \frac{1}{\left(1 + 19^{(left_{mu} + to\_right_{mu} - x)/\sigma}\right)}\\
 f(x)  &= 	y_1 y_2
 \end{align*}
 
@@ -783,6 +783,21 @@ f(x)  &= 	y_1 y_2
 \end{align*}
 
 
+\subsubsection[Compound-All]{\argument{compound\_all}}\index{Selectivities!Compound-All}\label{sec:Selectivity-CompoundAll}
+The compound all selectivity was used in the Oyster stock assessment but was undocumented in CASAL user manual. 
+\begin{align*}
+f(x)  & = \frac{\left(1 - a_{min}\right)}{\left(1 + 19^{(a_{50} - x)/a_{to95}}\right)}  + a_{min}
+\end{align*}
+
+
+\subsubsection[Compound-Middle]{\argument{compound\_middle}}\index{Selectivities!Compound-Middle}\label{sec:Selectivity-CompoundMidde}
+The compound middle selectivity was used in the Oyster stock assessment but was undocumented in CASAL user manual. 
+\begin{align*}
+y_1 & = \frac{\left(1 - a_{min}\right)}{\left(1 + 19^{(a_{50} - x)/a_{to95}}\right)}  + a_{min}\\
+y_2 & = \frac{1}{\left(1 + 19^{(left_{mu} + to\_right_{mu} - x)/\sigma}\right)}\\
+y_3 & = 1.0 -  \frac{1}{\left(1 + 19^{(left_{mu} + to\_right_{mu} - x)/\sigma}\right)}\\
+f(x)  &= 	y_1 y_2 y_3
+\end{align*}
 
 \begin{figure}[H]
 	\includegraphics[scale = 0.7]{Figures/Selectivities.jpeg}

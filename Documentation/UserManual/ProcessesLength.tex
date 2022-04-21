@@ -73,7 +73,6 @@ The length density function is denoted by \(f_j(l,\mu, \sigma)\) is the normal d
 		inital_mean_length 10
 		inital_length_cv 0.40
 		ssb SSB_derived_quantity
-		
 		\end{verbatim}}}
 
 The property \texttt{ssb\_offset} has to be manually specified;
@@ -250,9 +249,16 @@ The partition is updated as follows
 %
 where, \(n_{c,j}\) is the partition for category \(c\) and length class \(j\) before mortality and \(n'_{c,j}\)  is after the process. \(t_y\) is an annual multiplicative scalar (estimable), \(M_{c}\) is the category specific mortality rate and \(S_{c,j}\) is the selectivity.
  
-
+{\small{\begin{verbatim}
+@process DiseaseMortality
+type mortality_disease_rate
+disease_mortality_rate 1.0
+selectivities DiseaseSel 
+categories OYS
+year_effect 0.05 0.11 0.39 0.38 0.20 
+years 2000 2001 2002 2003 2004 2005 
+		\end{verbatim}}}
 \subsubsection{\I{Transition By Category}}\label{sec:Process-Length-TransitionCategory}
-
 The transition by category process moves individuals between categories. This process is used to specify transitions such as maturation (individuals move from an immature to mature state) and migration (individuals move from one area to another).
 
 There is a one-to-one relationship between the "from" category and the "to" category, i.e., for every source category there is one target category only
