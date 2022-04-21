@@ -38,7 +38,7 @@ public:
   virtual ~ProcessRemovalsByLength();
   void DoValidate() override final;
   void DoBuild() override final;
-  void DoReset() override final{};
+  void DoReset() override final;
   void PreExecute() override final;
   void Execute() override final;
   void CalculateScore() override final;
@@ -67,6 +67,8 @@ protected:
   map<string, unsigned >      category_lookup_for_ndx_to_get_catch_at_info_;
   bool                        simulated_data_sum_to_one_;
   bool                        sum_to_one_;
+
+  vector<Double>              final_denominator_;
 
   map<unsigned, map<string, vector<double>>> proportions_;
   map<unsigned, map<string, vector<double>>> error_values_;

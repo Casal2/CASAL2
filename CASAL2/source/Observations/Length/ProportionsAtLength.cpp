@@ -40,7 +40,7 @@ ProportionsAtLength::ProportionsAtLength(shared_ptr<Model> model) : Observation(
   parameters_.Bind<double>(PARAM_LENGTH_BINS, &length_bins_, "The length bins", "", true);  // optional defaults to model length bins if ignroed
   parameters_.Bind<bool>(PARAM_PLUS_GROUP, &length_plus_, "Is the last length bin a plus group? (defaults to @model value)", "", true);  // default to the model value
   parameters_.Bind<bool>(PARAM_SIMULATED_DATA_SUM_TO_ONE, &simulated_data_sum_to_one_, "Whether simulated data is discrete or scaled by totals to be proportions for each year", "", true);
-  parameters_.Bind<bool>(PARAM_SUM_TO_ONE, &sum_to_one_, "Scale year (row) observed values by the total, so they sum = 1", "", false);
+  parameters_.Bind<bool>(PARAM_SUM_TO_ONE, &sum_to_one_, "Scale year (row) observed values by the total, so they sum = 1", "", true);
 
   parameters_.BindTable(PARAM_OBS, obs_table_, "The table of observed values", "", false);
   parameters_.BindTable(PARAM_ERROR_VALUES, error_values_table_, "The table of error values of the observed values (note that the units depend on the likelihood)", "", false);
@@ -147,7 +147,7 @@ void ProportionsAtLength::DoValidate() {
 
       LOG_FINE() << "check index";
       for(unsigned i = 0; i < map_local_length_bins_to_global_length_bins_.size(); ++i) {
-        LOG_FINE() << "i = " << map_local_length_bins_to_global_length_bins_[i];
+        LOG_FINE() << "i = " << map_local_length_bins_to_global_length_bins_[i] << " length bin = " << length_bins_[i];
       }
     }
   }
@@ -306,6 +306,9 @@ void ProportionsAtLength::DoBuild() {
   expected_values_.resize(number_bins_, 0.0);
   numbers_at_length_.resize(number_bins_, 0.0);
   cached_numbers_at_length_.resize(number_bins_, 0.0);
+  denominator_.resize(years_.size(),0.0);
+  cached_denominator_.resize(years_.size(),0.0);
+  final_denominator_.resize(years_.size(),0.0);
 }
 
 /**
@@ -317,11 +320,17 @@ void ProportionsAtLength::DoBuild() {
  */
 void ProportionsAtLength::PreExecute() {
   cached_partition_->BuildCache();
-
   if (cached_partition_->Size() != proportions_[model_->current_year()].size())
     LOG_CODE_ERROR() << "cached_partition_->Size() != proportions_[model->current_year()].size()";
   if (partition_->Size() != proportions_[model_->current_year()].size())
     LOG_CODE_ERROR() << "partition_->Size() != proportions_[model->current_year()].size()";
+}
+
+void ProportionsAtLength:: DoReset() {
+  // reset some containers
+  fill(final_denominator_.begin(), final_denominator_.end(), 0.0);
+  fill(denominator_.begin(), denominator_.end(), 0.0);
+  fill(cached_denominator_.begin(), cached_denominator_.end(), 0.0);
 }
 
 /**
@@ -331,10 +340,13 @@ void ProportionsAtLength::Execute() {
   LOG_TRACE();
   LOG_FINEST() << "Entering observation " << label_;
 
+  auto it = std::find(years_.begin(), years_.end(), model_->current_year());
+  unsigned year_ndx = distance(years_.begin(), it);
+  LOG_FINE() << "Year = " << model_->current_year() << " year ndx = " << year_ndx;
   /**
    * Verify our cached partition and partition sizes are correct
    */
-  auto partition_iter        = partition_->Begin();  // vector<vector<partition::Category> >
+  auto partition_iter        = partition_->Begin();  // vector<vector<partition::Category>>
   /**
    * Loop through the provided categories. Each provided category (combination) will have a list of observations
    * with it. We need to build a vector of proportions for each length using that combination and then
@@ -351,47 +363,59 @@ void ProportionsAtLength::Execute() {
      * expected proportions values.
      */
     auto category_iter        = partition_iter->begin();
+    // clear these temporay vectors
+    std::fill(cached_numbers_at_length_.begin(), cached_numbers_at_length_.end(), 0.0);
+    std::fill(numbers_at_length_.begin(), numbers_at_length_.end(), 0.0);
     for (; category_iter != partition_iter->end(); ++category_iter) {
       LOG_FINE() << "this category = " << (*category_iter)->name_;
       LOG_FINEST() << "Selectivity for " << category_labels_[category_offset] << " selectivity " << selectivities_[category_offset]->label();
-      // clear these temporay vectors
-      std::fill(cached_numbers_at_length_.begin(), cached_numbers_at_length_.end(), 0.0);
-      std::fill(numbers_at_length_.begin(), numbers_at_length_.end(), 0.0);
+
 
       // Now convert numbers at age to numbers at length using the categories age-length transition matrix
       if(using_model_length_bins) {
         LOG_FINE() << "using model length bins";
         for (unsigned model_length_offset = 0; model_length_offset < model_->get_number_of_length_bins(); ++model_length_offset) {
           // now for each column (length bin) in age_length_matrix sum up all the rows (ages) for both cached and current matricies
-          cached_numbers_at_length_[model_length_offset] += (*category_iter)->data_[model_length_offset] * selectivities_[category_offset]->GetLengthResult(model_length_offset);
-          numbers_at_length_[model_length_offset]   += (*category_iter)->cached_data_[model_length_offset] * selectivities_[category_offset]->GetLengthResult(model_length_offset);
+          cached_numbers_at_length_[model_length_offset] += (*category_iter)->cached_data_[model_length_offset] * selectivities_[category_offset]->GetLengthResult(model_length_offset);
+          numbers_at_length_[model_length_offset]   += (*category_iter)->data_[model_length_offset] * selectivities_[category_offset]->GetLengthResult(model_length_offset);
+          denominator_[year_ndx] += (*category_iter)->data_[model_length_offset] * selectivities_[category_offset]->GetLengthResult(model_length_offset);
+          cached_denominator_[year_ndx] += (*category_iter)->cached_data_[model_length_offset] * selectivities_[category_offset]->GetLengthResult(model_length_offset);
         }
       } else {
         LOG_FINE() << "using bespoke length bins";
         for (unsigned model_length_offset = 0; model_length_offset < model_->get_number_of_length_bins(); ++model_length_offset) {
+          if(!sum_to_one_) {
+            // denominator is over entire population if not sum = 1
+            denominator_[year_ndx] += (*category_iter)->data_[model_length_offset] * selectivities_[category_offset]->GetLengthResult(model_length_offset);
+            cached_denominator_[year_ndx] += (*category_iter)->cached_data_[model_length_offset] * selectivities_[category_offset]->GetLengthResult(model_length_offset);
+          }
           if(map_local_length_bins_to_global_length_bins_[model_length_offset] >= 0) {
             // now for each column (length bin) in age_length_matrix sum up all the rows (ages) for both cached and current matricies
-            cached_numbers_at_length_[map_local_length_bins_to_global_length_bins_[model_length_offset]] += (*category_iter)->data_[model_length_offset] * selectivities_[category_offset]->GetLengthResult(model_length_offset);
-            numbers_at_length_[map_local_length_bins_to_global_length_bins_[model_length_offset]]   += (*category_iter)->cached_data_[model_length_offset] * selectivities_[category_offset]->GetLengthResult(model_length_offset);
+            cached_numbers_at_length_[map_local_length_bins_to_global_length_bins_[model_length_offset]] += (*category_iter)->cached_data_[model_length_offset] * selectivities_[category_offset]->GetLengthResult(model_length_offset);
+            numbers_at_length_[map_local_length_bins_to_global_length_bins_[model_length_offset]]   += (*category_iter)->data_[model_length_offset] * selectivities_[category_offset]->GetLengthResult(model_length_offset);
+            if(sum_to_one_) {
+              // denominator just over observation range 
+              denominator_[year_ndx] += (*category_iter)->data_[model_length_offset] * selectivities_[category_offset]->GetLengthResult(model_length_offset);
+              cached_denominator_[year_ndx] += (*category_iter)->cached_data_[model_length_offset] * selectivities_[category_offset]->GetLengthResult(model_length_offset);
+            }
           }
         }
       }
-      for (unsigned length_offset = 0; length_offset < number_bins_; ++length_offset) {
-        start_value = cached_numbers_at_length_[length_offset];
-        end_value = numbers_at_length_[length_offset];
-        if (mean_proportion_method_)
-          final_value = start_value + ((end_value - start_value) * proportion_of_time_);
-        else
-          final_value = (1 - proportion_of_time_) * start_value + proportion_of_time_ * end_value;
-        expected_values_[length_offset] += final_value;
-        LOG_FINE() << "----------";
-        LOG_FINE() << "Category: " << (*category_iter)->name_ << " at length " << length_bins_[length_offset];
-        LOG_FINE() << "Selectivity: " << selectivities_[category_offset]->label();
-        LOG_FINE() << "start_value: " << start_value << "; end_value: " << end_value << "; final_value: " << final_value;
-        LOG_FINE() << "expected_value becomes: " << expected_values_[length_offset];
-      }
     }
-
+    for (unsigned length_offset = 0; length_offset < number_bins_; ++length_offset) {
+      start_value = cached_numbers_at_length_[length_offset];
+      end_value = numbers_at_length_[length_offset];
+      if (mean_proportion_method_) {
+        final_value = start_value + ((end_value - start_value) * proportion_of_time_);
+      } else {
+        final_value = (1 - proportion_of_time_) * start_value + proportion_of_time_ * end_value;
+      }
+      expected_values_[length_offset] += final_value;
+        
+      LOG_FINE() << "----------";
+      LOG_FINE() << "start_value: " << start_value << "; end_value: " << end_value << "; final_value: " << final_value;
+      LOG_FINE() << "expected_value becomes: " << expected_values_[length_offset];
+    }
     if (expected_values_.size() != proportions_[model_->current_year()][category_labels_[category_offset]].size())
       LOG_CODE_ERROR() << "expected_values.size(" << expected_values_.size() << ") != proportions_[category_offset].size("
                        << proportions_[model_->current_year()][category_labels_[category_offset]].size() << ")";
@@ -404,6 +428,11 @@ void ProportionsAtLength::Execute() {
                      process_errors_by_year_[model_->current_year()], error_values_[model_->current_year()][category_labels_[category_offset]][i], 0.0, delta_, 0.0);
     }
   }
+  if (mean_proportion_method_) 
+    final_denominator_[year_ndx] = cached_denominator_[year_ndx] + ((denominator_[year_ndx] - cached_denominator_[year_ndx]) * proportion_of_time_);
+  else
+    final_denominator_[year_ndx] = (1 - proportion_of_time_) * cached_denominator_[year_ndx] + proportion_of_time_ * denominator_[year_ndx];
+  LOG_FINE() << "denominator before " << cached_denominator_[year_ndx] << " after = " << denominator_[year_ndx]  << " result = " << final_denominator_[year_ndx];
 }
 
 /**
@@ -419,11 +448,13 @@ void ProportionsAtLength::CalculateScore() {
 
   if (model_->run_mode() == RunMode::kSimulation) {
     for (auto& iter : comparisons_) {
-      Double total_expec = 0.0;
-      for (auto& comparison : iter.second) total_expec += comparison.expected_;
-      for (auto& comparison : iter.second) comparison.expected_ /= total_expec;
+      auto it = std::find(years_.begin(), years_.end(), iter.first);
+      unsigned year_ndx = distance(years_.begin(), it);
+      for (auto& comparison : iter.second) 
+        comparison.expected_ /= final_denominator_[year_ndx];
     }
     likelihood_->SimulateObserved(comparisons_);
+    // simulated values based on error_value so hard to deal with sum_to_one = F
     if (simulated_data_sum_to_one_) {
       for (auto& iter : comparisons_) {
         double total = 0.0;
@@ -437,19 +468,14 @@ void ProportionsAtLength::CalculateScore() {
     /**
      * Convert the expected_values in to a proportion
      */
-    for (unsigned year : years_) {
-      Double running_total = 0.0;
-      for (obs::Comparison comparison : comparisons_[year]) {
-        running_total += comparison.expected_;
-      }
-      for (obs::Comparison& comparison : comparisons_[year]) {
-        if (running_total != 0.0)
-          comparison.expected_ = comparison.expected_ / running_total;
-        else
-          comparison.expected_ = 0.0;
-      }
+    for (auto& iter : comparisons_) {
+      LOG_FINE( ) << "year = " << iter.first;
+      auto it = std::find(years_.begin(), years_.end(), iter.first);
+      unsigned year_ndx = distance(years_.begin(), it);
+      LOG_FINE() << "year ndx " << year_ndx << " denominator = " << final_denominator_[year_ndx];
+      for (auto& comparison : iter.second) 
+        comparison.expected_ /= final_denominator_[year_ndx];
     }
-
     likelihood_->GetScores(comparisons_);
     for (unsigned year : years_) {
       scores_[year] = likelihood_->GetInitialScore(comparisons_, year);

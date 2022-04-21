@@ -51,7 +51,7 @@ ProcessRemovalsByLength::ProcessRemovalsByLength(shared_ptr<Model> model) : Obse
   parameters_.BindTable(PARAM_ERROR_VALUES, error_values_table_, "The table of error values of the observed values (note that the units depend on the likelihood)", "", false);
   parameters_.Bind<string>(PARAM_MORTALITY_INSTANTANEOUS_PROCESS, &process_label_, "The label of the mortality instantaneous process for the observation", "");
   parameters_.Bind<bool>(PARAM_SIMULATED_DATA_SUM_TO_ONE, &simulated_data_sum_to_one_, "Whether simulated data is discrete or scaled by totals to be proportions for each year", "", true);
-  parameters_.Bind<bool>(PARAM_SUM_TO_ONE, &sum_to_one_, "Scale year (row) observed values by the total, so they sum = 1", "", false);
+  parameters_.Bind<bool>(PARAM_SUM_TO_ONE, &sum_to_one_, "Scale year (row) observed values by the total, so they sum = 1", "", true);
 
   mean_proportion_method_ = false;
 
@@ -330,8 +330,14 @@ void ProcessRemovalsByLength::DoBuild() {
   year_ndx_to_get_catch_at_info_ = mortality_instantaneous_->get_year_ndx_for_catch_at(years_);
 
   expected_values_.resize(number_bins_, 0.0);
+  final_denominator_.resize(years_.size(),0.0);
 }
 
+void ProcessRemovalsByLength:: DoReset() {
+  // reset some containers
+  fill(final_denominator_.begin(), final_denominator_.end(), 0.0);
+  
+}
 /**
  * This method is called at the start of the targeted
  * time step for this observation.
@@ -355,10 +361,8 @@ void ProcessRemovalsByLength::Execute() {
    */
   //  auto categories = model_->categories();
   unsigned year       = model_->current_year();
-  std::pair<bool, int >  this_year_iter = utilities::findInVector(years_, year);
-  if(!this_year_iter.first)
-    LOG_CODE_ERROR() << "if(!this_year_iter.first)";
-
+  auto it = std::find(years_.begin(), years_.end(), year);
+  unsigned year_ndx = distance(years_.begin(), it);
   auto                                                     partition_iter        = partition_->Begin();  // vector<vector<partition::Category> >
   /**
    * Loop through the provided categories. Each provided category (combination) will have a list of observations
@@ -374,9 +378,8 @@ void ProcessRemovalsByLength::Execute() {
      */
   
     auto category_iter        = partition_iter->begin();
-    
     for (; category_iter != partition_iter->end();  ++category_iter) {
-      vector<Double>& Removals_at_length = mortality_instantaneous_->get_catch_at_by_year_fishery_category(year_ndx_to_get_catch_at_info_[this_year_iter.second], fishery_ndx_to_get_catch_at_info_[0], category_lookup_for_ndx_to_get_catch_at_info_[(*category_iter)->name_]);
+      vector<Double>& Removals_at_length = mortality_instantaneous_->get_catch_at_by_year_fishery_category(year_ndx_to_get_catch_at_info_[year_ndx], fishery_ndx_to_get_catch_at_info_[0], category_lookup_for_ndx_to_get_catch_at_info_[(*category_iter)->name_]);
 
       LOG_FINE() << "----------";
       LOG_FINE() << "Category: " << (*category_iter)->name_;;
@@ -387,19 +390,23 @@ void ProcessRemovalsByLength::Execute() {
         for (unsigned model_length_offset = 0; model_length_offset < model_->get_number_of_length_bins(); ++model_length_offset) {
           // now for each column (length bin) in age_length_matrix sum up all the rows (ages) for both cached and current matricies
           expected_values_[model_length_offset] += Removals_at_length[model_length_offset];
+          final_denominator_[year_ndx] += Removals_at_length[model_length_offset];
         }
       } else {
         LOG_FINE() << "using bespoke length bins";
         // Bespoke model bins
         for (unsigned model_length_offset = 0; model_length_offset < model_->get_number_of_length_bins(); ++model_length_offset) {
+          // if not sum = 1 then denominator over all length bins.
+          if(!sum_to_one_)
+            final_denominator_[year_ndx] += Removals_at_length[model_length_offset];
           if(map_local_length_bins_to_global_length_bins_[model_length_offset] >= 0) {
             // now for each column (length bin) in age_length_matrix sum up all the rows (ages) for both cached and current matricies
             expected_values_[map_local_length_bins_to_global_length_bins_[model_length_offset]] += Removals_at_length[model_length_offset];
+          if(sum_to_one_)
+            final_denominator_[year_ndx] += Removals_at_length[model_length_offset];
           }
         }
       }
-
-
     }
     
     if (expected_values_.size() != proportions_[model_->current_year()][category_labels_[category_offset]].size())
@@ -431,9 +438,10 @@ void ProcessRemovalsByLength::CalculateScore() {
 
   if (model_->run_mode() == RunMode::kSimulation) {
     for (auto& iter : comparisons_) {
-      Double total_expec = 0.0;
-      for (auto& comparison : iter.second) total_expec += comparison.expected_;
-      for (auto& comparison : iter.second) comparison.expected_ /= total_expec;
+      auto it = std::find(years_.begin(), years_.end(), iter.first);
+      unsigned year_ndx = distance(years_.begin(), it);
+      for (auto& comparison : iter.second) 
+        comparison.expected_ /= final_denominator_[year_ndx];
     }
     likelihood_->SimulateObserved(comparisons_);
     if (simulated_data_sum_to_one_) {
@@ -449,17 +457,11 @@ void ProcessRemovalsByLength::CalculateScore() {
     /**
      * Convert the expected_values in to a proportion
      */
-    for (unsigned year : years_) {
-      Double running_total = 0.0;
-      for (obs::Comparison comparison : comparisons_[year]) {
-        running_total += comparison.expected_;
-      }
-      for (obs::Comparison& comparison : comparisons_[year]) {
-        if (running_total != 0.0)
-          comparison.expected_ = comparison.expected_ / running_total;
-        else
-          comparison.expected_ = 0.0;
-      }
+    for (auto& iter : comparisons_) {
+      auto it = std::find(years_.begin(), years_.end(), iter.first);
+      unsigned year_ndx = distance(years_.begin(), it);
+      for (auto& comparison : iter.second) 
+        comparison.expected_ /= final_denominator_[year_ndx];
     }
     likelihood_->GetScores(comparisons_);
     for (unsigned year : years_) {
@@ -471,7 +473,6 @@ void ProcessRemovalsByLength::CalculateScore() {
         scores_[year] += comparison.score_;
       }
     }
-
     LOG_FINEST() << "Finished calculating neglogLikelihood for = " << label_;
   }
 }

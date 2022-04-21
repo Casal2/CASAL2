@@ -37,7 +37,7 @@ public:
   virtual ~ProportionsAtLength();
   void         DoValidate() override final;
   virtual void DoBuild() override;
-  void         DoReset() override final{};
+  void         DoReset() override final;
   void         PreExecute() override final;
   void         Execute() override final;
   void         CalculateScore() override final;
@@ -66,6 +66,9 @@ protected:
   bool                        length_plus_;  // have to be assigned a value to be optional, note in the constructpr the default is model_->length_plus()
   bool                        simulated_data_sum_to_one_;
   bool                        sum_to_one_;
+  vector<Double>              cached_denominator_;
+  vector<Double>              denominator_;
+  vector<Double>              final_denominator_;
 
   map<unsigned, map<string, vector<double>>> proportions_;
   map<unsigned, map<string, vector<double>>> error_values_;
