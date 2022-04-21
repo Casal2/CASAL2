@@ -158,23 +158,22 @@ inline Double qlognorm(const Double& q,const Double& mu,const Double& sigma){
 
 
 // transform a parameter X which has parameter space 0-1 and transform it to -inf -> inf using logit transformation
-inline Double logit(Double x) {
+inline Double logit(Double &x) {
   return log(x / (1.0 - x));
 }
 // transform a parameter Y which has parameter space -inf -> inf and transform it to into a parameter space 0-1
-inline Double invlogit(Double y) {
+inline Double invlogit(Double &y) {
   return 1.0/(1.0 + exp(-y));
 }
 
 // transform a parameter X which has parameter space lb-ub and transform it to -inf -> inf using logit transformation
-inline Double logit_bounds(Double x,Double lb, Double ub) {
+inline Double logit_bounds(Double &x,Double &lb, Double &ub) {
   Double x1 = (x - lb) / (ub - lb);
-  return log(x1/(1.0 - x1));
+  return logit(x1);
 }
 // transform a parameter Y which has parameter space -inf -> inf and transform it to into a parameter space lb -> ub
-inline Double invlogit_bounds(Double y, Double lb, Double ub) {
-  Double y1 = 1.0 / (1.0 + exp(-y));
-  return lb + (ub - lb)*y1;
+inline Double invlogit_bounds(Double &y, Double &lb, Double &ub) {
+  return lb + (ub - lb)* invlogit(y);
 }
 
 
