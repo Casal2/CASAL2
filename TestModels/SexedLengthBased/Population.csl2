@@ -48,7 +48,7 @@ g_beta 1
 min_sigma 2
 distribution normal
 length_weight allometric_male
-cv 0.0
+cv 0.1
 compatibility_option casal
 
 @growth_increment female_growth ##
@@ -61,7 +61,7 @@ g_beta 1
 min_sigma 2
 distribution normal
 length_weight allometric_female
-cv 0.0
+cv 0.1
 compatibility_option casal
 
 @length_weight allometric_male

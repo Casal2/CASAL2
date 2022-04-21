@@ -305,7 +305,7 @@ selectivities_for_total_categories One
 time_step Feb-Apr 
 time_step_proportion 1.0 
 total_categories untagged.male+1997_1.male+1996_2.male+1996_3.male+untagged.female+1997_1.female+1996_2.female+1996_3.female 
-type proportions_mature_by_length 
+type proportions_by_category
 years 1995 
 table obs
 1995 0 0 0 0 0 0 0.125 0 0 0.047619 0.0344828 0 0.0192308 0.0958904 0.0989011 0.196721 0.176471 0.291304 0.324561 0.402878 0.546703 0.604494 0.725314 0.796774 0.856094 0.901714 0.939333 0.960422 0.966992 0.988498 0.984941 0.991223 0.993568 0.996481 0.99837 0.997366 0.999401 0.998588 1 1 1 1 1 1 1 1 1 1 1 1 1 
