@@ -29,10 +29,10 @@ GrowthIncrement::GrowthIncrement(shared_ptr<Model> model) : model_(model) {
   parameters_.Bind<string>(PARAM_TYPE, &type_, "The type of the growth increment model", "");
   parameters_.Bind<string>(PARAM_DISTRIBUTION, &distribution_label_, "The assumed distribution for the growth model", "", PARAM_NORMAL)->set_allowed_values({PARAM_NORMAL});
   parameters_.Bind<string>(PARAM_LENGTH_WEIGHT, &length_weight_label_, "The label from an associated length-weight block", "");
-  parameters_.Bind<Double>(PARAM_CV, &cv_, "Coeffecient of variaion for the growth increment model", "");
-  parameters_.Bind<Double>(PARAM_MIN_SIGMA, &min_sigma_, "Lower bound on sigma for the growth mode", "");
+  parameters_.Bind<Double>(PARAM_CV, &cv_, "Coeffecient of variaion for the growth increment model", "")->set_lower_bound(0.0, true);
+  parameters_.Bind<Double>(PARAM_MIN_SIGMA, &min_sigma_, "Lower bound on sigma for the growth mode", "")->set_lower_bound(0.0, false);
   parameters_.Bind<string>(PARAM_COMPATIBILITY, &compatibility_,"Backwards compatibility option: either casal2 (the default) or casal to use the (less accurate) cumulative normal function from CASAL", "", PARAM_CASAL2)->set_allowed_values({PARAM_CASAL, PARAM_CASAL2});
-  parameters_.Bind<Double>( PARAM_TIME_STEP_PROPORTIONS, &time_step_proportions_,"The fraction of the year applied in each time step that is added to the age for the purposes of evaluating the length, i.e., a value of 0.5 for a time step will evaluate the length of individuals at age+0.5 in that time step","", false)->set_range(0.0, 1.0);
+  parameters_.Bind<Double>( PARAM_TIME_STEP_PROPORTIONS, &time_step_proportions_,"The proportion of annual increment to apply in each time-step","", false)->set_range(0.0, 1.0);
 
   RegisterAsAddressable(PARAM_CV, &cv_);
   RegisterAsAddressable(PARAM_MIN_SIGMA, &min_sigma_);

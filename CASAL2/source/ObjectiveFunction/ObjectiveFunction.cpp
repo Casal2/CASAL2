@@ -64,7 +64,7 @@ void ObjectiveFunction::CalculateScore() {
       objective::Score new_score;
       new_score.label_ = PARAM_OBSERVATION + string("->") + observation->label();
       if (append_age)
-        new_score.label_ += string("-") + utilities::ToInline<unsigned, string>(iter->first);
+        new_score.label_ += string("->") + utilities::ToInline<unsigned, string>(iter->first);
       new_score.score_ = iter->second;
       LOG_FINEST() << "observation_: " << new_score.label_ << " = " << new_score.score_;
 
