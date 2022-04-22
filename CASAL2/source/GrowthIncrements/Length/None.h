@@ -32,7 +32,8 @@ public:
   void DoReset() override final{};
 
   // accessors
-  Double get_mean_increment(double length) override final { return 1.0; };
+protected:
+  Double get_mean_increment(double length, double time_step_proportion) override final { return 1.0; };
 
   // accessors
 

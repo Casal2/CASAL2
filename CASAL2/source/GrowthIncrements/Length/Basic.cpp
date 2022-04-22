@@ -43,13 +43,20 @@ Basic::Basic(shared_ptr<Model> model) : GrowthIncrement(model) {
 * 
 */
 void Basic::DoValidate() {
+  bool has_one_time_step_with_all_growth = false; // can only apply annual growth
+  for(auto time_value : time_step_proportions_) {
+    if(utilities::math::IsOne(time_value))
+      has_one_time_step_with_all_growth = true;
+  }
+  if(!has_one_time_step_with_all_growth)
+    LOG_ERROR_P(PARAM_TIME_STEP_PROPORTIONS) << "This growth model has not been validated to have multiple length increments within a year. This growth model requires a time_step_proportions value of one for the time-step to apply annual growth and zero in all others";
 
 }
 /*
 * @param length length to calculate growth increment from
 * 
 */
-Double Basic::get_mean_increment(double length) { 
+Double Basic::get_mean_increment(double length, double time_step_proportion) { 
   Double increment = g_a_ + (g_b_ - g_a_)*(length - l_a_)/(l_b_ - l_a_);
   LOG_FINEST() << "length = " << length << " increment = " << increment;
   return increment; 

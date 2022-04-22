@@ -32,7 +32,7 @@ GrowthIncrement::GrowthIncrement(shared_ptr<Model> model) : model_(model) {
   parameters_.Bind<Double>(PARAM_CV, &cv_, "Coeffecient of variaion for the growth increment model", "")->set_lower_bound(0.0, true);
   parameters_.Bind<Double>(PARAM_MIN_SIGMA, &min_sigma_, "Lower bound on sigma for the growth mode", "")->set_lower_bound(0.0, false);
   parameters_.Bind<string>(PARAM_COMPATIBILITY, &compatibility_,"Backwards compatibility option: either casal2 (the default) or casal to use the (less accurate) cumulative normal function from CASAL", "", PARAM_CASAL2)->set_allowed_values({PARAM_CASAL, PARAM_CASAL2});
-  parameters_.Bind<Double>( PARAM_TIME_STEP_PROPORTIONS, &time_step_proportions_,"The proportion of annual increment to apply in each time-step","", false)->set_range(0.0, 1.0);
+  parameters_.Bind<double>( PARAM_TIME_STEP_PROPORTIONS, &time_step_proportions_,"The proportion of annual increment to apply in each time-step","", false)->set_range(0.0, 1.0);
 
   RegisterAsAddressable(PARAM_CV, &cv_);
   RegisterAsAddressable(PARAM_MIN_SIGMA, &min_sigma_);
@@ -152,7 +152,7 @@ void GrowthIncrement::populate_growth_transition_matrix() {
           LOG_FINE() << "in plus group set = 1.0";
           growth_transition_matrix_[step_iter][i][i] = 1.0; // stay in plus group
         } else {
-          mu = get_mean_increment(model_length_midpoints_[i]) * time_step_proportions_[step_iter];
+          mu = get_mean_increment(model_length_midpoints_[i], time_step_proportions_[step_iter]);
           sigma = fmax(min_sigma_, mu * cv_);
           growth_transition_matrix_[step_iter][i][i] =  utilities::math::pnorm(model_min_length_bins_[i + 1] - model_length_midpoints_[i], mu, sigma);
           LOG_FINE() << " i = " << i + 1 << " mu = " << mu << " sigma = " << sigma << " val " << model_min_length_bins_[i + 1] - model_length_midpoints_[i] << " pnorm " << growth_transition_matrix_[step_iter][i][i];
@@ -178,7 +178,7 @@ void GrowthIncrement::populate_growth_transition_matrix() {
           LOG_FINE() << "in plus group set = 1.0";
           growth_transition_matrix_[step_iter][i][i] = 1.0; // stay in plus group
         } else {
-          mu = get_mean_increment(model_length_midpoints_[i]) * time_step_proportions_[step_iter];
+          mu = get_mean_increment(model_length_midpoints_[i], time_step_proportions_[step_iter]);
           sigma = fmax(min_sigma_, mu * cv_);
           growth_transition_matrix_[step_iter][i][i] =  utilities::math::pnorm2(model_min_length_bins_[i + 1] - model_length_midpoints_[i], mu, sigma);
           LOG_FINE() << " i = " << i + 1 << " mu = " << mu << " sigma = " << sigma << " val " << model_min_length_bins_[i + 1] - model_length_midpoints_[i] << " pnorm " << growth_transition_matrix_[step_iter][i][i];
@@ -219,7 +219,7 @@ void GrowthIncrement::FillReportCache(ostringstream& cache) {
   Double mu = 0.0;
   Double sigma = 0.0;
   for(unsigned i = 0; i < number_of_model_length_bins_; ++i)  {
-    mu = get_mean_increment(model_length_midpoints_[i]);
+    mu = get_mean_increment(model_length_midpoints_[i], time_step_proportions_[this_time_step]);
     sigma = fmax(min_sigma_, mu * cv_);
     cache << i + 1 << " " << model_length_midpoints_[i] << " " << AS_DOUBLE(mu) << " " << AS_DOUBLE(sigma) << " " << mean_weight_by_length_bin_index_[i] << REPORT_EOL;
   }

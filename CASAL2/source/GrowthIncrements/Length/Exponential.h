@@ -32,8 +32,8 @@ public:
   void DoReset() override final{};
 
   // accessors
-  Double get_mean_increment(double length) override final;
-private:
+protected:
+  Double get_mean_increment(double length, double time_step_proportion) override;
   Double        g_a_;
   Double        g_b_;
   Double        l_a_;
