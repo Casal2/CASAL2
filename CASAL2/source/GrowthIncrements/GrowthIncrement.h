@@ -43,6 +43,7 @@ public:
   const vector<vector<Double>>&  get_transition_matrix(unsigned time_step_index) { return growth_transition_matrix_[time_step_index]; };
 
   void  apply_growth();
+  const double&  get_time_step_proportions(unsigned time_step_index) { return time_step_proportions_[time_step_index]; };
 
   // accessors
   /*

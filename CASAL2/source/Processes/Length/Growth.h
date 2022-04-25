@@ -39,6 +39,7 @@ public:
   void DoBuild() override final;
   void DoReset() override final;
   void DoExecute() override final;
+  const vector<string>& category_labels() const { return category_labels_; }
 
 private:
   // Members

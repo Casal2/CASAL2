@@ -28,7 +28,7 @@ namespace math = niwa::utilities::math;
  * Default constructor
  */
 Growth::Growth(shared_ptr<Model> model) : Process(model), partition_(model) {
-  process_type_        = ProcessType::kTransition;
+  process_type_        = ProcessType::kGrowth;
   partition_structure_ = PartitionType::kLength;
   parameters_.Bind<string>(PARAM_CATEGORIES, &category_labels_, "The labels of the categories", "");
 }
