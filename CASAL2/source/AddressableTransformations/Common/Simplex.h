@@ -53,6 +53,7 @@ private:
   vector<Double>    cached_simplex_values_for_objective_function_restore_;
   bool              simplex_input_supplied_ = false;
   Estimate*         simplex_estimate_;
+  Double            delta_ = 1e-6;
 };
 
 } /* namespace addressabletransformations */

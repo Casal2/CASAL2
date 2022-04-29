@@ -63,9 +63,8 @@ void Logistic::DoBuild() {
  * Restore
  */
 void Logistic::DoRestore() {
-
   restored_values_[0] = utilities::math::invlogit_bounds(logistic_value_, lower_bound_, upper_bound_);
-  LOG_MEDIUM() << "Setting Value to: " << restored_values_[0];
+  LOG_FINE() << "Setting Value to: " << restored_values_[0];
   (this->*restore_function_)(restored_values_);
 }
 
