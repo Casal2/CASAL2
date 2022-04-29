@@ -34,9 +34,7 @@ Profile::Profile() {
 /**
  * Validate object
  */
-void Profile::DoValidate(shared_ptr<Model> model) {
-
-}
+void Profile::DoValidate(shared_ptr<Model> model) {}
 
 /**
  * Build the relationships between this object and other objects
@@ -64,10 +62,10 @@ void Profile::DoExecute(shared_ptr<Model> model) {
   cache_ << ReportHeader(type_, label_, format_);
   cache_ << "profile: " << profile_->label() << REPORT_EOL;
   cache_ << "parameter: " << profile_->parameter() << REPORT_EOL;
-  string same_param = profile_->same_parameter() ;
-  if(same_param != "")
+  string same_param = profile_->same_parameter();
+  if (same_param != "")
     cache_ << "same_parameter: " << same_param << REPORT_EOL;
-  cache_ << "values " << REPORT_R_VECTOR << REPORT_EOL;
+  cache_ << "values: ";
   for (auto value : values) {
     cache_ << value << " ";
   }
