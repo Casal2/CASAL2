@@ -201,21 +201,21 @@ void Manager::Build(shared_ptr<Model> model) {
 // don't do it during unit tests though as warnings become errors
 #ifndef TESTMODE
   if (run_mode == RunMode::Type::kMCMC && !exists_MCMC_sample)
-    LOG_WARNING() << "You are running an MCMC but there was no " << PARAM_MCMC_SAMPLE << " report specified. This is probably an error";
+    LOG_VERIFY() << "You are running an MCMC but there was no @report of type = " << PARAM_MCMC_SAMPLE << " found. This is probably an error";
   if (run_mode == RunMode::Type::kMCMC && !exists_MCMC_objective)
-    LOG_WARNING() << "You are running an MCMC but there was no " << PARAM_MCMC_OBJECTIVE << " report specified. This is probably an error";
+    LOG_VERIFY() << "You are running an MCMC but there was no @report of type = " << PARAM_MCMC_OBJECTIVE << " found. This is probably an error";
   if (run_mode == RunMode::Type::kEstimation && !exists_estimate_value)
-    LOG_WARNING() << "You are running an estimation but there was no " << PARAM_ESTIMATE_VALUE << " report specified. This is probably an error";
+    LOG_VERIFY() << "You are running an estimation but there was no @report of type = " << PARAM_ESTIMATE_VALUE << " found. This is probably an error";
   if (run_mode == RunMode::Type::kSimulation && !exists_simulation_report) 
-    LOG_VERIFY() << "You are running a simulation but there was no " << PARAM_SIMULATED_OBSERVATION << " report specified. This is probably an error";
+    LOG_VERIFY() << "You are running a simulation but there was no @report of type = " << PARAM_SIMULATED_OBSERVATION << " found. This is probably an error";
 
   if (run_mode == RunMode::Type::kProfiling) {
     if(!exists_estimate_value)
-      LOG_VERIFY() << "You are running an profile but there was no " << PARAM_ESTIMATE_VALUE << " report specified. This is probably an error";
+      LOG_VERIFY() << "You are running an profile but there was no @report of type = " << PARAM_ESTIMATE_VALUE << " found. This is probably an error";
     if(!exists_profile)
-      LOG_VERIFY() << "You are running an profile but there was no " << PARAM_PROFILE << " report specified. This is probably an error";
+      LOG_VERIFY() << "You are running an profile but there was no @report of type = " << PARAM_PROFILE << " found. This is probably an error";
     if(!exists_objective_function)
-      LOG_VERIFY() << "You are running an profile but there was no " << PARAM_OBJECTIVE_FUNCTION << " report specified. This is probably an error";
+      LOG_VERIFY() << "You are running an profile but there was no @report of type = " << PARAM_OBJECTIVE_FUNCTION << " found. This is probably an error";
   }
   
 #endif
