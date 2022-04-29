@@ -32,6 +32,8 @@ AllValuesBounded::AllValuesBounded(shared_ptr<Model> model) : Selectivity(model)
   parameters_.Bind<Double>(PARAM_V, &v_, "The v parameter", "");
 
   RegisterAsAddressable(PARAM_V, &v_);
+  allowed_length_based_in_age_based_model_ = false;
+
 }
 
 /**
@@ -67,15 +69,13 @@ void AllValuesBounded::DoValidate() {
     }
 
   } else if (model_->partition_type() == PartitionType::kLength) {
-    vector<double> length_bins = model_->length_bins();
-    unsigned       bins        = 0;
-    for (unsigned i = 0; i < length_bins.size(); ++i) {
-      if (length_bins[i] >= low_ && length_bins[i] <= high_)
-        ++bins;
-    }
-    if (bins != v_.size()) {
+    vector<double> length_bins = model_->length_bin_mid_points();
+    unsigned length_low_ndx = model_->get_length_bin_ndx(low_);
+    unsigned length_high_ndx = model_->get_length_bin_ndx(high_);
+    //cerr << "low length = " << length_low_ndx << " high length ndx = " << length_high_ndx << " diff = " << (length_low_ndx - length_high_ndx) + 1 << " v_size = " << v_.size();
+    if (v_.size() != (length_high_ndx - length_low_ndx) + 1) {
       LOG_ERROR_P(PARAM_V) << ": Parameter 'v' has an incorrect number of elements n = low <= length_bins <= high, "
-                           << "Expected: " << bins << ", parsed: " << v_.size();
+                           << "Expected: " << (length_high_ndx - length_low_ndx) + 1 << ", parsed: " << v_.size();
     }
   }
 
@@ -83,63 +83,51 @@ void AllValuesBounded::DoValidate() {
     LOG_ERROR_P(PARAM_L) << ": Parameter 'l' is greater than or equal to parameter 'h'\n"
                          << "'l' = " << low_ << " and 'h' = " << high_;
   }
+
+  lower_length_bin_ = model_->get_length_bin_ndx(low_);
+  LOG_FINE() << "lower_length_bin_ = " << lower_length_bin_;
 }
 
 /**
- * Reset this selectivity so it is ready for the next execution
- * phase in the model.
- *
- * This method will rebuild the cache of selectivity values
- * for each age or length in the model.
+ * The core function
  */
-void AllValuesBounded::RebuildCache() {
-  /**
-   * Resulting age map should look like
-   * While Age < Low :: Value = 0.0
-   * While Age > Low && Age < High :: Value = v_
-   * While age > High :: Value = Last element if v_
-   */
-  if (model_->partition_type() == PartitionType::kAge) {
-    unsigned min_age = model_->min_age();
-    unsigned max_age = model_->max_age();
-    unsigned age     = min_age;
-    for (; age < low_; ++age) values_[age - age_index_] = 0.0;
-    for (unsigned i = 0; i < v_.size(); ++i, ++age) {
-      if (v_[i] < 0.0)
-        LOG_FATAL_P(PARAM_V) << "v cannot have values less than zero (0). The value for v was " << v_[i] << " for age " << age;
-      values_[age - age_index_] = v_[i];
+Double AllValuesBounded::get_value(Double value) {
+  if( value < low_) {
+    return 0.0;
+  } else if(value > high_) {
+    return *v_.rbegin();
+  } else {
+    if (model_->partition_type() == PartitionType::kAge) {
+      LOG_CODE_ERROR() << "model_->partition_type() == PartitionType::kAge";
+    } else {
+      // Length based a little more tricky
+      unsigned len_ndx = model_->get_length_bin_ndx(value);
+      LOG_FINE() << "len " << len_ndx;
+      return v_[len_ndx - lower_length_bin_];
     }
-    for (; age <= max_age; ++age) values_[age - age_index_] = *v_.rbegin();
-
-  } else if (model_->partition_type() == PartitionType::kLength) {
-    vector<double> length_bins = model_->length_bins();
-    unsigned       v_index     = 0;
-    for (unsigned length_bin_index = 0; length_bin_index < length_bins.size(); ++length_bin_index)
-      if (length_bins[length_bin_index] < low_)
-        length_values_[length_bin_index] = 0.0;
-      else if (length_bins[length_bin_index] > high_) {
-        length_values_[length_bin_index] = *v_.rbegin();
-      } else {
-        length_values_[length_bin_index] = v_[v_index];
-        ++v_index;
-      }
   }
+  LOG_CODE_ERROR() << "AllValuesBounded::get_value(Double value) value = "  << value;
+  return 1.0;
 }
 
 /**
- * GetLengthBasedResult function
- *
- * @param age
- * @param age_length AgeLength pointer
- * @param year
- * @param time_step_index
- * @return 0.0 - error
+ * The core function
  */
-
-Double AllValuesBounded::GetLengthBasedResult(unsigned age, AgeLength* age_length, unsigned year, int time_step_index) {
-  LOG_ERROR_P(PARAM_LENGTH_BASED) << ": This selectivity type has not been implemented for length-based selectivities in an age-based model";
-  return 0.0;
+Double AllValuesBounded::get_value(unsigned value) {
+  if( value < low_) {
+    return 0.0;
+  } else if(value > high_) {
+    return *v_.rbegin();
+  } else {
+    if (model_->partition_type() == PartitionType::kAge) {
+      return v_[value - low_];
+    } else {
+      // Length based a little more tricky
+      LOG_CODE_ERROR() << "model_->partition_type() == PartitionType::kLength";
+    }
+  }
+  LOG_CODE_ERROR() << "AllValuesBounded::get_value(unsigned value) value = "  << value;
+  return 1.0;
 }
-
 } /* namespace selectivities */
 } /* namespace niwa */

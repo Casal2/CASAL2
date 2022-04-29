@@ -5,7 +5,7 @@
  * @date 22/01/2013
  * @section LICENSE
  *
- * Copyright NIWA Science ©2013 - www.niwa.co.nz
+ * Copyright NIWA Science ï¿½2013 - www.niwa.co.nz
  *
  * $Date: 2008-03-04 16:33:32 +1300 (Tue, 04 Mar 2008) $
  */
@@ -18,6 +18,7 @@
 #include <boost/lexical_cast.hpp>
 
 #include "../../TestResources/MockClasses/Model.h"
+#include "../../TestResources/MockClasses/ModelLength.h"
 #include "InverseLogistic.h"
 
 // Namespaces
@@ -35,6 +36,7 @@ TEST(Selectivities, InverseLogistic_Age) {
   EXPECT_CALL(*model, max_age()).WillRepeatedly(Return(20));
   EXPECT_CALL(*model, age_spread()).WillRepeatedly(Return(11));
   EXPECT_CALL(*model, partition_type()).WillRepeatedly(Return(PartitionType::kAge));
+  model->set_number_of_length_bins(); // if we chnage plus group need to reset thsi
 
   niwa::selectivities::InverseLogistic inverse_logistic(model);
 
@@ -61,13 +63,12 @@ TEST(Selectivities, InverseLogistic_Age) {
 }
 
 TEST(Selectivities, InverseLogistic_Length) {
-  shared_ptr<MockModel> model = shared_ptr<MockModel>(new MockModel());
-  EXPECT_CALL(*model, min_age()).WillRepeatedly(Return(10));
-  EXPECT_CALL(*model, max_age()).WillRepeatedly(Return(20));
-  EXPECT_CALL(*model, age_spread()).WillRepeatedly(Return(11));
+  shared_ptr<MockModelLength> model = shared_ptr<MockModelLength>(new MockModelLength());
   vector<double> lengths = {10, 20, 30, 40, 50, 60, 120};
-  EXPECT_CALL(*model, length_bins()).WillRepeatedly(ReturnRef(lengths));
+
+  EXPECT_CALL(*model, length_bin_mid_points()).WillRepeatedly(ReturnRef(lengths));
   EXPECT_CALL(*model, partition_type()).WillRepeatedly(Return(PartitionType::kLength));
+
 
   niwa::selectivities::InverseLogistic inverse_logistic(model);
 

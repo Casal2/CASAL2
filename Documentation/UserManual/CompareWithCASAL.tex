@@ -9,6 +9,7 @@ Reasons why there may be different values reported between CASAL and \CNAME\ inc
 \begin{itemize}
 	\item Report rounding. There are settings with respect to output in CASAL that set the number of significant figures for writing to files. So if values look truncated, this might be the reason.
 
+	
 	\item Priors on parameters that are turned off with \subcommand{upper\_bound} = \subcommand{lower\_bound}. In both CASAL and \CNAME\ the estimation of parameters can be turned off by setting the bounds equal. CASAL will evaluate the prior value and add this to the objective function.  This contribution is a constant value so it will not affect parameter inference. It may however be confusing when comparing output between the two models.
 
 	\item Default values. There are a lot of switches in these programs, and options like the \subcommand{delta} in \CNAME\ or \subcommand{r} parameter in CASAL for robustifying likelihoods can cause differences.
@@ -17,7 +18,7 @@ Reasons why there may be different values reported between CASAL and \CNAME\ inc
 
 	\item Length-based processes or observations. \CNAME\ has updated the cumulative normal distribution calculation (CASAL used the approximated no closed form solution) with better approximations.
 
-	\item Age-based observations. \CNAME\ does not have the \subcommand{sum\_to\_one} subcommand implemented, and CASAL makes this adjustment implicitly. Check that this flag is set to 'false' in the CASAL model for a more accurate comparison.
+	\item Compositional observations. CASAL will only normalise (scale by the total) if the sum of proportions for a year are greater than \(1.01\) or less than \(0.99\). \CNAME\ will re normalise the prooprtions for a year even if they sum to one. If the observations are within those bounds technically CASAL and \CNAME\ will have slightly different observations and will generate small differences in likelihoods.
 
 	\item Tag penalties. CASAL applies a penalty to the sum of squares on total tagged fish in a 'tagging episode' from the model compared to observed number of tagged fish. \CNAME\ applies a penalty on the transition rate by length. If tags are applied in a length bin that does not have individuals, e.g., a model configuration which tags 2 individuals of length $l$ when there are no individuals in that length bin will include a penalty.
 \end{itemize}

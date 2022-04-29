@@ -41,12 +41,6 @@ ProportionsAtAge::ProportionsAtAge(shared_ptr<Model> model) : Observation(model)
   parameters_.Bind<unsigned>(PARAM_MAX_AGE, &max_age_, "The maximum age", "");
   parameters_.Bind<bool>(PARAM_PLUS_GROUP, &plus_group_, "Is the maximum age the age plus group?", "", true);
   parameters_.Bind<string>(PARAM_TIME_STEP, &time_step_label_, "The label of the time step that the observation occurs in", "");
-  parameters_
-      .Bind<Double>(
-          PARAM_TOLERANCE, &tolerance_,
-          "The tolerance on the constraint that for each year the sum of proportions in each age must equal 1, e.g., if tolerance = 0.1 then 1 - Sum(Proportions) can be as great as 0.1 ",
-          "", Double(0.001))
-      ->set_range(0.0, 1.0, false, false);
   parameters_.Bind<unsigned>(PARAM_YEARS, &years_, "The years of the observed values", "");
   parameters_.Bind<string>(PARAM_SELECTIVITIES, &selectivity_labels_, "The labels of the selectivities", "", true);
   parameters_.Bind<Double>(PARAM_PROCESS_ERRORS, &process_error_values_, "The process error", "", true);
@@ -226,8 +220,8 @@ void ProportionsAtAge::DoValidate() {
         }
       }
     } else {
-      if (fabs(1.0 - total) > tolerance_) {
-        LOG_ERROR_P(PARAM_OBS) << ": obs sum total (" << total << ") for year (" << iter->first << ") exceeds tolerance (" << tolerance_ << ") from 1.0";
+      if (!utilities::math::IsOne(total)) {
+        LOG_WARNING()  << "obs sum total (" << total << ") for year (" << iter->first << ") doesn't sum to 1.0";
       }
     }
   }
@@ -346,7 +340,7 @@ void ProportionsAtAge::Execute() {
           final_value = start_value + ((end_value - start_value) * proportion_of_time_);
           numbers_age_[data_offset] += final_value * selectivity_result;
         } else {
-          final_value = fabs(start_value - end_value);
+          final_value = (1 - proportion_of_time_) * start_value + proportion_of_time_ * end_value;
           numbers_age_[data_offset] += final_value * selectivity_result;
         }
 

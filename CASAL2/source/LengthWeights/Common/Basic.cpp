@@ -22,6 +22,7 @@ Basic::Basic(shared_ptr<Model> model) : LengthWeight(model) {
   parameters_.Bind<Double>(PARAM_A, &a_, "The $a$ parameter ($W = a L^b$)", "")->set_lower_bound(0.0, false);
   parameters_.Bind<Double>(PARAM_B, &b_, "The $b$ parameter ($W = a L^b$)", "")->set_lower_bound(0.0, false);
   parameters_.Bind<string>(PARAM_UNITS, &units_, "The units for weights (grams, kilograms (kgs), or tonnes)", "")->set_allowed_values({PARAM_TONNES, PARAM_KGS, PARAM_KILOGRAMS, PARAM_GRAMS});
+  //parameters_.Bind<Double>(PARAM_LENGTH_BIN_PROPORTION, &length_bin_proportion_, "The proportion between length bins when calculating mean weight calculations", "", 0.5)->set_partition_type(PartitionType::kLength);
 
   RegisterAsAddressable(PARAM_B, &b_);
   RegisterAsAddressable(PARAM_A, &a_);
@@ -78,5 +79,14 @@ Double Basic::mean_weight(Double size, Distribution distribution, Double cv) con
   return weight;
 }
 
+/**
+ * Calculate and return the mean weight for the size passed in
+ *
+ * @param size The size to calculate mean weight for
+ * @return The mean weight at the parameter size
+ */
+Double Basic::mean_weight(Double size) const {
+  return a_ * pow(size, b_);
+}
 } /* namespace lengthweights */
 } /* namespace niwa */

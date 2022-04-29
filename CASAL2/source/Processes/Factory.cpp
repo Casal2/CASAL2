@@ -36,9 +36,13 @@
 #include "../Processes/Age/TransitionCategoryByAge.h"
 #include "../Processes/Common/LoadPartition.h"
 #include "../Processes/Common/Nop.h"
-#include "../Processes/Length/GrowthBasic.h"
-#include "../Processes/Length/MortalityConstantRate.h"
+#include "../Processes/Length/Growth.h"
+#include "../Processes/Length/Tagging.h"
 #include "../Processes/Length/RecruitmentConstant.h"
+#include "../Processes/Length/RecruitmentBevertonHolt.h"
+#include "../Processes/Length/MortalityInstantaneous.h"
+#include "../Processes/Length/MortalityDiseaseRate.h"
+#include "../Processes/Length/MortalityConstantRate.h"
 #include "../Processes/Manager.h"
 
 // Namespaces
@@ -121,14 +125,23 @@ Process* Factory::Create(shared_ptr<Model> model, const string& object_type, con
         result = new age::TransitionCategoryByAge(model);
     }
   if (model->partition_type() == PartitionType::kLength || (partition_type == PartitionType::kModel && model->partition_type() == PartitionType::kLength)) {
-    LOG_FATAL() << "Length based models are mot yet implemented";
     if (object == PARAM_PROCESS || object == PARAM_PROCESSES) {
-      if (sub == PARAM_GROWTH_BASIC)
-        result = new length::GrowthBasic(model);
+      if (sub == PARAM_GROWTH)
+        result = new length::Growth(model);
       else if (sub == PARAM_MORTALITY_CONSTANT_RATE)
         result = new length::MortalityConstantRate(model);
       else if (sub == PARAM_RECRUITMENT_CONSTANT)
         result = new length::RecruitmentConstant(model);
+      else if (sub == PARAM_RECRUITMENT_BEVERTON_HOLT)
+        result = new length::RecruitmentBevertonHolt(model);
+      else if (sub == PARAM_NOP)
+        result = new processes::NullProcess(model);
+      else if (sub == PARAM_MORTALITY_INSTANTANEOUS)
+        result = new length::MortalityInstantaneous(model);
+      else if (sub == PARAM_MORTALITY_DISEASE_RATE)
+        result = new length::MortalityDiseaseRate(model);     
+      else if (sub == PARAM_TAGGING)
+        result = new length::Tagging(model);
     }
   }
 

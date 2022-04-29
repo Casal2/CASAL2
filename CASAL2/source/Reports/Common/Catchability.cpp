@@ -19,7 +19,7 @@ Catchability::Catchability() {
   run_mode_    = (RunMode::Type)(RunMode::kBasic | RunMode::kProjection | RunMode::kSimulation | RunMode::kEstimation | RunMode::kProfiling);
   model_state_ = (State::Type)(State::kIterationComplete);
 
-  parameters_.Bind<string>(PARAM_CATCHABILITY, &catchability_label_, "The catchability label", "", "");
+  parameters_.Bind<string>(PARAM_CATCHABILITY, &catchability_label_, "The catchability label", "");
 }
 /**
  * Validate object
@@ -46,27 +46,18 @@ void Catchability::DoBuild(shared_ptr<Model> model) {
  */
 void Catchability::DoExecute(shared_ptr<Model> model) {
   LOG_TRACE();
-  catchabilities::Manager& manager = *model->managers()->catchability();
   cache_ << ReportHeader(type_, catchability_label_, format_);
+  string label = catchability_->label();
+  cache_ << "q: " << AS_DOUBLE(catchability_->q()) << REPORT_EOL;
 
-  auto catchabilities = manager.objects();
-  for (auto Q : catchabilities) {
-    string label = Q->label();
-    cache_ << label << ": " << AS_DOUBLE(Q->q()) << REPORT_EOL;
-  }
   ready_for_writing_ = true;
 }
 
 void Catchability::DoPrepareTabular(shared_ptr<Model> model) {
   LOG_TRACE();
-  catchabilities::Manager& manager        = *model->managers()->catchability();
-  auto                     catchabilities = manager.objects();
   cache_ << ReportHeader(type_, catchability_label_, format_);
-  cache_ << "values " << REPORT_R_DATAFRAME << REPORT_EOL;
-  for (auto& Q : catchabilities) {
-    string label = Q->label();
-    cache_ << "catchability[" << label << "] ";
-  }
+  string label = catchability_->label();
+  cache_ << "catchability[" << label << "] ";
   cache_ << REPORT_EOL;
 }
 /**
@@ -75,11 +66,7 @@ void Catchability::DoPrepareTabular(shared_ptr<Model> model) {
 
 void Catchability::DoExecuteTabular(shared_ptr<Model> model) {
   LOG_TRACE();
-  catchabilities::Manager& manager        = *model->managers()->catchability();
-  auto                     catchabilities = manager.objects();
-  for (auto& Q : catchabilities) {
-    cache_ << AS_DOUBLE(Q->q()) << " ";
-  }
+  cache_ << AS_DOUBLE(catchability_->q()) << " ";
   cache_ << REPORT_EOL;
 }
 

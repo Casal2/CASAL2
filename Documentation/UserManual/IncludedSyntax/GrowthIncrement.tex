@@ -1,0 +1,93 @@
+\defComLab{growth\_increment}{Define an object of type \emph{growth\_increment}}.
+\defRef{sec:GrowthIncrement}
+\label{syntax:GrowthIncrement}
+
+\defSub{label}{The label of the growth increment model}
+\defType{String}
+\defDefault{No default}
+
+\defSub{type}{The type of growth increment model}
+\defType{String}
+\defDefault{No default}
+
+
+\defSub{time\_step\_proportions}{The proportion of annual increment to apply in each time-step. Must sum = 1.0}
+\defType{Vector of real numbers}
+\defDefault{No default}
+\defLowerBound{0.0 (inclusive)}
+\defUpperBound{1.0 (inclusive)}
+
+
+\defSub{compatibility\_option}{Backwards compatibility option: either casal2 (the default) or casal to use the (less accurate) cumulative normal function from CASAL}
+\defType{String}
+\defDefault{casal2}
+\defNote{options allowed,\subcommand{casal}, \subcommand{casal2}}
+
+
+\defSub{distribution}{The assumed distribution for the growth curve}
+\defType{String}
+\defDefault{normal}
+\defNote{options allowed,\subcommand{normal}}
+
+
+\defSub{length\_weight}{The label from an associated length-weight block}
+\defType{String}
+\defDefault{No default}
+
+
+\defSub{cv}{The $cv$ for the growth model.}
+\defType{Real number (estimable)}
+\defDefault{No default}
+\defLowerBound{0.0 (exclusive)}
+
+\defSub{min\_sigma}{The minimum standard deviation for the growth model.}
+\defType{Real number (estimable)}
+\defDefault{No default}
+\defLowerBound{0.0 (exclusive)}
+
+
+
+\subsubsection{Growth Increment of type Basic}
+\commandlabsubarg{growth\_increment}{type}{basic}.
+\defRef{sec:GrowthIncrement-Basic}
+\label{syntax:GrowthIncrement-Basic}
+
+\defSub{g\_alpha}{The $g_{\alpha}$ parameter}
+\defType{Real number (estimable)}
+\defDefault{No default}
+
+\defSub{g\_beta}{The $g_{\beta}$ parameter}
+\defType{Real number (estimable)}
+\defDefault{No default}
+
+\defSub{l\_alpha}{The $l_{\alpha}$ parameter}
+\defType{Real number (estimable)}
+\defDefault{No default}
+
+\defSub{l\_beta}{The $l_{\beta}$ parameter}
+\defType{Real number (estimable)}
+\defDefault{No default}
+
+\subsubsection{Growth Increment of type Exponential}
+\commandlabsubarg{growth\_increment}{type}{exponential}.
+\defRef{sec:GrowthIncrement-Exponential}
+\label{syntax:GrowthIncrement-Exponential}
+
+\defSub{g\_alpha}{The $g_{\alpha}$ parameter}
+\defType{Real number (estimable)}
+\defDefault{No default}
+
+\defSub{g\_beta}{The $g_{\beta}$ parameter}
+\defType{Real number (estimable)}
+\defDefault{No default}
+
+\defSub{l\_alpha}{The $l_{\alpha}$ parameter}
+\defType{Real number (estimable)}
+\defDefault{No default}
+
+\defSub{l\_beta}{The $l_{\beta}$ parameter}
+\defType{Real number (estimable)}
+\defDefault{No default}
+\subsubsection{Growth Increment of type None}
+\commandlabsubarg{growth\_increment}{type}{none}.
+\defNote{Used for testing and validating models}

@@ -22,8 +22,15 @@ The specific subcommands for a command are given within each command.
 \subsection{\I{Time-steps}}
 \input{IncludedSyntax/TimeStep}
 
+
 \subsection{\I{Processes}}
+\ifAgeBased
+% One column version
 \input{IncludedSyntax/Process}
+\else
+% Two column version
+\input{IncludedSyntax/ProcessLength}
+\fi % end if
 
 \subsection{\I{Time varying parameters}}
 \input{IncludedSyntax/TimeVarying}
@@ -31,14 +38,20 @@ The specific subcommands for a command are given within each command.
 \subsection{\I{Derived quantities}}
 \input{IncludedSyntax/DerivedQuantity}
 
+\ifAgeBased
+% One column version
 \subsection{\I{Age-length relationship}}
 \input{IncludedSyntax/AgeLength}
+\subsection{\I{Age-weight}}
+\input{IncludedSyntax/AgeWeight}
+\else
+% Two column version
+\subsection{\I{Growth-Increment}}
+\input{IncludedSyntax/GrowthIncrement}
+\fi % end if
 
 \subsection{\I{Length-weight}}
 \input{IncludedSyntax/LengthWeight}
-
-\subsection{\I{Age-weight}}
-\input{IncludedSyntax/AgeWeight}
 
 \subsection{\I{Selectivities}}
 \input{IncludedSyntax/Selectivity}
@@ -106,8 +119,15 @@ The description of the observations is given in Section \ref{sec:Observation}. T
 \end{description}
 
 Each type of observation requires a set of subcommands and arguments specific to that process.
-
+\ifAgeBased
+% One column version
 \input{IncludedSyntax/Observation}
+\else
+% Two column version
+\input{IncludedSyntax/ObservationLength}
+\fi % end if
+
+
 
 \subsection{\I{Likelihoods}}
 \input{IncludedSyntax/Likelihood}

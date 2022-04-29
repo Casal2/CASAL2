@@ -31,6 +31,7 @@ public:
   void      Validate() override final;
   void      Validate(shared_ptr<Model> model);
   void      Build() override final;
+  void      Verify(shared_ptr<Model> model) final;
   void      Execute(unsigned year);
   void      ExecuteInitialisation(const string& phase_label, unsigned years);
   TimeStep* GetTimeStep(const string& label) const;

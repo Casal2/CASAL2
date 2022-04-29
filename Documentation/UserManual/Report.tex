@@ -6,9 +6,21 @@ The report section specifies the printouts and other output from the model. \CNA
 
 \subsection{Report command block format}
 
-Reports from \CNAME\ can be defined to print partition and states objects at a particular point in time, observation summaries, estimated and derived parameter values, and objective function values.
+Reports from \CNAME\ can be defined to print partition and states objects at a particular point in time, observation summaries, estimated and derived parameter values, and objective function values. Many of the reports below will print a specific \command{}. The most useful report is the default report (see Section~\ref{sec:Report-Default}) which will auto generate many of the reports users require.
 
 \begin{verbatim}
+		@report default
+		type default
+		selectivities true
+		derived_quantities true
+		observations true
+		processes true
+		catchabilities true
+		time_varying true
+		parameter_transformations true
+		time_varying true
+		
+		
 		@report observation_age ## label of report
 		type observation		    ## Type of report
 		observation age_1990	 ## label corresponding to an @observation report, shown below
@@ -48,7 +60,24 @@ Not all reports will be generated in all run modes. Some reports are only availa
 
 \subsection{\I{Print default reports}}\index{Reports ! Default report}\label{sec:Report-Default}
 
-This is a report type that generates a range of other default reports, The report queries model and generates default reports for all catchabilities, observations, processes, selectivities, derived parameters, and projections. This report will print out in run modes \texttt{-r, -e, -f}.
+This is a report type that generates a range of other default reports, The report queries model and generates default reports for all catchabilities, observations, processes, selectivities, derived parameters, time-varying parameters, parameter transformations, and projections. This report will print out in run modes \texttt{-r, -e, -f}.
+
+
+\begin{verbatim}
+@report default
+type default
+selectivities true
+derived_quantities true
+observations true
+processes true
+catchabilities true
+time_varying true
+parameter_transformations true
+time_varying true
+\end{verbatim}
+
+
+
 
 \subsection{\I{Print the partition at the end of an initialisation}}\index{Reports ! Initialisation}\label{sec:Report-InitialisationPartition}
 
@@ -61,17 +90,51 @@ This report prints the numbers of individuals in each age class and category in 
 \subsection{\I{Print the partition biomass}}\index{Reports ! Partition biomass}\label{sec:Report-PartitionBiomass}
 
 This report prints the biomass in each age class and category in the partition for each given year or given years and time step. This report is evaluated at the end of the time step in the given year(s). This report will print out in run modes \texttt{-r, -e, -f}.
+\ifAgeBased
+% One column version
 
 \subsection{\I{Print the age length and length weight values}}\index{Reports ! Age-length}\label{sec:Report-AgeLength}\label{sec:Report-LenthWeight}
 
 This report prints the length and weight value for each age class and category in the partition for each given year or given years and time step. This report is evaluated at the end of the time step in the given year(s). This report will print out in run modes \texttt{-r, -e, -f}.
 
 \begin{verbatim}
-		@report length_weight_at_age
-		type partition_mean_weight
-		time_step step2
-		years 1900:2013
+@report length_weight_at_age
+type partition_mean_weight
+time_step step2
+years 1900:2013
 \end{verbatim}
+
+\subsection{\I{Print the ageing error misclassification matrix}}\index{Reports ! Ageing error misclassification matrix}\label{sec:Report-AgeingErrorMatrix}
+
+This report prints the ageing error misclassification matrix used to offset observations within during model the model fitting procedure.
+
+
+\else
+% Two column version
+
+\subsection{\I{Print the Growth models}}\index{Reports ! Growth-Increment}\label{sec:Report-GrowthIncrement}
+
+This report prints the length and weight relationship as well as growth increment model used to move fish along the length partition. This will print the growth transition matrix and other important values. This report is evaluated at the end of the time step in the given year(s). This report will print out in run modes \texttt{-r, -e, -f}.
+
+\begin{verbatim}
+@report growth_increment_model
+type growth_increment
+time_step step2
+years 1900:2013
+growth_increment growth_model
+\end{verbatim}
+
+\fi % end if
+
+\subsection{\I{Print a parameter Transformations}}\index{Reports ! Parameter Transformations}\label{sec:Report-ParameterTransformations}
+
+This report prints a specific \command{parameter\_transformation} block with the values This report will print out in run modes \texttt{-r, -e, -m}. If you have many transformations it is best to report these using the default report see Section~\ref{sec:Report-Default}
+
+{\small{\begin{verbatim}
+		@report log_b0
+		type parameter_transformation
+		parameter_transformation log_b0
+		\end{verbatim}}}
 
 \subsection{\I{Print a process summary}}\index{Reports ! Processes}\label{sec:Report-Process}
 
@@ -138,14 +201,14 @@ Simulated reports will be produced with the following extension \texttt{.1\_1}. 
 	\item \texttt{.1\_2} indicates simulated data produced from the first row of parameters and is the second random draw
 	\item \texttt{.2\_10} indicates simulated data produced from the second row of parameters and is the 10\(^{th}\) random draw
 \end{itemize}
-
-\subsection{\I{Print the ageing error misclassification matrix}}\index{Reports ! Ageing error misclassification matrix}\label{sec:Report-AgeingErrorMatrix}
-
-This report prints the ageing error misclassification matrix used to offset observations within during model the model fitting procedure.
-
 \subsection{\I{Print selectivities}}\index{Reports ! Selectivities}\label{sec:Report-Selectivity}
 
 This report prints the values of a selectivity for each age in the partition, for a given year and at then end of a given time step.
+
+\subsection{\I{Print selectivities by year}}\index{Reports ! Selectivities By Year}\label{sec:Report-SelectivityByYear}
+
+This report prints the values of a selectivity for each partition member for given model years. Useful when you have a model with time-varying selectivity.
+
 
 \subsection{\I{Print the random number seed}}\index{Reports ! Random number seed}\label{sec:Report-RandomNumberSeed}
 

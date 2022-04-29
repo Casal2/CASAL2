@@ -145,8 +145,6 @@ void TagRecaptureByLength::DoValidate() {
   auto     categories                 = model_->categories();
   for (const string& category_label : category_labels_) expected_selectivity_count += categories->GetNumberOfCategoriesDefined(category_label);
 
-  // Expand out short hand syntax
-  tagged_category_labels_ = model_->categories()->ExpandLabels(tagged_category_labels_, parameters_.Get(PARAM_TAGGED_CATEGORIES)->location());
   for (auto year : years_) {
     if ((year < model_->start_year()) || (year > model_->final_year()))
       LOG_ERROR_P(PARAM_YEARS) << "Years cannot be less than start_year (" << model_->start_year() << "), or greater than final_year (" << model_->final_year() << ").";
@@ -470,14 +468,7 @@ void TagRecaptureByLength::Execute() {
   auto partition_iter               = partition_->Begin();  // vector<vector<partition::Category> >
   auto tagged_partition_iter        = tagged_partition_->Begin();  // vector<vector<partition::Category> >
   // Reset some comtainers
-  for(unsigned category_offset = 0; category_offset < category_labels_.size(); ++category_offset) {
-    std::fill(numbers_at_length_[category_offset].begin(), numbers_at_length_[category_offset].end(), 0.0);
-    std::fill(cached_numbers_at_length_[category_offset].begin(), cached_numbers_at_length_[category_offset].end(), 0.0);
-    std::fill(tagged_cached_numbers_at_length_[category_offset].begin(), tagged_cached_numbers_at_length_[category_offset].end(), 0.0);
-    std::fill(tagged_numbers_at_length_[category_offset].begin(), tagged_numbers_at_length_[category_offset].end(), 0.0);
-  }
-  std::fill(length_results_.begin(), length_results_.end(), 0.0);
-  std::fill(tagged_length_results_.begin(), tagged_length_results_.end(), 0.0);
+
   /**
    * Loop through the provided categories. Each provided category (combination) will have a list of observations
    * with it. 
@@ -488,6 +479,13 @@ void TagRecaptureByLength::Execute() {
     Double start_value = 0.0;
     Double end_value   = 0.0;
     Double final_value = 0.0;
+    // reset some category specific containers
+    std::fill(numbers_at_length_[category_offset].begin(), numbers_at_length_[category_offset].end(), 0.0);
+    std::fill(cached_numbers_at_length_[category_offset].begin(), cached_numbers_at_length_[category_offset].end(), 0.0);
+    std::fill(tagged_cached_numbers_at_length_[category_offset].begin(), tagged_cached_numbers_at_length_[category_offset].end(), 0.0);
+    std::fill(tagged_numbers_at_length_[category_offset].begin(), tagged_numbers_at_length_[category_offset].end(), 0.0);
+    std::fill(length_results_.begin(), length_results_.end(), 0.0);
+    std::fill(tagged_length_results_.begin(), tagged_length_results_.end(), 0.0);
    /**
      * Loop through the  combined categories if they are supplied, building up the
      * numbers at length

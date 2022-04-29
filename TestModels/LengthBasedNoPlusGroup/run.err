@@ -1,0 +1,36 @@
+
+[INFO] Estimable parameters were loaded from the free parameter file: 
+[INFO] Initiating basic run mode
+[ERROR] Assert Failure: The Partition.Category uni has value 382661, when 382661 was expected for element 20. The difference was 1.32342e-05
+[ERROR] Assert Failure: The Partition.Category uni has value 564486, when 564486 was expected for element 21. The difference was 1.93145e-05
+[ERROR] Assert Failure: The Partition.Category uni has value 744111, when 744111 was expected for element 22. The difference was 2.4911e-05
+[ERROR] Assert Failure: The Partition.Category uni has value 878998, when 878998 was expected for element 23. The difference was 2.95836e-05
+[ERROR] Assert Failure: The Partition.Category uni has value 933419, when 933419 was expected for element 24. The difference was 3.18253e-05
+[ERROR] Assert Failure: The Partition.Category uni has value 898143, when 898143 was expected for element 25. The difference was 3.00114e-05
+[ERROR] Assert Failure: The Partition.Category uni has value 800928, when 800928 was expected for element 26. The difference was 2.74036e-05
+[ERROR] Assert Failure: The Partition.Category uni has value 698386, when 698386 was expected for element 27. The difference was 2.30316e-05
+[ERROR] Assert Failure: The Partition.Category uni has value 650422, when 650422 was expected for element 28. The difference was 2.22707e-05
+[ERROR] Assert Failure: The Partition.Category uni has value 689318, when 689318 was expected for element 29. The difference was 2.31392e-05
+[ERROR] Assert Failure: The Partition.Category uni has value 802170, when 802170 was expected for element 30. The difference was 2.6586e-05
+[ERROR] Assert Failure: The Partition.Category uni has value 941158, when 941158 was expected for element 31. The difference was 3.20863e-05
+[ERROR] Assert Failure: The Partition.Category uni has value 1.05753e+06, when 1.05753e+06 was expected for element 32. The difference was 3.54839e-05
+[ERROR] Assert Failure: The Partition.Category uni has value 1.13473e+06, when 1.13473e+06 was expected for element 33. The difference was 3.80108e-05
+[ERROR] Assert Failure: The Partition.Category uni has value 1.19453e+06, when 1.19453e+06 was expected for element 34. The difference was 4.05179e-05
+[ERROR] Assert Failure: The Partition.Category uni has value 1.27126e+06, when 1.27126e+06 was expected for element 35. The difference was 4.28907e-05
+[ERROR] Assert Failure: The Partition.Category uni has value 1.38365e+06, when 1.38365e+06 was expected for element 36. The difference was 4.65447e-05
+[ERROR] Assert Failure: The Partition.Category uni has value 1.52928e+06, when 1.52928e+06 was expected for element 37. The difference was 5.11261e-05
+[ERROR] Assert Failure: The Partition.Category uni has value 1.69728e+06, when 1.69728e+06 was expected for element 38. The difference was 5.7009e-05
+[ERROR] Assert Failure: The Partition.Category uni has value 1.87901e+06, when 1.87901e+06 was expected for element 39. The difference was 6.34359e-05
+[ERROR] Assert Failure: The Partition.Category uni has value 2.0668e+06, when 2.0668e+06 was expected for element 40. The difference was 6.97162e-05
+[ERROR] Assert Failure: The Partition.Category uni has value 2.24563e+06, when 2.24563e+06 was expected for element 41. The difference was 7.55815e-05
+[ERROR] Assert Failure: The Partition.Category uni has value 2.39011e+06, when 2.39011e+06 was expected for element 42. The difference was 8.05045e-05
+[ERROR] Assert Failure: The Partition.Category uni has value 2.45033e+06, when 2.45033e+06 was expected for element 43. The difference was 8.19773e-05
+[ERROR] Assert Failure: The Partition.Category uni has value 2.37348e+06, when 2.37348e+06 was expected for element 44. The difference was 7.95675e-05
+[ERROR] Assert Failure: The Partition.Category uni has value 2.1197e+06, when 2.1197e+06 was expected for element 45. The difference was 7.15815e-05
+[ERROR] Assert Failure: The Partition.Category uni has value 1.69327e+06, when 1.69327e+06 was expected for element 46. The difference was 5.74409e-05
+[ERROR] Assert Failure: The Partition.Category uni has value 1.17047e+06, when 1.17047e+06 was expected for element 47. The difference was 3.97644e-05
+[ERROR] Assert Failure: The Partition.Category uni has value 679448, when 679448 was expected for element 48. The difference was 2.27006e-05
+[ERROR] Assert Failure: The Partition.Category uni has value 324969, when 324969 was expected for element 49. The difference was 1.12486e-05
+[ERROR] Assert Failure: The Partition.Category uni has value 0.000215057, when 0 was expected for element 67. The difference was -0.000215057
+[INFO] Completed
+[INFO] Total elapsed time: 1 seconds

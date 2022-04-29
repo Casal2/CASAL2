@@ -62,7 +62,6 @@ protected:
   string                        units_;
   Double                        fishbox_weight_ = 0.0;
   parameters::Table*            obs_table_ = nullptr;
-  Double                        tolerance_ = 0.0;
   vector<Double>                process_error_values_;
   map<unsigned, Double>         process_errors_by_year_;
   string                        method_;

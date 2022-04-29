@@ -31,6 +31,7 @@ public:
 private:
   string             selectivity_label_;
   niwa::Selectivity* selectivity_ = nullptr;
+  vector<double>     length_values_;
 };
 
 } /* namespace reports */

@@ -32,11 +32,9 @@ public:
   explicit DoubleNormalPlateau(shared_ptr<Model> model);
   virtual ~DoubleNormalPlateau() = default;
   void DoValidate() override final;
-  void RebuildCache() override final;
 
-protected:
-  // Methods
-  Double GetLengthBasedResult(unsigned age, AgeLength* age_length, unsigned year = 0, int time_step_index = -1) override final;
+  Double get_value(Double value)  override final; 
+  Double get_value(unsigned value)  override final; 
 
 private:
   // Members

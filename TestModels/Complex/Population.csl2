@@ -326,6 +326,7 @@ k 0.232
 t0 -1.23
 linf 89.5
 time_step_proportions 0.25 0.6 0.9 0.9 0.0
+ 
 
 @age_length age_size_E_female
 type von_bertalanffy

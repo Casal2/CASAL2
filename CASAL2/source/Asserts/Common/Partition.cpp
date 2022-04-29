@@ -74,15 +74,15 @@ void Partition::Execute() {
   for (unsigned i = 0; i < values_.size(); ++i) {
     if (!utilities::math::IsBasicallyEqual(values_[i], data[i])) {
       std::streamsize prec = std::cout.precision();
-      std::cout.precision(9);
+      std::cout.precision(12);
 
       Double diff = values_[i] - data[i];
       if (error_type_ == PARAM_ERROR) {
-        LOG_ERROR() << "Assert Failure: The Partition.Category " << category_label_ << " has value " << data[i] << ", when " << values_[i] << " was expected for age "
-                    << (category->min_age_ + i) << ". The difference was " << diff;
+        LOG_ERROR() << "Assert Failure: The Partition.Category " << category_label_ << " has value " << data[i] << ", when " << values_[i] << " was expected for element "
+                    << i + 1 << ". The difference was " << diff;
       } else {
-        LOG_WARNING() << "Assert Failure: The Partition.Category " << category_label_ << " has value " << data[i] << ", when " << values_[i] << " was expected for age "
-                      << (category->min_age_ + i) << ". The difference was " << diff;
+        LOG_WARNING() << "Assert Failure: The Partition.Category " << category_label_ << " has value " << data[i] << ", when " << values_[i] << " was expected for element "
+                      << i + 1 << ". The difference was " << diff;
       }
 
       std::cout.precision(prec);

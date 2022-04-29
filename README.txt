@@ -8,7 +8,8 @@ modelling package that allows a great deal of flexibility in
 specifying the population dynamics, parameter estimation, 
 and model outputs. 
 
-See the Casal2 user manual for more information.
+See the Casal2 user manuals for more information. There are two manuals one for age-based models (Casal2_Age.pdf)
+and another for length-based models (Casal2_Length.pdf).
 
 Casal2 is an open source development and contributions to 
 the package are encouraged. 

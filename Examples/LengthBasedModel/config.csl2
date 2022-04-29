@@ -1,0 +1,4 @@
+!include config/Population.csl2
+!include config/Observations.csl2
+!include config/Reports.csl2
+!include config/Estimation.csl2

@@ -5,7 +5,7 @@
  * @date 11/01/2013
  * @section LICENSE
  *
- * Copyright NIWA Science ©2013 - www.niwa.co.nz
+ * Copyright NIWA Science ï¿½2013 - www.niwa.co.nz
  *
  * @section DESCRIPTION
  *
@@ -34,11 +34,9 @@ public:
   void   DoValidate() override final{};
   Double GetAgeResult(unsigned age, AgeLength* age_length) override final;
   Double GetLengthResult(unsigned length_bin) override final;
-  void   RebuildCache() override final;
 
-protected:
-  // Methods
-  Double GetLengthBasedResult(unsigned age, AgeLength* age_length, unsigned year = 0, int time_step_index = -1) override final;
+  Double get_value(Double value) override final;
+  Double get_value(unsigned value)  override final; 
 
 private:
   // Members

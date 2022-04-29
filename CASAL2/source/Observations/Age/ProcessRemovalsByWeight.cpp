@@ -42,7 +42,6 @@ ProcessRemovalsByWeight::ProcessRemovalsByWeight(shared_ptr<Model> model) : Obse
   parameters_.Bind<string>(PARAM_MORTALITY_INSTANTANEOUS_PROCESS, &process_label_, "The label of the mortality instantaneous process for the observation", "");
   parameters_.Bind<string>(PARAM_METHOD_OF_REMOVAL, &method_, "The label of observed method of removals", "", "");
   parameters_.Bind<string>(PARAM_TIME_STEP, &time_step_label_, "The time step to execute in", "");
-  parameters_.Bind<Double>(PARAM_TOLERANCE, &tolerance_, "The tolerance for rescaling proportions", "", double(0.001))->set_range(0.0, 1.0, false, false);
   parameters_.Bind<unsigned>(PARAM_YEARS, &years_, "The years for which there are observations", "");
   parameters_.Bind<Double>(PARAM_PROCESS_ERRORS, &process_error_values_, "The process error", "", true);
   parameters_.Bind<Double>(PARAM_LENGTH_WEIGHT_CV, &length_weight_cv_, "The CV for the length-weight relationship", "", double(0.10))->set_lower_bound(0.0, false);
@@ -258,9 +257,8 @@ void ProcessRemovalsByWeight::DoValidate() {
         }
       }
     }
-
-    if (fabs(1.0 - total) > tolerance_) {
-      LOG_ERROR_P(PARAM_OBS) << ": obs sum total (" << total << ") for year (" << iter->first << ") exceeds tolerance (" << tolerance_ << ") from 1.0";
+    if (!utilities::math::IsOne(total)) {
+      LOG_WARNING()  << "obs sum total (" << total << ") for year (" << iter->first << ") doesn't sum to 1.0";
     }
   }
 }

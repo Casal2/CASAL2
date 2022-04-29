@@ -50,7 +50,6 @@ TagByAge::TagByAge(shared_ptr<Model> model) : Process(model), to_partition_(mode
   parameters_.Bind<Double>(PARAM_N, &n_, "N", "", true);
   parameters_.BindTable(PARAM_NUMBERS, numbers_table_, "The table of N data (each row is the year then numbers for each age)", "", true, true);
   parameters_.BindTable(PARAM_PROPORTIONS, proportions_table_, "The table of proportions to move", "", true, true);
-  parameters_.Bind<double>(PARAM_TOLERANCE, &tolerance_, "Tolerance for checking the specificed proportions sum to one", "", 1e-5)->set_range(0, 1.0);
 }
 
 /**
@@ -72,8 +71,7 @@ void TagByAge::DoValidate() {
     LOG_ERROR_P(PARAM_TO) << " number of values supplied (" << to_category_labels_.size() << ") does not match the number of from categories provided ("
                           << from_category_labels_.size() << ")";
   }
-  if (u_max_ < 0.0 || u_max_ > 1.0)
-    LOG_ERROR_P(PARAM_U_MAX) << " (" << u_max_ << ") must be greater than or equal to 0.0 and less than 1.0";
+
   if (min_age_ < model_->min_age())
     LOG_ERROR_P(PARAM_MIN_AGE) << " (" << min_age_ << ") is less than the model's minimum age (" << model_->min_age() << ")";
   if (max_age_ > model_->max_age())
@@ -169,7 +167,7 @@ void TagByAge::DoValidate() {
         numbers_[year][i - 1] = n_by_year[year] * proportion;
         total_proportion += proportion;
       }
-      if (fabs(1.0 - total_proportion) > tolerance_)
+      if (!utilities::math::IsOne(total_proportion))
         LOG_ERROR_P(PARAM_PROPORTIONS) << " total (" << total_proportion << ") do not sum to 1.0 for year " << year;
     }
 
@@ -184,6 +182,7 @@ void TagByAge::DoValidate() {
  * Build relationships between this object and others
  */
 void TagByAge::DoBuild() {
+
   from_partition_.Init(from_category_labels_);
   to_partition_.Init(to_category_labels_);
 
@@ -207,6 +206,7 @@ void TagByAge::DoBuild() {
  * Execute this process
  */
 void TagByAge::DoExecute() {
+
   if (model_->current_year() < first_year_)
     return;
 
@@ -220,6 +220,7 @@ void TagByAge::DoExecute() {
 
   LOG_FINEST() << "numbers_.size(): " << numbers_.size();
   LOG_FINEST() << "numbers_[current_year].size(): " << numbers_[current_year].size();
+  
   for (unsigned i = 0; i < numbers_[current_year].size(); ++i)
     LOG_FINEST() << "numbers_[current_year][" << i << "]: " << numbers_[current_year][i];
 

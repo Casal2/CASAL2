@@ -186,6 +186,7 @@ int Runner::GoWithRunMode(RunMode::Type run_mode) {
   // Grab our model type as specified in the config file.
   // create a new master model
   string model_type = config_loader_.model_type();
+  LOG_FINE() << "Found model type = " << model_type;
   master_model_     = Factory::Create(PARAM_MODEL, model_type);
   master_model_->flag_primary_thread_model();
   master_model_->set_global_configuration(&global_configuration_);

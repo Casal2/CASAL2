@@ -4,7 +4,7 @@
  * @date 2/09/2014
  * @section LICENSE
  *
- * Copyright NIWA Science ©2014 - www.niwa.co.nz
+ * Copyright NIWA Science ï¿½2014 - www.niwa.co.nz
  *
  * @section DESCRIPTION
  *
@@ -18,6 +18,7 @@
 #include "../../InitialisationPhases/InitialisationPhase.h"
 #include "../../Partition/Accessors/Cached/Categories.h"
 #include "../../Partition/Accessors/Categories.h"
+#include "../../Processes/Length/RecruitmentBevertonHolt.h"
 
 // namespaces
 namespace niwa {
@@ -26,6 +27,7 @@ namespace initialisationphases {
 namespace length {
 namespace cached   = partition::accessors::cached;
 namespace accessor = partition::accessors;
+using processes::length::RecruitmentBevertonHolt;
 
 /**
  *
@@ -52,9 +54,8 @@ protected:
   vector<unsigned>     convergence_years_;
   cached::Categories   cached_partition_;
   accessor::Categories partition_;
+  vector<length::RecruitmentBevertonHolt*>               recruitment_process_;
 
-  // vector<RecruitmentBevertonHolt*> recruitment_process_;
-  // vector<RecruitmentBevertonHoltWithDeviations*> recruitment_process_with_devs_;
 };
 
 }  // namespace length

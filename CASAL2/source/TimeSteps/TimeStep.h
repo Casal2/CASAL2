@@ -40,7 +40,7 @@ public:
   virtual ~TimeStep() = default;
   void     Validate();
   void     Build();
-  void     Verify(shared_ptr<Model> model){};
+  void     Verify(shared_ptr<Model> model);
   void     Reset(){};
   void     ExecuteForInitialisation(const string& phase_label);
   void     Execute(unsigned year);

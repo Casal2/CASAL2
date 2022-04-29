@@ -16,6 +16,8 @@
 #include "../Age/MortalityInstantaneous.h"
 #include "../Age/MortalityInstantaneousRetained.h"
 #include "../Age/MortalityConstantRate.h"
+#include "../Length/MortalityInstantaneous.h"
+#include "../Length/MortalityConstantRate.h"
 #include "../Manager.h"
 #include "../Process.h"
 
@@ -30,34 +32,59 @@ namespace niwa::processes::verification {
 void AllCategoriesHaveAnM(shared_ptr<Model> model) {
   map<string, unsigned> category_count;
   vector<string>        all_categories = model->categories()->category_names();
+  if(model->partition_type() == PartitionType::kAge) {
+      
+    auto process_list = model->managers()->process()->objects();
+    for (auto* process : process_list) {
+      if (process->process_type() == ProcessType::kMortality) {
+        if (process->type() == PARAM_MORTALITY_CONSTANT_RATE) {
+          age::MortalityConstantRate* mortality = dynamic_cast<age::MortalityConstantRate*>(process);
+          if (!mortality)
+            LOG_CODE_ERROR() << "!mortality with auto* mortality = dynamic_cast<age::MortalityConstantRate*>(process)";
 
-  auto process_list = model->managers()->process()->objects();
-  for (auto* process : process_list) {
-    if (process->process_type() == ProcessType::kMortality) {
-      if (process->type() == PARAM_MORTALITY_CONSTANT_RATE) {
-        age::MortalityConstantRate* mortality = dynamic_cast<age::MortalityConstantRate*>(process);
-        if (!mortality)
-          LOG_CODE_ERROR() << "!mortality with auto* mortality = dynamic_cast<age::MortalityConstantRate*>(process)";
+          for (auto label : mortality->category_labels()) 
+            category_count[label]++;
 
-        for (auto label : mortality->category_labels()) 
-          category_count[label]++;
+        } else if (process->type() == PARAM_MORTALITY_INSTANTANEOUS) {
+          age::MortalityInstantaneous* mortality = dynamic_cast<age::MortalityInstantaneous*>(process);
+          if (!mortality)
+            LOG_CODE_ERROR() << "!mortality with auto* mortality = dynamic_cast<age::MortalityInstantaneous*>(process)";
 
-      } else if (process->type() == PARAM_MORTALITY_INSTANTANEOUS) {
-        age::MortalityInstantaneous* mortality = dynamic_cast<age::MortalityInstantaneous*>(process);
-        if (!mortality)
-          LOG_CODE_ERROR() << "!mortality with auto* mortality = dynamic_cast<age::MortalityInstantaneous*>(process)";
+          for (auto label : mortality->category_labels()) {
+            category_count[label]++;
+          }
+        } else if (process->type() == PARAM_MORTALITY_INSTANTANEOUS_RETAINED) {
+          age::MortalityInstantaneousRetained* mortality = dynamic_cast<age::MortalityInstantaneousRetained*>(process);
+          if (!mortality)
+            LOG_CODE_ERROR() << "!mortality with auto* mortality = dynamic_cast<age::RecruitmentBevertonHolt*>(process)";
 
-        for (auto label : mortality->category_labels()) {
-          category_count[label]++;
+          for (auto label : mortality->category_labels()) {
+            category_count[label]++;
+          }
         }
-      } else if (process->type() == PARAM_MORTALITY_INSTANTANEOUS_RETAINED) {
-        age::MortalityInstantaneousRetained* mortality = dynamic_cast<age::MortalityInstantaneousRetained*>(process);
-        if (!mortality)
-          LOG_CODE_ERROR() << "!mortality with auto* mortality = dynamic_cast<age::RecruitmentBevertonHolt*>(process)";
+      }
+    }
+  } else if(model->partition_type() == PartitionType::kLength) {
+    auto process_list = model->managers()->process()->objects();
+    for (auto* process : process_list) {
+      if (process->process_type() == ProcessType::kMortality) {
+        if (process->type() == PARAM_MORTALITY_CONSTANT_RATE) {
+          length::MortalityConstantRate* mortality = dynamic_cast<length::MortalityConstantRate*>(process);
+          if (!mortality)
+            LOG_CODE_ERROR() << "!mortality with auto* mortality = dynamic_cast<length::MortalityConstantRate*>(process)";
 
-        for (auto label : mortality->category_labels()) {
-          category_count[label]++;
-        }
+          for (auto label : mortality->category_labels()) 
+            category_count[label]++;
+
+        } else if (process->type() == PARAM_MORTALITY_INSTANTANEOUS) {
+          length::MortalityInstantaneous* mortality = dynamic_cast<length::MortalityInstantaneous*>(process);
+          if (!mortality)
+            LOG_CODE_ERROR() << "!mortality with auto* mortality = dynamic_cast<length::MortalityInstantaneous*>(process)";
+
+          for (auto label : mortality->category_labels()) {
+            category_count[label]++;
+          }
+        } 
       }
     }
   }

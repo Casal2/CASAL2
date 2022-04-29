@@ -133,8 +133,8 @@ void Simplex::DoBuild() {
     }
     LOG_FINE() << "total = " << total_;
     if(sum_to_one_) {
-      if(fabs(total_ - 1.0) > 0.0001)
-        LOG_ERROR_P(PARAM_PARAMETERS) << "You have specified a sum_to_one parameter but your parameters = " << sum_to_one_;
+      if(!utilities::math::IsOne(total_))
+        LOG_ERROR_P(PARAM_PARAMETERS) << "You have specified a sum_to_one parameter but your parameters sum = " << total_;
       for(unsigned i = 0; i < init_values_.size(); ++i) {
         unit_vector_[i] = init_values_[i] / total_;
         LOG_FINE() << unit_vector_[i];
@@ -155,8 +155,11 @@ void Simplex::DoBuild() {
 
     // Translate xk_ -> zk_ 
     sub_total_ = 0.0;
+    Double denominator = 0.0;
     for (unsigned i = 0; i < zk_.size(); ++i) {
-      zk_[i] = unit_vector_[i] / (1.0 - sub_total_);
+      denominator = (1.0 - sub_total_);
+      denominator = utilities::math::ZeroFun(denominator, delta_);
+      zk_[i] = unit_vector_[i] / denominator;
       sub_total_ += unit_vector_[i];
       simplex_parameter_[i] = log(zk_[i] / (1 - zk_[i])) - cache_log_k_value_[i];
       LOG_FINE() << "zk = " << zk_[i] << " yk (simplex) = " <<  simplex_parameter_[i] << " cache k " << cache_log_k_value_[i] << " unit vector " << unit_vector_[i];
@@ -177,18 +180,24 @@ void Simplex::DoRestore() {
   }
   // Translate zk_ -> restore_values_
   sub_total_ = 0;
+  Double denominator = 0.0;
   for (unsigned i = 0; i < zk_.size(); ++i) {
+    denominator = (1.0 - sub_total_);
+    denominator = utilities::math::ZeroFun(denominator, delta_);
     cumulative_simplex_k_[i] = sub_total_;
-    unit_vector_[i] = (1 - sub_total_) * zk_[i];
+    unit_vector_[i] = denominator * zk_[i];
     sub_total_ += unit_vector_[i];
     LOG_FINE() << "unit vec = " << unit_vector_[i] << " cumulative k = " << cumulative_simplex_k_[i];
   }
+  denominator = (1.0 - sub_total_);
+  denominator = utilities::math::ZeroFun(denominator, delta_);
   // plus group
-  unit_vector_[unit_vector_.size() - 1] = 1.0 - sub_total_;
+  unit_vector_[unit_vector_.size() - 1] = denominator;
 
   if(not sum_to_one_) {
-    for(unsigned i = 0; i < restored_values_.size(); ++i) 
+    for(unsigned i = 0; i < restored_values_.size(); ++i) {
       restored_values_[i] = unit_vector_[i] * total_;
+    }
   }
   for(unsigned i = 0; i < restored_values_.size(); ++i)
     LOG_FINE() << restored_values_[i];

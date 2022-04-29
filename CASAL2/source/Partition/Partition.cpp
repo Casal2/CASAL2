@@ -19,6 +19,7 @@
 #include <cmath>
 
 #include "../AgeLengths/AgeLength.h"
+#include "../GrowthIncrements/GrowthIncrement.h"
 #include "../Categories/Categories.h"
 #include "../Logging/Logging.h"
 #include "../Model/Model.h"
@@ -40,7 +41,9 @@ Partition::~Partition() {
 /**
  * Validate the objects
  */
-void Partition::Validate() {}
+void Partition::Validate() {
+
+}
 
 /**
  * Build the partition structure. This involves getting
@@ -61,18 +64,20 @@ void Partition::Build() {
     new_category->min_age_            = categories->min_age(category);
     new_category->max_age_            = categories->max_age(category);
     new_category->years_              = categories->years(category);
-    new_category->age_length_         = categories->age_length(category);
 
     if (model_->partition_type() == PartitionType::kAge) {
       unsigned age_spread = (categories->max_age(category) - categories->min_age(category)) + 1;
       LOG_FINEST() << "resizing data_ to " << age_spread;
       new_category->data_.resize(age_spread, 0.0);
       new_category->cached_data_.resize(age_spread, 0.0);
+      new_category->age_length_         = categories->age_length(category);
 
     } else if (model_->partition_type() == PartitionType::kLength) {
-      unsigned length_bins = model_->length_bins().size();
-      new_category->length_data_.resize(length_bins, 0.0);
-      new_category->cached_length_data_.resize(length_bins, 0.0);
+      unsigned length_bins = model_->get_number_of_length_bins();
+      LOG_FINE() << " resizeing bins = " << length_bins;
+      new_category->data_.resize(length_bins, 0.0);
+      new_category->cached_data_.resize(length_bins, 0.0);
+      new_category->growth_increment_  = categories->growth_increment(category);
     }
 
     partition_[category] = new_category;

@@ -15,6 +15,7 @@
 #include "../../Observations/Manager.h"
 #include "../../Processes/Manager.h"
 #include "../../Projects/Manager.h"
+#include "../../TimeVarying/Manager.h"
 #include "../../Reports/Common/Catchability.h"
 #include "../../Reports/Common/DerivedQuantity.h"
 #include "../../Reports/Common/Observation.h"
@@ -22,6 +23,7 @@
 #include "../../Reports/Common/Process.h"
 #include "../../Reports/Common/Project.h"
 #include "../../Reports/Common/Selectivity.h"
+#include "../../Reports/Common/TimeVarying.h"
 #include "../../Reports/Manager.h"
 #include "../../Reports/Report.h"
 #include "../../Selectivities/Manager.h"
@@ -51,6 +53,7 @@ private:
   bool   report_projects_           = false;
   bool   report_selectivities_      = false;
   bool   addressable_transformations_ = false;
+  bool   time_varying_ = false;
 };
 
 } /* namespace reports */

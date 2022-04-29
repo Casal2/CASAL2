@@ -1,0 +1,114 @@
+#THE MODEL
+@model
+type length
+start_year 1986 
+final_year 1987
+projection_final_year 2021
+length_bins  1:43
+length_plus t
+length_plus_group 45
+base_weight_units tonnes
+initialisation_phases Equilibrium_state
+time_steps Annual
+
+#CATEGORIES
+#
+@categories 
+format sex
+names uni
+growth_increment growth_model
+
+
+@initialisation_phase Equilibrium_state
+type iterative
+years 200
+convergence_years 200
+
+## Define the Annual Cycle
+## This is a list of labels that correspond to a process
+@time_step Annual 
+processes Recruit_BH growth  mortality
+
+## Define the above Processes
+@process Nop
+type null_process
+
+@process Recruit_BH
+type recruitment_beverton_holt
+ssb_offset 1
+ycs_years 1985:1986
+ycs_values 1.00 1 
+b0 1500
+categories uni
+proportions 1
+steepness 0.75
+inital_mean_length 10
+inital_length_cv 0.40
+ssb SSB
+
+@process mortality
+type mortality_constant_rate
+m 0.2
+relative_m_by_length One
+time_step_proportions 1
+categories uni
+
+@process growth
+type growth
+categories uni
+
+
+## it's a process so alternatively
+@growth_increment growth_model ##
+type basic
+time_step_proportions 1
+l_alpha 20
+l_beta  40
+g_alpha 10
+g_beta 1
+min_sigma 2
+distribution normal
+length_weight allometric
+cv 0.0
+compatibility_option casal
+
+@length_weight allometric
+type basic
+a 0.000000000373
+b 3.145
+units tonnes
+
+@derived_quantity SSB
+type biomass
+categories uni
+selectivities maturity
+time_step Annual
+time_step_proportion 0.5
+
+@selectivity double_normal
+type double_normal
+mu 21
+sigma_l 5
+sigma_r 10
+
+@selectivity maturity
+type logistic
+a50 30 
+ato95 5
+
+@selectivity One
+type constant
+c 1
+
+##########
+## Report section
+##########
+
+@assert partition
+type partition
+category uni
+values 0.000239 0.000602 0.001872 0.005657 0.016998 0.051855 0.163543 0.541183 1.898858 7.100400 28.183082 116.811193 489.077350 1964.012530 7100.990846 21916.078553 56626.585374 124205.582421 235554.668018 391721.625674 577852.035126 761730.443199 899811.254667 955521.674251 919410.219075 819893.278000 714922.820360 665822.768113 705640.216666 821164.960564 963443.602426 1082567.395492 1161597.032632 1222810.111578 1301357.787398 1416418.020906 1565491.998742 1737467.762934 1923504.707440 2115740.470957 2298801.041412 2446701.518840 11258739.203746
+
+@report partition
+type partition
+time_step Annual

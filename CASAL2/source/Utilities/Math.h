@@ -156,6 +156,27 @@ inline Double qlognorm(const Double& q,const Double& mu,const Double& sigma){
   return(exp(mu+x*sigma));
 }
 
+
+// transform a parameter X which has parameter space 0-1 and transform it to -inf -> inf using logit transformation
+inline Double logit(Double &x) {
+  return log(x / (1.0 - x));
+}
+// transform a parameter Y which has parameter space -inf -> inf and transform it to into a parameter space 0-1
+inline Double invlogit(Double &y) {
+  return 1.0/(1.0 + exp(-y));
+}
+
+// transform a parameter X which has parameter space lb-ub and transform it to -inf -> inf using logit transformation
+inline Double logit_bounds(Double &x,Double &lb, Double &ub) {
+  Double x1 = (x - lb) / (ub - lb);
+  return logit(x1);
+}
+// transform a parameter Y which has parameter space -inf -> inf and transform it to into a parameter space lb -> ub
+inline Double invlogit_bounds(Double &y, Double &lb, Double &ub) {
+  return lb + (ub - lb)* invlogit(y);
+}
+
+
 //************************************
 // These are distributional functions taken from CASAL, some will wont to be updated
 //************************************
@@ -466,6 +487,36 @@ inline Double scale_value_sin(Double value, double min, double max) {
 
   return asin(2 * (value - min) / (max - min) - 1) / 1.57079633;
 }
+
+
+/*
+ * @brief calculates the choleski decomposition of M and puts the lower triangular part into L
+Taken from Betadiff.cpp line 2429
+We assume L has been allocated memory.
+*/
+inline int chol(const std::vector<std::vector<double>> & M,std::vector<std::vector<double>>& L) {
+  // calculates the choleski decomposition of M and puts the lower triangular part into L
+  // returns 1 if successful, 0 else
+  // used by fill_mvnorm
+  
+  // source https://rosettacode.org/wiki/Cholesky_decomposition#C.2B.2B
+  size_t n = M.size();
+  for (size_t i = 0; i < n; ++i) {
+      for (size_t k = 0; k < i; ++k) {
+          double value = M[i][k];
+          for (size_t j = 0; j < k; ++j)
+              value -= L[i][j] * L[k][j];
+          L[i][k] = value/L[k][k];
+      }
+      double value = M[i][i];
+      for (size_t j = 0; j < i; ++j)
+          value -= L[i][j] * L[i][j];
+      L[i][i] = std::sqrt(value);
+  }
+  
+  return(1);
+}
+
 
 /**
  * unscale value with sin transformation

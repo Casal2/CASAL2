@@ -13,12 +13,7 @@
 // Headers
 #include "DoubleExponential.h"
 
-#include <boost/math/distributions/lognormal.hpp>
-#include <cmath>
-
-#include "../../AgeLengths/AgeLength.h"
 #include "../../Model/Model.h"
-#include "../../TimeSteps/Manager.h"
 
 // Namespaces
 namespace niwa {
@@ -41,6 +36,9 @@ DoubleExponential::DoubleExponential(shared_ptr<Model> model) : Selectivity(mode
   RegisterAsAddressable(PARAM_Y1, &y1_);
   RegisterAsAddressable(PARAM_Y2, &y2_);
   RegisterAsAddressable(PARAM_ALPHA, &alpha_);
+
+  allowed_length_based_in_age_based_model_ = true;
+
 }
 
 /**
@@ -69,104 +67,31 @@ void DoubleExponential::DoValidate() {
   if (alpha_ <= 0.0)
     LOG_ERROR_P(PARAM_ALPHA) << ": alpha (" << AS_DOUBLE(alpha_) << ") cannot be less than or equal to 0.0";
 }
-
 /**
- * Reset this selectivity so it is ready for the next execution
- * phase in the model.
- *
- * This method will rebuild the cache of selectivity values
- * for each age or length in the model.
+ * The core function
  */
-void DoubleExponential::RebuildCache() {
-  if (model_->partition_type() == PartitionType::kAge) {
-    Double temp = 0.0;
-    for (unsigned age = model_->min_age(); age <= model_->max_age(); ++age) {
-      temp = age;
-      if (temp <= x0_) {
-        values_[age - age_index_] = alpha_ * y0_ * pow((y1_ / y0_), (temp - x0_) / (x1_ - x0_));
-      } else if (temp > x0_ && temp <= x2_) {
-        values_[age - age_index_] = alpha_ * y0_ * pow((y2_ / y0_), (temp - x0_) / (x2_ - x0_));
-      } else {
-        values_[age - age_index_] = y2_;
-      }
-    }
-  } else if (model_->partition_type() == PartitionType::kLength) {
-    vector<double> length_bins = model_->length_bins();
-    Double         temp        = 0.0;
-    for (unsigned length_bin_index = 0; length_bin_index < length_bins.size(); ++length_bin_index) {
-      temp = length_bins[length_bin_index];
-      if (temp <= x0_) {
-        length_values_[length_bin_index] = alpha_ * y0_ * pow((y1_ / y0_), (temp - x0_) / (x1_ - x0_));
-      } else if (temp > x0_ && temp <= x2_) {
-        length_values_[length_bin_index] = alpha_ * y0_ * pow((y2_ / y0_), (temp - x0_) / (x2_ - x0_));
-      } else {
-        length_values_[length_bin_index] = y2_;
-      }
-    }
+Double DoubleExponential::get_value(Double value) {
+  if (value <= x0_) {
+    return alpha_ * y0_ * pow((y1_ / y0_), (value - x0_) / (x1_ - x0_));
+  } else if (value > x0_ && value <= x2_) {
+    return alpha_ * y0_ * pow((y2_ / y0_), (value - x0_) / (x2_ - x0_));
+  } else {
+    return y2_;
   }
+  return 1.0;
 }
-
 /**
- * GetLengthBasedResult function
- *
- * @param age
- * @param age_length AgeLength pointer
- * @param year
- * @param time_step_index
- * @return Double selectivity for an age based on age length distribution_label
+ * The core function
  */
-Double DoubleExponential::GetLengthBasedResult(unsigned age, AgeLength* age_length, unsigned year, int time_step_index) {
-  unsigned yearx     = year == 0 ? model_->current_year() : year;
-  unsigned time_step = model_->managers()->time_step()->current_time_step();
-  Double   cv        = age_length->cv(yearx, time_step, age);
-
-  Double mean = age_length->mean_length(time_step, age);
-  string dist = age_length->distribution_label();
-
-  if (dist == PARAM_NONE || n_quant_ <= 1) {
-    // no distribution_label just use the mu from age_length
-    Double val;
-    if (mean <= x0_)
-      val = alpha_ * y0_ * pow((y1_ / y0_), (mean - x0_) / (x1_ - x0_));
-    else
-      val = alpha_ * y0_ * pow((y2_ / y0_), (mean - x0_) / (x2_ - x0_));
-    return val;
-
-  } else if (dist == PARAM_NORMAL) {
-    Double sigma = cv * mean;
-    Double size  = 0.0;
-    Double total = 0.0;
-
-    for (unsigned j = 0; j < n_quant_; ++j) {
-      size = mean + sigma * quantiles_at_[j];
-
-      if (size <= x0_)
-        total += alpha_ * y0_ * pow((y1_ / y0_), (size - x0_) / (x1_ - x0_));
-      else
-        total += alpha_ * y0_ * pow((y2_ / y0_), (size - x0_) / (x2_ - x0_));
-    }
-    return total / n_quant_;
-
-  } else if (dist == PARAM_LOGNORMAL) {
-    // convert paramters to log space
-    Double                 sigma = sqrt(log(1 + cv * cv));
-    Double                 mu    = log(mean) - sigma * sigma * 0.5;
-    Double                 size  = 0.0;
-    Double                 total = 0.0;
-    boost::math::lognormal dist{AS_DOUBLE(mu), AS_DOUBLE(sigma)};
-
-    for (unsigned j = 0; j < n_quant_; ++j) {
-      size = quantile(dist, AS_DOUBLE(quantiles_[j]));
-
-      if (size <= x0_)
-        total += alpha_ * y0_ * pow((y1_ / y0_), (size - x0_) / (x1_ - x0_));
-      else
-        total += alpha_ * y0_ * pow((y2_ / y0_), (size - x0_) / (x2_ - x0_));
-    }
-    return total / n_quant_;
+Double DoubleExponential::get_value(unsigned value) {
+  if (value <= x0_) {
+    return alpha_ * y0_ * pow((y1_ / y0_), (value - x0_) / (x1_ - x0_));
+  } else if (value > x0_ && value <= x2_) {
+    return alpha_ * y0_ * pow((y2_ / y0_), (value - x0_) / (x2_ - x0_));
+  } else {
+    return y2_;
   }
-  LOG_CODE_ERROR() << "The specified distribution is not a valid distribution: " << dist;
-  return 0;
+  return 1.0;
 }
 } /* namespace selectivities */
 } /* namespace niwa */

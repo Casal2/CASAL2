@@ -223,9 +223,9 @@ void ProportionsByCategory::DoValidate() {
       }
     }
 
-    //    if (fabs(1.0 - total) > tolerance_) {
-    //      LOG_ERROR_P(PARAM_OBS) << ": obs sum total (" << total << ") for year (" << iter->first << ") exceeds tolerance (" << tolerance_ << ") from 1.0";
-    //    }
+    //if (!utilities::math::IsOne(total)) {
+    //  LOG_WARNING()  << "obs sum total (" << total << ") for year (" << iter->first << ") doesn't sum to 1.0";
+    //}
   }
 }
 

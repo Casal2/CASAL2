@@ -42,6 +42,9 @@ public:
   void DoReset() override final;
   void DoExecute() override final;
 
+  const vector<string>& category_labels() const { return category_labels_; }
+
+
 private:
   // Members
   vector<string>             category_labels_;
@@ -50,9 +53,9 @@ private:
   vector<Double>             ratios_;
   map<unsigned, Double>      time_step_ratios_;
   vector<vector<Double>>     mortality_rates_;
-  //  vector<string>              selectivity_names_;
+  vector<string>              selectivity_names_;
   accessor::Categories partition_;
-  //  vector<Selectivity*>        selectivities_;
+  vector<Selectivity*>        selectivities_;
 };
 
 } /* namespace length */

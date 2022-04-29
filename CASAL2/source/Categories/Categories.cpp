@@ -16,18 +16,10 @@
 #include <boost/algorithm/string/split.hpp>
 #include <boost/algorithm/string/trim_all.hpp>
 
-#include "../AgeLengths/Age/None.h"
 #include "../AgeLengths/AgeLength.h"
-#include "../AgeLengths/Factory.h"
 #include "../AgeLengths/Manager.h"
-#include "../AgeWeights/Age/None.h"
-#include "../AgeWeights/AgeWeight.h"
-#include "../AgeWeights/Factory.h"
-#include "../AgeWeights/Manager.h"
-#include "../LengthWeights/Common/None.h"
-#include "../LengthWeights/Factory.h"
-#include "../LengthWeights/LengthWeight.h"
-#include "../LengthWeights/Manager.h"
+#include "../GrowthIncrements/GrowthIncrement.h"
+#include "../GrowthIncrements/Manager.h"
 #include "../Logging/Logging.h"
 #include "../Model/Model.h"
 #include "../Utilities/String.h"
@@ -52,6 +44,7 @@ Categories::Categories(shared_ptr<Model> model) : model_(model) {
   // Years commented out due to GitHub Issue: https://github.com/NIWAFisheriesModelling/CASAL2/issues/367
   // parameters_.Bind<string>(PARAM_YEARS, &years_, "The years that individual categories will be activated (if different from the model for these categories)", "", true);
   parameters_.Bind<string>(PARAM_AGE_LENGTHS, &age_length_labels_, "The age-length relationship labels for each category", "")->set_partition_type(PartitionType::kAge);
+  parameters_.Bind<string>(PARAM_GROWTH_INCREMENT, &growth_increment_labels_, "The growth increment model label for each category", "")->set_partition_type(PartitionType::kLength);
   //parameters_.Bind<string>(PARAM_AGE_WEIGHT, &age_weight_labels_, "The age-weight relationships labels for each category", "", true)->set_partition_type(PartitionType::kAge);
 }
 
@@ -126,18 +119,17 @@ void Categories::Validate() {
       category_names_.push_back(names_[i]);
     }
   } else if (model_->partition_type() == PartitionType::kLength) {
-    LOG_FATAL() << "Length-based partition models have not yet been implemented";
     // get the age sizes
-    if (length_weight_labels_.size() > 0 && length_weight_labels_.size() != names_.size())
-      LOG_ERROR_P(PARAM_LENGTH_WEIGHT) << " number of length-weight labels (" << length_weight_labels_.size() << " were specified) must be the same as the number of categories ("
+    if (growth_increment_labels_.size() > 0 && growth_increment_labels_.size() != names_.size())
+      LOG_ERROR_P(PARAM_GROWTH_INCREMENT) << " number of length-weight labels (" << growth_increment_labels_.size() << " were specified) must be the same as the number of categories ("
                                        << names_.size() << ")";
 
     vector<string> format_chunks;
     boost::split(format_chunks, format_, boost::is_any_of("."), boost::token_compress_on);
     // build our categories vector
     for (unsigned i = 0; i < names_.size(); ++i) {
-      if (length_weight_labels_.size() > i)
-        category_length_weight_labels_[names_[i]] = length_weight_labels_[i];
+      if (growth_increment_labels_.size() > i)
+        category_growth_increment_labels_[names_[i]] = growth_increment_labels_[i];
 
       // expand the names.
       vector<string> category_chunks;
@@ -220,14 +212,14 @@ void Categories::Build() {
       categories_[iter->first].age_length_ = age_size;
     }  
   } else if (model_->partition_type() == PartitionType::kLength) {
-    lengthweights::Manager* length_weight_manager = model_->managers()->length_weight();
-    auto                    iter                  = category_length_weight_labels_.begin();
-    for (; iter != category_length_weight_labels_.end(); ++iter) {
-      LengthWeight* length_weight = length_weight_manager->GetLengthWeight(iter->second);
-      if (!length_weight)
-        LOG_ERROR_P(PARAM_LENGTH_WEIGHT) << "Length-weight label (" << iter->second << ") was not found.";
+    growthincrements::Manager* growth_increment_manager = model_->managers()->growth_increment();
+    auto                    iter                  = category_growth_increment_labels_.begin();
+    for (; iter != category_growth_increment_labels_.end(); ++iter) {
+      GrowthIncrement* growth_increment = growth_increment_manager->GetGrowthIncrement(iter->second);
+      if (!growth_increment)
+        LOG_ERROR_P(PARAM_GROWTH_INCREMENT) << "Growth Increment label (" << iter->second << ") was not found.";
 
-      categories_[iter->first].length_weight_ = length_weight;
+      categories_[iter->first].growth_increment_ = growth_increment;
     }
   }
 }
@@ -574,14 +566,16 @@ AgeLength* Categories::age_length(const string& category_name) {
  * @param category_name The name of the category
  * @return The LengthWeight instance for the category
  */
-LengthWeight* Categories::length_weight(const string& category_name) {
+GrowthIncrement* Categories::growth_increment(const string& category_name) {
   if (categories_.find(category_name) == categories_.end())
     LOG_CODE_ERROR() << "Could not find category_name " << category_name << " in the list of loaded categories";
+  // this code allowed models to not have specified length_weight labels.
+  /*
   if (!categories_[category_name].length_weight_) {
-    categories_[category_name].length_weight_ = lengthweights::Factory::Create(model_, PARAM_LENGTH_WEIGHT, PARAM_NONE);
+    categories_[category_name].length_weight_ = lengthweights::Factory::Create(model_, PARAM_GROWTH_INCREMENT, PARAM_NONE);
   }
-
-  return categories_[category_name].length_weight_;
+  */
+  return categories_[category_name].growth_increment_;
 }
 
 /**
@@ -595,8 +589,8 @@ void Categories::Clear() {
   categories_.clear();
   age_length_labels_.clear();
   category_age_length_labels_.clear();
-  length_weight_labels_.clear();
-  category_length_weight_labels_.clear();
+  growth_increment_labels_.clear();
+  category_growth_increment_labels_.clear();
 }
 
 } /* namespace niwa */

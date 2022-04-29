@@ -1,0 +1,339 @@
+
+Population processes are processes that change the model state. These processes produce changes in the partition by adding or removing individuals, or by moving individuals between length bins and/or categories.
+
+Current population processes available include:
+
+\begin{itemize}
+\item recruitment\index{Recruitment} (Section~\ref{sec:Process-Length-Recruitment}),
+\item growth\index{Growth} (Section~\ref{sec:Process-Length-Growth}),
+\item mortality\index{Mortality} events (e.g., natural and fishing) (Section~\ref{sec:Process-Length-Mortality}), 
+\item category transition processes\index{Category transition}, i.e., processes that move individuals between categories while preserving their overall length structure (Section~\ref{sec:Process-Length-TransitionCategory}), and
+\end{itemize}
+
+There are three types of processes: (1) processes that occur across multiple time steps in the annual cycle, e.g., \subcommand{mortality\_constant\_rate}, \subcommand{mortality\_instantaneous}, \subcommand{growth}; and (2) processes that occur only within the time step in which they are specified.
+
+\subsubsection{\I{Recruitment}}\label{sec:Process-Length-Recruitment}
+
+The recruitment processes adds new individuals to the partition. Recruitment depends on the \(B_{0}\) and \(R_{0}\) parameters which are interpreted as the average spawning stock biomass and recruitment over the period of data when there is no fishing. The other factors needed are spawning stock biomass (SSB, see Section~\ref{sec:DerivedQuantity}), stock-recruitment relationship and the CV for the prior on YCS (the mean is mandated to be 1 over some specified year range). Thus, a SSB label may have to be included (pointing to a derived quantity).
+
+In the recruitment processes, a number of individuals are added to a range of categories and length bins within the partition, with the overall number determined by the type of stock-recruitment process specified. If recruits are added to more than one category, then the proportion of recruits to be added to each category is specified by the \argument{proportions} subcommand. For example, if recruiting to categories labelled \texttt{male} and \texttt{female}, then the proportions may be set to $0.5$ and $0.5$, so that half of the recruits are added to the male category and the other half to the female category.
+
+Recruitment can differ between a spawning event or the creation of a cohort/year class. One view for fisheries is that recruitment usually refers to individuals \enquote{recruiting} to a fishery. This definition is used because there is generally not a lot of observations for fish on younger fish between the time of spawning and being vulnerable to a survey or fishery for data collection.
+
+
+The year offset between spawning and recruitment is required by users. The \CNAME\ parameter \texttt{ssb\_offset} is the same as the CASAL parameter \texttt{y\_enter}.
+
+
+\begin{equation}
+N_{y,l,j} \leftarrow N_{y,l,j} + p_j(R_y) * f_j(l,\mu, \sigma)
+\end{equation}
+
+where $N_{y,l,j}$ is the numbers in year $y$ and category $j$ at length bin $l$, $p_j$ is the proportion added to category $j$, \(f(l,\mu, \sigma)\) is the density function of recruits among length bins for category \(j\), and $R_y$ is the total number of recruits in year $y$.
+
+
+\paragraph{\I{Beverton-Holt recruitment}}\label{sec:Process-Length-RecruitmentBevertonHolt}
+
+In the Beverton-Holt recruitment process the total number of recruits added each year is $R_y$. $R_y$ is the product of the average recruitment $R_0$, the annual year class strength multiplier $YCS$, and the stock-recruit relationship $SR(SSB_y)$
+
+\begin{equation}\label{eq:BH}
+R_{y} = (R_0 \times YCS_{ycs\_year} \times SR(SSB_{ycs\_year}))
+\end{equation}
+
+where
+
+\begin{equation}\label{eq:year_class}
+ycs\_year = y - \texttt{ssb\_offset}
+\end{equation}
+Recruitment refers to recruitment into the population and may differ from the spawning event. See below on more information about \texttt{ssb\_offset}.
+
+$SR(SSB_y)$ is the Beverton-Holt stock-recruit relationship parametrised by the steepness $h$, and based on \cite{mace_doonan_88} parametrisation
+
+\begin{equation}\label{eq:BH_SR}
+SR(SSB_y) = \frac{SSB_y}{B_0} / \left( 1-\frac{5h-1}{4h} \left( 1-\frac{SSB_y}{B_0} \right) \right)
+\end{equation}
+
+The Beverton-Holt recruitment process requires a value for \Bzero\ and $SSB_y$ to calculate the number of recruits. A derived quantity (see Section \ref{sec:DerivedQuantity}) must be defined that provides the annual $SSB_y$ for the recruitment process. \Bzero\ is then defined as the value of the $SSB$ at the end of one of the initialisation phases, which is defined by the parameter \texttt{b0\_initialisation\_phase}.
+
+During initialisation the $YCS$ multipliers are assumed to be equal to 1, and recruitment that happens in the initialisation phases that occur before and during the phase when \Bzero\ is determined are assumed to have steepness $h=1$ (i.e., in those initialisation phases, recruitment is equal to \Rzero).
+
+Recruitment in the initialisation phases after the phase where \Bzero\ was determined are calculated using the Beverton-Holt stock-recruit relationship. \Rzero\ and \Bzero\ have a direct relationship when there are no density-dependent processes in the annual cycle. Models can thus be initialised using \Bzero\ or \Rzero.
+
+
+The length density function is denoted by \(f_j(l,\mu, \sigma)\) is the normal distribution. This is calculated by calculating the cumulative density over the length bins. The first length bin is assumed to be a minimum length bin. This density can be category specific and is defined by the input parameters \texttt{inital\_mean\_length} and \texttt{inital\_length\_cv}.
+
+
+{\small{\begin{verbatim}
+		@process Recruitment
+		type recruitment_beverton_holt
+		categories immature mature
+		proportions 1.0 0.0
+		r0 500000
+		steepness 0.75
+		ssb_offset 1
+		inital_mean_length 10
+		inital_length_cv 0.40
+		ssb SSB_derived_quantity
+		\end{verbatim}}}
+
+The property \texttt{ssb\_offset} has to be manually specified;
+
+\paragraph*{YCS ($YCS_y$)}
+
+The $YCS$ parameter (\texttt{ycs\_years}) is defined in Equation~\eqref{eq:year_class}. The parameter \texttt{ycs\_values} is referenced by the \texttt{ycs\_years} parameter and is important to note when defining \command{estimate}, \command{project}, and \command{time\_varying} blocks for the parameter \texttt{ycs\_values}. An example is at the end of the section.
+
+A common practice when estimating $YCS$ is to standardise using the Haist parametrisation, which was described by V. Haist. \CNAME\ will standardise $YCS$ only if subcommand \subcommand{standardise\_ycs\_years} is defined. The model parameter \texttt{ycs\_values} is a vector \textbf{Y}, covering the years from \texttt{start\_year} - \texttt{ssb\_offset} to \texttt{final\_year} - \texttt{ssb\_offset}, as defined by the parameter \texttt{ycs\_years}. The resulting year class strengths are calculated by $YCS_i=Y_i/\bar{\textbf{Y}}$, where the mean is calculated over the user-specified years \texttt{standardise\_ycs\_years}.
+
+
+An alternative to \enquote{standardisation} is to constrain the $YCS$ parameters using the simplex transformation (see Section~\ref{sec:Transformation-Simplex}). This is thought to have estimation benefits over the \enquote{standardisation} as priors can be applied to the \enquote{free} parameters (\(Y_i\)).
+
+\[
+YCS_i =
+\begin{cases}
+Y_i / mean_{y \in S}(Y_y) & :y \in S\\
+Y_i					 & :y \notin S
+\end{cases}
+\]
+
+where S is the set of years from \texttt{standardise\_ycs\_years}. One effect of this parametrisation is that \Rzero\ is then defined as the mean estimated recruitment over the set of years $S$, because the mean $YCS$ multiplier over these years will always be one.
+
+Typically \texttt{standardise\_ycs\_years} is defined to span the years over which $YCS$ is reasonably well estimated. For years that are not well estimated, $Y_y$ can be set to 1 for some or all years $y\in S$ (which is equivalent to forcing $R_y$ = \Rzero\ x $SR(SSB_y)$) by setting the lower and upper bounds of these $Y$ values to 1. An exception to this might occur for the most recent $YCS$ values, which the user may estimate but not include in the definition of \Rzero\ (because the estimates may be based on too few data). One or more years may be excluded from the range of years for the averaging process of the Haist parametrisation.
+
+The advantage of the Haist parametrisation is that a large penalty is not necessary to force the mean of the $YCS$ parameter to be 1, although a small penalty should still be used to stop the mean of \textbf{Y} from drifting. These adjustments may improve MCMC performance. Projected $YCS$ values are not affected by this feature. A disadvantage with this parametrisation in a Bayesian analysis is that the prior applies to $Y$, not $YCS$.
+
+In the  example given above,  $YCS$ are standardised to have mean one in the period 1995 to 2004, and recruits enter into the model two years following spawning
+
+{\small{\begin{verbatim}
+		@process Recruitment
+		type recruitment_beverton_holt
+		...            #subcommand above
+		standardise_ycs_years 1995:2004
+		ycs_years  1994 1995 1996 1997 1998 1999 2000 2001 2002 2003 2004 2005 2006
+		ycs_values 0.65 0.87  1.6 1.13 1.02 0.38 2.65 1.35    1    1    1    1    1
+		\end{verbatim}}}
+
+
+\subsubsection{\I{Mortality}\label{sec:Process-Mortality}}
+
+There are 3 types of mortality processes available in \CNAME length based models, and one tag release processes that also causes mortality (See Tagging Section~\ref{sec:Process-Tagging}):
+
+\begin{itemize}
+	\item constant rate,
+	\item instantaneous,
+	\item disease
+\end{itemize}
+
+\paragraph{Constant mortality rate}\label{sec:Process-Length-MortalityConstantRate} 
+
+To specify a constant annual mortality rate \index{Constant mortality}(e.g. $M=0.2$) for categories "male" and "female"
+{\small{\begin{verbatim}
+		# A process with label NaturalMortality
+		@process NaturalMortality
+		type          mortality_constant_rate
+		categories    male female
+		relative_m_by_length One One
+		m             0.2 0.2
+		\end{verbatim}}}
+
+The total number of individuals removed from a category
+
+\begin{equation}
+D_{j,t} = \sum_l N_{l,j,t} [1 - \exp(-S_{l,j} M_{l,j} p_t)]
+\end{equation}
+
+where $D_{j,t}$ is the total number of deaths in category $j$ in time step $t$, $N_{l,j,t}$ is the number of individuals in category $j$ of length bin $l$ in time step $t$, $S_{l,j}$ is the selectivity value for length bin $l$ in category $j$, $M_{l,j}$ is the mortality rate for category $j$ for length bin $l$, and $p_t$ is the proportion of the mortality rate to apply in time step $t$.
+
+The mortality rate process requires the specification of the mortality-by-length curve which is specified using a selectivity. To apply the same mortality rate over all length bins in a category, use a selectivity defined as $S_{l,j}=1.0$ for all lengths $l$ in category $j$
+
+{\small{\begin{verbatim}
+		@selectivity One
+		type constant
+		c 1
+		\end{verbatim}}}
+
+Length-specific mortality rates can also be applied. For example, the hypothesis that mortality is higher for younger and older individuals and lowest when individuals are at their optimal fitness could be defined by using a double exponential selectivity (see Section~\ref{sec:Selectivity})
+
+{\small{\begin{verbatim}
+		@selectivity length_specific_M
+		type double_exponential
+		x0 12
+		x1 1
+		x2 37
+		y0 0.182154
+		y1 1.43768
+		y2 1.57169
+		alpha 1.0
+		
+		@process      NaturalMortalityByLength
+		type          mortality_constant_rate
+		categories    male female
+		relative_m_by_length length_specific_M length_specific_M
+		m             1.0 1.0
+		\end{verbatim}}}
+
+
+In this definition \subcommand{m} is set to 1.0 and the rate is described through the selectivity. Otherwise, $M_{l} = S_{l} * m$. This concept can be constructed similarly for other mortality methods such as \subcommand{instantaneous\_mortality}.
+
+\paragraph{Instantaneous mortality}\label{sec:Process-Length-MortalityInstantaneous}
+
+The instantaneous mortality process\index{Instantaneous mortality} combines both natural mortality and fishing exploitation into a single process. This allows the simultaneous application of both natural mortality and anthropogenic mortality to occur across multiple time steps. This process accounts for half the natural mortality within a time step before calculating vulnerable biomasses for calculating exploitation rates. The remaining half of the natural mortality is taken after exploitation has been accounted for. The input for this process is catches and these can either be specified as biomasses or numbers (abundance). In fisheries models in \CNAME\ this is the most commonly used mortality process.
+
+This process allows for multiple removal events, e.g., a fisheries model with multiple fisheries and/or fleets. A removal method can occur in one time step only, although multiple removals can be defined to cover events during the year.
+
+The equations for instantaneous mortality are based on popes discrete catch equation, it assumes catch is known without error and \CNAME\ will try and take the exact catch in the input.
+
+
+\begin{itemize}
+	\item An exploitation rate (actually a proportion) is calculated for each fishery, as the catch divided by the selected-and-retained abundance or biomass),
+	$$ U_f = \frac{C_f}{\sum_l \bar{w}_l S_{f,l} n_l exp(-0.5 t M_l)}$$
+	\item The mortality pressure associated with method $f$ is defined as the maximum proportion of fish taken from any element of the partition in the area affected by the method $f$
+	$$ U_{f,obs} = max_l(\sum_k S_{k,l} U_k) $$
+	where the maximum is over all partition elements affected by fishery $f$, and the summation is over all methods $k$ which affect the $j$th partition element in the same time step as fishery $f$.
+	
+	In most cases the mortality pressure will be equal to the exploitation rate (i.e., $U_{f,obs} = U_f$), but can be different if: (a) there is another removal method operating in the same time step as removal method $f$ and affecting some of the same partition elements, and/or (b) the selectivity $S_{f,l}$ does not have a maximum value of 1.
+	
+	There is a maximum mortality pressure limit of $U_{f,max}$ for each method of removal $f$. So, no more than proportion $U_{f,max}$ can be taken from any element of the partition affected by removal method $f$ in that time step. Clearly, $0 \leq U_{max} \leq 1$. It is an error if two removal methods, which affect the same partition elements in the same time step, do not have the same $U_{max}$.
+	
+	For each $f$, if $U_{f,obs} > U_{f,max}$, then $U_f$ is multiplied by $U_{f,max}/U_{f,obs}$ and the mortality pressures are recalculated. In this case the catch actually taken from the population in the model will differ from the specified catch, $C_f$.
+	
+	\item The partition is updated using
+	$$ n'_l = n_l exp(-tM_l)\big[1 - \sum_f S_{f,l} U_f \big] $$
+\end{itemize}
+
+For example, to apply natural mortality of $0.20$ across three time steps on both male and female categories, with two methods of removals (fisheries \texttt{FishingWest} and \texttt{FishingEast}) and their respective catches (kg) known for years 1975:1977 (the catches are given in the \texttt{catches} table and information on selectivities, penalties, and maximum exploitation rates are given in the \texttt{method} table), the syntax is
+
+
+{\small{\begin{verbatim}
+		@process instant_mort
+		type mortality_instantaneous
+		m 0.20
+		time_step_proportions 0.42 0.25 0.33
+		relative_m_by_length One
+		categories male female
+		biomass true
+		units kgs
+		
+		table catches
+		year FishingWest FishingEast
+		1975	80000	111000
+		1976	152000	336000
+		1977	74000	1214000
+		end table
+		
+		table method
+		method       category  selectivity u_max   time_step  penalty
+		FishingWest   stock     westFSel    0.7     step1     CatchPenalty
+		FishingEast   stock     eastFSel    0.7     step1     CatchPenalty
+		end_table
+		\end{verbatim}}}
+
+and for referencing catch parameters for use in projecting, time-varying, and estimating, the syntax is
+
+{\small{\begin{verbatim}
+		parameter process[mortality_instantaneous].method_"method_label"{2018}
+		\end{verbatim}}}
+
+where \subcommand{"method\_label"} is the label from the \subcommand{catch} or \subcommand{method} table and continuing the example,
+
+{\small{\begin{verbatim}
+		parameter process[instant_mort].method_FishingWest{2018}
+		\end{verbatim}}}
+
+
+\paragraph{Disease mortality rate}\label{sec:Process-Length-DiseaseMortalityRate} 
+Disease mortality is a special, additional, mortality that is implemented to occur after natural and fishing mortality during a time step. This process removes fish from the partition, is applied to all areas, and can depend on sex/length class.
+
+The partition is updated as follows
+\begin{equation}
+	n'_{c,j} = n_{c,j}  exp\{-t_y M_{c} S_{c,j} \}
+\end{equation}
+%
+where, \(n_{c,j}\) is the partition for category \(c\) and length class \(j\) before mortality and \(n'_{c,j}\)  is after the process. \(t_y\) is an annual multiplicative scalar (estimable), \(M_{c}\) is the category specific mortality rate and \(S_{c,j}\) is the selectivity.
+ 
+{\small{\begin{verbatim}
+@process DiseaseMortality
+type mortality_disease_rate
+disease_mortality_rate 1.0
+selectivities DiseaseSel 
+categories OYS
+year_effect 0.05 0.11 0.39 0.38 0.20 
+years 2000 2001 2002 2003 2004 2005 
+		\end{verbatim}}}
+\subsubsection{\I{Transition By Category}}\label{sec:Process-Length-TransitionCategory}
+The transition by category process moves individuals between categories. This process is used to specify transitions such as maturation (individuals move from an immature to mature state) and migration (individuals move from one area to another).
+
+There is a one-to-one relationship between the "from" category and the "to" category, i.e., for every source category there is one target category only
+
+\begin{equation}
+N_{l,j} = N_{l,i} \times P_i \times S_{l,i}
+\end{equation}
+
+where $N_{l,j}$ is the number of individuals that have moved to category $j$ from category $i$ in length bin $l$, $N_{a,i}$ is the number of individuals in category $i$, $P_i$ is the proportion parameter for category $i$, and $S_{l,i}$ is the selectivity at length bin $l$ for category $i$.
+
+To merge categories repeat the "to" category multiple times.
+
+For example, to specify a simple spawning migration of mature males from a western area to an eastern (spawning) area, the syntax is
+
+{\small{\begin{verbatim}
+		@process Spawning_migration
+		type transition_category
+		from West.males
+		to East.males
+		selectivities MatureSel
+		proportions 1
+		\end{verbatim}}}
+
+where \texttt{MatureSel} is a selectivity that describes the proportion of length or length classes that are mature and thus move to the eastern area.
+
+
+\subsubsection{\I{Tagging}}\label{sec:Process-Tagging} 
+Tag release events (also known as mark-recapture events or tag-release events) allow \CNAME\ to incorporate tagging data into the model.
+
+Tagging is a process that moves fish from the general population into specific \enquote{tag} categories. The aim is to get \CNAME\ to track these separately to generate expected recaptures or growth etc.
+
+In addition to creating tag category of the partition, you will need to initialise the values by defining a tag-release event (otherwise they will always be zero). This process moves fish from the \enquote{un tagged} category of the partition into a named category of the partition. You will need to define how many fish to move, and the year, time step, area, and stock. Also, you may
+need to define a penalty (see Section~\ref{sec:Penalty-Process}) to discourage parameter values which do not lead to enough fish being present in the population to allow for the number being tagged (although in cases where only a small proportion of the population is tagged, this is unlikely to be required).
+
+The partition is then updated by moving \(N\) fish from the equivalent \enquote{un tagged} category of the partition to the named tag category of the partition, where the numbers at length are defined by a vector of proportions by category. Note that \CNAME\ expects the vector of proportions to sum to 1 over all length bins.
+
+\CNAME\ moves fish using an \enquote{rate} which relates to the penalty. All \enquote{un tagged} categories represented by \(\tilde{c}\) are multiplied by a selectivity to calculate total abundance available to be tagged denoted by \(V_{c,j}\)
+
+\begin{equation*}
+	V_{c,j} = \sum\limits_{\tilde{c}} n_{\tilde{c}, j} S_{c,j} \ \tilde{c} \in c
+\end{equation*}
+%
+where, \(\tilde{c}\) are categories that are a subset of \(c\) which can be an accumulation of multiple categories. Users define number of tags released denoted by \(N\) and the proportion by length denoted by \(p_{c,j}\) see below for an example configuration file excerpt.
+\begin{equation*}
+U_{c,j} = \frac{Np_{c,j}}{V_{c,j}}
+\end{equation*}
+%
+if this rate is greater than the input subcommand \subcommand{u\_max}
+
+\begin{equation*}
+U_{c,j}
+\begin{cases}
+	U_{c,j} \geq u_{max}, & u_{max} \ \text{flag penalty}\\
+	U_{c,j} < u_{max}, & U_{c,j} \\
+\end{cases}
+\end{equation*}
+Tagged fish are moved as followed
+
+\begin{equation*}
+	T_{c,j} = U_{c,j} V_{c,j}
+\end{equation*}
+
+{\small{\begin{verbatim}
+@process tag_1996
+type tagging
+years 1996
+from untagged.male
+to 1996_3.male
+initial_mortality 0
+u_max 0.99
+selectivities [type=constant; c=1]
+penalty none
+N 61
+table proportions
+year 20	21	22	23	24	25	26	27	28	29	30
+1996 0.016	0	0.016	0	0.032	0	0	0.01	0.045	0.048	0.016	
+end_table
+\end{verbatim}}}

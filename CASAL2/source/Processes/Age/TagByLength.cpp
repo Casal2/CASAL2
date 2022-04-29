@@ -73,6 +73,10 @@ void TagByLength::DoValidate() {
   max_age_    = model_->max_age();
   age_spread_ = model_->age_spread();
 
+
+  if(tolerance_ > 0.01) {
+    LOG_ERROR_P(PARAM_TOLERANCE) << "Your tolerance is larger than " << 0.01 << " this mean Casal2 may tag less fish than you think it should. It is recommended that you pick a smaller number.";
+  }
   // Check length bins
   if (model_->length_bins().size() == 0)
     LOG_FATAL_P(PARAM_TYPE) << ": No length bins have been specified in @model. This process requires those to be defined, as the table dimensions depend on them.";

@@ -44,6 +44,9 @@ public:
   void DoReset() override final{};
   void DoExecute() override final;
 
+  // accessor
+  const vector<string>& category_labels() const { return category_labels_; }
+
 private:
   // Members
   vector<string>             category_labels_;

@@ -100,11 +100,12 @@ public:
   virtual PartitionType         partition_type() const { return partition_type_; }
   virtual const vector<double>& length_bins() const { return model_length_bins_; }
   virtual bool                  length_plus() const { return length_plus_; }
+  virtual const vector<double>& length_bin_mid_points() const { return model_length_bin_mid_points_;}
   virtual double                length_plus_group() const { return length_plus_group_; }
   unsigned                      get_number_of_length_bins() const { return number_of_model_length_bins_; }
   bool                          are_length_bin_compatible_with_model_length_bins(vector<double>& length_bins);
   vector<int>                   get_map_for_bespoke_length_bins_to_global_length_bins(vector<double> length_bins, bool plus_group);
-
+  unsigned                      get_length_bin_ndx(Double value);
   void                          set_id(unsigned id) { id_ = id; }
   unsigned                      id() const { return id_; }
   void                          flag_primary_thread_model() { is_primary_thread_model_ = true; }
@@ -163,6 +164,7 @@ protected:
   vector<string>       initialisation_phases_;
   vector<string>       time_steps_;
   vector<double>       model_length_bins_;
+  vector<double>       model_length_bin_mid_points_;
   bool                 length_plus_              = true;
   double               length_plus_group_        = 0;
   bool                 addressable_values_file_  = false;

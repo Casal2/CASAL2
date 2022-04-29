@@ -38,6 +38,18 @@
 #include "Observations/Age/TagRecaptureByLength.h"
 #include "Observations/Manager.h"
 
+// Length
+#include "Observations/Length/Abundance/Process.h"
+#include "Observations/Length/Abundance/TimeStep.h"
+#include "Observations/Length/Biomass/Process.h"
+#include "Observations/Length/Biomass/TimeStep.h"
+#include "Observations/Length/ProcessRemovalsByLength.h"
+#include "Observations/Length/ProportionsAtLength/Process.h"
+#include "Observations/Length/ProportionsAtLength/TimeStep.h"
+#include "Observations/Length/TagRecaptureByLength.h"
+#include "Observations/Length/TagRecaptureByLengthForGrowth.h"
+#include "Observations/Length/ProportionsCategoryByLength.h"
+
 // Namespaces
 namespace niwa {
 namespace observations {
@@ -98,10 +110,27 @@ Observation* Factory::Create(shared_ptr<Model> model, const string& object_type,
       else if (sub_type == PARAM_TAG_RECAPTURE_BY_LENGTH)
         result = new age::TagRecaptureByLength(model);
     }
-  } /*else if (model->partition_type() == ModelType::kLength) {
-    result = length::processes::Factory::Create(model, object_type, sub_type);
+  } else if (model->partition_type() == PartitionType::kLength) {
+      if (sub_type == PARAM_ABUNDANCE)
+        result = new length::TimeStepAbundance(model);
+      else if (sub_type == PARAM_PROCESS_ABUNDANCE)
+        result = new length::ProcessAbundance(model);
+      else if (sub_type == PARAM_BIOMASS)
+        result = new length::TimeStepBiomass(model);
+      else if (sub_type == PARAM_PROCESS_BIOMASS)
+        result = new length::ProcessBiomass(model);
+      else if (sub_type == PARAM_PROCESS_REMOVALS_BY_LENGTH)
+        result = new length::ProcessRemovalsByLength(model);
+      else if (sub_type == PARAM_PROPORTIONS_AT_LENGTH)
+        result = new length::TimeStepProportionsAtLength(model);
+      else if (sub_type == PARAM_TAG_RECAPTURE_BY_LENGTH)
+        result = new length::TagRecaptureByLength(model);
+      else if (sub_type == PARAM_TAG_RECAPTURE_BY_LENGTH_FOR_GROWTH)
+        result = new length::TagRecaptureByLengthForGrowth(model);
+      else if (sub_type == PARAM_PROPORTIONS_BY_CATEGORY)
+        result = new length::ProportionsCategoryByLength(model);
   }
-*/
+
   if (result)
     model->managers()->observation()->AddObject(result);
 

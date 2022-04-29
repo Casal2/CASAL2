@@ -41,6 +41,7 @@ public:
 
   // accessors
   virtual Double mean_weight(Double size, Distribution distribution, Double cv) const = 0;
+  virtual Double mean_weight(Double size) const = 0;  // overloader for length based models
   virtual string weight_units() const                                                 = 0;
 
   // members

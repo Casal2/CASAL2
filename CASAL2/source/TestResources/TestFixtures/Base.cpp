@@ -15,6 +15,7 @@
 #include "../../Model/Managers.h"
 #include "../../Model/Model.h"
 #include "../../Model/Models/Age.h"
+#include "../../Model/Models/Length.h"
 
 // namespaces
 namespace niwa {

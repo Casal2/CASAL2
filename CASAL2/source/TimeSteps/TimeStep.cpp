@@ -54,6 +54,13 @@ void TimeStep::Build() {
   }
   LOG_FINE() << "Time step " << label_ << " has " << processes_.size() << " processes";
 
+  // Check if this time-step was in the annual cycle.
+  // if not flag an info to user
+  vector<string> model_time_steps = model_->time_steps();
+  if(find(model_time_steps.begin(), model_time_steps.end(), label_) == model_time_steps.end()) {
+    LOG_INFO() << "time_step " << label_ << " was defined but not included in the annual cycle.";
+  } 
+
   /**
    * Find the range of our mortality block. This block encompasses the
    * first continuous collection of mortality processes within the time
@@ -74,7 +81,12 @@ void TimeStep::Build() {
 
   mortality_block_.second = mortality_block_.first == processes_.size() ? mortality_block_.first : mortality_block_.second;
 }
+ /**
+ * Execute the time step during the initialisation phases
+ */
+void     TimeStep::Verify(shared_ptr<Model> model) {
 
+}
 /**
  * Execute the time step during the initialisation phases
  */

@@ -41,13 +41,13 @@
 \defType{Data table with label = obs}
 \defDefault{No default}
 \defValue{A $n*m$ matrix, where $n=$ the years and $m=$ either the number of ages, lengths, or abundance/biomass observation for each year defined in the model. Each row starts with the year. The table ends with `end\_table'}
-\defNote{See \ref{sec:DataTable} for more details on specifying data tables. The exact number of columns depends on the observation type}
+\defNote{See \ref{sec:DataTable} for more details each observation may have custom table labels.}
 
 \defSub{table}{The table of data specifying the observed error values}
 \defType{Data table with label = error\_values}
 \defDefault{No default}
 \defValue{A $n*m$ matrix, where $n=$ the years and $m=$ either the number of ages, lengths, or abundance/biomass observation for each year defined in the model. Each row starts with the year. The table ends with `end\_table'}
-\defNote{See \ref{sec:DataTable} for more details on specifying data tables. The exact number of columns depends on the likelihood type}
+\defNote{See \ref{sec:DataTable} for more details on specifying data tables.  each observation may have custom table labels.}
 
 \subsubsection{Observation of type Abundance}
 \commandlabsubarg{observation}{type}{Abundance}.
@@ -74,6 +74,21 @@
 \defSub{years}{The years for which there are observations}
 \defType{Vector of non-negative integers}
 \defDefault{No default}
+
+\defSub{table obs}{The table of data specifying the observed and error values}
+\defType{Data table with label = obs}
+\defDefault{No default}
+\defValue{A $n*3$ matrix, where $n=$ the years and a column for year, observation and error value. See below for example.}
+\defNote{example below}
+\begin{verbatim}
+table obs 
+# year observation error_value
+1993 238.2 0.12
+1994 170 0.16
+1995 216.2 0.18
+2004 46.9 0.20
+end_table
+\end{verbatim}
 
 \subsubsection{Observation of type Biomass}
 \commandlabsubarg{observation}{type}{Biomass}.
@@ -105,6 +120,21 @@
 \defType{Vector of non-negative integers}
 \defDefault{No default}
 
+\defSub{table obs}{The table of data specifying the observed and error values}
+\defType{Data table with label = obs}
+\defDefault{No default}
+\defValue{A $n*3$ matrix, where $n=$ the years and a column for year, observation and error value. See below for example.}
+\defNote{example below}
+\begin{verbatim}
+table obs 
+# year observation error_value
+1993 238.2 0.12
+1994 170 0.16
+1995 216.2 0.18
+2004 46.9 0.20
+end_table
+\end{verbatim}
+
 \subsubsection{Observation of type Process Removals By Age}
 \commandlabsubarg{observation}{type}{Process\_Removals\_By\_Age}.
 \defRef{sec:Observation-ProcessRemovalsByAge}
@@ -135,12 +165,6 @@
 \defType{Vector of strings}
 \defDefault{No default}
 
-\defSub{tolerance}{The tolerance}
-\defType{Real number (estimable)}
-\defDefault{0.001}
-\defLowerBound{0.0 (exclusive)}
-\defUpperBound{1.0 (exclusive)}
-
 \defSub{years}{The years for which there are observations}
 \defType{Vector of non-negative integers}
 \defDefault{No default}
@@ -161,6 +185,28 @@
 \defType{String}
 \defDefault{No default}
 
+\defSub{table obs}{The table of data specifying the observed values}
+\defType{Data table with label = obs}
+\defDefault{No default}
+\defValue{A $n\times m$ matrix, where $n=$ the years and $m$ is categories \(\times\) length bins. See below for example.}
+\defNote{example below}
+\begin{verbatim}
+table obs 
+1993 0.1 0.2 0.3
+1994 0.1 0.2 0.3
+end_table
+\end{verbatim}
+\defSub{table error\_values}{The table of data specifying the error values}
+\defType{Data table with label = error\_values}
+\defDefault{No default}
+\defValue{Can be specified two ways either as a $n\times 1$ matrix with an error value for each year. Or a $n\times m$ matrix, where $n=$ the years and $m$ is categories \(\times\) length bins. See below for example.}
+\defNote{example below}
+\begin{verbatim}
+table error_values 
+1993 234
+1994 343
+end_table
+\end{verbatim}
 \subsubsection{Observation of type Process Removals By Age Retained}
 \commandlabsubarg{observation}{type}{Process\_Removals\_By\_Age\_Retained}.
 \defRef{sec:Observation-ProcessRemovalsByAgeRetained}
@@ -191,12 +237,6 @@
 \defType{Boolean}
 \defDefault{true}
 
-\defSub{tolerance}{The tolerance}
-\defType{Real number (estimable)}
-\defDefault{0.001}
-\defLowerBound{0.0 (exclusive)}
-\defUpperBound{1.0 (exclusive)}
-
 \defSub{years}{The years for which there are observations}
 \defType{Vector of non-negative integers}
 \defDefault{No default}
@@ -217,6 +257,28 @@
 \defType{String}
 \defDefault{No default}
 
+\defSub{table obs}{The table of data specifying the observed values}
+\defType{Data table with label = obs}
+\defDefault{No default}
+\defValue{A $n\times m$ matrix, where $n=$ the years and $m$ is categories \(\times\) length bins. See below for example.}
+\defNote{example below}
+\begin{verbatim}
+table obs 
+1993 0.1 0.2 0.3
+1994 0.1 0.2 0.3
+end_table
+\end{verbatim}
+\defSub{table error\_values}{The table of data specifying the error values}
+\defType{Data table with label = error\_values}
+\defDefault{No default}
+\defValue{Can be specified two ways either as a $n\times 1$ matrix with an error value for each year. Or a $n\times m$ matrix, where $n=$ the years and $m$ is categories \(\times\) length bins. See below for example.}
+\defNote{example below}
+\begin{verbatim}
+table error_values 
+1993 234
+1994 343
+end_table
+\end{verbatim}
 \subsubsection{Observation of type Process Removals By Age Retained Total}
 \commandlabsubarg{observation}{type}{Process\_Removals\_By\_Age\_Retained\_Total}.
 \defRef{sec:Observation-ProcessRemovalsByAgeRetainedTotal}
@@ -247,11 +309,6 @@
 \defType{Boolean}
 \defDefault{true}
 
-\defSub{tolerance}{The tolerance}
-\defType{Real number (estimable)}
-\defDefault{0.001}
-\defLowerBound{0.0 (exclusive)}
-\defUpperBound{1.0 (exclusive)}
 
 \defSub{years}{The years for which there are observations}
 \defType{Vector of non-negative integers}
@@ -273,6 +330,28 @@
 \defType{String}
 \defDefault{No default}
 
+\defSub{table obs}{The table of data specifying the observed values}
+\defType{Data table with label = obs}
+\defDefault{No default}
+\defValue{A $n\times m$ matrix, where $n=$ the years and $m$ is categories \(\times\) length bins. See below for example.}
+\defNote{example below}
+\begin{verbatim}
+table obs 
+1993 0.1 0.2 0.3
+1994 0.1 0.2 0.3
+end_table
+\end{verbatim}
+\defSub{table error\_values}{The table of data specifying the error values}
+\defType{Data table with label = error\_values}
+\defDefault{No default}
+\defValue{Can be specified two ways either as a $n\times 1$ matrix with an error value for each year. Or a $n\times m$ matrix, where $n=$ the years and $m$ is categories \(\times\) length bins. See below for example.}
+\defNote{example below}
+\begin{verbatim}
+table error_values 
+1993 234
+1994 343
+end_table
+\end{verbatim}
 \subsubsection{Observation of type Process Removals By Length}
 \commandlabsubarg{observation}{type}{Process\_Removals\_By\_Length}.
 \defRef{sec:Observation-ProcessRemovalsByLength}
@@ -282,12 +361,6 @@
 \defType{String}
 \defDefault{No default}
 
-\defSub{tolerance}{The tolerance for rescaling proportions}
-\defType{Real number (estimable)}
-\defDefault{0.001}
-\defLowerBound{0.0 (exclusive)}
-\defUpperBound{1.0 (exclusive)}
-
 \defSub{years}{The years for which there are observations}
 \defType{Vector of non-negative integers}
 \defDefault{No default}
@@ -321,6 +394,28 @@
 \defType{String}
 \defDefault{No default}
 
+\defSub{table obs}{The table of data specifying the observed values}
+\defType{Data table with label = obs}
+\defDefault{No default}
+\defValue{A $n\times m$ matrix, where $n=$ the years and $m$ is categories \(\times\) length bins. See below for example.}
+\defNote{example below}
+\begin{verbatim}
+table obs 
+1993 0.1 0.2 0.3
+1994 0.1 0.2 0.3
+end_table
+\end{verbatim}
+\defSub{table error\_values}{The table of data specifying the error values}
+\defType{Data table with label = error\_values}
+\defDefault{No default}
+\defValue{Can be specified two ways either as a $n\times 1$ matrix with an error value for each year. Or a $n\times m$ matrix, where $n=$ the years and $m$ is categories \(\times\) length bins. See below for example.}
+\defNote{example below}
+\begin{verbatim}
+table error_values 
+1993 234
+1994 343
+end_table
+\end{verbatim}
 \subsubsection{Observation of type Process Removals By Length Retained}
 \commandlabsubarg{observation}{type}{Process\_Removals\_By\_Length\_Retained}.
 \defRef{sec:Observation-ProcessRemovalsByLengthRetained}
@@ -330,12 +425,6 @@
 \defType{String}
 \defDefault{No default}
 
-\defSub{tolerance}{The tolerance for rescaling proportions}
-\defType{Real number (estimable)}
-\defDefault{0.001}
-\defLowerBound{0.0 (exclusive)}
-\defUpperBound{1.0 (exclusive)}
-
 \defSub{years}{The years for which there are observations}
 \defType{Vector of non-negative integers}
 \defDefault{No default}
@@ -369,6 +458,28 @@
 \defType{String}
 \defDefault{No default}
 
+\defSub{table obs}{The table of data specifying the observed values}
+\defType{Data table with label = obs}
+\defDefault{No default}
+\defValue{A $n\times m$ matrix, where $n=$ the years and $m$ is categories \(\times\) length bins. See below for example.}
+\defNote{example below}
+\begin{verbatim}
+table obs 
+1993 0.1 0.2 0.3
+1994 0.1 0.2 0.3
+end_table
+\end{verbatim}
+\defSub{table error\_values}{The table of data specifying the error values}
+\defType{Data table with label = error\_values}
+\defDefault{No default}
+\defValue{Can be specified two ways either as a $n\times 1$ matrix with an error value for each year. Or a $n\times m$ matrix, where $n=$ the years and $m$ is categories \(\times\) length bins. See below for example.}
+\defNote{example below}
+\begin{verbatim}
+table error_values 
+1993 234
+1994 343
+end_table
+\end{verbatim}
 \subsubsection{Observation of type Process Removals By Length Retained Total}
 \commandlabsubarg{observation}{type}{Process\_Removals\_By\_Length\_Retained\_Total}.
 \defRef{sec:Observation-ProcessRemovalsByLengthRetainedTotal}
@@ -378,12 +489,6 @@
 \defType{String}
 \defDefault{No default}
 
-\defSub{tolerance}{The tolerance for rescaling proportions}
-\defType{Real number (estimable)}
-\defDefault{0.001}
-\defLowerBound{0.0 (exclusive)}
-\defUpperBound{1.0 (exclusive)}
-
 \defSub{years}{The years for which there are observations}
 \defType{Vector of non-negative integers}
 \defDefault{No default}
@@ -417,6 +522,28 @@
 \defType{String}
 \defDefault{No default}
 
+\defSub{table obs}{The table of data specifying the observed values}
+\defType{Data table with label = obs}
+\defDefault{No default}
+\defValue{A $n\times m$ matrix, where $n=$ the years and $m$ is categories \(\times\) length bins. See below for example.}
+\defNote{example below}
+\begin{verbatim}
+table obs 
+1993 0.1 0.2 0.3
+1994 0.1 0.2 0.3
+end_table
+\end{verbatim}
+\defSub{table error\_values}{The table of data specifying the error values}
+\defType{Data table with label = error\_values}
+\defDefault{No default}
+\defValue{Can be specified two ways either as a $n\times 1$ matrix with an error value for each year. Or a $n\times m$ matrix, where $n=$ the years and $m$ is categories \(\times\) length bins. See below for example.}
+\defNote{example below}
+\begin{verbatim}
+table error_values 
+1993 234
+1994 343
+end_table
+\end{verbatim}
 \subsubsection{Observation of type Process Removals By Weight}
 \commandlabsubarg{observation}{type}{Process\_Removals\_By\_Weight}.
 \defRef{sec:Observation-ProcessRemovalsByWeight}
@@ -433,12 +560,6 @@
 \defSub{time\_step}{The time step to execute in}
 \defType{String}
 \defDefault{No default}
-
-\defSub{tolerance}{The tolerance for rescaling proportions}
-\defType{Real number (estimable)}
-\defDefault{0.001}
-\defLowerBound{0.0 (exclusive)}
-\defUpperBound{1.0 (exclusive)}
 
 \defSub{years}{The years for which there are observations}
 \defType{Vector of non-negative integers}
@@ -499,11 +620,6 @@
 \defType{String}
 \defDefault{No default}
 
-\defSub{tolerance}{The tolerance on the constraint that for each year the sum of proportions in each age must equal 1, e.g., if tolerance = 0.1 then 1 - Sum(Proportions) can be as great as 0.1}
-\defType{Real number (estimable)}
-\defDefault{0.001}
-\defLowerBound{0.0 (exclusive)}
-\defUpperBound{1.0 (exclusive)}
 
 \defSub{years}{The years of the observed values}
 \defType{Vector of non-negative integers}
@@ -529,6 +645,29 @@
 \defType{Boolean}
 \defDefault{true}
 
+
+\defSub{table obs}{The table of data specifying the observed values}
+\defType{Data table with label = obs}
+\defDefault{No default}
+\defValue{A $n\times m$ matrix, where $n=$ the years and $m$ is categories \(\times\) length bins. See below for example.}
+\defNote{example below}
+\begin{verbatim}
+table obs 
+1993 0.1 0.2 0.3
+1994 0.1 0.2 0.3
+end_table
+\end{verbatim}
+\defSub{table error\_values}{The table of data specifying the error values}
+\defType{Data table with label = error\_values}
+\defDefault{No default}
+\defValue{Can be specified two ways either as a $n\times 1$ matrix with an error value for each year. Or a $n\times m$ matrix, where $n=$ the years and $m$ is categories \(\times\) length bins. See below for example.}
+\defNote{example below}
+\begin{verbatim}
+table error_values 
+1993 234
+1994 343
+end_table
+\end{verbatim}
 \subsubsection{Observation of type Proportions At Length}
 \commandlabsubarg{observation}{type}{Proportions\_At\_Length}.
 \defRef{sec:Observation-ProportionsAtLength}
@@ -537,11 +676,6 @@
 \defSub{time\_step}{The label of the time step that the observation occurs in}
 \defType{String}
 \defDefault{No default}
-
-\defSub{tolerance}{The tolerance for rescaling proportions}
-\defType{Real number (estimable)}
-\defDefault{0.001}
-\defLowerBound{0.0 (exclusive)}
 
 \defSub{years}{The years for which there are observations}
 \defType{Vector of non-negative integers}
@@ -566,6 +700,31 @@
 \defSub{simulated\_data\_sum\_to\_one}{Whether simulated data is discrete or scaled by totals to be proportions for each year}
 \defType{Boolean}
 \defDefault{true}
+
+
+\defSub{table obs}{The table of data specifying the observed values}
+\defType{Data table with label = obs}
+\defDefault{No default}
+\defValue{A $n\times m$ matrix, where $n=$ the years and $m$ is categories \(\times\) length bins. See below for example.}
+\defNote{example below}
+\begin{verbatim}
+table obs 
+1993 0.1 0.2 0.3
+1994 0.1 0.2 0.3
+end_table
+\end{verbatim}
+\defSub{table error\_values}{The table of data specifying the error values}
+\defType{Data table with label = error\_values}
+\defDefault{No default}
+\defValue{Can be specified two ways either as a $n\times 1$ matrix with an error value for each year. Or a $n\times m$ matrix, where $n=$ the years and $m$ is categories \(\times\) length bins. See below for example.}
+\defNote{example below}
+\begin{verbatim}
+table error_values 
+1993 234
+1994 343
+end_table
+\end{verbatim}
+
 \subsubsection{Observation of type Proportions By Category}
 \commandlabsubarg{observation}{type}{Proportions\_By\_Category}.
 \defRef{sec:Observation-ProportionsByCategory}
@@ -728,6 +887,31 @@
 \defLowerBound{0.0 (inclusive)}
 \defUpperBound{1.0 (inclusive)}
 
+\defSub{table recaptured}{The table of data specifying the recaptures}
+\defType{Data table with label = recaptured}
+\defDefault{No default}
+\defValue{A $n\times m$ matrix, where $n=$ the years and $m$ is categories \(\times\) length bins. See below for example.}
+\defNote{example below}
+\begin{verbatim}
+table recaptured 
+1993 1 32 25
+1994 3 4 43
+end_table
+\end{verbatim}
+
+
+\defSub{table scanned}{The table of data specifying the scanned fish}
+\defType{Data table with label = scanned}
+\defDefault{No default}
+\defValue{A $n\times m$ matrix, where $n=$ the years and $m$ is categories \(\times\) length bins. See below for example.}
+\defNote{example below}
+\begin{verbatim}
+table scanned 
+1993 1 32 25
+1994 3 4 43
+end_table
+\end{verbatim}
+
 \subsubsection{Observation of type Tag Recapture By Length}
 \commandlabsubarg{observation}{type}{Tag\_Recapture\_By\_Length}.
 \defRef{sec:Observation-TagRecaptureByLength}
@@ -770,3 +954,28 @@
 \defLowerBound{0.0 (inclusive)}
 \defUpperBound{1.0 (inclusive)}
 
+
+\defSub{table recaptured}{The table of data specifying the recaptures}
+\defType{Data table with label = recaptured}
+\defDefault{No default}
+\defValue{A $n\times m$ matrix, where $n=$ the years and $m$ is categories \(\times\) length bins. See below for example.}
+\defNote{example below}
+\begin{verbatim}
+table recaptured 
+1993 1 32 25
+1994 3 4 43
+end_table
+\end{verbatim}
+
+
+\defSub{table scanned}{The table of data specifying the scanned fish}
+\defType{Data table with label = scanned}
+\defDefault{No default}
+\defValue{A $n\times m$ matrix, where $n=$ the years and $m$ is categories \(\times\) length bins. See below for example.}
+\defNote{example below}
+\begin{verbatim}
+table scanned 
+1993 1 32 25
+1994 3 4 43
+end_table
+\end{verbatim}

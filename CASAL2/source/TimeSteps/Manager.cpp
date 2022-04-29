@@ -16,6 +16,7 @@
 #include "../DerivedQuantities/Manager.h"
 #include "../Model/Model.h"
 #include "../Reports/Manager.h"
+#include "Verification/Verification.h"
 
 // Namespaces
 namespace niwa {
@@ -51,6 +52,16 @@ TimeStep* Manager::GetTimeStep(const string& label) const {
 
   LOG_FINE() << "returning: " << result;
   return result;
+}
+
+/**
+ * @brief
+ *
+ * @param model
+ */
+void Manager::Verify(shared_ptr<Model> model) {
+  LOG_FINE() << "verify time-step manager";
+  verification::DoVerification(model);
 }
 
 /**

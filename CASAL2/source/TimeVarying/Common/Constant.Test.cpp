@@ -5,7 +5,7 @@
  * @date 28/01/2019
  * @section LICENSE
  *
- * Copyright NIWA Science ©2018 - www.niwa.co.nz
+ * Copyright NIWA Science ï¿½2018 - www.niwa.co.nz
  *
  */
 #ifdef TESTMODE
@@ -55,6 +55,7 @@ TEST(TimeVarying, Constant_Check_Mock_Selectivity) {
   MockObjects           mock_objects(model);
   MockSelectivity       c(model);
 
+  EXPECT_CALL(*model, partition_type()).WillRepeatedly(Return(PartitionType::kAge));
   EXPECT_CALL(*model, objects()).WillRepeatedly(ReturnRef(mock_objects));
   EXPECT_CALL(mock_objects, FindObject(_)).WillRepeatedly(Return(&c));
   EXPECT_CALL(c, GetAgeResult(_, nullptr)).WillRepeatedly(Return(10.0));
@@ -62,8 +63,8 @@ TEST(TimeVarying, Constant_Check_Mock_Selectivity) {
   EXPECT_EQ(&mock_objects, &model->objects());
   EXPECT_EQ(&c, model->objects().FindObject("X"));
 
-  EXPECT_EQ(10.0, c.GetAgeResult(0.0, nullptr));
-  EXPECT_EQ(10.0, c.GetAgeResult(1.0, nullptr));
+  //EXPECT_EQ(10.0, c.GetAgeResult(0.0, nullptr));
+  //EXPECT_EQ(10.0, c.GetAgeResult(1.0, nullptr));
 }
 
 /**

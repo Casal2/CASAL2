@@ -16,6 +16,8 @@
 #include "../Age/RecruitmentBevertonHolt.h"
 #include "../Age/RecruitmentBevertonHoltWithDeviations.h"
 #include "../Age/RecruitmentConstant.h"
+#include "../Length/RecruitmentBevertonHolt.h"
+#include "../Length/RecruitmentConstant.h"
 #include "../Manager.h"
 #include "../Process.h"
 
@@ -33,36 +35,61 @@ void RecruitmentCategoriesVerification(shared_ptr<Model> model) {
   vector<string>        all_categories = model->categories()->category_names();
 
   auto process_list = model->managers()->process()->objects();
-  for (auto* process : process_list) {
-    if (process->process_type() == ProcessType::kRecruitment) {
-      if (process->type() == PARAM_RECRUITMENT_CONSTANT) {
-        age::RecruitmentConstant* recruitment = dynamic_cast<age::RecruitmentConstant*>(process);
-        if (!recruitment)
-          LOG_CODE_ERROR() << "!rec with auto* rec = dynamic_cast<age::RecruitmentConstant*>(process)";
+  if(model->partition_type() == PartitionType::kAge) {
+    for (auto* process : process_list) {
+      if (process->process_type() == ProcessType::kRecruitment) {
+        if (process->type() == PARAM_RECRUITMENT_CONSTANT) {
+          age::RecruitmentConstant* recruitment = dynamic_cast<age::RecruitmentConstant*>(process);
+          if (!recruitment)
+            LOG_CODE_ERROR() << "!rec with auto* rec = dynamic_cast<age::RecruitmentConstant*>(process)";
 
-        for (auto label : recruitment->category_labels()) category_count[label]++;
+          for (auto label : recruitment->category_labels()) category_count[label]++;
 
-      } else if (process->type() == PARAM_RECRUITMENT_BEVERTON_HOLT) {
-        age::RecruitmentBevertonHolt* recruitment = dynamic_cast<age::RecruitmentBevertonHolt*>(process);
-        if (!recruitment)
-          LOG_CODE_ERROR() << "!rec with auto* rec = dynamic_cast<age::RecruitmentBevertonHolt*>(process)";
+        } else if (process->type() == PARAM_RECRUITMENT_BEVERTON_HOLT) {
+          age::RecruitmentBevertonHolt* recruitment = dynamic_cast<age::RecruitmentBevertonHolt*>(process);
+          if (!recruitment)
+            LOG_CODE_ERROR() << "!rec with auto* rec = dynamic_cast<age::RecruitmentBevertonHolt*>(process)";
 
-        for (auto label : recruitment->category_labels()) {
-          category_in_recruitment_that_scale[label]++;
-          category_count[label]++;
-        }
-      } else if (process->type() == PARAM_RECRUITMENT_BEVERTON_HOLT_WITH_DEVIATIONS) {
-        age::RecruitmentBevertonHoltWithDeviations* recruitment = dynamic_cast<age::RecruitmentBevertonHoltWithDeviations*>(process);
-        if (!recruitment)
-          LOG_CODE_ERROR() << "!rec with auto* rec = dynamic_cast<age::RecruitmentBevertonHolt*>(process)";
+          for (auto label : recruitment->category_labels()) {
+            category_in_recruitment_that_scale[label]++;
+            category_count[label]++;
+          }
+        } else if (process->type() == PARAM_RECRUITMENT_BEVERTON_HOLT_WITH_DEVIATIONS) {
+          age::RecruitmentBevertonHoltWithDeviations* recruitment = dynamic_cast<age::RecruitmentBevertonHoltWithDeviations*>(process);
+          if (!recruitment)
+            LOG_CODE_ERROR() << "!rec with auto* rec = dynamic_cast<age::RecruitmentBevertonHolt*>(process)";
 
-        for (auto label : recruitment->category_labels()) {
-          category_in_recruitment_that_scale[label]++;
-          category_count[label]++;
+          for (auto label : recruitment->category_labels()) {
+            category_in_recruitment_that_scale[label]++;
+            category_count[label]++;
+          }
         }
       }
     }
+  } else if(model->partition_type() == PartitionType::kLength) {
+        for (auto* process : process_list) {
+      if (process->process_type() == ProcessType::kRecruitment) {
+        if (process->type() == PARAM_RECRUITMENT_CONSTANT) {
+          length::RecruitmentConstant* recruitment = dynamic_cast<length::RecruitmentConstant*>(process);
+          if (!recruitment)
+            LOG_CODE_ERROR() << "!rec with auto* rec = dynamic_cast<length::RecruitmentConstant*>(process)";
+
+          for (auto label : recruitment->category_labels()) category_count[label]++;
+
+        } else if (process->type() == PARAM_RECRUITMENT_BEVERTON_HOLT) {
+          length::RecruitmentBevertonHolt* recruitment = dynamic_cast<length::RecruitmentBevertonHolt*>(process);
+          if (!recruitment)
+            LOG_CODE_ERROR() << "!rec with auto* rec = dynamic_cast<length::RecruitmentBevertonHolt*>(process)";
+
+          for (auto label : recruitment->category_labels()) {
+            category_in_recruitment_that_scale[label]++;
+            category_count[label]++;
+          }
+        } 
+      }
+    }
   }
+
 
   // check to ensure we only have 1 of each category
   for (auto iter : category_count)

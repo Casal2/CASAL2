@@ -30,6 +30,7 @@ namespace reports {
 InitialisationPartition::InitialisationPartition() {
   run_mode_    = (RunMode::Type)(RunMode::kBasic | RunMode::kProjection);
   model_state_ = State::kInitialise;
+  skip_tags_   = true;
 }
 
 /**
@@ -38,42 +39,31 @@ InitialisationPartition::InitialisationPartition() {
 void InitialisationPartition::DoExecute(shared_ptr<Model> model) {
   LOG_TRACE();
   // First, figure out the lowest and highest ages/length
-  unsigned lowest         = 9999;
-  unsigned highest        = 0;
-  unsigned longest_length = 0;
 
   niwa::partition::accessors::All all_view(model);
-  for (auto iterator : all_view) {
-    if (lowest > iterator->min_age_)
-      lowest = iterator->min_age_;
-    if (highest < iterator->max_age_)
-      highest = iterator->max_age_;
-    if (longest_length < iterator->name_.length())
-      longest_length = iterator->name_.length();
-  }
-  LOG_FINEST() << "min age = " << lowest << ", max age = " << highest << ", longest_length = " << longest_length;
 
   // Print the header
   cache_ << ReportHeader(type_, label_, format_);
-  cache_ << "values " << REPORT_R_DATAFRAME << REPORT_EOL;
+  cache_ << "values " << REPORT_R_DATAFRAME_ROW_LABELS << REPORT_EOL;
   cache_ << "category";
-  for (unsigned i = lowest; i <= highest; ++i) cache_ << " " << i;
-  cache_ << REPORT_EOL;
+  if(model->partition_type() == PartitionType::kAge) {
+    for (unsigned i = model->min_age(); i <= model->max_age(); ++i) 
+      cache_ << " " << i;
+    cache_ << REPORT_EOL;
+  } else if (model->partition_type() == PartitionType::kLength) {
+    for (auto len_bin : model->length_bin_mid_points()) 
+      cache_ << " " << len_bin;
+    cache_ << REPORT_EOL;
+  }
 
   for (auto iterator : all_view) {
     cache_ << iterator->name_;
-    unsigned age = iterator->min_age_;
     for (auto value : iterator->data_) {
-      if (age >= lowest && age <= highest) {
-        //        Double value = *value;
         cache_ << " " << std::fixed << AS_DOUBLE(value);
-      } else
-        cache_ << " "
-               << "null";
-      ++age;
     }
     cache_ << REPORT_EOL;
   }
+  cache_ << REPORT_END << REPORT_EOL;
   ready_for_writing_ = true;
 }
 

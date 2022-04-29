@@ -13,10 +13,6 @@
 // Headers
 #include "Increasing.h"
 
-#include <boost/math/distributions/lognormal.hpp>
-#include <cmath>
-
-#include "../../AgeLengths/AgeLength.h"
 #include "../../Model/Model.h"
 
 // Namespaces
@@ -33,6 +29,8 @@ Increasing::Increasing(shared_ptr<Model> model) : Selectivity(model) {
   parameters_.Bind<Double>(PARAM_ALPHA, &alpha_, "The maximum value of the selectivity", "", 1.0)->set_lower_bound(0.0, false);
 
   RegisterAsAddressable(PARAM_V, &v_);
+  allowed_length_based_in_age_based_model_ = false;
+
 }
 
 /**
@@ -66,7 +64,9 @@ void Increasing::DoValidate() {
                            << "Expected: " << (high_ - low_ + 1) << ", parsed " << v_.size();
     }
   } else if (model_->partition_type() == PartitionType::kLength) {
-    vector<double> length_bins = model_->length_bins();
+    LOG_ERROR_P(PARAM_LABEL) << " this selectivity type not allowed in length patition models";
+    /*
+    vector<double> length_bins = model_->length_bin_mid_points();
     if (low_ < length_bins[0] || low_ > length_bins[length_bins.size() - 1])
       LOG_ERROR_P(PARAM_L) << ": 'l' (" << low_ << ") must be between the model min length (" << length_bins[0] << ") and max length (" << length_bins[length_bins.size() - 1]
                            << ")";
@@ -80,82 +80,58 @@ void Increasing::DoValidate() {
       LOG_ERROR_P(PARAM_V) << ": Parameter 'v' has an incorrect number of elements n = low <= length_bins <= high, "
                            << "Expected: " << bins << ", parsed: " << v_.size();
     }
+    */
   }
-}
+  //lower_length_bin_ = model_->get_length_bin_ndx(low_);
+  LOG_FINE() << "lower_length_bin_ " << lower_length_bin_;
 
+}
 /**
- * Reset this selectivity so it is ready for the next execution
- * phase in the model.
- *
- * This method will rebuild the cache of selectivity values
- * for each age or length in the model.
+ * The core function
  */
-void Increasing::RebuildCache() {
+Double Increasing::get_value(Double value) {
+  LOG_CODE_ERROR() << "Increasing::get_value(Double value)";
+  /*
   if (model_->partition_type() == PartitionType::kAge) {
-    for (unsigned age = model_->min_age(); age <= model_->max_age(); ++age) {
-      if (age < low_) {
-        values_[age - age_index_] = 0.0;
+  } 
+  if (value < low_) {
+    return  0.0;
+  } else if (value > high_) {
+    return *v_.rbegin();
+  } else {
+    Double result_value = *v_.begin();
+    unsigned len_ndx = model_->get_length_bin_ndx(value) - lower_length_bin_;
+    LOG_FINE() << "len_ndx " << len_ndx - lower_length_bin_;
+    for (unsigned i = lower_length_bin_; i < len_ndx; ++i) {
+      LOG_FINE() << "i = " << i;
+      if (i > high_ || result_value >= alpha_)
+        break;
 
-      } else if (age > high_) {
-        values_[age - age_index_] = *v_.rbegin();
-
-      } else {
-        Double value = *v_.begin();
-        for (unsigned i = low_ + 1; i < age; ++i) {
-          if (i > high_ || value >= alpha_)
-            break;
-          value += (alpha_ - value) * v_[i - low_];
-        }
-
-        values_[age - age_index_] = value;
-      }
+      result_value += (alpha_ - result_value) * v_[i - len_ndx];
     }
-  } else if (model_->partition_type() == PartitionType::kLength) {
-    vector<double> length_bins   = model_->length_bins();
-    unsigned       mark          = 0;
-    unsigned       start_element = 0;
-    while (mark == 0) {
-      ++start_element;
-      if (length_bins[start_element] >= low_) {
-        ++mark;
-      }
-    }
-    for (unsigned length_bin_index = 0; length_bin_index < length_bins.size(); ++length_bin_index) {
-      Double temp = (Double)length_bins[length_bin_index];
-      if (temp < low_) {
-        length_values_[length_bin_index] = 0.0;
-
-      } else if (temp > high_) {
-        length_values_[length_bin_index] = *v_.rbegin();
-
-      } else {
-        Double value = *v_.begin();
-        for (unsigned i = start_element + 1; i < length_bin_index; ++i) {
-          if (length_bins[i] > high_ || value >= alpha_)
-            break;
-          value += (alpha_ - value) * v_[i - start_element];
-        }
-
-        length_values_[length_bin_index] = value;
-      }
-    }
+    return result_value;
   }
+  */
+  return 1.0;
 }
-
 /**
- * GetLengthBasedResult function
- *
- * @param age
- * @param age_length AgeLength pointer
- * @param year
- * @param time_step_index
- * @return Double selectivity for an age based on age length distribution
+ * The core function
  */
-
-Double Increasing::GetLengthBasedResult(unsigned age, AgeLength* age_length, unsigned year, int time_step_index) {
-  LOG_ERROR_P(PARAM_LENGTH_BASED) << ": This selectivity type has not been implemented for length-based selectivities ";
-  return 0.0;
+Double Increasing::get_value(unsigned value) {
+  if (value < low_) {
+    return  0.0;
+  } else if (value > high_) {
+    return *v_.rbegin();
+  } else {
+    Double result_value = *v_.begin();
+    for (unsigned i = low_ + 1; i < value; ++i) {
+      if (i > high_ || result_value >= alpha_)
+        break;
+      result_value += (alpha_ - result_value) * v_[i - low_];
+    }
+    return result_value;
+  }
+  return 1.0;
 }
-
 } /* namespace selectivities */
 } /* namespace niwa */
