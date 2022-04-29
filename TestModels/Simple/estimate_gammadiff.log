@@ -1,0 +1,365 @@
+Casal2
+Call: C:\Software\CASAL2\BuildSystem/Casal2/casal2.exe -e -g 20 -c config_gammadiff.csl2 
+Date: Fri Apr 29 19:01:32 2022
+Version: v22.04 (2022-04-29)
+Copyright (c) 2017-2022, NIWA (www.niwa.co.nz)
+Environment: User=marshc Machine=NIWA-1008960 OS=Windows_NT PID=24224
+
+
+
+[INFO] Setting the random number seed to 20
+[INFO] Estimable parameters were loaded from the free parameter file: 
+[WARNING] obs sum total (0.9999) for year (1990) doesn't sum to 1.0
+[WARNING] obs sum total (1.0001) for year (1993) doesn't sum to 1.0
+[WARNING] obs sum total (1.0002) for year (1994) doesn't sum to 1.0
+[WARNING] obs sum total (1.0002) for year (1995) doesn't sum to 1.0
+[WARNING] obs sum total (0.9999) for year (1997) doesn't sum to 1.0
+[WARNING] obs sum total (1.0002) for year (1999) doesn't sum to 1.0
+[WARNING] obs sum total (0.9999) for year (2000) doesn't sum to 1.0
+[WARNING] obs sum total (1.0001) for year (2001) doesn't sum to 1.0
+[WARNING] obs sum total (0.9998) for year (2002) doesn't sum to 1.0
+[WARNING] obs sum total (1.0002) for year (2003) doesn't sum to 1.0
+[WARNING] obs sum total (0.9999) for year (2005) doesn't sum to 1.0
+[WARNING] obs sum total (1.0001) for year (2006) doesn't sum to 1.0
+[WARNING] obs sum total (0.9999) for year (2007) doesn't sum to 1.0
+[WARNING] obs sum total (0.9999) for year (2008) doesn't sum to 1.0
+[WARNING] obs sum total (0.9999) for year (2009) doesn't sum to 1.0
+[WARNING] obs sum total (1.0003) for year (2011) doesn't sum to 1.0
+[WARNING] obs sum total (0.9998) for year (1992) doesn't sum to 1.0
+[WARNING] obs sum total (0.9999) for year (1995) doesn't sum to 1.0
+[WARNING] obs sum total (0.9998) for year (1996) doesn't sum to 1.0
+[WARNING] obs sum total (0.9999) for year (1997) doesn't sum to 1.0
+[WARNING] obs sum total (0.9999) for year (1998) doesn't sum to 1.0
+[WARNING] obs sum total (1.0002) for year (1999) doesn't sum to 1.0
+[WARNING] obs sum total (0.9999) for year (2000) doesn't sum to 1.0
+[WARNING] obs sum total (1.0001) for year (2002) doesn't sum to 1.0
+[WARNING] obs sum total (0.9999) for year (2003) doesn't sum to 1.0
+[WARNING] obs sum total (1.0001) for year (2004) doesn't sum to 1.0
+[WARNING] obs sum total (0.9999) for year (2005) doesn't sum to 1.0
+[WARNING] obs sum total (1.0001) for year (2011) doesn't sum to 1.0
+[WARNING] obs sum total (1.0001) for year (1992) doesn't sum to 1.0
+[WARNING] obs sum total (1.0002) for year (1998) doesn't sum to 1.0
+[WARNING] obs sum total (1.0001) for year (2004) doesn't sum to 1.0
+[WARNING] obs sum total (0.9999) for year (2007) doesn't sum to 1.0
+[INFO] Initiating point estimate run mode
+[INFO] Estimation with the gammadiff minimiser
+[INFO] Convergence check value = 0.763832. Convergence tolerance   = 1e-08
+[INFO] Convergence check value = 1.1893. Convergence tolerance   = 1e-08
+[INFO] Convergence check value = 0.590645. Convergence tolerance   = 1e-08
+[INFO] Convergence check value = 0.692127. Convergence tolerance   = 1e-08
+[INFO] Convergence check value = 0.773601. Convergence tolerance   = 1e-08
+[INFO] Convergence check value = 0.76264. Convergence tolerance   = 1e-08
+[INFO] Convergence check value = 0.721819. Convergence tolerance   = 1e-08
+[INFO] Convergence check value = 0.597152. Convergence tolerance   = 1e-08
+[INFO] Convergence check value = 0.607196. Convergence tolerance   = 1e-08
+[INFO] Convergence check value = 0.32477. Convergence tolerance   = 1e-08
+[INFO] Convergence check value = 0.167041. Convergence tolerance   = 1e-08
+[INFO] Convergence check value = 0.120703. Convergence tolerance   = 1e-08
+[INFO] Convergence check value = 0.124682. Convergence tolerance   = 1e-08
+[INFO] Convergence check value = 0.0712518. Convergence tolerance   = 1e-08
+[INFO] Convergence check value = 0.0570008. Convergence tolerance   = 1e-08
+[INFO] Convergence check value = 0.0573184. Convergence tolerance   = 1e-08
+[INFO] Convergence check value = 0.0491485. Convergence tolerance   = 1e-08
+[INFO] Convergence check value = 0.030277. Convergence tolerance   = 1e-08
+[INFO] Convergence check value = 0.013701. Convergence tolerance   = 1e-08
+[INFO] Convergence check value = 0.0176573. Convergence tolerance   = 1e-08
+[INFO] Convergence check value = 0.0185774. Convergence tolerance   = 1e-08
+[INFO] Convergence check value = 0.0192345. Convergence tolerance   = 1e-08
+[INFO] Convergence check value = 0.0105877. Convergence tolerance   = 1e-08
+[INFO] Convergence check value = 0.0106687. Convergence tolerance   = 1e-08
+[INFO] Convergence check value = 0.0197043. Convergence tolerance   = 1e-08
+[INFO] Convergence check value = 0.0279675. Convergence tolerance   = 1e-08
+[INFO] Convergence check value = 0.0287372. Convergence tolerance   = 1e-08
+[INFO] Convergence check value = 0.024279. Convergence tolerance   = 1e-08
+[INFO] Convergence check value = 0.0129083. Convergence tolerance   = 1e-08
+[INFO] Convergence check value = 0.00975634. Convergence tolerance   = 1e-08
+[INFO] Convergence check value = 0.0120669. Convergence tolerance   = 1e-08
+[INFO] Convergence check value = 0.0128807. Convergence tolerance   = 1e-08
+[INFO] Convergence check value = 0.00977198. Convergence tolerance   = 1e-08
+[INFO] Convergence check value = 0.00422375. Convergence tolerance   = 1e-08
+[INFO] Convergence check value = 0.00322061. Convergence tolerance   = 1e-08
+[INFO] Convergence check value = 0.00595829. Convergence tolerance   = 1e-08
+[INFO] Convergence check value = 0.00584488. Convergence tolerance   = 1e-08
+[INFO] Convergence check value = 0.00328552. Convergence tolerance   = 1e-08
+[INFO] Convergence check value = 0.00108762. Convergence tolerance   = 1e-08
+[INFO] Convergence check value = 0.00210005. Convergence tolerance   = 1e-08
+[INFO] Convergence check value = 0.00233888. Convergence tolerance   = 1e-08
+[INFO] Convergence check value = 0.00189256. Convergence tolerance   = 1e-08
+[INFO] Convergence check value = 0.00173148. Convergence tolerance   = 1e-08
+[INFO] Convergence check value = 0.0015473. Convergence tolerance   = 1e-08
+[INFO] Convergence check value = 0.00107627. Convergence tolerance   = 1e-08
+[INFO] Convergence check value = 0.000739333. Convergence tolerance   = 1e-08
+[INFO] Convergence check value = 0.000129665. Convergence tolerance   = 1e-08
+[INFO] Convergence check value = 9.34027e-05. Convergence tolerance   = 1e-08
+[INFO] Convergence check value = 0.000110111. Convergence tolerance   = 1e-08
+[INFO] Convergence check value = 2.54946e-05. Convergence tolerance   = 1e-08
+[INFO] Convergence check value = 3.21285e-05. Convergence tolerance   = 1e-08
+[INFO] Convergence check value = 5.09172e-06. Convergence tolerance   = 1e-08
+[INFO] Convergence check value = 8.83277e-06. Convergence tolerance   = 1e-08
+[INFO] Convergence check value = 2.858e-06. Convergence tolerance   = 1e-08
+[INFO] Convergence check value = 2.48734e-06. Convergence tolerance   = 1e-08
+[INFO] Convergence check value = 2.48719e-06. Convergence tolerance   = 1e-08
+[INFO] Convergence check value = 2.48719e-06. Convergence tolerance   = 1e-08
+[IMPORTANT] FMM: Small step size convergence
+[WARNING] estimated parameter 'process[Recruitment].ycs_values{2010}' was within 0.001 of upper bound 3
+[WARNING] estimated parameter 'process[Recruitment].ycs_values{2011}' was within 0.001 of upper bound 3
+*objective_function[obj]
+values {vector}
+observation->chatTANbiomass->1992 -1.0389
+observation->chatTANbiomass->1993 -1.33187
+observation->chatTANbiomass->1994 -1.295
+observation->chatTANbiomass->1995 -0.943379
+observation->chatTANbiomass->1996 -1.4346
+observation->chatTANbiomass->1997 -1.20185
+observation->chatTANbiomass->1998 -1.06309
+observation->chatTANbiomass->1999 -1.4518
+observation->chatTANbiomass->2000 -1.52692
+observation->chatTANbiomass->2001 -1.16755
+observation->chatTANbiomass->2002 -1.26822
+observation->chatTANbiomass->2003 1.81316
+observation->chatTANbiomass->2004 -1.35293
+observation->chatTANbiomass->2005 -0.852855
+observation->chatTANbiomass->2006 -1.30629
+observation->chatTANbiomass->2007 -0.874461
+observation->chatTANbiomass->2008 -1.2853
+observation->chatTANbiomass->2009 0.607156
+observation->chatTANbiomass->2010 -0.983901
+observation->chatTANbiomass->2011 -0.838885
+observation->chatTANbiomass->2012 -1.28471
+observation->chatTANage->1990 17.6026
+observation->chatTANage->1992 21.5919
+observation->chatTANage->1993 21.0413
+observation->chatTANage->1994 21.39
+observation->chatTANage->1995 16.6609
+observation->chatTANage->1996 13.9216
+observation->chatTANage->1997 15.3908
+observation->chatTANage->1998 13.9424
+observation->chatTANage->1999 15.0038
+observation->chatTANage->2000 20.4446
+observation->chatTANage->2001 16.3992
+observation->chatTANage->2002 16.9047
+observation->chatTANage->2003 10.67
+observation->chatTANage->2004 15.4204
+observation->chatTANage->2005 13.0195
+observation->chatTANage->2006 13.0837
+observation->chatTANage->2007 13.7334
+observation->chatTANage->2008 13.1182
+observation->chatTANage->2009 15.882
+observation->chatTANage->2010 12.071
+observation->chatTANage->2011 12.3041
+observation->chatTANage->2012 11.9095
+observation->chatOBSwst->1992 17.248
+observation->chatOBSwst->1994 9.58246
+observation->chatOBSwst->1995 9.90661
+observation->chatOBSwst->1996 8.22514
+observation->chatOBSwst->1997 7.02186
+observation->chatOBSwst->1998 21.5144
+observation->chatOBSwst->1999 16.4928
+observation->chatOBSwst->2000 17.6549
+observation->chatOBSwst->2001 16.7621
+observation->chatOBSwst->2002 13.9476
+observation->chatOBSwst->2003 11.6879
+observation->chatOBSwst->2004 14.2146
+observation->chatOBSwst->2005 17.1919
+observation->chatOBSwst->2006 7.57358
+observation->chatOBSwst->2008 10.6952
+observation->chatOBSwst->2009 8.91162
+observation->chatOBSwst->2010 9.35919
+observation->chatOBSwst->2011 9.17771
+observation->chatOBSest->1992 14.8388
+observation->chatOBSest->1995 15.8162
+observation->chatOBSest->1997 15.4482
+observation->chatOBSest->1998 17.193
+observation->chatOBSest->2001 21.4576
+observation->chatOBSest->2004 20.799
+observation->chatOBSest->2007 21.5128
+prior->B0->process[Recruitment].b0 10.8702
+prior->chatTANq->catchability[chatTANq].q -2.2273
+prior->TANSel->selectivity[chatTANSel].mu 1.15511
+prior->TANSel->selectivity[chatTANSel].sigma_l 3.98923e-05
+prior->TANSel->selectivity[chatTANSel].sigma_r 1.50128e-06
+prior->eastFSel_mu->selectivity[eastFSel].mu 0
+prior->eastFSel_sl->selectivity[eastFSel].sigma_l 0
+prior->eastFSel_sr->selectivity[eastFSel].sigma_r 0
+prior->westFSel_mu->selectivity[westFSel].mu 0
+prior->westFSel_sl->selectivity[westFSel].sigma_l 0
+prior->westFSel_sr->selectivity[westFSel].sigma_r 0
+prior->YCS->process[Recruitment].ycs_values{1975} 0.136135
+prior->YCS->process[Recruitment].ycs_values{1976} 0.168748
+prior->YCS->process[Recruitment].ycs_values{1977} 0.193511
+prior->YCS->process[Recruitment].ycs_values{1978} 0.207958
+prior->YCS->process[Recruitment].ycs_values{1979} 0.210316
+prior->YCS->process[Recruitment].ycs_values{1980} 0.196735
+prior->YCS->process[Recruitment].ycs_values{1981} 0.163853
+prior->YCS->process[Recruitment].ycs_values{1982} 0.12635
+prior->YCS->process[Recruitment].ycs_values{1983} 0.103447
+prior->YCS->process[Recruitment].ycs_values{1984} -0.720799
+prior->YCS->process[Recruitment].ycs_values{1985} -0.666013
+prior->YCS->process[Recruitment].ycs_values{1986} -0.611575
+prior->YCS->process[Recruitment].ycs_values{1987} -0.760303
+prior->YCS->process[Recruitment].ycs_values{1988} -0.602777
+prior->YCS->process[Recruitment].ycs_values{1989} -0.701828
+prior->YCS->process[Recruitment].ycs_values{1990} -0.394102
+prior->YCS->process[Recruitment].ycs_values{1991} 0.105107
+prior->YCS->process[Recruitment].ycs_values{1992} -0.263128
+prior->YCS->process[Recruitment].ycs_values{1993} -0.424967
+prior->YCS->process[Recruitment].ycs_values{1994} -0.512886
+prior->YCS->process[Recruitment].ycs_values{1995} -0.651727
+prior->YCS->process[Recruitment].ycs_values{1996} -0.791157
+prior->YCS->process[Recruitment].ycs_values{1997} -0.792986
+prior->YCS->process[Recruitment].ycs_values{1998} -0.729068
+prior->YCS->process[Recruitment].ycs_values{1999} -0.787901
+prior->YCS->process[Recruitment].ycs_values{2000} -0.726393
+prior->YCS->process[Recruitment].ycs_values{2001} -0.789249
+prior->YCS->process[Recruitment].ycs_values{2002} -0.0137026
+prior->YCS->process[Recruitment].ycs_values{2003} -0.604607
+prior->YCS->process[Recruitment].ycs_values{2004} -0.712724
+prior->YCS->process[Recruitment].ycs_values{2005} -0.644086
+prior->YCS->process[Recruitment].ycs_values{2006} -0.792933
+prior->YCS->process[Recruitment].ycs_values{2007} -0.777097
+prior->YCS->process[Recruitment].ycs_values{2008} -0.744929
+prior->YCS->process[Recruitment].ycs_values{2009} -0.77749
+prior->YCS->process[Recruitment].ycs_values{2010} 2.50805
+prior->YCS->process[Recruitment].ycs_values{2011} 2.50805
+additional_prior->YCS_average_1 6.61837
+additional_prior->smooth_YCS 0.271517
+total_score 682.978
+*end
+
+*process[Recruitment]
+age: 1
+b0: 52583.181538006836
+b0_initialisation_phase: 
+categories: stock
+label: Recruitment
+proportions: 1
+r0: 4645168.2306294348
+ssb: biomass_t1
+ssb_offset: 1
+standardise_ycs_years: 1975 1976 1977 1978 1979 1980 1981 1982 1983 1984 1985 1986 1987 1988 1989 1990 1991 1992 1993 1994 1995 1996 1997 1998 1999 2000 2001 2002 2003 2004 2005 2006 2007 2008 2009
+steepness: 0.90000000000000002
+type: recruitment_beverton_holt
+ycs_years: 1974 1975 1976 1977 1978 1979 1980 1981 1982 1983 1984 1985 1986 1987 1988 1989 1990 1991 1992 1993 1994 1995 1996 1997 1998 1999 2000 2001 2002 2003 2004 2005 2006 2007 2008 2009 2010 2011 
+standardised_ycs: 1 1.68984 1.72592 1.7534 1.76947 1.7721 1.75698 1.72049 1.67905 1.65383 0.704055 0.786224 0.858237 0.630286 0.869339 0.734157 1.11194 1.65565 1.25537 1.07758 0.977498 0.805782 0.529767 0.500371 0.365064 0.549134 0.362664 0.542144 1.5257 0.86704 0.717144 0.308744 0.506835 0.428249 0.380842 0.429095 3 3 
+ycs_values: 1 1.02472 1.0466 1.06326 1.07301 1.0746 1.06544 1.04331 1.01818 1.00288 0.42694 0.476767 0.520436 0.382206 0.527168 0.445194 0.674283 1.00399 0.761261 0.653445 0.592756 0.488627 0.321251 0.303426 0.221375 0.332995 0.21992 0.328757 0.925187 0.525774 0.434877 0.187223 0.307346 0.259691 0.230943 0.260204 3 3 
+true_ycs: 1 1.68978 1.72559 1.75238 1.76806 1.77095 1.75651 1.72141 1.68191 1.65894 0.707196 0.790652 0.863899 0.634913 0.876112 0.739918 1.12022 1.66664 1.26219 1.08156 0.979021 0.805243 0.528409 0.49843 0.363379 0.545877 0.359727 0.536478 1.50592 0.853685 0.7035 0.301074 0.492128 0.415815 0.37018 0.417429 2.91983 2.92019 
+Recruits: 4.64517e+06 7.84929e+06 8.01566e+06 8.14012e+06 8.21295e+06 8.22638e+06 8.15929e+06 7.99625e+06 7.81274e+06 7.70605e+06 3.28505e+06 3.67271e+06 4.01296e+06 2.94928e+06 4.06969e+06 3.43704e+06 5.20359e+06 7.74185e+06 5.86308e+06 5.02405e+06 4.54772e+06 3.74049e+06 2.45455e+06 2.31529e+06 1.68796e+06 2.53569e+06 1.67099e+06 2.49203e+06 6.99526e+06 3.96551e+06 3.26788e+06 1.39854e+06 2.28602e+06 1.93153e+06 1.71955e+06 1.93903e+06 1.35631e+07 1.35648e+07 
+Recruit_event_SSB: 52583.2 52507.3 52229.8 51510.3 51115.8 51387.3 52078.6 53614.5 56011.1 59144 62593.8 65861.7 68819.2 71284.5 72862.3 73058.8 71627.6 68955.3 65267.1 60629.9 55703.3 51344.8 48131.2 46117.2 45061.3 43287 40639.1 38098 35701.7 33639 30963.9 27427.7 25330.3 25323.2 25814.6 26211 26443.6 26505.7 
+*end
+
+*estimate_value[estimate_value]
+values {dataframe}
+process[Recruitment].b0 catchability[chatTANq].q selectivity[chatTANSel].mu selectivity[chatTANSel].sigma_l selectivity[chatTANSel].sigma_r selectivity[eastFSel].mu selectivity[eastFSel].sigma_l selectivity[eastFSel].sigma_r selectivity[westFSel].mu selectivity[westFSel].sigma_l selectivity[westFSel].sigma_r process[Recruitment].ycs_values{1975} process[Recruitment].ycs_values{1976} process[Recruitment].ycs_values{1977} process[Recruitment].ycs_values{1978} process[Recruitment].ycs_values{1979} process[Recruitment].ycs_values{1980} process[Recruitment].ycs_values{1981} process[Recruitment].ycs_values{1982} process[Recruitment].ycs_values{1983} process[Recruitment].ycs_values{1984} process[Recruitment].ycs_values{1985} process[Recruitment].ycs_values{1986} process[Recruitment].ycs_values{1987} process[Recruitment].ycs_values{1988} process[Recruitment].ycs_values{1989} process[Recruitment].ycs_values{1990} process[Recruitment].ycs_values{1991} process[Recruitment].ycs_values{1992} process[Recruitment].ycs_values{1993} process[Recruitment].ycs_values{1994} process[Recruitment].ycs_values{1995} process[Recruitment].ycs_values{1996} process[Recruitment].ycs_values{1997} process[Recruitment].ycs_values{1998} process[Recruitment].ycs_values{1999} process[Recruitment].ycs_values{2000} process[Recruitment].ycs_values{2001} process[Recruitment].ycs_values{2002} process[Recruitment].ycs_values{2003} process[Recruitment].ycs_values{2004} process[Recruitment].ycs_values{2005} process[Recruitment].ycs_values{2006} process[Recruitment].ycs_values{2007} process[Recruitment].ycs_values{2008} process[Recruitment].ycs_values{2009} process[Recruitment].ycs_values{2010} process[Recruitment].ycs_values{2011} 
+52583.2 0.057507 9.51994 5.53389 10.8664 10.813 3.50266 6.8698 6.44798 3.00328 7.88331 1.02472 1.0466 1.06326 1.07301 1.0746 1.06544 1.04331 1.01818 1.00288 0.42694 0.476767 0.520436 0.382206 0.527168 0.445194 0.674283 1.00399 0.761261 0.653445 0.592756 0.488627 0.321251 0.303426 0.221375 0.332995 0.21992 0.328757 0.925187 0.525774 0.434877 0.187223 0.307346 0.259691 0.230943 0.260204 3 3 
+*end
+
+*info[messages_encountered]
+Values {string}
+Setting the random number seed to 20
+Estimable parameters were loaded from the free parameter file: 
+Initiating point estimate run mode
+Estimation with the gammadiff minimiser
+Convergence check value = 0.763832. Convergence tolerance   = 1e-08
+Convergence check value = 1.1893. Convergence tolerance   = 1e-08
+Convergence check value = 0.590645. Convergence tolerance   = 1e-08
+Convergence check value = 0.692127. Convergence tolerance   = 1e-08
+Convergence check value = 0.773601. Convergence tolerance   = 1e-08
+Convergence check value = 0.76264. Convergence tolerance   = 1e-08
+Convergence check value = 0.721819. Convergence tolerance   = 1e-08
+Convergence check value = 0.597152. Convergence tolerance   = 1e-08
+Convergence check value = 0.607196. Convergence tolerance   = 1e-08
+Convergence check value = 0.32477. Convergence tolerance   = 1e-08
+Convergence check value = 0.167041. Convergence tolerance   = 1e-08
+Convergence check value = 0.120703. Convergence tolerance   = 1e-08
+Convergence check value = 0.124682. Convergence tolerance   = 1e-08
+Convergence check value = 0.0712518. Convergence tolerance   = 1e-08
+Convergence check value = 0.0570008. Convergence tolerance   = 1e-08
+Convergence check value = 0.0573184. Convergence tolerance   = 1e-08
+Convergence check value = 0.0491485. Convergence tolerance   = 1e-08
+Convergence check value = 0.030277. Convergence tolerance   = 1e-08
+Convergence check value = 0.013701. Convergence tolerance   = 1e-08
+Convergence check value = 0.0176573. Convergence tolerance   = 1e-08
+Convergence check value = 0.0185774. Convergence tolerance   = 1e-08
+Convergence check value = 0.0192345. Convergence tolerance   = 1e-08
+Convergence check value = 0.0105877. Convergence tolerance   = 1e-08
+Convergence check value = 0.0106687. Convergence tolerance   = 1e-08
+Convergence check value = 0.0197043. Convergence tolerance   = 1e-08
+Convergence check value = 0.0279675. Convergence tolerance   = 1e-08
+Convergence check value = 0.0287372. Convergence tolerance   = 1e-08
+Convergence check value = 0.024279. Convergence tolerance   = 1e-08
+Convergence check value = 0.0129083. Convergence tolerance   = 1e-08
+Convergence check value = 0.00975634. Convergence tolerance   = 1e-08
+Convergence check value = 0.0120669. Convergence tolerance   = 1e-08
+Convergence check value = 0.0128807. Convergence tolerance   = 1e-08
+Convergence check value = 0.00977198. Convergence tolerance   = 1e-08
+Convergence check value = 0.00422375. Convergence tolerance   = 1e-08
+Convergence check value = 0.00322061. Convergence tolerance   = 1e-08
+Convergence check value = 0.00595829. Convergence tolerance   = 1e-08
+Convergence check value = 0.00584488. Convergence tolerance   = 1e-08
+Convergence check value = 0.00328552. Convergence tolerance   = 1e-08
+Convergence check value = 0.00108762. Convergence tolerance   = 1e-08
+Convergence check value = 0.00210005. Convergence tolerance   = 1e-08
+Convergence check value = 0.00233888. Convergence tolerance   = 1e-08
+Convergence check value = 0.00189256. Convergence tolerance   = 1e-08
+Convergence check value = 0.00173148. Convergence tolerance   = 1e-08
+Convergence check value = 0.0015473. Convergence tolerance   = 1e-08
+Convergence check value = 0.00107627. Convergence tolerance   = 1e-08
+Convergence check value = 0.000739333. Convergence tolerance   = 1e-08
+Convergence check value = 0.000129665. Convergence tolerance   = 1e-08
+Convergence check value = 9.34027e-05. Convergence tolerance   = 1e-08
+Convergence check value = 0.000110111. Convergence tolerance   = 1e-08
+Convergence check value = 2.54946e-05. Convergence tolerance   = 1e-08
+Convergence check value = 3.21285e-05. Convergence tolerance   = 1e-08
+Convergence check value = 5.09172e-06. Convergence tolerance   = 1e-08
+Convergence check value = 8.83277e-06. Convergence tolerance   = 1e-08
+Convergence check value = 2.858e-06. Convergence tolerance   = 1e-08
+Convergence check value = 2.48734e-06. Convergence tolerance   = 1e-08
+Convergence check value = 2.48719e-06. Convergence tolerance   = 1e-08
+Convergence check value = 2.48719e-06. Convergence tolerance   = 1e-08
+*end
+
+*important[messages_encountered]
+Values {string}
+FMM: Small step size convergence
+*end
+
+*warnings[messages_encountered]
+Values {string}
+obs sum total (0.9999) for year (1990) doesn't sum to 1.0
+obs sum total (1.0001) for year (1993) doesn't sum to 1.0
+obs sum total (1.0002) for year (1994) doesn't sum to 1.0
+obs sum total (1.0002) for year (1995) doesn't sum to 1.0
+obs sum total (0.9999) for year (1997) doesn't sum to 1.0
+obs sum total (1.0002) for year (1999) doesn't sum to 1.0
+obs sum total (0.9999) for year (2000) doesn't sum to 1.0
+obs sum total (1.0001) for year (2001) doesn't sum to 1.0
+obs sum total (0.9998) for year (2002) doesn't sum to 1.0
+obs sum total (1.0002) for year (2003) doesn't sum to 1.0
+obs sum total (0.9999) for year (2005) doesn't sum to 1.0
+obs sum total (1.0001) for year (2006) doesn't sum to 1.0
+obs sum total (0.9999) for year (2007) doesn't sum to 1.0
+obs sum total (0.9999) for year (2008) doesn't sum to 1.0
+obs sum total (0.9999) for year (2009) doesn't sum to 1.0
+obs sum total (1.0003) for year (2011) doesn't sum to 1.0
+obs sum total (0.9998) for year (1992) doesn't sum to 1.0
+obs sum total (0.9999) for year (1995) doesn't sum to 1.0
+obs sum total (0.9998) for year (1996) doesn't sum to 1.0
+obs sum total (0.9999) for year (1997) doesn't sum to 1.0
+obs sum total (0.9999) for year (1998) doesn't sum to 1.0
+obs sum total (1.0002) for year (1999) doesn't sum to 1.0
+obs sum total (0.9999) for year (2000) doesn't sum to 1.0
+obs sum total (1.0001) for year (2002) doesn't sum to 1.0
+obs sum total (0.9999) for year (2003) doesn't sum to 1.0
+obs sum total (1.0001) for year (2004) doesn't sum to 1.0
+obs sum total (0.9999) for year (2005) doesn't sum to 1.0
+obs sum total (1.0001) for year (2011) doesn't sum to 1.0
+obs sum total (1.0001) for year (1992) doesn't sum to 1.0
+obs sum total (1.0002) for year (1998) doesn't sum to 1.0
+obs sum total (1.0001) for year (2004) doesn't sum to 1.0
+obs sum total (0.9999) for year (2007) doesn't sum to 1.0
+estimated parameter 'process[Recruitment].ycs_values{2010}' was within 0.001 of upper bound 3
+estimated parameter 'process[Recruitment].ycs_values{2011}' was within 0.001 of upper bound 3
+*end
+
+[INFO] Completed
+[INFO] Total elapsed time: 3 seconds

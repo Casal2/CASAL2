@@ -68,6 +68,7 @@ void AddressableTransformation::Validate() {
   unsigned          param_counter             = 0;
   addressable::Type previous_addressable_type = addressable::kSingle;
   unsigned          previous_indicies         = 0;
+  n_params_                          = 0;
   for (auto param : parameter_labels_) {
     string new_parameter = param;
 
@@ -96,7 +97,7 @@ void AddressableTransformation::Validate() {
     transformed value in the -i file";
     */
     addressable::Type addressable_type = target->GetAddressableType(parameter);
-    n_params_                          = 0;
+    
 
     if (param_counter == 0) {
       previous_addressable_type = addressable_type;
@@ -262,10 +263,11 @@ void AddressableTransformation::set_single_values_for_multiple_maps(vector<Doubl
 void AddressableTransformation::set_single_values_for_multiple_string_maps(vector<Double> values) {
   LOG_FINE();
   if (values.size() != addressable_string_maps_.size())
-    LOG_CODE_ERROR() << "values.size() != addressable_string_maps_.size()";
+    LOG_CODE_ERROR() << "values.size() != addressable_string_maps_.size(). values.size()  = " << values.size() << " addressable_string_maps_.size()  = " << addressable_string_maps_.size();
   for (unsigned param_ndx = 0; param_ndx < values.size(); ++param_ndx) {
     if (string_map_indicies_[param_ndx].size() != 1)
       LOG_CODE_ERROR() << "string_map_indicies_[param_ndx].size() != 1";
+    LOG_FINE() << "ndx  =  " << string_map_indicies_[param_ndx][0] << " previous value= " << (*addressable_string_maps_[param_ndx])[string_map_indicies_[param_ndx][0]] << "setting value = " << values[param_ndx];
     (*addressable_string_maps_[param_ndx])[string_map_indicies_[param_ndx][0]] = values[param_ndx];
   }
 }
@@ -277,7 +279,7 @@ void AddressableTransformation::set_single_values_for_multiple_string_maps(vecto
 void AddressableTransformation::set_single_values_for_multiple_vectors(vector<Double> values) {
   LOG_FINE();
   if (values.size() != addressable_vectors_.size())
-    LOG_CODE_ERROR() << "values.size() != addressable_vectors_.size()";
+    LOG_CODE_ERROR() << "values.size() != addressable_string_maps_.size(). values.size()  = " << values.size() << " addressable_vectors_.size()  = " << addressable_vectors_.size();
   for (unsigned param_ndx = 0; param_ndx < values.size(); ++param_ndx) {
     if (vector_and_u_map_indicies_[param_ndx].size() != 1)
       LOG_CODE_ERROR() << "vector_and_u_map_indicies_[param_ndx].size() != 1";

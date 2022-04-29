@@ -57,8 +57,9 @@ void Simplex::DoValidate() {
   }
 
   cache_log_k_value_.resize(n_params_ - 1, 0.0);
-  for(unsigned i = 0; i < cache_log_k_value_.size(); ++i, ++count) {
+  for(unsigned i = 0; i < cache_log_k_value_.size(); i++, count++) {
     cache_log_k_value_[i] = log(1.0 / (n_param_double_ - count));
+    LOG_FINE( ) << " index = " << i << " count = " << count << " K = " << n_param_double_ << " cache K = " << cache_log_k_value_[i];
   }
 
   LOG_FINE() << "exit validate";
@@ -171,7 +172,7 @@ void Simplex::DoBuild() {
  * This method will restore values provided by the minimiser that need to be restored for use in the annual cycle
  */
 void Simplex::DoRestore() {
-  LOG_FINE() << "";
+  LOG_FINE() << label_;
   fill(cumulative_simplex_k_.begin(), cumulative_simplex_k_.end(), 0.0);
   // calculated restored values
   for (unsigned i = 0; i < zk_.size(); ++i) {
@@ -197,11 +198,14 @@ void Simplex::DoRestore() {
   if(not sum_to_one_) {
     for(unsigned i = 0; i < restored_values_.size(); ++i) {
       restored_values_[i] = unit_vector_[i] * total_;
+      LOG_FINE() << restored_values_[i];
     }
+    (this->*restore_function_)(restored_values_);
+  } else {
+    (this->*restore_function_)(unit_vector_);
   }
-  for(unsigned i = 0; i < restored_values_.size(); ++i)
-    LOG_FINE() << restored_values_[i];
-  (this->*restore_function_)(restored_values_);
+    
+  
 
 }
 

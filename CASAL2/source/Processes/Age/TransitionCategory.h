@@ -54,6 +54,8 @@ private:
   accessor::Categories       from_partition_;
   accessor::Categories       to_partition_;
   vector<Selectivity*>       selectivities_;
+  vector<vector<Double>>     abundance_to_move_categories_;
+
   unsigned                   min_age_ = model_->min_age();
 };
 
